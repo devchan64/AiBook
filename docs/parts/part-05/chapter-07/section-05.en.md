@@ -1,7 +1,7 @@
 # P5-7.5 Supplementary Reading: Momentum, AdaGrad, RMSProp, Adam
 
-Section ID: `P5-7.5`
-Version: `v2026.07.17`
+> Section ID: `P5-7.5`
+> Version: `v2026.07.19`
 
 In P5-7.3, we looked at the intuition of adaptive update using Adam (Adaptive Moment Estimation) as an example. If we go one step further from there, the reader meets many optimizer families such as momentum, AdaGrad, RMSProp, and Adam. If these names start to be memorized like different brands, the real core becomes blurry instead.
 The distinction standard in this section helps the reader, even when different optimizer names appear again later, to organize them with the same question every time rather than memorizing them as entirely new algorithms.
@@ -221,3 +221,9 @@ The purpose of this exercise is not name-matching, but practicing what question 
 - Can you explain Adam as a representative example where `momentum + adaptive scale` come together?
 - Can you read optimizer-family comparison not as a `ranking table`, but as a comparison of `memory style and adjustment style`?
 - When looking at optimizer families, can you first ask `what does it remember more`, `what does it adjust more`, and `what problem was it trying to solve`?
+
+## Sources And References
+
+- PyTorch, `torch.optim`, PyTorch documentation. Referenced to confirm that PyTorch provides optimizers such as SGD, Adagrad, RMSprop, and Adam, and that optimizers perform updates while carrying parameters and state. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
+- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014. Referenced to confirm the original paper's description of Adam as an adaptive optimizer based on first-moment and second-moment estimates. Checked: 2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016. Referenced to confirm comparison viewpoints across momentum, Adagrad, RMSProp, and Adam families. Checked: 2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P5-7.5 补充学习：momentum、AdaGrad、RMSProp、Adam
 
-Section ID: `P5-7.5`
-Version: `v2026.07.17`
+> Section ID: `P5-7.5`
+> Version: `v2026.07.19`
 
 在 P5-7.3 里，我们已经用 Adam（Adaptive Moment Estimation）看过自适应 update 的直觉。再往前走一步，读者就会陆续遇到 momentum、AdaGrad、RMSProp、Adam 这些 optimizer 家族。若把这些名字当成不同品牌去背，反而会把真正的核心弄得模糊。
 这一节的区分标准，是为了让读者以后即使再次遇到别的 optimizer 名字，也能继续用同一组问题去整理，而不是每次都把它们背成全新的算法。
@@ -219,3 +219,9 @@ Adam 经常出现在 optimizer 家族比较的最后。原因并不只是它更�
 - 能把 Adam 解释成`momentum + adaptive scale`合在一起的代表例子吗？
 - 能把 optimizer 家族比较读成`记忆方式与调节方式的比较`，而不是优劣排名吗？
 - 当再看到别的 optimizer 家族时，能先问：`它多记了什么、多调了什么、最先想缓解什么？`
+
+## 来源与参考资料
+
+- PyTorch, `torch.optim`, PyTorch documentation. 用于确认 PyTorch 提供 SGD、Adagrad、RMSprop、Adam 等多个 optimizer，并确认 optimizer 持有 parameter 与 state 来执行 update 的结构。确认日期：2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
+- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014. 用于确认 Adam 原论文中把 Adam 说明为基于 first moment 与 second moment 估计的 adaptive optimizer。确认日期：2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016. 用于确认 momentum、Adagrad、RMSProp、Adam 系列的比较视角。确认日期：2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }
