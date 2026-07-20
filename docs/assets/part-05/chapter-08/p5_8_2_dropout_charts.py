@@ -64,6 +64,8 @@ LANG_TEXT = {
             "Noto Sans CJK JP",
             "Microsoft YaHei",
             "PingFang SC",
+            "Songti SC",
+            "Hiragino Sans GB",
             "Arial Unicode MS",
             "DejaVu Sans",
         ],

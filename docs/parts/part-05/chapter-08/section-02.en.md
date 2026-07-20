@@ -1,7 +1,7 @@
 # P5-8.2 How To Reduce Path Dependence: Dropout
 
-Section ID: `P5-8.2`
-Version: `v2026.07.17`
+> Section ID: `P5-8.2`
+> Version: `v2026.07.20`
 
 In P5-8.1, we saw how to adjust the goal of the learning loop itself by placing a regularization term beside the objective function. Now we move one step further along the same chapter flow and ask whether control is also possible not through a penalty beside the loss, but by shaking internal paths inside the neural network. The next question follows naturally.
 
@@ -133,121 +133,146 @@ Once dropout is applied, some hidden outputs are temporarily turned off at each 
 
 ## Practice And Example
 
-The goal of this example is to confirm directly that during training dropout can turn some activation values into 0. We also look at the same input together to see why training mode and evaluation mode have to be read differently.
+The goal of this example is to confirm directly that during training dropout makes different path combinations rest at each step. We will also use the same input log to see why training mode and evaluation mode have to be read differently.
 
 Input:
 
-- a list of activation values
-- a dropout rate
+- Dropout mask log CSV: [`dropout-training-path-log.csv`](/AiBook/assets/part-05/chapter-08/dropout-training-path-log.csv)
+- `step`: the training step where dropout was applied
+- `node`, `activation`: the hidden node and its activation value before dropout
+- `train_mask`, `train_value`, `eval_value`: the training-mode mask, training-mode value, and evaluation-mode value
 
 Output:
 
-- activation values before dropout
-- activation values after dropout in training mode
-- activation values kept in evaluation mode
-- a comparison of how differently the same input wobbles in train/eval
+- how activation values before dropout and training-mode values split in the first step
+- how much the sum of training-mode activations wobbles over several steps
+- how many times each node rested across multiple steps
 
 Problem situation:
 
-- because dropout is a device that turns off some activations to reduce overfitting, it is better to directly confirm how the output changes between training and evaluation
-- we should look together at which paths were turned off and what becomes fixed again in evaluation mode, so that it becomes easier to read why `dependence on a specific path` is reduced
+- Because dropout is a device for reducing overfitting by turning off some activations, it is useful to directly check how outputs differ between training and evaluation.
+- If we look at only one seed result, it may happen that no path is turned off by chance, so we need a multi-step mask log to see which path combinations rest in turn.
 
 Concepts to confirm:
 
-- in training mode, some nodes are turned off
+- in training mode, some nodes can be turned off at each step
 - in evaluation mode, the same random removal is not repeated, so the output is read more stably
 - pressure is created such that the remaining paths must support the output even when some nodes are missing
 
 Input:
 
-We use the activation list and dropout rate summarized above.
+One row of the CSV means how one hidden node was handled in one training step. If `train_mask` is `0`, that path rests in training mode for that step; if it is `1`, it remains active. This is not the full dropout implementation of a real framework, but a shortened example that reads fixed random-removal results as a training log.
 
-Before reading the code, it helps to predict first which values will change only in train mode and which values will stay the same in eval mode.
+Before reading the code, it helps to predict which node will drop out in train mode at different steps and why eval mode keeps the same activation values.
 
 | Comparison | Comparison to predict first | Reason for the prediction |
 | --- | --- | --- |
-| `train_mode_values` vs `before_dropout` | only some positions are likely to become 0 | because dropout temporarily turns off only some paths during training |
-| `eval_mode_values` vs `before_dropout` | they are likely to stay almost the same | because evaluation mode does not keep repeating the same random removal |
-| total sum in the toy example (`sum`) | the train-mode side is likely to look smaller | because in this example some activations are set to 0 and extra scaling is omitted |
+| `train_mask` | positions with `0` are likely to differ by step | because dropout temporarily lets different path combinations rest during training |
+| `train_value` vs `eval_value` | some values are likely to become 0 only in train mode | because evaluation mode does not repeat the same random removal |
+| step-wise `train_sum` | it is likely to wobble differently by step | because this example leaves some activations at 0 and omits extra scaling |
 
 The purpose of this table is to read `path removal` and `stable evaluation` at the same time.
 
-One point should be made explicit first. In real frameworks, dropout usually scales the remaining activations during training (`inverted dropout`) so that their average size does not drift too far from evaluation mode. The example below is a simplified toy example designed to show only the core intuition first: `some paths are missing in the current step`.
+One point should be made explicit first. In real frameworks, dropout usually scales the remaining activations during training (`inverted dropout`) so that their average size does not drift too far from evaluation mode. The example below is a simplified log example that focuses first on the core intuition that `some paths rest in turn across multiple steps`.
 
 ```python
-# This example uses random dropout masks to compare train-mode path dropping with stable eval-mode values.
-import random
+# This example reads a CSV dropout log and compares whether some paths rest in turn in train mode while values stay fixed in eval mode.
+from collections import defaultdict
+from csv import DictReader
+from pathlib import Path
 
-activations = [0.9, 1.3, 0.4, 1.1, 0.7]
-drop_rate = 0.4
+csv_path = Path("docs/assets/part-05/chapter-08/dropout-training-path-log.csv")
 
-def apply_dropout(values, drop_rate):
-    result = []
-    mask = []
-    for v in values:
-        if random.random() < drop_rate:
-            result.append(0.0)
-            mask.append(0)
-        else:
-            result.append(v)
-            mask.append(1)
-    return result, mask
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "step": int(row["step"]),
+                "node": row["node"],
+                "activation": float(row["activation"]),
+                "train_mask": int(row["train_mask"]),
+                "train_value": float(row["train_value"]),
+                "eval_value": float(row["eval_value"]),
+            }
+        )
 
-random.seed(11)
-train_values, train_mask = apply_dropout(activations, drop_rate)
-eval_values = activations[:]
+steps = sorted({row["step"] for row in rows})
+nodes = sorted({row["node"] for row in rows})
 
-print("before_dropout =", activations)
-print("before_sum =", round(sum(activations), 3))
-print("train_mask =", train_mask)
-print("train_mode_values =", train_values)
-print("train_sum =", round(sum(train_values), 3))
-print("eval_mode_values =", eval_values)
-print("eval_sum =", round(sum(eval_values), 3))
+first_step_rows = [row for row in rows if row["step"] == steps[0]]
+before_dropout = [row["activation"] for row in first_step_rows]
+train_mask = [row["train_mask"] for row in first_step_rows]
+train_mode_values = [row["train_value"] for row in first_step_rows]
+eval_mode_values = [row["eval_value"] for row in first_step_rows]
+
+train_sum_by_step = {}
+for step in steps:
+    step_rows = [row for row in rows if row["step"] == step]
+    train_sum_by_step[step] = sum(row["train_value"] for row in step_rows)
+
+drop_count_by_node = defaultdict(int)
+for row in rows:
+    if row["train_mask"] == 0:
+        drop_count_by_node[row["node"]] += 1
+
+print("rows_read =", len(rows))
+print("first_step_mask =", train_mask)
+print("first_step_train_values =", train_mode_values)
+print("first_step_train_sum =", round(sum(train_mode_values), 3))
+print("eval_values =", eval_mode_values)
+print("eval_sum =", round(sum(eval_mode_values), 3))
+print(
+    "train_sum_range =",
+    [round(min(train_sum_by_step.values()), 3), round(max(train_sum_by_step.values()), 3)],
+)
+print("drop_count_by_node =", {node: drop_count_by_node[node] for node in nodes})
 ```
 
-In the output, first look at `before_dropout` and `train_mask`, then at how `train_mode_values` and `eval_mode_values` split apart.
+In the output, first look at the mask for the first step. Then check how much the sum of training-mode values wobbles across steps and which nodes rested repeatedly.
 
 ```text
-before_dropout = [0.9, 1.3, 0.4, 1.1, 0.7]
-before_sum = 4.4
-train_mask = [1, 1, 1, 0, 1]
-train_mode_values = [0.9, 1.3, 0.4, 0.0, 0.7]
-train_sum = 3.3
-eval_mode_values = [0.9, 1.3, 0.4, 1.1, 0.7]
+rows_read = 60
+first_step_mask = [1, 1, 1, 0, 1]
+first_step_train_values = [0.9, 1.3, 0.4, 0.0, 0.7]
+first_step_train_sum = 3.3
+eval_values = [0.9, 1.3, 0.4, 1.1, 0.7]
 eval_sum = 4.4
+train_sum_range = [2.0, 4.0]
+drop_count_by_node = {'node_1': 4, 'node_2': 4, 'node_3': 4, 'node_4': 4, 'node_5': 3}
 ```
 
 - some activation values stay as they are
-- some activation values become 0 in the current training step
+- some activation values become 0 in specific training steps
+- across multiple steps, the combination of resting nodes changes
 - in evaluation mode, the same input does not repeat that random removal
 - as a result, the network can no longer learn while trusting that every path is always available
 
-The first artifact to look at in this example is the activation value of each node. Only the fourth node, where `train_mask` is `0`, is turned off in training mode, while evaluation mode keeps the original activation.
+The first artifact to look at in this example is the activation value of each node in the first step. Only the fourth node, where `first_step_mask` is `0`, is turned off in training mode, while evaluation mode keeps the original activation.
 
 ![Node-wise activation values before and after dropout](/AiBook/assets/part-05/chapter-08/dropout-activation-values-en.png)
 
-The second artifact is the sum of activations in this toy example. Here the sum decreases from `4.4 -> 3.3` in training mode because some paths are missing, but it is safer to read this number not as a general law of dropout, but as an auxiliary observation showing `which path was missing in the current step`.
+The second artifact is the sum of activations over several training steps. Here the combination of missing paths changes by step in training mode, so the sum wobbles as in `train_sum_range = [2.0, 4.0]`, while the evaluation-mode sum stays fixed at `4.4` for the same input.
 
-![Total activation value before and after dropout](/AiBook/assets/part-05/chapter-08/dropout-sum-comparison-en.png)
+![Sum of activations by dropout training step](/AiBook/assets/part-05/chapter-08/dropout-sum-comparison-en.png)
 
 | Comparison | The key to read now |
 | --- | --- |
-| `before` vs `train` | One particular node actually disappears and the sum also decreases. |
+| `before` vs `train` | In training mode, some nodes can actually disappear at each step. |
 | `train` vs `eval` | Train mode shakes paths, while eval mode keeps the same input stable. |
-| `train_sum` | In this toy example it acts as an auxiliary sign that some path rested. The core is not the sum itself, but the pressure that breaks path dependence. |
+| `train_sum_range` | In this log example it acts as an auxiliary sign that some path combinations rested in turn. The core is not the sum itself, but the pressure that breaks path dependence. |
 
 Even when reading the output numbers, we should separate `how many became 0` from `what learning pressure appears as a result`.
 
 | Comparison | What appears first in the output | Interpretation that is easy to leave if we look only at the numbers | Interpretation that changes once we include dropout |
 | --- | --- | --- | --- |
-| `before` vs `train` | One `1.1` disappears and the sum decreases from `4.4 -> 3.3`. | It can look as if information was simply reduced and only damage was done. | Because one specific path is missing, the remaining paths must support the output, so pressure appears that reduces shortcut dependence. |
+| `before` vs `train` | In the first step, one `1.1` disappears, and across multiple steps the resting node combination changes. | It can look as if information was simply reduced and only damage was done. | Because the remaining paths must support the output even when specific paths are missing, pressure appears that reduces shortcut dependence. |
 | `train` vs `eval` | For the same input, train mode shakes while eval mode keeps the original values. | It can look as if the implementation is inconsistent or unstable. | The roles are separated so that noise is deliberately added only during learning, while evaluation remains stable. |
-| `train_sum` vs `eval_sum` | In this toy example the train sum is smaller while the eval sum stays at the original level. | It is easy to think the smaller train value simply means worse performance. | What matters here is not the size of the sum itself, but that the model is made to learn a representation that survives even when some paths are empty. |
+| `train_sum_range` vs `eval_sum` | In this log example the train sum wobbles by step, while the eval sum stays at its original level. | It is easy to think smaller or shakier train values simply mean worse performance. | What matters here is not the size of the sum itself, but that the model is made to learn a representation that survives even when some paths are empty. |
 
 In other words, when reading dropout the reader should hold onto not only `how many became 0`, but also `is the model being forced to hold up even when a specific path is missing`.
 
-This example does not implement every detail of real framework dropout, including scaling. So instead of memorizing `train sums are always smaller when dropout is used` as a general rule, it is safer to first fix the core idea: `why does a rule that lets some paths rest during training break dependence on specific paths`.
+This example does not implement every detail of real framework dropout, including scaling. So instead of memorizing `train sums are always smaller when dropout is used` as a general rule, it is safer to first fix the core idea: `why does a rule that lets some path combinations rest in turn during training break dependence on specific paths`.
 
 Dropout reconnects several concepts from earlier in Part 5 at the same time.
 
@@ -277,6 +302,6 @@ Once the general viewpoint of regularization is fixed, it is natural to bring in
 
 ## Sources And References
 
-- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, checked on 2026-06-29.
+- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, checked on 2026-07-19. [https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Aurelien Geron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, checked on 2026-06-29.
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, checked on 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

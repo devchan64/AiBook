@@ -1,9 +1,9 @@
 # P5-8.2 如何减少路径依赖：dropout
 
-Section ID: `P5-8.2`
-Version: `v2026.07.17`
+> Section ID: `P5-8.2`
+> Version: `v2026.07.20`
 
-在 P5-8.1 里，我们已经看到：可以把 regularization term 放在目标函数旁边，去调整学习循环本身的目标。现在顺着同一章的 흐름再往前走一步，看看除了在 loss 旁边加 penalty 之外，是否也能通过摇动神经网络内部路径本身来进行控制。接下来的问题会自然出现。
+在 P5-8.1 里，我们已经看到：可以把 regularization term 放在目标函数旁边，去调整学习循环本身的目标。现在顺着同一章的流程再往前走一步，看看除了在 loss 旁边加 penalty 之外，是否也能通过摇动神经网络内部路径本身来进行控制。接下来的问题会自然出现。
 
 除了给权重加 penalty，还有没有办法通过摇动网络结构本身来减少过拟合？
 
@@ -133,121 +133,146 @@ dropout 处理这个问题的方式如下。
 
 ## 练习与例子
 
-这个例子的目标，是直接确认：在训练中，dropout 确实可能把部分 activation value 变成 0。我们也会对着同一组输入一起看：为什么 training mode 和 evaluation mode 必须按不同方式阅读。
+这个例子的目标，是直接确认：训练中的 dropout 会在每个 step 让不同的路径组合休息。我们也会用同一份输入日志一起看：为什么 training mode 和 evaluation mode 必须按不同方式阅读。
 
 输入：
 
-- 一组 activation value
-- 一个 dropout rate
+- dropout mask 日志 CSV：[`dropout-training-path-log.csv`](/AiBook/assets/part-05/chapter-08/dropout-training-path-log.csv)
+- `step`：应用 dropout 的训练 step
+- `node`、`activation`：隐藏节点和 dropout 前的 activation value
+- `train_mask`、`train_value`、`eval_value`：训练模式 mask、训练模式值、评估模式值
 
 输出：
 
-- dropout 之前的 activation value
-- training mode 下 dropout 之后的 activation value
-- evaluation mode 下保持不变的 activation value
-- 同一输入在 train/eval 下到底会有多不一样的比较
+- 第一个 step 中 dropout 前 activation value 与训练模式值如何分开
+- 多个 step 中训练模式 activation 总和有多大波动
+- 每个节点在多个 step 中分别休息了几次
 
 问题场景：
 
 - dropout 本来就是为了通过关闭部分 activation 来减少过拟合，因此直接确认训练与评估下的输出差异会更有帮助
-- 也要一起看：哪些路径被关掉了，以及在 evaluation mode 里什么又重新固定下来，这样才更容易读出`对特定路径的依赖`为什么会下降
+- 如果只看一次 seed 的结果，可能会碰巧没有任何路径被关闭，所以需要用多个 step 的 mask 日志来观察哪些路径组合在轮流休息
 
 要确认的概念：
 
-- training mode 里会有一部分节点被关掉
+- training mode 里每个 step 都可能有一部分节点被关掉
 - evaluation mode 里不会反复进行同样的随机移除，所以输出会更稳定
 - 即使某些节点缺席，剩下的路径也必须顶住输出，因此会产生额外学习压力
 
 输入（input）：
 
-我们使用上面整理好的 activation 列表和 dropout rate。
+CSV 的一行表示在一个训练 step 中，一个隐藏节点是怎样被处理的。`train_mask` 为 `0` 时，表示该路径在这个 step 的训练模式中休息；为 `1` 时，表示它仍然保留。这里不是实现真实框架里的完整 dropout，而是把固定下来的随机移除结果当作训练日志来读的简化例子。
 
-在看代码之前，可以先预测：哪些值只会在 train mode 改变，哪些值会在 eval mode 保持不变。
+在看代码之前，可以先预测：train mode 里哪些节点会轮流缺席，以及 eval mode 为什么会保持同样的 activation value。
 
 | 比较 | 可以先预测的比较 | 预测理由 |
 | --- | --- | --- |
-| `train_mode_values` vs `before_dropout` | 只有部分位置可能变成 0 | 因为 dropout 只会在训练中临时关闭一部分路径 |
-| `eval_mode_values` vs `before_dropout` | 大致会几乎保持一致 | 因为 evaluation mode 不会继续重复相同的随机移除 |
-| 这个玩具例子里的总和（`sum`） | train mode 一侧可能显得更小 | 因为这里把一部分 activation 置为 0，并且省略了额外缩放 |
+| `train_mask` | 每个 step 中为 0 的位置可能不同 | 因为 dropout 会在训练中临时让不同路径组合休息 |
+| `train_value` vs `eval_value` | 只有 train mode 中部分值可能变成 0 | 因为 evaluation mode 不会重复同样的随机移除 |
+| 每个 step 的 `train_sum` | 可能会随着 step 不同而摇晃 | 因为这个例子把一部分 activation 置为 0，并且省略了额外缩放 |
 
 这张表的目的，是把`路径移除`和`稳定评估`一起读出来。
 
-有一点要先说清楚。真实框架里的 dropout，通常会在训练中对保留下来的 activation 再做缩放（inverted dropout），这样它们的平均规模就不会和 evaluation mode 偏离太多。下面这个例子，并不是为了把这些细节全部实现出来，而是为了先把`当前这个 step 里有些路径会缺席`的核心直觉直接 보여出来，所以故意做成简化的玩具实验。
+有一点要先说清楚。真实框架里的 dropout，通常会在训练中对保留下来的 activation 再做缩放（inverted dropout），这样它们的平均规模就不会和 evaluation mode 偏离太多。下面这个例子，并不是为了把这些细节全部实现出来，而是为了先把`多个 step 中有些路径会轮流缺席`的核心直觉直接显示出来，所以故意做成简化的日志例子。
 
 ```python
-# 这个例子用随机 dropout mask 比较 train 模式的路径移除和 eval 模式的稳定取值。
-import random
+# 这个例子读取 CSV dropout 日志，比较 train mode 中部分路径是否轮流休息，以及 eval mode 中值是否保持稳定。
+from collections import defaultdict
+from csv import DictReader
+from pathlib import Path
 
-activations = [0.9, 1.3, 0.4, 1.1, 0.7]
-drop_rate = 0.4
+csv_path = Path("docs/assets/part-05/chapter-08/dropout-training-path-log.csv")
 
-def apply_dropout(values, drop_rate):
-    result = []
-    mask = []
-    for v in values:
-        if random.random() < drop_rate:
-            result.append(0.0)
-            mask.append(0)
-        else:
-            result.append(v)
-            mask.append(1)
-    return result, mask
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "step": int(row["step"]),
+                "node": row["node"],
+                "activation": float(row["activation"]),
+                "train_mask": int(row["train_mask"]),
+                "train_value": float(row["train_value"]),
+                "eval_value": float(row["eval_value"]),
+            }
+        )
 
-random.seed(11)
-train_values, train_mask = apply_dropout(activations, drop_rate)
-eval_values = activations[:]
+steps = sorted({row["step"] for row in rows})
+nodes = sorted({row["node"] for row in rows})
 
-print("before_dropout =", activations)
-print("before_sum =", round(sum(activations), 3))
-print("train_mask =", train_mask)
-print("train_mode_values =", train_values)
-print("train_sum =", round(sum(train_values), 3))
-print("eval_mode_values =", eval_values)
-print("eval_sum =", round(sum(eval_values), 3))
+first_step_rows = [row for row in rows if row["step"] == steps[0]]
+before_dropout = [row["activation"] for row in first_step_rows]
+train_mask = [row["train_mask"] for row in first_step_rows]
+train_mode_values = [row["train_value"] for row in first_step_rows]
+eval_mode_values = [row["eval_value"] for row in first_step_rows]
+
+train_sum_by_step = {}
+for step in steps:
+    step_rows = [row for row in rows if row["step"] == step]
+    train_sum_by_step[step] = sum(row["train_value"] for row in step_rows)
+
+drop_count_by_node = defaultdict(int)
+for row in rows:
+    if row["train_mask"] == 0:
+        drop_count_by_node[row["node"]] += 1
+
+print("rows_read =", len(rows))
+print("first_step_mask =", train_mask)
+print("first_step_train_values =", train_mode_values)
+print("first_step_train_sum =", round(sum(train_mode_values), 3))
+print("eval_values =", eval_mode_values)
+print("eval_sum =", round(sum(eval_mode_values), 3))
+print(
+    "train_sum_range =",
+    [round(min(train_sum_by_step.values()), 3), round(max(train_sum_by_step.values()), 3)],
+)
+print("drop_count_by_node =", {node: drop_count_by_node[node] for node in nodes})
 ```
 
-读输出时，先看 `before_dropout` 和 `train_mask`，再接着看 `train_mode_values` 与 `eval_mode_values` 是怎样分开的。
+读输出时，先看第一个 step 的 mask。接着看多个 step 中训练模式值的总和有多大波动，以及哪些节点反复休息过。
 
 ```text
-before_dropout = [0.9, 1.3, 0.4, 1.1, 0.7]
-before_sum = 4.4
-train_mask = [1, 1, 1, 0, 1]
-train_mode_values = [0.9, 1.3, 0.4, 0.0, 0.7]
-train_sum = 3.3
-eval_mode_values = [0.9, 1.3, 0.4, 1.1, 0.7]
+rows_read = 60
+first_step_mask = [1, 1, 1, 0, 1]
+first_step_train_values = [0.9, 1.3, 0.4, 0.0, 0.7]
+first_step_train_sum = 3.3
+eval_values = [0.9, 1.3, 0.4, 1.1, 0.7]
 eval_sum = 4.4
+train_sum_range = [2.0, 4.0]
+drop_count_by_node = {'node_1': 4, 'node_2': 4, 'node_3': 4, 'node_4': 4, 'node_5': 3}
 ```
 
 - 有些 activation value 会保持原样
-- 有些 activation value 会在当前训练 step 里变成 0
+- 有些 activation value 会在特定训练 step 里变成 0
+- 经过多个 step 后，休息的节点组合会发生变化
 - 在 evaluation mode 下，同样输入不会再次经历这种随机移除
 - 因此网络不能再假设：每条路径都会永远可用
 
-这个例子里，首先要看的产物是各节点的 activation value。`train_mask` 为 `0` 的第四个节点，只在 training mode 里被关掉，而 evaluation mode 会保留原始 activation。
+这个例子里，首先要看的产物是第一个 step 中各节点的 activation value。`first_step_mask` 为 `0` 的第四个节点，只在 training mode 里被关掉，而 evaluation mode 会保留原始 activation。
 
 ![dropout 前后各节点的 activation value](/AiBook/assets/part-05/chapter-08/dropout-activation-values-zh.png)
 
-第二个产物，是这个玩具实验里的 activation 总和。在这里，因为 training mode 中有部分路径缺席，总和从 `4.4 -> 3.3` 下降了。但更安全的读法不是把这个数字当成 dropout 的一般规律，而是把它看成一个辅助观察值，用来说明`当前这个 step 究竟缺了哪条路径`。
+第二个产物，是多个训练 step 中的 activation 总和。这里 training mode 中缺席的路径组合每个 step 都不同，所以总和会像 `train_sum_range = [2.0, 4.0]` 这样摇晃；而 evaluation mode 的总和，在同一输入基准下保持为 `4.4`。
 
-![dropout 前后的 activation 总和](/AiBook/assets/part-05/chapter-08/dropout-sum-comparison-zh.png)
+![dropout 学习 step 别 activation 总和](/AiBook/assets/part-05/chapter-08/dropout-sum-comparison-zh.png)
 
 | 比较 | 现在要读的核心 |
 | --- | --- |
-| `before` vs `train` | 某个节点真的缺席了，因此总和也跟着下降。 |
+| `before` vs `train` | 在 training mode 中，每个 step 都可能真的有一部分节点缺席。 |
 | `train` vs `eval` | train mode 会摇动路径，而 eval mode 会把同一输入更稳定地保持住。 |
-| `train_sum` | 在这个玩具实验里，它只是辅助显示某条路径暂时休息了。核心不在总和本身，而在于打破路径依赖的那股压力。 |
+| `train_sum_range` | 在这个日志例子里，它辅助显示某些路径组合正在轮流休息。核心不在总和本身，而在于打破路径依赖的那股压力。 |
 
 即使在读取输出数字时，也要把`有多少项变成了 0`和`因此产生了什么样的学习压力`分开来看。
 
 | 比较 | 输出里首先看到的 | 只看数值时容易留下的解读 | 把 dropout 一起算进去之后会改变的解读 |
 | --- | --- | --- | --- |
-| `before` vs `train` | 有一个 `1.1` 消失了，总和也从 `4.4 -> 3.3` 下降 | 容易觉得信息只是变少了，看起来只有损失 | 因为某条特定路径缺席了，其余路径必须一起顶住输出，因此会产生减少捷径依赖的压力 |
+| `before` vs `train` | 第一个 step 中有一个 `1.1` 缺席，多个 step 中休息的节点组合也会改变 | 容易觉得信息只是变少了，看起来只有损失 | 即使某条特定路径缺席，其余路径也必须一起顶住输出，因此会产生减少捷径依赖的压力 |
 | `train` vs `eval` | 同样的输入，在 train 里会摇，在 eval 里会保留原值 | 容易看起来像实现不一致或不稳定 | 其实这是把角色分开了：只在学习时故意加噪声，而在评估时保持稳定 |
-| `train_sum` vs `eval_sum` | 在这个玩具实验里，train 的总和更小，而 eval 保持原来的水平 | 容易觉得 train 值更小就等于性能更差 | 真正要看的不是总和本身，而是模型是否被逼着学会：即使某些路径空了，也还能撑住 |
+| `train_sum_range` vs `eval_sum` | 在这个日志例子里，train 总和会随 step 摇晃，而 eval 总和保持原来的水平 | 容易觉得 train 值更小或更摇晃就等于性能更差 | 真正要看的不是总和本身，而是模型是否被逼着学会：即使某些路径空了，也还能撑住 |
 
 也就是说，读 dropout 时，读者真正要抓住的不只是`有多少项变成了 0`，还要抓住`当某条特定路径缺席时，模型是不是被迫仍然要站得住。`
 
-这个例子并没有把真实框架里 dropout 的全部细节都实现出来，例如缩放（scaling）就没有完整纳入。所以更安全的读法不是把`用了 dropout 之后 train 的总和一定更小`背成一般规律，而是先固定住核心直觉：`为什么让部分路径在学习中休息的规则，会打破对特定路径的依赖。`
+这个例子并没有把真实框架里 dropout 的全部细节都实现出来，例如缩放（scaling）就没有完整纳入。所以更安全的读法不是把`用了 dropout 之后 train 的总和一定更小`背成一般规律，而是先固定住核心直觉：`为什么让部分路径组合在学习中轮流休息的规则，会打破对特定路径的依赖。`
 
 dropout 也会把 Part 5 前面几个概念重新接在一起。
 
@@ -277,6 +302,6 @@ dropout 也会把 Part 5 前面几个概念重新接在一起。
 
 ## 出处与参考资料
 
-- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 确认日期：2026-06-29。
+- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 确认日期：2026-07-19。[https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29。 [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 确认日期：2026-06-29。
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 确认日期：2026-07-19。[https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }
