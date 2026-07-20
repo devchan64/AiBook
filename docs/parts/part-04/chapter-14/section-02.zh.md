@@ -189,6 +189,7 @@ API 把 `min_samples_leaf` 解释为： 进入某个 leaf node 所需要的最�
 - 把 leaf 放大，结构可能会变得没那么敏感
 
 ```python
+# 这个例子改变 min_samples_leaf，观察小 leaf 限制如何影响 train/test 分数和树结构。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -424,6 +425,7 @@ scikit-learn 支持 `Minimal Cost-Complexity Pruning`。 API 把 `ccp_alpha` 解
 | `train - test` gap | 为了看记忆与泛化究竟拉开了多大差距 |
 
 ```python
+# 这个例子改变 max_depth，把树深度和 train-test gap 作为过拟合信号来阅读。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -510,6 +512,7 @@ max_depth=None
 - `max_depth` 和 `min_samples_leaf` 在不同位置控制同一个复杂度问题 - 即使 depth 看起来接近，更大的 leaf 也会改变 train/test 的解释 - 诊断过拟合时，最好把 `depth + leaf 大小 + gap` 放在一起读
 
 ```python
+# 这个例子在相同深度限制下再改变 min_samples_leaf，一起阅读 leaf 大小和 gap。
 for leaf_size in [1, 2, 5]:
     model = DecisionTreeClassifier(
         max_depth=5,
@@ -573,6 +576,7 @@ min_samples_leaf=5
 - `ccp_alpha` 越大，小分支越容易被剪掉 - train 分数可能略降，但 test 侧可能更稳定 - pruning 更接近 `重新选择应该留下的大结构`，而不是 `把树弄坏`
 
 ```python
+# 这个例子改变 ccp_alpha，观察 pruning 如何改变深度、leaf 数量和 train/test gap。
 for alpha in [0.0, 0.005, 0.02]:
     model = DecisionTreeClassifier(
         random_state=42,

@@ -189,6 +189,7 @@ Concepts to check:
 - enlarging the leaf may make the structure less sensitive
 
 ```python
+# This example changes min_samples_leaf to see how small-leaf limits affect train/test scores and tree structure.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -424,6 +425,7 @@ It helps to define what to compare first.
 | `train - test` gap | to see how far memorization and generalization separate |
 
 ```python
+# This example changes max_depth to read tree depth and the train-test gap as overfitting signals.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -510,6 +512,7 @@ This time, check how the judgment changes when leaf size is read together with d
 - `max_depth` and `min_samples_leaf` control the same complexity problem at different points - even when depth looks similar, larger leaves can change the train/test interpretation - overfitting diagnosis is safer when read as `depth + leaf size + gap`, not only one depth value
 
 ```python
+# This example changes min_samples_leaf under the same depth limit to read leaf size and the gap together.
 for leaf_size in [1, 2, 5]:
     model = DecisionTreeClassifier(
         max_depth=5,
@@ -573,6 +576,7 @@ Now shake the tree once more by changing how much of an already grown tree shoul
 - as `ccp_alpha` grows, small branches are more easily removed - train score may fall a little while the test side becomes more stable - pruning is closer to `reselecting the main structure that should remain` than to `damaging the tree`
 
 ```python
+# This example changes ccp_alpha to see how pruning changes depth, leaf count, and the train/test gap.
 for alpha in [0.0, 0.005, 0.02]:
     model = DecisionTreeClassifier(
         random_state=42,

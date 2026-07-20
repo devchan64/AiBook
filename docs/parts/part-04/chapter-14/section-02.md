@@ -197,6 +197,7 @@ API 문서는 `min_samples_leaf`를 leaf node에 들어가야 하는 최소 샘�
 - leaf 크기를 키우면 구조가 덜 예민해질 수 있다
 
 ```python
+# min_samples_leaf를 바꾸며 작은 leaf 제한이 train/test 점수와 트리 구조에 미치는 영향을 보는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -433,6 +434,7 @@ scikit-learn은 `Minimal Cost-Complexity Pruning`을 지원하며, API 문서에
 | `train - test` 차이 | 외우기와 일반화 차이가 얼마나 벌어지는지 보기 위해서입니다. |
 
 ```python
+# max_depth를 바꾸며 트리 깊이와 train-test gap이 과적합 신호로 어떻게 보이는지 확인하는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -535,6 +537,7 @@ max_depth=None
   - 과적합 점검은 `깊이 하나`가 아니라 `깊이 + leaf 크기 + gap`을 함께 읽는 편이 안전합니다.
 
 ```python
+# 같은 깊이 제한에서 min_samples_leaf까지 함께 바꾸어 leaf 크기와 gap을 같이 읽는 예제입니다.
 for leaf_size in [1, 2, 5]:
     model = DecisionTreeClassifier(
         max_depth=5,
@@ -600,6 +603,7 @@ min_samples_leaf=5
   - pruning은 `트리를 망가뜨리는 것`이 아니라 `남길 큰 구조를 다시 고르는 것`에 가깝다.
 
 ```python
+# ccp_alpha를 바꾸며 pruning이 깊이, leaf 수, train/test gap을 어떻게 바꾸는지 확인하는 예제입니다.
 for alpha in [0.0, 0.005, 0.02]:
     model = DecisionTreeClassifier(
         random_state=42,

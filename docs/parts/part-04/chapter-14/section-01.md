@@ -268,6 +268,7 @@ scikit-learn 사용자 가이드는 결정트리(decision tree)를 분류와 회
   - 결정트리는 결국 이런 질문 선택을 반복한다.
 
 ```python
+# 결정트리가 고객 이탈 예제에서 좋은 첫 split을 고르는 과정을 직접 계산하는 예제입니다.
 rows = [
     {"customer": "A", "visits": 1, "late_payment": 1, "label": "churn"},
     {"customer": "B", "visits": 2, "late_payment": 1, "label": "churn"},
@@ -370,6 +371,7 @@ best first split
   - 첫 split을 읽을 때는 점수와 함께 `어떤 사례가 기준을 바꾸는가`도 같이 봐야 한다.
 
 ```python
+# 고객 F의 label 하나를 바꾸었을 때 첫 split 후보가 어떻게 흔들리는지 비교하는 예제입니다.
 changed_rows = [row.copy() for row in rows]
 for row in changed_rows:
     if row["customer"] == "F":
@@ -459,6 +461,7 @@ else:
 - 설명 가능성이 높다는 말은 이런 분기 과정을 사람이 따라갈 수 있다는 뜻에 가깝다
 
 ```python
+# 학습된 결정트리 규칙을 if-else 예측 함수처럼 읽어 보는 예제입니다.
 def predict(tree_input):
     if tree_input["visits"] <= 3:
         if tree_input["late_payment"] == 1:

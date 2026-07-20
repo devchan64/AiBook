@@ -266,6 +266,7 @@ This practice does not start by calling a scikit-learn learner directly. Instead
 - the split score changes when the feature or threshold changes - a question that organizes the labels better can become a better first split - tree training is a repetition of this kind of question selection
 
 ```python
+# This example manually computes how a decision tree chooses a good first split in a customer churn scenario.
 rows = [
     {"customer": "A", "visits": 1, "late_payment": 1, "label": "churn"},
     {"customer": "B", "visits": 2, "late_payment": 1, "label": "churn"},
@@ -366,6 +367,7 @@ Keep the same example and change only one value. Then it becomes easier to see `
 - split scores change when the data composition changes - a decision tree changes its question flow according to the direction that organizes the current data better - when reading the first split, it helps to read both the score and the cases that changed the criterion
 
 ```python
+# This example compares how the first split candidate changes when customer F has one label change.
 changed_rows = [row.copy() for row in rows]
 for row in changed_rows:
     if row["customer"] == "F":
@@ -455,6 +457,7 @@ Concepts to check:
 - what people mean by higher explainability is close to saying that a person can follow this branching process
 
 ```python
+# This example reads a learned decision-tree rule as an if-else prediction function.
 def predict(tree_input):
     if tree_input["visits"] <= 3:
         if tree_input["late_payment"] == 1:

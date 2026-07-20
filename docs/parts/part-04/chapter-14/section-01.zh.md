@@ -266,6 +266,7 @@ scikit-learn 用户指南把决策树介绍为用于分类和回归的非参数(
 - feature 和 threshold 一变，split 分数也会变 - 更能整理 label 的问题，有机会成为更好的第一处分裂 - 树训练就是在不断重复这种选择
 
 ```python
+# 这个例子手动计算决策树在客户流失场景中如何选择好的第一个 split。
 rows = [
     {"customer": "A", "visits": 1, "late_payment": 1, "label": "churn"},
     {"customer": "B", "visits": 2, "late_payment": 1, "label": "churn"},
@@ -366,6 +367,7 @@ best first split
 - 数据组成一变，split 分数也会跟着变 - 决策树会沿着“更能整理当前数据”的方向改变问题流 - 读第一处分裂时，除了分数，也要一起读改变标准的案例是谁
 
 ```python
+# 这个例子比较客户 F 的一个 label 改变后，第一个 split 候选如何摇动。
 changed_rows = [row.copy() for row in rows]
 for row in changed_rows:
     if row["customer"] == "F":
@@ -455,6 +457,7 @@ else:
 - 所谓更高的可解释性，接近于说人能够跟着这条分支路径走下去
 
 ```python
+# 这个例子把学到的决策树规则读成 if-else 预测函数。
 def predict(tree_input):
     if tree_input["visits"] <= 3:
         if tree_input["late_payment"] == 1:
