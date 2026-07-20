@@ -73,6 +73,7 @@ Expected output: a `coverage summary` showing which conditions were seen a lot a
 Concept to check: the correctness of one sample definition and the even representativeness of the sample bundle over the whole operating range are different problems. A representativeness judgment needs an observation criterion.
 
 ```python
+# This example checks how well collected samples represent the overall operation by category and time window.
 import csv
 from collections import Counter
 from pathlib import Path

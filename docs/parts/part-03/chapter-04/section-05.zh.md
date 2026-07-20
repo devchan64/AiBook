@@ -73,6 +73,7 @@
 要确认的概念：一条样本定义正确，和样本集合均匀代表整体运行范围，是两个不同的问题。代表性判断需要观察标准。
 
 ```python
+# 这个例子按类别和时间区段检查已收集样本对整体运行情况的代表性。
 import csv
 from collections import Counter
 from pathlib import Path

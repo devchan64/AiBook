@@ -83,6 +83,7 @@
 要确认的概念：一条可比较样本不是由眼前看见的行数决定的，而是由和问题匹配的分析单位决定的。样本单位不是固定答案，而是根据问题以及特征、标签能否连接来选择。
 
 ```python
+# 这个例子把原始测量日志按问题所需的样本单位重新汇总，并检查可比较性。
 import pandas as pd
 
 measurement_log_path = "docs/assets/part-03/chapter-04/p3_4_1_measurement_log.csv"

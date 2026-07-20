@@ -83,6 +83,7 @@
 확인할 개념: 비교 가능한 샘플 1건은 눈앞의 행 수가 아니라 질문에 맞는 분석 단위에서 정해진다. 샘플 단위는 고정 정답이 아니라 질문과 특징·라벨 연결성에 따라 선택된다.
 
 ```python
+# 원천 측정 로그를 질문에 맞는 샘플 단위로 다시 묶고 비교 가능성을 확인하는 예제입니다.
 import pandas as pd
 
 measurement_log_path = "docs/assets/part-03/chapter-04/p3_4_1_measurement_log.csv"

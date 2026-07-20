@@ -65,6 +65,7 @@
 확인할 개념: 샘플 단위가 바뀌면 feature, label, split 해석도 같은 단위 위에서 함께 다시 맞춰야 한다
 
 ```python
+# 샘플 단위가 흔들릴 때 특징, 라벨, 기준선이 함께 달라지는지 확인하는 예제입니다.
 import pandas as pd
 
 raw = pd.DataFrame(

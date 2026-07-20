@@ -82,6 +82,7 @@ Expected output: `row count`, `sample count`, and `window count` differ, and the
 Concept to check: row, sample, and segment are different representation levels of the same data, and should not be read as the same unit
 
 ```python
+# This example compares one row, one sample, and one recent segment as different analysis units.
 import pandas as pd
 
 raw = pd.DataFrame(

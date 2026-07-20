@@ -65,6 +65,7 @@ Expected output: a comparison in which `row` and `event` units produce different
 Concept to check: when the sample unit changes, the interpretation of feature, label, and split must all be realigned on top of the same unit
 
 ```python
+# This example checks whether features, labels, and baselines drift together when the sample unit drifts.
 import pandas as pd
 
 raw = pd.DataFrame(

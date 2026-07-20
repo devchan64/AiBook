@@ -66,6 +66,7 @@ Expected output: output showing repeated labels, repeated row counts, and event-
 Concept to check: repeated labels and unexplained event-level features are warning signs that a time-point row may not be the real sample unit. A warning criterion must be stated explicitly so the code is a sample-unit diagnostic, not just a printed table.
 
 ```python
+# This example checks row-count, label, and feature signals that appear when the sample unit is chosen incorrectly.
 import csv
 from collections import defaultdict
 from pathlib import Path

@@ -66,6 +66,7 @@
 확인할 개념: 라벨 반복과 설명되지 않는 이벤트 수준 특징은 시점 행이 실제 샘플 단위가 아닐 수 있다는 경고 신호다. 경고 기준을 명시해야 단순 출력이 아니라 샘플 단위 오판 점검이 된다.
 
 ```python
+# 샘플 단위를 잘못 잡았을 때 나타나는 행 수, 라벨, 특징 신호를 점검하는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path

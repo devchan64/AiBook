@@ -65,6 +65,7 @@
 要确认的概念：样本单位一变，feature、label、split 的解释都必须在同一个单位上重新对齐
 
 ```python
+# 这个例子检查样本单位摇摆时，特征、标签和基准是否也一起变化。
 import pandas as pd
 
 raw = pd.DataFrame(

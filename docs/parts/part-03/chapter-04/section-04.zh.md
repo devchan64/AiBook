@@ -66,6 +66,7 @@
 要确认的概念：重复标签和解释不清的事件级特征，是“单条时点行未必是真正样本单位”的警告信号。只有明示警告标准，代码才不是单纯输出表格，而是在检查样本单位是否被误判。
 
 ```python
+# 这个例子检查样本单位选错时出现的行数、标签和特征信号。
 import csv
 from collections import defaultdict
 from pathlib import Path

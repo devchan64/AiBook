@@ -73,6 +73,7 @@ Part 3에서는 아직 엄밀한 표본추출 이론보다, 아래 네 가지를
 확인할 개념: 샘플 한 건의 정의가 맞는 것과 샘플 묶음이 전체 운영 범위를 고르게 대표하는 것은 다른 문제다. 대표성 판단에는 관찰 기준이 필요하다.
 
 ```python
+# 수집된 샘플이 전체 운영 상황을 얼마나 대표하는지 범주와 구간 기준으로 점검하는 예제입니다.
 import csv
 from collections import Counter
 from pathlib import Path

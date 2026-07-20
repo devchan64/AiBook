@@ -83,6 +83,7 @@ Expected output: the units `measurement_row`, `event`, and `window` produce diff
 Concept to check: one comparable sample is determined not by the number of visible rows, but by the analysis unit that matches the question. The sample unit is not a fixed answer; it is chosen according to the question and the connectivity of features and labels.
 
 ```python
+# This example regroupes raw measurement logs into the sample unit that matches the question and checks comparability.
 import pandas as pd
 
 measurement_log_path = "docs/assets/part-03/chapter-04/p3_4_1_measurement_log.csv"
