@@ -269,6 +269,7 @@ agent 시스템은 한 번 잘 돌아가는 것처럼 보여도, 다음 번에�
 | 다음 운영 조치 | 문제가 보였을 때 바로 어떤 운영 조치를 취할지 정해야 해서 |
 
 ```python
+# agent harness 실행 기록에서 최신 근거 사용, 승인 gate, trace 저장 여부를 점검해 재현 가능한 run인지 분류하는 예제입니다.
 from pprint import pprint
 
 runs = [

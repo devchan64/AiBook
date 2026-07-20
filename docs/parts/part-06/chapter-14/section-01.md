@@ -305,6 +305,7 @@ MCP를 처음 읽을 때 자주 생기는 오해는 `도구가 잘 안 붙는다
 | `failure_reason` | 어떤 연결 결함이 먼저 실행을 멈추는지 구분해야 해서 |
 
 ```python
+# MCP식 도구 연결 계층에서 tool schema와 resource metadata가 일관될 때 요청 실행 성공률이 어떻게 달라지는지 비교하는 예제입니다.
 from pprint import pprint
 
 connection_layers = [
