@@ -1,162 +1,109 @@
-# P5-14.7 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?
+# P5-14.7 Supplementary Learning: Why Does a Residual Connection Leave a Path for the Original Representation?
 
 > Section ID: `P5-14.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
-In P5-14.2, we saw that the feed-forward network does a different job from self-attention inside the Transformer block. But the question remains: `if attention already mixed context, why is feed-forward needed again?`
+In P5-14.2, we saw that a residual connection leaves the original information flow inside a Transformer block. But if we only hear that it “adds the original input,” it is easy to mistake a residual connection for a simple addition trick or for a shortcut that skips computation.
 
-In a Transformer block, the feed-forward network is not a device that chooses a new token to refer to. It is a device that reprocesses each position representation whose context has already been mixed by attention.
+In a Transformer block, a residual connection does not remove the new computation. It creates a path where the new computed result and the original input representation move on to the next stage together.
 
-When the terms scatter again, it is useful to reread the [feed-forward network](../../../reference/concept-glossary.md#feed-forward-network) glossary entry together with the four-component role division in P5-14.2.
+When the terminology begins to scatter again, it helps to revisit the [residual connection](../../../reference/concept-glossary.md#residual-connection) entry in the concept glossary together with the four-part role split from P5-14.2.
 
-## Why Process Once More After Attention?
+## What Goes Wrong If Only the New Computation Is Passed On?
 
-Self-attention decides what information the current position should bring from other positions. But `what was referred to` and `how that referenced result should become the next representation of the current position` are not the same question.
+Self-attention and the feed-forward network keep changing the current representation. This change is necessary. The problem is that, as blocks become deeper, the new computation can too easily cover the basic meaning of the original token.
 
-For example, suppose the `restart` position in `hold restart while pressure remains unreleased` has looked at `pressure unreleased` and `hold` together through attention. Attention mixes the relation, but a separate transformation is needed to process that result more clearly toward one of `simple action`, `conditional action`, or `action to be blocked`. In the Transformer block, the feed-forward network takes that role.
+For example, consider the `restart` position in the sentence `If pressure remains unresolved, restart is held.` Attention and the feed-forward network should refine the `restart` representation toward `a conditionally blocked action`. But if the original action axis of `restart` disappears completely during that process, later blocks have a harder time tracking what exactly is being blocked.
 
-In short, the division is as follows.
+So a residual connection answers the following questions.
 
-| Question | Component that handles it more directly | Why |
-| --- | --- | --- |
-| Which other position should the current position refer to? | self-attention | because it reads relationships among tokens |
-| How should the current representation, now mixed with referenced context, change? | feed-forward network | because it nonlinearly reprocesses the representation inside the same position |
+| Question | Answer from a residual connection |
+| --- | --- |
+| Is the new computation needed? | Yes. Attention and feed-forward create a new representation. |
+| Is it enough to pass only the new computation onward? | Not always. The original representation axis can be covered. |
+| What is passed onward together? | The original input representation and the new computed result. |
 
-## What It Means To Apply The Same FFN To Several Positions
+## A Path Added Together, Not Computation Skipped
 
-The feed-forward network in a Transformer usually applies the same weights to each position. Here, `same` does not mean every position becomes the same output. If the input representation differs by position, the output differs even after passing through the same transformation.
+A residual connection is often also called a skip connection. Here, `skip` does not mean that the new computation is not performed. It is closer to saying that the original input representation has an extra path that bypasses the new computation path and is added back in.
 
 ```mermaid
---8<-- "assets/part-05/chapter-14/feed-forward-position-update-en.mmd"
+--8<-- "assets/part-05/chapter-14/residual-connection-skip-path-en.mmd"
 ```
 
-In this diagram, the dotted lines mean that the same weights are shared across several positions, and the solid lines mean that each position representation is processed separately inside its own position. So the feed-forward network is neither a device that passes state along in order nor a device that chooses a new position to refer to. It is a device that transforms each already context-mixed position representation again by the same rule.
+In this diagram, the solid line is the representation created by the new computation, and the dotted line is the path through which the original input representation is added back. The key is not choosing one of the two. The key is that `original representation + new computed result` becomes the starting point of the next-stage representation.
 
-Using the same FFN does not make every token have the same meaning. It should be read as `passing different input representations through the same processing criterion`.
+The difference can be summarized as follows.
 
-## Why Nonlinear Processing Is Needed
-
-If we read the feed-forward network as simple numeric post-processing, half of the Transformer block disappears. Even after attention mixes context, the representation is still a state where several cues have entered together. The feed-forward network further separates and compresses that mixed representation into the next representation of the current position.
-
-| State remaining after attention | What feed-forward helps with |
+| Easy Misreading | Better Reading |
 | --- | --- |
-| several cues are mixed, but the current position meaning is still blurry | process meaning axes more clearly inside the current position |
-| differences such as condition, negation, and exception can remain weak under only simple linear combination | make differences in cue combinations stand out better through nonlinear transformation |
-| each position received a different mixed context | apply the same FFN while producing different output representations for each position |
+| A residual connection skips the computation. | The new computation is still performed, and a path is left for the original input representation to be added back. |
+| Because the original representation is preserved, the new representation matters less. | The new representation is needed, and the original representation is needed as well. |
+| Since it is addition, it is only a simple post-processing step. | It is a structural device that keeps information flow from disappearing in deep repetition. |
 
-Here, the word `nonlinear` does not mean memorizing formulas immediately. At the introductory level, it is enough to read it as `a process that changes a merely added or averaged representation into a more separated representation that the next block can use`.
+## Why It Matters More in Deep Block Repetition
 
-## Cases And Examples
+A Transformer does not end with one block. The same kind of block is repeated several times, gradually changing the representation. If only the new computation passes through each time, information that mattered in earlier stages can become weaker in later stages.
 
-### Case. Processing An Action Representation In A Work-Permit Sentence
+A residual connection leaves a path for the original representation in each block, so that deep repetition does not become `continuous overwriting by new computation`. At the introductory level, this is enough:
 
-If a person sees only the word `restart` in a work-permit sentence, the first thought is usually the action `turn the line on again`. But if `pressure unreleased` and `hold` are also in the sentence, the representation at the current position should change from a simple action name toward `an action that must be blocked because a condition is attached`.
+| Problem That Can Appear in Deep Repetition | How a Residual Connection Helps |
+| --- | --- |
+| The original token meaning is covered by new computation. | The original input representation is added into the next stage. |
+| Later blocks lose the starting point of earlier blocks. | Each block has a direct path from its input toward its output. |
+| During learning, signals have difficulty passing through deep layers. | The bypass path helps the signal flow continue more stably. |
 
-Self-attention makes `restart` look together at `pressure unreleased` and `hold`. The feed-forward network then processes that mixed representation again inside the current position, helping the `restart` representation remain closer to a conditionally blocked action than to a simple execution request.
+Here, `signal` carries two senses at once. One is the flow of representation information during the forward pass. The other is the flow used during learning to adjust parameters from errors. In this supplementary section, the priority is not the equation. The priority is the structural feeling that deep structures become easier to stack because the original representation and the new computed result have a path to pass through together.
 
-| Expression a person may first see | Context mixed after attention | Representation that should become clearer after feed-forward |
+## Do Not Confuse It with Layer Normalization
+
+In P5-14.2, residual connection and layer normalization appeared together. But they are not the same stabilization device.
+
+| Distinction | Problem Seen First | What It Does |
 | --- | --- | --- |
-| `restart` is an execution action | `pressure unreleased` and `hold` are mixed together | `an action to be blocked because a condition is attached` |
-| `approval` is an allow signal | `verification incomplete` and `no exception` are mixed together | `not yet final approval` |
-| `deployment` is work progress | `rollback not confirmed` and `symptom continues` are mixed together | `risky work before recovery is confirmed` |
+| residual connection | Is the original information being covered by new computation? | Passes the original input representation and new computed result onward together. |
+| layer normalization | Are the values in a range that the next computation can handle? | Organizes the value baseline inside one position representation. |
 
-The result to confirm in this case is that the feed-forward network does not find a new evidence position. It processes evidence that already entered through attention into a more separated meaning inside the current position representation.
+A residual connection leaves `a path for information to pass through`. Layer normalization makes the value range of the representation produced through that path easier for the next computation to handle. If the two are collapsed into one sentence, the meaning becomes blurred.
 
-## Practice And Example
+## Cases and Examples
 
-### Example. Check Whether Outputs Differ By Position Even Through The Same FFN
+### Case. When an Operations Sentence Must Not Lose the Action Axis
 
-This example is not an implementation of an actual Transformer. It is a small experiment for checking the position-wise processing feel of a feed-forward network. Assume that three position representations already have context mixed after attention, and that the same FFN weights are applied identically to each position.
+In `If pressure remains unresolved, restart is held`, the `restart` position uses attention to look at `pressure remains unresolved` and `held`. The feed-forward network refines this context inside the current position and makes the meaning closer to `a conditionally blocked action`.
 
-| Value to Manipulate | Output to Observe | Question to Check |
+Without a residual connection, later blocks might strongly receive new meanings such as `blocked`, `risk`, or `condition`, but lose clarity about which original action those meanings were attached to. The residual connection passes along the original `restart` action axis, helping later blocks continue to track `what must be blocked`.
+
+| Current Position | Meaning Strengthened by New Computation | Original Axis to Keep Through Residual |
 | --- | --- | --- |
-| each row of `positions` | `hidden`, `output` | do outputs differ by position even after passing through the same FFN? |
-| input value of the `restart` position | `restart before/after` | if the current position representation changes, does the same FFN process it in a different direction? |
-| change only `changed[1]` | `other positions unchanged` | does one position's FFN computation avoid newly referring to other positions? |
+| `restart` | blocked under unresolved pressure | the original action name |
+| `approval` | held when validation is incomplete | the original approval action |
+| `deployment` | risky before rollback is confirmed | the original deployment task |
 
-```python
-# This example checks how each position's hidden and output are processed differently even when the same feed-forward network is shared across position-wise representations.
-import numpy as np
+The result to confirm in this case is that a residual connection does not judge a new meaning by itself. It helps the original representation axis needed for the new judgment remain available to later stages.
 
-positions = np.array([
-    [0.2, 0.1, 0.9, 0.1],  # pressure_state: condition signal high
-    [0.8, 0.2, 0.2, 0.1],  # restart: action signal high
-    [0.3, 0.9, 0.2, 0.7],  # hold: block/negation signal high
-])
+## Practice and Examples
 
-position_names = ["pressure_state", "restart", "hold"]
+### Practice. Find What Must Be Kept and Explain Why
 
-w1 = np.array([
-    [1.0, -0.2, 0.8],
-    [0.3, 1.2, -0.6],
-    [0.8, 0.1, 0.5],
-    [-0.4, 0.7, 1.0],
-])
-b1 = np.array([-0.2, -0.1, 0.0])
-w2 = np.array([
-    [0.9, 0.2],
-    [-0.3, 1.0],
-    [0.4, 0.8],
-])
+In the scenes below, write the original representation axis that should remain together with the meaning strengthened by the new computation. Do not stop with one word. Also explain why the later block needs to reuse that axis.
 
-def relu(x):
-    return np.maximum(x, 0.0)
+| Sentence | Current Position | Meaning Strengthened by New Computation | Original Representation Axis to Keep | Why Later Blocks Need It |
+| --- | --- | --- | --- | --- |
+| `If pressure remains unresolved, restart is held` | `restart` | conditional blocking | the action name restart | Later blocks need to know not only that something is blocked, but also what is blocked. |
+| `If validation is incomplete, approval is not finalized` | `approval` | held or not finalized | the approval action | The target of the not-finalized meaning must remain approval. |
+| `Before rollback is confirmed, deployment is stopped and the previous version is kept` | `deployment` | risky progress or stop target | the deployment task | When compared with `keeping the previous version`, the risk judgment must remain attached to the deployment task. |
+| `If the incident cause is unclear, expand the alert and stop automatic recovery` | `automatic recovery` | stop target under unclear cause | the automatic recovery action | To avoid mixing it with `alert expansion`, the model must keep which action the stop meaning attaches to. |
 
-def ffn(x):
-    hidden = relu(x @ w1 + b1)
-    output = hidden @ w2
-    return hidden, output
-
-hidden, output = ffn(positions)
-
-print("[same FFN, different positions]")
-for name, before, h, after in zip(position_names, positions, hidden, output):
-    print(f"{name:15s} input={np.round(before, 2)} hidden={np.round(h, 2)} output={np.round(after, 2)}")
-
-changed = positions.copy()
-changed[1] += np.array([0.0, 0.5, 0.0, 0.4])
-_, changed_output = ffn(changed)
-
-print("\n[change only restart position]")
-print("restart before/after =", np.round(output[1], 2), "->", np.round(changed_output[1], 2))
-print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[[0, 2]]))
-```
-
-Read the example output as follows.
-
-```text
-[same FFN, different positions]
-pressure_state  input=[0.2 0.1 0.9 0.1] hidden=[0.71 0.14 0.65] output=[0.86 0.8 ]
-restart         input=[0.8 0.2 0.2 0.1] hidden=[0.78 0.07 0.72] output=[0.97 0.8 ]
-hold            input=[0.3 0.9 0.2 0.7] hidden=[0.25 1.43 0.5 ] output=[-0.    1.88]
-
-[change only restart position]
-restart before/after = [0.97 0.8 ] -> [0.74 1.76]
-other positions unchanged = True
-```
-
-The first output shows that even when the same FFN is applied, hidden and output differ if the input representation differs by position. The second output shows that changing only the input at the `restart` position changes only that position's output, while the outputs of other positions remain the same.
-
-Explanation: The result to read in this example is that the feed-forward network is not a device for choosing a new token. Referring to other positions already happened at the attention stage, and the FFN passes each position's incoming representation through the same processing criterion. That is why outputs can differ by position even when the same FFN is shared.
-
-### Practice. Turn The Current Position Representation Into Words
-
-Assume that context has been mixed after attention in the scenes below. Write in words which direction the current position representation should be processed toward after feed-forward.
-
-| Current Position | Cues Mixed By Attention | Representation Direction After Feed-Forward | Explanation |
-| --- | --- | --- | --- |
-| `restart` | `pressure unreleased`, `hold` | conditionally blocked action | it should be read as an action blocked by a safety condition, not only as the action itself |
-| `approval` | `verification incomplete`, `no exception` | hold state before final approval | the incomplete condition should be reflected inside the current representation, not only the word approval |
-| `deployment` | `rollback not confirmed`, `symptom continues` | risky work before recovery is confirmed | deployment should be processed as work that still leaves risk, not simple progress |
-
-Explanation: A good answer is not a fancy term, but a clear statement of `which direction the current position representation should change`. This feeling is needed when reading the representation-movement example in P5-14.3, so that `feed-forward output` is not read as a mere intermediate number, but as a position-wise meaning-processing result.
+Explanation: A good answer does not stop at `keep the original word`. When the meaning created by the new computation is reused in later blocks, the original target or action that the meaning attaches to must remain traceable. This is why a residual connection should be read not as simple addition, but as a device that leaves information flow in deep repetition.
 
 ## Checklist
 
-- Can you explain the feed-forward network not as simple post-processing after attention, but as position-wise representation processing?
-- Can you explain that even when the same FFN is applied to several positions, different input representations produce different output representations?
-- Can you distinguish self-attention's `relationship reading` from the feed-forward network's `within-position transformation`?
+- Can you explain a residual connection not as skipping new computation, but as a path that passes the original input representation and new computed result onward together?
+- Can you explain with a case why the original representation axis becomes necessary in deep Transformer block repetition?
+- Can you distinguish residual connection and layer normalization as `information flow` and `value range stabilization`?
 
-## Sources And References
+## Sources and References
 
+- Kaiming He et al., `Deep Residual Learning for Image Recognition`, CVPR 2016, checked on 2026-07-19. [https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html){: target="_blank" rel="noopener noreferrer" }
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }

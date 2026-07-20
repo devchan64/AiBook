@@ -1,195 +1,161 @@
-# P5-14.6 How Do Sequential State And Direct Re-Reference Split In Long Context?
+# P5-14.6 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?
 
 > Section ID: `P5-14.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
-In P5-14.5, we saw how RNN sequential state passing and Transformer relation computation differ from the viewpoint of parallel processing. The observation point in P5-14.6 is not GPU efficiency, but how the final judgment in a long context attaches earlier cues again as evidence.
+In P5-14.2, we saw that the feed-forward network does a different job from self-attention inside the Transformer block. But the question remains: `if attention already mixed context, why is feed-forward needed again?`
 
-In long context, is the important thing remembering for a long time, or referring again to the earlier position that is needed?
+In a Transformer block, the feed-forward network is not a device that chooses a new token to refer to. It is a device that reprocesses each position representation whose context has already been mixed by attention.
 
-The comparison target is not the full Transformer implementation. It is the difference between `compressing an earlier rule into one state and carrying it forward` and `letting the current question find the earlier sentence it needs again`. We closed the computational efficiency of parallel processing in P5-14.5, and here we look only at the path by which a distant cue is attached again to the final judgment.
+When the terms scatter again, it is useful to reread the [feed-forward network](../../../reference/concept-glossary.md#feed-forward-network) glossary entry together with the four-component role division in P5-14.2.
 
-## Questions Handled By Long-Context Re-Reference And The Experiment
+## Why Process Once More After Attention?
 
-- Why can sequential state passing weaken in long context?
-- Why does self-attention give the feeling that it can refer more directly to a faraway earlier position?
-- How can sequential state and direct re-reference make different final judgments even in the same long context?
+Self-attention decides what information the current position should bring from other positions. But `what was referred to` and `how that referenced result should become the next representation of the current position` are not the same question.
 
-## Comparing Sequential Passing And Direct Re-Reference
+For example, suppose the `restart` position in `hold restart while pressure remains unreleased` has looked at `pressure unreleased` and `hold` together through attention. Attention mixes the relation, but a separate transformation is needed to process that result more clearly toward one of `simple action`, `conditional action`, or `action to be blocked`. In the Transformer block, the feed-forward network takes that role.
 
-In an RNN, distant information has to pass through several steps of state before reaching the current point. In self-attention, by contrast, the current token can refer more directly even to a faraway token.
+In short, the division is as follows.
 
-```mermaid
---8<-- "assets/part-05/chapter-14/long-context-direct-reference-en.mmd"
-```
-
-If we compare the same request again only through the two computation paths, it can be read as follows.
-
-```mermaid
---8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-en.mmd"
-```
-
-| Viewpoint | Sequential State Passing | Direct Re-Reference |
+| Question | Component that handles it more directly | Why |
 | --- | --- | --- |
-| movement of earlier cue | passed through intermediate state | the current position looks again at the earlier position it needs |
-| long-context risk | the cue can weaken as intermediate information grows | the relevant earlier position is more likely to be brought back up |
-| final judgment | depends on cue strength left inside the state | depends on relation computation between the current request and earlier evidence |
+| Which other position should the current position refer to? | self-attention | because it reads relationships among tokens |
+| How should the current representation, now mixed with referenced context, change? | feed-forward network | because it nonlinearly reprocesses the representation inside the same position |
 
-If we read the long-context problem only as `memory`, we only ask whether the model keeps holding earlier content for a long time. But the more important feeling in the Transformer structure is whether the current position can refer again to the earlier position it needs.
+## What It Means To Apply The Same FFN To Several Positions
+
+The feed-forward network in a Transformer usually applies the same weights to each position. Here, `same` does not mean every position becomes the same output. If the input representation differs by position, the output differs even after passing through the same transformation.
+
+```mermaid
+--8<-- "assets/part-05/chapter-14/feed-forward-position-update-en.mmd"
+```
+
+In this diagram, the dotted lines mean that the same weights are shared across several positions, and the solid lines mean that each position representation is processed separately inside its own position. So the feed-forward network is neither a device that passes state along in order nor a device that chooses a new position to refer to. It is a device that transforms each already context-mixed position representation again by the same rule.
+
+Using the same FFN does not make every token have the same meaning. It should be read as `passing different input representations through the same processing criterion`.
+
+## Why Nonlinear Processing Is Needed
+
+If we read the feed-forward network as simple numeric post-processing, half of the Transformer block disappears. Even after attention mixes context, the representation is still a state where several cues have entered together. The feed-forward network further separates and compresses that mixed representation into the next representation of the current position.
+
+| State remaining after attention | What feed-forward helps with |
+| --- | --- |
+| several cues are mixed, but the current position meaning is still blurry | process meaning axes more clearly inside the current position |
+| differences such as condition, negation, and exception can remain weak under only simple linear combination | make differences in cue combinations stand out better through nonlinear transformation |
+| each position received a different mixed context | apply the same FFN while producing different output representations for each position |
+
+Here, the word `nonlinear` does not mean memorizing formulas immediately. At the introductory level, it is enough to read it as `a process that changes a merely added or averaged representation into a more separated representation that the next block can use`.
 
 ## Cases And Examples
 
-### Case. Restart Request While Pressure Has Not Returned
+### Case. Processing An Action Representation In A Work-Permit Sentence
 
-Consider a long work-permit question and answer.
+If a person sees only the word `restart` in a work-permit sentence, the first thought is usually the action `turn the line on again`. But if `pressure unreleased` and `hold` are also in the sentence, the representation at the current position should change from a simple action name toward `an action that must be blocked because a condition is attached`.
 
-| Candidate Cue | Relation to the Final Judgment | Direct Re-Reference View |
+Self-attention makes `restart` look together at `pressure unreleased` and `hold`. The feed-forward network then processes that mixed representation again inside the current position, helping the `restart` representation remain closer to a conditionally blocked action than to a simple execution request.
+
+| Expression a person may first see | Context mixed after attention | Representation that should become clearer after feed-forward |
 | --- | --- | --- |
-| `Do not restart line 3 before pressure is relieved` | restart blocking rule | earlier cue that must be called again |
-| `Current pressure has not yet returned to the safe range` | state where the rule still applies | earlier cue that must be called again |
-| `Sensor calibration was completed in the morning` | does not mean pressure returned to the safe range | weak cue that can be confused |
-| `Shift handoff records were updated` | weak direct relation to restart-safety judgment | cue to push away from the judgment center |
-| `Can line 3 restart be approved now?` | current question | position that must attach the earlier rule and state again |
+| `restart` is an execution action | `pressure unreleased` and `hold` are mixed together | `an action to be blocked because a condition is attached` |
+| `approval` is an allow signal | `verification incomplete` and `no exception` are mixed together | `not yet final approval` |
+| `deployment` is work progress | `rollback not confirmed` and `symptom continues` are mixed together | `risky work before recovery is confirmed` |
 
-The easy criterion a person may use first is `the model read a lot, so it should remember the earlier content`. But the result to confirm in this case is not `did it remember a lot?` It is whether the blocking rule and current pressure state were attached again as evidence at the final judgment point.
-
-The sequential-state method tries to compress the earlier rule into one state and carry it to the end. As intermediate logs increase, the blocking-rule axis can weaken. The direct re-reference method finds the rule line and pressure-state line again at the final request point.
-
-The judgment sentence in this case should close as follows.
-
-| Method | Judgment Sentence |
-| --- | --- |
-| only weak sequential state remains | the earlier blocking rule may not remain strongly enough until the final request, so the judgment can become uncertain |
-| direct re-reference found the needed cues | the final request attaches the blocking rule and current pressure state again as evidence, so it judges toward blocking the restart |
+The result to confirm in this case is that the feed-forward network does not find a new evidence position. It processes evidence that already entered through attention into a more separated meaning inside the current position representation.
 
 ## Practice And Example
 
-### Practice. Separate Needed Earlier Cues And Distracting Cues
+### Example. Check Whether Outputs Differ By Position Even Through The Same FFN
 
-Classify each candidate cue below as `needed`, `weak`, or `close to distracting`.
-
-| Candidate Cue | Classification | Explanation |
-| --- | --- | --- |
-| `Do not restart line 3 before pressure is relieved` | needed | this rule directly blocks the final restart-approval question |
-| `Current pressure has not yet returned to the safe range` | needed | this checks whether the blocking rule still applies |
-| `Sensor calibration was completed in the morning` | weak | sensor calibration is not the same as pressure returning to the safe range |
-| `Packaging material replenishment was separately approved` | close to distracting | even though it contains the word approved, it has weak direct relation to line-3 restart approval |
-
-Explanation: The learning point in a long-context problem is not `it read a lot`, but `it attached the evidence needed for the final judgment again`. We must not only choose the needed cues, but also push cues with weak direct relation away from the judgment center.
-
-### Example. Comparing A Sequential Reader And A Direct Reference Reader
-
-This example is not a Transformer implementation. It is an experiment comparing what observations two reference methods leave in long-context judgment.
+This example is not an implementation of an actual Transformer. It is a small experiment for checking the position-wise processing feel of a feed-forward network. Assume that three position representations already have context mixed after attention, and that the same FFN weights are applied identically to each position.
 
 | Value to Manipulate | Output to Observe | Question to Check |
 | --- | --- | --- |
-| `decay` | `sequential_support`, `final_state` | how quickly does the earlier rule weaken inside sequential state? |
-| number of intermediate `Log:` lines | final value of the `block` axis | does sequential state shake more as unrelated intermediate sentences increase? |
-| final `Request:` sentence | `direct_decision`, top matched lines | does the current request contain cues that call the earlier rule again? |
+| each row of `positions` | `hidden`, `output` | do outputs differ by position even after passing through the same FFN? |
+| input value of the `restart` position | `restart before/after` | if the current position representation changes, does the same FFN process it in a different direction? |
+| change only `changed[1]` | `other positions unchanged` | does one position's FFN computation avoid newly referring to other positions? |
 
 ```python
-# This example compares how sequential state weakens in long context and how direct reference finds the earlier rule again.
-context = [
-    "Rule: unstable pressure state must not be restarted.",
-    "Log: sensor calibration completed for line 3.",
-    "Log: packaging material restocked this morning.",
-    "State: pressure has not fully returned to safe range.",
-    "Log: operator schedule updated for tomorrow.",
-    "Request: restart line 3 now.",
-]
+# This example checks how each position's hidden and output are processed differently even when the same feed-forward network is shared across position-wise representations.
+import numpy as np
 
-def sequential_reader(lines, decay=0.55):
-    state = {"pressure_risk": 0.0, "restart": 0.0, "block": 0.0}
-    history = []
-    for idx, line in enumerate(lines, start=1):
-        lowered = line.lower()
-        for key in state:
-            state[key] *= decay
-        if "pressure" in lowered or "unstable" in lowered:
-            state["pressure_risk"] += 1.0
-        if "restart" in lowered:
-            state["restart"] += 1.0
-        if "must not" in lowered:
-            state["block"] += 1.0
-        snapshot = {key: round(value, 3) for key, value in state.items()}
-        history.append((idx, line, snapshot))
-    support = round(min(state.values()), 3)
-    decision = "block_restart" if support >= 0.8 else "uncertain"
-    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
+positions = np.array([
+    [0.2, 0.1, 0.9, 0.1],  # pressure_state: condition signal high
+    [0.8, 0.2, 0.2, 0.1],  # restart: action signal high
+    [0.3, 0.9, 0.2, 0.7],  # hold: block/negation signal high
+])
 
-def direct_reference_reader(lines):
-    request = lines[-1].lower()
-    keywords = {"restart", "pressure", "unstable", "must", "not"}
-    scored = []
-    for idx, line in enumerate(lines[:-1], start=1):
-        words = set(line.lower().replace(".", "").replace(":", "").split())
-        score = len(words & keywords)
-        scored.append((score, idx, line))
-    top_matches = sorted(scored, reverse=True)[:2]
-    matched_lines = [line.lower() for _, _, line in top_matches]
-    decision = (
-        "block_restart"
-        if any("must not be restarted" in line for line in matched_lines)
-        and any("pressure" in line or "unstable" in line for line in matched_lines)
-        and "restart" in request
-        else "allow"
-    )
-    return top_matches, decision
+position_names = ["pressure_state", "restart", "hold"]
 
-history, final_state, sequential_support, sequential_decision = sequential_reader(context)
-top_matches, direct_decision = direct_reference_reader(context)
+w1 = np.array([
+    [1.0, -0.2, 0.8],
+    [0.3, 1.2, -0.6],
+    [0.8, 0.1, 0.5],
+    [-0.4, 0.7, 1.0],
+])
+b1 = np.array([-0.2, -0.1, 0.0])
+w2 = np.array([
+    [0.9, 0.2],
+    [-0.3, 1.0],
+    [0.4, 0.8],
+])
 
-print("[sequential reader]")
-for idx, line, snapshot in history:
-    print(f"{idx}. {line}")
-    print("   state =", snapshot)
-print("final_state =", final_state)
-print("sequential_support =", sequential_support)
-print("sequential_decision =", sequential_decision)
-print()
+def relu(x):
+    return np.maximum(x, 0.0)
 
-print("[direct reference reader]")
-for score, idx, line in top_matches:
-    print(f"matched line {idx} (score={score}): {line}")
-print("direct_decision =", direct_decision)
+def ffn(x):
+    hidden = relu(x @ w1 + b1)
+    output = hidden @ w2
+    return hidden, output
+
+hidden, output = ffn(positions)
+
+print("[same FFN, different positions]")
+for name, before, h, after in zip(position_names, positions, hidden, output):
+    print(f"{name:15s} input={np.round(before, 2)} hidden={np.round(h, 2)} output={np.round(after, 2)}")
+
+changed = positions.copy()
+changed[1] += np.array([0.0, 0.5, 0.0, 0.4])
+_, changed_output = ffn(changed)
+
+print("\n[change only restart position]")
+print("restart before/after =", np.round(output[1], 2), "->", np.round(changed_output[1], 2))
+print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[[0, 2]]))
 ```
 
 Read the example output as follows.
 
 ```text
-final_state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
-sequential_support = 0.05
-sequential_decision = uncertain
+[same FFN, different positions]
+pressure_state  input=[0.2 0.1 0.9 0.1] hidden=[0.71 0.14 0.65] output=[0.86 0.8 ]
+restart         input=[0.8 0.2 0.2 0.1] hidden=[0.78 0.07 0.72] output=[0.97 0.8 ]
+hold            input=[0.3 0.9 0.2 0.7] hidden=[0.25 1.43 0.5 ] output=[-0.    1.88]
 
-matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
-matched line 4 (score=2): State: pressure has not fully returned to safe range.
-direct_decision = block_restart
+[change only restart position]
+restart before/after = [0.97 0.8 ] -> [0.74 1.76]
+other positions unchanged = True
 ```
 
-The first output shows how sequential state weakens while passing through context. The `block` axis starts strongly at the rule line, but only `0.05` remains by the final request.
+The first output shows that even when the same FFN is applied, hidden and output differ if the input representation differs by position. The second output shows that changing only the input at the `restart` position changes only that position's output, while the outputs of other positions remain the same.
 
-![Sequential state decay](/AiBook/assets/part-05/chapter-14/sequential-state-decay-en.png)
+Explanation: The result to read in this example is that the feed-forward network is not a device for choosing a new token. Referring to other positions already happened at the attention stage, and the FFN passes each position's incoming representation through the same processing criterion. That is why outputs can differ by position even when the same FFN is shared.
 
-The second output shows which lines the direct re-reference method brings back at the final request. Since the rule line and pressure-state line rise again as strong evidence, the change to read in this example is not merely that the two decision names differ. It is the difference between the earlier cue `weakening inside the state` and `being called again by the current request`.
+### Practice. Turn The Current Position Representation Into Words
 
-![Direct re-reference scores](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-en.png)
+Assume that context has been mixed after attention in the scenes below. Write in words which direction the current position representation should be processed toward after feed-forward.
 
-### Practice. Change Values And Check The Difference
+| Current Position | Cues Mixed By Attention | Representation Direction After Feed-Forward | Explanation |
+| --- | --- | --- | --- |
+| `restart` | `pressure unreleased`, `hold` | conditionally blocked action | it should be read as an action blocked by a safety condition, not only as the action itself |
+| `approval` | `verification incomplete`, `no exception` | hold state before final approval | the incomplete condition should be reflected inside the current representation, not only the word approval |
+| `deployment` | `rollback not confirmed`, `symptom continues` | risky work before recovery is confirmed | deployment should be processed as work that still leaves risk, not simple progress |
 
-| Value to Change | Expected Output Change | Explanation |
-| --- | --- | --- |
-| raise `decay` from `0.55` to `0.8` | `sequential_support` may grow | because sequential state keeps the earlier cue longer, the `block` axis created at the rule line weakens less by the final request |
-| add three more intermediate logs | the sequential-state side can shake more easily | as intermediate lines increase, earlier cues inside state continue to decay, while direct re-reference can keep the judgment if it can find the matching earlier lines |
-| remove the word `restart` from the final request | `direct_decision` can change | if the current request loses the key word connected to the earlier rule, direct re-reference also weakens in knowing which earlier cue to call |
-
-Explanation: This practice is not saying that direct re-reference always guarantees the right answer. The core is to distinguish through output changes whether earlier cues `weaken inside the state` or `are called again by the current request` in long context.
+Explanation: A good answer is not a fancy term, but a clear statement of `which direction the current position representation should change`. This feeling is needed when reading the representation-movement example integrated into P5-14.2, so that `feed-forward output` is not read as a mere intermediate number, but as a position-wise meaning-processing result.
 
 ## Checklist
 
-- Can you explain the long-context problem as a difference between sequential state passing and direct re-reference?
-- Can you say that self-attention gives the feeling of referring more directly to distant positions?
-- Can you explain the difference between `sequential_support` and `direct_decision`?
-- Can you say that in long context, final judgment can change depending on how evidence is called?
+- Can you explain the feed-forward network not as simple post-processing after attention, but as position-wise representation processing?
+- Can you explain that even when the same FFN is applied to several positions, different input representations produce different output representations?
+- Can you distinguish self-attention's `relationship reading` from the feed-forward network's `within-position transformation`?
 
 ## Sources And References
 

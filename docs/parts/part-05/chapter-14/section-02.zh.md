@@ -1,7 +1,7 @@
 # P5-14.2 Transformer block 的四个部件分别负责什么？
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-14.1 里，我们已经看到，只用 self-attention 解释 Transformer 是不够的。现在需要更直接地拆开 block 里面的角色分工。
 
@@ -53,7 +53,7 @@ self-attention 会混合 token 之间的关系，但这个结果并不会自动�
 
 所以不能把 feed-forward network 读成简单后处理。attention 打开的是`要一起看什么`，feed-forward 负责的是`混合后的表示要怎样成为当前位置的下一个表示`。只有抓住这个差别，才能把 Transformer block 读成有角色分工的重复单元，而不是 attention 一个部件。
 
-为什么 feed-forward network 能把相同权重应用到多个位置，同时又在每个位置产生不同表示，会在 [P5-14.7 补充学习：feed-forward network 为什么负责按位置表示加工](section-07.md) 中另行整理。
+为什么 feed-forward network 能把相同权重应用到多个位置，同时又在每个位置产生不同表示，会在 [P5-14.6 补充学习：feed-forward network 为什么负责按位置表示加工](section-06.md) 中另行整理。
 
 ## residual connection 留下原始信息流
 
@@ -79,7 +79,7 @@ self-attention 会混合 token 之间的关系，但这个结果并不会自动�
 
 这个差别能避免把 residual connection 降低成单纯加法。更准确的直觉是：`即使新计算进入，也给原始信息留下通路，让深层 block 重复能撑住的装置`。
 
-为什么 residual connection 不是简单跳过，而是让原始表示与新计算一起传下去的路径，会在 [P5-14.8 补充学习：residual connection 为什么留下原始表示的路径](section-08.md) 中另行整理。
+为什么 residual connection 不是简单跳过，而是让原始表示与新计算一起传下去的路径，会在 [P5-14.7 补充学习：residual connection 为什么留下原始表示的路径](section-07.md) 中另行整理。
 
 ## layer normalization 整理数值范围
 
@@ -105,7 +105,7 @@ layer normalization 会在一个位置的表示内部重新调整数值的平均
 
 所以 Transformer block 中 residual connection 和 layer normalization 常常一起出现，但它们做的不是同一件事。residual connection 留下`信息通过的路径`，layer normalization 则对齐`计算基准线`，让经过那条路径的表示在下一步计算里不至于过度摇晃。
 
-为什么 layer normalization 是一个位置表示内部的数值基准线整理，而不是意义选择，以及它和 batch normalization 有什么不同，会在 [P5-14.9 补充学习：layer normalization 为什么要对齐数值基准线](section-09.md) 中另行整理。
+为什么 layer normalization 是一个位置表示内部的数值基准线整理，而不是意义选择，以及它和 batch normalization 有什么不同，会在 [P5-14.8 补充学习：layer normalization 为什么要对齐数值基准线](section-08.md) 中另行整理。
 
 把四个部件放在一起看，同一个 token 表示面对的问题其实不同。
 

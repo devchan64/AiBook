@@ -1,7 +1,7 @@
 # P5-14.2 What Does Each Of The Four Transformer Block Components Do?
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-14.1, we saw that explaining the Transformer only with self-attention is not enough. Now we need to separate the roles inside the block more directly.
 
@@ -53,7 +53,7 @@ The difference is clearer if we focus on one token.
 
 So the feed-forward network should not be read as simple post-processing. If attention opens `what should be seen together`, feed-forward handles `how the mixed representation should become the next representation of the current position`. This distinction is needed to read the Transformer block not as attention alone, but as a repeating unit with divided roles.
 
-Why a feed-forward network can apply the same weights to several positions while still producing different representations at each position is separated into [P5-14.7 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?](section-07.md).
+Why a feed-forward network can apply the same weights to several positions while still producing different representations at each position is separated into [P5-14.6 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?](section-06.md).
 
 ## Residual Connection Leaves The Original Information Flow
 
@@ -79,7 +79,7 @@ If feed-forward handles `how should the current representation change`, residual
 
 This distinction prevents residual connection from being reduced to mere addition. A more accurate intuition is `a device that leaves a path for original information even when new computation enters, so deep block repetition can endure`.
 
-Why residual connection is not just a skip, but a path that passes original representation and new computation together, is separated into [P5-14.8 Supplementary Reading: Why Does Residual Connection Leave A Path For The Original Representation?](section-08.md).
+Why residual connection is not just a skip, but a path that passes original representation and new computation together, is separated into [P5-14.7 Supplementary Reading: Why Does Residual Connection Leave A Path For The Original Representation?](section-07.md).
 
 ## Layer Normalization Organizes The Value Range
 
@@ -105,7 +105,7 @@ The important point in this diagram is that layer normalization does not choose 
 
 So residual connection and layer normalization often appear together inside the Transformer block, but they do not do the same job. If residual connection leaves `a path for information`, layer normalization aligns `the computational baseline` so the representation that passed through that path does not shake too much in the next computation.
 
-Why layer normalization is a value-baseline adjustment inside one position representation, not meaning selection, and how it differs from batch normalization, is separated into [P5-14.9 Supplementary Reading: Why Does Layer Normalization Align The Value Baseline?](section-09.md).
+Why layer normalization is a value-baseline adjustment inside one position representation, not meaning selection, and how it differs from batch normalization, is separated into [P5-14.8 Supplementary Reading: Why Does Layer Normalization Align The Value Baseline?](section-08.md).
 
 If we bundle the four components at once, the questions asked about the same token representation are different.
 

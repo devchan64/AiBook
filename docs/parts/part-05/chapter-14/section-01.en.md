@@ -1,7 +1,7 @@
 # P5-14.1 Why Can't The Transformer Be Explained By Attention Alone?
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-13.2, we saw that self-attention is a method in which tokens inside the same sequence reread one another and update their representations. The immediate next question is this.
 
@@ -70,7 +70,7 @@ If we read the same sentence in two ways, the difference becomes clearer.
 | Reading method | What it can explain | Where the explanation breaks |
 | --- | --- | --- |
 | attention-only explanation | that `restart` is related to `pressure unreleased` and `held` | what action state the current representation changes into after reading the relationship |
-| Transformer block explanation | the flow that reads the relationship, processes the current position representation, keeps the original action meaning and stability, and passes it to the next block | the detailed calculation order is separated into P5-14.2 and P5-14.3 |
+| Transformer block explanation | the flow that reads the relationship, processes the current position representation, keeps the original action meaning and stability, and passes it to the next block | the detailed role split and representation movement are handled together in P5-14.2 |
 
 The result of this case closes as follows.
 

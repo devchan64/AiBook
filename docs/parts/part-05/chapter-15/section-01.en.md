@@ -3,7 +3,7 @@
 > Section ID: `P5-15.1`
 > Version: `v2026.07.20`
 
-In P5-14.5 and P5-14.6, we saw that the Transformer became a major turning point in parallel processing and direct reference to long context, and that this structure eventually became the foundation for the spread of LLMs and generative AI. The next question now appears.
+In P5-14.4 and P5-14.5, we saw that the Transformer became a major turning point in parallel processing and direct reference to long context, and that this structure eventually became the foundation for the spread of LLMs and generative AI. The next question now appears.
 
 Then how is a generative model different from a classification model, and what does it actually learn?
 

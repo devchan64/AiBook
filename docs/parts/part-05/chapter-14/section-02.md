@@ -15,7 +15,7 @@ Transformer 블록 안에서 self-attention, feed-forward network, residual conn
 - feed-forward network는 attention과 무엇이 다른가?
 - residual connection과 layer normalization은 왜 함께 등장하는가?
 
-이 절에서는 각 부품이 블록 안에서 맡는 역할과, 관계 읽기와 위치별 가공의 차이를 닫습니다. 숫자 예제로 표현이 실제로 어떻게 이동하는지도 이 절 안에서 함께 확인하고, 병렬 처리와 긴 문맥 계산 감각은 P5-14.5와 P5-14.6에서 따로 다룹니다.
+이 절에서는 각 부품이 블록 안에서 맡는 역할과, 관계 읽기와 위치별 가공의 차이를 닫습니다. 숫자 예제로 표현이 실제로 어떻게 이동하는지도 이 절 안에서 함께 확인하고, 병렬 처리와 긴 문맥 계산 감각은 P5-14.4와 P5-14.5에서 따로 다룹니다.
 
 ## self-attention은 관계를 읽는다
 
@@ -50,7 +50,7 @@ self-attention은 토큰 간 관계를 섞지만, 그 결과가 바로 충분히
 
 따라서 feed-forward network를 단순한 후처리로 읽으면 안 됩니다. attention이 `무엇을 같이 볼지`를 열어 준다면, feed-forward는 `그렇게 섞인 표현을 현재 위치의 다음 표현으로 어떻게 만들지`를 맡습니다. 이 차이를 잡아야 Transformer 블록을 attention 하나가 아니라 역할이 나뉜 반복 단위로 읽을 수 있습니다.
 
-feed-forward network가 왜 같은 가중치를 여러 위치에 적용하면서도 위치마다 다른 표현을 만들 수 있는지는 [P5-14.7 보충학습: feed-forward network는 왜 위치별 표현 가공을 맡는가](section-07.md)에서 따로 정리합니다.
+feed-forward network가 왜 같은 가중치를 여러 위치에 적용하면서도 위치마다 다른 표현을 만들 수 있는지는 [P5-14.6 보충학습: feed-forward network는 왜 위치별 표현 가공을 맡는가](section-06.md)에서 따로 정리합니다.
 
 ## residual connection은 원래 정보 흐름을 남긴다
 
@@ -76,7 +76,7 @@ feed-forward가 `현재 표현을 어떻게 바꿀까`를 맡는다면, residual
 
 이 차이를 잡아야 residual connection을 단순한 덧셈으로 낮춰 보지 않게 됩니다. 더 정확한 직관은 `새 계산이 들어와도 원래 정보가 지나갈 길을 남겨 깊은 블록 반복을 견디게 하는 장치`입니다.
 
-residual connection이 왜 단순한 건너뛰기가 아니라 원래 표현과 새 계산을 함께 넘기는 경로인지는 [P5-14.8 보충학습: residual connection은 왜 원래 표현의 길을 남기는가](section-08.md)에서 따로 정리합니다.
+residual connection이 왜 단순한 건너뛰기가 아니라 원래 표현과 새 계산을 함께 넘기는 경로인지는 [P5-14.7 보충학습: residual connection은 왜 원래 표현의 길을 남기는가](section-07.md)에서 따로 정리합니다.
 
 ## layer normalization은 값 범위를 정리한다
 
@@ -102,7 +102,7 @@ layer normalization은 한 위치의 표현 안에서 값들의 평균과 퍼짐
 
 그래서 Transformer 블록 안에서 residual connection과 layer normalization은 함께 보이지만 같은 일을 하지 않습니다. residual connection이 `정보가 지나갈 길`을 남긴다면, layer normalization은 그 길을 지난 표현이 다음 계산에서 너무 흔들리지 않도록 `계산 기준선`을 맞춥니다.
 
-layer normalization이 왜 의미 선택이 아니라 한 위치 표현의 값 기준선 정리인지, batch normalization과는 무엇이 다른지는 [P5-14.9 보충학습: layer normalization은 왜 값의 기준선을 맞추는가](section-09.md)에서 따로 정리합니다.
+layer normalization이 왜 의미 선택이 아니라 한 위치 표현의 값 기준선 정리인지, batch normalization과는 무엇이 다른지는 [P5-14.8 보충학습: layer normalization은 왜 값의 기준선을 맞추는가](section-08.md)에서 따로 정리합니다.
 
 네 부품을 한 번에 묶어 보면, 같은 토큰 표현을 두고 묻는 질문이 서로 다릅니다.
 
@@ -264,7 +264,7 @@ after residual           [1.238 1.814]
 
 해설: 두 장면은 같은 입력 토큰에서 시작하지만 action token의 attention 행이 달라지면서 표현 이동 경로도 달라집니다. `rollback_confirmed`에서는 attention 이후부터 복구 상태 축이 더 크게 남고, `rollback_not_confirmed`에서는 증상/원인 축이 상대적으로 더 남습니다. 이 차이는 feed-forward와 residual을 거치며 블록 출력 방향으로 남습니다.
 
-직접 확인할 때는 `rollback_not_confirmed`의 action token 행 `[0.3, 0.5, 0.2]`에서 마지막 값을 더 키워 보십시오. action token이 자기 자신을 더 많이 참고할수록 `after attention` 이후 복구 상태 축이 어떻게 달라지는지 비교할 수 있습니다.
+직접 확인할 때는 `rollback_not_confirmed`의 action token 행 `[0.3, 0.5, 0.2]`를 `[0.2, 0.4, 0.4]`처럼 합이 1이 되게 바꿔 보십시오. action token이 자기 자신을 더 많이 참고할수록 `after attention` 이후 복구 상태 축이 어떻게 달라지는지 비교할 수 있습니다.
 
 ![조치 토큰의 단계별 표현 이동](../../../assets/part-05/chapter-14/transformer-block-action-stage-trace-ko.png)
 

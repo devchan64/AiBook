@@ -22,7 +22,7 @@ When the story of computational resources starts to feel abstract again, reread 
 
 This section first closes why deep learning looks like `a problem of repeating the same numerical operations a huge number of times`, and why that repeated computation fits GPUs and parallel processing well. In other words, the focus here is on holding onto `the big picture of computational resources`.
 
-At the same time, it is also clear which question will be made more concrete next. What kind of data groupings and shapes are actually fed into the deep-learning computations that GPUs handle well is explained in the next section, P5-9.2, through batches and tensor computation. Why Transformers fit GPU-style parallel processing so well is revisited later in P5-14.5.
+At the same time, it is also clear which question will be made more concrete next. What kind of data groupings and shapes are actually fed into the deep-learning computations that GPUs handle well is explained in the next section, P5-9.2, through batches and tensor computation. Why Transformers fit GPU-style parallel processing so well is revisited later in P5-14.4.
 
 ## Standards For Repeated Operations And Compute Resources
 

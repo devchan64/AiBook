@@ -22,7 +22,7 @@ When you need to review shape and computation units again in a short form, retur
 
 This section focuses on grasping what kinds of batch groupings and tensor shapes `the computations GPUs handle well` actually take. In other words, rather than a rigorous definition of tensor mathematics, we first close `what shapes deep-learning computation flows through`.
 
-At the same time, it is also clear what we will not widen immediately in this section. The intuition of `why shape matters` and `how large matrix computation continues` is revisited later in P5-13.2 on attention and in P5-14.3 and P5-14.5 on Transformer computation structure.
+At the same time, it is also clear what we will not widen immediately in this section. The intuition of `why shape matters` and `how large matrix computation continues` is revisited later in P5-13.2 on attention and in P5-14.3 and P5-14.4 on Transformer computation structure.
 
 ## Standards For Parallel Units And Shape
 

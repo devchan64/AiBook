@@ -1,7 +1,7 @@
 # P5-14.1 为什么 Transformer 不能只用 attention 来解释？
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-13.2 里，我们已经看到 self-attention 是同一序列里的 token 彼此重新参考并更新表示的方式。这里马上会出现下一个问题。
 
@@ -70,7 +70,7 @@ self-attention 擅长决定当前 token 应该更强地参考其他 token 中的
 | 读法 | 能解释的内容 | 说明断开的地方 |
 | --- | --- | --- |
 | attention-only 说明 | `restart` 与 `pressure unreleased`、`held` 相关 | 读完关系之后，当前表示会变成什么动作状态 |
-| Transformer block 说明 | 读取关系、加工当前位置表示、保留原始动作意义与稳定性，并把结果传给下一个 block 的流程 | 细部计算顺序会在 P5-14.2 和 P5-14.3 中再拆开看 |
+| Transformer block 说明 | 读取关系、加工当前位置表示、保留原始动作意义与稳定性，并把结果传给下一个 block 的流程 | 细部角色分工与表示移动会在 P5-14.2 中一起处理 |
 
 这个案例的确认结果可以这样收住。
 

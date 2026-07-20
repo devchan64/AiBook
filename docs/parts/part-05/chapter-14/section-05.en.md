@@ -1,204 +1,196 @@
-# P5-14.5 How Do RNN State Passing and Transformer Relation Computation Split in Parallel Processing?
+# P5-14.5 How Do Sequential State And Direct Re-Reference Split In Long Context?
 
 > Section ID: `P5-14.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
-P5-14.1 through P5-14.4 looked at roles inside the Transformer block. Now we need to compare how the same representation computation is executed within one sequence.
+In P5-14.4, we saw how RNN sequential state passing and Transformer relation computation differ from the viewpoint of parallel processing. The observation point in P5-14.5 is not GPU efficiency, but how the final judgment in a long context attaches earlier cues again as evidence.
 
-Why does an RNN feel like sequential state passing, while a Transformer fits token-relation computation and GPU parallel processing more naturally?
+In long context, is the important thing remembering for a long time, or referring again to the earlier position that is needed?
 
-The comparison standard is not a timeline impression such as `the Transformer is newer`. The key is the difference between a computation that passes the previous step’s state forward one step at a time and a computation that is easier to organize as large matrix operations over many token relations in one layer.
+The comparison target is not the full Transformer implementation. It is the difference between `compressing an earlier rule into one state and carrying it forward` and `letting the current question find the earlier sentence it needs again`. We closed the computational efficiency of parallel processing in P5-14.4, and here we look only at the path by which a distant cue is attached again to the final judgment.
 
-## Questions About Computation Flow and Parallel Processing
+## Questions Handled By Long-Context Re-Reference And The Experiment
 
-- Why is an RNN read as a structure that passes state forward step by step?
-- Why is a Transformer read as a structure that computes token relations more all at once?
-- Why does this difference connect to GPU parallel processing and large-scale training?
+- Why can sequential state passing weaken in long context?
+- Why does self-attention give the feeling that it can refer more directly to a faraway earlier position?
+- How can sequential state and direct re-reference make different final judgments even in the same long context?
 
-## RNNs Pass State Forward Sequentially
+## Comparing Sequential Passing And Direct Re-Reference
 
-RNN-family models make each step receive the previous state and produce the next state. So the computation feel naturally looks like this.
+In an RNN, distant information has to pass through several steps of state before reaching the current point. In self-attention, by contrast, the current token can refer more directly even to a faraway token.
 
-- Read the first token and create a state.
-- Use that state while reading the second token.
-- Pass the state again to the third token.
+```mermaid
+--8<-- "assets/part-05/chapter-14/long-context-direct-reference-en.mmd"
+```
 
-`An RNN is a structure that computes sequentially while passing the state created in front to the back.`
+If we compare the same request again only through the two computation paths, it can be read as follows.
 
-This structure is natural for data where order matters, but it becomes a burden from the viewpoint of parallel processing. If a later step must wait for the earlier step’s result, even with many compute devices, it is hard to freely process the steps inside one sequence at the same time.
+```mermaid
+--8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-en.mmd"
+```
 
-## Transformers Are Closer to Computing Relations Together
-
-Self-attention in a Transformer lets each token refer to other tokens in the same sequence. So its computation feel is closer to handling token-to-token relations together as large matrix computation than to passing a state along one line.
-
-`An RNN passes state in order, while a Transformer computes token relations more together.`
-
-| Viewpoint | RNN Family | Transformer |
+| Viewpoint | Sequential State Passing | Direct Re-Reference |
 | --- | --- | --- |
-| computation flow | the previous step’s result is needed for the next step | token relations are computed more together |
-| information movement feel | state is passed along | needed positions are compared again |
-| parallel processing | sequential dependency easily becomes a bottleneck | easy to bundle into large matrix operations |
-| scale expansion | sequential burden grows as long sequences increase | easier to organize through batch and tensor computation |
+| movement of earlier cue | passed through intermediate state | the current position looks again at the earlier position it needs |
+| long-context risk | the cue can weaken as intermediate information grows | the relevant earlier position is more likely to be brought back up |
+| final judgment | depends on cue strength left inside the state | depends on relation computation between the current request and earlier evidence |
 
-GPUs are strong when many similar computations can be processed simultaneously. The batch and tensor computation seen earlier in Part 5 carry the same feeling. Transformer self-attention and feed-forward are easy to bundle into large matrix operations, so they matched this compute resource well.
+If we read the long-context problem only as `memory`, we only ask whether the model keeps holding earlier content for a long time. But the more important feeling in the Transformer structure is whether the current position can refer again to the earlier position it needs.
 
-The important observation in a parallel-processing explanation is not simply `it became faster`. It is which computations must wait and which computations can be bundled together.
+## Cases And Examples
 
-| Question to Observe | Burden in an RNN-Style Flow | Advantage in a Transformer-Style Flow |
+### Case. Restart Request While Pressure Has Not Returned
+
+Consider a long work-permit question and answer.
+
+| Candidate Cue | Relation to the Final Judgment | Direct Re-Reference View |
 | --- | --- | --- |
-| Does the next token computation have to wait for the previous step? | sequential dependency easily becomes a bottleneck | relations among many tokens in one layer are easier to compute together |
-| Are many similar multiplications repeated? | they tend to look split apart by step-level repetition | they are easy to bundle into large matrix operations on a GPU |
-| Can many sentences be trained together? | order dependency inside sentences accumulates | easier to organize through large batches and tensor computation |
+| `Do not restart line 3 before pressure is relieved` | restart blocking rule | earlier cue that must be called again |
+| `Current pressure has not yet returned to the safe range` | state where the rule still applies | earlier cue that must be called again |
+| `Sensor calibration was completed in the morning` | does not mean pressure returned to the safe range | weak cue that can be confused |
+| `Shift handoff records were updated` | weak direct relation to restart-safety judgment | cue to push away from the judgment center |
+| `Can line 3 restart be approved now?` | current question | position that must attach the earlier rule and state again |
 
-`The Transformer matched large-scale GPU training well because token relations are easy to turn into parallel matrix operations.`
+The easy criterion a person may use first is `the model read a lot, so it should remember the earlier content`. But the result to confirm in this case is not `did it remember a lot?` It is whether the blocking rule and current pressure state were attached again as evidence at the final judgment point.
 
-## Cases and Examples
+The sequential-state method tries to compress the earlier rule into one state and carry it to the end. As intermediate logs increase, the blocking-rule axis can weaken. The direct re-reference method finds the rule line and pressure-state line again at the final request point.
 
-### Case. An Operations-Permit Sentence and a Large Training Batch
+The judgment sentence in this case should close as follows.
 
-Split an operations-permit sentence into lines.
+| Method | Judgment Sentence |
+| --- | --- |
+| only weak sequential state remains | the earlier blocking rule may not remain strongly enough until the final request, so the judgment can become uncertain |
+| direct re-reference found the needed cues | the final request attaches the blocking rule and current pressure state again as evidence, so it judges toward blocking the restart |
 
-| Line | Document Content | Relation to the Final Judgment |
+## Practice And Example
+
+### Practice. Separate Needed Earlier Cues And Distracting Cues
+
+Classify each candidate cue below as `needed`, `weak`, or `close to distracting`.
+
+| Candidate Cue | Classification | Explanation |
 | --- | --- | --- |
-| 1 | `Do not restart line 3 before pressure is relieved.` | blocking rule |
-| 2 | `Sensor calibration was completed in the morning.` | intermediate operations log |
-| 3 | `Packaging material replenishment was separately approved.` | intermediate operations log |
-| 4 | `Current pressure has not yet returned to the safe range.` | current state |
-| 5 | `Shift handoff records were updated.` | intermediate operations log |
-| 6 | `Can line 3 restart be approved now?` | final question |
+| `Do not restart line 3 before pressure is relieved` | needed | this rule directly blocks the final restart-approval question |
+| `Current pressure has not yet returned to the safe range` | needed | this checks whether the blocking rule still applies |
+| `Sensor calibration was completed in the morning` | weak | sensor calibration is not the same as pressure returning to the safe range |
+| `Packaging material replenishment was separately approved` | close to distracting | even though it contains the word approved, it has weak direct relation to line-3 restart approval |
 
-The easy human standard is `the document is written in order, so read it from front to back`. But from the viewpoint of computation flow, the question must become more concrete. When comparing the blocking rule in line 1 and the current state in line 4 with the question in line 6, does the computation wait for previous step results, or can it be bundled as several relation computations in the same layer?
+Explanation: The learning point in a long-context problem is not `it read a lot`, but `it attached the evidence needed for the final judgment again`. We must not only choose the needed cues, but also push cues with weak direct relation away from the judgment center.
 
-In the RNN-style state-passing feel, earlier clues are compressed into a state and passed onward line by line. To process the line-6 question, the state created at line 1 must arrive after passing through computations for lines 2, 3, 4, and 5. So even within the same sentence, the later step waits for earlier step computation.
+### Example. Comparing A Sequential Reader And A Direct Reference Reader
 
-In the Transformer-style relation-computation feel, the relation between the line-6 question position and line 1 or line 4 can be organized inside the attention computation of the same layer. The point of P5-14.5 is not `how well the model remembers a distant clue`, but that comparisons among position pairs are easy to organize as large matrix operations. How a distant clue is called again for the final judgment is passed to the long-context question in P5-14.6.
+This example is not a Transformer implementation. It is an experiment comparing what observations two reference methods leave in long-context judgment.
 
-| Comparison Scene | Read as RNN-Style State Passing | Read as Transformer-Style Relation Computation |
+| Value to Manipulate | Output to Observe | Question to Check |
 | --- | --- | --- |
-| compare line-6 question with line-1 blocking rule | the clue must pass through steps 2 to 5 into the line-6 state | relation score between position 6 and position 1 can be computed together |
-| compare line-6 question with line-4 current pressure state | the clue must pass through step 5 into the line-6 state | relation score between position 6 and position 4 can be computed together |
-| compare position relations across several sentences in a batch | step dependency inside each sentence repeats | sentence-level relation scores are easier to organize as tensors |
-
-The result to confirm in this case is not `the Transformer is better because it is newer`. For the same final question, an RNN-style explanation asks `does the previous step state need to finish before the later step starts?`, while a Transformer-style explanation asks `can many position relations be bundled into same-layer matrix computation?` The core of the parallel-processing explanation is not the model name, but `which computations must wait and which computations can be bundled`.
-
-## Practice and Examples
-
-### Example. Compare a Sequential Trace and a Relation-Score Matrix
-
-This example is not an implementation of an actual Transformer. It is a small experiment for checking the central question of P5-14.5. We do not compare runtime. We observe that `the sequential trace accumulates by step order`, while `relation scores are organized at once as a matrix shape`.
-
-| Value to Manipulate | Output to Observe | Question to Confirm |
-| --- | --- | --- |
-| the line order in `line_features` | `recurrent trace` | Is the previous step state passed to the later step in order? |
-| `relation_kernel` | `request row`, `top related lines` | Which earlier lines have a large relation score with the current question? |
-| number of sentences placed in `batch` | `score tensor shape` | Are relation scores for several sentences bundled into one tensor computation? |
+| `decay` | `sequential_support`, `final_state` | how quickly does the earlier rule weaken inside sequential state? |
+| number of intermediate `Log:` lines | final value of the `block` axis | does sequential state shake more as unrelated intermediate sentences increase? |
+| final `Request:` sentence | `direct_decision`, top matched lines | does the current request contain cues that call the earlier rule again? |
 
 ```python
-# This example compares an RNN-style sequential trace with a Transformer-style relation-score matrix to see step accumulation versus parallel relation calculation.
-import numpy as np
-
-line_features = np.array([
-    [0.0, 1.0, 1.0, 0.0, 0.0],  # rule: pressure + block
-    [0.0, 0.0, 0.0, 1.0, 0.0],  # log
-    [0.0, 0.0, 0.0, 1.0, 0.0],  # log
-    [0.0, 1.0, 0.0, 0.0, 0.0],  # state: pressure
-    [0.0, 0.0, 0.0, 1.0, 0.0],  # log
-    [1.0, 0.0, 0.0, 0.0, 1.0],  # request: restart + question
-])
-
-line_names = [
-    "rule",
-    "sensor_log",
-    "packing_log",
-    "pressure_state",
-    "shift_log",
-    "request",
+# This example compares how sequential state weakens in long context and how direct reference finds the earlier rule again.
+context = [
+    "Rule: unstable pressure state must not be restarted.",
+    "Log: sensor calibration completed for line 3.",
+    "Log: packaging material restocked this morning.",
+    "State: pressure has not fully returned to safe range.",
+    "Log: operator schedule updated for tomorrow.",
+    "Request: restart line 3 now.",
 ]
 
-relation_kernel = np.array([
-    [1.0, 1.0, 1.0, 0.0, 1.0],
-    [0.0, 1.0, 0.3, 0.0, 0.0],
-    [0.0, 0.5, 1.0, 0.0, 0.0],
-    [0.0, 0.0, 0.0, 0.2, 0.0],
-    [1.0, 0.5, 0.5, 0.0, 1.0],
-])
+def sequential_reader(lines, decay=0.55):
+    state = {"pressure_risk": 0.0, "restart": 0.0, "block": 0.0}
+    history = []
+    for idx, line in enumerate(lines, start=1):
+        lowered = line.lower()
+        for key in state:
+            state[key] *= decay
+        if "pressure" in lowered or "unstable" in lowered:
+            state["pressure_risk"] += 1.0
+        if "restart" in lowered:
+            state["restart"] += 1.0
+        if "must not" in lowered:
+            state["block"] += 1.0
+        snapshot = {key: round(value, 3) for key, value in state.items()}
+        history.append((idx, line, snapshot))
+    support = round(min(state.values()), 3)
+    decision = "block_restart" if support >= 0.8 else "uncertain"
+    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
 
-state = np.zeros(5)
-recurrent_trace = []
-for step, (name, features) in enumerate(zip(line_names, line_features), start=1):
-    state = 0.55 * state + features
-    recurrent_trace.append((step, name, np.round(state, 3)))
+def direct_reference_reader(lines):
+    request = lines[-1].lower()
+    keywords = {"restart", "pressure", "unstable", "must", "not"}
+    scored = []
+    for idx, line in enumerate(lines[:-1], start=1):
+        words = set(line.lower().replace(".", "").replace(":", "").split())
+        score = len(words & keywords)
+        scored.append((score, idx, line))
+    top_matches = sorted(scored, reverse=True)[:2]
+    matched_lines = [line.lower() for _, _, line in top_matches]
+    decision = (
+        "block_restart"
+        if any("must not be restarted" in line for line in matched_lines)
+        and any("pressure" in line or "unstable" in line for line in matched_lines)
+        and "restart" in request
+        else "allow"
+    )
+    return top_matches, decision
 
-relation_scores = line_features @ relation_kernel @ line_features.T
-request_scores = relation_scores[-1]
-ranked = sorted(zip(request_scores, line_names), reverse=True)
+history, final_state, sequential_support, sequential_decision = sequential_reader(context)
+top_matches, direct_decision = direct_reference_reader(context)
 
-batch = np.stack([
-    line_features,
-    line_features[[0, 2, 4, 3, 1, 5]],
-    line_features[[1, 2, 0, 3, 4, 5]],
-])
-batch_scores = batch @ relation_kernel @ np.transpose(batch, (0, 2, 1))
+print("[sequential reader]")
+for idx, line, snapshot in history:
+    print(f"{idx}. {line}")
+    print("   state =", snapshot)
+print("final_state =", final_state)
+print("sequential_support =", sequential_support)
+print("sequential_decision =", sequential_decision)
+print()
 
-print("[recurrent trace]")
-for step, name, snapshot in recurrent_trace:
-    print(f"step {step}: {name:14s} state={snapshot}")
-
-print("\n[relation score matrix]")
-print("shape =", relation_scores.shape)
-print("request row =", np.round(request_scores, 1).tolist())
-print("top related lines =", [(name, float(score)) for score, name in ranked[:3]])
-
-print("\n[batched relation scores]")
-print("batch shape =", batch.shape)
-print("score tensor shape =", batch_scores.shape)
+print("[direct reference reader]")
+for score, idx, line in top_matches:
+    print(f"matched line {idx} (score={score}): {line}")
+print("direct_decision =", direct_decision)
 ```
 
-Read the output like this.
+Read the example output as follows.
 
 ```text
-[recurrent trace]
-step 1: rule           state=[0. 1. 1. 0. 0.]
-step 2: sensor_log     state=[0.   0.55 0.55 1.   0.  ]
-...
-step 6: request        state=[1.    0.353 0.05  0.808 1.   ]
+final_state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
+sequential_support = 0.05
+sequential_decision = uncertain
 
-[relation score matrix]
-shape = (6, 6)
-request row = [3.0, 0.0, 0.0, 1.5, 0.0, 4.0]
-top related lines = [('request', 4.0), ('rule', 3.0), ('pressure_state', 1.5)]
-
-[batched relation scores]
-batch shape = (3, 6, 5)
-score tensor shape = (3, 6, 6)
+matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
+matched line 4 (score=2): State: pressure has not fully returned to safe range.
+direct_decision = block_restart
 ```
 
-The first output shows the RNN-style state feel. The line-6 request state is produced only after updates from lines 1 through 5 have passed in order. The second output shows the relation-computation feel. Relations among 6 positions are placed as a `(6, 6)` matrix, and the request row gives large scores to `rule` and `pressure_state`. The third output, `(3, 6, 6)`, shows that if three sentences are bundled as a batch, each sentence’s position-relation matrix can also be organized together in tensor form.
+The first output shows how sequential state weakens while passing through context. The `block` axis starts strongly at the rule line, but only `0.05` remains by the final request.
 
-Explanation: The result to read here is not `which side is how many times faster in reality`. The core of P5-14.5 is that sequential state passing is read as a step trace, while Transformer-style relation computation is read as a position-relation matrix and batch tensor. So the parallel-processing explanation should close as a difference in computation structure, not as hardware boasting.
+![Sequential state decay](/AiBook/assets/part-05/chapter-14/sequential-state-decay-en.png)
 
-### Practice. Mark Waiting Computations and Bundled Computations
+The second output shows which lines the direct re-reference method brings back at the final request. Since the rule line and pressure-state line rise again as strong evidence, the change to read in this example is not merely that the two decision names differ. It is the difference between the earlier cue `weakening inside the state` and `being called again by the current request`.
 
-For each scene below, first mark it as `waiting` or `bundled`.
+![Direct re-reference scores](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-en.png)
 
-| Scene | Mark | Explanation |
+### Practice. Change Values And Check The Difference
+
+| Value to Change | Expected Output Change | Explanation |
 | --- | --- | --- |
-| The 3rd token computation in a sentence must receive the hidden state of the 2nd token. | waiting | The earlier step result is needed by the later step, so sequential dependency appears. |
-| Attention scores for every token pair in one sentence are computed in the same layer. | bundled | Many token relation scores are easy to organize as matrix computation. |
-| Feed-forward computation for many sentences in a batch applies the same weights to each position. | bundled | The same kind of position-wise computation is easy to process together as tensor computation. |
-| During generation, the next token that has not yet appeared must be known in advance. | waiting | There is still an order constraint during generation execution. It should be distinguished from the parallelization feel during training. |
-| A rule at the front of a document is compressed into one state and carried to the end. | closer to waiting | Since the earlier clue must pass through many steps, the burden of sequential transfer grows. |
+| raise `decay` from `0.55` to `0.8` | `sequential_support` may grow | because sequential state keeps the earlier cue longer, the `block` axis created at the rule line weakens less by the final request |
+| add three more intermediate logs | the sequential-state side can shake more easily | as intermediate lines increase, earlier cues inside state continue to decay, while direct re-reference can keep the judgment if it can find the matching earlier lines |
+| remove the word `restart` from the final request | `direct_decision` can change | if the current request loses the key word connected to the earlier rule, direct re-reference also weakens in knowing which earlier cue to call |
 
-Explanation: This practice is not about implementing an actual GPU kernel. The learning needed in P5-14.5 is to distinguish `computation that passes state`, `a flow that recalculates relations`, and `computation that can be bundled together`. This distinction is what lets us explain the Transformer’s parallel-processing advantage as a change in computation structure, not merely as an impression of speed.
+Explanation: This practice is not saying that direct re-reference always guarantees the right answer. The core is to distinguish through output changes whether earlier cues `weaken inside the state` or `are called again by the current request` in long context.
 
 ## Checklist
 
-- Can you explain an RNN as a sequential state-passing structure?
-- Can you explain a Transformer as a token-relation computation structure?
-- Can you explain why the Transformer fits parallel processing from the viewpoint of large matrix operations?
-- Can you compare RNN sequential dependency and Transformer relation computation from the viewpoint of parallel processing?
+- Can you explain the long-context problem as a difference between sequential state passing and direct re-reference?
+- Can you say that self-attention gives the feeling of referring more directly to distant positions?
+- Can you explain the difference between `sequential_support` and `direct_decision`?
+- Can you say that in long context, final judgment can change depending on how evidence is called?
 
-## Sources and References
+## Sources And References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

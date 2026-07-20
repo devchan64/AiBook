@@ -1,195 +1,161 @@
-# P5-14.6 长上下文中顺序状态和直接重参考怎样分开？
+# P5-14.6 补充学习：feed-forward network 为什么负责按位置表示加工？
 
 > Section ID: `P5-14.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
-在 P5-14.5 中，我们看到了 RNN 的顺序状态传递和 Transformer 的关系计算，从并行处理角度有什么不同。P5-14.6 的观察点不是 GPU 效率，而是在长上下文(long context)中，最后判断以什么方式把前面的线索重新接为依据。
+在 P5-14.2 中，我们看到 Transformer block 里的 feed-forward network 和 self-attention 负责不同工作。不过还会留下一个问题：`attention 已经混入上下文了，为什么还需要 feed-forward？`
 
-长上下文中重要的是长期记住，还是重新参考需要的前面位置？
+在 Transformer block 中，feed-forward network 不是重新选择要参考哪个 token 的装置，而是重新加工每个已经通过 attention 混入上下文的位置表示的装置。
 
-比较对象不是完整 Transformer 实现，而是长上下文中`把前面规则压缩到一个状态里带着走的方式`和`当前问题重新寻找自己需要的前面句子的方式`。并行处理的计算效率已经在 P5-14.5 中收住，这里只看远处线索重新接到最终判断上的路径。
+术语再次分散时，可以把概念词汇表中的 [feed-forward network](../../../reference/concept-glossary.md#feed-forward-network) 条目和 P5-14.2 的四个部件角色分工一起重读。
 
-## 长上下文重参考和实验处理的问题
+## attention 之后为什么还要再加工一次？
 
-- 长上下文中，顺序状态传递为什么可能变弱？
-- self-attention 为什么会给人更直接参考远处前面位置的感觉？
-- 顺序状态方式和直接重参考方式，为什么在同一个长上下文中也可能做出不同最终判断？
+self-attention 决定当前位置应该从其他位置带来什么信息。但`参考了什么`和`怎样把这个参考结果变成当前位置的下一个表示`不是同一个问题。
 
-## 比较顺序传递和直接重参考
+例如，在`压力未解除时保留重启`这类句子里，假设 `restart` 位置通过 attention 同时看到了 `pressure unreleased` 和 `hold`。这时 attention 会混入关系，但要把这个结果更清楚地加工成`简单处置`、`带条件的处置`、`应被阻断的处置`中的哪一类，还需要另外的变换。在 Transformer block 中，feed-forward network 就负责这个角色。
 
-在 RNN 中，远处信息要到达当前点，必须经过多个 step 的状态传递。相比之下，在 self-attention 中，当前 token 可以更直接地参考相距很远的 token。
+简短拆开如下。
 
-```mermaid
---8<-- "assets/part-05/chapter-14/long-context-direct-reference-zh.mmd"
-```
-
-把同一个请求只按两条计算路径再比较一次，可以这样看。
-
-```mermaid
---8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-zh.mmd"
-```
-
-| 视角 | 顺序状态传递 | 直接重参考 |
+| 问题 | 更直接负责的部件 | 原因 |
 | --- | --- | --- |
-| 前面线索移动 | 经过中间状态传递 | 当前位置重新看所需的前面位置 |
-| 长上下文风险 | 中间信息越长，线索越可能变弱 | 更可能把相关前面位置重新拉上来 |
-| 最后判断 | 依赖状态里剩下的线索强度 | 依赖当前请求和前面依据的关系计算 |
+| 当前位置应该参考哪个其他位置？ | self-attention | 因为它读取 token 之间的关系。 |
+| 混入参考上下文后的当前表示要怎样改变？ | feed-forward network | 因为它在同一个位置内部重新做非线性加工。 |
 
-如果只把长上下文问题读成`记忆力`，就只会看模型是否把前面内容长期抓住。但在 Transformer 结构中，更重要的感觉是当前位置能否重新参考自己需要的前面位置。
+## 把同一个 FFN 应用到多个位置是什么意思？
+
+Transformer 的 feed-forward network 通常对每个位置应用相同权重。这里的`相同`不是说所有位置都会变成相同输出。如果输入表示因位置而不同，即使经过同一个变换，输出也会不同。
+
+```mermaid
+--8<-- "assets/part-05/chapter-14/feed-forward-position-update-zh.mmd"
+```
+
+这张图中，虚线表示相同权重在多个位置共享，实线表示每个位置表示会在自己的位置内部分别加工。因此 feed-forward network 既不是按顺序传递状态的装置，也不是选择新参考位置的装置。它是把已经混入上下文的各位置表示，用同一套规则再次变换的装置。
+
+使用同一个 FFN，并不意味着把所有 token 变成同一种意义。应该读成`让不同输入表示通过同一套加工标准`。
+
+## 为什么需要非线性加工？
+
+如果把 feed-forward network 读成简单的数字后处理，Transformer block 的一半就消失了。attention 混入上下文之后，表示仍然是多个线索一起进入的状态。feed-forward network 会把这个混合表示进一步分离、压缩成当前位置的下一个表示。
+
+| attention 之后表示中留下的状态 | feed-forward 帮助的事 |
+| --- | --- |
+| 多个线索已经混入，但当前位置意义仍然模糊 | 在当前位置内部把意义轴加工得更清楚 |
+| 只靠简单线性组合时，条件、否定、例外等差异可能较弱 | 通过非线性变换更好地凸显线索组合差异 |
+| 每个位置接收了不同混合上下文 | 应用同一个 FFN，但为每个位置产生不同输出表示 |
+
+这里的`非线性`不是要求马上背公式。入门阶段，把它读成`把单纯相加或平均后的表示，变成下一个 block 能使用的、更有区分度的表示的过程`就足够了。
 
 ## 案例与示例
 
-### 案例：压力未恢复状态下的重启请求
+### 案例：在工作许可句子中加工处置表示
 
-看一个较长的工作许可问答。
+在工作许可句子中，如果只看 `restart` 这个词，人会先想到`重新打开产线`这个动作。但如果句子里同时有 `pressure unreleased` 和 `hold`，当前位置表示就应该从简单动作名，转向`因为带有条件而必须被阻断的处置`。
 
-| 候选线索 | 与最后判断的关系 | 直接重参考视角 |
+self-attention 会让 `restart` 同时看到 `pressure unreleased` 和 `hold`。feed-forward network 会在当前位置内部再次加工这个混合表示，帮助 `restart` 表示更接近条件性阻断处置，而不是简单执行请求。
+
+| 人容易先看到的表达 | attention 之后混入的上下文 | feed-forward 之后应更清楚的表示 |
 | --- | --- | --- |
-| `压力解除前，不得重启 3 号线` | 重启阻断规则 | 必须重新调用的前面线索 |
-| `当前压力尚未回到安全范围` | 规则现在仍适用的状态 | 必须重新调用的前面线索 |
-| `传感器校准已在上午完成` | 不表示压力已回到安全范围 | 可能混淆的弱线索 |
-| `交接班记录已更新` | 与重启安全判断直接关系弱 | 应从判断中心推开的线索 |
-| `现在可以批准 3 号线重启吗？` | 当前问题 | 必须重新接上前面规则和状态的位置 |
+| `restart` 是执行动作 | `pressure unreleased`、`hold` 一起混入 | `带条件的阻断对象处置` |
+| `approval` 是允许信号 | `verification incomplete`、`no exception` 一起混入 | `还不是最终批准` |
+| `deployment` 是作业推进 | `rollback not confirmed`、`symptom continues` 一起混入 | `恢复确认前的风险作业` |
 
-人最容易先用的标准是`文档读了很多，所以应该记得前面内容`。但这个案例要确认的结果不是`记住了很多吗`，而是最后判断时是否把禁止规则和当前压力状态重新接为依据。
-
-顺序状态方式试图把前面规则压缩成一个状态并带到最后。中间日志变多时，禁止规则轴可能变弱。直接重参考方式则在最后请求时重新找回规则行和压力状态行。
-
-这个案例的判断句应该这样收束。
-
-| 方式 | 判断句 |
-| --- | --- |
-| 只剩下较弱的顺序状态 | 前面的禁止规则可能没有足够强地留到最后请求，因此判断可能变得不确定 |
-| 直接重参考找到了所需线索 | 最后请求把禁止规则和当前压力状态重新接为依据，因此判断会偏向阻断重启 |
+这个案例要确认的结果是：feed-forward network 不是寻找新的依据位置，而是把已经通过 attention 进入的依据，在当前位置表示内部加工成更有区分度的意义。
 
 ## 练习与例子
 
-### 练习：区分需要的前面线索和干扰线索
+### 例子：确认同一个 FFN 后各位置输出是否不同
 
-请把下面候选线索分成`需要`、`弱`、`接近干扰`。
-
-| 候选线索 | 分类 | 解说 |
-| --- | --- | --- |
-| `压力解除前，不得重启 3 号线` | 需要 | 这是直接阻止最后重启批准问题的规则。 |
-| `当前压力尚未回到安全范围` | 需要 | 它确认禁止规则现在是否仍然适用。 |
-| `传感器校准已在上午完成` | 弱 | 传感器校准不等于压力回到安全范围。 |
-| `包装材料补充作业已另行批准` | 接近干扰 | 即使有“批准”这个词，也和 3 号线重启批准的直接关系较弱。 |
-
-解说：长上下文问题的学习点不是`读了很多`，而是`把最后判断所需依据重新接上`。不仅要选出需要的线索，也要把直接关系弱的线索从判断中心推开。
-
-### 例子：比较 sequential reader 和 direct reference reader
-
-这个例子不是 Transformer 实现，而是比较两种参考方式在长上下文判断中留下什么观察值。
+这个例子不是实际 Transformer 实现，而是确认 feed-forward network 的按位置加工感觉的小实验。假设 attention 之后已经有三个位置表示混入了上下文，并且相同 FFN 权重会同样应用到各位置。
 
 | 要操作的值 | 要观察的输出 | 要确认的问题 |
 | --- | --- | --- |
-| `decay` | `sequential_support`, `final_state` | 前面规则在顺序状态里多快变弱？ |
-| 中间 `Log:` 行数 | `block` 轴的最后值 | 不相关的中间句子越多，顺序状态是否越容易摇晃？ |
-| 最后 `Request:` 句子 | `direct_decision`, 上位 matched line | 当前请求是否带有重新调用前面规则的线索？ |
+| `positions` 的每一行 | `hidden`, `output` | 即使经过同一个 FFN，各位置输出是否也不同？ |
+| `restart` 位置的输入值 | `restart before/after` | 如果当前位置表示改变，同一个 FFN 是否也会朝不同方向加工？ |
+| 只改变 `changed[1]` | `other positions unchanged` | 一个位置的 FFN 计算是否不会重新参考其他位置？ |
 
 ```python
-# 这个例子比较长上下文中顺序状态变弱的过程，以及 direct reference 重新找到前面规则的过程。
-context = [
-    "Rule: unstable pressure state must not be restarted.",
-    "Log: sensor calibration completed for line 3.",
-    "Log: packaging material restocked this morning.",
-    "State: pressure has not fully returned to safe range.",
-    "Log: operator schedule updated for tomorrow.",
-    "Request: restart line 3 now.",
-]
+# 这个例子确认即使同一个 feed-forward network 被共享应用到各位置表示，各位置的 hidden 和 output 也会如何被不同地加工。
+import numpy as np
 
-def sequential_reader(lines, decay=0.55):
-    state = {"pressure_risk": 0.0, "restart": 0.0, "block": 0.0}
-    history = []
-    for idx, line in enumerate(lines, start=1):
-        lowered = line.lower()
-        for key in state:
-            state[key] *= decay
-        if "pressure" in lowered or "unstable" in lowered:
-            state["pressure_risk"] += 1.0
-        if "restart" in lowered:
-            state["restart"] += 1.0
-        if "must not" in lowered:
-            state["block"] += 1.0
-        snapshot = {key: round(value, 3) for key, value in state.items()}
-        history.append((idx, line, snapshot))
-    support = round(min(state.values()), 3)
-    decision = "block_restart" if support >= 0.8 else "uncertain"
-    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
+positions = np.array([
+    [0.2, 0.1, 0.9, 0.1],  # pressure_state: condition signal high
+    [0.8, 0.2, 0.2, 0.1],  # restart: action signal high
+    [0.3, 0.9, 0.2, 0.7],  # hold: block/negation signal high
+])
 
-def direct_reference_reader(lines):
-    request = lines[-1].lower()
-    keywords = {"restart", "pressure", "unstable", "must", "not"}
-    scored = []
-    for idx, line in enumerate(lines[:-1], start=1):
-        words = set(line.lower().replace(".", "").replace(":", "").split())
-        score = len(words & keywords)
-        scored.append((score, idx, line))
-    top_matches = sorted(scored, reverse=True)[:2]
-    matched_lines = [line.lower() for _, _, line in top_matches]
-    decision = (
-        "block_restart"
-        if any("must not be restarted" in line for line in matched_lines)
-        and any("pressure" in line or "unstable" in line for line in matched_lines)
-        and "restart" in request
-        else "allow"
-    )
-    return top_matches, decision
+position_names = ["pressure_state", "restart", "hold"]
 
-history, final_state, sequential_support, sequential_decision = sequential_reader(context)
-top_matches, direct_decision = direct_reference_reader(context)
+w1 = np.array([
+    [1.0, -0.2, 0.8],
+    [0.3, 1.2, -0.6],
+    [0.8, 0.1, 0.5],
+    [-0.4, 0.7, 1.0],
+])
+b1 = np.array([-0.2, -0.1, 0.0])
+w2 = np.array([
+    [0.9, 0.2],
+    [-0.3, 1.0],
+    [0.4, 0.8],
+])
 
-print("[sequential reader]")
-for idx, line, snapshot in history:
-    print(f"{idx}. {line}")
-    print("   state =", snapshot)
-print("final_state =", final_state)
-print("sequential_support =", sequential_support)
-print("sequential_decision =", sequential_decision)
-print()
+def relu(x):
+    return np.maximum(x, 0.0)
 
-print("[direct reference reader]")
-for score, idx, line in top_matches:
-    print(f"matched line {idx} (score={score}): {line}")
-print("direct_decision =", direct_decision)
+def ffn(x):
+    hidden = relu(x @ w1 + b1)
+    output = hidden @ w2
+    return hidden, output
+
+hidden, output = ffn(positions)
+
+print("[same FFN, different positions]")
+for name, before, h, after in zip(position_names, positions, hidden, output):
+    print(f"{name:15s} input={np.round(before, 2)} hidden={np.round(h, 2)} output={np.round(after, 2)}")
+
+changed = positions.copy()
+changed[1] += np.array([0.0, 0.5, 0.0, 0.4])
+_, changed_output = ffn(changed)
+
+print("\n[change only restart position]")
+print("restart before/after =", np.round(output[1], 2), "->", np.round(changed_output[1], 2))
+print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[[0, 2]]))
 ```
 
 输出示例可以这样读。
 
 ```text
-final_state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
-sequential_support = 0.05
-sequential_decision = uncertain
+[same FFN, different positions]
+pressure_state  input=[0.2 0.1 0.9 0.1] hidden=[0.71 0.14 0.65] output=[0.86 0.8 ]
+restart         input=[0.8 0.2 0.2 0.1] hidden=[0.78 0.07 0.72] output=[0.97 0.8 ]
+hold            input=[0.3 0.9 0.2 0.7] hidden=[0.25 1.43 0.5 ] output=[-0.    1.88]
 
-matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
-matched line 4 (score=2): State: pressure has not fully returned to safe range.
-direct_decision = block_restart
+[change only restart position]
+restart before/after = [0.97 0.8 ] -> [0.74 1.76]
+other positions unchanged = True
 ```
 
-第一个产物展示顺序状态怎样穿过上下文而变弱。`block` 轴在规则行很强，但经过中间日志后，到最后请求时只剩下 `0.05`。
+第一个输出表明，即使应用同一个 FFN，只要各位置输入表示不同，hidden 和 output 也会不同。第二个输出表明，只改变 `restart` 位置的输入时，只会改变该位置的输出，其他位置输出保持不变。
 
-![顺序状态弱化](/AiBook/assets/part-05/chapter-14/sequential-state-decay-zh.png)
+解说：这个例子要读出的结果是，feed-forward network 不是选择新 token 的装置。参考其他位置已经在 attention 阶段发生，FFN 会让进入各位置的表示通过同一套加工标准。因此，即使共享同一个 FFN，各位置输出也可能不同。
 
-第二个产物展示直接重参考方式在最后请求时重新拉回哪些行。规则行和压力状态行重新浮为高依据，所以这个例子要读出的变化，不只是两个决策名称不同，而是前面线索是在`状态里变弱`，还是在`当前请求中重新被调用`。
+### 练习：把当前位置表示改写成语言
 
-![直接重参考分数](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-zh.png)
+假设下面场景中，attention 之后已经混入上下文。请用语言写出 feed-forward 之后当前位置表示应该朝什么方向加工。
 
-### 练习：改变数值确认差异
+| 当前位置 | attention 混入的线索 | feed-forward 之后的表示方向 | 解说 |
+| --- | --- | --- | --- |
+| `restart` | `pressure unreleased`, `hold` | 条件性阻断处置 | 不能只读作动作本身，而应读作因安全条件而被阻断的处置。 |
+| `approval` | `verification incomplete`, `no exception` | 最终批准前的保留状态 | 不能只看 approval 这个词，要把未完成条件反映到当前表示中。 |
+| `deployment` | `rollback not confirmed`, `symptom continues` | 恢复确认前的风险作业 | deployment 应被加工成仍然留下风险的作业，而不是单纯推进。 |
 
-| 要改变的值 | 预期输出变化 | 解说 |
-| --- | --- | --- |
-| 把 `decay` 从 `0.55` 提高到 `0.8` | `sequential_support` 可能变大 | 顺序状态会更久保留前面线索，因此规则行产生的 `block` 轴到最后请求时弱化得更少。 |
-| 再增加 3 行中间日志 | 顺序状态一侧更容易摇晃 | 中间行越多，状态里的前面线索会继续衰减；但直接重参考只要能找到关键词匹配的前面行，就可能保持判断。 |
-| 从最后请求中去掉 `restart` 一词 | `direct_decision` 可能改变 | 如果当前请求缺少连接前面规则的核心词，直接重参考也会变弱，不知道该调用哪个前面线索。 |
-
-解说：这个练习不是说直接重参考总能保证正确答案。核心是通过输出变化区分，长上下文中的前面线索是在`状态里变弱`，还是在`当前请求中被重新调用`。
+解说：好的答案不是华丽术语，而是清楚写出`当前位置表示应该朝哪个方向改变`。有了这种感觉，阅读已经整合到 P5-14.2 的表示移动例子时，才能把 `feed-forward output` 读成按位置的意义加工结果，而不是单纯中间数字。
 
 ## 检查清单
 
-- 能把长上下文问题解释成顺序状态传递和直接重参考的差异吗？
-- 能说明 self-attention 给人更直接参考远处位置的感觉吗？
-- 能解释 `sequential_support` 和 `direct_decision` 的差异吗？
-- 能说明长上下文中最终判断可能随依据调用方式而改变吗？
+- 能把 feed-forward network 解释成 attention 之后的按位置表示加工，而不是简单后处理吗？
+- 能说明即使同一个 FFN 应用到多个位置，输入表示不同也会产生不同输出表示吗？
+- 能区分 self-attention 的`关系读取`和 feed-forward network 的`位置内变换`吗？
 
 ## 来源与参考资料
 

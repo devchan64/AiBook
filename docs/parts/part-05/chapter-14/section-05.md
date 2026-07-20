@@ -1,204 +1,196 @@
-# P5-14.5 RNN의 상태 전달과 Transformer의 관계 계산은 병렬 처리에서 어떻게 갈라지는가
+# P5-14.5 긴 문맥에서 순차 상태와 직접 재참조는 어떻게 갈라지는가
 
 > Section ID: `P5-14.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
-P5-14.1부터 P5-14.4까지는 Transformer 블록 안의 역할을 보았습니다. 이제 같은 표현 계산이 한 시퀀스 안에서 어떤 순서로 실행되는지 RNN과 비교해야 합니다.
+P5-14.4에서는 RNN의 순차 상태 전달과 Transformer의 관계 계산이 병렬 처리 관점에서 어떻게 다른지 보았습니다. P5-14.5의 관찰값은 GPU 효율이 아니라 긴 문맥(long context)에서 마지막 판단이 앞 단서를 어떤 방식으로 다시 근거로 붙이는가입니다.
 
-RNN은 왜 순차 상태 전달처럼 느껴지고, Transformer는 왜 토큰 관계 계산과 GPU 병렬 처리에 더 잘 맞는가?
+긴 문맥에서 중요한 것은 오래 기억하는 것인가, 필요한 앞 위치를 다시 참고하는 것인가?
 
-비교 기준은 `Transformer가 더 최신이다` 같은 시간순 인상이 아닙니다. 핵심은 앞 step 상태를 차례로 넘기는 계산과, 한 층 안의 여러 토큰 관계를 큰 행렬 연산으로 묶기 쉬운 계산의 차이입니다.
+비교 대상은 Transformer 전체 구현이 아니라, 긴 문맥에서 `앞 규칙을 상태 하나에 압축해 들고 가는 방식`과 `현재 질문이 필요한 앞 문장을 다시 찾는 방식`입니다. 병렬 처리의 계산 효율은 P5-14.4에서 닫고, 여기서는 먼 단서가 최종 판단에 다시 붙는 경로만 봅니다.
 
-## 계산 흐름과 병렬 처리가 다루는 질문
+## 긴 문맥 재참조와 실험이 다루는 질문
 
-- RNN은 왜 앞 step 상태를 뒤로 넘기는 구조로 읽히는가?
-- Transformer는 왜 토큰 관계를 더 한꺼번에 계산하는 구조로 읽히는가?
-- 이 차이는 왜 GPU 병렬 처리와 대규모 학습으로 이어지는가?
+- 긴 문맥에서 순차 상태 전달은 왜 약해질 수 있는가?
+- self-attention은 왜 먼 앞 위치를 더 직접 참고하는 감각을 주는가?
+- 순차 상태 방식과 직접 재참조 방식은 같은 긴 문맥에서도 최종 판단을 어떻게 다르게 만들 수 있는가?
 
-## RNN은 상태를 차례로 넘긴다
+## 순차 전달과 직접 재참조를 비교하면
 
-RNN 계열은 각 step가 이전 상태를 이어받아 다음 상태를 만듭니다. 따라서 계산 감각이 자연스럽게 다음처럼 보입니다.
+RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 전달해야 합니다. 반면 self-attention에서는 현재 토큰이 멀리 떨어진 토큰도 더 직접 참고할 수 있습니다.
 
-- 첫 토큰을 보고 상태를 만듭니다.
-- 그 상태를 가지고 두 번째 토큰을 봅니다.
-- 다시 그 상태를 세 번째 토큰으로 넘깁니다.
+```mermaid
+--8<-- "assets/part-05/chapter-14/long-context-direct-reference-ko.mmd"
+```
 
-`RNN은 앞에서 만든 상태를 뒤로 넘겨 가며 순차적으로 계산하는 구조다.`
+같은 요청 하나를 두 계산 경로로만 다시 비교하면 다음처럼 볼 수 있습니다.
 
-이 구조는 순서가 중요한 데이터를 다루는 데 자연스럽지만, 병렬 처리 관점에서는 부담이 됩니다. 뒤 step이 앞 step 결과를 기다려야 하면, 계산 장비가 많아도 한 시퀀스 안의 step을 마음대로 동시에 처리하기 어렵습니다.
+```mermaid
+--8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-ko.mmd"
+```
 
-## Transformer는 관계를 한꺼번에 계산하는 쪽에 가깝다
-
-Transformer의 self-attention은 각 토큰이 같은 시퀀스 안 다른 토큰을 함께 참고하게 만듭니다. 그래서 계산 감각은 상태를 한 줄로 넘기는 쪽보다, 토큰들 사이 관계를 큰 행렬 계산으로 함께 다루는 쪽에 가깝습니다.
-
-`RNN은 순서대로 상태를 전달하고, Transformer는 토큰들 사이 관계를 더 한꺼번에 계산한다.`
-
-| 관점 | RNN 계열 | Transformer |
+| 관점 | 순차 상태 전달 | 직접 재참조 |
 | --- | --- | --- |
-| 계산 흐름 | 앞 step 결과가 다음 step에 필요하다 | 토큰 관계를 더 한꺼번에 계산한다 |
-| 정보 이동 감각 | 상태를 이어 전달한다 | 필요한 위치를 다시 비교한다 |
-| 병렬 처리 | 순차 의존성이 병목이 되기 쉽다 | 큰 행렬 연산으로 묶기 쉽다 |
-| 규모 확장 | 긴 시퀀스가 많아질수록 순차 부담이 커진다 | 배치와 텐서 계산으로 규모를 키우기 쉽다 |
+| 앞 단서 이동 | 중간 상태를 거쳐 전달됨 | 현재 위치가 필요한 앞 위치를 다시 봄 |
+| 긴 문맥 위험 | 중간 정보가 길어질수록 단서가 약해질 수 있음 | 관련 앞 위치를 다시 끌어올 가능성이 커짐 |
+| 마지막 판단 | 상태 안에 남은 단서 강도에 의존 | 현재 요청과 앞 근거의 관계 계산에 의존 |
 
-GPU는 비슷한 계산을 많이 동시에 처리할 때 강합니다. Part 5 앞쪽에서 본 배치(batch)와 텐서(tensor) 계산도 같은 감각입니다. Transformer의 self-attention과 feed-forward는 큰 행렬 연산으로 묶기 쉬워 이런 계산 자원과 잘 맞았습니다.
-
-병렬 처리 설명에서 중요한 관찰값은 `속도가 빨라졌다`가 아니라, 어떤 계산이 기다려야 하고 어떤 계산은 함께 묶을 수 있는가입니다.
-
-| 관찰할 질문 | RNN식 흐름에서 생기는 부담 | Transformer식 흐름에서 보이는 장점 |
-| --- | --- | --- |
-| 다음 토큰 계산이 앞 step 완료를 기다리는가 | 순차 의존성이 병목이 되기 쉽다 | 한 층 안의 여러 토큰 관계를 함께 계산하기 쉽다 |
-| 같은 종류의 곱셈이 많이 반복되는가 | step 단위 반복으로 쪼개져 보이기 쉽다 | 큰 행렬 연산으로 묶어 GPU에 올리기 쉽다 |
-| 많은 문장을 한꺼번에 학습할 수 있는가 | 문장 안 순서 의존성이 누적된다 | 대규모 배치와 텐서 계산으로 조직하기 쉽다 |
-
-`Transformer는 토큰 간 관계를 병렬 행렬 연산으로 바꾸기 쉬워서, 대규모 GPU 학습과 잘 맞았다.`
+긴 문맥 문제를 `기억력`으로만 읽으면 모델이 앞 내용을 오래 붙잡고 있느냐만 보게 됩니다. 하지만 Transformer 구조에서 더 중요한 감각은 현재 위치가 필요한 앞 위치를 다시 참고할 수 있느냐입니다.
 
 ## 사례 및 예시
 
-### 사례. 작업 허가 문장과 대량 학습 배치
+### 사례. 압력 미복귀 상태의 재기동 요청
 
-작업 허가 문장을 줄 단위로 나누어 보겠습니다.
+긴 작업 허가 질의응답을 보겠습니다.
 
-| 줄 | 문서 내용 | 마지막 판단과의 관계 |
+| 후보 단서 | 마지막 판단과의 관계 | 직접 재참조 관점 |
 | --- | --- | --- |
-| 1 | `압력 해소 전에는 라인 3을 재기동하지 않는다.` | 금지 규칙 |
-| 2 | `센서 보정은 오전에 완료되었다.` | 중간 운영 로그 |
-| 3 | `포장재 보충 작업은 별도 승인되었다.` | 중간 운영 로그 |
-| 4 | `현재 압력은 아직 안전 범위로 돌아오지 않았다.` | 현재 상태 |
-| 5 | `근무 교대 기록은 갱신되었다.` | 중간 운영 로그 |
-| 6 | `지금 라인 3 재기동을 승인해도 되는가?` | 마지막 질문 |
+| `압력 해소 전에는 라인 3을 재기동하지 않는다` | 재기동 차단 규칙 | 반드시 다시 불러와야 하는 앞 단서 |
+| `현재 압력은 아직 안전 범위로 돌아오지 않았다` | 규칙이 현재도 적용되는 상태 | 반드시 다시 불러와야 하는 앞 단서 |
+| `센서 보정은 오전에 완료되었다` | 안전 범위 복귀를 뜻하지 않음 | 혼동될 수 있는 약한 단서 |
+| `근무 교대 기록은 갱신되었다` | 재기동 안전 판단과 직접 관계 약함 | 판단 중심에서 밀어낼 단서 |
+| `지금 라인 3 재기동을 승인해도 되는가?` | 현재 질문 | 앞 규칙과 상태를 다시 붙여야 하는 위치 |
 
-사람이 먼저 쓰기 쉬운 기준은 `문서가 순서대로 쓰였으니 앞에서 뒤로 읽으면 된다`입니다. 하지만 계산 흐름 관점에서는 더 구체적으로 물어야 합니다. 1번 줄의 금지 규칙과 4번 줄의 현재 상태를 6번 줄의 질문과 비교할 때, 계산은 앞 step 결과를 기다리는가, 아니면 같은 층의 여러 관계 계산으로 묶을 수 있는가?
+사람이 먼저 쓰기 쉬운 기준은 `문서를 많이 읽었으니 앞 내용을 기억해야 한다`입니다. 하지만 이 사례에서 확인해야 할 결과는 `많이 기억했는가`가 아닙니다. 마지막 판단 시점에 금지 규칙과 현재 압력 상태를 다시 근거로 붙였는가입니다.
 
-RNN식 상태 전달 감각에서는 앞 단서가 다음 줄 상태로 계속 압축되어 넘어갑니다. 6번 질문을 처리하려면 1번에서 만든 상태가 2번, 3번, 4번, 5번 계산을 거쳐 도착해야 합니다. 따라서 같은 문장 안에서도 뒤 step은 앞 step 계산이 끝나기를 기다리는 구조가 됩니다.
+순차 상태 방식은 앞 규칙을 하나의 상태에 압축해 끝까지 가져가려 합니다. 중간 로그가 많아지면 금지 규칙 축이 약해질 수 있습니다. 직접 재참조 방식은 마지막 요청 시점에 규칙 줄과 압력 상태 줄을 다시 찾아옵니다.
 
-Transformer식 관계 계산 감각에서는 6번 질문 위치와 1번 규칙, 4번 상태 사이의 관계를 같은 층의 attention 계산 안에서 구성할 수 있습니다. 이때 P5-14.5에서 보는 핵심은 `먼 앞 단서를 얼마나 잘 기억하는가`가 아니라, 위치 쌍의 비교를 큰 행렬 연산으로 조직하기 쉽다는 점입니다. 먼 단서가 마지막 판단에서 어떻게 다시 호출되는지는 P5-14.6의 긴 문맥 문제로 넘깁니다.
+이 사례의 판단 문장은 다음처럼 닫혀야 합니다.
 
-| 비교 장면 | RNN식 상태 전달로 읽을 때 | Transformer식 관계 계산으로 읽을 때 |
-| --- | --- | --- |
-| 6번 질문과 1번 금지 규칙 비교 | 2~5번 step을 지나 6번 상태로 전달되어야 한다 | 6번 위치와 1번 위치의 관계 점수로 함께 계산될 수 있다 |
-| 6번 질문과 4번 현재 압력 상태 비교 | 5번 step을 거쳐 6번 상태로 전달되어야 한다 | 6번 위치와 4번 위치의 관계 점수로 함께 계산될 수 있다 |
-| 배치 안 여러 문장의 위치 관계 비교 | 문장 안 step 의존성이 반복된다 | 문장별 관계 score를 텐서 형태로 함께 조직하기 쉽다 |
-
-이 사례에서 확인해야 할 결과는 `Transformer가 새 모델이라 더 좋다`가 아닙니다. 같은 마지막 질문을 두고도 RNN식 설명은 `앞 step 상태가 끝나야 뒤 step이 시작되는가`를 묻고, Transformer식 설명은 `여러 위치 관계를 같은 층의 행렬 계산으로 묶을 수 있는가`를 묻습니다. 병렬 처리 설명의 핵심은 모델 이름이 아니라 `기다려야 하는 계산이 무엇이고, 함께 묶을 수 있는 계산이 무엇인가`입니다.
+| 방식 | 판단 문장 |
+| --- | --- |
+| 순차 상태만 약하게 남은 경우 | 앞 금지 규칙이 마지막 요청까지 충분히 남지 않아 판단이 불확실해질 수 있다 |
+| 직접 재참조가 필요한 단서를 찾은 경우 | 마지막 요청이 금지 규칙과 현재 압력 상태를 다시 근거로 붙여 재기동 차단 쪽으로 판단한다 |
 
 ## 연습 및 예제
 
-### 예제. 순차 trace와 관계 score 행렬 비교하기
+### 연습. 필요한 앞 단서와 방해 단서 나누기
 
-이 예제는 실제 Transformer 구현이 아니라, P5-14.5의 중심 질문을 작은 출력으로 확인하는 실험입니다. 실행 시간 비교가 아니라 `순차 trace는 step 순서로 쌓이고`, `관계 score는 행렬 shape로 한꺼번에 조직된다`는 차이를 봅니다.
+아래 후보 단서를 `필요`, `약함`, `방해에 가까움`으로 나누어 보십시오.
+
+| 후보 단서 | 분류 | 해설 |
+| --- | --- | --- |
+| `압력 해소 전에는 라인 3을 재기동하지 않는다` | 필요 | 마지막 재기동 승인 질문을 직접 막는 규칙입니다. |
+| `현재 압력은 아직 안전 범위로 돌아오지 않았다` | 필요 | 금지 규칙이 현재도 적용되는지 확인합니다. |
+| `센서 보정은 오전에 완료되었다` | 약함 | 센서 보정은 압력 안전 범위 복귀와 같지 않습니다. |
+| `포장재 보충 작업은 별도 승인되었다` | 방해에 가까움 | 승인이라는 단어가 있어도 라인 3 재기동 승인과 직접 관계가 약합니다. |
+
+해설: 긴 문맥 문제의 학습 포인트는 `많이 읽었다`가 아니라 `마지막 판단에 필요한 근거를 다시 붙였다`입니다. 필요한 단서만 고르는 것이 아니라, 직접 관계가 약한 단서를 판단 중심에서 밀어내야 합니다.
+
+### 예제. sequential reader와 direct reference reader 비교
+
+이 예제는 Transformer 구현이 아니라, 긴 문맥 판단에서 두 참조 방식이 어떤 관찰값을 남기는지 비교하는 실험입니다.
 
 | 조작할 값 | 관찰할 출력 | 확인할 질문 |
 | --- | --- | --- |
-| `line_features`의 줄 순서 | `recurrent trace` | 앞 step 상태가 뒤 step으로 순서대로 전달되는가 |
-| `relation_kernel` | `request row`, `top related lines` | 현재 질문이 어떤 앞 줄과 관계 score를 크게 갖는가 |
-| `batch`에 넣은 문장 개수 | `score tensor shape` | 여러 문장의 관계 score가 하나의 텐서 계산으로 묶이는가 |
+| `decay` | `sequential_support`, `final_state` | 앞 규칙이 순차 상태 안에서 얼마나 빨리 약해지는가 |
+| 중간 `Log:` 줄 개수 | `block` 축의 마지막 값 | 관련 없는 중간 문장이 늘어날수록 순차 상태가 더 흔들리는가 |
+| 마지막 `Request:` 문장 | `direct_decision`, 상위 matched line | 현재 요청이 앞 규칙을 다시 호출할 단서를 갖고 있는가 |
 
 ```python
-# RNN식 순차 trace와 Transformer식 관계 score 행렬을 비교해 step 순서 누적과 병렬 관계 계산의 차이를 확인하는 예제입니다.
-import numpy as np
-
-line_features = np.array([
-    [0.0, 1.0, 1.0, 0.0, 0.0],  # rule: pressure + block
-    [0.0, 0.0, 0.0, 1.0, 0.0],  # log
-    [0.0, 0.0, 0.0, 1.0, 0.0],  # log
-    [0.0, 1.0, 0.0, 0.0, 0.0],  # state: pressure
-    [0.0, 0.0, 0.0, 1.0, 0.0],  # log
-    [1.0, 0.0, 0.0, 0.0, 1.0],  # request: restart + question
-])
-
-line_names = [
-    "rule",
-    "sensor_log",
-    "packing_log",
-    "pressure_state",
-    "shift_log",
-    "request",
+# 긴 문맥에서 순차 상태가 약해지는 과정과 direct reference가 앞 규칙을 다시 찾는 과정을 비교하는 예제입니다.
+context = [
+    "Rule: unstable pressure state must not be restarted.",
+    "Log: sensor calibration completed for line 3.",
+    "Log: packaging material restocked this morning.",
+    "State: pressure has not fully returned to safe range.",
+    "Log: operator schedule updated for tomorrow.",
+    "Request: restart line 3 now.",
 ]
 
-relation_kernel = np.array([
-    [1.0, 1.0, 1.0, 0.0, 1.0],
-    [0.0, 1.0, 0.3, 0.0, 0.0],
-    [0.0, 0.5, 1.0, 0.0, 0.0],
-    [0.0, 0.0, 0.0, 0.2, 0.0],
-    [1.0, 0.5, 0.5, 0.0, 1.0],
-])
+def sequential_reader(lines, decay=0.55):
+    state = {"pressure_risk": 0.0, "restart": 0.0, "block": 0.0}
+    history = []
+    for idx, line in enumerate(lines, start=1):
+        lowered = line.lower()
+        for key in state:
+            state[key] *= decay
+        if "pressure" in lowered or "unstable" in lowered:
+            state["pressure_risk"] += 1.0
+        if "restart" in lowered:
+            state["restart"] += 1.0
+        if "must not" in lowered:
+            state["block"] += 1.0
+        snapshot = {key: round(value, 3) for key, value in state.items()}
+        history.append((idx, line, snapshot))
+    support = round(min(state.values()), 3)
+    decision = "block_restart" if support >= 0.8 else "uncertain"
+    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
 
-state = np.zeros(5)
-recurrent_trace = []
-for step, (name, features) in enumerate(zip(line_names, line_features), start=1):
-    state = 0.55 * state + features
-    recurrent_trace.append((step, name, np.round(state, 3)))
+def direct_reference_reader(lines):
+    request = lines[-1].lower()
+    keywords = {"restart", "pressure", "unstable", "must", "not"}
+    scored = []
+    for idx, line in enumerate(lines[:-1], start=1):
+        words = set(line.lower().replace(".", "").replace(":", "").split())
+        score = len(words & keywords)
+        scored.append((score, idx, line))
+    top_matches = sorted(scored, reverse=True)[:2]
+    matched_lines = [line.lower() for _, _, line in top_matches]
+    decision = (
+        "block_restart"
+        if any("must not be restarted" in line for line in matched_lines)
+        and any("pressure" in line or "unstable" in line for line in matched_lines)
+        and "restart" in request
+        else "allow"
+    )
+    return top_matches, decision
 
-relation_scores = line_features @ relation_kernel @ line_features.T
-request_scores = relation_scores[-1]
-ranked = sorted(zip(request_scores, line_names), reverse=True)
+history, final_state, sequential_support, sequential_decision = sequential_reader(context)
+top_matches, direct_decision = direct_reference_reader(context)
 
-batch = np.stack([
-    line_features,
-    line_features[[0, 2, 4, 3, 1, 5]],
-    line_features[[1, 2, 0, 3, 4, 5]],
-])
-batch_scores = batch @ relation_kernel @ np.transpose(batch, (0, 2, 1))
+print("[sequential reader]")
+for idx, line, snapshot in history:
+    print(f"{idx}. {line}")
+    print("   state =", snapshot)
+print("final_state =", final_state)
+print("sequential_support =", sequential_support)
+print("sequential_decision =", sequential_decision)
+print()
 
-print("[recurrent trace]")
-for step, name, snapshot in recurrent_trace:
-    print(f"step {step}: {name:14s} state={snapshot}")
-
-print("\n[relation score matrix]")
-print("shape =", relation_scores.shape)
-print("request row =", np.round(request_scores, 1).tolist())
-print("top related lines =", [(name, float(score)) for score, name in ranked[:3]])
-
-print("\n[batched relation scores]")
-print("batch shape =", batch.shape)
-print("score tensor shape =", batch_scores.shape)
+print("[direct reference reader]")
+for score, idx, line in top_matches:
+    print(f"matched line {idx} (score={score}): {line}")
+print("direct_decision =", direct_decision)
 ```
 
 출력 예시는 다음처럼 읽습니다.
 
 ```text
-[recurrent trace]
-step 1: rule           state=[0. 1. 1. 0. 0.]
-step 2: sensor_log     state=[0.   0.55 0.55 1.   0.  ]
-...
-step 6: request        state=[1.    0.353 0.05  0.808 1.   ]
+final_state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
+sequential_support = 0.05
+sequential_decision = uncertain
 
-[relation score matrix]
-shape = (6, 6)
-request row = [3.0, 0.0, 0.0, 1.5, 0.0, 4.0]
-top related lines = [('request', 4.0), ('rule', 3.0), ('pressure_state', 1.5)]
-
-[batched relation scores]
-batch shape = (3, 6, 5)
-score tensor shape = (3, 6, 6)
+matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
+matched line 4 (score=2): State: pressure has not fully returned to safe range.
+direct_decision = block_restart
 ```
 
-첫 번째 출력은 RNN식 상태 감각을 보여 줍니다. 6번 request 상태는 1번부터 5번까지의 갱신을 차례로 지난 뒤에야 만들어집니다. 두 번째 출력은 관계 계산 감각을 보여 줍니다. 6개 위치 사이의 관계 score가 `(6, 6)` 행렬로 한 번에 놓이고, request 행에서는 rule과 pressure_state가 크게 잡힙니다. 세 번째 출력의 `(3, 6, 6)`은 문장 3개를 배치로 묶으면 각 문장의 위치 관계 행렬도 텐서 형태로 함께 조직될 수 있음을 보여 줍니다.
+첫 번째 산출물은 순차 상태가 문맥을 지나며 어떻게 약해지는지입니다. `block` 축은 규칙 줄에서 강하게 시작하지만 중간 로그를 지나 마지막 요청 시점에는 `0.05`만 남습니다.
 
-해설: 이 예제에서 읽어야 할 결과는 `어느 쪽이 실제로 몇 배 빠른가`가 아닙니다. P5-14.5의 핵심은 순차 상태 전달은 step trace로 읽히고, Transformer식 관계 계산은 위치 관계 행렬과 배치 텐서로 읽힌다는 점입니다. 그래서 병렬 처리 설명은 하드웨어 자랑이 아니라 계산 구조의 차이로 닫혀야 합니다.
+![순차 상태 약화](/AiBook/assets/part-05/chapter-14/sequential-state-decay-ko.png)
 
-### 연습. 기다리는 계산과 묶는 계산 표시하기
+두 번째 산출물은 직접 재참조 방식이 마지막 요청 시점에 어떤 줄을 다시 끌어오는지입니다. 규칙 줄과 압력 상태 줄이 높은 근거로 다시 떠오르므로, 이 예제에서 읽어야 할 변화는 단순히 두 결정 이름이 다르다는 사실이 아니라, 앞 단서가 `상태 안에서 약해지는가`와 `현재 요청에서 다시 호출되는가`의 차이입니다.
 
-아래 장면을 보고, 먼저 `기다림`과 `묶음`을 표시해 보십시오.
+![직접 재참조 점수](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-ko.png)
 
-| 장면 | 표시 | 해설 |
+### 연습. 값을 바꿔 차이 확인하기
+
+| 바꿔 볼 값 | 예상되는 출력 변화 | 해설 |
 | --- | --- | --- |
-| 문장 안 3번째 토큰 계산이 2번째 토큰의 hidden state를 받아야 한다 | 기다림 | 앞 step 결과가 뒤 step에 필요하므로 순차 의존성이 생깁니다. |
-| 한 문장 안 모든 토큰 쌍의 attention score를 같은 층에서 계산한다 | 묶음 | 여러 토큰 관계 점수를 행렬 연산으로 구성하기 쉽습니다. |
-| 배치 안 여러 문장의 feed-forward 계산을 같은 가중치로 각 위치에 적용한다 | 묶음 | 같은 종류의 위치별 계산을 텐서 연산으로 함께 처리하기 좋습니다. |
-| 생성 중 아직 나오지 않은 다음 토큰을 미리 알고 계산해야 한다 | 기다림 | 생성 실행 단계에는 순서 제약이 남습니다. 학습 시 병렬화 감각과 구분해야 합니다. |
-| 문서의 앞 규칙을 상태 하나에 압축해 마지막까지 들고 간다 | 기다림에 가까움 | 앞 단서가 여러 step을 지나야 하므로 순차 전달 부담이 커집니다. |
+| `decay`를 `0.55`에서 `0.8`로 높인다 | `sequential_support`가 커질 수 있다 | 순차 상태가 앞 단서를 더 오래 유지하므로, 규칙 줄에서 생긴 `block` 축이 마지막 요청까지 덜 약해집니다. |
+| 중간 로그를 3줄 더 추가한다 | 순차 상태 쪽이 더 흔들리기 쉽다 | 중간 줄이 늘수록 상태 안의 앞 단서는 계속 감쇠하지만, 직접 재참조는 키워드가 맞는 앞 줄을 다시 찾을 수 있으면 판단을 유지할 수 있습니다. |
+| 마지막 요청에서 `restart`라는 단어를 뺀다 | `direct_decision`이 달라질 수 있다 | 현재 요청에 앞 규칙과 연결될 핵심 단어가 빠지면, 직접 재참조도 어떤 앞 단서를 불러와야 하는지 약해집니다. |
 
-해설: 이 연습은 실제 GPU 커널을 구현하는 문제가 아닙니다. P5-14.5에서 필요한 학습은 `상태를 넘기는 계산`, `관계를 다시 계산하는 흐름`, `한꺼번에 묶을 수 있는 계산`을 구분하는 것입니다. 이 구분이 있어야 Transformer의 병렬 처리 장점을 단순 속도 인상이 아니라 계산 구조 변화로 설명할 수 있습니다.
+해설: 이 연습은 직접 재참조가 언제나 정답을 보장한다고 말하려는 것이 아닙니다. 핵심은 긴 문맥에서 앞 단서가 `상태 안에서 약해지는가`, 아니면 `현재 요청에서 다시 호출되는가`를 출력 변화로 구분하는 것입니다.
 
 ## 체크리스트
 
-- RNN을 순차 상태 전달 구조로 설명할 수 있는가?
-- Transformer를 토큰 관계 계산 구조로 설명할 수 있는가?
-- Transformer가 병렬 처리에 잘 맞는 이유를 큰 행렬 연산 관점으로 설명할 수 있는가?
-- RNN의 순차 의존성과 Transformer의 관계 계산을 병렬 처리 관점에서 비교할 수 있는가?
+- 긴 문맥 문제를 순차 상태 전달과 직접 재참조의 차이로 설명할 수 있는가?
+- self-attention이 먼 위치를 더 직접 참고하는 감각을 준다는 점을 말할 수 있는가?
+- `sequential_support`와 `direct_decision`의 차이를 설명할 수 있는가?
+- 긴 문맥에서 최종 판단이 근거 호출 방식에 따라 달라질 수 있음을 말할 수 있는가?
 
 ## 출처와 참고 자료
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
