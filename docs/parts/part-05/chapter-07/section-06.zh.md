@@ -1,7 +1,7 @@
 # P5-7.6 补充学习：learning rate scheduler、warmup、decay
 
-Section ID: `P5-7.6`
-Version: `v2026.07.17`
+> Section ID: `P5-7.6`
+> Version: `v2026.07.19`
 
 在 P5-7.2 里，我们把 learning rate 读成了`一次 update 的步幅`。但一旦去看真实训练设置，就会遇到 learning rate 不是从头到尾固定不变，而是以 warmup、decay、cosine schedule 等名字不断变化的场景。
 
@@ -157,3 +157,8 @@ decay 指的是：随着学习推进，逐渐缩小 learning rate 的政策。�
 - 能把 decay 解释成`后期微调时缩小步幅的策略`吗？
 - 能把 step decay、linear decay、cosine decay 读成不同的`步幅模式`吗？
 - 在看训练日志时，能把前期不稳定、后期振荡、整体过快或过慢，先连接到 scheduler 问题吗？
+
+## 来源与参考资料
+
+- PyTorch, `torch.optim`, PyTorch documentation. 用于确认 `lr_scheduler` 会根据 epoch 或验证指标调整 learning rate，并提供 `StepLR`、`LinearLR`、`CosineAnnealingLR` 等 scheduler。确认日期：2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate](https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate){: target="_blank" rel="noopener noreferrer" }
+- Ilya Loshchilov, Frank Hutter, `SGDR: Stochastic Gradient Descent with Warm Restarts`, ICLR 2017. 用于确认 cosine annealing 与 restart 类 learning rate schedule 的背景。确认日期：2026-07-19. [https://arxiv.org/abs/1608.03983](https://arxiv.org/abs/1608.03983){: target="_blank" rel="noopener noreferrer" }

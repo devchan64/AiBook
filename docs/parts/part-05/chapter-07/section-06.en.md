@@ -1,7 +1,7 @@
 # P5-7.6 Supplementary Reading: Learning Rate Scheduler, Warmup, Decay
 
-Section ID: `P5-7.6`
-Version: `v2026.07.17`
+> Section ID: `P5-7.6`
+> Version: `v2026.07.19`
 
 In P5-7.2, we read the learning rate as `the stride length of one update`. But once we look at actual training settings, we meet scenes where the learning rate is not fixed from beginning to end and instead keeps changing under names such as warmup, decay, and cosine schedule.
 
@@ -157,3 +157,8 @@ The purpose of this exercise is not to memorize scheduler names, but to build th
 - Can you explain decay as `a stride reduction for later fine adjustment`?
 - Can you read step decay, linear decay, and cosine decay as `stride patterns`?
 - When reading a training log, can you connect early instability, later oscillation, and overall overspeed/underspeed to scheduler questions?
+
+## Sources And References
+
+- PyTorch, `torch.optim`, PyTorch documentation. Referenced to confirm that `lr_scheduler` adjusts the learning rate according to epochs or validation metrics, and that PyTorch provides schedulers such as `StepLR`, `LinearLR`, and `CosineAnnealingLR`. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate](https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate){: target="_blank" rel="noopener noreferrer" }
+- Ilya Loshchilov, Frank Hutter, `SGDR: Stochastic Gradient Descent with Warm Restarts`, ICLR 2017. Referenced to confirm background on cosine annealing and restart-style learning rate schedules. Checked: 2026-07-19. [https://arxiv.org/abs/1608.03983](https://arxiv.org/abs/1608.03983){: target="_blank" rel="noopener noreferrer" }
