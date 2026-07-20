@@ -236,6 +236,7 @@ XOR 是一个`只有两个输入不同，结果才为 1`的规则。
 现在实际改动这些值。下面的代码会固定 `stability_score`，并组合 `alarm_risk`、`b`、`threshold`，逐行展示输出会在什么位置翻转。
 
 ```python
+# 这个例子检查感知机的线性分数 z 和 threshold 判断会如何随着输入、bias、threshold 的变化而翻转。
 stability_score = 1.0
 stability_weight = 0.8
 alarm_weight = -0.6

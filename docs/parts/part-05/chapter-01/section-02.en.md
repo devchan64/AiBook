@@ -236,6 +236,7 @@ Before the experiment, first predict the change through the following table.
 Now actually change the values. The code below fixes `stability_score` and shows line by line where the output flips while combining `alarm_risk`, `b`, and `threshold`.
 
 ```python
+# This example checks where a perceptron linear score z and threshold decision flip as input, bias, and threshold change.
 stability_score = 1.0
 stability_weight = 0.8
 alarm_weight = -0.6

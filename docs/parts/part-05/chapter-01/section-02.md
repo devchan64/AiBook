@@ -236,6 +236,7 @@ XOR는 입력 두 개가 `다를 때만 1`이 되는 규칙입니다.
 이제 실제로 값을 바꿔 봅니다. 아래 코드는 `stability_score`는 고정해 두고, `alarm_risk`, `b`, `threshold`를 조합해 어디서 출력이 뒤집히는지 한 줄씩 보여 줍니다.
 
 ```python
+# 퍼셉트론의 선형 결합 점수 z와 임계값 판단이 입력, 편향, threshold 변화에 따라 어디서 뒤집히는지 확인하는 예제입니다.
 stability_score = 1.0
 stability_weight = 0.8
 alarm_weight = -0.6
