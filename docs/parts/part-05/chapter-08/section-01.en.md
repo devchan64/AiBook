@@ -1,7 +1,7 @@
 # P5-8.1 How To Add Constraints To The Objective Function: Regularization
 
-Section ID: `P5-8.1`
-Version: `v2026.07.17`
+> Section ID: `P5-8.1`
+> Version: `v2026.07.20`
 
 In Chapter P5-7, we saw that the optimizer is the rule that turns gradients into actual updates. But even if the training loop runs smoothly, that does not immediately mean the model will also hold up on new data. The next question appears right away.
 
@@ -35,7 +35,7 @@ It is safer to read this section not merely as `one more option added after the 
 - You can explain why regularization and normalization answer different questions.
 - You can describe how regularization relates to the loss function, model size, and data size.
 - You can explain that regularization plays the role of an `objective-function control device` inside Chapter 8.
-- You can confirm through an executable Python example how a penalty affects update size.
+- You can compare training loss, validation loss, and weight size together through an executable Python example.
 
 ## Why Are Regularization And Normalization Different
 
@@ -205,127 +205,142 @@ The first points to fix from this comparison diagram are the following.
 
 ## Practice And Example
 
-The goal of this example is to confirm that when a regularization term is added, updates can become a bit more conservative instead of moving only in the direction of matching the answer. Rather than looking at only one update, we compare how quickly the weight grows over several steps.
+The goal of this example is to read regularization not as `a technique that lowers training loss a little more`, but as `a constraint that makes us look at validation loss and weight size together`. We will place a small training log in a CSV file and compare a setting without regularization with a setting that uses L2 regularization.
 
 Input:
 
-- current weight `w`
-- the gradient produced by the data loss
-- regularization strength `lambda_value`
+- Training log CSV: [`regularization-training-log.csv`](/AiBook/assets/part-05/chapter-08/regularization-training-log.csv)
+- `model`: a setting without regularization and a setting with L2 regularization
+- `epoch`: training iteration number
+- `train_loss`, `validation_loss`, `weight_size`: training loss, validation loss, and weight size
 
 Output:
 
-- the update result without regularization
-- the update result after adding regularization
-- a comparison of how the difference in weight size grows as steps repeat
-- a comparison of how much the prediction wobbles for the same input change
+- the epoch with the lowest validation loss for each model
+- the gap between training loss and validation loss at the last epoch
+- how much weight size increased as learning progressed
 
 Problem situation:
 
-- If we look at regularization only as a definition, it stays vague, so we need to see directly how weight size changes when an extra term is attached to the same gradient.
-- We also need to see whether the weight-size difference leads to an actual difference in prediction sensitivity.
+- If we look only at training loss, the setting without regularization can look better.
+- But if validation loss rises again and weight size keeps increasing, we have to ask whether the solution will hold up on new data.
 
 Concepts to confirm:
 
-- regularization adds, besides the data gradient, a direction that tries to reduce weight size
-- as steps repeat, the regulated side can tend to keep a smaller weight
-- the side that keeps a smaller weight can react less aggressively to input changes
+- regularization keeps us from looking only at training loss
+- we need to look together at the point where validation loss was lowest and the final point
+- even in a similar learning direction, a solution that keeps smaller weights may be a less aggressive solution
 
 Input:
 
-We use the initial weight, data gradient, learning rate, and regularization strength summarized above.
+One row of the CSV is a summary recorded after one epoch for one model setting. Here we do not use an actual deep-learning library. We only read an already recorded training log and check the judgment criteria.
 
-Before reading the code, it helps to predict which side will produce the larger weight and the larger prediction wobble.
+Before reading the code, it helps to predict which side will have the lower training loss and which side will look more stable in validation loss and weight size.
 
 | Comparison item | Comparison to predict first | Reason for the prediction |
 | --- | --- | --- |
-| weight size of `without_reg` vs `with_reg` | `without_reg` is more likely to grow faster | Because if it follows only the data gradient, there is no term that directly controls large weights. |
-| prediction sensitivity to input change | `without_reg` is more likely to wobble more | Because when the weight is larger, the output change is also larger for the same input change. |
+| final training loss | the setting without regularization is likely to be lower | Because it can fit the training data more strongly without a constraint. |
+| final validation loss | the setting with L2 regularization is likely to be lower | Because it makes large weights and aggressive solutions less preferred. |
+| weight-size increase | the setting without regularization is likely to be larger | Because it does not separately pay a cost for using a complex solution. |
 
-The purpose of this table is to read `weight size` and `prediction wobble` together.
+The purpose of this table is to read `training loss`, `validation loss`, and `weight size` together.
 
 ```python
-# This example compares how regularization changes the update path from an initial weight toward a less aggressive solution.
-initial_w = 2.5
-data_gradient = -4.0
-learning_rate = 0.1
-lambda_value = 0.2
-steps = 3
+# This example reads a CSV training log and compares training loss, validation loss, and weight size with and without regularization.
+from csv import DictReader
+from pathlib import Path
 
-w_without_reg = initial_w
-w_with_reg = initial_w
-base_x = 1.0
-shifted_x = 1.2
+csv_path = Path("docs/assets/part-05/chapter-08/regularization-training-log.csv")
 
-for step in range(1, steps + 1):
-    w_without_reg = w_without_reg - learning_rate * data_gradient
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "model": row["model"],
+                "epoch": int(row["epoch"]),
+                "train_loss": float(row["train_loss"]),
+                "validation_loss": float(row["validation_loss"]),
+                "weight_size": float(row["weight_size"]),
+                "regularization_strength": float(row["regularization_strength"]),
+            }
+        )
 
-    reg_gradient = 2 * lambda_value * w_with_reg
-    total_gradient = data_gradient + reg_gradient
-    w_with_reg = w_with_reg - learning_rate * total_gradient
+models = ["without_regularization", "with_l2_regularization"]
 
-    print(f"[step {step}]")
-    print("without_reg =", round(w_without_reg, 3))
-    print("reg_gradient =", round(reg_gradient, 3))
-    print("total_gradient =", round(total_gradient, 3))
-    print("with_reg =", round(w_with_reg, 3))
-    print("---")
+for model in models:
+    model_rows = [row for row in rows if row["model"] == model]
+    first = model_rows[0]
+    last = model_rows[-1]
+    best_validation = min(model_rows, key=lambda row: row["validation_loss"])
 
-without_base = round(base_x * w_without_reg, 3)
-without_shifted = round(shifted_x * w_without_reg, 3)
-with_base = round(base_x * w_with_reg, 3)
-with_shifted = round(shifted_x * w_with_reg, 3)
+    validation_gap = last["validation_loss"] - last["train_loss"]
+    validation_rebound = last["validation_loss"] - best_validation["validation_loss"]
+    weight_growth = last["weight_size"] - first["weight_size"]
 
-print("prediction_without_reg =", [without_base, without_shifted])
-print("prediction_with_reg =", [with_base, with_shifted])
-print("sensitivity_without_reg =", round(without_shifted - without_base, 3))
-print("sensitivity_with_reg =", round(with_shifted - with_base, 3))
+    print(f"[{model}]")
+    print("regularization_strength =", last["regularization_strength"])
+    print("best_validation_epoch =", best_validation["epoch"])
+    print("best_validation_loss =", round(best_validation["validation_loss"], 3))
+    print("last_train_loss =", round(last["train_loss"], 3))
+    print("last_validation_loss =", round(last["validation_loss"], 3))
+    print("last_validation_gap =", round(validation_gap, 3))
+    print("validation_rebound_after_best =", round(validation_rebound, 3))
+    print("weight_growth =", round(weight_growth, 3))
+    print()
 ```
 
-In the output, first look at how far `without_reg` and `with_reg` separate at each step, and how `reg_gradient` is added between them.
+In the output, do not look at only the final training loss first. Check when validation loss was lowest and how much it rose again after that.
 
 ```text
-[step 1]
-without_reg = 2.9
-reg_gradient = 1.0
-total_gradient = -3.0
-with_reg = 2.8
----
-[step 2]
-without_reg = 3.3
-reg_gradient = 1.12
-total_gradient = -2.88
-with_reg = 3.088
----
-[step 3]
-without_reg = 3.7
-reg_gradient = 1.235
-total_gradient = -2.765
-with_reg = 3.365
----
-prediction_without_reg = [3.7, 4.44]
-prediction_with_reg = [3.365, 4.038]
-sensitivity_without_reg = 0.74
-sensitivity_with_reg = 0.673
+[without_regularization]
+regularization_strength = 0.0
+best_validation_epoch = 8
+best_validation_loss = 0.55
+last_train_loss = 0.19
+last_validation_loss = 0.74
+last_validation_gap = 0.55
+validation_rebound_after_best = 0.19
+weight_growth = 4.9
+
+[with_l2_regularization]
+regularization_strength = 0.08
+best_validation_epoch = 12
+best_validation_loss = 0.45
+last_train_loss = 0.33
+last_validation_loss = 0.47
+last_validation_gap = 0.14
+validation_rebound_after_best = 0.02
+weight_growth = 1.5
 ```
 
-- without regularization, the weight grows larger
-- once the regularization term is added, the growth per step gets slightly smaller as steps repeat
-- in other words, regularization does not simply reduce performance, but makes the model prefer `a less aggressive solution`
+- Without regularization, the final training loss is lower at `0.19`.
+- But the final validation loss rises to `0.74`, and the gap between training loss and validation loss widens to `0.55`.
+- With L2 regularization, the training loss is higher at `0.33`, but the final validation loss is `0.47` and weight growth is smaller.
+
+If we look at these numbers again as curves, the comparison axis that regularization asks us to read becomes clearer.
+
+![Training and validation loss with and without regularization](/AiBook/assets/part-05/chapter-08/regularization-loss-compare-en.png)
+
+In the first graph, we should not simply choose the line with the lower training loss. In the setting without regularization, training loss keeps going down, but validation loss starts rising again after epoch 8. The setting with L2 regularization lowers training loss less aggressively, but keeps the validation-loss rebound small.
+
+![Weight size growth with and without regularization](/AiBook/assets/part-05/chapter-08/regularization-weight-growth-en.png)
+
+The second graph asks which solution depends on larger weights during the same learning process. The setting without regularization keeps increasing weight size, while the setting with L2 regularization has a much gentler increase.
 
 | Comparison | The key to read here |
 | --- | --- |
-| `without_reg` | The weight grows faster, so the output also wobbles more for the same input change. |
-| `with_reg` | It presses weight growth down a little more, so prediction sensitivity is also relatively milder. |
+| `without_regularization` | It fits the training data more strongly, but validation loss rises again and weight size increases greatly. |
+| `with_l2_regularization` | If we look only at the lowest training loss, it can look worse, but it is more stable in validation loss and weight size. |
 
 Even when reading the output numbers, we need to separate `error reduction` from `preference for a less aggressive solution`.
 
 | Comparison | What appears first in the output | Interpretation that is easy to leave if we look only at error | Interpretation that changes once we include regularization |
 | --- | --- | --- | --- |
-| `without_reg` | As steps continue, the weight grows faster and sensitivity rises to `0.74`. | It is easy to think this is better learning because it moved faster. | It allows large weights and high sensitivity as they are, so it is moving toward a solution that reacts more aggressively to input changes. |
-| `with_reg` | As steps continue, the growth becomes slightly smaller and sensitivity is also lower at `0.673`. | It is easy to think this is worse learning because it reduces the loss less aggressively. | Even within the same direction, it prefers smaller weights and milder reactions, so it keeps a less aggressive solution. |
+| `without_regularization` | The final training loss is lowest. | It is easy to see it as the best-trained model. | If we also look at the validation-loss rebound and large weight growth, it may be a solution that overfits the training data. |
+| `with_l2_regularization` | The final training loss is higher. | It is easy to see it as a model that intentionally lowered performance. | If we also look at validation loss and weight size, it is a setting that prefers a less aggressive solution and leaves more room to hold up on new data. |
 
-In other words, the question readers should hold onto in this example is not `does regularization stop the loss from going down`, but `does it make the model prefer a less aggressive solution instead of a more aggressive one within the same learning direction`.
+In other words, the question readers should hold onto in this example is not `does regularization stop training loss from going down`, but `does it help validation loss and weight size hold up together while training loss is being reduced`.
 
 Regularization is also deeply connected to statistical learning theory from before deep learning. The problem that a model can fit the training data well while generalizing poorly if it becomes too complex has long been a central theme.
 
@@ -367,6 +382,6 @@ The point where this section becomes necessary is when the phrase `training is g
 
 ## Sources And References
 
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, `The Elements of Statistical Learning`, 2nd ed., Springer, 2009, checked on 2026-06-29.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, `The Elements of Statistical Learning`, 2nd ed., Springer, 2009, checked on 2026-07-19. [https://hastie.su.domains/ElemStatLearn/](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, checked on 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, checked on 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P5-8.1 如何给目标函数加约束：正则化（regularization）
 
-Section ID: `P5-8.1`
-Version: `v2026.07.17`
+> Section ID: `P5-8.1`
+> Version: `v2026.07.20`
 
 在 P5-7 章里，我们已经看到 optimizer 是把 gradient 变成实际 update 的规则。但即使训练循环运转顺畅，也不意味着模型立刻就能在新数据上同样站得住。接下来的问题会马上出现。
 
@@ -35,7 +35,7 @@ Version: `v2026.07.17`
 - 能说明为什么 regularization 和 normalization 回答的是不同问题。
 - 能说明 regularization 与 loss function、模型规模、数据量之间的关系。
 - 能说明 regularization 在第 8 章中承担的是`目标函数控制装置`的角色。
-- 能通过可执行的 Python 例子确认 penalty 会怎样影响 update 的大小。
+- 能通过可执行的 Python 例子一起比较训练损失、验证损失和权重大小。
 
 ## 为什么 regularization 和 normalization 不一样
 
@@ -205,127 +205,142 @@ regularization 更常需要出现的场景，大致可以读成下面这样。
 
 ## 练习与例子
 
-这个例子的目标，是确认当 regularization term 被加进去之后，update 可能会比`只朝着答对题目`的方向更保守一点。我们不只看一次 update，而是比较在多个 step 里，权重会多快变大。
+这个例子的目标，是把 regularization 读成`让我们同时看验证损失和权重大小的约束`，而不是`让训练损失再低一点的技巧`。这里把一小段训练日志放在 CSV 里，比较没有 regularization 的设置和使用 L2 regularization 的设置。
 
 输入：
 
-- 当前权重 `w`
-- 由 data loss 产生的 gradient
-- regularization 强度 `lambda_value`
+- 训练日志 CSV：[`regularization-training-log.csv`](/AiBook/assets/part-05/chapter-08/regularization-training-log.csv)
+- `model`：没有 regularization 的设置，以及使用 L2 regularization 的设置
+- `epoch`：训练重复编号
+- `train_loss`、`validation_loss`、`weight_size`：训练损失、验证损失、权重大小
 
 输出：
 
-- 没有 regularization 时的 update 结果
-- 把 regularization 加进去之后的 update 结果
-- 随着 step 重复，权重大小差距如何拉开
-- 对相同输入变化，预测会摇晃到什么程度的比较
+- 每个模型的验证损失最低 epoch
+- 最后一个 epoch 的训练损失与验证损失差距
+- 随着学习推进，权重大小增加了多少
 
 问题场景：
 
-- 如果只把 regularization 当定义来看，会比较模糊，所以需要直接看到：同样的 gradient 上额外再挂一项时，权重大小会怎样变化
-- 也需要一起看：权重大小的差异，是否真的会带来预测敏感度上的差异
+- 如果只看训练损失，没有 regularization 的一边可能看起来更好。
+- 但如果验证损失重新上升、权重大小持续变大，就需要重新追问这个解能否在新数据上站得住。
 
 要确认的概念：
 
-- regularization 会在 data gradient 之外，再加上一股试图减小权重大小的方向
-- step 重复之后，带约束的一边会更倾向于保持较小的权重
-- 更能保持较小权重的一边，对输入变化也可能反应得没那么激烈
+- regularization 会让我们不只看训练损失一个数字
+- 需要同时看验证损失最低的时点和最后时点
+- 即使学习方向相似，能保持较小权重的解也可能是较不激进的解
 
 输入（input）：
 
-我们使用上面整理好的初始权重、data gradient、学习率、regularization 强度。
+CSV 的一行，是某个模型设置在一个 epoch 结束后记录的一条摘要。这里不使用真实的深度学习库，而是读取已经记录好的训练日志，只确认判断标准。
 
-在看代码之前，可以先预测哪一边会产生更大的权重，以及更大的预测摇晃。
+在看代码之前，可以先预测哪一边的训练损失更低，哪一边在验证损失和权重大小上更稳定。
 
 | 比较项目 | 可以先预测的比较 | 预测理由 |
 | --- | --- | --- |
-| `without_reg` vs `with_reg` 的权重大小 | `without_reg` 更可能更快变大 | 因为如果只跟着 data gradient 走，就没有一项会直接约束大权重。 |
-| 对输入变化的预测敏感度 | `without_reg` 更可能摇晃得更大 | 因为权重越大，对同样输入变化造成的输出变化也会越大。 |
+| 最后的训练损失 | 没有 regularization 的一边可能更低 | 因为没有约束时，可以更强地贴合训练数据。 |
+| 最后的验证损失 | 使用 L2 regularization 的一边可能更低 | 因为它让大权重和激进的解变得不那么受偏好。 |
+| 权重大小增加 | 没有 regularization 的一边可能更大 | 因为使用复杂解时不会额外付出代价。 |
 
-这张表的目的，是把`权重大小`和`预测摇晃`一起读出来。
+这张表的目的，是把`训练损失`、`验证损失`和`权重大小`一起读出来。
 
 ```python
-# 这个例子比较 regularization 如何把初始权重的更新路径推向不那么激进的解。
-initial_w = 2.5
-data_gradient = -4.0
-learning_rate = 0.1
-lambda_value = 0.2
-steps = 3
+# 这个例子读取 CSV 训练日志，比较有无 regularization 时的训练损失、验证损失和权重大小。
+from csv import DictReader
+from pathlib import Path
 
-w_without_reg = initial_w
-w_with_reg = initial_w
-base_x = 1.0
-shifted_x = 1.2
+csv_path = Path("docs/assets/part-05/chapter-08/regularization-training-log.csv")
 
-for step in range(1, steps + 1):
-    w_without_reg = w_without_reg - learning_rate * data_gradient
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "model": row["model"],
+                "epoch": int(row["epoch"]),
+                "train_loss": float(row["train_loss"]),
+                "validation_loss": float(row["validation_loss"]),
+                "weight_size": float(row["weight_size"]),
+                "regularization_strength": float(row["regularization_strength"]),
+            }
+        )
 
-    reg_gradient = 2 * lambda_value * w_with_reg
-    total_gradient = data_gradient + reg_gradient
-    w_with_reg = w_with_reg - learning_rate * total_gradient
+models = ["without_regularization", "with_l2_regularization"]
 
-    print(f"[step {step}]")
-    print("without_reg =", round(w_without_reg, 3))
-    print("reg_gradient =", round(reg_gradient, 3))
-    print("total_gradient =", round(total_gradient, 3))
-    print("with_reg =", round(w_with_reg, 3))
-    print("---")
+for model in models:
+    model_rows = [row for row in rows if row["model"] == model]
+    first = model_rows[0]
+    last = model_rows[-1]
+    best_validation = min(model_rows, key=lambda row: row["validation_loss"])
 
-without_base = round(base_x * w_without_reg, 3)
-without_shifted = round(shifted_x * w_without_reg, 3)
-with_base = round(base_x * w_with_reg, 3)
-with_shifted = round(shifted_x * w_with_reg, 3)
+    validation_gap = last["validation_loss"] - last["train_loss"]
+    validation_rebound = last["validation_loss"] - best_validation["validation_loss"]
+    weight_growth = last["weight_size"] - first["weight_size"]
 
-print("prediction_without_reg =", [without_base, without_shifted])
-print("prediction_with_reg =", [with_base, with_shifted])
-print("sensitivity_without_reg =", round(without_shifted - without_base, 3))
-print("sensitivity_with_reg =", round(with_shifted - with_base, 3))
+    print(f"[{model}]")
+    print("regularization_strength =", last["regularization_strength"])
+    print("best_validation_epoch =", best_validation["epoch"])
+    print("best_validation_loss =", round(best_validation["validation_loss"], 3))
+    print("last_train_loss =", round(last["train_loss"], 3))
+    print("last_validation_loss =", round(last["validation_loss"], 3))
+    print("last_validation_gap =", round(validation_gap, 3))
+    print("validation_rebound_after_best =", round(validation_rebound, 3))
+    print("weight_growth =", round(weight_growth, 3))
+    print()
 ```
 
-读输出时，先看每个 step 里 `without_reg` 和 `with_reg` 拉开了多少距离，以及中间 `reg_gradient` 是怎样被加进去的。
+读输出时，不要先只看最后的训练损失，而要先确认验证损失什么时候最低、之后又重新上升了多少。
 
 ```text
-[step 1]
-without_reg = 2.9
-reg_gradient = 1.0
-total_gradient = -3.0
-with_reg = 2.8
----
-[step 2]
-without_reg = 3.3
-reg_gradient = 1.12
-total_gradient = -2.88
-with_reg = 3.088
----
-[step 3]
-without_reg = 3.7
-reg_gradient = 1.235
-total_gradient = -2.765
-with_reg = 3.365
----
-prediction_without_reg = [3.7, 4.44]
-prediction_with_reg = [3.365, 4.038]
-sensitivity_without_reg = 0.74
-sensitivity_with_reg = 0.673
+[without_regularization]
+regularization_strength = 0.0
+best_validation_epoch = 8
+best_validation_loss = 0.55
+last_train_loss = 0.19
+last_validation_loss = 0.74
+last_validation_gap = 0.55
+validation_rebound_after_best = 0.19
+weight_growth = 4.9
+
+[with_l2_regularization]
+regularization_strength = 0.08
+best_validation_epoch = 12
+best_validation_loss = 0.45
+last_train_loss = 0.33
+last_validation_loss = 0.47
+last_validation_gap = 0.14
+validation_rebound_after_best = 0.02
+weight_growth = 1.5
 ```
 
-- 没有 regularization 时，权重会变得更大
-- 一旦把 regularization term 加进来，随着 step 重复，每次增长幅度会稍微变小
-- 也就是说，regularization 不是单纯让性能变差，而是在让模型更偏向`较不激进的解`
+- 没有 regularization 的一边，最后训练损失更低，为 `0.19`
+- 但最后验证损失上升到 `0.74`，训练损失与验证损失的差距也扩大到 `0.55`
+- 使用 L2 regularization 的一边，训练损失更高，为 `0.33`，但最后验证损失是 `0.47`，权重增加也更小
+
+把这些数字再画成曲线，regularization 要我们读取的比较轴会更清楚。
+
+![有无 regularization 时的训练损失与验证损失](/AiBook/assets/part-05/chapter-08/regularization-loss-compare-zh.png)
+
+第一张图里，不能只选择训练损失更低的那条线。没有 regularization 的设置中，训练损失持续下降，但验证损失在第 8 个 epoch 之后重新上升。使用 L2 regularization 的设置虽然没有那么激进地降低训练损失，却把验证损失的反弹保持得更小。
+
+![有无 regularization 时的权重大小增加](/AiBook/assets/part-05/chapter-08/regularization-weight-growth-zh.png)
+
+第二张图里，要看的是在同样的学习推进中，哪一种解更依赖较大的权重。没有 regularization 的设置中，权重大小持续变大；使用 L2 regularization 的设置中，增长幅度则平缓得多。
 
 | 比较 | 现在要读的核心 |
 | --- | --- |
-| `without_reg` | 权重增长更快，所以对同样输入变化造成的输出摇晃也更大。 |
-| `with_reg` | 它会把权重增长再往下压一点，因此预测敏感度也相对更温和。 |
+| `without_regularization` | 对训练数据贴合得更强，但验证损失重新上升，权重大小也大幅增加。 |
+| `with_l2_regularization` | 如果只看训练损失最低值，会显得不够好；但在验证损失和权重大小上更稳定。 |
 
 即使在读输出数字时，也需要把`误差下降`和`更偏好较不激进的解`分开来看。
 
 | 比较 | 输出里首先看到的 | 只看误差时容易留下的解读 | 把 regularization 一起算进去之后会改变的解读 |
 | --- | --- | --- | --- |
-| `without_reg` | step 越往后，权重长得越快，敏感度也上升到 `0.74` | 容易觉得它移动得更快，所以学习更好 | 它放任大权重和高敏感度继续增长，因此正在走向一个对输入变化更激进的解 |
-| `with_reg` | step 越往后，增长会稍微变小，敏感度也更低，为 `0.673` | 容易觉得它没有那么猛烈地降 loss，所以学习更差 | 即使沿着同一方向，它也更偏向小一些的权重和更温和的反应，因此保留的是较不激进的解 |
+| `without_regularization` | 最后的训练损失最低。 | 容易把它看成训练得最好的模型。 | 如果一起看验证损失反弹和较大的权重增加，它可能是过度贴合训练数据的解。 |
+| `with_l2_regularization` | 最后的训练损失更高。 | 容易把它看成故意降低性能的模型。 | 如果一起看验证损失和权重大小，它是偏好较不激进解、因而更可能在新数据上站得住的设置。 |
 
-也就是说，在这个例子里，读者真正要抓住的问题不是`regularization 会不会阻止 loss 下降`，而是`在同样的学习方向里，它会不会让模型更偏向较不激进的解，而不是更激进的解。`
+也就是说，在这个例子里，读者真正要抓住的问题不是`regularization 会不会阻止训练损失下降`，而是`在降低训练损失的过程中，它是否也让验证损失和权重大小一起站得住。`
 
 regularization 也和深度学习之前的统计学习理论（statistical learning theory）紧密相连。模型一旦过于复杂，就可能在训练数据上拟合得很好，却在泛化上表现更差，这个问题本来就是长期以来的核心主题。
 
@@ -367,6 +382,6 @@ regularization 也和深度学习之前的统计学习理论（statistical learn
 
 ## 出处与参考资料
 
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, `The Elements of Statistical Learning`, 2nd ed., Springer, 2009, 确认日期：2026-06-29。
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, `The Elements of Statistical Learning`, 2nd ed., Springer, 2009, 确认日期：2026-07-19。[https://hastie.su.domains/ElemStatLearn/](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29。 [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-06-29。
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-07-19。[https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
