@@ -11,7 +11,7 @@ One of the core concepts that answers this question is regularization. Chapter 8
 
 Regularization is the idea of adding constraints or costs to the learning process so that the model does not fit the training data too aggressively.
 
-When you need to distinguish overfitting control from normalization again, return to the glossary entry on [regularization](/AiBook/reference/concept-glossary/#regularization).
+When you need to distinguish overfitting control from normalization again, return to the glossary entry on [regularization](../../../reference/concept-glossary.md#regularization).
 
 ## Scope Of This Section
 
@@ -71,7 +71,7 @@ Regularization appears exactly here. It imposes the constraint: `fit the trainin
 
 This is easier to see with a curve. If the training loss keeps going down while the validation loss starts rising again at some point, the model may be moving toward memorizing the detailed patterns of the training data better and better.
 
-![An overfitting scene where training loss and validation loss diverge](/AiBook/assets/part-05/chapter-08/train-validation-overfit-en.svg)
+![An overfitting scene where training loss and validation loss diverge](../../../assets/part-05/chapter-08/train-validation-overfit-en.svg)
 
 In this graph, regularization is not trying to look only at the minimum training loss. The key is to see together whether the loss on new data improves as well, or whether the gap is widening in the direction of fitting only the training data better.
 
@@ -209,7 +209,7 @@ The goal of this example is to read regularization not as `a technique that lowe
 
 Input:
 
-- Training log CSV: [`regularization-training-log.csv`](/AiBook/assets/part-05/chapter-08/regularization-training-log.csv)
+- Training log CSV: [`regularization-training-log.csv`](../../../assets/part-05/chapter-08/regularization-training-log.csv){ .csv-preview }
 - `model`: a setting without regularization and a setting with L2 regularization
 - `epoch`: training iteration number
 - `train_loss`, `validation_loss`, `weight_size`: training loss, validation loss, and weight size
@@ -320,11 +320,11 @@ weight_growth = 1.5
 
 If we look at these numbers again as curves, the comparison axis that regularization asks us to read becomes clearer.
 
-![Training and validation loss with and without regularization](/AiBook/assets/part-05/chapter-08/regularization-loss-compare-en.png)
+![Training and validation loss with and without regularization](../../../assets/part-05/chapter-08/regularization-loss-compare-en.png)
 
 In the first graph, we should not simply choose the line with the lower training loss. In the setting without regularization, training loss keeps going down, but validation loss starts rising again after epoch 8. The setting with L2 regularization lowers training loss less aggressively, but keeps the validation-loss rebound small.
 
-![Weight size growth with and without regularization](/AiBook/assets/part-05/chapter-08/regularization-weight-growth-en.png)
+![Weight size growth with and without regularization](../../../assets/part-05/chapter-08/regularization-weight-growth-en.png)
 
 The second graph asks which solution depends on larger weights during the same learning process. The setting without regularization keeps increasing weight size, while the setting with L2 regularization has a much gentler increase.
 
