@@ -17,8 +17,10 @@
   - `p5_7_learning_rate_chart.py`
   - `p5_7_1_optimizer_step_csv_charts.py`
   - `p5_7_2_learning_rate_csv_charts.py`
+  - `p5_7_3_adaptive_update_csv_charts.py`
 - CSV example data:
   - `optimizer-step-role-log.csv`
+  - `optimizer-gradient-history.csv`
 - Matplotlib chart assets:
   - `optimizer-step-batch-before-after-weight-ko.png`
   - `optimizer-step-batch-before-after-score-ko.png`
@@ -26,6 +28,9 @@
   - `learning-rate-batch-updated-weight-ko.png`
   - `learning-rate-batch-updated-score-ko.png`
   - `learning-rate-batch-updated-loss-ko.png`
+  - `adaptive-gradient-history-ko.png`
+  - `adaptive-delta-scale-ko.png`
+  - `adaptive-weight-trajectory-ko.png`
   - `optimizer-step-before-after-weight-en.png` / `optimizer-step-before-after-weight-ko.png` / `optimizer-step-before-after-weight-zh.png`
   - `optimizer-step-before-after-score-en.png` / `optimizer-step-before-after-score-ko.png` / `optimizer-step-before-after-score-zh.png`
   - `optimizer-step-before-after-loss-en.png` / `optimizer-step-before-after-loss-ko.png` / `optimizer-step-before-after-loss-zh.png`

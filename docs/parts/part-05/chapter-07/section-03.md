@@ -1,7 +1,7 @@
 # P5-7.3 적응형 업데이트의 직관: Adam을 예로
 
 > Section ID: `P5-7.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보폭이 어떻게 달라지는지 보았습니다. 여기서 바로 다음 질문이 생깁니다. 그 보폭을 모든 파라미터에 언제나 같은 방식으로 적용해도 충분한가?
 
@@ -112,179 +112,204 @@ P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보�
 
 ## 연습 및 예제
 
-이제 예제로 바로 넘어가면 됩니다. 이번 절의 두 예제는 모두 `진짜 Adam 전체 구현`이 아니라, 적응형 업데이트의 핵심 직관을 분리해서 보는 단순화 예제입니다. 첫 예제는 `최근 gradient 흐름을 누적해 보는 축`, 두 번째 예제는 `좌표별로 보폭을 다르게 조절하는 축`을 보여 줍니다. Adam은 이 두 축을 함께 가진 대표 예로 읽으면 됩니다.
+이제 예제로 바로 넘어가면 됩니다. 이번 절의 예제는 `진짜 Adam 전체 구현`이 아니라, 적응형 업데이트의 핵심 직관을 분리해서 보는 단순화 예제입니다. 예제 데이터는 [optimizer-gradient-history.csv](../../../assets/part-05/chapter-07/optimizer-gradient-history.csv)에 있습니다. 이 파일에는 12개 step 동안 세 파라미터가 받은 gradient 흐름이 들어 있습니다. 하나는 큰 gradient가 꾸준히 줄어드는 좌표, 하나는 작은 gradient가 꾸준히 줄어드는 좌표, 하나는 방향이 계속 흔들리는 좌표입니다.
 
 입력:
 
-- 현재 위험 가중치 `risk_weight`
-- 여러 step에서의 위험 가중치 gradient 목록
+- 여러 step에서 기록된 파라미터별 gradient 흐름
+- 파라미터 이름 `parameter_name`
+- 학습 step `step`
+- 각 step의 `gradient`
 
 출력:
 
-- 단순 직접 업데이트 방식의 연속 위험 가중치 업데이트 결과
-- Adam-like 누적 평균을 단순화한 직관적 업데이트 결과
-- step별 `direct_delta`와 `adam_like_delta`
-- 두 번째 미니 실험에서 두 파라미터의 gradient 크기가 다를 때 좌표별 보폭 조절이 어떻게 나타나는지
+- 단순 직접 업데이트 방식의 파라미터별 이동 결과
+- Adam-like 누적 평균과 second moment를 단순화한 업데이트 결과
+- 파라미터별 평균 `direct_delta`와 `adam_like_delta`
+- 큰 gradient, 작은 gradient, 흔들리는 gradient에서 이동 경로가 어떻게 달라지는지
 
 문제 상황:
 
-- 적응형 업데이트의 차이는 수식 이름보다 같은 gradient 흐름이 어떤 step별 update로 바뀌는지로 보는 편이 직관적이다
+- 적응형 업데이트의 차이는 수식 이름보다 파라미터별 gradient 흐름이 어떤 step별 update로 바뀌는지로 보는 편이 직관적이다
 
 확인할 개념:
 
 - 단순 직접 업데이트는 현재 gradient에 바로 반응한다
 - Adam류 방식은 최근 gradient 정보를 누적해 이동량을 조절한다
-- Adam류 방식은 좌표별 gradient 크기 차이도 update 크기에 반영하려 한다
+- Adam류 방식은 좌표별 gradient 크기 이력도 update 크기에 반영하려 한다
 
 입력(input):
 
-압력 미복귀 신호를 읽는 `risk_weight` 하나가 있고, 학습 step마다 `gradient_risk_weight`가 `-4.0`, `-2.0`, `-1.0` 순서로 들어온다고 가정합니다. 같은 gradient 흐름을 보더라도 단순 직접 업데이트와 Adam-like가 `risk_weight`를 얼마나 직접적으로, 혹은 얼마나 누적 평균을 섞어 움직이는지 비교합니다.
+CSV에는 다음 세 좌표의 gradient 흐름이 들어 있습니다.
 
-코드를 보기 전에 먼저 어떤 쪽 이동량이 더 직접적이고 어떤 쪽이 더 매끈할지 예상해 보면, `현재 gradient 반응`과 `누적 평균 반응`의 차이가 더 잘 보입니다.
-
-| 비교 항목 | 먼저 예상해 볼 update | 예상 이유 |
+| 파라미터 | gradient 흐름 | 먼저 예상해 볼 일 |
 | --- | --- | --- |
-| 첫 번째 `direct_delta` | 가장 크게 움직일 가능성이 큼 | 첫 `gradient_risk_weight` `-4.0`이 learning rate와 바로 곱해져 직접 반영되기 때문입니다. |
-| 첫 번째 `adam_like_delta` | `direct_delta`보다 훨씬 작을 가능성이 큼 | moving average가 처음에는 전체 gradient를 부분적으로만 반영하기 때문입니다. |
-| step이 지날수록 `direct_delta` | gradient 절대값이 줄어들며 함께 바로 작아질 가능성이 큼 | 단순 직접 업데이트는 현재 `gradient_risk_weight` 크기에 직접 반응합니다. |
-| step이 지날수록 `adam_like_delta` | 더 천천히 변하거나 상대적으로 매끈하게 이어질 가능성이 큼 | 이전 step들의 gradient가 moving average 안에 남아 있기 때문입니다. |
+| `risk_weight` | 큰 음수 gradient가 꾸준히 작아짐 | 직접 update는 크게 움직이고, Adam-like는 크기 이력을 보며 보폭을 조절합니다. |
+| `recovery_weight` | 작은 음수 gradient가 꾸준히 작아짐 | 직접 update는 거의 못 움직이고, Adam-like는 작은 좌표도 자기 이력 기준으로 조절합니다. |
+| `noise_weight` | 음수와 양수가 번갈아 흔들림 | 직접 update는 방향이 계속 바뀌고, Adam-like는 최근 흐름을 누적해 흔들림을 줄입니다. |
 
-이 표의 목적은 정확한 숫자를 미리 암기하는 데 있지 않습니다. 같은 `gradient_risk_weight` 흐름이어도 단순 직접 업데이트는 `지금 기울기`를 바로 반영하고, Adam-like는 `최근 흐름`을 남기며 더 매끈하게 움직일 수 있다는 점을 코드 전에 붙잡는 데 있습니다.
+이 표의 목적은 정확한 숫자를 미리 암기하는 데 있지 않습니다. 같은 learning rate를 쓰더라도 단순 직접 업데이트는 `지금 기울기`를 바로 반영하고, Adam-like는 `최근 흐름`과 `좌표별 크기 이력`을 함께 남기며 다른 이동 경로를 만들 수 있다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
-gradient_risk_weight_history = [-4.0, -2.0, -1.0]
-risk_weight_direct = 1.0
-risk_weight_adam_like = 1.0
-learning_rate = 0.1
-moving_avg = 0.0
-beta = 0.9
+from csv import DictReader
+from pathlib import Path
 
-print("Direct updates")
-for gradient_risk_weight in gradient_risk_weight_history:
-    direct_delta = -learning_rate * gradient_risk_weight
-    risk_weight_direct = risk_weight_direct + direct_delta
-    print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "direct_delta =", round(direct_delta, 3),
-        "-> risk_weight =", round(risk_weight_direct, 3)
-    )
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-gradient-history.csv")
+PARAMETER_ORDER = ["risk_weight", "recovery_weight", "noise_weight"]
 
-print()
-print("Adam-like updates (simplified intuition)")
-for gradient_risk_weight in gradient_risk_weight_history:
-    moving_avg = beta * moving_avg + (1 - beta) * gradient_risk_weight
-    adam_like_delta = -learning_rate * moving_avg
-    risk_weight_adam_like = risk_weight_adam_like + adam_like_delta
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "step": int(row["step"]),
+                "parameter_name": row["parameter_name"],
+                "signal_group": row["signal_group"],
+                "gradient": float(row["gradient"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def simulate_updates(rows):
+    learning_rate = 0.05
+    beta1 = 0.8
+    beta2 = 0.9
+    epsilon = 1e-8
+    state = {
+        parameter_name: {
+            "direct_weight": 1.0,
+            "adam_like_weight": 1.0,
+            "m": 0.0,
+            "v": 0.0,
+        }
+        for parameter_name in PARAMETER_ORDER
+    }
+    simulated = []
+
+    parameter_index = {
+        parameter_name: index
+        for index, parameter_name in enumerate(PARAMETER_ORDER)
+    }
+    for row in sorted(
+        rows,
+        key=lambda item: (item["step"], parameter_index[item["parameter_name"]]),
+    ):
+        parameter_name = row["parameter_name"]
+        gradient = row["gradient"]
+        parameter_state = state[parameter_name]
+
+        direct_delta = -learning_rate * gradient
+        parameter_state["direct_weight"] += direct_delta
+
+        parameter_state["m"] = beta1 * parameter_state["m"] + (1 - beta1) * gradient
+        parameter_state["v"] = (
+            beta2 * parameter_state["v"]
+            + (1 - beta2) * gradient * gradient
+        )
+        adam_like_delta = (
+            -learning_rate
+            * parameter_state["m"]
+            / (parameter_state["v"] ** 0.5 + epsilon)
+        )
+        parameter_state["adam_like_weight"] += adam_like_delta
+
+        simulated.append(
+            {
+                "step": row["step"],
+                "parameter_name": parameter_name,
+                "gradient": gradient,
+                "direct_delta": direct_delta,
+                "adam_like_delta": adam_like_delta,
+                "direct_weight": parameter_state["direct_weight"],
+                "adam_like_weight": parameter_state["adam_like_weight"],
+            }
+        )
+
+    return simulated
+
+
+rows = load_rows(DATA_PATH)
+simulated = simulate_updates(rows)
+
+print("[input]")
+print("rows =", len(rows))
+print("parameters =", ", ".join(PARAMETER_ORDER))
+
+print("\n[checkpoints]")
+for item in simulated:
+    if item["step"] in [1, 6, 12]:
+        print(
+            item["parameter_name"],
+            "step =", item["step"],
+            "gradient =", item["gradient"],
+            "direct_delta =", round(item["direct_delta"], 3),
+            "adam_like_delta =", round(item["adam_like_delta"], 3),
+        )
+
+print("\n[final weights]")
+for parameter_name in PARAMETER_ORDER:
+    last = [
+        item for item in simulated
+        if item["parameter_name"] == parameter_name
+    ][-1]
     print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "moving_avg =", round(moving_avg, 3),
-        "adam_like_delta =", round(adam_like_delta, 3),
-        "-> risk_weight =", round(risk_weight_adam_like, 3)
+        parameter_name,
+        "direct_weight =", round(last["direct_weight"], 3),
+        "adam_like_weight =", round(last["adam_like_weight"], 3),
     )
 ```
 
-출력에서는 같은 `gradient_risk_weight` 흐름에서도 단순 직접 업데이트와 Adam-like의 step별 update가 어떻게 달라지는지부터 비교하면 됩니다.
+출력에서는 같은 CSV 입력에서도 단순 직접 업데이트와 Adam-like의 step별 update가 어떻게 달라지는지부터 비교하면 됩니다.
 
 ```text
-Direct updates
- gradient_risk_weight = -4.0 direct_delta = 0.4 -> risk_weight = 1.4
- gradient_risk_weight = -2.0 direct_delta = 0.2 -> risk_weight = 1.6
- gradient_risk_weight = -1.0 direct_delta = 0.1 -> risk_weight = 1.7
+[input]
+rows = 36
+parameters = risk_weight, recovery_weight, noise_weight
 
-Adam-like updates (simplified intuition)
- gradient_risk_weight = -4.0 moving_avg = -0.4 adam_like_delta = 0.04 -> risk_weight = 1.04
- gradient_risk_weight = -2.0 moving_avg = -0.56 adam_like_delta = 0.056 -> risk_weight = 1.096
- gradient_risk_weight = -1.0 moving_avg = -0.604 adam_like_delta = 0.06 -> risk_weight = 1.156
+[checkpoints]
+risk_weight step = 1 gradient = -7.0 direct_delta = 0.35 adam_like_delta = 0.032
+recovery_weight step = 1 gradient = -0.6 direct_delta = 0.03 adam_like_delta = 0.032
+noise_weight step = 1 gradient = -3.0 direct_delta = 0.15 adam_like_delta = 0.032
+risk_weight step = 6 gradient = -3.0 direct_delta = 0.15 adam_like_delta = 0.049
+recovery_weight step = 6 gradient = -0.29 direct_delta = 0.014 adam_like_delta = 0.05
+noise_weight step = 6 gradient = 1.2 direct_delta = -0.06 adam_like_delta = -0.001
+risk_weight step = 12 gradient = -0.4 direct_delta = 0.02 adam_like_delta = 0.03
+recovery_weight step = 12 gradient = -0.05 direct_delta = 0.003 adam_like_delta = 0.034
+noise_weight step = 12 gradient = 0.3 direct_delta = -0.015 adam_like_delta = -0.0
+
+[final weights]
+risk_weight direct_weight = 2.87 adam_like_weight = 1.502
+recovery_weight direct_weight = 1.171 adam_like_weight = 1.52
+noise_weight direct_weight = 1.07 adam_like_weight = 1.063
 ```
 
-같은 출력도 `입력 gradient -> step별 update -> 누적된 risk_weight`로 나누어 보면 Adam-like가 무엇을 더 보완하려는지 더 분명합니다.
+같은 출력도 `입력 gradient -> step별 update -> 누적된 weight`로 나누어 보면 Adam-like가 무엇을 더 보완하려는지 더 분명합니다.
 
-![단순 직접 업데이트와 Adam-like 비교에 쓰는 gradient 입력 흐름](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-ko.png)
+![파라미터별 gradient 흐름](../../../assets/part-05/chapter-07/adaptive-gradient-history-ko.png)
 
-첫 단계의 입력은 optimizer가 아직 바꾸지 않은 gradient 흐름입니다. 여기서는 step이 지날수록 `gradient_risk_weight`의 절대값이 작아지며, 단순 직접 업데이트와 Adam-like는 모두 같은 입력을 받습니다.
+첫 단계의 입력은 optimizer가 아직 바꾸지 않은 gradient 흐름입니다. `risk_weight`는 큰 음수 gradient가 꾸준히 줄고, `recovery_weight`는 작은 음수 gradient가 꾸준히 줄며, `noise_weight`는 방향이 계속 바뀝니다. 단순 직접 업데이트와 Adam-like는 모두 이 같은 입력을 받습니다.
 
-![단순 직접 업데이트와 Adam-like의 step별 delta 비교](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-ko.png)
+![좌표별 평균 update 크기](../../../assets/part-05/chapter-07/adaptive-delta-scale-ko.png)
 
-delta 단계에서 차이가 생깁니다. 단순 직접 업데이트는 현재 gradient를 바로 learning rate와 곱해 첫 step에서 크게 움직이고, Adam-like는 moving average를 거치기 때문에 같은 입력을 더 작은 이동량으로 바꿉니다.
+delta 단계에서 차이가 생깁니다. 단순 직접 업데이트는 gradient 크기 차이를 update 크기 차이로 거의 그대로 옮깁니다. Adam-like는 최근 흐름과 좌표별 크기 이력을 함께 쓰기 때문에 큰 gradient 좌표는 상대적으로 눌리고, 작은 gradient 좌표도 자기 이력 기준으로 조절됩니다.
 
-![단순 직접 업데이트와 Adam-like의 risk_weight 이동 경로](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-ko.png)
+![update 규칙별 파라미터 이동 경로](../../../assets/part-05/chapter-07/adaptive-weight-trajectory-ko.png)
 
-최종 risk_weight 경로를 보면 이 차이가 누적됩니다. 단순 직접 업데이트는 빠르게 1.7까지 이동하지만, Adam-like는 최근 흐름을 누적해 더 천천히 1.156까지 움직입니다. 이 단계에서 달라지는 것은 `같은 gradient를 받았다`가 아니라, optimizer 규칙이 실제 파라미터 경로를 다르게 만든다는 점입니다.
+최종 파라미터 경로를 보면 이 차이가 누적됩니다. 큰 gradient가 꾸준한 `risk_weight`에서는 직접 update가 훨씬 멀리 움직이고, 작은 gradient가 꾸준한 `recovery_weight`에서는 Adam-like가 더 크게 반응합니다. 방향이 흔들리는 `noise_weight`에서는 두 경로 모두 크게 멀어지지 않습니다. 이 단계에서 달라지는 것은 `gradient를 새로 계산했다`가 아니라, optimizer 규칙이 같은 gradient 흐름을 실제 파라미터 경로로 바꾸는 방식입니다.
 
 이 예제는 진짜 Adam 전체 공식을 구현한 것도 아니고, 단순 직접 업데이트와 Adam의 성능 우열을 판정하는 실험도 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
 
-- 단순 직접 업데이트는 현재 `gradient_risk_weight`를 비교적 직접 반영합니다
-- Adam류의 아이디어는 최근 방향을 누적해 step별 update를 다르게 만듭니다
+- 단순 직접 업데이트는 현재 `gradient`를 비교적 직접 반영합니다
+- Adam류의 아이디어는 최근 방향과 좌표별 크기 이력을 누적해 step별 update를 다르게 만듭니다
 - optimizer는 단순히 `감소시킨다`가 아니라, 같은 gradient를 `어떤 update 경로로 바꿀지`를 정합니다
 
-### 좌표별 조절 미니 실험
+이 예제를 읽으면 적응형 업데이트의 보완점이 두 축으로 나뉩니다.
 
-위 예제는 적응형 업데이트의 첫 번째 축인 `최근 gradient 흐름`을 남기는 감각을 보여 줍니다. 하지만 적응형 업데이트를 이해하려면 한 가지를 더 봐야 합니다. 큰 모델에서는 파라미터가 하나가 아니라 많고, 각 파라미터의 gradient 크기도 서로 다릅니다. 이때 Adam류 optimizer는 `모든 좌표를 같은 기준 보폭으로 밀기`보다, 좌표별 gradient 크기를 참고해 update를 조절하려고 합니다.
-
-다음 미니 실험은 진짜 Adam 전체 구현이 아니라, Adam의 좌표별 조절 직관 중 `두 번째 모멘트(second moment)로 gradient 크기 차이를 보정한다`는 부분만 단순화한 것입니다. 여기서는 두 파라미터를 비교합니다.
-
-| 파라미터 | 들어오는 gradient 흐름 | 단순 직접 업데이트에서 먼저 예상할 일 | Adam-like 좌표별 조절에서 먼저 예상할 일 |
-| --- | --- | --- | --- |
-| `risk_weight` | `[-8.0, -4.0]` | gradient가 커서 update도 매우 커진다 | 큰 gradient 좌표는 보폭이 상대적으로 눌린다 |
-| `recovery_weight` | `[-0.5, -0.25]` | gradient가 작아서 update도 매우 작아진다 | 작은 gradient 좌표도 완전히 묻히지 않게 조절된다 |
-
-```python
-gradient_by_parameter = {
-    "risk_weight": [-8.0, -4.0],
-    "recovery_weight": [-0.5, -0.25],
-}
-
-learning_rate = 0.1
-beta2 = 0.9
-second_moment = {
-    "risk_weight": 0.0,
-    "recovery_weight": 0.0,
-}
-
-for step in range(2):
-    print("step", step + 1)
-    for parameter_name, gradient_history in gradient_by_parameter.items():
-        gradient = gradient_history[step]
-        direct_delta = -learning_rate * gradient
-
-        second_moment[parameter_name] = (
-            beta2 * second_moment[parameter_name]
-            + (1 - beta2) * gradient * gradient
-        )
-        adam_like_delta = -learning_rate * gradient / (second_moment[parameter_name] ** 0.5)
-
-        print(
-            parameter_name,
-            "gradient =", gradient,
-            "direct_delta =", round(direct_delta, 3),
-            "second_moment =", round(second_moment[parameter_name], 3),
-            "adam_like_delta =", round(adam_like_delta, 3),
-        )
-```
-
-출력은 숫자를 다시 읽는 것보다, `같은 gradient 흐름이 어떤 update 규칙을 거치며 다른 이동 경로가 되는가`를 확인하는 데 집중해 읽습니다.
-
-```text
-step 1
-risk_weight gradient = -8.0 direct_delta = 0.8 second_moment = 6.4 adam_like_delta = 0.316
-recovery_weight gradient = -0.5 direct_delta = 0.05 second_moment = 0.025 adam_like_delta = 0.316
-step 2
-risk_weight gradient = -4.0 direct_delta = 0.4 second_moment = 7.36 adam_like_delta = 0.147
-recovery_weight gradient = -0.25 direct_delta = 0.025 second_moment = 0.029 adam_like_delta = 0.147
-```
-
-단순 직접 업데이트에서는 `risk_weight`의 첫 update가 `0.8`이고 `recovery_weight`는 `0.05`입니다. gradient 크기 차이가 update 크기 차이로 거의 그대로 옮겨갑니다. 반면 Adam-like 좌표별 조절에서는 각 좌표가 자기 gradient 크기 이력을 `second_moment`에 따로 쌓고, 그 값으로 update를 나눕니다. 그래서 큰 gradient 좌표는 상대적으로 눌리고, 작은 gradient 좌표는 완전히 묻히지 않습니다.
-
-이 숫자를 Adam 전체 공식으로 외울 필요는 없습니다. 여기서 붙잡아야 할 학습 포인트는 하나입니다. Adam의 `적응형(adaptive)`이라는 말은 단순히 최근 흐름을 기억한다는 뜻만이 아니라, 파라미터 좌표마다 gradient 크기 이력을 따로 보고 update 보폭을 조절하려 한다는 뜻입니다.
-
-다만 이 미니 실험을 `Adam은 서로 다른 파라미터의 update를 항상 같게 만든다`로 읽으면 안 됩니다. 위 숫자에서 두 `adam_like_delta`가 같아 보이는 이유는 두 gradient 흐름의 비율이 같은 단순 예제를 썼기 때문입니다. 실제 Adam에는 첫 번째 모멘트, 두 번째 모멘트, bias correction, 작은 안정화 상수 같은 요소가 함께 들어갑니다. 여기서는 전체 공식을 재현하려는 것이 아니라, `큰 gradient는 자기 크기 이력으로 나뉘고, 작은 gradient도 자기 크기 이력으로 나뉜다`는 좌표별 조절 감각만 분리해 보는 것입니다.
-
-두 예제를 함께 읽으면 적응형 업데이트의 보완점이 두 축으로 나뉩니다.
-
-| 예제 | 보는 축 | 직접 확인할 변화 | 이 절에서 남길 문장 |
-| --- | --- | --- | --- |
-| `risk_weight` 한 개의 여러 step | 시간축 | 최근 gradient가 moving average에 남아 step별 update가 매끈해진다 | 적응형 업데이트는 현재 gradient만 보지 않고 최근 흐름을 함께 볼 수 있다 |
-| `risk_weight`와 `recovery_weight` 비교 | 좌표축 | 파라미터마다 자기 gradient 크기 이력을 따로 쌓아 보폭을 조절한다 | 적응형 업데이트는 모든 파라미터를 같은 기준 보폭으로만 밀지 않는다 |
+| 보는 축 | 직접 확인할 변화 | 이 절에서 남길 문장 |
+| --- | --- | --- |
+| 시간축 | 최근 gradient가 moving average에 남아 step별 update가 매끈해진다 | 적응형 업데이트는 현재 gradient만 보지 않고 최근 흐름을 함께 볼 수 있다 |
+| 좌표축 | 파라미터마다 자기 gradient 크기 이력을 따로 쌓아 보폭을 조절한다 | 적응형 업데이트는 모든 파라미터를 같은 기준 보폭으로만 밀지 않는다 |
 
 이 표까지 읽고 나면 적응형 업데이트의 핵심을 `시간축 누적과 좌표축 조절을 update 규칙에 넣는 방식`으로 말할 수 있어야 합니다. 그리고 Adam은 그 방식을 대표적으로 보여 주는 예라고 정리하면 충분합니다.
 
@@ -304,7 +329,7 @@ optimizer의 일반 역할을 이해한 뒤에는 `지금 기본 업데이트 �
 - 적응형 업데이트가 기본 update에 무엇을 더 보완하려는지 설명할 수 있는가?
 - 적응형 업데이트는 누적 정보와 좌표별 조절을 더 반영하는 방식이라는 점을 설명할 수 있는가?
 - 단순 update 기준과 적응형 업데이트를 `현재 gradient에 바로 반응하는 방식`과 `누적 정보와 좌표별 차이를 더 반영하는 방식`의 차이로 설명할 수 있는가?
-- 첫 예제에서는 시간축 누적, 두 번째 예제에서는 좌표축 조절을 읽어야 한다는 점을 구분할 수 있는가?
+- CSV 예제에서 시간축 누적과 좌표축 조절을 함께 읽어야 한다는 점을 구분할 수 있는가?
 - Adam은 적응형 업데이트의 대표 예일 뿐, 절대적으로 더 좋은 optimizer라고 단정할 수 없다는 점을 말할 수 있는가?
 
 ## 출처와 참고 자료
