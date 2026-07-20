@@ -214,6 +214,7 @@ BERT 계열과 그 이후의 encoder 중심 모델은 문장을 임베딩으로 
 아래 코드는 위에 정리한 라벨 키워드, 문장쌍, 검색 후보 예시를 사용합니다.
 
 ```python
+# 분류, 문장쌍 관계, 문서 순위화 태스크를 단순 token matching으로 구현해 이해 중심 NLP 문제를 비교하는 예제입니다.
 from collections import Counter
 
 label_keywords = {
