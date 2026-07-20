@@ -1,7 +1,7 @@
 # P5-11.1 卷积神经网络（CNN）的直觉
 
-Section ID: `P5-11.1`
-Version: `v2026.07.17`
+> Section ID: `P5-11.1`
+> Version: `v2026.07.19`
 
 在 P5-10 章里，我们已经看到：深层神经网络会随着层数增加，学到更有用的表征（representation）。现在如果把这个视角进一步收缩到图像，就会自然出现下一个问题。
 
@@ -397,6 +397,6 @@ CNN 在深度学习入门课程里几乎总会被当作一个重要转折点。�
 
 ## 来源与参考资料
 
-- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998，确认日期：2026-06-29。
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012，确认日期：2026-06-29。
+- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998，确认日期：2026-07-19。[https://doi.org/10.1109/5.726791](https://doi.org/10.1109/5.726791){: target="_blank" rel="noopener noreferrer" }
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012，确认日期：2026-07-19。[https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
