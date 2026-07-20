@@ -105,6 +105,70 @@
   overflow-x: auto;
 }
 
+.md-typeset .aibook-csv-preview__toggle {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-primary-fg-color);
+  border-radius: 0.25rem;
+  color: var(--md-primary-fg-color);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-left: 0.35rem;
+  min-height: 1.35rem;
+  padding: 0.08rem 0.42rem;
+  user-select: none;
+  vertical-align: 0.06rem;
+}
+
+.md-typeset .aibook-csv-preview__toggle:hover,
+.md-typeset .aibook-csv-preview__toggle:focus {
+  background: var(--md-accent-fg-color--transparent);
+}
+
+.md-typeset .aibook-csv-preview__panel {
+  display: block;
+  margin: 0.6rem 0 0;
+}
+
+.md-typeset .aibook-csv-preview__panel[hidden] {
+  display: none;
+}
+
+.md-typeset .aibook-csv-preview__status,
+.md-typeset .aibook-csv-preview__body {
+  margin-top: 0.55rem;
+}
+
+.md-typeset .aibook-csv-preview__meta,
+.md-typeset .aibook-csv-preview__source {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.68rem;
+  margin: 0.25rem 0;
+}
+
+.md-typeset .aibook-csv-preview__table-wrap {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.25rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.md-typeset .aibook-csv-preview__table {
+  display: table;
+  font-size: 0.68rem;
+  margin: 0;
+  min-width: max-content;
+  width: 100%;
+}
+
+.md-typeset .aibook-csv-preview__table th,
+.md-typeset .aibook-csv-preview__table td {
+  padding: 0.35rem 0.55rem;
+  white-space: nowrap;
+}
+
 .md-main,
 .md-main__inner,
 .md-content,

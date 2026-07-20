@@ -125,7 +125,7 @@ LSTM과 GRU는 장기 의존성 문제를 완화했지만, 여전히 상태를 �
 - 문서 맨 앞의 핵심 재기동 금지 규칙 한 줄
 - 길이가 다른 중간 설명 구간
 - 문서 끝의 같은 재기동 질문 한 줄
-- 입력 파일: [`long-dependency-instruction-log.csv`](../../../assets/part-05/chapter-12/long-dependency-instruction-log.csv)
+- 입력 파일: [`long-dependency-instruction-log.csv`](../../../assets/part-05/chapter-12/long-dependency-instruction-log.csv){ .csv-preview }
 
 출력:
 
