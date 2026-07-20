@@ -57,6 +57,7 @@ Expected output: There is no printed output, but it shows the simplest form of a
 Concept to check: See that a list is a general-purpose container for holding values, not yet a computation-oriented array.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 scores = [82, 75, 45]
 ```
 
@@ -70,6 +71,7 @@ Expected output: There is no printed output, but a computation-oriented array cr
 Concept to check: See that a NumPy array is a structure for handling the same kind of numbers in a consistent shape.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 import numpy as np
 
 scores = np.array([82, 75, 45])
@@ -105,6 +107,7 @@ Expected output: There is no printed output, but the setup is ready for comparin
 Concept to check: See that even if they look similar, a list and an array can have different meanings in computation.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 python_scores = [82, 75, 45]
 numpy_scores = np.array([82, 75, 45])
 ```
@@ -117,6 +120,7 @@ Expected output: The list is concatenated, while the array prints the result of 
 Concept to check: Confirm that a NumPy array is both a storage structure and a computation structure.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 print(python_scores + python_scores)
 print(numpy_scores + numpy_scores)
 ```
@@ -158,6 +162,7 @@ Expected output: The array value, `shape`, `ndim`, and `dtype` are printed in or
 Concept to check: See the habit of reading a one-dimensional array as a vector and checking its shape and number of dimensions together.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 import numpy as np
 
 embedding = np.array([0.12, -0.03, 0.44, 0.18])
@@ -203,6 +208,7 @@ Expected output: The matrix value, `shape`, `ndim`, and `dtype` are printed in o
 Concept to check: See how a two-dimensional array is read as a matrix and how the number of rows and columns is checked through `shape`.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 scores = np.array([
     [82, 75, 45],
     [90, 61, 70],
@@ -257,6 +263,7 @@ Expected output: The `shape` of both arrays is printed.
 Concept to check: See that before computation, you should check whether the shapes fit before looking at the values.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -291,6 +298,7 @@ Expected output: A score array for each sample and the result `shape` are printe
 Concept to check: Confirm that when the inner dimensions match, a feature matrix and weight vector can produce a score for each sample.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 scores = features @ weights
 print(scores)
 print(scores.shape)
@@ -349,6 +357,7 @@ Expected output: `shape`, `ndim`, and `dtype` are printed in order.
 Concept to check: See the habit of checking an array's shape, dimension, and type before looking at its values one by one.
 
 ```python
+# This example builds scores, vectors, and matrices as NumPy arrays and checks shape and matrix multiplication.
 print(array.shape)
 print(array.ndim)
 print(array.dtype)

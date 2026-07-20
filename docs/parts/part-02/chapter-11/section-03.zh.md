@@ -15,6 +15,7 @@
 要确认的概念：看到广播的第一层直觉，是把一个标量应用到数组的每个位置。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 import numpy as np
 
 scores = np.array([82, 75, 45])
@@ -69,6 +70,7 @@ NumPy 官方文档把 broadcasting 介绍为：在算术运算中，如何处理
 要确认的概念：确认标量运算会把同样的规则应用到数组每个位置。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 scores = np.array([82, 75, 45])
 
 print(scores + 10)
@@ -100,6 +102,7 @@ broadcasting 不是强行让任意数组都匹配的功能。shape 必须兼容�
 要确认的概念：看到长度为 3 的向量可以广播到每一行的 3 个 feature 上。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],
@@ -145,6 +148,7 @@ broadcasting 很方便，但如果 shape 不匹配，就会报错。
 要确认的概念：看到 broadcasting 不会让任意数组都匹配起来，而且从最后一个维度开始的兼容性很重要。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 bad_offset = np.array([10, 20, 30, 40])
 
 print(features.shape)
@@ -184,6 +188,7 @@ vectorization 是一种表达方式：不直接写 Python 循环，而是用数�
 要确认的概念：看到 vectorization 就是把这样的重复计算更紧凑地写成数组运算。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 scores = [82, 75, 45]
 
 adjusted = []
@@ -201,6 +206,7 @@ print(adjusted)
 要确认的概念：确认 vectorization 不等于重复消失，而是把重复写成了数组级语法。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 scores = np.array([82, 75, 45])
 adjusted = scores + 10
 
@@ -236,6 +242,7 @@ NumPy 官方文档说明，broadcasting 提供了 vectorizing array operations �
 要确认的概念：看到 `mean(axis=0)` 结果 `(3,)` 会广播到每一行，从而形成中心化。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],
@@ -294,6 +301,7 @@ broadcasting 和 vectorization 可以让代码更短，也常常更容易读。�
 要确认的概念：看到 broadcasting 看起来再方便，也应该先检查 shape。
 
 ```python
+# 这个例子用广播和向量化把同一计算规则应用到整个数组。
 print(features.shape)
 print(column_mean.shape)
 ```

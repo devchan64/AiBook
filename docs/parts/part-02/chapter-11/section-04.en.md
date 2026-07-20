@@ -68,6 +68,7 @@ Expected output: A value changed through the slice is reflected back in the orig
 Concept to check: See that basic slicing may look like a new array but can still be read as connected to the original.
 
 ```python
+# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 import numpy as np
 
 scores = np.array([82, 75, 45, 90, 61])
@@ -104,6 +105,7 @@ Expected output: Even if the fancy-indexing result and the boolean-mask result a
 Concept to check: See that results gathered by specific positions or by filtering are safer to read as new arrays.
 
 ```python
+# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 scores = np.array([82, 75, 45, 90, 61])
 
 picked = scores[[1, 3, 4]]
@@ -158,6 +160,7 @@ Expected output: The three shapes `(3,)`, `(3, 1)`, and `(1, 3)` are printed.
 Concept to check: See that `np.newaxis` does not change the values themselves, but adds a length-1 axis and changes the calculation direction.
 
 ```python
+# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 scores = np.array([82, 75, 45])
 
 print(scores.shape)
@@ -193,6 +196,7 @@ Expected output: Shapes `(3, 1)` and `(1, 2)` meet and produce a `(3, 2)` result
 Concept to check: See that `np.newaxis` is a tool for shape alignment used in broadcasting.
 
 ```python
+# This supplemental example checks NumPy array shape changes together with whether data is shared with the original.
 a = np.array([10, 20, 30])
 b = np.array([1, 2])
 

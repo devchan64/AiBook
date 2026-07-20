@@ -68,6 +68,7 @@
 要确认的概念：看到 basic slicing 看起来像新数组，但仍可能与原数组相连。
 
 ```python
+# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 import numpy as np
 
 scores = np.array([82, 75, 45, 90, 61])
@@ -104,6 +105,7 @@ print(middle)
 要确认的概念：看到按位置收集或按条件筛选出来的结果，更安全地应读成新数组。
 
 ```python
+# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 scores = np.array([82, 75, 45, 90, 61])
 
 picked = scores[[1, 3, 4]]
@@ -158,6 +160,7 @@ slicing、fancy indexing、boolean mask 虽然都像是在“只选一部分值�
 要确认的概念：看到 `np.newaxis` 不会改变值本身，而是通过增加一个长度为 1 的轴来改变计算方向。
 
 ```python
+# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 scores = np.array([82, 75, 45])
 
 print(scores.shape)
@@ -193,6 +196,7 @@ print(scores[np.newaxis, :].shape)
 要确认的概念：看到 `np.newaxis` 是用于 broadcasting 的 shape 对齐工具。
 
 ```python
+# 这个补充例子同时检查 NumPy 数组的 shape 变化以及是否与原数组共享数据。
 a = np.array([10, 20, 30])
 b = np.array([1, 2])
 

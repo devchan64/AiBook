@@ -15,6 +15,7 @@ Expected output: A new array is printed with 10 added to each value.
 Concept to check: See that the first intuition of broadcasting is that a scalar is applied to each position in the array.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 import numpy as np
 
 scores = np.array([82, 75, 45])
@@ -69,6 +70,7 @@ Expected output: The result of `+10` and the result of `*2` are each printed.
 Concept to check: Confirm that a scalar operation applies the same rule to each position in the array.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 scores = np.array([82, 75, 45])
 
 print(scores + 10)
@@ -100,6 +102,7 @@ Expected output: The `shape` of both arrays and the adjusted matrix are printed.
 Concept to check: See that a length-3 vector can be broadcast across the three features of each row.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],
@@ -145,6 +148,7 @@ Expected output: The two shapes are printed, and then a broadcasting error occur
 Concept to check: See that broadcasting does not make arbitrary arrays fit, and that compatibility from the last dimension matters.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 bad_offset = np.array([10, 20, 30, 40])
 
 print(features.shape)
@@ -184,6 +188,7 @@ Expected output: A list is printed with 10 added to each score.
 Concept to check: See that vectorization is a way of expressing this repeated calculation more compactly as an array operation.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 scores = [82, 75, 45]
 
 adjusted = []
@@ -201,6 +206,7 @@ Expected output: The adjusted score array is printed.
 Concept to check: Confirm that vectorization does not mean repetition vanished, but that it was expressed in array-level syntax.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 scores = np.array([82, 75, 45])
 adjusted = scores + 10
 
@@ -236,6 +242,7 @@ Expected output: The mean vector by column and the matrix after subtracting the 
 Concept to check: See that the result of `mean(axis=0)` with shape `(3,)` is broadcast to each row and produces centering.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],
@@ -294,6 +301,7 @@ Expected output: The shapes of the two arrays are printed.
 Concept to check: See that even if broadcasting looks convenient, it is safer to check the shapes first.
 
 ```python
+# This example applies one calculation rule across arrays using broadcasting and vectorization.
 print(features.shape)
 print(column_mean.shape)
 ```

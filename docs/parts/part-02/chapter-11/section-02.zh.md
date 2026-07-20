@@ -63,6 +63,7 @@ NumPy 官方文档说明，`ndarray` 可以用标准 Python 形式 `x[obj]` 进�
 要确认的概念：看到 indexing 是选择一个准确位置，而且位置编号从 0 开始。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 import numpy as np
 
 scores = np.array([82, 75, 45, 90])
@@ -101,6 +102,7 @@ indexing 问的是：`这个位置上的值是什么？`
 要确认的概念：确认 `data[row, column]` 是选择一个值的基本语法。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 data = np.array([
     [10, 11, 12, 13],
     [20, 21, 22, 23],
@@ -141,6 +143,7 @@ slicing 选的不是一个位置，而是一段区间。
 要确认的概念：看到 slicing 会保留从起点到终点之前的区间，而不包含 stop 位置。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 scores = np.array([82, 75, 45, 90])
 
 print(scores[1:3])
@@ -178,6 +181,7 @@ slicing 问的是：`要保留哪一段区间？`
 要确认的概念：看到 slicing 能同时控制区间的起点、终点和步长。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 scores = np.array([82, 75, 45, 90, 61, 70])
 
 print(scores[1:5])
@@ -205,6 +209,7 @@ print(scores[-2:])
 要确认的概念：看到 `:` 表示该轴上的完整区间，并且行选择与列选择要分开理解。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 data = np.array([
     [10, 11, 12, 13],
     [20, 21, 22, 23],
@@ -242,6 +247,7 @@ print(data[:, 3])
 要确认的概念：看到 slicing 可以同时跨多个轴选择区间。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 print(data[0:2, 1:3])
 ```
 
@@ -270,6 +276,7 @@ NumPy glossary 把 axis 解释为数组的一个维度。轴从左到右编号�
 要确认的概念：看到把 `axis=0` 读成第一维、`axis=1` 读成第二维，这种解释与 `shape` 是连在一起的。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 data.shape
 ```
 
@@ -288,6 +295,7 @@ axis 在 `sum`、`mean` 这类汇总计算里尤其重要。
 要确认的概念：看到 axis 不是位置编号，而是计算方向，而且结果 `shape` 也会变化。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 print(data.sum(axis=0))
 print(data.sum(axis=1))
 ```
@@ -326,6 +334,7 @@ print(data.sum(axis=1))
 要确认的概念：看到二维数组常常是把行读成 sample，把列读成 feature。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -341,6 +350,7 @@ features = np.array([
 要确认的概念：看到即使是同一个数组，选行与选列对应的也是不同问题。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 print(features[0, :])
 print(features[:, 1])
 ```
@@ -374,6 +384,7 @@ print(features[:, 1])
 要确认的概念：看到选一行表示一条案例，选一列表示一个完整 feature，并且这会直接连接到后面的统计计算。
 
 ```python
+# 这个例子按位置、切片和轴选择并汇总 NumPy 数组中的值。
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],

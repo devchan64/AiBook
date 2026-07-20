@@ -63,6 +63,7 @@ Expected output: The first value `82` and the third value `45` are printed.
 Concept to check: See that indexing chooses one exact position and that position numbering starts from 0.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 import numpy as np
 
 scores = np.array([82, 75, 45, 90])
@@ -101,6 +102,7 @@ Expected output: The full `shape` and the selected value `22` are printed.
 Concept to check: Confirm that the notation `data[row, column]` is the basic syntax for choosing one value.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 data = np.array([
     [10, 11, 12, 13],
     [20, 21, 22, 23],
@@ -141,6 +143,7 @@ Expected output: An array containing only the second and third values is printed
 Concept to check: See that slicing leaves the range from the start position up to, but not including, the stop position.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 scores = np.array([82, 75, 45, 90])
 
 print(scores[1:3])
@@ -178,6 +181,7 @@ Expected output: A continuous range, a range with two-step gaps, a front part, a
 Concept to check: See that slicing lets you control the start, stop, and interval of a range together.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 scores = np.array([82, 75, 45, 90, 61, 70])
 
 print(scores[1:5])
@@ -205,6 +209,7 @@ Expected output: The entire third row and the entire fourth column are printed.
 Concept to check: See that `:` means the full range of that axis, and that row selection and column selection should be read separately.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 data = np.array([
     [10, 11, 12, 13],
     [20, 21, 22, 23],
@@ -242,6 +247,7 @@ Expected output: A 2-by-2 sub-array is printed.
 Concept to check: See that slicing can choose ranges across several axes at once.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 print(data[0:2, 1:3])
 ```
 
@@ -270,6 +276,7 @@ Expected output: `(3, 4)` is printed.
 Concept to check: See that interpreting `axis=0` as the first dimension and `axis=1` as the second dimension is connected to `shape`.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 data.shape
 ```
 
@@ -288,6 +295,7 @@ Expected output: An array of sums by column and an array of sums by row are prin
 Concept to check: See that axis is not a position number but a calculation direction, and that the result `shape` also changes.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 print(data.sum(axis=0))
 print(data.sum(axis=1))
 ```
@@ -326,6 +334,7 @@ Expected output: There is no printed output, but the example of a sample-feature
 Concept to check: See that a two-dimensional array is often read with rows as samples and columns as features.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -341,6 +350,7 @@ Expected output: The full first sample and the full second feature column are pr
 Concept to check: See that, even in the same array, row selection and column selection correspond to different questions.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 print(features[0, :])
 print(features[:, 1])
 ```
@@ -374,6 +384,7 @@ Expected output: The second sample, the full second feature column, and its mean
 Concept to check: See that choosing a row means one case, choosing a column means one whole feature, and this can lead to later statistical calculations.
 
 ```python
+# This example selects and summarizes NumPy array values by position, slice, and axis.
 features = np.array([
     [1.0, 0.2, 7.0],
     [0.8, 0.4, 6.5],

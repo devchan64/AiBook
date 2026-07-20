@@ -68,6 +68,7 @@ P2-11.2에서 본 슬라이싱은 구간을 남기는 표기였습니다. NumPy�
 확인할 개념: 기본 슬라이싱은 새 배열처럼 보여도 원본과 연결되어 읽힐 수 있다는 점을 봅니다.
 
 ```python
+# NumPy 배열의 shape 변경과 원본 공유 여부를 함께 확인하는 보충 예제입니다.
 import numpy as np
 
 scores = np.array([82, 75, 45, 90, 61])
@@ -104,6 +105,7 @@ print(middle)
 확인할 개념: 위치를 따로 모으거나 조건으로 걸러 낸 결과는 새 배열처럼 읽는다는 점을 봅니다.
 
 ```python
+# NumPy 배열의 shape 변경과 원본 공유 여부를 함께 확인하는 보충 예제입니다.
 scores = np.array([82, 75, 45, 90, 61])
 
 picked = scores[[1, 3, 4]]
@@ -158,6 +160,7 @@ print(high_scores)
 확인할 개념: `np.newaxis`는 값 자체를 바꾸지 않고 길이 1인 축을 추가해 계산 방향을 바꾼다는 점을 봅니다.
 
 ```python
+# NumPy 배열의 shape 변경과 원본 공유 여부를 함께 확인하는 보충 예제입니다.
 scores = np.array([82, 75, 45])
 
 print(scores.shape)
@@ -193,6 +196,7 @@ P2-11.3에서는 `(4, 3)`과 `(3,)`처럼 이미 맞는 `shape`를 봤습니다.
 확인할 개념: `np.newaxis`는 broadcasting을 위한 shape 정렬 도구라는 점을 봅니다.
 
 ```python
+# NumPy 배열의 shape 변경과 원본 공유 여부를 함께 확인하는 보충 예제입니다.
 a = np.array([10, 20, 30])
 b = np.array([1, 2])
 

@@ -57,6 +57,7 @@ Python 리스트도 값을 묶을 수 있습니다.
 확인할 개념: 리스트는 값을 담는 범용 컨테이너이고, 아직 계산용 배열은 아니라는 점을 봅니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 scores = [82, 75, 45]
 ```
 
@@ -70,6 +71,7 @@ scores = [82, 75, 45]
 확인할 개념: NumPy 배열은 같은 종류의 숫자를 일정한 모양으로 다루기 위한 구조라는 점을 봅니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 import numpy as np
 
 scores = np.array([82, 75, 45])
@@ -105,6 +107,7 @@ Python 리스트와 NumPy 배열은 겉으로는 비슷해 보입니다.
 확인할 개념: 겉모양이 비슷해 보여도 리스트와 배열은 계산 의미가 달라질 수 있다는 점을 봅니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 python_scores = [82, 75, 45]
 numpy_scores = np.array([82, 75, 45])
 ```
@@ -117,6 +120,7 @@ numpy_scores = np.array([82, 75, 45])
 확인할 개념: NumPy 배열은 저장 구조이면서 동시에 계산 구조라는 점을 확인합니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 print(python_scores + python_scores)
 print(numpy_scores + numpy_scores)
 ```
@@ -158,6 +162,7 @@ NumPy 배열은 “자료를 담는 구조”이면서 동시에 “계산을 �
 확인할 개념: 1차원 배열을 벡터로 읽고, 모양과 차원 수를 함께 확인하는 습관을 봅니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 import numpy as np
 
 embedding = np.array([0.12, -0.03, 0.44, 0.18])
@@ -203,6 +208,7 @@ float64
 확인할 개념: 2차원 배열을 행렬로 읽고 행과 열 개수를 `shape`로 확인하는 방법을 봅니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 scores = np.array([
     [82, 75, 45],
     [90, 61, 70],
@@ -257,6 +263,7 @@ NumPy 코드에서 `shape`은 단순한 부가 정보가 아닙니다. 어떤 �
 확인할 개념: 계산 전에 배열 값보다 먼저 모양이 맞는지 확인해야 한다는 점을 봅니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -291,6 +298,7 @@ print(weights.shape)
 확인할 개념: 안쪽 차원이 맞으면 특징 행렬과 가중치 벡터로 샘플별 점수를 만들 수 있다는 점을 확인합니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 scores = features @ weights
 print(scores)
 print(scores.shape)
@@ -349,6 +357,7 @@ NumPy 배열을 만들면 먼저 세 가지를 확인합니다.
 확인할 개념: 값을 하나하나 보기 전에 배열의 모양, 차원, 타입부터 확인하는 습관을 봅니다.
 
 ```python
+# NumPy 배열로 점수, 벡터, 행렬을 만들고 shape와 행렬 곱을 확인하는 예제입니다.
 print(array.shape)
 print(array.ndim)
 print(array.dtype)

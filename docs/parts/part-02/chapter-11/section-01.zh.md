@@ -57,6 +57,7 @@ Python list 当然也可以把值放在一起。
 要确认的概念：看到 list 是通用的值容器，还不是面向计算的数组。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 scores = [82, 75, 45]
 ```
 
@@ -70,6 +71,7 @@ scores = [82, 75, 45]
 要确认的概念：看到 NumPy array 是为了用一致形状处理同类数字的结构。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 import numpy as np
 
 scores = np.array([82, 75, 45])
@@ -105,6 +107,7 @@ Python list 和 NumPy array 在外观上可能很像。
 要确认的概念：看到即使外形相似，list 与 array 在计算里的含义也可能不同。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 python_scores = [82, 75, 45]
 numpy_scores = np.array([82, 75, 45])
 ```
@@ -117,6 +120,7 @@ numpy_scores = np.array([82, 75, 45])
 要确认的概念：确认 NumPy array 同时是存储结构与计算结构。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 print(python_scores + python_scores)
 print(numpy_scores + numpy_scores)
 ```
@@ -158,6 +162,7 @@ vector 可以读成“数字排成一行”的结构。
 要确认的概念：看到把一维数组读成 vector，并把形状与维度一起检查的习惯。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 import numpy as np
 
 embedding = np.array([0.12, -0.03, 0.44, 0.18])
@@ -203,6 +208,7 @@ matrix 可以读成带有行(row)与列(column)的二维数组。
 要确认的概念：看到怎样把二维数组读成 matrix，并通过 `shape` 确认行数与列数。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 scores = np.array([
     [82, 75, 45],
     [90, 61, 70],
@@ -257,6 +263,7 @@ S =
 要确认的概念：看到在计算前，应先确认形状是否匹配，而不是先看值本身。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 features = np.array([
     [1.0, 0.2],
     [0.8, 0.4],
@@ -291,6 +298,7 @@ print(weights.shape)
 要确认的概念：确认只要内侧维度匹配，feature matrix 与 weight vector 就能生成按 sample 的分数。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 scores = features @ weights
 print(scores)
 print(scores.shape)
@@ -349,6 +357,7 @@ print(scores.shape)
 要确认的概念：看到在逐个看值之前，先看数组形状、维度、类型的习惯。
 
 ```python
+# 这个例子用 NumPy 数组表示分数、向量和矩阵，并检查 shape 与矩阵乘法。
 print(array.shape)
 print(array.ndim)
 print(array.dtype)
