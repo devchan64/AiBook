@@ -234,6 +234,7 @@ SentencePiece를 처음 볼 때 먼저 봐야 할 점은 다음입니다.
 실행 전제는 분리해서 봐야 합니다. 이 코드는 `transformers` 패키지와 각 tokenizer 파일이 필요합니다. 처음 실행하는 환경에서는 tokenizer 파일을 내려받아야 할 수 있고, 인터넷이 막혀 있거나 로컬 캐시에 파일이 없으면 실행이 실패할 수 있습니다. 그런 경우에는 아래 `사용 결과를 읽으면` 표를 먼저 읽고, 나중에 실행 환경이 준비됐을 때 같은 코드를 다시 확인하면 됩니다.
 
 ```python
+# BPE, WordPiece, SentencePiece tokenizer가 같은 입력 문자열을 어떤 token 조각과 ID로 나누는지 비교하는 예제입니다.
 from transformers import AutoTokenizer
 
 samples = [
