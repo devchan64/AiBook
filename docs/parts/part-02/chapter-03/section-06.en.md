@@ -119,6 +119,7 @@ Expected output: The vector value and `shape (2,)` are printed.
 Concept to check: A vector appears in NumPy as a one-dimensional array, and its length can be checked through `shape`.
 
 ```python
+# This example imports NumPy to prepare vector and matrix calculations for linear algebra examples.
 import numpy as np
 
 # x is an input vector with two components.

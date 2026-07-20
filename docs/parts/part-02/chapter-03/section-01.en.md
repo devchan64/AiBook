@@ -259,6 +259,7 @@ Expected output: The `shape` of each is printed in order.
 Concept to check: Shape is the basic information that distinguishes whether data is one number, a list, or a row-and-column structure.
 
 ```python
+# This example creates scalars, vectors, and matrices as NumPy arrays and checks their data shapes.
 import numpy as np
 
 # scalar, vector, and matrix are three arrays for comparing stored data shape.

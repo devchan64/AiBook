@@ -119,6 +119,7 @@ python docs/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py
 확인할 개념: 벡터는 NumPy에서 1차원 배열로 나타나며, `shape`로 길이를 확인할 수 있다는 점을 봅니다.
 
 ```python
+# NumPy를 불러와 선형대수 예제에서 벡터와 행렬 계산을 준비하는 예제입니다.
 import numpy as np
 
 # x는 두 성분을 가진 입력 벡터입니다.

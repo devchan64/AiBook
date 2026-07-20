@@ -119,6 +119,7 @@ python docs/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py
 要确认的概念：向量在 NumPy 中表现为一维数组，可以通过 `shape` 检查长度。
 
 ```python
+# 这个例子导入 NumPy，为线性代数例子中的向量和矩阵计算做准备。
 import numpy as np
 
 # x 是一个有两个成分的输入向量。
