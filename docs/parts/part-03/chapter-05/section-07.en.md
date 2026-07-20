@@ -55,6 +55,7 @@ Expected output: output showing that even for the same source event, `first_even
 Concept to check: when folding several follow-up events into one result column, we should first specify by what rule they were folded, so the meaning of the table structure does not drift
 
 ```python
+# This example folds multiple follow-up events after the same sample into a table structure and chooses a representative label.
 import csv
 from collections import defaultdict
 from pathlib import Path

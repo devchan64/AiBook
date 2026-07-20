@@ -61,6 +61,7 @@ Expected output: output in which segment differences and `pattern_note` differ e
 Concept to check: one average alone cannot explain all pattern differences, so segment-level differences and an interpretation note should remain together. The pattern rule has to be explicit so structures beyond the average can be read reproducibly.
 
 ```python
+# This example keeps early, mid, and late segment patterns in a summary table so the average does not hide them.
 import csv
 from collections import Counter
 from pathlib import Path

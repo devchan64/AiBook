@@ -48,6 +48,7 @@ Expected output: output showing how many windows each event expands into and how
 Concept to check: the number of input windows is only the number of derived pieces and should not be read in the same unit as the number of source events
 
 ```python
+# This example checks whether overlapping input windows inflate the sample count by counting the same event repeatedly.
 import csv
 from collections import defaultdict
 from pathlib import Path

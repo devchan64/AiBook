@@ -89,6 +89,7 @@
 확인할 개념: 결측은 채우기 전에 먼저 `샘플 유지`, `특징 제외`, `구조 붕괴` 중 어디에 속하는지 분류해야 한다. 부분 누락을 허용할지 여부는 명시적인 정책으로 남겨야 한다.
 
 ```python
+# 값이 빠지거나 구간이 비어 있는 샘플을 집계 전에 점검하고 표시하는 예제입니다.
 import csv
 from collections import Counter
 from pathlib import Path

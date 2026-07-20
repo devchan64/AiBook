@@ -59,6 +59,7 @@
 要确认的概念：把原始日志变成可比较的表，意味着把同一份记录逐步改写成汇总表与聚合表
 
 ```python
+# 这个例子把原始日志行转换为按事件汇总表和按区间聚合表。
 import csv
 from collections import defaultdict
 from pathlib import Path

@@ -48,6 +48,7 @@
 확인할 개념: 입력 창 수는 파생 조각 수일 뿐이며 원천 사건 수와 같은 단위로 읽으면 안 된다
 
 ```python
+# 겹치는 입력 창이 같은 사건을 반복해 세면서 샘플 수를 부풀리는지 확인하는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path

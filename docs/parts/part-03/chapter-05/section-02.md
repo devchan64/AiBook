@@ -61,6 +61,7 @@
 확인할 개념: 평균 하나만으로는 패턴 차이를 다 설명할 수 없으므로 구간별 차이와 해석 메모를 함께 남겨야 한다. 패턴 판정 기준을 명시해야 평균 밖 구조를 재현 가능하게 읽을 수 있다.
 
 ```python
+# 평균만으로 놓치는 early, mid, late 구간 패턴을 요약표에 남기는 예제입니다.
 import csv
 from collections import Counter
 from pathlib import Path

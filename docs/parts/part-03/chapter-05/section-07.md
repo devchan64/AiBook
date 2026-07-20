@@ -55,6 +55,7 @@
 확인할 개념: 후속 사건 여러 개를 하나의 결과 열로 접을 때는 어떤 규칙과 기준으로 접었는지 먼저 명세해야 표 구조 뜻이 흔들리지 않는다
 
 ```python
+# 같은 샘플 뒤의 여러 후속 사건을 표 구조에 맞게 접고 대표 라벨을 정하는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path

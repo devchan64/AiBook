@@ -61,6 +61,7 @@
 要确认的概念：单个平均值无法解释所有模式差异，因此应一起保留分段差异和解释备注。模式判定标准必须明确，平均值之外的结构才能被可复现地读取。
 
 ```python
+# 这个例子在汇总表中保留 early、mid、late 区段模式，避免平均值掩盖它们。
 import csv
 from collections import Counter
 from pathlib import Path

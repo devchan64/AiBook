@@ -55,6 +55,7 @@
 要确认的概念：当多个后续事件被折叠成一个结果列时，必须先写明折叠规则，否则表结构的含义会漂移
 
 ```python
+# 这个例子把同一样本之后的多个后续事件折叠进表结构，并确定代表标签。
 import csv
 from collections import defaultdict
 from pathlib import Path

@@ -59,6 +59,7 @@
 확인할 개념: 원시 로그를 비교 가능한 표로 바꾼다는 말은 같은 기록을 요약 표와 집계 표로 단계적으로 다시 표현한다는 뜻이다
 
 ```python
+# 원시 로그 행을 이벤트별 요약표와 구간별 집계표로 바꾸는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path

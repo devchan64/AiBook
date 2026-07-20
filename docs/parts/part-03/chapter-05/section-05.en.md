@@ -89,6 +89,7 @@ Expected output: output that organizes `late_segment_missing`, `sample_structure
 Concept to check: before filling missing values, we should first classify them as `keep sample`, `exclude features`, or `structural collapse`. Whether partial missingness is allowed should remain as an explicit policy.
 
 ```python
+# This example checks and marks samples with missing values or empty segments before aggregation.
 import csv
 from collections import Counter
 from pathlib import Path

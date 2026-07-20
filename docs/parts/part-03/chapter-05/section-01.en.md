@@ -59,6 +59,7 @@ Expected output: an output in which the three tables `raw`, `summary`, and `aggr
 Concept to check: turning raw logs into comparable tables means rewriting the same records step by step into a summary table and an aggregate table
 
 ```python
+# This example turns raw log rows into per-event summary and per-window aggregate tables.
 import csv
 from collections import defaultdict
 from pathlib import Path

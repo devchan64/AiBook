@@ -89,6 +89,7 @@
 要确认的概念：在补缺失之前，应先把情况分类成 `保留样本`、`排除特征`、`结构坍塌`。是否允许部分缺失，应该作为明确的策略留下来。
 
 ```python
+# 这个例子在聚合前检查并标记数值缺失或区间为空的样本。
 import csv
 from collections import Counter
 from pathlib import Path

@@ -48,6 +48,7 @@
 要确认的概念：输入窗口数只是派生出来的片段数，不能和源事件数当成同一种单位来读
 
 ```python
+# 这个例子检查重叠输入窗口是否因重复计算同一事件而放大样本数。
 import csv
 from collections import defaultdict
 from pathlib import Path
