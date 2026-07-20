@@ -240,6 +240,7 @@ LLM 설명에서 중요한 차이는 마지막 출력 해석입니다.
 ```
 
 ```python
+# 문맥별 활성 단서가 다음 후보 점수와 softmax 확률 분포를 어떻게 바꾸는지 확인하는 예제입니다.
 from math import exp
 
 contexts = {

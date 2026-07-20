@@ -134,6 +134,7 @@ KV cache가 긴 문맥에서 특히 중요하다고 말할 때, 종종 `긴 문�
 ```
 
 ```python
+# KV cache 없이 매번 다시 투영하는 방식과 cache로 이전 K/V를 재사용하는 방식의 projection 부담을 비교하는 예제입니다.
 import numpy as np
 
 token_to_id = {

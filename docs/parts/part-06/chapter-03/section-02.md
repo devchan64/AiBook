@@ -200,6 +200,7 @@ RAG(retrieval-augmented generation)는 바로 이 문제와 연결됩니다.
 ```
 
 ```python
+# context window 토큰 예산 안에서 입력 순서 선택과 중요도 기반 선택이 남기는 단서를 비교하는 예제입니다.
 import string
 
 context_items = [
