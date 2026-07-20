@@ -348,6 +348,7 @@ The simplest way to check the explanation so far is to reread an XOR-like exampl
   - once a new feature `x1 * x2` is added, the classes split much more simply
 
 ```python
+# This example transforms original coordinates into a new feature space to check separability for kernel intuition.
 points = [
     ((-1, -1), 0),
     ((-1,  1), 1),

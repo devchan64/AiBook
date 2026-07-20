@@ -137,6 +137,7 @@ SVM 这个名字里就带着 `support vector`。之所以重要，是因为并�
   - 最靠近 boundary 的点会像 support vector 一样起作用
 
 ```python
+# 这个例子比较 SVM 多个边界候选的 margin，以及像 support vector 一样起作用的近邻点。
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5)]
 positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
 
@@ -327,6 +328,7 @@ SVM 会把中心问题从 `能不能画出 boundary` 换成 `这条 boundary 到
   - 一旦完美分离变困难，就不只是看 `margin 大不大`，还要一起想 `允许多少侵入`
 
 ```python
+# 这个例子比较 SVM 多个边界候选的 margin，以及像 support vector 一样起作用的近邻点。
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.7, 2.4)]
 positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
 
@@ -387,6 +389,7 @@ SVM 在 statistical learning theory 和 generalization 讨论里占据很重要�
 现在把那个模糊的 negative 点从 `(4.7, 2.4)` 再往右移到 `(4.9, 2.4)`。
 
 ```python
+# 这个例子比较 SVM 多个边界候选的 margin，以及像 support vector 一样起作用的近邻点。
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.9, 2.4)]
 positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
 

@@ -139,6 +139,7 @@ This example does not directly implement an SVM learner. Instead, it places seve
   - the points closest to the boundary behave like support vectors
 
 ```python
+# This example compares margins across SVM boundary candidates and the nearby points that act like support vectors.
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5)]
 positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
 
@@ -329,6 +330,7 @@ This time, add one ambiguous negative point near the boundary to the previous ex
   - once perfect separation becomes difficult, the reader must think not only about `is the margin large?` but also `how much intrusion should be tolerated?`
 
 ```python
+# This example compares margins across SVM boundary candidates and the nearby points that act like support vectors.
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.7, 2.4)]
 positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
 
@@ -389,6 +391,7 @@ In this Section, the historical note is used only as supporting context for why 
 Now move the ambiguous negative point farther to the right, from `(4.7, 2.4)` to `(4.9, 2.4)`.
 
 ```python
+# This example compares margins across SVM boundary candidates and the nearby points that act like support vectors.
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.9, 2.4)]
 positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
 
