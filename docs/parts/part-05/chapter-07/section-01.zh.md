@@ -1,7 +1,7 @@
 # P5-7.1 optimizer 的角色
 
-Section ID: `P5-7.1`
-Version: `v2026.07.17`
+> Section ID: `P5-7.1`
+> Version: `v2026.07.20`
 
 在 P5-6 章里，我们已经区分了学习循环、step/batch/epoch、学习（learning）与模型执行（inference），以及训练模式（training mode）与评估模式（evaluation mode）。走到这里，接下来就会留下一个非常直接的问题：既然已经把模型出错这件事算成了数字，那么模型内部的真实数字到底是在什么地方改变的？
 
@@ -146,9 +146,10 @@ gradient 提供的是方向（direction）信息。它通常告诉我们：`朝�
 
 输入：
 
+- CSV 文件里的多条观测行
+- 每一行的压力未恢复程度 `pressure_unrecovered`
+- 每一行的目标阻断分数 `target_block_score`
 - 当前风险权重 `risk_weight`
-- 压力未恢复程度 `pressure_unrecovered`
-- 目标阻断分数 `target_block_score`
 - 固定学习率 `learning_rate`
 
 输出：
@@ -170,83 +171,140 @@ gradient 提供的是方向（direction）信息。它通常告诉我们：`朝�
 - optimizer 会把这个信号变成 update 值
 - 参数变化要等到 update 应用以后才会出现
 
-在看代码之前，先把这个例子分成`更新前状态`和`更新后状态`来读，会更容易。
+在看代码之前，先把这个例子分成 `CSV batch`、`gradient 计算后`、`optimizer step 后`来读，会更容易。例子数据在 [optimizer-step-role-log.csv](/AiBook/assets/part-05/chapter-07/optimizer-step-role-log.csv)。
 
 | 区间 | 这里要确认什么 |
 | --- | --- |
-| 更新前状态 | 当前预测与损失到底错得有多大 |
-| gradient 计算 | 该朝哪个方向改 |
-| optimizer update | 这一次到底实际移动多少 |
-| 更新后状态 | 权重、预测值、损失真实发生了什么变化 |
+| CSV batch | 多个样本上当前参数平均错得有多大 |
+| gradient 计算后 | 方向信号已经出来了，但参数是否仍然保持原样 |
+| optimizer step 后 | optimizer 做出的移动量是否真的反映到了参数上 |
+| 更新后状态 | 用同一个 CSV batch 再看时，平均损失怎样变化 |
 
 ```python
-# 这个例子检查 optimizer update 如何把计算出的 gradient 转成实际的 risk_weight 变化。
-pressure_unrecovered = 2.0
-target_block_score = 6.0
-risk_weight_before = 1.0
-learning_rate = 0.1
+# 这个例子先从 CSV batch 计算平均损失和平均 gradient,
+# 再确认 optimizer step 前后 risk_weight 如何变化。
+from csv import DictReader
+from pathlib import Path
 
-predicted_block_score_before = pressure_unrecovered * risk_weight_before
-loss_before = (predicted_block_score_before - target_block_score) ** 2
-gradient_risk_weight = 2 * (predicted_block_score_before - target_block_score) * pressure_unrecovered
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-step-role-log.csv")
+
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "case_id": row["case_id"],
+                "equipment_group": row["equipment_group"],
+                "pressure_unrecovered": float(row["pressure_unrecovered"]),
+                "target_block_score": float(row["target_block_score"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def predict(row, risk_weight):
+    return row["pressure_unrecovered"] * risk_weight
+
+
+def mean_loss(rows, risk_weight):
+    losses = [
+        (predict(row, risk_weight) - row["target_block_score"]) ** 2
+        for row in rows
+    ]
+    return sum(losses) / len(losses)
+
+
+def mean_gradient(rows, risk_weight):
+    gradients = [
+        2
+        * (predict(row, risk_weight) - row["target_block_score"])
+        * row["pressure_unrecovered"]
+        for row in rows
+    ]
+    return sum(gradients) / len(gradients)
+
+
+rows = load_rows(DATA_PATH)
+risk_weight_before = 1.0
+learning_rate = 0.03
+
+loss_before = mean_loss(rows, risk_weight_before)
+gradient_risk_weight = mean_gradient(rows, risk_weight_before)
+risk_weight_after_backward = risk_weight_before
 
 optimizer_delta = -learning_rate * gradient_risk_weight
-risk_weight_after = risk_weight_before + optimizer_delta
-predicted_block_score_after = pressure_unrecovered * risk_weight_after
-loss_after = (predicted_block_score_after - target_block_score) ** 2
+risk_weight_after_step = risk_weight_after_backward + optimizer_delta
+loss_after = mean_loss(rows, risk_weight_after_step)
 
-print("[before update]")
-print("predicted_block_score_before =", round(predicted_block_score_before, 3))
+print("[batch]")
+print("sample_count =", len(rows))
 print("loss_before =", round(loss_before, 3))
 
-print("[gradient and update]")
+print("\n[after gradient calculation]")
 print("gradient_risk_weight =", round(gradient_risk_weight, 3))
-print("optimizer_delta =", round(optimizer_delta, 3))
+print("parameters_changed =", risk_weight_after_backward != risk_weight_before)
 
-print("[after update]")
-print("risk_weight_after =", round(risk_weight_after, 3))
-print("predicted_block_score_after =", round(predicted_block_score_after, 3))
+print("\n[after optimizer step]")
+print("optimizer_delta =", round(optimizer_delta, 3))
+print("risk_weight_after_step =", round(risk_weight_after_step, 3))
 print("loss_after =", round(loss_after, 3))
+print("parameters_changed =", risk_weight_after_step != risk_weight_before)
+
+print("\n[preview]")
+for row in rows[:3]:
+    before = predict(row, risk_weight_before)
+    after = predict(row, risk_weight_after_step)
+    target = row["target_block_score"]
+    print(
+        f"{row['case_id']}: "
+        f"before={before:.3g}, after={after:.3g}, target={target:.3g}"
+    )
 ```
 
 ```text
-[before update]
-predicted_block_score_before = 2.0
-loss_before = 16.0
+[batch]
+sample_count = 36
+loss_before = 7.308
 
-[gradient and update]
-gradient_risk_weight = -16.0
-optimizer_delta = 1.6
+[after gradient calculation]
+gradient_risk_weight = -20.648
+parameters_changed = False
 
-[after update]
-risk_weight_after = 2.6
-predicted_block_score_after = 5.2
-loss_after = 0.64
+[after optimizer step]
+optimizer_delta = 0.619
+risk_weight_after_step = 1.619
+loss_after = 0.287
+parameters_changed = True
+
+[preview]
+pump-01: before=1.1, after=1.78, target=2.46
+pump-02: before=1.4, after=2.27, target=2.97
+pump-03: before=1.7, after=2.75, target=3.58
 ```
 
-这段输出最好按顺序来读。先看 `[before update]` 里的 `predicted_block_score_before` 与 `loss_before`，就能知道模型在 update 之前到底错得多厉害。接着看 `[gradient and update]` 里的 `gradient_risk_weight`，就会知道此时已经算出了一个方向信号：权重该往哪边改。但走到这里，还只是`知道该怎么改`，并不是参数已经真的变了。
+这段输出最好按顺序来读。先看 `[batch]` 区间，就能确认：从 CSV 读出的 36 个样本在当前 `risk_weight_before = 1.0` 下，平均损失是 `7.308`。这个数字不是某一行的偶然结果，而是这一 step 里一起处理的样本束整体的当前状态。
 
-接下来第一次出现 `optimizer_delta`。这个值，就是 optimizer 做出来的真实移动量。换句话说，如果 `gradient_risk_weight` 是方向信号，那么 `optimizer_delta` 就是在这一 step 里，权重真实要移动多少的数字表达。最后再看 `[after update]` 里的 `risk_weight_after`、`predicted_block_score_after`、`loss_after`，才会确认：这个移动量真的被应用之后，模型内部数字和损失到底怎样变了。
+接着看 `[after gradient calculation]` 区间的 `gradient_risk_weight`，可以看到这个 batch 上已经算出了权重要往哪个方向调整的信号。但紧接着的 `parameters_changed = False` 很重要。gradient 虽然已经算出来了，但 optimizer step 还没有应用，所以参数值仍然没有变化。
 
-因此，这个输出里真正重要的阅读习惯，是把 `loss_before`、`gradient_risk_weight`、`optimizer_delta`、`risk_weight_after` 连成一条线去读。它们对应的顺序正是：`计算错误 -> 计算方向信号 -> 生成真实移动量 -> 反映到参数上。`
+第一次真正发生参数变化的位置是 `[after optimizer step]`。这里生成了 `optimizer_delta = 0.619`，这个移动量被反映后，`risk_weight_after_step = 1.619`。再用同一个 CSV batch 看一遍时，平均损失也降到了 `0.287`。因此，这个输出里真正重要的阅读习惯，是把 `loss_before`、`gradient_risk_weight`、`parameters_changed = False`、`optimizer_delta`、`risk_weight_after_step` 连成一条线读。它们对应的顺序正是：`计算错误 -> 计算方向信号 -> 尚未反映 -> 生成真实移动量 -> 反映到参数上。`
 
-![update 应用前后的风险权重](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-weight-zh.png)
+![CSV batch update 应用前后的风险权重](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-weight-ko.png)
 
-这张图展示的是：原本 `risk_weight_before = 1.0`，在 optimizer 做出的移动量被应用之后，真实变成了 `risk_weight_after = 2.6`。这里重要的，不只是`算出 gradient 了`，而是这个结果最终变成了权重数字变化。
+这张图展示的是：原本 `risk_weight_before = 1.0`，在 optimizer 做出的移动量被应用之后，真实发生了变化。这里重要的，不只是`算出 gradient 了`，而是这个结果最终变成了权重数字变化。
 
-![update 应用前后的阻断分数](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-score-zh.png)
+![CSV batch update 应用前后的平均阻断分数](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-score-ko.png)
 
-这张图则说明：同一个 update 也会马上影响预测值。update 前的阻断分数是 `2.0`，但 update 之后变成 `5.2`，更接近目标值 `6.0`。也就是说，optimizer 不只是改内部权重，它还改变了下一次预测的出发点。
+这张图则说明：同一个 update 也会马上影响 CSV batch 的平均预测值。也就是说，optimizer 不只是改内部权重，它还改变了下一次预测可能使用的出发点。
 
-![update 应用前后的损失](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-loss-zh.png)
+![CSV batch update 应用前后的平均损失](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-loss-ko.png)
 
-最后一张图确认：损失也从 `16.0` 降到了 `0.64`。把这条顺序用眼睛再读一遍，会更清楚地看到：在`gradient 计算`和`loss 降低`之间，确实存在`optimizer 做出真实 update 并应用`这个中间步骤。
+最后一张图确认：CSV batch 的平均损失也会随之下降。把这条顺序用眼睛再读一遍，会更清楚地看到：在`gradient 计算`和`loss 降低`之间，确实存在`optimizer 做出真实 update 并应用`这个中间步骤。
 
 所以这个例子里读者最该带走的是下面这些点。
 
 - `gradient_risk_weight` 还不是参数本身
 - `optimizer_delta` 是 optimizer 把 gradient 变成的真实移动量
-- 参数变化要到 `risk_weight_after` 才真正看得见
+- 参数变化要到 `risk_weight_after_step` 才真正看得见
 - 因此，`算出了 gradient`和`模型已经更新了`并不是同一句话
 
 这里真正要固定住的核心，就是：`gradient 出来了`与`模型真的变了`之间，确实隔着 optimizer 做出的中间步骤。至于同一个 gradient 在不同步幅下为什么会得到不同结果，会在下一节 P5-7.2 继续说明。
@@ -272,5 +330,5 @@ loss_after = 0.64
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, 确认日期: 2026-06-29.
-- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, 确认日期: 2026-06-29.
+- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, 确认日期: 2026-07-19. [https://doi.org/10.1007/978-3-7908-2604-3_16](https://doi.org/10.1007/978-3-7908-2604-3_16){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, 确认日期: 2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }

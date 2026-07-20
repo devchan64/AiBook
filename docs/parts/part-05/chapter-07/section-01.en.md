@@ -1,7 +1,7 @@
 # P5-7.1 The Role Of The Optimizer
 
-Section ID: `P5-7.1`
-Version: `v2026.07.17`
+> Section ID: `P5-7.1`
+> Version: `v2026.07.20`
 
 In Chapter P5-6, we separated the training loop, step/batch/epoch, learning and model execution (inference), and training mode and evaluation mode. Once we reach this point, one very direct question remains. After the model has computed in number form that it is wrong, where do the actual numbers inside the model change next?
 
@@ -146,9 +146,10 @@ The goal of this example is to separate gradient computation from actual update 
 
 Input:
 
+- several observation rows from a CSV file
+- pressure unrecovered level `pressure_unrecovered` in each row
+- target block score `target_block_score` in each row
 - current risk weight `risk_weight`
-- pressure unrecovered level `pressure_unrecovered`
-- target block score `target_block_score`
 - fixed learning rate `learning_rate`
 
 Output:
@@ -170,83 +171,140 @@ Concepts to confirm:
 - the optimizer turns that signal into an update value
 - parameter change appears only after the update is applied
 
-Before looking at the code, it is helpful to decide that we will read this example by dividing it into `the state before the update` and `the state after the update`.
+Before looking at the code, it is helpful to decide that we will read this example in three intervals: `CSV batch`, `after gradient calculation`, and `after optimizer step`. The example data is in [optimizer-step-role-log.csv](/AiBook/assets/part-05/chapter-07/optimizer-step-role-log.csv).
 
 | Interval | What to confirm here |
 | --- | --- |
-| state before update | how wrong the prediction value and loss are right now |
-| gradient computation | in which direction should it be changed |
-| optimizer update | by how much should it actually move |
-| state after update | how the weight, prediction value, and loss actually changed |
+| CSV batch | how wrong the current parameter is on average across several samples |
+| after gradient calculation | whether the direction signal has appeared while the parameter is still unchanged |
+| after optimizer step | whether the movement amount made by the optimizer has actually been reflected in the parameter |
+| after-update state | how the average loss changes when the same CSV batch is read again |
 
 ```python
-# This example checks how an optimizer update turns a computed gradient into an actual risk_weight change.
-pressure_unrecovered = 2.0
-target_block_score = 6.0
-risk_weight_before = 1.0
-learning_rate = 0.1
+# This example computes average loss and average gradient from a CSV batch,
+# then checks how risk_weight changes before and after the optimizer step.
+from csv import DictReader
+from pathlib import Path
 
-predicted_block_score_before = pressure_unrecovered * risk_weight_before
-loss_before = (predicted_block_score_before - target_block_score) ** 2
-gradient_risk_weight = 2 * (predicted_block_score_before - target_block_score) * pressure_unrecovered
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-step-role-log.csv")
+
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "case_id": row["case_id"],
+                "equipment_group": row["equipment_group"],
+                "pressure_unrecovered": float(row["pressure_unrecovered"]),
+                "target_block_score": float(row["target_block_score"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def predict(row, risk_weight):
+    return row["pressure_unrecovered"] * risk_weight
+
+
+def mean_loss(rows, risk_weight):
+    losses = [
+        (predict(row, risk_weight) - row["target_block_score"]) ** 2
+        for row in rows
+    ]
+    return sum(losses) / len(losses)
+
+
+def mean_gradient(rows, risk_weight):
+    gradients = [
+        2
+        * (predict(row, risk_weight) - row["target_block_score"])
+        * row["pressure_unrecovered"]
+        for row in rows
+    ]
+    return sum(gradients) / len(gradients)
+
+
+rows = load_rows(DATA_PATH)
+risk_weight_before = 1.0
+learning_rate = 0.03
+
+loss_before = mean_loss(rows, risk_weight_before)
+gradient_risk_weight = mean_gradient(rows, risk_weight_before)
+risk_weight_after_backward = risk_weight_before
 
 optimizer_delta = -learning_rate * gradient_risk_weight
-risk_weight_after = risk_weight_before + optimizer_delta
-predicted_block_score_after = pressure_unrecovered * risk_weight_after
-loss_after = (predicted_block_score_after - target_block_score) ** 2
+risk_weight_after_step = risk_weight_after_backward + optimizer_delta
+loss_after = mean_loss(rows, risk_weight_after_step)
 
-print("[before update]")
-print("predicted_block_score_before =", round(predicted_block_score_before, 3))
+print("[batch]")
+print("sample_count =", len(rows))
 print("loss_before =", round(loss_before, 3))
 
-print("[gradient and update]")
+print("\n[after gradient calculation]")
 print("gradient_risk_weight =", round(gradient_risk_weight, 3))
-print("optimizer_delta =", round(optimizer_delta, 3))
+print("parameters_changed =", risk_weight_after_backward != risk_weight_before)
 
-print("[after update]")
-print("risk_weight_after =", round(risk_weight_after, 3))
-print("predicted_block_score_after =", round(predicted_block_score_after, 3))
+print("\n[after optimizer step]")
+print("optimizer_delta =", round(optimizer_delta, 3))
+print("risk_weight_after_step =", round(risk_weight_after_step, 3))
 print("loss_after =", round(loss_after, 3))
+print("parameters_changed =", risk_weight_after_step != risk_weight_before)
+
+print("\n[preview]")
+for row in rows[:3]:
+    before = predict(row, risk_weight_before)
+    after = predict(row, risk_weight_after_step)
+    target = row["target_block_score"]
+    print(
+        f"{row['case_id']}: "
+        f"before={before:.3g}, after={after:.3g}, target={target:.3g}"
+    )
 ```
 
 ```text
-[before update]
-predicted_block_score_before = 2.0
-loss_before = 16.0
+[batch]
+sample_count = 36
+loss_before = 7.308
 
-[gradient and update]
-gradient_risk_weight = -16.0
-optimizer_delta = 1.6
+[after gradient calculation]
+gradient_risk_weight = -20.648
+parameters_changed = False
 
-[after update]
-risk_weight_after = 2.6
-predicted_block_score_after = 5.2
-loss_after = 0.64
+[after optimizer step]
+optimizer_delta = 0.619
+risk_weight_after_step = 1.619
+loss_after = 0.287
+parameters_changed = True
+
+[preview]
+pump-01: before=1.1, after=1.78, target=2.46
+pump-02: before=1.4, after=2.27, target=2.97
+pump-03: before=1.7, after=2.75, target=3.58
 ```
 
-It is best to read this output in order. First, if we look at `predicted_block_score_before` and `loss_before` in the `[before update]` section, we can see how wrong the model still is before the update. Then, if we look at `gradient_risk_weight` in the `[gradient and update]` section, it becomes visible that a signal was computed for in which direction the weight should be adjusted from this state. But up to this point, we still only have the state `how should we change it`.
+It is best to read this output in order. First, in the `[batch]` interval, confirm that the average loss is `7.308` when the 36 samples read from the CSV are evaluated with the current `risk_weight_before = 1.0`. This number is not the accidental result of one row. It is the current state of the whole sample bundle processed in this step.
 
-Then `optimizer_delta` appears for the first time. This value is the actual movement amount made by the optimizer. In other words, if `gradient_risk_weight` is the direction signal, then `optimizer_delta` is the number that expresses how far the weight will actually move in this step. Finally, if we look at `risk_weight_after`, `predicted_block_score_after`, and `loss_after` in the `[after update]` section, we can confirm how the numbers inside the model and the loss actually changed after that movement amount was reflected.
+Next, in `[after gradient calculation]`, `gradient_risk_weight` shows that a signal has been computed for which direction to adjust the weight on this batch. But the line immediately below it, `parameters_changed = False`, is important. Even though the gradient was computed, the optimizer step has not yet been applied, so the parameter value is still unchanged.
 
-So in this output, it is important to develop the habit of reading `loss_before`, `gradient_risk_weight`, `optimizer_delta`, and `risk_weight_after` as one connected line. What this order shows is `computing wrongness -> computing the direction signal -> generating the actual movement amount -> reflecting it in the parameter`.
+The first place where an actual parameter change appears is `[after optimizer step]`. Here, `optimizer_delta = 0.619` is created, and that movement amount is reflected so that `risk_weight_after_step = 1.619`. When the same CSV batch is read again, the average loss also drops to `0.287`. So in this output, it is important to read `loss_before`, `gradient_risk_weight`, `parameters_changed = False`, `optimizer_delta`, and `risk_weight_after_step` as one connected line. This order shows `wrongness computation -> direction-signal computation -> not yet reflected -> actual movement amount creation -> parameter reflection`.
 
-![Risk weight before and after applying the update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-weight-en.png)
+![Risk weight before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-weight-ko.png)
 
-This chart shows that the value starting from `risk_weight_before = 1.0` actually changed to `risk_weight_after = 2.6` after reflecting the movement amount made by the optimizer. The important point here is not only the fact that `the gradient was computed`, but that the computed result continued into a change in the weight number.
+This chart shows that the value starting from `risk_weight_before = 1.0` actually changed after reflecting the movement amount made by the optimizer. The important point here is not only the fact that `the gradient was computed`, but that the computed result continued into a change in the weight number.
 
-![Block score before and after applying the update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-score-en.png)
+![Mean block score before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-score-ko.png)
 
-This chart shows that the same update immediately affects the prediction value too. Before the update, the block score is `2.0`, but after the update it changes to `5.2`, which is closer to the target `6.0`. In other words, the optimizer does not merely change the internal weights. It changes the very starting point from which the next prediction will be made.
+This chart shows that the same update immediately affects the average prediction value of the CSV batch. In other words, the optimizer does not merely change the internal weights. It changes the very starting point from which the next predictions can be made.
 
-![Loss before and after applying the update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-loss-en.png)
+![Mean loss before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-loss-ko.png)
 
-In the last chart, we can confirm that as a result, the loss also decreases from `16.0` to `0.64`. If we reread this order with our eyes, it becomes clearer that there is definitely a middle stage between `gradient computation` and `loss reduction`: `applying the actual update made by the optimizer`.
+In the last chart, we can confirm that as a result, the average loss of the CSV batch also decreases. If we reread this order with our eyes, it becomes clearer that there is definitely a middle stage between `gradient computation` and `loss reduction`: `applying the actual update made by the optimizer`.
 
 In other words, what the reader absolutely has to read in this example is the following.
 
 - `gradient_risk_weight` is not yet the parameter itself.
 - `optimizer_delta` is the value that turned the gradient into an actual movement amount.
-- The parameter change becomes visible only in `risk_weight_after`.
+- The parameter change becomes visible only in `risk_weight_after_step`.
 - So `we computed the gradient` and `we actually updated the model` are not the same statement.
 
 The key the reader should gain here is that a real intermediate stage made by the optimizer exists between `the gradient came out` and `the model changed`. How the results differ more depending on how the update step size is chosen, even with the same gradient, continues in the next section, P5-7.2.
@@ -272,5 +330,5 @@ The time to bring out this section is when the explanation `the gradient was com
 ## Sources And Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, accessed 2026-06-29.
-- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, accessed 2026-06-29.
+- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, accessed 2026-07-19. [https://doi.org/10.1007/978-3-7908-2604-3_16](https://doi.org/10.1007/978-3-7908-2604-3_16){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, accessed 2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }
