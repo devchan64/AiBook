@@ -38,6 +38,7 @@ python --version
 ```
 
 ```python
+# This is the smallest output check for whether Python code is running.
 print("hello")
 ```
 
@@ -172,6 +173,7 @@ Expected output: if the Python interpreter reads it, `hello` is printed.
 Concept to check: Python code becomes actual action only when there is a runtime and an interpreter.
 
 ```python
+# The same print code can run in a different place depending on the runtime environment.
 print("hello")
 ```
 
@@ -218,6 +220,7 @@ Expected output: if run as Python code, `hello` is printed.
 Concept to check: even if they look like similar sentences, terminal commands and Python code belong to different input places.
 
 ```python
+# The Python statement stays the same even when the runtime changes.
 print("hello")
 ```
 
@@ -324,6 +327,7 @@ Expected output: there is no printed output, but the current Python code becomes
 Concept to check: package installation is done in the terminal, while `import` happens inside Python code.
 
 ```python
+# This checks whether NumPy can be imported in the current runtime environment.
 import numpy as np
 ```
 

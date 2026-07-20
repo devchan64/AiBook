@@ -38,6 +38,7 @@ python --version
 ```
 
 ```python
+# Python 코드가 실제로 실행되는지 확인하는 가장 작은 출력 예시입니다.
 print("hello")
 ```
 
@@ -172,6 +173,7 @@ AI 분야에서 Python이 자주 보이는 이유도 이 흐름과 연결됩니�
 확인할 개념: Python 코드는 실행 환경과 인터프리터가 있어야 실제 동작으로 이어진다는 점을 봅니다.
 
 ```python
+# 같은 print 코드라도 실행 환경에 따라 실행 위치가 달라질 수 있습니다.
 print("hello")
 ```
 
@@ -218,6 +220,7 @@ python --version
 확인할 개념: 같은 문장처럼 보여도 터미널 명령과 Python 코드는 입력하는 자리가 다르다는 점을 봅니다.
 
 ```python
+# 런타임이 바뀌어도 실행할 Python 문장 자체는 같습니다.
 print("hello")
 ```
 
@@ -324,6 +327,7 @@ python -m pip install numpy
 확인할 개념: 패키지 설치는 터미널에서 하고, `import`는 Python 코드 안에서 한다는 점을 다시 봅니다.
 
 ```python
+# NumPy를 현재 실행 환경에서 불러올 수 있는지 확인합니다.
 import numpy as np
 ```
 

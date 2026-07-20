@@ -66,6 +66,7 @@
 ```python
 import numpy as np
 
+# values 是用来确认 NumPy 安装和平均值计算是否都正常的小数组。
 values = np.array([1, 2, 3])
 print(values.mean())
 ```
@@ -95,6 +96,7 @@ print(values.mean())
 ```python
 import numpy as np
 
+# scores 是在示例环境中用来计算平均值的分数数据。
 scores = np.array([82, 91, 77, 88])
 print(scores.mean())
 ```
@@ -196,6 +198,7 @@ score-summary/
 ```python
 import pandas as pd
 
+# 读取 scores.csv，并计算表格数据中 score 列的平均值。
 scores = pd.read_csv("scores.csv")
 print(scores["score"].mean())
 ```
@@ -274,6 +277,7 @@ Colab runtime 可能被重置。那时之前安装过的包也可能消失。并
 要确认的概念：即使在 Colab 中，如果想提高可复现性，也要把所需安装命令和环境备注一起留下。
 
 ```python
+# 在当前代码单元环境中安装复现笔记本所需的主要包。
 %pip install numpy pandas matplotlib
 ```
 

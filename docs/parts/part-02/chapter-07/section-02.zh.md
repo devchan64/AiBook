@@ -222,6 +222,7 @@ Colab 也能执行命令。但如果把它理解成和本地 PC 终端完全一�
 要确认的概念：Colab 里的 `!` 命令并不是调用我自己电脑的终端，而是在 Colab runtime 里执行 shell 命令。
 
 ```python
+# 这条 shell 命令是在 Colab 代码单元中确认当前工作文件夹。
 !pwd
 ```
 

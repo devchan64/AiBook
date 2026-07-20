@@ -125,6 +125,7 @@ python -m pip install numpy
 要确认的概念：`pip install` 是安装，而 `import` 是在代码里使用已经安装好的包这一阶段。
 
 ```python
+# 这里在 Python 代码中导入当前环境已安装的 NumPy 包。
 import numpy as np
 ```
 
@@ -203,6 +204,7 @@ Colab 是在浏览器中运行的笔记本环境。在前期学习中，即使�
 要确认的概念：Colab 很方便，但它是一个与本地虚拟环境不同的独立执行空间。
 
 ```python
+# 这条命令是在 Colab/Jupyter 代码单元中把 NumPy 安装到当前运行时。
 %pip install numpy
 ```
 

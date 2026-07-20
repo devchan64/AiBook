@@ -125,6 +125,7 @@ python -m pip install numpy
 확인할 개념: `pip install`은 설치이고, `import`는 이미 설치된 패키지를 코드 안에서 사용하는 단계라는 점을 봅니다.
 
 ```python
+# 현재 환경에 설치된 NumPy 패키지를 Python 코드에서 불러옵니다.
 import numpy as np
 ```
 
@@ -203,6 +204,7 @@ Colab은 브라우저에서 실행되는 노트북 환경입니다. 초반 학�
 확인할 개념: Colab은 편리하지만 로컬 가상환경과는 다른 별도 실행 공간이라는 점을 봅니다.
 
 ```python
+# Colab/Jupyter 코드 셀에서 현재 런타임에 NumPy를 설치하는 명령입니다.
 %pip install numpy
 ```
 

@@ -83,6 +83,7 @@ Expected output: if executed, `hello` is printed.
 Concept to check: the interpreter is the program that reads and executes Python sentences like this.
 
 ```python
+# This Python statement is saved in a script file and then executed.
 print("hello")
 ```
 
@@ -138,6 +139,7 @@ Expected output: when executed, `hello` and the result of `1 + 2` are printed in
 Concept to check: a script is the style of saving Python code as a file unit and running it repeatedly.
 
 ```python
+# A script runs multiple statements from top to bottom.
 print("hello")
 print(1 + 2)
 ```
@@ -181,6 +183,7 @@ Expected output: if executed as Python code, `hello` is printed.
 Concept to check: terminal commands and Python code should be distinguished not by how the sentence looks, but by where it is entered.
 
 ```python
+# The same Python statement can also run inside a code cell.
 print("hello")
 ```
 
@@ -202,6 +205,7 @@ Expected output: `hello` is printed as the cell execution result.
 Concept to check: a code cell shows immediate results like interactive execution while also leaving a record in the notebook.
 
 ```python
+# The output-checking code is the same whether it runs from a terminal or a code cell.
 print("hello")
 ```
 

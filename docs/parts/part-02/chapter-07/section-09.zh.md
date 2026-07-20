@@ -134,6 +134,7 @@ python -m pip install numpy
 ```
 
 ```python
+# 如果这个 import 失败，当前 Python 环境可能没有 NumPy，或者你正在查看另一个环境。
 import numpy as np
 ```
 

@@ -222,6 +222,7 @@ Expected output: the current folder path is printed based on the Colab runtime.
 Concept to check: the `!` command in Colab runs a shell command in the Colab runtime, not in my PC terminal.
 
 ```python
+# This shell command checks the current working folder from a Colab code cell.
 !pwd
 ```
 

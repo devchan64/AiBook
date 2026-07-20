@@ -66,6 +66,7 @@ P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤�
 ```python
 import numpy as np
 
+# values는 NumPy 설치와 평균 계산이 모두 되는지 확인할 작은 배열입니다.
 values = np.array([1, 2, 3])
 print(values.mean())
 ```
@@ -95,6 +96,7 @@ print(values.mean())
 ```python
 import numpy as np
 
+# scores는 예제 환경에서 평균을 계산할 점수 데이터입니다.
 scores = np.array([82, 91, 77, 88])
 print(scores.mean())
 ```
@@ -196,6 +198,7 @@ score-summary/
 ```python
 import pandas as pd
 
+# scores.csv를 읽어 표 데이터의 score 열 평균을 계산합니다.
 scores = pd.read_csv("scores.csv")
 print(scores["score"].mean())
 ```
@@ -274,6 +277,7 @@ Colab 런타임은 초기화될 수 있습니다. 그때 설치했던 패키지�
 확인할 개념: Colab에서도 재현성을 높이려면 필요한 설치 명령과 환경 메모를 함께 남겨야 한다는 점을 봅니다.
 
 ```python
+# 노트북 재현에 필요한 주요 패키지를 현재 코드 셀 환경에 설치합니다.
 %pip install numpy pandas matplotlib
 ```
 

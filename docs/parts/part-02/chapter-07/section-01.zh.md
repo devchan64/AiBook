@@ -38,6 +38,7 @@ python --version
 ```
 
 ```python
+# 这是确认 Python 代码是否真正运行的最小输出例子。
 print("hello")
 ```
 
@@ -172,6 +173,7 @@ AI 领域里为什么经常看到 Python，也和这条脉络连在一起。
 要确认的概念：Python 代码必须在运行环境里，被解释器读取后，才会变成真正动作。
 
 ```python
+# 同一段 print 代码也可能因为运行环境不同而在不同位置执行。
 print("hello")
 ```
 
@@ -218,6 +220,7 @@ python --version
 要确认的概念：即使看起来像句子，终端命令和 Python 代码也属于不同输入位置。
 
 ```python
+# 即使运行时环境改变，要执行的 Python 语句本身仍然相同。
 print("hello")
 ```
 
@@ -324,6 +327,7 @@ python -m pip install numpy
 要确认的概念：包安装发生在终端，而 `import` 发生在 Python 代码里。
 
 ```python
+# 这里确认当前运行环境能否导入 NumPy。
 import numpy as np
 ```
 

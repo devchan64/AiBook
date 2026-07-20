@@ -66,6 +66,7 @@ Concept to check: when you see `import numpy as np`, that means this code depend
 ```python
 import numpy as np
 
+# values is a small array used to check both NumPy installation and mean calculation.
 values = np.array([1, 2, 3])
 print(values.mean())
 ```
@@ -95,6 +96,7 @@ Concept to check: confirm that you have to separate code problems from execution
 ```python
 import numpy as np
 
+# scores is the score data used to calculate a mean in the example environment.
 scores = np.array([82, 91, 77, 88])
 print(scores.mean())
 ```
@@ -196,6 +198,7 @@ Concept to check: if you hand over only the code, it is hard to know which packa
 ```python
 import pandas as pd
 
+# Read scores.csv and calculate the mean of the score column in the table data.
 scores = pd.read_csv("scores.csv")
 print(scores["score"].mean())
 ```
@@ -274,6 +277,7 @@ Expected output: the three packages are installed into the current Colab runtime
 Concept to check: even in Colab, if you want to improve reproducibility, you need to leave both the necessary installation commands and environment notes.
 
 ```python
+# Install the main packages needed to reproduce the notebook in the current code-cell environment.
 %pip install numpy pandas matplotlib
 ```
 

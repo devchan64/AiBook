@@ -125,6 +125,7 @@ Expected output: there is no printed output, but NumPy becomes ready to use in t
 Concept to check: `pip install` is installation, while `import` is the stage where an already installed package is used inside code.
 
 ```python
+# This imports the NumPy package installed in the current environment.
 import numpy as np
 ```
 
@@ -203,6 +204,7 @@ Expected output: NumPy is installed into the current Colab runtime.
 Concept to check: Colab is convenient, but it is a separate execution space different from a local virtual environment.
 
 ```python
+# This installs NumPy into the current Colab/Jupyter runtime from a code cell.
 %pip install numpy
 ```
 

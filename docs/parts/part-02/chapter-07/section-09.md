@@ -134,6 +134,7 @@ python -m pip install numpy
 ```
 
 ```python
+# import가 실패하면 현재 Python 환경에 NumPy가 없거나 다른 환경을 보고 있을 수 있습니다.
 import numpy as np
 ```
 
