@@ -1,7 +1,7 @@
 # P5-13.1 The Intuition Of Attention
 
 > Section ID: `P5-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-12.2, we saw that because of long-term dependency, sequential models can have difficulty maintaining information from far back strongly enough. The next question appears here.
 
@@ -11,7 +11,7 @@ The representative answer to this question is attention.
 
 Attention is a method that places greater weight on the positions or tokens that are truly important for the current computation, so the needed information can be referred to more directly.
 
-When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](/AiBook/reference/concept-glossary/#attention).
+When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](../../../reference/concept-glossary.md#attention).
 
 ## Scope Of This Section
 
@@ -168,146 +168,167 @@ If we place the three cases together, it becomes clearer why attention should be
 
 ## Practice And Example
 
-The goal of this example is to confirm the intuition of attention as assigning larger weights to important positions among multiple candidates and forming a weighted average. Rather than a simple numeric average, we turn it into a small question-answering scene that asks where the model should look more strongly when given `a question` and `sentence candidates`.
+The goal of this example is to confirm the intuition of attention as assigning larger weights to important positions among multiple candidates and forming a weighted average. This time, instead of placing three numbers directly inside the code, we keep operating-manual candidate lines in a separate CSV file and reread the same candidate group by question.
 
 Problem situation:
 
-- if all input positions are averaged equally, information directly related to the current question can become blurred
+- if all input lines are averaged equally, cues directly related to the current question can become blurred
+- even in the same manual, the lines that should be referred to more strongly differ depending on whether the question asks about `pressure`, `coolant flow`, or `restart approval`
 
 Input:
 
-- two questions
-- three candidate sentence values
-- candidate relevance scores that differ by question
+- [`attention-operating-manual-candidates.csv`](../../../assets/part-05/chapter-13/attention-operating-manual-candidates.csv){ .csv-preview }
+- 40 operating-manual candidate lines
+- the representative signal value `evidence_signal` for each line
+- question-specific relevance scores: `score_pressure_hold`, `score_flow_limit`, `score_restart_permission`
 
 Output:
 
 - a baseline context value that averages all candidates equally
-- normalized weights that differ by question
+- attention weights that differ by question
 - a context value that differs by question
-- a summary of which candidate is reflected most strongly
+- candidate lines reflected most strongly for each question
 
 Concepts to confirm:
 
 - instead of looking at all candidates with the same weight, attention looks more strongly at positions more relevant to the current question
 - only by comparing the baseline average with the attention weighted average do we see why choosing the important position is necessary
 - even with the same candidate set, if the question changes, the weight is redistributed
-- if we rewrite it as a question-answering scene, it becomes clearer that attention is the problem of `where to look more strongly`
+- when the input has many lines as in a CSV file, it becomes clearer that attention is the problem of `which line to look at more strongly`
 
-Before looking at the code, it helps to predict first where the weight will concentrate if only the question changes while the candidate set stays the same.
+A row in the CSV means `one line inside a document`. `evidence_signal` is a representative number contributed by that line to the context value, and the `score_*` columns are relevance scores by question. This is not an implementation of real learned attention scores, but it is enough to confirm the intuition `question-specific scores -> softmax weights -> weighted-average context value`.
+
+If we first look at part of the CSV, it becomes the following.
+
+| line_id | section | text summary | evidence_signal | pressure score | flow score | restart score |
+| --- | --- | --- | ---: | ---: | ---: | ---: |
+| L05 | pressure | wait 3 minutes after venting | 3.0 | 2.8 | 0.1 | 0.7 |
+| L10 | pressure | hold time is counted from the last unstable reading | 2.9 | 3.0 | 0.1 | 1.1 |
+| L13 | coolant | coolant flow must stay at least 12 units | 12.0 | 0.2 | 2.9 | 0.5 |
+| L18 | coolant | start standby pump if main flow is below limit | 12.6 | 0.1 | 2.8 | 0.9 |
+| L25 | restart | pressure, flow, and signature must all pass for restart | 7.2 | 1.3 | 1.7 | 3.0 |
+| L40 | handover | routine cleaning note is low priority for all three questions | 4.6 | 0.1 | 0.1 | 0.1 |
+
+Before looking at the code, it helps to predict first which section's lines will receive weight if only the question changes while the same CSV stays in place.
 
 | Question | Misunderstanding that can easily arise in the baseline | Change to predict first in attention |
 | --- | --- | --- |
-| `What is the pressure-release holding time?` | it can feel as if all candidates may be mixed at similar weight | the weight should become largest on `pressure_hold_time` |
-| `What is the coolant-flow criterion?` | it can feel as if the context should look similar to the previous question because the candidate set is the same | the weight should become largest on `coolant_flow_limit` |
-| both questions | it can feel as if one average value is enough | when the question changes, the context should also change even with the same candidates |
+| `What is the pressure-release holding time?` | if we only use the whole-manual average, the pressure-hold cue can be blurred | pressure-section lines and missing-pressure-timestamp lines should rise to the top |
+| `What is the coolant-flow criterion?` | it can feel as if the context should be similar to the previous question because the manual is the same | coolant-section lines and flow-meter lines should rise to the top |
+| `What are the restart approval conditions?` | it can be mistaken that restart needs only pressure or only flow | restart-section lines and approval-blocking condition lines should rise to the top |
 
 Input:
 
-We use the questions and the candidate scores by sentence summarized above.
+We read the CSV above and normalize question-specific relevance scores with softmax.
 
 ```python
-# This example compares baseline averaging with attention-weighted context when the question changes over the same candidate sentences.
+from pathlib import Path
+import csv
 import math
 
-question = "What is the pressure-release holding time?"
-flow_question = "What is the coolant-flow criterion?"
-sentences = {
-    "pressure_hold_time": 3.0,
-    "coolant_flow_limit": 12.0,
-    "high_temp_exception": 5.0,
-}
-scores_for_pressure = {
-    "pressure_hold_time": 2.5,
-    "coolant_flow_limit": 0.9,
-    "high_temp_exception": 0.3,
-}
-scores_for_flow = {
-    "pressure_hold_time": 0.8,
-    "coolant_flow_limit": 2.4,
-    "high_temp_exception": 0.4,
+DATA_PATH = Path("docs/assets/part-05/chapter-13/attention-operating-manual-candidates.csv")
+
+QUESTIONS = {
+    "What is the pressure-release holding time?": "score_pressure_hold",
+    "What is the coolant-flow criterion?": "score_flow_limit",
+    "What are the restart approval conditions?": "score_restart_permission",
 }
 
-ordered_names = list(sentences.keys())
-values = [sentences[name] for name in ordered_names]
+with DATA_PATH.open(encoding="utf-8", newline="") as f:
+    rows = list(csv.DictReader(f))
 
-uniform_weight = 1 / len(values)
-baseline_context = sum(uniform_weight * v for v in values)
+values = [float(row["evidence_signal"]) for row in rows]
+baseline_context = sum(values) / len(values)
 
-def run_attention(question, score_table):
-    raw_scores = [score_table[name] for name in ordered_names]
-    exp_scores = [math.exp(s) for s in raw_scores]
+def softmax(scores):
+    # Subtract the maximum so we can focus on how relative score differences create attention weights.
+    max_score = max(scores)
+    exp_scores = [math.exp(score - max_score) for score in scores]
     total = sum(exp_scores)
-    weights = [s / total for s in exp_scores]
+    return [score / total for score in exp_scores]
+
+def run_attention(question, score_column):
+    scores = [float(row[score_column]) for row in rows]
+    weights = softmax(scores)
     context = sum(w * v for w, v in zip(weights, values))
+    top_rows = sorted(zip(rows, weights), key=lambda item: item[1], reverse=True)[:3]
 
     print("question =", question)
+    print("csv_rows =", len(rows))
     print("baseline_uniform_context =", round(baseline_context, 3))
-    for name, weight in zip(ordered_names, weights):
-        print(name, "weight =", round(weight, 3), "value =", sentences[name])
-    print("weights =", [round(w, 3) for w in weights])
     print("context =", round(context, 3))
     print("shift_from_baseline =", round(context - baseline_context, 3))
+    for row, weight in top_rows:
+        print(row["line_id"], row["section"], "weight =", round(weight, 3), "signal =", row["evidence_signal"])
     print()
 
-run_attention(question, scores_for_pressure)
-run_attention(flow_question, scores_for_flow)
+for question, score_column in QUESTIONS.items():
+    run_attention(question, score_column)
 ```
 
-In the output, start by looking at how strongly the weight concentrates on the candidate relevant to the question.
+In the output, start by looking at how question-related candidate lines rise into the top 3.
 
 ```text
 question = What is the pressure-release holding time?
-baseline_uniform_context = 6.667
-pressure_hold_time weight = 0.762 value = 3.0
-coolant_flow_limit weight = 0.154 value = 12.0
-high_temp_exception weight = 0.084 value = 5.0
-weights = [0.762, 0.154, 0.084]
-context = 4.553
-shift_from_baseline = -2.114
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 4.685
+shift_from_baseline = -2.195
+L10 pressure weight = 0.092 signal = 2.9
+L05 pressure weight = 0.076 signal = 3.0
+L07 pressure weight = 0.068 signal = 3.2
 
 question = What is the coolant-flow criterion?
-baseline_uniform_context = 6.667
-pressure_hold_time weight = 0.151 value = 3.0
-coolant_flow_limit weight = 0.748 value = 12.0
-high_temp_exception weight = 0.101 value = 5.0
-weights = [0.151, 0.748, 0.101]
-context = 9.933
-shift_from_baseline = 3.266
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 9.922
+shift_from_baseline = 3.042
+L13 coolant weight = 0.093 signal = 12.0
+L18 coolant weight = 0.084 signal = 12.6
+L14 coolant weight = 0.076 signal = 11.6
+
+question = What are the restart approval conditions?
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 6.449
+shift_from_baseline = -0.431
+L25 restart weight = 0.097 signal = 7.2
+L26 restart weight = 0.08 signal = 6.8
+L30 restart weight = 0.072 signal = 6.6
 ```
 
-- if all candidates are averaged equally as in the baseline, the context value becomes `6.667`, so values such as `coolant_flow_limit` and `high_temp_exception`, which are not directly related to the current question, are mixed in with the same weight
-- the `pressure_hold_time` sentence receives the largest weight
-- so the final context is influenced most strongly by the pressure-release holding-time sentence
-- the fact that `shift_from_baseline` is negative means that as more weight is placed on the candidate directly related to the question, the context representation is pulled more toward the `pressure-release holding time` side
-- when the question is changed to coolant-flow criterion, even with the same candidate set, `coolant_flow_limit` receives the largest weight and the context also rises toward the flow-criterion side
+- if all candidates are averaged equally as in the baseline, the context value becomes `6.88`, so pressure, coolant, restart, log, and handover lines are all mixed with the same weight
+- in the pressure question, lines such as `L10`, `L05`, and `L07`, which describe hold time and stabilization waiting conditions, rise to the top
+- in the coolant-flow question, lines such as `L13`, `L18`, and `L14`, which describe flow limits and pump conditions, rise to the top
+- in the restart-approval question, lines such as `L25`, `L26`, and `L30`, which describe approval and blocking conditions, rise to the top
 - that is, attention does not average all positions equally, but reflects more strongly the positions more relevant to the current question
 
-The first result to look at in this example is the attention weight by question. In the pressure-release holding-time question, the weight of `pressure_hold_time` is the largest, while in the coolant-flow criterion question, the weight of `coolant_flow_limit` is the largest.
+The first result to look at in this example is the attention weight by question. In the pressure-release holding-time question, pressure candidate lines gather near the top, while in the coolant-flow criterion question, coolant candidate lines gather near the top.
 
-![Attention weights for the pressure-release holding-time question](/AiBook/assets/part-05/chapter-13/attention-pressure-question-weights-en.png)
+![Attention weights for the pressure-release holding-time question](../../../assets/part-05/chapter-13/attention-pressure-question-weights-en.png)
 
-![Attention weights for the coolant-flow criterion question](/AiBook/assets/part-05/chapter-13/attention-flow-question-weights-en.png)
+![Attention weights for the coolant-flow criterion question](../../../assets/part-05/chapter-13/attention-flow-question-weights-en.png)
 
-The second result to look at is the context value. The baseline average stays at `6.667` because it cannot distinguish the two questions, but the attention context changes to `4.553` and `9.933` depending on the question.
+The second result to look at is the context value. The baseline average stays at `6.88` because it cannot distinguish the question, but the attention context changes to `4.685`, `9.922`, and `6.449` depending on the question.
 
-![Comparison of question-specific attention context and the baseline average](/AiBook/assets/part-05/chapter-13/attention-context-comparison-en.png)
+![Comparison of question-specific attention context and the baseline average](../../../assets/part-05/chapter-13/attention-context-comparison-en.png)
 
 Even when reading the output numbers, we need to separate `the same candidate set` from `the weight that changes according to the question`.
 
 | Comparison | What first appears in the output | Interpretation that is easy to keep if we only look at the average | Interpretation that changes when attention is included |
 | --- | --- | --- | --- |
-| `baseline_uniform_context` | for both questions, the baseline is the same `6.667` | it can look as if the context should stay almost the same when the candidate set is the same | the baseline cannot reflect the question, so even when the position needed right now changes, it remains at the same average value |
-| the `pressure_hold_time` question | the weight of `pressure_hold_time` is the largest at `0.762` | it can look as if the context simply moved downward because the number `3.0` is small | because the question is about holding time, attention redistributes the weight so the holding-time candidate is referred to more strongly |
-| the `What is the coolant-flow criterion?` question | the weight of `coolant_flow_limit` is the largest at `0.748` | with the same candidate set, it can look as if the larger number was simply chosen by chance this time | when the question changes, the reference weights are redistributed over the same candidate set, so the context on the flow-criterion side is formed more strongly |
+| `baseline_uniform_context` | for all three questions, the baseline is the same `6.88` | it can look as if the context should stay almost the same when the CSV is the same | the baseline cannot reflect the question, so even when the position needed right now changes, it remains at the same average value |
+| `What is the pressure-release holding time?` | pressure lines gather in the top 3 | it can look as if low-valued lines were chosen by chance and the context simply moved downward | because the question is about holding time, attention redistributes the weight so pressure-hold candidates are referred to more strongly |
+| `What is the coolant-flow criterion?` | coolant lines gather in the top 3 | with the same CSV, it can look as if larger-valued lines were simply chosen by chance this time | when the question changes, the reference weights are redistributed, so the context on the flow-criterion side is formed more strongly |
+| `What are the restart approval conditions?` | restart lines gather in the top 3 | it can look as if pressure and flow lines are enough for restart | the restart question partly refers to pressure and flow cues, but refers more strongly to final approval and blocking-condition lines |
 
 ## If We Reread This Example As A Question-Candidate Comparison
 
 The numbers above do not calculate the whole real word-embedding space, but the intuition is clear.
 
-- the baseline average reflects only the fact that `the sentences were simply all present together`
+- the baseline average reflects only the fact that `the candidate lines were simply all in the same CSV`
 - the attention weighted average redistributes the weight among the candidates according to `what the current question is`
-- so when the question changes from `pressure-release holding time` to `coolant-flow criterion`, the position referred to most strongly also changes even with the same set of candidates
+- so when the question changes among `pressure-release holding time`, `coolant-flow criterion`, and `restart approval conditions`, the position referred to most strongly also changes even with the same candidate group
 
 That is, attention is not simply a method of gathering more information, but `a method of deciding again what information should be mixed more strongly according to the current question`.
 

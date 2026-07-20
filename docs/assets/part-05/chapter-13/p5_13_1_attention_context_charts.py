@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from pathlib import Path
+import csv
 import math
 import os
 
@@ -17,38 +20,27 @@ import numpy as np
 
 
 OUT_DIR = Path(__file__).resolve().parent
-
-SENTENCES = {
-    "pressure_hold_time": 3.0,
-    "coolant_flow_limit": 12.0,
-    "high_temp_exception": 5.0,
+DATA_PATH = OUT_DIR / "attention-operating-manual-candidates.csv"
+QUESTIONS = {
+    "pressure": {
+        "score_column": "score_pressure_hold",
+        "ko": "압력 해소 유지 시간 질문",
+        "en": "pressure-hold-time question",
+        "zh": "压力释放保持时间问题",
+    },
+    "flow": {
+        "score_column": "score_flow_limit",
+        "ko": "냉각수 유량 기준 질문",
+        "en": "coolant-flow question",
+        "zh": "冷却水流量标准问题",
+    },
+    "restart": {
+        "score_column": "score_restart_permission",
+        "ko": "재기동 승인 조건 질문",
+        "en": "restart-approval question",
+        "zh": "重启批准条件问题",
+    },
 }
-SCORES_FOR_RETURN = {
-    "pressure_hold_time": 2.5,
-    "coolant_flow_limit": 0.9,
-    "high_temp_exception": 0.3,
-}
-SCORES_FOR_FLOW = {
-    "pressure_hold_time": 0.8,
-    "coolant_flow_limit": 2.4,
-    "high_temp_exception": 0.4,
-}
-ORDERED_NAMES = list(SENTENCES.keys())
-VALUES = np.array([SENTENCES[name] for name in ORDERED_NAMES])
-BASELINE_CONTEXT = sum((1 / len(VALUES)) * value for value in VALUES)
-
-
-def attention_weights(score_table: dict[str, float]) -> np.ndarray:
-    raw_scores = [score_table[name] for name in ORDERED_NAMES]
-    exp_scores = [math.exp(score) for score in raw_scores]
-    total = sum(exp_scores)
-    return np.array([score / total for score in exp_scores])
-
-
-RETURN_WEIGHTS = attention_weights(SCORES_FOR_RETURN)
-FLOW_WEIGHTS = attention_weights(SCORES_FOR_FLOW)
-RETURN_CONTEXT = float(np.sum(RETURN_WEIGHTS * VALUES))
-FLOW_CONTEXT = float(np.sum(FLOW_WEIGHTS * VALUES))
 
 LANG_TEXT = {
     "ko": {
@@ -60,33 +52,29 @@ LANG_TEXT = {
             "Arial Unicode MS",
             "DejaVu Sans",
         ],
-        "return_weight_outfile": "attention-pressure-question-weights-ko.png",
+        "pressure_weight_outfile": "attention-pressure-question-weights-ko.png",
         "flow_weight_outfile": "attention-flow-question-weights-ko.png",
         "context_outfile": "attention-context-comparison-ko.png",
-        "return_question": "압력 해소 유지 시간 질문",
-        "flow_question": "냉각수 유량 기준 질문",
         "weight_label": "attention 비중",
-        "candidate_label": "문장 후보",
+        "candidate_label": "상위 후보 줄",
         "context_label": "문맥값",
         "baseline": "baseline 평균",
         "pressure_context": "압력 질문 context",
         "flow_context": "유량 질문 context",
-        "names": ["압력 유지 시간", "냉각수 유량", "고온 예외"],
+        "restart_context": "재기동 질문 context",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
-        "return_weight_outfile": "attention-pressure-question-weights-en.png",
+        "pressure_weight_outfile": "attention-pressure-question-weights-en.png",
         "flow_weight_outfile": "attention-flow-question-weights-en.png",
         "context_outfile": "attention-context-comparison-en.png",
-        "return_question": "pressure-hold-time question",
-        "flow_question": "coolant-flow question",
         "weight_label": "attention weight",
-        "candidate_label": "sentence candidate",
+        "candidate_label": "top candidate line",
         "context_label": "context value",
         "baseline": "baseline mean",
-        "pressure_context": "pressure question context",
-        "flow_context": "flow question context",
-        "names": ["pressure hold", "coolant flow", "high-temp exception"],
+        "pressure_context": "pressure context",
+        "flow_context": "flow context",
+        "restart_context": "restart context",
     },
     "zh": {
         "font_candidates": [
@@ -95,22 +83,48 @@ LANG_TEXT = {
             "Source Han Sans SC",
             "Microsoft YaHei",
             "PingFang SC",
+            "Songti SC",
+            "Heiti SC",
+            "Heiti TC",
             "Arial Unicode MS",
             "DejaVu Sans",
         ],
-        "return_weight_outfile": "attention-pressure-question-weights-zh.png",
+        "pressure_weight_outfile": "attention-pressure-question-weights-zh.png",
         "flow_weight_outfile": "attention-flow-question-weights-zh.png",
         "context_outfile": "attention-context-comparison-zh.png",
-        "return_question": "压力释放保持时间问题",
-        "flow_question": "冷却水流量标准问题",
         "weight_label": "attention 权重",
-        "candidate_label": "句子候选",
+        "candidate_label": "最高候选行",
         "context_label": "上下文值",
         "baseline": "baseline 平均",
         "pressure_context": "压力问题 context",
         "flow_context": "流量问题 context",
-        "names": ["压力保持时间", "冷却水流量", "高温例外"],
+        "restart_context": "重启问题 context",
     },
+}
+
+
+def load_rows() -> list[dict[str, str]]:
+    with DATA_PATH.open(encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def softmax(scores: list[float]) -> np.ndarray:
+    max_score = max(scores)
+    shifted = [math.exp(score - max_score) for score in scores]
+    total = sum(shifted)
+    return np.array([score / total for score in shifted])
+
+
+ROWS = load_rows()
+VALUES = np.array([float(row["evidence_signal"]) for row in ROWS])
+BASELINE_CONTEXT = float(np.mean(VALUES))
+QUESTION_WEIGHTS = {
+    name: softmax([float(row[config["score_column"]]) for row in ROWS])
+    for name, config in QUESTIONS.items()
+}
+QUESTION_CONTEXTS = {
+    name: float(np.sum(weights * VALUES))
+    for name, weights in QUESTION_WEIGHTS.items()
 }
 
 
@@ -129,39 +143,43 @@ def configure_font(text: dict[str, str]) -> None:
 
 def style_axis(ax) -> None:
     ax.set_facecolor("white")
-    ax.grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
+    ax.grid(True, axis="x", color="#d0d7de", linewidth=0.75, alpha=0.85)
     ax.set_axisbelow(True)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
 
-def save_weight_chart(text: dict[str, str], weights: np.ndarray, outfile: str, focus_index: int) -> None:
+def save_weight_chart(text: dict[str, str], question_name: str, outfile: str) -> None:
     configure_font(text)
-    positions = np.arange(len(weights))
-    colors = ["#94a3b8"] * len(weights)
-    colors[focus_index] = "#2563eb"
+    weights = QUESTION_WEIGHTS[question_name]
+    top_indexes = sorted(range(len(weights)), key=lambda index: (-weights[index], index))[:8]
+    labels = [ROWS[index]["line_id"] for index in top_indexes]
+    top_weights = [weights[index] for index in top_indexes]
+    colors = ["#2563eb" if i == 0 else "#94a3b8" for i in range(len(top_indexes))]
 
-    fig, ax = plt.subplots(figsize=(5.9, 3.6), dpi=170)
+    fig, ax = plt.subplots(figsize=(6.2, 3.9), dpi=170)
     fig.patch.set_facecolor("white")
     style_axis(ax)
 
-    bars = ax.bar(positions, weights, color=colors, width=0.6)
-    for bar, value in zip(bars, weights):
+    positions = np.arange(len(top_indexes))
+    bars = ax.barh(positions, top_weights, color=colors, height=0.62)
+    for bar, value in zip(bars, top_weights):
         ax.text(
-            bar.get_x() + bar.get_width() / 2,
-            value + 0.025,
+            value + 0.004,
+            bar.get_y() + bar.get_height() / 2,
             f"{value:.3f}",
-            ha="center",
-            va="bottom",
+            ha="left",
+            va="center",
             fontsize=8.5,
             color="#111827",
         )
 
-    ax.set_xticks(positions)
-    ax.set_xticklabels(text["names"], fontsize=8.3)
-    ax.set_xlabel(text["candidate_label"])
-    ax.set_ylabel(text["weight_label"])
-    ax.set_ylim(0, 0.86)
+    ax.set_yticks(positions)
+    ax.set_yticklabels(labels, fontsize=8.5)
+    ax.invert_yaxis()
+    ax.set_xlabel(text["weight_label"])
+    ax.set_ylabel(text["candidate_label"])
+    ax.set_xlim(0, max(top_weights) * 1.24)
 
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / outfile, format="png", bbox_inches="tight")
@@ -170,19 +188,33 @@ def save_weight_chart(text: dict[str, str], weights: np.ndarray, outfile: str, f
 
 def save_context_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    labels = [text["baseline"], text["pressure_context"], text["flow_context"]]
-    contexts = [BASELINE_CONTEXT, RETURN_CONTEXT, FLOW_CONTEXT]
-    colors = ["#94a3b8", "#2563eb", "#0f766e"]
+    labels = [
+        text["baseline"],
+        text["pressure_context"],
+        text["flow_context"],
+        text["restart_context"],
+    ]
+    contexts = [
+        BASELINE_CONTEXT,
+        QUESTION_CONTEXTS["pressure"],
+        QUESTION_CONTEXTS["flow"],
+        QUESTION_CONTEXTS["restart"],
+    ]
+    colors = ["#94a3b8", "#2563eb", "#0f766e", "#7c3aed"]
 
-    fig, ax = plt.subplots(figsize=(5.8, 3.7), dpi=170)
+    fig, ax = plt.subplots(figsize=(6.1, 3.7), dpi=170)
     fig.patch.set_facecolor("white")
-    style_axis(ax)
+    ax.set_facecolor("white")
+    ax.grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
+    ax.set_axisbelow(True)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
 
     bars = ax.bar(labels, contexts, color=colors, width=0.58)
     for bar, value in zip(bars, contexts):
         ax.text(
             bar.get_x() + bar.get_width() / 2,
-            value + 0.18,
+            value + 0.16,
             f"{value:.3f}".rstrip("0").rstrip("."),
             ha="center",
             va="bottom",
@@ -191,8 +223,8 @@ def save_context_chart(text: dict[str, str]) -> None:
         )
 
     ax.set_ylabel(text["context_label"])
-    ax.set_ylim(0, 11.0)
-    ax.tick_params(axis="x", labelsize=8.2)
+    ax.set_ylim(0, max(contexts) * 1.18)
+    ax.tick_params(axis="x", labelsize=8.0)
 
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["context_outfile"], format="png", bbox_inches="tight")
@@ -201,8 +233,8 @@ def save_context_chart(text: dict[str, str]) -> None:
 
 def main() -> None:
     for text in LANG_TEXT.values():
-        save_weight_chart(text, RETURN_WEIGHTS, text["return_weight_outfile"], 0)
-        save_weight_chart(text, FLOW_WEIGHTS, text["flow_weight_outfile"], 1)
+        save_weight_chart(text, "pressure", text["pressure_weight_outfile"])
+        save_weight_chart(text, "flow", text["flow_weight_outfile"])
         save_context_chart(text)
 
 

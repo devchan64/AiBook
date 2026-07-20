@@ -1,7 +1,7 @@
 # P5-13.1 어텐션(Attention)의 직관
 
 > Section ID: `P5-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-12.2에서는 장기 의존성(long-term dependency) 때문에 순차 모델이 오래전 정보를 충분히 유지하기 어려울 수 있다는 점을 보았습니다. 여기서 다음 질문이 생깁니다.
 
@@ -168,128 +168,148 @@ attention 이후에는:
 
 ## 연습 및 예제
 
-이번 예제의 목표는 여러 위치 중 중요한 곳에 더 큰 비중을 주고 가중 평균을 만드는 attention 직관을 확인하는 것입니다. 단순 숫자 평균이 아니라, `질문`과 `문장 후보`가 있을 때 어디를 더 보게 되는지를 작은 질의응답 장면으로 바꿔 보겠습니다.
+이번 예제의 목표는 여러 위치 중 중요한 곳에 더 큰 비중을 주고 가중 평균을 만드는 attention 직관을 확인하는 것입니다. 이번에는 세 개 숫자를 코드 안에 직접 넣지 않고, 운영 매뉴얼 후보 줄을 CSV 파일로 따로 둔 뒤 같은 후보 묶음을 질문별로 다시 읽어 보겠습니다.
 
 문제 상황:
 
-- 모든 입력 위치를 똑같이 평균내면 현재 질문과 직접 관련된 정보가 흐려질 수 있다
+- 모든 입력 줄을 똑같이 평균내면 현재 질문과 직접 관련된 단서가 흐려질 수 있다
+- 같은 매뉴얼이라도 `압력`, `냉각수 유량`, `재기동 승인` 중 무엇을 묻는지에 따라 더 크게 참고해야 할 줄이 달라진다
 
 입력:
 
-- 질문 두 개
-- 세 개의 문장 후보 값
-- 질문마다 달라지는 후보 관련도 점수
+- [`attention-operating-manual-candidates.csv`](../../../assets/part-05/chapter-13/attention-operating-manual-candidates.csv){ .csv-preview }
+- 40개의 운영 매뉴얼 후보 줄
+- 각 줄의 대표 신호값 `evidence_signal`
+- 질문별 관련도 점수 `score_pressure_hold`, `score_flow_limit`, `score_restart_permission`
 
 출력:
 
 - 모든 후보를 똑같이 평균낸 baseline 문맥값
-- 질문마다 달라지는 정규화된 비중
+- 질문마다 달라지는 attention 비중
 - 질문마다 달라지는 문맥값
-- 어떤 후보가 가장 크게 반영되는지에 대한 요약
+- 각 질문에서 가장 크게 반영되는 후보 줄
 
 확인할 개념:
 
 - attention은 모든 후보를 같은 비중으로 보는 대신 현재 질문에 더 관련된 위치를 더 크게 본다
 - baseline 평균과 attention 가중 평균을 비교해야 왜 중요한 위치 선택이 필요한지 보인다
 - 같은 후보 묶음도 질문이 달라지면 비중이 다시 나뉜다
-- 질의응답 장면으로 바꾸면 attention이 `어디를 더 볼 것인가`의 문제라는 점이 분명해진다
+- CSV처럼 줄이 많은 입력으로 바꾸면 attention이 `어떤 줄을 더 볼 것인가`의 문제라는 점이 더 분명해진다
 
-코드를 보기 전에, 같은 후보를 두고 질문만 바꾸면 어디에 weight가 몰릴지 먼저 예상해 보면 좋습니다.
+CSV의 한 행은 `문서 안의 한 줄`을 뜻합니다. `evidence_signal`은 그 줄이 문맥값에 기여하는 대표 수치이고, `score_*` 열은 질문별 관련도 점수입니다. 실제 attention 모델의 학습된 점수를 그대로 구현한 것은 아니지만, `질문별 점수 -> softmax 비중 -> 가중 평균 문맥값`이라는 직관을 확인하기에는 충분합니다.
+
+CSV 내용 일부를 먼저 보면 다음과 같습니다.
+
+| line_id | section | text 요약 | evidence_signal | 압력 점수 | 유량 점수 | 재기동 점수 |
+| --- | --- | --- | ---: | ---: | ---: | ---: |
+| L05 | pressure | venting 뒤 3분 대기 | 3.0 | 2.8 | 0.1 | 0.7 |
+| L10 | pressure | hold time은 마지막 불안정 판독부터 계산 | 2.9 | 3.0 | 0.1 | 1.1 |
+| L13 | coolant | 냉각수 유량은 12 units 이상 유지 | 12.0 | 0.2 | 2.9 | 0.5 |
+| L18 | coolant | 주 유량이 기준 미만이면 standby pump 시작 | 12.6 | 0.1 | 2.8 | 0.9 |
+| L25 | restart | 압력, 유량, 서명이 모두 통과해야 재기동 | 7.2 | 1.3 | 1.7 | 3.0 |
+| L40 | handover | routine cleaning note는 세 질문 모두 낮은 우선순위 | 4.6 | 0.1 | 0.1 | 0.1 |
+
+코드를 보기 전에, 같은 CSV를 두고 질문만 바꾸면 어느 구간의 줄에 weight가 몰릴지 먼저 예상해 보면 좋습니다.
 
 | 질문 | baseline에서 생기기 쉬운 오해 | attention에서 먼저 예상할 변화 |
 | --- | --- | --- |
-| `압력 해소 유지 시간은?` | 모든 후보가 비슷하게 섞여도 된다고 느끼기 쉽다 | `pressure_hold_time` 쪽 weight가 가장 커져야 한다 |
-| `냉각수 유량 기준은?` | 같은 후보 집합이면 앞 질문과 비슷한 문맥이 나올 것이라고 느끼기 쉽다 | `coolant_flow_limit` 쪽 weight가 가장 커져야 한다 |
-| 두 질문 모두 | 평균값 하나면 충분하다고 느끼기 쉽다 | 질문이 바뀌면 같은 후보라도 context가 달라져야 한다 |
+| `압력 해소 유지 시간은?` | 전체 매뉴얼 평균만 보면 압력 hold 단서가 흐려질 수 있다 | pressure 구간과 누락된 압력 timestamp 줄이 위로 올라와야 한다 |
+| `냉각수 유량 기준은?` | 같은 매뉴얼이면 앞 질문과 비슷한 문맥이 나올 것이라고 느끼기 쉽다 | coolant 구간과 flow meter 관련 줄이 위로 올라와야 한다 |
+| `재기동 승인 조건은?` | 재기동은 압력이나 유량 중 하나만 보면 된다고 오해할 수 있다 | restart 구간과 승인 차단 조건 줄이 위로 올라와야 한다 |
 
 입력(input):
 
-위에 정리한 질문과 문장별 점수 후보를 사용합니다.
+위 CSV를 읽어 질문별 관련도 점수를 softmax로 정규화합니다.
 
 ```python
-# 같은 후보 문장 묶음에서 질문이 바뀔 때 baseline 평균과 attention 가중 평균이 어떻게 다른 context를 만드는지 비교하는 예제입니다.
+from pathlib import Path
+import csv
 import math
 
-question = "압력 해소 유지 시간은?"
-flow_question = "냉각수 유량 기준은?"
-sentences = {
-    "pressure_hold_time": 3.0,
-    "coolant_flow_limit": 12.0,
-    "high_temp_exception": 5.0,
-}
-scores_for_pressure = {
-    "pressure_hold_time": 2.5,
-    "coolant_flow_limit": 0.9,
-    "high_temp_exception": 0.3,
-}
-scores_for_flow = {
-    "pressure_hold_time": 0.8,
-    "coolant_flow_limit": 2.4,
-    "high_temp_exception": 0.4,
+DATA_PATH = Path("docs/assets/part-05/chapter-13/attention-operating-manual-candidates.csv")
+
+QUESTIONS = {
+    "압력 해소 유지 시간은?": "score_pressure_hold",
+    "냉각수 유량 기준은?": "score_flow_limit",
+    "재기동 승인 조건은?": "score_restart_permission",
 }
 
-ordered_names = list(sentences.keys())
-values = [sentences[name] for name in ordered_names]
+with DATA_PATH.open(encoding="utf-8", newline="") as f:
+    rows = list(csv.DictReader(f))
 
-uniform_weight = 1 / len(values)
-baseline_context = sum(uniform_weight * v for v in values)
+values = [float(row["evidence_signal"]) for row in rows]
+baseline_context = sum(values) / len(values)
 
-def run_attention(question, score_table):
-    raw_scores = [score_table[name] for name in ordered_names]
-    exp_scores = [math.exp(s) for s in raw_scores]
+def softmax(scores):
+    # 점수 자체보다 점수의 상대적 차이가 attention 비중을 만든다는 점을 보기 위해 최댓값을 빼고 계산합니다.
+    max_score = max(scores)
+    exp_scores = [math.exp(score - max_score) for score in scores]
     total = sum(exp_scores)
-    weights = [s / total for s in exp_scores]
+    return [score / total for score in exp_scores]
+
+def run_attention(question, score_column):
+    scores = [float(row[score_column]) for row in rows]
+    weights = softmax(scores)
     context = sum(w * v for w, v in zip(weights, values))
+    top_rows = sorted(zip(rows, weights), key=lambda item: item[1], reverse=True)[:3]
 
     print("question =", question)
+    print("csv_rows =", len(rows))
     print("baseline_uniform_context =", round(baseline_context, 3))
-    for name, weight in zip(ordered_names, weights):
-        print(name, "weight =", round(weight, 3), "value =", sentences[name])
-    print("weights =", [round(w, 3) for w in weights])
     print("context =", round(context, 3))
     print("shift_from_baseline =", round(context - baseline_context, 3))
+    for row, weight in top_rows:
+        print(row["line_id"], row["section"], "weight =", round(weight, 3), "signal =", row["evidence_signal"])
     print()
 
-run_attention(question, scores_for_pressure)
-run_attention(flow_question, scores_for_flow)
+for question, score_column in QUESTIONS.items():
+    run_attention(question, score_column)
 ```
 
-출력에서는 질문 관련 후보에 weight가 얼마나 몰렸는지부터 보면 됩니다.
+출력에서는 질문 관련 후보 줄이 top 3에 어떻게 올라오는지부터 보면 됩니다.
 
 ```text
 question = 압력 해소 유지 시간은?
-baseline_uniform_context = 6.667
-pressure_hold_time weight = 0.762 value = 3.0
-coolant_flow_limit weight = 0.154 value = 12.0
-high_temp_exception weight = 0.084 value = 5.0
-weights = [0.762, 0.154, 0.084]
-context = 4.553
-shift_from_baseline = -2.114
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 4.685
+shift_from_baseline = -2.195
+L10 pressure weight = 0.092 signal = 2.9
+L05 pressure weight = 0.076 signal = 3.0
+L07 pressure weight = 0.068 signal = 3.2
 
 question = 냉각수 유량 기준은?
-baseline_uniform_context = 6.667
-pressure_hold_time weight = 0.151 value = 3.0
-coolant_flow_limit weight = 0.748 value = 12.0
-high_temp_exception weight = 0.101 value = 5.0
-weights = [0.151, 0.748, 0.101]
-context = 9.933
-shift_from_baseline = 3.266
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 9.922
+shift_from_baseline = 3.042
+L13 coolant weight = 0.093 signal = 12.0
+L18 coolant weight = 0.084 signal = 12.6
+L14 coolant weight = 0.076 signal = 11.6
+
+question = 재기동 승인 조건은?
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 6.449
+shift_from_baseline = -0.431
+L25 restart weight = 0.097 signal = 7.2
+L26 restart weight = 0.08 signal = 6.8
+L30 restart weight = 0.072 signal = 6.6
 ```
 
-- baseline처럼 모든 후보를 똑같이 평균내면 문맥값은 `6.667`이 되어, 질문과 직접 관련 없는 `coolant_flow_limit`, `high_temp_exception` 값도 같은 비중으로 섞입니다
-- `pressure_hold_time` 문장이 가장 큰 weight를 받습니다
-- 그래서 최종 context는 압력 해소 유지 시간 문장의 영향을 가장 크게 받습니다
-- `shift_from_baseline`이 음수라는 점은 질문과 직접 관련된 후보에 더 큰 비중이 실리면서, 문맥 표현이 `압력 해소 유지 시간` 쪽으로 더 끌려갔다는 뜻입니다
-- 냉각수 유량 질문으로 바꾸면 같은 후보 집합이어도 `coolant_flow_limit`가 가장 큰 weight를 받으며 context도 유량 기준 쪽으로 올라갑니다
+- baseline처럼 모든 후보를 똑같이 평균내면 문맥값은 `6.88`이 되어 압력, 냉각수, 재기동, 로그, 인수인계 줄이 모두 같은 비중으로 섞입니다
+- 압력 질문에서는 `L10`, `L05`, `L07`처럼 hold time과 안정화 대기 조건을 말하는 줄이 위로 올라옵니다
+- 냉각수 유량 질문에서는 `L13`, `L18`, `L14`처럼 flow limit과 pump 조건을 말하는 줄이 위로 올라옵니다
+- 재기동 승인 질문에서는 `L25`, `L26`, `L30`처럼 승인 조건과 차단 조건을 말하는 줄이 위로 올라옵니다
 - 즉, attention은 모든 위치를 똑같이 평균내지 않고, 현재 질문과 더 관련 있는 위치를 더 크게 반영합니다
 
-이 예제에서 먼저 볼 산출물은 질문별 attention 비중입니다. 압력 해소 유지 시간 질문에서는 `pressure_hold_time`의 비중이 가장 크고, 냉각수 유량 기준 질문에서는 `coolant_flow_limit`의 비중이 가장 큽니다.
+이 예제에서 먼저 볼 산출물은 질문별 attention 비중입니다. 압력 해소 유지 시간 질문에서는 pressure 후보 줄이 상위에 모이고, 냉각수 유량 기준 질문에서는 coolant 후보 줄이 상위에 모입니다.
 
 ![압력 해소 유지 시간 질문의 attention 비중](../../../assets/part-05/chapter-13/attention-pressure-question-weights-ko.png)
 
 ![냉각수 유량 기준 질문의 attention 비중](../../../assets/part-05/chapter-13/attention-flow-question-weights-ko.png)
 
-두 번째로 볼 산출물은 문맥값입니다. baseline 평균은 두 질문을 구분하지 못해 `6.667`에 머물지만, attention context는 질문에 따라 `4.553`과 `9.933`으로 달라집니다.
+두 번째로 볼 산출물은 문맥값입니다. baseline 평균은 질문을 구분하지 못해 `6.88`에 머물지만, attention context는 질문에 따라 `4.685`, `9.922`, `6.449`로 달라집니다.
 
 ![질문별 attention context와 baseline 평균 비교](../../../assets/part-05/chapter-13/attention-context-comparison-ko.png)
 
@@ -297,17 +317,18 @@ shift_from_baseline = 3.266
 
 | 비교 | 출력에서 먼저 보이는 것 | 평균만 보면 남기 쉬운 해석 | attention까지 보면 바뀌는 해석 |
 | --- | --- | --- | --- |
-| `baseline_uniform_context` | 두 질문 모두 baseline은 `6.667`로 같습니다. | 같은 후보 집합이면 문맥도 거의 같아야 할 것처럼 보입니다. | baseline은 질문을 반영하지 못해, 현재 필요한 위치가 바뀌어도 같은 평균값에 머뭅니다. |
-| `pressure_hold_time` 질문 | `pressure_hold_time` weight가 `0.762`로 가장 큽니다. | 숫자 `3.0`이 작아서 문맥값이 단순히 내려간 것처럼 보일 수 있습니다. | 질문이 유지 시간에 맞춰져 있으므로, attention은 유지 시간 후보를 더 크게 참고하도록 비중을 다시 나눕니다. |
-| `냉각수 유량 기준은?` 질문 | `coolant_flow_limit` weight가 `0.748`로 가장 큽니다. | 같은 후보인데 이번엔 숫자 큰 쪽이 우연히 선택된 것처럼 보일 수 있습니다. | 질문이 바뀌자 같은 후보 집합도 참조 비중이 다시 배분되어, 유량 기준 쪽 문맥이 더 크게 형성됩니다. |
+| `baseline_uniform_context` | 세 질문 모두 baseline은 `6.88`로 같습니다. | 같은 CSV라면 문맥도 거의 같아야 할 것처럼 보입니다. | baseline은 질문을 반영하지 못해, 현재 필요한 위치가 바뀌어도 같은 평균값에 머뭅니다. |
+| `압력 해소 유지 시간은?` | pressure 줄이 top 3에 모입니다. | 숫자값이 낮은 줄이 우연히 선택되어 context가 내려간 것처럼 보일 수 있습니다. | 질문이 유지 시간에 맞춰져 있으므로, attention은 압력 hold 후보를 더 크게 참고하도록 비중을 다시 나눕니다. |
+| `냉각수 유량 기준은?` | coolant 줄이 top 3에 모입니다. | 같은 CSV인데 이번엔 숫자 큰 쪽이 우연히 선택된 것처럼 보일 수 있습니다. | 질문이 바뀌자 참조 비중이 다시 배분되어, 유량 기준 쪽 문맥이 더 크게 형성됩니다. |
+| `재기동 승인 조건은?` | restart 줄이 top 3에 모입니다. | 재기동은 압력과 유량 줄의 평균으로 충분해 보일 수 있습니다. | 재기동 질문은 압력·유량 단서를 일부 참고하되, 최종 승인과 차단 조건 줄을 더 크게 참고합니다. |
 
 ## 이 예제를 질문-후보 비교 관점으로 다시 보면
 
 앞의 숫자는 실제 단어 임베딩 전체를 계산한 것은 아니지만, 직관은 분명합니다.
 
-- baseline 평균은 `문장들이 그냥 같이 있었다`는 사실만 반영합니다.
+- baseline 평균은 `후보 줄들이 그냥 같은 CSV 안에 있었다`는 사실만 반영합니다.
 - attention 가중 평균은 `지금 질문이 무엇이냐`를 기준으로, 후보들 사이 비중을 다시 나눕니다.
-- 그래서 질문이 `압력 해소 유지 시간`에서 `냉각수 유량 기준`으로 바뀌면 같은 후보 묶음이어도 가장 크게 참고하는 위치가 달라집니다.
+- 그래서 질문이 `압력 해소 유지 시간`, `냉각수 유량 기준`, `재기동 승인 조건`으로 바뀌면 같은 후보 묶음이어도 가장 크게 참고하는 위치가 달라집니다.
 
 즉, attention은 단순히 정보를 더 많이 모으는 방식이 아니라, `현재 질문에 맞게 어떤 정보를 더 크게 섞을지 다시 정하는 방식`입니다.
 

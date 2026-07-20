@@ -1,7 +1,7 @@
 # P5-13.1 注意力（Attention）的直觉
 
 > Section ID: `P5-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-12.2 里，我们已经看到：因为长期依赖（long-term dependency），序列模型可能很难把很早之前的信息充分保留到当前位置。这里就会出现下一个问题。
 
@@ -11,7 +11,7 @@
 
 注意力是一种方式：它会对当前计算里真正重要的位置或 token 赋予更大的权重，让需要的信息能被更直接地参考到。
 
-当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到英文概念词汇表里的 [attention](/AiBook/en/reference/concept-glossary/#attention) 条目重新对齐。
+当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的 [attention](../../../reference/concept-glossary.md#attention) 条目重新对齐。
 
 ## 本节范围
 
@@ -169,147 +169,167 @@ attention 并不只是一个把性能稍微提高一点的辅助技巧。它真�
 
 ## 练习与例子
 
-这个例子的目标，是确认 attention 作为一种给重要位置更大权重、再形成加权平均的直觉。它不再是简单的数值平均，而是改写成一个小型问答场景：给定`问题`和`句子候选`时，模型到底会更强地看哪里。
+这个例子的目标，是确认 attention 作为一种给重要位置更大权重、再形成加权平均的直觉。这一次，我们不把三个数字直接写进代码里，而是把运维手册候选行放进单独的 CSV 文件，再用不同问题重新读取同一组候选。
 
 问题场景：
 
-- 如果把所有输入位置一视同仁地平均，和当前问题直接相关的信息就可能被冲淡
+- 如果把所有输入行一视同仁地平均，和当前问题直接相关的线索就可能被冲淡
+- 即使是同一份手册，问题问的是`压力`、`冷却水流量`还是`重启批准`，需要更强参考的行也会不同
 
 输入：
 
-- 两个问题
-- 三个句子候选值
-- 每个问题对应的一组候选相关度分数
+- [`attention-operating-manual-candidates.csv`](../../../assets/part-05/chapter-13/attention-operating-manual-candidates.csv){ .csv-preview }
+- 40 条运维手册候选行
+- 每行的代表信号值 `evidence_signal`
+- 按问题区分的相关度分数 `score_pressure_hold`、`score_flow_limit`、`score_restart_permission`
 
 输出：
 
 - 对所有候选一视同仁平均得到的 baseline 上下文值
-- 随问题变化而变化的归一化权重
+- 随问题变化而变化的 attention 权重
 - 随问题变化而变化的上下文值
-- 哪个候选被最强反映出来的摘要
+- 每个问题中被最强反映的候选行
 
 要确认的概念：
 
 - attention 不会对所有候选给相同权重，而是会更强地看当前问题更相关的位置
 - 只有把 baseline 平均和 attention 加权平均放在一起比较，才会看清为什么要选择重要位置
 - 即使候选集合相同，只要问题改变，权重也会重新分配
-- 改成问答场景以后，attention 是`该更强地看哪里`这个问题会变得更清楚
+- 换成 CSV 这样行数较多的输入后，attention 是`该更强地看哪一行`这个问题会变得更清楚
 
-在看代码之前，先猜一猜：同样的候选集合里，如果只换问题，权重会集中到哪里，会更有帮助。
+CSV 的一行表示`文档中的一行`。`evidence_signal` 是这行对上下文值贡献的代表数值，`score_*` 列是按问题区分的相关度分数。这里并不是在实现真实 attention 模型学到的分数，但足以确认`按问题打分 -> softmax 权重 -> 加权平均上下文值`这个直觉。
+
+先看 CSV 的一部分，会是下面这样。
+
+| line_id | section | text 摘要 | evidence_signal | 压力分数 | 流量分数 | 重启分数 |
+| --- | --- | --- | ---: | ---: | ---: | ---: |
+| L05 | pressure | venting 后等待 3 分钟 | 3.0 | 2.8 | 0.1 | 0.7 |
+| L10 | pressure | hold time 从最后一次不稳定读数开始计算 | 2.9 | 3.0 | 0.1 | 1.1 |
+| L13 | coolant | 冷却水流量必须保持至少 12 units | 12.0 | 0.2 | 2.9 | 0.5 |
+| L18 | coolant | 主流量低于标准时启动 standby pump | 12.6 | 0.1 | 2.8 | 0.9 |
+| L25 | restart | 压力、流量、签名都通过后才能重启 | 7.2 | 1.3 | 1.7 | 3.0 |
+| L40 | handover | routine cleaning note 对三个问题都是低优先级 | 4.6 | 0.1 | 0.1 | 0.1 |
+
+在看代码之前，先猜一猜：同一个 CSV 里，如果只换问题，哪一段的行会获得更大权重，会更有帮助。
 
 | 问题 | baseline 里容易出现的误解 | 在 attention 里先应该预测的变化 |
 | --- | --- | --- |
-| `压力释放保持时间是多少？` | 容易觉得所有候选都可以差不多地混在一起 | `pressure_hold_time` 的权重应该最大 |
-| `冷却水流量标准是什么？` | 容易觉得候选集合没变，上下文也应该和前一个问题差不多 | `coolant_flow_limit` 的权重应该最大 |
-| 两个问题都是 | 容易觉得一个平均值就够了 | 只要问题变了，即使候选相同，上下文也应该变化 |
+| `压力释放保持时间是多少？` | 只看整份手册的平均值时，pressure hold 线索可能会被冲淡 | pressure 区段和缺失压力 timestamp 的行应该排到上面 |
+| `冷却水流量标准是什么？` | 容易觉得同一份手册下，上下文也应该和前一个问题差不多 | coolant 区段和 flow meter 相关行应该排到上面 |
+| `重启批准条件是什么？` | 容易误以为重启只看压力或流量其中之一就够了 | restart 区段和批准阻断条件行应该排到上面 |
 
 输入（input）：
 
-这里使用上面整理好的问题和各句子的分数候选。
+读取上面的 CSV，并用 softmax 对按问题区分的相关度分数做归一化。
 
 ```python
-# 这个例子比较同一组候选句子中问题改变时，baseline 平均和 attention 加权 context 如何不同。
+from pathlib import Path
+import csv
 import math
 
-question = "What is the pressure-release holding time?"
-flow_question = "What is the coolant-flow criterion?"
-sentences = {
-    "pressure_hold_time": 3.0,
-    "coolant_flow_limit": 12.0,
-    "high_temp_exception": 5.0,
-}
-scores_for_pressure = {
-    "pressure_hold_time": 2.5,
-    "coolant_flow_limit": 0.9,
-    "high_temp_exception": 0.3,
-}
-scores_for_flow = {
-    "pressure_hold_time": 0.8,
-    "coolant_flow_limit": 2.4,
-    "high_temp_exception": 0.4,
+DATA_PATH = Path("docs/assets/part-05/chapter-13/attention-operating-manual-candidates.csv")
+
+QUESTIONS = {
+    "压力释放保持时间是多少？": "score_pressure_hold",
+    "冷却水流量标准是什么？": "score_flow_limit",
+    "重启批准条件是什么？": "score_restart_permission",
 }
 
-ordered_names = list(sentences.keys())
-values = [sentences[name] for name in ordered_names]
+with DATA_PATH.open(encoding="utf-8", newline="") as f:
+    rows = list(csv.DictReader(f))
 
-uniform_weight = 1 / len(values)
-baseline_context = sum(uniform_weight * v for v in values)
+values = [float(row["evidence_signal"]) for row in rows]
+baseline_context = sum(values) / len(values)
 
-def run_attention(question, score_table):
-    raw_scores = [score_table[name] for name in ordered_names]
-    exp_scores = [math.exp(s) for s in raw_scores]
+def softmax(scores):
+    # 为了观察相对分数差怎样形成 attention 权重，先减去最大值再计算。
+    max_score = max(scores)
+    exp_scores = [math.exp(score - max_score) for score in scores]
     total = sum(exp_scores)
-    weights = [s / total for s in exp_scores]
+    return [score / total for score in exp_scores]
+
+def run_attention(question, score_column):
+    scores = [float(row[score_column]) for row in rows]
+    weights = softmax(scores)
     context = sum(w * v for w, v in zip(weights, values))
+    top_rows = sorted(zip(rows, weights), key=lambda item: item[1], reverse=True)[:3]
 
     print("question =", question)
+    print("csv_rows =", len(rows))
     print("baseline_uniform_context =", round(baseline_context, 3))
-    for name, weight in zip(ordered_names, weights):
-        print(name, "weight =", round(weight, 3), "value =", sentences[name])
-    print("weights =", [round(w, 3) for w in weights])
     print("context =", round(context, 3))
     print("shift_from_baseline =", round(context - baseline_context, 3))
+    for row, weight in top_rows:
+        print(row["line_id"], row["section"], "weight =", round(weight, 3), "signal =", row["evidence_signal"])
     print()
 
-run_attention(question, scores_for_pressure)
-run_attention(flow_question, scores_for_flow)
+for question, score_column in QUESTIONS.items():
+    run_attention(question, score_column)
 ```
 
-在输出里，可以先看：权重到底有多强地集中到了和问题相关的候选上。
+在输出里，先看和问题相关的候选行怎样进入 top 3。
 
 ```text
-question = What is the pressure-release holding time?
-baseline_uniform_context = 6.667
-pressure_hold_time weight = 0.762 value = 3.0
-coolant_flow_limit weight = 0.154 value = 12.0
-high_temp_exception weight = 0.084 value = 5.0
-weights = [0.762, 0.154, 0.084]
-context = 4.553
-shift_from_baseline = -2.114
+question = 压力释放保持时间是多少？
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 4.685
+shift_from_baseline = -2.195
+L10 pressure weight = 0.092 signal = 2.9
+L05 pressure weight = 0.076 signal = 3.0
+L07 pressure weight = 0.068 signal = 3.2
 
-question = What is the coolant-flow criterion?
-baseline_uniform_context = 6.667
-pressure_hold_time weight = 0.151 value = 3.0
-coolant_flow_limit weight = 0.748 value = 12.0
-high_temp_exception weight = 0.101 value = 5.0
-weights = [0.151, 0.748, 0.101]
-context = 9.933
-shift_from_baseline = 3.266
+question = 冷却水流量标准是什么？
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 9.922
+shift_from_baseline = 3.042
+L13 coolant weight = 0.093 signal = 12.0
+L18 coolant weight = 0.084 signal = 12.6
+L14 coolant weight = 0.076 signal = 11.6
+
+question = 重启批准条件是什么？
+csv_rows = 40
+baseline_uniform_context = 6.88
+context = 6.449
+shift_from_baseline = -0.431
+L25 restart weight = 0.097 signal = 7.2
+L26 restart weight = 0.08 signal = 6.8
+L30 restart weight = 0.072 signal = 6.6
 ```
 
-- 如果像 baseline 那样把所有候选完全平均，`coolant_flow_limit` 和 `high_temp_exception` 这类并不直接对应当前问题的值，也会被同样混进上下文里，于是上下文值会落在 `6.667`
-- 在第一个问题里，获得最大权重的是 `pressure_hold_time`
-- 所以最终上下文会主要被压力释放保持时间对应的句子拉过去
-- `shift_from_baseline` 为负，表示当前问题直接相关的候选获得更大权重后，上下文表示被进一步拉向`压力释放保持时间`一侧
-- 在第二个问题里，最大的权重会重新转到 `coolant_flow_limit`
-- 于是即使候选集合完全没变，最后上下文也会明显改向冷却水流量标准
+- 如果像 baseline 那样把所有候选完全平均，上下文值会是 `6.88`，压力、冷却水、重启、日志、交接行都会以同样权重混在一起
+- 在压力问题里，`L10`、`L05`、`L07` 这类说明 hold time 和稳定等待条件的行会排到上面
+- 在冷却水流量问题里，`L13`、`L18`、`L14` 这类说明 flow limit 和 pump 条件的行会排到上面
+- 在重启批准问题里，`L25`、`L26`、`L30` 这类说明批准条件和阻断条件的行会排到上面
 - 也就是说，attention 不会把所有位置一视同仁地平均，而是会更强地反映当前问题更相关的位置
 
-这个例子里首先要看的产物，是不同问题下的 attention 权重。压力释放保持时间问题里，`pressure_hold_time` 的权重最大；冷却水流量标准问题里，`coolant_flow_limit` 的权重最大。
+这个例子里首先要看的产物，是不同问题下的 attention 权重。压力释放保持时间问题里，pressure 候选行集中在上方；冷却水流量标准问题里，coolant 候选行集中在上方。
 
-![压力释放保持时间问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-pressure-question-weights-zh.png)
+![压力释放保持时间问题的 attention 权重](../../../assets/part-05/chapter-13/attention-pressure-question-weights-zh.png)
 
-![冷却水流量标准问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-flow-question-weights-zh.png)
+![冷却水流量标准问题的 attention 权重](../../../assets/part-05/chapter-13/attention-flow-question-weights-zh.png)
 
-第二个要看的产物，是上下文值。baseline 平均无法区分两个问题，所以停在 `6.667`；但 attention context 会随着问题不同，变成 `4.553` 和 `9.933`。
+第二个要看的产物，是上下文值。baseline 平均无法区分问题，所以停在 `6.88`；但 attention context 会随着问题不同，变成 `4.685`、`9.922` 和 `6.449`。
 
-![baseline 与不同问题 attention 上下文比较](/AiBook/assets/part-05/chapter-13/attention-context-comparison-zh.png)
+![baseline 与不同问题 attention 上下文比较](../../../assets/part-05/chapter-13/attention-context-comparison-zh.png)
 
 读输出数字时，也要把`同一组候选`和`随问题改变的权重`分开看。
 
 | 比较 | 输出里先看到的东西 | 只看平均值时容易留下的解释 | 加上 attention 后改变的解释 |
 | --- | --- | --- | --- |
-| `baseline_uniform_context` | 两个问题的 baseline 都是 `6.667` | 候选集合相同，所以上下文也应该差不多不变 | baseline 无法反映问题，所以即使当前需要的位置改变，也停在同一个平均值 |
-| `pressure_hold_time` 问题 | `pressure_hold_time` 权重最大，为 `0.762` | 数字 `3.0` 较小，所以 context 只是单纯下降了 | 问题指向保持时间，所以 attention 会重新分配权重，让保持时间候选被更强地参考 |
-| `What is the coolant-flow criterion?` 问题 | `coolant_flow_limit` 权重最大，为 `0.748` | 候选相同，只是这次偶然选到了较大的数字 | 问题一改变，同一组候选的参考权重也重新分配，流量标准一侧的 context 被更强地形成 |
+| `baseline_uniform_context` | 三个问题的 baseline 都是 `6.88` | 同一个 CSV 下，上下文也应该差不多不变 | baseline 无法反映问题，所以即使当前需要的位置改变，也停在同一个平均值 |
+| `压力释放保持时间是多少？` | pressure 行集中在 top 3 | 可能看起来只是低数值行偶然被选中，所以 context 下降 | 问题指向保持时间，所以 attention 会重新分配权重，让 pressure hold 候选被更强地参考 |
+| `冷却水流量标准是什么？` | coolant 行集中在 top 3 | 同一个 CSV 下，只是这次偶然选到了较大的数值 | 问题一改变，参考权重也重新分配，流量标准一侧的 context 被更强地形成 |
+| `重启批准条件是什么？` | restart 行集中在 top 3 | 可能以为重启只要看压力和流量平均就够了 | 重启问题会部分参考压力、流量线索，但会更强地参考最终批准和阻断条件行 |
 
 ## 从问题-候选比较视角重新看
 
 上面的数字并没有计算真实的完整词向量空间，但直觉很清楚。
 
-- baseline 平均只反映`这些句子只是一起出现了`这个事实。
+- baseline 平均只反映`这些候选行只是一起出现在同一个 CSV 里`这个事实。
 - attention 加权平均会按照`当前问题是什么`，在候选之间重新分配权重。
-- 所以当问题从`压力释放保持时间`变成`冷却水流量标准`时，即使候选集合相同，最强参考的位置也会改变。
+- 所以当问题在`压力释放保持时间`、`冷却水流量标准`、`重启批准条件`之间变化时，即使候选集合相同，最强参考的位置也会改变。
 
 也就是说，attention 不是单纯收集更多信息的方式，而是`根据当前问题重新决定哪些信息应该被更强地混合`的方式。
 

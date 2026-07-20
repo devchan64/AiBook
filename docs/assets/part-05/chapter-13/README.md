@@ -26,6 +26,8 @@
   - `attention-context-comparison-en.png` / `attention-context-comparison-ko.png` / `attention-context-comparison-zh.png`
   - `qkv-head-separation-en.png` / `qkv-head-separation-ko.png` / `qkv-head-separation-zh.png`
   - `qkv-head-context-space-en.png` / `qkv-head-context-space-ko.png` / `qkv-head-context-space-zh.png`
+- CSV input assets:
+  - `attention-operating-manual-candidates.csv`
 - Python chart source:
   - `p5_13_1_attention_context_charts.py`
   - `p5_13_attention_chart.py`
