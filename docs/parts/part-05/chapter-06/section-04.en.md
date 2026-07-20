@@ -1,7 +1,7 @@
 # P5-6.4 Training Mode And Evaluation Mode
 
-Section ID: `P5-6.4`
-Version: `v2026.07.17`
+> Section ID: `P5-6.4`
+> Version: `v2026.07.20`
 
 In P5-6.3, we separated learning and model execution (inference) into `the time when parameters change` and `the time when they are used without changing`. If we go one step further here, the next question appears.
 
@@ -158,7 +158,7 @@ Concepts to confirm:
 
 Input:
 
-Use the current session batch and previous training-session batches summarized above. Here, the hidden-layer computation applies only ReLU after `clicks * weight + seconds * weight + bias`, which cuts negative values to 0. To keep the explanation simple, batch normalization here computes only `value - reference mean`. Real batch normalization also uses variance and trainable scale and shift, but in this example we look only at `which mean is used as the reference`.
+Use the current validation-session batch and previous training-session batches summarized above. Here, the hidden-layer computation multiplies recent click count, dwell time, and error count by weights, adds the bias, and then applies only ReLU, which cuts negative values to 0. To keep the explanation simple, batch normalization here computes only `value - reference mean`. Real batch normalization also uses variance and trainable scale and shift, but in this example we look only at `which mean is used as the reference`.
 
 Before looking at the code, it helps to predict which stage is computed from the data, and which stage fluctuates or stays fixed because of the mode.
 
@@ -173,46 +173,50 @@ Before looking at the code, it helps to predict which stage is computed from the
 The purpose of this table is not to guess the exact numbers. It is to hold before the code that in training mode, even the same input can produce different dropout results and different batch references between two runs, while evaluation mode stops that fluctuation and builds a baseline.
 
 ```python
-# This example compares how dropout and batch reference means vary in train mode and stay fixed in eval mode.
+# This example compares how dropout and the batch reference mean fluctuate or stay fixed in train and eval modes.
 from random import Random
 
-sessions = [
-    {"id": "A", "clicks": 3, "seconds": 42},
-    {"id": "B", "clicks": 6, "seconds": 55},
-    {"id": "C", "clicks": 2, "seconds": 28},
-    {"id": "D", "clicks": 7, "seconds": 70},
-    {"id": "E", "clicks": 4, "seconds": 36},
+validation_sessions = [
+    {"id": "S01", "clicks_5m": 3, "dwell_seconds": 42, "error_count": 0},
+    {"id": "S02", "clicks_5m": 6, "dwell_seconds": 55, "error_count": 1},
+    {"id": "S03", "clicks_5m": 2, "dwell_seconds": 28, "error_count": 0},
+    {"id": "S04", "clicks_5m": 7, "dwell_seconds": 70, "error_count": 2},
+    {"id": "S05", "clicks_5m": 4, "dwell_seconds": 36, "error_count": 0},
+    {"id": "S06", "clicks_5m": 5, "dwell_seconds": 48, "error_count": 1},
+    {"id": "S07", "clicks_5m": 1, "dwell_seconds": 24, "error_count": 0},
+    {"id": "S08", "clicks_5m": 8, "dwell_seconds": 73, "error_count": 2},
+    {"id": "S09", "clicks_5m": 4, "dwell_seconds": 52, "error_count": 1},
+    {"id": "S10", "clicks_5m": 6, "dwell_seconds": 61, "error_count": 0},
+    {"id": "S11", "clicks_5m": 2, "dwell_seconds": 39, "error_count": 1},
+    {"id": "S12", "clicks_5m": 7, "dwell_seconds": 58, "error_count": 2},
 ]
-weights = {"clicks": 0.18, "seconds": 0.015}
+weights = {"clicks_5m": 0.18, "dwell_seconds": 0.015, "error_count": 0.32}
 bias = -0.35
-
-prior_session_batches = [
-    [
-        {"clicks": 3, "seconds": 42},
-        {"clicks": 6, "seconds": 57},
-        {"clicks": 2, "seconds": 27},
-        {"clicks": 7, "seconds": 67},
-        {"clicks": 4, "seconds": 40},
-    ],
-    [
-        {"clicks": 3, "seconds": 38},
-        {"clicks": 6, "seconds": 51},
-        {"clicks": 2, "seconds": 25},
-        {"clicks": 7, "seconds": 63},
-        {"clicks": 4, "seconds": 45},
-    ],
-    [
-        {"clicks": 3, "seconds": 46},
-        {"clicks": 6, "seconds": 54},
-        {"clicks": 2, "seconds": 29},
-        {"clicks": 7, "seconds": 69},
-        {"clicks": 4, "seconds": 37},
-    ],
-]
 drop_rate = 0.4
 
+def make_prior_batch(rows, dwell_shift, error_shift):
+    batch = []
+    for row in rows:
+        batch.append({
+            "clicks_5m": row["clicks_5m"],
+            "dwell_seconds": max(12, row["dwell_seconds"] + dwell_shift),
+            "error_count": max(0, row["error_count"] + error_shift),
+        })
+    return batch
+
+prior_session_batches = [
+    make_prior_batch(validation_sessions, dwell_shift=-4, error_shift=0),
+    make_prior_batch(validation_sessions, dwell_shift=2, error_shift=1),
+    make_prior_batch(validation_sessions, dwell_shift=5, error_shift=-1),
+]
+
 def hidden_activation(row):
-    raw = row["clicks"] * weights["clicks"] + row["seconds"] * weights["seconds"] + bias
+    raw = (
+        row["clicks_5m"] * weights["clicks_5m"]
+        + row["dwell_seconds"] * weights["dwell_seconds"]
+        + row["error_count"] * weights["error_count"]
+        + bias
+    )
     return round(max(0.0, raw), 3)
 
 def make_dropout_mask(count, seed):
@@ -241,6 +245,15 @@ def hidden_batch(batch):
 def center_by_mean(values, reference_mean):
     return [round(value - reference_mean, 3) for value in values]
 
+def summarize(values):
+    return {
+        "count": len(values),
+        "min": round(min(values), 3),
+        "max": round(max(values), 3),
+        "mean": mean(values),
+        "preview": values[:5],
+    }
+
 def run_training_mode(name, seed):
     mask = make_dropout_mask(len(activations), seed)
     after_dropout = apply_dropout(activations, mask, drop_rate)
@@ -248,10 +261,11 @@ def run_training_mode(name, seed):
     centered_output = center_by_mean(after_dropout, batch_mean)
     return {
         "mode": name,
-        "mask": mask,
-        "after_dropout": after_dropout,
+        "kept": sum(mask),
+        "dropped": len(mask) - sum(mask),
+        "after_dropout_summary": summarize(after_dropout),
         "reference_mean": batch_mean,
-        "centered_output": centered_output,
+        "centered_preview": centered_output[:5],
     }
 
 def run_evaluation_mode():
@@ -259,12 +273,14 @@ def run_evaluation_mode():
     centered_output = center_by_mean(after_dropout, running_mean)
     return {
         "mode": "eval_run",
-        "after_dropout": after_dropout,
+        "kept": len(after_dropout),
+        "dropped": 0,
+        "after_dropout_summary": summarize(after_dropout),
         "reference_mean": running_mean,
-        "centered_output": centered_output,
+        "centered_preview": centered_output[:5],
     }
 
-activations = [hidden_activation(row) for row in sessions]
+activations = [hidden_activation(row) for row in validation_sessions]
 prior_hidden_batches = [hidden_batch(batch) for batch in prior_session_batches]
 running_mean = mean(flatten(prior_hidden_batches))
 
@@ -272,51 +288,49 @@ train_run_1 = run_training_mode("train_run_1", seed=17)
 train_run_2 = run_training_mode("train_run_2", seed=29)
 eval_run = run_evaluation_mode()
 
-print("sessions =", sessions)
-print("hidden_activations =", activations)
-print("prior_hidden_batches =", prior_hidden_batches)
+print("validation_session_count =", len(validation_sessions))
+print("hidden_activation_summary =", summarize(activations))
 print("running_mean_from_prior_batches =", running_mean)
 for result in [train_run_1, train_run_2, eval_run]:
     print(result["mode"])
-    if "mask" in result:
-        print("dropout_mask =", result["mask"])
-    print("after_dropout =", result["after_dropout"])
+    print("kept/dropped =", result["kept"], "/", result["dropped"])
+    print("after_dropout_summary =", result["after_dropout_summary"])
     print("reference_mean =", result["reference_mean"])
-    print("centered_output =", result["centered_output"])
+    print("centered_preview =", result["centered_preview"])
 ```
 
-In the output, first confirm that `hidden_activations` are the values computed from the input features, then compare `dropout_mask`, `after_dropout`, `reference_mean`, and `centered_output` in that order.
+In the output, first confirm that `hidden_activation_summary` is the summary of the hidden-layer values computed from the input features, then compare `kept/dropped`, `after_dropout_summary`, `reference_mean`, and `centered_preview` in that order.
 
 ```text
-sessions = [{'id': 'A', 'clicks': 3, 'seconds': 42}, {'id': 'B', 'clicks': 6, 'seconds': 55}, {'id': 'C', 'clicks': 2, 'seconds': 28}, {'id': 'D', 'clicks': 7, 'seconds': 70}, {'id': 'E', 'clicks': 4, 'seconds': 36}]
-hidden_activations = [0.82, 1.555, 0.43, 1.96, 0.91]
-prior_hidden_batches = [[0.82, 1.585, 0.415, 1.915, 0.97], [0.76, 1.495, 0.385, 1.855, 1.045], [0.88, 1.54, 0.445, 1.945, 0.925]]
-running_mean_from_prior_batches = 1.132
+validation_session_count = 12
+hidden_activation_summary = {'count': 12, 'min': 0.19, 'max': 2.825, 'mean': 1.474, 'preview': [0.82, 1.875, 0.43, 2.6, 0.91]}
+running_mean_from_prior_batches = 1.534
 train_run_1
-dropout_mask = [1, 1, 1, 0, 1]
-after_dropout = [1.367, 2.592, 0.717, 0.0, 1.517]
-reference_mean = 1.239
-centered_output = [0.128, 1.353, -0.522, -1.239, 0.278]
+kept/dropped = 7 / 5
+after_dropout_summary = {'count': 12, 'min': 0.0, 'max': 3.125, 'mean': 0.935, 'preview': [1.367, 3.125, 0.717, 0.0, 1.517]}
+reference_mean = 0.935
+centered_preview = [0.432, 2.19, -0.218, -0.935, 0.582]
 train_run_2
-dropout_mask = [1, 0, 1, 0, 1]
-after_dropout = [1.367, 0.0, 0.717, 0.0, 1.517]
-reference_mean = 0.72
-centered_output = [0.647, -0.72, -0.003, -0.72, 0.797]
+kept/dropped = 6 / 6
+after_dropout_summary = {'count': 12, 'min': 0.0, 'max': 4.708, 'mean': 0.947, 'preview': [1.367, 0.0, 0.717, 0.0, 1.517]}
+reference_mean = 0.947
+centered_preview = [0.42, -0.947, -0.23, -0.947, 0.57]
 eval_run
-after_dropout = [0.82, 1.555, 0.43, 1.96, 0.91]
-reference_mean = 1.132
-centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
+kept/dropped = 12 / 0
+after_dropout_summary = {'count': 12, 'min': 0.19, 'max': 2.825, 'mean': 1.474, 'preview': [0.82, 1.875, 0.43, 2.6, 0.91]}
+reference_mean = 1.534
+centered_preview = [-0.714, 0.341, -1.104, 1.066, -0.624]
 ```
 
 This example does not reproduce the whole framework exactly, but the core points to read here are clear.
 
 - the hidden-layer activations are intermediate outputs computed from the input features
-- in training mode, even when the same hidden-layer activations are used twice, the pattern of activations after dropout can differ
-- if the values after dropout differ, the reference mean computed from the current batch can also differ
+- in training mode, even when the same hidden-layer activations are used twice, the number and composition of activations that survive dropout can differ
+- if the post-dropout values differ, the reference mean computed from the current batch can also differ
 - in evaluation mode, dropout is stopped and a fixed reference such as a running mean accumulated from previous training-session batches is used to make a more stable computational path
 - this kind of fluctuation control is exactly why evaluation mode matters in validation, test, and deployment
 
-First, read the example itself as a graph. The first graph shows only the result of click count and dwell time from `sessions` turning into hidden-layer activations. This stage is not yet the mode difference itself. It is the point where the input data turns into an intermediate representation inside the model.
+First, read the same computational rule as a graph. The first graph shows only the result of recent click count, dwell time, and error count in validation-session inputs turning into hidden-layer activations. This stage is not yet the mode difference itself. It is the point where the input data turns into an intermediate representation inside the model.
 
 ![Graph of hidden-layer activations computed from session inputs](/AiBook/assets/part-05/chapter-06/hidden-activation-from-sessions-en.png)
 
@@ -381,5 +395,5 @@ After distinguishing learning and inference, we next have to check separately `e
 ## Sources And Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, accessed 2026-06-29.
-- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, accessed 2026-06-29.
+- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, accessed 2026-07-19. [https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }
+- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, accessed 2026-07-19. [https://arxiv.org/abs/1502.03167](https://arxiv.org/abs/1502.03167){: target="_blank" rel="noopener noreferrer" }

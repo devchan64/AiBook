@@ -1,7 +1,7 @@
 # P5-6.4 训练模式（training mode）与评估模式（evaluation mode）
 
-Section ID: `P5-6.4`
-Version: `v2026.07.17`
+> Section ID: `P5-6.4`
+> Version: `v2026.07.20`
 
 在 P5-6.3 里，我们已经把学习（learning）和模型执行（inference）区分成：`改变参数的时间`和`不改变参数、只拿来使用的时间`。再往前走一步，就会出现下一个问题。
 
@@ -160,7 +160,7 @@ mode 区分最适合在这些时刻被拿出来看：验证、部署、小 batch
 
 输入（input）：
 
-我们会使用前面整理好的当前会话 batch 与过去学习阶段的会话 batch。这里的隐藏层计算很简单：`clicks * 权重 + seconds * 权重 + bias`，然后再经过把负数裁成 0 的 ReLU（rectified linear unit）。而 batch normalization 为了把重点放在`参考均值来自哪里`，只保留 `值 - 参考均值` 这一部分。真实的 batch normalization 还会涉及方差，以及可学习的 scale 和 shift，但这一节里先不用把它们都展开。
+我们会使用前面整理好的当前验证会话 batch 与过去学习阶段的会话 batch。这里的隐藏层计算会把最近点击数、停留时间、错误次数分别乘上权重，再加上 bias，然后只应用把负数裁成 0 的 ReLU（rectified linear unit）。而 batch normalization 为了把重点放在`参考均值来自哪里`，只保留 `值 - 参考均值` 这一部分。真实的 batch normalization 还会涉及方差，以及可学习的 scale 和 shift，但这一节里先不用把它们都展开。
 
 在看代码之前，先猜一猜：哪些东西直接从数据里算出来，哪些东西会因为 mode 而摇摆或固定，会更容易抓住差别。
 
@@ -178,43 +178,47 @@ mode 区分最适合在这些时刻被拿出来看：验证、部署、小 batch
 # 这个例子比较 train 模式和 eval 模式中 dropout 与 batch 参考均值如何摇动或固定。
 from random import Random
 
-sessions = [
-    {"id": "A", "clicks": 3, "seconds": 42},
-    {"id": "B", "clicks": 6, "seconds": 55},
-    {"id": "C", "clicks": 2, "seconds": 28},
-    {"id": "D", "clicks": 7, "seconds": 70},
-    {"id": "E", "clicks": 4, "seconds": 36},
+validation_sessions = [
+    {"id": "S01", "clicks_5m": 3, "dwell_seconds": 42, "error_count": 0},
+    {"id": "S02", "clicks_5m": 6, "dwell_seconds": 55, "error_count": 1},
+    {"id": "S03", "clicks_5m": 2, "dwell_seconds": 28, "error_count": 0},
+    {"id": "S04", "clicks_5m": 7, "dwell_seconds": 70, "error_count": 2},
+    {"id": "S05", "clicks_5m": 4, "dwell_seconds": 36, "error_count": 0},
+    {"id": "S06", "clicks_5m": 5, "dwell_seconds": 48, "error_count": 1},
+    {"id": "S07", "clicks_5m": 1, "dwell_seconds": 24, "error_count": 0},
+    {"id": "S08", "clicks_5m": 8, "dwell_seconds": 73, "error_count": 2},
+    {"id": "S09", "clicks_5m": 4, "dwell_seconds": 52, "error_count": 1},
+    {"id": "S10", "clicks_5m": 6, "dwell_seconds": 61, "error_count": 0},
+    {"id": "S11", "clicks_5m": 2, "dwell_seconds": 39, "error_count": 1},
+    {"id": "S12", "clicks_5m": 7, "dwell_seconds": 58, "error_count": 2},
 ]
-weights = {"clicks": 0.18, "seconds": 0.015}
+weights = {"clicks_5m": 0.18, "dwell_seconds": 0.015, "error_count": 0.32}
 bias = -0.35
-
-prior_session_batches = [
-    [
-        {"clicks": 3, "seconds": 42},
-        {"clicks": 6, "seconds": 57},
-        {"clicks": 2, "seconds": 27},
-        {"clicks": 7, "seconds": 67},
-        {"clicks": 4, "seconds": 40},
-    ],
-    [
-        {"clicks": 3, "seconds": 38},
-        {"clicks": 6, "seconds": 51},
-        {"clicks": 2, "seconds": 25},
-        {"clicks": 7, "seconds": 63},
-        {"clicks": 4, "seconds": 45},
-    ],
-    [
-        {"clicks": 3, "seconds": 46},
-        {"clicks": 6, "seconds": 54},
-        {"clicks": 2, "seconds": 29},
-        {"clicks": 7, "seconds": 69},
-        {"clicks": 4, "seconds": 37},
-    ],
-]
 drop_rate = 0.4
 
+def make_prior_batch(rows, dwell_shift, error_shift):
+    batch = []
+    for row in rows:
+        batch.append({
+            "clicks_5m": row["clicks_5m"],
+            "dwell_seconds": max(12, row["dwell_seconds"] + dwell_shift),
+            "error_count": max(0, row["error_count"] + error_shift),
+        })
+    return batch
+
+prior_session_batches = [
+    make_prior_batch(validation_sessions, dwell_shift=-4, error_shift=0),
+    make_prior_batch(validation_sessions, dwell_shift=2, error_shift=1),
+    make_prior_batch(validation_sessions, dwell_shift=5, error_shift=-1),
+]
+
 def hidden_activation(row):
-    raw = row["clicks"] * weights["clicks"] + row["seconds"] * weights["seconds"] + bias
+    raw = (
+        row["clicks_5m"] * weights["clicks_5m"]
+        + row["dwell_seconds"] * weights["dwell_seconds"]
+        + row["error_count"] * weights["error_count"]
+        + bias
+    )
     return round(max(0.0, raw), 3)
 
 def make_dropout_mask(count, seed):
@@ -243,6 +247,15 @@ def hidden_batch(batch):
 def center_by_mean(values, reference_mean):
     return [round(value - reference_mean, 3) for value in values]
 
+def summarize(values):
+    return {
+        "count": len(values),
+        "min": round(min(values), 3),
+        "max": round(max(values), 3),
+        "mean": mean(values),
+        "preview": values[:5],
+    }
+
 def run_training_mode(name, seed):
     mask = make_dropout_mask(len(activations), seed)
     after_dropout = apply_dropout(activations, mask, drop_rate)
@@ -250,10 +263,11 @@ def run_training_mode(name, seed):
     centered_output = center_by_mean(after_dropout, batch_mean)
     return {
         "mode": name,
-        "mask": mask,
-        "after_dropout": after_dropout,
+        "kept": sum(mask),
+        "dropped": len(mask) - sum(mask),
+        "after_dropout_summary": summarize(after_dropout),
         "reference_mean": batch_mean,
-        "centered_output": centered_output,
+        "centered_preview": centered_output[:5],
     }
 
 def run_evaluation_mode():
@@ -261,12 +275,14 @@ def run_evaluation_mode():
     centered_output = center_by_mean(after_dropout, running_mean)
     return {
         "mode": "eval_run",
-        "after_dropout": after_dropout,
+        "kept": len(after_dropout),
+        "dropped": 0,
+        "after_dropout_summary": summarize(after_dropout),
         "reference_mean": running_mean,
-        "centered_output": centered_output,
+        "centered_preview": centered_output[:5],
     }
 
-activations = [hidden_activation(row) for row in sessions]
+activations = [hidden_activation(row) for row in validation_sessions]
 prior_hidden_batches = [hidden_batch(batch) for batch in prior_session_batches]
 running_mean = mean(flatten(prior_hidden_batches))
 
@@ -274,51 +290,49 @@ train_run_1 = run_training_mode("train_run_1", seed=17)
 train_run_2 = run_training_mode("train_run_2", seed=29)
 eval_run = run_evaluation_mode()
 
-print("sessions =", sessions)
-print("hidden_activations =", activations)
-print("prior_hidden_batches =", prior_hidden_batches)
+print("validation_session_count =", len(validation_sessions))
+print("hidden_activation_summary =", summarize(activations))
 print("running_mean_from_prior_batches =", running_mean)
 for result in [train_run_1, train_run_2, eval_run]:
     print(result["mode"])
-    if "mask" in result:
-        print("dropout_mask =", result["mask"])
-    print("after_dropout =", result["after_dropout"])
+    print("kept/dropped =", result["kept"], "/", result["dropped"])
+    print("after_dropout_summary =", result["after_dropout_summary"])
     print("reference_mean =", result["reference_mean"])
-    print("centered_output =", result["centered_output"])
+    print("centered_preview =", result["centered_preview"])
 ```
 
-输出里首先要确认的是：`hidden_activations` 是从输入特征算出来的中间结果；然后再按顺序比较 `dropout_mask`、`after_dropout`、`reference_mean`、`centered_output`。
+输出里首先要确认的是：`hidden_activation_summary` 是从输入特征计算出来的隐藏层值摘要；然后再按顺序比较 `kept/dropped`、`after_dropout_summary`、`reference_mean`、`centered_preview`。
 
 ```text
-sessions = [{'id': 'A', 'clicks': 3, 'seconds': 42}, {'id': 'B', 'clicks': 6, 'seconds': 55}, {'id': 'C', 'clicks': 2, 'seconds': 28}, {'id': 'D', 'clicks': 7, 'seconds': 70}, {'id': 'E', 'clicks': 4, 'seconds': 36}]
-hidden_activations = [0.82, 1.555, 0.43, 1.96, 0.91]
-prior_hidden_batches = [[0.82, 1.585, 0.415, 1.915, 0.97], [0.76, 1.495, 0.385, 1.855, 1.045], [0.88, 1.54, 0.445, 1.945, 0.925]]
-running_mean_from_prior_batches = 1.132
+validation_session_count = 12
+hidden_activation_summary = {'count': 12, 'min': 0.19, 'max': 2.825, 'mean': 1.474, 'preview': [0.82, 1.875, 0.43, 2.6, 0.91]}
+running_mean_from_prior_batches = 1.534
 train_run_1
-dropout_mask = [1, 1, 1, 0, 1]
-after_dropout = [1.367, 2.592, 0.717, 0.0, 1.517]
-reference_mean = 1.239
-centered_output = [0.128, 1.353, -0.522, -1.239, 0.278]
+kept/dropped = 7 / 5
+after_dropout_summary = {'count': 12, 'min': 0.0, 'max': 3.125, 'mean': 0.935, 'preview': [1.367, 3.125, 0.717, 0.0, 1.517]}
+reference_mean = 0.935
+centered_preview = [0.432, 2.19, -0.218, -0.935, 0.582]
 train_run_2
-dropout_mask = [1, 0, 1, 0, 1]
-after_dropout = [1.367, 0.0, 0.717, 0.0, 1.517]
-reference_mean = 0.72
-centered_output = [0.647, -0.72, -0.003, -0.72, 0.797]
+kept/dropped = 6 / 6
+after_dropout_summary = {'count': 12, 'min': 0.0, 'max': 4.708, 'mean': 0.947, 'preview': [1.367, 0.0, 0.717, 0.0, 1.517]}
+reference_mean = 0.947
+centered_preview = [0.42, -0.947, -0.23, -0.947, 0.57]
 eval_run
-after_dropout = [0.82, 1.555, 0.43, 1.96, 0.91]
-reference_mean = 1.132
-centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
+kept/dropped = 12 / 0
+after_dropout_summary = {'count': 12, 'min': 0.19, 'max': 2.825, 'mean': 1.474, 'preview': [0.82, 1.875, 0.43, 2.6, 0.91]}
+reference_mean = 1.534
+centered_preview = [-0.714, 0.341, -1.104, 1.066, -0.624]
 ```
 
 这个例子并没有完整复现某个深度学习框架，但这里需要读出的核心很明确。
 
 - 隐藏层激活值是由输入特征计算出来的中间产物
-- 在训练模式里，即使放进去的是同一组隐藏层激活，经过 dropout 之后也可能形成两种不同的活跃模式
+- 在训练模式里，即使放进去的是同一组隐藏层激活，dropout 后保留下来的激活值数量和组成也可能不同
 - 只要 dropout 后的值不同，当前 batch 计算出来的参考均值也可能跟着变化
 - 在评估模式里，dropout 会停下来，并改用过去学习 batch 累积出来的 running mean 作为更稳定的基准
 - 这正是 validation、test、部署时为什么需要 evaluation mode 的原因
 
-先把例子本身重新用图来读。第一张图只展示：`sessions` 的点击数和停留时间怎样被变成隐藏层激活值。这里看到的还不是 mode 差异，而只是输入数据被映射成模型内部中间表示的那一步。
+先把同一套计算规则重新用图来读。第一张图只展示：验证会话输入里的最近点击数、停留时间、错误次数怎样被变成隐藏层激活值。这里看到的还不是 mode 差异，而只是输入数据被映射成模型内部中间表示的那一步。
 
 ![会话输入对应的隐藏层激活值图](/AiBook/assets/part-05/chapter-06/hidden-activation-from-sessions-zh.png)
 
@@ -383,5 +397,5 @@ normalization 的参考均值也要用同样方式来读。training mode 下，�
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 确认日期: 2026-06-29.
-- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, 确认日期: 2026-06-29.
+- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 确认日期: 2026-07-19. [https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }
+- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, 确认日期: 2026-07-19. [https://arxiv.org/abs/1502.03167](https://arxiv.org/abs/1502.03167){: target="_blank" rel="noopener noreferrer" }
