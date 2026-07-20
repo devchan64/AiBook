@@ -64,6 +64,7 @@
 要确认的概念：只要看到 `import numpy as np`，就说明这段代码依赖 NumPy 包。
 
 ```python
+# 这个例子导入在可复现执行环境中运行 NumPy 和 Pandas 示例所需的包。
 import numpy as np
 
 # values 是用来确认 NumPy 安装和平均值计算是否都正常的小数组。
@@ -94,6 +95,7 @@ print(values.mean())
 要确认的概念：需要把代码问题和执行环境问题分开来看。
 
 ```python
+# 这个例子导入在可复现执行环境中运行 NumPy 和 Pandas 示例所需的包。
 import numpy as np
 
 # scores 是在示例环境中用来计算平均值的分数数据。
@@ -196,6 +198,7 @@ score-summary/
 要确认的概念：只交代码时，很难知道需要哪些包，所以 requirements 文件需要一起提供。
 
 ```python
+# 这个例子导入在可复现执行环境中运行 NumPy 和 Pandas 示例所需的包。
 import pandas as pd
 
 # 读取 scores.csv，并计算表格数据中 score 列的平均值。

@@ -64,6 +64,7 @@ P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤�
 확인할 개념: `import numpy as np`가 보이면 이 코드는 NumPy 패키지에 의존한다는 점을 봅니다.
 
 ```python
+# 재현 가능한 실행 환경에서 NumPy와 Pandas 예제를 실행하기 위해 필요한 패키지를 불러오는 예제입니다.
 import numpy as np
 
 # values는 NumPy 설치와 평균 계산이 모두 되는지 확인할 작은 배열입니다.
@@ -94,6 +95,7 @@ print(values.mean())
 확인할 개념: 코드 문제와 실행 환경 문제를 나누어 봐야 한다는 점을 확인합니다.
 
 ```python
+# 재현 가능한 실행 환경에서 NumPy와 Pandas 예제를 실행하기 위해 필요한 패키지를 불러오는 예제입니다.
 import numpy as np
 
 # scores는 예제 환경에서 평균을 계산할 점수 데이터입니다.
@@ -196,6 +198,7 @@ score-summary/
 확인할 개념: 코드만 전달하면 필요한 패키지를 알기 어려워서 requirements 파일이 함께 필요하다는 점을 봅니다.
 
 ```python
+# 재현 가능한 실행 환경에서 NumPy와 Pandas 예제를 실행하기 위해 필요한 패키지를 불러오는 예제입니다.
 import pandas as pd
 
 # scores.csv를 읽어 표 데이터의 score 열 평균을 계산합니다.

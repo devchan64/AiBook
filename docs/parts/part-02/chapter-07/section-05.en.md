@@ -64,6 +64,7 @@ Expected output: if NumPy is installed, the mean value `2.0` is printed.
 Concept to check: when you see `import numpy as np`, that means this code depends on the NumPy package.
 
 ```python
+# This example imports the packages needed to run NumPy and Pandas examples in a reproducible environment.
 import numpy as np
 
 # values is a small array used to check both NumPy installation and mean calculation.
@@ -94,6 +95,7 @@ Expected output: in an environment where NumPy is prepared, the mean is printed,
 Concept to check: confirm that you have to separate code problems from execution-environment problems.
 
 ```python
+# This example imports the packages needed to run NumPy and Pandas examples in a reproducible environment.
 import numpy as np
 
 # scores is the score data used to calculate a mean in the example environment.
@@ -196,6 +198,7 @@ Expected output: if the required environment is prepared, the average score is p
 Concept to check: if you hand over only the code, it is hard to know which packages are needed, so a requirements file is needed together with it.
 
 ```python
+# This example imports the packages needed to run NumPy and Pandas examples in a reproducible environment.
 import pandas as pd
 
 # Read scores.csv and calculate the mean of the score column in the table data.
