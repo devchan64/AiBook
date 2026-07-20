@@ -51,7 +51,7 @@ The key shift is to stop treating a vector as only `a list of numbers` and to ma
 
 If we place them on a coordinate plot like the one below, it becomes immediately visible why `a` and `b` are read as the first nearby candidates while `c` is read as farther away. At this point in the section, that level of positional intuition is enough.
 
-![Coordinate plot where a and b are close in vector space and c is farther away](/AiBook/assets/part-02/chapter-03/vector-space-near-far-en.svg)
+![Coordinate plot where a and b are close in vector space and c is farther away](../../../assets/part-02/chapter-03/vector-space-near-far-en.svg)
 
 | What to fix in this section now | Question that follows immediately | Where it reappears later |
 | --- | --- | --- |
