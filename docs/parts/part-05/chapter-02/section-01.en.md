@@ -233,6 +233,7 @@ After running the four basic batches first, just follow the three steps below in
 3. Keep the `batch_2` inputs the same, change only the output-layer bias, and see whether the hidden layer stays the same while only the final judgment changes.
 
 ```python
+# This example checks how production-batch inputs pass through two hidden-node combinations into the final output.
 def step(z):
     return 1 if z > 0 else 0
 

@@ -242,6 +242,7 @@ Before looking at the code, it is useful first to predict which hidden axis will
 The purpose of this table is not to guess the exact numbers in advance. It is to hold first that `scenes that look similarly abnormal on the surface can still be rewritten into different axes in the hidden layer`, and that `even if the final score looks similar, the internal representation and the next judgment can still differ`.
 
 ```python
+# This example shows how equipment-panel signals become ReLU hidden-axis representations and affect the final score.
 def relu(z):
     return max(0.0, z)
 
