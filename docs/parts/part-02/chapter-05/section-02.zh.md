@@ -74,7 +74,7 @@
 
 下面这张图展示的是：应该按什么顺序去看分布、均值和方差。我们先看整体形状，再看中心和扩散。
 
-![一起读取分布、均值和方差的图](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-zh.png)
+![一起读取分布、均值和方差的图](../../../assets/part-02/chapter-05/distribution-mean-variance-summary-zh.png)
 
 ## 要区分数据分布和概率分布
 
@@ -143,7 +143,7 @@
 
 下面这张图展示的是：即使均值一样，扩散程度也可能完全不同。
 
-![均值相同但方差不同的两组数据](/AiBook/assets/part-02/chapter-05/same-mean-different-variance-zh.png)
+![均值相同但方差不同的两组数据](../../../assets/part-02/chapter-05/same-mean-different-variance-zh.png)
 
 如果把这个画面再压缩一点，可以写成：
 
