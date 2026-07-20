@@ -23,7 +23,7 @@ P2-2.1에서는 변수(variable), 함수(function), 식(expression)을 다시 �
 - 그래디언트(gradient)와 최적화(optimization)를 배울 때 “여러 항의 영향이 합쳐진다”는 설명을 받아들이기 쉬워집니다.
 - Python 반복문(loop), NumPy 배열 계산(array computation), 딥러닝 프레임워크의 텐서 연산(tensor operation)을 같은 반복 구조의 다른 표현으로 볼 준비가 됩니다.
 
-## 이 절의 목표
+## 핵심 기준: 시그마(sigma)와 반복 계산
 
 - 시그마(sigma)를 반복 덧셈의 압축 표기로 읽을 수 있습니다.
 - 인덱스(index), 시작값, 끝값, 더할 항(term)을 구분할 수 있습니다.

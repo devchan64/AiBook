@@ -11,7 +11,7 @@ Jupyter, Colab, 로컬 실행.
 
 여기서는 `Jupyter`, `Colab`, `로컬 실행(local execution)`, `런타임(runtime)`, `.ipynb 파일`의 관계를 설명합니다. 앞 절이 노트북 문서 형식을 설명했다면, 실제로 그 문서가 어디서 실행되고 무엇이 공유되는지는 여기 기준으로 다시 연결합니다.
 
-## 이 절의 목표
+## 핵심 기준: Jupyter, Colab, 로컬 실행의 차이
 
 - Jupyter를 오픈소스 노트북 생태계로, Colab을 Jupyter 기반 hosted 서비스로 설명할 수 있습니다.
 - 로컬 실행을 내 컴퓨터의 Python, 파일, 터미널, 패키지 환경에서 실행하는 방식으로 설명할 수 있습니다.

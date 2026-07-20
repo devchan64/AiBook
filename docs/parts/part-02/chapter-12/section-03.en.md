@@ -11,7 +11,7 @@ This Section explains the basic distinction among dataset, feature, target, vali
 
 If Chapter 11 made a computable array shape, Chapter 12 is now the stage where we decide which columns to keep from the table and which to remove. The input and answer candidates organized here lead into the visualizations of Chapter 13 and the record organization of Chapter 14.
 
-## Goals of This Section
+## Core Criteria: The Intuition of Preparing a Learning Dataset
 
 - You can explain learning-dataset preparation as `reorganizing the original table into model inputs and answers`.
 - You can read one row as one sample and one column as a candidate feature or target.

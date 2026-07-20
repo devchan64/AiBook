@@ -33,7 +33,7 @@ print("hello")
 | 提示符(prompt) | 显示“现在可以在这里输入”的标记。 |
 | `python -m ...` | 请求 Python 去执行某个特定模块的方式。 |
 
-## 本节目标
+## 核心判断标准：Python 解释器(interpreter)与脚本(script)
 
 - 能把 `Python 解释器(interpreter)` 解释成读取并执行 Python 代码的程序。
 - 能说明 `交互模式(interactive mode)` 和 `脚本(script)` 执行的差别。

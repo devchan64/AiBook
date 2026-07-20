@@ -13,7 +13,7 @@ This supplemental learning gathers those questions together.
 
 Here, we provide a basic explanation that groups together `boolean mask`, `fancy indexing`, `np.newaxis`, and `shared view`. Even if indexing, slicing, and broadcasting from the previous Sections already make sense, this is the place to reconnect how selection style and shape change relate to shared origin.
 
-## Goals of This Supplemental Learning
+## First Reading Criteria: How to Read Shape and Shared Origins Together in NumPy
 
 - You can explain that basic slicing is often read as a way of looking at part of the original array.
 - You can explain that fancy indexing and boolean masks are often read as ways of creating a new array.

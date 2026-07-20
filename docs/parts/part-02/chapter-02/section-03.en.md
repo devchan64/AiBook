@@ -1,7 +1,7 @@
 # P2-2.3 Limits and the Intuition of Change
 
 > Section ID: `P2-2.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-2.2, we read sigma as compressed notation for repeated addition. Now we move to another unfamiliar-looking notation: the limit.
 
@@ -52,7 +52,7 @@ Once you understand limits, many later topics become easier to read. In particul
 - In numerical computation, it becomes easier to feel why very small values, values near 0, and approximations must be handled carefully.
 - In deep-learning training explanations, it becomes visible that the phrase `the direction that reduces loss` is not only a metaphor, but is connected to the language of function change.
 
-## Goals of This Section
+## Core Criteria: Limits and the Intuition of Change
 
 - You can read a limit as `notation that observes values getting closer`.
 - You can explain the difference between \(x \to a\) and \(f(x) \to L\).

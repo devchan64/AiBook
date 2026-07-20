@@ -33,7 +33,7 @@ This scene reappears later through several questions.
 
 So here, mathematics is not a separate subject for learning difficult symbols. It is a tool that makes you reread a small table like this in the language of `mean`, `function`, `error`, and `optimization`. If a reader is not to get lost later when meeting sigma, vectors, and derivatives, they first need the standard that `math is ultimately a language for reading, comparing, and adjusting data like this`.
 
-## Goals of This Section
+## Core Criteria: What Math Does in AI Computation
 
 - You can explain why math is needed in AI from the viewpoint of expression and computation rather than proof.
 - You can treat a formula not as something merely to memorize, but as something to recheck through code and data.

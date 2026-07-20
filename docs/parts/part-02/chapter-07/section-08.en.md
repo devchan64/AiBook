@@ -34,7 +34,7 @@ In other words, even if you do not reread this whole section from the beginning,
 | environment variable | A configuration value read by a program from the outside execution environment. |
 | warning sign | Something to check first, such as deletion, privilege escalation, network calls, or exposure of secret values. |
 
-## Goal of This Supplement
+## First Reading Criteria: Reading Shell Scripts, Pipes, Redirection, and Environment Variables
 
 - You can explain a shell script as a text file that groups multiple commands for execution.
 - You can explain a pipe as a connection that passes the output of one command as the input of another.

@@ -23,7 +23,7 @@ Here, the focus is on building the habit of reading what the symbols inside a fo
 
 Here, we reorganize again `variable`, `function`, `expression`, `input`, and `output`. If 1.2 gave you the sense that formula, code, and data are different faces of the same computation, this section organizes the minimum symbolic grammar needed to read that computation.
 
-## Goals of This Section
+## Core Criteria: Rereading Variables, Functions, and Expressions
 
 - You can read a variable as a name attached to a value or data.
 - You can read a function as a relationship that turns input into output.

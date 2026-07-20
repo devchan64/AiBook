@@ -17,7 +17,7 @@ A plot is not decoration that makes numbers look pretty. It is a tool for checki
 
 This section explains the basic distinctions among `plot`, `Figure`, `Axes`, `distribution`, and `outlier`. If the previous chapter asked how a bundle of numbers should be read as a table of cases and variables, this section asks what kind of shapes should be used to inspect changes and relationships that do not stand out directly in the table. Plotting is not the stage where you decorate results. It is the stage where you first check patterns that are easy to miss in a table, such as loss changes, skewed distributions, and relationships between variables. In Chapter 14, we will look at how to leave a record of what changed and what differed from expectation after seeing these plots. When you continue to chart choice and saving results, also check the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
-## Goals of This Section
+## Core Criteria: What Does a Plot Reveal?
 
 - You can explain a plot as a tool for checking the shape of data.
 - You can explain the difference that tables are strong at exact values while plots are strong at checking patterns.

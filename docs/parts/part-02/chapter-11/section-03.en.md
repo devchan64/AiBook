@@ -32,7 +32,7 @@ There is no `for` in the code. But from the result, we can see that 10 was added
 
 This Section explains the basic distinction between `broadcasting` and `vectorization`. The representative explanations of `NumPy`, `shape`, and `axis` remain in P2-11.1, P2-11.2, and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here the focus is on how calculation spreads across the whole array.
 
-## Goals of This Section
+## Core Criteria: Broadcasting and Vectorization
 
 - You can explain broadcasting as the rule by which a smaller array is calculated as if it were matched to the shape of a larger array.
 - You can read scalar-array calculation as element-wise calculation.

@@ -13,7 +13,7 @@ Jupyter、Colab、本地执行。
 这个区分要先抓住。
 只要执行地点变了，同一个 notebook 的含义也会跟着变化。
 
-## 本节的目标
+## 核心判断标准：Jupyter、Colab 与本地执行的区别
 
 - 能把 Jupyter 解释成开源 notebook 生态，把 Colab 解释成基于 Jupyter 的托管服务。
 - 能把本地执行解释成在自己电脑的 Python、文件、terminal 和 package 环境中运行的方式。

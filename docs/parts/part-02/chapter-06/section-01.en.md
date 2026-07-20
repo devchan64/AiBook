@@ -47,7 +47,7 @@ You do not need to know the exact formulas or algorithms yet. The purpose here i
 
 ![Optimization flow for comparing candidate values under evaluation criteria and constraints to find a better candidate](/AiBook/assets/part-02/chapter-06/optimization-search-loop-en.svg)
 
-## Goals of This Section
+## Core Criteria: What Does Optimization Search For?
 
 - You can explain optimization not as writing the answer directly, but as the perspective of finding a better candidate.
 - You can distinguish `candidate`, `criterion`, and `constraint`.

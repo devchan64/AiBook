@@ -75,15 +75,15 @@ When many tools seem scattered, compress this minimum line again into the questi
 | Pandas rows, columns, and `DataFrame` | So you can read feature and label directly from a table |
 | Git commits and records of change reasons | So experiment comparison and retrospective notes remain as a reproducible flow |
 
-## Purpose of This Part
+## Role of the Math Recovery
 
 The purpose of Part 2 was not to finish the foundations completely, but to make it possible to know where to begin when formulas and code appear together in later Parts.
 
-## Goals of This Part
+## Mathematical Anchors Recovered in Part 2
 
 After finishing this Part, you should be able to see formulas, arrays, tables, graphs, runtime environments, and Git history as one connected learning flow.
 
-## Main Flow Covered in This Part
+## Flow from Numbers to Reproducibility
 
 The flow of Part 2 can be organized as follows.
 
@@ -141,11 +141,11 @@ The misunderstandings to be especially careful about in Part 2 are the following
 
 This Part reduces those misunderstandings by writing math terms, Python terms, and data-tool terms together. Even the same Korean expression can shift in meaning across math, code, and data-analysis contexts, so the English original and the usage context should be checked together.
 
-## What This Part Explains and What It Does Not
+## Scope Closed by Part 2 and Questions Left Open
 
 Part 2 focused on explaining the foundational language for AI learning. So advanced mathematical proof, advanced Python syntax, and the full system of large data pipelines and collaboration automation are not finished here, but left to later study or separate references. The sense that the number of cases in search space grows rapidly is also not rewritten as a separate combinatorics section in Part 2. That sense is first fixed in the search chapter of Part 1, and the current structure keeps it for later reading in the context of hyperparameter search and model-selection cost.
 
-## Questions This Part Does Not Finish
+## Questions Handed to the Next Part
 
 Part 2 intentionally leaves the following questions open.
 

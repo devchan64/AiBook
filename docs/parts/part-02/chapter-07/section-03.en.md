@@ -33,7 +33,7 @@ Rather than learning Python syntax itself, this Section focuses on distinguishin
 | prompt | the marker that shows where to type now |
 | `python -m ...` | a way of asking Python to execute a specific module |
 
-## Goals of This Section
+## Core Criteria: Python Interpreter and Script
 
 - You can explain the `Python interpreter` as the program that reads and executes Python code.
 - You can explain the difference between `interactive mode` and `script` execution.

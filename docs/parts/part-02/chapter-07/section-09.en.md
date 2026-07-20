@@ -24,7 +24,7 @@ This supplement ties these problems together in the order of `what should be che
 | difference between `pip install` and `import` | The point that installation success and code-usage success are not the same thing. |
 | troubleshooting order | The procedure of checking the current Python, virtual environment, and package location before reinstalling. |
 
-## Goal of This Supplement
+## First Reading Criteria: How to Check Common Local Python Environment Problems
 
 - You can separate local Python environment problems into code errors and execution-environment errors.
 - You can explain why checking `python --version`, `python3 --version`, and `py --version` is the first step.

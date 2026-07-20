@@ -13,7 +13,7 @@
 
 这里提供一个基础说明，把 `boolean mask`、`fancy indexing`、`np.newaxis`、`shared view` 放在同一条线上来看。即使前面几节里的 indexing、slicing、broadcasting 大体已经能读懂，这里仍然要重新接上：选择方式和 shape 变化是怎样连到原数组共享问题上的。
 
-## 本补充学习的目标
+## 阅读标准：在 NumPy 中一起读取 shape 与原数组共享
 
 - 能说明 basic slicing 常常可以读成“在看原数组的一部分”。
 - 能说明 fancy indexing 与 boolean mask 常常可以读成“创建了一个新数组”。

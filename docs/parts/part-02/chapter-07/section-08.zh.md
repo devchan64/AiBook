@@ -34,7 +34,7 @@ export OPENAI_API_KEY=...
 | environment variable | 程序从外部执行环境里读取的设置值。 |
 | 危险信号 | 像删除、权限提升、网络调用、暴露密钥这类需要先检查的因素。 |
 
-## 本补充学习的目标
+## 阅读标准：阅读 shell script、pipe、redirection、environment variable
 
 - 能把 shell script 解释为把多条命令集中起来执行的文本文件。
 - 能把 pipe 解释为把一个命令的输出传给另一个命令作为输入的连接。

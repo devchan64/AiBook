@@ -29,7 +29,7 @@ When reading this Chapter in the flow of Part 2, first hold the following minimu
 
 It is enough to understand a notebook not as `new syntax`, but as `a place that keeps computation and interpretation together`. Execution location and reproducibility are handled more concretely in P2-10.2 and P2-10.3.
 
-## Goals of This Section
+## Core Criteria: Why Are Notebooks Useful for Learning?
 
 - You can explain a notebook as a computational document containing code, explanation, and output together.
 - You can distinguish the roles of a code cell and a markdown cell.

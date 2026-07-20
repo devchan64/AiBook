@@ -23,7 +23,7 @@ Once you understand sigma, many later topics become easier to read. In particula
 - It becomes easier to accept explanations such as "the effects of many terms are combined" when learning gradients and optimization.
 - It prepares you to see Python loops, NumPy array computation, and tensor operations in deep-learning frameworks as different expressions of the same repeated structure.
 
-## Goals of This Section
+## Core Criteria: Sigma and Repeated Computation
 
 - You can read sigma as compressed notation for repeated addition.
 - You can distinguish the index, the start value, the end value, and the term to be added.

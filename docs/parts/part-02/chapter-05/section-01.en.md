@@ -13,7 +13,7 @@ This Section reorganizes probability, uncertainty, event, outcome, and sample sp
 
 Here, instead of fully calculating probability formulas, the focus is on recovering probability as the language that expresses uncertainty numerically. If we hold onto the intuition of event, outcome, sample space, and possibility scores here, then later, when we read distributions, estimation, and model prediction probabilities, we can read with less interruption why probability language keeps returning.
 
-## Goals of This Section
+## Core Criteria: How Probability Represents Uncertainty as Numbers
 
 - You can explain uncertainty as `a state of not yet knowing`.
 - You can explain probability as the numerical language used to express and compare uncertainty.

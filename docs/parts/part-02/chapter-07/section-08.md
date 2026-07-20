@@ -34,7 +34,7 @@ export OPENAI_API_KEY=...
 | 환경 변수(environment variable) | 프로그램이 바깥 실행 환경에서 읽는 설정값입니다. |
 | 위험 신호 | 삭제, 권한 상승, 네트워크 호출, 비밀값 노출처럼 먼저 확인할 요소입니다. |
 
-## 이 보충학습의 목표
+## 처음 읽는 기준: 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 환경 변수(environment variable) 읽기
 
 - 셸 스크립트(shell script)를 여러 명령을 묶어 실행하는 텍스트 파일로 설명할 수 있습니다.
 - 파이프(pipe)를 한 명령의 출력을 다른 명령의 입력으로 넘기는 연결로 설명할 수 있습니다.

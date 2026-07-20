@@ -13,7 +13,7 @@ This Section explains the relation among `Jupyter`, `Colab`, `local execution`, 
 This distinction matters before anything else.
 If the execution place changes, the meaning of the same notebook also changes.
 
-## Goals of This Section
+## Core Criteria: The Difference Among Jupyter, Colab, and Local Execution
 
 - You can explain Jupyter as an open-source notebook ecosystem, and Colab as a hosted service based on Jupyter.
 - You can explain local execution as a style of running in your own computer's Python, file, terminal, and package environment.

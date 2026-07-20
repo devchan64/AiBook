@@ -17,7 +17,7 @@ When we look at this table, we usually read `who`, `which column`, and `which va
 
 This Section introduces the basic distinction among `DataFrame`, `row`, `column`, and `index`. If the previous NumPy chapter focused on how values appear as vectors and matrices for actual computation, this chapter asks how the same bundle of values should be read as a table of cases and variables. The next chapter will move from this table to plots that reveal patterns not immediately visible in the table. As we continue into selection, aggregation, and dataset preparation, the [concept glossary](/AiBook/reference/concept-glossary/) remains a useful anchor.
 
-## Goals of This Section
+## Core Criteria: What Does a Pandas DataFrame Represent?
 
 - You can explain a DataFrame as a labeled two-dimensional tabular data structure.
 - You can explain what rows, columns, and the index each identify.

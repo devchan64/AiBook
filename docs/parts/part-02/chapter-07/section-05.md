@@ -36,7 +36,7 @@ P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤�
 | 버전 고정(version pinning) | 특정 패키지 버전을 명시해 환경 차이를 줄이려는 방법입니다. |
 | 환경 기록(environment record) | Python 버전, 패키지 목록, 실행 위치처럼 재실행에 필요한 메모입니다. |
 
-## 이 절의 목표
+## 핵심 기준: 의존성(dependency)과 재현성(reproducibility)
 
 - 의존성(dependency)을 내 코드가 실행되기 위해 필요한 외부 패키지로 설명할 수 있습니다.
 - 재현성(reproducibility)을 같은 코드를 나중에 다시 실행할 수 있는 조건으로 설명할 수 있습니다.

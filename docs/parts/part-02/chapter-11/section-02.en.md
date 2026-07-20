@@ -13,7 +13,7 @@ These three can look similar, but their roles are different. Indexing chooses a 
 
 This Section explains the basic distinctions among `indexing`, `slicing`, and `axis`. You can revisit `NumPy` and the basic properties of arrays in P2-11.1 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here the focus is on what to choose from an array and in which direction to read it.
 
-## Goals of This Section
+## Core Criteria: Indexing, Slicing, and Axis
 
 - You can explain indexing such as `x[0]` and `x[1, 2]` as position selection.
 - You can explain slicing such as `x[1:3]`, `x[:, 0]`, and `x[0:2, 1:3]` as range selection.

@@ -24,7 +24,7 @@ P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤�
 | `pip install`과 `import` 차이 | 설치 성공과 코드 사용 성공이 같은 일이 아니라는 점입니다. |
 | 점검 순서(troubleshooting order) | 재설치 전에 현재 Python, 가상환경, 패키지 위치를 먼저 확인하는 절차입니다. |
 
-## 이 보충학습의 목표
+## 처음 읽는 기준: 자주 막히는 로컬 Python 환경 문제를 점검하는 법
 
 - 로컬 Python 환경 문제를 코드 오류와 실행 환경 오류로 나눠 볼 수 있습니다.
 - `python --version`, `python3 --version`, `py --version` 확인이 왜 첫 단계인지 설명할 수 있습니다.

@@ -36,7 +36,7 @@ P2-7.6에서는 Windows, macOS, Linux에서 터미널을 열고 현재 위치를
 - Linux/Unix 계열 사용: Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
 - 가상환경: Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
 
-## 이 보충학습의 목표
+## 처음 읽는 기준: Python 설치는 언제 필요한가
 
 - Colab과 로컬 Python 설치의 역할 차이를 설명할 수 있습니다.
 - 로컬 설치가 필요한 시점을 판단할 수 있습니다.

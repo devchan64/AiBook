@@ -41,7 +41,7 @@ This section contains both an introduction to loop patterns and a supplementary 
 | accumulation | A pattern that adds or gathers values during a loop to make one result. |
 | comprehension | A compact expression that makes a new list or dictionary by looping. |
 
-## Goal of This Section
+## Core Criteria: Loops: Processing Iterables One by One
 
 - You can read a `for item in items` loop.
 - You can distinguish iterable and iterator at an introductory level.

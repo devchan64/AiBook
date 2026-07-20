@@ -18,7 +18,7 @@ Here we cover a slow recovery flow for first reading `supplemental learning`, `s
 
 Rather than fully mastering statistical testing procedures, this Section focuses on supplemental learning that lets you first read the statistical terms you will repeatedly meet later. If you distinguish the roles of standard error, confidence interval, and hypothesis testing here, then later experiment tables or evaluation reports will not break the reading flow simply because of unfamiliar words.
 
-## Goals of This Supplement
+## First Reading Criteria: How to First Read Standard Deviation, Correlation, and Confidence Intervals
 
 - You can explain standard deviation as the square root of variance and as a value that reads spread in a way closer to the original unit.
 - You can explain covariance as a directional feel for how two values move together.

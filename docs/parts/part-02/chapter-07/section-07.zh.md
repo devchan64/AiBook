@@ -36,7 +36,7 @@
 - Linux/Unix 平台中的使用：Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
 - 虚拟环境：Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
 
-## 本补充学习的目标
+## 阅读标准：什么时候需要安装 Python
 
 - 能说明 Colab 与本地 Python 安装的角色差异。
 - 能判断什么时候需要本地安装。

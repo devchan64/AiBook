@@ -25,7 +25,7 @@ If the previous section dealt with `how a single value exists with a name and a 
 | mutable value | A value structure in which items can be added or changed. |
 | nested list | A structure where a list contains another list inside it. |
 
-## Goal of This Section
+## Core Criteria: Lists: Ordered Groups of Values
 
 - You can explain a list as an ordered group of values.
 - You can explain that an index starts from 0.

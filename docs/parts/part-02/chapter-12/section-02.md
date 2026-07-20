@@ -17,7 +17,7 @@ Pandas에서 선택(select), 필터링(filtering), 집계(aggregation)는 바로
 
 여기서는 `Series`, `필터링(filtering)`, `집계(aggregation)`, `groupby`, `loc`, `iloc`의 기본 구분을 설명합니다. `DataFrame` 자체의 대표 설명은 P2-12.1과 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 표에서 무엇을 읽고 무엇을 남기고 무엇을 요약할지 설명합니다.
 
-## 이 절의 목표
+## 핵심 기준: 선택, 필터링, 집계
 
 - 한 열 선택과 여러 열 선택의 결과가 어떻게 다른지 설명할 수 있습니다.
 - `loc`는 라벨(label), `iloc`는 위치(position)를 기준으로 읽는다고 설명할 수 있습니다.

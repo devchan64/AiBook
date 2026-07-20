@@ -25,7 +25,7 @@ If the list in the previous section was read around `which numbered value is it?
 | mapping | A structure that connects some criterion to some target. |
 | `get()` | A way of access that lets a situation where a key may be absent be read a little more safely. |
 
-## Goal of This Section
+## Core Criteria: Dictionaries: Structures That Find Values by Key
 
 - You can explain a dictionary as a group of keys and values.
 - You can explain a dictionary as a general-purpose mapping structure.

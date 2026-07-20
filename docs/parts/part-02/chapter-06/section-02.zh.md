@@ -30,7 +30,7 @@
 --8<-- "assets/part-02/chapter-06/loss-objective-flow-zh.mmd"
 ```
 
-## 本节目标
+## 核心判断标准：损失函数(loss function)与目标函数(objective function)
 
 - 能把 `损失函数(loss function)` 解释成把预测错误变成数字的函数。
 - 能把 `目标函数(objective function)` 解释成训练想要减少或增加的整体标准。

@@ -34,7 +34,7 @@ This table can be used as the smallest scene in Chapter 1 where formulas, code, 
 
 What the reader easily misses here is that `table`, `formula`, and `code` can look like different study topics. But in practice, they are only different surfaces for reading the same scene. The purpose of this section is to fix that correspondence.
 
-## Goals of This Section
+## Core Criteria: Where Formulas, Code, and Data Meet
 
 - You can read a formula as a compressed expression of computation.
 - You can view code as the translation of that formula into an executable procedure.

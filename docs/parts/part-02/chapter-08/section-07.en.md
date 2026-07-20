@@ -20,7 +20,7 @@ Rather than explaining Python's memory model in depth, this supplement builds th
 | deep copy | A copy that also creates new nested inner values so that they are separated from the original. |
 | nested structure | A structure where another grouped value exists inside, such as a list inside a list. |
 
-## Goals of This Supplement
+## First Reading Criteria: How to First Distinguish References, Shallow Copy, and Deep Copy
 
 - You can explain that two names can point to the same object together.
 - You can explain shallow copy as a copy that creates only the outer shell anew.

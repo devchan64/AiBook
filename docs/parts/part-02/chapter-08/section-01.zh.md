@@ -35,7 +35,7 @@
 | 赋值（assign） | 在 Python 中把值连接到名字上的动作。 |
 | 基本类型（basic type） | 像 `int`、`float`、`str`、`bool` 这样一开始最常遇到的值种类。 |
 
-## 本节目标
+## 核心判断标准：值（value）、变量（variable）、类型（type）
 
 - 能区分值（value）、变量（variable）、类型（type）。
 - 能说明 `=` 并不完全等同于数学中的等号，而是在 Python 中表示把值赋给名字（assign）的语法。

@@ -21,7 +21,7 @@ The emphasis here is not the whole mathematical theory, but the basic shapes of 
 | The intuition that shape changes the calculation rule | In P2-3.3, we examine matrix multiplication and dimension matching. | It returns in Part 3 when checking the shapes of input matrix `X`, target `y`, and train/test split results. |
 | The view that table data is a numeric array | In P2-3.6, it leads into NumPy array calculation. | It returns in Part 3 when reading the flow that turns a dataframe into an array for model input. |
 
-## Goals of This Section
+## Core Criteria: Scalar, Vector, and Matrix
 
 - You can explain a scalar as a single number.
 - You can explain a vector as an ordered list of values.

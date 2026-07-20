@@ -15,7 +15,7 @@ Rather than broadly learning how to use a statistics library, this Section focus
 
 ![Flow for checking raw data, center, spread, and sample estimation separately on small data](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-en.svg)
 
-## Goals of This Section
+## Core Criteria: Checking Probability and Statistics with Small Data
 
 - You can calculate the `mean` from a small data list.
 - You can distinguish `mean` from `median`.

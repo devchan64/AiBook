@@ -35,7 +35,7 @@ P2-7에서는 코드가 어디에서 실행되는지 봤습니다. Colab에서 �
 | 할당(assign) | Python에서 이름에 값을 연결하는 동작입니다. |
 | 기본 타입(basic type) | `int`, `float`, `str`, `bool`처럼 처음부터 자주 만나는 값 종류입니다. |
 
-## 이 절의 목표
+## 핵심 기준: 값(value), 변수(variable), 타입(type)
 
 - 값(value), 변수(variable), 타입(type)을 구분할 수 있습니다.
 - `=`이 수학의 등호와 완전히 같은 뜻이 아니라, Python에서는 이름에 값을 할당(assign)하는 문법임을 설명할 수 있습니다.

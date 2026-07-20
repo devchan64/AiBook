@@ -27,7 +27,7 @@ Rather than learning advanced function features here, we bundle the loops and da
 | return value | the result a function gives back after calculation |
 | method | a function-like form called while attached to some value or object |
 
-## Goals of This Section
+## Core Criteria: Functions and Small Reuse
 
 - You can read the basic form of function definition with `def`.
 - You can distinguish parameter and argument.

@@ -30,7 +30,7 @@ P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제
 --8<-- "assets/part-02/chapter-06/loss-objective-flow-ko.mmd"
 ```
 
-## 이 절의 목표
+## 핵심 기준: 손실 함수(loss function)와 목적 함수(objective function)
 
 - 손실 함수(loss function)를 예측의 틀림을 숫자로 바꾸는 함수로 설명할 수 있습니다.
 - 목적 함수(objective function)를 학습에서 줄이거나 키우려는 전체 기준으로 설명할 수 있습니다.

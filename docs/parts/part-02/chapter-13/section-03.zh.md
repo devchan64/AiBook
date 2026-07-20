@@ -9,7 +9,7 @@
 
 本节说明比较与保存流程中的基本区分，包括 `savefig`、图例（legend）、准确率（accuracy）。`plot`、`Figure`、`Axes` 的代表性说明放在 P2-13.1，基础图表选择标准放在 P2-13.2 和[概念词汇表](/AiBook/en/reference/concept-glossary/)；这里重点讲“怎样把多个图表一起比较，并把结果留成文件”。
 
-## 本节目标
+## 核心判断标准：比较多个图表并保存
 
 - 能说明一个 `Figure` 内可以包含多个 `Axes`。
 - 能做出并排比较损失（loss）与准确率（accuracy）的图表。

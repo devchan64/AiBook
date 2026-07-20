@@ -27,7 +27,7 @@ If the previous Python-syntax and data-structure chapters focused on what values
 | `dtype` | The data type of the numbers inside an array. |
 | `ndarray` | The multidimensional array data structure NumPy uses by default. |
 
-## Goals of This Section
+## Core Criteria: Building Vectors and Matrices with NumPy Arrays
 
 - You can explain a NumPy array in contrast with a Python list.
 - You can read a one-dimensional array as a vector and a two-dimensional array as a matrix.

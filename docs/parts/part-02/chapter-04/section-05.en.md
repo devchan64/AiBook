@@ -56,7 +56,7 @@ When reading this flow, it helps to keep asking together: `what is changing?`, `
 
 These questions become the starting point when we meet optimization, gradient descent, and backpropagation again later.
 
-## Goals of This Supplementary Learning
+## First Reading Criteria: Gradient: From School Differentiation to Multivariable Differentiation
 
 - You can explain why the gradient may feel unfamiliar when starting only from school-level differentiation memory.
 - You can explain the difference between a single-variable function and a multivariable function.

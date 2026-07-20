@@ -31,7 +31,7 @@ Rather than learning the entire world of Python distribution and packaging, this
 | `import` | A statement that loads an already prepared package into Python code. |
 | `.venv` | A representative local virtual-environment directory name placed inside a project folder. |
 
-## Goal of This Section
+## Core Criteria: Virtual Environments and Packages
 
 - You can explain a virtual environment as a project-specific Python execution space.
 - You can explain a package as a bundle of code you bring into Python and use.

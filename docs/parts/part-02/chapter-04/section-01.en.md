@@ -32,7 +32,7 @@ If we compress why we are holding the entrance to differentiation right now into
 
 Seen from this table, Chapter 4 is not a chapter for memorizing formulas. It is a chapter that prepares `why learning must read the direction of change`.
 
-## Goals of This Section
+## Core Criteria: Rereading How We Learned Differentiation
 
 - You can explain why differentiation feels distant.
 - You can reread differentiation as the question of `comparing changes in value` before seeing it as a formula.

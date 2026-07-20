@@ -27,7 +27,7 @@ Instead of memorizing all data-structure names at once, this Section compares wh
 | graph | A structure read mainly through nodes and connections |
 | structure question | A question asking which matters in the current data: position, row-column layout, hierarchy, or relation |
 
-## Goals of This Section
+## Core Criteria: The Intuition of Arrays, Tables, Trees, and Graphs
 
 - You can distinguish arrays, tables, trees, and graphs as different views of data.
 - You can explain arrays through position and axis, tables through rows and columns, trees through parent-child relations, and graphs through nodes and edges.

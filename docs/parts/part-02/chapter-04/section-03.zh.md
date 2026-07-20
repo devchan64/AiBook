@@ -14,7 +14,7 @@
 1. 相对于一个输入的变化率，读成微分(derivative)。
 2. 相对于多个输入各自的变化率集合，读成梯度(gradient)。
 
-## 本节目标
+## 核心判断标准：微分(derivative)与梯度(gradient)
 
 - 你可以把微分(derivative)说明成相对于一个输入的瞬时变化率。
 - 你可以把偏微分(partial derivative)说明成在多个输入中只改变一个时的变化率。

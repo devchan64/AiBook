@@ -33,7 +33,7 @@ print("hello")
 | 프롬프트(prompt) | 지금 입력할 자리를 보여 주는 표시입니다. |
 | `python -m ...` | Python에게 특정 모듈을 실행하라고 요청하는 방식입니다. |
 
-## 이 절의 목표
+## 핵심 기준: Python 인터프리터(interpreter)와 스크립트(script)
 
 - Python 인터프리터(Python interpreter)를 Python 코드를 읽고 실행하는 프로그램으로 설명할 수 있습니다.
 - 대화형 모드(interactive mode)와 스크립트(script) 실행의 차이를 설명할 수 있습니다.

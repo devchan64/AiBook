@@ -21,7 +21,7 @@ This section is the place where concepts learned separately in Part 2 are tied t
 
 So the core of this section is not `memorizing a new formula`, but `connecting tools you already saw to one problem through a procedure`.
 
-## Goals of This Section
+## Core Criteria: A Small Procedure for Translating Formulas into Code
 
 - You can first distinguish the variables and the data bundle in a formula.
 - You can translate sigma summation into a Python loop or a NumPy computation.

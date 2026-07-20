@@ -30,7 +30,7 @@ That is, the model predicts, compares with the actual values, turns the degree o
 --8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
 ```
 
-## Goals of This Section
+## Core Criteria: Loss Function and Objective Function
 
 - You can explain the `loss function` as a function that turns prediction wrongness into a number.
 - You can explain the `objective function` as the overall criterion training tries to reduce or increase.

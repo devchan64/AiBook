@@ -47,7 +47,7 @@
 
 ![在评价标准与约束下比较候选值、寻找更好候选的最优化流程](/AiBook/assets/part-02/chapter-06/optimization-search-loop-zh.svg)
 
-## 本节目标
+## 核心判断标准：最优化(optimization)到底在寻找什么
 
 - 能把最优化解释成不是直接写答案，而是寻找更好候选的视角。
 - 能区分 `候选(candidate)`、`标准(criterion)`、`约束(constraint)`。

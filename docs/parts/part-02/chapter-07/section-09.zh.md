@@ -24,7 +24,7 @@
 | `pip install` 与 `import` 的差异 | 安装成功与代码使用成功并不是同一回事。 |
 | 检查顺序（troubleshooting order） | 在重装之前，先检查当前 Python、虚拟环境和包位置的步骤。 |
 
-## 本补充学习的目标
+## 阅读标准：如何检查常见的本地 Python 环境问题
 
 - 能把本地 Python 环境问题区分为代码错误与执行环境错误。
 - 能说明为什么 `python --version`、`python3 --version`、`py --version` 的检查是第一步。

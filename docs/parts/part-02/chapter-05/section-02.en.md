@@ -19,7 +19,7 @@ Here, rather than calculating statistical formulas in detail, the focus is on re
 | The difference between data distribution and probability distribution | It expands into concepts such as standard deviation and correlation in the supplementary learning of P2-5.5. | It appears again in the context of distribution shift and dataset inspection. |
 | The point that mean alone is not enough, and spread must also be seen | It moves into questions of sample variation and estimation error in `P2-5.3`. | It continues into explanations of mean loss, batch statistics, and normalization in model learning. |
 
-## Goals of This Section
+## Core Criteria: Distribution, Mean, and Variance
 
 - You can explain a distribution as the shape in which values are arranged.
 - You can explain a mean as the value that summarizes many values into one representative center.

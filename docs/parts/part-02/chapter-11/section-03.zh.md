@@ -32,7 +32,7 @@ print(scores + 10)
 
 本节说明 `broadcasting` 与 `vectorization` 的基本区分。`NumPy`、`shape`、`axis` 的代表性说明仍放在 P2-11.1、P2-11.2 和 [概念词汇表](/AiBook/en/reference/concept-glossary/)，这里专注于：计算是怎样扩散到整个数组上的。
 
-## 本节目标
+## 核心判断标准：广播与向量化
 
 - 能把 broadcasting 解释为：较小数组像是被匹配到较大数组的 shape 上来进行计算的规则。
 - 能把 scalar 与 array 的计算读成逐位置计算。

@@ -17,7 +17,7 @@
 
 本节说明 `DataFrame`、`row`、`column`、`index` 的基本区分。前一章的 NumPy 更强调这些值怎样以 vector 与 matrix 的形状进入计算；这里则转向它们该怎样被读成“案例与变量组成的表”。下一章会再从这张表走向图表，去看表里不容易直接看到的变化与关系。后续继续进入选择、聚合与数据集准备时，也可以配合 [概念词汇表](/AiBook/en/reference/concept-glossary/) 一起作为回返点。
 
-## 本节目标
+## 核心判断标准：Pandas DataFrame 表达什么
 
 - 你可以把 DataFrame 解释为带标签的二维表格式数据结构。
 - 你可以解释 row、column、index 各自识别什么。

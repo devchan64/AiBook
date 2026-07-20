@@ -36,7 +36,7 @@ Rather than learning the Python package distribution system in depth, this secti
 | version pinning | A method of reducing environment differences by specifying particular package versions. |
 | environment record | Notes needed for rerunning, such as the Python version, package list, and execution location. |
 
-## Goal of This Section
+## Core Criteria: Dependency and Reproducibility
 
 - You can explain dependency as the external packages needed for my code to run.
 - You can explain reproducibility as the condition that allows the same code to be run again later.

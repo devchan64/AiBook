@@ -119,7 +119,7 @@ If we connect this transition to the surrounding Chapters at once, it can be org
 
 So the core of this Chapter is that the handle changes from `what shall we calculate?` to `where shall we execute that calculation?`
 
-## Goals of This Section
+## Core Criteria: Local Environment and Runtime
 
 - You can explain `local environment` as the conditions under which code runs on my computer.
 - You can explain `runtime` as the place where code actually runs.

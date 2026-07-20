@@ -44,7 +44,7 @@
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-zh.mmd"
 ```
 
-## 本节目标
+## 核心判断标准：梯度下降(gradient descent)的直觉
 
 - 能把 `梯度下降(gradient descent)` 解释成一种为了降低损失而不断重复的小步移动方法。
 - 能说明 `梯度(gradient)` 是当前位置的方向信息。

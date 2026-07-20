@@ -15,7 +15,7 @@
 
 ![在小数据上区分原始数据、中心、扩散与样本估计的流程](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-zh.svg)
 
-## 本节目标
+## 核心判断标准：用小数据确认概率与统计
 
 - 能从一组小数据里计算 `均值(mean)`。
 - 能区分 `均值(mean)` 与 `中位数(median)`。

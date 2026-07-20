@@ -14,7 +14,7 @@ Here, instead of solving many differentiation exercises, the focus is on reading
 1. The rate of change with respect to one input is read as a derivative.
 2. The bundle of rates of change with respect to multiple inputs is read as a gradient.
 
-## Goals of This Section
+## Core Criteria: Derivative and Gradient
 
 - You can explain a derivative as the instantaneous rate of change with respect to one input.
 - You can explain a partial derivative as the rate of change when one of several inputs is changed.

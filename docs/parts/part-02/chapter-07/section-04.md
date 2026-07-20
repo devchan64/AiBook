@@ -31,7 +31,7 @@ P2-7.3에서는 Python 코드를 실행하는 방식을 봤습니다. 이제 한
 | `import` | 이미 준비된 패키지를 Python 코드 안에서 불러오는 문장입니다. |
 | `.venv` | 프로젝트 폴더 안에 두는 대표적인 로컬 가상환경 디렉터리 이름입니다. |
 
-## 이 절의 목표
+## 핵심 기준: 가상환경(virtual environment)과 패키지(package)
 
 - 가상환경(virtual environment)을 프로젝트별 Python 실행 공간으로 설명할 수 있습니다.
 - 패키지(package)를 Python에서 가져다 쓰는 코드 묶음으로 설명할 수 있습니다.

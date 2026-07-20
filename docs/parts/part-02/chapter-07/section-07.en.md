@@ -36,7 +36,7 @@ Installation screens and recommended methods can change over time. When actually
 - Usage on Linux/Unix platforms: Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
 - Virtual environments: Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
 
-## Goal of This Supplement
+## First Reading Criteria: When Is Python Installation Needed?
 
 - You can explain the difference in roles between Colab and local Python installation.
 - You can judge when local installation is needed.

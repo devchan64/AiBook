@@ -40,7 +40,7 @@ The examples in this section recheck the ideas of earlier sections in the follow
 
 If we hold this table first, each code block becomes clearer as `a place that rechecks an earlier idea`, rather than a mere syntax example.
 
-## Goals of This Section
+## Core Criteria: Checking Linear Algebra with NumPy
 
 - You can create vectors and matrices as NumPy arrays.
 - You can check data shape with `.shape`.

@@ -33,7 +33,7 @@ Rather than learning every terminal feature by operating system, this Section fo
 | path | the string that points to where a file or folder is located |
 | command | the execution sentence asking the shell to do something now |
 
-## Goals of This Section
+## Core Criteria: Terminal, Shell, and Working Directory
 
 - You can explain `terminal` as the screen where commands are entered and results are viewed.
 - You can explain `shell` as the program that interprets and executes commands.

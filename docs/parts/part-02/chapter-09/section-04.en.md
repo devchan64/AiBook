@@ -40,7 +40,7 @@ This Section places required review and extended background in one place. On a f
 | queue | A rule-centered structure where the first inserted item comes out first |
 | hash table | A structure organized to find values quickly by key |
 
-## Goals of This Supplement
+## First Reading Criteria: How to First Read Traditional Data Structure Names
 
 - You can read traditional data-structure names by connecting them to problem-solving questions.
 - You can distinguish linear structures, non-linear structures, and key-based structures at an introductory level.

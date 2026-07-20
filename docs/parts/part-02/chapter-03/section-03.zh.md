@@ -1,7 +1,7 @@
 # P2-3.3 矩阵乘法(matrix multiplication)到底在复用什么
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-3.1 里，我们从数据形状(shape)的角度看了标量(scalar)、向量(vector)、矩阵(matrix)。在 P2-3.2 里，我们建立了把向量读成空间中位置(position)、并比较远近的直觉。现在开始看矩阵乘法(matrix multiplication)。
 
@@ -24,7 +24,7 @@
 | “同一种加权求和结构会被复用于多个输出”这一直觉 | 在后续小节里，会用代码检查 shape 错误和计算结果。 | 它会继续连到 Part 5 里的线性层(linear layer)、attention 计算、表示变换说明。 |
 | 输入维度与输出维度会体现在 shape 里 | 它会继续连到 `P2-6.1`、`P2-6.2`、`P2-6.3` 里权重与损失是怎样连接的。 | 它会在 Part 5 里读 embedding 投影、logit、输出向量时再次出现。 |
 
-## 本节目标
+## 核心判断标准：矩阵乘法(matrix multiplication)到底在复用什么
 
 - 能说明矩阵乘法不是逐位置乘法(element-wise multiplication)。
 - 能理解向量与权重相乘后，会通过加权求和产生新值。

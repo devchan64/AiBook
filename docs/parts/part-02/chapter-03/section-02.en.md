@@ -1,7 +1,7 @@
 # P2-3.2 Vector Space and the Intuition of Position
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. Now we extend the vector a little beyond a simple list of values. In AI documents, a vector is often explained as if it were `a position inside some space`.
 
@@ -47,7 +47,7 @@ These three vectors form a shared scene that continues into later sections.
 - In `P2-3.4`, this example can be brought back again to compare distance, similarity, and dot product.
 - In `P2-3.6`, the same vectors can be turned into code arrays to check shape and calculation.
 
-So the goal of this section is to stop treating a vector as only `a list of numbers` and to make it readable as `a position compared inside the same space`.
+The key shift is to stop treating a vector as only `a list of numbers` and to make it readable as `a position compared inside the same space`.
 
 If we place them on a coordinate plot like the one below, it becomes immediately visible why `a` and `b` are read as the first nearby candidates while `c` is read as farther away. At this point in the section, that level of positional intuition is enough.
 
@@ -59,7 +59,7 @@ If we place them on a coordinate plot like the one below, it becomes immediately
 | The intuition that comparison works only inside the same space | In P2-3.6, we check shape and calculation rules in code. | It returns when reading feature space, clustering, and distance-based intuition in Part 3. |
 | The interpretation that nearness is a candidate for similarity | It continues into later sections through NumPy and data examples. | It reappears in Part 6 `P6-11.1` on vector databases and `P6-11.2` on indexes and retrieval quality. |
 
-## Goals of This Section
+## Core Criteria: Vector Space and the Intuition of Position
 
 - You can explain a vector as both a list of values and an expression that can be read like coordinates.
 - You can explain vector space as the intuition of a calculable space in which vectors are placed.
@@ -270,7 +270,7 @@ The word2vec paper by Mikolov, Chen, Corrado, and Dean learned continuous vector
 
 We do not explain the detailed models of those two sources here. We only use them as grounding for the connection from scalar, vector, matrix, and position thinking into embedding and representation learning.
 
-## Reading Order When You See the Phrase Vector Space
+## Levels to Distinguish When Reading Vector Space
 
 When the expression vector space appears, read it in the following order.
 

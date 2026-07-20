@@ -13,7 +13,7 @@ Here, rather than immediately calculating derivative formulas, the focus is on n
 
 The point readers most often miss here is stopping after reading `slope` as only a graph problem. But in the learning context, slope is the preparation for asking `if I change this value a little now, in which direction and by how much will the result move?`
 
-## Goals of This Section
+## Core Criteria: Rate of Change and Slope
 
 - You can explain rate of change as output change relative to input change.
 - You can read slope as the ratio of change between two values.

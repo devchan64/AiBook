@@ -56,7 +56,7 @@
 
 这些问题，之后在再遇到优化(optimization)、梯度下降(gradient descent)、反向传播(backpropagation)时，会成为重新进入的起点。
 
-## 这节补充学习的目标
+## 阅读标准：梯度：从高中微分到多变量微分
 
 - 你可以说明：如果只从高中微分记忆出发，为什么梯度(gradient)会让人觉得陌生。
 - 你可以说明单变量函数(single-variable function)与多变量函数(multivariable function)之间的差别。

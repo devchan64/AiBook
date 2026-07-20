@@ -19,7 +19,7 @@ P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | PowerShell에서 같은 목적을 수행하는 명령입니다. |
 | 경로(path) 차이 | Windows의 `C:\\...`와 macOS/Linux의 `/...`처럼 운영체제별 위치 표기 차이입니다. |
 
-## 이 보충학습의 목표
+## 처음 읽는 기준: Windows, macOS, Linux 터미널 사용법
 
 - Windows, macOS, Linux에서 터미널을 여는 방법을 입문 수준에서 설명할 수 있습니다.
 - 터미널을 열었을 때 먼저 현재 위치를 확인해야 함을 설명할 수 있습니다.

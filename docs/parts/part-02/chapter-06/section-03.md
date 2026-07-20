@@ -44,7 +44,7 @@ P2-6.1에서는 최적화를 더 나은 값을 찾는 문제로 봤고, P2-6.2�
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-ko.mmd"
 ```
 
-## 이 절의 목표
+## 핵심 기준: 경사하강법(gradient descent)의 직관
 
 - 경사하강법(gradient descent)을 손실을 낮추기 위한 반복 이동 방법으로 설명할 수 있습니다.
 - 그래디언트(gradient)가 현재 위치의 방향 정보임을 설명할 수 있습니다.

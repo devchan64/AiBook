@@ -27,7 +27,7 @@ This Section focuses less on notebook decoration tips and more on the standard f
 | runtime state | Variables, packages, and memory state that live only in the current session |
 | setup cell | A cell near the front that gathers package imports, options, and data preparation |
 
-## Goals of This Section
+## Core Criteria: Organizing Notebooks as Re-runnable Records
 
 - You can explain why a notebook should be organized as a learning record that can be rerun.
 - You can explain that execution order and hidden state can make notebook results confusing.

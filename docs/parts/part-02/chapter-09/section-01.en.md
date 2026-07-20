@@ -59,7 +59,7 @@ This structure is good for finding a score by name.
 
 Even with the same data, the appropriate structure changes depending on whether you want to look in order, find by name, or follow relationships.
 
-## Goals of This Section
+## Core Criteria: Why Are Data Structures Needed?
 
 - You can explain a data structure as a way of organizing data.
 - You can explain the difference between linear and non-linear structures at an introductory level.

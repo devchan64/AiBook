@@ -32,7 +32,7 @@ print(scores + 10)
 
 여기서는 `브로드캐스팅(broadcasting)`과 `벡터화(vectorization)`의 기본 구분을 설명합니다. `NumPy`, `shape`, `축(axis)`의 대표 설명은 P2-11.1, P2-11.2와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 배열 전체에 계산이 어떻게 퍼져 적용되는지에 집중합니다.
 
-## 이 절의 목표
+## 핵심 기준: 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
 - 브로드캐스팅을 작은 배열이 큰 배열의 shape에 맞춰 계산되는 규칙으로 설명할 수 있습니다.
 - 스칼라와 배열의 계산을 위치별(element-wise) 계산으로 읽을 수 있습니다.

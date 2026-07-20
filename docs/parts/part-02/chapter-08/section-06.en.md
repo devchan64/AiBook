@@ -36,7 +36,7 @@ Because this is supplemental learning, the explanation is slightly more detailed
 | attribute | a value or name tag that an object has |
 | `value.method()` | the shape of calling an action provided by a specific value or object |
 
-## Goals of This Supplemental Learning
+## First Reading Criteria: First Meeting Classes and Objects
 
 - You can explain an object as a thing that has both values and actions.
 - You can explain a class as the definition for creating objects.

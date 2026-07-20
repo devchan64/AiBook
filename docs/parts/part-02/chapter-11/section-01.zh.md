@@ -27,7 +27,7 @@
 | `dtype` | 数组里数字的数据类型 |
 | `ndarray` | NumPy 默认使用的多维数组数据结构 |
 
-## 本节目标
+## 核心判断标准：用 NumPy 数组构建向量与矩阵
 
 - 能把 NumPy array 与 Python list 区分开来说明。
 - 能把一维数组读成 vector，把二维数组读成 matrix。

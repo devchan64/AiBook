@@ -1,7 +1,7 @@
 # Part 2. Rebuilding the Foundations
 
 > Section ID: `P2-index`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 is the section for recovering math, Python, data tools, and document-management instincts before studying machine learning and deep learning again. It does not try to prove mathematics deeply or make you memorize all Python syntax. Instead, it builds the foundation needed to read model training, data splitting, evaluation, overfitting, and generalization in Part 3 and to verify them with small code examples.
 
@@ -33,7 +33,7 @@ Before reading Part 2 in full, first hold the following four lines.
 
 In other words, Part 2 is not a Part where math, Python, and tools are each finished separately. It is a Part that restores the `minimum common language needed to read data and learning flow in Part 3`.
 
-## Purpose of This Part
+## Why Math Recovery Is Needed
 
 Part 2 is the section that reorganizes math and software tools you may have learned long ago, or only encountered partially, into a language for relearning AI.
 
@@ -71,7 +71,7 @@ The more practical question for reading all of Part 2 can be compressed as follo
 | If I get blocked here, where can I return briefly? | So I can recover without rereading all of Part 2 from the beginning |
 | What is the minimum sentence I should keep from here? | So I can choose the real standard that should remain after a long explanation |
 
-## Goals of This Part
+## Mathematical Anchors for Reading AI Computation
 
 After reading Part 2, the goal is to have understanding at about the following level.
 
@@ -89,7 +89,7 @@ After reading Part 2, the goal is to have understanding at about the following l
 - You can visually inspect formulas, distributions, relationships, and loss curves through Matplotlib.
 - You can understand Git commits and branches as tools for managing the reproducibility of learning documents.
 
-## What This Part Explains and What It Does Not
+## Scope of the Math Recovery and Questions Left Open
 
 Part 2 is a foundation-recovery Part for AI learning. So within the main text, it explains the following.
 
@@ -170,7 +170,7 @@ Part 2 does not dig those foundations too deeply. Instead, it prepares the minim
 | `fit`, `predict`, train/test | `P2-12.3`, `P2-15.2` |
 | Colab, terminal, notebook, runtime environment | `P2-3.5`, Chapter 7, Chapter 10 |
 
-## Questions This Part Does Not Finish
+## Questions Handed to the Next Part
 
 Because Part 2 focuses on recovering the foundations, it intentionally leaves the following questions to Part 3 and beyond.
 
@@ -180,7 +180,7 @@ Because Part 2 focuses on recovering the foundations, it intentionally leaves th
 
 These questions are recovered through the main explanations in Part 3, Part 4, and Part 5.
 
-## The Understanding You Gain After This Part
+## Understanding That Connects Formulas to Code
 
 After this Part, instead of memorizing math and software tools separately, you can see them as one learning flow.
 

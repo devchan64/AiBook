@@ -36,7 +36,7 @@
 | 版本固定（version pinning） | 通过明确写出特定包版本来减少环境差异的方法。 |
 | 环境记录（environment record） | 重新执行所需的备注，例如 Python 版本、包列表、运行位置等。 |
 
-## 本节目标
+## 核心判断标准：依赖（dependency）与可复现性（reproducibility）
 
 - 能把依赖（dependency）解释为我的代码运行所需的外部包。
 - 能把可复现性（reproducibility）解释为以后还能再次运行同一份代码的条件。

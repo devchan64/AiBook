@@ -1,7 +1,7 @@
 # P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 모양(shape)의 관점에서 봤습니다. P2-3.2에서는 벡터를 공간 안의 위치(position)처럼 읽고, 가까움과 멂을 비교하는 직관을 잡았습니다. 이제 행렬 곱(matrix multiplication)을 봅니다.
 
@@ -24,7 +24,7 @@ P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 �
 | 가중합을 여러 출력에 재사용하는 감각 | 뒤 절에서 코드로 shape 오류와 계산 결과를 확인합니다. | Part 5에서 선형층(layer), attention 계산, 표현 변환 설명으로 이어집니다. |
 | 입력 차원과 출력 차원이 shape에 반영된다는 점 | `P2-6.1`, `P2-6.2`, `P2-6.3`에서 가중치와 손실이 어떻게 연결되는지로 넘어갑니다. | Part 5에서 임베딩 투영, 로짓(logit), 출력 벡터 설명을 읽을 때 다시 등장합니다. |
 
-## 이 절의 목표
+## 핵심 기준: 행렬 곱(matrix multiplication)은 무엇을 재사용하는가
 
 - 행렬 곱(matrix multiplication)이 위치별 곱(element-wise multiplication)이 아님을 설명할 수 있습니다.
 - 벡터와 가중치의 곱이 가중합(weighted sum)으로 새 값을 만든다는 점을 이해할 수 있습니다.

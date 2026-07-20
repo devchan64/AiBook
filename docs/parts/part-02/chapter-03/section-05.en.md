@@ -18,7 +18,7 @@ How to install Python on your own PC and manage virtual environments returns in 
 
 This document was written based on the official Google Colab guide and FAQ, the IPython `%pip` documentation, and the pip user guide checked on July 19, 2026. Colab is an external service, so its UI, usage conditions, free tier, runtime policy, or even service availability may change later. If, when you read this section, Colab is unavailable or looks different from this guide, you should separately check the current Google Colab documentation and service status.
 
-## Goals of This Section
+## Core Criteria: Python Runtime Environments: Colab and Local PC
 
 - You can understand Google Colab as a browser-based execution environment that requires no installation.
 - You can understand local-PC execution as running inside your own computer’s terminal and Python installation environment.

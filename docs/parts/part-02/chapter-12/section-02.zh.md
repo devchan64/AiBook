@@ -17,7 +17,7 @@
 
 本节说明 `Series`、过滤(filtering)、聚合(aggregation)、`groupby`、`loc`、`iloc` 的基本区分。`DataFrame` 本身的代表性说明放在 P2-12.1 与[概念词汇表](/AiBook/en/reference/concept-glossary/)中，这里关注的是：从那张表里读什么、留下什么、概括什么。
 
-## 本节目标
+## 核心判断标准：选择、过滤与聚合
 
 - 你可以说明选择一列与选择多列时，结果会有什么不同。
 - 你可以说明 `loc` 按标签(label)读取，`iloc` 按位置(position)读取。

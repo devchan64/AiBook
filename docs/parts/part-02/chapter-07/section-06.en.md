@@ -19,7 +19,7 @@ This supplement organizes the procedure for opening a terminal, checking the cur
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | Commands in PowerShell that serve the same purposes. |
 | path difference | The difference in location notation by operating system, such as Windows `C:\\...` versus macOS/Linux `/...`. |
 
-## Goal of This Supplement
+## First Reading Criteria: Using Terminals on Windows, macOS, and Linux
 
 - You can explain at an introductory level how to open a terminal on Windows, macOS, and Linux.
 - You can explain that when you open a terminal, you should first check the current location.

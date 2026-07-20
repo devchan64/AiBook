@@ -1,7 +1,7 @@
 # P2-3.3 What Does Matrix Multiplication Reuse?
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. In P2-3.2, we built the intuition of reading a vector like a position inside space and comparing nearness and farness. Now we move to matrix multiplication.
 
@@ -24,7 +24,7 @@ Rather than fully mastering matrix-calculation formulas, we focus on reading the
 | The intuition that one weighted-sum pattern is reused for several outputs | In later sections, we check shape errors and calculation results in code. | It continues into explanations of linear layers, attention calculation, and representation transforms in Part 5. |
 | The fact that input and output dimensions are reflected in shape | It leads into how weights and loss connect in `P2-6.1`, `P2-6.2`, and `P2-6.3`. | It reappears when reading embedding projection, logits, and output vectors in Part 5. |
 
-## Goals of This Section
+## Core Criteria: What Does Matrix Multiplication Reuse?
 
 - You can explain that matrix multiplication is not element-wise multiplication.
 - You can understand that multiplying a vector and weights produces a new value through a weighted sum.

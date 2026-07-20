@@ -13,7 +13,7 @@ indexing、slicing、axis。
 
 本节说明 `indexing`、`slicing`、`axis` 的基本区分。`NumPy` 与数组基本属性可以回到 P2-11.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再看，这里专注于：从数组里选什么、按哪个方向去读。
 
-## 本节目标
+## 核心判断标准：索引、切片与轴
 
 - 能把 `x[0]`、`x[1, 2]` 这样的 indexing 解释成位置选择。
 - 能把 `x[1:3]`、`x[:, 0]`、`x[0:2, 1:3]` 这样的 slicing 解释成区间选择。

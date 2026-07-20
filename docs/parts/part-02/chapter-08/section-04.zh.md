@@ -41,7 +41,7 @@
 | 累积（accumulation） | 在循环过程中不断加值或收集值，形成一个结果的模式。 |
 | comprehension | 用循环来生成新列表或新字典的简洁表达。 |
 
-## 本节目标
+## 核心判断标准：循环（loop）：逐个处理 iterable
 
 - 能读懂 `for item in items` 这种循环。
 - 能在入门层面区分 iterable 和 iterator。

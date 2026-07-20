@@ -16,7 +16,7 @@ This Section reorganizes training, loss, parameter, update direction, and backpr
 
 Here, rather than unfolding optimization formulas in detail, the focus is on connecting why differentiation and gradients are needed in learning. If we hold onto the relationship among loss, parameters, and update direction, then later, when reading gradient descent, backpropagation, and optimizer, we read the purpose before the calculation procedure.
 
-## Goals of This Section
+## Core Criteria: Why Learning Needs Differentiation
 
 - You can explain training as the process of reducing loss by adjusting parameters.
 - You can explain that the loss value alone makes it hard to know in which direction to change things.

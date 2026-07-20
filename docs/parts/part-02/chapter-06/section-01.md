@@ -47,7 +47,7 @@ Chapter 6에서는 작은 예시 하나를 세 절에서 계속 재사용합니�
 
 ![후보값을 평가 기준과 제약에 따라 비교하며 더 나은 후보를 찾는 최적화 흐름](../../../assets/part-02/chapter-06/optimization-search-loop-ko.svg)
 
-## 이 절의 목표
+## 핵심 기준: 최적화(optimization)는 무엇을 찾는가
 
 - 최적화(optimization)를 정답을 바로 쓰는 일이 아니라 더 나은 후보를 찾아가는 관점으로 설명할 수 있습니다.
 - 후보(candidate), 기준(criterion), 제약(constraint)을 구분할 수 있습니다.

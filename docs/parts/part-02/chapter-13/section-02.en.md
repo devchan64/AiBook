@@ -21,7 +21,7 @@ Instead of giving each chart a completely different world as an example, this se
 
 Even in the same scene, if the question changes, the chart choice also changes. If you hold on to this connection, what stays longer is not the chart name but the `question-chart match`.
 
-## Goals of This Section
+## Core Criteria: Basic Charts and Checking the Shape of Formulas
 
 - You can distinguish the basic purpose of a line plot, scatter plot, and histogram.
 - You can calculate the shape of a formula in code and check it with a chart.

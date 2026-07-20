@@ -7,7 +7,7 @@ After reading derivatives, gradients, and gradient descent, one sentence still r
 
 The core intuition is that `when a function is connected through several stages, a change in an earlier stage is passed through later stages until it affects the final result`. Without that intuition, it is hard to read how loss is connected to each layer and parameter. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
 
-## Goals of This Section
+## Core Criteria: Composite Functions and the Chain Rule
 
 - You can explain a composite function as `a structure where the output enters the next function as input`.
 - You can describe the chain rule as `a rule that reads stage-by-stage rates of change by linking them multiplicatively`.

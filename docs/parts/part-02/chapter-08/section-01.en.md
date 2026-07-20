@@ -35,7 +35,7 @@ If the execution environment in the previous chapter dealt with `where and with 
 | assign | The action in Python that connects a value to a name. |
 | basic type | Frequently encountered value kinds such as `int`, `float`, `str`, and `bool`. |
 
-## Goal of This Section
+## Core Criteria: Values, Variables, and Types
 
 - You can distinguish value, variable, and type.
 - You can explain that `=` does not mean exactly the same thing as a mathematical equal sign, but in Python it is syntax that assigns a value to a name.

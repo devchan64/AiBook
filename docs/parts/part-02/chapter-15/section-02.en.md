@@ -35,7 +35,7 @@ The scenes where people get stuck most often can be rewritten very briefly as fo
 
 So the minimum preparation right before Part 3 is closer to being able to state `sentences that read data structure and learning flow` than to knowing `model names`.
 
-## Goals of This Section
+## Core Criteria: Final Check Before Moving to Part 3
 
 - You can connect the concepts recovered in Part 2 to the machine-learning learning flow.
 - You can distinguish the minimum role of mathematics, Python, NumPy, Pandas, Matplotlib, and Git.

@@ -19,7 +19,7 @@
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | 在 PowerShell 中完成相同目的的命令。 |
 | 路径（path）差异 | 像 Windows 的 `C:\\...` 与 macOS/Linux 的 `/...` 这样的操作系统路径表示差异。 |
 
-## 本补充学习的目标
+## 阅读标准：Windows、macOS、Linux 终端使用方法
 
 - 能在入门层面说明如何在 Windows、macOS、Linux 中打开终端。
 - 能说明打开终端后首先要确认当前位置。

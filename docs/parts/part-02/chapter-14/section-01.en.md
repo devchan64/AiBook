@@ -9,7 +9,7 @@ Git is a tool for recording that kind of change. It is not just a tool for savin
 
 This section explains the basic distinctions among `Git`, `version control`, `commit`, `staging area`, and `repository`. If Chapters 11 through 13 were the stage of reading and checking data through arrays, tables, and plots, then the question here changes into how to leave those calculations and checks behind as bundles of changes. Git should not be read as a tool that suddenly appeared out of nowhere. It should be read as the record tool that lets you explain again the baseline comparisons, preprocessing edits, and metric interpretations in Part 3. When the later section continues into branches and deployment, also keep the [Concept Glossary](/AiBook/reference/concept-glossary/) as a reference point.
 
-## Goals of This Section
+## Core Criteria: Git as a Tool for Managing Change History
 
 - You can explain version control as "a record that lets you find a specific past state again after time has passed."
 - You can understand a Git commit not as file saving but as a meaningful bundle of changes.

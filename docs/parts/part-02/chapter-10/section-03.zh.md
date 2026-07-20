@@ -27,7 +27,7 @@
 | runtime state | 只存在于当前 session 中的变量、包和内存状态 |
 | setup cell | 放在前部、集中处理 package import、选项和数据准备的 cell |
 
-## 本节的目标
+## 核心判断标准：把笔记本整理成可重新执行的记录
 
 - 能说明为什么 notebook 要整理成可重新执行的学习记录。
 - 能说明 execution order 和 hidden state 为什么会让 notebook 结果变得混乱。

@@ -22,7 +22,7 @@ This flow is also very important in AI. A model never sees the whole of reality.
 
 Rather than calculating formal formulas for statistical inference in detail, this Section focuses on reading the limits and errors that appear when we talk about the whole from partial data. If you secure the relationship among population, sample, estimation, and error here, you can read later topics like generalization, evaluation scores, and dataset bias much more carefully and accurately.
 
-## Goals of This Section
+## Core Criteria: Sample, Estimation, and Error
 
 - You can explain `population` as the whole target of interest.
 - You can explain `sample` as the part actually observed from the population.

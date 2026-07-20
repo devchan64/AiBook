@@ -14,7 +14,7 @@ P2-4.2에서는 변화율(rate of change)과 기울기(slope)를 봤습니다. �
 1. 한 입력에 대한 변화율은 미분(derivative)으로 읽습니다.
 2. 여러 입력 각각에 대한 변화율 묶음은 그래디언트(gradient)로 읽습니다.
 
-## 이 절의 목표
+## 핵심 기준: 미분(derivative)과 그래디언트(gradient)
 
 - 미분(derivative)을 한 입력에 대한 순간 변화율로 설명할 수 있습니다.
 - 편미분(partial derivative)을 여러 입력 중 하나를 바꿨을 때의 변화율로 설명할 수 있습니다.

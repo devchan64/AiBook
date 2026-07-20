@@ -27,7 +27,7 @@ Rather than focusing on graph algorithms themselves, this Section focuses on wha
 | direction | A property that shows toward which side a connection points |
 | weight | A value attached to a connection to represent extra information such as strength, distance, or cost |
 
-## Goals of This Section
+## Core Criteria: How Does a Graph Represent Relationships?
 
 - You can explain a graph as a structure of nodes and edges.
 - You can explain that a graph can handle connection relationships that are hard to express through tables or trees alone.

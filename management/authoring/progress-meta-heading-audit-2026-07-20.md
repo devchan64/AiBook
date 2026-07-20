@@ -256,7 +256,38 @@ rg -n "^#{2,6} (이 절의 범위|이 절의 목표|이 보충학습의 목표|�
 Part 1 전체에서 번역문까지 포함한 확장 패턴 잔여 제목은 0건이다.
 
 추가 검증 결과, `docs/parts/part-01` 아래 177개 `Version` 표기는 모두 `v2026.07.20`이고, `management/release-notes/sections/part-01/`의 `P1-*.md` 59개 파일은 모두 `### v2026.07.20` 항목을 가진다.
-| `docs/parts/part-05/chapter-15/section-02.md` | 39 | `이 절을 읽는 순서` |
+
+2026-07-20 추가 패치에서는 Part 2의 시작 페이지, 마무리 페이지, Chapter 1~15 본문과 영어·중국어 간체 번역문을 함께 정리했다.
+
+Part 2 정리 기준도 최초 1차 검색어에 영어·중국어 간체 번역 제목과 Part 시작/마무리 페이지의 진행 메타 성격 제목을 더한 확장 패턴이다.
+
+```sh
+rg -n "^#{2,6} (이 절의 범위|이 절의 목표|이 보충학습의 목표|이 보충학습의 범위|Scope of This Section|Goal of This Section|Goals of This Section|Goal of This Supplemental Section|Goals of This Supplemental Learning|Goals of This Supplementary Learning|Scope of This Supplement|Goal of This Supplement|Goals of This Supplement|How to Read This Section|Reading Order When You See the Phrase Vector Space|본절 목표|本节目标|本节的目标|本补充学习的目标|这节补充学习的目标|这一节的范围|这一节的目标|这篇补充学习的范围|这篇补充学习的目标|这一节的阅读顺序)$" docs/parts/part-02
+```
+
+Part 2 전체에서 번역문까지 포함한 확장 패턴 잔여 제목은 0건이다.
+
+| 범위 | 처리 상태 | 잔여 건수 |
+| --- | --- | ---: |
+| `docs/parts/part-02/index.*.md` | 완료 | 0 |
+| `docs/parts/part-02/summary.*.md` | 완료 | 0 |
+| `docs/parts/part-02/chapter-01` | 완료 | 0 |
+| `docs/parts/part-02/chapter-02` | 완료 | 0 |
+| `docs/parts/part-02/chapter-03` | 완료 | 0 |
+| `docs/parts/part-02/chapter-04` | 완료 | 0 |
+| `docs/parts/part-02/chapter-05` | 완료 | 0 |
+| `docs/parts/part-02/chapter-06` | 완료 | 0 |
+| `docs/parts/part-02/chapter-07` | 완료 | 0 |
+| `docs/parts/part-02/chapter-08` | 완료 | 0 |
+| `docs/parts/part-02/chapter-09` | 완료 | 0 |
+| `docs/parts/part-02/chapter-10` | 완료 | 0 |
+| `docs/parts/part-02/chapter-11` | 완료 | 0 |
+| `docs/parts/part-02/chapter-12` | 완료 | 0 |
+| `docs/parts/part-02/chapter-13` | 완료 | 0 |
+| `docs/parts/part-02/chapter-14` | 완료 | 0 |
+| `docs/parts/part-02/chapter-15` | 완료 | 0 |
+
+추가 검증 결과, `docs/parts/part-02` 아래 195개 `Version` 표기는 모두 `v2026.07.20`이고, `management/release-notes/sections/part-02/`의 `P2-*.md` 65개 파일은 모두 `### v2026.07.20` 항목을 가진다.
 
 그다음은 `이 보충학습의 범위` 계열이다. 보충학습은 본문보다 별도 안내문처럼 굳기 쉬우므로, `어떤 오해를 바로잡는가`, `무엇을 구분하는가`, `어떤 연결을 복구하는가`가 드러나는 제목으로 바꾸는 것이 좋다.
 

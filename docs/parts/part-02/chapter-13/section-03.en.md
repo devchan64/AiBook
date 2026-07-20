@@ -9,7 +9,7 @@ In AI learning, you often do not stop after looking at one plot. You may need to
 
 This section explains the basic distinctions in the compare-and-save flow, including `savefig`, `legend`, and `accuracy`. The representative explanation of `plot`, `Figure`, and `Axes` stays in P2-13.1, and the standards for choosing basic chart types stay in P2-13.2 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here, we focus on how to compare several plots together and leave the results as files.
 
-## Goals of This Section
+## Core Criteria: Comparing and Saving Multiple Plots
 
 - You can explain that one `Figure` can contain multiple `Axes`.
 - You can make a plot that compares loss and accuracy side by side.

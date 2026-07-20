@@ -17,7 +17,7 @@ This section focuses on separating workflows and setting deployment criteria. If
 | branch workflow | Should this change stay on the writing branch or the deployment branch? |
 | deployment criteria | When is it ready to move into publicly visible explanation? |
 
-## Goals of This Section
+## Core Criteria: Branches, Commits, and Document Reproducibility
 
 - You can explain a branch as "a named history that separates workflows."
 - You can explain the role difference between a writing branch and a deployment branch in a document project.

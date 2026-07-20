@@ -44,7 +44,7 @@ If we read this movement as a learning loop, it looks like this.
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-en.mmd"
 ```
 
-## Goals of This Section
+## Core Criteria: The Intuition of Gradient Descent
 
 - You can explain `gradient descent` as a repeated movement method for lowering loss.
 - You can explain that the `gradient` is the direction information at the current position.

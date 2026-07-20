@@ -1,13 +1,13 @@
 # P2-3.4 Dot Product, Norm, Distance, and Similarity
 
 > Section ID: `P2-3.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Once we have read vectors, matrices, and matrix multiplication, the next question remains: `how similar are two vectors`, `how far apart are they`, and `how do we distinguish a large vector from a vector that only points in a similar direction`? Those questions lead directly to dot product, norm, distance, and similarity.
 
 If matrix multiplication is `a calculation that combines vectors to create new values`, then dot product, distance, and similarity are `calculations that compare vectors`. So after building vectors, we also need to hold on to the standard by which those vectors will be read. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
 
-## Goals of This Section
+## Core Criteria: Dot Product, Norm, Distance, and Similarity
 
 - You can explain dot product as the value obtained by multiplying corresponding components of two vectors and adding them.
 - You can read norm as a summary value of vector size or strength.
