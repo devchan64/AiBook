@@ -180,6 +180,7 @@ Before looking at the code, it is helpful to decide that we will read this examp
 | state after update | how the weight, prediction value, and loss actually changed |
 
 ```python
+# This example checks how an optimizer update turns a computed gradient into an actual risk_weight change.
 pressure_unrecovered = 2.0
 target_block_score = 6.0
 risk_weight_before = 1.0

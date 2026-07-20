@@ -167,6 +167,7 @@ Concepts to confirm:
 - so `the gradient was computed` and `the model learns well` are not the same statement
 
 ```python
+# This example changes only the learning rate to compare update size, prediction, and loss under the same gradient.
 pressure_unrecovered = 2.0
 target_block_score = 6.0
 risk_weight = 1.0

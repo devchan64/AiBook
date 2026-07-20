@@ -166,6 +166,7 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 - 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아니다
 
 ```python
+# 같은 CSV batch와 gradient에서 learning rate만 바꾸어 update 폭, 평균 예측, 평균 손실 변화를 비교하는 예제입니다.
 from csv import DictReader
 from pathlib import Path
 

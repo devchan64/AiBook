@@ -150,6 +150,7 @@ Version: `v2026.07.17`
 这张表的目的，并不是提前背数字，而是先抓住：即使看到的是同一条 `gradient_risk_weight` 流，最直接的 update 更像`立刻反应`，而 Adam-like 更像`把最近流向留下来再移动。`
 
 ```python
+# 这个例子在同一条 gradient history 上比较 direct update 和 Adam-like update 对 risk_weight 的影响。
 gradient_risk_weight_history = [-4.0, -2.0, -1.0]
 risk_weight_direct = 1.0
 risk_weight_adam_like = 1.0
@@ -220,6 +221,7 @@ Adam-like updates (simplified intuition)
 下面这个小实验把注意力从`同一个参数在多个 step 上怎么动`，切到`不同参数坐标为什么会收到不同 update。`
 
 ```python
+# 这个例子比较不同 gradient 尺度的参数坐标上 direct update 和 Adam-like 坐标调节的差异。
 learning_rate = 0.1
 beta2 = 0.9
 second_moment = {

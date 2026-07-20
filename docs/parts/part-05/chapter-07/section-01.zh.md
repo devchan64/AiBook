@@ -180,6 +180,7 @@ gradient 提供的是方向（direction）信息。它通常告诉我们：`朝�
 | 更新后状态 | 权重、预测值、损失真实发生了什么变化 |
 
 ```python
+# 这个例子检查 optimizer update 如何把计算出的 gradient 转成实际的 risk_weight 变化。
 pressure_unrecovered = 2.0
 target_block_score = 6.0
 risk_weight_before = 1.0

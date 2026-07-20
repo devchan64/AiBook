@@ -152,6 +152,7 @@ Before looking at the code, it helps to predict which side's movement amount wil
 The purpose of this table is not to memorize the exact numbers in advance. It is to hold before the code that even with the same `gradient_risk_weight` flow, a simple direct update reflects `the current slope` immediately, while an Adam-like method can move more smoothly while keeping the `recent flow`.
 
 ```python
+# This example compares direct updates and Adam-like updates over the same gradient history for risk_weight.
 gradient_risk_weight_history = [-4.0, -2.0, -1.0]
 risk_weight_direct = 1.0
 risk_weight_adam_like = 1.0
@@ -229,6 +230,7 @@ The following mini experiment is not a full implementation of Adam either. It is
 | `recovery_weight` | `[-0.5, -0.25]` | the update becomes very small because the gradient is small | even the coordinate with the small gradient is not buried completely |
 
 ```python
+# This example compares direct updates and Adam-like coordinate-wise adjustment across parameters with different gradient scales.
 gradient_by_parameter = {
     "risk_weight": [-8.0, -4.0],
     "recovery_weight": [-0.5, -0.25],

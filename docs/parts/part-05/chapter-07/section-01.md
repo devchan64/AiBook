@@ -181,6 +181,7 @@ gradient는 방향(direction)에 대한 정보입니다. 보통은 `어느 쪽�
 | 업데이트 후 상태 | 같은 CSV batch를 다시 보았을 때 평균 손실이 어떻게 달라졌는가 |
 
 ```python
+# CSV batch에서 평균 손실과 평균 gradient를 계산한 뒤 optimizer step 전후의 risk_weight 변화를 확인하는 예제입니다.
 from csv import DictReader
 from pathlib import Path
 

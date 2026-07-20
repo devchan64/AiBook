@@ -167,6 +167,7 @@ $$
 - 所以`算出了 gradient`并不等于`学习就一定进行得合适`
 
 ```python
+# 这个例子只改变 learning rate，比较同一 gradient 下的 update 大小、预测和 loss。
 pressure_unrecovered = 2.0
 target_block_score = 6.0
 risk_weight = 1.0

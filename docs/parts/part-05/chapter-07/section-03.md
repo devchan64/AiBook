@@ -151,6 +151,7 @@ CSV에는 다음 세 좌표의 gradient 흐름이 들어 있습니다.
 이 표의 목적은 정확한 숫자를 미리 암기하는 데 있지 않습니다. 같은 learning rate를 쓰더라도 단순 직접 업데이트는 `지금 기울기`를 바로 반영하고, Adam-like는 `최근 흐름`과 `좌표별 크기 이력`을 함께 남기며 다른 이동 경로를 만들 수 있다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
+# CSV gradient history를 읽어 direct update와 Adam-like update가 파라미터별 이동 경로를 어떻게 다르게 만드는지 비교하는 예제입니다.
 from csv import DictReader
 from pathlib import Path
 
