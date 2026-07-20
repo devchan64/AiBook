@@ -237,6 +237,7 @@ P5-6.3 和下一节 P5-6.4 都会谈到`训练中`和`使用中`这样的说法�
 | 用两条路径比较同一个服务输入 | 对比 `service input 1` 和 `same input with update` | 参数变化是否由 update 路径决定，而不是由输入本身决定？ |
 
 ```python
+# 这个例子比较同一个服务输入在 inference 路径和 learning step 路径中参数是否会改变。
 train_alarm_data = [
     {"alarm_count": 1.0, "restart_delay_hours": 2.0, "target_block_score": 4.0},
     {"alarm_count": 2.0, "restart_delay_hours": 1.0, "target_block_score": 5.0},

@@ -173,6 +173,7 @@ Before looking at the code, it helps to predict which stage is computed from the
 The purpose of this table is not to guess the exact numbers. It is to hold before the code that in training mode, even the same input can produce different dropout results and different batch references between two runs, while evaluation mode stops that fluctuation and builds a baseline.
 
 ```python
+# This example compares how dropout and batch reference means vary in train mode and stay fixed in eval mode.
 from random import Random
 
 sessions = [

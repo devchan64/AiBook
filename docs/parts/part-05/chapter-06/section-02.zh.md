@@ -248,6 +248,7 @@ flowchart LR
 - 把整份数据完整看过一次，epoch 才增加 1
 
 ```python
+# 这个例子改变 batch size，观察每个 epoch 的 step 数和最后一个 batch 大小如何变化。
 samples = [
     {"alarm_count": 1, "target": 2},
     {"alarm_count": 2, "target": 4},

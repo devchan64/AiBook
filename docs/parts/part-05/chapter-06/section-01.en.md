@@ -167,6 +167,7 @@ Before looking at the code, it is helpful to predict what is computed first in e
 The purpose of this table is not to memorize the exact numbers in advance. It is to hold before the code `what is a sample-level forward result`, `what is collected as a batch average`, and `what changes once at the end of the step`.
 
 ```python
+# This example averages per-sample predictions and gradients within each batch before updating risk_weight once.
 batches = [
     [
         {"alarm_count": 1.0, "target_block_score": 2.0},

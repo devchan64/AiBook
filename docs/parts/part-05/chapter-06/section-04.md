@@ -173,6 +173,7 @@ mode 구분은 검증, 배포, 작은 배치 평가처럼 계산 규칙이 결�
 이 표의 목적은 정확한 숫자를 맞히는 데 있지 않습니다. 학습 모드에서는 같은 입력도 두 번 실행하면 dropout 결과와 batch 기준이 흔들릴 수 있고, 평가 모드에서는 그 흔들림을 멈춰 기준선을 만든다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
+# train 모드와 eval 모드에서 dropout과 batch 기준 평균이 어떻게 흔들리거나 고정되는지 비교하는 예제입니다.
 from random import Random
 
 validation_sessions = [

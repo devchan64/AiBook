@@ -248,6 +248,7 @@ flowchart LR
 - 전체 데이터를 한 번 다 보면 epoch가 1 증가한다
 
 ```python
+# batch size를 바꾸며 epoch당 step 수와 마지막 batch 크기가 어떻게 달라지는지 확인하는 예제입니다.
 samples = [
     {"alarm_count": 1, "target": 2},
     {"alarm_count": 2, "target": 4},

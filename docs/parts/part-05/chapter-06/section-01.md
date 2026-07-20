@@ -166,6 +166,7 @@ flowchart TD
 이 표의 목적은 정확한 수치를 미리 외우는 데 있지 않습니다. 학습 루프를 읽을 때 `무엇이 샘플별 forward 결과인가`, `무엇이 batch 평균으로 모이는가`, `무엇이 step 끝에서 한 번 바뀌는가`를 코드 전에 붙잡는 데 있습니다.
 
 ```python
+# batch 안의 샘플별 예측과 gradient를 평균한 뒤 risk_weight를 한 번 업데이트하는 학습 루프 예제입니다.
 batches = [
     [
         {"alarm_count": 1.0, "target_block_score": 2.0},

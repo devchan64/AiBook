@@ -248,6 +248,7 @@ Concepts to confirm:
 - once the whole dataset has been seen once, epoch increases by 1
 
 ```python
+# This example changes batch size to see how steps per epoch and the final batch size change.
 samples = [
     {"alarm_count": 1, "target": 2},
     {"alarm_count": 2, "target": 4},

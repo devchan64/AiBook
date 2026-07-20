@@ -171,6 +171,7 @@ flowchart TD
 这张表的目的，不是提前背精确数字，而是在看代码前先抓住：什么是样本级 forward 结果，什么会汇成 batch 平均，什么会在 step 结尾真正改动一次。
 
 ```python
+# 这个例子在每个 batch 内平均各样本的预测和 gradient，然后只更新一次 risk_weight。
 batches = [
     [
         {"alarm_count": 1.0, "target_block_score": 2.0},

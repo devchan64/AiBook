@@ -237,6 +237,7 @@ This example should be read by directly comparing the two paths below.
 | compare the same service input through the two paths | compare `service input 1` with `same input with update` | Is parameter change decided by the update path, not by the input itself? |
 
 ```python
+# This example compares whether parameters change for the same service input in inference versus a learning step.
 train_alarm_data = [
     {"alarm_count": 1.0, "restart_delay_hours": 2.0, "target_block_score": 4.0},
     {"alarm_count": 2.0, "restart_delay_hours": 1.0, "target_block_score": 5.0},

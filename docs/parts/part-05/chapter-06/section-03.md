@@ -237,6 +237,7 @@ P5-6.3과 다음 절 P5-6.4는 모두 `학습 중`과 `사용 중`이라는 말�
 | 같은 서비스 입력을 두 경로로 비교한다 | `service input 1`과 `same input with update`의 차이를 본다 | 입력 자체보다 update 경로 유무가 파라미터 변화 여부를 결정하는가 |
 
 ```python
+# 같은 서비스 입력이라도 inference 경로와 learning step 경로에서 파라미터 변화 여부가 어떻게 달라지는지 비교하는 예제입니다.
 train_alarm_data = [
     {"alarm_count": 1.0, "restart_delay_hours": 2.0, "target_block_score": 4.0},
     {"alarm_count": 2.0, "restart_delay_hours": 1.0, "target_block_score": 5.0},

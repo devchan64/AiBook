@@ -175,6 +175,7 @@ mode 区分最适合在这些时刻被拿出来看：验证、部署、小 batch
 这张表的目的，不是让人先把具体数字猜对，而是让人先抓住：训练模式下，即使是同一组隐藏层激活，执行两次也可能因为 dropout 和当前 batch 参考而不同；而评估模式会把这种摇摆停下来，改用稳定基准线。
 
 ```python
+# 这个例子比较 train 模式和 eval 模式中 dropout 与 batch 参考均值如何摇动或固定。
 from random import Random
 
 sessions = [
