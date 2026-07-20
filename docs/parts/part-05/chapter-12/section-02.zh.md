@@ -1,7 +1,7 @@
 # P5-12.2 长期依赖（long-term dependency）
 
 > Section ID: `P5-12.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-12.1 里，我们已经说明过，RNN、LSTM、GRU 是为了处理序列数据（sequence data）而出现的结构。这里紧接着就会出现下一个问题。
 
@@ -11,7 +11,7 @@
 
 长期依赖指的是：当前判断需要很久以前的信息，但模型却无法把这条信息稳定地保留或传递足够久。
 
-之后在阅读 attention 章节时，如果需要再次确认距离问题的出发点，可以回到英文概念词汇表里的 [long-term dependency](/AiBook/en/reference/concept-glossary/#long-term-dependency)条目重新对齐。
+之后在阅读 attention 章节时，如果需要再次确认距离问题的出发点，可以回到概念词汇表里的 [long-term dependency](../../../reference/concept-glossary.md#long-term-dependency) 条目重新对齐。
 
 ## 本节范围
 
@@ -118,13 +118,14 @@ LSTM 和 GRU 缓解了长期依赖问题，但`仍然必须按顺序传状态`�
 
 ## 练习与例子
 
-这个例子的目标，是直接确认：`早期规则`和`最后问题`之间的间隔变长时，序列状态会多快丢掉前面的线索。为了比较，我们也把它和`直接再把规则找出来的方式`并排放着看；但这里首先要抓住的核心，是状态型方式会怎样随着 gap 长度变化而摇晃。
+这个例子的目标，是直接确认：`早期规则`和`最后问题`之间的间隔变长时，序列状态会多快丢掉前面的线索。输入放在一个 CSV 文件里，里面混合了多个文档的行。Python 会按 `document_id` 恢复每个文档的 line 顺序，然后比较不同 gap 长度下状态会怎样变弱。direct reference 不是实现 attention 的代码，而是为了把`能重新看远处位置的基准`和状态保留方式放在一起对比。
 
 输入：
 
 - 文档最前面那一行核心的禁止重启规则
 - 长度不同的中间说明区段
 - 文档最后同样一句重新启动提问
+- 输入文件：[`long-dependency-instruction-log.csv`](../../../assets/part-05/chapter-12/long-dependency-instruction-log.csv){ .csv-preview }
 
 输出：
 
@@ -145,7 +146,7 @@ LSTM 和 GRU 缓解了长期依赖问题，但`仍然必须按顺序传状态`�
 
 输入（input）：
 
-这里使用上面整理好的规则句、提问句和文档行列表。
+CSV 的一行表示一个文档里的一行。`document_id` 表示同一文档的分组，`gap` 表示规则行和问题行之间的中间说明行数，`line_no` 是文档内部的行顺序，`role` 用来区分规则、中间说明和问题。这个 Python 例子会读取这个文件，按文档恢复行顺序，然后计算到问题位置时，前面规则线索还在状态里剩下多少。
 
 在看代码之前，先猜一猜 gap 变长时哪些输出会摇晃、哪些输出会维持住，会更容易看出`状态保留`和`直接引用`之间的差异。
 
@@ -159,14 +160,27 @@ LSTM 和 GRU 缓解了长期依赖问题，但`仍然必须按顺序传状态`�
 这张表的目的并不是让人先把精确数字背下来。它是想在读代码之前，先抓住这样一个差别：即使规则和问题相同，序列状态会随着 gap 变长而摇晃，而 direct reference 则可以把同一位置再次拿起来。
 
 ```python
-# 这个例子比较规则和问题之间的 gap 变长时，sequential state preservation 与 direct reference 的判断如何不同。
-restart_block_rule = "Rule: restart stays blocked until vessel pressure is fully vented."
-restart_question = "Question: can the line restart now?"
+from collections import defaultdict
+from pathlib import Path
+import csv
 
-def sequential_state(instruction_document, decay=0.72):
+DATA_PATH = Path("docs/assets/part-05/chapter-12/long-dependency-instruction-log.csv")
+DECAY = 0.72
+SUPPORT_THRESHOLD = 0.45
+
+def load_documents(path):
+    documents = defaultdict(list)
+    with path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            documents[row["document_id"]].append(row)
+    for rows in documents.values():
+        rows.sort(key=lambda row: int(row["line_no"]))
+    return dict(sorted(documents.items(), key=lambda item: int(item[1][0]["gap"])))
+
+def sequential_state(rows, decay=DECAY):
     state = {"restart": 0.0, "blocked": 0.0, "pressure": 0.0}
-    for line in instruction_document:
-        lowered = line.lower()
+    for row in rows:
+        lowered = row["text"].lower()
         for key in state:
             state[key] *= decay
         if "restart" in lowered:
@@ -176,84 +190,81 @@ def sequential_state(instruction_document, decay=0.72):
         if "pressure" in lowered or "vented" in lowered:
             state["pressure"] += 1.0
     support = round(min(state.values()), 3)
-    decision = "keeps block" if support >= 0.45 else "loses block"
+    decision = "keeps block" if support >= SUPPORT_THRESHOLD else "loses block"
     return {key: round(value, 3) for key, value in state.items()}, support, decision
 
-def direct_reference(instruction_document):
-    matches = []
-    for idx, line in enumerate(instruction_document[:-1], start=1):
-        lowered = line.lower()
-        score = 0
-        for keyword in ["restart", "blocked", "pressure"]:
-            if keyword in lowered:
-                score += 1
-        matches.append((score, idx, line))
-    best = max(matches)
+def direct_reference(rows):
+    best = (0, "", "")
+    for row in rows:
+        if row["role"] == "question":
+            continue
+        lowered = row["text"].lower()
+        score = sum(1 for keyword in ["restart", "blocked", "pressure"] if keyword in lowered)
+        if score > best[0]:
+            best = (score, row["line_no"], row["text"])
     decision = "keeps block" if best[0] == 3 else "loses block"
     return best, decision
 
-for gap in [1, 3, 6]:
-    filler = [
-        f"Detail line {i}: general maintenance note only."
-        for i in range(1, gap + 1)
-    ]
-    instruction_document = [restart_block_rule] + filler + [restart_question]
-    state_snapshot, state_support, state_decision = sequential_state(instruction_document)
-    best_match, direct_decision = direct_reference(instruction_document)
-    print(f"[gap={gap}]")
-    print("document_length =", len(instruction_document))
-    print("state_snapshot =", state_snapshot)
-    print("state_support =", state_support)
-    print("state_decision =", state_decision)
-    print("direct_match_score =", best_match[0])
-    print("best_direct_match =", best_match[2])
-    print("direct_decision =", direct_decision)
-    print()
+documents = load_documents(DATA_PATH)
+
+print(f"操作变量: DECAY={DECAY}, SUPPORT_THRESHOLD={SUPPORT_THRESHOLD}")
+print()
+print("[summary: gap 越长，前面规则线索还剩多少]")
+print("document_id  gap  lines  state_support  state_decision  direct_score  direct_decision")
+for document_id, rows in documents.items():
+    state_snapshot, state_support, state_decision = sequential_state(rows)
+    best_match, direct_decision = direct_reference(rows)
+    print(
+        f"{document_id:10} {rows[0]['gap']:>4} {len(rows):>6} "
+        f"{state_support:>14.3f}  {state_decision:14} "
+        f"{best_match[0]:>12}  {direct_decision}"
+    )
+
+print()
+print("[trace: doc_gap_6]")
+trace_rows = documents["doc_gap_6"]
+state_snapshot, state_support, state_decision = sequential_state(trace_rows)
+best_match, direct_decision = direct_reference(trace_rows)
+print("state_snapshot =", state_snapshot)
+print("state_support =", state_support)
+print("state_decision =", state_decision)
+print("best_direct_match =", best_match[2])
+print("direct_decision =", direct_decision)
 ```
 
-在输出里，可以先看：gap 变大时 `state_support` 会不会变弱，而 `direct_match_score` 会不会保持不变。
+在输出里，先看 gap 变大时 `state_support` 会不会变弱。`direct_score` 和 `direct_decision` 不是 attention 的实现结果，只是一个对照基准：如果能重新找到同一条前面规则行，那么距离本身并不会直接压低这个判断。
 
 ```text
-[gap=1]
-document_length = 3
-state_snapshot = {'restart': 1.518, 'blocked': 0.518, 'pressure': 0.518}
-state_support = 0.518
-state_decision = keeps block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
-direct_decision = keeps block
+操作变量: DECAY=0.72, SUPPORT_THRESHOLD=0.45
 
-[gap=3]
-document_length = 5
-state_snapshot = {'restart': 1.269, 'blocked': 0.269, 'pressure': 0.269}
-state_support = 0.269
-state_decision = loses block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
-direct_decision = keeps block
+[summary: gap 越长，前面规则线索还剩多少]
+document_id  gap  lines  state_support  state_decision  direct_score  direct_decision
+doc_gap_1     1      3          0.518  keeps block               3  keeps block
+doc_gap_3     3      5          0.269  loses block               3  keeps block
+doc_gap_6     6      8          0.100  loses block               3  keeps block
+doc_gap_9     9     11          0.037  loses block               3  keeps block
+doc_gap_12   12     14          0.014  loses block               3  keeps block
 
-[gap=6]
-document_length = 8
+[trace: doc_gap_6]
 state_snapshot = {'restart': 1.1, 'blocked': 0.1, 'pressure': 0.1}
 state_support = 0.1
 state_decision = loses block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
+best_direct_match = Rule restart stays blocked until vessel pressure is fully vented
 direct_decision = keeps block
 ```
 
 - 即使是同样的禁止重启规则和同样的问题，它们之间的 gap 越长，序列状态里的 `blocked`、`pressure` 线索也会越快变弱
 - `state_support` 显示的是提问位置上核心线索到底还剩多少，而它会随着 gap 变长快速下降
 - 中间说明行一旦变多，基于状态的方式就更容易丢掉前面的核心安全条件
-- 即使 gap 变长，直接再把规则找出来的方式仍然可以重新拿起同一条规则行，这里 `direct_match_score` 会一直保持为 3
+- direct reference 对比只是为了进入下一章而放的基准。这里 `direct_score` 一直保持为 3，所以只需要确认：距离问题在状态保留方式里更直接地显现出来
 
 在这个例子里，第一眼最该看的产物，就是当 gap 变长时，`state_support` 会一路掉到阈值以下的这条趋势。即使规则和问题相同，只要中间说明行变多，状态里的 `blocked` 和 `pressure` 线索就会很快变弱。
 
-![长期依赖例子里的状态型线索保留](/AiBook/assets/part-05/chapter-12/long-dependency-state-support-zh.png)
+![长期依赖例子里的状态型线索保留](../../../assets/part-05/chapter-12/long-dependency-csv-state-support-zh.png)
 
-第二个要看的产物，是状态型判定和 direct reference 判定之间的差异。在 `gap=3` 和 `gap=6` 里，状态型判定已经变成 `loses block`，但 direct reference 因为能再次把前面的规则行拿起来，所以仍然保持 `keeps block`。
+第二个要看的产物，是状态型判定和 direct reference 对比基准之间的差异。从 `gap=3` 开始，状态型判定已经变成 `loses block`，但 direct reference 对比基准因为能再次把前面的规则行拿起来，所以仍然保持 `keeps block`。
 
-![长期依赖例子里的状态型判定与 direct reference 判定比较](/AiBook/assets/part-05/chapter-12/long-dependency-decision-comparison-zh.png)
+![长期依赖例子里的状态型判定与 direct reference 判定比较](../../../assets/part-05/chapter-12/long-dependency-csv-decision-comparison-zh.png)
 
 如果把这些输出重新读成运维判断，就会更清楚地看到：长期依赖问题不只是分数下降，而是对安全措施的解释会真正摇晃。
 
@@ -271,12 +282,11 @@ direct_decision = keeps block
 
 ## 检查清单
 
-- 能解释长期依赖到底是在说什么问题吗？
+- 能把长期依赖（long-term dependency）解释成`很久以前的信息很重要，却没有被保留得足够好，所以当前判断会摇晃`这个问题吗？
 - 能说明为什么旧信息难以维持，会自然把话题带到 attention 吗？
-- 能说明长期依赖是`明明需要早期信息，但它没有被保留得足够好`这个问题吗？
 - 能说出为什么在 basic RNN 里，远处的早期线索会随着时间变长而容易变弱吗？
 - 能说明 LSTM 和 GRU 是想更好处理这个问题的结构吗？
-- 能把长期依赖解释成不只是`记忆稍微变弱一点`，而是`只要前面线索缺失，当前判断本身就会摇晃`的问题吗？
+- 能说明 gap 越长时 `state_support` 为什么会变小吗？
 - 能把状态保留和 direct reference 说成两种不同想法吗？
 - 到下一章去读 attention 时，是否已经准备好先问：`到底需要重新看哪一个前面位置？`
 

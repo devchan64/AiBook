@@ -20,9 +20,57 @@ CSV_PATH = OUT_DIR / "long-dependency-instruction-log.csv"
 DECAY = 0.72
 SUPPORT_THRESHOLD = 0.45
 
+LANG_LABELS = {
+    "ko": {
+        "support_label": "상태 기반 핵심 단서 최소값",
+        "threshold_label": "차단 유지 기준",
+        "xlabel": "중간 설명 줄 수(gap)",
+        "ylabel": "상태 기반 핵심 단서 최소값",
+        "state_label": "상태 기반",
+        "direct_label": "직접 참조",
+        "keeps": "차단 유지",
+        "loses": "차단 상실",
+        "state_support_file": "long-dependency-csv-state-support-ko.png",
+        "decision_file": "long-dependency-csv-decision-comparison-ko.png",
+    },
+    "en": {
+        "support_label": "minimum key-cue value in state",
+        "threshold_label": "block-retention threshold",
+        "xlabel": "middle explanation lines (gap)",
+        "ylabel": "minimum key-cue value in state",
+        "state_label": "state-based",
+        "direct_label": "direct reference",
+        "keeps": "keeps block",
+        "loses": "loses block",
+        "state_support_file": "long-dependency-csv-state-support-en.png",
+        "decision_file": "long-dependency-csv-decision-comparison-en.png",
+    },
+    "zh": {
+        "support_label": "状态中的关键线索最小值",
+        "threshold_label": "维持阻断阈值",
+        "xlabel": "中间说明行数（gap）",
+        "ylabel": "状态中的关键线索最小值",
+        "state_label": "基于状态",
+        "direct_label": "直接引用",
+        "keeps": "维持阻断",
+        "loses": "失去阻断",
+        "state_support_file": "long-dependency-csv-state-support-zh.png",
+        "decision_file": "long-dependency-csv-decision-comparison-zh.png",
+    },
+}
+
 
 def choose_font() -> str:
-    candidates = ["Noto Sans CJK KR", "NanumGothic", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"]
+    candidates = [
+        "Noto Sans CJK KR",
+        "NanumGothic",
+        "Arial Unicode MS",
+        "Songti SC",
+        "Heiti TC",
+        "Apple SD Gothic Neo",
+        "AppleGothic",
+        "DejaVu Sans",
+    ]
     available = {font.name for font in font_manager.fontManager.ttflist}
     for candidate in candidates:
         if candidate in available:
@@ -98,29 +146,29 @@ def style_axis(ax) -> None:
     ax.spines["right"].set_visible(False)
 
 
-def save_state_support_chart(gaps: np.ndarray, supports: np.ndarray) -> None:
+def save_state_support_chart(gaps: np.ndarray, supports: np.ndarray, labels: dict[str, str]) -> None:
     configure_font()
     fig, ax = plt.subplots(figsize=(6.4, 3.8), dpi=170)
     fig.patch.set_facecolor("white")
     style_axis(ax)
 
-    ax.plot(gaps, supports, marker="o", linewidth=2.2, color="#dc2626", label="상태 기반 핵심 단서 최소값")
-    ax.axhline(SUPPORT_THRESHOLD, color="#475569", linewidth=1.2, linestyle=(0, (4, 3)), label="차단 유지 기준")
+    ax.plot(gaps, supports, marker="o", linewidth=2.2, color="#dc2626", label=labels["support_label"])
+    ax.axhline(SUPPORT_THRESHOLD, color="#475569", linewidth=1.2, linestyle=(0, (4, 3)), label=labels["threshold_label"])
     for gap, value in zip(gaps, supports):
         ax.text(gap, value + 0.035, f"{value:.3f}".rstrip("0").rstrip("."), ha="center", fontsize=8.5, color="#7f1d1d")
 
     ax.set_xticks(gaps)
-    ax.set_xlabel("중간 설명 줄 수(gap)")
-    ax.set_ylabel("상태 기반 핵심 단서 최소값")
+    ax.set_xlabel(labels["xlabel"])
+    ax.set_ylabel(labels["ylabel"])
     ax.set_ylim(0, 0.62)
     ax.legend(frameon=False, loc="upper right", fontsize=8.3)
 
     fig.tight_layout(pad=0.9)
-    fig.savefig(OUT_DIR / "long-dependency-csv-state-support-ko.png", format="png", bbox_inches="tight")
+    fig.savefig(OUT_DIR / labels["state_support_file"], format="png", bbox_inches="tight")
     plt.close(fig)
 
 
-def save_decision_chart(gaps: np.ndarray, state_decisions: list[str], direct_decisions: list[str]) -> None:
+def save_decision_chart(gaps: np.ndarray, state_decisions: list[str], direct_decisions: list[str], labels: dict[str, str]) -> None:
     configure_font()
     x = np.arange(len(gaps))
     width = 0.34
@@ -135,29 +183,30 @@ def save_decision_chart(gaps: np.ndarray, state_decisions: list[str], direct_dec
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
-    bars_state = ax.bar(x - width / 2, state_values, width, color="#dc2626", label="상태 기반")
-    bars_direct = ax.bar(x + width / 2, direct_values, width, color="#2563eb", label="직접 참조")
-    for bars, decisions in ((bars_state, state_decisions), (bars_direct, direct_decisions)):
+    bars_state = ax.bar(x - width / 2, state_values, width, color="#dc2626", label=labels["state_label"])
+    bars_direct = ax.bar(x + width / 2, direct_values, width, color="#2563eb", label=labels["direct_label"])
+    for bars, decisions, y_offset in ((bars_state, state_decisions, 0.05), (bars_direct, direct_decisions, 0.13)):
         for bar, decision in zip(bars, decisions):
-            label = "차단 유지" if decision == "keeps block" else "차단 상실"
-            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, label, ha="center", va="bottom", fontsize=8.0, color="#111827")
+            label = labels["keeps"] if decision == "keeps block" else labels["loses"]
+            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + y_offset, label, ha="center", va="bottom", fontsize=8.0, color="#111827")
 
     ax.set_xticks(x)
     ax.set_xticklabels([f"gap={gap}" for gap in gaps])
-    ax.set_ylim(0, 1.25)
+    ax.set_ylim(0, 1.35)
     ax.set_yticks([0, 1])
-    ax.set_yticklabels(["차단 상실", "차단 유지"])
-    ax.legend(frameon=False, loc="upper right", fontsize=8.4)
+    ax.set_yticklabels([labels["loses"], labels["keeps"]])
+    ax.legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2, fontsize=8.4)
 
     fig.tight_layout(pad=0.9)
-    fig.savefig(OUT_DIR / "long-dependency-csv-decision-comparison-ko.png", format="png", bbox_inches="tight")
+    fig.savefig(OUT_DIR / labels["decision_file"], format="png", bbox_inches="tight")
     plt.close(fig)
 
 
 def main() -> None:
     gaps, supports, state_decisions, direct_decisions = build_outputs()
-    save_state_support_chart(gaps, supports)
-    save_decision_chart(gaps, state_decisions, direct_decisions)
+    for labels in LANG_LABELS.values():
+        save_state_support_chart(gaps, supports, labels)
+        save_decision_chart(gaps, state_decisions, direct_decisions, labels)
 
 
 if __name__ == "__main__":

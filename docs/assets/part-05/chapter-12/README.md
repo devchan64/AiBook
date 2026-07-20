@@ -15,8 +15,8 @@
   - `rnn-temporary-spike-state-en.svg` / `rnn-temporary-spike-state-ko.svg` / `rnn-temporary-spike-state-zh.svg`
   - `rnn-sequence-csv-state-trace-ko.svg`
 - PNG chart assets:
-  - `long-dependency-csv-state-support-ko.png`
-  - `long-dependency-csv-decision-comparison-ko.png`
+  - `long-dependency-csv-state-support-en.png` / `long-dependency-csv-state-support-ko.png` / `long-dependency-csv-state-support-zh.png`
+  - `long-dependency-csv-decision-comparison-en.png` / `long-dependency-csv-decision-comparison-ko.png` / `long-dependency-csv-decision-comparison-zh.png`
   - `long-dependency-state-support-en.png` / `long-dependency-state-support-ko.png` / `long-dependency-state-support-zh.png`
   - `long-dependency-decision-comparison-en.png` / `long-dependency-decision-comparison-ko.png` / `long-dependency-decision-comparison-zh.png`
 - CSV input assets:

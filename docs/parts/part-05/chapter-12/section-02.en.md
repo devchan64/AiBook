@@ -1,7 +1,7 @@
 # P5-12.2 Long-Term Dependency
 
 > Section ID: `P5-12.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-12.1, we explained that RNNs, LSTMs, and GRUs are structures that appeared to handle sequence data. The very next question appears here.
 
@@ -11,7 +11,7 @@ The concept that answers this question is long-term dependency.
 
 Long-term dependency means a problem where information from far earlier matters for the current judgment, but the model cannot maintain or pass that information forward for long enough.
 
-When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](/AiBook/reference/concept-glossary/#long-term-dependency).
+When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](../../../reference/concept-glossary.md#long-term-dependency).
 
 ## Scope Of This Section
 
@@ -118,13 +118,14 @@ The result to confirm in this diagram is that as the important cue from an earli
 
 ## Practice And Example
 
-The goal of this example is to confirm directly how quickly a sequential state loses an earlier cue as the gap between `the early rule` and `the final question` grows longer. For comparison, we place it side by side with a method that `looks the rule up again directly`, but the first core to hold here is how the state-based method shakes as the gap length changes.
+The goal of this example is to confirm directly how quickly a sequential state loses an earlier cue as the gap between `the early rule` and `the final question` grows longer. We place the input in a CSV file where lines from several documents are mixed together. Python restores the line order for each `document_id`, then compares state weakening by gap length. Direct reference is not code that implements attention. It is only a comparison baseline for contrasting `a baseline that can look again at a far earlier position` with a state-preservation method.
 
 Input:
 
 - one line of a core no-restart rule at the very beginning of the document
 - middle explanation sections of different lengths
 - one identical restart question at the end of the document
+- input file: [`long-dependency-instruction-log.csv`](../../../assets/part-05/chapter-12/long-dependency-instruction-log.csv){ .csv-preview }
 
 Output:
 
@@ -145,7 +146,7 @@ Concepts to confirm:
 
 Input:
 
-We use the rule sentence, the question sentence, and the document lines summarized above.
+A row in the CSV means one line inside one document. `document_id` groups rows from the same document, `gap` is the number of middle explanation lines between the rule line and the question line, `line_no` is the line order inside the document, and `role` distinguishes rule, middle explanation, and question. The Python example reads this file, restores the line order by document, and calculates how much of the earlier rule cue remains inside the state at the question point.
 
 Before looking at the code, it helps to predict first what outputs will shake as the gap becomes longer and what outputs will remain stable. That makes the difference between `state preservation` and `direct reference` clearer.
 
@@ -159,14 +160,27 @@ Before looking at the code, it helps to predict first what outputs will shake as
 The purpose of this table is not to memorize the exact numbers in advance. Even with the same rule and the same question, it is there to help hold before the code that sequential state can shake as the gap grows longer, while direct reference can pick up the same position again.
 
 ```python
-# This example compares how sequential state preservation and direct reference decisions differ as the gap between rule and question grows.
-restart_block_rule = "Rule: restart stays blocked until vessel pressure is fully vented."
-restart_question = "Question: can the line restart now?"
+from collections import defaultdict
+from pathlib import Path
+import csv
 
-def sequential_state(instruction_document, decay=0.72):
+DATA_PATH = Path("docs/assets/part-05/chapter-12/long-dependency-instruction-log.csv")
+DECAY = 0.72
+SUPPORT_THRESHOLD = 0.45
+
+def load_documents(path):
+    documents = defaultdict(list)
+    with path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            documents[row["document_id"]].append(row)
+    for rows in documents.values():
+        rows.sort(key=lambda row: int(row["line_no"]))
+    return dict(sorted(documents.items(), key=lambda item: int(item[1][0]["gap"])))
+
+def sequential_state(rows, decay=DECAY):
     state = {"restart": 0.0, "blocked": 0.0, "pressure": 0.0}
-    for line in instruction_document:
-        lowered = line.lower()
+    for row in rows:
+        lowered = row["text"].lower()
         for key in state:
             state[key] *= decay
         if "restart" in lowered:
@@ -176,84 +190,81 @@ def sequential_state(instruction_document, decay=0.72):
         if "pressure" in lowered or "vented" in lowered:
             state["pressure"] += 1.0
     support = round(min(state.values()), 3)
-    decision = "keeps block" if support >= 0.45 else "loses block"
+    decision = "keeps block" if support >= SUPPORT_THRESHOLD else "loses block"
     return {key: round(value, 3) for key, value in state.items()}, support, decision
 
-def direct_reference(instruction_document):
-    matches = []
-    for idx, line in enumerate(instruction_document[:-1], start=1):
-        lowered = line.lower()
-        score = 0
-        for keyword in ["restart", "blocked", "pressure"]:
-            if keyword in lowered:
-                score += 1
-        matches.append((score, idx, line))
-    best = max(matches)
+def direct_reference(rows):
+    best = (0, "", "")
+    for row in rows:
+        if row["role"] == "question":
+            continue
+        lowered = row["text"].lower()
+        score = sum(1 for keyword in ["restart", "blocked", "pressure"] if keyword in lowered)
+        if score > best[0]:
+            best = (score, row["line_no"], row["text"])
     decision = "keeps block" if best[0] == 3 else "loses block"
     return best, decision
 
-for gap in [1, 3, 6]:
-    filler = [
-        f"Detail line {i}: general maintenance note only."
-        for i in range(1, gap + 1)
-    ]
-    instruction_document = [restart_block_rule] + filler + [restart_question]
-    state_snapshot, state_support, state_decision = sequential_state(instruction_document)
-    best_match, direct_decision = direct_reference(instruction_document)
-    print(f"[gap={gap}]")
-    print("document_length =", len(instruction_document))
-    print("state_snapshot =", state_snapshot)
-    print("state_support =", state_support)
-    print("state_decision =", state_decision)
-    print("direct_match_score =", best_match[0])
-    print("best_direct_match =", best_match[2])
-    print("direct_decision =", direct_decision)
-    print()
+documents = load_documents(DATA_PATH)
+
+print(f"Control variables: DECAY={DECAY}, SUPPORT_THRESHOLD={SUPPORT_THRESHOLD}")
+print()
+print("[summary: how much of the earlier rule cue remains as the gap grows]")
+print("document_id  gap  lines  state_support  state_decision  direct_score  direct_decision")
+for document_id, rows in documents.items():
+    state_snapshot, state_support, state_decision = sequential_state(rows)
+    best_match, direct_decision = direct_reference(rows)
+    print(
+        f"{document_id:10} {rows[0]['gap']:>4} {len(rows):>6} "
+        f"{state_support:>14.3f}  {state_decision:14} "
+        f"{best_match[0]:>12}  {direct_decision}"
+    )
+
+print()
+print("[trace: doc_gap_6]")
+trace_rows = documents["doc_gap_6"]
+state_snapshot, state_support, state_decision = sequential_state(trace_rows)
+best_match, direct_decision = direct_reference(trace_rows)
+print("state_snapshot =", state_snapshot)
+print("state_support =", state_support)
+print("state_decision =", state_decision)
+print("best_direct_match =", best_match[2])
+print("direct_decision =", direct_decision)
 ```
 
-In the output, start by looking at whether `state_support` weakens as the gap grows and whether `direct_match_score` stays unchanged.
+In the output, start by looking at whether `state_support` weakens as the gap grows. `direct_score` and `direct_decision` are not the result of implementing attention. They are only a comparison baseline showing that, if the same earlier rule line can be found again, distance itself does not directly lower the judgment.
 
 ```text
-[gap=1]
-document_length = 3
-state_snapshot = {'restart': 1.518, 'blocked': 0.518, 'pressure': 0.518}
-state_support = 0.518
-state_decision = keeps block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
-direct_decision = keeps block
+Control variables: DECAY=0.72, SUPPORT_THRESHOLD=0.45
 
-[gap=3]
-document_length = 5
-state_snapshot = {'restart': 1.269, 'blocked': 0.269, 'pressure': 0.269}
-state_support = 0.269
-state_decision = loses block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
-direct_decision = keeps block
+[summary: how much of the earlier rule cue remains as the gap grows]
+document_id  gap  lines  state_support  state_decision  direct_score  direct_decision
+doc_gap_1     1      3          0.518  keeps block               3  keeps block
+doc_gap_3     3      5          0.269  loses block               3  keeps block
+doc_gap_6     6      8          0.100  loses block               3  keeps block
+doc_gap_9     9     11          0.037  loses block               3  keeps block
+doc_gap_12   12     14          0.014  loses block               3  keeps block
 
-[gap=6]
-document_length = 8
+[trace: doc_gap_6]
 state_snapshot = {'restart': 1.1, 'blocked': 0.1, 'pressure': 0.1}
 state_support = 0.1
 state_decision = loses block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
+best_direct_match = Rule restart stays blocked until vessel pressure is fully vented
 direct_decision = keeps block
 ```
 
 - even with the same no-restart rule and the same question, as the gap between them grows longer, the `blocked` and `pressure` cues inside the sequential state weaken quickly
 - `state_support` shows how much of the core cue remains at the question point, and it drops quickly as the gap grows longer
 - when the number of middle explanation lines increases, the state-based method becomes more likely to lose the earlier core safety condition
-- even when the gap grows longer, a method that directly looks up the rule again can still pick up the same rule line, and here `direct_match_score` remains 3 throughout
+- the direct-reference comparison is only a baseline for the next chapter. Here `direct_score` remains 3 throughout, so we only confirm that the distance problem appears more directly in the state-preservation method
 
 The first result to look at in this example is the flow in which `state_support` falls below the threshold as the gap grows longer. Even with the same rule and the same question, when more middle explanation lines are inserted, the `blocked` and `pressure` cues inside the sequential state weaken quickly.
 
-![State-based cue retention in the long-term dependency example](/AiBook/assets/part-05/chapter-12/long-dependency-state-support-en.png)
+![State-based cue retention in the long-term dependency example](../../../assets/part-05/chapter-12/long-dependency-csv-state-support-en.png)
 
-The second result is the difference between the state-based decision and the direct-reference decision. In `gap=3` and `gap=6`, the state-based decision changes to `loses block`, but direct reference keeps `keeps block` because it can pick up the earlier rule line again.
+The second result is the difference between the state-based decision and the direct-reference comparison baseline. From `gap=3`, the state-based decision changes to `loses block`, but the direct-reference baseline keeps `keeps block` because it can pick up the earlier rule line again.
 
-![State-based versus direct-reference decision in the long-term dependency example](/AiBook/assets/part-05/chapter-12/long-dependency-decision-comparison-en.png)
+![State-based versus direct-reference decision in the long-term dependency example](../../../assets/part-05/chapter-12/long-dependency-csv-decision-comparison-en.png)
 
 If we reread the output as an operational judgment, it becomes clearer that the long-term dependency problem is not only a score drop, but a shaking in how a safety measure is interpreted.
 
@@ -271,12 +282,11 @@ If we just saw in P5-12.1 `a structure that carries sequential state forward`, h
 
 ## Checklist
 
-- Can you explain what problem long-term dependency means?
+- Can you explain long-term dependency as `the problem where old information matters but is not maintained well enough, so the current judgment shakes`?
 - Can you say why the difficulty of maintaining old information leads to attention?
-- Can you explain that long-term dependency is the problem where earlier information matters but is not maintained enough?
 - Can you say that in a basic RNN, a distant earlier cue can easily weaken as time grows longer?
 - Can you explain that LSTM and GRU are structures that try to handle this problem better?
-- Can you explain long-term dependency not merely as `memory gets a little weaker`, but as the problem of `whether the current judgment itself shakes when the earlier cue is missing`?
+- Can you explain why `state_support` shrinks as the gap grows longer?
 - Can you talk about state preservation and direct reference as two different ideas?
 - When reading the next chapter on attention, are you ready first to ask `which earlier position needs to be looked at again`?
 
