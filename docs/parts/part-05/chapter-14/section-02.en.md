@@ -1,381 +1,226 @@
-# P5-14.2 Parallel Processing And Long Context
+# P5-14.2 What Does Each Of The Four Transformer Block Components Do?
 
-Section ID: `P5-14.2`
-Version: `v2026.07.18`
+> Section ID: `P5-14.2`
+> Version: `v2026.07.19`
 
-In P5-14.1, we explained the Transformer as a combination of self-attention, feed-forward, residual connection, and layer normalization. The next question remains.
+In P5-14.1, we saw that explaining the Transformer only with self-attention is not enough. Now we need to separate the roles inside the block more directly.
 
-Why did the Transformer look more suited to parallel processing than RNNs, and why did it look like a stronger turning point even for long-context problems?
+Inside a Transformer block, what does each of self-attention, feed-forward network, residual connection, and layer normalization do?
 
-The Transformer is closer to a structure that calculates the relationships among tokens all at once rather than only passing state token by token in sequence, so it showed major advantages in parallel processing and long-context reference.
+The core is not memorizing component names, but dividing roles. To read the path that the same token representation follows inside the block, we need to distinguish `relationship reading`, `position-wise processing`, `preserving original information`, and `stabilizing the value range`.
 
-When you need to fix again the baseline of this computational feel in a short form, it helps to reread together the glossary entries on [Transformer](/AiBook/reference/concept-glossary/#transformer), [self-attention](/AiBook/reference/concept-glossary/#self-attention), and [parallel processing](/AiBook/reference/concept-glossary/#parallel-processing).
+## Questions Handled By Block Role Division
 
-## Scope Of This Section
+- What does self-attention handle?
+- How is the feed-forward network different from attention?
+- Why do residual connection and layer normalization appear together?
 
-- Why do the computational flows of the RNN and the Transformer feel different?
-- Why was the Transformer advantageous from the viewpoint of parallel processing?
-- What intuitive advantage does self-attention give when handling long context?
-- Why did this difference connect to the era of large-scale generative models?
+| What this section reads now | What is passed to later sections |
+| --- | --- |
+| the role each component plays inside the block | how representations actually move in numeric examples |
+| the difference between relationship reading and position-wise processing | the computational feel of parallel processing and long context |
 
-The core point that this section needs to close first is that `the Transformer was not merely a better-named model, but a structure that changed sequential transfer into relationship computation and simultaneously pushed up GPU parallel processing and long-context rereference`.
+## Self-Attention Reads Relationships
 
-KV cache is revisited in P6-3.4, and sparse attention plus long context are revisited in P6-3.5. That is, here we first close why `a structure that computes token relationships all at once` was more advantageous for parallel processing and distant-context rereference than `sequential state transfer`.
+As we saw in Chapter 13, self-attention is a method in which each token refers to other tokens in the same sequence and recalculates its own representation.
 
-There is also one explanation that must be closed here. We cannot leave only the impression that `the Transformer is faster`. Inside the present section, the reader has to understand why `a structure that computes token relationships all at once` was more advantageous for parallel processing and distant-context rereference than `sequential state transfer`. Explanations of internal block components such as residual and normalization belong to the previous section; here we focus on the difference in computational feel.
+`Self-attention is the device that decides where inside the sentence this token should look more strongly in order to be understood now.`
 
-This section first understands the large structural difference between `RNN versus Transformer` rather than comparing them fully through mathematics.
+The core is `relationship reading`. It makes the current token bring in the context it needs from other positions in the sentence.
 
-## Goals Of This Section
+## Feed-Forward Network Processes The Current Position Representation
 
-- You can explain the difference in computational flow between RNNs and Transformers.
-- You can say why the Transformer fits parallel processing better.
-- You can explain intuitively the advantage of self-attention in long-context reference.
-- You can connect why this difference led into large-scale generative-model training.
+Self-attention mixes token relationships, but that result is not automatically a sufficiently good representation. The feed-forward network reprocesses the current position representation, after context has been mixed in, in a nonlinear way.
 
-## The Reading Order Of This Section
+`If attention mixes context by reflecting relationships with other tokens, feed-forward reprocesses each position representation into something richer.`
 
-This section places RNN sequential transfer and Transformer relationship computation side by side, and then explains how that difference continues into parallel processing and long-context problems.
+Here the phrase `each position` is important. Self-attention is closer to deciding what information the current position should bring from other positions. The feed-forward network changes that mixed representation inside the same position. The same feed-forward network is applied to each token position, but because the input representation is different, the meaning refined at each position is also different.
 
-1. First look at RNN sequential transfer and Transformer relationship computation side by side.
-2. Then read why that difference connects to GPU parallel processing.
-3. Next confirm the difference in feel when rereading distant positions in long context.
-4. Finally organize why this structural difference became the foundation of modern generative models.
+```mermaid
+--8<-- "assets/part-05/chapter-14/feed-forward-position-update-en.mmd"
+```
 
-## Why Does The Transformer Look Different
+In this diagram, each row means a different token position. The dotted lines mean that the same feed-forward network weights are shared across positions, and the solid lines mean that each position representation is processed separately inside its own position. So the feed-forward network is not a device that chooses a new token to refer to, but a device that changes an already context-mixed representation into the next representation for that position.
 
-The self-attention of the Transformer lets each token refer together to the other tokens in the same sequence. This structure makes it easier to treat token relatedness through more matrix-like computation.
+In a work-permit sentence, for example, attention makes the `restart` position look together at `pressure unreleased` and `hold`. The feed-forward network then processes that result inside the current position, so that the `restart` representation is read not as a simple action name, but as `an action that must be blocked because a condition is attached`.
 
-That is:
+The difference is clearer if we focus on one token.
 
-- it no longer has to pass state only one token at a time in strict sequence
-- and the feel becomes stronger that the relationships among tokens are calculated at once
-
-`RNNs pass state in order, while the Transformer calculates the relationships among tokens more all at once.`
-
-If P5-14.1 was a section explaining `what is inside the Transformer block`, this section explains `what that block structure changed in the actual computation method and in training scale`.
-
-## Why Does The RNN Feel Strongly Sequential
-
-The RNN family was a structure in which each step inherited the previous state and produced the next state. So the computational feel naturally looks like this.
-
-- it sees the first token and creates a state
-- with that state it sees the second token
-- then it passes that state to the third token again
-
-That is, it is closer to a flow that pushes tokens forward one by one.
-
-The core is that the RNN continues computation by passing the state made earlier toward the later positions.
-
-`An RNN is a structure that computes sequentially by passing the state made earlier toward later positions.`
-
-## Why Was This Advantageous For Parallel Processing
-
-As we already saw in Part 5, GPUs are strong when they process many similar computations at the same time. The Transformer's self-attention and large matrix operations fit that structure well.
-
-That is, the Transformer:
-
-- makes it easier to bundle token-relatedness computation into tensor operations
-- scales well at the batch level
-- and showed a direction that fit large-scale parallel training well
-
-The core point is that the Transformer reconstructed token-relatedness computation into parallel matrix operations, making it fit large-scale GPU training.
-
-`The Transformer fit large-scale GPU training well because it was easy to turn token relationships into parallel matrix operations.`
-
-The key point that the reader must hold here is not that `the Transformer added one smarter rule`, but that `it reconstructed the computation itself into a form that GPUs are good at`. That is, the question of this section is not `what components are inside the block`, but `when that block is repeated, why did the computational flow change`.
-
-If we shorten this difference further for introductory reading, it becomes the following.
-
-| Viewpoint | RNN family | Transformer |
+| Stage | First question asked | Role |
 | --- | --- | --- |
-| computational flow | the result of the previous step is needed for the next step | token relationships are computed more all at once |
-| fit with GPUs | strong sequential dependence | easy to bundle into large matrix operations |
-| distant-context reference | depends heavily on state transfer | looks more directly at the needed position |
+| self-attention | Which other tokens should this token refer to? | reading outside relationships |
+| feed-forward | How should the current representation, now mixed with referenced context, change at this position? | processing the representation inside the current position |
 
-## Why Was It Advantageous In Long Context
+So the feed-forward network should not be read as simple post-processing. If attention opens `what should be seen together`, feed-forward handles `how the mixed representation should become the next representation of the current position`. This distinction is needed to read the Transformer block not as attention alone, but as a repeating unit with divided roles.
 
-In an RNN, for very distant information to reach the current point, the state has to pass through many intermediate steps. In self-attention, by contrast, the current token can refer more directly to a faraway token.
+Why a feed-forward network can apply the same weights to several positions while still producing different representations at each position is separated into [P5-14.7 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?](section-07.md).
 
-That is, the advantage in long context lies in the fact that distant information does not have to remain only as a faint trace inside intermediate state, but can be rereferred to more directly at the current position.
+## Residual Connection Leaves The Original Information Flow
 
-- distant information does not have to be kept only faintly inside intermediate state
-- and when the current position needs it, it can refer to the relevant earlier position more directly
+In a deep neural network, repeated new computations can overwrite the original information too strongly or make learning unstable. A residual connection passes the previous representation together with the new computation result, preserving the original information flow.
 
-Because of this, the Transformer created a strong turning point for problems that read long context.
+`A safety device that does not trust only the completely new computation, but also leaves the original input representation and sends it to the next stage together.`
 
-That is, the shift to read in this section is that the computational feel moved from `the model must remember distant information for a long time` to `the model can find that distant information again right now`.
-
-## If We Draw This Very Simply
+The important point is that residual connection does not remove the new computation. The new representations made by self-attention or feed-forward are still needed. But if only that new representation is passed to the next stage, the basic meaning that the original token had can be covered too easily. So residual connection should be read as a path that leaves `new computation result + original input representation` together.
 
 ```mermaid
---8<-- "assets/part-05/chapter-14/long-context-direct-reference-en.mmd"
+--8<-- "assets/part-05/chapter-14/residual-connection-skip-path-en.mmd"
 ```
 
-This diagram symbolizes together the RNN-style sequential-transfer feel and the more direct-reference feel given by self-attention.
+In this diagram, the solid path is the representation made by the new computation, and the dotted path is the bypass route where the original input representation is added. The core of residual connection is not blocking the new computation, but letting the new computation and the original representation move together to the next stage.
 
-If we compare the same long-context request once more only through the two computational paths, it can be seen as follows.
+If feed-forward handles `how should the current representation change`, residual connection handles `how can the changed representation avoid completely losing its original starting point`. If layer normalization organizes the value range, residual connection is closer to leaving a bypass path through which information can travel.
+
+| Distinction | First question asked | Role |
+| --- | --- | --- |
+| feed-forward network | How should the current context-mixed representation change? | makes a new representation |
+| residual connection | Can the new representation avoid completely covering the original representation? | leaves the original information flow together |
+| layer normalization | Is this in a range the next computation can handle easily? | organizes the value range |
+
+This distinction prevents residual connection from being reduced to mere addition. A more accurate intuition is `a device that leaves a path for original information even when new computation enters, so deep block repetition can endure`.
+
+Why residual connection is not just a skip, but a path that passes original representation and new computation together, is separated into [P5-14.8 Supplementary Reading: Why Does Residual Connection Leave A Path For The Original Representation?](section-08.md).
+
+## Layer Normalization Organizes The Value Range
+
+When many layers and large matrix operations repeat, the size and distribution of representation values can shake. Layer normalization organizes each position representation into a range that is easier to handle, helping the next computation shake less.
+
+`Layer normalization is a device that organizes the size and distribution of representation values so the next computation can continue stably.`
+
+Here, organizing does not mean judging meaning anew. Representations made by self-attention and feed-forward consist of several numeric axes, and once residual connection is added, some axes can become too large while others become relatively small. If the value scale keeps spreading, the next attention or feed-forward step has to compute from a difficult range even when it receives a similar kind of input.
+
+Layer normalization resets the mean and spread of values inside one position representation, so the next component can start from a similar baseline. At the introductory level, it is enough to read it as follows instead of memorizing formulas.
 
 ```mermaid
---8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-en.mmd"
+--8<-- "assets/part-05/chapter-14/layer-normalization-value-scale-en.mmd"
 ```
 
-The first points to hold from this comparison are the following.
+The important point in this diagram is that layer normalization does not choose new relationships among tokens or add a path for preserving the original information. It adjusts the value range inside one position representation so the next self-attention or feed-forward step does not receive an overly shaky input.
 
-- on the sequential-transfer side, the earlier rule has to be carried in intermediate state all the way to the final request
-- on the direct-reference side, the current request position directly pulls in again the earlier rule and the relevant state line that it needs
-- so the difference lies not only in the result `it sees the distant cue again`, but in the computational path itself by which that cue is reached
+| Easy misunderstanding | Better reading |
+| --- | --- |
+| layer normalization chooses meaning | attention and feed-forward handle meaning selection more directly |
+| it leaves original information like residual connection | residual connection leaves the path for original information |
+| it simply makes values smaller | it organizes value distribution into a baseline the next computation can handle |
+
+So residual connection and layer normalization often appear together inside the Transformer block, but they do not do the same job. If residual connection leaves `a path for information`, layer normalization aligns `the computational baseline` so the representation that passed through that path does not shake too much in the next computation.
+
+Why layer normalization is a value-baseline adjustment inside one position representation, not meaning selection, and how it differs from batch normalization, is separated into [P5-14.9 Supplementary Reading: Why Does Layer Normalization Align The Value Baseline?](section-09.md).
+
+If we bundle the four components at once, the questions asked about the same token representation are different.
+
+| Component | What it looks at first in the representation | What it does not directly handle |
+| --- | --- | --- |
+| self-attention | which other position the current position should refer to | reprocessing the referenced representation inside the current position |
+| feed-forward network | how the context-mixed current position representation should change | choosing a new token position to refer to |
+| residual connection | whether new computation completely covers the original representation | directly creating new meaning |
+| layer normalization | whether the value range is easy for the next computation to handle | choosing meaning or preserving original information |
+
+## If We Draw It Very Simply
+
+```mermaid
+--8<-- "assets/part-05/chapter-14/transformer-block-flow-en.mmd"
+```
+
+This diagram compresses one Transformer block at an introductory level. Read the flow as `relationship reading -> add and organize the original representation -> process the current position representation -> pass it onward stably again`.
 
 ## Cases And Examples
 
-The diagram below regroups the three cases of this section through the difference between `reading centered on sequential transfer` and `reading centered on direct reference`.
+### Case. Reading The `Restart` Position Representation Through The Four Components
 
-```mermaid
---8<-- "assets/part-05/chapter-14/long-context-task-flow-en.mmd"
-```
+Consider the work-permit sentence `Restart is held while the pressure remains unreleased.` The current position of interest is `restart`. If a person reads only the word quickly, it is easy to read `restart` as a simple execution action. But the sentence also contains the condition `pressure unreleased` and the judgment `held`.
 
-This diagram shows that even when the tasks differ, the core problem is similar. All of them involve `bringing a cue from far earlier back into the current position`, and the Transformer deals with that problem by more direct reference.
+The judgment that is too easy to make is `the word restart appeared, so this is an execution request`. If we read through the Transformer block by role, this judgment does not change all at once. The same position representation answers different questions as it passes through several components.
 
-If we split the same problem into the two computational feels, the difference becomes more direct. Here we need to look not only at `what is rereferred to`, but also at `when the current position rereads that cue, does the computation push line by line in sequence, or does it handle the relationships among several positions together`.
+If we first split the input by token position, it can be read as follows.
 
-| The same scene | What can easily happen when read first through sequential-transfer thinking | What is first expected when read through direct-reference thinking |
+| Position | Token | Cue used when understanding `restart` |
 | --- | --- | --- |
-| long work-permit Q&A | prohibition conditions and exception clauses from the front can become blurred by the time we reach the later question | the current answer position looks up again the earlier cues and corrects the safety judgment |
-| long shift-handoff risk judgment | it becomes easy to lose the early alarm and the basis from the middle checks and rely only on the final status report | the current judgment position brings back again the earlier logs and the basis from the middle checks that it needs |
-| long configuration-file review | it becomes easy to look only near the current line and miss the definitions and restriction rules from much earlier | the current position rerefers to the earlier definitions and constraints and keeps configuration consistency |
+| 1 | `pressure` | the target that says what condition is being discussed |
+| 2 | `unreleased` | the state that the condition is not yet resolved |
+| 3 | `while` | the link that makes the earlier state a condition for the later action |
+| 4 | `restart` | the action currently being interpreted |
+| 5 | `held` | the judgment that the action is not execution but hold |
 
-### Representative Case. Long Work-Permit Question Answering
+If we isolate only the `restart` position in this table, it looks like an execution action. But the central axis of this section is not what `restart` finally means; it is how that position representation changes while passing through Transformer block components.
 
-Imagine a situation where, after reading a long work-permit document, the last line asks again, `Can line 3 be approved for restart now?` Earlier in the document, conditions such as `do not begin restart until pressure release has been confirmed` and `do not open the valve before the interlock is released` have already appeared, but at the question point it becomes easy to want to answer by looking back only at the last few lines. In a sequential-transfer structure, these conditions must be carried all the way from front to back, so as the document grows longer the core no-restart conditions can weaken. In contrast, the Transformer family allows the current question position to refer again directly to the prohibition conditions and exception clauses near the beginning of the document, linking `the position that must answer now` more naturally to `the earlier rule positions`. At this point the feel of parallel computation matters too. Because token relationships are handled together through large matrix operations, it becomes easier for the question position to pull several relevant earlier positions into the computation at once instead of tracing them sequentially one by one.
-So the result to confirm in this case is whether the current answer position avoids following only the immediately previous sentence, and instead actually refers again to the earlier prohibition conditions and exception clauses so that restart approval is judged more safely.
-
-The same viewpoint extends directly to long shift-handoff risk judgment and long configuration-file review. But the core point to hold in this section is not the domain name, but `whether the current position rerefers directly to distant earlier cues and handles that comparison together through parallel relationship computation`.
-
-| Standard that is easy for a person to see first | Standard to reread from the viewpoint of parallel processing and direct rereference |
-| --- | --- |
-| it is easy to feel that it is enough if information read earlier remains only inside the state | as the intermediate context grows longer, one state alone can weaken, so the current position must bring back again the earlier cues it needs |
-| if we only hear that the Transformer is faster, it is easy to feel that a newer model is simply better | the core is that it changed the computation from `sequential transfer` to `relationship computation`, simultaneously lifting GPU parallel processing and long-context rereference |
-| it is easy to feel that long-context problems can be solved merely by increasing memory size | in reality, interpretive stability improves only when the structure exists that brings distant cues back to the current position again |
-
-After reading the three cases, it is enough if the reader can say the following three lines again. `If distant cues remain only in the state, they can become blurred in the middle. If the current position can refer to the needed earlier cues again, interpretation becomes more stable. The Transformer is the structure that pushed this rereference upward together with parallel computation.`
-
-That is, the close of this section is not `later we will look again at long context`. Already inside the current section, the reader should be able to say the difference between `leaving distant earlier cues only inside the state` and `letting the current position refer directly to those cues again`, and it is enough if the next Part continues only into how that structure is used in the body of generative models.
-
-If we pause once here and briefly fix `when should we first recall the feel of parallel processing and long-context computation rather than the explanation of block components`, the late structural transition of Part 5 becomes clearer.
-
-| Question to recall first | Why the parallel-processing and long-context viewpoint is needed first | What continues in later Parts |
+| Reading stage | Question asked at the current `restart` position | Misunderstanding if read too quickly |
 | --- | --- | --- |
-| why is the Transformer so strongly connected to large-scale learning in the GPU era? | because token-relationship computation is easy to bundle into large matrix operations and handle in parallel | scale expansion of generative models and inference cost |
-| why did the feel of rereading distant cues become important? | because it is more natural in long context for the current position to refer directly to the needed cues than to depend only on sequential state transfer | long-context operation, KV cache, and context management |
-| why is the contrast with RNNs not merely old versus new? | because the computational flow itself changed from `state transfer` to `relationship computation` | understanding later LLM structure and training pipelines |
+| starting representation | What is the basic word at this position? | only seeing the action name `restart` |
+| self-attention | Which positions in the sentence should this position see together? | thinking attention already makes the final judgment |
+| feed-forward network | How should the mixed context change inside this position representation? | thinking feed-forward chooses related tokens again |
+| residual connection | Does the new computation completely cover the original action axis? | thinking residual skips the new computation |
+| layer normalization | Is the value range easy for the next computation to handle? | thinking normalization leaves only the important meaning |
+
+At the self-attention stage, the `restart` position refers together to `pressure unreleased` and `held`. The result to confirm here is that `restart` no longer stays as an isolated execution word, but sees the earlier condition and the later judgment together. But at this point the current position representation has not yet been fully organized as `a conditionally blocked action`.
+
+At the feed-forward network stage, the context mixed by attention is processed again inside the current position. The `restart` representation becomes clearer as an action that should be held because of the pressure condition, rather than as a simple action name. The core of this stage is not choosing a new word to refer to, but changing the already imported context into the current position representation.
+
+At the residual connection stage, only the newly processed blocking meaning is not left behind. The original action axis of `restart` must also remain so that later blocks do not lose what is being held. So residual connection is not a path that skips new computation, but a path that passes the new computation result and the original input representation together.
+
+At the layer normalization stage, meaning is not selected again. The current representation, whose several numeric axes have been mixed after attention, feed-forward, and residual, is organized into a baseline the next block can handle. Aligning the value range and judging meaning are not the same job.
+
+If we narrow the flow to only the change in the `restart` position representation, it becomes the following.
+
+| Point inside the block | `restart` position representation in words | Role distinction to learn here |
+| --- | --- | --- |
+| input representation | the action name `restart` | the earlier condition and later judgment are not yet reflected enough |
+| after self-attention | an action that has seen `pressure unreleased` and `held` together | relationship cues were brought in, but the current position representation has not been finally refined |
+| after feed-forward | an action read toward hold rather than execution because of the pressure condition | the context-mixed representation was processed again inside the current position |
+| after residual | a representation where the hold-side meaning and original `restart` action axis remain together | new computation does not completely cover the original action information |
+| after layer normalization | a representation organized into a range the next block can handle | the computational baseline was aligned, not meaning selected |
+
+So the output of this case is not just the conclusion `restart is held`. The more important output is the distinction that `relationship reading`, `position-wise processing`, `preserving original information`, and `stabilizing value range` are jobs of different components. Once this distinction is fixed, the Transformer block can be read not as `a device where attention gives the answer`, but as a representation-update unit where several roles repeat.
+
+If we close the same case from the output viewpoint, it becomes the following.
+
+| Component | Change directly made in this case | What it does not directly handle |
+| --- | --- | --- |
+| self-attention | makes the `restart` position see `pressure unreleased` and `held` together | processing the current position representation into final meaning |
+| feed-forward network | processes the context-mixed `restart` toward `conditional blocked action` | choosing a new token position to refer to |
+| residual connection | leaves the `conditional block` meaning and the original `restart` action axis together | selecting important meaning anew |
+| layer normalization | organizes the combined representation's value range into the next computational baseline | preserving the original action axis or choosing a relationship anew |
+
+The result to confirm in this case is that the `restart` representation does not change all at once as if by magic. Self-attention reads relationships, feed-forward processes the current position representation, residual connection leaves the original information flow, and layer normalization aligns the value baseline for the next computation. Only when these four questions are separated can the Transformer block be read not as attention alone, but as a repeating unit with divided roles.
 
 ## Practice And Example
 
-The goal of this example is to confirm how the two methods look different in long input: `a method that compresses an earlier rule into one sequential state and carries it forward` and `a method where the current question directly looks up the earlier sentence it needs again`.
+### Practice. Naming The Role
 
-Before reading the example, it helps to fix first the minimum points that actually need to be confirmed in this section.
+Judge which component the description below is most directly connected to.
 
-| Point to confirm | Value to look at directly in the example | Why it matters |
+| Description | More directly connected component | Explanation |
 | --- | --- | --- |
-| where sequential state weakens | `history`, `final_state`, `sequential_support` | shows how quickly the core rule becomes blurred when the earlier cue is passed through only one state while the middle logs grow longer |
-| what direct reference brings back again | `top_matches` | lets us confirm with our eyes which earlier lines the current request is taking as evidence again |
-| how the two structures split in the final judgment | `sequential_decision` and `direct_decision` | reveals that `state transfer` and `direct rereference` can lead to different conclusions even in the same context |
+| decides which other tokens in the sentence the current token should look at more | self-attention | relationship reading |
+| changes the context-mixed `restart` representation toward `conditional block` inside the current position | feed-forward network | reprocesses the relationship brought by attention into the current position representation |
+| the same processing device is applied to each token position, but because each position has a different input representation, it is refined into different meanings | feed-forward network | feed-forward transforms each position representation rather than choosing token relationships again |
+| leaves the processed `conditional block` meaning together with the original `restart` action axis | residual connection | passes new computation and original representation together to preserve information flow |
+| does not create a new representation, but leaves a path for the original representation to pass through | residual connection | this is where it differs from feed-forward |
+| after the new computation and original representation are added, realigns the value baseline | layer normalization | organizes value distribution so the next computation continues stably |
+| organizes the value range before passing to the next computation | layer normalization | stabilization role |
 
-Input:
+Explanation: The core of this practice is not memorizing component names, but distinguishing that even inside the same block, `what to refer to`, `how to change the current representation`, `how to leave the original information`, and `how to stabilize computation` are different questions.
 
-- a long context where an earlier rule sentence, middle operation logs, and a final operation request are mixed together
-- a simple sequential state that gradually forgets rule cues
-- direct-reference scores by which the final question finds the related earlier lines again
+### Practice. Fix Misleading Sentences
 
-Output:
+The sentences below are only partly right or mix roles. Rewrite them more accurately.
 
-- the sequential state updated as each line is read
-- the minimum key-cue value at the final request point
-- which earlier lines the final request rereferred to
-- the final judgment made by the two methods
-
-Problem situation:
-
-- in long-context processing, it needs to be compared whether sequential state alone is enough, or whether a structure is needed that finds the earlier cue again directly
-
-Concepts to confirm:
-
-- Transformer-style direct reference can show strength in rereading cues from distant positions
-- if we place sequential state and direct-reference judgments side by side, the structural difference becomes clearer
-
-Before looking at the code, it helps to predict first where sequential state and direct rereference will split.
-
-| Comparison point | Result to predict first in sequential state | Result to predict first in direct rereference |
+| Misleading sentence | More accurate explanation | Explanation |
 | --- | --- | --- |
-| `sequential_support` / `direct_decision` | the rule cue can gradually weaken as it passes through the middle logs | at the final request point, the rule line and the target line it needs can be picked up again |
-| `history` / `top_matches` | we will see the process in which the earlier rule becomes fainter as it moves farther back | the line that directly matches the request will rise again as top evidence |
-| final judgment | it can become blurred into something like `uncertain` | it can keep the rule more directly as `block_restart` |
+| The feed-forward network chooses related tokens again. | Self-attention makes the model refer to related tokens; the feed-forward network reprocesses the current position representation after context has been mixed in. | We need to separate `what should be seen` from `how should this position representation change`. |
+| Residual connection makes the model skip new computation. | Residual connection passes the new computation result and the original input representation together. | It does not remove new computation; it leaves a path for original information. |
+| Layer normalization leaves only the important meaning. | Layer normalization aligns the value range of one position representation into a baseline the next computation can handle. | The focus is value-distribution stabilization, not meaning selection. |
+| Understanding self-attention is enough to explain the Transformer block. | Self-attention handles relationship reading, while feed-forward, residual connection, and layer normalization divide representation processing and stabilization. | The block is a repeated unit with separated roles, not attention alone. |
 
-What the reader really needs to see in this example does not stop there. When receiving the same request, the sequential-state side should be able to tilt toward `hold or manually recheck because the rule cannot be held strongly enough`, while the direct-rereference side should be able to tilt toward `immediately block by reconnecting the earlier rule and target information`. That is, the computational difference must continue all the way into `what next action does the model choose`.
-
-Input:
-
-We use the context-line list `context` summarized above.
-
-```python
-# This example compares sequential state decay with direct rereference when a restart request must reconnect to an earlier pressure rule.
-context = [
-    "Rule: unstable pressure state must not be restarted.",
-    "Log: sensor calibration completed for line 3.",
-    "Log: packaging material restocked this morning.",
-    "State: pressure has not fully returned to safe range.",
-    "Log: operator schedule updated for tomorrow.",
-    "Request: restart line 3 now.",
-]
-
-def sequential_reader(lines, decay=0.55):
-    state = {"pressure_risk": 0.0, "restart": 0.0, "block": 0.0}
-    history = []
-    for idx, line in enumerate(lines, start=1):
-        lowered = line.lower()
-        for key in state:
-            state[key] *= decay
-        if "pressure" in lowered or "unstable" in lowered:
-            state["pressure_risk"] += 1.0
-        if "restart" in lowered:
-            state["restart"] += 1.0
-        if "must not" in lowered:
-            state["block"] += 1.0
-        snapshot = {key: round(value, 3) for key, value in state.items()}
-        history.append((idx, line, snapshot))
-    support = round(min(state.values()), 3)
-    decision = "block_restart" if support >= 0.8 else "uncertain"
-    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
-
-def direct_reference_reader(lines):
-    request = lines[-1].lower()
-    keywords = {"restart", "pressure", "unstable", "must", "not"}
-    scored = []
-    for idx, line in enumerate(lines[:-1], start=1):
-        words = set(line.lower().replace(".", "").replace(":", "").split())
-        score = len(words & keywords)
-        scored.append((score, idx, line))
-    top_matches = sorted(scored, reverse=True)[:2]
-    matched_lines = [line.lower() for _, _, line in top_matches]
-    decision = (
-        "block_restart"
-        if any("must not be restarted" in line for line in matched_lines)
-        and any("pressure" in line or "unstable" in line for line in matched_lines)
-        and "restart" in request
-        else "allow"
-    )
-    return top_matches, decision
-
-history, final_state, sequential_support, sequential_decision = sequential_reader(context)
-top_matches, direct_decision = direct_reference_reader(context)
-
-print("[sequential reader]")
-for idx, line, snapshot in history:
-    print(f"{idx}. {line}")
-    print("   state =", snapshot)
-print("final_state =", final_state)
-print("sequential_support =", sequential_support)
-print("sequential_decision =", sequential_decision)
-print()
-
-print("[direct reference reader]")
-for score, idx, line in top_matches:
-    print(f"matched line {idx} (score={score}): {line}")
-print("direct_decision =", direct_decision)
-```
-
-In the output, start by looking at how much `sequential_support` has weakened and how `direct_decision` is maintained.
-
-```text
-[sequential reader]
-1. Rule: unstable pressure state must not be restarted.
-   state = {'pressure_risk': 1.0, 'restart': 1.0, 'block': 1.0}
-2. Log: sensor calibration completed for line 3.
-   state = {'pressure_risk': 0.55, 'restart': 0.55, 'block': 0.55}
-3. Log: packaging material restocked this morning.
-   state = {'pressure_risk': 0.303, 'restart': 0.303, 'block': 0.303}
-4. State: pressure has not fully returned to safe range.
-   state = {'pressure_risk': 1.166, 'restart': 0.166, 'block': 0.166}
-5. Log: operator schedule updated for tomorrow.
-   state = {'pressure_risk': 0.642, 'restart': 0.092, 'block': 0.092}
-6. Request: restart line 3 now.
-   state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
-final_state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
-sequential_support = 0.05
-sequential_decision = uncertain
-
-[direct reference reader]
-matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
-matched line 4 (score=2): State: pressure has not fully returned to safe range.
-direct_decision = block_restart
-```
-
-The first result is how the sequential state weakens while passing through the context. The `block` axis starts strong at the rule line, but by the time of the final request only `0.05` remains.
-
-![Sequential state decay](/AiBook/assets/part-05/chapter-14/sequential-state-decay-en.png)
-
-The second result is which lines the direct-reference method pulls back again at the final request point. Because the rule line and the pressure-state line rise again as high evidence, the change that needs to be read in this example is not only that the two decision names differ, but the difference between whether the earlier cue `weakens inside the state` and whether it is `called back again at the current request`.
-
-![Direct-reference match scores](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-en.png)
-
-| Output to look at first | What this output means | What changes if you vary it |
-| --- | --- | --- |
-| the difference between `sequential_support` and `direct_decision` | it means that rule-only state compression makes the earlier rule weaken, while direct reference pulls back the needed lines again | if `decay` and the number of middle logs are changed, the weakening of sequential compression becomes more direct |
-
-| Operational-judgment standard | Easy judgment if we look only at the sequential-state output | Judgment that changes after reading the direct-reference output |
-| --- | --- | --- |
-| handling a restart request while pressure has not returned to safe range | because it is `uncertain`, the restart may be carried out by following only the final request, or the rule document may have to be searched again manually | because the rule line and the state line rise again, `block_restart` can immediately become the first operational action |
-| response when the logs become long | as middle logs increase, the earlier rule can become faint and the basis for `why should this be blocked` can blur | because the needed earlier lines are brought back again at the request point, the blocking basis can be reattached to the current judgment even when the logs are long |
-
-- first we need to look together at `sequential_support = 0.05` and `direct_decision = block_restart`. The side that tried to compress the earlier rule only into state has almost lost the prohibition basis by the final request point, while the side that referred again to the needed lines still blocks the same request.
-- in the sequential method, the earlier rule gradually weakens as it passes through the middle logs, and by the final request point it can no longer keep the three key cues `pressure risk`, `restart`, and `block` all strongly together
-- `sequential_support` shows how much of the weakest of the three key cues remains at the final request point, and here it confirms that the `block` axis has almost disappeared
-- in the direct-reference method, the final request immediately finds again the earlier rule and the line with the target information
-- in long context, the important question is not `did the model read the earlier sentence once and endure`, but `can the model bring back the earlier sentence it needs again at the current position`
-
-If we translate this result into operational field judgment, the sequential side is closer to `a state where the no-shipment or no-restart rule cannot be held to the end and a person has to search the document again`, while the direct-reference side is closer to `a state where the prohibition basis is called at the current request-processing point and a block decision is immediately made`. The structural difference that must be read in this section is exactly this `difference in how the basis is called`.
-
-This output should not end only with a simple comparison. It is better if it continues into checking directly what values to change in order to see the structural difference more clearly.
-
-| Output signal seen first | Change to try right now | Conclusion not to rush to from this example alone |
-| --- | --- | --- |
-| `sequential_support` shrinks quickly | lower `decay` further or increase the number of middle log lines and see how much more sequential compression shakes | do not conclude that every sequential model always fails |
-| `top_matches` brings back the rule line and the target line | move the rule sentence farther away or change the request wording and see whether the needed lines are still found again | do not conclude that direct reference automatically guarantees complete understanding |
-| `sequential_decision` and `direct_decision` split | reduce or increase the number of rule cues and see under what conditions the judgments of the two structures come closer again | do not use this one simple comparison example to conclude the entire real long-context optimization performance |
-
-This example does not implement the whole RNN and the whole Transformer, but it does let us actually experiment with the difference between `the feel of keeping information compressed inside state` and `the feel of referring again to the earlier position needed right now`. If we change the `decay` value or increase the number of middle log lines, we can directly confirm why sequential compression becomes more difficult.
-
-## If We Reread This Example From The Viewpoint Of Long-Context Rereference
-
-The simple comparison code above does not implement the whole Transformer, but the comparison standard is clear.
-
-- the sequential side shows `can the earlier rule be compressed into one state and survive for a long time`
-- the direct-reference side shows `when the current request needs it, can the earlier rule and target information be brought back again`
-- so what ultimately splits is not only the impression of `good memory`, but whether `the prohibition basis can be called again at the current judgment point and used to block immediately`
-
-That is, if we see the long-context problem only as `memory maintenance`, the limit of sequential state appears first, while if we see it as `rereferencing the earlier position needed right now`, the advantage of the Transformer family appears more directly. Only with this feel fixed can later long-context limits be read naturally not as `it remembers unconditionally for longer`, but as `it brings the needed context back into the current window and reads it again`.
-
-As the Transformer combined the advantages of attention-centered structure and parallel computation, the basic computational structure of natural language processing changed greatly. After that, large-scale pretraining, long-context handling, and the expansion of many generative models all became deeply connected to this structural shift.
-
-- why the Transformer was not simply another sequential model
-- why large-scale language models became possible together with the GPU era
-- why the standards of long context and large-scale learning changed together
-
-all become grouped together in one section for this reason.
+Explanation: The reason for correcting these sentences is to create a sense of boundaries, not to memorize terms. All four components are inside the same representation flow, but if `relationship selection`, `within-position transformation`, `information preservation`, and `value stabilization` are mixed together, the computational flow becomes blurry when reading the Transformer structure later.
 
 ## Checklist
 
-- Can you explain why the Transformer fits parallel processing better than RNNs?
-- Can you explain the advantage of self-attention in long-context reference?
-- Can you explain that the Transformer does not pass tokens only through sequential state, but computes relationships more in parallel?
-- Can you say that this structure fits GPU parallel processing well?
-- Can you explain that self-attention gives the feel of referring more directly to distant positions?
-- Can you explain the strength of the Transformer not merely as `better performance`, but as `changing the computational flow into GPU-friendly relationship computation`?
-- Can you explain long-context problems not as `it remembers for a long time`, but as `the current position looks again at the earlier cues it needs`?
-- When reading later LLM chapters, are you ready first to ask `what did this structure make computationally possible`?
+- Can you explain the role difference between self-attention and feed-forward?
+- Can you explain residual connection as a device that leaves the original information flow?
+- Can you explain layer normalization as a stabilization device for deep block repetition?
 
 ## Sources And References
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-06-29.
-- Colin Raffel et al., `Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer`, JMLR, 2020, checked on 2026-06-29.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
