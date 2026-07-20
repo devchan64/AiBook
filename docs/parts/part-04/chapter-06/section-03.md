@@ -306,6 +306,7 @@ SRE 관점의 metric은 단순한 서버 숫자가 아니라, 실제 서비스 �
 - tail latency를 읽기 위해 p95 같은 지표가 필요하다
 
 ```python
+# 지연 시간, 오류율, SLO 달성률처럼 서비스 운영에서 쓰는 지표를 계산하는 예제입니다.
 latencies_ms = [95, 100, 98, 102, 97, 105, 99, 101, 96, 110, 480, 520]
 
 sorted_latencies = sorted(latencies_ms)
@@ -368,6 +369,7 @@ p95 latency     : 480 ms
 - 남은 버짓이 음수가 되면 이미 목표를 초과해 실패했다는 뜻이다
 
 ```python
+# 지연 시간, 오류율, SLO 달성률처럼 서비스 운영에서 쓰는 지표를 계산하는 예제입니다.
 requests = [
     "ok", "ok", "ok", "ok", "ok",
     "ok", "ok", "fail", "ok", "ok",
@@ -440,6 +442,7 @@ remaining budget    : -0.05
 - 모델 metric과 운영 metric은 서로 다른 층위의 판단 기준이다
 
 ```python
+# 지연 시간, 오류율, SLO 달성률처럼 서비스 운영에서 쓰는 지표를 계산하는 예제입니다.
 service_cases = [
     {
         "name": "case_A",

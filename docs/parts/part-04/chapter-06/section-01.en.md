@@ -268,6 +268,7 @@ The following code is not actual training. It is an example that directly calcul
 In the output, read accuracy, precision, recall, and F1 side by side, and ask which number hides the current error cost.
 
 ```python
+# This example calculates accuracy, precision, and recall from TP, TN, FP, and FN to show the role of evaluation metrics.
 tp = 30
 tn = 4999000
 fp = 950

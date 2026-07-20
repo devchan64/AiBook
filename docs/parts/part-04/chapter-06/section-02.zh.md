@@ -339,6 +339,7 @@ clustering 比起 `答对既有答案`，更接近 `找出隐藏结构`。因此
 要确认的核心是，classification 评价不能只读 model score，还要读经过 threshold 之后的最终判断。precision 和 recall 的平衡会随着 threshold 改变。
 
 ```python
+# 这个例子分别计算并比较分类、回归和聚类问题中的不同评价标准。
 y_true = [1, 1, 1, 0, 0, 0, 1, 0]
 scores = [0.95, 0.80, 0.55, 0.70, 0.40, 0.20, 0.45, 0.60]
 
@@ -416,6 +417,7 @@ threshold = 0.8
 要确认的核心是，regression metrics 是读取数字偏离程度的标准。MAE 与 MSE/RMSE 会用不同强调方式去看同一组误差。
 
 ```python
+# 这个例子分别计算并比较分类、回归和聚类问题中的不同评价标准。
 y_true = [10, 12, 9, 15]
 y_pred = [11, 10, 8, 18]
 
@@ -458,6 +460,7 @@ rmse           : 1.94
 要确认的核心是，如果想对大失败惩罚得更重，MSE 和 RMSE 会反应得更敏感。即使是同一个 regression 问题，也仍然需要选择到底哪一种误差更该被重看。
 
 ```python
+# 这个例子分别计算并比较分类、回归和聚类问题中的不同评价标准。
 y_true = [10, 12, 9, 15]
 y_pred_small_error = [11, 10, 8, 18]
 y_pred_big_error = [11, 10, 8, 30]
@@ -519,6 +522,7 @@ clustering 最好是读者亲手做一遍，会更快理解。下面这个例子
 要确认的核心是，cluster 数量和 cluster 组成会随着距离标准改变。clustering 评价必须和后面由人重新解释结果的步骤一起读。
 
 ```python
+# 这个例子分别计算并比较分类、回归和聚类问题中的不同评价标准。
 points = [1.0, 1.2, 1.4, 4.8, 5.0, 8.5]
 
 def cluster_by_gap(points, gap):

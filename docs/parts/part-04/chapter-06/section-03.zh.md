@@ -306,6 +306,7 @@ Google SRE Book 把 latency、traffic、errors、saturation 提出为面向用�
 - 要读 tail latency，就需要 p95 这类指标
 
 ```python
+# 这个例子计算延迟、错误率、SLO 达成率等服务运行指标。
 latencies_ms = [95, 100, 98, 102, 97, 105, 99, 101, 96, 110, 480, 520]
 
 sorted_latencies = sorted(latencies_ms)
@@ -368,6 +369,7 @@ p95 latency     : 480 ms
 - 如果 remaining budget 变成负数，就说明失败已经超过目标
 
 ```python
+# 这个例子计算延迟、错误率、SLO 达成率等服务运行指标。
 requests = [
     "ok", "ok", "ok", "ok", "ok",
     "ok", "ok", "fail", "ok", "ok",
@@ -440,6 +442,7 @@ remaining budget    : -0.05
 - model metric 和运营 metric 是不同层位的判断标准
 
 ```python
+# 这个例子计算延迟、错误率、SLO 达成率等服务运行指标。
 service_cases = [
     {
         "name": "case_A",

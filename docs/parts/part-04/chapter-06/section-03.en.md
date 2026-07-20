@@ -306,6 +306,7 @@ Concept to check:
 - a metric such as p95 is needed to read tail latency
 
 ```python
+# This example calculates service-operation metrics such as latency, error rate, and SLO compliance.
 latencies_ms = [95, 100, 98, 102, 97, 105, 99, 101, 96, 110, 480, 520]
 
 sorted_latencies = sorted(latencies_ms)
@@ -368,6 +369,7 @@ Concept to check:
 - if the remaining budget becomes negative, failure has already gone beyond the target
 
 ```python
+# This example calculates service-operation metrics such as latency, error rate, and SLO compliance.
 requests = [
     "ok", "ok", "ok", "ok", "ok",
     "ok", "ok", "fail", "ok", "ok",
@@ -440,6 +442,7 @@ Concept to check:
 - model metrics and operational metrics are decision criteria at different levels
 
 ```python
+# This example calculates service-operation metrics such as latency, error rate, and SLO compliance.
 service_cases = [
     {
         "name": "case_A",

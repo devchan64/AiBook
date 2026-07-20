@@ -268,6 +268,7 @@ Google glossary 把 F1 score 解释成：把 precision 和 recall 一起使用�
 输出里把 accuracy、precision、recall、F1 并排看，并思考哪个数字隐藏了当前的错误成本。
 
 ```python
+# 这个例子用 TP、TN、FP、FN 计算准确率、精确率和召回率，确认评价指标的作用。
 tp = 30
 tn = 4999000
 fp = 950

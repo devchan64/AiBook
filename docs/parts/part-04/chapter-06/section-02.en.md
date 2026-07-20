@@ -339,6 +339,7 @@ The example below uses the true labels `y_true`, predicted scores `scores`, and 
 The key to check is that classification evaluation must be read as a final judgment after the threshold, not only as model scores. The balance between precision and recall can change depending on the threshold.
 
 ```python
+# This example computes and compares different evaluation criteria for classification, regression, and clustering problems.
 y_true = [1, 1, 1, 0, 0, 0, 1, 0]
 scores = [0.95, 0.80, 0.55, 0.70, 0.40, 0.20, 0.45, 0.60]
 
@@ -416,6 +417,7 @@ The example below uses actual values `y_true` and predicted values `y_pred` to p
 The key to check is that regression metrics are criteria for reading how far numbers were off. MAE and MSE/RMSE read the same errors with different emphasis.
 
 ```python
+# This example computes and compares different evaluation criteria for classification, regression, and clustering problems.
 y_true = [10, 12, 9, 15]
 y_pred = [11, 10, 8, 18]
 
@@ -458,6 +460,7 @@ The example below compares a small-error prediction `y_pred_small_error` with a 
 The key to check is that MSE and RMSE react more sensitively when you want to penalize large failures more strongly. Even in the same regression problem, you need to choose which type of error to weigh more heavily.
 
 ```python
+# This example computes and compares different evaluation criteria for classification, regression, and clustering problems.
 y_true = [10, 12, 9, 15]
 y_pred_small_error = [11, 10, 8, 18]
 y_pred_big_error = [11, 10, 8, 30]
@@ -519,6 +522,7 @@ The example below uses a list of one-dimensional values `points` and several `ga
 The key to check is that the number of clusters and the composition of clusters change depending on the distance criterion. Clustering evaluation must be read together with the later step where people interpret the result again.
 
 ```python
+# This example computes and compares different evaluation criteria for classification, regression, and clustering problems.
 points = [1.0, 1.2, 1.4, 4.8, 5.0, 8.5]
 
 def cluster_by_gap(points, gap):
