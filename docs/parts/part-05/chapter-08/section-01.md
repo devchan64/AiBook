@@ -248,6 +248,7 @@ CSV의 한 행은 한 모델 설정에서 한 epoch가 끝난 뒤 기록한 요�
 이 표의 목적은 `훈련 손실`, `검증 손실`, `가중치 크기`를 한 번에 읽는 것입니다.
 
 ```python
+# CSV 학습 로그를 읽어 regularization 유무에 따른 훈련 손실, 검증 손실, 가중치 크기 변화를 비교하는 예제입니다.
 from csv import DictReader
 from pathlib import Path
 

@@ -1,7 +1,7 @@
 # P5-8.4 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가
 
-Section ID: `P5-8.4`
-Version: `v2026.07.17`
+> Section ID: `P5-8.4`
+> Version: `v2026.07.20`
 
 P5-8.3에서는 깊은 계산이 실제로 덜 흔들리게 되는 조건을 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)로 묶어 읽었습니다. 이제 그 말을 실제 숫자로 확인합니다.
 
@@ -54,21 +54,9 @@ P5-8.3에서는 깊은 계산이 실제로 덜 흔들리게 되는 조건을 초
 ## Python 예제
 
 ```python
-hidden_activations = [
-    {"sample": "A", "activation": 1.0},
-    {"sample": "B", "activation": 2.0},
-    {"sample": "C", "activation": 0.5},
-]
-
-weight_cases = {
-    "small_init": 0.8,
-    "medium_init": 1.2,
-    "large_init": 3.0,
-    "very_large_init": 9.0,
-}
-
-def linear_layer(values, weight):
-    return [value * weight for value in values]
+# CSV activation 로그를 읽어 초기화 스케일이 깊은 층의 raw range와 variance를 키우고 batch normalization이 범위를 다시 정리하는지 비교하는 예제입니다.
+from csv import DictReader
+from pathlib import Path
 
 def batch_norm(values, eps=1e-5):
     mean = sum(values) / len(values)
@@ -76,17 +64,36 @@ def batch_norm(values, eps=1e-5):
     normalized = [(v - mean) / ((variance + eps) ** 0.5) for v in values]
     return mean, variance, normalized
 
-for case_name, weight in weight_cases.items():
-    raw_values = [row["activation"] for row in hidden_activations]
-    bn_values = [row["activation"] for row in hidden_activations]
+csv_path = Path("docs/assets/part-05/chapter-08/deep-scale-activation-log.csv")
+
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "case_name": row["case_name"],
+                "weight_scale": float(row["weight_scale"]),
+                "layer": int(row["layer"]),
+                "sample": row["sample"],
+                "raw_activation": float(row["raw_activation"]),
+            }
+        )
+
+case_order = ["small_init", "medium_init", "large_init", "very_large_init"]
+layer_order = [1, 2, 3]
+
+for case_name in case_order:
+    case_rows = [row for row in rows if row["case_name"] == case_name]
+    weight = case_rows[0]["weight_scale"]
     print(f"[{case_name}] weight = {weight}")
 
-    for layer in range(1, 4):
-        raw_values = linear_layer(raw_values, weight)
-        _, raw_variance, _ = batch_norm(raw_values)
-
-        before_bn = linear_layer(bn_values, weight)
-        _, _, bn_values = batch_norm(before_bn)
+    for layer in layer_order:
+        layer_rows = [
+            row for row in case_rows
+            if row["layer"] == layer
+        ]
+        raw_values = [row["raw_activation"] for row in layer_rows]
+        _, raw_variance, bn_values = batch_norm(raw_values)
 
         print(
             f"layer {layer}: "
@@ -97,7 +104,7 @@ for case_name, weight in weight_cases.items():
     print("---")
 ```
 
-이 코드는 `실제 신경망 층 전체`를 구현한 것이 아니라, `가중치 스케일이 층을 거치며 값 범위와 분산을 어디로 밀고 가는가`만 보려는 축약 실험입니다. 따라서 여기서 먼저 볼 것은 정확한 학습 성능이 아니라 `반복 계산과 스케일 누적 방향`입니다.
+이 코드는 [`deep-scale-activation-log.csv`](../../../assets/part-05/chapter-08/deep-scale-activation-log.csv)에 기록된 36개 값을 읽어 케이스별·층별 범위와 분산을 다시 계산합니다. `실제 신경망 층 전체`를 구현한 것이 아니라, `가중치 스케일이 층을 거치며 값 범위와 분산을 어디로 밀고 가는가`만 보려는 축약 실험입니다. 따라서 여기서 먼저 볼 것은 정확한 학습 성능이 아니라 `반복 계산과 스케일 누적 방향`입니다.
 
 출력 예시는 다음과 같습니다.
 
@@ -144,7 +151,7 @@ layer 3: raw_range=(364.500, 1458.000), raw_variance=206671.500, after_bn_range=
 
 ![초기화 스케일별 층별 raw variance](../../../assets/part-05/chapter-08/deep-scale-raw-variance-ko.png)
 
-셋째 그래프는 각 층 뒤에 batch normalization을 적용한 뒤의 출력 범위입니다. raw activation은 케이스마다 크게 달라지지만, normalization 뒤의 범위는 `다음 층이 다루기 쉬운 비슷한 규모`로 다시 정리됩니다. 여기서 중요한 점은 `항상 똑같은 숫자로 고정된다`가 아니라, `입력 분포가 크게 달라도 중심과 퍼짐이 다시 비교 가능한 범위로 맞춰진다`는 쪽입니다. 이 장난감 예제에서 케이스별 범위가 거의 같게 보이는 이유는 세 샘플의 상대적 모양은 유지한 채 스케일만 바꾸고 있기 때문이며, 그래서 이 그림 하나만 보고 `batch normalization이 초기화 문제를 거의 지워 준다`고 읽으면 과합니다.
+셋째 그래프는 각 층 뒤에 batch normalization을 적용한 뒤의 출력 범위입니다. raw activation은 케이스마다 크게 달라지지만, normalization 뒤의 범위는 `다음 층이 다루기 쉬운 비슷한 규모`로 다시 정리됩니다. 여기서 중요한 점은 `항상 똑같은 숫자로 고정된다`가 아니라, `입력 분포가 크게 달라도 중심과 퍼짐이 다시 비교 가능한 범위로 맞춰진다`는 쪽입니다. 이 장난감 예제에서 케이스별 범위가 거의 같게 보이는 이유는 세 샘플의 상대적 모양은 유지한 채 스케일만 바꾸고 있기 때문이며, 그래서 이 그림 하나만 보고 `batch normalization이 초기화 문제를 거의 지워 준다`고 읽으면 과합니다. 그래프도 미세한 차이를 확대하지 않고, 독자가 `거의 같은 범위로 모인다`는 사실을 먼저 보도록 y축을 넓게 잡았습니다.
 
 ![batch normalization 뒤 층별 activation 범위](../../../assets/part-05/chapter-08/deep-scale-bn-range-ko.png)
 

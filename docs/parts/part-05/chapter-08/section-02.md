@@ -176,6 +176,7 @@ CSV의 한 행은 한 학습 step에서 한 은닉 노드가 어떻게 처리되
 여기서 한 가지를 먼저 분명히 해 두겠습니다. 실제 프레임워크의 dropout은 보통 학습 중 남아 있는 활성값을 스케일링(inverted dropout)해, 평가 모드와 평균 크기가 크게 어긋나지 않게 맞춥니다. 아래 예제는 그 세부를 모두 구현하기보다 `일부 경로가 여러 step에서 번갈아 빠진다`는 핵심 직관만 먼저 보이기 위해 단순화한 로그 예제입니다.
 
 ```python
+# CSV dropout 로그를 읽어 train mode에서는 일부 경로가 번갈아 빠지고 eval mode에서는 값이 유지되는지 비교하는 예제입니다.
 from collections import defaultdict
 from csv import DictReader
 from pathlib import Path

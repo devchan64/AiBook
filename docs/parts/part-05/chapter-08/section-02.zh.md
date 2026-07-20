@@ -175,6 +175,7 @@ dropout 处理这个问题的方式如下。
 有一点要先说清楚。真实框架里的 dropout，通常会在训练中对保留下来的 activation 再做缩放（inverted dropout），这样它们的平均规模就不会和 evaluation mode 偏离太多。下面这个例子，并不是为了把这些细节全部实现出来，而是为了先把`当前这个 step 里有些路径会缺席`的核心直觉直接 보여出来，所以故意做成简化的玩具实验。
 
 ```python
+# 这个例子用随机 dropout mask 比较 train 模式的路径移除和 eval 模式的稳定取值。
 import random
 
 activations = [0.9, 1.3, 0.4, 1.1, 0.7]

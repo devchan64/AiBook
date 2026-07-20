@@ -245,6 +245,7 @@ regularization 更常需要出现的场景，大致可以读成下面这样。
 这张表的目的，是把`权重大小`和`预测摇晃`一起读出来。
 
 ```python
+# 这个例子比较 regularization 如何把初始权重的更新路径推向不那么激进的解。
 initial_w = 2.5
 data_gradient = -4.0
 learning_rate = 0.1

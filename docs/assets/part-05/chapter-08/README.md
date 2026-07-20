@@ -30,6 +30,7 @@
 - CSV input assets:
   - `regularization-training-log.csv`
   - `dropout-training-path-log.csv`
+  - `deep-scale-activation-log.csv`
 - PNG chart assets:
   - `regularization-loss-compare-ko.png`
   - `regularization-weight-growth-ko.png`

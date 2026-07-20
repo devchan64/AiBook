@@ -54,6 +54,7 @@ Version: `v2026.07.17`
 ## Python 例子
 
 ```python
+# 这个例子比较 initialization scale 如何扩大多层 raw range 和 variance，以及 batch normalization 如何重新整理范围。
 hidden_activations = [
     {"sample": "A", "activation": 1.0},
     {"sample": "B", "activation": 2.0},

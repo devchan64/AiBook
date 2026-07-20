@@ -1,3 +1,4 @@
+from csv import DictReader
 from pathlib import Path
 import os
 
@@ -15,19 +16,9 @@ from matplotlib import font_manager
 from matplotlib.ticker import FuncFormatter
 
 OUT_DIR = Path(__file__).resolve().parent
-
-HIDDEN_ACTIVATIONS = [
-    {"sample": "A", "activation": 1.0},
-    {"sample": "B", "activation": 2.0},
-    {"sample": "C", "activation": 0.5},
-]
-
-WEIGHT_CASES = {
-    "small_init": 0.8,
-    "medium_init": 1.2,
-    "large_init": 3.0,
-    "very_large_init": 9.0,
-}
+CSV_PATH = OUT_DIR / "deep-scale-activation-log.csv"
+CASE_ORDER = ["small_init", "medium_init", "large_init", "very_large_init"]
+LAYER_ORDER = [1, 2, 3]
 
 LANG_TEXT = {
     "ko": {
@@ -95,10 +86,6 @@ def configure_font(text: dict[str, str]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def linear_layer(values: list[float], weight: float) -> list[float]:
-    return [value * weight for value in values]
-
-
 def batch_norm(values: list[float], eps: float = 1e-5) -> tuple[float, float, list[float]]:
     mean = sum(values) / len(values)
     variance = sum((value - mean) ** 2 for value in values) / len(values)
@@ -106,18 +93,32 @@ def batch_norm(values: list[float], eps: float = 1e-5) -> tuple[float, float, li
     return mean, variance, normalized
 
 
-def build_trace() -> dict[str, list[dict[str, float]]]:
-    traces = {}
-    for case_name, weight in WEIGHT_CASES.items():
-        raw_values = [row["activation"] for row in HIDDEN_ACTIVATIONS]
-        bn_values = [row["activation"] for row in HIDDEN_ACTIVATIONS]
-        layer_trace = []
-        for layer in range(1, 4):
-            raw_values = linear_layer(raw_values, weight)
-            _, raw_variance, _ = batch_norm(raw_values)
+def load_rows():
+    rows = []
+    with CSV_PATH.open(encoding="utf-8") as file:
+        for row in DictReader(file):
+            rows.append(
+                {
+                    "case_name": row["case_name"],
+                    "weight_scale": float(row["weight_scale"]),
+                    "layer": int(row["layer"]),
+                    "sample": row["sample"],
+                    "raw_activation": float(row["raw_activation"]),
+                }
+            )
+    return rows
 
-            before_bn = linear_layer(bn_values, weight)
-            _, _, bn_values = batch_norm(before_bn)
+
+def build_trace() -> dict[str, list[dict[str, float]]]:
+    rows = load_rows()
+    traces = {}
+    for case_name in CASE_ORDER:
+        case_rows = [row for row in rows if row["case_name"] == case_name]
+        layer_trace = []
+        for layer in LAYER_ORDER:
+            layer_rows = [row for row in case_rows if row["layer"] == layer]
+            raw_values = [row["raw_activation"] for row in layer_rows]
+            _, raw_variance, bn_values = batch_norm(raw_values)
 
             layer_trace.append(
                 {
@@ -146,12 +147,20 @@ def save_line_chart(text: dict[str, str], trace: dict, metric: str, ylabel: str,
         "large_init": "#dc2626",
         "very_large_init": "#7c3aed",
     }
+    x_offsets = {
+        "small_init": -0.09,
+        "medium_init": -0.03,
+        "large_init": 0.03,
+        "very_large_init": 0.09,
+    }
     fig, ax = plt.subplots(figsize=(6.8, 3.8), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     style_axis(ax)
     for case_name, rows in trace.items():
         layers = [row["layer"] for row in rows]
+        if metric == "bn_range_width":
+            layers = [layer + x_offsets[case_name] for layer in layers]
         values = [row[metric] for row in rows]
         ax.plot(layers, values, marker="o", linewidth=2.2, color=colors[case_name], label=text[case_name])
     ax.set_xticks([1, 2, 3])
@@ -160,6 +169,8 @@ def save_line_chart(text: dict[str, str], trace: dict, metric: str, ylabel: str,
     if log_scale:
         ax.set_yscale("log")
         ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:g}"))
+    if metric == "bn_range_width":
+        ax.set_ylim(0, 3.2)
     ax.legend(loc="upper left", frameon=False, fontsize=8.5)
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / outfile, bbox_inches="tight")

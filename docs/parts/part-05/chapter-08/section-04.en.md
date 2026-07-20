@@ -54,6 +54,7 @@ One more point should be fixed first here as well. The batch-normalization resul
 ## Python Example
 
 ```python
+# This example compares how initialization scale expands raw range and variance across layers and how batch normalization reorganizes the range.
 hidden_activations = [
     {"sample": "A", "activation": 1.0},
     {"sample": "B", "activation": 2.0},

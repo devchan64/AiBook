@@ -245,6 +245,7 @@ Before reading the code, it helps to predict which side will produce the larger 
 The purpose of this table is to read `weight size` and `prediction wobble` together.
 
 ```python
+# This example compares how regularization changes the update path from an initial weight toward a less aggressive solution.
 initial_w = 2.5
 data_gradient = -4.0
 learning_rate = 0.1

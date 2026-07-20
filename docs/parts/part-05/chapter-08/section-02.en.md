@@ -175,6 +175,7 @@ The purpose of this table is to read `path removal` and `stable evaluation` at t
 One point should be made explicit first. In real frameworks, dropout usually scales the remaining activations during training (`inverted dropout`) so that their average size does not drift too far from evaluation mode. The example below is a simplified toy example designed to show only the core intuition first: `some paths are missing in the current step`.
 
 ```python
+# This example uses random dropout masks to compare train-mode path dropping with stable eval-mode values.
 import random
 
 activations = [0.9, 1.3, 0.4, 1.1, 0.7]
