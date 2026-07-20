@@ -89,6 +89,7 @@
 要确认的概念：比起是否存在候选列，更重要的是相同事件和相似条件下，相同含义的判断是否在重复
 
 ```python
+# 这个例子检查同一事件的多个复核标签之间的不一致以及按月分布。
 import pandas as pd
 
 label_variety_threshold = 1

@@ -89,6 +89,7 @@ Expected output: output that shows the review count by event, the number of labe
 Concept to check: what matters more than the existence of a candidate column is whether the same meaning repeats for the same event and similar conditions
 
 ```python
+# This example checks disagreements among multiple review labels for the same event and their monthly distribution.
 import pandas as pd
 
 label_variety_threshold = 1
