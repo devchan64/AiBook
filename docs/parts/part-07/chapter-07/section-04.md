@@ -68,6 +68,7 @@ P7-7.3에서는 운영 신호를 `즉시 수정`, `재현 확인`, `다음 반�
 예제는 `값이 크면 무조건 action` 같은 단순 규칙이 왜 운영 판단을 흔들 수 있는지 확인하는 것입니다.
 
 ```python
+# 경고 신호를 단순 threshold 등급과 evidence 기반 등급으로 비교해 watch, review, action 분류가 어떻게 바뀌는지 확인하는 예제입니다.
 import csv
 from pathlib import Path
 

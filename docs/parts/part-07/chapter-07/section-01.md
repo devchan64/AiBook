@@ -180,6 +180,7 @@ git branch --show-current
 4. 재확인 필요 항목을 보고, 다음에 다시 볼 위치를 한 줄로 적습니다.
 
 ```python
+# 배포 점검 CSV를 run별로 묶어 공개 확인 완료와 재확인 필요 상태를 판정하는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path
