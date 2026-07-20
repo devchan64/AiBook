@@ -123,6 +123,7 @@ Expected output: confirm the node list, edge list, Kim's direct neighbors, Kim's
 Concept to check: a graph tool lets you turn relationship data into an object with nodes and edges, then ask graph questions through APIs for neighbors, direction, and weight.
 
 ```python
+# This example checks how a graph represents relationships with nodes, edges, direction, and weight.
 import networkx as nx
 
 friend_relationships = [

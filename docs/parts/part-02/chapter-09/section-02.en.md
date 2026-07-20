@@ -110,6 +110,7 @@ Expected output: The first value and the third value are printed.
 Concept to check: In an array, not only the value itself but also which position the value belongs to matters.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 embedding = [0.12, -0.03, 0.44, 0.18]
 
 print(embedding[0])
@@ -124,6 +125,7 @@ Expected output: Two values at designated row and column positions.
 Concept to check: A two-dimensional array reads row and column positions together to find values.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 image_patch = [
     [0, 20, 40],
     [10, 30, 50],
@@ -152,6 +154,7 @@ Expected output: The average value `average`.
 Concept to check: Array intuition is especially useful in work centered on numerical computation.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 scores = [82, 75, 45]
 
 average = sum(scores) / len(scores)
@@ -182,6 +185,7 @@ Expected output: Student names and scores are printed in order.
 Concept to check: A table structure can be read as one row being one case and each key playing the role of a column.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 students = [
     {"name": "Kim", "age": 21, "score": 82, "label": "pass"},
     {"name": "Lee", "age": 20, "score": 75, "label": "pass"},
@@ -211,6 +215,7 @@ Expected output: `passed_students`, which contains only the names of passed stud
 Concept to check: Table intuition is advantageous when comparing or filtering while looking at multiple attributes together.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 passed_students = []
 
 for student in students:
@@ -248,6 +253,7 @@ Expected output: Each Part title is printed.
 Concept to check: A tree is a hierarchical structure where lower items appear under higher items.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 course_tree = {
     "title": "study-course",
     "children": [
@@ -280,6 +286,7 @@ Expected output: The list of lower topics under `"Data Work"`.
 Concept to check: In a tree, the sense of starting from the root and going down to the desired path matters.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 for item in course_tree["children"]:
     if item["title"] == "Data Work":
         print(item["children"])
@@ -310,6 +317,7 @@ Expected output: The list of people directly connected to `"Kim"` is printed.
 Concept to check: A graph is a structure that stores and follows connections between one object and another.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 friends = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim", "Choi"],
@@ -341,6 +349,7 @@ Expected output: The names of friends connected to `"Kim"`.
 Concept to check: The first question in reading a graph is who the directly connected neighbors are.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 for friend in friends["Kim"]:
     print(friend)
 ```
@@ -363,6 +372,7 @@ Expected output: The score list `scores`.
 Concept to check: Even the same source data can be viewed with array intuition when computation is the purpose.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 scores = [82, 75, 45]
 ```
 
@@ -374,6 +384,7 @@ Expected output: A student record list structure.
 Concept to check: When the purpose is comparing attributes by case, table intuition is more natural.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 students = [
     {"name": "Kim", "score": 82, "label": "pass"},
     {"name": "Lee", "score": 75, "label": "pass"},
@@ -389,6 +400,7 @@ Expected output: The hierarchical structure `school`.
 Concept to check: Tree intuition appears in data where containment relations and paths are central.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 school = {
     "name": "School",
     "children": [
@@ -406,6 +418,7 @@ Expected output: A structure of connection lists by student.
 Concept to check: Graph intuition is needed when the connection itself is the object of interest.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 friends = {
     "Kim": ["Lee"],
     "Lee": ["Kim", "Park"],
@@ -430,6 +443,7 @@ Expected output: The score array `scores`, the grouped names by class `names_by_
 Concept to check: The same data can be represented again in multiple structures depending on the question.
 
 ```python
+# This example checks how arrays, tables, trees, and graphs view data through different structures.
 students = [
     {"name": "Kim", "class": "A", "score": 82, "friends": ["Lee"]},
     {"name": "Lee", "class": "A", "score": 75, "friends": ["Kim", "Park"]},

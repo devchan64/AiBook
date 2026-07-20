@@ -35,6 +35,7 @@ Expected output: A score list, `scores`.
 Concept to check: A list is a basic data structure that is good for handling values in order.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 scores = [82, 75, 91]
 ```
 
@@ -46,6 +47,7 @@ Expected output: A dictionary map of scores by name.
 Concept to check: Even with the same data, a dictionary is more natural when name-based lookup matters.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
@@ -154,6 +156,7 @@ Expected output: Each score is printed one line at a time.
 Concept to check: Work centered on traversal matches well with the list structure.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 scores = [82, 75, 91]
 
 for score in scores:
@@ -168,6 +171,7 @@ Expected output: The score `82` for `"Kim"`.
 Concept to check: Work centered on search reveals intent more directly with a key-based structure.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
@@ -227,6 +231,7 @@ Expected output: Each student's name and score are printed in sequence.
 Concept to check: When sequential processing of the same type of record is needed, a list of dictionaries is a natural structure.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 students = [
     {"name": "Kim", "score": 82},
     {"name": "Lee", "score": 75},
@@ -247,6 +252,7 @@ Expected output: The score `82` for `"Kim"`.
 Concept to check: When name lookup is central, it is easier to read if the outer structure is a dictionary.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 student_by_name = {
     "Kim": {"score": 82},
     "Lee": {"score": 75},
@@ -266,6 +272,7 @@ Expected output: The list of friends connected to `"Kim"`.
 Concept to check: When relationship representation is central, graph intuition is needed first.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 friends = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim"],
@@ -317,6 +324,7 @@ Expected output: The score of the student whose name is `"Kim"`.
 Concept to check: Data-structure choice should consider not only performance but also data size and readability.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 students = [
     {"name": "Kim", "score": 82},
     {"name": "Lee", "score": 75},
@@ -335,6 +343,7 @@ Expected output: The score `82` for `"Kim"`.
 Concept to check: When the structure itself reveals the frequently used operation, the code's intent becomes clearer too.
 
 ```python
+# This example checks how lists, dictionaries, and nested structures store and find data.
 student_by_name = {
     "Kim": {"score": 82},
     "Lee": {"score": 75},

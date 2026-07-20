@@ -110,6 +110,7 @@
 要确认的概念：在数组里，不只值本身重要，它属于哪个位置也重要。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 embedding = [0.12, -0.03, 0.44, 0.18]
 
 print(embedding[0])
@@ -124,6 +125,7 @@ print(embedding[2])
 要确认的概念：二维数组会同时读取行和列的位置来找到值。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 image_patch = [
     [0, 20, 40],
     [10, 30, 50],
@@ -152,6 +154,7 @@ print(image_patch[1][1])
 要确认的概念：数组直觉在以数值计算为中心的工作里尤其有用。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 scores = [82, 75, 45]
 
 average = sum(scores) / len(scores)
@@ -182,6 +185,7 @@ print(average)
 要确认的概念：表结构可以理解成“一行就是一个案例，每个键都扮演一列”。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 students = [
     {"name": "Kim", "age": 21, "score": 82, "label": "pass"},
     {"name": "Lee", "age": 20, "score": 75, "label": "pass"},
@@ -211,6 +215,7 @@ for student in students:
 要确认的概念：当需要一起看多个属性来比较或过滤时，表的直觉更有优势。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 passed_students = []
 
 for student in students:
@@ -248,6 +253,7 @@ study-book
 要确认的概念：树是一种“上级项目下面放着下级项目”的层级结构。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 course_tree = {
     "title": "study-course",
     "children": [
@@ -280,6 +286,7 @@ for part in course_tree["children"]:
 要确认的概念：在树里，从根开始走到目标路径的感觉很重要。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 for item in course_tree["children"]:
     if item["title"] == "Data Work":
         print(item["children"])
@@ -310,6 +317,7 @@ Park -- Choi
 要确认的概念：图是一种保存并追踪“对象与对象之间连接”的结构。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 friends = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim", "Choi"],
@@ -341,6 +349,7 @@ for person in friends["Kim"]:
 要确认的概念：阅读图时，第一个问题通常是谁是它的直接邻居。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 for friend in friends["Kim"]:
     print(friend)
 ```
@@ -363,6 +372,7 @@ for friend in friends["Kim"]:
 要确认的概念：即使是同样的源数据，只要目的是计算，就可以改用数组直觉来读。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 scores = [82, 75, 45]
 ```
 
@@ -374,6 +384,7 @@ scores = [82, 75, 45]
 要确认的概念：如果目的是比较每个案例的属性，表的直觉更自然。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 students = [
     {"name": "Kim", "score": 82, "label": "pass"},
     {"name": "Lee", "score": 75, "label": "pass"},
@@ -389,6 +400,7 @@ students = [
 要确认的概念：树的直觉会出现在“包含关系和路径是核心”的数据里。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 school = {
     "name": "School",
     "children": [
@@ -406,6 +418,7 @@ school = {
 要确认的概念：当真正的关注点是连接本身时，就需要图的直觉。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 friends = {
     "Kim": ["Lee"],
     "Lee": ["Kim", "Park"],
@@ -430,6 +443,7 @@ friends = {
 要确认的概念：同样的数据会因为问题不同而重新表示成多种结构。
 
 ```python
+# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 students = [
     {"name": "Kim", "class": "A", "score": 82, "friends": ["Lee"]},
     {"name": "Lee", "class": "A", "score": 75, "friends": ["Kim", "Park"]},

@@ -123,6 +123,7 @@ NIST 的 Dictionary of Algorithms and Data Structures 把图解释成“由边�
 要确认的概念：图工具会先把关系数据变成拥有节点和边的对象，然后通过 API 来询问邻居、方向、权重等图问题。
 
 ```python
+# 这个例子用来确认图如何用节点、边、方向和权重来表示关系。
 import networkx as nx
 
 friend_relationships = [

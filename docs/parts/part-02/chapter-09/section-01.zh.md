@@ -35,6 +35,7 @@
 要确认的概念：列表是适合按顺序处理值的基本数据结构。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 scores = [82, 75, 91]
 ```
 
@@ -46,6 +47,7 @@ scores = [82, 75, 91]
 要确认的概念：即使是同样的数据，如果按姓名查找更重要，字典会更自然。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
@@ -154,6 +156,7 @@ NIST 的 Dictionary of Algorithms and Data Structures 把数据结构解释成�
 要确认的概念：以遍历为中心的工作，与列表结构很匹配。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 scores = [82, 75, 91]
 
 for score in scores:
@@ -168,6 +171,7 @@ for score in scores:
 要确认的概念：以搜索为中心的工作，用基于键的结构更能直接显露意图。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
@@ -227,6 +231,7 @@ print(score_by_name["Kim"])
 要确认的概念：当需要按顺序处理同类记录时，“列表里放字典”是很自然的结构。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 students = [
     {"name": "Kim", "score": 82},
     {"name": "Lee", "score": 75},
@@ -247,6 +252,7 @@ for student in students:
 要确认的概念：如果姓名查询是中心任务，把外层结构设成字典更容易阅读。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 student_by_name = {
     "Kim": {"score": 82},
     "Lee": {"score": 75},
@@ -266,6 +272,7 @@ print(student_by_name["Kim"]["score"])
 要确认的概念：如果关系表示是中心任务，就需要先有图的直觉。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 friends = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim"],
@@ -317,6 +324,7 @@ print(friends["Kim"])
 要确认的概念：数据结构选择不仅要看性能，也要一起考虑数据规模和可读性。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 students = [
     {"name": "Kim", "score": 82},
     {"name": "Lee", "score": 75},
@@ -335,6 +343,7 @@ for student in students:
 要确认的概念：如果结构本身就显露了常做操作，代码意图也会更清楚。
 
 ```python
+# 这个例子用来确认列表、字典和嵌套结构如何保存并查找数据。
 student_by_name = {
     "Kim": {"score": 82},
     "Lee": {"score": 75},

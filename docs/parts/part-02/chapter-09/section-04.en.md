@@ -188,6 +188,7 @@ Expected output: The value `30` at the third position is printed.
 Concept to check: See that the core of array intuition lies in accessing by position rather than in the value alone.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 values = [10, 20, 30, 40]
 print(values[2])
 ```
@@ -312,6 +313,7 @@ Expected output: The score `82` corresponding to the key `Kim` is printed.
 Concept to check: See that the core of a key-based structure is finding values by key rather than by position.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
@@ -376,6 +378,7 @@ Expected output: There is no output, but you confirm what an order-centered stru
 Concept to check: See that a list is closer to the intuition of handling values in order than to the intuition of labels.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 scores = [82, 75, 91]
 ```
 
@@ -387,6 +390,7 @@ Expected output: There is no output, but you confirm what a key-based structure 
 Concept to check: See that even with the same data, if labels matter, a dictionary structure becomes more natural.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
@@ -402,6 +406,7 @@ Expected output: There is no output, but you confirm how a relationship-centered
 Concept to check: See that in graph intuition, connection matters more than order.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 friends = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim"],
@@ -427,6 +432,7 @@ Expected output: The first value, the third value, and then the full list after 
 Concept to check: Confirm that in an array-like structure, values are read by position and changed by position.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 values = [10, 20, 30, 40]
 
 print(values[0])
@@ -448,6 +454,7 @@ Expected output: `Kim`, `Lee`, and `Park` are printed in order.
 Concept to check: See that linked-list intuition lies not in numbered positions but in the link pointing to the next node.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 third = {"value": "Park", "next": None}
 second = {"value": "Lee", "next": third}
 first = {"value": "Kim", "next": second}
@@ -470,6 +477,7 @@ Expected output: `"C"`, `"B"`, and then the remaining list are printed.
 Concept to check: Confirm that the core rule of a stack is LIFO.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 stack = []
 
 stack.append("A")
@@ -493,6 +501,7 @@ Expected output: `"A"`, `"B"`, and then the remaining queue are printed.
 Concept to check: Confirm that the core rule of a queue is FIFO.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 from collections import deque
 
 queue = deque()
@@ -518,6 +527,7 @@ Expected output: The book title, each Part title, and the Chapter names below th
 Concept to check: Confirm that a tree is a hierarchical structure where children hang below a parent.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 book = {
     "title": "study-book",
     "children": [
@@ -551,6 +561,7 @@ Expected output: The neighbor list of `Kim` and then each connection sentence ar
 Concept to check: See that in a graph, reading the list of connected objects matters more than order.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 graph = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim", "Choi"],
@@ -576,6 +587,7 @@ Expected output: The score of `Kim` and then the dictionary after adding a new i
 Concept to check: Confirm that in a key-based structure, what matters is by which name you find it rather than at which position it sits.
 
 ```python
+# This example checks how traditional data structures change storage and access patterns.
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
