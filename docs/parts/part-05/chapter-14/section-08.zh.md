@@ -7,7 +7,7 @@
 
 在 Transformer block 中，residual connection 不是用来删除新计算的装置。它让新计算结果和原始输入表示一起进入下一阶段。
 
-当术语再次散开时，可以回到概念词汇表中的残差连接(residual connection)条目，并同时对照 P5-14.2 的四个部件分工。
+当术语再次散开时，可以回到概念词汇表中的 [residual connection](../../../reference/concept-glossary.md#residual-connection) 条目，并同时对照 P5-14.2 的四个部件分工。
 
 ## 只传递新计算会有什么风险
 
@@ -106,4 +106,4 @@ residual connection 留下的是 `信息通过的路`。layer normalization 则�
 ## 来源与参考资料
 
 - Kaiming He et al., `Deep Residual Learning for Image Recognition`, CVPR 2016，确认日期：2026-07-19。[https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html){: target="_blank" rel="noopener noreferrer" }
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017，确认日期：2026-06-29。
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 确认日期：2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }

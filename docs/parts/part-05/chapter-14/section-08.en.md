@@ -7,7 +7,7 @@ In P5-14.2, we saw that a residual connection leaves the original information fl
 
 In a Transformer block, a residual connection does not remove the new computation. It creates a path where the new computed result and the original input representation move on to the next stage together.
 
-When the terminology begins to scatter again, it helps to revisit the residual connection entry in the concept glossary together with the four-part role split from P5-14.2.
+When the terminology begins to scatter again, it helps to revisit the [residual connection](../../../reference/concept-glossary.md#residual-connection) entry in the concept glossary together with the four-part role split from P5-14.2.
 
 ## What Goes Wrong If Only the New Computation Is Passed On?
 
@@ -106,4 +106,4 @@ Explanation: A good answer does not stop at `keep the original word`. When the m
 ## Sources and References
 
 - Kaiming He et al., `Deep Residual Learning for Image Recognition`, CVPR 2016, checked on 2026-07-19. [https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html){: target="_blank" rel="noopener noreferrer" }
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-06-29.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
