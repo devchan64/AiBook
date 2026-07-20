@@ -209,6 +209,7 @@ batch，就是把多个样本打包后一起计算的方式。
 这张表的目的，就是把`第一轴是什么`和`拿掉一个 batch item 后还剩下什么`分开来读。
 
 ```python
+# 这个例子检查表格、图像、文本张量的第一轴是 batch，并观察取出一个样本后还剩哪些轴。
 import numpy as np
 
 tabular_batch = np.array([

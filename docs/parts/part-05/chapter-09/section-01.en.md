@@ -200,6 +200,7 @@ The difference we want to confirm here also does not end with a simple compariso
 The purpose of this table is to read separately that `the result is the same, but the computational burden grows`. This code keeps `batch size` and `feature count` directly changeable so that readers can experiment immediately with which values are more sensitive to the growth of repeated computation.
 
 ```python
+# This example compares one-by-one line-risk scoring with batch matrix scoring and checks multiply-count scaling by batch and feature size.
 import numpy as np
 
 # 4 lines, 3 features each

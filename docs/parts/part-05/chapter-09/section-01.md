@@ -202,6 +202,7 @@ AlexNet이 자주 언급되는 이유는 단순히 모델이 컸기 때문이 �
 이 표의 목적은 `결과는 같지만 계산 부담은 커진다`는 점을 분리해서 읽는 것입니다. 이번 코드는 `batch 크기`와 `feature 수`를 직접 바꿔 볼 수 있게 두어, 어떤 값이 반복 계산 증가에 더 민감한지 바로 실험해 보게 합니다.
 
 ```python
+# 같은 라인 위험 점수를 sample별 반복 계산과 batch 행렬 계산으로 비교하고, batch/feature 크기에 따른 곱셈 수 증가를 확인하는 예제입니다.
 import numpy as np
 
 # 4 lines, 3 features each

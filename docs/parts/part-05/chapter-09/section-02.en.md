@@ -209,6 +209,7 @@ The difference we need to confirm here also does not end with memorizing shapes.
 The purpose of this table is to read separately `what the first axis is` and `what remains after taking out one batch item`.
 
 ```python
+# This example checks that the first axis is batch for tabular, image, and text tensors and what axes remain after taking one sample.
 import numpy as np
 
 tabular_batch = np.array([

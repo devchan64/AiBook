@@ -200,6 +200,7 @@ AlexNet 之所以被反复提起，并不只是因为模型很大，而是因为
 这张表的目的，是把`结果相同`和`计算负担增长`拆开来读。下面这段代码把 `batch size` 和 `feature count` 都保留成可直接改动的值，好让读者立刻实验：到底是哪一类值对重复计算的膨胀更敏感。
 
 ```python
+# 这个例子比较逐样本产线风险评分和 batch 矩阵评分，并检查乘法次数如何随 batch 和 feature 大小增长。
 import numpy as np
 
 # 4 lines, 3 features each
