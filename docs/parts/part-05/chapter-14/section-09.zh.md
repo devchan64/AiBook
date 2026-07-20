@@ -7,7 +7,7 @@
 
 在 Transformer block 中，layer normalization 不是重新选择意义的装置。它会在一个位置表示内部重新对齐值的平均和散布，让这些值处在下一次计算更容易处理的基准线上。
 
-当术语再次散开时，可以回到概念词汇表中的层归一化(layer normalization)条目，并同时对照 P5-14.2 的四个部件分工。
+当术语再次散开时，可以回到概念词汇表中的 [layer normalization](../../../reference/concept-glossary.md#layer-normalization) 条目，并同时对照 P5-14.2 的四个部件分工。
 
 ## 值的基准线摇晃是什么意思
 
@@ -185,4 +185,4 @@ normalized values = [-0.557, 1.3, -1.3, 0.557]
 ## 来源与参考资料
 
 - Jimmy Lei Ba, Jamie Ryan Kiros, Geoffrey E. Hinton, `Layer Normalization`, arXiv, 2016，确认日期：2026-07-19。[https://arxiv.org/abs/1607.06450](https://arxiv.org/abs/1607.06450){: target="_blank" rel="noopener noreferrer" }
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017，确认日期：2026-06-29。
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017，确认日期：2026-07-19。[https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
