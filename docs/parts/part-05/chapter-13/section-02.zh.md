@@ -1,7 +1,7 @@
 # P5-13.2 通向 self-attention 的流程
 
-Section ID: `P5-13.2`
-Version: `v2026.07.18`
+> Section ID: `P5-13.2`
+> Version: `v2026.07.19`
 
 在 P5-13.1 里，我们把 attention 解释成了`更强地参考当前计算里重要位置的方式`。接下来立刻会跟出下一个问题。
 
@@ -22,7 +22,7 @@ self-attention 是一种方式：序列里的每个 token 会参考同一序列�
 
 本节首先要抓住的核心，是`token 不再按顺序接收状态，而是重新去参考同一序列里的其他 token，并为自己生成新的表示`。所以这里比起 optimizer、regularization 之类的训练程序，我们更先看的是：同一序列里的 token 怎样通过重新计算关系来再次彼此参考，并更新自己的表示。
 
-完整的 Transformer 结构会在 P5-14.1 和 P5-14.2 继续展开，query、key、value 与 multi-head attention 的入门说明，会在补充学习 P5-13.3 再回收。
+完整的 Transformer 结构会从 P5-14.1 到 P5-14.6 继续展开，query、key、value 与 multi-head attention 的入门说明，会在补充学习 P5-13.3 再回收。
 
 本节必须收住的一句话只有一个。它不再是`token 会不会接收到顺序状态`，而是要让读者理解这种计算感觉的转移：`token 会不会重新参考彼此，并更新自己的表示。`
 
@@ -403,6 +403,6 @@ cap_plus_not_applied_weight = 0.571
 
 ## 来源与参考资料
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 确认日期：2026-06-29。
-- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, 确认日期：2026-06-29。
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 确认日期：2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, 确认日期：2026-07-19. [https://arxiv.org/abs/1409.0473](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29。 [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

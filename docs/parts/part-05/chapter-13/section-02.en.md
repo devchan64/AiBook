@@ -1,7 +1,7 @@
 # P5-13.2 The Flow That Leads To Self-Attention
 
-Section ID: `P5-13.2`
-Version: `v2026.07.18`
+> Section ID: `P5-13.2`
+> Version: `v2026.07.19`
 
 In P5-13.1, we explained attention as `a method that refers more strongly to positions important for the current computation`. The next question follows immediately.
 
@@ -22,7 +22,7 @@ When you need to briefly confirm again the core mechanism right before the Trans
 
 The core point to hold first in this section is that `instead of tokens receiving a state sequentially, they directly refer again to other tokens in the same sequence and create new representations for themselves`. So here, rather than learning procedures such as optimizers or regularization, we first read the structure in which tokens inside the same sequence refer again to one another and update their representations through recalculated relationships.
 
-The full Transformer structure is continued in P5-14.1 and P5-14.2, and an introductory explanation of query, key, value, and multi-head attention is revisited in supplementary reading P5-13.3.
+The full Transformer structure is continued from P5-14.1 through P5-14.6, and an introductory explanation of query, key, value, and multi-head attention is revisited in supplementary reading P5-13.3.
 
 There is one explanation that must be closed here. Rather than `does the token receive sequential state`, this section needs to make the reader understand the shift in computational feel toward `do the tokens reread one another and update their own representations`.
 
@@ -402,6 +402,6 @@ The transition to confirm in self-attention is that attention did not remain onl
 
 ## Sources And References
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-06-29.
-- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, checked on 2026-06-29.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, checked on 2026-07-19. [https://arxiv.org/abs/1409.0473](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
