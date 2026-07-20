@@ -1,7 +1,7 @@
 # P2-3.6 Checking Linear Algebra with NumPy
 
 > Section ID: `P2-3.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-3.1, we looked at the shapes of scalar, vector, and matrix. In P2-3.2, we looked at the intuition of vector space and position. In P2-3.3, we read matrix multiplication as the reuse of weighted sums. In P2-3.5, we separated Python runtime environments into Google Colab and a local PC.
 
@@ -71,6 +71,7 @@ Expected output: NumPy is installed into the current Colab kernel.
 Concept to check: Installation commands in a Colab code cell and execution of Python code are different stages.
 
 ```python
+# This command installs NumPy inside a Colab/Jupyter code cell.
 %pip install numpy
 ```
 
@@ -88,6 +89,7 @@ Expected output: There is no printed output, but the name `np` becomes ready for
 Concept to check: Installation commands and import statements differ in execution place and role.
 
 ```python
+# This imports installed NumPy into Python code under the short name np.
 import numpy as np
 ```
 
@@ -119,9 +121,12 @@ Concept to check: A vector appears in NumPy as a one-dimensional array, and its 
 ```python
 import numpy as np
 
+# x is an input vector with two components.
 x = np.array([2, 3])
 
 print(x)
+
+# shape confirms that this vector is a one-dimensional array with two components.
 print(x.shape)
 ```
 
@@ -148,12 +153,15 @@ Expected output: The matrix values and `shape (2, 2)` are printed.
 Concept to check: A matrix appears in NumPy as a two-dimensional array, and the number of rows and columns is read through `shape`.
 
 ```python
+# W is a 2x2 weight matrix that transforms the input vector into another output.
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
 print(W)
+
+# W's shape is the check point for whether matrix multiplication dimensions match.
 print(W.shape)
 ```
 
@@ -187,12 +195,14 @@ Expected output: The shapes of `x` and `W` are printed.
 Concept to check: When moving linear-algebra calculations into code, shape should be checked before values.
 
 ```python
+# x is the input vector, and W is the weight matrix to multiply it by.
 x = np.array([2, 3])
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# Reading both shapes side by side helps decide whether x @ W is possible.
 print("x shape:", x.shape)
 print("W shape:", W.shape)
 ```
@@ -215,9 +225,11 @@ Expected output: The position-wise sum `[5 7 9]` is printed.
 Concept to check: Vector addition is a calculation that adds values at the same positions.
 
 ```python
+# a and b are two vectors with the same shape.
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
+# This checks that components in the same positions are added.
 print(a + b)
 ```
 
@@ -241,6 +253,7 @@ Expected output: `[2 4 6]` is printed.
 Concept to check: Scalar multiplication applies the same number to each position of a vector.
 
 ```python
+# This multiplies every component of the earlier vector a by the same scalar 2.
 print(2 * a)
 ```
 
@@ -270,9 +283,11 @@ Expected output: The element-wise product `[ 4 10 18]` is printed.
 Concept to check: NumPy’s `*` is an element-wise calculation between matching positions.
 
 ```python
+# a and b are the two vectors used to compare element-wise multiplication.
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
+# * multiplies components in the same positions.
 print(a * b)
 ```
 
@@ -302,12 +317,14 @@ Expected output: The output vector `y` and its `shape` are printed.
 Concept to check: `@` is not element-wise multiplication, but matrix multiplication that multiplies and adds to make a new vector.
 
 ```python
+# x is the input vector, and W is the weight matrix that creates output components.
 x = np.array([2, 3])
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# y is the output vector produced by matrix multiplication between x and W.
 y = x @ W
 
 print(y)
@@ -357,16 +374,19 @@ Expected output: The shapes of `X`, `W`, and `Y`, plus the batch-calculation res
 Concept to check: Even when calculating several samples together, the core issue is still matrix-shape compatibility.
 
 ```python
+# X is an input matrix with two samples as rows.
 X = np.array([
     [2, 3],
     [1, 4],
 ])
 
+# W is the weight matrix that turns each input sample into an output vector.
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# Y is the output matrix after applying W to the whole input batch X.
 Y = X @ W
 
 print(X.shape)
@@ -425,6 +445,7 @@ Expected output: A shape mismatch error occurs when matrix multiplication is att
 Concept to check: Linear algebra code runs only when the shapes match, not merely when the values look reasonable.
 
 ```python
+# bad_x has three components, so its dimension does not match the two-row W.
 bad_x = np.array([2, 3, 4])
 W = np.array([
     [4, 1],

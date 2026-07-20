@@ -1,7 +1,7 @@
 # P2-3.5 Python 运行环境：Colab 与本地 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 从 P2-3.1 到 P2-3.4，我们主要是用公式和比较标准来阅读线性代数(linear algebra)。下一节会开始用 NumPy 直接检查向量(vector)、矩阵(matrix)、矩阵乘法(matrix multiplication)。在这之前，必须先分清 Python 代码到底是在哪里运行的。
 
@@ -93,6 +93,7 @@ python -m pip install numpy
 而在 Python 文件里，则这样导入 NumPy。
 
 ```python
+# 这一行是在 Python 代码里导入 NumPy。
 import numpy as np
 ```
 
@@ -105,6 +106,7 @@ Colab 笔记本里有写文字的单元，也有执行代码的单元。Python �
 例如，下面这段代码可以放进代码单元并直接运行。
 
 ```python
+# 这是确认 Colab 代码单元正在运行的最小输出例子。
 print("hello, colab")
 ```
 
@@ -121,6 +123,7 @@ hello, colab
 在很多情况下，Colab 环境里已经准备好了 NumPy。但由于环境可能变化，如果需要，也可以在代码单元里运行下面这个命令。
 
 ```python
+# %pip 是在 Colab/Jupyter 代码单元中使用的安装命令。
 %pip install numpy
 ```
 
@@ -129,6 +132,7 @@ hello, colab
 在 Colab 或 Jupyter 文档里，你也可能看到用感叹号(`!`)运行 shell 命令的示例，比如：
 
 ```python
+# 感叹号形式是在代码单元中调用终端命令的方式。
 !pip install numpy
 ```
 

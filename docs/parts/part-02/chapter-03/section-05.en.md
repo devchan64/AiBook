@@ -1,7 +1,7 @@
 # P2-3.5 Python Runtime Environments: Colab and Local PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 From P2-3.1 through P2-3.4, we looked at linear algebra mainly through formulas and comparison standards. In the next section, we will directly check vectors, matrices, and matrix multiplication with NumPy. Before that, we first need to separate where Python code is being run.
 
@@ -93,6 +93,7 @@ python -m pip install numpy
 And inside a Python file, NumPy is imported like this.
 
 ```python
+# This line imports NumPy inside Python code.
 import numpy as np
 ```
 
@@ -105,6 +106,7 @@ A Colab notebook has cells for writing text and cells for running code. Python c
 For example, the following code can be put into a code cell and run.
 
 ```python
+# This is the smallest output check that confirms a Colab code cell is running.
 print("hello, colab")
 ```
 
@@ -121,6 +123,7 @@ Here, `print(...)` is Python code. By contrast, a package-installation command i
 In many cases, NumPy is already available in the Colab environment. But because the environment can change, if needed we run the following command in a code cell.
 
 ```python
+# %pip is an install command used inside a Colab/Jupyter code cell.
 %pip install numpy
 ```
 
@@ -129,6 +132,7 @@ Here, `%pip` is not ordinary Python syntax. It is a magic command used in Jupyte
 In Colab or Jupyter documentation, you may also see examples that use an exclamation mark (`!`) to run shell commands, like this:
 
 ```python
+# The exclamation-mark form calls a terminal command from a code cell.
 !pip install numpy
 ```
 

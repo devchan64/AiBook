@@ -1,7 +1,7 @@
 # P2-3.5 파이썬 실행 환경: Colab과 로컬 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-3.1부터 P2-3.4까지는 선형대수(linear algebra)를 수식과 비교 기준 중심으로 봤습니다. 다음 절에서는 NumPy로 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)을 직접 확인합니다. 그 전에 파이썬(Python) 코드를 어디에서 실행하는지 먼저 구분해야 합니다.
 
@@ -93,6 +93,7 @@ python -m pip install numpy
 그리고 파이썬 파일 안에서는 다음처럼 NumPy를 불러옵니다.
 
 ```python
+# NumPy를 Python 코드 안에서 불러오는 문장입니다.
 import numpy as np
 ```
 
@@ -105,6 +106,7 @@ Colab 노트북에는 글을 쓰는 셀과 코드를 실행하는 셀이 있습�
 예를 들어 다음 코드를 코드 셀에 넣고 실행할 수 있습니다.
 
 ```python
+# Colab 코드 셀이 실제로 실행되는지 확인하는 가장 작은 출력 예시입니다.
 print("hello, colab")
 ```
 
@@ -121,6 +123,7 @@ hello, colab
 Colab 환경에는 NumPy가 이미 준비되어 있는 경우가 많습니다. 하지만 환경이 달라질 수 있으므로 필요하면 코드 셀에서 다음 명령을 실행합니다.
 
 ```python
+# %pip는 Colab/Jupyter 코드 셀 안에서 쓰는 설치 명령입니다.
 %pip install numpy
 ```
 
@@ -129,6 +132,7 @@ Colab 환경에는 NumPy가 이미 준비되어 있는 경우가 많습니다. �
 Colab이나 Jupyter 문서에서는 셸 명령을 실행할 때 다음처럼 느낌표(`!`)를 붙인 예제도 볼 수 있습니다.
 
 ```python
+# 느낌표 명령은 코드 셀에서 터미널 명령을 호출하는 방식입니다.
 !pip install numpy
 ```
 

@@ -1,7 +1,7 @@
 # P2-3.6 用 NumPy 确认线性代数
 
 > Section ID: `P2-3.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-3.1 里，我们看了标量(scalar)、向量(vector)、矩阵(matrix)的形状。在 P2-3.2 里，我们看了向量空间(vector space)与位置(position)的直觉；在 P2-3.3 里，我们把矩阵乘法(matrix multiplication)读成了加权求和(weighted sum)的复用；在 P2-3.5 里，我们又把 Python 运行环境分成了 Google Colab 与本地 PC。
 
@@ -71,6 +71,7 @@
 要确认的概念：Colab 代码单元里的安装命令，与 Python 代码的执行，是两个不同阶段。
 
 ```python
+# 这条命令是在 Colab/Jupyter 代码单元里安装 NumPy。
 %pip install numpy
 ```
 
@@ -88,6 +89,7 @@ python -m pip install numpy
 要确认的概念：安装命令与 import 语句的执行位置和作用不同。
 
 ```python
+# 这一行把已安装的 NumPy 用 np 这个短名字导入 Python 代码。
 import numpy as np
 ```
 
@@ -119,9 +121,12 @@ python docs/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py
 ```python
 import numpy as np
 
+# x 是一个有两个成分的输入向量。
 x = np.array([2, 3])
 
 print(x)
+
+# shape 用来确认这个向量是包含两个成分的一维数组。
 print(x.shape)
 ```
 
@@ -148,12 +153,15 @@ print(x.shape)
 要确认的概念：矩阵在 NumPy 中表现为二维数组，行数和列数通过 `shape` 来读取。
 
 ```python
+# W 是把输入向量变成另一个输出的 2x2 权重矩阵。
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
 print(W)
+
+# W 的 shape 是判断矩阵乘法维度是否匹配的依据。
 print(W.shape)
 ```
 
@@ -187,12 +195,14 @@ W =
 要确认的概念：把线性代数计算搬进代码时，先看 shape 再看值。
 
 ```python
+# x 是输入向量，W 是要与它相乘的权重矩阵。
 x = np.array([2, 3])
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# 把两个 shape 并排输出，可以先判断 x @ W 是否可行。
 print("x shape:", x.shape)
 print("W shape:", W.shape)
 ```
@@ -215,9 +225,11 @@ print("W shape:", W.shape)
 要确认的概念：向量加法就是把相同位置的值相加。
 
 ```python
+# a 和 b 是两个 shape 相同的向量。
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
+# 这里确认相同位置的成分会相加。
 print(a + b)
 ```
 
@@ -241,6 +253,7 @@ print(a + b)
 要确认的概念：标量乘法会把同一个数字应用到向量的每个位置。
 
 ```python
+# 这里把前面创建的向量 a 的每个成分都乘以同一个标量 2。
 print(2 * a)
 ```
 
@@ -270,9 +283,11 @@ print(2 * a)
 要确认的概念：NumPy 的 `*` 表示同位置之间的 element-wise 运算。
 
 ```python
+# a 和 b 是用来比较逐元素乘法的两个向量。
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
+# * 会把相同位置的成分相乘。
 print(a * b)
 ```
 
@@ -302,12 +317,14 @@ print(a * b)
 要确认的概念：`@` 不是逐位置乘法，而是通过乘并相加生成新向量的矩阵乘法。
 
 ```python
+# x 是输入向量，W 是生成输出成分的权重矩阵。
 x = np.array([2, 3])
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# y 是 x 和 W 做矩阵乘法后得到的输出向量。
 y = x @ W
 
 print(y)
@@ -357,16 +374,19 @@ print(y.shape)
 要确认的概念：即使是同时计算多个样本，核心仍然是矩阵形状是否兼容。
 
 ```python
+# X 是把两个样本放在行里的输入矩阵。
 X = np.array([
     [2, 3],
     [1, 4],
 ])
 
+# W 是把每个输入样本变成输出向量的权重矩阵。
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# Y 是把 W 应用于整个输入批次 X 后得到的输出矩阵。
 Y = X @ W
 
 print(X.shape)
@@ -425,6 +445,7 @@ XW =
 要确认的概念：线性代数代码不是“值差不多就能跑”，而是“shape 对得上才能跑”。
 
 ```python
+# bad_x 有 3 个成分，因此和只有 2 行的 W 做矩阵乘法时维度不匹配。
 bad_x = np.array([2, 3, 4])
 W = np.array([
     [4, 1],

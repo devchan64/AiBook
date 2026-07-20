@@ -1,7 +1,7 @@
 # P2-3.1 标量(scalar)、向量(vector)、矩阵(matrix)
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 Part 2 Chapter 2 里，我们重新阅读了数学记号。变量(variable)、函数(function)、表达式(expression)、西格玛(sigma)、极限(limit)是为了读懂“公式到底在说什么”的基础语法。从这里开始，我们转向另一类在 AI 数据被改造成可计算形状时经常出现的基础表达，也就是线性代数(linear algebra)的基本形式。
 
@@ -261,10 +261,12 @@ shape 就是数据的形状。它告诉我们，当前看到的是一个值、�
 ```python
 import numpy as np
 
+# scalar、vector、matrix 是用来比较数据存放形状的三个数组。
 scalar = np.array(3)
 vector = np.array([1, 2, 3])
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 
+# shape 输出让读者先看数组的维度和大小，而不是只看数字值。
 print(scalar.shape)
 print(vector.shape)
 print(matrix.shape)

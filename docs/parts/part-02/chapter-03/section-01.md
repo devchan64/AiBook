@@ -1,7 +1,7 @@
 # P2-3.1 스칼라(scalar), 벡터(vector), 행렬(matrix)
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 2에서는 수식 표기를 다시 읽었습니다. 변수(variable), 함수(function), 식(expression), 시그마(sigma), 극한(limit)은 “수식이 무엇을 말하는가”를 읽기 위한 기본 문법이었습니다. 이제부터는 AI 데이터가 계산 가능한 모양으로 바뀔 때 자주 만나는 선형대수(linear algebra)의 기본 표현을 봅니다.
 
@@ -261,10 +261,12 @@ shape은 데이터의 모양입니다. 값이 하나인지, 값의 목록인지,
 ```python
 import numpy as np
 
+# scalar, vector, matrix는 데이터가 담긴 모양을 비교하기 위한 세 배열입니다.
 scalar = np.array(3)
 vector = np.array([1, 2, 3])
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 
+# shape 출력은 숫자값보다 배열의 차원과 크기를 먼저 보게 합니다.
 print(scalar.shape)
 print(vector.shape)
 print(matrix.shape)

@@ -1,7 +1,7 @@
 # P2-3.1 Scalar, Vector, and Matrix
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 2 reread mathematical notation. Variables, functions, expressions, sigma, and limits were the basic grammar for reading what a formula is saying. From here, we move to the basic expressions of linear algebra that appear often when AI data is turned into a calculable shape.
 
@@ -261,10 +261,12 @@ Concept to check: Shape is the basic information that distinguishes whether data
 ```python
 import numpy as np
 
+# scalar, vector, and matrix are three arrays for comparing stored data shape.
 scalar = np.array(3)
 vector = np.array([1, 2, 3])
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 
+# The shape output makes you read dimension and size before the numeric values.
 print(scalar.shape)
 print(vector.shape)
 print(matrix.shape)

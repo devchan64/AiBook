@@ -1,7 +1,7 @@
 # P2-3.6 선형대수를 NumPy로 확인하기
 
 > Section ID: `P2-3.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)의 모양을 봤습니다. P2-3.2에서는 벡터 공간(vector space)과 위치(position)의 직관을 봤고, P2-3.3에서는 행렬 곱(matrix multiplication)을 가중합(weighted sum)의 재사용으로 읽었습니다. P2-3.5에서는 파이썬 실행 환경을 Google Colab과 로컬 PC로 나누어 봤습니다.
 
@@ -71,6 +71,7 @@ Colab 코드 셀에서는 다음처럼 NumPy를 준비할 수 있습니다.
 확인할 개념: Colab 코드 셀의 설치 명령과 Python 코드 실행은 서로 다른 단계라는 점을 봅니다.
 
 ```python
+# Colab/Jupyter 코드 셀에서 NumPy를 설치하는 명령입니다.
 %pip install numpy
 ```
 
@@ -88,6 +89,7 @@ python -m pip install numpy
 확인할 개념: 설치 명령과 import 문장은 실행 위치와 역할이 다르다는 점을 봅니다.
 
 ```python
+# 설치된 NumPy를 Python 코드에서 np라는 짧은 이름으로 불러옵니다.
 import numpy as np
 ```
 
@@ -119,9 +121,12 @@ python docs/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py
 ```python
 import numpy as np
 
+# x는 두 성분을 가진 입력 벡터입니다.
 x = np.array([2, 3])
 
 print(x)
+
+# shape는 이 벡터가 성분 2개짜리 1차원 배열임을 확인하게 합니다.
 print(x.shape)
 ```
 
@@ -148,12 +153,15 @@ print(x.shape)
 확인할 개념: 행렬은 NumPy에서 2차원 배열로 나타나며, 행과 열 수를 `shape`로 읽는다는 점을 봅니다.
 
 ```python
+# W는 입력 벡터를 다른 출력으로 바꾸는 2x2 가중치 행렬입니다.
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
 print(W)
+
+# W의 shape는 행렬 곱에서 차원이 맞는지 확인하는 기준입니다.
 print(W.shape)
 ```
 
@@ -187,12 +195,14 @@ AI 코드에서 계산이 맞지 않을 때는 값보다 shape을 먼저 확인�
 확인할 개념: 선형대수 계산을 코드로 옮길 때는 값보다 shape을 먼저 확인해야 한다는 점을 봅니다.
 
 ```python
+# x는 입력 벡터, W는 그 입력에 곱할 가중치 행렬입니다.
 x = np.array([2, 3])
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# 두 shape를 나란히 보면 x @ W가 가능한지 먼저 판단할 수 있습니다.
 print("x shape:", x.shape)
 print("W shape:", W.shape)
 ```
@@ -215,9 +225,11 @@ P2-3.3의 관점으로 읽으면, `x`는 입력값 2개를 가진 벡터이고 `
 확인할 개념: 벡터 덧셈은 같은 위치의 값끼리 더하는 계산이라는 점을 봅니다.
 
 ```python
+# a와 b는 같은 shape를 가진 두 벡터입니다.
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
+# 같은 위치의 성분끼리 더해지는지 확인합니다.
 print(a + b)
 ```
 
@@ -241,6 +253,7 @@ print(a + b)
 확인할 개념: 스칼라배는 벡터 각 위치에 같은 숫자를 적용하는 계산이라는 점을 봅니다.
 
 ```python
+# 앞에서 만든 벡터 a의 각 성분에 같은 스칼라 2를 곱합니다.
 print(2 * a)
 ```
 
@@ -270,9 +283,11 @@ NumPy에서 배열끼리 `*`를 사용하면 보통 위치별 곱(element-wise m
 확인할 개념: NumPy의 `*`는 같은 위치끼리 곱하는 element-wise 연산이라는 점을 봅니다.
 
 ```python
+# a와 b는 위치별 곱을 비교할 두 벡터입니다.
 a = np.array([1, 2, 3])
 b = np.array([4, 5, 6])
 
+# *는 같은 위치의 성분끼리 곱하는 연산입니다.
 print(a * b)
 ```
 
@@ -302,12 +317,14 @@ NumPy에서 `@`는 행렬 곱(matrix multiplication)에 사용합니다.
 확인할 개념: `@`는 위치별 곱이 아니라 곱하고 더해 새 벡터를 만드는 행렬 곱이라는 점을 확인합니다.
 
 ```python
+# x는 입력 벡터이고, W는 출력 성분을 만드는 가중치 행렬입니다.
 x = np.array([2, 3])
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# y는 x와 W의 행렬 곱으로 만들어진 출력 벡터입니다.
 y = x @ W
 
 print(y)
@@ -357,16 +374,19 @@ print(y.shape)
 확인할 개념: 여러 샘플을 한꺼번에 계산할 때도 핵심은 행렬 shape의 호환성이라는 점을 봅니다.
 
 ```python
+# X는 두 샘플을 행으로 가진 입력 행렬입니다.
 X = np.array([
     [2, 3],
     [1, 4],
 ])
 
+# W는 각 입력 샘플을 출력 벡터로 바꾸는 가중치 행렬입니다.
 W = np.array([
     [4, 1],
     [5, 2],
 ])
 
+# Y는 배치 입력 X 전체에 W를 적용한 출력 행렬입니다.
 Y = X @ W
 
 print(X.shape)
@@ -425,6 +445,7 @@ XW =
 확인할 개념: 선형대수 코드는 값이 아니라 모양이 맞아야 실행된다는 점을 다시 확인합니다.
 
 ```python
+# bad_x는 성분이 3개라서 2행짜리 W와 행렬 곱 차원이 맞지 않습니다.
 bad_x = np.array([2, 3, 4])
 W = np.array([
     [4, 1],
