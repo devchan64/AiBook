@@ -64,6 +64,7 @@ Expected output: a 3-by-3 table containing three students.
 Concept to confirm: a DataFrame is a two-dimensional tabular structure with column names.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -85,6 +86,7 @@ Expected output: the same DataFrame structure as the previous example.
 Concept to confirm: a DataFrame can turn both column-centered and row-centered input into the same table structure.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 rows = [
     {"name": "Kim", "score": 82, "passed": "yes"},
     {"name": "Park", "score": 45, "passed": "no"},
@@ -137,6 +139,7 @@ Expected output: total row count, number of unique `action_id` values, and row c
 Concept to confirm: in a DataFrame, one row may be one moment in time, and `groupby` can help reread several rows as one action unit.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 import pandas as pd
 
 raw = pd.DataFrame(
@@ -193,6 +196,7 @@ Expected output: a table with the default numeric index on the left.
 Concept to confirm: one row is one case, and column labels and the index together create the table structure.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -241,6 +245,7 @@ Expected output: a table where `Kim`, `Park`, and `Lee` appear as row labels on 
 Concept to confirm: the index is a separate structure for identifying rows, not just a default number decoration.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 df = pd.DataFrame(
     {
         "score": [82, 45, 90],
@@ -276,6 +281,7 @@ Expected output: index information shaped like `RangeIndex(...)` or `Index([...]
 Concept to confirm: the index is not visual decoration; it is the structure Pandas uses to manage rows.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 print(df.index)
 ```
 
@@ -315,6 +321,7 @@ Expected output: type information such as `object` and `int64` for each column.
 Concept to confirm: in a DataFrame, types belong to columns individually rather than to the table as one uniform whole.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 print(df.dtypes)
 ```
 
@@ -395,6 +402,7 @@ Expected output: the results of `shape`, `columns`, `index`, `dtypes`, and `head
 Concept to confirm: the first check of a DataFrame is a quick structural sweep.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 print(df.shape)
 print(df.columns)
 print(df.index)
@@ -424,6 +432,7 @@ Expected output: table size, column list, index structure, column types, and the
 Concept to confirm: a very short block of output can summarize the full outline of a table.
 
 ```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
 print(df.shape)
 print(df.columns)
 print(df.index)

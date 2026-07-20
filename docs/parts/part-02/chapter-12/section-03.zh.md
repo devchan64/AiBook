@@ -98,6 +98,7 @@ scikit-learn 文档通常把 `X` 用作输入特征矩阵(feature matrix)，把 
 要确认的概念：准备学习数据集不是原样使用整张表，而是按照问题定义拆出输入与目标。
 
 ```python
+# 这个例子从 DataFrame 中分离特征 X 和目标 y，并准备学习数据集。
 import pandas as pd
 
 df = pd.DataFrame(
@@ -165,6 +166,7 @@ y = df["passed"]
 要确认的概念：类别列在学习之前，可能需要先重新表示成数值形式。
 
 ```python
+# 这个例子从 DataFrame 中分离特征 X 和目标 y，并准备学习数据集。
 X = df[["region", "absences", "score"]]
 X_encoded = pd.get_dummies(X, columns=["region"])
 
@@ -285,6 +287,7 @@ Pandas 通常强在数据集准备的前半段。
 要确认的概念：Pandas 很擅长在学习之前检查表结构与列角色。
 
 ```python
+# 这个例子从 DataFrame 中分离特征 X 和目标 y，并准备学习数据集。
 X = df[["region", "absences", "score"]]
 y = df["passed"]
 
@@ -300,6 +303,7 @@ print(y.head())
 要确认的概念：学习前检查不只是看值本身，也是在看缺失值与类型结构。
 
 ```python
+# 这个例子从 DataFrame 中分离特征 X 和目标 y，并准备学习数据集。
 print(df.isna().sum())
 print(df.dtypes)
 ```
@@ -316,6 +320,7 @@ print(df.dtypes)
 要确认的概念：表操作阶段与学习数据划分阶段是连着的，但角色不同。
 
 ```python
+# 这个例子从 DataFrame 中分离特征 X 和目标 y，并准备学习数据集。
 from sklearn.model_selection import train_test_split
 
 X = df[["region", "absences", "score"]]

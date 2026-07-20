@@ -98,6 +98,7 @@ scikit-learn 문서는 보통 `X`를 입력 특징(feature matrix), `y`를 타�
 확인할 개념: 학습용 데이터셋 준비는 원본 표를 그대로 쓰는 일이 아니라 문제 정의에 맞게 입력과 타깃을 나누는 일입니다.
 
 ```python
+# DataFrame에서 특성 X와 정답 y를 나누고 학습용 데이터셋을 준비하는 예제입니다.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -165,6 +166,7 @@ y = df["passed"]
 확인할 개념: 범주형 열은 학습 전에 숫자 형태로 다시 표현해야 할 수 있습니다.
 
 ```python
+# DataFrame에서 특성 X와 정답 y를 나누고 학습용 데이터셋을 준비하는 예제입니다.
 X = df[["region", "absences", "score"]]
 X_encoded = pd.get_dummies(X, columns=["region"])
 
@@ -285,6 +287,7 @@ Pandas는 보통 데이터셋 준비의 앞부분에서 강합니다.
 확인할 개념: Pandas는 학습 전에 표 구조를 확인하고 열 역할을 점검하는 데 강합니다.
 
 ```python
+# DataFrame에서 특성 X와 정답 y를 나누고 학습용 데이터셋을 준비하는 예제입니다.
 X = df[["region", "absences", "score"]]
 y = df["passed"]
 
@@ -300,6 +303,7 @@ print(y.head())
 확인할 개념: 학습 전 점검은 값 자체뿐 아니라 결측치와 타입 구조를 보는 일입니다.
 
 ```python
+# DataFrame에서 특성 X와 정답 y를 나누고 학습용 데이터셋을 준비하는 예제입니다.
 print(df.isna().sum())
 print(df.dtypes)
 ```
@@ -316,6 +320,7 @@ print(df.dtypes)
 확인할 개념: 표 조작 단계와 학습용 데이터 분할 단계는 이어지지만 역할이 다른 작업입니다.
 
 ```python
+# DataFrame에서 특성 X와 정답 y를 나누고 학습용 데이터셋을 준비하는 예제입니다.
 from sklearn.model_selection import train_test_split
 
 X = df[["region", "absences", "score"]]

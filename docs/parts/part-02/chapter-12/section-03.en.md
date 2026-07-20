@@ -98,6 +98,7 @@ Expected output: the input-column bundle `X` and the answer column `y` are separ
 Concept to check: preparing a learning dataset is not using the original table unchanged, but dividing inputs and targets according to the problem definition.
 
 ```python
+# This example separates features X and target y from a DataFrame and prepares a learning dataset.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -165,6 +166,7 @@ Expected output: `X_encoded`, where `region` has been expanded into multiple 0/1
 Concept to check: categorical columns may need to be re-expressed numerically before learning.
 
 ```python
+# This example separates features X and target y from a DataFrame and prepares a learning dataset.
 X = df[["region", "absences", "score"]]
 X_encoded = pd.get_dummies(X, columns=["region"])
 
@@ -285,6 +287,7 @@ Expected output: the first few rows of `X` and the first few values of `y`.
 Concept to check: Pandas is strong at inspecting table structure and checking column roles before learning.
 
 ```python
+# This example separates features X and target y from a DataFrame and prepares a learning dataset.
 X = df[["region", "absences", "score"]]
 y = df["passed"]
 
@@ -300,6 +303,7 @@ Expected output: the count of missing values for each column and the list of dat
 Concept to check: pre-learning inspection is not only about the values themselves, but also about missing values and type structure.
 
 ```python
+# This example separates features X and target y from a DataFrame and prepares a learning dataset.
 print(df.isna().sum())
 print(df.dtypes)
 ```
@@ -316,6 +320,7 @@ Expected output: `X_train`, `X_test`, `y_train`, and `y_test` split into learnin
 Concept to check: the table-manipulation stage and the learning-data split stage are connected, but they are different tasks with different roles.
 
 ```python
+# This example separates features X and target y from a DataFrame and prepares a learning dataset.
 from sklearn.model_selection import train_test_split
 
 X = df[["region", "absences", "score"]]

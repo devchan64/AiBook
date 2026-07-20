@@ -64,6 +64,7 @@ NumPy가 계산 가능한 숫자 모양을 다뤘다면, 여기서는 그 숫자
 확인할 개념: DataFrame은 열 이름이 있는 2차원 표 형식 구조입니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -85,6 +86,7 @@ print(df)
 확인할 개념: DataFrame은 열 중심 입력과 행 중심 입력을 모두 표 구조로 바꿀 수 있습니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 rows = [
     {"name": "Kim", "score": 82, "passed": "yes"},
     {"name": "Park", "score": 45, "passed": "no"},
@@ -137,6 +139,7 @@ print(df)
 확인할 개념: DataFrame에서 한 행은 한 시점일 수 있고, `groupby`를 통해 여러 행을 하나의 동작 단위로 다시 읽을 수 있습니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 import pandas as pd
 
 raw = pd.DataFrame(
@@ -193,6 +196,7 @@ DataFrame을 처음 보면 표 전체만 보이기 쉽지만, 실제로는 세 �
 확인할 개념: 한 행은 한 사례이고, 열 이름과 인덱스가 함께 표 구조를 이룹니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -241,6 +245,7 @@ Pandas 공식 문서는 인덱스를 따로 주지 않으면 `RangeIndex`를 기
 확인할 개념: 인덱스는 단순 번호가 아니라 행을 식별하는 별도 구조입니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 df = pd.DataFrame(
     {
         "score": [82, 45, 90],
@@ -276,6 +281,7 @@ Lee      90    yes
 확인할 개념: 인덱스는 표에 보이는 장식이 아니라 Pandas가 행을 관리하는 구조입니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 print(df.index)
 ```
 
@@ -315,6 +321,7 @@ NumPy 배열은 보통 같은 타입(dtype)의 숫자를 한꺼번에 계산하�
 확인할 개념: DataFrame은 전체가 아니라 열별로 서로 다른 타입을 가질 수 있습니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 print(df.dtypes)
 ```
 
@@ -395,6 +402,7 @@ DataFrame과 NumPy 배열을 둘 중 하나만 써야 하는 경쟁 관계로 �
 확인할 개념: DataFrame 첫 점검은 구조를 한 번에 훑는 일입니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 print(df.shape)
 print(df.columns)
 print(df.index)
@@ -424,6 +432,7 @@ print(df.head())
 확인할 개념: 구조 점검 코드는 표의 전체 윤곽을 아주 짧은 출력으로 요약해 줍니다.
 
 ```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
 print(df.shape)
 print(df.columns)
 print(df.index)

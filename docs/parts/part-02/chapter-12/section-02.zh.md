@@ -56,6 +56,7 @@
 要确认的概念：后面所有选择与过滤，都会在同一张表上只改变问题而不改变基准。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 import pandas as pd
 
 df = pd.DataFrame(
@@ -98,6 +99,7 @@ print(df)
 要确认的概念：选择一列时，通常返回的是 `Series`，而不是 `DataFrame`。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df["score"])
 ```
 
@@ -126,6 +128,7 @@ Name: score, dtype: int64
 要确认的概念：选择多列时，会保留下原表结构的一部分。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df[["name", "score"]])
 ```
 
@@ -156,6 +159,7 @@ print(df[["name", "score"]])
 要确认的概念：看起来相似的选择，返回对象也可能不同。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(type(df["score"]).__name__)
 print(type(df[["name", "score"]]).__name__)
 ```
@@ -184,6 +188,7 @@ Pandas 官方文档把 `.loc` 说明为基于标签(label-based)的选择，把 
 要确认的概念：即使当前结果看起来一样，依据仍然分别是标签与位置。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df.loc[1])
 print(df.iloc[1])
 ```
@@ -198,6 +203,7 @@ print(df.iloc[1])
 要确认的概念：`loc` 看名字标签，`iloc` 看顺序位置。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 named = df.set_index("name")
 
 print(named.loc["Lee"])
@@ -230,6 +236,7 @@ print(named.iloc[2])
 要确认的概念：条件过滤并不是修改行里的值，而是在选择哪些行可以留下。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df[df["score"] >= 80])
 ```
 
@@ -254,6 +261,7 @@ print(df[df["score"] >= 80])
 要确认的概念：过滤会先形成逐行判断结果，然后再只保留 `True` 的行。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 mask = df["score"] >= 80
 print(mask)
 ```
@@ -276,6 +284,7 @@ Name: score, dtype: bool
 要确认的概念：布尔条件可以通过 `&` 等运算符组合起来。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df[(df["score"] >= 70) & (df["region"] == "Busan")])
 ```
 
@@ -309,6 +318,7 @@ print(df[(df["score"] >= 70) & (df["region"] == "Busan")])
 要确认的概念：即使都是“把表缩小”，结果形态也会随着问题不同而变化。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df[["name", "score"]])
 print(df.loc[2])
 print(df[df["passed"] == "yes"])
@@ -330,6 +340,7 @@ print(df[df["passed"] == "yes"])
 要确认的概念：Pandas 代码经常把一个问题拆成更小的步骤，再逐步缩小表的范围。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df[["name", "score"]])
 print(df.loc[2])
 print(df[df["passed"] == "yes"][["name", "score"]])
@@ -353,6 +364,7 @@ print(df[df["passed"] == "yes"][["name", "score"]])
 要确认的概念：聚合会把很多行压缩成更小的总结结果。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df["score"].mean())
 print(df["score"].max())
 print(df["score"].count())
@@ -376,6 +388,7 @@ print(df["score"].count())
 要确认的概念：聚合结果不能替代整张表，但能快速显示中心。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df["score"].mean())
 ```
 
@@ -393,6 +406,7 @@ print(df["score"].mean())
 要确认的概念：同一列也可以同时按多个聚合标准来读取。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df["score"].agg(["mean", "max", "count"]))
 ```
 
@@ -419,6 +433,7 @@ Pandas 官方文档把 `groupby` 说明为：按某种标准把数据拆开，�
 要确认的概念：`groupby` 会先把单独的行变成按类别组织的分组，然后再对每组做聚合。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 print(df.groupby("region")["score"].mean())
 ```
 
@@ -471,6 +486,7 @@ Name: score, dtype: float64
 要确认的概念：`groupby` 不只是把同类归在一起，也是在让多行重新被读成一个案例。
 
 ```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
 log_df = pd.DataFrame(
     {
         "event_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],

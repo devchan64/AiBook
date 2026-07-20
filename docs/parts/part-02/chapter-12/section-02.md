@@ -56,6 +56,7 @@ Pandas에서 선택(select), 필터링(filtering), 집계(aggregation)는 바로
 확인할 개념: 이후의 모든 선택과 필터링은 같은 표를 기준으로 질문만 달리하는 흐름입니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -98,6 +99,7 @@ Pandas에서는 한 열을 고를 수 있습니다.
 확인할 개념: 한 열 선택은 보통 `DataFrame`이 아니라 `Series`를 돌려줍니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df["score"])
 ```
 
@@ -126,6 +128,7 @@ Name: score, dtype: int64
 확인할 개념: 여러 열을 고르면 원래 표 구조의 일부가 남습니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df[["name", "score"]])
 ```
 
@@ -156,6 +159,7 @@ print(df[["name", "score"]])
 확인할 개념: 같은 선택처럼 보여도 반환 객체는 달라질 수 있습니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(type(df["score"]).__name__)
 print(type(df[["name", "score"]]).__name__)
 ```
@@ -184,6 +188,7 @@ Pandas 공식 문서는 `.loc`를 라벨 기반(label-based) 선택으로, `.ilo
 확인할 개념: 지금 결과가 같아 보여도 기준은 라벨과 위치로 다릅니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df.loc[1])
 print(df.iloc[1])
 ```
@@ -198,6 +203,7 @@ print(df.iloc[1])
 확인할 개념: `loc`는 이름표를 보고, `iloc`는 순서를 보고 고릅니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 named = df.set_index("name")
 
 print(named.loc["Lee"])
@@ -230,6 +236,7 @@ print(named.iloc[2])
 확인할 개념: 조건 필터는 행 값을 바꾸는 것이 아니라 남길 행을 고르는 일입니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df[df["score"] >= 80])
 ```
 
@@ -254,6 +261,7 @@ print(df[df["score"] >= 80])
 확인할 개념: 필터링은 먼저 행별 판단 결과를 만들고, 그다음 `True`만 남깁니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 mask = df["score"] >= 80
 print(mask)
 ```
@@ -276,6 +284,7 @@ Name: score, dtype: bool
 확인할 개념: 불리언 조건은 `&` 같은 연산자로 결합할 수 있습니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df[(df["score"] >= 70) & (df["region"] == "Busan")])
 ```
 
@@ -309,6 +318,7 @@ print(df[(df["score"] >= 70) & (df["region"] == "Busan")])
 확인할 개념: 표를 좁히는 동작이라도 질문 방식에 따라 결과 형태가 달라집니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df[["name", "score"]])
 print(df.loc[2])
 print(df[df["passed"] == "yes"])
@@ -330,6 +340,7 @@ print(df[df["passed"] == "yes"])
 확인할 개념: Pandas 코드는 질문을 작은 단계로 쪼개어 표 범위를 줄이는 방식입니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df[["name", "score"]])
 print(df.loc[2])
 print(df[df["passed"] == "yes"][["name", "score"]])
@@ -353,6 +364,7 @@ print(df[df["passed"] == "yes"][["name", "score"]])
 확인할 개념: 집계는 여러 행을 더 작은 요약 결과로 압축합니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df["score"].mean())
 print(df["score"].max())
 print(df["score"].count())
@@ -376,6 +388,7 @@ print(df["score"].count())
 확인할 개념: 집계 결과는 표 전체를 대체하지 않지만 중심을 빠르게 보여 줍니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df["score"].mean())
 ```
 
@@ -393,6 +406,7 @@ print(df["score"].mean())
 확인할 개념: 하나의 열도 여러 집계 기준으로 동시에 읽을 수 있습니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df["score"].agg(["mean", "max", "count"]))
 ```
 
@@ -419,6 +433,7 @@ Pandas 공식 문서는 `groupby`를 데이터를 어떤 기준으로 나눈 뒤
 확인할 개념: `groupby`는 개별 행을 범주별 묶음으로 바꾼 뒤 그 묶음마다 집계합니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 print(df.groupby("region")["score"].mean())
 ```
 
@@ -471,6 +486,7 @@ Name: score, dtype: float64
 확인할 개념: `groupby`는 같은 범주끼리 묶는 기능일 뿐 아니라, 여러 행을 한 사례 단위로 다시 읽게 만드는 도구이기도 합니다.
 
 ```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
 log_df = pd.DataFrame(
     {
         "event_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],

@@ -64,6 +64,7 @@ Pandas 官方文档把 `DataFrame` 描述为二维、可改变大小、可能包
 要确认的概念：DataFrame 是带有列名的二维表结构。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 import pandas as pd
 
 df = pd.DataFrame(
@@ -85,6 +86,7 @@ print(df)
 要确认的概念：DataFrame 能把按列输入与按行输入都转成同一种表结构。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 rows = [
     {"name": "Kim", "score": 82, "passed": "yes"},
     {"name": "Park", "score": 45, "passed": "no"},
@@ -137,6 +139,7 @@ print(df)
 要确认的概念：在 DataFrame 中，一行可能只是一个时间点，而 `groupby` 可以帮助你把多行重新读成一个动作单位。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 import pandas as pd
 
 raw = pd.DataFrame(
@@ -193,6 +196,7 @@ dtype: int64
 要确认的概念：一行是一个案例，而列标签与索引一起构成表结构。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 import pandas as pd
 
 df = pd.DataFrame(
@@ -241,6 +245,7 @@ Pandas 官方文档说明，如果不单独提供 index，就会默认使用 `Ra
 要确认的概念：index 是一套独立的行识别结构，而不只是默认编号装饰。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 df = pd.DataFrame(
     {
         "score": [82, 45, 90],
@@ -276,6 +281,7 @@ Lee      90    yes
 要确认的概念：index 不是视觉装饰，而是 Pandas 用来管理行的结构。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 print(df.index)
 ```
 
@@ -315,6 +321,7 @@ NumPy array 通常最擅长的是许多值共享同一种数值 `dtype` 的情�
 要确认的概念：在 DataFrame 中，类型是按列分开的，而不是整张表只有一种统一类型。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 print(df.dtypes)
 ```
 
@@ -395,6 +402,7 @@ dtype: object
 要确认的概念：DataFrame 的第一次检查，本质上是一次快速结构扫视。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 print(df.shape)
 print(df.columns)
 print(df.index)
@@ -424,6 +432,7 @@ print(df.head())
 要确认的概念：很短的一组输出就足以总结整张表的大致轮廓。
 
 ```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
 print(df.shape)
 print(df.columns)
 print(df.index)

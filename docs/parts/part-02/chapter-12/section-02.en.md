@@ -56,6 +56,7 @@ Expected output: an example table containing four students.
 Concept to check: all later selection and filtering will change the question while keeping the same table as the base.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 import pandas as pd
 
 df = pd.DataFrame(
@@ -98,6 +99,7 @@ Expected output: a one-dimensional `Series` containing only scores.
 Concept to check: selecting one column usually returns a `Series`, not a `DataFrame`.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df["score"])
 ```
 
@@ -126,6 +128,7 @@ Expected output: a small `DataFrame` that keeps two columns.
 Concept to check: choosing multiple columns preserves part of the original table structure.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df[["name", "score"]])
 ```
 
@@ -156,6 +159,7 @@ Expected output: two type names, `Series` and `DataFrame`.
 Concept to check: even selections that look similar can return different objects.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(type(df["score"]).__name__)
 print(type(df[["name", "score"]]).__name__)
 ```
@@ -184,6 +188,7 @@ Expected output: both seem to point to the second student's row.
 Concept to check: even if the current results look the same, the standards are still label versus position.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df.loc[1])
 print(df.iloc[1])
 ```
@@ -198,6 +203,7 @@ Expected output: the row with the `Lee` label and the row at the third position.
 Concept to check: `loc` follows the label, and `iloc` follows the order.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 named = df.set_index("name")
 
 print(named.loc["Lee"])
@@ -230,6 +236,7 @@ Expected output: a partial table where only Kim and Lee remain.
 Concept to check: a condition filter does not change row values. It chooses which rows remain.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df[df["score"] >= 80])
 ```
 
@@ -254,6 +261,7 @@ Expected output: a Boolean `Series` showing whether each row satisfies the condi
 Concept to check: filtering first builds row-by-row judgments, then keeps only the `True` rows.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 mask = df["score"] >= 80
 print(mask)
 ```
@@ -276,6 +284,7 @@ Expected output: a table where only Choi remains because only that row satisfies
 Concept to check: Boolean conditions can be combined with operators such as `&`.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df[(df["score"] >= 70) & (df["region"] == "Busan")])
 ```
 
@@ -309,6 +318,7 @@ Expected output: a table with fewer columns, one row, and multiple rows that sat
 Concept to check: even when all of them narrow the table, the result shape changes depending on the question.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df[["name", "score"]])
 print(df.loc[2])
 print(df[df["passed"] == "yes"])
@@ -330,6 +340,7 @@ Expected output: results narrowed to different ranges depending on the purpose.
 Concept to check: Pandas code often narrows the table by breaking a question into smaller steps.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df[["name", "score"]])
 print(df.loc[2])
 print(df[df["passed"] == "yes"][["name", "score"]])
@@ -353,6 +364,7 @@ Expected output: three numbers that summarize the score distribution.
 Concept to check: aggregation compresses many rows into a smaller summary result.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df["score"].mean())
 print(df["score"].max())
 print(df["score"].count())
@@ -376,6 +388,7 @@ Expected output: a single average score.
 Concept to check: an aggregation result does not replace the whole table, but it quickly shows the center.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df["score"].mean())
 ```
 
@@ -393,6 +406,7 @@ Expected output: a small summary output that bundles multiple aggregation result
 Concept to check: one column can be read by multiple aggregation criteria at the same time.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df["score"].agg(["mean", "max", "count"]))
 ```
 
@@ -419,6 +433,7 @@ Expected output: a summary result where the average score of Busan and Seoul app
 Concept to check: `groupby` turns individual rows into category-wise groups and then aggregates each group.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 print(df.groupby("region")["score"].mean())
 ```
 
@@ -471,6 +486,7 @@ Expected output: a summary `DataFrame` with only one row per `event_id`.
 Concept to check: `groupby` is not only a function for grouping the same category together, but also a tool that lets you read many rows again as one case.
 
 ```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
 log_df = pd.DataFrame(
     {
         "event_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],
