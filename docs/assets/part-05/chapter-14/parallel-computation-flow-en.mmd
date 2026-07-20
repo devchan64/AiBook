@@ -1,0 +1,13 @@
+flowchart TD
+    A["Same sequence input"] --> B{"Where is the computation flow bundled?"}
+
+    B -->|"previous-step state"| C["RNN-style state passing"]
+    C --> D["previous hidden state becomes next-step input"]
+    D --> E["waiting appears along the sequence axis"]
+
+    B -->|"same-layer relation scores"| F["Transformer-style relation computation"]
+    F --> G["token-pair score table = matrix"]
+    G --> H["many sentence tables stacked = tensor"]
+    H --> I["one-layer training computation is bundled larger"]
+
+    I --> J["generation still has next-token order constraints"]

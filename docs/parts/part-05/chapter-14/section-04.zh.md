@@ -3,7 +3,7 @@
 > Section ID: `P5-14.4`
 > Version: `v2026.07.20`
 
-P5-14.1 到 P5-14.3 看的是 Transformer block 内部的角色。现在要比较同样的表示计算在一个序列内部按什么顺序执行。
+P5-14.1 到 P5-14.3 看的是 Transformer block 内部更新表示的计算各自承担什么角色。现在要比较这种计算在一个序列内部按什么顺序执行。
 
 为什么 RNN 会让人感觉像顺序状态传递，而 Transformer 更适合 token 关系计算和 GPU 并行处理？
 
@@ -27,11 +27,23 @@ RNN 系列让每个 step 接收前一个状态，并生成下一个状态。因�
 
 这种结构很适合处理顺序重要的数据，但从并行处理角度看会成为负担。如果后面的 step 必须等待前面 step 的结果，即使计算设备很多，也很难随意同时处理一个序列内部的各个 step。
 
+这里要注意的是，这并不是说 `RNN 不是 tensor 计算`。RNN 也使用输入向量、hidden state 和权重矩阵，因此同样会用 tensor 计算实现。差别不在于是否使用 tensor，而在于一个序列内部前面 step 的 hidden state 是下一个 step 计算所需要的。
+
 ## Transformer 更接近一起计算关系
 
 Transformer 的 self-attention 让每个 token 参考同一序列里的其他 token。所以它的计算感觉，比起把状态沿着一条线传下去，更接近把 token 之间的关系作为大矩阵计算一起处理。
 
 `RNN 按顺序传递状态，而 Transformer 更像一起计算 token 之间的关系。`
+
+矩阵和 tensor 可以先这样抓住。一个句子里 `token 1 对 token 2 参考多少`、`token 6 对 token 1 参考多少` 这样的关系分数，如果像表一样摆出来，就是矩阵。把 batch 中多个句子的这种关系分数表叠在一起，就是 tensor。因此，这一节的区分不是 `RNN 不使用数字集合，只有 Transformer 使用 tensor`，而是 Transformer 这一侧更容易把一层里的关系分数表组织成大的矩阵和 tensor 运算。
+
+把这个差异用一个简短流程图再看，可以整理如下。RNN 式流程是等待前面状态的计算，Transformer 式流程是把同一层的关系分数组织成表和 tensor 的计算。
+
+```mermaid
+--8<-- "assets/part-05/chapter-14/parallel-computation-flow-zh.mmd"
+```
+
+这个图里重要的是，两条流程都在计算数字集合。分岔点不是 `是否使用 tensor`，而是序列内部的计算是否绑定在前一 step 状态上，还是被组织成同一层的关系分数集合。
 
 | 视角 | RNN 系列 | Transformer |
 | --- | --- | --- |
@@ -43,6 +55,8 @@ Transformer 的 self-attention 让每个 token 参考同一序列里的其他 to
 GPU 擅长同时处理大量相似计算。Part 5 前面看到的 batch 和 tensor 计算也是同一种感觉。Transformer 的 self-attention 和 feed-forward 容易打包成大矩阵运算，所以和这种计算资源很匹配。
 
 并行处理说明中重要的观察值不是 `速度变快了`，而是哪些计算必须等待、哪些计算可以一起打包。
+
+不过，这里的并行化感觉主要指训练时一层内部的 token 关系计算。实际生成阶段无法提前知道还没有出现的下一个 token，因此仍然要保留一个个生成下一个 token 的顺序约束。所以这一节不应读成 `Transformer 在所有情况下都没有顺序`，而应读成 `训练时同一层的关系计算更容易被打包成更大的计算`。
 
 | 要观察的问题 | RNN 式流程中的负担 | Transformer 式流程中的优势 |
 | --- | --- | --- |
@@ -131,7 +145,12 @@ for step, (name, features) in enumerate(zip(line_names, line_features), start=1)
 
 relation_scores = line_features @ relation_kernel @ line_features.T
 request_scores = relation_scores[-1]
-ranked = sorted(zip(request_scores, line_names), reverse=True)
+related_to_request = [
+    (score, name)
+    for score, name in zip(request_scores, line_names)
+    if name != "request"
+]
+ranked = sorted(related_to_request, reverse=True)
 
 batch = np.stack([
     line_features,
@@ -166,14 +185,16 @@ step 6: request        state=[1.    0.353 0.05  0.808 1.   ]
 [relation score matrix]
 shape = (6, 6)
 request row = [3.0, 0.0, 0.0, 1.5, 0.0, 4.0]
-top related lines = [('request', 4.0), ('rule', 3.0), ('pressure_state', 1.5)]
+top related lines = [('rule', 3.0), ('pressure_state', 1.5), ('shift_log', 0.0)]
 
 [batched relation scores]
 batch shape = (3, 6, 5)
 score tensor shape = (3, 6, 6)
 ```
 
-第一个输出展示的是 RNN 式状态感觉。第 6 行 request 状态必须经过第 1 到第 5 行的更新之后才生成。第二个输出展示的是关系计算感觉。6 个位置之间的关系 score 被放成 `(6, 6)` 矩阵，request 行中 rule 和 pressure_state 的分数较大。第三个输出 `(3, 6, 6)` 表示如果把 3 个句子作为 batch，每个句子的位置关系矩阵也能以 tensor 形式一起组织。
+第一个输出展示的是 RNN 式状态感觉。第 6 行 request 状态必须经过第 1 到第 5 行的更新之后才生成。第二个输出展示的是关系计算感觉。6 个位置之间的关系 score 被放成 `(6, 6)` 矩阵，如果排除 request 自己，request 行中 rule 和 pressure_state 的分数较大。第三个输出 `(3, 6, 6)` 表示如果把 3 个句子作为 batch，每个句子的位置关系矩阵也能以 tensor 形式一起组织。
+
+改值时，可以先调整 `line_features` 的行顺序，看看 `recurrent trace` 的最终状态是否改变。接着把 `relation_kernel` 中 pressure 或 block 相关权重调低，观察 `top related lines` 的排序怎样变化。最后向 `batch` 再加入一个同样格式的句子，确认 `score tensor shape` 的第一个数字是否随着句子数量增加。
 
 解说：这个例子要读的结果不是 `哪一边实际快几倍`。P5-14.4 的核心是：顺序状态传递会被读成 step trace，而 Transformer 式关系计算会被读成位置关系矩阵和 batch tensor。因此，并行处理说明应该以计算结构差异来收束，而不是变成硬件炫耀。
 

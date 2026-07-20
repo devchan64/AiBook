@@ -12,6 +12,7 @@
   - `feed-forward-position-update-en.mmd` / `feed-forward-position-update-ko.mmd` / `feed-forward-position-update-zh.mmd`
   - `residual-connection-skip-path-en.mmd` / `residual-connection-skip-path-ko.mmd` / `residual-connection-skip-path-zh.mmd`
   - `layer-normalization-value-scale-en.mmd` / `layer-normalization-value-scale-ko.mmd` / `layer-normalization-value-scale-zh.mmd`
+  - `parallel-computation-flow-en.mmd` / `parallel-computation-flow-ko.mmd` / `parallel-computation-flow-zh.mmd`
   - `transformer-task-flow-en.mmd` / `transformer-task-flow-ko.mmd`
   - `long-context-direct-reference-en.mmd` / `long-context-direct-reference-ko.mmd` / `long-context-direct-reference-zh.mmd`
   - `long-context-task-flow-en.mmd` / `long-context-task-flow-ko.mmd` / `long-context-task-flow-zh.mmd`
@@ -20,6 +21,7 @@
     - `P5-14.1`: `transformer-block-repeat-ko.mmd`
     - `P5-14.2`: `feed-forward-position-update-ko.mmd`, `layer-normalization-value-scale-ko.mmd`, `residual-connection-skip-path-ko.mmd`, `transformer-block-flow-ko.mmd`, `transformer-block-action-stage-trace-ko.png`
     - `P5-14.3`: `transformer-block-action-residual-compare-ko.png`
+    - `P5-14.4`: `parallel-computation-flow-ko.mmd`
     - `P5-14.5`: `long-context-direct-reference-ko.mmd`, `sequential-vs-direct-baseline-ko.mmd`, `long-context-task-flow-ko.mmd`, `sequential-state-decay-ko.png`, `direct-reference-match-scores-ko.png`
     - `P5-14.6`: `feed-forward-position-update-ko.mmd`
     - `P5-14.7`: `residual-connection-skip-path-ko.mmd`

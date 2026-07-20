@@ -3,7 +3,7 @@
 > Section ID: `P5-14.4`
 > Version: `v2026.07.20`
 
-P5-14.1부터 P5-14.3까지는 Transformer 블록 안의 역할을 보았습니다. 이제 같은 표현 계산이 한 시퀀스 안에서 어떤 순서로 실행되는지 RNN과 비교해야 합니다.
+P5-14.1부터 P5-14.3까지는 Transformer 블록 안에서 표현을 갱신하는 계산의 역할을 보았습니다. 이제 그 계산이 한 시퀀스 안에서 어떤 순서로 실행되는지 RNN과 비교해야 합니다.
 
 RNN은 왜 순차 상태 전달처럼 느껴지고, Transformer는 왜 토큰 관계 계산과 GPU 병렬 처리에 더 잘 맞는가?
 
@@ -27,11 +27,23 @@ RNN 계열은 각 step가 이전 상태를 이어받아 다음 상태를 만듭�
 
 이 구조는 순서가 중요한 데이터를 다루는 데 자연스럽지만, 병렬 처리 관점에서는 부담이 됩니다. 뒤 step이 앞 step 결과를 기다려야 하면, 계산 장비가 많아도 한 시퀀스 안의 step을 마음대로 동시에 처리하기 어렵습니다.
 
+여기서 주의할 점은 `RNN은 텐서 계산이 아니다`가 아니라는 것입니다. RNN도 입력 벡터, hidden state, 가중치 행렬을 쓰는 텐서 계산입니다. 차이는 텐서 계산을 하느냐가 아니라, 한 시퀀스 안에서 앞 step의 hidden state가 다음 step 계산에 필요하다는 점입니다.
+
 ## Transformer는 관계를 한꺼번에 계산하는 쪽에 가깝다
 
 Transformer의 self-attention은 각 토큰이 같은 시퀀스 안 다른 토큰을 함께 참고하게 만듭니다. 그래서 계산 감각은 상태를 한 줄로 넘기는 쪽보다, 토큰들 사이 관계를 큰 행렬 계산으로 함께 다루는 쪽에 가깝습니다.
 
 `RNN은 순서대로 상태를 전달하고, Transformer는 토큰들 사이 관계를 더 한꺼번에 계산한다.`
+
+행렬과 텐서는 먼저 이렇게 잡아도 됩니다. 한 문장 안에서 `토큰 1이 토큰 2를 얼마나 참고하는가`, `토큰 6이 토큰 1을 얼마나 참고하는가` 같은 관계 점수를 표처럼 놓으면 행렬입니다. 그런 관계 점수 표를 배치 안 여러 문장만큼 쌓아 두면 텐서입니다. 따라서 이 절의 구분은 `RNN은 숫자 묶음을 쓰지 않고 Transformer만 텐서를 쓴다`가 아니라, Transformer 쪽이 한 층의 관계 점수 표들을 큰 행렬·텐서 연산으로 묶기 쉽다는 뜻입니다.
+
+이 차이는 짧은 흐름도로 다시 보면 다음처럼 정리됩니다. RNN식 흐름은 앞 상태를 기다리는 계산이고, Transformer식 흐름은 같은 층의 관계 점수를 표와 텐서로 묶는 계산입니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-14/parallel-computation-flow-ko.mmd"
+```
+
+이 도식에서 중요한 점은 두 흐름 모두 숫자 묶음을 계산한다는 것입니다. 갈림점은 `텐서를 쓰는가`가 아니라, 시퀀스 안 계산을 앞 step 상태에 묶는가, 같은 층의 관계 점수 묶음으로 조직하는가입니다.
 
 | 관점 | RNN 계열 | Transformer |
 | --- | --- | --- |
@@ -43,6 +55,8 @@ Transformer의 self-attention은 각 토큰이 같은 시퀀스 안 다른 토�
 GPU는 비슷한 계산을 많이 동시에 처리할 때 강합니다. Part 5 앞쪽에서 본 배치(batch)와 텐서(tensor) 계산도 같은 감각입니다. Transformer의 self-attention과 feed-forward는 큰 행렬 연산으로 묶기 쉬워 이런 계산 자원과 잘 맞았습니다.
 
 병렬 처리 설명에서 중요한 관찰값은 `속도가 빨라졌다`가 아니라, 어떤 계산이 기다려야 하고 어떤 계산은 함께 묶을 수 있는가입니다.
+
+다만 이 병렬화 감각은 주로 학습 때 한 층 안의 토큰 관계 계산을 말합니다. 실제 생성 단계에서는 아직 나오지 않은 다음 토큰을 미리 알 수 없으므로, 다음 토큰을 차례로 만드는 순서 제약이 남습니다. 그래서 이 절에서는 `Transformer는 모든 상황에서 순서가 없다`가 아니라 `학습 중 한 층의 관계 계산을 더 크게 묶기 쉽다`로 읽어야 합니다.
 
 | 관찰할 질문 | RNN식 흐름에서 생기는 부담 | Transformer식 흐름에서 보이는 장점 |
 | --- | --- | --- |
@@ -131,7 +145,12 @@ for step, (name, features) in enumerate(zip(line_names, line_features), start=1)
 
 relation_scores = line_features @ relation_kernel @ line_features.T
 request_scores = relation_scores[-1]
-ranked = sorted(zip(request_scores, line_names), reverse=True)
+related_to_request = [
+    (score, name)
+    for score, name in zip(request_scores, line_names)
+    if name != "request"
+]
+ranked = sorted(related_to_request, reverse=True)
 
 batch = np.stack([
     line_features,
@@ -166,14 +185,16 @@ step 6: request        state=[1.    0.353 0.05  0.808 1.   ]
 [relation score matrix]
 shape = (6, 6)
 request row = [3.0, 0.0, 0.0, 1.5, 0.0, 4.0]
-top related lines = [('request', 4.0), ('rule', 3.0), ('pressure_state', 1.5)]
+top related lines = [('rule', 3.0), ('pressure_state', 1.5), ('shift_log', 0.0)]
 
 [batched relation scores]
 batch shape = (3, 6, 5)
 score tensor shape = (3, 6, 6)
 ```
 
-첫 번째 출력은 RNN식 상태 감각을 보여 줍니다. 6번 request 상태는 1번부터 5번까지의 갱신을 차례로 지난 뒤에야 만들어집니다. 두 번째 출력은 관계 계산 감각을 보여 줍니다. 6개 위치 사이의 관계 score가 `(6, 6)` 행렬로 한 번에 놓이고, request 행에서는 rule과 pressure_state가 크게 잡힙니다. 세 번째 출력의 `(3, 6, 6)`은 문장 3개를 배치로 묶으면 각 문장의 위치 관계 행렬도 텐서 형태로 함께 조직될 수 있음을 보여 줍니다.
+첫 번째 출력은 RNN식 상태 감각을 보여 줍니다. 6번 request 상태는 1번부터 5번까지의 갱신을 차례로 지난 뒤에야 만들어집니다. 두 번째 출력은 관계 계산 감각을 보여 줍니다. 6개 위치 사이의 관계 score가 `(6, 6)` 행렬로 한 번에 놓이고, request 행에서는 자기 자신을 제외하면 rule과 pressure_state가 크게 잡힙니다. 세 번째 출력의 `(3, 6, 6)`은 문장 3개를 배치로 묶으면 각 문장의 위치 관계 행렬도 텐서 형태로 함께 조직될 수 있음을 보여 줍니다.
+
+값을 바꿔 볼 때는 먼저 `line_features`의 줄 순서를 바꿔 `recurrent trace`의 도착 상태가 달라지는지 봅니다. 그다음 `relation_kernel`에서 pressure나 block 관련 가중치를 낮추면 `top related lines` 순위가 어떻게 바뀌는지 확인합니다. 마지막으로 `batch`에 같은 형식의 문장을 하나 더 추가하면 `score tensor shape`의 첫 번째 숫자가 문장 개수만큼 늘어나는지 볼 수 있습니다.
 
 해설: 이 예제에서 읽어야 할 결과는 `어느 쪽이 실제로 몇 배 빠른가`가 아닙니다. P5-14.4의 핵심은 순차 상태 전달은 step trace로 읽히고, Transformer식 관계 계산은 위치 관계 행렬과 배치 텐서로 읽힌다는 점입니다. 그래서 병렬 처리 설명은 하드웨어 자랑이 아니라 계산 구조의 차이로 닫혀야 합니다.
 

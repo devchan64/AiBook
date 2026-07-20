@@ -3,7 +3,7 @@
 > Section ID: `P5-14.4`
 > Version: `v2026.07.20`
 
-P5-14.1 through P5-14.3 looked at roles inside the Transformer block. Now we need to compare how the same representation computation is executed within one sequence.
+P5-14.1 through P5-14.3 looked at the roles of computations that update representations inside the Transformer block. Now we need to compare how that computation is executed within one sequence.
 
 Why does an RNN feel like sequential state passing, while a Transformer fits token-relation computation and GPU parallel processing more naturally?
 
@@ -27,11 +27,23 @@ RNN-family models make each step receive the previous state and produce the next
 
 This structure is natural for data where order matters, but it becomes a burden from the viewpoint of parallel processing. If a later step must wait for the earlier step’s result, even with many compute devices, it is hard to freely process the steps inside one sequence at the same time.
 
+The caution here is that this does not mean `an RNN is not tensor computation`. An RNN also uses input vectors, hidden states, and weight matrices, so it is implemented with tensor computation. The difference is not whether tensors are used, but that inside one sequence the hidden state from an earlier step is needed by the next step.
+
 ## Transformers Are Closer to Computing Relations Together
 
 Self-attention in a Transformer lets each token refer to other tokens in the same sequence. So its computation feel is closer to handling token-to-token relations together as large matrix computation than to passing a state along one line.
 
 `An RNN passes state in order, while a Transformer computes token relations more together.`
+
+Matrix and tensor can first be held like this. If relation scores such as `how much token 1 refers to token 2` and `how much token 6 refers to token 1` are placed like a table inside one sentence, that is a matrix. If those relation-score tables are stacked for several sentences in a batch, that is a tensor. So the distinction in this section is not `RNNs do not use number bundles and only Transformers use tensors`. It means the Transformer side is easier to organize as large matrix and tensor operations over relation-score tables in one layer.
+
+Seen as a short flowchart, the difference can be summarized like this. The RNN-style path waits for the previous state, while the Transformer-style path bundles same-layer relation scores as tables and tensors.
+
+```mermaid
+--8<-- "assets/part-05/chapter-14/parallel-computation-flow-en.mmd"
+```
+
+The important point in this diagram is that both paths compute bundles of numbers. The split is not `whether tensors are used`, but whether computation inside a sequence is tied to the previous-step state or organized as same-layer bundles of relation scores.
 
 | Viewpoint | RNN Family | Transformer |
 | --- | --- | --- |
@@ -43,6 +55,8 @@ Self-attention in a Transformer lets each token refer to other tokens in the sam
 GPUs are strong when many similar computations can be processed simultaneously. The batch and tensor computation seen earlier in Part 5 carry the same feeling. Transformer self-attention and feed-forward are easy to bundle into large matrix operations, so they matched this compute resource well.
 
 The important observation in a parallel-processing explanation is not simply `it became faster`. It is which computations must wait and which computations can be bundled together.
+
+However, this parallelization feel mainly refers to token-relation computation inside one layer during training. During actual generation, the next token that has not yet appeared cannot be known in advance, so the order constraint of producing tokens one by one remains. Therefore, this section should be read not as `the Transformer has no order in every situation`, but as `it is easier to bundle same-layer relation computation during training into larger operations`.
 
 | Question to Observe | Burden in an RNN-Style Flow | Advantage in a Transformer-Style Flow |
 | --- | --- | --- |
@@ -131,7 +145,12 @@ for step, (name, features) in enumerate(zip(line_names, line_features), start=1)
 
 relation_scores = line_features @ relation_kernel @ line_features.T
 request_scores = relation_scores[-1]
-ranked = sorted(zip(request_scores, line_names), reverse=True)
+related_to_request = [
+    (score, name)
+    for score, name in zip(request_scores, line_names)
+    if name != "request"
+]
+ranked = sorted(related_to_request, reverse=True)
 
 batch = np.stack([
     line_features,
@@ -166,14 +185,16 @@ step 6: request        state=[1.    0.353 0.05  0.808 1.   ]
 [relation score matrix]
 shape = (6, 6)
 request row = [3.0, 0.0, 0.0, 1.5, 0.0, 4.0]
-top related lines = [('request', 4.0), ('rule', 3.0), ('pressure_state', 1.5)]
+top related lines = [('rule', 3.0), ('pressure_state', 1.5), ('shift_log', 0.0)]
 
 [batched relation scores]
 batch shape = (3, 6, 5)
 score tensor shape = (3, 6, 6)
 ```
 
-The first output shows the RNN-style state feel. The line-6 request state is produced only after updates from lines 1 through 5 have passed in order. The second output shows the relation-computation feel. Relations among 6 positions are placed as a `(6, 6)` matrix, and the request row gives large scores to `rule` and `pressure_state`. The third output, `(3, 6, 6)`, shows that if three sentences are bundled as a batch, each sentence’s position-relation matrix can also be organized together in tensor form.
+The first output shows the RNN-style state feel. The line-6 request state is produced only after updates from lines 1 through 5 have passed in order. The second output shows the relation-computation feel. Relations among 6 positions are placed as a `(6, 6)` matrix, and if the request itself is excluded, the request row gives large scores to `rule` and `pressure_state`. The third output, `(3, 6, 6)`, shows that if three sentences are bundled as a batch, each sentence’s position-relation matrix can also be organized together in tensor form.
+
+When changing values, first reorder rows in `line_features` and check whether the final state in `recurrent trace` changes. Next, lower the pressure or block-related weights in `relation_kernel` and observe how the `top related lines` ranking changes. Finally, add one more sentence with the same format to `batch` and check whether the first number in `score tensor shape` grows by the number of sentences.
 
 Explanation: The result to read here is not `which side is how many times faster in reality`. The core of P5-14.4 is that sequential state passing is read as a step trace, while Transformer-style relation computation is read as a position-relation matrix and batch tensor. So the parallel-processing explanation should close as a difference in computation structure, not as hardware boasting.
 
