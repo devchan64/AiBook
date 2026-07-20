@@ -7,7 +7,7 @@ In P2-8.1, we looked at values, variables, and types. Now we look at the first s
 
 A list is a data structure that gathers values of the same purpose or context in order. You often encounter it in situations such as a score list, a sentence list, a file-name list, or a model-output list, where you want to `look at several things in order`.
 
-Here, we explain the basic distinction between a `list` and an `index`. The representative explanation of `value`, `variable`, and `type` is placed in P2-8.1 and in the [Concept Glossary](/AiBook/reference/concept-glossary/), and here we focus on why, once values become several, an ordered group is needed first.
+Here, we explain the basic distinction between a `list` and an `index`. The representative explanation of `value`, `variable`, and `type` is placed in P2-8.1 and in the [Concept Glossary](../../../reference/concept-glossary.md), and here we focus on why, once values become several, an ordered group is needed first.
 
 If the previous section dealt with `how a single value exists with a name and a type`, here we look at why, once there are several such values, an ordered group becomes necessary first. If this criterion is established, then even the dictionary in the very next section becomes easier to read not as `another piece of syntax`, but as `a structure for finding by name instead of by order`.
 
