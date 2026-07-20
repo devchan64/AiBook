@@ -1,7 +1,7 @@
 # P5-13.1 注意力（Attention）的直觉
 
-Section ID: `P5-13.1`
-Version: `v2026.07.18`
+> Section ID: `P5-13.1`
+> Version: `v2026.07.19`
 
 在 P5-12.2 里，我们已经看到：因为长期依赖（long-term dependency），序列模型可能很难把很早之前的信息充分保留到当前位置。这里就会出现下一个问题。
 
@@ -280,46 +280,54 @@ shift_from_baseline = 3.266
 - 如果像 baseline 那样把所有候选完全平均，`coolant_flow_limit` 和 `high_temp_exception` 这类并不直接对应当前问题的值，也会被同样混进上下文里，于是上下文值会落在 `6.667`
 - 在第一个问题里，获得最大权重的是 `pressure_hold_time`
 - 所以最终上下文会主要被压力释放保持时间对应的句子拉过去
+- `shift_from_baseline` 为负，表示当前问题直接相关的候选获得更大权重后，上下文表示被进一步拉向`压力释放保持时间`一侧
 - 在第二个问题里，最大的权重会重新转到 `coolant_flow_limit`
 - 于是即使候选集合完全没变，最后上下文也会明显改向冷却水流量标准
+- 也就是说，attention 不会把所有位置一视同仁地平均，而是会更强地反映当前问题更相关的位置
 
-如果把权重分布直接画出来，会更容易看见：问题一旦改变，高权重候选也会跟着移动。
+这个例子里首先要看的产物，是不同问题下的 attention 权重。压力释放保持时间问题里，`pressure_hold_time` 的权重最大；冷却水流量标准问题里，`coolant_flow_limit` 的权重最大。
 
 ![压力释放保持时间问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-pressure-question-weights-zh.png)
 
 ![冷却水流量标准问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-flow-question-weights-zh.png)
 
-把 baseline 上下文与两个问题的 attention 上下文并排放在一起，就会更直观地看见：attention 并不是把固定平均值再轻微修一下，而是会随着当前问题重新拉动上下文。
+第二个要看的产物，是上下文值。baseline 平均无法区分两个问题，所以停在 `6.667`；但 attention context 会随着问题不同，变成 `4.553` 和 `9.933`。
 
 ![baseline 与不同问题 attention 上下文比较](/AiBook/assets/part-05/chapter-13/attention-context-comparison-zh.png)
 
-| 先看的输出 | 这个输出意味着什么 | 如果改动设定，会跟着改变什么 |
-| --- | --- | --- |
-| `pressure_hold_time weight = 0.762` | 说明在第一个问题里，attention 会强烈偏向最相关的候选 | 如果提高其他候选分数，权重集中程度会下降 |
-| `coolant_flow_limit weight = 0.748` | 说明第二个问题里，参考重心会重新移动到另一个候选 | 如果问题不再问流量，这个权重分布就会重新改写 |
-| `context` 从 `4.553` 到 `9.933` 明显变化 | 说明即使候选集合相同，只要问题变了，最后聚合出来的上下文也会不同 | 如果所有候选值更接近，问题变化带来的上下文差距会缩小 |
+读输出数字时，也要把`同一组候选`和`随问题改变的权重`分开看。
 
-也就是说，这个例子真正想让我们抓住的，不是 softmax 数字本身，而是：`同一组候选里，当前问题不同，模型就会重新决定该更强地看哪里。`
+| 比较 | 输出里先看到的东西 | 只看平均值时容易留下的解释 | 加上 attention 后改变的解释 |
+| --- | --- | --- | --- |
+| `baseline_uniform_context` | 两个问题的 baseline 都是 `6.667` | 候选集合相同，所以上下文也应该差不多不变 | baseline 无法反映问题，所以即使当前需要的位置改变，也停在同一个平均值 |
+| `pressure_hold_time` 问题 | `pressure_hold_time` 权重最大，为 `0.762` | 数字 `3.0` 较小，所以 context 只是单纯下降了 | 问题指向保持时间，所以 attention 会重新分配权重，让保持时间候选被更强地参考 |
+| `What is the coolant-flow criterion?` 问题 | `coolant_flow_limit` 权重最大，为 `0.748` | 候选相同，只是这次偶然选到了较大的数字 | 问题一改变，同一组候选的参考权重也重新分配，流量标准一侧的 context 被更强地形成 |
 
-## 本节最少要记住什么
+## 从问题-候选比较视角重新看
 
-把下面这张表记住，本节就抓住核心了。
+上面的数字并没有计算真实的完整词向量空间，但直觉很清楚。
 
-| 问题 | attention 给出的起点 |
-| --- | --- |
-| 为什么不能只把长输入压进一个状态里？ | 因为当前真正需要的线索可能会在压缩状态里变淡 |
-| attention 在做什么？ | 重新扫输入位置，并给当前更相关的位置更高权重 |
-| 为什么它像一个转折点？ | 因为问题从`怎么长期带着信息走`变成了`怎么重新找到现在需要的位置` |
+- baseline 平均只反映`这些句子只是一起出现了`这个事实。
+- attention 加权平均会按照`当前问题是什么`，在候选之间重新分配权重。
+- 所以当问题从`压力释放保持时间`变成`冷却水流量标准`时，即使候选集合相同，最强参考的位置也会改变。
 
-换句话说，本节最后首先要收住的，不是 self-attention 的细节，而是下面这句。
+也就是说，attention 不是单纯收集更多信息的方式，而是`根据当前问题重新决定哪些信息应该被更强地混合`的方式。
 
-`attention 的核心，是把当前计算真正需要的位置重新找出来，并更强地参考它。`
+attention 在 sequence-to-sequence translation 研究中获得了很大影响力，后来又延伸到 self-attention 和 Transformer，成为现代深度学习里重要的上下文参考方式。本节读者要留下的结论很简单：attention 与其说是`长期带着信息走的结构`，不如说更接近`重新强烈查看当前需要位置的结构`。下一节 P5-13.2 会继续说明，这种直接参考的想法怎样延伸为同一序列中的 token 彼此重新读取的结构。
 
 ## 检查清单
 
-- 能解释 attention 想解决什么问题吗？
-- 能把 `更强地看某个位置` 解释成权重更大地参考那个位置吗？
-- 能说明 attention 为什么和长期依赖问题直接连起来吗？
-- 能说明即使输入相同，只要当前问题变了，高权重位置也会变化吗？
-- 能把 attention 区分为不是摘要装置，而是重新分配参考权重的结构吗？
-- 当看到长输入里当前任务需要重新看某个早期位置时，能先想到 attention 视角吗？
+- 能解释 attention 是`重新参考需要位置的方式`吗？
+- 能说明长期依赖问题和 attention 之间的连接吗？
+- 能说明 attention 是一种在当前计算中更强地参考重要位置的方式吗？
+- 能说出这是对长期依赖问题更直接的回应吗？
+- 能把 attention 解释成不是`让记忆保留更久的方法`，而是`重新更强地查看当前需要位置的方法`吗？
+- 能以当前问题为标准，说明 baseline 平均和加权平均之间的差异吗？
+- 当只用长期保留状态的解释不足以说明为什么性能受阻时，能先想起 attention 的直接参考视角吗？
+- 读下一节 self-attention 时，是否已经准备好先问：`当前 token 需要重新看同一序列里的哪里？`
+
+## 来源与参考资料
+
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, 确认日期：2026-07-19. [https://arxiv.org/abs/1409.0473](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Kyunghyun Cho et al., `Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation`, arXiv, 2014, 确认日期：2026-07-19. [https://arxiv.org/abs/1406.1078](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }

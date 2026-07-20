@@ -1,7 +1,7 @@
 # P5-13.1 The Intuition Of Attention
 
-Section ID: `P5-13.1`
-Version: `v2026.07.18`
+> Section ID: `P5-13.1`
+> Version: `v2026.07.19`
 
 In P5-12.2, we saw that because of long-term dependency, sequential models can have difficulty maintaining information from far back strongly enough. The next question appears here.
 
@@ -326,6 +326,6 @@ Attention gained major influence in sequence-to-sequence translation research, a
 
 ## Sources And References
 
-- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, checked on 2026-06-29.
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, checked on 2026-07-19. [https://arxiv.org/abs/1409.0473](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Kyunghyun Cho et al., `Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation`, arXiv, 2014, checked on 2026-06-29.
+- Kyunghyun Cho et al., `Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation`, arXiv, 2014, checked on 2026-07-19. [https://arxiv.org/abs/1406.1078](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }
