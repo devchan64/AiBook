@@ -1,7 +1,7 @@
 # P5-7.3 自适应 update 的直觉：以 Adam 为例
 
-Section ID: `P5-7.3`
-Version: `v2026.07.17`
+> Section ID: `P5-7.3`
+> Version: `v2026.07.20`
 
 在 P5-7.2 里，我们已经看到：即使 gradient 相同，真实的 update 步幅也会因为 learning rate 而不同。走到这里，接下来会自然出现一个新问题：`是不是所有参数都应该永远用完全相同的方式去应用这个步幅？`
 
@@ -110,23 +110,25 @@ Version: `v2026.07.17`
 
 ## 练习与例子
 
-下面两个例子都不是在完整实现真实 Adam，而是在把自适应 update 的核心直觉拆开来看。第一个例子主要看`时间轴上的最近流向累积`，第二个例子主要看`坐标轴上的分别调节`。只要按这两个轴来读，Adam 就更像一个代表例子，而不是要硬背整套公式的名字。
+下面直接进入例子。这一节的例子不是在完整实现真实 Adam，而是在把自适应 update 的核心直觉拆开来看。示例数据在 [optimizer-gradient-history.csv](../../../assets/part-05/chapter-07/optimizer-gradient-history.csv)。这个文件记录了 12 个 step 里三个参数收到的 gradient 流：一个坐标收到较大的负 gradient 且逐渐变小，一个坐标收到较小的负 gradient 且逐渐变小，还有一个坐标的方向持续摇摆。
 
 输入：
 
-- 当前风险权重 `risk_weight`
-- 多个 step 中依次出现的风险权重 gradient 列表
+- 多个 step 里记录的按参数区分的 gradient 流
+- 参数名 `parameter_name`
+- 学习 step `step`
+- 每个 step 的 `gradient`
 
 输出：
 
-- 直接 update 方式下连续发生的风险权重变化
-- 用简化 moving average 直觉表达的 Adam-like 更新结果
-- 每个 step 的 `direct_delta` 与 `adam_like_delta`
-- 在第二个小实验里，当两个参数坐标的 gradient 尺度不同，按坐标调节会怎样出现
+- 简单直接 update 方式下的参数移动结果
+- 简化 Adam-like 累积平均和 second moment 的 update 结果
+- 各参数的平均 `direct_delta` 与 `adam_like_delta`
+- 大 gradient、小 gradient、摇摆 gradient 下移动路径如何不同
 
 问题场景：
 
-- 观察自适应 update 时，比起背名字，更适合看：同样的 gradient 流，最后是怎样被变成不同 step update 的
+- 自适应 update 的差异，比起看公式名称，更适合看按参数区分的 gradient 流如何被变成逐 step update
 
 需要确认的概念：
 
@@ -136,147 +138,178 @@ Version: `v2026.07.17`
 
 输入（input）：
 
-假设存在一个读取压力未恢复信号的 `risk_weight`，它在学习中依次收到 `gradient_risk_weight = -4.0`, `-2.0`, `-1.0`。即使看到的是同一串 gradient 流，直接 update 与 Adam-like 也会在`反应得多直接`和`会不会把最近平均留下来`这两点上出现差别。
+CSV 里有下面三个坐标的 gradient 流。
 
-在看代码之前，最好先猜一猜：哪一边的移动量会更直接，哪一边的移动会更平滑。这样更容易抓住`当前 gradient 反应`与`累积平均反应`的差别。
-
-| 比较项 | 先猜一下会看到什么 update | 猜测理由 |
+| 参数 | gradient 流 | 先预想的事情 |
 | --- | --- | --- |
-| 第一个 `direct_delta` | 很可能是最大的一次移动 | 因为第一步的 `-4.0` 会直接乘上 learning rate 反映出去 |
-| 第一个 `adam_like_delta` | 很可能明显小于 `direct_delta` | 因为 moving average 在开头只会部分吸收这个 gradient |
-| 随着 step 推进，`direct_delta` | 会跟着 gradient 绝对值一起立刻变小 | 因为它对当前 `gradient_risk_weight` 直接反应 |
-| 随着 step 推进，`adam_like_delta` | 变化得会更慢、看起来更平滑 | 因为前几步的 gradient 还会留在 moving average 里 |
+| `risk_weight` | 较大的负 gradient 持续变小 | direct update 会移动得很远，Adam-like 会参考大小历史来调节步幅 |
+| `recovery_weight` | 较小的负 gradient 持续变小 | direct update 几乎动不了，Adam-like 会按这个小坐标自己的历史来调节 |
+| `noise_weight` | 负 gradient 与正 gradient 交替摇摆 | direct update 会持续改方向，Adam-like 会累积最近流向并减小摇摆 |
 
-这张表的目的，并不是提前背数字，而是先抓住：即使看到的是同一条 `gradient_risk_weight` 流，最直接的 update 更像`立刻反应`，而 Adam-like 更像`把最近流向留下来再移动。`
-
-```python
-# 这个例子在同一条 gradient history 上比较 direct update 和 Adam-like update 对 risk_weight 的影响。
-gradient_risk_weight_history = [-4.0, -2.0, -1.0]
-risk_weight_direct = 1.0
-risk_weight_adam_like = 1.0
-learning_rate = 0.1
-moving_avg = 0.0
-beta = 0.9
-
-print("Direct updates")
-for gradient_risk_weight in gradient_risk_weight_history:
-    direct_delta = -learning_rate * gradient_risk_weight
-    risk_weight_direct = risk_weight_direct + direct_delta
-    print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "direct_delta =", round(direct_delta, 3),
-        "-> risk_weight =", round(risk_weight_direct, 3)
-    )
-
-print()
-print("Adam-like updates (simplified intuition)")
-for gradient_risk_weight in gradient_risk_weight_history:
-    moving_avg = beta * moving_avg + (1 - beta) * gradient_risk_weight
-    adam_like_delta = -learning_rate * moving_avg
-    risk_weight_adam_like = risk_weight_adam_like + adam_like_delta
-    print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "moving_avg =", round(moving_avg, 3),
-        "adam_like_delta =", round(adam_like_delta, 3),
-        "-> risk_weight =", round(risk_weight_adam_like, 3)
-    )
-```
-
-输出里先要比较的是：面对完全相同的 `gradient_risk_weight` 流，直接 update 与 Adam-like 的每一步 update 是怎样分开的。
-
-```text
-Direct updates
- gradient_risk_weight = -4.0 direct_delta = 0.4 -> risk_weight = 1.4
- gradient_risk_weight = -2.0 direct_delta = 0.2 -> risk_weight = 1.6
- gradient_risk_weight = -1.0 direct_delta = 0.1 -> risk_weight = 1.7
-
-Adam-like updates (simplified intuition)
- gradient_risk_weight = -4.0 moving_avg = -0.4 adam_like_delta = 0.04 -> risk_weight = 1.04
- gradient_risk_weight = -2.0 moving_avg = -0.56 adam_like_delta = 0.056 -> risk_weight = 1.096
- gradient_risk_weight = -1.0 moving_avg = -0.604 adam_like_delta = 0.06 -> risk_weight = 1.156
-```
-
-如果再把这些输出拆成`输入 gradient -> 每步 update -> 累积后的 risk_weight`三层来读，自适应 update 试图补什么会更清楚。
-
-![逐 step 的 gradient 输入流](/AiBook/assets/part-05/chapter-07/sgd-adam-gradient-history-zh.png)
-
-第一张图只是输入，还不是 optimizer 改过之后的东西。这里能看到：随着 step 变化，`gradient_risk_weight` 的绝对值越来越小。也就是说，直接 update 与 Adam-like 的差别，并不是因为输入不同，而是因为它们对同样输入采用了不同更新规则。
-
-![直接 update 与 Adam-like 的逐 step delta 对比](/AiBook/assets/part-05/chapter-07/sgd-adam-delta-comparison-zh.png)
-
-第二张图开始出现差异。直接 update 会立刻把当前 gradient 与 learning rate 相乘，因此第一步就走得比较大；Adam-like 则会先通过 moving average，因此即使面对同样输入，也会做出更小、更平滑的移动量。
-
-![直接 update 与 Adam-like 的 risk_weight 移动轨迹](/AiBook/assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-zh.png)
-
-第三张图显示，这种差异最终会积累成不同参数路径。直接 update 会比较快地走到 `1.7`，而 Adam-like 则会更缓慢地到达 `1.156`。这里最重要的，并不是判断哪一边绝对更好，而是确认：optimizer 规则会把同一条 gradient history 变成不同的 parameter path。
-
-这个例子并不是完整重现 Adam 公式，也不是在下结论说哪种方法更强。这里真正要留下来的，是下面三点。
-
-- 直接 update 对当前 `gradient_risk_weight` 的反应更直接
-- Adam 类直觉会保留最近方向，因此 step 之间的移动更平滑
-- optimizer 不是简单地让损失减少，而是在决定：同样的 gradient 会被改写成怎样的 update 路径
-
-### 按坐标调节的小实验
-
-下面这个小实验把注意力从`同一个参数在多个 step 上怎么动`，切到`不同参数坐标为什么会收到不同 update。`
+这张表的目的不是提前背准确数字。它只是让读者在看代码前先抓住：即使用同一个 learning rate，简单 direct update 会立刻反映`当前 gradient`，而 Adam-like 会留下`最近流向`和`按坐标的大小历史`，于是可能形成不同的移动路径。
 
 ```python
-# 这个例子比较不同 gradient 尺度的参数坐标上 direct update 和 Adam-like 坐标调节的差异。
-learning_rate = 0.1
-beta2 = 0.9
-second_moment = {
-    "risk_weight": 0.0,
-    "recovery_weight": 0.0,
-}
-gradient_by_parameter = {
-    "risk_weight": [-8.0, -4.0],
-    "recovery_weight": [-0.5, -0.25],
-}
+# 这个例子读取 CSV gradient history，比较 direct update 与 Adam-like update
+# 如何制造不同的参数移动路径。
+from csv import DictReader
+from pathlib import Path
 
-for step in range(2):
-    print("step", step + 1)
-    for parameter_name, gradient_history in gradient_by_parameter.items():
-        gradient = gradient_history[step]
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-gradient-history.csv")
+PARAMETER_ORDER = ["risk_weight", "recovery_weight", "noise_weight"]
+
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "step": int(row["step"]),
+                "parameter_name": row["parameter_name"],
+                "signal_group": row["signal_group"],
+                "gradient": float(row["gradient"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def simulate_updates(rows):
+    learning_rate = 0.05
+    beta1 = 0.8
+    beta2 = 0.9
+    epsilon = 1e-8
+    state = {
+        parameter_name: {
+            "direct_weight": 1.0,
+            "adam_like_weight": 1.0,
+            "m": 0.0,
+            "v": 0.0,
+        }
+        for parameter_name in PARAMETER_ORDER
+    }
+    simulated = []
+
+    parameter_index = {
+        parameter_name: index
+        for index, parameter_name in enumerate(PARAMETER_ORDER)
+    }
+    for row in sorted(
+        rows,
+        key=lambda item: (item["step"], parameter_index[item["parameter_name"]]),
+    ):
+        parameter_name = row["parameter_name"]
+        gradient = row["gradient"]
+        parameter_state = state[parameter_name]
+
         direct_delta = -learning_rate * gradient
+        parameter_state["direct_weight"] += direct_delta
 
-        second_moment[parameter_name] = (
-            beta2 * second_moment[parameter_name]
+        parameter_state["m"] = beta1 * parameter_state["m"] + (1 - beta1) * gradient
+        parameter_state["v"] = (
+            beta2 * parameter_state["v"]
             + (1 - beta2) * gradient * gradient
         )
-        adam_like_delta = -learning_rate * gradient / (second_moment[parameter_name] ** 0.5)
-
-        print(
-            parameter_name,
-            "gradient =", gradient,
-            "direct_delta =", round(direct_delta, 3),
-            "second_moment =", round(second_moment[parameter_name], 3),
-            "adam_like_delta =", round(adam_like_delta, 3),
+        adam_like_delta = (
+            -learning_rate
+            * parameter_state["m"]
+            / (parameter_state["v"] ** 0.5 + epsilon)
         )
+        parameter_state["adam_like_weight"] += adam_like_delta
+
+        simulated.append(
+            {
+                "step": row["step"],
+                "parameter_name": parameter_name,
+                "gradient": gradient,
+                "direct_delta": direct_delta,
+                "adam_like_delta": adam_like_delta,
+                "direct_weight": parameter_state["direct_weight"],
+                "adam_like_weight": parameter_state["adam_like_weight"],
+            }
+        )
+
+    return simulated
+
+
+rows = load_rows(DATA_PATH)
+simulated = simulate_updates(rows)
+
+print("[input]")
+print("rows =", len(rows))
+print("parameters =", ", ".join(PARAMETER_ORDER))
+
+print("\n[checkpoints]")
+for item in simulated:
+    if item["step"] in [1, 6, 12]:
+        print(
+            item["parameter_name"],
+            "step =", item["step"],
+            "gradient =", item["gradient"],
+            "direct_delta =", round(item["direct_delta"], 3),
+            "adam_like_delta =", round(item["adam_like_delta"], 3),
+        )
+
+print("\n[final weights]")
+for parameter_name in PARAMETER_ORDER:
+    last = [
+        item for item in simulated
+        if item["parameter_name"] == parameter_name
+    ][-1]
+    print(
+        parameter_name,
+        "direct_weight =", round(last["direct_weight"], 3),
+        "adam_like_weight =", round(last["adam_like_weight"], 3),
+    )
 ```
 
-这段输出不需要重新背成完整 Adam 公式。更适合先看的是：`同样沿坐标分开来看时，update 是怎样被重新缩放的。`
+输出里先要比较的是：在同一个 CSV 输入下，简单 direct update 与 Adam-like 的每一步 update 是怎样分开的。
 
 ```text
-step 1
-risk_weight gradient = -8.0 direct_delta = 0.8 second_moment = 6.4 adam_like_delta = 0.316
-recovery_weight gradient = -0.5 direct_delta = 0.05 second_moment = 0.025 adam_like_delta = 0.316
-step 2
-risk_weight gradient = -4.0 direct_delta = 0.4 second_moment = 7.36 adam_like_delta = 0.147
-recovery_weight gradient = -0.25 direct_delta = 0.025 second_moment = 0.029 adam_like_delta = 0.147
+[input]
+rows = 36
+parameters = risk_weight, recovery_weight, noise_weight
+
+[checkpoints]
+risk_weight step = 1 gradient = -7.0 direct_delta = 0.35 adam_like_delta = 0.032
+recovery_weight step = 1 gradient = -0.6 direct_delta = 0.03 adam_like_delta = 0.032
+noise_weight step = 1 gradient = -3.0 direct_delta = 0.15 adam_like_delta = 0.032
+risk_weight step = 6 gradient = -3.0 direct_delta = 0.15 adam_like_delta = 0.049
+recovery_weight step = 6 gradient = -0.29 direct_delta = 0.014 adam_like_delta = 0.05
+noise_weight step = 6 gradient = 1.2 direct_delta = -0.06 adam_like_delta = -0.001
+risk_weight step = 12 gradient = -0.4 direct_delta = 0.02 adam_like_delta = 0.03
+recovery_weight step = 12 gradient = -0.05 direct_delta = 0.003 adam_like_delta = 0.034
+noise_weight step = 12 gradient = 0.3 direct_delta = -0.015 adam_like_delta = -0.0
+
+[final weights]
+risk_weight direct_weight = 2.87 adam_like_weight = 1.502
+recovery_weight direct_weight = 1.171 adam_like_weight = 1.52
+noise_weight direct_weight = 1.07 adam_like_weight = 1.063
 ```
 
-在最直接的 update 里，`risk_weight` 的第一步 update 是 `0.8`，`recovery_weight` 则只有 `0.05`。也就是说，gradient 尺度差异几乎会被原样带进 update。而在 Adam-like 的按坐标调节里，每个坐标会先把自己的 gradient 历史写进 `second_moment`，再按这个尺度去重新缩放 update。结果就是：很大的 gradient 坐标会被压一压，而很小的 gradient 坐标也不会永远被彻底淹没。
+如果再把这些输出拆成`输入 gradient -> 每步 update -> 累积后的 weight`三层来读，Adam-like 试图补什么会更清楚。
 
-这里不需要把这些数字全背下来。真正要抓住的学习点只有一个：Adam 里的`adaptive`不仅表示会记住最近流向，也表示：不同参数坐标会按各自的 gradient 尺度历史，被分别调节步幅。
+![按参数区分的 gradient 流](../../../assets/part-05/chapter-07/adaptive-gradient-history-ko.png)
 
-当然，也不能把这个小实验误读成`Adam 总会把不同参数的 update 调成一样大。` 这里两条 `adam_like_delta` 恰好相同，是因为我们故意用了比例相似的简单示例。真实 Adam 还会同时涉及第一动量、第二动量、bias correction 以及稳定项等因素。这个实验的目的不是完整还原公式，而只是先把`较大的 gradient 会除以较大的历史尺度，较小的 gradient 也会除以较小的历史尺度`这种按坐标调节的感觉拆出来。
+第一阶段的输入，是 optimizer 尚未改动的 gradient 流。`risk_weight` 是较大的负 gradient 持续变小，`recovery_weight` 是较小的负 gradient 持续变小，`noise_weight` 则方向持续改变。简单 direct update 与 Adam-like 都会收到同一个输入。
 
-把这两个例子合在一起读，自适应 update 的补强就会分成两个轴。
+![按坐标区分的平均 update 大小](../../../assets/part-05/chapter-07/adaptive-delta-scale-ko.png)
 
-| 例子 | 看的轴 | 直接确认到的变化 | 本节要留下来的句子 |
-| --- | --- | --- | --- |
-| 单个 `risk_weight` 在多个 step 上变化 | 时间轴 | 最近 gradient 会留在 moving average 里，使 step 间移动更平滑 | 自适应 update 不只看当前 gradient，也会看最近流向 |
-| `risk_weight` 与 `recovery_weight` 并排比较 | 坐标轴 | 每个参数会按自己的 gradient 历史分别调节步幅 | 自适应 update 不会把所有参数永远按同一标准步幅去推 |
+delta 阶段开始出现差异。简单 direct update 会几乎原样把 gradient 大小差异转成 update 大小差异。Adam-like 因为同时使用最近流向和按坐标的大小历史，所以大的 gradient 坐标会被相对压住，小的 gradient 坐标也会按自己的历史被调节。
+
+![按 update 规则区分的参数移动路径](../../../assets/part-05/chapter-07/adaptive-weight-trajectory-ko.png)
+
+看最终参数路径时，这种差异会累积起来。对于大 gradient 持续出现的 `risk_weight`，direct update 移动得远得多；对于小 gradient 稳定出现的 `recovery_weight`，Adam-like 反应更大；对于方向摇摆的 `noise_weight`，两条路径都没有走得太远。这一步真正改变的不是`重新计算了 gradient`，而是 optimizer 规则把同一条 gradient 流变成实际 parameter path 的方式。
+
+这个例子并不是完整重现真实 Adam 公式，也不是在判定 direct update 与 Adam 的性能优劣。这里真正要读的是下面几点。
+
+- 简单 direct update 会比较直接地反映当前 `gradient`
+- Adam 类想法会累积最近方向和按坐标的大小历史，从而让逐 step update 不同
+- optimizer 不是简单地`让它下降`，而是在决定同样的 gradient 要变成`怎样的 update 路径`
+
+读完这个例子后，自适应 update 的补强会分成两个轴。
+
+| 看的轴 | 直接确认到的变化 | 本节要留下来的句子 |
+| --- | --- | --- |
+| 时间轴 | 最近 gradient 会留在 moving average 里，使逐 step update 更平滑 | 自适应 update 不只看当前 gradient，也会看最近流向 |
+| 坐标轴 | 每个参数会分别累积自己的 gradient 大小历史并调节步幅 | 自适应 update 不会把所有参数永远按同一标准步幅去推 |
 
 把这张表读完以后，至少应该能够把自适应 update 说成：`把时间轴累积与坐标轴调节都写进 update 规则里的方式。` Adam 则是帮助我们看懂这件事的代表例子，仅此而已。
 
@@ -301,6 +334,6 @@ recovery_weight gradient = -0.25 direct_delta = 0.025 second_moment = 0.029 adam
 
 ## 出处与参考资料
 
-- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, 确认日期: 2026-06-29.
-- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, 确认日期: 2026-06-29.
-- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, 确认日期: 2026-06-29.
+- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, 确认日期: 2026-07-19. [https://doi.org/10.1007/978-3-7908-2604-3_16](https://doi.org/10.1007/978-3-7908-2604-3_16){: target="_blank" rel="noopener noreferrer" }
+- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, 确认日期: 2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, 确认日期: 2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }

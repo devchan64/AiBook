@@ -1,7 +1,7 @@
 # P5-7.3 Intuition For Adaptive Updates: Adam As An Example
 
-Section ID: `P5-7.3`
-Version: `v2026.07.17`
+> Section ID: `P5-7.3`
+> Version: `v2026.07.20`
 
 In P5-7.2, we saw how the actual update step size can differ depending on the learning rate even with the same gradient. From here, the next question appears immediately. Is it enough to apply that step size to every parameter in exactly the same way all the time?
 
@@ -112,23 +112,25 @@ The first result to confirm in this diagram is that the basic direct update is c
 
 ## Practice And Example
 
-We can move directly to the examples now. The two examples in this section are both simplified intuition examples, not full implementations of real Adam. The first example shows `the axis of accumulating recent gradient flow`, and the second example shows `the axis of adjusting stride differently by coordinate`. It is enough to read Adam as a representative example that contains both axes together.
+We can move directly to the example now. The example in this section is not a `full implementation of real Adam`; it is a simplified example that isolates the core intuition of adaptive update. The example data is in [optimizer-gradient-history.csv](../../../assets/part-05/chapter-07/optimizer-gradient-history.csv). This file contains the gradient flow received by three parameters over 12 steps. One coordinate has a large gradient that steadily shrinks, one has a small gradient that steadily shrinks, and one has a gradient whose direction keeps wobbling.
 
 Input:
 
-- the current risk weight `risk_weight`
-- the list of risk-weight gradients across several steps
+- gradient flow by parameter recorded across multiple steps
+- parameter name `parameter_name`
+- learning step `step`
+- each step's `gradient`
 
 Output:
 
-- the continuous risk-weight update result of a simple direct-update method
-- the intuitive update result of a simplified Adam-like accumulated average
-- step-by-step `direct_delta` and `adam_like_delta`
-- in the second mini experiment, how coordinate-wise stride adjustment appears when two parameters have different gradient magnitudes
+- parameter movement results from a simple direct-update method
+- update results from a simplified Adam-like accumulated average and second moment
+- mean `direct_delta` and `adam_like_delta` by parameter
+- how movement paths differ for large gradients, small gradients, and wobbling gradients
 
 Problem scene:
 
-- the difference in adaptive update is easier to see through how the same gradient flow turns into step-by-step updates than through formula names
+- the difference in adaptive update is easier to read from how parameter-wise gradient flow turns into step-by-step updates than from formula names
 
 Concepts to confirm:
 
@@ -138,155 +140,178 @@ Concepts to confirm:
 
 Input:
 
-Assume that there is one `risk_weight` that reads the pressure-unrecovered signal, and that `gradient_risk_weight` enters in the order `-4.0`, `-2.0`, and `-1.0` at each learning step. Even with the same gradient flow, we compare how a simple direct update and an Adam-like method move `risk_weight` more directly or with more accumulated averaging.
+The CSV contains gradient flows for the following three coordinates.
 
-Before looking at the code, it helps to predict which side's movement amount will be more direct and which side will be smoother. That makes the difference between `current-gradient response` and `accumulated-average response` easier to see.
-
-| Comparison item | Update to predict first | Why that is the expected result |
+| Parameter | Gradient flow | What to predict first |
 | --- | --- | --- |
-| first `direct_delta` | it will probably move the most | because the first `gradient_risk_weight` `-4.0` is reflected directly by being multiplied immediately by the learning rate |
-| first `adam_like_delta` | it will probably be much smaller than `direct_delta` | because at the beginning, the moving average only partially reflects the whole gradient |
-| `direct_delta` as the steps pass | it will probably shrink immediately as the gradient magnitude shrinks | because a simple direct update reacts directly to the size of the current `gradient_risk_weight` |
-| `adam_like_delta` as the steps pass | it will probably change more slowly or connect more smoothly | because the gradients of previous steps remain inside the moving average |
+| `risk_weight` | large negative gradients steadily shrink | the direct update moves far, while the Adam-like update adjusts the stride by looking at magnitude history |
+| `recovery_weight` | small negative gradients steadily shrink | the direct update barely moves, while the Adam-like update adjusts even the small coordinate by its own history |
+| `noise_weight` | negative and positive gradients alternate | the direct update keeps changing direction, while the Adam-like update accumulates recent flow and reduces wobble |
 
-The purpose of this table is not to memorize the exact numbers in advance. It is to hold before the code that even with the same `gradient_risk_weight` flow, a simple direct update reflects `the current slope` immediately, while an Adam-like method can move more smoothly while keeping the `recent flow`.
-
-```python
-# This example compares direct updates and Adam-like updates over the same gradient history for risk_weight.
-gradient_risk_weight_history = [-4.0, -2.0, -1.0]
-risk_weight_direct = 1.0
-risk_weight_adam_like = 1.0
-learning_rate = 0.1
-moving_avg = 0.0
-beta = 0.9
-
-print("Direct updates")
-for gradient_risk_weight in gradient_risk_weight_history:
-    direct_delta = -learning_rate * gradient_risk_weight
-    risk_weight_direct = risk_weight_direct + direct_delta
-    print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "direct_delta =", round(direct_delta, 3),
-        "-> risk_weight =", round(risk_weight_direct, 3)
-    )
-
-print()
-print("Adam-like updates (simplified intuition)")
-for gradient_risk_weight in gradient_risk_weight_history:
-    moving_avg = beta * moving_avg + (1 - beta) * gradient_risk_weight
-    adam_like_delta = -learning_rate * moving_avg
-    risk_weight_adam_like = risk_weight_adam_like + adam_like_delta
-    print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "moving_avg =", round(moving_avg, 3),
-        "adam_like_delta =", round(adam_like_delta, 3),
-        "-> risk_weight =", round(risk_weight_adam_like, 3)
-    )
-```
-
-In the output, first compare how the step-by-step updates differ between the simple direct update and the Adam-like method even under the same `gradient_risk_weight` flow.
-
-```text
-Direct updates
- gradient_risk_weight = -4.0 direct_delta = 0.4 -> risk_weight = 1.4
- gradient_risk_weight = -2.0 direct_delta = 0.2 -> risk_weight = 1.6
- gradient_risk_weight = -1.0 direct_delta = 0.1 -> risk_weight = 1.7
-
-Adam-like updates (simplified intuition)
- gradient_risk_weight = -4.0 moving_avg = -0.4 adam_like_delta = 0.04 -> risk_weight = 1.04
- gradient_risk_weight = -2.0 moving_avg = -0.56 adam_like_delta = 0.056 -> risk_weight = 1.096
- gradient_risk_weight = -1.0 moving_avg = -0.604 adam_like_delta = 0.06 -> risk_weight = 1.156
-```
-
-If we separate even the same output into `input gradient -> step-by-step update -> accumulated risk_weight`, it becomes clearer what the Adam-like method is trying to compensate further.
-
-![Gradient input flow used to compare the simple direct update and the Adam-like update](/AiBook/assets/part-05/chapter-07/sgd-adam-gradient-history-en.png)
-
-The input of the first stage is the gradient flow before the optimizer changes anything. Here, as steps pass, the magnitude of `gradient_risk_weight` becomes smaller, and both the simple direct update and the Adam-like method receive the same input.
-
-![Step-by-step delta comparison between the simple direct update and the Adam-like method](/AiBook/assets/part-05/chapter-07/sgd-adam-delta-comparison-en.png)
-
-The difference appears at the delta stage. The simple direct update moves greatly in the first step because it immediately multiplies the current gradient by the learning rate, while the Adam-like method converts the same input into a smaller movement amount because it passes through the moving average.
-
-![Risk-weight trajectory of the simple direct update and the Adam-like method](/AiBook/assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-en.png)
-
-If we look at the final risk-weight path, this difference accumulates. The simple direct update quickly moves to 1.7, while the Adam-like method accumulates recent flow and moves more slowly to 1.156. What changes at this stage is not `they received the same gradient`, but that the optimizer rule creates a different actual parameter path.
-
-This example is neither a full implementation of real Adam, nor an experiment that judges the performance superiority of a simple direct update versus Adam. The core point to read here is the following.
-
-- the simple direct update reflects the current `gradient_risk_weight` relatively directly
-- the idea of Adam-like methods is to accumulate recent directions and thereby make the step-by-step update different
-- an optimizer does not merely `decrease something`, but decides `through what update path should the same gradient be turned`
-
-### Mini Experiment On Coordinate-Wise Adjustment
-
-The example above shows the first axis of adaptive update: the feeling of keeping `recent gradient flow`. But to understand adaptive update, we need to see one more thing. In large models, there is not just one parameter, and the gradient magnitudes of each parameter are also different. In this situation, Adam-like optimizers try not just to `push all coordinates with the same reference stride`, but to adjust the update by referring to the gradient magnitude of each coordinate.
-
-The following mini experiment is not a full implementation of Adam either. It isolates only the intuition of Adam's coordinate-wise adjustment, the part where `the second moment compensates gradient magnitude differences`. Here, we compare two parameters.
-
-| Parameter | Incoming gradient flow | What we first expect in the simple direct update | What we first expect in Adam-like coordinate-wise adjustment |
-| --- | --- | --- | --- |
-| `risk_weight` | `[-8.0, -4.0]` | the update also becomes very large because the gradient is large | the coordinate with the large gradient is relatively suppressed |
-| `recovery_weight` | `[-0.5, -0.25]` | the update becomes very small because the gradient is small | even the coordinate with the small gradient is not buried completely |
+The purpose of this table is not to memorize exact numbers in advance. It is to hold before the code that even with the same learning rate, a simple direct update reflects `the current gradient` immediately, while Adam-like keeps `recent flow` and `coordinate-wise magnitude history` and can create a different movement path.
 
 ```python
-# This example compares direct updates and Adam-like coordinate-wise adjustment across parameters with different gradient scales.
-gradient_by_parameter = {
-    "risk_weight": [-8.0, -4.0],
-    "recovery_weight": [-0.5, -0.25],
-}
+# This example reads CSV gradient history and compares how direct updates and
+# Adam-like updates create different parameter movement paths.
+from csv import DictReader
+from pathlib import Path
 
-learning_rate = 0.1
-beta2 = 0.9
-second_moment = {
-    "risk_weight": 0.0,
-    "recovery_weight": 0.0,
-}
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-gradient-history.csv")
+PARAMETER_ORDER = ["risk_weight", "recovery_weight", "noise_weight"]
 
-for step in range(2):
-    print("step", step + 1)
-    for parameter_name, gradient_history in gradient_by_parameter.items():
-        gradient = gradient_history[step]
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "step": int(row["step"]),
+                "parameter_name": row["parameter_name"],
+                "signal_group": row["signal_group"],
+                "gradient": float(row["gradient"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def simulate_updates(rows):
+    learning_rate = 0.05
+    beta1 = 0.8
+    beta2 = 0.9
+    epsilon = 1e-8
+    state = {
+        parameter_name: {
+            "direct_weight": 1.0,
+            "adam_like_weight": 1.0,
+            "m": 0.0,
+            "v": 0.0,
+        }
+        for parameter_name in PARAMETER_ORDER
+    }
+    simulated = []
+
+    parameter_index = {
+        parameter_name: index
+        for index, parameter_name in enumerate(PARAMETER_ORDER)
+    }
+    for row in sorted(
+        rows,
+        key=lambda item: (item["step"], parameter_index[item["parameter_name"]]),
+    ):
+        parameter_name = row["parameter_name"]
+        gradient = row["gradient"]
+        parameter_state = state[parameter_name]
+
         direct_delta = -learning_rate * gradient
+        parameter_state["direct_weight"] += direct_delta
 
-        second_moment[parameter_name] = (
-            beta2 * second_moment[parameter_name]
+        parameter_state["m"] = beta1 * parameter_state["m"] + (1 - beta1) * gradient
+        parameter_state["v"] = (
+            beta2 * parameter_state["v"]
             + (1 - beta2) * gradient * gradient
         )
-        adam_like_delta = -learning_rate * gradient / (second_moment[parameter_name] ** 0.5)
-
-        print(
-            parameter_name,
-            "gradient =", gradient,
-            "direct_delta =", round(direct_delta, 3),
-            "second_moment =", round(second_moment[parameter_name], 3),
-            "adam_like_delta =", round(adam_like_delta, 3),
+        adam_like_delta = (
+            -learning_rate
+            * parameter_state["m"]
+            / (parameter_state["v"] ** 0.5 + epsilon)
         )
+        parameter_state["adam_like_weight"] += adam_like_delta
+
+        simulated.append(
+            {
+                "step": row["step"],
+                "parameter_name": parameter_name,
+                "gradient": gradient,
+                "direct_delta": direct_delta,
+                "adam_like_delta": adam_like_delta,
+                "direct_weight": parameter_state["direct_weight"],
+                "adam_like_weight": parameter_state["adam_like_weight"],
+            }
+        )
+
+    return simulated
+
+
+rows = load_rows(DATA_PATH)
+simulated = simulate_updates(rows)
+
+print("[input]")
+print("rows =", len(rows))
+print("parameters =", ", ".join(PARAMETER_ORDER))
+
+print("\n[checkpoints]")
+for item in simulated:
+    if item["step"] in [1, 6, 12]:
+        print(
+            item["parameter_name"],
+            "step =", item["step"],
+            "gradient =", item["gradient"],
+            "direct_delta =", round(item["direct_delta"], 3),
+            "adam_like_delta =", round(item["adam_like_delta"], 3),
+        )
+
+print("\n[final weights]")
+for parameter_name in PARAMETER_ORDER:
+    last = [
+        item for item in simulated
+        if item["parameter_name"] == parameter_name
+    ][-1]
+    print(
+        parameter_name,
+        "direct_weight =", round(last["direct_weight"], 3),
+        "adam_like_weight =", round(last["adam_like_weight"], 3),
+    )
 ```
 
-The output is read not by rereading numbers one by one, but by checking `through what update rule does the same gradient flow become a different movement path`.
+In the output, first compare how the step-by-step updates of the simple direct update and the Adam-like method differ even under the same CSV input.
 
 ```text
-step 1
-risk_weight gradient = -8.0 direct_delta = 0.8 second_moment = 6.4 adam_like_delta = 0.316
-recovery_weight gradient = -0.5 direct_delta = 0.05 second_moment = 0.025 adam_like_delta = 0.316
-step 2
-risk_weight gradient = -4.0 direct_delta = 0.4 second_moment = 7.36 adam_like_delta = 0.147
-recovery_weight gradient = -0.25 direct_delta = 0.025 second_moment = 0.029 adam_like_delta = 0.147
+[input]
+rows = 36
+parameters = risk_weight, recovery_weight, noise_weight
+
+[checkpoints]
+risk_weight step = 1 gradient = -7.0 direct_delta = 0.35 adam_like_delta = 0.032
+recovery_weight step = 1 gradient = -0.6 direct_delta = 0.03 adam_like_delta = 0.032
+noise_weight step = 1 gradient = -3.0 direct_delta = 0.15 adam_like_delta = 0.032
+risk_weight step = 6 gradient = -3.0 direct_delta = 0.15 adam_like_delta = 0.049
+recovery_weight step = 6 gradient = -0.29 direct_delta = 0.014 adam_like_delta = 0.05
+noise_weight step = 6 gradient = 1.2 direct_delta = -0.06 adam_like_delta = -0.001
+risk_weight step = 12 gradient = -0.4 direct_delta = 0.02 adam_like_delta = 0.03
+recovery_weight step = 12 gradient = -0.05 direct_delta = 0.003 adam_like_delta = 0.034
+noise_weight step = 12 gradient = 0.3 direct_delta = -0.015 adam_like_delta = -0.0
+
+[final weights]
+risk_weight direct_weight = 2.87 adam_like_weight = 1.502
+recovery_weight direct_weight = 1.171 adam_like_weight = 1.52
+noise_weight direct_weight = 1.07 adam_like_weight = 1.063
 ```
 
-In the simple direct update, the first update of `risk_weight` is `0.8`, while `recovery_weight` is `0.05`. The difference in gradient magnitude is transferred almost directly into the difference in update size. In Adam-like coordinate-wise adjustment, on the other hand, each coordinate separately accumulates its own gradient-magnitude history in `second_moment`, and divides the update by that value. So the coordinate with a large gradient is relatively suppressed, while the coordinate with a small gradient is not buried completely.
+If we separate even the same output into `input gradient -> step-by-step update -> accumulated weight`, it becomes clearer what the Adam-like method is trying to compensate further.
 
-There is no need to memorize these numbers as the full Adam formula. There is only one learning point to hold here. The word `adaptive` in Adam does not mean only that it remembers recent flow. It also means that it looks separately at the gradient-magnitude history of each parameter coordinate and tries to adjust the update stride accordingly.
+![Parameter-wise gradient flow](../../../assets/part-05/chapter-07/adaptive-gradient-history-ko.png)
 
-But this mini experiment must not be read as `Adam always makes the updates of different parameters the same`. The reason the two `adam_like_delta` values look the same here is that we intentionally used a simple example where the ratio of the two gradient flows is the same. Real Adam also includes first moments, second moments, bias correction, and a small stabilization constant. Here, we are not trying to reproduce the whole formula. We are isolating only the coordinate-wise-adjustment feeling that `a large gradient is divided by its own magnitude history, and a small gradient is also divided by its own magnitude history`.
+The input at the first stage is the gradient flow before the optimizer changes anything. `risk_weight` has a large negative gradient that steadily shrinks, `recovery_weight` has a small negative gradient that steadily shrinks, and `noise_weight` keeps changing direction. The simple direct update and the Adam-like method both receive this same input.
 
-When the two examples are read together, the compensations of adaptive update divide into two axes.
+![Mean update scale by coordinate](../../../assets/part-05/chapter-07/adaptive-delta-scale-ko.png)
 
-| Example | Axis being observed | Change to check directly | Sentence to leave from this section |
-| --- | --- | --- | --- |
-| several steps for one `risk_weight` | time axis | recent gradients remain in the moving average, so the step-by-step update becomes smoother | adaptive update can look at recent flow rather than only at the current gradient |
-| comparison of `risk_weight` and `recovery_weight` | coordinate axis | each parameter separately accumulates its own gradient magnitude history and adjusts the stride | adaptive update does not push all parameters only with the same reference stride |
+The difference appears at the delta stage. The simple direct update transfers gradient magnitude differences almost directly into update magnitude differences. Because the Adam-like method uses recent flow and coordinate-wise magnitude history together, the coordinate with a large gradient is relatively suppressed, and the coordinate with a small gradient is also adjusted against its own history.
+
+![Parameter movement path by update rule](../../../assets/part-05/chapter-07/adaptive-weight-trajectory-ko.png)
+
+If we look at the final parameter paths, this difference accumulates. For `risk_weight`, where the large gradient is steady, the direct update moves much farther. For `recovery_weight`, where the small gradient is steady, Adam-like reacts more strongly. For `noise_weight`, whose direction wobbles, neither path moves very far. What changes at this stage is not that `the gradient was newly computed`, but the way the optimizer rule turns the same gradient flow into an actual parameter path.
+
+This example is neither a full implementation of real Adam nor an experiment that judges the performance superiority of a simple direct update versus Adam. The core point to read here is the following.
+
+- the simple direct update reflects the current `gradient` relatively directly
+- the idea of Adam-like methods is to accumulate recent directions and coordinate-wise magnitude histories, thereby making step-by-step updates different
+- an optimizer does not merely `decrease something`, but decides `through what update path should the same gradient be turned`
+
+After reading this example, the compensations of adaptive update divide into two axes.
+
+| Axis to read | Change to check directly | Sentence to leave from this section |
+| --- | --- | --- |
+| time axis | recent gradients remain in the moving average, so the step-by-step update becomes smoother | adaptive update can look at recent flow rather than only at the current gradient |
+| coordinate axis | each parameter separately accumulates its own gradient magnitude history and adjusts the stride | adaptive update does not push all parameters only with the same reference stride |
 
 Once this table is read, the core of adaptive update should be explainable as `a method that puts both time-axis accumulation and coordinate-axis adjustment into the update rule`. It is enough to summarize Adam as a representative example that shows that method.
 
@@ -311,6 +336,6 @@ After understanding the general role of the optimizer, it is helpful to read sep
 
 ## Sources And Further Reading
 
-- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, accessed 2026-06-29.
-- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, accessed 2026-06-29.
-- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, accessed 2026-06-29.
+- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, accessed 2026-07-19. [https://doi.org/10.1007/978-3-7908-2604-3_16](https://doi.org/10.1007/978-3-7908-2604-3_16){: target="_blank" rel="noopener noreferrer" }
+- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, accessed 2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, accessed 2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }
