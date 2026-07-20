@@ -29,6 +29,7 @@
   - `train-validation-overfit-en.svg` / `train-validation-overfit-zh.svg`
 - CSV input assets:
   - `regularization-training-log.csv`
+  - `dropout-training-path-log.csv`
 - PNG chart assets:
   - `regularization-loss-compare-ko.png`
   - `regularization-weight-growth-ko.png`

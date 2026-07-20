@@ -1,7 +1,7 @@
 # P5-8.2 경로 의존을 줄이는 방법: 드롭아웃(dropout)
 
 > Section ID: `P5-8.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-8.1에서는 목적 함수 옆에 regularization 항을 두어 학습 루프의 목표 자체를 조정하는 방법을 보았습니다. 이제 같은 챕터 흐름을 한 단계 더 옮겨, 손실 옆의 벌점이 아니라 신경망 내부 경로를 흔드는 방식으로도 제어가 가능한지 봅니다. 여기서 다음 질문이 자연스럽게 이어집니다.
 
@@ -133,120 +133,145 @@ dropout은 `모델이 특정 단서나 은닉 경로 하나에 과하게 기대�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 학습 중 드롭아웃이 일부 활성값을 0으로 만들 수 있다는 점을 직접 확인하는 것입니다. 학습 모드와 평가 모드가 왜 다르게 읽혀야 하는지도 같은 입력으로 함께 보겠습니다.
+이번 예제의 목표는 학습 중 드롭아웃이 step마다 다른 경로 조합을 쉬게 만든다는 점을 직접 확인하는 것입니다. 학습 모드와 평가 모드가 왜 다르게 읽혀야 하는지도 같은 입력 로그로 함께 보겠습니다.
 
 입력:
 
-- 활성값 목록
-- dropout 비율
+- dropout mask 로그 CSV: [`dropout-training-path-log.csv`](../../../assets/part-05/chapter-08/dropout-training-path-log.csv)
+- `step`: dropout이 적용된 학습 step
+- `node`, `activation`: 은닉 노드와 dropout 전 활성값
+- `train_mask`, `train_value`, `eval_value`: 학습 모드 mask, 학습 모드 값, 평가 모드 값
 
 출력:
 
-- 드롭아웃 전 활성값
-- 학습 모드에서 드롭아웃 후 활성값
-- 평가 모드에서 유지되는 활성값
-- 같은 입력에 대해 train/eval이 얼마나 다르게 흔들리는지 비교
+- 첫 step에서 드롭아웃 전 활성값과 학습 모드 값이 어떻게 갈라지는지
+- 여러 step에서 학습 모드 활성값 합이 얼마나 흔들리는지
+- 어떤 노드가 여러 step에 걸쳐 몇 번 쉬었는지
 
 문제 상황:
 
 - 드롭아웃은 활성값을 일부 꺼서 과적합을 줄이려는 장치이므로, 학습과 평가에서 출력이 어떻게 달라지는지 직접 확인하는 편이 좋다
-- 어떤 경로가 꺼졌는지와 평가 모드에서 무엇이 다시 고정되는지를 같이 봐야 `특정 경로 의존`이 왜 줄어드는지 읽기 쉽다
+- 한 번의 seed 결과만 보면 우연히 아무 경로도 꺼지지 않을 수 있으므로, 여러 step의 mask 로그로 어떤 경로 조합이 번갈아 쉬는지 봐야 한다
 
 확인할 개념:
 
-- 학습 모드에서는 일부 노드가 꺼진다
+- 학습 모드에서는 step마다 일부 노드가 꺼질 수 있다
 - 평가 모드에서는 같은 무작위 제거를 반복하지 않아 더 안정적으로 읽는다
 - 일부 노드가 빠져도 나머지 경로가 출력을 떠받쳐야 한다는 압박이 생긴다
 
 입력(input):
 
-위에 정리한 활성값 목록과 dropout 비율을 사용합니다.
+CSV의 한 행은 한 학습 step에서 한 은닉 노드가 어떻게 처리되었는지를 뜻합니다. `train_mask`가 `0`이면 그 step의 학습 모드에서 해당 경로가 쉬고, `1`이면 남아 있습니다. 여기서는 실제 프레임워크의 전체 dropout 구현이 아니라, 무작위 제거 결과를 학습 로그처럼 고정해 읽는 축약 예제입니다.
 
-코드를 보기 전에 먼저 어느 값이 train mode에서만 달라지고, 어느 값이 eval mode에서는 그대로 유지될지 예상해 보면 좋습니다.
+코드를 보기 전에 먼저 train mode에서 어떤 노드가 번갈아 빠지고, eval mode에서는 왜 같은 활성값을 유지하는지 예상해 보면 좋습니다.
 
 | 비교 | 먼저 예상해 볼 비교 | 예상 이유 |
 | --- | --- | --- |
-| `train_mode_values` vs `before_dropout` | 일부 위치만 0으로 바뀔 가능성 | dropout은 학습 중 일부 경로만 임시로 끄기 때문입니다. |
-| `eval_mode_values` vs `before_dropout` | 거의 같을 가능성 | 평가 모드에서는 같은 무작위 제거를 유지하지 않기 때문입니다. |
-| 장난감 예제의 전체 합(`sum`) | train mode 쪽이 더 작게 보일 가능성 | 이 예제에서는 일부 활성값을 0으로 두고 추가 스케일링을 생략했기 때문입니다. |
+| `train_mask` | step마다 0인 위치가 달라질 가능성 | dropout은 학습 중 일부 경로 조합을 임시로 쉬게 하기 때문입니다. |
+| `train_value` vs `eval_value` | train mode에서만 일부 값이 0이 될 가능성 | 평가 모드에서는 같은 무작위 제거를 반복하지 않기 때문입니다. |
+| step별 `train_sum` | step마다 다르게 흔들릴 가능성 | 이 예제에서는 일부 활성값을 0으로 두고 추가 스케일링을 생략했기 때문입니다. |
 
 이 표의 목적은 `경로 제거`와 `안정적 평가`를 한 번에 읽는 것입니다.
 
-여기서 한 가지를 먼저 분명히 해 두겠습니다. 실제 프레임워크의 dropout은 보통 학습 중 남아 있는 활성값을 스케일링(inverted dropout)해, 평가 모드와 평균 크기가 크게 어긋나지 않게 맞춥니다. 아래 예제는 그 세부를 모두 구현하기보다 `일부 경로가 현재 step에서 빠진다`는 핵심 직관만 먼저 보이기 위해 단순화한 장난감 예제입니다.
+여기서 한 가지를 먼저 분명히 해 두겠습니다. 실제 프레임워크의 dropout은 보통 학습 중 남아 있는 활성값을 스케일링(inverted dropout)해, 평가 모드와 평균 크기가 크게 어긋나지 않게 맞춥니다. 아래 예제는 그 세부를 모두 구현하기보다 `일부 경로가 여러 step에서 번갈아 빠진다`는 핵심 직관만 먼저 보이기 위해 단순화한 로그 예제입니다.
 
 ```python
-import random
+from collections import defaultdict
+from csv import DictReader
+from pathlib import Path
 
-activations = [0.9, 1.3, 0.4, 1.1, 0.7]
-drop_rate = 0.4
+csv_path = Path("docs/assets/part-05/chapter-08/dropout-training-path-log.csv")
 
-def apply_dropout(values, drop_rate):
-    result = []
-    mask = []
-    for v in values:
-        if random.random() < drop_rate:
-            result.append(0.0)
-            mask.append(0)
-        else:
-            result.append(v)
-            mask.append(1)
-    return result, mask
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "step": int(row["step"]),
+                "node": row["node"],
+                "activation": float(row["activation"]),
+                "train_mask": int(row["train_mask"]),
+                "train_value": float(row["train_value"]),
+                "eval_value": float(row["eval_value"]),
+            }
+        )
 
-random.seed(11)
-train_values, train_mask = apply_dropout(activations, drop_rate)
-eval_values = activations[:]
+steps = sorted({row["step"] for row in rows})
+nodes = sorted({row["node"] for row in rows})
 
-print("before_dropout =", activations)
-print("before_sum =", round(sum(activations), 3))
-print("train_mask =", train_mask)
-print("train_mode_values =", train_values)
-print("train_sum =", round(sum(train_values), 3))
-print("eval_mode_values =", eval_values)
-print("eval_sum =", round(sum(eval_values), 3))
+first_step_rows = [row for row in rows if row["step"] == steps[0]]
+before_dropout = [row["activation"] for row in first_step_rows]
+train_mask = [row["train_mask"] for row in first_step_rows]
+train_mode_values = [row["train_value"] for row in first_step_rows]
+eval_mode_values = [row["eval_value"] for row in first_step_rows]
+
+train_sum_by_step = {}
+for step in steps:
+    step_rows = [row for row in rows if row["step"] == step]
+    train_sum_by_step[step] = sum(row["train_value"] for row in step_rows)
+
+drop_count_by_node = defaultdict(int)
+for row in rows:
+    if row["train_mask"] == 0:
+        drop_count_by_node[row["node"]] += 1
+
+print("rows_read =", len(rows))
+print("first_step_mask =", train_mask)
+print("first_step_train_values =", train_mode_values)
+print("first_step_train_sum =", round(sum(train_mode_values), 3))
+print("eval_values =", eval_mode_values)
+print("eval_sum =", round(sum(eval_mode_values), 3))
+print(
+    "train_sum_range =",
+    [round(min(train_sum_by_step.values()), 3), round(max(train_sum_by_step.values()), 3)],
+)
+print("drop_count_by_node =", {node: drop_count_by_node[node] for node in nodes})
 ```
 
-출력에서는 before_dropout과 train_mask를 먼저 보고, train_mode_values와 eval_mode_values가 어떻게 갈라지는지 이어서 보면 됩니다.
+출력에서는 첫 step의 mask를 먼저 보고, 그다음 여러 step에서 학습 모드 값의 합이 얼마나 흔들리는지와 어떤 노드가 반복해서 쉬었는지를 보면 됩니다.
 
 ```text
-before_dropout = [0.9, 1.3, 0.4, 1.1, 0.7]
-before_sum = 4.4
-train_mask = [1, 1, 1, 0, 1]
-train_mode_values = [0.9, 1.3, 0.4, 0.0, 0.7]
-train_sum = 3.3
-eval_mode_values = [0.9, 1.3, 0.4, 1.1, 0.7]
+rows_read = 60
+first_step_mask = [1, 1, 1, 0, 1]
+first_step_train_values = [0.9, 1.3, 0.4, 0.0, 0.7]
+first_step_train_sum = 3.3
+eval_values = [0.9, 1.3, 0.4, 1.1, 0.7]
 eval_sum = 4.4
+train_sum_range = [2.0, 4.0]
+drop_count_by_node = {'node_1': 4, 'node_2': 4, 'node_3': 4, 'node_4': 4, 'node_5': 3}
 ```
 
 - 어떤 활성값은 그대로 남고
-- 어떤 활성값은 현재 학습 step에서는 0이 되며
+- 어떤 활성값은 특정 학습 step에서는 0이 되며
+- 여러 step을 지나면 쉬는 노드 조합이 바뀌고
 - 평가 모드에서는 같은 입력이라도 이런 무작위 제거를 반복하지 않습니다
 - 그 결과 네트워크가 모든 경로를 항상 믿고 학습할 수 없게 됩니다
 
-이 예제에서 먼저 볼 산출물은 노드별 활성값입니다. `train_mask`가 `0`인 네 번째 노드만 학습 모드에서 꺼지고, 평가 모드에서는 원래 활성값이 그대로 유지됩니다.
+이 예제에서 먼저 볼 산출물은 첫 step의 노드별 활성값입니다. `first_step_mask`가 `0`인 네 번째 노드만 학습 모드에서 꺼지고, 평가 모드에서는 원래 활성값이 그대로 유지됩니다.
 
 ![dropout 전후 노드별 활성값](../../../assets/part-05/chapter-08/dropout-activation-values-ko.png)
 
-두 번째 산출물은 장난감 예제에서의 활성값 합입니다. 여기서는 학습 모드에서 일부 경로가 빠지면서 합이 `4.4 -> 3.3`으로 줄지만, 이 숫자 자체를 dropout의 일반 법칙으로 읽기보다 `현재 step에서 어떤 경로가 빠졌는가`를 보여 주는 보조 관찰값으로 보는 편이 안전합니다.
+두 번째 산출물은 여러 학습 step에서의 활성값 합입니다. 여기서는 학습 모드에서 빠지는 경로 조합이 step마다 달라져 `train_sum_range = [2.0, 4.0]`처럼 흔들리지만, 평가 모드의 합은 같은 입력 기준에서 `4.4`로 고정됩니다.
 
-![dropout 전후 활성값 합](../../../assets/part-05/chapter-08/dropout-sum-comparison-ko.png)
+![dropout 학습 step별 활성값 합](../../../assets/part-05/chapter-08/dropout-sum-comparison-ko.png)
 
 | 비교 | 지금 읽어야 할 핵심 |
 | --- | --- |
-| `before` vs `train` | 특정 노드 하나가 실제로 빠지면서 합도 줄어듭니다. |
+| `before` vs `train` | 학습 모드에서는 step마다 일부 노드가 실제로 빠질 수 있습니다. |
 | `train` vs `eval` | train mode에서는 경로를 흔들지만 eval mode에서는 같은 입력을 안정적으로 유지합니다. |
-| `train_sum` | 이 장난감 예제에서는 일부 경로가 쉬었다는 사실을 보조적으로 보여 줍니다. 핵심은 합 자체보다 경로 의존이 깨지는 압박입니다. |
+| `train_sum_range` | 이 로그 예제에서는 일부 경로 조합이 번갈아 쉬었다는 사실을 보조적으로 보여 줍니다. 핵심은 합 자체보다 경로 의존이 깨지는 압박입니다. |
 
 출력 숫자를 읽을 때도 `몇 개가 0이 되었는가`와 `그 결과 어떤 학습 압박이 생기는가`를 분리해서 봐야 합니다.
 
 | 비교 | 출력에서 먼저 보이는 것 | 값만 보면 남기 쉬운 해석 | dropout까지 보면 바뀌는 해석 |
 | --- | --- | --- | --- |
-| `before` vs `train` | `1.1` 하나가 빠지며 합이 `4.4 -> 3.3`으로 줄었습니다. | 그냥 정보가 줄어 손해만 보는 것처럼 보일 수 있습니다. | 특정 경로 하나가 빠져도 나머지 경로가 출력을 떠받쳐야 하므로 지름길 의존을 줄이는 압박이 생깁니다. |
+| `before` vs `train` | 첫 step에서는 `1.1` 하나가 빠지고, 여러 step에서는 쉬는 노드 조합이 바뀝니다. | 그냥 정보가 줄어 손해만 보는 것처럼 보일 수 있습니다. | 특정 경로가 빠져도 나머지 경로가 출력을 떠받쳐야 하므로 지름길 의존을 줄이는 압박이 생깁니다. |
 | `train` vs `eval` | 같은 입력인데 train에서는 흔들리고 eval에서는 원래 값을 유지합니다. | 구현이 일관되지 않거나 불안정한 것처럼 보일 수 있습니다. | 학습 때만 일부러 잡음을 넣고, 평가 때는 안정적으로 재도록 역할을 나눈 것입니다. |
-| `train_sum` vs `eval_sum` | 이 장난감 예제에서는 train 합이 더 작고 eval 합은 원래 수준을 유지합니다. | train 쪽 값이 작으니 그냥 성능이 나빠졌다고 보기 쉽습니다. | 여기서 봐야 할 것은 합의 크기 자체가 아니라, 일부 경로가 비어도 견디는 표현을 배우게 하는 압박입니다. |
+| `train_sum_range` vs `eval_sum` | 이 로그 예제에서는 train 합이 step마다 흔들리고 eval 합은 원래 수준을 유지합니다. | train 쪽 값이 작거나 흔들리니 그냥 성능이 나빠졌다고 보기 쉽습니다. | 여기서 봐야 할 것은 합의 크기 자체가 아니라, 일부 경로가 비어도 견디는 표현을 배우게 하는 압박입니다. |
 
 즉, dropout을 읽을 때 독자가 붙잡아야 할 질문은 `몇 개가 0이 되었는가`만이 아니라, `특정 경로가 빠져도 모델이 여전히 버티도록 강요받는가`입니다.
 
-이 예제는 scaling을 포함한 실제 프레임워크의 모든 세부를 구현한 것은 아닙니다. 그래서 여기서 바로 `dropout을 쓰면 train 합이 항상 더 작다`를 일반 법칙처럼 외우기보다, `학습 중 일부 경로를 쉬게 하는 규칙이 왜 특정 경로 의존을 깨는가`를 먼저 붙잡는 편이 안전합니다.
+이 예제는 scaling을 포함한 실제 프레임워크의 모든 세부를 구현한 것은 아닙니다. 그래서 여기서 바로 `dropout을 쓰면 train 합이 항상 더 작다`를 일반 법칙처럼 외우기보다, `학습 중 일부 경로 조합을 번갈아 쉬게 하는 규칙이 왜 특정 경로 의존을 깨는가`를 먼저 붙잡는 편이 안전합니다.
 
 드롭아웃은 Part 5 초반부의 여러 개념을 한 번에 다시 묶습니다.
 
