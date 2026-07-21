@@ -1,0 +1,397 @@
+# P6-10.2 검색 결과와 생성의 결합
+
+Section ID: `P6-10.2`
+Version: `v2026.07.19`
+
+P6-10.1에서는 RAG(retrieval-augmented generation)가 왜 필요한지 보았습니다. 이제는 문서를 붙인다는 말이 실제 입력 흐름에서 무엇을 뜻하는지 더 구체적으로 봐야 합니다.
+
+찾아온 문서는 실제로 어디에 붙고, 답변은 그 위에서 어떻게 만들어지는가? 이 절은 그 흐름을 직관적으로 설명합니다.
+
+여기서는 RAG의 기본 정의를 다시 길게 반복하지 않습니다. 외부 근거를 붙여 생성하는 구조의 기본 뜻은 P6-10.1과 개념사전을 기준으로 다시 붙잡고, 이 절은 그 근거가 실제 입력과 생성 흐름 안에서 어떻게 결합되는지에 집중합니다.
+
+RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 범위 안에서 답을 생성하려고 시도한다.
+
+## 검색-생성 결합이 다루는 질문
+
+검색-생성 결합은 다음 질문에서 시작합니다.
+
+- 검색 결과는 생성 전에 어떻게 쓰이는가?
+- 문서를 많이 넣는다고 항상 좋은가?
+- 검색 품질과 생성 품질은 왜 따로 봐야 하는가?
+
+이번 절은 `검색 실패`와 `생성 실패`를 따로 읽는 기준까지를 먼저 닫습니다. 검색 저장소와 인덱스 문제는 다음의 P6-11.1 벡터 데이터베이스와 P6-11.2 인덱스와 검색 품질에서 다시 회수합니다. context window 제약 자체는 앞의 P6-3.2 attention과 context window에서 이미 다루었고, 운영상 제약은 P6-16.1에서 다시 연결합니다.
+
+이 절에서는 RAG를 `검색 후 생성`이라는 두 단계 구조로 분해하고, 두 단계 각각의 실패 지점을 구분합니다. 따라서 여기서 먼저 붙잡아야 할 것은 `문서를 붙였다`가 아니라 `검색 실패와 생성 실패를 따로 봐야 한다`는 점입니다.
+
+| 지금 단계의 초점 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| --- | --- | --- |
+| RAG 필요 판단 | 왜 답 전에 문서를 붙여야 할까? | P6-10.1 |
+| 검색-생성 결합 | 그 문서가 실제로 어디에 붙고 어떻게 답으로 이어질까? | P6-10.2 |
+| retrieval 저장소와 탐색 구조 | 그 문서를 어떤 저장 구조와 인덱스로 다시 꺼낼까? | P6-11 |
+
+`RAG`를 한 단계처럼 뭉뚱그리지 않고, 검색 실패와 생성 실패를 따로 나눠 읽는 기준선을 여기서 세웁니다.
+
+즉, 지금 장의 핵심은 `문서를 붙여야 하는가`에서 `붙인 문서가 실제 입력 맥락과 최종 답 사이에서 어떻게 작동하는가`로 넘어가는 데 있습니다. 이 절은 `RAG 필요 판단 -> 검색-생성 결합 -> retrieval 저장소와 탐색 구조` 가운데 `검색-생성 결합` 단계를 맡습니다.
+
+## 여기서 남겨야 할 구분
+
+- 검색 결과와 생성이 어떻게 이어지는지 설명할 수 있습니다.
+- 검색 단계와 생성 단계의 실패를 구분할 수 있습니다.
+- 많이 넣는 것과 잘 넣는 것이 다르다는 점을 말할 수 있습니다.
+- 다음 장의 벡터 데이터베이스와 인덱스 설명으로 자연스럽게 넘어갈 수 있습니다.
+
+## 결합 흐름을 보는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `검색 결과는 어디에 붙나`와 `문서를 많이 넣으면 항상 좋은가`를 읽고, 검색 결과가 답변 뒤가 아니라 생성 전 입력 맥락에 붙는다는 점과 `많이 넣기`와 `잘 넣기`의 차이를 잡습니다.
+2. 그다음 `검색 실패와 생성 실패는 어떻게 다른가`와 `왜 답변 품질이 흔들릴 수 있나`를 읽으면서 RAG 실패를 두 단계로 분리해 봅니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 같은 오답처럼 보여도 `문서를 잘못 가져온 경우`와 `문서를 가져왔지만 과장하거나 잘못 풀어 쓴 경우`를 따로 점검해야 한다는 점을 확인합니다.
+
+## 검색 결과는 어디에 붙나
+
+가장 단순한 형태에서는 검색된 문서 일부가 프롬프트 맥락에 함께 들어갑니다.
+
+예를 들어 입력은 다음처럼 구성될 수 있습니다.
+
+- 사용자 질문
+- 검색된 문서 발췌
+- 답변 형식 지시
+
+즉, 모델은 `질문만` 받는 것이 아니라, `질문 + 관련 문서 + 응답 지시`를 함께 받게 됩니다.
+
+`RAG는 검색 결과를 모델 바깥에서 따로 가지고 있다가, 답하기 직전에 입력 맥락으로 붙여 넣는 구조다.`
+
+여기서 먼저 남겨야 할 것은 어떤 문서를 얼마나 관련 있다고 보고 실제로 붙였는지, 어떤 근거 문장을 선택했는지, 최종 답이 문서를 과장하거나 벗어나지 않았는지를 보여 주는 검색 기록과 답안 점검 메모입니다. 이 기록이 있어야 검색 실패와 생성 실패를 나눌 수 있고, 뒤로 갈수록 P6-11.1, P6-11.2의 검색 품질 점검, P6-15의 평가, P6-16의 운영 판단, Part 6의 검색 회수 기록과 회고 메모로 다시 읽힙니다.
+
+## 문서를 많이 넣으면 항상 좋은가
+
+아닙니다. 여기서 중요한 것은 `양`보다 `관련성`과 `정리 방식`입니다.
+
+문서를 너무 많이 넣으면:
+
+- 핵심이 묻힐 수 있고
+- 서로 충돌하는 문장이 섞일 수 있으며
+- context window를 낭비할 수 있고
+- 모델이 오히려 헷갈릴 수 있습니다
+
+따라서 검색 결과는 `많이 모으는 것`보다 `질문에 맞는 자료를 적절한 크기와 순서로 넣는 것`이 더 중요합니다.
+
+이 지점에서 한 걸음만 더 가면 `검색-생성 결합` 앞에 이미 문서 준비 단계가 있다는 점도 보입니다. 검색이 잘 되려면 문서를 그냥 쌓아 두는 것이 아니라, 미리 `분할`, `최신 버전 구분`, `중복 제거`, `검색 가능한 메타데이터 정리`가 어느 정도 되어 있어야 합니다.
+
+즉, 지금 절은 `찾아온 문서를 어디에 붙이는가`를 다루고 있지만, 그 전에 이미 `붙일 수 있게 문서를 정리해 두는 단계`가 있습니다. 이 차이가 보여야 P6-11의 벡터 데이터베이스와 인덱스 설명도 단순 저장소 소개가 아니라 `검색 가능한 문서 준비`의 연장선으로 읽힙니다.
+
+이 차이를 요청 시점 기준으로 다시 나누면 다음처럼 읽는 편이 가장 안전합니다.
+
+| 단계 | 지금 절에서 먼저 보는 질문 | 흔한 실패 |
+| --- | --- | --- |
+| 문서 준비 단계 | 지금 질문이 오기 전에 문서가 검색 가능하게 정리돼 있었는가? | 낡은 버전 혼입, 중복 문서, 너무 긴 청크 |
+| 검색 단계 | 현재 질문에 맞는 문서를 실제로 잘 가져왔는가? | 무관 문서 상위 노출, 최신 문서 누락 |
+| 생성 단계 | 가져온 문서를 벗어나지 않고 답을 다시 썼는가? | 조건 누락, 과장, 일반 기억 혼입 |
+
+즉, `검색-생성 결합`은 요청이 들어온 뒤의 두 단계만이 아니라, 그보다 앞선 문서 준비 단계까지 포함해야 제대로 읽힙니다.
+
+## 검색 실패와 생성 실패는 어떻게 다른가
+
+이 구분이 매우 중요합니다.
+
+### 검색 실패
+
+- 관련 문서를 못 찾았다
+- 오래된 문서가 먼저 나왔다
+- 질문과 상관없는 문서가 섞였다
+
+### 생성 실패
+
+- 문서를 가져왔는데도 잘못 요약했다
+- 문서 근거보다 일반 기억으로 답했다
+- 출처를 잘못 연결했다
+
+즉, RAG 시스템에서 답이 이상하면 항상 `모델이 나쁘다`고만 말할 수 없습니다. 먼저 검색이 틀렸는지, 생성이 틀렸는지를 나눠 봐야 합니다.
+
+같은 오답처럼 보여도 먼저 보인 신호에 따라 바로 확인할 기록과 다음 조치는 달라집니다.
+
+| 먼저 보인 신호 | 먼저 의심할 실패 축 | 가장 먼저 다시 볼 기록 | 바로 다음 조치 | 서두르면 안 되는 결론 |
+| --- | --- | --- | --- | --- |
+| 붙은 문서 제목이나 발췌가 질문과 어긋난다 | 검색 실패 | 어떤 문서가 붙었는지, 관련성 점수가 어땠는지, 어떤 근거 문장을 골랐는지 다시 봅니다 | 어떤 문서가 왜 상위에 왔는지 다시 보고, 질문과 무관한 문서가 섞였는지 먼저 뺍니다 | 곧바로 프롬프트 문장만 고치면 해결된다고 단정하지 않습니다 |
+| 붙은 문서는 맞는데 답이 조건을 빼먹거나 과장한다 | 생성 실패 | 답 초안이 실제 근거 문장을 벗어났는지, 근거 점검에서 어디가 흔들렸는지 다시 봅니다 | 답 초안이 실제 근거 문장을 벗어났는지 확인하고, 요약 지시와 근거 점검 규칙을 다시 봅니다 | 검색 품질이 이미 충분하다고 단정하지 않습니다 |
+| 검색도 어색하고 답도 함께 흔들린다 | 검색 실패가 생성으로 전염된 경우 | 검색 기록과 답 초안을 함께 봅니다 | 먼저 검색 오염을 줄인 뒤, 그다음 생성 지시를 다시 조정합니다 | 한 번의 오답만 보고 모델 전체 능력 문제로 확대하지 않습니다 |
+
+## 왜 답변 품질이 흔들릴 수 있나
+
+RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘어납니다.
+
+- 검색 문서 선택
+- 문서 길이와 발췌 방식
+- 문서 순서
+- 생성 지시 방식
+- 인용 형식
+
+이 때문에 RAG는 단순히 검색 하나, 생성 하나가 아니라 `검색 파이프라인 + 생성 파이프라인`으로 읽는 것이 더 정확합니다.
+
+## 아주 단순하게 그리면
+
+```mermaid
+--8<-- "assets/part-06/chapter-10/p6-c10-s02-diagram-01-ko.mmd"
+```
+
+이 도식의 핵심은 검색 결과가 답변 뒤에 붙는 것이 아니라, `답변 전에 입력 맥락으로 들어간다`는 점입니다.
+
+## 사례 및 예시
+
+### 사례 1. 제품 지원 챗봇
+
+고객이 `자동 저장을 끄려면 어디로 들어가야 하나요?`라고 묻는 제품 지원 챗봇을 생각해 볼 수 있습니다. 초심자는 이 장면에서 검색이든 생성이든 결국 `답 한 번만 잘 나오면 된다`고 느끼기 쉽습니다. 하지만 검색 단계는 먼저 최신 매뉴얼에서 `자동 저장`, `설정`, `환경설정`이 들어간 관련 문단을 찾아와야 합니다. 그다음 생성 단계는 그 문단 내용을 그대로 복사하는 대신, 고객 질문에 맞춰 `어느 메뉴를 누르고 어떤 순서로 들어가야 하는지`를 다시 설명합니다. 예를 들어 문서에는 `환경설정 > 편집 > 자동 저장`처럼 경로만 적혀 있고, 생성 단계는 이를 사용자가 따라 하기 쉬운 문장으로 바꾸는 역할을 맡습니다.
+
+만약 검색이 잘못되어 다른 제품 버전 문단을 가져오면 생성이 아무리 자연스러워도 엉뚱한 기능을 안내하게 됩니다. 여기서 바뀌는 점은 `답을 바로 쓰는 일`에서 `먼저 맞는 문단을 찾고 그다음 질문 형태로 다시 풀어 쓰는 일`로 기준이 나뉜다는 것입니다. 여기서 바로잡아야 할 오해는 `문장이 자연스러우면 앞 단계도 제대로 됐겠지`라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 최신 매뉴얼 경로가 실제 답변 문장 안에 올바르게 반영되는가, 그리고 검색된 경로와 최종 절차 문장이 서로 같은 버전을 가리키는가입니다.
+
+### 사례 2. 법률 문서 보조
+
+법률 문서 보조 도구에서 사용자가 `이 조항이면 계약 해지가 바로 가능한가요?`라고 묻는다고 해 봅시다. 초심자는 관련 조문을 잘 찾았으면 거의 끝난 것처럼 느끼기 쉽습니다. 하지만 검색 단계는 먼저 관련 조문과 판례 요약을 찾아 현재 질문과 가까운 문서를 모으는 일이고, 생성 단계는 그 문서를 바탕으로 `바로 가능`, `추가 조건 필요`, `판단 보류`처럼 질의응답 형태로 다시 정리하는 일입니다. 예를 들어 문서에는 `상당한 기간을 정해 시정 요구 후 해지 가능`이라고 되어 있는데, 생성이 중간 조건을 빼고 `즉시 해지 가능`처럼 단정하면 검색은 맞았어도 최종 답은 위험해질 수 있습니다.
+
+여기서 바뀌는 점은 `문서를 찾았으니 끝났다`는 기준에서 `찾은 문서 조건을 빼먹지 않고 다시 정리했는가`까지 따로 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서는 `문서를 찾는 정확성`과 `문서 바깥으로 나가지 않는 정리`를 따로 봐야 합니다. 여기서 바로잡아야 할 오해는 `관련 조항이 붙었으면 최종 문장도 자동으로 안전하다`는 판단입니다. 그래서 이 사례에서 확인해야 할 결과는 최종 답이 `즉시 가능`로 과장되지 않고 원문 조건을 그대로 포함하는가, 그리고 생성 문장이 문서 밖의 강한 결론을 새로 덧붙이지 않는가입니다.
+
+### 사례 3. 개발 문서 질의응답
+
+개발자가 `이 API에서 timeout 옵션은 어디에 넣나요?`라고 묻는 장면을 떠올려 볼 수 있습니다. 사람은 검색이 올바른 버전의 공식 문서를 가져오면 `이제 거의 끝났다`고 느끼기 쉽습니다. 하지만 생성 단계가 예전 예제 코드와 새 문서를 섞거나 옵션 이름을 비슷한 다른 인자로 바꿔 말하면, 최종 답은 여전히 실패로 이어질 수 있습니다. 예를 들어 문서에는 `request_timeout`인데 생성이 익숙한 다른 라이브러리 이름인 `timeout_ms`로 바꿔 말하면, 문서는 맞았어도 답은 바로 깨집니다. 즉, 검색이 맞다고 해서 자동으로 답도 맞는 것은 아닙니다.
+
+여기서 바뀌는 점은 `검색 성공`과 `최종 답 정확성`을 같은 일로 보지 않고, `찾아온 이름을 답변에도 그대로 유지하는가`를 별도 기준으로 보게 된다는 것입니다. 여기서 바로잡아야 할 오해는 `공식 문서를 붙였으면 생성은 알아서 맞춰 줄 것`이라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 검색된 공식 옵션명이 최종 답변에도 그대로 유지되고, 비슷한 다른 인자 이름으로 바뀌지 않는가, 그리고 답변 예시 코드도 검색된 문서와 같은 인터페이스를 유지하는가입니다.
+
+세 사례를 단계 구분 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 검색 단계가 먼저 맞아야 하는 것 | 생성 단계가 이어서 지켜야 하는 것 |
+| --- | --- | --- |
+| 제품 지원 챗봇 | 현재 버전의 정확한 메뉴 경로 문단 회수 | 문단 내용을 사용자 절차 문장으로 정확히 풀어쓰기 |
+| 법률 문서 보조 | 관련 조문과 조건 문단 회수 | 조건을 빠뜨리지 않고 단정 표현을 피하기 |
+| 개발 문서 질의응답 | 현재 버전의 공식 옵션 문단 회수 | 옵션명을 비슷한 다른 이름으로 바꾸지 않기 |
+
+같은 내용을 단계 분리 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+--8<-- "assets/part-06/chapter-10/p6-c10-s02-diagram-02-ko.mmd"
+```
+
+핵심은 `RAG가 한 단계처럼 보이더라도 내부에서는 검색과 생성이 따로 흔들린다`는 점입니다.
+
+## 바로 적용해 보면
+
+이 절에서 자주 생기는 오해는 `답이 이상하다`는 인상만으로 검색과 생성을 한꺼번에 묶어 버리는 점입니다. 하지만 실제로는 `무엇을 가져왔는가`와 `가져온 것을 어떻게 다시 썼는가`를 나눠 봐야 다음 조치가 맞아집니다.
+
+| 이런 장면이 보이면 | 먼저 의심할 것 | 왜 먼저 그쪽을 봐야 하는가 |
+| --- | --- | --- |
+| 답변에 붙은 문서 제목이나 발췌부터 질문과 어긋남 | 검색 실패 | 잘못 가져온 문서를 바탕으로는 생성이 자연스러워도 방향이 처음부터 틀어지기 때문입니다. |
+| 붙은 문서는 맞는데 답이 조건을 빼먹거나 과장함 | 생성 실패 | 근거는 맞아도 다시 쓰는 단계에서 의미가 바뀌면 최종 답이 틀어지기 때문입니다. |
+| 문서도 어색하고 답도 함께 흔들림 | 검색 실패가 생성으로 전염된 경우 | 먼저 검색 오염을 줄여야 뒤 생성 조정이 의미를 갖기 때문입니다. |
+
+같은 기준을 더 짧은 점검 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
+
+| 이런 의심이 들면 | 먼저 던질 질문 |
+| --- | --- |
+| `붙은 근거부터 낯설다` | 어떤 문서가 왜 상위에 왔는가? |
+| `근거는 맞는 것 같은데 답이 세게 말한다` | 답이 실제 문장보다 더 강하게 단정했는가? |
+| `어디서부터 틀렸는지 모르겠다` | 검색 기록과 최종 답을 따로 놓고 봤는가? |
+
+이 절에서 먼저 익혀야 하는 기준은 단순합니다. RAG를 한 단계처럼 보더라도, 점검할 때는 `검색 단계`와 `생성 단계`를 분리해서 봐야 원인을 제대로 잡을 수 있습니다.
+
+## 연습 및 예제
+
+이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 이번에는 같은 문서 집합에서 `retrieval_terms`와 `generation_style`을 바꿔, 검색 오염과 생성 과장이 서로 다른 단계의 실패로 드러나는지 확인하겠습니다.
+
+사용자가 `벡터 검색이 왜 필요한가요?`라고 묻는다고 해 봅시다. 검색 단계는 관련 문서를 골라야 하고, 생성 단계는 그 문서를 바탕으로 독자용 설명을 다시 써야 합니다. 검색이 맞아도 생성이 과장되면 최종 답은 다시 틀어질 수 있습니다.
+
+아래 예제는 질문, 검색 가능한 문서 목록 CSV [p6-10-rag-documents.csv](../../../assets/part-06/chapter-10/p6-10-rag-documents.csv), 검색 조건과 생성 조건 CSV [p6-10-rag-experiments.csv](../../../assets/part-06/chapter-10/p6-10-rag-experiments.csv)를 사용합니다. 출력에서는 검색 조건에 따라 선택된 문서, 그 문서를 바탕으로 만든 최종 설명, 검색 실패와 생성 실패를 나누어 보는 점검값, 무관 문서 혼입과 과장 표현 여부를 확인합니다.
+
+먼저 이 예제에서 직접 바꿔 볼 설정은 다음과 같습니다.
+
+| 실험 | 조작할 값 | 읽어야 할 핵심 |
+| --- | --- | --- |
+| `clean_grounded` | 관련 검색어와 보수적 생성 | 정상 흐름 |
+| `noisy_retrieval` | 무관한 검색어가 섞인 검색 조건 | 검색 실패가 생성으로 전염 |
+| `clean_but_overclaim` | 검색은 정상, 생성 조건만 과장형 | 생성 실패 |
+
+코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 문서 파일은 `title`, `text`, `category` 열을 갖고, 실험 파일은 `name`, `retrieval_terms`, `generation_style` 열을 갖습니다. `retrieval_terms`는 세미콜론(`;`)으로 나눈 검색어 목록입니다.
+
+```python
+# RAG 문서 검색 조건과 생성 스타일을 바꿔 검색 실패와 생성 과장이 서로 다른 실패로 드러나는지 확인하는 예제입니다.
+import csv
+from pathlib import Path
+
+question = "벡터 검색이 왜 필요한가요?"
+
+document_path = Path("docs/assets/part-06/chapter-10/p6-10-rag-documents.csv")
+experiment_path = Path("docs/assets/part-06/chapter-10/p6-10-rag-experiments.csv")
+
+def read_documents(path):
+    with path.open(encoding="utf-8", newline="") as file:
+        return list(csv.DictReader(file))
+
+def read_experiments(path):
+    experiments = []
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            experiments.append(
+                {
+                    "name": row["name"],
+                    "retrieval_terms": row["retrieval_terms"].split(";"),
+                    "generation_style": row["generation_style"],
+                }
+            )
+    return experiments
+
+documents = read_documents(document_path)
+experiments = read_experiments(experiment_path)
+
+def retrieve_documents(terms, top_k=2):
+    scored = []
+    for doc in documents:
+        score = sum(term in doc["text"] for term in terms)
+        scored.append((score, doc))
+    scored.sort(key=lambda item: item[0], reverse=True)
+    return [doc for score, doc in scored if score > 0][:top_k]
+
+def generate_answer(retrieved_docs, generation_style):
+    first = retrieved_docs[0]["text"] if retrieved_docs else "참고 문서가 없다."
+    second = retrieved_docs[1]["text"] if len(retrieved_docs) > 1 else "추가 근거가 부족하다."
+
+    if generation_style == "overclaim":
+        return (
+            f"벡터 검색은 {first} "
+            "그래서 항상 최신 정보와 정답을 자동으로 보장한다."
+        )
+
+    return (
+        f"벡터 검색은 {first} "
+        f"그래서 {second}"
+    )
+
+def inspect_result(retrieved_docs, answer):
+    contains_irrelevant_doc = any(
+        doc["category"] == "irrelevant" for doc in retrieved_docs
+    )
+    answer_mentions_irrelevant_content = "마케팅" in answer or "무관" in answer
+    answer_overclaims = "항상 최신 정보와 정답을 자동으로 보장" in answer
+
+    return {
+        "doc_titles": [doc["title"] for doc in retrieved_docs],
+        "contains_irrelevant_doc": contains_irrelevant_doc,
+        "answer_mentions_irrelevant_content": answer_mentions_irrelevant_content,
+        "answer_overclaims": answer_overclaims,
+        "retrieval_failed": contains_irrelevant_doc,
+        "generation_failed": (not contains_irrelevant_doc) and answer_overclaims,
+    }
+
+reports = []
+for experiment in experiments:
+    retrieved_docs = retrieve_documents(experiment["retrieval_terms"])
+    answer = generate_answer(retrieved_docs, experiment["generation_style"])
+    inspect = inspect_result(retrieved_docs, answer)
+    reports.append(
+        {
+            "experiment": experiment,
+            "answer": answer,
+            "inspect": inspect,
+        }
+    )
+
+summary = {
+    "retrieval_failure_count": sum(report["inspect"]["retrieval_failed"] for report in reports),
+    "generation_failure_count": sum(report["inspect"]["generation_failed"] for report in reports),
+    "irrelevant_leak_count": sum(report["inspect"]["answer_mentions_irrelevant_content"] for report in reports),
+    "overclaim_count": sum(report["inspect"]["answer_overclaims"] for report in reports),
+    "retrieval_failure_ratio": round(
+        sum(report["inspect"]["retrieval_failed"] for report in reports) / len(reports),
+        2,
+    ),
+    "generation_failure_ratio": round(
+        sum(report["inspect"]["generation_failed"] for report in reports) / len(reports),
+        2,
+    ),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print("[experiment]")
+    print(report["experiment"])
+    print("[generated answer]")
+    print(report["answer"])
+    print("[inspect]")
+    print(report["inspect"])
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[summary]
+{'retrieval_failure_count': 1, 'generation_failure_count': 1, 'irrelevant_leak_count': 1, 'overclaim_count': 1, 'retrieval_failure_ratio': 0.33, 'generation_failure_ratio': 0.33}
+
+================================================================================
+[experiment]
+{'name': 'clean_grounded', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'grounded'}
+[generated answer]
+벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 키워드가 달라도 의미 기반 검색이 가능하다.
+[inspect]
+{'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
+================================================================================
+[experiment]
+{'name': 'noisy_retrieval', 'retrieval_terms': ['의미', '마케팅', '문구', '다양하게'], 'generation_style': 'grounded'}
+[generated answer]
+벡터 검색은 무관한 마케팅 문구 조합을 더 다양하게 만든다. 그래서 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.
+[inspect]
+{'doc_titles': ['문서 X', '문서 A'], 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
+================================================================================
+[experiment]
+{'name': 'clean_but_overclaim', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'overclaim'}
+[generated answer]
+벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 항상 최신 정보와 정답을 자동으로 보장한다.
+[inspect]
+{'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
+```
+
+이 결과에서 먼저 봐야 할 것은 `retrieval_failure_count`와 `generation_failure_count`가 각각 따로 잡힌다는 점입니다. 즉, `noisy_retrieval`은 검색 조건에 섞인 잡음 때문에 무관 문서가 선택되고 생성까지 오염된 경우이고, `clean_but_overclaim`은 검색은 맞았지만 생성 조건이 문서 밖으로 과장된 경우입니다. 이 구분이 있어야 RAG 시스템을 손볼 때 `검색을 고칠지`, `생성 지시와 평가를 고칠지`를 분리해서 판단할 수 있습니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남는다.
+- 검색 실패와 생성 실패는 같은 오답처럼 보여도 원인이 다르므로, 점검 항목도 따로 가져가야 한다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `experiments[1]["retrieval_terms"]`에서 무관 검색어를 줄여 검색 실패가 사라지는지 보기
+- `documents`에 문서를 한 개 더 넣어 문서 수 증가가 답변에 어떤 영향을 주는지 보기
+- `generate_answer`를 바꿔 문서 제목을 출처처럼 같이 남기도록 해 보기
+- `answer_overclaims` 규칙을 더 늘려 `항상`, `완벽히`, `자동으로 해결` 같은 과장 표현을 더 잡아 보기
+
+## 이 예제를 RAG 파이프라인 관점으로 다시 보면
+
+앞의 예제는 검색과 생성을 모두 구현하는 코드가 아니라, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`가 실제로 분리되어 있다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 답변 문장이 아니라, 답변 직전까지 근거 문서가 독립된 입력 구성 요소로 남아 있다는 구조를 읽는 데 있습니다. 즉, 검색 결과가 마음에 들지 않으면 생성 프롬프트를 고치기 전에 `어떤 문서가 붙었는가`부터 다시 봐야 한다는 뜻이기도 합니다. 무관 문서가 섞였을 때 답변까지 바로 흔들린다는 점은 이 분리를 더 분명하게 보여 줍니다.
+
+차트로 보면 `검색 실패`와 `생성 실패`가 같은 오답 묶음으로 사라지지 않고 각각 하나씩 따로 잡힙니다. 무관 문서 누출은 검색 실패 쪽에, 과장 표현은 생성 실패 쪽에 붙으므로, RAG 점검에서는 답이 틀렸다는 결론보다 먼저 어느 단계의 기록을 다시 볼지 갈라야 합니다.
+
+![RAG 예제에서 검색 실패와 생성 실패가 따로 감지되는 수](../../../assets/part-06/chapter-10/rag-failure-split-ko.png)
+
+## 여기까지를 한 줄로 묶으면
+
+RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한다`는 두 단계 구조이며, 검색 실패와 생성 실패를 따로 봐야만 어디를 고쳐야 하는지 판단할 수 있습니다.
+
+이 절에서 더 중요하게 붙잡아야 할 점은 `문서를 찾는 단계`와 `그 문서를 바탕으로 답을 만드는 단계`가 같은 문제가 아니라는 것입니다. 그래서 RAG는 검색을 더 붙였다는 설명보다, 검색 실패와 생성 실패를 따로 구분해 어디를 고쳐야 할지 판단하게 만드는 결합 구조로 읽는 편이 좋습니다.
+
+이 구분이 중요한 이유는 다음과 같습니다.
+
+- 검색과 생성을 하나로 뭉뚱그리지 않게 하고
+- 다음 장의 벡터 데이터베이스와 인덱스가 왜 필요한지 준비시키며
+- 이후 평가 장에서 `검색 품질`과 `답변 품질`을 따로 점검해야 한다는 관점을 만들기 때문입니다
+
+## 체크리스트
+- 검색 결과가 답변 뒤가 아니라 생성 전 입력 구성 요소라는 점을 설명할 수 있는가?
+- 검색 실패와 생성 실패를 서로 다른 문제로 분리해 말할 수 있는가?
+- 다음 장을 `어떻게 더 빨리, 더 관련성 있게 문서를 찾을까`의 문제로 읽을 준비가 되었는가?
+
+## 출처와 참고 자료
+
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
