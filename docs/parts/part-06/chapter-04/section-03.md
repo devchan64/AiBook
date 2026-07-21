@@ -1,4 +1,4 @@
-# P6-4.3 보충학습: 위치 표현과 multi-head attention은 문맥 읽기에 무엇을 더하는가
+# P6-4.3 보충학습: multi-head attention과 위치 표현은 무엇을 나눠 보강하는가
 
 > Section ID: `P6-4.3`
 > Version: `v2026.07.21`

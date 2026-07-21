@@ -649,7 +649,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 #### Chapter 1. The Position of Generative AI and LLMs `LLM Core`
 
-- **P6-1.1 What Does Generative AI Generate**: fixes that generated results are artifacts to review, not classification labels or numeric predictions.
+- **P6-1.1 Why Generative AI Outputs Are Artifacts to Review**: fixes that generated results are artifacts to review, not classification labels or numeric predictions.
 - **P6-1.2 Why Read LLMs as the Central Example**: reviews why LLMs are used as the representative path rather than as all of generative AI.
 - **P6-1.3 Generation Is Repeated Candidate Distributions and Selection**: recovers the candidate-distribution and sampling intuition from Part 5 in the LLM generation flow.
 
@@ -657,55 +657,55 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 #### Chapter 2. Tokens and Tokenization `LLM Core`
 
-- **P6-2.1 Why Read Text Generation in Token Units**: reviews why generated artifacts are made and limited in small units.
+- **P6-2.1 Why Read LLM Inputs and Outputs in Token Units**: reviews why inputs and outputs are limited by token units in cost, length, and context preservation.
 - **P6-2.2 How Tokens and Token IDs Are Used as Model Input**: separates strings, tokens, and token-ID sequences in one flow.
 - **P6-2.3 What Tokenization Changes**: reviews how tokenization changes length, cost, chunks, and output interpretation.
-- **P6-2.4 Where the Token View Is Used**: applies the token view to prompt length, RAG chunks, cost budgets, and output-format design.
+- **P6-2.4 What Operational Decisions the Token View Supports**: applies the token view to prompt length, RAG chunks, cost budgets, and output-format design.
 - **P6-2.5 Supplementary Learning: When Tokenizer-Family Differences Show Up**: reads BPE, WordPiece, and SentencePiece differences as operational observations.
 
 #### Chapter 3. Embeddings `LLM Core`
 
-- **P6-3.1 Intuition for Embeddings**: reviews why token IDs become vector representations that can be computed with.
-- **P6-3.2 Meaning and Distance**: reviews the intuition and limits of similar expressions becoming close.
-- **P6-3.3 Supplementary Learning: Reading Embedding Learning in One Large Picture**: asks what should be learned to stay close and what should be pushed apart.
-- **P6-3.4 Supplementary Learning: Reading ANN Search in One Large Picture**: reviews the search structure that quickly narrows nearby candidates.
+- **P6-3.1 How Embeddings Turn Token IDs Into Comparable Coordinates**: reviews why token IDs become vector representations that can be computed with.
+- **P6-3.2 Why a Close Vector Is a Candidate, Not an Answer**: reviews the intuition and limits of similar expressions becoming close candidates.
+- **P6-3.3 Supplementary Learning: What Embedding Learning Tries to Place Close Together**: asks what should be learned to stay close and what should be pushed apart.
+- **P6-3.4 Supplementary Learning: How ANN Search Trades Speed for Possible Candidate Misses**: reviews the tradeoff that appears when nearby candidates are narrowed quickly.
 
 ### Module 3. LLM Structures That Create the Next Candidate
 
 #### Chapter 4. Reviewing Transformer Structure `Deep-Learning Structures`
 
-- **P6-4.1 Reading the Transformer Again from the LLM Perspective**: rereads the Transformer as context reflection, representation update, and next-candidate scoring.
-- **P6-4.2 Attention and the Context Window**: reviews that the model calculates relations inside a limited range.
-- **P6-4.3 Supplementary Learning: What Positional Representation and Multi-Head Attention Add to Context Reading**: separates order information from multiple relation axes.
+- **P6-4.1 How the Transformer Leads to Next-Candidate Scores in an LLM**: rereads the Transformer as context reflection, representation update, and next-candidate scoring.
+- **P6-4.2 What Attention Can See Inside the Context Window**: reviews that the model calculates relations inside a limited range.
+- **P6-4.3 Supplementary Learning: What Multi-Head Attention and Positional Representation Strengthen Separately**: separates order information from multiple relation axes.
 - **P6-4.4 Supplementary Learning: What KV Cache Stops Recomputing During Repeated Generation**: reviews the recomputation cost of repeated generation.
-- **P6-4.5 Supplementary Learning: What Sparse Attention and Long Context Differ on in Long-Context Handling**: separates connection-count control from long-context retention.
+- **P6-4.5 Supplementary Learning: What Sparse Attention and Long Context Try to Reduce and Preserve**: separates connection-count control from long-context retention.
 
 #### Chapter 5. The GPT Family `LLM Core`
 
-- **P6-5.1 The Place of the GPT Family**: reviews the position of decoder-centered autoregressive generation.
-- **P6-5.2 The Shift Toward Conversational LLMs**: reviews how instruction following and product interfaces changed user experience.
+- **P6-5.1 How the GPT Family Becomes Decoder-Based Cumulative Generation**: reviews the position of decoder-centered autoregressive generation.
+- **P6-5.2 What Conversational LLM Experience Adds on Top of Generation**: reviews how instruction following and product interfaces changed user experience.
 
 #### Chapter 6. Next-Token Prediction and Generation `LLM Core`
 
-- **P6-6.1 Next-Token Prediction**: reviews why the local objective of a next-token distribution can lead to long generation.
-- **P6-6.2 Intuition for the Generation Process**: reviews how greedy choice, sampling, and temperature change stability and diversity.
+- **P6-6.1 How Does Next-Token Prediction Become the Starting Point for Long Generation?**: reviews why the local objective of a next-token distribution can lead to long generation.
+- **P6-6.2 Why Do Output Selection Rules Change Answer Stability and Diversity?**: reviews how greedy choice, sampling, and temperature change stability and diversity.
 
 ### Module 4. Learning and Adjustment That Shape Response Habits
 
 #### Chapter 7. Pretraining `Learning Principles`
 
-- **P6-7.1 Pretraining**: reviews how large-scale text builds a general language base.
-- **P6-7.2 Data and Scale**: reviews scale as an axis that increases capability and operational burden together.
+- **P6-7.1 Why Does Pretraining Build a Broad Language Base First?**: reviews how large-scale text builds a general language base.
+- **P6-7.2 Why Does Scale Increase Capability and Burden Together?**: reviews scale as an axis that increases capability and operational burden together.
 
 #### Chapter 8. Fine-Tuning `Learning Principles`
 
-- **P6-8.1 Fine-Tuning**: reviews how a base model is adjusted toward a specific goal or domain.
-- **P6-8.2 LoRA and Efficient Adaptation**: reviews how narrowing the adjustment range changes cost and iteration speed.
+- **P6-8.1 When Is Fine-Tuning Needed for Goal-Specific Adaptation?**: reviews how a base model is adjusted toward a specific goal or domain.
+- **P6-8.2 Why Does LoRA Reduce the Burden of Full Fine-Tuning?**: reviews how narrowing the adjustment range changes cost and iteration speed.
 
 #### Chapter 9. Instruction Tuning and Alignment `LLM Core`
 
-- **P6-9.1 Instruction Tuning**: reviews the response habit of following user instructions.
-- **P6-9.2 The Basic Problem of Alignment**: reviews usefulness, safety, factuality, and refusal criteria together.
+- **P6-9.1 How Does Instruction Tuning Build Response Habits for Request Formats?**: reviews the response habit of following user instructions.
+- **P6-9.2 Why Does Alignment Separate Following Instructions from Acceptable Answers?**: reviews usefulness, safety, factuality, and refusal criteria together.
 - **P6-9.3 When to Choose Prompts, Fine-Tuning, RAG, or Tool Use**: chooses support methods by failure cause.
 - **P6-9.4 Supplementary Learning: What Constraints Separate Adapters, LoRA, and QLoRA**: separates efficient-adaptation names by cost, structure, and memory constraints.
 
@@ -713,65 +713,65 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 #### Chapter 10. Prompt Engineering `LLM Core`
 
-- **P6-10.1 Prompt Engineering**: reviews how instructions, context, examples, and output formats guide generation.
-- **P6-10.2 Limits of Prompts**: reviews why recency, grounding, computation, execution, and reproducibility cannot be solved by prompts alone.
-- **P6-10.3 Supplementary Learning: What Chain-of-Thought, Self-Consistency, and Automatic Prompt Optimization Add Inside the Prompt Layer**: separates prompt-layer strategies from their limits.
+- **P6-10.1 What Prompt Engineering Adjusts in the Input**: reviews how instructions, context, examples, and output formats guide generation.
+- **P6-10.2 When Prompt Limits Require System Structure**: reviews why recency, grounding, computation, execution, and reproducibility cannot be solved by prompts alone.
+- **P6-10.3 Supplementary Learning: What CoT, Self-Consistency, and Automatic Prompt Optimization Adjust Further**: separates prompt-layer strategies from their limits.
 
 #### Chapter 11. RAG `Service Structure`
 
-- **P6-11.1 Why RAG Is Needed**: reviews the structure that attaches external evidence as input context rather than internal model memory.
-- **P6-11.2 Combining Retrieval Results and Generation**: separates retrieval failure from generation failure.
+- **P6-11.1 Why RAG Attaches External Evidence Before Answering**: reviews the structure that attaches external evidence as input context rather than internal model memory.
+- **P6-11.2 How Retrieval Results Become Generation Input and Answers**: separates retrieval failure from generation failure.
 
 #### Chapter 12. Vector Databases `Service Structure`
 
-- **P6-12.1 Vector Databases**: reviews structures that store and search embeddings with payloads and metadata.
-- **P6-12.2 Indexes and Retrieval Quality**: reviews the trade-off between retrieval quality and latency.
+- **P6-12.1 Why Vector Databases Store Text and Metadata Too**: reviews structures that store and search embeddings with payloads and metadata.
+- **P6-12.2 Why Indexes Affect Both Retrieval Speed and Candidate Quality**: reviews the trade-off between retrieval quality and latency.
 
 ### Module 6. Tool and Agent Execution Structure
 
 #### Chapter 13. Tool Use `Service Structure`
 
-- **P6-13.1 Tool Use**: reviews cases that require lookup, calculation, file processing, or state checks.
-- **P6-13.2 Function Calling**: reviews how natural-language requests are structured as function names and arguments.
+- **P6-13.1 When Tool Use Requires Real Lookup, Calculation, or Execution**: reviews cases that require lookup, calculation, file processing, or state checks.
+- **P6-13.2 Why Function Calling Splits Execution Requests into Names and Arguments**: reviews how natural-language requests are structured as function names and arguments.
 
 #### Chapter 14. Agents `Service Structure`
 
-- **P6-14.1 Agents**: reviews a structure that connects a goal to planning, tool calls, observations, and state judgment.
-- **P6-14.2 Planning, Action, and Observation**: reviews continuation, termination, and human-review branches in the agent loop.
+- **P6-14.1 When an Agent Becomes a Goal Flow That Re-Chooses the Next Action**: reviews a structure that connects a goal to planning, tool calls, observations, and state judgment.
+- **P6-14.2 How Planning, Action, and Observation Split Continuation, Termination, and Human Review**: reviews continuation, termination, and human-review branches in the agent loop.
 
 #### Chapter 15. MCP and Harnesses `Service Structure`
 
-- **P6-15.1 MCP and Tool Connections**: reviews the interface layer that connects tools and resources in a common form.
-- **P6-15.2 Harnesses**: reviews the environment around execution, logs, evaluation, approval, and reproducibility.
+- **P6-15.1 Why MCP Connects Tools and Resources in a Common Form**: reviews the interface layer that connects tools and resources in a common form.
+- **P6-15.2 Why Harnesses Wrap Execution in Records and Reproducible Environments**: reviews the environment around execution, logs, evaluation inputs, approval, and reproducibility.
 
 ### Module 7. Reviewable Service State
 
 #### Chapter 16. LLM Evaluation `LLM Core`
 
-- **P6-16.1 LLM Evaluation**: separates natural answers from quality criteria.
-- **P6-16.2 Automatic Evaluation and Human Evaluation**: reviews the division between repeated checks and contextual judgment.
+- **P6-16.1 Why LLM Evaluation Separates Natural Answers from Quality Criteria**: separates natural answers from quality criteria.
+- **P6-16.2 How Automatic and Human Evaluation Divide Repeated Checks and Contextual Judgment**: reviews the division between repeated checks and contextual judgment.
 
 #### Chapter 17. Service Operation Constraints `Service Structure`
 
-- **P6-17.1 Service Operation Constraints**: reviews cost, latency, throughput, and usage limits.
-- **P6-17.2 Failure Response During Operation**: separates hallucination, timeout, permission errors, and format mismatch into recovery paths.
+- **P6-17.1 Why Service Operation Constraints Filter Evaluation-Passing Candidates Again**: reviews cost, latency, throughput, and usage limits.
+- **P6-17.2 Why Failure Response During Operation Separates Errors into Recovery Paths**: separates hallucination, timeout, permission errors, and format mismatch into recovery paths.
 
 #### Chapter 18. Binding a Small Generative-AI Feature Into One Flow `Project Practice`
 
-- **P6-18.1 Binding a Small Generative-AI Feature Into One Flow**: binds question, evidence, answer, state judgment, and record in one flow.
-- **P6-18.2 Minimal Implementation and Reflection Points**: closes why records and reflection are needed before Part 7.
+- **P6-18.1 How a Small Generative-AI Feature Becomes One Request Flow**: binds question, evidence, answer, state judgment, and record in one flow.
+- **P6-18.2 Why a Minimal Implementation Should Record Execution Before the Response**: closes why the response, evidence, state, and reflection record must remain together before Part 7.
 
 ### Module 8. Background Map and Comparison
 
 #### Chapter 19. History of LLM Development `History and Paradigm`
 
-- **P6-19.1 The Large Flow of LLM Development History**: reviews the shift from statistical language models to GPT-style interfaces.
-- **P6-19.2 Direct Lineage and Surrounding Evidence**: separates direct LLM lineage from surrounding evidence for deep-learning expansion.
+- **P6-19.1 Why LLM Development History Should Be Read as Limits and Structural Shifts**: reviews the shift from statistical language models to GPT-style interfaces.
+- **P6-19.2 Why Direct Lineage and Surrounding Evidence Should Be Separated**: separates direct LLM lineage from surrounding evidence for deep-learning expansion.
 
 #### Chapter 20. The BERT Family `LLM Core`
 
-- **P6-20.1 The Place of the BERT Family**: compares the GPT generation family with the BERT understanding family.
-- **P6-20.2 Understanding-Centered Tasks**: reviews classification, sentence-pair judgment, search and ranking, and embedding reuse.
+- **P6-20.1 Why the BERT Family Is a Reading-Centered Transformer Comparison Axis**: compares the GPT generation family with the BERT understanding family.
+- **P6-20.2 Why Understanding-Centered Tasks Output Judgments Before Long Answers**: reviews classification, sentence-pair judgment, search and ranking, and embedding reuse.
 
 ## Part 7. Projects
 

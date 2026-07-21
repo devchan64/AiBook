@@ -1,11 +1,9 @@
-# P6-4.2 attention과 context window
+# P6-4.2 attention은 context window 안에서만 무엇을 볼 수 있는가
 
 > Section ID: `P6-4.2`
 > Version: `v2026.07.21`
 
-P6-4.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이 흐름은 강력하지만, 실제 계산은 먼저 입력 범위 제약을 만납니다.
-
-Transformer가 앞 문맥을 반영할 수 있어도, 실제 서비스에서는 먼저 입력 범위 제한을 만납니다. attention은 강력한 관련도 계산 구조이지만, 그 계산은 context window 안에 들어온 토큰을 대상으로만 일어납니다.
+P6-4.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이 흐름은 강력하지만, 실제 계산은 먼저 입력 범위 제약을 만납니다. attention은 강력한 관련도 계산 구조이지만, 그 계산은 context window 안에 들어온 토큰을 대상으로만 일어납니다.
 
 Transformer가 이전 토큰을 참고할 수 있다면, 실제로는 어디까지 참고할 수 있는가? context window는 모델이 한 번의 계산 안에서 참고할 수 있는 토큰 범위이며, attention은 그 범위 안에서 어떤 토큰이 더 중요한지 계산하는 구조입니다.
 

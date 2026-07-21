@@ -1,4 +1,4 @@
-# P6-4.5 보충학습: sparse attention과 long-context는 장문맥에서 무엇이 다른가
+# P6-4.5 보충학습: sparse attention과 long-context는 무엇을 줄이고 남기려 하는가
 
 > Section ID: `P6-4.5`
 > Version: `v2026.07.21`
