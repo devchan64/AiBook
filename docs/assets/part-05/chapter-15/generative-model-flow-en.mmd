@@ -1,7 +1,11 @@
 flowchart TD
-  A["training data"]
-  B["learn patterns / distribution"]
-  C["produce likely next output or new sample"]
+  A["repeated patterns<br/>in training data"]
+  B["current input<br/>batch inspection result"]
+  C["candidate distribution<br/>reverify 0.46<br/>operator check 0.34<br/>remeasure 0.20"]
+  D["read only most_likely<br/>only reverify remains"]
+  E["read probabilities together<br/>candidate space remains"]
 
   A --> B
   B --> C
+  C --> D
+  C --> E

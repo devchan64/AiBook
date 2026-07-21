@@ -17,7 +17,7 @@ Part 1에서 `다음 출력 생성(next-output generation)`, `다음 토큰 예�
 
 다만 이 문장은 모든 모델이 같은 방식으로 동작한다는 뜻이 아닙니다. 텍스트 생성(text generation), 음성 생성(audio generation), 이미지 생성(image generation)은 모두 반복적 생성이라는 공통 직관을 공유할 수 있지만, 실제 생성 단위와 알고리즘은 다릅니다.
 
-여기서는 먼저 `생성이 완성본을 한 번에 꺼내는가, 아니면 작은 출력 조각을 이어 가며 만드는가`를 닫습니다. 토큰화(tokenization)는 Part 6의 P6-1.1과 P6-1.2에서, 다음 토큰 예측(next-token prediction)은 P6-5.1에서, sampling과 temperature는 Part 5의 P5-15.2와 Part 6의 P6-5.2에서, Transformer 구조는 P1-11.3과 Part 5, Part 6에서, 프롬프트(prompt)와 평가는 P1-12.1부터 P1-12.3에서 다시 다룹니다. diffusion model의 자세한 구조는 여기서 먼저 꺼내지 않습니다.
+여기서는 먼저 `생성이 완성본을 한 번에 꺼내는가, 아니면 작은 출력 조각을 이어 가며 만드는가`를 닫습니다. 토큰화(tokenization)는 Part 6의 P6-1.1과 P6-1.2에서, 다음 토큰 예측(next-token prediction)은 P6-5.1에서, sampling과 temperature는 Part 5의 P5-15.3과 Part 6의 P6-5.2에서, Transformer 구조는 P1-11.3과 Part 5, Part 6에서, 프롬프트(prompt)와 평가는 P1-12.1부터 P1-12.3에서 다시 다룹니다. diffusion model의 자세한 구조는 여기서 먼저 꺼내지 않습니다.
 
 `다음 출력 생성`, `다음 토큰`, `오디오 샘플`, `diffusion`은 초반에 모두 같은 생성 알고리즘처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 

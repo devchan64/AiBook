@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 This document is the reader-facing table of contents for AiBook. Rather than listing files only, it gives a quick view of the relearning sequence from `Introduction to AI and the Landscape -> Foundational Recovery -> Data Modeling -> Machine Learning -> Deep Learning -> LLMs and Generative AI -> Projects`.
 
@@ -637,8 +637,9 @@ This Part explains how neural networks represent and learn from data. It follows
 
 #### Chapter 15. Intuition for Generative Models `Deep-Learning Structures`
 
-- **P5-15.1 What Generative Models Learn**: reviews the difference between models that classify data and models that generate it
-- **P5-15.2 Generation and Sampling**: reviews the intuition of probabilistic output and quality variation
+- **P5-15.1 What Changes When We Read Generative AI Through Deep Learning**: prepares the output viewpoint needed before Part 6 analyzes generative AI in depth
+- **P5-15.2 Why Generative Models Keep Candidate Distributions Instead Of One Answer**: reads generation through candidate spaces and relative plausibility
+- **P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions**: reviews how actual outputs are selected from candidate distributions and why quality can vary
 
 ## Part 6. LLMs and Generative AI
 

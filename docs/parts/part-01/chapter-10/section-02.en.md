@@ -20,7 +20,7 @@ Part 1 introduces the basic distinctions among `next-output generation`, the int
 
 This does not mean every model works in exactly the same way. `Text generation`, `audio generation`, and `image generation` can share the broad intuition of iterative generation, but their actual units and algorithms are different.
 
-Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one by continuing small output pieces`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.2 and Part 6 P6-5.2, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
+Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one by continuing small output pieces`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.3 and Part 6 P6-5.2, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
 
 These terms can all sound like one common generation algorithm at first. A quick distinction helps:
 

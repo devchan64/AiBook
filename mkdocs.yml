@@ -445,8 +445,9 @@ nav:
               - "P5-14.8 보충학습: layer normalization은 왜 값의 기준선을 맞추는가": parts/part-05/chapter-14/section-08.md
       - "Module 6. 생성 모델과 샘플링":
           - "Chapter 15. 생성 모델의 직관":
-              - "P5-15.1 생성 모델(generative model)은 무엇을 배우는가": parts/part-05/chapter-15/section-01.md
-              - "P5-15.2 생성과 샘플링(sampling)": parts/part-05/chapter-15/section-02.md
+              - "P5-15.1 생성형 AI를 딥러닝 관점에서 보려면 무엇이 달라지는가": parts/part-05/chapter-15/section-01.md
+              - "P5-15.2 생성 모델(generative model)은 왜 정답 하나 대신 후보 분포를 남기는가": parts/part-05/chapter-15/section-02.md
+              - "P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가": parts/part-05/chapter-15/section-03.md
       - "마무리": parts/part-05/summary.md
   - "Part 6. LLM과 생성형 AI":
       - "개요": parts/part-06/index.md
@@ -1012,8 +1013,9 @@ plugins:
                         - "P5-14.8 Supplementary Learning: Why Does Layer Normalization Align the Value Baseline?": parts/part-05/chapter-14/section-08.md
                 - "Module 8. Generative Models and Sampling":
                     - "Chapter 15. Intuition for Generative Models":
-                        - "P5-15.1 What Generative Models Learn": parts/part-05/chapter-15/section-01.md
-                        - "P5-15.2 Generation and Sampling": parts/part-05/chapter-15/section-02.md
+                        - "P5-15.1 What Changes When We Read Generative AI Through Deep Learning": parts/part-05/chapter-15/section-01.md
+                        - "P5-15.2 Why Generative Models Keep Candidate Distributions Instead Of One Answer": parts/part-05/chapter-15/section-02.md
+                        - "P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions": parts/part-05/chapter-15/section-03.md
                 - "Summary": parts/part-05/summary.md
             - "Part 6. LLMs and Generative AI":
                 - "Overview": parts/part-06/index.md
@@ -1425,8 +1427,9 @@ plugins:
                         - "P5-14.8 补充学习：layer normalization 为什么要对齐值的基准线": parts/part-05/chapter-14/section-08.md
                 - "Module 8. 生成模型与采样":
                     - "Chapter 15. 生成模型的直觉":
-                        - "P5-15.1 生成模型(generative model)学到的是什么": parts/part-05/chapter-15/section-01.md
-                        - "P5-15.2 生成与采样(sampling)": parts/part-05/chapter-15/section-02.md
+                        - "P5-15.1 从深度学习视角看生成式 AI 时，什么会改变": parts/part-05/chapter-15/section-01.md
+                        - "P5-15.2 生成模型（generative model）为什么保留候选分布，而不是一个正确答案": parts/part-05/chapter-15/section-02.md
+                        - "P5-15.3 采样（sampling）怎样从候选分布中取出实际输出": parts/part-05/chapter-15/section-03.md
                 - "总结": parts/part-05/summary.md
             - "Part 6. LLM 与生成式 AI":
                 - "概览": parts/part-06/index.md
