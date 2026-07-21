@@ -210,7 +210,13 @@ For each scene below, first mark it as `waiting` or `bundled`.
 | During generation, the next token that has not yet appeared must be known in advance. | waiting | There is still an order constraint during generation execution. It should be distinguished from the parallelization feel during training. |
 | A rule at the front of a document is compressed into one state and carried to the end. | closer to waiting | Since the earlier clue must pass through many steps, the burden of sequential transfer grows. |
 
-Explanation: This practice is not about implementing an actual GPU kernel. The learning needed in P5-14.4 is to distinguish `computation that passes state`, `a flow that recalculates relations`, and `computation that can be bundled together`. This distinction is what lets us explain the Transformer’s parallel-processing advantage as a change in computation structure, not merely as an impression of speed.
+Explanation: This practice is not about implementing an actual GPU kernel. The learning needed in P5-14.4 is to distinguish `computation that passes state`, `a flow that recalculates relations`, and `computation that can be bundled together`.
+
+Scenes marked as `waiting` are cases where a later computation can start only after it receives the earlier computation's result. The 3rd token waiting for the 2nd hidden state, or an earlier rule having to pass through many steps before reaching the final state, belongs here. In this structure, the steps inside one sentence cannot be freely processed at the same time.
+
+Scenes marked as `bundled` are cases where the same kind of computation can be placed together as a table or tensor. Making attention scores for every token pair in one sentence as a matrix, or applying the same feed-forward weights to many sentences in a batch, belongs here. GPU parallel processing fits this kind of bundle of repeated computations.
+
+So the conclusion of this practice is not `the Transformer is always faster`. The point is that relation computation inside one layer during training is easy to organize as large matrix and tensor operations, while RNN-style sequential state passing strongly depends on waiting for the previous step result. This distinction is what lets us explain the Transformer’s parallel-processing advantage as a change in computation structure, not merely as an impression of speed.
 
 ## Checklist
 

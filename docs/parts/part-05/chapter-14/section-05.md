@@ -19,6 +19,10 @@ P5-14.4에서는 RNN의 순차 상태 전달과 Transformer의 관계 계산이 
 
 RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 전달해야 합니다. 반면 self-attention에서는 앞 단서를 상태 하나에만 압축해 지나오지 않고, 현재 위치와 앞 위치 사이의 관계 점수를 다시 계산할 수 있습니다. 그래서 멀리 떨어진 단서도 현재 판단 위치에서 더 직접 참고되는 것처럼 읽힙니다.
 
+여기서 관계 점수는 마지막 요청 위치가 앞 단서들과 다시 비교해 얻는 관련도입니다. 마지막 요청 위치는 앞의 규칙 줄, 현재 상태 줄, 무관한 로그 줄을 모두 같은 방식으로 다시 비교합니다. 그중 현재 요청과 강하게 맞물리는 줄은 판단 근거로 다시 떠오르고, 관계가 약한 줄은 뒤로 밀립니다.
+
+예를 들어 마지막 질문이 `지금 라인 3을 재기동해도 되는가?`라면, 질문 위치는 앞쪽의 `재기동하지 않는다` 규칙과 `압력이 안전 범위로 돌아오지 않았다` 상태를 다시 비교해야 합니다. 이 비교가 되면 긴 문맥 앞부분의 단서가 단순히 오래 기억된 것이 아니라, 마지막 판단 시점에 다시 근거로 붙습니다.
+
 먼저 전체 개념 경로를 보면 다음과 같습니다. 앞 단서는 순차 상태 안에서 압축되어 이동할 수도 있고, 현재 질문 위치에서 다시 비교될 수도 있습니다.
 
 ```mermaid
@@ -57,6 +61,8 @@ RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 �
 
 순차 상태 방식은 앞 규칙을 하나의 상태에 압축해 끝까지 가져가려 합니다. 중간 로그가 많아지면 금지 규칙 축이 약해질 수 있습니다. 직접 재참조 방식은 마지막 요청 시점에 규칙 줄과 압력 상태 줄을 다시 찾아옵니다.
 
+상태 하나에 압축한다는 말은 앞 단서가 사라진다는 뜻이 아닙니다. 다만 새 줄을 읽을 때마다 상태 안에는 센서 보정, 포장재 보충, 근무 교대 같은 다른 정보도 계속 섞입니다. 마지막 요청에 도착했을 때 금지 규칙이 별도 근거로 선명하게 남아 있지 않으면, 모델은 `재기동 금지`보다 최근 로그나 승인 단어에 더 흔들릴 수 있습니다.
+
 이 사례의 판단 문장은 다음처럼 닫혀야 합니다.
 
 | 방식 | 판단 문장 |
@@ -81,13 +87,13 @@ RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 �
 
 ### 예제. sequential reader와 direct reference reader 비교
 
-이 예제는 Transformer 구현이 아니라, 긴 문맥 판단에서 두 참조 방식이 어떤 관찰값을 남기는지 비교하는 실험입니다. `direct_reference_reader`는 실제 attention 계산이 아니라 키워드 점수로 필요한 앞 줄을 다시 찾는 축약 모델입니다. 여기서 확인할 것은 구현 방식이 아니라 `상태 안에서 약해지는 단서`와 `현재 요청에서 다시 호출되는 단서`의 출력 차이입니다.
+이 예제는 Transformer 구현이 아니라, 긴 문맥 판단에서 두 참조 방식이 어떤 관찰값을 남기는지 비교하는 실험입니다. `direct_reference_reader`는 실제 attention 계산이 아니라 키워드 점수로 앞 줄을 다시 정렬하는 축약 모델입니다. 여기서 확인할 것은 정해진 답을 맞히는지 여부가 아니라 `상태 안에서 약해지는 단서`와 `현재 요청에서 다시 위로 올라오는 단서`의 출력 차이입니다.
 
 | 조작할 값 | 관찰할 출력 | 확인할 질문 |
 | --- | --- | --- |
 | `decay` | `sequential_support`, `final_state` | 앞 규칙이 순차 상태 안에서 얼마나 빨리 약해지는가 |
 | 중간 `Log:` 줄 개수 | `block` 축의 마지막 값 | 관련 없는 중간 문장이 늘어날수록 순차 상태가 더 흔들리는가 |
-| 마지막 `Request:` 문장 | `direct_decision`, 상위 matched line | 현재 요청이 앞 규칙을 다시 호출할 단서를 갖고 있는가 |
+| 마지막 `Request:` 문장 | 상위 matched line, score | 현재 요청과 어떤 앞 줄의 단어 축이 더 강하게 겹치는가 |
 
 ```python
 # 긴 문맥에서 순차 상태가 약해지는 과정과 direct reference가 앞 규칙을 다시 찾는 과정을 비교하는 예제입니다.
@@ -116,30 +122,22 @@ def sequential_reader(lines, decay=0.55):
         snapshot = {key: round(value, 3) for key, value in state.items()}
         history.append((idx, line, snapshot))
     support = round(min(state.values()), 3)
-    decision = "block_restart" if support >= 0.8 else "uncertain"
-    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
+    return history, {key: round(value, 3) for key, value in state.items()}, support
 
 def direct_reference_reader(lines):
     request = lines[-1].lower()
-    keywords = {"restart", "pressure", "unstable", "must", "not"}
+    keywords = set(request.replace(".", "").replace(":", "").split())
+    keywords |= {"pressure", "unstable", "must", "not"}
     scored = []
     for idx, line in enumerate(lines[:-1], start=1):
         words = set(line.lower().replace(".", "").replace(":", "").split())
         score = len(words & keywords)
         scored.append((score, idx, line))
     top_matches = sorted(scored, reverse=True)[:2]
-    matched_lines = [line.lower() for _, _, line in top_matches]
-    decision = (
-        "block_restart"
-        if any("must not be restarted" in line for line in matched_lines)
-        and any("pressure" in line or "unstable" in line for line in matched_lines)
-        and "restart" in request
-        else "allow"
-    )
-    return top_matches, decision
+    return top_matches
 
-history, final_state, sequential_support, sequential_decision = sequential_reader(context)
-top_matches, direct_decision = direct_reference_reader(context)
+history, final_state, sequential_support = sequential_reader(context)
+top_matches = direct_reference_reader(context)
 
 print("[sequential reader]")
 for idx, line, snapshot in history:
@@ -147,13 +145,11 @@ for idx, line, snapshot in history:
     print("   state =", snapshot)
 print("final_state =", final_state)
 print("sequential_support =", sequential_support)
-print("sequential_decision =", sequential_decision)
 print()
 
 print("[direct reference reader]")
 for score, idx, line in top_matches:
     print(f"matched line {idx} (score={score}): {line}")
-print("direct_decision =", direct_decision)
 ```
 
 출력 예시는 다음처럼 읽습니다.
@@ -161,18 +157,16 @@ print("direct_decision =", direct_decision)
 ```text
 final_state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
 sequential_support = 0.05
-sequential_decision = uncertain
 
 matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
 matched line 4 (score=2): State: pressure has not fully returned to safe range.
-direct_decision = block_restart
 ```
 
 첫 번째 산출물은 순차 상태가 문맥을 지나며 어떻게 약해지는지입니다. `block` 축은 규칙 줄에서 강하게 시작하지만 중간 로그를 지나 마지막 요청 시점에는 `0.05`만 남습니다.
 
 ![순차 상태 약화](/AiBook/assets/part-05/chapter-14/sequential-state-decay-ko.png)
 
-두 번째 산출물은 직접 재참조 방식이 마지막 요청 시점에 어떤 줄을 다시 끌어오는지입니다. 규칙 줄과 압력 상태 줄이 높은 근거로 다시 떠오르므로, 이 예제에서 읽어야 할 변화는 단순히 두 결정 이름이 다르다는 사실이 아니라, 앞 단서가 `상태 안에서 약해지는가`와 `현재 요청에서 다시 호출되는가`의 차이입니다.
+두 번째 산출물은 직접 재참조 방식이 마지막 요청 시점에 어떤 줄을 다시 끌어오는지입니다. 이 코드는 `재기동을 차단하라`는 정답을 판정하지 않습니다. 대신 마지막 요청 문장의 단어 축과 앞 줄의 단어 축을 비교해, 규칙 줄과 압력 상태 줄이 상위 근거로 다시 떠오르는지 보여 줍니다. 이 예제에서 읽어야 할 변화는 결정 이름이 아니라, 앞 단서가 `상태 안에서 약해지는가`와 `현재 요청에서 다시 위로 올라오는가`의 차이입니다.
 
 ![직접 재참조 점수](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-ko.png)
 
@@ -182,15 +176,15 @@ direct_decision = block_restart
 | --- | --- | --- |
 | `decay`를 `0.55`에서 `0.8`로 높인다 | `sequential_support`가 커질 수 있다 | 순차 상태가 앞 단서를 더 오래 유지하므로, 규칙 줄에서 생긴 `block` 축이 마지막 요청까지 덜 약해집니다. |
 | 중간 로그를 3줄 더 추가한다 | 순차 상태 쪽이 더 흔들리기 쉽다 | 중간 줄이 늘수록 상태 안의 앞 단서는 계속 감쇠하지만, 직접 재참조는 키워드가 맞는 앞 줄을 다시 찾을 수 있으면 판단을 유지할 수 있습니다. |
-| 마지막 요청에서 `restart`라는 단어를 뺀다 | `direct_decision`이 달라질 수 있다 | 현재 요청에 앞 규칙과 연결될 핵심 단어가 빠지면, 직접 재참조도 어떤 앞 단서를 불러와야 하는지 약해집니다. |
+| 마지막 요청에서 `restart`라는 단어를 뺀다 | 상위 matched line의 순위가 달라질 수 있다 | 현재 요청에 앞 규칙과 연결될 핵심 단어가 빠지면, 직접 재참조 쪽에서도 어떤 앞 단서가 강하게 떠오르는지 달라집니다. |
 
-해설: 이 연습은 직접 재참조가 언제나 정답을 보장한다고 말하려는 것이 아닙니다. 핵심은 긴 문맥에서 앞 단서가 `상태 안에서 약해지는가`, 아니면 `현재 요청에서 다시 호출되는가`를 출력 변화로 구분하는 것입니다.
+해설: 이 연습은 직접 재참조가 언제나 정답을 보장한다고 말하려는 것이 아닙니다. 핵심은 긴 문맥에서 앞 단서가 `상태 안에서 약해지는가`, 아니면 `현재 요청과의 비교에서 다시 위로 올라오는가`를 출력 변화로 구분하는 것입니다.
 
 ## 체크리스트
 
 - 긴 문맥 문제를 순차 상태 전달과 직접 재참조의 차이로 설명할 수 있는가?
 - self-attention이 먼 위치를 더 직접 참고하는 감각을 준다는 점을 말할 수 있는가?
-- `sequential_support`와 `direct_decision`의 차이를 설명할 수 있는가?
+- `sequential_support`와 상위 matched line의 차이를 설명할 수 있는가?
 - 긴 문맥에서 최종 판단이 근거 호출 방식에 따라 달라질 수 있음을 말할 수 있는가?
 
 ## 출처와 참고 자료

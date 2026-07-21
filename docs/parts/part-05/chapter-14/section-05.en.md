@@ -19,6 +19,10 @@ The comparison target is not the full Transformer implementation. It is the diff
 
 In an RNN, distant information has to pass through several steps of state before reaching the current point. In self-attention, by contrast, the earlier cue does not only have to be compressed into one state and carried forward. The current position can compute relation scores with earlier positions again. That is why even a faraway cue is read as being referred to more directly from the current judgment position.
 
+Here, a relation score is the relevance obtained when the final request position compares itself with earlier cues again. The final request position compares the earlier rule line, current-state line, and unrelated log lines in the same way. Lines that strongly connect to the current request rise again as evidence, while weakly related lines are pushed back.
+
+For example, if the final question is `Can line 3 restart now?`, the question position must compare itself again with the earlier `must not be restarted` rule and the `pressure has not returned to the safe range` state. When that comparison happens, the cue at the front of the long context is not merely remembered for a long time; it is attached again as evidence at the final judgment point.
+
 First, the overall conceptual path looks like this. An earlier cue can move inside compressed sequential state, or it can be compared again from the current question position.
 
 ```mermaid
@@ -57,6 +61,8 @@ The easy criterion a person may use first is `the model read a lot, so it should
 
 The sequential-state method tries to compress the earlier rule into one state and carry it to the end. As intermediate logs increase, the blocking-rule axis can weaken. The direct re-reference method finds the rule line and pressure-state line again at the final request point.
 
+Compressing into one state does not mean the earlier cue disappears. But each new line also mixes sensor calibration, material restocking, shift handoff, and other information into the state. If the blocking rule does not remain clear as separate evidence by the time the final request arrives, the model can be pulled more by recent logs or approval-related words than by `do not restart`.
+
 The judgment sentence in this case should close as follows.
 
 | Method | Judgment Sentence |
@@ -81,13 +87,13 @@ Explanation: The learning point in a long-context problem is not `it read a lot`
 
 ### Example. Comparing A Sequential Reader And A Direct Reference Reader
 
-This example is not a Transformer implementation. It is an experiment comparing what observations two reference methods leave in long-context judgment. `direct_reference_reader` is not actual attention computation; it is a compressed model that uses keyword scores to find the needed earlier lines again. What we check here is not the implementation method, but the output difference between `a cue weakening inside state` and `a cue being called again by the current request`.
+This example is not a Transformer implementation. It is an experiment comparing what observations two reference methods leave in long-context judgment. `direct_reference_reader` is not actual attention computation; it is a compressed model that uses keyword scores to reorder earlier lines. What we check here is not whether the code reaches a predetermined answer, but the output difference between `a cue weakening inside state` and `a cue rising again from the current request`.
 
 | Value to Manipulate | Output to Observe | Question to Check |
 | --- | --- | --- |
 | `decay` | `sequential_support`, `final_state` | how quickly does the earlier rule weaken inside sequential state? |
 | number of intermediate `Log:` lines | final value of the `block` axis | does sequential state shake more as unrelated intermediate sentences increase? |
-| final `Request:` sentence | `direct_decision`, top matched lines | does the current request contain cues that call the earlier rule again? |
+| final `Request:` sentence | top matched lines, scores | which earlier lines share stronger word axes with the current request? |
 
 ```python
 # This example compares how sequential state weakens in long context and how direct reference finds the earlier rule again.
@@ -116,30 +122,22 @@ def sequential_reader(lines, decay=0.55):
         snapshot = {key: round(value, 3) for key, value in state.items()}
         history.append((idx, line, snapshot))
     support = round(min(state.values()), 3)
-    decision = "block_restart" if support >= 0.8 else "uncertain"
-    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
+    return history, {key: round(value, 3) for key, value in state.items()}, support
 
 def direct_reference_reader(lines):
     request = lines[-1].lower()
-    keywords = {"restart", "pressure", "unstable", "must", "not"}
+    keywords = set(request.replace(".", "").replace(":", "").split())
+    keywords |= {"pressure", "unstable", "must", "not"}
     scored = []
     for idx, line in enumerate(lines[:-1], start=1):
         words = set(line.lower().replace(".", "").replace(":", "").split())
         score = len(words & keywords)
         scored.append((score, idx, line))
     top_matches = sorted(scored, reverse=True)[:2]
-    matched_lines = [line.lower() for _, _, line in top_matches]
-    decision = (
-        "block_restart"
-        if any("must not be restarted" in line for line in matched_lines)
-        and any("pressure" in line or "unstable" in line for line in matched_lines)
-        and "restart" in request
-        else "allow"
-    )
-    return top_matches, decision
+    return top_matches
 
-history, final_state, sequential_support, sequential_decision = sequential_reader(context)
-top_matches, direct_decision = direct_reference_reader(context)
+history, final_state, sequential_support = sequential_reader(context)
+top_matches = direct_reference_reader(context)
 
 print("[sequential reader]")
 for idx, line, snapshot in history:
@@ -147,13 +145,11 @@ for idx, line, snapshot in history:
     print("   state =", snapshot)
 print("final_state =", final_state)
 print("sequential_support =", sequential_support)
-print("sequential_decision =", sequential_decision)
 print()
 
 print("[direct reference reader]")
 for score, idx, line in top_matches:
     print(f"matched line {idx} (score={score}): {line}")
-print("direct_decision =", direct_decision)
 ```
 
 Read the example output as follows.
@@ -161,18 +157,16 @@ Read the example output as follows.
 ```text
 final_state = {'pressure_risk': 0.353, 'restart': 1.05, 'block': 0.05}
 sequential_support = 0.05
-sequential_decision = uncertain
 
 matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
 matched line 4 (score=2): State: pressure has not fully returned to safe range.
-direct_decision = block_restart
 ```
 
 The first output shows how sequential state weakens while passing through context. The `block` axis starts strongly at the rule line, but only `0.05` remains by the final request.
 
 ![Sequential state decay](/AiBook/assets/part-05/chapter-14/sequential-state-decay-en.png)
 
-The second output shows which lines the direct re-reference method brings back at the final request. Since the rule line and pressure-state line rise again as strong evidence, the change to read in this example is not merely that the two decision names differ. It is the difference between the earlier cue `weakening inside the state` and `being called again by the current request`.
+The second output shows which lines the direct re-reference method brings back at the final request. This code does not judge a fixed answer such as `block the restart`. Instead, it compares the word axes in the final request with those in earlier lines and shows whether the rule line and pressure-state line rise again as top evidence. The change to read in this example is not a decision label, but the difference between the earlier cue `weakening inside the state` and `rising again from comparison with the current request`.
 
 ![Direct re-reference scores](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-en.png)
 
@@ -182,15 +176,15 @@ The second output shows which lines the direct re-reference method brings back a
 | --- | --- | --- |
 | raise `decay` from `0.55` to `0.8` | `sequential_support` may grow | because sequential state keeps the earlier cue longer, the `block` axis created at the rule line weakens less by the final request |
 | add three more intermediate logs | the sequential-state side can shake more easily | as intermediate lines increase, earlier cues inside state continue to decay, while direct re-reference can keep the judgment if it can find the matching earlier lines |
-| remove the word `restart` from the final request | `direct_decision` can change | if the current request loses the key word connected to the earlier rule, direct re-reference also weakens in knowing which earlier cue to call |
+| remove the word `restart` from the final request | the rank of the top matched lines can change | if the current request loses the key word connected to the earlier rule, the direct re-reference side also changes which earlier cue rises strongly |
 
-Explanation: This practice is not saying that direct re-reference always guarantees the right answer. The core is to distinguish through output changes whether earlier cues `weaken inside the state` or `are called again by the current request` in long context.
+Explanation: This practice is not saying that direct re-reference always guarantees the right answer. The core is to distinguish through output changes whether earlier cues `weaken inside the state` or `rise again through comparison with the current request` in long context.
 
 ## Checklist
 
 - Can you explain the long-context problem as a difference between sequential state passing and direct re-reference?
 - Can you say that self-attention gives the feeling of referring more directly to distant positions?
-- Can you explain the difference between `sequential_support` and `direct_decision`?
+- Can you explain the difference between `sequential_support` and the top matched lines?
 - Can you say that in long context, final judgment can change depending on how evidence is called?
 
 ## Sources And References
