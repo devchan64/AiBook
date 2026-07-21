@@ -4,16 +4,16 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Mermaid language pairs:
-  - `p6-c11-s01-diagram-01-en.mmd` / `p6-c11-s01-diagram-01-ko.mmd`
-  - `p6-c11-s01-diagram-02-en.mmd` / `p6-c11-s01-diagram-02-ko.mmd`
-  - `p6-c11-s02-diagram-01-en.mmd` / `p6-c11-s02-diagram-01-ko.mmd`
-  - `p6-c11-s02-diagram-02-en.mmd` / `p6-c11-s02-diagram-02-ko.mmd`
+  - `p6-c11-s01-rag-need-flow-en.mmd` / `p6-c11-s01-rag-need-flow-ko.mmd`
+  - `p6-c11-s01-rag-grounding-cases-en.mmd` / `p6-c11-s01-rag-grounding-cases-ko.mmd`
+  - `p6-c11-s02-rag-combine-flow-en.mmd` / `p6-c11-s02-rag-combine-flow-ko.mmd`
+  - `p6-c11-s02-rag-failure-split-en.mmd` / `p6-c11-s02-rag-failure-split-ko.mmd`
 - PNG chart language pairs:
-  - `vector-db-payload-check-en.png` / `vector-db-payload-check-ko.png`
-  - `index-quality-latency-en.png` / `index-quality-latency-ko.png`
+  - `rag-grounding-check-en.png` / `rag-grounding-check-ko.png`
+  - `rag-failure-split-en.png` / `rag-failure-split-ko.png`
 - Python chart sources:
-  - `p6_11_1_vector_db_payload_chart.py`
-  - `p6_11_2_index_quality_chart.py`
+  - `p6_11_1_rag_grounding_chart.py`
+  - `p6_11_2_rag_failure_split_chart.py`
 - CSV example data:
-  - `p6-11-index-documents.csv`
-  - `p6-11-index-queries.csv`
+  - `p6-11-rag-documents.csv`
+  - `p6-11-rag-experiments.csv`

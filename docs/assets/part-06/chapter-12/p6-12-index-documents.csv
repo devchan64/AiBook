@@ -1,0 +1,37 @@
+doc_id,topic,version,boundary_hint,reader_hint,config_axis,recovery_axis,flow_axis
+sdk_v2_request_timeout,request timeout,v2,current_version_candidate,2.x 요청 대기 시간 설정을 안내하는 기준 문서,0.90,0.18,0.10
+sdk_v1_request_timeout_guide,request timeout,v1,old_version_collision,용어는 거의 같지만 1.x 기준이라 현재 설정 안내로 쓰면 안 되는 문서,0.93,0.16,0.09
+sdk_general_request_timeout_notes,request timeout,general,general_note_collision,timeout 개념은 설명하지만 SDK 버전 조건이 빠져 strict 검색에서는 보조 문서로만 남아야 한다.,0.87,0.22,0.12
+sdk_v2_retry_backoff,retry backoff,v2,current_version_candidate,2.x 재시도 간격과 backoff 기준을 안내하는 기준 문서,0.38,0.92,0.09
+sdk_v1_retry_backoff_guide,retry backoff,v1,old_version_collision,backoff 표현은 가깝지만 오래된 기본값을 담아 top-1이면 오답이 된다.,0.41,0.91,0.08
+sdk_general_retry_backoff_notes,retry backoff,general,general_note_collision,재시도 개념만 설명하고 2.x 적용 조건이 없어 최종 근거로는 부족하다.,0.35,0.97,0.11
+sdk_v2_auth_refresh_flow,auth refresh flow,v2,current_version_candidate,2.x 인증 토큰 갱신 순서를 설명하는 기준 문서,0.30,0.20,0.95
+sdk_v1_auth_refresh_flow_guide,auth refresh flow,v1,old_version_collision,갱신 흐름은 비슷하지만 1.x 인증 절차라 현재 로그인 문제의 근거로 쓰면 위험하다.,0.33,0.18,0.94
+sdk_general_auth_refresh_flow_notes,auth refresh flow,general,general_note_collision,토큰 갱신 개념은 다루지만 버전별 호출 순서를 확정하지 못한다.,0.27,0.24,0.97
+sdk_v2_billing_invoice,billing invoice,v2,current_version_candidate,2.x 청구서 조회 엔드포인트와 invoice 처리 기준을 담은 문서,0.76,0.51,0.16
+sdk_v1_billing_invoice_guide,billing invoice,v1,old_version_collision,청구서라는 단어는 맞지만 1.x 결제 API 기준이라 현재 답변을 오염시킬 수 있다.,0.79,0.49,0.15
+sdk_general_billing_invoice_notes,billing invoice,general,general_note_collision,청구 개념 설명에 머물러 2.x 엔드포인트 선택 근거로는 약하다.,0.73,0.56,0.18
+sdk_v2_webhook_signature,webhook signature,v2,current_version_candidate,2.x 웹훅 서명 검증 절차와 헤더 확인 기준을 담은 문서,0.22,0.70,0.62
+sdk_v1_webhook_signature_guide,webhook signature,v1,old_version_collision,서명 검증이라는 주제는 맞지만 1.x 헤더 규칙을 섞을 위험이 있다.,0.24,0.68,0.61
+sdk_general_webhook_signature_notes,webhook signature,general,general_note_collision,웹훅 보안 개념은 맞지만 2.x signature 처리 순서를 확정하지 못한다.,0.19,0.74,0.64
+sdk_v2_streaming_events,streaming events,v2,current_version_candidate,2.x 스트리밍 이벤트 처리 순서와 이벤트 이름을 확인할 기준 문서,0.58,0.34,0.73
+sdk_v1_streaming_events_guide,streaming events,v1,old_version_collision,streaming 표현은 가깝지만 1.x 이벤트 이름을 가져오면 현재 코드가 틀릴 수 있다.,0.60,0.33,0.72
+sdk_general_streaming_events_notes,streaming events,general,general_note_collision,실시간 이벤트 개념을 설명하지만 2.x 이벤트 처리 규칙을 대신하지 못한다.,0.55,0.39,0.75
+sdk_v2_rate_limit,rate limit,v2,current_version_candidate,2.x 요청 제한과 재시도 기준을 안내하는 기준 문서,0.42,0.82,0.36
+sdk_v1_rate_limit_guide,rate limit,v1,old_version_collision,rate limit 단어는 맞지만 1.x 제한 정책이라 재시도 판단을 틀리게 만들 수 있다.,0.45,0.80,0.35
+sdk_general_rate_limit_notes,rate limit,general,general_note_collision,429 처리 개념은 설명하지만 2.x 제한값과 재시도 조건은 확인해 주지 못한다.,0.39,0.86,0.38
+sdk_v2_file_upload,file upload,v2,current_version_candidate,2.x 파일 업로드 제한과 허용 형식을 확인할 기준 문서,0.66,0.28,0.69
+sdk_v1_file_upload_guide,file upload,v1,old_version_collision,업로드 주제는 맞지만 1.x 제한값을 가져오면 현재 장애 원인을 잘못 읽을 수 있다.,0.69,0.27,0.68
+sdk_general_file_upload_notes,file upload,general,general_note_collision,파일 업로드 일반 설명이라 2.x 제한 조건을 확정하는 근거로는 부족하다.,0.63,0.33,0.71
+sdk_v2_logging_trace,logging trace,v2,current_version_candidate,2.x 요청 추적 로그 설정과 trace 기록 방식을 안내하는 기준 문서,0.18,0.57,0.79
+sdk_v1_logging_trace_guide,logging trace,v1,old_version_collision,trace 표현은 가깝지만 1.x 로그 설정이라 현재 관측값과 어긋날 수 있다.,0.20,0.55,0.78
+sdk_general_logging_trace_notes,logging trace,general,general_note_collision,로그 추적 개념은 맞지만 2.x 설정 키와 출력 위치를 확정하지 못한다.,0.15,0.61,0.81
+sdk_v2_proxy_network,proxy network,v2,current_version_candidate,2.x 프록시 네트워크 설정과 요청 경로 조건을 담은 기준 문서,0.84,0.40,0.24
+sdk_v1_proxy_network_guide,proxy network,v1,old_version_collision,proxy 표현은 맞지만 1.x 네트워크 설정을 섞으면 현재 환경 설정이 틀릴 수 있다.,0.86,0.39,0.23
+sdk_general_proxy_network_notes,proxy network,general,general_note_collision,프록시 개념은 설명하지만 SDK 2.x 설정 위치를 직접 알려 주지 못한다.,0.81,0.45,0.26
+sdk_v2_cache_policy,cache policy,v2,current_version_candidate,2.x 캐시 무효화와 응답 재사용 기준을 확인할 기준 문서,0.52,0.76,0.24
+sdk_v1_cache_policy_guide,cache policy,v1,old_version_collision,cache policy 주제는 같지만 1.x 무효화 규칙이라 현재 기준과 충돌할 수 있다.,0.55,0.74,0.23
+sdk_general_cache_policy_notes,cache policy,general,general_note_collision,캐시 개념은 맞지만 2.x 정책 키와 만료 조건을 확정하지 못한다.,0.49,0.81,0.26
+sdk_v2_region_endpoint,region endpoint,v2,current_version_candidate,2.x 지역 엔드포인트 선택 기준과 요청 대상 지역을 안내하는 문서,0.72,0.24,0.58
+sdk_v1_region_endpoint_guide,region endpoint,v1,old_version_collision,endpoint 주제는 같지만 1.x 지역 규칙을 가져오면 현재 요청 경로가 틀릴 수 있다.,0.74,0.22,0.57
+sdk_general_region_endpoint_notes,region endpoint,general,general_note_collision,지역 엔드포인트 개념은 설명하지만 2.x 선택 규칙을 확정하지 못한다.,0.69,0.28,0.60

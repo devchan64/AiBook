@@ -1,0 +1,37 @@
+query_id,topic,question,variant,target_doc,reader_hint,config_axis,recovery_axis,flow_axis
+Q01,request timeout,2.x 버전에서 request timeout 옵션 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_request_timeout,문서명과 질문어가 거의 일치해 기본 검색 품질을 확인하는 기준 질문,0.89,0.19,0.10
+Q02,request timeout,SDK 2.x에서 응답 대기 시간을 조정하려면 어떤 설정 문서를 찾아야 하나요?,paraphrase,sdk_v2_request_timeout,timeout이라는 단어를 쓰지 않아도 같은 의미를 찾아야 하는 표현 바꾼 질문,0.90,0.18,0.10
+Q03,request timeout,연결이 오래 걸릴 때 1.x 안내가 아니라 2.x timeout 안내를 보고 싶습니다.,boundary_wording,sdk_v2_request_timeout,1.x 문서가 더 가깝게 보일 수 있어 버전 조건을 함께 봐야 하는 질문,0.91,0.17,0.10
+Q04,retry backoff,2.x 버전에서 retry backoff 기본값 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_retry_backoff,문서명 그대로 묻기 때문에 색인 벡터가 정상 배치됐는지 확인하기 쉽다.,0.37,0.93,0.09
+Q05,retry backoff,SDK 2.x에서 재시도 간격이 어떻게 늘어나는지 설명한 문서를 찾고 싶습니다.,paraphrase,sdk_v2_retry_backoff,backoff를 한국어 설명으로 바꾼 질문이라 의미 검색 민감도를 본다.,0.38,0.92,0.09
+Q06,retry backoff,재시도 정책을 보려는데 오래된 backoff 가이드가 아니라 2.x 기준이 필요합니다.,boundary_wording,sdk_v2_retry_backoff,오래된 가이드가 후보에 섞이기 쉬워 현재 버전 우선순위가 중요하다.,0.39,0.91,0.09
+Q07,auth refresh flow,2.x 버전에서 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_auth_refresh_flow,핵심 용어가 직접 들어가 인증 갱신 문서의 기본 검색 성공 여부를 확인한다.,0.29,0.21,0.95
+Q08,auth refresh flow,SDK 2.x에서 만료된 인증 값을 새로 받는 절차를 설명한 문서는 무엇인가요?,paraphrase,sdk_v2_auth_refresh_flow,토큰 갱신을 생활 언어로 바꿔도 같은 문서를 찾는지 본다.,0.30,0.20,0.95
+Q09,auth refresh flow,로그인 유지 문제가 있는데 1.x 인증 안내 말고 2.x 갱신 흐름을 찾아야 합니다.,boundary_wording,sdk_v2_auth_refresh_flow,1.x 인증 안내가 의미상 가까워도 현재 갱신 흐름을 우선해야 하는 경계 질문,0.31,0.19,0.95
+Q10,billing invoice,2.x 버전에서 청구서 invoice 조회 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_billing_invoice,청구서와 invoice가 함께 있어 기준 문서가 바로 올라와야 하는 질문,0.75,0.52,0.16
+Q11,billing invoice,SDK 2.x에서 결제 청구 내역을 가져오는 방법은 어느 문서에 있나요?,paraphrase,sdk_v2_billing_invoice,invoice 대신 청구 내역으로 표현해도 같은 업무 문서를 찾아야 한다.,0.76,0.51,0.16
+Q12,billing invoice,invoice 조회가 실패하는데 예전 결제 문서가 아니라 2.x 청구 문서를 확인하고 싶습니다.,boundary_wording,sdk_v2_billing_invoice,예전 결제 문서가 단어상 가까워도 2.x 청구 문서를 선택해야 하는 질문,0.77,0.50,0.16
+Q13,webhook signature,2.x 버전에서 webhook signature 검증 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_webhook_signature,webhook signature가 직접 들어가 기준 문서의 기본 검색 순위를 본다.,0.21,0.71,0.62
+Q14,webhook signature,SDK 2.x에서 웹훅 요청이 진짜인지 확인하는 절차를 찾고 싶습니다.,paraphrase,sdk_v2_webhook_signature,서명 검증을 풀어 쓴 질문이라 보안 절차 의미를 잡아야 한다.,0.22,0.70,0.62
+Q15,webhook signature,서명 검증 오류가 나는데 일반 webhook 설명보다 2.x signature 문서가 필요합니다.,boundary_wording,sdk_v2_webhook_signature,일반 webhook 설명이 후보에 올 수 있어 signature 조건을 강하게 봐야 한다.,0.23,0.69,0.62
+Q16,streaming events,2.x 버전에서 streaming event 처리 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_streaming_events,streaming event라는 문서명이 직접 들어간 기본 검색 확인 질문,0.57,0.35,0.73
+Q17,streaming events,SDK 2.x에서 실시간 응답 이벤트를 순서대로 처리하는 방법을 알고 싶습니다.,paraphrase,sdk_v2_streaming_events,streaming을 실시간 응답 흐름으로 바꿔도 같은 문서를 찾아야 한다.,0.58,0.34,0.73
+Q18,streaming events,stream 로그가 끊길 때 일반 이벤트 문서가 아니라 2.x streaming 안내를 찾아야 합니다.,boundary_wording,sdk_v2_streaming_events,일반 이벤트 문서와 혼동하지 않고 2.x streaming 문서를 고르는지 본다.,0.59,0.33,0.73
+Q19,rate limit,2.x 버전에서 rate limit 재시도 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_rate_limit,rate limit와 재시도가 직접 들어가 제한 정책 문서가 올라와야 한다.,0.41,0.83,0.36
+Q20,rate limit,SDK 2.x에서 요청 제한에 걸렸을 때 다시 보내는 기준을 찾고 싶습니다.,paraphrase,sdk_v2_rate_limit,429나 rate limit 없이 제한 상황을 설명해도 재시도 기준을 찾아야 한다.,0.42,0.82,0.36
+Q21,rate limit,429 오류가 났는데 예전 제한 문서가 아니라 2.x rate limit 재시도 문서가 필요합니다.,boundary_wording,sdk_v2_rate_limit,오래된 제한 정책이 끼어들 수 있어 현재 버전 조건을 함께 확인해야 한다.,0.43,0.81,0.36
+Q22,file upload,2.x 버전에서 file upload 제한 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_file_upload,file upload와 제한 조건이 직접 들어간 기본 검색 확인 질문,0.65,0.29,0.69
+Q23,file upload,SDK 2.x에서 업로드할 수 있는 파일 크기와 형식 제한을 확인하고 싶습니다.,paraphrase,sdk_v2_file_upload,파일 업로드 제한을 사용자의 문제 표현으로 바꾼 의미 검색 질문,0.66,0.28,0.69
+Q24,file upload,파일 전송 실패 원인을 보려는데 일반 업로드 문서보다 2.x 제한 문서가 필요합니다.,boundary_wording,sdk_v2_file_upload,일반 업로드 설명보다 2.x 제한 문서를 우선해야 하는 경계 질문,0.67,0.27,0.69
+Q25,logging trace,2.x 버전에서 logging trace 설정 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_logging_trace,logging trace 문서명을 직접 묻는 기본 검색 확인 질문,0.17,0.58,0.79
+Q26,logging trace,SDK 2.x에서 요청 흐름을 추적 로그로 남기는 설정을 찾고 싶습니다.,paraphrase,sdk_v2_logging_trace,trace를 요청 흐름 추적으로 풀어도 같은 설정 문서를 찾아야 한다.,0.18,0.57,0.79
+Q27,logging trace,장애 분석용 trace를 켜려는데 일반 로그 설명 말고 2.x 설정 문서가 필요합니다.,boundary_wording,sdk_v2_logging_trace,일반 로그 문서와 혼동하지 않고 2.x trace 설정을 찾아야 한다.,0.19,0.56,0.79
+Q28,proxy network,2.x 버전에서 proxy network 설정 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_proxy_network,proxy network가 직접 들어가 기준 문서가 top 후보가 되어야 한다.,0.83,0.41,0.24
+Q29,proxy network,SDK 2.x에서 사내 프록시를 거쳐 요청을 보내는 설정을 알고 싶습니다.,paraphrase,sdk_v2_proxy_network,프록시 설정을 업무 환경 표현으로 바꿔도 같은 문서를 찾아야 한다.,0.84,0.40,0.24
+Q30,proxy network,네트워크 우회 설정을 보려는데 예전 proxy 안내보다 2.x 문서가 필요합니다.,boundary_wording,sdk_v2_proxy_network,예전 proxy 안내가 의미상 가까워도 2.x 네트워크 설정을 골라야 한다.,0.85,0.39,0.24
+Q31,cache policy,2.x 버전에서 cache policy 무효화 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_cache_policy,cache policy와 무효화가 직접 들어간 기본 검색 확인 질문,0.51,0.77,0.24
+Q32,cache policy,SDK 2.x에서 저장된 응답을 언제 새로 받아야 하는지 정하는 문서를 찾고 싶습니다.,paraphrase,sdk_v2_cache_policy,캐시 정책을 응답 재사용 문제로 바꿔도 같은 문서를 찾아야 한다.,0.52,0.76,0.24
+Q33,cache policy,캐시가 오래 남는 문제를 보려는데 일반 성능 문서보다 2.x cache policy가 필요합니다.,boundary_wording,sdk_v2_cache_policy,성능 문서가 후보에 섞여도 2.x cache policy를 우선해야 한다.,0.53,0.75,0.24
+Q34,region endpoint,2.x 버전에서 region endpoint 선택 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_region_endpoint,region endpoint라는 문서명이 직접 들어간 기본 검색 확인 질문,0.71,0.25,0.58
+Q35,region endpoint,SDK 2.x에서 어느 지역 엔드포인트로 요청을 보내야 하는지 확인하고 싶습니다.,paraphrase,sdk_v2_region_endpoint,지역 엔드포인트 선택을 자연어로 바꿔도 같은 문서를 찾아야 한다.,0.72,0.24,0.58
+Q36,region endpoint,지역 선택 오류를 보려는데 일반 endpoint 설명보다 2.x region 문서가 필요합니다.,boundary_wording,sdk_v2_region_endpoint,일반 endpoint 설명이 가까워도 2.x region 조건을 우선해야 하는 질문,0.73,0.23,0.58

@@ -1,0 +1,10 @@
+flowchart LR
+  A["user question"]
+  B["retrieval stage<br/>which docs are attached?"]
+  C["generation stage<br/>how are docs rewritten?"]
+  D["retrieval failure<br/>wrong or irrelevant docs"]
+  E["generation failure<br/>overclaim or wrong rewrite"]
+
+  A --> B --> C
+  B --> D
+  C --> E

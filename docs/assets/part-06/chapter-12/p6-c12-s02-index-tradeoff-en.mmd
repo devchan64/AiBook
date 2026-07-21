@@ -1,0 +1,11 @@
+flowchart LR
+  A["query vector"]
+  B["faster index setting"]
+  C["slower but stricter setting"]
+  D["lower latency"]
+  E["better candidate quality"]
+  F["risk: wrong top-k"]
+
+  A --> B --> D
+  A --> C --> E
+  B --> F

@@ -11,7 +11,7 @@ P6-13.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 
 ## 구조화된 호출이 다루는 질문
 
-먼저 붙잡을 질문은 다음과 같습니다.
+핵심 질문은 다음과 같습니다.
 
 - 함수 호출은 왜 필요한가?
 - 자연어 요청과 구조화된 도구 호출은 무엇이 다른가?
@@ -142,7 +142,7 @@ function calling은 `구조화된 실행 요청`을 다루고, 그다음에는 �
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-12/p6-c12-s02-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-13/p6-c13-s02-function-call-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 `문장 -> 구조 -> 실행 -> 결과` 흐름으로 바뀐다는 점입니다.
@@ -178,7 +178,7 @@ function calling은 `구조화된 실행 요청`을 다루고, 그다음에는 �
 같은 내용을 구조화된 실행 요청 흐름으로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-06/chapter-12/p6-c12-s02-diagram-02-ko.mmd"
+--8<-- "assets/part-06/chapter-13/p6-c13-s02-function-call-boundary-ko.mmd"
 ```
 
 핵심은 `구조화됐다`와 `바로 실행 가능하다`가 같은 말이 아니라는 점입니다.
@@ -398,7 +398,7 @@ for report in reports:
 
 차트로 보면 세 호출 중 바로 실행 가능한 호출은 하나뿐이고, 나머지 둘은 각각 `time`, `timezone` 누락으로 막힙니다. 따라서 함수 호출은 구조를 만들었다는 사실보다, 실행 전에 어떤 필드가 빠졌는지 드러내고 멈출 수 있게 한다는 점이 더 중요합니다.
 
-![함수 호출 예제의 유효 호출과 누락 필드 감지 수](../../../assets/part-06/chapter-12/function-call-validation-ko.png)
+![함수 호출 예제의 유효 호출과 누락 필드 감지 수](../../../assets/part-06/chapter-13/function-call-validation-ko.png)
 
 ## 여기까지를 한 줄로 묶으면
 

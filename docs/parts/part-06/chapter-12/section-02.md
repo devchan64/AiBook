@@ -9,7 +9,7 @@ P6-12.1에서는 벡터 데이터베이스가 임베딩 벡터와 원문, 메타
 
 ## 탐색 구조가 맡는 일
 
-먼저 붙잡을 질문은 다음과 같습니다.
+핵심 질문은 다음과 같습니다.
 
 - 왜 벡터를 하나씩 모두 비교하지 않는가?
 - 인덱스는 검색에서 어떤 역할을 하는가?
@@ -55,7 +55,7 @@ P6-12.1에서는 벡터 데이터베이스가 임베딩 벡터와 원문, 메타
 | 전체 응답이 느린데 원인이 검색인지 생성인지 헷갈린다 | 병목이 후보 압축 단계인가? | 탐색 구조가 병목이면 프롬프트보다 인덱스 조정이 먼저여야 하기 때문입니다. |
 | 후보는 많이 오지만 늘 엉뚱한 문서가 먼저 붙는다 | top-1 정합률과 top-k 포함률을 같이 보고 있는가? | `빨리 찾는가`와 `맞게 찾는가`를 나누어 보지 않으면 검색 품질을 잘못 읽기 쉽기 때문입니다. |
 
-이 표를 먼저 붙잡고 아래 내용을 읽으면, 인덱스를 `빠르게 찾는 내부 기술`보다 `속도와 후보 품질을 함께 조정하는 탐색 구조`로 더 직접 읽을 수 있습니다.
+이 표를 기준으로 삼으면, 인덱스를 `빠르게 찾는 내부 기술`보다 `속도와 후보 품질을 함께 조정하는 탐색 구조`로 더 직접 읽을 수 있습니다.
 
 ## 왜 모든 벡터를 다 비교하지 않나
 
@@ -119,7 +119,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-12/p6-c12-s02-index-candidate-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 인덱스가 `답변 생성`을 직접 하는 것이 아니라, `검색 후보를 빠르게 좁히는 역할`을 한다는 점입니다.
@@ -155,7 +155,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 같은 내용을 검색 타협 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-02-ko.mmd"
+--8<-- "assets/part-06/chapter-12/p6-c12-s02-index-tradeoff-ko.mmd"
 ```
 
 핵심은 `빠르다`와 `좋다`가 자동으로 같은 뜻이 아니라는 점입니다.
@@ -199,8 +199,8 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 
 문서 벡터와 질문 벡터는 본문 코드 안에 길게 넣지 않고, 별도 CSV 자산으로 분리합니다.
 
-- 문서 벡터: [`p6-11-index-documents.csv`](../../../assets/part-06/chapter-11/p6-11-index-documents.csv){ .csv-preview }
-- 질문 벡터: [`p6-11-index-queries.csv`](../../../assets/part-06/chapter-11/p6-11-index-queries.csv){ .csv-preview }
+- 문서 벡터: [`p6-12-index-documents.csv`](../../../assets/part-06/chapter-12/p6-12-index-documents.csv){ .csv-preview }
+- 질문 벡터: [`p6-12-index-queries.csv`](../../../assets/part-06/chapter-12/p6-12-index-queries.csv){ .csv-preview }
 
 입력 파일의 앞부분만 짧게 보면 다음과 같습니다. 문서 CSV는 숫자 벡터만 담지 않고, 같은 주제에서 현재 버전 문서와 헷갈리기 쉬운 구버전·일반 문서를 함께 둡니다.
 
@@ -218,7 +218,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 | Q02 | request timeout | paraphrase | sdk_v2_request_timeout | timeout이라는 단어를 쓰지 않아도 같은 의미를 찾아야 하는 표현 바꾼 질문 |
 | Q03 | request timeout | boundary_wording | sdk_v2_request_timeout | 1.x 문서가 더 가깝게 보일 수 있어 버전 조건을 함께 봐야 하는 질문 |
 
-코드에서 확인할 핵심은 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다는 점입니다. 코드가 직접 쓰는 열은 `doc_id`, `version`, `config_axis`, `recovery_axis`, `flow_axis`, `question`, `target_doc`입니다. 세 축은 실제 임베딩 모델의 내부 차원을 재현한 값이 아니라, 설정 문서와 복구 문서와 처리 흐름 문서가 서로 가깝고 멀어지는 상황을 초심자가 읽을 수 있게 단순화한 좌표입니다. `topic`, `boundary_hint`, `variant`, `reader_hint`는 독자가 CSV를 열었을 때 어떤 행이 현재 버전 후보이고 어떤 행이 구버전·일반 설명과 부딪히기 쉬운지 관찰하게 돕는 설명 열입니다.
+코드에서 확인할 핵심은 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다는 점입니다. 코드가 직접 쓰는 열은 `doc_id`, `version`, `config_axis`, `recovery_axis`, `flow_axis`, `question`, `target_doc`입니다. 세 축은 실제 임베딩 모델의 내부 차원을 재현한 값이 아니라, 설정 문서와 복구 문서와 처리 흐름 문서가 서로 가깝고 멀어지는 상황을 읽기 쉽게 단순화한 좌표입니다. `topic`, `boundary_hint`, `variant`, `reader_hint`는 CSV를 열었을 때 어떤 행이 현재 버전 후보이고 어떤 행이 구버전·일반 설명과 부딪히기 쉬운지 관찰하게 돕는 설명 열입니다.
 
 ```python
 # fast 인덱스와 strict 인덱스 설정을 비교해 candidate budget, version filter, hit rate, latency의 trade-off를 확인하는 예제입니다.
@@ -226,8 +226,8 @@ import csv
 import math
 from pathlib import Path
 
-document_path = Path("docs/assets/part-06/chapter-11/p6-11-index-documents.csv")
-query_path = Path("docs/assets/part-06/chapter-11/p6-11-index-queries.csv")
+document_path = Path("docs/assets/part-06/chapter-12/p6-12-index-documents.csv")
+query_path = Path("docs/assets/part-06/chapter-12/p6-12-index-queries.csv")
 
 documents = []
 for row in csv.DictReader(document_path.open(encoding="utf-8")):
@@ -391,7 +391,7 @@ question = 연결이 오래 걸릴 때 1.x 안내가 아니라 2.x timeout 안�
 
 차트로 보면 빠른 설정은 평균 지연 시간이 낮지만 일부 질문에서 top-k 포함과 버전 정합을 놓칩니다. 엄격한 설정은 더 느리지만 세 품질 지표가 모두 통과하므로, 인덱스 평가는 `latency` 하나가 아니라 `top-k 포함`, `top-1 정합`, `버전 정합`을 함께 놓고 읽어야 합니다.
 
-![빠른 검색 설정과 엄격한 검색 설정의 품질·지연 시간 비교](../../../assets/part-06/chapter-11/index-quality-latency-ko.png)
+![빠른 검색 설정과 엄격한 검색 설정의 품질·지연 시간 비교](../../../assets/part-06/chapter-12/index-quality-latency-ko.png)
 
 ## 여기까지를 한 줄로 묶으면
 

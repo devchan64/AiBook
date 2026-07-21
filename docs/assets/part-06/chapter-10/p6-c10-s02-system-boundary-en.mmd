@@ -1,0 +1,9 @@
+flowchart TD
+  A["stronger prompt"]
+  B["response may look better"]
+  C{"is the missing part\na system guarantee?"}
+
+  A --> B --> C
+  C -->|fresh source needed| D["document access"]
+  C -->|numeric correctness needed| E["calculation verification"]
+  C -->|real action needed| F["execution + retry flow"]
