@@ -17,13 +17,15 @@ The comparison target is not the full Transformer implementation. It is the diff
 
 ## Comparing Sequential Passing And Direct Re-Reference
 
-In an RNN, distant information has to pass through several steps of state before reaching the current point. In self-attention, by contrast, the current token can refer more directly even to a faraway token.
+In an RNN, distant information has to pass through several steps of state before reaching the current point. In self-attention, by contrast, the earlier cue does not only have to be compressed into one state and carried forward. The current position can compute relation scores with earlier positions again. That is why even a faraway cue is read as being referred to more directly from the current judgment position.
+
+First, the overall conceptual path looks like this. An earlier cue can move inside compressed sequential state, or it can be compared again from the current question position.
 
 ```mermaid
 --8<-- "assets/part-05/chapter-14/long-context-direct-reference-en.mmd"
 ```
 
-If we compare the same request again only through the two computation paths, it can be read as follows.
+Now, if we split the same request only into the two computation paths, it can be read as follows. This diagram compares how the final request reaches a judgment through different evidence paths, rather than showing the whole long-context structure again.
 
 ```mermaid
 --8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-en.mmd"
@@ -79,7 +81,7 @@ Explanation: The learning point in a long-context problem is not `it read a lot`
 
 ### Example. Comparing A Sequential Reader And A Direct Reference Reader
 
-This example is not a Transformer implementation. It is an experiment comparing what observations two reference methods leave in long-context judgment.
+This example is not a Transformer implementation. It is an experiment comparing what observations two reference methods leave in long-context judgment. `direct_reference_reader` is not actual attention computation; it is a compressed model that uses keyword scores to find the needed earlier lines again. What we check here is not the implementation method, but the output difference between `a cue weakening inside state` and `a cue being called again by the current request`.
 
 | Value to Manipulate | Output to Observe | Question to Check |
 | --- | --- | --- |
@@ -194,3 +196,4 @@ Explanation: This practice is not saying that direct re-reference always guarant
 ## Sources And References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

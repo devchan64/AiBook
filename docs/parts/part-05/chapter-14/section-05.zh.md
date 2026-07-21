@@ -17,13 +17,15 @@
 
 ## 比较顺序传递和直接重参考
 
-在 RNN 中，远处信息要到达当前点，必须经过多个 step 的状态传递。相比之下，在 self-attention 中，当前 token 可以更直接地参考相距很远的 token。
+在 RNN 中，远处信息要到达当前点，必须经过多个 step 的状态传递。相比之下，在 self-attention 中，前面的线索不只需要被压缩到一个状态里一路带过来，当前位置还可以重新计算自己和前面位置之间的关系分数。因此，相距很远的线索也会被读成能在当前判断位置被更直接地参考。
+
+先看整体概念路径，可以整理如下。前面的线索可以在顺序状态里被压缩后移动，也可以在当前问题位置被重新比较。
 
 ```mermaid
 --8<-- "assets/part-05/chapter-14/long-context-direct-reference-zh.mmd"
 ```
 
-把同一个请求只按两条计算路径再比较一次，可以这样看。
+接着把同一个请求只按两条计算路径分开看，可以这样比较。这个图不是再次展示整个长上下文结构，而是比较最后请求通过哪条依据路径到达判断。
 
 ```mermaid
 --8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-zh.mmd"
@@ -79,7 +81,7 @@
 
 ### 例子：比较 sequential reader 和 direct reference reader
 
-这个例子不是 Transformer 实现，而是比较两种参考方式在长上下文判断中留下什么观察值。
+这个例子不是 Transformer 实现，而是比较两种参考方式在长上下文判断中留下什么观察值。`direct_reference_reader` 不是实际 attention 计算，而是用关键词分数重新寻找所需前面行的压缩模型。这里要确认的不是实现方式，而是`状态里变弱的线索`和`当前请求重新调用的线索`在输出上的差异。
 
 | 要操作的值 | 要观察的输出 | 要确认的问题 |
 | --- | --- | --- |
@@ -194,3 +196,4 @@ direct_decision = block_restart
 ## 来源与参考资料
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 确认日期：2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

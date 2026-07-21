@@ -17,13 +17,15 @@ P5-14.4에서는 RNN의 순차 상태 전달과 Transformer의 관계 계산이 
 
 ## 순차 전달과 직접 재참조를 비교하면
 
-RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 전달해야 합니다. 반면 self-attention에서는 현재 토큰이 멀리 떨어진 토큰도 더 직접 참고할 수 있습니다.
+RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 전달해야 합니다. 반면 self-attention에서는 앞 단서를 상태 하나에만 압축해 지나오지 않고, 현재 위치와 앞 위치 사이의 관계 점수를 다시 계산할 수 있습니다. 그래서 멀리 떨어진 단서도 현재 판단 위치에서 더 직접 참고되는 것처럼 읽힙니다.
+
+먼저 전체 개념 경로를 보면 다음과 같습니다. 앞 단서는 순차 상태 안에서 압축되어 이동할 수도 있고, 현재 질문 위치에서 다시 비교될 수도 있습니다.
 
 ```mermaid
 --8<-- "assets/part-05/chapter-14/long-context-direct-reference-ko.mmd"
 ```
 
-같은 요청 하나를 두 계산 경로로만 다시 비교하면 다음처럼 볼 수 있습니다.
+이제 같은 요청 하나를 두 계산 경로로만 나누어 보면 다음처럼 볼 수 있습니다. 이 도식은 긴 문맥 전체 구조보다, 마지막 요청이 어떤 근거 경로로 판단에 도착하는지를 비교합니다.
 
 ```mermaid
 --8<-- "assets/part-05/chapter-14/sequential-vs-direct-baseline-ko.mmd"
@@ -79,7 +81,7 @@ RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 �
 
 ### 예제. sequential reader와 direct reference reader 비교
 
-이 예제는 Transformer 구현이 아니라, 긴 문맥 판단에서 두 참조 방식이 어떤 관찰값을 남기는지 비교하는 실험입니다.
+이 예제는 Transformer 구현이 아니라, 긴 문맥 판단에서 두 참조 방식이 어떤 관찰값을 남기는지 비교하는 실험입니다. `direct_reference_reader`는 실제 attention 계산이 아니라 키워드 점수로 필요한 앞 줄을 다시 찾는 축약 모델입니다. 여기서 확인할 것은 구현 방식이 아니라 `상태 안에서 약해지는 단서`와 `현재 요청에서 다시 호출되는 단서`의 출력 차이입니다.
 
 | 조작할 값 | 관찰할 출력 | 확인할 질문 |
 | --- | --- | --- |
@@ -194,3 +196,4 @@ direct_decision = block_restart
 ## 출처와 참고 자료
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
