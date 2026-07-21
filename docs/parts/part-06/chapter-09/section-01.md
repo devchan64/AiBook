@@ -61,7 +61,7 @@ P6-8.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요�
 
 - 생성형 AI를 단순 자동완성으로만 이해하는 시각을 넘어서게 하고
 - assistant behavior를 별도 층으로 분리하게 하며
-- 다음 절의 alignment 문제를 `왜 필요한가`라는 질문과 연결해 주기 때문입니다
+- P6-9.2의 alignment 문제를 `왜 필요한가`라는 질문과 연결해 주기 때문입니다
 
 ## 조정 축을 보는 순서
 
@@ -160,7 +160,7 @@ P6-8.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요�
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-08/p6-c08-s01-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-09/p6-c09-s01-instruction-tuning-flow-ko.mmd"
 ```
 
 이 도식은 지시 튜닝을 `언어 모델 본체` 위에 `응답 형식 조정`이 더해지는 흐름으로 읽게 합니다. 그래서 이 도식에서 확인해야 할 결과는 기반 모델의 일반 언어 능력과, 이후에 얹히는 응답 형식 조정이 실제로 다른 층위로 구분되는가입니다.
@@ -230,9 +230,9 @@ P6-8.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 실제 지시 튜닝 학습 전체를 재현하는 것이 아니라, `같은 사실 묶음`을 두고도 응답 습관이 어떻게 달라지는지를 평가 로그로 확인하는 것입니다. 이번에는 네 개 요청만 직접 비교하지 않고, 36개 요청 평가 기록에서 `세 줄 요약`, `3단계 설명`, `표 정리`, `근거 부족 시 한계 고지`가 얼마나 충족되는지 집계합니다.
+이 예제의 목표는 실제 지시 튜닝 학습 전체를 재현하는 것이 아니라, `같은 사실 묶음`을 두고도 응답 습관이 어떻게 달라지는지를 평가 로그로 확인하는 것입니다. 네 개 요청만 직접 비교하지 않고, 36개 요청 평가 기록에서 `세 줄 요약`, `3단계 설명`, `표 정리`, `근거 부족 시 한계 고지`가 얼마나 충족되는지 집계합니다.
 
-아래 코드는 지시 수행 평가 CSV [p6_8_1_instruction_following_eval.csv](../../../assets/part-06/chapter-08/p6_8_1_instruction_following_eval.csv){ .csv-preview }를 사용합니다. 이 표의 한 행은 하나의 사용자 지시 평가 사례입니다. 핵심 열은 `request_type`, `requested_signal`, `base_*`, `tuned_*`입니다. `requested_signal`은 줄 수, 번호 단계, 표 행, 불확실성 표시처럼 어떤 지시 준수 신호를 봐야 하는지 알려 줍니다. `base_*` 열은 일반 응답에서 관찰된 형식 신호이고, `tuned_*` 열은 지시 형식 반영 응답에서 관찰된 형식 신호입니다. `reader_hint`와 `base_observation` 열은 정답을 대신 주는 열이 아니라, CSV를 열었을 때 어떤 형식 차이를 관찰해야 하는지 알려 주는 보조 설명입니다.
+아래 코드는 지시 수행 평가 CSV [p6_9_1_instruction_following_eval.csv](../../../assets/part-06/chapter-09/p6_9_1_instruction_following_eval.csv){ .csv-preview }를 사용합니다. 이 표의 한 행은 하나의 사용자 지시 평가 사례입니다. 핵심 열은 `request_type`, `requested_signal`, `base_*`, `tuned_*`입니다. `requested_signal`은 줄 수, 번호 단계, 표 행, 불확실성 표시처럼 어떤 지시 준수 신호를 봐야 하는지 알려 줍니다. `base_*` 열은 일반 응답에서 관찰된 형식 신호이고, `tuned_*` 열은 지시 형식 반영 응답에서 관찰된 형식 신호입니다. `reader_hint`와 `base_observation` 열은 정답을 대신 주는 열이 아니라, CSV를 열었을 때 어떤 형식 차이를 관찰해야 하는지 알려 주는 보조 설명입니다.
 
 확인할 핵심은 instruction tuning이 새 사실을 추가하는 일이 아니라, 같은 내용이라도 요청한 출력 형식과 지시 준수율을 더 안정적으로 맞추는 변화로 읽힐 수 있다는 점입니다.
 
@@ -242,7 +242,7 @@ import csv
 from collections import defaultdict
 from pathlib import Path
 
-eval_path = Path("docs/assets/part-06/chapter-08/p6_8_1_instruction_following_eval.csv")
+eval_path = Path("docs/assets/part-06/chapter-09/p6_9_1_instruction_following_eval.csv")
 
 def to_bool(value):
     return value.lower() == "true"
@@ -365,7 +365,7 @@ three_steps {'count': 9, 'base_ok': 0, 'tuned_ok': 9, 'improved': 9}
 
 요약 통계를 차트로 보면 일반 응답과 지시 튜닝 응답의 차이가 더 단순하게 보입니다. 같은 사실 묶음을 사용해도, 지시 튜닝 응답은 여러 요청 형식에서 충족률을 안정적으로 높이는 방향으로 출력 규칙을 바꿉니다.
 
-![일반 응답과 지시 튜닝 응답의 요청 충족 수](../../../assets/part-06/chapter-08/instruction-tuning-request-match-ko.png)
+![일반 응답과 지시 튜닝 응답의 요청 충족 수](../../../assets/part-06/chapter-09/instruction-tuning-request-match-ko.png)
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
@@ -392,7 +392,7 @@ three_steps {'count': 9, 'base_ok': 0, 'tuned_ok': 9, 'improved': 9}
 ## 체크리스트
 - 지시 튜닝을 `무엇을 아는가`보다 `어떻게 답하는가`를 조정하는 층으로 설명할 수 있는가?
 - 사전학습, 파인튜닝, 지시 튜닝이 각각 무엇을 바꾸는지 다시 구분할 수 있는가?
-- 다음 절을 `잘 따르는 것`과 `허용 가능한 행동`을 나누는 문제로 읽을 준비가 되었는가?
+- P6-9.2를 `잘 따르는 것`과 `허용 가능한 행동`을 나누는 문제로 읽을 준비가 되었는가?
 
 ## 출처와 참고 자료
 

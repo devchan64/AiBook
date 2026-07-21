@@ -4,11 +4,21 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Current language pairs:
+  - `p6-c07-s01-pretraining-flow-en.mmd` / `p6-c07-s01-pretraining-flow-ko.mmd`
+  - `p6-c07-s01-pretraining-cases-en.mmd` / `p6-c07-s01-pretraining-cases-ko.mmd`
+  - `p6-c07-s02-scale-tradeoff-en.mmd` / `p6-c07-s02-scale-tradeoff-ko.mmd`
+  - `p6-c07-s02-scale-decision-en.mmd` / `p6-c07-s02-scale-decision-ko.mmd`
   - `p6-c07-s01-diagram-01-en.mmd` / `p6-c07-s01-diagram-01-ko.mmd`
   - `p6-c07-s01-diagram-02-en.mmd` / `p6-c07-s01-diagram-02-ko.mmd`
   - `p6-c07-s02-diagram-01-en.mmd` / `p6-c07-s02-diagram-01-ko.mmd`
   - `p6-c07-s02-diagram-02-en.mmd` / `p6-c07-s02-diagram-02-ko.mmd`
 - PNG chart assets:
+  - `pretraining-adaptation-counts-en.png` / `pretraining-adaptation-counts-ko.png`
+  - `scale-context-coverage-en.png` / `scale-context-coverage-ko.png`
+  - `scale-inference-cost-en.png` / `scale-inference-cost-ko.png`
+  - `scale-data-review-burden-en.png` / `scale-data-review-burden-ko.png`
   - `lora-storage-growth-en.png` / `lora-storage-growth-ko.png`
 - Python chart source:
+  - `p6_7_1_pretraining_adaptation_chart.py`
+  - `p6_7_2_scale_tradeoff_charts.py`
   - `p6_7_2_lora_storage_chart.py`

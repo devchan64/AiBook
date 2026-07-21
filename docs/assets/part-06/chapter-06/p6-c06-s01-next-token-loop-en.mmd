@@ -1,0 +1,12 @@
+flowchart TD
+  A["context tokens"]
+  B["next-token distribution"]
+  C["choose one token"]
+  D["append token to context"]
+  E["repeat with updated context"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> B

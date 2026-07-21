@@ -1,0 +1,12 @@
+flowchart TD
+  A["현재 문맥"]
+  B["후보 분포"]
+  C["선택 규칙<br/>greedy, sampling, temperature"]
+  D["사용자에게 보이는 토큰"]
+  E["갱신된 답변"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> A

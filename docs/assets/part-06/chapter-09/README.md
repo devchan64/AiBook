@@ -4,13 +4,28 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Mermaid language pairs:
+  - `p6-c09-s01-instruction-tuning-flow-en.mmd` / `p6-c09-s01-instruction-tuning-flow-ko.mmd`
+  - `p6-c09-s02-alignment-check-flow-en.mmd` / `p6-c09-s02-alignment-check-flow-ko.mmd`
+  - `p6-c09-s02-alignment-risk-flow-en.mmd` / `p6-c09-s02-alignment-risk-flow-ko.mmd`
+  - `p6-c09-s03-solution-map-en.mmd` / `p6-c09-s03-solution-map-ko.mmd`
+  - `p6-c09-s03-missing-piece-map-en.mmd` / `p6-c09-s03-missing-piece-map-ko.mmd`
   - `p6-c09-s01-diagram-01-en.mmd` / `p6-c09-s01-diagram-01-ko.mmd`
   - `p6-c09-s01-diagram-02-en.mmd` / `p6-c09-s01-diagram-02-ko.mmd`
   - `p6-c09-s02-diagram-01-en.mmd` / `p6-c09-s02-diagram-01-ko.mmd`
   - `p6-c09-s02-diagram-02-en.mmd` / `p6-c09-s02-diagram-02-ko.mmd`
 - PNG chart language pairs:
+  - `alignment-axis-average-en.png` / `alignment-axis-average-ko.png`
+  - `instruction-tuning-request-match-en.png` / `instruction-tuning-request-match-ko.png`
+  - `lora-rank-ratio-en.png` / `lora-rank-ratio-ko.png`
+  - `solution-selection-score-map-en.png` / `solution-selection-score-map-ko.png`
   - `prompt-structure-check-en.png` / `prompt-structure-check-ko.png`
   - `prompt-limit-checks-en.png` / `prompt-limit-checks-ko.png`
 - Python chart sources:
+  - `p6_9_1_instruction_tuning_chart.py`
+  - `p6_9_2_alignment_axis_chart.py`
+  - `p6_9_3_solution_selection_chart.py`
+  - `p6_9_4_lora_rank_ratio_chart.py`
   - `p6_9_1_prompt_structure_chart.py`
   - `p6_9_2_prompt_limit_chart.py`
+- CSV inputs:
+  - `p6_9_1_instruction_following_eval.csv`: P6-9.1 Python example input. Each row is one instruction-following evaluation case with observed response-structure signals for a base response and an instruction-tuned response.

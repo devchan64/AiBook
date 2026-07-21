@@ -1,0 +1,12 @@
+flowchart TD
+  A["current context"]
+  B["candidate distribution"]
+  C["selection rule<br/>greedy, sampling, temperature"]
+  D["visible token"]
+  E["updated answer"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> A
