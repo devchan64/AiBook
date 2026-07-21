@@ -53,7 +53,7 @@ self-attention 会混合 token 之间的关系，但这个结果并不会自动�
 
 所以不能把 feed-forward network 读成简单后处理。attention 打开的是`要一起看什么`，feed-forward 负责的是`混合后的表示要怎样成为当前位置的下一个表示`。只有抓住这个差别，才能把 Transformer block 读成有角色分工的重复单元，而不是 attention 一个部件。
 
-为什么 feed-forward network 能把相同权重应用到多个位置，同时又在每个位置产生不同表示，会在 [P5-14.6 补充学习：feed-forward network 为什么负责按位置表示加工](section-06.md) 中另行整理。
+为什么 feed-forward network 能把相同权重应用到多个位置，同时又在每个位置产生不同表示，会在 [P5-14.6 补充学习：feed-forward network 为什么负责按位置表示加工](section-06.zh.md) 中另行整理。
 
 ## residual connection 留下原始信息流
 
@@ -79,7 +79,7 @@ self-attention 会混合 token 之间的关系，但这个结果并不会自动�
 
 这个差别能避免把 residual connection 降低成单纯加法。更准确的直觉是：`即使新计算进入，也给原始信息留下通路，让深层 block 重复能撑住的装置`。
 
-为什么 residual connection 不是简单跳过，而是让原始表示与新计算一起传下去的路径，会在 [P5-14.7 补充学习：residual connection 为什么留下原始表示的路径](section-07.md) 中另行整理。
+为什么 residual connection 不是简单跳过，而是让原始表示与新计算一起传下去的路径，会在 [P5-14.7 补充学习：residual connection 为什么留下原始表示的路径](section-07.zh.md) 中另行整理。
 
 ## layer normalization 整理数值范围
 
@@ -105,7 +105,7 @@ layer normalization 会在一个位置的表示内部重新调整数值的平均
 
 所以 Transformer block 中 residual connection 和 layer normalization 常常一起出现，但它们做的不是同一件事。residual connection 留下`信息通过的路径`，layer normalization 则对齐`计算基准线`，让经过那条路径的表示在下一步计算里不至于过度摇晃。
 
-为什么 layer normalization 是一个位置表示内部的数值基准线整理，而不是意义选择，以及它和 batch normalization 有什么不同，会在 [P5-14.8 补充学习：layer normalization 为什么要对齐数值基准线](section-08.md) 中另行整理。
+为什么 layer normalization 是一个位置表示内部的数值基准线整理，而不是意义选择，以及它和 batch normalization 有什么不同，会在 [P5-14.8 补充学习：layer normalization 为什么要对齐数值基准线](section-08.zh.md) 中另行整理。
 
 把四个部件放在一起看，同一个 token 表示面对的问题其实不同。
 
@@ -185,6 +185,92 @@ layer normalization 会在一个位置的表示内部重新调整数值的平均
 
 ## 练习与例子
 
+### 示例：用数字跟踪 action token 表示移动
+
+把同样的角色区分缩小到另一个运维日志场景里，就可以直接看到：即使是同一个 action token，只要 attention 行不同，表示移动的方向也会不同。这里不计算 layer normalization，只跟踪 `input -> after attention -> after feed-forward -> after residual`。值范围整理会在下一节稳定化内容里另行处理。
+
+读代码时，不要一次记住整个矩阵。先只看 action token 对其他线索参考得有多强。
+
+| 要操作的值 | 要观察的输出 | 要确认的问题 |
+| --- | --- | --- |
+| action token 行的 attention 权重 | `after attention` | action token 更强地混入自身、症状线索，还是部署线索？ |
+| 同一个混合表示经过 feed-forward 之后 | `after feed-forward` | 混入的上下文在当前位置表示内部怎样被重新加工？ |
+| residual 之后的 action token | `after residual` | 原始动作轴仍然保留时，block 输出方向怎样改变？ |
+
+```python
+# 这个例子比较 rollback 是否确认时，action token 表示怎样经过 attention、feed-forward、residual 移动。
+import numpy as np
+
+tokens = np.array([
+    [1.0, 0.2],   # symptom token: urgency high
+    [0.8, 0.5],   # deploy clue token: cause evidence medium
+    [0.3, 1.0],   # action token: recovery status important
+])
+
+attention_cases = {
+    "rollback_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.2, 0.5, 0.3],
+        [0.1, 0.3, 0.6],
+    ]),
+    "rollback_not_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.3, 0.5, 0.2],
+        [0.3, 0.5, 0.2],
+    ]),
+}
+
+ff_weights = np.array([
+    [1.1, 0.4],
+    [0.2, 1.0],
+])
+
+for name, attention_weights in attention_cases.items():
+    contextual = attention_weights @ tokens
+    ff_output = contextual @ ff_weights
+    residual_added = ff_output + tokens
+    action_trace = [
+        ("input", tokens[2]),
+        ("after attention", contextual[2]),
+        ("after feed-forward", ff_output[2]),
+        ("after residual", residual_added[2]),
+    ]
+
+    print(f"[{name}]")
+    print("action attention row =", np.round(attention_weights[2], 3))
+    print("action token stage trace")
+    for stage, values in action_trace:
+        print(f"{stage:24s}", np.round(values, 3))
+    print("---")
+```
+
+输出示例可以这样读。
+
+```text
+[rollback_confirmed]
+action attention row = [0.1 0.3 0.6]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.52 0.77]
+after feed-forward       [0.726 0.978]
+after residual           [1.026 1.978]
+---
+[rollback_not_confirmed]
+action attention row = [0.3 0.5 0.2]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.76 0.51]
+after feed-forward       [0.938 0.814]
+after residual           [1.238 1.814]
+---
+```
+
+解说：两个场景从相同输入 token 开始，但 action token 的 attention 行不同，所以表示移动路径也不同。`rollback_confirmed` 中，从 attention 之后开始，复归状态轴保留得更大；`rollback_not_confirmed` 中，症状/原因轴相对保留得更大。这个差异会经过 feed-forward 和 residual 留到 block 输出方向里。
+
+自己确认时，可以把 `rollback_not_confirmed` 的 action token 行 `[0.3, 0.5, 0.2]` 改成 `[0.2, 0.4, 0.4]` 这样总和仍为 1 的值。action token 越多参考自身，`after attention` 之后复归状态轴怎样改变，就能直接比较。
+
+![action token 的阶段性表示移动](/AiBook/assets/part-05/chapter-14/transformer-block-action-stage-trace-zh.png)
+
 ### 练习：给角色命名
 
 判断下面说明最直接连接到哪个部件。
@@ -219,6 +305,7 @@ layer normalization 会在一个位置的表示内部重新调整数值的平均
 - 能说明 self-attention 和 feed-forward 的角色差异吗？
 - 能把 residual connection 解释成留下原始信息流的装置吗？
 - 能把 layer normalization 解释成深层 block 重复的稳定化装置吗？
+- 能说明 action token stage trace 里的 `after attention`、`after feed-forward`、`after residual` 分别显示了什么表示移动吗？
 
 ## 来源与参考资料
 

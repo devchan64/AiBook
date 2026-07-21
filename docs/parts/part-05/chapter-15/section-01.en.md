@@ -35,9 +35,17 @@ So generative AI cannot be judged only by whether it chose the correct label. We
 
 `Producing the output itself` does not mean the model invents anything without constraint. From a deep-learning viewpoint, it means the model uses patterns, representation structures, and continuation possibilities learned from data to compose a new result.
 
-For text generation, we look at what expressions naturally follow others, what answer structures are common for a request, and what warning phrases tend to appear with follow-up actions.
+For text generation, we look at the following.
 
-For image generation, we look at what colors, outlines, layouts, object parts, styles, and compositions tend to appear together.
+- what expressions naturally follow others
+- what answer structures are common for a request
+- what warning phrases tend to appear with follow-up actions
+
+For image generation, we look at the following.
+
+- what colors, outlines, and layouts tend to appear together
+- what part structures tend to look like one object
+- what styles and compositions feel natural under the same condition
 
 The important point is that generative AI should not be read only as a system that pulls one answer from an answer sheet. It appears as a model experience that composes an output artifact suited to the current input from learned patterns.
 

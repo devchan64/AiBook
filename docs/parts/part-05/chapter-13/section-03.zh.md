@@ -181,13 +181,14 @@ query、key、value 可以先这样类比。
 
 这个例子的目标，是直接实验：即使在同一串 token 上，不同 head 会怎样读出不同关系，而这种差异又会怎样随着 head 权重变化而放大或缩小。
 
-这一次我们不用抽象 token，而是把一段很短的运行报告片段放成简单向量来看。当前有三块内容：`停机决定`、`压力异常依据`、`复归条件`。核心问题是：single-head 会不会倾向于把它们折成一个折中上下文，而 multi-head 能不能把`决定侧`和`条件侧`这样的视角分开保留。
+这一次把很短的运行报告片段分离到 CSV 里，再从那里读取。当前有 `停机决定`、`压力异常`、`复归条件` 这样的片段时，核心问题是：single-head 会不会倾向于把它们折成一个折中上下文，而 multi-head 能不能把`决定侧`和`条件侧`这样的视角分开保留。
 
 输入：
 
-- 三个 token 表示
-- 三种 head 权重场景
-- 一个用作对照基线的 single-head 权重
+- [`qkv-multihead-report-scenarios.csv`](../../../assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv){ .csv-preview }
+- 4 条运行报告，3 种 head 场景，36 行 token
+- token 级语义轴 `decision_axis`、`evidence_axis`、`condition_axis`
+- 对照基准 `single_weight`，以及两个 head 的 `head1_weight`、`head2_weight`
 
 输出：
 
@@ -206,9 +207,22 @@ query、key、value 可以先这样类比。
 - 如果各 head 权重很像，multi-head 也会更接近折中；如果差得更开，关系分离就会更明显
 - 把几个 head 的结果重新合起来时，可以形成比 single-head 更丰富的表示
 
+CSV 的一行表示：`某一条运行报告的某个场景中，一个 token 片段会被 single-head 和两个 head 反映多少`。正文代码只选出 `ops_pressure_return` 报告，比较其中三种场景。
+
+先看 CSV 的一部分。
+
+| report_id | scenario | token | relation_role | decision_axis | evidence_axis | condition_axis | single_weight | head1_weight | head2_weight |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| ops_pressure_return | balanced_heads | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.45 | 0.30 |
+| ops_pressure_return | balanced_heads | 압력이상 | evidence | 0.0 | 2.0 | 0.0 | 0.3 | 0.30 | 0.30 |
+| ops_pressure_return | balanced_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.25 | 0.40 |
+| ops_pressure_return | decision_vs_condition_split | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.70 | 0.10 |
+| ops_pressure_return | decision_vs_condition_split | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.10 | 0.60 |
+| ops_pressure_return | condition_heavy_both_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.55 | 0.65 |
+
 输入：
 
-这里使用上面整理好的三个报告片段表示和三种 head 权重场景。
+读取上面的 CSV，并比较 `ops_pressure_return` 报告中的三种 head 权重场景。
 
 在看代码之前，先猜一猜每种场景会留下多大的关系分离，会更容易看出`一个折中的上下文`和`几种被拆开的关系`之间的差别。
 
@@ -222,69 +236,83 @@ query、key、value 可以先这样类比。
 这张表的目的，并不是让人预先算准向量值，而是让人在读代码前先抓住：multi-head 不是简单重复，而是`关系分离`会随着 head 的设计而放大或回缩。
 
 ```python
-# 这个例子比较 single-head attention 和多个 multi-head 场景，观察 head 分离和合并表示如何变化。
-import numpy as np
+from pathlib import Path
+import csv
+import math
 
-tokens = np.array([
-    [1.0, 0.0],   # shutdown decision
-    [0.0, 2.0],   # pressure-anomaly basis
-    [3.0, 1.0],   # restart condition
-])
+DATA_PATH = Path("docs/assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv")
+FOCUS_REPORT_ID = "ops_pressure_return"
+CONTEXT_AXES = [
+    ("decision_axis", ["decision_axis"]),
+    ("evidence_condition_axis", ["evidence_axis", "condition_axis"]),
+]
 
-single_head_weights = np.array([0.4, 0.3, 0.3])
+with DATA_PATH.open(encoding="utf-8", newline="") as f:
+    rows = list(csv.DictReader(f))
 
-scenarios = {
-    "balanced_heads": {
-        "head1": np.array([0.45, 0.30, 0.25]),
-        "head2": np.array([0.30, 0.30, 0.40]),
-    },
-    "decision_vs_condition_split": {
-        "head1": np.array([0.70, 0.20, 0.10]),
-        "head2": np.array([0.10, 0.30, 0.60]),
-    },
-    "condition_heavy_both_heads": {
-        "head1": np.array([0.20, 0.25, 0.55]),
-        "head2": np.array([0.15, 0.20, 0.65]),
-    },
-}
+focus_rows = [row for row in rows if row["report_id"] == FOCUS_REPORT_ID]
+scenario_names = []
+for row in focus_rows:
+    if row["scenario"] not in scenario_names:
+        scenario_names.append(row["scenario"])
 
 
-def summarize_scenario(name, head1_weights, head2_weights):
-    single_head_context = single_head_weights @ tokens
-    head1_context = head1_weights @ tokens
-    head2_context = head2_weights @ tokens
-    combined = np.concatenate([head1_context, head2_context])
-    difference_from_single = combined - np.concatenate(
-        [single_head_context, single_head_context]
+def weighted_context(scenario_rows, weight_column):
+    return [
+        sum(
+            float(row[weight_column]) * sum(float(row[column]) for column in source_columns)
+            for row in scenario_rows
+        )
+        for _, source_columns in CONTEXT_AXES
+    ]
+
+
+def vector_diff(left, right):
+    return [left_value - right_value for left_value, right_value in zip(left, right)]
+
+
+def l2_distance(left, right):
+    return math.sqrt(sum((l - r) ** 2 for l, r in zip(left, right)))
+
+
+def summarize_scenario(name):
+    scenario_rows = [row for row in focus_rows if row["scenario"] == name]
+    single_head_context = weighted_context(scenario_rows, "single_weight")
+    head1_context = weighted_context(scenario_rows, "head1_weight")
+    head2_context = weighted_context(scenario_rows, "head2_weight")
+    difference_from_single = vector_diff(head1_context, single_head_context) + vector_diff(
+        head2_context, single_head_context
     )
-    head_separation = np.linalg.norm(head1_context - head2_context)
+    head_separation = l2_distance(head1_context, head2_context)
 
     print(f"[{name}]")
-    print("single_head_context =", np.round(single_head_context, 3).tolist())
-    print("head1_context       =", np.round(head1_context, 3).tolist())
-    print("head2_context       =", np.round(head2_context, 3).tolist())
-    print("difference_from_single =", np.round(difference_from_single, 3).tolist())
-    print("head_separation =", round(float(head_separation), 3))
+    print("tokens =", [row["token"] for row in scenario_rows])
+    print("single_head_context =", [round(value, 3) for value in single_head_context])
+    print("head1_context       =", [round(value, 3) for value in head1_context])
+    print("head2_context       =", [round(value, 3) for value in head2_context])
+    print("difference_from_single =", [round(value, 3) for value in difference_from_single])
+    print("head_separation =", round(head_separation, 3))
     print()
 
 
-print("tokens =")
-print(tokens)
+print("csv_rows =", len(rows))
+print("focus_report_rows =", len(focus_rows))
+print("context_axes =", [name for name, _ in CONTEXT_AXES])
 print()
 
-for scenario_name, heads in scenarios.items():
-    summarize_scenario(scenario_name, heads["head1"], heads["head2"])
+for scenario_name in scenario_names:
+    summarize_scenario(scenario_name)
 ```
 
 在输出里，可以先看不同场景下 `head_separation` 和 `difference_from_single` 会怎样变化。
 
 ```text
-tokens =
-[[1. 0.]
- [0. 2.]
- [3. 1.]]
+csv_rows = 36
+focus_report_rows = 9
+context_axes = ['decision_axis', 'evidence_condition_axis']
 
 [balanced_heads]
+tokens = ['정지결정', '압력이상', '복귀조건']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.2, 0.85]
 head2_context       = [1.5, 1.0]
@@ -292,6 +320,7 @@ difference_from_single = [-0.1, -0.05, 0.2, 0.1]
 head_separation = 0.335
 
 [decision_vs_condition_split]
+tokens = ['정지결정', '압력이상', '복귀조건']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.0, 0.5]
 head2_context       = [1.9, 1.2]
@@ -299,6 +328,7 @@ difference_from_single = [-0.3, -0.4, 0.6, 0.3]
 head_separation = 1.14
 
 [condition_heavy_both_heads]
+tokens = ['정지결정', '압력이상', '복귀조건']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.85, 1.05]
 head2_context       = [2.1, 1.05]
@@ -336,9 +366,9 @@ head_separation = 0.25
 
 | 现在马上可以改的值 | 要观察的输出 | 要解释的问题 |
 | --- | --- | --- |
-| 让 `head1`、`head2` 的权重更相似 | `head_separation` | 如果不同 head 最后读得几乎是同一种关系，multi-head 的优势到底会缩小多少？ |
-| 让 `single_head_weights` 更偏向 `head1` 或更偏向 `head2` | `difference_from_single` | 如果 single-head 本来就已经强烈反映某一种关系，那么它和 multi-head 的差距会缩小多少？ |
-| 把 `tokens` 里的`复归条件`值调大或调小 | `head2_context`、`head_separation` | 如果 token 自身语义强度变化了，哪个 head 会对这种变化更敏感？ |
+| 让 CSV 的 `head1_weight`、`head2_weight` 更相似 | `head_separation` | 如果不同 head 最后读得几乎是同一种关系，multi-head 的优势到底会缩小多少？ |
+| 让 CSV 的 `single_weight` 更偏向 `head1_weight` 或更偏向 `head2_weight` | `difference_from_single` | 如果 single-head 本来就已经强烈反映某一种关系，那么它和 multi-head 的差距会缩小多少？ |
+| 把 CSV 中 `복귀조건` 行的 `condition_axis` 调大或调小 | `head2_context`、`head_separation` | 如果 token 自身语义强度变化了，哪个 head 会对这种变化更敏感？ |
 
 前面的数字并没有实现真实大规模 multi-head attention 的全部，但它已经足够清楚地展示两条比较标准。第一，single-head 倾向于把多种关系一次平均成一个折中上下文，而 multi-head 会把不同关系读取结果并排保留下来再一起使用。第二，head 的设计本身会放大或缩小这种差异。也就是说，multi-head attention 并不只是`attention 重复很多次`，而更像是一种结构：通过把 head 分开，让不同类型的相关性模式可以同时被保留下来而不轻易丢失。
 

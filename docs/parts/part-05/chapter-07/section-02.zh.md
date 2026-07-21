@@ -259,11 +259,11 @@ optimizer_delta = 2.478 -> updated_risk_weight = 3.478 , mean_block_score = 12.3
 
 而且这里特别重要的一点是：这三组结果不是来自三个不同 gradient，而是来自`同一个 shared state`。上面的 `[shared state]` 区域明确写出了：CSV batch、当前平均损失、gradient 都是共享的；下面 `[lr=0.003]`、`[lr=0.03]`、`[lr=0.12]` 才是在比较：如果只改 learning rate，会发生什么。
 
-![不同 learning rate 下 batch update 后的风险权重](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-weight-ko.png)
+![不同 learning rate 下 batch update 后的风险权重](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-weight-zh.png)
 
-![不同 learning rate 下 batch update 后的平均阻断分数](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-score-ko.png)
+![不同 learning rate 下 batch update 后的平均阻断分数](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-score-zh.png)
 
-![不同 learning rate 下 batch update 后的平均损失](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-loss-ko.png)
+![不同 learning rate 下 batch update 后的平均损失](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-loss-zh.png)
 
 一起读这三张图时，更安全的顺序是下面这样。先看 `learning-rate-batch-updated-weight`，确认 learning rate 如何让真实移动量把权重数字改得很不一样；再看 `learning-rate-batch-updated-score`，确认这种差别如何把 batch 平均预测值带到不同位置；最后看 `learning-rate-batch-updated-loss`，确认它最终让平均损失只是稍微下降、明显下降，还是因为越过目标而变大。
 

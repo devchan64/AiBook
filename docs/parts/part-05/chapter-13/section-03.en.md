@@ -180,13 +180,14 @@ The final result to confirm across these cases is also clear. The difference of 
 
 The goal of this example is to experiment directly, even with the same token sequence, how different heads read different relationships and how that difference grows or shrinks depending on changes in head weights.
 
-This time, rather than abstract tokens, we place a short operating-report fragment into simple vectors and read it. When we have the three pieces `shutdown decision`, `pressure-anomaly basis`, and `restart condition`, the core point is whether single-head tends to fold them into one compromise context, while multi-head can keep viewpoints like `decision side` and `condition side` separated.
+This time, we separate short operating-report fragments into a CSV and read them from there. When fragments such as `shutdown decision`, `pressure anomaly`, and `return condition` appear, the core point is whether single-head tends to fold them into one compromise context, while multi-head can keep viewpoints such as `decision side` and `condition side` separated.
 
 Input:
 
-- three token representations
-- three head-weight scenarios
-- a single-head weight used as the comparison baseline
+- [`qkv-multihead-report-scenarios.csv`](../../../assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv){ .csv-preview }
+- 4 operating reports, 3 head scenarios, 36 token rows
+- token-level meaning axes `decision_axis`, `evidence_axis`, `condition_axis`
+- comparison baseline `single_weight` and the two heads' `head1_weight`, `head2_weight`
 
 Output:
 
@@ -205,9 +206,22 @@ Concepts to confirm:
 - if the head weights are similar, multi-head also becomes closer to compromise, and if they are farther apart, relationship separation grows
 - by combining the results of several heads, a richer representation than single-head can be formed
 
+A CSV row means `how much one token fragment is reflected in single-head and two heads in one scenario for one operating report`. The code below selects only the `ops_pressure_return` report and compares its three scenarios.
+
+First look at part of the CSV.
+
+| report_id | scenario | token | relation_role | decision_axis | evidence_axis | condition_axis | single_weight | head1_weight | head2_weight |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| ops_pressure_return | balanced_heads | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.45 | 0.30 |
+| ops_pressure_return | balanced_heads | 압력이상 | evidence | 0.0 | 2.0 | 0.0 | 0.3 | 0.30 | 0.30 |
+| ops_pressure_return | balanced_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.25 | 0.40 |
+| ops_pressure_return | decision_vs_condition_split | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.70 | 0.10 |
+| ops_pressure_return | decision_vs_condition_split | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.10 | 0.60 |
+| ops_pressure_return | condition_heavy_both_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.55 | 0.65 |
+
 Input:
 
-We use the three report-fragment representations and the three head-weight scenarios summarized above.
+Read the CSV above and compare the three head-weight scenarios of the `ops_pressure_return` report.
 
 Before looking at the code, it helps to predict first how much relationship separation each scenario will leave. That makes the difference between `one compromised context` and `several separated relationships` clearer.
 
@@ -221,69 +235,83 @@ Before looking at the code, it helps to predict first how much relationship sepa
 The purpose of this table is not to calculate the exact vector values in advance. It is to help hold before the code that multi-head is not simple repetition, and that depending on how the heads are designed, `relationship separation` can grow or return toward compromise.
 
 ```python
-# This example compares single-head attention with multiple multi-head scenarios to see how head separation and combined representations change.
-import numpy as np
+from pathlib import Path
+import csv
+import math
 
-tokens = np.array([
-    [1.0, 0.0],   # shutdown decision
-    [0.0, 2.0],   # pressure-anomaly basis
-    [3.0, 1.0],   # restart condition
-])
+DATA_PATH = Path("docs/assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv")
+FOCUS_REPORT_ID = "ops_pressure_return"
+CONTEXT_AXES = [
+    ("decision_axis", ["decision_axis"]),
+    ("evidence_condition_axis", ["evidence_axis", "condition_axis"]),
+]
 
-single_head_weights = np.array([0.4, 0.3, 0.3])
+with DATA_PATH.open(encoding="utf-8", newline="") as f:
+    rows = list(csv.DictReader(f))
 
-scenarios = {
-    "balanced_heads": {
-        "head1": np.array([0.45, 0.30, 0.25]),
-        "head2": np.array([0.30, 0.30, 0.40]),
-    },
-    "decision_vs_condition_split": {
-        "head1": np.array([0.70, 0.20, 0.10]),
-        "head2": np.array([0.10, 0.30, 0.60]),
-    },
-    "condition_heavy_both_heads": {
-        "head1": np.array([0.20, 0.25, 0.55]),
-        "head2": np.array([0.15, 0.20, 0.65]),
-    },
-}
+focus_rows = [row for row in rows if row["report_id"] == FOCUS_REPORT_ID]
+scenario_names = []
+for row in focus_rows:
+    if row["scenario"] not in scenario_names:
+        scenario_names.append(row["scenario"])
 
 
-def summarize_scenario(name, head1_weights, head2_weights):
-    single_head_context = single_head_weights @ tokens
-    head1_context = head1_weights @ tokens
-    head2_context = head2_weights @ tokens
-    combined = np.concatenate([head1_context, head2_context])
-    difference_from_single = combined - np.concatenate(
-        [single_head_context, single_head_context]
+def weighted_context(scenario_rows, weight_column):
+    return [
+        sum(
+            float(row[weight_column]) * sum(float(row[column]) for column in source_columns)
+            for row in scenario_rows
+        )
+        for _, source_columns in CONTEXT_AXES
+    ]
+
+
+def vector_diff(left, right):
+    return [left_value - right_value for left_value, right_value in zip(left, right)]
+
+
+def l2_distance(left, right):
+    return math.sqrt(sum((l - r) ** 2 for l, r in zip(left, right)))
+
+
+def summarize_scenario(name):
+    scenario_rows = [row for row in focus_rows if row["scenario"] == name]
+    single_head_context = weighted_context(scenario_rows, "single_weight")
+    head1_context = weighted_context(scenario_rows, "head1_weight")
+    head2_context = weighted_context(scenario_rows, "head2_weight")
+    difference_from_single = vector_diff(head1_context, single_head_context) + vector_diff(
+        head2_context, single_head_context
     )
-    head_separation = np.linalg.norm(head1_context - head2_context)
+    head_separation = l2_distance(head1_context, head2_context)
 
     print(f"[{name}]")
-    print("single_head_context =", np.round(single_head_context, 3).tolist())
-    print("head1_context       =", np.round(head1_context, 3).tolist())
-    print("head2_context       =", np.round(head2_context, 3).tolist())
-    print("difference_from_single =", np.round(difference_from_single, 3).tolist())
-    print("head_separation =", round(float(head_separation), 3))
+    print("tokens =", [row["token"] for row in scenario_rows])
+    print("single_head_context =", [round(value, 3) for value in single_head_context])
+    print("head1_context       =", [round(value, 3) for value in head1_context])
+    print("head2_context       =", [round(value, 3) for value in head2_context])
+    print("difference_from_single =", [round(value, 3) for value in difference_from_single])
+    print("head_separation =", round(head_separation, 3))
     print()
 
 
-print("tokens =")
-print(tokens)
+print("csv_rows =", len(rows))
+print("focus_report_rows =", len(focus_rows))
+print("context_axes =", [name for name, _ in CONTEXT_AXES])
 print()
 
-for scenario_name, heads in scenarios.items():
-    summarize_scenario(scenario_name, heads["head1"], heads["head2"])
+for scenario_name in scenario_names:
+    summarize_scenario(scenario_name)
 ```
 
 In the output, start by looking at how `head_separation` and `difference_from_single` change across scenarios.
 
 ```text
-tokens =
-[[1. 0.]
- [0. 2.]
- [3. 1.]]
+csv_rows = 36
+focus_report_rows = 9
+context_axes = ['decision_axis', 'evidence_condition_axis']
 
 [balanced_heads]
+tokens = ['정지결정', '압력이상', '복귀조건']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.2, 0.85]
 head2_context       = [1.5, 1.0]
@@ -291,6 +319,7 @@ difference_from_single = [-0.1, -0.05, 0.2, 0.1]
 head_separation = 0.335
 
 [decision_vs_condition_split]
+tokens = ['정지결정', '압력이상', '복귀조건']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.0, 0.5]
 head2_context       = [1.9, 1.2]
@@ -298,6 +327,7 @@ difference_from_single = [-0.3, -0.4, 0.6, 0.3]
 head_separation = 1.14
 
 [condition_heavy_both_heads]
+tokens = ['정지결정', '압력이상', '복귀조건']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.85, 1.05]
 head2_context       = [2.1, 1.05]
@@ -335,9 +365,9 @@ This example is better treated not as something to run once and stop, but as som
 
 | Value to change right now | Output to observe | Question to interpret |
 | --- | --- | --- |
-| make the weights of `head1` and `head2` more similar | `head_separation` | if different heads end up reading almost the same relationship, how much does the advantage of multi-head decrease? |
-| tilt `single_head_weights` more toward `head1` or toward `head2` | `difference_from_single` | if single-head already reflects one specific relationship strongly, how much does the difference from multi-head shrink? |
-| make the value of `restart condition` inside `tokens` larger or smaller | `head2_context`, `head_separation` | if the strength of the token's own meaning changes, which head pulls that change in more sensitively? |
+| make the CSV `head1_weight` and `head2_weight` more similar | `head_separation` | if different heads end up reading almost the same relationship, how much does the advantage of multi-head decrease? |
+| tilt the CSV `single_weight` more toward `head1_weight` or toward `head2_weight` | `difference_from_single` | if single-head already reflects one specific relationship strongly, how much does the difference from multi-head shrink? |
+| make `condition_axis` larger or smaller in the CSV row for `복귀조건` | `head2_context`, `head_separation` | if the strength of the token's own meaning changes, which head pulls that change in more sensitively? |
 
 The numbers above do not implement all of real large-scale multi-head attention, but they clearly show the comparison standard that single-head tends to average several relationships at once into one compromised context, while multi-head keeps the results of different relationship readings side by side and then uses them together, and the experimental standard that head design can magnify or reduce this difference. That is, multi-head attention is not simply `attention repeated several times`, but is closer to `a structure that divides heads so that different patterns of relatedness can be carried simultaneously without being lost`.
 

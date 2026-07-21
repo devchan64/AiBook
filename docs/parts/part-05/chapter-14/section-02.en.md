@@ -53,7 +53,7 @@ The difference is clearer if we focus on one token.
 
 So the feed-forward network should not be read as simple post-processing. If attention opens `what should be seen together`, feed-forward handles `how the mixed representation should become the next representation of the current position`. This distinction is needed to read the Transformer block not as attention alone, but as a repeating unit with divided roles.
 
-Why a feed-forward network can apply the same weights to several positions while still producing different representations at each position is separated into [P5-14.6 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?](section-06.md).
+Why a feed-forward network can apply the same weights to several positions while still producing different representations at each position is separated into [P5-14.6 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?](section-06.en.md).
 
 ## Residual Connection Leaves The Original Information Flow
 
@@ -79,7 +79,7 @@ If feed-forward handles `how should the current representation change`, residual
 
 This distinction prevents residual connection from being reduced to mere addition. A more accurate intuition is `a device that leaves a path for original information even when new computation enters, so deep block repetition can endure`.
 
-Why residual connection is not just a skip, but a path that passes original representation and new computation together, is separated into [P5-14.7 Supplementary Reading: Why Does Residual Connection Leave A Path For The Original Representation?](section-07.md).
+Why residual connection is not just a skip, but a path that passes original representation and new computation together, is separated into [P5-14.7 Supplementary Reading: Why Does Residual Connection Leave A Path For The Original Representation?](section-07.en.md).
 
 ## Layer Normalization Organizes The Value Range
 
@@ -105,7 +105,7 @@ The important point in this diagram is that layer normalization does not choose 
 
 So residual connection and layer normalization often appear together inside the Transformer block, but they do not do the same job. If residual connection leaves `a path for information`, layer normalization aligns `the computational baseline` so the representation that passed through that path does not shake too much in the next computation.
 
-Why layer normalization is a value-baseline adjustment inside one position representation, not meaning selection, and how it differs from batch normalization, is separated into [P5-14.8 Supplementary Reading: Why Does Layer Normalization Align The Value Baseline?](section-08.md).
+Why layer normalization is a value-baseline adjustment inside one position representation, not meaning selection, and how it differs from batch normalization, is separated into [P5-14.8 Supplementary Reading: Why Does Layer Normalization Align The Value Baseline?](section-08.en.md).
 
 If we bundle the four components at once, the questions asked about the same token representation are different.
 
@@ -185,6 +185,92 @@ The result to confirm in this case is that the `restart` representation does not
 
 ## Practice And Example
 
+### Example. Following The Representation Movement Of An Action Token With Numbers
+
+If we shrink the same role distinction into another operations-log scene, we can directly see that the same action token moves in a different direction when its attention row changes. Here we follow only `input -> after attention -> after feed-forward -> after residual`, without calculating layer normalization. Value-range organization is handled separately in the next stabilization section.
+
+When reading the code, do not try to memorize the whole matrix at once. First look only at how strongly the action token refers to other cues.
+
+| Value to manipulate | Output to observe | Question to confirm |
+| --- | --- | --- |
+| attention weights in the action-token row | `after attention` | Does the action token mix itself, the symptom cue, or the deployment cue more strongly? |
+| the same mixed representation after feed-forward | `after feed-forward` | How is the mixed context reprocessed inside the current position representation? |
+| action token after residual | `after residual` | How does the block output direction change while the original action axis remains? |
+
+```python
+# This example compares how the action-token representation moves through attention, feed-forward, and residual depending on whether rollback is confirmed.
+import numpy as np
+
+tokens = np.array([
+    [1.0, 0.2],   # symptom token: urgency high
+    [0.8, 0.5],   # deploy clue token: cause evidence medium
+    [0.3, 1.0],   # action token: recovery status important
+])
+
+attention_cases = {
+    "rollback_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.2, 0.5, 0.3],
+        [0.1, 0.3, 0.6],
+    ]),
+    "rollback_not_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.3, 0.5, 0.2],
+        [0.3, 0.5, 0.2],
+    ]),
+}
+
+ff_weights = np.array([
+    [1.1, 0.4],
+    [0.2, 1.0],
+])
+
+for name, attention_weights in attention_cases.items():
+    contextual = attention_weights @ tokens
+    ff_output = contextual @ ff_weights
+    residual_added = ff_output + tokens
+    action_trace = [
+        ("input", tokens[2]),
+        ("after attention", contextual[2]),
+        ("after feed-forward", ff_output[2]),
+        ("after residual", residual_added[2]),
+    ]
+
+    print(f"[{name}]")
+    print("action attention row =", np.round(attention_weights[2], 3))
+    print("action token stage trace")
+    for stage, values in action_trace:
+        print(f"{stage:24s}", np.round(values, 3))
+    print("---")
+```
+
+Read the sample output like this.
+
+```text
+[rollback_confirmed]
+action attention row = [0.1 0.3 0.6]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.52 0.77]
+after feed-forward       [0.726 0.978]
+after residual           [1.026 1.978]
+---
+[rollback_not_confirmed]
+action attention row = [0.3 0.5 0.2]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.76 0.51]
+after feed-forward       [0.938 0.814]
+after residual           [1.238 1.814]
+---
+```
+
+Explanation: the two scenes start from the same input tokens, but the action token's attention row changes, so the representation movement path also changes. In `rollback_confirmed`, the recovery-status axis remains larger after attention. In `rollback_not_confirmed`, the symptom/cause axis remains relatively larger. This difference remains as the block output direction after feed-forward and residual.
+
+To check it yourself, change the action-token row of `rollback_not_confirmed` from `[0.3, 0.5, 0.2]` to something like `[0.2, 0.4, 0.4]` while keeping the sum at 1. You can compare how the recovery-status axis changes after `after attention` as the action token refers to itself more strongly.
+
+![Stage-by-stage representation movement of the action token](/AiBook/assets/part-05/chapter-14/transformer-block-action-stage-trace-en.png)
+
 ### Practice. Naming The Role
 
 Judge which component the description below is most directly connected to.
@@ -219,6 +305,7 @@ Explanation: The reason for correcting these sentences is to create a sense of b
 - Can you explain the role difference between self-attention and feed-forward?
 - Can you explain residual connection as a device that leaves the original information flow?
 - Can you explain layer normalization as a stabilization device for deep block repetition?
+- Can you explain what kind of representation movement `after attention`, `after feed-forward`, and `after residual` show in the action-token stage trace?
 
 ## Sources And References
 

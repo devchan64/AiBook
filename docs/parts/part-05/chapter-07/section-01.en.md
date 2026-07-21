@@ -288,15 +288,15 @@ Next, in `[after gradient calculation]`, `gradient_risk_weight` shows that a sig
 
 The first place where an actual parameter change appears is `[after optimizer step]`. Here, `optimizer_delta = 0.619` is created, and that movement amount is reflected so that `risk_weight_after_step = 1.619`. When the same CSV batch is read again, the average loss also drops to `0.287`. So in this output, it is important to read `loss_before`, `gradient_risk_weight`, `parameters_changed = False`, `optimizer_delta`, and `risk_weight_after_step` as one connected line. This order shows `wrongness computation -> direction-signal computation -> not yet reflected -> actual movement amount creation -> parameter reflection`.
 
-![Risk weight before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-weight-ko.png)
+![Risk weight before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-weight-en.png)
 
 This chart shows that the value starting from `risk_weight_before = 1.0` actually changed after reflecting the movement amount made by the optimizer. The important point here is not only the fact that `the gradient was computed`, but that the computed result continued into a change in the weight number.
 
-![Mean block score before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-score-ko.png)
+![Mean block score before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-score-en.png)
 
 This chart shows that the same update immediately affects the average prediction value of the CSV batch. In other words, the optimizer does not merely change the internal weights. It changes the very starting point from which the next predictions can be made.
 
-![Mean loss before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-loss-ko.png)
+![Mean loss before and after applying the CSV batch update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-loss-en.png)
 
 In the last chart, we can confirm that as a result, the average loss of the CSV batch also decreases. If we reread this order with our eyes, it becomes clearer that there is definitely a middle stage between `gradient computation` and `loss reduction`: `applying the actual update made by the optimizer`.
 
