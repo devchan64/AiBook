@@ -184,7 +184,7 @@ This time, we separate short operating-report fragments into a CSV and read them
 
 Input:
 
-- [`qkv-multihead-report-scenarios.csv`](../../../assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv){ .csv-preview }
+- [`qkv-multihead-report-scenarios.csv`](/AiBook/assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv){ .csv-preview }
 - 4 operating reports, 3 head scenarios, 36 token rows
 - token-level meaning axes `decision_axis`, `evidence_axis`, `condition_axis`
 - comparison baseline `single_weight` and the two heads' `head1_weight`, `head2_weight`

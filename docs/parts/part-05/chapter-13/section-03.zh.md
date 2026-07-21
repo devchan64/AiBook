@@ -185,7 +185,7 @@ query、key、value 可以先这样类比。
 
 输入：
 
-- [`qkv-multihead-report-scenarios.csv`](../../../assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv){ .csv-preview }
+- [`qkv-multihead-report-scenarios.csv`](/AiBook/assets/part-05/chapter-13/qkv-multihead-report-scenarios.csv){ .csv-preview }
 - 4 条运行报告，3 种 head 场景，36 行 token
 - token 级语义轴 `decision_axis`、`evidence_axis`、`condition_axis`
 - 对照基准 `single_weight`，以及两个 head 的 `head1_weight`、`head2_weight`
