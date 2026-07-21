@@ -1,0 +1,16 @@
+flowchart TD
+  A["goal"]
+  B["plan next step"]
+  C["act with tool or search"]
+  D["observe result"]
+  E["decide next move"]
+  F["stop"]
+  G["ask human review"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E -->|continue| B
+  E -->|enough evidence| F
+  E -->|conflict or approval needed| G

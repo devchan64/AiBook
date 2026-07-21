@@ -1,0 +1,11 @@
+flowchart LR
+  A["user question"]
+  B["classify request"]
+  C["prompt only / retrieve / tool"]
+  D["answer with evidence or state"]
+  E["record and evaluate"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

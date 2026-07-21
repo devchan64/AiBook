@@ -1,0 +1,9 @@
+flowchart LR
+  A["실패 감지"]
+  B["실패 분류"]
+  C["재시도 / fallback / 중단 / 검토"]
+  D["trace 저장 후 개선"]
+
+  A --> B
+  B --> C
+  C --> D

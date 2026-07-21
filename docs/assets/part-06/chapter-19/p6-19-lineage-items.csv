@@ -1,0 +1,37 @@
+name,domain,target,connects_to_transformer_llm,boundary_hint,reader_hint
+language modeling,language,next_token,true,language_structure_flow,언어 입력에서 다음 조각을 예측하는 흐름이 LLM 생성으로 직접 이어진다.
+n-gram language model,language,next_token,true,language_structure_flow,이전 단어 묶음으로 다음 단어를 고르는 기준이 다음 토큰 예측의 초기 형태를 보여 준다.
+neural language model,language,next_token,true,language_structure_flow,확률 표 대신 신경망 표현으로 다음 단어 분포를 학습하는 흐름이 이어진다.
+word embeddings,language,representation,true,language_structure_flow,단어를 비교 가능한 벡터 표현으로 바꾸는 관점이 이후 표현 계산의 바탕이 된다.
+contextual embeddings,language,representation,true,language_structure_flow,같은 단어도 주변 문맥에 따라 다른 표현을 갖는다는 관점이 LLM 표현 계산으로 이어진다.
+Seq2Seq,language,sequence_modeling,true,language_structure_flow,입력 문장과 출력 문장을 연결해 생성하는 구조가 문맥 기반 생성 문제를 드러낸다.
+RNN language model,language,sequence_modeling,true,language_structure_flow,순서대로 상태를 넘기며 문맥을 반영하는 방식이 이후 병목 비교의 기준이 된다.
+LSTM language model,language,sequence_modeling,true,language_structure_flow,긴 의존성을 버티기 위한 상태 설계가 attention 도입 전 병목을 이해하게 한다.
+attention mechanism,language,sequence_alignment,true,language_structure_flow,출력 위치가 입력의 어느 위치를 볼지 고르는 계산이 문맥 선택 감각으로 이어진다.
+self-attention,language,sequence_alignment,true,language_structure_flow,같은 문장 안 토큰끼리 서로를 참조하는 계산이 Transformer 구조의 핵심이 된다.
+Transformer,language,sequence_modeling,true,language_structure_flow,순차 상태 전달 대신 attention과 feed-forward 블록으로 문맥 표현을 계산한다.
+decoder-only Transformer,language,next_token,true,language_structure_flow,현재 LLM의 생성 흐름처럼 앞 토큰 문맥에서 다음 토큰 분포를 반복해서 만든다.
+machine translation dataset,language,benchmark,false,adjacent_or_enabling_flow,번역 평가는 중요하지만 데이터셋 자체가 현재 LLM 구조의 조상은 아니다.
+syntax parser,language,symbolic_analysis,false,adjacent_or_enabling_flow,언어 구조 분석 도구이지만 다음 토큰 생성 구조와 직접 이어지는 학습 목표는 아니다.
+search engine ranking,language,ranking,false,adjacent_or_enabling_flow,텍스트 순위화는 검색 시스템 설명에는 중요하지만 LLM 생성 구조와는 구분해야 한다.
+text classification benchmark,language,classification,false,adjacent_or_enabling_flow,분류 평가는 언어 이해 측정에 쓰이지만 생성형 언어 모델의 직접 구조 계보는 아니다.
+speech transcript corpus,speech,language_data,false,adjacent_or_enabling_flow,음성에서 얻은 텍스트 데이터는 도움이 되지만 입력 도메인과 구조 계보를 분리해야 한다.
+OCR text pipeline,vision,language_data,false,adjacent_or_enabling_flow,이미지에서 텍스트를 추출하는 파이프라인은 데이터 공급 조건에 가깝다.
+YOLO,vision,object_detection,false,adjacent_or_enabling_flow,객체 검출 모델은 딥러닝 확산 사례지만 언어 생성 구조의 직접 조상은 아니다.
+ResNet,vision,image_classification,false,adjacent_or_enabling_flow,깊은 신경망 학습을 보여 주지만 현재 LLM의 언어 문맥 계산 계보와는 별도다.
+GAN image generation,vision,image_generation,false,adjacent_or_enabling_flow,생성이라는 단어를 공유하지만 이미지 생성 방식과 LLM next-token 생성은 구분해야 한다.
+Deep Voice,speech,speech_generation,false,adjacent_or_enabling_flow,음성 생성 흐름은 생성 AI 배경이지만 Transformer LLM의 언어 구조 계보와 직접 같지는 않다.
+WaveNet,speech,audio_generation,false,adjacent_or_enabling_flow,순차 신호 생성 사례로 참고할 수 있으나 현재 LLM 구조 판정 기준에는 직접 걸리지 않는다.
+GPU scaling,infrastructure,compute_enablement,false,adjacent_or_enabling_flow,대규모 학습을 가능하게 한 계산 조건이지 모델 구조 자체는 아니다.
+TPU acceleration,infrastructure,compute_enablement,false,adjacent_or_enabling_flow,전용 가속기는 학습 규모를 키우지만 direct lineage 판정의 구조 기준은 아니다.
+distributed training,infrastructure,compute_enablement,false,adjacent_or_enabling_flow,분산 학습은 훈련 규모의 배경 조건이며 언어 모델 구조 설명과 분리해야 한다.
+large web crawl,infrastructure,data_collection,false,adjacent_or_enabling_flow,웹 데이터 수집은 사전학습 재료를 제공하지만 구조 조상으로 분류하지 않는다.
+RL game playing,reinforcement,policy_learning,false,adjacent_or_enabling_flow,강화학습 정책 학습은 중요하지만 다음 토큰 예측 구조와 직접 같은 계보는 아니다.
+AlphaGo,reinforcement,planning,false,adjacent_or_enabling_flow,유명한 AI 사건이지만 바둑 탐색과 정책 학습은 LLM 구조 계보와 구분한다.
+robot control,robotics,control_policy,false,adjacent_or_enabling_flow,로봇 제어 정책은 행동 선택 문제이며 언어 문맥 계산 구조와 직접 이어지지 않는다.
+recommendation system,tabular,ranking,false,adjacent_or_enabling_flow,추천 순위화는 벡터와 점수를 쓰더라도 LLM 생성 구조 계보로 바로 두기 어렵다.
+diffusion image model,vision,image_generation,false,adjacent_or_enabling_flow,생성형 AI의 중요한 축이지만 이미지 diffusion과 LLM next-token 계보는 분리한다.
+data center networking,infrastructure,serving,false,adjacent_or_enabling_flow,서비스 규모를 지탱하는 운영 조건이며 모델의 직접 구조 계보는 아니다.
+model compression,infrastructure,deployment,false,adjacent_or_enabling_flow,배포 효율화 기법은 운영 배경으로 중요하지만 LLM 구조의 출발점은 아니다.
+benchmark leaderboard,evaluation,comparison,false,adjacent_or_enabling_flow,성능 비교 문화는 발전을 촉진하지만 모델 구조 자체를 설명하지는 않는다.
+dataset documentation,governance,data_governance,false,adjacent_or_enabling_flow,데이터 거버넌스는 신뢰성 판단 배경이며 direct lineage 분류 기준과 다르다.

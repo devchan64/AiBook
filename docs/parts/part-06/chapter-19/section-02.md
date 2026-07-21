@@ -19,9 +19,9 @@ P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 
 `모든 AI 발전을 LLM 역사로 한 줄에 늘어놓는 오해`를 줄이려면, 구조 설명과 배경 설명을 어디서 갈라 읽어야 하는지도 함께 분명해야 합니다. 앞 절이 큰 발전사 지도를 그렸다면, 여기서는 그 지도 안에서 `직접 구조 계보`와 `주변 확산 근거`를 어디서 가를지 질문이 더 좁아집니다. 장의 위치 설명보다 `현재 LLM 구조로 직접 이어지는 흐름이 무엇이고, 딥러닝 확산의 배경으로 남겨야 하는 흐름이 무엇인가`를 먼저 가르는 기준이 더 중요합니다.
 
-따라서 여기서 먼저 붙잡아야 할 것은 `유명한 사건을 많이 아는가`가 아니라 `현재 LLM 구조와 직접 이어지는 흐름이 무엇인가`입니다.
+따라서 여기서 기준으로 삼아야 할 것은 `유명한 사건을 많이 아는가`가 아니라 `현재 LLM 구조와 직접 이어지는 흐름이 무엇인가`입니다.
 
-이 구분의 핵심은 계보 설명을 `새 역사 목록`으로 늘리지 않는 데 있습니다. 이름을 더 많이 외우기보다, 본류 설명을 `직접 구조 조상`과 `주변 배경`으로 분리하는 기준을 먼저 붙잡으면 충분합니다.
+이 구분의 핵심은 계보 설명을 `새 역사 목록`으로 늘리지 않는 데 있습니다. 이름을 더 많이 외우기보다, 본류 설명을 `직접 구조 조상`과 `주변 배경`으로 분리하는 기준을 세우면 충분합니다.
 
 ## 여기서 남겨야 할 구분
 
@@ -112,7 +112,7 @@ P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 
 먼저 남겨야 할 구분은 단순합니다. 직접 계보와 주변 근거 구분만 선명하게 잡히면, BERT, GPT, RAG 설명을 읽을 때 구조 설명과 배경 설명을 덜 섞게 됩니다.
 
-우선 다음 두 줄을 먼저 붙잡으면 됩니다.
+우선 다음 두 줄을 기준으로 삼으면 됩니다.
 
 - language modeling, attention, Transformer, pretraining은 직접 계보에 가깝다
 - 비전·음성·강화학습의 대표 성과는 중요하지만 주로 배경 설명으로 읽는다
@@ -120,7 +120,7 @@ P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 ## 직접 계보와 주변 근거를 나눠 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-18/p6-c18-s02-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-19/p6-c19-s02-lineage-boundary-ko.mmd"
 ```
 
 이 도식의 목적은 한 가지입니다.
@@ -179,7 +179,7 @@ P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 
 예제의 목표는 항목 이름을 외우는 것이 아니라, `어떤 기준으로 direct lineage와 surrounding evidence를 나누는가`를 실제 규칙으로 확인하는 것입니다.
 
-아래 예제는 LLM 계보를 설명할 때 직접 구조 계보와 주변 배경 조건을 섞어 말하기 쉬운 상황을 작은 규칙으로 확인합니다. 입력으로는 대표 연구 흐름 CSV([p6-18-lineage-items.csv](../../../assets/part-06/chapter-18/p6-18-lineage-items.csv){ .csv-preview })와 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도를 사용합니다. 출력에서는 자동 분류 결과, 분류 기준 통과 여부, 분류 이유를 함께 봅니다.
+아래 예제는 LLM 계보를 설명할 때 직접 구조 계보와 주변 배경 조건을 섞어 말하기 쉬운 상황을 작은 규칙으로 확인합니다. 입력으로는 대표 연구 흐름 CSV([p6-19-lineage-items.csv](../../../assets/part-06/chapter-19/p6-19-lineage-items.csv){ .csv-preview })와 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도를 사용합니다. 출력에서는 자동 분류 결과, 분류 기준 통과 여부, 분류 이유를 함께 봅니다.
 
 확인할 핵심은 같은 AI 역사 항목이라도 현재 LLM 구조와의 직접 연결 정도가 다를 수 있다는 점입니다. direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않고, 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있습니다. 또한 분류 기준을 바꾸면 같은 항목도 다른 경계에서 다시 검토될 수 있습니다.
 
@@ -190,7 +190,7 @@ P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 import csv
 from pathlib import Path
 
-item_path = Path("docs/assets/part-06/chapter-18/p6-18-lineage-items.csv")
+item_path = Path("docs/assets/part-06/chapter-19/p6-19-lineage-items.csv")
 
 def read_items(path):
     items = []
@@ -294,7 +294,7 @@ direct_lineage count = 12 | examples = ['language modeling', 'n-gram language mo
 surrounding_evidence count = 24 | examples = ['machine translation dataset', 'syntax parser', 'search engine ranking', 'text classification benchmark', 'speech transcript corpus']
 ```
 
-![직접 계보 판정 기준 통과 여부](../../../assets/part-06/chapter-18/lineage-rule-check-matrix-ko.png)
+![직접 계보 판정 기준 통과 여부](../../../assets/part-06/chapter-19/lineage-rule-check-matrix-ko.png)
 
 그래서 이 예제에서 확인해야 할 결과는 항목 이름을 많이 아는가보다, 역사 설명을 `직접 구조사`와 `주변 확산사`로 실제 기준에 따라 나누어 읽는가입니다.
 

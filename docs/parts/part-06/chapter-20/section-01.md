@@ -166,7 +166,7 @@ BERT 계열의 핵심 직관은 다음과 같습니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-19/p6-c19-s01-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-20/p6-c20-s01-encoder-representation-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 BERT 계열이 문장을 읽은 뒤 곧바로 긴 답변을 생성하는 구조가 아니라, 문맥 표현을 만든 다음 그 표현을 분류, 검색, 임베딩 과업으로 연결하는 구조라는 점입니다.
@@ -250,7 +250,7 @@ BERT 계열을 읽을 때 자주 생기는 오해는 `GPT처럼 답을 길게 �
 | 비밀번호를 다시 설정하고 싶습니다 | `account_topic` | 계정 접근 문제 | `account_intent` |
 | 주문을 취소했는데 결제가 그대로 남아 있습니다 | `payment_topic` | 주문 취소 뒤 결제 상태 확인 문제 | `order_support_intent` |
 
-![문맥 해석에 따른 라벨 전환](../../../assets/part-06/chapter-19/contextual-label-shift-ko.png)
+![문맥 해석에 따른 라벨 전환](../../../assets/part-06/chapter-20/contextual-label-shift-ko.png)
 
 이 연습에서 읽어야 할 핵심은 다음입니다.
 

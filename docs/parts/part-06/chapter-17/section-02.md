@@ -7,7 +7,7 @@
 
 ## 실패 경로 판단이 맡는 일
 
-먼저 붙잡을 질문은 다음과 같습니다.
+핵심 질문은 다음과 같습니다.
 
 - AI 서비스에서 실패는 어떤 형태로 나타나는가?
 - 모델 실패와 시스템 실패는 어떻게 구분해야 하는가?
@@ -42,7 +42,7 @@
 - trace, fallback, retry, approval 같은 대응 수단의 역할을 설명할 수 있습니다.
 - 프롬프트, RAG, 도구 사용, 에이전트, 평가를 운영 관점에서 묶어 볼 수 있습니다.
 
-실패 유형 이름을 먼저 많이 외우기보다, 같은 실패처럼 보여도 왜 `retry`, `fallback`, `stop`, `approval`로 갈라지는지를 먼저 붙잡는 편이 더 안전합니다.
+실패 유형 이름을 많이 외우기보다, 같은 실패처럼 보여도 왜 `retry`, `fallback`, `stop`, `approval`로 갈라지는지를 기준으로 삼는 편이 더 안전합니다.
 
 | 먼저 보인 실패 신호 | 이어지는 대응 경로 | 왜 이렇게 갈라지는가 |
 | --- | --- | --- |
@@ -189,7 +189,7 @@ P6-16.2의 자동 평가와 사람 평가, P6-17.1의 운영 제약, 지금 절�
 이 흐름을 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-06/chapter-16/p6-c16-s02-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-17/p6-c17-s02-failure-recovery-flow-ko.mmd"
 ```
 
 이 그림의 핵심은 실패 대응이 오류 문구를 보여 주고 끝나는 것이 아니라, 실패를 분류하고 대응 경로를 고른 뒤 흔적을 남겨 다음 개선으로 이어지는 구조라는 점입니다.
@@ -558,7 +558,7 @@ recovery =
  'user_impact': 'delivery_blocked_until_format_fixed'}
 ```
 
-![실패 계열과 복구 결정 분포](../../../assets/part-06/chapter-16/failure-recovery-routing-ko.png)
+![실패 계열과 복구 결정 분포](../../../assets/part-06/chapter-17/failure-recovery-routing-ko.png)
 
 이 예제에서 먼저 봐야 할 것은 `system`과 `model` 실패가 같은 표에서 다르게 갈라지고, 사용자 영향과 다음 조치가 그 차이를 실제 운영 판단으로 바꿔 준다는 점입니다. `timeout`과 `permission_error`는 실행 경로를 복구하거나 멈추는 문제이고, `hallucination`과 `format_mismatch`는 검색 재시도보다 사람 검토나 프롬프트/파서 수정이 더 먼저인 문제입니다.
 
