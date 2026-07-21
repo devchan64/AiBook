@@ -8,9 +8,14 @@
   - `p6-c05-s01-diagram-02-en.mmd` / `p6-c05-s01-diagram-02-ko.mmd`
   - `p6-c05-s02-diagram-01-en.mmd` / `p6-c05-s02-diagram-01-ko.mmd`
   - `p6-c05-s02-diagram-02-en.mmd` / `p6-c05-s02-diagram-02-ko.mmd`
+  - `p6-c05-s02-conversation-shift-en.mmd` / `p6-c05-s02-conversation-shift-ko.mmd`
+  - `p6-c05-s02-experience-types-en.mmd` / `p6-c05-s02-experience-types-ko.mmd`
 - PNG chart assets:
+  - `autoregressive-path-split-en.png` / `autoregressive-path-split-ko.png`
   - `next-token-first-branch-en.png` / `next-token-first-branch-ko.png`
+  - `conversation-experience-criteria-en.png` / `conversation-experience-criteria-ko.png`
   - `temperature-unique-reply-count-en.png` / `temperature-unique-reply-count-ko.png`
 - Python chart source:
   - `p6_5_1_next_token_branch_chart.py`
+  - `p6_5_2_conversation_experience_chart.py`
   - `p6_5_2_temperature_diversity_chart.py`

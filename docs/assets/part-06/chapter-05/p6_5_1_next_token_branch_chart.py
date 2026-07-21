@@ -15,27 +15,28 @@ from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
 
-BRANCHES = [
+PATHS = [
     {
-        "key": "meeting",
-        "ko_prompt": "회의 결과",
-        "en_prompt": "meeting result",
-        "ko_candidates": [("배포", 0.5), ("우선", 0.5)],
-        "en_candidates": [("release", 0.5), ("priority", 0.5)],
+        "key": "time",
+        "color": "#2563eb",
+        "ko_label": "시간 경로",
+        "en_label": "time path",
+        "ko_tokens": ["오후", "세", "시입니다"],
+        "en_tokens": ["afternoon", "three", "o'clock"],
+        "scores": [0.62, 0.55, 0.58],
+        "ko_offsets": [(0, 11), (0, -30), (0, -30)],
+        "en_offsets": [(0, 11), (0, -30), (0, -30)],
     },
     {
-        "key": "customer",
-        "ko_prompt": "고객 문의 확인 결과",
-        "en_prompt": "customer inquiry result",
-        "ko_candidates": [("환불", 0.5), ("배송", 0.5)],
-        "en_candidates": [("refund", 0.5), ("delivery", 0.5)],
-    },
-    {
-        "key": "deploy_error",
-        "ko_prompt": "배포 오류 확인 결과",
-        "en_prompt": "deployment error result",
-        "ko_candidates": [("설정", 0.5), ("로그", 0.5)],
-        "en_candidates": [("config", 0.5), ("logs", 0.5)],
+        "key": "online",
+        "color": "#0f766e",
+        "ko_label": "온라인 경로",
+        "en_label": "online path",
+        "ko_tokens": ["온라인", "으로", "진행합니다"],
+        "en_tokens": ["online", "as", "held"],
+        "scores": [0.27, 0.64, 0.67],
+        "ko_offsets": [(0, 11), (0, 12), (0, 13)],
+        "en_offsets": [(0, 11), (0, 12), (0, 13)],
     },
 ]
 
@@ -49,19 +50,25 @@ LANG_TEXT = {
             "Arial Unicode MS",
             "DejaVu Sans",
         ],
-        "outfile": "next-token-first-branch-ko.png",
-        "title": "프롬프트별 첫 다음 토큰 후보 분포",
-        "xlabel": "첫 다음 토큰 확률",
-        "prompt_key": "ko_prompt",
-        "candidate_key": "ko_candidates",
+        "outfile": "autoregressive-path-split-ko.png",
+        "title": "첫 선택 뒤 갈라지는 누적 생성 경로",
+        "step_labels": ["step 1", "step 2", "step 3"],
+        "ylabel": "선택 토큰 점수",
+        "score_label": "누적",
+        "label_key": "ko_label",
+        "token_key": "ko_tokens",
+        "offset_key": "ko_offsets",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
-        "outfile": "next-token-first-branch-en.png",
-        "title": "First next-token distribution by prompt",
-        "xlabel": "first next-token probability",
-        "prompt_key": "en_prompt",
-        "candidate_key": "en_candidates",
+        "outfile": "autoregressive-path-split-en.png",
+        "title": "Autoregressive paths diverge after the first choice",
+        "step_labels": ["step 1", "step 2", "step 3"],
+        "ylabel": "chosen token score",
+        "score_label": "total",
+        "label_key": "en_label",
+        "token_key": "en_tokens",
+        "offset_key": "en_offsets",
     },
 }
 
@@ -79,51 +86,90 @@ def configure_font(text: dict[str, object]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
+def cumulative(values: list[float]) -> list[float]:
+    running = 0.0
+    totals = []
+    for value in values:
+        running += value
+        totals.append(running)
+    return totals
+
+
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    fig, ax = plt.subplots(figsize=(7.4, 3.6), dpi=180)
+    fig, (ax_scores, ax_totals) = plt.subplots(
+        2,
+        1,
+        figsize=(7.4, 4.8),
+        dpi=180,
+        sharex=True,
+        gridspec_kw={"height_ratios": [1.1, 1.0]},
+    )
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
+    x_positions = [1, 2, 3]
 
-    bar_height = 0.26
-    colors = ["#2563eb", "#0f766e"]
-    y_ticks = []
-    y_labels = []
+    for ax in (ax_scores, ax_totals):
+        ax.set_facecolor("white")
+        ax.grid(axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
+        ax.set_axisbelow(True)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
 
-    for group_index, branch in enumerate(BRANCHES):
-        base_y = len(BRANCHES) - group_index
-        y_ticks.append(base_y)
-        y_labels.append(branch[text["prompt_key"]])
-        for candidate_index, (token, probability) in enumerate(branch[text["candidate_key"]]):
-            y = base_y + (0.16 if candidate_index == 0 else -0.16)
-            ax.barh(
-                y,
-                probability,
-                height=bar_height,
-                color=colors[candidate_index],
-                edgecolor="none",
-            )
-            ax.text(
-                probability + 0.025,
-                y,
-                f"{token} {probability:.2f}",
-                va="center",
-                ha="left",
+    for path in PATHS:
+        label = path[text["label_key"]]
+        tokens = path[text["token_key"]]
+        offsets = path[text["offset_key"]]
+        scores = path["scores"]
+        color = path["color"]
+        totals = cumulative(scores)
+
+        ax_scores.plot(
+            x_positions,
+            scores,
+            marker="o",
+            linewidth=2.2,
+            color=color,
+            label=label,
+        )
+        for x, score, token, offset in zip(x_positions, scores, tokens, offsets):
+            ax_scores.annotate(
+                f"{token}\n{score:.2f}",
+                (x, score),
+                textcoords="offset points",
+                xytext=offset,
+                ha="center",
                 fontsize=9,
                 color="#172033",
             )
 
-    ax.set_title(text["title"], fontsize=12, pad=14, fontweight="bold")
-    ax.set_xlabel(text["xlabel"], labelpad=9)
-    ax.set_yticks(y_ticks, y_labels)
-    ax.set_xlim(0, 0.72)
-    ax.set_ylim(0.45, len(BRANCHES) + 0.55)
-    ax.grid(axis="x", color="#e2e8f0", linewidth=0.9)
-    ax.tick_params(axis="y", length=0, labelsize=9)
+        ax_totals.plot(
+            x_positions,
+            totals,
+            marker="o",
+            linewidth=2.2,
+            color=color,
+            label=label,
+        )
+        ax_totals.annotate(
+            f"{text['score_label']} {totals[-1]:.2f}",
+            (x_positions[-1], totals[-1]),
+            textcoords="offset points",
+            xytext=(9, 0),
+            ha="left",
+            va="center",
+            fontsize=9,
+            color="#172033",
+        )
 
-    for spine in ["top", "right", "left"]:
-        ax.spines[spine].set_visible(False)
-    ax.spines["bottom"].set_color("#cbd5e1")
+    ax_scores.set_title(text["title"], fontsize=13, pad=12, fontweight="bold")
+    ax_scores.set_ylabel(text["ylabel"])
+    ax_scores.set_ylim(0.15, 0.78)
+    ax_scores.legend(loc="lower right", frameon=False, fontsize=9)
+
+    ax_totals.set_ylabel(text["score_label"])
+    ax_totals.set_ylim(0, 2.05)
+    ax_totals.set_xticks(x_positions, text["step_labels"])
+    ax_totals.set_xlim(0.75, 3.35)
 
     fig.tight_layout(pad=1.0)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
