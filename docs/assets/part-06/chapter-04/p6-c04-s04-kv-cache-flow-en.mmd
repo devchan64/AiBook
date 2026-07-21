@@ -1,0 +1,14 @@
+flowchart TD
+  A["Prefix tokens already seen"]
+  B["Without KV cache<br/>project full prefix again"]
+  C["With KV cache<br/>reuse stored K/V"]
+  D["Add new token K/V only"]
+  E["Same last-token attention result"]
+  F["Less repeated projection work"]
+
+  A --> B
+  A --> C
+  C --> D
+  B --> E
+  D --> E
+  D --> F

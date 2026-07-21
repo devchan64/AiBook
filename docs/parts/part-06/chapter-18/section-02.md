@@ -1,336 +1,469 @@
-# P6-18.2 직접 계보와 주변 근거
+# P6-18.2 최소 구현과 회고 포인트
 
-Section ID: `P6-18.2`
-Version: `v2026.07.19`
+> Section ID: `P6-18.2`
+> Version: `v2026.07.21`
 
-P6-18.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계보와 주변 확산 근거를 가르는 기준이 더 중요합니다.
+P6-18.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도구 선택 -> 응답 생성 -> 상태 판단 -> 기록`의 흐름으로 묶었다면, 여기서는 그 흐름을 아주 작은 코드로 다시 그려 보면 됩니다.
 
-모든 딥러닝 발전사가 곧바로 LLM의 직접 계보인 것은 아닙니다. 직접 계보(direct lineage)는 현재 LLM 구조와 학습 방식으로 직접 이어지는 흐름이고, 주변 근거(surrounding evidence)는 딥러닝 확산과 계산 패러다임 변화를 설명하지만 LLM 구조 자체의 조상이라고 단정하기 어려운 흐름입니다.
+최소 구현의 초점은 성능 좋은 서비스를 완성하는 데 있지 않고, `어떤 입력이 어떤 경로를 거쳐 어떤 출력과 기록으로 남는가`를 눈으로 확인하는 데 있습니다. 더 정확히는 `무엇이 돌아갔는가`와 `다음에 어디를 먼저 고쳐야 하는가`가 같은 요청 기록에서 함께 보이게 만드는 데 있습니다.
 
-## 직접 계보 구분이 다루는 질문
+## 요청 실행 기록이 남기는 것
 
-먼저 가를 질문은 다음과 같습니다.
+먼저 붙잡아야 할 질문은 다음과 같습니다.
 
-- 무엇을 LLM의 직접 계보라고 부를 수 있는가?
-- 무엇은 딥러닝 확산의 중요한 사례이지만 직접 계보라고 하기는 어려운가?
-- 이런 구분이 왜 학습자에게 중요한가?
+- 실제 상용 API를 붙이기 전에도 어떤 최소 구현을 만들어 볼 수 있는가?
+- 검색, 응답 생성, 검토 필요 여부를 어떤 실행 기록으로 함께 남겨야 하는가?
+- 남은 기록을 보고 다음 개선 지점을 어떻게 읽을 수 있는가?
 
-`직접 구조 계보`와 `주변 확산 근거`를 먼저 가르지 않으면, 모든 딥러닝 발전사를 한 줄 계보로 묶는 오해가 생기기 쉽습니다.
+이 구현은 `축약된 기준선 구현`입니다. RAG 흐름, 도구 사용 구조, 평가와 기록 관점을 작은 코드로 묶어, 요청이 어떤 출력과 실행 기록으로 남는지 확인합니다. 제품 수준 자동화나 배포 절차를 완성하는 것이 아니라, 같은 기록에서 `검색을 먼저 고쳐야 하는가`, `근거 부족 게이트를 먼저 고쳐야 하는가`, `사람 검토 경계를 다시 잡아야 하는가` 같은 패치 우선순위가 읽히게 하는 것이 목표입니다.
 
-대신 이번 절에서 잡은 계보 구분은 앞서 읽은 P6-3.1, P6-4.1과 뒤의 P6-19.1에서 Transformer, GPT, BERT를 구조 비교로 다시 읽을 때 바로 다시 씁니다.
+중요한 전환은 `요청 흐름을 설계한다`에서 `그 흐름을 실제 요청 실행 기록으로 남긴다`로 관점이 바뀌는 데 있습니다. `돌아간다`와 `기록 가능하게 설계되었다`를 구분하는 기준도 여기서 눈에 보이게 만듭니다. 이 기록은 단순 결과 저장이 아니라, 검색 품질, 상태 분류, 사람 검토 handoff 중 무엇을 먼저 손볼지 고르게 하는 입력이어야 합니다.
 
-`모든 AI 발전을 LLM 역사로 한 줄에 늘어놓는 오해`를 줄이려면, 구조 설명과 배경 설명을 어디서 갈라 읽어야 하는지도 함께 분명해야 합니다. 앞 절이 큰 발전사 지도를 그렸다면, 여기서는 그 지도 안에서 `직접 구조 계보`와 `주변 확산 근거`를 어디서 가를지 질문이 더 좁아집니다. 장의 위치 설명보다 `현재 LLM 구조로 직접 이어지는 흐름이 무엇이고, 딥러닝 확산의 배경으로 남겨야 하는 흐름이 무엇인가`를 먼저 가르는 기준이 더 중요합니다.
+같은 질문이 코드 흐름 안에서 언제 `답변 초안 생성`, `근거 부족`, `문서 미회수`, `사람 검토 필요` 같은 상태로 바뀌는지 같이 보는 편이 더 안전합니다. 최소 구현의 핵심은 단순히 문자열을 출력하는 데 있지 않고, 요청 하나가 어떤 운영 상태로 끝났는지를 같은 기록 안에 남기는 데 있습니다.
 
-따라서 여기서 먼저 붙잡아야 할 것은 `유명한 사건을 많이 아는가`가 아니라 `현재 LLM 구조와 직접 이어지는 흐름이 무엇인가`입니다.
-
-| 먼저 끝내야 하는 본류 | 이 배경 축에서 다시 가르는 것 | 다시 돌아가 확인할 위치 |
+| 코드 흐름 안에서 먼저 갈리는 상태 | 언제 자주 생기는가 | 왜 이 상태를 따로 남겨야 하는가 |
 | --- | --- | --- |
-| Transformer, GPT, 사전학습, RAG까지의 생성 중심 흐름 | 무엇이 LLM의 직접 계보고 무엇이 딥러닝 확산의 주변 근거인가 | P6-3.1, P6-4.1, P6-19.1 |
-
-이 표의 핵심은 이 절을 `새 역사 목록`으로 읽지 않는 데 있습니다. 여기서는 이름을 더 많이 외우기보다, 앞서 읽은 본류 설명을 `직접 구조 조상`과 `주변 배경`으로 분리하는 기준을 먼저 붙잡으면 충분합니다.
+| 답변 초안 생성 가능 | 관련 근거가 둘 이상 잡히고 충돌이 크지 않을 때 | `일단 답을 만들 수 있다`와 `바로 배포 가능하다`를 구분한 채 다음 평가로 넘기기 위해서입니다. |
+| 근거 부족 | 관련 문서는 잡혔지만 직접 근거가 약하거나 하나뿐일 때 | 검색 성공과 답변 확정 가능을 같은 뜻으로 읽지 않기 위해서입니다. |
+| 문서 미회수 | 질문을 닫을 문서를 아예 찾지 못했을 때 | 일반론으로 덮지 않고 검색 확장 문제를 분리해 남기기 위해서입니다. |
+| 사람 검토 필요 | 예외 조항이나 승인 경계가 걸려 자동 확답이 위험할 때 | 최소 구현도 운영 경계와 handoff 지점을 남겨야 다음 개선이 가능하기 때문입니다. |
 
 ## 여기서 남겨야 할 구분
 
-- 직접 계보와 주변 근거를 구분할 수 있습니다.
-- LLM 발전사를 과장 없이 설명할 수 있습니다.
-- 딥러닝 확산 사례가 왜 중요하지만 직접 조상은 아닐 수 있는지 설명할 수 있습니다.
-- 앞서 읽은 Transformer 설명을 더 분명한 위치에서 다시 정리할 수 있습니다.
+- 작은 생성형 AI 기능의 최소 구현 흐름을 읽을 수 있습니다.
+- 검색 결과, 응답, 근거, 실패 기록이 왜 함께 출력되어야 하는지 설명할 수 있습니다.
+- 기능이 돌아간다는 사실과 기능이 잘 설계되었다는 판단이 다르다는 점을 구분할 수 있습니다.
+- 다음 개선 전에 먼저 확인해야 할 최소 기록 구조를 설명할 수 있습니다.
 
-## 왜 이런 구분이 필요한가
+## 최소 구현에서 확인할 다섯 단계
 
-최근에는 AI를 곧바로 LLM과 연결해 이해하는 경향이 강합니다. 이때 다음과 같은 혼동이 생기기 쉽습니다.
+이 절의 최소 구현은 다음 다섯 단계를 가집니다.
 
-- 딥러닝이 유명해진 모든 사건이 곧바로 LLM 계보다
-- 음성 모델, 객체 검출 모델, 강화학습 모델이 모두 같은 직선 위에 있다
-- `신경망이니까 다 같은 역사다`
+1. 질문을 받는다.
+2. 간단한 규칙으로 관련 문서를 찾는다.
+3. 찾은 문서를 바탕으로 답변을 만든다.
+4. 답을 바로 확정할지, 근거 부족이나 사람 검토가 필요한지 상태를 정한다.
+5. 어떤 문서를 썼는지와 답변 품질 메모를 남긴다.
 
-이렇게 설명하면 큰 분위기는 잡히지만, 구조적 이해는 흐려집니다.
+실제 LLM API 호출을 붙이지 않아도 이 다섯 단계를 먼저 확인해 두면, 이후 어디에 모델 호출이 들어가고 어디에 검색 품질 문제가 생기는지 구조를 읽기 쉬워집니다.
 
-더 안전한 설명은 다음입니다.
+## 작은 데이터와 목표
 
-- 어떤 흐름은 LLM 구조와 학습 목표로 직접 이어진다
-- 어떤 흐름은 딥러닝 패러다임의 확산과 계산 자원의 중요성을 보여 주는 배경 증거다
+입력:
 
-## 직접 계보는 무엇인가
+- 정책 문서 네 개
+- 서로 다른 실패 유형을 유도하는 사용자 질문 세 개
 
-여기서는 다음 흐름을 LLM의 직접 계보로 봅니다.
+출력:
 
-1. 언어 모델(language model)
-2. 임베딩과 분산 표현(distributed representation)
-3. RNN, LSTM, Seq2Seq
-4. Attention
-5. Transformer
-6. 사전학습(pretraining)
-7. GPT, BERT 같은 Transformer 계열 언어 모델
+- 문서별 검색 점수
+- 선택된 근거 문서
+- 생성된 답변 초안
+- 사람 검토 필요 여부와 평가 메모
 
-이 흐름의 공통점은 분명합니다.
-
-- 언어를 입력으로 다루고
-- 토큰이나 단어의 순서와 문맥을 계산하며
-- 다음 토큰 예측 또는 언어 표현 학습으로 이어지고
-- 현재 LLM 구조와 직접 연결됩니다
-
-즉, 이들은 `LLM 내부 구조와 학습 방식`의 조상으로 설명할 수 있습니다.
-
-## 주변 근거는 무엇인가
-
-반면 다음과 같은 사례는 매우 중요하지만, 직접 계보라고 단정하는 데는 주의가 필요합니다.
-
-- AlexNet과 이미지 인식 혁신
-- YOLO 같은 객체 검출(object detection) 계열
-- WaveNet, Deep Voice 같은 음성 생성(speech generation) 계열
-- AlphaGo, AlphaZero 같은 탐색과 강화학습의 대표 사례
-
-이 사례들은 다음 점에서 중요합니다.
-
-- 딥러닝이 실제 성능 전환을 만들 수 있음을 사회적으로 보여 주었고
-- GPU와 대규모 계산 자원의 중요성을 강화했으며
-- 학습 기반 접근이 다양한 도메인으로 확산되는 흐름을 만들었습니다
-
-하지만 이들을 곧바로 `LLM의 직접 조상`이라고 쓰면 경계가 흐려집니다.
-
-## Deep Voice나 YOLO는 왜 직접 계보가 아닌가
-
-예를 들어 Deep Voice는 음성 생성(speech synthesis) 분야에서 중요한 사례입니다. YOLO는 실시간 객체 검출에서 대표적인 전환점입니다.
-
-이 둘은 모두 딥러닝 패러다임의 확산을 보여 주지만, 현재 LLM의 직접 구조를 형성한 핵심 언어 모델 계보와는 다릅니다.
-
-더 안전한 설명은 다음입니다.
-
-- Deep Voice, YOLO는 `딥러닝이 다양한 입력과 출력 도메인에서 강해졌다`는 주변 근거다
-- Transformer 기반 LLM의 직접 구조사는 `언어 모델링과 Attention 계열`에서 더 직접적으로 찾아야 한다
-
-즉, 관련은 있지만 같은 선 위에 그대로 놓으면 안 됩니다.
-
-## 왜 주변 근거도 여전히 중요한가
-
-그렇다고 주변 근거를 빼 버리면 또 다른 문제가 생깁니다. LLM은 언어 모델만 조용히 발전해서 갑자기 등장한 것이 아니기 때문입니다.
-
-주변 근거는 다음 질문에 답해 줍니다.
-
-- 왜 딥러닝이 사회적으로 신뢰와 투자를 받게 되었는가?
-- 왜 병렬 처리와 GPU가 중요해졌는가?
-- 왜 데이터 규모, 모델 규모, 계산 규모가 함께 커졌는가?
-
-즉, 주변 근거는 `구조적 조상`은 아니지만 `역사적 분위기와 인프라 조건`을 설명합니다.
-
-## 무엇을 먼저 구분하면 되나
-
-이 절에서 먼저 남겨야 할 구분은 단순합니다. 앞의 직접 계보와 주변 근거 구분만 선명하게 잡히면, 뒤의 BERT, GPT, RAG 설명을 읽을 때 구조 설명과 배경 설명을 덜 섞게 됩니다.
-
-우선 다음 두 줄을 먼저 붙잡으면 됩니다.
-
-- language modeling, attention, Transformer, pretraining은 직접 계보에 가깝다
-- 비전·음성·강화학습의 대표 성과는 중요하지만 주로 배경 설명으로 읽는다
-
-## 직접 계보와 주변 근거를 나눠 그리면
-
-```mermaid
---8<-- "assets/part-06/chapter-18/p6-c18-s02-diagram-01-ko.mmd"
-```
-
-이 도식의 목적은 한 가지입니다.
-
-`한 줄 역사`와 `배경 조건`을 구분해서 읽게 하는 것.
+이 예제의 목표는 `정답률`이 아니라 `운영 상태 구분`을 포함한 흐름 확인입니다. 같은 최소 기능이라도 `여러 근거가 맞물린 경우`, `근거가 부족한 경우`, `검색 자체가 실패한 경우`를 구분해 읽어야 다음 개선 우선순위를 정할 수 있습니다.
 
 ## 사례 및 예시
 
-### 사례 1. Transformer 설명
+최소 구현 절이 실제로 필요한 이유는 `한 번 돌았다`와 `운영 판단까지 남겼다`를 분리해 보여 주기 위해서입니다. 아래 두 장면은 같은 정책 안내 도우미처럼 보여도, 요청 실행 기록을 남기지 않으면 어디서 실패했는지 다시 읽을 수 없다는 점을 보여 줍니다.
 
-강의자가 Transformer를 소개하면서 첫 슬라이드에 `AlexNet -> YOLO -> GPU -> Transformer`를 한 줄로 적었다고 해 보겠습니다. 초심자는 유명한 이름이 시간순으로 놓여 있으면 모두 같은 계보라고 받아들이기 쉽습니다. 하지만 이렇게 설명하면 정작 `왜 Seq2Seq만으로는 긴 문장에서 앞 정보를 뒤까지 잘 전달하기 어려웠는가`, `왜 attention이 필요했는가`라는 직접 구조 문제가 빠져 버립니다. 사람의 기존 기준은 `유명한 사건을 많이 안다`였지만, 더 중요한 기준은 `바로 앞 구조의 어떤 한계를 다음 구조가 해결했는가`입니다.
+### 사례 1. 답은 나왔는데 왜 나왔는지 남기지 않으면
 
-그래서 먼저 긴 문장 번역에서 앞 문맥이 뒤에서 약해지는 장면을 보여 주고, 그 다음에 attention과 Transformer를 붙여야 설명이 닫힙니다. 여기서 바뀌는 점은 `유명한 사건이 많이 등장하는가`를 보던 기준에서 `직전 구조의 병목과 다음 구조의 해결이 실제로 이어지는가`를 보는 기준으로 이동한다는 것입니다. 여기서 바로잡아야 할 오해는 `같은 슬라이드에 묶여 있으면 직접 계보도 같은 것`이라는 감각입니다. 그래서 이 사례에서 확인해야 할 결과는 유명 사건 나열보다, 바로 앞 구조의 병목을 설명한 뒤에야 Transformer 전환 이유가 실제로 더 분명해지는가, 그리고 비전 쪽 사건은 배경으로만 남는가입니다.
+사람은 답변 문자열만 자연스럽게 보이면 기능이 일단 됐다고 느끼기 쉽습니다. 예를 들어 `이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?`라는 질문에, 답변이 그럴듯하게 한 문장으로 나오면 바로 통과시키고 싶어집니다. 하지만 이 경우 실제로 필요한 것은 `입사 후 1개월` 규정과 `여름휴가 승인` 규정을 함께 읽었는지, 두 근거가 충돌하지 않았는지, 답변이 어떤 문서를 바탕으로 만들어졌는지 남기는 일입니다. 답만 남기고 근거 문서와 실행 상태를 안 남기면, 나중에 답이 어긋났을 때 검색을 잘못한 것인지 해석을 잘못한 것인지 구분할 수 없습니다. 그래서 최소 구현이라도 답변 문자열 옆에 문서별 점수, 선택 문서, 실행 상태를 함께 남겨야 합니다. 이 사례에서 확인해야 할 결과는 `답이 나왔다`가 아니라 `왜 그 답이 나왔는지를 같은 요청 실행 기록에서 다시 읽을 수 있는가`입니다.
 
-### 사례 2. GPU 설명
+이 장면이 중요한 이유는 운영에서 문제가 생겼을 때 사람이 가장 먼저 묻는 질문이 `무슨 답을 했나`보다 `왜 그렇게 답했나`이기 때문입니다. 근거 문서와 실행 상태가 빠져 있으면, 다음 날 같은 실패가 나와도 검색 품질 문제인지 프롬프트 해석 문제인지 바로 분리할 수 없습니다. 결국 수정도 감으로 하게 됩니다. 반대로 최소 구현에서도 요청 실행 기록이 남아 있으면, 어떤 문서가 과하게 높은 점수를 받았는지, 어떤 규정이 함께 선택되지 않았는지, 어디서부터 판단이 비틀렸는지를 다시 추적할 수 있습니다.
 
-사용자가 `LLM이 왜 가능해졌나요?`라고 묻자 발표자가 GPU 사진과 서버 랙만 길게 보여 주는 장면을 떠올려 보겠습니다. 초심자는 계산 장비가 커졌다는 설명만 들어도 `결국 GPU가 모델 원리까지 만든 것`처럼 느끼기 쉽습니다. 하지만 GPU는 `더 크게 돌리게 한 조건`이지, `attention으로 어떤 문맥을 비교하고 어떤 토큰을 더 보게 만드는가`를 설명하는 구조 자체는 아닙니다. 사람이 기존에 쓰던 단순 기준은 `잘 돌아가게 만든 요소`와 `무엇을 계산하게 만든 아이디어`를 한데 묶는 것이지만, 이 둘은 다른 층위입니다.
+같은 질문이라도 기록 유무에 따라 운영자가 볼 수 있는 정보는 크게 달라집니다.
 
-예를 들어 GPU가 아무리 많아도 attention 구조 설명이 빠지면 왜 LLM이 긴 문맥을 읽는지 이해할 수 없습니다. 여기서 바뀌는 점은 `계산 자원이 커졌는가`를 보던 기준에서 `배경 조건과 구조 원리가 실제로 분리되어 설명되는가`를 보는 기준으로 이동한다는 것입니다. 여기서 바로잡아야 할 오해는 `가능하게 한 조건`과 `직접 구조 원리`를 같은 계보로 읽는 데 있습니다. 그래서 이 사례에서 확인해야 할 결과는 계산 규모를 키운 배경 설명과 모델 구조 설명이 실제로 분리되어 읽히는가, 그리고 GPU 설명만으로 attention 구조 이해를 대신하지 않는가입니다.
-
-### 사례 3. 생성형 AI 붐
-
-뉴스 기사에서 같은 해에 챗봇, 이미지 생성기, 음성 합성 서비스가 함께 화제가 되는 장면을 생각해 보겠습니다. 초심자는 이런 경우 `같이 뜬 기술이면 같은 역사겠지`라고 먼저 묶기 쉽습니다. 하지만 실제로는 사용 경험의 동시성과 구조의 직접 계보를 나눠 봐야 합니다. 예를 들어 고객은 텍스트 생성과 이미지 생성을 모두 `생성형 AI`로 부르지만, 그 안쪽 구조사는 언어 모델 계보와 비전 생성 계보로 더 가깝게 갈라질 수 있습니다. 사람이 보던 단순 기준은 `같은 시기에 유명해졌는가`였지만, 더 중요한 기준은 `어떤 입력과 학습 목표, 어떤 구조 변화가 직접 이어졌는가`입니다.
-
-여기서 바뀌는 점은 `같은 시기에 화제가 되었는가`를 보던 기준에서 `직접 이어지는 구조 계보가 같은가`를 보는 기준으로 이동한다는 것입니다. 여기서 바로잡아야 할 오해는 `동시에 유명해지면 한 줄 역사도 같다`는 감각입니다. 그래서 이 사례에서 확인해야 할 결과는 유행의 동시성과 구조의 직접 계보를 실제로 다른 판단 기준으로 설명할 수 있는가, 그리고 같은 시기 인기 사례를 direct lineage가 아니라 surrounding evidence로도 배치할 수 있는가입니다.
-
-세 사례를 direct lineage와 surrounding evidence 구분으로 다시 묶으면 다음과 같습니다.
-
-| 장면 | 섞어 읽기 쉬운 것 | 실제로 분리해 봐야 하는 것 |
+| 요청 실행 결과 | 겉으로는 어떻게 보이나 | 운영자가 실제로 다시 읽을 수 있는 것 |
 | --- | --- | --- |
-| Transformer 설명 | 유명 사건 나열과 구조 전환 | 직전 병목과 다음 구조의 해결 |
-| GPU 설명 | 계산 자원과 모델 원리 | 가능하게 한 배경 조건과 직접 구조 |
-| 생성형 AI 붐 | 동시 유행과 직접 계보 | 같은 시기 인기와 실제 구조 계통 |
+| 답변 문자열만 남음 | 일단 응답은 완성된 것처럼 보임 | 거의 없음. 검색 실패인지 해석 실패인지 구분 어려움 |
+| 답변 + 선택 문서 목록이 남음 | 근거가 있는 것처럼 보임 | 어떤 문서를 봤는지는 알 수 있지만 왜 그 문서를 골랐는지는 불분명 |
+| 답변 + 문서 점수 + 선택 문서 + 실행 상태가 남음 | 작은 기준선 구현처럼 보임 | 검색, 선택, 해석 중 어디를 먼저 고쳐야 하는지 추적 가능 |
+
+이 표에서 꼭 붙잡아야 할 기준은 `기록이 많으면 복잡하다`가 아니라 `기록이 없으면 다음 개선이 막힌다`는 점입니다. 최소 구현의 초점은 화려한 대시보드를 만드는 일이 아니라, 실패를 다시 읽을 최소 단서를 남기는 일입니다.
+
+### 사례 2. 근거가 부족한데도 답을 확정해 버리면
+
+`신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?` 같은 질문은 더 위험합니다. 검색 결과가 한 문서만 잡혔다고 해서 바로 답을 확정하면, 실제로는 복지포인트 직접 규정이 아니라 `신규 복지 제도는 공지 전까지 인사팀 확인이 필요하다`는 일반 문장만 보고 답했을 가능성이 있습니다. 초심자는 `관련 문서가 하나라도 나왔으니 일단 답은 가능하겠네`라고 느끼기 쉽지만, 이 경우 더 중요한 것은 `근거가 하나뿐인가`, `예외 조항 누락 가능성이 있는가`, `사람 검토가 필요한가`를 함께 남기는 일입니다. 즉 `검색 성공`과 `답변 확정 가능`은 같은 단계가 아닙니다. 그래서 최소 구현에서도 `근거 부족 상태`와 `사람 검토 필요 상태`를 따로 남겨야, 다음 회고에서 검색 확장 문제인지 승인 게이트 문제인지 분리할 수 있습니다. 이 사례에서 확인해야 할 결과는 `답을 생성했다`가 아니라 `근거 부족 상태를 숨기지 않고 운영 경로로 남겼는가`입니다.
+
+실무에서 더 위험한 이유는 `문서가 하나 잡혔다`는 사실이 사람에게 과도한 안도감을 주기 때문입니다. 검색 화면에 관련 문서 제목이 하나 보이면, 초심자는 그것을 `근거 확보`와 거의 같은 뜻으로 받아들이기 쉽습니다. 하지만 운영 판단에서는 `관련 문서가 존재한다`와 `질문을 닫기에 충분한 근거가 있다`를 분리해야 합니다. 특히 예외 조항이 따로 있거나 승인 절차가 얽혀 있는 질문에서는 단일 근거 문서만으로 자동 응답을 확정하는 순간 오답이 더 자신 있게 배포될 수 있습니다.
+
+이 차이를 운영 메모처럼 다시 적으면 다음과 같습니다.
+
+| 상태 | 먼저 떠올리기 쉬운 해석 | 실제로 남겨야 할 운영 판단 |
+| --- | --- | --- |
+| 관련 문서 1건 회수 | `찾았으니 답할 수 있다` | 직접 근거인지, 주변 설명 문서인지 구분 |
+| 예외 조항 미확인 | `일단 답하고 나중에 보강해도 된다` | 사람 검토 필요 상태로 올려야 한다 |
+| 단일 근거로 자동 응답 완료 | `최소 기능은 동작했다` | 근거 부족을 숨겼으므로 오히려 운영 위험이 커졌다 |
+
+이 사례에서 넘어가야 할 오해는 `검색 성공 = 자동 응답 허용`이라는 등식입니다. 최소 구현이 보여 줘야 하는 것은 자동화의 화려함이 아니라, `지금은 아직 사람 검토로 넘겨야 한다`는 경계선을 상태값으로 남길 수 있는가입니다.
+
+### 사례 3. 아예 문서를 못 찾았는데도 그럴듯한 일반론으로 덮으면
+
+`야간 근무 수당은 이번 달부터 얼마인가요?` 같은 질문을 생각해 보겠습니다. 현재 문서 세트에 야간 수당 규정이 없는데도, 모델이 일반적인 인사 안내 문구를 조합해 `사내 규정에 따라 지급됩니다`처럼 그럴듯한 답을 만들 수는 있습니다. 초심자는 검색이 비어도 답변 문장이 자연스러우면 `일단 응답은 했으니 나중에 보강하면 되지 않을까`라고 생각하기 쉽습니다. 하지만 운영 관점에서는 이런 경우가 가장 위험합니다. 관련 문서를 찾지 못했다는 사실 자체가 핵심 신호인데, 이를 숨기고 일반론으로 덮어 버리면 사람 검토가 필요한 질문과 검색 인덱스를 확장해야 하는 질문이 함께 묻혀 버립니다.
+
+그래서 최소 구현에서는 `문서를 찾지 못한 상태`를 단순 예외가 아니라 명시적 상태로 남겨야 합니다. 이 상태가 있어야 다음 회고에서 `검색 대상 문서가 없었던 것인가`, `문서는 있었는데 키워드/임베딩이 못 찾은 것인가`, `질문 표현을 더 잘 풀어야 하는가`를 분리해서 볼 수 있습니다. 여기서 넘어가야 할 오해는 `답을 못 찾았으면 조용히 일반론으로 메우자`는 태도입니다. 이 사례에서 확인해야 할 결과는 `빈칸을 자연스럽게 덮었는가`가 아니라 `문서를 못 찾았다는 실패를 운영 상태로 분명히 남겼는가`입니다.
+
+세 사례를 요청 실행 기록 관점으로 다시 줄이면 다음과 같습니다.
+
+| 장면 | 답만 남기면 놓치는 것 | 함께 남겨야 할 기록 |
+| --- | --- | --- |
+| 다중 근거가 필요한 질문 | 어떤 문서를 같이 읽었는지, 충돌 가능성이 있었는지 | 문서 점수, 선택 문서, 실행 상태, 답변 초안 |
+| 근거가 하나뿐인 질문 | 답을 확정해도 되는지, 사람 검토가 필요한지 | 근거 부족 상태, 사람 검토 필요 여부, 회고 메모 |
+| 문서를 전혀 못 찾은 질문 | 검색 실패인지 해석 실패인지, 일반론으로 덮어 버렸는지 | 문서 미회수 상태, 실패 메모, 다음 조치 |
 
 ## 바로 적용해 보면
 
-직접 계보와 주변 근거 구분을 처음 읽을 때 자주 생기는 오해는 `유명한 사건이면 다 같은 계보겠지`라고 묶는 점입니다. 하지만 이 절에서 먼저 봐야 하는 것은 유명도보다 `현재 LLM 구조의 어떤 부분으로 직접 이어지는가`입니다.
+최소 구현을 처음 읽을 때 자주 생기는 오판은 `일단 답이 나온다`는 사실만으로도 구현이 충분하다고 느끼는 점입니다. 하지만 먼저 봐야 하는 것은 답이 나왔는가보다 `다음 개선을 위해 무엇이 남았는가`를 같은 요청 기록에서 다시 읽을 수 있는가입니다.
 
 | 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그 확인이 먼저 필요한가 |
 | --- | --- | --- |
-| 유명한 AI 사건이 시간순으로 한 줄에 놓여 있음 | 직전 구조 병목과 다음 구조 해결이 실제로 이어지는가 | 같은 슬라이드에 있다고 직접 구조 계보까지 같은 것은 아니기 때문입니다. |
-| GPU나 대규모 계산 이야기가 길게 나옴 | 계산 조건 설명인가, 모델 구조 설명인가 | 가능하게 한 배경 조건과 직접 구조 원리를 섞으면 핵심 구조 이해가 흐려지기 때문입니다. |
-| 같은 시기에 뜬 생성형 AI 사례들이 함께 소개됨 | 동시 유행인가, 직접 구조 계통인가 | 같은 시기 인기와 직접 lineage는 다른 기준으로 나눠야 과장이 줄어들기 때문입니다. |
+| 답변은 나왔지만 왜 그렇게 답했는지 설명이 안 됨 | 문서 점수와 선택 근거가 함께 남아 있는가 | 검색 실패인지 해석 실패인지 분리하려면 답변 뒤의 선택 경로가 보여야 하기 때문입니다. |
+| 근거가 약한데도 자동 응답으로 끝남 | 사람 검토 필요 상태가 따로 남아 있는가 | 검색 성공과 답변 확정 가능은 같은 뜻이 아니기 때문입니다. |
+| 문서를 못 찾았는데도 일반론 답으로 덮음 | 문서 미회수와 다음 조치가 명시돼 있는가 | 실패를 숨기면 다음 회고에서 검색 확장 문제와 답변 정책 문제를 구분할 수 없기 때문입니다. |
 
 같은 기준을 더 짧은 실무 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
 
 | 이런 의심이 들면 | 먼저 던질 질문 |
 | --- | --- |
-| `이 유명한 사건도 LLM 조상인가?` | 현재 언어 모델 구조와 학습 방식으로 직접 이어지는가? |
-| `GPU 설명이 왜 이렇게 많이 나오지?` | 구조 원리 설명이 아니라 배경 조건 설명으로 읽어야 하는가? |
-| `같이 뜬 기술이면 같은 역사 아닌가?` | 동시 유행과 direct lineage를 따로 구분했는가? |
+| `답은 있는데 왜 고쳐야 할지 모르겠다` | 어떤 문서가 어떤 점수로 선택됐는가? |
+| `이건 사람이 다시 봐야 하는 답 아닌가?` | 사람 검토 필요 여부가 상태로 남았는가? |
+| `검색이 안 됐는데 왜 그냥 답했지?` | 문서 미회수와 다음 조치를 숨기지 않고 기록했는가? |
 
-이 절에서 먼저 익혀야 하는 기준은 단순합니다. direct lineage는 `언어 입력`, `문맥 계산`, `다음 토큰/표현 학습`, `Attention-Transformer-pretraining`으로 직접 이어지는 흐름이고, surrounding evidence는 딥러닝 확산과 계산 조건을 설명하지만 구조 조상으로 바로 놓기엔 거리가 있는 배경 흐름입니다.
+먼저 익혀야 하는 기준은 단순합니다. 최소 구현은 `응답이 나온다`에서 끝나는 장난감이 아니라, `근거 문서`, `실행 상태`, `사람 검토 필요 여부`, `다음 조치`를 함께 남겨 다음 개선을 읽을 수 있게 만드는 기준선 구현입니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 항목 이름을 외우는 것이 아니라, `어떤 기준으로 direct lineage와 surrounding evidence를 나누는가`를 실제 규칙으로 확인하는 것입니다.
+예제는 `질문 -> 검색 -> 답변 초안 -> 평가 -> 기록`을 한 번에 확인하는 데 목적이 있습니다. 질문 두 개만 보는 대신 `다중 근거가 잡히는 경우`, `근거가 하나만 잡히는 경우`, `아예 검색 실패가 나는 경우`를 함께 넣어, 작은 기준선 구현도 여러 실패 유형으로 갈라진다는 점을 확인합니다. 특히 각 질문이 끝난 뒤 요청 실행 기록 하나로 남도록 만들어, 회고나 운영 판단에서 무엇을 고쳐야 하는지 바로 다시 읽을 수 있게 합니다.
 
-아래 예제는 LLM 계보를 설명할 때 직접 구조 계보와 주변 배경 조건을 섞어 말하기 쉬운 상황을 작은 규칙으로 확인합니다. 입력으로는 대표 연구 흐름 CSV([p6-18-lineage-items.csv](../../../assets/part-06/chapter-18/p6-18-lineage-items.csv))와 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도를 사용합니다. 출력에서는 자동 분류 결과, 분류 기준 통과 여부, 분류 이유를 함께 봅니다.
+예제 입력은 정책 문서 4개와 사용자 질문 3개입니다. 결과에서는 문서별 검색 점수, 선택된 근거 문서, 답변 초안, 사람 검토 필요 여부와 회고 메모, 질문별 요청 실행 기록, 전체 질문 묶음에 대한 요약 통계를 함께 확인합니다.
 
-확인할 핵심은 같은 AI 역사 항목이라도 현재 LLM 구조와의 직접 연결 정도가 다를 수 있다는 점입니다. direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않고, 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있습니다. 또한 분류 기준을 바꾸면 같은 항목도 다른 경계에서 다시 검토될 수 있습니다.
+확인할 핵심은 최소 구현도 검색, 답변, 평가, 기록이 한 흐름으로 묶여야 한다는 점입니다. 질문별 요청 실행 기록을 남겨야 어떤 실패 유형이 반복되는지 다시 읽을 수 있고, 운영 관점에서는 정답률보다 근거 부족과 검색 실패를 어떻게 구분했는지가 더 중요합니다.
 
-아래 코드는 위에 정리한 입력 파일을 사용합니다. CSV는 `name`, `domain`, `target`, `connects_to_transformer_llm` 열을 가지며, 마지막 열은 `true` 또는 `false`로 적습니다.
+코드를 보기 전에, 먼저 아래 세 질문에 대해 어떤 실행 상태가 남아야 하는지 스스로 적어 보는 편이 좋습니다.
+
+| 질문 | 먼저 예상해 볼 실행 상태 | 왜 이렇게 예상하는가 |
+| --- | --- | --- |
+| `이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?` | 다중 근거 확인 상태 | 입사 규정과 휴가 규정을 함께 읽어야 닫히기 때문 |
+| `신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?` | 근거 부족 + 사람 검토 상태 | 직접 근거가 약할 가능성이 커서 예외 조항 누락 위험이 있기 때문 |
+| `야간 근무 수당은 이번 달부터 얼마인가요?` | 문서 미회수 + 사람 검토 상태 | 현재 문서 세트로는 관련 규정을 못 찾을 가능성이 크기 때문 |
+
+답을 미리 적어 두고 코드 결과와 비교하면, 이 예제가 단순 출력 확인이 아니라 `질문별 운영 상태 분류`를 검증하는 실습이라는 점이 더 분명해집니다.
+
+먼저 이 예제에서 함께 볼 통합 기록 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| 근거 문서 목록 | 어떤 근거를 실제로 썼는지 남겨야 해서 |
+| 사람 검토 필요 여부 | 답을 바로 써도 되는지, 사람 확인이 필요한지 나눠야 해서 |
+| 실행 상태 | 다중 근거 확보, 근거 부족, 검색 실패를 한눈에 구분해야 해서 |
+| 전체 요약 | 한 질문씩만 보지 않고 전체 흐름에서 어떤 실패가 많은지 읽어야 해서 |
+
+아래 코드는 위에 정리한 정책 문서 목록과 질문 실행 시나리오를 사용합니다.
 
 ```python
-# 언어 모델 역사 항목 CSV를 읽어 domain, target, Transformer 연결 여부로 직접 계보와 주변 근거를 분류하는 예제입니다.
-import csv
-from pathlib import Path
-
-item_path = Path("docs/assets/part-06/chapter-18/p6-18-lineage-items.csv")
-
-def read_items(path):
-    items = []
-    with path.open(encoding="utf-8", newline="") as file:
-        for row in csv.DictReader(file):
-            items.append(
-                {
-                    "name": row["name"],
-                    "domain": row["domain"],
-                    "target": row["target"],
-                    "connects_to_transformer_llm": (
-                        row["connects_to_transformer_llm"].lower() == "true"
-                    ),
-                }
-            )
-    return items
-
-items = read_items(item_path)
-
-lineage_rules = {
-    "direct_domains": {"language"},
-    "direct_targets": {
-        "next_token",
-        "representation",
-        "sequence_alignment",
-        "sequence_modeling",
+# 사내 정책 문서와 질문을 keyword group으로 매칭해 미니 RAG 초안과 사람 검토 필요 여부를 판단하는 예제입니다.
+documents = [
+    {
+        "id": "policy-1",
+        "text": "신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다.",
     },
-    "requires_transformer_connection": True,
+    {
+        "id": "policy-2",
+        "text": "여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다.",
+    },
+    {
+        "id": "policy-3",
+        "text": "잔여 휴가 일수 조회는 인사 시스템에서 확인합니다.",
+    },
+    {
+        "id": "policy-4",
+        "text": "신규 복지 제도는 공지 전까지 인사팀 확인이 필요합니다.",
+    },
+]
+
+queries = [
+    "이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?",
+    "신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?",
+    "야간 근무 수당은 이번 달부터 얼마인가요?",
+]
+
+keyword_groups = {
+    "입사": ["입사", "신입", "직원"],
+    "휴가": ["휴가", "월차", "여름휴가"],
+    "복지": ["복지", "포인트", "제도"],
 }
 
-def classify_item(item):
-    domain_ok = item["domain"] in lineage_rules["direct_domains"]
-    target_ok = item["target"] in lineage_rules["direct_targets"]
-    connection_ok = (
-        item["connects_to_transformer_llm"]
-        if lineage_rules["requires_transformer_connection"]
-        else True
+def score_document(query, doc):
+    score = 0
+    matched_groups = []
+    for group_name, keywords in keyword_groups.items():
+        query_hit = any(keyword in query for keyword in keywords)
+        doc_hit = any(keyword in doc["text"] for keyword in keywords)
+        if query_hit and doc_hit:
+            score += 1
+            matched_groups.append(group_name)
+    return score, matched_groups
+
+def retrieve_docs(query, docs, top_k=2):
+    scored = []
+    for doc in docs:
+        score, matched_groups = score_document(query, doc)
+        scored.append(
+            {
+                "id": doc["id"],
+                "text": doc["text"],
+                "score": score,
+                "matched_groups": matched_groups,
+            }
+        )
+    scored.sort(key=lambda item: item["score"], reverse=True)
+    return scored[:top_k], scored
+
+def draft_answer(query, retrieved):
+    top_docs = [doc for doc in retrieved if doc["score"] > 0]
+    if not top_docs:
+        return "관련 규정을 찾지 못했습니다. 답변을 확정하지 말고 인사팀 확인으로 넘깁니다."
+
+    evidence_lines = [f"- {doc['id']}: {doc['text']}" for doc in top_docs]
+    if len(top_docs) == 1:
+        summary_line = "초안 판단: 근거가 하나뿐이므로 예외 조항이나 최신 공지를 다시 확인해야 합니다."
+    else:
+        summary_line = "초안 판단: 여러 근거를 함께 읽어 조건 충돌과 적용 순서를 확인해야 합니다."
+    return "\n".join(
+        [
+            f"질문: {query}",
+            "확인된 근거:",
+            *evidence_lines,
+            summary_line,
+        ]
     )
 
-    checks = {
-        "domain_ok": domain_ok,
-        "target_ok": target_ok,
-        "connection_ok": connection_ok,
+def evaluate_run(query, retrieved):
+    positive_docs = [doc for doc in retrieved if doc["score"] > 0]
+    notes = []
+    if not positive_docs:
+        notes.append("검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함")
+        run_status = "retrieval_failed"
+    elif len(positive_docs) == 1:
+        notes.append("근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검")
+        run_status = "single_evidence"
+    else:
+        notes.append("다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검")
+        run_status = "multi_evidence"
+
+    if "복지포인트" in query:
+        notes.append("현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인")
+
+    return {
+        "needs_human_review": len(positive_docs) == 0 or len(positive_docs) == 1 or "복지포인트" in query,
+        "run_status": run_status,
+        "notes": notes,
     }
 
-    if all(checks.values()):
-        reason = "언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐"
-        return "direct_lineage", reason, checks
-
-    reason = "LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움"
-    return "surrounding_evidence", reason, checks
-
-grouped = {"direct_lineage": [], "surrounding_evidence": []}
-
-for item in items:
-    label, reason, checks = classify_item(item)
-    grouped[label].append(item["name"])
-    print(
-        item["name"],
-        "->",
-        label,
-        "| domain =",
-        item["domain"],
-        "| target =",
-        item["target"],
-        "| checks =",
-        checks,
-        "| reason =",
-        reason,
+run_records = []
+for query in queries:
+    top_docs, full_scores = retrieve_docs(query, documents)
+    answer = draft_answer(query, top_docs)
+    evaluation = evaluate_run(query, top_docs)
+    run_records.append(
+        {
+            "question": query,
+            "document_scores": full_scores,
+            "retrieved_doc_ids": [doc["id"] for doc in top_docs if doc["score"] > 0],
+            "draft_answer": answer,
+            "evaluation": evaluation,
+        }
     )
 
-print("\n[summary]")
-for label, names in grouped.items():
-    print(label, "=", names)
+summary = {
+    "run_count": len(run_records),
+    "multi_evidence_count": sum(record["evaluation"]["run_status"] == "multi_evidence" for record in run_records),
+    "single_evidence_count": sum(record["evaluation"]["run_status"] == "single_evidence" for record in run_records),
+    "retrieval_failed_count": sum(record["evaluation"]["run_status"] == "retrieval_failed" for record in run_records),
+    "needs_human_review_count": sum(record["evaluation"]["needs_human_review"] for record in run_records),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for record in run_records:
+    print("=" * 80)
+    print("question =", record["question"])
+    print("[document scores]")
+    for item in record["document_scores"]:
+        print(item["id"], "score=", item["score"], "matched_groups=", item["matched_groups"])
+    print("[retrieved_doc_ids]")
+    print(record["retrieved_doc_ids"])
+    print("[draft answer]")
+    print(record["draft_answer"])
+    print("[evaluation]")
+    print("run_status =", record["evaluation"]["run_status"])
+    print("needs_human_review =", record["evaluation"]["needs_human_review"])
+    for note in record["evaluation"]["notes"]:
+        print("-", note)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-language modeling -> direct_lineage | domain = language | target = next_token | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-embeddings -> direct_lineage | domain = language | target = representation | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-attention -> direct_lineage | domain = language | target = sequence_alignment | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-Transformer -> direct_lineage | domain = language | target = sequence_modeling | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-YOLO -> surrounding_evidence | domain = vision | target = object_detection | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-Deep Voice -> surrounding_evidence | domain = speech | target = speech_generation | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-GPU scaling -> surrounding_evidence | domain = infrastructure | target = compute_enablement | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-
 [summary]
-direct_lineage = ['language modeling', 'embeddings', 'attention', 'Transformer']
-surrounding_evidence = ['YOLO', 'Deep Voice', 'GPU scaling']
+{'run_count': 3, 'multi_evidence_count': 1, 'single_evidence_count': 1, 'retrieval_failed_count': 1, 'needs_human_review_count': 2}
+
+================================================================================
+question = 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
+[document scores]
+policy-1 score= 2 matched_groups= ['입사', '휴가']
+policy-2 score= 1 matched_groups= ['휴가']
+policy-3 score= 1 matched_groups= ['휴가']
+policy-4 score= 0 matched_groups= []
+[retrieved_doc_ids]
+['policy-1', 'policy-2']
+[draft answer]
+질문: 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
+확인된 근거:
+- policy-1: 신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다.
+- policy-2: 여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다.
+초안 판단: 여러 근거를 함께 읽어 조건 충돌과 적용 순서를 확인해야 합니다.
+[evaluation]
+run_status = multi_evidence
+needs_human_review = False
+- 다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검
+================================================================================
+question = 신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?
+[document scores]
+policy-4 score= 1 matched_groups= ['복지']
+policy-1 score= 0 matched_groups= []
+policy-2 score= 0 matched_groups= []
+policy-3 score= 0 matched_groups= []
+[retrieved_doc_ids]
+['policy-4']
+[draft answer]
+질문: 신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?
+확인된 근거:
+- policy-4: 신규 복지 제도는 공지 전까지 인사팀 확인이 필요합니다.
+초안 판단: 근거가 하나뿐이므로 예외 조항이나 최신 공지를 다시 확인해야 합니다.
+[evaluation]
+run_status = single_evidence
+needs_human_review = True
+- 근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검
+- 현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인
+================================================================================
+question = 야간 근무 수당은 이번 달부터 얼마인가요?
+[document scores]
+policy-1 score= 0 matched_groups= []
+policy-2 score= 0 matched_groups= []
+policy-3 score= 0 matched_groups= []
+policy-4 score= 0 matched_groups= []
+[retrieved_doc_ids]
+[]
+[draft answer]
+관련 규정을 찾지 못했습니다. 답변을 확정하지 말고 인사팀 확인으로 넘깁니다.
+[evaluation]
+run_status = retrieval_failed
+needs_human_review = True
+- 검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함
 ```
 
-![직접 계보 판정 기준 통과 여부](../../../assets/part-06/chapter-18/lineage-rule-check-matrix-ko.png)
+![요청 실행 상태와 사람 검토 필요 분포](../../../assets/part-06/chapter-17/run-record-status-summary-ko.png)
 
-그래서 이 예제에서 확인해야 할 결과는 항목 이름을 많이 아는가보다, 역사 설명을 `직접 구조사`와 `주변 확산사`로 실제 기준에 따라 나누어 읽는가입니다.
+## 이 예제에서 무엇을 읽어야 하나
 
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+이 코드는 실제 LLM도, 실제 검색 엔진도 아닙니다. 하지만 다음 다섯 가지를 분명히 드러냅니다.
 
-- `lineage_rules["direct_targets"]`에 `compute_enablement`를 넣으면 GPU scaling이 왜 여전히 직접 계보로 보기 어려운지 `domain_ok`과 `connection_ok`에서 다시 확인하기
-- `items`에 `Seq2Seq`나 `RNN` 항목을 추가하고 target을 바꿔 직접 계보로 들어오는 조건을 비교하기
-- `requires_transformer_connection`을 `False`로 바꿨을 때 기준이 느슨해져 어떤 항목이 더 검토 후보가 되는지 보기
+- 질문이 들어온다
+- 검색 단계가 점수와 함께 따로 존재한다
+- 답변은 하나의 문서가 아니라 선택된 근거 묶음에 기대어 만들어진다
+- 다중 근거, 근거 부족, 검색 실패가 서로 다른 메모와 실행 상태로 기록된다
+- 질문별 실행 결과가 마지막에 전체 요약으로 다시 묶인다
 
-## 이 예제를 계보 선별 관점으로 다시 보면
+그래서 이 예제에서 확인해야 할 결과는 `모델이 답했다`는 한 줄 뒤에 검색 점수, 근거 문서, 사람 검토 플래그, 회고 메모, 질문별 요청 실행 기록이 실제로 따로 남는가입니다. 특히 같은 최소 기능 안에서도 `다중 근거 확보`, `근거 부족`, `검색 실패`가 서로 다른 운영 상태로 남는지가 중요합니다.
 
-이 분류 예제는 역사 서술을 `유명한 이름 나열`로 끝내지 않게 해 줍니다. 어떤 항목이 LLM 구조의 직접 계보를 이루는지, 어떤 항목이 같은 시대의 확산과 기대를 보여 주는 주변 근거인지를 구분해야 이후 역사 설명도 더 선명해집니다.
+같은 결과를 실무 검토 메모처럼 다시 적으면 다음과 같습니다.
 
-여기서는 바로 앞의 P6-18.1에서 잡은 큰 발전 흐름을 `무엇이 직접 구조사이고 무엇이 배경 확산사인가`라는 기준으로 더 좁혀 읽습니다. 그래야 여러 딥러닝 성과를 하나의 직선 역사로 뭉뚱그리지 않고, 현재 LLM 구조를 만든 직접 계보를 더 선명하게 구분할 수 있습니다.
+| 질문 | 지금 바로 남길 검토 메모 | 다음 패치 우선순위 |
+| --- | --- | --- |
+| 입사와 휴가 규정이 함께 걸린 질문 | 근거는 둘 이상 잡혔지만 조건 충돌 해석 규칙이 필요하다 | 해석 규칙과 groundedness 점검 |
+| 복지포인트처럼 직접 근거가 약한 질문 | 답은 만들 수 있어도 바로 확정하면 위험하다 | 검색 확장 또는 승인 게이트 |
+| 문서를 못 찾은 질문 | 답을 꾸미지 않고 실패를 드러낸 것은 맞지만, 검색 범위가 부족하다 | 색인 확장, 문서 추가, 사람 검토 흐름 |
 
-하지만 여기서 더 중요한 것은 다음 구분입니다.
+## 요청 실행 기록에서 무엇을 회고하나
 
-- `직접 구조사`: 현재 LLM을 만든 핵심 계보
-- `주변 확산사`: 딥러닝이 왜 강해졌고 왜 널리 받아들여졌는지 보여 주는 사례
+이 최소 구현은 코드가 한 번 돌아가는지 확인하는 데서 멈추지 않습니다. 질문마다 남은 요청 실행 기록을 다시 읽어, 실패가 검색 단계에 있었는지, 해석 단계에 있었는지, 사람 검토로 넘겨야 하는 상태였는지를 구분해야 합니다.
 
-이 구분이 있어야 Part 6에서 다룬 BERT, GPT, pretraining, prompt, RAG, agent를 다시 떠올릴 때 구조와 분위기를 섞지 않게 됩니다.
+| 관찰된 문제 | 실제로 실패한 단계 | 다음 개선 방향 |
+| --- | --- | --- |
+| 문서는 찾았는데 답이 틀림 | 해석/생성 단계 | 근거 인용 방식, 답변 검토 규칙 보강 |
+| 문서 자체를 못 찾음 | 검색 단계 | 키워드 확장, 임베딩 검색, 색인 개선 |
+| 질문은 답했지만 실제 상태가 빠짐 | 도구 부재 | 조회 API 또는 도구 호출 추가 |
 
-## 직접 계보 구분이 본류 해석을 어떻게 바꾸는가
+예를 들어 `입사 후 1개월` 같은 조건을 끝까지 반영하지 못했다면, 이는 검색 성공 뒤의 해석 실패입니다. 반대로 관련 문서가 하나도 잡히지 않았다면 답을 꾸며내기보다 `사람 검토 필요 상태`를 남겨 사람 검토로 넘겨야 합니다. 이렇게 읽어야 같은 실패가 다시 나왔을 때 어디를 먼저 고쳐야 하는지 분명해집니다.
 
-여기까지 구분이 잡히면 앞에서 본 본류 설명을 더 좁은 구조 질문으로 다시 읽을 수 있습니다.
+여기서 한 단계 더 가면, 최소 구현이 직접 보여 주는 것과 아직 다음 개선으로 남는 것을 분리해 두는 편이 좋습니다.
 
-- LLM 관점에서 Transformer 구조를 다시 보면 무엇이 핵심인가?
-- 토큰, context window, causal generation과 연결되는 지점은 어디인가?
+| 상황 | 이 최소 구현이 직접 보여 주는 것 | 아직 다음 개선으로 남는 것 |
+| --- | --- | --- |
+| 질문마다 다른 결과가 나옴 | 다중 근거, 근거 부족, 검색 실패를 서로 다른 실행 상태로 남김 | 실제 임베딩 검색, 재순위화, 더 정교한 groundedness 판정 |
+| 답은 나왔지만 검토가 필요함 | 사람 검토 필요 상태, 회고 메모, 요청 실행 기록 | 승인 게이트, 실제 사람 검토 큐, 재시도 정책 |
+| 근거가 부족하거나 없음 | 검색 단계와 해석 단계를 구분해 회고함 | 더 나은 검색 인프라와 도구 호출 연결 |
+| 코드가 한 번 돌아감 | 요청 경로와 기록 구조가 분리되어 보임 | 비용, 지연 시간, 운영 한도까지 포함한 서비스화 |
 
-이 질문은 본류의 P6-3.1 Transformer를 LLM 관점에서 다시 읽게 만듭니다. 핵심은 역사 설명을 늘리는 데 있지 않고, Transformer와 GPT를 읽을 때 `직접 구조 조상`과 `동시대 배경 사례`를 섞지 않게 만드는 데 있습니다.
+이 표의 핵심은 최소 구현이 `작동 예시`를 넘어서 `어디를 다음에 고칠지 보여 주는 기준선`이라는 점입니다. 실제 임베딩 검색, tool use, agent loop, 운영 통제는 이 기준선 위에 다음 단계로 얹힙니다.
+
+회고 질문은 다음 정도면 충분합니다.
+
+| 장면 | 바로 남겨야 하는 회고 질문 | 다음에 먼저 손볼 가능성이 큰 곳 |
+| --- | --- | --- |
+| 문서를 찾았지만 답변이 어긋남 | 근거를 끝까지 읽었는가 | 해석 규칙, groundedness 점검 |
+| 문서를 못 찾아 사람 검토로 넘김 | 근거 부재를 숨기지 않았는가 | 검색 확장, 사람 검토 흐름 |
+| 다음 확장 지점을 고름 | 실패가 검색 문제인가 도구 부재인가 | 벡터 검색, tool use, agent 분기 |
+
+## 이 최소 구현이 아직 하지 못하는 일
+
+이 최소 구현은 분명히 한계가 있습니다.
+
+- 검색 품질이 단순 키워드 규칙에 의존합니다.
+- 답변 생성이 사실상 템플릿 수준입니다.
+- 문서가 여러 개 충돌할 때 우선순위를 다루지 못합니다.
+- 실제 도구 호출이나 권한 검사는 들어 있지 않습니다.
+
+하지만 바로 이 한계를 적어야 `코드가 한 번 실행된다`는 사실과 `실제 업무 조건에서 반복적으로 쓸 수 있다`는 판단을 분리할 수 있습니다.
+
+또 하나 중요한 점은, 이 한계 목록이 곧 설계 우선순위가 된다는 것입니다.
+
+- 검색 실패가 많으면 검색 품질부터 고칩니다.
+- 문서는 찾는데 답이 자주 어긋나면 답변 생성 규칙과 근거 표시를 먼저 고칩니다.
+- 현재 상태 질문이 많아지면 tool use를 붙입니다.
+
+즉, 최소 구현의 회고는 감상이 아니라 `다음 패치 순서를 정하는 입력`이어야 합니다.
+
+## 언제 vector search와 tool use로 확장하나
+
+다음 상황이 오면 이 미니 실습은 확장 대상이 됩니다.
+
+- 문서 수가 많아져 키워드 규칙으로는 한계가 보일 때
+- 비슷한 표현을 더 잘 찾고 싶을 때
+- 현재 상태 조회나 실행이 필요할 때
+
+즉, 이 절은 `끝난 구현`이 아니라 `다음 개선을 위한 기준점`입니다.
+
+다음처럼 연결하면 충분합니다.
+
+- 더 나은 검색이 필요하면 P6-11의 임베딩과 벡터 검색으로 돌아갑니다.
+- 실제 상태 조회가 필요하면 P6-12의 tool use로 갑니다.
+- 여러 단계 판단이 필요하면 P6-13의 agent 구조로 갑니다.
+- 실패 기록과 안전 장치는 P6-16의 운영 관점으로 다시 읽습니다.
 
 ## 체크리스트
-- 직접 계보를 `현재 LLM 구조와 학습 방식으로 직접 이어지는 흐름`, 주변 근거를 `확산과 인프라 배경`으로 설명할 수 있어야 합니다.
-- 유명한 사건의 동시성이나 영향력과 구조적 조상 여부는 다른 판단 기준이라는 점을 말할 수 있어야 합니다.
-- 이 절은 새 역사 목록이 아니라, 본류를 과장 없이 다시 해석하게 만드는 경계선이라는 점을 잡고 있어야 합니다.
+
+- 최소 구현은 완성품이 아니라 구조 확인용 기준점이라는 점을 설명할 수 있는가?
+- 검색, 응답, 기록은 따로가 아니라 함께 출력되어야 한다는 점을 설명할 수 있는가?
+- 기능이 돌아간다는 사실과 실제로 쓸 만하다는 판단이 다르다는 점을 구분할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-19.
-- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2018, 확인 날짜: 2026-07-19.
-- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-07-19.
-- Joseph Redmon et al., [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640){: target="_blank" rel="noopener noreferrer" }, CVPR, 2016, 확인 날짜: 2026-07-19.
-- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://proceedings.mlr.press/v70/arik17a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2017, 확인 날짜: 2026-07-19.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

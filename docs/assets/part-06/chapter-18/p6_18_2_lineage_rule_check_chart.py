@@ -1,4 +1,5 @@
 from pathlib import Path
+import csv
 import os
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -12,19 +13,20 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
-from matplotlib.colors import ListedColormap
 
 OUT_DIR = Path(__file__).resolve().parent
+CSV_PATH = OUT_DIR / "p6-18-lineage-items.csv"
 
-ITEMS = [
-    {"name": "language modeling", "checks": [True, True, True]},
-    {"name": "embeddings", "checks": [True, True, True]},
-    {"name": "attention", "checks": [True, True, True]},
-    {"name": "Transformer", "checks": [True, True, True]},
-    {"name": "YOLO", "checks": [False, False, False]},
-    {"name": "Deep Voice", "checks": [False, False, False]},
-    {"name": "GPU scaling", "checks": [False, False, False]},
-]
+LINEAGE_RULES = {
+    "direct_domains": {"language"},
+    "direct_targets": {
+        "next_token",
+        "representation",
+        "sequence_alignment",
+        "sequence_modeling",
+    },
+    "requires_transformer_connection": True,
+}
 
 LANG_TEXT = {
     "ko": {
@@ -37,18 +39,78 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "lineage-rule-check-matrix-ko.png",
-        "checks": ["언어 도메인", "LLM 목표", "Transformer 연결"],
-        "pass": "통과",
-        "fail": "미통과",
+        "ylabel": "항목 수",
+        "criterion_labels": ["언어 도메인", "LLM 목표", "Transformer 연결"],
+        "group_labels": ["직접 계보", "주변 근거"],
+        "criterion_title": "기준별 통과 수",
+        "group_title": "최종 분류 수",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "lineage-rule-check-matrix-en.png",
-        "checks": ["language domain", "LLM target", "Transformer link"],
-        "pass": "pass",
-        "fail": "fail",
+        "ylabel": "items",
+        "criterion_labels": ["language domain", "LLM target", "Transformer link"],
+        "group_labels": ["direct lineage", "surrounding evidence"],
+        "criterion_title": "passed criteria",
+        "group_title": "final classes",
     },
 }
+
+
+def read_items() -> list[dict[str, object]]:
+    items = []
+    with CSV_PATH.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            items.append(
+                {
+                    "name": row["name"],
+                    "domain": row["domain"],
+                    "target": row["target"],
+                    "connects_to_transformer_llm": (
+                        row["connects_to_transformer_llm"].lower() == "true"
+                    ),
+                }
+            )
+    return items
+
+
+def classify(item: dict[str, object]) -> tuple[str, dict[str, bool]]:
+    domain_ok = item["domain"] in LINEAGE_RULES["direct_domains"]
+    target_ok = item["target"] in LINEAGE_RULES["direct_targets"]
+    connection_ok = (
+        item["connects_to_transformer_llm"]
+        if LINEAGE_RULES["requires_transformer_connection"]
+        else True
+    )
+    checks = {
+        "domain_ok": domain_ok,
+        "target_ok": target_ok,
+        "connection_ok": connection_ok,
+    }
+    label = "direct_lineage" if all(checks.values()) else "surrounding_evidence"
+    return label, checks
+
+
+def summarize() -> dict[str, object]:
+    items = read_items()
+    labels = []
+    checks = []
+    for item in items:
+        label, item_checks = classify(item)
+        labels.append(label)
+        checks.append(item_checks)
+    return {
+        "item_count": len(items),
+        "criterion_counts": [
+            sum(item["domain_ok"] for item in checks),
+            sum(item["target_ok"] for item in checks),
+            sum(item["connection_ok"] for item in checks),
+        ],
+        "group_counts": [
+            labels.count("direct_lineage"),
+            labels.count("surrounding_evidence"),
+        ],
+    }
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -64,44 +126,64 @@ def configure_font(text: dict[str, object]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
+def style_axis(ax) -> None:
+    ax.grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
+    ax.set_axisbelow(True)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+
+def annotate_bars(bars) -> None:
+    for bar in bars:
+        value = bar.get_height()
+        bar.axes.annotate(
+            f"{value:g}",
+            (bar.get_x() + bar.get_width() / 2, value),
+            textcoords="offset points",
+            xytext=(0, 6),
+            ha="center",
+            fontsize=9,
+            color="#172033",
+        )
+
+
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    matrix = [[1 if ok else 0 for ok in item["checks"]] for item in ITEMS]
-    item_names = [item["name"] for item in ITEMS]
-    cmap = ListedColormap(["#dc2626", "#0f766e"])
-
-    fig, ax = plt.subplots(figsize=(8.6, 4.7), dpi=180)
+    summary = summarize()
+    fig, (criteria_ax, group_ax) = plt.subplots(
+        1,
+        2,
+        figsize=(9.0, 3.9),
+        dpi=180,
+        gridspec_kw={"width_ratios": [1.6, 1]},
+    )
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
-    ax.imshow(matrix, cmap=cmap, vmin=0, vmax=1, aspect="auto")
 
-    ax.set_xticks(range(len(text["checks"])))
-    ax.set_xticklabels(text["checks"])
-    ax.set_yticks(range(len(item_names)))
-    ax.set_yticklabels(item_names)
-    ax.tick_params(axis="x", labelsize=8.8, pad=8)
-    ax.tick_params(axis="y", labelsize=8.4)
+    for ax in (criteria_ax, group_ax):
+        ax.set_facecolor("white")
+        style_axis(ax)
 
-    ax.set_xticks([index - 0.5 for index in range(1, len(text["checks"]))], minor=True)
-    ax.set_yticks([index - 0.5 for index in range(1, len(item_names))], minor=True)
-    ax.grid(which="minor", color="white", linewidth=2.2)
-    ax.tick_params(which="minor", bottom=False, left=False)
+    criterion_bars = criteria_ax.bar(
+        text["criterion_labels"],
+        summary["criterion_counts"],
+        color=["#0f766e", "#2563eb", "#9333ea"],
+        width=0.54,
+    )
+    annotate_bars(criterion_bars)
+    criteria_ax.set_title(text["criterion_title"], fontsize=10, pad=8)
+    criteria_ax.set_ylabel(text["ylabel"])
+    criteria_ax.set_ylim(0, summary["item_count"] * 1.18)
 
-    for row_index, row in enumerate(matrix):
-        for col_index, ok in enumerate(row):
-            ax.text(
-                col_index,
-                row_index,
-                text["pass"] if ok else text["fail"],
-                ha="center",
-                va="center",
-                color="white",
-                fontsize=8,
-                fontweight="bold",
-            )
-
-    for spine in ax.spines.values():
-        spine.set_visible(False)
+    group_bars = group_ax.bar(
+        text["group_labels"],
+        summary["group_counts"],
+        color=["#0f766e", "#64748b"],
+        width=0.52,
+    )
+    annotate_bars(group_bars)
+    group_ax.set_title(text["group_title"], fontsize=10, pad=8)
+    group_ax.set_ylabel(text["ylabel"])
+    group_ax.set_ylim(0, summary["item_count"] * 1.18)
 
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")

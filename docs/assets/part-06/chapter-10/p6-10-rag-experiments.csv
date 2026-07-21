@@ -1,4 +1,37 @@
-name,retrieval_terms,generation_style
-clean_grounded,의미;벡터;검색,grounded
-noisy_retrieval,의미;마케팅;문구;다양하게,grounded
-clean_but_overclaim,의미;벡터;검색,overclaim
+name,retrieval_terms,generation_style,scenario_pattern,reader_hint
+clean_grounded_vector_search,의미;벡터;검색,grounded,related_terms,핵심 관련 문서가 상위에 오고 생성은 근거 안에 머문다.
+clean_grounded_keyword_vs_semantic,키워드;의미;표현,grounded,related_terms,키워드 검색과 의미 검색 비교 문서가 잡힌다.
+clean_grounded_embedding_similarity,임베딩;유사도;벡터,grounded,related_terms,임베딩과 유사도 설명 문서가 잡힌다.
+clean_grounded_rag_pipeline,RAG;검색;생성,grounded,related_terms,RAG 단계 분리 문서가 잡힌다.
+clean_grounded_answer_boundary,문서;근거;범위,grounded,related_terms,문서 범위와 답변 경계가 잡힌다.
+clean_grounded_freshness_caution,최신;검색;보장,grounded,related_terms,최신 정보가 자동 보장되지 않는다는 문서가 잡힌다.
+clean_grounded_synonym_query,동의어;표현;질문,grounded,related_terms,표현이 달라도 의미 검색이 가능하다는 문서가 잡힌다.
+clean_grounded_topk_record,top-k;문서;후보,grounded,related_terms,top-k 후보 확인 문서가 잡힌다.
+clean_grounded_failure_split,검색;실패;생성,grounded,related_terms,검색 실패와 생성 실패 분리 문서가 잡힌다.
+clean_grounded_query_terms,검색어;질문;후보,grounded,related_terms,검색어 설계 문서가 잡힌다.
+clean_grounded_source_title,문서;제목;기록,grounded,related_terms,근거 문서 제목 기록 문서가 잡힌다.
+clean_grounded_policy_document,정책;문서;날짜,grounded,related_terms,정책형 질문의 검색 조건 문서가 잡힌다.
+noisy_retrieval_marketing_copy,마케팅;문구;홍보,grounded,off_topic_terms,마케팅 문서가 상위에 올라 답변으로 새어 나간다.
+noisy_retrieval_banner_text,홍보;배너;문장,grounded,off_topic_terms,배너 문장 문서가 검색 근거처럼 붙는다.
+noisy_retrieval_coupon_event,쿠폰;이벤트;문구,grounded,off_topic_terms,이벤트 쿠폰 문구가 무관 근거로 붙는다.
+noisy_retrieval_brand_slogan,브랜드;슬로건;홍보,grounded,off_topic_terms,브랜드 슬로건 문서가 상위에 온다.
+noisy_retrieval_social_post,소셜;게시글;반응,grounded,off_topic_terms,소셜 게시글 문서가 답변에 섞인다.
+noisy_retrieval_ad_copy,광고;문구;강조,grounded,off_topic_terms,광고 문구 문서가 근거처럼 붙는다.
+noisy_retrieval_newsletter_title,뉴스레터;제목;홍보,grounded,off_topic_terms,뉴스레터 제목 문서가 잡힌다.
+noisy_retrieval_landing_copy,랜딩;카피;마케팅,grounded,off_topic_terms,랜딩 페이지 카피 문서가 잡힌다.
+noisy_retrieval_sales_message,세일즈;구매;문구,grounded,off_topic_terms,세일즈 문구가 답변에 새어 나간다.
+noisy_retrieval_review_edit,고객;후기;홍보,grounded,off_topic_terms,고객 후기 편집 문서가 잡힌다.
+noisy_retrieval_promotion_translation,프로모션;번역;톤,grounded,off_topic_terms,프로모션 번역 문서가 잡힌다.
+noisy_retrieval_campaign_class,캠페인;문구;분류,grounded,off_topic_terms,캠페인 문구 분류 문서가 잡힌다.
+clean_but_overclaim_vector_search,의미;벡터;검색,overclaim,related_terms_with_overclaim,검색어는 관련되어 있지만 생성 문장이 근거보다 강하게 말하는지 본다.
+clean_but_overclaim_keyword_vs_semantic,키워드;의미;표현,overclaim,related_terms_with_overclaim,근거 문서 뒤에 단정 표현이 붙는지 본다.
+clean_but_overclaim_embedding_similarity,임베딩;유사도;벡터,overclaim,related_terms_with_overclaim,유사도 설명이 정답 보장처럼 바뀌는지 본다.
+clean_but_overclaim_rag_pipeline,RAG;검색;생성,overclaim,related_terms_with_overclaim,RAG 단계 설명 뒤에 단계 설명이 자동 보장 표현으로 바뀌는지 본다.
+clean_but_overclaim_answer_boundary,문서;근거;범위,overclaim,related_terms_with_overclaim,문서에 없는 보장 표현이 붙는지 본다.
+clean_but_overclaim_freshness_caution,최신;검색;보장,overclaim,related_terms_with_overclaim,주의 문서가 붙어도 최신 보장으로 말하는지 본다.
+clean_but_overclaim_synonym_query,동의어;표현;질문,overclaim,related_terms_with_overclaim,가능성을 완벽성으로 바꾸는지 본다.
+clean_but_overclaim_topk_record,top-k;문서;후보,overclaim,related_terms_with_overclaim,후보 확인 필요가 생략되는지 본다.
+clean_but_overclaim_failure_split,검색;실패;생성,overclaim,related_terms_with_overclaim,실패 분리 기준이 실패 없음으로 바뀌는지 본다.
+clean_but_overclaim_query_terms,검색어;질문;후보,overclaim,related_terms_with_overclaim,검색어 설계 필요가 자동 해결처럼 바뀌는지 본다.
+clean_but_overclaim_source_title,문서;제목;기록,overclaim,related_terms_with_overclaim,근거 기록 필요가 약해지는지 본다.
+clean_but_overclaim_policy_document,정책;문서;날짜,overclaim,related_terms_with_overclaim,날짜 확인 필요가 최신 보장처럼 바뀌는지 본다.

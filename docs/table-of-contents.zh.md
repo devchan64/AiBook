@@ -1,7 +1,7 @@
 # 目录
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.20`
+> Version: `v2026.07.21`
 
 本文档是 AiBook 面向读者的目录。它不是单纯列出文件，而是让读者一眼看到从 `AI 导论与地形图 -> 基础修复 -> 数据建模 -> 机器学习 -> 深度学习 -> LLM 与生成式 AI -> 项目实践` 连接起来的重新学习顺序。
 
@@ -643,132 +643,135 @@ flowchart LR
 
 ## Part 6. LLM 与生成式 AI
 
-理解 Transformer 之后的主线，并把 LLM 与实际服务连接起来。先立起主要阅读路径，再把 LLM 发展史与 BERT 系列放在后面的背景 Module 中作为比较视角整理。
+Part 6 从生成式 AI 的产出物出发，以 LLM 作为代表案例来阅读，并把 token、embedding、下一个候选生成结构、学习与调节、prompt 与证据补强、工具和 agent 执行、评价与运营连接起来。发展史与 BERT 系列放在主线之后，作为背景地图与比较轴。
 
-### Module 1. 输入单位与表示
+### Module 1. 从 LLM 进入生成式 AI
 
-#### Chapter 1. 分词 `LLM Core`
+#### Chapter 1. 生成式 AI 与 LLM 的位置 `LLM Core`
 
-- **P6-1.1 为什么需要 token**：观察为什么长度限制、成本、截断与输入切分问题，要用不同于字符或句子的计算单位来理解。
-- **P6-1.2 token 是什么**：先抓住模型计算输入与输出时使用的基本计数单位。
-- **P6-1.3 token 是如何使用的**：观察怎样用 token 视角阅读长度、成本、context window 与文档切分。
-- **P6-1.4 分词(tokenization)是什么**：观察字符串怎样变成供模型计算的 token 序列。
-- **P6-1.5 分词会改变什么**：观察同一句话为什么会出现不同的 token 数与边界，以及这怎样影响成本、chunk 与输出长度。
-- **P6-1.6 代表性的 tokenizer 系谱是什么**：介绍 BPE、WordPiece、SentencePiece 分别是在给什么东西命名。
-- **P6-1.7 分词种类差异会在什么时候显现**：观察这些系谱差异何时会开始出现在成本、chunk 边界与混合书写长度直觉上。
-- **P6-1.8 token 视角会用在哪里**：观察 token 视角如何进入 prompt 长度、RAG chunk 设计、成本预算、长文档输入与输出格式设计。
+- **P6-1.1 生成式 AI 会生成什么**：抓住生成结果不是分类值或数值预测，而是需要被检查的产出物。
+- **P6-1.2 为什么以 LLM 为中心案例来读**：观察为什么把 LLM 当作代表路径，而不是把它等同于全部生成式 AI。
+- **P6-1.3 生成是候选分布与选择的反复**：把 Part 5 的候选分布与 sampling 直觉接回 LLM 生成流程。
 
-#### Chapter 2. 嵌入 `LLM Core`
+### Module 2. 文本生成的输入单位与表示
 
-- **P6-2.1 嵌入(embedding)的直觉**：观察为什么要把 token 与句子表示成向量。
-- **P6-2.2 语义与距离**：观察相近表达为什么会变得更接近，以及这种直觉的边界。
-- **P6-2.3 补充学习：从大图景阅读嵌入学习**：先抓住系统会把什么学得更近、把什么推得更远。
-- **P6-2.4 补充学习：从大图景阅读 ANN 检索**：观察为什么即使是近似地，也要更快缩小接近的候选范围。
+#### Chapter 2. token 与分词 `LLM Core`
 
-### Module 2. LLM 核心结构
+- **P6-2.1 为什么要按 token 单位阅读文本生成**：观察生成产出物为什么以小单位被制造并受到限制。
+- **P6-2.2 token 与 token ID 在模型输入中怎样使用**：把字符串、token、token ID 序列放在同一流程中区分。
+- **P6-2.3 分词(tokenization)会改变什么**：观察分词怎样改变长度、成本、chunk 与输出解释。
+- **P6-2.4 token 视角会用在哪里**：把 token 标准应用到 prompt 长度、RAG chunk、成本预算与输出格式设计。
+- **P6-2.5 补充学习：tokenizer 系列差异什么时候显现**：把 BPE、WordPiece、SentencePiece 的差异读成运营观察值。
 
-#### Chapter 3. 重新复习 Transformer 结构 `Deep Learning Structure`
+#### Chapter 3. embedding `LLM Core`
 
-- **P6-3.1 从 LLM 视角重新阅读 Transformer**：把 Part 5 中的 Transformer 再接回生成式语言模型视角。
-- **P6-3.2 attention 与 context window**：观察处理上下文时的结构条件。
-- **P6-3.3 补充学习：位置表示与 multi-head attention 会为上下文读取多加什么**：区分关系读取与顺序信息供给分别在补强什么。
-- **P6-3.4 补充学习：KV cache 会在重复生成时省掉什么重算**：区分长对话与长生成里为什么要尽量不重算前面的部分。
-- **P6-3.5 补充学习：sparse attention 与 long-context 在长上下文里到底差在哪里**：区分连接数控制与长上下文保持不是同一个问题。
+- **P6-3.1 embedding 的直觉**：观察 token ID 为什么会变成可计算的向量表示。
+- **P6-3.2 语义与距离**：观察相近表达变得更接近的直觉及其边界。
+- **P6-3.3 补充学习：从大图景阅读 embedding 学习**：观察什么应该被学得更近，什么应该被推得更远。
+- **P6-3.4 补充学习：从大图景阅读 ANN 检索**：观察快速缩小接近候选的搜索结构。
 
-#### Chapter 4. GPT 系列 `LLM Core`
+### Module 3. 制造下一个候选的 LLM 结构
 
-- **P6-4.1 GPT 系列的位置**：观察基于 decoder 的生成模型主线。
-- **P6-4.2 转向对话式 LLM**：观察模型使用体验发生变化的节点。
+#### Chapter 4. 复习 Transformer 结构 `Deep Learning Structure`
 
-#### Chapter 5. 下一个 token 预测与生成 `LLM Core`
+- **P6-4.1 从 LLM 视角重新阅读 Transformer**：把 Transformer 重新读成上下文反映、表示更新与下一个候选打分的流程。
+- **P6-4.2 attention 与 context window**：观察模型在有限范围内计算关系这一点。
+- **P6-4.3 补充学习：位置表示与 multi-head attention 为上下文读取多加什么**：区分顺序信息与多个关系轴。
+- **P6-4.4 补充学习：KV cache 在反复生成中不再重算什么**：观察反复生成的重算负担。
+- **P6-4.5 补充学习：sparse attention 与 long context 在长上下文里有什么不同**：区分连接数量控制与长上下文保持。
 
-- **P6-5.1 下一个 token 预测(next-token prediction)**：观察生成式语言模型最基本的学习目标。
-- **P6-5.2 生成过程的直觉**：观察答案不是一次性吐出，而是按顺序逐步生成。
+#### Chapter 5. GPT 系列 `LLM Core`
 
-### Module 3. 学习与调节
+- **P6-5.1 GPT 系列的位置**：观察 decoder 中心的自回归生成系列的位置。
+- **P6-5.2 转向对话式 LLM**：观察 instruction following 与产品界面怎样改变使用体验。
 
-#### Chapter 6. 预训练 `Learning Principles`
+#### Chapter 6. 下一个 token 预测与生成 `LLM Core`
 
-- **P6-6.1 预训练(pretraining)**：观察怎样从大规模数据中学习一般模式。
-- **P6-6.2 数据与规模**：谨慎观察规模如何影响模型性能。
+- **P6-6.1 下一个 token 预测(next-token prediction)**：观察下一个 token 分布这个局部目标为什么能连接到长文本生成。
+- **P6-6.2 生成过程的直觉**：观察 greedy、sampling、temperature 怎样改变稳定性与多样性。
 
-#### Chapter 7. 微调 `Learning Principles`
+### Module 4. 形成回答习惯的学习与调节
 
-- **P6-7.1 微调(fine-tuning)**：观察如何按特定目标调整模型。
-- **P6-7.2 LoRA 与高效调节**：介绍不必改动整个模型的调节路径。
+#### Chapter 7. 预训练 `Learning Principles`
 
-#### Chapter 8. 指令微调与对齐 `LLM Core`
+- **P6-7.1 预训练(pretraining)**：观察大规模文本怎样形成通用语言基础。
+- **P6-7.2 数据与规模**：把规模读成同时增加能力与运营负担的轴。
 
-- **P6-8.1 指令微调(instruction tuning)**：观察让模型更好遵循用户指令的学习流程。
-- **P6-8.2 对齐(alignment)的基本问题**：观察如何同时兼顾有用性与安全性。
-- **P6-8.3 什么时候该选 prompt、微调、RAG、工具使用**：把几类调节手段的选择标准放到同一位置比较。
-- **P6-8.4 补充学习：adapter、LoRA、QLoRA 会在什么约束下分开**：在先确定要走微调路线之后，再按成本、结构与内存约束重读几种高效调节名字。
+#### Chapter 8. 微调 `Learning Principles`
 
-### Module 4. prompt 与证据连接
+- **P6-8.1 微调(fine-tuning)**：观察基础模型怎样被调向特定目标或领域。
+- **P6-8.2 LoRA 与高效调节**：观察缩小调节范围怎样改变成本与迭代速度。
 
-#### Chapter 9. Prompt 工程 `LLM Core`
+#### Chapter 9. 指令微调与对齐 `LLM Core`
 
-- **P6-9.1 prompt engineering**：观察如何通过设计输入来观察并调节模型行为。
-- **P6-9.2 prompt 的局限**：观察 prompt 不能保证的部分。
-- **P6-9.3 补充学习：Chain-of-thought、self-consistency、automatic prompt optimization 会在 prompt 层多改变什么**：区分这些 prompt 策略会怎样改变推理路径、候选比较与重复改写，以及它们仍然不能保证什么。
+- **P6-9.1 指令微调(instruction tuning)**：观察遵循用户指令的回答习惯。
+- **P6-9.2 对齐(alignment)的基本问题**：同时观察有用性、安全性、事实性与拒答标准。
+- **P6-9.3 什么时候选择 prompt、微调、RAG 或工具使用**：按失败原因选择补强手段。
+- **P6-9.4 补充学习：adapter、LoRA、QLoRA 在什么约束下分开**：按成本、结构与内存约束区分高效调节名称。
 
-#### Chapter 10. RAG `Service Structure`
+### Module 5. prompt 与证据补强
 
-- **P6-10.1 RAG 的必要性**：观察为什么不能只依赖模型记忆，而要接上外部证据。
-- **P6-10.2 检索结果与生成的结合**：观察把检索到的文档再接入输入的流程。
+#### Chapter 10. Prompt 工程 `LLM Core`
 
-#### Chapter 11. 向量数据库 `Service Structure`
+- **P6-10.1 prompt engineering**：观察怎样用指令、上下文、示例与输出格式引导生成。
+- **P6-10.2 prompt 的局限**：观察新近性、证据性、计算、执行与可复现性为什么不能只靠 prompt 解决。
+- **P6-10.3 补充学习：Chain-of-thought、self-consistency、automatic prompt optimization 在 prompt 层多加什么**：区分 prompt 层补强策略及其边界。
 
-- **P6-11.1 向量数据库(vector database)**：观察保存并检索 embedding 的系统。
-- **P6-11.2 索引(index)与检索质量**：观察快速检索与准确检索之间的平衡。
+#### Chapter 11. RAG `Service Structure`
 
-### Module 5. 执行结构
+- **P6-11.1 RAG 的必要性**：观察把外部证据作为输入上下文接上去，而不是增加模型内部记忆的结构。
+- **P6-11.2 检索结果与生成的结合**：区分检索失败与生成失败。
 
-#### Chapter 12. 工具使用(tool use) `Service Structure`
+#### Chapter 12. 向量数据库 `Service Structure`
 
-- **P6-12.1 工具使用(tool use)**：观察 LLM 如何调用外部功能。
-- **P6-12.2 函数调用(function calling)**：观察工具使用中结构化输入与输出的形式。
+- **P6-12.1 向量数据库(vector database)**：观察把 embedding 与 payload、metadata 一起保存并检索的结构。
+- **P6-12.2 index 与检索质量**：观察检索质量与 latency 的 trade-off。
 
-#### Chapter 13. agent `Service Structure`
+### Module 6. 工具与 agent 执行结构
 
-- **P6-13.1 agent**：观察如何把目标拆成多步工作流。
-- **P6-13.2 计划、行动、观察**：观察 agent loop 的基本结构。
+#### Chapter 13. 工具使用(tool use) `Service Structure`
 
-#### Chapter 14. MCP(Model Context Protocol) 与 harness `Service Structure`
+- **P6-13.1 工具使用(tool use)**：观察需要查询、计算、文件处理或状态确认的场景。
+- **P6-13.2 函数调用(function calling)**：观察自然语言请求怎样被结构化成函数名与参数。
 
-- **P6-14.1 MCP 与工具连接**：观察外部工具与数据连接如何被标准化。
-- **P6-14.2 harness**：观察包住执行、日志、评估与可复现性的外围环境。
+#### Chapter 14. agent `Service Structure`
 
-### Module 6. 评估、运营与综合实作
+- **P6-14.1 agent**：观察把目标连接到计划、工具调用、观察与状态判断的结构。
+- **P6-14.2 计划、行动、观察**：观察 agent loop 中继续探索、结束与人工检查的分支。
 
-#### Chapter 15. LLM 评估 `LLM Core`
+#### Chapter 15. MCP 与 harness `Service Structure`
 
-- **P6-15.1 LLM 评估(evaluation)**：观察如何确认回答质量。
-- **P6-15.2 自动评估与人工评估**：观察不同评估方式的优缺点。
+- **P6-15.1 MCP 与工具连接**：观察用共同形式连接工具与资源的接口层。
+- **P6-15.2 harness**：观察包住执行、日志、评价、批准与可复现性的环境。
 
-#### Chapter 16. AI 服务在现实中遇到的约束 `Service Structure`
+### Module 7. 可检查的服务状态
 
-- **P6-16.1 AI 服务在现实中遇到的约束**：从真实运营视角观察成本、延迟与使用量限制。
-- **P6-16.2 运营中的失败响应**：观察面对故障、质量下降与安全问题时的处理标准。
+#### Chapter 16. LLM 评价 `LLM Core`
 
-#### Chapter 17. 把一个小型生成式 AI 功能串成完整流程 `Project Practice`
+- **P6-16.1 LLM 评价(evaluation)**：区分自然回答与质量标准。
+- **P6-16.2 自动评价与人工评价**：观察重复检查与语境判断的分工。
 
-- **P6-17.1 把一个小型生成式 AI 功能串成完整流程**：确认输入、检索、生成、工具调用如何在一个功能内串起来。
-- **P6-17.2 最小实现与回顾点**：整理哪些部分需要亲手实现，哪些部分需要在回顾中重新检查。
+#### Chapter 17. 服务运营约束 `Service Structure`
 
-### Module 7. 背景地图：LLM 发展史
+- **P6-17.1 服务运营约束**：观察成本、延迟、吞吐量与使用限制。
+- **P6-17.2 运营中的失败应对**：把 hallucination、timeout、权限错误、format mismatch 分成恢复路径。
 
-#### Chapter 18. LLM 发展史 `History and Paradigm`
+#### Chapter 18. 把一个小型生成式 AI 功能绑成一条流程 `Project Practice`
 
-- **P6-18.1 LLM 发展史的大致脉络**：把统计语言模型一路接到预训练 LLM。
-- **P6-18.2 直接谱系与外围证据**：区分 LLM 的直接发展线与深度学习扩散案例。
+- **P6-18.1 把一个小型生成式 AI 功能绑成一条流程**：把问题、证据、回答、状态判断与记录绑成一个流程。
+- **P6-18.2 最小实现与回顾点**：在进入 Part 7 前，收束为什么需要记录与回顾。
 
-### Module 8. 背景比较：BERT 系列
+### Module 8. 背景地图与比较
 
-#### Chapter 19. BERT 系列 `LLM Core`
+#### Chapter 19. LLM 发展史 `History and Paradigm`
 
-- **P6-19.1 BERT 系列的位置**：观察基于 encoder 的预训练模型承担什么角色。
-- **P6-19.2 以理解为中心的任务**：观察它如何接到分类、检索与 embedding。
+- **P6-19.1 LLM 发展史的大流程**：观察从统计语言模型到 GPT 式界面的变化。
+- **P6-19.2 直接谱系与周边依据**：区分 LLM 直接谱系与深度学习扩散的周边依据。
+
+#### Chapter 20. BERT 系列 `LLM Core`
+
+- **P6-20.1 BERT 系列的位置**：比较 GPT 生成系列与 BERT 理解系列。
+- **P6-20.2 理解中心任务**：观察分类、句子对判断、搜索与排序、embedding 复用。
 
 ## Part 7. 项目
 

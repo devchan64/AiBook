@@ -1,250 +1,381 @@
-# P6-4.1 GPT 계열의 위치
+# P6-4.1 Transformer를 LLM 관점에서 다시 읽기
 
 > Section ID: `P6-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.21`
 
-여기까지는 Transformer를 LLM 관점으로 다시 읽고, context window와 attention 제약을 확인했습니다. 이제 같은 Transformer 계열 안에서도 `입력을 읽는 흐름`과 `계속 이어서 생성하는 흐름`을 구분해야 합니다.
+Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 
-Part 6에서 `GPT 계열의 구조적 위치`, `디코더(decoder) 중심 생성 흐름`, `BERT와 GPT의 가장 큰 차이`에 대한 첫 상세 설명은 이 절에서 잡습니다. 뒤 절에서는 현재 맥락에 필요한 최소 설명만 남기고, GPT를 생성형 LLM의 기본 흐름으로 읽는 기준은 이 절과 개념사전을 기준으로 다시 연결합니다.
+Part 5가 Transformer의 블록 구조 자체를 설명했다면, Part 6에서는 같은 구조를 생성형 언어 모델의 계산 흐름 안에서 다시 읽어야 합니다. 핵심은 `토큰 -> 임베딩 -> attention 블록 -> 다음 토큰 점수`가 하나의 생성 흐름으로 이어진다는 점입니다.
 
-계속 이어서 생성하는 모델은 Transformer 계열 안에서 어디에 놓이는가? GPT 계열은 Transformer의 디코더(decoder)를 중심으로 이전 토큰 문맥을 보고 다음 토큰을 예측하며, 이 반복을 통해 긴 텍스트를 생성하는 흐름입니다.
+LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가? LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention으로 서로의 관계를 읽고, feed-forward와 반복 블록으로 표현을 정제하며, 최종적으로 다음 토큰을 예측하는 기본 구조입니다.
 
-## 순차 생성 구조가 다루는 질문
+## 생성 계산 엔진이 다루는 질문
 
-순차 생성 구조는 다음 질문에서 시작합니다.
+생성 계산 엔진을 다시 읽을 때 핵심 질문은 다음 세 가지입니다.
 
-- GPT 계열은 Transformer 안에서 어떤 위치를 가지는가?
-- 왜 GPT는 `계속 이어서 생성하는 모델`처럼 보이는가?
-- BERT 계열과 비교하면 무엇이 가장 크게 다른가?
+- 이미 본 Transformer를 LLM 관점으로 다시 보면 무엇이 달라지는가?
+- 토큰, 임베딩, self-attention, 다음 토큰 예측은 어떻게 이어지는가?
+- 왜 Transformer는 생성형 언어 모델의 기본 구조가 되었는가?
 
-GPT의 생성 구조는 여기서 잡고, 사전학습의 역할은 P6-6.1, 다음 토큰 예측은 P6-5.1, 지시 튜닝과 정렬 문제는 P6-8.1과 P6-8.2에서 다시 회수합니다. 즉, 이번 절은 GPT를 제품 계보보다 `디코더 기반 생성 구조`로 읽는 자리에 가깝습니다.
+Transformer 블록의 큰 구조를 먼저 잡으면, multi-head attention과 위치 표현, KV cache, sparse attention, long-context 같은 보강 주제도 같은 흐름 위에 놓을 수 있습니다. 서비스 운영 관점의 지연 시간과 비용 제약도 결국 이 계산 흐름을 얼마나 많이, 얼마나 오래, 얼마나 빠르게 반복하는가와 연결됩니다.
 
-이 절에서는 GPT를 제품 이름이 아니라 `디코더 기반 생성 모델`이라는 구조적 위치에서 읽습니다. 따라서 여기서 먼저 잡아야 할 것은 `유명한 모델 이름`이 아니라 `왜 GPT가 순차 생성 구조로 읽히는가`입니다.
+Transformer 공식을 다시 전개하는 것보다 중요한 것은 Part 6에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`입니다. 세부 블록 이름보다 중요한 기준은 `입력 토큰이 어떤 계산 흐름을 거쳐 다음 토큰 점수로 이어지는가`입니다.
 
-| 지금 이 절에서 읽는 것 | 바로 다음 절이나 뒤 장으로 넘기는 것 |
+| 지금 읽는 것 | 이후 넓어지는 질문 |
 | --- | --- |
-| GPT가 Transformer 계열 안에서 왜 `계속 이어 쓰는 생성 흐름`으로 읽히는가 | 사전학습이 이 구조를 어떻게 키우는가 |
-| BERT와 GPT를 입력 읽기와 순차 생성 관점에서 어떻게 구분하는가 | instruction tuning, alignment, 상용 모델 버전 차이가 무엇을 더 바꾸는가 |
+| 토큰, 임베딩, attention 블록, 다음 토큰 점수가 어떤 한 흐름을 이루는가 | context window가 어디까지 입력을 담을 수 있는가 |
+| Transformer가 LLM의 기본 계산 엔진이라는 점 | GPT 계열 분화, pretraining, 운영 비용 제약이 각각 무엇을 더 바꾸는가 |
 
 이 절이 Part 6 본류 요청 흐름에서 맡는 위치를 가장 짧게 붙잡으면 다음과 같습니다.
 
-| 지금 절의 역할 | 바로 다음에 붙는 질문 | 이어서 읽을 절 |
+| 지금 역할 | 이어질 질문 | 이어서 읽을 절 |
 | --- | --- | --- |
-| Transformer 계산 엔진이 어떻게 `계속 이어 쓰는 생성 흐름`이 되는가 | 이 생성 흐름이 실제로 왜 다음 토큰 예측과 사용자 경험으로 보이는가 | P6-5.1 다음 토큰 예측, P6-6.1 사전학습 |
+| 입력 토큰이 어떤 계산 엔진을 통과하는가 | 이 엔진이 왜 `다음 토큰 생성`으로 이어지는가 | P6-5.1 GPT 계열의 위치, P6-6.1 다음 토큰 예측 |
 
-## 여기서 남겨야 할 구분
+여기서 확인해야 할 결과는 Transformer를 `다음 토큰을 한 번 맞히는 장치`가 아니라, 문맥 전체를 반영해 다음 후보 분포를 갱신하는 중심 엔진으로 읽게 되는가입니다. 이 구분이 잡혀야 Part 5의 딥러닝 구조 설명이 Part 6의 생성 모델 구조, context window, prompt, RAG 설명으로 자연스럽게 이어집니다.
 
-- GPT 계열을 decoder 중심 Transformer 흐름으로 설명할 수 있습니다.
-- GPT가 왜 다음 토큰 예측(next-token prediction)과 직접 연결되는지 말할 수 있습니다.
-- BERT와 GPT의 차이를 `문장 전체 읽기` 대 `순차 생성` 관점으로 설명할 수 있습니다.
-- 다음 절의 대화형 LLM 사용자 경험으로 자연스럽게 넘어갈 수 있습니다.
+## 같은 Transformer를 왜 다시 읽어야 하는가
 
-이 절은 다음 절의 `대화형 LLM으로의 전환`을 위한 구조 설명입니다. 먼저 GPT를 생성 구조로 이해해야, 왜 사용자가 자연어로 요구를 적고 결과를 받는 경험이 가능해졌는지 설명할 수 있습니다.
+Part 5에서는 Transformer를 딥러닝 구조로 설명했습니다. 즉:
 
-## 생성 구조 비교를 보는 순서
+- self-attention
+- feed-forward
+- residual connection
+- layer normalization
 
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+같은 블록 요소를 중심에 두었습니다.
 
-1. 먼저 GPT를 제품 이름이 아니라 `decoder 중심 생성 구조`로 읽습니다.
-2. 그 다음 왜 GPT가 한 번에 완성 문장을 내놓는 모델보다 `다음 토큰을 이어 가는 모델`처럼 보이는지 확인합니다.
-3. 이어서 BERT와의 차이를 `입력을 읽는 흐름`과 `출력을 이어 쓰는 흐름`으로 구분합니다.
-4. 마지막에 사례와 예제를 통해 `초반 선택이 뒤 생성 경로를 계속 밀어 가는가`를 확인합니다.
+Part 6에서는 같은 구조를 보되 질문이 달라집니다.
 
-## GPT는 무엇의 약자인가
+- 이 구조가 텍스트를 어떻게 읽는가?
+- 이 구조가 왜 다음 토큰 예측(next-token prediction)에 잘 맞는가?
+- 이 구조가 왜 LLM 서비스의 기본 계산 단위가 되었는가?
 
-GPT는 `Generative Pre-Trained Transformer`의 약자입니다. 이름 안에 이미 세 가지 핵심이 들어 있습니다.
+즉, 구조는 같지만 `읽는 관점`이 달라집니다.
 
-- Generative
-- Pre-Trained
-- Transformer
+P5-14를 읽었다고 해서 곧바로 P6-4.1이 자동으로 이해되는 것은 아닙니다. P5-14는 `Transformer 블록 안에 무엇이 들어 있는가`를 닫는 절이고, P6-4.1은 그 블록이 `LLM 요청을 받아 다음 토큰 후보 점수로 닫히는 흐름`을 새로 연결해야 하는 절입니다.
 
-즉:
+따라서 Part 5에서 바로 넘어올 때는 다음 빈칸을 먼저 메워야 합니다.
 
-- 생성(generation)을 목표로 하고
-- 먼저 큰 데이터에서 사전학습(pretraining)하며
-- Transformer 구조를 사용한다
+| P5-14에서 이미 잡은 것 | P6-4.1에서 새로 연결해야 하는 것 | 왜 그냥 넘어가면 부족한가 |
+| --- | --- | --- |
+| self-attention은 토큰 사이 관계를 읽는다 | 현재 생성 위치가 앞 문맥에서 어떤 단서를 끌어와 다음 후보를 바꾸는가 | 관계 읽기 자체와 생성 후보 변화가 아직 연결되지 않았기 때문 |
+| feed-forward와 반복 블록은 표현을 가공한다 | 여러 층을 지난 마지막 위치 표현이 다음 토큰 점수표로 바뀐다 | 표현이 좋아진다는 말만으로는 실제 출력 형식이 보이지 않기 때문 |
+| residual connection과 layer normalization은 블록을 안정적으로 이어 준다 | 긴 생성 흐름에서도 같은 블록 계산을 반복해 후보 분포를 계속 갱신한다 | 블록 안정화와 생성 루프의 역할이 서로 다른 층위이기 때문 |
+| Transformer는 RNN보다 병렬 계산과 긴 문맥 참조에 유리하다 | LLM에서는 그 장점이 prompt, context window, GPT, RAG 설명의 기반이 된다 | 계산 구조의 장점과 Part 6의 서비스·생성 질문이 아직 이어지지 않았기 때문 |
 
-는 뜻입니다.
+이 표에서 확인해야 할 결과는 `P5-14를 다시 설명할 수 있는가`가 아닙니다. P5-14의 블록 설명을 발판으로 삼되, 이제는 `문맥을 반영한 표현이 어떻게 다음 토큰 후보 분포로 바뀌는가`를 설명할 수 있어야 합니다. 이 다리가 없으면 P6-4.1의 사례와 예제는 갑자기 `다음 토큰 점수표`로 뛰어드는 것처럼 읽힙니다.
 
-## 왜 GPT는 `생성 모델`처럼 읽히나
+## LLM에서는 토큰이 출발점이다
 
-GPT 계열은 보통 이전 토큰들을 보고 다음 토큰을 예측하는 autoregressive language model 흐름으로 설명합니다.
+LLM은 문장을 통째로 계산하지 않습니다. 먼저 토큰(token) 시퀀스로 읽습니다.
 
-예를 들어 입력이 다음과 같다고 해 봅시다.
+예를 들어 다음처럼 생각할 수 있습니다.
 
-> 오늘 회의는 오후
+```text
+raw text
+-> tokens
+-> token ids
+-> embeddings
+-> Transformer blocks
+-> next-token scores
+```
 
-모델은 여기서 다음 후보를 예측합니다.
+여기서 Transformer는 토큰을 이미 쪼갠 뒤의 계산 구조입니다. 즉, Transformer는 텍스트를 직접 해석하는 첫 단계가 아니라, `토큰 표현을 반복적으로 가공하는 중심 엔진`에 가깝습니다.
 
-- `세`
-- `두`
-- `한`
+## 임베딩은 계산 가능한 출발 표현을 만든다
 
-그리고 하나를 고른 뒤, 그 새 토큰까지 포함해서 다시 다음 토큰을 예측합니다.
+P6-2장에서 본 것처럼 토큰 ID는 단순 번호입니다. Transformer는 이 번호를 직접 다루지 않고, 먼저 임베딩(embedding) 벡터로 바꿉니다.
 
-즉, GPT 계열의 핵심 감각은 다음과 같습니다.
-
-`한 번에 완성 문장을 꺼내는 것이 아니라, 다음 토큰을 계속 이어서 예측하며 출력을 만든다.`
-
-## 왜 디코더(decoder) 중심이라고 하나
-
-Part 6 앞부분에서 본 것처럼 Transformer는 encoder, decoder, encoder-decoder 구조로 나뉘어 읽을 수 있습니다.
-
-GPT 계열은 이 중 decoder 중심 흐름으로 보는 것이 안전합니다.
-
-이 구조의 핵심은:
-
-- 이전까지의 문맥을 보고
-- 현재 위치에서 다음 토큰을 생성할 수 있도록
-- 생성 방향에 맞는 attention 제약을 둔다는 점입니다
+이 임베딩 벡터는 이후 모든 계산의 출발점이 됩니다.
 
 다음처럼 이해할 수 있습니다.
 
-`GPT는 문장 전체를 한 번에 다 읽고 판단하는 모델이라기보다, 앞에서 쓴 것을 바탕으로 뒤를 계속 이어 쓰는 모델이다.`
+`임베딩은 토큰을 Transformer가 계산할 수 있는 숫자 좌표로 바꾸는 단계다.`
 
-## BERT와 비교하면 무엇이 다르나
+즉, Transformer는 텍스트를 문자열로 읽는 것이 아니라, 임베딩된 토큰 표현 위에서 작동합니다.
 
-다시 정리하면:
+## self-attention은 왜 LLM에 특히 중요했나
 
-| 구분 | BERT 계열 | GPT 계열 |
-| --- | --- | --- |
-| 중심 구조 | encoder | decoder |
-| 기본 감각 | 입력 전체 문맥을 읽어 표현 생성 | 이전 토큰을 바탕으로 다음 토큰 생성 |
-| 대표 사용 흐름 | 분류, 검색, 임베딩 | 생성, 대화, 요약, 초안 작성 |
-| 출력 성격 | 라벨, 점수, 표현 | 새 토큰, 새 문장, 새 문단 |
-
-이 표의 핵심은 다음입니다.
-
-`BERT는 입력을 읽고 판단하는 쪽에, GPT는 출력을 계속 이어 만드는 쪽에 더 자연스럽다.`
-
-## 왜 GPT 계열이 사용자 경험을 크게 바꿨나
-
-GPT 계열은 구조적으로 생성에 잘 맞습니다. 그래서 사용자는 모델에게 자연어로 요구를 적고, 모델이 그 뒤를 이어 긴 응답을 만들어 내는 경험을 하게 됩니다.
+생성형 언어 모델은 현재 위치의 다음 토큰을 예측해야 합니다. 이때 지금까지 등장한 이전 토큰들이 모두 힌트가 될 수 있습니다.
 
 예를 들어:
 
-- 질문에 대한 답변 작성
-- 이메일 초안 작성
-- 문서 요약
-- 코드 자동완성
-- 역할 기반 대화
+- 앞에서 등장한 주어
+- 코드 블록의 함수 이름
+- 문서 초반의 핵심 조건
 
-이런 경험은 모두 `다음 토큰 생성의 반복`으로 설명할 수 있습니다.
+같은 정보가 뒤쪽 생성에 영향을 줄 수 있습니다.
 
-즉, GPT 계열은 기술적으로는 다음 토큰 예측 모델이지만, 사용자 입장에서는 `문장을 계속 써 주는 인터페이스`처럼 느껴집니다.
+self-attention은 각 토큰이 다른 토큰들과의 관련도를 계산하게 합니다. 그래서 현재 토큰 표현은 주변과 멀리 있는 이전 토큰들의 정보를 함께 반영할 수 있습니다.
+
+`LLM에서 self-attention은 지금까지 나온 토큰들 중 무엇이 현재 생성에 더 중요한지 계산하는 구조다.`
+
+## feed-forward와 반복 블록은 왜 필요한가
+
+self-attention만으로는 토큰 간 관계를 섞을 수 있지만, 그 정보가 바로 충분히 좋은 표현이 되는 것은 아닙니다.
+
+feed-forward network는 각 위치에서 그 표현을 더 가공합니다. 그리고 이 블록이 여러 층 반복되면 표현은 더 풍부해질 수 있습니다.
+
+즉:
+
+- attention은 관계를 읽고
+- feed-forward는 각 위치 표현을 다시 다듬고
+- 여러 층 반복은 표현을 점점 더 정제합니다
+
+이 흐름은 Part 5의 표현 학습(representation learning) 설명과 그대로 이어집니다.
+
+## 왜 마지막에는 다음 토큰 점수가 나오는가
+
+LLM 설명에서 중요한 차이는 마지막 출력 해석입니다.
+
+분류 모델은 마지막에 클래스(class) 점수를 내는 경우가 많습니다. 하지만 생성형 언어 모델은 보통 `다음에 올 수 있는 토큰 후보들`에 대한 점수를 냅니다.
+
+즉, Transformer 블록을 지나면 마지막에는 대략 이런 질문이 됩니다.
+
+- 다음 위치에 어떤 토큰이 올 가능성이 큰가?
+
+이 점수는 이후 softmax와 sampling 같은 절차를 거쳐 실제 출력 토큰 선택으로 이어집니다.
+
+따라서 Part 5의 구조 설명은 Part 6에서 다음과 같이 다시 읽힙니다.
+
+> 표현 학습 구조
+> -> 다음 토큰 분포 계산 구조
+
+이 차이를 작은 입력 하나로 다시 압축해 보면 다음과 같습니다.
+
+| 입력 조각 | P5-14식으로 먼저 보는 것 | P6-4.1에서 추가로 봐야 하는 것 |
+| --- | --- | --- |
+| `고객사와 오늘 회의는 오후 2시에 진행` | 토큰 표현들이 self-attention과 feed-forward를 거쳐 갱신된다 | 마지막 위치 표현이 `합니다`, `됩니다`, `이다` 같은 다음 후보 점수 차이로 이어진다 |
+| `팀 내부 메모다. 오늘 회의는 오후 2시에 진행` | 같은 Transformer 블록이 토큰 관계를 다시 계산한다 | 앞 문맥의 말투 단서 때문에 후보 점수표가 공지형보다 대화형 표현 쪽으로 달라진다 |
+
+따라서 목표는 Transformer 부품 이름을 다시 외우는 것이 아니라, 같은 부품들이 LLM 안에서 `문맥 반영 -> 표현 갱신 -> 다음 후보 점수`라는 생성 흐름을 만든다는 점을 붙잡는 것입니다.
 
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-04/p6-c04-s01-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-04/p6-c04-s01-transformer-flow-ko.mmd"
 ```
 
-이 도식에서 확인해야 할 결과는 GPT 계열이 완성 문장을 한 번에 꺼내는 구조가 아니라, 앞 토큰을 바탕으로 다음 토큰 후보를 반복해서 이어 붙이는 생성 구조라는 점입니다.
+이 도식은 Part 6에서 Transformer를 읽을 때 가장 자주 떠올려야 하는 최소 구조입니다.
 
 ## 사례 및 예시
 
-아래 도식은 이 절의 세 사례를 `생성 결과가 무엇인가`보다 `초기 토큰 선택이 뒤 경로를 어떻게 밀어 가는가`라는 공통 질문으로 다시 묶은 것입니다.
+아래 도식은 이 절의 세 사례를 `다음 한 토큰을 고른다`보다 `앞 문맥 전체가 다음 후보 분포를 어떻게 바꾸는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
---8<-- "assets/part-06/chapter-04/p6-c04-s01-diagram-02-ko.mmd"
+--8<-- "assets/part-06/chapter-04/p6-c04-s01-use-cases-ko.mmd"
 ```
 
-이 도식에서 확인해야 할 점은 과업이 달라도 생성 감각이 비슷하다는 것입니다. 모두 `지금 한 번 고른 토큰이나 문장이 뒤 출력의 다음 입력 일부가 된다`는 구조를 가지며, 그래서 초반 선택이 뒤 경로 전체를 계속 밀어 갑니다.
+이 도식에서 확인해야 할 점은 과업이 달라도 마지막 단계는 비슷하다는 것입니다. 모두 `다음 토큰 하나를 찍는다`가 아니라, 앞에서 들어온 문맥 전체를 반영해 `지금 어떤 후보 분포가 만들어지는가`를 먼저 봐야 합니다.
 
-### 사례 1. 자동완성
+### 사례 1. 문장 자동완성
 
-사용자가 `회의는 내일 오후`까지만 적었을 때, 초심자는 흔히 모델이 문장 전체를 한 번에 떠올린다고 느끼기 쉽습니다. 하지만 실제 자동완성에서는 `두`, `세`, `네`처럼 다음 후보를 먼저 놓고, 그중 하나를 고른 뒤 다시 다음 토큰 후보를 이어 계산합니다. 즉, 모델은 완성 문장을 통째로 꺼내는 것이 아니라, 앞에 나온 토큰들을 보고 다음에 올 가능성이 큰 토큰을 차례로 이어 붙입니다.
+운영자가 메신저 초안을 쓰다가 `오늘 회의는 오후`까지만 입력한 장면을 떠올려 보겠습니다. 마지막 단어 바로 뒤만 보고 `2시`, `3시`처럼 다음 말을 찍어 보려 하기 쉽습니다. 하지만 실제 자동완성은 마지막 단어 하나만 보는 문제가 아닙니다. Transformer는 앞 토큰들을 보고 다음 후보 분포를 계산하면서, `회의`와 `오후`처럼 앞에 나온 단서들을 함께 반영해 다음 표현을 고르게 됩니다. 예를 들어 같은 문장이라도 앞부분에 `고객사와`가 있으면 공손한 공지형 표현이, `팀 내부`가 앞에 있으면 짧은 협업형 표현이 더 자연스럽게 떠오를 수 있습니다. 여기서 바뀌는 점은 `마지막 단어 뒤를 찍는가`를 보던 기준에서 `앞 문맥 전체가 다음 후보를 어떻게 바꾸는가`를 보는 기준으로 이동한다는 것입니다.
 
-여기서 바뀌는 점은 `한 번에 완성된 문장`을 기대하는 것에서 `앞 선택이 뒤 문장을 계속 밀어 가는 구조`를 보게 된다는 것입니다. 앞 단계에서 시간을 잘못 고르면 뒤 문장 전체도 그 시간 표현을 기준으로 이어지게 됩니다. 예를 들어 `오후 세` 대신 `오후 네`가 먼저 선택되면, 뒤의 회의실 안내나 참석 요청 문장도 그 시각을 전제로 이어질 수 있습니다. 여기서 바로잡아야 할 오해는 `초반 한 단어는 나중에 쉽게 덮어써질 것`이라는 감각입니다. 그래서 이 사례에서 확인해야 할 결과는 첫 몇 토큰 선택이 바뀌면 뒤 문장 전체도 그 선택을 따라 달라지는가, 그리고 초반 선택이 뒤 문장 방향을 실제로 잠가 버리는가입니다.
+같은 `오늘 회의는 오후`라는 끝부분도 앞 문맥이 다르면 다음 후보가 달라집니다.
 
-### 사례 2. 요약 초안 작성
-
-사용자가 긴 회의록을 넣고 `세 문장으로 요약해 줘`라고 요청하면, 초심자는 요약 전체가 먼저 정해지고 그대로 출력된다고 생각하기 쉽습니다. 하지만 내부에서는 첫 문장을 만들고, 그 문장 자체가 다시 다음 출력의 문맥 일부가 되면서 두 번째와 세 번째 문장이 이어집니다. 즉, 요약도 결국은 다음 토큰을 이어 가는 생성 구조 위에서 만들어집니다.
-
-여기서 바뀌는 점은 `요약 결과가 한 번에 결정된다`는 감각보다, 첫 문장 선택이 뒤 문장 방향까지 연쇄적으로 정한다는 점을 보게 된다는 것입니다. 첫 문장이 핵심을 잘못 잡으면 뒤 문장들도 그 잘못된 초점을 이어받아 전체 요약 방향이 틀어질 수 있습니다. 예를 들어 첫 줄에서 `배포 일정 확정`이라고 잘못 단정하면, 실제로는 연기 논의가 중심이었던 회의도 뒤 문장들이 그 잘못된 결론을 보강하는 방향으로 이어질 수 있습니다. 여기서 바로잡아야 할 오해는 `첫 문장이 조금 빗나가도 뒤에서 다시 균형을 잡아 줄 것`이라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 첫 문장 초점이 흔들리면 뒤 요약 문장들도 같은 방향으로 연쇄적으로 기울어지는가, 그리고 초반 단정이 뒤 문장들의 강조 순서까지 바꾸는가입니다.
-
-### 사례 3. 코드 생성
-
-개발자가 함수 이름, 입력 설명, 기대 동작을 주고 구현을 요청할 수 있습니다. 초심자는 코드 생성도 정답 블록 하나를 통째로 꺼내는 일처럼 느끼기 쉽지만, 실제로는 함수 정의, 들여쓰기, 조건문, 반환문이 토큰 단위로 순서대로 이어집니다. 그래서 앞에서 잘못 생성한 변수명이나 조건식은 뒤 코드에도 계속 영향을 미치게 됩니다.
-
-여기서 바뀌는 점은 `한 번에 완성된 코드`를 기대하는 것보다, 초반 토큰 하나가 뒤 구조 전체를 끌고 간다는 점을 먼저 보게 된다는 것입니다. 예를 들어 초반에 `user_id`를 잘못 잡아 두면 뒤 조회, 예외 처리, 반환문까지 같은 오류가 연쇄적으로 따라갈 수 있습니다. 괄호 하나가 어긋나도 뒤 블록 전체가 문법 오류로 무너질 수 있다는 점도 같은 구조를 보여 줍니다. 여기서 바로잡아야 할 오해는 `초반 변수명이나 조건식은 사소한 선택`이라는 감각입니다. 그래서 이 사례에서 확인해야 할 결과는 초반 토큰 선택 오류가 뒤 코드의 변수명, 분기, 문법까지 연쇄적으로 흔드는가, 그리고 앞 선택 하나가 뒤 여러 줄을 실제로 고정해 버리는가입니다.
-
-세 사례를 누적 생성 관점으로 다시 묶으면 다음과 같습니다.
-
-| 상황 | 초반 선택이 특히 크게 미는 것 | 뒤에서 함께 흔들리는 것 |
+| 앞 문맥 | 마지막 단어만 보고 떠올리기 쉬운 것 | 실제로 더 자연스러워지기 쉬운 후보 |
 | --- | --- | --- |
-| 자동완성 | 시간·주제 같은 첫 표현 | 뒤 문장 전체의 전개 |
-| 요약 초안 작성 | 첫 문장의 초점 | 뒤 요약 문장의 강조 순서 |
-| 코드 생성 | 변수명, 조건식, 괄호 구조 | 분기, 반환, 문법 안정성 |
+| `고객사와` | 그냥 `2시`나 `3시` 같은 시간 후보 | `2시에 진행됩니다` 같은 공지형 표현 |
+| `팀 내부` | 시간 숫자만 맞으면 된다고 보기 쉬움 | `2시에 하자` 같은 짧은 협업형 표현 |
+| `공지 메일입니다` | 시각 정보만 채우면 끝날 것 같음 | 시간 + 안내 문장 구조까지 함께 정해짐 |
 
-## 바로 적용해 보면
+이 표가 바로잡는 오해는 `마지막 단어만 같으면 다음 후보도 거의 같다`는 기대입니다. 자동완성 사례는 바로 이 오해를 깨면서, Transformer가 앞 문맥 전체를 보는 구조라는 점을 가장 쉽게 보여 줍니다.
 
-이 절을 읽은 뒤에는 아직 다음 토큰 예측이나 지시 튜닝 세부를 다 몰라도, 아래처럼 `지금 보는 장면이 GPT의 누적 생성 구조 문제인가`를 먼저 가르는 연습을 할 수 있습니다.
+### 사례 2. 코드 생성
 
-| 지금 보이는 장면 | 먼저 떠올리기 쉬운 오해 | 먼저 바꿔 물을 질문 |
+함수 정의와 변수 선언이 앞에 있고, 뒤에서 구현을 이어 쓸 때, 바로 앞줄만 보면 변수 이름을 놓치기 쉽습니다. 앞부분에서 `user_id`를 선언했는데 뒤에서 갑자기 `userId`나 `account_id`로 미끄러지면 문법은 맞아 보여도 구현 일관성은 깨집니다. 함수 이름이 `calculate_total`인데 할인 단계나 세금 반영 순서가 빠져도, 앞에서 세운 목적과 뒤 구현이 어긋납니다.
+
+같은 코드 생성도 앞 문맥을 얼마나 붙잡느냐에 따라 흔들리는 지점이 다릅니다.
+
+| 앞 문맥에서 이미 열린 것 | 바로 앞줄만 볼 때 생기기 쉬운 문제 | 앞 문맥을 계속 볼 때 더 유지되는 것 |
 | --- | --- | --- |
-| 문장 첫 표현이 바뀌자 뒤 설명 톤과 흐름도 같이 바뀐다 | 모델이 문장 전체를 한 번에 정해 두었다고 느끼기 쉽다 | 앞 토큰 선택이 뒤 후보 경로를 계속 바꾸는 구조인가 |
-| 자동완성은 자연스러운데 `세 문장으로 답해 줘` 같은 형식은 자주 어긴다 | GPT 구조만 커지면 곧바로 챗봇 경험도 해결된다고 느끼기 쉽다 | 지금 막히는 것은 생성 구조보다 다음 절의 조정층 문제인가 |
-| 긴 코드 생성에서 초반 변수명 하나가 뒤 분기와 반환문까지 흔든다 | 앞부분 오류는 뒤에서 쉽게 덮어써질 것이라고 느끼기 쉽다 | 초반 토큰 선택이 뒤 코드 구조를 실제로 고정하는가 |
+| `user_id` 같은 변수 선언 | 비슷한 다른 이름으로 미끄러짐 | 변수명 일관성 |
+| `calculate_total` 같은 함수 목적 | 할인/세금 단계 누락 | 구현 목적과 처리 순서 유지 |
+| 조건문/반복문 블록 구조 | 들여쓰기와 반환 위치가 어긋남 | 블록 구조와 반환 흐름 일관성 |
 
-이 표에서 중요한 것은 GPT를 제품 이름으로 외우는 일이 아니라, `앞에서 생성한 것이 뒤 입력 일부가 된다`는 구조를 실제 장면에 대입해 보는 일입니다.
+이 사례에서 확인할 결과는 `지금 줄 근처만 맞는가`가 아니라 `앞에서 선언한 이름과 목적이 뒤 구현의 다음 후보에도 계속 반영되는가`입니다. 코드 생성에서 Transformer 구조가 중요한 이유는 바로 앞 문맥뿐 아니라 이미 열린 이름, 목적, 블록 구조를 바탕으로 다음 후보 분포를 바꾸기 때문입니다.
 
-여기서 자주 섞이는 것도 두 가지입니다.
+### 사례 3. 긴 문서 요약
 
-- GPT의 누적 생성 구조와 대화형 조정층을 같은 문제로 묶어 버리기 쉽습니다.
-- 앞 토큰 하나의 선택이 뒤 경로 전체를 얼마나 강하게 미는지 과소평가하기 쉽습니다.
-- 자동완성, 요약, 코드 생성을 서로 다른 마법처럼 보지만 실제로는 같은 순차 생성 구조 위에 있다고 놓치기 쉽습니다.
+긴 문서를 요약할 때도 다음 문장 후보는 눈에 띄는 결론 한 줄만으로 정해지지 않습니다. 앞부분의 정의가 뒤 결론의 적용 범위를 제한하거나, 뒤쪽 예외 조건이 앞의 일반 설명을 좁힐 수 있습니다. 예를 들어 결론 문장은 짧지만 그 결론이 성립하는 범위가 앞 단락에 묶여 있다면, 요약 문장의 다음 후보도 그 범위를 반영해야 자연스럽습니다.
 
-그래서 이 절의 닫힘은 `GPT는 계속 이어 쓰는 생성 구조`라는 말을 실제 사례 구분 기준으로 바꾸는 데 있습니다.
+이 사례에서 확인할 결과는 `눈에 띄는 앞이나 뒤 한 부분만 붙잡는가`가 아니라 `앞의 조건과 뒤의 예외가 다음 요약 후보에 함께 반영되는가`입니다. 긴 문서 전체를 얼마나 오래 유지할지는 P6-4.2와 P6-4.5에서 더 직접 다루고, 여기서는 Transformer가 문맥 단서를 다음 후보 분포로 연결한다는 점만 붙잡으면 됩니다.
 
-이 구분의 목적은 원인을 한 번에 확정하는 데 있지 않습니다. `GPT가 이상하다`는 한 문장으로 뭉개지 않고, 지금 보고 있는 현상이 `순차 생성 구조`에서 먼저 오는지, 아니면 다음 절의 `대화형 조정층`에서 먼저 오는지 짧게 가르는 데 있습니다.
+세 사례를 문맥 반영 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 바로 앞만 보면 놓치기 쉬운 것 | 앞 문맥 전체를 반영할 때 더 유지되는 것 |
+| --- | --- | --- |
+| 문장 자동완성 | 마지막 단어 뒤 후보만 보는 선택 | 앞 문맥에 맞는 말투와 후속 표현 |
+| 코드 생성 | 현재 줄 근처의 토큰만 보는 선택 | 선언한 변수명과 함수 목적의 일관성 |
+| 긴 문서 요약 | 눈에 띄는 결론 한 줄만 보는 선택 | 앞 조건과 뒤 예외를 반영한 다음 요약 후보 |
+
+## 실패 장면에서 다시 보는 기준
+
+Transformer를 적용 장면에서 다시 볼 때 자주 하는 실수는, 이를 `어려운 내부 구조 이름 모음`으로만 읽고 실제 장면에서 언제 이 관점을 다시 꺼내야 하는지 놓치는 일입니다. 이때는 수식이나 블록 이름을 다시 외우기보다, 지금 문제가 `앞 문맥 전체를 반영해 다음 후보를 고르는가`의 문제인지 먼저 가르는 편이 안전합니다.
+
+| 지금 먼저 보이는 장면 | 먼저 던질 질문 | 먼저 다시 볼 축 |
+| --- | --- | --- |
+| 자동완성이 마지막 단어 뒤 숫자만 기계적으로 붙는 것처럼 보인다 | `앞 문맥 전체가 말투와 다음 후보 분포를 실제로 바꾸고 있는가?` | Transformer의 문맥 반영 구조 |
+| 코드 생성이 바로 앞줄은 자연스럽지만 변수명·함수 목적은 자꾸 흐트러진다 | `앞에서 열린 이름과 목적이 뒤 구현까지 계속 반영되고 있는가?` | Transformer의 장거리 문맥 연결 |
+| 긴 문서 요약이 결론 한 줄만 남기고 조건이나 예외를 자꾸 놓친다 | `눈에 띄는 한 부분이 아니라 앞뒤 단서를 함께 반영하고 있는가?` | Transformer의 문맥 통합 구조 |
+
+이 표의 목적은 Transformer를 다시 정의하는 데 있지 않습니다. 실제 실패 장면을 봤을 때 `바로 앞 조각만 붙이면 되는 문제`인지, 아니면 `앞 문맥 전체를 반영하는 구조`로 다시 읽어야 하는 문제인지 먼저 분기하게 만드는 데 있습니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 GPT 계열 생성이 `완성 문장을 한 번에 꺼내는 것`이 아니라, 현재까지의 토큰열을 보고 다음 토큰 후보를 반복해서 선택하는 구조라는 점을 확인하는 것입니다. 특히 첫 번째 선택이 달라지면 뒤 후보표와 최종 문장 흐름도 함께 달라진다는 점을 직접 보겠습니다.
+이 예제의 목표는 실제 Transformer 전체를 구현하는 것이 아니라, 앞에서 정리한 `문맥 반영 -> 표현 갱신 -> 다음 후보 점수` 흐름을 작은 점수표로 확인하는 것입니다. 두 개의 업무 문맥을 두고, 각 문맥에 들어 있는 단서가 후보 표현 점수와 확률 분포에 얼마나 기여하는지 함께 출력해 보겠습니다.
 
-아래 코드는 시작 토큰 시퀀스, 현재 마지막 토큰에 따라 달라지는 다음 토큰 후보표, 서로 다른 첫 선택을 가진 두 개의 생성 경로를 사용합니다. 결과에서는 경로별 step별 현재 문맥, 다음 토큰 후보와 점수, 누적 점수 합, 첫 선택이 달라질 때 누적 생성 결과가 어떻게 갈라지는지를 확인합니다.
+아래 코드는 두 개의 서로 다른 문맥, 문맥에서 읽어 낸 단서(feature), 같은 후보 표현 집합, 단서별 후보 가중치를 사용합니다. 결과에서는 문맥별 활성 단서, 후보별 점수와 확률, 핵심 기여도, 상위 후보와 1, 2위 점수 차이, 문맥 단서를 바꿨을 때 후보 순위가 어떻게 달라지는지를 함께 확인합니다.
 
-확인할 핵심은 자기회귀 생성에서는 초반 선택 하나가 이후 후보 경로와 최종 문장을 크게 갈라놓을 수 있다는 점입니다.
+확인할 핵심은 다음 토큰 예측을 `문맥에서 어떤 단서가 켜졌는지에 따라 후보 점수와 확률 분포가 달라지는 과정`으로 읽는 것입니다. `notice_style`, `casual_tone` 같은 값을 바꾸면 가장 높은 후보와 후보 간 격차가 달라질 수 있습니다.
+
+아래 확률은 실제 LLM의 내부 확률이 아니라, 점수 차이가 후보 분포로 어떻게 바뀌는지 보기 위한 단순 softmax 변환입니다.
+
+아래 도식은 이 예제가 확인하려는 흐름을 먼저 압축한 것입니다. 같은 끝부분이 있어도 앞 문맥 단서가 Transformer 블록 안에서 표현을 바꾸고, 그 차이가 후보 점수표와 후보 간 격차로 이어집니다.
+
+```mermaid
+--8<-- "assets/part-06/chapter-04/p6-c04-s01-scoring-flow-ko.mmd"
+```
 
 ```python
-# GPT식 자기회귀 생성에서 첫 토큰 선택이 뒤 후보표와 최종 문장 경로를 어떻게 갈라놓는지 보는 예제입니다.
-start_sequence = ["오늘", "회의는"]
+# 문맥별 활성 단서가 다음 후보 점수와 softmax 확률 분포를 어떻게 바꾸는지 확인하는 예제입니다.
+from math import exp
 
-next_token_scores = {
-    "회의는": [("오후", 0.62), ("온라인", 0.27), ("취소", 0.11)],
-    "오후": [("세", 0.55), ("네", 0.28), ("다섯", 0.17)],
-    "온라인": [("으로", 0.64), ("회의실은", 0.21), ("공지합니다", 0.15)],
-    "세": [("시입니다", 0.58), ("시에", 0.25), ("시부터", 0.17)],
-    "으로": [("진행합니다", 0.67), ("변경되었습니다", 0.21), ("안내합니다", 0.12)],
+contexts = {
+    "formal_notice": {
+        "text": "고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행",
+        "features": {
+            "formal_tone": 1.0,
+            "casual_tone": 0.0,
+            "notice_style": 1.0,
+            "meeting_context": 0.8,
+            "past_tense": 0.0,
+        },
+    },
+    "casual_team_chat": {
+        "text": "팀 내부 메모다. 오늘 회의는 오후 2시에 진행",
+        "features": {
+            "formal_tone": 0.0,
+            "casual_tone": 1.0,
+            "notice_style": 0.0,
+            "meeting_context": 0.4,
+            "past_tense": 0.0,
+        },
+    },
 }
 
-paths = {
-    "path_a_time_flow": ["오후", "세", "시입니다"],
-    "path_b_online_flow": ["온라인", "으로", "진행합니다"],
+experiments = [
+    {
+        "name": "formal_notice",
+        "context": "formal_notice",
+        "changes": {},
+    },
+    {
+        "name": "formal_notice_weaker_notice_style",
+        "context": "formal_notice",
+        "changes": {"notice_style": 0.2},
+    },
+    {
+        "name": "casual_team_chat",
+        "context": "casual_team_chat",
+        "changes": {},
+    },
+    {
+        "name": "casual_team_chat_more_formal",
+        "context": "casual_team_chat",
+        "changes": {"formal_tone": 0.5, "casual_tone": 0.4},
+    },
+]
+
+candidates = {
+    "합니다": {
+        "base": 0.2,
+        "weights": {
+            "formal_tone": 1.2,
+            "casual_tone": -0.8,
+            "notice_style": 0.9,
+            "meeting_context": 0.2,
+            "past_tense": -0.6,
+        },
+    },
+    "이다": {
+        "base": 0.3,
+        "weights": {
+            "formal_tone": -0.3,
+            "casual_tone": 0.7,
+            "notice_style": -0.2,
+            "meeting_context": 0.1,
+            "past_tense": -0.5,
+        },
+    },
+    "되었습니다": {
+        "base": 0.1,
+        "weights": {
+            "formal_tone": 0.8,
+            "casual_tone": -0.4,
+            "notice_style": 0.4,
+            "meeting_context": -0.1,
+            "past_tense": 1.3,
+        },
+    },
 }
 
-print("start =", start_sequence)
+def apply_changes(features, changes):
+    updated = features.copy()
+    updated.update(changes)
+    return updated
 
-for path_name, chosen_tokens in paths.items():
-    sequence = start_sequence[:]
-    cumulative_score = 0.0
-    print("=" * 80)
-    print("[path]", path_name)
-    for step, token in enumerate(chosen_tokens, start=1):
-        current_last_token = sequence[-1]
-        candidates = next_token_scores.get(current_last_token, [])
-        print(f"step {step} context =", sequence)
-        print(f"step {step} candidates after '{current_last_token}' =", candidates)
-        chosen_score = dict(candidates)[token]
-        cumulative_score += chosen_score
-        sequence.append(token)
-        print(f"step {step} chosen =", token)
-        print(f"step {step} chosen_score =", chosen_score)
-        print(f"step {step} cumulative_score =", round(cumulative_score, 2))
-    print("final_sequence =", sequence)
-    print("final_text =", " ".join(sequence))
-    print("path_score_total =", round(cumulative_score, 2))
+def score_candidates(feature_values):
+    scored = []
+    for token, config in candidates.items():
+        contributions = {}
+        total = config["base"]
+        for feature_name, feature_value in feature_values.items():
+            contribution = feature_value * config["weights"][feature_name]
+            contributions[feature_name] = round(contribution, 2)
+            total += contribution
+        scored.append(
+            {
+                "token": token,
+                "score": round(total, 2),
+                "contributions": contributions,
+            }
+        )
+    exp_scores = [exp(item["score"]) for item in scored]
+    total_exp_score = sum(exp_scores)
+    for item, exp_score in zip(scored, exp_scores):
+        item["probability"] = round(exp_score / total_exp_score, 3)
+    return sorted(scored, key=lambda item: item["score"], reverse=True)
+
+def top_contributions(item):
+    ranked = sorted(
+        item["contributions"].items(),
+        key=lambda pair: abs(pair[1]),
+        reverse=True,
+    )
+    return dict(ranked[:2])
+
+for experiment in experiments:
+    context = contexts[experiment["context"]]
+    features = apply_changes(context["features"], experiment["changes"])
+    ranking = score_candidates(features)
+    margin = round(ranking[0]["score"] - ranking[1]["score"], 2)
+
+    print(f"[{experiment['name']}]")
+    print("text =", context["text"])
+    print("changes =", experiment["changes"])
+    print("active_features =", features)
+    for item in ranking:
+        print(
+            f"- candidate={item['token']}, score={item['score']}, "
+            f"probability={item['probability']}, "
+            f"top_contributions={top_contributions(item)}"
+        )
+    print("chosen_next_token =", ranking[0]["token"])
+    print("top_2_margin =", margin)
+    print("---")
 ```
 
 아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
@@ -252,83 +383,82 @@ for path_name, chosen_tokens in paths.items():
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-start = ['오늘', '회의는']
-================================================================================
-[path] path_a_time_flow
-step 1 context = ['오늘', '회의는']
-step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
-step 1 chosen = 오후
-step 1 chosen_score = 0.62
-step 1 cumulative_score = 0.62
-step 2 context = ['오늘', '회의는', '오후']
-step 2 candidates after '오후' = [('세', 0.55), ('네', 0.28), ('다섯', 0.17)]
-step 2 chosen = 세
-step 2 chosen_score = 0.55
-step 2 cumulative_score = 1.17
-step 3 context = ['오늘', '회의는', '오후', '세']
-step 3 candidates after '세' = [('시입니다', 0.58), ('시에', 0.25), ('시부터', 0.17)]
-step 3 chosen = 시입니다
-step 3 chosen_score = 0.58
-step 3 cumulative_score = 1.75
-final_sequence = ['오늘', '회의는', '오후', '세', '시입니다']
-final_text = 오늘 회의는 오후 세 시입니다
-path_score_total = 1.75
-================================================================================
-[path] path_b_online_flow
-step 1 context = ['오늘', '회의는']
-step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
-step 1 chosen = 온라인
-step 1 chosen_score = 0.27
-step 1 cumulative_score = 0.27
-step 2 context = ['오늘', '회의는', '온라인']
-step 2 candidates after '온라인' = [('으로', 0.64), ('회의실은', 0.21), ('공지합니다', 0.15)]
-step 2 chosen = 으로
-step 2 chosen_score = 0.64
-step 2 cumulative_score = 0.91
-step 3 context = ['오늘', '회의는', '온라인', '으로']
-step 3 candidates after '으로' = [('진행합니다', 0.67), ('변경되었습니다', 0.21), ('안내합니다', 0.12)]
-step 3 chosen = 진행합니다
-step 3 chosen_score = 0.67
-step 3 cumulative_score = 1.58
-final_sequence = ['오늘', '회의는', '온라인', '으로', '진행합니다']
-final_text = 오늘 회의는 온라인 으로 진행합니다
-path_score_total = 1.58
+[formal_notice]
+text = 고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행
+changes = {}
+active_features = {'formal_tone': 1.0, 'casual_tone': 0.0, 'notice_style': 1.0, 'meeting_context': 0.8, 'past_tense': 0.0}
+- candidate=합니다, score=2.46, probability=0.733, top_contributions={'formal_tone': 1.2, 'notice_style': 0.9}
+- candidate=되었습니다, score=1.22, probability=0.212, top_contributions={'formal_tone': 0.8, 'notice_style': 0.4}
+- candidate=이다, score=-0.12, probability=0.056, top_contributions={'formal_tone': -0.3, 'notice_style': -0.2}
+chosen_next_token = 합니다
+top_2_margin = 1.24
+---
+[formal_notice_weaker_notice_style]
+text = 고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행
+changes = {'notice_style': 0.2}
+active_features = {'formal_tone': 1.0, 'casual_tone': 0.0, 'notice_style': 0.2, 'meeting_context': 0.8, 'past_tense': 0.0}
+- candidate=합니다, score=1.74, probability=0.619, top_contributions={'formal_tone': 1.2, 'notice_style': 0.18}
+- candidate=되었습니다, score=0.9, probability=0.267, top_contributions={'formal_tone': 0.8, 'notice_style': 0.08}
+- candidate=이다, score=0.04, probability=0.113, top_contributions={'formal_tone': -0.3, 'meeting_context': 0.08}
+chosen_next_token = 합니다
+top_2_margin = 0.84
+---
+[casual_team_chat]
+text = 팀 내부 메모다. 오늘 회의는 오후 2시에 진행
+changes = {}
+active_features = {'formal_tone': 0.0, 'casual_tone': 1.0, 'notice_style': 0.0, 'meeting_context': 0.4, 'past_tense': 0.0}
+- candidate=이다, score=1.04, probability=0.684, top_contributions={'casual_tone': 0.7, 'meeting_context': 0.04}
+- candidate=되었습니다, score=-0.34, probability=0.172, top_contributions={'casual_tone': -0.4, 'meeting_context': -0.04}
+- candidate=합니다, score=-0.52, probability=0.144, top_contributions={'casual_tone': -0.8, 'meeting_context': 0.08}
+chosen_next_token = 이다
+top_2_margin = 1.38
+---
+[casual_team_chat_more_formal]
+text = 팀 내부 메모다. 오늘 회의는 오후 2시에 진행
+changes = {'formal_tone': 0.5, 'casual_tone': 0.4}
+active_features = {'formal_tone': 0.5, 'casual_tone': 0.4, 'notice_style': 0.0, 'meeting_context': 0.4, 'past_tense': 0.0}
+- candidate=합니다, score=0.56, probability=0.372, top_contributions={'formal_tone': 0.6, 'casual_tone': -0.32}
+- candidate=이다, score=0.47, probability=0.34, top_contributions={'casual_tone': 0.28, 'formal_tone': -0.15}
+- candidate=되었습니다, score=0.3, probability=0.287, top_contributions={'formal_tone': 0.4, 'casual_tone': -0.16}
+chosen_next_token = 합니다
+top_2_margin = 0.09
+---
 ```
 
-![첫 토큰 선택 뒤 갈라지는 누적 생성 경로](../../../assets/part-06/chapter-04/autoregressive-path-split-ko.png)
+위 출력은 같은 `오늘 회의는 오후 2시에 진행` 구간을 공유하더라도, 앞 문맥에서 읽힌 `formal_tone`, `casual_tone`, `notice_style` 같은 단서가 후보 점수표를 다르게 밀어 올린다는 점을 보여 줍니다. `formal_notice`에서 `notice_style`을 낮추면 1위는 그대로 `합니다`지만 1, 2위 격차가 `1.24`에서 `0.84`로 줄어듭니다. `casual_team_chat`에 공손한 말투 단서를 일부 섞으면 1위 후보가 `이다`에서 `합니다`로 바뀌고, 격차도 `1.38`에서 `0.09`로 줄어 매우 불안정한 선택처럼 읽힙니다.
 
-그래서 이 예제에서 확인해야 할 결과는 생성이 한 번에 완성된 문장을 꺼내는 것이 아니라, 이전 출력이 다음 후보군을 바꾸며 한 토큰씩 누적된다는 점입니다. 특히 첫 번째 선택이 `오후`냐 `온라인`이냐에 따라 두 번째 후보표부터 이미 달라지고, `cumulative_score`도 서로 다른 경로를 따라 쌓입니다. GPT 계열 생성은 이런 의미에서 `앞선 선택이 뒤 경로와 누적 점수 흐름을 계속 밀어 가는 구조`로 읽는 편이 정확합니다.
+![문맥 단서 변화에 따른 후보 분포](../../../assets/part-06/chapter-04/context-candidate-distribution-ko.png)
 
-## 이 예제를 누적 생성 관점으로 다시 보면
+독자는 여기서 `formal_notice_weaker_notice_style`의 `notice_style`을 더 낮추거나, `casual_team_chat_more_formal`의 `formal_tone`과 `casual_tone`을 바꿔 보면서 1위 후보와 `top_2_margin`이 어떻게 움직이는지 실험할 수 있습니다. 이렇게 보면 중요한 것은 `정답 토큰 하나를 외우는 것`이 아니라, `문맥에서 어떤 단서가 후보 분포를 어떻게 밀어 올리거나 끌어내리는가`입니다.
 
-앞의 예제는 GPT를 구현하는 코드가 아니라, 생성이 `완성 문장을 통째로 꺼내는 일`이 아니라 `이전 출력이 다음 입력 일부가 되는 누적 과정`이라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 문장 품질 이전에, 생성이 한 단계씩 이어 붙는 구조라는 점입니다.
+이 예제에서 확인해야 할 핵심은 다음입니다.
 
-GPT 계열은 Transformer decoder 기반 생성 모델이 실제 사용자 인터페이스를 바꾸는 흐름으로 이어졌다는 점에서 중요합니다.
+- 같은 후보 집합이라도 앞 문맥에서 읽은 단서가 다르면 점수표가 달라집니다.
+- Transformer의 마지막 계산은 완성 문장 자체보다 `다음 후보들에 대한 점수 분포`에 가깝습니다.
+- 실제 출력 토큰은 그 점수표에서 가장 높은 후보를 고르거나, sampling 같은 규칙을 거쳐 선택됩니다.
+- 즉, 생성은 `한 단어를 바로 맞힌다`보다 `문맥을 반영해 후보 분포를 계속 갱신한다`는 관점으로 보는 편이 정확합니다.
 
-역사적으로 중요한 지점은 다음과 같습니다.
+## 다음 토큰 선택 관점으로 다시 보면
 
-- generative pretraining이 여러 과업으로 전이될 수 있음을 보여 주었고
-- 모델 규모가 커질수록 zero-shot, few-shot 사용 경험이 강해졌으며
-- 이후 instruction tuning과 대화형 인터페이스로 이어질 기반을 만들었습니다
+앞의 예제는 Transformer 전체를 구현하는 코드가 아니라, 긴 문맥 계산이 마지막에는 `후보 점수 비교`와 `다음 토큰 선택`으로 닫힌다는 점을 더 실제적인 점수표 형태로 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 복잡한 내부 블록을 모두 외우는 것이 아니라, 그 계산이 결국 `앞 문맥에 따라 달라지는 다음 토큰 분포`를 만든다는 점입니다. 즉, Transformer를 읽을 때는 `정답 단어 하나를 바로 맞힌다`보다 `문맥 전체가 다음 후보 분포를 어떻게 바꾸는가`를 보는 편이 더 정확합니다.
 
-이 예제를 지금 절의 판단 기준으로 다시 줄이면 다음 세 질문이 먼저 떠오르면 충분합니다.
+## 왜 LLM의 중심 엔진이 되었는가
 
-| 장면 | 먼저 답해야 하는 질문 |
-| --- | --- |
-| 첫 표현이 왜 뒤 문장 전체를 밀고 가는가 | 이전 출력이 다음 입력 일부가 되는 누적 생성 구조인가 |
-| 왜 자동완성은 되는데 챗봇처럼 형식을 잘 맞추지 못하는가 | 생성 구조와 대화형 조정층을 분리해서 보고 있는가 |
-| 왜 BERT와 GPT를 같은 Transformer라고만 묶으면 부족한가 | 입력 전체 읽기보다 순차 생성이 핵심인 구조 차이를 보고 있는가 |
+Transformer가 언어 모델의 중심 구조가 된 이유는 단순히 성능이 좋았기 때문만은 아닙니다.
+
+- 긴 문맥을 더 잘 다룰 수 있었고
+- 병렬 처리와 잘 맞았으며
+- 같은 기본 구조가 번역, 요약, 질의응답, 코드 생성 같은 여러 언어 작업에 넓게 재사용될 수 있었기 때문입니다
 
 ## 체크리스트
-- GPT를 `이전 출력이 다음 입력 일부가 되는 누적 생성 구조`로 설명할 수 있는가?
-- BERT와 GPT를 구조와 과업 기준으로 다시 구분할 수 있는가?
-- 다음 절을 `이 생성 구조 위에 어떤 조정층이 붙었는가`의 문제로 읽을 준비가 되었는가?
+- Transformer를 `문맥 전체를 반영해 다음 후보 분포를 갱신하는 엔진`으로 설명할 수 있는가?
+- Part 5의 구조 설명과 Part 6의 생성 설명이 어디서 갈라지는지 구분할 수 있는가?
+- Transformer 계산도 실제로는 입력 범위 제약 안에서 작동한다는 질문을 이어서 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2018, 확인 날짜: 2026-07-19. GPT의 Generative Pre-Training 이름, Transformer decoder 기반 language model, 다음 토큰 조건부 확률 설명의 근거로 사용했다.
-- OpenAI, [Improving language understanding with unsupervised learning](https://openai.com/index/language-unsupervised/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. GPT 초기 연구가 Transformer와 unsupervised pre-training 결합으로 다양한 언어 과업 전이를 보였다는 배경 근거로 사용했다.
-- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2019, 확인 날짜: 2026-07-19. GPT-2를 Transformer 기반 language model의 규모 확장과 zero-shot task transfer 흐름의 근거로 사용했다.
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. GPT-3의 autoregressive language model과 text interaction 기반 few-shot 사용 흐름 설명의 근거로 사용했다.
-- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv 2018, 확인 날짜: 2026-07-19. BERT가 bidirectional encoder representations를 목표로 한다는 점을 GPT와의 구조 비교 근거로 사용했다.
-- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. language model과 Transformer language model 설명의 일반 NLP 배경 근거로 사용했다.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2017, 확인 날짜: 2026-07-19. Transformer의 self-attention, multi-head attention, positional encoding, feed-forward 블록을 LLM 구조 설명의 기본 근거로 사용했다.
+- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2019, 확인 날짜: 2026-07-19. GPT-2가 Transformer 기반 language model로 여러 언어 작업을 수행한다는 배경 근거로 사용했다.
+- OpenAI, [openai/gpt-2](https://github.com/openai/gpt-2){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. GPT-2 코드와 모델이 위 논문의 공개 구현이라는 점과 모델 사용 시 평가가 필요하다는 주의점을 확인하는 보조 근거로 사용했다.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. GPT-3의 autoregressive language model과 few-shot text interaction 설명을, LLM이 다음 토큰 예측 기반으로 여러 과업을 수행하는 배경 근거로 사용했다.
+- Jay Alammar, [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. Transformer 계산 흐름을 입문자용 도식 언어로 다시 설명할 때 보조 교육 자료로 참고했다.

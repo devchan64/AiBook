@@ -1,0 +1,9 @@
+flowchart TD
+  A["가능한 모든 이전 정보"]
+  B["context window 안에 남은 토큰"]
+  C["선택된 토큰 위 attention"]
+  D["다음 토큰 예측"]
+
+  A --> B
+  B --> C
+  C --> D

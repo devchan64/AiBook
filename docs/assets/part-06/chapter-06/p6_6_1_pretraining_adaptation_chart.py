@@ -1,5 +1,6 @@
 from collections import Counter, defaultdict
 from pathlib import Path
+from typing import Tuple, Union
 import os
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -88,7 +89,7 @@ def build_bigram_counts(sentences: list[str]) -> dict[str, Counter]:
     return counts
 
 
-def link_count(counts: dict[str, Counter], left: str, rights: str | tuple[str, ...]) -> int:
+def link_count(counts: dict[str, Counter], left: str, rights: Union[str, Tuple[str, ...]]) -> int:
     if isinstance(rights, str):
         rights = (rights,)
     return sum(counts[left][right] for right in rights)

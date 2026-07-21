@@ -16,11 +16,11 @@ from matplotlib import font_manager
 OUT_DIR = Path(__file__).resolve().parent
 
 SUMMARY = {
-    "retrieval_failure_count": 1,
-    "generation_failure_count": 1,
-    "irrelevant_leak_count": 1,
-    "overclaim_count": 1,
-    "payload_count": 3,
+    "retrieval_failure_count": 12,
+    "generation_failure_count": 12,
+    "irrelevant_leak_count": 12,
+    "overclaim_count": 12,
+    "payload_count": 36,
 }
 
 LANG_TEXT = {

@@ -1,426 +1,417 @@
-# P6-12.2 함수 호출(function calling)
+# P6-12.2 인덱스(index)와 검색 품질
 
-Section ID: `P6-12.2`
-Version: `v2026.07.19`
+> Section ID: `P6-12.2`
+> Version: `v2026.07.21`
 
-P6-12.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하는 구조라는 점을 보았습니다. 그러면 이제 더 구체적인 질문이 나옵니다.
+P6-12.1에서는 벡터 데이터베이스가 임베딩 벡터와 원문, 메타데이터를 함께 저장하고 검색 단계에서 실무형 저장소 역할을 한다는 점을 보았습니다. 이제 질문은 비슷한 벡터를 빠르게 찾는 일이 왜 어렵고, 무엇을 포기하거나 조정해야 하는가로 더 구체화됩니다.
 
-도구를 써야 한다는 판단을 시스템은 어떤 형식으로 주고받는가?
+인덱스(index)는 검색 속도를 높이기 위한 구조이며, 벡터 검색에서는 보통 속도와 정확도 사이의 균형을 함께 고민하게 만든다.
 
-Part 6에서 `함수 호출(function calling)`, `도구 이름과 인자를 구조화해 표현하는 방식`, `자연어 요청과 실행 요청의 구분`에 대한 첫 상세 설명은 이 절에서 잡습니다. 뒤 절에서는 현재 맥락에 필요한 최소 설명만 남기고, 구조화된 실행 요청의 기본 뜻은 이 절과 개념사전을 기준으로 다시 연결합니다.
+## 탐색 구조가 맡는 일
 
-함수 호출(function calling)은 모델이 어떤 도구를 어떤 인자(arguments)로 호출해야 하는지 구조화된 형식으로 표현하게 하는 방식이다.
+먼저 붙잡을 질문은 다음과 같습니다.
 
-## 구조화된 호출이 다루는 질문
+- 왜 벡터를 하나씩 모두 비교하지 않는가?
+- 인덱스는 검색에서 어떤 역할을 하는가?
+- 검색 속도와 검색 품질은 왜 함께 조정해야 하는가?
 
-이 절에서 먼저 붙잡을 질문은 다음과 같습니다.
+인덱스는 `근사 검색을 위한 구조`로 읽어야 합니다. 벡터 저장 구조 위에서 후보를 어떤 속도와 품질 균형으로 좁힐지까지를 먼저 닫고, 서비스 안에서 검색 외부 기능이 어떻게 확장되는지는 별도 실행 구조의 문제로 남겨 둡니다.
 
-- 함수 호출은 왜 필요한가?
-- 자연어 요청과 구조화된 도구 호출은 무엇이 다른가?
-- 함수 이름과 인자를 나누는 것이 왜 중요한가?
+여기서는 인덱스를 단순한 내부 기술명으로 넘기지 않고, `빠른 검색을 위해 근사(approximation)를 허용하는 구조`로 읽습니다.
 
-이 절에서는 함수 호출을 `도구 사용을 안정적으로 연결하기 위한 구조화된 실행 요청`으로 먼저 닫고, 자연어 요청이 왜 이름과 인자 구조로 바뀌어야 하는지를 붙잡는 데 집중합니다.
+벡터 데이터베이스가 `무엇을 어떤 저장 구조에 담아 둘까`를 다뤘다면, 인덱스는 `그 저장 구조 안에서 후보를 어떤 속도와 품질 균형으로 좁힐까`를 다룹니다. 이 탐색 구조 다음에는 `문서를 찾는 것`을 넘어 `무엇을 실제로 조회하거나 실행할까`라는 질문이 붙습니다.
 
-대신 이번 절에서 바로 더 넓히지 않을 질문도 분명합니다. 반복 작업을 이어 가는 실행 구조는 다음의 P6-13.1 에이전트와 P6-13.2 계획, 행동, 관찰에서 다시 회수합니다.
+인덱스는 `후보를 빠르게 줄이는 구조`로 읽고, 그 다음에 어떤 층위가 더 붙는지까지 이어서 보면 됩니다.
 
-여기서는 function calling을 단순 제품 기능명이 아니라, `도구 사용을 안정적으로 연결하기 위한 구조화 방식`으로 읽습니다.
+후반 실행 구조로 넘어가기 직전, 역할을 아래처럼 먼저 고정할 수 있습니다.
 
-앞 절의 tool use가 `무엇을 실행할까`를 다뤘다면, 여기서는 그 실행 판단을 어떤 이름과 인자 구조로 바꿔야 시스템이 검증하고 이어서 처리할 수 있는지 읽습니다. 바로 다음의 agent 절에서는 이런 구조화된 호출을 여러 단계 목표 흐름 안에서 어떻게 이어 갈지로 질문이 더 커집니다.
-
-function calling은 `구조화된 실행 요청`을 다루는 절이고, 그다음에는 어떤 층위가 더 붙는지까지 이어집니다.
-
-후반 실행 구조를 같은 질문으로 다시 고정하면, 지금 장의 역할은 아래처럼 압축할 수 있습니다.
-
-| 지금 부족한 것 | 이번 장이 붙이는 구조 | 아직 남는 문제 | 바로 이어지는 위치 |
-| --- | --- | --- | --- |
-| 도구를 써야 한다는 판단만으로는 시스템이 바로 실행할 수 없고, 어떤 필드가 빠졌는지도 확인하기 어렵다 | 함수 이름과 인자를 분리한 구조화된 실행 요청 | 여러 호출을 어떤 순서로 이어 갈지, 중간 관찰에 따라 어떻게 재계획할지는 아직 남아 있다 | P6-13.1, P6-13.2 |
-
-| 지금 단계의 관점 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| 지금 부족한 것 | 붙이는 구조 | 아직 남는 문제 |
 | --- | --- | --- |
-| tool use 실행 필요 | 어떤 외부 기능이 필요한가? | P6-12.1 |
-| function calling 구조화 요청 | 그 기능 요청을 어떤 이름과 인자 구조로 넘길 것인가? | P6-12.2 |
-| agent 목표 흐름 | 이런 구조화된 호출을 어떤 순서로 이어 갈 것인가? | P6-13.1, P6-13.2 |
+| 임베딩, 원문, 메타데이터를 저장해 두어도 후보를 너무 느리게 찾으면 실제 서비스 검색으로 쓰기 어렵다 | 속도와 검색 품질을 함께 조정하는 탐색 구조 | 문서 검색을 넘어 무엇을 실제로 조회하거나 실행할지, 그 실행 요청을 어떻게 구조화할지는 아직 남아 있다 |
 
-여기서는 `함수 호출(function calling)`을 `자연어로 실행을 지시한다`는 인상보다 `이름과 인자가 분리된 검증 가능한 호출 구조`로 읽는 기준을 잡습니다.
+| 지금 단계의 관점 | 이어지는 질문 | 다른 층위로 남겨 둘 것 |
+| --- | --- | --- |
+| 벡터 데이터베이스 | 검색 후보를 어떤 저장 구조에 다시 꺼내 쓸 것인가? | 검색 품질 평가 |
+| 인덱스(index) | 그 후보를 어떤 속도와 품질 균형으로 좁힐 것인가? | 도구 호출과 외부 실행 |
+| 도구 사용(tool use) | 문서 검색을 넘어서 무엇을 실제로 조회하거나 실행할 것인가? | 에이전트와 운영 제약 |
 
-즉, 지금 장의 핵심은 `무엇을 실행할까`에서 `그 실행 요청을 어떻게 검증 가능한 구조로 바꿀까`로 관점이 바뀌는 데 있습니다. tool use가 `실행 필요성`을 열었다면, function calling은 그 실행을 `검증 가능한 구조`로 바꾸고, agent는 그런 구조들을 `목표 흐름` 안에서 이어 붙입니다. 이 차이가 보여야 함수 호출을 단순 제품 기능이 아니라, `실행 연결을 안정화하는 중간 층`으로 읽을 수 있습니다.
+여기서는 `검색 인덱스(index)`를 `빨리 찾는 내부 기술`이라는 인상보다 `속도와 검색 품질을 함께 조정하는 탐색 구조`로 읽는 기준을 잡습니다.
 
-이 단계에서 먼저 남겨야 할 기록은 어떤 호출을 어떤 인자로 준비했는지를 보여 주는 함수 이름, 인자, 누락 필드 점검 결과와, 결과를 어떤 형식으로 기대했고 어디서 호출이 막혔는지를 보여 주는 결과 형식과 호출 실패 이유입니다. 이 기록이 있어야 자연어 요청과 실행 구조를 다시 맞춰 보고, 실행 실패와 후속 운영 실패를 구분할 수 있습니다. 뒤로 갈수록 이 기록은 P6-13의 plan/action 루프, P6-14.2의 tool call log, P6-15의 평가 입력, P6-16.2의 실패 대응에서 다시 읽힙니다.
+핵심은 `무엇을 저장할까`에서 `그 저장 구조를 어떤 속도와 품질로 탐색할까`로 관점이 바뀌는 데 있습니다. 이 탐색을 지나면 무엇을 실제로 조회하거나 실행할지로 질문이 커집니다.
 
 ## 여기서 남겨야 할 구분
 
-- 함수 호출을 입문 수준에서 설명할 수 있습니다.
-- 자연어 요청과 구조화된 호출의 차이를 말할 수 있습니다.
-- 이름(name), 인자(arguments), 결과(result)를 나눠 보는 이유를 설명할 수 있습니다.
-- 다음 장의 에이전트 구조로 자연스럽게 넘어갈 수 있습니다.
+- 인덱스의 역할을 입문 수준에서 설명할 수 있습니다.
+- 정확히 찾는 검색과 빠르게 찾는 검색의 차이를 말할 수 있습니다.
+- 벡터 검색 품질을 속도와 분리해서 볼 수 없다는 점을 설명할 수 있습니다.
+- 다음 장의 도구 사용과 서비스 구조 설명으로 이어질 준비를 할 수 있습니다.
 
-## 구조화 전환을 보는 순서
+먼저 가를 장면은 아래처럼 정리할 수 있습니다.
 
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+| 먼저 보인 막힘 | 먼저 떠올릴 질문 | 왜 이 질문이 먼저 필요한가 |
+| --- | --- | --- |
+| 응답은 빨라졌는데 답변이 전보다 빈약해졌다 | 핵심 문단이 top-k 안에 남아 있는가? | 속도 개선 때문에 정작 필요한 후보가 빠졌을 수 있기 때문입니다. |
+| 최종 답은 자연스러운데 실행하면 버전 오류가 난다 | 현재 버전 문서가 상위 후보 안에 포함됐는가? | 생성이 매끄러워도 후보 묶음이 틀리면 시작점부터 잘못되기 때문입니다. |
+| 전체 응답이 느린데 원인이 검색인지 생성인지 헷갈린다 | 병목이 후보 압축 단계인가? | 탐색 구조가 병목이면 프롬프트보다 인덱스 조정이 먼저여야 하기 때문입니다. |
+| 후보는 많이 오지만 늘 엉뚱한 문서가 먼저 붙는다 | top-1 정합률과 top-k 포함률을 같이 보고 있는가? | `빨리 찾는가`와 `맞게 찾는가`를 나누어 보지 않으면 검색 품질을 잘못 읽기 쉽기 때문입니다. |
 
-1. 먼저 `왜 구조화가 필요한가`와 `자연어 요청과 무엇이 다른가`를 읽고, 사람에게는 자연스럽지만 시스템에는 모호한 요청이 구조화된 호출로 바뀌는 이유를 잡습니다.
-2. 그다음 `함수 이름과 인자를 나누는 이유`, `결과도 구조화가 중요한가`, `함수 호출이 항상 정답은 아니다`를 읽으면서 검증 가능성과 통제 가능성이 왜 중요해지는지 확인합니다.
-3. 마지막으로 사례와 Python 예제를 보면서, `자연어 요청 -> 함수 이름 + 인자 -> 누락 필드 검증 -> 실행 준비`라는 흐름이 실제로 어떻게 드러나는지 확인합니다.
+이 표를 먼저 붙잡고 아래 내용을 읽으면, 인덱스를 `빠르게 찾는 내부 기술`보다 `속도와 후보 품질을 함께 조정하는 탐색 구조`로 더 직접 읽을 수 있습니다.
 
-## 왜 구조화가 필요한가
+## 왜 모든 벡터를 다 비교하지 않나
 
-도구 사용을 자연어 문장만으로 처리하면 애매함이 큽니다.
-
-예를 들어 모델이 이렇게 말한다고 가정해 봅시다.
-
-`서울의 오늘 환율을 검색해서 알려 주세요.`
-
-이 문장은 사람은 이해할 수 있지만, 시스템 입장에서는 다음이 모호할 수 있습니다.
-
-- 어떤 도구를 써야 하는가?
-- 인자는 무엇인가?
-- 날짜 형식은 어떻게 되는가?
-- 실패하면 무엇을 돌려줘야 하는가?
-
-그래서 함수 호출 구조는 보통 다음을 분리합니다.
-
-- 도구 이름
-- 인자 이름
-- 인자 값
-
-즉, 자연어를 그대로 실행하는 것이 아니라 `실행 가능한 구조`로 바꾸는 것입니다.
-
-## 자연어 요청과 무엇이 다른가
-
-| 표현 방식 | 특징 |
-| --- | --- |
-| 자연어 요청 | 사람이 읽기 쉽지만 모호할 수 있음 |
-| 구조화된 함수 호출 | 시스템이 해석하기 쉽고 검증이 가능함 |
-
-`함수 호출은 모델의 의도를 시스템이 더 안전하게 실행할 수 있도록 문장을 구조로 바꾸는 방법이다.`
-
-## 함수 이름과 인자를 나누는 이유
-
-이 구분을 잡아야 시스템이 `어떤 기능을 부를지`와 `그 기능에 어떤 값을 넘길지`를 따로 검증하고 실패 원인을 나눠 볼 수 있습니다.
+가장 단순한 방법은 질문 벡터와 저장된 모든 벡터를 하나씩 비교하는 것입니다. 하지만 문서 수가 많아지면 이 방식은 매우 느려질 수 있습니다.
 
 예를 들어:
 
-- 함수 이름: `lookup_exchange_rate`
-- 인자: `{"currency": "USD", "region": "KR", "date": "2026-06-29"}`
+- 문서가 수백 개면 가능할 수 있지만
+- 문서가 수십만, 수백만 개면
+- 모든 벡터를 매번 다 비교하는 비용이 커집니다
 
-이렇게 나누면 시스템은 다음을 하기 쉬워집니다.
+그래서 실무에서는 `정확히 다 비교하는 방법` 대신 `가까울 것 같은 후보를 빠르게 좁히는 방법`이 중요해집니다. 이때 인덱스가 등장합니다.
 
-- 허용된 도구인지 확인
-- 인자 형식 검증
-- 빠진 인자 탐지
-- 실행 전 승인 요구
+## 인덱스는 무엇을 하나
 
-즉, 함수 호출은 단순히 예쁘게 정리하는 것이 아니라, `검증 가능성`과 `통제 가능성`을 높이는 구조입니다.
+인덱스는 다음처럼 이해할 수 있습니다.
 
-## 결과도 구조화가 중요한가
+`인덱스는 전체를 처음부터 끝까지 다 보지 않고, 가까울 가능성이 높은 후보를 더 빨리 찾도록 돕는 탐색 구조다.`
 
-그렇습니다. 도구를 호출한 뒤에도 결과가 다시 구조적으로 돌아오면:
+즉, 인덱스는 검색 속도를 높이기 위한 `길 찾기 구조`에 가깝습니다.
 
-- 모델이 다시 읽기 쉬워지고
-- 앱이 후처리하기 쉬워지며
-- 로그와 추적(trace)이 쉬워집니다
+이 점은 일반 데이터베이스 인덱스와도 닮아 있지만, 벡터 검색에서는 `의미가 가까운 항목`을 찾기 위한 방식이라는 점이 다릅니다.
 
-즉, 함수 호출은 보통 입력 구조화만이 아니라, 실행 결과를 다시 연결하는 흐름까지 포함하는 구조로 보는 편이 좋습니다.
+## 왜 속도와 정확도가 함께 걸리나
 
-## 함수 호출이 항상 정답은 아니다
+여기서 중요한 개념이 `근사 검색(approximate search)`입니다.
 
-함수 호출이 있다고 해서:
+벡터 검색에서는 보통:
 
-- 모델이 항상 올바른 도구를 고르는 것
-- 인자를 완벽하게 채우는 것
-- 잘못된 실행을 완전히 막는 것
+- 아주 정확하지만 느린 방식
+- 조금 덜 정확할 수 있지만 빠른 방식
 
-이 보장되지는 않습니다.
+사이에서 균형을 잡습니다.
 
-따라서 실제 시스템은 보통:
+`벡터 검색 인덱스는 보통 가장 완벽한 답 하나를 항상 찾는 구조보다, 충분히 좋은 후보를 빠르게 찾는 구조에 가깝다.`
 
-- schema 검증
-- 권한 확인
-- 사용자 승인
-- 실패 시 재시도 또는 오류 보고
+## 검색 품질은 무엇으로 흔들리나
 
-같은 추가 구조를 둡니다.
+검색 품질은 단순히 인덱스 종류만으로 정해지지 않습니다. 다음 요소가 함께 영향을 줍니다.
+
+- 임베딩 품질
+- 문서 조각(chunk) 크기
+- 메타데이터 필터
+- 인덱스 설정
+- top-k 개수
+
+즉, 검색 품질 문제는 `저장 구조`, `문서 준비`, `검색 전략`이 함께 만드는 문제입니다.
+
+## 왜 RAG 품질과 직접 연결되나
+
+RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮으면 생성은 잘해도 시작점이 흔들립니다.
+
+예를 들어:
+
+- 관련 없는 문서를 가져오면 답이 엉뚱해지고
+- 덜 중요한 문서가 먼저 오면 핵심이 빠질 수 있으며
+- 오래된 문서가 섞이면 최신성 문제가 다시 생길 수 있습니다
+
+즉, 벡터 검색 품질을 볼 때는 `얼마나 빨리 찾는가`보다 `정말 필요한 문서가 후보 안에 들어왔는가`를 먼저 확인해야 하고, 이것이 곧 RAG 답변 품질의 상한을 결정합니다.
 
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-12/p6-c12-s02-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-01-ko.mmd"
 ```
 
-이 도식의 핵심은 `문장 -> 구조 -> 실행 -> 결과` 흐름으로 바뀐다는 점입니다.
+이 도식의 핵심은 인덱스가 `답변 생성`을 직접 하는 것이 아니라, `검색 후보를 빠르게 좁히는 역할`을 한다는 점입니다.
 
 ## 사례 및 예시
 
-### 사례 1. 환율 조회
+### 사례 1. 사내 문서 검색 속도
 
-`오늘 달러 환율 알려 줘`라는 질문을 생각해 볼 수 있습니다. 이런 질문은 사람끼리는 대충 통하니 시스템도 바로 처리할 수 있을 것이라고 생각하기 쉽습니다. 하지만 시스템은 `어느 통화쌍인지`, `어느 날짜 기준인지`, `어느 지역 환율인지`를 인자로 분리해야 실제 조회가 가능합니다. 예를 들어 사용자 의도가 `USD/KRW`인지 `달러 인덱스`인지부터 다를 수 있습니다. 이 구분이 없으면 조회는 성공해도 사용자가 원한 값이 아닌 다른 지표를 돌려줄 수 있습니다. 즉 `실행 성공`과 `의도 일치`는 같은 말이 아닙니다.
+사내 위키 문서가 수백 개일 때는 검색이 빨랐는데, 수만 개로 늘자 갑자기 느려졌다고 해 봅시다. 이 상황은 처음에는 `검색이 조금 늦네` 정도로만 보이기 쉽습니다. 하지만 운영 단계에서는 답변 지연이 곧 사용자 이탈로 이어집니다. 예를 들어 휴가 규정 질문 하나에 후보 문서를 고르는 데 4초가 더 걸리면, 뒤 생성 단계가 같아도 사용자는 챗봇 전체가 느리다고 느끼게 됩니다. 이 시점부터 문제는 단순히 문서가 많아졌다는 사실이 아니라, 많은 문서 중 후보를 얼마나 빨리 줄일 수 있는가입니다.
 
-여기서 바뀌는 점은 `질문 뜻이 대충 통하는가`를 보던 기준에서 `실제 조회에 필요한 인자가 빠짐없이 구조화되는가`를 보는 기준으로 이동한다는 것입니다. 함수 호출 구조는 자연어 요청을 이런 명시적 필드로 바꾸어 실행 단계를 더 분명하게 만듭니다. 여기서 넘어가야 할 오해는 `말이 자연스럽게 이해되면 조회도 맞게 될 것`이라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 질문 문장이 실제 조회 전에 `통화쌍`, `기준 날짜` 같은 인자로 분해되는가, 그리고 그 인자만 봐도 사용자의 원래 의도가 재확인되는가입니다.
+여기서 바뀌는 점은 `문서 수가 늘었는가`를 보던 기준에서 `핵심 후보 압축 시간이 실제 대기 시간 안에 남는가`를 보는 기준으로 이동한다는 것입니다. 인덱스 구조와 검색 전략은 바로 이 후보 압축 속도를 바꾸는 핵심 장치가 됩니다. 이 사례가 바로잡는 오해는 `느린 건 그냥 문서 수가 많아서 어쩔 수 없다`는 체념입니다. 그래서 이 사례에서 확인해야 할 결과는 문서 수가 늘어난 뒤에도 핵심 후보를 줄이는 시간이 실제 서비스 대기 시간 안에 남는가, 그리고 병목이 생성이 아니라 후보 압축 단계임을 기록으로 설명할 수 있는가입니다.
 
-### 사례 2. 일정 생성
+### 사례 2. 매뉴얼 답변 품질
 
-자연어로는 `내일 오후 3시에 회의 잡아 줘`라고 말하면 충분해 보입니다. 사람도 이런 표현이면 서로 이해될 거라고 먼저 느끼기 쉽습니다. 하지만 실제 캘린더 API는 참석자, 시간대, 제목, 날짜 형식처럼 더 구조화된 인자를 받아야 합니다. 예를 들어 `내일`은 사용자 시간대가 바뀌면 다른 날짜가 될 수 있고, 참석자가 빠지면 회의 생성 자체가 불완전할 수 있습니다. 이 차이를 놓치면 모델이 말을 잘 이해해도 실행 단계에서 바로 막히거나 엉뚱한 시간에 일정이 생길 수 있습니다. 특히 `회의는 만들어졌으니 성공`이라고 보기 쉽지만, 잘못된 시각이나 빈 참석자 목록으로 생성된 일정은 운영 기준에서는 실패에 가깝습니다.
+제품 매뉴얼에서 정확한 설정 문단 하나를 찾아야 하는데, 검색을 너무 빠르게 만들려고 근사 설정을 강하게 준다고 해 봅시다. 응답 시간이 빨라지면 검색이 더 좋아졌다고 느끼기 쉽습니다. 하지만 그러면 응답 시간은 줄어들 수 있어도, 정작 가장 중요한 문단이 후보에서 빠져 답변 품질이 바로 흔들릴 수 있습니다. 예를 들어 `자동 저장 끄기` 질문에 설정 개요 문단만 잡히고 실제 메뉴 경로 문단이 빠지면, 답변은 `설정에서 바꾸세요` 수준으로 끝나 실제 사용자는 여전히 버튼 위치를 찾지 못할 수 있습니다. 반대로 항상 가장 엄격한 검색만 쓰면 관련 문단은 잘 찾더라도 답이 너무 늦어집니다.
 
-여기서 바뀌는 점은 `말이 충분히 구체적인가`를 보던 기준에서 `API가 요구하는 필드가 실제로 다 채워졌는가`를 보는 기준으로 이동한다는 것입니다. 함수 호출 구조는 이런 암묵적 정보를 명시적 인자 묶음으로 바꿔 줍니다. 그래서 이 사례에서 확인해야 할 결과는 회의 생성 전에 시간, 날짜, 제목, 참석자 같은 필드가 빠짐없이 구조화되는가, 그리고 누락 필드가 있으면 실행 전에 바로 드러나는가입니다.
+여기서 바뀌는 점은 `응답이 빨라졌는가`를 보던 기준에서 `핵심 문단이 후보에 남아 있는가`를 함께 보는 기준으로 이동한다는 것입니다. 즉, 운영자는 `빨라졌는가`만이 아니라 `빠르게 찾은 후보가 충분히 좋은가`를 함께 봐야 합니다. 이 사례가 바로잡는 오해는 `빠르다`와 `좋다`를 자동으로 같은 뜻으로 놓는 데 있습니다. 그래서 이 사례에서 확인해야 할 결과는 응답 시간이 빨라져도 실제 핵심 문단이 후보에 남아 있는가, 그리고 후보에서 빠진 문단 때문에 절차 답변이 얼마나 빈약해지는지도 함께 읽을 수 있는가입니다.
 
-### 사례 3. 코드 에이전트
+### 사례 3. 개발 문서 도우미
 
-코드 에이전트가 파일 읽기, 테스트 실행, 패치 적용을 번갈아 수행한다고 해 봅시다. 단순 자연어 설명만 남으면 어떤 작업이 언제 어떤 인자로 실행됐는지 다시 추적하기 어렵습니다. `파일을 읽고 테스트를 돌렸다`는 서술만 있어도 흐름이 충분히 설명됐다고 느끼기 쉽지만, 실제 운영에서는 어떤 파일을 읽고 어떤 테스트를 돌렸는지까지 남아야 실패를 재현할 수 있습니다. 예를 들어 같은 `테스트를 돌렸다`는 문장도 어느 디렉터리에서, 어떤 플래그로, 어떤 대상만 실행했는지에 따라 결과 해석이 완전히 달라집니다.
+개발 문서 도우미가 비슷한 이름의 API 문서를 여러 개 가진 상태라고 해 봅시다. 사람은 최종 답만 보면 보통 `모델이 코드를 잘못 설명했다`고 먼저 느낍니다. 하지만 top-k 결과에 현재 버전 문서 대신 예전 버전 문서가 섞이면, 생성 단계는 그 후보를 바탕으로 꽤 자연스러운 답을 만들 수 있습니다. 예를 들어 2.x 버전 옵션을 묻는 질문에 1.x 문서가 후보 상단에 들어오면, 답변은 매끄러워도 바로 실행하면 에러가 나는 코드 예시가 나올 수 있습니다. 즉, 실제 시작점은 `후보 문서 묶음이 이미 어긋난 것`일 수 있습니다.
 
-반대로 함수 호출 구조로 남기면 `read_file`, `run_tests`, `apply_patch` 같은 단계가 명시적으로 기록되어 실행 흐름을 더 쉽게 되짚을 수 있습니다. 여기서 바뀌는 점은 `무슨 작업을 했다`는 설명만 남기던 기준에서 `어떤 함수가 어떤 인자로 호출됐는가`까지 다시 추적할 수 있는가를 보는 기준으로 이동한다는 것입니다. 이 기록이 없으면 같은 실패가 다시 나와도 어느 단계 입력이 달랐는지 확인하기 어려워집니다. 즉, 함수 호출은 실행 성공뿐 아니라 로그와 재현성을 관리하는 데에도 직접 연결됩니다. 그래서 이 사례에서 확인해야 할 결과는 최종 성공 여부뿐 아니라 어떤 함수가 어떤 인자로 호출됐는지를 다시 추적할 수 있는가, 그리고 누락된 인자 때문에 어떤 단계가 막혔는지도 재구성할 수 있는가입니다.
+여기서 바뀌는 점은 `최종 답이 자연스러운가`를 보던 기준에서 `top-k 후보 안에 맞는 버전 문서가 들어왔는가`를 먼저 보는 기준으로 이동한다는 것입니다. 그래서 이 장면에서는 생성 평가와 별도로 검색 품질 평가가 필요합니다. 이 사례가 바로잡는 오해는 `최종 문장만 고치면 문제도 해결될 것`이라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 최종 답만 보기 전에 top-k 후보 안에 현재 버전 문서가 실제로 포함되어 있는가, 그리고 top-1이 틀려도 top-k 안에 정답 문서가 살아 있는지까지 구분해 읽을 수 있는가입니다.
 
-세 사례를 구조화 관점으로 다시 묶으면 다음과 같습니다.
+세 사례를 속도·품질 균형 관점으로 다시 묶으면 다음과 같습니다.
 
-| 상황 | 자연어만 두면 모호한 것 | 함수 호출 구조가 분명하게 만드는 것 |
+| 상황 | 빨라 보이는 것만 보면 놓치는 것 | 함께 봐야 하는 검색 품질 기준 |
 | --- | --- | --- |
-| 환율 조회 | 어떤 값을 어느 기준으로 조회할지 | 통화쌍, 날짜, 지역 같은 인자 |
-| 일정 생성 | `내일`, `오후` 같은 표현의 실행 기준 | 날짜, 시간, 시간대, 참석자 필드 |
-| 코드 에이전트 | 무엇을 어떤 순서로 실행했는지 | 함수 이름, 인자, 실행 로그 |
+| 사내 문서 검색 속도 | 전체 지연만 보고 후보 압축 실패를 놓침 | 핵심 후보를 서비스 시간 안에 남기는가 |
+| 매뉴얼 답변 품질 | 응답 속도가 빨라져도 핵심 절차 문단이 빠질 수 있음 | 핵심 문단이 top-k 안에 남는가 |
+| 개발 문서 도우미 | 자연스러운 최종 답 때문에 버전 후보 오류를 놓침 | 현재 버전 문서가 top-k 안에 포함되는가 |
 
-같은 내용을 구조화된 실행 요청 흐름으로 다시 보면 다음처럼 읽을 수 있습니다.
+같은 내용을 검색 타협 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-06/chapter-12/p6-c12-s02-diagram-02-ko.mmd"
+--8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-02-ko.mmd"
 ```
 
-핵심은 `구조화됐다`와 `바로 실행 가능하다`가 같은 말이 아니라는 점입니다.
+핵심은 `빠르다`와 `좋다`가 자동으로 같은 뜻이 아니라는 점입니다.
 
 ## 바로 적용해 보면
 
-함수 호출을 처음 읽을 때 가장 자주 헷갈리는 것은 `말이 이해된다`와 `실행 준비가 끝났다`를 같은 뜻으로 보는 점입니다. 하지만 실제로는 `어떤 기능을 부를지`, `어떤 필드가 필요한지`, `누락 없이 실행 가능한지`를 따로 봐야 합니다.
+인덱스를 처음 읽을 때 자주 생기는 오해는 `응답 시간이 줄었다`는 사실만 보고 검색도 좋아졌다고 느끼는 점입니다. 하지만 실제 점검에서는 `얼마나 빨라졌는가`와 함께 `정답 문서가 후보 안에 남았는가`를 같이 봐야 합니다.
 
-| 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그 확인이 먼저 필요한가 |
+| 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그것을 같이 봐야 하는가 |
 | --- | --- | --- |
-| 요청 뜻은 알겠는데 시스템이 어떤 도구를 써야 할지 애매함 | 함수 이름이 분명하게 정해졌는가 | 기능 이름이 모호하면 뒤 인자 검증 이전에 실행 대상부터 흔들리기 때문입니다. |
-| 기능은 맞는 것 같은데 실행 직전에 자주 막힘 | 필수 인자가 누락 없이 채워졌는가 | 자연어로는 통하는 요청도 날짜, 시간대, 통화쌍 같은 필드가 비어 있으면 실제 호출은 실패하기 때문입니다. |
-| 구조는 갖췄는데 결과가 여전히 불안정함 | 결과 형식과 실패 이유가 함께 기록되는가 | 호출 성공/실패를 다시 추적할 수 있어야 다음 단계 재시도나 수정이 가능하기 때문입니다. |
+| 응답은 빨라졌는데 답변이 빈약해짐 | 핵심 문단이 top-k 안에 남아 있는가 | 속도 향상 때문에 정작 필요한 후보가 빠졌을 수 있기 때문입니다. |
+| 최종 답은 자연스럽지만 실행하면 버전 오류가 남 | 현재 버전 문서가 top-k 안에 포함됐는가 | 생성이 매끄러워도 후보 묶음이 이미 틀리면 답 전체가 잘못된 근거 위에 설 수 있기 때문입니다. |
+| 검색 지연이 길어 사용자 체감이 나빠짐 | 병목이 생성이 아니라 후보 압축 단계인가 | 느림의 원인이 인덱스 탐색이면 프롬프트 조정보다 검색 구조 조정이 먼저이기 때문입니다. |
 
 같은 기준을 더 짧은 실무 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
 
 | 이런 의심이 들면 | 먼저 던질 질문 |
 | --- | --- |
-| `무슨 작업을 하려는지는 알겠는데 호출이 흐릿하다` | 함수 이름 하나로 실행 대상을 분명히 했는가? |
-| `요청은 구체적인데 왜 실행이 안 되지?` | 필수 인자가 빈칸 없이 채워졌는가? |
-| `실패는 했는데 어디서 막혔는지 모르겠다` | 결과 형식과 실패 이유를 구조적으로 남겼는가? |
+| `빨라졌는데 답이 약해졌다` | 핵심 후보가 top-k 밖으로 밀렸는가? |
+| `답은 그럴듯한데 버전이 다르다` | 현재 버전 문서가 상위 후보 안에 있었는가? |
+| `전체가 느린데 어디가 병목인지 모르겠다` | 후보 압축 시간이 생성 시간보다 더 커졌는가? |
 
-이 절에서 먼저 익혀야 하는 기준은 단순합니다. function calling은 `자연어를 보기 좋게 정리하는 일`이 아니라, `함수 이름`, `인자`, `결과`를 나눠 실행 전 검증과 실행 후 추적을 가능하게 만드는 구조입니다.
+먼저 익혀야 하는 기준은 단순합니다. 인덱스 평가는 `latency`만 보는 일이 아니라, `top-k 포함률`, `top-1 정합률`, `버전 정합성`을 함께 봐야 실제 검색 품질을 읽을 수 있는 작업입니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 실제 캘린더 API를 부르는 것이 아니라, 자연어 요청이 함수 이름과 인자 구조로 바뀌고, 그 구조가 검증 가능한 형태가 된다는 점을 보는 것입니다. 한 요청만 보면 `구조화하면 된다` 수준에서 끝나기 쉬우므로, 이번에는 여러 요청을 배치로 보면서 어떤 호출은 바로 실행 가능하고 어떤 호출은 필드 누락으로 막히는지도 함께 보겠습니다.
+예제의 목표는 실제 ANN 인덱스 엔진을 구현하는 것이 아니라, `후보를 빨리 줄이는 설정`과 `정답 후보를 놓치지 않는 설정`이 충돌할 수 있다는 점을 작은 실험으로 확인하는 것입니다. 실제 ANN 라이브러리를 붙이는 실습은 프로젝트를 다루는 Part 7 쪽이 더 적절합니다. 여기서는 CSV에 둔 문서 벡터와 질문 벡터를 읽고, `candidate_budget`과 `version_filter`를 바꿨을 때 top-k 포함률, top-1 정합률, 버전 정합성, 지연 시간 대체값이 어떻게 달라지는지 봅니다.
 
-사용자는 자연어로 일정을 만들어 달라고 요청하지만, 시스템은 이 문장을 그대로 실행하지 않고 함수 이름과 인자를 분리해 받아야 합니다. 인자 누락 여부를 실행 전에 점검할 수 있어야 하므로, `구조화했다`와 `실행 준비가 끝났다`는 같은 말이 아닙니다.
+개발 문서 검색에서는 현재 버전 문서가 꼭 top-k 안에 들어와야 합니다. 빠른 설정은 지연 시간은 줄이지만 후보 일부를 놓칠 수 있고, 느린 설정은 더 오래 걸리지만 중요한 후보를 더 잘 회수할 수 있습니다.
 
-아래 예제는 사용자 요청 여러 개와, 자연어 요청에서 함수 호출 초안을 만드는 간단한 변환 규칙을 사용합니다. 출력에서는 함수 이름과 인자 구조, 필수 인자 점검 결과, 어떤 호출이 바로 실행 가능하고 어떤 호출은 누락으로 막히는지에 대한 점검값을 확인합니다.
+아래 예제는 여러 질문, CSV로 분리한 문서 벡터와 질문 벡터, 후보 압축 설정인 `candidate_budget`, 버전 필터 설정인 `version_filter`를 사용합니다. 출력에서는 질문별 지연 시간, 질문별 top-k 후보, 현재 버전 문서가 실제로 포함되었는지 여부, 설정별 top-k 포함률과 top-1 정합률을 확인합니다.
 
-먼저 이 예제에서 같이 볼 항목은 다음과 같습니다.
+먼저 이 예제에서 함께 볼 점검 항목은 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| `function_name` | 어떤 기능을 부르려는지 분리해서 확인 |
-| `missing_fields` | 실행 전에 어떤 인자가 비었는지 확인 |
-| `is_valid` | 현재 구조로 바로 실행 가능한지 확인 |
-| `provided_argument_keys` | 모델이 어떤 필드까지 채웠는지 확인 |
+| `target_in_top_k` | 생성 단계가 참고할 후보 안에 정답이 살아 있는지 확인 |
+| `rank_of_target` | 정답이 너무 아래에 있어 생성이 놓치지 않는지 확인 |
+| `top1_is_target` | 가장 먼저 붙는 문서가 맞는지 확인 |
+| `top1_version_ok` | 비슷한 이름의 구버전 문서가 앞서 오지 않는지 확인 |
 
-코드에서 확인할 핵심은 함수 호출형 도구 사용은 실행 전에 함수 이름, 인자, 누락 필드를 먼저 검증하는 단계가 필요하다는 점입니다.
+문서 벡터와 질문 벡터는 본문 코드 안에 길게 넣지 않고, 별도 CSV 자산으로 분리합니다.
+
+- 문서 벡터: [`p6-11-index-documents.csv`](../../../assets/part-06/chapter-11/p6-11-index-documents.csv){ .csv-preview }
+- 질문 벡터: [`p6-11-index-queries.csv`](../../../assets/part-06/chapter-11/p6-11-index-queries.csv){ .csv-preview }
+
+입력 파일의 앞부분만 짧게 보면 다음과 같습니다. 문서 CSV는 숫자 벡터만 담지 않고, 같은 주제에서 현재 버전 문서와 헷갈리기 쉬운 구버전·일반 문서를 함께 둡니다.
+
+| doc_id | topic | version | boundary_hint | config_axis | recovery_axis | flow_axis |
+| --- | --- | --- | --- | ---: | ---: | ---: |
+| sdk_v2_request_timeout | request timeout | v2 | current_version_candidate | 0.90 | 0.18 | 0.10 |
+| sdk_v1_request_timeout_guide | request timeout | v1 | old_version_collision | 0.93 | 0.16 | 0.09 |
+| sdk_general_request_timeout_notes | request timeout | general | general_note_collision | 0.87 | 0.22 | 0.12 |
+
+질문 CSV도 같은 목표 문서를 세 가지 표현으로 묻습니다. 그래서 단일 질문이 우연히 통과하는지보다, 표현이 조금 바뀌어도 목표 문서가 top-k 안에 남는지를 볼 수 있습니다.
+
+| query_id | topic | variant | target_doc | reader_hint |
+| --- | --- | --- | --- | --- |
+| Q01 | request timeout | direct_name | sdk_v2_request_timeout | 문서명과 질문어가 거의 일치해 기본 검색 품질을 확인하는 기준 질문 |
+| Q02 | request timeout | paraphrase | sdk_v2_request_timeout | timeout이라는 단어를 쓰지 않아도 같은 의미를 찾아야 하는 표현 바꾼 질문 |
+| Q03 | request timeout | boundary_wording | sdk_v2_request_timeout | 1.x 문서가 더 가깝게 보일 수 있어 버전 조건을 함께 봐야 하는 질문 |
+
+코드에서 확인할 핵심은 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다는 점입니다. 코드가 직접 쓰는 열은 `doc_id`, `version`, `config_axis`, `recovery_axis`, `flow_axis`, `question`, `target_doc`입니다. 세 축은 실제 임베딩 모델의 내부 차원을 재현한 값이 아니라, 설정 문서와 복구 문서와 처리 흐름 문서가 서로 가깝고 멀어지는 상황을 초심자가 읽을 수 있게 단순화한 좌표입니다. `topic`, `boundary_hint`, `variant`, `reader_hint`는 독자가 CSV를 열었을 때 어떤 행이 현재 버전 후보이고 어떤 행이 구버전·일반 설명과 부딪히기 쉬운지 관찰하게 돕는 설명 열입니다.
 
 ```python
-# 캘린더 일정 생성 요청에서 function call arguments가 필수 필드를 채웠는지 검증해 실행 가능성을 판단하는 예제입니다.
-requests = [
-    "내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.",
-    "내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.",
-    "다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.",
-]
+# fast 인덱스와 strict 인덱스 설정을 비교해 candidate budget, version filter, hit rate, latency의 trade-off를 확인하는 예제입니다.
+import csv
+import math
+from pathlib import Path
 
-required_fields = ["title", "date", "time", "timezone"]
+document_path = Path("docs/assets/part-06/chapter-11/p6-11-index-documents.csv")
+query_path = Path("docs/assets/part-06/chapter-11/p6-11-index-queries.csv")
 
-def build_function_call(user_request):
-    if "디자인 리뷰" in user_request:
-        title = "디자인 리뷰"
-    elif "팀 회의" in user_request:
-        title = "팀 회의"
-    elif "채용 인터뷰" in user_request:
-        title = "채용 인터뷰"
-    else:
-        title = ""
-
-    if "내일" in user_request:
-        date = "tomorrow"
-    elif "다음 주 월요일" in user_request:
-        date = "next_monday"
-    else:
-        date = ""
-
-    if "오후 3시" in user_request:
-        time = "15:00"
-    elif "오전 10시" in user_request:
-        time = "10:00"
-    else:
-        time = ""
-
-    timezone = "Asia/Seoul" if "서울" in user_request else None
-
-    return {
-        "name": "create_calendar_event",
-        "arguments": {
-            "title": title,
-            "date": date,
-            "time": time,
-            "timezone": timezone,
-            "attendees": [],
-        },
-    }
-
-def validate_function_call(function_call, required_fields):
-    arguments = function_call["arguments"]
-    missing = [
-        field
-        for field in required_fields
-        if field not in arguments or arguments[field] in ("", None)
-    ]
-    return {
-        "function_name": function_call["name"],
-        "missing_fields": missing,
-        "is_valid": len(missing) == 0,
-    }
-
-reports = []
-for user_request in requests:
-    function_call = build_function_call(user_request)
-    validation = validate_function_call(function_call, required_fields)
-    inspection = {
-        "required_fields": required_fields,
-        "provided_argument_keys": list(function_call["arguments"].keys()),
-        "is_ready_to_execute": validation["is_valid"],
-        "missing_count": len(validation["missing_fields"]),
-    }
-    reports.append(
+documents = []
+for row in csv.DictReader(document_path.open(encoding="utf-8")):
+    documents.append(
         {
-            "user_request": user_request,
-            "function_call": function_call,
-            "validation": validation,
-            "inspection": inspection,
+            "id": row["doc_id"],
+            "version": row["version"],
+            "embedding": [
+                float(row["config_axis"]),
+                float(row["recovery_axis"]),
+                float(row["flow_axis"]),
+            ],
         }
     )
 
-summary = {
-    "valid_call_count": sum(report["validation"]["is_valid"] for report in reports),
-    "invalid_call_count": sum(not report["validation"]["is_valid"] for report in reports),
-    "calls_missing_time": sum("time" in report["validation"]["missing_fields"] for report in reports),
-    "calls_missing_timezone": sum("timezone" in report["validation"]["missing_fields"] for report in reports),
-    "valid_call_ratio": round(
-        sum(report["validation"]["is_valid"] for report in reports) / len(reports),
-        2,
-    ),
-    "invalid_call_ratio": round(
-        sum(not report["validation"]["is_valid"] for report in reports) / len(reports),
-        2,
-    ),
+queries = []
+for row in csv.DictReader(query_path.open(encoding="utf-8")):
+    queries.append(
+        {
+            "question": row["question"],
+            "target_doc": row["target_doc"],
+            "vector": [
+                float(row["config_axis"]),
+                float(row["recovery_axis"]),
+                float(row["flow_axis"]),
+            ],
+        }
+    )
+
+settings = {
+    "fast": {"candidate_budget": 1, "version_filter": None, "top_k": 2},
+    "strict": {"candidate_budget": 4, "version_filter": "v2", "top_k": 2},
 }
 
-print("[summary]")
-print(summary)
-print()
+def cosine_similarity(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(y * y for y in b))
+    return dot / (norm_a * norm_b)
 
-for report in reports:
-    print("=" * 80)
-    print("[user_request]")
-    print(report["user_request"])
-    print("[function_call]")
-    print(report["function_call"])
-    print("[validation]")
-    print(report["validation"])
-    print("[inspection]")
-    print(report["inspection"])
+def search(query, setting):
+    pool = [
+        doc
+        for doc in documents
+        if setting["version_filter"] is None
+        or doc["version"] == setting["version_filter"]
+    ]
+    coarse = sorted(pool, key=lambda doc: abs(doc["embedding"][0] - query["vector"][0]))
+    candidates = coarse[:setting["candidate_budget"]]
+    ranked = sorted(
+        (
+            (cosine_similarity(query["vector"], doc["embedding"]), doc)
+            for doc in candidates
+        ),
+        key=lambda item: item[0],
+        reverse=True,
+    )
+    top_docs = [doc for score, doc in ranked[:setting["top_k"]]]
+    latency_ms = 18 + len(candidates) * 11 + (8 if setting["version_filter"] else 0)
+    return {
+        "latency_ms": latency_ms,
+        "candidate_count": len(candidates),
+        "top_k": [doc["id"] for doc in top_docs],
+    }
+
+def inspect_search(result, target_doc):
+    top1 = result["top_k"][0] if result["top_k"] else None
+    return {
+        "latency_ms": result["latency_ms"],
+        "candidate_count": result["candidate_count"],
+        "top_k": result["top_k"],
+        "target_in_top_k": target_doc in result["top_k"],
+        "rank_of_target": (
+            result["top_k"].index(target_doc) + 1
+            if target_doc in result["top_k"]
+            else None
+        ),
+        "top1_is_target": top1 == target_doc,
+        "top1_version_ok": top1 is not None and top1.startswith("sdk_v2_"),
+    }
+
+def summarize_mode(mode_name):
+    reports = []
+    for query in queries:
+        result = search(query, settings[mode_name])
+        reports.append((query["question"], inspect_search(result, query["target_doc"])))
+    total = len(reports)
+    return {
+        "setting": mode_name,
+        "candidate_budget": settings[mode_name]["candidate_budget"],
+        "version_filter": settings[mode_name]["version_filter"],
+        "hit_rate": round(sum(r["target_in_top_k"] for _, r in reports) / total, 3),
+        "top1_hit_rate": round(sum(r["top1_is_target"] for _, r in reports) / total, 3),
+        "top1_version_ok_rate": round(sum(r["top1_version_ok"] for _, r in reports) / total, 3),
+        "avg_latency_ms": round(sum(r["latency_ms"] for _, r in reports) / total, 1),
+        "missed_targets": [
+            query["target_doc"]
+            for query, (_, report) in zip(queries, reports)
+            if not report["target_in_top_k"]
+        ],
+        "reports": reports,
+    }
+
+for mode_name in settings:
+    summary = summarize_mode(mode_name)
+    print(f"[{mode_name}]")
+    print({key: value for key, value in summary.items() if key != "reports"})
+    for question, report in summary["reports"][:3]:
+        print("question =", question)
+        print(report)
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[summary]
-{'valid_call_count': 1, 'invalid_call_count': 2, 'calls_missing_time': 1, 'calls_missing_timezone': 1, 'valid_call_ratio': 0.33, 'invalid_call_ratio': 0.67}
+[fast]
+{'setting': 'fast', 'candidate_budget': 1, 'version_filter': None, 'hit_rate': 0.833, 'top1_hit_rate': 0.833, 'top1_version_ok_rate': 0.833, 'avg_latency_ms': 29.0, 'missed_targets': ['sdk_v2_retry_backoff', 'sdk_v2_webhook_signature', 'sdk_v2_webhook_signature', 'sdk_v2_rate_limit', 'sdk_v2_logging_trace', 'sdk_v2_region_endpoint']}
+question = 2.x 버전에서 request timeout 옵션 문서는 어디를 봐야 하나요?
+{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+question = SDK 2.x에서 응답 대기 시간을 조정하려면 어떤 설정 문서를 찾아야 하나요?
+{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+question = 연결이 오래 걸릴 때 1.x 안내가 아니라 2.x timeout 안내를 보고 싶습니다.
+{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 
-================================================================================
-[user_request]
-내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.
-[function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00', 'timezone': 'Asia/Seoul', 'attendees': []}}
-[validation]
-{'function_name': 'create_calendar_event', 'missing_fields': [], 'is_valid': True}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': True, 'missing_count': 0}
-================================================================================
-[user_request]
-내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.
-[function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '팀 회의', 'date': 'tomorrow', 'time': '', 'timezone': 'Asia/Seoul', 'attendees': []}}
-[validation]
-{'function_name': 'create_calendar_event', 'missing_fields': ['time'], 'is_valid': False}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
-================================================================================
-[user_request]
-다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.
-[function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '채용 인터뷰', 'date': 'next_monday', 'time': '10:00', 'timezone': None, 'attendees': []}}
-[validation]
-{'function_name': 'create_calendar_event', 'missing_fields': ['timezone'], 'is_valid': False}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
+[strict]
+{'setting': 'strict', 'candidate_budget': 4, 'version_filter': 'v2', 'hit_rate': 1.0, 'top1_hit_rate': 1.0, 'top1_version_ok_rate': 1.0, 'avg_latency_ms': 70.0, 'missed_targets': []}
+question = 2.x 버전에서 request timeout 옵션 문서는 어디를 봐야 하나요?
+{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_proxy_network'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+question = SDK 2.x에서 응답 대기 시간을 조정하려면 어떤 설정 문서를 찾아야 하나요?
+{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_proxy_network'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+question = 연결이 오래 걸릴 때 1.x 안내가 아니라 2.x timeout 안내를 보고 싶습니다.
+{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_proxy_network'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `valid_call_count`가 1이고 `invalid_call_count`가 2라는 점입니다. 즉, 자연어 요청을 함수 호출 구조로 바꿨다고 해서 모두 바로 실행 가능한 것은 아닙니다. `time`, `timezone`처럼 시스템이 실제 실행에 꼭 필요한 필드는 따로 검증해야 하고, 함수 호출 구조는 바로 그 누락을 실행 전에 드러내는 역할을 합니다.
+이 예제에서 먼저 봐야 할 것은 `fast` 설정이 평균 지연 시간 대체값은 낮지만, 후보 예산을 1개로 줄인 탓에 일부 2.x 목표 문서를 top-k 안에 남기지 못한다는 점입니다. 특정 질문에서는 첫 번째 좌표가 비슷한 구버전 문서나 일반 문서가 먼저 잡히면서 정작 필요한 현재 버전 문서가 빠집니다. 반대로 `strict` 설정은 `version_filter`를 켜고 후보 예산을 넓혀 36개 질문 모두에서 목표 문서를 top-k 안에 남깁니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현된다.
-- 함수 호출의 핵심 가치는 `구조화` 자체뿐 아니라, 실행 전에 누락 필드를 검증하고 실패 원인을 분리할 수 있다는 데 있다.
+- 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`, `top-1이 맞는가`, `버전 필터가 필요한가`를 같이 읽어야 한다.
+- 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `hit_rate`, `top1_hit_rate`, `version_ok_rate` 차이가 더 분명하게 드러난다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `requests`에 제목 누락, 날짜 누락 사례를 더 넣어 어떤 필드가 자주 빠지는지 보기
-- `build_function_call`에 참석자 메일 주소를 읽는 규칙을 추가해 일정 생성 인자가 어떻게 확장되는지 확인하기
-- `required_fields`를 바꿔 도구마다 검증 규칙이 달라질 수 있음을 실험해 보기
-- `date`를 자연어 그대로 두고 별도 정규화 단계를 상상해 보기
+- `settings["fast"]["candidate_budget"]`을 1, 2, 4로 바꿔 후보 수와 누락 문서가 어떻게 달라지는지 보기
+- `settings["fast"]["version_filter"]`를 `"v2"`로 바꿔 구버전 문서가 앞서는 문제가 줄어드는지 확인하기
+- `inspect_search`에 `recall_like_score`나 `top2_version_mix` 같은 항목을 추가해 자체 품질 지표를 넓혀 보기
 
-여기서 한 단계 더 가면, 함수 호출이 해결하는 문제와 아직 남는 문제를 분리해서 읽어야 합니다.
+속도와 품질 충돌을 운영 판단으로 다시 읽으면, 단일 지표만 보고 원인을 단정하면 안 된다는 점이 더 분명해집니다.
 
-| 상황 | 함수 호출이 직접 해결하는 것 | 함수 호출만으로는 남는 것 |
+| 먼저 보인 신호 | 바로 검색 인덱스 층에서 확인할 것 | 왜 이것부터 봐야 하는가 |
 | --- | --- | --- |
-| 요청이 말로는 이해되지만 실행 입력이 모호함 | 함수 이름과 인자 구조를 분리해 실행 입력을 명시함 | 어떤 도구를 선택할지 자체의 판단 품질 |
-| 실행 전에 빠진 필드를 잡고 싶음 | `missing_fields`처럼 누락 인자를 검증할 수 있음 | 사용자가 의도한 값이 맞는지에 대한 의미 해석 |
-| 결과를 후속 단계에 다시 넘기고 싶음 | 결과 형식을 일정한 구조로 돌려주기 쉬움 | 여러 호출을 어떤 순서로 이어 갈지에 대한 계획 |
-| 실패를 재현하고 로그로 남기고 싶음 | 어떤 함수가 어떤 인자로 호출됐는지 추적 가능 | 재시도, 대안 경로, 종료 기준 같은 운영 루프 |
+| 응답은 빨라졌는데 답변이 자주 빗나감 | `target_in_top_k`, `top1_hit_rate` | 생성 모델보다 먼저 검색 후보 자체가 흔들렸는지 확인해야 합니다. |
+| top-k 안에는 정답이 들어오는데 최종 답이 틀림 | `rank_of_target`, chunk 구성, 생성 단계 사용 방식 | 검색은 통과했지만 생성이 핵심 후보를 제대로 쓰지 못했을 수 있습니다. |
+| 비슷한 이름의 구버전 문서가 자주 섞임 | `top1_version_ok`, 메타데이터 필터, 버전 태그 | 속도 문제가 아니라 후보 정합성과 필터 설계 문제일 수 있습니다. |
+| 특정 질문군에서만 검색이 약함 | 질문 유형별 hit rate, chunk 크기, 임베딩 표현 | 인덱스 전체보다 데이터 준비나 표현 문제가 더 큰 원인일 수 있습니다. |
 
-이 표가 중요한 이유는 `function calling = agent`로 뭉개지지 않게 해 주기 때문입니다. 함수 호출은 실행 직전 요청을 구조화하는 층이고, 여러 호출을 이어 가는 계획과 재시도는 다음 장의 에이전트 층에서 본격적으로 다룹니다.
+## 이 예제를 검색 타협 관점으로 다시 보면
 
-## 이 예제를 구조화된 실행 요청 관점으로 다시 보면
+앞의 예제는 실제 ANN을 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 검색 실험으로 보여 주는 장면입니다. 예를 들어 지연 시간 대체값만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
 
-앞의 예제는 함수 호출 전체를 구현하는 코드가 아니라, `사람이 말한 요청`과 `시스템이 실행할 구조`가 같은 문장이 아니라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 자연어를 없애는 일이 아니라, 실행 직전에 어떤 이름과 인자 구조로 다시 정리되어야 하는지를 읽는 데 있습니다.
+차트로 보면 빠른 설정은 평균 지연 시간이 낮지만 일부 질문에서 top-k 포함과 버전 정합을 놓칩니다. 엄격한 설정은 더 느리지만 세 품질 지표가 모두 통과하므로, 인덱스 평가는 `latency` 하나가 아니라 `top-k 포함`, `top-1 정합`, `버전 정합`을 함께 놓고 읽어야 합니다.
 
-차트로 보면 세 호출 중 바로 실행 가능한 호출은 하나뿐이고, 나머지 둘은 각각 `time`, `timezone` 누락으로 막힙니다. 따라서 함수 호출은 구조를 만들었다는 사실보다, 실행 전에 어떤 필드가 빠졌는지 드러내고 멈출 수 있게 한다는 점이 더 중요합니다.
-
-![함수 호출 예제의 유효 호출과 누락 필드 감지 수](../../../assets/part-06/chapter-12/function-call-validation-ko.png)
+![빠른 검색 설정과 엄격한 검색 설정의 품질·지연 시간 비교](../../../assets/part-06/chapter-11/index-quality-latency-ko.png)
 
 ## 여기까지를 한 줄로 묶으면
 
-함수 호출의 핵심은 자연어를 없애는 것이 아니라, 실행 직전에 요청을 `이름과 인자가 분리된 검증 가능한 구조`로 바꾸는 데 있습니다.
+벡터 검색 인덱스는 검색을 빠르게 만들기 위한 구조이지만, 실제 운영에서는 지연 시간만이 아니라 `정답 후보가 top-k 안에 살아 있는가`를 함께 보지 않으면 좋은 설정을 고를 수 없습니다.
 
-이 절에서 더 중요하게 붙잡아야 할 점은 `잘 설명하는가`와 `실제로 실행 가능한 요청 구조를 넘기는가`가 같은 문제가 아니라는 것입니다. 그래서 함수 호출은 도구를 더 붙이는 장식이 아니라, 실행 직전에 요청을 검증 가능한 구조로 바꿔 tool use를 덜 불안정하게 만드는 대표 방식으로 읽는 편이 좋습니다.
+벡터 검색이 널리 쓰이면서, 검색 문제는 다시 `자료구조와 알고리즘`의 감각으로 돌아왔습니다. 하지만 LLM 서비스 문맥에서는 이것이 단순한 검색 엔진 문제가 아니라, 생성 품질과 사용자 경험에 직접 연결된다는 점이 더 중요합니다.
 
-이 구조화가 중요한 이유는 다음과 같습니다.
+이 관점이 중요한 이유는 다음과 같습니다.
 
-- tool use를 모호한 자연어 수준에 두지 않게 하고
-- agent, MCP, harness를 이해하기 위한 구조화 감각을 주며
-- 실행 가능한 AI 서비스가 왜 애플리케이션 계층을 필요로 하는지 설명해 주기 때문입니다
+- 벡터 데이터베이스를 단순 저장소가 아니라 탐색 구조와 함께 읽게 하고
+- 이후 평가 장에서 검색 지표를 왜 별도로 봐야 하는지 준비시키며
+- 서비스 구조에서 속도, 비용, 품질이 함께 얽힌다는 관점을 강화하기 때문입니다
 
 ## 체크리스트
-- 함수 호출을 `자연어 지시`가 아니라 `이름과 인자가 분리된 검증 가능한 호출 구조`로 설명할 수 있어야 합니다.
-- `어떤 함수인가`와 `어떤 인자인가`를 나눠 봐야 검증과 실패 추적이 쉬워진다는 점을 말할 수 있어야 합니다.
-- 다음 장은 구조화 자체의 설명이 아니라, 이런 호출들을 목표 흐름 안에서 어떤 순서로 이어 갈지로 질문이 이동한다는 점을 잡고 있어야 합니다.
+- 인덱스를 `탐색 속도를 높이는 구조`로만이 아니라 `속도와 품질을 함께 좌우하는 탐색 구조`로 설명할 수 있어야 합니다.
+- `top-k 안에 정답이 포함되는가`와 `1등 결과가 바로 정답인가`를 서로 다른 품질 지표로 구분할 수 있어야 합니다.
+- 다음 장은 검색 저장 구조 설명의 연장이 아니라, 이렇게 줄인 후보를 바탕으로 실제 도구 호출과 외부 실행으로 넘어가는 단계라는 점을 잡고 있어야 합니다.
 
 ## 출처와 참고 자료
 
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
-- OpenAI, [Using tools](https://developers.openai.com/api/docs/guides/tools){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
-- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-19.
+- Yu A. Malkov, D. A. Yashunin, [Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-19.
+- Jeff Johnson, Matthijs Douze, Herve Jegou, [Billion-scale similarity search with GPUs](https://arxiv.org/abs/1702.08734){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-07-19.
+- OpenAI, [Vector embeddings](https://developers.openai.com/api/docs/guides/embeddings){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

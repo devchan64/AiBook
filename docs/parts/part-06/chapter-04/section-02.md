@@ -1,313 +1,310 @@
-# P6-4.2 대화형 LLM으로의 전환
+# P6-4.2 attention과 context window
 
 > Section ID: `P6-4.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.21`
 
-P6-4.1에서는 GPT 계열을 이전 토큰을 바탕으로 다음 토큰을 이어 생성하는 decoder 중심 흐름으로 설명했습니다. 그런데 우리가 실제로 만나는 챗봇, 코파일럿, 대화형 도우미는 단순 이어쓰기처럼만 느껴지지 않습니다.
+P6-4.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이 흐름은 강력하지만, 실제 계산은 먼저 입력 범위 제약을 만납니다.
 
-Part 6에서 `대화형 LLM으로의 전환`, `생성 구조 위에 덧붙는 지시 따르기와 안전 조정`, `모델 구조와 사용자 경험 층의 구분`에 대한 첫 상세 설명은 이 절에서 잡습니다. 뒤 절에서는 현재 맥락에 필요한 최소 설명만 남기고, 대화형 경험을 만드는 조정층의 기본 감각은 이 절과 개념사전을 기준으로 다시 연결합니다.
+Transformer가 앞 문맥을 반영할 수 있어도, 실제 서비스에서는 먼저 입력 범위 제한을 만납니다. attention은 강력한 관련도 계산 구조이지만, 그 계산은 context window 안에 들어온 토큰을 대상으로만 일어납니다.
 
-이 구조가 어떻게 오늘날의 챗봇, 코파일럿, 대화형 도우미 같은 사용자 경험으로 바뀌었는가? 대화형 LLM은 단순 자동완성 모델 위에 지시 따르기(instruction following), 대화 형식, 안전 조정, 도구 연결 같은 층이 더해지며 만들어진 사용자 경험입니다.
+Transformer가 이전 토큰을 참고할 수 있다면, 실제로는 어디까지 참고할 수 있는가? context window는 모델이 한 번의 계산 안에서 참고할 수 있는 토큰 범위이며, attention은 그 범위 안에서 어떤 토큰이 더 중요한지 계산하는 구조입니다.
 
-## 대화형 전환이 다루는 질문
+## 입력 범위 제약이 다루는 질문
 
-대화형 전환은 다음 질문에서 시작합니다.
+입력 범위 제약을 읽을 때 핵심 질문은 다음 세 가지입니다.
 
-- 자동완성형 생성 모델과 대화형 LLM은 무엇이 다른가?
-- 왜 사용자는 LLM을 `답변하는 시스템`처럼 느끼게 되었는가?
-- 대화형 경험을 만들기 위해 구조 밖에서 무엇이 더 필요했는가?
+- attention과 context window는 어떤 관계인가?
+- 왜 `모든 이전 토큰을 본다`는 말에도 실제 한계가 붙는가?
+- context window는 왜 비용, 품질, 서비스 구조에 영향을 주는가?
 
-대화형 전환의 큰 흐름은 여기서 잡고, 지시를 따르도록 조정하는 단계는 P6-8.1 지시 튜닝과 P6-8.2 정렬의 기본 문제에서 다시 설명합니다. 프롬프트 설계는 P6-9.1, 도구 사용은 P6-12.1과 P6-12.2, agent loop는 P6-13.1과 P6-13.2, MCP 연결은 P6-14.1에서 각각 다시 회수합니다.
+따라서 핵심은 `attention이 모든 것을 본다`가 아니라 `입력 범위가 먼저 제한되고 attention은 그 안에서만 작동한다`는 점입니다.
 
-이 절에서는 사용자 경험의 변화가 단순히 모델 파라미터 증가만으로 생긴 것이 아님을 설명합니다. 앞 절의 GPT 설명이 `다음 토큰을 어떤 생성 구조로 이어 붙일까`를 다뤘다면, 여기서는 그 생성 구조 위에 어떤 조정과 인터페이스가 덧붙어 사용자가 `질문에 답하는 시스템`처럼 느끼게 되었는지 읽습니다. 바로 뒤의 다음 토큰 예측, 사전학습, 지시 튜닝, 정렬 절에서는 이 경험을 다시 더 작은 원리와 조정 단계로 나누어 회수합니다.
+| 지금 읽는 것 | 이후 넓어지는 질문 |
+| --- | --- |
+| 모델이 한 번의 계산에서 어디까지 입력으로 볼 수 있는가 | 그 제약을 실제 retrieval, 요약, 운영 정책으로 어떻게 풀어내는가 |
+| attention이 그 범위 안에서만 중요도를 계산한다는 점 | 긴 문맥 전용 아키텍처와 서빙 최적화가 어떤 구현 차이를 만드는가 |
 
-따라서 여기서 먼저 붙잡아야 할 차이는 `생성 구조 자체`와 `그 구조를 사용자 경험으로 바꾸는 조정층`의 구분입니다.
+이 구분이 잡히면 반복 생성에서 왜 KV cache가 필요해지는지, 긴 문맥에서 왜 sparse attention과 long-context 이야기가 따로 나오는지, RAG가 왜 입력 선택 문제와 연결되는지도 자연스럽게 이어집니다.
 
-| 지금 단계의 초점 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
-| --- | --- | --- |
-| GPT 기반 생성 구조 | 텍스트를 어떤 방식으로 이어 생성하는가? | P6-4.1, P6-5.1, P6-6.1 |
-| 대화형 LLM 경험 | 왜 사용자는 이것을 답변하는 시스템처럼 느끼는가? | P6-4.2 |
-| 지시 튜닝과 정렬 | 그 경험이 어떤 조정 단계로 만들어지는가? | P6-8.1, P6-8.2 |
-| 프롬프트와 도구 연결 | 그 조정된 모델을 실제 요청과 실행 구조에 어떻게 붙일 것인가? | P6-9.1, P6-12.1, P6-12.2 |
+`문맥을 다 본다`는 표현을 너무 크게 해석하면 LLM이 앞선 모든 정보를 언제나 기억하는 것처럼 오해하기 쉽습니다. 여기서 확인해야 할 결과는 P6-4.1의 Transformer 구조를 실제 사용 제약과 연결해, 이후 RAG, prompt 설계, tool use, agent loop에서 왜 입력 선택이 중요해지는지 설명할 수 있게 되는가입니다.
 
-이 전환을 앞뒤 장과 한 번에 붙여 보면 다음처럼 읽는 편이 안정적입니다.
+## context window는 무엇을 뜻하나
 
-| 바로 앞 장 | 지금 장 | 바로 다음에 더 붙는 장 |
-| --- | --- | --- |
-| GPT: 어떤 생성 구조로 다음 토큰을 이어 붙일까 | 대화형 LLM: 그 생성 구조가 왜 답변 경험처럼 보이게 되었을까 | next token, pretraining, instruction tuning: 이 경험을 어떤 학습 목표와 조정 단계로 다시 풀어 읽을까 |
-| 생성 구조 | 사용자 경험과 조정 층 | 학습 목표와 후속 조정 |
+context window는 모델이 한 번의 입력으로 받을 수 있는 토큰 길이 범위입니다.
 
-즉, 지금 장의 핵심은 `무엇을 생성하는 구조인가`에서 `그 구조가 왜 대화형 경험으로 보이게 되었는가`로 넘어가는 데 있습니다.
+예를 들어 어떤 모델이 8k tokens를 지원한다면, 시스템 메시지, 사용자 입력, 대화 기록, 검색 결과, 도구 출력까지 합쳐 그 범위 안에 들어와야 합니다.
 
-## 여기서 남겨야 할 구분
+다음처럼 이해하면 좋습니다.
 
-- 자동완성형 GPT와 대화형 LLM의 차이를 설명할 수 있습니다.
-- 대화형 경험에 instruction tuning, 안전 조정, 인터페이스 설계가 함께 필요했다는 점을 말할 수 있습니다.
-- 챗봇 경험이 모델 구조 하나만으로 완성되지 않는다는 점을 설명할 수 있습니다.
-- 이후 pretraining, instruction tuning, prompt, agent 설명으로 자연스럽게 넘어갈 수 있습니다.
+`문맥을 많이 넣을수록 좋을 것 같지만, 실제로는 토큰 길이 제한 안에서 무엇을 남기고 무엇을 줄일지 결정해야 한다.`
 
-이 절에서 확인해야 할 결과는 대화형 LLM 경험이 단순 자동완성이 아니라, 지시 해석, 대화 이력, 안전성 보정이 함께 묶인 구조로 읽히기 시작하는가입니다.
+이 지점에서 중요한 것은 `많이 참고한다`와 `무한히 참고한다`를 구분하는 일입니다. LLM은 입력 안에 들어온 토큰을 넓게 활용할 수 있지만, 그 입력 자체는 항상 한정되어 있습니다.
 
-- 뒤에서 나올 instruction tuning, alignment를 위한 필요성을 만들고
-- prompt engineering이 왜 단순 입력 문장이 아닌지 설명하며
-- agent, tool use, MCP를 `모델 자체`와 구분할 기반을 만들기 때문입니다
+## attention은 범위 안의 관련도를 계산한다
 
-## 경험 전환을 보는 순서
+이제 attention을 이 제약 위에 올려 보면 관계가 더 분명해집니다. attention은 토큰 간 관련도를 계산하는 구조이지만, 그 계산은 무한한 과거 전체가 아니라 현재 입력에 들어와 있는 토큰 범위 안에서만 이루어집니다.
 
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+즉:
 
-1. 먼저 자동완성형 생성 경험과 대화형 경험이 어떻게 다른지 봅니다.
-2. 그 다음 어떤 추가 층이 사용자 경험을 바꿨는지 읽습니다.
-3. 이어서 자연어 지시, 안전 조정, 인터페이스가 왜 함께 중요해졌는지 구분합니다.
-4. 마지막에 사례와 예제로 `형식`, `역할`, `안전 제약`이 실제 응답 구조에 반영되는가를 확인합니다.
+- context window는 `무엇까지 볼 수 있는가`를 제한하고
+- attention은 그 안에서 `무엇을 더 중요하게 볼 것인가`를 계산합니다
 
-## 자동완성에서 대화로 바뀌었다는 말의 뜻
+이 둘을 섞으면 안 됩니다.
 
-초기 생성 모델 사용자 경험은 대체로 다음과 같았습니다.
+더 안전한 설명은 다음과 같습니다.
 
-- 텍스트 앞부분을 주면
-- 그 뒤를 계속 이어 쓰게 한다
+`context window는 입력 범위 제한에 가깝고, attention은 그 안의 선택 규칙에 가깝다.`
 
-이것은 강력했지만, 아직 `질문에 답하는 조수`처럼 느껴지지는 않을 수 있습니다.
+## 왜 이 제약이 바로 서비스 문제로 이어지나
 
-대화형 LLM 경험은 여기에 다음 층이 더해지며 생깁니다.
+context window는 단순 숫자 제한이 아닙니다. 실제로는 입력을 어떻게 구성할지 결정하게 만드는 제약이며, 다음 문제를 만듭니다.
 
-- 질문과 답변의 형식
-- 사용자의 의도를 따르는 지시 이해
-- 불필요한 반복을 줄이는 응답 조정
-- 안전성과 정책 제약
-- 대화 상태 유지
+- 긴 문서를 그대로 다 넣지 못할 수 있다
+- 오래된 대화 기록을 계속 누적하면 앞부분이 밀릴 수 있다
+- 검색 결과를 너무 많이 넣으면 비용이 커지고 핵심이 흐려질 수 있다
+- 도구 출력이 길면 정작 중요한 사용자 질문이 뒤로 밀릴 수 있다
 
-즉, 모델은 여전히 다음 토큰을 생성하지만, 사용자는 더 이상 그것을 `자동완성기`로 보지 않고 `대화형 도우미`처럼 느끼게 됩니다.
+즉, context window는 모델 성능뿐 아니라 `서비스 설계`의 문제이기도 합니다.
 
-## 무엇이 경험을 바꿨나
+## 긴 문맥이 항상 더 좋은가
 
-대화형 전환을 한 가지 원인으로만 설명하면 부족합니다. 더 안전한 설명은 다음과 같습니다.
+긴 context window는 분명 유리한 점이 있습니다.
 
-1. 더 큰 사전학습 모델
-2. 지시를 따르도록 조정하는 추가 학습
-3. 대화형 인터페이스 설계
-4. 안전성(safety)과 정책 조정
-5. 때로는 도구 사용(tool use)과 검색 연결
+- 더 많은 배경 문서를 넣을 수 있고
+- 긴 코드 파일이나 긴 계약서를 한 번에 다루기 쉬워지며
+- 대화 맥락을 오래 유지하기 쉬워집니다
 
-즉, 사용자가 만나는 경험은 `모델 구조 + 후속 조정 + 제품 인터페이스`의 결합입니다.
+하지만 항상 무조건 더 좋은 것은 아닙니다.
 
-## 왜 자연어 지시가 중요해졌나
+- 불필요한 문맥도 함께 늘어날 수 있고
+- 관련 없는 정보가 attention을 분산시킬 수 있으며
+- 비용과 지연 시간(latency)이 커질 수 있습니다
 
-GPT-3 시기 이후 사용자는 prompt 안에 설명과 예시를 넣어 모델 행동을 바꾸는 경험을 더 강하게 하게 됩니다.
+따라서 실무에서는 단순히 `길면 좋다`보다 `중요한 문맥을 어떻게 잘 고를 것인가`가 더 중요해집니다.
 
-이것이 중요한 이유는:
+## 그래서 실제 설계 질문은 무엇인가
 
-- 별도 모델 교체 없이
-- 자연어만으로
-- 작업을 지정할 수 있다는 점입니다
+여기까지를 한 줄로 묶으면, 실제 설계 질문은 `얼마나 길게 넣을 수 있는가` 하나로 끝나지 않습니다.
 
-예를 들어:
+- 무엇을 먼저 남길 것인가
+- 무엇은 그대로 두고 무엇은 요약할 것인가
+- 무엇이 현재 질문과 직접 연결되는가
 
-- `세 문장으로 요약해줘`
-- `표 형태로 정리해줘`
-- `초등학생도 이해하게 설명해줘`
+즉, context window 문제는 길이 경쟁이 아니라 `입력 선택과 압축의 기준`을 세우는 문제이기도 합니다. 이 관점을 잡아야 뒤에서 RAG, 대화 요약, 에이전트 문맥 관리가 왜 모두 비슷한 설계 문제로 묶이는지 자연스럽게 읽을 수 있습니다.
 
-같은 지시가 가능해집니다.
+## 그래서 왜 RAG와 연결되는가
 
-이 지점에서 모델은 단순 언어 생성기가 아니라, `자연어 지시를 따르는 인터페이스`처럼 느껴지기 시작합니다.
+RAG(retrieval-augmented generation)는 바로 이 문제와 연결됩니다.
 
-## 왜 안전 조정이 함께 중요해졌나
+긴 문서 전체를 넣는 대신:
 
-대화형 경험은 단순 생성보다 위험도 더 크게 드러냅니다.
+- 관련 문서 조각만 검색하고
+- 필요한 부분만 잘라 넣어
+- 제한된 context window 안에서 근거를 더 효율적으로 사용하려는 구조이기 때문입니다
 
-- 그럴듯한 오류
-- 공격적인 표현
-- 민감 정보 처리 문제
-- 잘못된 조언
+즉, context window의 존재는 RAG가 왜 필요한지 설명하는 중요한 배경입니다.
 
-같은 문제가 더 직접적으로 사용자에게 노출되기 때문입니다.
-
-그래서 대화형 LLM은 대개 구조 밖에서도 안전 조정이 필요합니다.
-
-다음처럼 이해할 수 있습니다.
-
-`좋은 대화형 LLM은 많이 아는 모델이기만 한 것이 아니라, 어떻게 답하지 말아야 하는지도 함께 조정된 시스템이다.`
-
-## 왜 인터페이스도 모델 일부처럼 느껴지나
-
-사용자는 보통 다음을 한 덩어리로 경험합니다.
-
-- 입력창
-- 대화 기록
-- 시스템 지시
-- 모델 응답
-- 때로는 검색/도구 실행 결과
-
-하지만 구조적으로는 이들이 모두 같은 것이 아닙니다.
-
-예를 들어:
-
-- 모델은 다음 토큰을 생성하고
-- 앱은 대화 기록을 유지하며
-- 시스템 프롬프트는 응답 방향을 제약하고
-- 도구 연결은 외부 계산이나 검색을 수행합니다
-
-이 차이를 구분해야 나중에 agent, MCP, harness를 혼동 없이 설명할 수 있습니다.
-
-## 여기까지를 한 줄로 묶으면
-
-여기까지의 흐름을 한 번에 묶으면, 대화형 LLM 경험은 `다음 토큰 생성 모델` 하나만으로 닫히지 않습니다.
-
-- 모델은 여전히 다음 토큰을 생성합니다.
-- 조정 단계는 그 생성이 어떤 지시와 형식을 따를지 바꿉니다.
-- 인터페이스는 대화 기록, 역할, 도구 결과를 함께 묶어 사용자 경험으로 보여 줍니다.
-
-즉, 사용자가 보는 챗봇은 `생성 모델 + 조정 + 인터페이스`가 합쳐진 결과로 읽는 편이 안전합니다.
+여기서 읽어야 할 핵심은 `attention이 강하니 문서를 전부 넣으면 된다`가 아니라, `윈도우 안에 남길 근거를 먼저 고르고 그 안에서 attention이 작동한다`는 순서입니다.
 
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-04/p6-c04-s02-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-04/p6-c04-s02-window-flow-ko.mmd"
 ```
 
-이 도식에서 확인해야 할 결과는 오늘의 대화형 경험이 한 번에 완성된 기능이 아니라, 자동완성, 지시 수행, 대화 정렬 단계를 거치며 누적된 구조라는 점입니다.
+이 도식의 핵심은 다음입니다.
+
+- 전체 정보가 다 들어오는 것이 아니라
+- 먼저 윈도우 안에 들어온 정보가 있고
+- attention은 그 안에서 계산된다는 점입니다
 
 ## 사례 및 예시
 
-아래 도식은 이 절의 세 사례를 `문장이 이어지는가`보다 `사용자 의도와 형식 제약이 실제 응답 구조에 반영되는가`라는 공통 질문으로 다시 묶은 것입니다.
+아래 도식은 이 절의 세 사례를 `얼마나 많이 넣는가`보다 `제한된 창 안에 무엇을 우선 남길 것인가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
---8<-- "assets/part-06/chapter-04/p6-c04-s02-diagram-02-ko.mmd"
+--8<-- "assets/part-06/chapter-04/p6-c04-s02-use-cases-ko.mmd"
 ```
 
-이 도식에서 확인해야 할 점은 세 경험이 모두 생성 위에 놓여 있어도 평가 기준이 달라진다는 것입니다. 자동완성은 `자연스럽게 이어지는가`가 중심이지만, 대화형 LLM은 `의도, 형식, 안전 제약이 실제 응답 구조에 반영되는가`까지 함께 봐야 합니다.
+이 도식에서 확인해야 할 점은 과업이 달라도 핵심 제약이 같다는 것입니다. 모두 `전부 넣는가`보다 `중요한 문맥을 먼저 남기는가`가 더 중요하며, attention은 그 뒤에 남은 범위 안에서만 계산됩니다.
 
-### 사례 1. 일반 자동완성
+### 사례 1. 긴 문서 요약
 
-메일 작성창에 `안녕하세요, 지난 회의에서 논의한 내용은`까지만 적고 다음 문장을 추천받는 상황을 떠올려 보겠습니다. 사람이 이 기능에서 먼저 보는 기준은 보통 `문장이 자연스럽게 이어지는가`입니다. 여기서는 질문 의도 파악이나 역할 구분보다, 앞문장 뒤에 무난한 후속 표현이 붙는지가 더 중요합니다. 예를 들어 `회의 자료를 첨부드립니다`나 `아래와 같이 정리했습니다`처럼 자연스러운 후속 문장이 이어지면 기능이 잘 동작한다고 느낍니다. 하지만 이 단계에서는 사용자가 무엇을 궁금해하는지, 어떤 형식으로 답해야 하는지까지 깊게 해석하지는 않습니다. 이 경험은 `질문에 답한다`보다 `다음 문장을 이어 쓴다`에 가깝습니다. 여기서 바뀌는 점은 `질문을 해결하는가`를 보던 기준이 아니라, 여전히 `앞문장 뒤에 자연스러운 다음 문장이 붙는가`를 보는 기준에 머문다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 사용자의 질문을 깊게 해석하는가보다, 앞문장 뒤에 자연스러운 후속 문장이 실제로 이어지는가입니다.
+사용자가 100페이지 보고서를 한 번에 넣고 `핵심만 다섯 줄로 정리해 달라`고 요청할 수 있습니다. 사람은 처음에 `긴 문서를 다 넣으면 더 정확하겠지`라고 생각하기 쉽습니다. 하지만 문맥 윈도우가 한정되어 있으면 모델은 문서 전체를 그대로 다 넣어 읽지 못합니다. 앞부분의 배경 설명과 뒤쪽의 결론을 모두 남기고 싶어도, 중간 표와 부록까지 전부 넣으면 정작 `최종 권고안`이 적힌 마지막 절이 잘려 나갈 수 있습니다.
 
-이 사례가 중요한 이유는 많은 초심자가 자동완성과 챗봇을 같은 종류의 기능으로 묶기 때문입니다. 하지만 자동완성에서 먼저 보는 것은 `의도를 해결했는가`보다 `이어쓰기 경험이 매끄러운가`입니다. 앞문장 뒤에 무난한 후속 문장이 붙으면 사용자는 기능이 잘 된다고 느끼고, 반대로 질문을 잘 이해해도 문장 연결이 어색하면 자동완성으로는 불편하게 느낄 수 있습니다. 그래서 일반 자동완성은 생성 위에 놓여 있어도, 평가 기준이 대화형 지시 응답과 다르다는 점을 먼저 분리해야 합니다.
+같은 긴 문서도 입력 선택 방식에 따라 결과가 달라집니다.
 
-같은 생성 구조라도 자동완성에서 먼저 보는 기준은 아래처럼 더 좁습니다.
-
-| 장면 | 초심자가 기대하기 쉬운 것 | 실제로 자동완성에서 먼저 보는 것 |
+| 입력 방식 | 먼저 기대하기 쉬운 것 | 실제로 다시 봐야 하는 것 |
 | --- | --- | --- |
-| 메일 초안 이어쓰기 | 질문도 이해하고 의도도 해결해 줄 것 같음 | 앞문장 뒤에 자연스러운 후속 표현이 붙는가 |
-| 회의 후속 안내 문장 추천 | 답변 시스템처럼 다 해 줄 것 같음 | 말투와 이어쓰기 매끄러움이 유지되는가 |
-| 짧은 문장 추천 | 의미 해결까지 기대하기 쉬움 | 다음 문장 후보가 무난하고 빠르게 이어지는가 |
+| 100페이지 전체를 통째로 넣음 | 많이 넣었으니 더 정확할 것 같음 | 핵심 결론 절이 끝까지 남는가 |
+| 표·부록까지 모두 포함 | 정보가 많으니 안전할 것 같음 | 주변 정보가 핵심 권고안을 밀어내지 않는가 |
+| 핵심 절을 먼저 골라 넣음 | 뭔가 빠뜨릴까 불안할 수 있음 | 오히려 결론과 예외가 더 안정적으로 보존되는가 |
 
-이 표가 바로잡는 오해는 `생성 모델이면 곧바로 챗봇처럼 동작해야 한다`는 기대입니다. 일반 자동완성은 같은 생성 위에 있어도, 평가 기준이 훨씬 더 `이어쓰기 경험`에 가까운 층에 머뭅니다.
+이 사례에서 확인할 결과는 `많이 넣으면 더 정확한가`가 아니라 `제한된 범위 안에서 핵심 절이 실제로 보존되는가`입니다. context window를 이해할 때는 `얼마나 담을 수 있나`보다 `그 제한 안에서 어떤 절을 먼저 남길 것인가`를 더 먼저 봐야 합니다.
 
-### 사례 2. 챗봇
+### 사례 2. 코드 도우미
 
-사내 정책 문서를 열어 둔 채 `이 정책을 세 문장으로 설명해 줘`라고 묻는 상황을 생각해 보겠습니다. 사람이 단순 자동완성기에서 기대하는 것은 보통 `다음 문장 후보` 정도이지만, 챗봇에게는 질문 이해, 길이 맞추기, 말투 유지, 위험한 답변 회피까지 함께 기대합니다. 만약 모델이 정책 문장 일부만 길게 이어 쓰면, 사용자는 `질문을 들은 시스템`이 아니라 `문장을 잇는 도구`로 느낄 것입니다. 반대로 시스템 역할, 대화 이력, 요약 길이 제약, 안전 규칙이 함께 작동하면 사용자는 `세 문장 설명`이라는 요청이 실제로 반영됐다고 느낍니다. 이 차이가 자동완성과 대화형 LLM 경험을 가르는 핵심입니다. 여기서 바뀌는 점은 `자연스럽게 이어지는가`를 보던 기준에서 `질문 의도와 형식 제약이 실제 답변 구조에 반영되는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 단순 이어쓰기가 아니라, 길이 제약과 질문 의도가 실제 답변 구조에 반영되는가입니다.
+큰 코드베이스에서 버그를 고칠 때 사용자는 `저장소 전체를 보고 원인을 찾아 달라`고 기대할 수 있습니다. 처음에는 전체를 다 보여 주면 더 잘 고칠 것 같다고 느끼기 쉽습니다. 하지만 실제로는 모든 파일을 한 번에 넣기 어렵기 때문에, 현재 파일, 관련 함수, 최근 에러 로그, 실패한 테스트 결과를 우선 선택해야 합니다. 로그인 오류를 고치는데 디자인 자산 파일과 오래된 문서까지 함께 넣는다면, 정작 인증 미들웨어와 세션 설정 파일이 잘리고 핵심 원인 후보를 놓칠 수 있습니다.
 
-이 장면도 실제 제품 경험에서 매우 중요합니다. 챗봇은 사용자가 `말을 걸었다`고 느끼는 순간부터 자동완성보다 훨씬 더 많은 것을 기대받습니다. 세 문장 요청이면 실제로 세 문장이어야 하고, 정책 설명이면 불필요한 사족 없이 핵심이 정리되어야 하며, 위험한 안내는 피해야 합니다. 즉 챗봇은 문장이 자연스럽다는 이유만으로 통과되지 않고, `무엇을 하라고 했는가`와 `어떻게 하면 안 되는가`가 실제 구조에 반영돼야 합니다. 그래서 같은 생성 구조라도 자동완성과 대화형 응답은 평가 층이 달라집니다.
+같은 버그 수정도 문맥 선택에 따라 남는 단서가 달라집니다.
 
-같은 생성 모델도 챗봇으로 읽을 때는 아래 기준이 더 붙습니다.
-
-| 장면 | 자동완성 기준으로만 보면 놓치기 쉬운 것 | 챗봇 기준에서 추가로 봐야 하는 것 |
+| 입력 선택 | 사람 기준 첫인상 | 실제로 다시 확인해야 하는 것 |
 | --- | --- | --- |
-| `세 문장으로 설명해 줘` 요청 | 문장이 자연스럽기만 하면 괜찮아 보임 | 실제로 세 문장 형식이 지켜졌는가 |
-| 정책 요약 응답 | 이어쓰기만 자연스러우면 충분해 보임 | 질문 의도와 핵심 정보가 반영됐는가 |
-| 안전 제약이 있는 응답 | 길고 친절하면 좋아 보임 | 금지 내용 회피와 역할 제약이 실제로 작동했는가 |
+| 저장소 범위를 넓게 많이 넣음 | 많이 보여 줬으니 원인도 더 잘 찾을 것 같음 | 관련 없는 파일이 핵심 로그와 설정을 밀어내지 않는가 |
+| 현재 파일만 남김 | 간단하고 가벼워 보임 | 호출부·테스트·에러 로그가 빠져 원인 연결이 끊기지 않는가 |
+| 관련 함수 + 에러 로그 + 실패 테스트를 우선 남김 | 일부를 뺀 것 같아 불안할 수 있음 | 실제 원인 후보를 가장 잘 보존하는가 |
 
-이 사례에서 중요한 기준은 `자연스러운 문장`과 `질문에 맞는 응답 구조`를 분리해서 보는 일입니다. 챗봇은 이어쓰기 도구가 아니라, 의도·형식·안전 제약까지 함께 반영해야 하는 생성 경험이라는 점이 여기서 드러납니다.
+이 사례에서 확인할 결과는 정보량을 늘리는 것보다 현재 질문과 직접 연결된 파일을 남긴 쪽이 실제 원인 후보를 더 잘 보존하는가입니다. context window는 `전부 다 보여 줄 수 없다`는 제약일 뿐 아니라, `지금 문제와 직접 연결된 문맥을 선별해야 한다`는 설계 기준이기도 합니다.
 
-### 사례 3. 코파일럿
+### 사례 3. 대화형 챗봇
 
-개발자가 함수 안에 `여기서 사용자 입력을 검증하고 실패하면 에러를 반환`이라고 주석을 적는 상황을 떠올려 보겠습니다. 사람이 단순 자동완성에서 기대하는 것은 보통 `다음 몇 글자`이지만, 코드 도우미에게는 함수 이름, 인자, 반환 형식, 주변 파일 문맥까지 함께 읽어 주길 기대합니다. 만약 모델이 바로 다음 한 줄만 맞추고 예외 처리나 반환 구조를 놓치면, 개발자는 `코드 문맥을 이해했다`고 느끼기 어렵습니다. 반대로 편집기 문맥과 시그니처를 함께 읽어 조건문, 오류 메시지, 반환문까지 한 묶음으로 제안하면 같은 생성 구조도 훨씬 목적에 맞는 도구로 보입니다. 여기서 바뀌는 점은 `다음 한 줄이 이어지는가`를 보던 기준에서 `주변 코드 문맥을 반영해 더 완결된 블록을 제안하는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 다음 한 줄 완성보다 함수 문맥 전체를 반영한 제안이 실제로 더 완결된 코드 블록으로 이어지는가입니다.
+고객 지원 챗봇에서 대화가 길어지면 초반의 주문번호, 정책 설명, 사용자의 추가 질문이 계속 쌓입니다. 사람은 일단 다 남겨 두면 가장 안전하다고 느끼기 쉽지만, 이 기록을 전부 그대로 유지하면 문맥이 금방 길어지고 반대로 너무 많이 지우면 중요한 조건을 잃어버릴 수 있습니다.
 
-세 사례를 사용자 경험 관점으로 다시 묶으면 다음과 같습니다.
+초반에 나온 주문번호와 환불 예외 조건은 끝까지 중요하지만, 중간의 반복 인사나 이미 해결된 질문은 그대로 유지할 필요가 적을 수 있습니다. 반대로 주문번호까지 요약 과정에서 빠뜨리면, 뒤 답변이 맞는 정책을 말해도 다른 주문 건을 기준으로 설명하는 오류가 생길 수 있습니다. 이 사례에서 확인할 결과는 반복 인사보다 주문번호와 예외 조건 같은 핵심 상태가 실제로 더 오래 보존되는가입니다.
 
-| 상황 | 자동완성만으로는 부족한 것 | 대화형 또는 문맥 반영 구조가 더 봐야 하는 것 |
+세 사례를 context window 관리 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 많이 넣는다고 바로 좋아지지 않는 것 | 제한 안에서 먼저 남겨야 하는 것 |
 | --- | --- | --- |
-| 일반 자동완성 | 자연스러운 이어쓰기 | 이것만으로도 충분한 경우가 있음 |
-| 챗봇 | 단순 후속 문장 생성 | 질문 의도, 형식 제약, 안전 조건 |
-| 코파일럿 | 다음 한 줄 제안 | 함수 문맥, 반환 형식, 예외 처리 블록 |
+| 긴 문서 요약 | 부록과 주변 설명까지 전부 유지하는 것 | 최종 권고안과 핵심 절 |
+| 코드 도우미 | 저장소 전체를 한 번에 넣는 것 | 현재 오류와 직접 연결된 파일·로그 |
+| 대화형 챗봇 | 모든 대화 기록을 그대로 보존하는 것 | 주문번호, 예외 조건 같은 핵심 상태 |
 
-## 바로 적용해 보면
+이 표의 목적은 세 장면을 모두 같은 결론으로 밀어 넣는 데 있지 않습니다. 문서 요약, 코드 도우미, 챗봇은 서로 다른 과업이지만, 모두 `많이 넣는가`보다 `제한된 창 안에 핵심 단서가 남는가`를 먼저 묻는다는 공통점을 보여 줍니다.
 
-이 절을 읽은 뒤에는 아직 instruction tuning이나 alignment 세부를 다 몰라도, 아래처럼 `지금 보는 장면이 단순 이어쓰기 경험인가, 대화형 조정층이 필요한 경험인가`를 먼저 가르는 연습을 할 수 있습니다.
+## 실패 장면에서 다시 보는 기준
 
-| 지금 보이는 장면 | 먼저 떠올리기 쉬운 오해 | 먼저 바꿔 물을 질문 |
+context window를 적용 장면에서 다시 볼 때 자주 하는 실수는, `긴 문맥이 필요하다`는 말을 들으면 곧바로 더 많이 넣는 쪽으로만 생각하는 일입니다. 하지만 실제 서비스 장면에서는 먼저 `지금 실패가 윈도우 안에 무엇이 안 남아서 생긴 것인가`, `아니면 이미 남아 있는 범위 안에서 무엇이 더 중요했는가`를 가르는 편이 안전합니다.
+
+| 지금 먼저 보이는 실패 | 먼저 던질 질문 | 먼저 다시 볼 축 |
 | --- | --- | --- |
-| 앞문장 뒤에 자연스러운 한 문장만 잘 붙으면 충분하다 | 생성 모델이면 곧바로 챗봇처럼 질문도 해결해야 한다고 느끼기 쉽다 | 지금 기준은 의도 해결보다 이어쓰기 매끄러움인가 |
-| `세 문장으로 요약해 줘`를 자주 어기거나 말투가 들쭉날쭉하다 | 모델이 더 똑똑해지면 자동으로 형식과 역할도 맞을 것이라고 느끼기 쉽다 | 지금 막히는 것은 생성 능력보다 지시·형식 조정층 문제인가 |
-| 코드 한 줄 추천은 괜찮은데 함수 전체 맥락과 예외 처리는 자주 놓친다 | 다음 토큰 생성만 잘하면 주변 문맥 반영도 자동으로 해결된다고 느끼기 쉽다 | 지금 필요한 것은 더 긴 문맥 반영과 제품 인터페이스 결합인가 |
+| 긴 문서를 넣었는데 핵심 결론 절이 빠진다 | `중요한 절이 애초에 윈도우 안에 남아 있었는가?` | context window / 입력 선택 |
+| 코드 도우미가 현재 오류와 무관한 파일을 길게 본다 | `현재 질문과 직접 연결된 파일·로그가 먼저 남아 있었는가?` | context window / 문맥 선별 |
+| 필요한 문맥은 들어갔는데도 답이 엉뚱한 단서를 따라간다 | `남아 있는 범위 안에서 attention이 무엇을 더 중요하게 봤는가?` | attention / 관련도 계산 |
+| 대화가 길어질수록 초반 주문번호나 예외 조건을 놓친다 | `반복 대화 대신 핵심 상태를 오래 남기도록 요약·압축했는가?` | context window / 상태 보존 |
 
-이 표에서 중요한 것은 `챗봇`이라는 이름을 외우는 일이 아니라, 같은 생성 구조 위에서도 사용자가 기대하는 평가 기준이 달라진다는 점을 실제 장면에 대입해 보는 일입니다.
-
-여기서 자주 섞이는 것도 다음과 같습니다.
-
-- 자연스러운 이어쓰기와 질문 의도 해결을 같은 성공 기준으로 묶기 쉽습니다.
-- 형식 준수, 역할 유지, 안전 제약을 모델 구조 하나의 문제로만 보기 쉽습니다.
-- 코파일럿이나 챗봇처럼 제품 경험에서 붙는 인터페이스 층을 모델 자체와 구분하지 못하기 쉽습니다.
-
-그래서 이 절의 닫힘은 `대화형 LLM은 생성 모델 + 조정 + 인터페이스의 결합`이라는 말을 실제 판단 기준으로 바꾸는 데 있습니다.
-
-이 구분의 목적은 원인을 한 번에 확정하는 데 있지 않습니다. `대화형 LLM이 이상하다`는 한 문장으로 뭉개지 않고, 지금 보고 있는 현상이 `이어쓰기 경험`, `조정층`, `제품 인터페이스 결합` 중 어디에서 먼저 드러나는지 짧게 가르는 데 있습니다.
+이 표의 목적은 context window와 attention을 다시 정의하는 데 있지 않습니다. 실제 실패 장면을 봤을 때 `먼저 윈도우 안에 무엇이 남았는가`를 볼지, `남은 범위 안에서 무엇이 더 중요해졌는가`를 볼지 분기하게 만드는 데 있습니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 같은 생성 구조 위에서도 `자동완성 경험`과 `대화형 지시 응답 경험`이 어떻게 달라지는지, 특히 형식 제약, 역할, 안전 제약이 실제 응답 구조에 반영되는지로 확인하는 것입니다.
+이 예제의 목표는 `길이 제한이 있을 때 무엇을 우선 남길 것인가`를 더 분명하게 보는 것입니다. 단순 개수 제한이 아니라 `토큰 예산`을 두고, 입력 순서대로 그냥 넣는 방식과 중요도 기준으로 다시 고르는 방식을 비교하겠습니다. 여기에 `현재 질문과 얼마나 직접 연결되는가`를 흉내 내는 간단한 relevance 점수도 붙여, context window 안에 무엇이 남느냐가 attention이 실제로 볼 수 있는 단서와 어떻게 연결되는지도 함께 보겠습니다.
 
-아래 코드는 사용자 요청, 요청에서 요구한 문장 수, 시스템 역할 제약, 피해야 할 안전 위반 표현, 자동완성형 응답 하나, 지시 따르기형 응답 묶음을 사용합니다. 결과에서는 자동완성형 스타일과 대화형 지시 응답 스타일, 요청 형식 반영 여부, 역할과 안전 제약 반영 여부, 어떤 항목에서 자동완성과 대화형 응답이 갈리는지를 함께 확인합니다.
+아래 코드는 여러 개의 문맥 항목, 각 항목의 토큰 길이와 우선순위, 최대 토큰 예산을 사용합니다. 결과에서는 입력 순서대로 넣었을 때 남는 항목, 중요도 기준으로 다시 골랐을 때 남는 항목, 두 방식에서 탈락한 항목과 총 사용 토큰, 핵심 상태 보존 정도, 선택된 항목 안에서 질문과 직접 연결된 단서의 relevance 순위를 함께 봅니다.
 
-확인할 핵심은 같은 사용자 요청이라도 대화형 LLM은 사용자 요청만이 아니라 역할과 안전 제약까지 함께 반영해 응답을 구성한다는 점입니다.
+확인할 핵심은 context budget이 부족할 때 어떤 정보를 남기고 버리느냐에 따라 최종 답변에 쓸 수 있는 근거가 달라진다는 점입니다. attention은 선택 뒤에 남은 항목 안에서만 관련도를 계산할 수 있습니다.
+
+아래 도식은 이 예제가 비교하려는 두 선택 방식을 먼저 압축한 것입니다. 같은 토큰 예산이어도 입력 순서대로 남기는 방식과 우선순위로 다시 고르는 방식은, attention이 실제로 볼 수 있는 단서를 다르게 만듭니다.
+
+```mermaid
+--8<-- "assets/part-06/chapter-04/p6-c04-s02-selection-flow-ko.mmd"
+```
 
 ```python
-# 자동완성형 응답과 대화형 지시 응답이 형식 제약, 역할, 안전 제약 반영에서 어떻게 달라지는지 점검하는 예제입니다.
-user_request = "이 문서를 세 문장으로 요약해줘"
-required_sentence_count = 3
-system_role = "학습 내용을 차분히 설명하는 도우미"
-blocked_terms = ["확실하지 않은 사실을 단정", "공격적 표현"]
+# context window 토큰 예산 안에서 입력 순서 선택과 중요도 기반 선택이 남기는 단서를 비교하는 예제입니다.
+import string
 
-autocomplete_style = [
-    "이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다..."
+context_items = [
+    {
+        "name": "system instruction",
+        "tokens": 18,
+        "priority": 100,
+        "content": "Follow policy and explain the cause clearly.",
+    },
+    {
+        "name": "older chat history",
+        "tokens": 30,
+        "priority": 40,
+        "content": "Earlier small talk and unrelated setup questions.",
+    },
+    {
+        "name": "repeated greeting",
+        "tokens": 8,
+        "priority": 5,
+        "content": "Hello again thank you hello again.",
+    },
+    {
+        "name": "user question",
+        "tokens": 12,
+        "priority": 95,
+        "content": "Why did login fail after the deploy?",
+    },
+    {
+        "name": "current error log",
+        "tokens": 22,
+        "priority": 90,
+        "content": "Login failed because session token signature mismatch after deploy.",
+    },
+    {
+        "name": "related function code",
+        "tokens": 20,
+        "priority": 88,
+        "content": "verify_session_token compares signature and rejects mismatch.",
+    },
 ]
 
-instruction_style = [
-    "첫째, 이 문서는 핵심 개념을 정리합니다.",
-    "둘째, 주요 사례와 한계를 함께 설명합니다.",
-    "셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.",
-]
+token_budget = 60
+must_keep = {"system instruction", "user question", "current error log"}
+query_keywords = {"login", "fail", "deploy", "token", "signature", "mismatch"}
 
-def inspect_response(lines, required_count, blocked_terms):
-    joined = " ".join(lines)
-    return {
-        "sentence_count": len(lines),
-        "matches_requested_count": len(lines) == required_count,
-        "mentions_beginner_friendly_tone": any("설명" in line or "정리" in line for line in lines),
-        "contains_blocked_term": any(term in joined for term in blocked_terms),
-        "starts_with_structured_answer": any(line.startswith(("첫째", "둘째", "셋째")) for line in lines),
-    }
+def select_in_original_order(items, budget):
+    selected = []
+    used = 0
+    for item in items:
+        if used + item["tokens"] <= budget:
+            selected.append(item)
+            used += item["tokens"]
+    dropped = [item for item in items if item not in selected]
+    return selected, dropped, used
 
-def compare_experience(report):
-    return {
-        "format_followed": report["matches_requested_count"],
-        "role_followed": report["mentions_beginner_friendly_tone"],
-        "safety_ok": not report["contains_blocked_term"],
-        "structured_response": report["starts_with_structured_answer"],
-    }
+def select_by_priority(items, budget):
+    ranked = sorted(items, key=lambda item: item["priority"], reverse=True)
+    selected = []
+    used = 0
+    for item in ranked:
+        if used + item["tokens"] <= budget:
+            selected.append(item)
+            used += item["tokens"]
+    dropped = [item for item in ranked if item not in selected]
+    return selected, dropped, used
 
-autocomplete_report = inspect_response(
-    autocomplete_style, required_sentence_count, blocked_terms
-)
-instruction_report = inspect_response(
-    instruction_style, required_sentence_count, blocked_terms
-)
+naive_selected, naive_dropped, naive_used = select_in_original_order(context_items, token_budget)
+priority_selected, priority_dropped, priority_used = select_by_priority(context_items, token_budget)
 
-print("request =", user_request)
-print("required_sentence_count =", required_sentence_count)
-print("system_role =", system_role)
-print("blocked_terms =", blocked_terms)
+def coverage(selected, must_keep_names):
+    selected_names = {item["name"] for item in selected}
+    kept = sorted(selected_names & must_keep_names)
+    missing = sorted(must_keep_names - selected_names)
+    return kept, missing
+
+def relevance_ranking(selected, keywords):
+    scored = []
+    for item in selected:
+        clean_content = item["content"].lower().translate(str.maketrans("", "", string.punctuation))
+        words = set(clean_content.split())
+        score = len(words & keywords)
+        scored.append((score, item["name"]))
+    return sorted(scored, reverse=True)
+
+print("[naive original-order selection]")
+for item in naive_selected:
+    print("-", item["name"], "| tokens =", item["tokens"], "| priority =", item["priority"])
+print("used_tokens =", naive_used)
+print("dropped =", [item["name"] for item in naive_dropped])
+naive_kept, naive_missing = coverage(naive_selected, must_keep)
+print("must_keep_kept =", naive_kept)
+print("must_keep_missing =", naive_missing)
+print("relevance_ranking =", relevance_ranking(naive_selected, query_keywords))
 print()
-print("autocomplete_style =", autocomplete_style)
-print("autocomplete_report =", autocomplete_report)
-print("autocomplete_experience =", compare_experience(autocomplete_report))
-print()
-print("instruction_style =")
-for line in instruction_style:
-    print("-", line)
-print("instruction_report =", instruction_report)
-print("instruction_experience =", compare_experience(instruction_report))
+
+print("[priority-based selection]")
+for item in priority_selected:
+    print("-", item["name"], "| tokens =", item["tokens"], "| priority =", item["priority"])
+print("used_tokens =", priority_used)
+print("dropped =", [item["name"] for item in priority_dropped])
+priority_kept, priority_missing = coverage(priority_selected, must_keep)
+print("must_keep_kept =", priority_kept)
+print("must_keep_missing =", priority_missing)
+print("relevance_ranking =", relevance_ranking(priority_selected, query_keywords))
 ```
 
 아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
@@ -315,65 +312,56 @@ print("instruction_experience =", compare_experience(instruction_report))
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-request = 이 문서를 세 문장으로 요약해줘
-required_sentence_count = 3
-system_role = 학습 내용을 차분히 설명하는 도우미
-blocked_terms = ['확실하지 않은 사실을 단정', '공격적 표현']
+[naive original-order selection]
+- system instruction | tokens = 18 | priority = 100
+- older chat history | tokens = 30 | priority = 40
+- repeated greeting | tokens = 8 | priority = 5
+used_tokens = 56
+dropped = ['user question', 'current error log', 'related function code']
+must_keep_kept = ['system instruction']
+must_keep_missing = ['current error log', 'user question']
+relevance_ranking = [(0, 'system instruction'), (0, 'repeated greeting'), (0, 'older chat history')]
 
-autocomplete_style = ['이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다...']
-autocomplete_report = {'sentence_count': 1, 'matches_requested_count': False, 'mentions_beginner_friendly_tone': False, 'contains_blocked_term': True, 'starts_with_structured_answer': False}
-autocomplete_experience = {'format_followed': False, 'role_followed': False, 'safety_ok': False, 'structured_response': False}
-
-instruction_style =
-- 첫째, 이 문서는 핵심 개념을 정리합니다.
-- 둘째, 주요 사례와 한계를 함께 설명합니다.
-- 셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.
-instruction_report = {'sentence_count': 3, 'matches_requested_count': True, 'mentions_beginner_friendly_tone': True, 'contains_blocked_term': False, 'starts_with_structured_answer': True}
-instruction_experience = {'format_followed': True, 'role_followed': True, 'safety_ok': True, 'structured_response': True}
+[priority-based selection]
+- system instruction | tokens = 18 | priority = 100
+- user question | tokens = 12 | priority = 95
+- current error log | tokens = 22 | priority = 90
+- repeated greeting | tokens = 8 | priority = 5
+used_tokens = 60
+dropped = ['related function code', 'older chat history']
+must_keep_kept = ['current error log', 'system instruction', 'user question']
+must_keep_missing = []
+relevance_ranking = [(5, 'current error log'), (3, 'user question'), (0, 'system instruction'), (0, 'repeated greeting')]
 ```
-
-## 이 예제를 사용자 경험 관점으로 다시 보면
-
-앞의 예제는 대화형 LLM 전체를 구현하는 코드가 아니라, 같은 생성 구조라도 `다음 문장을 이어 쓰는 경험`과 `사용자 지시를 따라 응답 형식, 역할, 안전 조건을 맞추는 경험`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 모델이 더 길게 말하느냐가 아니라, `세 문장으로 요약해 달라`는 형식 조건과 `학습 내용을 차분히 설명하는 도우미`라는 역할, 그리고 피해야 할 표현이 실제 응답 구조에 반영되도록 조정된 경험이라는 점입니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- 둘 다 생성이지만
-- 자동완성은 자연스러운 이어쓰기에 더 가깝고
-- 대화형 LLM은 사용자의 지시 형식, 역할, 안전 제약을 더 명시적으로 따르도록 조정된 경험이라는 점입니다
-- 따라서 같은 생성 모델 위에서도 `format_followed`, `role_followed`, `safety_ok` 같은 항목에서 사용자 경험 차이가 실제로 드러납니다
+- 같은 토큰 예산이어도 입력 순서대로 그냥 넣으면 `older chat history`와 `repeated greeting`이 자리를 차지해, 정작 `user question`과 `current error log`가 잘릴 수 있습니다.
+- 중요도 기준으로 다시 고르면 현재 질문과 직접 연결된 항목이 먼저 살아남고, 오래된 기록이나 반복 인사는 뒤로 밀립니다.
+- naive 선택에서는 attention이 볼 수 있는 범위 안에 질문·오류 단서 자체가 없으므로, relevance 순위를 매겨도 전부 0점에 가깝습니다.
+- priority 선택에서는 `current error log`와 `user question`이 윈도우 안에 함께 들어와, attention이 실제로 참고할 만한 단서가 남습니다.
+- context window 관리에서 중요한 것은 `얼마나 많이 넣었는가`보다 `예산 안에서 핵심 상태를 실제로 살렸는가`입니다.
+- 우선순위 선택 뒤에 예산이 조금 남으면 낮은 우선순위 항목이 일부 들어올 수 있지만, 그보다 먼저 `필수 상태가 전부 살아남았는가`를 확인하는 편이 더 중요합니다.
+- 그래서 문맥 선택 로직을 볼 때는 총 토큰 수뿐 아니라 `주문번호`, `현재 질문`, `최신 오류 로그` 같은 필수 상태가 실제로 남았는지를 함께 점검해야 합니다.
 
-이 차이를 항목별로만 떼어 보면 아래처럼 읽을 수 있습니다. 자동완성형 응답은 자연스러운 다음 문장을 이어 쓰는 데 가까워 네 기준을 충족하지 못하지만, 지시 응답형은 형식, 역할, 안전 조건, 구조화가 모두 응답 평가 기준으로 들어옵니다.
+![문맥 선택 방식에 따른 토큰 예산과 단서 보존](../../../assets/part-06/chapter-04/context-selection-budget-ko.png)
 
-![자동완성형과 지시 응답형의 사용자 경험 기준 비교](../../../assets/part-06/chapter-04/conversation-experience-criteria-ko.png)
+## 입력 선택 관점으로 다시 보면
 
-대화형 LLM 전환은 단순한 모델 스케일 증가만으로 설명하기 어렵습니다. 실제 사용자 경험이 크게 바뀐 이유는:
+앞의 예제는 긴 문맥 처리를 구현하는 코드가 아니라, `무엇을 더 넣을 수 있는가`보다 `무엇을 남기고 무엇을 덜어낼 것인가`가 실제 설계 문제라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 context window가 단순 길이 숫자가 아니라, 토큰 예산 안에서 입력 우선순위를 다시 정하게 만드는 제약이라는 점입니다. 그리고 attention은 그 뒤에 남아 있는 항목들 사이에서만 관련도를 계산하므로, 애초에 핵심 단서가 윈도우 밖으로 밀리면 attention이 아무리 좋아도 그 단서를 참고할 수 없습니다. RAG, 대화 요약, 코드 어시스턴트 문맥 선택이 모두 결국 이 문제를 다른 형태로 풀고 있다고 보면 연결이 자연스럽습니다.
 
-- 큰 생성 모델
-- 지시 따르기 조정
-- 대화형 제품 인터페이스
-- 안전성 보정
+## 왜 문맥 관리가 설계 주제가 되었는가
 
-이 함께 묶였기 때문입니다.
-
-이 예제를 지금 절의 판단 기준으로 다시 줄이면 다음 세 질문이 먼저 떠오르면 충분합니다.
-
-| 장면 | 먼저 답해야 하는 질문 |
-| --- | --- |
-| 왜 자연스러운 자동완성인데도 챗봇처럼 만족스럽지 않은가 | 지금 기대하는 것은 이어쓰기보다 형식·의도·역할 반영인가 |
-| 왜 같은 생성 모델인데 `세 문장`, `차분한 말투`, `금지 표현 회피`가 갈리는가 | 생성 구조 위에 어떤 조정층과 인터페이스가 붙었는가 |
-| 왜 코파일럿은 다음 한 줄보다 주변 함수 문맥을 더 읽어야 하는가 | 단순 토큰 생성보다 제품이 제공하는 문맥 결합이 필요한가 |
+초기 언어 모델에서는 이렇게 긴 문맥 관리 문제가 지금처럼 실무 전면에 드러나지 않았습니다. 하지만 Transformer와 LLM이 긴 입력을 다루는 범용 구조가 되면서, 이제 문맥 길이 관리 자체가 중요한 설계 주제가 되었습니다.
 
 ## 체크리스트
-- 대화형 LLM을 `생성 모델 + 조정 + 인터페이스`의 결합으로 설명할 수 있는가?
-- 자동완성과 대화형 응답의 차이를 형식 준수, 역할, 안전 제약 기준으로 구분할 수 있는가?
-- 다음 장들을 모델 자체와 조정층, 도구층을 나누어 읽을 준비가 되었는가?
+
+- context window를 `입력 범위 제한`이라는 말로 설명할 수 있어야 합니다.
+- attention과 context window의 역할 차이를 다시 구분할 수 있어야 합니다.
+- 다음 장들을 `얼마나 많이 넣는가`보다 `무엇을 남길 것인가`의 문제로 읽을 준비가 되어 있어야 합니다.
 
 ## 출처와 참고 자료
 
-- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2019, 확인 날짜: 2026-07-19. GPT-2의 language model 기반 생성 흐름을 대화형 전환 이전의 생성 모델 배경 근거로 사용했다.
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. GPT-3가 task specification과 few-shot demonstrations를 text interaction으로 받는다는 설명의 근거로 사용했다.
-- Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv 2022, 확인 날짜: 2026-07-19. 모델 규모만으로는 사용자 의도 준수가 자동 보장되지 않고, human feedback fine-tuning으로 InstructGPT를 만든다는 설명의 근거로 사용했다.
-- OpenAI, [Aligning language models to follow instructions](https://openai.com/index/instruction-following/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. InstructGPT와 RLHF가 지시 따르기와 안전성·정렬 문제를 다루는 후속 조정층이라는 설명의 보조 근거로 사용했다.
-- OpenAI, [Introducing ChatGPT](https://openai.com/index/chatgpt/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 대화 형식이 후속 질문, 실수 인정, 부적절한 요청 거절 같은 사용자 경험을 가능하게 한다는 설명의 근거로 사용했다.
-- OpenAI Help Center, [How can I use the Chat Completion API?](https://help.openai.com/en/articles/7232945-how-can-i-use-the-chatgpt-api){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. developer instructions, message role, instruction following을 통해 대화 세션의 역할과 제약을 조정한다는 현재 API 사용 설명의 운영 근거로 사용했다.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2017, 확인 날짜: 2026-07-19. self-attention이 입력 시퀀스 안의 위치들 사이 관계를 계산한다는 설명의 기본 근거로 사용했다.
+- Colin Raffel et al., [Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer](https://jmlr.csail.mit.edu/beta/papers/v21/20-074.html){: target="_blank" rel="noopener noreferrer" }, JMLR 2020, 확인 날짜: 2026-07-19. Transformer 기반 text-to-text 구조가 요약, 질의응답, 분류 등 여러 텍스트 과업에 재사용된다는 배경 근거로 사용했다.
+- OpenAI, [Models documentation](https://developers.openai.com/api/docs/models){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 모델별 context window와 max output tokens가 명시되는 현재 API 문서 구조를 확인해, context window가 실제 입력 범위 제약으로 드러난다는 설명의 운영 근거로 사용했다.

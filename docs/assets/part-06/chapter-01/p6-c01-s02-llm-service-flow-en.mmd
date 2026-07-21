@@ -1,0 +1,15 @@
+flowchart TD
+  A["user request"]
+  B["LLM response artifact"]
+  C["prompt refinement"]
+  D["external grounding"]
+  E["tool execution"]
+  F["evaluation and run records"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+  C --> F
+  D --> F
+  E --> F

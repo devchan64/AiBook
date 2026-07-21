@@ -1,403 +1,341 @@
-# P6-19.2 이해 중심 태스크
+# P6-19.2 직접 계보와 주변 근거
 
-Section ID: `P6-19.2`
-Version: `v2026.07.19`
+> Section ID: `P6-19.2`
+> Version: `v2026.07.21`
 
-P6-19.1에서 BERT 계열을 Transformer 인코더 기반의 표현 모델로 읽었다면, 이제는 그 표현이 어떤 작업 묶음으로 이어지는지를 보면 됩니다. 이해 중심 태스크는 입력 전체를 읽고 분류, 관련도 판단, 검색, 임베딩처럼 `무엇인지` 또는 `얼마나 맞는지`를 판단하는 작업이며, BERT 계열 표현 모델과 잘 맞습니다.
+P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계보와 주변 확산 근거를 가르는 기준이 더 중요합니다.
 
-## 이해 중심 출력이 다루는 질문
+모든 딥러닝 발전사가 곧바로 LLM의 직접 계보인 것은 아닙니다. 직접 계보(direct lineage)는 현재 LLM 구조와 학습 방식으로 직접 이어지는 흐름이고, 주변 근거(surrounding evidence)는 딥러닝 확산과 계산 패러다임 변화를 설명하지만 LLM 구조 자체의 조상이라고 단정하기 어려운 흐름입니다.
 
-먼저 붙잡아야 할 질문은 다음과 같습니다.
+## 직접 계보 구분이 다루는 질문
 
-- `이해 중심 태스크`란 무엇이라고 설명할 수 있는가?
-- BERT 계열은 어떤 작업에서 특히 유용했는가?
-- 분류, 검색, 문장쌍 비교, 임베딩은 어떻게 한 흐름으로 묶을 수 있는가?
+먼저 가를 질문은 다음과 같습니다.
 
-이해 중심 태스크는 `입력을 읽고 라벨, 점수, 벡터를 내는 작업 묶음`으로 먼저 붙잡는 편이 안전합니다. 그래야 왜 이런 흐름이 BERT 계열과 잘 맞는지도 더 선명해집니다.
+- 무엇을 LLM의 직접 계보라고 부를 수 있는가?
+- 무엇은 딥러닝 확산의 중요한 사례이지만 직접 계보라고 하기는 어려운가?
+- 이런 구분이 왜 학습자에게 중요한가?
 
-대신 이번 절에서 잡은 비교 기준은 검색 파이프라인 안에서 구조가 어떻게 갈라지는지를 볼 때 P6-11.1 벡터 데이터베이스와 P6-11.2 인덱스와 검색 품질에서 다시 회수합니다.
+`직접 구조 계보`와 `주변 확산 근거`를 먼저 가르지 않으면, 모든 딥러닝 발전사를 한 줄 계보로 묶는 오해가 생기기 쉽습니다.
 
-태스크 이름을 많이 나열하기보다, `입력을 읽고 판단하는 흐름`을 한 묶음으로 이해하는 편이 더 중요합니다. 앞 절이 BERT 계열의 위치를 비교 기준으로 잡았다면, 여기서는 그 비교를 실제 작업 묶음으로 좁혀 `왜 읽기 중심 모델이 분류, 검색, 임베딩과 잘 맞는가`를 다시 정리합니다. 장의 위치 설명보다 `라벨`, `점수`, `순위`, `벡터`가 왜 한 종류의 출력으로 묶이는가를 먼저 구분하는 기준이 더 중요합니다.
+`모든 AI 발전을 LLM 역사로 한 줄에 늘어놓는 오해`를 줄이려면, 구조 설명과 배경 설명을 어디서 갈라 읽어야 하는지도 함께 분명해야 합니다. 앞 절이 큰 발전사 지도를 그렸다면, 여기서는 그 지도 안에서 `직접 구조 계보`와 `주변 확산 근거`를 어디서 가를지 질문이 더 좁아집니다. 장의 위치 설명보다 `현재 LLM 구조로 직접 이어지는 흐름이 무엇이고, 딥러닝 확산의 배경으로 남겨야 하는 흐름이 무엇인가`를 먼저 가르는 기준이 더 중요합니다.
 
-따라서 여기서 먼저 붙잡아야 할 것은 태스크 이름 목록보다 `읽고 판단값을 내는 구조`와 `길게 생성하는 구조`의 차이입니다.
+따라서 여기서 먼저 붙잡아야 할 것은 `유명한 사건을 많이 아는가`가 아니라 `현재 LLM 구조와 직접 이어지는 흐름이 무엇인가`입니다.
 
-| 먼저 끝내야 하는 본류 | 이 배경 축에서 다시 보는 것 | 다시 돌아가 확인할 위치 |
-| --- | --- | --- |
-| GPT, next-token prediction, RAG, tool use까지의 생성 중심 흐름 | 읽기 중심 모델이 어떤 판단 과업 묶음과 잘 맞는가 | P6-4.1, P6-5.1, P6-11.1, P6-11.2 |
-
-이 표의 핵심은 이 절을 `새 태스크 목록`으로 읽지 않는 데 있습니다. 여기서는 이름을 더 많이 외우기보다, 분류, 관련도 판단, 검색, 임베딩이 모두 `입력을 읽고 판단값을 내는 구조`라는 공통점을 먼저 붙잡으면 충분합니다.
+이 구분의 핵심은 계보 설명을 `새 역사 목록`으로 늘리지 않는 데 있습니다. 이름을 더 많이 외우기보다, 본류 설명을 `직접 구조 조상`과 `주변 배경`으로 분리하는 기준을 먼저 붙잡으면 충분합니다.
 
 ## 여기서 남겨야 할 구분
 
-- 이해 중심 태스크를 입문 수준에서 설명할 수 있습니다.
-- 분류, 관련도 판단, 검색, 임베딩을 같은 계열의 작업으로 묶어 설명할 수 있습니다.
-- 왜 이런 작업이 BERT 계열과 잘 맞는지 말할 수 있습니다.
-- 앞서 읽은 GPT 계열과의 대비를 더 선명하게 읽을 수 있습니다.
+- 직접 계보와 주변 근거를 구분할 수 있습니다.
+- LLM 발전사를 과장 없이 설명할 수 있습니다.
+- 딥러닝 확산 사례가 왜 중요하지만 직접 조상은 아닐 수 있는지 설명할 수 있습니다.
+- 앞서 읽은 Transformer 설명을 더 분명한 위치에서 다시 정리할 수 있습니다.
 
-## 이해 중심 태스크란 무엇인가
+## 왜 이런 구분이 필요한가
 
-여기서 `이해 중심 태스크`는 사람처럼 이해한다는 철학적 뜻이 아니라, 다음과 같은 작업 묶음을 가리킵니다.
+최근에는 AI를 곧바로 LLM과 연결해 이해하는 경향이 강합니다. 이때 다음과 같은 혼동이 생기기 쉽습니다.
 
-- 이 입력은 어떤 라벨인가?
-- 이 두 문장은 같은 뜻에 가까운가?
-- 이 질문과 이 문서는 얼마나 관련 있는가?
-- 이 문장을 대표하는 벡터는 어떤가?
+- 딥러닝이 유명해진 모든 사건이 곧바로 LLM 계보다
+- 음성 모델, 객체 검출 모델, 강화학습 모델이 모두 같은 직선 위에 있다
+- `신경망이니까 다 같은 역사다`
 
-즉, 출력이 긴 생성 문장이라기보다:
+이렇게 설명하면 큰 분위기는 잡히지만, 구조적 이해는 흐려집니다.
 
-- 라벨
-- 점수
-- 관련도
-- 대표 표현
+더 안전한 설명은 다음입니다.
 
-으로 이어지는 작업입니다.
+- 어떤 흐름은 LLM 구조와 학습 목표로 직접 이어진다
+- 어떤 흐름은 딥러닝 패러다임의 확산과 계산 자원의 중요성을 보여 주는 배경 증거다
 
-## 입력과 출력으로 다시 보면
+## 직접 계보는 무엇인가
 
-이 흐름은 `문장을 보고 다음 문장을 길게 이어 쓰는가`보다 `입력을 보고 어떤 판단 결과를 내는가`로 보면 더 빨리 잡힙니다.
+여기서는 다음 흐름을 LLM의 직접 계보로 봅니다.
 
-| 작업 | 입력 | 출력 |
-| --- | --- | --- |
-| 분류 | 문장 하나 | 라벨 |
-| 문장쌍 판단 | 문장 두 개 | related / not related 같은 관계 라벨 또는 점수 |
-| 검색 랭킹 | 질문과 문서 후보 | 관련도 점수, 정렬 순서 |
-| 임베딩 | 문장이나 문서 | 벡터 표현 |
+1. 언어 모델(language model)
+2. 임베딩과 분산 표현(distributed representation)
+3. RNN, LSTM, Seq2Seq
+4. Attention
+5. Transformer
+6. 사전학습(pretraining)
+7. GPT, BERT 같은 Transformer 계열 언어 모델
 
-즉, 이해 중심 태스크의 출력은 대개 `다음 문장`이 아니라 `판단을 위한 결과물`입니다.
+이 흐름의 공통점은 분명합니다.
 
-## 대표적인 작업 1. 문서 분류와 감성 분류
+- 언어를 입력으로 다루고
+- 토큰이나 단어의 순서와 문맥을 계산하며
+- 다음 토큰 예측 또는 언어 표현 학습으로 이어지고
+- 현재 LLM 구조와 직접 연결됩니다
 
-가장 익숙한 예는 분류(classification)입니다.
+즉, 이들은 `LLM 내부 구조와 학습 방식`의 조상으로 설명할 수 있습니다.
 
-예를 들어:
+## 주변 근거는 무엇인가
 
-- 스팸 / 정상 메일 분류
-- 문의 카테고리 분류
-- 감성 분류(긍정 / 부정 / 중립)
+반면 다음과 같은 사례는 매우 중요하지만, 직접 계보라고 단정하는 데는 주의가 필요합니다.
 
-같은 작업은 문장 전체를 읽고 `어느 범주에 넣을지` 판단하는 흐름입니다.
+- AlexNet과 이미지 인식 혁신
+- YOLO 같은 객체 검출(object detection) 계열
+- WaveNet, Deep Voice 같은 음성 생성(speech generation) 계열
+- AlphaGo, AlphaZero 같은 탐색과 강화학습의 대표 사례
 
-BERT 계열은 입력 전체 문맥을 반영한 표현을 만들기 때문에 이런 작업과 잘 맞습니다.
+이 사례들은 다음 점에서 중요합니다.
 
-## 대표적인 작업 2. 문장쌍 판단
+- 딥러닝이 실제 성능 전환을 만들 수 있음을 사회적으로 보여 주었고
+- GPU와 대규모 계산 자원의 중요성을 강화했으며
+- 학습 기반 접근이 다양한 도메인으로 확산되는 흐름을 만들었습니다
 
-두 문장 관계를 판단하는 작업도 중요합니다.
+하지만 이들을 곧바로 `LLM의 직접 조상`이라고 쓰면 경계가 흐려집니다.
 
-예를 들어:
+## Deep Voice나 YOLO는 왜 직접 계보가 아닌가
 
-- 두 문장이 같은 의미에 가까운가?
-- 질문과 답이 서로 맞는가?
-- 문장 A가 문장 B를 함의(entailment)하는가?
+예를 들어 Deep Voice는 음성 생성(speech synthesis) 분야에서 중요한 사례입니다. YOLO는 실시간 객체 검출에서 대표적인 전환점입니다.
 
-이런 작업은 단일 문장 분류보다 한 단계 더 나아가, 두 입력 사이 관계를 보는 문제입니다.
+이 둘은 모두 딥러닝 패러다임의 확산을 보여 주지만, 현재 LLM의 직접 구조를 형성한 핵심 언어 모델 계보와는 다릅니다.
 
-다음처럼 이해하면 충분합니다.
+더 안전한 설명은 다음입니다.
 
-`문장쌍 판단은 입력 하나를 읽는 일이 아니라, 두 입력의 관계를 비교해 점수나 라벨을 내는 작업이다.`
+- Deep Voice, YOLO는 `딥러닝이 다양한 입력과 출력 도메인에서 강해졌다`는 주변 근거다
+- Transformer 기반 LLM의 직접 구조사는 `언어 모델링과 Attention 계열`에서 더 직접적으로 찾아야 한다
 
-## 대표적인 작업 3. 검색과 랭킹
+즉, 관련은 있지만 같은 선 위에 그대로 놓으면 안 됩니다.
 
-검색(search)도 이해 중심 태스크로 볼 수 있습니다.
+## 왜 주변 근거도 여전히 중요한가
 
-질문을 입력으로 주고:
+그렇다고 주변 근거를 빼 버리면 또 다른 문제가 생깁니다. LLM은 언어 모델만 조용히 발전해서 갑자기 등장한 것이 아니기 때문입니다.
 
-- 어떤 문서가 관련 있는지
-- 여러 후보 중 어느 문서를 더 위에 둘지
+주변 근거는 다음 질문에 답해 줍니다.
 
-판단하는 작업이기 때문입니다.
+- 왜 딥러닝이 사회적으로 신뢰와 투자를 받게 되었는가?
+- 왜 병렬 처리와 GPU가 중요해졌는가?
+- 왜 데이터 규모, 모델 규모, 계산 규모가 함께 커졌는가?
 
-이때 BERT 계열은 다음 두 방식으로 연결될 수 있습니다.
-
-- 질문과 문서를 함께 읽고 관련도 점수를 내는 방식
-- 질문과 문서를 각각 표현 벡터로 바꾼 뒤 비교하는 방식
-
-후자는 임베딩 검색과도 직접 연결됩니다.
-
-## 대표적인 작업 4. 임베딩과 표현 재사용
-
-BERT 계열과 그 이후의 encoder 중심 모델은 문장을 임베딩으로 바꾸는 데도 널리 쓰입니다.
-
-예를 들어:
-
-- 비슷한 문장 찾기
-- FAQ 중복 질문 찾기
-- 문서 군집화
-- 검색용 dense vector 생성
-
-이런 작업은 `생성`보다 `표현 재사용`에 가깝습니다.
-
-즉, BERT 계열은 단지 분류 모델이 아니라, 다양한 판단 작업의 공통 표현 엔진으로도 볼 수 있습니다.
-
-## 왜 이런 작업들이 한 흐름으로 묶이나
-
-이 작업들은 겉으로는 달라 보여도 중심 질문이 비슷합니다.
-
-- 무엇인가?
-- 서로 얼마나 비슷한가?
-- 얼마나 관련 있는가?
-- 어떤 범주에 속하는가?
-
-즉, `다음 문장을 길게 생성하는 일`보다 `입력을 읽고 판단하는 일`에 가깝습니다.
-
-그래서 다음처럼 하나의 흐름으로 묶을 수 있습니다.
-
-```mermaid
---8<-- "assets/part-06/chapter-19/p6-c19-s02-diagram-01-ko.mmd"
-```
-
-이 도식은 BERT 계열의 실무 사용 감각을 가장 단순하게 묶은 것입니다. 그래서 이 도식에서 확인해야 할 결과는 긴 답변 생성보다 `읽고 구분하고 연결하는 흐름`이 먼저 필요한 업무가 실제로 따로 보이는가입니다.
+즉, 주변 근거는 `구조적 조상`은 아니지만 `역사적 분위기와 인프라 조건`을 설명합니다.
 
 ## 무엇을 먼저 구분하면 되나
 
-이 절에서 먼저 남겨야 할 구분은 하나입니다.
+먼저 남겨야 할 구분은 단순합니다. 직접 계보와 주변 근거 구분만 선명하게 잡히면, BERT, GPT, RAG 설명을 읽을 때 구조 설명과 배경 설명을 덜 섞게 됩니다.
 
-`BERT 계열은 긴 답을 생성하는 일보다, 입력을 읽고 라벨·점수·관련도·임베딩을 만드는 일에 더 자연스럽다.`
+우선 다음 두 줄을 먼저 붙잡으면 됩니다.
 
-이 한 줄이 잡히면 세부 태스크 이름을 모두 외우지 않아도 P6-4.1, P6-5.1의 GPT 및 다음 토큰 예측 설명과 P6-10.1, P6-10.2의 RAG 설명을 읽는 데 큰 문제는 없습니다.
+- language modeling, attention, Transformer, pretraining은 직접 계보에 가깝다
+- 비전·음성·강화학습의 대표 성과는 중요하지만 주로 배경 설명으로 읽는다
+
+## 직접 계보와 주변 근거를 나눠 그리면
+
+```mermaid
+--8<-- "assets/part-06/chapter-18/p6-c18-s02-diagram-01-ko.mmd"
+```
+
+이 도식의 목적은 한 가지입니다.
+
+`한 줄 역사`와 `배경 조건`을 구분해서 읽게 하는 것.
 
 ## 사례 및 예시
 
-### 사례 1. 고객 문의 분류
+### 사례 1. Transformer 설명
 
-고객 문의를 `배송`, `계정`, `결제`, `오류`로 나누는 작업은 전형적인 이해 중심 태스크입니다. 초심자는 이런 장면에서도 모델이 친절한 설명을 길게 잘 써 주면 좋은 서비스라고 생각하기 쉽습니다. 하지만 실제 운영에서는 긴 답변보다 `어느 처리 흐름으로 보내야 하는가`를 먼저 판단하는 일이 더 중요합니다. 예를 들어 `결제는 됐는데 주문이 안 보여요` 같은 문장은 겉으로는 결제와 주문이 같이 보이지만, 실제 운영에서는 어느 팀이 먼저 봐야 하는지가 더 중요합니다. 답을 길게 생성하는 것보다 `결제 확인 팀`과 `주문 동기화 점검 팀` 중 어디로 먼저 보내는지가 서비스 처리 속도에 더 직접적입니다.
+강의자가 Transformer를 소개하면서 첫 슬라이드에 `AlexNet -> YOLO -> GPU -> Transformer`를 한 줄로 적었다고 해 보겠습니다. 유명한 이름이 시간순으로 놓여 있으면 모두 같은 계보라고 받아들이기 쉽습니다. 하지만 이렇게 설명하면 정작 `왜 Seq2Seq만으로는 긴 문장에서 앞 정보를 뒤까지 잘 전달하기 어려웠는가`, `왜 attention이 필요했는가`라는 직접 구조 문제가 빠져 버립니다. 사람의 기존 기준은 `유명한 사건을 많이 안다`였지만, 더 중요한 기준은 `바로 앞 구조의 어떤 한계를 다음 구조가 해결했는가`입니다.
 
-잘못된 큐로 보내면 답변을 길게 잘 써도 실제 처리 시간은 더 늦어질 수 있습니다. 즉, 중요한 일은 긴 답변을 쓰는 것이 아니라 들어온 문장을 읽고 어느 처리 흐름으로 보낼지 결정하는 것입니다. 여기서 바로잡아야 할 오해는 `잘 설명하면 일단 도움이 된다`는 감각입니다. 실제로는 `누가 먼저 처리해야 하는가`가 닫혀야 그다음 설명도 의미가 생깁니다. 그래서 이 사례에서 확인해야 할 결과는 응답 문장 품질보다 올바른 처리 큐로 먼저 들어가는가, 그리고 그 큐 선택만 보고도 다음 운영 조치를 바로 이어 갈 수 있는가입니다.
+그래서 먼저 긴 문장 번역에서 앞 문맥이 뒤에서 약해지는 장면을 보여 주고, 그 다음에 attention과 Transformer를 붙여야 설명이 닫힙니다. 여기서 바뀌는 점은 `유명한 사건이 많이 등장하는가`를 보던 기준에서 `직전 구조의 병목과 다음 구조의 해결이 실제로 이어지는가`를 보는 기준으로 이동한다는 것입니다. 여기서 바로잡아야 할 오해는 `같은 슬라이드에 묶여 있으면 직접 계보도 같은 것`이라는 감각입니다. 그래서 이 사례에서 확인해야 할 결과는 유명 사건 나열보다, 바로 앞 구조의 병목을 설명한 뒤에야 Transformer 전환 이유가 실제로 더 분명해지는가, 그리고 비전 쪽 사건은 배경으로만 남는가입니다.
 
-### 사례 2. FAQ 검색
+### 사례 2. GPU 설명
 
-사용자 질문과 기존 FAQ를 비교해 가장 가까운 항목을 찾는 일은 관련도 판단과 임베딩 검색이 함께 쓰이는 사례입니다. 초심자는 이 장면에서도 `모델이 새 설명을 예쁘게 다시 써 주면 더 좋아 보이지 않을까`라고 생각하기 쉽습니다. 하지만 사람도 이 장면에서는 새 설명을 쓰기보다 `이미 있는 답 중 무엇이 가장 맞는가`를 먼저 고릅니다. 예를 들어 `비밀번호를 잊어버렸어요`와 `로그인 비밀번호 재설정은 어떻게 하나요?`는 표면 표현이 달라도 같은 도움말로 연결되는 편이 더 실용적입니다. 기존 FAQ가 이미 단계별 스크린샷까지 포함하고 있다면, 새 답을 생성하는 것보다 그 항목으로 정확히 연결하는 쪽이 훨씬 안전합니다.
+사용자가 `LLM이 왜 가능해졌나요?`라고 묻자 발표자가 GPU 사진과 서버 랙만 길게 보여 주는 장면을 떠올려 보겠습니다. 계산 장비가 커졌다는 설명만 들으면 `결국 GPU가 모델 원리까지 만든 것`처럼 느끼기 쉽습니다. 하지만 GPU는 `더 크게 돌리게 한 조건`이지, `attention으로 어떤 문맥을 비교하고 어떤 토큰을 더 보게 만드는가`를 설명하는 구조 자체는 아닙니다. 사람이 기존에 쓰던 단순 기준은 `잘 돌아가게 만든 요소`와 `무엇을 계산하게 만든 아이디어`를 한데 묶는 것이지만, 이 둘은 다른 층위입니다.
 
-반대로 관련 없는 FAQ를 골라 새 문장으로 덧붙이면 말은 자연스러워도 사용자는 잘못된 경로로 이동할 수 있습니다. 이때 핵심은 `새 문장을 만드는 일`이 아니라 `가장 맞는 문서를 고르는 일`입니다. 여기서 바로잡아야 할 오해는 `생성형 답변이면 검색보다 항상 더 똑똑해 보인다`는 기대입니다. 실제로는 이미 있는 정확한 문서를 잘 연결하는 편이 훨씬 실용적일 때가 많습니다. 그래서 이 사례에서 확인해야 할 결과는 새 답 생성보다 실제로 가장 가까운 FAQ 항목이 먼저 연결되는가, 그리고 그 연결만으로 사용자가 바로 다음 행동을 할 수 있는가입니다.
+예를 들어 GPU가 아무리 많아도 attention 구조 설명이 빠지면 왜 LLM이 긴 문맥을 읽는지 이해할 수 없습니다. 여기서 바뀌는 점은 `계산 자원이 커졌는가`를 보던 기준에서 `배경 조건과 구조 원리가 실제로 분리되어 설명되는가`를 보는 기준으로 이동한다는 것입니다. 여기서 바로잡아야 할 오해는 `가능하게 한 조건`과 `직접 구조 원리`를 같은 계보로 읽는 데 있습니다. 그래서 이 사례에서 확인해야 할 결과는 계산 규모를 키운 배경 설명과 모델 구조 설명이 실제로 분리되어 읽히는가, 그리고 GPU 설명만으로 attention 구조 이해를 대신하지 않는가입니다.
 
-### 사례 3. 문서 중복 탐지
+### 사례 3. 생성형 AI 붐
 
-문서 제목과 본문이 거의 같은지 판별하는 일은 문장쌍 비교와 유사도 판단 흐름으로 볼 수 있습니다. 초심자는 이 작업에서도 모델이 문서를 다시 요약하거나 합쳐 써 주는 쪽을 먼저 떠올리기 쉽습니다. 하지만 사람은 이 작업에서 보통 `둘 다 새로 쓰기`보다 `둘이 얼마나 같은가`를 먼저 점검합니다. 예를 들어 공지 두 개가 문장 순서만 조금 다르고 핵심 내용은 같다면, 새 답변을 만드는 것보다 중복으로 묶는 편이 운영상 더 중요할 수 있습니다. 하나는 제목이 `점검 안내`, 다른 하나는 `서비스 점검 공지`여도 실제 본문이 같은 이벤트를 설명한다면 중복 판단이 더 중요합니다.
+뉴스 기사에서 같은 해에 챗봇, 이미지 생성기, 음성 합성 서비스가 함께 화제가 되는 장면을 생각해 보겠습니다. 이런 경우 `같이 뜬 기술이면 같은 역사겠지`라고 먼저 묶기 쉽습니다. 하지만 실제로는 사용 경험의 동시성과 구조의 직접 계보를 나눠 봐야 합니다. 예를 들어 고객은 텍스트 생성과 이미지 생성을 모두 `생성형 AI`로 부르지만, 그 안쪽 구조사는 언어 모델 계보와 비전 생성 계보로 더 가깝게 갈라질 수 있습니다. 사람이 보던 단순 기준은 `같은 시기에 유명해졌는가`였지만, 더 중요한 기준은 `어떤 입력과 학습 목표, 어떤 구조 변화가 직접 이어졌는가`입니다.
 
-중복을 놓치면 비슷한 문서가 계속 쌓여 검색 결과까지 지저분해질 수 있습니다. 결국 이 사례도 `읽고 비교해 점수를 매기는 일`이라는 점에서 같은 계열입니다. 여기서 바뀌는 점은 `새 설명을 다시 만드는가`를 보던 기준에서 `두 문서가 실제로 같은 묶음인지 판단하는가`를 보는 기준으로 이동한다는 것입니다. 여기서 바로잡아야 할 오해는 `텍스트 작업이면 일단 생성이 중심일 것`이라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 새 문서로 남기기보다 실제로 중복 문서가 하나의 묶음으로 정리되는가, 그리고 그 판단값이 이후 검색 정리에도 바로 쓰일 수 있는가입니다.
+여기서 바뀌는 점은 `같은 시기에 화제가 되었는가`를 보던 기준에서 `직접 이어지는 구조 계보가 같은가`를 보는 기준으로 이동한다는 것입니다. 여기서 바로잡아야 할 오해는 `동시에 유명해지면 한 줄 역사도 같다`는 감각입니다. 그래서 이 사례에서 확인해야 할 결과는 유행의 동시성과 구조의 직접 계보를 실제로 다른 판단 기준으로 설명할 수 있는가, 그리고 같은 시기 인기 사례를 direct lineage가 아니라 surrounding evidence로도 배치할 수 있는가입니다.
 
-세 사례를 이해 중심 태스크 관점으로 다시 묶으면 다음과 같습니다.
+세 사례를 direct lineage와 surrounding evidence 구분으로 다시 묶으면 다음과 같습니다.
 
-| 상황 | 생성보다 먼저 필요한 판단 | 실제 출력으로 먼저 남는 것 |
+| 장면 | 섞어 읽기 쉬운 것 | 실제로 분리해 봐야 하는 것 |
 | --- | --- | --- |
-| 고객 문의 분류 | 어느 처리 큐로 보낼지 | 라벨 |
-| FAQ 검색 | 어떤 기존 항목이 가장 가까운지 | 관련도 순위 |
-| 문서 중복 탐지 | 두 문서가 같은 묶음인지 | 유사도 점수 또는 중복 판정 |
+| Transformer 설명 | 유명 사건 나열과 구조 전환 | 직전 병목과 다음 구조의 해결 |
+| GPU 설명 | 계산 자원과 모델 원리 | 가능하게 한 배경 조건과 직접 구조 |
+| 생성형 AI 붐 | 동시 유행과 직접 계보 | 같은 시기 인기와 실제 구조 계통 |
 
 ## 바로 적용해 보면
 
-이해 중심 태스크를 처음 읽을 때 자주 생기는 오해는 `AI면 일단 답을 길게 생성해야 한다`고 생각하는 점입니다. 하지만 이 절에서 먼저 봐야 하는 것은 장문 생성보다 `지금 필요한 출력이 라벨인가, 점수인가, 순위인가`입니다.
+직접 계보와 주변 근거 구분을 처음 읽을 때 자주 생기는 오해는 `유명한 사건이면 다 같은 계보겠지`라고 묶는 점입니다. 하지만 먼저 봐야 하는 것은 유명도보다 `현재 LLM 구조의 어떤 부분으로 직접 이어지는가`입니다.
 
 | 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그 확인이 먼저 필요한가 |
 | --- | --- | --- |
-| 문의를 어느 처리 흐름으로 보낼지 정해야 함 | 먼저 필요한 출력이 라벨인가 | 생성 문장보다 처리 큐 결정이 먼저 닫혀야 실제 운영이 움직이기 때문입니다. |
-| 기존 FAQ나 문서 후보 중 무엇이 가장 맞는지 골라야 함 | 먼저 필요한 출력이 관련도 점수나 순위인가 | 새 답을 만들기 전에 가장 가까운 문서를 고르는 일이 핵심일 수 있기 때문입니다. |
-| 두 문장이 같은 문제인지, 중복 문서인지 판단해야 함 | 먼저 필요한 출력이 유사도 점수나 중복 판정인가 | 생성보다 비교와 판단값이 바로 다음 작업을 결정하기 때문입니다. |
+| 유명한 AI 사건이 시간순으로 한 줄에 놓여 있음 | 직전 구조 병목과 다음 구조 해결이 실제로 이어지는가 | 같은 슬라이드에 있다고 직접 구조 계보까지 같은 것은 아니기 때문입니다. |
+| GPU나 대규모 계산 이야기가 길게 나옴 | 계산 조건 설명인가, 모델 구조 설명인가 | 가능하게 한 배경 조건과 직접 구조 원리를 섞으면 핵심 구조 이해가 흐려지기 때문입니다. |
+| 같은 시기에 뜬 생성형 AI 사례들이 함께 소개됨 | 동시 유행인가, 직접 구조 계통인가 | 같은 시기 인기와 직접 lineage는 다른 기준으로 나눠야 과장이 줄어들기 때문입니다. |
 
 같은 기준을 더 짧은 실무 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
 
 | 이런 의심이 들면 | 먼저 던질 질문 |
 | --- | --- |
-| `이건 답을 써야 하나, 먼저 분류해야 하나?` | 필요한 출력이 문장인가 라벨인가? |
-| `이미 있는 문서가 더 낫지 않나?` | 새 생성보다 관련도 순위를 먼저 뽑아야 하는가? |
-| `둘이 비슷한데 같은 처리 흐름인가?` | 비교 결과를 점수나 판정으로 먼저 남겨야 하는가? |
+| `이 유명한 사건도 LLM 조상인가?` | 현재 언어 모델 구조와 학습 방식으로 직접 이어지는가? |
+| `GPU 설명이 왜 이렇게 많이 나오지?` | 구조 원리 설명이 아니라 배경 조건 설명으로 읽어야 하는가? |
+| `같이 뜬 기술이면 같은 역사 아닌가?` | 동시 유행과 direct lineage를 따로 구분했는가? |
 
-이 절에서 먼저 익혀야 하는 기준은 단순합니다. 이해 중심 태스크는 `긴 답변 생성`보다 `읽기 -> 라벨/점수/순위/벡터`로 이어지는 판단 구조에 가깝습니다. 그래서 BERT 계열은 생성 경쟁자가 아니라, 읽고 구분하는 앞단 구조로 읽는 편이 정확합니다.
+먼저 익혀야 하는 기준은 단순합니다. direct lineage는 `언어 입력`, `문맥 계산`, `다음 토큰/표현 학습`, `Attention-Transformer-pretraining`으로 직접 이어지는 흐름이고, surrounding evidence는 딥러닝 확산과 계산 조건을 설명하지만 구조 조상으로 바로 놓기엔 거리가 있는 배경 흐름입니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 이해 중심 태스크가 실제로 `라벨`, `관계 점수`, `검색 순위` 같은 판단 결과를 낸다는 점을 작은 규칙 기반 실험으로 확인하는 것입니다.
+예제의 목표는 항목 이름을 외우는 것이 아니라, `어떤 기준으로 direct lineage와 surrounding evidence를 나누는가`를 실제 규칙으로 확인하는 것입니다.
 
-아래 예제는 생성형 응답과 달리 이해 중심 태스크가 읽고 판단값을 내는 구조를 먼저 확인합니다. 문의 문장 3개, 라벨별 기준 키워드, 문장쌍 2개, 검색 문서 후보 3개를 사용해 분류 점수와 예측 라벨, 문장쌍 유사도 점수, 검색 문서 순위를 함께 봅니다.
+아래 예제는 LLM 계보를 설명할 때 직접 구조 계보와 주변 배경 조건을 섞어 말하기 쉬운 상황을 작은 규칙으로 확인합니다. 입력으로는 대표 연구 흐름 CSV([p6-18-lineage-items.csv](../../../assets/part-06/chapter-18/p6-18-lineage-items.csv){ .csv-preview })와 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도를 사용합니다. 출력에서는 자동 분류 결과, 분류 기준 통과 여부, 분류 이유를 함께 봅니다.
 
-확인할 핵심은 이해 중심 태스크가 긴 답변보다 라벨, 점수, 순위 같은 판단 결과를 먼저 낸다는 점입니다. 분류, 문장쌍 비교, 검색 랭킹은 모두 읽고 점수를 내는 흐름으로 묶을 수 있고, 단순 규칙 예제여도 입력이 어떤 판단값으로 바뀌는지 직접 볼 수 있어야 합니다.
+확인할 핵심은 같은 AI 역사 항목이라도 현재 LLM 구조와의 직접 연결 정도가 다를 수 있다는 점입니다. direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않고, 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있습니다. 또한 분류 기준을 바꾸면 같은 항목도 다른 경계에서 다시 검토될 수 있습니다.
 
-아래 코드는 위에 정리한 라벨 키워드, 문장쌍, 검색 후보 예시를 사용합니다.
+아래 코드는 위에 정리한 입력 파일을 사용합니다. CSV는 `name`, `domain`, `target`, `connects_to_transformer_llm` 열을 기준으로 판정합니다. 여기에 `boundary_hint`, `reader_hint` 열을 함께 두어, 파일을 열었을 때 항목이 언어 구조 흐름에 가까운지, 주변 조건에 가까운지 먼저 가늠할 수 있게 했습니다. 코드는 이 설명 열을 정답으로 복사하지 않고, 규칙으로 다시 분류한 뒤 결과가 어떻게 나오는지 보여 줍니다.
 
 ```python
-# 분류, 문장쌍 관계, 문서 순위화 태스크를 단순 token matching으로 구현해 이해 중심 NLP 문제를 비교하는 예제입니다.
-from collections import Counter
+# 언어 모델 역사 항목 CSV를 읽어 domain, target, Transformer 연결 여부로 직접 계보와 주변 근거를 분류하는 예제입니다.
+import csv
+from pathlib import Path
 
-label_keywords = {
-    "배송": ["배송", "지연", "택배"],
-    "계정": ["로그인", "비밀번호", "계정"],
-    "결제": ["결제", "환불", "취소"],
+item_path = Path("docs/assets/part-06/chapter-18/p6-18-lineage-items.csv")
+
+def read_items(path):
+    items = []
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            items.append(
+                {
+                    "name": row["name"],
+                    "domain": row["domain"],
+                    "target": row["target"],
+                    "connects_to_transformer_llm": (
+                        row["connects_to_transformer_llm"].lower() == "true"
+                    ),
+                }
+            )
+    return items
+
+items = read_items(item_path)
+
+lineage_rules = {
+    "direct_domains": {"language"},
+    "direct_targets": {
+        "next_token",
+        "representation",
+        "sequence_alignment",
+        "sequence_modeling",
+    },
+    "requires_transformer_connection": True,
 }
 
-classification_examples = [
-    "배송이 계속 지연되고 있습니다",
-    "로그인이 되지 않아 비밀번호를 다시 바꾸고 싶습니다",
-    "결제는 취소했는데 환불이 아직 안 됐습니다",
-]
+def classify_item(item):
+    domain_ok = item["domain"] in lineage_rules["direct_domains"]
+    target_ok = item["target"] in lineage_rules["direct_targets"]
+    connection_ok = (
+        item["connects_to_transformer_llm"]
+        if lineage_rules["requires_transformer_connection"]
+        else True
+    )
 
-pair_examples = [
-    ("비밀번호를 변경하고 싶어요", "비밀번호를 다시 설정하려면 어떻게 하나요?"),
-    ("환불은 언제 되나요?", "오늘 날씨가 좋네요"),
-]
+    checks = {
+        "domain_ok": domain_ok,
+        "target_ok": target_ok,
+        "connection_ok": connection_ok,
+    }
 
-ranking_query = "퇴사 전에 장비를 어디에 반납하나요?"
-ranking_docs = [
-    "오프보딩 장비 반납 안내",
-    "법인카드 사용 정산 가이드",
-    "퇴사 체크리스트와 자산 회수 절차",
-]
+    if all(checks.values()):
+        reason = "언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐"
+        return "direct_lineage", reason, checks
 
-synonyms = {
-    "바꾸고": "변경",
-    "배송이": "배송",
-    "지연되고": "지연",
-    "로그인이": "로그인",
-    "비밀번호를": "비밀번호",
-    "설정하려면": "설정",
-    "결제는": "결제",
-    "취소했는데": "취소",
-    "환불이": "환불",
-    "안": "미완료",
-    "반납하나요": "반납",
-    "반납하나요?": "반납",
-    "장비를": "장비",
+    reason = "LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움"
+    return "surrounding_evidence", reason, checks
+
+grouped = {"direct_lineage": [], "surrounding_evidence": []}
+
+for item in items:
+    label, reason, checks = classify_item(item)
+    grouped[label].append(item["name"])
+
+representative_names = {
+    "language modeling",
+    "Transformer",
+    "text classification benchmark",
+    "YOLO",
+    "GPU scaling",
 }
 
-def tokenize(text):
-    return [synonyms.get(token, token) for token in text.replace("?", "").split()]
+for item in items:
+    if item["name"] not in representative_names:
+        continue
+    label, reason, checks = classify_item(item)
+    print(
+        item["name"],
+        "->",
+        label,
+        "| domain =",
+        item["domain"],
+        "| target =",
+        item["target"],
+        "| checks =",
+        checks,
+        "| reason =",
+        reason,
+    )
 
-def classify(text):
-    tokens = tokenize(text)
-    scores = {}
-    for label, keywords in label_keywords.items():
-        scores[label] = sum(1 for token in tokens if token in keywords)
-    best_label = max(scores, key=scores.get)
-    return best_label, scores
-
-def jaccard_similarity(left, right):
-    left_tokens = set(tokenize(left))
-    right_tokens = set(tokenize(right))
-    intersection = len(left_tokens & right_tokens)
-    union = len(left_tokens | right_tokens)
-    return round(intersection / union, 2) if union else 0.0
-
-def rank_documents(query, docs):
-    query_tokens = Counter(tokenize(query))
-    ranked = []
-    for doc in docs:
-        doc_tokens = Counter(tokenize(doc))
-        score = sum(min(query_tokens[token], doc_tokens[token]) for token in query_tokens)
-        ranked.append((doc, score))
-    return sorted(ranked, key=lambda item: item[1], reverse=True)
-
-print("[classification]")
-for text in classification_examples:
-    label, scores = classify(text)
-    print("text =", text)
-    print("scores =", scores)
-    print("predicted_label =", label)
-    print("---")
-
-print("[pair relation]")
-for left, right in pair_examples:
-    similarity = jaccard_similarity(left, right)
-    tag = "related" if similarity >= 0.2 else "not_related"
-    print(left, "|", right)
-    print("similarity =", similarity, "->", tag)
-    print("---")
-
-print("[ranking]")
-for doc, score in rank_documents(ranking_query, ranking_docs):
-    print("query =", ranking_query)
-    print("doc =", doc)
-    print("score =", score)
-    print("---")
+print("\n[summary]")
+for label, names in grouped.items():
+    print(label, "count =", len(names), "| examples =", names[:5])
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다. 첫 번째 문장쌍의 유사도가 낮게 나온 이유는 단순 단어 겹침 규칙이 `변경`과 `재설정`의 의미적 유사성을 충분히 잡지 못하기 때문입니다. 바로 이 한계가 encoder 기반 임베딩과 관련도 모델이 필요해지는 이유이기도 합니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[classification]
-text = 배송이 계속 지연되고 있습니다
-scores = {'배송': 2, '계정': 0, '결제': 0}
-predicted_label = 배송
----
-text = 로그인이 되지 않아 비밀번호를 다시 바꾸고 싶습니다
-scores = {'배송': 0, '계정': 2, '결제': 0}
-predicted_label = 계정
----
-text = 결제는 취소했는데 환불이 아직 안 됐습니다
-scores = {'배송': 0, '계정': 0, '결제': 3}
-predicted_label = 결제
----
-[pair relation]
-비밀번호를 변경하고 싶어요 | 비밀번호를 다시 설정하려면 어떻게 하나요?
-similarity = 0.14 -> not_related
----
-환불은 언제 되나요? | 오늘 날씨가 좋네요
-similarity = 0.0 -> not_related
----
-[ranking]
-query = 퇴사 전에 장비를 어디에 반납하나요?
-doc = 오프보딩 장비 반납 안내
-score = 2
----
-query = 퇴사 전에 장비를 어디에 반납하나요?
-doc = 퇴사 체크리스트와 자산 회수 절차
-score = 1
----
-query = 퇴사 전에 장비를 어디에 반납하나요?
-doc = 법인카드 사용 정산 가이드
-score = 0
----
+language modeling -> direct_lineage | domain = language | target = next_token | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+Transformer -> direct_lineage | domain = language | target = sequence_modeling | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+text classification benchmark -> surrounding_evidence | domain = language | target = classification | checks = {'domain_ok': True, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+YOLO -> surrounding_evidence | domain = vision | target = object_detection | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+GPU scaling -> surrounding_evidence | domain = infrastructure | target = compute_enablement | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+
+[summary]
+direct_lineage count = 12 | examples = ['language modeling', 'n-gram language model', 'neural language model', 'word embeddings', 'contextual embeddings']
+surrounding_evidence count = 24 | examples = ['machine translation dataset', 'syntax parser', 'search engine ranking', 'text classification benchmark', 'speech transcript corpus']
 ```
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
+![직접 계보 판정 기준 통과 여부](../../../assets/part-06/chapter-18/lineage-rule-check-matrix-ko.png)
 
-- 이해 중심 태스크는 대개 `판단 결과`를 출력합니다
-- 생성형 모델처럼 긴 답변을 만드는 것이 중심은 아닙니다
-- 분류, 관계 판단, 검색 랭킹도 모두 같은 `읽고 점수나 라벨을 내는 흐름`으로 묶을 수 있습니다
-- 단순 규칙만으로도 어떤 입력이 어느 판단값으로 바뀌는지는 확인할 수 있고, 실제 모델은 이 점수 계산을 더 풍부한 표현 공간에서 수행합니다
-- BERT 계열은 이런 판단 작업과 잘 맞습니다
+그래서 이 예제에서 확인해야 할 결과는 항목 이름을 많이 아는가보다, 역사 설명을 `직접 구조사`와 `주변 확산사`로 실제 기준에 따라 나누어 읽는가입니다.
 
-![이해 중심 태스크의 출력 유형](../../../assets/part-06/chapter-19/understanding-output-types-ko.png)
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-## 운영 판단으로 다시 묶기
+- `lineage_rules["direct_targets"]`에 `compute_enablement`를 넣으면 GPU scaling이 왜 여전히 직접 계보로 보기 어려운지 `domain_ok`과 `connection_ok`에서 다시 확인하기
+- `items`에 `Seq2Seq`나 `RNN` 항목을 추가하고 target을 바꿔 직접 계보로 들어오는 조건을 비교하기
+- `requires_transformer_connection`을 `False`로 바꿨을 때 기준이 느슨해져 어떤 항목이 더 검토 후보가 되는지 보기
 
-앞의 세 사례는 각각 분류, 관련도 판단, 유사도 판단을 보여 줍니다. 이제 같은 내용을 운영 관점으로 다시 줄이면, 생성보다 먼저 확인해야 하는 질문이 무엇인지 더 분명해집니다.
+## 이 예제를 계보 선별 관점으로 다시 보면
 
-| 장면 | 먼저 내려야 할 판단 | 생성이 먼저 오면 생기는 문제 |
-| --- | --- | --- |
-| 고객 문의 분류 | 어느 처리 큐로 보낼 것인가 | 정중한 답을 써도 담당 팀이 잘못 잡혀 실제 해결이 늦어짐 |
-| FAQ 검색 | 이미 있는 답 중 무엇이 가장 가까운가 | 새 문장을 덧붙이다가 잘못된 FAQ로 연결될 수 있음 |
-| 문서 중복 탐지 | 두 문서가 같은 내용을 말하는가 | 중복을 놓쳐 검색 결과와 문서 관리가 계속 지저분해짐 |
+이 분류 예제는 역사 서술을 `유명한 이름 나열`로 끝내지 않게 해 줍니다. 어떤 항목이 LLM 구조의 직접 계보를 이루는지, 어떤 항목이 같은 시대의 확산과 기대를 보여 주는 주변 근거인지를 구분해야 이후 역사 설명도 더 선명해집니다.
 
-이 표를 읽을 때 핵심은 간단합니다. 생성형 모델은 길고 자연스러운 문장을 만드는 데 강할 수 있지만, 실제 운영 첫 단계에서는 `무엇을 먼저 분류하고 비교하고 연결해야 하는가`가 더 시급한 경우가 많습니다.
+여기서는 바로 앞의 P6-19.1에서 잡은 큰 발전 흐름을 `무엇이 직접 구조사이고 무엇이 배경 확산사인가`라는 기준으로 더 좁혀 읽습니다. 그래야 여러 딥러닝 성과를 하나의 직선 역사로 뭉뚱그리지 않고, 현재 LLM 구조를 만든 직접 계보를 더 선명하게 구분할 수 있습니다.
 
-예를 들어 환불 문의를 계정 잠금 큐로 잘못 보내면, 답변 문장이 아무리 매끄러워도 처리 시간은 더 늦어집니다. 반대로 라우팅과 검색 판단이 먼저 정확하면, 그 뒤에 붙는 생성 답변도 더 안전한 위치에서 시작할 수 있습니다. 그래서 이 절에서 다시 확인해야 할 결과는 긴 답변 초안의 자연스러움보다, 문의가 올바른 처리 흐름으로 먼저 들어가고 관련 문서가 먼저 정확히 연결되는가입니다.
+하지만 여기서 더 중요한 것은 다음 구분입니다.
 
-BERT가 중요했던 이유는 단지 새로운 구조였기 때문이 아닙니다. Transformer encoder 기반 사전학습 표현이 다양한 NLP 과업에 강하게 전이된다는 점을 강하게 보여 주었기 때문입니다.
+- `직접 구조사`: 현재 LLM을 만든 핵심 계보
+- `주변 확산사`: 딥러닝이 왜 강해졌고 왜 널리 받아들여졌는지 보여 주는 사례
 
-이 시기를 거치며 많은 실무 팀은:
+이 구분이 있어야 Part 6에서 다룬 BERT, GPT, pretraining, prompt, RAG, agent를 다시 떠올릴 때 구조와 분위기를 섞지 않게 됩니다.
 
-- 분류
-- 검색
-- 랭킹
-- 문장 유사도
-- 임베딩 생성
+## 직접 계보 구분이 본류 해석을 어떻게 바꾸는가
 
-을 하나의 표현 모델 계열로 묶어 다루기 시작했습니다.
+여기까지 구분이 잡히면 앞에서 본 본류 설명을 더 좁은 구조 질문으로 다시 읽을 수 있습니다.
 
-## 왜 생성 중심 구조와 따로 봐야 하나
+- LLM 관점에서 Transformer 구조를 다시 보면 무엇이 핵심인가?
+- 토큰, context window, causal generation과 연결되는 지점은 어디인가?
 
-여기까지 오면 이 비교가 왜 필요한지도 더 분명해집니다.
-
-- 입력을 읽고 판단하는 BERT 계열과 달리, GPT 계열은 어떻게 `계속 이어서 생성`하는가?
-- 왜 사용자 경험은 GPT 계열에서 더 크게 바뀌었는가?
-
-이 질문은 본류의 P6-4.1 GPT 계열의 위치를 다시 읽게 만듭니다. 핵심은 생성 구조가 중요하지 않다는 뜻이 아니라, 서비스 앞단에서는 `먼저 분류하고 비교하고 연결하는 판단 구조`가 별도로 필요하다는 점입니다. 이 기준이 잡혀야 GPT 계열을 `모든 일을 대신하는 구조`처럼 읽지 않고, BERT 계열을 `읽기와 판단을 맡는 다른 축`으로 다시 구분할 수 있습니다.
+이 질문은 본류의 P6-4.1 Transformer를 LLM 관점에서 다시 읽게 만듭니다. 핵심은 역사 설명을 늘리는 데 있지 않고, Transformer와 GPT를 읽을 때 `직접 구조 조상`과 `동시대 배경 사례`를 섞지 않게 만드는 데 있습니다.
 
 ## 체크리스트
-- 이해 중심 태스크를 `입력을 읽고 라벨·점수·관련도·임베딩을 내는 작업 묶음`으로 설명할 수 있어야 합니다.
-- 분류, 검색, 문장쌍 판단, 임베딩이 서로 다른 이름이라도 같은 판단 흐름으로 묶인다는 점을 말할 수 있어야 합니다.
-- 생성 구조와 판단 구조를 다른 출력 문제로 구분해야, GPT 계열과 BERT 계열의 용도 차이를 과업 기준으로 다시 설명할 수 있어야 합니다.
+- 직접 계보를 `현재 LLM 구조와 학습 방식으로 직접 이어지는 흐름`, 주변 근거를 `확산과 인프라 배경`으로 설명할 수 있어야 합니다.
+- 유명한 사건의 동시성이나 영향력과 구조적 조상 여부는 다른 판단 기준이라는 점을 말할 수 있어야 합니다.
+- 이 절은 새 역사 목록이 아니라, 본류를 과장 없이 다시 해석하게 만드는 경계선이라는 점을 잡고 있어야 합니다.
 
 ## 출처와 참고 자료
 
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-19.
+- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2018, 확인 날짜: 2026-07-19.
 - Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
-- Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-19.
-- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-07-19.
+- Joseph Redmon et al., [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640){: target="_blank" rel="noopener noreferrer" }, CVPR, 2016, 확인 날짜: 2026-07-19.
+- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://proceedings.mlr.press/v70/arik17a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2017, 확인 날짜: 2026-07-19.

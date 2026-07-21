@@ -1,406 +1,399 @@
-# P6-11.2 인덱스(index)와 검색 품질
+# P6-11.2 검색 결과와 생성의 결합
 
-Section ID: `P6-11.2`
-Version: `v2026.07.19`
+> Section ID: `P6-11.2`
+> Version: `v2026.07.21`
 
-P6-11.1에서는 벡터 데이터베이스가 임베딩 벡터와 원문, 메타데이터를 함께 저장하고 검색 단계에서 실무형 저장소 역할을 한다는 점을 보았습니다. 이제 질문은 비슷한 벡터를 빠르게 찾는 일이 왜 어렵고, 무엇을 포기하거나 조정해야 하는가로 더 구체화됩니다.
+P6-11.1에서는 RAG(retrieval-augmented generation)가 왜 필요한지 보았습니다. 이제는 문서를 붙인다는 말이 실제 입력 흐름에서 무엇을 뜻하는지 더 구체적으로 봐야 합니다.
 
-인덱스(index)는 검색 속도를 높이기 위한 구조이며, 벡터 검색에서는 보통 속도와 정확도 사이의 균형을 함께 고민하게 만든다.
+찾아온 문서는 실제로 어디에 붙고, 답변은 그 위에서 어떻게 만들어지는가? 핵심은 문서를 찾는 단계와 그 문서를 바탕으로 답을 만드는 단계를 분리해서 보는 것입니다.
 
-## 탐색 구조가 맡는 일
+RAG의 기본 정의는 `외부 근거를 붙여 생성한다`는 말로 잡을 수 있습니다. 이제는 그 근거가 실제 입력과 생성 흐름 안에서 어떻게 결합되는지, 그리고 어디서 실패가 갈라지는지를 봐야 합니다.
 
-이 절에서 먼저 붙잡을 질문은 다음과 같습니다.
+RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 범위 안에서 답을 생성하려고 시도한다.
 
-- 왜 벡터를 하나씩 모두 비교하지 않는가?
-- 인덱스는 검색에서 어떤 역할을 하는가?
-- 검색 속도와 검색 품질은 왜 함께 조정해야 하는가?
+## 검색-생성 결합이 다루는 질문
 
-이 절은 인덱스를 `근사 검색을 위한 구조`로 읽는 데 집중합니다. 앞 절의 벡터 저장 구조 위에서 후보를 어떤 속도와 품질 균형으로 좁힐지까지를 여기서 닫고, 이후 서비스 안에서 검색 외부 기능이 어떻게 확장되는지는 P6-12.1 도구 사용과 P6-12.2 function calling으로 이어집니다.
+검색-생성 결합은 다음 질문에서 시작합니다.
 
-여기서는 인덱스를 단순한 내부 기술명으로 넘기지 않고, `빠른 검색을 위해 근사(approximation)를 허용하는 구조`로 읽습니다.
+- 검색 결과는 생성 전에 어떻게 쓰이는가?
+- 문서를 많이 넣는다고 항상 좋은가?
+- 검색 품질과 생성 품질은 왜 따로 봐야 하는가?
 
-앞 절의 벡터 데이터베이스가 `무엇을 어떤 저장 구조에 담아 둘까`를 다뤘다면, 여기서는 `그 저장 구조 안에서 후보를 어떤 속도와 품질 균형으로 좁힐까`를 읽습니다. 바로 다음 P6-12.1에서는 질문이 다시 커져, `문서를 찾는 것`을 넘어 `무엇을 실제로 조회하거나 실행할까`로 이동합니다.
+검색-생성 결합에서 먼저 닫아야 할 기준은 `검색 실패`와 `생성 실패`를 따로 읽는 일입니다. 검색 저장소와 인덱스는 문서를 다시 꺼내는 구조의 문제이고, context window와 운영 제약은 검색된 문서를 얼마나 넣고 어떻게 관리할지에 영향을 주는 별도 제약입니다.
 
-인덱스는 `후보를 빠르게 줄이는 구조`로 읽고, 그 다음에 어떤 층위가 더 붙는지까지 이어서 보면 됩니다.
+RAG는 `검색 후 생성`이라는 두 단계 구조로 분해해 읽어야 합니다. 먼저 붙잡아야 할 것은 `문서를 붙였다`가 아니라 `검색 실패와 생성 실패를 따로 봐야 한다`는 점입니다.
 
-후반 실행 구조로 넘어가기 직전, 지금 장의 역할은 아래처럼 먼저 고정할 수 있습니다.
-
-| 지금 부족한 것 | 이번 장이 붙이는 구조 | 아직 남는 문제 | 바로 이어지는 위치 |
-| --- | --- | --- | --- |
-| 임베딩, 원문, 메타데이터를 저장해 두어도 후보를 너무 느리게 찾으면 실제 서비스 검색으로 쓰기 어렵다 | 속도와 검색 품질을 함께 조정하는 탐색 구조 | 문서 검색을 넘어 무엇을 실제로 조회하거나 실행할지, 그 실행 요청을 어떻게 구조화할지는 아직 남아 있다 | P6-12.1, P6-12.2 |
-
-| 지금 단계의 관점 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| 지금 단계의 초점 | 이어지는 질문 | 다른 층위로 남겨 둘 것 |
 | --- | --- | --- |
-| 벡터 데이터베이스 | 검색 후보를 어떤 저장 구조에 다시 꺼내 쓸 것인가? | P6-11.1 |
-| 인덱스(index) | 그 후보를 어떤 속도와 품질 균형으로 좁힐 것인가? | P6-11.2 |
-| 도구 사용(tool use) | 문서 검색을 넘어서 무엇을 실제로 조회하거나 실행할 것인가? | P6-12.1, P6-12.2 |
+| RAG 필요 판단 | 왜 답 전에 문서를 붙여야 할까? | 프롬프트 조정 |
+| 검색-생성 결합 | 그 문서가 실제로 어디에 붙고 어떻게 답으로 이어질까? | 검색 저장소와 인덱스 |
+| retrieval 저장소와 탐색 구조 | 그 문서를 어떤 저장 구조와 인덱스로 다시 꺼낼까? | 평가와 운영 제약 |
 
-여기서는 `검색 인덱스(index)`를 `빨리 찾는 내부 기술`이라는 인상보다 `속도와 검색 품질을 함께 조정하는 탐색 구조`로 읽는 기준을 잡습니다.
+`RAG`를 한 단계처럼 뭉뚱그리지 않고, 검색 실패와 생성 실패를 따로 나눠 읽어야 합니다.
 
-즉, 지금 장의 핵심은 `무엇을 저장할까`에서 `그 저장 구조를 어떤 속도와 품질로 탐색할까`로 관점이 바뀌는 데 있습니다. 바로 다음 장에서는 이 탐색을 넘어 무엇을 실제로 조회하거나 실행할지로 질문이 커집니다.
+핵심은 `문서를 붙여야 하는가`에서 `붙인 문서가 실제 입력 맥락과 최종 답 사이에서 어떻게 작동하는가`로 넘어가는 데 있습니다.
 
 ## 여기서 남겨야 할 구분
 
-- 인덱스의 역할을 입문 수준에서 설명할 수 있습니다.
-- 정확히 찾는 검색과 빠르게 찾는 검색의 차이를 말할 수 있습니다.
-- 벡터 검색 품질을 속도와 분리해서 볼 수 없다는 점을 설명할 수 있습니다.
-- 다음 장의 도구 사용과 서비스 구조 설명으로 이어질 준비를 할 수 있습니다.
+- 검색 결과와 생성이 어떻게 이어지는지 설명할 수 있습니다.
+- 검색 단계와 생성 단계의 실패를 구분할 수 있습니다.
+- 많이 넣는 것과 잘 넣는 것이 다르다는 점을 말할 수 있습니다.
+- 벡터 데이터베이스와 인덱스 설명을 `검색 가능한 문서 준비`의 문제로 읽을 수 있습니다.
 
-먼저 가를 장면은 아래처럼 정리할 수 있습니다.
+## 결합 흐름을 보는 순서
 
-| 먼저 보인 막힘 | 먼저 떠올릴 질문 | 왜 이 질문이 먼저 필요한가 |
+결합 흐름은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `검색 결과는 어디에 붙나`와 `문서를 많이 넣으면 항상 좋은가`를 읽고, 검색 결과가 답변 뒤가 아니라 생성 전 입력 맥락에 붙는다는 점과 `많이 넣기`와 `잘 넣기`의 차이를 잡습니다.
+2. 그다음 `검색 실패와 생성 실패는 어떻게 다른가`와 `왜 답변 품질이 흔들릴 수 있나`를 읽으면서 RAG 실패를 두 단계로 분리해 봅니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 같은 오답처럼 보여도 `문서를 잘못 가져온 경우`와 `문서를 가져왔지만 과장하거나 잘못 풀어 쓴 경우`를 따로 점검해야 한다는 점을 확인합니다.
+
+## 검색 결과는 어디에 붙나
+
+가장 단순한 형태에서는 검색된 문서 일부가 프롬프트 맥락에 함께 들어갑니다.
+
+예를 들어 입력은 다음처럼 구성될 수 있습니다.
+
+- 사용자 질문
+- 검색된 문서 발췌
+- 답변 형식 지시
+
+즉, 모델은 `질문만` 받는 것이 아니라, `질문 + 관련 문서 + 응답 지시`를 함께 받게 됩니다.
+
+`RAG는 검색 결과를 모델 바깥에서 따로 가지고 있다가, 답하기 직전에 입력 맥락으로 붙여 넣는 구조다.`
+
+여기서 먼저 남겨야 할 것은 어떤 문서를 얼마나 관련 있다고 보고 실제로 붙였는지, 어떤 근거 문장을 선택했는지, 최종 답이 문서를 과장하거나 벗어나지 않았는지를 보여 주는 검색 기록과 답안 점검 메모입니다. 이 기록이 있어야 검색 실패와 생성 실패를 나눌 수 있고, 뒤로 갈수록 P6-12.1, P6-12.2의 검색 품질 점검, P6-16의 평가, P6-17의 운영 판단, Part 6의 검색 회수 기록과 회고 메모로 다시 읽힙니다.
+
+## 문서를 많이 넣으면 항상 좋은가
+
+아닙니다. 여기서 중요한 것은 `양`보다 `관련성`과 `정리 방식`입니다.
+
+문서를 너무 많이 넣으면:
+
+- 핵심이 묻힐 수 있고
+- 서로 충돌하는 문장이 섞일 수 있으며
+- context window를 낭비할 수 있고
+- 모델이 오히려 헷갈릴 수 있습니다
+
+따라서 검색 결과는 `많이 모으는 것`보다 `질문에 맞는 자료를 적절한 크기와 순서로 넣는 것`이 더 중요합니다.
+
+이 지점에서 한 걸음만 더 가면 `검색-생성 결합` 앞에 이미 문서 준비 단계가 있다는 점도 보입니다. 검색이 잘 되려면 문서를 그냥 쌓아 두는 것이 아니라, 미리 `분할`, `최신 버전 구분`, `중복 제거`, `검색 가능한 메타데이터 정리`가 어느 정도 되어 있어야 합니다.
+
+즉, 여기서는 `찾아온 문서를 어디에 붙이는가`를 다루고 있지만, 그 전에 이미 `붙일 수 있게 문서를 정리해 두는 단계`가 있습니다. 이 차이가 보여야 벡터 데이터베이스와 인덱스 설명도 단순 저장소 소개가 아니라 `검색 가능한 문서 준비`의 연장선으로 읽힙니다.
+
+이 차이를 요청 시점 기준으로 다시 나누면 다음처럼 읽는 편이 가장 안전합니다.
+
+| 단계 | 먼저 보는 질문 | 흔한 실패 |
 | --- | --- | --- |
-| 응답은 빨라졌는데 답변이 전보다 빈약해졌다 | 핵심 문단이 top-k 안에 남아 있는가? | 속도 개선 때문에 정작 필요한 후보가 빠졌을 수 있기 때문입니다. |
-| 최종 답은 자연스러운데 실행하면 버전 오류가 난다 | 현재 버전 문서가 상위 후보 안에 포함됐는가? | 생성이 매끄러워도 후보 묶음이 틀리면 시작점부터 잘못되기 때문입니다. |
-| 전체 응답이 느린데 원인이 검색인지 생성인지 헷갈린다 | 병목이 후보 압축 단계인가? | 탐색 구조가 병목이면 프롬프트보다 인덱스 조정이 먼저여야 하기 때문입니다. |
-| 후보는 많이 오지만 늘 엉뚱한 문서가 먼저 붙는다 | top-1 정합률과 top-k 포함률을 같이 보고 있는가? | `빨리 찾는가`와 `맞게 찾는가`를 나누어 보지 않으면 검색 품질을 잘못 읽기 쉽기 때문입니다. |
+| 문서 준비 단계 | 지금 질문이 오기 전에 문서가 검색 가능하게 정리돼 있었는가? | 낡은 버전 혼입, 중복 문서, 너무 긴 청크 |
+| 검색 단계 | 현재 질문에 맞는 문서를 실제로 잘 가져왔는가? | 무관 문서 상위 노출, 최신 문서 누락 |
+| 생성 단계 | 가져온 문서를 벗어나지 않고 답을 다시 썼는가? | 조건 누락, 과장, 일반 기억 혼입 |
 
-이 표를 먼저 붙잡고 아래 내용을 읽으면, 인덱스를 `빠르게 찾는 내부 기술`보다 `속도와 후보 품질을 함께 조정하는 탐색 구조`로 더 직접 읽을 수 있습니다.
+즉, `검색-생성 결합`은 요청이 들어온 뒤의 두 단계만이 아니라, 그보다 앞선 문서 준비 단계까지 포함해야 제대로 읽힙니다.
 
-## 왜 모든 벡터를 다 비교하지 않나
+## 검색 실패와 생성 실패는 어떻게 다른가
 
-가장 단순한 방법은 질문 벡터와 저장된 모든 벡터를 하나씩 비교하는 것입니다. 하지만 문서 수가 많아지면 이 방식은 매우 느려질 수 있습니다.
+이 구분이 매우 중요합니다.
 
-예를 들어:
+### 검색 실패
 
-- 문서가 수백 개면 가능할 수 있지만
-- 문서가 수십만, 수백만 개면
-- 모든 벡터를 매번 다 비교하는 비용이 커집니다
+- 관련 문서를 못 찾았다
+- 오래된 문서가 먼저 나왔다
+- 질문과 상관없는 문서가 섞였다
 
-그래서 실무에서는 `정확히 다 비교하는 방법` 대신 `가까울 것 같은 후보를 빠르게 좁히는 방법`이 중요해집니다. 이때 인덱스가 등장합니다.
+### 생성 실패
 
-## 인덱스는 무엇을 하나
+- 문서를 가져왔는데도 잘못 요약했다
+- 문서 근거보다 일반 기억으로 답했다
+- 출처를 잘못 연결했다
 
-인덱스는 다음처럼 이해할 수 있습니다.
+즉, RAG 시스템에서 답이 이상하면 항상 `모델이 나쁘다`고만 말할 수 없습니다. 먼저 검색이 틀렸는지, 생성이 틀렸는지를 나눠 봐야 합니다.
 
-`인덱스는 전체를 처음부터 끝까지 다 보지 않고, 가까울 가능성이 높은 후보를 더 빨리 찾도록 돕는 탐색 구조다.`
+같은 오답처럼 보여도 먼저 보인 신호에 따라 바로 확인할 기록과 다음 조치는 달라집니다.
 
-즉, 인덱스는 검색 속도를 높이기 위한 `길 찾기 구조`에 가깝습니다.
+| 먼저 보인 신호 | 먼저 의심할 실패 축 | 가장 먼저 다시 볼 기록 | 바로 다음 조치 | 서두르면 안 되는 결론 |
+| --- | --- | --- | --- | --- |
+| 붙은 문서 제목이나 발췌가 질문과 어긋난다 | 검색 실패 | 어떤 문서가 붙었는지, 관련성 점수가 어땠는지, 어떤 근거 문장을 골랐는지 다시 봅니다 | 어떤 문서가 왜 상위에 왔는지 다시 보고, 질문과 무관한 문서가 섞였는지 먼저 뺍니다 | 곧바로 프롬프트 문장만 고치면 해결된다고 단정하지 않습니다 |
+| 붙은 문서는 맞는데 답이 조건을 빼먹거나 과장한다 | 생성 실패 | 답 초안이 실제 근거 문장을 벗어났는지, 근거 점검에서 어디가 흔들렸는지 다시 봅니다 | 답 초안이 실제 근거 문장을 벗어났는지 확인하고, 요약 지시와 근거 점검 규칙을 다시 봅니다 | 검색 품질이 이미 충분하다고 단정하지 않습니다 |
+| 검색도 어색하고 답도 함께 흔들린다 | 검색 실패가 생성으로 전염된 경우 | 검색 기록과 답 초안을 함께 봅니다 | 먼저 검색 오염을 줄인 뒤, 그다음 생성 지시를 다시 조정합니다 | 한 번의 오답만 보고 모델 전체 능력 문제로 확대하지 않습니다 |
 
-이 점은 일반 데이터베이스 인덱스와도 닮아 있지만, 벡터 검색에서는 `의미가 가까운 항목`을 찾기 위한 방식이라는 점이 다릅니다.
+## 왜 답변 품질이 흔들릴 수 있나
 
-## 왜 속도와 정확도가 함께 걸리나
+RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘어납니다.
 
-여기서 중요한 개념이 `근사 검색(approximate search)`입니다.
+- 검색 문서 선택
+- 문서 길이와 발췌 방식
+- 문서 순서
+- 생성 지시 방식
+- 인용 형식
 
-벡터 검색에서는 보통:
-
-- 아주 정확하지만 느린 방식
-- 조금 덜 정확할 수 있지만 빠른 방식
-
-사이에서 균형을 잡습니다.
-
-`벡터 검색 인덱스는 보통 가장 완벽한 답 하나를 항상 찾는 구조보다, 충분히 좋은 후보를 빠르게 찾는 구조에 가깝다.`
-
-## 검색 품질은 무엇으로 흔들리나
-
-검색 품질은 단순히 인덱스 종류만으로 정해지지 않습니다. 다음 요소가 함께 영향을 줍니다.
-
-- 임베딩 품질
-- 문서 조각(chunk) 크기
-- 메타데이터 필터
-- 인덱스 설정
-- top-k 개수
-
-즉, 검색 품질 문제는 `저장 구조`, `문서 준비`, `검색 전략`이 함께 만드는 문제입니다.
-
-## 왜 RAG 품질과 직접 연결되나
-
-RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮으면 생성은 잘해도 시작점이 흔들립니다.
-
-예를 들어:
-
-- 관련 없는 문서를 가져오면 답이 엉뚱해지고
-- 덜 중요한 문서가 먼저 오면 핵심이 빠질 수 있으며
-- 오래된 문서가 섞이면 최신성 문제가 다시 생길 수 있습니다
-
-즉, 벡터 검색 품질을 볼 때는 `얼마나 빨리 찾는가`보다 `정말 필요한 문서가 후보 안에 들어왔는가`를 먼저 확인해야 하고, 이것이 곧 RAG 답변 품질의 상한을 결정합니다.
+이 때문에 RAG는 단순히 검색 하나, 생성 하나가 아니라 `검색 파이프라인 + 생성 파이프라인`으로 읽는 것이 더 정확합니다.
 
 ## 아주 단순하게 그리면
 
 ```mermaid
---8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-01-ko.mmd"
+--8<-- "assets/part-06/chapter-10/p6-c10-s02-diagram-01-ko.mmd"
 ```
 
-이 도식의 핵심은 인덱스가 `답변 생성`을 직접 하는 것이 아니라, `검색 후보를 빠르게 좁히는 역할`을 한다는 점입니다.
+이 도식의 핵심은 검색 결과가 답변 뒤에 붙는 것이 아니라, `답변 전에 입력 맥락으로 들어간다`는 점입니다.
 
 ## 사례 및 예시
 
-### 사례 1. 사내 문서 검색 속도
+### 사례 1. 제품 지원 챗봇
 
-사내 위키 문서가 수백 개일 때는 검색이 빨랐는데, 수만 개로 늘자 갑자기 느려졌다고 해 봅시다. 초심자는 이 상황을 `검색이 조금 늦네` 정도로만 느끼기 쉽습니다. 하지만 운영 단계에서는 답변 지연이 곧 사용자 이탈로 이어집니다. 예를 들어 휴가 규정 질문 하나에 후보 문서를 고르는 데 4초가 더 걸리면, 뒤 생성 단계가 같아도 사용자는 챗봇 전체가 느리다고 느끼게 됩니다. 이 시점부터 문제는 단순히 문서가 많아졌다는 사실이 아니라, 많은 문서 중 후보를 얼마나 빨리 줄일 수 있는가입니다.
+고객이 `자동 저장을 끄려면 어디로 들어가야 하나요?`라고 묻는 제품 지원 챗봇을 생각해 볼 수 있습니다. 이 장면에서는 검색이든 생성이든 결국 `답 한 번만 잘 나오면 된다`고 느끼기 쉽습니다. 하지만 검색 단계는 먼저 최신 매뉴얼에서 `자동 저장`, `설정`, `환경설정`이 들어간 관련 문단을 찾아와야 합니다. 그다음 생성 단계는 그 문단 내용을 그대로 복사하는 대신, 고객 질문에 맞춰 `어느 메뉴를 누르고 어떤 순서로 들어가야 하는지`를 다시 설명합니다. 예를 들어 문서에는 `환경설정 > 편집 > 자동 저장`처럼 경로만 적혀 있고, 생성 단계는 이를 사용자가 따라 하기 쉬운 문장으로 바꾸는 역할을 맡습니다.
 
-여기서 바뀌는 점은 `문서 수가 늘었는가`를 보던 기준에서 `핵심 후보 압축 시간이 실제 대기 시간 안에 남는가`를 보는 기준으로 이동한다는 것입니다. 인덱스 구조와 검색 전략은 바로 이 후보 압축 속도를 바꾸는 핵심 장치가 됩니다. 이 사례가 바로잡는 오해는 `느린 건 그냥 문서 수가 많아서 어쩔 수 없다`는 체념입니다. 그래서 이 사례에서 확인해야 할 결과는 문서 수가 늘어난 뒤에도 핵심 후보를 줄이는 시간이 실제 서비스 대기 시간 안에 남는가, 그리고 병목이 생성이 아니라 후보 압축 단계임을 기록으로 설명할 수 있는가입니다.
+만약 검색이 잘못되어 다른 제품 버전 문단을 가져오면 생성이 아무리 자연스러워도 엉뚱한 기능을 안내하게 됩니다. 여기서 바뀌는 점은 `답을 바로 쓰는 일`에서 `먼저 맞는 문단을 찾고 그다음 질문 형태로 다시 풀어 쓰는 일`로 기준이 나뉜다는 것입니다. 여기서 바로잡아야 할 오해는 `문장이 자연스러우면 앞 단계도 제대로 됐겠지`라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 최신 매뉴얼 경로가 실제 답변 문장 안에 올바르게 반영되는가, 그리고 검색된 경로와 최종 절차 문장이 서로 같은 버전을 가리키는가입니다.
 
-### 사례 2. 매뉴얼 답변 품질
+### 사례 2. 법률 문서 보조
 
-제품 매뉴얼에서 정확한 설정 문단 하나를 찾아야 하는데, 검색을 너무 빠르게 만들려고 근사 설정을 강하게 준다고 해 봅시다. 초심자는 응답 시간이 빨라지면 검색이 더 좋아졌다고 느끼기 쉽습니다. 하지만 그러면 응답 시간은 줄어들 수 있어도, 정작 가장 중요한 문단이 후보에서 빠져 답변 품질이 바로 흔들릴 수 있습니다. 예를 들어 `자동 저장 끄기` 질문에 설정 개요 문단만 잡히고 실제 메뉴 경로 문단이 빠지면, 답변은 `설정에서 바꾸세요` 수준으로 끝나 실제 사용자는 여전히 버튼 위치를 찾지 못할 수 있습니다. 반대로 항상 가장 엄격한 검색만 쓰면 관련 문단은 잘 찾더라도 답이 너무 늦어집니다.
+법률 문서 보조 도구에서 사용자가 `이 조항이면 계약 해지가 바로 가능한가요?`라고 묻는다고 해 봅시다. 관련 조문을 잘 찾았으면 거의 끝난 것처럼 느끼기 쉽습니다. 하지만 검색 단계는 먼저 관련 조문과 판례 요약을 찾아 현재 질문과 가까운 문서를 모으는 일이고, 생성 단계는 그 문서를 바탕으로 `바로 가능`, `추가 조건 필요`, `판단 보류`처럼 질의응답 형태로 다시 정리하는 일입니다. 예를 들어 문서에는 `상당한 기간을 정해 시정 요구 후 해지 가능`이라고 되어 있는데, 생성이 중간 조건을 빼고 `즉시 해지 가능`처럼 단정하면 검색은 맞았어도 최종 답은 위험해질 수 있습니다.
 
-여기서 바뀌는 점은 `응답이 빨라졌는가`를 보던 기준에서 `핵심 문단이 후보에 남아 있는가`를 함께 보는 기준으로 이동한다는 것입니다. 즉, 운영자는 `빨라졌는가`만이 아니라 `빠르게 찾은 후보가 충분히 좋은가`를 함께 봐야 합니다. 이 사례가 바로잡는 오해는 `빠르다`와 `좋다`를 자동으로 같은 뜻으로 놓는 데 있습니다. 그래서 이 사례에서 확인해야 할 결과는 응답 시간이 빨라져도 실제 핵심 문단이 후보에 남아 있는가, 그리고 후보에서 빠진 문단 때문에 절차 답변이 얼마나 빈약해지는지도 함께 읽을 수 있는가입니다.
+여기서 바뀌는 점은 `문서를 찾았으니 끝났다`는 기준에서 `찾은 문서 조건을 빼먹지 않고 다시 정리했는가`까지 따로 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서는 `문서를 찾는 정확성`과 `문서 바깥으로 나가지 않는 정리`를 따로 봐야 합니다. 여기서 바로잡아야 할 오해는 `관련 조항이 붙었으면 최종 문장도 자동으로 안전하다`는 판단입니다. 그래서 이 사례에서 확인해야 할 결과는 최종 답이 `즉시 가능`로 과장되지 않고 원문 조건을 그대로 포함하는가, 그리고 생성 문장이 문서 밖의 강한 결론을 새로 덧붙이지 않는가입니다.
 
-### 사례 3. 개발 문서 도우미
+### 사례 3. 개발 문서 질의응답
 
-개발 문서 도우미가 비슷한 이름의 API 문서를 여러 개 가진 상태라고 해 봅시다. 사람은 최종 답만 보면 보통 `모델이 코드를 잘못 설명했다`고 먼저 느낍니다. 하지만 top-k 결과에 현재 버전 문서 대신 예전 버전 문서가 섞이면, 생성 단계는 그 후보를 바탕으로 꽤 자연스러운 답을 만들 수 있습니다. 예를 들어 2.x 버전 옵션을 묻는 질문에 1.x 문서가 후보 상단에 들어오면, 답변은 매끄러워도 바로 실행하면 에러가 나는 코드 예시가 나올 수 있습니다. 즉, 실제 시작점은 `후보 문서 묶음이 이미 어긋난 것`일 수 있습니다.
+개발자가 `이 API에서 timeout 옵션은 어디에 넣나요?`라고 묻는 장면을 떠올려 볼 수 있습니다. 사람은 검색이 올바른 버전의 공식 문서를 가져오면 `이제 거의 끝났다`고 느끼기 쉽습니다. 하지만 생성 단계가 예전 예제 코드와 새 문서를 섞거나 옵션 이름을 비슷한 다른 인자로 바꿔 말하면, 최종 답은 여전히 실패로 이어질 수 있습니다. 예를 들어 문서에는 `request_timeout`인데 생성이 익숙한 다른 라이브러리 이름인 `timeout_ms`로 바꿔 말하면, 문서는 맞았어도 답은 바로 깨집니다. 즉, 검색이 맞다고 해서 자동으로 답도 맞는 것은 아닙니다.
 
-여기서 바뀌는 점은 `최종 답이 자연스러운가`를 보던 기준에서 `top-k 후보 안에 맞는 버전 문서가 들어왔는가`를 먼저 보는 기준으로 이동한다는 것입니다. 그래서 이 장면에서는 생성 평가와 별도로 검색 품질 평가가 필요합니다. 이 사례가 바로잡는 오해는 `최종 문장만 고치면 문제도 해결될 것`이라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 최종 답만 보기 전에 top-k 후보 안에 현재 버전 문서가 실제로 포함되어 있는가, 그리고 top-1이 틀려도 top-k 안에 정답 문서가 살아 있는지까지 구분해 읽을 수 있는가입니다.
+여기서 바뀌는 점은 `검색 성공`과 `최종 답 정확성`을 같은 일로 보지 않고, `찾아온 이름을 답변에도 그대로 유지하는가`를 별도 기준으로 보게 된다는 것입니다. 여기서 바로잡아야 할 오해는 `공식 문서를 붙였으면 생성은 알아서 맞춰 줄 것`이라는 기대입니다. 그래서 이 사례에서 확인해야 할 결과는 검색된 공식 옵션명이 최종 답변에도 그대로 유지되고, 비슷한 다른 인자 이름으로 바뀌지 않는가, 그리고 답변 예시 코드도 검색된 문서와 같은 인터페이스를 유지하는가입니다.
 
-세 사례를 속도·품질 균형 관점으로 다시 묶으면 다음과 같습니다.
+세 사례를 단계 구분 관점으로 다시 묶으면 다음과 같습니다.
 
-| 상황 | 빨라 보이는 것만 보면 놓치는 것 | 함께 봐야 하는 검색 품질 기준 |
+| 상황 | 검색 단계가 먼저 맞아야 하는 것 | 생성 단계가 이어서 지켜야 하는 것 |
 | --- | --- | --- |
-| 사내 문서 검색 속도 | 전체 지연만 보고 후보 압축 실패를 놓침 | 핵심 후보를 서비스 시간 안에 남기는가 |
-| 매뉴얼 답변 품질 | 응답 속도가 빨라져도 핵심 절차 문단이 빠질 수 있음 | 핵심 문단이 top-k 안에 남는가 |
-| 개발 문서 도우미 | 자연스러운 최종 답 때문에 버전 후보 오류를 놓침 | 현재 버전 문서가 top-k 안에 포함되는가 |
+| 제품 지원 챗봇 | 현재 버전의 정확한 메뉴 경로 문단 회수 | 문단 내용을 사용자 절차 문장으로 정확히 풀어쓰기 |
+| 법률 문서 보조 | 관련 조문과 조건 문단 회수 | 조건을 빠뜨리지 않고 단정 표현을 피하기 |
+| 개발 문서 질의응답 | 현재 버전의 공식 옵션 문단 회수 | 옵션명을 비슷한 다른 이름으로 바꾸지 않기 |
 
-같은 내용을 검색 타협 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+같은 내용을 단계 분리 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-02-ko.mmd"
+--8<-- "assets/part-06/chapter-10/p6-c10-s02-diagram-02-ko.mmd"
 ```
 
-핵심은 `빠르다`와 `좋다`가 자동으로 같은 뜻이 아니라는 점입니다.
+핵심은 `RAG가 한 단계처럼 보이더라도 내부에서는 검색과 생성이 따로 흔들린다`는 점입니다.
 
 ## 바로 적용해 보면
 
-인덱스를 처음 읽을 때 자주 생기는 오해는 `응답 시간이 줄었다`는 사실만 보고 검색도 좋아졌다고 느끼는 점입니다. 하지만 실제 점검에서는 `얼마나 빨라졌는가`와 함께 `정답 문서가 후보 안에 남았는가`를 같이 봐야 합니다.
+자주 생기는 오해는 `답이 이상하다`는 인상만으로 검색과 생성을 한꺼번에 묶어 버리는 점입니다. 하지만 실제로는 `무엇을 가져왔는가`와 `가져온 것을 어떻게 다시 썼는가`를 나눠 봐야 다음 조치가 맞아집니다.
 
-| 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그것을 같이 봐야 하는가 |
+| 이런 장면이 보이면 | 먼저 의심할 것 | 왜 먼저 그쪽을 봐야 하는가 |
 | --- | --- | --- |
-| 응답은 빨라졌는데 답변이 빈약해짐 | 핵심 문단이 top-k 안에 남아 있는가 | 속도 향상 때문에 정작 필요한 후보가 빠졌을 수 있기 때문입니다. |
-| 최종 답은 자연스럽지만 실행하면 버전 오류가 남 | 현재 버전 문서가 top-k 안에 포함됐는가 | 생성이 매끄러워도 후보 묶음이 이미 틀리면 답 전체가 잘못된 근거 위에 설 수 있기 때문입니다. |
-| 검색 지연이 길어 사용자 체감이 나빠짐 | 병목이 생성이 아니라 후보 압축 단계인가 | 느림의 원인이 인덱스 탐색이면 프롬프트 조정보다 검색 구조 조정이 먼저이기 때문입니다. |
+| 답변에 붙은 문서 제목이나 발췌부터 질문과 어긋남 | 검색 실패 | 잘못 가져온 문서를 바탕으로는 생성이 자연스러워도 방향이 처음부터 틀어지기 때문입니다. |
+| 붙은 문서는 맞는데 답이 조건을 빼먹거나 과장함 | 생성 실패 | 근거는 맞아도 다시 쓰는 단계에서 의미가 바뀌면 최종 답이 틀어지기 때문입니다. |
+| 문서도 어색하고 답도 함께 흔들림 | 검색 실패가 생성으로 전염된 경우 | 먼저 검색 오염을 줄여야 뒤 생성 조정이 의미를 갖기 때문입니다. |
 
-같은 기준을 더 짧은 실무 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
+같은 기준을 더 짧은 점검 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
 
 | 이런 의심이 들면 | 먼저 던질 질문 |
 | --- | --- |
-| `빨라졌는데 답이 약해졌다` | 핵심 후보가 top-k 밖으로 밀렸는가? |
-| `답은 그럴듯한데 버전이 다르다` | 현재 버전 문서가 상위 후보 안에 있었는가? |
-| `전체가 느린데 어디가 병목인지 모르겠다` | 후보 압축 시간이 생성 시간보다 더 커졌는가? |
+| `붙은 근거부터 낯설다` | 어떤 문서가 왜 상위에 왔는가? |
+| `근거는 맞는 것 같은데 답이 세게 말한다` | 답이 실제 문장보다 더 강하게 단정했는가? |
+| `어디서부터 틀렸는지 모르겠다` | 검색 기록과 최종 답을 따로 놓고 봤는가? |
 
-이 절에서 먼저 익혀야 하는 기준은 단순합니다. 인덱스 평가는 `latency`만 보는 일이 아니라, `top-k 포함률`, `top-1 정합률`, `버전 정합성`을 함께 봐야 실제 검색 품질을 읽을 수 있는 작업입니다.
+먼저 익혀야 하는 기준은 단순합니다. RAG를 한 단계처럼 보더라도, 점검할 때는 `검색 단계`와 `생성 단계`를 분리해서 봐야 원인을 제대로 잡을 수 있습니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 실제 ANN 인덱스 엔진을 구현하는 것이 아니라, `후보를 빨리 줄이는 설정`과 `정답 후보를 놓치지 않는 설정`이 충돌할 수 있다는 점을 작은 실험으로 확인하는 것입니다. 실제 ANN 라이브러리를 붙이는 실습은 프로젝트를 다루는 Part 7 쪽이 더 적절합니다. 여기서는 CSV에 둔 문서 벡터와 질문 벡터를 읽고, `candidate_budget`과 `version_filter`를 바꿨을 때 top-k 포함률, top-1 정합률, 버전 정합성, 지연 시간 대체값이 어떻게 달라지는지만 봅니다.
+예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 같은 문서 집합에서 `retrieval_terms`와 `generation_style`을 바꿔, 검색 오염과 생성 과장이 서로 다른 단계의 실패로 드러나는지 확인합니다.
 
-개발 문서 검색에서는 현재 버전 문서가 꼭 top-k 안에 들어와야 합니다. 빠른 설정은 지연 시간은 줄이지만 후보 일부를 놓칠 수 있고, 느린 설정은 더 오래 걸리지만 중요한 후보를 더 잘 회수할 수 있습니다.
+사용자가 `벡터 검색이 왜 필요한가요?`라고 묻는다고 해 봅시다. 검색 단계는 관련 문서를 골라야 하고, 생성 단계는 그 문서를 바탕으로 독자용 설명을 다시 써야 합니다. 검색이 맞아도 생성이 과장되면 최종 답은 다시 틀어질 수 있습니다.
 
-아래 예제는 여러 질문, CSV로 분리한 문서 벡터와 질문 벡터, 후보 압축 설정인 `candidate_budget`, 버전 필터 설정인 `version_filter`를 사용합니다. 출력에서는 질문별 지연 시간, 질문별 top-k 후보, 현재 버전 문서가 실제로 포함되었는지 여부, 설정별 top-k 포함률과 top-1 정합률을 확인합니다.
+아래 예제는 질문, 검색 가능한 문서 목록 CSV [p6-10-rag-documents.csv](../../../assets/part-06/chapter-10/p6-10-rag-documents.csv){ .csv-preview }, 검색 조건과 생성 조건 CSV [p6-10-rag-experiments.csv](../../../assets/part-06/chapter-10/p6-10-rag-experiments.csv){ .csv-preview }를 사용합니다. 출력에서는 검색 조건에 따라 선택된 문서, 그 문서를 바탕으로 만든 최종 설명, 검색 실패와 생성 실패를 나누어 보는 점검값, 무관 문서 혼입과 과장 표현 여부를 확인합니다.
 
-먼저 이 예제에서 함께 볼 점검 항목은 다음과 같습니다.
+먼저 이 예제에서 직접 바꿔 볼 설정은 다음과 같습니다.
 
-| 점검 항목 | 왜 필요한가 |
-| --- | --- |
-| `target_in_top_k` | 생성 단계가 참고할 후보 안에 정답이 살아 있는지 확인 |
-| `rank_of_target` | 정답이 너무 아래에 있어 생성이 놓치지 않는지 확인 |
-| `top1_is_target` | 가장 먼저 붙는 문서가 맞는지 확인 |
-| `top1_version_ok` | 비슷한 이름의 구버전 문서가 앞서 오지 않는지 확인 |
+| 실험 | 조작할 값 | 읽어야 할 핵심 |
+| --- | --- | --- |
+| `clean_grounded` | 관련 검색어와 보수적 생성 | 정상 흐름 |
+| `noisy_retrieval` | 무관한 검색어가 섞인 검색 조건 | 검색 실패가 생성으로 전염 |
+| `clean_but_overclaim` | 검색은 정상, 생성 조건만 과장형 | 생성 실패 |
 
-문서 벡터와 질문 벡터는 본문 코드 안에 길게 넣지 않고, 별도 CSV 자산으로 분리합니다.
-
-- 문서 벡터: [`p6-11-index-documents.csv`](../../../assets/part-06/chapter-11/p6-11-index-documents.csv)
-- 질문 벡터: [`p6-11-index-queries.csv`](../../../assets/part-06/chapter-11/p6-11-index-queries.csv)
-
-입력 파일의 앞부분만 짧게 보면 다음과 같습니다.
-
-| doc_id | version | e1 | e2 | e3 |
-| --- | --- | ---: | ---: | ---: |
-| sdk_v2_request_timeout | v2 | 0.90 | 0.20 | 0.10 |
-| sdk_v1_timeout_guide | v1 | 0.92 | 0.19 | 0.09 |
-| sdk_general_networking | general | 0.88 | 0.38 | 0.14 |
-
-| question | target_doc | q1 | q2 | q3 |
-| --- | --- | ---: | ---: | ---: |
-| 2.x 버전에서 request timeout 옵션은 어디에 넣나요? | sdk_v2_request_timeout | 0.91 | 0.20 | 0.10 |
-| 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요? | sdk_v2_retry_and_backoff | 0.36 | 0.92 | 0.09 |
-
-코드에서 확인할 핵심은 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다는 점입니다.
+코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 문서 파일은 `doc_id`, `title`, `text`, `category`, `source_role`, `reader_hint` 열을 갖습니다. 여기서 `category`가 `retrieval`이면 질문과 관련 있는 근거 문서이고, `irrelevant`이면 검색 조건이 흔들릴 때 섞일 수 있는 무관 문서입니다. 실험 파일은 `name`, `retrieval_terms`, `generation_style`, `scenario_pattern`, `reader_hint` 열을 갖습니다. `retrieval_terms`는 세미콜론(`;`)으로 나눈 검색어 목록이고, `scenario_pattern`은 검색어가 관련 주제에 붙어 있는지, 무관 주제로 기울었는지, 생성 문장만 과장되는지 관찰하는 보조 단서입니다. CSV를 직접 열어 보면 같은 36행이라도 번호만 반복되는 표가 아니라, 검색어와 문서 역할이 서로 다르게 배치되어 있음을 확인할 수 있습니다.
 
 ```python
-# fast 인덱스와 strict 인덱스 설정을 비교해 candidate budget, version filter, hit rate, latency의 trade-off를 확인하는 예제입니다.
+# RAG 문서 검색 조건과 생성 스타일을 바꿔 검색 실패와 생성 과장이 서로 다른 실패로 드러나는지 확인하는 예제입니다.
 import csv
-import math
 from pathlib import Path
 
-document_path = Path("docs/assets/part-06/chapter-11/p6-11-index-documents.csv")
-query_path = Path("docs/assets/part-06/chapter-11/p6-11-index-queries.csv")
+question = "벡터 검색이 왜 필요한가요?"
 
-documents = []
-for row in csv.DictReader(document_path.open(encoding="utf-8")):
-    documents.append(
+document_path = Path("docs/assets/part-06/chapter-10/p6-10-rag-documents.csv")
+experiment_path = Path("docs/assets/part-06/chapter-10/p6-10-rag-experiments.csv")
+
+def read_documents(path):
+    with path.open(encoding="utf-8", newline="") as file:
+        return list(csv.DictReader(file))
+
+def read_experiments(path):
+    experiments = []
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            experiments.append(
+                {
+                    "name": row["name"],
+                    "retrieval_terms": row["retrieval_terms"].split(";"),
+                    "generation_style": row["generation_style"],
+                }
+            )
+    return experiments
+
+documents = read_documents(document_path)
+experiments = read_experiments(experiment_path)
+
+def retrieve_documents(terms, top_k=2):
+    scored = []
+    for doc in documents:
+        score = sum(term in doc["text"] for term in terms)
+        scored.append((score, doc))
+    scored.sort(key=lambda item: item[0], reverse=True)
+    return [doc for score, doc in scored if score > 0][:top_k]
+
+def generate_answer(retrieved_docs, generation_style):
+    first = retrieved_docs[0]["text"] if retrieved_docs else "참고 문서가 없다."
+    second = retrieved_docs[1]["text"] if len(retrieved_docs) > 1 else "추가 근거가 부족하다."
+
+    if generation_style == "overclaim":
+        return (
+            f"{first} "
+            "그래서 항상 최신 정보와 정답을 자동으로 보장한다."
+        )
+
+    return (
+        f"{first} "
+        f"그래서 {second}"
+    )
+
+def inspect_result(retrieved_docs, answer):
+    contains_irrelevant_doc = any(
+        doc["category"] == "irrelevant" for doc in retrieved_docs
+    )
+    answer_mentions_irrelevant_content = contains_irrelevant_doc and bool(answer)
+    answer_overclaims = "항상 최신 정보와 정답을 자동으로 보장" in answer
+
+    return {
+        "doc_titles": [doc["title"] for doc in retrieved_docs],
+        "contains_irrelevant_doc": contains_irrelevant_doc,
+        "answer_mentions_irrelevant_content": answer_mentions_irrelevant_content,
+        "answer_overclaims": answer_overclaims,
+        "retrieval_failed": contains_irrelevant_doc,
+        "generation_failed": (not contains_irrelevant_doc) and answer_overclaims,
+    }
+
+reports = []
+for experiment in experiments:
+    retrieved_docs = retrieve_documents(experiment["retrieval_terms"])
+    answer = generate_answer(retrieved_docs, experiment["generation_style"])
+    inspect = inspect_result(retrieved_docs, answer)
+    reports.append(
         {
-            "id": row["doc_id"],
-            "version": row["version"],
-            "embedding": [float(row["e1"]), float(row["e2"]), float(row["e3"])],
+            "experiment": experiment,
+            "answer": answer,
+            "inspect": inspect,
         }
     )
 
-queries = []
-for row in csv.DictReader(query_path.open(encoding="utf-8")):
-    queries.append(
-        {
-            "question": row["question"],
-            "target_doc": row["target_doc"],
-            "vector": [float(row["q1"]), float(row["q2"]), float(row["q3"])],
-        }
-    )
-
-settings = {
-    "fast": {"candidate_budget": 2, "version_filter": None, "top_k": 2},
-    "strict": {"candidate_budget": 4, "version_filter": "v2", "top_k": 2},
+summary = {
+    "retrieval_failure_count": sum(report["inspect"]["retrieval_failed"] for report in reports),
+    "generation_failure_count": sum(report["inspect"]["generation_failed"] for report in reports),
+    "irrelevant_leak_count": sum(report["inspect"]["answer_mentions_irrelevant_content"] for report in reports),
+    "overclaim_count": sum(report["inspect"]["answer_overclaims"] for report in reports),
+    "retrieval_failure_ratio": round(
+        sum(report["inspect"]["retrieval_failed"] for report in reports) / len(reports),
+        2,
+    ),
+    "generation_failure_ratio": round(
+        sum(report["inspect"]["generation_failed"] for report in reports) / len(reports),
+        2,
+    ),
 }
 
-def cosine_similarity(a, b):
-    dot = sum(x * y for x, y in zip(a, b))
-    norm_a = math.sqrt(sum(x * x for x in a))
-    norm_b = math.sqrt(sum(y * y for y in b))
-    return dot / (norm_a * norm_b)
+print("[summary]")
+print(summary)
+print()
 
-def search(query, setting):
-    pool = [
-        doc
-        for doc in documents
-        if setting["version_filter"] is None
-        or doc["version"] == setting["version_filter"]
-    ]
-    coarse = sorted(pool, key=lambda doc: abs(doc["embedding"][0] - query["vector"][0]))
-    candidates = coarse[:setting["candidate_budget"]]
-    ranked = sorted(
-        (
-            (cosine_similarity(query["vector"], doc["embedding"]), doc)
-            for doc in candidates
-        ),
-        key=lambda item: item[0],
-        reverse=True,
-    )
-    top_docs = [doc for score, doc in ranked[:setting["top_k"]]]
-    latency_ms = 18 + len(candidates) * 11 + (8 if setting["version_filter"] else 0)
-    return {
-        "latency_ms": latency_ms,
-        "candidate_count": len(candidates),
-        "top_k": [doc["id"] for doc in top_docs],
-    }
+selected_reports = [reports[0], reports[12], reports[24]]
 
-def inspect_search(result, target_doc):
-    top1 = result["top_k"][0] if result["top_k"] else None
-    return {
-        "latency_ms": result["latency_ms"],
-        "candidate_count": result["candidate_count"],
-        "top_k": result["top_k"],
-        "target_in_top_k": target_doc in result["top_k"],
-        "rank_of_target": (
-            result["top_k"].index(target_doc) + 1
-            if target_doc in result["top_k"]
-            else None
-        ),
-        "top1_is_target": top1 == target_doc,
-        "top1_version_ok": top1 is not None and top1.startswith("sdk_v2_"),
-    }
-
-def summarize_mode(mode_name):
-    reports = []
-    for query in queries:
-        result = search(query, settings[mode_name])
-        reports.append((query["question"], inspect_search(result, query["target_doc"])))
-    total = len(reports)
-    return {
-        "setting": mode_name,
-        "candidate_budget": settings[mode_name]["candidate_budget"],
-        "version_filter": settings[mode_name]["version_filter"],
-        "hit_rate": round(sum(r["target_in_top_k"] for _, r in reports) / total, 3),
-        "top1_hit_rate": round(sum(r["top1_is_target"] for _, r in reports) / total, 3),
-        "top1_version_ok_rate": round(sum(r["top1_version_ok"] for _, r in reports) / total, 3),
-        "avg_latency_ms": round(sum(r["latency_ms"] for _, r in reports) / total, 1),
-        "missed_targets": [
-            query["target_doc"]
-            for query, (_, report) in zip(queries, reports)
-            if not report["target_in_top_k"]
-        ],
-        "reports": reports,
-    }
-
-for mode_name in settings:
-    summary = summarize_mode(mode_name)
-    print(f"[{mode_name}]")
-    print({key: value for key, value in summary.items() if key != "reports"})
-    for question, report in summary["reports"]:
-        print("question =", question)
-        print(report)
-    print()
+for report in selected_reports:
+    print("=" * 80)
+    print("[experiment]")
+    print(report["experiment"])
+    print("[generated answer]")
+    print(report["answer"])
+    print("[inspect]")
+    print(report["inspect"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[fast]
-{'setting': 'fast', 'candidate_budget': 2, 'version_filter': None, 'hit_rate': 0.667, 'top1_hit_rate': 0.667, 'top1_version_ok_rate': 0.667, 'avg_latency_ms': 40.0, 'missed_targets': ['sdk_v2_retry_and_backoff']}
-question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 40, 'candidate_count': 2, 'top_k': ['sdk_v2_request_timeout', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 40, 'candidate_count': 2, 'top_k': ['sdk_v1_retry_notes', 'sdk_general_errors'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
-question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 40, 'candidate_count': 2, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_v1_auth_overview'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+[summary]
+{'retrieval_failure_count': 12, 'generation_failure_count': 12, 'irrelevant_leak_count': 12, 'overclaim_count': 12, 'retrieval_failure_ratio': 0.33, 'generation_failure_ratio': 0.33}
 
-[strict]
-{'setting': 'strict', 'candidate_budget': 4, 'version_filter': 'v2', 'hit_rate': 1.0, 'top1_hit_rate': 1.0, 'top1_version_ok_rate': 1.0, 'avg_latency_ms': 59.0, 'missed_targets': []}
-question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 59, 'candidate_count': 3, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 59, 'candidate_count': 3, 'top_k': ['sdk_v2_retry_and_backoff', 'sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 59, 'candidate_count': 3, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+================================================================================
+[experiment]
+{'name': 'clean_grounded_vector_search', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'grounded'}
+[generated answer]
+벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는 검색 방식이다. 키워드가 달라도 의미 기반 검색이 가능하다. 그래서 키워드 검색은 같은 단어가 있는지 먼저 보지만, 의미 검색은 질문과 문서의 의미가 가까운지 비교한다. 그래서 표현이 달라도 관련 문서를 찾을 수 있다.
+[inspect]
+{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
+================================================================================
+[experiment]
+{'name': 'noisy_retrieval_marketing_copy', 'retrieval_terms': ['마케팅', '문구', '홍보'], 'generation_style': 'grounded'}
+[generated answer]
+무관한 마케팅 문구를 더 다양하게 조합해 홍보 문안을 만드는 설명이다. 검색 품질 판단과 직접 관련이 없다. 그래서 마케팅 캠페인용 문구와 홍보 배너 문장을 다양하게 바꾸는 방법을 설명한다. 벡터 검색 근거가 아니다.
+[inspect]
+{'doc_titles': ['마케팅 문구 A/B 테스트', '홍보 배너 문장 후보'], 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
+================================================================================
+[experiment]
+{'name': 'clean_but_overclaim_vector_search', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'overclaim'}
+[generated answer]
+벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는 검색 방식이다. 키워드가 달라도 의미 기반 검색이 가능하다. 그래서 항상 최신 정보와 정답을 자동으로 보장한다.
+[inspect]
+{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `fast` 설정이 평균 지연 시간 대체값은 낮지만, `sdk_v2_retry_and_backoff`를 top-k 안에 남기지 못한다는 점입니다. 후보를 2개만 남기는 거친 압축이 일부 질문에서는 잘 맞지만, 첫 번째 좌표가 비슷한 구버전 문서와 일반 오류 문서가 앞서면서 정작 필요한 2.x 문서가 빠집니다. 반대로 `strict` 설정은 `version_filter`를 켜고 후보 예산을 넓혀 세 질문 모두에서 목표 문서를 top-k 안에 남깁니다.
+이 결과에서 먼저 봐야 할 것은 `retrieval_failure_count`와 `generation_failure_count`가 각각 따로 잡힌다는 점입니다. 즉, `noisy_retrieval`은 검색 조건에 섞인 잡음 때문에 무관 문서가 선택되고 생성까지 오염된 경우이고, `clean_but_overclaim`은 검색은 맞았지만 생성 조건이 문서 밖으로 과장된 경우입니다. 이 구분이 있어야 RAG 시스템을 손볼 때 `검색을 고칠지`, `생성 지시와 평가를 고칠지`를 분리해서 판단할 수 있습니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`, `top-1이 맞는가`, `버전 필터가 필요한가`를 같이 읽어야 한다.
-- 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `hit_rate`, `top1_hit_rate`, `version_ok_rate` 차이가 더 분명하게 드러난다.
+- 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남는다.
+- 검색 실패와 생성 실패는 같은 오답처럼 보여도 원인이 다르므로, 점검 항목도 따로 가져가야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `settings["fast"]["candidate_budget"]`을 1, 2, 4로 바꿔 후보 수와 누락 문서가 어떻게 달라지는지 보기
-- `settings["fast"]["version_filter"]`를 `"v2"`로 바꿔 구버전 문서가 앞서는 문제가 줄어드는지 확인하기
-- `inspect_search`에 `recall_like_score`나 `top2_version_mix` 같은 항목을 추가해 자체 품질 지표를 넓혀 보기
+- `experiments[1]["retrieval_terms"]`에서 무관 검색어를 줄여 검색 실패가 사라지는지 보기
+- `documents`에 문서를 한 개 더 넣어 문서 수 증가가 답변에 어떤 영향을 주는지 보기
+- `generate_answer`를 바꿔 문서 제목을 출처처럼 같이 남기도록 해 보기
+- `answer_overclaims` 규칙을 더 늘려 `항상`, `완벽히`, `자동으로 해결` 같은 과장 표현을 더 잡아 보기
 
-속도와 품질 충돌을 운영 판단으로 다시 읽으면, 단일 지표만 보고 원인을 단정하면 안 된다는 점이 더 분명해집니다.
+## 이 예제를 RAG 파이프라인 관점으로 다시 보면
 
-| 먼저 보인 신호 | 바로 검색 인덱스 층에서 확인할 것 | 왜 이것부터 봐야 하는가 |
-| --- | --- | --- |
-| 응답은 빨라졌는데 답변이 자주 빗나감 | `target_in_top_k`, `top1_hit_rate` | 생성 모델보다 먼저 검색 후보 자체가 흔들렸는지 확인해야 합니다. |
-| top-k 안에는 정답이 들어오는데 최종 답이 틀림 | `rank_of_target`, chunk 구성, 생성 단계 사용 방식 | 검색은 통과했지만 생성이 핵심 후보를 제대로 쓰지 못했을 수 있습니다. |
-| 비슷한 이름의 구버전 문서가 자주 섞임 | `top1_version_ok`, 메타데이터 필터, 버전 태그 | 속도 문제가 아니라 후보 정합성과 필터 설계 문제일 수 있습니다. |
-| 특정 질문군에서만 검색이 약함 | 질문 유형별 hit rate, chunk 크기, 임베딩 표현 | 인덱스 전체보다 데이터 준비나 표현 문제가 더 큰 원인일 수 있습니다. |
+앞의 예제는 검색과 생성을 모두 구현하는 코드가 아니라, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`가 실제로 분리되어 있다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 답변 문장이 아니라, 답변 직전까지 근거 문서가 독립된 입력 구성 요소로 남아 있다는 구조를 읽는 데 있습니다. 즉, 검색 결과가 마음에 들지 않으면 생성 프롬프트를 고치기 전에 `어떤 문서가 붙었는가`부터 다시 봐야 한다는 뜻이기도 합니다. 무관 문서가 섞였을 때 답변까지 바로 흔들린다는 점은 이 분리를 더 분명하게 보여 줍니다.
 
-## 이 예제를 검색 타협 관점으로 다시 보면
+차트로 보면 `검색 실패`와 `생성 실패`가 같은 오답 묶음으로 사라지지 않고 각각 하나씩 따로 잡힙니다. 무관 문서 누출은 검색 실패 쪽에, 과장 표현은 생성 실패 쪽에 붙으므로, RAG 점검에서는 답이 틀렸다는 결론보다 먼저 어느 단계의 기록을 다시 볼지 갈라야 합니다.
 
-앞의 예제는 실제 ANN을 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 검색 실험으로 보여 주는 장면입니다. 예를 들어 지연 시간 대체값만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
-
-차트로 보면 빠른 설정은 평균 지연 시간이 낮지만 일부 질문에서 top-k 포함과 버전 정합을 놓칩니다. 엄격한 설정은 더 느리지만 세 품질 지표가 모두 통과하므로, 인덱스 평가는 `latency` 하나가 아니라 `top-k 포함`, `top-1 정합`, `버전 정합`을 함께 놓고 읽어야 합니다.
-
-![빠른 검색 설정과 엄격한 검색 설정의 품질·지연 시간 비교](../../../assets/part-06/chapter-11/index-quality-latency-ko.png)
+![RAG 예제에서 검색 실패와 생성 실패가 따로 감지되는 수](../../../assets/part-06/chapter-10/rag-failure-split-ko.png)
 
 ## 여기까지를 한 줄로 묶으면
 
-벡터 검색 인덱스는 검색을 빠르게 만들기 위한 구조이지만, 실제 운영에서는 지연 시간만이 아니라 `정답 후보가 top-k 안에 살아 있는가`를 함께 보지 않으면 좋은 설정을 고를 수 없습니다.
+RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한다`는 두 단계 구조이며, 검색 실패와 생성 실패를 따로 봐야만 어디를 고쳐야 하는지 판단할 수 있습니다.
 
-벡터 검색이 널리 쓰이면서, 검색 문제는 다시 `자료구조와 알고리즘`의 감각으로 돌아왔습니다. 하지만 LLM 서비스 문맥에서는 이것이 단순한 검색 엔진 문제가 아니라, 생성 품질과 사용자 경험에 직접 연결된다는 점이 더 중요합니다.
+더 중요하게 붙잡아야 할 점은 `문서를 찾는 단계`와 `그 문서를 바탕으로 답을 만드는 단계`가 같은 문제가 아니라는 것입니다. 그래서 RAG는 검색을 더 붙였다는 설명보다, 검색 실패와 생성 실패를 따로 구분해 어디를 고쳐야 할지 판단하게 만드는 결합 구조로 읽는 편이 좋습니다.
 
-이 관점이 중요한 이유는 다음과 같습니다.
+이 구분이 중요한 이유는 다음과 같습니다.
 
-- 벡터 데이터베이스를 단순 저장소가 아니라 탐색 구조와 함께 읽게 하고
-- 이후 평가 장에서 검색 지표를 왜 별도로 봐야 하는지 준비시키며
-- 서비스 구조에서 속도, 비용, 품질이 함께 얽힌다는 관점을 강화하기 때문입니다
+- 검색과 생성을 하나로 뭉뚱그리지 않게 하고
+- 다음 장의 벡터 데이터베이스와 인덱스가 왜 필요한지 준비시키며
+- 이후 평가 장에서 `검색 품질`과 `답변 품질`을 따로 점검해야 한다는 관점을 만들기 때문입니다
 
 ## 체크리스트
-- 인덱스를 `탐색 속도를 높이는 구조`로만이 아니라 `속도와 품질을 함께 좌우하는 탐색 구조`로 설명할 수 있어야 합니다.
-- `top-k 안에 정답이 포함되는가`와 `1등 결과가 바로 정답인가`를 서로 다른 품질 지표로 구분할 수 있어야 합니다.
-- 다음 장은 검색 저장 구조 설명의 연장이 아니라, 이렇게 줄인 후보를 바탕으로 실제 도구 호출과 외부 실행으로 넘어가는 단계라는 점을 잡고 있어야 합니다.
+- 검색 결과가 답변 뒤가 아니라 생성 전 입력 구성 요소라는 점을 설명할 수 있는가?
+- 검색 실패와 생성 실패를 서로 다른 문제로 분리해 말할 수 있는가?
+- 다음 장을 `어떻게 더 빨리, 더 관련성 있게 문서를 찾을까`의 문제로 읽을 준비가 되었는가?
 
 ## 출처와 참고 자료
 
-- Yu A. Malkov, D. A. Yashunin, [Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-19.
-- Jeff Johnson, Matthijs Douze, Herve Jegou, [Billion-scale similarity search with GPUs](https://arxiv.org/abs/1702.08734){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-07-19.
-- OpenAI, [Vector embeddings](https://developers.openai.com/api/docs/guides/embeddings){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

@@ -1,0 +1,12 @@
+flowchart TD
+  A["Input tokens"]
+  B["Position information<br/>where is each token?"]
+  C["Multi-head attention<br/>which relations matter?"]
+  D["Contextual representation<br/>order and relations together"]
+  E["Next-token scores"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D
+  D --> E

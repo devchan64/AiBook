@@ -1,0 +1,10 @@
+flowchart LR
+  A["current context"]
+  B["next-candidate scores"]
+  C["selection"]
+  D["append selected piece to context"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> A

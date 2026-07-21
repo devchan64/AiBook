@@ -4,13 +4,33 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Current language pairs:
+  - `p6-c04-s01-transformer-flow-en.mmd` / `p6-c04-s01-transformer-flow-ko.mmd`
+  - `p6-c04-s01-use-cases-en.mmd` / `p6-c04-s01-use-cases-ko.mmd`
+  - `p6-c04-s01-scoring-flow-en.mmd` / `p6-c04-s01-scoring-flow-ko.mmd`
+  - `p6-c04-s02-window-flow-en.mmd` / `p6-c04-s02-window-flow-ko.mmd`
+  - `p6-c04-s02-use-cases-en.mmd` / `p6-c04-s02-use-cases-ko.mmd`
+  - `p6-c04-s02-selection-flow-en.mmd` / `p6-c04-s02-selection-flow-ko.mmd`
+  - `p6-c04-s03-attention-position-flow-en.mmd` / `p6-c04-s03-attention-position-flow-ko.mmd`
+  - `p6-c04-s04-kv-cache-flow-en.mmd` / `p6-c04-s04-kv-cache-flow-ko.mmd`
+  - `p6-c04-s05-long-context-flow-en.mmd` / `p6-c04-s05-long-context-flow-ko.mmd`
   - `p6-c04-s01-diagram-01-en.mmd` / `p6-c04-s01-diagram-01-ko.mmd`
   - `p6-c04-s01-diagram-02-en.mmd` / `p6-c04-s01-diagram-02-ko.mmd`
   - `p6-c04-s02-diagram-01-en.mmd` / `p6-c04-s02-diagram-01-ko.mmd`
   - `p6-c04-s02-diagram-02-en.mmd` / `p6-c04-s02-diagram-02-ko.mmd`
 - PNG chart assets:
+  - `context-candidate-distribution-en.png` / `context-candidate-distribution-ko.png`
+  - `context-selection-budget-en.png` / `context-selection-budget-ko.png`
+  - `attention-position-role-split-en.png` / `attention-position-role-split-ko.png`
+  - `kv-cache-step-projection-en.png` / `kv-cache-step-projection-ko.png`
+  - `kv-cache-projection-count-en.png` / `kv-cache-projection-count-ko.png`
+  - `long-context-failure-axis-en.png` / `long-context-failure-axis-ko.png`
   - `autoregressive-path-split-en.png` / `autoregressive-path-split-ko.png`
   - `conversation-experience-criteria-en.png` / `conversation-experience-criteria-ko.png`
 - Python chart source:
+  - `p6_4_1_context_candidate_distribution_chart.py`
+  - `p6_4_2_context_selection_chart.py`
+  - `p6_4_3_attention_position_role_chart.py`
+  - `p6_4_4_kv_cache_projection_chart.py`
+  - `p6_4_5_long_context_failure_axis_chart.py`
   - `p6_4_1_autoregressive_path_chart.py`
   - `p6_4_2_conversation_experience_chart.py`

@@ -1,0 +1,14 @@
+flowchart TD
+  A["Same token budget"]
+  B["Original-order selection"]
+  C["Priority-based selection"]
+  D["Older or repeated context remains"]
+  E["Current question and error log remain"]
+  F["Attention can only use<br/>what stayed in the window"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> E
+  D --> F
+  E --> F

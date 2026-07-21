@@ -1,0 +1,14 @@
+flowchart TD
+  A["긴 입력 문제"]
+  B["계산 부담<br/>토큰 비교가 너무 많음"]
+  C["단서 유지<br/>앞쪽 핵심 단서가 약해짐"]
+  D["sparse attention<br/>연결 밀도 줄이기"]
+  E["long-context 설계<br/>필요한 단서 끝까지 유지"]
+  F["실제 긴 문서 처리"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> E
+  D --> F
+  E --> F

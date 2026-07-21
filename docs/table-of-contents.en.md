@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.20`
+> Version: `v2026.07.21`
 
 This document is the reader-facing table of contents for AiBook. Rather than listing files only, it gives a quick view of the relearning sequence from `Introduction to AI and the Landscape -> Foundational Recovery -> Data Modeling -> Machine Learning -> Deep Learning -> LLMs and Generative AI -> Projects`.
 
@@ -643,132 +643,135 @@ This Part explains how neural networks represent and learn from data. It follows
 
 ## Part 6. LLMs and Generative AI
 
-This Part explains the flow after the Transformer and connects LLMs to real services. It establishes the main reading line first, then treats LLM development history and the BERT family as background comparison Modules later.
+Part 6 starts from generative-AI outputs, reads LLMs as the representative case, and connects tokens, embeddings, next-candidate generation, learning and adjustment, prompts and grounding, tools and agent execution, evaluation, and operations. The development history and the BERT family are placed after the main current as a background map and comparison axis.
 
-### Module 1. Input Units and Representation
+### Module 1. Entering Generative AI Through LLMs
 
-#### Chapter 1. Tokenization `LLM Core`
+#### Chapter 1. The Position of Generative AI and LLMs `LLM Core`
 
-- **P6-1.1 Why Tokens Are Needed**: reviews why length limits, cost, truncation, and input splitting need to be read in a unit different from characters or sentences
-- **P6-1.2 What a Token Is**: fixes the basic computational unit that a model uses to count inputs and outputs
-- **P6-1.3 How Tokens Are Used**: reviews how to read length, cost, context windows, and document splitting in token terms
-- **P6-1.4 What Tokenization Is**: reviews how a string is turned into a token sequence for model computation
-- **P6-1.5 What Tokenization Changes**: reviews how the same sentence can shift token count and boundaries, changing cost, chunking, and output length
-- **P6-1.6 What the Major Tokenizer Families Are**: introduces what BPE, WordPiece, and SentencePiece are names of
-- **P6-1.7 When Differences Between Tokenization Families Show Up**: reviews when those family differences first appear in cost, chunk boundaries, and mixed-script length intuition
-- **P6-1.8 Where the Token View Is Used**: reviews how token thinking is used in prompt length, RAG chunk design, cost budgeting, long-document input, and output-format design
+- **P6-1.1 What Does Generative AI Generate**: fixes that generated results are artifacts to review, not classification labels or numeric predictions.
+- **P6-1.2 Why Read LLMs as the Central Example**: reviews why LLMs are used as the representative path rather than as all of generative AI.
+- **P6-1.3 Generation Is Repeated Candidate Distributions and Selection**: recovers the candidate-distribution and sampling intuition from Part 5 in the LLM generation flow.
 
-#### Chapter 2. Embeddings `LLM Core`
+### Module 2. Input Units and Representation for Text Generation
 
-- **P6-2.1 Intuition for Embeddings**: reviews why tokens and sentences are represented as vectors
-- **P6-2.2 Meaning and Distance**: reviews the intuition that similar expressions become close, together with its limits
-- **P6-2.3 Supplementary Learning: Reading Embedding Learning in One Large Picture**: first fixes what should be learned to stay close and what should be pushed apart
-- **P6-2.4 Supplementary Learning: Reading ANN Search in One Large Picture**: reviews why close candidates must often be narrowed faster, even approximately
+#### Chapter 2. Tokens and Tokenization `LLM Core`
 
-### Module 2. Core Structure of LLMs
+- **P6-2.1 Why Read Text Generation in Token Units**: reviews why generated artifacts are made and limited in small units.
+- **P6-2.2 How Tokens and Token IDs Are Used as Model Input**: separates strings, tokens, and token-ID sequences in one flow.
+- **P6-2.3 What Tokenization Changes**: reviews how tokenization changes length, cost, chunks, and output interpretation.
+- **P6-2.4 Where the Token View Is Used**: applies the token view to prompt length, RAG chunks, cost budgets, and output-format design.
+- **P6-2.5 Supplementary Learning: When Tokenizer-Family Differences Show Up**: reads BPE, WordPiece, and SentencePiece differences as operational observations.
 
-#### Chapter 3. Reviewing Transformer Structure `Deep-Learning Structures`
+#### Chapter 3. Embeddings `LLM Core`
 
-- **P6-3.1 Reading the Transformer Again from the LLM Perspective**: rereads the Transformer from Part 5 as a generative language-model structure
-- **P6-3.2 Attention and the Context Window**: reviews the structural conditions for handling context
-- **P6-3.3 Supplementary Learning: What Positional Representation and Multi-Head Attention Add to Context Reading**: separates what each one adds to relation reading and to sequence information
-- **P6-3.4 Supplementary Learning: What KV Cache Stops Recomputing During Repeated Generation**: separates why long chats and long generation try to avoid recalculating earlier prefixes
-- **P6-3.5 Supplementary Learning: What Differs Between Sparse Attention and Long Context in Long-Context Handling**: separates connection-density control from the broader problem of long-context retention
+- **P6-3.1 Intuition for Embeddings**: reviews why token IDs become vector representations that can be computed with.
+- **P6-3.2 Meaning and Distance**: reviews the intuition and limits of similar expressions becoming close.
+- **P6-3.3 Supplementary Learning: Reading Embedding Learning in One Large Picture**: asks what should be learned to stay close and what should be pushed apart.
+- **P6-3.4 Supplementary Learning: Reading ANN Search in One Large Picture**: reviews the search structure that quickly narrows nearby candidates.
 
-#### Chapter 4. The GPT Family `LLM Core`
+### Module 3. LLM Structures That Create the Next Candidate
 
-- **P6-4.1 The Place of the GPT Family**: reviews the flow of decoder-based generative models
-- **P6-4.2 The Shift Toward Conversational LLMs**: reviews what changed in the user experience of models
+#### Chapter 4. Reviewing Transformer Structure `Deep-Learning Structures`
 
-#### Chapter 5. Next-Token Prediction and Generation `LLM Core`
+- **P6-4.1 Reading the Transformer Again from the LLM Perspective**: rereads the Transformer as context reflection, representation update, and next-candidate scoring.
+- **P6-4.2 Attention and the Context Window**: reviews that the model calculates relations inside a limited range.
+- **P6-4.3 Supplementary Learning: What Positional Representation and Multi-Head Attention Add to Context Reading**: separates order information from multiple relation axes.
+- **P6-4.4 Supplementary Learning: What KV Cache Stops Recomputing During Repeated Generation**: reviews the recomputation cost of repeated generation.
+- **P6-4.5 Supplementary Learning: What Sparse Attention and Long Context Differ on in Long-Context Handling**: separates connection-count control from long-context retention.
 
-- **P6-5.1 Next-Token Prediction**: reviews the core training objective of generative language models
-- **P6-5.2 Intuition for the Generation Process**: reviews the flow of sequential generation rather than one-shot answer extraction
+#### Chapter 5. The GPT Family `LLM Core`
 
-### Module 3. Learning and Adaptation
+- **P6-5.1 The Place of the GPT Family**: reviews the position of decoder-centered autoregressive generation.
+- **P6-5.2 The Shift Toward Conversational LLMs**: reviews how instruction following and product interfaces changed user experience.
 
-#### Chapter 6. Pretraining `Learning Principles`
+#### Chapter 6. Next-Token Prediction and Generation `LLM Core`
 
-- **P6-6.1 Pretraining**: reviews how general patterns are learned from large-scale data
-- **P6-6.2 Data and Scale**: reviews cautiously how scale affects model performance
+- **P6-6.1 Next-Token Prediction**: reviews why the local objective of a next-token distribution can lead to long generation.
+- **P6-6.2 Intuition for the Generation Process**: reviews how greedy choice, sampling, and temperature change stability and diversity.
 
-#### Chapter 7. Fine-Tuning `Learning Principles`
+### Module 4. Learning and Adjustment That Shape Response Habits
 
-- **P6-7.1 Fine-Tuning**: reviews how a model is adjusted for a more specific purpose
-- **P6-7.2 LoRA and Efficient Adaptation**: introduces adaptation methods that do not change the entire model
+#### Chapter 7. Pretraining `Learning Principles`
 
-#### Chapter 8. Instruction Tuning and Alignment `LLM Core`
+- **P6-7.1 Pretraining**: reviews how large-scale text builds a general language base.
+- **P6-7.2 Data and Scale**: reviews scale as an axis that increases capability and operational burden together.
 
-- **P6-8.1 Instruction Tuning**: reviews the flow of training models to follow user instructions
-- **P6-8.2 The Basic Problem of Alignment**: reviews the problem of matching usefulness and safety together
-- **P6-8.3 When to Choose Prompts, Fine-Tuning, RAG, or Tool Use**: gathers the selection criteria for adaptation methods in one place
-- **P6-8.4 Supplementary Learning: What Constraints Separate Adapters, LoRA, and QLoRA**: revisits efficient adaptation names after choosing the fine-tuning path, this time through cost, structure, and memory constraints
+#### Chapter 8. Fine-Tuning `Learning Principles`
 
-### Module 4. Prompts and Grounding
+- **P6-8.1 Fine-Tuning**: reviews how a base model is adjusted toward a specific goal or domain.
+- **P6-8.2 LoRA and Efficient Adaptation**: reviews how narrowing the adjustment range changes cost and iteration speed.
 
-#### Chapter 9. Prompt Engineering `LLM Core`
+#### Chapter 9. Instruction Tuning and Alignment `LLM Core`
 
-- **P6-9.1 Prompt Engineering**: reviews how inputs are designed to observe and adjust model behavior
-- **P6-9.2 Limits of Prompts**: reviews what prompts cannot guarantee
-- **P6-9.3 Supplementary Learning: What Chain-of-Thought, Self-Consistency, and Automatic Prompt Optimization Add Inside the Prompt Layer**: separates what these prompt strategies change in reasoning paths, candidate comparison, and iterative improvement, and what they still do not guarantee
+- **P6-9.1 Instruction Tuning**: reviews the response habit of following user instructions.
+- **P6-9.2 The Basic Problem of Alignment**: reviews usefulness, safety, factuality, and refusal criteria together.
+- **P6-9.3 When to Choose Prompts, Fine-Tuning, RAG, or Tool Use**: chooses support methods by failure cause.
+- **P6-9.4 Supplementary Learning: What Constraints Separate Adapters, LoRA, and QLoRA**: separates efficient-adaptation names by cost, structure, and memory constraints.
 
-#### Chapter 10. RAG `Service Structure`
+### Module 5. Prompts and Grounding
 
-- **P6-10.1 Why RAG Is Needed**: reviews why outside evidence must be connected rather than relying only on model memory
-- **P6-10.2 Combining Retrieval Results and Generation**: reviews the flow of injecting retrieved documents into the model input
+#### Chapter 10. Prompt Engineering `LLM Core`
 
-#### Chapter 11. Vector Databases `Service Structure`
+- **P6-10.1 Prompt Engineering**: reviews how instructions, context, examples, and output formats guide generation.
+- **P6-10.2 Limits of Prompts**: reviews why recency, grounding, computation, execution, and reproducibility cannot be solved by prompts alone.
+- **P6-10.3 Supplementary Learning: What Chain-of-Thought, Self-Consistency, and Automatic Prompt Optimization Add Inside the Prompt Layer**: separates prompt-layer strategies from their limits.
 
-- **P6-11.1 Vector Databases**: reviews systems that store and retrieve embeddings
-- **P6-11.2 Indexes and Retrieval Quality**: reviews the balance between fast retrieval and accurate retrieval
+#### Chapter 11. RAG `Service Structure`
 
-### Module 5. Execution Structure
+- **P6-11.1 Why RAG Is Needed**: reviews the structure that attaches external evidence as input context rather than internal model memory.
+- **P6-11.2 Combining Retrieval Results and Generation**: separates retrieval failure from generation failure.
 
-#### Chapter 12. Tool Use `Service Structure`
+#### Chapter 12. Vector Databases `Service Structure`
 
-- **P6-12.1 Tool Use**: reviews how an LLM calls outside functions
-- **P6-12.2 Function Calling**: reviews the structured input and output of tool use
+- **P6-12.1 Vector Databases**: reviews structures that store and search embeddings with payloads and metadata.
+- **P6-12.2 Indexes and Retrieval Quality**: reviews the trade-off between retrieval quality and latency.
 
-#### Chapter 13. Agents `Service Structure`
+### Module 6. Tool and Agent Execution Structure
 
-- **P6-13.1 Agents**: reviews structures that carry a goal through multiple task steps
-- **P6-13.2 Planning, Acting, and Observing**: reviews the basic flow of an agent loop
+#### Chapter 13. Tool Use `Service Structure`
 
-#### Chapter 14. MCP and Harnesses `Service Structure`
+- **P6-13.1 Tool Use**: reviews cases that require lookup, calculation, file processing, or state checks.
+- **P6-13.2 Function Calling**: reviews how natural-language requests are structured as function names and arguments.
 
-- **P6-14.1 MCP and Tool Connection**: reviews the flow of standardizing connections to outside tools and data
-- **P6-14.2 Harnesses**: reviews environments that wrap execution, logging, evaluation, and reproducibility
+#### Chapter 14. Agents `Service Structure`
 
-### Module 6. Evaluation, Operations, and Integrated Practice
+- **P6-14.1 Agents**: reviews a structure that connects a goal to planning, tool calls, observations, and state judgment.
+- **P6-14.2 Planning, Action, and Observation**: reviews continuation, termination, and human-review branches in the agent loop.
 
-#### Chapter 15. LLM Evaluation `LLM Core`
+#### Chapter 15. MCP and Harnesses `Service Structure`
 
-- **P6-15.1 LLM Evaluation**: reviews how answer quality can be checked
-- **P6-15.2 Automatic Evaluation and Human Evaluation**: reviews the strengths and tradeoffs of different evaluation modes
+- **P6-15.1 MCP and Tool Connections**: reviews the interface layer that connects tools and resources in a common form.
+- **P6-15.2 Harnesses**: reviews the environment around execution, logs, evaluation, approval, and reproducibility.
 
-#### Chapter 16. Real-World Constraints on AI Services `Service Structure`
+### Module 7. Reviewable Service State
 
-- **P6-16.1 Real-World Constraints on AI Services**: reviews cost, latency, and usage limits from an operational viewpoint
-- **P6-16.2 Responding to Failure During Operation**: reviews standards for outages, quality degradation, and security issues
+#### Chapter 16. LLM Evaluation `LLM Core`
 
-#### Chapter 17. Binding a Small Generative-AI Feature into One Flow `Project Practice`
+- **P6-16.1 LLM Evaluation**: separates natural answers from quality criteria.
+- **P6-16.2 Automatic Evaluation and Human Evaluation**: reviews the division between repeated checks and contextual judgment.
 
-- **P6-17.1 Binding a Small Generative-AI Feature into One Flow**: checks how input, retrieval, generation, and tool calls connect inside one feature
-- **P6-17.2 Minimum Implementation and Retrospective Points**: organizes what should be implemented directly and what should be reviewed afterward
+#### Chapter 17. Service Operation Constraints `Service Structure`
 
-### Module 7. Background Map: The Development of LLMs
+- **P6-17.1 Service Operation Constraints**: reviews cost, latency, throughput, and usage limits.
+- **P6-17.2 Failure Response During Operation**: separates hallucination, timeout, permission errors, and format mismatch into recovery paths.
 
-#### Chapter 18. History of LLM Development `History and Paradigm`
+#### Chapter 18. Binding a Small Generative-AI Feature Into One Flow `Project Practice`
 
-- **P6-18.1 The Large Flow of LLM Development**: connects statistical language models to pretrained LLMs
-- **P6-18.2 Direct Lineage and Surrounding Evidence**: separates the direct development line of LLMs from surrounding cases in the spread of deep learning
+- **P6-18.1 Binding a Small Generative-AI Feature Into One Flow**: binds question, evidence, answer, state judgment, and record in one flow.
+- **P6-18.2 Minimal Implementation and Reflection Points**: closes why records and reflection are needed before Part 7.
 
-### Module 8. Background Comparison: The BERT Family
+### Module 8. Background Map and Comparison
 
-#### Chapter 19. The BERT Family `LLM Core`
+#### Chapter 19. History of LLM Development `History and Paradigm`
 
-- **P6-19.1 The Place of the BERT Family**: reviews the role of encoder-based pretrained models
-- **P6-19.2 Understanding-Centered Tasks**: reviews the flow toward classification, retrieval, and embeddings
+- **P6-19.1 The Large Flow of LLM Development History**: reviews the shift from statistical language models to GPT-style interfaces.
+- **P6-19.2 Direct Lineage and Surrounding Evidence**: separates direct LLM lineage from surrounding evidence for deep-learning expansion.
+
+#### Chapter 20. The BERT Family `LLM Core`
+
+- **P6-20.1 The Place of the BERT Family**: compares the GPT generation family with the BERT understanding family.
+- **P6-20.2 Understanding-Centered Tasks**: reviews classification, sentence-pair judgment, search and ranking, and embedding reuse.
 
 ## Part 7. Projects
 

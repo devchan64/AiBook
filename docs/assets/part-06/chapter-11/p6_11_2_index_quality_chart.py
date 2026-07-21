@@ -17,18 +17,18 @@ OUT_DIR = Path(__file__).resolve().parent
 
 SUMMARY = {
     "fast": {
-        "hit_count": 2,
-        "top1_hit_count": 2,
-        "version_ok_count": 2,
-        "avg_latency_ms": 40.0,
+        "hit_count": 30,
+        "top1_hit_count": 30,
+        "version_ok_count": 30,
+        "avg_latency_ms": 29.0,
     },
     "strict": {
-        "hit_count": 3,
-        "top1_hit_count": 3,
-        "version_ok_count": 3,
-        "avg_latency_ms": 59.0,
+        "hit_count": 36,
+        "top1_hit_count": 36,
+        "version_ok_count": 36,
+        "avg_latency_ms": 70.0,
     },
-    "query_count": 3,
+    "query_count": 36,
 }
 
 LANG_TEXT = {
