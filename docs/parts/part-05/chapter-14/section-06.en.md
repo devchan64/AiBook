@@ -44,7 +44,7 @@ If we read the feed-forward network as simple numeric post-processing, half of t
 | differences such as condition, negation, and exception can remain weak under only simple linear combination | make differences in cue combinations stand out better through nonlinear transformation |
 | each position received a different mixed context | apply the same FFN while producing different output representations for each position |
 
-Here, the word `nonlinear` does not mean memorizing formulas immediately. At the introductory level, it is enough to read it as `a process that changes a merely added or averaged representation into a more separated representation that the next block can use`.
+Here, the word `nonlinear` does not mean memorizing formulas immediately. At the introductory level, it is enough to read it as `a process that changes a merely added or averaged representation into a more separated representation that the next block can use`. In the example below, `relu` should be read only with this feel. When axes below 0 are folded to 0 after a linear computation, the output direction can bend differently from simple addition.
 
 ## Cases And Examples
 
@@ -78,6 +78,8 @@ This example is not an implementation of an actual Transformer. It is a small ex
 # This example checks how each position's hidden and output are processed differently even when the same feed-forward network is shared across position-wise representations.
 import numpy as np
 
+output_axes = ["action_axis", "block_axis"]
+
 positions = np.array([
     [0.2, 0.1, 0.9, 0.1],  # pressure_state: condition signal high
     [0.8, 0.2, 0.2, 0.1],  # restart: action signal high
@@ -110,6 +112,7 @@ def ffn(x):
 hidden, output = ffn(positions)
 
 print("[same FFN, different positions]")
+print("output axes =", output_axes)
 for name, before, h, after in zip(position_names, positions, hidden, output):
     print(f"{name:15s} input={np.round(before, 2)} hidden={np.round(h, 2)} output={np.round(after, 2)}")
 
@@ -126,6 +129,7 @@ Read the example output as follows.
 
 ```text
 [same FFN, different positions]
+output axes = ['action_axis', 'block_axis']
 pressure_state  input=[0.2 0.1 0.9 0.1] hidden=[0.71 0.14 0.65] output=[0.86 0.8 ]
 restart         input=[0.8 0.2 0.2 0.1] hidden=[0.78 0.07 0.72] output=[0.97 0.8 ]
 hold            input=[0.3 0.9 0.2 0.7] hidden=[0.25 1.43 0.5 ] output=[-0.    1.88]
@@ -135,7 +139,7 @@ restart before/after = [0.97 0.8 ] -> [0.74 1.76]
 other positions unchanged = True
 ```
 
-The first output shows that even when the same FFN is applied, hidden and output differ if the input representation differs by position. The second output shows that changing only the input at the `restart` position changes only that position's output, while the outputs of other positions remain the same.
+The first output shows that even when the same FFN is applied, hidden and output differ if the input representation differs by position. Here, the first `output` value is read as `action_axis`, and the second as `block_axis`. For example, the `hold` position leaves a larger `block_axis`, and when hold-related cues are mixed more into the `restart` position, the second output shows `block_axis` growing from `0.8` to `1.76`. The second output also shows that changing only the input at the `restart` position changes only that position's output, while the outputs of other positions remain the same.
 
 Explanation: The result to read in this example is that the feed-forward network is not a device for choosing a new token. Referring to other positions already happened at the attention stage, and the FFN passes each position's incoming representation through the same processing criterion. That is why outputs can differ by position even when the same FFN is shared.
 
@@ -149,7 +153,11 @@ Assume that context has been mixed after attention in the scenes below. Write in
 | `approval` | `verification incomplete`, `no exception` | hold state before final approval | the incomplete condition should be reflected inside the current representation, not only the word approval |
 | `deployment` | `rollback not confirmed`, `symptom continues` | risky work before recovery is confirmed | deployment should be processed as work that still leaves risk, not simple progress |
 
-Explanation: A good answer is not a fancy term, but a clear statement of `which direction the current position representation should change`. This feeling is needed when reading the representation-movement example integrated into P5-14.2, so that `feed-forward output` is not read as a mere intermediate number, but as a position-wise meaning-processing result.
+Explanation: A good answer is not a fancy term, but a clear statement of `which direction the current position representation should change`. First, write the basic meaning that comes to mind when the current-position word is seen by itself. Then add which cues entered together after attention. Finally, write which direction the current position representation should become clearer because those cues entered.
+
+For example, if we see only `restart`, the basic meaning is `an execution action that turns the line on again`. But after attention, the cues `pressure unreleased` and `hold` have entered together. Then the representation direction after feed-forward is not a simple execution action, but `an action blocked by a safety condition`. So an answer can be written as: `restart looks like an execution action, but because pressure is still unreleased and a hold cue is present, the current position representation should be processed toward a conditionally blocked action`.
+
+Writing it this way prevents `feed-forward output` in the representation-movement example integrated into P5-14.2 from being read as a mere intermediate number. The output numbers are not unlabeled calculation leftovers; they should be read as traces showing which meaning direction the current position representation has been organized toward.
 
 ## Checklist
 

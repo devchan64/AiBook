@@ -44,7 +44,7 @@ feed-forward network를 단순한 숫자 후처리로 읽으면 Transformer 블�
 | 단순 선형 결합만으로는 조건, 부정, 예외 같은 차이가 약하게 남을 수 있다 | 비선형 변환으로 단서 조합의 차이를 더 잘 드러낸다 |
 | 각 위치가 서로 다른 문맥을 섞어 받았다 | 같은 FFN을 적용하되 위치마다 다른 출력 표현을 만든다 |
 
-여기서 `비선형`이라는 말은 당장 수식을 외우라는 뜻이 아닙니다. 입문 단계에서는 `단순히 더하고 평균낸 표현을, 다음 블록이 쓸 수 있는 더 구분된 표현으로 바꾸는 과정`으로 읽으면 충분합니다.
+여기서 `비선형`이라는 말은 당장 수식을 외우라는 뜻이 아닙니다. 입문 단계에서는 `단순히 더하고 평균낸 표현을, 다음 블록이 쓸 수 있는 더 구분된 표현으로 바꾸는 과정`으로 읽으면 충분합니다. 아래 예제의 `relu`도 이 감각만 보면 됩니다. 선형 계산으로 나온 값 중 0보다 작은 축을 접어 두면, 같은 입력 변화라도 출력 방향이 단순한 더하기와 다르게 꺾일 수 있습니다.
 
 ## 사례 및 예시
 
@@ -78,6 +78,8 @@ self-attention은 `재기동`이 `압력 미해소`와 `보류`를 함께 보게
 # 같은 feed-forward network를 위치별 표현에 공유 적용해도 각 위치의 hidden과 output이 어떻게 다르게 가공되는지 확인하는 예제입니다.
 import numpy as np
 
+output_axes = ["action_axis", "block_axis"]
+
 positions = np.array([
     [0.2, 0.1, 0.9, 0.1],  # pressure_state: condition signal high
     [0.8, 0.2, 0.2, 0.1],  # restart: action signal high
@@ -110,6 +112,7 @@ def ffn(x):
 hidden, output = ffn(positions)
 
 print("[same FFN, different positions]")
+print("output axes =", output_axes)
 for name, before, h, after in zip(position_names, positions, hidden, output):
     print(f"{name:15s} input={np.round(before, 2)} hidden={np.round(h, 2)} output={np.round(after, 2)}")
 
@@ -126,6 +129,7 @@ print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[
 
 ```text
 [same FFN, different positions]
+output axes = ['action_axis', 'block_axis']
 pressure_state  input=[0.2 0.1 0.9 0.1] hidden=[0.71 0.14 0.65] output=[0.86 0.8 ]
 restart         input=[0.8 0.2 0.2 0.1] hidden=[0.78 0.07 0.72] output=[0.97 0.8 ]
 hold            input=[0.3 0.9 0.2 0.7] hidden=[0.25 1.43 0.5 ] output=[-0.    1.88]
@@ -135,7 +139,7 @@ restart before/after = [0.97 0.8 ] -> [0.74 1.76]
 other positions unchanged = True
 ```
 
-첫 번째 출력은 같은 FFN을 적용해도 위치마다 입력 표현이 다르면 hidden과 output이 달라진다는 점을 보여 줍니다. 두 번째 출력은 `restart` 위치의 입력만 바꾸면 그 위치의 출력만 바뀌고, 다른 위치 출력은 그대로 남는다는 점을 보여 줍니다.
+첫 번째 출력은 같은 FFN을 적용해도 위치마다 입력 표현이 다르면 hidden과 output이 달라진다는 점을 보여 줍니다. 여기서 `output`의 첫 번째 값은 `action_axis`, 두 번째 값은 `block_axis`로 읽습니다. 예를 들어 `hold` 위치는 `block_axis`가 더 크게 남고, `restart` 위치에 보류 단서를 더 섞으면 두 번째 출력에서 `block_axis`가 `0.8`에서 `1.76`으로 커집니다. 두 번째 출력은 `restart` 위치의 입력만 바꾸면 그 위치의 출력만 바뀌고, 다른 위치 출력은 그대로 남는다는 점도 보여 줍니다.
 
 해설: 이 예제에서 읽어야 할 결과는 feed-forward network가 새 토큰을 고르는 장치가 아니라는 점입니다. 다른 위치를 참고하는 일은 이미 attention 단계에서 일어났고, FFN은 각 위치에 들어온 표현을 같은 가공 기준으로 통과시킵니다. 그래서 같은 FFN이 공유되어도 위치마다 출력이 달라질 수 있습니다.
 
@@ -149,7 +153,11 @@ other positions unchanged = True
 | `승인` | `검증 미완료`, `예외 없음` | 확정 승인 전 보류 상태 | 승인 단어만 보지 않고 미완료 조건을 현재 표현 안에 반영해야 합니다. |
 | `배포` | `rollback not confirmed`, `증상 지속` | 복구 확인 전 위험 작업 | 배포가 단순 진행이 아니라 위험을 남긴 작업으로 가공되어야 합니다. |
 
-해설: 좋은 답은 멋진 용어가 아니라 `현재 위치 표현이 어떤 방향으로 바뀌어야 하는가`를 말로 분명히 쓰는 것입니다. 이 감각이 있어야 P5-14.2의 표현 이동 예제를 볼 때 `feed-forward output`이 단순 중간 숫자가 아니라 위치별 의미 가공 결과라는 점을 읽을 수 있습니다.
+해설: 좋은 답은 멋진 용어가 아니라 `현재 위치 표현이 어떤 방향으로 바뀌어야 하는가`를 말로 분명히 쓰는 것입니다. 먼저 현재 위치의 단어만 따로 보면 어떤 기본 의미가 떠오르는지 적습니다. 그다음 attention 뒤에 어떤 단서가 함께 들어왔는지 붙입니다. 마지막으로 그 단서들이 들어왔기 때문에 현재 위치 표현이 어떤 쪽으로 더 선명해져야 하는지 씁니다.
+
+예를 들어 `재기동`만 보면 기본 의미는 `라인을 다시 켜는 실행 행동`입니다. 그런데 attention 뒤에는 `압력 미해소`와 `보류`라는 단서가 함께 들어와 있습니다. 그러면 feed-forward 뒤의 표현 방향은 단순 실행 행동이 아니라 `안전 조건 때문에 막혀야 하는 조치`가 됩니다. 즉 답은 `재기동은 실행 행동처럼 보이지만, 압력이 아직 해소되지 않았고 보류 단서가 함께 있으므로, 현재 위치 표현은 조건부 차단 조치 쪽으로 가공되어야 한다`처럼 쓸 수 있습니다.
+
+이렇게 쓰면 P5-14.2의 표현 이동 예제에서 `feed-forward output`을 단순 중간 숫자로 읽지 않게 됩니다. 출력 숫자는 이름표가 없는 계산 찌꺼기가 아니라, 현재 위치 표현이 어떤 의미 방향으로 더 정리되었는지를 보여 주는 흔적으로 읽어야 합니다.
 
 ## 체크리스트
 

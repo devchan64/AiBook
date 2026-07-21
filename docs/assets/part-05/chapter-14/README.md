@@ -25,10 +25,11 @@
     - `P5-14.5`: `long-context-direct-reference-ko.mmd`, `sequential-vs-direct-baseline-ko.mmd`, `long-context-task-flow-ko.mmd`, `sequential-state-decay-ko.png`, `direct-reference-match-scores-ko.png`
     - `P5-14.6`: `feed-forward-position-update-ko.mmd`
     - `P5-14.7`: `residual-connection-skip-path-ko.mmd`
-    - `P5-14.8`: `layer-normalization-value-scale-ko.mmd`
+    - `P5-14.8`: `layer-normalization-value-scale-ko.mmd`, `layer-normalization-vector-shift-ko.png`, `layer-normalization-vector-shift-en.png`, `layer-normalization-vector-shift-zh.png`
   - Current English and Simplified Chinese public manuscript pages still use the older two-section P5-14 split. Their localized visual assets are retained until those translations are synchronized with the current Korean eight-section structure.
   - `transformer-task-flow-en.mmd` / `transformer-task-flow-ko.mmd` are currently kept as reusable chapter assets but are not directly included by the current Part 5 public manuscript pages.
   - `sequential-vs-direct-reference-en.png` / `sequential-vs-direct-reference-ko.png` are retained legacy rendered comparison assets and are not directly included by the current Part 5 public manuscript pages.
 - Matplotlib chart assets:
   - `p5_14_1_transformer_block_charts.py` regenerates `transformer-block-action-stage-trace-ko.png`, `transformer-block-action-stage-trace-en.png`, `transformer-block-action-stage-trace-zh.png`, `transformer-block-action-residual-compare-ko.png`, `transformer-block-action-residual-compare-en.png`, and `transformer-block-action-residual-compare-zh.png`. In the current Korean structure, these are used by P5-14.2 and P5-14.3.
   - `p5_14_2_sequential_vs_direct_reference.py` regenerates `sequential-state-decay-ko.png`, `sequential-state-decay-en.png`, `sequential-state-decay-zh.png`, `direct-reference-match-scores-ko.png`, `direct-reference-match-scores-en.png`, and `direct-reference-match-scores-zh.png`. In the current Korean structure, these are used by P5-14.5.
+  - `p5_14_8_layer_norm_vector_plot.py` regenerates `layer-normalization-vector-shift-ko.png`, `layer-normalization-vector-shift-en.png`, and `layer-normalization-vector-shift-zh.png`. These are used by P5-14.8.

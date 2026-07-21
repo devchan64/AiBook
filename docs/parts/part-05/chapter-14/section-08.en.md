@@ -159,7 +159,11 @@ next score before/after = 7.65 1.188
 normalized values = [-0.557, 1.3, -1.3, 0.557]
 ```
 
-The first case is a representation where one risk axis is too large. After layer normalization, the mean is nearly 0 and the standard deviation is close to 1, so the degree to which the next computation is pulled by the original value size is reduced. The second case is a representation where the values are gathered too narrowly. After normalization, differences between axes are spread back into a readable range.
+If we project only the first two axes onto 2D coordinates, the position shift before and after normalization looks like this. This figure is not a complete graph of the whole four-dimensional representation. It is a supporting view that shows how organizing the value scale changes the coordinate feel received by the next computation.
+
+![Vector shift before and after layer normalization](/AiBook/assets/part-05/chapter-14/layer-normalization-vector-shift-en.png)
+
+The first case is a representation where one risk axis is too large. After layer normalization, the mean is nearly 0 and the standard deviation is close to 1, so the degree to which the next computation is pulled by the original value size is reduced. The second case is a representation where the values are gathered too narrowly. The original value differences are small, but the standard deviation is also small, so after subtracting the mean and dividing by the standard deviation, the relative differences between axes spread back into a readable range.
 
 Explanation: The important point in this example is not memorizing each normalized value as an answer. Layer normalization does not choose new meaning. It aligns the value baseline inside one position representation into a state that the next computation can handle more easily. So the change in `next score before/after` does not mean that the meaning judgment changed. It means the same probe was computed from a more organized input baseline.
 

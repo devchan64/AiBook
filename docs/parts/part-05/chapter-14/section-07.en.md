@@ -53,7 +53,9 @@ A residual connection leaves a path for the original representation in each bloc
 | Later blocks lose the starting point of earlier blocks. | Each block has a direct path from its input toward its output. |
 | During learning, signals have difficulty passing through deep layers. | The bypass path helps the signal flow continue more stably. |
 
-Here, `signal` carries two senses at once. One is the flow of representation information during the forward pass. The other is the flow used during learning to adjust parameters from errors. In this supplementary section, the priority is not the equation. The priority is the structural feeling that deep structures become easier to stack because the original representation and the new computed result have a path to pass through together.
+Here, `signal` carries two senses at once. One is the flow of representation information from earlier blocks to later blocks when an input is given. The other is the flow of correction direction back toward earlier parameters during learning, based on the output error.
+
+At the introductory level, it is better not to prove these flows with equations yet. Instead, read it this way: if a deep structure has only one path, information can weaken while passing through many computations. A residual connection leaves a path for the original representation to pass alongside the new computation path. That is why, even when blocks are stacked deeply, both `the force that keeps changing the representation through new computation` and `the force that keeps the original starting point from being lost` remain together.
 
 ## Do Not Confuse It with Layer Normalization
 
@@ -74,13 +76,15 @@ In `If pressure remains unresolved, restart is held`, the `restart` position use
 
 Without a residual connection, later blocks might strongly receive new meanings such as `blocked`, `risk`, or `condition`, but lose clarity about which original action those meanings were attached to. The residual connection passes along the original `restart` action axis, helping later blocks continue to track `what must be blocked`.
 
-| Current Position | Meaning Strengthened by New Computation | Original Axis to Keep Through Residual |
+| Current Position | If Only the New Computation Remains Strong | When Residual Keeps It Together |
 | --- | --- | --- |
-| `restart` | blocked under unresolved pressure | the original action name |
-| `approval` | held when validation is incomplete | the original approval action |
-| `deployment` | risky before rollback is confirmed | the original deployment task |
+| `restart` | `blocked` and `risky` are visible, but which action they target can become blurry | the `blocked` meaning remains attached to the original action axis `restart` |
+| `approval` | `not finalized` and `held` are visible, but which action is not finalized can weaken | the `not finalized` meaning remains attached to the original action axis `approval` |
+| `deployment` | `risky` and `stopped` are visible, but which work is stopped can get mixed | the `risky` meaning remains attached to the original task axis `deployment` |
 
 The result to confirm in this case is that a residual connection does not judge a new meaning by itself. It helps the original representation axis needed for the new judgment remain available to later stages.
+
+So residual addition is not simply a matter of making numbers larger. It should be read as placing `original axis + new meaning` together at the starting point of the next block, so the meaning created by the new computation does not detach from its original target.
 
 ## Practice and Examples
 
@@ -95,7 +99,11 @@ In the scenes below, write the original representation axis that should remain t
 | `Before rollback is confirmed, deployment is stopped and the previous version is kept` | `deployment` | risky progress or stop target | the deployment task | When compared with `keeping the previous version`, the risk judgment must remain attached to the deployment task. |
 | `If the incident cause is unclear, expand the alert and stop automatic recovery` | `automatic recovery` | stop target under unclear cause | the automatic recovery action | To avoid mixing it with `alert expansion`, the model must keep which action the stop meaning attaches to. |
 
-Explanation: A good answer does not stop at `keep the original word`. When the meaning created by the new computation is reused in later blocks, the original target or action that the meaning attaches to must remain traceable. This is why a residual connection should be read not as simple addition, but as a device that leaves information flow in deep repetition.
+Explanation: A good answer does not stop at `keep the original word`. When the meaning created by the new computation is reused in later blocks, the original target or action that the meaning attaches to must remain traceable.
+
+For example, at the `restart` position, the new computation can strongly create meanings such as `blocked` or `risky`. But if only those meanings remain and the original action axis of `restart` weakens, later blocks can read unclearly what is being blocked. A residual connection helps pass along both the new meaning `should be blocked` and the original action `restart`, so later blocks can keep hold of the target of the judgment.
+
+This is why a residual connection should be read not as simple addition, but as a device that leaves information flow in deep repetition.
 
 ## Checklist
 

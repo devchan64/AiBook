@@ -44,7 +44,7 @@ Transformer 的 feed-forward network 通常对每个位置应用相同权重。�
 | 只靠简单线性组合时，条件、否定、例外等差异可能较弱 | 通过非线性变换更好地凸显线索组合差异 |
 | 每个位置接收了不同混合上下文 | 应用同一个 FFN，但为每个位置产生不同输出表示 |
 
-这里的`非线性`不是要求马上背公式。入门阶段，把它读成`把单纯相加或平均后的表示，变成下一个 block 能使用的、更有区分度的表示的过程`就足够了。
+这里的`非线性`不是要求马上背公式。入门阶段，把它读成`把单纯相加或平均后的表示，变成下一个 block 能使用的、更有区分度的表示的过程`就足够了。下面例子里的 `relu` 也只需要按这个感觉来读。线性计算后，如果把小于 0 的轴折到 0，同样的输入变化就可能让输出方向不是单纯相加，而是出现转折。
 
 ## 案例与示例
 
@@ -78,6 +78,8 @@ self-attention 会让 `restart` 同时看到 `pressure unreleased` 和 `hold`。
 # 这个例子确认即使同一个 feed-forward network 被共享应用到各位置表示，各位置的 hidden 和 output 也会如何被不同地加工。
 import numpy as np
 
+output_axes = ["action_axis", "block_axis"]
+
 positions = np.array([
     [0.2, 0.1, 0.9, 0.1],  # pressure_state: condition signal high
     [0.8, 0.2, 0.2, 0.1],  # restart: action signal high
@@ -110,6 +112,7 @@ def ffn(x):
 hidden, output = ffn(positions)
 
 print("[same FFN, different positions]")
+print("output axes =", output_axes)
 for name, before, h, after in zip(position_names, positions, hidden, output):
     print(f"{name:15s} input={np.round(before, 2)} hidden={np.round(h, 2)} output={np.round(after, 2)}")
 
@@ -126,6 +129,7 @@ print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[
 
 ```text
 [same FFN, different positions]
+output axes = ['action_axis', 'block_axis']
 pressure_state  input=[0.2 0.1 0.9 0.1] hidden=[0.71 0.14 0.65] output=[0.86 0.8 ]
 restart         input=[0.8 0.2 0.2 0.1] hidden=[0.78 0.07 0.72] output=[0.97 0.8 ]
 hold            input=[0.3 0.9 0.2 0.7] hidden=[0.25 1.43 0.5 ] output=[-0.    1.88]
@@ -135,7 +139,7 @@ restart before/after = [0.97 0.8 ] -> [0.74 1.76]
 other positions unchanged = True
 ```
 
-第一个输出表明，即使应用同一个 FFN，只要各位置输入表示不同，hidden 和 output 也会不同。第二个输出表明，只改变 `restart` 位置的输入时，只会改变该位置的输出，其他位置输出保持不变。
+第一个输出表明，即使应用同一个 FFN，只要各位置输入表示不同，hidden 和 output 也会不同。这里 `output` 的第一个值读作 `action_axis`，第二个值读作 `block_axis`。例如 `hold` 位置会留下更大的 `block_axis`；如果给 `restart` 位置混入更多保留线索，第二个输出中 `block_axis` 会从 `0.8` 增大到 `1.76`。第二个输出也表明，只改变 `restart` 位置的输入时，只会改变该位置的输出，其他位置输出保持不变。
 
 解说：这个例子要读出的结果是，feed-forward network 不是选择新 token 的装置。参考其他位置已经在 attention 阶段发生，FFN 会让进入各位置的表示通过同一套加工标准。因此，即使共享同一个 FFN，各位置输出也可能不同。
 
@@ -149,7 +153,11 @@ other positions unchanged = True
 | `approval` | `verification incomplete`, `no exception` | 最终批准前的保留状态 | 不能只看 approval 这个词，要把未完成条件反映到当前表示中。 |
 | `deployment` | `rollback not confirmed`, `symptom continues` | 恢复确认前的风险作业 | deployment 应被加工成仍然留下风险的作业，而不是单纯推进。 |
 
-解说：好的答案不是华丽术语，而是清楚写出`当前位置表示应该朝哪个方向改变`。有了这种感觉，阅读已经整合到 P5-14.2 的表示移动例子时，才能把 `feed-forward output` 读成按位置的意义加工结果，而不是单纯中间数字。
+解说：好的答案不是华丽术语，而是清楚写出`当前位置表示应该朝哪个方向改变`。首先，写出只看当前位置这个词时会想到的基本意义。然后，补上 attention 之后哪些线索一起进入了当前位置。最后，再写出因为这些线索进入了，当前位置表示应该朝哪个方向变得更清楚。
+
+例如，只看 `restart` 时，基本意义是`重新打开产线的执行动作`。但 attention 之后，`pressure unreleased` 和 `hold` 这两个线索一起进入了当前位置。这样一来，feed-forward 之后的表示方向就不是单纯执行动作，而是`因为安全条件而被阻断的处置`。因此答案可以写成：`restart 看起来像执行动作，但压力还没有解除，而且有 hold 线索一起存在，所以当前位置表示应该被加工成条件性阻断处置。`
+
+这样写之后，阅读已经整合到 P5-14.2 的表示移动例子时，就不会把 `feed-forward output` 读成单纯中间数字。输出数字不是没有意义标签的计算残留，而应该读成当前位置表示朝某个意义方向被整理后的痕迹。
 
 ## 检查清单
 

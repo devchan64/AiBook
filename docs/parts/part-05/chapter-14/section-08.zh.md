@@ -159,7 +159,11 @@ next score before/after = 7.65 1.188
 normalized values = [-0.557, 1.3, -1.3, 0.557]
 ```
 
-第一种情况是一个风险轴过大的表示。layer normalization 后，平均接近 0，标准差接近 1，所以下一次计算被原始值大小过度牵引的程度降低。第二种情况是值过于集中的表示。normalization 后，轴之间的差异重新展开到可以读取的范围。
+如果只把前两个轴投影到 2D 坐标上，normalization 前后的移动可以这样看。这个图不是完整展示四维表示，而是辅助确认：值尺度被整理后，同一个表示进入下一次计算时，坐标感觉也会改变。
+
+![layer normalization 前后向量移动](/AiBook/assets/part-05/chapter-14/layer-normalization-vector-shift-zh.png)
+
+第一种情况是一个风险轴过大的表示。layer normalization 后，平均接近 0，标准差接近 1，所以下一次计算被原始值大小过度牵引的程度降低。第二种情况是值过于集中的表示。原来的值差异很小，但标准差也很小，所以减去平均值再除以标准差后，轴之间的相对差异会重新展开到可以读取的范围。
 
 解说：这个例子重要的不是把每个 normalized value 当成答案来背。layer normalization 不会重新选择意义，而是把一个位置表示内部的值基准线调整到下一次计算更容易处理的状态。因此 `next score before/after` 的变化不是意义判断变了，而是同一个 probe 在更整理好的输入基准上进行了计算。
 
