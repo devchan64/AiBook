@@ -1,7 +1,7 @@
 # P5-15.3 采样（sampling）怎样从候选分布中取出实际输出
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.21`
+> Version: `v2026.07.22`
 
 在 P5-15.2 中，我们已经看到：生成模型（generative model）不是背下一个正确答案再取出来，而是把可能输出候选的相对可信度保留成候选分布。接下来就会自然出现一个问题。
 
@@ -148,98 +148,142 @@ sampling 的核心，是一种选择步骤：它优先更高的候选，但也�
 
 ## 练习与例子
 
-这个例子的目标，是在一个自动生成点检结果提示语的运维场景里，确认`永远只取最高候选`和`按概率把多个候选真正采样成句子`之间到底有什么差别。看代码前，先抓住下面四个值就够了。
+这个例子的目标，是用 Ollama 在本地运行 LLM，观察即使是同一个 prompt，只要改变生成设置，实际输出的稳定性和变化宽度也可能不同。Part 1 没有要求读者用 Python 调用 LLM，但到了这里，我们已经讨论过生成模型和 sampling，所以可以用真实输出来确认这一点。
+
+这个例子不是为了熟练掌握 API 用法。核心是看到：`模型计算候选`和`从候选中取出实际句子`是分开的步骤，而生成设置会改变第二个步骤带来的用户体验。
+
+要运行这个例子，Ollama 必须已经在本地运行，代码里的 `MODEL` 值也要换成自己环境中已经安装的模型名。Ollama 默认在 `http://localhost:11434/api` 提供本地 API，`/api/generate` 是根据 prompt 生成回答的端点。
+
+看代码前，先抓住下面四个值就够了。
 
 | 要确认的点 | 例子里直接要看的值 | 为什么重要 |
 | --- | --- | --- |
-| 最高候选到底是哪一个 | `argmax_choice` 与 `argmax_sentences` | 它能显示：若把一个保守短语固定下来，运维消息会变得多单调 |
-| argmax 和 sampling 会从哪里开始分叉 | `argmax_sentences` 与 `sampled_sentences` | 它能显示：即使是同一个点检场景，也可能出现多个真实提示语变体 |
-| 每个回应短语被选中了多少次 | `counts` | 它能确认：sampling 是否会让高概率短语更常出现，但也把其他动作短语留在真实输出里 |
-| 结果长度和动作范围会怎样变化 | `avg_length` 与不同候选句子 | 它能显示：多样性和稳定性的平衡，不只改变句子长度，也会改变运维动作宽度 |
+| 同一个 prompt 执行几次 | `RUNS_PER_SETTING` | 避免只看一次输出就断定模型倾向 |
+| 生成设置怎样改变 | `temperature` | 用低值和高值比较表达稳定性与变化宽度 |
+| 回答长度怎样限制 | `num_predict` | 防止输出过长，使观察重点变模糊 |
+| 实际输出里看什么 | `response` | 确认同一个请求下，句子顺序、警告位置、表达宽度是否会变化 |
 
-在看代码前，先猜一猜：即使面对同一组候选，argmax 和 sampling 会从什么地方先开始分叉。
+看代码前，可以先猜一猜：同一个 prompt 下，设置不同会先在哪里产生差异。
 
-| 比较点 | 在 argmax 里先预期到的结果 | 在 sampling 里先预期到的结果 |
+| 比较点 | 低 temperature 下先预期到的结果 | 高 temperature 下先预期到的结果 |
 | --- | --- | --- |
-| `argmax_sentences` / `sampled_sentences` | 很可能反复出现同一句话 | 即使最高候选占主导，其他回应短语也可能混进真实句子里 |
-| `counts` | 几乎会变成围着一个候选转的读法 | 高概率候选会占优势，但低概率候选仍可能以少量次数保留下来 |
-| `average_sampled_length` | 容易觉得长度几乎不会变化 | 由于被选中的短语长度不同，平均长度也会跟着波动 |
+| 句子结构 | 更可能重复相近的顺序和表达 | 核心可能保留，但表达顺序或句子长度会变化 |
+| 警告语 | 安全确认语句可能更稳定地重复 | 警告位置或表达方式可能变化 |
+| 复核负担 | 更容易比较，但可能显得单调 | 能得到更多样的草稿，但也增加要复核的差异 |
 
-这里使用前面整理好的点检结果提示语前缀和回应候选列表，但这次把 `response_weights` 分成三种情况来改动。这样，这个例子就不只是固定输出，而是一个小实验：同一组候选在更尖锐或更平坦的权重下，sampling 结果宽度会怎样变化。
+prompt 故意保持为一个简短的运维提示语生成场景。模型名要改成自己 Ollama 环境里已经安装的名称。`temperature` 和 `RUNS_PER_SETTING` 是读者可以直接改动的操作变量。
 
 ```python
-# 这个例子比较在同一组回复候选和权重下，argmax 与 sampling 如何产生不同的输出多样性、选择次数和平均句长。
-import random
+# 通过 Ollama 本地 API 多次运行同一个 prompt，观察生成设置怎样改变输出。
+import json
+import textwrap
+import urllib.error
+import urllib.request
 
-inspection_prefix = "批次检查结果"
-response_candidates = [
-    "需要重新确认。",
-    "经主管确认后恢复。",
-    "10 分钟后重新测量。",
-    "按当前标准保持正常。",
+OLLAMA_GENERATE_URL = "http://localhost:11434/api/generate"
+MODEL = "gemma3"  # 改成自己 Ollama 环境中已经安装的模型名。
+RUNS_PER_SETTING = 2
+
+PROMPT = """
+请为现场作业人员写一段不超过两句话的运维提示语。
+
+情况：
+批次检查结果显示压力波动已经减小，但重新启动前仍需再次确认 interlock 和传感器状态。
+
+条件：
+- 不要断定看不见的原因。
+- 包含重新启动前需要确认的行动。
+- 避免夸张表达，写成可以复核的句子。
+""".strip()
+
+experiments = [
+    {
+        "label": "stable_temperature",
+        "options": {
+            "temperature": 0.1,
+            "num_predict": 80,
+        },
+    },
+    {
+        "label": "wider_temperature",
+        "options": {
+            "temperature": 0.9,
+            "num_predict": 80,
+        },
+    },
 ]
 
-experiments = {
-    "base": [0.46, 0.24, 0.18, 0.12],
-    "sharper": [0.65, 0.18, 0.11, 0.06],
-    "flatter": [0.30, 0.27, 0.23, 0.20],
-}
-
-def run_sampling(label, weights, seed=7, draws=20):
-    rng = random.Random(seed)
-    argmax_choice = response_candidates[weights.index(max(weights))]
-    sampled_choices = rng.choices(response_candidates, weights=weights, k=draws)
-    counts = {
-        candidate: sampled_choices.count(candidate)
-        for candidate in response_candidates
+def generate_with_ollama(label, options, run_index):
+    payload = {
+        "model": MODEL,
+        "prompt": PROMPT,
+        "stream": False,
+        # 这是本例中的操作变量。改变 temperature 后，输出选择宽度可能会变化。
+        "options": options,
     }
-    sampled_sentences = [
-        f"{inspection_prefix} {choice}"
-        for choice in sampled_choices
-    ]
-    avg_length = sum(len(sentence) for sentence in sampled_sentences) / draws
-    unique_choices = sum(1 for count in counts.values() if count > 0)
+    request = urllib.request.Request(
+        OLLAMA_GENERATE_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
 
-    print(f"[{label}]")
-    print("weights =", weights)
-    print("argmax_choice =", argmax_choice)
-    print("counts =", counts)
-    print("unique_choices =", unique_choices)
-    print("average_sampled_length =", round(avg_length, 1))
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except urllib.error.URLError as error:
+        print("无法连接到 Ollama。")
+        print("请确认 Ollama 是否正在运行，以及 MODEL 是否是已安装的模型名。")
+        print("error =", error)
+        return
+
+    generated = data.get("response", "").strip()
+    one_line = " ".join(generated.split())
+
+    print(f"[{label} / run {run_index}]")
+    print("options =", options)
+    print(textwrap.shorten(one_line, width=220, placeholder=" ..."))
     print()
 
-for label, weights in experiments.items():
-    run_sampling(label, weights)
+for experiment in experiments:
+    for run_index in range(1, RUNS_PER_SETTING + 1):
+        generate_with_ollama(
+            experiment["label"],
+            experiment["options"],
+            run_index,
+        )
 ```
+
+执行结果会因模型、版本、本地环境和执行时点而变化。这里重要的不是把某一句话当成标准答案，而是观察：即使 prompt 和模型相同，生成设置也可能改变输出体验。
 
 | 先看的输出 | 这个输出表示什么 | 改动它时会看到什么变化 |
 | --- | --- | --- |
-| `counts` | 显示每种权重情景下，各候选短语被实际选中了多少次 | 在 `sharper` 中，选择会更集中到最高候选；在 `flatter` 中，低位候选可能更常出现 |
-| `unique_choices` | 显示 20 次生成中实际出现了几种短语 | 数值越大，变化宽度越宽，但运维提示语的稳定性仍要另外确认 |
-| `average_sampled_length` | 显示被选中候选的长度如何带动结果句子的密度变化 | 如果提高较长候选的权重，平均长度和解释密度会一起改变 |
+| `stable_temperature` 的回答 | 显示低 temperature 下是否出现相对稳定的句子结构 | 如果把 `temperature` 再调低，重复性可能增加，但表达宽度也可能变窄 |
+| `wider_temperature` 的回答 | 显示高 temperature 下表达顺序、句子长度、词语选择是否更容易波动 | 如果把 `temperature` 再调高，变化可能变大，但复核负担也会增加 |
+| 同一设置下的两次执行结果 | 显示不能只凭一次输出判断生成设置的性质 | 增加 `RUNS_PER_SETTING` 后，更容易比较重复性和变化宽度 |
 
-- argmax 方式只会选择 `需要重新确认。`，所以最保守的回应虽然很一致，但运维表达宽度会非常窄。
-- sampling 方式仍可能让 `需要重新确认。` 出现最多，但权重越平坦，`经主管确认后恢复。`、`10 分钟后重新测量。` 这类其他动作短语就越容易更多地保留为真实输出。
-- 如果把频率和平均长度一起看，就会更清楚：sampling 改变的不只是`哪个回应出现多少次`，也包括`解释密度和动作选择宽度`。
-- 因此，如果不把`计算 response_weights 的阶段`和`实际怎样把句子取出来的步骤`分开，就很难解释：为什么即使是同一个模型，结果体验也会变化。
+- 如果低 temperature 下两次回答几乎是同一种结构，可以把它读成候选选择宽度变窄、稳定性变高的场景。
+- 如果高 temperature 下句子顺序或表达更不一样，可以把它读成候选选择宽度变宽、草稿多样性变大的场景。
+- 但是，高 temperature 并不总是表示回答更好。现场提示语里，安全确认、不随意断定原因、重新启动前行动是否保留，仍然需要人重新复核。
+- 因此，这个例子的结论不是`设置调高就更有创造力`，而是`输出选择步骤会改变实际句子体验，而结果必须再次复核`。
 
-这个结果不应该只停在`它们不同`。更好的读法，是顺手继续检查：改动什么值，会让多样性与稳定性的平衡开始摇动。
+这个结果也不应该只停在`它们不同`。还要能继续确认：改动什么值，会让多样性与稳定性的平衡开始摇动。
 
 | 先看到的输出信号 | 现在马上可以尝试的变化 | 不应只凭这个例子就仓促下结论的事 |
 | --- | --- | --- |
-| `argmax_sentences` 全都是同一句话 | 提高或降低最高候选权重，看看保守消息会多快被固定住 | 不要断言 argmax 一定总是坏的 |
-| `counts` 里重新确认短语最多，但其他回应也留下来了 | 把 `response_weights` 调得更平或更尖，看看回应宽度怎样变化 | 不要断言 sampling 一定会自动带来更高质量 |
-| `average_sampled_length` 也会变化 | 增加或删除更长的提示语，看看解释密度和重复性如何一起变化 | 不要立刻跳到“更长的回答一定更好”的结论 |
+| 低 temperature 下句子几乎重复 | 逐步提高 `temperature`，看表达宽度从什么时候开始变宽 | 不要断定重复性高就一定是质量好 |
+| 高 temperature 下句子更多样 | 在同一条件下增加 `RUNS_PER_SETTING`，继续观察变化宽度 | 不要断定多样性就直接等于正确性或安全性 |
+| 某个输出漏掉了重要确认行动 | 把 prompt 条件写得更明确，或降低 temperature | 不要认为只靠 prompt 和设置就能免除复核责任 |
 
-如果在这里再往前走一步，最好把这个例子直接读成`sampling 敏感度实验`。
+如果在这里再往前走一步，最好把这一节的例子读成`真实 LLM 输出选择敏感度实验`。
 
 | 先改哪个值 | 会看到什么开始摇动 | 本节里先要确认的结果 |
 | --- | --- | --- |
-| 把最高候选权重从 0.46 提高到 0.65 | argmax 和 sampling 会变得多接近 | 重新确认中心消息会不会更重复，而变化宽度会不会缩小 |
-| 把 `response_weights` 调得更平 | 低位候选会不会更常出现在真实提示语里 | `counts` 分布会不会变宽，动作范围会不会一起变 |
-| 在候选里加入更长的解释型后续动作 | 不只是表达多样性，解释密度会不会也一起改变 | 会不会更清楚看到：sampling 也会改变长度分布和运维消息密度 |
+| 把 `temperature` 从 0.1 提高到 0.9 | 同一个 prompt 的表达顺序和词语选择会变得多不一样 | 即使变化宽度变大，核心安全条件是否仍然保留 |
+| 缩短或增加 `num_predict` | 输出长度和被省略的信息是否变化 | 短输出是否更容易复核，同时又没有漏掉重要条件 |
+| 从 prompt 条件里删掉`不要断定看不见的原因` | 模型是否更容易断定原因 | 不只要看输出多样性，也要一起复核危险断定 |
 
-也就是说，这一节的例子不应只停在确认`argmax 和 sampling 不一样`，还应让我们直接看到：`候选分布一旦被摇动，运维消息和后续动作措辞会怎样改变`。
+也就是说，这一节的例子不应停留在`argmax 和 sampling 不一样`这种手算直觉上，而应让我们在本地 LLM 的真实输出里看到：生成设置和 prompt 条件会怎样摇动运维消息与后续行动措辞。
 
 语言模型（language model）通常会计算下一个 token 的可信度，而图像生成模型会逐步构造可能的视觉模式。实际输出则会通过“算出来的分布”和“选择策略”这两步一起出现。
 
@@ -264,3 +308,5 @@ for label, weights in experiments.items():
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999，确认日期：2026-07-19。[https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/](https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/){: target="_blank" rel="noopener noreferrer" }
 - Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials，确认日期：2026-07-19。[https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }
+- Ollama, [Introduction](https://docs.ollama.com/api/introduction){: target="_blank" rel="noopener noreferrer" }, Ollama API documentation，确认日期：2026-07-22。
+- Ollama, [Generate a response](https://docs.ollama.com/api/generate){: target="_blank" rel="noopener noreferrer" }, Ollama API documentation，确认日期：2026-07-22。

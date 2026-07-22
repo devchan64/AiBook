@@ -1,7 +1,7 @@
 # P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.21`
+> Version: `v2026.07.22`
 
 P5-15.2에서는 생성 모델(generative model)이 정답 하나를 외워 꺼내는 것이 아니라, 가능한 출력 후보들의 상대적 그럴듯함을 후보 분포로 남긴다는 점을 보았습니다. 그러면 다음 질문이 자연스럽게 따라옵니다.
 
@@ -148,98 +148,142 @@ top-k, top-p, temperature의 세부 차이는 P6-5.2에서 다시 구체화합�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 `항상 가장 높은 후보만 고르는 방식`과 `확률에 따라 여러 후보를 실제 문장으로 꺼내는 방식`의 차이를, 점검 결과 안내 문구를 자동 생성하는 운영 장면에서 확인하는 것입니다. 코드를 보기 전에 아래 네 값만 먼저 붙잡으면 충분합니다.
+이번 예제의 목표는 Ollama로 로컬 LLM을 실행해, 같은 프롬프트라도 생성 설정을 바꾸면 실제 출력의 안정성과 변주 폭이 달라질 수 있음을 관찰하는 것입니다. Part 1에서는 Python으로 LLM을 호출하지 않았지만, 여기서는 이미 생성 모델과 샘플링을 다뤘으므로 실제 출력으로 확인해 볼 수 있습니다.
+
+이 예제는 API 사용법을 익히기 위한 절이 아닙니다. 핵심은 `모델이 후보를 계산하는 일`과 `그 후보 중 실제 문장을 꺼내는 일`이 분리되어 있으며, 생성 설정이 두 번째 단계의 사용자 경험을 바꿀 수 있다는 점을 보는 것입니다.
+
+실행하려면 Ollama가 로컬에서 실행 중이어야 하고, 코드의 `MODEL` 값에는 자신의 환경에 설치된 모델 이름을 넣어야 합니다. Ollama는 기본적으로 로컬 API를 `http://localhost:11434/api`에서 제공하며, `/api/generate`는 프롬프트에 대한 응답을 생성하는 엔드포인트입니다.
+
+코드를 보기 전에 아래 네 값만 먼저 붙잡으면 충분합니다.
 
 | 확인 포인트 | 예제에서 바로 볼 값 | 왜 중요한가 |
 | --- | --- | --- |
-| 가장 높은 후보 하나가 무엇인가 | `argmax_choice`와 `argmax_sentences` | 가장 보수적인 문구 하나만 고정하면 운영 메시지가 얼마나 단조로워지는지 보여 준다 |
-| argmax와 sampling 결과가 어디서 갈라지는가 | `argmax_sentences`와 `sampled_sentences` | 같은 점검 상황이라도 실제 운영 문구는 여러 변형으로 나올 수 있다는 점을 보여 준다 |
-| 어떤 대응 문구가 얼마나 자주 선택되는가 | `counts` | sampling이 높은 확률 후보를 더 자주 고르되 다른 행동 문구도 실제 출력에 남기는지 확인하게 한다 |
-| 결과 길이와 조치 폭이 어떻게 달라지는가 | `avg_length`와 다양한 후보 문장 | 다양성과 안정성의 균형이 문장 길이뿐 아니라 대응 행동의 폭까지 바꾼다는 점을 읽게 한다 |
+| 같은 프롬프트를 몇 번 실행하는가 | `RUNS_PER_SETTING` | 한 번 나온 답만 보고 모델 성향을 단정하지 않게 한다 |
+| 생성 설정을 어떻게 바꾸는가 | `temperature` | 낮은 값과 높은 값에서 표현 안정성과 변주 폭을 비교하게 한다 |
+| 응답을 어느 정도로 제한하는가 | `num_predict` | 출력 길이가 너무 길어져 관찰 지점이 흐려지는 것을 막는다 |
+| 실제 출력에서 무엇을 볼 것인가 | `response` | 같은 요청에서도 문장 순서, 경고 위치, 표현 폭이 달라지는지 확인한다 |
 
-코드를 보기 전에, 같은 후보 집합에서도 argmax와 sampling이 어디서 먼저 갈라질지 예상해 보면 좋습니다.
+코드를 보기 전에, 같은 프롬프트에서도 설정에 따라 어디서 먼저 차이가 날지 예상해 보면 좋습니다.
 
-| 비교 포인트 | argmax에서 먼저 예상할 결과 | sampling에서 먼저 예상할 결과 |
+| 비교 포인트 | 낮은 temperature에서 먼저 예상할 결과 | 높은 temperature에서 먼저 예상할 결과 |
 | --- | --- | --- |
-| `argmax_sentences` / `sampled_sentences` | 같은 문장이 반복될 가능성이 높다 | 가장 높은 후보가 많더라도 다른 대응 문구가 실제 문장으로 섞여 나올 수 있다 |
-| `counts` | 사실상 한 후보에 거의 몰린 읽기가 된다 | 높은 후보가 우세하되 낮은 후보도 적은 횟수로 남을 수 있다 |
-| `average_sampled_length` | 길이 변화가 거의 없을 것이라고 느끼기 쉽다 | 선택된 문구 길이에 따라 평균 길이도 함께 흔들릴 수 있다 |
+| 문장 구조 | 비슷한 순서와 표현이 반복될 가능성이 높다 | 핵심은 유지하더라도 표현 순서나 문장 길이가 달라질 수 있다 |
+| 경고 문구 | 안전 확인 문구가 안정적으로 반복될 수 있다 | 경고 위치나 표현 방식이 바뀔 수 있다 |
+| 검토 부담 | 비교하기 쉽지만 단조로울 수 있다 | 더 다양한 초안을 얻지만 검토해야 할 차이도 늘 수 있다 |
 
-위에 정리한 점검 결과 안내 prefix와 대응 문구 목록을 사용하되, 이번에는 `response_weights`를 세 가지 방식으로 바꿔 봅니다. 같은 후보라도 가중치가 뾰족한지, 비교적 평평한지에 따라 sampling 결과 폭이 어떻게 달라지는지 확인하는 실험입니다.
+프롬프트는 일부러 짧은 운영 안내 문구 생성 장면으로 둡니다. 모델 이름은 자신의 Ollama 환경에 설치된 이름으로 바꿉니다. `temperature`와 `RUNS_PER_SETTING`은 독자가 직접 바꿔 볼 조작 변수입니다.
 
 ```python
-# 같은 대응 후보와 가중치에서 argmax와 sampling이 출력 다양성, 선택 횟수, 평균 문장 길이를 어떻게 다르게 만드는지 비교하는 예제입니다.
-import random
+# Ollama 로컬 API로 같은 프롬프트를 여러 번 실행해 생성 설정에 따른 출력 변화를 관찰합니다.
+import json
+import textwrap
+import urllib.error
+import urllib.request
 
-inspection_prefix = "배치 점검 결과"
-response_candidates = [
-    "재확인이 필요합니다.",
-    "담당자 확인 후 재개합니다.",
-    "10분 뒤 재측정합니다.",
-    "현재 기준에서는 정상으로 유지합니다.",
+OLLAMA_GENERATE_URL = "http://localhost:11434/api/generate"
+MODEL = "gemma3"  # 자신의 Ollama 환경에 설치된 모델 이름으로 바꿉니다.
+RUNS_PER_SETTING = 2
+
+PROMPT = """
+다음 상황을 현장 작업자가 읽을 수 있는 안내 문구로 2문장 이내로 작성해줘.
+
+상황:
+배치 점검 결과 압력 흔들림은 줄었지만, 재기동 전 인터록과 센서 상태를 다시 확인해야 한다.
+
+조건:
+- 보이지 않는 원인은 단정하지 마.
+- 재기동 전 확인할 행동을 포함해.
+- 과장된 표현은 피하고, 검토 가능한 문장으로 써.
+""".strip()
+
+experiments = [
+    {
+        "label": "stable_temperature",
+        "options": {
+            "temperature": 0.1,
+            "num_predict": 80,
+        },
+    },
+    {
+        "label": "wider_temperature",
+        "options": {
+            "temperature": 0.9,
+            "num_predict": 80,
+        },
+    },
 ]
 
-experiments = {
-    "base": [0.46, 0.24, 0.18, 0.12],
-    "sharper": [0.65, 0.18, 0.11, 0.06],
-    "flatter": [0.30, 0.27, 0.23, 0.20],
-}
-
-def run_sampling(label, weights, seed=7, draws=20):
-    rng = random.Random(seed)
-    argmax_choice = response_candidates[weights.index(max(weights))]
-    sampled_choices = rng.choices(response_candidates, weights=weights, k=draws)
-    counts = {
-        candidate: sampled_choices.count(candidate)
-        for candidate in response_candidates
+def generate_with_ollama(label, options, run_index):
+    payload = {
+        "model": MODEL,
+        "prompt": PROMPT,
+        "stream": False,
+        # 이 예제의 조작 변수입니다. temperature를 바꾸면 출력 선택 폭이 달라질 수 있습니다.
+        "options": options,
     }
-    sampled_sentences = [
-        f"{inspection_prefix} {choice}"
-        for choice in sampled_choices
-    ]
-    avg_length = sum(len(sentence) for sentence in sampled_sentences) / draws
-    unique_choices = sum(1 for count in counts.values() if count > 0)
+    request = urllib.request.Request(
+        OLLAMA_GENERATE_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
 
-    print(f"[{label}]")
-    print("weights =", weights)
-    print("argmax_choice =", argmax_choice)
-    print("counts =", counts)
-    print("unique_choices =", unique_choices)
-    print("average_sampled_length =", round(avg_length, 1))
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except urllib.error.URLError as error:
+        print("Ollama에 연결하지 못했습니다.")
+        print("Ollama가 실행 중인지, MODEL 값이 설치된 모델 이름인지 확인하세요.")
+        print("error =", error)
+        return
+
+    generated = data.get("response", "").strip()
+    one_line = " ".join(generated.split())
+
+    print(f"[{label} / run {run_index}]")
+    print("options =", options)
+    print(textwrap.shorten(one_line, width=220, placeholder=" ..."))
     print()
 
-for label, weights in experiments.items():
-    run_sampling(label, weights)
+for experiment in experiments:
+    for run_index in range(1, RUNS_PER_SETTING + 1):
+        generate_with_ollama(
+            experiment["label"],
+            experiment["options"],
+            run_index,
+        )
 ```
+
+실행 결과는 모델, 버전, 로컬 환경, 실행 시점에 따라 달라집니다. 여기서 중요한 것은 특정 문장을 정답으로 맞히는 일이 아니라, 같은 프롬프트와 같은 모델에서도 생성 설정이 출력 경험을 바꿀 수 있음을 관찰하는 것입니다.
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| `counts` | 각 가중치 시나리오에서 어떤 문구가 실제 출력으로 얼마나 자주 선택됐는지 보여 줍니다 | `sharper`에서는 높은 후보 쏠림이 커지고, `flatter`에서는 낮은 후보가 더 자주 등장할 수 있습니다 |
-| `unique_choices` | 20번 생성 안에서 실제로 몇 종류의 문구가 등장했는지 보여 줍니다 | 값이 커지면 변주 폭은 넓어지지만, 운영 문구의 안정성은 따로 확인해야 합니다 |
-| `average_sampled_length` | 선택된 후보 문구 길이에 따라 결과 문장 밀도가 어떻게 흔들리는지 보여 줍니다 | 긴 후보의 비중을 높이면 평균 길이와 설명 밀도가 함께 바뀝니다 |
+| `stable_temperature`의 응답 | 낮은 temperature에서 비교적 안정적인 문장 구조가 나오는지 보여 줍니다 | `temperature`를 더 낮추면 반복성은 커질 수 있지만 표현 폭은 좁아질 수 있습니다 |
+| `wider_temperature`의 응답 | 높은 temperature에서 표현 순서, 문장 길이, 어휘 선택이 더 흔들리는지 보여 줍니다 | `temperature`를 더 높이면 변주가 커질 수 있지만 검토 부담도 늘 수 있습니다 |
+| 같은 설정의 두 번 실행 결과 | 한 번의 출력만으로 생성 설정의 성격을 단정하면 안 된다는 점을 보여 줍니다 | `RUNS_PER_SETTING`을 늘리면 반복성과 변주 폭을 더 잘 비교할 수 있습니다 |
 
-- argmax 방식은 `재확인이 필요합니다.` 하나만 고르므로, 가장 보수적인 대응은 일관되지만 운영 표현 폭이 매우 좁습니다
-- sampling 방식은 재확인 문구가 가장 자주 나오더라도, 가중치가 평평해질수록 `담당자 확인 후 재개합니다.`, `10분 뒤 재측정합니다.` 같은 다른 조치 문구도 실제 출력에 더 자주 남길 수 있습니다
-- 빈도와 평균 길이를 함께 보면, 샘플링은 `어떤 대응이 얼마나 자주 나오나`뿐 아니라 `설명 밀도와 조치 선택 폭`까지 바꾼다는 점이 드러납니다
-- 따라서 `response_weights`를 계산한 단계와 `실제 문장을 어떤 절차로 꺼냈는가`를 분리해서 보지 않으면, 같은 모델인데 왜 결과 경험이 달라지는지 설명하기 어렵습니다
+- 낮은 temperature에서 두 응답이 거의 같은 구조로 나오면, 후보 선택 폭이 좁아져 안정성이 커진 장면으로 읽을 수 있습니다.
+- 높은 temperature에서 문장 순서나 표현이 더 달라지면, 후보 선택 폭이 넓어져 초안의 다양성이 커진 장면으로 읽을 수 있습니다.
+- 하지만 높은 temperature가 항상 더 좋은 답을 뜻하지는 않습니다. 현장 안내 문구에서는 안전 확인, 단정 금지, 재기동 전 행동이 빠지지 않는지 사람이 다시 검토해야 합니다.
+- 따라서 이 예제의 결론은 `설정을 높이면 창의적이다`가 아니라, `출력 선택 절차가 실제 문장 경험을 바꾸며, 그 결과는 다시 검토해야 한다`입니다.
 
 이 결과도 단순히 `다르다`에서 멈추지 말고, 어떤 값을 바꿔 보면 다양성과 안정성 균형이 어떻게 흔들리는지 바로 확인할 수 있어야 합니다.
 
 | 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
 | --- | --- | --- |
-| `argmax_sentences`가 모두 같은 문장이다 | 가장 높은 후보 비중을 더 높이거나 낮춰 보수적 메시지가 얼마나 빨리 고정되는지 본다 | argmax가 항상 나쁘다고 단정하지 않는다 |
-| `counts`에서 재확인 문구가 가장 많지만 다른 대응도 남아 있다 | `response_weights`를 더 평평하게 하거나 더 뾰족하게 바꿔 대응 폭이 어떻게 달라지는지 본다 | sampling이 곧바로 더 좋은 품질을 만든다고 단정하지 않는다 |
-| `average_sampled_length`가 달라질 수 있다 | 더 긴 안내 문구를 추가하거나 제거해 설명 밀도와 반복성이 함께 어떻게 바뀌는지 본다 | 길이가 늘어난 것이 자동으로 더 좋은 답이라는 결론으로 바로 가지 않는다 |
+| 낮은 temperature에서 문장이 거의 반복된다 | `temperature`를 조금씩 올려 표현 폭이 언제부터 넓어지는지 본다 | 반복성이 높다고 항상 품질이 좋다고 단정하지 않는다 |
+| 높은 temperature에서 문장이 더 다양해진다 | 같은 조건에서 `RUNS_PER_SETTING`을 늘려 변주 폭을 더 관찰한다 | 다양성이 곧바로 정확성이나 안전성을 뜻한다고 단정하지 않는다 |
+| 중요한 확인 행동이 빠진 출력이 있다 | 프롬프트의 조건을 더 분명히 쓰거나 temperature를 낮춰 본다 | 프롬프트와 설정만으로 검토 책임이 사라진다고 보지 않는다 |
 
-여기서 한 걸음 더 나가면, 이 절의 예제를 `샘플링 민감도 실험`으로 읽는 편이 좋습니다.
+여기서 한 걸음 더 나가면, 이 절의 예제를 `실제 LLM 출력 선택 민감도 실험`으로 읽는 편이 좋습니다.
 
 | 먼저 바꿔 볼 값 | 무엇이 흔들리는지 보게 되는가 | 이 절에서 먼저 확인할 결과 |
 | --- | --- | --- |
-| 가장 높은 후보 비중을 0.46에서 0.65로 높인다 | argmax와 sampling 결과가 얼마나 더 비슷해지는가 | 재확인 중심 메시지 반복성이 더 강해지고 변주 폭은 줄어드는가 |
-| `response_weights`를 더 평평하게 만든다 | 낮은 후보가 실제 안내 문구로 얼마나 더 자주 등장하는가 | `counts` 분포가 넓어지고 조치 폭도 함께 달라지는가 |
-| 후보 문장에 더 긴 설명형 후속 조치를 추가한다 | 표현 다양성뿐 아니라 설명 밀도도 함께 바뀌는가 | sampling이 길이 분포와 운영 표현 밀도까지 흔든다는 점이 더 분명해지는가 |
+| `temperature`를 0.1에서 0.9로 높인다 | 같은 프롬프트의 표현 순서와 어휘 선택이 얼마나 달라지는가 | 변주 폭이 커지더라도 핵심 안전 조건이 유지되는가 |
+| `num_predict`를 줄이거나 늘린다 | 출력 길이와 생략되는 정보가 달라지는가 | 짧은 출력이 검토하기 쉬운 대신 중요한 조건을 빠뜨리지는 않는가 |
+| 프롬프트 조건에 `보이지 않는 원인은 단정하지 마`를 빼 본다 | 모델이 원인을 더 쉽게 단정하는지 관찰하게 된다 | 출력 다양성뿐 아니라 위험한 단정도 함께 검토해야 한다 |
 
-즉, 이 절의 예제는 `argmax와 sampling이 다르다`는 확인에 머무르지 않고, `후보 분포를 흔들면 운영 메시지와 후속 조치 표현이 어떻게 달라지는가`를 직접 보게 해야 더 실험적입니다.
+즉, 이 절의 예제는 `argmax와 sampling이 다르다`는 손계산 직관에 머무르지 않고, 로컬 LLM의 실제 출력에서 생성 설정과 프롬프트 조건이 운영 메시지와 후속 조치 표현을 어떻게 흔드는지 보게 합니다.
 
 언어 모델(language model)은 대개 다음 토큰의 가능성을 계산하고, 이미지 생성 모델은 가능한 시각 패턴을 점차 구성합니다. 이때 실제 출력은 계산된 분포와 선택 전략을 거쳐 나타납니다.
 
@@ -264,3 +308,5 @@ for label, weights in experiments.items():
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, 확인 날짜: 2026-07-19. [https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/](https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/){: target="_blank" rel="noopener noreferrer" }
 - Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-07-19. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }
+- Ollama, [Introduction](https://docs.ollama.com/api/introduction){: target="_blank" rel="noopener noreferrer" }, Ollama API documentation, 확인 날짜: 2026-07-22.
+- Ollama, [Generate a response](https://docs.ollama.com/api/generate){: target="_blank" rel="noopener noreferrer" }, Ollama API documentation, 확인 날짜: 2026-07-22.

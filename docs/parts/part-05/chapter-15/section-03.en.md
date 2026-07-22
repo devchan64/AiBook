@@ -1,7 +1,7 @@
 # P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.21`
+> Version: `v2026.07.22`
 
 In P5-15.2, we saw that a generative model does not memorize and return one correct answer, but keeps the relative plausibility of possible output candidates as a candidate distribution. The next question naturally follows.
 
@@ -148,98 +148,142 @@ If we pause once here and briefly fix `when the explanation that the model learn
 
 ## Practice And Example
 
-The goal of this example is to confirm the difference between `always choosing only the highest candidate` and `sampling several candidates into actual sentences according to probability`, in an operational scene where inspection-result guidance phrases are automatically generated. Before looking at the code, it is enough to hold the four values below.
+The goal of this example is to run a local LLM with Ollama and observe that even with the same prompt, changing generation settings can change the stability and variation width of the actual output. Part 1 did not ask the reader to call an LLM from Python, but by this point we have already covered generative models and sampling, so it is reasonable to confirm the idea through real outputs.
+
+This section is not trying to teach API usage as the main topic. The point is to see that `the model calculates candidates` and `one actual sentence is pulled from those candidates` are separate stages, and that generation settings can change the user experience of the second stage.
+
+To run the example, Ollama must be running locally, and the `MODEL` value in the code must be changed to a model installed in your own environment. Ollama provides its local API at `http://localhost:11434/api` by default, and `/api/generate` is the endpoint that generates a response to a prompt.
+
+Before looking at the code, it is enough to hold the four values below.
 
 | Point to confirm | Value to look at directly in the example | Why it matters |
 | --- | --- | --- |
-| what the one highest candidate is | `argmax_choice` and `argmax_sentences` | shows how monotonous the operational message becomes if one conservative phrase is fixed |
-| where argmax and sampling split | `argmax_sentences` and `sampled_sentences` | shows that even in the same inspection situation, several practical guidance variants can appear |
-| how often each response phrase is chosen | `counts` | lets us confirm whether sampling chooses the high-probability phrase more often while still leaving other action phrases in the actual output |
-| how result length and action range change | `avg_length` and the varied candidate sentences | lets us read that the balance between diversity and stability changes not only sentence length, but also the width of operational action |
+| how many times the same prompt is run | `RUNS_PER_SETTING` | keeps us from judging the model's tendency from just one output |
+| how the generation setting is changed | `temperature` | lets us compare expression stability and variation width at low and high values |
+| how much the response is limited | `num_predict` | keeps the output from becoming so long that the observation point becomes unclear |
+| what to inspect in the actual output | `response` | checks whether sentence order, warning placement, and expression width change even under the same request |
 
-Before looking at the code, it helps to predict first where argmax and sampling will split, even under the same set of candidates.
+Before looking at the code, it helps to predict where the first differences will appear under the same prompt.
 
-| Comparison point | Result to predict first in argmax | Result to predict first in sampling |
+| Comparison point | Result to expect first at low temperature | Result to expect first at high temperature |
 | --- | --- | --- |
-| `argmax_sentences` / `sampled_sentences` | the same sentence is likely to repeat | even if the highest candidate dominates, other response phrases can still mix into the actual sentences |
-| `counts` | it will effectively become a reading centered on almost one candidate | the high-probability candidate will dominate, but lower candidates can still remain a small number of times |
-| `average_sampled_length` | it is easy to feel that length variation will hardly exist | depending on the length of the chosen phrases, the average length can also shake together |
+| sentence structure | similar order and wording are more likely to repeat | the core may remain, but expression order or sentence length can vary |
+| warning phrase | safety-check wording may repeat more stably | the position or wording of the warning can change |
+| review burden | easier to compare, but possibly monotonous | gives more varied drafts, but also increases the differences to review |
 
-We use the inspection-result guidance prefix and response-candidate list summarized above, but this time we vary `response_weights` in three ways. This makes the example a small experiment that checks how the sampling width changes when the same candidates are read with sharper or flatter weights.
+The prompt is deliberately kept as a short operational guidance scene. Change the model name to one installed in your own Ollama environment. `temperature` and `RUNS_PER_SETTING` are the variables the reader should try changing.
 
 ```python
-# This example compares how argmax and sampling create different output diversity, choice counts, and average sentence length from the same response candidates and weights.
-import random
+# Run the same prompt several times through Ollama's local API and observe how generation settings change the outputs.
+import json
+import textwrap
+import urllib.error
+import urllib.request
 
-inspection_prefix = "Batch inspection result"
-response_candidates = [
-    "Reverification is required.",
-    "Resume after supervisor confirmation.",
-    "Remeasure in 10 minutes.",
-    "For now it remains normal by the current standard.",
+OLLAMA_GENERATE_URL = "http://localhost:11434/api/generate"
+MODEL = "gemma3"  # Change this to a model installed in your Ollama environment.
+RUNS_PER_SETTING = 2
+
+PROMPT = """
+Write an operational guidance message in no more than two sentences for a field worker.
+
+Situation:
+The batch inspection result shows that pressure fluctuation has decreased, but interlock and sensor status must be checked again before restart.
+
+Conditions:
+- Do not assert unseen causes.
+- Include the action to check before restart.
+- Avoid exaggerated wording and write sentences that can be reviewed.
+""".strip()
+
+experiments = [
+    {
+        "label": "stable_temperature",
+        "options": {
+            "temperature": 0.1,
+            "num_predict": 80,
+        },
+    },
+    {
+        "label": "wider_temperature",
+        "options": {
+            "temperature": 0.9,
+            "num_predict": 80,
+        },
+    },
 ]
 
-experiments = {
-    "base": [0.46, 0.24, 0.18, 0.12],
-    "sharper": [0.65, 0.18, 0.11, 0.06],
-    "flatter": [0.30, 0.27, 0.23, 0.20],
-}
-
-def run_sampling(label, weights, seed=7, draws=20):
-    rng = random.Random(seed)
-    argmax_choice = response_candidates[weights.index(max(weights))]
-    sampled_choices = rng.choices(response_candidates, weights=weights, k=draws)
-    counts = {
-        candidate: sampled_choices.count(candidate)
-        for candidate in response_candidates
+def generate_with_ollama(label, options, run_index):
+    payload = {
+        "model": MODEL,
+        "prompt": PROMPT,
+        "stream": False,
+        # This is the variable to manipulate in the example. Changing temperature can change the output-selection width.
+        "options": options,
     }
-    sampled_sentences = [
-        f"{inspection_prefix} {choice}"
-        for choice in sampled_choices
-    ]
-    avg_length = sum(len(sentence) for sentence in sampled_sentences) / draws
-    unique_choices = sum(1 for count in counts.values() if count > 0)
+    request = urllib.request.Request(
+        OLLAMA_GENERATE_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
 
-    print(f"[{label}]")
-    print("weights =", weights)
-    print("argmax_choice =", argmax_choice)
-    print("counts =", counts)
-    print("unique_choices =", unique_choices)
-    print("average_sampled_length =", round(avg_length, 1))
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except urllib.error.URLError as error:
+        print("Could not connect to Ollama.")
+        print("Check whether Ollama is running and whether MODEL is an installed model name.")
+        print("error =", error)
+        return
+
+    generated = data.get("response", "").strip()
+    one_line = " ".join(generated.split())
+
+    print(f"[{label} / run {run_index}]")
+    print("options =", options)
+    print(textwrap.shorten(one_line, width=220, placeholder=" ..."))
     print()
 
-for label, weights in experiments.items():
-    run_sampling(label, weights)
+for experiment in experiments:
+    for run_index in range(1, RUNS_PER_SETTING + 1):
+        generate_with_ollama(
+            experiment["label"],
+            experiment["options"],
+            run_index,
+        )
 ```
+
+The result will vary depending on the model, version, local environment, and time of execution. The important point is not to match one specific sentence as the answer, but to observe that generation settings can change the output experience even with the same prompt and the same model.
 
 | Output to look at first | What this output means | What changes if you vary it |
 | --- | --- | --- |
-| `counts` | shows how often each phrase is actually selected in each weight scenario | in `sharper`, selection concentrates more on the highest candidate; in `flatter`, lower candidates can appear more often |
-| `unique_choices` | shows how many different phrases appeared across 20 generations | a larger value means wider variation, but the stability of the operation message still needs to be checked separately |
-| `average_sampled_length` | shows how the density of the resulting sentence changes with the lengths of the selected candidate phrases | if the weight of a longer candidate increases, average length and explanation density change together |
+| response from `stable_temperature` | shows whether a relatively stable sentence structure appears at low temperature | if `temperature` is lowered further, repeatability may increase but expression width may shrink |
+| response from `wider_temperature` | shows whether expression order, sentence length, and word choice move more at high temperature | if `temperature` is raised further, variation may increase but review burden can also grow |
+| two runs under the same setting | shows why one output is not enough to judge a generation setting | increasing `RUNS_PER_SETTING` makes it easier to compare repeatability and variation width |
 
-- the argmax method chooses only `Reverification is required.`, so the most conservative response is consistent but the width of operational expression is extremely narrow
-- the sampling method can still choose `Reverification is required.` most often, but as the weights become flatter, other action phrases such as `Resume after supervisor confirmation.` and `Remeasure in 10 minutes.` can remain in the actual outputs more often
-- if we look at the frequency and the average length together, it becomes clear that sampling changes not only `which response appears how often`, but also `the density of explanation and the width of action choice`
-- therefore, unless we separate `the stage that calculated response_weights` from `the procedure that actually sampled the sentence`, it becomes difficult to explain why the result experience changes even under the same model
+- if the two low-temperature responses come out with almost the same structure, read it as a case where the candidate-selection width has narrowed and stability has increased
+- if sentence order or wording changes more at high temperature, read it as a case where the candidate-selection width has widened and draft diversity has increased
+- however, a higher temperature does not always mean a better answer; in field guidance, a human must check again whether safety checks, non-assertion of unseen causes, and pre-restart actions are still included
+- therefore, the conclusion of this example is not `higher settings are creative`, but `the output-selection procedure changes the actual sentence experience, and the result must be reviewed again`
 
-This result should not stop only at `they are different`. It is better if it continues directly into checking what values change the balance between diversity and stability.
+This result should not stop only at `they are different`. It should lead directly into checking which values shake the balance between diversity and stability.
 
 | Output signal seen first | Change to try right now | Conclusion not to rush to from this example alone |
 | --- | --- | --- |
-| `argmax_sentences` are all the same sentence | raise or lower the highest candidate weight and see how quickly the conservative message becomes fixed | do not conclude that argmax is always bad |
-| in `counts`, the reverification phrase appears most often but other responses also remain | make `response_weights` flatter or sharper and see how the width of responses changes | do not conclude that sampling automatically gives better quality |
-| `average_sampled_length` can also change | add or remove a longer guidance phrase and see how explanatory density and repetitiveness change together | do not jump to the conclusion that a longer answer is automatically a better one |
+| sentences almost repeat at low temperature | raise `temperature` gradually and see where expression width starts to widen | do not conclude that high repeatability always means high quality |
+| sentences become more varied at high temperature | increase `RUNS_PER_SETTING` under the same condition and observe more variation | do not conclude that diversity directly means correctness or safety |
+| an output omits an important checking action | make the prompt conditions clearer or lower temperature | do not assume that prompt and settings remove the need for review |
 
-If we go one step further here, it is better to read the example as `a sampling sensitivity experiment`.
+If we go one step further here, it is better to read this section's example as `an actual LLM output-selection sensitivity experiment`.
 
 | Value to change first | What we get to see shaking | Result to confirm first in this section |
 | --- | --- | --- |
-| raise the highest candidate weight from 0.46 to 0.65 | how much argmax and sampling become more similar | does the reverification-centered message become more repetitive while the width of variation shrinks? |
-| make `response_weights` flatter | how much more often lower candidates appear as actual guidance phrases | does the `counts` distribution widen and the action range change with it? |
-| add a longer explanatory follow-up action among the candidates | whether not only expression diversity but also explanation density changes together | does it become clearer that sampling also shakes length distribution and operational-message density? |
+| raise `temperature` from 0.1 to 0.9 | how much the expression order and word choice change under the same prompt | even if variation widens, are the core safety conditions still kept? |
+| lower or raise `num_predict` | whether output length and omitted information change | does a shorter output become easier to review while still not dropping important conditions? |
+| remove `Do not assert unseen causes` from the prompt conditions | whether the model more easily asserts a cause | output diversity and risky assertions must be reviewed together |
 
-That is, the example in this section should not remain only at confirming `argmax and sampling are different`, but should also let us directly see `if the candidate distribution is shaken, how do the operational message and the follow-up action phrasing change`.
+That is, the example in this section should not remain at the hand-calculation intuition that `argmax and sampling are different`. It should let us see in actual local LLM outputs how generation settings and prompt conditions shake operational messages and follow-up action phrasing.
 
 Language models usually calculate the plausibility of the next token, and image-generation models gradually construct possible visual patterns. At that point, the actual output appears by going through the calculated distribution and the selection strategy.
 
@@ -264,3 +308,5 @@ Language models usually calculate the plausibility of the next token, and image-
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, checked on 2026-07-19. [https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/](https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/){: target="_blank" rel="noopener noreferrer" }
 - Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, checked on 2026-07-19. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }
+- Ollama, [Introduction](https://docs.ollama.com/api/introduction){: target="_blank" rel="noopener noreferrer" }, Ollama API documentation, checked on 2026-07-22.
+- Ollama, [Generate a response](https://docs.ollama.com/api/generate){: target="_blank" rel="noopener noreferrer" }, Ollama API documentation, checked on 2026-07-22.
