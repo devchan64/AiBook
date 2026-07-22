@@ -85,7 +85,9 @@ Part 1과 Part 2에서는 개념 지도와 Python 기초 자체가 중심이므�
 
 - Part 3-4에서는 scikit-learn, pandas, NumPy, matplotlib처럼 설치 부담이 낮고 교육적으로 널리 쓰이는 라이브러리를 우선한다.
 - Part 5에서는 PyTorch, TensorFlow, NumPy 기반 직접 계산 중 현재 절의 중심 질문을 가장 잘 드러내는 쪽을 고른다. 신경망 구조나 학습 흐름이 중심이면 작은 실제 모델 실행을 적극 검토한다.
-- Part 6에서는 tokenizer, vectorizer, embedding, retrieval, local LLM, API 호출 mock, Ollama 같은 실제 시스템에 가까운 실행을 검토한다. 다만 최신 API, 과금, 계정, 네트워크 의존이 본문 이해보다 커지면 mock이나 로컬 실행으로 축약한다.
+- Part 6에서는 tokenizer, vectorizer, embedding, retrieval, local LLM, API 호출 mock, Ollama, ChromaDB(chromadb) 같은 실제 시스템에 가까운 실행을 검토한다. 다만 최신 API, 과금, 계정, 네트워크 의존이 본문 이해보다 커지면 mock이나 로컬 실행으로 축약한다.
+- RAG, 벡터 데이터베이스(vector database), 검색 payload, 메타데이터(metadata) 필터, top-k 후보 반환을 다루는 Section에서는 ChromaDB 같은 로컬 라이브러리형 벡터 데이터베이스를 사용할 수 있다. 이때 중심은 제품 사용법이 아니라 `문서, 임베딩, 메타데이터를 함께 넣고 질문에 맞는 원문과 payload를 다시 받는 경험`이어야 한다.
+- ChromaDB를 사용할 때 기본 embedding 함수가 외부 모델 다운로드나 네트워크 의존을 만들면, 본문 예제에서는 TF-IDF, scikit-learn, 작은 로컬 embedding처럼 미리 계산한 embeddings를 직접 넣는 방식을 우선한다. 영속 서버, 대규모 색인 운영, 성능 튜닝, 배포 구성은 본문 Section보다 Part 7 프로젝트나 보충 자료에 더 적합하다.
 - 모델을 쓰더라도 `한 번 학습하고 점수 하나 출력`에서 멈추지 말고, 독자가 바꿀 값과 그에 따라 달라지는 출력 또는 실패 조건을 함께 둔다.
 - 실제 모델 예제의 출력은 accuracy 같은 단일 점수보다 예측 샘플, 오류 사례, confusion matrix, 후보 순위, decision boundary, residual, retrieved document, generated text 차이처럼 현재 Section의 중심 질문을 직접 보여 주는 값을 우선한다.
 - 실행 시간이 길거나 재현성이 흔들리는 모델은 작은 데이터, 고정 seed, 짧은 반복, 일부 결과 발췌를 사용한다. 그래도 핵심 관찰이 불안정하면 본문 예제가 아니라 Part 7 프로젝트나 보충 자료로 넘긴다.

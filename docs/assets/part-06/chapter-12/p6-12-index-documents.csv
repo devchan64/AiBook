@@ -35,3 +35,19 @@ sdk_general_cache_policy_notes,cache policy,general,general_note_collision,캐�
 sdk_v2_region_endpoint,region endpoint,v2,current_version_candidate,2.x 지역 엔드포인트 선택 기준과 요청 대상 지역을 안내하는 문서,0.72,0.24,0.58
 sdk_v1_region_endpoint_guide,region endpoint,v1,old_version_collision,endpoint 주제는 같지만 1.x 지역 규칙을 가져오면 현재 요청 경로가 틀릴 수 있다.,0.74,0.22,0.57
 sdk_general_region_endpoint_notes,region endpoint,general,general_note_collision,지역 엔드포인트 개념은 설명하지만 2.x 선택 규칙을 확정하지 못한다.,0.69,0.28,0.60
+sdk_v2_pagination_cursor,pagination cursor,v2,current_version_candidate,2.x 페이지네이션 cursor 사용 순서와 next cursor 처리 기준을 안내하는 문서,0.62,0.48,0.41
+sdk_v1_pagination_cursor_guide,pagination cursor,v1,old_version_collision,cursor 표현은 같지만 1.x 응답 필드 기준이라 현재 반복 조회 구현을 틀리게 만들 수 있다.,0.65,0.46,0.40
+sdk_general_pagination_notes,pagination cursor,general,general_note_collision,페이지네이션 개념은 설명하지만 SDK 2.x cursor 필드와 반복 조건을 확정하지 못한다.,0.59,0.53,0.43
+sdk_v2_pagination_troubleshooting,pagination cursor,v2,related_current_but_not_target,2.x cursor 오류를 진단하는 문서라 관련은 있지만 기본 사용 순서의 1차 근거는 아니다.,0.64,0.44,0.45
+sdk_v2_idempotency_key,idempotency key,v2,current_version_candidate,2.x idempotency key 생성 위치와 재시도 요청에서의 사용 기준을 안내하는 문서,0.47,0.64,0.54
+sdk_v1_idempotency_key_guide,idempotency key,v1,old_version_collision,idempotency 표현은 같지만 1.x 헤더 규칙이라 현재 재시도 안정성 판단을 틀리게 만들 수 있다.,0.50,0.62,0.53
+sdk_general_idempotency_notes,idempotency key,general,general_note_collision,중복 요청 방지 개념은 설명하지만 SDK 2.x 헤더 이름과 적용 범위를 확정하지 못한다.,0.44,0.69,0.56
+sdk_v2_retry_safety_notes,idempotency key,v2,related_current_but_not_target,2.x 재시도 안전성 배경을 설명하지만 idempotency key 설정 위치를 직접 안내하지는 않는다.,0.49,0.67,0.50
+sdk_v2_webhook_replay,webhook replay,v2,current_version_candidate,2.x webhook replay 감지와 이벤트 중복 처리 기준을 안내하는 문서,0.28,0.77,0.55
+sdk_v1_webhook_replay_guide,webhook replay,v1,old_version_collision,replay 주제는 같지만 1.x 이벤트 서명 규칙을 섞으면 현재 중복 처리 판단이 틀릴 수 있다.,0.31,0.75,0.54
+sdk_general_webhook_replay_notes,webhook replay,general,general_note_collision,webhook replay 개념은 설명하지만 2.x 이벤트 ID와 재처리 조건을 확정하지 못한다.,0.25,0.82,0.57
+sdk_v2_webhook_delivery_log,webhook replay,v2,related_current_but_not_target,2.x webhook 전달 로그 확인 문서라 관련은 있지만 replay 처리 기준의 1차 문서는 아니다.,0.30,0.73,0.59
+sdk_v2_quota_burst,quota burst,v2,current_version_candidate,2.x quota burst 제한과 초과 시 대기 기준을 안내하는 문서,0.70,0.66,0.21
+sdk_v1_quota_burst_guide,quota burst,v1,old_version_collision,quota burst 단어는 맞지만 1.x 제한값이라 현재 트래픽 조절 기준과 충돌할 수 있다.,0.73,0.64,0.20
+sdk_general_quota_notes,quota burst,general,general_note_collision,quota 개념은 설명하지만 2.x burst 제한값과 대기 조건을 확정하지 못한다.,0.67,0.71,0.23
+sdk_v2_quota_troubleshooting,quota burst,v2,related_current_but_not_target,2.x quota 초과 원인 진단 문서라 관련은 있지만 burst 설정 기준의 1차 근거는 아니다.,0.72,0.62,0.25

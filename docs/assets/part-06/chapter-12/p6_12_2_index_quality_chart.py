@@ -19,16 +19,22 @@ SUMMARY = {
     "fast": {
         "hit_count": 30,
         "top1_hit_count": 30,
-        "version_ok_count": 30,
+        "version_ok_count": 35,
         "avg_latency_ms": 29.0,
     },
+    "balanced": {
+        "hit_count": 45,
+        "top1_hit_count": 42,
+        "version_ok_count": 46,
+        "avg_latency_ms": 51.0,
+    },
     "strict": {
-        "hit_count": 36,
-        "top1_hit_count": 36,
-        "version_ok_count": 36,
+        "hit_count": 52,
+        "top1_hit_count": 48,
+        "version_ok_count": 52,
         "avg_latency_ms": 70.0,
     },
-    "query_count": 36,
+    "query_count": 52,
 }
 
 LANG_TEXT = {
@@ -42,21 +48,23 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "index-quality-latency-ko.png",
-        "quality_ylabel": "통과한 질문 수",
+        "quality_ylabel": "실패한 질문 수",
         "latency_ylabel": "평균 지연 시간(ms)",
         "fast_label": "빠른 설정",
+        "balanced_label": "균형 설정",
         "strict_label": "엄격한 설정",
-        "quality_labels": ["상위 k 후보\n포함", "1위 정합", "버전 정합"],
+        "quality_labels": ["목표 문서\n누락", "1위 오류", "버전 오류"],
         "latency_label": "평균 지연",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "index-quality-latency-en.png",
-        "quality_ylabel": "passed queries",
+        "quality_ylabel": "failed queries",
         "latency_ylabel": "average latency (ms)",
         "fast_label": "fast setting",
+        "balanced_label": "balanced setting",
         "strict_label": "strict setting",
-        "quality_labels": ["top-k hit", "top-1 hit", "version ok"],
+        "quality_labels": ["target missed", "top-1 error", "version error"],
         "latency_label": "avg latency",
     },
 }
@@ -99,18 +107,24 @@ def annotate_bars(bars, fmt: str = "{:g}") -> None:
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
     quality_labels = text["quality_labels"]
+    query_count = SUMMARY["query_count"]
     fast_quality = [
-        SUMMARY["fast"]["hit_count"],
-        SUMMARY["fast"]["top1_hit_count"],
-        SUMMARY["fast"]["version_ok_count"],
+        query_count - SUMMARY["fast"]["hit_count"],
+        query_count - SUMMARY["fast"]["top1_hit_count"],
+        query_count - SUMMARY["fast"]["version_ok_count"],
+    ]
+    balanced_quality = [
+        query_count - SUMMARY["balanced"]["hit_count"],
+        query_count - SUMMARY["balanced"]["top1_hit_count"],
+        query_count - SUMMARY["balanced"]["version_ok_count"],
     ]
     strict_quality = [
-        SUMMARY["strict"]["hit_count"],
-        SUMMARY["strict"]["top1_hit_count"],
-        SUMMARY["strict"]["version_ok_count"],
+        query_count - SUMMARY["strict"]["hit_count"],
+        query_count - SUMMARY["strict"]["top1_hit_count"],
+        query_count - SUMMARY["strict"]["version_ok_count"],
     ]
     positions = list(range(len(quality_labels)))
-    bar_width = 0.34
+    bar_width = 0.24
 
     fig, (quality_ax, latency_ax) = plt.subplots(
         1,
@@ -126,31 +140,51 @@ def save_chart(text: dict[str, str]) -> None:
         style_axis(ax)
 
     fast_bars = quality_ax.bar(
-        [x - bar_width / 2 for x in positions],
+        [x - bar_width for x in positions],
         fast_quality,
         width=bar_width,
         color="#64748b",
         label=text["fast_label"],
     )
+    balanced_bars = quality_ax.bar(
+        positions,
+        balanced_quality,
+        width=bar_width,
+        color="#0f766e",
+        label=text["balanced_label"],
+    )
     strict_bars = quality_ax.bar(
-        [x + bar_width / 2 for x in positions],
+        [x + bar_width for x in positions],
         strict_quality,
         width=bar_width,
         color="#2563eb",
         label=text["strict_label"],
     )
     annotate_bars(fast_bars)
+    annotate_bars(balanced_bars)
     annotate_bars(strict_bars)
     quality_ax.set_xticks(positions)
     quality_ax.set_xticklabels(quality_labels)
     quality_ax.set_ylabel(text["quality_ylabel"])
-    quality_ax.set_ylim(0, SUMMARY["query_count"] * 1.25)
-    quality_ax.legend(frameon=False, loc="upper left")
+    max_error = max(fast_quality + balanced_quality + strict_quality)
+    quality_ax.set_ylim(0, max(max_error * 1.45, 4))
+    quality_ax.legend(
+        frameon=False,
+        loc="upper left",
+        bbox_to_anchor=(0.0, 1.18),
+        ncol=3,
+        handlelength=1.2,
+        columnspacing=1.2,
+    )
 
     latency_bars = latency_ax.bar(
-        [text["fast_label"], text["strict_label"]],
-        [SUMMARY["fast"]["avg_latency_ms"], SUMMARY["strict"]["avg_latency_ms"]],
-        color=["#64748b", "#2563eb"],
+        [text["fast_label"], text["balanced_label"], text["strict_label"]],
+        [
+            SUMMARY["fast"]["avg_latency_ms"],
+            SUMMARY["balanced"]["avg_latency_ms"],
+            SUMMARY["strict"]["avg_latency_ms"],
+        ],
+        color=["#64748b", "#0f766e", "#2563eb"],
         width=0.52,
     )
     annotate_bars(latency_bars, "{:.1f}")

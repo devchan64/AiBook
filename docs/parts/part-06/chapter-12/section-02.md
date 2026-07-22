@@ -166,7 +166,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 
 개발 문서 검색에서는 현재 버전 문서가 꼭 top-k 안에 들어와야 합니다. 빠른 설정은 지연 시간은 줄이지만 후보 일부를 놓칠 수 있고, 느린 설정은 더 오래 걸리지만 중요한 후보를 더 잘 회수할 수 있습니다.
 
-아래 예제는 여러 질문, CSV로 분리한 문서 벡터와 질문 벡터, 후보 압축 설정인 `candidate_budget`, 버전 필터 설정인 `version_filter`를 사용합니다. 출력에서는 질문별 지연 시간, 질문별 top-k 후보, 현재 버전 문서가 실제로 포함되었는지 여부, 설정별 top-k 포함률과 top-1 정합률을 확인합니다.
+아래 예제는 여러 질문, CSV로 분리한 문서 벡터와 질문 벡터, 후보 압축 설정인 `candidate_budget`, 버전 필터 설정인 `version_filter`를 사용합니다. 출력에서는 질문별 지연 시간, 질문별 top-k 후보, 현재 버전 문서가 실제로 포함되었는지 여부, 설정별 top-k 포함률과 top-1 정합률을 확인합니다. 설정은 일부러 `빠른 설정`, `균형 설정`, `엄격한 설정` 세 단계로 나눕니다. 이렇게 해야 빠르지만 놓치는 경우, 후보 안에는 들어오지만 1위가 흔들리는 경우, 버전 필터로 안정화되는 경우를 구분해서 볼 수 있습니다.
 
 먼저 이 예제에서 함께 볼 점검 항목은 다음과 같습니다.
 
@@ -190,18 +190,19 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 | sdk_v1_request_timeout_guide | request timeout | v1 | old_version_collision | 0.93 | 0.16 | 0.09 |
 | sdk_general_request_timeout_notes | request timeout | general | general_note_collision | 0.87 | 0.22 | 0.12 |
 
-질문 CSV도 같은 목표 문서를 세 가지 표현으로 묻습니다. 그래서 단일 질문이 우연히 통과하는지보다, 표현이 조금 바뀌어도 목표 문서가 top-k 안에 남는지를 볼 수 있습니다.
+질문 CSV는 같은 목표 문서를 여러 표현으로 묻습니다. 기본 문서명을 직접 묻는 질문, 표현을 바꾼 질문, 구버전 문서와 부딪히는 질문에 더해 오류 증상이나 혼합 의도 질문도 일부 넣습니다. 그래서 단일 질문이 우연히 통과하는지보다, 표현과 주변 후보가 바뀌어도 목표 문서가 top-k 안에 남는지를 볼 수 있습니다.
 
 | query_id | topic | variant | target_doc | reader_hint |
 | --- | --- | --- | --- | --- |
 | Q01 | request timeout | direct_name | sdk_v2_request_timeout | 문서명과 질문어가 거의 일치해 기본 검색 품질을 확인하는 기준 질문 |
 | Q02 | request timeout | paraphrase | sdk_v2_request_timeout | timeout이라는 단어를 쓰지 않아도 같은 의미를 찾아야 하는 표현 바꾼 질문 |
 | Q03 | request timeout | boundary_wording | sdk_v2_request_timeout | 1.x 문서가 더 가깝게 보일 수 있어 버전 조건을 함께 봐야 하는 질문 |
+| Q40 | pagination cursor | symptom_wording | sdk_v2_pagination_cursor | 관련 troubleshooting 문서가 가까워도 기준 사용 문서를 우선해야 하는 증상형 질문 |
 
 코드에서 확인할 핵심은 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다는 점입니다. 코드가 직접 쓰는 열은 `doc_id`, `version`, `config_axis`, `recovery_axis`, `flow_axis`, `question`, `target_doc`입니다. 세 축은 실제 임베딩 모델의 내부 차원을 재현한 값이 아니라, 설정 문서와 복구 문서와 처리 흐름 문서가 서로 가깝고 멀어지는 상황을 읽기 쉽게 단순화한 좌표입니다. `topic`, `boundary_hint`, `variant`, `reader_hint`는 CSV를 열었을 때 어떤 행이 현재 버전 후보이고 어떤 행이 구버전·일반 설명과 부딪히기 쉬운지 관찰하게 돕는 설명 열입니다.
 
 ```python
-# fast 인덱스와 strict 인덱스 설정을 비교해 candidate budget, version filter, hit rate, latency의 trade-off를 확인하는 예제입니다.
+# candidate budget, version filter, hit rate, latency의 trade-off를 확인하는 예제입니다.
 import csv
 import math
 from pathlib import Path
@@ -227,6 +228,7 @@ queries = []
 for row in csv.DictReader(query_path.open(encoding="utf-8")):
     queries.append(
         {
+            "query_id": row["query_id"],
             "question": row["question"],
             "target_doc": row["target_doc"],
             "vector": [
@@ -239,6 +241,7 @@ for row in csv.DictReader(query_path.open(encoding="utf-8")):
 
 settings = {
     "fast": {"candidate_budget": 1, "version_filter": None, "top_k": 2},
+    "balanced": {"candidate_budget": 3, "version_filter": None, "top_k": 2},
     "strict": {"candidate_budget": 4, "version_filter": "v2", "top_k": 2},
 }
 
@@ -293,30 +296,40 @@ def summarize_mode(mode_name):
     reports = []
     for query in queries:
         result = search(query, settings[mode_name])
-        reports.append((query["question"], inspect_search(result, query["target_doc"])))
+        reports.append(
+            (
+                query["query_id"],
+                query["question"],
+                inspect_search(result, query["target_doc"]),
+            )
+        )
     total = len(reports)
     return {
         "setting": mode_name,
         "candidate_budget": settings[mode_name]["candidate_budget"],
         "version_filter": settings[mode_name]["version_filter"],
-        "hit_rate": round(sum(r["target_in_top_k"] for _, r in reports) / total, 3),
-        "top1_hit_rate": round(sum(r["top1_is_target"] for _, r in reports) / total, 3),
-        "top1_version_ok_rate": round(sum(r["top1_version_ok"] for _, r in reports) / total, 3),
-        "avg_latency_ms": round(sum(r["latency_ms"] for _, r in reports) / total, 1),
+        "hit_rate": round(sum(r["target_in_top_k"] for _, _, r in reports) / total, 3),
+        "top1_hit_rate": round(sum(r["top1_is_target"] for _, _, r in reports) / total, 3),
+        "top1_version_ok_rate": round(sum(r["top1_version_ok"] for _, _, r in reports) / total, 3),
+        "avg_latency_ms": round(sum(r["latency_ms"] for _, _, r in reports) / total, 1),
         "missed_targets": [
             query["target_doc"]
-            for query, (_, report) in zip(queries, reports)
+            for query, (_, _, report) in zip(queries, reports)
             if not report["target_in_top_k"]
         ],
         "reports": reports,
     }
 
+sample_query_ids = {"Q06", "Q40", "Q52"}
+
 for mode_name in settings:
     summary = summarize_mode(mode_name)
     print(f"[{mode_name}]")
     print({key: value for key, value in summary.items() if key != "reports"})
-    for question, report in summary["reports"][:3]:
-        print("question =", question)
+    for query_id, question, report in summary["reports"]:
+        if query_id not in sample_query_ids:
+            continue
+        print("query_id =", query_id)
         print(report)
     print()
 ```
@@ -325,35 +338,45 @@ for mode_name in settings:
 
 ```text
 [fast]
-{'setting': 'fast', 'candidate_budget': 1, 'version_filter': None, 'hit_rate': 0.833, 'top1_hit_rate': 0.833, 'top1_version_ok_rate': 0.833, 'avg_latency_ms': 29.0, 'missed_targets': ['sdk_v2_retry_backoff', 'sdk_v2_webhook_signature', 'sdk_v2_webhook_signature', 'sdk_v2_rate_limit', 'sdk_v2_logging_trace', 'sdk_v2_region_endpoint']}
-question = 2.x 버전에서 request timeout 옵션 문서는 어디를 봐야 하나요?
-{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = SDK 2.x에서 응답 대기 시간을 조정하려면 어떤 설정 문서를 찾아야 하나요?
-{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = 연결이 오래 걸릴 때 1.x 안내가 아니라 2.x timeout 안내를 보고 싶습니다.
-{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+{'setting': 'fast', 'candidate_budget': 1, 'version_filter': None, 'hit_rate': 0.577, 'top1_hit_rate': 0.577, 'top1_version_ok_rate': 0.673, 'avg_latency_ms': 29.0, 'missed_targets': ['sdk_v2_retry_backoff', 'sdk_v2_auth_refresh_flow', 'sdk_v2_auth_refresh_flow', 'sdk_v2_webhook_signature', 'sdk_v2_webhook_signature', 'sdk_v2_streaming_events', 'sdk_v2_rate_limit', 'sdk_v2_file_upload', 'sdk_v2_file_upload', 'sdk_v2_logging_trace', 'sdk_v2_region_endpoint', 'sdk_v2_pagination_cursor', 'sdk_v2_pagination_cursor', 'sdk_v2_pagination_cursor', 'sdk_v2_idempotency_key', 'sdk_v2_idempotency_key', 'sdk_v2_webhook_replay', 'sdk_v2_webhook_replay', 'sdk_v2_webhook_replay', 'sdk_v2_quota_burst', 'sdk_v2_quota_burst', 'sdk_v2_quota_burst']}
+query_id = Q06
+{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_general_rate_limit_notes'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
+query_id = Q40
+{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_general_file_upload_notes'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
+query_id = Q52
+{'latency_ms': 29, 'candidate_count': 1, 'top_k': ['sdk_v2_region_endpoint'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': True}
+
+[balanced]
+{'setting': 'balanced', 'candidate_budget': 3, 'version_filter': None, 'hit_rate': 0.865, 'top1_hit_rate': 0.808, 'top1_version_ok_rate': 0.885, 'avg_latency_ms': 51.0, 'missed_targets': ['sdk_v2_pagination_cursor', 'sdk_v2_idempotency_key', 'sdk_v2_idempotency_key', 'sdk_v2_webhook_replay', 'sdk_v2_webhook_replay', 'sdk_v2_quota_burst', 'sdk_v2_quota_burst']}
+query_id = Q06
+{'latency_ms': 51, 'candidate_count': 3, 'top_k': ['sdk_v2_retry_backoff', 'sdk_v1_retry_backoff_guide'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+query_id = Q40
+{'latency_ms': 51, 'candidate_count': 3, 'top_k': ['sdk_v2_pagination_troubleshooting', 'sdk_v2_pagination_cursor'], 'target_in_top_k': True, 'rank_of_target': 2, 'top1_is_target': False, 'top1_version_ok': True}
+query_id = Q52
+{'latency_ms': 51, 'candidate_count': 3, 'top_k': ['sdk_v2_quota_troubleshooting', 'sdk_general_billing_invoice_notes'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': True}
 
 [strict]
-{'setting': 'strict', 'candidate_budget': 4, 'version_filter': 'v2', 'hit_rate': 1.0, 'top1_hit_rate': 1.0, 'top1_version_ok_rate': 1.0, 'avg_latency_ms': 70.0, 'missed_targets': []}
-question = 2.x 버전에서 request timeout 옵션 문서는 어디를 봐야 하나요?
-{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_proxy_network'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = SDK 2.x에서 응답 대기 시간을 조정하려면 어떤 설정 문서를 찾아야 하나요?
-{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_proxy_network'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = 연결이 오래 걸릴 때 1.x 안내가 아니라 2.x timeout 안내를 보고 싶습니다.
-{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_proxy_network'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+{'setting': 'strict', 'candidate_budget': 4, 'version_filter': 'v2', 'hit_rate': 1.0, 'top1_hit_rate': 0.923, 'top1_version_ok_rate': 1.0, 'avg_latency_ms': 70.0, 'missed_targets': []}
+query_id = Q06
+{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_retry_backoff', 'sdk_v2_rate_limit'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+query_id = Q40
+{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_pagination_troubleshooting', 'sdk_v2_pagination_cursor'], 'target_in_top_k': True, 'rank_of_target': 2, 'top1_is_target': False, 'top1_version_ok': True}
+query_id = Q52
+{'latency_ms': 70, 'candidate_count': 4, 'top_k': ['sdk_v2_quota_troubleshooting', 'sdk_v2_quota_burst'], 'target_in_top_k': True, 'rank_of_target': 2, 'top1_is_target': False, 'top1_version_ok': True}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `fast` 설정이 평균 지연 시간 대체값은 낮지만, 후보 예산을 1개로 줄인 탓에 일부 2.x 목표 문서를 top-k 안에 남기지 못한다는 점입니다. 특정 질문에서는 첫 번째 좌표가 비슷한 구버전 문서나 일반 문서가 먼저 잡히면서 정작 필요한 현재 버전 문서가 빠집니다. 반대로 `strict` 설정은 `version_filter`를 켜고 후보 예산을 넓혀 36개 질문 모두에서 목표 문서를 top-k 안에 남깁니다.
+이 예제에서 먼저 봐야 할 것은 `fast` 설정이 평균 지연 시간 대체값은 낮지만, 후보 예산을 1개로 줄인 탓에 여러 2.x 목표 문서를 top-k 안에 남기지 못한다는 점입니다. `balanced` 설정은 후보 예산을 넓혀 많은 누락을 줄이지만, 관련 문서가 늘어난 질문에서는 목표 문서가 2위로 밀리거나 여전히 top-k 밖으로 빠집니다. `strict` 설정은 `version_filter`를 켜고 후보 예산을 더 넓혀 목표 누락과 버전 오류를 줄이지만, 같은 v2 안의 troubleshooting 문서가 1위에 오는 경우까지 자동으로 해결하지는 못합니다.
 
-그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+그래서 이 예제에서 확인해야 할 결과는 세 가지입니다.
 
 - 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`, `top-1이 맞는가`, `버전 필터가 필요한가`를 같이 읽어야 한다.
+- `target_in_top_k`가 통과해도 `top1_is_target`과 `top1_version_ok`가 실패할 수 있으므로, 검색 품질은 하나의 통과 여부로 닫히지 않는다.
 - 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `hit_rate`, `top1_hit_rate`, `version_ok_rate` 차이가 더 분명하게 드러난다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `settings["fast"]["candidate_budget"]`을 1, 2, 4로 바꿔 후보 수와 누락 문서가 어떻게 달라지는지 보기
-- `settings["fast"]["version_filter"]`를 `"v2"`로 바꿔 구버전 문서가 앞서는 문제가 줄어드는지 확인하기
+- `settings["balanced"]["version_filter"]`를 `"v2"`로 바꿔 구버전 문서가 1위에 오는 문제가 줄어드는지 확인하기
 - `inspect_search`에 `recall_like_score`나 `top2_version_mix` 같은 항목을 추가해 자체 품질 지표를 넓혀 보기
 
 속도와 품질 충돌을 운영 판단으로 다시 읽으면, 단일 지표만 보고 원인을 단정하면 안 된다는 점이 더 분명해집니다.
@@ -369,7 +392,7 @@ question = 연결이 오래 걸릴 때 1.x 안내가 아니라 2.x timeout 안�
 
 앞의 예제는 실제 ANN을 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 검색 실험으로 보여 주는 장면입니다. 예를 들어 지연 시간 대체값만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
 
-차트로 보면 빠른 설정은 평균 지연 시간이 낮지만 일부 질문에서 top-k 포함과 버전 정합을 놓칩니다. 엄격한 설정은 더 느리지만 세 품질 지표가 모두 통과하므로, 인덱스 평가는 `latency` 하나가 아니라 `top-k 포함`, `top-1 정합`, `버전 정합`을 함께 놓고 읽어야 합니다.
+차트로 보면 빠른 설정은 평균 지연 시간이 낮지만 목표 문서 누락과 1위 오류가 큽니다. 균형 설정은 누락을 줄이지만 1위 오류와 버전 오류가 남습니다. 엄격한 설정은 더 느리지만 목표 누락과 버전 오류를 없애고, 대신 관련 v2 문서가 1위에 오는 오류가 일부 남습니다. 그래서 인덱스 평가는 `latency` 하나가 아니라 `목표 누락`, `1위 오류`, `버전 오류`를 함께 놓고 읽어야 합니다.
 
 ![빠른 검색 설정과 엄격한 검색 설정의 품질·지연 시간 비교](../../../assets/part-06/chapter-12/index-quality-latency-ko.png)
 

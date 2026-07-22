@@ -35,3 +35,19 @@ Q33,cache policy,캐시가 오래 남는 문제를 보려는데 일반 성능 �
 Q34,region endpoint,2.x 버전에서 region endpoint 선택 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_region_endpoint,region endpoint라는 문서명이 직접 들어간 기본 검색 확인 질문,0.71,0.25,0.58
 Q35,region endpoint,SDK 2.x에서 어느 지역 엔드포인트로 요청을 보내야 하는지 확인하고 싶습니다.,paraphrase,sdk_v2_region_endpoint,지역 엔드포인트 선택을 자연어로 바꿔도 같은 문서를 찾아야 한다.,0.72,0.24,0.58
 Q36,region endpoint,지역 선택 오류를 보려는데 일반 endpoint 설명보다 2.x region 문서가 필요합니다.,boundary_wording,sdk_v2_region_endpoint,일반 endpoint 설명이 가까워도 2.x region 조건을 우선해야 하는 질문,0.73,0.23,0.58
+Q37,pagination cursor,2.x 버전에서 pagination cursor 사용 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_pagination_cursor,cursor 문서명을 직접 물어 기본 검색 순위를 확인하는 질문,0.61,0.49,0.41
+Q38,pagination cursor,SDK 2.x에서 다음 페이지를 계속 가져오려면 어떤 cursor 문서를 봐야 하나요?,paraphrase,sdk_v2_pagination_cursor,next cursor 표현을 자연어로 바꿔도 같은 사용 문서를 찾아야 한다.,0.62,0.48,0.41
+Q39,pagination cursor,예전 pagination 안내가 아니라 2.x cursor 반복 조회 기준을 확인하고 싶습니다.,boundary_wording,sdk_v2_pagination_cursor,1.x cursor 문서가 앞서기 쉬워 버전 조건을 함께 확인해야 하는 질문,0.66,0.45,0.40
+Q40,pagination cursor,cursor가 비어 반복 조회가 멈추는데 오류 진단보다 2.x 기본 사용 순서가 필요합니다.,symptom_wording,sdk_v2_pagination_cursor,관련 troubleshooting 문서가 가까워도 기준 사용 문서를 우선해야 하는 증상형 질문,0.63,0.45,0.44
+Q41,idempotency key,2.x 버전에서 idempotency key 설정 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_idempotency_key,idempotency key 문서명이 직접 들어간 기본 검색 질문,0.46,0.65,0.54
+Q42,idempotency key,SDK 2.x에서 같은 요청을 다시 보내도 중복 처리되지 않게 하려면 어떤 문서를 봐야 하나요?,paraphrase,sdk_v2_idempotency_key,중복 요청 방지 표현을 key 용어 없이 물어도 같은 문서를 찾아야 한다.,0.47,0.64,0.54
+Q43,idempotency key,1.x 재시도 안내가 아니라 2.x idempotency key 헤더 기준을 확인하고 싶습니다.,boundary_wording,sdk_v2_idempotency_key,오래된 헤더 규칙이 후보에 섞이기 쉬워 현재 기준을 봐야 하는 질문,0.51,0.61,0.53
+Q44,idempotency key,재시도 안전성 문서를 보다가 실제 key 설정 위치를 확인해야 합니다.,mixed_intent,sdk_v2_idempotency_key,관련 안전성 설명과 실제 설정 문서를 구분해야 하는 혼합 의도 질문,0.49,0.67,0.51
+Q45,webhook replay,2.x 버전에서 webhook replay 처리 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_webhook_replay,webhook replay 문서명이 직접 들어간 기본 검색 질문,0.27,0.78,0.55
+Q46,webhook replay,SDK 2.x에서 같은 webhook 이벤트가 다시 들어올 때 중복 처리를 어떻게 해야 하나요?,paraphrase,sdk_v2_webhook_replay,replay라는 단어 없이 중복 이벤트 처리 의미를 찾아야 하는 질문,0.28,0.77,0.55
+Q47,webhook replay,1.x replay 안내가 아니라 2.x 이벤트 재처리 기준이 필요합니다.,boundary_wording,sdk_v2_webhook_replay,오래된 webhook replay 문서가 가까워도 현재 기준을 우선해야 하는 질문,0.32,0.74,0.54
+Q48,webhook replay,webhook 전달 로그를 보다가 replay 판정 기준 문서를 찾아야 합니다.,mixed_intent,sdk_v2_webhook_replay,전달 로그 문서와 replay 기준 문서를 구분해야 하는 혼합 의도 질문,0.30,0.73,0.58
+Q49,quota burst,2.x 버전에서 quota burst 제한 문서는 어디를 봐야 하나요?,direct_name,sdk_v2_quota_burst,quota burst 문서명이 직접 들어간 기본 검색 질문,0.69,0.67,0.21
+Q50,quota burst,SDK 2.x에서 짧은 시간에 요청이 몰릴 때 어느 제한 기준을 확인해야 하나요?,paraphrase,sdk_v2_quota_burst,burst라는 단어 없이 트래픽 몰림 상황을 설명해도 같은 문서를 찾아야 한다.,0.70,0.66,0.21
+Q51,quota burst,1.x quota 안내가 아니라 2.x burst 제한값과 대기 조건을 확인하고 싶습니다.,boundary_wording,sdk_v2_quota_burst,오래된 quota 문서가 의미상 가까워도 현재 제한값을 우선해야 하는 질문,0.74,0.63,0.20
+Q52,quota burst,quota 초과 오류를 진단하다가 burst 기준 문서를 먼저 확인해야 합니다.,symptom_wording,sdk_v2_quota_burst,관련 troubleshooting 문서가 가까워도 제한 기준 문서를 찾아야 하는 증상형 질문,0.72,0.62,0.25
