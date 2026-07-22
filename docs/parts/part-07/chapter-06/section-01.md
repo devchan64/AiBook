@@ -1,7 +1,7 @@
 # P7-6.1 계획, 도구 호출, 승인 흐름 실습
 
 Section ID: `P7-6.1`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 RAG가 `문서를 찾아 답에 붙이는 구조`였다면, 에이전트(agent) 프로젝트는 `도구를 호출하고, 관찰을 읽고, 다음 행동을 고르는 구조`입니다. 여기서 중요한 것은 agent를 막연한 지능으로 설명하지 않는 것입니다. 에이전트를 `목표를 들고 실행 루프를 돌리되, 외부 조건이 막히면 blocked 상태로 멈출 수도 있는 구조`로 읽으면 충분합니다.
 
@@ -70,7 +70,7 @@ RAG와 에이전트는 둘 다 LLM 프로젝트이지만 중심 질문이 다릅
 
 ## 입력 파일
 
-- 파일 경로: [`p7-6-agent-triage-steps.csv`](../../../assets/part-07/chapter-06/p7-6-agent-triage-steps.csv)
+- 파일 경로: [`p7-6-agent-triage-steps.csv`](../../../assets/part-07/chapter-06/p7-6-agent-triage-steps.csv) · [CSV 미리보기](../../../assets/part-07/chapter-06/p7-6-agent-triage-steps.csv){ .csv-preview }
 - 한 행의 의미: `운영 티켓 처리 루프의 한 단계`
 - 핵심 열: `step`, `tool`, `reason`, `result_status`, `result_summary`, `observation`, `review_state`, `next_action`
 
@@ -118,6 +118,8 @@ from pathlib import Path
 목표 = "결제 API 장애 티켓을 읽고 안전한 다음 행동을 정리한다"
 data_path = Path("docs/assets/part-07/chapter-06/p7-6-agent-triage-steps.csv")
 step_rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_steps = {str(step) for step in range(1, 7)}
+step_rows = [row for row in step_rows if row["step"] in 대표_steps]
 
 계획_단계 = [
     {

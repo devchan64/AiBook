@@ -1,7 +1,7 @@
 # P7-5.3 질문-근거 경계 연습
 
 Section ID: `P7-5.3`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 `같은 문서 집합에서도 질문 문구를 어떻게 쓰느냐에 따라 왜 답변 상태가 달라지는가`를 직접 연습할 차례입니다. 질문 문구 하나가 `근거 부족`, `답변 과장 위험`, `근거 기반 답변`을 어떻게 가르는지 손으로 확인하는 데 초점을 둡니다.
 
@@ -43,8 +43,8 @@ P7-5.2까지 읽으면 독자는 보통 이렇게 생각하기 쉽습니다. `�
 
 ## 입력 파일
 
-- 문서 파일: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv)
-- 연습 질문 파일: [`p7-5-boundary-cases.csv`](../../../assets/part-07/chapter-05/p7-5-boundary-cases.csv)
+- 문서 파일: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv) · [CSV 미리보기](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv){ .csv-preview }
+- 연습 질문 파일: [`p7-5-boundary-cases.csv`](../../../assets/part-07/chapter-05/p7-5-boundary-cases.csv) · [CSV 미리보기](../../../assets/part-07/chapter-05/p7-5-boundary-cases.csv){ .csv-preview }
 - 문서 파일의 한 행 의미: `검색 가능한 문서 조각 하나`
 - 연습 질문 파일의 한 행 의미: `질문-근거 경계를 시험하는 질문 한 개`
 
@@ -53,7 +53,7 @@ P7-5.1, P7-5.2와 같은 문서 집합을 그대로 사용합니다. 대신 질�
 | case_id | question | expected_state | focus |
 | --- | --- | --- | --- |
 | 연습-02 | `MCP는 왜 필요한가?` | 근거 부족 | 문서 범위 밖 질문 |
-| 연습-03 | `문서 분할과 재정렬만 있으면 모든 환각이 해결되는가?` | 답변 과장 위험 | 과한 일반화 |
+| 연습-03 | `문서 분할 재정렬만 있으면 모든 환각이 해결되는가?` | 답변 과장 위험 | 과한 일반화 |
 | 연습-04 | `문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?` | 근거 기반 답변 | 더 보수적인 질문 재작성 |
 
 ## 연습 흐름
@@ -92,11 +92,15 @@ case_path = Path("docs/assets/part-07/chapter-05/p7-5-boundary-cases.csv")
 
 document_rows = list(csv.DictReader(document_path.open(encoding="utf-8")))
 case_rows = list(csv.DictReader(case_path.open(encoding="utf-8")))
+대표_문서_ids = {f"문서-{index}" for index in range(1, 7)}
+대표_case_ids = {f"연습-{index:02d}" for index in range(1, 7)}
+document_rows = [row for row in document_rows if row["doc_id"] in 대표_문서_ids]
+case_rows = [row for row in case_rows if row["case_id"] in 대표_case_ids]
 documents = {row["doc_id"]: row["text"] for row in document_rows}
 
 rewrite_map = {
     "MCP는 왜 필요한가?": "최신 규칙이 필요한 서비스에서 검색 단계가 먼저 필요한 이유를 문서 범위 안에서 설명할 수 있는가?",
-    "문서 분할과 재정렬만 있으면 모든 환각이 해결되는가?": "문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?",
+    "문서 분할 재정렬만 있으면 모든 환각이 해결되는가?": "문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?",
 }
 
 def clean_token(token):
@@ -114,10 +118,14 @@ def evaluate_question(question):
     ranked = []
     for doc_id, text in documents.items():
         overlap = len(question_tokens & tokenize(text))
-        direct_bonus = 1 if ("기록" in text or "구분" in text or "질문에 더 직접 답하는" in text) else 0
+        domain_bonus = sum(
+            phrase in question and phrase in text
+            for phrase in ["문서 분할", "재정렬", "검색 후보", "선택 근거", "최신 규칙"]
+        )
+        direct_bonus = 1 if overlap > 0 and ("기록" in text or "구분" in text or "질문에 더 직접 답하는" in text) else 0
         ranked.append({
             "doc_id": doc_id,
-            "score": overlap + direct_bonus,
+            "score": overlap + domain_bonus + direct_bonus,
             "overlap": overlap,
             "text": text,
         })
@@ -148,11 +156,12 @@ for row in case_rows:
     before = evaluate_question(row["question"])
     rewritten_question = rewrite_map.get(row["question"])
     after = evaluate_question(rewritten_question) if rewritten_question else None
+    expected_state = "근거 부족" if row["expected_state"] == "문서 범위 밖" else row["expected_state"]
 
     exercise_records.append({
         "case_id": row["case_id"],
         "focus": row["focus"],
-        "expected_state": row["expected_state"],
+        "expected_state": expected_state,
         "before": before,
         "rewritten_question": rewritten_question,
         "after": after,
@@ -178,9 +187,11 @@ summary = {
 print("연습 요약 =", summary)
 print("읽은 문서 파일 =", str(document_path))
 print("읽은 연습 질문 파일 =", str(case_path))
-print("연습 기록 =")
+핵심_case_ids = {"연습-02", "연습-03"}
+print("핵심 연습 기록 =")
 for row in exercise_records:
-    print(row)
+    if row["case_id"] in 핵심_case_ids:
+        print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
@@ -189,9 +200,9 @@ for row in exercise_records:
 연습 요약 = {'연습 수': 6, '기대 상태와 일치한 수': 6, '재작성으로 상태가 바뀐 수': 2, '다시 쓸 가치가 큰 질문': ['연습-02', '연습-03', '연습-06']}
 읽은 문서 파일 = docs/assets/part-07/chapter-05/p7-5-rag-documents.csv
 읽은 연습 질문 파일 = docs/assets/part-07/chapter-05/p7-5-boundary-cases.csv
-연습 기록 =
-{'case_id': '연습-02', 'focus': '문서 범위 밖 질문을 멈추는 경우', 'expected_state': '근거 부족', 'before': {'question': 'MCP는 왜 필요한가?', 'state': '근거 부족', 'reason': '문서 범위 밖 질문', 'top_doc': '문서-1', 'top_score': 0, 'candidates': [{'doc_id': '문서-1', 'score': 0, 'overlap': 0, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣고 그 근거 위에서 답변을 구성하는 구조다.'}, {'doc_id': '문서-2', 'score': 0, 'overlap': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없으므로 최신 규칙이 필요한 서비스에서는 검색 단계가 먼저 필요하다.'}, {'doc_id': '문서-5', 'score': 0, 'overlap': 0, 'text': '문서 분할 chunking 은 검색 범위를 세밀하게 만들지만 너무 잘게 나누면 문맥이 끊길 수 있다.'}]}, 'rewritten_question': '최신 규칙이 필요한 서비스에서 검색 단계가 먼저 필요한 이유를 문서 범위 안에서 설명할 수 있는가?', 'after': {'question': '최신 규칙이 필요한 서비스에서 검색 단계가 먼저 필요한 이유를 문서 범위 안에서 설명할 수 있는가?', 'state': '근거 기반 답변', 'reason': '현재 문서 범위 안에서 보수적으로 답할 수 있다', 'top_doc': '문서-2', 'top_score': 6, 'candidates': [{'doc_id': '문서-2', 'score': 6, 'overlap': 6, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없으므로 최신 규칙이 필요한 서비스에서는 검색 단계가 먼저 필요하다.'}, {'doc_id': '문서-6', 'score': 1, 'overlap': 0, 'text': '재정렬 reranking 은 상위 후보의 순서를 다시 바꾸어 질문에 더 직접 답하는 근거를 앞으로 당기는 단계다.'}, {'doc_id': '문서-4', 'score': 1, 'overlap': 0, 'text': 'RAG 프로젝트 기록에는 질문 검색 후보 선택 근거 최종 답변을 분리해 남겨야 검색 실패와 답변 실패를 나중에 구분할 수 있다.'}]}}
-{'case_id': '연습-03', 'focus': '검색은 됐지만 단정이 근거 밖인 경우', 'expected_state': '답변 과장 위험', 'before': {'question': '문서 분할과 재정렬만 있으면 모든 환각이 해결되는가?', 'state': '답변 과장 위험', 'reason': '검색은 됐지만 단정 표현이 문서 근거를 넘어간다', 'top_doc': '문서-6', 'top_score': 3, 'candidates': [{'doc_id': '문서-6', 'score': 3, 'overlap': 2, 'text': '재정렬 reranking 은 상위 후보의 순서를 다시 바꾸어 질문에 더 직접 답하는 근거를 앞으로 당기는 단계다.'}, {'doc_id': '문서-5', 'score': 2, 'overlap': 2, 'text': '문서 분할 chunking 은 검색 범위를 세밀하게 만들지만 너무 잘게 나누면 문맥이 끊길 수 있다.'}, {'doc_id': '문서-4', 'score': 1, 'overlap': 0, 'text': 'RAG 프로젝트 기록에는 질문 검색 후보 선택 근거 최종 답변을 분리해 남겨야 검색 실패와 답변 실패를 나중에 구분할 수 있다.'}]}, 'rewritten_question': '문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?', 'after': {'question': '문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?', 'state': '근거 기반 답변', 'reason': '현재 문서 범위 안에서 보수적으로 답할 수 있다', 'top_doc': '문서-6', 'top_score': 3, 'candidates': [{'doc_id': '문서-6', 'score': 3, 'overlap': 2, 'text': '재정렬 reranking 은 상위 후보의 순서를 다시 바꾸어 질문에 더 직접 답하는 근거를 앞으로 당기는 단계다.'}, {'doc_id': '문서-5', 'score': 2, 'overlap': 2, 'text': '문서 분할 chunking 은 검색 범위를 세밀하게 만들지만 너무 잘게 나누면 문맥이 끊길 수 있다.'}, {'doc_id': '문서-4', 'score': 1, 'overlap': 0, 'text': 'RAG 프로젝트 기록에는 질문 검색 후보 선택 근거 최종 답변을 분리해 남겨야 검색 실패와 답변 실패를 나중에 구분할 수 있다.'}]}}
+핵심 연습 기록 =
+{'case_id': '연습-02', 'focus': '현재 문서 집합에 없는 주제를 멈추는 경우', 'expected_state': '근거 부족', 'before': {'question': 'MCP는 왜 필요한가?', 'state': '근거 부족', 'reason': '문서 범위 밖 질문', 'top_doc': '문서-1', 'top_score': 0, 'candidates': [{'doc_id': '문서-1', 'score': 0, 'overlap': 0, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣고 그 근거 위에서 답변을 구성하는 구조다.'}, {'doc_id': '문서-2', 'score': 0, 'overlap': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없으므로 최신 규칙이 필요한 서비스에서는 검색 단계가 먼저 필요하다.'}, {'doc_id': '문서-3', 'score': 0, 'overlap': 0, 'text': '검색 후보 점수가 높아도 질문에 직접 답하지 않는 문장이 섞일 수 있으므로 선택 근거를 따로 남겨야 한다.'}]}, 'rewritten_question': '최신 규칙이 필요한 서비스에서 검색 단계가 먼저 필요한 이유를 문서 범위 안에서 설명할 수 있는가?', 'after': {'question': '최신 규칙이 필요한 서비스에서 검색 단계가 먼저 필요한 이유를 문서 범위 안에서 설명할 수 있는가?', 'state': '근거 기반 답변', 'reason': '현재 문서 범위 안에서 보수적으로 답할 수 있다', 'top_doc': '문서-2', 'top_score': 9, 'candidates': [{'doc_id': '문서-2', 'score': 9, 'overlap': 8, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없으므로 최신 규칙이 필요한 서비스에서는 검색 단계가 먼저 필요하다.'}, {'doc_id': '문서-5', 'score': 3, 'overlap': 3, 'text': '문서 분할 chunking 은 검색 범위를 세밀하게 만들지만 너무 잘게 나누면 문맥이 끊길 수 있다.'}, {'doc_id': '문서-4', 'score': 3, 'overlap': 2, 'text': 'RAG 프로젝트 기록에는 질문 검색 후보 선택 근거 최종 답변을 분리해 남겨야 검색 실패와 답변 실패를 나중에 구분할 수 있다.'}]}}
+{'case_id': '연습-03', 'focus': '검색은 됐지만 단정이 근거 밖인 경우', 'expected_state': '답변 과장 위험', 'before': {'question': '문서 분할 재정렬만 있으면 모든 환각이 해결되는가?', 'state': '답변 과장 위험', 'reason': '검색은 됐지만 단정 표현이 문서 근거를 넘어간다', 'top_doc': '문서-5', 'top_score': 3, 'candidates': [{'doc_id': '문서-5', 'score': 3, 'overlap': 2, 'text': '문서 분할 chunking 은 검색 범위를 세밀하게 만들지만 너무 잘게 나누면 문맥이 끊길 수 있다.'}, {'doc_id': '문서-2', 'score': 1, 'overlap': 1, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없으므로 최신 규칙이 필요한 서비스에서는 검색 단계가 먼저 필요하다.'}, {'doc_id': '문서-6', 'score': 1, 'overlap': 0, 'text': '재정렬 reranking 은 상위 후보의 순서를 다시 바꾸어 질문에 더 직접 답하는 근거를 앞으로 당기는 단계다.'}]}, 'rewritten_question': '문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?', 'after': {'question': '문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?', 'state': '근거 기반 답변', 'reason': '현재 문서 범위 안에서 보수적으로 답할 수 있다', 'top_doc': '문서-5', 'top_score': 4, 'candidates': [{'doc_id': '문서-5', 'score': 4, 'overlap': 3, 'text': '문서 분할 chunking 은 검색 범위를 세밀하게 만들지만 너무 잘게 나누면 문맥이 끊길 수 있다.'}, {'doc_id': '문서-2', 'score': 3, 'overlap': 3, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없으므로 최신 규칙이 필요한 서비스에서는 검색 단계가 먼저 필요하다.'}, {'doc_id': '문서-4', 'score': 3, 'overlap': 2, 'text': 'RAG 프로젝트 기록에는 질문 검색 후보 선택 근거 최종 답변을 분리해 남겨야 검색 실패와 답변 실패를 나중에 구분할 수 있다.'}]}}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -201,7 +212,7 @@ for row in exercise_records:
 | 질문 | 재작성 전 | 재작성 후 | 읽어야 할 점 |
 | --- | --- | --- | --- |
 | `MCP는 왜 필요한가?` | 근거 부족 | 근거 기반 답변 | 문서 범위 밖 질문을 문서 표현에 맞추면 답할 수 있는 질문이 된다 |
-| `문서 분할과 재정렬만 있으면 모든 환각이 해결되는가?` | 답변 과장 위험 | 근거 기반 답변 | 강한 일반화 표현을 걷어내면 보수적 답변이 가능해진다 |
+| `문서 분할 재정렬만 있으면 모든 환각이 해결되는가?` | 답변 과장 위험 | 근거 기반 답변 | 강한 일반화 표현을 걷어내면 보수적 답변이 가능해진다 |
 
 이 차이를 통해 독자는 두 가지를 잡아야 합니다.
 
@@ -234,7 +245,7 @@ for row in exercise_records:
 
 한 문단으로 쓰면 예를 들어 다음처럼 정리할 수 있습니다.
 
-> `문서 분할과 재정렬만 있으면 모든 환각이 해결되는가?`는 검색 후보는 있었지만 `모든`이라는 표현이 문서 근거보다 더 강해 `답변 과장 위험`으로 남았다. 같은 주제를 `문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?`로 다시 쓰자, 같은 문서 집합 안에서도 `근거 기반 답변` 상태로 바뀌었다. 따라서 다음 반복에서는 강한 일반화 질문을 그대로 답하기보다, 문서 범위에 맞는 질문으로 다시 쓰거나 답변 강도를 낮추는 규칙을 먼저 붙이는 편이 적절하다.
+> `문서 분할 재정렬만 있으면 모든 환각이 해결되는가?`는 검색 후보는 있었지만 `모든`이라는 표현이 문서 근거보다 더 강해 `답변 과장 위험`으로 남았다. 같은 주제를 `문서 분할과 재정렬은 검색 품질에 어떤 도움을 줄 수 있는가?`로 다시 쓰자, 같은 문서 집합 안에서도 `근거 기반 답변` 상태로 바뀌었다. 따라서 다음 반복에서는 강한 일반화 질문을 그대로 답하기보다, 문서 범위에 맞는 질문으로 다시 쓰거나 답변 강도를 낮추는 규칙을 먼저 붙이는 편이 적절하다.
 
 ## 직접 바꿔 보며 확인할 것
 
@@ -261,6 +272,6 @@ for row in exercise_records:
 
 ## 출처와 참고 자료
 
-- 문서 집합: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv)
-- 경계 사례 질문: [`p7-5-boundary-cases.csv`](../../../assets/part-07/chapter-05/p7-5-boundary-cases.csv)
+- 문서 집합: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv){ .csv-preview }
+- 경계 사례 질문: [`p7-5-boundary-cases.csv`](../../../assets/part-07/chapter-05/p7-5-boundary-cases.csv){ .csv-preview }
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

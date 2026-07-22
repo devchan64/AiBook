@@ -1,7 +1,7 @@
 # P7-1.3 기준선 재설계 연습
 
 Section ID: `P7-1.3`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 같은 로그라도 `기준선 구간을 어디로 잡는가`, `전체 합계로 볼 것인가 채널-일자 단위로 볼 것인가`에 따라 프로젝트 문서의 첫 줄이 달라집니다. 그 차이를 손으로 바꿔 보며 확인하는 연습입니다.
 
@@ -44,7 +44,7 @@ P7-1.2까지 읽으면 보통 `회고는 잘 남기면 된다`고 생각하기 �
 
 ## 입력 파일
 
-- 파일 경로: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv)
+- 파일 경로: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }
 - 한 행의 의미: `특정 날짜의 특정 유입 채널`
 - 이번 연습에서 바꿔 볼 것:
   - 기준선 경계일 `2026-06-08`, `2026-06-11`
@@ -103,6 +103,8 @@ def summarize(group_rows):
     visitors = sum(row["visitors"] for row in group_rows)
     signups = sum(row["signups"] for row in group_rows)
     errors = sum(row["errors"] for row in group_rows)
+    if visitors == 0:
+        raise ValueError("비교 구간에 visitors가 없습니다. 기준선 경계일을 확인하세요.")
     return {
         "visitors": visitors,
         "signups": signups,
@@ -122,6 +124,7 @@ def aggregate_by_day(group_rows):
     ]
 
 experiments = [
+    # 조작 변수: cutoff와 unit을 바꾸면 회고 앞줄에 올라오는 항목이 달라집니다.
     {"name": "전체 합계 / 7일 기준선", "cutoff": "2026-06-08", "unit": "date-total"},
     {"name": "채널-일자 / 7일 기준선", "cutoff": "2026-06-08", "unit": "channel-day"},
     {"name": "채널-일자 / 최근 4일 집중", "cutoff": "2026-06-11", "unit": "channel-day"},
@@ -250,8 +253,8 @@ for row in retrospective:
 
 같은 기준선 재설계 연습은 공개형 합성 센서 데이터에도 적용할 수 있습니다. 실제 장비 로그가 아니라, 동작 단위 센서 흐름을 흉내 낸 합성 요약표를 사용합니다.
 
-- 원시 로그: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv)
-- 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv)
+- 원시 로그: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv){ .csv-preview }
+- 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv){ .csv-preview }
 
 이 확장 연습에서 바꾸는 것은 모델이 아니라 비교 기준입니다.
 
@@ -275,6 +278,8 @@ for row in rows:
     row["late_drop_rate"] = float(row["late_drop_rate"])
 
 def summarize(group_rows):
+    if not group_rows:
+        raise ValueError("비교 구간이 비어 있습니다. cutoff_order를 확인하세요.")
     return {
         "count": len(group_rows),
         "mid_flow_mean": round(sum(row["mid_flow_mean"] for row in group_rows) / len(group_rows), 3),
@@ -287,6 +292,7 @@ def summarize(group_rows):
 
 comparison_rows = [row for row in rows if row["period"] in {"baseline", "recent"}]
 
+# 조작 변수: 최근 구간을 어디서 시작할지 바꿔 봅니다.
 for cutoff_order in [9, 10]:
     baseline = [row for row in comparison_rows if row["event_order"] < cutoff_order]
     recent = [row for row in comparison_rows if row["event_order"] >= cutoff_order]
@@ -306,7 +312,7 @@ for cutoff_order in [9, 10]:
 실행 결과는 다음처럼 읽을 수 있습니다.
 
 ```text
-{'recent_start_order': 9, 'baseline_count': 8, 'recent_count': 4, 'mid_flow_gap': -0.219, 'late_drop_gap': 0.063, 'recent_review_ratio': 0.75}
+{'recent_start_order': 9, 'baseline_count': 8, 'recent_count': 4, 'mid_flow_gap': -0.219, 'late_drop_gap': 0.064, 'recent_review_ratio': 0.75}
 {'recent_start_order': 10, 'baseline_count': 9, 'recent_count': 3, 'mid_flow_gap': -0.172, 'late_drop_gap': 0.051, 'recent_review_ratio': 0.667}
 ```
 
@@ -350,7 +356,7 @@ for cutoff_order in [9, 10]:
 
 ## 출처와 참고 자료
 
-- 실습 로그 파일: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv)
-- 동작 단위 합성 원시 로그: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv)
-- 동작 단위 합성 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv)
+- 실습 로그 파일: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }
+- 동작 단위 합성 원시 로그: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv){ .csv-preview }
+- 동작 단위 합성 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv){ .csv-preview }
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

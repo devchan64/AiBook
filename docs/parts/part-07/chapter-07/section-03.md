@@ -1,7 +1,7 @@
 # P7-7.3 운영 점검 시뮬레이션
 
 Section ID: `P7-7.3`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 `운영 중 관찰 신호가 들어왔을 때 무엇을 즉시 수정하고 무엇은 재현을 먼저 확인하며 무엇은 다음 반복 개선으로 둘 것인가`를 직접 써 볼 차례입니다. 운영 판단을 순서 설명이 아니라 행동 구간 분류로 읽게 만드는 데 초점을 둡니다.
 
@@ -43,7 +43,7 @@ P7-7.2까지 읽으면 실패 기록은 남길 수 있습니다. 하지만 실�
 
 ## 입력 파일
 
-- 파일 경로: [`p7-7-ops-scenarios.csv`](../../../assets/part-07/chapter-07/p7-7-ops-scenarios.csv)
+- 파일 경로: [`p7-7-ops-scenarios.csv`](../../../assets/part-07/chapter-07/p7-7-ops-scenarios.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-7-ops-scenarios.csv){ .csv-preview }
 - 한 행의 의미: `운영 중 관찰된 신호 한 건`
 - 핵심 열: `reader_impact`, `reproducible`, `scope`, `expected_bucket`, `first_check`
 
@@ -86,6 +86,8 @@ from pathlib import Path
 
 data_path = Path("docs/assets/part-07/chapter-07/p7-7-ops-scenarios.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_case_ids = {f"ops-{index:02d}" for index in range(1, 7)}
+rows = [row for row in rows if row["case_id"] in 대표_case_ids]
 
 def classify_bucket(row):
     if row["reader_impact"] == "높음" and row["reproducible"] == "예":
@@ -216,5 +218,5 @@ for row in records:
 
 ## 출처와 참고 자료
 
-- 운영 시나리오 파일: [`p7-7-ops-scenarios.csv`](../../../assets/part-07/chapter-07/p7-7-ops-scenarios.csv)
+- 운영 시나리오 파일: [`p7-7-ops-scenarios.csv`](../../../assets/part-07/chapter-07/p7-7-ops-scenarios.csv){ .csv-preview }
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

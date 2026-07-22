@@ -1,7 +1,7 @@
 # P7-5.1 검색, 근거, 답변 흐름 실습
 
 Section ID: `P7-5.1`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 RAG(retrieval-augmented generation) 프로젝트를 처음 만들면 종종 `답변이 그럴듯한가`만 먼저 보게 됩니다. 하지만 실제로는 답변보다 앞에 `어떤 검색 후보들이 경쟁했는가`, `그중 무엇을 근거로 채택했는가`, `왜 다른 후보는 탈락했는가`가 먼저 남아 있어야 다음 검증이 가능합니다.
 
@@ -60,7 +60,7 @@ RAG 프로젝트에서 답변만 남기면 세 가지가 바로 사라집니다.
 
 ## 입력 파일
 
-- 문서 조각 파일: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv)
+- 문서 조각 파일: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv) · [CSV 미리보기](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv){ .csv-preview }
 - 한 행의 의미: `검색 가능한 문서 조각 하나`
 - 핵심 열: `doc_id`, `text`
 
@@ -113,6 +113,8 @@ from pathlib import Path
 
 data_path = Path("docs/assets/part-07/chapter-05/p7-5-rag-documents.csv")
 document_rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_문서_ids = {f"문서-{index}" for index in range(1, 11)}
+document_rows = [row for row in document_rows if row["doc_id"] in 대표_문서_ids]
 
 SUFFIXES = [
     "에서는", "으로는", "으로", "보다", "해야", "하게", "했다", "한다",
@@ -188,8 +190,8 @@ for row in document_rows:
 for row in 상위_후보:
     text = row["문장"]
     if len(선택_근거) < 3 and (
-        "검색 후보" in text
-        or "선택 근거" in text
+        "선택 근거" in text
+        or "최종 답변" in text
         or "답변 실패" in text
     ):
         선택_근거.append({

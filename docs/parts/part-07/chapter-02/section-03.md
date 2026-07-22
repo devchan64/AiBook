@@ -1,11 +1,11 @@
 # P7-2.3 비교 실험 연습
 
 Section ID: `P7-2.3`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 여러 비교 실험을 한 줄로 붙여 놓으면 `무엇이 전처리 문제이고 무엇이 데이터 경계 문제인가`가 더 직접 보입니다. 그 차이를 손으로 구분하는 연습입니다.
 
-같은 학습 데이터 위에서 여러 비교 실험을 한 번에 읽으면 `정확도 한 줄`보다 `어떤 샘플은 전처리로 해결되고 어떤 샘플은 여전히 남는가`가 먼저 보입니다.
+같은 학습 데이터 위에서 여러 비교 실험을 한 번에 읽으면 `정확도 한 줄`보다 `어떤 샘플은 전처리로 해결되고 어떤 샘플은 정규화 후에도 남는가`가 먼저 보입니다.
 
 ## 비교 실험에서 갈라야 할 실패
 
@@ -18,7 +18,7 @@ Version: `v2026.07.20`
 ## 판단 기준
 
 - 여러 실험 설정을 같은 평가 셋에서 나란히 비교할 수 있습니다.
-- `전처리로 해결된 실패`와 `여전히 남는 경계 실패`를 구분해 적을 수 있습니다.
+- `전처리로 해결된 실패`와 `정규화 후에도 남는 경계 실패`를 구분해 적을 수 있습니다.
 - 비교 실험 뒤에 무엇을 더 모으고 무엇을 더 전처리할지 판단할 수 있습니다.
 
 ## 왜 비교 실험 연습이 필요한가
@@ -37,7 +37,7 @@ P7-2.2까지 읽으면 보통 `정규화하면 좋아진다`는 인상을 받기
 | 경계 데이터 부족 | raw도 틀리고 정규화 후도 틀림 | 더 많은 경계 사례 수집, 특징 보강 검토 |
 | 애매한 경계 사례 | 설정마다 예측이 서로 엇갈림 | 현재 특징만으로 충분한지 다시 보기 |
 
-예를 들어 `z-score 정확도 0.75`가 가장 높고 `scaled 1-NN`도 같다면, 빠르게는 `둘 중 아무거나 쓰고 넘어가면 된다`고 적고 싶어질 수 있습니다. 하지만 더 안전한 다음 판단은 최고 점수 한 줄로 닫는 것이 아니라, `stress-01`처럼 전처리로 해결된 샘플이 무엇인지, `stress-02`처럼 어떤 설정에서도 남는 샘플이 무엇인지, `stress-03`처럼 설정마다 갈리는 샘플이 무엇인지를 먼저 나누는 것입니다. 그렇게 읽어야 `점수가 같은 두 설정`과 `실패 해석이 같은 두 설정`을 섞지 않게 됩니다.
+예를 들어 `z-score 정확도 0.833`이 가장 높다면, 빠르게는 `z-score만 쓰면 된다`고 적고 싶어질 수 있습니다. 하지만 더 안전한 다음 판단은 최고 점수 한 줄로 닫는 것이 아니라, `stress-01`처럼 전처리로 해결된 샘플이 무엇인지, `stress-02`처럼 정규화 후에도 남는 샘플이 무엇인지, `stress-03`처럼 스케일 조정 뒤 오히려 흔들리는 샘플이 무엇인지를 먼저 나누는 것입니다. 그렇게 읽어야 `점수가 높은 설정`과 `모든 실패 해석을 해결한 설정`을 섞지 않게 됩니다.
 
 ```mermaid
 --8<-- "assets/part-07/chapter-02/p7-2-3-preprocessing-case-flow-ko.mmd"
@@ -47,8 +47,8 @@ P7-2.2까지 읽으면 보통 `정규화하면 좋아진다`는 인상을 받기
 
 ## 입력 파일
 
-- 학습/기본 평가 파일: [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv)
-- 추가 스트레스 평가 파일: [`p7-2-stress-test.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.csv)
+- 학습/기본 평가 파일: [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview }
+- 추가 스트레스 평가 파일: [`p7-2-stress-test.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.csv){ .csv-preview }
 - 기본 파일의 한 행 의미: `한 명의 구독 고객 기록`
 - 스트레스 파일의 한 행 의미: `경계와 실패 해석을 확인하기 위한 추가 평가 사례`
 
@@ -75,7 +75,7 @@ P7-2.2까지 읽으면 보통 `정규화하면 좋아진다`는 인상을 받기
 - 문제 상황: 어떤 실패는 전처리로 해결되고, 어떤 실패는 데이터 경계 자체가 비어 있어 남는다.
 - 입력:
   - 기존 학습 데이터 12건
-  - 스트레스 평가 사례 4건
+  - 스트레스 평가 사례 36건
 - 비교 설정:
   - baseline
   - raw 1-NN
@@ -150,6 +150,8 @@ scaled_pred, scaled_nearest = predict_1nn(X_train_scaled, y_train, X_test_scaled
 
 train_mean = X_train.mean(axis=0)
 train_std = X_train.std(axis=0)
+if np.any(train_std == 0):
+    raise ValueError("표준편차가 0인 특징이 있어 z-score 정규화를 할 수 없습니다.")
 X_train_z = (X_train - train_mean) / train_std
 X_test_z = (X_test - train_mean) / train_std
 z_pred, z_nearest = predict_1nn(X_train_z, y_train, X_test_z)
@@ -165,8 +167,8 @@ for i, row in enumerate(stress_rows):
 
     if model_errors["raw_1nn"] and not model_errors["zscore_1nn"]:
         diagnosis = "전처리로 해결됨"
-    elif all(model_errors[name] for name in ["raw_1nn", "scaled_1nn", "zscore_1nn"]):
-        diagnosis = "경계 사례 추가 또는 특징 보강 필요"
+    elif model_errors["zscore_1nn"]:
+        diagnosis = "정규화 후에도 남는 경계 사례"
     elif len({int(raw_pred[i]), int(scaled_pred[i]), int(z_pred[i])}) > 1:
         diagnosis = "설정에 따라 갈리는 경계 사례"
     else:
@@ -193,29 +195,34 @@ summary = {
     "전처리로 해결된 샘플": [
         row["샘플"] for row in comparison_rows if row["failure_diagnosis"] == "전처리로 해결됨"
     ],
-    "여전히 남는 샘플": [
-        row["샘플"] for row in comparison_rows if row["failure_diagnosis"] == "경계 사례 추가 또는 특징 보강 필요"
+    "정규화 후에도 남는 샘플": [
+        row["샘플"] for row in comparison_rows if row["failure_diagnosis"] == "정규화 후에도 남는 경계 사례"
     ],
 }
+
+representative_ids = {"stress-01", "stress-02", "stress-03", "stress-04"}
+representative_rows = [
+    row for row in comparison_rows if row["샘플"] in representative_ids
+]
 
 print("비교 실험 요약 =", summary)
 print("학습 파일 =", str(train_path))
 print("스트레스 평가 파일 =", str(stress_path))
-print("샘플별 비교 =")
-for row in comparison_rows:
+print("대표 샘플별 비교 =")
+for row in representative_rows:
     print(row)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-비교 실험 요약 = {'baseline 정확도': 0.25, 'raw 1-NN 정확도': 0.5, '부분 스케일 조정 1-NN 정확도': 0.75, 'z-score 1-NN 정확도': 0.75, '전처리로 해결된 샘플': ['stress-01'], '여전히 남는 샘플': ['stress-02']}
+비교 실험 요약 = {'baseline 정확도': 0.361, 'raw 1-NN 정확도': 0.861, '부분 스케일 조정 1-NN 정확도': 0.722, 'z-score 1-NN 정확도': 0.833, '전처리로 해결된 샘플': ['stress-01', 'stress-05', 'stress-13', 'stress-21', 'stress-29'], '정규화 후에도 남는 샘플': ['stress-02', 'stress-03', 'stress-06', 'stress-14', 'stress-22', 'stress-30']}
 학습 파일 = docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv
 스트레스 평가 파일 = docs/assets/part-07/chapter-02/p7-2-stress-test.csv
-샘플별 비교 =
-{'샘플': 'stress-01', 'focus': 'raw 거리에서는 retained 고객과 가까워 보이지만 전처리 후에는 churn 신호가 살아나는 사례', '정답': 1, 'baseline': 0, 'raw_1nn': 0, 'scaled_1nn': 1, 'zscore_1nn': 1, 'raw_nearest': '학습-01', 'z_nearest': '학습-08', 'failure_diagnosis': '전처리로 해결됨'}
-{'샘플': 'stress-02', 'focus': '현재 학습 데이터 경계가 비어 있어 전처리만으로는 해결되지 않는 경계 사례', '정답': 1, 'baseline': 0, 'raw_1nn': 0, 'scaled_1nn': 0, 'zscore_1nn': 0, 'raw_nearest': '학습-04', 'z_nearest': '학습-04', 'failure_diagnosis': '경계 사례 추가 또는 특징 보강 필요'}
-{'샘플': 'stress-03', 'focus': '질문 수와 미접속 일수는 높지만 실제로는 유지 고객인 애매한 retained 사례', '정답': 0, 'baseline': 0, 'raw_1nn': 0, 'scaled_1nn': 1, 'zscore_1nn': 1, 'raw_nearest': '학습-06', 'z_nearest': '학습-11', 'failure_diagnosis': '설정에 따라 갈리는 경계 사례'}
+대표 샘플별 비교 =
+{'샘플': 'stress-01', 'focus': 'raw 거리에서는 retained 고객과 가까워 보이지만 전처리 후에는 churn 신호가 살아나는 사례', '정답': 1, 'baseline': 0, 'raw_1nn': 0, 'scaled_1nn': 1, 'zscore_1nn': 1, 'raw_nearest': '학습-02', 'z_nearest': '학습-08', 'failure_diagnosis': '전처리로 해결됨'}
+{'샘플': 'stress-02', 'focus': '현재 학습 데이터 경계가 비어 있어 전처리만으로는 해결되지 않는 경계 사례', '정답': 1, 'baseline': 0, 'raw_1nn': 1, 'scaled_1nn': 0, 'zscore_1nn': 0, 'raw_nearest': '학습-11', 'z_nearest': '학습-04', 'failure_diagnosis': '정규화 후에도 남는 경계 사례'}
+{'샘플': 'stress-03', 'focus': '질문 수와 미접속 일수는 높지만 실제로는 유지 고객인 애매한 retained 사례', '정답': 0, 'baseline': 0, 'raw_1nn': 0, 'scaled_1nn': 1, 'zscore_1nn': 1, 'raw_nearest': '학습-05', 'z_nearest': '학습-11', 'failure_diagnosis': '정규화 후에도 남는 경계 사례'}
 {'샘플': 'stress-04', 'focus': '대부분의 비교 실험에서 일관되게 churn으로 잡혀야 하는 명확한 사례', '정답': 1, 'baseline': 0, 'raw_1nn': 1, 'scaled_1nn': 1, 'zscore_1nn': 1, 'raw_nearest': '학습-09', 'z_nearest': '학습-09', 'failure_diagnosis': '현재 비교 실험에서는 안정적'}
 ```
 
@@ -226,14 +233,14 @@ for row in comparison_rows:
 | 샘플 | 읽어야 할 점 | 다음 행동 |
 | --- | --- | --- |
 | `stress-01` | raw 거리에서는 틀렸지만 전처리 후 맞았다 | 스케일과 전처리 점검을 우선한다 |
-| `stress-02` | 모든 비교 실험에서 여전히 틀렸다 | 경계 사례 수집이나 특징 보강을 검토한다 |
-| `stress-03` | 설정에 따라 retained/churn이 갈린다 | 현재 특징만으로 충분한지 다시 본다 |
+| `stress-02` | raw에서는 맞지만 정규화 뒤에는 오히려 틀린다 | 정규화가 모든 경계 사례를 해결한다고 단정하지 않는다 |
+| `stress-03` | raw에서는 맞지만 스케일 조정 뒤에는 틀린다 | 현재 특징만으로 충분한지 다시 본다 |
 | `stress-04` | 대부분의 실험에서 안정적으로 맞는다 | 현재 구조의 기준 사례로 남긴다 |
 
 이 차이를 통해 독자는 두 가지를 잡아야 합니다.
 
 - `전처리로 해결된 실패`는 설정을 더 다듬을 가치가 있다는 신호입니다.
-- `여전히 남는 실패`는 데이터 경계나 특징 자체를 다시 봐야 한다는 신호입니다.
+- `정규화 후에도 남는 실패`는 데이터 경계나 특징 자체를 다시 봐야 한다는 신호입니다.
 
 즉, 비교 실험의 결론은 `무조건 z-score`가 아니라 `현재 실패가 어느 종류인가`입니다.
 
@@ -252,13 +259,13 @@ for row in comparison_rows:
 | --- | --- |
 | 비교 설정 | baseline, raw, scaled, z-score 중 무엇을 돌렸는가 |
 | 전처리로 해결된 샘플 | 어떤 실패가 설정 변경으로 사라졌는가 |
-| 여전히 남는 샘플 | 어떤 실패는 전처리 뒤에도 남는가 |
+| 정규화 후에도 남는 샘플 | 어떤 실패는 전처리 뒤에도 남는가 |
 | 해석 | 전처리 문제인지, 데이터 경계 문제인지 |
 | 다음 질문 | 더 모을 사례와 더 바꿀 특징은 무엇인가 |
 
 한 문단으로 쓰면 예를 들어 다음처럼 정리할 수 있습니다.
 
-> `stress-01`은 raw 거리에서는 retained 쪽으로 잘못 붙었지만, 사용 시간 스케일을 줄이거나 z-score 정규화를 적용하자 churn으로 바로잡혔다. 반면 `stress-02`는 모든 비교 실험에서 retained로 남아, 지금 문제는 전처리보다도 `4건 안팎의 문의 수와 10일대 미접속 구간`에 해당하는 churn 사례가 학습 데이터에 거의 없다는 점에 더 가깝다. 따라서 다음 반복에서는 전처리 튜닝만 더 하는 대신 경계 구간 고객 사례를 추가 수집하고, 필요하면 결제 실패 횟수 같은 새 특징도 검토하는 편이 적절하다.
+> `stress-01`은 raw 거리에서는 retained 쪽으로 잘못 붙었지만, 사용 시간 스케일을 줄이거나 z-score 정규화를 적용하자 churn으로 바로잡혔다. 반면 `stress-02`와 `stress-03`은 설정에 따라 판단이 뒤집히며, 정규화가 항상 더 안전한 해결책은 아니라는 점을 보여 준다. 따라서 다음 반복에서는 전처리 튜닝만 더 하는 대신 경계 구간 고객 사례를 추가 수집하고, 필요하면 결제 실패 횟수 같은 새 특징도 검토하는 편이 적절하다.
 
 ## 동작 단위 센서 비교 실험 확장
 
@@ -362,14 +369,14 @@ for row in comparison:
 | 확인할 것 | 스스로 답할 질문 |
 | --- | --- |
 | 비교 실험 | 여러 비교 실험을 같은 평가 셋에서 나란히 실행했는가? |
-| 실패 구분 | `전처리로 해결된 실패`와 `여전히 남는 실패`를 구분했는가? |
+| 실패 구분 | `전처리로 해결된 실패`와 `정규화 후에도 남는 실패`를 구분했는가? |
 | 샘플 진단 | 점수뿐 아니라 샘플별 실패 진단을 기록했는가? |
 | 다음 우선순위 | 다음 반복을 `전처리`와 `데이터 보강` 중 어디서 시작할지 적었는가? |
 | 비교 축 | 길이가 다른 동작을 비교할 때 절대 시간축과 진행도축 중 어느 쪽이 현재 질문에 맞는지 적었는가? |
 
 ## 출처와 참고 자료
 
-- 학습 데이터: [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv)
-- 스트레스 평가 데이터: [`p7-2-stress-test.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.csv)
-- 동작 단위 합성 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv)
+- 학습 데이터: [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview }
+- 스트레스 평가 데이터: [`p7-2-stress-test.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.csv){ .csv-preview }
+- 동작 단위 합성 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv){ .csv-preview }
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

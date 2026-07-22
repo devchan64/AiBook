@@ -1,7 +1,7 @@
 # P7-4.2 실패한 결과를 다시 분해하기
 
 Section ID: `P7-4.2`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 고객 문의를 환불팀과 배송팀으로 나누는 텍스트 분류기를 만들었다고 해도, 정확도 숫자 하나만으로 검토를 끝내기 어렵습니다. 실패한 결과를 `기준선 문제`, `입력 표현 문제`, `데이터 범위 문제`, `구조 문제`로 다시 분해해 봐야 합니다.
 
@@ -82,7 +82,7 @@ P7-4.1의 같은 학습 데이터를 유지한 채 평가 문장을 조금 더 �
   - 낮은 coverage는 재검토 신호이지 즉시 오답 판정이 아니다
   - 검토 대상 문장을 명시적으로 남겨야 다음 개선 계획이 쉬워진다
 
-같은 흐름에서 P7-4.1과 같은 [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv)를 그대로 읽습니다. 이렇게 두면 같은 문의 데이터 파일 위에서 기본 분류와 coverage/OOV 평가를 연속해서 확인할 수 있습니다.
+같은 흐름에서 P7-4.1과 같은 [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv){ .csv-preview }를 그대로 읽습니다. 이렇게 두면 같은 문의 데이터 파일 위에서 기본 분류와 coverage/OOV 평가를 연속해서 확인할 수 있습니다.
 
 ## 실행 기록 기준
 

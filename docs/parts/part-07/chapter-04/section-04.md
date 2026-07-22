@@ -1,7 +1,7 @@
 # P7-4.4 같은 평균, 다른 패턴 비교 연습
 
 Section ID: `P7-4.4`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 평균이 같으면 같은 데이터처럼 보이기 쉽습니다. 하지만 동작 단위 시계열에서는 같은 평균을 가진 두 신호도 완전히 다른 패턴일 수 있습니다. 평균(mean)만 남겼을 때 사라지는 정보를 `shape token`과 간단한 패턴 요약으로 다시 읽는 연습입니다.
 
@@ -41,7 +41,7 @@ Version: `v2026.07.20`
 
 ## 입력 파일
 
-- 파일 경로: [`p7-action-unit-pattern-pairs.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv)
+- 파일 경로: [`p7-action-unit-pattern-pairs.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv){ .csv-preview }
 - 한 행의 의미: `동작 1회의 네 구간 요약`
 - 핵심 열: `segment_1`, `segment_2`, `segment_3`, `segment_4`, `expected_shape`
 
@@ -72,6 +72,8 @@ from pathlib import Path
 
 data_path = Path("docs/assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_event_ids = {f"PAT-{index:02d}" for index in range(1, 7)}
+rows = [row for row in rows if row["event_id"] in 대표_event_ids]
 
 def values(row):
     return [float(row[f"segment_{index}"]) for index in range(1, 5)]
@@ -199,5 +201,5 @@ shape token을 붙였을 때 새로 보인 차이:
 
 ## 출처와 참고 자료
 
-- 동작 단위 패턴 비교 파일: [`p7-action-unit-pattern-pairs.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv)
+- 동작 단위 패턴 비교 파일: [`p7-action-unit-pattern-pairs.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv){ .csv-preview }
 - 이 문서는 자체 합성 데이터와 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

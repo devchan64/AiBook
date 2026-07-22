@@ -1,7 +1,7 @@
 # P7-3.2 CNN, 순차 모델, attention 계열 비교
 
 Section ID: `P7-3.2`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 기본 이미지 분류기 하나를 학습했는데 test 정확도가 `0.75`로 끝났다고 해서, 그 사실만으로 다음 선택이 정해지지는 않습니다. 여기서 중요한 것은 `어떤 실패가 어떤 구조 계열을 더 의심하게 만드는가`를 프로젝트 문서에 남기는 일입니다.
 
@@ -147,11 +147,11 @@ test_probs =
 
 ## 입력 파일
 
-- [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv)
+- [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview }
   - 역할: 학습 데이터에 어떤 패턴이 실제로 있었는지 다시 대조하기 위한 기준 파일
-- [`p7-3-error-review.csv`](../../../assets/part-07/chapter-03/p7-3-error-review.csv)
+- [`p7-3-error-review.csv`](../../../assets/part-07/chapter-03/p7-3-error-review.csv){ .csv-preview }
   - 역할: 평가 샘플별 예측 결과와 오류 검토 필요 여부를 읽는 파일
-- [`p7-3-followup-actions.csv`](../../../assets/part-07/chapter-03/p7-3-followup-actions.csv)
+- [`p7-3-followup-actions.csv`](../../../assets/part-07/chapter-03/p7-3-followup-actions.csv){ .csv-preview }
   - 역할: 회고 뒤에 바로 붙일 다음 조치 후보를 읽는 파일
 
 한 파일만 읽고 끝나지 않습니다. `무슨 일이 있었는가`는 평가 기록에서 읽고, `학습에 무엇이 있었는가`는 패치 파일에서 대조하고, `다음에 무엇을 할 것인가`는 조치 파일에서 읽어 회고 문장으로 다시 묶습니다.
@@ -193,6 +193,8 @@ test_records = [
     for row in review_rows
 ]
 
+target_sample = "평가-결함-약함"
+
 학습_패턴_이름 = [
     row["pattern_name"] for row in surface_rows if row["split"] == "train"
 ]
@@ -201,7 +203,7 @@ test_records = [
 
 오류_사례_기록 = None
 for row in test_records:
-    if row["오류 검토 필요"] == "예":
+    if row["샘플"] == target_sample:
         약한_결함_여부 = "예" if row["패턴 이름"] == "약한 스크래치" else "아니오"
         학습_데이터_포함_여부 = (
             "예" if row["패턴 이름"] in 학습_패턴_이름 else "아니오"
@@ -220,16 +222,18 @@ for row in test_records:
         }
         break
 
-다음_조치_목록 = [
+대표_다음_조치_목록 = [
     {"다음 조치": row["action"], "이유": row["reason"]} for row in action_rows
-]
+][:3]
 
 검토_요약 = {
-    "오류 사례 수": sum(row["오류 검토 필요"] == "예" for row in test_records),
-    "검토 대상 샘플": [
+    "전체 오류 사례 수": sum(row["오류 검토 필요"] == "예" for row in test_records),
+    "전체 검토 대상 샘플": [
         row["샘플"] for row in test_records if row["오류 검토 필요"] == "예"
     ],
-    "다음 조치 수": len(다음_조치_목록),
+    "대표 오류 샘플": target_sample,
+    "전체 다음 조치 수": len(action_rows),
+    "대표 다음 조치 수": len(대표_다음_조치_목록),
 }
 
 print("읽은 평가 기록 파일 =", str(review_path))
@@ -237,8 +241,8 @@ print("읽은 학습 패치 파일 =", str(surface_path))
 print("읽은 다음 조치 파일 =", str(action_path))
 print("검토 요약 =", 검토_요약)
 print("오류 사례 기록 =", 오류_사례_기록)
-print("다음 조치 목록 =")
-for row in 다음_조치_목록:
+print("대표 다음 조치 목록 =")
+for row in 대표_다음_조치_목록:
     print(row)
 ```
 
@@ -248,9 +252,9 @@ for row in 다음_조치_목록:
 읽은 평가 기록 파일 = docs/assets/part-07/chapter-03/p7-3-error-review.csv
 읽은 학습 패치 파일 = docs/assets/part-07/chapter-03/p7-3-surface-patches.csv
 읽은 다음 조치 파일 = docs/assets/part-07/chapter-03/p7-3-followup-actions.csv
-검토 요약 = {'오류 사례 수': 1, '검토 대상 샘플': ['평가-결함-약함'], '다음 조치 수': 3}
+검토 요약 = {'전체 오류 사례 수': 22, '전체 검토 대상 샘플': ['평가-결함-약함', '평가-후보-01', '평가-후보-02', '평가-후보-05', '평가-후보-06', '평가-후보-08', '평가-후보-09', '평가-후보-10', '평가-후보-11', '평가-후보-15', '평가-후보-16', '평가-후보-17', '평가-후보-18', '평가-후보-20', '평가-후보-21', '평가-후보-24', '평가-후보-25', '평가-후보-26', '평가-후보-28', '평가-후보-30', '평가-후보-31', '평가-후보-33'], '대표 오류 샘플': '평가-결함-약함', '전체 다음 조치 수': 36, '대표 다음 조치 수': 3}
 오류 사례 기록 = {'오류 샘플': '평가-결함-약함', '실제 라벨': '스크래치 경고', '예측 라벨': '정상 표면', '클래스별 확률': [0.73, 0.27], '확신 차이': 0.459, '약한 결함 여부': '예', '학습 데이터 포함 여부': '아니오', '데이터 가설': '학습 데이터에는 약한 스크래치 강도의 사례가 부족하다', '표현 가설': '8x8 입력을 평평하게 펼치면서 미약한 결함 위치 강조가 약해졌다', '모델 가설': '선형 경계만으로는 약한 스크래치와 그림자 변화를 충분히 구분하기 어렵다'}
-다음 조치 목록 =
+대표 다음 조치 목록 =
 {'다음 조치': '학습 데이터에 약한 스크래치 강도 사례 추가', '이유': '현재 학습 데이터가 비교적 명확한 결함 중심이기 때문'}
 {'다음 조치': '조명 그림자와 결함이 겹친 변형 추가', '이유': '정상 그림자와 결함을 더 분리해 봐야 하기 때문'}
 {'다음 조치': '공간 구조를 더 읽는 후속 모델 검토', '이유': '평평하게 펼친 입력보다 공간 구조가 더 중요할 수 있기 때문'}

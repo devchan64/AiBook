@@ -1,7 +1,7 @@
 # P7-7.1 배포 확인과 상태 점검
 
 Section ID: `P7-7.1`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 Part 7의 마지막 프로젝트는 `코드를 만들었다`에서 끝나지 않습니다. 이 책 저장소처럼 정적 웹 문서를 배포하는 프로젝트도, 독자에게 실제로 보이기 시작하는 순간부터는 운영 질문이 생깁니다.
 
@@ -146,7 +146,7 @@ git branch --show-current
 | 최신 내용 반영 | 가장 최근 수정이 반영되었는가? | 수정한 Section의 `Version` 또는 제목 노출 |
 | 깨진 링크 | 주요 내부 링크가 깨지지 않았는가? | 목차에서 수정한 페이지, 앞뒤 연결 링크, 자산 링크 |
 
-배포 확인표를 표로만 읽고 끝내지 않으려면, 같은 형식을 실제 점검 기록 파일로도 다뤄 보는 편이 좋습니다. Python 예제에서는 배포 확인표 두 건을 [`p7-7-deployment-checks.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-checks.csv)에 두고, 코드가 그 기록을 읽어 `공개 확인까지 끝난 배포`와 `재확인이 필요한 배포`를 구분합니다.
+배포 확인표를 표로만 읽고 끝내지 않으려면, 같은 형식을 실제 점검 기록 파일로도 다뤄 보는 편이 좋습니다. Python 예제에서는 배포 확인표 두 건을 [`p7-7-deployment-checks.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-checks.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-7-deployment-checks.csv){ .csv-preview }에 두고, 코드가 그 기록을 읽어 `공개 확인까지 끝난 배포`와 `재확인이 필요한 배포`를 구분합니다.
 
 ## Python 예제
 
@@ -162,7 +162,7 @@ git branch --show-current
 
 ## 입력 파일
 
-- 파일 경로: [`p7-7-deployment-checks.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-checks.csv)
+- 파일 경로: [`p7-7-deployment-checks.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-checks.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-7-deployment-checks.csv){ .csv-preview }
 - 한 행의 의미: `배포 한 건의 점검 단계 하나`
 - 핵심 열: `run_id`, `check_order`, `check_name`, `observed_value`, `recheck_required`
 
@@ -187,6 +187,8 @@ from pathlib import Path
 
 data_path = Path("docs/assets/part-07/chapter-07/p7-7-deployment-checks.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_run_ids = {"배포-001", "배포-002"}
+rows = [row for row in rows if row["run_id"] in 대표_run_ids]
 
 deployments = defaultdict(list)
 for row in rows:

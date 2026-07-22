@@ -1,7 +1,7 @@
 # P7-4.3 표현 정규화 연습
 
 Section ID: `P7-4.3`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 `낯선 표현을 학습 때 본 표현으로 바꾸면 실제로 무엇이 달라지는가`를 직접 실험해 볼 차례입니다. 정규화 규칙 하나가 예측, coverage, 회고 우선순위를 어떻게 함께 바꾸는지 확인하는 연습입니다.
 
@@ -43,7 +43,7 @@ P7-4.2까지 읽고 나면 `낮은 coverage 샘플은 다시 봐야 한다`는 �
 
 ## 입력 파일
 
-- 파일 경로: [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv)
+- 파일 경로: [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv){ .csv-preview }
 - 한 행의 의미: `한 건의 고객 문의와 라우팅 정답`
 - 이번 연습에서 특히 볼 평가 행: `평가-05`, `평가-07`
 
@@ -182,16 +182,17 @@ summary = {
 }
 
 print("정규화 비교 요약 =", summary)
-print("샘플별 비교 =")
+print("핵심 샘플별 비교 =")
 for row in comparison_rows:
-    print(row)
+    if row["평가 샘플"] in {"평가-05", "평가-07"}:
+        print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
 정규화 비교 요약 = {'원문 정확도': 0.857, '정규화 후 정확도': 1.0, 'coverage가 오른 샘플': ['평가-05', '평가-07'], '예측이 바뀐 샘플': ['평가-05']}
-샘플별 비교 =
+핵심 샘플별 비교 =
 {'평가 샘플': '평가-05', '원문': '캔슬 후 송장 번호 남아 있어요', '정규화 후': '취소 후 송장 번호 남아 있어요', '원문 coverage': 0.333, '정규화 후 coverage': 0.5, '원문 OOV': ['캔슬', '후', '남아', '있어요'], '정규화 후 OOV': ['후', '남아', '있어요'], '원문 예측': '배송팀', '정규화 후 예측': '환불팀', '실제 팀': '환불팀'}
 {'평가 샘플': '평가-07', '원문': '하자 제품 환불 스케줄 알고 싶어요', '정규화 후': '불량 제품 환불 일정 알고 싶어요', '원문 coverage': 0.333, '정규화 후 coverage': 0.667, '원문 OOV': ['하자', '스케줄', '알고', '싶어요'], '정규화 후 OOV': ['알고', '싶어요'], '원문 예측': '환불팀', '정규화 후 예측': '환불팀', '실제 팀': '환불팀'}
 ```
@@ -258,5 +259,5 @@ for row in comparison_rows:
 
 ## 출처와 참고 자료
 
-- 문의 데이터: [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv)
+- 문의 데이터: [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv){ .csv-preview }
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

@@ -1,7 +1,7 @@
 # P7-6.3 승인 정책 연습
 
 Section ID: `P7-6.3`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 `같은 운영 시나리오 안에서도 어떤 단계는 자동 실행하고 어떤 단계는 반드시 멈춰야 하는가`를 직접 연습할 차례입니다. 승인 정책을 추상 원칙이 아니라 단계별 판단 기록으로 바꾸는 데 초점을 둡니다.
 
@@ -44,8 +44,8 @@ P7-6.2까지 읽으면 독자는 `승인이 없으면 보류`라는 원칙은 �
 
 ## 입력 파일
 
-- 단계 기록 파일: [`p7-6-permission-log.csv`](../../../assets/part-07/chapter-06/p7-6-permission-log.csv)
-- 연습 정책 파일: [`p7-6-approval-cases.csv`](../../../assets/part-07/chapter-06/p7-6-approval-cases.csv)
+- 단계 기록 파일: [`p7-6-permission-log.csv`](../../../assets/part-07/chapter-06/p7-6-permission-log.csv) · [CSV 미리보기](../../../assets/part-07/chapter-06/p7-6-permission-log.csv){ .csv-preview }
+- 연습 정책 파일: [`p7-6-approval-cases.csv`](../../../assets/part-07/chapter-06/p7-6-approval-cases.csv) · [CSV 미리보기](../../../assets/part-07/chapter-06/p7-6-approval-cases.csv){ .csv-preview }
 - 단계 기록 파일의 한 행 의미: `도구 한 단계의 권한·승인 기록`
 - 연습 정책 파일의 한 행 의미: `승인 정책을 다시 판단해 볼 단계 한 개`
 
@@ -76,7 +76,7 @@ P7-6.2까지 읽으면 독자는 `승인이 없으면 보류`라는 원칙은 �
 예제는 승인 정책을 표로만 보지 않고 실제 분류 결과로 다시 읽는 것입니다. 코드가 길어 보이더라도 실제로는 권한 기록 위에 `정책 판정(policy_decision)`과 `더 안전한 다음 행동`을 한 번 더 얹는 구조입니다.
 
 - 문제 상황: 에이전트 단계들을 승인 정책 기준으로 다시 분류한다.
-- 입력: 기존 권한 기록 4개, 연습용 단계 후보 6개
+- 입력: 기존 권한 기록 5개, 연습용 단계 후보 6개
 - 기대 출력: 단계별 정책 판정, 자동 실행 가능 단계 목록, 즉시 보류 단계 목록, 재작성된 다음 행동
 - 확인할 개념:
   - 읽기 단계는 자동화하기 쉬워도 변경 단계는 별도 기준이 필요하다
@@ -93,6 +93,10 @@ case_path = Path("docs/assets/part-07/chapter-06/p7-6-approval-cases.csv")
 
 base_rows = list(csv.DictReader(base_path.open(encoding="utf-8")))
 case_rows = list(csv.DictReader(case_path.open(encoding="utf-8")))
+대표_base_steps = {str(step) for step in range(1, 6)}
+대표_case_ids = {f"연습-{step:02d}" for step in range(1, 7)}
+base_rows = [row for row in base_rows if row["step"] in 대표_base_steps]
+case_rows = [row for row in case_rows if row["case_id"] in 대표_case_ids]
 
 def classify_policy(row):
     permission = row["permission"]
@@ -155,7 +159,7 @@ for row in exercise_records:
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-정책 연습 요약 = {'기존 기록 단계 수': 4, '연습 단계 수': 6, '자동 실행 가능 단계 수': 3, '즉시 보류 단계 수': 3, '가장 먼저 다시 볼 단계': ['연습-03', '연습-05', '연습-06']}
+정책 연습 요약 = {'기존 기록 단계 수': 5, '연습 단계 수': 6, '자동 실행 가능 단계 수': 3, '즉시 보류 단계 수': 3, '가장 먼저 다시 볼 단계': ['연습-03', '연습-05', '연습-06']}
 읽은 기존 기록 파일 = docs/assets/part-07/chapter-06/p7-6-permission-log.csv
 읽은 연습 정책 파일 = docs/assets/part-07/chapter-06/p7-6-approval-cases.csv
 연습 기록 =
@@ -230,5 +234,5 @@ for row in exercise_records:
 
 ## 출처와 참고 자료
 
-- 승인 정책 연습 파일: [`p7-6-approval-cases.csv`](../../../assets/part-07/chapter-06/p7-6-approval-cases.csv)
+- 승인 정책 연습 파일: [`p7-6-approval-cases.csv`](../../../assets/part-07/chapter-06/p7-6-approval-cases.csv){ .csv-preview }
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

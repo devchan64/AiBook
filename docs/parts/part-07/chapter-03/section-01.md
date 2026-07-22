@@ -1,7 +1,7 @@
 # P7-3.1 입력 구조는 프로젝트를 어떻게 바꾸는가
 
 Section ID: `P7-3.1`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 입력이 `표의 행(row)`이 아니라 `이미지 텐서(tensor)`일 때 프로젝트 문서와 준비 코드가 어떻게 바뀌는지 확인합니다.
 
@@ -85,7 +85,7 @@ Version: `v2026.07.20`
 
 ## 예제 데이터
 
-생산 라인 표면 점검 카메라가 잘라 낸 `8x8 grayscale ROI(region of interest)` 패치를 사용합니다. 본문 설명에서는 대표 패치를 직접 보여 주되, Python 예제에서 읽는 전체 학습/평가 데이터는 [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv)에 따로 둡니다.
+생산 라인 표면 점검 카메라가 잘라 낸 `8x8 grayscale ROI(region of interest)` 패치를 사용합니다. 본문 설명에서는 대표 패치를 직접 보여 주되, Python 예제에서 읽는 전체 학습/평가 데이터는 [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview }에 따로 둡니다.
 
 - 클래스 0: 정상 표면
 - 클래스 1: 스크래치 경고
@@ -135,7 +135,7 @@ Version: `v2026.07.20`
 
 ## 입력 파일
 
-- 파일 경로: [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv)
+- 파일 경로: [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview }
 - 한 행의 의미: `표면 점검 패치 하나`
 - 핵심 열:
   - `split`: 학습(train) / 평가(test) 구분
@@ -197,6 +197,8 @@ X_test = X_test.reshape(len(X_test), -1)
 
 W = np.zeros((64, 2))
 b = np.zeros(2)
+learning_rate = 0.35
+num_steps = 700
 
 def softmax(z):
     z = z - z.max(axis=1, keepdims=True)
@@ -210,13 +212,13 @@ def one_hot(y, num_classes=2):
 
 Y_train = one_hot(y_train)
 
-for _ in range(700):
+for _ in range(num_steps):
     logits = X_train @ W + b
     probs = softmax(logits)
     grad_W = X_train.T @ (probs - Y_train) / len(X_train)
     grad_b = (probs - Y_train).mean(axis=0)
-    W -= 0.35 * grad_W
-    b -= 0.35 * grad_b
+    W -= learning_rate * grad_W
+    b -= learning_rate * grad_b
 
 train_probs = softmax(X_train @ W + b)
 train_pred = train_probs.argmax(axis=1)
@@ -335,10 +337,10 @@ Python 예제는 이미지 분류 입문 예제이지만, 동시에 학습 루�
 | 학습 루프 용어 | 이 코드에서 대응되는 위치 | 코드에서 어떻게 읽으면 좋은가 |
 | --- | --- | --- |
 | 입력 배치(batch) | `X_train`, `y_train` 전체 | 예제는 학습 샘플 12개를 한 번에 넣는 full-batch 학습이다 |
-| step | `for _ in range(700)` 안의 한 번의 갱신 | 한 번 logits를 만들고 gradient를 계산한 뒤 `W`, `b`를 움직이는 한 주기다 |
+| step | `for _ in range(num_steps)` 안의 한 번의 갱신 | 한 번 logits를 만들고 gradient를 계산한 뒤 `W`, `b`를 움직이는 한 주기다 |
 | epoch | 이 코드에서는 step과 사실상 같다 | full-batch라서 샘플 전체를 한 번 본 뒤 바로 한 번 update한다 |
-| learning rate | `0.35` | gradient를 얼마나 크게 반영해 `W`, `b`를 움직일지 정하는 보폭이다 |
-| optimizer update | `W -= 0.35 * grad_W`, `b -= 0.35 * grad_b` | gradient만 계산하는 데서 끝나지 않고 실제 파라미터가 바뀌는 지점이다 |
+| learning rate | `learning_rate = 0.35` | gradient를 얼마나 크게 반영해 `W`, `b`를 움직일지 정하는 보폭이다 |
+| optimizer update | `W -= learning_rate * grad_W`, `b -= learning_rate * grad_b` | gradient만 계산하는 데서 끝나지 않고 실제 파라미터가 바뀌는 지점이다 |
 | inference | `test_probs`, `test_pred` 계산 | 학습이 끝난 현재 `W`, `b`를 고정한 채 평가 샘플에 예측만 수행하는 단계다 |
 
 이 표가 중요한 이유는, 초심자가 실제 코드를 읽을 때 `gradient를 계산했다`와 `파라미터를 실제로 바꿨다`, `학습 중이다`와 `지금은 평가만 한다`를 자주 섞기 때문입니다. 예제는 아주 작지만, 바로 그 경계를 다시 확인하기에는 충분합니다.

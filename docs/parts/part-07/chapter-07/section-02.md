@@ -1,7 +1,7 @@
 # P7-7.2 장애 기록과 다음 반복 계획
 
 Section ID: `P7-7.2`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 배포 프로젝트의 마지막 단계는 배포 성공 화면을 보고 끝내는 일이 아닙니다. 이 저장소처럼 `dev`에서 쓰고 `main`에서 배포하는 구조에서는, 실패도 `어느 단계에서 끊겼는가`를 기록해야 다음 반복이 쉬워집니다.
 
@@ -140,11 +140,11 @@ AiBook 같은 정적 문서 배포 프로젝트에서 흔한 실패는 크게 �
   - 가능한 원인, 확인 위치, 다음 조치가 함께 있어야 한다
   - 우선순위가 붙어야 다음 반복으로 이어진다
 
-운영 사건 예시를 코드 안에 직접 쓰지 않고 [`p7-7-deployment-incidents.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-incidents.csv)에 둡니다. Python 코드는 그 CSV를 읽어 우선순위별 회고 기록과 개선 계획을 만드는 단계부터 시작합니다.
+운영 사건 예시를 코드 안에 직접 쓰지 않고 [`p7-7-deployment-incidents.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-incidents.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-7-deployment-incidents.csv){ .csv-preview }에 둡니다. Python 코드는 그 CSV를 읽어 우선순위별 회고 기록과 개선 계획을 만드는 단계부터 시작합니다.
 
 ## 입력 파일
 
-- 파일 경로: [`p7-7-deployment-incidents.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-incidents.csv)
+- 파일 경로: [`p7-7-deployment-incidents.csv`](../../../assets/part-07/chapter-07/p7-7-deployment-incidents.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-7-deployment-incidents.csv){ .csv-preview }
 - 한 행의 의미: `배포 이후 관찰된 실패 사건 하나`
 - 핵심 열: `incident_id`, `date`, `problem`, `category`, `signal`, `possible_cause`, `check_locations`, `priority`, `immediate_checks`, `next_action`
 
@@ -168,6 +168,10 @@ from pathlib import Path
 
 data_path = Path("docs/assets/part-07/chapter-07/p7-7-deployment-incidents.csv")
 incident_rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_incident_ids = {f"deploy-{index:02d}" for index in range(1, 5)}
+incident_rows = [
+    row for row in incident_rows if row["incident_id"] in 대표_incident_ids
+]
 
 실패_기록 = []
 for row in incident_rows:

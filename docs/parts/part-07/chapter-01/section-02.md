@@ -1,7 +1,7 @@
 # P7-1.2 baseline과 첫 비교
 
 Section ID: `P7-1.2`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 운영 로그를 읽고 평균, 최대값, 비율을 계산했다고 해서 바로 `좋다`, `나쁘다`를 말할 수는 없습니다. baseline과 첫 비교는 숫자를 다시 적는 절이 아니라, `무엇이 기준선보다 실제로 달라졌는가`, `그 차이 가운데 무엇이 먼저 볼 만한가`를 가르는 자리입니다.
 
@@ -121,7 +121,7 @@ P7-1.1의 결과를 이 구조에 맞추면 다음처럼 적을 수 있습니다
   - 최근 7일 로그를 다시 읽으며 어떤 항목을 `즉시 검토`, `추가 관찰`로 남길지 정해야 한다.
   - 하지만 전환율 하락과 오류율 상승을 어느 수준부터 심각 신호로 볼지는 팀이나 단계마다 다를 수 있다.
 - 입력:
-  - [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv)
+  - [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }
   - 두 가지 검토 기준: `엄격 모드`, `탐색 모드`
 - 기대 출력:
   - 기준별 검토 후보 목록
@@ -151,17 +151,21 @@ from pathlib import Path
 review_rules = [
     {
         "name": "엄격 모드",
+        # 즉시 검토 후보만 남기고 싶을 때 쓰는 강한 기준입니다.
         "conversion_drop_max": -0.035,
         "error_rise_min": 0.011,
     },
     {
         "name": "탐색 모드",
+        # 관찰 후보를 넓게 잡고 싶을 때 쓰는 완화 기준입니다.
         "conversion_drop_max": -0.025,
         "error_rise_min": 0.009,
     },
 ]
 
 def conversion_rate(row):
+    if row["visitors"] == 0:
+        raise ValueError(f"visitors가 0인 행은 비율을 계산할 수 없습니다: {row}")
     return row["signups"] / row["visitors"]
 
 def error_rate(row):
@@ -175,6 +179,7 @@ for row in rows:
     row["signups"] = int(row["signups"])
     row["errors"] = int(row["errors"])
 
+# 조작 변수: 이 날짜를 바꾸면 기준선과 최근 구간이 달라집니다.
 cutoff = datetime.strptime("2026-06-08", "%Y-%m-%d").date()
 baseline_rows = [row for row in rows if row["date"] < cutoff]
 recent_rows = [row for row in rows if row["date"] >= cutoff]
@@ -212,7 +217,7 @@ for rule in review_rules:
             and row["error_delta"] >= rule["error_rise_min"]
         ):
             selected.append({
-                "date": row["date"],
+                "date": row["date"].isoformat(),
                 "channel": row["channel"],
                 "conversion_delta": row["conversion_delta"],
                 "error_delta": row["error_delta"],
@@ -239,8 +244,8 @@ print("공통 검토 후보 =", common_keys)
 ```text
 기준별 검토 후보 =
 읽은 파일 = docs/assets/part-07/chapter-01/p7-1-traffic-log.csv
-엄격 모드 [{'date': '2026-06-10', 'channel': 'ads', 'conversion_delta': -0.0355, 'error_delta': 0.0111}, {'date': '2026-06-11', 'channel': 'ads', 'conversion_delta': -0.0388, 'error_delta': 0.0134}, {'date': '2026-06-12', 'channel': 'ads', 'conversion_delta': -0.0378, 'error_delta': 0.0129}, {'date': '2026-06-14', 'channel': 'ads', 'conversion_delta': -0.0385, 'error_delta': 0.0127}]
-탐색 모드 [{'date': '2026-06-08', 'channel': 'ads', 'conversion_delta': -0.0284, 'error_delta': 0.0096}, {'date': '2026-06-10', 'channel': 'ads', 'conversion_delta': -0.0355, 'error_delta': 0.0111}, {'date': '2026-06-11', 'channel': 'ads', 'conversion_delta': -0.0388, 'error_delta': 0.0134}, {'date': '2026-06-12', 'channel': 'ads', 'conversion_delta': -0.0378, 'error_delta': 0.0129}, {'date': '2026-06-13', 'channel': 'ads', 'conversion_delta': -0.0396, 'error_delta': 0.0106}, {'date': '2026-06-14', 'channel': 'ads', 'conversion_delta': -0.0385, 'error_delta': 0.0127}]
+엄격 모드 [{'date': '2026-06-10', 'channel': 'ads', 'conversion_delta': -0.0354, 'error_delta': 0.011}, {'date': '2026-06-11', 'channel': 'ads', 'conversion_delta': -0.0388, 'error_delta': 0.0134}, {'date': '2026-06-12', 'channel': 'ads', 'conversion_delta': -0.0378, 'error_delta': 0.0129}, {'date': '2026-06-14', 'channel': 'ads', 'conversion_delta': -0.0385, 'error_delta': 0.0126}]
+탐색 모드 [{'date': '2026-06-08', 'channel': 'ads', 'conversion_delta': -0.0283, 'error_delta': 0.0095}, {'date': '2026-06-09', 'channel': 'ads', 'conversion_delta': -0.0329, 'error_delta': 0.0091}, {'date': '2026-06-10', 'channel': 'ads', 'conversion_delta': -0.0354, 'error_delta': 0.011}, {'date': '2026-06-11', 'channel': 'ads', 'conversion_delta': -0.0388, 'error_delta': 0.0134}, {'date': '2026-06-12', 'channel': 'ads', 'conversion_delta': -0.0378, 'error_delta': 0.0129}, {'date': '2026-06-13', 'channel': 'ads', 'conversion_delta': -0.0395, 'error_delta': 0.0106}, {'date': '2026-06-14', 'channel': 'ads', 'conversion_delta': -0.0385, 'error_delta': 0.0126}]
 공통 검토 후보 = [('2026-06-10', 'ads'), ('2026-06-11', 'ads'), ('2026-06-12', 'ads'), ('2026-06-14', 'ads')]
 ```
 
@@ -253,7 +258,7 @@ print("공통 검토 후보 =", common_keys)
 | 관찰 | 읽어야 할 뜻 |
 | --- | --- |
 | 엄격 모드는 4건만 고른다 | 즉시 검토 기준을 강하게 잡으면 후보가 줄어든다 |
-| 탐색 모드는 6건을 고른다 | 관찰 기준을 넓히면 더 많은 후보를 남길 수 있다 |
+| 탐색 모드는 7건을 고른다 | 관찰 기준을 넓히면 더 많은 후보를 남길 수 있다 |
 | 공통 후보는 모두 ads 채널이다 | 기준을 바꿔도 사라지지 않는 신호가 우선순위 앞줄로 올라간다 |
 | organic과 search는 후보가 아니다 | 전체 하락을 모든 채널 문제로 단정하지 않아야 한다 |
 
@@ -276,7 +281,7 @@ baseline:
 
 | 사실 | 해석 | 다음 질문 |
 | --- | --- | --- |
-| 엄격 모드에서는 4건, 탐색 모드에서는 6건이 검토 후보로 올라왔다. | 검토 기준에 따라 회고 범위가 달라진다. | 즉시 대응 기준과 관찰 기준을 분리할 것인가? |
+| 엄격 모드에서는 4건, 탐색 모드에서는 7건이 검토 후보로 올라왔다. | 검토 기준에 따라 회고 범위가 달라진다. | 즉시 대응 기준과 관찰 기준을 분리할 것인가? |
 | 두 기준 모두에서 `ads`의 2026-06-10, 06-11, 06-12, 06-14가 반복 등장했다. | 이 구간은 우연보다 구조적 문제 가능성이 더 크다. | ads landing page, 추적 스크립트, 캠페인 설정을 먼저 볼 것인가? |
 | organic과 search는 같은 기준에서 검토 후보로 올라오지 않았다. | 전체 하락처럼 보여도 실제 운영 이상은 특정 채널에 집중됐을 수 있다. | 채널 단위를 더 잘게 쪼개 브라우저, 캠페인, 디바이스 기준도 확인할 것인가? |
 

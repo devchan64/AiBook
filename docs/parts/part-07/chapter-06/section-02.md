@@ -1,7 +1,7 @@
 # P7-6.2 권한, 로그, blocked 상태 검토
 
 Section ID: `P7-6.2`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 에이전트 run이 승인 대기 때문에 blocked 상태로 멈출 수 있다는 사실만으로는 운영 기록이 충분하지 않습니다. 같은 run 안에서도 어떤 단계는 `완료`, 어떤 단계는 `blocked`, 어떤 단계는 진짜 `failure`일 수 있기 때문입니다.
 
@@ -70,7 +70,7 @@ P7-6.1의 같은 장애 티켓 흐름을 이어 받되, 예제에서는 `blocked
 
 ## 입력 파일
 
-- 파일 경로: [`p7-6-permission-log.csv`](../../../assets/part-07/chapter-06/p7-6-permission-log.csv)
+- 파일 경로: [`p7-6-permission-log.csv`](../../../assets/part-07/chapter-06/p7-6-permission-log.csv) · [CSV 미리보기](../../../assets/part-07/chapter-06/p7-6-permission-log.csv){ .csv-preview }
 - 한 행의 의미: `도구 한 단계의 권한·승인·결과 기록`
 - 핵심 열: `step`, `tool`, `permission`, `scope`, `approved`, `result_status`, `observation`, `next_action`
 
@@ -108,6 +108,8 @@ from pathlib import Path
 
 data_path = Path("docs/assets/part-07/chapter-06/p7-6-permission-log.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_steps = {str(step) for step in range(1, 6)}
+rows = [row for row in rows if row["step"] in 대표_steps]
 
 실행_기록 = [
     {

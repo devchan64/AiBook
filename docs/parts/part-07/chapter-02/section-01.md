@@ -1,7 +1,7 @@
 # P7-2.1 비교표와 오류 사례 읽기
 
 Section ID: `P7-2.1`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 `예측 모델`을 하나 붙여 보고, 그 결과를 비교표와 오류 사례로 읽기 시작합니다.
 
@@ -125,11 +125,11 @@ baseline은 아주 단순합니다.
   - 작은 모델이어도 예측 결과를 직접 읽을 수 있어야 한다
   - 나중에 회고할 수 있도록 샘플별 결과를 기록해야 한다
 
-실습용 분류 데이터를 코드 안에 직접 쓰지 않고 [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv)에 둡니다. Python 코드는 `split` 열을 기준으로 학습(train)과 평가(test)를 나누는 단계부터 시작합니다.
+실습용 분류 데이터를 코드 안에 직접 쓰지 않고 [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview }에 둡니다. Python 코드는 `split` 열을 기준으로 학습(train)과 평가(test)를 나누는 단계부터 시작합니다.
 
 ## 입력 파일
 
-- 파일 경로: [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv)
+- 파일 경로: [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview }
 - 한 행의 의미: `한 명의 구독 고객에 대한 관측 기록`
 - 핵심 열: `split`, `sample_id`, `unresolved_tickets`, `days_since_login`, `usage_minutes_30d`, `label`
 
@@ -168,16 +168,20 @@ for row in rows:
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 
+feature_columns = ["미해결 문의 수", "최근 접속 후 경과 일수", "최근 30일 사용 시간"]
+# 조작 변수: 사용 시간을 60으로 나누면 거리 계산에서 큰 숫자 축의 영향이 줄어듭니다.
+feature_scales = np.array([1.0, 1.0, 1.0])
+
 X_train = np.array([
-    [row["미해결 문의 수"], row["최근 접속 후 경과 일수"], row["최근 30일 사용 시간"]]
+    [row[column] for column in feature_columns]
     for row in train_rows
-], dtype=float)
+], dtype=float) / feature_scales
 y_train = np.array([row["정답"] for row in train_rows])
 
 X_test = np.array([
-    [row["미해결 문의 수"], row["최근 접속 후 경과 일수"], row["최근 30일 사용 시간"]]
+    [row[column] for column in feature_columns]
     for row in test_rows
-], dtype=float)
+], dtype=float) / feature_scales
 y_test = np.array([row["정답"] for row in test_rows])
 
 # baseline: train에서 가장 많은 라벨 하나만 계속 예측
@@ -239,7 +243,7 @@ for row in comparison_rows:
 읽은 파일 = docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv
 샘플별 비교 =
 {'평가 샘플': '평가-01', '실제 정답': 0, '기준점 예측': 0, '기준점 정답 여부': '예', '1-NN 예측': 0, '1-NN 정답 여부': '예', '가장 가까운 학습 샘플': '학습-03'}
-{'평가 샘플': '평가-02', '실제 정답': 1, '기준점 예측': 0, '기준점 정답 여부': '아니오', '1-NN 예측': 0, '1-NN 정답 여부': '아니오', '가장 가까운 학습 샘플': '학습-01'}
+{'평가 샘플': '평가-02', '실제 정답': 1, '기준점 예측': 0, '기준점 정답 여부': '아니오', '1-NN 예측': 0, '1-NN 정답 여부': '아니오', '가장 가까운 학습 샘플': '학습-02'}
 {'평가 샘플': '평가-03', '실제 정답': 1, '기준점 예측': 0, '기준점 정답 여부': '아니오', '1-NN 예측': 1, '1-NN 정답 여부': '예', '가장 가까운 학습 샘플': '학습-09'}
 {'평가 샘플': '평가-04', '실제 정답': 0, '기준점 예측': 0, '기준점 정답 여부': '예', '1-NN 예측': 1, '1-NN 정답 여부': '아니오', '가장 가까운 학습 샘플': '학습-11'}
 {'평가 샘플': '평가-05', '실제 정답': 1, '기준점 예측': 0, '기준점 정답 여부': '아니오', '1-NN 예측': 1, '1-NN 정답 여부': '예', '가장 가까운 학습 샘플': '학습-11'}
@@ -303,7 +307,7 @@ baseline보다 나아진 사례:
 
 전처리 필요성을 실제 오류 사례로 느끼는 것이 중요하므로, 실행 뒤에는 입력 스케일을 일부러 흔들어 보는 편이 좋습니다.
 
-1. `usage_minutes_30d` 값을 모두 `60`으로 나눠 분 단위를 시간 단위처럼 바꿔 봅니다.
+1. `feature_scales`를 `np.array([1.0, 1.0, 60.0])`으로 바꿔 `usage_minutes_30d`를 시간 단위처럼 줄여 봅니다.
    관찰할 점: `평가-02`, `평가-04`의 최근접 이웃이 바뀌는가? 정확도와 실패 샘플이 줄어드는가?
 
 2. `평가-02`와 비슷한 이탈 위험 고객 한 행을 CSV에 하나 더 추가해 봅니다.

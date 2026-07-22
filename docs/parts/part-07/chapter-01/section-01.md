@@ -1,7 +1,7 @@
 # P7-1.1 프로젝트 질문과 입력 정의
 
 Section ID: `P7-1.1`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 앞에서는 모델, 검색, 에이전트(agent), 운영까지 큰 구조를 보았습니다. 하지만 프로젝트 파트의 첫 출발은 더 직접적이어야 합니다. `표를 읽고, 질문을 세우고, 입력 단위를 정하는 일`부터 다시 시작해야 합니다. 바로 그 첫 단계입니다. 목적은 모델을 쓰는 것이 아니라, 표에서 질문을 만들고 어떤 행을 한 건의 입력으로 볼지 정한 뒤 요약 결과를 프로젝트 기록으로 남기는 습관을 만드는 데 있습니다.
 
@@ -171,11 +171,11 @@ Part 3에서 써 온 공통 기록 구조를 프로젝트 문서 형태로 처�
   - 전체 합계만 보면 놓치는 문제가 채널 단위 비교에서 드러날 수 있다
   - 데이터 분석 프로젝트의 첫 성공은 원인을 단정하는 것이 아니라 `다음 검토 우선순위`를 만드는 것이다
 
-실습용 CSV를 코드 안에 직접 넣지 않고 [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv)에 둡니다. Python 코드는 그 파일을 읽는 단계부터 시작합니다.
+실습용 CSV를 코드 안에 직접 넣지 않고 [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }에 둡니다. Python 코드는 그 파일을 읽는 단계부터 시작합니다.
 
 ## 입력 파일
 
-- 파일 경로: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv)
+- 파일 경로: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }
 - 한 행의 의미: `특정 날짜의 특정 유입 채널`
 - 핵심 열: `date`, `channel`, `visitors`, `signups`, `errors`
 
@@ -212,6 +212,7 @@ for row in rows:
     row["signups"] = int(row["signups"])
     row["errors"] = int(row["errors"])
 
+# 조작 변수: 이 날짜를 바꾸면 기준선과 최근 구간의 경계가 달라집니다.
 cutoff = datetime.strptime("2026-06-08", "%Y-%m-%d").date()
 baseline_rows = [row for row in rows if row["date"] < cutoff]
 recent_rows = [row for row in rows if row["date"] >= cutoff]
@@ -220,6 +221,8 @@ def summarize(group_rows):
     visitors = sum(row["visitors"] for row in group_rows)
     signups = sum(row["signups"] for row in group_rows)
     errors = sum(row["errors"] for row in group_rows)
+    if visitors == 0:
+        raise ValueError("비교 구간에 visitors가 없습니다. cutoff 날짜나 입력 파일을 확인하세요.")
     return {
         "visitors": visitors,
         "signups": signups,

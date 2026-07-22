@@ -1,7 +1,7 @@
 # P7-7.4 경고 등급 설계 연습
 
 Section ID: `P7-7.4`
-Version: `v2026.07.20`
+Version: `v2026.07.22`
 
 운영 신호를 세 행동 구간으로 나누는 것만으로는 충분하지 않을 때가 있습니다. 같은 `재현 확인` 후보 안에서도 어떤 신호는 지켜보기만 하면 되고, 어떤 신호는 바로 검토 대기열 앞쪽으로 올려야 합니다. 동작 단위 합성 데이터를 이용해 `watch`, `review`, `action` 등급을 직접 설계하는 연습입니다.
 
@@ -43,7 +43,7 @@ P7-7.3에서는 운영 신호를 `즉시 수정`, `재현 확인`, `다음 반�
 
 ## 입력 파일
 
-- 파일 경로: [`p7-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv)
+- 파일 경로: [`p7-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv){ .csv-preview }
 - 한 행의 의미: `동작 단위 합성 데이터에서 만들어 낸 운영 신호 한 건`
 - 핵심 열: `gap`, `event_count`, `repeatability_score`, `recency_weight`, `reader_impact`, `expected_grade`
 
@@ -74,6 +74,8 @@ from pathlib import Path
 
 data_path = Path("docs/assets/part-07/chapter-07/p7-action-unit-alert-grades.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+대표_signal_ids = {f"grade-{index:02d}" for index in range(1, 7)}
+rows = [row for row in rows if row["signal_id"] in 대표_signal_ids]
 
 def threshold_only_grade(row):
     gap = float(row["gap"])
@@ -216,5 +218,5 @@ gap 기준 등급:
 
 ## 출처와 참고 자료
 
-- 경고 등급 설계 파일: [`p7-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv)
+- 경고 등급 설계 파일: [`p7-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv){ .csv-preview }
 - 이 문서는 자체 합성 데이터와 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.
