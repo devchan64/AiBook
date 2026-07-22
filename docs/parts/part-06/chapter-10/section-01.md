@@ -277,11 +277,13 @@ P6-9.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제
 
 ## 연습 및 예제
 
-이 예제의 목표는 `좋은 문장을 한 번 쓰는 것`이 아니라, 같은 작업을 여러 요청 카드에 반복 적용했을 때 어떤 프롬프트가 더 안정적인 결과를 내는지 점검하는 것입니다. 실제 서비스에서도 프롬프트 평가는 한 번의 멋진 출력보다 `여러 입력에서 형식과 핵심 항목이 계속 유지되는가`를 보는 쪽이 더 중요합니다.
+이 예제의 목표는 `좋은 문장을 한 번 쓰는 것`이 아니라, 같은 작업을 여러 요청 카드에 반복 적용했을 때 어떤 프롬프트가 더 안정적인 결과를 내는지 직접 관찰하는 것입니다. 실제 서비스에서도 프롬프트 평가는 한 번의 멋진 출력보다 `여러 입력에서 형식과 핵심 항목이 계속 유지되는가`를 보는 쪽이 더 중요합니다.
+
+이번 예제는 사람이 만든 응답 함수를 쓰지 않고, Ollama 로컬 API로 실제 모델 응답을 받아 점검합니다. 독자의 컴퓨터에서 Ollama가 실행 중이어야 하며, 사용할 모델은 `OLLAMA_MODEL` 환경 변수로 바꿀 수 있습니다. 실행 결과는 모델과 버전에 따라 달라질 수 있으므로, 본문에서 봐야 할 것은 특정 문장 하나가 아니라 `단순 프롬프트와 구조화 프롬프트의 점검 통계가 어떻게 달라지는가`입니다.
 
 고객지원팀이 매일 여러 운영 메모를 짧게 요약한다고 해 봅시다. 단순 요청은 자유롭게 요약되지만, 운영상 꼭 남겨야 하는 항목이 빠질 수 있습니다. 구조화 요청은 `독자`, `줄 수`, `반드시 남길 항목`을 함께 줘서 형식과 누락 여부를 점검합니다.
 
-아래 예제는 운영 메모 3개를 대상으로 단순 프롬프트와 구조화 프롬프트를 비교합니다. 비교 기준은 메모별 응답, 줄 수, 번호 형식, 핵심 항목 보존율, 슬롯 누락 여부, 프롬프트 유형별 전체 요약 통계입니다.
+아래 예제는 운영 메모 3개를 대상으로 단순 프롬프트와 구조화 프롬프트를 각각 실제 모델에 보냅니다. 비교 기준은 메모별 응답, 줄 수, 번호 형식, 핵심 항목 보존율, 슬롯 누락 여부, 프롬프트 유형별 전체 요약 통계입니다.
 
 프롬프트 설계 차이를 먼저 표로 보면 다음과 같습니다.
 
@@ -292,10 +294,17 @@ P6-9.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제
 | 형식 제약 | 없음 | `상황`, `즉시 조치`, `남은 위험` |
 | 점검 기준 | 사람이 눈대중 확인 | 슬롯 누락, 키워드 보존율 확인 |
 
-코드에서 확인할 핵심은 프롬프트를 구조화하면 답변 내용뿐 아니라 형식 점검 가능성과 사실 보존 여부도 함께 달라질 수 있다는 점입니다.
+코드에서 확인할 핵심은 프롬프트를 구조화하면 답변 내용뿐 아니라 형식 점검 가능성과 사실 보존 여부도 함께 달라질 수 있다는 점입니다. `temperature`를 0으로 낮춰도 모델 응답은 완전히 고정된 계산 결과가 아니므로, 한 번의 결과보다 여러 카드의 통계를 함께 봐야 합니다.
 
 ```python
-# 운영 메모 요약 요청에서 단순 프롬프트와 구조화 프롬프트가 핵심 키워드와 슬롯 보존에 어떤 차이를 만드는지 비교하는 예제입니다.
+# Ollama 로컬 API로 단순 프롬프트와 구조화 프롬프트의 응답을 비교합니다.
+import json
+import os
+import urllib.request
+
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/chat")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma3")
+
 requests = [
     {
         "name": "billing outage",
@@ -329,27 +338,62 @@ requests = [
     },
 ]
 
-simple_prompt = "이 운영 메모를 짧게 요약해 주세요."
-structured_prompt = {
-    "instruction": "운영 담당자가 바로 읽고 행동할 수 있게 정확히 3줄로 요약해 주세요.",
-    "reader": "독자는 운영 담당자입니다.",
-    "required_slots": ["상황", "즉시 조치", "남은 위험"],
-}
+required_slots = ["상황", "즉시 조치", "남은 위험"]
 
-def simple_response(card):
-    # 단순 요청에서는 앞부분 사실이 길게 이어지고, 운영상 중요한 뒷부분이 빠지기 쉽다.
-    first = card["facts"][0]
-    second = card["facts"][1]
-    return f"{first} {second}"
 
-def structured_response(card):
-    return "\n".join(
-        [
-            f"1. 상황: {card['facts'][0]}",
-            f"2. 즉시 조치: {card['facts'][2]}",
-            f"3. 남은 위험: {card['facts'][3]}",
-        ]
+def ask_ollama(prompt):
+    payload = {
+        "model": OLLAMA_MODEL,
+        "stream": False,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "한국어로 답하세요. 입력에 없는 사실을 만들지 말고, "
+                    "운영 메모 안의 정보만 사용하세요."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        "options": {
+            "temperature": 0,
+        },
+    }
+    data = json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(
+        OLLAMA_URL,
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
+    with urllib.request.urlopen(request, timeout=120) as response:
+        result = json.loads(response.read().decode("utf-8"))
+    return result["message"]["content"].strip()
+
+
+def make_simple_prompt(card):
+    memo = "\n".join(f"- {fact}" for fact in card["facts"])
+    return f"다음 운영 메모를 짧게 요약해 주세요.\n\n{memo}"
+
+
+def make_structured_prompt(card):
+    memo = "\n".join(f"- {fact}" for fact in card["facts"])
+    must_keep = ", ".join(card["must_keep"])
+    slots = ", ".join(required_slots)
+    return f"""
+다음 운영 메모를 운영 담당자가 바로 읽고 행동할 수 있게 요약해 주세요.
+
+조건:
+- 정확히 3줄로 답하세요.
+- 각 줄은 `1. 상황:`, `2. 즉시 조치:`, `3. 남은 위험:`으로 시작하세요.
+- 반드시 확인할 핵심 항목: {must_keep}
+- 필요한 슬롯: {slots}
+- 입력에 없는 사실은 추가하지 마세요.
+
+운영 메모:
+{memo}
+""".strip()
+
 
 def inspect_response(response, must_keep, required_slots):
     lines = [line.strip() for line in response.splitlines() if line.strip()]
@@ -368,18 +412,21 @@ def inspect_response(response, must_keep, required_slots):
         "missing_slots": missing_slots,
     }
 
-def run_batch(prompt_name, response_fn):
+
+def run_batch(prompt_name, prompt_builder):
     reports = []
     for card in requests:
-        response = response_fn(card)
+        prompt = prompt_builder(card)
+        response = ask_ollama(prompt)
         inspect = inspect_response(
             response=response,
             must_keep=card["must_keep"],
-            required_slots=structured_prompt["required_slots"],
+            required_slots=required_slots,
         )
         reports.append(
             {
                 "name": card["name"],
+                "prompt": prompt,
                 "response": response,
                 "inspect": inspect,
             }
@@ -404,8 +451,8 @@ def run_batch(prompt_name, response_fn):
         "average_keyword_ratio": round(average_keyword_ratio, 2),
     }
 
-simple_batch = run_batch("simple", simple_response)
-structured_batch = run_batch("structured", structured_response)
+simple_batch = run_batch("simple", make_simple_prompt)
+structured_batch = run_batch("structured", make_structured_prompt)
 
 for batch in [simple_batch, structured_batch]:
     print(f"[{batch['prompt_name']} batch]")
@@ -415,64 +462,49 @@ for batch in [simple_batch, structured_batch]:
     print("average_keyword_ratio =", batch["average_keyword_ratio"])
     for report in batch["reports"]:
         print(f"- {report['name']}")
+        print("response:")
         print(report["response"])
-        print(report["inspect"])
+        print("inspect =", report["inspect"])
     print()
 ```
 
-이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+실행 전에 Ollama를 설치하고 모델을 받을 필요가 있습니다. 예를 들어 터미널에서 `ollama pull gemma3`를 실행한 뒤, Ollama가 켜진 상태에서 본문 코드를 실행합니다. 다른 모델을 쓰려면 `OLLAMA_MODEL=사용할_모델명`처럼 환경 변수를 바꿉니다.
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과는 모델과 버전에 따라 달라집니다. 예시는 다음과 같은 형태로 읽으면 됩니다.
 
 ```text
 [simple batch]
-format_ok_count = 0
-slot_ok_count = 0
-full_keyword_keep_count = 0
-average_keyword_ratio = 0.44
+format_ok_count = ...
+slot_ok_count = ...
+full_keyword_keep_count = ...
+average_keyword_ratio = ...
 - billing outage
-새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다. 문제는 오전 9시 10분부터 시작되었고 모바일 결제에서 특히 크게 나타났다.
-{'line_count': 1, 'numbered_lines': False, 'keyword_coverage': '1/3', 'present_keywords': ['승인 실패율'], 'missing_slots': ['상황', '즉시 조치', '남은 위험']}
-- shipping delay
-폭우로 남부 물류 허브 진입이 막혀 출고가 평균 하루 반 지연되고 있다. 신선식품 주문은 일반 주문보다 먼저 안내 문자를 보내야 한다.
-{'line_count': 1, 'numbered_lines': False, 'keyword_coverage': '2/3', 'present_keywords': ['하루 반', '신선식품'], 'missing_slots': ['상황', '즉시 조치', '남은 위험']}
-- account lock
-사내 SSO 설정 변경 뒤 일부 사용자가 로그인 직후 계정 잠금 상태가 되었다. 문제는 외부 파트너 계정에서 더 자주 나타났고, 비밀번호 재설정만으로는 풀리지 않았다.
-{'line_count': 1, 'numbered_lines': False, 'keyword_coverage': '1/3', 'present_keywords': ['외부 파트너'], 'missing_slots': ['상황', '즉시 조치', '남은 위험']}
+response:
+...
+inspect = {'line_count': ..., 'numbered_lines': ..., 'keyword_coverage': '...', ...}
 
 [structured batch]
-format_ok_count = 3
-slot_ok_count = 3
-full_keyword_keep_count = 1
-average_keyword_ratio = 0.78
+format_ok_count = ...
+slot_ok_count = ...
+full_keyword_keep_count = ...
+average_keyword_ratio = ...
 - billing outage
-1. 상황: 새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다.
-2. 즉시 조치: 운영팀은 새 결제 모듈을 이전 버전으로 되돌렸다.
-3. 남은 위험: 재발 방지를 위해 승인 로그 누락 구간을 오늘 안에 다시 수집해야 한다.
-{'line_count': 3, 'numbered_lines': True, 'keyword_coverage': '3/3', 'present_keywords': ['승인 실패율', '되돌렸다', '로그'], 'missing_slots': []}
-- shipping delay
-1. 상황: 폭우로 남부 물류 허브 진입이 막혀 출고가 평균 하루 반 지연되고 있다.
-2. 즉시 조치: 고객센터는 환불보다 배송 지연 고지 문구를 먼저 확인해 달라는 요청을 받았다.
-3. 남은 위험: 오늘 저녁 6시에 허브 운영 재개 여부를 다시 확인할 예정이다.
-{'line_count': 3, 'numbered_lines': True, 'keyword_coverage': '2/3', 'present_keywords': ['하루 반', '저녁 6시'], 'missing_slots': []}
-- account lock
-1. 상황: 사내 SSO 설정 변경 뒤 일부 사용자가 로그인 직후 계정 잠금 상태가 되었다.
-2. 즉시 조치: 인프라팀은 정책 롤백 대신 동기화 지연 구간을 먼저 추적하고 있다.
-3. 남은 위험: 헬프데스크는 잠금 해제 수동 절차를 공지 문서에 추가해야 한다.
-{'line_count': 3, 'numbered_lines': True, 'keyword_coverage': '2/3', 'present_keywords': ['동기화', '수동 절차'], 'missing_slots': []}
+response:
+...
+inspect = {'line_count': ..., 'numbered_lines': ..., 'keyword_coverage': '...', ...}
 ```
 
-이 결과를 읽을 때 핵심은 `구조화 프롬프트면 언제나 완벽하다`가 아닙니다. 위 결과에서도 `shipping delay`, `account lock`은 여전히 `3/3`이 아니라 `2/3`으로 남습니다. 즉, 구조화 프롬프트는 형식과 전개 순서를 더 안정시켜 주지만, 정말 빠뜨리면 안 되는 항목이 있다면 `반드시 포함할 키워드`나 `누락 시 다시 작성` 같은 추가 제어가 더 필요하다는 점도 같이 보입니다.
+이 결과를 읽을 때 핵심은 `구조화 프롬프트면 언제나 완벽하다`가 아닙니다. 어떤 모델은 3줄 형식을 잘 지키지만 핵심 키워드를 빠뜨릴 수 있고, 어떤 모델은 핵심 정보를 잘 보존하지만 줄 수나 슬롯 이름을 흔들 수 있습니다. 즉, 구조화 프롬프트는 형식과 전개 순서를 더 안정시켜 줄 가능성이 있지만, 정말 빠뜨리면 안 되는 항목이 있다면 `반드시 포함할 키워드`, `누락 시 다시 작성`, `검사 후 재요청` 같은 추가 제어가 더 필요할 수 있습니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 구조화 프롬프트는 여러 요청 카드에서 `줄 수`, `번호 형식`, `슬롯 유지`를 더 안정적으로 만든다.
-- 그래도 핵심 항목 보존은 항상 자동으로 해결되지 않으므로, 프롬프트 실험은 `형식 안정성`과 `내용 보존율`을 함께 점검해야 한다.
+- 구조화 프롬프트가 여러 요청 카드에서 `줄 수`, `번호 형식`, `슬롯 유지`를 실제로 더 안정적으로 만드는지 본다.
+- 그래도 핵심 항목 보존이 자동으로 해결되는 것은 아니므로, 프롬프트 실험은 `형식 안정성`과 `내용 보존율`을 함께 점검해야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `structured_prompt["required_slots"]`에 `고객 영향`을 추가해 4줄 형식으로 바꾸기
-- `simple_response`와 `structured_response`의 선택 규칙을 바꿔 어떤 항목이 쉽게 빠지는지 보기
+- `required_slots`에 `고객 영향`을 추가하고 구조화 프롬프트의 줄 형식도 4줄로 바꿔 보기
+- `OLLAMA_MODEL`을 바꿔 모델에 따라 어떤 항목이 쉽게 빠지는지 보기
 - `inspect_response`에 `max_line_length`, `must_quote_time`, `must_include_number` 같은 운영 규칙을 더 넣어 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
@@ -485,9 +517,7 @@ average_keyword_ratio = 0.78
 
 이 비교에서 중요한 것은 문장을 길게 쓰느냐가 아니라, 모델이 판단에 써야 할 정보를 어떤 칸에 나눠 넣느냐입니다. 그래서 프롬프트 엔지니어링은 표현 솜씨보다 `작업 요구`, `맥락`, `출력 형식`을 어떻게 구조적으로 배치하느냐의 문제로 읽는 편이 정확합니다.
 
-요약 통계를 차트로 보면 구조화 프롬프트가 무엇을 바꾸는지 더 분명합니다. 단순 프롬프트는 형식과 슬롯을 모두 놓치지만, 구조화 프롬프트는 번호 형식과 필수 슬롯을 안정적으로 채웁니다. 핵심 키워드는 여전히 완전하지 않을 수 있으므로, 프롬프트 구조화가 사실 보존 전체를 자동으로 보장한다고 읽지는 않아야 합니다.
-
-![단순 프롬프트와 구조화 프롬프트의 점검 통과 수](../../../assets/part-06/chapter-10/prompt-structure-check-ko.png)
+Ollama로 직접 실행하면 매번 같은 숫자가 고정되지는 않을 수 있습니다. 그래서 이 절에서는 고정 차트보다 실행 로그의 `format_ok_count`, `slot_ok_count`, `full_keyword_keep_count`, `average_keyword_ratio`를 직접 비교하는 편이 더 중요합니다. 프롬프트 엔지니어링은 모델 출력 하나를 감상하는 일이 아니라, 입력을 바꾼 뒤 관찰 기록을 남기고 그 기록으로 다음 수정을 정하는 작업입니다.
 
 ## 프롬프트가 바꾸는 입력 설계
 
@@ -503,3 +533,5 @@ average_keyword_ratio = 0.78
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-19.
 - Jason Wei et al., [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-19.
 - OpenAI, [Prompting | ChatGPT Learn](https://learn.chatgpt.com/docs/prompting){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- Ollama, [API Introduction](https://docs.ollama.com/api/introduction){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-22.
+- Ollama, [Quickstart](https://docs.ollama.com/quickstart){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-22.
