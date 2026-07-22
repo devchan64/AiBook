@@ -1,0 +1,41 @@
+task_id,team,task,priority,monthly_experiments,expected_change
+SUP-01,support,refund_policy_answer,high,4,policy wording and refusal boundary
+SUP-02,support,subscription_cancel_reply,high,3,format stability
+SUP-03,support,shipping_delay_explain,medium,2,tone and domain phrase
+SUP-04,support,vip_customer_reply,medium,2,style adaptation
+SUP-05,support,complaint_summary,low,1,summary shape
+DOC-01,docs,contract_summary,high,3,domain summary
+DOC-02,docs,meeting_note_cleanup,medium,2,format stability
+DOC-03,docs,knowledge_base_update,medium,2,terminology adaptation
+DOC-04,docs,release_note_draft,low,1,writing style
+DOC-05,docs,policy_diff_summary,low,1,comparison style
+ENG-01,engineering,bug_triage_comment,high,4,technical label habit
+ENG-02,engineering,code_review_reply,high,3,response structure
+ENG-03,engineering,incident_summary,high,3,domain summary
+ENG-04,engineering,api_migration_note,medium,2,technical wording
+ENG-05,engineering,test_failure_explain,low,1,diagnostic style
+LEG-01,legal,risk_clause_check,high,2,risk language
+LEG-02,legal,privacy_question_answer,high,2,policy boundary
+LEG-03,legal,contract_change_note,medium,1,domain summary
+LEG-04,legal,terms_update_reply,medium,1,controlled wording
+LEG-05,legal,review_request_route,low,1,classification habit
+SAL-01,sales,lead_reply_draft,high,3,tone adaptation
+SAL-02,sales,proposal_summary,high,3,format stability
+SAL-03,sales,competitor_question_reply,medium,2,boundary handling
+SAL-04,sales,renewal_email,medium,2,style adaptation
+SAL-05,sales,crm_note_cleanup,low,1,summary shape
+HR-01,hr,interview_feedback_summary,medium,2,format stability
+HR-02,hr,policy_question_answer,medium,1,controlled wording
+HR-03,hr,onboarding_reply,low,1,tone adaptation
+HR-04,hr,benefit_change_summary,low,1,domain summary
+HR-05,hr,training_feedback_label,low,1,classification habit
+FIN-01,finance,expense_policy_answer,high,3,policy wording
+FIN-02,finance,monthly_report_summary,medium,2,numeric explanation style
+FIN-03,finance,budget_exception_reply,medium,2,boundary handling
+FIN-04,finance,invoice_issue_route,low,1,classification habit
+FIN-05,finance,audit_note_cleanup,low,1,controlled wording
+LRN-01,learning,course_qna_reply,medium,2,tone adaptation
+LRN-02,learning,quiz_feedback_explain,medium,2,feedback style
+LRN-03,learning,student_summary,medium,2,summary shape
+LRN-04,learning,lesson_plan_draft,low,1,format stability
+LRN-05,learning,learning_path_reply,low,1,recommendation style

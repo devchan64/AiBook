@@ -27,3 +27,4 @@
   - `p6_8_4_lora_rank_ratio_chart.py`
 - CSV inputs:
   - `p6_8_1_instruction_following_eval.csv`: P6-8.1 Python example input. Each row is one instruction-following evaluation case with observed response-structure signals for a base response and an instruction-tuned response.
+  - `p6-8-2-adaptation-portfolio.csv`: P6-8.2 Python example input. Each row is one planned adaptation task with team, monthly experiment count, and expected change type.

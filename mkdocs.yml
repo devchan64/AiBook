@@ -492,7 +492,8 @@ nav:
               - "P6-9.1 지시 튜닝은 어떻게 요청 형식에 맞는 응답 습관을 만드는가": parts/part-06/chapter-09/section-01.md
               - "P6-9.2 정렬은 왜 잘 따르는 답과 허용 가능한 답을 나누는가": parts/part-06/chapter-09/section-02.md
               - "P6-9.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까": parts/part-06/chapter-09/section-03.md
-              - "P6-9.4 보충학습: adapter, LoRA, QLoRA는 어떤 제약에서 갈리는가": parts/part-06/chapter-09/section-04.md
+              - "P6-9.4 보충학습: LoRA의 low-rank는 무엇을 작게 표현하는가": parts/part-06/chapter-09/section-04.md
+              - "P6-9.5 보충학습: adapter, LoRA, QLoRA는 어떤 제약에서 갈리는가": parts/part-06/chapter-09/section-05.md
       - "Module 5. 프롬프트와 근거 보강":
           - "Chapter 10. 프롬프트 엔지니어링":
               - "P6-10.1 프롬프트 엔지니어링은 무엇을 입력에서 조정하는가": parts/part-06/chapter-10/section-01.md

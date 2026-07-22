@@ -25,9 +25,9 @@ LoRA는 거대한 모델 전체를 다시 크게 바꾸지 않고, 작은 추가
 
 LoRA를 이해할 때 먼저 필요한 감각은 `큰 기반 모델 위에 작은 조정분만 더해 비용을 줄이는 발상`입니다. low-rank 수식, 어느 행렬에 조정분이 붙는지, adapter·LoRA·QLoRA를 실제 제약 장면에서 어떻게 나누는지는 더 깊은 구현 판단입니다. 여기서는 먼저 `전체를 다 다시 조정하지 않아도 목적 적응을 만들 수 있는가`라는 비용 감각을 잡습니다.
 
-adapter, LoRA, QLoRA의 이름 구분보다 먼저 중요한 것은 `무엇을 그대로 두고 무엇만 새로 학습하는가`입니다. LoRA는 `작은 모델`이 아니라 `큰 기반 모델 위에 작은 조정 층을 더하는 방식`으로 이해해야 합니다.
+adapter, LoRA, QLoRA의 이름 구분보다 먼저 중요한 것은 `무엇을 그대로 두고 무엇만 새로 학습하는가`입니다. LoRA는 `작은 모델`이 아니라 `큰 기반 모델 위에 작은 조정분을 더하는 방식`으로 이해해야 합니다.
 
-따라서 핵심은 `모델을 작게 만든다`가 아니라 `같은 큰 기반 모델을 더 적은 조정 비용으로 적응시킨다`는 점입니다. 이 절에서는 전체 파인튜닝이 왜 너무 무거워질 수 있는지와, 큰 기반 모델을 유지한 채 작은 적응분만 더하는 발상을 잡습니다. low-rank 수식과 세부 메모리 계산, instruction tuning이나 도메인 적응에서 이 방식을 어떻게 조합할지는 뒤의 보충학습과 운영 판단으로 남겨 둡니다.
+따라서 핵심은 `모델을 작게 만든다`가 아니라 `같은 큰 기반 모델을 더 적은 조정 비용으로 적응시킨다`는 점입니다. 이 절에서는 전체 파인튜닝이 왜 너무 무거워질 수 있는지와, 큰 기반 모델을 유지한 채 작은 적응분만 더하는 발상을 잡습니다. LoRA라는 이름의 직관과 low-rank 규모 감각은 P6-9.4에서, adapter·LoRA·QLoRA의 세부 제약 구분은 P6-9.5에서 이어 봅니다.
 
 `가벼운 작은 모델`이라는 오해는 `큰 기반 모델 위에 작은 조정분만 더해 적응 비용을 줄이는 방식`으로 바꾸어 읽어야 합니다.
 
@@ -228,52 +228,86 @@ LoRA는 작은 조정본을 여러 개 만들어 붙였다 떼기 쉬운 편이�
 
 ## 연습 및 예제
 
-이 예제의 목표는 `전체 파인튜닝`과 `LoRA 방식`이 여러 업무용 조정본을 운영할 때 어떤 차이를 만드는지 직접 보는 것입니다. 같은 기반 모델을 고객 응답용, 요약용, 코드 보조용으로 나눠 실험한다고 가정하고, 업무 수가 늘어날 때 학습해야 하는 파라미터 수와 저장해야 하는 추가 파일 크기가 어떻게 달라지는지 비교해 보겠습니다.
+이 예제의 목표는 `전체 파인튜닝`과 `LoRA 방식`이 여러 업무용 조정본을 운영할 때 어떤 차이를 만드는지 직접 보는 것입니다. 단순히 업무 수 3개를 손으로 세는 대신, 여러 팀이 한 달 동안 계획한 목적 적응 실험 목록을 읽고, 전체 파인튜닝으로 갈 때와 LoRA 조정본으로 갈 때의 추가 저장 부담을 비교해 보겠습니다.
 
-아래 코드는 기반 모델 파라미터 수, 업무 수, 전체 파인튜닝과 LoRA의 업무별 추가 파라미터 수를 사용합니다. 결과에서는 업무 수에 따른 방식별 증가 폭, 총 학습 대상 파라미터 수, 추가 저장 크기 추정, 방식별 차이를 비교합니다.
+입력 파일은 [P6-8.2 목적 적응 포트폴리오](../../../assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv){ .csv-preview }입니다. 한 행은 한 팀이 검토하는 목적 적응 과업 하나를 뜻합니다. 핵심 열은 `team`, `task`, `monthly_experiments`, `expected_change`입니다. 여기서는 업무별 품질 점수를 예측하지 않고, 같은 기반 모델 위에서 여러 조정 실험을 반복해야 할 때 저장·버전 관리 부담이 어떤 구조로 커지는지만 봅니다.
+
+아래 코드는 CSV를 읽어 팀별 월간 실험 수를 합산합니다. 결과에서는 전체 파인튜닝으로 매 실험마다 큰 결과물을 저장하는 경우와, LoRA로 작은 조정본만 저장하는 경우의 추가 저장 크기를 비교합니다.
 
 확인할 핵심은 전체 미세조정과 PEFT/LoRA 방식은 업무 수가 늘어날수록 관리 비용 차이가 크게 벌어진다는 점입니다. LoRA류 방식은 업무 수가 늘어날수록 전체 미세조정보다 추가 학습량과 저장량을 훨씬 작게 유지합니다.
 
 ```python
-# 전체 가중치 행렬과 rank별 LoRA 업데이트 파라미터 수를 비교해 효율적 조정의 규모 차이를 확인하는 예제입니다.
-base_model_params = 7_000_000_000
-tasks = ["customer_support", "summarization", "code_assistant"]
-task_count_options = [1, 3, 10]
+import csv
+from pathlib import Path
 
+# CSV의 monthly_experiments를 바꾸면 팀별 실험 회전 수 가정이 달라집니다.
+portfolio_path = Path("docs/assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv")
+
+base_model_params = 7_000_000_000
 full_finetuning_trainable_per_task = 7_000_000_000
-lora_trainable_per_task = 8_000_000
+lora_trainable_per_task = 8_000_000  # 이 값을 바꾸면 업무별 LoRA 조정본 크기 가정이 바뀝니다.
 
 # float16 기준으로 파라미터 하나를 대략 2 bytes로 가정
 bytes_per_param = 2
 
 def to_gb(param_count):
-    return round(param_count * bytes_per_param / (1024 ** 3), 2)
+    return param_count * bytes_per_param / (1024 ** 3)
 
-full_total_trainable = full_finetuning_trainable_per_task * len(tasks)
-lora_total_trainable = lora_trainable_per_task * len(tasks)
+team_summary = {}
+with portfolio_path.open(newline="", encoding="utf-8") as file:
+    for row in csv.DictReader(file):
+        team = row["team"]
+        monthly_experiments = int(row["monthly_experiments"])
+        summary = team_summary.setdefault(
+            team,
+            {"task_count": 0, "monthly_runs": 0, "sample_tasks": []},
+        )
+        summary["task_count"] += 1
+        summary["monthly_runs"] += monthly_experiments
+        if len(summary["sample_tasks"]) < 2:
+            summary["sample_tasks"].append(row["task"])
 
-full_extra_storage_gb = to_gb(full_finetuning_trainable_per_task * len(tasks))
-lora_extra_storage_gb = to_gb(lora_trainable_per_task * len(tasks))
+print(f"base model: {base_model_params:,} parameters")
+print("team        | tasks | monthly_runs | full_storage_gb | lora_storage_gb | gap | sample_tasks")
+print("-" * 104)
 
-growth_reports = []
-for task_count in task_count_options:
-    growth_reports.append(
-        {
-            "task_count": task_count,
-            "full_trainable": full_finetuning_trainable_per_task * task_count,
-            "lora_trainable": lora_trainable_per_task * task_count,
-            "full_storage_gb": to_gb(full_finetuning_trainable_per_task * task_count),
-            "lora_storage_gb": to_gb(lora_trainable_per_task * task_count),
-        }
+total_runs = 0
+total_full_storage_gb = 0
+total_lora_storage_gb = 0
+
+for team, summary in sorted(
+    team_summary.items(),
+    key=lambda item: item[1]["monthly_runs"],
+    reverse=True,
+):
+    monthly_runs = summary["monthly_runs"]
+    total_runs += monthly_runs
+
+    full_trainable = full_finetuning_trainable_per_task * monthly_runs
+    lora_trainable = lora_trainable_per_task * monthly_runs
+    full_storage_gb = to_gb(full_trainable)
+    lora_storage_gb = to_gb(lora_trainable)
+    gap_ratio = round(full_trainable / lora_trainable)
+
+    total_full_storage_gb += full_storage_gb
+    total_lora_storage_gb += lora_storage_gb
+
+    print(
+        f"{team:<11} | "
+        f"{summary['task_count']:>5} | "
+        f"{monthly_runs:>12} | "
+        f"{full_storage_gb:>15.2f} | "
+        f"{lora_storage_gb:>15.2f} | "
+        f"{gap_ratio:>3}x | "
+        f"{', '.join(summary['sample_tasks'])}"
     )
 
-print("base_model_params =", base_model_params)
-print("tasks =", tasks)
-print("growth_reports =", growth_reports)
-print("full_total_trainable =", full_total_trainable)
-print("lora_total_trainable =", lora_total_trainable)
-print("full_extra_storage_gb =", full_extra_storage_gb)
-print("lora_extra_storage_gb =", lora_extra_storage_gb)
+print("-" * 104)
+print(
+    f"monthly total: {total_runs} runs, "
+    f"full={total_full_storage_gb:.2f} GB, "
+    f"LoRA={total_lora_storage_gb:.2f} GB"
+)
 ```
 
 이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
@@ -281,27 +315,33 @@ print("lora_extra_storage_gb =", lora_extra_storage_gb)
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-base_model_params = 7000000000
-tasks = ['customer_support', 'summarization', 'code_assistant']
-growth_reports = [{'task_count': 1, 'full_trainable': 7000000000, 'lora_trainable': 8000000, 'full_storage_gb': 13.04, 'lora_storage_gb': 0.01}, {'task_count': 3, 'full_trainable': 21000000000, 'lora_trainable': 24000000, 'full_storage_gb': 39.12, 'lora_storage_gb': 0.04}, {'task_count': 10, 'full_trainable': 70000000000, 'lora_trainable': 80000000, 'full_storage_gb': 130.39, 'lora_storage_gb': 0.15}]
-full_total_trainable = 21000000000
-lora_total_trainable = 24000000
-full_extra_storage_gb = 39.12
-lora_extra_storage_gb = 0.04
+base model: 7,000,000,000 parameters
+team        | tasks | monthly_runs | full_storage_gb | lora_storage_gb | gap | sample_tasks
+--------------------------------------------------------------------------------------------------------
+engineering |     5 |           13 |          169.50 |            0.19 | 875x | bug_triage_comment, code_review_reply
+support     |     5 |           12 |          156.46 |            0.18 | 875x | refund_policy_answer, subscription_cancel_reply
+sales       |     5 |           11 |          143.42 |            0.16 | 875x | lead_reply_draft, proposal_summary
+docs        |     5 |            9 |          117.35 |            0.13 | 875x | contract_summary, meeting_note_cleanup
+finance     |     5 |            9 |          117.35 |            0.13 | 875x | expense_policy_answer, monthly_report_summary
+learning    |     5 |            8 |          104.31 |            0.12 | 875x | course_qna_reply, quiz_feedback_explain
+legal       |     5 |            7 |           91.27 |            0.10 | 875x | risk_clause_check, privacy_question_answer
+hr          |     5 |            6 |           78.23 |            0.09 | 875x | interview_feedback_summary, policy_question_answer
+--------------------------------------------------------------------------------------------------------
+monthly total: 75 runs, full=977.89 GB, LoRA=1.12 GB
 ```
 
 이 예제는 특정 실제 제품 수치를 주장하는 것이 아닙니다. 다만 독자가 다음 감각을 직접 확인하게 해 줍니다.
 
-- 같은 기반 모델이라도 업무 수가 늘어나면 전체 파인튜닝은 학습 대상과 저장 부담이 급격히 커질 수 있습니다.
-- LoRA는 업무마다 작은 조정본만 추가로 관리하는 쪽에 가깝습니다.
-- `growth_reports`를 보면 업무 수가 1개에서 10개로 늘 때 전체 파인튜닝 저장 부담은 빠르게 커지지만, LoRA 조정본은 훨씬 완만하게 증가합니다.
-- 그 차이가 실험 회전 수, 저장 전략, 버전 관리 방식을 실제로 바꿀 수 있습니다.
+- 같은 기반 모델이라도 조정 실험이 여러 팀에서 반복되면 전체 파인튜닝은 월간 결과물 관리 부담이 빠르게 커질 수 있습니다.
+- `monthly_runs`는 그 팀이 한 달 동안 반복해서 확인해야 할 목적 적응 실험 수입니다. 같은 과업 수라도 실험 회전 수가 많으면 저장·버전 관리 부담이 더 커집니다.
+- `gap`은 이 예제의 가정 아래에서 전체 파인튜닝으로 학습해야 할 파라미터 수와 LoRA 조정본 파라미터 수가 얼마나 벌어지는지 보여 줍니다.
+- 월간 합계가 `full=977.89 GB`, `LoRA=1.12 GB`로 갈라지는 이유는 LoRA가 품질 검증을 생략해서가 아니라, 기반 모델 본체를 공유하고 작은 조정본만 따로 관리하는 구조이기 때문입니다.
 
-이 예제에서는 `tasks`를 더 늘리거나 `lora_trainable_per_task`를 바꿔 볼 수 있습니다. 예를 들어 업무를 3개에서 10개로 늘리면 전체 파인튜닝 방식은 저장 부담이 선형으로 크게 늘고, LoRA는 훨씬 완만하게 증가하는 모습을 더 선명하게 볼 수 있습니다.
+이 예제에서는 CSV의 `monthly_experiments`를 바꿔 실험 회전 수가 늘어나는 상황을 보거나, 코드의 `lora_trainable_per_task`를 바꿔 업무별 조정본이 커지는 상황을 가정해 볼 수 있습니다. 어떤 값을 바꾸든 확인할 질문은 같습니다. 전체 파인튜닝은 큰 결과물을 반복해서 만들어 관리하는 구조이고, LoRA는 같은 기반 모델 위에 작은 조정본을 반복해서 붙여 비교하는 구조입니다.
 
-아래 차트는 같은 수치를 업무 수별 추가 저장 크기로 다시 그린 것입니다. 핵심은 LoRA 저장량이 0에 가깝다는 사실 자체보다, 업무 수가 늘어날수록 전체 파인튜닝과 LoRA 조정본의 운영 부담 격차가 빠르게 벌어진다는 점입니다.
+아래 차트는 같은 CSV 입력을 팀별 월간 실험 수 기준으로 다시 그린 것입니다. 왼쪽은 전체 파인튜닝으로 갈 때의 월간 추가 저장 크기이고, 오른쪽은 LoRA 조정본만 저장할 때의 월간 추가 저장 크기입니다. 두 패널의 축 범위가 다른 이유는 LoRA 막대를 보이게 하려는 것이며, 핵심은 어느 팀에서 실험 회전 수가 많고 그 회전 수가 저장·버전 관리 부담으로 어떻게 번역되는지 읽는 데 있습니다.
 
-![업무 수 증가에 따른 전체 파인튜닝과 LoRA 추가 저장 크기](../../../assets/part-06/chapter-08/lora-storage-growth-ko.png)
+![팀별 월간 목적 적응 실험 수에 따른 전체 파인튜닝과 LoRA 추가 저장 크기](../../../assets/part-06/chapter-08/lora-storage-growth-ko.png)
 
 ## 조정 비용 절감에서 보이는 규모 차이
 
