@@ -187,9 +187,9 @@ context window를 적용 장면에서 다시 볼 때 자주 하는 실수는, `�
 
 이 예제의 목표는 `길이 제한이 있을 때 무엇을 우선 남길 것인가`를 더 분명하게 보는 것입니다. 단순 개수 제한이 아니라 `토큰 예산`을 두고, 입력 순서대로 그냥 넣는 방식과 중요도 기준으로 다시 고르는 방식을 비교하겠습니다. 여기에 `현재 질문과 얼마나 직접 연결되는가`를 흉내 내는 간단한 relevance 점수도 붙여, context window 안에 무엇이 남느냐가 attention이 실제로 볼 수 있는 단서와 어떻게 연결되는지도 함께 보겠습니다.
 
-아래 코드는 여러 개의 문맥 항목, 각 항목의 토큰 길이와 우선순위, 최대 토큰 예산을 사용합니다. 결과에서는 입력 순서대로 넣었을 때 남는 항목, 중요도 기준으로 다시 골랐을 때 남는 항목, 두 방식에서 탈락한 항목과 총 사용 토큰, 핵심 상태 보존 정도, 선택된 항목 안에서 질문과 직접 연결된 단서의 relevance 순위를 함께 봅니다.
+아래 코드는 여러 개의 문맥 항목, 각 항목의 토큰 길이와 우선순위, 여러 개의 토큰 예산을 사용합니다. 결과에서는 입력 순서대로 넣었을 때 남는 항목, 중요도 기준으로 다시 골랐을 때 남는 항목, 예산 변화에 따라 탈락하는 항목, 핵심 상태 보존 정도, 선택된 항목 안에서 질문과 직접 연결된 단서의 relevance 순위를 함께 봅니다.
 
-확인할 핵심은 context budget이 부족할 때 어떤 정보를 남기고 버리느냐에 따라 최종 답변에 쓸 수 있는 근거가 달라진다는 점입니다. attention은 선택 뒤에 남은 항목 안에서만 관련도를 계산할 수 있습니다.
+확인할 핵심은 context budget이 부족할 때 어떤 정보를 남기고 버리느냐에 따라 최종 답변에 쓸 수 있는 근거가 달라진다는 점입니다. `budget_options` 값을 바꾸면 어떤 항목이 살아남는지 달라지고, attention은 선택 뒤에 남은 항목 안에서만 관련도를 계산할 수 있습니다.
 
 아래 도식은 이 예제가 비교하려는 두 선택 방식을 먼저 압축한 것입니다. 같은 토큰 예산이어도 입력 순서대로 남기는 방식과 우선순위로 다시 고르는 방식은, attention이 실제로 볼 수 있는 단서를 다르게 만듭니다.
 
@@ -240,7 +240,7 @@ context_items = [
     },
 ]
 
-token_budget = 60
+budget_options = [50, 60, 80]
 must_keep = {"system instruction", "user question", "current error log"}
 query_keywords = {"login", "fail", "deploy", "token", "signature", "mismatch"}
 
@@ -265,9 +265,6 @@ def select_by_priority(items, budget):
     dropped = [item for item in ranked if item not in selected]
     return selected, dropped, used
 
-naive_selected, naive_dropped, naive_used = select_in_original_order(context_items, token_budget)
-priority_selected, priority_dropped, priority_used = select_by_priority(context_items, token_budget)
-
 def coverage(selected, must_keep_names):
     selected_names = {item["name"] for item in selected}
     kept = sorted(selected_names & must_keep_names)
@@ -283,26 +280,26 @@ def relevance_ranking(selected, keywords):
         scored.append((score, item["name"]))
     return sorted(scored, reverse=True)
 
-print("[naive original-order selection]")
-for item in naive_selected:
-    print("-", item["name"], "| tokens =", item["tokens"], "| priority =", item["priority"])
-print("used_tokens =", naive_used)
-print("dropped =", [item["name"] for item in naive_dropped])
-naive_kept, naive_missing = coverage(naive_selected, must_keep)
-print("must_keep_kept =", naive_kept)
-print("must_keep_missing =", naive_missing)
-print("relevance_ranking =", relevance_ranking(naive_selected, query_keywords))
-print()
+def print_summary(label, selected, dropped, used):
+    kept, missing = coverage(selected, must_keep)
+    print(f"[{label}]")
+    print("used_tokens =", used)
+    print("selected =", [item["name"] for item in selected])
+    print("dropped =", [item["name"] for item in dropped])
+    print("must_keep_missing =", missing)
+    print("top_relevance =", relevance_ranking(selected, query_keywords)[:3])
 
-print("[priority-based selection]")
-for item in priority_selected:
-    print("-", item["name"], "| tokens =", item["tokens"], "| priority =", item["priority"])
-print("used_tokens =", priority_used)
-print("dropped =", [item["name"] for item in priority_dropped])
-priority_kept, priority_missing = coverage(priority_selected, must_keep)
-print("must_keep_kept =", priority_kept)
-print("must_keep_missing =", priority_missing)
-print("relevance_ranking =", relevance_ranking(priority_selected, query_keywords))
+for budget in budget_options:
+    print("budget =", budget)
+    naive_selected, naive_dropped, naive_used = select_in_original_order(
+        context_items, budget
+    )
+    priority_selected, priority_dropped, priority_used = select_by_priority(
+        context_items, budget
+    )
+    print_summary("original order", naive_selected, naive_dropped, naive_used)
+    print_summary("priority based", priority_selected, priority_dropped, priority_used)
+    print("---")
 ```
 
 아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
@@ -310,33 +307,56 @@ print("relevance_ranking =", relevance_ranking(priority_selected, query_keywords
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[naive original-order selection]
-- system instruction | tokens = 18 | priority = 100
-- older chat history | tokens = 30 | priority = 40
-- repeated greeting | tokens = 8 | priority = 5
-used_tokens = 56
-dropped = ['user question', 'current error log', 'related function code']
-must_keep_kept = ['system instruction']
+budget = 50
+[original order]
+used_tokens = 48
+selected = ['system instruction', 'older chat history']
+dropped = ['repeated greeting', 'user question', 'current error log', 'related function code']
 must_keep_missing = ['current error log', 'user question']
-relevance_ranking = [(0, 'system instruction'), (0, 'repeated greeting'), (0, 'older chat history')]
-
-[priority-based selection]
-- system instruction | tokens = 18 | priority = 100
-- user question | tokens = 12 | priority = 95
-- current error log | tokens = 22 | priority = 90
-- repeated greeting | tokens = 8 | priority = 5
+top_relevance = [(0, 'system instruction'), (0, 'older chat history')]
+[priority based]
+used_tokens = 50
+selected = ['system instruction', 'user question', 'related function code']
+dropped = ['current error log', 'older chat history', 'repeated greeting']
+must_keep_missing = ['current error log']
+top_relevance = [(3, 'user question'), (2, 'related function code'), (0, 'system instruction')]
+---
+budget = 60
+[original order]
+used_tokens = 56
+selected = ['system instruction', 'older chat history', 'repeated greeting']
+dropped = ['user question', 'current error log', 'related function code']
+must_keep_missing = ['current error log', 'user question']
+top_relevance = [(0, 'system instruction'), (0, 'repeated greeting'), (0, 'older chat history')]
+[priority based]
 used_tokens = 60
+selected = ['system instruction', 'user question', 'current error log', 'repeated greeting']
 dropped = ['related function code', 'older chat history']
-must_keep_kept = ['current error log', 'system instruction', 'user question']
 must_keep_missing = []
-relevance_ranking = [(5, 'current error log'), (3, 'user question'), (0, 'system instruction'), (0, 'repeated greeting')]
+top_relevance = [(5, 'current error log'), (3, 'user question'), (0, 'system instruction')]
+---
+budget = 80
+[original order]
+used_tokens = 68
+selected = ['system instruction', 'older chat history', 'repeated greeting', 'user question']
+dropped = ['current error log', 'related function code']
+must_keep_missing = ['current error log']
+top_relevance = [(3, 'user question'), (0, 'system instruction'), (0, 'repeated greeting')]
+[priority based]
+used_tokens = 80
+selected = ['system instruction', 'user question', 'current error log', 'related function code', 'repeated greeting']
+dropped = ['older chat history']
+must_keep_missing = []
+top_relevance = [(5, 'current error log'), (3, 'user question'), (2, 'related function code')]
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 같은 토큰 예산이어도 입력 순서대로 그냥 넣으면 `older chat history`와 `repeated greeting`이 자리를 차지해, 정작 `user question`과 `current error log`가 잘릴 수 있습니다.
 - 중요도 기준으로 다시 고르면 현재 질문과 직접 연결된 항목이 먼저 살아남고, 오래된 기록이나 반복 인사는 뒤로 밀립니다.
-- naive 선택에서는 attention이 볼 수 있는 범위 안에 질문·오류 단서 자체가 없으므로, relevance 순위를 매겨도 전부 0점에 가깝습니다.
+- 예산이 50에서 60으로 늘어날 때 priority 방식은 `current error log`를 새로 살리지만, original order 방식은 여전히 오래된 대화 기록이 자리를 차지합니다.
+- 예산이 80까지 늘어나면 original order 방식도 `user question`은 살리지만, `current error log`는 여전히 빠집니다. 많이 넣었다고 핵심 단서가 자동으로 보존되는 것은 아닙니다.
+- original order 선택에서는 attention이 볼 수 있는 범위 안에 질문·오류 단서 자체가 없을 수 있으므로, relevance 순위를 매겨도 전부 0점에 가깝습니다.
 - priority 선택에서는 `current error log`와 `user question`이 윈도우 안에 함께 들어와, attention이 실제로 참고할 만한 단서가 남습니다.
 - context window 관리에서 중요한 것은 `얼마나 많이 넣었는가`보다 `예산 안에서 핵심 상태를 실제로 살렸는가`입니다.
 - 우선순위 선택 뒤에 예산이 조금 남으면 낮은 우선순위 항목이 일부 들어올 수 있지만, 그보다 먼저 `필수 상태가 전부 살아남았는가`를 확인하는 편이 더 중요합니다.

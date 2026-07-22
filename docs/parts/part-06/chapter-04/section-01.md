@@ -221,13 +221,9 @@ Transformer를 적용 장면에서 다시 볼 때 자주 하는 실수는, 이�
 
 ## 연습 및 예제
 
-이 예제의 목표는 실제 Transformer 전체를 구현하는 것이 아니라, 앞에서 정리한 `문맥 반영 -> 표현 갱신 -> 다음 후보 점수` 흐름을 작은 점수표로 확인하는 것입니다. 두 개의 업무 문맥을 두고, 각 문맥에 들어 있는 단서가 후보 표현 점수와 확률 분포에 얼마나 기여하는지 함께 출력해 보겠습니다.
+이 연습의 목표는 실제 Transformer 전체를 구현하는 것이 아니라, 앞에서 정리한 `문맥 반영 -> 표현 갱신 -> 다음 후보 점수` 흐름을 작은 점수표와 그래프로 확인하는 것입니다. 같은 끝부분을 공유하는 문장이 앞 문맥 단서에 따라 어떤 후보 분포로 달라지는지 읽어 보겠습니다.
 
-아래 코드는 두 개의 서로 다른 문맥, 문맥에서 읽어 낸 단서(feature), 같은 후보 표현 집합, 단서별 후보 가중치를 사용합니다. 결과에서는 문맥별 활성 단서, 후보별 점수와 확률, 핵심 기여도, 상위 후보와 1, 2위 점수 차이, 문맥 단서를 바꿨을 때 후보 순위가 어떻게 달라지는지를 함께 확인합니다.
-
-확인할 핵심은 다음 토큰 예측을 `문맥에서 어떤 단서가 켜졌는지에 따라 후보 점수와 확률 분포가 달라지는 과정`으로 읽는 것입니다. `notice_style`, `casual_tone` 같은 값을 바꾸면 가장 높은 후보와 후보 간 격차가 달라질 수 있습니다.
-
-아래 확률은 실제 LLM의 내부 확률이 아니라, 점수 차이가 후보 분포로 어떻게 바뀌는지 보기 위한 단순 softmax 변환입니다.
+확인할 핵심은 다음 토큰 예측을 `문맥에서 어떤 단서가 켜졌는지에 따라 후보 점수와 확률 분포가 달라지는 과정`으로 읽는 것입니다. 아래 값은 실제 LLM의 내부 확률이 아니라, 점수 차이가 후보 분포로 어떻게 보이는지 설명하기 위한 단순화된 예시입니다.
 
 아래 도식은 이 예제가 확인하려는 흐름을 먼저 압축한 것입니다. 같은 끝부분이 있어도 앞 문맥 단서가 Transformer 블록 안에서 표현을 바꾸고, 그 차이가 후보 점수표와 후보 간 격차로 이어집니다.
 
@@ -235,197 +231,24 @@ Transformer를 적용 장면에서 다시 볼 때 자주 하는 실수는, 이�
 --8<-- "assets/part-06/chapter-04/p6-c04-s01-scoring-flow-ko.mmd"
 ```
 
-```python
-# 문맥별 활성 단서가 다음 후보 점수와 softmax 확률 분포를 어떻게 바꾸는지 확인하는 예제입니다.
-from math import exp
+아래 표의 입력은 네 가지 문맥 조건입니다. 네 조건은 모두 같은 끝부분인 `오늘 회의는 오후 2시에 진행`을 공유하지만, 앞에 붙은 문맥 단서가 다릅니다. `문맥 변화` 열은 어떤 단서가 들어갔는지 보여 주고, `1위 후보`와 `2위 후보`는 그 조건에서 다음에 올 표현 후보의 순위를 보여 줍니다. `1위 확률`과 `1, 2위 격차`는 1위가 얼마나 안정적인지를 읽기 위한 값입니다.
 
-contexts = {
-    "formal_notice": {
-        "text": "고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행",
-        "features": {
-            "formal_tone": 1.0,
-            "casual_tone": 0.0,
-            "notice_style": 1.0,
-            "meeting_context": 0.8,
-            "past_tense": 0.0,
-        },
-    },
-    "casual_team_chat": {
-        "text": "팀 내부 메모다. 오늘 회의는 오후 2시에 진행",
-        "features": {
-            "formal_tone": 0.0,
-            "casual_tone": 1.0,
-            "notice_style": 0.0,
-            "meeting_context": 0.4,
-            "past_tense": 0.0,
-        },
-    },
-}
+같은 끝부분을 공유하더라도 앞 문맥에서 읽힌 단서가 다르면 후보 점수표는 달라집니다.
 
-experiments = [
-    {
-        "name": "formal_notice",
-        "context": "formal_notice",
-        "changes": {},
-    },
-    {
-        "name": "formal_notice_weaker_notice_style",
-        "context": "formal_notice",
-        "changes": {"notice_style": 0.2},
-    },
-    {
-        "name": "casual_team_chat",
-        "context": "casual_team_chat",
-        "changes": {},
-    },
-    {
-        "name": "casual_team_chat_more_formal",
-        "context": "casual_team_chat",
-        "changes": {"formal_tone": 0.5, "casual_tone": 0.4},
-    },
-]
-
-candidates = {
-    "합니다": {
-        "base": 0.2,
-        "weights": {
-            "formal_tone": 1.2,
-            "casual_tone": -0.8,
-            "notice_style": 0.9,
-            "meeting_context": 0.2,
-            "past_tense": -0.6,
-        },
-    },
-    "이다": {
-        "base": 0.3,
-        "weights": {
-            "formal_tone": -0.3,
-            "casual_tone": 0.7,
-            "notice_style": -0.2,
-            "meeting_context": 0.1,
-            "past_tense": -0.5,
-        },
-    },
-    "되었습니다": {
-        "base": 0.1,
-        "weights": {
-            "formal_tone": 0.8,
-            "casual_tone": -0.4,
-            "notice_style": 0.4,
-            "meeting_context": -0.1,
-            "past_tense": 1.3,
-        },
-    },
-}
-
-def apply_changes(features, changes):
-    updated = features.copy()
-    updated.update(changes)
-    return updated
-
-def score_candidates(feature_values):
-    scored = []
-    for token, config in candidates.items():
-        contributions = {}
-        total = config["base"]
-        for feature_name, feature_value in feature_values.items():
-            contribution = feature_value * config["weights"][feature_name]
-            contributions[feature_name] = round(contribution, 2)
-            total += contribution
-        scored.append(
-            {
-                "token": token,
-                "score": round(total, 2),
-                "contributions": contributions,
-            }
-        )
-    exp_scores = [exp(item["score"]) for item in scored]
-    total_exp_score = sum(exp_scores)
-    for item, exp_score in zip(scored, exp_scores):
-        item["probability"] = round(exp_score / total_exp_score, 3)
-    return sorted(scored, key=lambda item: item["score"], reverse=True)
-
-def top_contributions(item):
-    ranked = sorted(
-        item["contributions"].items(),
-        key=lambda pair: abs(pair[1]),
-        reverse=True,
-    )
-    return dict(ranked[:2])
-
-for experiment in experiments:
-    context = contexts[experiment["context"]]
-    features = apply_changes(context["features"], experiment["changes"])
-    ranking = score_candidates(features)
-    margin = round(ranking[0]["score"] - ranking[1]["score"], 2)
-
-    print(f"[{experiment['name']}]")
-    print("text =", context["text"])
-    print("changes =", experiment["changes"])
-    print("active_features =", features)
-    for item in ranking:
-        print(
-            f"- candidate={item['token']}, score={item['score']}, "
-            f"probability={item['probability']}, "
-            f"top_contributions={top_contributions(item)}"
-        )
-    print("chosen_next_token =", ranking[0]["token"])
-    print("top_2_margin =", margin)
-    print("---")
-```
-
-아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-[formal_notice]
-text = 고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행
-changes = {}
-active_features = {'formal_tone': 1.0, 'casual_tone': 0.0, 'notice_style': 1.0, 'meeting_context': 0.8, 'past_tense': 0.0}
-- candidate=합니다, score=2.46, probability=0.733, top_contributions={'formal_tone': 1.2, 'notice_style': 0.9}
-- candidate=되었습니다, score=1.22, probability=0.212, top_contributions={'formal_tone': 0.8, 'notice_style': 0.4}
-- candidate=이다, score=-0.12, probability=0.056, top_contributions={'formal_tone': -0.3, 'notice_style': -0.2}
-chosen_next_token = 합니다
-top_2_margin = 1.24
----
-[formal_notice_weaker_notice_style]
-text = 고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행
-changes = {'notice_style': 0.2}
-active_features = {'formal_tone': 1.0, 'casual_tone': 0.0, 'notice_style': 0.2, 'meeting_context': 0.8, 'past_tense': 0.0}
-- candidate=합니다, score=1.74, probability=0.619, top_contributions={'formal_tone': 1.2, 'notice_style': 0.18}
-- candidate=되었습니다, score=0.9, probability=0.267, top_contributions={'formal_tone': 0.8, 'notice_style': 0.08}
-- candidate=이다, score=0.04, probability=0.113, top_contributions={'formal_tone': -0.3, 'meeting_context': 0.08}
-chosen_next_token = 합니다
-top_2_margin = 0.84
----
-[casual_team_chat]
-text = 팀 내부 메모다. 오늘 회의는 오후 2시에 진행
-changes = {}
-active_features = {'formal_tone': 0.0, 'casual_tone': 1.0, 'notice_style': 0.0, 'meeting_context': 0.4, 'past_tense': 0.0}
-- candidate=이다, score=1.04, probability=0.684, top_contributions={'casual_tone': 0.7, 'meeting_context': 0.04}
-- candidate=되었습니다, score=-0.34, probability=0.172, top_contributions={'casual_tone': -0.4, 'meeting_context': -0.04}
-- candidate=합니다, score=-0.52, probability=0.144, top_contributions={'casual_tone': -0.8, 'meeting_context': 0.08}
-chosen_next_token = 이다
-top_2_margin = 1.38
----
-[casual_team_chat_more_formal]
-text = 팀 내부 메모다. 오늘 회의는 오후 2시에 진행
-changes = {'formal_tone': 0.5, 'casual_tone': 0.4}
-active_features = {'formal_tone': 0.5, 'casual_tone': 0.4, 'notice_style': 0.0, 'meeting_context': 0.4, 'past_tense': 0.0}
-- candidate=합니다, score=0.56, probability=0.372, top_contributions={'formal_tone': 0.6, 'casual_tone': -0.32}
-- candidate=이다, score=0.47, probability=0.34, top_contributions={'casual_tone': 0.28, 'formal_tone': -0.15}
-- candidate=되었습니다, score=0.3, probability=0.287, top_contributions={'formal_tone': 0.4, 'casual_tone': -0.16}
-chosen_next_token = 합니다
-top_2_margin = 0.09
----
-```
-
-위 출력은 같은 `오늘 회의는 오후 2시에 진행` 구간을 공유하더라도, 앞 문맥에서 읽힌 `formal_tone`, `casual_tone`, `notice_style` 같은 단서가 후보 점수표를 다르게 밀어 올린다는 점을 보여 줍니다. `formal_notice`에서 `notice_style`을 낮추면 1위는 그대로 `합니다`지만 1, 2위 격차가 `1.24`에서 `0.84`로 줄어듭니다. `casual_team_chat`에 공손한 말투 단서를 일부 섞으면 1위 후보가 `이다`에서 `합니다`로 바뀌고, 격차도 `1.38`에서 `0.09`로 줄어 매우 불안정한 선택처럼 읽힙니다.
+| 문맥 변화 | 1위 후보 | 1위 확률 | 2위 후보 | 1, 2위 격차 | 읽어야 할 점 |
+| --- | --- | ---: | --- | ---: | --- |
+| 고객사 공지 메일 | `합니다` | 0.733 | `되었습니다` | 1.24 | 공지형 말투 단서가 공손한 마무리를 강하게 밀어 올림 |
+| 공지 느낌이 약해짐 | `합니다` | 0.619 | `되었습니다` | 0.84 | 1위는 같지만 확신 정도가 낮아짐 |
+| 팀 내부 메모 | `이다` | 0.684 | `되었습니다` | 1.38 | 내부 메모 단서가 짧은 표현 쪽을 밀어 올림 |
+| 팀 내부 메모에 공손한 말투가 섞임 | `합니다` | 0.372 | `이다` | 0.09 | 1위가 바뀌지만 격차가 작아 불안정한 선택처럼 보임 |
 
 ![문맥 단서 변화에 따른 후보 분포](../../../assets/part-06/chapter-04/context-candidate-distribution-ko.png)
 
-독자는 여기서 `formal_notice_weaker_notice_style`의 `notice_style`을 더 낮추거나, `casual_team_chat_more_formal`의 `formal_tone`과 `casual_tone`을 바꿔 보면서 1위 후보와 `top_2_margin`이 어떻게 움직이는지 실험할 수 있습니다. 이렇게 보면 중요한 것은 `정답 토큰 하나를 외우는 것`이 아니라, `문맥에서 어떤 단서가 후보 분포를 어떻게 밀어 올리거나 끌어내리는가`입니다.
+표를 읽을 때는 먼저 `문맥 변화` 열을 보고, 그다음 1위 후보가 무엇인지, 마지막으로 1, 2위 격차가 큰지 작은지를 봅니다. 예를 들어 `고객사 공지 메일`에서는 1위가 `합니다`이고 격차도 큽니다. 반대로 `팀 내부 메모에 공손한 말투가 섞임`에서는 1위가 `합니다`로 바뀌지만 격차가 0.09로 작습니다. 같은 1위라도 안정적인 선택과 흔들리는 선택이 다르게 보이는 지점입니다.
+
+그래프에서 볼 지점도 막대의 높이 자체보다 후보 사이의 상대적 거리입니다. `팀 내부 메모에 공손한 말투가 섞임`에서는 `합니다`가 1위이지만 다른 후보와의 격차가 작습니다. 이 상태는 다음 토큰 선택이 안정적으로 하나로 굳었다기보다, 문맥 단서가 서로 다른 방향으로 후보 분포를 끌어당기고 있다고 읽는 편이 좋습니다.
+
+이렇게 보면 중요한 것은 `정답 토큰 하나를 외우는 것`이 아니라, `문맥에서 어떤 단서가 후보 분포를 어떻게 밀어 올리거나 끌어내리는가`입니다.
 
 이 예제에서 확인해야 할 핵심은 다음입니다.
 
@@ -436,7 +259,7 @@ top_2_margin = 0.09
 
 ## 다음 토큰 선택에서 갈리는 후보
 
-앞의 예제는 Transformer 전체를 구현하는 코드가 아니라, 긴 문맥 계산이 마지막에는 `후보 점수 비교`와 `다음 토큰 선택`으로 닫힌다는 점을 더 실제적인 점수표 형태로 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 복잡한 내부 블록을 모두 외우는 것이 아니라, 그 계산이 결국 `앞 문맥에 따라 달라지는 다음 토큰 분포`를 만든다는 점입니다. 즉, Transformer를 읽을 때는 `정답 단어 하나를 바로 맞힌다`보다 `문맥 전체가 다음 후보 분포를 어떻게 바꾸는가`를 보는 편이 더 정확합니다.
+앞의 연습은 긴 문맥 계산이 마지막에는 `후보 점수 비교`와 `다음 토큰 선택`으로 닫힌다는 점을 더 실제적인 점수표 형태로 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 복잡한 내부 블록을 모두 외우는 것이 아니라, 그 계산이 결국 `앞 문맥에 따라 달라지는 다음 토큰 분포`를 만든다는 점입니다. 즉, Transformer를 읽을 때는 `정답 단어 하나를 바로 맞힌다`보다 `문맥 전체가 다음 후보 분포를 어떻게 바꾸는가`를 보는 편이 더 정확합니다.
 
 ## 왜 LLM의 중심 엔진이 되었는가
 

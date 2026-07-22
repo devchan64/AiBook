@@ -259,95 +259,37 @@ GPT-3 시기 이후 사용자는 prompt 안에 설명과 예시를 넣어 모델
 
 ## 연습 및 예제
 
-이 예제의 목표는 같은 생성 구조 위에서도 `자동완성 경험`과 `대화형 지시 응답 경험`이 어떻게 달라지는지, 특히 형식 제약, 역할, 안전 제약이 실제 응답 구조에 반영되는지로 확인하는 것입니다.
+이 연습의 목표는 같은 생성 구조 위에서도 `자동완성 경험`과 `대화형 지시 응답 경험`이 어떻게 달라지는지 확인하는 것입니다. 두 응답 후보를 두고 형식 제약, 역할, 안전 제약, 구조화가 실제로 반영되는지 직접 표시해 보겠습니다.
 
-아래 코드는 사용자 요청, 요청에서 요구한 문장 수, 시스템 역할 제약, 피해야 할 안전 위반 표현, 자동완성형 응답 하나, 지시 따르기형 응답 묶음을 사용합니다. 결과에서는 자동완성형 스타일과 대화형 지시 응답 스타일, 요청 형식 반영 여부, 역할과 안전 제약 반영 여부, 어떤 항목에서 자동완성과 대화형 응답이 갈리는지를 함께 확인합니다.
+사용자 요청은 다음과 같다고 하겠습니다.
 
-확인할 핵심은 같은 사용자 요청이라도 대화형 LLM은 사용자 요청만이 아니라 역할과 안전 제약까지 함께 반영해 응답을 구성한다는 점입니다.
+> 이 문서를 세 문장으로 요약해줘.
 
-```python
-# 자동완성형 응답과 대화형 지시 응답이 형식 제약, 역할, 안전 제약 반영에서 어떻게 달라지는지 점검하는 예제입니다.
-user_request = "이 문서를 세 문장으로 요약해줘"
-required_sentence_count = 3
-system_role = "학습 내용을 차분히 설명하는 도우미"
-blocked_terms = ["확실하지 않은 사실을 단정", "공격적 표현"]
+시스템 역할은 `학습 내용을 차분히 설명하는 도우미`이고, 피해야 할 것은 확실하지 않은 사실 단정과 공격적 표현입니다. 이 조건이 이 연습의 입력입니다. 즉, 표의 응답 후보 A와 B는 같은 사용자 요청, 같은 시스템 역할, 같은 안전 조건을 받은 뒤 나올 수 있는 두 가지 출력 예입니다.
 
-autocomplete_style = [
-    "이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다..."
-]
+첫 번째 표는 입력 조건에 대한 두 출력 후보를 보여 줍니다. `응답 후보` 열은 비교 대상의 이름이고, `출력 예` 열은 실제로 사용자가 보게 될 문장입니다. `먼저 보이는 성격` 열은 그 출력이 자동완성에 가까운지, 대화형 지시 응답에 가까운지 첫 판단을 돕는 설명입니다.
 
-instruction_style = [
-    "첫째, 이 문서는 핵심 개념을 정리합니다.",
-    "둘째, 주요 사례와 한계를 함께 설명합니다.",
-    "셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.",
-]
+| 응답 후보 | 출력 예 | 먼저 보이는 성격 |
+| --- | --- | --- |
+| A | `이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다...` | 앞문장 뒤를 이어 쓰는 자동완성에 가까움 |
+| B | `첫째, 핵심 개념을 정리합니다.`<br>`둘째, 주요 사례와 한계를 함께 설명합니다.`<br>`셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.` | 요청 형식과 역할을 맞추는 대화형 응답에 가까움 |
 
-def inspect_response(lines, required_count, blocked_terms):
-    joined = " ".join(lines)
-    return {
-        "sentence_count": len(lines),
-        "matches_requested_count": len(lines) == required_count,
-        "mentions_beginner_friendly_tone": any("설명" in line or "정리" in line for line in lines),
-        "contains_blocked_term": any(term in joined for term in blocked_terms),
-        "starts_with_structured_answer": any(line.startswith(("첫째", "둘째", "셋째")) for line in lines),
-    }
+두 번째 표는 첫 번째 표의 출력 후보를 평가하는 기준표입니다. 왼쪽의 `판단 기준`은 대화형 LLM 경험에서 추가로 확인해야 하는 조건이고, A와 B 열은 각 후보가 그 조건을 만족하는지를 표시합니다. 마지막 열은 왜 그런 판정이 나오는지 설명합니다.
 
-def compare_experience(report):
-    return {
-        "format_followed": report["matches_requested_count"],
-        "role_followed": report["mentions_beginner_friendly_tone"],
-        "safety_ok": not report["contains_blocked_term"],
-        "structured_response": report["starts_with_structured_answer"],
-    }
+다음 기준으로 직접 표시해 보겠습니다.
 
-autocomplete_report = inspect_response(
-    autocomplete_style, required_sentence_count, blocked_terms
-)
-instruction_report = inspect_response(
-    instruction_style, required_sentence_count, blocked_terms
-)
+| 판단 기준 | A | B | 왜 갈리는가 |
+| --- | --- | --- | --- |
+| 세 문장 형식을 지키는가 | 아니오 | 예 | A는 이어쓰기 한 줄에 가깝고, B는 요청된 문장 수를 맞춥니다. |
+| 설명 도우미 역할이 보이는가 | 아니오 | 예 | A는 문맥을 이어 쓰지만, B는 학습 내용을 정리하는 역할을 드러냅니다. |
+| 피해야 할 표현을 피하는가 | 아니오 | 예 | A에는 확실하지 않은 사실 단정이 들어 있고, B는 단정 위험을 줄입니다. |
+| 구조화된 응답인가 | 아니오 | 예 | B는 `첫째`, `둘째`, `셋째`로 응답 구조를 만듭니다. |
 
-print("request =", user_request)
-print("required_sentence_count =", required_sentence_count)
-print("system_role =", system_role)
-print("blocked_terms =", blocked_terms)
-print()
-print("autocomplete_style =", autocomplete_style)
-print("autocomplete_report =", autocomplete_report)
-print("autocomplete_experience =", compare_experience(autocomplete_report))
-print()
-print("instruction_style =")
-for line in instruction_style:
-    print("-", line)
-print("instruction_report =", instruction_report)
-print("instruction_experience =", compare_experience(instruction_report))
-```
-
-아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-request = 이 문서를 세 문장으로 요약해줘
-required_sentence_count = 3
-system_role = 학습 내용을 차분히 설명하는 도우미
-blocked_terms = ['확실하지 않은 사실을 단정', '공격적 표현']
-
-autocomplete_style = ['이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다...']
-autocomplete_report = {'sentence_count': 1, 'matches_requested_count': False, 'mentions_beginner_friendly_tone': False, 'contains_blocked_term': True, 'starts_with_structured_answer': False}
-autocomplete_experience = {'format_followed': False, 'role_followed': False, 'safety_ok': False, 'structured_response': False}
-
-instruction_style =
-- 첫째, 이 문서는 핵심 개념을 정리합니다.
-- 둘째, 주요 사례와 한계를 함께 설명합니다.
-- 셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.
-instruction_report = {'sentence_count': 3, 'matches_requested_count': True, 'mentions_beginner_friendly_tone': True, 'contains_blocked_term': False, 'starts_with_structured_answer': True}
-instruction_experience = {'format_followed': True, 'role_followed': True, 'safety_ok': True, 'structured_response': True}
-```
+이 연습에서 중요한 점은 B가 늘 더 훌륭한 문장이라는 뜻이 아닙니다. 자동완성 장면이라면 A처럼 앞문장을 자연스럽게 잇는 것만으로 충분할 수 있습니다. 그러나 사용자가 `세 문장으로 요약해줘`라고 요청한 대화형 장면에서는 자연스러운 이어쓰기만으로는 부족하고, 요청 형식과 역할, 안전 제약이 실제 응답 구조에 반영되어야 합니다.
 
 ## 대화형 경험에서 달라지는 출력 기준
 
-앞의 예제는 대화형 LLM 전체를 구현하는 코드가 아니라, 같은 생성 구조라도 `다음 문장을 이어 쓰는 경험`과 `사용자 지시를 따라 응답 형식, 역할, 안전 조건을 맞추는 경험`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 모델이 더 길게 말하느냐가 아니라, `세 문장으로 요약해 달라`는 형식 조건과 `학습 내용을 차분히 설명하는 도우미`라는 역할, 그리고 피해야 할 표현이 실제 응답 구조에 반영되도록 조정된 경험이라는 점입니다.
+앞의 연습은 같은 생성 구조라도 `다음 문장을 이어 쓰는 경험`과 `사용자 지시를 따라 응답 형식, 역할, 안전 조건을 맞추는 경험`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 모델이 더 길게 말하느냐가 아니라, `세 문장으로 요약해 달라`는 형식 조건과 `학습 내용을 차분히 설명하는 도우미`라는 역할, 그리고 피해야 할 표현이 실제 응답 구조에 반영되도록 조정된 경험이라는 점입니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
