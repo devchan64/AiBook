@@ -1,17 +1,20 @@
 flowchart TD
   A["problem observed"]
-  B["prompt issue?"]
-  C["knowledge/grounding issue?"]
-  D["execution/tool issue?"]
-  E["prompt revision"]
-  F["RAG or retrieval"]
-  G["tool use"]
-  H["fine-tuning if pattern is persistent"]
+  B["separate missing signals"]
+  C["format / instruction fit"]
+  D["evidence / freshness"]
+  E["calculation / lookup / execution"]
+  F["repeated style / task adaptation"]
+  G["primary support path"]
+  H["record second-path candidate"]
 
   A --> B
-  B -->|yes| E
-  B -->|no| C
-  C -->|yes| F
-  C -->|no| D
-  D -->|yes| G
-  D -->|no| H
+  B --> C
+  B --> D
+  B --> E
+  B --> F
+  C --> G
+  D --> G
+  E --> G
+  F --> G
+  G --> H

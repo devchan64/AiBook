@@ -16,12 +16,35 @@ from matplotlib.colors import LinearSegmentedColormap
 
 OUT_DIR = Path(__file__).resolve().parent
 
-SCORES = [
-    [10, 0, 0, 6],
-    [1, 9, 3, 3],
-    [0, 3, 10, 0],
-    [6, 0, 0, 10],
+CASES = [
+    {
+        "issue": "format drift",
+        "signals": {"format": 3, "evidence": 0, "execution": 0, "persistent_style": 1},
+    },
+    {
+        "issue": "missing latest policy",
+        "signals": {"format": 0, "evidence": 3, "execution": 0, "persistent_style": 1},
+    },
+    {
+        "issue": "needs calculator",
+        "signals": {"format": 0, "evidence": 1, "execution": 3, "persistent_style": 0},
+    },
+    {
+        "issue": "persistent domain style",
+        "signals": {"format": 1, "evidence": 0, "execution": 0, "persistent_style": 3},
+    },
+    {
+        "issue": "mixed format and policy evidence",
+        "signals": {"format": 2, "evidence": 3, "execution": 0, "persistent_style": 1},
+    },
 ]
+
+WEIGHTS = {
+    "prompt revision": {"format": 3, "evidence": 0, "execution": 0, "persistent_style": 1},
+    "RAG": {"format": 0, "evidence": 3, "execution": 0, "persistent_style": 0},
+    "tool use": {"format": 0, "evidence": 1, "execution": 3, "persistent_style": 0},
+    "fine-tuning": {"format": 1, "evidence": 0, "execution": 0, "persistent_style": 3},
+}
 
 LANG_TEXT = {
     "ko": {
@@ -34,18 +57,30 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "solution-selection-score-map-ko.png",
-        "title": "실패 유형별 우선 수단 점수",
-        "rows": ["형식 흔들림", "최신 규정 오류", "계산 오류", "문체 불안정"],
+        "title": "부족 신호별 보강 경로 점수",
+        "rows": ["형식 흔들림", "최신 규정 오류", "계산 오류", "문체 불안정", "형식+근거 복합"],
         "columns": ["프롬프트", "RAG", "도구 사용", "파인튜닝"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "solution-selection-score-map-en.png",
-        "title": "Solution score by failure type",
-        "rows": ["format drift", "missing policy", "calculation error", "style drift"],
+        "title": "Support-path score by missing signal",
+        "rows": ["format drift", "missing policy", "calculation error", "style drift", "format + evidence"],
         "columns": ["prompt", "RAG", "tool use", "fine-tuning"],
     },
 }
+
+
+def score_action(signals: dict[str, int], action_name: str) -> int:
+    action_weights = WEIGHTS[action_name]
+    return sum(signals[key] * action_weights[key] for key in signals)
+
+
+def calculate_scores() -> list[list[int]]:
+    return [
+        [score_action(case["signals"], action_name) for action_name in WEIGHTS]
+        for case in CASES
+    ]
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -63,15 +98,16 @@ def configure_font(text: dict[str, object]) -> None:
 
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
+    scores = calculate_scores()
     cmap = LinearSegmentedColormap.from_list(
         "selection_score",
         ["#f8fafc", "#bfdbfe", "#2563eb"],
     )
 
-    fig, ax = plt.subplots(figsize=(7.0, 4.0), dpi=180)
+    fig, ax = plt.subplots(figsize=(7.3, 4.5), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
-    ax.imshow(SCORES, cmap=cmap, vmin=0, vmax=10, aspect="auto")
+    ax.imshow(scores, cmap=cmap, vmin=0, vmax=10, aspect="auto")
 
     ax.set_title(text["title"], fontsize=12, pad=14, fontweight="bold")
     ax.set_xticks(range(len(text["columns"])), text["columns"])
@@ -84,18 +120,22 @@ def save_chart(text: dict[str, object]) -> None:
     ax.grid(which="minor", color="white", linewidth=2.0)
     ax.tick_params(which="minor", bottom=False, left=False)
 
-    for row_index, row in enumerate(SCORES):
+    for row_index, row in enumerate(scores):
         row_max = max(row)
+        row_sorted = sorted(row, reverse=True)
+        second_value = row_sorted[1]
         for col_index, value in enumerate(row):
+            is_first = value == row_max
+            is_second = value == second_value and value != row_max and value > 0
             ax.text(
                 col_index,
                 row_index,
                 str(value),
                 ha="center",
                 va="center",
-                color="white" if value == row_max and value >= 9 else "#172033",
+                color="white" if is_first and value >= 9 else "#172033",
                 fontsize=9,
-                fontweight="bold" if value == row_max else "normal",
+                fontweight="bold" if is_first or is_second else "normal",
             )
 
     for spine in ax.spines.values():
