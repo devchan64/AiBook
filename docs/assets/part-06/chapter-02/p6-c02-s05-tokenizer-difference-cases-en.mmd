@@ -1,0 +1,10 @@
+flowchart TD
+  A["Same tokenizer question"]
+  B["Similar request<br/>Does token count differ?"]
+  C["Chunk boundary<br/>Does the key condition stay attached?"]
+  D["Later search / cost<br/>Does downstream behavior change?"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D

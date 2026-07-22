@@ -263,30 +263,51 @@ P6-5.2에서는 대화형 LLM이 단순 자동완성 모델 위에 지시 따르
 
 ## 연습 및 예제
 
-이 예제의 목표는 `일반 텍스트에서 먼저 패턴을 모으고, 작은 과업 데이터로 그 패턴을 어떻게 더 좁혀 가는가`를 직접 보는 것입니다. 아주 단순한 bigram 카운트 모델을 써서, 일반 문장 코퍼스로 먼저 다음 단어 경향을 만들고 고객센터 문장 몇 개를 추가했을 때 여러 시작 맥락의 후보가 어떻게 바뀌는지 한 번에 비교해 보겠습니다.
+이 예제의 목표는 `일반 텍스트에서 먼저 패턴을 모으고, 작은 과업 데이터로 그 패턴을 어떻게 더 좁혀 가는가`를 직접 보는 것입니다. 실제 LLM 사전학습을 구현하는 예제가 아니라, 학습 데이터 묶음이 달라질 때 관찰되는 연결이 어떻게 달라지는지 분리해서 보는 축소 실험입니다.
 
-아래 코드는 일반 코퍼스 문장들, 고객센터 도메인 문장들, 확인하고 싶은 시작 맥락을 사용합니다. 결과에서는 일반 코퍼스만 썼을 때의 다음 단어 후보, 도메인 문장을 추가한 뒤의 다음 단어 후보, 여러 시작 토큰에서 후보 점수가 어떻게 이동하는지를 비교합니다.
+예제 데이터는 [p6-7-pretraining-stage-sentences.csv](../../../assets/part-06/chapter-07/p6-7-pretraining-stage-sentences.csv){ .csv-preview }에 있습니다. 한 행은 하나의 짧은 학습 문장이고, `stage`는 그 문장이 어느 학습 묶음에 속하는지 나타냅니다. `general_text`는 넓은 일반 문장, `customer_support`는 고객센터 도메인 문장, `instruction_reply`는 요청 형식을 맞추는 응답 문장입니다.
 
-확인할 핵심은 사전학습 데이터가 달라지면 모델 구조를 바꾸지 않아도 다음 토큰 후보 분포가 이동할 수 있다는 점입니다.
+입력:
+
+- `general_text`: 문서, 회의, 질문, 설명처럼 넓은 일반 표현을 담은 문장
+- `customer_support`: 환불, 배송, 계정, 교환처럼 특정 업무 어휘가 들어간 문장
+- `instruction_reply`: `단계별로`, `차분하게`, `세 문장으로`처럼 응답 형식을 드러내는 문장
+
+출력:
+
+- 일반 말뭉치만 보았을 때의 연결 수
+- 고객센터 도메인 문장을 더했을 때 새로 생기거나 강해지는 연결
+- 지시형 응답 문장을 더했을 때 비로소 나타나는 요청 형식 연결
+
+확인할 핵심은 `학습을 더 했다`가 한 종류의 변화가 아니라는 점입니다. 일반 말뭉치는 넓은 언어 연결을 만들고, 도메인 문장은 특정 업무 어휘 연결을 더하며, 지시형 응답 문장은 사람 요청 형식에 맞는 연결을 따로 강화합니다.
 
 ```python
-# 일반 코퍼스와 고객센터 도메인 문장을 더했을 때 bigram 기반 다음 단어 후보 분포가 어떻게 이동하는지 비교하는 예제입니다.
+# CSV 문장을 단계별로 더하면서 어떤 다음 토큰 연결이 유지, 생성, 강화되는지 비교하는 예제입니다.
 from collections import Counter, defaultdict
+from csv import DictReader
+from pathlib import Path
 
-general_corpus = [
-    "문의 내용을 확인 합니다",
-    "요청 내용을 확인 합니다",
-    "문서 내용을 정리 합니다",
-    "결과 내용을 설명 합니다",
-    "안내 메일을 전달 합니다",
+DATA_PATH = Path("docs/assets/part-06/chapter-07/p6-7-pretraining-stage-sentences.csv")
+
+STAGE_BUNDLES = [
+    ("general_only", ("general_text",)),
+    ("with_domain", ("general_text", "customer_support")),
+    ("with_instruction", ("general_text", "customer_support", "instruction_reply")),
 ]
 
-customer_support_corpus = [
-    "환불 문의 내용을 확인 합니다",
-    "배송 문의 내용을 확인 합니다",
-    "계정 문의 내용을 확인 합니다",
-    "환불 요청 내용을 확인 합니다",
+FOCUS_LINKS = [
+    ("broad_language", "내용을", ("확인", "정리", "요약", "설명")),
+    ("domain_support", "환불", ("문의", "요청", "상태", "처리")),
+    ("instruction_style", "단계별로", ("안내", "설명", "정리")),
 ]
+
+DOMAIN_START_TOKENS = {"환불", "배송", "계정", "교환"}
+
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return list(DictReader(f))
+
 
 def build_bigram_counts(sentences):
     counts = defaultdict(Counter)
@@ -296,19 +317,52 @@ def build_bigram_counts(sentences):
             counts[left][right] += 1
     return counts
 
-def top_next_tokens(counts, token, top_k=5):
-    return counts[token].most_common(top_k)
 
-general_counts = build_bigram_counts(general_corpus)
-adapted_counts = build_bigram_counts(general_corpus + customer_support_corpus)
+def rows_for_stages(rows, stages):
+    return [row for row in rows if row["stage"] in stages]
 
-focus_tokens = ["문의", "환불", "내용을"]
 
-for token in focus_tokens:
-    print("=" * 72)
-    print("focus_token =", token)
-    print("general_next_tokens =", top_next_tokens(general_counts, token))
-    print("adapted_next_tokens =", top_next_tokens(adapted_counts, token))
+def link_count(counts, left, rights):
+    return sum(counts[left][right] for right in rights)
+
+
+rows = load_rows(DATA_PATH)
+
+print("[stage_rows]")
+for stage in ("general_text", "customer_support", "instruction_reply"):
+    print(f"{stage}: {sum(row['stage'] == stage for row in rows)}")
+
+print("\n[focus_link_counts]")
+for link_name, left, rights in FOCUS_LINKS:
+    values = {}
+    for bundle_name, stages in STAGE_BUNDLES:
+        bundle_rows = rows_for_stages(rows, stages)
+        counts = build_bigram_counts(row["sentence"] for row in bundle_rows)
+        values[bundle_name] = link_count(counts, left, rights)
+    print(
+        f"{link_name}: "
+        f"general_only={values['general_only']}, "
+        f"with_domain={values['with_domain']}, "
+        f"with_instruction={values['with_instruction']}"
+    )
+
+print("\n[new_links_after_domain]")
+general_counts = build_bigram_counts(
+    row["sentence"] for row in rows if row["stage"] == "general_text"
+)
+domain_counts = build_bigram_counts(
+    row["sentence"] for row in rows if row["stage"] == "customer_support"
+)
+new_links = []
+for left, right_counts in domain_counts.items():
+    if left not in DOMAIN_START_TOKENS:
+        continue
+    for right, domain_count in right_counts.items():
+        if general_counts[left][right] == 0:
+            new_links.append((f"{left} -> {right}", domain_count))
+
+for link_name, count in sorted(new_links, key=lambda item: (-item[1], item[0]))[:6]:
+    print(f"{link_name}: {count}")
 ```
 
 이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
@@ -316,35 +370,45 @@ for token in focus_tokens:
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-========================================================================
-focus_token = 문의
-general_next_tokens = [('내용을', 1)]
-adapted_next_tokens = [('내용을', 4)]
-========================================================================
-focus_token = 환불
-general_next_tokens = []
-adapted_next_tokens = [('문의', 1), ('요청', 1)]
-========================================================================
-focus_token = 내용을
-general_next_tokens = [('확인', 2), ('정리', 1), ('설명', 1)]
-adapted_next_tokens = [('확인', 6), ('정리', 1), ('설명', 1)]
+[stage_rows]
+general_text: 40
+customer_support: 24
+instruction_reply: 12
+
+[focus_link_counts]
+broad_language: general_only=35, with_domain=46, with_instruction=48
+domain_support: general_only=0, with_domain=8, with_instruction=8
+instruction_style: general_only=0, with_domain=0, with_instruction=3
+
+[new_links_after_domain]
+환불 -> 문의: 2
+환불 -> 상태: 2
+환불 -> 요청: 2
+환불 -> 처리: 2
+계정 -> 문의: 1
+계정 -> 복구: 1
 ```
 
-이 예제에서는 `문의`, `환불`, `내용을`처럼 성격이 다른 시작 토큰을 함께 보는 편이 중요합니다. `문의`처럼 일반 코퍼스에도 조금 있던 연결은 도메인 데이터를 더하자 더 강해지고, `환불`처럼 일반 코퍼스에는 없던 연결은 도메인 데이터를 더한 뒤에야 비로소 후보가 생깁니다. 반대로 `내용을` 뒤의 `확인`, `정리`, `설명`처럼 넓은 일반 표현은 이미 일반 코퍼스 단계부터 살아 있고, 도메인 조정 뒤에는 `확인` 쪽이 더 강해집니다.
+이 출력에서 먼저 볼 것은 `broad_language`입니다. `내용을 -> 확인/정리/요약/설명` 같은 넓은 연결은 일반 말뭉치만 보아도 이미 많이 생깁니다. 도메인 문장을 더하면 이 값이 더 커지지만, 완전히 새로 생긴 연결이라기보다 기존 언어 기반 위에 더해진 변화입니다.
 
-그래프로 보면 도메인 문장을 더했을 때 어떤 연결은 강해지고, 어떤 연결은 새로 생긴다는 차이가 더 분명합니다.
+반대로 `domain_support`는 일반 말뭉치만으로는 0입니다. `환불 -> 문의/요청/상태/처리` 같은 연결은 고객센터 문장을 더한 뒤에야 나타납니다. 이것이 과업 조정이 하는 일에 가깝습니다. 이미 만들어진 언어 기반 위에서 특정 업무 어휘와 절차를 더 선명하게 만드는 것입니다.
 
-![일반 코퍼스와 도메인 문장 추가 후 다음 토큰 연결 횟수](../../../assets/part-06/chapter-07/pretraining-adaptation-counts-ko.png)
+마지막으로 `instruction_style`은 도메인 문장을 더해도 0이고, 지시형 응답 문장을 더한 뒤에야 생깁니다. 이 값은 사전학습과 파인튜닝을 넘어, 사용자의 요청 형식에 맞춰 반응하도록 조정하는 층이 따로 필요할 수 있음을 보여 줍니다.
+
+그래프로 보면 세 연결이 같은 방식으로 커지지 않는다는 차이가 더 분명합니다.
+
+![학습 단계별 다음 토큰 연결 횟수](../../../assets/part-06/chapter-07/pretraining-adaptation-counts-ko.png)
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- 일반 코퍼스는 먼저 넓은 연결 패턴을 만듭니다.
-- 고객센터 문장을 추가하면 `문의`, `환불`, `배송` 같은 도메인 연결이 더 강해지거나 새로 생깁니다.
-- 즉, 사전학습은 바탕 패턴을 넓게 만들고, 이후 조정은 그 위에서 특정 업무 흐름을 더 두드러지게 만드는 쪽에 가깝습니다.
+- 일반 말뭉치는 먼저 넓은 언어 연결을 만듭니다.
+- 고객센터 문장을 추가하면 `환불`, `배송`, `계정`, `교환` 같은 도메인 연결이 새로 생기거나 강해집니다.
+- 지시형 응답 문장을 추가하면 `단계별로 안내`처럼 요청 형식에 맞춘 연결이 따로 생깁니다.
+- 즉, 사전학습은 바탕 패턴을 넓게 만들고, 이후 조정은 그 위에서 업무 어휘나 응답 형식을 더 두드러지게 만드는 쪽에 가깝습니다.
 
 ## 학습 단계 분리에서 보이는 분포 이동
 
-이 예제는 `많이 학습했다`는 한 문장으로 사전학습과 후속 조정을 뭉뚱그리면 안 된다는 점을 다시 보여 줍니다. 같은 next-word 구조를 쓰더라도, 일반 코퍼스로 만든 단계는 `넓은 언어 연결`을, 도메인 문장을 더한 단계는 `특정 업무 표현 강화`를 보여 줍니다. 이후 파인튜닝, instruction tuning, alignment를 읽을 때도 먼저 `기반 능력을 넓게 만든 단계`와 `반응 방식을 목적에 맞춘 단계`를 구분해 보는 습관이 필요합니다.
+이 예제는 `많이 학습했다`는 한 문장으로 사전학습과 후속 조정을 뭉뚱그리면 안 된다는 점을 다시 보여 줍니다. 같은 next-word 구조를 쓰더라도, 일반 말뭉치로 만든 단계는 `넓은 언어 연결`을, 도메인 문장을 더한 단계는 `특정 업무 표현 강화`를 보여 줍니다. 이후 파인튜닝, instruction tuning, alignment를 읽을 때도 먼저 `기반 능력을 넓게 만든 단계`와 `반응 방식을 목적에 맞춘 단계`를 구분해 보는 습관이 필요합니다.
 
 사전학습은 LLM 시대를 설명하는 핵심 전환입니다. 이전에도 언어 모델과 표현 학습은 있었지만, 대규모 텍스트에서 먼저 일반 패턴을 학습하고 나중에 다양한 과업으로 연결하는 방식이 중심이 되면서 모델 사용 방식 자체가 바뀌었습니다.
 

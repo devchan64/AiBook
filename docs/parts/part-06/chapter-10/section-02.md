@@ -209,11 +209,9 @@ P6-10.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 
 ## 연습 및 예제
 
-이 예제의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을, 한두 개 출력이 아니라 점검 보고서 형태로 확인하는 것입니다. 실제 서비스에서는 답변 문장만 읽지 않고 `최신 문서가 붙었는가`, `계산 로그가 있는가`, `실행 로그가 남았는가` 같은 검증 항목을 함께 봐야 합니다.
+이 연습의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을 직접 판정해 보는 것입니다. 실제 서비스에서는 답변 문장만 읽지 않고 `최신 문서가 붙었는가`, `계산 로그가 있는가`, `실행 로그가 남았는가` 같은 검증 항목을 함께 봐야 합니다.
 
 사용자는 최신 정책, 정확한 계산, 실제 저장 실행을 한꺼번에 기대할 수 있습니다. 프롬프트에는 `최신 문서를 근거로`, `정확하게 계산해서`, `저장까지 완료해`라고 강하게 적어 둘 수 있지만, 최신 문서 연결, 계산 도구, 저장 도구가 없으면 답은 여전히 말뿐인 지시로 끝날 수 있습니다.
-
-아래 예제는 세 가지 사용자 작업을 두 방식으로 비교합니다. 하나는 프롬프트만 있는 응답이고, 다른 하나는 최신 문서 연결, 계산 로그, 저장 로그까지 붙인 구조화 응답입니다. 출력은 작업별 점검 보고서, `prompt only`와 `structured`의 통과 항목 수, 빠진 구조의 종류를 보여 줍니다.
 
 먼저 비교할 검증 항목을 표로 정리하면 다음과 같습니다.
 
@@ -223,227 +221,39 @@ P6-10.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 | 수치 보고 | 계산값 정확성 | 계산 로그, 재계산 근거 | 계산 도구, 후처리 검산 |
 | 파일 자동화 | 실제 저장 완료 | 저장 로그, 재시도 정보 | 파일 도구, 실행 로그 |
 
-코드에서 확인할 핵심은 강한 프롬프트만으로는 최신 정보 확인, 정확한 계산, 실제 실행 완료까지 항상 보장할 수 없다는 점입니다.
+아래 세 장면에서 먼저 할 일은 답을 계산하는 것이 아니라, 어떤 칸이 비어 있어서 프롬프트 밖 구조가 필요한지 표시하는 것입니다.
 
-```python
-# 최신 정책, 숫자 계산, 파일 저장 자동화에서 프롬프트만 쓴 결과와 구조 보강 결과의 점검 통과율을 비교하는 예제입니다.
-tasks = [
-    {
-        "name": "latest_policy",
-        "question": "오늘 기준 환불 가능 기간은 며칠인가요?",
-        "strong_prompt": "최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요.",
-        "prompt_only_result": {
-            "answer": "환불 가능 기간은 7일입니다.",
-            "used_source": "old_model_memory",
-            "document_id": None,
-        },
-        "structured_result": {
-            "answer": "환불 가능 기간은 14일입니다.",
-            "used_source": "policy_2026_06",
-            "document_id": "refund-policy-2026-06",
-        },
-        "expected": {
-            "latest_source": "policy_2026_06",
-            "document_id": "refund-policy-2026-06",
-        },
-    },
-    {
-        "name": "numeric_report",
-        "question": "세 지점의 주간 매출 합계와 평균을 알려 주세요.",
-        "strong_prompt": "숫자를 정확하게 계산해서 합계와 평균을 한 줄로 알려 주세요.",
-        "prompt_only_result": {
-            "answer": "합계는 1100이고 평균은 350입니다.",
-            "numbers": {"sum": 1100, "avg": 350},
-            "used_calculator": False,
-            "calc_log_id": None,
-        },
-        "structured_result": {
-            "answer": "합계는 1200이고 평균은 400입니다.",
-            "numbers": {"sum": 1200, "avg": 400},
-            "used_calculator": True,
-            "calc_log_id": "calc-log-782",
-        },
-        "expected": {
-            "sum": 1200,
-            "avg": 400,
-        },
-    },
-    {
-        "name": "file_automation",
-        "question": "업로드된 계약서를 법무 폴더에 저장해 주세요.",
-        "strong_prompt": "분류 후 올바른 폴더에 저장까지 완료했다고 보고해 주세요.",
-        "prompt_only_result": {
-            "answer": "계약서를 법무 폴더에 저장했습니다.",
-            "saved": False,
-            "save_log_id": None,
-            "retry_available": False,
-        },
-        "structured_result": {
-            "answer": "계약서를 legal/contracts 폴더에 저장했습니다.",
-            "saved": True,
-            "save_log_id": "save-log-2048",
-            "retry_available": True,
-        },
-        "expected": {
-            "saved": True,
-        },
-    },
-]
+| 장면 | 프롬프트로 먼저 줄일 수 있는 것 | 시스템 구조가 필요한 것 | 확인해야 할 기록 |
+| --- | --- | --- | --- |
+| `오늘 기준 환불 기한을 알려 주세요`라고 묻자 모델이 정중하게 7일이라고 답했다 | 답변 길이, 말투, 주의 문구 | 현재 효력이 있는 정책 문서 연결 | 문서 ID, 문서 버전, 검색 시각 |
+| `세 지점 매출 합계와 평균을 알려 주세요`라고 묻자 표는 예쁘지만 합계가 틀렸다 | 표 형식, 설명 순서 | 계산 도구와 검산 구조 | 원본 행, 계산 로그, 재계산 결과 |
+| `계약서를 법무 폴더에 저장해 주세요`라고 묻자 저장했다고 답했다 | 보고 문장 형식 | 실제 파일 저장 도구와 권한 처리 | 저장 경로, 저장 로그, 실패 시 재시도 기록 |
 
-def inspect_task(task_name, result, expected):
-    if task_name == "latest_policy":
-        checks = {
-            "latest_source_ok": result["used_source"] == expected["latest_source"],
-            "document_id_present": result["document_id"] == expected["document_id"],
-        }
-        return {
-            "answer": result["answer"],
-            "used_source": result["used_source"],
-            "document_id": result["document_id"],
-            "checks": checks,
-            "passed_checks": sum(checks.values()),
-            "total_checks": len(checks),
-        }
+이제 같은 장면을 조금 더 애매하게 바꾸어 직접 판정해 보겠습니다. 빈칸에는 `프롬프트`, `RAG`, `도구 사용`, `평가/로그` 중 먼저 볼 구조를 적습니다.
 
-    if task_name == "numeric_report":
-        checks = {
-            "sum_ok": result["numbers"]["sum"] == expected["sum"],
-            "avg_ok": result["numbers"]["avg"] == expected["avg"],
-            "calc_log_present": result["calc_log_id"] is not None,
-            "used_calculator": result["used_calculator"],
-        }
-        return {
-            "answer": result["answer"],
-            "numbers": result["numbers"],
-            "calc_log_id": result["calc_log_id"],
-            "checks": checks,
-            "passed_checks": sum(checks.values()),
-            "total_checks": len(checks),
-        }
+| 실패 장면 | 먼저 볼 구조 | 이유 |
+| --- | --- | --- |
+| 답변은 최신 문서에서 가져왔지만, 매번 요약 형식이 다르다 |  |  |
+| 합계 숫자는 맞지만 어떤 원본 행을 계산했는지 남아 있지 않다 |  |  |
+| 파일 저장은 성공했지만 실패했을 때 재시도 여부를 알 수 없다 |  |  |
+| 답변이 자연스럽고 표도 맞지만, 정책 문서 버전이 지난달 기준이다 |  |  |
 
-    if task_name == "file_automation":
-        checks = {
-            "saved_ok": result["saved"] == expected["saved"],
-            "save_log_present": result["save_log_id"] is not None,
-            "retry_available": result["retry_available"],
-        }
-        return {
-            "answer": result["answer"],
-            "saved": result["saved"],
-            "save_log_id": result["save_log_id"],
-            "checks": checks,
-            "passed_checks": sum(checks.values()),
-            "total_checks": len(checks),
-        }
+해설:
 
-def run_mode(mode_name):
-    reports = []
-    for task in tasks:
-        result = task[f"{mode_name}_result"]
-        inspect = inspect_task(task["name"], result, task["expected"])
-        reports.append(
-            {
-                "name": task["name"],
-                "question": task["question"],
-                "inspect": inspect,
-            }
-        )
+| 실패 장면 | 먼저 볼 구조 | 이유 |
+| --- | --- | --- |
+| 최신 문서는 붙었지만 요약 형식이 흔들림 | 프롬프트 | 근거 연결은 되었으므로 먼저 출력 형식과 예시를 고정할 문제임 |
+| 합계는 맞지만 원본 행 기록이 없음 | 평가/로그 | 계산 결과만 맞아도 재현 기록이 없으면 운영 검증이 어려움 |
+| 저장은 성공했지만 재시도 여부가 없음 | 도구 사용 | 실행 성공만이 아니라 실패 처리와 재시도 경로도 실행 구조에 포함됨 |
+| 표와 문장은 좋지만 문서 버전이 오래됨 | RAG | 말투나 형식이 아니라 답의 출발점이 현재 문서에 묶이지 않은 문제임 |
 
-    fully_passed = sum(
-        1 for report in reports
-        if report["inspect"]["passed_checks"] == report["inspect"]["total_checks"]
-    )
-    total_passed_checks = sum(report["inspect"]["passed_checks"] for report in reports)
-    total_checks = sum(report["inspect"]["total_checks"] for report in reports)
-    average_pass_ratio = round(total_passed_checks / total_checks, 2)
-    return {
-        "mode_name": mode_name,
-        "reports": reports,
-        "fully_passed": fully_passed,
-        "total_passed_checks": total_passed_checks,
-        "total_checks": total_checks,
-        "average_pass_ratio": average_pass_ratio,
-    }
-
-prompt_only_batch = run_mode("prompt_only")
-structured_batch = run_mode("structured")
-
-for batch in [prompt_only_batch, structured_batch]:
-    print("=" * 80)
-    print("mode =", batch["mode_name"])
-    print("fully_passed =", batch["fully_passed"])
-    print("passed_checks =", f"{batch['total_passed_checks']}/{batch['total_checks']}")
-    print("average_pass_ratio =", batch["average_pass_ratio"])
-    for report in batch["reports"]:
-        print("-" * 80)
-        print("task =", report["name"])
-        print("question =", report["question"])
-        print(report["inspect"])
-    print()
-```
-
-이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-================================================================================
-mode = prompt_only
-fully_passed = 0
-passed_checks = 0/9
-average_pass_ratio = 0.0
---------------------------------------------------------------------------------
-task = latest_policy
-question = 오늘 기준 환불 가능 기간은 며칠인가요?
-{'answer': '환불 가능 기간은 7일입니다.', 'used_source': 'old_model_memory', 'document_id': None, 'checks': {'latest_source_ok': False, 'document_id_present': False}, 'passed_checks': 0, 'total_checks': 2}
---------------------------------------------------------------------------------
-task = numeric_report
-question = 세 지점의 주간 매출 합계와 평균을 알려 주세요.
-{'answer': '합계는 1100이고 평균은 350입니다.', 'numbers': {'sum': 1100, 'avg': 350}, 'calc_log_id': None, 'checks': {'sum_ok': False, 'avg_ok': False, 'calc_log_present': False, 'used_calculator': False}, 'passed_checks': 0, 'total_checks': 4}
---------------------------------------------------------------------------------
-task = file_automation
-question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
-{'answer': '계약서를 법무 폴더에 저장했습니다.', 'saved': False, 'save_log_id': None, 'checks': {'saved_ok': False, 'save_log_present': False, 'retry_available': False}, 'passed_checks': 0, 'total_checks': 3}
-
-================================================================================
-mode = structured
-fully_passed = 3
-passed_checks = 9/9
-average_pass_ratio = 1.0
---------------------------------------------------------------------------------
-task = latest_policy
-question = 오늘 기준 환불 가능 기간은 며칠인가요?
-{'answer': '환불 가능 기간은 14일입니다.', 'used_source': 'policy_2026_06', 'document_id': 'refund-policy-2026-06', 'checks': {'latest_source_ok': True, 'document_id_present': True}, 'passed_checks': 2, 'total_checks': 2}
---------------------------------------------------------------------------------
-task = numeric_report
-question = 세 지점의 주간 매출 합계와 평균을 알려 주세요.
-{'answer': '합계는 1200이고 평균은 400입니다.', 'numbers': {'sum': 1200, 'avg': 400}, 'calc_log_id': 'calc-log-782', 'checks': {'sum_ok': True, 'avg_ok': True, 'calc_log_present': True, 'used_calculator': True}, 'passed_checks': 4, 'total_checks': 4}
---------------------------------------------------------------------------------
-task = file_automation
-question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
-{'answer': '계약서를 legal/contracts 폴더에 저장했습니다.', 'saved': True, 'save_log_id': 'save-log-2048', 'checks': {'saved_ok': True, 'save_log_present': True, 'retry_available': True}, 'passed_checks': 3, 'total_checks': 3}
-```
-
-이 결과에서 먼저 눈에 들어와야 하는 것은 `프롬프트 문장 자체는 강했지만`, `prompt_only`는 검증 항목 9개 중 0개만 통과했다는 점입니다. 반대로 `structured`는 답변 문장만 좋아진 것이 아니라, 최신 문서 ID, 계산 로그, 저장 로그처럼 시스템 바깥의 검증 항목까지 함께 채웁니다. 즉, 프롬프트의 한계는 `문장이 약해서`가 아니라 `시스템 경계 밖의 구조가 빠져 있어서` 생기는 경우가 많습니다.
-
-그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
-
-- 강한 프롬프트는 답변 모양을 바꿀 수 있어도 최신성, 계산 정확성, 실행 성공을 자동으로 보장하지 않는다.
-- 실제 서비스에서는 답변 본문보다 `문서 ID`, `계산 로그`, `저장 로그`, `재시도 가능 여부` 같은 검증 항목을 함께 봐야 한다.
-
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
-
-- `prompt_only_result`에 그럴듯한 `document_id`나 `save_log_id`를 일부러 넣고, 그것이 실제 기대값과 일치하는지 점검해 보기
-- `numeric_report`에 지점 수를 더 늘리고 `median`, `growth_rate` 같은 새 계산 항목을 추가해 보기
-- `file_automation`에 `path_ok`, `permission_ok`, `retry_count`를 넣어 저장 성공의 의미를 더 엄격하게 바꿔 보기
+이 연습에서 확인해야 할 것은 `강한 프롬프트를 쓰면 된다`와 `구조를 붙여야 한다`가 같은 판단이 아니라는 점입니다. 프롬프트는 답변 모양을 바꾸는 데 강하지만, 최신 문서 버전, 계산 재현성, 저장 성공, 실패 처리 기록은 별도 구조가 있어야 확인할 수 있습니다.
 
 ## 시스템 경계에서 남는 실패 유형
 
-이 예제는 프롬프트가 강해질수록 모든 문제가 해결된다는 오해를 막아 줍니다. 실제 서비스에서는 최신 정보 접근, 계산 검증, 도구 호출과 실행 로그 같은 바깥 구조가 따로 필요하므로, 프롬프트는 시스템 전체 중 하나의 층으로만 읽어야 합니다.
+이 연습은 프롬프트가 강해질수록 모든 문제가 해결된다는 오해를 막아 줍니다. 실제 서비스에서는 최신 정보 접근, 계산 검증, 도구 호출과 실행 로그 같은 바깥 구조가 따로 필요하므로, 프롬프트는 시스템 전체 중 하나의 층으로만 읽어야 합니다.
 
-차트로 보면 강한 프롬프트만으로는 검증 항목이 하나도 통과하지 못하고, 구조 보강이 붙었을 때 모든 작업과 검사 항목이 통과합니다. 이 수치는 운영 판단 연습용 예시 값이지만, 프롬프트 한계를 `말투 문제`가 아니라 `근거·계산·실행 구조 부재`로 읽어야 한다는 점을 보여 줍니다.
-
-![강한 프롬프트만 쓴 경우와 구조 보강을 붙인 경우의 검사 통과 수](../../../assets/part-06/chapter-10/prompt-limit-checks-ko.png)
+위 판정표에서 중요한 것은 구조 보강이 항상 하나의 만능 장치가 아니라는 점입니다. 최신성은 근거 연결로, 계산은 검산 구조로, 저장은 실행 도구와 로그로, 반복 실패 감지는 평가 기록으로 넘어갑니다. 따라서 프롬프트 한계는 `말투 문제`가 아니라 `근거·계산·실행·평가 구조 중 무엇이 비었는가`로 읽어야 합니다.
 
 ## 프롬프트 밖으로 넘어가는 경계
 

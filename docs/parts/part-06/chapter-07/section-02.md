@@ -170,7 +170,8 @@ LLM 문맥에서 스케일은 보통 하나만 커지는 것을 뜻하지 않습
 | --- | --- | --- |
 | `small` 유지 | 짧은 FAQ를 낮은 비용과 빠른 응답으로 처리 | 긴 계약서, 긴 코드 로그, 복합 요청은 계속 실패할 수 있음 |
 | `medium` 전환 | 일부 긴 요청과 복합 요청을 더 처리할 가능성 | 비용과 지연이 늘고, 검증해야 할 데이터 범위도 커짐 |
-| `large` 전환 | 가장 넓은 요청 범위와 긴 문맥 처리 가능성 | 추론 비용, 지연 시간, 데이터 품질 검토 부담이 가장 크게 늘어남 |
+| `large` 전환 | 긴 계약서와 코드 로그 일부까지 처리할 가능성 | 추론 비용, 지연 시간, 데이터 품질 검토 부담이 크게 늘어남 |
+| `frontier` 전환 | 가장 긴 다중 문서 요청까지 문맥 안에 넣을 가능성 | 비용, 지연, 검증 부담이 가장 커져 운영 기준을 다시 세워야 함 |
 
 이 표는 뒤의 Python 예제를 읽는 기준이 됩니다. 사례는 `왜 세 축을 함께 비교해야 하는가`를 보여 주고, 예제는 그 세 축이 단계별 숫자로 어떻게 달라지는지 확인하는 역할을 맡습니다.
 
@@ -190,88 +191,100 @@ LLM 문맥에서 스케일은 보통 하나만 커지는 것을 뜻하지 않습
 
 ## 연습 및 예제
 
-이 예제의 목표는 스케일이 커질 때 `무엇을 더 처리할 수 있게 되는가`와 `무엇을 더 감당해야 하는가`를 단계별로 나누어 보는 것입니다. 작은 모델과 큰 모델을 한 번에 비교해 승패를 고르는 방식이 아니라, `small -> medium -> large`로 커질 때 데이터 양, 파라미터 수, 학습 계산량, 문맥 범위, 추론 비용, 검증 부담이 함께 어떻게 움직이는지 추적하겠습니다.
+이 예제의 목표는 스케일이 커질 때 `무엇을 더 처리할 수 있게 되는가`와 `무엇을 더 감당해야 하는가`를 단계별로 나누어 보는 것입니다. 작은 모델과 큰 모델을 한 번에 비교해 승패를 고르는 방식이 아니라, `small -> medium -> large -> frontier`로 커질 때 데이터 양, 파라미터 수, 학습 계산량, 문맥 범위, 추론 비용, 검증 부담이 함께 어떻게 움직이는지 추적하겠습니다.
 
 입력:
 
-아래 코드는 요청별 입력 길이, 스케일 단계별 데이터 양, 파라미터 수, 학습 계산량, context window, 추론 비용, 지연 시간, 데이터 검증 부담을 사용합니다. 결과에서는 스케일 단계별 처리 가능한 요청 수, 문맥 초과 요청 목록, 총 예상 추론 비용과 지연 시간, 데이터 검증 대기 묶음 수를 확인합니다. 여기서 숫자는 특정 상용 모델의 실제 가격표나 성능표가 아니라, 스케일을 읽는 축을 분리하기 위한 운영 판단 연습용 가정값입니다.
+아래 코드는 두 입력 CSV를 사용합니다.
+
+- 요청 목록: [p6-7-scale-requests.csv](../../../assets/part-06/chapter-07/p6-7-scale-requests.csv){ .csv-preview }
+- 스케일 단계: [p6-7-scale-steps.csv](../../../assets/part-06/chapter-07/p6-7-scale-steps.csv){ .csv-preview }
+
+요청 목록의 한 행은 하나의 사용자 요청입니다. `request_type`은 FAQ, 요약, 계약서 검토, 코드 보조, 다중 문서 요청처럼 요청 성격을 나타내고, `input_tokens`는 그 요청을 문맥 안에 넣으려 할 때 필요한 입력 길이를 단순화한 값입니다. 스케일 단계 CSV의 한 행은 하나의 모델 규모 가정이며, `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`, `review_batches`가 이번 예제에서 직접 바꿔 볼 조작 변수입니다.
+
+결과에서는 스케일 단계별 처리 가능한 요청 수, 문맥 초과 요청 수와 유형, 높은 우선순위인데도 문맥을 넘는 요청 수, 총 예상 추론 비용과 지연 시간, 데이터 검증 대기 묶음 수를 확인합니다. 여기서 숫자는 특정 상용 모델의 실제 가격표나 성능표가 아니라, 스케일을 읽는 축을 분리하기 위한 운영 판단 연습용 가정값입니다.
 
 확인할 핵심은 스케일이 데이터, 모델, 계산량이 함께 커지는 현상이라는 점입니다. context window가 커지면 더 긴 요청을 처리할 수 있지만 추론 비용과 지연 시간도 커질 수 있고, 데이터 양이 커질수록 검증해야 할 데이터 품질 부담도 함께 커집니다.
 
 ```python
-# 모델 스케일 단계별 처리 가능 요청, 비용, 검증 부담을 비교해 데이터와 스케일 trade-off를 읽는 예제입니다.
-requests = [
-    {"task": "faq", "input_tokens": 600},
-    {"task": "summary", "input_tokens": 2400},
-    {"task": "contract_review", "input_tokens": 6200},
-    {"task": "code_assistant", "input_tokens": 4100},
-]
+# CSV 요청 목록과 스케일 단계표를 읽어 처리 가능 범위와 비용 부담을 함께 비교하는 예제입니다.
+from csv import DictReader
+from pathlib import Path
 
-scale_steps = [
-    {
-        "name": "small",
-        "data_tokens_b": 80,
-        "parameters_b": 1.5,
-        "training_compute_units": 120,
-        "context_window": 2048,
-        "cost_per_1k_tokens": 0.2,
-        "latency_per_1k_tokens": 0.7,
-        "review_batches": 2,
-    },
-    {
-        "name": "medium",
-        "data_tokens_b": 400,
-        "parameters_b": 7,
-        "training_compute_units": 900,
-        "context_window": 4096,
-        "cost_per_1k_tokens": 0.55,
-        "latency_per_1k_tokens": 1.1,
-        "review_batches": 7,
-    },
-    {
-        "name": "large",
-        "data_tokens_b": 1800,
-        "parameters_b": 30,
-        "training_compute_units": 7200,
-        "context_window": 8192,
-        "cost_per_1k_tokens": 1.2,
-        "latency_per_1k_tokens": 1.8,
-        "review_batches": 22,
-    },
-]
+REQUESTS_PATH = Path("docs/assets/part-06/chapter-07/p6-7-scale-requests.csv")
+STEPS_PATH = Path("docs/assets/part-06/chapter-07/p6-7-scale-steps.csv")
+
+
+def load_requests(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "request_id": row["request_id"],
+                "request_type": row["request_type"],
+                "input_tokens": int(row["input_tokens"]),
+                "priority": row["priority"],
+            }
+            for row in DictReader(f)
+        ]
+
+
+def load_steps(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "scale": row["scale"],
+                "rank": int(row["rank"]),
+                "context_window": int(row["context_window"]),
+                "cost_per_1k_tokens": float(row["cost_per_1k_tokens"]),
+                "latency_per_1k_tokens": float(row["latency_per_1k_tokens"]),
+                "review_batches": int(row["review_batches"]),
+            }
+            for row in DictReader(f)
+        ]
+
 
 def summarize_scale_step(step, requests):
-    supported_tasks = []
-    over_limit_tasks = []
-    total_tokens = 0
-    total_cost = 0.0
-    total_latency = 0.0
-
-    for request in requests:
-        tokens = request["input_tokens"]
-        total_tokens += tokens
-        total_cost += (tokens / 1000) * step["cost_per_1k_tokens"]
-        total_latency += (tokens / 1000) * step["latency_per_1k_tokens"]
-
-        if tokens <= step["context_window"]:
-            supported_tasks.append(request["task"])
-        else:
-            over_limit_tasks.append(request["task"])
+    supported = [
+        request
+        for request in requests
+        if request["input_tokens"] <= step["context_window"]
+    ]
+    over_limit = [
+        request
+        for request in requests
+        if request["input_tokens"] > step["context_window"]
+    ]
+    total_tokens = sum(request["input_tokens"] for request in requests)
+    over_limit_types = sorted({request["request_type"] for request in over_limit})
+    high_priority_over_limit = [
+        request for request in over_limit if request["priority"] == "high"
+    ]
 
     return {
-        "scale": step["name"],
-        "data_tokens_b": step["data_tokens_b"],
-        "parameters_b": step["parameters_b"],
-        "training_compute_units": step["training_compute_units"],
+        "scale": step["scale"],
         "context_window": step["context_window"],
-        "supported_requests": len(supported_tasks),
-        "over_limit_tasks": over_limit_tasks,
-        "total_inference_cost": round(total_cost, 2),
-        "total_latency": round(total_latency, 2),
+        "supported_requests": len(supported),
+        "over_limit_requests": len(over_limit),
+        "over_limit_types": over_limit_types,
+        "high_priority_over_limit": len(high_priority_over_limit),
+        "total_inference_cost": round(
+            (total_tokens / 1000) * step["cost_per_1k_tokens"],
+            2,
+        ),
+        "total_latency": round(
+            (total_tokens / 1000) * step["latency_per_1k_tokens"],
+            2,
+        ),
         "review_batches": step["review_batches"],
     }
 
-for step in scale_steps:
+
+requests = load_requests(REQUESTS_PATH)
+steps = sorted(load_steps(STEPS_PATH), key=lambda step: step["rank"])
+
+print(f"request_rows = {len(requests)}")
+print(f"scale_steps = {len(steps)}")
+for step in steps:
     print(summarize_scale_step(step, requests))
 ```
 
@@ -280,16 +293,20 @@ for step in scale_steps:
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-{'scale': 'small', 'data_tokens_b': 80, 'parameters_b': 1.5, 'training_compute_units': 120, 'context_window': 2048, 'supported_requests': 1, 'over_limit_tasks': ['summary', 'contract_review', 'code_assistant'], 'total_inference_cost': 2.66, 'total_latency': 9.31, 'review_batches': 2}
-{'scale': 'medium', 'data_tokens_b': 400, 'parameters_b': 7, 'training_compute_units': 900, 'context_window': 4096, 'supported_requests': 2, 'over_limit_tasks': ['contract_review', 'code_assistant'], 'total_inference_cost': 7.32, 'total_latency': 14.63, 'review_batches': 7}
-{'scale': 'large', 'data_tokens_b': 1800, 'parameters_b': 30, 'training_compute_units': 7200, 'context_window': 8192, 'supported_requests': 4, 'over_limit_tasks': [], 'total_inference_cost': 15.96, 'total_latency': 23.94, 'review_batches': 22}
+request_rows = 36
+scale_steps = 4
+{'scale': 'small', 'context_window': 2048, 'supported_requests': 8, 'over_limit_requests': 28, 'over_limit_types': ['code_assistant', 'contract_review', 'multi_document', 'summary'], 'high_priority_over_limit': 16, 'total_inference_cost': 52.38, 'total_latency': 183.33, 'review_batches': 2}
+{'scale': 'medium', 'context_window': 4096, 'supported_requests': 13, 'over_limit_requests': 23, 'over_limit_types': ['code_assistant', 'contract_review', 'multi_document', 'summary'], 'high_priority_over_limit': 16, 'total_inference_cost': 144.04, 'total_latency': 288.09, 'review_batches': 7}
+{'scale': 'large', 'context_window': 8192, 'supported_requests': 24, 'over_limit_requests': 12, 'over_limit_types': ['code_assistant', 'contract_review', 'multi_document'], 'high_priority_over_limit': 12, 'total_inference_cost': 314.28, 'total_latency': 471.42, 'review_batches': 22}
+{'scale': 'frontier', 'context_window': 32768, 'supported_requests': 36, 'over_limit_requests': 0, 'over_limit_types': [], 'high_priority_over_limit': 0, 'total_inference_cost': 838.08, 'total_latency': 811.89, 'review_batches': 75}
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- `small`은 FAQ만 문맥 안에 처리하고, 긴 요약·계약서·코드 요청은 문맥 초과로 남습니다.
-- `medium`은 요약까지 처리할 수 있지만, 계약서와 코드 요청은 여전히 초과됩니다.
-- `large`는 네 요청을 모두 문맥 안에 넣을 수 있지만, 총 추론 비용과 지연 시간도 가장 큽니다.
+- `small`은 짧은 FAQ 8개만 문맥 안에 넣고, 나머지 28개 요청은 문맥 초과로 남습니다.
+- `medium`은 일부 요약 요청까지 처리하지만, 높은 우선순위 요청 16개는 여전히 문맥 초과입니다.
+- `large`는 24개 요청을 처리하지만, 긴 계약서·코드·다중 문서 요청 12개는 아직 남습니다.
+- `frontier`는 36개 요청을 모두 문맥 안에 넣지만, 총 추론 비용과 지연 시간, 데이터 검증 묶음이 가장 큽니다.
 - `review_batches`는 데이터 양이 커질수록 검증해야 할 묶음도 함께 커진다는 점을 단순화해 보여 줍니다.
 
 그래프로 나누어 보면 세 축이 서로 다른 의미로 커진다는 점이 더 분명합니다. 먼저 문맥 범위가 커지면 처리 가능한 요청 수가 늘어납니다.
@@ -304,7 +321,7 @@ for step in scale_steps:
 
 ![스케일 단계별 데이터 검증 부담](../../../assets/part-06/chapter-07/scale-data-review-burden-ko.png)
 
-이 예제에서는 `requests`의 토큰 길이, 각 단계의 `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`, `review_batches`를 직접 바꿔 볼 수 있습니다. 예를 들어 긴 계약서 요청을 더 늘리면 `small`과 `medium`의 문맥 초과가 더 두드러지고, 반대로 짧은 FAQ만 남기면 `large`의 추가 비용이 정말 필요한지 다시 생각해 볼 수 있습니다.
+이 예제에서는 요청 CSV의 `input_tokens`와 `priority`, 스케일 단계 CSV의 `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`, `review_batches`를 직접 바꿔 볼 수 있습니다. 예를 들어 긴 계약서 요청을 더 늘리면 `small`과 `medium`의 문맥 초과가 더 두드러지고, 반대로 짧은 FAQ만 남기면 `frontier`의 추가 비용이 정말 필요한지 다시 생각해 볼 수 있습니다.
 
 ## 규모-비용 균형에서 갈리는 선택
 

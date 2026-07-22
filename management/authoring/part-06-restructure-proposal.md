@@ -122,7 +122,8 @@ Module 5. 프롬프트와 근거 보강
   Chapter 10. 프롬프트 엔지니어링
     P6-10.1 프롬프트 엔지니어링은 무엇을 입력에서 조정하는가
     P6-10.2 프롬프트 한계는 언제 시스템 구조로 넘어가는가
-    P6-10.3 보충학습: CoT, self-consistency, automatic prompt optimization은 무엇을 더 조정하는가
+    P6-10.3 보충학습: CoT와 self-consistency는 답변 경로를 어떻게 더 보게 하는가
+    P6-10.4 보충학습: automatic prompt optimization은 프롬프트 실험을 어떻게 반복 개선하는가
 
   Chapter 11. RAG
     P6-11.1 RAG는 왜 답변 전에 외부 근거를 붙이는가

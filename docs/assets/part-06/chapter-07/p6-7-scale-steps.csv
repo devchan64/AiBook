@@ -1,0 +1,5 @@
+scale,rank,data_tokens_b,parameters_b,training_compute_units,context_window,cost_per_1k_tokens,latency_per_1k_tokens,review_batches
+small,1,80,1.5,120,2048,0.20,0.70,2
+medium,2,400,7,900,4096,0.55,1.10,7
+large,3,1800,30,7200,8192,1.20,1.80,22
+frontier,4,6000,120,32000,32768,3.20,3.10,75

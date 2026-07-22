@@ -281,7 +281,7 @@ GPU scaling -> surrounding_evidence | domain = infrastructure | target = compute
 
 [summary]
 direct_lineage count = 12 | examples = ['language modeling', 'n-gram language model', 'neural language model', 'word embeddings', 'contextual embeddings']
-surrounding_evidence count = 24 | examples = ['machine translation dataset', 'syntax parser', 'search engine ranking', 'text classification benchmark', 'speech transcript corpus']
+surrounding_evidence count = 24 | examples = ['machine translation dataset', 'syntax parser', 'search engine ranking', 'text classification benchmark', 'speech transcript dataset']
 ```
 
 ![직접 계보 판정 기준 통과 여부](../../../assets/part-06/chapter-19/lineage-rule-check-matrix-ko.png)

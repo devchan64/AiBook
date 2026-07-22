@@ -1,0 +1,15 @@
+flowchart TD
+  A["Token-related failure<br/>appears in logs or review"]
+  B["Check token evidence<br/>input length / chunk boundary / output limit"]
+  C{"Where does pressure<br/>appear first?"}
+  D["Input side<br/>compress prompt or split long documents"]
+  E["Search side<br/>adjust chunks and overlap"]
+  F["Output side<br/>shorten format and move key sentence earlier"]
+  G["Evaluation side<br/>compare failed cases with token traces"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E
+  C --> F
+  C --> G

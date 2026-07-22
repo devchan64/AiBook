@@ -1,0 +1,77 @@
+stage,domain,sentence
+general_text,document,문서 내용을 확인 합니다
+general_text,document,문서 내용을 정리 합니다
+general_text,document,문서 내용을 요약 합니다
+general_text,document,문서 내용을 설명 합니다
+general_text,document,보고서 내용을 확인 합니다
+general_text,document,보고서 내용을 정리 합니다
+general_text,document,보고서 내용을 요약 합니다
+general_text,document,회의 내용을 정리 합니다
+general_text,document,회의 내용을 요약 합니다
+general_text,document,회의 내용을 설명 합니다
+general_text,document,자료 내용을 확인 합니다
+general_text,document,자료 내용을 정리 합니다
+general_text,document,자료 내용을 설명 합니다
+general_text,document,결과 내용을 확인 합니다
+general_text,document,결과 내용을 설명 합니다
+general_text,document,결과 내용을 요약 합니다
+general_text,document,안내 내용을 확인 합니다
+general_text,document,안내 내용을 정리 합니다
+general_text,document,정책 내용을 설명 합니다
+general_text,document,정책 내용을 요약 합니다
+general_text,communication,요청 내용을 확인 합니다
+general_text,communication,요청 내용을 정리 합니다
+general_text,communication,문의 내용을 확인 합니다
+general_text,communication,문의 내용을 정리 합니다
+general_text,communication,질문 내용을 확인 합니다
+general_text,communication,질문 내용을 설명 합니다
+general_text,communication,답변 내용을 정리 합니다
+general_text,communication,답변 내용을 설명 합니다
+general_text,communication,메일 내용을 확인 합니다
+general_text,communication,메일 내용을 정리 합니다
+general_text,communication,알림 내용을 전달 합니다
+general_text,communication,안내 메일을 전달 합니다
+general_text,knowledge,개념 관계를 설명 합니다
+general_text,knowledge,원인 관계를 설명 합니다
+general_text,knowledge,절차 순서를 정리 합니다
+general_text,knowledge,핵심 내용을 요약 합니다
+general_text,knowledge,비교 내용을 정리 합니다
+general_text,knowledge,배경 내용을 설명 합니다
+general_text,knowledge,예시 내용을 확인 합니다
+general_text,knowledge,조건 내용을 확인 합니다
+customer_support,refund,환불 문의 내용을 확인 합니다
+customer_support,refund,환불 요청 내용을 확인 합니다
+customer_support,refund,환불 상태 내용을 확인 합니다
+customer_support,refund,환불 처리 내용을 안내 합니다
+customer_support,refund,환불 문의 절차를 안내 합니다
+customer_support,refund,환불 요청 절차를 설명 합니다
+customer_support,refund,환불 상태 확인을 안내 합니다
+customer_support,refund,환불 처리 기준을 설명 합니다
+customer_support,delivery,배송 문의 내용을 확인 합니다
+customer_support,delivery,배송 요청 내용을 확인 합니다
+customer_support,delivery,배송 상태 내용을 확인 합니다
+customer_support,delivery,배송 지연 사유를 설명 합니다
+customer_support,delivery,배송 변경 절차를 안내 합니다
+customer_support,delivery,배송 추적 방법을 안내 합니다
+customer_support,account,계정 문의 내용을 확인 합니다
+customer_support,account,계정 요청 내용을 확인 합니다
+customer_support,account,계정 상태 내용을 확인 합니다
+customer_support,account,계정 복구 절차를 안내 합니다
+customer_support,account,계정 잠금 사유를 설명 합니다
+customer_support,account,계정 인증 방법을 안내 합니다
+customer_support,exchange,교환 문의 내용을 확인 합니다
+customer_support,exchange,교환 요청 내용을 확인 합니다
+customer_support,exchange,교환 처리 기준을 설명 합니다
+customer_support,exchange,교환 접수 절차를 안내 합니다
+instruction_reply,reply_style,단계별로 안내 합니다
+instruction_reply,reply_style,단계별로 설명 합니다
+instruction_reply,reply_style,단계별로 정리 합니다
+instruction_reply,reply_style,차분하게 안내 합니다
+instruction_reply,reply_style,차분하게 설명 합니다
+instruction_reply,reply_style,간단하게 정리 합니다
+instruction_reply,reply_style,세 문장으로 요약 합니다
+instruction_reply,reply_style,번호 목록으로 안내 합니다
+instruction_reply,reply_style,먼저 확인할 내용을 정리 합니다
+instruction_reply,reply_style,주의할 내용을 설명 합니다
+instruction_reply,reply_style,다음 조치를 안내 합니다
+instruction_reply,reply_style,필요한 정보를 확인 합니다

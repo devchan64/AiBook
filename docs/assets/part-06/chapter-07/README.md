@@ -22,3 +22,7 @@
   - `p6_7_1_pretraining_adaptation_chart.py`
   - `p6_7_2_scale_tradeoff_charts.py`
   - `p6_7_2_lora_storage_chart.py`
+- CSV example inputs:
+  - `p6-7-pretraining-stage-sentences.csv`
+  - `p6-7-scale-requests.csv`
+  - `p6-7-scale-steps.csv`
