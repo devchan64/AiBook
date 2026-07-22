@@ -1,0 +1,37 @@
+doc_id,case_id,title,text,version_status,source_type
+P01,policy,2026-07-22 환불 정책 변경,오늘부터 환불 요청 처리 기한은 14일로 변경되며 적용 날짜 이후 접수 건에 적용된다,current,policy_notice
+P02,policy,2026-07-22 환불 예외 조건,개봉 상품과 사용 흔적이 있는 상품은 14일 처리 기한 안에서도 추가 검토가 필요하다,current,policy_notice
+P03,policy,2026-07-22 환불 접수 경로,환불 접수는 계정 메뉴의 주문 내역에서 시작하며 접수 번호를 남긴다,current,policy_notice
+P04,policy,2026-07-22 환불 승인 알림,환불 승인 알림은 접수 상태가 승인으로 바뀐 뒤 고객에게 발송된다,current,policy_notice
+P05,policy,2026-07-22 환불 문서 버전,현재 환불 정책 문서 버전은 2026-07-22이며 이전 7일 기준 문서는 보관용이다,current,policy_notice
+P06,policy,2026-07-22 환불 문의 답변 기준,환불 문의 답변은 14일 처리 기한과 예외 조건을 함께 안내해야 한다,current,policy_notice
+P07,policy,2025-12-01 환불 정책 보관본,예전 환불 요청 처리 기한은 7일이었으며 이 문서는 보관용이다,old,archive
+P08,policy,2025-12-01 환불 FAQ 보관본,예전 FAQ는 환불 접수 후 7일 안에 처리한다고 안내했다,old,archive
+P09,policy,환불 계정 메뉴 안내,환불 접수 화면은 계정 메뉴에서 찾을 수 있지만 처리 기한은 이 문서에 없다,related,faq
+P10,policy,배송 지연 공지,배송 지연 공지는 환불 정책 변경과 다른 공지이며 처리 기한을 설명하지 않는다,related,notice
+P11,policy,결제 취소 절차,결제 취소 요청은 결제 수단별 승인 취소 절차를 따른다,related,manual
+P12,policy,고객 상담 표현 가이드,환불 안내 문장은 정중하게 쓰되 최신 정책 문서를 먼저 확인해야 한다,related,style_guide
+M01,manual,v3 고급 설정 위치,현재 버전에서는 고급 설정 관련 기능을 환경설정 > 실험실 메뉴에서 찾는다,current,manual
+M02,manual,v3 환경설정 진입 경로,현재 버전 사용자는 화면 오른쪽 위 프로필 아이콘에서 환경설정으로 들어간다,current,manual
+M03,manual,v3 실험실 기능 안내,실험실 메뉴에는 고급 설정에서 옮겨진 자동화 옵션과 베타 기능이 들어 있다,current,manual
+M04,manual,v3 메뉴명 변경 공지,고급 설정 메뉴 이름은 현재 버전에서 환경설정으로 통합되었다,current,manual
+M05,manual,v3 설정 검색 안내,설정 검색창에서 실험실을 입력하면 환경설정 안의 고급 기능 위치로 이동한다,current,manual
+M06,manual,v3 매뉴얼 버전 정보,현재 제품 매뉴얼 버전은 v3이며 v2 고급 설정 문서는 보관용이다,current,manual
+M07,manual,v2 고급 설정 안내,예전 버전에서는 고급 설정 메뉴가 별도로 있었다,old,archive
+M08,manual,v2 자동 저장 위치,예전 자동 저장 옵션은 고급 설정 메뉴 안에 있었다,old,archive
+M09,manual,프로필 화면 안내,프로필 화면에서는 계정 이름과 알림 상태를 확인할 수 있다,related,manual
+M10,manual,기본 설정 초기화,기본 설정 초기화는 환경설정의 복원 메뉴에서 실행한다,related,manual
+M11,manual,알림 메뉴 설명,알림 메뉴는 메시지와 이메일 알림을 켜고 끄는 화면이다,related,manual
+M12,manual,고객센터 화면 캡처 기준,화면 안내 답변에는 현재 버전 매뉴얼 경로를 먼저 확인해야 한다,related,style_guide
+S01,sdk,SDK v5 auth 객체 인증,현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다,current,sdk_doc
+S02,sdk,SDK v5 클라이언트 생성 예제,client = SDK(auth={'token': API_KEY}) 형식으로 현재 버전 인증을 설정한다,current,sdk_doc
+S03,sdk,SDK v5 인증 오류 점검,auth 객체가 없으면 현재 SDK는 인증 오류를 반환할 수 있다,current,sdk_doc
+S04,sdk,SDK v5 마이그레이션 안내,Authorization 헤더 직접 구성 방식은 v5에서 auth 객체 방식으로 옮겨졌다,current,sdk_doc
+S05,sdk,SDK v5 환경 변수 연결,API_KEY는 환경 변수에서 읽어 auth 객체에 전달하는 방식을 권장한다,current,sdk_doc
+S06,sdk,SDK v5 문서 버전,현재 SDK 문서 버전은 v5이며 v4 헤더 예제는 보관용이다,current,sdk_doc
+S07,sdk,SDK v4 Authorization 헤더 예제,예전 SDK 버전에서는 Authorization 헤더를 직접 구성했다,old,archive
+S08,sdk,SDK v4 인증 문서 보관본,보관용 문서는 Authorization 헤더 직접 설정 예제를 포함한다,old,archive
+S09,sdk,SDK 요청 제한 안내,요청 제한이 발생하면 재시도 간격과 backoff 설정을 확인한다,related,sdk_doc
+S10,sdk,SDK 오류 코드 설명,인증 실패와 요청 제한 오류 코드는 서로 다른 원인으로 기록된다,related,sdk_doc
+S11,sdk,SDK 설치 안내,SDK 설치는 패키지 관리자와 런타임 버전을 먼저 확인한다,related,sdk_doc
+S12,sdk,개발자 문서 답변 기준,개발 문서 답변은 현재 SDK 버전과 공식 예제를 근거로 삼아야 한다,related,style_guide

@@ -3,29 +3,21 @@
 > Section ID: `P6-11.2`
 > Version: `v2026.07.22`
 
-P6-11.1에서는 RAG(retrieval-augmented generation)가 왜 필요한지 보았습니다. 이제는 문서를 붙인다는 말이 실제 입력 흐름에서 무엇을 뜻하는지 더 구체적으로 봐야 합니다.
+P6-11.1에서는 RAG(retrieval-augmented generation)가 답변 전에 외부 근거를 붙이는 구조라는 점을 보았습니다. 이제는 그 근거가 실제 입력 흐름에서 어디에 놓이고, 답변 실패를 어떻게 나누어 읽어야 하는지 봐야 합니다.
 
-찾아온 문서는 실제로 어디에 붙고, 답변은 그 위에서 어떻게 만들어지는가? 핵심은 문서를 찾는 단계와 그 문서를 바탕으로 답을 만드는 단계를 분리해서 보는 것입니다.
-
-RAG의 기본 정의는 `외부 근거를 붙여 생성한다`는 말로 잡을 수 있습니다. 이제는 그 근거가 실제 입력과 생성 흐름 안에서 어떻게 결합되는지, 그리고 어디서 실패가 갈라지는지를 봐야 합니다.
-
-RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 범위 안에서 답을 생성하려고 시도한다.
+RAG에서 검색 결과는 답변 뒤에 붙는 장식이 아니라, 생성 전에 모델 입력 맥락(context)으로 들어가는 재료입니다. 그래서 같은 오답처럼 보여도 `무엇을 가져왔는가`와 `가져온 것을 어떻게 다시 썼는가`를 나누어 봐야 합니다.
 
 ## 검색과 생성이 결합되는 흐름
 
-검색-생성 결합은 다음 질문에서 시작합니다.
+검색-생성 결합에서 먼저 닫아야 할 기준은 다음 세 가지입니다.
 
-- 검색 결과는 생성 전에 어떻게 쓰이는가?
-- 문서를 많이 넣는다고 항상 좋은가?
-- 검색 품질과 생성 품질은 왜 따로 봐야 하는가?
+| 질문 | 여기서 잡을 기준 |
+| --- | --- |
+| 검색 결과는 생성 전에 어떻게 쓰이는가? | 검색 문서는 모델 입력 맥락에 붙는다 |
+| 문서를 많이 넣으면 항상 좋은가? | 양보다 관련성, 순서, 충돌 관리가 중요하다 |
+| 답이 틀렸을 때 어디를 봐야 하는가? | 검색 실패와 생성 실패를 따로 본다 |
 
-검색-생성 결합에서 먼저 닫아야 할 기준은 `검색 실패`와 `생성 실패`를 따로 읽는 일입니다. 검색 저장소와 인덱스는 문서를 다시 꺼내는 구조의 문제이고, context window와 운영 제약은 검색된 문서를 얼마나 넣고 어떻게 관리할지에 영향을 주는 별도 제약입니다.
-
-RAG는 `검색 후 생성`이라는 두 단계 구조로 분해해 읽어야 합니다. P6-11.1의 질문이 왜 답 전에 문서를 붙여야 하는가였다면, 여기서는 그 문서가 실제로 어디에 붙고 어떻게 답으로 이어지는가를 봅니다. 그다음 P6-12에서는 그 문서를 어떤 저장 구조와 인덱스로 다시 꺼낼지로 넘어갑니다.
-
-`RAG`를 한 단계처럼 뭉뚱그리지 않고, 검색 실패와 생성 실패를 따로 나눠 읽어야 합니다.
-
-핵심은 `문서를 붙여야 하는가`에서 `붙인 문서가 실제 입력 맥락과 최종 답 사이에서 어떻게 작동하는가`로 넘어가는 데 있습니다.
+P6-11.1의 질문이 `왜 답 전에 문서를 붙여야 하는가`였다면, 여기서는 `붙인 문서가 입력 맥락과 최종 답 사이에서 어떻게 작동하는가`를 봅니다. 그다음 P6-12에서는 그 문서를 어떤 저장 구조와 인덱스로 다시 꺼낼지로 넘어갑니다.
 
 ## 검색 단계와 생성 단계 실패의 구분
 
@@ -33,14 +25,6 @@ RAG는 `검색 후 생성`이라는 두 단계 구조로 분해해 읽어야 합
 - 검색 단계와 생성 단계의 실패를 구분할 수 있습니다.
 - 많이 넣는 것과 잘 넣는 것이 다르다는 점을 말할 수 있습니다.
 - 벡터 데이터베이스와 인덱스 설명을 `검색 가능한 문서 준비`의 문제로 읽을 수 있습니다.
-
-## 검색 결과가 입력과 답변으로 이어지는 흐름
-
-결합 흐름은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
-
-1. 먼저 `검색 결과는 어디에 붙나`와 `문서를 많이 넣으면 항상 좋은가`를 읽고, 검색 결과가 답변 뒤가 아니라 생성 전 입력 맥락에 붙는다는 점과 `많이 넣기`와 `잘 넣기`의 차이를 잡습니다.
-2. 그다음 `검색 실패와 생성 실패는 어떻게 다른가`와 `왜 답변 품질이 흔들릴 수 있나`를 읽으면서 RAG 실패를 두 단계로 분리해 봅니다.
-3. 마지막으로 사례와 Python 예제를 보면서, 같은 오답처럼 보여도 `문서를 잘못 가져온 경우`와 `문서를 가져왔지만 과장하거나 잘못 풀어 쓴 경우`를 따로 점검해야 한다는 점을 확인합니다.
 
 ## 검색 결과는 어디에 붙나
 
@@ -189,11 +173,18 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 
 ## 연습 및 예제
 
-예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 같은 문서 집합에서 `retrieval_terms`와 `generation_style`을 바꿔, 검색 오염과 생성 과장이 서로 다른 단계의 실패로 드러나는지 확인합니다.
+예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 같은 문서 집합에서 검색 질문과 `generation_style`을 바꿔, 검색 오염과 생성 과장이 서로 다른 단계의 실패로 드러나는지 확인합니다.
 
 사용자가 `벡터 검색이 왜 필요한가요?`라고 묻는다고 해 봅시다. 검색 단계는 관련 문서를 골라야 하고, 생성 단계는 그 문서를 바탕으로 독자용 설명을 다시 써야 합니다. 검색이 맞아도 생성이 과장되면 최종 답은 다시 틀어질 수 있습니다.
 
-아래 예제는 질문, 검색 가능한 문서 목록 CSV [p6-11-rag-documents.csv](../../../assets/part-06/chapter-11/p6-11-rag-documents.csv){ .csv-preview }, 검색 조건과 생성 조건 CSV [p6-11-rag-experiments.csv](../../../assets/part-06/chapter-11/p6-11-rag-experiments.csv){ .csv-preview }를 사용합니다. 출력에서는 검색 조건에 따라 선택된 문서, 그 문서를 바탕으로 만든 최종 설명, 검색 실패와 생성 실패를 나누어 보는 점검값, 무관 문서 혼입과 과장 표현 여부를 확인합니다.
+아래 예제는 두 CSV 파일을 입력으로 사용합니다.
+
+- 문서 목록: [p6-11-rag-documents.csv](../../../assets/part-06/chapter-11/p6-11-rag-documents.csv){ .csv-preview }
+- 실험 조건: [p6-11-rag-experiments.csv](../../../assets/part-06/chapter-11/p6-11-rag-experiments.csv){ .csv-preview }
+
+문서 목록의 한 행은 검색 후보 문서 조각 하나입니다. 핵심 열은 `title`, `text`, `category`, `source_role`입니다. `category`가 `retrieval`이면 현재 질문과 관련 있는 근거 문서이고, `irrelevant`이면 검색 조건이 흔들릴 때 섞일 수 있는 무관 문서입니다.
+
+실험 조건의 한 행은 한 번의 RAG 요청을 뜻합니다. `retrieval_terms`는 질문을 구성하는 검색 신호이고, `generation_style`은 찾은 문서를 답으로 바꿀 때의 생성 방식을 뜻합니다. 출력에서는 검색 모델이 고른 문서 제목과 유사도, 답변 문장, 검색 실패와 생성 실패를 나누어 보는 점검값을 확인합니다.
 
 먼저 이 예제에서 직접 바꿔 볼 설정은 다음과 같습니다.
 
@@ -203,47 +194,58 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 | `noisy_retrieval` | 무관한 검색어가 섞인 검색 조건 | 검색 실패가 생성으로 전염 |
 | `clean_but_overclaim` | 검색은 정상, 생성 조건만 과장형 | 생성 실패 |
 
-코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 문서 파일은 `doc_id`, `title`, `text`, `category`, `source_role`, `reader_hint` 열을 갖습니다. 여기서 `category`가 `retrieval`이면 질문과 관련 있는 근거 문서이고, `irrelevant`이면 검색 조건이 흔들릴 때 섞일 수 있는 무관 문서입니다.
-
-실험 파일은 `name`, `retrieval_terms`, `generation_style`, `scenario_pattern`, `reader_hint` 열을 갖습니다. `retrieval_terms`는 세미콜론(`;`)으로 나눈 검색어 목록이고, `scenario_pattern`은 검색어가 관련 주제에 붙어 있는지, 무관 주제로 기울었는지, 생성 문장만 과장되는지 관찰하는 보조 단서입니다. CSV를 직접 열어 보면 같은 36행이라도 번호만 반복되는 표가 아니라, 검색어와 문서 역할이 서로 다르게 배치되어 있음을 확인할 수 있습니다.
+코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 검색은 P6-11.1과 같은 `TfidfVectorizer` 흐름을 사용하고, 생성 실패는 검색 결과가 맞았는데도 답변 문장이 근거보다 강하게 말하는 경우로 따로 잡습니다. 이 코드는 실제 생성 평가기를 구현하는 예제가 아니라, 검색 기록과 답변 점검 기록을 분리해 실패 위치를 읽는 축약 실험입니다.
 
 ```python
-# RAG 문서 검색 조건과 생성 스타일을 바꿔 검색 실패와 생성 과장이 서로 다른 실패로 드러나는지 확인하는 예제입니다.
+# 검색 결과와 생성 답변을 따로 기록해 RAG 실패 위치를 나누어 보는 예제입니다.
 import csv
 from pathlib import Path
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 question = "벡터 검색이 왜 필요한가요?"
 
 document_path = Path("docs/assets/part-06/chapter-11/p6-11-rag-documents.csv")
 experiment_path = Path("docs/assets/part-06/chapter-11/p6-11-rag-experiments.csv")
 
-def read_documents(path):
+def read_csv(path):
     with path.open(encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
-def read_experiments(path):
-    experiments = []
-    with path.open(encoding="utf-8", newline="") as file:
-        for row in csv.DictReader(file):
-            experiments.append(
-                {
-                    "name": row["name"],
-                    "retrieval_terms": row["retrieval_terms"].split(";"),
-                    "generation_style": row["generation_style"],
-                }
-            )
-    return experiments
+documents = read_csv(document_path)
+experiments = read_csv(experiment_path)
 
-documents = read_documents(document_path)
-experiments = read_experiments(experiment_path)
+# 문서 제목과 본문을 함께 벡터화해 검색 후보 공간을 만든다.
+document_texts = [
+    f"{doc['title']} {doc['text']}"
+    for doc in documents
+]
+vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4))
+document_vectors = vectorizer.fit_transform(document_texts)
 
-def retrieve_documents(terms, top_k=2):
-    scored = []
-    for doc in documents:
-        score = sum(term in doc["text"] for term in terms)
-        scored.append((score, doc))
-    scored.sort(key=lambda item: item[0], reverse=True)
-    return [doc for score, doc in scored if score > 0][:top_k]
+def build_query(experiment):
+    terms = experiment["retrieval_terms"].split(";")
+    return f"{question} {' '.join(terms)}"
+
+def retrieve_documents(query, top_k=2):
+    query_vector = vectorizer.transform([query])
+    scores = cosine_similarity(query_vector, document_vectors).ravel()
+    ranked_indexes = scores.argsort()[::-1]
+
+    retrieved = []
+    for index in ranked_indexes:
+        if scores[index] <= 0:
+            continue
+        retrieved.append(
+            {
+                **documents[index],
+                "similarity": round(float(scores[index]), 3),
+            }
+        )
+        if len(retrieved) == top_k:
+            break
+    return retrieved
 
 def generate_answer(retrieved_docs, generation_style):
     first = retrieved_docs[0]["text"] if retrieved_docs else "참고 문서가 없다."
@@ -264,11 +266,21 @@ def inspect_result(retrieved_docs, answer):
     contains_irrelevant_doc = any(
         doc["category"] == "irrelevant" for doc in retrieved_docs
     )
-    answer_mentions_irrelevant_content = contains_irrelevant_doc and bool(answer)
+    irrelevant_fragments = [
+        doc["text"].split(".")[0]
+        for doc in retrieved_docs
+        if doc["category"] == "irrelevant"
+    ]
+    answer_mentions_irrelevant_content = any(
+        fragment and fragment in answer
+        for fragment in irrelevant_fragments
+    )
     answer_overclaims = "항상 최신 정보와 정답을 자동으로 보장" in answer
 
     return {
         "doc_titles": [doc["title"] for doc in retrieved_docs],
+        "doc_similarities": [doc["similarity"] for doc in retrieved_docs],
+        "top_doc_category": retrieved_docs[0]["category"] if retrieved_docs else "none",
         "contains_irrelevant_doc": contains_irrelevant_doc,
         "answer_mentions_irrelevant_content": answer_mentions_irrelevant_content,
         "answer_overclaims": answer_overclaims,
@@ -278,12 +290,17 @@ def inspect_result(retrieved_docs, answer):
 
 reports = []
 for experiment in experiments:
-    retrieved_docs = retrieve_documents(experiment["retrieval_terms"])
+    query = build_query(experiment)
+    retrieved_docs = retrieve_documents(query)
     answer = generate_answer(retrieved_docs, experiment["generation_style"])
     inspect = inspect_result(retrieved_docs, answer)
     reports.append(
         {
-            "experiment": experiment,
+            "experiment": {
+                "name": experiment["name"],
+                "query": query,
+                "generation_style": experiment["generation_style"],
+            },
             "answer": answer,
             "inspect": inspect,
         }
@@ -308,7 +325,15 @@ print("[summary]")
 print(summary)
 print()
 
-selected_reports = [reports[0], reports[12], reports[24]]
+selected_names = {
+    "clean_grounded_vector_search",
+    "noisy_retrieval_marketing_copy",
+    "clean_but_overclaim_vector_search",
+}
+selected_reports = [
+    report for report in reports
+    if report["experiment"]["name"] in selected_names
+]
 
 for report in selected_reports:
     print("=" * 80)
@@ -328,25 +353,25 @@ for report in selected_reports:
 
 ================================================================================
 [experiment]
-{'name': 'clean_grounded_vector_search', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'grounded'}
+{'name': 'clean_grounded_vector_search', 'query': '벡터 검색이 왜 필요한가요? 의미 벡터 검색', 'generation_style': 'grounded'}
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는 검색 방식이다. 키워드가 달라도 의미 기반 검색이 가능하다. 그래서 키워드 검색은 같은 단어가 있는지 먼저 보지만, 의미 검색은 질문과 문서의 의미가 가까운지 비교한다. 그래서 표현이 달라도 관련 문서를 찾을 수 있다.
 [inspect]
-{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
+{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'doc_similarities': [0.555, 0.189], 'top_doc_category': 'retrieval', 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
 ================================================================================
 [experiment]
-{'name': 'noisy_retrieval_marketing_copy', 'retrieval_terms': ['마케팅', '문구', '홍보'], 'generation_style': 'grounded'}
+{'name': 'noisy_retrieval_marketing_copy', 'query': '벡터 검색이 왜 필요한가요? 마케팅 문구 홍보', 'generation_style': 'grounded'}
 [generated answer]
-무관한 마케팅 문구를 더 다양하게 조합해 홍보 문안을 만드는 설명이다. 검색 품질 판단과 직접 관련이 없다. 그래서 마케팅 캠페인용 문구와 홍보 배너 문장을 다양하게 바꾸는 방법을 설명한다. 벡터 검색 근거가 아니다.
+마케팅 캠페인용 문구와 홍보 배너 문장을 다양하게 바꾸는 방법을 설명한다. 벡터 검색 근거가 아니다. 그래서 무관한 마케팅 문구를 더 다양하게 조합해 홍보 문안을 만드는 설명이다. 검색 품질 판단과 직접 관련이 없다.
 [inspect]
-{'doc_titles': ['마케팅 문구 A/B 테스트', '홍보 배너 문장 후보'], 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
+{'doc_titles': ['홍보 배너 문장 후보', '마케팅 문구 A/B 테스트'], 'doc_similarities': [0.334, 0.321], 'top_doc_category': 'irrelevant', 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
 ================================================================================
 [experiment]
-{'name': 'clean_but_overclaim_vector_search', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'overclaim'}
+{'name': 'clean_but_overclaim_vector_search', 'query': '벡터 검색이 왜 필요한가요? 의미 벡터 검색', 'generation_style': 'overclaim'}
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는 검색 방식이다. 키워드가 달라도 의미 기반 검색이 가능하다. 그래서 항상 최신 정보와 정답을 자동으로 보장한다.
 [inspect]
-{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
+{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'doc_similarities': [0.555, 0.189], 'top_doc_category': 'retrieval', 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
 ```
 
 이 결과에서 먼저 봐야 할 것은 `retrieval_failure_count`와 `generation_failure_count`가 각각 따로 잡힌다는 점입니다. 즉, `noisy_retrieval`은 검색 조건에 섞인 잡음 때문에 무관 문서가 선택되고 생성까지 오염된 경우이고, `clean_but_overclaim`은 검색은 맞았지만 생성 조건이 문서 밖으로 과장된 경우입니다. 이 구분이 있어야 RAG 시스템을 손볼 때 `검색을 고칠지`, `생성 지시와 평가를 고칠지`를 분리해서 판단할 수 있습니다.
@@ -367,9 +392,9 @@ for report in selected_reports:
 
 앞의 예제는 검색과 생성을 모두 구현하는 코드가 아니라, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`가 실제로 분리되어 있다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 답변 문장이 아니라, 답변 직전까지 근거 문서가 독립된 입력 구성 요소로 남아 있다는 구조를 읽는 데 있습니다. 즉, 검색 결과가 마음에 들지 않으면 생성 프롬프트를 고치기 전에 `어떤 문서가 붙었는가`부터 다시 봐야 한다는 뜻이기도 합니다. 무관 문서가 섞였을 때 답변까지 바로 흔들린다는 점은 이 분리를 더 분명하게 보여 줍니다.
 
-차트로 보면 `검색 실패`와 `생성 실패`가 같은 오답 묶음으로 사라지지 않고 각각 하나씩 따로 잡힙니다. 무관 문서 누출은 검색 실패 쪽에, 과장 표현은 생성 실패 쪽에 붙으므로, RAG 점검에서는 답이 틀렸다는 결론보다 먼저 어느 단계의 기록을 다시 볼지 갈라야 합니다.
+사례별 점검 매트릭스로 보면 정상 검색은 관련 문서 회수만 나타나고 실패 신호가 남지 않습니다. 검색 오염은 무관 문서 포함, 답변 오염, 검색 실패가 함께 올라가며, 생성 과장은 관련 문서를 회수했는데도 과장 표현과 생성 실패가 따로 잡힙니다. 즉, 같은 오답처럼 보이는 결과도 어느 단계에서 흔들렸는지 따로 읽을 수 있습니다. RAG 점검에서는 답이 틀렸다는 결론보다 먼저 어느 단계의 기록을 다시 볼지 갈라야 합니다.
 
-![RAG 예제에서 검색 실패와 생성 실패가 따로 감지되는 수](../../../assets/part-06/chapter-11/rag-failure-split-ko.png)
+![RAG 예제에서 검색 오염과 생성 과장이 서로 다른 실패 위치로 갈리는 매트릭스](../../../assets/part-06/chapter-11/rag-failure-split-ko.png)
 
 ## RAG 실패를 두 단계로 나누기
 
@@ -393,3 +418,5 @@ RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한�
 - Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.
 - OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
 - OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- scikit-learn developers, [TfidfVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn documentation, 확인 날짜: 2026-07-22.
+- scikit-learn developers, [Cosine similarity](https://scikit-learn.org/stable/modules/metrics.html#cosine-similarity){: target="_blank" rel="noopener noreferrer" }, scikit-learn documentation, 확인 날짜: 2026-07-22.

@@ -1,0 +1,5 @@
+case_id,question,memory_answer,current_signal
+policy,환불 정책이 오늘 어떻게 바뀌었나요?,환불 요청 처리 기한은 7일입니다.,14일
+manual,현재 버전에서 고급 설정 메뉴는 어디에 있나요?,고급 설정 메뉴에서 바로 찾을 수 있습니다.,환경설정
+sdk,현재 SDK 버전에서 인증 헤더를 어디에 넣나요?,Authorization 헤더에 직접 토큰을 넣으면 됩니다.,auth
+pricing,현재 좌석별 요금표는 어디에서 확인하나요?,요금제는 월 단위로 청구됩니다.,좌석별 요금표

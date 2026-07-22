@@ -15,5 +15,7 @@
   - `p6_11_1_rag_grounding_chart.py`
   - `p6_11_2_rag_failure_split_chart.py`
 - CSV example data:
+  - `p6-11-rag-need-questions.csv`
+  - `p6-11-rag-need-documents.csv`
   - `p6-11-rag-documents.csv`
   - `p6-11-rag-experiments.csv`

@@ -255,163 +255,139 @@ RAG를 처음 읽을 때 가장 자주 헷갈리는 지점은 `답이 틀렸다`
 
 ## 연습 및 예제
 
-예제의 목표는 실제 벡터 검색 시스템 전체를 구현하는 것이 아니라, `질문 -> 관련 문서 찾기 -> 그 문서를 근거로 답 만들기`라는 역할 분리가 여러 작업에서 어떻게 반복되는지 점검하는 것입니다. 환불 정책, 제품 매뉴얼, SDK 문서 질문을 한 번에 돌려, 검색 없이 답할 때와 검색 문서를 붙인 뒤 답할 때 어떤 검증 항목이 달라지는지 배치 보고 형태로 비교합니다.
+예제의 목표는 실제 벡터 데이터베이스나 LLM 서비스를 구현하는 것이 아니라, `질문 -> 검색 모델로 관련 문서 고르기 -> 그 문서를 근거로 답 만들기`라는 RAG의 최소 동작을 확인하는 것입니다. 환불 정책, 제품 매뉴얼, SDK 문서 질문을 한 번에 돌려, 검색 없이 답할 때와 검색 모델이 고른 문서를 붙인 뒤 답할 때 무엇이 달라지는지 비교합니다.
 
-사용자는 최신 정책, 현재 버전 제품 화면, 현재 SDK 사용법을 물을 수 있습니다. 모델 내부 기억에는 예전 기준이나 일반 상식이 남아 있을 수 있고, 관련 문서를 먼저 찾지 않으면 자연스러운 오답이 나올 수 있습니다.
+사용자는 최신 정책, 현재 버전 제품 화면, 현재 SDK 사용법을 물을 수 있습니다. 모델 내부 기억에는 예전 기준이나 일반 상식이 남아 있을 수 있고, 관련 문서를 먼저 찾지 않으면 자연스러운 오답이 나올 수 있습니다. 그래서 이 예제는 `scikit-learn`의 `TfidfVectorizer`를 아주 작은 검색 모델처럼 사용합니다. 실제 임베딩 모델은 아니지만, 질문과 문서를 벡터로 바꿔 가까운 문서를 고른다는 흐름은 직접 실행으로 확인할 수 있습니다. 한국어 짧은 문장은 띄어쓰기 단어만으로 비교하면 `오늘`과 `오늘부터`처럼 붙은 표현을 놓치기 쉬우므로, 예제에서는 문자 n-gram 기준을 사용합니다.
 
-아래 예제는 여러 사용자 질문에 대해 내부 기억 역할의 오래된 답과 검색 가능한 최신 문서 목록을 함께 둡니다. 그런 다음 검색 없이 바로 답한 결과와, 관련 문서를 먼저 고른 뒤 답한 결과를 비교해 어떤 문서가 실제 근거로 붙었는지와 최신 정보가 답변에 반영되었는지를 점검합니다.
+아래 예제는 두 CSV 파일을 입력으로 사용합니다.
+
+- 질문 목록: [p6-11-rag-need-questions.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-questions.csv){ .csv-preview }
+- 문서 후보: [p6-11-rag-need-documents.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-documents.csv){ .csv-preview }
+
+질문 목록의 한 행은 사용자 질문 하나를 뜻합니다. 핵심 열은 `case_id`, `question`, `memory_answer`, `current_signal`입니다. `memory_answer`는 검색 없이 모델 기억에만 의존했을 때 나올 수 있는 오래된 답이고, `current_signal`은 답변이 최신 근거를 실제로 반영했는지 확인할 보조 신호입니다. 이 신호만으로 성공을 판정하지 않고, 검색된 문서의 주제 일치, 버전 상태, 유사도, 근거 문서 수를 함께 봅니다.
+
+문서 후보의 한 행은 검색 대상 문서 조각 하나입니다. 핵심 열은 `title`, `text`, `version_status`, `source_type`입니다. `version_status`가 `current`인 행은 현재 근거 문서이고, `old`인 행은 보관 문서이며, `related`인 행은 관련은 있지만 최종 답의 핵심 근거가 되기 어려운 보조 문서입니다.
 
 이 절의 예제를 읽을 때는 먼저 무엇을 점검할지 표로 잡고 가는 편이 좋습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| `memory` 답이 최신 신호를 담는가 | 검색 없이도 맞는지 확인 |
-| 검색된 첫 문서가 최신 문서인가 | RAG의 첫 출발점 점검 |
-| RAG 답이 최신 신호를 담는가 | 문서가 답에 실제 반영됐는지 확인 |
-| 근거 문서 수가 충분한가 | 한 문서만 보고 섣불리 답하지 않는지 점검 |
+| `memory` 답이 최신 신호를 담는가 | 검색 없이 답하면 무엇을 놓치는지 확인 |
+| 검색 모델이 고른 첫 문서가 질문 주제와 맞는가 | 답변 전에 근거 선택 단계가 실제로 생겼는지 확인 |
+| 검색 모델이 고른 첫 문서가 현재 문서인가 | 오래된 문서가 현재 답의 근거로 들어오지 않는지 확인 |
+| RAG 답이 최신 신호를 담는가 | 선택된 문서가 답에 실제 반영됐는지 보조 확인 |
+| 유사도 점수가 함께 남는가 | 어떤 문서가 왜 먼저 붙었는지 추적하기 위해 |
 
-코드에서 확인할 핵심은 RAG의 품질은 검색된 문서와 최종 답변을 함께 비교해야만 제대로 판단할 수 있다는 점입니다.
+코드에서 확인할 핵심은 RAG가 답변 문장을 바로 고치는 기술이 아니라, 답변 전에 검색 모델로 근거 문서를 먼저 고르게 만드는 구조라는 점입니다.
 
 ```python
-# 정책, 매뉴얼, SDK 질문에서 모델 기억 답변과 RAG 근거 답변이 최신 신호와 근거 문서를 얼마나 반영하는지 비교하는 예제입니다.
-tasks = [
-    {
-        "name": "policy",
-        "question": "환불 정책이 오늘 어떻게 바뀌었나요?",
-        "memory_answer": "환불 요청 처리 기한은 7일입니다.",
-        "keywords": ["환불", "기한", "변경", "오늘"],
-        "documents": [
-            {
-                "title": "2026-06-29 정책 공지",
-                "text": "환불 요청 처리 기한이 7일에서 14일로 변경됨",
-                "is_latest": True,
-            },
-            {
-                "title": "FAQ",
-                "text": "환불 접수는 계정 메뉴에서 시작",
-                "is_latest": False,
-            },
-            {
-                "title": "구버전 안내",
-                "text": "예전에는 환불 요청 처리 기한이 7일이었다",
-                "is_latest": False,
-            },
-        ],
-        "expected_signal": "14일",
-        "expected_top_doc": "2026-06-29 정책 공지",
-    },
-    {
-        "name": "manual",
-        "question": "현재 버전에서 고급 설정 메뉴는 어디에 있나요?",
-        "memory_answer": "고급 설정 메뉴에서 바로 찾을 수 있습니다.",
-        "keywords": ["현재", "버전", "환경설정", "메뉴", "설정"],
-        "documents": [
-            {
-                "title": "v3 매뉴얼",
-                "text": "현재 버전에서는 환경설정 > 실험실 메뉴로 이동해야 한다",
-                "is_latest": True,
-            },
-            {
-                "title": "FAQ",
-                "text": "화면 오른쪽 위 프로필 아이콘에서 환경설정으로 들어간다",
-                "is_latest": True,
-            },
-            {
-                "title": "v2 가이드",
-                "text": "예전 버전에서는 고급 설정 메뉴가 별도로 있었다",
-                "is_latest": False,
-            },
-        ],
-        "expected_signal": "환경설정",
-        "expected_top_doc": "v3 매뉴얼",
-    },
-    {
-        "name": "sdk",
-        "question": "현재 SDK 버전에서 인증 헤더를 어디에 넣나요?",
-        "memory_answer": "Authorization 헤더에 직접 토큰을 넣으면 됩니다.",
-        "keywords": ["현재", "SDK", "인증", "auth", "헤더"],
-        "documents": [
-            {
-                "title": "SDK v5 가이드",
-                "text": "현재 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다",
-                "is_latest": True,
-            },
-            {
-                "title": "예제 코드",
-                "text": "client = SDK(auth={'token': API_KEY})",
-                "is_latest": True,
-            },
-            {
-                "title": "구버전 문서",
-                "text": "예전 버전에서는 Authorization 헤더를 직접 구성했다",
-                "is_latest": False,
-            },
-        ],
-        "expected_signal": "auth",
-        "expected_top_doc": "SDK v5 가이드",
-    },
+# TfidfVectorizer를 작은 검색 모델처럼 사용해 질문과 가까운 근거 문서를 먼저 고르는 예제입니다.
+import csv
+from pathlib import Path
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+question_path = Path("docs/assets/part-06/chapter-11/p6-11-rag-need-questions.csv")
+document_path = Path("docs/assets/part-06/chapter-11/p6-11-rag-need-documents.csv")
+
+def read_csv(path):
+    with path.open(encoding="utf-8", newline="") as file:
+        return list(csv.DictReader(file))
+
+questions = read_csv(question_path)
+documents = read_csv(document_path)
+
+# 문서 제목과 본문을 함께 벡터화해 질문과 비교할 검색 공간을 만든다.
+document_texts = [
+    f"{doc['title']} {doc['text']}"
+    for doc in documents
 ]
+# 한국어 짧은 문장에서는 단어 경계보다 문자 n-gram이 작은 검색 실험에 더 안정적이다.
+vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4))
+document_vectors = vectorizer.fit_transform(document_texts)
 
-def retrieve_docs(task):
-    scored = []
-    for doc in task["documents"]:
-        score = sum(
-            keyword in doc["text"] or keyword in doc["title"]
-            for keyword in task["keywords"]
+def retrieve_docs(question, top_k=2):
+    query_vector = vectorizer.transform([question])
+    scores = cosine_similarity(query_vector, document_vectors).ravel()
+    ranked_indexes = scores.argsort()[::-1]
+
+    retrieved = []
+    for index in ranked_indexes:
+        if scores[index] <= 0:
+            continue
+        retrieved.append(
+            {
+                **documents[index],
+                "similarity": round(float(scores[index]), 3),
+            }
         )
-        if doc["is_latest"]:
-            score += 1
-        scored.append((score, doc))
-    scored.sort(key=lambda item: item[0], reverse=True)
-    return [doc for score, doc in scored if score > 0][:2]
+        if len(retrieved) == top_k:
+            break
+    return retrieved
 
-def answer_with_rag(task, retrieved_docs):
-    joined = " ".join(doc["text"] for doc in retrieved_docs)
-    if task["name"] == "policy" and "14일" in joined:
-        answer = "최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다."
-    elif task["name"] == "manual" and "환경설정" in joined:
-        answer = "현재 버전에서는 환경설정 경로로 들어가야 고급 설정 관련 기능을 찾을 수 있습니다."
-    elif task["name"] == "sdk" and "auth" in joined:
-        answer = "현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성합니다."
-    else:
-        answer = "검색된 문서만으로는 현재 기준을 확정하기 어렵습니다."
+def answer_with_rag(retrieved_docs):
+    if not retrieved_docs:
+        return {
+            "answer": "관련 근거 문서를 찾지 못해 현재 기준을 확정하기 어렵습니다.",
+            "grounding_titles": [],
+        }
+
+    top_doc = retrieved_docs[0]
+    answer = f"근거 문서 '{top_doc['title']}'에 따르면 {top_doc['text']}"
     return {
         "answer": answer,
         "grounding_titles": [doc["title"] for doc in retrieved_docs],
     }
 
-def inspect_task(task):
-    retrieved_docs = retrieve_docs(task)
-    rag_result = answer_with_rag(task, retrieved_docs)
+def inspect_question(question_row):
+    retrieved_docs = retrieve_docs(question_row["question"])
+    rag_result = answer_with_rag(retrieved_docs)
+    top_doc = retrieved_docs[0] if retrieved_docs else None
+    top_doc_matches_case = bool(top_doc) and top_doc["case_id"] == question_row["case_id"]
+    top_doc_is_current = bool(top_doc) and top_doc["version_status"] == "current"
+    answer_contains_update_signal = question_row["current_signal"] in rag_result["answer"]
+    grounding_ready = (
+        top_doc_matches_case
+        and top_doc_is_current
+        and answer_contains_update_signal
+        and len(rag_result["grounding_titles"]) >= 2
+    )
     inspection = {
-        "memory_mentions_expected_signal": task["expected_signal"] in task["memory_answer"],
-        "rag_mentions_expected_signal": task["expected_signal"] in rag_result["answer"],
-        "top_grounding_doc": rag_result["grounding_titles"][0],
-        "top_doc_is_expected": rag_result["grounding_titles"][0] == task["expected_top_doc"],
+        "memory_contains_update_signal": question_row["current_signal"] in question_row["memory_answer"],
+        "answer_contains_update_signal": answer_contains_update_signal,
+        "top_grounding_doc": rag_result["grounding_titles"][0] if rag_result["grounding_titles"] else "none",
+        "top_doc_matches_case": top_doc_matches_case,
+        "top_doc_is_current": top_doc_is_current,
+        "top_doc_similarity": top_doc["similarity"] if top_doc else 0,
         "grounding_count": len(rag_result["grounding_titles"]),
-        "enough_grounding_docs": len(rag_result["grounding_titles"]) >= 2,
+        "retrieved_pair_available": len(rag_result["grounding_titles"]) >= 2,
+        "grounding_ready": grounding_ready,
     }
     return {
-        "name": task["name"],
-        "question": task["question"],
-        "memory_answer": task["memory_answer"],
+        "case_id": question_row["case_id"],
+        "question": question_row["question"],
+        "memory_answer": question_row["memory_answer"],
         "retrieved_titles": [doc["title"] for doc in retrieved_docs],
+        "retrieved_similarities": [doc["similarity"] for doc in retrieved_docs],
         "rag_answer": rag_result["answer"],
         "inspection": inspection,
     }
 
-reports = [inspect_task(task) for task in tasks]
+reports = [inspect_question(question) for question in questions]
 summary = {
-    "memory_hit_count": sum(report["inspection"]["memory_mentions_expected_signal"] for report in reports),
-    "rag_hit_count": sum(report["inspection"]["rag_mentions_expected_signal"] for report in reports),
-    "top_doc_match_count": sum(report["inspection"]["top_doc_is_expected"] for report in reports),
-    "enough_grounding_count": sum(report["inspection"]["enough_grounding_docs"] for report in reports),
-    "memory_hit_ratio": round(
-        sum(report["inspection"]["memory_mentions_expected_signal"] for report in reports) / len(reports),
+    "memory_signal_count": sum(report["inspection"]["memory_contains_update_signal"] for report in reports),
+    "rag_signal_count": sum(report["inspection"]["answer_contains_update_signal"] for report in reports),
+    "top_doc_case_match_count": sum(report["inspection"]["top_doc_matches_case"] for report in reports),
+    "top_doc_current_count": sum(report["inspection"]["top_doc_is_current"] for report in reports),
+    "retrieved_pair_count": sum(report["inspection"]["retrieved_pair_available"] for report in reports),
+    "grounding_ready_count": sum(report["inspection"]["grounding_ready"] for report in reports),
+    "memory_signal_ratio": round(
+        sum(report["inspection"]["memory_contains_update_signal"] for report in reports) / len(reports),
         2,
     ),
-    "rag_hit_ratio": round(
-        sum(report["inspection"]["rag_mentions_expected_signal"] for report in reports) / len(reports),
+    "grounding_ready_ratio": round(
+        sum(report["inspection"]["grounding_ready"] for report in reports) / len(reports),
         2,
     ),
 }
@@ -423,24 +399,25 @@ print()
 for report in reports:
     print("=" * 80)
     print("[task]")
-    print(report["name"])
+    print(report["case_id"])
     print("[question]")
     print(report["question"])
     print("[memory only answer]")
     print(report["memory_answer"])
-    print("[retrieved doc titles]")
+    print("[retrieved doc titles and similarities]")
     print(report["retrieved_titles"])
+    print(report["retrieved_similarities"])
     print("[rag answer]")
     print(report["rag_answer"])
     print("[inspection]")
     print(report["inspection"])
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+저장소 루트에서 이 코드를 실행하면 다음처럼 출력됩니다.
 
 ```text
 [summary]
-{'memory_hit_count': 0, 'rag_hit_count': 3, 'top_doc_match_count': 3, 'enough_grounding_count': 3, 'memory_hit_ratio': 0.0, 'rag_hit_ratio': 1.0}
+{'memory_signal_count': 0, 'rag_signal_count': 3, 'top_doc_case_match_count': 3, 'top_doc_current_count': 3, 'retrieved_pair_count': 4, 'grounding_ready_count': 3, 'memory_signal_ratio': 0.0, 'grounding_ready_ratio': 0.75}
 
 ================================================================================
 [task]
@@ -449,12 +426,13 @@ policy
 환불 정책이 오늘 어떻게 바뀌었나요?
 [memory only answer]
 환불 요청 처리 기한은 7일입니다.
-[retrieved doc titles]
-['2026-06-29 정책 공지', '구버전 안내']
+[retrieved doc titles and similarities]
+['2026-07-22 환불 정책 변경', '2025-12-01 환불 정책 보관본']
+[0.244, 0.208]
 [rag answer]
-최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다.
+근거 문서 '2026-07-22 환불 정책 변경'에 따르면 오늘부터 환불 요청 처리 기한은 14일로 변경되며 적용 날짜 이후 접수 건에 적용된다
 [inspection]
-{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': '2026-06-29 정책 공지', 'top_doc_is_expected': True, 'grounding_count': 2, 'enough_grounding_docs': True}
+{'memory_contains_update_signal': False, 'answer_contains_update_signal': True, 'top_grounding_doc': '2026-07-22 환불 정책 변경', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.244, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': True}
 ================================================================================
 [task]
 manual
@@ -462,12 +440,13 @@ manual
 현재 버전에서 고급 설정 메뉴는 어디에 있나요?
 [memory only answer]
 고급 설정 메뉴에서 바로 찾을 수 있습니다.
-[retrieved doc titles]
-['v3 매뉴얼', 'FAQ']
+[retrieved doc titles and similarities]
+['v3 고급 설정 위치', 'v2 고급 설정 안내']
+[0.447, 0.444]
 [rag answer]
-현재 버전에서는 환경설정 경로로 들어가야 고급 설정 관련 기능을 찾을 수 있습니다.
+근거 문서 'v3 고급 설정 위치'에 따르면 현재 버전에서는 고급 설정 관련 기능을 환경설정 > 실험실 메뉴에서 찾는다
 [inspection]
-{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'v3 매뉴얼', 'top_doc_is_expected': True, 'grounding_count': 2, 'enough_grounding_docs': True}
+{'memory_contains_update_signal': False, 'answer_contains_update_signal': True, 'top_grounding_doc': 'v3 고급 설정 위치', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.447, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': True}
 ================================================================================
 [task]
 sdk
@@ -475,27 +454,43 @@ sdk
 현재 SDK 버전에서 인증 헤더를 어디에 넣나요?
 [memory only answer]
 Authorization 헤더에 직접 토큰을 넣으면 됩니다.
-[retrieved doc titles]
-['SDK v5 가이드', '예제 코드']
+[retrieved doc titles and similarities]
+['SDK v5 auth 객체 인증', 'SDK v4 Authorization 헤더 예제']
+[0.337, 0.306]
 [rag answer]
-현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성합니다.
+근거 문서 'SDK v5 auth 객체 인증'에 따르면 현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다
 [inspection]
-{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'SDK v5 가이드', 'top_doc_is_expected': True, 'grounding_count': 2, 'enough_grounding_docs': True}
+{'memory_contains_update_signal': False, 'answer_contains_update_signal': True, 'top_grounding_doc': 'SDK v5 auth 객체 인증', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.337, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': True}
+================================================================================
+[task]
+pricing
+[question]
+현재 좌석별 요금표는 어디에서 확인하나요?
+[memory only answer]
+요금제는 월 단위로 청구됩니다.
+[retrieved doc titles and similarities]
+['고객센터 화면 캡처 기준', 'v3 고급 설정 위치']
+[0.163, 0.139]
+[rag answer]
+근거 문서 '고객센터 화면 캡처 기준'에 따르면 화면 안내 답변에는 현재 버전 매뉴얼 경로를 먼저 확인해야 한다
+[inspection]
+{'memory_contains_update_signal': False, 'answer_contains_update_signal': False, 'top_grounding_doc': '고객센터 화면 캡처 기준', 'top_doc_matches_case': False, 'top_doc_is_current': False, 'top_doc_similarity': 0.163, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': False}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `memory_hit_count`가 0이고 `rag_hit_count`가 3이라는 점입니다. 즉, 검색 없이 기억으로만 답하면 세 작업 모두 최신 신호를 놓쳤지만, 관련 문서를 먼저 붙인 뒤에는 세 작업 모두 최신 기준을 회수했습니다. 동시에 `top_doc_match_count`가 3이라는 값은, RAG의 효과가 단순히 답 문장만 좋아졌다는 뜻이 아니라 `어떤 문서를 먼저 붙였는가`가 같이 맞았다는 뜻입니다.
+이 결과에서 먼저 봐야 할 것은 `memory_signal_count`가 0이고 `grounding_ready_count`가 3이라는 점입니다. 검색 없이 기억으로만 답하면 네 질문 모두 최신 신호를 놓쳤지만, RAG는 정책, 매뉴얼, SDK 질문에서 질문 주제와 맞는 현재 문서를 먼저 붙이고 답변 안에 최신 신호를 회수했습니다. 반대로 `pricing` 질문은 문서 후보가 없기 때문에 문서가 두 개 붙어도 `top_doc_matches_case`와 `answer_contains_update_signal`이 모두 false입니다. 즉, `current_signal`은 보조 확인 신호일 뿐이고, 실제 판단은 질문 주제와 맞는 현재 문서가 검색됐는지, 그 근거가 답변에 연결됐는지를 함께 봐야 합니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어간다.
-- RAG의 품질은 답변 문장만이 아니라 `최신 문서를 먼저 회수했는가`, `근거 문서 수가 충분한가`까지 함께 점검해야 한다.
+- 질문만으로 바로 답하는 것이 아니라, 검색 모델이 고른 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어간다.
+- RAG의 품질은 답변 문장만이 아니라 `질문 주제와 맞는 현재 문서를 회수했는가`, `유사도 점수와 근거 제목이 남았는가`, `근거가 없을 때 실패로 남기는가`까지 함께 점검해야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `documents`에 더 많은 구버전 문서를 넣어 검색 결과가 어떻게 흔들리는지 보기
-- `keywords`를 일부러 줄여 `top_doc_match_count`가 어떻게 떨어지는지 확인하기
-- `answer_with_rag`에서 문서 제목뿐 아니라 근거 문장을 함께 반환하도록 바꿔 보기
-- `tasks`에 사내 정책, 고객센터 스크립트 같은 새 작업을 추가해도 같은 구조가 유지되는지 보기
+- 질문 CSV의 `question` 표현을 바꿔 검색된 문서와 유사도 점수가 어떻게 달라지는지 보기
+- 문서 CSV에 보관 문서나 무관 문서를 더 넣어 현재 문서가 계속 상위에 남는지 확인하기
+- `pricing` 질문에 맞는 현재 문서를 추가해 `grounding_ready`가 어떻게 바뀌는지 보기
+- `top_k` 값을 1에서 3으로 바꿔 근거 문서 묶음이 어떻게 달라지는지 보기
+- `answer_with_rag`에서 문서 제목뿐 아니라 문서 ID와 버전 상태를 함께 반환하도록 바꿔 보기
 
 ## 근거 우선 구조에서 바뀌는 답변 기준
 
@@ -509,9 +504,9 @@ Authorization 헤더에 직접 토큰을 넣으면 됩니다.
 
 즉, RAG의 핵심 변화는 `답변 문장`보다 `답변 전에 거치는 근거 단계`에 있습니다.
 
-요약 통계를 차트로 보면 차이가 더 직접적으로 보입니다. 기억 기반 답변은 세 작업 모두 최신 신호를 놓치지만, RAG 답변은 최신 신호와 상위 근거 문서 일치를 모두 회수합니다. 그래서 여기서 읽어야 할 변화는 답변 문장이 조금 좋아졌다는 정도가 아니라, 답변 전에 근거 문서 선택 단계가 새로 생겼다는 점입니다.
+사례별 점검표로 보면 차이가 더 직접적으로 보입니다. 정책, 매뉴얼, SDK 질문은 RAG 답변의 최신 신호, 상위 문서 주제 일치, 현재 버전, 근거 연결 준비를 모두 통과합니다. 반대로 요금 질문은 문서가 검색되었지만 질문 주제와 맞는 현재 근거가 아니므로 마지막까지 실패로 남습니다. 그래서 여기서 읽어야 할 변화는 답변 문장이 조금 좋아졌다는 정도가 아니라, 답변 전에 근거 문서 선택 단계가 새로 생기고 그 단계도 별도로 점검해야 한다는 점입니다.
 
-![기억 기반 답변과 RAG 답변의 근거 점검 통과 수](../../../assets/part-06/chapter-11/rag-grounding-check-ko.png)
+![기억 기반 답변과 RAG 답변의 사례별 근거 점검 매트릭스](../../../assets/part-06/chapter-11/rag-grounding-check-ko.png)
 
 ## RAG가 바꾸는 답변의 출발점
 
@@ -529,3 +524,5 @@ RAG의 핵심은 모델이 더 많이 기억하게 만드는 것이 아니라, �
 - Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.
 - OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
 - OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- scikit-learn developers, [TfidfVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn documentation, 확인 날짜: 2026-07-22.
+- scikit-learn developers, [Cosine similarity](https://scikit-learn.org/stable/modules/metrics.html#cosine-similarity){: target="_blank" rel="noopener noreferrer" }, scikit-learn documentation, 확인 날짜: 2026-07-22.
