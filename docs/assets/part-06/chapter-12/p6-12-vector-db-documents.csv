@@ -1,0 +1,37 @@
+doc_id,title,text,source,category,version,status
+R01,2026 환불 정책 공지,환불 요청 처리 기한은 접수일 기준 14일이며 적용일 이후 접수 건에 적용된다,policy_notice_2026_06_29,refund,2026-06,current
+R02,환불 증빙 서류 안내,환불을 요청할 때 주문 번호와 결제 영수증을 함께 제출해야 한다,help_center_refund,refund,2026-05,current
+R03,반품 처리 기간 보관본,반품 처리 기간은 과거 기준으로 30일 안에 검토한다고 안내했다,policy_archive_2025_12,refund,2025-12,archived
+R04,부분 환불 예외 조건,부분 환불은 사용량과 계약 조건을 확인한 뒤 승인한다,finance_policy,refund,2026-04,current
+R05,구독 취소 후 환불,구독 취소 후 남은 기간 환불은 결제 수단과 사용 이력에 따라 달라진다,billing_manual,refund,2026-03,current
+R06,환불 문의 응대 템플릿,고객 환불 문의에는 접수일 처리 기한 필요 서류를 함께 안내한다,support_playbook,refund,2026-02,current
+S01,설정 초기화 절차,설정을 처음 상태로 되돌리려면 환경설정 메뉴에서 초기화 버튼을 누른 뒤 재부팅한다,manual_v4,settings,2026-06,current
+S02,자동 저장 끄기,자동 저장은 환경설정 편집 메뉴에서 끌 수 있으며 변경 후 저장해야 한다,manual_v4,settings,2026-06,current
+S03,고급 설정 위치,현재 버전의 고급 설정은 환경설정 실험실 메뉴 아래에 있다,manual_v4,settings,2026-06,current
+S04,설정 복원 보관본,이전 버전에서는 고급 설정 화면에서 기본값 복원을 실행했다,manual_v2_archive,settings,2025-08,archived
+S05,알림 설정 변경,알림 빈도는 환경설정 알림 메뉴에서 조정한다,manual_v4,settings,2026-06,current
+S06,화면 언어 설정,표시 언어는 계정 설정의 언어 항목에서 바꿀 수 있다,manual_v4,settings,2026-06,current
+A01,SDK 요청 제한 재시도,요청 제한이 발생하면 exponential backoff와 max_retries 옵션으로 재시도 간격을 조정한다,sdk_guide_v5,api,2026-06,current
+A02,SDK 인증 객체,현재 SDK는 auth 객체에 토큰을 넣어 클라이언트를 생성한다,sdk_guide_v5,api,2026-06,current
+A03,API 타임아웃 설정,timeout 옵션은 요청별 제한 시간을 지정하며 재시도 횟수와 별도로 동작한다,sdk_reference_v5,api,2026-06,current
+A04,Authorization 헤더 보관본,이전 SDK 예제는 Authorization 헤더에 직접 토큰을 넣는 방식을 사용했다,sdk_archive_v4,api,2025-10,archived
+A05,웹훅 서명 검증,웹훅 요청은 서명 헤더와 페이로드 해시를 비교해 검증한다,sdk_security_v5,api,2026-06,current
+A06,페이지네이션 처리,목록 조회는 cursor 값을 다음 요청에 넘겨 다음 페이지를 가져온다,sdk_reference_v5,api,2026-06,current
+O01,오프보딩 자산 회수,퇴사 전 회사 노트북과 보안 키는 보안팀 데스크로 회수한다,hr_wiki_2026,offboarding,2026-06,current
+O02,계정 비활성화 절차,퇴사 처리일에는 업무 계정과 접근 권한을 순서대로 비활성화한다,hr_wiki_2026,offboarding,2026-06,current
+O03,퇴사 체크리스트,퇴사자는 장비 반납 예약과 문서 인수인계를 퇴사 전날까지 완료한다,hr_wiki_2026,offboarding,2026-06,current
+O04,자산 반납 보관본,과거 기준에서는 노트북을 총무팀 창구에 반납한다고 안내했다,hr_archive_2024,offboarding,2024-11,archived
+O05,보안 카드 회수,보안 카드는 마지막 출근일에 안내 데스크에서 회수한다,security_policy,offboarding,2026-05,current
+O06,인수인계 문서 위치,인수인계 문서는 팀 드라이브의 퇴사 폴더에 업로드한다,hr_wiki_2026,offboarding,2026-06,current
+B01,좌석별 요금표 위치,현재 좌석별 요금표는 관리자 콘솔의 결제 설정 화면에서 확인한다,billing_guide_2026,billing,2026-06,current
+B02,월간 청구 기준,월간 청구 금액은 활성 좌석 수와 사용 기간을 기준으로 계산한다,billing_guide_2026,billing,2026-06,current
+B03,연간 계약 할인,연간 계약은 좌석 수 구간에 따라 할인율이 달라진다,billing_policy_2026,billing,2026-06,current
+B04,요금제 보관본,이전 요금제는 기본 플랜과 프로 플랜 두 단계로만 제공되었다,billing_archive_2025,billing,2025-09,archived
+B05,세금계산서 발행,세금계산서는 결제 완료 후 사업자 정보가 확인되면 발행된다,billing_manual,billing,2026-04,current
+B06,결제 수단 변경,결제 수단은 관리자 콘솔 결제 설정에서 변경할 수 있다,billing_guide_2026,billing,2026-06,current
+G01,고객센터 화면 캡처 기준,화면 안내 답변에는 현재 버전 매뉴얼 경로와 캡처 기준을 먼저 확인해야 한다,support_style_guide,general,2026-06,current
+G02,공지 작성 규칙,공지에는 적용일 대상 변경 전후 차이를 한 문단 안에 적어야 한다,content_guide,general,2026-05,current
+G03,개인정보 문의 라우팅,개인정보 열람 삭제 문의는 개인정보 담당자 검토로 연결한다,privacy_policy,general,2026-05,current
+G04,장애 공지 템플릿,장애 공지는 영향 범위 현재 상태 다음 업데이트 시간을 포함한다,incident_playbook,general,2026-06,current
+G05,지원 우선순위 기준,지원 티켓은 영향 사용자 수와 차단 정도를 함께 보고 우선순위를 정한다,support_ops,general,2026-04,current
+G06,릴리스 노트 작성,릴리스 노트는 기능 변경 버그 수정 사용자가 해야 할 일을 나누어 쓴다,release_guide,general,2026-06,current

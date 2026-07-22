@@ -15,5 +15,7 @@
   - `p6_12_1_vector_db_payload_chart.py`
   - `p6_12_2_index_quality_chart.py`
 - CSV example data:
+  - `p6-12-vector-db-documents.csv`
+  - `p6-12-vector-db-queries.csv`
   - `p6-12-index-documents.csv`
   - `p6-12-index-queries.csv`

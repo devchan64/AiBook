@@ -1,0 +1,5 @@
+query_id,question
+refund_current,환불 처리 기한이 지금은 며칠인가요
+settings_reset,설정을 처음 상태로 되돌리려면 어디에서 하나요
+api_retry,요청 제한이 걸리면 잠깐 기다렸다 다시 보내는 옵션이 있나요
+offboarding_asset,퇴사 전에 회사 노트북은 어디로 반납하나요

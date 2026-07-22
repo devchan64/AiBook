@@ -21,10 +21,7 @@ P6-11.2가 찾아온 문서를 답변 전에 어디에 붙일지 봤다면, 여�
 
 ## 벡터, 원문, 메타데이터 저장의 구분
 
-- 벡터 데이터베이스를 입문 수준에서 설명할 수 있습니다.
-- 임베딩, 문서 조각(chunk), 메타데이터가 함께 저장된다는 점을 말할 수 있습니다.
-- 왜 RAG에서 일반 키워드 검색만으로는 부족할 수 있는지 설명할 수 있습니다.
-- P6-12.2의 인덱스와 검색 품질 문제로 자연스럽게 넘어갈 수 있습니다.
+벡터 데이터베이스를 이해할 때는 저장되는 값을 나누어 봐야 합니다. 임베딩은 비슷한 문서를 찾기 위한 숫자 표현이고, 문서 조각(chunk)은 생성 단계가 실제로 다시 읽을 원문이며, 메타데이터(metadata)는 출처, 버전, 날짜, 범주처럼 후보를 고르고 검증할 때 쓰는 정보입니다. 이 셋을 함께 보아야 RAG에서 일반 키워드 검색만으로는 부족한 이유와, P6-12.2의 인덱스와 검색 품질 문제가 왜 따로 이어지는지 자연스럽게 연결됩니다.
 
 먼저 가를 장면은 아래처럼 정리할 수 있습니다.
 
@@ -159,175 +156,167 @@ RAG는 `질문 -> 관련 문서 검색 -> 생성` 구조입니다. 여기서 검
 
 핵심은 `벡터만 따로 저장`이 아니라, 검색 뒤에 생성 단계가 바로 다시 쓸 수 있게 텍스트와 메타데이터까지 연결된 레코드로 다룬다는 점입니다.
 
-## 벡터 저장 구조가 필요한 장면
+## 검색 결과가 그대로 근거가 되려면
 
 벡터 데이터베이스를 처음 읽을 때 자주 생기는 오해는 `비슷한 문장을 찾는다`는 한 줄만 기억하고, 왜 원문과 메타데이터를 같이 붙여 두는지까지는 바로 연결하지 못하는 점입니다. 하지만 실제 RAG 점검에서는 `가까운 벡터를 찾았는가`만큼 `그 뒤에 바로 꺼내 쓸 원문과 출처가 함께 붙는가`가 중요합니다.
 
-| 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그것이 먼저 중요한가 |
-| --- | --- | --- |
-| 질문 표현과 문서 표현이 달라 키워드가 잘 안 맞음 | 같은 의미의 문단이 벡터 후보로 실제 올라오는가 | 문자열 일치가 약해도 의미가 같은 문단을 먼저 회수하지 못하면 뒤 단계로 넘길 근거 자체가 비기 때문입니다. |
-| 질문과 비슷한 표현은 찾았는데 답에 근거 문장이 안 붙음 | 반환 결과에 원문 조각이 함께 들어 있는가 | 생성 단계는 숫자 벡터가 아니라 실제 문장을 다시 써야 하기 때문입니다. |
-| 관련 문단은 찾았지만 최신 버전인지 판단이 안 됨 | 날짜, 버전, 출처 같은 메타데이터가 붙어 있는가 | 후보가 맞아 보여도 최신성 필터와 출처 확인이 안 되면 운영 답으로 쓰기 어렵기 때문입니다. |
-| 비슷한 문단은 여러 개 나오지만 무엇이 더 맞는지 헷갈림 | 질문 의도에 맞는 범주(category)나 문서 ID가 함께 반환되는가 | 의미 유사도만으로는 최종 후보를 고르기 어려울 때 메타데이터가 추가 판단 기준이 되기 때문입니다. |
+검색 결과가 생성 단계의 근거로 넘어가려면 최소한 세 가지가 함께 보여야 합니다.
 
-같은 기준을 더 짧은 실무 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
-
-| 이런 의심이 들면 | 먼저 던질 질문 |
+| 검색 결과에서 볼 값 | 근거로 쓰려면 필요한 이유 |
 | --- | --- |
-| `질문 단어랑 문서 단어가 달라서 못 찾는 것 같다` | 같은 의미 문단이 키워드가 아니라 벡터 후보로 올라오고 있는가? |
-| `비슷한 건 찾았는데 그대로 답에 못 쓰겠다` | 원문 조각이 같이 돌아왔는가? |
-| `맞는 문서 같은데 최신인지 모르겠다` | 버전·날짜·출처가 같이 붙었는가? |
-| `후보가 여러 개인데 최종 선택 기준이 없다` | 범주와 문서 ID까지 함께 돌려주고 있는가? |
+| 유사도 점수와 후보 순위 | 어떤 조각을 먼저 읽고 어떤 조각을 보조 후보로 둘지 정해야 하기 때문입니다. |
+| 원문 조각 | 생성 단계는 숫자 벡터가 아니라 실제 문장을 다시 붙여 답해야 하기 때문입니다. |
+| 출처, 버전, 상태, 범주 | 후보가 현재 문서인지, 어느 자료에서 온 것인지, 어떤 필터를 적용할 수 있는지 확인해야 하기 때문입니다. |
 
 먼저 익혀야 하는 기준은 단순합니다. 벡터 데이터베이스는 `비슷한 벡터를 찾는 곳`이면서 동시에, 그 결과를 RAG 다음 단계로 넘기기 위해 `원문`과 `메타데이터`까지 함께 되돌려주는 검색 저장 구조입니다.
 
 ## 연습 및 예제
 
-예제의 목표는 실제 벡터 데이터베이스 엔진 전체를 구현하는 것이 아니라, `벡터`, `원문`, `메타데이터`가 함께 저장되고, 질문 벡터와의 유사도로 다시 꺼내 쓰인다는 점을 눈으로 확인하는 것입니다. 환불 정책, 설정 메뉴, SDK 제한 처리처럼 다른 질문 벡터를 한 번에 돌려, 같은 저장 구조가 질문에 따라 다른 조각과 메타데이터를 다시 꺼내고, 그 결과가 생성 단계로 넘길 검색 결과 묶음으로 어떻게 이어지는지까지 비교합니다.
+예제의 목표는 실제 벡터 데이터베이스 엔진 전체를 구현하는 것이 아니라, `벡터`, `원문`, `메타데이터`가 함께 저장되고, 질문 벡터와의 유사도로 다시 꺼내 쓰인다는 점을 눈으로 확인하는 것입니다. 환불 정책, 설정 메뉴, SDK 제한 처리, 장비 반납처럼 다른 질문을 한 번에 돌려, 같은 저장 구조가 질문에 따라 다른 조각과 메타데이터를 다시 꺼내고, 그 결과가 생성 단계로 넘길 검색 결과 묶음으로 어떻게 이어지는지까지 비교합니다.
 
 문서 조각들은 숫자 벡터만이 아니라 원문과 출처 정보를 함께 가져야 합니다. 질문이 들어오면 질문 벡터와 가까운 조각을 다시 찾고, 검색 후에는 원문 텍스트와 메타데이터를 함께 생성 단계에 넘겨야 합니다. 따라서 `무엇이 1위 후보인가`뿐 아니라 `어떤 출처와 범주가 같이 따라오는가`도 중요합니다.
 
-아래 예제는 세 개의 문서 조각, 각 조각의 임베딩 벡터, 여러 질문 벡터를 사용합니다. 출력에서는 질문별 유사도 점수, 상위 후보 문서 조각, 검색 후 다시 꺼내 쓰는 원문과 메타데이터, 질문별 1위 후보의 출처와 범주, 생성 단계로 넘길 검색 결과 묶음을 확인합니다.
+아래 예제는 문서 조각 CSV [p6-12-vector-db-documents.csv](../../../assets/part-06/chapter-12/p6-12-vector-db-documents.csv){ .csv-preview }와 질문 CSV [p6-12-vector-db-queries.csv](../../../assets/part-06/chapter-12/p6-12-vector-db-queries.csv){ .csv-preview }를 사용합니다. 문서 파일의 한 행은 검색 저장소의 한 레코드처럼 문서 ID, 제목, 원문 조각, 출처, 범주, 버전, 상태를 담습니다. 질문 파일의 한 행은 사용자 질문을 담습니다. 출력에서는 질문별 유사도 점수, 상위 후보 문서 조각, 검색 후 다시 꺼내 쓰는 원문과 메타데이터, 생성 단계로 넘길 검색 결과 묶음을 확인합니다.
 
 먼저 확인할 점을 표로 잡으면 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| top-1 후보가 기대 범주와 맞는가 | 벡터 검색이 질문 의도를 제대로 회수했는지 확인 |
+| top-k 후보의 순위와 유사도는 어떻게 달라지는가 | 질문이 바뀌면 어떤 문서 조각을 먼저 읽게 되는지 확인 |
 | 반환 결과에 원문이 포함되는가 | 생성 단계가 실제 문장을 다시 붙일 수 있어야 해서 |
 | 반환 결과에 메타데이터가 포함되는가 | 출처 표기, 날짜 필터, 버전 필터에 필요해서 |
-| 질문마다 반환 묶음이 달라지는가 | 같은 저장 구조가 질문별 근거 반환 계층으로 동작하는지 확인 |
+| payload 묶음에는 어떤 값이 함께 들어가는가 | 검색 결과가 생성 단계에 넘길 근거 묶음으로 충분한지 확인 |
 
-코드에서 확인할 핵심은 벡터 데이터베이스는 유사한 문장뿐 아니라 원문과 메타데이터를 함께 반환해야 RAG 근거 저장소로 쓸 수 있다는 점입니다.
+코드에서 확인할 핵심은 벡터 데이터베이스는 유사한 문장뿐 아니라 원문과 메타데이터를 함께 반환해야 RAG 근거 저장소로 쓸 수 있다는 점입니다. 예제에서는 ChromaDB의 인메모리 컬렉션을 사용합니다. 외부 임베딩 모델 다운로드가 중심을 흐리지 않도록, 문서와 질문은 TF-IDF로 벡터화한 뒤 그 벡터를 Chroma 컬렉션에 직접 넣고 검색합니다.
 
 ```python
-# 문서 chunk의 embedding과 query vector를 cosine similarity로 비교해 vector database 검색 payload와 metadata 보존을 확인하는 예제입니다.
-import math
+from pathlib import Path
+import csv
+from uuid import uuid4
+import chromadb
+from chromadb.config import Settings
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-records = [
-    {
-        "id": "doc-001-chunk-02",
-        "text": "환불 요청 처리 기한이 14일로 변경되었습니다.",
-        "embedding": [0.92, 0.15, 0.08],
-        "metadata": {"source": "policy_notice_2026_06_29", "category": "refund"},
-    },
-    {
-        "id": "doc-002-chunk-01",
-        "text": "자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.",
-        "embedding": [0.12, 0.88, 0.14],
-        "metadata": {"source": "manual_v3", "category": "settings"},
-    },
-    {
-        "id": "doc-003-chunk-03",
-        "text": "요청 제한이 걸리면 exponential backoff를 사용하세요.",
-        "embedding": [0.21, 0.18, 0.93],
-        "metadata": {"source": "sdk_guide_v2", "category": "api"},
-    },
+asset_dir = Path("docs/assets/part-06/chapter-12")
+document_path = asset_dir / "p6-12-vector-db-documents.csv"
+query_path = asset_dir / "p6-12-vector-db-queries.csv"
+
+with document_path.open(encoding="utf-8", newline="") as file:
+    documents = list(csv.DictReader(file))
+
+with query_path.open(encoding="utf-8", newline="") as file:
+    queries = list(csv.DictReader(file))
+
+# 실제 embedding 모델 대신 TF-IDF 벡터를 사용해 검색 저장소의 반환 구조를 작게 확인합니다.
+document_texts = [
+    f"{document['title']} {document['text']}"
+    for document in documents
 ]
+vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4))
+document_vectors = vectorizer.fit_transform(document_texts)
 
-query_vectors = [
-    {
-        "name": "refund_question",
-        "vector": [0.95, 0.10, 0.05],
-        "expected_category": "refund",
-    },
-    {
-        "name": "settings_question",
-        "vector": [0.10, 0.93, 0.11],
-        "expected_category": "settings",
-    },
-    {
-        "name": "api_limit_question",
-        "vector": [0.19, 0.16, 0.96],
-        "expected_category": "api",
-    },
-]
+client = chromadb.Client(Settings(anonymized_telemetry=False))
+collection = client.create_collection(
+    name=f"p6_12_vector_payload_{uuid4().hex[:8]}",
+    metadata={"hnsw:space": "cosine"},
+)
 
-def cosine_similarity(a, b):
-    dot = sum(x * y for x, y in zip(a, b))
-    norm_a = math.sqrt(sum(x * x for x in a))
-    norm_b = math.sqrt(sum(y * y for y in b))
-    return dot / (norm_a * norm_b)
+collection.add(
+    ids=[document["doc_id"] for document in documents],
+    documents=[document["text"] for document in documents],
+    embeddings=document_vectors.toarray().tolist(),
+    metadatas=[
+        {
+            "title": document["title"],
+            "source": document["source"],
+            "category": document["category"],
+            "version": document["version"],
+            "status": document["status"],
+        }
+        for document in documents
+    ],
+)
 
 reports = []
 
-for query in query_vectors:
-    scored = []
-    for record in records:
-        score = cosine_similarity(query["vector"], record["embedding"])
-        scored.append((score, record))
+for query in queries:
+    query_vector = vectorizer.transform([query["question"]]).toarray().tolist()
+    result = collection.query(
+        query_embeddings=query_vector,
+        n_results=2,
+        include=["documents", "metadatas", "distances"],
+    )
 
-    scored.sort(key=lambda item: item[0], reverse=True)
-    top_matches = scored[:2]
+    top_matches = [
+        {
+            "score": round(1 - distance, 3),
+            "doc_id": doc_id,
+            "title": metadata["title"],
+            "text": text,
+            "source": metadata["source"],
+            "category": metadata["category"],
+            "version": metadata["version"],
+            "status": metadata["status"],
+        }
+        for doc_id, text, metadata, distance in zip(
+            result["ids"][0],
+            result["documents"][0],
+            result["metadatas"][0],
+            result["distances"][0],
+        )
+    ]
 
+    # 생성 단계에는 숫자 벡터가 아니라 원문과 메타데이터 묶음이 넘어가야 합니다.
     retrieval_payload = [
         {
-            "text": record["text"],
-            "source": record["metadata"]["source"],
-            "category": record["metadata"]["category"],
+            "text": match["text"],
+            "source": match["source"],
+            "category": match["category"],
+            "version": match["version"],
+            "status": match["status"],
         }
-        for score, record in top_matches
+        for match in top_matches
     ]
 
     reports.append(
         {
-            "query_name": query["name"],
-            "query_vector": query["vector"],
-            "expected_category": query["expected_category"],
-            "top_matches": [
-                {
-                    "score": round(score, 4),
-                    "id": record["id"],
-                    "text": record["text"],
-                    "metadata": record["metadata"],
-                }
-                for score, record in top_matches
-            ],
-            "top1_summary": {
-                "source": top_matches[0][1]["metadata"]["source"],
-                "category": top_matches[0][1]["metadata"]["category"],
-            },
+            "query_id": query["query_id"],
+            "question": query["question"],
+            "top_matches": top_matches,
             "retrieval_payload": retrieval_payload,
             "inspection": {
-                "top1_category_ok": top_matches[0][1]["metadata"]["category"] == query["expected_category"],
-                "payload_has_text": all("text" in item for item in retrieval_payload),
-                "payload_has_metadata": all("source" in item and "category" in item for item in retrieval_payload),
+                "top1_current": top_matches[0]["status"] == "current",
+                "payload_has_text": all(item["text"] for item in retrieval_payload),
+                "payload_has_metadata": all(
+                    item.get(key)
+                    for item in retrieval_payload
+                    for key in ("source", "category", "version", "status")
+                ),
                 "payload_count": len(retrieval_payload),
             },
         }
     )
 
 summary = {
-    "top1_category_match_count": sum(report["inspection"]["top1_category_ok"] for report in reports),
+    "top1_current_count": sum(report["inspection"]["top1_current"] for report in reports),
     "payload_has_text_count": sum(report["inspection"]["payload_has_text"] for report in reports),
     "payload_has_metadata_count": sum(report["inspection"]["payload_has_metadata"] for report in reports),
-    "top1_category_match_ratio": round(
-        sum(report["inspection"]["top1_category_ok"] for report in reports) / len(reports),
-        2,
-    ),
-    "payload_has_text_ratio": round(
-        sum(report["inspection"]["payload_has_text"] for report in reports) / len(reports),
-        2,
-    ),
-    "payload_has_metadata_ratio": round(
-        sum(report["inspection"]["payload_has_metadata"] for report in reports) / len(reports),
-        2,
-    ),
+    "returned_top1_categories": [
+        report["top_matches"][0]["category"]
+        for report in reports
+    ],
 }
 
 print("[summary]")
 print(summary)
-print()
 
 for report in reports:
     print("=" * 80)
     print("[query]")
-    print(report["query_name"], report["query_vector"])
+    print(report["query_id"], report["question"])
     print("[top matches]")
-    for item in report["top_matches"]:
-        print(item)
-    print("[top1 summary]")
-    print(report["top1_summary"])
+    for match in report["top_matches"]:
+        print({key: match[key] for key in ("score", "doc_id", "title", "category", "source", "version", "status")})
     print("[retrieval payload]")
     print(report["retrieval_payload"])
     print("[inspection]")
@@ -338,55 +327,60 @@ for report in reports:
 
 ```text
 [summary]
-{'top1_category_match_count': 3, 'payload_has_text_count': 3, 'payload_has_metadata_count': 3, 'top1_category_match_ratio': 1.0, 'payload_has_text_ratio': 1.0, 'payload_has_metadata_ratio': 1.0}
+{'top1_current_count': 4, 'payload_has_text_count': 4, 'payload_has_metadata_count': 4, 'returned_top1_categories': ['refund', 'settings', 'api', 'offboarding']}
 
 ================================================================================
 [query]
-refund_question [0.95, 0.1, 0.05]
+refund_current 환불 처리 기한이 지금은 며칠인가요
 [top matches]
-{'score': 0.9978, 'id': 'doc-001-chunk-02', 'text': '환불 요청 처리 기한이 14일로 변경되었습니다.', 'metadata': {'source': 'policy_notice_2026_06_29', 'category': 'refund'}}
-{'score': 0.2845, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
-[top1 summary]
-{'source': 'policy_notice_2026_06_29', 'category': 'refund'}
+{'score': 0.356, 'doc_id': 'R06', 'title': '환불 문의 응대 템플릿', 'category': 'refund', 'source': 'support_playbook', 'version': '2026-02', 'status': 'current'}
+{'score': 0.3, 'doc_id': 'R01', 'title': '2026 환불 정책 공지', 'category': 'refund', 'source': 'policy_notice_2026_06_29', 'version': '2026-06', 'status': 'current'}
 [retrieval payload]
-[{'text': '환불 요청 처리 기한이 14일로 변경되었습니다.', 'source': 'policy_notice_2026_06_29', 'category': 'refund'}, {'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'source': 'sdk_guide_v2', 'category': 'api'}]
+[{'text': '고객 환불 문의에는 접수일 처리 기한 필요 서류를 함께 안내한다', 'source': 'support_playbook', 'category': 'refund', 'version': '2026-02', 'status': 'current'}, {'text': '환불 요청 처리 기한은 접수일 기준 14일이며 적용일 이후 접수 건에 적용된다', 'source': 'policy_notice_2026_06_29', 'category': 'refund', 'version': '2026-06', 'status': 'current'}]
 [inspection]
-{'top1_category_ok': True, 'payload_has_text': True, 'payload_has_metadata': True, 'payload_count': 2}
+{'top1_current': True, 'payload_has_text': True, 'payload_has_metadata': True, 'payload_count': 2}
 ================================================================================
 [query]
-settings_question [0.1, 0.93, 0.11]
+settings_reset 설정을 처음 상태로 되돌리려면 어디에서 하나요
 [top matches]
-{'score': 0.9988, 'id': 'doc-002-chunk-01', 'text': '자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.', 'metadata': {'source': 'manual_v3', 'category': 'settings'}}
-{'score': 0.3181, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
-[top1 summary]
-{'source': 'manual_v3', 'category': 'settings'}
+{'score': 0.55, 'doc_id': 'S01', 'title': '설정 초기화 절차', 'category': 'settings', 'source': 'manual_v4', 'version': '2026-06', 'status': 'current'}
+{'score': 0.071, 'doc_id': 'S04', 'title': '설정 복원 보관본', 'category': 'settings', 'source': 'manual_v2_archive', 'version': '2025-08', 'status': 'archived'}
 [retrieval payload]
-[{'text': '자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.', 'source': 'manual_v3', 'category': 'settings'}, {'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'source': 'sdk_guide_v2', 'category': 'api'}]
+[{'text': '설정을 처음 상태로 되돌리려면 환경설정 메뉴에서 초기화 버튼을 누른 뒤 재부팅한다', 'source': 'manual_v4', 'category': 'settings', 'version': '2026-06', 'status': 'current'}, {'text': '이전 버전에서는 고급 설정 화면에서 기본값 복원을 실행했다', 'source': 'manual_v2_archive', 'category': 'settings', 'version': '2025-08', 'status': 'archived'}]
 [inspection]
-{'top1_category_ok': True, 'payload_has_text': True, 'payload_has_metadata': True, 'payload_count': 2}
+{'top1_current': True, 'payload_has_text': True, 'payload_has_metadata': True, 'payload_count': 2}
 ================================================================================
 [query]
-api_limit_question [0.19, 0.16, 0.96]
+api_retry 요청 제한이 걸리면 잠깐 기다렸다 다시 보내는 옵션이 있나요
 [top matches]
-{'score': 0.9994, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
-{'score': 0.3342, 'id': 'doc-002-chunk-01', 'text': '자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.', 'metadata': {'source': 'manual_v3', 'category': 'settings'}}
-[top1 summary]
-{'source': 'sdk_guide_v2', 'category': 'api'}
+{'score': 0.335, 'doc_id': 'A01', 'title': 'SDK 요청 제한 재시도', 'category': 'api', 'source': 'sdk_guide_v5', 'version': '2026-06', 'status': 'current'}
+{'score': 0.122, 'doc_id': 'A03', 'title': 'API 타임아웃 설정', 'category': 'api', 'source': 'sdk_reference_v5', 'version': '2026-06', 'status': 'current'}
 [retrieval payload]
-[{'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'source': 'sdk_guide_v2', 'category': 'api'}, {'text': '자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.', 'source': 'manual_v3', 'category': 'settings'}]
+[{'text': '요청 제한이 발생하면 exponential backoff와 max_retries 옵션으로 재시도 간격을 조정한다', 'source': 'sdk_guide_v5', 'category': 'api', 'version': '2026-06', 'status': 'current'}, {'text': 'timeout 옵션은 요청별 제한 시간을 지정하며 재시도 횟수와 별도로 동작한다', 'source': 'sdk_reference_v5', 'category': 'api', 'version': '2026-06', 'status': 'current'}]
 [inspection]
-{'top1_category_ok': True, 'payload_has_text': True, 'payload_has_metadata': True, 'payload_count': 2}
+{'top1_current': True, 'payload_has_text': True, 'payload_has_metadata': True, 'payload_count': 2}
+================================================================================
+[query]
+offboarding_asset 퇴사 전에 회사 노트북은 어디로 반납하나요
+[top matches]
+{'score': 0.4, 'doc_id': 'O01', 'title': '오프보딩 자산 회수', 'category': 'offboarding', 'source': 'hr_wiki_2026', 'version': '2026-06', 'status': 'current'}
+{'score': 0.286, 'doc_id': 'O03', 'title': '퇴사 체크리스트', 'category': 'offboarding', 'source': 'hr_wiki_2026', 'version': '2026-06', 'status': 'current'}
+[retrieval payload]
+[{'text': '퇴사 전 회사 노트북과 보안 키는 보안팀 데스크로 회수한다', 'source': 'hr_wiki_2026', 'category': 'offboarding', 'version': '2026-06', 'status': 'current'}, {'text': '퇴사자는 장비 반납 예약과 문서 인수인계를 퇴사 전날까지 완료한다', 'source': 'hr_wiki_2026', 'category': 'offboarding', 'version': '2026-06', 'status': 'current'}]
+[inspection]
+{'top1_current': True, 'payload_has_text': True, 'payload_has_metadata': True, 'payload_count': 2}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `top1_category_match_count`가 3이고, `payload_has_text_count`, `payload_has_metadata_count`도 모두 3이라는 점입니다. 즉, 벡터 데이터베이스는 가까운 숫자 항목 하나만 돌려주는 것이 아니라, 질문별로 맞는 범주의 조각을 top-1로 올리고, 생성 단계가 바로 쓸 수 있는 원문과 메타데이터를 함께 돌려주는 계층으로 읽어야 합니다.
+이 결과에서 먼저 봐야 할 것은 `returned_top1_categories`가 질문마다 달라지고, `payload_has_text_count`, `payload_has_metadata_count`가 모두 4라는 점입니다. 즉, 벡터 데이터베이스는 가까운 숫자 항목 하나만 돌려주는 것이 아니라, 질문별로 다른 조각을 top-1로 올리고, 생성 단계가 바로 쓸 수 있는 원문과 메타데이터를 함께 돌려주는 계층으로 읽어야 합니다.
 
 같은 결과를 질문별 검색 장면으로 다시 짧게 묶으면 다음처럼 읽을 수 있습니다.
 
 | 질문 | 먼저 드러난 검색 성격 | 왜 이렇게 읽는가 | 생성 단계에서 바로 쓰는 것 |
 | --- | --- | --- | --- |
-| `refund_question` | 정책 공지 회수 | 환불 범주 조각이 top-1로 올라오고 최신 정책 공지 출처가 함께 붙기 때문입니다. | 환불 정책 문장과 공지 출처 |
-| `settings_question` | 매뉴얼 회수 | 설정 범주 조각이 가장 먼저 올라오고 사용 설명서 출처가 함께 유지되기 때문입니다. | 설정 방법 문장과 매뉴얼 출처 |
-| `api_limit_question` | SDK 가이드 회수 | API 제한 관련 조각이 top-1로 올라오고 기술 문서 출처가 함께 붙기 때문입니다. | 제한 대응 문장과 SDK 출처 |
+| `refund_current` | 환불 응대 문서 회수 | 환불 범주 조각이 top-1로 올라오고 정책 공지 조각도 다음 후보로 따라오기 때문입니다. | 환불 처리 기한 안내 문장과 출처 |
+| `settings_reset` | 매뉴얼 회수 | 설정 초기화 절차가 top-1로 올라오고 보관본 여부도 메타데이터로 남기 때문입니다. | 초기화 절차 문장과 버전 상태 |
+| `api_retry` | SDK 가이드 회수 | 요청 제한 재시도 문서가 top-1로 올라오고 API 범주와 SDK 버전이 함께 붙기 때문입니다. | 재시도 옵션 설명과 SDK 출처 |
+| `offboarding_asset` | 사내 위키 회수 | 노트북 반납 질문이 자산 회수 문단을 top-1로 올리고, 같은 범주의 체크리스트가 다음 후보로 붙기 때문입니다. | 자산 회수 문장과 HR 위키 출처 |
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
@@ -395,16 +389,16 @@ api_limit_question [0.19, 0.16, 0.96]
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `query_vectors` 안의 한 질문 벡터를 설정 관련 값에 더 가깝게 바꿔 상위 문서가 어떻게 바뀌는지 보기
-- `query_vectors`에 새로운 질문 벡터를 추가해 다른 범주가 top-1로 올라오는지 보기
-- `records`에 같은 환불 주제 조각을 더 넣어 top-k 후보 묶음이 어떻게 바뀌는지 보기
-- `metadata`에 날짜나 버전을 더 넣고, 검색 후 필터 기준으로 어떻게 쓸지 상상해 보기
+- 질문 CSV의 `question` 표현을 바꿔 상위 문서와 유사도 점수가 어떻게 달라지는지 보기
+- 질문 CSV에 새로운 질문을 추가해 다른 범주가 top-1로 올라오는지 보기
+- 문서 CSV에 같은 환불 주제 조각을 더 넣어 top-k 후보 묶음이 어떻게 바뀌는지 보기
+- 문서 CSV의 `status`나 `version` 값을 바꿔 검색 후 필터 기준으로 어떻게 쓸지 상상해 보기
 
 ## 저장 구조에서 함께 보존해야 할 값
 
 앞의 예제는 벡터 데이터베이스를 구현하는 코드가 아니라, `비슷한 벡터를 찾는다`는 말 뒤에 실제로는 원문과 메타데이터까지 함께 저장하고 다시 꺼내는 계층이 있다는 점을 보여 주는 최소 장면입니다. 여기서 읽어야 할 핵심은 임베딩 숫자만으로 끝나지 않고, 검색 이후 답변 단계에 다시 쓸 정보를 함께 보존해야 한다는 점입니다. 그리고 같은 저장 구조가 질문마다 다른 출처와 범주를 다시 돌려준다는 점도 함께 중요합니다.
 
-유사도 차트를 보면 세 질문 모두 1위 후보가 다음 후보보다 훨씬 가깝게 잡힙니다. 이 차이가 있어야 검색 결과를 생성 단계로 넘길 때 어느 문서 조각을 먼저 근거로 삼을지 판단할 수 있습니다. 다만 차트가 보여 주는 것은 후보 순위의 분리이고, 실제 RAG payload로 쓰려면 본문 출력처럼 원문과 메타데이터가 함께 보존되어야 합니다.
+유사도 차트를 보면 질문마다 1위 후보와 다음 후보의 간격이 다르게 잡힙니다. 설정 초기화 질문은 1위 후보가 비교적 뚜렷하지만, 환불 질문은 응대 템플릿과 정책 공지가 함께 올라와 둘 다 확인할 여지가 있습니다. 이 차이가 있어야 검색 결과를 생성 단계로 넘길 때 어느 문서 조각을 먼저 근거로 삼고, 어떤 후보를 보조 근거로 남길지 판단할 수 있습니다. 다만 차트가 보여 주는 것은 후보 순위의 분리이고, 실제 RAG payload로 쓰려면 본문 출력처럼 원문과 메타데이터가 함께 보존되어야 합니다.
 
 ![벡터 데이터베이스 예제의 질문별 1위 후보와 다음 후보 유사도 차이](../../../assets/part-06/chapter-12/vector-db-payload-check-ko.png)
 
@@ -434,5 +428,7 @@ api_limit_question [0.19, 0.16, 0.96]
 ## 출처와 참고 자료
 
 - OpenAI, [Vector embeddings](https://developers.openai.com/api/docs/guides/embeddings){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- Chroma, [Adding Data to Chroma Collections](https://docs.trychroma.com/docs/collections/add-data){: target="_blank" rel="noopener noreferrer" }, Chroma Docs, 확인 날짜: 2026-07-22. Chroma collection에 `ids`, `documents`, `metadatas`, `embeddings`를 함께 넣을 수 있음을 확인했습니다.
+- Chroma, [Query and Get](https://docs.trychroma.com/docs/querying-collections/query-and-get){: target="_blank" rel="noopener noreferrer" }, Chroma Docs, 확인 날짜: 2026-07-22. `query_embeddings`로 컬렉션을 검색하고 결과에서 문서와 메타데이터를 받을 수 있음을 확인했습니다.
 - Jeff Johnson, Matthijs Douze, Herve Jegou, [Billion-scale similarity search with GPUs](https://arxiv.org/abs/1702.08734){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-07-19.
 - Yu A. Malkov, D. A. Yashunin, [Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-19.
