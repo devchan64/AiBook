@@ -60,14 +60,18 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "instruction-tuning-request-match-ko.png",
-        "ylabel": "요청 충족 수",
+        "ylabel": "평가 사례 수",
         "labels": ["일반 응답", "지시 튜닝 응답"],
+        "met_label": "충족",
+        "missed_label": "미충족",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "instruction-tuning-request-match-en.png",
-        "ylabel": "requests satisfied",
+        "ylabel": "evaluation cases",
         "labels": ["base response", "instruction-tuned"],
+        "met_label": "met",
+        "missed_label": "missed",
     },
 }
 
@@ -95,31 +99,60 @@ def style_axis(ax) -> None:
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
     summary = summarize_eval(EVAL_PATH)
-    values = [
+    met_values = [
         summary["base_meets_request_count"],
         summary["tuned_meets_request_count"],
     ]
+    missed_values = [summary["request_count"] - value for value in met_values]
 
-    fig, ax = plt.subplots(figsize=(5.8, 3.7), dpi=180)
+    fig, ax = plt.subplots(figsize=(6.1, 3.9), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     style_axis(ax)
 
-    bars = ax.bar(text["labels"], values, color=["#64748b", "#2563eb"], width=0.52)
-    for bar in bars:
-        value = bar.get_height()
+    met_bars = ax.bar(text["labels"], met_values, color="#2563eb", width=0.52, label=text["met_label"])
+    missed_bars = ax.bar(
+        text["labels"],
+        missed_values,
+        bottom=met_values,
+        color="#cbd5e1",
+        width=0.52,
+        label=text["missed_label"],
+    )
+    for bar, value in zip(met_bars, met_values):
+        if value > 4:
+            label_y = value / 2
+            label_offset = (0, 0)
+            label_color = "white"
+        else:
+            label_y = value
+            label_offset = (0, 6)
+            label_color = "#172033"
         ax.annotate(
             f"{value:g}",
-            (bar.get_x() + bar.get_width() / 2, value),
+            (bar.get_x() + bar.get_width() / 2, label_y),
             textcoords="offset points",
-            xytext=(0, 7),
+            xytext=label_offset,
+            ha="center",
+            fontsize=9,
+            color=label_color,
+        )
+    for bar, bottom, value in zip(missed_bars, met_values, missed_values):
+        if value == 0:
+            continue
+        ax.annotate(
+            f"{value:g}",
+            (bar.get_x() + bar.get_width() / 2, bottom + value / 2),
+            textcoords="offset points",
+            xytext=(0, 0),
             ha="center",
             fontsize=9,
             color="#172033",
         )
 
     ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, summary["request_count"] * 1.2)
+    ax.set_ylim(0, summary["request_count"] * 1.18)
+    ax.legend(frameon=False, loc="upper left", ncols=2)
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
