@@ -19,13 +19,13 @@ P6-12.2에서는 벡터 검색에서 인덱스가 검색 속도와 품질의 균
 
 먼저 닫을 문제는 도구 사용을 `모델이 외부 기능과 실제로 연결되는 실행 구조`로 읽고, RAG의 문서 읽기와 무엇이 다른지 붙잡는 것입니다.
 
-구조화된 호출 형식은 실행 요청을 이름과 인자로 바꾸는 문제이고, 여러 단계 반복 구조는 읽기와 실행을 어떤 순서로 이어 갈지의 문제입니다. 권한과 운영 문제는 실행을 허용해도 되는지, 실패를 어떻게 기록하고 회복할지의 문제로 따로 남습니다.
+여기서는 먼저 `문서만 읽으면 되는 요청`과 `외부 기능을 실제로 호출해야 닫히는 요청`을 가릅니다. 실행 요청을 이름과 인자로 나누는 문제는 P6-13.2에서, 여러 실행을 이어 가는 문제는 P6-14에서 따로 봅니다.
 
 tool use는 `모델이 갑자기 실행 능력을 가진다`는 뜻이 아니라, `애플리케이션이 모델과 외부 기능을 연결하는 구조`입니다. 앞의 RAG가 외부 문서를 읽어 근거를 붙이는 구조였다면, tool use는 외부 기능을 실제로 호출해 결과를 가져오는 구조로 한 단계 더 나아갑니다. 호출 이름과 인자를 어떻게 검증 가능한 형식으로 만들지는 P6-13.2에서, 여러 호출을 어떤 순서로 이어 갈지는 P6-14에서 이어서 봅니다.
 
 도구 이름을 많이 외우기보다 `지금 필요한 것이 문서 읽기인가 실제 실행인가`, `무엇을 조회하거나 계산하거나 실행해야 하는가`, `그 실행 결과를 어떤 호출 구조로 넘길 것인가`라는 세 질문으로 먼저 읽으면 됩니다.
 
-이 단계에서 먼저 남겨야 할 기록은 무엇을 실행하려 했고 실제로 어떤 값이 돌아왔는지를 보여 주는 호출 이름, 인자, 실행 결과와, 실행을 바로 진행해도 되는지와 어디서 멈췄는지를 보여 주는 승인 여부와 실패 이유입니다. 이 기록이 있어야 추측 답변과 실행 결과를 구분하고, 권한 문제와 운영 실패를 다시 볼 수 있습니다.
+이 단계에서 먼저 확인할 것은 단순합니다. 답이 문서 설명으로 닫히는지, 현재 상태 조회나 계산 결과가 필요한지, 실제 예약·수정처럼 외부 세계를 바꾸는 실행까지 필요한지 구분해야 합니다. 이 구분이 서야 다음 Section의 함수 호출 구조도 제품 기능명이 아니라 실행 요청을 안정화하는 형식으로 읽을 수 있습니다.
 
 ## 설명 생성과 실제 실행 연결의 구분
 
@@ -93,27 +93,9 @@ LLM은 텍스트 생성에 강하지만, 말만으로는 정확한 계산, 조�
 
 이 표의 핵심은 `문서를 읽는 일`, `기능을 실행하는 일`, `여러 단계를 이어 가는 일`이 서로 다른 층위라는 점입니다. 그래서 RAG 위에 tool use가 붙을 수 있고, 그 둘을 다시 agent가 하나의 목표 흐름으로 묶을 수 있습니다.
 
-여기까지는 아직 `요청 하나에 대해 어떤 외부 기능을 붙일 것인가`를 읽는 단계입니다. 이 호출들이 한 번으로 끝나지 않을 때는, 어떤 순서로 이어 가고 언제 멈추거나 다시 계획할지를 읽는 `목표 흐름 층위`로 넘어갑니다.
+여기까지는 아직 `요청 하나에 대해 어떤 외부 기능을 붙일 것인가`를 읽는 단계입니다. 예를 들어 `사내 환불 규정을 요약해 줘`는 먼저 문서 근거를 찾는 RAG 문제에 가깝고, `지금 환율로 300달러를 원화로 계산해 줘`는 현재 값 조회와 계산 도구가 필요한 tool use 문제에 가깝습니다. `내일 비어 있는 회의실을 찾아 예약까지 해 줘`처럼 조회와 실행이 이어지면 이후 에이전트(agent) 구조에서 다시 다룹니다.
 
-같은 사용자 요청도 어디에서 구조가 갈리는지 나란히 보면 더 빨리 잡힙니다.
-
-| 사용자 질문 장면 | RAG로 먼저 닫히는가 | tool use가 바로 필요한가 | agent까지 넘어가는가 | 경계가 갈리는 이유 |
-| --- | --- | --- | --- | --- |
-| `사내 환불 규정을 요약해 줘` | 그렇다 | 보통 아니다 | 보통 아니다 | 먼저 필요한 일은 최신 문서를 읽고 근거를 붙이는 것이기 때문입니다. |
-| `지금 환율로 300달러를 원화로 계산해 줘` | 아니다 | 그렇다 | 보통 아니다 | 문서 설명보다 현재 값 조회와 정확한 계산이 먼저 필요하기 때문입니다. |
-| `최신 환불 규정을 찾아 요약하고, 고객 답변 초안까지 만들어 줘` | 부분적으로 그렇다 | 경우에 따라 그렇다 | 그렇다 | 검색, 읽기, 초안 작성, 추가 확인이 여러 단계로 이어질 수 있기 때문입니다. |
-| `내일 비어 있는 회의실을 찾아 예약까지 해 줘` | 아니다 | 그렇다 | 그렇다 | 상태 조회와 실제 예약 실행이 이어지고, 중간 결과에 따라 다음 행동이 바뀌기 때문입니다. |
-
-즉, RAG는 `무엇을 읽을까`를 먼저 닫고, tool use는 `무엇을 실행할까`를 먼저 닫으며, agent는 그 읽기와 실행이 한 번에 끝나지 않을 때 `어떤 순서로 계속 이어 갈까`를 중심 문제로 바꿉니다.
-
-Chapter 10~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습니다.
-
-| 지금 읽는 층위 | 핵심 질문 | 이어지는 중심 |
-| --- | --- | --- |
-| RAG | 무엇을 근거로 답할까? | 문서를 읽는 것을 넘어 무엇을 실제로 실행할까 |
-| tool use | 무엇을 실제로 조회하거나 실행할까? | 그 실행 요청을 어떤 이름과 인자 구조로 넘길까 |
-| function calling | 실행 요청을 어떻게 검증 가능한 구조로 만들까? | 여러 실행과 읽기를 어떤 목표 순서로 이어 갈까 |
-| agent | 여러 실행과 읽기를 어떤 목표 흐름으로 이어 갈까? | 그 흐름을 어떤 공통 연결 형식과 실행 기록 안에 둘까 |
+즉, 이 Section에서는 `무엇을 읽을까`에서 `무엇을 실제로 조회·계산·실행할까`로 넘어가는 지점을 먼저 닫습니다. 그 실행 요청을 어떤 이름과 인자 구조로 안정화할지는 P6-13.2의 함수 호출(function calling)에서, 여러 실행을 어떤 순서로 이어 갈지는 P6-14의 agent 구조에서 이어서 봅니다.
 
 ## 모델이 직접 도구를 쓰는가
 
@@ -258,80 +240,277 @@ Chapter 10~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 ## 연습 및 예제
 
-예제의 목표는 실제 외부 API를 붙이는 것이 아니라, `사용자 요청`, `도구 필요 판단`, `도구 호출 계획`, `도구 실행 결과`, `최종 답변`이 서로 다른 단계라는 점을 눈으로 확인하는 것입니다. 한 요청만 보면 `환율 조회 = 도구 필요` 정도로 끝나기 쉬우므로, 여러 요청을 한 번에 돌려 어떤 요청에서만 도구가 필요한지도 같이 봅니다.
+예제의 목표는 실제 외부 API를 붙이는 것이 아니라, `사용자 요청`, `도구 필요 판단`, `도구 호출 계획`, `도구 실행 결과`, `최종 답변`이 서로 다른 단계라는 점을 눈으로 확인하는 것입니다. 한 요청만 보면 `환율 조회 = 도구 필요` 정도로 끝나기 쉬우므로, 여러 요청을 한 번에 돌려 어떤 요청은 설명만으로 닫히고, 어떤 요청은 조회·계산·실행 위임으로 갈라지는지 같이 봅니다.
 
-어떤 요청은 실시간 조회가 필요해 도구를 써야 하고, 어떤 요청은 일반 설명이므로 도구 없이도 답할 수 있습니다. 따라서 먼저 `도구가 필요한가`를 판단하고, 필요한 경우에만 호출 계획을 만든 뒤 실행 결과를 받아야 합니다.
+어떤 요청은 실시간 조회가 필요해 도구를 써야 하고, 어떤 요청은 일반 설명이므로 도구 없이도 답할 수 있습니다. 또 어떤 요청은 실제 예약처럼 외부 상태를 바꾸므로 바로 실행하지 않고 승인 대기 상태로 멈춰야 합니다. 따라서 먼저 `도구가 필요한가`를 판단하고, 필요한 경우에도 조회인지 계산인지 실행인지, 실행해도 되는지까지 나누어야 합니다.
 
-아래 예제는 사용자 요청 여러 개, 도구 선택 규칙, 도구가 돌려주는 조회 결과를 사용합니다. 출력에서는 요청별 도구 필요 판단, 도구 호출 구조, 실행 결과, 실행 결과를 반영한 최종 답변, 도구 호출이 실제로 필요한 요청을 잘 가려냈는지에 대한 점검값을 확인합니다.
+아래 예제는 사용자 요청 CSV, 로컬 LLM의 분기 제안, 애플리케이션 guard의 최종 판단, 도구가 돌려주는 조회·계산 결과, 실행 승인 대기 상태를 사용합니다. `ollama`가 설치되어 있고 `AIBOOK_OLLAMA_MODEL` 환경 변수로 지정한 모델이 준비되어 있으면 모델이 먼저 요청 유형을 제안합니다. 모델에 넘기는 프롬프트와 `model_request_en`은 영어로 둡니다. 이렇게 하면 작은 로컬 모델의 분기 안정성이 좋아질 뿐 아니라, 한국어·영어·중국어 번역본에서도 같은 실행 기준을 유지하기 쉽습니다. 로컬 모델이 없거나 모델 출력이 흔들려도 애플리케이션 guard가 최종 실행 route를 확정하므로 같은 코드를 실행할 수 있습니다. 출력에서는 요청별 모델 제안, guard 보정 여부, 도구 호출 구조, 실행 결과, 최종 답변을 확인합니다.
+
+입력 CSV [p6-13-1-tool-use-requests.csv](../../../assets/part-06/chapter-13/p6-13-1-tool-use-requests.csv){ .csv-preview }는 18개의 요청을 담습니다. `user_request_ko`는 독자에게 보여 줄 한국어 원문이고, `model_request_en`은 모델 판단용 영어 요청입니다. `request_signal`은 애플리케이션이 실행 전 guard에서 확인하는 최소 신호입니다. 이 신호는 모델에게 줄 정답표가 아니라, 실제 서비스 코드가 실행 전에 확인해야 하는 정보 부족, 상태 변경, 계산 필요 여부를 단순화한 입력입니다.
 
 먼저 이 예제에서 같이 볼 항목을 표로 정리하면 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
+| `model_route` | 모델이 어떤 실행 방향을 먼저 제안했는지 확인 |
+| `guard_changed_model_route` | 모델 제안을 애플리케이션이 실행 전에 바로잡았는지 확인 |
 | `needs_tool` | 어떤 요청이 실행 단계로 넘어가야 하는지 판단 |
 | `tool_selected` | 필요한 기능을 맞게 골랐는지 확인 |
 | `tool_result_used` | 실제 실행 결과가 최종 답에 반영됐는지 확인 |
 | `skipped_tool_when_not_needed` | 도구가 필요 없는 요청에 불필요한 호출을 하지 않는지 확인 |
+| `approval_required` | 외부 상태를 바꾸는 요청을 바로 실행하지 않고 멈추는지 확인 |
+| `missing_info` | 도구가 필요해도 필수 정보가 없으면 질문을 되돌리는지 확인 |
 
-코드에서 확인할 핵심은 도구 사용에서는 먼저 호출 필요 여부를 판별하고, 호출했다면 실행 결과가 최종 답에 반영되어야 한다는 점입니다.
+코드에서 확인할 핵심은 모델 제안만으로 바로 실행하지 않고, 실행 전 guard를 거쳐 호출 필요 여부와 승인 필요 여부를 확정한다는 점입니다. 호출했다면 실행 결과가 최종 답에 반영되어야 합니다.
 
 ```python
-# 환율 질문에서 tool call이 필요한 요청과 설명만으로 충분한 요청을 구분하고 도구 결과가 최종 답에 반영되는지 확인하는 예제입니다.
-requests = [
-    "오늘 서울 기준 USD 환율을 알려 주세요.",
-    "환율 API를 조회한 뒤 기준 시각도 함께 알려 주세요.",
-    "환율이 무엇인지 한 문단으로 설명해 주세요.",
-]
+import csv
+import os
+import re
+import subprocess
+from pathlib import Path
 
-def plan_tool_call(request):
-    if "환율" in request and ("오늘" in request or "조회" in request):
+CSV_PATH = Path("docs/assets/part-06/chapter-13/p6-13-1-tool-use-requests.csv")
+
+with CSV_PATH.open(encoding="utf-8", newline="") as csv_file:
+    requests = list(csv.DictReader(csv_file))
+
+ROUTE_LABELS = {
+    "no_tool": "일반 설명",
+    "lookup": "외부 조회",
+    "lookup_compute": "외부 조회 뒤 계산",
+    "compute": "계산",
+    "action_pending": "승인 필요한 실행",
+    "needs_info": "정보 부족",
+}
+
+OLLAMA_MODEL = os.environ.get("AIBOOK_OLLAMA_MODEL", "qwen2.5:1.5b")
+
+def clean_ollama_output(raw):
+    return re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", raw).strip()
+
+def ask_ollama_for_route(request):
+    prompt = f"""
+Classify the request into exactly one route label.
+Return only one label, with no explanation.
+
+Labels:
+- no_tool: general explanation only
+- lookup: current value or external state lookup
+- lookup_compute: lookup a current value and then compute from it
+- compute: calculation only
+- action_pending: external state change that needs approval before execution
+- needs_info: missing required date, target, amount, or other execution detail
+
+Decision rules:
+- If the request asks "what is it" or asks for a concept explanation, use no_tool.
+- If the request asks for today's exchange rate, use lookup.
+- If the request asks to calculate money using today's exchange rate, use lookup_compute.
+- If the request asks for repeated discount calculation, use compute.
+- If the request asks to check room availability, use lookup.
+- If the request asks to reserve, send, write, or modify something, use action_pending.
+- If the request asks for an exchange rate but gives no date such as today, use needs_info.
+- If the request lacks the room, amount, file, recipient, or date needed for execution, use needs_info.
+
+Request: {request["model_request_en"]}
+""".strip()
+
+    try:
+        completed = subprocess.run(
+            ["ollama", "run", OLLAMA_MODEL, prompt],
+            text=True,
+            capture_output=True,
+            timeout=45,
+            check=True,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired, subprocess.CalledProcessError) as error:
+        return {"model_route": None, "model_raw": error.__class__.__name__}
+
+    raw = clean_ollama_output(completed.stdout)
+    route = next((token for token in re.split(r"[\s,;:]+", raw) if token in ROUTE_LABELS), None)
+    if route not in ROUTE_LABELS:
+        route = None
+    return {"model_route": route, "model_raw": raw[:80]}
+
+def guard_route(request):
+    signal = request["request_signal"]
+    if signal == "concept_only":
+        return {"route": "no_tool", "guard_reason": "개념 설명만으로 답할 수 있습니다."}
+    if signal in {"current_exchange_rate", "calendar_lookup", "mixed_lookup"}:
+        return {"route": "lookup", "guard_reason": "현재 값이나 외부 상태 조회가 필요합니다."}
+    if signal == "exchange_rate_conversion":
+        return {"route": "lookup_compute", "guard_reason": "오늘 환율 조회와 금액 계산이 함께 필요합니다."}
+    if signal == "pure_calculation":
+        return {"route": "compute", "guard_reason": "외부 조회 없이 계산 도구로 확인할 수 있습니다."}
+    if signal == "state_change":
+        return {"route": "action_pending", "guard_reason": "외부 상태를 바꾸는 실행 요청입니다."}
+    if signal in {"missing_date", "missing_target", "missing_amount"}:
+        return {"route": "needs_info", "guard_reason": "도구 실행에 필요한 정보가 부족합니다."}
+    return {"route": "needs_info", "guard_reason": "분기 기준을 확정할 정보가 부족합니다."}
+
+def propose_route(request):
+    model_hint = ask_ollama_for_route(request)
+    guarded = guard_route(request)
+    return {
+        "route": guarded["route"],
+        "route_label": ROUTE_LABELS[guarded["route"]],
+        "route_source": f"app_guard_after_ollama:{OLLAMA_MODEL}",
+        "guard_reason": guarded["guard_reason"],
+        "model_route": model_hint["model_route"],
+        "model_raw": model_hint["model_raw"],
+        "guard_changed_model_route": model_hint["model_route"] != guarded["route"],
+    }
+
+def build_tool_call(request, route_proposal):
+    signal = request["request_signal"]
+    route = route_proposal["route"]
+    base = {
+        "route": route,
+        "route_label": route_proposal["route_label"],
+        "route_source": route_proposal["route_source"],
+        "guard_reason": route_proposal["guard_reason"],
+        "model_route": route_proposal["model_route"],
+        "model_raw": route_proposal["model_raw"],
+        "guard_changed_model_route": route_proposal["guard_changed_model_route"],
+    }
+
+    if route == "action_pending":
+        tool_name = {
+            "state_change": "external_action_request",
+        }.get(signal, "external_action_request")
         return {
-            "tool": "exchange_rate_lookup",
-            "arguments": {
-                "base_currency": "USD",
-                "quote_currency": "KRW",
-                "region": "Seoul",
-                "date": "today",
-            },
+            **base,
+            "tool": tool_name,
+            "arguments": {"action_request": request["model_request_en"]},
+            "approval_required": True,
         }
-    return None
+    if route == "needs_info":
+        missing_by_signal = {
+            "missing_date": ["date"],
+            "missing_target": ["room", "date", "time"],
+            "missing_amount": ["amount", "discount_rate"],
+        }
+        return {
+            **base,
+            "tool": None,
+            "arguments": {},
+            "missing_info": missing_by_signal.get(signal, ["required_detail"]),
+            "approval_required": False,
+        }
+    if route == "lookup_compute":
+        return {
+            **base,
+            "tool": "exchange_rate_lookup",
+            "arguments": {"base_currency": "USD", "quote_currency": "KRW", "date": "today", "amount": 300},
+            "approval_required": False,
+        }
+    if route == "lookup" and signal == "calendar_lookup":
+        return {
+            **base,
+            "tool": "calendar_lookup",
+            "arguments": {"floor": "3층", "date": "tomorrow", "time": "afternoon"},
+            "approval_required": False,
+        }
+    if route == "lookup" and signal == "mixed_lookup":
+        return {
+            **base,
+            "tool": "combined_lookup",
+            "arguments": {"queries": ["exchange_rate_lookup", "calendar_lookup"]},
+            "approval_required": False,
+        }
+    if route == "lookup":
+        return {
+            **base,
+            "tool": "exchange_rate_lookup",
+            "arguments": {"base_currency": "USD", "quote_currency": "KRW", "date": "today"},
+            "approval_required": False,
+        }
+    if route == "compute":
+        return {
+            **base,
+            "tool": "discount_calculator",
+            "arguments": {"discount_rate": 0.137, "repeat": 3},
+            "approval_required": False,
+        }
+    return {**base, "tool": None, "arguments": {}, "approval_required": False}
 
 def execute_tool(tool_call):
-    # 예제에서는 실제 API 대신 고정된 조회 결과를 돌려줍니다.
+    # 예제에서는 실제 API 대신 고정된 실행 결과를 돌려줍니다.
+    if tool_call["approval_required"] or tool_call["tool"] is None:
+        return None
     if tool_call["tool"] == "exchange_rate_lookup":
+        rate = 1382.4
+        amount = tool_call["arguments"].get("amount")
         return {
-            "base_currency": "USD",
-            "quote_currency": "KRW",
-            "rate": 1382.4,
+            "rate": rate,
+            "converted_krw": round(amount * rate, 1) if amount else None,
             "as_of": "2026-06-30 10:00 KST",
+        }
+    if tool_call["tool"] == "discount_calculator":
+        remaining_ratio = (1 - tool_call["arguments"]["discount_rate"]) ** tool_call["arguments"]["repeat"]
+        return {"remaining_ratio": round(remaining_ratio, 4)}
+    if tool_call["tool"] == "calendar_lookup":
+        return {"available_rooms": ["3층 B회의실"], "checked_at": "2026-06-30 10:00 KST"}
+    if tool_call["tool"] == "combined_lookup":
+        return {
+            "rate": 1382.4,
+            "available_rooms": ["3층 B회의실"],
+            "checked_at": "2026-06-30 10:00 KST",
         }
     return {"error": "unknown tool"}
 
-def compose_final_answer(request, tool_result=None):
-    if tool_result is None:
+def compose_final_answer(request, tool_call, tool_result=None):
+    text = request["user_request_ko"]
+    if tool_call["route"] == "no_tool":
         return "환율은 한 통화가 다른 통화와 교환될 때 적용되는 비율입니다."
-    return (
-        f"서울 기준 오늘 USD/KRW 환율은 {tool_result['rate']}원이며, "
-        f"기준 시각은 {tool_result['as_of']}입니다."
-    )
+    if tool_call["route"] == "needs_info":
+        return "조회 기준 날짜가 필요합니다. 오늘 기준인지 특정 날짜 기준인지 알려 주세요."
+    if tool_call["route"] == "action_pending":
+        return "회의실 예약은 외부 일정을 변경하므로 승인 후 실행해야 합니다."
+    if tool_call["tool"] == "exchange_rate_lookup" and tool_result["converted_krw"] is not None:
+        return f"300달러는 {tool_result['converted_krw']}원입니다. 기준 시각은 {tool_result['as_of']}입니다."
+    if tool_call["tool"] == "exchange_rate_lookup":
+        return f"오늘 USD/KRW 환율은 {tool_result['rate']}원입니다. 기준 시각은 {tool_result['as_of']}입니다."
+    if tool_call["tool"] == "discount_calculator":
+        return f"세 번 할인 뒤 남는 비율은 {tool_result['remaining_ratio']}입니다."
+    if tool_call["tool"] == "calendar_lookup":
+        return f"조회 결과 사용 가능한 회의실은 {', '.join(tool_result['available_rooms'])}입니다."
+    if tool_call["tool"] == "combined_lookup":
+        return f"오늘 USD/KRW 환율은 {tool_result['rate']}원이고, 사용 가능한 회의실은 {', '.join(tool_result['available_rooms'])}입니다."
+    return text
+
+def result_value_used(tool_result, final_answer):
+    if tool_result is None:
+        return False
+    for value in tool_result.values():
+        if isinstance(value, list) and any(str(item) in final_answer for item in value):
+            return True
+        if value is not None and not isinstance(value, list) and str(value) in final_answer:
+            return True
+    return False
 
 reports = []
 for request in requests:
-    tool_call = plan_tool_call(request)
-    tool_result = execute_tool(tool_call) if tool_call else None
-    final_answer = compose_final_answer(request, tool_result)
+    route_proposal = propose_route(request)
+    tool_call = build_tool_call(request, route_proposal)
+    tool_result = execute_tool(tool_call)
+    final_answer = compose_final_answer(request, tool_call, tool_result)
     inspection = {
-        "needs_tool": tool_call is not None,
-        "tool_selected": tool_call["tool"] if tool_call else None,
-        "tool_result_used": (
-            tool_result is not None
-            and str(tool_result["rate"]) in final_answer
-            and tool_result["as_of"] in final_answer
-        ),
-        "skipped_tool_when_not_needed": tool_call is None and tool_result is None,
+        "route": tool_call["route"],
+        "route_source": tool_call["route_source"],
+        "model_route": tool_call["model_route"],
+        "guard_changed_model_route": tool_call["guard_changed_model_route"],
+        "needs_tool": tool_call["tool"] is not None,
+        "tool_selected": tool_call["tool"],
+        "tool_executed": tool_result is not None,
+        "tool_result_used": result_value_used(tool_result, final_answer),
+        "skipped_tool_when_not_needed": tool_call["route"] == "no_tool" and tool_result is None,
+        "approval_required": tool_call["approval_required"],
+        "missing_info": tool_call["route"] == "needs_info",
     }
     reports.append(
         {
+            "id": request["id"],
             "request": request,
             "tool_call": tool_call,
             "tool_result": tool_result,
@@ -340,22 +519,22 @@ for request in requests:
         }
     )
 
+route_counts = {}
+for report in reports:
+    route = report["inspection"]["route"]
+    route_counts[route] = route_counts.get(route, 0) + 1
+
 summary = {
     "needs_tool_count": sum(report["inspection"]["needs_tool"] for report in reports),
+    "tool_executed_count": sum(report["inspection"]["tool_executed"] for report in reports),
     "tool_result_used_count": sum(report["inspection"]["tool_result_used"] for report in reports),
     "skipped_tool_count": sum(report["inspection"]["skipped_tool_when_not_needed"] for report in reports),
-    "needs_tool_ratio": round(
-        sum(report["inspection"]["needs_tool"] for report in reports) / len(reports),
-        2,
-    ),
-    "tool_result_used_ratio": round(
-        sum(report["inspection"]["tool_result_used"] for report in reports) / len(reports),
-        2,
-    ),
-    "skipped_tool_ratio": round(
-        sum(report["inspection"]["skipped_tool_when_not_needed"] for report in reports) / len(reports),
-        2,
-    ),
+    "approval_pending_count": sum(report["inspection"]["approval_required"] for report in reports),
+    "missing_info_count": sum(report["inspection"]["missing_info"] for report in reports),
+    "model_hint_count": sum(report["inspection"]["model_route"] is not None for report in reports),
+    "guard_changed_model_route_count": sum(report["inspection"]["guard_changed_model_route"] for report in reports),
+    "route_counts": route_counts,
+    "route_sources": sorted({report["inspection"]["route_source"] for report in reports}),
 }
 
 print("[summary]")
@@ -363,9 +542,15 @@ print(summary)
 print()
 
 for report in reports:
+    if report["id"] not in {"R01", "R06", "R12", "R15", "R18"}:
+        continue
     print("=" * 80)
+    print("[request_id]")
+    print(report["id"])
     print("[user_request]")
-    print(report["request"])
+    print(report["request"]["user_request_ko"])
+    print("[model_request]")
+    print(report["request"]["model_request_en"])
     print("[tool_call]")
     print(report["tool_call"])
     print("[tool_result]")
@@ -376,60 +561,106 @@ for report in reports:
     print(report["inspection"])
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다. 아래 출력은 CSV 18행을 `qwen2.5:1.5b`로 한 번 실제 실행해 확인한 결과입니다.
 
 ```text
 [summary]
-{'needs_tool_count': 2, 'tool_result_used_count': 2, 'skipped_tool_count': 1, 'needs_tool_ratio': 0.67, 'tool_result_used_ratio': 0.67, 'skipped_tool_ratio': 0.33}
+{'needs_tool_count': 12, 'tool_executed_count': 9, 'tool_result_used_count': 9, 'skipped_tool_count': 3, 'approval_pending_count': 3, 'missing_info_count': 3, 'model_hint_count': 18, 'guard_changed_model_route_count': 4, 'route_counts': {'no_tool': 3, 'lookup': 5, 'lookup_compute': 2, 'compute': 2, 'action_pending': 3, 'needs_info': 3}, 'route_sources': ['app_guard_after_ollama:qwen2.5:1.5b']}
 
 ================================================================================
-[user_request]
-오늘 서울 기준 USD 환율을 알려 주세요.
-[tool_call]
-{'tool': 'exchange_rate_lookup', 'arguments': {'base_currency': 'USD', 'quote_currency': 'KRW', 'region': 'Seoul', 'date': 'today'}}
-[tool_result]
-{'base_currency': 'USD', 'quote_currency': 'KRW', 'rate': 1382.4, 'as_of': '2026-06-30 10:00 KST'}
-[final_answer]
-서울 기준 오늘 USD/KRW 환율은 1382.4원이며, 기준 시각은 2026-06-30 10:00 KST입니다.
-[inspection]
-{'needs_tool': True, 'tool_selected': 'exchange_rate_lookup', 'tool_result_used': True, 'skipped_tool_when_not_needed': False}
-================================================================================
-[user_request]
-환율 API를 조회한 뒤 기준 시각도 함께 알려 주세요.
-[tool_call]
-{'tool': 'exchange_rate_lookup', 'arguments': {'base_currency': 'USD', 'quote_currency': 'KRW', 'region': 'Seoul', 'date': 'today'}}
-[tool_result]
-{'base_currency': 'USD', 'quote_currency': 'KRW', 'rate': 1382.4, 'as_of': '2026-06-30 10:00 KST'}
-[final_answer]
-서울 기준 오늘 USD/KRW 환율은 1382.4원이며, 기준 시각은 2026-06-30 10:00 KST입니다.
-[inspection]
-{'needs_tool': True, 'tool_selected': 'exchange_rate_lookup', 'tool_result_used': True, 'skipped_tool_when_not_needed': False}
-================================================================================
+[request_id]
+R01
 [user_request]
 환율이 무엇인지 한 문단으로 설명해 주세요.
+[model_request]
+Explain what an exchange rate is in one paragraph.
 [tool_call]
-None
+{'route': 'no_tool', 'route_label': '일반 설명', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'guard_reason': '개념 설명만으로 답할 수 있습니다.', 'model_route': 'no_tool', 'model_raw': 'no_tool', 'guard_changed_model_route': False, 'tool': None, 'arguments': {}, 'approval_required': False}
 [tool_result]
 None
 [final_answer]
 환율은 한 통화가 다른 통화와 교환될 때 적용되는 비율입니다.
 [inspection]
-{'needs_tool': False, 'tool_selected': None, 'tool_result_used': False, 'skipped_tool_when_not_needed': True}
+{'route': 'no_tool', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'model_route': 'no_tool', 'guard_changed_model_route': False, 'needs_tool': False, 'tool_selected': None, 'tool_executed': False, 'tool_result_used': False, 'skipped_tool_when_not_needed': True, 'approval_required': False, 'missing_info': False}
+================================================================================
+[request_id]
+R06
+[user_request]
+오늘 환율로 300달러가 원화로 얼마인지 계산해 주세요.
+[model_request]
+Using today's exchange rate, calculate how much 300 USD is in KRW.
+[tool_call]
+{'route': 'lookup_compute', 'route_label': '외부 조회 뒤 계산', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'guard_reason': '오늘 환율 조회와 금액 계산이 함께 필요합니다.', 'model_route': 'lookup_compute', 'model_raw': 'lookup_compute', 'guard_changed_model_route': False, 'tool': 'exchange_rate_lookup', 'arguments': {'base_currency': 'USD', 'quote_currency': 'KRW', 'date': 'today', 'amount': 300}, 'approval_required': False}
+[tool_result]
+{'rate': 1382.4, 'converted_krw': 414720.0, 'as_of': '2026-06-30 10:00 KST'}
+[final_answer]
+300달러는 414720.0원입니다. 기준 시각은 2026-06-30 10:00 KST입니다.
+[inspection]
+{'route': 'lookup_compute', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'model_route': 'lookup_compute', 'guard_changed_model_route': False, 'needs_tool': True, 'tool_selected': 'exchange_rate_lookup', 'tool_executed': True, 'tool_result_used': True, 'skipped_tool_when_not_needed': False, 'approval_required': False, 'missing_info': False}
+================================================================================
+[request_id]
+R12
+[user_request]
+내일 오후 3층 A회의실을 예약해 주세요.
+[model_request]
+Reserve meeting room A on the third floor for tomorrow afternoon.
+[tool_call]
+{'route': 'action_pending', 'route_label': '승인 필요한 실행', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'guard_reason': '외부 상태를 바꾸는 실행 요청입니다.', 'model_route': 'action_pending', 'model_raw': 'action_pending', 'guard_changed_model_route': False, 'tool': 'external_action_request', 'arguments': {'action_request': 'Reserve meeting room A on the third floor for tomorrow afternoon.'}, 'approval_required': True}
+[tool_result]
+None
+[final_answer]
+회의실 예약은 외부 일정을 변경하므로 승인 후 실행해야 합니다.
+[inspection]
+{'route': 'action_pending', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'model_route': 'action_pending', 'guard_changed_model_route': False, 'needs_tool': True, 'tool_selected': 'external_action_request', 'tool_executed': False, 'tool_result_used': False, 'skipped_tool_when_not_needed': False, 'approval_required': True, 'missing_info': False}
+================================================================================
+[request_id]
+R15
+[user_request]
+USD 환율을 알려 주세요.
+[model_request]
+Tell me the USD exchange rate.
+[tool_call]
+{'route': 'needs_info', 'route_label': '정보 부족', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'guard_reason': '도구 실행에 필요한 정보가 부족합니다.', 'model_route': 'lookup', 'model_raw': 'lookup', 'guard_changed_model_route': True, 'tool': None, 'arguments': {}, 'missing_info': ['date'], 'approval_required': False}
+[tool_result]
+None
+[final_answer]
+조회 기준 날짜가 필요합니다. 오늘 기준인지 특정 날짜 기준인지 알려 주세요.
+[inspection]
+{'route': 'needs_info', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'model_route': 'lookup', 'guard_changed_model_route': True, 'needs_tool': False, 'tool_selected': None, 'tool_executed': False, 'tool_result_used': False, 'skipped_tool_when_not_needed': False, 'approval_required': False, 'missing_info': True}
+================================================================================
+[request_id]
+R18
+[user_request]
+오늘 환율과 회의실 예약 가능 여부를 둘 다 확인해 주세요.
+[model_request]
+Check today's exchange rate and meeting room availability.
+[tool_call]
+{'route': 'lookup', 'route_label': '외부 조회', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'guard_reason': '현재 값이나 외부 상태 조회가 필요합니다.', 'model_route': 'lookup_compute', 'model_raw': 'lookup_compute, lookup', 'guard_changed_model_route': True, 'tool': 'combined_lookup', 'arguments': {'queries': ['exchange_rate_lookup', 'calendar_lookup']}, 'approval_required': False}
+[tool_result]
+{'rate': 1382.4, 'available_rooms': ['3층 B회의실'], 'checked_at': '2026-06-30 10:00 KST'}
+[final_answer]
+오늘 USD/KRW 환율은 1382.4원이고, 사용 가능한 회의실은 3층 B회의실입니다.
+[inspection]
+{'route': 'lookup', 'route_source': 'app_guard_after_ollama:qwen2.5:1.5b', 'model_route': 'lookup_compute', 'guard_changed_model_route': True, 'needs_tool': True, 'tool_selected': 'combined_lookup', 'tool_executed': True, 'tool_result_used': True, 'skipped_tool_when_not_needed': False, 'approval_required': False, 'missing_info': False}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `needs_tool_count`가 2이고 `skipped_tool_count`가 1이라는 점입니다. 즉, 모든 요청을 무조건 외부 기능으로 보내는 것이 아니라, 실시간 조회가 필요한 요청에서만 도구 호출 구조가 만들어지고, 설명형 요청은 도구 없이 끝납니다. 동시에 `tool_result_used_count`가 2라는 값은, 도구를 호출했으면 그 결과가 실제 최종 답 문장에 반영되었는지도 따로 봐야 한다는 뜻입니다.
+먼저 볼 것은 `route_counts`입니다. CSV에는 설명만으로 닫히는 요청 3개, 외부 조회 요청 5개, 조회 뒤 계산 요청 2개, 순수 계산 요청 2개, 승인 전 대기해야 하는 실행 요청 3개, 정보가 부족해 되물어야 하는 요청 3개가 들어 있습니다. 그래서 한두 개 예제로는 보이지 않던 `도구 호출`, `호출 보류`, `정보 보강 요청`, `승인 대기`의 차이가 한 번에 드러납니다.
 
-그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+다음으로 볼 것은 `model_route`와 `guard_changed_model_route`입니다. 모델 판단용 요청을 영어로 두면 R01의 개념 설명, R06의 조회 뒤 계산, R12의 예약 대기 같은 분기가 안정적으로 나옵니다. 그래도 R15처럼 기준 날짜가 없는 환율 요청은 모델이 조회로 보낼 수 있고, R18처럼 조회가 여러 개 섞인 요청은 모델이 `lookup_compute, lookup`처럼 두 후보를 함께 낼 수 있습니다. 그래서 애플리케이션 guard가 최종 route를 다시 확정합니다. tool use에서 모델 출력은 실행 제안이지, 곧바로 실행해도 되는 명령이 아니라는 점이 여기서 드러납니다.
+
+그래서 이 예제에서 확인해야 할 결과는 세 가지입니다.
 
 - 모델 출력이 곧바로 최종 답 문장이 아니라, 외부 기능 실행을 위한 구조화된 요청이 먼저 나오고 실제 실행 결과를 받은 뒤에야 최종 답변이 만들어진다.
-- tool use에서는 `도구가 필요한 요청을 골라내는 판단`과 `실행 결과를 최종 답에 반영하는 단계`를 분리해서 봐야 한다.
+- tool use에서는 `도구가 필요한 요청을 골라내는 판단`, `도구를 실제로 실행해도 되는지의 판단`, `실행 결과를 최종 답에 반영하는 단계`를 분리해서 봐야 한다.
+- 정보가 부족하거나 승인이 필요한 요청은 도구 사용 구조 안에서도 바로 실행하지 않고 멈추는 것이 올바른 처리일 수 있다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `requests`에 `내일 도쿄 기준 JPY 환율` 같은 요청을 추가해 인자 구조를 늘려 보기
+- CSV에 `내일 도쿄 기준 JPY 환율` 같은 요청 행을 추가해 정보 부족과 조회 분기가 어떻게 달라지는지 보기
+- `model_request_en`의 영어 표현을 바꿔 모델 제안이 얼마나 안정적으로 유지되는지 보기
+- `request_signal`을 바꿔 애플리케이션 guard가 최종 route를 어떻게 다시 확정하는지 보기
 - `execute_tool`에 오류 응답을 넣어 실패 처리 흐름을 확인해 보기
 - `compose_final_answer`를 바꿔 숫자뿐 아니라 출처나 경고 문구까지 함께 넣어 보기
-- `plan_tool_call`에 계산 요청을 추가해 조회와 계산 도구가 함께 등장하게 만들어 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
@@ -441,9 +672,9 @@ None
 
 즉, tool use는 `대답` 이전에 `실행 준비 구조`를 만들고, 실행 결과를 다시 받아 최종 답으로 연결하는 단계라고 볼 수 있습니다.
 
-요약 통계를 차트로 보면 도구 사용의 핵심 분기가 더 분명합니다. 세 요청 중 두 요청만 도구가 필요했고, 그 두 요청에서는 도구 결과가 최종 답에 반영되었습니다. 나머지 설명형 요청은 도구 호출을 생략했으므로, tool use는 모든 요청을 외부 기능으로 보내는 일이 아니라 실행이 필요한 요청을 먼저 가르는 구조로 읽어야 합니다.
+요약 통계를 차트로 보면 도구 사용의 핵심 분기가 더 분명합니다. 왼쪽은 CSV 18행이 최종적으로 어떤 route로 확정됐는지 보여 주고, 오른쪽은 실제 실행 단계에서 어떤 일이 일어났는지 보여 줍니다. `도구 실행`은 9건이지만, `설명으로 종료`, `승인 대기`, `정보 부족`도 각각 3건씩 남습니다. 또 `guard 보정` 4건은 모델의 첫 제안과 애플리케이션의 최종 판단이 달랐던 요청입니다. tool use는 모든 요청을 외부 기능으로 보내는 일이 아니라, 실행이 필요한 요청과 멈춰야 하는 요청을 먼저 가르는 구조로 읽어야 합니다.
 
-![도구 필요 판단과 도구 결과 반영 여부 비교](../../../assets/part-06/chapter-13/tool-use-decision-check-ko.png)
+![도구 사용 예제의 요청 처리 분기 유형 비교](../../../assets/part-06/chapter-13/tool-use-decision-check-ko.png)
 
 ## 실행 위임에서 갈리는 요청 유형
 

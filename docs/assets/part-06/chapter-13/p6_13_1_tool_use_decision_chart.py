@@ -16,10 +16,16 @@ from matplotlib import font_manager
 OUT_DIR = Path(__file__).resolve().parent
 
 SUMMARY = {
-    "needs_tool_count": 2,
-    "tool_result_used_count": 2,
-    "skipped_tool_count": 1,
-    "request_count": 3,
+    "no_tool_count": 3,
+    "lookup_count": 5,
+    "lookup_compute_count": 2,
+    "compute_count": 2,
+    "approval_pending_count": 3,
+    "missing_info_count": 3,
+    "tool_executed_count": 9,
+    "skipped_tool_count": 3,
+    "guard_changed_model_route_count": 4,
+    "request_count": 18,
 }
 
 LANG_TEXT = {
@@ -33,14 +39,18 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "tool-use-decision-check-ko.png",
-        "ylabel": "해당 요청 수",
-        "labels": ["도구 필요\n판단", "도구 결과\n답변 반영", "불필요 호출\n생략"],
+        "route_ylabel": "최종 route 수",
+        "outcome_ylabel": "해당 요청 수",
+        "route_labels": ["설명만\n필요", "조회\n필요", "조회+계산", "계산\n필요", "승인\n대기", "정보\n부족"],
+        "outcome_labels": ["도구\n실행", "설명으로\n종료", "승인\n대기", "정보\n부족", "guard\n보정"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "tool-use-decision-check-en.png",
-        "ylabel": "matching requests",
-        "labels": ["needs\ntool", "tool result\nused", "unneeded call\nskipped"],
+        "route_ylabel": "final routes",
+        "outcome_ylabel": "matching requests",
+        "route_labels": ["no tool", "lookup", "lookup+\ncompute", "compute", "approval\npending", "missing\ninfo"],
+        "outcome_labels": ["tool\nexecuted", "no tool\nanswer", "approval\npending", "missing\ninfo", "guard\ncorrected"],
     },
 }
 
@@ -67,33 +77,57 @@ def style_axis(ax) -> None:
 
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    values = [
-        SUMMARY["needs_tool_count"],
-        SUMMARY["tool_result_used_count"],
-        SUMMARY["skipped_tool_count"],
+    route_values = [
+        SUMMARY["no_tool_count"],
+        SUMMARY["lookup_count"],
+        SUMMARY["lookup_compute_count"],
+        SUMMARY["compute_count"],
+        SUMMARY["approval_pending_count"],
+        SUMMARY["missing_info_count"],
     ]
-    colors = ["#2563eb", "#0f766e", "#64748b"]
+    outcome_values = [
+        SUMMARY["tool_executed_count"],
+        SUMMARY["skipped_tool_count"],
+        SUMMARY["approval_pending_count"],
+        SUMMARY["missing_info_count"],
+        SUMMARY["guard_changed_model_route_count"],
+    ]
+    route_colors = ["#64748b", "#2563eb", "#0f766e", "#9333ea", "#f59e0b", "#dc2626"]
+    outcome_colors = ["#0f766e", "#64748b", "#f59e0b", "#dc2626", "#7c3aed"]
 
-    fig, ax = plt.subplots(figsize=(6.4, 3.8), dpi=180)
+    fig, (route_ax, outcome_ax) = plt.subplots(
+        1,
+        2,
+        figsize=(10.8, 4.0),
+        dpi=180,
+        gridspec_kw={"width_ratios": [1.25, 1]},
+    )
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
-    style_axis(ax)
+    for ax in (route_ax, outcome_ax):
+        ax.set_facecolor("white")
+        style_axis(ax)
 
-    bars = ax.bar(text["labels"], values, color=colors, width=0.54)
-    for bar in bars:
-        value = bar.get_height()
-        ax.annotate(
-            f"{value:g}",
-            (bar.get_x() + bar.get_width() / 2, value),
-            textcoords="offset points",
-            xytext=(0, 7),
-            ha="center",
-            fontsize=9,
-            color="#172033",
-        )
+    for ax, labels, values, colors in [
+        (route_ax, text["route_labels"], route_values, route_colors),
+        (outcome_ax, text["outcome_labels"], outcome_values, outcome_colors),
+    ]:
+        bars = ax.bar(labels, values, color=colors, width=0.58)
+        for bar in bars:
+            value = bar.get_height()
+            ax.annotate(
+                f"{value:g}",
+                (bar.get_x() + bar.get_width() / 2, value),
+                textcoords="offset points",
+                xytext=(0, 7),
+                ha="center",
+                fontsize=9,
+                color="#172033",
+            )
 
-    ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, SUMMARY["request_count"] * 1.25)
+    route_ax.set_ylabel(text["route_ylabel"])
+    outcome_ax.set_ylabel(text["outcome_ylabel"])
+    route_ax.set_ylim(0, max(max(route_values) * 1.45, 6))
+    outcome_ax.set_ylim(0, max(max(outcome_values) * 1.32, 10))
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)

@@ -1,0 +1,19 @@
+id,user_request_ko,model_request_en,request_signal
+R01,"환율이 무엇인지 한 문단으로 설명해 주세요.","Explain what an exchange rate is in one paragraph.",concept_only
+R02,"도구 사용이 RAG와 무엇이 다른지 짧게 설명해 주세요.","Briefly explain how tool use differs from RAG.",concept_only
+R03,"함수 호출이라는 말이 왜 나오는지 비유 없이 설명해 주세요.","Explain why function calling is discussed in tool use.",concept_only
+R04,"오늘 서울 기준 USD 환율을 알려 주세요.","Tell me today's USD exchange rate for Seoul.",current_exchange_rate
+R05,"오늘 도쿄 기준 JPY 환율을 알려 주세요.","Tell me today's JPY exchange rate for Tokyo.",current_exchange_rate
+R06,"오늘 환율로 300달러가 원화로 얼마인지 계산해 주세요.","Using today's exchange rate, calculate how much 300 USD is in KRW.",exchange_rate_conversion
+R07,"오늘 환율로 120유로가 원화로 얼마인지 계산해 주세요.","Using today's exchange rate, calculate how much 120 EUR is in KRW.",exchange_rate_conversion
+R08,"13.7% 할인을 세 번 연속 적용하면 남는 비율을 계산해 주세요.","Calculate the remaining ratio after applying a 13.7% discount three times.",pure_calculation
+R09,"120000원에 8% 세금을 붙이면 최종 금액이 얼마인지 계산해 주세요.","Calculate the final price after adding 8% tax to 120000 KRW.",pure_calculation
+R10,"내일 오후 3층 회의실이 비어 있는지 조회해 주세요.","Check whether a meeting room on the third floor is available tomorrow afternoon.",calendar_lookup
+R11,"다음 주 월요일 오전 2층 회의실이 비어 있는지 조회해 주세요.","Check whether a meeting room on the second floor is available next Monday morning.",calendar_lookup
+R12,"내일 오후 3층 A회의실을 예약해 주세요.","Reserve meeting room A on the third floor for tomorrow afternoon.",state_change
+R13,"고객에게 견적서를 이메일로 보내 주세요.","Send the quote document to the customer by email.",state_change
+R14,"저장소의 설정 파일을 수정해 주세요.","Modify the repository configuration file.",state_change
+R15,"USD 환율을 알려 주세요.","Tell me the USD exchange rate.",missing_date
+R16,"회의실을 예약해 주세요.","Reserve a meeting room.",missing_target
+R17,"할인을 계산해 주세요.","Calculate the discount.",missing_amount
+R18,"오늘 환율과 회의실 예약 가능 여부를 둘 다 확인해 주세요.","Check today's exchange rate and meeting room availability.",mixed_lookup
