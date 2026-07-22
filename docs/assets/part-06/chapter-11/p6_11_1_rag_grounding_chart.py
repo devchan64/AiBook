@@ -33,28 +33,32 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "rag-grounding-check-ko.png",
-        "row_labels": {
+        "case_labels": {
             "policy": "정책",
             "manual": "매뉴얼",
             "sdk": "SDK",
             "pricing": "요금",
         },
-        "columns": ["기억 답변\n최신 신호", "RAG 답변\n최신 신호", "상위 문서\n주제 일치", "상위 문서\n현재 버전", "근거 연결\n준비"],
-        "pass_label": "통과",
-        "fail_label": "실패",
+        "xlabel": "상위 검색 문서 유사도",
+        "ready_label": "근거 연결 준비",
+        "review_label": "근거 재검토",
+        "title_prefix": "상위 문서",
+        "label_mode": "title",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "rag-grounding-check-en.png",
-        "row_labels": {
+        "case_labels": {
             "policy": "policy",
             "manual": "manual",
             "sdk": "SDK",
             "pricing": "pricing",
         },
-        "columns": ["memory\nupdate signal", "RAG\nupdate signal", "top doc\ncase match", "top doc\ncurrent", "grounding\nready"],
-        "pass_label": "pass",
-        "fail_label": "fail",
+        "xlabel": "top retrieved document similarity",
+        "ready_label": "grounding ready",
+        "review_label": "review grounding",
+        "title_prefix": "top doc",
+        "label_mode": "doc_id",
     },
 }
 
@@ -144,73 +148,89 @@ def build_rows() -> list[dict[str, Any]]:
         rows.append(
             {
                 "case_id": question_row["case_id"],
-                "checks": [
-                    question_row["current_signal"] in question_row["memory_answer"],
-                    answer_contains_update_signal,
-                    top_doc_matches_case,
-                    top_doc_is_current,
-                    grounding_ready,
-                ],
+                "top_doc_id": top_doc["doc_id"] if top_doc else "none",
+                "top_title": top_doc["title"] if top_doc else "none",
+                "top_similarity": top_doc["similarity"] if top_doc else 0,
+                "top_doc_matches_case": top_doc_matches_case,
+                "top_doc_is_current": top_doc_is_current,
+                "answer_contains_update_signal": answer_contains_update_signal,
+                "grounding_ready": grounding_ready,
             }
         )
 
     return rows
 
 
+def trim_title(title: str, limit: int = 15) -> str:
+    if len(title) <= limit:
+        return title
+    return title[: limit - 1] + "…"
+
+
+def doc_label(row: dict[str, Any], text: dict[str, str]) -> str:
+    if text["label_mode"] == "doc_id":
+        status = "current" if row["top_doc_is_current"] else "archived"
+        return f"{row['top_doc_id']} ({status})"
+    return trim_title(row["top_title"])
+
+
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
     rows = build_rows()
-    columns = text["columns"]
 
-    fig, ax = plt.subplots(figsize=(9.2, 4.0), dpi=180)
+    fig, ax = plt.subplots(figsize=(9.0, 4.2), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
+    ax.grid(True, axis="x", color="#d0d7de", linewidth=0.75, alpha=0.85)
+    ax.set_axisbelow(True)
 
-    for row_index, row in enumerate(rows):
-        for col_index, passed in enumerate(row["checks"]):
-            color = "#0f766e" if passed else "#e5e7eb"
-            text_color = "white" if passed else "#475569"
-            marker = "✓" if passed else "–"
-            rect = plt.Rectangle(
-                (col_index - 0.48, row_index - 0.42),
-                0.96,
-                0.84,
-                facecolor=color,
-                edgecolor="white",
-                linewidth=2,
-            )
-            ax.add_patch(rect)
-            ax.text(
-                col_index,
-                row_index,
-                marker,
-                ha="center",
-                va="center",
-                fontsize=15,
-                fontweight="bold",
-                color=text_color,
-            )
-
-    ax.set_xlim(-0.5, len(columns) - 0.5)
-    ax.set_ylim(len(rows) - 0.5, -0.5)
-    ax.set_xticks(range(len(columns)))
-    ax.set_xticklabels(columns)
-    ax.set_yticks(range(len(rows)))
-    ax.set_yticklabels([text["row_labels"].get(row["case_id"], row["case_id"]) for row in rows])
-    ax.tick_params(axis="both", length=0)
-    for spine in ax.spines.values():
-        spine.set_visible(False)
-
-    fig.text(
-        0.985,
-        0.965,
-        f"✓ {text['pass_label']}   – {text['fail_label']}",
-        ha="right",
-        va="top",
-        fontsize=9,
-        color="#475569",
+    y_positions = list(range(len(rows)))
+    colors = ["#0f766e" if row["grounding_ready"] else "#dc2626" for row in rows]
+    bars = ax.barh(
+        y_positions,
+        [row["top_similarity"] for row in rows],
+        color=colors,
+        height=0.56,
     )
-    fig.tight_layout(pad=0.9, rect=(0, 0, 1, 0.94))
+    for bar, row in zip(bars, rows):
+        top_doc_label = doc_label(row, text)
+        label = (
+            f"{text['ready_label']}: {top_doc_label}"
+            if row["grounding_ready"]
+            else f"{text['review_label']}: {top_doc_label}"
+        )
+        ax.annotate(
+            label,
+            (bar.get_width(), bar.get_y() + bar.get_height() / 2),
+            textcoords="offset points",
+            xytext=(8, 0),
+            ha="left",
+            va="center",
+            fontsize=9,
+            color="#172033",
+        )
+        ax.annotate(
+            f"{bar.get_width():.3f}",
+            (bar.get_width(), bar.get_y() + bar.get_height() / 2),
+            textcoords="offset points",
+            xytext=(-8, 0),
+            ha="right",
+            va="center",
+            fontsize=9,
+            color="white",
+            fontweight="bold",
+        )
+
+    ax.set_xlim(0, 0.58)
+    ax.set_xlabel(text["xlabel"])
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([text["case_labels"].get(row["case_id"], row["case_id"]) for row in rows])
+    ax.invert_yaxis()
+    ax.tick_params(axis="y", length=0)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
 

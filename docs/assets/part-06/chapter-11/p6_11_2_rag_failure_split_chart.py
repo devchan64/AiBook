@@ -35,23 +35,25 @@ LANG_TEXT = {
         ],
         "outfile": "rag-failure-split-ko.png",
         "row_labels": {
-            "related_terms": "정상 검색",
-            "off_topic_terms": "검색 오염",
-            "related_terms_with_overclaim": "답변 과장",
+            "clean_grounded_vector_search": "정상 검색 예",
+            "noisy_retrieval_marketing_copy": "검색 오염 예",
+            "clean_but_overclaim_vector_search": "답변 과장 예",
         },
         "columns": ["관련 문서\n상위 회수", "무관 문서\n포함", "답변\n오염", "과장 표현", "검색 실패", "생성 실패"],
-        "count_suffix": "개",
+        "pass_label": "신호 있음",
+        "fail_label": "신호 없음",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "rag-failure-split-en.png",
         "row_labels": {
-            "related_terms": "clean retrieval",
-            "off_topic_terms": "noisy retrieval",
-            "related_terms_with_overclaim": "answer overclaim",
+            "clean_grounded_vector_search": "clean example",
+            "noisy_retrieval_marketing_copy": "noisy retrieval example",
+            "clean_but_overclaim_vector_search": "answer overclaim example",
         },
         "columns": ["relevant doc\ntop result", "irrelevant doc\nincluded", "answer\nleak", "overclaim", "retrieval\nfailure", "generation\nfailure"],
-        "count_suffix": "",
+        "pass_label": "signal on",
+        "fail_label": "signal off",
     },
 }
 
@@ -141,7 +143,7 @@ def inspect_result(retrieved_docs: list[dict[str, Any]], answer: str) -> dict[st
     }
 
 
-def build_matrix() -> dict[str, list[int]]:
+def build_rows() -> list[dict[str, Any]]:
     documents = read_csv(DOCUMENT_PATH)
     experiments = read_csv(EXPERIMENT_PATH)
     document_texts = [
@@ -151,35 +153,45 @@ def build_matrix() -> dict[str, list[int]]:
     vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4))
     document_vectors = vectorizer.fit_transform(document_texts)
 
-    matrix = {
-        "related_terms": [0, 0, 0, 0, 0, 0],
-        "off_topic_terms": [0, 0, 0, 0, 0, 0],
-        "related_terms_with_overclaim": [0, 0, 0, 0, 0, 0],
+    selected_names = {
+        "clean_grounded_vector_search",
+        "noisy_retrieval_marketing_copy",
+        "clean_but_overclaim_vector_search",
     }
+    rows = []
     for experiment in experiments:
+        if experiment["name"] not in selected_names:
+            continue
         query = build_query(experiment)
         retrieved_docs = retrieve_documents(documents, vectorizer, document_vectors, query)
         answer = generate_answer(retrieved_docs, experiment["generation_style"])
         inspection = inspect_result(retrieved_docs, answer)
-        row = matrix[experiment["scenario_pattern"]]
-        row[0] += int(inspection["top_doc_is_relevant"])
-        row[1] += int(inspection["contains_irrelevant_doc"])
-        row[2] += int(inspection["answer_mentions_irrelevant_content"])
-        row[3] += int(inspection["answer_overclaims"])
-        row[4] += int(inspection["retrieval_failed"])
-        row[5] += int(inspection["generation_failed"])
+        rows.append(
+            {
+                "name": experiment["name"],
+                "checks": [
+                    inspection["top_doc_is_relevant"],
+                    inspection["contains_irrelevant_doc"],
+                    inspection["answer_mentions_irrelevant_content"],
+                    inspection["answer_overclaims"],
+                    inspection["retrieval_failed"],
+                    inspection["generation_failed"],
+                ],
+            }
+        )
 
-    return matrix
+    order = [
+        "clean_grounded_vector_search",
+        "noisy_retrieval_marketing_copy",
+        "clean_but_overclaim_vector_search",
+    ]
+    rows.sort(key=lambda row: order.index(row["name"]))
+    return rows
 
 
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    matrix = build_matrix()
-    scenario_keys = [
-        "related_terms",
-        "off_topic_terms",
-        "related_terms_with_overclaim",
-    ]
+    rows = build_rows()
     columns = text["columns"]
 
     fig, ax = plt.subplots(figsize=(10.0, 3.6), dpi=180)
@@ -187,12 +199,11 @@ def save_chart(text: dict[str, str]) -> None:
     ax.set_facecolor("white")
 
     signal_colors = ["#0f766e", "#f59e0b", "#dc2626", "#7c3aed", "#dc2626", "#2563eb"]
-    for row_index, scenario in enumerate(scenario_keys):
-        for col_index, value in enumerate(matrix[scenario]):
-            active = value > 0
+    for row_index, row in enumerate(rows):
+        for col_index, active in enumerate(row["checks"]):
             color = signal_colors[col_index] if active else "#e5e7eb"
             text_color = "white" if active else "#475569"
-            label = f"{value:g}{text['count_suffix']}" if active else "-"
+            label = "✓" if active else "-"
             rect = plt.Rectangle(
                 (col_index - 0.48, row_index - 0.40),
                 0.96,
@@ -208,21 +219,30 @@ def save_chart(text: dict[str, str]) -> None:
                 label,
                 ha="center",
                 va="center",
-                fontsize=10,
+                fontsize=15,
                 fontweight="bold",
                 color=text_color,
             )
 
     ax.set_xlim(-0.5, len(columns) - 0.5)
-    ax.set_ylim(len(scenario_keys) - 0.5, -0.5)
+    ax.set_ylim(len(rows) - 0.5, -0.5)
     ax.set_xticks(range(len(columns)))
     ax.set_xticklabels(columns)
-    ax.set_yticks(range(len(scenario_keys)))
-    ax.set_yticklabels([text["row_labels"][key] for key in scenario_keys])
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([text["row_labels"][row["name"]] for row in rows])
     ax.tick_params(axis="both", length=0)
     for spine in ax.spines.values():
         spine.set_visible(False)
-    fig.tight_layout(pad=0.9)
+    fig.text(
+        0.985,
+        0.965,
+        f"✓ {text['pass_label']}   - {text['fail_label']}",
+        ha="right",
+        va="top",
+        fontsize=9,
+        color="#475569",
+    )
+    fig.tight_layout(pad=0.9, rect=(0, 0, 1, 0.94))
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
 
