@@ -1,7 +1,7 @@
 # P2-12.1 What Does a Pandas DataFrame Represent?
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Part 2 Chapter 11 worked with NumPy arrays for vectors, matrices, axes, and broadcasting. That workflow is strong for numeric computation, but the question changes when we start reading a dataset that looks like a table.
 
@@ -464,6 +464,30 @@ Those five lines already provide a fast structural overview.
 - `head(2)`: the actual look of the first rows
 
 Even before we start manipulating the table, these checks tell us much more quickly what kind of data it is.
+
+You can check a CSV file with a few more rows in the same way. The input file is [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }. One row is one student's learning record, and the core columns are `student_id`, `region`, `study_hours`, `absences`, `practice_quizzes`, `score`, and `passed`.
+
+Problem situation: I want to check the shape, column names, index, and data types before reading a table.
+Input: a 36-row student-progress CSV.
+Expected output: `shape`, `columns`, `index`, `dtypes`, and the first three rows.
+Concept to check: Before calculating with a DataFrame, first check how many rows and columns it has, and what meaning each column has.
+
+```python
+# This example builds table-shaped row-and-column data with a Pandas DataFrame and checks its structure.
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+print("shape:", df.shape)
+print("columns:", list(df.columns))
+print("index:", df.index)
+print(df.dtypes)
+print(df.head(3))
+```
+
+The same code can be run as [`p2_12_1_dataframe_first_check.py`](/AiBook/assets/part-02/chapter-12/p2_12_1_dataframe_first_check.py). Before moving to filtering and aggregation in the next section, this file lets you first check how many rows and columns the table has and what type each column was read as.
 
 ## Example Case
 

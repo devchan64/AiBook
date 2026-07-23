@@ -1,7 +1,7 @@
 # P2-12.3 The Intuition of Preparing a Learning Dataset
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-12.1, we read a `DataFrame` as a table-shaped data structure. In P2-12.2, we chose the needed columns from that table, filtered rows by condition, and checked summary values. Now the question moves one step further: `what must be prepared to turn this table into a learning dataset that a model can read?`
 
@@ -138,6 +138,39 @@ This also keeps the perspective that connects directly to P2-11.2.
 | `y.shape[0]` | number of answers, usually equal to the number of samples |
 
 So dividing `X` and `y` does not only mean splitting column names. It also means deciding the shape of the array the model will read.
+
+You can check the same separation with an input that has a few more rows. The input file is the same [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview } used in P2-12.2. One row is one student's learning record. Here, `passed` is the target, and some of the remaining columns are treated as input candidates.
+
+Problem situation: I want to check the shapes of the input column group `X`, the answer column `y`, and a simple train/test candidate split from the original table.
+Input: a 36-row student-progress CSV, `feature_columns`, and `target_column`.
+Expected output: the shapes of `X`, `y`, encoded input columns, and train/test split candidates.
+Concept to check: Dataset preparation means deciding the boundary between input and answer in the table before model training, and separating rows for later evaluation.
+
+```python
+# This example separates features X and target y from a DataFrame and prepares a learning dataset.
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+feature_columns = ["region", "study_hours", "absences", "practice_quizzes", "score"]
+target_column = "passed"
+
+X = df[feature_columns]
+y = df[target_column]
+X_encoded = pd.get_dummies(X, columns=["region"], dtype=int)
+
+test_index = df.sample(frac=0.25, random_state=42).index
+train_index = df.index.difference(test_index)
+
+print("X shape:", X.shape)
+print("y shape:", y.shape)
+print("encoded columns:", list(X_encoded.columns))
+print("train/test rows:", len(train_index), len(test_index))
+```
+
+The same code can be run as [`p2_12_3_dataset_split_preview.py`](/AiBook/assets/part-02/chapter-12/p2_12_3_dataset_split_preview.py). This does not train a scikit-learn model. The goal of Part 2 is first to check, at the Pandas level, which columns are inputs, which column is the answer, and which rows should be held out for later checking.
 
 ## You Should Not Put Every Column In As-Is
 

@@ -1,7 +1,7 @@
 # P2-13.2 Basic Charts and Checking the Shape of Formulas
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-13.1, we treated a plot as a tool for checking the shape of numbers. Now we connect a few basic chart types directly.
 
@@ -75,6 +75,8 @@ plt.show()
 The output looks as follows.
 
 ![Function shape for y equals x squared](/AiBook/assets/part-02/chapter-13/basic-line-function-shape.png)
+
+The PNG example assets in this section can be recreated with [`p2_13_2_basic_chart_shapes.py`](/AiBook/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py). The code in the body is the minimum code for reading chart choice and `Axes` usage, while the asset script is reproducibility code that leaves the same input conditions as file outputs.
 
 What this graph shows is not a solution process but a shape.
 

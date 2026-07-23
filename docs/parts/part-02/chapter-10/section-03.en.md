@@ -1,7 +1,7 @@
 # P2-10.3 Organizing Notebooks as Re-runnable Records
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. In P2-10.2, we distinguished Jupyter, Colab, and local execution from the viewpoint of execution location and file access.
 
@@ -200,26 +200,18 @@ Cells in a notebook can be executed freely. That advantage is also a risk.
 
 Think about the following situation.
 
-Problem situation: In one cell, a hyperparameter value is first defined.
-Input: The code `learning_rate = 0.1`.
-Expected output: There is no output, but the current learning-rate value is stored in the runtime.
-Concept to check: See that variable state in a notebook changes depending on cell execution order.
+Problem situation: I want to compare, through output, that the value currently remembered by the runtime changes when the same variable is assigned again.
+Input: Assignments to `learning_rate` as `0.1` and then `0.01`.
+Expected output: The first saved value and the later overwritten value.
+Concept to check: Notebook variable state is determined by the last executed cell, not only by the order visible in the document.
 
 ```python
 # This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 learning_rate = 0.1
-```
+print("first value:", learning_rate)
 
-Later, the value is changed again in another cell.
-
-Problem situation: In the same notebook, the same variable is overwritten in another cell.
-Input: The code `learning_rate = 0.01`.
-Expected output: There is no output, but the current runtime value is overwritten with the new value.
-Concept to check: Confirm that the visible order of the document and the actual last execution state can differ.
-
-```python
-# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 learning_rate = 0.01
+print("later value:", learning_rate)
 ```
 
 Two values are visible in the document from top to bottom, but in the actual runtime the value from the most recently executed cell remains. If the lower cell was executed first and the upper cell later, the result can change again.

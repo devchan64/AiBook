@@ -1,7 +1,7 @@
 # P2-12.2 选择、过滤与聚合
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-12.1 中，我们把 Pandas `DataFrame` 看作带有行(row)、列(column)与索引(index)的表格型数据结构。接下来会自然出现另一个问题。
 
@@ -516,6 +516,51 @@ print(summary)
 0     A-01                     2.0       1.366667           1.9
 1     B-02                     2.0       1.166667           1.5
 ```
+
+## 改变阈值时，过滤和聚合会一起移动
+
+前面的小表是为了阅读 Pandas 语法而准备的说明型例子。但在真实表中，需要确认条件值改变时，留下的行和聚合结果是否会一起变化。
+
+输入文件是 [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }。一行表示一名学生的学习记录，核心列是 `region`、`study_hours`、`absences`、`practice_quizzes`、`score`、`passed`。这里通过改变 `pass_threshold` 和 `focus_region`，观察哪些行会留下，以及按地区汇总的结果怎样变化。
+
+问题场景：想确认分数阈值和地区条件改变时，过滤结果与地区摘要是否会一起改变。
+输入(input)：36 行学生学习进度 CSV、`pass_threshold`、`focus_region`。
+期望输出(output)：满足条件的行列表、按地区的平均分、超过阈值的学生数量。
+要确认的概念：条件过滤和 `groupby` 聚合不是为了确认固定答案，而是观察基准值改变时留下的行和摘要如何移动。
+
+```python
+# 这个例子在 DataFrame 中选择列、行和条件，并聚合分数数据。
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+pass_threshold = 75
+focus_region = "Busan"
+
+selected = df.loc[
+    (df["score"] >= pass_threshold) & (df["region"] == focus_region),
+    ["student_id", "region", "score", "passed"],
+]
+
+summary = (
+    df.assign(over_threshold=df["score"] >= pass_threshold)
+    .groupby("region")
+    .agg(
+        sample_count=("student_id", "count"),
+        mean_score=("score", "mean"),
+        over_threshold_count=("over_threshold", "sum"),
+        mean_absences=("absences", "mean"),
+    )
+    .round(2)
+)
+
+print(selected)
+print(summary)
+```
+
+同样的代码也可以通过 [`p2_12_2_filter_aggregate_threshold.py`](/AiBook/assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py) 执行。把 `pass_threshold` 改成 `70`、`75`、`80` 时，超过阈值的学生数量会改变；把 `focus_region` 改成其他地区时，被选中的行列表也会改变。
 
 ## 如果把读表流程画成图
 

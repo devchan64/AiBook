@@ -1,7 +1,7 @@
 # P2-13.3 比较多个图表并保存
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-13.2，我们看过折线图（line plot）、散点图（scatter plot）、直方图（histogram）这些基础图表分别适合回答什么问题。现在再往前走一步，整理“把多个图表放在一起看，并把结果保存成文件”的流程。
 
@@ -188,6 +188,8 @@ fig.savefig("train-validation-loss-diverge.png")
 - 图表想回答的问题
 
 因此，在文档项目里，不应只留下图像文件。只要可能，也应保留生成这张图的 Python 脚本。比如一张图需要多次修改时，把生成脚本放在离图片较近的位置，会更容易重新生成结果。
+
+本节的两张示例图片可以通过 [`p2_13_3_compare_and_save.py`](/AiBook/assets/part-02/chapter-13/p2_13_3_compare_and_save.py) 重新生成。这个文件会把 `MPLCONFIGDIR` 固定到项目的 `.tmp` 下面，并用 `fig.savefig(...)` 把输出图片保存到同一个资产文件夹中。
 
 这种方式更接近“这张图还能再做出来”，而不只是“这张图被贴上去了”。
 

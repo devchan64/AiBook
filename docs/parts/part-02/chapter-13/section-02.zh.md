@@ -1,7 +1,7 @@
 # P2-13.2 基础图表与公式形状的确认
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-13.1，我们把图表（plot）看成确认数字形状的工具。现在开始把几种基础图表直接连起来看。
 
@@ -75,6 +75,8 @@ plt.show()
 输出结果如下所示。
 
 ![函数 y 等于 x 平方的形状折线图](/AiBook/assets/part-02/chapter-13/basic-line-function-shape.png)
+
+本节中的 PNG 示例资产可以通过 [`p2_13_2_basic_chart_shapes.py`](/AiBook/assets/part-02/chapter-13/p2_13_2_basic_chart_shapes.py) 重新生成。正文代码是为了阅读图表选择和 `Axes` 用法而保留的最小代码，资产脚本则是把同样输入条件保存成文件输出的可复现代码。
 
 这张图展示的不是解题过程，而是形状。
 

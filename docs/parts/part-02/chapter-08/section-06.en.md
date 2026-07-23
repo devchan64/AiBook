@@ -1,7 +1,7 @@
 # P2-8.6 Supplemental Learning: First Meeting Classes and Objects
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
 
@@ -279,36 +279,42 @@ In the early stage of AI practice, dictionaries and functions are often enough. 
 
 ## A Method Looks Like a Function Called While Attached to an Object
 
-We usually call a function like this.
+We usually call a function like `function(value)`, and a method like `value.method()` while attached to an object.
 
-Problem situation: We want to look at an independent function call first and then compare it with a method call.
-Input: The string `" AI "`.
-Expected output: The cleaned string.
-Concept to check: `function(value)` is the form of putting a value into a function and processing it.
+Problem situation: I want to compare the centers of an independent function call and a method call at once.
+Input: The string `text = " AI "`.
+Expected output: The function-call result and the method-call result.
+Concept to check: `function(value)` puts the value into a function, while `value.method()` calls an action provided by the object.
 
 ```python
 # This example checks how classes, objects, and method calls bundle values with behavior.
 def clean_text(text):
     return text.strip().lower()
 
-print(clean_text(" AI "))
+text = " AI "
+
+print("function:", clean_text(text))
+print("method:", text.strip())
 ```
 
-A method is called while attached to an object.
+Both expressions run an action. But the center of the call is different.
 
-Problem situation: We want to see how the same string cleaning looks in method-call form.
-Input: The string `text = " AI "`.
-Expected output: The result of `text.strip()`.
-Concept to check: A method is called with the object in front of the dot as the center.
+```text
+clean_text(text)  -> put text into a function and process it
+text.strip()      -> call the strip() action provided by the text object
+```
+
+If we compare one more string method, we can read it like this.
 
 ```python
 # This example checks how classes, objects, and method calls bundle values with behavior.
 text = " AI "
 
 print(text.strip())
+print(text.lower())
 ```
 
-Both expressions run an action. But the center of the call is different.
+Here, `strip()` and `lower()` are both actions provided by the string object. Because the target before the dot is a string, we can use methods that fit strings.
 
 | Expression | Center of the call | How to read it |
 | --- | --- | --- |
@@ -462,31 +468,7 @@ This perspective matters later when reading machine learning libraries and deep 
 - A class is the definition for making such objects.
 - A method is an action called while attached to an object.
 
-Here we read it like this.
-
-Problem situation: We want to fix a one-line example of a `fit()` method call one more time.
-Input: `model`, `train_data`.
-Expected output: The example call `model.fit(train_data)`.
-Concept to check: A method call can be an action where an object changes or uses its own state.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-model.fit(train_data)
-```
-
-There is an object called `model`, and that object runs the method `fit()`. Here `fit()` may do more than a simple calculation. It can change the state inside the model object. For example, learned parameters may be stored inside the object.
-
-Problem situation: We want a one-line example showing that a prediction method uses the learned state of an object.
-Input: `model`, `test_data`.
-Expected output: The example call `predictions = model.predict(test_data)`.
-Concept to check: A method can create a result by using the state of an object.
-
-```python
-# This example checks how classes, objects, and method calls bundle values with behavior.
-predictions = model.predict(test_data)
-```
-
-`predict()` makes prediction results by using the state of a model object that has already been trained. So instead of looking only at one function, we also need to think about what state the object is holding.
+Here, we read that there is an object called `model`, and that the object runs methods called `fit()` and `predict()`. In this case, `fit()` may do more than a simple calculation. It can change the state inside the model object. For example, learned parameters may be stored inside the object. `predict()` makes prediction results by using the state of a model object that has already been trained. So instead of looking only at one function, we also need to think about what state the object is holding.
 
 This perspective matters later in machine learning.
 

@@ -1,7 +1,7 @@
 # P2-8.2 Lists: Ordered Groups of Values
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-8.1, we looked at values, variables, and types. Now we look at the first structure for handling several values at once: the list.
 
@@ -227,39 +227,26 @@ What matters here is not that `Python list has functions with all of those names
 
 ### Join Lists Together: Concatenation
 
-When you join two lists and make a new list, you can use `+`.
+When you join two lists and make a new list, you can use `+`. If you want to attach other values to the end of an already existing list, you can use `extend()`.
 
-Problem situation: I want to see the simplest example of making a new list by joining two lists.
-Input: `front = [1, 2]` and `back = [3, 4]`.
-Expected output: `result`, where the two lists are connected.
-Concept to check: `+` makes a new joined list rather than changing the existing lists.
+Problem situation: I want to compare whether `+` and `extend()` both join lists but differ in how they change the original.
+Input: `front`, `back`, and `scores`.
+Expected output: the newly made `combined`, the unchanged `front`, and the modified `scores`.
+Concept to check: `+` makes a new joined list, while `extend()` modifies the existing list itself.
 
 ```python
 # This example checks how a list stores and processes multiple values in order.
 front = [1, 2]
 back = [3, 4]
 
-result = front + back
+combined = front + back
+print("combined:", combined)
+print("front after +:", front)
 
-print(result)
-```
-
-This code makes `[1, 2, 3, 4]`. At this point, `front` and `back` themselves are not changed; instead, a new list is made as the joined result.
-
-If you want to attach other values to the end of an already existing list, you can use `extend()`.
-
-Problem situation: I want to check how to attach values behind an existing list without creating a new list.
-Input: the existing list `scores` and the values `[91, 68]` to be added.
-Expected output: `scores` with values added to the end.
-Concept to check: `extend()` changes the existing list itself.
-
-```python
-# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75]
 
 scores.extend([91, 68])
-
-print(scores)
+print("scores after extend:", scores)
 ```
 
 `+` creates a new joined result, while `extend()` changes the existing list. This difference matters later when distinguishing references from changes.

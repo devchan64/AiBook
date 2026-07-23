@@ -1,7 +1,7 @@
 # P2-13.1 图表（plot）会揭示什么
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 Part 2 Chapter 11，我们用 NumPy 数组确认计算；在 Part 2 Chapter 12，我们用 Pandas `DataFrame` 读取表格数据。现在，我们把同样的数字改成图形来观察。
 
@@ -80,6 +80,8 @@ plt.show()
 运行上面的代码后，你可以看到一条“随着 epoch 增加，loss 下降”的曲线形状。
 
 ![Loss decreases over epochs](/AiBook/assets/part-02/chapter-13/pyplot-loss-line.png)
+
+本书的资产文件夹中，也保留了可以把同一示例重新生成成文件的保存型脚本。直接在屏幕上确认时，可以像上面那样使用 `plt.show()`；需要重新生成文档中使用的 PNG 时，则运行 [`p2_13_1_plot_questions.py`](/AiBook/assets/part-02/chapter-13/p2_13_1_plot_questions.py)。
 
 这个例子里重要的不是代码语法，而是“loss 会不会随着重复学习而下降？”这个问题。
 

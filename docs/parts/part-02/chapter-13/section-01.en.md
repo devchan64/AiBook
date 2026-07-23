@@ -1,7 +1,7 @@
 # P2-13.1 What Does a Plot Reveal?
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In Part 2 Chapter 11, we checked calculations with NumPy arrays. In Part 2 Chapter 12, we read tabular data with a Pandas `DataFrame`. Now we look at the same numbers as pictures.
 
@@ -80,6 +80,8 @@ plt.show()
 When you run the code above, you can check a shape where the loss falls as the epoch count increases.
 
 ![Loss decreases over epochs](/AiBook/assets/part-02/chapter-13/pyplot-loss-line.png)
+
+The asset folder for this book also keeps a save-oriented script that can recreate the same example as a file. Use `plt.show()` as above when checking it directly on screen, and run [`p2_13_1_plot_questions.py`](/AiBook/assets/part-02/chapter-13/p2_13_1_plot_questions.py) when recreating the PNG files used in the document.
 
 The important point in this example is not the code syntax but the question, "Does the loss value decrease through repeated learning?"
 

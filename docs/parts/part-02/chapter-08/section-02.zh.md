@@ -1,7 +1,7 @@
 # P2-8.2 列表（list）：有顺序的值集合
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-8.1 中，我们看过了值（value）、变量（variable）、类型（type）。现在来看第一个可以一次处理多个值的结构：列表（list）。
 
@@ -227,39 +227,26 @@ print(other_scores)
 
 ### 把列表接起来：连接（concatenation）
 
-当你想把两个列表接起来并创建一个新列表时，可以使用 `+`。
+当你想把两个列表接起来并创建一个新列表时，可以使用 `+`。如果想把其他值追加到已有列表末尾，可以使用 `extend()`。
 
-问题场景：我想看一个最简单的例子，把两个列表连接成一个新列表。
-输入（input）：`front = [1, 2]` 和 `back = [3, 4]`。
-期望输出（output）：被连接后的 `result`。
-要确认的概念：`+` 不会修改原列表，而是创建一个连接好的新列表。
+问题场景：我想比较 `+` 和 `extend()` 虽然都能连接列表，但修改原列表的方式是否不同。
+输入（input）：`front`、`back`、`scores`。
+期望输出（output）：新创建的 `combined`、保持不变的 `front`、被修改后的 `scores`。
+要确认的概念：`+` 会创建连接后的新列表，而 `extend()` 会修改已有列表本身。
 
 ```python
 # 这个例子用来确认列表如何按顺序保存和处理多个值。
 front = [1, 2]
 back = [3, 4]
 
-result = front + back
+combined = front + back
+print("combined:", combined)
+print("front after +:", front)
 
-print(result)
-```
-
-这段代码会创建 `[1, 2, 3, 4]`。这里并不是在修改 `front` 和 `back` 本身，而是用它们连接出一个新列表。
-
-如果你想把其他值追加到已有列表末尾，而不是创建新列表，可以使用 `extend()`。
-
-问题场景：我想确认一种方式：不创建新列表，而是把值接到现有列表后面。
-输入（input）：已有列表 `scores` 和要追加的值 `[91, 68]`。
-期望输出（output）：末尾增加了值的 `scores`。
-要确认的概念：`extend()` 会修改现有列表本身。
-
-```python
-# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75]
 
 scores.extend([91, 68])
-
-print(scores)
+print("scores after extend:", scores)
 ```
 
 `+` 是创建一个新的连接结果，而 `extend()` 会直接修改现有列表。这个差异在后面区分引用与修改时非常重要。

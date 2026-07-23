@@ -1,7 +1,7 @@
 # P2-8.5 Functions and Small Reuse
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-8.1, we looked at values, variables, and types. From P2-8.2 to P2-8.4, we looked at ways of handling multiple values through lists, dictionaries, and loops.
 
@@ -399,35 +399,26 @@ This section does not cover advanced functional programming. The current main te
 
 When reading Python code, we see both code that calls like `function(value)` and code that calls like `value.method()`. In this section, we do not enter the detailed concept of classes. We only distinguish the calling shapes of function and method.
 
-A function is an independently defined unit of processing.
+A function is an independently defined unit of processing. A method looks like a function that is called while attached to an object.
 
-Problem situation: To distinguish independent functions from method calls, we first want to see a function-side example.
-Input: The string `text`.
-Expected output: A string with spaces removed and letters lowercased.
-Concept to check: A function is a processing unit called through an independent name.
+Problem situation: I want to compare the shapes of an independent function call and string method calls at once.
+Input: The string `text = " AI is Useful "`.
+Expected output: The results of `clean_text(text)`, `text.strip()`, and `text.lower()` are each printed.
+Concept to check: A function is called through an independent name, while a method is called while attached to a value or object.
 
 ```python
 # This example checks how a function connects input and output as a small reusable unit.
 def clean_text(text):
     return text.strip().lower()
-```
 
-A method looks like a function that is called while attached to an object.
-
-Problem situation: We want to compare how method calls look even when the string handling is similar.
-Input: The string `text = " AI is Useful "`.
-Expected output: The results of `strip()` and `lower()` are each printed.
-Concept to check: A method is a function-like form that is called while attached to a value or object.
-
-```python
-# This example checks how a function connects input and output as a small reusable unit.
 text = " AI is Useful "
 
+print(clean_text(text))
 print(text.strip())
 print(text.lower())
 ```
 
-Here, `strip()` and `lower()` are methods provided by the string object. They are called with parentheses like functions, but they have a target object in front of them.
+Here, `clean_text(text)` is an independent function call, and `strip()` and `lower()` are methods provided by the string object. They are called with parentheses like functions, but methods have a target object in front of them.
 
 In this section, we remember only the following level.
 

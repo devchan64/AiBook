@@ -1,7 +1,7 @@
 # P2-12.2 Selection, Filtering, and Aggregation
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-12.1, we treated a Pandas `DataFrame` as a table-shaped data structure with rows, columns, and an index. That immediately raises one more question.
 
@@ -516,6 +516,51 @@ You can read the output like this.
 0     A-01                     2.0       1.366667           1.9
 1     B-02                     2.0       1.166667           1.5
 ```
+
+## Filters and Aggregations Move Together When the Threshold Changes
+
+The small tables above are explanation-oriented examples for reading Pandas syntax. But in a real table, you need to check whether the remaining rows and aggregations change together when the condition value changes.
+
+The input file is [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }. One row is one student's learning record, and the core columns are `region`, `study_hours`, `absences`, `practice_quizzes`, `score`, and `passed`. Here, change `pass_threshold` and `focus_region` and observe which rows remain and how the regional summary changes.
+
+Problem situation: I want to check whether filter results and regional summaries change together when the score threshold and region condition change.
+Input: a 36-row student-progress CSV, `pass_threshold`, and `focus_region`.
+Expected output: a list of rows satisfying the condition, regional mean scores, and counts over the threshold.
+Concept to check: Conditional filtering and `groupby` aggregation are not code for checking a fixed answer; they are tools for observing how remaining rows and summaries move when criteria change.
+
+```python
+# This example selects columns, rows, and conditions in a DataFrame and aggregates score data.
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+pass_threshold = 75
+focus_region = "Busan"
+
+selected = df.loc[
+    (df["score"] >= pass_threshold) & (df["region"] == focus_region),
+    ["student_id", "region", "score", "passed"],
+]
+
+summary = (
+    df.assign(over_threshold=df["score"] >= pass_threshold)
+    .groupby("region")
+    .agg(
+        sample_count=("student_id", "count"),
+        mean_score=("score", "mean"),
+        over_threshold_count=("over_threshold", "sum"),
+        mean_absences=("absences", "mean"),
+    )
+    .round(2)
+)
+
+print(selected)
+print(summary)
+```
+
+The same code can also be run as [`p2_12_2_filter_aggregate_threshold.py`](/AiBook/assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py). If you change `pass_threshold` to `70`, `75`, or `80`, the number of students over the threshold changes; if you change `focus_region` to another region, the selected row list changes.
 
 ## A Diagram of the Table-Reading Flow
 

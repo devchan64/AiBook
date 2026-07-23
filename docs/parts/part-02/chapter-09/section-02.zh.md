@@ -1,7 +1,7 @@
 # P2-9.2 数组(array)、表(table)、树(tree)、图(graph)的直觉
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-9.1 中，我们已经把数据结构看成“数据被组织成什么形状”的问题。现在来广泛比较 AI 实践中经常遇到的四种形状。
 
@@ -364,66 +364,35 @@ for friend in friends["Kim"]:
 
 ![The same student data can become an array, table, tree, or graph](/AiBook/assets/part-02/chapter-09/same-data-four-structures-zh.svg)
 
-如果只按顺序看分数，就是数组直觉。
+如果只按顺序看分数，就是数组直觉。如果把学生属性按行和列来看，就是表的直觉。如果看的是学校、班级、学生这样的层级，就是树的直觉。如果看的是学生之间的朋友关系，就是图的直觉。
 
-问题场景：你想先看一个例子，把同样的学生数据里只抽出分数，像数组那样去看。
-输入(input)：三个分数 `82, 75, 45`。
-期望输出(output)：分数列表 `scores`。
-要确认的概念：即使是同样的源数据，只要目的是计算，就可以改用数组直觉来读。
-
-```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
-scores = [82, 75, 45]
-```
-
-如果把学生属性按行和列来看，就是表的直觉。
-
-问题场景：你想确认一个例子，把同样的学生数据改看成表形式的记录列表。
-输入(input)：包含姓名、分数、是否通过的 `students`。
-期望输出(output)：学生记录列表结构。
-要确认的概念：如果目的是比较每个案例的属性，表的直觉更自然。
+问题场景：我想确认同一组学生记录，在问题改变时会怎样被读成不同结构。
+输入(input)：包含姓名、班级、分数、标签、朋友关系的学生列表。
+期望输出(output)：数组直觉下的平均分、表直觉下的通过学生姓名、树直觉下的班级-学生层级、图直觉下的直接朋友。
+要确认的概念：同一份源数据会根据问题是计算、比较、层级还是连接，被重新组织成不同结构。
 
 ```python
 # 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
 students = [
-    {"name": "Kim", "score": 82, "label": "pass"},
-    {"name": "Lee", "score": 75, "label": "pass"},
-    {"name": "Park", "score": 45, "label": "fail"},
+    {"name": "Kim", "class": "A", "score": 82, "label": "pass", "friends": ["Lee"]},
+    {"name": "Lee", "class": "A", "score": 75, "label": "pass", "friends": ["Kim", "Park"]},
+    {"name": "Park", "class": "B", "score": 45, "label": "fail", "friends": ["Lee"]},
 ]
-```
 
-如果看的是学校、班级、学生这样的层级，就是树的直觉。
-
-问题场景：你想确认同样的信息，一旦整理成上下级包含关系，就能像树那样来看。
-输入(input)：包含学校、班级、学生的 `school`。
-期望输出(output)：层级结构 `school`。
-要确认的概念：树的直觉会出现在“包含关系和路径是核心”的数据里。
-
-```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
+scores = [student["score"] for student in students]
+pass_names = [student["name"] for student in students if student["label"] == "pass"]
 school = {
-    "name": "School",
-    "children": [
-        {"name": "Class A", "children": ["Kim", "Lee"]},
-        {"name": "Class B", "children": ["Park"]},
-    ],
+    "School": {
+        "Class A": ["Kim", "Lee"],
+        "Class B": ["Park"],
+    }
 }
-```
+friends = {student["name"]: student["friends"] for student in students}
 
-如果看的是学生之间的朋友关系，就是图的直觉。
-
-问题场景：你想看到，同样的学生信息一旦以朋友连接为中心，就可以像图那样表达。
-输入(input)：朋友关系字典 `friends`。
-期望输出(output)：按学生列出的连接列表结构。
-要确认的概念：当真正的关注点是连接本身时，就需要图的直觉。
-
-```python
-# 这个例子用来确认数组、表、树和图如何用不同结构看待同一类数据。
-friends = {
-    "Kim": ["Lee"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Lee"],
-}
+print("array question:", sum(scores) / len(scores))
+print("table question:", pass_names)
+print("tree question:", school["School"]["Class A"])
+print("graph question:", friends["Kim"])
 ```
 
 重要的不是哪一种表达才是 `正确答案`。问题一旦变化，结构也会跟着变化。

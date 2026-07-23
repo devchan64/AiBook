@@ -1,7 +1,7 @@
 # P2-8.5 函数(function)与小规模复用
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-8.1 里，我们看了值(value)、变量(variable)、类型(type)。从 P2-8.2 到 P2-8.4，我们看了如何通过列表(list)、字典(dictionary)、循环(loop)来处理多个值。
 
@@ -399,35 +399,26 @@ print(apply_to_scores(scores, normalize_score))
 
 在阅读 Python 代码时，我们会同时看到 `function(value)` 这种调用，以及 `value.method()` 这种调用。这里不进入类(class)的详细概念，只区分函数(function)和方法(method)的调用形状。
 
-函数(function)是独立定义出来的处理单元。
+函数(function)是独立定义出来的处理单元。方法(method)则看起来像附着在某个对象(object)上的函数。
 
-问题场景：为了区分独立函数与方法调用，先看函数一侧的例子。
-输入(input)：字符串 `text`。
-期望输出(output)：去除空格并转换成小写后的字符串。
-要确认的概念：函数是通过独立名称被调用的处理单元。
+问题场景：想一次比较独立函数调用和字符串方法调用的形状。
+输入(input)：字符串 `text = " AI is Useful "`。
+期望输出(output)：分别打印 `clean_text(text)`、`text.strip()`、`text.lower()` 的结果。
+要确认的概念：函数通过独立名称调用，方法则附着在值或对象上调用。
 
 ```python
 # 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def clean_text(text):
     return text.strip().lower()
-```
 
-方法(method)则看起来像“附着在某个对象上的函数”。
-
-问题场景：想比较即使是类似的字符串处理，方法调用会是什么样子。
-输入(input)：字符串 `text = " AI is Useful "`。
-期望输出(output)：分别打印 `strip()` 和 `lower()` 的结果。
-要确认的概念：方法是附着在值或对象上被调用的函数形式。
-
-```python
-# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 text = " AI is Useful "
 
+print(clean_text(text))
 print(text.strip())
 print(text.lower())
 ```
 
-这里的 `strip()` 和 `lower()` 是字符串对象提供的方法。它们和函数一样带括号调用，但前面多了一个目标对象。
+这里的 `clean_text(text)` 是独立函数调用，`strip()` 和 `lower()` 是字符串对象提供的方法。它们和函数一样带括号调用，但方法前面有目标对象。
 
 在这一节里，先记住下面这个层次就够了。
 

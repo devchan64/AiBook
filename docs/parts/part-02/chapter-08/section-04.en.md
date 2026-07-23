@@ -1,7 +1,7 @@
 # P2-8.4 Loops: Processing Iterables One by One
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we separate out the loop that processes these groups one by one.
 
@@ -170,40 +170,36 @@ Can this target send out values one by one?
 
 ### The Feeling of Iterable and Iterator
 
-When reading Python code, you encounter various loop patterns.
+When reading Python code, you encounter various loop patterns. The example below compares looping over only items, looping over positions and values together, and looping over dictionary keys and values together.
 
-Problem situation: I want to reconfirm the shortest `for` example that loops over items only.
-Input: `scores`.
-Expected output: the scores are printed one by one.
+Problem situation: I want to compare what comes out one by one inside `for` when the loop target changes.
+Input: the score list `scores` and the metric dictionary `metrics`.
+Expected output: only items, index-item pairs, and key-value pairs are each printed.
 Concept to check: even if loop patterns differ, the starting point is taking values out one by one from an iterable.
 
 ```python
 # This example checks how a loop takes items one by one from a value collection.
+scores = [82, 75, 91]
+metrics = {"accuracy": 0.91, "loss": 0.32}
+
+print("items only")
 for score in scores:
     print(score)
-```
 
-Problem situation: I want to briefly check the loop pattern where position and value are seen together.
-Input: `enumerate(scores)`.
-Expected output: position and score are printed together.
-Concept to check: `enumerate()` is a loop tool used when you also need to know which numbered value it is.
-
-```python
-# This example checks how a loop takes items one by one from a value collection.
+print("index and item")
 for index, score in enumerate(scores):
     print(index, score)
-```
 
-Problem situation: I want to see the shortest example that loops over name and value together from a dictionary.
-Input: `metrics.items()`.
-Expected output: the metric name and value are printed together.
-Concept to check: in dictionary loops, `.items()` is the basic pattern that takes out key and value together.
-
-```python
-# This example checks how a loop takes items one by one from a value collection.
+print("key and value")
 for name, value in metrics.items():
     print(name, value)
 ```
+
+| Code shape | What comes out one by one | Main use case |
+| --- | --- | --- |
+| `for score in scores` | one value | when processing the value itself is enough |
+| `for index, score in enumerate(scores)` | position and value | when you also need to see which sample number it is |
+| `for name, value in metrics.items()` | key and value | when you need to read dictionary names and values together |
 
 The outward shapes differ, but they have something in common. Python's `for` processes values one by one from a `repeatable target`.
 

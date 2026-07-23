@@ -1,7 +1,7 @@
 # P2-13.3 Comparing and Saving Multiple Plots
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-13.2, we looked at what questions basic charts such as line plots, scatter plots, and histograms are used for. Now we go one step further and organize the flow of looking at several plots together and leaving the result as a file.
 
@@ -188,6 +188,8 @@ A plot file shows the result, but by itself it is not a reproducible record. To 
 - the question the plot is answering
 
 That is why a document project should not leave only the image file. When possible, it should also keep the Python script that generated the image. For example, if one plot will be revised several times, it is easier to recreate the result when the generation script sits near the image.
+
+The two example images in this section can be recreated with [`p2_13_3_compare_and_save.py`](/AiBook/assets/part-02/chapter-13/p2_13_3_compare_and_save.py). This file fixes `MPLCONFIGDIR` under the project's `.tmp` directory and saves the output images into the same asset folder with `fig.savefig(...)`.
 
 This approach is closer to "the picture can be recreated" than merely "the picture was attached."
 

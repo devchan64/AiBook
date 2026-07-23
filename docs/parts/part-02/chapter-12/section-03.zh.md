@@ -1,7 +1,7 @@
 # P2-12.3 准备学习数据集(dataset)的直觉
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-12.1 中，我们把 `DataFrame` 读成表格型数据结构。在 P2-12.2 中，我们从这张表里挑出需要的列，用条件筛掉行，并查看了总结值。现在问题再往前走一步：`如果要把这张表变成模型能读取的学习数据集，需要准备什么？`
 
@@ -138,6 +138,39 @@ y = df["passed"]
 | `y.shape[0]` | 答案个数，通常和样本数相同 |
 
 所以，说要分开 `X` 与 `y`，并不只是拆列名，也是在决定模型要读取的数组形状(shape)。
+
+行数稍多的输入也可以用同样方式确认这种分离。输入文件与 P2-12.2 相同，是 [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }。一行表示一名学生的学习记录。这里把 `passed` 作为目标(target)，把其他一部分列作为输入候选。
+
+问题场景：想确认原始表中的输入列组 `X`、答案列 `y`、简单 train/test 候选会分成什么形状。
+输入(input)：36 行学生学习进度 CSV、`feature_columns`、`target_column`。
+期望输出(output)：`X`、`y`、编码后的输入列、train/test 分割候选的 shape。
+要确认的概念：数据集准备是在模型学习之前，先在表中确定输入与答案的边界，并把评估用行单独留出来。
+
+```python
+# 这个例子从 DataFrame 中分离特征 X 和目标 y，并准备学习数据集。
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+feature_columns = ["region", "study_hours", "absences", "practice_quizzes", "score"]
+target_column = "passed"
+
+X = df[feature_columns]
+y = df[target_column]
+X_encoded = pd.get_dummies(X, columns=["region"], dtype=int)
+
+test_index = df.sample(frac=0.25, random_state=42).index
+train_index = df.index.difference(test_index)
+
+print("X shape:", X.shape)
+print("y shape:", y.shape)
+print("encoded columns:", list(X_encoded.columns))
+print("train/test rows:", len(train_index), len(test_index))
+```
+
+同样的代码也可以通过 [`p2_12_3_dataset_split_preview.py`](/AiBook/assets/part-02/chapter-12/p2_12_3_dataset_split_preview.py) 执行。这里不会训练 scikit-learn 模型。Part 2 的目标，是先在 Pandas 层级确认哪些列是输入、哪一列是答案，以及哪些行应该留给之后检查。
 
 ## 不能把所有列原样放进去
 

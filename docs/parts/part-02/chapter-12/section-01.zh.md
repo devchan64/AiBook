@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame 表达什么
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 Part 2 Chapter 11 里，我们用 NumPy array 处理了 vector、matrix、axis 与 broadcasting。那条路径很适合数值计算，但当我们开始读取长得像表格的数据集时，问题会发生变化。
 
@@ -464,6 +464,30 @@ dtype: object
 - `head(2)`：前几行真实长相
 
 即使还没开始操作表，只靠这些检查，也已经能更快知道这张表到底是什么类型的数据。
+
+行数稍多的 CSV 文件也可以用同样方式检查。输入文件是 [`student-progress-samples.csv`](/AiBook/assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }。一行表示一名学生的学习记录，核心列是 `student_id`、`region`、`study_hours`、`absences`、`practice_quizzes`、`score`、`passed`。
+
+问题场景：在读取表之前，先确认表的形状、列名、索引和数据类型。
+输入(input)：36 行学生学习进度 CSV。
+期望输出(output)：`shape`、`columns`、`index`、`dtypes` 和前三行。
+要确认的概念：在用 DataFrame 计算之前，要先确认它有多少行列，以及每一列是什么意思。
+
+```python
+# 这个例子用 Pandas DataFrame 构造有行和列的表格数据，并检查其结构。
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+print("shape:", df.shape)
+print("columns:", list(df.columns))
+print("index:", df.index)
+print(df.dtypes)
+print(df.head(3))
+```
+
+同样的代码也可以通过 [`p2_12_1_dataframe_first_check.py`](/AiBook/assets/part-02/chapter-12/p2_12_1_dataframe_first_check.py) 执行。进入下一节的 filtering 与 aggregation 之前，这个文件会先帮助你确认表有几行几列，以及各列被读成了什么类型。
 
 ## 案例来看
 

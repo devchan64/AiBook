@@ -1,7 +1,7 @@
 # P2-9.2 The Intuition of Arrays, Tables, Trees, and Graphs
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-9.1, we viewed a data structure as a question of how data is organized into a shape. Now we compare broadly four shapes that appear often in AI practice.
 
@@ -364,66 +364,35 @@ The diagram below shows how the same student data can be read as a score array, 
 
 ![The same student data can become an array, table, tree, or graph](/AiBook/assets/part-02/chapter-09/same-data-four-structures-en.svg)
 
-If you look only at scores in order, it becomes array intuition.
+If you look only at scores in order, it becomes array intuition. If you look at attributes by student in rows and columns, it becomes table intuition. If you look at hierarchy such as school, class, and student, it becomes tree intuition. If you look at friendship relations among students, it becomes graph intuition.
 
-Problem situation: You want to first check an example where only scores are separated from the same student data and viewed like an array.
-Input: Three scores, `82, 75, 45`.
-Expected output: The score list `scores`.
-Concept to check: Even the same source data can be viewed with array intuition when computation is the purpose.
-
-```python
-# This example checks how arrays, tables, trees, and graphs view data through different structures.
-scores = [82, 75, 45]
-```
-
-If you look at attributes by student in rows and columns, it becomes table intuition.
-
-Problem situation: You want to check an example where the same student data is viewed this time as a list of table-form records.
-Input: `students`, containing names, scores, and pass/fail results.
-Expected output: A student record list structure.
-Concept to check: When the purpose is comparing attributes by case, table intuition is more natural.
+Problem situation: I want to check how the same student records are read differently when the question changes.
+Input: A student list containing names, classes, scores, labels, and friendship relations.
+Expected output: An average score from array intuition, pass-list names from table intuition, a class-student hierarchy from tree intuition, and direct friends from graph intuition.
+Concept to check: The same source data can be reorganized into different structures depending on whether the question is calculation, comparison, hierarchy, or connection.
 
 ```python
 # This example checks how arrays, tables, trees, and graphs view data through different structures.
 students = [
-    {"name": "Kim", "score": 82, "label": "pass"},
-    {"name": "Lee", "score": 75, "label": "pass"},
-    {"name": "Park", "score": 45, "label": "fail"},
+    {"name": "Kim", "class": "A", "score": 82, "label": "pass", "friends": ["Lee"]},
+    {"name": "Lee", "class": "A", "score": 75, "label": "pass", "friends": ["Kim", "Park"]},
+    {"name": "Park", "class": "B", "score": 45, "label": "fail", "friends": ["Lee"]},
 ]
-```
 
-If you look at hierarchy such as school, class, and student, it becomes tree intuition.
-
-Problem situation: You want to check that the same information can be viewed like a tree when organized into higher-lower containment relations.
-Input: `school`, containing the school, classes, and students.
-Expected output: The hierarchical structure `school`.
-Concept to check: Tree intuition appears in data where containment relations and paths are central.
-
-```python
-# This example checks how arrays, tables, trees, and graphs view data through different structures.
+scores = [student["score"] for student in students]
+pass_names = [student["name"] for student in students if student["label"] == "pass"]
 school = {
-    "name": "School",
-    "children": [
-        {"name": "Class A", "children": ["Kim", "Lee"]},
-        {"name": "Class B", "children": ["Park"]},
-    ],
+    "School": {
+        "Class A": ["Kim", "Lee"],
+        "Class B": ["Park"],
+    }
 }
-```
+friends = {student["name"]: student["friends"] for student in students}
 
-If you look at friendship relations among students, it becomes graph intuition.
-
-Problem situation: You want to see that the same student information can be expressed like a graph when viewed around friendship connections.
-Input: The friendship dictionary `friends`.
-Expected output: A structure of connection lists by student.
-Concept to check: Graph intuition is needed when the connection itself is the object of interest.
-
-```python
-# This example checks how arrays, tables, trees, and graphs view data through different structures.
-friends = {
-    "Kim": ["Lee"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Lee"],
-}
+print("array question:", sum(scores) / len(scores))
+print("table question:", pass_names)
+print("tree question:", school["School"]["Class A"])
+print("graph question:", friends["Kim"])
 ```
 
 What matters is not which expression is `the correct answer`. When the question changes, the structure changes too.

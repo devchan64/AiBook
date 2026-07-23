@@ -1,7 +1,7 @@
 # P2-15.1 A Small Procedure for Translating Formulas into Code
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In Part 2, we looked at formulas, Python, NumPy, Pandas, and Matplotlib separately. Now we bind that flow into one procedure. The goal is not to prove difficult formulas, but to have a procedure for translating a simple formula into code and checking the result.
 
@@ -247,6 +247,12 @@ ax.set_title("Actual and predicted values")
 ax.legend()
 plt.show()
 ```
+
+The output image shows the gap between actual and predicted values for each sample.
+
+![Line plot showing the difference between actual and predicted values](/AiBook/assets/part-02/chapter-15/actual-predicted-mse.png)
+
+The loop calculation, NumPy calculation, and plot-saving flow in this section can be rerun together with [`p2_15_1_formula_to_code_mse.py`](/AiBook/assets/part-02/chapter-15/p2_15_1_formula_to_code_mse.py). This script prints `loop mse`, `errors`, `squared errors`, and `numpy mse`, and saves `actual-predicted-mse.png` in the same asset folder.
 
 This plot does not calculate MSE instead of you. It helps you inspect with your eyes the difference before it is compressed into one number.
 

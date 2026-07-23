@@ -1,7 +1,7 @@
 # P2-15.1 把公式翻译成代码的小步骤
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 Part 2，我们分别看过公式、Python、NumPy、Pandas、Matplotlib。现在把这条流程重新绑成一个整体。目标不是证明复杂公式，而是拥有一套把简单公式翻译成代码并检查结果的步骤。
 
@@ -247,6 +247,12 @@ ax.set_title("Actual and predicted values")
 ax.legend()
 plt.show()
 ```
+
+输出图像会按样本展示真实值与预测值之间的间隔。
+
+![显示真实值和预测值差异的折线图](/AiBook/assets/part-02/chapter-15/actual-predicted-mse.png)
+
+本节的循环计算、NumPy 计算和图表保存流程，可以通过 [`p2_15_1_formula_to_code_mse.py`](/AiBook/assets/part-02/chapter-15/p2_15_1_formula_to_code_mse.py) 一次性重新执行。这个脚本会打印 `loop mse`、`errors`、`squared errors`、`numpy mse`，并把 `actual-predicted-mse.png` 保存到同一个资产文件夹。
 
 这张图不会替你计算 MSE，而是帮助你用眼睛检查那些在压缩成一个数字之前的差异。
 

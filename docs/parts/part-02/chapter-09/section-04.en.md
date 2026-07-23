@@ -1,7 +1,7 @@
 # P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-9.1, we viewed a data structure as the shape that holds data and the way that data is handled. But once you start studying data structures, many unfamiliar names suddenly appear.
 
@@ -368,50 +368,30 @@ The checkable result is whether you can turn AI practice scenes back into struct
 
 ### Storing the same material differently
 
-The following data shows the same student scores stored from three viewpoints.
+The following data shows the same student scores stored from three viewpoints. A list is convenient when you want to process them in order, a dictionary is convenient when you want to find by name, and a graph-like structure is needed when you want to express friendships.
 
-If you want to process them in order, a list is convenient.
-
-Problem situation: You want to first see the simplest structure that stores student scores only in order.
-Input: A list containing the scores of three students in order.
-Expected output: There is no output, but you confirm what an order-centered structure looks like.
-Concept to check: See that a list is closer to the intuition of handling values in order than to the intuition of labels.
+Problem situation: I want to compare order-based access, key-based lookup, and relation tracking with the same student material.
+Input: `scores`, `score_by_name`, and `relation_graph`.
+Expected output: The first score, Kim's score, and Kim's direct connections.
+Concept to check: The structure changes depending on whether the question is position, key lookup, or relationship.
 
 ```python
 # This example checks how traditional data structures change storage and access patterns.
 scores = [82, 75, 91]
-```
-
-If you want to find by name, a dictionary is convenient.
-
-Problem situation: You want to find scores not by order but by student name.
-Input: A dictionary whose keys are names and whose values are scores.
-Expected output: There is no output, but you confirm what a key-based structure looks like.
-Concept to check: See that even with the same data, if labels matter, a dictionary structure becomes more natural.
-
-```python
-# This example checks how traditional data structures change storage and access patterns.
 score_by_name = {
     "Kim": 82,
     "Lee": 75,
     "Park": 91,
 }
-```
-
-If you want to express friendships, a graph-like structure is needed.
-
-Problem situation: You want to express not a list of students or a score table, but the connections among people.
-Input: A dictionary whose keys are person names and whose values are friend lists.
-Expected output: There is no output, but you confirm how a relationship-centered structure is written.
-Concept to check: See that in graph intuition, connection matters more than order.
-
-```python
-# This example checks how traditional data structures change storage and access patterns.
-friends = {
+relation_graph = {
     "Kim": ["Lee", "Park"],
     "Lee": ["Kim"],
     "Park": ["Kim"],
 }
+
+print("list by position:", scores[0])
+print("dict by key:", score_by_name["Kim"])
+print("graph by neighbor:", relation_graph["Kim"])
 ```
 
 All three examples are written in Python syntax, but each uses a different data-structure intuition. The first is order, the second is key-based lookup, and the third is relationship expression.

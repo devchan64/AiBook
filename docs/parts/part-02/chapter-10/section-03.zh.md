@@ -1,7 +1,7 @@
 # P2-10.3 把笔记本整理成可重新执行的记录
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-10.1 中，我们把 notebook 看成同时包含 code、explanation 和 output 的计算文档。在 P2-10.2 中，我们又从执行位置和文件访问的角度区分了 Jupyter、Colab 和本地执行。
 
@@ -200,26 +200,18 @@ Notebook 可以自由执行 cell。这个优点同时也是风险。
 
 想象下面这种情况。
 
-问题场景：你先在一个 cell 里定义一个超参数值。
-输入(input)：代码 `learning_rate = 0.1`。
-期望输出(output)：虽然没有输出，但当前学习率值会存进 runtime。
-要确认的概念：看到 notebook 中变量状态会随着 cell 执行顺序改变。
+问题场景：想通过输出来比较，同一个变量被再次赋值时，runtime 当前记住的值会怎样变化。
+输入(input)：先把 `learning_rate` 设为 `0.1`，再设为 `0.01`。
+期望输出(output)：第一次保存的值，以及后来被覆盖后的值。
+要确认的概念：notebook 的变量状态由最后执行的 cell 决定，而不只由文档中看到的顺序决定。
 
 ```python
 # 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 learning_rate = 0.1
-```
+print("first value:", learning_rate)
 
-然后在另一个 cell 中又重新修改这个值。
-
-问题场景：在同一个 notebook 里，你又在另一个 cell 覆写了这个变量。
-输入(input)：代码 `learning_rate = 0.01`。
-期望输出(output)：虽然没有输出，但 runtime 里的当前值会被新值覆盖。
-要确认的概念：确认文档里看到的顺序，和实际最后的执行状态，可能不是一回事。
-
-```python
-# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 learning_rate = 0.01
+print("later value:", learning_rate)
 ```
 
 文档里从上到下能看到两个值，但在实际 runtime 中，会留下最近执行的那个值。如果你先执行下面那个 cell，再执行上面的 cell，结果又会再次变化。

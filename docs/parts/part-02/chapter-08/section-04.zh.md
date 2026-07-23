@@ -1,7 +1,7 @@
 # P2-8.4 循环（loop）：逐个处理 iterable
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-8.2 中，我们看过列表（list）；在 P2-8.3 中，我们看过字典（dictionary）。现在把“把这些集合一个个处理掉”的循环（loop）单独拿出来看。
 
@@ -170,40 +170,36 @@ PEP 234 的核心可以概括成下面这样。
 
 ### iterable 和 iterator 的感觉
 
-在阅读 Python 代码时，会遇到各种不同的循环模式。
+在阅读 Python 代码时，会遇到各种不同的循环模式。下面的例子会一次比较：只循环项目、同时循环位置和值、同时循环字典的键和值。
 
-问题场景：我想再次确认只按项目循环的最短 `for` 例子。
-输入（input）：`scores`。
-期望输出（output）：分数被一个个打印出来。
+问题场景：我想比较循环对象改变时，`for` 里面到底会一个个拿出什么。
+输入（input）：分数列表 `scores` 和指标字典 `metrics`。
+期望输出（output）：分别打印项目本身、位置-项目对、键-值对。
 要确认的概念：即使循环模式不同，出发点始终是从 iterable 中一个个取值。
 
 ```python
 # 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
+scores = [82, 75, 91]
+metrics = {"accuracy": 0.91, "loss": 0.32}
+
+print("items only")
 for score in scores:
     print(score)
-```
 
-问题场景：我想简短确认一种同时看到位置和值的循环模式。
-输入（input）：`enumerate(scores)`。
-期望输出（output）：位置和值一起打印。
-要确认的概念：当还需要知道“这是第几个值”时，可以使用 `enumerate()`。
-
-```python
-# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
+print("index and item")
 for index, score in enumerate(scores):
     print(index, score)
-```
 
-问题场景：我想看一个最短的例子：从字典里同时循环名字和值。
-输入（input）：`metrics.items()`。
-期望输出（output）：指标名字和值一起打印。
-要确认的概念：在字典循环中，`.items()` 是同时取出键和值的基本模式。
-
-```python
-# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
+print("key and value")
 for name, value in metrics.items():
     print(name, value)
 ```
+
+| 代码形状 | 一个个拿出来的东西 | 主要使用场景 |
+| --- | --- | --- |
+| `for score in scores` | 一个值 | 只处理值本身就足够时 |
+| `for index, score in enumerate(scores)` | 位置和值 | 还需要一起看这是第几个样本时 |
+| `for name, value in metrics.items()` | 键和值 | 需要同时读取字典的名字和值时 |
 
 这些写法表面不同，但有共同点：Python 的 `for` 是从 `可循环目标` 里一个个取值并处理。
 

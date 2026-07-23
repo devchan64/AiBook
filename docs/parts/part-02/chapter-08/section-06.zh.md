@@ -1,7 +1,7 @@
 # P2-8.6 补充学习：第一次遇到类(class)与对象(object)
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-8.5 里，我们把函数(function)看成小型复用单元。函数接收输入、进行处理、返回结果。但在阅读 Python 代码时，我们经常会遇到一种看起来和函数调用相似、却又稍微不同的表达。
 
@@ -279,36 +279,42 @@ print(is_labeled(sample))
 
 ## 方法看起来像“附着在对象上的函数”
 
-函数(function)通常这样调用：
+函数(function)通常写成 `function(value)` 这样调用，方法(method)则写成 `value.method()`，附着在对象上调用。
 
-问题场景：想先看独立函数调用是什么样，再和方法调用比较。
-输入(input)：字符串 `" AI "`。
-期望输出(output)：清理后的字符串。
-要确认的概念：`function(value)` 是把值送进函数里处理的调用形式。
+问题场景：想一次比较独立函数调用和方法调用的中心有什么不同。
+输入(input)：字符串 `text = " AI "`。
+期望输出(output)：函数调用结果和方法调用结果。
+要确认的概念：`function(value)` 是把值放进函数里处理，`value.method()` 是调用对象提供的动作。
 
 ```python
 # 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 def clean_text(text):
     return text.strip().lower()
 
-print(clean_text(" AI "))
+text = " AI "
+
+print("function:", clean_text(text))
+print("method:", text.strip())
 ```
 
-方法(method)则是附着在对象上被调用。
+两种写法都会执行动作，但调用中心不同。
 
-问题场景：想看同样的字符串清理，换成方法调用时是什么样子。
-输入(input)：字符串 `text = " AI "`。
-期望输出(output)：`text.strip()` 的结果。
-要确认的概念：方法是以点前对象为中心被调用的。
+```text
+clean_text(text)  -> 把 text 放进函数里处理
+text.strip()      -> 调用 text 对象提供的 strip() 动作
+```
+
+再比较一个字符串方法，可以这样看。
 
 ```python
 # 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 text = " AI "
 
 print(text.strip())
+print(text.lower())
 ```
 
-两种写法都会执行动作，但调用中心不同。
+这里的 `strip()` 和 `lower()` 都是字符串对象提供的动作。因为点前面的目标是字符串，所以可以使用适合字符串的方法。
 
 | 表达 | 调用中心 | 读法 |
 | --- | --- | --- |
@@ -462,31 +468,7 @@ predictions = model.predict(test_data)
 - 类是用来创建这种对象的定义。
 - 方法是附着在对象上被调用的动作。
 
-这里可以先这样读。
-
-问题场景：想再用一行例子固定 `fit()` 方法调用的读法。
-输入(input)：`model`、`train_data`。
-期望输出(output)：`model.fit(train_data)` 这一行。
-要确认的概念：方法调用可能是在改变对象状态，或者使用对象状态。
-
-```python
-# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
-model.fit(train_data)
-```
-
-这里有一个叫 `model` 的对象，这个对象在运行一个叫 `fit()` 的方法。此时 `fit()` 可能不仅是简单计算，它还可能改变模型对象内部的状态。例如，学到的参数可能会被存进对象里。
-
-问题场景：想用一行例子看看预测方法是怎样使用“已学到的对象状态”的。
-输入(input)：`model`、`test_data`。
-期望输出(output)：`predictions = model.predict(test_data)` 这一行。
-要确认的概念：方法可以利用对象状态来做出结果。
-
-```python
-# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
-predictions = model.predict(test_data)
-```
-
-`predict()` 会利用已经训练好的模型对象状态来产生预测结果。所以，我们不能只盯着一个函数本身，还要一起想：对象现在持有什么状态。
+这里读作：有一个叫 `model` 的对象，它执行 `fit()` 和 `predict()` 这两个方法。此时 `fit()` 可能不仅是简单计算，它还可能改变模型对象内部的状态。例如，学到的参数可能会被存进对象里。`predict()` 会利用已经训练好的模型对象状态来产生预测结果。所以，我们不能只盯着一个函数本身，还要一起想：对象现在持有什么状态。
 
 这个视角在后面的机器学习里非常重要。
 
