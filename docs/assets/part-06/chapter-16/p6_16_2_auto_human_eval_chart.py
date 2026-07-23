@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import sys
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 MPL_CACHE = REPO_ROOT / ".tmp" / "matplotlib-cache"
@@ -7,23 +8,17 @@ MPL_CACHE.mkdir(parents=True, exist_ok=True)
 os.environ.setdefault("MPLCONFIGDIR", str(MPL_CACHE))
 os.environ.setdefault("XDG_CACHE_HOME", str(MPL_CACHE))
 
+OUT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(OUT_DIR))
+
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 from matplotlib import font_manager
 
-OUT_DIR = Path(__file__).resolve().parent
-
-SUMMARY = {
-    "auto_pass_count": 2,
-    "auto_fail_count": 2,
-    "needs_human_judgment_count": 1,
-    "approved_count": 1,
-    "revise_count": 1,
-    "reject_count": 2,
-    "answer_count": 4,
-}
+from p6_16_2_eval_routing_cases import load_reports, summarize_reports
 
 LANG_TEXT = {
     "ko": {
@@ -37,13 +32,17 @@ LANG_TEXT = {
         ],
         "outfile": "auto-human-eval-routing-ko.png",
         "ylabel": "해당 후보 수",
-        "labels": ["자동 통과", "자동 탈락", "사람 판단", "승인", "수정 후 검토", "탈락"],
+        "gate_label": "자동 게이트",
+        "route_label": "최종 라우팅",
+        "legend": ["자동 통과", "사전 탈락", "사람 검토", "승인 후보"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "auto-human-eval-routing-en.png",
         "ylabel": "matching candidates",
-        "labels": ["auto pass", "auto fail", "human judgment", "approve", "revise", "reject"],
+        "gate_label": "auto gate",
+        "route_label": "final routing",
+        "legend": ["auto pass", "pre-reject", "human review", "approve"],
     },
 }
 
@@ -62,54 +61,75 @@ def configure_font(text: dict[str, str]) -> None:
 
 
 def style_axis(ax) -> None:
-    ax.grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
+    ax.grid(True, axis="x", color="#d0d7de", linewidth=0.75, alpha=0.85)
     ax.set_axisbelow(True)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
 
-def save_chart(text: dict[str, str]) -> None:
+def save_chart(text: dict[str, str], summary: dict[str, object]) -> None:
     configure_font(text)
-    values = [
-        SUMMARY["auto_pass_count"],
-        SUMMARY["auto_fail_count"],
-        SUMMARY["needs_human_judgment_count"],
-        SUMMARY["approved_count"],
-        SUMMARY["revise_count"],
-        SUMMARY["reject_count"],
+    gate_values = [
+        int(summary["auto_pass_count"]),
+        int(summary["auto_fail_count"]),
+        0,
+        0,
     ]
-    colors = ["#2563eb", "#dc2626", "#9333ea", "#0f766e", "#f59e0b", "#64748b"]
+    route_values = [
+        0,
+        int(summary["reject_before_human_review_count"]),
+        int(summary["send_to_human_review_count"]),
+        int(summary["approve_candidate_count"]),
+    ]
+    answer_count = int(summary["case_count"])
+    colors = ["#2563eb", "#64748b", "#9333ea", "#0f766e"]
 
     fig, ax = plt.subplots(figsize=(8.6, 3.9), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     style_axis(ax)
 
-    bars = ax.bar(text["labels"], values, color=colors, width=0.56)
-    for bar in bars:
-        value = bar.get_height()
-        ratio = value / SUMMARY["answer_count"]
-        ax.annotate(
-            f"{value:g}\n({ratio:.0%})",
-            (bar.get_x() + bar.get_width() / 2, value),
-            textcoords="offset points",
-            xytext=(0, 7),
-            ha="center",
-            fontsize=8.5,
-            color="#172033",
-        )
+    y_positions = [1, 0]
+    for row_index, values in enumerate([gate_values, route_values]):
+        left = 0
+        for value, color, label in zip(values, colors, text["legend"]):
+            if value == 0:
+                continue
+            ax.barh(y_positions[row_index], value, left=left, color=color, height=0.46)
+            ax.annotate(
+                f"{value:g}\n({value / answer_count:.0%})",
+                (left + value / 2, y_positions[row_index]),
+                ha="center",
+                va="center",
+                fontsize=8.5,
+                color="white",
+            )
+            left += value
 
-    ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, SUMMARY["answer_count"] * 1.28)
-    ax.tick_params(axis="x", labelsize=9)
+    ax.set_yticks(y_positions, [text["gate_label"], text["route_label"]])
+    ax.set_xlabel(text["ylabel"])
+    ax.set_xlim(0, answer_count)
+    ax.tick_params(axis="y", labelsize=10)
+    legend_handles = [
+        Patch(facecolor=color, label=label)
+        for color, label in zip(colors, text["legend"])
+    ]
+    ax.legend(
+        handles=legend_handles,
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.16),
+        ncol=4,
+        frameon=False,
+    )
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
 
 
 def main() -> None:
+    summary = summarize_reports(load_reports())
     for text in LANG_TEXT.values():
-        save_chart(text)
+        save_chart(text, summary)
 
 
 if __name__ == "__main__":

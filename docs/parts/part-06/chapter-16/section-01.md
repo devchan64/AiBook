@@ -43,7 +43,7 @@ LLM 평가(evaluation)는 답변이 그럴듯한지만 보는 일이 아니라, 
 | 답이 읽기 좋고 자연스러운데도 어딘가 불안하다 | 핵심 사실과 계산이 실제로 맞는가? | 유창한 문장이 정확성 부족을 가릴 수 있어서, 첫 판정은 말투보다 사실 일치가 먼저여야 하기 때문입니다. |
 | 문장은 맞는 것 같은데 바로 써도 되는지 망설여진다 | 사용자의 일을 실제로 끝내 줄 만큼 충분히 유용한가? | 맞는 말과 쓸 수 있는 답은 다를 수 있어서, 업무상 필요한 결정·조치가 남아 있는지 따로 봐야 하기 때문입니다. |
 | 근거 문서를 썼다고 했는데도 답을 믿기 어렵다 | 답이 실제 근거 문장과 연결되는가? | 검색이나 인용이 있었어도 핵심 결론이 근거에서 벗어나면 groundedness 문제를 따로 봐야 하기 때문입니다. |
-| 형식은 맞고 친절하지만 그대로 내보내기엔 위험해 보인다 | 안전성, 형식 적합성, 실행 경로 비용 중 어디에서 먼저 멈춰야 하는가? | 답 하나가 여러 축에서 동시에 탈락할 수 있어서, 형식 통과와 안전 통과를 같은 뜻으로 보면 우선 수정 순서가 흐려지기 때문입니다. |
+| 형식은 맞고 친절하지만 그대로 내보내기엔 위험해 보인다 | 안전성, 형식 적합성, 유용성 중 어디에서 먼저 멈춰야 하는가? | 답 하나가 여러 축에서 동시에 탈락할 수 있어서, 형식 통과와 안전 통과를 같은 뜻으로 보면 우선 수정 순서가 흐려지기 때문입니다. |
 
 이 표를 기준으로 아래 내용을 읽으면, evaluation을 `평가 용어 목록`보다 `좋아 보이는 답이 실제로는 어느 축에서 먼저 탈락하는가를 가르는 기준`으로 더 직접 읽을 수 있습니다.
 
@@ -211,11 +211,11 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 
 이 사례에서 넘어가야 할 오해는 `출처가 붙어 있으면 groundedness도 확보된 것`이라는 생각입니다. 평가가 필요한 이유는 인용 형식과 실제 근거 일치를 강제로 분리해 보게 만들기 위해서입니다.
 
-### 사례 3. 에이전트 실행 평가
+### 사례 3. 형식과 유용성 평가
 
-에이전트가 최종적으로 보고서를 잘 만들어 냈다고 해 봅시다. 사람은 결과물만 보면 우선 성공처럼 느끼기 쉽습니다. 하지만 중간에 같은 문서를 여러 번 읽고, 실패한 검색을 반복하고, 필요 없는 도구 호출을 계속했다면 실제 운영 비용과 지연 시간은 크게 나빠질 수 있습니다. 최종 산출물만 보면 이런 실행 비효율은 거의 보이지 않습니다.
+고객 안내 답변이 정중하고 문법도 맞게 나왔다고 해 봅시다. 사람은 말투가 좋으면 우선 통과처럼 느끼기 쉽습니다. 하지만 사용자가 실제로 해야 할 다음 행동이 빠졌다면, 그 답은 업무를 끝내 주지 못합니다. 예를 들어 계정 잠금 안내에서 `본인 확인`, `비밀번호 재설정 링크`, `문제가 계속될 때 전달할 요청 번호`가 빠지면 문장은 자연스러워도 고객은 다시 질문해야 합니다.
 
-예를 들어 한 번의 검색으로 충분했던 작업을 다섯 번 반복했다면, 결과는 맞아도 실서비스 운영성은 나쁘다고 봐야 합니다. 이 비효율이 누적되면 한 건은 성공해도 여러 요청이 몰릴 때 전체 시스템이 느려질 수 있습니다. 여기서 바뀌는 점은 `최종 결과물만 맞게 나왔는가`를 보던 기준에서 `그 결과에 도달하는 실행 경로가 효율적이고 안정적인가`를 보는 기준으로 이동한다는 것입니다. 그래서 평가에서는 `결과가 맞는가`와 함께 `어떤 경로로 그 결과에 도달했는가`를 따로 봐야 합니다. 그래서 이 사례에서 확인해야 할 결과는 최종 보고서 품질과 별개로 도구 호출 횟수, 실패 재시도, 우회 경로가 과도하지 않은가입니다.
+여기서 바뀌는 점은 `말투가 친절한가`를 보던 기준에서 `사용자가 다음 행동을 할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 형식은 맞지만 다음 행동이 비어 있으면 형식 적합성은 통과해도 유용성은 실패할 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 답변이 정중한가가 아니라, 사용자가 바로 따라 할 수 있는 필수 행동과 조건이 실제로 들어 있는가입니다.
 
 세 사례를 평가 축 관점으로 묶으면 다음과 같습니다.
 
@@ -223,7 +223,7 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 | --- | --- | --- |
 | 문서 요약 | 문장이 매끄러워도 핵심 결정이 빠질 수 있음 | 핵심 정보 보존, 누락 여부 |
 | RAG 질의응답 | 출처가 있어 보여도 문서 바깥 조건을 덧붙일 수 있음 | groundedness, 인용 정확성 |
-| 에이전트 실행 | 결과는 맞아도 경로가 비효율적일 수 있음 | 호출 횟수, 재시도, 실행 비용 |
+| 고객 안내 | 문장은 친절해도 다음 행동이 빠질 수 있음 | 형식 적합성, 유용성 |
 
 ## 평가 축으로 먼저 가를 장면
 
@@ -235,7 +235,7 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 | `출처가 붙었는데 왜 불안하지?` | 답의 각 주장과 인용 문장이 실제로 맞닿아 있는가? |
 | `내용은 맞는 것 같은데 바로 쓰기 어렵다` | 요청한 형식과 필수 행동 지침이 실제로 들어 있는가? |
 | `말투는 친절한데 그대로 따라도 괜찮은지 불안하다` | 위험한 지시나 과도한 확답을 따로 걸러야 하는가? |
-| `결과는 맞는데 운영이 무거운 것 같다` | 같은 품질을 더 적은 호출과 재시도로 낼 수 없는가? |
+| `내용은 맞는데 사용자가 다음에 무엇을 해야 할지 모른다` | 바로 실행할 행동이나 확인 기준이 들어 있는가? |
 
 같은 답안을 `어느 축에서 먼저 탈락했는가`까지 바로 내려오면 다음처럼 더 짧게 읽을 수 있습니다.
 
@@ -245,196 +245,137 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 | `근거성 재검토 필요` | 출처는 붙었지만 답의 각 주장과 인용 문장이 실제로 맞닿지 않는가 |
 | `형식/유용성 보강 필요` | 내용이 맞아도 요청한 형식, 필수 항목, 다음 행동 지침이 비어 있는가 |
 | `안전성 재검토 필요` | 친절한 답처럼 보여도 위험한 지시나 과도한 확답이 섞였는가 |
-| `실행 경로 비용 재검토 필요` | 결과는 맞지만 호출 수, 재시도, 도구 경로가 과도한가 |
 
-이 표의 핵심은 `좋아 보인다`와 `어느 축에서 먼저 고쳐야 하는가`를 분리하는 데 있습니다. 그래야 같은 답도 `내용 오류`, `근거 불일치`, `형식 미달`, `안전성 문제`, `운영 경로 과다` 중 무엇으로 먼저 남길지 바로 결정하고, 바로 아래 예제의 `next_fix` 값과도 자연스럽게 이어집니다.
+이 표의 핵심은 `좋아 보인다`와 `어느 축에서 먼저 고쳐야 하는가`를 분리하는 데 있습니다. 그래야 같은 답도 `내용 오류`, `근거 불일치`, `형식 미달`, `유용성 부족`, `안전성 문제` 중 무엇으로 먼저 남길지 바로 결정하고, 바로 아래 예제의 `next_fix` 값과도 자연스럽게 이어집니다.
 
-먼저 익혀야 하는 기준은 단순합니다. evaluation은 `좋아 보이는 답 고르기`가 아니라, `정확성`, `유용성`, `안전성`, `근거성`, `형식 적합성`, 그리고 필요하면 `실행 경로 비용`까지 나눠 보고 어느 축에서 먼저 고쳐야 하는지 결정하는 작업입니다.
+먼저 익혀야 하는 기준은 단순합니다. evaluation은 `좋아 보이는 답 고르기`가 아니라, `정확성`, `유용성`, `안전성`, `근거성`, `형식 적합성`을 나눠 보고 어느 축에서 먼저 고쳐야 하는지 결정하는 작업입니다. 호출 수, 재시도, 우회 경로 같은 실행 경로 비용은 답변 품질 축과 섞으면 초점이 흐려지므로, 다음 절의 운영 평가에서 따로 다룹니다.
 
 ## 연습 및 예제
 
-예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보고, 그 결과로 `어떤 후보를 채택할지`와 `무엇을 먼저 고칠지`를 읽는 것입니다. 하나의 답변만 보면 `맞았다` 또는 `틀렸다`로 쉽게 끝나 버리므로, 같은 질문에 대한 여러 후보 답변을 나란히 두고 어떤 축에서 갈라지는지 보겠습니다.
+예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보고, 그 결과로 `어떤 후보를 채택할지`와 `무엇을 먼저 고칠지`를 읽는 것입니다. 하나의 답변만 보면 `맞았다` 또는 `틀렸다`로 쉽게 끝나 버리므로, 여러 로컬 LLM에서 나온 출력 후보를 나란히 두고 어떤 축에서 갈라지는지 보겠습니다.
 
-아래 예제는 같은 환불 정책 질문에 대한 여러 답변 후보, 비교할 근거 문장, 형식 요구 조건과 필수 포함 정보를 사용합니다. 어떤 답은 숫자는 맞지만 형식이 불완전하고, 어떤 답은 문장은 자연스럽지만 문서에 없는 조건을 덧붙입니다.
+아래 예제는 먼저 `qwen2.5:1.5b`, `llama3.2:1b`, `llama3.2:latest` 같은 가벼운 로컬 Ollama 모델에 같은 작은 과제 묶음을 보내고, 그 출력을 CSV [p6_16_1_llm_eval_outputs.csv](../../../assets/part-06/chapter-16/p6_16_1_llm_eval_outputs.csv){ .csv-preview }로 저장합니다. 한 행은 `한 모델이 한 과제에 답한 결과`입니다. `source_excerpt`는 비교할 근거, `required_claim_terms`는 근거에서 답변으로 옮겨 와야 하는 핵심 표현, `unsupported_claim_terms`는 근거 밖으로 나간 표현, `format_terms`와 `helpful_terms`는 형식과 유용성 판정을 위한 관찰 항목, `model_output`은 실제 모델 출력입니다.
 
-출력에서는 답변 후보별 평가 보고서, 정확성·근거성·형식 적합성·유용성 요약값, 우선 채택 후보와 다음 수정 방향을 함께 확인합니다. 코드에서 확인할 핵심은 자동 평가가 정답 여부 하나만 보지 않고, 근거성, 형식 준수, 도움됨 같은 여러 축을 함께 점검해야 한다는 점입니다.
+출력에서는 모델별 평가 보고서, 정확성·근거성·형식 적합성·유용성 요약값, 우선 수정 축을 함께 확인합니다. 코드에서 확인할 핵심은 자동 평가가 정답 여부 하나만 보지 않고, 근거성, 형식 준수, 도움됨 같은 여러 축을 함께 점검해야 한다는 점입니다. 이 예제의 루브릭은 문자열 포함 여부를 보는 단순 자동 평가이므로 실제 의미 평가를 대신하지 않습니다. 대신 `같은 입력과 근거에서도 모델마다 다른 실패 축이 생기고, 그 차이를 CSV와 평가 축으로 남길 수 있다`는 구조를 보여 주는 데 목적이 있습니다.
 
 먼저 이 예제에서 함께 볼 평가 기준은 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| `correctness` | 숫자나 조건이 실제 정책과 맞는지 확인해야 해서 |
-| `groundedness` | 답변의 조건이 근거 문서 안에 실제로 있는지 봐야 해서 |
+| `correctness` | 근거에 있는 핵심 주장이 답변에 충분히 남았는지 확인해야 해서 |
+| `groundedness` | 답변이 근거 문서 밖의 조건을 덧붙이지 않았는지 봐야 해서 |
 | `format_compliance` | 요청한 형식과 마무리 문장을 지켰는지 확인해야 해서 |
-| `helpfulness` | 사용자가 바로 쓸 수 있게 핵심 행동 지침이 들어 있는지 봐야 해서 |
+| `helpfulness` | 사용자가 바로 쓸 수 있게 다음 행동이나 결과 사용 방법이 들어 있는지 봐야 해서 |
 | `next_fix` | 탈락한 후보를 어떤 축부터 고쳐야 하는지 정해야 해서 |
 
+먼저 CSV를 만드는 코드는 다음과 같습니다. 이 코드는 모델 판단용 프롬프트를 영어로 작성하고, 독자에게 보여 줄 요청과 출력은 한국어 맥락으로 둡니다. 같은 여섯 과제를 세 개의 가벼운 로컬 모델에 보내고, 모델명, 과제, 근거, 출력, 평가 루브릭을 한 행씩 저장합니다.
+
 ```python
-# 환불 정책 답변 후보를 정확성, 근거성, 형식 준수, 유용성 축으로 평가하고 다음 수정 방향을 고르는 예제입니다.
-from pprint import pprint
+--8<-- "assets/part-06/chapter-16/p6_16_1_generate_llm_eval_outputs.py"
+```
 
-source_text = "2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨"
-required_phrase = "환불 요청 처리 기한"
-answers = [
-    {
-        "name": "answer_a",
-        "text": "환불 요청 처리 기한은 14일로 변경되었습니다. 최신 정책 기준으로 접수해 주세요.",
-    },
-    {
-        "name": "answer_b",
-        "text": "환불 요청 처리 기한은 30일입니다. 최신 정책 기준으로 접수해 주세요.",
-    },
-    {
-        "name": "answer_c",
-        "text": "환불은 빨라졌습니다",
-    },
-    {
-        "name": "answer_d",
-        "text": "환불 요청 처리 기한은 14일로 변경되었고 개봉 제품도 30일 환불 가능합니다.",
-    },
-]
+이 스크립트를 실행하면 `p6_16_1_llm_eval_outputs.csv`가 만들어집니다. 로컬에 Ollama와 해당 모델이 준비되어 있지 않으면 이 단계는 건너뛰고, 저장소에 함께 제공되는 실제 실행 결과 CSV를 그대로 사용할 수 있습니다.
 
-def evaluate_answer(answer_text, source_text, required_phrase):
-    mentions_14_days = "14일" in answer_text
-    mentions_30_days = "30일" in answer_text
-    source_mentions_14_days = "14일" in source_text
+CSV를 만든 뒤에는 다음 별도 스크립트로 각 행을 평가합니다. 이 두 번째 스크립트는 로컬 모델을 호출하지 않고, 이미 존재하는 CSV만 읽습니다. 따라서 `p6_16_1_generate_llm_eval_outputs.py`와 독립적으로 실행됩니다.
 
-    correctness = mentions_14_days and source_mentions_14_days and not mentions_30_days
-    groundedness = required_phrase in answer_text and "개봉 제품" not in answer_text
-    format_compliance = answer_text.endswith(".") and "최신 정책 기준" in answer_text
-    helpfulness = "접수" in answer_text or "문의" in answer_text
-
-    if not correctness:
-        next_fix = "fix_fact_or_numeric_condition"
-    elif not groundedness:
-        next_fix = "remove_claim_not_supported_by_source"
-    elif not format_compliance:
-        next_fix = "rewrite_to_required_format"
-    elif not helpfulness:
-        next_fix = "add_actionable_guidance"
-    else:
-        next_fix = "accept_candidate"
-
-    return {
-        "correctness": correctness,
-        "groundedness": groundedness,
-        "format_compliance": format_compliance,
-        "helpfulness": helpfulness,
-        "passes_all": correctness and groundedness and format_compliance and helpfulness,
-        "axis_score": sum([correctness, groundedness, format_compliance, helpfulness]),
-        "next_fix": next_fix,
-    }
-
-reports = []
-for answer in answers:
-    evaluation = evaluate_answer(answer["text"], source_text, required_phrase)
-    reports.append({"name": answer["name"], "text": answer["text"], "evaluation": evaluation})
-
-best_candidate = max(reports, key=lambda report: report["evaluation"]["axis_score"])
-
-summary = {
-    "all_pass_count": sum(report["evaluation"]["passes_all"] for report in reports),
-    "correct_count": sum(report["evaluation"]["correctness"] for report in reports),
-    "grounded_count": sum(report["evaluation"]["groundedness"] for report in reports),
-    "format_ok_count": sum(report["evaluation"]["format_compliance"] for report in reports),
-    "helpful_count": sum(report["evaluation"]["helpfulness"] for report in reports),
-    "average_axis_score": round(
-        sum(report["evaluation"]["axis_score"] for report in reports) / len(reports), 2
-    ),
-    "best_candidate": best_candidate["name"],
-}
-
-print("[summary]")
-pprint(summary)
-print("[source_text]")
-print(source_text)
-print()
-
-for report in reports:
-    print("=" * 80)
-    print("[answer]")
-    print(report["name"])
-    print(report["text"])
-    print("[evaluation]")
-    pprint(report["evaluation"])
+```python
+--8<-- "assets/part-06/chapter-16/p6_16_1_evaluate_llm_outputs.py"
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 [summary]
-{'all_pass_count': 1,
- 'average_axis_score': 1.75,
- 'best_candidate': 'answer_a',
- 'correct_count': 1,
- 'format_ok_count': 2,
- 'grounded_count': 2,
- 'helpful_count': 2}
-[source_text]
-2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨
+{'all_pass_count': 7,
+ 'average_axis_score': 2.56,
+ 'axis_pass_count': {'correctness': 11,
+                     'format_compliance': 8,
+                     'groundedness': 17,
+                     'helpfulness': 10},
+ 'case_count': 18,
+ 'highest_axis_score_run': 'qwen2.5_1.5b_meeting_summary',
+ 'model_count': 3}
+
 ================================================================================
-[answer]
-answer_a
-환불 요청 처리 기한은 14일로 변경되었습니다. 최신 정책 기준으로 접수해 주세요.
+[case]
+qwen2.5_1.5b_refund_policy / qwen2.5:1.5b / policy_answer
+[model_output]
+환불 요청 처리 기한은 현재 최신 정책 공지에 따라 7일에서 14일로 변경되었습니다.
+[evaluation]
+{'axis_score': 2,
+ 'correctness': True,
+ 'failed_axes': ['format_compliance', 'helpfulness'],
+ 'format_compliance': False,
+ 'groundedness': True,
+ 'helpfulness': False,
+ 'matched_claims': ['14일', '최신 정책'],
+ 'next_fix': 'rewrite_to_required_format',
+ 'passes_all': False,
+ 'unsupported_hits': []}
+================================================================================
+[case]
+qwen2.5_1.5b_meeting_summary / qwen2.5:1.5b / summary
+[model_output]
+배포 일정이 8월 2일로 연기되었으며, 이에 대한 이유는 법무 검토가 남아 있기 때문입니다. 미나가 후속 확인을 맡았습니다.
 [evaluation]
 {'axis_score': 4,
  'correctness': True,
+ 'failed_axes': [],
  'format_compliance': True,
  'groundedness': True,
  'helpfulness': True,
+ 'matched_claims': ['8월 2일', '법무 검토', '미나'],
  'next_fix': 'accept_candidate',
- 'passes_all': True}
+ 'passes_all': True,
+ 'unsupported_hits': []}
 ================================================================================
-[answer]
-answer_b
-환불 요청 처리 기한은 30일입니다. 최신 정책 기준으로 접수해 주세요.
+[case]
+qwen2.5_1.5b_rag_plan_limit / qwen2.5:1.5b / rag_answer
+[model_output]
+Basic 플랜은 프로젝트 5개까지 지원하며, SSO는 Enterprise 플랜 이상으로 제공됩니다.
 [evaluation]
 {'axis_score': 3,
- 'correctness': False,
+ 'correctness': True,
+ 'failed_axes': ['groundedness'],
  'format_compliance': True,
- 'groundedness': True,
+ 'groundedness': False,
  'helpfulness': True,
- 'next_fix': 'fix_fact_or_numeric_condition',
- 'passes_all': False}
+ 'matched_claims': ['5개', 'Enterprise', 'SSO'],
+ 'next_fix': 'remove_claim_not_supported_by_source',
+ 'passes_all': False,
+ 'unsupported_hits': ['이상']}
+...
 ================================================================================
-[answer]
-answer_c
-환불은 빨라졌습니다
+[case]
+llama3.2_1b_support_reply_action / llama3.2:1b / helpfulness
+[model_output]
+고객은 본인 확인 뒤 계정 잠금을 해제할 수 있습니다.
 [evaluation]
-{'axis_score': 0,
+{'axis_score': 1,
  'correctness': False,
+ 'failed_axes': ['correctness', 'format_compliance', 'helpfulness'],
  'format_compliance': False,
- 'groundedness': False,
+ 'groundedness': True,
  'helpfulness': False,
- 'next_fix': 'fix_fact_or_numeric_condition',
- 'passes_all': False}
-================================================================================
-[answer]
-answer_d
-환불 요청 처리 기한은 14일로 변경되었고 개봉 제품도 30일 환불 가능합니다.
-[evaluation]
-{'axis_score': 0,
- 'correctness': False,
- 'format_compliance': False,
- 'groundedness': False,
- 'helpfulness': False,
- 'next_fix': 'fix_fact_or_numeric_condition',
- 'passes_all': False}
+ 'matched_claims': ['본인 확인'],
+ 'next_fix': 'fix_missing_or_wrong_core_claim',
+ 'passes_all': False,
+ 'unsupported_hits': []}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `correct_count`와 `grounded_count`, `format_ok_count`, `helpful_count`가 서로 다르게 나오고, `best_candidate`와 `next_fix`가 그 차이를 운영 판단으로 바꿔 준다는 점입니다. 즉, 같은 질문에 대한 답이라도 어떤 후보는 형식과 유용성은 괜찮지만 숫자가 틀리고, 어떤 후보는 숫자와 조건을 함께 틀리며, 어떤 후보는 문장이 짧아 형식과 유용성까지 한꺼번에 무너집니다. 평가가 단일 점수 하나였다면 이런 차이는 바로 묻히기 쉽습니다.
+이 예제에서 먼저 봐야 할 것은 `axis_pass_count` 안의 통과 수가 축마다 다르게 나온다는 점입니다. 세 모델이 같은 근거와 같은 요청을 받았지만, 어떤 출력은 핵심 주장 일부를 놓치고, 어떤 출력은 근거 문서보다 넓은 조건을 덧붙이며, 어떤 출력은 형식 요구나 유용성에서 탈락합니다. 평가가 단일 점수 하나였다면 이런 차이는 바로 묻히기 쉽습니다.
 
 ![LLM 평가 축별 통과 점검](../../../assets/part-06/chapter-16/llm-eval-axis-check-ko.png)
 
-이 차트는 전체 통과 후보는 하나뿐이지만, 근거성·형식·유용성처럼 일부 축만 보면 통과 후보가 더 많아진다는 점을 보여 줍니다.
+이 차트는 전체 통과 후보 수와 축별 통과 후보 수가 서로 다르다는 점을 보여 줍니다. 막대가 모두 같은 높이가 아니라는 사실 자체가 중요합니다. LLM 출력은 `좋다/나쁘다`로 한 번에 갈리기보다, 정확성은 통과하지만 형식에서 실패하거나, 근거는 벗어나지 않았지만 유용성이 부족한 식으로 나뉩니다.
 
-그래서 이 예제에서 확인해야 할 결과는 하나의 질문에 대한 답변 후보들도 정확성, 근거성, 형식성, 유용성 같은 여러 축에서 따로 판정할 수 있으며, 평가가 단일 점수 하나로 끝나지 않는다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 여러 LLM 출력 후보를 정확성, 근거성, 형식성, 유용성 같은 축으로 따로 판정할 수 있으며, 평가가 단일 점수 하나로 끝나지 않는다는 점입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `answer_b`의 숫자를 `14일`로 바꿔 정확성만 회복되는지 보기
-- `answer_d`에서 `개봉 제품도 30일` 문구를 지워 근거성이 어떻게 달라지는지 보기
-- `format_compliance` 조건에서 `최신 정책 기준` 요구를 빼면 형식 점검이 얼마나 느슨해지는지 확인하기
+- `p6_16_1_generate_llm_eval_outputs.py`를 실행해 같은 과제를 현재 설치된 Ollama 모델로 다시 실행하기
+- 생성 스크립트의 `MODELS` 목록을 바꿔 더 작은 모델과 더 큰 모델의 실패 축이 어떻게 달라지는지 보기
+- 생성 스크립트의 `required_claim_terms`, `unsupported_claim_terms`, `format_terms`, `helpful_terms`를 조정해 정확성·근거성·형식·유용성 판정이 어떻게 갈라지는지 확인하기
 
 ## 평가 축에서 갈리는 수정 방향
 

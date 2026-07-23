@@ -231,208 +231,112 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 
 ## 연습 및 예제
 
-예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보고, 최종적으로 `승인`, `수정 후 재검토`, `즉시 탈락` 중 어떤 조치가 내려지는지 확인하는 것입니다. 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 바로 탈락시키고`, `무엇은 사람 검토로 넘기며`, `무엇은 둘 다 통과하는가`를 비교하겠습니다.
+예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보고, 최종적으로 `승인 후보`, `사람 검토`, `사전 탈락` 중 어떤 경로가 남는지 확인하는 것입니다. 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 바로 탈락시키고`, `무엇은 사람 검토로 넘기며`, `무엇은 승인 후보로 남기는가`를 비교하겠습니다.
 
-아래 예제는 여러 개의 환불 정책 답변 후보와 자동 평가 기준을 사용합니다. 자동 평가는 형식, 길이, 근거 힌트 같은 표면 조건을 빠르게 확인하고, 사람 평가는 말투, 오해 가능성, 실제 도움성을 추가로 봅니다.
+아래 예제는 평가 라우팅 후보 CSV [p6_16_2_eval_routing_cases.csv](../../../assets/part-06/chapter-16/p6_16_2_eval_routing_cases.csv){ .csv-preview }를 사용합니다. 한 행은 운영에서 볼 수 있는 실패 유형을 본떠 만든 출력 후보 하나입니다. `model_output`은 후보 답변, `source_marker`와 `required_action`은 자동 게이트가 먼저 확인할 표면 신호, `latency_ms`, `tool_call_count`, `failed_tool_call_count`는 P6-16.1에서 넘긴 실행 경로 비용 신호, `risk_level`은 자동 통과 뒤 위험도를 가르는 신호, `human_review_focus`는 사람이 어떤 질문으로 읽어야 하는지를 남기는 검토 큐 메모입니다.
 
-출력에서는 답변별 자동 평가 결과, 사람이 추가로 봐야 할 질문, 자동 탈락·사람 검토 필요·최종 승인 후보 요약값, 운영에서 내려야 할 다음 조치를 함께 확인합니다. 코드에서 확인할 핵심은 사람 평가가 자동 평가를 대체하는 것이 아니라, 자동 통과 뒤에도 남는 애매함과 운영 위험을 잡아내는 단계라는 점입니다.
+출력에서는 후보별 자동 게이트 결과, 자동 게이트 실패 메모, 사람이 이어서 볼 질문, 자동 사전 탈락·사람 검토·승인 후보 요약값을 함께 확인합니다. 코드에서 확인할 핵심은 사람 평가를 코드가 대신 채점하는 것이 아니라, 자동 평가가 후보를 먼저 줄이고 남은 후보를 사람 검토 큐로 넘긴다는 점입니다.
 
 먼저 이 예제에서 함께 볼 운영 판단 기준은 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| 자동 기준 통과 여부 | 형식, 길이, 근거 힌트 같은 기본 안전선을 먼저 통과하는지 보기 위해 |
-| 사람 검토 필요 여부 | 자동 통과 뒤에도 뉘앙스나 오해 가능성이 남는지 보기 위해 |
-| 즉시 승인 가능 여부 | 자동 평가와 사람 검토 질문까지 감안했을 때 바로 승인 후보인지 보기 위해 |
-| 검토 사유 | 왜 사람이 다시 봐야 하는지 운영 로그에 남기기 위해 |
-| 다음 조치 | 승인, 수정, 탈락 중 다음 조치를 분명히 남기기 위해 |
+| 자동 기준 통과 여부 | 형식, 길이, 근거 힌트, 금지 표현, 실행 비용 같은 기본 안전선을 먼저 통과하는지 보기 위해 |
+| 자동 게이트 실패 메모 | 사람 검토 전에 기계적으로 고쳐야 할 항목을 분리하기 위해 |
+| 사람 검토 질문 | 자동 통과 뒤에도 뉘앙스나 오해 가능성이 남는지 사람이 읽을 질문으로 남기기 위해 |
+| 승인 후보 여부 | 자동 게이트를 통과했고 남은 검토가 가벼운 최종 확인 수준인지 보기 위해 |
+| 사전 탈락 여부 | 사람이 읽기 전에 수정해야 할 기계적 실패를 분리하기 위해 |
+| 라우팅 요약 | 승인, 사람 검토, 사전 탈락 중 어느 운영 경로로 갈지 분명히 남기기 위해 |
 
 ```python
-# 고객 응답 후보를 자동 평가 gate와 사람 검토 질문으로 나누어 승인, 수정, 거절 경로를 판단하는 예제입니다.
-from pprint import pprint
-
-outputs = [
-    {
-        "name": "answer_a",
-        "text": "환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.",
-    },
-    {
-        "name": "answer_b",
-        "text": "환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.",
-    },
-    {
-        "name": "answer_c",
-        "text": "환불은 가능하지만 조건은 직접 찾아보세요.",
-    },
-    {
-        "name": "answer_d",
-        "text": "환불 요청 처리 기한은 14일이며 주문번호를 보내 주시면 접수를 도와드리겠습니다. 자세한 내용은 공지를 참고하세요.",
-    },
-]
-
-def automatic_eval(output):
-    result = {
-        "has_source_hint": "공지" in output,
-        "format_ok": output.endswith("."),
-        "length_ok": len(output) >= 20,
-    }
-    result["auto_pass"] = all(result.values())
-    return result
-
-def human_review_questions(output):
-    questions = []
-    if "주문번호" not in output:
-        questions.append("사용자가 다음 행동을 바로 이해할 수 있는가?")
-    if "직접 찾아보세요" in output:
-        questions.append("문장이 책임을 사용자에게 돌리는 듯 들리지는 않는가?")
-    if "가능" in output and "조건" in output and "공지" not in output:
-        questions.append("예외 조건이나 근거 위치가 빠져 오해를 만들 가능성은 없는가?")
-    if not questions:
-        questions.append("말투와 안내 순서가 실제 고객 경험에도 자연스러운가?")
-    return questions
-
-reports = []
-for item in outputs:
-    automatic_result = automatic_eval(item["text"])
-    human_questions = human_review_questions(item["text"])
-
-    if not automatic_result["auto_pass"]:
-        review_reason = "automatic_gate_failed"
-    elif human_questions == ["말투와 안내 순서가 실제 고객 경험에도 자연스러운가?"]:
-        review_reason = "light_human_confirmation"
-    else:
-        review_reason = "needs_human_judgment"
-
-    final_ready = automatic_result["auto_pass"] and review_reason == "light_human_confirmation"
-    if review_reason == "automatic_gate_failed":
-        next_action = "reject_before_human_review"
-    elif final_ready:
-        next_action = "approve_candidate"
-    else:
-        next_action = "revise_and_send_to_human_review"
-
-    reports.append(
-        {
-            "name": item["name"],
-            "output": item["text"],
-            "automatic_result": automatic_result,
-            "human_review_questions": human_questions,
-            "needs_human_review": review_reason != "automatic_gate_failed",
-            "review_reason": review_reason,
-            "final_ready": final_ready,
-            "next_action": next_action,
-        }
-    )
-
-summary = {
-    "auto_pass_count": sum(report["automatic_result"]["auto_pass"] for report in reports),
-    "auto_fail_count": sum(not report["automatic_result"]["auto_pass"] for report in reports),
-    "needs_human_judgment_count": sum(report["review_reason"] == "needs_human_judgment" for report in reports),
-    "final_ready_count": sum(report["final_ready"] for report in reports),
-    "approved_count": sum(report["next_action"] == "approve_candidate" for report in reports),
-    "revise_count": sum(report["next_action"] == "revise_and_send_to_human_review" for report in reports),
-    "reject_count": sum(report["next_action"] == "reject_before_human_review" for report in reports),
-}
-
-print("[summary]")
-pprint(summary)
-print()
-
-for report in reports:
-    print("=" * 80)
-    print(f"[{report['name']}]")
-    print("output =", report["output"])
-    print("automatic_result =")
-    pprint(report["automatic_result"])
-    print("human_review_questions =")
-    pprint(report["human_review_questions"])
-    print("review_reason =", report["review_reason"])
-    print("final_ready =", report["final_ready"])
-    print("next_action =", report["next_action"])
-    print()
+--8<-- "assets/part-06/chapter-16/p6_16_2_eval_routing_cases.py"
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 [summary]
-{'approved_count': 1,
- 'auto_fail_count': 2,
- 'auto_pass_count': 2,
- 'final_ready_count': 1,
- 'needs_human_judgment_count': 1,
- 'reject_count': 2,
- 'revise_count': 1}
+{'approve_candidate_count': 12,
+ 'auto_fail_count': 18,
+ 'auto_pass_count': 18,
+ 'case_count': 36,
+ 'reject_before_human_review_count': 18,
+ 'risk_level_count': {'high': 9, 'low': 13, 'medium': 14},
+ 'route_count': {'approve_candidate': 12,
+                 'reject_before_human_review': 18,
+                 'send_to_human_review': 6},
+ 'send_to_human_review_count': 6}
 
 ================================================================================
-[answer_a]
-output = 환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.
-automatic_result =
-{'auto_pass': True, 'format_ok': True, 'has_source_hint': True, 'length_ok': True}
-human_review_questions =
-['사용자가 다음 행동을 바로 이해할 수 있는가?']
-review_reason = needs_human_judgment
-final_ready = False
-next_action = revise_and_send_to_human_review
+case_001 / refund
+auto_pass = True
+gate =
+{'banned_terms_ok': True,
+ 'cost_ok': True,
+ 'format_ok': True,
+ 'length_ok': True,
+ 'required_action_ok': True,
+ 'source_marker_ok': True}
+risk_level = low
+gate_fix_note = -
+human_review_question = 가벼운 최종 확인만 남긴다: 말투와 안내 순서가 자연스러운가?
+route = approve_candidate
+...
 
 ================================================================================
-[answer_b]
-output = 환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
-automatic_result =
-{'auto_pass': False, 'format_ok': True, 'has_source_hint': False, 'length_ok': True}
-human_review_questions =
-['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
-review_reason = automatic_gate_failed
-final_ready = False
-next_action = reject_before_human_review
+case_005 / refund
+auto_pass = False
+gate =
+{'banned_terms_ok': True,
+ 'cost_ok': False,
+ 'format_ok': True,
+ 'length_ok': True,
+ 'required_action_ok': True,
+ 'source_marker_ok': True}
+risk_level = medium
+gate_fix_note = 자동 게이트 실패 항목을 먼저 수정한다: cost_ok
+human_review_question = -
+route = reject_before_human_review
 
 ================================================================================
-[answer_c]
-output = 환불은 가능하지만 조건은 직접 찾아보세요.
-automatic_result =
-{'auto_pass': False, 'format_ok': True, 'has_source_hint': False, 'length_ok': True}
-human_review_questions =
-['사용자가 다음 행동을 바로 이해할 수 있는가?',
- '문장이 책임을 사용자에게 돌리는 듯 들리지는 않는가?',
- '예외 조건이나 근거 위치가 빠져 오해를 만들 가능성은 없는가?']
-review_reason = automatic_gate_failed
-final_ready = False
-next_action = reject_before_human_review
-
-================================================================================
-[answer_d]
-output = 환불 요청 처리 기한은 14일이며 주문번호를 보내 주시면 접수를 도와드리겠습니다. 자세한 내용은 공지를 참고하세요.
-automatic_result =
-{'auto_pass': True, 'format_ok': True, 'has_source_hint': True, 'length_ok': True}
-human_review_questions =
-['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
-review_reason = light_human_confirmation
-final_ready = True
-next_action = approve_candidate
+case_008 / refund
+auto_pass = True
+gate =
+{'banned_terms_ok': True,
+ 'cost_ok': True,
+ 'format_ok': True,
+ 'length_ok': True,
+ 'required_action_ok': True,
+ 'source_marker_ok': True}
+risk_level = medium
+gate_fix_note = -
+human_review_question = 정책 예외나 제한 조건을 지나치게 단정하지 않았는가?
+route = send_to_human_review
+...
 ```
 
-이 예제에서 먼저 봐야 할 것은 자동 기준 통과 수, 사람 판단이 더 필요한 수, 즉시 승인 가능한 수가 서로 다르고, 다음 조치가 그 차이를 실제 운영 조치로 바꾼다는 점입니다. 즉, 어떤 답은 자동 평가에서 바로 탈락하고, 어떤 답은 자동 평가를 통과했지만 사람 검토가 더 필요하며, 어떤 답만이 자동 기준과 사람 기준을 함께 만족해 최종 승인 후보가 됩니다.
+이 예제에서 먼저 봐야 할 것은 자동 통과 수, 사람 검토로 보내는 수, 승인 후보 수가 서로 다르다는 점입니다. `case_005`처럼 내용 조건은 갖춰도 실행 비용이 기준을 넘으면 자동 게이트에서 먼저 멈추고, `case_008`처럼 자동 게이트는 통과해도 정책 예외 해석이 남으면 사람 검토 큐로 넘어갑니다. 반대로 `case_001`처럼 자동 기준을 통과하고 위험 신호가 낮은 후보만 승인 후보가 됩니다.
 
 ![자동 평가와 사람 평가 경로](../../../assets/part-06/chapter-16/auto-human-eval-routing-ko.png)
 
-이 차트는 자동 통과와 최종 승인 후보가 같은 수가 아니며, 자동 탈락과 수정 후 사람 검토가 서로 다른 운영 경로라는 점을 예제의 `summary` 값으로 보여 줍니다.
+이 차트는 첫 행에서 자동 게이트가 후보를 통과와 사전 탈락으로 나누고, 둘째 행에서 최종 라우팅이 사전 탈락·사람 검토·승인 후보로 다시 정리된다는 점을 보여 줍니다. 즉 `자동 통과`는 중간 단계이고, `사람 검토`와 `승인 후보`는 자동 통과 뒤에 남는 최종 운영 경로입니다.
 
 같은 결과를 운영 경로 기준으로 다시 짧게 묶으면 다음처럼 읽을 수 있습니다.
 
-| 답변 | 먼저 드러난 상태 | 왜 이 경로로 가는가 | 후속 조치 |
+| 후보 | 먼저 드러난 상태 | 왜 이 경로로 가는가 | 후속 조치 |
 | --- | --- | --- | --- |
-| `answer_a` | 자동 기준은 통과했지만 사람 판단이 더 필요함 | 출처 표기와 형식은 맞지만 사용자의 다음 행동이 바로 보이지 않기 때문입니다. | 문장을 보강해 사람 검토로 다시 보냄 |
-| `answer_b` | 자동 게이트에서 먼저 탈락 | 공지 같은 근거 힌트가 없어 기본 안전선을 통과하지 못했기 때문입니다. | 사람 검토 전에 수정하거나 탈락 처리 |
-| `answer_c` | 자동 게이트에서 먼저 탈락 | 근거 힌트도 없고 책임 전가처럼 읽힐 수 있어 자동 단계에서 이미 위험 신호가 크기 때문입니다. | 즉시 탈락시키고 문장 기준을 다시 설계 |
-| `answer_d` | 승인 후보 | 자동 기준을 통과했고 사람 확인 질문도 가벼운 확인 수준에 그치기 때문입니다. | 승인 후보로 올리고 최종 확인 |
+| `case_001` | 승인 후보 | 자동 게이트를 통과했고 남은 검토가 말투와 안내 순서 확인 수준이기 때문입니다. | 승인 후보로 올리고 최종 확인 |
+| `case_005` | 자동 게이트에서 먼저 탈락 | 내용 조건은 맞아도 지연 시간, 호출 수, 실패 호출이 비용 기준을 넘었기 때문입니다. | 사람 검토 전에 실행 경로를 수정 |
+| `case_008` | 사람 검토 필요 | 형식과 근거 신호는 맞지만 정책 예외 해석을 사람이 끝까지 읽어야 하기 때문입니다. | 사람 검토 큐로 보내고 검토 질문을 기록 |
 
-그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·출처 힌트 같은 표면 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질을 따로 보며, 운영에서는 이 둘을 합쳐 `탈락`, `재검토`, `승인 후보`를 나눈다는 점입니다. 특히 `answer_a`처럼 자동 평가는 통과해도 다음 행동이 불분명할 수 있고, `answer_b`, `answer_c`처럼 형식은 맞더라도 출처 힌트가 없어 자동 게이트부터 통과하지 못할 수 있습니다.
+그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·근거 힌트·금지 표현·실행 비용 같은 반복 가능한 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질, 정책 예외 해석을 따로 본다는 점입니다. 운영에서는 이 둘을 합쳐 `사전 탈락`, `사람 검토`, `승인 후보`를 나눕니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `outputs`에 더 친절하거나 더 차가운 답변을 추가해 자동 평가와 사람 질문의 차이를 느껴 보기
-- `automatic_eval`에 금지 표현 점검을 넣어 자동 탈락 조건을 더 늘려 보기
-- 사람 질문 목록을 팀의 실제 QA 체크리스트처럼 다시 써 보고 `review_reason`이 어떻게 달라지는지 보기
+- CSV의 `latency_ms`, `tool_call_count`, `failed_tool_call_count`를 바꿔 실행 비용 기준이 자동 게이트에서 어떻게 작동하는지 보기
+- CSV의 `risk_level`을 바꿔 자동 통과 후보가 승인 후보와 사람 검토 큐로 어떻게 갈라지는지 보기
+- CSV의 `human_review_focus`를 바꿔 사람 검토 질문이 어떻게 달라지는지 보기
+- `automatic_gate()`의 비용 기준이나 금지 표현 기준을 바꿔 사전 탈락 수가 어떻게 달라지는지 확인하기
 
 ## 운영 판단에서 갈리는 승인 경로
 

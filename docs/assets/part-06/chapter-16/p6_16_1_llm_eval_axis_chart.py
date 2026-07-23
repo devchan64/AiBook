@@ -1,4 +1,5 @@
 from pathlib import Path
+import csv
 import os
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -14,15 +15,54 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
+CSV_PATH = OUT_DIR / "p6_16_1_llm_eval_outputs.csv"
 
-SUMMARY = {
-    "all_pass_count": 1,
-    "correct_count": 1,
-    "grounded_count": 2,
-    "format_ok_count": 2,
-    "helpful_count": 2,
-    "answer_count": 4,
-}
+
+def split_terms(value: str) -> list[str]:
+    return [term.strip() for term in value.split("|") if term.strip()]
+
+
+def evaluate_row(row: dict[str, str]) -> dict[str, bool | int]:
+    output = row["model_output"]
+    source = row["source_excerpt"]
+    required_claims = split_terms(row["required_claim_terms"])
+    unsupported_claims = split_terms(row["unsupported_claim_terms"])
+    format_terms = split_terms(row["format_terms"])
+    helpful_terms = split_terms(row["helpful_terms"])
+
+    source_backed_claims = [term for term in required_claims if term in source]
+    matched_claims = [term for term in source_backed_claims if term in output]
+    unsupported_hits = [
+        term for term in unsupported_claims if term in output and term not in source
+    ]
+
+    correctness = len(matched_claims) >= max(1, len(source_backed_claims) - 1)
+    groundedness = not unsupported_hits
+    format_compliance = output.endswith(".") and all(term in output for term in format_terms)
+    helpfulness = any(term in output for term in helpful_terms)
+
+    return {
+        "correctness": correctness,
+        "groundedness": groundedness,
+        "format_compliance": format_compliance,
+        "helpfulness": helpfulness,
+        "passes_all": all([correctness, groundedness, format_compliance, helpfulness]),
+    }
+
+
+def build_summary() -> dict[str, int]:
+    with CSV_PATH.open(newline="", encoding="utf-8") as csv_file:
+        rows = list(csv.DictReader(csv_file))
+
+    reports = [evaluate_row(row) for row in rows]
+    return {
+        "all_pass_count": sum(report["passes_all"] for report in reports),
+        "correct_count": sum(report["correctness"] for report in reports),
+        "grounded_count": sum(report["groundedness"] for report in reports),
+        "format_ok_count": sum(report["format_compliance"] for report in reports),
+        "helpful_count": sum(report["helpfulness"] for report in reports),
+        "answer_count": len(reports),
+    }
 
 LANG_TEXT = {
     "ko": {
@@ -67,14 +107,14 @@ def style_axis(ax) -> None:
     ax.spines["right"].set_visible(False)
 
 
-def save_chart(text: dict[str, str]) -> None:
+def save_chart(text: dict[str, str], summary: dict[str, int]) -> None:
     configure_font(text)
     values = [
-        SUMMARY["all_pass_count"],
-        SUMMARY["correct_count"],
-        SUMMARY["grounded_count"],
-        SUMMARY["format_ok_count"],
-        SUMMARY["helpful_count"],
+        summary["all_pass_count"],
+        summary["correct_count"],
+        summary["grounded_count"],
+        summary["format_ok_count"],
+        summary["helpful_count"],
     ]
     colors = ["#0f766e", "#dc2626", "#2563eb", "#64748b", "#f59e0b"]
 
@@ -86,7 +126,7 @@ def save_chart(text: dict[str, str]) -> None:
     bars = ax.bar(text["labels"], values, color=colors, width=0.56)
     for bar in bars:
         value = bar.get_height()
-        ratio = value / SUMMARY["answer_count"]
+        ratio = value / summary["answer_count"]
         ax.annotate(
             f"{value:g}\n({ratio:.0%})",
             (bar.get_x() + bar.get_width() / 2, value),
@@ -98,15 +138,16 @@ def save_chart(text: dict[str, str]) -> None:
         )
 
     ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, SUMMARY["answer_count"] * 1.28)
+    ax.set_ylim(0, summary["answer_count"] * 1.24)
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
 
 
 def main() -> None:
+    summary = build_summary()
     for text in LANG_TEXT.values():
-        save_chart(text)
+        save_chart(text, summary)
 
 
 if __name__ == "__main__":
