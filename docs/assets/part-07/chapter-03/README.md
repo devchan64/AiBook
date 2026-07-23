@@ -13,3 +13,6 @@
   - `p7-3-surface-patches.csv`
   - `p7-3-error-review.csv`
   - `p7-3-followup-actions.csv`
+- Python report assets used by this chapter:
+  - `p7_3_input_representation_report.py`
+  - `p7-3-input-representation-report-ko.png`

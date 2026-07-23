@@ -10,3 +10,6 @@
   - `p7-5-rag-documents.csv`
   - `p7-5-rag-questions.csv`
   - `p7-5-boundary-cases.csv`
+- Python report assets used by this chapter:
+  - `p7_5_retrieval_eval_report.py`
+  - `p7-5-retrieval-eval-report-ko.png`
