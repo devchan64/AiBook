@@ -6,7 +6,9 @@
 - P6-17 operations language pairs:
   - `p6-c17-s01-service-constraint-flow-en.mmd` / `p6-c17-s01-service-constraint-flow-ko.mmd`
   - `p6-c17-s02-failure-recovery-flow-en.mmd` / `p6-c17-s02-failure-recovery-flow-ko.mmd`
-  - `p6_17_1_service_constraint_matrix_chart.py` generates `service-constraint-matrix-ko.png` and `service-constraint-matrix-en.png`.
+  - `p6_17_1_service_candidates.csv` stores the P6-17.1 service candidate inputs used by the manuscript example and chart.
+  - `p6_17_1_evaluate_service_candidates.py` evaluates P6-17.1 service candidates against quality, latency, cost, and throughput constraints.
+  - `p6_17_1_service_constraint_matrix_chart.py` reads the same CSV-backed evaluation and generates `service-constraint-matrix-ko.png` and `service-constraint-matrix-en.png`.
   - `p6_17_2_failure_recovery_split_chart.py` generates `failure-recovery-routing-ko.png` and `failure-recovery-routing-en.png`.
 - Legacy P6-18 request record copies kept here only for compatibility cleanup:
   - `p6-c17-s01-diagram-01-en.mmd` / `p6-c17-s01-diagram-01-ko.mmd`
