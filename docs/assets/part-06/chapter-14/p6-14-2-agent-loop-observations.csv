@@ -1,0 +1,37 @@
+case_id,domain,round,goal,planned_step,observation_signal,has_current_context,evidence_sufficient,conflict_found,approval_needed,action_failed,retry_count,retry_limit
+policy-01,policy,1,latest refund policy summary,search policy notice,old notice only,false,false,false,false,false,0,2
+policy-01,policy,2,latest refund policy summary,refine date filter,current notice found,true,false,false,false,false,1,2
+policy-01,policy,3,latest refund policy summary,read source and summarize,sufficient current evidence,true,true,false,false,false,1,2
+policy-02,policy,1,resolve refund rule mismatch,search policy notice,current notice found,true,false,false,false,false,0,2
+policy-02,policy,2,resolve refund rule mismatch,compare policy appendix,conflicting effective dates,true,false,true,false,false,1,2
+policy-03,policy,1,check whether current policy exists,search policy notice,old notice only,false,false,false,false,false,0,2
+policy-03,policy,2,check whether current policy exists,refine date filter,still no current notice,false,false,false,false,false,1,2
+policy-03,policy,3,check whether current policy exists,try alternate source,no current source after retry,false,false,false,false,true,2,2
+policy-04,policy,1,answer with refund eligibility source,search policy notice,current notice found,true,false,false,false,false,0,2
+policy-04,policy,2,answer with refund eligibility source,read detailed terms,eligibility condition missing,true,false,false,false,false,1,2
+policy-04,policy,3,answer with refund eligibility source,open appendix,sufficient current evidence,true,true,false,false,false,1,2
+code-01,coding,1,fix authentication regression,patch likely file,new test failure,true,false,false,false,true,0,2
+code-01,coding,2,fix authentication regression,adjust patch from test log,tests pass with notes,true,true,false,false,false,1,2
+code-02,coding,1,update billing validation,inspect files,related file missing,false,false,false,false,false,0,2
+code-02,coding,2,update billing validation,search related tests,test context found,true,false,false,false,false,1,2
+code-02,coding,3,update billing validation,run tests,permission-sensitive change,true,false,false,true,false,1,2
+code-03,coding,1,apply security-sensitive patch,inspect change scope,approval required before write,true,false,false,true,false,0,1
+code-04,coding,1,repair flaky import path,run failing test,new import error,true,false,false,false,true,0,2
+code-04,coding,2,repair flaky import path,change import path,same failure after retry,true,false,false,false,true,1,2
+code-04,coding,3,repair flaky import path,try alternate fix,retry limit reached,true,false,false,false,true,2,2
+schedule-01,schedule,1,find thirty minute meeting time,query calendar,no open slot,false,false,false,false,false,0,2
+schedule-01,schedule,2,find thirty minute meeting time,search alternate window,alternate slot found,true,false,false,false,false,1,2
+schedule-01,schedule,3,find thirty minute meeting time,ask user to confirm alternate,user confirmation needed,true,false,false,true,false,1,2
+schedule-02,schedule,1,book team sync,query calendar,open slot found,true,true,false,false,false,0,2
+schedule-03,schedule,1,reschedule customer call,query calendar,two calendars disagree,true,false,true,false,false,0,2
+research-01,research,1,compare vendor policy sources,search web results,relevant but old source,false,false,false,false,false,0,2
+research-01,research,2,compare vendor policy sources,filter recent source,recent source found,true,false,false,false,false,1,2
+research-01,research,3,compare vendor policy sources,compare source claims,conflicting source claims,true,false,true,false,false,1,2
+research-02,research,1,prepare cited answer,search source,source found without citation detail,true,false,false,false,false,0,2
+research-02,research,2,prepare cited answer,open primary source,sufficient citation detail,true,true,false,false,false,1,2
+workflow-01,workflow,1,send revised report,check document status,current draft exists,true,false,false,false,false,0,2
+workflow-01,workflow,2,send revised report,check recipient approval,manager approval needed,true,false,false,true,false,0,2
+workflow-02,workflow,1,triage support escalation,inspect ticket,missing customer context,false,false,false,false,false,0,2
+workflow-02,workflow,2,triage support escalation,open account history,current context found,true,false,false,false,false,1,2
+workflow-02,workflow,3,triage support escalation,compose response with source,sufficient context for response,true,true,false,false,false,1,2
+workflow-03,workflow,1,run daily automation,call automation api,timeout from scheduler,true,false,false,false,true,0,2

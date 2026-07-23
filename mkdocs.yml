@@ -453,21 +453,21 @@ nav:
       - "개요": parts/part-06/index.md
       - "Module 1. 생성형 AI를 LLM 중심으로 읽는 입구":
           - "Chapter 1. 생성형 AI와 LLM의 위치":
-              - "P6-1.1 생성형 AI 출력은 왜 검토해야 할 산출물인가": parts/part-06/chapter-01/section-01.md
-              - "P6-1.2 왜 LLM을 중심 사례로 읽는가": parts/part-06/chapter-01/section-02.md
+              - "P6-1.1 검토해야 할 산출물로 보는 생성형 AI 출력": parts/part-06/chapter-01/section-01.md
+              - "P6-1.2 생성형 AI를 읽는 중심 사례로서의 LLM": parts/part-06/chapter-01/section-02.md
               - "P6-1.3 생성은 후보 분포와 선택의 반복이다": parts/part-06/chapter-01/section-03.md
       - "Module 2. 텍스트 생성의 입력 단위와 표현":
           - "Chapter 2. 토큰과 토큰화":
-              - "P6-2.1 왜 LLM 입력과 출력을 토큰 단위로 읽는가": parts/part-06/chapter-02/section-01.md
-              - "P6-2.2 토큰과 token ID는 모델 입력에서 어떻게 쓰이나": parts/part-06/chapter-02/section-02.md
-              - "P6-2.3 토큰화(tokenization)는 무엇을 바꾸는가": parts/part-06/chapter-02/section-03.md
-              - "P6-2.4 토큰 관점은 어떤 운영 판단으로 이어지는가": parts/part-06/chapter-02/section-04.md
-              - "P6-2.5 보충학습: 토크나이저 계열 차이는 언제 드러나는가": parts/part-06/chapter-02/section-05.md
+              - "P6-2.1 입력과 출력을 제한하는 토큰 단위": parts/part-06/chapter-02/section-01.md
+              - "P6-2.2 문자열·토큰·token ID로 이어지는 모델 입력": parts/part-06/chapter-02/section-02.md
+              - "P6-2.3 길이·비용·청크를 바꾸는 토큰화(tokenization)": parts/part-06/chapter-02/section-03.md
+              - "P6-2.4 프롬프트 길이·RAG 청크·비용으로 이어지는 토큰 관점": parts/part-06/chapter-02/section-04.md
+              - "P6-2.5 보충학습: 운영 관찰값으로 드러나는 토크나이저 계열 차이": parts/part-06/chapter-02/section-05.md
           - "Chapter 3. 임베딩":
-              - "P6-3.1 임베딩은 토큰 ID를 어떻게 비교 가능한 좌표로 바꾸는가": parts/part-06/chapter-03/section-01.md
-              - "P6-3.2 가까운 벡터는 왜 정답이 아니라 후보인가": parts/part-06/chapter-03/section-02.md
-              - "P6-3.3 보충학습: 임베딩 학습은 무엇을 가깝게 두도록 배우는가": parts/part-06/chapter-03/section-03.md
-              - "P6-3.4 보충학습: ANN 검색은 속도와 후보 누락을 어떻게 맞바꾸는가": parts/part-06/chapter-03/section-04.md
+              - "P6-3.1 토큰 ID를 비교 가능한 좌표로 바꾸는 임베딩": parts/part-06/chapter-03/section-01.md
+              - "P6-3.2 정답이 아니라 후보를 만드는 가까운 벡터": parts/part-06/chapter-03/section-02.md
+              - "P6-3.3 보충학습: 가까운 표현과 먼 표현을 배우는 임베딩 학습": parts/part-06/chapter-03/section-03.md
+              - "P6-3.4 보충학습: ANN 검색의 속도와 후보 누락 절충": parts/part-06/chapter-03/section-04.md
       - "Module 3. 다음 후보를 만드는 LLM 구조":
           - "Chapter 4. Transformer 구조 복습":
               - "P6-4.1 LLM 안의 Transformer 계산 흐름": parts/part-06/chapter-04/section-01.md
@@ -476,63 +476,63 @@ nav:
               - "P6-4.4 보충학습: KV cache와 반복 생성": parts/part-06/chapter-04/section-04.md
               - "P6-4.5 보충학습: 긴 문맥과 희소 attention": parts/part-06/chapter-04/section-05.md
           - "Chapter 5. GPT 계열":
-              - "P6-5.1 GPT 계열은 어떻게 디코더 기반 누적 생성 구조가 되는가": parts/part-06/chapter-05/section-01.md
-              - "P6-5.2 대화형 LLM 경험은 생성 구조 위에 무엇이 더해져 생기는가": parts/part-06/chapter-05/section-02.md
+              - "P6-5.1 디코더 기반 누적 생성 구조로 보는 GPT 계열": parts/part-06/chapter-05/section-01.md
+              - "P6-5.2 생성 구조 위에 더해지는 지시 따르기와 대화 인터페이스": parts/part-06/chapter-05/section-02.md
           - "Chapter 6. 다음 토큰 예측과 생성":
-              - "P6-6.1 다음 토큰 예측은 어떻게 긴 생성의 출발점이 되는가": parts/part-06/chapter-06/section-01.md
-              - "P6-6.2 출력 선택 규칙은 왜 답변의 안정성과 다양성을 바꾸는가": parts/part-06/chapter-06/section-02.md
+              - "P6-6.1 긴 생성의 출발점이 되는 다음 토큰 예측": parts/part-06/chapter-06/section-01.md
+              - "P6-6.2 답변의 안정성과 다양성을 바꾸는 출력 선택 규칙": parts/part-06/chapter-06/section-02.md
       - "Module 4. 응답 습관을 만드는 학습과 조정":
           - "Chapter 7. 사전학습":
-              - "P6-7.1 사전학습은 왜 넓은 언어 기반을 먼저 만드는가": parts/part-06/chapter-07/section-01.md
-              - "P6-7.2 스케일은 왜 능력과 부담을 함께 키우는가": parts/part-06/chapter-07/section-02.md
+              - "P6-7.1 넓은 언어 기반을 먼저 만드는 사전학습": parts/part-06/chapter-07/section-01.md
+              - "P6-7.2 능력과 운영 부담을 함께 키우는 스케일": parts/part-06/chapter-07/section-02.md
           - "Chapter 8. 파인튜닝":
-              - "P6-8.1 파인튜닝은 언제 목적 맞춤 조정이 필요한가": parts/part-06/chapter-08/section-01.md
-              - "P6-8.2 LoRA는 왜 전체 파인튜닝 부담을 줄이려 하는가": parts/part-06/chapter-08/section-02.md
+              - "P6-8.1 목적 맞춤 조정이 필요한 파인튜닝": parts/part-06/chapter-08/section-01.md
+              - "P6-8.2 전체 파인튜닝 부담을 줄이는 LoRA": parts/part-06/chapter-08/section-02.md
           - "Chapter 9. 지시 튜닝과 정렬":
-              - "P6-9.1 지시 튜닝은 어떻게 요청 형식에 맞는 응답 습관을 만드는가": parts/part-06/chapter-09/section-01.md
-              - "P6-9.2 정렬은 왜 잘 따르는 답과 허용 가능한 답을 나누는가": parts/part-06/chapter-09/section-02.md
-              - "P6-9.3 LLM 실패는 먼저 무엇이 부족한지 나누어 본다": parts/part-06/chapter-09/section-03.md
-              - "P6-9.4 보충학습: LoRA의 low-rank는 무엇을 작게 표현하는가": parts/part-06/chapter-09/section-04.md
+              - "P6-9.1 요청 형식에 맞는 응답 습관을 만드는 지시 튜닝": parts/part-06/chapter-09/section-01.md
+              - "P6-9.2 잘 따르는 답과 허용 가능한 답을 나누는 정렬": parts/part-06/chapter-09/section-02.md
+              - "P6-9.3 형식·근거·실행 부족으로 나누어 보는 LLM 실패": parts/part-06/chapter-09/section-03.md
+              - "P6-9.4 보충학습: LoRA의 low-rank가 작게 표현하는 조정분": parts/part-06/chapter-09/section-04.md
               - "P6-9.5 보충학습: 효율적 조정 방식의 제약": parts/part-06/chapter-09/section-05.md
       - "Module 5. 프롬프트와 근거 보강":
           - "Chapter 10. 프롬프트 엔지니어링":
-              - "P6-10.1 프롬프트 엔지니어링은 무엇을 입력에서 조정하는가": parts/part-06/chapter-10/section-01.md
-              - "P6-10.2 프롬프트 한계는 언제 시스템 구조로 넘어가는가": parts/part-06/chapter-10/section-02.md
+              - "P6-10.1 입력 지시·맥락·예시를 조정하는 프롬프트 엔지니어링": parts/part-06/chapter-10/section-01.md
+              - "P6-10.2 최신성·근거성·실행을 프롬프트 밖으로 넘기는 한계": parts/part-06/chapter-10/section-02.md
               - "P6-10.3 보충학습: 답변 경로 관찰과 비교": parts/part-06/chapter-10/section-03.md
               - "P6-10.4 보충학습: 프롬프트 후보 반복 개선": parts/part-06/chapter-10/section-04.md
           - "Chapter 11. RAG":
-              - "P6-11.1 RAG는 왜 답변 전에 외부 근거를 붙이는가": parts/part-06/chapter-11/section-01.md
-              - "P6-11.2 검색 결과는 어떻게 생성 입력과 답변으로 이어지는가": parts/part-06/chapter-11/section-02.md
+              - "P6-11.1 모델 기억 대신 외부 근거를 붙이는 RAG": parts/part-06/chapter-11/section-01.md
+              - "P6-11.2 검색 실패와 생성 실패를 가르는 RAG 흐름": parts/part-06/chapter-11/section-02.md
           - "Chapter 12. 벡터 데이터베이스":
-              - "P6-12.1 벡터 데이터베이스는 왜 원문과 메타데이터까지 함께 저장하는가": parts/part-06/chapter-12/section-01.md
-              - "P6-12.2 인덱스는 왜 검색 속도와 후보 품질을 함께 흔드는가": parts/part-06/chapter-12/section-02.md
+              - "P6-12.1 임베딩·원문·메타데이터를 함께 저장하는 벡터 데이터베이스": parts/part-06/chapter-12/section-01.md
+              - "P6-12.2 검색 속도와 후보 품질을 맞바꾸는 인덱스": parts/part-06/chapter-12/section-02.md
       - "Module 6. 도구와 에이전트 실행 구조":
           - "Chapter 13. 도구 사용(tool use)":
-              - "P6-13.1 도구 사용은 언제 실제 조회·계산·실행이 필요한가": parts/part-06/chapter-13/section-01.md
-              - "P6-13.2 함수 호출은 왜 실행 요청을 이름과 인자로 나누는가": parts/part-06/chapter-13/section-02.md
+              - "P6-13.1 조회·계산·실행을 모델 밖으로 넘기는 도구 사용": parts/part-06/chapter-13/section-01.md
+              - "P6-13.2 자연어 요청을 이름과 인자로 나누는 함수 호출": parts/part-06/chapter-13/section-02.md
           - "Chapter 14. 에이전트(agent)":
-              - "P6-14.1 에이전트는 언제 다음 행동을 다시 고르는 목표 흐름이 되는가": parts/part-06/chapter-14/section-01.md
-              - "P6-14.2 계획·행동·관찰은 어떻게 계속·종료·사람 검토를 가르는가": parts/part-06/chapter-14/section-02.md
+              - "P6-14.1 중간 결과에 따라 다음 작업을 바꾸는 에이전트": parts/part-06/chapter-14/section-01.md
+              - "P6-14.2 계속·멈춤·사람 검토로 갈라지는 에이전트 루프": parts/part-06/chapter-14/section-02.md
           - "Chapter 15. MCP와 하네스":
-              - "P6-15.1 MCP는 왜 도구와 자원을 공통 형식으로 연결하려 하는가": parts/part-06/chapter-15/section-01.md
-              - "P6-15.2 하네스는 왜 실행을 기록하고 재현 가능한 환경으로 감싸는가": parts/part-06/chapter-15/section-02.md
+              - "P6-15.1 도구와 자원을 공통 형식으로 연결하는 MCP": parts/part-06/chapter-15/section-01.md
+              - "P6-15.2 실행 기록과 재현 환경을 감싸는 하네스": parts/part-06/chapter-15/section-02.md
       - "Module 7. 검토 가능한 서비스 상태":
           - "Chapter 16. LLM 평가":
-              - "P6-16.1 LLM 평가는 왜 자연스러운 답과 품질 기준을 나눠 보는가": parts/part-06/chapter-16/section-01.md
+              - "P6-16.1 자연스러운 답과 품질 기준을 나누는 LLM 평가": parts/part-06/chapter-16/section-01.md
               - "P6-16.2 자동 평가와 사람 평가의 분업": parts/part-06/chapter-16/section-02.md
           - "Chapter 17. 서비스 운영 제약":
-              - "P6-17.1 서비스 운영 제약은 왜 평가 통과 후보를 다시 걸러내는가": parts/part-06/chapter-17/section-01.md
-              - "P6-17.2 운영 중 실패 대응은 왜 오류를 복구 경로로 나눠야 하는가": parts/part-06/chapter-17/section-02.md
+              - "P6-17.1 비용·지연·사용량으로 다시 거르는 운영 제약": parts/part-06/chapter-17/section-01.md
+              - "P6-17.2 오류를 복구 경로로 나누는 운영 중 실패 대응": parts/part-06/chapter-17/section-02.md
           - "Chapter 18. 작은 생성형 AI 기능을 한 흐름으로 묶기":
-              - "P6-18.1 작은 생성형 AI 기능은 어떻게 요청 흐름으로 묶이는가": parts/part-06/chapter-18/section-01.md
-              - "P6-18.2 최소 구현은 왜 응답보다 실행 기록을 먼저 남겨야 하는가": parts/part-06/chapter-18/section-02.md
+              - "P6-18.1 질문·근거·답변·기록을 묶는 작은 생성형 AI 기능": parts/part-06/chapter-18/section-01.md
+              - "P6-18.2 응답보다 근거·상태·회고를 먼저 남기는 최소 구현": parts/part-06/chapter-18/section-02.md
       - "Module 8. 배경 지도와 비교":
           - "Chapter 19. LLM 발전사":
-              - "P6-19.1 LLM 발전사는 왜 한계와 구조 전환의 흐름으로 읽어야 하는가": parts/part-06/chapter-19/section-01.md
-              - "P6-19.2 직접 계보와 주변 근거는 왜 분리해 읽어야 하는가": parts/part-06/chapter-19/section-02.md
+              - "P6-19.1 한계와 구조 전환의 흐름으로 읽는 LLM 발전사": parts/part-06/chapter-19/section-01.md
+              - "P6-19.2 직접 계보와 주변 근거를 분리해 읽는 기준": parts/part-06/chapter-19/section-02.md
           - "Chapter 20. BERT 계열":
-              - "P6-20.1 BERT 계열은 왜 읽기 중심 Transformer 비교축인가": parts/part-06/chapter-20/section-01.md
-              - "P6-20.2 이해 중심 태스크는 왜 긴 답변보다 판단값을 먼저 내는가": parts/part-06/chapter-20/section-02.md
+              - "P6-20.1 읽기 중심 Transformer 비교축으로 보는 BERT 계열": parts/part-06/chapter-20/section-01.md
+              - "P6-20.2 긴 답변보다 판단값을 먼저 내는 이해 중심 태스크": parts/part-06/chapter-20/section-02.md
       - "마무리": parts/part-06/summary.md
   - "Part 7. 프로젝트":
       - "개요": parts/part-07/index.md

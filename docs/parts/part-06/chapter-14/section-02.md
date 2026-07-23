@@ -1,21 +1,13 @@
-# P6-14.2 계획·행동·관찰은 어떻게 계속·종료·사람 검토를 가르는가
+# P6-14.2 계속·멈춤·사람 검토로 갈라지는 에이전트 루프
 
 > Section ID: `P6-14.2`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
 
-P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가는 실행 구조라는 점을 보았습니다. 이제는 그 흐름이 실제로 어떤 반복 구조로 움직이는지 더 구체적으로 봐야 합니다.
+P6-14.1에서는 에이전트(agent)를 중간 결과에 따라 다음 작업을 바꾸는 실행 구조로 보았습니다. 이제는 그 흐름이 실제로 어떤 기준으로 계속되고, 어디서 멈추며, 언제 사람 검토로 넘어가는지 더 구체적으로 봐야 합니다.
 
-에이전트는 실제로 어떤 반복 구조로 움직이는가?
-
-에이전트는 보통 목표를 기준으로 다음 단계를 계획하고, 행동하고, 결과를 관찰한 뒤, 계속할지 멈출지를 판단하는 반복 구조를 가진다.
+에이전트는 목표를 기준으로 다음 단계를 계획하고, 실제 행동을 실행하고, 그 결과를 관찰한 뒤 다음 결정을 고르는 반복 구조를 가진다. 이때 중요한 것은 루프가 돈다는 사실 자체가 아니라, 관찰 결과가 `계속`, `멈춤`, `사람 검토` 중 어느 방향으로 분기시키는가입니다.
 
 ## 반복 루프가 맡는 일
-
-핵심 질문은 다음과 같습니다.
-
-- 계획(plan), 행동(action), 관찰(observation)은 무엇을 뜻하는가?
-- 왜 이 세 요소를 나눠 보는 것이 중요한가?
-- 종료 조건(stop condition)은 왜 필요한가?
 
 이 장면에서 닫아야 할 문제는 단일 에이전트 루프의 기본 구조를 `계획-행동-관찰 반복`으로 읽고, 어디서 계속 진행하고 어디서 멈추는지 구분하는 것입니다.
 
@@ -29,12 +21,7 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 ## 계획, 행동, 관찰, 종료 조건의 구분
 
-- 계획, 행동, 관찰을 각각 설명할 수 있습니다.
-- 종료 조건이 왜 필요한지 말할 수 있습니다.
-- 에이전트 루프에서 어디서 실패가 생길 수 있는지 구분할 수 있습니다.
-- 이 루프가 연결 규칙과 하네스(harness) 기록 환경의 문제로 이어지는 이유를 말할 수 있습니다.
-
-여기서 중요한 것은 용어 정의 암기보다, 관찰 결과가 실제로 다음 분기를 어떻게 바꾸는가입니다.
+계획, 행동, 관찰, 종료 조건을 따로 보는 이유는 용어를 외우기 위해서가 아닙니다. 같은 실패처럼 보여도 어느 지점이 흔들렸는지에 따라 다음 결정이 달라지기 때문입니다.
 
 | 관찰 결과 | 이어지는 결정 | 왜 이렇게 갈라지는가 |
 | --- | --- | --- |
@@ -42,7 +29,7 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 | 근거가 충분하고 충돌이 작음 | 종료 | 더 돌릴수록 품질보다 비용과 시간만 늘 수 있기 때문입니다. |
 | 문서 충돌, 권한 부족, 상태 불확실성이 큼 | 사람 검토 전환 또는 handoff | 자동으로 끝내면 위험한 장면을 별도 경계로 남겨야 하기 때문입니다. |
 
-이 표를 먼저 잡고 아래의 `계획`, `행동`, `관찰`, `종료 조건`을 읽으면, agent loop를 `계속 도는 구조`가 아니라 `관찰에 따라 다음 행동이 바뀌는 구조`로 더 쉽게 붙잡을 수 있습니다.
+이 표를 먼저 잡고 아래의 `계획`, `행동`, `관찰`, `종료 조건`을 읽으면, agent loop를 `계속 도는 구조`가 아니라 `관찰에 따라 다음 행동이 바뀌는 구조`로 더 쉽게 붙잡을 수 있습니다. 이어서 볼 정의들은 이 분기표를 읽기 위한 최소 부품입니다.
 
 ## 계획(plan)은 무엇인가
 
@@ -90,7 +77,7 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 관찰이 없으면 에이전트는 같은 행동을 계속 반복하거나, 실패한 줄도 모르고 다음 단계로 넘어갈 수 있습니다.
 
-## 왜 이 셋을 나눠 봐야 하나
+## 계획·행동·관찰을 나누는 이유
 
 독자는 이 흐름을 한 덩어리로 보기 쉽습니다. 하지만 나눠 보면 문제가 훨씬 잘 보입니다.
 
@@ -104,7 +91,7 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 즉, 계획/행동/관찰 분리는 단순 이론 구분이 아니라, 실제 운영과 평가를 위한 구분입니다.
 
-## 종료 조건(stop condition)은 왜 필요한가
+## 반복을 멈추는 종료 조건(stop condition)
 
 에이전트는 반복 구조이기 때문에, 어느 시점에서 충분한 근거를 얻었다고 보고 멈출지와 어느 경우 사람 검토로 넘길지를 먼저 정해야 합니다.
 
@@ -123,7 +110,7 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 즉, stop condition은 에이전트의 품질뿐 아니라 비용과 안전성에도 직접 연결됩니다.
 
-## 어디서 실패가 생기나
+## 계획 오류·실행 실패·관찰 오독
 
 에이전트 루프는 강력하지만 실패 지점도 많습니다.
 
@@ -134,7 +121,7 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 따라서 agent 설계는 보통 `더 많은 자유`와 `더 많은 통제 필요`가 함께 따라옵니다.
 
-## 아주 단순하게 그리면
+## 관찰 뒤에 다시 갈라지는 루프
 
 ```mermaid
 --8<-- "assets/part-06/chapter-14/p6-c14-s02-plan-action-loop-ko.mmd"
@@ -162,7 +149,7 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 여기서 바뀌는 점은 `처음 목표를 바로 실행하는가`에서 `관찰 결과에 따라 목표를 다시 풀어 묻거나 대안을 제안하는가`로 기준이 이동한다는 것입니다. 관찰 결과 하나가 다음 행동을 바꾸는 점에서, 이 작업은 고정 파이프라인보다 루프 구조로 이해하는 편이 맞습니다. 그래서 이 사례에서 확인해야 할 결과는 빈 시간이 없다는 관찰 뒤에 실패로 끝내지 않고, 대체 시간 제안이나 추가 질문으로 실제 다음 행동이 열리는가, 그리고 이 전환이 stop condition이나 사람 확인 조건과도 연결되는가입니다.
 
-세 사례를 loop 전환 기준으로 다시 묶으면 다음과 같습니다.
+세 사례를 loop 전환 기준으로 다시 묶으면 다음과 같습니다. 이 표는 새 분류를 추가하는 것이 아니라, 앞의 이야기를 `어떤 관찰이 다음 결정을 바꾸는가`로 압축한 것입니다.
 
 | 상황 | loop를 계속 돌게 만드는 관찰 | loop를 멈추거나 바꾸게 만드는 관찰 |
 | --- | --- | --- |
@@ -180,14 +167,6 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 | 근거가 충분한데도 계속 검색하거나 실행함 | 종료 조건이 분명하게 잡혀 있는가 | 멈춤 기준이 없으면 비용과 시간만 늘고 품질은 오히려 흐려질 수 있기 때문입니다. |
 | 근거가 충돌하거나 권한 문제가 생겼는데도 억지로 답을 만들려 함 | 사람 검토나 handoff 기준이 드러나는가 | 모든 루프가 자동 종료로 닫히는 것은 아니므로 안전한 중단 조건이 필요하기 때문입니다. |
 
-같은 기준을 더 짧은 실무 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
-
-| 이런 의심이 들면 | 먼저 던질 질문 |
-| --- | --- |
-| `계속 돌고는 있는데 왜 진전이 없지?` | 방금 관찰 결과가 다음 계획을 실제로 바꿨는가? |
-| `여기서 멈춰도 될 것 같은데 왜 더 하지?` | 충분한 근거 확보나 재시도 한도 같은 stop condition이 있는가? |
-| `자동으로 끝내면 위험할 수도 있겠다` | 충돌 문서, 권한 부족, 상태 불확실성에서 사람 검토로 넘기는가? |
-
 먼저 익혀야 하는 기준은 단순합니다. agent loop는 `계속 도는 구조`가 아니라, `관찰에 따라 다음 계획이 바뀌고`, `충분하면 멈추고`, `위험하면 사람에게 넘기는` 분기 구조까지 포함해야 제대로 읽힙니다.
 
 같은 내용을 loop 분기 구조로 다시 보면 다음처럼 읽을 수 있습니다.
@@ -200,222 +179,252 @@ P6-14.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 ## 연습 및 예제
 
-먼저 아래의 작은 해석 세 개를 읽고 예제를 보면, 코드가 왜 세 가지 다른 종료 방향을 보여 주는지 더 쉽게 읽힙니다.
+예제의 목표는 실제 agent framework 전체를 구현하는 것이 아닙니다. 여기서 확인할 것은 계획(plan), 행동(action), 관찰(observation), 결정(decision)이 여러 라운드 기록으로 남을 때, 어떤 관찰이 계속 탐색을 만들고 어떤 관찰이 멈춤이나 사람 검토로 이어지는가입니다.
 
-### 루프에서 갈리는 다음 결정
+아래 예제는 관찰 로그 CSV [p6-14-2-agent-loop-observations.csv](../../../assets/part-06/chapter-14/p6-14-2-agent-loop-observations.csv){ .csv-preview }를 사용합니다. 한 행은 한 목표의 한 라운드에서 에이전트가 남긴 기록입니다. `has_current_context`, `evidence_sufficient`, `conflict_found`, `approval_needed`, `action_failed`, `retry_count`, `retry_limit` 열이 다음 결정을 바꾸는 신호입니다. 이 값들을 바꾸면 같은 목표라도 `continue_refine`, `stop_ready`, `human_review` 중 마지막 결정이 달라집니다.
 
-앞의 세 사례가 에이전트가 실제로 쓰이는 장면을 보여 주었다면, 여기서는 같은 루프를 더 작은 전환 지점으로 다시 나누어 봅니다. 목적은 사례를 하나 더 늘리는 것이 아니라, `계속 진행`, `종료`, `사람 검토 전환`이 각각 어떤 관찰 결과에서 나오는지 분리해 읽게 하는 데 있습니다.
-
-### 해석 1. 문서를 찾았지만 근거 우선순위를 다시 정해야 하는 경우
-
-정책 문서 두 개를 찾았는데 하나는 요약 공지이고 다른 하나는 본문 규정이라고 해 봅시다. 검색 결과가 나왔다고 바로 요약 단계로 넘어가면 근거 선택이 잘못될 수 있습니다. 실제로는 어떤 문서를 먼저 검토하고 어떤 문서를 근거로 삼을지 다시 결정해야 할 수 있습니다. 예를 들어 공지문은 변경 사실만 알려 주고 세부 조건은 본문 규정에 있을 수 있습니다. agent loop에서는 이런 장면에서 `찾았으니 끝`이 아니라 `어떤 근거를 우선 검토할지 다시 계획`하는 단계가 이어집니다. 그래서 이 사례에서 확인해야 할 결과는 문서를 찾은 직후 바로 답하지 않고, 근거 우선순위와 근거 선택이 실제로 다시 계획되는가입니다.
-
-### 해석 2. 계획은 맞았지만 행동 결과가 예상과 다른 경우
-
-검색 계획 자체는 타당했는데 실제 검색 결과가 오래된 공지 두 개만 나왔다고 해 봅시다. 사람도 수작업으로 조사할 때는 이 경우 검색어를 바꾸거나 날짜 조건을 더 좁혀 다시 시도합니다. 즉, 처음 계획이 틀렸다기보다 관찰 결과가 기대와 달라서 다음 행동을 바꿔야 하는 상황입니다. agent loop는 이런 `계획 -> 행동 -> 관찰 -> 새 결정`을 반복 가능한 구조로 분리해 보여 줍니다. 그래서 이 사례에서 확인해야 할 결과는 첫 검색 실패 뒤에 그대로 답을 만들기보다, 검색어 조정이나 날짜 조건 변경 같은 재계획이 실제 다음 단계로 이어지는가입니다.
-
-### 해석 3. 답을 만들기 전에 멈춰야 하는 경우
-
-관련 문서를 찾았지만 서로 기준이 충돌하거나 최신 날짜가 불분명하다고 해 봅시다. 사람은 이런 경우 바로 답하기보다 검토 필요 상태로 넘기거나 추가 확인을 합니다. agent loop에서도 항상 다음 행동이 `계속 진행`일 필요는 없고, `사람 검토 요청`이나 `추가 승인 대기`가 될 수 있습니다. 예를 들어 환불 정책 두 문서가 서로 다른 기간을 말하면, 요약보다 먼저 어느 문서가 최신인지 확인해야 합니다. 그래서 이 사례에서 확인해야 할 결과는 관찰 결과가 충돌할 때 loop가 억지로 답을 만들기보다 실제로 멈추거나 사람 검토로 넘기는가입니다.
-
-예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어지고, 그 결과가 `계속 진행`, `종료`, `사람 검토 전환`처럼 달라질 수 있다는 점을 눈으로 확인하는 것입니다.
-
-아래 예제는 목표 세 개와 각 라운드에서 얻은 관찰 결과를 사용합니다. 같은 환불 정책 조사라도 어떤 목표는 더 찾아야 하고, 어떤 목표는 충분한 근거를 얻어 멈출 수 있으며, 어떤 목표는 문서 충돌 때문에 사람 검토로 넘어가야 합니다.
-
-출력에서는 목표별 loop 기록, 마지막 결정, 최신 문서와 충돌 여부, 분기별 개수를 함께 확인합니다. 코드에서 확인할 핵심은 에이전트 루프가 일직선 파이프라인이 아니라, 방금 얻은 관찰 결과에 따라 다음 계획과 종료 방향을 다시 고르는 구조라는 점입니다.
+코드에서는 Ollama 모델이 관찰 로그를 읽고 다음 계획 후보를 먼저 제안합니다. 실행 전에 `ollama pull qwen2.5:1.5b`를 실행하고 Ollama가 켜진 상태여야 합니다. 다른 모델을 쓰려면 `AIBOOK_OLLAMA_MODEL=모델명`처럼 환경 변수를 바꿉니다. 모델에 넘기는 프롬프트는 영어로 둡니다. 출력에서 확인할 핵심은 모델 제안이 있어도 최종 결정은 CSV의 관찰 신호와 종료 조건을 확인하는 guard가 다시 확정한다는 점입니다.
 
 ```python
-# 환불 정책 검색 시나리오에서 plan, action, observation, decision 루프가 계속 탐색·요약 종료·사람 검토로 갈리는지 확인하는 예제입니다.
-scenarios = [
-    {
-        "goal": "최신 환불 정책을 찾아 사용자에게 요약한다.",
-        "rounds": [
-            {"found_docs": ["old_notice_2025_12"], "has_latest_doc": False, "has_conflict": False},
-            {"found_docs": ["policy_notice_2026_06_29", "refund_rules_appendix"], "has_latest_doc": True, "has_conflict": False},
-        ],
-    },
-    {
-        "goal": "서로 충돌하는 환불 정책 문서를 정리한다.",
-        "rounds": [
-            {"found_docs": ["policy_notice_2026_06_29", "policy_notice_2026_06_15"], "has_latest_doc": True, "has_conflict": True},
-        ],
-    },
-    {
-        "goal": "최신 환불 정책 문서가 있는지 먼저 확인한다.",
-        "rounds": [
-            {"found_docs": ["old_notice_2025_12"], "has_latest_doc": False, "has_conflict": False},
-            {"found_docs": ["older_notice_2025_10"], "has_latest_doc": False, "has_conflict": False},
-        ],
-    },
+import csv
+import json
+import os
+import urllib.request
+from collections import Counter, defaultdict
+from pathlib import Path
+
+CSV_PATH = Path("docs/assets/part-06/chapter-14/p6-14-2-agent-loop-observations.csv")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/chat")
+OLLAMA_MODEL = os.environ.get("AIBOOK_OLLAMA_MODEL", "qwen2.5:1.5b")
+
+NEXT_PLANS = [
+    "refine_or_retry_search",
+    "collect_more_evidence",
+    "summarize_and_stop",
+    "ask_human_review",
+    "retry_with_changed_step",
 ]
 
-def run_loop(scenario):
-    history = []
-    stopped = False
+def as_bool(value):
+    return value.strip().lower() == "true"
 
-    for round_index, observation in enumerate(scenario["rounds"], start=1):
-        plan = (
-            "search latest refund policy notice"
-            if round_index == 1
-            else "refine search or summarize"
-        )
-        action = (
-            "call search_policy_docs"
-            if not observation["has_latest_doc"]
-            else "call read_docs_and_summarize"
-        )
+def guard_decision(row):
+    retry_count = int(row["retry_count"])
+    retry_limit = int(row["retry_limit"])
 
-        if observation["has_conflict"]:
-            decision = "ask_human_review"
-            stopped = True
-        elif observation["has_latest_doc"]:
-            decision = "stop_after_summary"
-            stopped = True
-        else:
-            decision = "continue_with_refined_search"
+    # 최종 결정은 모델 제안이 아니라 관찰 신호와 종료 조건으로 다시 확정합니다.
+    if as_bool(row["approval_needed"]) or as_bool(row["conflict_found"]):
+        return "human_review"
+    if as_bool(row["action_failed"]) and retry_count >= retry_limit:
+        return "human_review"
+    if as_bool(row["evidence_sufficient"]) and not as_bool(row["action_failed"]):
+        return "stop_ready"
+    return "continue_refine"
 
-        history.append(
-            {
-                "plan": plan,
-                "action": action,
-                "observation": {
-                    "round": round_index,
-                    "found_docs": observation["found_docs"],
-                    "has_latest_doc": observation["has_latest_doc"],
-                    "has_conflict": observation["has_conflict"],
-                },
-                "decision": decision,
-            }
-        )
+def plan_to_decision(plan):
+    if plan == "ask_human_review":
+        return "human_review"
+    if plan == "summarize_and_stop":
+        return "stop_ready"
+    return "continue_refine"
 
-        if stopped:
-            break
+def build_prompt(row):
+    labels = "\n".join(f"- {label}" for label in NEXT_PLANS)
+    return f"""
+You are proposing the next plan for a small LLM agent loop.
+Return exactly one label and no explanation.
 
-    inspection = {
-        "round_count": len(history),
-        "last_decision": history[-1]["decision"],
-        "latest_doc_found": history[-1]["observation"]["has_latest_doc"],
-        "conflict_found": history[-1]["observation"]["has_conflict"],
-        "stop_triggered": stopped,
+Allowed labels:
+{labels}
+
+Goal: {row["goal"]}
+Current planned step: {row["planned_step"]}
+Observation: {row["observation_signal"]}
+Signals:
+- has_current_context: {row["has_current_context"]}
+- evidence_sufficient: {row["evidence_sufficient"]}
+- conflict_found: {row["conflict_found"]}
+- approval_needed: {row["approval_needed"]}
+- action_failed: {row["action_failed"]}
+- retry_count: {row["retry_count"]}
+- retry_limit: {row["retry_limit"]}
+""".strip()
+
+def ask_model_for_plan(row):
+    payload = {
+        "model": OLLAMA_MODEL,
+        "stream": False,
+        "messages": [{"role": "user", "content": build_prompt(row)}],
+        "options": {"temperature": 0},
     }
-    return history, inspection
+    data = json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(
+        OLLAMA_URL,
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            result = json.loads(response.read().decode("utf-8"))
+    except Exception as error:
+        return {"model_plan": None, "model_raw": error.__class__.__name__}
 
-reports = []
-for scenario in scenarios:
-    history, inspection = run_loop(scenario)
-    reports.append(
+    raw = result["message"]["content"].strip()
+    plan = next((label for label in NEXT_PLANS if label in raw), None)
+    return {"model_plan": plan, "model_raw": raw[:80]}
+
+rows = []
+with CSV_PATH.open(encoding="utf-8", newline="") as file:
+    for row in csv.DictReader(file):
+        row["round"] = int(row["round"])
+        row["guard_decision"] = guard_decision(row)
+        model_hint = ask_model_for_plan(row)
+        row["model_plan"] = model_hint["model_plan"]
+        row["model_raw"] = model_hint["model_raw"]
+        row["model_plan_decision"] = (
+            plan_to_decision(row["model_plan"])
+            if row["model_plan"]
+            else "model_unavailable"
+        )
+        row["guard_changed_model_plan"] = row["model_plan_decision"] != row["guard_decision"]
+        rows.append(row)
+
+by_case = defaultdict(list)
+for row in rows:
+    by_case[row["case_id"]].append(row)
+
+final_rows = []
+decision_changes = []
+for case_id, case_rows in by_case.items():
+    ordered = sorted(case_rows, key=lambda item: item["round"])
+    final_rows.append(ordered[-1])
+    for before, after in zip(ordered, ordered[1:]):
+        if before["guard_decision"] != after["guard_decision"]:
+            decision_changes.append(
+                {
+                    "case_id": case_id,
+                    "from_round": before["round"],
+                    "to_round": after["round"],
+                    "from": before["guard_decision"],
+                    "to": after["guard_decision"],
+                    "signal": after["observation_signal"],
+                    "model_plan": after["model_plan"],
+                }
+            )
+
+round_summary = {
+    round_number: dict(Counter(row["guard_decision"] for row in rows if row["round"] == round_number))
+    for round_number in sorted({row["round"] for row in rows})
+}
+final_summary = Counter(row["guard_decision"] for row in final_rows)
+model_plan_summary = Counter(row["model_plan"] or "model_unavailable" for row in rows)
+
+print("[model]")
+print(
+    {
+        "model": OLLAMA_MODEL,
+        "model_hint_count": sum(row["model_plan"] is not None for row in rows),
+        "guard_changed_model_plan_count": sum(row["guard_changed_model_plan"] for row in rows),
+    }
+)
+print("[round summary]")
+print(round_summary)
+print("[final decisions]")
+print(dict(final_summary))
+print("[model plan counts]")
+print(dict(model_plan_summary))
+print("[decision changes]")
+for item in decision_changes[:8]:
+    print(item)
+print("[sample guard checks]")
+for row in rows[:8]:
+    print(
         {
-            "goal": scenario["goal"],
-            "history": history,
-            "inspection": inspection,
+            "case_id": row["case_id"],
+            "round": row["round"],
+            "signal": row["observation_signal"],
+            "model_plan": row["model_plan"],
+            "guard_decision": row["guard_decision"],
+            "changed": row["guard_changed_model_plan"],
         }
     )
-
-summary = {
-    "continue_count": sum(report["inspection"]["last_decision"] == "continue_with_refined_search" for report in reports),
-    "stop_count": sum(report["inspection"]["last_decision"] == "stop_after_summary" for report in reports),
-    "human_review_count": sum(report["inspection"]["last_decision"] == "ask_human_review" for report in reports),
-    "continue_ratio": round(
-        sum(report["inspection"]["last_decision"] == "continue_with_refined_search" for report in reports) / len(reports),
-        2,
-    ),
-    "stop_ratio": round(
-        sum(report["inspection"]["last_decision"] == "stop_after_summary" for report in reports) / len(reports),
-        2,
-    ),
-    "human_review_ratio": round(
-        sum(report["inspection"]["last_decision"] == "ask_human_review" for report in reports) / len(reports),
-        2,
-    ),
-}
-
-print("[summary]")
-print(summary)
-print()
-
-for report in reports:
-    print("=" * 80)
-    print("[goal]")
-    print(report["goal"])
-    print("[loop history]")
-    for item in report["history"]:
-        print(item)
-    print("[inspection]")
-    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[summary]
-{'continue_count': 1, 'stop_count': 1, 'human_review_count': 1, 'continue_ratio': 0.33, 'stop_ratio': 0.33, 'human_review_ratio': 0.33}
-
-================================================================================
-[goal]
-최신 환불 정책을 찾아 사용자에게 요약한다.
-[loop history]
-{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
-{'plan': 'refine search or summarize', 'action': 'call read_docs_and_summarize', 'observation': {'round': 2, 'found_docs': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'has_latest_doc': True, 'has_conflict': False}, 'decision': 'stop_after_summary'}
-[inspection]
-{'round_count': 2, 'last_decision': 'stop_after_summary', 'latest_doc_found': True, 'conflict_found': False, 'stop_triggered': True}
-================================================================================
-[goal]
-서로 충돌하는 환불 정책 문서를 정리한다.
-[loop history]
-{'plan': 'search latest refund policy notice', 'action': 'call read_docs_and_summarize', 'observation': {'round': 1, 'found_docs': ['policy_notice_2026_06_29', 'policy_notice_2026_06_15'], 'has_latest_doc': True, 'has_conflict': True}, 'decision': 'ask_human_review'}
-[inspection]
-{'round_count': 1, 'last_decision': 'ask_human_review', 'latest_doc_found': True, 'conflict_found': True, 'stop_triggered': True}
-================================================================================
-[goal]
-최신 환불 정책 문서가 있는지 먼저 확인한다.
-[loop history]
-{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
-{'plan': 'refine search or summarize', 'action': 'call search_policy_docs', 'observation': {'round': 2, 'found_docs': ['older_notice_2025_10'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
-[inspection]
-{'round_count': 2, 'last_decision': 'continue_with_refined_search', 'latest_doc_found': False, 'conflict_found': False, 'stop_triggered': False}
+[model]
+{'model': 'qwen2.5:1.5b', 'model_hint_count': 36, 'guard_changed_model_plan_count': 15}
+[round summary]
+{1: {'continue_refine': 13, 'human_review': 2, 'stop_ready': 1}, 2: {'continue_refine': 8, 'human_review': 2, 'stop_ready': 2}, 3: {'stop_ready': 3, 'human_review': 5}}
+[final decisions]
+{'stop_ready': 6, 'human_review': 9, 'continue_refine': 1}
+[model plan counts]
+{'refine_or_retry_search': 24, 'summarize_and_stop': 12}
+[decision changes]
+{'case_id': 'policy-01', 'from_round': 2, 'to_round': 3, 'from': 'continue_refine', 'to': 'stop_ready', 'signal': 'sufficient current evidence', 'model_plan': 'summarize_and_stop'}
+{'case_id': 'policy-02', 'from_round': 1, 'to_round': 2, 'from': 'continue_refine', 'to': 'human_review', 'signal': 'conflicting effective dates', 'model_plan': 'refine_or_retry_search'}
+{'case_id': 'policy-03', 'from_round': 2, 'to_round': 3, 'from': 'continue_refine', 'to': 'human_review', 'signal': 'no current source after retry', 'model_plan': 'refine_or_retry_search'}
+{'case_id': 'policy-04', 'from_round': 2, 'to_round': 3, 'from': 'continue_refine', 'to': 'stop_ready', 'signal': 'sufficient current evidence', 'model_plan': 'summarize_and_stop'}
+{'case_id': 'code-01', 'from_round': 1, 'to_round': 2, 'from': 'continue_refine', 'to': 'stop_ready', 'signal': 'tests pass with notes', 'model_plan': 'summarize_and_stop'}
+{'case_id': 'code-02', 'from_round': 2, 'to_round': 3, 'from': 'continue_refine', 'to': 'human_review', 'signal': 'permission-sensitive change', 'model_plan': 'refine_or_retry_search'}
+{'case_id': 'code-04', 'from_round': 2, 'to_round': 3, 'from': 'continue_refine', 'to': 'human_review', 'signal': 'retry limit reached', 'model_plan': 'refine_or_retry_search'}
+{'case_id': 'schedule-01', 'from_round': 2, 'to_round': 3, 'from': 'continue_refine', 'to': 'human_review', 'signal': 'user confirmation needed', 'model_plan': 'refine_or_retry_search'}
+[sample guard checks]
+{'case_id': 'policy-01', 'round': 1, 'signal': 'old notice only', 'model_plan': 'refine_or_retry_search', 'guard_decision': 'continue_refine', 'changed': False}
+{'case_id': 'policy-01', 'round': 2, 'signal': 'current notice found', 'model_plan': 'summarize_and_stop', 'guard_decision': 'continue_refine', 'changed': True}
+{'case_id': 'policy-01', 'round': 3, 'signal': 'sufficient current evidence', 'model_plan': 'summarize_and_stop', 'guard_decision': 'stop_ready', 'changed': False}
+{'case_id': 'policy-02', 'round': 1, 'signal': 'current notice found', 'model_plan': 'summarize_and_stop', 'guard_decision': 'continue_refine', 'changed': True}
+{'case_id': 'policy-02', 'round': 2, 'signal': 'conflicting effective dates', 'model_plan': 'refine_or_retry_search', 'guard_decision': 'human_review', 'changed': True}
+{'case_id': 'policy-03', 'round': 1, 'signal': 'old notice only', 'model_plan': 'refine_or_retry_search', 'guard_decision': 'continue_refine', 'changed': False}
+{'case_id': 'policy-03', 'round': 2, 'signal': 'still no current notice', 'model_plan': 'refine_or_retry_search', 'guard_decision': 'continue_refine', 'changed': False}
+{'case_id': 'policy-03', 'round': 3, 'signal': 'no current source after retry', 'model_plan': 'refine_or_retry_search', 'guard_decision': 'human_review', 'changed': True}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `continue_count`, `stop_count`, `human_review_count`가 각각 1이라는 점입니다. 즉, agent loop의 핵심은 무조건 끝까지 진행하는 것이 아니라, 관찰 결과에 따라 `계속 찾을지`, `충분해서 멈출지`, `충돌 때문에 사람에게 넘길지`를 실제로 분기하는 데 있습니다.
+이 결과에서 먼저 봐야 할 것은 모델 제안이 36개 관찰 로그 모두에서 나왔는데도, guard가 15건에서 그 제안을 그대로 최종 결정으로 쓰지 않았다는 점입니다. 즉, P6-14.2의 핵심은 모델이 다음 계획 후보를 말할 수 있다는 사실이 아니라, 여러 라운드의 관찰 신호와 종료 조건이 그 후보를 다시 `continue_refine`, `stop_ready`, `human_review`로 분기시킨다는 점입니다. 예를 들어 `policy-01` 2라운드에서는 모델이 `summarize_and_stop`을 제안했지만, CSV에는 아직 `evidence_sufficient`가 `false`이므로 guard는 `continue_refine`으로 남깁니다. 반대로 `policy-02` 2라운드에서는 모델이 계속 탐색을 제안해도 `conflict_found`가 `true`이므로 guard는 `human_review`로 넘깁니다.
+
+다음으로 볼 것은 최종 결정이 균등하게 맞춰져 있지 않다는 점입니다. 16개 목표 중 6개는 충분한 근거가 모여 `stop_ready`로 닫히고, 9개는 충돌, 승인, 재시도 한도 때문에 `human_review`로 넘어가며, 1개는 아직 계속 탐색 상태로 남습니다. 실제 agent loop도 이렇게 항상 세 방향이 보기 좋게 나뉘지 않습니다. 중요한 것은 모델 제안과 guard 최종 결정이 어떤 관찰 신호에서 갈라졌는지 기록으로 따라갈 수 있는가입니다.
 
 ![agent loop 결정 분기](../../../assets/part-06/chapter-14/agent-loop-decision-split-ko.png)
 
-이 차트는 같은 loop라도 `최신 문서를 찾았는가`, `문서 충돌이 있는가`, `멈춤 조건이 걸렸는가`에 따라 계속 진행, 종료, 사람 검토 전환이 서로 다른 방향으로 갈라진다는 점을 보여 줍니다.
+이 차트는 라운드가 진행되면서 결정이 어떻게 이동하는지 보여 줍니다. 1라운드에는 대부분 `continue_refine`입니다. 그러나 2~3라운드로 가면 일부는 충분한 근거를 얻어 멈추고, 일부는 충돌이나 승인 경계 때문에 사람 검토로 넘어갑니다. 따라서 차트에서 볼 것은 결정의 균형이 아니라, 관찰 로그가 누적될수록 계속 진행만 남지 않고 멈춤과 사람 검토가 실제로 갈라진다는 점입니다.
 
 이 예제에서 확인해야 할 결과는 agent loop를 마법처럼 보지 않고, `무엇을 하기로 했고`, `무엇을 했고`, `무엇을 봤고`, `그래서 다음에 무엇을 할지`, `어디서 멈추거나 사람에게 넘길지`를 실제로 분리해 기록할 수 있는가입니다.
 
-| 지점 | 대표 질문 | 흔한 실패 |
+출력은 아래 조건식에서 만들어집니다. 독자가 CSV에서 직접 바꿔 볼 값도 이 열들입니다.
+
+| CSV 열 또는 조건 | 최종 결정에 미치는 영향 | 바꿔 볼 때 볼 변화 |
 | --- | --- | --- |
-| 계획(plan) | 지금 무엇을 먼저 해야 하는가 | 잘못된 우선순위, 비현실적 단계 |
-| 행동(action) | 실제로 무엇을 실행했는가 | 잘못된 도구 선택, 호출 실패 |
-| 관찰(observation) | 방금 결과를 어떻게 읽었는가 | 오래된 문서를 최신으로 오독, 실패 로그 무시 |
-| 종료/전환(decision) | 계속할지 멈출지 사람에게 넘길지 | 무한 반복, 과도한 자신감, 승인 누락 |
+| `approval_needed == true` | 자동 진행보다 `human_review`가 먼저 선택됩니다. | 승인 경계가 켜진 목표가 마지막 결정에서 사람 검토로 이동하는지 봅니다. |
+| `conflict_found == true` | 근거가 있더라도 `human_review`가 선택됩니다. | 충돌 문서가 있으면 충분한 근거만으로 닫히지 않는지 봅니다. |
+| `action_failed == true`이고 `retry_count >= retry_limit` | 재시도 한도 초과로 `human_review`가 선택됩니다. | `retry_limit`를 늘리면 같은 실패가 계속 탐색으로 남는지 봅니다. |
+| `evidence_sufficient == true`이고 실행 실패가 없음 | `stop_ready`가 선택됩니다. | 근거 충분 신호가 켜진 라운드에서 불필요한 추가 탐색이 줄어드는지 봅니다. |
+| 위 조건에 모두 걸리지 않음 | `continue_refine`으로 남습니다. | 관찰이 부족하면 같은 결론을 강제로 내지 않고 다음 라운드로 넘어가는지 봅니다. |
+| `model_plan` | 다음 계획 후보로 기록되지만 최종 결정을 대신하지 않습니다. | 모델이 멈춤을 제안해도 guard가 계속 탐색이나 사람 검토로 바꾸는 사례를 봅니다. |
 
-이 지점에서 한 번 더 분리해 두면, plan-action-observation 루프가 직접 해결하는 문제와 별도 층위로 넘겨야 하는 문제가 더 선명해집니다.
+이 조건표를 기준으로 보면, plan-action-observation 루프가 직접 해결하는 문제와 별도 층위로 넘겨야 하는 문제가 더 선명해집니다.
 
-| 상황 | plan-action-observation 루프가 직접 다루는 것 | 다음 층으로 넘겨야 하는 것 |
+| 상황 | plan-action-observation 루프가 직접 다루는 것 | 후속 Section으로 넘겨야 하는 것 |
 | --- | --- | --- |
 | 목표가 한 번에 닫히지 않음 | 계속할지, 멈출지, 사람에게 넘길지 분기 | 어떤 도구와 자원을 어떤 공통 형식으로 노출할지 |
-| 중간 결과가 기대와 다름 | 관찰 결과를 바탕으로 재계획 | 호출 형식 검증, 권한 경계, 연결 표준 |
 | 같은 행동을 반복함 | 종료 조건과 재시도 조건 설정 | trace 저장, replay, 승인 이력 관리 |
-| 실패 원인을 나눠 보고 싶음 | 계획 오류 / 실행 오류 / 관찰 오독 구분 | 그 구분을 나중에 재현하고 비교할 기록 체계 |
 
 이 표의 핵심은 루프가 `다음 판단의 구조`를 다루는 층이라는 점입니다. MCP는 이 루프가 쓰는 도구와 자원을 어떤 공통 형식으로 드러낼지 정리하고, 하네스는 같은 루프를 어떤 trace와 replay로 남길지 정리합니다.
 
-## 루프 분기에서 갈리는 다음 결정
+## 관찰 로그가 다음 결정을 바꾸는 지점
 
-이 예제는 에이전트가 무조건 끝까지 가는 자동 실행기가 아니라, 관찰 결과에 따라 `계속`, `종료`, `사람 검토`를 갈라야 하는 분기 구조라는 점을 보여 줍니다. 그래서 좋은 agent loop는 많이 움직이는 루프가 아니라, 언제 계속할지와 언제 멈출지를 구분할 수 있는 루프입니다.
+이 예제는 에이전트가 무조건 끝까지 가는 자동 실행기가 아니라, 관찰 결과에 따라 `계속`, `종료`, `사람 검토`를 갈라야 하는 분기 구조라는 점을 보여 줍니다. 그래서 좋은 agent loop는 많이 움직이는 루프가 아니라, 관찰 신호가 바뀌었을 때 다음 결정도 함께 바뀌는 루프입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- 첫 번째 라운드에서 이미 최신 문서를 찾도록 바꿔 loop가 더 빨리 멈추는지 보기
-- `scenarios`에 세 번째 실패 라운드를 넣어 재시도 한도 조건을 설계해 보기
-- `decision`을 `ask_human_review`로 바꾸어 사람 검토 전환 시점을 상상해 보기
+- CSV에서 `retry_limit`를 2에서 3으로 바꾸어 재시도 한도 때문에 사람 검토로 넘어가던 사례가 계속 탐색으로 남는지 보기
+- `conflict_found`를 `true`로 바꾸어 충분한 근거가 있어도 충돌이 있으면 사람 검토가 먼저 선택되는지 보기
+- `evidence_sufficient`를 `true`로 바꾸어 추가 탐색이 멈춤으로 바뀌는지 보기
+- `approval_needed`를 `true`로 바꾸어 자동 진행보다 사람 확인이 먼저 선택되는지 보기
+- 프롬프트의 allowed labels나 `AIBOOK_OLLAMA_MODEL`을 바꾸어 모델 계획 후보와 guard 최종 결정의 차이가 어떻게 달라지는지 보기
 
 더 중요하게 붙잡아야 할 점은 `한 번 답을 내는가`와 `관찰 결과에 따라 다음 행동을 다시 고르는가`가 같은 문제가 아니라는 것입니다. 그래서 계획, 행동, 관찰은 agent를 설명하는 부가 용어가 아니라, 반복 실행 구조를 어디서 계속하고 어디서 멈출지 판단하게 만드는 기본 루프로 읽는 편이 좋습니다.
-
-## 루프가 다음 행동을 가르는 기준
-
-에이전트 루프의 핵심은 계획-행동-관찰을 반복하는 데만 있지 않고, 관찰 결과에 따라 계속할지 멈출지 사람에게 넘길지를 분명하게 결정하는 데 있습니다.
 
 ## 체크리스트
 - 계획, 행동, 관찰을 각각 `다음 단계 결정`, `실제 실행`, `결과 읽기`로 구분해 설명할 수 있어야 합니다.

@@ -1,7 +1,7 @@
-# P6-5.1 GPT 계열은 어떻게 디코더 기반 누적 생성 구조가 되는가
+# P6-5.1 디코더 기반 누적 생성 구조로 보는 GPT 계열
 
 > Section ID: `P6-5.1`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
 
 여기까지는 Transformer를 LLM 관점으로 다시 읽고, context window와 attention 제약을 확인했습니다. 이제 같은 Transformer 계열 안에서도 `입력을 읽는 흐름`과 `계속 이어서 생성하는 흐름`을 구분해야 합니다.
 
