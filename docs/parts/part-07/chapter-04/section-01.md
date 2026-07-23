@@ -1,7 +1,7 @@
 # P7-4.1 loss, metric, 오류 사례 함께 읽기
 
 Section ID: `P7-4.1`
-Version: `v2026.07.22`
+Version: `v2026.07.23`
 
 고객 문의를 어느 팀으로 보내야 하는지 분류하는 모델을 만들었다고 해도, 정확도 숫자 하나만 적어 두면 실제로 무엇이 좋아졌는지 읽기 어렵습니다. 학습 루프 관점으로 다시 보면, 프로젝트 문서에는 `baseline`, `loss`, `accuracy`, `epoch별 로그`, `오류 샘플`이 함께 남아 있어야 다음 판단이 가능합니다.
 
@@ -226,6 +226,103 @@ for row in test_records:
 {'평가 샘플': '평가-07', '문장': '하자 제품 환불 스케줄 알고 싶어요', '예측 팀': '환불팀', '실제 팀': '환불팀', '정답 여부': '예', '팀별 확률': [0.803, 0.197]}
 ```
 
+### 실제 라이브러리로 같은 기록 만들기
+
+위 예제는 loss와 update를 직접 보이게 하려고 softmax를 NumPy로 풀어 쓴 버전입니다. 실제 프로젝트에서는 보통 텍스트 벡터화와 분류기를 직접 구현하지 않고 라이브러리로 묶습니다. 아래 보충 예제는 같은 데이터를 scikit-learn의 `TfidfVectorizer`, `SGDClassifier`, `DummyClassifier`로 다시 실행해, 도구가 바뀌어도 기록해야 할 축은 같다는 점을 확인합니다.
+
+```python
+# scikit-learn 텍스트 벡터화와 log-loss 분류기로 baseline, epoch 로그, 오류 샘플을 다시 남기는 보충 예제입니다.
+import csv
+from pathlib import Path
+
+import numpy as np
+from sklearn.dummy import DummyClassifier
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import accuracy_score, log_loss
+
+data_path = Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv")
+rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+train_rows = [row for row in rows if row["split"] == "train"]
+test_rows = [row for row in rows if row["split"] == "test"]
+
+label_names = {0: "환불팀", 1: "배송팀"}
+X_train_text = [row["text"] for row in train_rows]
+y_train = np.array([int(row["label"]) for row in train_rows])
+X_test_text = [row["text"] for row in test_rows]
+y_test = np.array([int(row["label"]) for row in test_rows])
+
+vectorizer = TfidfVectorizer(ngram_range=(1, 2), min_df=1)
+X_train = vectorizer.fit_transform(X_train_text)
+X_test = vectorizer.transform(X_test_text)
+
+baseline = DummyClassifier(strategy="most_frequent")
+baseline.fit(X_train, y_train)
+baseline_accuracy = accuracy_score(y_test, baseline.predict(X_test))
+
+model = SGDClassifier(
+    loss="log_loss",
+    penalty="l2",
+    alpha=0.0001,
+    learning_rate="constant",
+    eta0=0.15,
+    random_state=7,
+    shuffle=False,
+)
+classes = np.array([0, 1])
+training_log = []
+for epoch in range(1, 13):
+    model.partial_fit(X_train, y_train, classes=classes)
+    train_probs = model.predict_proba(X_train)
+    eval_probs = model.predict_proba(X_test)
+    training_log.append({
+        "epoch": epoch,
+        "train_loss": round(float(log_loss(y_train, train_probs, labels=classes)), 3),
+        "eval_loss": round(float(log_loss(y_test, eval_probs, labels=classes)), 3),
+        "train_accuracy": round(float(accuracy_score(y_train, train_probs.argmax(axis=1))), 3),
+        "eval_accuracy": round(float(accuracy_score(y_test, eval_probs.argmax(axis=1))), 3),
+        "baseline_accuracy": round(float(baseline_accuracy), 3),
+    })
+
+test_probs = model.predict_proba(X_test)
+test_pred = model.predict(X_test)
+error_records = []
+for index, row in enumerate(test_rows):
+    if int(test_pred[index]) != int(y_test[index]):
+        error_records.append({
+            "평가 샘플": row["sample_id"],
+            "문장": row["text"],
+            "예측 팀": label_names[int(test_pred[index])],
+            "실제 팀": label_names[int(y_test[index])],
+            "팀별 확률": np.round(test_probs[index], 3).tolist(),
+        })
+
+summary = {
+    "vectorizer": "TfidfVectorizer",
+    "model": "SGDClassifier(log_loss)",
+    "어휘 수": len(vectorizer.get_feature_names_out()),
+    "기준선 정확도": round(float(baseline_accuracy), 3),
+    "마지막 epoch 평가 정확도": training_log[-1]["eval_accuracy"],
+    "오류 샘플": [row["평가 샘플"] for row in error_records],
+}
+
+print("실제 라이브러리 실행 요약 =", summary)
+print("처음 3개 epoch =", training_log[:3])
+print("마지막 3개 epoch =", training_log[-3:])
+print("오류 샘플 상세 =", error_records)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+실제 라이브러리 실행 요약 = {'vectorizer': 'TfidfVectorizer', 'model': 'SGDClassifier(log_loss)', '어휘 수': 69, '기준선 정확도': 0.714, '마지막 epoch 평가 정확도': 0.857, '오류 샘플': ['평가-05']}
+처음 3개 epoch = [{'epoch': 1, 'train_loss': 0.649, 'eval_loss': 0.672, 'train_accuracy': 1.0, 'eval_accuracy': 0.857, 'baseline_accuracy': 0.714}, {'epoch': 2, 'train_loss': 0.609, 'eval_loss': 0.653, 'train_accuracy': 1.0, 'eval_accuracy': 0.857, 'baseline_accuracy': 0.714}, {'epoch': 3, 'train_loss': 0.572, 'eval_loss': 0.636, 'train_accuracy': 1.0, 'eval_accuracy': 0.857, 'baseline_accuracy': 0.714}]
+마지막 3개 epoch = [{'epoch': 10, 'train_loss': 0.39, 'eval_loss': 0.552, 'train_accuracy': 1.0, 'eval_accuracy': 0.857, 'baseline_accuracy': 0.714}, {'epoch': 11, 'train_loss': 0.372, 'eval_loss': 0.544, 'train_accuracy': 1.0, 'eval_accuracy': 0.857, 'baseline_accuracy': 0.714}, {'epoch': 12, 'train_loss': 0.355, 'eval_loss': 0.536, 'train_accuracy': 1.0, 'eval_accuracy': 0.857, 'baseline_accuracy': 0.714}]
+오류 샘플 상세 = [{'평가 샘플': '평가-05', '문장': '캔슬 후 송장 번호 남아 있어요', '예측 팀': '배송팀', '실제 팀': '환불팀', '팀별 확률': [0.356, 0.644]}]
+```
+
+두 예제의 확률 값은 같지 않습니다. 직접 구현한 bag-of-words softmax와 scikit-learn의 TF-IDF 기반 SGD 분류기가 같은 모델은 아니기 때문입니다. 하지만 기록의 핵심은 같습니다. 기준선 정확도는 `0.714`, 마지막 평가 정확도는 `0.857`, 마지막 오답은 `평가-05`로 유지됩니다. 실제 프로젝트에서는 이처럼 도구가 바뀌어도 `baseline`, `loss`, `accuracy`, `오류 샘플`을 같은 틀로 남겨야 비교가 이어집니다.
+
 ## 학습 곡선을 눈으로 읽기
 
 학습 로그를 숫자 표로만 보면 `정확도 0.857`이 반복된다는 사실만 남기 쉽습니다. 그래프로 보면 실행 결과에서 더 중요한 점이 드러납니다.
@@ -324,6 +421,9 @@ baseline은 항상 다수 클래스인 환불팀으로 보내므로 정확도는
 3. `평가-05`와 비슷한 혼합 문의를 하나 더 넣어 봅니다.
    관찰할 점: accuracy가 그대로여도 어떤 유형의 문장에서만 계속 흔들리는가?
 
+4. 보충 예제에서 `TfidfVectorizer(ngram_range=(1, 2))`를 `TfidfVectorizer(ngram_range=(1, 1))`로 바꿔 봅니다.
+   관찰할 점: 어휘 수와 loss 변화가 달라져도 마지막 오답 샘플이 유지되는가?
+
 핵심 확인 기준은 `마지막 정확도`보다 `로그 곡선과 오답 샘플이 다음 수정 방향을 어떻게 알려 주는가`입니다.
 
 ## 이어서 점검할 질문
@@ -349,5 +449,6 @@ baseline은 항상 다수 클래스인 환불팀으로 보내므로 정확도는
 ## 출처와 참고 자료
 
 - NumPy Developers, `NumPy documentation`, 확인 날짜: 2026-06-29. [https://numpy.org/doc/stable/](https://numpy.org/doc/stable/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Feature extraction`, `SGDClassifier`, `DummyClassifier`, 확인 날짜: 2026-07-23. [https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction){: target="_blank" rel="noopener noreferrer" }, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html){: target="_blank" rel="noopener noreferrer" }, [https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }
 
 이 절의 문의 데이터와 학습 로그는 실습용 설명을 위해 직접 구성한 synthetic 데이터와 재현 가능한 예제 스크립트를 기준으로 작성했습니다.

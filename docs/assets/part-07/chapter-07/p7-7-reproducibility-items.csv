@@ -1,0 +1,37 @@
+package_id,item_id,category,item,status,required,owner,next_action
+baseline-churn,item-01,question,프로젝트 질문과 평가 대상,ready,yes,author,현재 질문 문장을 유지한다
+baseline-churn,item-02,input,학습 CSV와 평가 CSV 경로,ready,yes,author,CSV 링크를 본문과 README에 함께 남긴다
+baseline-churn,item-03,code,실행 코드 블록 또는 스크립트,ready,yes,author,코드 블록 출력 예시를 최신 실행값으로 맞춘다
+baseline-churn,item-04,environment,필요한 Python 패키지,ready,yes,author,requirements와 실제 import를 대조한다
+baseline-churn,item-05,command,실행 명령,ready,yes,author,.venv/bin/python 기준 명령을 남긴다
+baseline-churn,item-06,result,실행 요약 출력,ready,yes,author,정확도와 오류 샘플을 같이 남긴다
+baseline-churn,item-07,evaluation,baseline 비교표,ready,yes,reviewer,같은 평가 셋 기준인지 다시 확인한다
+baseline-churn,item-08,error,대표 오류 사례,ready,yes,reviewer,평가-02와 평가-04 해석을 유지한다
+baseline-churn,item-09,limitation,synthetic 데이터 한계,ready,yes,author,일반화 단정 금지 문장을 유지한다
+baseline-churn,item-10,next_action,다음 실험 질문,ready,yes,author,더 큰 데이터와 다른 분할 확인을 남긴다
+baseline-churn,item-11,handoff,다른 독자가 다시 볼 위치,ready,no,author,P7-2.2와 P7-2.3 연결을 남긴다
+baseline-churn,item-12,release_note,릴리즈노트 연결,ready,yes,author,P7-2.2 릴리즈노트 버전을 확인한다
+rag-vector-db,item-01,question,RAG 검색 설정 질문,ready,yes,author,검색 후보와 선택 근거 질문을 유지한다
+rag-vector-db,item-02,input,RAG 문서 조각 CSV,ready,yes,author,p7-5-rag-documents.csv 링크를 유지한다
+rag-vector-db,item-03,code,ChromaDB 실행 코드,ready,yes,author,embedding_function=None 설정을 유지한다
+rag-vector-db,item-04,environment,chromadb와 scikit-learn 의존성,partial,yes,author,requirements와 설치 버전 차이를 점검한다
+rag-vector-db,item-05,command,실행 명령,ready,yes,author,.venv/bin/python 실행 기준을 남긴다
+rag-vector-db,item-06,result,exact top-k와 vector DB top-k,ready,yes,author,후보 수와 top-k 포함률을 같이 남긴다
+rag-vector-db,item-07,evaluation,누락된 exact 후보 해석,ready,yes,reviewer,문서-17과 문서-2 누락 의미를 확인한다
+rag-vector-db,item-08,error,외부 모델 다운로드 방지 조건,ready,yes,author,기본 embedding 함수 사용 금지를 명시한다
+rag-vector-db,item-09,limitation,실제 대규모 ANN 운영 제외,ready,yes,author,본문 범위를 로컬 실습으로 제한한다
+rag-vector-db,item-10,next_action,다음 검색 설정 실험,ready,yes,author,num_probes 변경 실험을 유지한다
+rag-vector-db,item-11,handoff,P7-5.1 검색 후보 기록 연결,stale,no,author,P7-5.1과 역할 분담 문장을 보강한다
+rag-vector-db,item-12,release_note,릴리즈노트 연결,ready,yes,author,P7-5.4 릴리즈노트 버전을 확인한다
+agent-ops,item-01,question,agent 운영 실행 질문,ready,yes,author,장애 티켓과 안전한 다음 행동 질문을 유지한다
+agent-ops,item-02,input,도구 실행 단계 CSV,ready,yes,author,p7-6-agent-triage-steps.csv 링크를 유지한다
+agent-ops,item-03,code,권한 로그 분석 코드,ready,yes,author,blocked와 failure 분리 출력을 유지한다
+agent-ops,item-04,environment,실행 환경과 패키지 설명,missing,yes,author,표준 라이브러리만 쓰는지 명시한다
+agent-ops,item-05,command,실행 명령,missing,yes,author,본문 코드 블록 재실행 명령을 남긴다
+agent-ops,item-06,result,완료 blocked failure 요약,ready,yes,reviewer,완료 3건 blocked 1건 failure 1건을 확인한다
+agent-ops,item-07,evaluation,승인 정책 판정 기준,partial,yes,reviewer,자동 실행 가능과 즉시 보류 기준을 연결한다
+agent-ops,item-08,error,권한 없음과 도구 실패 구분,ready,yes,author,blocked와 failure 해석 문장을 유지한다
+agent-ops,item-09,limitation,실제 외부 API 미사용 한계,ready,yes,author,mock 실행 로그라는 점을 명시한다
+agent-ops,item-10,next_action,승인 정책 보강 후보,ready,yes,author,P7-6.3으로 이어지는 수정 질문을 남긴다
+agent-ops,item-11,handoff,운영 회고 연결,partial,no,author,P7-7.2와 P7-7.3 연결을 보강한다
+agent-ops,item-12,release_note,릴리즈노트 연결,missing,yes,author,P7-6.2 또는 P7-6.3 릴리즈노트 상태를 확인한다

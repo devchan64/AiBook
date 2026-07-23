@@ -15,3 +15,4 @@
   - `p7-7-deployment-incidents.csv`
   - `p7-7-ops-scenarios.csv`
   - `p7-action-unit-alert-grades.csv`
+  - `p7-7-reproducibility-items.csv`

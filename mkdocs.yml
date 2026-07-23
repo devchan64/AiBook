@@ -570,6 +570,7 @@ nav:
               - "P7-7.2 장애 기록과 다음 반복 계획": parts/part-07/chapter-07/section-02.md
               - "P7-7.3 운영 점검 시뮬레이션": parts/part-07/chapter-07/section-03.md
               - "P7-7.4 경고 등급 설계 연습": parts/part-07/chapter-07/section-04.md
+              - "P7-7.5 재현 가능한 프로젝트 패키지 만들기": parts/part-07/chapter-07/section-05.md
       - "마무리": parts/part-07/summary.md
 
 markdown_extensions:
