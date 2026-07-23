@@ -9,19 +9,13 @@ P6-15.1에서는 MCP가 모델과 외부 도구, 데이터 사이의 연결을 �
 
 ## 실행 기록을 감싸는 구조
 
-핵심 질문은 다음과 같습니다.
-
-- 하네스는 무엇을 감싸는가?
-- 왜 에이전트 실행에는 하네스 같은 운영 장치가 필요한가?
-- 하네스를 DevOps 도구 하나처럼 보면 왜 혼동이 생기는가?
-
 먼저 닫을 문제는 `실행 추적(trace)`, `재현 실행 정보(replay)`, `승인 기록(approval)`을 어떤 형태로 남길 것인가입니다. 품질 점검은 남은 기록을 통과 기준으로 읽는 문제이고, 운영 제약과 실패 대응은 그 판단을 실제 서비스 통제로 옮기는 문제입니다.
 
 여기서는 harness를 단일 제품명처럼 보지 않고, `실행을 통제하고 기록하고 평가하는 감싸는 구조`로 읽습니다.
 
 앞 절까지가 연결과 실행 구조를 만드는 쪽이었다면, harness는 그 실행에서 남긴 `실행 추적(trace)`, `로그(log)`, `재현 실행 정보(replay)`, `승인 기록(approval)`이 왜 평가 기준의 입력이 되는지 다룹니다. 좋은 실행 기록은 운영 부록이 아니라 `무엇을 기준으로 괜찮다고 판정할까`를 떠받치는 입력입니다.
 
-하네스는 제품 이름보다 세 질문으로 읽는 편이 안전합니다. 첫째, 무엇을 어떤 실행 추적(trace)과 재현 실행 정보(replay)로 남겨야 하는가. 둘째, 이 기록이 왜 평가 입력이 되는가. 셋째, MCP와 하네스가 각각 연결과 실행 관리 중 무엇을 맡는가입니다. 핵심은 `연결을 잘했는가`에서 `그 연결을 쓴 실행을 다시 설명하고 비교할 수 있는가`로 관점이 바뀌는 데 있습니다.
+하네스가 고정하는 축은 세 가지입니다. 첫째, 무엇을 어떤 실행 추적(trace)과 재현 실행 정보(replay)로 남겨야 하는가. 둘째, 이 기록이 왜 평가 입력이 되는가. 셋째, MCP와 하네스가 각각 연결과 실행 관리 중 무엇을 맡는가입니다. 핵심은 `연결을 잘했는가`에서 `그 연결을 쓴 실행을 다시 설명하고 비교할 수 있는가`로 관점이 바뀌는 데 있습니다.
 
 MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 고정할 수 있습니다.
 
@@ -34,12 +28,7 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 고정할 �
 
 ## 실행 결과와 재현 가능한 기록의 구분
 
-- 하네스를 입문 수준에서 설명할 수 있습니다.
-- MCP와 하네스의 역할 차이를 말할 수 있습니다.
-- trace, log, eval, replay 같은 운영 요구가 왜 중요한지 설명할 수 있습니다.
-- 실행 기록이 평가와 운영 문제의 입력이 되는 이유를 말할 수 있습니다.
-
-하네스를 도구 이름처럼 외우기보다, 어떤 기록이 없으면 어떤 실패를 다시 못 좁히는지 기준으로 삼는 편이 더 안전합니다.
+하네스를 도구 이름처럼 외우기보다, 어떤 기록이 없으면 어떤 실패를 다시 못 좁히는지 기준으로 삼는 편이 더 안전합니다. 이 관점이 잡히면 하네스를 단순 로그 저장소가 아니라, MCP가 연결한 도구 실행을 trace, log, eval, replay 같은 기록으로 다시 설명하게 만드는 운영 장치로 읽을 수 있습니다.
 
 | 먼저 보인 막힘 | 가장 먼저 남겨야 할 기록 | 왜 이 기록이 먼저 필요한가 |
 | --- | --- | --- |
@@ -49,7 +38,7 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 고정할 �
 
 이 표를 먼저 잡고 아래의 하네스 역할, MCP와의 차이, 사례를 읽으면, 하네스를 `로그를 남기는 장치`보다 `어떤 실패를 다시 설명하게 만드는 기록 구조인가`로 더 쉽게 붙잡을 수 있습니다.
 
-## 하네스는 무엇을 감싸나
+## 입력과 도구 호출까지 감싸는 실행 환경
 
 하네스는 다음 역할 묶음으로 보면 범위를 더 분명하게 잡을 수 있습니다.
 
@@ -65,15 +54,13 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 고정할 �
 
 즉, 하네스는 `모델이 무엇을 말했는가`만 보는 것이 아니라, `그 실행 전체를 어떻게 감싸고 관리할 것인가`를 다룹니다.
 
-한 번 더 단순화하면 다음과 같습니다.
-
 ```mermaid
 --8<-- "assets/part-06/chapter-15/p6-c15-s02-harness-trace-flow-ko.mmd"
 ```
 
 이 그림의 핵심은 하네스가 결과 문장만 남기는 것이 아니라, 그 결과에 이르기까지의 실행과 점검 단계를 함께 남긴다는 점입니다.
 
-## 왜 agent 시대에 필요해졌나
+## 최종 답만 보면 사라지는 실행 원인
 
 단일 질의응답에서는 로그 한 줄로 끝날 수 있습니다. 하지만 에이전트는:
 
@@ -94,7 +81,7 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 고정할 �
 
 이 요구를 감싸는 구조가 바로 harness에 가깝습니다.
 
-## MCP와 무엇이 다른가
+## 연결 형식과 실행 기록의 차이
 
 이 차이도 분리해야 합니다.
 
@@ -110,7 +97,7 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 고정할 �
 
 둘은 함께 쓰일 수 있지만 같은 층위의 개념은 아닙니다.
 
-## 왜 DevOps 도구 하나처럼 보면 혼동이 생기나
+## 단일 DevOps 도구로 좁히면 생기는 오해
 
 하네스를 단일 제품이나 특정 도구 하나로 이해하면 범위가 너무 좁아집니다. 더 안전한 설명은 다음입니다.
 
@@ -125,7 +112,7 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 고정할 �
 
 핵심은 특정 브랜드보다 `실행을 감싸는 역할`입니다.
 
-## 왜 평가와 재현성이 같이 중요해지나
+## 평가와 재현성을 함께 묶는 기록
 
 agent 시스템은 한 번 잘 돌아가는 것처럼 보여도, 다음 번에는 다른 행동을 할 수 있습니다. 따라서 운영에서는 다음이 중요해집니다.
 
@@ -138,7 +125,7 @@ agent 시스템은 한 번 잘 돌아가는 것처럼 보여도, 다음 번에�
 
 즉, harness는 단순 기록이 아니라 `디버깅과 개선의 기반`입니다.
 
-## 아주 단순하게 그리면
+## 실행을 감싼 뒤 사람이 다시 보는 흐름
 
 ```mermaid
 --8<-- "assets/part-06/chapter-15/p6-c15-s02-harness-replay-flow-ko.mmd"
@@ -226,267 +213,474 @@ agent 시스템은 한 번 잘 돌아가는 것처럼 보여도, 다음 번에�
 
 ## 연습 및 예제
 
-예제의 목표는 실제 하네스 전체를 구현하는 것이 아니라, 여러 실행 기록을 보고 `무엇이 잘못되었는지`뿐 아니라 `그래서 다음 운영 조치를 무엇으로 잡아야 하는지`까지 읽는 것입니다. 단순히 기록 항목이 있나 없나만 보면 하네스가 체크리스트처럼 보일 수 있으므로, 실행별로 운영 판단을 내려 봅니다.
+예제의 목표는 실제 서비스 하네스 전체를 만드는 것이 아니라, 로컬 모델이 만든 실행 흐름을 어떤 기록 산출물로 남겨야 하는지 보는 것입니다. 최종 답만 저장하면 답이 바뀐 사실은 알 수 있어도, 모델이 어떤 근거를 골랐고 어떤 행동을 하려 했으며 어디서 멈췄는지는 다시 설명하기 어렵습니다. 반대로 실행 입력, 모델 판단, 도구 계약, 도구 출력, 승인 gate, replay 기준이 함께 남으면 같은 요청을 나중에 다시 놓고 비교할 수 있습니다.
 
-아래 예제는 고객 지원 에이전트가 환불 정책을 읽고 답변 초안을 만든 세 번의 실행 기록을 사용합니다. 어떤 실행은 최신 정책과 승인 기록을 모두 갖췄고, 어떤 실행은 오래된 문서를 읽었으며, 어떤 실행은 승인 없이 바로 전송되었습니다. 최종 답만 보면 모두 답변 품질 문제처럼 보일 수 있지만, 실행 기록을 보면 검색 실패, 승인 실패, 재현 가능성 부족을 서로 다른 운영 원인으로 나눠 볼 수 있습니다.
+아래 예제는 OpenAI Agents SDK의 `Agent`, `function_tool`, `trace`, `Runner`와 로컬 Ollama 모델을 함께 사용합니다. 실행하려면 `openai-agents` 패키지와 Ollama에 내려받은 `qwen2.5:1.5b` 모델이 필요합니다. 실행 전에는 Ollama 앱이나 서버가 켜져 있어야 하고, 터미널에서 `ollama list`로 모델 이름이 보이는지 확인해야 합니다. 기본 경로는 API 키를 쓰지 않습니다. 모델 판단용 프롬프트는 Python 예제 가이드라인에 맞춰 영어로 작성하고, 사용자 요청만 한국어 원문으로 둡니다. 로컬 모델은 문서 후보를 보고 정책 버전과 답변 초안, 전송 의도를 냅니다. 그 다음 정책 조회 도구를 실제로 실행하고, 승인 필요한 전송 도구는 gate에서 멈춘 것으로 기록합니다. 각 실행은 `.tmp/p6-15-2-harness-runs/` 아래 JSON 파일로 저장되고, replay 비교는 저장된 실행 기록을 다시 읽어서 수행합니다.
 
-출력에서는 실행별 run report, 원인 분리 점검값, 바로 취해야 할 운영 후속 조치를 함께 확인합니다. 코드에서 확인할 핵심은 하네스와 실행 로그가 실패를 재현 가능하게 남겨야 원인 분리와 다음 운영 조치를 동시에 정할 수 있다는 점입니다.
-
-먼저 이 예제에서 함께 볼 운영 점검 기준은 다음과 같습니다.
+먼저 이 예제에서 함께 볼 하네스 점검 기준은 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| `used_latest_policy` | 틀린 답의 원인이 오래된 근거 문서인지 분리해야 해서 |
-| `approval_completed` | 지식 오류와 운영 통제 오류를 구분해야 해서 |
-| `replay_ready` | 같은 실패를 다시 재현해 수정 전후를 비교해야 해서 |
-| `root_issue` | 검색, 승인, 기록 중 어디가 먼저 흔들렸는지 바로 읽어야 해서 |
-| 다음 운영 조치 | 문제가 보였을 때 바로 어떤 운영 조치를 취할지 정해야 해서 |
+| `tool_contracts` | 어떤 도구가 어떤 입력 형식과 승인 조건으로 노출되는지 알아야 해서 |
+| `model_decision` | 모델이 어떤 근거를 골랐고 어떤 행동을 하려 했는지 남겨야 해서 |
+| `observations` | 입력, 모델 출력, 도구 출력, gate 상태를 실행 순서대로 남겨야 해서 |
+| `run_artifact` | 관측값과 실행 요약을 파일로 남겨 나중에 다시 읽어야 해서 |
+| `replay_id` | 같은 실행을 나중에 다시 불러 비교해야 해서 |
+| `comparison` | 수정 전후에 무엇이 달라졌는지 같은 기준으로 봐야 해서 |
 
 ```python
-# agent harness 실행 기록에서 최신 근거 사용, 승인 gate, trace 저장 여부를 점검해 재현 가능한 run인지 분류하는 예제입니다.
+import asyncio
+import hashlib
+import json
+import os
+from pathlib import Path
 from pprint import pprint
+import urllib.error
+import urllib.request
 
-runs = [
-    {
-        "run_id": "run-2026-06-30-001",
-        "goal": "최신 환불 정책을 찾아 답변 초안을 만든다",
-        "tools_used": ["search_policy_docs", "read_file", "request_approval"],
-        "documents_read": ["refund_policy_2026_06_29"],
-        "trace": [
-            {"step": 1, "action": "search_policy_docs", "status": "ok"},
-            {"step": 2, "action": "read_file", "status": "ok"},
-            {"step": 3, "action": "request_approval", "status": "approved"},
-        ],
-        "draft_answer": "최신 정책 기준으로 환불 가능",
-        "trace_saved": True,
-        "eval_status": "passed",
-        "approval_completed": True,
-        "replay_id": "run-2026-06-30-001",
+from agents import Agent, Runner, function_tool, trace
+
+REQUEST = "서비스 장애 뒤 환불 가능 여부를 알려 주세요."
+TRACE_WORKFLOW = "refund-support-harness"
+ARTIFACT_DIR = Path(".tmp/p6-15-2-harness-runs")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:1.5b")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434/api/generate")
+
+POLICY_STORE = {
+    "2025_12_01": {
+        "document_id": "refund_policy_2025_12_01",
+        "refund_allowed_after_outage": False,
+        "text": "Refund is not allowed after a service outage.",
     },
-    {
-        "run_id": "run-2026-06-30-002",
-        "goal": "최신 환불 정책을 찾아 답변 초안을 만든다",
-        "tools_used": ["search_policy_docs", "read_file", "request_approval"],
-        "documents_read": ["refund_policy_2025_12_01"],
-        "trace": [
-            {"step": 1, "action": "search_policy_docs", "status": "ok"},
-            {"step": 2, "action": "read_file", "status": "ok"},
-            {"step": 3, "action": "request_approval", "status": "approved"},
-        ],
-        "draft_answer": "환불 불가",
-        "trace_saved": True,
-        "eval_status": "failed",
-        "approval_completed": True,
-        "replay_id": "run-2026-06-30-002",
+    "2026_06_29": {
+        "document_id": "refund_policy_2026_06_29",
+        "refund_allowed_after_outage": True,
+        "text": "Refund is allowed after a service outage.",
     },
-    {
-        "run_id": "run-2026-06-30-003",
-        "goal": "최신 환불 정책을 찾아 답변 초안을 만든다",
-        "tools_used": ["search_policy_docs", "read_file", "send_reply"],
-        "documents_read": ["refund_policy_2026_06_29"],
-        "trace": [
-            {"step": 1, "action": "search_policy_docs", "status": "ok"},
-            {"step": 2, "action": "read_file", "status": "ok"},
-            {"step": 3, "action": "send_reply", "status": "sent_without_approval"},
-        ],
-        "draft_answer": "최신 정책 기준으로 환불 가능",
-        "trace_saved": False,
-        "eval_status": "needs_review",
-        "approval_completed": False,
-        "replay_id": None,
-    },
-]
-
-def inspect_run(record):
-    used_latest_policy = any("2026_06_29" in doc for doc in record["documents_read"])
-    replay_ready = record["trace_saved"] and record["replay_id"] is not None
-
-    if not used_latest_policy:
-        root_issue = "stale_reference"
-    elif not record["approval_completed"]:
-        root_issue = "approval_gap"
-    elif not replay_ready:
-        root_issue = "replay_gap"
-    else:
-        root_issue = "healthy_run"
-
-    next_action_map = {
-        "healthy_run": "keep_as_reference_run",
-        "stale_reference": "fix_retrieval_source_and_compare_again",
-        "approval_gap": "insert_approval_gate_before_send",
-        "replay_gap": "save_trace_and_assign_replay_id",
-    }
-
-    return {
-        "run_id": record["run_id"],
-        "tool_count": len(record["tools_used"]),
-        "trace_steps": len(record["trace"]),
-        "used_latest_policy": used_latest_policy,
-        "approval_completed": record["approval_completed"],
-        "has_eval_status": "eval_status" in record,
-        "has_replay_id": record["replay_id"] is not None,
-        "replay_ready": replay_ready,
-        "root_issue": root_issue,
-        "next_action": next_action_map[root_issue],
-    }
-
-reports = []
-for run in runs:
-    inspection = inspect_run(run)
-    reports.append({"run": run, "inspection": inspection})
-
-summary = {
-    "healthy_run_count": sum(report["inspection"]["root_issue"] == "healthy_run" for report in reports),
-    "stale_reference_count": sum(report["inspection"]["root_issue"] == "stale_reference" for report in reports),
-    "approval_gap_count": sum(report["inspection"]["root_issue"] == "approval_gap" for report in reports),
-    "replay_gap_count": sum(report["inspection"]["root_issue"] == "replay_gap" for report in reports),
-    "replay_ready_count": sum(report["inspection"]["replay_ready"] for report in reports),
-    "approval_completed_ratio": round(
-        sum(report["inspection"]["approval_completed"] for report in reports) / len(reports), 2
-    ),
-    "replay_ready_ratio": round(
-        sum(report["inspection"]["replay_ready"] for report in reports) / len(reports), 2
-    ),
 }
 
-print("[summary]")
-pprint(summary)
+
+def read_policy_document_local(policy_version: str) -> dict:
+    policy = POLICY_STORE[policy_version]
+    return {"policy_version": policy_version, **policy}
+
+
+def retrieved_policy_docs(order: str) -> list[dict]:
+    versions_by_order = {
+        "old_first": ["2025_12_01", "2026_06_29"],
+        "current_first": ["2026_06_29", "2025_12_01"],
+    }
+    return [read_policy_document_local(version) for version in versions_by_order[order]]
+
+
+@function_tool
+def read_policy_document(policy_version: str) -> dict:
+    """Return the refund policy document selected by version."""
+    return read_policy_document_local(policy_version)
+
+
+@function_tool(needs_approval=True)
+def send_refund_reply(customer_id: str, answer: str) -> str:
+    """Send a refund reply after human approval."""
+    return f"queued reply to {customer_id}: {answer}"
+
+
+refund_agent = Agent(
+    name="Refund support agent",
+    instructions=(
+        "Answer in Korean. Read the refund policy document before drafting. "
+        "If the answer will be sent to a customer, use the approval-required tool."
+    ),
+    tools=[read_policy_document, send_refund_reply],
+)
+
+
+def inspect_tool_contract(tool):
+    return {
+        "name": tool.name,
+        "required_inputs": tool.params_json_schema.get("required", []),
+        "needs_approval": bool(tool.needs_approval),
+    }
+
+
+def build_model_prompt(request: str, policy_docs: list[dict]) -> str:
+    policy_lines = "\n".join(
+        "- {policy_version}: {text}".format(**doc)
+        for doc in policy_docs
+    )
+    return f"""Return only compact JSON with these keys:
+policy_version, answer_ko, send_reply_intent.
+Use true or false for send_reply_intent.
+
+User request in Korean:
+{request}
+
+Retrieved policy documents are ordered by search rank:
+{policy_lines}
+
+Use the top-ranked document unless the document itself clearly says it is obsolete.
+Choose the policy version you used and draft a short Korean answer.
+"""
+
+
+def call_local_model(prompt: str) -> str:
+    payload = {
+        "model": OLLAMA_MODEL,
+        "prompt": prompt,
+        "stream": False,
+        "format": "json",
+        "options": {"temperature": 0},
+    }
+    request = urllib.request.Request(
+        OLLAMA_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=90) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError) as error:
+        raise RuntimeError(
+            "Ollama is not reachable. Start Ollama and check `ollama list` "
+            f"for model `{OLLAMA_MODEL}`."
+        ) from error
+    return data["response"]
+
+
+def parse_model_json(raw_text: str) -> dict:
+    cleaned = raw_text.strip()
+    if cleaned.startswith("`"):
+        cleaned = cleaned.strip("`")
+        cleaned = cleaned.removeprefix("json").strip()
+    return json.loads(cleaned)
+
+
+def normalize_model_decision(raw_text: str) -> dict:
+    try:
+        decision = parse_model_json(raw_text)
+        return {
+            "parse_ok": True,
+            "policy_version": decision.get("policy_version"),
+            "answer_ko": decision.get("answer_ko"),
+            "send_reply_intent": normalize_boolean(decision.get("send_reply_intent")),
+            "raw_text": raw_text,
+        }
+    except json.JSONDecodeError as error:
+        return {
+            "parse_ok": False,
+            "policy_version": None,
+            "answer_ko": "",
+            "send_reply_intent": False,
+            "parse_error": str(error),
+            "raw_text": raw_text,
+        }
+
+
+def normalize_boolean(value) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in {"true", "yes", "y", "1"}
+    if isinstance(value, (int, float)):
+        return value == 1
+    return False
+
+
+def input_hash(request):
+    return hashlib.sha256(request.encode("utf-8")).hexdigest()[:12]
+
+
+def select_policy(model_decision: dict, policy_docs: list[dict]) -> tuple[dict, bool]:
+    selected_version = model_decision["policy_version"]
+    if selected_version in POLICY_STORE:
+        return read_policy_document_local(selected_version), False
+    return policy_docs[0], True
+
+
+def build_run_record(agent, request, retrieval_order, run_id):
+    tool_contracts = [inspect_tool_contract(tool) for tool in agent.tools]
+    policy_docs = retrieved_policy_docs(retrieval_order)
+    prompt = build_model_prompt(request, policy_docs)
+    raw_model_output = call_local_model(prompt)
+    model_decision = normalize_model_decision(raw_model_output)
+
+    observations = [
+        {"event": "input", "value": request},
+        {"event": "retrieved_documents", "order": retrieval_order, "value": policy_docs},
+        {"event": "model_prompt", "language": "en", "value": prompt},
+        {"event": "model_output", "model": OLLAMA_MODEL, "value": raw_model_output},
+        {"event": "model_decision", "value": model_decision},
+        {"event": "tool_contracts", "value": tool_contracts},
+    ]
+
+    policy, unknown_policy_version = select_policy(model_decision, policy_docs)
+    observations.append({"event": "tool_output", "tool": "read_policy_document", "value": policy})
+
+    approval_tool = next(tool for tool in tool_contracts if tool["name"] == "send_refund_reply")
+    if model_decision["send_reply_intent"] and approval_tool["needs_approval"]:
+        gate_status = "blocked_for_human_approval"
+        send_status = "not_sent"
+    elif model_decision["send_reply_intent"]:
+        gate_status = "not_required"
+        send_status = "sent"
+    else:
+        gate_status = "not_requested"
+        send_status = "not_sent"
+
+    observations.append(
+        {
+            "event": "approval_gate",
+            "tool": "send_refund_reply",
+            "status": gate_status,
+        }
+    )
+
+    latest_policy_version = "2026_06_29"
+    exception_flags = {
+        "model_output_parse_error": not model_decision["parse_ok"],
+        "unknown_policy_version": unknown_policy_version,
+        "stale_policy_selected": policy["policy_version"] != latest_policy_version,
+        "send_intent_blocked_by_gate": gate_status == "blocked_for_human_approval",
+    }
+    artifact_path = ARTIFACT_DIR / f"{run_id}.json"
+    run_report = {
+        "agent": agent.name,
+        "model": OLLAMA_MODEL,
+        "answer": model_decision["answer_ko"],
+        "retrieval_order": retrieval_order,
+        "policy_version": policy["policy_version"],
+        "document_id": policy["document_id"],
+        "send_status": send_status,
+        "gate_status": gate_status,
+        "exception_flags": exception_flags,
+        "trace": {"workflow": TRACE_WORKFLOW, "group_id": run_id},
+        "observation_count": len(observations),
+        "artifact_path": str(artifact_path),
+        "replay_id": run_id,
+    }
+    return {
+        "schema_version": "p6-15-2-local-run-v1",
+        "run_id": run_id,
+        "input_hash": input_hash(request),
+        "observations": observations,
+        "run_report": run_report,
+    }
+
+
+def save_run_record(record):
+    ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
+    path = ARTIFACT_DIR / f"{record['run_id']}.json"
+    path.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
+    return path
+
+
+def load_run_record(run_id):
+    path = ARTIFACT_DIR / f"{run_id}.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def run_and_record(agent, request, retrieval_order, run_id):
+    record = build_run_record(agent, request, retrieval_order, run_id)
+    save_run_record(record)
+    return record
+
+
+def compare_saved_runs(before_run_id, after_run_id):
+    before = load_run_record(before_run_id)
+    after = load_run_record(after_run_id)
+    before_report = before["run_report"]
+    after_report = after["run_report"]
+    return {
+        "same_input": before["input_hash"] == after["input_hash"],
+        "changed_retrieval_order": before_report["retrieval_order"] != after_report["retrieval_order"],
+        "changed_policy_version": before_report["policy_version"] != after_report["policy_version"],
+        "changed_answer": before_report["answer"] != after_report["answer"],
+        "gate_kept": before_report["gate_status"] == after_report["gate_status"],
+        "stale_policy_fixed": (
+            before_report["exception_flags"]["stale_policy_selected"]
+            and not after_report["exception_flags"]["stale_policy_selected"]
+        ),
+        "before": before_report,
+        "after": after_report,
+    }
+
+
+async def run_live_agent(agent, request, replay_id):
+    with trace(TRACE_WORKFLOW, group_id=replay_id):
+        result = await Runner.run(
+            agent,
+            (
+                "Customer ID: C-1042\n"
+                f"User request: {request}\n"
+                "Use policy version 2026_06_29."
+            ),
+            max_turns=6,
+        )
+    return {
+        "final_output": result.final_output,
+        "replay_id": replay_id,
+    }
+
+
+first_run = run_and_record(refund_agent, REQUEST, "old_first", "refund-support-run-001")
+second_run = run_and_record(refund_agent, REQUEST, "current_first", "refund-support-run-002")
+replayed_first_run = load_run_record("refund-support-run-001")
+important_events = {"model_decision", "tool_output", "approval_gate"}
+important_observations = []
+for event in replayed_first_run["observations"]:
+    if event["event"] not in important_events:
+        continue
+    if event["event"] == "model_decision":
+        event = {**event, "value": {k: v for k, v in event["value"].items() if k != "raw_text"}}
+    important_observations.append(event)
+
+print("[first run report]")
+pprint(first_run["run_report"])
 print()
 
-for report in reports:
-    print("=" * 80)
-    print("[run_id]")
-    print(report["run"]["run_id"])
-    print("[inspection]")
-    pprint(report["inspection"])
-    print("[trace]")
-    pprint(report["run"]["trace"])
-    print("[documents_read]")
-    pprint(report["run"]["documents_read"])
+print("[important observations]")
+pprint(important_observations)
+print()
+
+print("[replay comparison]")
+pprint(compare_saved_runs(first_run["run_id"], second_run["run_id"]))
+
+if os.environ.get("RUN_LIVE_AGENT") == "1" and os.environ.get("OPENAI_API_KEY"):
+    print("\n[live sdk run]")
+    pprint(asyncio.run(run_live_agent(refund_agent, REQUEST, "refund-support-live-001")))
+else:
+    print("\n[live sdk run skipped]")
+    print("Set RUN_LIVE_AGENT=1 and OPENAI_API_KEY to call Runner.run().")
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+API 키 없이 실행하면 결과는 다음처럼 나옵니다. 이 출력은 로컬 모델이 실제로 만든 정책 선택과 답변 초안을 포함합니다. 하네스 관점에서 봐야 할 부분은 답변 문장 자체보다, 모델이 오래된 정책을 고른 실행과 최신 정책을 고른 실행이 어떻게 기록되고 비교되는가입니다.
 
 ```text
-[summary]
-{'approval_completed_ratio': 0.67,
- 'approval_gap_count': 1,
- 'healthy_run_count': 1,
- 'replay_gap_count': 0,
- 'replay_ready_count': 2,
- 'replay_ready_ratio': 0.67,
- 'stale_reference_count': 1}
+[first run report]
+{'agent': 'Refund support agent',
+ 'answer': '서비스 장애 후 환불이 불가능합니다.',
+ 'artifact_path': '.tmp/p6-15-2-harness-runs/refund-support-run-001.json',
+ 'document_id': 'refund_policy_2025_12_01',
+ 'exception_flags': {'model_output_parse_error': False,
+                     'send_intent_blocked_by_gate': True,
+                     'stale_policy_selected': True,
+                     'unknown_policy_version': False},
+ 'gate_status': 'blocked_for_human_approval',
+ 'model': 'qwen2.5:1.5b',
+ 'observation_count': 8,
+ 'policy_version': '2025_12_01',
+ 'replay_id': 'refund-support-run-001',
+ 'retrieval_order': 'old_first',
+ 'send_status': 'not_sent',
+ 'trace': {'group_id': 'refund-support-run-001',
+           'workflow': 'refund-support-harness'}}
 
-================================================================================
-[run_id]
-run-2026-06-30-001
-[inspection]
-{'approval_completed': True,
- 'has_eval_status': True,
- 'has_replay_id': True,
- 'next_action': 'keep_as_reference_run',
- 'replay_ready': True,
- 'root_issue': 'healthy_run',
- 'run_id': 'run-2026-06-30-001',
- 'tool_count': 3,
- 'trace_steps': 3,
- 'used_latest_policy': True}
-[trace]
-[{'action': 'search_policy_docs', 'status': 'ok', 'step': 1},
- {'action': 'read_file', 'status': 'ok', 'step': 2},
- {'action': 'request_approval', 'status': 'approved', 'step': 3}]
-[documents_read]
-['refund_policy_2026_06_29']
-================================================================================
-[run_id]
-run-2026-06-30-002
-[inspection]
-{'approval_completed': True,
- 'has_eval_status': True,
- 'has_replay_id': True,
- 'next_action': 'fix_retrieval_source_and_compare_again',
- 'replay_ready': True,
- 'root_issue': 'stale_reference',
- 'run_id': 'run-2026-06-30-002',
- 'tool_count': 3,
- 'trace_steps': 3,
- 'used_latest_policy': False}
-[trace]
-[{'action': 'search_policy_docs', 'status': 'ok', 'step': 1},
- {'action': 'read_file', 'status': 'ok', 'step': 2},
- {'action': 'request_approval', 'status': 'approved', 'step': 3}]
-[documents_read]
-['refund_policy_2025_12_01']
-================================================================================
-[run_id]
-run-2026-06-30-003
-[inspection]
-{'approval_completed': False,
- 'has_eval_status': True,
- 'has_replay_id': False,
- 'next_action': 'insert_approval_gate_before_send',
- 'replay_ready': False,
- 'root_issue': 'approval_gap',
- 'run_id': 'run-2026-06-30-003',
- 'tool_count': 3,
- 'trace_steps': 3,
- 'used_latest_policy': True}
-[trace]
-[{'action': 'search_policy_docs', 'status': 'ok', 'step': 1},
- {'action': 'read_file', 'status': 'ok', 'step': 2},
- {'action': 'send_reply', 'status': 'sent_without_approval', 'step': 3}]
-[documents_read]
-['refund_policy_2026_06_29']
+[important observations]
+[{'event': 'model_decision',
+  'value': {'answer_ko': '서비스 장애 후 환불이 불가능합니다.',
+            'parse_ok': True,
+            'policy_version': '2025_12_01',
+            'send_reply_intent': True}},
+ {'event': 'tool_output',
+  'tool': 'read_policy_document',
+  'value': {'document_id': 'refund_policy_2025_12_01',
+            'policy_version': '2025_12_01',
+            'refund_allowed_after_outage': False,
+            'text': 'Refund is not allowed after a service outage.'}},
+ {'event': 'approval_gate',
+  'status': 'blocked_for_human_approval',
+  'tool': 'send_refund_reply'}]
+
+[replay comparison]
+{'after': {'agent': 'Refund support agent',
+           'answer': '환불이 가능합니다.',
+           'artifact_path': '.tmp/p6-15-2-harness-runs/refund-support-run-002.json',
+           'document_id': 'refund_policy_2026_06_29',
+           'exception_flags': {'model_output_parse_error': False,
+                               'send_intent_blocked_by_gate': True,
+                               'stale_policy_selected': False,
+                               'unknown_policy_version': False},
+           'gate_status': 'blocked_for_human_approval',
+           'model': 'qwen2.5:1.5b',
+           'observation_count': 8,
+           'policy_version': '2026_06_29',
+           'replay_id': 'refund-support-run-002',
+           'retrieval_order': 'current_first',
+           'send_status': 'not_sent',
+           'trace': {'group_id': 'refund-support-run-002',
+                     'workflow': 'refund-support-harness'}},
+ 'before': {'agent': 'Refund support agent',
+            'answer': '서비스 장애 후 환불이 불가능합니다.',
+            'artifact_path': '.tmp/p6-15-2-harness-runs/refund-support-run-001.json',
+            'document_id': 'refund_policy_2025_12_01',
+            'exception_flags': {'model_output_parse_error': False,
+                                'send_intent_blocked_by_gate': True,
+                                'stale_policy_selected': True,
+                                'unknown_policy_version': False},
+            'gate_status': 'blocked_for_human_approval',
+            'model': 'qwen2.5:1.5b',
+            'observation_count': 8,
+            'policy_version': '2025_12_01',
+            'replay_id': 'refund-support-run-001',
+            'retrieval_order': 'old_first',
+            'send_status': 'not_sent',
+            'trace': {'group_id': 'refund-support-run-001',
+                      'workflow': 'refund-support-harness'}},
+ 'changed_answer': True,
+ 'changed_policy_version': True,
+ 'changed_retrieval_order': True,
+ 'gate_kept': True,
+ 'same_input': True,
+ 'stale_policy_fixed': True}
+
+[live sdk run skipped]
+Set RUN_LIVE_AGENT=1 and OPENAI_API_KEY to call Runner.run().
 ```
 
-이 예제에서 먼저 봐야 할 것은 `stale_reference_count`, `approval_gap_count`, `replay_ready_ratio`가 서로 다른 운영 축을 보여 준다는 점입니다. 즉, 답변 오류처럼 보여도 실제로는 `오래된 문서 참조`, `승인 누락`, `재현 정보 부족`이 따로 분리되고, 각 축마다 다음 조치도 달라집니다. 하네스가 없다면 이 세 경우는 모두 `최종 답이 이상함`이라는 한 문장으로 뭉개지기 쉽습니다.
+이 예제에서 먼저 봐야 할 것은 `Runner.run()` 호출 자체보다 그 실행을 둘러싼 기록의 틀입니다. 첫 실행은 검색 순위에서 오래된 정책이 먼저 올라온 상황이고, 로컬 모델은 그 상위 문서를 따라 `2025_12_01` 정책을 골랐습니다. 두 번째 실행은 최신 정책이 먼저 올라오도록 바뀐 상황이고, replay 비교에는 `changed_retrieval_order`, `changed_policy_version`, `stale_policy_fixed`가 함께 남습니다. `send_refund_reply`는 `needs_approval=True`가 붙은 전송 도구이므로 두 실행 모두 실제 전송하지 않고 `blocked_for_human_approval`로 멈춥니다. 이 차이가 리포트에 남아야 평가나 운영 단계에서 검색 후보 문제, 모델 판단 문제, 승인 gate 문제를 분리할 수 있습니다.
 
-![하네스 실행 원인 분리](../../../assets/part-06/chapter-15/harness-run-issue-split-ko.png)
+![하네스 관측 기록 비교](../../../assets/part-06/chapter-15/harness-run-issue-split-ko.png)
 
-이 차트는 정상 실행, 오래된 근거, 승인 누락, replay 준비 상태가 서로 다른 축이라는 점을 예제의 `summary` 값으로 다시 보여 줍니다.
+이 차트는 최종 답만 남기는 실행과 로컬 모델 실행을 기록 산출물로 남기는 경우의 기록 항목을 비교합니다. 핵심은 항목 수 자체가 아니라, 모델 판단, 도구 계약, 실제 도구 출력, approval gate, trace group, 저장된 run artifact, replay 비교가 함께 남아야 같은 요청을 다시 실행했을 때 무엇이 같고 무엇이 달라졌는지 설명할 수 있다는 점입니다.
 
-같은 실행 기록을 운영 판단 기준으로 바로 다시 묶으면 다음처럼 읽을 수 있습니다.
+같은 실행을 하네스의 세 축으로 묶으면 다음처럼 읽을 수 있습니다.
 
-| 실행 이름 | 먼저 드러난 문제 | 왜 이 문제로 읽는가 | 후속 조치 |
-| --- | --- | --- | --- |
-| `run-2026-06-30-001` | 기준선이 될 수 있는 정상 실행 | 최신 정책을 읽었고 승인도 끝났으며 replay 식별자도 남아 있기 때문입니다. | 기준 실행으로 보관하고 이후 수정본과 비교 |
-| `run-2026-06-30-002` | 오래된 근거 문서 사용 | 답변 자체보다 먼저 읽은 문서가 구버전이어서 검색 단계에서 이미 흔들렸기 때문입니다. | 검색 소스와 최신성 필터를 고치고 다시 비교 |
-| `run-2026-06-30-003` | 승인 경계 누락 | 문서와 답변은 맞아도 승인 없이 전송되어 운영 통제가 비어 있기 때문입니다. | 승인 단계를 넣고 같은 흐름을 다시 실행 |
+| 축 | 코드에서 남기는 것 | 왜 재현성에 필요한가 |
+| --- | --- | --- |
+| 관측 | `observations` | 입력, 검색 후보, 모델 판단, 도구 계약, 도구 출력, gate 상태를 같은 순서로 다시 볼 수 있어야 해서 |
+| 리포트 | `run_report` | 실행 결과와 실행 경계를 사람이 비교 가능한 요약으로 읽어야 해서 |
+| 재현 | `save_run_record()`, `load_run_record()`, `compare_saved_runs()` | 저장된 실행 기록을 다시 읽어 이전 실행과 새 실행을 비교해야 해서 |
+| 게이트 | `needs_approval=True` | 승인 없이 나가면 안 되는 도구를 실행 경계에서 분리해야 해서 |
 
-그래서 이 예제에서 확인해야 할 결과는 결과 텍스트 하나만 남는 것이 아니라, 사용한 도구, 읽은 문서, 실행 trace, 평가 상태, replay 식별자까지 함께 추적되어 실패 원인을 실제 운영 단계로 나눠 볼 수 있다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 특정 환불 답변이 맞았는지가 아닙니다. 더 중요한 결과는 같은 요청이라도 검색 후보 순서가 달라지면 모델이 선택한 정책과 답변이 달라질 수 있고, 하네스 기록이 그 차이를 replay 비교로 남긴다는 점입니다. 동시에 전송 의도가 있어도 승인 gate는 계속 유지되어 실제 전송을 막는다는 점도 함께 볼 수 있습니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `run-2026-06-30-002`의 문서 이름을 최신 정책으로 바꿔 `stale_reference_count`가 어떻게 줄어드는지 보기
-- `run-2026-06-30-003`에 `request_approval` 단계를 추가해 승인 누락과 재현 가능성 문제가 어떻게 분리되는지 보기
-- `trace_saved`와 `replay_id`를 따로 바꿔 재현 준비가 왜 단일 플래그 하나로 끝나지 않는지 확인하기
+- `old_first`와 `current_first`의 문서 순서를 바꿔 모델이 고르는 정책과 `stale_policy_selected`가 어떻게 달라지는지 보기
+- `OLLAMA_MODEL`을 `llama3.2:latest`로 바꿔 모델 출력 품질과 `model_output_parse_error` 가능성이 어떻게 달라지는지 보기
+- `normalize_model_decision()`에서 `policy_version`을 임의 값으로 바꿔 `unknown_policy_version`이 기록되고 상위 문서로 fallback되는지 보기
+- `send_refund_reply`에서 `needs_approval=True`를 제거해 리포트에서 approval gate가 사라지고 `send_status`가 어떻게 바뀌는지 보기
+- `save_run_record()` 호출을 제거해 관측값이 있어도 이전 실행과 새 실행을 비교하기 어려워지는지 보기
+- `RUN_LIVE_AGENT=1`과 `OPENAI_API_KEY`를 설정해 실제 `Runner.run()` 결과가 같은 `trace.group_id` 아래에 묶이는지 보기
 
-여기서 한 단계 더 나가면, 하네스가 직접 해결하는 것과 평가나 운영에서 다시 판단해야 하는 것을 분리해 읽는 편이 좋습니다.
+여기서 한 단계 더 나가면, 하네스가 직접 고치는 것과 하네스 기록을 바탕으로 평가나 운영에서 다시 판단해야 하는 것을 분리해 읽는 편이 좋습니다.
 
-| 먼저 보인 신호 | 하네스 층에서 바로 남겨야 하는 것 | 그다음 평가/운영에서 이어지는 판단 |
+| 먼저 보인 신호 | 하네스가 남겨야 하는 것 | 하네스가 대신 해결하지 않는 판단 |
 | --- | --- | --- |
-| 최종 답은 틀렸는데 원인이 불명확함 | 읽은 문서, tool call trace, approval 기록 | 검색 실패인지 해석 실패인지 운영 통제 실패인지 구분 |
+| 최종 답만 남아 있음 | 입력, tool call trace, replay ID | 이전 실행과 새 실행을 비교할 기준 |
 | 수정 전후를 비교해야 함 | replay ID, 실행 설정, trace 저장 여부 | 회귀가 줄었는지 같은 조건에서 재평가 |
 | 승인 없이 실행이 나감 | approval 상태와 실제 전송 경로 | 승인 게이트 추가, 자동 차단 정책 보강 |
 | 특정 실패가 다시 재현되지 않음 | 입력, 도구 호출, 중간 상태 기록 | 재현 불가 상태를 운영 리스크로 볼지 판단 |
 
-이 표의 핵심은 하네스가 `좋다/나쁘다를 판정하는 층`이 아니라, 그 판정을 가능하게 만드는 기록 층이라는 점입니다. 평가 장은 이 기록을 품질 기준으로 읽고, 운영 장은 같은 기록을 통제와 복구 조치로 읽습니다.
+이 표의 핵심은 하네스가 `좋다/나쁘다를 판정하는 층`도, 운영 문제를 자동으로 고치는 층도 아니라는 점입니다. 하네스는 판정과 조치를 가능하게 만드는 기록 층입니다. 평가 장은 이 기록을 품질 기준으로 읽고, 운영 장은 같은 기록을 통제와 복구 조치로 읽습니다.
 
-## 운영 기록에서 갈리는 재현 가능성
+## 평가 입력으로 바뀌는 실행 기록
 
-앞의 예제는 실제 하네스를 구현하는 코드가 아니라, `좋은 결과가 나왔는가`보다 먼저 `무슨 실행이 있었고 무엇이 남아야 하는가`를 점검하는 최소 장면입니다. 여기서 중요한 것은 기록 항목을 많이 나열하는 일이 아니라, 결과 문장 하나로는 운영 개선이 불가능하고, 서로 다른 실패를 서로 다른 운영 원인으로 분리해야 한다는 점을 짧게 체감하는 데 있습니다.
+앞의 예제는 상용 운영 하네스 전체를 구현하는 코드가 아니라, SDK 실행을 감쌀 때 최소한 어떤 관측과 재현 기준이 필요해지는지 확인하는 장면입니다. 중요한 것은 기록 항목을 많이 나열하는 일이 아니라, 결과 문장 하나만 남기면 실행 조건과 중간 관측값이 사라져 재현 비교가 불가능해진다는 점입니다.
 
-여기까지를 한 줄로 묶으면, 하네스 관점은 `답변 결과를 저장하는 장치`가 아니라 `같은 실패를 다시 설명하고 다음 운영 조치를 정하게 만드는 실행 기록 구조`입니다.
+하네스 관점은 `답변 결과를 저장하는 장치`가 아니라 `같은 실행을 다시 설명하고 비교하게 만드는 실행 기록 구조`입니다. 답변 문장만 보면 `괜찮다/이상하다` 정도만 말하기 쉽지만, 관측 리포트와 approval 기록, replay 정보까지 함께 보면 `같은 요청이었는가`, `같은 도구 결과였는가`, `같은 승인 경로였는가`처럼 평가 축을 나눌 수 있습니다.
 
-더 중요하게 붙잡아야 할 점은 `답변이 괜찮은가`와 `그 답에 이르기까지의 실행을 다시 설명하고 통제할 수 있는가`가 같은 문제가 아니라는 것입니다. 그래서 하네스는 실행 결과를 저장하는 부속 장치가 아니라, trace, replay, approval 같은 기록으로 tool use와 agent를 운영 가능한 구조로 바꾸는 패턴으로 읽는 편이 좋습니다.
-
-이 기록 구조가 중요한 이유는 다음과 같습니다.
-
-- tool use와 agent를 운영 가능성 관점으로 확장해 읽게 하고
-- 이후 평가(evaluation), 비용, 실패 대응, 서비스 제약 장으로 자연스럽게 연결하며
-- Part 7 프로젝트에서 `단순 동작`보다 `관리 가능한 동작`을 설계하게 만들기 때문입니다
-
-이 지점에서 실행 기록은 평가 입력으로 바뀝니다. 답변 문장만 보면 `괜찮다/이상하다` 정도만 말하기 쉽지만, trace와 approval 기록, replay 정보까지 함께 보면 `검색 근거가 낡았는가`, `승인 경계가 비었는가`, `같은 실행을 다시 비교할 수 있는가`처럼 평가 축을 분리할 수 있습니다.
+이 지점에서 실행 기록은 다음 장의 평가 입력으로 넘어갑니다. P6-16에서는 결과 문장 하나가 아니라, 하네스가 남긴 trace, 근거 문서, 승인 상태, replay 가능성을 품질 기준으로 읽습니다. P6-17에서는 같은 기록을 비용, 지연 시간, 실패 차단, 사람 검토 같은 운영 통제로 다시 읽습니다.
 
 ## 체크리스트
 - 하네스를 `도구 하나`가 아니라 `실행을 감싸고 기록하고 평가 입력을 남기는 운영 장치`로 설명할 수 있어야 합니다.
