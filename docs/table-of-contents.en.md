@@ -125,7 +125,7 @@ Before going deeply into individual technologies, this Part rebuilds the large m
 
 - **P1-9.1 Image Recognition and Representation Learning**: reviews how deep learning came to learn features directly
 - **P1-9.2 Cases of Object Detection and Speech Generation**: treats YOLO and WaveNet as surrounding evidence for the spread of deep learning
-- **P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence**: separates the spread of deep learning from the direct development line of LLMs
+- **P1-9.3 Direct Lineage and Surrounding Evidence for LLMs**: separates the spread of deep learning from the direct development line of LLMs
 
 #### Chapter 10. Introduction to Generative AI `Concept Definition`
 
@@ -638,7 +638,7 @@ This Part explains how neural networks represent and learn from data. It follows
 #### Chapter 15. Intuition for Generative Models `Deep-Learning Structures`
 
 - **P5-15.1 What Changes When We Read Generative AI Through Deep Learning**: prepares the output viewpoint needed before Part 6 analyzes generative AI in depth
-- **P5-15.2 Why Generative Models Keep Candidate Distributions Instead Of One Answer**: reads generation through candidate spaces and relative plausibility
+- **P5-15.2 Candidate Distributions in Generative Models**: reads generation through candidate spaces and relative plausibility
 - **P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions**: reviews how actual outputs are selected from candidate distributions and why quality can vary
 
 ## Part 6. LLMs and Generative AI

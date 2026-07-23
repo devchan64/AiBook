@@ -1,7 +1,9 @@
-# P5-12.1 Why Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM), And Gated Recurrent Units (GRU) Are Needed
+# P5-12.1 Why RNN, LSTM, and GRU Are Needed
 
 > Section ID: `P5-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What sequence-data problem do RNNs, LSTMs, and GRUs address?_
 
 In Chapter P5-11, we saw that CNNs handle local patterns well in data with spatial structure such as images. If we change the data type here, the next question appears.
 

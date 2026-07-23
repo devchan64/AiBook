@@ -1,7 +1,7 @@
-# P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분
+# P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic process) 구분
 
 > Section ID: `P1-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 6.1에서는 어떤 문제가 명시적 규칙만으로 처리하기 어려운지 봤습니다. 정보가 부족하고, 관측이 흔들리고, 가능한 결과가 여러 개일 때 AI는 불확실성을 다뤄야 합니다.
 

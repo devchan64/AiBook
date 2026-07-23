@@ -1,7 +1,9 @@
-# P5-15.2 Why Generative Models Keep Candidate Distributions Instead Of One Answer
+# P5-15.2 Candidate Distributions in Generative Models
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.21`
+> Version: `v2026.07.23`
+
+_Subtitle: Why do generative models keep candidate distributions instead of one answer?_
 
 In P5-15.1, we saw that the output experience changes first when we read generative AI through deep learning. Classification models often return labels or scores, while generative AI produces artifacts such as sentences, images, or code.
 

@@ -1,7 +1,7 @@
-# P2-6.2 Loss Function and Objective Function
+# P2-6.2 Loss Functions and Objective Functions
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-6.1, we looked at optimization as `placing candidates, comparing them by a criterion, and finding a better value within constraints`. Now we look at what name that criterion takes inside model learning.
 

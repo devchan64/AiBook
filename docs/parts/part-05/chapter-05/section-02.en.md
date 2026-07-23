@@ -1,7 +1,7 @@
-# P5-5.2 Computation Graph And Automatic Differentiation
+# P5-5.2 Computation Graphs
 
 > Section ID: `P5-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P5-5.1, we explained that loss is not itself an update, but has to be unpacked again into a per-parameter gradient signal. Once that much is understood, the next question remains.
 

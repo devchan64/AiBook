@@ -1,7 +1,7 @@
-# P1-8.1 Supervised Learning: Inputs and Labels
+# P1-8.1 Supervised Learning: Input and Label
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Chapter 7 dealt with search spaces, computational limits, and heuristics. Now we move into learning types. The first baseline is `supervised learning`.
 

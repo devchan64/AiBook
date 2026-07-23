@@ -1,7 +1,7 @@
-# P1-4.3 特征(feature)、表征(representation)与参数(parameter)
+# P1-4.3 特征、表征与参数
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 4.2 已经整理了 `input`、`output` 与 `data`，也就是模型要看什么、又想从它那里拿回什么。这一节继续往里走一步，解释这些输入在模型内部会变成怎样的计算材料。
 

@@ -1,7 +1,7 @@
-# P1-7.3 The Difference Between Heuristics and Probabilistic Models
+# P1-7.3 Difference Between Heuristics and Probabilistic Models
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Section 7.2 treated heuristics as empirical standards for deciding which candidates to inspect first and which to reduce when we cannot inspect all of them. Now we separate another pair of ideas that often look similar:
 

@@ -1,7 +1,9 @@
-# P1-9.3 区分 LLM 的直接谱系与周边证据
+# P1-9.3 区分 LLM 的直接谱系与外围证据
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: direct lineage 与 surrounding evidence 在 LLM 历史中有什么不同？_
 
 9.1 看的是图像识别与表征学习，9.2 看的是目标检测与语音生成。
 

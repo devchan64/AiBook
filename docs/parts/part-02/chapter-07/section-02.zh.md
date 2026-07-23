@@ -1,7 +1,7 @@
-# P2-7.2 终端(terminal)、shell 与工作文件夹(working directory)
+# P2-7.2 终端(terminal)、shell、工作目录(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-7.1 中，我们先看了代码运行的位置。现在来看：在本地 PC 上输入命令时，最先遇到的那个画面到底是什么。
 

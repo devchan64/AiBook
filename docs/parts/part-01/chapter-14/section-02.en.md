@@ -1,7 +1,7 @@
-# P1-14.2 Where RAG and Tool Use Sit
+# P1-14.2 The Place of RAG and Tool Use
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P1-14.1 described an AI service as a combination of the `model`, `application`, `data`, `tool`, and `orchestration`. This section separates two parts that are easy to confuse.
 

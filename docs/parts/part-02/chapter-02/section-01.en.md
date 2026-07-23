@@ -1,7 +1,7 @@
-# P2-2.1 Rereading Variables, Functions, and Expressions
+# P2-2.1 Reading Variables, Functions, and Expressions Again
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-1.2, we established the perspective that formulas, code, and data are different ways of showing the same computation. Now we recover the basic notation that appears first whenever you read a formula.
 

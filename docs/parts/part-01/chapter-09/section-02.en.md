@@ -1,7 +1,7 @@
-# P1-9.2 Object Detection and Speech Generation Cases
+# P1-9.2 Cases of Object Detection and Speech Generation
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Section 9.1 used image recognition and representation learning to show why deep learning became an important turning point. Image classification asked `what is this image?`
 

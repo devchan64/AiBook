@@ -1,7 +1,7 @@
-# P1-10.1 分类(classification)、预测(prediction)与生成(generation)的区别
+# P1-10.1 分类、预测与生成的区别
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在第 9 章中，我们看到了深度学习(deep learning)如何扩散到多个领域。图像识别(image recognition)、目标检测(object detection)、语音生成(speech generation)、语言建模(language modeling)都属于神经网络从数据中学习表征(representation)这一更大脉络的一部分。
 

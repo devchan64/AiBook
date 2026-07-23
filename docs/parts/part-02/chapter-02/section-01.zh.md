@@ -1,7 +1,7 @@
-# P2-2.1 重新阅读变量（variable）、函数（function）与表达式（expression）
+# P2-2.1 重新阅读变量(variable)、函数(function)、表达式(expression)
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-1.2，我们建立了这样一种视角：公式、代码和数据是在用不同方式展示同一个计算。现在，我们来恢复阅读公式时最先遇到的基本记号。
 

@@ -1,7 +1,9 @@
-# P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence
+# P1-9.3 Direct Lineage and Surrounding Evidence for LLMs
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How do direct lineage and surrounding evidence differ in LLM history?_
 
 Section 9.1 looked at image recognition and representation learning. Section 9.2 looked at object detection and speech generation.
 

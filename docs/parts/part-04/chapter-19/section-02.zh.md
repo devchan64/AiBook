@@ -1,7 +1,7 @@
-# P4-19.2 策略型强化学习(policy-based reinforcement learning)
+# P4-19.2 策略型强化学习
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P4-19.1 里，我们已经看过价值型强化学习(value-based reinforcement learning)把`什么状态里什么行动有多好`学成 value 的视角。如果把问题再换一步，下面的问题就会出现。
 

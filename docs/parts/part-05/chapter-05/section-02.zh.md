@@ -1,7 +1,7 @@
-# P5-5.2 计算图（computation graph）与自动微分（automatic differentiation）
+# P5-5.2 计算图(computation graph)
 
 > Section ID: `P5-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P5-5.1 里，我们已经说明：损失（loss）本身并不是更新，它必须先被重新拆成按参数分开的梯度（gradient）信号。理解到这里之后，接下来还会留下一个问题：
 

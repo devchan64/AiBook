@@ -1,7 +1,7 @@
-# P1-8.3 Reinforcement Learning: Actions and Rewards
+# P1-8.3 Reinforcement Learning: Action and Reward
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Section 8.1 explained supervised learning as learning from examples where inputs and labels are given together. Section 8.2 explained unsupervised learning as learning that looks for structure, clusters, or representations in unlabeled data.
 

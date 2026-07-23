@@ -236,7 +236,7 @@ flowchart LR
 #### Chapter 6. 优化在解什么问题 `Learning Principles`
 
 - **P2-6.1 优化(optimization)在寻找什么**：把优化理解成寻找更好数值的问题，而不是直接把正确答案写出来
-- **P2-6.2 损失函数(loss function)与目标函数(objective function)**：回看模型用什么标准来表达自己想减少或增大的东西
+- **P2-6.2 损失函数与目标函数**：回看模型用什么标准来表达自己想减少或增大的东西
 - **P2-6.3 梯度下降(gradient descent)的直觉**：在不进入复杂证明的前提下，抓住反复调整数值的流程
 
 ### Module 3. 运行环境与 Python 基础
@@ -527,8 +527,8 @@ flowchart LR
 
 #### Chapter 19. 强化学习算法 `Algorithms`
 
-- **P4-19.1 价值型强化学习(value-based reinforcement learning)**：通过 Q-learning 与 SARSA 回看学习状态与动作价值的视角
-- **P4-19.2 策略型强化学习(policy-based reinforcement learning)**：通过 policy gradient 与 actor-critic 回看直接调整策略的视角
+- **P4-19.1 价值型强化学习**：通过 Q-learning 与 SARSA 回看学习状态与动作价值的视角
+- **P4-19.2 策略型强化学习**：通过 policy gradient 与 actor-critic 回看直接调整策略的视角
 - **P4-19.3 强化学习应用时的注意点**：整理奖励设计、探索成本、模拟与现实之间的差异
 - **P4-19.4 补充学习：强化学习后续分支地图**：重新把代表性强化学习系列放回整体脉络
 - **P4-19.5 补充学习：第一次读强化学习中的公式名称**：第一次把价值型强化学习的递归价值式与大状态空间扩展背景连起来
@@ -638,7 +638,7 @@ flowchart LR
 #### Chapter 15. 生成模型的直觉 `Deep Learning Structure`
 
 - **P5-15.1 从深度学习视角看生成式 AI 时，什么会改变**：准备 Part 6 深入分析生成式 AI 前需要的输出视角。
-- **P5-15.2 生成模型（generative model）为什么保留候选分布，而不是一个正确答案**：从候选空间和相对可信度来阅读生成。
+- **P5-15.2 生成模型的候选分布**：从候选空间和相对可信度来阅读生成。
 - **P5-15.3 采样（sampling）怎样从候选分布中取出实际输出**：观察实际输出怎样从候选分布中被选出，以及质量为什么会波动。
 
 ## Part 6. LLM 与生成式 AI

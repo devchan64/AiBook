@@ -1,7 +1,7 @@
-# P4-19.1 价值型强化学习(value-based reinforcement learning)
+# P4-19.1 价值型强化学习
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P4-2.3 里，我们把强化学习(reinforcement learning)先抓成了`通过行动(action)与奖励(reward)来调整策略(policy)的学习`。再往里走一步，就会出现下面的问题。
 

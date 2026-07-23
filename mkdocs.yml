@@ -75,7 +75,7 @@ nav:
       - "Module 3. 불확실성과 문제 해결":
           - "Chapter 6. 불확실성과 확률적 판단":
               - "P1-6.1 불완전한 정보와 예외가 많은 문제": parts/part-01/chapter-06/section-01.md
-              - "P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분": parts/part-01/chapter-06/section-02.md
+              - "P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic process) 구분": parts/part-01/chapter-06/section-02.md
               - "P1-6.3 AI에서 확률적 판단이 쓰이는 곳": parts/part-01/chapter-06/section-03.md
           - "Chapter 7. 탐색과 휴리스틱":
               - "P1-7.1 탐색 공간(search space)과 계산 한계(computational limit)": parts/part-01/chapter-07/section-01.md
@@ -428,7 +428,7 @@ nav:
               - "P5-11.2 합성곱(convolution)과 풀링(pooling)": parts/part-05/chapter-11/section-02.md
               - "P5-11.3 보충학습: CNN과 Vision Transformer 비교": parts/part-05/chapter-11/section-03.md
           - "Chapter 12. RNN, LSTM, GRU":
-              - "P5-12.1 RNN, LSTM, GRU의 필요성": parts/part-05/chapter-12/section-01.md
+              - "P5-12.1 순환 신경망(RNN), 장단기 메모리(LSTM), 게이트 순환 유닛(GRU)의 필요성": parts/part-05/chapter-12/section-01.md
               - "P5-12.2 장기 의존성(long-term dependency)": parts/part-05/chapter-12/section-02.md
           - "Chapter 13. Attention":
               - "P5-13.1 Attention의 직관": parts/part-05/chapter-13/section-01.md
@@ -446,7 +446,7 @@ nav:
       - "Module 6. 생성 모델과 샘플링":
           - "Chapter 15. 생성 모델의 직관":
               - "P5-15.1 생성형 AI를 딥러닝 관점에서 보려면 무엇이 달라지는가": parts/part-05/chapter-15/section-01.md
-              - "P5-15.2 생성 모델(generative model)은 왜 정답 하나 대신 후보 분포를 남기는가": parts/part-05/chapter-15/section-02.md
+              - "P5-15.2 생성 모델(generative model)의 후보 분포(candidate distribution)": parts/part-05/chapter-15/section-02.md
               - "P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가": parts/part-05/chapter-15/section-03.md
       - "마무리": parts/part-05/summary.md
   - "Part 6. LLM과 생성형 AI":
@@ -667,7 +667,7 @@ plugins:
                     - "Chapter 9. Spread of the Deep-Learning Paradigm":
                         - "P1-9.1 Image Recognition and Representation Learning": parts/part-01/chapter-09/section-01.md
                         - "P1-9.2 Cases of Object Detection and Speech Generation": parts/part-01/chapter-09/section-02.md
-                        - "P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence": parts/part-01/chapter-09/section-03.md
+                        - "P1-9.3 Direct Lineage and Surrounding Evidence for LLMs": parts/part-01/chapter-09/section-03.md
                     - "Chapter 10. Introduction to Generative AI":
                         - "P1-10.1 Difference Among Classification, Prediction, and Generation": parts/part-01/chapter-10/section-01.md
                         - "P1-10.2 Intuition for Next-Output Generation": parts/part-01/chapter-10/section-02.md
@@ -1020,7 +1020,7 @@ plugins:
                 - "Module 8. Generative Models and Sampling":
                     - "Chapter 15. Intuition for Generative Models":
                         - "P5-15.1 What Changes When We Read Generative AI Through Deep Learning": parts/part-05/chapter-15/section-01.md
-                        - "P5-15.2 Why Generative Models Keep Candidate Distributions Instead Of One Answer": parts/part-05/chapter-15/section-02.md
+                        - "P5-15.2 Candidate Distributions in Generative Models": parts/part-05/chapter-15/section-02.md
                         - "P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions": parts/part-05/chapter-15/section-03.md
                 - "Summary": parts/part-05/summary.md
             - "Part 6. LLMs and Generative AI":
@@ -1155,7 +1155,7 @@ plugins:
                         - "P2-5.5 补充学习：第一次怎样读标准差、相关、置信区间": parts/part-02/chapter-05/section-05.md
                     - "Chapter 6. 优化在解什么问题":
                         - "P2-6.1 优化(optimization)在寻找什么": parts/part-02/chapter-06/section-01.md
-                        - "P2-6.2 损失函数(loss function)与目标函数(objective function)": parts/part-02/chapter-06/section-02.md
+                        - "P2-6.2 损失函数与目标函数": parts/part-02/chapter-06/section-02.md
                         - "P2-6.3 梯度下降(gradient descent)的直觉": parts/part-02/chapter-06/section-03.md
                 - "Module 3. 运行环境与 Python 基础":
                     - "Chapter 7. 学习环境设置":
@@ -1356,8 +1356,8 @@ plugins:
                         - "P4-18.1 降维(dimensionality reduction)": parts/part-04/chapter-18/section-01.md
                         - "P4-18.2 可视化与信息损失": parts/part-04/chapter-18/section-02.md
                     - "Chapter 19. 强化学习算法":
-                        - "P4-19.1 价值型强化学习(value-based reinforcement learning)": parts/part-04/chapter-19/section-01.md
-                        - "P4-19.2 策略型强化学习(policy-based reinforcement learning)": parts/part-04/chapter-19/section-02.md
+                        - "P4-19.1 价值型强化学习": parts/part-04/chapter-19/section-01.md
+                        - "P4-19.2 策略型强化学习": parts/part-04/chapter-19/section-02.md
                         - "P4-19.3 强化学习应用时的注意点": parts/part-04/chapter-19/section-03.md
                         - "P4-19.4 补充学习：强化学习后续分支地图": parts/part-04/chapter-19/section-04.md
                         - "P4-19.5 补充学习：第一次读强化学习中的公式名称": parts/part-04/chapter-19/section-05.md
@@ -1434,7 +1434,7 @@ plugins:
                 - "Module 8. 生成模型与采样":
                     - "Chapter 15. 生成模型的直觉":
                         - "P5-15.1 从深度学习视角看生成式 AI 时，什么会改变": parts/part-05/chapter-15/section-01.md
-                        - "P5-15.2 生成模型（generative model）为什么保留候选分布，而不是一个正确答案": parts/part-05/chapter-15/section-02.md
+                        - "P5-15.2 生成模型的候选分布": parts/part-05/chapter-15/section-02.md
                         - "P5-15.3 采样（sampling）怎样从候选分布中取出实际输出": parts/part-05/chapter-15/section-03.md
                 - "总结": parts/part-05/summary.md
             - "Part 6. LLM 与生成式 AI":
