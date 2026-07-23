@@ -1,3 +1,9 @@
+"""P2-11.3 NumPy broadcasting and vectorization examples.
+
+Run:
+    python docs/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py
+"""
+
 import numpy as np
 
 
@@ -22,6 +28,7 @@ feature_offset = np.array([0.1, 0.2, 0.3])
 show("features shape", features.shape)
 show("feature_offset shape", feature_offset.shape)
 show("features + feature_offset", features + feature_offset)
+print("feature_offset has one value per feature column, so it can be broadcast.")
 
 bad_offset = np.array([10, 20, 30, 40])
 show("bad_offset shape", bad_offset.shape)
@@ -30,6 +37,7 @@ try:
     features + bad_offset
 except ValueError as error:
     show("broadcasting error", error)
+    print("bad_offset has one value per row, but the trailing dimension must match columns.")
 
 python_scores = [82, 75, 45]
 adjusted_with_loop = []

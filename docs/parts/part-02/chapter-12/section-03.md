@@ -1,7 +1,7 @@
 # P2-12.3 학습용 데이터셋(dataset) 준비의 직관
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P2-12.1에서는 `DataFrame`을 표 형식 데이터 구조로 읽었습니다. P2-12.2에서는 그 표에서 필요한 열을 고르고, 조건으로 행을 걸러 내고, 요약값을 확인했습니다. 이제 질문은 `이 표를 모델이 읽을 수 있는 학습용 데이터셋으로 바꾸려면 무엇을 준비해야 하는가?`로 한 단계 더 앞으로 갑니다.
 
@@ -138,6 +138,39 @@ y = df["passed"]
 | `y.shape[0]` | 정답 개수, 보통 샘플 수와 같음 |
 
 즉 `X`와 `y`를 나눈다는 말은 열 이름만 나누는 것이 아니라, 모델이 읽을 배열의 모양(shape)도 함께 정한다는 뜻입니다.
+
+조금 더 많은 행을 가진 입력으로도 같은 분리를 확인할 수 있습니다. 입력 파일은 P2-12.2와 같은 [`student-progress-samples.csv`](../../../assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }입니다. 한 행은 학생 한 명의 학습 기록이고, 여기서는 `passed`를 타깃으로 두고 나머지 일부 열을 입력 후보로 봅니다.
+
+문제 상황: 원본 표에서 입력 열 묶음 `X`, 정답 열 `y`, 간단한 train/test 후보가 어떤 모양으로 나뉘는지 확인하고 싶습니다.
+입력(input): 36행 학생 진행도 CSV, `feature_columns`, `target_column`.
+기대 출력(output): `X`, `y`, 인코딩된 입력 열, train/test 분할 후보의 shape.
+확인할 개념: 데이터셋 준비는 모델 학습 전에 표에서 입력과 정답의 경계를 정하고, 평가용 행을 따로 떼어 두는 일입니다.
+
+```python
+# DataFrame에서 특성 X와 정답 y를 나누고 학습용 데이터셋을 준비하는 예제입니다.
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+feature_columns = ["region", "study_hours", "absences", "practice_quizzes", "score"]
+target_column = "passed"
+
+X = df[feature_columns]
+y = df[target_column]
+X_encoded = pd.get_dummies(X, columns=["region"], dtype=int)
+
+test_index = df.sample(frac=0.25, random_state=42).index
+train_index = df.index.difference(test_index)
+
+print("X shape:", X.shape)
+print("y shape:", y.shape)
+print("encoded columns:", list(X_encoded.columns))
+print("train/test rows:", len(train_index), len(test_index))
+```
+
+같은 코드는 [`p2_12_3_dataset_split_preview.py`](../../../assets/part-02/chapter-12/p2_12_3_dataset_split_preview.py)로 실행할 수 있습니다. 여기서는 scikit-learn 모델을 학습하지 않습니다. Part 2의 목표는 먼저 `어떤 열이 입력이고 어떤 열이 정답이며, 어떤 행을 나중 확인용으로 떼어 둘 것인가`를 Pandas 수준에서 확인하는 것입니다.
 
 ## 모든 열을 그대로 넣으면 안 된다
 

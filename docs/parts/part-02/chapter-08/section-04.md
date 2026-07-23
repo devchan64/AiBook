@@ -1,7 +1,7 @@
 # P2-8.4 반복(loop): 이터러블(iterable)을 하나씩 처리하기
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P2-8.2에서는 리스트(list)를, P2-8.3에서는 딕셔너리(dictionary)를 봤습니다. 이제 이런 묶음을 하나씩 처리하는 반복(loop)을 분리해서 봅니다.
 
@@ -170,40 +170,36 @@ Python 공식 용어에서 이터러블(iterable)은 구성원을 한 번에 하
 
 ### 이터러블과 이터레이터 감각
 
-Python 코드를 읽다 보면 다양한 반복 패턴을 만납니다.
+Python 코드를 읽다 보면 다양한 반복 패턴을 만납니다. 아래 예제는 항목만 반복하기, 위치와 값을 함께 반복하기, 딕셔너리의 키와 값을 함께 반복하기를 한 번에 비교합니다.
 
-문제 상황: 항목만 반복하는 가장 짧은 `for` 예시를 다시 확인하고 싶습니다.
-입력(input): `scores`.
-기대 출력(output): 점수들이 하나씩 출력됩니다.
+문제 상황: 반복 대상이 달라질 때 `for` 안에서 무엇이 하나씩 나오는지 비교하고 싶습니다.
+입력(input): 점수 리스트 `scores`와 지표 딕셔너리 `metrics`.
+기대 출력(output): 항목만, 위치-항목 쌍, 키-값 쌍이 각각 출력됩니다.
 확인할 개념: 반복 패턴이 달라도 출발점은 이터러블에서 값을 하나씩 꺼내는 일입니다.
 
 ```python
 # 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
+scores = [82, 75, 91]
+metrics = {"accuracy": 0.91, "loss": 0.32}
+
+print("items only")
 for score in scores:
     print(score)
-```
 
-문제 상황: 위치와 값을 함께 보는 반복 패턴을 짧게 확인하고 싶습니다.
-입력(input): `enumerate(scores)`.
-기대 출력(output): 위치와 점수가 함께 출력됩니다.
-확인할 개념: `enumerate()`는 몇 번째 값인지도 같이 필요할 때 쓰는 반복 도구입니다.
-
-```python
-# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
+print("index and item")
 for index, score in enumerate(scores):
     print(index, score)
-```
 
-문제 상황: 딕셔너리에서 이름과 값을 함께 반복하는 가장 짧은 예를 보고 싶습니다.
-입력(input): `metrics.items()`.
-기대 출력(output): 지표 이름과 값이 함께 출력됩니다.
-확인할 개념: 딕셔너리 반복에서는 `.items()`가 키와 값을 함께 꺼내는 기본 패턴입니다.
-
-```python
-# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
+print("key and value")
 for name, value in metrics.items():
     print(name, value)
 ```
+
+| 코드 모양 | 하나씩 나오는 것 | 주로 쓰는 상황 |
+| --- | --- | --- |
+| `for score in scores` | 값 하나 | 값 자체만 처리하면 충분할 때 |
+| `for index, score in enumerate(scores)` | 위치와 값 | 몇 번째 샘플인지도 함께 봐야 할 때 |
+| `for name, value in metrics.items()` | 키와 값 | 딕셔너리의 이름과 값을 함께 읽어야 할 때 |
 
 겉모양은 다르지만 공통점이 있습니다. Python의 `for`는 “반복 가능한 대상”에서 값을 하나씩 꺼내 처리합니다.
 

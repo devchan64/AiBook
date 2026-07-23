@@ -1,7 +1,7 @@
 # P2-13.1 그래프(plot)는 무엇을 드러내는가
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 계산을 확인했고, Part 2 Chapter 12에서는 Pandas `DataFrame`으로 표 형식 데이터를 읽었습니다. 이제 같은 숫자를 그림으로 확인합니다.
 
@@ -80,6 +80,8 @@ plt.show()
 위 코드를 실행하면 다음처럼 epoch가 늘어날수록 loss가 내려가는 모양을 확인할 수 있습니다.
 
 ![에폭이 늘수록 손실이 감소하는 선 그래프](../../../assets/part-02/chapter-13/pyplot-loss-line-ko.svg)
+
+이 책의 자산 폴더에는 같은 예제를 파일로 다시 만들 수 있는 저장형 스크립트도 함께 둡니다. 화면에서 바로 확인할 때는 위처럼 `plt.show()`를 쓰고, 문서에 넣을 PNG를 다시 만들 때는 [`p2_13_1_plot_questions.py`](../../../assets/part-02/chapter-13/p2_13_1_plot_questions.py)를 실행합니다.
 
 이 예제에서 중요한 것은 코드 문법보다 `손실값이 반복 학습을 거치며 줄어드는가?`라는 질문입니다.
 

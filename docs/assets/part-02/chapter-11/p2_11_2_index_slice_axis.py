@@ -1,3 +1,9 @@
+"""P2-11.2 NumPy indexing, slicing, and axis examples.
+
+Run:
+    python docs/assets/part-02/chapter-11/p2_11_2_index_slice_axis.py
+"""
+
 import numpy as np
 
 
@@ -57,3 +63,6 @@ print("features shape:", features.shape)
 print("features[1, :] =", features[1, :])
 print("features[:, 1] =", features[:, 1])
 print("features[:, 1].mean() =", features[:, 1].mean())
+print("features.mean(axis=0) =", features.mean(axis=0))
+print("features.mean(axis=1) =", features.mean(axis=1))
+print("axis=0 summarizes each column; axis=1 summarizes each row.")

@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
@@ -464,6 +464,30 @@ dtype: object
 - `head(2)`: 실제 앞부분 모습
 
 아직 조작을 시작하지 않아도, 이 확인만으로도 “이 표가 어떤 종류의 데이터인가”를 훨씬 빨리 파악할 수 있습니다.
+
+같은 점검을 파일에서 읽은 표에도 적용해 볼 수 있습니다. P2-12.2와 P2-12.3에서 이어서 사용할 입력 파일은 [`student-progress-samples.csv`](../../../assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }입니다. 한 행은 학생 한 명의 학습 기록이고, `region`, `study_hours`, `absences`, `practice_quizzes`, `score`, `passed` 같은 열을 가집니다.
+
+문제 상황: CSV 파일을 처음 읽었을 때 바로 계산하지 않고 표 구조부터 확인하고 싶습니다.
+입력(input): 36행 학생 진행도 CSV.
+기대 출력(output): 표 크기, 열 이름, 인덱스, 열 타입, 앞부분 세 행.
+확인할 개념: DataFrame 첫 점검은 파일을 읽은 직후 표의 크기와 열 역할을 빠르게 파악하는 일입니다.
+
+```python
+# Pandas DataFrame으로 행과 열이 있는 표 데이터를 만들고 구조를 확인하는 예제입니다.
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+print("shape:", df.shape)
+print("columns:", list(df.columns))
+print("index:", df.index)
+print(df.dtypes)
+print(df.head(3))
+```
+
+같은 코드는 [`p2_12_1_dataframe_first_check.py`](../../../assets/part-02/chapter-12/p2_12_1_dataframe_first_check.py)로 실행할 수 있습니다. 이 파일은 다음 절의 필터링과 집계로 넘어가기 전에, 표가 몇 행 몇 열인지와 각 열이 어떤 타입으로 읽혔는지 먼저 확인하게 해 줍니다.
 
 ## 사례 및 예시
 

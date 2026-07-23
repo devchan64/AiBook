@@ -1,3 +1,9 @@
+"""P2-11.1 NumPy array examples.
+
+Run:
+    python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
+"""
+
 import numpy as np
 
 
@@ -36,6 +42,7 @@ show("weights", weights)
 scores = features @ weights
 
 show("scores = features @ weights", scores)
+print("features.shape and weights.shape line up as (3, 2) @ (2,) -> (3,).")
 
 print("\nfirst row:", features[0])
 print("second column:", features[:, 1])

@@ -54,7 +54,11 @@ def main():
 
     bad_x = np.array([2, 3, 4])
     show("Shape mismatch example", f"bad_x.shape={bad_x.shape}, W.shape={W.shape}")
-    print("bad_x @ W would fail because the input length and W's input size do not match.")
+    try:
+        bad_x @ W
+    except ValueError as error:
+        show("bad_x @ W error", error)
+        print("The last dimension of bad_x must match the first dimension of W.")
 
 
 if __name__ == "__main__":

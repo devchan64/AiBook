@@ -1,7 +1,7 @@
 # P2-12.2 선택, 필터링, 집계
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P2-12.1에서는 Pandas `DataFrame`을 행(row), 열(column), 인덱스(index)가 있는 표 형식 데이터 구조로 봤습니다. 이제 질문이 하나 더 생깁니다.
 
@@ -516,6 +516,51 @@ print(summary)
 0     A-01                     2.0       1.366667           1.9
 1     B-02                     2.0       1.166667           1.5
 ```
+
+## 임계값을 바꾸면 필터와 집계가 함께 움직인다
+
+앞의 작은 표는 Pandas 문법을 읽기 위한 설명형 예제입니다. 하지만 실제 표에서는 조건값을 바꾸면 남는 행과 집계가 함께 달라지는지 확인해야 합니다.
+
+입력 파일은 [`student-progress-samples.csv`](../../../assets/part-02/chapter-12/student-progress-samples.csv){ .csv-preview }입니다. 한 행은 학생 한 명의 학습 기록이고, 핵심 열은 `region`, `study_hours`, `absences`, `practice_quizzes`, `score`, `passed`입니다. 여기서는 `pass_threshold`와 `focus_region`을 바꾸며 어떤 행이 남고 지역별 요약이 어떻게 달라지는지 봅니다.
+
+문제 상황: 점수 임계값과 지역 조건을 바꾸면 필터 결과와 지역별 요약이 함께 달라지는지 확인하고 싶습니다.
+입력(input): 36행 학생 진행도 CSV, `pass_threshold`, `focus_region`.
+기대 출력(output): 조건에 맞는 행 목록과 지역별 평균 점수, 임계값 이상 학생 수.
+확인할 개념: 조건 필터와 `groupby` 집계는 고정 정답을 확인하는 코드가 아니라, 기준값을 바꿀 때 남는 행과 요약이 어떻게 움직이는지 관찰하는 도구입니다.
+
+```python
+# DataFrame에서 열, 행, 조건을 선택하고 점수 데이터를 집계하는 예제입니다.
+from pathlib import Path
+import pandas as pd
+
+csv_path = Path("docs/assets/part-02/chapter-12/student-progress-samples.csv")
+df = pd.read_csv(csv_path)
+
+pass_threshold = 75
+focus_region = "Busan"
+
+selected = df.loc[
+    (df["score"] >= pass_threshold) & (df["region"] == focus_region),
+    ["student_id", "region", "score", "passed"],
+]
+
+summary = (
+    df.assign(over_threshold=df["score"] >= pass_threshold)
+    .groupby("region")
+    .agg(
+        sample_count=("student_id", "count"),
+        mean_score=("score", "mean"),
+        over_threshold_count=("over_threshold", "sum"),
+        mean_absences=("absences", "mean"),
+    )
+    .round(2)
+)
+
+print(selected)
+print(summary)
+```
+
+같은 코드는 [`p2_12_2_filter_aggregate_threshold.py`](../../../assets/part-02/chapter-12/p2_12_2_filter_aggregate_threshold.py)로도 실행할 수 있습니다. `pass_threshold`를 `70`, `75`, `80`으로 바꾸면 임계값 이상 학생 수가 바뀌고, `focus_region`을 다른 지역으로 바꾸면 선택된 행 목록이 달라집니다.
 
 ## 표를 읽는 흐름을 도식으로 보면
 

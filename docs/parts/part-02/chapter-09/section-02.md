@@ -1,7 +1,7 @@
 # P2-9.2 배열(array), 표(table), 트리(tree), 그래프(graph) 직관
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P2-9.1에서는 자료구조(data structure)가 데이터를 어떤 모양으로 조직하느냐의 문제라고 봤습니다. 이제 AI 실습에서 자주 만나는 네 가지 모양을 넓게 비교합니다.
 
@@ -364,43 +364,26 @@ for friend in friends["Kim"]:
 
 ![The same student data can become an array, table, tree, or graph](../../../assets/part-02/chapter-09/same-data-four-structures-ko.svg)
 
-점수만 순서대로 보면 배열 감각입니다.
+같은 학생 데이터를 네 가지 구조로 한 번에 표현하면 차이가 더 잘 보입니다.
 
-문제 상황: 같은 학생 데이터에서 점수만 떼어 배열처럼 보는 예를 먼저 확인하고 싶습니다.
-입력(input): 점수 세 개 `82, 75, 45`.
-기대 출력(output): 점수 목록 `scores`.
-확인할 개념: 같은 원천 데이터도 계산이 목적이면 배열 감각으로 바꿔 볼 수 있습니다.
-
-```python
-# 이 예제는 배열, 표, 트리, 그래프가 같은 데이터를 서로 다른 구조로 보는 방식을 확인합니다.
-scores = [82, 75, 45]
-```
-
-학생별 속성을 행과 열로 보면 표 감각입니다.
-
-문제 상황: 같은 학생 데이터를 이번에는 표 형태 레코드 목록으로 보는 예를 확인하고 싶습니다.
-입력(input): 이름, 점수, 합격 여부가 들어 있는 `students`.
-기대 출력(output): 학생 레코드 목록 구조.
-확인할 개념: 사례별 속성 비교가 목적이면 표 감각이 더 자연스럽습니다.
+문제 상황: 같은 원천 데이터가 질문에 따라 배열, 표, 트리, 그래프 표현으로 달라지는 모습을 비교하고 싶습니다.
+입력(input): 학생 이름, 반, 점수, 라벨, 친구 관계.
+기대 출력(output): 계산용 점수 배열, 사례별 레코드 표, 반별 계층, 친구 연결 그래프.
+확인할 개념: 구조 선택은 저장 모양이 아니라 답하려는 질문에 따라 달라집니다.
 
 ```python
 # 이 예제는 배열, 표, 트리, 그래프가 같은 데이터를 서로 다른 구조로 보는 방식을 확인합니다.
 students = [
-    {"name": "Kim", "score": 82, "label": "pass"},
-    {"name": "Lee", "score": 75, "label": "pass"},
-    {"name": "Park", "score": 45, "label": "fail"},
+    {"name": "Kim", "class": "A", "score": 82, "label": "pass", "friends": ["Lee"]},
+    {"name": "Lee", "class": "A", "score": 75, "label": "pass", "friends": ["Kim", "Park"]},
+    {"name": "Park", "class": "B", "score": 45, "label": "fail", "friends": ["Lee"]},
 ]
-```
 
-학교, 학년, 학생처럼 계층을 보면 트리 감각입니다.
-
-문제 상황: 같은 정보도 상위-하위 포함 관계로 정리하면 트리처럼 볼 수 있음을 확인하고 싶습니다.
-입력(input): 학교와 반, 학생을 담은 `school`.
-기대 출력(output): 계층형 구조 `school`.
-확인할 개념: 트리 감각은 포함 관계와 경로가 중심인 데이터에서 드러납니다.
-
-```python
-# 이 예제는 배열, 표, 트리, 그래프가 같은 데이터를 서로 다른 구조로 보는 방식을 확인합니다.
+scores = [student["score"] for student in students]
+records = [
+    {"name": student["name"], "score": student["score"], "label": student["label"]}
+    for student in students
+]
 school = {
     "name": "School",
     "children": [
@@ -408,23 +391,20 @@ school = {
         {"name": "Class B", "children": ["Park"]},
     ],
 }
+friends = {student["name"]: student["friends"] for student in students}
+
+print("array question:", sum(scores) / len(scores))
+print("table question:", [row["name"] for row in records if row["label"] == "pass"])
+print("tree question:", school["children"][0]["children"])
+print("graph question:", friends["Kim"])
 ```
 
-학생 사이의 친구 관계를 보면 그래프 감각입니다.
-
-문제 상황: 같은 학생 정보를 친구 연결 중심으로 보면 그래프처럼 표현할 수 있음을 보고 싶습니다.
-입력(input): 친구 관계 딕셔너리 `friends`.
-기대 출력(output): 학생별 연결 목록 구조.
-확인할 개념: 그래프 감각은 연결 자체가 관심사일 때 필요합니다.
-
-```python
-# 이 예제는 배열, 표, 트리, 그래프가 같은 데이터를 서로 다른 구조로 보는 방식을 확인합니다.
-friends = {
-    "Kim": ["Lee"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Lee"],
-}
-```
+| 표현 | 코드에서 보는 이름 | 먼저 답하기 쉬운 질문 |
+| --- | --- | --- |
+| 배열(array) | `scores` | 점수 숫자를 계산하고 싶은가? |
+| 표(table) | `records` | 학생별 속성을 비교하고 싶은가? |
+| 트리(tree) | `school` | 학교-반-학생 계층을 보고 싶은가? |
+| 그래프(graph) | `friends` | 학생 사이 관계를 보고 싶은가? |
 
 중요한 것은 어떤 표현이 “정답”인지가 아닙니다. 질문이 다르면 구조도 달라집니다.
 

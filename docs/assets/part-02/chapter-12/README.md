@@ -12,3 +12,8 @@
   - `table-reading-flow-en.mmd` / `table-reading-flow-ko.mmd`
   - `train-val-test-flow-en.mmd` / `train-val-test-flow-ko.mmd`
   - `x-y-split-flow-en.mmd` / `x-y-split-flow-ko.mmd`
+- CSV/Python assets:
+  - `student-progress-samples.csv` is shared by P2-12.2 and P2-12.3.
+  - `p2_12_1_dataframe_first_check.py` reads the CSV and prints the first DataFrame structure checks.
+  - `p2_12_2_filter_aggregate_threshold.py` reads the CSV and compares filtering and grouped summaries.
+  - `p2_12_3_dataset_split_preview.py` reads the CSV and previews `X`, `y`, encoding, and train/test shapes.

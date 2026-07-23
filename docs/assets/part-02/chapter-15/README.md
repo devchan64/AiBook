@@ -9,3 +9,5 @@
   - `formula-to-code-flow-en.mmd` / `formula-to-code-flow-ko.mmd` / `formula-to-code-flow-zh.mmd`
   - `ml-reading-flow-en.mmd` / `ml-reading-flow-ko.mmd`
   - `part2-learning-map-flow-en.mmd` / `part2-learning-map-flow-ko.mmd` / `part2-learning-map-flow-zh.mmd`
+- Python/Matplotlib assets:
+  - `p2_15_1_formula_to_code_mse.py` regenerates `actual-predicted-mse.png`.

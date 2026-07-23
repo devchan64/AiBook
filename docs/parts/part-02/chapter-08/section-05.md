@@ -1,7 +1,7 @@
 # P2-8.5 함수(function)와 작은 재사용
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P2-8.1에서는 값(value), 변수(variable), 타입(type)을 봤습니다. P2-8.2부터 P2-8.4까지는 리스트(list), 딕셔너리(dictionary), 반복(loop)으로 여러 값을 처리하는 방법을 봤습니다.
 
@@ -399,35 +399,26 @@ print(apply_to_scores(scores, normalize_score))
 
 Python 코드를 읽다 보면 `function(value)`처럼 호출하는 코드와 `value.method()`처럼 호출하는 코드가 함께 보입니다. 이 절에서는 클래스(class)의 상세 개념으로 들어가지 않고, 함수(function)와 메서드(method)의 호출 모양만 구분합니다.
 
-함수(function)는 독립적으로 정의된 처리 단위입니다.
+함수(function)는 독립적으로 정의된 처리 단위입니다. 메서드(method)는 어떤 객체(object)에 붙어 호출되는 함수처럼 보입니다.
 
-문제 상황: 독립 함수와 메서드 호출을 구분하기 위해 먼저 함수 쪽 예를 보고 싶습니다.
-입력(input): 문자열 `text`.
-기대 출력(output): 공백 제거와 소문자화가 적용된 문자열.
-확인할 개념: 함수는 독립 이름으로 호출되는 처리 단위입니다.
+문제 상황: 독립 함수 호출과 문자열 메서드 호출의 모양을 한 번에 비교하고 싶습니다.
+입력(input): 문자열 `text = " AI is Useful "`.
+기대 출력(output): `clean_text(text)`, `text.strip()`, `text.lower()` 결과가 각각 출력됩니다.
+확인할 개념: 함수는 독립 이름으로 호출하고, 메서드는 값이나 객체에 붙어 호출합니다.
 
 ```python
 # 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def clean_text(text):
     return text.strip().lower()
-```
 
-메서드(method)는 어떤 객체(object)에 붙어 호출되는 함수처럼 보입니다.
-
-문제 상황: 같은 문자열 처리라도 메서드 호출은 어떤 모양인지 비교하고 싶습니다.
-입력(input): 문자열 `text = " AI is Useful "`.
-기대 출력(output): `strip()`과 `lower()` 결과가 각각 출력됩니다.
-확인할 개념: 메서드는 값이나 객체에 붙어 호출되는 함수 형태입니다.
-
-```python
-# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 text = " AI is Useful "
 
+print(clean_text(text))
 print(text.strip())
 print(text.lower())
 ```
 
-여기서 `strip()`과 `lower()`는 문자열 객체가 제공하는 메서드입니다. 함수처럼 괄호를 붙여 호출하지만, 앞에 대상 객체가 있습니다.
+여기서 `clean_text(text)`는 독립 함수 호출이고, `strip()`과 `lower()`는 문자열 객체가 제공하는 메서드입니다. 함수처럼 괄호를 붙여 호출하지만, 메서드 앞에는 대상 객체가 있습니다.
 
 이 절에서는 다음 정도만 기억합니다.
 

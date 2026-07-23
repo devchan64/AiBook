@@ -1,7 +1,7 @@
 # P2-15.1 수식을 코드로 옮기는 작은 절차
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Part 2에서는 수식, Python, NumPy, Pandas, Matplotlib을 따로 봤습니다. 이제 이 흐름을 하나로 묶습니다. 목표는 어려운 수식을 증명하는 것이 아니라, 간단한 수식을 코드로 옮기고 결과를 확인하는 절차를 갖는 것입니다.
 
@@ -247,6 +247,12 @@ ax.set_title("Actual and predicted values")
 ax.legend()
 plt.show()
 ```
+
+출력 이미지는 다음처럼 실제값과 예측값의 간격을 샘플별로 보여 줍니다.
+
+![실제값과 예측값의 차이를 보여 주는 선 그래프](../../../assets/part-02/chapter-15/actual-predicted-mse.png)
+
+이 절의 반복문 계산, NumPy 계산, 그래프 저장 흐름은 [`p2_15_1_formula_to_code_mse.py`](../../../assets/part-02/chapter-15/p2_15_1_formula_to_code_mse.py)로 한 번에 다시 실행할 수 있습니다. 이 스크립트는 `loop mse`, `errors`, `squared errors`, `numpy mse`를 출력하고, 같은 자산 폴더에 `actual-predicted-mse.png`를 저장합니다.
 
 이 그래프는 MSE를 대신 계산하지 않습니다. 대신 숫자 하나로 압축되기 전의 차이를 눈으로 확인하게 도와줍니다.
 
