@@ -1,7 +1,7 @@
 # P7-2.2 회고와 다음 질문 만들기
 
 Section ID: `P7-2.2`
-Version: `v2026.07.22`
+Version: `v2026.07.23`
 
 기준점(baseline)과 모델을 나란히 두고 비교했다면, 다음으로 필요한 일은 그 차이를 회고와 다음 질문으로 넘기는 것입니다.
 
@@ -96,6 +96,8 @@ train 데이터의 평균과 표준편차를 이용해 z-score 정규화를 적�
 
 같은 흐름에서 P7-2.1과 같은 [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview }를 그대로 읽습니다. 이렇게 두면 `같은 데이터 파일` 위에서 기준점 비교와 전처리 개선을 연속해서 확인할 수 있습니다.
 
+예제의 1-NN 모델과 정규화는 scikit-learn으로 실행합니다. `Pipeline`은 전처리와 모델을 하나의 실행 묶음으로 연결해, 평가 데이터에 같은 정규화 기준이 적용되도록 도와줍니다.
+
 ## 실행 기록 기준
 
 - 정규화 전후가 같은 train/test 분리를 쓰는지 확인합니다.
@@ -106,10 +108,14 @@ train 데이터의 평균과 표준편차를 이용해 z-score 정규화를 적�
 ## Python 예제
 
 ```python
-# 구독 이탈 1-NN 모델에서 정규화 전후의 최근접 샘플과 예측 변화를 비교해 회고 질문을 만드는 예제입니다.
+# scikit-learn 1-NN 모델에서 정규화 전후의 최근접 샘플과 예측 변화를 비교하는 예제입니다.
 import csv
-import numpy as np
 from pathlib import Path
+
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 data_path = Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
@@ -138,27 +144,30 @@ X_test = np.array([
 ], dtype=float)
 y_test = np.array([row["정답"] for row in test_rows])
 
-def predict_1nn(train_x, train_y, test_x):
-    predictions = []
-    nearest_train_ids = []
-    for x in test_x:
-        distances = np.linalg.norm(train_x - x, axis=1)
-        nearest_index = int(np.argmin(distances))
-        predictions.append(int(train_y[nearest_index]))
-        nearest_train_ids.append(train_rows[nearest_index]["샘플"])
-    return np.array(predictions), nearest_train_ids
+raw_model = KNeighborsClassifier(n_neighbors=1)
+raw_model.fit(X_train, y_train)
 
-train_mean = X_train.mean(axis=0)
-train_std = X_train.std(axis=0)
-if np.any(train_std == 0):
-    raise ValueError("표준편차가 0인 특징이 있어 z-score 정규화를 할 수 없습니다.")
+# 조작 변수: StandardScaler를 다른 전처리기로 바꾸면 최근접 이웃 선택이 어떻게 달라지는지 비교할 수 있습니다.
+scaled_model = Pipeline([
+    ("scaler", StandardScaler()),
+    ("knn", KNeighborsClassifier(n_neighbors=1)),
+])
+scaled_model.fit(X_train, y_train)
 
-# 조작 변수: z-score 대신 다른 스케일링을 시험하려면 이 두 줄을 바꿔 비교합니다.
-X_train_z = (X_train - train_mean) / train_std
-X_test_z = (X_test - train_mean) / train_std
+raw_knn_pred = raw_model.predict(X_test)
+raw_neighbor_indices = raw_model.kneighbors(X_test, return_distance=False).ravel()
+raw_nearest_ids = [train_rows[index]["샘플"] for index in raw_neighbor_indices]
 
-raw_knn_pred, raw_nearest_ids = predict_1nn(X_train, y_train, X_test)
-scaled_knn_pred, scaled_nearest_ids = predict_1nn(X_train_z, y_train, X_test_z)
+scaled_knn_pred = scaled_model.predict(X_test)
+scaled_test = scaled_model.named_steps["scaler"].transform(X_test)
+scaled_neighbor_indices = scaled_model.named_steps["knn"].kneighbors(
+    scaled_test,
+    return_distance=False,
+).ravel()
+scaled_nearest_ids = [train_rows[index]["샘플"] for index in scaled_neighbor_indices]
+
+train_mean = scaled_model.named_steps["scaler"].mean_
+train_std = scaled_model.named_steps["scaler"].scale_
 
 comparison_rows = []
 for index, row in enumerate(test_rows):
@@ -297,5 +306,6 @@ for row in comparison_rows:
 ## 출처와 참고 자료
 
 - NumPy Developers, `NumPy documentation`, 확인 날짜: 2026-06-29. [https://numpy.org/doc/stable/](https://numpy.org/doc/stable/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Nearest Neighbors` and `Pipeline`, 확인 날짜: 2026-07-23. [https://scikit-learn.org/stable/modules/neighbors.html](https://scikit-learn.org/stable/modules/neighbors.html){: target="_blank" rel="noopener noreferrer" }, [https://scikit-learn.org/stable/modules/compose.html#pipeline](https://scikit-learn.org/stable/modules/compose.html#pipeline){: target="_blank" rel="noopener noreferrer" }
 
 이 절의 데이터와 비교 예시는 개인정보가 없는 실습용 구독 고객 요약 예시를 위해 직접 구성한 synthetic 데이터입니다.
