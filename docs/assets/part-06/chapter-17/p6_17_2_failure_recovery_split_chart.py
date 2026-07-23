@@ -1,5 +1,5 @@
-from pathlib import Path
 import os
+from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 MPL_CACHE = REPO_ROOT / ".tmp" / "matplotlib-cache"
@@ -13,18 +13,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
-OUT_DIR = Path(__file__).resolve().parent
+from p6_17_2_evaluate_failure_recovery import load_reports, summarize_reports
 
-SUMMARY = {
-    "retry_count": 1,
-    "fallback_count": 1,
-    "human_review_count": 1,
-    "stop_and_escalate_count": 2,
-    "model_fix_count": 1,
-    "system_failure_count": 4,
-    "model_failure_count": 2,
-    "case_count": 6,
-}
+OUT_DIR = Path(__file__).resolve().parent
 
 LANG_TEXT = {
     "ko": {
@@ -40,7 +31,7 @@ LANG_TEXT = {
         "left_title": "실패 계열",
         "right_title": "복구 결정",
         "family_labels": ["시스템 실패", "모델 실패"],
-        "decision_labels": ["재시도", "대체 경로", "사람 검토", "중단·상향", "모델 수정"],
+        "decision_labels": ["재시도", "대체 경로", "승인", "사람 검토", "중단·상향", "모델 수정"],
         "xlabel": "사례 수",
     },
     "en": {
@@ -49,7 +40,7 @@ LANG_TEXT = {
         "left_title": "Failure family",
         "right_title": "Recovery decision",
         "family_labels": ["system failure", "model failure"],
-        "decision_labels": ["retry", "fallback", "human review", "stop/escalate", "model fix"],
+        "decision_labels": ["retry", "fallback", "approval", "human review", "stop/escalate", "model fix"],
         "xlabel": "cases",
     },
 }
@@ -91,17 +82,19 @@ def annotate_bars(ax, bars, total: int) -> None:
 
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
+    summary = summarize_reports(load_reports())
 
     family_values = [
-        SUMMARY["system_failure_count"],
-        SUMMARY["model_failure_count"],
+        summary["system_failure_count"],
+        summary["model_failure_count"],
     ]
     decision_values = [
-        SUMMARY["retry_count"],
-        SUMMARY["fallback_count"],
-        SUMMARY["human_review_count"],
-        SUMMARY["stop_and_escalate_count"],
-        SUMMARY["model_fix_count"],
+        summary["retry_count"],
+        summary["fallback_count"],
+        summary["approval_count"],
+        summary["human_review_count"],
+        summary["stop_and_escalate_count"],
+        summary["model_fix_count"],
     ]
 
     fig, axes = plt.subplots(
@@ -115,23 +108,23 @@ def save_chart(text: dict[str, object]) -> None:
     fig.patch.set_facecolor("white")
 
     family_colors = ["#2563eb", "#f59e0b"]
-    decision_colors = ["#0f766e", "#64748b", "#9333ea", "#dc2626", "#2563eb"]
+    decision_colors = ["#0f766e", "#64748b", "#f59e0b", "#9333ea", "#dc2626", "#2563eb"]
 
     for ax in axes:
         ax.set_facecolor("white")
         style_axis(ax)
         ax.set_xlabel(text["xlabel"])
-        ax.set_xlim(0, SUMMARY["case_count"] * 0.82)
+        ax.set_xlim(0, summary["case_count"] * 0.62)
 
     family_bars = axes[0].barh(text["family_labels"], family_values, color=family_colors, height=0.48)
     axes[0].invert_yaxis()
     axes[0].set_title(text["left_title"], fontsize=11, pad=8)
-    annotate_bars(axes[0], family_bars, SUMMARY["case_count"])
+    annotate_bars(axes[0], family_bars, summary["case_count"])
 
     decision_bars = axes[1].barh(text["decision_labels"], decision_values, color=decision_colors, height=0.48)
     axes[1].invert_yaxis()
     axes[1].set_title(text["right_title"], fontsize=11, pad=8)
-    annotate_bars(axes[1], decision_bars, SUMMARY["case_count"])
+    annotate_bars(axes[1], decision_bars, summary["case_count"])
 
     for ax in axes:
         ax.tick_params(axis="y", labelsize=8.6)
