@@ -1,0 +1,37 @@
+request_id,domain,goal,tool_needed,resource_needed,required_inputs,payload_keys,requires_approval
+req-01,policy,latest refund policy summary,search_docs,policy_repository,query,query,false
+req-02,code,read specific source file,read_resource,codebase_files,path,path,false
+req-03,people,lookup employee team,query_employee_db,employee_directory,employee_id,employee_id,false
+req-04,code,run login tests,run_tests,codebase_files,target,target,false
+req-05,schedule,create team sync event,create_calendar_event,calendar_service,date|attendee|title,date|attendee|title,true
+req-06,support,open escalation ticket,fetch_ticket,ticket_system,ticket_id,ticket_id,false
+req-07,workflow,send revised report,send_report,report_repository,recipient|document_id,recipient|document_id,true
+req-08,schedule,find available meeting slots,query_calendar,calendar_service,date|attendee,date|attendee,false
+req-09,policy,search policy without query,search_docs,policy_repository,query,,false
+req-10,policy,read known policy file,read_resource,policy_repository,path,path,false
+req-11,people,lookup employee without id,query_employee_db,employee_directory,employee_id,,false
+req-12,code,run tests without target,run_tests,codebase_files,target,,false
+req-13,support,inspect recent ticket,fetch_ticket,ticket_system,ticket_id,ticket_id,false
+req-14,schedule,calendar lookup missing attendee,query_calendar,calendar_service,date|attendee,date,false
+req-15,workflow,send report without document id,send_report,report_repository,recipient|document_id,recipient,true
+req-16,schedule,create event without title,create_calendar_event,calendar_service,date|attendee|title,date|attendee,true
+req-17,policy,search compliance appendix,search_docs,policy_repository,query,query,false
+req-18,code,read test fixture,read_resource,codebase_files,path,path,false
+req-19,policy,compare contract retention rules,search_docs,policy_repository,query,query,false
+req-20,policy,read refund policy file,read_resource,policy_repository,path,path,false
+req-21,people,check employee manager,query_employee_db,employee_directory,employee_id,employee_id,false
+req-22,schedule,create release review event,create_calendar_event,calendar_service,date|attendee|title,date|attendee|title,false
+req-23,support,read urgent ticket,fetch_ticket,ticket_system,ticket_id,ticket_id,false
+req-24,workflow,send monthly report,send_report,report_repository,recipient|document_id,recipient|document_id,false
+req-25,schedule,query calendar with complete inputs,query_calendar,calendar_service,date|attendee,date|attendee,false
+req-26,code,run api tests,run_tests,codebase_files,target,target,false
+req-27,policy,search policy with blank payload,search_docs,policy_repository,query,,false
+req-28,code,read file without path,read_resource,codebase_files,path,,false
+req-29,people,lookup contractor without id,query_employee_db,employee_directory,employee_id,,false
+req-30,support,fetch ticket without id,fetch_ticket,ticket_system,ticket_id,,false
+req-31,schedule,create event waiting for approval,create_calendar_event,calendar_service,date|attendee|title,date|attendee|title,true
+req-32,workflow,send report waiting for approval,send_report,report_repository,recipient|document_id,recipient|document_id,true
+req-33,schedule,calendar lookup missing date,query_calendar,calendar_service,date|attendee,attendee,false
+req-34,code,run tests without target again,run_tests,codebase_files,target,,false
+req-35,policy,read compliance attachment,read_resource,policy_repository,path,path,false
+req-36,workflow,send report missing recipient,send_report,report_repository,recipient|document_id,document_id,false

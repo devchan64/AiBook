@@ -9,12 +9,6 @@ MCP(Model Context Protocol)는 모델, 에이전트, 애플리케이션이 외�
 
 ## 도구와 자원을 잇는 공통 연결 형식
 
-핵심 질문은 다음과 같습니다.
-
-- 왜 도구 연결에 표준화된 인터페이스 관점이 필요한가?
-- MCP를 어떤 역할로 이해하면 좋은가?
-- MCP는 모델 자체가 아니라 어떤 연결 문제를 다루는가?
-
 먼저 닫을 문제는 `도구와 자원을 어떤 공통 형식으로 연결할 것인가`입니다. 실행을 감싸는 운영 장치는 연결을 쓴 실행을 어떻게 기록하고 재현할지의 문제이고, 인증과 권한이 실제 실패 대응과 만나는 지점은 운영 통제의 문제로 남습니다.
 
 여기서는 MCP를 `도구 연결을 덜 제각각으로 만들려는 표준화 관점`으로 읽습니다.
@@ -23,10 +17,10 @@ MCP(Model Context Protocol)는 모델, 에이전트, 애플리케이션이 외�
 
 여기서 먼저 못 박을 것은 어떤 도구와 자원을 어떤 공통 형식으로 노출할지와 연결 인터페이스를 일정하게 만드는 일입니다.
 
-| MCP에서 먼저 정리할 기록 | 왜 필요한가 | 이후 다시 읽는 기록 |
+| MCP에서 먼저 정리할 연결 정보 | 왜 필요한가 | 이후 이어지는 확인 |
 | --- | --- | --- |
-| 도구 설명과 자원 설명 | 어떤 도구와 자원이 어떤 이름·입력 형식으로 연결되는지 남겨야 호출 실패와 연결 불일치를 줄일 수 있어서 | P6-15.2의 trace/replay와 도구 연결 메모로 이어집니다 |
-| 권한 경계와 승인 조건 | 어떤 호출이 바로 실행 가능하고 어떤 호출이 승인을 거쳐야 하는지 남겨야 운영 실패를 줄일 수 있어서 | P6-15.2의 승인 기록, P6-17.2의 실패 대응으로 이어집니다 |
+| 도구 설명과 자원 설명 | 어떤 도구와 자원이 어떤 이름·입력 형식으로 노출되는지 드러나야 호출 실패와 연결 불일치를 줄일 수 있어서 | P6-15.2의 trace/replay와 도구 연결 메모로 이어집니다 |
+| 권한 경계와 승인 조건 | 어떤 호출이 바로 실행 가능하고 어떤 호출이 승인을 거쳐야 하는지 함께 보여야 운영 실패를 줄일 수 있어서 | P6-15.2의 승인 기록, P6-17.2의 실패 대응으로 이어집니다 |
 
 `공통 형식`이라는 말이 아직 추상적으로 느껴질 수 있습니다. 이때는 프로토콜 이름을 먼저 외우기보다, 같은 목표를 처리할 때 도구마다 입력 형식이 제각각이면 어디서 먼저 흔들리는지를 떠올리는 편이 더 안전합니다.
 
@@ -48,48 +42,11 @@ MCP(Model Context Protocol)는 모델, 에이전트, 애플리케이션이 외�
 | 다음 단계에 무엇을 넘길지 | 검색 결과, 경로, 조회 인자를 매번 다른 형식으로 바꿔야 합니다. | 다음 단계가 기대하는 입력 형식을 더 예측 가능하게 맞추기 쉬워집니다. |
 | 실패 원인을 어디서 찾을지 | 모델 판단 문제인지 연결 형식 문제인지 섞여 보이기 쉽습니다. | 연결 규칙과 실행 판단을 더 분리해 다시 보기 쉬워집니다. |
 
-## 모델 능력과 도구 연결 규칙의 구분
-
-- MCP를 입문 수준에서 설명할 수 있습니다.
-- 모델 능력과 연결 인터페이스를 구분할 수 있습니다.
-- 왜 agent와 tool use가 커질수록 연결 표준이 중요해지는지 말할 수 있습니다.
-- 연결된 실행을 하네스(harness) 기록 환경으로 남겨야 하는 이유를 말할 수 있습니다.
-
-이 연결 계층이 중요한 이유는 다음과 같습니다.
-
-- 바로 앞의 P6-13.1, P6-13.2 도구 사용 구조와 P6-14.1, P6-14.2 에이전트 실행 구조를 `연결 계층` 관점에서 다시 읽게 하고
-- agent와 tool use를 시스템 연결 문제까지 확장해 읽게 하며
-- 하네스와 운영 실패 대응으로 이어질 준비를 시키기 때문입니다
-
-먼저 가를 장면은 아래처럼 정리할 수 있습니다.
-
-| 먼저 보인 막힘 | 먼저 떠올릴 질문 | 왜 이 질문이 먼저 필요한가 |
-| --- | --- | --- |
-| 같은 목표를 처리하는데 도구마다 이름과 입력 형식이 너무 달라 호출 전부터 흔들린다 | 어떤 도구와 자원이 어떤 이름과 입력 형식으로 노출되는가? | 연결 형식이 제각각이면 모델 판단보다 형식 변환과 예외 처리부터 먼저 늘어나기 때문입니다. |
-| 호출은 성공했는데 반환값 모양이 달라 다음 단계가 자꾸 끊긴다 | 응답 형식도 공통 규칙으로 읽히는가? | 입력만 맞춰도 출력 구조가 제각각이면 다음 단계 연결이 다시 불안정해지기 때문입니다. |
-| 도구는 늘었는데 어떤 것을 먼저 써야 하는지 설명이 제각각이다 | 도구 설명과 자원 설명을 한 방식으로 확인할 수 있는가? | 선택 기준이 흩어져 있으면 같은 목표 흐름도 도구 선택부터 흔들리기 때문입니다. |
-| 권한이 필요한 호출과 바로 실행 가능한 호출이 섞여 있다 | 권한 경계와 승인 조건이 연결 설명 안에서 같이 보이는가? | 승인 문제를 뒤늦게 알면 연결 성공과 운영 실패를 같은 오류처럼 뭉개기 쉽기 때문입니다. |
-
-이 표를 기준으로 아래 내용을 읽으면, MCP를 `프로토콜 이름`보다 `도구와 자원을 덜 제각각으로 연결하게 만드는 공통 형식`으로 더 직접 읽을 수 있습니다.
-
-## 왜 표준 연결이 필요해지나
+## 모델 능력과 연결 규칙
 
 도구 사용이 한두 개일 때는 개별 연결을 직접 만들어도 됩니다. 하지만 에이전트 구조가 커지면 도구 수가 늘고, 연결 방식이 제각각이 되기 쉽습니다. MCP 같은 연결 관점은 도구 설명, 요청 형식, 응답 형식을 일정하게 맞추어 모델보다 주변 연결 환경이 덜 혼란스럽게 만들려는 시도입니다.
 
-- 어떤 도구는 파일을 읽고
-- 어떤 도구는 검색을 하고
-- 어떤 도구는 데이터베이스를 조회하고
-- 어떤 도구는 API를 호출하고
-
-이런 연결이 모두 제각각이면, 시스템은 점점 다루기 어려워집니다.
-
-다음처럼 이해하면 좋습니다.
-
-`도구가 늘어날수록, 모델이 무엇을 쓸 수 있고 어떤 형식으로 써야 하는지를 일정하게 맞추지 않으면 연결 방식마다 실패 원인이 달라진다.`
-
-서비스 구조 관점으로 다시 말하면, tool use는 `도구를 부른다`에 가깝고, MCP는 `그 도구들을 어떤 공통 형식으로 드러낼까`를 다루는 단계입니다.
-
-이 차이를 한 번 더 단순화하면 다음과 같습니다.
+서비스 구조 관점으로 말하면, tool use는 `도구를 부른다`에 가깝고, MCP는 `그 도구들을 어떤 공통 형식으로 드러낼까`를 다루는 단계입니다. 모델이 텍스트를 이해하고 생성하는 능력과, 외부 도구가 어떤 이름, 입력 형식, 반환 형식으로 노출되는지는 서로 다른 층위입니다. 이 구분을 먼저 잡아야 모델 자체 한계인지, 도구 노출 방식과 연결 설계 문제인지 원인을 나눠 볼 수 있습니다.
 
 ```mermaid
 --8<-- "assets/part-06/chapter-15/p6-c15-s01-mcp-task-tool-flow-ko.mmd"
@@ -97,85 +54,9 @@ MCP(Model Context Protocol)는 모델, 에이전트, 애플리케이션이 외�
 
 이 그림에서 핵심은 에이전트가 매번 도구마다 다른 사적 규칙을 외우는 대신, 공통 연결 규칙을 통해 도구와 자원을 본다는 점입니다.
 
-## MCP는 무엇을 표준화하려 하나
+MCP를 기술 세부보다 먼저 역할 기준으로 이해하면 연결 문제를 더 쉽게 구분할 수 있습니다. MCP가 먼저 표준화하려는 것은 `어떤 도구가 있는가`, `어떤 데이터나 리소스를 읽을 수 있는가`, `어떤 형식으로 요청하고 응답할 것인가`입니다. 따라서 MCP는 `모델이 더 똑똑해지는 방법`이 아니라, `모델과 외부 시스템이 덜 혼란스럽게 연결되는 방법`으로 읽는 편이 정확합니다.
 
-MCP를 기술 세부보다 먼저 역할 기준으로 이해하면 연결 문제를 더 쉽게 구분할 수 있습니다.
-
-MCP가 다루는 핵심은 다음과 같습니다.
-
-- 어떤 도구가 있는가
-- 어떤 데이터나 리소스를 읽을 수 있는가
-- 어떤 형식으로 요청하고 응답할 것인가
-
-즉, MCP는 보통 `모델이 더 똑똑해지는 방법`이 아니라, `모델과 외부 시스템이 덜 혼란스럽게 연결되는 방법`으로 읽는 편이 정확합니다.
-
-여기서 `모델이 스스로 더 잘하게 되는 변화`와 `외부 도구 연결 방식이 정리되는 변화`를 분리해서 봐야, 성능 문제와 연결 문제를 같은 층위로 섞지 않게 됩니다.
-
-## 왜 모델 자체와 구분해야 하나
-
-이 구분을 먼저 잡아야 모델 자체 한계인지, 도구 노출 방식과 연결 설계 문제인지 원인을 나눠 볼 수 있습니다.
-
-모델은:
-
-- 텍스트를 이해하고 생성하는 능력
-
-을 중심으로 합니다.
-
-반면 MCP 같은 연결 관점은:
-
-- 외부 도구와 데이터에 접근하는 방법
-- 그 접근 형식의 일관성
-
-을 중심으로 합니다.
-
-따라서 MCP는 `모델 내부 능력`이 아니라 `주변 실행 환경의 연결 문제`에 가깝습니다.
-
-## 왜 여러 도구 흐름에서 중요해지나
-
-단일 프롬프트 기반 사용에서는 연결 문제가 비교적 단순했습니다. 하지만 agent 구조가 등장하면 다음이 같이 필요해집니다.
-
-- 파일 읽기
-- 검색
-- 코드 실행
-- 데이터 조회
-- 상태 전달
-
-이처럼 여러 도구가 한 작업 흐름 안에서 엮일수록, 도구 설명 방식과 호출 방식이 일정해야 시스템이 커지기 쉽습니다.
-
-즉, MCP는 `여러 도구와 자원을 한 흐름 안에서 함께 다뤄야 하는 장면`에서 더 직접적으로 필요해지는 관점입니다.
-
-## MCP가 있으면 무엇이 쉬워지나
-
-먼저 다음 세 가지를 붙잡아 두면 됩니다.
-
-- 도구 목록을 일정한 방식으로 드러내기 쉬워짐
-- 요청/응답 구조를 더 일관되게 유지하기 쉬워짐
-- 여러 시스템을 바꿔도 연결 관점을 재사용하기 쉬워짐
-
-즉, MCP는 `새 능력 생성기`라기보다 `연결 정리 도구`에 가깝습니다.
-
-같은 요청 흐름으로 다시 정리하면 다음과 같습니다.
-
-- 프롬프트: 요청을 적는다
-- RAG: 읽을 문서를 붙인다
-- 도구 사용: 실행할 기능을 부른다
-- 에이전트: 여러 단계를 이어 간다
-- MCP: 그 연결들을 더 일정한 형식으로 다루게 돕는다
-
-## MCP도 만능은 아니다
-
-MCP가 있다고 해서:
-
-- 도구 품질이 자동으로 좋아지거나
-- 권한 문제가 사라지거나
-- 잘못된 호출이 모두 없어지거나
-- 평가가 자동 해결되는 것
-
-은 아닙니다.
-
-즉, 연결 형식이 정리되는 것과, 실제 운영 품질이 좋아지는 것은 다른 문제입니다.
-
-## 아주 단순하게 그리면
+## 여러 도구 흐름에서 보이는 차이
 
 ```mermaid
 --8<-- "assets/part-06/chapter-15/p6-c15-s01-mcp-connection-layer-ko.mmd"
@@ -189,6 +70,8 @@ MCP가 있다고 해서:
 | --- | --- | --- |
 | MCP 같은 공통 연결 관점이 약할 때 | 도구마다 다른 이름, 인자 형식, 반환 형식 | 형식 불일치, 예외 처리 증가, 새 도구 추가 비용 증가 |
 | MCP 같은 공통 연결 관점이 있을 때 | 공통 방식으로 노출된 도구 목록과 리소스 정보 | 연결 자체보다 권한, 품질, 평가 문제를 더 분리해 다루기 쉬워짐 |
+
+MCP가 있다고 해서 도구 품질, 권한 문제, 잘못된 호출, 평가가 자동으로 해결되지는 않습니다. 연결 형식이 정리되는 것과 실제 운영 품질이 좋아지는 것은 다른 문제입니다. 그래서 MCP는 `새 능력 생성기`가 아니라, 프롬프트, RAG, 도구 사용, 에이전트 흐름이 늘어날 때 그 연결들을 더 일정한 형식으로 다루게 돕는 연결 정리 관점으로 읽는 편이 좋습니다.
 
 ## 사례 및 예시
 
@@ -258,316 +141,89 @@ MCP를 처음 읽을 때 자주 생기는 오해는 `도구가 잘 안 붙는다
 
 ## 연습 및 예제
 
-예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 에이전트가 여러 요청을 처리할 때 `공통 연결 계층이 있으면 어떤 요청은 끝까지 진행되고`, `형식이 제각각이면 어디에서 멈추는가`를 눈으로 확인하는 것입니다. 단순히 목록 모양만 검사하면 연결 계층의 의미가 잘 드러나지 않으므로, 여러 사용자 요청을 실제로 흘려 보내 봅니다.
+예제의 목표는 실제 프로토콜 전체를 구현하는 것이 아니라, 공식 Python SDK에서 MCP 서버가 도구(tool)와 자원(resource)을 어떤 형식으로 노출하는지 보는 것입니다. 이 예제는 Python 3.10 이상과 `mcp` Python SDK가 필요합니다. 설치되어 있지 않다면 `pip install "mcp[cli]>=1.27,<2"`로 안정 릴리스 계열을 설치한 뒤 실행합니다.
 
-아래 예제는 공통 연결 계층에 등록된 도구·자원 목록과, 형식이 제각각인 연결 목록을 나란히 비교합니다. 같은 네 개의 사용자 요청을 두 연결 계층에 흘려 보내면서 어떤 도구와 리소스가 실제로 선택되는지, 어디에서 형식 불일치가 실행을 멈추는지 확인합니다.
-
-출력에서는 요청별 실행 결과와 run report, 공통 연결 계층이 있을 때와 없을 때의 성공률 요약값을 함께 봅니다. 코드에서 확인할 핵심은 MCP 연결 문제를 모델 답변 품질 하나로 뭉개지 않고, 도구 해석, 자원 해석, 입력 형식, 권한 확장 가능성 같은 연결 단계로 나눠 볼 수 있다는 점입니다.
-
-먼저 이 예제에서 함께 볼 비교 기준은 다음과 같습니다.
-
-| 점검 항목 | 왜 필요한가 |
-| --- | --- |
-| `request_success` | 사용자 요청이 실제로 끝까지 진행되는지 봐야 해서 |
-| `tool_resolved` | 필요한 도구를 공통 형식으로 찾을 수 있어야 해서 |
-| `resource_resolved` | 읽을 자원을 일정한 방식으로 식별할 수 있어야 해서 |
-| `failure_reason` | 어떤 연결 결함이 먼저 실행을 멈추는지 구분해야 해서 |
+아래 코드에서 먼저 볼 것은 두 가지입니다. `@mcp.tool()`로 등록한 함수는 실행 가능한 도구로 노출되고, `@mcp.resource("policy://refund/latest")`로 등록한 함수는 읽을 수 있는 자원으로 노출됩니다. 즉, 에이전트가 외부 시스템을 마음대로 직접 아는 것이 아니라, 서버가 공개한 도구 이름, 입력 형식, 자원 URI를 연결 대상으로 보게 됩니다.
 
 ```python
-# MCP식 도구 연결 계층에서 tool schema와 resource metadata가 일관될 때 요청 실행 성공률이 어떻게 달라지는지 비교하는 예제입니다.
 from pprint import pprint
 
-connection_layers = [
-    {
-        "name": "consistent_layer",
-        "tools": [
-            {"name": "search_docs", "input_schema": ["query"], "returns": "document_hits"},
-            {"name": "read_file", "input_schema": ["path"], "returns": "file_text"},
-            {"name": "run_tests", "input_schema": ["target"], "returns": "test_report"},
-            {"name": "query_employee_db", "input_schema": ["employee_id"], "returns": "employee_record"},
-        ],
-        "resources": [
-            {"name": "policy_repository", "type": "document_store"},
-            {"name": "codebase_files", "type": "filesystem"},
-            {"name": "employee_directory", "type": "database"},
-        ],
-    },
-    {
-        "name": "inconsistent_layer",
-        "tools": [
-            {"tool_name": "search_docs", "returns": "document_hits"},
-            {"name": "read_file", "input_schema": ["path"]},
-            {"name": "run_tests", "returns": "test_report"},
-            {"name": "query_employee_db", "schema": ["employee_id"], "returns": "employee_record"},
-        ],
-        "resources": [
-            {"resource": "policy_repository"},
-            {"name": "codebase_files", "kind": "filesystem"},
-            {"name": "employee_directory"},
-        ],
-    },
-]
+from mcp.server.fastmcp import FastMCP
 
-requests = [
-    {
-        "request_id": "req-01",
-        "goal": "사내 환불 정책을 찾아 요약한다",
-        "tool_needed": "search_docs",
-        "resource_needed": "policy_repository",
-        "payload": {"query": "환불 정책 최신 버전"},
-    },
-    {
-        "request_id": "req-02",
-        "goal": "특정 경로의 파일을 읽는다",
-        "tool_needed": "read_file",
-        "resource_needed": "codebase_files",
-        "payload": {"path": "docs/parts/part-06/index.md"},
-    },
-    {
-        "request_id": "req-03",
-        "goal": "직원 ID로 조직 정보를 조회한다",
-        "tool_needed": "query_employee_db",
-        "resource_needed": "employee_directory",
-        "payload": {"employee_id": "E-102"},
-    },
-    {
-        "request_id": "req-04",
-        "goal": "변경 후 테스트를 실행한다",
-        "tool_needed": "run_tests",
-        "resource_needed": "codebase_files",
-        "payload": {"target": "tests/test_login.py"},
-    },
-]
+mcp = FastMCP("AiBook MCP demo", json_response=True)
 
-def find_tool(layer, tool_name):
-    for tool in layer["tools"]:
-        if tool.get("name") == tool_name:
-            return tool
-    return None
-
-def find_resource(layer, resource_name):
-    for resource in layer["resources"]:
-        if resource.get("name") == resource_name:
-            return resource
-    return None
-
-def run_request(layer, request):
-    tool = find_tool(layer, request["tool_needed"])
-    resource = find_resource(layer, request["resource_needed"])
-
-    if tool is None:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": False,
-            "resource_resolved": resource is not None,
-            "request_success": False,
-            "failure_reason": "tool_name_not_exposed_in_common_shape",
-        }
-
-    if "input_schema" not in tool:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": resource is not None,
-            "request_success": False,
-            "failure_reason": "tool_schema_missing",
-        }
-
-    if resource is None:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": False,
-            "request_success": False,
-            "failure_reason": "resource_name_not_exposed",
-        }
-
-    if "type" not in resource:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": True,
-            "request_success": False,
-            "failure_reason": "resource_type_missing",
-        }
-
-    missing_inputs = [
-        field for field in tool["input_schema"] if field not in request["payload"]
-    ]
-    if missing_inputs:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": True,
-            "request_success": False,
-            "failure_reason": f"missing_inputs:{missing_inputs}",
-        }
-
-    return {
-        "request_id": request["request_id"],
-        "goal": request["goal"],
-        "tool_resolved": True,
-        "resource_resolved": True,
-        "request_success": True,
-        "tool_name": tool["name"],
-        "resource_name": resource["name"],
-        "resource_type": resource["type"],
-        "used_payload": request["payload"],
-        "failure_reason": None,
-    }
-
-layer_reports = []
-for layer in connection_layers:
-    run_reports = [run_request(layer, request) for request in requests]
-    summary = {
-        "request_count": len(run_reports),
-        "success_count": sum(report["request_success"] for report in run_reports),
-        "tool_resolution_success_count": sum(report["tool_resolved"] for report in run_reports),
-        "resource_resolution_success_count": sum(report["resource_resolved"] for report in run_reports),
-        "failure_reasons": [report["failure_reason"] for report in run_reports if report["failure_reason"]],
-    }
-    layer_reports.append(
-        {
-            "layer_name": layer["name"],
-            "summary": summary,
-            "run_reports": run_reports,
-        }
-    )
-
-overall = {
-    "layers_tested": len(layer_reports),
-    "fully_successful_layers": sum(
-        report["summary"]["success_count"] == len(requests)
-        for report in layer_reports
-    ),
+POLICY_INDEX = {
+    "refund": "policy://refund/latest",
+    "security": "policy://security/baseline",
+}
+POLICY_TEXT = {
+    "policy://refund/latest": "Latest refund policy: request review before final reply.",
+    "policy://security/baseline": "Security baseline: approval is required for account changes.",
 }
 
-print("[overall]")
-pprint(overall)
-print()
+@mcp.tool()
+def search_policy(query: str) -> list[dict[str, str]]:
+    """Search policy resources by keyword."""
+    hits = [
+        {"keyword": keyword, "resource_uri": uri}
+        for keyword, uri in POLICY_INDEX.items()
+        if keyword in query.lower()
+    ]
+    return hits
 
-for report in layer_reports:
-    print("=" * 80)
-    print(f"[layer] {report['layer_name']}")
-    print("[summary]")
-    pprint(report["summary"])
-    print("[run_reports]")
-    for run_report in report["run_reports"]:
-        pprint(run_report)
-    print()
+@mcp.resource("policy://refund/latest")
+def refund_policy() -> str:
+    """Read the latest refund policy resource."""
+    return POLICY_TEXT["policy://refund/latest"]
+
+request = {"query": "refund rule for a customer support answer"}
+tool_result = search_policy(**request)
+resource_uri = tool_result[0]["resource_uri"]
+resource_text = POLICY_TEXT[resource_uri]
+
+print("[mcp server exposes]")
+pprint(
+    {
+        "tools": ["search_policy(query: str)"],
+        "resources": ["policy://refund/latest"],
+    }
+)
+print("[tool call]")
+pprint({"name": "search_policy", "arguments": request, "result": tool_result})
+print("[resource read]")
+pprint({"uri": resource_uri, "text": resource_text})
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[overall]
-{'fully_successful_layers': 1, 'layers_tested': 2}
-
-================================================================================
-[layer] consistent_layer
-[summary]
-{'failure_reasons': [],
- 'request_count': 4,
- 'resource_resolution_success_count': 4,
- 'success_count': 4,
- 'tool_resolution_success_count': 4}
-[run_reports]
-{'failure_reason': None,
- 'goal': '사내 환불 정책을 찾아 요약한다',
- 'request_id': 'req-01',
- 'request_success': True,
- 'resource_name': 'policy_repository',
- 'resource_resolved': True,
- 'resource_type': 'document_store',
- 'tool_name': 'search_docs',
- 'tool_resolved': True,
- 'used_payload': {'query': '환불 정책 최신 버전'}}
-{'failure_reason': None,
- 'goal': '특정 경로의 파일을 읽는다',
- 'request_id': 'req-02',
- 'request_success': True,
- 'resource_name': 'codebase_files',
- 'resource_resolved': True,
- 'resource_type': 'filesystem',
- 'tool_name': 'read_file',
- 'tool_resolved': True,
- 'used_payload': {'path': 'docs/parts/part-06/index.md'}}
-{'failure_reason': None,
- 'goal': '직원 ID로 조직 정보를 조회한다',
- 'request_id': 'req-03',
- 'request_success': True,
- 'resource_name': 'employee_directory',
- 'resource_resolved': True,
- 'resource_type': 'database',
- 'tool_name': 'query_employee_db',
- 'tool_resolved': True,
- 'used_payload': {'employee_id': 'E-102'}}
-{'failure_reason': None,
- 'goal': '변경 후 테스트를 실행한다',
- 'request_id': 'req-04',
- 'request_success': True,
- 'resource_name': 'codebase_files',
- 'resource_resolved': True,
- 'resource_type': 'filesystem',
- 'tool_name': 'run_tests',
- 'tool_resolved': True,
- 'used_payload': {'target': 'tests/test_login.py'}}
-================================================================================
-[layer] inconsistent_layer
-[summary]
-{'failure_reasons': ['tool_name_not_exposed_in_common_shape',
-                     'resource_type_missing',
-                     'tool_schema_missing',
-                     'tool_schema_missing'],
- 'request_count': 4,
- 'resource_resolution_success_count': 3,
- 'success_count': 0,
- 'tool_resolution_success_count': 3}
-[run_reports]
-{'failure_reason': 'tool_name_not_exposed_in_common_shape',
- 'goal': '사내 환불 정책을 찾아 요약한다',
- 'request_id': 'req-01',
- 'request_success': False,
- 'resource_resolved': False,
- 'tool_resolved': False}
-{'failure_reason': 'resource_type_missing',
- 'goal': '특정 경로의 파일을 읽는다',
- 'request_id': 'req-02',
- 'request_success': False,
- 'resource_resolved': True,
- 'tool_resolved': True}
-{'failure_reason': 'tool_schema_missing',
- 'goal': '직원 ID로 조직 정보를 조회한다',
- 'request_id': 'req-03',
- 'request_success': False,
- 'resource_resolved': True,
- 'tool_resolved': True}
-{'failure_reason': 'tool_schema_missing',
- 'goal': '변경 후 테스트를 실행한다',
- 'request_id': 'req-04',
- 'request_success': False,
- 'resource_resolved': True,
- 'tool_resolved': True}
+[mcp server exposes]
+{'resources': ['policy://refund/latest'],
+ 'tools': ['search_policy(query: str)']}
+[tool call]
+{'arguments': {'query': 'refund rule for a customer support answer'},
+ 'name': 'search_policy',
+ 'result': [{'keyword': 'refund', 'resource_uri': 'policy://refund/latest'}]}
+[resource read]
+{'text': 'Latest refund policy: request review before final reply.',
+ 'uri': 'policy://refund/latest'}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `consistent_layer`에서는 네 요청이 모두 성공하지만, `inconsistent_layer`에서는 도구 이름, 입력 형식, 자원 타입이 제각각이라 네 요청이 모두 중간에서 멈춘다는 점입니다. 즉, 같은 도구 수를 갖고 있어도 `name`, `input_schema`, `type` 같은 최소 공통 형식이 맞지 않으면 에이전트는 실제 업무 흐름을 끝까지 밀고 가지 못합니다.
+이 출력에서 `search_policy(query: str)`는 실행할 수 있는 도구이고, `policy://refund/latest`는 읽을 수 있는 자원입니다. 중요한 점은 함수 내부 계산보다, 도구 이름과 입력 형식, 자원 URI가 서버에 등록된다는 데 있습니다. 실제 MCP 클라이언트는 이런 서버 노출 정보를 기준으로 도구와 자원을 발견하고 호출합니다. MCP가 정리하는 것은 `환불 정책을 잘 요약하는 능력`이 아니라, 환불 정책을 찾는 도구와 읽을 자원을 어떤 공통 형식으로 드러낼지입니다.
+
+같은 원리를 여러 요청으로 확장하면 연결 형식의 차이가 더 분명해집니다. 아래 그래프는 SDK 사용법을 설명하려는 그림이 아니라, 도구·자원 노출 형식이 일관될 때와 흔들릴 때를 비교하는 보조 실험입니다. 도구 카탈로그 CSV [p6-15-1-mcp-tool-catalog.csv](../../../assets/part-06/chapter-15/p6-15-1-mcp-tool-catalog.csv){ .csv-preview }, 자원 카탈로그 CSV [p6-15-1-mcp-resource-catalog.csv](../../../assets/part-06/chapter-15/p6-15-1-mcp-resource-catalog.csv){ .csv-preview }, 요청 CSV [p6-15-1-mcp-connection-requests.csv](../../../assets/part-06/chapter-15/p6-15-1-mcp-connection-requests.csv){ .csv-preview }를 사용해 36개 요청을 공통 연결 계층(`common_layer`)과 제각각 연결 계층(`mixed_layer`)에 흘려 보내고, 요청 완료, 연결 준비, 도구 해석, 자원 해석이 어디서 갈리는지 비교합니다.
 
 ![MCP 연결 계층 점검](../../../assets/part-06/chapter-15/mcp-connection-layer-check-ko.png)
 
-이 차트는 도구와 자원을 어느 정도 찾을 수 있어도, 공통 형식이 빠지면 `request_success`가 0으로 떨어진다는 점을 예제의 요약값으로 다시 보여 줍니다.
+이 차트는 공통 연결 계층과 제각각 연결 계층의 차이를 요청 완료, 연결 준비, 도구 해석, 자원 해석으로 나누어 보여 줍니다. 공통 연결 계층에서도 승인과 입력 누락 때문에 완료 수는 19건에 머물지만, 연결 준비는 36건 모두 통과합니다. 반대로 제각각 연결 계층은 도구와 자원을 어느 정도 찾더라도 입력 형식과 자원 타입이 흔들려 연결 준비와 요청 완료가 급격히 줄어듭니다.
 
-이 예제에서 확인해야 할 결과는 모델이나 에이전트가 외부 시스템을 제각각 직접 다루는 것이 아니라, 도구와 리소스를 공통 인터페이스로 드러내는 연결 계층을 통해 접근한다는 점입니다.
+이 그래프에서 확인해야 할 결과는 모델이나 에이전트가 외부 시스템을 제각각 직접 다루는 것이 아니라, 도구와 리소스를 공통 인터페이스로 드러내는 연결 계층을 통해 접근한다는 점입니다.
 
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+이 절에서 직접 바꿔 볼 수 있는 조정은 다음과 같습니다.
 
-- 새 도구 `query_database`를 두 레이어에 각각 추가해 같은 방식으로 노출되는지 보기
-- `inconsistent_layer`의 도구 하나에만 `input_schema`를 추가해도 전체 일관성이 왜 아직 깨지는지 확인하기
-- 리소스에 `permissions` 같은 필드를 넣어 권한 관점까지 확장해 보기
+- SDK 예제에서 `security`가 들어간 질문으로 `search_policy()`를 호출해 다른 자원 URI가 반환되는지 보기
+- SDK 예제에 `@mcp.tool()` 도구를 하나 더 추가하고, 도구 이름과 입력 형식이 출력 설명에 어떻게 반영되는지 보기
+- CSV 보조 실험에서 `mixed_layer`의 도구 하나에만 `input_schema`를 추가해도 전체 일관성이 왜 아직 깨지는지 확인하기
 
 여기서 한 단계 더 가면, MCP가 직접 정리하는 문제와 아직 하네스나 운영으로 넘겨야 하는 문제를 분리해 두는 편이 좋습니다.
 
@@ -580,19 +236,9 @@ for report in layer_reports:
 
 이 표의 핵심은 MCP가 `연결을 일정하게 만드는 층`이지, 실행을 기록하거나 품질을 판정하는 층이 아니라는 점입니다. 하네스는 같은 연결을 실제 실행 trace와 replay로 남기고, 평가와 운영은 그 기록을 품질 판단과 통제 조치로 읽습니다.
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
+## 도구 개수보다 연결 형식
 
-- 모델이 직접 모든 시스템을 제각각 아는 것이 아니라
-- 중간 연결 계층을 통해
-- 도구와 리소스를 일정한 형식으로 본다는 점입니다
-
-## 연결 계층에서 갈리는 실행 성공률
-
-이 축약된 연결 구조는 도구가 많아지는 시대에 중요한 것이 `도구 개수`보다 `어떻게 같은 방식으로 연결하느냐`라는 점을 보여 줍니다. 그래서 MCP를 읽을 때도 개별 도구 기능보다, 모델과 외부 시스템 사이의 연결 형식을 통일해 주는 계층이라는 역할을 먼저 잡는 것이 좋습니다.
-
-여기까지를 한 줄로 묶으면, MCP 관점은 `도구를 더 많이 붙이는 기술`이 아니라 `붙인 도구들을 같은 방식으로 읽고 호출하게 만드는 연결 규칙`입니다.
-
-더 중요하게 붙잡아야 할 점은 `모델이 무엇을 말하는가`와 `그 모델이 어떤 시스템과 어떤 형식으로 연결되는가`가 같은 문제가 아니라는 것입니다. 그래서 MCP는 도구를 더 붙이는 기술이 아니라, agent와 tool use가 늘어날수록 연결 방식을 덜 제각각으로 만들기 위한 공통 인터페이스 관점으로 읽는 편이 좋습니다.
+이 축약된 연결 구조는 도구가 많아지는 시대에 중요한 것이 `도구 개수`보다 `어떻게 같은 방식으로 연결하느냐`라는 점을 보여 줍니다. MCP 관점은 `도구를 더 많이 붙이는 기술`이 아니라 `붙인 도구들을 같은 방식으로 읽고 호출하게 만드는 연결 규칙`입니다. 더 중요하게 붙잡아야 할 점은 `모델이 무엇을 말하는가`와 `그 모델이 어떤 시스템과 어떤 형식으로 연결되는가`가 같은 문제가 아니라는 것입니다.
 
 ## 체크리스트
 - MCP를 `새 모델 능력`이 아니라 `도구와 자원을 공통 형식으로 드러내는 연결 인터페이스 관점`으로 설명할 수 있어야 합니다.

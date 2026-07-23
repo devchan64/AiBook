@@ -1,0 +1,17 @@
+layer,tool_name,exposed_name,input_schema,returns,permission_scope
+common_layer,search_docs,search_docs,query,document_hits,read
+common_layer,read_resource,read_resource,path,resource_text,read
+common_layer,run_tests,run_tests,target,test_report,execute
+common_layer,query_employee_db,query_employee_db,employee_id,employee_record,read
+common_layer,create_calendar_event,create_calendar_event,date|attendee|title,calendar_event_id,write
+common_layer,fetch_ticket,fetch_ticket,ticket_id,ticket_record,read
+common_layer,send_report,send_report,recipient|document_id,delivery_receipt,write
+common_layer,query_calendar,query_calendar,date|attendee,calendar_slots,read
+mixed_layer,search_docs,docs_search,query,document_hits,read
+mixed_layer,read_resource,read_resource,,resource_text,read
+mixed_layer,run_tests,run_tests,target,test_report,execute
+mixed_layer,query_employee_db,query_employee_db,employee_id,,read
+mixed_layer,create_calendar_event,create_calendar_event,date|attendee|title,calendar_event_id,write
+mixed_layer,fetch_ticket,fetch_ticket,ticket_id,ticket_record,read
+mixed_layer,send_report,send_document,recipient|document_id,delivery_receipt,write
+mixed_layer,query_calendar,query_calendar,date,calendar_slots,read
