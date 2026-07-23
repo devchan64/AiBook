@@ -1,7 +1,9 @@
-# P5-14.7 Supplementary Learning: Why Does a Residual Connection Leave a Path for the Original Representation?
+# P5-14.7 Supplementary Learning: A Path That Preserves the Original Representation
 
 > Section ID: `P5-14.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How does a residual connection pass the new computation result and the original input representation together?_
 
 In P5-14.2, we saw that a residual connection leaves the original information flow inside a Transformer block. But if we only hear that it “adds the original input,” it is easy to mistake a residual connection for a simple addition trick or for a shortcut that skips computation.
 

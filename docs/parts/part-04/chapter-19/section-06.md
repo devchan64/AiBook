@@ -1,7 +1,9 @@
-# P4-19.6 보충학습: policy gradient와 likelihood ratio trick을 처음 읽는 법
+# P4-19.6 보충학습: policy gradient 첫 읽기
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: likelihood ratio trick은 정책 확률 변화와 기대 보상을 어떻게 연결하는가_
 
 P4-19.2에서 정책 기반 강화학습을 읽다 보면 곧 다음 이름이 붙습니다.
 

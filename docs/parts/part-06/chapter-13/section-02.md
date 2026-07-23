@@ -1,7 +1,7 @@
 # P6-13.2 함수 호출은 왜 실행 요청을 이름과 인자로 나누는가
 
 > Section ID: `P6-13.2`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
 
 P6-13.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하는 구조라는 점을 보았습니다. 그러면 이제 더 구체적인 질문이 나옵니다.
 
@@ -29,18 +29,27 @@ P6-13.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 
 ## 자연어 요청과 구조화된 실행 요청의 구분
 
-- 함수 호출을 입문 수준에서 설명할 수 있습니다.
-- 자연어 요청과 구조화된 호출의 차이를 말할 수 있습니다.
-- 이름(name), 인자(arguments), 결과(result)를 나눠 보는 이유를 설명할 수 있습니다.
-- 구조화된 호출이 여러 단계 목표 흐름으로 이어질 수 있음을 말할 수 있습니다.
+자연어 요청은 사람이 읽고 의미를 짐작하기 좋은 표현입니다. 반대로 구조화된 실행 요청은 시스템이 실행 전에 검사할 수 있도록 이름과 필드를 나눈 표현입니다. 두 표현은 같은 뜻을 담을 수 있지만, 쓰임이 다릅니다.
+
+| 구분 | 자연어 요청 | 구조화된 실행 요청 |
+| --- | --- | --- |
+| 읽는 주체 | 사람과 모델 | 애플리케이션, API, 실행 환경 |
+| 핵심 장점 | 의도를 넓게 표현하기 쉬움 | 필드 검증과 로그 추적이 쉬움 |
+| 흔한 약점 | 빠진 조건이 문장 안에 숨어 있을 수 있음 | schema 밖의 의도나 맥락은 별도 해석이 필요함 |
+| 먼저 확인할 것 | 사용자가 무엇을 원했는가 | 어떤 함수와 어떤 인자로 실행할 것인가 |
 
 ## 요청이 함수 이름과 인자로 바뀌는 흐름
 
-구조화 전환은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+함수 호출은 자연어 요청을 바로 실행하지 않고, 실행 전에 검사할 수 있는 중간 표현으로 바꿉니다. 이 전환은 다음처럼 나눠 볼 수 있습니다.
 
-1. 먼저 `왜 구조화가 필요한가`와 `자연어 요청과 무엇이 다른가`를 읽고, 사람에게는 자연스럽지만 시스템에는 모호한 요청이 구조화된 호출로 바뀌는 이유를 잡습니다.
-2. 그다음 `함수 이름과 인자를 나누는 이유`, `결과도 구조화가 중요한가`, `함수 호출이 항상 정답은 아니다`를 읽으면서 검증 가능성과 통제 가능성이 왜 중요해지는지 확인합니다.
-3. 마지막으로 사례와 Python 예제를 보면서, `자연어 요청 -> 함수 이름 + 인자 -> 누락 필드 검증 -> 실행 준비`라는 흐름이 실제로 어떻게 드러나는지 확인합니다.
+| 단계 | 예시 | 이 단계에서 확인할 것 |
+| --- | --- | --- |
+| 자연어 요청 | `오늘 달러 300달러를 원화로 계산해 줘` | 사용자가 원하는 일이 무엇인가 |
+| 함수 후보 | `lookup_exchange_rate` | 어떤 기능을 호출해야 하는가 |
+| 인자 후보 | `base_currency=USD`, `quote_currency=KRW`, `amount=300` | 실행에 필요한 값이 채워졌는가 |
+| 검증 결과 | `ready` 또는 `needs_clarification` | 바로 실행할지, 되물을지, 승인받을지 |
+
+이 표에서 중요한 점은 함수 호출이 `답변 문장`이 아니라 `실행 직전의 검증 가능한 요청 구조`라는 점입니다.
 
 ## 왜 구조화가 필요한가
 
@@ -65,14 +74,7 @@ P6-13.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 
 즉, 자연어를 그대로 실행하는 것이 아니라 `실행 가능한 구조`로 바꾸는 것입니다.
 
-## 자연어 요청과 무엇이 다른가
-
-| 표현 방식 | 특징 |
-| --- | --- |
-| 자연어 요청 | 사람이 읽기 쉽지만 모호할 수 있음 |
-| 구조화된 함수 호출 | 시스템이 해석하기 쉽고 검증이 가능함 |
-
-`함수 호출은 모델의 의도를 시스템이 더 안전하게 실행할 수 있도록 문장을 구조로 바꾸는 방법이다.`
+자연어 요청과 구조화된 함수 호출은 같은 의도를 다른 형태로 담습니다. 자연어는 사람에게 쉽지만 빠진 조건이 숨어 있을 수 있고, 구조화된 호출은 사람이 보기에는 딱딱하지만 시스템이 필드를 검사하고 실행 기록을 남기기 쉽습니다. 그래서 함수 호출은 모델의 의도를 시스템이 더 안전하게 실행할 수 있도록 문장을 구조로 바꾸는 방법이라고 볼 수 있습니다.
 
 ## 함수 이름과 인자를 나누는 이유
 
@@ -81,7 +83,7 @@ P6-13.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 예를 들어:
 
 - 함수 이름: `lookup_exchange_rate`
-- 인자: `{"currency": "USD", "region": "KR", "date": "2026-06-29"}`
+- 인자: `{"base_currency": "USD", "quote_currency": "KRW", "amount": 300}`
 
 이렇게 나누면 시스템은 다음을 하기 쉬워집니다.
 
@@ -187,11 +189,11 @@ P6-13.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 
 ## 연습 및 예제
 
-예제의 목표는 실제 캘린더 API를 부르는 것이 아니라, 자연어 요청이 함수 이름과 인자 구조로 바뀌고, 그 구조가 검증 가능한 형태가 된다는 점을 보는 것입니다. 한 요청만 보면 `구조화하면 된다` 수준에서 끝나기 쉬우므로, 여러 요청을 배치로 보면서 어떤 호출은 바로 실행 가능하고 어떤 호출은 필드 누락으로 막히는지도 함께 봅니다.
+이 예제는 실제 API나 모델을 호출하지 않고, 함수 호출 후보가 실행 전에 어떤 검증을 통과해야 하는지 보는 예제입니다. 한두 문장만 보면 `함수 이름과 인자를 만들면 끝`처럼 보이기 쉽습니다. 그래서 여러 함수 후보를 같은 배치에서 검증해, 어떤 호출은 바로 실행 가능하고, 어떤 호출은 되물어야 하며, 어떤 호출은 승인 대기 상태로 멈춰야 하는지 함께 봅니다.
 
-사용자는 자연어로 일정을 만들어 달라고 요청하지만, 시스템은 이 문장을 그대로 실행하지 않고 함수 이름과 인자를 분리해 받아야 합니다. 인자 누락 여부를 실행 전에 점검할 수 있어야 하므로, `구조화했다`와 `실행 준비가 끝났다`는 같은 말이 아닙니다.
+아래 예제는 함수 호출 후보 CSV [p6-13-2-function-call-requests.csv](../../../assets/part-06/chapter-13/p6-13-2-function-call-requests.csv){ .csv-preview }를 사용합니다. 한 행은 사용자 요청, 참고용 영어 요청, 함수 이름, 함수 인자 후보, 승인 필요 여부를 담습니다. 이 CSV는 실제 모델을 호출해 만든 로그가 아니라, function calling의 검증 구조를 보기 위해 만든 입력입니다. `model_request_en`은 다국어 번역본과 모델 입력 형식을 상상하기 위한 참고 컬럼이며, 이 예제의 검증 코드는 함수 이름과 인자 후보만 사용합니다. CSV의 빈칸은 함수 호출 후보 안에서 아직 채워지지 않았거나 실행 전에 더 확인해야 하는 인자를 뜻합니다.
 
-아래 예제는 사용자 요청 여러 개와, 자연어 요청에서 함수 호출 초안을 만드는 간단한 변환 규칙을 사용합니다. 출력에서는 함수 이름과 인자 구조, 필수 인자 점검 결과, 어떤 호출이 바로 실행 가능하고 어떤 호출은 누락으로 막히는지에 대한 점검값을 확인합니다.
+사용자는 자연어로 일정을 만들거나, 환율을 조회하거나, 파일을 고치거나, 메일 초안을 보내 달라고 요청합니다. 하지만 시스템은 이 문장을 그대로 실행하지 않습니다. 먼저 함수별 schema를 기준으로 필수 인자가 채워졌는지 검사하고, 외부 상태를 바꾸는 요청은 승인 대기 상태로 분리합니다. 따라서 `구조화했다`와 `실행 준비가 끝났다`는 같은 말이 아닙니다.
 
 먼저 이 예제에서 같이 볼 항목은 다음과 같습니다.
 
@@ -199,169 +201,151 @@ P6-13.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 | --- | --- |
 | `function_name` | 어떤 기능을 부르려는지 분리해서 확인 |
 | `missing_fields` | 실행 전에 어떤 인자가 비었는지 확인 |
-| `is_valid` | 현재 구조로 바로 실행 가능한지 확인 |
-| `provided_argument_keys` | 모델이 어떤 필드까지 채웠는지 확인 |
+| `status` | 바로 실행, 되물음 필요, 승인 필요를 구분 |
+| `schema_required_fields` | 함수마다 필수 인자가 다르다는 점을 확인 |
 
-코드에서 확인할 핵심은 함수 호출형 도구 사용은 실행 전에 함수 이름, 인자, 누락 필드를 먼저 검증하는 단계가 필요하다는 점입니다.
+입력 CSV는 24행입니다. 이 예제의 중심은 대량 데이터 처리나 통계적 대표성이 아니라, 서로 다른 함수 schema가 서로 다른 필수 인자 검증을 만든다는 점을 확인하는 데 있습니다. 그래서 행 수를 늘리는 목적도 분량 자체가 아니라 일정 생성, 환율 조회, 파일 패치, 메일 초안처럼 검증 기준이 다른 호출 후보를 나란히 놓는 데 있습니다.
+
+코드에서 확인할 핵심은 함수 호출형 도구 사용이 `함수 이름`, `인자`, `schema 검증`, `승인 여부`를 나눠 실행 직전의 상태를 만든다는 점입니다.
 
 ```python
-# 캘린더 일정 생성 요청에서 function call arguments가 필수 필드를 채웠는지 검증해 실행 가능성을 판단하는 예제입니다.
-requests = [
-    "내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.",
-    "내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.",
-    "다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.",
-]
+from collections import Counter, defaultdict
+import csv
+from pathlib import Path
 
-required_fields = ["title", "date", "time", "timezone"]
+CSV_PATH = Path("docs/assets/part-06/chapter-13/p6-13-2-function-call-requests.csv")
 
-def build_function_call(user_request):
-    if "디자인 리뷰" in user_request:
-        title = "디자인 리뷰"
-    elif "팀 회의" in user_request:
-        title = "팀 회의"
-    elif "채용 인터뷰" in user_request:
-        title = "채용 인터뷰"
-    else:
-        title = ""
+function_schemas = {
+    "create_calendar_event": ["title", "date", "time", "timezone", "attendees"],
+    "lookup_exchange_rate": ["base_currency", "quote_currency", "amount"],
+    "apply_file_patch": ["file_path", "change_summary"],
+    "send_email_draft": ["recipient", "subject", "body"],
+}
 
-    if "내일" in user_request:
-        date = "tomorrow"
-    elif "다음 주 월요일" in user_request:
-        date = "next_monday"
-    else:
-        date = ""
+def is_blank(value):
+    return value is None or value.strip() == ""
 
-    if "오후 3시" in user_request:
-        time = "15:00"
-    elif "오전 10시" in user_request:
-        time = "10:00"
-    else:
-        time = ""
-
-    timezone = "Asia/Seoul" if "서울" in user_request else None
-
+def build_function_call(row):
+    required_fields = function_schemas[row["function_name"]]
+    arguments = {field: row.get(field, "") for field in required_fields}
     return {
-        "name": "create_calendar_event",
-        "arguments": {
-            "title": title,
-            "date": date,
-            "time": time,
-            "timezone": timezone,
-            "attendees": [],
-        },
+        "name": row["function_name"],
+        "arguments": arguments,
+        "approval_required": row["approval_required"].strip().lower() == "true",
     }
 
-def validate_function_call(function_call, required_fields):
-    arguments = function_call["arguments"]
-    missing = [
-        field
-        for field in required_fields
-        if field not in arguments or arguments[field] in ("", None)
+def validate_function_call(function_call):
+    required_fields = function_schemas[function_call["name"]]
+    missing_fields = [
+        field for field in required_fields if is_blank(function_call["arguments"].get(field))
     ]
+    if missing_fields:
+        status = "needs_clarification"
+    elif function_call["approval_required"]:
+        status = "needs_approval"
+    else:
+        status = "ready"
     return {
         "function_name": function_call["name"],
-        "missing_fields": missing,
-        "is_valid": len(missing) == 0,
+        "schema_required_fields": required_fields,
+        "missing_fields": missing_fields,
+        "status": status,
     }
 
+with CSV_PATH.open(encoding="utf-8", newline="") as file:
+    rows = list(csv.DictReader(file))
+
 reports = []
-for user_request in requests:
-    function_call = build_function_call(user_request)
-    validation = validate_function_call(function_call, required_fields)
-    inspection = {
-        "required_fields": required_fields,
-        "provided_argument_keys": list(function_call["arguments"].keys()),
-        "is_ready_to_execute": validation["is_valid"],
-        "missing_count": len(validation["missing_fields"]),
-    }
+for row in rows:
+    function_call = build_function_call(row)
+    validation = validate_function_call(function_call)
     reports.append(
         {
-            "user_request": user_request,
+            "request_id": row["request_id"],
+            "user_request": row["user_request_ko"],
             "function_call": function_call,
             "validation": validation,
-            "inspection": inspection,
         }
     )
 
+status_counts = Counter(report["validation"]["status"] for report in reports)
+function_status_counts = defaultdict(Counter)
+missing_field_counts = Counter()
+for report in reports:
+    validation = report["validation"]
+    function_status_counts[validation["function_name"]][validation["status"]] += 1
+    missing_field_counts.update(validation["missing_fields"])
+
 summary = {
-    "valid_call_count": sum(report["validation"]["is_valid"] for report in reports),
-    "invalid_call_count": sum(not report["validation"]["is_valid"] for report in reports),
-    "calls_missing_time": sum("time" in report["validation"]["missing_fields"] for report in reports),
-    "calls_missing_timezone": sum("timezone" in report["validation"]["missing_fields"] for report in reports),
-    "valid_call_ratio": round(
-        sum(report["validation"]["is_valid"] for report in reports) / len(reports),
-        2,
-    ),
-    "invalid_call_ratio": round(
-        sum(not report["validation"]["is_valid"] for report in reports) / len(reports),
-        2,
-    ),
+    "request_count": len(reports),
+    "status_counts": dict(status_counts),
+    "missing_field_counts": dict(missing_field_counts),
+    "function_status_counts": {
+        function_name: dict(counts)
+        for function_name, counts in function_status_counts.items()
+    },
 }
 
 print("[summary]")
 print(summary)
 print()
 
+sample_ids = {"F01", "F02", "F07", "F19"}
 for report in reports:
+    if report["request_id"] not in sample_ids:
+        continue
     print("=" * 80)
-    print("[user_request]")
-    print(report["user_request"])
+    print(f"[{report['request_id']}] {report['user_request']}")
     print("[function_call]")
     print(report["function_call"])
     print("[validation]")
     print(report["validation"])
-    print("[inspection]")
-    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 [summary]
-{'valid_call_count': 1, 'invalid_call_count': 2, 'calls_missing_time': 1, 'calls_missing_timezone': 1, 'valid_call_ratio': 0.33, 'invalid_call_ratio': 0.67}
+{'request_count': 24, 'status_counts': {'ready': 13, 'needs_clarification': 9, 'needs_approval': 2}, 'missing_field_counts': {'time': 1, 'timezone': 1, 'title': 1, 'attendees': 1, 'quote_currency': 1, 'amount': 1, 'file_path': 1, 'change_summary': 1, 'recipient': 1, 'body': 2}, 'function_status_counts': {'create_calendar_event': {'ready': 3, 'needs_clarification': 3}, 'lookup_exchange_rate': {'ready': 4, 'needs_clarification': 2}, 'apply_file_patch': {'ready': 4, 'needs_clarification': 2}, 'send_email_draft': {'needs_approval': 2, 'ready': 2, 'needs_clarification': 2}}}
 
 ================================================================================
-[user_request]
-내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.
+[F01] 내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.
 [function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00', 'timezone': 'Asia/Seoul', 'attendees': []}}
+{'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00', 'timezone': 'Asia/Seoul', 'attendees': 'design@example.com'}, 'approval_required': False}
 [validation]
-{'function_name': 'create_calendar_event', 'missing_fields': [], 'is_valid': True}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': True, 'missing_count': 0}
+{'function_name': 'create_calendar_event', 'schema_required_fields': ['title', 'date', 'time', 'timezone', 'attendees'], 'missing_fields': [], 'status': 'ready'}
 ================================================================================
-[user_request]
-내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.
+[F02] 내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.
 [function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '팀 회의', 'date': 'tomorrow', 'time': '', 'timezone': 'Asia/Seoul', 'attendees': []}}
+{'name': 'create_calendar_event', 'arguments': {'title': '팀 회의', 'date': 'tomorrow', 'time': '', 'timezone': 'Asia/Seoul', 'attendees': 'team@example.com'}, 'approval_required': False}
 [validation]
-{'function_name': 'create_calendar_event', 'missing_fields': ['time'], 'is_valid': False}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
+{'function_name': 'create_calendar_event', 'schema_required_fields': ['title', 'date', 'time', 'timezone', 'attendees'], 'missing_fields': ['time'], 'status': 'needs_clarification'}
 ================================================================================
-[user_request]
-다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.
+[F07] 오늘 달러 300달러를 원화로 계산해 주세요.
 [function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '채용 인터뷰', 'date': 'next_monday', 'time': '10:00', 'timezone': None, 'attendees': []}}
+{'name': 'lookup_exchange_rate', 'arguments': {'base_currency': 'USD', 'quote_currency': 'KRW', 'amount': '300'}, 'approval_required': False}
 [validation]
-{'function_name': 'create_calendar_event', 'missing_fields': ['timezone'], 'is_valid': False}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
+{'function_name': 'lookup_exchange_rate', 'schema_required_fields': ['base_currency', 'quote_currency', 'amount'], 'missing_fields': [], 'status': 'ready'}
+================================================================================
+[F19] 민수에게 회의록 초안을 보내 주세요.
+[function_call]
+{'name': 'send_email_draft', 'arguments': {'recipient': 'minsu@example.com', 'subject': '회의록 초안', 'body': '오늘 회의록 초안입니다'}, 'approval_required': True}
+[validation]
+{'function_name': 'send_email_draft', 'schema_required_fields': ['recipient', 'subject', 'body'], 'missing_fields': [], 'status': 'needs_approval'}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `valid_call_count`가 1이고 `invalid_call_count`가 2라는 점입니다. 즉, 자연어 요청을 함수 호출 구조로 바꿨다고 해서 모두 바로 실행 가능한 것은 아닙니다. `time`, `timezone`처럼 시스템이 실제 실행에 꼭 필요한 필드는 따로 검증해야 하고, 함수 호출 구조는 바로 그 누락을 실행 전에 드러내는 역할을 합니다.
+이 결과에서 먼저 봐야 할 것은 `status_counts`입니다. 24개 호출 초안 중 13개는 바로 실행 준비가 되었고, 9개는 `time`, `timezone`, `file_path`, `body` 같은 필수 인자가 빠져 되물어야 하며, 2개는 필수 인자가 채워졌더라도 외부 전송처럼 승인 대기 상태로 멈춥니다. 함수 호출 구조가 필요한 이유는 바로 이 구분을 자연어 답변 뒤에 숨기지 않고 실행 전에 드러내기 위해서입니다.
 
-그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+다음으로 볼 것은 `function_status_counts`입니다. 같은 `ready`라도 일정 생성, 환율 조회, 파일 패치, 메일 초안은 서로 다른 필수 인자 묶음을 가집니다. 즉 function calling은 모든 도구에 같은 필드 검사를 붙이는 일이 아니라, 함수 이름이 정해지는 순간 그 함수의 schema로 검증 기준이 바뀌는 구조입니다.
 
-- 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현된다.
-- 함수 호출의 핵심 가치는 `구조화` 자체뿐 아니라, 실행 전에 누락 필드를 검증하고 실패 원인을 분리할 수 있다는 데 있다.
+마지막으로 `missing_field_counts`를 보면 누락은 한 종류로 뭉치지 않습니다. 일정 생성에서는 `time`처럼 구체 시각, `timezone`처럼 시간대, `attendees`처럼 참석자가 빠질 수 있습니다. 환율 조회에서는 `amount`처럼 계산할 금액이나 `quote_currency`처럼 바꿀 대상 통화가 빠질 수 있습니다. 파일 패치에서는 `file_path`와 `change_summary`, 메일 초안에서는 `recipient`와 `body`가 실행 가능성을 가르는 필드가 됩니다. 그래서 함수 호출은 단순히 `실패`라고 기록하는 대신, 어떤 인자 때문에 실행을 멈췄는지를 남길 수 있습니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `requests`에 제목 누락, 날짜 누락 사례를 더 넣어 어떤 필드가 자주 빠지는지 보기
-- `build_function_call`에 참석자 메일 주소를 읽는 규칙을 추가해 일정 생성 인자가 어떻게 확장되는지 확인하기
-- `required_fields`를 바꿔 도구마다 검증 규칙이 달라질 수 있음을 실험해 보기
-- `date`를 자연어 그대로 두고 별도 정규화 단계를 상상해 보기
+- CSV에 새 함수 후보를 추가하고 `function_schemas`에 필수 인자를 넣어 검증 기준이 어떻게 바뀌는지 보기
+- `approval_required` 값을 바꿔 같은 인자 구조라도 실행 상태가 `ready`와 `needs_approval`로 갈리는지 확인하기
+- 빈칸을 채우거나 지워 `status_counts`와 `missing_field_counts`가 어떻게 달라지는지 보기
+- `function_schemas`에서 필수 필드를 늘려 운영 정책이 엄격해질 때 되물음이 얼마나 늘어나는지 확인하기
 
 여기서 한 단계 더 가면, 함수 호출이 해결하는 문제와 아직 남는 문제를 분리해서 읽어야 합니다.
 
@@ -376,11 +360,11 @@ for report in reports:
 
 ## 구조화된 실행 요청에서 갈리는 검증 기준
 
-앞의 예제는 함수 호출 전체를 구현하는 코드가 아니라, `사람이 말한 요청`과 `시스템이 실행할 구조`가 같은 문장이 아니라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 자연어를 없애는 일이 아니라, 실행 직전에 어떤 이름과 인자 구조로 다시 정리되어야 하는지를 읽는 데 있습니다.
+앞의 예제는 함수 호출 전체를 구현하는 코드가 아니라, `사람이 말한 요청`과 `시스템이 실행할 구조`가 같은 문장이 아니라는 점을 보여 주는 장면입니다. 여기서 중요한 것은 자연어를 없애는 일이 아니라, 실행 직전에 어떤 이름과 인자 구조로 다시 정리되어야 하는지를 읽는 데 있습니다.
 
-차트로 보면 세 호출 중 바로 실행 가능한 호출은 하나뿐이고, 나머지 둘은 각각 `time`, `timezone` 누락으로 막힙니다. 따라서 함수 호출은 구조를 만들었다는 사실보다, 실행 전에 어떤 필드가 빠졌는지 드러내고 멈출 수 있게 한다는 점이 더 중요합니다.
+차트로 보면 같은 배치 안에서도 함수마다 실행 준비 상태가 다르게 갈립니다. 왼쪽은 일정 생성, 환율 조회, 파일 패치, 메일 초안이 각각 `실행 준비`, `되물음 필요`, `승인 필요`로 나뉘는 모습을 보여 줍니다. 오른쪽은 실행을 막은 누락 필드 전체를 보여 줍니다. 따라서 함수 호출은 구조를 만들었다는 사실보다, 실행 전에 어떤 필드가 빠졌고 어떤 요청은 승인 없이 진행하면 안 되는지 드러내고 멈출 수 있게 한다는 점이 더 중요합니다.
 
-![함수 호출 예제의 유효 호출과 누락 필드 감지 수](../../../assets/part-06/chapter-13/function-call-validation-ko.png)
+![함수 호출 예제의 함수별 실행 준비 상태와 누락 필드 분포](../../../assets/part-06/chapter-13/function-call-validation-ko.png)
 
 ## 함수 호출이 실행 요청을 안정화하는 방식
 

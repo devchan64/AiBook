@@ -1,7 +1,7 @@
-# P5-7.5 补充学习：momentum、AdaGrad、RMSProp、Adam
+# P5-7.5 补充学习：代表性 optimizer 系列
 
 > Section ID: `P5-7.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P5-7.3 里，我们已经用 Adam（Adaptive Moment Estimation）看过自适应 update 的直觉。再往前走一步，读者就会陆续遇到 momentum、AdaGrad、RMSProp、Adam 这些 optimizer 家族。若把这些名字当成不同品牌去背，反而会把真正的核心弄得模糊。
 这一节的区分标准，是为了让读者以后即使再次遇到别的 optimizer 名字，也能继续用同一组问题去整理，而不是每次都把它们背成全新的算法。

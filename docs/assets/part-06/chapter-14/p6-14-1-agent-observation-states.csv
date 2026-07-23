@@ -1,0 +1,37 @@
+case_id,domain,observation_signal,model_observation_en,found_context,current_context,detail_missing,conflict_found,action_failed,approval_needed,sources_attached
+coding-01,coding,no_related_file,"The coding assistant has not found a related file for the login error yet.",false,false,false,false,false,false,false
+coding-02,coding,old_error_log,"The assistant found an old error log, but it may not describe the current failure.",true,false,false,false,false,false,false
+coding-03,coding,missing_test_context,"The assistant found the current source file, but the failing test context is still missing.",true,true,true,false,false,false,false
+coding-04,coding,new_test_failure,"The assistant changed code, but the next test run failed with a new error.",true,true,false,false,true,false,false
+coding-05,coding,security_sensitive_change,"The next change touches authentication security and should not be applied without review.",true,true,false,false,false,true,false
+coding-06,coding,patch_ready_without_test_note,"The patch looks ready, but the answer has not attached test evidence yet.",true,true,false,false,false,false,false
+coding-07,coding,verified_patch_with_notes,"The patch was verified and the answer already includes the source and test evidence.",true,true,false,false,false,false,true
+coding-08,coding,conflicting_test_results,"Two test runs disagree, so the assistant must compare the evidence before moving on.",true,true,false,true,false,false,false
+coding-09,coding,missing_dependency_trace,"The assistant saw a dependency error and still lacks the trace needed to choose a fix.",true,true,true,false,true,false,false
+coding-10,coding,permission_needed_for_prod_log,"The assistant needs production logs that require explicit permission.",true,true,false,false,false,true,false
+coding-11,coding,current_file_and_failing_test_found,"The current source file and failing test were found, but the final answer has no evidence attached yet.",true,true,false,false,false,false,false
+coding-12,coding,reproduced_failure_and_source_attached,"The failure was reproduced and the final answer already includes the related source evidence.",true,true,false,false,false,false,true
+research-01,research,no_document_found,"The research assistant has not found any relevant document yet.",false,false,false,false,false,false,false
+research-02,research,stale_policy_notice,"The assistant found a policy notice, but it is stale and not the current version.",true,false,false,false,false,false,false
+research-03,research,current_notice_without_appendix,"The assistant found the current notice, but the appendix with detailed conditions is missing.",true,true,true,false,false,false,false
+research-04,research,current_notice_and_appendix_conflict,"The current notice and appendix disagree on a key condition.",true,true,false,true,false,false,false
+research-05,research,private_policy_link,"The assistant found a private policy link that requires human approval before use.",true,true,false,false,false,true,false
+research-06,research,current_sources_ready_without_citation,"The current sources are ready, but the answer has not attached citations yet.",true,true,false,false,false,false,false
+research-07,research,cited_current_sources_ready,"The current sources are ready and citations have already been attached.",true,true,false,false,false,false,true
+research-08,research,search_api_timeout,"The document search API timed out before returning usable context.",false,false,false,false,true,false,false
+research-09,research,too_many_low_quality_hits,"The search returned many low quality hits and the assistant still lacks the needed detail.",true,false,true,false,false,false,false
+research-10,research,legal_wording_conflict,"The sources contain conflicting legal wording and the request should be reviewed before finalizing.",true,true,false,true,false,true,false
+research-11,research,latest_notice_and_rule_found,"The latest notice and rule were found, but the answer has not attached the evidence yet.",true,true,false,false,false,false,false
+research-12,research,summary_ready_with_sources,"The summary is ready and the answer already includes the supporting sources.",true,true,false,false,false,false,true
+workflow-01,workflow,no_ticket_context,"The workflow assistant has not found the ticket context for the urgent request yet.",false,false,false,false,false,false,false
+workflow-02,workflow,old_ticket_status,"The assistant found an old ticket status that may not reflect the current queue.",true,false,false,false,false,false,false
+workflow-03,workflow,calendar_missing_for_owner,"The owner was identified, but calendar information is still missing.",true,true,true,false,false,false,false
+workflow-04,workflow,calendar_api_failed,"The calendar API failed while checking the next step.",true,true,false,false,true,false,false
+workflow-05,workflow,owner_schedule_conflict,"The owner schedule conflicts with the requested urgent handling window.",true,true,false,true,false,false,false
+workflow-06,workflow,manager_approval_required,"The next workflow action requires manager approval.",true,true,false,false,false,true,false
+workflow-07,workflow,route_ready_without_audit_note,"The route is ready, but the answer has not attached an audit note yet.",true,true,false,false,false,false,false
+workflow-08,workflow,route_ready_with_audit_note,"The route is ready and the audit note is already attached.",true,true,false,false,false,false,true
+workflow-09,workflow,urgent_label_disagrees_with_content,"The urgent label disagrees with the actual ticket content.",true,true,false,true,false,false,false
+workflow-10,workflow,crm_permission_denied,"The CRM action failed because permission was denied and approval is required.",true,true,false,false,true,true,false
+workflow-11,workflow,owner_and_calendar_found,"The owner and calendar information were found, but the final evidence is not attached yet.",true,true,false,false,false,false,false
+workflow-12,workflow,completed_route_with_evidence,"The route is complete and the answer already includes the evidence.",true,true,false,false,false,false,true

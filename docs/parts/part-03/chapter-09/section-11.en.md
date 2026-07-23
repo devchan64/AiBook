@@ -1,7 +1,9 @@
-# P3-9.11 If There Are Multiple Target Candidates or the Criteria Change, What Should Be Fixed First
+# P3-9.11 Target Candidates and Changing Criteria
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What should be fixed first when there are multiple target candidates or the criteria keep changing?_
 
 In real data, only one target candidate may not be visible. Multiple candidates such as `review_needed`, `final_status`, `status_type`, and `priority_bucket` may appear together, and even a target with the same name may follow different judgment criteria at different times. In that state, the problem itself becomes unstable unless you first fix which one is the representative problem and which version of the current definition is in use. If there are multiple target candidates or the criteria change, you should first write which target is the representative one and what the current definition version is.
 

@@ -1,7 +1,9 @@
-# P5-14.4 RNN 的状态传递与 Transformer 的关系计算在并行处理中怎样分开
+# P5-14.4 RNN 状态传递与 Transformer 并行计算
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: 顺序状态传递与 token 关系计算在并行处理中如何分开？_
 
 P5-14.1 到 P5-14.3 看的是 Transformer block 内部更新表示的计算各自承担什么角色。现在要比较这种计算在一个序列内部按什么顺序执行。
 
@@ -163,12 +165,14 @@ print("[recurrent trace]")
 for step, name, snapshot in recurrent_trace:
     print(f"step {step}: {name:14s} state={snapshot}")
 
-print("\n[relation score matrix]")
+print("
+[relation score matrix]")
 print("shape =", relation_scores.shape)
 print("request row =", np.round(request_scores, 1).tolist())
 print("top related lines =", [(name, float(score)) for score, name in ranked[:3]])
 
-print("\n[batched relation scores]")
+print("
+[batched relation scores]")
 print("batch shape =", batch.shape)
 print("score tensor shape =", batch_scores.shape)
 ```

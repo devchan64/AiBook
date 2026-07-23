@@ -1,0 +1,25 @@
+request_id,user_request_ko,model_request_en,function_name,title,date,time,timezone,attendees,base_currency,quote_currency,amount,file_path,change_summary,recipient,subject,body,approval_required
+F01,내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.,Create a design review meeting tomorrow at 3 PM in Seoul time.,create_calendar_event,디자인 리뷰,tomorrow,15:00,Asia/Seoul,design@example.com,,,,,,,,,false
+F02,내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.,Schedule a team meeting tomorrow afternoon in Seoul time.,create_calendar_event,팀 회의,tomorrow,,Asia/Seoul,team@example.com,,,,,,,,,false
+F03,다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.,Schedule a hiring interview next Monday at 10 AM.,create_calendar_event,채용 인터뷰,next_monday,10:00,,hr@example.com,,,,,,,,,false
+F04,금요일 오후 2시에 제품 데모 일정을 민수에게 보내 주세요.,Create a product demo event on Friday at 2 PM and invite Minsu.,create_calendar_event,제품 데모,friday,14:00,Asia/Seoul,minsu@example.com,,,,,,,,,false
+F05,회의 제목과 참석자는 나중에 정하고 내일 4시에 일정을 잡아 주세요.,Create an event tomorrow at 4 PM and leave the title and attendees for later.,create_calendar_event,,tomorrow,16:00,Asia/Seoul,,,,,,,,,,false
+F06,서울 기준으로 다음 주 화요일 9시에 온보딩 미팅을 잡아 주세요.,Create an onboarding meeting next Tuesday at 9 AM in Seoul time.,create_calendar_event,온보딩 미팅,next_tuesday,09:00,Asia/Seoul,newhire@example.com,,,,,,,,,false
+F07,오늘 달러 300달러를 원화로 계산해 주세요.,Convert 300 USD to KRW using today's rate.,lookup_exchange_rate,,,,,,USD,KRW,300,,,,,,false
+F08,오늘 엔화 환율을 알려 주세요.,Look up today's JPY exchange rate.,lookup_exchange_rate,,,,,,JPY,,1,,,,,,false
+F09,유로 120유로를 원화로 바꿔 주세요.,Convert 120 EUR to KRW.,lookup_exchange_rate,,,,,,EUR,KRW,120,,,,,,false
+F10,오늘 환율로 원화 금액만 알려 주세요.,Use today's exchange rate and tell me the KRW amount.,lookup_exchange_rate,,,,,,USD,KRW,,,,,,,false
+F11,달러 환율을 조회해서 기준 시각도 알려 주세요.,Look up the USD/KRW rate and include the as-of time.,lookup_exchange_rate,,,,,,USD,KRW,1,,,,,,false
+F12,오늘 50파운드를 원화로 계산해 주세요.,Convert 50 GBP to KRW today.,lookup_exchange_rate,,,,,,GBP,KRW,50,,,,,,false
+F13,README의 설치 명령을 uv 기준으로 바꿔 주세요.,Update the README install command to use uv.,apply_file_patch,,,,,,,,,README.md,설치 명령을 uv 기준으로 수정,,,,false
+F14,chapter-13 section-02의 예제 설명을 더 자세히 풀어 주세요.,Expand the example explanation in chapter 13 section 02.,apply_file_patch,,,,,,,,,docs/parts/part-06/chapter-13/section-02.md,예제 설명 보강,,,,false
+F15,파일을 고쳐 주세요. 자세한 위치는 알아서 찾으세요.,Fix the file. Find the location yourself.,apply_file_patch,,,,,,,,,,수정 위치 불명확,,,,false
+F16,requirements에 chromadb를 추가해 주세요.,Add chromadb to requirements.,apply_file_patch,,,,,,,,,requirements.txt,chromadb 의존성 추가,,,,false
+F17,이 섹션의 오타를 고쳐 주세요.,Fix typos in this section.,apply_file_patch,,,,,,,,,docs/parts/part-06/chapter-13/section-02.md,,,,,false
+F18,배포 설정 파일에서 Part 6 목차를 정리해 주세요.,Clean up the Part 6 navigation in the deployment config.,apply_file_patch,,,,,,,,,mkdocs.yml,Part 6 nav 정리,,,,false
+F19,민수에게 회의록 초안을 보내 주세요.,Send Minsu a meeting notes draft.,send_email_draft,,,,,,,,,,,minsu@example.com,회의록 초안,오늘 회의록 초안입니다,true
+F20,팀에게 내일 일정 변경 메일을 작성해 주세요.,Draft an email to the team about tomorrow's schedule change.,send_email_draft,,,,,,,,,,,team@example.com,내일 일정 변경 안내,내일 일정이 변경되었습니다,false
+F21,이 내용을 고객에게 보내 주세요.,Send this to the customer.,send_email_draft,,,,,,,,,,,,고객 안내,,true
+F22,지원팀에 장애 공지를 보내 주세요.,Send an incident notice to support.,send_email_draft,,,,,,,,,,,support@example.com,장애 공지,,true
+F23,리뷰어에게 PR 설명을 보내 주세요.,Send the PR description to the reviewer.,send_email_draft,,,,,,,,,,,reviewer@example.com,PR 설명,변경 요약을 공유합니다.,false
+F24,외부 파트너에게 가격표를 보내 주세요.,Send the price list to the external partner.,send_email_draft,,,,,,,,,,,partner@example.com,가격표 공유,첨부 가격표를 확인해 주세요.,true

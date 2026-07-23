@@ -1,7 +1,9 @@
-# P2-7.6 Supplemental Learning: Using Terminals on Windows, macOS, and Linux
+# P2-7.6 Supplemental Learning: Opening Terminals by Operating System
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: Where do you enter commands and how do you check the current location on Windows, macOS, and Linux?_
 
 In P2-7.2, we looked at the concepts of a terminal, a shell, and a working directory. Here, we cover how to check those concepts on actual operating systems.
 

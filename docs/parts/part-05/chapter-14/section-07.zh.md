@@ -1,7 +1,9 @@
-# P5-14.7 补充学习：residual connection 为什么要留下原始表示的路径
+# P5-14.7 补充学习：保留原始表示的路径
 
 > Section ID: `P5-14.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: residual connection 如何把新计算结果与原始输入表示一起传下去？_
 
 在 P5-14.2 中，我们看到 Transformer block 里的 residual connection 会留下原始信息流。但如果只听到“把原始输入加回来”这个说法，就很容易把 residual connection 误解成简单的加法技巧，或者误解成跳过计算的 shortcut。
 

@@ -1,7 +1,7 @@
-# P4-17.3 Supplementary Learning: How To Distinguish Hierarchical Clustering And Spectral Clustering For The First Time
+# P4-17.3 Supplementary Learning: Hierarchical and Spectral Clustering
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 After looking at k-means and DBSCAN in P4-17.1, this question naturally remains.
 

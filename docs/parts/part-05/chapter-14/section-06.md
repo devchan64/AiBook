@@ -1,7 +1,9 @@
-# P5-14.6 보충학습: feed-forward network는 왜 위치별 표현 가공을 맡는가
+# P5-14.6 보충학습: 위치별 표현 가공
 
 > Section ID: `P5-14.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: feed-forward network는 attention 뒤에서 각 위치 표현을 어떻게 다시 가공하는가_
 
 P5-14.2에서는 Transformer 블록 안에서 feed-forward network가 self-attention과 다른 일을 맡는다고 보았습니다. 그런데 `attention이 이미 문맥을 섞었는데 왜 또 feed-forward가 필요한가?`라는 질문이 남습니다.
 
@@ -120,7 +122,8 @@ changed = positions.copy()
 changed[1] += np.array([0.0, 0.5, 0.0, 0.4])
 _, changed_output = ffn(changed)
 
-print("\n[change only restart position]")
+print("
+[change only restart position]")
 print("restart before/after =", np.round(output[1], 2), "->", np.round(changed_output[1], 2))
 print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[[0, 2]]))
 ```

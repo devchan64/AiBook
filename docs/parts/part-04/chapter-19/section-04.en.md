@@ -1,7 +1,9 @@
-# P4-19.4 Supplementary Learning: Reading DQN, PPO, And RLHF Inside The Larger Reinforcement-Learning Flow
+# P4-19.4 Supplementary Learning: A Map of Later Reinforcement-Learning Branches
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What problem concerns split DQN, PPO, and RLHF into later reinforcement-learning branches?_
 
 After reading P4-19.1 through P4-19.3, readers quickly encounter many more names when they study reinforcement learning further.
 

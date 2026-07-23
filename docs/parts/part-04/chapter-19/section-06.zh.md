@@ -1,7 +1,9 @@
-# P4-19.6 补充学习：如何第一次阅读 policy gradient 和 likelihood ratio trick
+# P4-19.6 补充学习：第一次读 policy gradient
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: likelihood ratio trick 如何把策略概率变化与期望奖励连接起来？_
 
 一旦开始读 P4-19.2 里的策略型强化学习(policy-based reinforcement learning)，下面这些名字很快就会跟着出现。
 

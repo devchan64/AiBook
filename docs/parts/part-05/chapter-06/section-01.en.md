@@ -1,7 +1,7 @@
-# P5-6.1 Training Loop: Forward, Loss, Backward, Optimizer Step
+# P5-6.1 The Four Steps of the Training Loop
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In Chapter P5-5, we saw how deep-learning models compute gradients through loss, backpropagation, and the computation graph. Once we reach this point, the next question remains naturally.
 

@@ -1,7 +1,9 @@
-# P2-7.8 Supplemental Learning: Reading Shell Scripts, Pipes, Redirection, and Environment Variables
+# P2-7.8 Supplemental Learning: Reading Shell Execution Flow
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What role do shell scripts, pipes, redirection, and environment variables play in command execution flow?_
 
 In P2-7.2 and P2-7.6, we covered opening a terminal and checking the current location. But once you follow real learning materials, you quickly encounter more unfamiliar expressions.
 

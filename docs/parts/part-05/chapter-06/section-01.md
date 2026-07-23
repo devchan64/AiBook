@@ -1,7 +1,7 @@
-# P5-6.1 학습 루프: forward, loss, backward, optimizer step
+# P5-6.1 학습 루프의 네 단계
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P5-5장에서는 손실(loss), 역전파(backpropagation), 계산 그래프(computation graph)를 통해 딥러닝 모델이 어떻게 gradient를 계산하는지 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 남습니다.
 

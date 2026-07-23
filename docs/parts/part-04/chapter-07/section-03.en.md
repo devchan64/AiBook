@@ -1,7 +1,9 @@
-# P4-7.3 Supplementary Learning: What Input Problems Do Missing Values, Scale, And Encoding Correspond To?
+# P4-7.3 Supplementary Learning: Separating Preprocessing Input Problems
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What input problem does missingness, scale, and encoding each start from?_
 
 In P4-7.2, the broad meaning of preprocessing was established as `the work of changing raw input into a representation the model can calculate with`. But when readers first learn preprocessing, confusion immediately appears. Some columns are empty, some have wildly different numeric magnitudes, and some are strings, so it is not always intuitive why all three are handled under the single word preprocessing.
 

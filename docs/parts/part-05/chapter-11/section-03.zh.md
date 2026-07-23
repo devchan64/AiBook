@@ -1,7 +1,7 @@
-# P5-11.3 补充学习：卷积神经网络（CNN）与视觉 Transformer（ViT, Vision Transformer）比较
+# P5-11.3 补充学习：比较 CNN 与 Vision Transformer
 
 > Section ID: `P5-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P5-11.1 与 P5-11.2 里，我们已经先看过：为什么卷积神经网络（CNN）特别适合图像，以及 convolution 和 pooling 分别承担什么角色。顺着这里，自然会出现下一个问题。
 

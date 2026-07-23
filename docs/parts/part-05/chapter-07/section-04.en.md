@@ -1,7 +1,7 @@
-# P5-7.4 Supplementary Reading: Convergence Guarantees And Claim Types In Adaptive Optimization
+# P5-7.4 Supplementary Reading: Distinguishing Adaptive Optimization Claims
 
 > Section ID: `P5-7.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P5-7.3, we saw what adaptive update is trying to additionally compensate beyond a basic update, and we looked at Adam as a representative example. If we go deeper from there, the next question remains.
 

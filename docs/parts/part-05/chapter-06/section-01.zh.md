@@ -1,7 +1,7 @@
-# P5-6.1 学习循环：forward、loss、backward、optimizer step
+# P5-6.1 学习循环的四个步骤
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P5-5 章里，我们已经看到：深度学习模型会通过损失（loss）、反向传播（backpropagation）和计算图（computation graph）来计算梯度（gradient）。走到这里以后，下一个问题会自然留下来。
 

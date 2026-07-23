@@ -1,7 +1,7 @@
-# P5-7.7 补充学习：optimizer state 与 parameter-wise update
+# P5-7.7 补充学习：optimizer state 与逐参数 update
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P5-7.3 里，一讲到自适应 update，`最近 gradient 流向`和`按坐标调节`这两个表达就不断出现。顺着这个解释，自然会留下一个问题：这些信息到底会被留在哪里？为什么即使当前 gradient 看起来一样，下一次 update 仍然会不同？
 

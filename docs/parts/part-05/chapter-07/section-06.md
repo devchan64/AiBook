@@ -1,7 +1,7 @@
-# P5-7.6 보충학습: learning rate scheduler, warmup, decay
+# P5-7.6 보충학습: 학습률 조절 전략
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P5-7.2에서는 learning rate를 `한 번의 update 보폭`으로 읽었습니다. 하지만 실제 학습 설정을 보다 보면 learning rate가 처음부터 끝까지 고정되지 않고, warmup, decay, cosine schedule 같은 이름으로 계속 바뀌는 장면을 만납니다.
 

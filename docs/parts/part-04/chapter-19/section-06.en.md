@@ -1,7 +1,9 @@
-# P4-19.6 Supplementary Learning: How To Read Policy Gradient And The Likelihood Ratio Trick For The First Time
+# P4-19.6 Supplementary Learning: First Reading of Policy Gradient
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How does the likelihood ratio trick connect changes in policy probability to expected reward?_
 
 Once readers study policy-based reinforcement learning in P4-19.2, the following names quickly appear.
 

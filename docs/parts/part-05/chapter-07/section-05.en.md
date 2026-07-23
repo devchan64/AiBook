@@ -1,7 +1,7 @@
-# P5-7.5 Supplementary Reading: Momentum, AdaGrad, RMSProp, Adam
+# P5-7.5 Supplementary Reading: Major Optimizer Families
 
 > Section ID: `P5-7.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P5-7.3, we looked at the intuition of adaptive update using Adam (Adaptive Moment Estimation) as an example. If we go one step further from there, the reader meets many optimizer families such as momentum, AdaGrad, RMSProp, and Adam. If these names start to be memorized like different brands, the real core becomes blurry instead.
 The distinction standard in this section helps the reader, even when different optimizer names appear again later, to organize them with the same question every time rather than memorizing them as entirely new algorithms.

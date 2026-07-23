@@ -1,7 +1,9 @@
-# P3-8.4 How Conservative Interpretation Sentences Become Warning Columns and Review-Queue Criteria
+# P3-8.4 Conservative Interpretation and Operational Columns
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How do interpretation sentences become warning columns and review-queue criteria?_
 
 After reading a comparison table, you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into `structured operational output` such as a [review queue](/AiBook/reference/concept-glossary/#glossary-review-queue). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
 

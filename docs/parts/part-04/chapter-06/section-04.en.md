@@ -1,7 +1,9 @@
-# P4-6.4 Supplementary Learning: How To Read ROC, PR, Log Loss, Calibration, And Silhouette For The First Time
+# P4-6.4 Supplementary Learning: A Question Map for Evaluation Metrics
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What evaluation question does ROC, PR, log loss, calibration, and silhouette answer?_
 
 P4-6.1 and P4-6.2 fixed the role of evaluation metrics and the differences by problem type. But once you start reading actual papers or library documentation, more unfamiliar names appear very quickly.
 

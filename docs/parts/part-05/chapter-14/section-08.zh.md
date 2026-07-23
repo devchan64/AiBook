@@ -1,7 +1,9 @@
-# P5-14.8 补充学习：layer normalization 为什么要对齐值的基准线
+# P5-14.8 补充学习：对齐数值基准线的归一化
 
 > Section ID: `P5-14.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: layer normalization 如何重新对齐一个位置表示内部的平均值和离散程度？_
 
 在 P5-14.2 中，我们看到 Transformer block 里的 layer normalization 会整理值范围。但 `normalization` 这个词很容易和输入预处理、batch normalization、regularization 混在一起。
 

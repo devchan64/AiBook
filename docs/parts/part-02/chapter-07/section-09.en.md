@@ -1,7 +1,7 @@
-# P2-7.9 Supplemental Learning: How to Check Common Local Python Environment Problems
+# P2-7.9 Supplemental Learning: Checking Local Python Environment Problems
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-7.4, we looked at virtual environments and packages, and in P2-7.5, we looked at dependency and reproducibility. In P2-7.7 and P2-7.8, we separately organized Python installation and environment variables.
 

@@ -1,7 +1,9 @@
-# P4-6.4 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법
+# P4-6.4 보충학습: 평가 지표 질문 지도
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: ROC, PR, log loss, calibration, silhouette는 각각 어떤 평가 질문에 답하는가_
 
 P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 잡았습니다. 그런데 실제 문서나 라이브러리 문서를 읽다 보면 곧 더 낯선 이름이 나옵니다.
 

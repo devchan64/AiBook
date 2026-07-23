@@ -1,7 +1,9 @@
-# P5-8.3 Supplementary Reading: Conditions That Keep Deep Computation From Shaking - Initialization, Numerical Stability, And Batch Normalization
+# P5-8.3 Supplementary Learning: Stabilizing Deep Computation
 
 > Section ID: `P5-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How do initialization, numerical stability, and batch normalization stabilize deep networks at different points?_
 
 In P5-8.1 and P5-8.2, we saw how to add objective-function control and structure-level control to the learning loop. But even when such control is added, learning can still shake if the deep computation itself is unstable. In P5-6.4, we saw why dropout and batch normalization are sensitive to the difference between training mode and evaluation mode. On top of that background, we add one more question that often remains for beginners.
 

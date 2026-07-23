@@ -1,7 +1,7 @@
-# P4-15.4 补充学习：如何第一次比较 Extra Trees 与随机森林
+# P4-15.4 补充学习：比较 Extra Trees 与随机森林
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P4-15.1 学完随机森林(random forest)之后， 读者很快也会遇到一个名字相近的模型：Extra Trees(Extremely Randomized Trees)。 因为这两者都像是 `把很多树聚起来再取平均的森林`， 所以一开始很容易把它们当成几乎一样的模型。
 

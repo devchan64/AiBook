@@ -1,7 +1,9 @@
-# P5-14.6 补充学习：feed-forward network 为什么负责按位置表示加工？
+# P5-14.6 补充学习：按位置加工表示
 
 > Section ID: `P5-14.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: feed-forward network 如何在 attention 之后再次加工每个位置的表示？_
 
 在 P5-14.2 中，我们看到 Transformer block 里的 feed-forward network 和 self-attention 负责不同工作。不过还会留下一个问题：`attention 已经混入上下文了，为什么还需要 feed-forward？`
 
@@ -120,7 +122,8 @@ changed = positions.copy()
 changed[1] += np.array([0.0, 0.5, 0.0, 0.4])
 _, changed_output = ffn(changed)
 
-print("\n[change only restart position]")
+print("
+[change only restart position]")
 print("restart before/after =", np.round(output[1], 2), "->", np.round(changed_output[1], 2))
 print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[[0, 2]]))
 ```

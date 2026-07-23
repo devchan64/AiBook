@@ -1,7 +1,7 @@
-# P2-7.9 보충학습: 자주 막히는 로컬 Python 환경 문제를 점검하는 법
+# P2-7.9 보충학습: 로컬 Python 환경 문제 점검
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤고, P2-7.5에서는 의존성(dependency)과 재현성(reproducibility)을 봤습니다. P2-7.7과 P2-7.8에서는 Python 설치와 환경 변수(environment variable)를 따로 정리했습니다.
 

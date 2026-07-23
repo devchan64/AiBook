@@ -1,7 +1,9 @@
-# P5-14.1 为什么 Transformer 不能只用 attention 来解释？
+# P5-14.1 不能只靠 attention 解释的 Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: 为什么 Transformer 应该读成 block 结构，而不是只有 self-attention？_
 
 在 P5-13.2 里，我们已经看到 self-attention 是同一序列里的 token 彼此重新参考并更新表示的方式。这里马上会出现下一个问题。
 

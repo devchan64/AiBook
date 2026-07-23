@@ -1,7 +1,9 @@
-# P5-14.8 보충학습: layer normalization은 왜 값의 기준선을 맞추는가
+# P5-14.8 보충학습: 값의 기준선을 맞추는 정규화
 
 > Section ID: `P5-14.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: layer normalization은 한 위치 표현 안의 평균과 퍼짐을 어떻게 다시 맞추는가_
 
 P5-14.2에서는 Transformer 블록 안에서 layer normalization이 값 범위를 정리한다고 보았습니다. 그런데 `정규화(normalization)`라는 말은 입력 전처리, 배치 정규화(batch normalization), 정규화(regularization)와 쉽게 섞입니다.
 

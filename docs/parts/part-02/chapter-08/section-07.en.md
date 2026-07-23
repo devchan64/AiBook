@@ -1,7 +1,7 @@
-# P2-8.7 Supplemental Learning: How to First Distinguish References, Shallow Copy, and Deep Copy
+# P2-8.7 Supplemental Learning: Distinguishing References and Copies
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P2-8.2, we saw that assigning a list to another name does not automatically create a new copy. Many readers get confused immediately at this point.
 

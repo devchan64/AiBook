@@ -1,7 +1,7 @@
-# P5-7.6 Supplementary Reading: Learning Rate Scheduler, Warmup, Decay
+# P5-7.6 Supplementary Reading: Learning-Rate Control Strategies
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P5-7.2, we read the learning rate as `the stride length of one update`. But once we look at actual training settings, we meet scenes where the learning rate is not fixed from beginning to end and instead keeps changing under names such as warmup, decay, and cosine schedule.
 

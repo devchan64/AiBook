@@ -1,7 +1,9 @@
-# P5-14.1 Transformer는 왜 attention 하나로 설명되지 않는가
+# P5-14.1 attention만으로 닫히지 않는 Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: Transformer는 왜 self-attention 하나가 아니라 블록 구조로 읽어야 하는가_
 
 P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 안 토큰들이 서로를 다시 참고해 표현을 갱신하는 방식이라고 보았습니다. P5-13.3에서는 그 직관을 쿼리-키-값(query-key-value, QKV)과 멀티헤드 어텐션(multi-head attention)이라는 계산 이름으로 다시 읽었습니다. 여기서 바로 생기는 질문은 이것입니다.
 

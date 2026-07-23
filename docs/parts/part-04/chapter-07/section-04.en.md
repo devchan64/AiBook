@@ -1,7 +1,7 @@
-# P4-7.4 Supplementary Learning: How To First Distinguish Filter, Wrapper, And Dimensionality Reduction
+# P4-7.4 Supplementary Learning: Distinguishing Feature Selection Methods
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 From P4-7.1 to P4-7.3, the discussion chose features, separated input-representation problems, and established the basic judgment for preprocessing. In practice, however, the reader soon meets names such as the following.
 

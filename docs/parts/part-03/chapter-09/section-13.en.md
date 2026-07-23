@@ -1,7 +1,9 @@
-# P3-9.13 Why Must Time Boundaries, Entity Boundaries, Information Boundaries, and Output Format Be Closed Together Right Now
+# P3-9.13 Problem Boundaries to Hand Off to Part 4
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: Why must time, entity, information, and output-format boundaries be closed together before handing off a prediction problem?_
 
 If the structure has been organized enough to sort out the current problem type, there is one final set of boundaries that still must be closed together. Is time order important? Should the same entity be prevented from mixing across both sides? Has information from after prediction time leaked into the inputs? Is the real output closer to ranking or a continuous value than to simple 0/1 classification? What matters here is not expanding the list of terms, but checking whether the current problem structure stands without contradiction in front of these boundaries.
 

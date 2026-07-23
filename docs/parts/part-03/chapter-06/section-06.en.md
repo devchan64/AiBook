@@ -1,7 +1,9 @@
-# P3-6.6 Why the Same Column Name May Still Not Mean the Same Feature When the Measurement Rule or Unit Changes
+# P3-6.6 Same Column Name, Different Feature
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: Why can a column with the same name become a different feature when its measurement rule or unit changes?_
 
 There is one more trap that is easy to miss while designing features. It appears the moment we think `if the column name is the same, it must be the same feature`. But in real data, even under the same name `flow_mean`, the sensor version may have changed, the unit may have changed, or the calculation rule may have changed. Once such changes happen, the numbers may still exist, yet it becomes difficult to say that it is still the same feature.
 

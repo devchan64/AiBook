@@ -1,7 +1,9 @@
-# P5-8.3 补充学习：让深层计算不再摇晃的条件 - 初始化（initialization）、数值稳定性（numerical stability）、批归一化（batch normalization）
+# P5-8.3 补充学习：深层计算的稳定条件
 
 > Section ID: `P5-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: 初始化、数值稳定性与批归一化分别在什么位置让深层网络更稳定？_
 
 在 P5-8.1 和 P5-8.2 里，我们已经看过：怎样在学习循环里加入目标函数控制和结构层面的控制。但即使加上这些控制，只要深层计算本身仍然不稳定，学习还是会继续摇晃。在 P5-6.4 里，我们也已经看到：为什么 dropout 和 batch normalization 会对 training mode 与 evaluation mode 的差异这么敏感。现在沿着这个背景，再补上一条初学者经常会留下的问题。
 

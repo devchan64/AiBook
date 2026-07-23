@@ -1,7 +1,7 @@
-# P5-7.7 Supplementary Reading: Optimizer State And Parameter-Wise Update
+# P5-7.7 Supplementary Reading: Optimizer State and Per-Parameter Updates
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P5-7.3, when we looked at adaptive updates, the expressions `recent gradient flow` and `coordinate-wise adjustment` kept appearing. The natural question left from there is this. Where is that kind of information left, and why can the next update differ even when the same gradient comes in?
 

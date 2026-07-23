@@ -1,7 +1,9 @@
-# P5-14.4 How Do RNN State Passing and Transformer Relation Computation Split in Parallel Processing?
+# P5-14.4 RNN State Passing and Transformer Parallel Computation
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How do sequential state passing and token-relation computation split in parallel processing?_
 
 P5-14.1 through P5-14.3 looked at the roles of computations that update representations inside the Transformer block. Now we need to compare how that computation is executed within one sequence.
 
@@ -163,12 +165,14 @@ print("[recurrent trace]")
 for step, name, snapshot in recurrent_trace:
     print(f"step {step}: {name:14s} state={snapshot}")
 
-print("\n[relation score matrix]")
+print("
+[relation score matrix]")
 print("shape =", relation_scores.shape)
 print("request row =", np.round(request_scores, 1).tolist())
 print("top related lines =", [(name, float(score)) for score, name in ranked[:3]])
 
-print("\n[batched relation scores]")
+print("
+[batched relation scores]")
 print("batch shape =", batch.shape)
 print("score tensor shape =", batch_scores.shape)
 ```

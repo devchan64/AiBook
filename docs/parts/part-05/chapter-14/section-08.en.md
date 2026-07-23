@@ -1,7 +1,9 @@
-# P5-14.8 Supplementary Learning: Why Does Layer Normalization Align the Value Baseline?
+# P5-14.8 Supplementary Learning: Normalization That Aligns the Value Baseline
 
 > Section ID: `P5-14.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How does layer normalization realign the mean and spread inside one position representation?_
 
 In P5-14.2, we saw that layer normalization organizes the value range inside a Transformer block. But the word `normalization` is easily confused with input preprocessing, batch normalization, and regularization.
 

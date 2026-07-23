@@ -1,7 +1,9 @@
-# P3-9.6 What Should Be Done If the Same Event Receives Different Labels by Person or Time
+# P3-9.6 Checking Label Consistency
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What should be checked first when the same event receives different labels by person or time?_
 
 Just because a label-candidate column exists does not mean you can immediately call it a stable learning problem. In real data, two reviewers can describe the same event differently, and something treated as `caution` last month can be recorded as `normal` this month. So when reading a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate), you need to check not only `does a column exist`, but also `does the same meaning repeat for the same event and similar conditions`.
 

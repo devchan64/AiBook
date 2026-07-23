@@ -1,7 +1,9 @@
-# P5-14.1 Why Can't The Transformer Be Explained By Attention Alone?
+# P5-14.1 Why Attention Alone Does Not Close the Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: Why should the Transformer be read as a block structure, not just as self-attention?_
 
 In P5-13.2, we saw that self-attention is a method in which tokens inside the same sequence reread one another and update their representations. The immediate next question is this.
 

@@ -1,7 +1,7 @@
-# P2-7.9 补充学习：如何检查常见的本地 Python 环境问题
+# P2-7.9 补充学习：检查本地 Python 环境问题
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P2-7.4 中，我们看过虚拟环境（virtual environment）与包（package）；在 P2-7.5 中，我们看过依赖（dependency）与可复现性（reproducibility）。在 P2-7.7 和 P2-7.8 中，我们又分别整理了 Python 安装与环境变量（environment variable）。
 

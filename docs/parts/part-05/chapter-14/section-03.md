@@ -1,7 +1,9 @@
-# P5-14.3 residual과 normalization은 깊은 반복을 어떻게 안정화하는가
+# P5-14.3 깊은 반복을 안정화하는 두 장치
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: residual과 normalization은 정보 흐름과 값 범위를 어떻게 나누어 안정화하는가_
 
 P5-14.2에서는 현재 표현이 attention과 feed-forward를 지나 residual 이후 어떤 방향으로 남는지 보았습니다. 그런데 Transformer 블록은 새 계산만 계속 쌓지 않습니다. 원래 표현을 남기고, 값 범위를 정리하는 안정화 장치를 함께 둡니다.
 

@@ -1,7 +1,9 @@
-# P5-14.7 보충학습: residual connection은 왜 원래 표현의 길을 남기는가
+# P5-14.7 보충학습: 원래 표현을 남기는 경로
 
 > Section ID: `P5-14.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: residual connection은 새 계산 결과와 원래 입력 표현을 어떻게 함께 넘기는가_
 
 P5-14.2에서는 Transformer 블록 안에서 residual connection이 원래 정보 흐름을 남긴다고 보았습니다. 그런데 `원래 입력을 더한다`는 설명만 들으면 residual connection을 단순한 덧셈 기법이나 계산을 건너뛰는 shortcut으로 오해하기 쉽습니다.
 

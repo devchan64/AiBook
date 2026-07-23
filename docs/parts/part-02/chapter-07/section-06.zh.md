@@ -1,7 +1,9 @@
-# P2-7.6 补充学习：Windows、macOS、Linux 终端使用方法
+# P2-7.6 补充学习：不同操作系统中的终端入口
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: 在 Windows、macOS、Linux 中，命令输入在哪里，当前位置又该如何确认？_
 
 在 P2-7.2 中，我们看过终端（terminal）、shell、工作文件夹（working directory）的概念。这里要处理的是，如何在实际操作系统中确认这些概念。
 

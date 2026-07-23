@@ -1,7 +1,7 @@
-# P5-13.3 Supplementary Reading: Query-Key-Value (QKV) And Multi-Head Attention
+# P5-13.3 Supplementary Reading: QKV and Multi-Head Attention
 
 > Section ID: `P5-13.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P5-13.1 and P5-13.2, we first fixed the intuition of attention and self-attention. Once we have read this far, the next question appears naturally.
 

@@ -1,7 +1,7 @@
-# P5-7.4 补充学习：adaptive optimization 的收敛保证与主张区分
+# P5-7.4 补充学习：区分 adaptive optimization 的主张
 
 > Section ID: `P5-7.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P5-7.3 里，我们已经把自适应 update 想补的是什么，以及 Adam 为何常被拿来当代表例子看过一遍。继续往里走，就会留下一个更深的问题。
 

@@ -1,28 +1,23 @@
-# P6-14.1 에이전트는 언제 다음 행동을 다시 고르는 목표 흐름이 되는가
+# P6-14.1 에이전트는 어떻게 관찰을 보고 다음 행동을 고르는가
 
 > Section ID: `P6-14.1`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
 
 P6-13.2에서는 함수 호출(function calling)이 도구 사용을 구조화된 형식으로 표현하는 방식이라는 점을 보았습니다. 이제 질문은 도구 호출이 한 번으로 끝나지 않고, 여러 단계 작업을 이어 가야 할 때 무엇이라고 보아야 하는가로 커집니다.
 
 에이전트(agent)는 목표를 받고, 필요한 하위 작업을 이어 가며, 도구 사용과 관찰을 반복해 결과를 만드는 작업 구조다.
 
-## 한 번의 호출에서 목표 흐름으로
+## 단일 호출과 목표 흐름의 차이
 
 에이전트를 이해할 때 닫아야 할 문제는 `목표를 여러 단계로 이어 가는 실행 구조`와 단일 도구 호출을 구분하는 것입니다. 앞 장의 tool use가 `무엇을 한 번 조회하거나 실행할까`를 다뤘다면, agent는 여러 도구 호출과 문서 읽기 결과를 어떤 순서로 이어 붙이고 언제 멈추거나 다시 시도할지를 다룹니다.
 
 따라서 agent를 넓은 제품 이름으로 잡기보다 `중간 결과를 보고 다음 행동이 바뀌는 목표 흐름`으로 읽는 편이 안전합니다. P6-13.2의 function calling이 한 번의 실행 요청을 검증 가능한 구조로 넘기는 문제였다면, agent는 여러 호출과 읽기를 어떤 순서로 이어 갈지와 상태 관리를 다룹니다. 루프가 실제로 어떻게 계획, 행동, 관찰로 움직이는지는 P6-14.2에서 더 자세히 봅니다.
 
-여기서 남겨야 할 기록은 단계 계획, 중간 관찰 메모, 다음 단계, 종료 이유입니다. 이 기록이 있어야 다음 행동이 왜 바뀌었는지, 흐름 단위 실패가 어디서 생겼는지, 사람 검토나 재시도로 넘긴 이유가 무엇인지 나중에 다시 읽을 수 있습니다.
+여기서 남겨야 할 기록은 단계 계획, 중간 관찰 메모, 다음 단계입니다. 이 기록이 있어야 다음 행동이 왜 바뀌었는지, 흐름 단위 실패가 어디서 생겼는지 나중에 다시 읽을 수 있습니다. 어디서 멈추고 사람 검토로 넘길지는 바로 다음 P6-14.2에서 더 구체적으로 봅니다.
 
-## 한 번의 응답과 목표 흐름의 구분
+## 에이전트로 읽어야 하는 장면
 
-- 에이전트를 입문 수준에서 설명할 수 있습니다.
-- 프롬프트, RAG, tool use와 agent의 차이를 말할 수 있습니다.
-- 에이전트가 왜 여러 단계와 상태(state)를 다루는 구조인지 설명할 수 있습니다.
-- agent 흐름이 계획, 행동, 관찰 루프로 구체화된다는 점을 말할 수 있습니다.
-
-여기서 고정할 구분은 agent를 새로운 제품 이름처럼 외우는 일이 아니라, 어떤 장면에서 `도구를 여러 개 썼다`와 `중간 결과를 보고 다음 행동이 바뀐다`를 갈라 읽는 일입니다.
+여기서 고정할 구분은 agent를 새로운 제품 이름처럼 외우는 일이 아니라, 어떤 장면에서 `도구를 여러 개 썼다`와 `중간 결과를 보고 다음 행동이 바뀐다`를 갈라 읽는 일입니다. 한 번의 답변이 길다고 해서 곧바로 agent가 되는 것은 아닙니다. 반대로 출력은 짧아도, 그 출력에 이르기까지 검색 결과를 보고 다시 찾고, 도구 실행 결과를 보고 다른 도구를 고르고, 실패하면 멈추거나 사람에게 넘기는 흐름이 있으면 agent 구조에 가까워집니다.
 
 | 먼저 보인 장면 | agent로 먼저 읽어야 하는가 | 왜 이렇게 갈라지는가 |
 | --- | --- | --- |
@@ -32,17 +27,11 @@ P6-13.2에서는 함수 호출(function calling)이 도구 사용을 구조화�
 
 이 표를 잡고 아래의 agent 설명, 상태(state), 사례를 읽으면, agent를 `도구를 많이 쓰는 것`보다 `다음 단계 선택이 계속 바뀌는 목표 흐름`으로 더 쉽게 붙잡을 수 있습니다.
 
-## 에이전트는 무엇을 더하나
+## 읽기와 실행을 목표 순서로 묶는 구조
 
-- 프롬프트는 입력 설계입니다.
-- RAG는 외부 문서를 찾아 붙이는 구조입니다.
-- tool use는 외부 기능을 호출하는 구조입니다.
+프롬프트(prompt)는 입력을 설계합니다. RAG는 외부 문서를 찾아 답변 근거로 붙입니다. Tool use는 외부 기능을 호출합니다. Function calling은 그 호출을 이름과 인자 구조로 정리합니다.
 
-에이전트에서 새로 중요해지는 것은 여러 단계의 연결입니다. 한 번의 도구 호출과 달리 중간 결과를 보고 다음 행동을 바꾸며, 중심도 한 번의 답변에서 목표 중심 워크플로우로 이동합니다.
-
-그러면 agent는 무엇을 더할까요?
-
-핵심은 `여러 단계를 이어 가는 것`입니다.
+에이전트에서 새로 중요해지는 것은 이 요소들을 `목표 흐름` 안에 배치하는 일입니다. 한 번의 도구 호출과 달리 중간 결과를 보고 다음 행동을 바꾸며, 중심도 한 번의 답변에서 목표 중심 워크플로우로 이동합니다. 그래서 agent를 이해할 때는 `무엇을 한 번 실행했는가`보다 `현재 상태를 보고 다음에 무엇을 하기로 골랐는가`를 먼저 봐야 합니다.
 
 예를 들어 어떤 목표가:
 
@@ -57,9 +46,7 @@ P6-13.2에서는 함수 호출(function calling)이 도구 사용을 구조화�
 
 즉, 에이전트는 `한 번의 응답`보다 `목표를 향한 작업 흐름`에 중심이 있습니다.
 
-서비스 구조 관점으로 보면, 프롬프트는 `어떻게 물을까`, RAG는 `무엇을 읽을까`, tool use는 `무엇을 실행할까`를 다룹니다. agent는 여기에 `어떤 순서로 이어 갈까`를 더합니다.
-
-## 왜 단순 챗봇과 같은 말이 아닌가
+## 대화 인터페이스와 작업 조율 구조의 차이
 
 종종 agent를 `더 똑똑한 챗봇` 정도로 이해합니다. 하지만 더 안전한 설명은 다음과 같습니다.
 
@@ -75,48 +62,17 @@ P6-13.2에서는 함수 호출(function calling)이 도구 사용을 구조화�
 
 이런 흐름은 단순한 한 번의 답변보다 `작업 조율 구조`에 더 가깝습니다.
 
-## 프롬프트, RAG, tool use와 어떻게 다른가
-
-| 구조 | 중심 역할 |
-| --- | --- |
-| 프롬프트(prompt) | 입력을 설계한다 |
-| RAG | 관련 문서를 찾아 답변 근거로 붙인다 |
-| tool use | 외부 기능을 호출한다 |
-| agent | 여러 단계 작업을 목표 중심으로 이어 간다 |
-
-즉, agent는 앞선 구조들을 포함할 수 있습니다. 프롬프트도 쓰고, RAG도 쓰고, 도구도 쓸 수 있습니다. 하지만 그 자체로는 각각과 다른 `상위 작업 구조`입니다.
-
-같은 차이를 `한 번의 요청`과 `계속 이어지는 목표`로 다시 압축하면 다음과 같습니다.
-
-| 구조 | 주로 닫히는 단위 | 다음 판단이 필요한가 |
-| --- | --- | --- |
-| RAG | 한 번의 근거 붙은 답변 | 보통 아니다 |
-| tool use | 한 번의 조회/계산/실행 | 경우에 따라 아니다 |
-| agent | 여러 단계가 이어지는 목표 | 그렇다 |
-
-- 프롬프트는 입력 단위
-- RAG와 tool use는 기능 단위
-- agent는 흐름 단위
-
-같은 차이를 `무엇을 읽고`, `무엇을 실행하고`, `무엇을 결정하나`로 다시 보면 다음처럼 더 짧게 잡을 수 있습니다.
+## 프롬프트·RAG·tool use·agent의 층위
 
 | 구조 | 먼저 다루는 대상 | 바로 필요한 판단 | 결과가 닫히는 방식 |
 | --- | --- | --- | --- |
+| 프롬프트(prompt) | 사용자 입력과 지시 | 어떻게 물을까 | 한 번의 모델 응답 |
 | RAG | 문서와 근거 | 어떤 문서를 붙일까 | 근거가 붙은 답변 |
 | tool use | 외부 기능 | 어떤 기능을 호출할까 | 조회값, 계산값, 실행 결과 |
+| function calling | 도구 호출 형식 | 어떤 이름과 인자로 넘길까 | 검증 가능한 호출 요청 |
 | agent | 여러 단계 상태 | 다음에 무엇을 하고 언제 멈출까 | 목표를 향해 이어지는 작업 흐름 |
 
 이 표의 핵심은 agent가 단순히 도구를 더 많이 붙인 버전이 아니라, `다음 단계 선택` 자체를 중심 문제로 바꾼다는 점입니다. 그래서 agent 설명은 기능 목록을 늘리는 일이 아니라, 앞의 읽기와 실행을 `목표 기준 순서 결정`으로 다시 묶는 일입니다.
-
-바로 앞 장과 연결한 최소 경계는 다음 표처럼 다시 잡을 수 있습니다.
-
-| 지금까지 본 구조 | 핵심 역할 | agent가 여기서 더하는 것 |
-| --- | --- | --- |
-| RAG | 읽을 근거 문서를 붙인다 | 어떤 문서를 언제 다시 찾을지 순서를 바꾼다 |
-| tool use | 계산, 조회, 실행 기능을 부른다 | 어떤 도구를 언제 다시 쓰거나 멈출지 결정한다 |
-| function calling | 도구 호출을 구조화한다 | 여러 호출을 목표 기준으로 이어 붙인다 |
-
-즉, agent는 앞 절들을 대체하는 새 기능명이 아니라, 앞 절의 읽기와 실행 구조를 `다음 단계 선택`까지 포함하는 흐름으로 묶는 상위 작업 구조입니다.
 
 Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습니다.
 
@@ -127,7 +83,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 | agent | 여러 읽기와 실행을 어떤 목표 흐름으로 이어 갈까? | 그 흐름을 어떤 공통 연결 형식과 실행 기록 안에 둘까 |
 | MCP / harness | 연결을 어떤 형식으로 드러내고 실행을 어떤 기록으로 남길까? | 남긴 기록을 어떤 평가와 운영 판단으로 읽을까 |
 
-## 왜 상태(state)가 중요해지나
+## 상태(state)가 없으면 다음 행동도 흔들린다
 
 여러 단계 작업을 이어 가려면 시스템은 중간 상태를 알아야 합니다.
 
@@ -144,7 +100,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 이 점 때문에 agent 설명에서는 `왜?`라는 질문에 답하기 위해 현재 단계, 이전 결과, 남은 목표를 함께 봐야 합니다.
 
-## 왜 실무에서 중요해졌나
+## 실무 요청이 단일 답변을 넘어설 때
 
 구분해야 할 점은 `설명을 한 번 돌려주는 일`과 `여러 단계 작업을 끝까지 이어 가는 일`이 같은 문제가 아니라는 것입니다. 그래서 agent가 필요한 장면은 보통 다음처럼 `중간 결과를 보고 다음 행동을 다시 골라야 하는가`로 드러납니다.
 
@@ -165,7 +121,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 같은 곳에서 agent 구조가 두드러집니다.
 
-## 에이전트도 만능은 아니다
+## 목표 흐름이 늘리는 운영 복잡도
 
 이 점도 반드시 같이 넣어야 합니다.
 
@@ -187,7 +143,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 즉, agent는 능력을 넓히는 동시에 운영 복잡도도 크게 키웁니다.
 
-## 아주 단순하게 그리면
+## 목표에서 관찰로 이어지는 기본 흐름
 
 ```mermaid
 --8<-- "assets/part-06/chapter-14/p6-c14-s01-agent-flow-ko.mmd"
@@ -195,7 +151,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 이 도식의 핵심은 agent가 `질문 -> 답변` 한 번으로 끝나는 구조가 아니라, `목표 -> 단계 선택 -> 실행 -> 관찰`의 반복 구조라는 점입니다.
 
-## 사례 및 예시
+## 중간 관찰이 행동을 바꾸는 사례
 
 ### 사례 1. 코딩 에이전트
 
@@ -241,33 +197,13 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 | 문서 조사 | 최신 근거 정리 | 검색어, 날짜 필터, 읽기 우선순위 | 첫 검색 결과로 바로 끝내면 오래된 근거가 남을 수 있어서 |
 | 업무 자동화 | 긴급 문의 처리 | 우선순위, 담당자, 일정 충돌 처리 | 여러 시스템 결과를 보고 순서를 계속 바꿔야 해서 |
 
-세 사례를 관찰-행동 연결 기준으로 다시 묶으면 다음과 같습니다.
-
-| 상황 | 다음 행동을 바꾸는 관찰 신호 | 그 신호 뒤에 실제로 바뀌어야 하는 것 |
-| --- | --- | --- |
-| 코딩 보조 | 테스트 실패, 새 오류 로그 | 다음 패치 방향과 검증 순서 |
-| 문서 조사 | 오래된 문서, 근거 부족 | 검색어, 날짜 필터, 읽기 우선순위 |
-| 업무 자동화 | 일정 충돌, 긴급도 재분류 | 처리 순서와 담당자 선택 |
-
-## 다음 행동이 바뀌는 장면
+## 도구 개수보다 관찰에 따른 변화
 
 에이전트를 처음 읽을 때 가장 자주 놓치는 것은 `도구를 여러 개 쓴다`는 사실만 보고도 곧바로 agent라고 부르는 점입니다. 하지만 핵심은 도구 개수가 아니라 `중간 결과를 보고 다음 행동이 실제로 바뀌는가`에 있습니다.
 
-| 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그것이 agent 판단의 핵심인가 |
-| --- | --- | --- |
-| 검색하고 끝내는 한 번의 답변처럼 보임 | 중간 결과 뒤에 다음 선택이 실제로 생기는가 | 한 번의 읽기나 실행으로 닫히면 agent보다 단일 호출 구조에 가깝기 때문입니다. |
-| 도구는 여러 개 쓰지만 순서가 항상 고정돼 있음 | 관찰 결과에 따라 순서나 다음 단계가 바뀌는가 | 단순 파이프라인과 목표 흐름 구조를 가르는 기준이기 때문입니다. |
-| 실패가 났을 때 다시 시도하거나 사람에게 넘겨야 함 | 멈춤, 재시도, handoff 기준이 드러나는가 | agent는 진행만이 아니라 언제 멈출지도 구조 안에 포함해야 하기 때문입니다. |
+먼저 던질 질문은 단순합니다. 검색하고 끝내는 한 번의 답변처럼 보인다면 중간 결과 뒤에 다음 선택이 실제로 생기는지 봅니다. 도구를 여러 개 쓰지만 순서가 항상 고정돼 있다면 관찰 결과에 따라 순서나 다음 단계가 바뀌는지 봅니다. 실패가 났을 때는 같은 순서를 밀어붙이는지, 아니면 다시 찾기나 재시도 같은 다른 행동으로 바뀌는지 봅니다.
 
-같은 기준을 더 짧은 실무 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
-
-| 이런 의심이 들면 | 먼저 던질 질문 |
-| --- | --- |
-| `도구를 여러 개 쓰니까 agent 아닌가?` | 다음 행동이 중간 관찰 때문에 실제로 달라지는가? |
-| `흐름은 길지만 그냥 순서 실행 같은데?` | 상태를 보고 재계획하는 단계가 있는가? |
-| `끝까지 돌리면 위험할 수도 있겠다` | 어디서 멈추고 사람 검토로 넘길지 기준이 있는가? |
-
-먼저 익혀야 하는 기준은 단순합니다. agent는 `도구가 많은 시스템`이 아니라, `중간 관찰`, `다음 행동 선택`, `멈춤과 handoff`를 포함해 목표를 끝까지 이어 가는 작업 흐름 구조입니다.
+먼저 익혀야 하는 기준은 `도구가 많은 시스템인가`가 아니라 `중간 관찰이 다음 행동 선택을 바꾸는가`입니다. 멈춤과 사람 검토의 세부 기준은 P6-14.2에서 계획, 행동, 관찰 루프와 함께 더 자세히 봅니다.
 
 같은 내용을 작업 흐름 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
@@ -277,179 +213,251 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 핵심은 `답변 한 번`이 아니라 `상태를 갱신하며 다음 행동을 다시 고르는 반복`입니다.
 
-## 연습 및 예제
+## 모델 제안과 guard 최종 행동 비교
 
-예제의 목표는 실제 에이전트 프레임워크 전체를 구현하는 것이 아니라, 하나의 목표가 들어왔을 때 `검색`, `읽기`, `요약`, `출처 부착` 같은 여러 작업 단계와 상태로 풀리고, 그 상태에 따라 다음 계획이 실제로 다시 짜이는 장면을 눈으로 확인하는 것입니다.
+예제의 목표는 실제 에이전트 프레임워크 전체를 구현하는 것이 아닙니다. 여기서 확인할 것은 관찰 결과가 달라지면 다음 행동도 달라져야 한다는 점입니다. 코딩 보조, 문서 조사, 업무 자동화는 서로 다른 작업이지만 agent 관점에서는 모두 현재 상태를 보고 다음 행동을 고르는 문제로 다시 읽을 수 있습니다. 관련 맥락을 못 찾은 상태, 오래된 맥락만 있는 상태, 근거가 부족한 상태, 실행이 실패한 상태, 사람 검토가 필요한 상태는 서로 다른 다음 행동을 요구합니다.
 
-사용자는 최신 환불 정책을 요약하고 출처까지 붙인 답을 원합니다. 이 목표는 한 문장 생성만으로 끝나지 않고 여러 단계를 거쳐야 하며, 각 단계가 끝날 때마다 상태가 누적되어 다음 단계 선택에 쓰여야 합니다. 따라서 한 번의 계획으로 끝나는 것이 아니라 `계획 -> 실행 -> 관찰 -> 재계획`이 반복되어야 합니다.
+아래 예제는 관찰 상태 CSV [p6-14-1-agent-observation-states.csv](../../../assets/part-06/chapter-14/p6-14-1-agent-observation-states.csv){ .csv-preview }를 사용합니다. 한 행은 코딩 보조, 문서 조사, 업무 자동화 같은 작업에서 에이전트가 중간에 본 현재 상태를 뜻합니다. CSV의 `model_observation_en`은 모델에 넘기는 영어 관찰 문장이고, `found_context`, `current_context`, `detail_missing`, `conflict_found`, `action_failed`, `approval_needed`, `sources_attached`는 애플리케이션이 모델 제안을 점검할 때 쓰는 상태 신호입니다.
 
-아래 예제는 하나의 목표와 현재 상태 객체를 사용합니다. 출력에서는 단계별 실행 계획, 단계가 끝날 때마다 갱신되는 상태, 각 라운드 뒤 다음 계획이 어떻게 바뀌는지 보여 주는 점검값을 확인합니다.
-
-먼저 이 예제에서 같이 볼 항목은 다음과 같습니다.
-
-| 점검 항목 | 왜 필요한가 |
-| --- | --- |
-| `current_plan` | 지금 상태에서 무엇을 해야 하는지 확인 |
-| `documents_found_count` | 검색 결과가 다음 단계로 이어질 만큼 확보됐는지 확인 |
-| `summary_ready` | 읽기 이후 요약 단계로 넘어갈 수 있는지 확인 |
-| `sources_attached` | 최종 답까지 도달했는지 확인 |
-
-코드에서 확인할 핵심은 에이전트 실행은 정답 생성뿐 아니라 현재 상태가 다음 단계로 넘어갈 준비가 되었는지 계속 점검하는 과정이라는 점입니다.
+코드에서 확인할 핵심은 모델이 관찰 문장을 읽고 다음 행동을 제안하되, 애플리케이션이 그 제안을 그대로 믿지 않고 상태 신호로 다시 점검한다는 점입니다. 실행 전에 Ollama를 설치하고 모델을 받을 필요가 있습니다. 예를 들어 `ollama pull qwen2.5:1.5b`를 실행한 뒤 Ollama가 켜진 상태에서 코드를 실행합니다. 다른 모델을 쓰려면 `AIBOOK_OLLAMA_MODEL=모델명`처럼 환경 변수를 바꿉니다. 모델에 넘기는 프롬프트와 관찰 문장은 영어로 둡니다.
 
 ```python
-# 최신 환불 정책 답변 목표를 agent state와 plan step으로 나누고 각 단계 완료에 따라 다음 행동이 바뀌는지 확인하는 예제입니다.
-goal = "최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다."
+from collections import Counter, defaultdict
+from pathlib import Path
+import csv
+import json
+import os
+import urllib.request
 
-state = {
-    "goal": goal,
-    "documents_found": [],
-    "read_complete": False,
-    "summary_ready": False,
-    "sources_attached": False,
+CSV_PATH = Path("docs/assets/part-06/chapter-14/p6-14-1-agent-observation-states.csv")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/chat")
+OLLAMA_MODEL = os.environ.get("AIBOOK_OLLAMA_MODEL", "qwen2.5:1.5b")
+
+NEXT_ACTIONS = {
+    "search_or_inspect",
+    "refine_search_or_reload",
+    "collect_supporting_context",
+    "retry_with_changed_step",
+    "compare_evidence",
+    "handoff_for_review",
+    "attach_sources",
+    "finish",
 }
 
-def build_plan(state):
-    steps = []
-    if not state["documents_found"]:
-        steps.append("search_policy_docs")
-    elif not state["read_complete"]:
-        steps.append("read_top_documents")
-    elif not state["summary_ready"]:
-        steps.append("summarize_changes")
-    elif not state["sources_attached"]:
-        steps.append("attach_sources")
-    return steps
+ACTION_GUIDE = {
+    "search_or_inspect": "no relevant context has been found yet",
+    "refine_search_or_reload": "context exists but is stale or not current",
+    "collect_supporting_context": "current context exists but important detail is missing",
+    "retry_with_changed_step": "the previous action failed and needs a changed retry",
+    "compare_evidence": "available evidence conflicts and must be compared",
+    "handoff_for_review": "approval, permission, or risk requires human review",
+    "attach_sources": "enough context exists but final evidence is not attached",
+    "finish": "the task is already complete with evidence attached",
+}
 
-def simulate_step(step, state):
-    if step == "search_policy_docs":
-        state["documents_found"] = [
-            "policy_notice_2026_06_29",
-            "refund_rules_appendix",
-        ]
-    elif step == "read_top_documents":
-        state["read_complete"] = True
-    elif step == "summarize_changes":
-        state["summary_ready"] = True
-        state["draft_summary"] = "환불 요청 처리 기한이 7일에서 14일로 늘어났습니다."
-    elif step == "attach_sources":
-        state["sources_attached"] = True
-        state["final_answer"] = (
-            "환불 요청 처리 기한이 7일에서 14일로 늘어났습니다. "
-            "출처: policy_notice_2026_06_29, refund_rules_appendix"
-        )
-    return state
+def as_bool(value):
+    return value.strip().lower() == "true"
 
-round_reports = []
-while True:
-    current_plan = build_plan(state)
-    if not current_plan:
-        break
+def guard_next_action(state):
+    # guard는 정답표가 아니라, 모델 제안을 현재 상태 신호로 다시 점검하는 안전층입니다.
+    if state["approval_needed"]:
+        return "handoff_for_review"
+    if state["action_failed"]:
+        return "retry_with_changed_step"
+    if state["conflict_found"]:
+        return "compare_evidence"
+    if not state["found_context"]:
+        return "search_or_inspect"
+    if not state["current_context"]:
+        return "refine_search_or_reload"
+    if state["detail_missing"]:
+        return "collect_supporting_context"
+    if not state["sources_attached"]:
+        return "attach_sources"
+    return "finish"
 
-    step = current_plan[0]
-    state = simulate_step(step, state)
-    next_plan = build_plan(state)
-    round_reports.append(
-        {
-            "step": step,
-            "state_snapshot": {
-                "documents_found_count": len(state["documents_found"]),
-                "read_complete": state["read_complete"],
-                "summary_ready": state["summary_ready"],
-                "sources_attached": state["sources_attached"],
-            },
-            "next_plan": next_plan,
+def build_prompt(observation):
+    labels = "\n".join(f"- {label}: {description}" for label, description in ACTION_GUIDE.items())
+    return f"""
+You are choosing the next action for a small LLM agent workflow.
+Return exactly one label and no explanation.
+
+Allowed labels:
+{labels}
+
+Observation:
+{observation}
+""".strip()
+
+def ask_ollama(prompt):
+    payload = {
+        "model": OLLAMA_MODEL,
+        "stream": False,
+        "messages": [{"role": "user", "content": prompt}],
+        "options": {"temperature": 0},
+    }
+    data = json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(
+        OLLAMA_URL,
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=60) as response:
+        result = json.loads(response.read().decode("utf-8"))
+    return result["message"]["content"].strip()
+
+def model_next_action(state):
+    prompt = build_prompt(state["model_observation_en"])
+    try:
+        raw = ask_ollama(prompt)
+    except Exception as error:
+        return {"model_action": None, "model_raw": error.__class__.__name__}
+
+    action = next((label for label in NEXT_ACTIONS if label in raw), None)
+    return {"model_action": action, "model_raw": raw[:100]}
+
+rows = []
+with CSV_PATH.open(encoding="utf-8", newline="") as file:
+    for row in csv.DictReader(file):
+        state = {
+            "case_id": row["case_id"],
+            "domain": row["domain"],
+            "observation_signal": row["observation_signal"],
+            "model_observation_en": row["model_observation_en"],
+            "found_context": as_bool(row["found_context"]),
+            "current_context": as_bool(row["current_context"]),
+            "detail_missing": as_bool(row["detail_missing"]),
+            "conflict_found": as_bool(row["conflict_found"]),
+            "action_failed": as_bool(row["action_failed"]),
+            "approval_needed": as_bool(row["approval_needed"]),
+            "sources_attached": as_bool(row["sources_attached"]),
         }
+        model_hint = model_next_action(state)
+        state["model_action"] = model_hint["model_action"]
+        state["model_raw"] = model_hint["model_raw"]
+        state["guard_action"] = guard_next_action(state)
+        state["guard_changed_model_action"] = state["model_action"] != state["guard_action"]
+        rows.append(state)
+
+guard_counts = Counter(row["guard_action"] for row in rows)
+model_counts = Counter(row["model_action"] or "model_unavailable" for row in rows)
+domain_counts = defaultdict(Counter)
+for row in rows:
+    domain_counts[row["domain"]][row["guard_action"]] += 1
+
+print("[model]")
+print(
+    {
+        "model": OLLAMA_MODEL,
+        "model_hint_count": sum(row["model_action"] is not None for row in rows),
+        "guard_changed_model_action_count": sum(row["guard_changed_model_action"] for row in rows),
+    }
+)
+
+print("\n[guard action counts]")
+for action, count in guard_counts.most_common():
+    print(f"{action}: {count}")
+
+print("\n[model action counts]")
+for action, count in model_counts.most_common():
+    print(f"{action}: {count}")
+
+print("\n[sample decisions]")
+for row in rows[:8]:
+    print(
+        row["case_id"],
+        row["observation_signal"],
+        "model=",
+        row["model_action"],
+        "guard=",
+        row["guard_action"],
+        "changed=",
+        row["guard_changed_model_action"],
     )
 
-inspection = {
-    "round_count": len(round_reports),
-    "final_documents_found_count": len(state["documents_found"]),
-    "final_summary_ready": state["summary_ready"],
-    "final_sources_attached": state["sources_attached"],
-    "finished": state["sources_attached"] and "final_answer" in state,
-    "completion_ratio": round(
-        sum(
-            [
-                bool(state["documents_found"]),
-                state["read_complete"],
-                state["summary_ready"],
-                state["sources_attached"],
-            ]
-        ) / 4,
-        2,
-    ),
-}
-
-print("[goal]")
-print(goal)
-for idx, report in enumerate(round_reports, start=1):
-    print(f"[round {idx}]")
-    print(report)
-print("[final state]")
-print(state)
-print("[inspection]")
-print(inspection)
+print("\n[domain split]")
+for domain, counts in domain_counts.items():
+    print(domain, dict(counts))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[goal]
-최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.
-[round 1]
-{'step': 'search_policy_docs', 'state_snapshot': {'documents_found_count': 2, 'read_complete': False, 'summary_ready': False, 'sources_attached': False}, 'next_plan': ['read_top_documents']}
-[round 2]
-{'step': 'read_top_documents', 'state_snapshot': {'documents_found_count': 2, 'read_complete': True, 'summary_ready': False, 'sources_attached': False}, 'next_plan': ['summarize_changes']}
-[round 3]
-{'step': 'summarize_changes', 'state_snapshot': {'documents_found_count': 2, 'read_complete': True, 'summary_ready': True, 'sources_attached': False}, 'next_plan': ['attach_sources']}
-[round 4]
-{'step': 'attach_sources', 'state_snapshot': {'documents_found_count': 2, 'read_complete': True, 'summary_ready': True, 'sources_attached': True}, 'next_plan': []}
-[final state]
-{'goal': '최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.', 'documents_found': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'read_complete': True, 'summary_ready': True, 'sources_attached': True, 'draft_summary': '환불 요청 처리 기한이 7일에서 14일로 늘어났습니다.', 'final_answer': '환불 요청 처리 기한이 7일에서 14일로 늘어났습니다. 출처: policy_notice_2026_06_29, refund_rules_appendix'}
-[inspection]
-{'round_count': 4, 'final_documents_found_count': 2, 'final_summary_ready': True, 'final_sources_attached': True, 'finished': True, 'completion_ratio': 1.0}
+[model]
+{'model': 'qwen2.5:1.5b', 'model_hint_count': 36, 'guard_changed_model_action_count': 10}
+
+[guard action counts]
+handoff_for_review: 6
+attach_sources: 6
+finish: 6
+refine_search_or_reload: 4
+retry_with_changed_step: 4
+compare_evidence: 4
+search_or_inspect: 3
+collect_supporting_context: 3
+
+[model action counts]
+attach_sources: 12
+handoff_for_review: 7
+search_or_inspect: 6
+refine_search_or_reload: 3
+collect_supporting_context: 3
+retry_with_changed_step: 3
+compare_evidence: 2
+
+[sample decisions]
+coding-01 no_related_file model= search_or_inspect guard= search_or_inspect changed= False
+coding-02 old_error_log model= refine_search_or_reload guard= refine_search_or_reload changed= False
+coding-03 missing_test_context model= collect_supporting_context guard= collect_supporting_context changed= False
+coding-04 new_test_failure model= retry_with_changed_step guard= retry_with_changed_step changed= False
+coding-05 security_sensitive_change model= handoff_for_review guard= handoff_for_review changed= False
+coding-06 patch_ready_without_test_note model= attach_sources guard= attach_sources changed= False
+coding-07 verified_patch_with_notes model= attach_sources guard= finish changed= True
+coding-08 conflicting_test_results model= compare_evidence guard= compare_evidence changed= False
+
+[domain split]
+coding {'search_or_inspect': 1, 'refine_search_or_reload': 1, 'collect_supporting_context': 1, 'retry_with_changed_step': 2, 'handoff_for_review': 2, 'attach_sources': 2, 'finish': 2, 'compare_evidence': 1}
+research {'search_or_inspect': 1, 'refine_search_or_reload': 2, 'collect_supporting_context': 1, 'compare_evidence': 1, 'handoff_for_review': 2, 'attach_sources': 2, 'finish': 2, 'retry_with_changed_step': 1}
+workflow {'search_or_inspect': 1, 'refine_search_or_reload': 1, 'collect_supporting_context': 1, 'retry_with_changed_step': 1, 'compare_evidence': 2, 'handoff_for_review': 2, 'attach_sources': 2, 'finish': 2}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `round_count`가 4이고, 각 라운드마다 `next_plan`이 달라진다는 점입니다. 즉, 에이전트는 처음부터 전체 답을 한 번에 내놓는 구조가 아니라, 현재 상태를 보고 `지금은 검색`, `다음은 읽기`, `그다음은 요약`, `마지막은 출처 부착`처럼 단계별로 재계획합니다. 이 구조가 있어야 중간 결과를 보고 다음 행동을 바꾸는 실행 흐름이라고 말할 수 있습니다.
+이 결과에서 먼저 봐야 할 것은 모델이 모든 관찰 상태에 대해 다음 행동을 제안했다는 점입니다. 하지만 `guard_changed_model_action_count`가 10이라는 점도 같이 봐야 합니다. 예를 들어 `verified_patch_with_notes`에서는 모델이 `attach_sources`를 제안했지만, 상태 신호에는 이미 `sources_attached`가 표시되어 있으므로 guard는 `finish`로 닫았습니다. 즉, agent 흐름에서는 모델의 제안 자체보다 `모델 제안`, `현재 상태`, `최종 다음 행동`을 함께 기록하는 구조가 중요합니다.
 
-![agent 상태 진행 점검](../../../assets/part-06/chapter-14/agent-state-progress-ko.png)
+같은 이유로 `old_error_log`나 `stale_policy_notice`처럼 현재 기준이 아닌 근거가 보이면 다시 찾거나 다시 읽어야 합니다. `new_test_failure`나 `calendar_api_failed`처럼 실행 자체가 실패하면 같은 순서를 밀어붙이는 것이 아니라 다른 단계로 재시도해야 합니다. `security_sensitive_change`나 `manager_approval_required`처럼 권한 또는 승인 경계가 보이면 agent가 혼자 계속 진행하지 않고 사람 검토로 넘겨야 합니다.
 
-이 차트는 예제의 `completion_ratio`가 마지막에만 갑자기 생기는 값이 아니라, 검색, 읽기, 요약, 출처 부착 상태가 라운드마다 하나씩 채워지며 다음 계획을 바꾸는 흐름임을 보여 줍니다.
+![agent 다음 행동 분기](../../../assets/part-06/chapter-14/agent-state-progress-ko.png)
+
+이 차트는 모델 제안과 guard 최종 행동의 차이를 보여 줍니다. 모델은 `attach_sources`를 비교적 자주 제안하지만, guard는 상태 신호를 다시 확인해 이미 근거가 붙은 사례를 `finish`로 닫습니다. 반대로 권한, 실패, 충돌 신호가 있으면 guard는 모델 제안과 별도로 사람 검토, 재시도, 근거 비교 쪽으로 최종 행동을 고정할 수 있습니다.
+
+따라서 이 차트에서 읽어야 할 것은 모델이 틀렸다는 단순 결론이 아닙니다. agent 흐름에서는 모델이 다음 행동 후보를 제안하고, 애플리케이션이 현재 상태와 기록 기준으로 그 제안을 다시 좁힌다는 구조가 보인다는 점입니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 답변 한 문장이 아니라, 목표를 이루기 위한 여러 단계 흐름과 누적 상태가 먼저 명시되고 그 상태에 따라 다음 단계가 다시 정해진다.
-- 에이전트의 핵심은 도구를 많이 쓰는 것이 아니라, `현재 상태를 보고 다음 행동을 다시 고르는 반복 구조`에 있다.
+- 모델은 관찰 문장을 읽고 다음 행동을 제안하지만, 그 제안은 상태 신호와 함께 다시 점검되어야 한다.
+- 에이전트의 핵심은 도구를 많이 쓰는 것이 아니라, `현재 상태를 보고 다음 행동을 다시 고르는 목표 흐름`을 기록하는 데 있다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `documents_found`를 비운 채 시작하도록 바꿔 검색 단계가 어떻게 다시 등장하는지 보기
-- `simulate_step`에 실패 상태를 넣어 `next_plan`이 재탐색이나 재시도로 어떻게 바뀌는지 보기
-- `attach_sources`를 마지막이 아니라 중간 단계로 옮기면 왜 흐름이 어색해지는지 생각해 보기
-- `read_complete`를 여러 문서 단위로 쪼개 상태가 더 복잡해질 때 계획이 어떻게 달라지는지 상상해 보기
+- CSV에서 `current_context`를 `false`로 바꿔 오래된 근거가 보일 때 다음 행동이 어떻게 바뀌는지 보기
+- `action_failed`를 `true`로 바꿔 실패 뒤에 같은 순서 진행이 아니라 재시도가 선택되는지 보기
+- `approval_needed`를 `true`로 바꿔 agent가 계속 진행하지 않고 사람 검토로 넘어가는지 보기
+- `sources_attached`를 `true`로 바꿔 더 진행할 필요가 없는 사례가 `finish`로 닫히는지 보기
+- `AIBOOK_OLLAMA_MODEL`을 바꿔 모델 제안과 guard 보정 차이가 어떻게 달라지는지 보기
 
-이 지점에서 한 번 더 분리해 두면, agent가 직접 해결하는 문제와 별도 층위로 남겨야 하는 문제가 더 분명해집니다.
+이 지점에서 한 번 더 분리해 두면, agent가 직접 해결하려는 것은 다음 행동 선택과 순서 재조정입니다. 하지만 각 호출을 어떤 형식으로 표현할지, 권한 경계를 어떻게 기록할지, 실행 trace를 어떻게 남길지는 별도 층위의 문제로 남습니다. 호출 형식 검증은 P6-13.2, 공통 연결 규칙은 P6-15.1, 실행 기록과 재현은 P6-15.2에서 더 구체화됩니다.
 
-| 상황 | agent가 직접 해결하려는 것 | agent만으로는 아직 남는 것 |
-| --- | --- | --- |
-| 요청이 여러 단계로 이어짐 | 다음 단계 선택과 순서 재조정 | 각 호출을 어떤 형식으로 표현할지의 세부 구조 |
-| 중간 결과를 보고 계획이 바뀜 | 상태를 보고 재계획하는 흐름 | 호출 형식 검증, 권한 경계, 공통 연결 규칙 |
-| 여러 도구를 하나의 목표로 묶어야 함 | 읽기, 실행, 확인을 목표 단위로 연결 | 그 연결을 어떤 공통 인터페이스와 실행 기록으로 관리할지 |
-| 실패 뒤 다시 시도해야 함 | 재시도와 중간 종료를 목표 흐름에 포함 | trace, replay, approval 같은 운영 기록 체계 |
+## 관찰 신호가 만드는 다음 행동
 
-이 표가 중요한 이유는 `agent = 도구를 많이 쓰는 것`으로 축소되지 않게 해 주기 때문입니다. agent의 중심은 도구 개수가 아니라 `다음 단계 선택`이며, 호출 형식 검증은 P6-13.2, 공통 연결 규칙은 P6-15.1, 실행 기록과 재현은 P6-15.2에서 더 구체화됩니다.
+앞의 예제는 agent 전체를 구현하는 코드가 아니라, 중간 관찰이 다음 행동을 어떻게 갈라놓는지 보여 주는 작은 점검 장면입니다. 여기서 읽어야 할 핵심은 단계 수를 세는 일이 아닙니다. 같은 목표라도 `관련 맥락 없음`, `오래된 맥락`, `세부 근거 부족`, `실행 실패`, `권한 경계`, `출처 부착 완료`처럼 현재 상태가 달라지면 다음 행동도 달라져야 한다는 점입니다.
 
-## 작업 흐름에서 바뀌는 다음 행동
+이 예제에서 읽어야 할 핵심은 다음입니다.
 
-앞의 예제는 agent 전체를 구현하는 코드가 아니라, `목표 하나를 바로 문장 하나로 닫는 구조`가 아니라 `목표를 여러 단계 흐름으로 풀어야 하는 구조`라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 단계 수를 세는 일이 아니라, 같은 목표라도 검색, 읽기, 요약, 출처 부착처럼 서로 다른 행동이 이어져야 한다는 점입니다.
+- 목표는 하나여도 현재 상태는 여러 모습으로 갈라질 수 있고
+- 상태가 달라지면 다음 행동도 달라져야 하며
+- 그 선택과 이유가 기록되어야 agent 흐름을 나중에 다시 점검할 수 있다는 점입니다
 
-이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
-
-- 목표는 하나지만
-- 단계는 여러 개일 수 있고
-- 각 단계의 결과가 다음 단계 선택에 영향을 준다는 점입니다
-
-## 에이전트가 더하는 목표 흐름
+## 여러 호출을 목표 흐름으로 읽는 이유
 
 에이전트의 핵심은 도구를 많이 쓰는 데 있지 않고, 목표를 여러 단계로 나누고 현재 상태를 보며 다음 행동을 계속 다시 고르는 실행 흐름을 만드는 데 있습니다.
 
@@ -458,7 +466,7 @@ print(inspection)
 이 실행 흐름이 중요한 이유는 다음과 같습니다.
 
 - 바로 앞의 P6-13.1 도구 사용과 P6-13.2 함수 호출을 `한 번의 호출`이 아니라 `여러 단계를 잇는 실행 구조` 안에 다시 놓게 하고
-- 계획, 행동, 관찰 루프를 이해하게 하며
+- P6-14.2의 계획, 행동, 관찰 루프를 이해할 준비를 만들며
 - 뒤의 P6-15.1 MCP, P6-15.2 하네스, P6-16.1 평가를 왜 함께 봐야 하는지 준비시키기 때문입니다
 
 ## 체크리스트

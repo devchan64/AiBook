@@ -1,7 +1,9 @@
-# P3-5.6 Why Can the Number of Samples Look Larger than Reality When Many Input Windows Overlap
+# P3-5.6 Overlapping Input Windows and Sample Counts
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: Why can sample counts look larger than reality when the same event is cut into multiple windows?_
 
 Once the input window has been fixed, we can create several windows from the same source time series. At that point, one problem is often missed. It becomes easy to read `there are more windows, so there must also be more samples`. But when many windows overlap, this often means `we are cutting the same event several times`, not that the number of independent events has increased by the same amount.
 

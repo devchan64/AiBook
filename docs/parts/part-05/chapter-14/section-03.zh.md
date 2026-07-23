@@ -1,7 +1,9 @@
-# P5-14.3 residual 和 normalization 怎样稳定深层重复？
+# P5-14.3 稳定深层重复的两个装置
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: residual 与 normalization 如何分别稳定信息流和值的范围？_
 
 在 P5-14.2 中，我们看到了当前表示怎样经过 attention、feed-forward 和 residual 加法移动。但是 Transformer block 不只是不断堆叠新计算。它还同时放入稳定化装置：留下原始表示，并整理数值范围。
 

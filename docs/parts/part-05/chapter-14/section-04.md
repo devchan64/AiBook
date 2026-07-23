@@ -1,7 +1,9 @@
-# P5-14.4 RNN의 상태 전달과 Transformer의 관계 계산은 병렬 처리에서 어떻게 갈라지는가
+# P5-14.4 RNN 상태 전달과 Transformer 병렬 계산
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: 순차 상태 전달과 토큰 관계 계산은 병렬 처리에서 어떻게 갈라지는가_
 
 P5-14.1부터 P5-14.3까지는 Transformer 블록 안에서 표현을 갱신하는 계산의 역할을 보았습니다. 이제 그 계산이 한 시퀀스 안에서 어떤 순서로 실행되는지 RNN과 비교해야 합니다.
 
@@ -163,12 +165,14 @@ print("[recurrent trace]")
 for step, name, snapshot in recurrent_trace:
     print(f"step {step}: {name:14s} state={snapshot}")
 
-print("\n[relation score matrix]")
+print("
+[relation score matrix]")
 print("shape =", relation_scores.shape)
 print("request row =", np.round(request_scores, 1).tolist())
 print("top related lines =", [(name, float(score)) for score, name in ranked[:3]])
 
-print("\n[batched relation scores]")
+print("
+[batched relation scores]")
 print("batch shape =", batch.shape)
 print("score tensor shape =", batch_scores.shape)
 ```

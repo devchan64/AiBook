@@ -1,7 +1,7 @@
-# P5-11.3 Supplementary Reading: Comparing CNNs And Vision Transformers (ViT)
+# P5-11.3 Supplementary Reading: Comparing CNNs and Vision Transformers
 
 > Section ID: `P5-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 In P5-11.1 and P5-11.2, we first saw why convolutional neural networks (CNNs) fit images well, and what roles convolution and pooling play. From there the next question appears naturally.
 

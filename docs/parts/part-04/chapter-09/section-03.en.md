@@ -1,7 +1,9 @@
-# P4-9.3 Supplementary Learning: Reading The Big Picture Of Advanced Model Selection, Tuning Automation, And Experiment Tracking
+# P4-9.3 Supplementary Learning: Tool Map After Model Selection
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What levels of problems do advanced model selection, tuning automation, and experiment tracking separate?_
 
 P4-8 and P4-9 established the basic flow of setting model candidates, placing a baseline, and comparing hyperparameters inside a validation procedure. After that, the following names usually appear.
 

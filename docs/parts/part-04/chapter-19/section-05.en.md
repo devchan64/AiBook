@@ -1,7 +1,7 @@
-# P4-19.5 Supplementary Learning: How To Read The Bellman Equation, Convergence, And Function Approximation For The First Time
+# P4-19.5 Supplementary Learning: First Reading of Reinforcement-Learning Formula Names
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 Once readers begin studying value-based reinforcement learning in P4-19.1, the following names quickly appear next to it.
 

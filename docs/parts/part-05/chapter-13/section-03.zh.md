@@ -1,7 +1,7 @@
-# P5-13.3 补充学习：查询-键-值（QKV）与多头注意力（multi-head attention）
+# P5-13.3 补充学习：QKV 与 multi-head attention
 
 > Section ID: `P5-13.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 在 P5-13.1 和 P5-13.2 里，我们已经先固定了 attention 与 self-attention 的直觉。读到这里，自然会出现下一个问题。
 

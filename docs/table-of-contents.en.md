@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.21`
+> Version: `v2026.07.23`
 
 This document is the reader-facing table of contents for AiBook. Rather than listing files only, it gives a quick view of the relearning sequence from `Introduction to AI and the Landscape -> Foundational Recovery -> Data Modeling -> Machine Learning -> Deep Learning -> LLMs and Generative AI -> Projects`.
 
@@ -248,10 +248,10 @@ This Part restores the minimum foundations needed to read AI model computation a
 - **P2-7.3 Python Interpreter and Script**: reviews how Python code runs and how file execution differs from interactive execution
 - **P2-7.4 Virtual Environment and Package**: reviews project-specific execution spaces and how packages such as NumPy and Pandas fit into them
 - **P2-7.5 Dependency and Reproducibility**: organizes what is needed to rerun the same exercise on another machine
-- **P2-7.6 Supplementary Learning: How to Use Terminals on Windows, macOS, and Linux**: separately organizes how to open terminals, the basic differences in commands, and what to check before exercises
+- **P2-7.6 Supplemental Learning: Opening Terminals by Operating System**: separately organizes how to open terminals, the basic differences in commands, and what to check before exercises
 - **P2-7.7 Supplementary Learning: When Python Installation Becomes Necessary**: explains when local Python installation is needed after beginning with Colab
-- **P2-7.8 Supplementary Learning: How to Read Shell Scripts, Pipes, Redirection, and Environment Variables for the First Time**: supplements shell syntax that appears often during terminal practice
-- **P2-7.9 Supplementary Learning: How to Check Common Local Python Environment Problems**: organizes what to inspect first when installation and execution do not line up
+- **P2-7.8 Supplemental Learning: Reading Shell Execution Flow**: supplements shell syntax that appears often during terminal practice
+- **P2-7.9 Supplemental Learning: Checking Local Python Environment Problems**: organizes what to inspect first when installation and execution do not line up
 
 #### Chapter 8. Review of Core Python Syntax `Software Tools`
 
@@ -261,7 +261,7 @@ This Part restores the minimum foundations needed to read AI model computation a
 - **P2-8.4 Loops: Processing an Iterable One Item at a Time**: separates item iteration, index iteration, key-value iteration, and filtering iteration
 - **P2-8.5 Functions and Small Reuse**: reviews how mathematical functions and Python functions are similar and different
 - **P2-8.6 Supplementary Learning: Meeting Classes and Objects for the First Time**: slowly reads objects, classes, methods, `self`, and library calls such as `model.fit()`
-- **P2-8.7 Supplementary Learning: How to Distinguish References, Shallow Copy, and Deep Copy for the First Time**: adds the minimum standard for avoiding confusion when values change together
+- **P2-8.7 Supplemental Learning: Distinguishing References and Copies**: adds the minimum standard for avoiding confusion when values change together
 
 #### Chapter 9. Intuition for Data Structures and Graphs `Software Tools`
 
@@ -350,8 +350,8 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 - **P3-5.3 Why Raw Time Series Cannot Yet Be Called Learning Inputs Directly**: organizes the difference between raw time series and learning inputs and how input boundaries are decided
 - **P3-5.4 Where to Cut an Input Window and How to Match Its Length**: reviews how start point, end point, length, and alignment are fixed against the problem question
 - **P3-5.5 How to Handle Samples with Missing Values or Empty Segments**: organizes how to distinguish partial missing values, missing segments, and collapsed sample boundaries
-- **P3-5.6 Why the Number of Samples Can Look Larger Than Reality When Many Input Windows Overlap**: distinguishes number of windows from number of source events
-- **P3-5.7 How to Fold Several Follow-Up Events Behind the Same Sample into Table Structure**: reviews how rules such as `any`, `first`, `worst`, and `count` change the meaning of the result table
+- **P3-5.6 Overlapping Input Windows and Sample Counts**: distinguishes number of windows from number of source events
+- **P3-5.7 Rules for Folding Multiple Follow-Up Events**: reviews how rules such as `any`, `first`, `worst`, and `count` change the meaning of the result table
 
 ### Module 3. Features and Comparison Structure
 
@@ -362,7 +362,7 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 - **P3-6.3 How Human-Designed Features Connect to Later Learned Representations**: organizes the connection and boundary between feature design and representation learning
 - **P3-6.4 Why Not Every Column in a Summary Table Is a Feature**: organizes how to read columns as feature, comparison, result candidate, identifier, or context
 - **P3-6.5 How to Read and Keep Features Together When Their Units and Scales Differ**: reviews how numeric values should be interpreted through unit, role, and comparison standard rather than absolute size alone
-- **P3-6.6 Why a Column May Stop Being the Same Feature Even If the Name Stays the Same**: organizes how changes in unit, sensor version, calculation rule, or operational definition alter feature meaning
+- **P3-6.6 Same Column Name, Different Feature**: organizes how changes in unit, sensor version, calculation rule, or operational definition alter feature meaning
 
 #### Chapter 7. How to Read Baseline Comparison Structure `Modeling Perspective`
 
@@ -379,10 +379,10 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 - **P3-8.1 What Controls the Strength of Interpretation**: reviews how strongly to speak depending on sample size and repeatability
 - **P3-8.2 How Far to State a Change Signal and Where to Stop Before Claiming Cause**: reviews the boundary between change signal and confirmed cause
 - **P3-8.3 In What Order and Vocabulary Conservative Interpretation Sentences Should Be Written**: organizes sentence templates for comparison result, strength condition, and next action
-- **P3-8.4 How Conservative Interpretation Becomes Warning Columns and Review-Queue Criteria**: reviews how language turns into structured operational outputs such as `warning_level`, `review_needed`, and `priority_score`
+- **P3-8.4 Conservative Interpretation and Operational Columns**: reviews how language turns into structured operational outputs such as `warning_level`, `review_needed`, and `priority_score`
 - **P3-8.5 How to Combine Several Comparison Columns into One Candidate Review Priority**: organizes how change magnitude, repeatability, interpretation confidence, and operational importance are combined
-- **P3-8.6 What to Write Alongside a Confirmed Label If It Exists Only on Reviewed Cases**: reviews how to record review route and skew so selectively assigned labels are not mistaken for full-population truth
-- **P3-8.7 Why Interpretation Must Change If Current Review Rules and Actions Later Alter the Data Itself**: organizes the interpretation boundary needed to separate post-intervention data from natural progression
+- **P3-8.6 Confirmed Labels Left Only on Some Cases**: reviews how to record review route and skew so selectively assigned labels are not mistaken for full-population truth
+- **P3-8.7 Data Interpretation Changed by Operational Intervention**: organizes the interpretation boundary needed to separate post-intervention data from natural progression
 
 ### Module 5. Problem Type and Connection to Later Parts
 
@@ -390,17 +390,17 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 
 - **P3-9.1 How Far the Current Problem Should Be Elevated**: distinguishes warning, review-candidate, and target-label-candidate levels
 - **P3-9.2 Why Some Problems Should Remain Comparison Reports to the End**: reviews when a comparison report is more appropriate than prediction
-- **P3-9.3 How Comparison Reports, Review Queues, and Target-Label Candidate Tables Differ**: reviews how the same data branches into three output forms
+- **P3-9.3 Differences Among Three Operational Tables**: reviews how the same data branches into three output forms
 - **P3-9.4 How Review Results Become Target-Label Candidates Out of Operational Notes**: organizes how review notes and operational judgments accumulate into more stable target candidates
 - **P3-9.5 What Keeps the Same Event Traceable Across Several Outputs**: organizes why consistent sample identifiers and minimal evidence must remain even when outputs differ
-- **P3-9.6 What to Do When the Same Event Receives Different Labels by Person or Time**: reviews why label consistency must be checked before target candidates are trusted
+- **P3-9.6 Checking Label Consistency**: reviews why label consistency must be checked before target candidates are trusted
 - **P3-9.7 What Must Be Closed First Before Sending Inputs and Results to Later Parts**: organizes input/output separation, leakage prevention, operational-time reproducibility, cutoff, and horizon
 - **P3-9.8 What One Prediction Actually Decides and Why Score and Policy Are Different**: separates prediction unit, model output, operational policy, and real action
 - **P3-9.9 How to Distinguish the Real Goal from a Proxy Target**: reviews whether the current target is a true objective or a substitute field
-- **P3-9.10 How to Distinguish Delayed Labels from Negative Labels That Have Not Yet Closed**: organizes how to record label-confirmation delay separately from incomplete negative observation
-- **P3-9.11 What Must Be Fixed First When There Are Several Target Candidates or the Standard Changes**: reviews why the representative target and definition version must be fixed first
-- **P3-9.12 Why the More Painful Error Type Must Be Written First Even Under the Same Target Name**: explains why the operating cost difference between false negatives and false positives should be fixed early
-- **P3-9.13 Why Time-Split Validation, Entity Separation, Data Leakage, and Ranking Problems Are Only Announced Here**: fixes only the names and need of evaluation and problem-type topics that will be recovered later
+- **P3-9.10 Delayed Label Confirmation and Incomplete Negatives**: organizes how to record label-confirmation delay separately from incomplete negative observation
+- **P3-9.11 Target Candidates and Changing Criteria**: reviews why the representative target and definition version must be fixed first
+- **P3-9.12 Target Names and Error Costs**: explains why the operating cost difference between false negatives and false positives should be fixed early
+- **P3-9.13 Problem Boundaries to Hand Off to Part 4**: fixes only the names and need of evaluation and problem-type topics that will be recovered later
 
 ## Part 4. Machine Learning
 
@@ -441,7 +441,7 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 - **P4-6.1 The Role of a Metric**: fixes what accuracy, precision, recall, and related metrics are looking at
 - **P4-6.2 Evaluation Standards by Problem Type**: reviews why evaluation changes across classification, regression, and clustering
 - **P4-6.3 Supplementary Learning: How to Read Metrics in Site Reliability Engineering**: supplements how machine-learning metrics differ from operational metrics
-- **P4-6.4 Supplementary Learning: How to Read ROC, PR, Log Loss, Calibration, and Silhouette for the First Time**: separates frequently seen but unfamiliar metrics in one large view
+- **P4-6.4 Supplementary Learning: A Question Map for Evaluation Metrics**: separates frequently seen but unfamiliar metrics in one large view
 
 ### Module 3. Practical Heuristics
 
@@ -449,8 +449,8 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 
 - **P4-7.1 Feature Selection**: reviews how to choose which inputs to feed into a model
 - **P4-7.2 Preprocessing**: reviews the basic decisions around missing values, scaling, and categorical data
-- **P4-7.3 Supplementary Learning: How to Separate Missing Values, Scale, and Encoding by Input Problem**: adds a beginner bridge for splitting preprocessing by the kind of input problem
-- **P4-7.4 Supplementary Learning: How to Distinguish Filters, Wrappers, and Dimensionality Reduction for the First Time**: adds criteria for not mixing feature selection with dimensionality reduction
+- **P4-7.3 Supplementary Learning: Separating Preprocessing Input Problems**: adds a beginner bridge for splitting preprocessing by the kind of input problem
+- **P4-7.4 Supplementary Learning: Distinguishing Feature Selection Methods**: adds criteria for not mixing feature selection with dimensionality reduction
 
 #### Chapter 8. Heuristics for Model Selection `Practical Heuristics`
 
@@ -462,7 +462,7 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 
 - **P4-9.1 Hyperparameters**: distinguishes settings that do not change through learning
 - **P4-9.2 Tuning and Validation Cost**: reviews the balance between performance improvement and computation cost
-- **P4-9.3 Supplementary Learning: Reading Advanced Model Selection, Automated Tuning, and Experiment Tracking in One Large Picture**: supplements the place of automated tuning and experiment-management tools
+- **P4-9.3 Supplementary Learning: Tool Map After Model Selection**: supplements the place of automated tuning and experiment-management tools
 
 ### Module 4. Basic Algorithms
 
@@ -503,7 +503,7 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 - **P4-15.1 Random Forests**: reviews how combining many trees improves stability
 - **P4-15.2 Feature Importance**: reviews an introductory perspective on model interpretation
 - **P4-15.3 OOB and Random-Forest Inspection**: reviews the basic habit of reading train, OOB, and test together
-- **P4-15.4 Supplementary Learning: How to Compare Extra Trees and Random Forests for the First Time**: compares split randomization, bootstrap defaults, and the conditions under which OOB checks are available within the forest family
+- **P4-15.4 Supplementary Learning: Comparing Extra Trees and Random Forest**: compares split randomization, bootstrap defaults, and the conditions under which OOB checks are available within the forest family
 
 #### Chapter 16. Gradient Boosting `Algorithms`
 
@@ -517,7 +517,7 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 
 - **P4-17.1 Intuition for Clustering**: reviews the problem of grouping similar data
 - **P4-17.2 Caution in Interpreting Clusters**: organizes why a cluster is not itself a ground-truth label
-- **P4-17.3 Supplementary Learning: How to Distinguish Hierarchical Clustering and Spectral Clustering for the First Time**: rebinds different clustering intuitions such as center, density, order, and connectivity
+- **P4-17.3 Supplementary Learning: Hierarchical and Spectral Clustering**: rebinds different clustering intuitions such as center, density, order, and connectivity
 - **P4-17.4 Supplementary Learning: How to Connect Clustering to Semi-Supervised Learning for the First Time**: supplements a standard for reading clusters as label hypotheses and review priority rather than automatic labels
 
 #### Chapter 18. Dimensionality Reduction `Algorithms`
@@ -530,9 +530,9 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 - **P4-19.1 Value-Based Reinforcement Learning**: reviews how Q-learning and SARSA learn the value of states and actions
 - **P4-19.2 Policy-Based Reinforcement Learning**: reviews how policy gradients and actor-critic approaches directly adjust the policy
 - **P4-19.3 Cautions in Applying Reinforcement Learning**: organizes reward design, exploration cost, and the difference between simulation and reality
-- **P4-19.4 Supplementary Learning: Reading DQN, PPO, and RLHF Inside the Large Flow of Reinforcement Learning**: reorganizes representative RL families in one larger flow
-- **P4-19.5 Supplementary Learning: How to Read the Bellman Equation, Convergence, and Function Approximation for the First Time**: connects the recursive value equation of value-based reinforcement learning to the background of scaling into large state spaces
-- **P4-19.6 Supplementary Learning: How to Read Policy Gradients and the Likelihood-Ratio Trick for the First Time**: first connects why policy-based formulas are written in the form of log-probability gradients
+- **P4-19.4 Supplementary Learning: A Map of Later Reinforcement-Learning Branches**: reorganizes representative RL families in one larger flow
+- **P4-19.5 Supplementary Learning: First Reading of Reinforcement-Learning Formula Names**: connects the recursive value equation of value-based reinforcement learning to the background of scaling into large state spaces
+- **P4-19.6 Supplementary Learning: First Reading of Policy Gradient**: first connects why policy-based formulas are written in the form of log-probability gradients
 
 ## Part 5. Deep Learning
 
@@ -575,7 +575,7 @@ This Part explains how neural networks represent and learn from data. It follows
 
 #### Chapter 6. Separating Learning and Inference `Learning Principles`
 
-- **P5-6.1 Learning and Inference**: separates the stage that changes parameters from the stage that uses them
+- **P5-6.1 The Four Steps of the Training Loop**: separates the stage that changes parameters from the stage that uses them
 - **P5-6.2 Learning Steps, Batches, and Epochs**: separates the repetition units that make the training loop run on real data
 - **P5-6.3 Learning and Inference**: separates the stage that changes parameters from the stage that uses them
 - **P5-6.4 Training Mode and Evaluation Mode**: prepares the reader to later understand differences such as dropout and batch normalization
@@ -585,13 +585,13 @@ This Part explains how neural networks represent and learn from data. It follows
 - **P5-7.1 The Role of the Optimizer**: explains where gradients become actual parameter updates
 - **P5-7.2 Learning Rate and Update Step Size**: explains why the same gradient can lead to updates that are too small or too large
 - **P5-7.3 Intuition for Adam: Adaptive Updates**: explains how Adam adds adaptive update behavior on top of a simple update baseline
-- **P5-7.4 Supplementary Learning: How to Read Convergence Analysis of Adaptive Optimization for the First Time**: separates convergence guarantees from practical performance claims
+- **P5-7.4 Supplementary Reading: Distinguishing Adaptive Optimization Claims**: separates convergence guarantees from practical performance claims
 
 #### Chapter 8. Regularization and Dropout `Learning Principles`
 
 - **P5-8.1 Regularization**: reviews constraints used to reduce overfitting
 - **P5-8.2 Dropout**: reviews the intuition of learning while disconnecting some links
-- **P5-8.3 Rebinding the Learning Loop in One Pass**: organizes forward, loss, backward, and optimizer step into one repeated cycle
+- **P5-8.3 Supplementary Learning: Stabilizing Deep Computation**: connects initialization, numerical stability, and batch normalization as conditions that keep deep computation from shaking
 
 ### Module 4. Computation Environment and Representation Learning
 
@@ -611,7 +611,7 @@ This Part explains how neural networks represent and learn from data. It follows
 
 - **P5-11.1 Intuition for CNNs**: reviews structures that capture local patterns in images
 - **P5-11.2 Convolution and Pooling**: lightly reviews the key operations of CNNs
-- **P5-11.3 Supplementary Learning: Comparing CNNs and Vision Transformers**: briefly organizes one useful perspective for comparing post-CNN vision structures
+- **P5-11.3 Supplementary Reading: Comparing CNNs and Vision Transformers**: briefly organizes one useful perspective for comparing post-CNN vision structures
 
 ### Module 6. Sequential Structures and the RNN Family
 
@@ -626,11 +626,11 @@ This Part explains how neural networks represent and learn from data. It follows
 
 - **P5-13.1 Intuition for Attention**: reviews the idea of looking more strongly at needed positions
 - **P5-13.2 The Flow Toward Self-Attention**: fixes the connection before moving into Transformers
-- **P5-13.3 Supplementary Learning: Query, Key, Value, and Multi-Head Attention**: adds a first-reading standard for the internal components of attention
+- **P5-13.3 Supplementary Reading: QKV and Multi-Head Attention**: adds a first-reading standard for the internal components of attention
 
 #### Chapter 14. Transformers `Deep-Learning Structures`
 
-- **P5-14.1 Basic Composition of the Transformer**: reviews the place of attention, feed-forward, and layer normalization
+- **P5-14.1 Why Attention Alone Does Not Close the Transformer**: reviews the place of attention, feed-forward, and layer normalization
 - **P5-14.2 Parallel Processing and Long Context**: reviews how Transformers differed from RNNs
 
 ### Module 8. Generative Models and Sampling
@@ -674,11 +674,11 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 #### Chapter 4. Reviewing Transformer Structure `Deep-Learning Structures`
 
-- **P6-4.1 How the Transformer Leads to Next-Candidate Scores in an LLM**: rereads the Transformer as context reflection, representation update, and next-candidate scoring.
-- **P6-4.2 What Attention Can See Inside the Context Window**: reviews that the model calculates relations inside a limited range.
-- **P6-4.3 Supplementary Learning: What Multi-Head Attention and Positional Representation Strengthen Separately**: separates order information from multiple relation axes.
-- **P6-4.4 Supplementary Learning: What KV Cache Stops Recomputing During Repeated Generation**: reviews the recomputation cost of repeated generation.
-- **P6-4.5 Supplementary Learning: What Sparse Attention and Long Context Try to Reduce and Preserve**: separates connection-count control from long-context retention.
+- **P6-4.1 The Transformer Computation Flow Inside an LLM**: rereads the Transformer as context reflection, representation update, and next-candidate scoring.
+- **P6-4.2 The Reference Range of Attention**: reviews that the model calculates relations inside a limited range.
+- **P6-4.3 Supplementary Learning: Attention Heads and Position Representations**: separates order information from multiple relation axes.
+- **P6-4.4 Supplementary Learning: KV Cache and Repeated Generation**: reviews the recomputation cost of repeated generation.
+- **P6-4.5 Supplementary Learning: Long Context and Sparse Attention**: separates connection-count control from long-context retention.
 
 #### Chapter 5. The GPT Family `LLM Core`
 
@@ -715,7 +715,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 - **P6-10.1 What Prompt Engineering Adjusts in the Input**: reviews how instructions, context, examples, and output formats guide generation.
 - **P6-10.2 When Prompt Limits Require System Structure**: reviews why recency, grounding, computation, execution, and reproducibility cannot be solved by prompts alone.
-- **P6-10.3 Supplementary Learning: What CoT, Self-Consistency, and Automatic Prompt Optimization Adjust Further**: separates prompt-layer strategies from their limits.
+- **P6-10.3 Supplementary Learning: Observing and Comparing Answer Paths**: separates prompt-layer strategies from their limits.
 
 #### Chapter 11. RAG `Service Structure`
 
@@ -749,7 +749,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 #### Chapter 16. LLM Evaluation `LLM Core`
 
 - **P6-16.1 Why LLM Evaluation Separates Natural Answers from Quality Criteria**: separates natural answers from quality criteria.
-- **P6-16.2 How Automatic and Human Evaluation Divide Repeated Checks and Contextual Judgment**: reviews the division between repeated checks and contextual judgment.
+- **P6-16.2 Division of Labor Between Automatic and Human Evaluation**: reviews the division between repeated checks and contextual judgment.
 
 #### Chapter 17. Service Operation Constraints `Service Structure`
 

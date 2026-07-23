@@ -1,7 +1,9 @@
-# P2-7.8 补充学习：阅读 shell script、pipe、redirection、environment variable
+# P2-7.8 补充学习：阅读 shell 执行流程
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: shell script、pipe、redirection、environment variable 在命令执行流程中分别承担什么？_
 
 在 P2-7.2 和 P2-7.6 中，我们只处理到了打开终端并确认当前位置的程度。但一旦跟着实际学习资料继续走，很快就会遇到更陌生的表达。
 

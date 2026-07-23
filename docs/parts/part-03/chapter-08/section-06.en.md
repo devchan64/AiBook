@@ -1,7 +1,9 @@
-# P3-8.6 If Confirmed Labels Exist Only for Reviewed Cases, What Should Be Written Alongside the Interpretation
+# P3-8.6 Confirmed Labels Left Only on Some Cases
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: What should be written with the interpretation when confirmed labels exist only for reviewed cases?_
 
 At the interpretation stage, it can matter not only `how the numbers differ` but also `who received a confirmed label`. In real operations, not every event gets reviewed with the same depth. A person may revisit only some cases that looked abnormal, and only those cases may receive confirmed labels. If that structure is hidden, readers can easily read `the set of cases with labels` as if it were `the set of all events`.
 

@@ -1,7 +1,9 @@
-# P2-7.6 보충학습: Windows, macOS, Linux 터미널 사용법
+# P2-7.6 보충학습: 운영체제별 터미널 진입
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_보조제목: Windows, macOS, Linux에서 명령을 어디에 입력하고 현재 위치를 어떻게 확인하는가_
 
 P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory)의 개념을 봤습니다. 여기서는 그 개념을 실제 운영체제에서 어떻게 확인하는지 다룹니다.
 

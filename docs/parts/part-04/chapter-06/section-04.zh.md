@@ -1,7 +1,9 @@
-# P4-6.4 补充学习：第一次如何读 ROC、PR、对数损失(log loss)、校准(calibration)、轮廓系数(silhouette)
+# P4-6.4 补充学习：评估指标的问题地图
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_副标题: ROC、PR、log loss、calibration、silhouette 分别回答什么评估问题？_
 
 在 P4-6.1 和 P4-6.2 里，我们先抓住了评价指标的作用，以及按问题类型区分的差异。但是，只要开始读实际文档或库文档，很快就会碰到更陌生的名字。
 

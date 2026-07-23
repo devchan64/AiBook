@@ -1,7 +1,9 @@
-# P6-4.4 보충학습: KV cache는 반복 생성에서 무엇을 다시 계산하지 않는가
+# P6-4.4 보충학습: KV cache와 반복 생성
 
 > Section ID: `P6-4.4`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
+
+_보조제목: KV cache는 반복 생성에서 어떤 attention 계산을 다시 쓰는가_
 
 P6-4.2에서는 attention과 context window가 입력 범위 제한과 연결된다는 점을 보았고, P6-4.3에서는 multi-head attention과 위치 표현이 문맥 읽기 방식에 어떤 보강을 하는지 정리했습니다. 이제 다음으로 자주 막히는 이름은 `KV cache`입니다.
 

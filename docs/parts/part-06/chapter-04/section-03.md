@@ -1,7 +1,9 @@
-# P6-4.3 보충학습: multi-head attention과 위치 표현은 무엇을 나눠 보강하는가
+# P6-4.3 보충학습: attention head와 위치 표현
 
 > Section ID: `P6-4.3`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
+
+_보조제목: multi-head attention과 위치 표현은 문맥 관계와 순서 정보를 어떻게 나눠 보강하는가_
 
 P6-4.1에서는 Transformer 블록의 큰 구조를 보았고, P6-4.2에서는 attention이 context window 안에서만 작동한다는 점을 보았습니다. 그런데 여기서 자주 다시 막히는 이름이 두 개 있습니다.
 

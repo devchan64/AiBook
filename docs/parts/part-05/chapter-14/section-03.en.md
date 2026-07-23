@@ -1,7 +1,9 @@
-# P5-14.3 How Do Residual And Normalization Stabilize Deep Repetition?
+# P5-14.3 Two Devices That Stabilize Deep Repetition
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How do residual and normalization divide stabilization between information flow and value range?_
 
 In P5-14.2, we saw how the current representation moves through attention, feed-forward, and residual addition. But a Transformer block does not only keep stacking new computation. It also has stabilization devices that leave the original representation and organize the value range.
 

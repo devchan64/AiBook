@@ -1,7 +1,9 @@
-# P3-8.7 Why Interpretation Must Change If Current Review Rules and Actions Alter Later Data Itself
+# P3-8.7 Data Interpretation Changed by Operational Intervention
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: Why should later data not be read as a natural course when review rules and actions change it?_
 
 The last point to watch at the interpretation boundary is the current operational intervention. If a person quickly acted on cases where `review_needed=1`, the data left afterward may differ from the original natural progression. If you hide that, it becomes too easy to write a sentence such as `the later data looks safer`.
 

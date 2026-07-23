@@ -1,7 +1,9 @@
-# P6-4.5 보충학습: sparse attention과 long-context는 무엇을 줄이고 남기려 하는가
+# P6-4.5 보충학습: 긴 문맥과 희소 attention
 
 > Section ID: `P6-4.5`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
+
+_보조제목: sparse attention과 long-context는 계산 부담과 단서 보존을 어떻게 나누는가_
 
 P6-4.2에서는 attention과 context window가 입력 범위 제한과 연결된다는 점을 보았고, P6-4.4에서는 KV cache가 반복 생성에서 무엇을 다시 계산하지 않을 것인가를 다루는 장치라는 점을 정리했습니다. 이제 남는 질문은 다른 쪽입니다.
 

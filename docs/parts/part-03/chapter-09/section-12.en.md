@@ -1,7 +1,9 @@
-# P3-9.12 Even Under the Same Target Name, Why Must You First Write Which Error Hurts More
+# P3-9.12 Target Names and Error Costs
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: Why must you first write whether missed cases or false alarms hurt more, even for the same target?_
 
 Even under the same target name, which mistake hurts more can vary from problem to problem. Even in a problem that predicts `review_needed`, it depends on the operating context whether missing a risky case is more dangerous or whether unnecessarily sending a case to review is more burdensome. Even with the same target, the cost of a missed case and the cost of an unnecessary catch can differ, so this difference should be written down first in order to make clear which judgment you are trying harder to reduce.
 

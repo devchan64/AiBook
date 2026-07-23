@@ -1,7 +1,9 @@
-# P6-4.1 Transformer는 LLM에서 어떻게 다음 후보 점수로 이어지는가
+# P6-4.1 LLM 안의 Transformer 계산 흐름
 
 > Section ID: `P6-4.1`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
+
+_보조제목: Transformer는 토큰 표현을 어떻게 다음 후보 점수로 이어 주는가_
 
 Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 

@@ -1,7 +1,9 @@
-# P5-14.6 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?
+# P5-14.6 Supplementary Learning: Position-Wise Representation Processing
 
 > Section ID: `P5-14.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
+
+_Subtitle: How does the feed-forward network process each position representation again after attention?_
 
 In P5-14.2, we saw that the feed-forward network does a different job from self-attention inside the Transformer block. But the question remains: `if attention already mixed context, why is feed-forward needed again?`
 
@@ -120,7 +122,8 @@ changed = positions.copy()
 changed[1] += np.array([0.0, 0.5, 0.0, 0.4])
 _, changed_output = ffn(changed)
 
-print("\n[change only restart position]")
+print("
+[change only restart position]")
 print("restart before/after =", np.round(output[1], 2), "->", np.round(changed_output[1], 2))
 print("other positions unchanged =", np.allclose(output[[0, 2]], changed_output[[0, 2]]))
 ```

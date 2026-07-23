@@ -1,7 +1,7 @@
-# P4-15.4 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법
+# P4-15.4 보충학습: Extra Trees와 랜덤포레스트 비교
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.23`
 
 P4-15.1에서 랜덤포레스트(random forest)를 배우면 비슷한 이름의 Extra Trees(Extremely Randomized Trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
 

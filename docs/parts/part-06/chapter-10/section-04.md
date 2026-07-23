@@ -1,7 +1,9 @@
-# P6-10.4 보충학습: automatic prompt optimization은 프롬프트 실험을 어떻게 반복 개선하는가
+# P6-10.4 보충학습: 프롬프트 후보 반복 개선
 
 > Section ID: `P6-10.4`
-> Version: `v2026.07.22`
+> Version: `v2026.07.23`
+
+_보조제목: automatic prompt optimization은 프롬프트 실험을 어떻게 평가하고 다음 후보로 넘기는가_
 
 P6-10.3에서는 CoT와 self-consistency를 답변 경로를 더 보거나 비교하는 전략으로 봤습니다. 이제는 방향이 조금 달라집니다. automatic prompt optimization은 한 답변의 reasoning 경로보다, 프롬프트 후보 자체를 어떻게 평가하고 반복 개선할 것인가에 더 가깝습니다.
 
