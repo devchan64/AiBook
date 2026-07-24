@@ -23,9 +23,11 @@
 
 산출물은 기본적으로 `.tmp/evidence/<페이지-경로>/`에 저장된다.
 
-- 원문 파일: URL별 다운로드 원본
-- `NNN-metadata.json`: URL, 수집 위치, HTTP 메타데이터, 파일 경로
+- 원문 파일: URL 해시를 앞에 붙인 다운로드 원본
+- `<url-hash>-metadata.json`: URL, URL 해시, 수집 위치, HTTP 메타데이터, 파일 경로
 - `index.md`: 수집 결과 요약
+
+URL 해시는 원문 URL의 SHA-256 앞 16자리로 만든다. 따라서 같은 실행 라벨 아래에서 같은 링크를 다시 수집하면 기존 파일을 `skipped-existing`으로 표시하고 다시 다운로드하지 않는다. 실제로 다시 내려받아 갱신해야 할 때만 `--overwrite`를 붙인다.
 
 URL을 직접 지정하거나 URL 목록 파일을 지정할 수도 있다.
 

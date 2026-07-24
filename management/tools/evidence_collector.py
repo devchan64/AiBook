@@ -54,6 +54,7 @@ class EvidenceSource:
 class FetchResult:
     source: EvidenceSource
     status: str
+    url_hash: str
     output_path: Path | None
     metadata_path: Path
     title: str | None
@@ -210,15 +211,40 @@ def default_label(args: argparse.Namespace) -> str:
     return f"manual-{stamp}"
 
 
-def filename_for_url(url: str, content_type: str | None, ordinal: int) -> str:
+def url_hash_for_url(url: str) -> str:
+    return hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
+
+
+def metadata_path_for_url(output_dir: Path, url_hash: str) -> Path:
+    return output_dir / f"{url_hash}-metadata.json"
+
+
+def filename_for_url(url: str, content_type: str | None) -> str:
     parsed = urlparse(url)
     path_name = Path(parsed.path).name
     stem = slugify(Path(path_name).stem or parsed.netloc or "source")
     extension = Path(path_name).suffix
     if not extension:
         extension = extension_for_content_type(content_type)
-    digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:10]
-    return f"{ordinal:03d}-{stem}-{digest}{extension}"
+    return f"{url_hash_for_url(url)}-{stem}{extension}"
+
+
+def find_existing_download(output_dir: Path, url_hash: str) -> Path | None:
+    for path in sorted(output_dir.glob(f"{url_hash}-*")):
+        if path.name.endswith("-metadata.json"):
+            continue
+        if path.is_file():
+            return path
+    return None
+
+
+def read_metadata(path: Path) -> dict[str, object]:
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
 
 
 def extension_for_content_type(content_type: str | None) -> str:
@@ -243,24 +269,62 @@ def decode_title(payload: bytes, content_type: str | None) -> str | None:
 def fetch_source(
     source: EvidenceSource,
     output_dir: Path,
-    ordinal: int,
     timeout: int,
     user_agent: str,
     overwrite: bool,
     dry_run: bool,
 ) -> FetchResult:
-    metadata_path = output_dir / f"{ordinal:03d}-metadata.json"
+    url_hash = url_hash_for_url(source.url)
+    metadata_path = metadata_path_for_url(output_dir=output_dir, url_hash=url_hash)
     if dry_run:
-        metadata = base_metadata(source=source, status="planned", error=None)
-        metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+        output_path = find_existing_download(output_dir=output_dir, url_hash=url_hash)
+        status = "planned-existing" if output_path else "planned"
+        metadata = base_metadata(source=source, status=status, error=None)
+        if output_path:
+            metadata["output_path"] = output_path.as_posix()
+        metadata_path.write_text(
+            json.dumps(metadata, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
         return FetchResult(
             source=source,
-            status="planned",
-            output_path=None,
+            status=status,
+            url_hash=url_hash,
+            output_path=output_path,
             metadata_path=metadata_path,
             title=None,
             content_type=None,
-            bytes_written=0,
+            bytes_written=output_path.stat().st_size if output_path else 0,
+            error=None,
+        )
+
+    existing_path = find_existing_download(output_dir=output_dir, url_hash=url_hash)
+    if existing_path and not overwrite:
+        previous_metadata = read_metadata(metadata_path)
+        metadata = base_metadata(source=source, status="skipped-existing", error=None)
+        metadata.update(
+            {
+                "content_type": previous_metadata.get("content_type"),
+                "title": previous_metadata.get("title"),
+                "output_path": existing_path.as_posix(),
+                "bytes_written": existing_path.stat().st_size,
+                "retrieved_at": previous_metadata.get("retrieved_at"),
+                "checked_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+            }
+        )
+        metadata_path.write_text(
+            json.dumps(metadata, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        return FetchResult(
+            source=source,
+            status="skipped-existing",
+            url_hash=url_hash,
+            output_path=existing_path,
+            metadata_path=metadata_path,
+            title=string_metadata_value(previous_metadata, "title"),
+            content_type=string_metadata_value(previous_metadata, "content_type"),
+            bytes_written=existing_path.stat().st_size,
             error=None,
         )
 
@@ -269,7 +333,7 @@ def fetch_source(
         with urlopen(request, timeout=timeout) as response:
             payload = response.read()
             content_type = response.headers.get("Content-Type")
-            filename = filename_for_url(source.url, content_type, ordinal)
+            filename = filename_for_url(source.url, content_type)
             output_path = output_dir / filename
             if output_path.exists() and not overwrite:
                 status = "skipped-existing"
@@ -298,6 +362,7 @@ def fetch_source(
             return FetchResult(
                 source=source,
                 status=status,
+                url_hash=url_hash,
                 output_path=output_path,
                 metadata_path=metadata_path,
                 title=title,
@@ -315,6 +380,7 @@ def fetch_source(
         return FetchResult(
             source=source,
             status="failed",
+            url_hash=url_hash,
             output_path=None,
             metadata_path=metadata_path,
             title=None,
@@ -327,10 +393,16 @@ def fetch_source(
 def base_metadata(source: EvidenceSource, status: str, error: str | None) -> dict[str, object]:
     return {
         "url": source.url,
+        "url_hash": url_hash_for_url(source.url),
         "origin": source.origin,
         "status": status,
         "error": error,
     }
+
+
+def string_metadata_value(metadata: dict[str, object], key: str) -> str | None:
+    value = metadata.get(key)
+    return value if isinstance(value, str) else None
 
 
 def write_index(output_dir: Path, results: list[FetchResult], dry_run: bool) -> Path:
@@ -342,16 +414,18 @@ def write_index(output_dir: Path, results: list[FetchResult], dry_run: bool) -> 
         f"- Mode: {'dry-run' if dry_run else 'download'}",
         f"- Source count: {len(results)}",
         "",
-        "| Status | URL | Title | File | Metadata |",
-        "| --- | --- | --- | --- | --- |",
+        "| Status | URL hash | URL | Title | File | Metadata |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for result in results:
         file_path = result.output_path.as_posix() if result.output_path else "-"
         title = result.title or "-"
+        url = result.source.url.replace("|", "\\|")
         lines.append(
-            "| {status} | {url} | {title} | `{file}` | `{metadata}` |".format(
+            "| {status} | `{url_hash}` | {url} | {title} | `{file}` | `{metadata}` |".format(
                 status=result.status,
-                url=result.source.url,
+                url_hash=result.url_hash,
+                url=url,
                 title=title.replace("|", "\\|"),
                 file=file_path,
                 metadata=result.metadata_path.as_posix(),
@@ -379,7 +453,6 @@ def main(argv: list[str]) -> int:
             fetch_source(
                 source=source,
                 output_dir=output_dir,
-                ordinal=ordinal,
                 timeout=args.timeout,
                 user_agent=args.user_agent,
                 overwrite=args.overwrite,
@@ -391,7 +464,10 @@ def main(argv: list[str]) -> int:
 
     index_path = write_index(output_dir=output_dir, results=results, dry_run=args.dry_run)
     failed_count = sum(1 for result in results if result.status == "failed")
+    skipped_count = sum(1 for result in results if result.status == "skipped-existing")
     print(f"Wrote evidence index: {index_path}")
+    if skipped_count:
+        print(f"Skipped existing downloads: {skipped_count}")
     if failed_count:
         print(f"Failed downloads: {failed_count}", file=sys.stderr)
         return 3

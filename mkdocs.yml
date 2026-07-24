@@ -46,7 +46,6 @@ nav:
   - "시작":
       - "소개": index.md
       - "책의 목차": table-of-contents.md
-      - "개념사전": reference/concept-glossary.md
   - "Part 1. AI 개론과 지형도":
       - "개요": parts/part-01/index.md
       - "Module 1. AI의 범위와 역사":
@@ -574,6 +573,8 @@ nav:
               - "P7-7.4 경고 등급 설계 연습": parts/part-07/chapter-07/section-04.md
               - "P7-7.5 재현 가능한 프로젝트 패키지 만들기": parts/part-07/chapter-07/section-05.md
       - "마무리": parts/part-07/summary.md
+  - "부록":
+      - "개념사전": reference/concept-glossary.md
 
 markdown_extensions:
   - admonition
@@ -623,7 +624,6 @@ plugins:
             - "Start":
                 - "Introduction": index.md
                 - "Table of Contents": table-of-contents.md
-                - "Concept Glossary": reference/concept-glossary.md
             - "Part 1. Introduction to AI and the Landscape":
                 - "Overview": parts/part-01/index.md
                 - "Module 1. Scope and History of AI":
@@ -1030,6 +1030,8 @@ plugins:
             - "Part 7. Projects":
                 - "Overview": parts/part-07/index.md
                 - "Summary": parts/part-07/summary.md
+            - "Appendix":
+                - "Concept Glossary": reference/concept-glossary.md
           theme:
             language: en
         - locale: zh
