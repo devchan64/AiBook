@@ -1,14 +1,15 @@
 # AiBook
 
-AiBook은 AI를 다시 배우기 위한 정적 웹 책 프로젝트입니다. AI를 처음 공부하는 사람, 예전에 AI 개론을 배웠지만 개념이 흐릿해진 사람, AI 도구는 써 봤지만 내부 원리를 더 알고 싶은 비전공자가 같은 학습 흐름을 따라갈 수 있게 구성합니다.
+AiBook은 AI를 다시 배우기 위한 정적 웹 책 프로젝트입니다. AI를 처음 공부하는 사람, 예전에 AI 개론을 배웠지만 개념이 흐릿해진 사람, AI 도구는 써 봤지만 내부 원리를 더 알고 싶은 비전공자가 같은 흐름으로 다시 학습할 수 있게 구성합니다.
 
 - 배포 페이지: [https://devchan64.github.io/AiBook/](https://devchan64.github.io/AiBook/)
 - 독자용 소개: [`docs/index.md`](docs/index.md)
 - 독자용 목차: [`docs/table-of-contents.md`](docs/table-of-contents.md)
+- 개념사전: [`docs/reference/concept-glossary.md`](docs/reference/concept-glossary.md)
 - 전역 작업 기준: [`AGENTS.md`](AGENTS.md)
 - 관리 문서 인덱스: [`management/README.md`](management/README.md)
 
-이 저장소의 목표는 자료를 많이 모으는 것이 아닙니다. `AI 개론과 지형도 -> 기초 복구 -> 데이터 모델링 -> 머신러닝 -> 딥러닝 -> LLM과 생성형 AI -> 프로젝트`로 이어지는 재학습 경로를 만들고, 독자가 AI 서비스를 볼 때 어떤 개념이 어디에서 쓰이는지 설명할 수 있게 하는 것입니다.
+이 저장소의 목표는 자료를 많이 모으는 것이 아니라, `AI 개론과 지형도 -> 기초 복구 -> 데이터 모델링 -> 머신러닝 -> 딥러닝 -> LLM과 생성형 AI -> 프로젝트`로 이어지는 재학습 경로를 만드는 것입니다. 설명은 초심자가 따라올 수 있어야 하지만, 쉬운 비유만으로 끝내지 않고 표준 용어와 검증 가능한 근거에 연결합니다.
 
 ## 책의 구성
 
@@ -20,34 +21,32 @@ AiBook은 AI를 다시 배우기 위한 정적 웹 책 프로젝트입니다. AI
 - **Part 6. LLM과 생성형 AI**: 토큰, 프롬프트, 생성 설정, 임베딩, 검색, RAG, 에이전트, 평가를 연결합니다.
 - **Part 7. 프로젝트**: 앞에서 배운 개념을 작은 산출물로 만들고, 실행 로그와 평가 기준으로 검증합니다.
 
-## 대상 독자
+## 대상 독자와 작성 관점
 
-- AI를 처음 공부하지만, 용어와 흐름을 천천히 연결하며 배우고 싶은 독자
-- 예전에 AI 개론이나 기초 과목을 배웠지만, 지금은 기억이 많이 흐릿해진 독자
-- LLM, 챗봇, 이미지 생성 도구 같은 AI 서비스를 써 봤지만 내부 개념은 정리되지 않은 독자
+대상 독자는 대학 수준의 수학, 프로그래밍, 시스템 기초를 이미 안다고 가정하지 않습니다. 다만 핵심 용어는 논문, 공식 문서, 해외 강의, API 문서에서 다시 찾을 수 있도록 가능한 한 한국어(English) 형식으로 연결합니다.
 
-초심자는 `대학 학사 교육을 받지 않았을 수 있는 독자`를 기준으로 잡습니다. 대학 수준의 수학, 프로그래밍, 시스템 기초를 이미 안다고 가정하지 않되, 쉬운 비유만으로 끝내지 않고 핵심 용어를 표준적인 설명과 연결합니다.
-
-## 작성 관점
-
-이 책은 개인적인 직관을 출발점으로 삼을 수는 있지만, 그 직관을 그대로 정답처럼 두지 않습니다. 설명은 가능한 한 다음 세 층으로 구분합니다.
+개인적인 직관은 초안의 출발점이 될 수 있지만, 본문에서는 다음 층위를 구분합니다.
 
 - `표준적 설명`: 교과서, 논문, 공식 문서, 신뢰 가능한 자료와 연결되는 설명
 - `작업 가설`: 이해를 돕는 개인적 비유나 임시 설명
 - `검증 필요`: 표준 설명과 충돌하거나 근거가 아직 충분하지 않은 부분
 
-AI 도구는 커리큘럼 구성, 자료 조사, 초안 작성, 비교 정리, 다이어그램 작성, 문서 구조화를 돕습니다. Codex는 이 과정에서 초안 생성과 검토 보조를 수행하는 LLM 에이전트 관점의 도구로 다룹니다. 다만 생성형 AI의 출력은 항상 검토 대상이며, 자연스러운 문장이라는 이유만으로 사실로 받아들이지 않습니다.
+AI 도구는 커리큘럼 구성, 자료 조사, 초안 작성, 비교 정리, 다이어그램 작성, 문서 구조화를 돕습니다. Codex는 이 과정에서 초안 생성과 검토 보조를 수행하는 LLM 에이전트 관점의 도구로 다룹니다. 생성형 AI의 출력은 항상 검토 대상입니다.
 
 ## 저장소 구조
 
 - `docs/`: 독자에게 배포할 책 본문과 공개 자산
-- `docs/index.md`: 한국어 소개 페이지
-- `docs/table-of-contents.md`: 독자용 목차 설명
+- `docs/index.md`, `docs/table-of-contents.md`: 한국어 소개와 목차
+- `docs/index.en.md`, `docs/table-of-contents.en.md`: 영어 소개와 목차
+- `docs/index.zh.md`, `docs/table-of-contents.zh.md`: 중국어 간체 소개와 목차
 - `docs/parts/part-XX/`: Part별 본문
-- `docs/reference/concept-glossary.md`: 개념사전
-- `docs/assets/`: 본문에서 쓰는 이미지, Mermaid, 차트 자산
+- `docs/reference/concept-glossary.md`: 한국어 개념사전
+- `docs/reference/concept-glossary.en.md`: 영어 개념사전
+- `docs/assets/`: 본문에서 쓰는 이미지, Mermaid, 차트 자산의 공용 루트
+- `docs/stylesheets/`, `docs/javascripts/`: 사이트 보조 스타일과 스크립트
 - `management/`: 집필 기준, 조사 자료, 근거 분석, 릴리즈노트
-- `management/guidelines/`: 원고 작성, 메타데이터, 차트, 예제, 번역 가이드
+- `management/guidelines/`: 원고 작성, 메타데이터, 차트, 예제, 번역, 개념사전 가이드
+- `management/glossary-indexes/`: 개념사전의 한글, 영문, 중국어 보조 인덱스
 - `management/release-notes/sections/`: Section 단위 개정 이력
 - `.tmp/`: 외부 자료 확인용 임시 작업공간. 커밋하지 않습니다.
 - `site/`, `site-dev/`: MkDocs 빌드 산출물. 명시적 지시 없이 커밋하지 않습니다.
@@ -56,11 +55,12 @@ AI 도구는 커리큘럼 구성, 자료 조사, 초안 작성, 비교 정리, �
 
 ## 작업 기준
 
-작업 전에는 [`AGENTS.md`](AGENTS.md)를 먼저 확인합니다. 작업 유형에 따라 다음 가이드를 함께 봅니다.
+작업 전에는 [`AGENTS.md`](AGENTS.md)를 먼저 확인합니다. 어떤 가이드를 열어야 할지 헷갈리면 [`management/guidelines/rules-and-guidelines-summary.md`](management/guidelines/rules-and-guidelines-summary.md)를 봅니다.
 
 - 원고 작성과 큰 구조 수정: [`management/guidelines/manuscript-writing-workflow.md`](management/guidelines/manuscript-writing-workflow.md)
 - Section ID, Version, 릴리즈노트 연결: [`management/guidelines/section-metadata-guidelines.md`](management/guidelines/section-metadata-guidelines.md)
 - 릴리즈노트 파일 형식: [`management/release-notes/sections/README.md`](management/release-notes/sections/README.md)
+- 개념사전: [`management/guidelines/concept-glossary-guidelines.md`](management/guidelines/concept-glossary-guidelines.md)
 - Python 예제: [`management/guidelines/python-example-guidelines.md`](management/guidelines/python-example-guidelines.md)
 - 차트와 다이어그램: [`management/guidelines/chart-guidelines.md`](management/guidelines/chart-guidelines.md)
 - 영어 번역: [`management/guidelines/english-translation-guidelines.md`](management/guidelines/english-translation-guidelines.md)
@@ -97,22 +97,7 @@ MKDOCS_ENABLE_MINIFY=false \
 ./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml
 ```
 
-이 경우 기본 로컬 주소는 `http://127.0.0.1:9000`입니다.
-
-영어 또는 중국어 간체만 확인할 때도 같은 개발용 설정을 사용합니다.
-
-```bash
-BUILD_ONLY_LOCALE=en \
-MKDOCS_ENABLE_GIT_REVISION=false \
-MKDOCS_ENABLE_MINIFY=false \
-./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml
-```
-
-- `BUILD_ONLY_LOCALE=ko`, `en`, `zh`처럼 지정하면 해당 locale만 빌드합니다.
-- `BUILD_ONLY_LOCALE`을 지정하지 않으면 `ko`, `en`, `zh` 전체를 빌드합니다.
-- `MKDOCS_ENABLE_GIT_REVISION=false`는 수정일 계산 플러그인을 끕니다.
-- `MKDOCS_ENABLE_MINIFY=false`는 HTML minify를 끕니다.
-- 검색 인덱스까지 끄고 싶다면 `MKDOCS_ENABLE_SEARCH=false`를 추가할 수 있습니다.
+이 경우 기본 로컬 주소는 `http://127.0.0.1:9000`입니다. `BUILD_ONLY_LOCALE`에는 `ko`, `en`, `zh`를 지정할 수 있고, 지정하지 않으면 전체 locale을 빌드합니다. 검색 인덱스까지 끄고 싶다면 `MKDOCS_ENABLE_SEARCH=false`를 추가할 수 있습니다.
 
 ## 빌드 검증
 
@@ -122,9 +107,7 @@ MKDOCS_ENABLE_MINIFY=false \
 ./.venv/bin/python -m mkdocs build
 ```
 
-가상환경을 활성화했더라도 시스템 `python3`와 `.venv` 패키지 경로가 섞이면 플러그인 import 문제가 날 수 있습니다. MkDocs 관련 명령은 `./.venv/bin/python -m mkdocs ...` 형식을 우선 사용합니다.
-
-`--dirty`는 변경된 파일 중심으로 다시 빌드해 체감 속도를 줄일 수 있지만, 이 저장소는 `i18n` 플러그인, 큰 `nav`, `pymdownx.snippets` 기반 Mermaid include를 함께 사용합니다. Mermaid 원본을 `docs/assets/.../*.mmd`에서 수정할 때는 `--dirty` 없이 일반 `serve`로 확인하는 편이 안전합니다.
+MkDocs 관련 명령은 시스템 `python3` 대신 `./.venv/bin/python -m mkdocs ...` 형식을 우선 사용합니다. Mermaid 원본을 `docs/assets/.../*.mmd`에서 수정할 때는 `--dirty` 없이 일반 `serve` 또는 `build`로 확인하는 편이 안전합니다.
 
 ## GitHub Pages 배포
 
