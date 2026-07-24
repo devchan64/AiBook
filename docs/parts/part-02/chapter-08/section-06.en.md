@@ -1,7 +1,7 @@
 # P2-8.6 Supplemental Learning: First Meeting Classes and Objects
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
 
@@ -439,15 +439,47 @@ Classes are powerful, but if used too early, they can make the structure heavy. 
 
 In AI practice, we often see code like the following.
 
-Problem situation: We want to see the method-call form that appears often in AI libraries in the simplest way.
-Input: `model`, `train_data`, `test_data`.
-Expected output: Example calls such as `model.fit(...)` and `model.predict(...)`.
-Concept to check: Because library objects have both state and behavior, method-call form appears often.
+Problem situation: We want to run the `fit()` and `predict()` call shape that appears often in AI libraries in the simplest way.
+Input: Simple training data `train_data` and checking data `test_data`.
+Expected output: The model state before and after calling `fit()`, and the result of `predict()`.
+Concept to check: `fit()` can change state inside an object, and `predict()` can use that state to make a result.
 
 ```python
 # This example checks how classes, objects, and method calls bundle values with behavior.
+class SimplePassModel:
+    def __init__(self):
+        self.threshold = None
+
+    def fit(self, train_data):
+        # fit() reads training data and stores state inside the object.
+        passed_scores = [score for score, passed in train_data if passed]
+        self.threshold = min(passed_scores)
+
+    def predict(self, test_data):
+        # predict() uses the state that fit() stored.
+        if self.threshold is None:
+            raise ValueError("Call fit() first.")
+        return [score >= self.threshold for score in test_data]
+
+
+train_data = [(62, False), (75, True), (83, True)]
+test_data = [70, 78]
+
+model = SimplePassModel()
+
+print("before fit:", model.threshold)
 model.fit(train_data)
+print("after fit:", model.threshold)
 predictions = model.predict(test_data)
+print("predictions:", predictions)
+```
+
+We can read the output as follows.
+
+```text
+before fit: None
+after fit: 75
+predictions: [False, True]
 ```
 
 This code differs by library, but the reading method is similar.

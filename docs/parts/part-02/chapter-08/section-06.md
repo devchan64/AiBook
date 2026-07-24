@@ -1,7 +1,7 @@
 # P2-8.6 보충학습: 클래스(class)와 객체(object)를 처음 만날 때
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P2-8.5에서는 함수(function)를 작은 재사용 단위로 봤습니다. 함수는 입력을 받고, 처리하고, 결과를 돌려줍니다. 그런데 Python 코드를 읽다 보면 함수 호출과 비슷하지만 조금 다른 표현을 자주 만납니다.
 
@@ -439,15 +439,47 @@ class Sample:
 
 AI 실습에서는 다음과 같은 코드를 자주 보게 됩니다.
 
-문제 상황: AI 라이브러리에서 자주 보이는 메서드 호출 모양을 가장 단순하게 보고 싶습니다.
-입력(input): `model`, `train_data`, `test_data`.
-기대 출력(output): `model.fit(...)`, `model.predict(...)` 호출 예시.
-확인할 개념: 라이브러리 객체는 상태와 동작을 함께 가지므로 메서드 호출 형태가 자주 나타납니다.
+문제 상황: AI 라이브러리에서 자주 보이는 `fit()`과 `predict()` 호출 모양을 가장 단순하게 실행해 보고 싶습니다.
+입력(input): 간단한 학습 데이터 `train_data`와 확인용 데이터 `test_data`.
+기대 출력(output): `fit()` 호출 전후의 모델 상태와 `predict()` 결과.
+확인할 개념: `fit()`은 객체 안의 상태를 바꾸고, `predict()`는 그 상태를 사용해 결과를 만들 수 있습니다.
 
 ```python
 # 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
+class SimplePassModel:
+    def __init__(self):
+        self.threshold = None
+
+    def fit(self, train_data):
+        # fit()은 학습 데이터를 읽고 객체 안의 상태를 저장합니다.
+        passed_scores = [score for score, passed in train_data if passed]
+        self.threshold = min(passed_scores)
+
+    def predict(self, test_data):
+        # predict()는 fit()이 저장한 상태를 사용합니다.
+        if self.threshold is None:
+            raise ValueError("fit()을 먼저 호출해야 합니다.")
+        return [score >= self.threshold for score in test_data]
+
+
+train_data = [(62, False), (75, True), (83, True)]
+test_data = [70, 78]
+
+model = SimplePassModel()
+
+print("before fit:", model.threshold)
 model.fit(train_data)
+print("after fit:", model.threshold)
 predictions = model.predict(test_data)
+print("predictions:", predictions)
+```
+
+실행 결과는 다음처럼 읽을 수 있습니다.
+
+```text
+before fit: None
+after fit: 75
+predictions: [False, True]
 ```
 
 이 코드는 실제 라이브러리마다 다르지만, 읽는 방식은 비슷합니다.

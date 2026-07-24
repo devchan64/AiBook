@@ -1,7 +1,7 @@
 # P2-8.6 补充学习：第一次遇到类(class)与对象(object)
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 在 P2-8.5 里，我们把函数(function)看成小型复用单元。函数接收输入、进行处理、返回结果。但在阅读 Python 代码时，我们经常会遇到一种看起来和函数调用相似、却又稍微不同的表达。
 
@@ -439,15 +439,47 @@ class Sample:
 
 在 AI 实践里，我们经常会看到下面这样的代码。
 
-问题场景：想先用最简单的方式看看 AI 库里常见的方法调用长什么样。
-输入(input)：`model`、`train_data`、`test_data`。
-期望输出(output)：类似 `model.fit(...)`、`model.predict(...)` 的调用示例。
-要确认的概念：因为库对象同时拥有状态和动作，所以方法调用形状会很常见。
+问题场景：想先用最简单的方式实际运行 AI 库里常见的 `fit()` 和 `predict()` 调用形状。
+输入(input)：简单训练数据 `train_data` 和确认用数据 `test_data`。
+期望输出(output)：调用 `fit()` 前后的模型状态，以及 `predict()` 的结果。
+要确认的概念：`fit()` 可以改变对象内部的状态，`predict()` 可以利用这个状态生成结果。
 
 ```python
 # 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
+class SimplePassModel:
+    def __init__(self):
+        self.threshold = None
+
+    def fit(self, train_data):
+        # fit() 读取训练数据，并把状态保存到对象内部。
+        passed_scores = [score for score, passed in train_data if passed]
+        self.threshold = min(passed_scores)
+
+    def predict(self, test_data):
+        # predict() 使用 fit() 保存的状态。
+        if self.threshold is None:
+            raise ValueError("请先调用 fit()。")
+        return [score >= self.threshold for score in test_data]
+
+
+train_data = [(62, False), (75, True), (83, True)]
+test_data = [70, 78]
+
+model = SimplePassModel()
+
+print("before fit:", model.threshold)
 model.fit(train_data)
+print("after fit:", model.threshold)
 predictions = model.predict(test_data)
+print("predictions:", predictions)
+```
+
+运行结果可以这样读。
+
+```text
+before fit: None
+after fit: 75
+predictions: [False, True]
 ```
 
 这段代码会随着具体库不同而不同，但读法很相似。
