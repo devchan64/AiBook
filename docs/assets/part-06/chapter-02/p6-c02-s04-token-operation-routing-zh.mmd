@@ -1,0 +1,15 @@
+flowchart TD
+  A["与 token 相关的失败<br/>出现在日志或复核中"]
+  B["确认 token 证据<br/>输入长度 / chunk 边界 / 输出上限"]
+  C{"压力最先<br/>出现在哪里？"}
+  D["输入侧<br/>压缩 prompt 或拆分长文档"]
+  E["检索侧<br/>重新调整 chunk 与 overlap"]
+  F["输出侧<br/>缩短格式并把核心句提前"]
+  G["评估侧<br/>用 token trace 比较失败案例"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E
+  C --> F
+  C --> G

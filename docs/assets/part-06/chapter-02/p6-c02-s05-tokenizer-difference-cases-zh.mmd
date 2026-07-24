@@ -1,0 +1,10 @@
+flowchart TD
+  A["同一个 tokenizer 问题"]
+  B["相似请求<br/>token 数是否不同？"]
+  C["chunk 边界<br/>核心条件是否留在一起？"]
+  D["后续检索 / 成本<br/>下游行为是否改变？"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D
