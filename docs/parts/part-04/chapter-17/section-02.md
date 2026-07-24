@@ -1,7 +1,7 @@
 # P4-17.2 군집 결과를 해석할 때의 주의점
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning) 문제로 보았습니다. 이제 더 중요한 단계는 해석입니다.
 
@@ -308,6 +308,70 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 
 ## 연습 및 예제
 
+### 라이브러리로 확인하기: 스케일을 바꾸면 군집도 바뀔 수 있다
+
+이번 예제는 같은 고객 데이터를 `AgglomerativeClustering`으로 두 군집으로 나누되, 원본 특징을 그대로 쓸 때와 표준화한 뒤 쓸 때 군집 구성이 어떻게 달라지는지 확인합니다.
+
+```python
+import pandas as pd
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.preprocessing import StandardScaler
+
+customers = pd.DataFrame(
+    [
+        {"id": "A", "visits": 2, "spend": 20, "support": 1},
+        {"id": "B", "visits": 3, "spend": 22, "support": 0},
+        {"id": "C", "visits": 8, "spend": 85, "support": 4},
+        {"id": "D", "visits": 9, "spend": 88, "support": 5},
+        {"id": "E", "visits": 9, "spend": 28, "support": 6},
+        {"id": "F", "visits": 10, "spend": 30, "support": 7},
+    ]
+)
+
+features = customers[["visits", "spend", "support"]]
+
+
+def summarize(labels):
+    table = customers.assign(cluster=labels)
+    summary = table.groupby("cluster")[["visits", "spend", "support"]].mean().round(1)
+    members = table.groupby("cluster")["id"].apply(list)
+    for cluster_id in sorted(summary.index):
+        print(
+            "cluster",
+            int(cluster_id),
+            "members=",
+            members.loc[cluster_id],
+            "mean=",
+            summary.loc[cluster_id].to_dict(),
+        )
+
+
+raw_labels = AgglomerativeClustering(n_clusters=2).fit_predict(features)
+scaled_labels = AgglomerativeClustering(n_clusters=2).fit_predict(
+    StandardScaler().fit_transform(features)
+)
+
+print("raw features")
+summarize(raw_labels)
+print("scaled features")
+summarize(scaled_labels)
+```
+
+실행 결과는 다음과 같습니다.
+
+```text
+raw features
+cluster 0 members= ['A', 'B', 'E', 'F'] mean= {'visits': 6.0, 'spend': 25.0, 'support': 3.5}
+cluster 1 members= ['C', 'D'] mean= {'visits': 8.5, 'spend': 86.5, 'support': 4.5}
+scaled features
+cluster 0 members= ['C', 'D', 'E', 'F'] mean= {'visits': 9.0, 'spend': 57.8, 'support': 5.5}
+cluster 1 members= ['A', 'B'] mean= {'visits': 2.5, 'spend': 21.0, 'support': 0.5}
+```
+
+원본 특징을 그대로 쓰면 `spend` 축이 크게 작동해 C와 D만 따로 묶입니다. 표준화한 뒤에는 방문 수와 문의 수가 더 크게 반영되어 C, D, E, F가 한쪽으로 묶입니다. 여기서 읽을 것은 `어느 결과가 진짜인가`가 아니라, 군집이 표현 방식에 민감하므로 번호보다 특징 요약과 민감도 점검을 먼저 남겨야 한다는 점입니다.
+
+### 번호만 보고 의미를 붙이면 왜 위험한가
+
 이번 예제는 고객을 두 군집으로 나누었다고 해서 그 번호가 자동으로 의미를 가지지 않는다는 점을 보여 주는 작은 실습입니다. 여기서는 번호만 바뀌어도 해석 문장이 그대로 유지되어야 한다는 점까지 직접 확인합니다.
 
 - 문제 상황: 알고리즘이 두 그룹을 만들었지만, 번호만 보고 의미를 붙이면 안 된다는 점을 본다
@@ -343,8 +407,6 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 ### 값 하나 바꿔 보기: 번호를 뒤집어도 해석은 그대로여야 한다
 
 이번에는 같은 고객 묶음을 유지한 채 cluster 번호만 뒤집어 봅니다.
-
-이번에는 고객 묶음은 그대로 두고 cluster 번호만 뒤집어 봅니다.
 
 | 고객 | cluster ID | 방문 수 | 지출 |
 | --- | --- | --- | --- |

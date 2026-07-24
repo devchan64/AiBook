@@ -1,7 +1,7 @@
 # P4-19.4 补充学习：强化学习后续分支地图
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _副标题: DQN、PPO、RLHF 分别从强化学习的哪些问题意识中分化出来？_
 
@@ -244,6 +244,59 @@ RLHF，reinforcement learning from human feedback，从名字上看像是强化�
 | policy update 太摇晃 | DQN | PPO、TRPO、A2C、A3C |
 | 现实里没法做很多新 exploration | RLHF | safe RL、offline RL |
 | 人类偏好必须作用到语言模型输出 | DQN | RLHF、preference optimization |
+
+同样的判断，也可以用一个很小的向量比较来确认。下面的代码会给每条后续分支设置一个问题轴分数向量，然后用 `cosine_similarity` 找出和当前瓶颈最接近的分支。这个例子不是要用这些数字证明研究谱系，而是把“先看瓶颈，再看名字”的习惯变成一次可运行的小检查。
+
+```python
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+
+axes = ["state_space", "policy_stability", "real_world_constraint", "human_preference"]
+branches = pd.DataFrame(
+    [
+        [0.95, 0.10, 0.05, 0.05],
+        [0.20, 0.95, 0.10, 0.05],
+        [0.10, 0.25, 0.95, 0.05],
+        [0.05, 0.25, 0.20, 0.95],
+    ],
+    index=["DQN", "PPO", "offline_RL", "RLHF"],
+    columns=axes,
+)
+
+bottlenecks = pd.DataFrame(
+    [
+        [1.00, 0.10, 0.10, 0.00],
+        [0.10, 1.00, 0.20, 0.10],
+        [0.10, 0.20, 1.00, 0.10],
+        [0.00, 0.20, 0.10, 1.00],
+    ],
+    index=[
+        "huge_state_space",
+        "unstable_policy_update",
+        "cannot_explore_online",
+        "human_preference_feedback",
+    ],
+    columns=axes,
+)
+
+scores = cosine_similarity(bottlenecks, branches)
+score_table = pd.DataFrame(scores, index=bottlenecks.index, columns=branches.index)
+
+for bottleneck, row in score_table.iterrows():
+    best_branch = row.idxmax()
+    print(bottleneck, "->", best_branch, "score=", round(row[best_branch], 3))
+```
+
+运行结果如下。
+
+```text
+huge_state_space -> DQN score= 0.998
+unstable_policy_update -> PPO score= 0.989
+cannot_explore_online -> offline_RL score= 0.997
+human_preference_feedback -> RLHF score= 0.992
+```
+
+这个输出不是要做一个 `DQN 永远是答案` 之类的自动分类器。它说明的是：如果先把瓶颈写成 `状态空间`、`策略稳定性`、`现实约束`、`人类偏好` 这些轴，就会更容易判断该先查哪条后续分支。
 
 ### 直接判断一下
 

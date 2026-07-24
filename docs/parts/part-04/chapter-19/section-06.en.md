@@ -1,7 +1,7 @@
 # P4-19.6 Supplementary Learning: First Reading of Policy Gradient
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _Subtitle: How does the likelihood ratio trick connect changes in policy probability to expected reward?_
 
@@ -131,14 +131,15 @@ Problem situation:
 
 Input:
 
-- probability of the chosen action `0.7`
-- log-probability `log(0.7)`
+- policy logits for two actions
+- the selected action
 - a positive reward and a negative reward for the same action
 
 Expected output:
 
-- the value of the log-probability
-- the direction of interpretation that changes with the sign of the reward
+- action probabilities before the update
+- `grad log pi(a|s)` for the selected action
+- action probabilities after the update, changed by the reward sign
 
 Concepts to check:
 
@@ -146,33 +147,52 @@ Concepts to check:
 - if the reward sign changes, the adjustment direction for the same action changes too
 
 ```python
-# This example shows how the selected action log-probability and reward sign change the policy-update reading direction.
-import math
+import numpy as np
 
-chosen_prob = 0.7
-log_prob = math.log(chosen_prob)
 
-positive_reward = 2.0
-negative_reward = -2.0
+def softmax(logits):
+    shifted = logits - np.max(logits)
+    exp_values = np.exp(shifted)
+    return exp_values / exp_values.sum()
 
-print("log pi(a|s) =", round(log_prob, 3))
-print("positive signal =", round(positive_reward * log_prob, 3))
-print("negative signal =", round(negative_reward * log_prob, 3))
+
+# Two actions: show_discount_banner, show_recommendation_banner
+logits = np.array([0.2, -0.2])
+chosen_action = 0
+learning_rate = 0.4
+
+for reward in [2.0, -2.0]:
+    probs_before = softmax(logits)
+    grad_log_prob = -probs_before
+    grad_log_prob[chosen_action] += 1.0
+    logits_after = logits + learning_rate * reward * grad_log_prob
+    probs_after = softmax(logits_after)
+
+    print("reward=", reward)
+    print("prob_before=", [round(float(v), 3) for v in probs_before])
+    print("grad_log_prob=", [round(float(v), 3) for v in grad_log_prob])
+    print("prob_after=", [round(float(v), 3) for v in probs_after])
 ```
 
 An example result can be read like this.
 
 ```text
-log pi(a|s) = -0.357
-positive signal = -0.713
-negative signal = 0.713
+reward= 2.0
+prob_before= [0.599, 0.401]
+grad_log_prob= [0.401, -0.401]
+prob_after= [0.739, 0.261]
+reward= -2.0
+prob_before= [0.599, 0.401]
+grad_log_prob= [0.401, -0.401]
+prob_after= [0.44, 0.56]
 ```
 
 The key point of this example is not to memorize the signs themselves.
 
-1. `log pi(a|s)` is the reading handle that connects the chosen-action probability to the update calculation.
-2. Even for the same action, a good reward should be read as moving in the direction that makes it appear more often, while a bad reward should be read as moving in the direction that makes it appear less often.
-3. The likelihood ratio trick changes `probability differentiation` into `log-probability gradient` so that this connection becomes easier to read.
+1. `grad log pi(a|s)` is the reading handle that connects the chosen-action probability to the update calculation.
+2. With a positive reward, the probability of the selected action rises from `0.599 -> 0.739`.
+3. With a negative reward, the same gradient makes the probability of the selected action fall from `0.599 -> 0.44`.
+4. The likelihood ratio trick changes `probability differentiation` into `log-probability gradient` so that this connection becomes easier to read.
 
 ### Judge It Directly
 

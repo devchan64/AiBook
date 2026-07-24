@@ -1,7 +1,7 @@
 # P4-5.2 Generalization
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-5.1 separated `overfitting` from `underfitting`. Now we need to move one step higher. Why do we care so much about that distinction? In the end, the goal of machine learning is not `raising the score on training data`, but `working usefully even on data the model has not seen yet`. The word that organizes that question is `generalization`.
 
@@ -293,6 +293,65 @@ The important interpretation here is the following.
 - validation score asks `how much does it hold up on similar data it has not seen yet?`
 
 Generalization is closer mainly to the second question.
+
+Now let us split the same model several different ways. The example below uses the same data and the same `DecisionTreeClassifier`, but changes the `random_state` of `train_test_split` and prints how much the test score and gap fluctuate.
+
+```python
+from statistics import mean, pstdev
+
+from sklearn.datasets import make_classification
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=220,
+    n_features=8,
+    n_informative=3,
+    n_redundant=1,
+    flip_y=0.08,
+    class_sep=0.8,
+    random_state=12,
+)
+
+results = []
+for seed in range(6):
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.35, random_state=seed, stratify=y
+    )
+    model = DecisionTreeClassifier(max_depth=4, random_state=0)
+    model.fit(X_train, y_train)
+    train_score = accuracy_score(y_train, model.predict(X_train))
+    test_score = accuracy_score(y_test, model.predict(X_test))
+    results.append((seed, train_score, test_score, train_score - test_score))
+
+for seed, train_score, test_score, gap in results:
+    print(
+        seed,
+        "train=", round(train_score, 3),
+        "test=", round(test_score, 3),
+        "gap=", round(gap, 3),
+    )
+
+print(
+    "test mean=", round(mean(row[2] for row in results), 3),
+    "test std=", round(pstdev(row[2] for row in results), 3),
+)
+```
+
+An example output is as follows.
+
+```text
+0 train= 0.944 test= 0.623 gap= 0.321
+1 train= 0.874 test= 0.805 gap= 0.069
+2 train= 0.93 test= 0.714 gap= 0.216
+3 train= 0.93 test= 0.766 gap= 0.164
+4 train= 0.923 test= 0.74 gap= 0.183
+5 train= 0.881 test= 0.766 gap= 0.115
+test mean= 0.736 test std= 0.057
+```
+
+This output shows why generalization should not be closed with one score. Even with the same data and the same model, the score and the gap fluctuate depending on which samples went into the test side. So generalization asks not only `what was the score on this split?`, but also whether performance holds up to some degree across similar new-data splits.
 
 ### Reading Generalization On Social Phenomena Through A Table
 

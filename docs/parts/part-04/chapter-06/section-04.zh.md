@@ -1,7 +1,7 @@
 # P4-6.4 补充学习：评估指标的问题地图
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _副标题: ROC、PR、log loss、calibration、silhouette 分别回答什么评估问题？_
 
@@ -328,6 +328,48 @@ silhouette 可以理解成：同时比较 `和自己 cluster 的接近程度` �
 ```mermaid
 --8<-- "assets/part-04/chapter-06/p4-6-4-mermaid-01-zh.mmd"
 ```
+
+同样的判断，也可以用一小段代码输出确认。下面的例子会从同一组二分类概率输出里计算 ROC-AUC、PR-AUC、log loss、calibration bin，再在另一组小的 cluster 坐标上计算 silhouette。
+
+```python
+import numpy as np
+from sklearn.calibration import calibration_curve
+from sklearn.metrics import (
+    average_precision_score,
+    log_loss,
+    roc_auc_score,
+    silhouette_score,
+)
+
+actual = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+probability = np.array([0.05, 0.25, 0.35, 0.80, 0.45, 0.65, 0.72, 0.95])
+
+print("roc_auc=", round(roc_auc_score(actual, probability), 3))
+print("pr_auc=", round(average_precision_score(actual, probability), 3))
+print("log_loss=", round(log_loss(actual, probability), 3))
+
+prob_true, prob_pred = calibration_curve(actual, probability, n_bins=3, strategy="uniform")
+print(
+    "calibration_bins=",
+    [(round(float(p), 3), round(float(t), 3)) for p, t in zip(prob_pred, prob_true)],
+)
+
+points = np.array([[0.0, 0.1], [0.2, -0.1], [3.0, 3.1], [3.2, 2.9], [0.1, 0.3], [3.1, 3.3]])
+cluster_labels = np.array([0, 0, 1, 1, 0, 1])
+print("silhouette=", round(silhouette_score(points, cluster_labels), 3))
+```
+
+输出示例如下。
+
+```text
+roc_auc= 0.812
+pr_auc= 0.804
+log_loss= 0.499
+calibration_bins= [(0.15, 0.0), (0.483, 0.667), (0.823, 0.667)]
+silhouette= 0.928
+```
+
+这个输出说明，指标名字变多是有原因的。ROC-AUC 和 PR-AUC 会从不同角度读取同一组概率排序，log loss 会把概率自信程度作为惩罚来读。calibration bin 让我们看到类似 `看起来像 0.483 的分数组里，真实阳性频率是 0.667` 这样的关系。silhouette 问的不是有没有对上答案 label，而是给定 cluster 内部是否紧密、彼此之间是否分开。
 
 可检验的结果也会随着问题不同而不同。只要 threshold 一动，就要分别看 precision 和 recall 的摆动；只要看高风险分数组，就要确认它和真实欺诈比例是否吻合；只要看 cluster，就要单独看 cluster 里面的交易是不是真的彼此相似。所以，这些指标不该被读成 `新名字`，而该被读成对 `更具体问题` 的回应工具。
 

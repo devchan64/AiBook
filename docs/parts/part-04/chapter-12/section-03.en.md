@@ -1,7 +1,7 @@
 # P4-12.3 What Should Be Checked First When Using k-NN?
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-12.1 introduced the intuition of k-NN, and P4-12.2 showed why distance and scale can change the result. The remaining question is the following.
 
@@ -144,6 +144,67 @@ At that point, the team should not jump immediately to `should we switch models?
 This order helps the reader separate `failure of the model family` from `instability of the judgment criterion`.
 
 So the goal of this Section is not the vague conclusion `k-NN must be used carefully`. More precisely, it is to let the reader explain for themselves `what should be reopened first when the prediction starts to shake`.
+
+## Practice And Example
+
+This example keeps the same query and checks how `k` and scaling change the neighbor list and prediction.
+
+- Problem situation: predict churn with k-NN from monthly spending and support-ticket count
+- Input: each customer's `monthly_spend`, `support_tickets`, and `churn`
+- Expected output: prediction by `k`, nearby-neighbor IDs, and the changed neighbors after scaling
+- Concepts to check:
+  - `k=1` can be pulled strongly by one nearest case
+  - increasing `k` can change the local majority vote
+  - features with different numeric ranges can change neighbor order before and after scaling
+
+```python
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+customers = pd.DataFrame(
+    [
+        {"id": "A", "monthly_spend": 30, "support_tickets": 0, "churn": 0},
+        {"id": "B", "monthly_spend": 58, "support_tickets": 0, "churn": 0},
+        {"id": "C", "monthly_spend": 61, "support_tickets": 0, "churn": 0},
+        {"id": "D", "monthly_spend": 65, "support_tickets": 0, "churn": 0},
+        {"id": "E", "monthly_spend": 40, "support_tickets": 8, "churn": 1},
+        {"id": "F", "monthly_spend": 62, "support_tickets": 8, "churn": 1},
+        {"id": "G", "monthly_spend": 90, "support_tickets": 9, "churn": 1},
+    ]
+)
+
+X = customers[["monthly_spend", "support_tickets"]]
+y = customers["churn"]
+query = pd.DataFrame([{"monthly_spend": 63, "support_tickets": 7}])
+
+for k in [1, 3, 5]:
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(X, y)
+    distances, indices = model.kneighbors(query, n_neighbors=k)
+    neighbor_ids = customers.iloc[indices[0]]["id"].tolist()
+    print("raw k=", k, "prediction=", int(model.predict(query)[0]), "neighbors=", neighbor_ids)
+
+scaled_model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=3))
+scaled_model.fit(X, y)
+knn = scaled_model.named_steps["kneighborsclassifier"]
+scaled_query = scaled_model.named_steps["standardscaler"].transform(query)
+distances, indices = knn.kneighbors(scaled_query, n_neighbors=3)
+neighbor_ids = customers.iloc[indices[0]]["id"].tolist()
+print("scaled k= 3 prediction=", int(scaled_model.predict(query)[0]), "neighbors=", neighbor_ids)
+```
+
+The output is as follows.
+
+```text
+raw k= 1 prediction= 1 neighbors= ['F']
+raw k= 3 prediction= 0 neighbors= ['F', 'C', 'D']
+raw k= 5 prediction= 0 neighbors= ['F', 'C', 'D', 'B', 'E']
+scaled k= 3 prediction= 1 neighbors= ['F', 'E', 'G']
+```
+
+This output does not mean readers should immediately say `k-NN is wrong`. With the same query, `k=1` is pulled by the single nearest case F, while `k=3` changes the prediction once C and D enter the neighborhood. After scaling, support-ticket count is reflected more clearly in the distance calculation, so E and G enter the nearby-neighbor set. Therefore, when a query shakes, readers should reopen `k`, neighbor composition, and scale in order.
 
 ## Checklist
 

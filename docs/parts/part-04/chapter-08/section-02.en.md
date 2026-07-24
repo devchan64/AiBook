@@ -1,7 +1,7 @@
 # P4-8.2 Baseline
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 In P4-8.1, the discussion examined what model families should be raised as candidates. Now, instead of immediately grabbing those candidates in order of complexity, it moves to the question of setting the starting point of comparison first.
 
@@ -284,6 +284,58 @@ Before building the model, the team first sets up a very simple standard that pr
 In this scene, the baseline becomes the floor line for checking `did the complex model really improve in a meaningful way`. Even if the actual model raised accuracy a little, it may not be a big improvement from the operational point of view if fraud recall is still low. By contrast, if recall and F1 clearly improved over the baseline, only then can the reader say that the complex model handles the minority-class problem better.
 
 The confirmable result appears when the baseline and actual model are compared side by side on the same metrics. When not only accuracy but also recall and F1 are placed together, it becomes clear why the baseline is not `a low-performance model`, but `a reference line for interpreting scores`.
+
+The example below reduces this illusion with an actual `DummyClassifier` and `DecisionTreeClassifier`. The data are created as a classification problem with a small positive class, like fraud transactions.
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, recall_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=260,
+    n_features=6,
+    n_informative=2,
+    n_redundant=0,
+    weights=[0.82, 0.18],
+    class_sep=0.9,
+    random_state=21,
+)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.35, random_state=4, stratify=y
+)
+
+models = {
+    "dummy_most_frequent": DummyClassifier(strategy="most_frequent"),
+    "decision_tree": DecisionTreeClassifier(max_depth=3, random_state=0),
+}
+
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    predicted = model.predict(X_test)
+    tn, fp, fn, tp = confusion_matrix(y_test, predicted, labels=[0, 1]).ravel()
+    print(name)
+    print(
+        " accuracy=", round(accuracy_score(y_test, predicted), 3),
+        "positive_recall=", round(recall_score(y_test, predicted, zero_division=0), 3),
+    )
+    print(" confusion=", {"tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp)})
+```
+
+An example output is as follows.
+
+```text
+dummy_most_frequent
+ accuracy= 0.824 positive_recall= 0.0
+ confusion= {'tn': 75, 'fp': 0, 'fn': 16, 'tp': 0}
+decision_tree
+ accuracy= 0.956 positive_recall= 0.75
+ confusion= {'tn': 75, 'fp': 0, 'fn': 4, 'tp': 12}
+```
+
+`dummy_most_frequent` also looks high in accuracy at 0.824. But positive-class recall is 0.0, and it missed all 16 actual positives. A baseline model is therefore not decoration for showing a failed model. It is a comparison line that first reveals the illusion created when only accuracy is read.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-en.mmd"

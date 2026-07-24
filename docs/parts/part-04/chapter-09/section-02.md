@@ -1,7 +1,7 @@
 # P4-9.2 튜닝(tuning)과 검증 비용
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오래전부터 별도 문제로 다뤄졌는지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -385,7 +385,12 @@ search = GridSearchCV(
 
 search.fit(X_train, y_train)
 
-print("candidate combinations:", len(search.cv_results_["params"]))
+candidate_count = len(search.cv_results_["params"])
+cv_folds = search.cv
+
+print("candidate combinations:", candidate_count)
+print("cv folds              :", cv_folds)
+print("total model fits      :", candidate_count * cv_folds)
 print("best params           :", search.best_params_)
 print("best cv score         :", round(search.best_score_, 3))
 print("test score            :", round(search.score(X_test, y_test), 3))
@@ -395,14 +400,17 @@ print("test score            :", round(search.score(X_test, y_test), 3))
 
 ```text
 candidate combinations: 12
+cv folds              : 5
+total model fits      : 60
 best params           : {'max_depth': 3, 'min_samples_split': 2}
 best cv score         : 0.952
-test score            : 0.933
+test score            : 0.978
 ```
 
 이 예제가 보여 주는 것은 단순합니다.
 
 - 후보 조합 수는 곧 계산 비용과 연결됩니다.
+- `cv folds`를 곱하면 실제 모델을 몇 번 맞춰 보는지 대략 볼 수 있습니다.
 - `best cv score`는 validation 절차 안에서 가장 좋았던 점수입니다.
 - `test score`는 마지막 확인 점수입니다.
 
@@ -411,7 +419,7 @@ test score            : 0.933
 이 장난감 예제도 작은 실증 사례로 읽을 수 있습니다.
 
 - 후보 조합 수 12개는 작은 실습에서는 부담이 크지 않습니다.
-- 하지만 같은 방식으로 축을 몇 개 더 늘리면 계산 비용은 빠르게 커집니다.
+- 하지만 5-fold로만 돌려도 실제 fit은 60번입니다. 같은 방식으로 축을 몇 개 더 늘리면 계산 비용은 빠르게 커집니다.
 - `best cv score`와 `test score`가 같지 않다는 점은 validation과 최종 확인이 서로 다른 역할을 가진다는 사실을 다시 보여 줍니다.
 
 예를 들어 후보 모델이 0.910이고 튜닝 후 0.912라면 바로 배포 결론을 내리지 않습니다. 먼저 어떤 조합이 같은 validation 분할에만 과하게 맞았는지, 그리고 0.002 개선이 추론 시간과 운영 복잡도 증가를 감수할 값인지 함께 다시 봐야 합니다. 즉, 튜닝 절의 핵심은 `최고 점수`를 외우는 것이 아니라 `작은 개선이 실제로도 남는 개선인가`를 끝까지 확인하는 데 있습니다. 여기서도 점수 차이는 검토 우선순위를 올리는 신호일 뿐이며, 입력 표현과 오류 장면을 다시 보기 전에는 원인 해석으로 곧바로 넘어가지 않습니다.

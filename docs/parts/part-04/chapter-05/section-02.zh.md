@@ -1,7 +1,7 @@
 # P4-5.2 泛化(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P4-5.1 里，我们区分了 `过拟合` 和 `欠拟合`。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 `泛化(generalization)`。
 
@@ -293,6 +293,65 @@ generalization 不是只有企业服务里才需要。用 model 去读社会现�
 - validation score 问的是：`对还没见过但结构相近的数据，到底撑得怎样？`
 
 generalization 主要更贴近第二个问题。
+
+这一次，我们把同一个模型用几种不同方式切分来看看。下面的例子使用同一份数据和同一个 `DecisionTreeClassifier`，只改变 `train_test_split` 的 `random_state`，然后输出 test score 和 gap 会摇晃到什么程度。
+
+```python
+from statistics import mean, pstdev
+
+from sklearn.datasets import make_classification
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=220,
+    n_features=8,
+    n_informative=3,
+    n_redundant=1,
+    flip_y=0.08,
+    class_sep=0.8,
+    random_state=12,
+)
+
+results = []
+for seed in range(6):
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.35, random_state=seed, stratify=y
+    )
+    model = DecisionTreeClassifier(max_depth=4, random_state=0)
+    model.fit(X_train, y_train)
+    train_score = accuracy_score(y_train, model.predict(X_train))
+    test_score = accuracy_score(y_test, model.predict(X_test))
+    results.append((seed, train_score, test_score, train_score - test_score))
+
+for seed, train_score, test_score, gap in results:
+    print(
+        seed,
+        "train=", round(train_score, 3),
+        "test=", round(test_score, 3),
+        "gap=", round(gap, 3),
+    )
+
+print(
+    "test mean=", round(mean(row[2] for row in results), 3),
+    "test std=", round(pstdev(row[2] for row in results), 3),
+)
+```
+
+输出示例如下。
+
+```text
+0 train= 0.944 test= 0.623 gap= 0.321
+1 train= 0.874 test= 0.805 gap= 0.069
+2 train= 0.93 test= 0.714 gap= 0.216
+3 train= 0.93 test= 0.766 gap= 0.164
+4 train= 0.923 test= 0.74 gap= 0.183
+5 train= 0.881 test= 0.766 gap= 0.115
+test mean= 0.736 test std= 0.057
+```
+
+这个输出说明，generalization 不能用一次分数就收束。即使数据相同、模型相同，只要哪些样本进入 test 一侧发生变化，分数和 gap 也会摇晃。因此，generalization 问的不只是 `这一次 split 的分数是多少`，还包括：面对结构相近的新数据切分时，性能是否仍能维持在一定程度。
 
 ### 用表读社会现象一侧的 generalization
 

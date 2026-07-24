@@ -1,7 +1,7 @@
 # P4-18.2 시각화와 정보 손실
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-18.1에서는 차원 축소(dimensionality reduction)가 많은 특징을 더 적은 축으로 다시 표현하는 일이라는 점을 보았습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -311,47 +311,84 @@ T(k) = 1 - \frac{2}{nk(2n - 3k - 1)}
 
 ## 연습 및 예제
 
-이번 예제는 같은 1차원 요약값이 나오더라도 원래 패턴은 다를 수 있다는 점을 직접 확인하는 장난감 실습입니다.
+이번 예제는 PCA로 5개 특징을 2D로 줄인 뒤, 원래 공간의 가까운 이웃과 2D 공간의 가까운 이웃이 어떻게 달라질 수 있는지 확인합니다.
 
-- 문제 상황: 요약값이 비슷해 보여도 원래 특징 패턴은 다를 수 있다
-- 입력(input): 세 개 특징으로 표현된 샘플
-- 기대 출력(output): 하나의 요약값과 축별 차이
+- 문제 상황: 2D 그림에서 가까운 상품 후보를 원래 특징에서도 그대로 가깝다고 읽어도 되는지 점검한다
+- 입력(input): 다섯 개 점수 특징으로 표현된 상품 후보
+- 기대 출력(output): PCA가 남긴 분산 비율, 원래 공간의 가까운 이웃, 2D 공간의 가까운 이웃
 - 확인할 개념:
-  - 시각화나 요약 축은 읽기 쉬운 표현이다
-  - 읽기 쉬운 표현이 원래 구조를 완전하게 대신하지는 않는다
+  - 2D 축소 표현은 원래 공간의 복사본이 아니다
+  - 가까운 이웃 순서가 축소 전후에 달라질 수 있다
+  - 축소 그림은 결론이 아니라 후속 검토의 출발점이다
 
 ```python
-# 요약값은 같아도 원래 특징 패턴은 다를 수 있음을 확인하는 장난감 예제입니다.
-samples = [
-    {"id": "X", "f1": 6.0, "f2": 6.0, "f3": 6.0},
-    {"id": "Y", "f1": 7.0, "f2": 6.8, "f3": 4.2},
-]
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.metrics import pairwise_distances
+from sklearn.preprocessing import StandardScaler
 
-for row in samples:
-    summary = round((row["f1"] + row["f2"] + row["f3"]) / 3, 2)
-    print(row["id"], "summary =", summary, "raw =", (row["f1"], row["f2"], row["f3"]))
+items = pd.DataFrame(
+    [
+        {"id": "A", "price_score": 2, "battery": 7, "camera": 5, "service": 10, "design": 8},
+        {"id": "B", "price_score": 3, "battery": 9, "camera": 8, "service": 3, "design": 6},
+        {"id": "C", "price_score": 8, "battery": 3, "camera": 3, "service": 2, "design": 1},
+        {"id": "D", "price_score": 5, "battery": 1, "camera": 6, "service": 5, "design": 2},
+        {"id": "E", "price_score": 4, "battery": 1, "camera": 2, "service": 5, "design": 1},
+        {"id": "Q", "price_score": 8, "battery": 3, "camera": 10, "service": 2, "design": 7},
+    ]
+)
+
+features = ["price_score", "battery", "camera", "service", "design"]
+X_scaled = StandardScaler().fit_transform(items[features])
+
+pca = PCA(n_components=2, random_state=0)
+points_2d = pca.fit_transform(X_scaled)
+
+raw_distances = pairwise_distances(X_scaled)
+reduced_distances = pairwise_distances(points_2d)
+q_index = items.index[items["id"] == "Q"][0]
+
+
+def nearest_ids(distance_matrix):
+    order = distance_matrix[q_index].argsort()[1:4]
+    return items.iloc[order]["id"].tolist()
+
+
+print("explained_variance=", [round(float(v), 3) for v in pca.explained_variance_ratio_])
+print("nearest_in_original=", nearest_ids(raw_distances))
+print("nearest_in_2d=", nearest_ids(reduced_distances))
+
+for item_id, point in zip(items["id"], points_2d):
+    print(item_id, "2d=", [round(float(value), 2) for value in point])
 ```
 
 실행 결과는 다음과 같습니다.
 
 ```text
-X summary = 6.0 raw = (6.0, 6.0, 6.0)
-Y summary = 6.0 raw = (7.0, 6.8, 4.2)
+explained_variance= [0.505, 0.348]
+nearest_in_original= ['D', 'B', 'C']
+nearest_in_2d= ['B', 'D', 'C']
+A 2d= [2.55, -1.23]
+B 2d= [1.63, 0.87]
+C 2d= [-1.96, 0.04]
+D 2d= [-0.83, -0.38]
+E 2d= [-1.19, -1.62]
+Q 2d= [-0.19, 2.32]
 ```
 
 이 예제에서 읽어야 할 것은 세 가지입니다.
 
-1. 요약값만 보면 X와 Y는 같은 위치처럼 보일 수 있습니다.
-2. 하지만 원래 특징을 보면 Y는 세 번째 축이 크게 낮습니다.
-3. 따라서 그림이나 요약 축만으로 결론을 내리면 원래 구조의 중요한 차이를 놓칠 수 있습니다.
+1. PCA의 두 축이 전체 분산의 상당 부분을 담고 있어도 원래 공간을 완전히 보존하지는 않습니다.
+2. 원래 공간에서는 Q와 가장 가까운 후보가 D지만, 2D 공간에서는 B가 먼저 보입니다.
+3. 따라서 2D 그림에서 가까워 보이는 후보를 찾았다면, 원래 특징 거리와 실제 feature 값을 다시 확인해야 합니다.
 
 이 장면을 시각화 해석 메모로 바꾸면 다음처럼 적을 수 있습니다.
 
 | 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
 | --- | --- |
-| 먼저 보인 구조 | 요약값만 보면 X와 Y가 거의 같은 샘플처럼 보였다 |
-| 해석 경계 | 원래 축별 패턴은 다르므로 같은 유형이라고 바로 확정하지 않는다 |
-| 다음 질문 | 어떤 특징이 요약 과정에서 눌렸는지, 다른 투영이나 원래 표에서 다시 확인할까 |
+| 먼저 보인 구조 | 2D PCA 공간에서는 Q가 B와 가장 가까워 보였다 |
+| 해석 경계 | 원래 특징 공간에서는 Q의 최근접 후보가 D였으므로 2D 거리를 원본 거리로 단정하지 않는다 |
+| 다음 질문 | Q, B, D의 원래 feature 값을 나란히 보고 어떤 축이 투영에서 눌렸는지 다시 확인할까 |
 
 ## 체크리스트
 

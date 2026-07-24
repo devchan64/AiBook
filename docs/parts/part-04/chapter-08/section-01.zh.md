@@ -1,7 +1,7 @@
 # P4-8.1 模型选择(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P4-7 里，我们看过要保留什么输入，以及要把这些输入改造成什么表达。现在要进入下一个问题。
 
@@ -465,6 +465,56 @@ Part 4 到目前为止经过了下面这个流程。
 - 备忘 B 还可以再补的项目包括输入表达、数据不平衡程度，以及在运营上最难接受的失败类型。
 
 这个比较示例的目的不是找出 `好的候选名字`，而是让读者分辨什么才算 `好的候选备忘`。
+
+如果把同一份候选家族备忘缩小成实际比较流程，可以像下面这样看。下面的代码会在同一个分类数据上放上逻辑回归、k-NN、决策树、随机森林，然后用 5-fold cross-validation 比较 train score、CV score，以及 CV score 的摇晃程度。
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_validate
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=240,
+    n_features=10,
+    n_informative=4,
+    n_redundant=2,
+    class_sep=0.9,
+    flip_y=0.06,
+    random_state=42,
+)
+
+models = {
+    "logistic_regression": make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)),
+    "knn_scaled": make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=7)),
+    "decision_tree": DecisionTreeClassifier(max_depth=4, random_state=0),
+    "random_forest": RandomForestClassifier(n_estimators=80, max_depth=5, random_state=0),
+}
+
+for name, model in models.items():
+    scores = cross_validate(model, X, y, cv=5, scoring="accuracy", return_train_score=True)
+    print(
+        name,
+        "train=", round(scores["train_score"].mean(), 3),
+        "cv=", round(scores["test_score"].mean(), 3),
+        "spread=", round(scores["test_score"].std(), 3),
+    )
+```
+
+输出示例如下。
+
+```text
+logistic_regression train= 0.706 cv= 0.688 spread= 0.053
+knn_scaled train= 0.819 cv= 0.725 spread= 0.04
+decision_tree train= 0.902 cv= 0.762 spread= 0.028
+random_forest train= 0.984 cv= 0.796 spread= 0.048
+```
+
+这个输出展示的是 `挑一个有名 model` 和 `比较候选家族` 的差异。在这份小数据里，random forest 的 CV score 最高，但 train score 也很高。decision tree 分数低一些，但摇晃也更小。logistic regression 简单、容易解释，但在这份数据上的分数较低。因此，模型选择备忘里不应该只留下分数，还要一起留下候选家族、比较方式、摇晃程度、可解释性这些判断轴。
 
 ### 练习 3. 检查当第一优先看的错误改变时，备忘是否也会变化
 

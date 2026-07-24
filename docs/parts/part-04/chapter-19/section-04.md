@@ -1,7 +1,7 @@
 # P4-19.4 보충학습: 강화학습 후속 갈래 지도
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: DQN, PPO, RLHF는 강화학습의 어떤 문제의식에서 갈라졌는가_
 
@@ -244,6 +244,59 @@ RLHF(reinforcement learning from human feedback)는 이름 그대로 보면 강�
 | 정책 업데이트가 너무 흔들린다 | DQN | PPO, TRPO, A2C, A3C |
 | 새 탐험을 실제로 많이 할 수 없다 | RLHF | safe RL, offline RL |
 | 사람 선호를 언어 모델 출력에 반영해야 한다 | DQN | RLHF, preference optimization |
+
+같은 판단을 아주 작은 벡터 비교로도 확인할 수 있습니다. 아래 코드는 각 후속 갈래가 어떤 문제 축에 더 가까운지 점수 벡터로 두고, 관찰된 병목과 가장 가까운 갈래를 `cosine_similarity`로 찾습니다. 실제 연구 계보를 이 숫자로 증명하려는 예제가 아니라, 이름보다 병목을 먼저 읽는 습관을 계산 형태로 확인하는 예제입니다.
+
+```python
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+
+axes = ["state_space", "policy_stability", "real_world_constraint", "human_preference"]
+branches = pd.DataFrame(
+    [
+        [0.95, 0.10, 0.05, 0.05],
+        [0.20, 0.95, 0.10, 0.05],
+        [0.10, 0.25, 0.95, 0.05],
+        [0.05, 0.25, 0.20, 0.95],
+    ],
+    index=["DQN", "PPO", "offline_RL", "RLHF"],
+    columns=axes,
+)
+
+bottlenecks = pd.DataFrame(
+    [
+        [1.00, 0.10, 0.10, 0.00],
+        [0.10, 1.00, 0.20, 0.10],
+        [0.10, 0.20, 1.00, 0.10],
+        [0.00, 0.20, 0.10, 1.00],
+    ],
+    index=[
+        "huge_state_space",
+        "unstable_policy_update",
+        "cannot_explore_online",
+        "human_preference_feedback",
+    ],
+    columns=axes,
+)
+
+scores = cosine_similarity(bottlenecks, branches)
+score_table = pd.DataFrame(scores, index=bottlenecks.index, columns=branches.index)
+
+for bottleneck, row in score_table.iterrows():
+    best_branch = row.idxmax()
+    print(bottleneck, "->", best_branch, "score=", round(row[best_branch], 3))
+```
+
+실행 결과는 다음과 같습니다.
+
+```text
+huge_state_space -> DQN score= 0.998
+unstable_policy_update -> PPO score= 0.989
+cannot_explore_online -> offline_RL score= 0.997
+human_preference_feedback -> RLHF score= 0.992
+```
+
+이 출력은 `DQN이 항상 정답` 같은 자동 분류기를 만들자는 뜻이 아닙니다. 병목을 `상태 공간`, `정책 안정성`, `현실 제약`, `사람 선호` 축으로 먼저 써 보면, 어떤 후속 갈래를 먼저 찾아볼지 더 명확해진다는 점을 보여 줍니다.
 
 ### 직접 판단해 보기
 

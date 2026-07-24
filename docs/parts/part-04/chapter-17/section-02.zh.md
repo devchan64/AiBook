@@ -1,7 +1,7 @@
 # P4-17.2 解释聚类结果时的注意点
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P4-17.1 里，我们把聚类看成是在无标签数据里寻找结构的无监督学习问题。现在更重要的一步，是解释。
 
@@ -308,6 +308,70 @@
 
 ## 练习与示例
 
+### 用库确认：scale 变化后，聚类也可能变化
+
+这个例子会用 `AgglomerativeClustering` 把同一份客户数据分成两个聚类，并比较原始特征和标准化之后的结果。
+
+```python
+import pandas as pd
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.preprocessing import StandardScaler
+
+customers = pd.DataFrame(
+    [
+        {"id": "A", "visits": 2, "spend": 20, "support": 1},
+        {"id": "B", "visits": 3, "spend": 22, "support": 0},
+        {"id": "C", "visits": 8, "spend": 85, "support": 4},
+        {"id": "D", "visits": 9, "spend": 88, "support": 5},
+        {"id": "E", "visits": 9, "spend": 28, "support": 6},
+        {"id": "F", "visits": 10, "spend": 30, "support": 7},
+    ]
+)
+
+features = customers[["visits", "spend", "support"]]
+
+
+def summarize(labels):
+    table = customers.assign(cluster=labels)
+    summary = table.groupby("cluster")[["visits", "spend", "support"]].mean().round(1)
+    members = table.groupby("cluster")["id"].apply(list)
+    for cluster_id in sorted(summary.index):
+        print(
+            "cluster",
+            int(cluster_id),
+            "members=",
+            members.loc[cluster_id],
+            "mean=",
+            summary.loc[cluster_id].to_dict(),
+        )
+
+
+raw_labels = AgglomerativeClustering(n_clusters=2).fit_predict(features)
+scaled_labels = AgglomerativeClustering(n_clusters=2).fit_predict(
+    StandardScaler().fit_transform(features)
+)
+
+print("raw features")
+summarize(raw_labels)
+print("scaled features")
+summarize(scaled_labels)
+```
+
+运行结果如下。
+
+```text
+raw features
+cluster 0 members= ['A', 'B', 'E', 'F'] mean= {'visits': 6.0, 'spend': 25.0, 'support': 3.5}
+cluster 1 members= ['C', 'D'] mean= {'visits': 8.5, 'spend': 86.5, 'support': 4.5}
+scaled features
+cluster 0 members= ['C', 'D', 'E', 'F'] mean= {'visits': 9.0, 'spend': 57.8, 'support': 5.5}
+cluster 1 members= ['A', 'B'] mean= {'visits': 2.5, 'spend': 21.0, 'support': 0.5}
+```
+
+直接使用原始特征时，`spend` 这一轴影响很大，所以 C 和 D 被单独分到一组。标准化之后，访问次数和咨询次数被更明显地反映出来，于是 C、D、E、F 被归到一边。这里要读的不是`哪一个结果才是真的`，而是聚类会受到表达方式影响，所以在给编号贴意义之前，必须先留下特征摘要和敏感性检查。
+
+### 只看编号就贴意义，为什么危险？
+
 这个例子是一个小练习，用来说明：就算客户被分成了两个聚类，编号本身也不会自动带来意义。它会直接检查这样一个点：就算只有编号发生变化，解释句子也应该保持不变。
 
 - 问题场景：算法做出了两个分组，但不能只看编号就附上意义
@@ -343,8 +407,6 @@
 ### 改一个值看看：即使编号被反过来，解释也应该保持不变
 
 现在保持客户分组本身不变，只把聚类编号反过来。
-
-这次保持客户分组本身不变，只把聚类编号反过来。
 
 | 客户 | cluster ID | 访问次数 | 支出 |
 | --- | --- | --- | --- |

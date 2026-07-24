@@ -1,7 +1,7 @@
 # P4-19.4 Supplementary Learning: A Map of Later Reinforcement-Learning Branches
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _Subtitle: What problem concerns split DQN, PPO, and RLHF into later reinforcement-learning branches?_
 
@@ -250,6 +250,59 @@ Concept to check:
 | Policy updates shake too much | DQN | PPO, TRPO, A2C, A3C |
 | It is not possible to do many new exploratory trials in reality | RLHF | safe RL, offline RL |
 | Human preference must be reflected in language-model output | DQN | RLHF, preference optimization |
+
+The same judgment can also be checked with a tiny vector comparison. The code below gives each follow-up branch a score vector for the problem axes it is closest to, then uses `cosine_similarity` to find the branch closest to the observed bottleneck. This example is not trying to prove the research genealogy with these numbers. It is a small computational check for the habit of reading the bottleneck before the name.
+
+```python
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+
+axes = ["state_space", "policy_stability", "real_world_constraint", "human_preference"]
+branches = pd.DataFrame(
+    [
+        [0.95, 0.10, 0.05, 0.05],
+        [0.20, 0.95, 0.10, 0.05],
+        [0.10, 0.25, 0.95, 0.05],
+        [0.05, 0.25, 0.20, 0.95],
+    ],
+    index=["DQN", "PPO", "offline_RL", "RLHF"],
+    columns=axes,
+)
+
+bottlenecks = pd.DataFrame(
+    [
+        [1.00, 0.10, 0.10, 0.00],
+        [0.10, 1.00, 0.20, 0.10],
+        [0.10, 0.20, 1.00, 0.10],
+        [0.00, 0.20, 0.10, 1.00],
+    ],
+    index=[
+        "huge_state_space",
+        "unstable_policy_update",
+        "cannot_explore_online",
+        "human_preference_feedback",
+    ],
+    columns=axes,
+)
+
+scores = cosine_similarity(bottlenecks, branches)
+score_table = pd.DataFrame(scores, index=bottlenecks.index, columns=branches.index)
+
+for bottleneck, row in score_table.iterrows():
+    best_branch = row.idxmax()
+    print(bottleneck, "->", best_branch, "score=", round(row[best_branch], 3))
+```
+
+The output is as follows.
+
+```text
+huge_state_space -> DQN score= 0.998
+unstable_policy_update -> PPO score= 0.989
+cannot_explore_online -> offline_RL score= 0.997
+human_preference_feedback -> RLHF score= 0.992
+```
+
+This output does not mean we are building an automatic classifier where `DQN is always the answer`. It shows that if the bottleneck is written first along axes such as `state space`, `policy stability`, `real-world constraint`, and `human preference`, it becomes clearer which follow-up branch should be checked first.
 
 ### Try Judging Directly
 

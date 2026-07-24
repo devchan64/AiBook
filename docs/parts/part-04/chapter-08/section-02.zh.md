@@ -1,7 +1,7 @@
 # P4-8.2 基准模型(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P4-8.1 里，我们看过应该把哪些 model 家族提上候选。现在，与其立刻按复杂度去抓这些候选，不如先进入另一个问题：先把比较的出发点立起来。
 
@@ -284,6 +284,58 @@ scikit-learn 的 dummy 系列模型，在教学上尤其有用。
 在这个场景里，baseline 就会成为用来检查 `复杂 model 是否真的有意义地变好` 的地板线。即使实际 model 的 accuracy 提高了一点，如果欺诈交易的 recall 仍然很低，那从运营角度看也未必是大改进。反过来，如果 recall 和 F1 都明显比 baseline 更好，这时才可以说复杂 model 更擅长处理少数类问题。
 
 能确认的结果，会出现在同一指标下把 baseline 和实际 model 并排比较的时候。只要把 accuracy、recall、F1 一起放出来，就会更清楚地看到：baseline 不是 `低性能模型`，而是 `解释分数的参考线`。
+
+下面的例子用实际的 `DummyClassifier` 和 `DecisionTreeClassifier` 来缩小这个错觉。数据被做成类似欺诈交易的分类问题，也就是阳性类别比较少。
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, recall_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=260,
+    n_features=6,
+    n_informative=2,
+    n_redundant=0,
+    weights=[0.82, 0.18],
+    class_sep=0.9,
+    random_state=21,
+)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.35, random_state=4, stratify=y
+)
+
+models = {
+    "dummy_most_frequent": DummyClassifier(strategy="most_frequent"),
+    "decision_tree": DecisionTreeClassifier(max_depth=3, random_state=0),
+}
+
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    predicted = model.predict(X_test)
+    tn, fp, fn, tp = confusion_matrix(y_test, predicted, labels=[0, 1]).ravel()
+    print(name)
+    print(
+        " accuracy=", round(accuracy_score(y_test, predicted), 3),
+        "positive_recall=", round(recall_score(y_test, predicted, zero_division=0), 3),
+    )
+    print(" confusion=", {"tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp)})
+```
+
+输出示例如下。
+
+```text
+dummy_most_frequent
+ accuracy= 0.824 positive_recall= 0.0
+ confusion= {'tn': 75, 'fp': 0, 'fn': 16, 'tp': 0}
+decision_tree
+ accuracy= 0.956 positive_recall= 0.75
+ confusion= {'tn': 75, 'fp': 0, 'fn': 4, 'tp': 12}
+```
+
+`dummy_most_frequent` 的 accuracy 也有 0.824，看起来并不低。但阳性类别的 recall 是 0.0，实际 16 个阳性全部漏掉了。所以 baseline model 不是为了展示一个失败模型而加上的装饰，而是先暴露“只看 accuracy 会产生的错觉”的比较线。
 
 ```mermaid
 --8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-zh.mmd"

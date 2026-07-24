@@ -1,7 +1,7 @@
 # P4-8.1 Model Selection
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 In P4-7, the discussion examined what inputs should remain and what representation those inputs should be changed into. Now it moves to the next question.
 
@@ -465,6 +465,56 @@ The explanation can be read as follows.
 - Items that can still be added to Memo B are input representation, degree of data imbalance, and the failure types that are operationally hardest to accept.
 
 The purpose of this comparison example is not to find `a good candidate name`, but to let the reader distinguish what `a good candidate memo` is.
+
+If the same candidate-family memo is reduced to an actual comparison procedure, it can look like this. The code below raises logistic regression, k-NN, decision tree, and random forest on the same classification data, then compares train score, CV score, and the fluctuation of CV score with 5-fold cross-validation.
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_validate
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=240,
+    n_features=10,
+    n_informative=4,
+    n_redundant=2,
+    class_sep=0.9,
+    flip_y=0.06,
+    random_state=42,
+)
+
+models = {
+    "logistic_regression": make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)),
+    "knn_scaled": make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=7)),
+    "decision_tree": DecisionTreeClassifier(max_depth=4, random_state=0),
+    "random_forest": RandomForestClassifier(n_estimators=80, max_depth=5, random_state=0),
+}
+
+for name, model in models.items():
+    scores = cross_validate(model, X, y, cv=5, scoring="accuracy", return_train_score=True)
+    print(
+        name,
+        "train=", round(scores["train_score"].mean(), 3),
+        "cv=", round(scores["test_score"].mean(), 3),
+        "spread=", round(scores["test_score"].std(), 3),
+    )
+```
+
+An example output is as follows.
+
+```text
+logistic_regression train= 0.706 cv= 0.688 spread= 0.053
+knn_scaled train= 0.819 cv= 0.725 spread= 0.04
+decision_tree train= 0.902 cv= 0.762 spread= 0.028
+random_forest train= 0.984 cv= 0.796 spread= 0.048
+```
+
+This output shows the difference between `choosing one famous model` and `comparing a candidate family`. Random forest has the highest CV score on this small data, but its training score is also very high. The decision tree is lower, but its fluctuation is smaller. Logistic regression is simple and easier to explain, but its score is lower on this data. Therefore, a model-selection memo should leave not only the score, but also the candidate family, comparison method, fluctuation, and interpretability axes.
 
 ### Practice 3. Check Whether The Memo Changes When The First Error To Inspect Changes
 

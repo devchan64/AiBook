@@ -1,7 +1,7 @@
 # P4-17.2 Cautions When Interpreting Clustering Results
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 In P4-17.1, clustering was introduced as an unsupervised learning problem that finds structure in unlabeled data. The more important stage now is interpretation.
 
@@ -308,6 +308,70 @@ In other words, a cluster can become `a tool that helps review label hypotheses 
 
 ## Practice And Example
 
+### Check With A Library: Clusters Can Change When Scale Changes
+
+This example clusters the same customer data into two groups with `AgglomerativeClustering`, then compares the result before and after standardization.
+
+```python
+import pandas as pd
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.preprocessing import StandardScaler
+
+customers = pd.DataFrame(
+    [
+        {"id": "A", "visits": 2, "spend": 20, "support": 1},
+        {"id": "B", "visits": 3, "spend": 22, "support": 0},
+        {"id": "C", "visits": 8, "spend": 85, "support": 4},
+        {"id": "D", "visits": 9, "spend": 88, "support": 5},
+        {"id": "E", "visits": 9, "spend": 28, "support": 6},
+        {"id": "F", "visits": 10, "spend": 30, "support": 7},
+    ]
+)
+
+features = customers[["visits", "spend", "support"]]
+
+
+def summarize(labels):
+    table = customers.assign(cluster=labels)
+    summary = table.groupby("cluster")[["visits", "spend", "support"]].mean().round(1)
+    members = table.groupby("cluster")["id"].apply(list)
+    for cluster_id in sorted(summary.index):
+        print(
+            "cluster",
+            int(cluster_id),
+            "members=",
+            members.loc[cluster_id],
+            "mean=",
+            summary.loc[cluster_id].to_dict(),
+        )
+
+
+raw_labels = AgglomerativeClustering(n_clusters=2).fit_predict(features)
+scaled_labels = AgglomerativeClustering(n_clusters=2).fit_predict(
+    StandardScaler().fit_transform(features)
+)
+
+print("raw features")
+summarize(raw_labels)
+print("scaled features")
+summarize(scaled_labels)
+```
+
+The output is as follows.
+
+```text
+raw features
+cluster 0 members= ['A', 'B', 'E', 'F'] mean= {'visits': 6.0, 'spend': 25.0, 'support': 3.5}
+cluster 1 members= ['C', 'D'] mean= {'visits': 8.5, 'spend': 86.5, 'support': 4.5}
+scaled features
+cluster 0 members= ['C', 'D', 'E', 'F'] mean= {'visits': 9.0, 'spend': 57.8, 'support': 5.5}
+cluster 1 members= ['A', 'B'] mean= {'visits': 2.5, 'spend': 21.0, 'support': 0.5}
+```
+
+With raw features, the `spend` axis dominates and C/D form their own group. After standardization, visits and support tickets are reflected more strongly, so C/D/E/F are grouped together. The point is not `which result is the truth`. The point is that clustering is sensitive to representation, so readers should record feature summaries and sensitivity checks before attaching meaning to cluster numbers.
+
+### Why Is It Risky To Attach Meaning From The Number Alone?
+
 This example is a small exercise showing that even if customers are divided into two clusters, the number itself does not automatically carry meaning. It directly checks the point that even if only the number changes, the interpretation sentence should remain the same.
 
 - Problem situation: the algorithm created two groups, but meaning should not be attached from the number alone
@@ -343,8 +407,6 @@ What should be read first from this example is the following.
 ### Change One Value: The Interpretation Should Stay The Same Even If The Numbers Are Reversed
 
 Now keep the same customer groups, but reverse only the cluster numbers.
-
-This time, keep the customer grouping itself the same and reverse only the cluster numbers.
 
 | Customer | cluster ID | Visits | Spend |
 | --- | --- | --- | --- |

@@ -1,7 +1,7 @@
 # P4-7.4 보충학습: 특징 선택 방식 구분
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P4-7.1부터 P4-7.3까지에서는 특징을 고르고, 입력 표현 문제를 나누고, 전처리 기본 판단을 잡았습니다. 그런데 실제로는 독자가 곧 이런 이름을 만나게 됩니다.
 
@@ -115,6 +115,95 @@ RFE는 래퍼(wrapper) 접근의 대표 예로 보면 됩니다. 아주 단순�
 여기서 구분이 필요합니다. 필터 방식은 원래 특징을 빠르게 점검해 1차 후보를 줄이는 데 가깝고, 래퍼 방식인 RFE는 현재 모델 성능을 기준으로 반복해서 특징을 줄입니다. 차원 축소는 원래 칼럼 일부를 고르는 것이 아니라 여러 특징을 섞어 새 축으로 다시 표현하는 쪽에 더 가깝습니다.
 
 확인 가능한 결과도 다르게 읽어야 합니다. 필터와 RFE는 어떤 원래 칼럼이 남았는지 목록으로 볼 수 있지만, 차원 축소는 `component_1`, `component_2` 같은 새 축으로 바뀌어 해석 방식이 달라집니다. 그래서 같은 `입력을 줄인다`는 말이라도, 해석 가능성을 남길지 새 표현으로 압축할지 먼저 결정해야 합니다.
+
+## 연습 및 예제
+
+이번 예제는 같은 데이터에서 필터 방식, RFE, PCA가 각각 무엇을 남기는지 비교합니다.
+
+- 문제 상황: 여섯 개 고객 행동 특징 중 세 개만 남기거나 세 개 축으로 줄이고 싶다
+- 입력(input): scikit-learn이 만든 작은 분류 데이터
+- 기대 출력(output): 남은 원래 특징 이름, 새 component 이름, 교차검증 점수와 입력 모양
+- 확인할 개념:
+  - 필터와 RFE는 원래 특징 중 일부를 고른다
+  - PCA는 원래 특징 이름을 유지하지 않고 새 축으로 다시 표현한다
+  - 점수가 비슷해 보여도 해석 가능성은 서로 다르다
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.decomposition import PCA
+from sklearn.feature_selection import RFE, SelectKBest, f_classif
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+feature_names = [
+    "visit_count",
+    "avg_order",
+    "discount_click",
+    "support_calls",
+    "days_since_login",
+    "newsletter_open",
+]
+
+X, y = make_classification(
+    n_samples=180,
+    n_features=6,
+    n_informative=3,
+    n_redundant=1,
+    class_sep=1.1,
+    random_state=7,
+    shuffle=False,
+)
+
+filter_selector = SelectKBest(score_func=f_classif, k=3).fit(X, y)
+filter_features = [
+    name for name, keep in zip(feature_names, filter_selector.get_support()) if keep
+]
+
+base_model = LogisticRegression(max_iter=1000)
+rfe_selector = RFE(base_model, n_features_to_select=3).fit(
+    StandardScaler().fit_transform(X),
+    y,
+)
+rfe_features = [
+    name for name, keep in zip(feature_names, rfe_selector.support_) if keep
+]
+
+models = {
+    "filter_selected": X[:, filter_selector.get_support()],
+    "rfe_selected": X[:, rfe_selector.support_],
+}
+
+print("filter keeps:", filter_features)
+print("rfe keeps   :", rfe_features)
+print("pca output  :", ["component_1", "component_2", "component_3"])
+
+for name, selected_X in models.items():
+    score = cross_val_score(base_model, selected_X, y, cv=5).mean()
+    print(name, "cv=", round(score, 3), "shape=", selected_X.shape)
+
+pca_score = cross_val_score(
+    make_pipeline(StandardScaler(), PCA(n_components=3), base_model),
+    X,
+    y,
+    cv=5,
+).mean()
+print("pca_reduced cv=", round(pca_score, 3), "shape=", (X.shape[0], 3))
+```
+
+실행 결과는 다음과 같습니다.
+
+```text
+filter keeps: ['visit_count', 'discount_click', 'support_calls']
+rfe keeps   : ['visit_count', 'avg_order', 'support_calls']
+pca output  : ['component_1', 'component_2', 'component_3']
+filter_selected cv= 0.817 shape= (180, 3)
+rfe_selected cv= 0.828 shape= (180, 3)
+pca_reduced cv= 0.617 shape= (180, 3)
+```
+
+이 출력에서 먼저 볼 것은 점수 순위가 아닙니다. 필터와 RFE는 서로 다른 원래 특징 목록을 남겼고, PCA는 같은 세 칸으로 줄였지만 원래 컬럼명이 사라졌습니다. 따라서 `세 개로 줄였다`는 말만으로는 충분하지 않습니다. 원래 특징을 남긴 선택인지, 새 표현으로 압축한 차원 축소인지까지 함께 읽어야 합니다.
 
 ## 체크리스트
 

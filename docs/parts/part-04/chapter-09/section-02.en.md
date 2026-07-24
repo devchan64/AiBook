@@ -1,7 +1,7 @@
 # P4-9.2 Tuning And Validation Cost
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 In P4-9.1, the discussion examined what a hyperparameter is and why it has long been treated as a separate topic. Now it moves to the next question.
 
@@ -385,7 +385,12 @@ search = GridSearchCV(
 
 search.fit(X_train, y_train)
 
-print("candidate combinations:", len(search.cv_results_["params"]))
+candidate_count = len(search.cv_results_["params"])
+cv_folds = search.cv
+
+print("candidate combinations:", candidate_count)
+print("cv folds              :", cv_folds)
+print("total model fits      :", candidate_count * cv_folds)
 print("best params           :", search.best_params_)
 print("best cv score         :", round(search.best_score_, 3))
 print("test score            :", round(search.score(X_test, y_test), 3))
@@ -395,14 +400,17 @@ An example of the execution result is as follows.
 
 ```text
 candidate combinations: 12
+cv folds              : 5
+total model fits      : 60
 best params           : {'max_depth': 3, 'min_samples_split': 2}
 best cv score         : 0.952
-test score            : 0.933
+test score            : 0.978
 ```
 
 What this example shows is simple.
 
 - the number of candidate combinations is directly tied to computational cost
+- multiplying by `cv folds` gives a rough count of how many times a model is actually fit
 - `best cv score` is the score that was best inside the validation procedure
 - `test score` is the final confirmation score
 
@@ -411,7 +419,7 @@ These two must not be read as if they were numbers in the same cell.
 This toy example can also be read as a small empirical case.
 
 - 12 candidate combinations are not a big burden in a small exercise.
-- But if a few more axes are added in the same way, computational cost quickly rises.
+- But even with only 5-fold CV, the actual number of fits is 60. If a few more axes are added in the same way, computational cost quickly rises.
 - The fact that `best cv score` and `test score` are not the same again shows that validation and final confirmation have different roles.
 
 For example, if the candidate model is 0.910 and after tuning it becomes 0.912, the reader does not immediately conclude deployment. First the reader has to inspect which combinations fit too much only to the same validation split, and whether the 0.002 improvement is worth the increased inference time and operational complexity. In other words, the core of the tuning Section is not memorizing `the highest score`, but checking all the way through whether `a small improvement is still a real improvement in practice`. Here too, the score gap is only a signal that raises review priority, and it does not immediately move into explanation of cause before input representation and error scenes are checked again.

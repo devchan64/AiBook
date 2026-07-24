@@ -1,7 +1,7 @@
 # P4-8.1 모델 선택(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-7에서는 어떤 입력을 남기고, 그 입력을 어떤 표현으로 바꿀지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -465,6 +465,56 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 - 메모 B에 더 붙일 수 있는 항목은 입력 표현, 데이터 불균형 정도, 운영상 허용하기 어려운 실패 유형입니다.
 
 이 비교 예제의 목적은 `좋은 후보 이름`을 찾는 것이 아니라 `좋은 후보 메모`가 무엇인지 구분하게 만드는 데 있습니다.
+
+같은 후보군 메모를 실제 비교 절차로 줄이면 다음처럼 볼 수 있습니다. 아래 코드는 같은 분류 데이터에 로지스틱 회귀(logistic regression), k-NN, 결정트리(decision tree), 랜덤포레스트(random forest)를 올리고, 5-fold cross-validation으로 train score, CV score, CV score의 흔들림을 비교합니다.
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_validate
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=240,
+    n_features=10,
+    n_informative=4,
+    n_redundant=2,
+    class_sep=0.9,
+    flip_y=0.06,
+    random_state=42,
+)
+
+models = {
+    "logistic_regression": make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)),
+    "knn_scaled": make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=7)),
+    "decision_tree": DecisionTreeClassifier(max_depth=4, random_state=0),
+    "random_forest": RandomForestClassifier(n_estimators=80, max_depth=5, random_state=0),
+}
+
+for name, model in models.items():
+    scores = cross_validate(model, X, y, cv=5, scoring="accuracy", return_train_score=True)
+    print(
+        name,
+        "train=", round(scores["train_score"].mean(), 3),
+        "cv=", round(scores["test_score"].mean(), 3),
+        "spread=", round(scores["test_score"].std(), 3),
+    )
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+logistic_regression train= 0.706 cv= 0.688 spread= 0.053
+knn_scaled train= 0.819 cv= 0.725 spread= 0.04
+decision_tree train= 0.902 cv= 0.762 spread= 0.028
+random_forest train= 0.984 cv= 0.796 spread= 0.048
+```
+
+이 출력은 `유명한 모델 하나를 고르는 일`과 `후보군을 비교하는 일`의 차이를 보여 줍니다. 랜덤포레스트는 이 작은 데이터에서 CV score가 가장 높지만 train score도 매우 높습니다. 결정트리는 그보다 낮지만 흔들림은 작습니다. 로지스틱 회귀는 단순하고 설명이 쉽지만 이 데이터에서는 점수가 낮습니다. 따라서 모델 선택 메모에는 점수뿐 아니라 후보군, 비교 방식, 흔들림, 설명 가능성 같은 판단 축이 함께 남아야 합니다.
 
 ### 연습 3. 같은 후보군이어도 먼저 볼 오류가 달라지면 메모가 달라지는지 확인하기
 

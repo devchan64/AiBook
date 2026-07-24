@@ -1,7 +1,7 @@
 # P4-5.1 过拟合(overfitting)与欠拟合(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P4-4 章里，我们看过为什么要把数据分成 training、validation、test。接下来会自然冒出一个问题。把数据拆开之后，为什么有些 model 在 training data 上表现很好，但一到新数据就变弱？反过来，为什么有些 model 连 training data 都解释得不够好？
 
@@ -297,6 +297,43 @@ scikit-learn 的官方例子也说明了这一点。它指出：过于简单的�
 - `very_complex_model` training 很高，但和 validation 的差距大，这是更该怀疑过拟合的场景。
 
 所以，差距小不一定总是好，training score 高也不一定总是好。在这张表里，应先看两边分数的水平，再看它们之间的差距。
+
+同样的判断，也可以通过运行一个小的真实模型来确认。下面的例子会生成两个新月形的类别，并在同一个 `DecisionTreeClassifier` 里只改变 `max_depth`，然后比较 training score 和 validation score。可以操作的值是 `max_depth`。
+
+```python
+from sklearn.datasets import make_moons
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_moons(n_samples=160, noise=0.28, random_state=7)
+X_train, X_valid, y_train, y_valid = train_test_split(
+    X, y, test_size=0.35, random_state=3, stratify=y
+)
+
+for depth in [1, 3, None]:
+    model = DecisionTreeClassifier(max_depth=depth, random_state=0)
+    model.fit(X_train, y_train)
+    train_score = accuracy_score(y_train, model.predict(X_train))
+    valid_score = accuracy_score(y_valid, model.predict(X_valid))
+    label = "no_limit" if depth is None else f"depth_{depth}"
+    print(
+        label,
+        "train=", round(train_score, 3),
+        "valid=", round(valid_score, 3),
+        "gap=", round(train_score - valid_score, 3),
+    )
+```
+
+输出示例如下。
+
+```text
+depth_1 train= 0.846 valid= 0.839 gap= 0.007
+depth_3 train= 0.933 valid= 0.911 gap= 0.022
+no_limit train= 1.0 valid= 0.893 gap= 0.107
+```
+
+`depth_1` 太简单，所以分数偏低；`depth_3` 则让 training 和 validation 一起变好。相反，`no_limit` 对 training data 完全贴合，但 validation score 反而下降，差距也变大。所以，在代码里读欠拟合和过拟合时，也不能只看 `training score 一个值`，而要把 `training score、validation score、两者差距` 放在一起读。
 
 更准确地换句话说，就是下面这样。
 

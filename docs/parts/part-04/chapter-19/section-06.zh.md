@@ -1,7 +1,7 @@
 # P4-19.6 补充学习：第一次读 policy gradient
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _副标题: likelihood ratio trick 如何把策略概率变化与期望奖励连接起来？_
 
@@ -131,14 +131,15 @@ REINFORCE 的直觉通常可以读成这样一种形式：
 
 输入(input)：
 
-- 所选动作的概率 `0.7`
-- 对数概率 `log(0.7)`
-- 同一个动作对应的一次正奖励和一次负奖励
+- 两个 action 的 policy logit
+- 被选择的 action
+- 同一个 action 对应的一次正奖励和一次负奖励
 
 期望输出(output)：
 
-- 对数概率值
-- 随奖励符号变化而改变的解释方向
+- update 前的 action 概率
+- 被选择 action 的 `grad log pi(a|s)`
+- 根据 reward 符号变化的 update 后 action 概率
 
 要确认的概念：
 
@@ -146,33 +147,52 @@ REINFORCE 的直觉通常可以读成这样一种形式：
 - 奖励符号一变，同一个动作的调整方向也会跟着变
 
 ```python
-# 这个例子展示所选动作的 log-probability 和奖励符号如何改变 policy update 的解释方向。
-import math
+import numpy as np
 
-chosen_prob = 0.7
-log_prob = math.log(chosen_prob)
 
-positive_reward = 2.0
-negative_reward = -2.0
+def softmax(logits):
+    shifted = logits - np.max(logits)
+    exp_values = np.exp(shifted)
+    return exp_values / exp_values.sum()
 
-print("log pi(a|s) =", round(log_prob, 3))
-print("positive signal =", round(positive_reward * log_prob, 3))
-print("negative signal =", round(negative_reward * log_prob, 3))
+
+# 两个 action：展示折扣 banner、展示推荐 banner
+logits = np.array([0.2, -0.2])
+chosen_action = 0
+learning_rate = 0.4
+
+for reward in [2.0, -2.0]:
+    probs_before = softmax(logits)
+    grad_log_prob = -probs_before
+    grad_log_prob[chosen_action] += 1.0
+    logits_after = logits + learning_rate * reward * grad_log_prob
+    probs_after = softmax(logits_after)
+
+    print("reward=", reward)
+    print("prob_before=", [round(float(v), 3) for v in probs_before])
+    print("grad_log_prob=", [round(float(v), 3) for v in grad_log_prob])
+    print("prob_after=", [round(float(v), 3) for v in probs_after])
 ```
 
 这个例子的结果可以像下面这样来读。
 
 ```text
-log pi(a|s) = -0.357
-positive signal = -0.713
-negative signal = 0.713
+reward= 2.0
+prob_before= [0.599, 0.401]
+grad_log_prob= [0.401, -0.401]
+prob_after= [0.739, 0.261]
+reward= -2.0
+prob_before= [0.599, 0.401]
+grad_log_prob= [0.401, -0.401]
+prob_after= [0.44, 0.56]
 ```
 
 这个例子里最重要的，并不是把符号本身背下来。
 
-1. `log pi(a|s)` 是把所选动作概率连到更新计算上的阅读把手。
-2. 即使是同一个动作，奖励是好的时，要读成“让它更常出现”的方向；奖励是坏的时，要读成“让它更少出现”的方向。
-3. likelihood ratio trick 的作用，就是把`概率微分`改写成`log-probability gradient`，让这种连接更容易读出来。
+1. `grad log pi(a|s)` 是把所选动作概率连到更新计算上的阅读把手。
+2. reward 为正时，被选择 action 的概率会从 `0.599 -> 0.739` 上升。
+3. reward 为负时，即使用同一个 gradient，被选择 action 的概率也会从 `0.599 -> 0.44` 下降。
+4. likelihood ratio trick 的作用，就是把`概率微分`改写成`log-probability gradient`，让这种连接更容易读出来。
 
 ### 直接判断一下
 

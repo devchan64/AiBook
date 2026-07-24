@@ -1,7 +1,7 @@
 # P4-12.3 使用 k-NN 时，应该先检查什么？
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 distance 和 scale 会改变结果。现在剩下的问题是：
 
@@ -144,6 +144,67 @@ k-NN 并不是所有 classification 问题的默认答案。但在 `用附近相
 按这个顺序走，可以更好地把 `模型家族本身失败了` 和 `判断 기준 在摇晃` 区分开来。
 
 所以，这里要留下的标准不是一句模糊的结论 `k-NN 要小心用`。更准确地说，是让读者能自己说出：`prediction 一旦开始摇晃，应该先从哪里重新打开检查`
+
+## 练习与示例
+
+这个例子固定同一个 query，观察 `k` 和 scale 调整会怎样改变邻居列表和 prediction。
+
+- 问题场景：用月消费金额和客服咨询次数，通过 k-NN 判断流失
+- 输入(input)：每个客户的 `monthly_spend`、`support_tickets`、`churn`
+- 期望输出(output)：不同 `k` 下的 prediction、近邻 ID、scale 调整后的近邻变化
+- 要确认的概念：
+  - `k=1` 很容易被最近的一个案例牵动
+  - 增大 `k` 后，局部多数表决可能改变
+  - 数字范围不同的特征，在 scale 调整前后可能改变近邻顺序
+
+```python
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+customers = pd.DataFrame(
+    [
+        {"id": "A", "monthly_spend": 30, "support_tickets": 0, "churn": 0},
+        {"id": "B", "monthly_spend": 58, "support_tickets": 0, "churn": 0},
+        {"id": "C", "monthly_spend": 61, "support_tickets": 0, "churn": 0},
+        {"id": "D", "monthly_spend": 65, "support_tickets": 0, "churn": 0},
+        {"id": "E", "monthly_spend": 40, "support_tickets": 8, "churn": 1},
+        {"id": "F", "monthly_spend": 62, "support_tickets": 8, "churn": 1},
+        {"id": "G", "monthly_spend": 90, "support_tickets": 9, "churn": 1},
+    ]
+)
+
+X = customers[["monthly_spend", "support_tickets"]]
+y = customers["churn"]
+query = pd.DataFrame([{"monthly_spend": 63, "support_tickets": 7}])
+
+for k in [1, 3, 5]:
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(X, y)
+    distances, indices = model.kneighbors(query, n_neighbors=k)
+    neighbor_ids = customers.iloc[indices[0]]["id"].tolist()
+    print("raw k=", k, "prediction=", int(model.predict(query)[0]), "neighbors=", neighbor_ids)
+
+scaled_model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=3))
+scaled_model.fit(X, y)
+knn = scaled_model.named_steps["kneighborsclassifier"]
+scaled_query = scaled_model.named_steps["standardscaler"].transform(query)
+distances, indices = knn.kneighbors(scaled_query, n_neighbors=3)
+neighbor_ids = customers.iloc[indices[0]]["id"].tolist()
+print("scaled k= 3 prediction=", int(scaled_model.predict(query)[0]), "neighbors=", neighbor_ids)
+```
+
+运行结果如下。
+
+```text
+raw k= 1 prediction= 1 neighbors= ['F']
+raw k= 3 prediction= 0 neighbors= ['F', 'C', 'D']
+raw k= 5 prediction= 0 neighbors= ['F', 'C', 'D', 'B', 'E']
+scaled k= 3 prediction= 1 neighbors= ['F', 'E', 'G']
+```
+
+这个输出不是让读者马上说 `k-NN 错了`。同一个 query 在 `k=1` 时被最近的 F 强烈牵动，而在 `k=3` 时，C 和 D 进入邻域后 prediction 发生改变。再做 scale 调整后，客服咨询次数在距离计算中被更清楚地反映出来，于是 E 和 G 进入近邻集合。因此，遇到摇晃的 query 时，应该按顺序重新打开 `k`、邻居构成和 scale。
 
 ## 检查清单
 

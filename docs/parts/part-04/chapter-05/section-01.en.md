@@ -1,7 +1,7 @@
 # P4-5.1 Overfitting And Underfitting
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 In Chapter P4-4, we looked at why data are divided into training, validation, and test sets. The next question follows naturally. After splitting the data and checking the results, why do some models work well on training data but weaken on new data? And why do some models fail to explain even the training data well enough?
 
@@ -297,6 +297,43 @@ What you should read from this table is not only the `gap`.
 - `very_complex_model` has a very high training score, but a large gap from validation. This is a scene where overfitting should be suspected.
 
 So a small gap is not always good, and a high training score is not always good either. In this table, you should read the levels of the two scores first, and then look at the gap between them.
+
+The same judgment can also be checked by running a small actual model. The example below creates two moon-shaped classes and changes only `max_depth` in the same `DecisionTreeClassifier`, then compares training score and validation score. The value to manipulate is `max_depth`.
+
+```python
+from sklearn.datasets import make_moons
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_moons(n_samples=160, noise=0.28, random_state=7)
+X_train, X_valid, y_train, y_valid = train_test_split(
+    X, y, test_size=0.35, random_state=3, stratify=y
+)
+
+for depth in [1, 3, None]:
+    model = DecisionTreeClassifier(max_depth=depth, random_state=0)
+    model.fit(X_train, y_train)
+    train_score = accuracy_score(y_train, model.predict(X_train))
+    valid_score = accuracy_score(y_valid, model.predict(X_valid))
+    label = "no_limit" if depth is None else f"depth_{depth}"
+    print(
+        label,
+        "train=", round(train_score, 3),
+        "valid=", round(valid_score, 3),
+        "gap=", round(train_score - valid_score, 3),
+    )
+```
+
+An example output is as follows.
+
+```text
+depth_1 train= 0.846 valid= 0.839 gap= 0.007
+depth_3 train= 0.933 valid= 0.911 gap= 0.022
+no_limit train= 1.0 valid= 0.893 gap= 0.107
+```
+
+`depth_1` is too simple, so the scores are lower, and `depth_3` improves training and validation together. By contrast, `no_limit` fits the training data perfectly, but the validation score drops and the gap grows. So even in code, underfitting and overfitting must be read through `training score, validation score, and the gap between the two`, not through one training score.
 
 The same point can be restated more precisely like this.
 

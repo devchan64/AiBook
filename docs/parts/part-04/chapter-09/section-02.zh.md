@@ -1,7 +1,7 @@
 # P4-9.2 调优(tuning)与验证成本
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P4-9.1 里，我们看过什么是 hyperparameter，以及为什么它很早以前就被当成一个单独问题来处理。现在要进入下一个问题。
 
@@ -385,7 +385,12 @@ search = GridSearchCV(
 
 search.fit(X_train, y_train)
 
-print("candidate combinations:", len(search.cv_results_["params"]))
+candidate_count = len(search.cv_results_["params"])
+cv_folds = search.cv
+
+print("candidate combinations:", candidate_count)
+print("cv folds              :", cv_folds)
+print("total model fits      :", candidate_count * cv_folds)
 print("best params           :", search.best_params_)
 print("best cv score         :", round(search.best_score_, 3))
 print("test score            :", round(search.score(X_test, y_test), 3))
@@ -395,14 +400,17 @@ print("test score            :", round(search.score(X_test, y_test), 3))
 
 ```text
 candidate combinations: 12
+cv folds              : 5
+total model fits      : 60
 best params           : {'max_depth': 3, 'min_samples_split': 2}
 best cv score         : 0.952
-test score            : 0.933
+test score            : 0.978
 ```
 
 这个例子说明的内容很简单。
 
 - 候选组合数会直接连到计算成本。
+- 再乘上 `cv folds`，就能粗略看到实际要 fit model 多少次。
 - `best cv score` 是 validation 流程内部最好的分数。
 - `test score` 是最后确认分数。
 
@@ -411,7 +419,7 @@ test score            : 0.933
 这个玩具例子也可以读成一个小型实证案例。
 
 - 在小练习里，12 个候选组合还不算很大负担。
-- 但如果按同样方式再增加几条轴，计算成本就会迅速上升。
+- 但即使用 5-fold CV，实际 fit 也已经是 60 次。如果按同样方式再增加几条轴，计算成本就会迅速上升。
 - `best cv score` 和 `test score` 不相同这一点，再次说明了 validation 和最终确认拥有不同角色。
 
 例如，如果候选模型是 0.910，而调优后变成 0.912，读者也不会立刻下部署结论。必须先重新检查：到底是不是某些组合只过度适配了同一个 validation 切分，以及这 0.002 提升是否值得更长的推理时间和更复杂的运营。也就是说，tuning 章节的核心，不是记住 `最高分`，而是一路确认 `一点点改进是否在现实里仍然成立`。在这里，分数差依旧只是抬高复查优先级的信号，在重新确认输入表达和错误场景之前，它并不会直接进入原因解释。

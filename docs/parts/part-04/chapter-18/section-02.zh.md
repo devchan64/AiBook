@@ -1,7 +1,7 @@
 # P4-18.2 可视化与信息损失
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P4-18.1 里，我们看到了降维(dimensionality reduction)是在把大量特征重新表达成更少的轴。接下来要问的是：这个图到底能信到什么程度。
 
@@ -312,42 +312,84 @@
 
 ## 练习与示例
 
-这个小练习直接展示的是：即使一维摘要值相同，原始模式仍然可能不同。
+这个例子会用 PCA 把五个特征缩成 2D，然后确认原始空间里的近邻和 2D 空间里的近邻可能怎样不同。
 
-- 问题场景：即使摘要值看起来接近，原始特征模式也可能不同
-- 输入(input)：用三个特征表示的样本
-- 期望输出(output)：一个摘要值和各轴差异
+- 问题场景：检查 2D 图里看起来很近的商品候选，在原始特征里是否也能直接读成很近
+- 输入(input)：用五个评分特征表示的商品候选
+- 期望输出(output)：PCA 保留下来的方差比例、原始空间里的近邻、2D 空间里的近邻
 - 要确认的概念：
-  - 可视化或摘要轴是更容易阅读的表达
-  - 更容易阅读的表达并不会完整替代原始结构
-
-### 改一个值看看：摘要值相同，原始模式仍可能不同
-
-这次我们把第三个样本改一下，让平均值看起来接近，但轴与轴之间的形状发生变化。
+  - 2D 缩减表达不是原始空间的复制品
+  - 缩减前后的近邻顺序可能改变
+  - 降维图是后续复查的起点，而不是结论
 
 ```python
-# 这个玩具例子确认即使 summary 值相同，原始特征模式也可能不同。
-samples = [
-    {"f1": 2.0, "f2": 2.1, "f3": 2.2},
-    {"f1": 4.0, "f2": 4.1, "f3": 3.9},
-    {"f1": 7.0, "f2": 6.8, "f3": 4.2},
-]
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.metrics import pairwise_distances
+from sklearn.preprocessing import StandardScaler
 
-reduced = [
-    round((row["f1"] + row["f2"] + row["f3"]) / 3, 2)
-    for row in samples
-]
+items = pd.DataFrame(
+    [
+        {"id": "A", "price_score": 2, "battery": 7, "camera": 5, "service": 10, "design": 8},
+        {"id": "B", "price_score": 3, "battery": 9, "camera": 8, "service": 3, "design": 6},
+        {"id": "C", "price_score": 8, "battery": 3, "camera": 3, "service": 2, "design": 1},
+        {"id": "D", "price_score": 5, "battery": 1, "camera": 6, "service": 5, "design": 2},
+        {"id": "E", "price_score": 4, "battery": 1, "camera": 2, "service": 5, "design": 1},
+        {"id": "Q", "price_score": 8, "battery": 3, "camera": 10, "service": 2, "design": 7},
+    ]
+)
 
-print("original samples:", samples)
-print("1D summary      :", reduced)
+features = ["price_score", "battery", "camera", "service", "design"]
+X_scaled = StandardScaler().fit_transform(items[features])
+
+pca = PCA(n_components=2, random_state=0)
+points_2d = pca.fit_transform(X_scaled)
+
+raw_distances = pairwise_distances(X_scaled)
+reduced_distances = pairwise_distances(points_2d)
+q_index = items.index[items["id"] == "Q"][0]
+
+
+def nearest_ids(distance_matrix):
+    order = distance_matrix[q_index].argsort()[1:4]
+    return items.iloc[order]["id"].tolist()
+
+
+print("explained_variance=", [round(float(v), 3) for v in pca.explained_variance_ratio_])
+print("nearest_in_original=", nearest_ids(raw_distances))
+print("nearest_in_2d=", nearest_ids(reduced_distances))
+
+for item_id, point in zip(items["id"], points_2d):
+    print(item_id, "2d=", [round(float(value), 2) for value in point])
 ```
+
+运行结果如下。
 
 ```text
-original samples: [{'f1': 2.0, 'f2': 2.1, 'f3': 2.2}, {'f1': 4.0, 'f2': 4.1, 'f3': 3.9}, {'f1': 7.0, 'f2': 6.8, 'f3': 4.2}]
-1D summary      : [2.1, 4.0, 6.0]
+explained_variance= [0.505, 0.348]
+nearest_in_original= ['D', 'B', 'C']
+nearest_in_2d= ['B', 'D', 'C']
+A 2d= [2.55, -1.23]
+B 2d= [1.63, 0.87]
+C 2d= [-1.96, 0.04]
+D 2d= [-0.83, -0.38]
+E 2d= [-1.19, -1.62]
+Q 2d= [-0.19, 2.32]
 ```
 
-第三个样本的摘要值仍然是 `6.0`，但现在三条轴并不是平均地大，因为 `f3` 相对更低。如果只看摘要值，这就像和前一个例子一样；但只要回到原始特征，就会发现它其实不是同一种样本模式。这个差别正是为什么降维图和摘要轴必须始终和原始特征来回对照。
+这个例子要读出三点。
+
+1. 即使 PCA 的前两条轴保留了整体方差中的相当一部分，也不会完整保留原始空间。
+2. 在原始空间里，离 Q 最近的候选是 D；但在 2D 空间里，B 会先出现。
+3. 因此，在 2D 图里发现看起来很近的候选后，还要回到原始特征距离和实际 feature 值重新确认。
+
+把这个场景写成可视化解释备忘，可以这样记录。
+
+| 通用记录语言 | 这次练习中马上要留下的内容 |
+| --- | --- |
+| 最先看见的结构 | 在 2D PCA 空间里，Q 看起来最接近 B |
+| 解释边界 | 在原始特征空间里，Q 的最近候选是 D，所以不能把 2D 距离直接当成原始距离 |
+| 下一问题 | 是否要把 Q、B、D 的原始 feature 值并排放在一起，看哪些轴在投影中被压缩了 |
 
 ## 检查清单
 

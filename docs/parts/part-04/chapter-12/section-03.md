@@ -1,7 +1,7 @@
 # P4-12.3 k-NN을 사용할 때 무엇을 먼저 점검할까
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-12.1에서 k-NN의 직관을 보았고, P4-12.2에서 거리(distance)와 스케일(scale)이 왜 결과를 바꾸는지 보았습니다. 이제 남는 질문은 이것입니다.
 
@@ -144,6 +144,67 @@ k-NN은 모든 분류 문제의 기본 해답은 아닙니다. 하지만 `가까
 이 순서를 거치면 `모델 자체의 실패`와 `판단 기준의 흔들림`을 조금 더 분리해서 읽을 수 있습니다.
 
 즉, 여기서 남길 기준은 `k-NN은 조심해서 써야 한다`는 막연한 결론이 아닙니다. 더 정확히는 `예측이 흔들릴 때도 어디를 먼저 다시 보면 되는지`를 독자가 스스로 말할 수 있게 만드는 것입니다.
+
+## 연습 및 예제
+
+이번 예제는 같은 query를 놓고 `k`와 스케일 조정 여부가 이웃 목록과 예측을 어떻게 바꾸는지 확인합니다.
+
+- 문제 상황: 월 결제 금액과 문의 횟수로 이탈 여부를 k-NN으로 판단한다
+- 입력(input): 고객별 `monthly_spend`, `support_tickets`, `churn`
+- 기대 출력(output): `k`별 예측, 가까운 이웃 ID, 스케일 조정 후 이웃 변화
+- 확인할 개념:
+  - `k=1`은 가장 가까운 한 사례에 크게 흔들릴 수 있다
+  - `k`를 키우면 주변 다수결이 바뀔 수 있다
+  - 숫자 범위가 다른 특징은 스케일 조정 전후 이웃 순서를 바꿀 수 있다
+
+```python
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+customers = pd.DataFrame(
+    [
+        {"id": "A", "monthly_spend": 30, "support_tickets": 0, "churn": 0},
+        {"id": "B", "monthly_spend": 58, "support_tickets": 0, "churn": 0},
+        {"id": "C", "monthly_spend": 61, "support_tickets": 0, "churn": 0},
+        {"id": "D", "monthly_spend": 65, "support_tickets": 0, "churn": 0},
+        {"id": "E", "monthly_spend": 40, "support_tickets": 8, "churn": 1},
+        {"id": "F", "monthly_spend": 62, "support_tickets": 8, "churn": 1},
+        {"id": "G", "monthly_spend": 90, "support_tickets": 9, "churn": 1},
+    ]
+)
+
+X = customers[["monthly_spend", "support_tickets"]]
+y = customers["churn"]
+query = pd.DataFrame([{"monthly_spend": 63, "support_tickets": 7}])
+
+for k in [1, 3, 5]:
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(X, y)
+    distances, indices = model.kneighbors(query, n_neighbors=k)
+    neighbor_ids = customers.iloc[indices[0]]["id"].tolist()
+    print("raw k=", k, "prediction=", int(model.predict(query)[0]), "neighbors=", neighbor_ids)
+
+scaled_model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=3))
+scaled_model.fit(X, y)
+knn = scaled_model.named_steps["kneighborsclassifier"]
+scaled_query = scaled_model.named_steps["standardscaler"].transform(query)
+distances, indices = knn.kneighbors(scaled_query, n_neighbors=3)
+neighbor_ids = customers.iloc[indices[0]]["id"].tolist()
+print("scaled k= 3 prediction=", int(scaled_model.predict(query)[0]), "neighbors=", neighbor_ids)
+```
+
+실행 결과는 다음과 같습니다.
+
+```text
+raw k= 1 prediction= 1 neighbors= ['F']
+raw k= 3 prediction= 0 neighbors= ['F', 'C', 'D']
+raw k= 5 prediction= 0 neighbors= ['F', 'C', 'D', 'B', 'E']
+scaled k= 3 prediction= 1 neighbors= ['F', 'E', 'G']
+```
+
+이 출력은 `k-NN이 틀렸다`고 바로 말하라는 뜻이 아닙니다. 같은 query라도 `k=1`에서는 가장 가까운 F 하나에 끌려가고, `k=3`에서는 C와 D가 들어오면서 예측이 바뀝니다. 또 스케일을 맞추면 문의 횟수가 거리 계산에서 더 분명히 반영되어 E와 G가 가까운 이웃으로 들어옵니다. 따라서 흔들리는 query를 보면 먼저 `k`, 이웃 구성, 스케일을 순서대로 다시 열어 봐야 합니다.
 
 ## 체크리스트
 

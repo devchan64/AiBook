@@ -1,7 +1,7 @@
 # P4-7.4 补充学习：区分特征选择方式
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 从 P4-7.1 到 P4-7.3，我们已经依次处理了特征挑选、输入表达问题拆分，以及预处理的基本判断。但在实际阅读中，读者很快就会遇到下面这些名字。
 
@@ -115,6 +115,95 @@
 这里需要分清的是下面这些点。filter 方法更接近于快速检查原始特征，先缩小第一轮候选；wrapper 方法里的 RFE，则是按当前 model 性能反复减少特征。降维则更接近于不是挑出原始列中的一部分，而是把多个特征混合起来，重新表达成新轴。
 
 可确认的结果也要分开读。filter 和 RFE 可以列出哪些原始列被保留下来了，而降维则会把表达改成 `component_1`、`component_2` 这样的新轴，所以解释方式本身也会变化。因此，即使都在说 `减少输入`，也必须先决定：你到底更想保留可解释性，还是想压缩成新的表达。
+
+## 练习与示例
+
+这个例子会在同一份数据上比较 filter 方法、RFE 和 PCA 各自留下了什么。
+
+- 问题场景：想把六个客户行为特征减少到三个保留特征，或三个新轴
+- 输入(input)：scikit-learn 生成的小型分类数据
+- 期望输出(output)：保留下来的原始特征名、新 component 名、交叉验证分数和输入形状
+- 要确认的概念：
+  - filter 和 RFE 会从原始特征里挑出一部分
+  - PCA 不保留原始特征名，而是重新表达成新轴
+  - 分数看起来接近，也不代表解释性相同
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.decomposition import PCA
+from sklearn.feature_selection import RFE, SelectKBest, f_classif
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+feature_names = [
+    "visit_count",
+    "avg_order",
+    "discount_click",
+    "support_calls",
+    "days_since_login",
+    "newsletter_open",
+]
+
+X, y = make_classification(
+    n_samples=180,
+    n_features=6,
+    n_informative=3,
+    n_redundant=1,
+    class_sep=1.1,
+    random_state=7,
+    shuffle=False,
+)
+
+filter_selector = SelectKBest(score_func=f_classif, k=3).fit(X, y)
+filter_features = [
+    name for name, keep in zip(feature_names, filter_selector.get_support()) if keep
+]
+
+base_model = LogisticRegression(max_iter=1000)
+rfe_selector = RFE(base_model, n_features_to_select=3).fit(
+    StandardScaler().fit_transform(X),
+    y,
+)
+rfe_features = [
+    name for name, keep in zip(feature_names, rfe_selector.support_) if keep
+]
+
+models = {
+    "filter_selected": X[:, filter_selector.get_support()],
+    "rfe_selected": X[:, rfe_selector.support_],
+}
+
+print("filter keeps:", filter_features)
+print("rfe keeps   :", rfe_features)
+print("pca output  :", ["component_1", "component_2", "component_3"])
+
+for name, selected_X in models.items():
+    score = cross_val_score(base_model, selected_X, y, cv=5).mean()
+    print(name, "cv=", round(score, 3), "shape=", selected_X.shape)
+
+pca_score = cross_val_score(
+    make_pipeline(StandardScaler(), PCA(n_components=3), base_model),
+    X,
+    y,
+    cv=5,
+).mean()
+print("pca_reduced cv=", round(pca_score, 3), "shape=", (X.shape[0], 3))
+```
+
+运行结果如下。
+
+```text
+filter keeps: ['visit_count', 'discount_click', 'support_calls']
+rfe keeps   : ['visit_count', 'avg_order', 'support_calls']
+pca output  : ['component_1', 'component_2', 'component_3']
+filter_selected cv= 0.817 shape= (180, 3)
+rfe_selected cv= 0.828 shape= (180, 3)
+pca_reduced cv= 0.617 shape= (180, 3)
+```
+
+这里首先要看的不是分数排名。filter 方法和 RFE 保留下来的原始特征列表不同，而 PCA 虽然也把输入减少成三个维度，却让原始列名消失了。因此，`减少到三个`这一句话并不够。还要一起判断：这是保留原始特征的特征选择，还是压缩成新表达的降维。
 
 ## Checklist
 

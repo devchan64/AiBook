@@ -1,7 +1,7 @@
 # P4-8.2 기준 모델(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-8.1에서는 어떤 모델 계열을 후보로 올릴지 봤습니다. 이제 그 후보들을 바로 복잡한 순서대로 붙잡기보다, 먼저 비교의 출발점을 세우는 질문으로 넘어갑니다.
 
@@ -284,6 +284,58 @@ scikit-learn의 dummy 계열 모델은 교육적으로 특히 유용합니다.
 이 장면에서 baseline은 `복잡한 모델이 정말 의미 있게 나아졌는지`를 확인하는 바닥선이 됩니다. 실제 모델이 정확도를 조금 올렸더라도 사기 거래 재현율이 여전히 낮다면 운영 관점에서는 큰 개선이 아닐 수 있습니다. 반대로 recall과 F1이 baseline보다 분명히 좋아졌다면, 그때 비로소 복잡한 모델이 소수 클래스 문제를 더 잘 다룬다고 말할 수 있습니다.
 
 확인 가능한 결과는 같은 지표로 baseline과 실제 모델을 나란히 비교할 때 드러납니다. 정확도만이 아니라 recall, F1까지 함께 놓고 보면 왜 baseline이 `낮은 성능 모델`이 아니라 `점수 해석 기준선`인지 분명해집니다.
+
+아래 예제는 이 착시를 실제 `DummyClassifier`와 `DecisionTreeClassifier`로 축소해 봅니다. 데이터는 사기 거래처럼 양성 클래스가 적은 분류 문제로 만들었습니다.
+
+```python
+from sklearn.datasets import make_classification
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, recall_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=260,
+    n_features=6,
+    n_informative=2,
+    n_redundant=0,
+    weights=[0.82, 0.18],
+    class_sep=0.9,
+    random_state=21,
+)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.35, random_state=4, stratify=y
+)
+
+models = {
+    "dummy_most_frequent": DummyClassifier(strategy="most_frequent"),
+    "decision_tree": DecisionTreeClassifier(max_depth=3, random_state=0),
+}
+
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    predicted = model.predict(X_test)
+    tn, fp, fn, tp = confusion_matrix(y_test, predicted, labels=[0, 1]).ravel()
+    print(name)
+    print(
+        " accuracy=", round(accuracy_score(y_test, predicted), 3),
+        "positive_recall=", round(recall_score(y_test, predicted, zero_division=0), 3),
+    )
+    print(" confusion=", {"tn": int(tn), "fp": int(fp), "fn": int(fn), "tp": int(tp)})
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+dummy_most_frequent
+ accuracy= 0.824 positive_recall= 0.0
+ confusion= {'tn': 75, 'fp': 0, 'fn': 16, 'tp': 0}
+decision_tree
+ accuracy= 0.956 positive_recall= 0.75
+ confusion= {'tn': 75, 'fp': 0, 'fn': 4, 'tp': 12}
+```
+
+`dummy_most_frequent`도 accuracy는 0.824로 높아 보입니다. 하지만 양성 클래스 재현율은 0.0이고, 실제 양성 16개를 모두 놓쳤습니다. 기준 모델은 그래서 실패한 모델을 보여 주기 위한 장식이 아니라, “정확도만 보면 생기는 착시”를 먼저 드러내는 비교선입니다.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-ko.mmd"

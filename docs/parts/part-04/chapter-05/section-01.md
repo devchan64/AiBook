@@ -1,7 +1,7 @@
 # P4-5.1 과적합(overfitting)과 과소적합(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
 
@@ -297,6 +297,43 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 - `very_complex_model`은 학습 점수는 매우 높지만 검증 점수와 차이가 큽니다. 과적합 의심 장면입니다.
 
 즉, 차이가 작다고 항상 좋은 것도 아니고, 학습 점수가 높다고 항상 좋은 것도 아닙니다. 이 표에서는 `gap`보다 먼저 두 점수의 수준을 보고, 그다음 둘 사이의 차이를 봐야 합니다.
+
+같은 판단은 실제 모델을 작게 돌려 보아도 확인할 수 있습니다. 아래 예제는 초승달 모양의 두 클래스 데이터를 만들고, 같은 `DecisionTreeClassifier`에서 `max_depth`만 바꾸어 학습 점수와 검증 점수를 비교합니다. 조작할 값은 `max_depth`입니다.
+
+```python
+from sklearn.datasets import make_moons
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_moons(n_samples=160, noise=0.28, random_state=7)
+X_train, X_valid, y_train, y_valid = train_test_split(
+    X, y, test_size=0.35, random_state=3, stratify=y
+)
+
+for depth in [1, 3, None]:
+    model = DecisionTreeClassifier(max_depth=depth, random_state=0)
+    model.fit(X_train, y_train)
+    train_score = accuracy_score(y_train, model.predict(X_train))
+    valid_score = accuracy_score(y_valid, model.predict(X_valid))
+    label = "no_limit" if depth is None else f"depth_{depth}"
+    print(
+        label,
+        "train=", round(train_score, 3),
+        "valid=", round(valid_score, 3),
+        "gap=", round(train_score - valid_score, 3),
+    )
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+depth_1 train= 0.846 valid= 0.839 gap= 0.007
+depth_3 train= 0.933 valid= 0.911 gap= 0.022
+no_limit train= 1.0 valid= 0.893 gap= 0.107
+```
+
+`depth_1`은 너무 단순해서 점수가 낮고, `depth_3`은 학습과 검증이 함께 좋아집니다. 반면 `no_limit`은 학습 데이터에는 완벽하게 맞지만 검증 점수는 오히려 내려가고 차이도 커집니다. 그래서 과적합과 과소적합은 코드에서도 `학습 점수 하나`가 아니라 `학습 점수, 검증 점수, 두 점수의 간격`을 함께 읽어야 합니다.
 
 이 문장을 더 정확히 바꾸면 다음과 같습니다.
 

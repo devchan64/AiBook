@@ -1,7 +1,7 @@
 # P4-5.2 일반화(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P4-5.1에서는 과적합(overfitting)과 과소적합(underfitting)을 구분했습니다. 이제 한 단계 더 올라가야 합니다. 왜 우리는 그 구분을 중요하게 여길까요? 결국 머신러닝의 목적이 `학습 데이터 점수 높이기`가 아니라, `아직 보지 못한 데이터에서도 쓸 만하게 작동하기` 때문입니다. 이 질문을 정리하는 말이 `일반화(generalization)`입니다.
 
@@ -293,6 +293,65 @@ P4-4.2에서 검증(validation)과 테스트(test)를 나눈 이유도 결국 �
 - 검증 점수는 “아직 안 본 비슷한 데이터에서 어느 정도 버티는가”
 
 일반화는 주로 두 번째 질문 쪽에 더 가깝습니다.
+
+이번에는 같은 모델을 여러 번 다른 방식으로 나누어 보겠습니다. 아래 예제는 같은 데이터와 같은 `DecisionTreeClassifier`를 쓰되, `train_test_split`의 `random_state`를 바꾸며 test score와 gap이 얼마나 흔들리는지 출력합니다.
+
+```python
+from statistics import mean, pstdev
+
+from sklearn.datasets import make_classification
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_classification(
+    n_samples=220,
+    n_features=8,
+    n_informative=3,
+    n_redundant=1,
+    flip_y=0.08,
+    class_sep=0.8,
+    random_state=12,
+)
+
+results = []
+for seed in range(6):
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.35, random_state=seed, stratify=y
+    )
+    model = DecisionTreeClassifier(max_depth=4, random_state=0)
+    model.fit(X_train, y_train)
+    train_score = accuracy_score(y_train, model.predict(X_train))
+    test_score = accuracy_score(y_test, model.predict(X_test))
+    results.append((seed, train_score, test_score, train_score - test_score))
+
+for seed, train_score, test_score, gap in results:
+    print(
+        seed,
+        "train=", round(train_score, 3),
+        "test=", round(test_score, 3),
+        "gap=", round(gap, 3),
+    )
+
+print(
+    "test mean=", round(mean(row[2] for row in results), 3),
+    "test std=", round(pstdev(row[2] for row in results), 3),
+)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+0 train= 0.944 test= 0.623 gap= 0.321
+1 train= 0.874 test= 0.805 gap= 0.069
+2 train= 0.93 test= 0.714 gap= 0.216
+3 train= 0.93 test= 0.766 gap= 0.164
+4 train= 0.923 test= 0.74 gap= 0.183
+5 train= 0.881 test= 0.766 gap= 0.115
+test mean= 0.736 test std= 0.057
+```
+
+이 출력은 일반화를 한 번의 점수로 닫지 말아야 하는 이유를 보여 줍니다. 같은 데이터와 같은 모델이어도 어떤 샘플이 test 쪽으로 갔는지에 따라 점수와 gap이 흔들립니다. 그래서 일반화는 `이번 split에서 점수가 얼마였는가`만이 아니라, 비슷한 새 데이터 분할에서도 성능이 어느 정도 유지되는가를 함께 묻는 질문입니다.
 
 ### 표로 사회현상 쪽 일반화 읽기
 

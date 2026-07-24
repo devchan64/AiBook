@@ -1,7 +1,7 @@
 # P4-6.4 보충학습: 평가 지표 질문 지도
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: ROC, PR, log loss, calibration, silhouette는 각각 어떤 평가 질문에 답하는가_
 
@@ -328,6 +328,48 @@ silhouette를 읽을 때는 분류 지표를 읽던 습관을 잠시 내려놓�
 ```mermaid
 --8<-- "assets/part-04/chapter-06/p4-6-4-mermaid-01-ko.mmd"
 ```
+
+같은 판단을 작은 코드 출력으로도 확인할 수 있습니다. 아래 예제는 같은 이진 분류 확률 출력에서 ROC-AUC, PR-AUC, log loss, calibration bin을 계산하고, 별도의 작은 군집 좌표에서 silhouette를 계산합니다.
+
+```python
+import numpy as np
+from sklearn.calibration import calibration_curve
+from sklearn.metrics import (
+    average_precision_score,
+    log_loss,
+    roc_auc_score,
+    silhouette_score,
+)
+
+actual = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+probability = np.array([0.05, 0.25, 0.35, 0.80, 0.45, 0.65, 0.72, 0.95])
+
+print("roc_auc=", round(roc_auc_score(actual, probability), 3))
+print("pr_auc=", round(average_precision_score(actual, probability), 3))
+print("log_loss=", round(log_loss(actual, probability), 3))
+
+prob_true, prob_pred = calibration_curve(actual, probability, n_bins=3, strategy="uniform")
+print(
+    "calibration_bins=",
+    [(round(float(p), 3), round(float(t), 3)) for p, t in zip(prob_pred, prob_true)],
+)
+
+points = np.array([[0.0, 0.1], [0.2, -0.1], [3.0, 3.1], [3.2, 2.9], [0.1, 0.3], [3.1, 3.3]])
+cluster_labels = np.array([0, 0, 1, 1, 0, 1])
+print("silhouette=", round(silhouette_score(points, cluster_labels), 3))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+roc_auc= 0.812
+pr_auc= 0.804
+log_loss= 0.499
+calibration_bins= [(0.15, 0.0), (0.483, 0.667), (0.823, 0.667)]
+silhouette= 0.928
+```
+
+이 출력은 지표 이름이 늘어나는 이유를 보여 줍니다. ROC-AUC와 PR-AUC는 같은 확률 순위를 다른 관점에서 읽고, log loss는 확률의 자신감을 벌점으로 읽습니다. calibration bin은 `0.483처럼 보이는 점수 묶음에서 실제 양성 비율이 0.667이었다`처럼 점수와 실제 빈도의 관계를 보게 합니다. silhouette는 정답 라벨을 맞혔는지가 아니라, 주어진 군집이 내부적으로 조밀하고 서로 떨어져 있는지를 봅니다.
 
 확인 가능한 결과도 질문마다 다릅니다. threshold를 바꿨을 때 precision과 recall이 어떻게 흔들리는지, 높은 위험 점수 묶음이 실제 사기 비율과 얼마나 맞는지, 군집 안 거래들이 실제로 비슷한지 각각 따로 확인해야 합니다. 그래서 이 지표들은 `새 이름`이 아니라 `더 구체적인 질문`에 대응하는 도구로 읽어야 합니다.
 

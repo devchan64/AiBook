@@ -1,7 +1,7 @@
 # P4-19.6 보충학습: policy gradient 첫 읽기
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: likelihood ratio trick은 정책 확률 변화와 기대 보상을 어떻게 연결하는가_
 
@@ -131,14 +131,15 @@ P4-19.2에서 본 actor-critic은 정책을 직접 조정하되, critic이 평�
 
 입력(input):
 
-- 선택한 행동의 확률 0.7
-- 로그 확률 `log(0.7)`
+- 두 행동의 정책 점수(logit)
+- 선택된 행동
 - 같은 행동에 대한 양의 보상과 음의 보상
 
 기대 출력(output):
 
-- 로그 확률 값
-- 보상 부호에 따라 달라지는 해석 방향
+- 업데이트 전 행동 확률
+- 선택된 행동의 `grad log pi(a|s)`
+- 보상 부호에 따라 달라지는 업데이트 후 행동 확률
 
 확인할 개념:
 
@@ -146,33 +147,52 @@ P4-19.2에서 본 actor-critic은 정책을 직접 조정하되, critic이 평�
 - 보상 부호가 바뀌면 같은 행동에 대한 조정 방향도 바뀐다
 
 ```python
-# 선택한 행동의 log-probability와 보상 부호가 정책 업데이트 해석 방향을 어떻게 바꾸는지 보는 예제입니다.
-import math
+import numpy as np
 
-chosen_prob = 0.7
-log_prob = math.log(chosen_prob)
 
-positive_reward = 2.0
-negative_reward = -2.0
+def softmax(logits):
+    shifted = logits - np.max(logits)
+    exp_values = np.exp(shifted)
+    return exp_values / exp_values.sum()
 
-print("log pi(a|s) =", round(log_prob, 3))
-print("positive signal =", round(positive_reward * log_prob, 3))
-print("negative signal =", round(negative_reward * log_prob, 3))
+
+# 두 행동: 할인 배너 노출, 추천 배너 노출
+logits = np.array([0.2, -0.2])
+chosen_action = 0
+learning_rate = 0.4
+
+for reward in [2.0, -2.0]:
+    probs_before = softmax(logits)
+    grad_log_prob = -probs_before
+    grad_log_prob[chosen_action] += 1.0
+    logits_after = logits + learning_rate * reward * grad_log_prob
+    probs_after = softmax(logits_after)
+
+    print("reward=", reward)
+    print("prob_before=", [round(float(v), 3) for v in probs_before])
+    print("grad_log_prob=", [round(float(v), 3) for v in grad_log_prob])
+    print("prob_after=", [round(float(v), 3) for v in probs_after])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-log pi(a|s) = -0.357
-positive signal = -0.713
-negative signal = 0.713
+reward= 2.0
+prob_before= [0.599, 0.401]
+grad_log_prob= [0.401, -0.401]
+prob_after= [0.739, 0.261]
+reward= -2.0
+prob_before= [0.599, 0.401]
+grad_log_prob= [0.401, -0.401]
+prob_after= [0.44, 0.56]
 ```
 
 이 예제에서 핵심은 숫자 부호 자체를 외우는 데 있지 않습니다.
 
-1. `log pi(a|s)`는 선택한 행동 확률을 업데이트 계산과 연결해 주는 읽기 손잡이다.
-2. 같은 행동이라도 보상이 좋으면 확률을 더 높이는 방향, 보상이 나쁘면 덜 나오게 하는 방향으로 해석해야 한다.
-3. likelihood ratio trick은 이런 연결을 `확률 미분` 대신 `로그 확률 기울기`로 읽기 쉽게 바꾸는 역할을 한다.
+1. `grad log pi(a|s)`는 선택한 행동 확률을 업데이트 계산과 연결해 주는 읽기 손잡이다.
+2. 같은 행동이라도 보상이 양수이면 선택된 행동의 확률이 `0.599 -> 0.739`로 올라간다.
+3. 보상이 음수이면 같은 기울기를 써도 선택된 행동의 확률이 `0.599 -> 0.44`로 내려간다.
+4. likelihood ratio trick은 이런 연결을 `확률 미분` 대신 `로그 확률 기울기`로 읽기 쉽게 바꾸는 역할을 한다.
 
 ### 직접 판단해 보기
 

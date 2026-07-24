@@ -1,7 +1,7 @@
 # P4-18.2 Visualization And Information Loss
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 In P4-18.1, we saw that dimensionality reduction reexpresses many features through fewer axes. The next step is to ask how far the resulting picture should be trusted.
 
@@ -312,42 +312,84 @@ This case shows that a dimensionality-reduction plot is useful for finding outli
 
 ## Practice And Example
 
-This toy exercise directly checks that even when the same one-dimensional summary value appears, the original pattern can still be different.
+This example reduces five features to 2D with PCA and checks how nearby neighbors can differ between the original space and the 2D space.
 
-- Problem situation: even if summary values look similar, the original feature pattern can still differ
-- Input: samples expressed through three features
-- Expected output: one summary value and per-axis differences
+- Problem situation: check whether a nearby product candidate in a 2D plot should also be read as nearby in the original features
+- Input: product candidates expressed through five score features
+- Expected output: variance ratio retained by PCA, nearby neighbors in the original space, and nearby neighbors in the 2D space
 - Concepts to check:
-  - visualization or a summary axis is an easier-to-read representation
-  - an easier-to-read representation does not fully replace the original structure
-
-### Change One Value: The Original Pattern Can Differ Even When The Summary Is The Same
-
-This time, change the third sample so that the average remains similar while the axis-by-axis pattern changes.
+  - a 2D reduced representation is not a copy of the original space
+  - nearby-neighbor order can change before and after reduction
+  - a reduced plot is the starting point for follow-up review, not the conclusion
 
 ```python
-# This toy example checks that samples can share the same summary value while having different original feature patterns.
-samples = [
-    {"f1": 2.0, "f2": 2.1, "f3": 2.2},
-    {"f1": 4.0, "f2": 4.1, "f3": 3.9},
-    {"f1": 7.0, "f2": 6.8, "f3": 4.2},
-]
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.metrics import pairwise_distances
+from sklearn.preprocessing import StandardScaler
 
-reduced = [
-    round((row["f1"] + row["f2"] + row["f3"]) / 3, 2)
-    for row in samples
-]
+items = pd.DataFrame(
+    [
+        {"id": "A", "price_score": 2, "battery": 7, "camera": 5, "service": 10, "design": 8},
+        {"id": "B", "price_score": 3, "battery": 9, "camera": 8, "service": 3, "design": 6},
+        {"id": "C", "price_score": 8, "battery": 3, "camera": 3, "service": 2, "design": 1},
+        {"id": "D", "price_score": 5, "battery": 1, "camera": 6, "service": 5, "design": 2},
+        {"id": "E", "price_score": 4, "battery": 1, "camera": 2, "service": 5, "design": 1},
+        {"id": "Q", "price_score": 8, "battery": 3, "camera": 10, "service": 2, "design": 7},
+    ]
+)
 
-print("original samples:", samples)
-print("1D summary      :", reduced)
+features = ["price_score", "battery", "camera", "service", "design"]
+X_scaled = StandardScaler().fit_transform(items[features])
+
+pca = PCA(n_components=2, random_state=0)
+points_2d = pca.fit_transform(X_scaled)
+
+raw_distances = pairwise_distances(X_scaled)
+reduced_distances = pairwise_distances(points_2d)
+q_index = items.index[items["id"] == "Q"][0]
+
+
+def nearest_ids(distance_matrix):
+    order = distance_matrix[q_index].argsort()[1:4]
+    return items.iloc[order]["id"].tolist()
+
+
+print("explained_variance=", [round(float(v), 3) for v in pca.explained_variance_ratio_])
+print("nearest_in_original=", nearest_ids(raw_distances))
+print("nearest_in_2d=", nearest_ids(reduced_distances))
+
+for item_id, point in zip(items["id"], points_2d):
+    print(item_id, "2d=", [round(float(value), 2) for value in point])
 ```
+
+The output is as follows.
 
 ```text
-original samples: [{'f1': 2.0, 'f2': 2.1, 'f3': 2.2}, {'f1': 4.0, 'f2': 4.1, 'f3': 3.9}, {'f1': 7.0, 'f2': 6.8, 'f3': 4.2}]
-1D summary      : [2.1, 4.0, 6.0]
+explained_variance= [0.505, 0.348]
+nearest_in_original= ['D', 'B', 'C']
+nearest_in_2d= ['B', 'D', 'C']
+A 2d= [2.55, -1.23]
+B 2d= [1.63, 0.87]
+C 2d= [-1.96, 0.04]
+D 2d= [-0.83, -0.38]
+E 2d= [-1.19, -1.62]
+Q 2d= [-0.19, 2.32]
 ```
 
-The summary value of the third sample is still `6.0`, but now the three axes are not uniformly large because `f3` is relatively lower. If you look only at the summary value, this seems like the same conclusion as before, but if you go back to the original features, the sample pattern is not actually the same. That difference is exactly why reduced plots or summary axes must always be read in a back-and-forth movement with the original features.
+There are three things to read from this example.
+
+1. Even when the first two PCA axes retain a large part of the overall variance, they do not preserve the original space completely.
+2. In the original space, the nearest candidate to Q is D, but in the 2D space B appears first.
+3. Therefore, when a candidate looks close in a 2D plot, readers still need to recheck the original feature distance and the actual feature values.
+
+The visualization-review memo for this scene can be written as follows.
+
+| Common record language | What to write for this exercise |
+| --- | --- |
+| Structure seen first | In the 2D PCA space, Q appeared closest to B |
+| Interpretation boundary | In the original feature space, Q's nearest candidate was D, so do not treat 2D distance as original distance |
+| Next question | Should we place the original feature values of Q, B, and D side by side and recheck which axes were compressed by the projection? |
 
 ## Checklist
 

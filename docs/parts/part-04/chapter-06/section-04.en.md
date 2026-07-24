@@ -1,7 +1,7 @@
 # P4-6.4 Supplementary Learning: A Question Map for Evaluation Metrics
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _Subtitle: What evaluation question does ROC, PR, log loss, calibration, and silhouette answer?_
 
@@ -328,6 +328,48 @@ At that point, ROC and PR make it possible to read what changes when the thresho
 ```mermaid
 --8<-- "assets/part-04/chapter-06/p4-6-4-mermaid-01-en.mmd"
 ```
+
+The same judgment can also be checked with a small code output. The example below computes ROC-AUC, PR-AUC, log loss, and calibration bins from the same binary-classification probability output, then computes silhouette from a separate small set of cluster coordinates.
+
+```python
+import numpy as np
+from sklearn.calibration import calibration_curve
+from sklearn.metrics import (
+    average_precision_score,
+    log_loss,
+    roc_auc_score,
+    silhouette_score,
+)
+
+actual = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+probability = np.array([0.05, 0.25, 0.35, 0.80, 0.45, 0.65, 0.72, 0.95])
+
+print("roc_auc=", round(roc_auc_score(actual, probability), 3))
+print("pr_auc=", round(average_precision_score(actual, probability), 3))
+print("log_loss=", round(log_loss(actual, probability), 3))
+
+prob_true, prob_pred = calibration_curve(actual, probability, n_bins=3, strategy="uniform")
+print(
+    "calibration_bins=",
+    [(round(float(p), 3), round(float(t), 3)) for p, t in zip(prob_pred, prob_true)],
+)
+
+points = np.array([[0.0, 0.1], [0.2, -0.1], [3.0, 3.1], [3.2, 2.9], [0.1, 0.3], [3.1, 3.3]])
+cluster_labels = np.array([0, 0, 1, 1, 0, 1])
+print("silhouette=", round(silhouette_score(points, cluster_labels), 3))
+```
+
+An example output is as follows.
+
+```text
+roc_auc= 0.812
+pr_auc= 0.804
+log_loss= 0.499
+calibration_bins= [(0.15, 0.0), (0.483, 0.667), (0.823, 0.667)]
+silhouette= 0.928
+```
+
+This output shows why metric names multiply. ROC-AUC and PR-AUC read the same probability ranking from different viewpoints, and log loss reads confidence in the probabilities as a penalty. A calibration bin lets us inspect a relationship such as `inside the score group that looked like 0.483, the actual positive frequency was 0.667`. Silhouette does not ask whether answer labels were matched. It asks whether the given clusters are internally compact and separated from each other.
 
 The checkable result also differs by question. Precision and recall must be inspected separately when the threshold changes, the match between high-risk score groups and actual fraud ratio must be checked, and the internal similarity of transactions inside a cluster must be examined separately. So these names should be read not as `new terms`, but as tools that answer `more specific questions`.
 
