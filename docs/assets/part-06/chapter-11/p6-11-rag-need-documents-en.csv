@@ -1,0 +1,38 @@
+doc_id,case_id,title,text,version_status,source_type
+P01,policy,2026-07-22 Refund Policy Change,"Starting today, the refund request processing period changes to 14 days and applies to requests received after the effective date",current,policy_notice
+P02,policy,2026-07-22 Refund Exception Conditions,"Opened products and products with signs of use require additional review even within the 14-day processing period",current,policy_notice
+P03,policy,2026-07-22 Refund Submission Path,"Refund submission starts from Order History in the Account menu and leaves a submission number",current,policy_notice
+P04,policy,2026-07-22 Refund Approval Notice,"The refund approval notice is sent to the customer after the submission status changes to approved",current,policy_notice
+P05,policy,2026-07-22 Refund Document Version,"The current refund policy document version is 2026-07-22 and the previous 7-day standard document is for archive use",current,policy_notice
+P06,policy,2026-07-22 Refund Inquiry Reply Standard,"Refund inquiry replies must explain both the 14-day processing period and exception conditions",current,policy_notice
+P07,policy,2025-12-01 Refund Policy Archive,"The old refund request processing period was 7 days and this document is for archive use",old,archive
+P08,policy,2025-12-01 Refund FAQ Archive,"The old FAQ said refund submissions were processed within 7 days",old,archive
+P09,policy,Refund Account Menu Guide,"The refund submission screen is in the Account menu, but this document does not explain the processing period",related,faq
+P10,policy,Shipping Delay Notice,"The shipping delay notice is separate from the refund policy change and does not explain the processing period",related,notice
+P11,policy,Payment Cancellation Procedure,"Payment cancellation requests follow the approval cancellation procedure for each payment method",related,manual
+P12,policy,Customer Support Wording Guide,"Refund guidance should be polite, but the latest policy document must be checked first",related,style_guide
+M01,manual,Current v3 Advanced Settings Location,"In the current version, the advanced settings menu is now found in Preferences > Labs",current,manual
+M02,manual,v3 Preferences Entry Path,"Current version users enter Preferences from the profile icon at the top right of the screen",current,manual
+M03,manual,v3 Labs Feature Guide,"The Labs menu contains automation options and beta features moved from Advanced Settings",current,manual
+M04,manual,v3 Menu Name Change Notice,"The Advanced Settings menu name has been integrated into Preferences in the current version",current,manual
+M05,manual,v3 Settings Search Guide,"Entering Labs in the settings search box moves to the advanced feature location inside Preferences",current,manual
+M06,manual,v3 Manual Version Information,"The current product manual version is v3 and the v2 Advanced Settings document is for archive use",current,manual
+M07,manual,v2 Legacy Settings Guide,"In the old version, there was a separate legacy settings menu",old,archive
+M08,manual,v2 Auto-Save Location,"The old auto-save option was inside the Advanced Settings menu",old,archive
+M09,manual,Profile Screen Guide,"The profile screen shows the account name and notification status",related,manual
+M10,manual,Reset Default Settings,"Resetting default settings is performed in the Restore menu under Preferences",related,manual
+M11,manual,Notification Menu Description,"The notification menu turns message and email notifications on and off",related,manual
+M12,manual,Customer Center Screenshot Standard,"Screen guidance answers must first check the current version manual path",related,style_guide
+S01,sdk,SDK v5 auth Object Authentication,"In the current SDK version, create the client by putting the token in the auth object",current,sdk_doc
+S02,sdk,SDK v5 Client Creation Example,"Set current version authentication in the form client = SDK(auth={'token': API_KEY})",current,sdk_doc
+S03,sdk,SDK v5 Authentication Error Check,"If there is no auth object, the current SDK can return an authentication error",current,sdk_doc
+S04,sdk,SDK v5 Migration Guide,"The direct Authorization header construction method moved to the auth object method in v5",current,sdk_doc
+S05,sdk,SDK v5 Environment Variable Connection,"The recommended method is to read API_KEY from an environment variable and pass it to the auth object",current,sdk_doc
+S06,sdk,SDK v5 Document Version,"The current SDK document version is v5 and the v4 header example is for archive use",current,sdk_doc
+S07,sdk,SDK v4 Authorization Header Example,"In the old SDK version, the Authorization header was configured directly",old,archive
+S08,sdk,SDK v4 Authentication Document Archive,"The archive document includes an example of directly setting the Authorization header",old,archive
+S09,sdk,SDK Rate Limit Guide,"When a rate limit occurs, check retry intervals and backoff settings",related,sdk_doc
+S10,sdk,SDK Error Code Description,"Authentication failure and rate-limit error codes are recorded for different causes",related,sdk_doc
+S11,sdk,SDK Installation Guide,"SDK installation first checks the package manager and runtime version",related,sdk_doc
+S12,sdk,Developer Documentation Answer Standard,"Developer documentation answers should use the current SDK version and official examples as evidence",related,style_guide
+R01,pricing,Archived Seat Pricing Notice,"The old per-seat pricing page was archived and does not describe the current pricing table",old,archive

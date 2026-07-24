@@ -1,0 +1,5 @@
+case_id,question,memory_answer,current_signal
+policy,How did the refund policy change today?,Refund requests are processed within 7 days.,14 days
+manual,Where is the advanced settings menu in the current version?,You can find it directly in the Advanced Settings menu.,Preferences
+sdk,Where do I put the authentication header in the current SDK version?,Put the token directly in the Authorization header.,auth
+pricing,Where can I check the current seat-based pricing table?,Plans are billed monthly.,seat-based pricing table

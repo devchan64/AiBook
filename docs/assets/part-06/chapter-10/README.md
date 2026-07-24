@@ -35,5 +35,6 @@
   - `p6-10-1-prompt-response-log.csv`
   - `p6-10-3-response-path-log.csv`
   - `p6-10-4-prompt-candidate-eval.csv`
+  - `p6-10-4-prompt-candidate-eval-en.csv`
   - `p6-10-rag-documents.csv`
   - `p6-10-rag-experiments.csv`

@@ -16,6 +16,8 @@
   - `p6_11_2_rag_failure_split_chart.py`
 - CSV example data:
   - `p6-11-rag-need-questions.csv`
+  - `p6-11-rag-need-questions-en.csv`
   - `p6-11-rag-need-documents.csv`
+  - `p6-11-rag-need-documents-en.csv`
   - `p6-11-rag-documents.csv`
   - `p6-11-rag-experiments.csv`
