@@ -3,6 +3,13 @@
 - Section ID: `P6-index`
 - Source File: `docs/parts/part-06/index.md`
 
+## v2026.07.24-zh
+
+- 본문 반영: `docs/parts/part-06/index.zh.md`를 한국어 원문 `v2026.07.24` 기준으로 갱신했다.
+- 번역 동기화 메모: 중국어판도 8개 Module 표, Part 7 handoff, MCP·하네스의 연결 형식·실행 기록·재현성 관점을 유지한다.
+- 번역 반영 상태: 영문 번역 반영 완료 / 중문 번역 반영 완료
+- 원문 기준 버전: `v2026.07.24`
+
 ## v2026.07.24-en
 
 - 본문 반영: `docs/parts/part-06/index.en.md`를 한국어 원문 `v2026.07.24` 기준으로 갱신했다.

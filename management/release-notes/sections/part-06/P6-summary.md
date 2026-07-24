@@ -3,6 +3,13 @@
 - Section ID: `P6-summary`
 - Source File: `docs/parts/part-06/summary.md`
 
+## v2026.07.24-zh
+
+- 본문 반영: `docs/parts/part-06/summary.zh.md`를 한국어 원문 `v2026.07.24` 기준으로 갱신했다.
+- 번역 동기화 메모: 중국어판도 오해 정리 표, Part 6에서 닫은 흐름 표, Part 7로 넘길 질문 목록을 유지한다.
+- 번역 반영 상태: 영문 번역 반영 완료 / 중문 번역 반영 완료
+- 원문 기준 버전: `v2026.07.24`
+
 ## v2026.07.24-en
 
 - 본문 반영: `docs/parts/part-06/summary.en.md`를 한국어 원문 `v2026.07.24` 기준으로 갱신했다.

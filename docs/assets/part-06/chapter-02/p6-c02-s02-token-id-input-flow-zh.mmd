@@ -1,0 +1,13 @@
+flowchart TD
+  A["原文字符串"]
+  B["token 字符串<br/>片段边界"]
+  C["token 数<br/>片段个数"]
+  D["token ID 序列<br/>vocabulary 编号"]
+  E["embedding 向量<br/>计算输入"]
+  F["模型计算"]
+
+  A --> B
+  B --> C
+  B --> D
+  D --> E
+  E --> F

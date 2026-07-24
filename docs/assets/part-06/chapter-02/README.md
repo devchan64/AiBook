@@ -9,16 +9,17 @@
   - `p6-c02-s02-diagram-01-en.mmd` / `p6-c02-s02-diagram-01-ko.mmd`
   - `p6-c02-s02-diagram-02-en.mmd` / `p6-c02-s02-diagram-02-ko.mmd`
   - `p6-c02-s03-diagram-01-en.mmd` / `p6-c02-s03-diagram-01-ko.mmd`
-  - `p6-c02-s01-token-question-split-en.mmd` / `p6-c02-s01-token-question-split-ko.mmd`
-  - `p6-c02-s03-tokenization-flow-en.mmd` / `p6-c02-s03-tokenization-flow-ko.mmd`
-  - `p6-c02-s03-tokenization-impact-en.mmd` / `p6-c02-s03-tokenization-impact-ko.mmd`
-  - `p6-c02-s03-tokenization-operation-cases-en.mmd` / `p6-c02-s03-tokenization-operation-cases-ko.mmd`
+  - `p6-c02-s01-token-question-split-en.mmd` / `p6-c02-s01-token-question-split-ko.mmd` / `p6-c02-s01-token-question-split-zh.mmd`
+  - `p6-c02-s02-token-id-input-flow-en.mmd` / `p6-c02-s02-token-id-input-flow-ko.mmd` / `p6-c02-s02-token-id-input-flow-zh.mmd`
+  - `p6-c02-s03-tokenization-flow-en.mmd` / `p6-c02-s03-tokenization-flow-ko.mmd` / `p6-c02-s03-tokenization-flow-zh.mmd`
+  - `p6-c02-s03-tokenization-impact-en.mmd` / `p6-c02-s03-tokenization-impact-ko.mmd` / `p6-c02-s03-tokenization-impact-zh.mmd`
+  - `p6-c02-s03-tokenization-operation-cases-en.mmd` / `p6-c02-s03-tokenization-operation-cases-ko.mmd` / `p6-c02-s03-tokenization-operation-cases-zh.mmd`
   - `p6-c02-s04-token-operation-routing-en.mmd` / `p6-c02-s04-token-operation-routing-ko.mmd`
   - `p6-c02-s05-tokenizer-family-map-en.mmd` / `p6-c02-s05-tokenizer-family-map-ko.mmd`
   - `p6-c02-s05-tokenizer-difference-cases-en.mmd` / `p6-c02-s05-tokenizer-difference-cases-ko.mmd`
 - PNG chart assets:
   - `ann-window-tradeoff-en.png` / `ann-window-tradeoff-ko.png`
-  - `tiktoken-budget-en.png` / `tiktoken-budget-ko.png`
+  - `tiktoken-budget-en.png` / `tiktoken-budget-ko.png` / `tiktoken-budget-zh.png`
 - Python chart source:
   - `p6_2_4_ann_window_tradeoff_chart.py`
   - `p6_2_3_tiktoken_budget_chart.py`

@@ -1,0 +1,9 @@
+flowchart TD
+  A["原文文本"]
+  B["切分成 tokens"]
+  C["模型读取 token 序列"]
+  D["预测下一个 token"]
+
+  A --> B
+  B --> C
+  C --> D

@@ -33,6 +33,36 @@ TEXT = {
         "output_label": "예상 출력 토큰",
         "budget_label": "토큰 예산",
         "ylabel": "토큰 수",
+        "samples": [
+            {
+                "case": "plain_notice",
+                "text": "회의는 내일 열립니다.",
+                "expected_output_tokens": 40,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+            {
+                "case": "mixed_schedule",
+                "text": "회의는 내일 10:00 AM에 열립니다. Zoom 링크는 mail@example.com으로 보냈어요.",
+                "expected_output_tokens": 55,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+            {
+                "case": "policy_with_exception",
+                "text": "연차는 3일 전 신청합니다. 단, 긴급 병가는 사후 보고가 가능하며 증빙을 첨부해야 합니다.",
+                "expected_output_tokens": 70,
+                "token_budget": 120,
+                "chunk_size": 30,
+            },
+            {
+                "case": "verbose_output_request",
+                "text": "배송 지연 사유를 표로 정리하고, 주의사항 목록과 환불 제한 조건을 마지막에 덧붙여 주세요.",
+                "expected_output_tokens": 95,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+        ],
     },
     "en": {
         "outfile": "tiktoken-budget-en.png",
@@ -42,6 +72,82 @@ TEXT = {
         "output_label": "expected output tokens",
         "budget_label": "token budget",
         "ylabel": "tokens",
+        "samples": [
+            {
+                "case": "plain_notice",
+                "text": "회의는 내일 열립니다.",
+                "expected_output_tokens": 40,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+            {
+                "case": "mixed_schedule",
+                "text": "회의는 내일 10:00 AM에 열립니다. Zoom 링크는 mail@example.com으로 보냈어요.",
+                "expected_output_tokens": 55,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+            {
+                "case": "policy_with_exception",
+                "text": "연차는 3일 전 신청합니다. 단, 긴급 병가는 사후 보고가 가능하며 증빙을 첨부해야 합니다.",
+                "expected_output_tokens": 70,
+                "token_budget": 120,
+                "chunk_size": 30,
+            },
+            {
+                "case": "verbose_output_request",
+                "text": "배송 지연 사유를 표로 정리하고, 주의사항 목록과 환불 제한 조건을 마지막에 덧붙여 주세요.",
+                "expected_output_tokens": 95,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+        ],
+    },
+    "zh": {
+        "outfile": "tiktoken-budget-zh.png",
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Songti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "labels": ["短公告", "混合日程", "例外政策", "长输出请求"],
+        "input_label": "输入 token",
+        "output_label": "预计输出 token",
+        "budget_label": "token 预算",
+        "ylabel": "token 数",
+        "samples": [
+            {
+                "case": "plain_notice",
+                "text": "会议明天举行。",
+                "expected_output_tokens": 40,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+            {
+                "case": "mixed_schedule",
+                "text": "会议明天 10:00 AM 举行。Zoom 链接已发送到 mail@example.com。",
+                "expected_output_tokens": 55,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+            {
+                "case": "policy_with_exception",
+                "text": "年假需提前 3 天申请。但紧急病假可以事后报告，并且必须附上证明。",
+                "expected_output_tokens": 70,
+                "token_budget": 120,
+                "chunk_size": 20,
+            },
+            {
+                "case": "verbose_output_request",
+                "text": "请用表格整理配送延迟原因，并在最后补充注意事项列表和退款限制条件。",
+                "expected_output_tokens": 105,
+                "token_budget": 120,
+                "chunk_size": 80,
+            },
+        ],
     },
 }
 
@@ -65,55 +171,24 @@ def configure_font(text):
 
 def main():
     encoding = tiktoken.get_encoding("o200k_base")
-    samples = [
-        {
-            "case": "plain_notice",
-            "text": "회의는 내일 열립니다.",
-            "expected_output_tokens": 40,
-            "token_budget": 120,
-            "chunk_size": 80,
-        },
-        {
-            "case": "mixed_schedule",
-            "text": "회의는 내일 10:00 AM에 열립니다. Zoom 링크는 mail@example.com으로 보냈어요.",
-            "expected_output_tokens": 55,
-            "token_budget": 120,
-            "chunk_size": 80,
-        },
-        {
-            "case": "policy_with_exception",
-            "text": "연차는 3일 전 신청합니다. 단, 긴급 병가는 사후 보고가 가능하며 증빙을 첨부해야 합니다.",
-            "expected_output_tokens": 70,
-            "token_budget": 120,
-            "chunk_size": 30,
-        },
-        {
-            "case": "verbose_output_request",
-            "text": "배송 지연 사유를 표로 정리하고, 주의사항 목록과 환불 제한 조건을 마지막에 덧붙여 주세요.",
-            "expected_output_tokens": 95,
-            "token_budget": 120,
-            "chunk_size": 80,
-        },
-    ]
-
-    rows = []
-    for sample in samples:
-        input_tokens = count_tokens(encoding, sample["text"])
-        total_tokens = input_tokens + sample["expected_output_tokens"]
-        rows.append(
-            {
-                **sample,
-                "input_tokens": input_tokens,
-                "total_tokens": total_tokens,
-                "remaining_tokens": sample["token_budget"] - total_tokens,
-                "chunk_margin": sample["chunk_size"] - input_tokens,
-            }
-        )
-
-    input_values = [row["input_tokens"] for row in rows]
-    output_values = [row["expected_output_tokens"] for row in rows]
-
     for text in TEXT.values():
+        rows = []
+        for sample in text["samples"]:
+            input_tokens = count_tokens(encoding, sample["text"])
+            total_tokens = input_tokens + sample["expected_output_tokens"]
+            rows.append(
+                {
+                    **sample,
+                    "input_tokens": input_tokens,
+                    "total_tokens": total_tokens,
+                    "remaining_tokens": sample["token_budget"] - total_tokens,
+                    "chunk_margin": sample["chunk_size"] - input_tokens,
+                }
+            )
+
+        input_values = [row["input_tokens"] for row in rows]
+        output_values = [row["expected_output_tokens"] for row in rows]
+
         configure_font(text)
         labels = text["labels"]
         fig, ax = plt.subplots(figsize=(9, 5))
@@ -134,15 +209,16 @@ def main():
         fig.savefig(BASE_DIR / text["outfile"], dpi=180)
         plt.close(fig)
 
-    for row in rows:
-        print(
-            row["case"],
-            "input_tokens=", row["input_tokens"],
-            "expected_output_tokens=", row["expected_output_tokens"],
-            "total_tokens=", row["total_tokens"],
-            "remaining_tokens=", row["remaining_tokens"],
-            "chunk_margin=", row["chunk_margin"],
-        )
+        for row in rows:
+            print(
+                text["outfile"],
+                row["case"],
+                "input_tokens=", row["input_tokens"],
+                "expected_output_tokens=", row["expected_output_tokens"],
+                "total_tokens=", row["total_tokens"],
+                "remaining_tokens=", row["remaining_tokens"],
+                "chunk_margin=", row["chunk_margin"],
+            )
 
 
 if __name__ == "__main__":
