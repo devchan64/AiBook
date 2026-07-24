@@ -1,0 +1,63 @@
+# Concept Glossary: S
+
+This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+
+- [safety](/AiBook/reference/concept-glossary-parts/03-digeut/#safety) — 디지털 안전성 — Core Section: `P1-15.1`
+- [safety](/AiBook/reference/concept-glossary-parts/08-ieung/#safety) — 안전성 — Core Section: `P1-15.1`
+- [sample](/AiBook/reference/concept-glossary-parts/07-siot/#sample) — 샘플 — Core Section: `P3-4.1`
+- [sample](/AiBook/reference/concept-glossary-parts/13-pieup/#sample) — 표본 — Core Section: `P2-5.3`
+- [sample space](/AiBook/reference/concept-glossary-parts/13-pieup/#sample-space) — 표본공간 — Core Section: `P2-5.1`
+- [sample-by-sample comparison table](/AiBook/reference/concept-glossary-parts/07-siot/#sample-by-sample-comparison-table) — 샘플별 비교표 — Core Section: `P7-2.1`
+- [sampling](/AiBook/reference/concept-glossary-parts/07-siot/#sampling) — 샘플링 — Core Section: `P5-15.3`
+- [savefig](/AiBook/reference/concept-glossary-parts/07-siot/#savefig) — savefig — Core Section: `P2-13.3`
+- [scalar](/AiBook/reference/concept-glossary-parts/07-siot/#scalar) — 스칼라 — Core Section: `P2-3.1`
+- [scale](/AiBook/reference/concept-glossary-parts/07-siot/#scale) — 스케일 — Core Section: `P6-7.2`
+- [scatter plot](/AiBook/reference/concept-glossary-parts/07-siot/#scatter-plot) — 산점도 — Core Section: `P2-13.2`
+- [scenario](/AiBook/reference/concept-glossary-parts/07-siot/#scenario) — 시나리오 — Core Section: `P1-17.1`
+- [scope](/AiBook/reference/concept-glossary-parts/07-siot/#scope) — 실행 범위 — Core Section: `P1-15.3`
+- [script](/AiBook/reference/concept-glossary-parts/07-siot/#script) — 스크립트 — Core Section: `P2-7.3`
+- [search](/AiBook/reference/concept-glossary-parts/01-giyeok/#search) — 검색 — Core Section: `P1-16.2`
+- [search](/AiBook/reference/concept-glossary-parts/12-tieut/#search) — 탐색 — Core Section: `P1-2.2`
+- [search index](/AiBook/reference/concept-glossary-parts/01-giyeok/#search-index) — 검색 인덱스 — Core Section: `P1-13.4`
+- [search space](/AiBook/reference/concept-glossary-parts/12-tieut/#search-space) — 탐색 공간 — Core Section: `P1-7.1`
+- [secret](/AiBook/reference/concept-glossary-parts/06-bieup/#secret) — 비밀키 — Core Section: `P1-14.5`
+- [security](/AiBook/reference/concept-glossary-parts/06-bieup/#security) — 보안 — Core Section: `P1-15.3`
+- [self-attention](/AiBook/reference/concept-glossary-parts/07-siot/#self-attention) — 셀프 어텐션 — Core Section: `P5-13.2`
+- [self-consistency](/AiBook/reference/concept-glossary-parts/07-siot/#self-consistency) — self-consistency — Core Section: `P6-10.3`
+- [sensitive information](/AiBook/reference/concept-glossary-parts/05-mieum/#sensitive-information) — 민감 정보 — Core Section: `P1-15.3`
+- [sentence, paragraph, and document embedding](/AiBook/reference/concept-glossary-parts/05-mieum/#sentence-paragraph-and-document-embedding) — 문장·문단·문서 임베딩 — Core Section: `P1-13.1`
+- [SentencePiece](/AiBook/reference/concept-glossary-parts/07-siot/#sentencepiece) — SentencePiece — Core Section: `P6-2.2`
+- [Seq2Seq](/AiBook/reference/concept-glossary-parts/07-siot/#seq2seq) — 시퀀스 투 시퀀스 — Core Section: `P1-11.2`
+- [Series](/AiBook/reference/concept-glossary-parts/07-siot/#series) — Series — Core Section: `P2-12.2`
+- [server](/AiBook/reference/concept-glossary-parts/07-siot/#server) — 서버 — Core Section: `P1-14.4`
+- [shallow copy](/AiBook/reference/concept-glossary-parts/08-ieung/#shallow-copy) — 얕은 복사 — Core Section: `P2-8.7`
+- [shape](/AiBook/reference/concept-glossary-parts/07-siot/#shape) — shape — Core Section: `P2-3.1`
+- [shared view](/AiBook/reference/concept-glossary-parts/07-siot/#shared-view) — shared view — Core Section: `P2-11.4`
+- [shell](/AiBook/reference/concept-glossary-parts/07-siot/#shell) — 셸 — Core Section: `P2-7.2`
+- [shell script](/AiBook/reference/concept-glossary-parts/07-siot/#shell-script) — 셸 스크립트 — Core Section: `P2-7.8`
+- [sigma](/AiBook/reference/concept-glossary-parts/07-siot/#sigma) — 시그마 — Core Section: `P2-2.2`
+- [similarity](/AiBook/reference/concept-glossary-parts/08-ieung/#similarity) — 유사도 — Core Section: `P1-13.2`
+- [similarity search](/AiBook/reference/concept-glossary-parts/08-ieung/#similarity-search) — 유사도 검색 — Core Section: `P1-13.2`
+- [slicing](/AiBook/reference/concept-glossary-parts/07-siot/#slicing) — 슬라이싱 — Core Section: `P2-11.2`
+- [slope](/AiBook/reference/concept-glossary-parts/01-giyeok/#slope) — 기울기 — Core Section: `P2-4.2`
+- [sparse attention](/AiBook/reference/concept-glossary-parts/07-siot/#sparse-attention) — sparse attention — Core Section: `P6-4.3`
+- [sparsity](/AiBook/reference/concept-glossary-parts/03-digeut/#sparsity) — 데이터 희소성 — Core Section: `P1-11.1`
+- [speech generation](/AiBook/reference/concept-glossary-parts/08-ieung/#speech-generation) — 음성 생성 — Core Section: `P1-9.2`
+- [stack](/AiBook/reference/concept-glossary-parts/07-siot/#stack) — 스택 — Core Section: `P2-9.4`
+- [staging area](/AiBook/reference/concept-glossary-parts/07-siot/#staging-area) — 스테이징 영역 — Core Section: `P2-14.1`
+- [standard deviation](/AiBook/reference/concept-glossary-parts/13-pieup/#standard-deviation) — 표준편차 — Core Section: `P2-5.5`
+- [standard error](/AiBook/reference/concept-glossary-parts/13-pieup/#standard-error) — 표준오차 — Core Section: `P2-5.5`
+- [state](/AiBook/reference/concept-glossary-parts/07-siot/#state) — 상태 — Core Section: `P1-7.1`
+- [static deployment](/AiBook/reference/concept-glossary-parts/09-jieut/#static-deployment) — 정적 배포 — Core Section: `P7-7.1`
+- [statistical language model](/AiBook/reference/concept-glossary-parts/12-tieut/#statistical-language-model) — 통계적 언어 모델 — Core Section: `P1-11.1`
+- [status inspection](/AiBook/reference/concept-glossary-parts/07-siot/#status-inspection) — 상태 점검 — Core Section: `P7-7.1`
+- [stochastic process](/AiBook/reference/concept-glossary-parts/14-hieut/#stochastic-process) — 확률적 과정 — Core Section: `P1-6.2`
+- [stop condition](/AiBook/reference/concept-glossary-parts/09-jieut/#stop-condition) — 종료 조건 — Core Section: `P1-14.3`
+- [structural hypothesis](/AiBook/reference/concept-glossary-parts/01-giyeok/#structural-hypothesis) — 구조 계열 가설 — Core Section: `P7-3.2`
+- [structure](/AiBook/reference/concept-glossary-parts/01-giyeok/#structure) — 구조 — Core Section: `P1-8.2`
+- [summary table](/AiBook/reference/concept-glossary-parts/08-ieung/#summary-table) — 요약표 — Core Section: `P7-1.1`
+- [supervised learning](/AiBook/reference/concept-glossary-parts/09-jieut/#supervised-learning) — 지도학습 — Core Section: `P4-2.1`
+- [surrounding evidence](/AiBook/reference/concept-glossary-parts/09-jieut/#surrounding-evidence) — 주변 근거 — Core Section: `P6-19.2`
+- [SVM, support vector machine](/AiBook/reference/concept-glossary-parts/08-ieung/#svmsupport-vector-machine) — SVM — Core Section: `P4-13.1`
+- [symbolic AI](/AiBook/reference/concept-glossary-parts/01-giyeok/#aisymbolic-ai) — 기호 기반 AI — Core Section: `P1-2.1`
+- [system](/AiBook/reference/concept-glossary-parts/07-siot/#system) — 시스템 — Core Section: `P1-4.1`

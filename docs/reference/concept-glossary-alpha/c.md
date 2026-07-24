@@ -1,0 +1,41 @@
+# Concept Glossary: C
+
+This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+
+- [caching](/AiBook/reference/concept-glossary-parts/10-kieuk/#caching) — 캐싱 — Core Section: `P1-14.6`
+- [calibration](/AiBook/reference/concept-glossary-parts/06-bieup/#calibration) — 보정 — Core Section: `P1-6.2`
+- [Chain-of-thought, CoT](/AiBook/reference/concept-glossary-parts/11-chieut/#chain-of-thoughtcot) — Chain-of-thought — Core Section: `P6-10.3`
+- [chunk](/AiBook/reference/concept-glossary-parts/11-chieut/#chunk) — 청크 — Core Section: `P1-13.1`
+- [class](/AiBook/reference/concept-glossary-parts/10-kieuk/#class) — 클래스 — Core Section: `P2-8.6`
+- [classification](/AiBook/reference/concept-glossary-parts/06-bieup/#glossary-comparison-report) — 분류 — Core Section: `P1-8.1`
+- [client](/AiBook/reference/concept-glossary-parts/10-kieuk/#client) — 클라이언트 — Core Section: `P1-14.4`
+- [cluster label](/AiBook/reference/concept-glossary-parts/10-kieuk/#cluster-label) — 클러스터 라벨 — Core Section: `P1-8.2`
+- [clustering](/AiBook/reference/concept-glossary-parts/01-giyeok/#clustering) — 군집화 — Core Section: `P4-17.1`
+- [CNN, convolutional neural network](/AiBook/reference/concept-glossary-parts/14-hieut/#cnn-convolutional-neural-network) — 합성곱 신경망 — Core Section: `P1-9.1`
+- [code cell](/AiBook/reference/concept-glossary-parts/10-kieuk/#code-cell) — 코드 셀 — Core Section: `P2-10.1`
+- [Colab](/AiBook/reference/concept-glossary-parts/10-kieuk/#colab) — 콜랩 — Core Section: `P2-10.2`
+- [column](/AiBook/reference/concept-glossary-parts/08-ieung/#column) — 열 — Core Section: `P2-12.1`
+- [combinatorial explosion](/AiBook/reference/concept-glossary-parts/14-hieut/#combinatorial-explosion) — 후보 폭증 — Core Section: `P1-6.1`
+- [commit](/AiBook/reference/concept-glossary-parts/10-kieuk/#commit) — 커밋 — Core Section: `P2-14.1`
+- [comparison report](/AiBook/reference/concept-glossary-parts/06-bieup/#comparison-report) — 비교 리포트 — Core Section: `P3-9.2`
+- [comparison result](/AiBook/reference/concept-glossary-parts/06-bieup/#comparison-result) — 비교 결과 — Core Section: `P7-1.2`
+- [comparison table](/AiBook/reference/concept-glossary-parts/06-bieup/#comparison-table) — 비교표 — Core Section: `P7-2.1`
+- [computation graph](/AiBook/reference/concept-glossary-parts/01-giyeok/#computation-graph) — 계산 그래프 — Core Section: `P5-5.2`
+- [computational limit](/AiBook/reference/concept-glossary-parts/01-giyeok/#computational-limit) — 계산 한계 — Core Section: `P1-7.1`
+- [confabulation](/AiBook/reference/concept-glossary-parts/10-kieuk/#confabulation) — confabulation — Core Section: `P1-10.3`
+- [confidential information](/AiBook/reference/concept-glossary-parts/06-bieup/#confidential-information) — 비밀 정보 — Core Section: `P1-15.3`
+- [consistency](/AiBook/reference/concept-glossary-parts/08-ieung/#consistency) — 일관성 — Core Section: `P1-12.3`
+- [constraint](/AiBook/reference/concept-glossary-parts/09-jieut/#constraint) — 제약 — Core Section: `P1-12.1`
+- [context](/AiBook/reference/concept-glossary-parts/05-mieum/#context) — 맥락 — Core Section: `P1-12.1`
+- [context window](/AiBook/reference/concept-glossary-parts/05-mieum/#context-window) — 문맥 창 — Core Section: `P6-4.2`
+- [contextual representation](/AiBook/reference/concept-glossary-parts/05-mieum/#contextual-representation) — 문맥적 표현 — Core Section: `P1-11.3`
+- [control](/AiBook/reference/concept-glossary-parts/09-jieut/#control) — 제어 — Core Section: `P1-1.2`
+- [convergence](/AiBook/reference/concept-glossary-parts/07-siot/#glossary-numerical-stability) — 수렴 — Core Section: `P2-2.3`
+- [conversational LLM](/AiBook/reference/concept-glossary-parts/03-digeut/#llmconversational-llm) — 대화형 LLM — Core Section: `P6-5.2`
+- [convolution](/AiBook/reference/concept-glossary-parts/14-hieut/#convolution) — 합성곱 — Core Section: `P5-11.2`
+- [copy](/AiBook/reference/concept-glossary-parts/06-bieup/#copy) — 복사 — Core Section: `P2-11.4`
+- [copyright](/AiBook/reference/concept-glossary-parts/09-jieut/#copyright) — 저작권 — Core Section: `P1-15.2`
+- [corpus](/AiBook/reference/concept-glossary-parts/05-mieum/#corpus) — 말뭉치 — Core Section: `P1-11.1`
+- [cosine similarity](/AiBook/reference/concept-glossary-parts/10-kieuk/#cosine-similarity) — 코사인 유사도 — Core Section: `P1-13.2`
+- [cost](/AiBook/reference/concept-glossary-parts/06-bieup/#cost) — 비용 — Core Section: `P1-14.6`
+- [credential](/AiBook/reference/concept-glossary-parts/08-ieung/#credential) — 인증 정보 — Core Section: `P1-15.3`

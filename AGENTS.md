@@ -35,7 +35,7 @@
 - 배포 목차는 `mkdocs.yml`의 `nav`에서 관리합니다.
 - `docs/index.md`와 `docs/table-of-contents.md`는 Part 본문 밖에 있는 공개 진입 문서이므로, 본문 메타데이터 관리 대상에 포함합니다.
 - `docs/index.md`는 릴리즈노트 관리 대상에 포함하지만, `docs/table-of-contents.md`는 독자용 목차 갱신이 잦으므로 별도 Section 릴리즈노트를 운영하지 않습니다.
-- `docs/reference/concept-glossary.md`는 공개 참조 본문 진입 파일이며, 실제 항목 본문은 `docs/reference/concept-glossary-parts/`의 자음별 파일로 나누어 관리합니다. 전용 가이드에 따라 `Section ID`와 `Version`만 유지하고 별도 Section 릴리즈노트는 운영하지 않습니다.
+- `docs/reference/concept-glossary.md`는 공개 참조 본문 진입 파일이며, 실제 항목 본문은 `docs/reference/concept-glossary-parts/`의 자음별 파일로 나누어 관리합니다. 영어판 탐색은 `docs/reference/concept-glossary.en.md`와 `docs/reference/concept-glossary-alpha/`의 알파벳별 인덱스로 보조하고, 중국어판 탐색은 `docs/reference/concept-glossary.zh.md`와 `docs/reference/concept-glossary-pinyin/`의 병음별 인덱스로 보조합니다. 전용 가이드에 따라 `Section ID`와 `Version`만 유지하고 별도 Section 릴리즈노트는 운영하지 않습니다.
 - `management/glossary-indexes/`는 개념사전의 한글·영문·중국어 보조 인덱스를 관리하는 곳이며, 공개 본문이나 최종 정의 원고로 취급하지 않습니다.
 - 집필 기준, 조사 자료, 근거 분석, 작성 원칙은 `management/` 아래에 둡니다.
 - `management/README.md`는 관리 문서의 역할 분담과 위치를 설명하는 인덱스로 사용합니다.
