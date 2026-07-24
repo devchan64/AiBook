@@ -1,0 +1,16 @@
+flowchart TD
+  A["语言建模"]
+  B["嵌入"]
+  C["RNN / Seq2Seq 系列"]
+  D["attention 转换"]
+  E["Transformer 转换"]
+  F["预训练 LLM"]
+
+  G["计算机视觉突破"]
+  H["语音生成突破"]
+  I["大规模计算趋势"]
+
+  A --> B --> C --> D --> E --> F
+  G -. surrounding evidence .-> F
+  H -. surrounding evidence .-> F
+  I -. enabling background .-> F

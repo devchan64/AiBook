@@ -4,8 +4,8 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - P6-19 history and lineage language pairs:
-  - `p6-c19-s01-history-flow-en.mmd` / `p6-c19-s01-history-flow-ko.mmd`
-  - `p6-c19-s02-lineage-boundary-en.mmd` / `p6-c19-s02-lineage-boundary-ko.mmd`
+  - `p6-c19-s01-history-flow-en.mmd` / `p6-c19-s01-history-flow-ko.mmd` / `p6-c19-s01-history-flow-zh.mmd`
+  - `p6-c19-s02-lineage-boundary-en.mmd` / `p6-c19-s02-lineage-boundary-ko.mmd` / `p6-c19-s02-lineage-boundary-zh.mmd`
 - Preserved P6-19.1 chart assets not currently referenced by the manuscript:
   - `p6_19_1_history_computation_gain_chart.py` generates `history-computation-search-gain-ko.png` and `history-computation-search-gain-en.png`.
 - Preserved P6-19.2 CSV/chart assets not currently referenced by the manuscript:

@@ -1,0 +1,37 @@
+case_id,task_type,text_a,text_b,candidate_1,candidate_2,candidate_3,scenario_pattern,reader_hint
+C01,classification,配送一直延迟,-,-,-,-,direct_label,检查直接的配送延迟表达如何变成标签输出。
+C02,classification,我无法登录并想重置密码,-,-,-,-,direct_label,检查账户访问问题是否被归到 account 标签。
+C03,classification,我取消了付款但退款还没有到账,-,-,-,-,direct_label,检查付款取消和退款信号是否被归到同一处理流程。
+C04,classification,包裹还没有到我想确认配送状态,-,-,-,-,direct_label,检查包裹和配送信号是否聚到 shipping 标签。
+C05,classification,我的账户锁定还没有解除而且无法登录,-,-,-,-,direct_label,检查账户锁定和登录失败是否属于 account 处理流程。
+C06,classification,刷卡付款后我找不到收据,-,-,-,-,direct_label,检查付款后的咨询是否被捕捉为 payment 标签。
+C07,classification,我收到了商品但箱子破损需要换货,-,-,-,-,boundary_label,检查即使没有 shipping 一词是否也能读成配送后的处理问题。
+C08,classification,密码修改邮件还没有到,-,-,-,-,boundary_label,检查密码和邮件混合表达是否仍被读成账户访问问题。
+C09,classification,我删除了订单但钱还没有退回来,-,-,-,-,boundary_label,检查即使没有 refund 一词是否也能读成取消后的付款状态咨询。
+C10,classification,我改了配送地址但还是发到了旧地址,-,-,-,-,boundary_label,检查这是否是配送流程问题而不只是地址变更问题。
+C11,classification,我输入了好几次验证码但账户验证一直失败,-,-,-,-,boundary_label,检查验证码和账户确认是否归到 account 标签。
+C12,classification,我收到了取消完成短信但付款记录还在,-,-,-,-,boundary_label,检查取消和付款记录是否连接成 payment 处理流程。
+P01,pair_relation,我想修改密码,怎样重置登录密码,-,-,-,same_intent,检查不同表达是否共享同一账户解决路径。
+P02,pair_relation,退款什么时候到账,今天天气很好,-,-,-,different_intent,检查没有共同工作信号时是否降为不相关。
+P03,pair_relation,配送正在延迟,包裹还没有到,-,-,-,same_intent,检查配送延迟是否在不同措辞下仍是同一处理流程。
+P04,pair_relation,登录一直失败,我想重新收到付款收据,-,-,-,different_intent,检查账户问题和付款请求是否分开。
+P05,pair_relation,我取消订单后正在等退款,我想知道钱什么时候回来,-,-,-,same_intent,检查即使没有直接退款词是否也是同一付款后咨询。
+P06,pair_relation,我申请解除账户锁定,密码重置邮件还没有到,-,-,-,near_boundary,检查两者是否都是账户访问问题但具体动作不同。
+P07,pair_relation,我填错了配送地址,我想取消订单后重新付款,-,-,-,near_boundary,检查同时有配送和付款信号时解决路径是否真的相同。
+P08,pair_relation,包裹到达后箱子坏了,我要修改登录密码,-,-,-,different_intent,检查配送后问题和账户问题是否分开。
+P09,pair_relation,我找不到刷卡收据,付款记录还留在订单里,-,-,-,same_intent,检查收据和付款记录是否连接到付款处理流程。
+P10,pair_relation,我想确认取消是否完成,付款还显示处理中,-,-,-,near_boundary,检查取消状态和付款状态是否需要同一队列处理。
+P11,pair_relation,我要退回离职设备,怎样归还公司资产,-,-,-,same_intent,检查不同措辞是否都指向设备归还流程。
+P12,pair_relation,会议室投影仪坏了,我的包裹没有配送,-,-,-,different_intent,检查设备故障和配送问题是否分开。
+R01,ranking,我离职时要归还设备吗,-,离职设备归还指南,密码重置指南,付款取消后退款流程,semantic_match,检查实际相关文档是否排在相同表面词较少但含义更近的位置。
+R02,ranking,登录密码忘了怎么办,-,付款收据下载指南,登录密码重置指南,配送地址修改说明,semantic_match,检查账户访问文档是否排到前面。
+R03,ranking,取消后退款还没到账,-,配送延迟处理流程,取消后退款申请流程,设备资产回收指南,semantic_match,检查付款和取消信号是否连接到正确文档。
+R04,ranking,包裹发到旧地址了,-,配送地址变更和误发处理,账户锁定解除流程,FAQ 重复文档整理指南,semantic_match,检查配送地址问题是否排到相关文档前面。
+R05,ranking,两份维护公告是不是重复,-,服务维护公告去重指南,登录验证码问题说明,退款审批流程,semantic_match,检查重复文档判断是否优先连接到文档管理资料。
+R06,ranking,验证码输入后账户验证仍失败,-,账户验证和验证码故障排查,配送延迟通知模板,资产归还流程,semantic_match,检查账户验证相关文档是否排到前面。
+R07,ranking,我想知道退货箱子破损怎么处理,-,商品破损和换货处理指南,密码变更邮件说明,付款记录保留说明,boundary_match,检查配送后处理问题是否从表面词之外读出。
+R08,ranking,我收到了取消短信但钱还没回来,-,订单取消后的付款状态检查,会议设备预约指南,账户邮箱变更流程,boundary_match,检查取消和付款状态是否一起连接到正确文档。
+R09,ranking,离职流程里的资产回收在哪看,-,离职设备归还指南,普通配送追踪页面,密码重置说明,boundary_match,检查 asset recovery 和 offboarding 的相关性是否被读出。
+R10,ranking,我要重新收到付款凭证,-,付款收据重新发送指南,包裹破损换货指南,账号登录失败说明,boundary_match,检查付款凭证问题是否排到付款文档。
+R11,ranking,我不能登录所以取消不了订单,-,账户访问故障优先处理指南,订单取消退款说明,配送地址更新规则,boundary_match,检查真实瓶颈是否可先连接到账户文档。
+R12,ranking,维护指南和维护通知内容一样吗,-,服务维护公告去重指南,离职资产回收指南,付款取消流程,boundary_match,检查文档重复问题是否排到去重文档。

@@ -49,6 +49,21 @@ LANG_TEXT = {
         "yes": "yes",
         "no": "no",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "contextual-label-shift-zh.png",
+        "rows": ["银行+钱", "河岸", "密码", "订单+付款"],
+        "cols": ["表面标签适合", "可读出上下文", "发生标签转换"],
+        "yes": "是",
+        "no": "否",
+    },
 }
 
 

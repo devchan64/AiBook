@@ -104,10 +104,10 @@
 | 48 | P6-17.2 | `docs/parts/part-06/chapter-17/section-02.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문/중문 완료 |
 | 49 | P6-18.1 | `docs/parts/part-06/chapter-18/section-01.md` | `v2026.07.23` | 있음, 최신 | 있음, 최신 | 영문/중문 완료 |
 | 50 | P6-18.2 | `docs/parts/part-06/chapter-18/section-02.md` | `v2026.07.23` | 있음, 최신 | 있음, 최신 | 영문/중문 완료 |
-| 51 | P6-19.1 | `docs/parts/part-06/chapter-19/section-01.md` | `v2026.07.24` | 있음, 최신 | 없음 | 영문 완료 |
-| 52 | P6-19.2 | `docs/parts/part-06/chapter-19/section-02.md` | `v2026.07.24` | 있음, 최신 | 없음 | 영문 완료 |
-| 53 | P6-20.1 | `docs/parts/part-06/chapter-20/section-01.md` | `v2026.07.23` | 있음, 최신 | 없음 | 영문 완료 |
-| 54 | P6-20.2 | `docs/parts/part-06/chapter-20/section-02.md` | `v2026.07.24` | 있음, 최신 | 없음 | 영문 완료 |
+| 51 | P6-19.1 | `docs/parts/part-06/chapter-19/section-01.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문/중문 완료 |
+| 52 | P6-19.2 | `docs/parts/part-06/chapter-19/section-02.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문/중문 완료 |
+| 53 | P6-20.1 | `docs/parts/part-06/chapter-20/section-01.md` | `v2026.07.23` | 있음, 최신 | 있음, 최신 | 영문/중문 완료 |
+| 54 | P6-20.2 | `docs/parts/part-06/chapter-20/section-02.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문/중문 완료 |
 | 55 | P6-summary | `docs/parts/part-06/summary.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
 
 ## Module별 번역 주의점

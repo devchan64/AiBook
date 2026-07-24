@@ -43,6 +43,23 @@ LANG_TEXT = {
         "task_title": "input cases by task",
         "output_title": "judgment output forms",
     },
+    "zh": {
+        "csv_path": OUT_DIR / "p6-20-understanding-task-cases-zh.csv",
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "understanding-output-types-zh.png",
+        "ylabel": "案例数",
+        "task_labels": ["分类", "句子对", "搜索排序"],
+        "output_labels": ["标签", "分数", "排名"],
+        "task_title": "按任务划分的输入案例",
+        "output_title": "判断输出形式",
+    },
 }
 
 
