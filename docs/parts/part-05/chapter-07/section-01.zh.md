@@ -288,15 +288,15 @@ pump-03: before=1.7, after=2.75, target=3.58
 
 第一次真正发生参数变化的位置是 `[after optimizer step]`。这里生成了 `optimizer_delta = 0.619`，这个移动量被反映后，`risk_weight_after_step = 1.619`。再用同一个 CSV batch 看一遍时，平均损失也降到了 `0.287`。因此，这个输出里真正重要的阅读习惯，是把 `loss_before`、`gradient_risk_weight`、`parameters_changed = False`、`optimizer_delta`、`risk_weight_after_step` 连成一条线读。它们对应的顺序正是：`计算错误 -> 计算方向信号 -> 尚未反映 -> 生成真实移动量 -> 反映到参数上。`
 
-![CSV batch update 应用前后的风险权重](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-weight-zh.png)
+![CSV batch update 应用前后的风险权重](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-weight-zh.png)
 
 这张图展示的是：原本 `risk_weight_before = 1.0`，在 optimizer 做出的移动量被应用之后，真实发生了变化。这里重要的，不只是`算出 gradient 了`，而是这个结果最终变成了权重数字变化。
 
-![CSV batch update 应用前后的平均阻断分数](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-score-zh.png)
+![CSV batch update 应用前后的平均阻断分数](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-score-zh.png)
 
 这张图则说明：同一个 update 也会马上影响 CSV batch 的平均预测值。也就是说，optimizer 不只是改内部权重，它还改变了下一次预测可能使用的出发点。
 
-![CSV batch update 应用前后的平均损失](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-loss-zh.png)
+![CSV batch update 应用前后的平均损失](/AiBook/assets/part-05/chapter-07/optimizer-step-batch-before-after-loss-zh.png)
 
 最后一张图确认：CSV batch 的平均损失也会随之下降。把这条顺序用眼睛再读一遍，会更清楚地看到：在`gradient 计算`和`loss 降低`之间，确实存在`optimizer 做出真实 update 并应用`这个中间步骤。
 

@@ -987,6 +987,7 @@ plugins:
                         - "P5-8.1 Regularization": parts/part-05/chapter-08/section-01.md
                         - "P5-8.2 Dropout": parts/part-05/chapter-08/section-02.md
                         - "P5-8.3 Supplementary Learning: Stabilizing Deep Computation": parts/part-05/chapter-08/section-03.md
+                        - "P5-8.4 Supplementary Reading: How A Large Initialization Scale Shakes The Computation Range": parts/part-05/chapter-08/section-04.md
                 - "Module 4. Computation Environment and Representation Learning":
                     - "Chapter 9. GPU and Parallel Processing":
                         - "P5-9.1 GPU and Parallel Processing": parts/part-05/chapter-09/section-01.md
@@ -1401,6 +1402,7 @@ plugins:
                         - "P5-8.1 正则化(regularization)": parts/part-05/chapter-08/section-01.md
                         - "P5-8.2 dropout": parts/part-05/chapter-08/section-02.md
                         - "P5-8.3 补充学习：深层计算的稳定条件": parts/part-05/chapter-08/section-03.md
+                        - "P5-8.4 补充学习：较大的初始化尺度会怎样摇晃计算范围": parts/part-05/chapter-08/section-04.md
                 - "Module 4. 计算环境与表示学习":
                     - "Chapter 9. GPU 与并行处理":
                         - "P5-9.1 GPU 与并行处理": parts/part-05/chapter-09/section-01.md

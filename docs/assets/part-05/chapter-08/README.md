@@ -38,6 +38,8 @@
   - `dropout-activation-values-en.png` / `dropout-activation-values-zh.png`
   - `dropout-sum-comparison-en.png` / `dropout-sum-comparison-ko.png`
   - `dropout-sum-comparison-en.png` / `dropout-sum-comparison-zh.png`
+  - `dropout-inverted-scaling-sum-en.png` / `dropout-inverted-scaling-sum-ko.png`
+  - `dropout-inverted-scaling-sum-en.png` / `dropout-inverted-scaling-sum-zh.png`
   - `deep-scale-raw-range-en.png` / `deep-scale-raw-range-ko.png`
   - `deep-scale-raw-range-en.png` / `deep-scale-raw-range-zh.png`
   - `deep-scale-raw-variance-en.png` / `deep-scale-raw-variance-ko.png`
@@ -54,5 +56,6 @@
   - `p5_8_overfit_chart.py`
   - `p5_8_1_regularization_csv_charts.py`
   - `p5_8_2_dropout_charts.py`
+  - `p5_8_2_inverted_dropout_charts.py`
   - `p5_8_3_stabilization_case_charts.py`
   - `p5_8_4_deep_scale_charts.py`

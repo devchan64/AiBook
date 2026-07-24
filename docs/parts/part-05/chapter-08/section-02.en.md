@@ -1,7 +1,7 @@
 # P5-8.2 How To Reduce Path Dependence: Dropout
 
 > Section ID: `P5-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 In P5-8.1, we saw how to adjust the goal of the learning loop itself by placing a regularization term beside the objective function. Now we move one step further along the same chapter flow and ask whether control is also possible not through a penalty beside the loss, but by shaking internal paths inside the neural network. The next question follows naturally.
 
@@ -272,7 +272,81 @@ Even when reading the output numbers, we should separate `how many became 0` fro
 
 In other words, when reading dropout the reader should hold onto not only `how many became 0`, but also `is the model being forced to hold up even when a specific path is missing`.
 
-This example does not implement every detail of real framework dropout, including scaling. So instead of memorizing `train sums are always smaller when dropout is used` as a general rule, it is safer to first fix the core idea: `why does a rule that lets some path combinations rest in turn during training break dependence on specific paths`.
+The example above intentionally omitted scaling so that the path-resting intuition would appear first. But dropout in real frameworks usually uses inverted dropout, which scales the remaining activations by `1 / keep_probability`. This keeps the average value scale from drifting too far away from evaluation mode even while some paths are missing during training.
+
+The next example reads the same CSV log again, but applies inverted scaling to the values that survived in training mode. The point is not that `dropout always makes values smaller`, but that `some paths rest while the remaining paths are rescaled so the expected train/eval scale stays closer`.
+
+```python
+# Compare the raw training sum and the training sum after inverted dropout scaling on the same dropout log.
+from csv import DictReader
+from pathlib import Path
+
+csv_path = Path("docs/assets/part-05/chapter-08/dropout-training-path-log.csv")
+keep_probability = 0.8
+
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "step": int(row["step"]),
+                "activation": float(row["activation"]),
+                "train_mask": int(row["train_mask"]),
+                "train_value": float(row["train_value"]),
+                "eval_value": float(row["eval_value"]),
+            }
+        )
+
+steps = sorted({row["step"] for row in rows})
+raw_train_sums = []
+scaled_train_sums = []
+eval_sums = []
+
+print("keep_probability =", keep_probability)
+for step in steps[:5]:
+    step_rows = [row for row in rows if row["step"] == step]
+    raw_train_sum = sum(row["train_value"] for row in step_rows)
+    scaled_train_sum = sum(
+        row["activation"] * row["train_mask"] / keep_probability
+        for row in step_rows
+    )
+    eval_sum = sum(row["eval_value"] for row in step_rows)
+
+    raw_train_sums.append(raw_train_sum)
+    scaled_train_sums.append(scaled_train_sum)
+    eval_sums.append(eval_sum)
+
+    print(
+        f"step {step}: "
+        f"raw_train_sum={raw_train_sum:.3f}, "
+        f"inverted_scaled_sum={scaled_train_sum:.3f}, "
+        f"eval_sum={eval_sum:.3f}"
+    )
+
+print(
+    "raw_train_range =",
+    [round(min(raw_train_sums), 3), round(max(raw_train_sums), 3)],
+)
+print(
+    "scaled_train_range =",
+    [round(min(scaled_train_sums), 3), round(max(scaled_train_sums), 3)],
+)
+```
+
+```text
+keep_probability = 0.8
+step 1: raw_train_sum=3.300, inverted_scaled_sum=4.125, eval_sum=4.400
+step 2: raw_train_sum=3.100, inverted_scaled_sum=3.875, eval_sum=4.400
+step 3: raw_train_sum=2.800, inverted_scaled_sum=3.500, eval_sum=4.400
+step 4: raw_train_sum=4.000, inverted_scaled_sum=5.000, eval_sum=4.400
+step 5: raw_train_sum=2.000, inverted_scaled_sum=2.500, eval_sum=4.400
+raw_train_range = [2.0, 4.0]
+scaled_train_range = [2.5, 5.0]
+```
+
+![Activation sums before and after inverted dropout scaling](/AiBook/assets/part-05/chapter-08/dropout-inverted-scaling-sum-en.png)
+
+This output does not mean that adding scaling makes training mode identical to evaluation mode. The active path combination still changes when the mask changes. Inverted dropout only rescales the surviving values so that path removal during training and stable computation during evaluation do not drift too far apart in value scale.
 
 Dropout reconnects several concepts from earlier in Part 5 at the same time.
 

@@ -22,15 +22,15 @@
   - `optimizer-step-role-log.csv`
   - `optimizer-gradient-history.csv`
 - Matplotlib chart assets:
-  - `optimizer-step-batch-before-after-weight-ko.png`
-  - `optimizer-step-batch-before-after-score-ko.png`
-  - `optimizer-step-batch-before-after-loss-ko.png`
-  - `learning-rate-batch-updated-weight-ko.png`
-  - `learning-rate-batch-updated-score-ko.png`
-  - `learning-rate-batch-updated-loss-ko.png`
-  - `adaptive-gradient-history-ko.png`
-  - `adaptive-delta-scale-ko.png`
-  - `adaptive-weight-trajectory-ko.png`
+  - `optimizer-step-batch-before-after-weight-en.png` / `optimizer-step-batch-before-after-weight-ko.png` / `optimizer-step-batch-before-after-weight-zh.png`
+  - `optimizer-step-batch-before-after-score-en.png` / `optimizer-step-batch-before-after-score-ko.png` / `optimizer-step-batch-before-after-score-zh.png`
+  - `optimizer-step-batch-before-after-loss-en.png` / `optimizer-step-batch-before-after-loss-ko.png` / `optimizer-step-batch-before-after-loss-zh.png`
+  - `learning-rate-batch-updated-weight-en.png` / `learning-rate-batch-updated-weight-ko.png` / `learning-rate-batch-updated-weight-zh.png`
+  - `learning-rate-batch-updated-score-en.png` / `learning-rate-batch-updated-score-ko.png` / `learning-rate-batch-updated-score-zh.png`
+  - `learning-rate-batch-updated-loss-en.png` / `learning-rate-batch-updated-loss-ko.png` / `learning-rate-batch-updated-loss-zh.png`
+  - `adaptive-gradient-history-en.png` / `adaptive-gradient-history-ko.png` / `adaptive-gradient-history-zh.png`
+  - `adaptive-delta-scale-en.png` / `adaptive-delta-scale-ko.png` / `adaptive-delta-scale-zh.png`
+  - `adaptive-weight-trajectory-en.png` / `adaptive-weight-trajectory-ko.png` / `adaptive-weight-trajectory-zh.png`
   - `optimizer-step-before-after-weight-en.png` / `optimizer-step-before-after-weight-ko.png` / `optimizer-step-before-after-weight-zh.png`
   - `optimizer-step-before-after-score-en.png` / `optimizer-step-before-after-score-ko.png` / `optimizer-step-before-after-score-zh.png`
   - `optimizer-step-before-after-loss-en.png` / `optimizer-step-before-after-loss-ko.png` / `optimizer-step-before-after-loss-zh.png`

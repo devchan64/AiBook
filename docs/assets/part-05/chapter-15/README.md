@@ -15,8 +15,12 @@
 - SVG chart assets:
   - `sampling-candidate-weights-en.svg` / `sampling-candidate-weights-ko.svg` / `sampling-candidate-weights-zh.svg`
   - `sampling-choice-counts-en.svg` / `sampling-choice-counts-ko.svg` / `sampling-choice-counts-zh.svg`
+- PNG chart assets:
+  - `sampling-control-probabilities-en.png` / `sampling-control-probabilities-ko.png` / `sampling-control-probabilities-zh.png`
+  - `sampling-control-counts-en.png` / `sampling-control-counts-ko.png` / `sampling-control-counts-zh.png`
 - Python chart source:
   - `p5_15_sampling_chart.py`
+  - `p5_15_3_sampling_controls.py`
 - Archived generated assets:
   - `generative-response-distribution-temperature-en.png` / `generative-response-distribution-temperature-ko.png` / `generative-response-distribution-temperature-zh.png`
   - `generative-response-distribution-seal-en.png` / `generative-response-distribution-seal-ko.png` / `generative-response-distribution-seal-zh.png`

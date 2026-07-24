@@ -288,15 +288,15 @@ noise_weight direct_weight = 1.07 adam_like_weight = 1.063
 
 If we separate even the same output into `input gradient -> step-by-step update -> accumulated weight`, it becomes clearer what the Adam-like method is trying to compensate further.
 
-![Parameter-wise gradient flow](/AiBook/assets/part-05/chapter-07/sgd-adam-gradient-history-en.png)
+![Parameter-wise gradient flow](/AiBook/assets/part-05/chapter-07/adaptive-gradient-history-en.png)
 
 The input at the first stage is the gradient flow before the optimizer changes anything. `risk_weight` has a large negative gradient that steadily shrinks, `recovery_weight` has a small negative gradient that steadily shrinks, and `noise_weight` keeps changing direction. The simple direct update and the Adam-like method both receive this same input.
 
-![Mean update scale by coordinate](/AiBook/assets/part-05/chapter-07/sgd-adam-delta-comparison-en.png)
+![Mean update scale by coordinate](/AiBook/assets/part-05/chapter-07/adaptive-delta-scale-en.png)
 
 The difference appears at the delta stage. The simple direct update transfers gradient magnitude differences almost directly into update magnitude differences. Because the Adam-like method uses recent flow and coordinate-wise magnitude history together, the coordinate with a large gradient is relatively suppressed, and the coordinate with a small gradient is also adjusted against its own history.
 
-![Parameter movement path by update rule](/AiBook/assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-en.png)
+![Parameter movement path by update rule](/AiBook/assets/part-05/chapter-07/adaptive-weight-trajectory-en.png)
 
 If we look at the final parameter paths, this difference accumulates. For `risk_weight`, where the large gradient is steady, the direct update moves much farther. For `recovery_weight`, where the small gradient is steady, Adam-like reacts more strongly. For `noise_weight`, whose direction wobbles, neither path moves very far. What changes at this stage is not that `the gradient was newly computed`, but the way the optimizer rule turns the same gradient flow into an actual parameter path.
 

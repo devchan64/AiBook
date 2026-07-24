@@ -1,7 +1,7 @@
 # P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.22`
+> Version: `v2026.07.24`
 
 In P5-15.2, we saw that a generative model does not memorize and return one correct answer, but keeps the relative plausibility of possible output candidates as a candidate distribution. The next question naturally follows.
 
@@ -148,7 +148,120 @@ If we pause once here and briefly fix `when the explanation that the model learn
 
 ## Practice And Example
 
-The goal of this example is to run a local LLM with Ollama and observe that even with the same prompt, changing generation settings can change the stability and variation width of the actual output. Part 1 did not ask the reader to call an LLM from Python, but by this point we have already covered generative models and sampling, so it is reasonable to confirm the idea through real outputs.
+### Example 1. Checking Temperature And Top-k With Fixed Logits
+
+The goal of this example is to check, before running an actual LLM, how temperature and top-k change the actual selection distribution from already calculated candidate scores, or logits. Real LLMs handle many more token candidates internally, but a small candidate set is enough at this level to separate `scores -> probabilities -> actual choices`.
+
+```python
+# Compare candidate probabilities, choice counts, and entropy while changing only the sampling setting for fixed logits.
+import math
+import random
+
+import numpy as np
+
+candidates = [
+    "Reverification is required.",
+    "Resume after supervisor confirmation.",
+    "Remeasure in 10 minutes.",
+    "Remain normal by the current standard.",
+    "Restart immediately.",
+]
+logits = np.array([3.2, 2.4, 1.7, 0.6, -0.4])
+
+experiments = [
+    ("argmax", 0.0, None),
+    ("temperature_0.7", 0.7, None),
+    ("temperature_1.4", 1.4, None),
+    ("top_k_3_temperature_1.0", 1.0, 3),
+]
+
+
+def softmax(values, temperature):
+    scaled = values / temperature
+    shifted = scaled - np.max(scaled)
+    exp_scores = np.exp(shifted)
+    return exp_scores / exp_scores.sum()
+
+
+def apply_top_k(probabilities, k):
+    if k is None:
+        return probabilities
+    kept_indices = np.argsort(probabilities)[-k:]
+    filtered = np.zeros_like(probabilities)
+    filtered[kept_indices] = probabilities[kept_indices]
+    return filtered / filtered.sum()
+
+
+def probabilities_for(temperature, top_k):
+    if temperature == 0.0:
+        probabilities = np.zeros_like(logits, dtype=float)
+        probabilities[int(np.argmax(logits))] = 1.0
+        return probabilities
+    return apply_top_k(softmax(logits, temperature), top_k)
+
+
+def entropy_bits(probabilities):
+    non_zero = probabilities[probabilities > 0]
+    if len(non_zero) <= 1:
+        return 0.0
+    return -sum(p * math.log2(p) for p in non_zero)
+
+
+for label, temperature, top_k in experiments:
+    probabilities = probabilities_for(temperature, top_k)
+    random.seed(15)
+    choices = random.choices(
+        range(len(candidates)),
+        weights=probabilities,
+        k=40,
+    )
+    counts = [choices.count(index) for index in range(len(candidates))]
+
+    print(f"[{label}]")
+    print("probabilities =", [round(float(value), 3) for value in probabilities])
+    print("counts =", counts)
+    print("entropy_bits =", round(entropy_bits(probabilities), 3))
+    print("top_choice =", candidates[int(np.argmax(probabilities))])
+    print()
+```
+
+```text
+[argmax]
+probabilities = [1.0, 0.0, 0.0, 0.0, 0.0]
+counts = [40, 0, 0, 0, 0]
+entropy_bits = 0.0
+top_choice = Reverification is required.
+
+[temperature_0.7]
+probabilities = [0.682, 0.217, 0.08, 0.017, 0.004]
+counts = [24, 8, 5, 2, 1]
+entropy_bits = 1.277
+top_choice = Reverification is required.
+
+[temperature_1.4]
+probabilities = [0.467, 0.264, 0.16, 0.073, 0.036]
+counts = [18, 7, 7, 4, 4]
+entropy_bits = 1.89
+top_choice = Reverification is required.
+
+[top_k_3_temperature_1.0]
+probabilities = [0.598, 0.269, 0.133, 0.0, 0.0]
+counts = [22, 8, 10, 0, 0]
+entropy_bits = 1.341
+top_choice = Reverification is required.
+```
+
+The first thing to notice is that `top_choice` stays the same across all four settings. But the actual selection distribution changes substantially. `argmax` chooses one candidate all 40 times, `temperature_1.4` leaves more room for lower candidates, and `top_k_3_temperature_1.0` removes the bottom two candidates from the selectable set.
+
+![Candidate probabilities by sampling setting](/AiBook/assets/part-05/chapter-15/sampling-control-probabilities-en.png)
+
+![Choice counts over 40 draws](/AiBook/assets/part-05/chapter-15/sampling-control-counts-en.png)
+
+So the conclusion is not `higher temperature is always better`. Even with the same logits, the spread of the candidate distribution and actual choice counts change when the selection rule changes. Generation settings should therefore be read as the stage that controls `what is sampled from what the model knows`, not as the model's knowledge itself.
+
+### Optional Example. Observing Actual LLM Output Changes With Ollama
+
+The previous example used fixed logits to make the selection rule reproducible. If Ollama and a local model are available, the next example lets us observe that even with the same prompt, changing generation settings can change the stability and variation width of the actual output. Part 1 did not ask the reader to call an LLM from Python, but by this point we have already covered generative models and sampling, so it is reasonable to confirm the idea through real outputs.
 
 This section is not trying to teach API usage as the main topic. The point is to see that `the model calculates candidates` and `one actual sentence is pulled from those candidates` are separate stages, and that generation settings can change the user experience of the second stage.
 

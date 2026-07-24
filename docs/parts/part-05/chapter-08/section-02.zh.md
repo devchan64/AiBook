@@ -1,7 +1,7 @@
 # P5-8.2 如何减少路径依赖：dropout
 
 > Section ID: `P5-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 在 P5-8.1 里，我们已经看到：可以把 regularization term 放在目标函数旁边，去调整学习循环本身的目标。现在顺着同一章的流程再往前走一步，看看除了在 loss 旁边加 penalty 之外，是否也能通过摇动神经网络内部路径本身来进行控制。接下来的问题会自然出现。
 
@@ -272,7 +272,81 @@ drop_count_by_node = {'node_1': 4, 'node_2': 4, 'node_3': 4, 'node_4': 4, 'node_
 
 也就是说，读 dropout 时，读者真正要抓住的不只是`有多少项变成了 0`，还要抓住`当某条特定路径缺席时，模型是不是被迫仍然要站得住。`
 
-这个例子并没有把真实框架里 dropout 的全部细节都实现出来，例如缩放（scaling）就没有完整纳入。所以更安全的读法不是把`用了 dropout 之后 train 的总和一定更小`背成一般规律，而是先固定住核心直觉：`为什么让部分路径组合在学习中轮流休息的规则，会打破对特定路径的依赖。`
+上面的例子为了先让路径轮流休息的直觉显出来，故意省略了 scaling。但真实框架里的 dropout 通常会使用 inverted dropout，也就是把训练中保留下来的 activation 乘以 `1 / keep_probability`。这样即使训练中有些路径缺席，平均值规模也不会和 evaluation mode 偏离太远。
+
+下一个例子会重新读取同一个 CSV 日志，但对 training mode 中保留下来的值应用 inverted scaling。这里要看的不是`dropout 一定会让值变小`，而是`让一部分路径休息的同时，对剩下路径的规模做补偿，使 train/eval 的期望规模更接近`。
+
+```python
+# 在同一个 dropout 日志上，比较 scaling 前的 train 总和与 inverted dropout scaling 后的 train 总和。
+from csv import DictReader
+from pathlib import Path
+
+csv_path = Path("docs/assets/part-05/chapter-08/dropout-training-path-log.csv")
+keep_probability = 0.8
+
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "step": int(row["step"]),
+                "activation": float(row["activation"]),
+                "train_mask": int(row["train_mask"]),
+                "train_value": float(row["train_value"]),
+                "eval_value": float(row["eval_value"]),
+            }
+        )
+
+steps = sorted({row["step"] for row in rows})
+raw_train_sums = []
+scaled_train_sums = []
+eval_sums = []
+
+print("keep_probability =", keep_probability)
+for step in steps[:5]:
+    step_rows = [row for row in rows if row["step"] == step]
+    raw_train_sum = sum(row["train_value"] for row in step_rows)
+    scaled_train_sum = sum(
+        row["activation"] * row["train_mask"] / keep_probability
+        for row in step_rows
+    )
+    eval_sum = sum(row["eval_value"] for row in step_rows)
+
+    raw_train_sums.append(raw_train_sum)
+    scaled_train_sums.append(scaled_train_sum)
+    eval_sums.append(eval_sum)
+
+    print(
+        f"step {step}: "
+        f"raw_train_sum={raw_train_sum:.3f}, "
+        f"inverted_scaled_sum={scaled_train_sum:.3f}, "
+        f"eval_sum={eval_sum:.3f}"
+    )
+
+print(
+    "raw_train_range =",
+    [round(min(raw_train_sums), 3), round(max(raw_train_sums), 3)],
+)
+print(
+    "scaled_train_range =",
+    [round(min(scaled_train_sums), 3), round(max(scaled_train_sums), 3)],
+)
+```
+
+```text
+keep_probability = 0.8
+step 1: raw_train_sum=3.300, inverted_scaled_sum=4.125, eval_sum=4.400
+step 2: raw_train_sum=3.100, inverted_scaled_sum=3.875, eval_sum=4.400
+step 3: raw_train_sum=2.800, inverted_scaled_sum=3.500, eval_sum=4.400
+step 4: raw_train_sum=4.000, inverted_scaled_sum=5.000, eval_sum=4.400
+step 5: raw_train_sum=2.000, inverted_scaled_sum=2.500, eval_sum=4.400
+raw_train_range = [2.0, 4.0]
+scaled_train_range = [2.5, 5.0]
+```
+
+![inverted dropout scaling 前后的 activation 总和](/AiBook/assets/part-05/chapter-08/dropout-inverted-scaling-sum-zh.png)
+
+这个输出并不表示加上 scaling 之后，training mode 就会和 evaluation mode 完全相同。只要 mask 改变，保留下来的路径组合仍然会摇晃。inverted dropout 只是对保留下来的值做规模补偿，避免训练中的路径移除和评估中的稳定计算在数值规模上相差过大。
 
 dropout 也会把 Part 5 前面几个概念重新接在一起。
 

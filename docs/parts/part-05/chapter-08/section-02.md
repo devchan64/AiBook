@@ -1,7 +1,7 @@
 # P5-8.2 경로 의존을 줄이는 방법: 드롭아웃(dropout)
 
 > Section ID: `P5-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 P5-8.1에서는 목적 함수 옆에 regularization 항을 두어 학습 루프의 목표 자체를 조정하는 방법을 보았습니다. 이제 같은 챕터 흐름을 한 단계 더 옮겨, 손실 옆의 벌점이 아니라 신경망 내부 경로를 흔드는 방식으로도 제어가 가능한지 봅니다. 여기서 다음 질문이 자연스럽게 이어집니다.
 
@@ -272,7 +272,81 @@ drop_count_by_node = {'node_1': 4, 'node_2': 4, 'node_3': 4, 'node_4': 4, 'node_
 
 즉, dropout을 읽을 때 독자가 붙잡아야 할 질문은 `몇 개가 0이 되었는가`만이 아니라, `특정 경로가 빠져도 모델이 여전히 버티도록 강요받는가`입니다.
 
-이 예제는 scaling을 포함한 실제 프레임워크의 모든 세부를 구현한 것은 아닙니다. 그래서 여기서 바로 `dropout을 쓰면 train 합이 항상 더 작다`를 일반 법칙처럼 외우기보다, `학습 중 일부 경로 조합을 번갈아 쉬게 하는 규칙이 왜 특정 경로 의존을 깨는가`를 먼저 붙잡는 편이 안전합니다.
+위 예제는 경로가 번갈아 빠지는 직관을 먼저 보이기 위해 scaling을 일부러 생략했습니다. 그런데 실제 프레임워크의 dropout은 보통 남아 있는 활성값을 `1 / keep_probability`만큼 키우는 inverted dropout을 사용합니다. 이렇게 하면 학습 중 일부 경로가 빠지더라도, 평균적인 값 규모가 평가 모드와 지나치게 벌어지지 않도록 맞출 수 있습니다.
+
+다음 예제는 같은 CSV 로그를 다시 읽되, 학습 모드에서 살아남은 값에 inverted scaling을 적용합니다. 여기서 볼 것은 `dropout이 값을 무조건 작게 만든다`가 아니라, `일부 경로는 쉬게 하되 남은 경로의 규모는 보정해 train/eval의 기대 크기를 맞추려 한다`는 점입니다.
+
+```python
+# 같은 dropout 로그에서 scaling 전 train 합과 inverted dropout scaling 후 train 합을 비교하는 예제입니다.
+from csv import DictReader
+from pathlib import Path
+
+csv_path = Path("docs/assets/part-05/chapter-08/dropout-training-path-log.csv")
+keep_probability = 0.8
+
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "step": int(row["step"]),
+                "activation": float(row["activation"]),
+                "train_mask": int(row["train_mask"]),
+                "train_value": float(row["train_value"]),
+                "eval_value": float(row["eval_value"]),
+            }
+        )
+
+steps = sorted({row["step"] for row in rows})
+raw_train_sums = []
+scaled_train_sums = []
+eval_sums = []
+
+print("keep_probability =", keep_probability)
+for step in steps[:5]:
+    step_rows = [row for row in rows if row["step"] == step]
+    raw_train_sum = sum(row["train_value"] for row in step_rows)
+    scaled_train_sum = sum(
+        row["activation"] * row["train_mask"] / keep_probability
+        for row in step_rows
+    )
+    eval_sum = sum(row["eval_value"] for row in step_rows)
+
+    raw_train_sums.append(raw_train_sum)
+    scaled_train_sums.append(scaled_train_sum)
+    eval_sums.append(eval_sum)
+
+    print(
+        f"step {step}: "
+        f"raw_train_sum={raw_train_sum:.3f}, "
+        f"inverted_scaled_sum={scaled_train_sum:.3f}, "
+        f"eval_sum={eval_sum:.3f}"
+    )
+
+print(
+    "raw_train_range =",
+    [round(min(raw_train_sums), 3), round(max(raw_train_sums), 3)],
+)
+print(
+    "scaled_train_range =",
+    [round(min(scaled_train_sums), 3), round(max(scaled_train_sums), 3)],
+)
+```
+
+```text
+keep_probability = 0.8
+step 1: raw_train_sum=3.300, inverted_scaled_sum=4.125, eval_sum=4.400
+step 2: raw_train_sum=3.100, inverted_scaled_sum=3.875, eval_sum=4.400
+step 3: raw_train_sum=2.800, inverted_scaled_sum=3.500, eval_sum=4.400
+step 4: raw_train_sum=4.000, inverted_scaled_sum=5.000, eval_sum=4.400
+step 5: raw_train_sum=2.000, inverted_scaled_sum=2.500, eval_sum=4.400
+raw_train_range = [2.0, 4.0]
+scaled_train_range = [2.5, 5.0]
+```
+
+![inverted dropout scaling 전후 활성값 합](../../../assets/part-05/chapter-08/dropout-inverted-scaling-sum-ko.png)
+
+이 출력은 scaling을 넣어도 학습 모드가 평가 모드와 완전히 같아진다는 뜻이 아닙니다. mask가 달라지면 살아남은 경로 조합은 여전히 흔들립니다. 다만 inverted dropout은 남은 값의 규모를 보정해, 학습 중 경로 제거와 평가 중 안정 계산 사이의 값 규모 차이가 너무 커지지 않도록 돕습니다.
 
 드롭아웃은 Part 5 초반부의 여러 개념을 한 번에 다시 묶습니다.
 

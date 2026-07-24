@@ -1,7 +1,7 @@
 # P5-15.3 采样（sampling）怎样从候选分布中取出实际输出
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.22`
+> Version: `v2026.07.24`
 
 在 P5-15.2 中，我们已经看到：生成模型（generative model）不是背下一个正确答案再取出来，而是把可能输出候选的相对可信度保留成候选分布。接下来就会自然出现一个问题。
 
@@ -148,7 +148,120 @@ sampling 的核心，是一种选择步骤：它优先更高的候选，但也�
 
 ## 练习与例子
 
-这个例子的目标，是用 Ollama 在本地运行 LLM，观察即使是同一个 prompt，只要改变生成设置，实际输出的稳定性和变化宽度也可能不同。Part 1 没有要求读者用 Python 调用 LLM，但到了这里，我们已经讨论过生成模型和 sampling，所以可以用真实输出来确认这一点。
+### 例子 1：用固定 logits 确认 temperature 和 top-k
+
+这个例子的目标，是在运行真实 LLM 之前，先用已经算好的候选分数（logits）确认 temperature 和 top-k 会怎样改变实际选择分布。真实 LLM 内部会处理多得多的 token 候选，但在入门阶段，小候选集合已经足够用来区分`分数 -> 概率 -> 实际选择`。
+
+```python
+# 在固定 logits 上只改变 sampling 设置，比较候选概率、选择频率和 entropy。
+import math
+import random
+
+import numpy as np
+
+candidates = [
+    "需要重新确认。",
+    "经主管确认后恢复。",
+    "10 分钟后重新测量。",
+    "按当前标准保持正常。",
+    "立即重新启动。",
+]
+logits = np.array([3.2, 2.4, 1.7, 0.6, -0.4])
+
+experiments = [
+    ("argmax", 0.0, None),
+    ("temperature_0.7", 0.7, None),
+    ("temperature_1.4", 1.4, None),
+    ("top_k_3_temperature_1.0", 1.0, 3),
+]
+
+
+def softmax(values, temperature):
+    scaled = values / temperature
+    shifted = scaled - np.max(scaled)
+    exp_scores = np.exp(shifted)
+    return exp_scores / exp_scores.sum()
+
+
+def apply_top_k(probabilities, k):
+    if k is None:
+        return probabilities
+    kept_indices = np.argsort(probabilities)[-k:]
+    filtered = np.zeros_like(probabilities)
+    filtered[kept_indices] = probabilities[kept_indices]
+    return filtered / filtered.sum()
+
+
+def probabilities_for(temperature, top_k):
+    if temperature == 0.0:
+        probabilities = np.zeros_like(logits, dtype=float)
+        probabilities[int(np.argmax(logits))] = 1.0
+        return probabilities
+    return apply_top_k(softmax(logits, temperature), top_k)
+
+
+def entropy_bits(probabilities):
+    non_zero = probabilities[probabilities > 0]
+    if len(non_zero) <= 1:
+        return 0.0
+    return -sum(p * math.log2(p) for p in non_zero)
+
+
+for label, temperature, top_k in experiments:
+    probabilities = probabilities_for(temperature, top_k)
+    random.seed(15)
+    choices = random.choices(
+        range(len(candidates)),
+        weights=probabilities,
+        k=40,
+    )
+    counts = [choices.count(index) for index in range(len(candidates))]
+
+    print(f"[{label}]")
+    print("probabilities =", [round(float(value), 3) for value in probabilities])
+    print("counts =", counts)
+    print("entropy_bits =", round(entropy_bits(probabilities), 3))
+    print("top_choice =", candidates[int(np.argmax(probabilities))])
+    print()
+```
+
+```text
+[argmax]
+probabilities = [1.0, 0.0, 0.0, 0.0, 0.0]
+counts = [40, 0, 0, 0, 0]
+entropy_bits = 0.0
+top_choice = 需要重新确认。
+
+[temperature_0.7]
+probabilities = [0.682, 0.217, 0.08, 0.017, 0.004]
+counts = [24, 8, 5, 2, 1]
+entropy_bits = 1.277
+top_choice = 需要重新确认。
+
+[temperature_1.4]
+probabilities = [0.467, 0.264, 0.16, 0.073, 0.036]
+counts = [18, 7, 7, 4, 4]
+entropy_bits = 1.89
+top_choice = 需要重新确认。
+
+[top_k_3_temperature_1.0]
+probabilities = [0.598, 0.269, 0.133, 0.0, 0.0]
+counts = [22, 8, 10, 0, 0]
+entropy_bits = 1.341
+top_choice = 需要重新确认。
+```
+
+这里首先要看的，是四种设置里的 `top_choice` 都相同。最高候选始终是`需要重新确认。`，但实际选择分布已经明显不同。`argmax` 会 40 次都选择同一个候选，`temperature_1.4` 会给较低候选留下更大空间，而 `top_k_3_temperature_1.0` 会把后两个候选直接排除在可选集合之外。
+
+![不同 sampling 设置下的候选概率](/AiBook/assets/part-05/chapter-15/sampling-control-probabilities-zh.png)
+
+![40 次 sampling 的选择频率](/AiBook/assets/part-05/chapter-15/sampling-control-counts-zh.png)
+
+因此，这个例子的结论不是`temperature 越高越好`。在同一组 logits 下，只要选择规则改变，候选分布的展开程度和实际选择频率就会改变。生成设置应该被读成`从模型知道的内容里实际取出什么`的控制阶段，而不是模型知识本身。
+
+### 可选例子：用 Ollama 观察真实 LLM 输出变化
+
+前一个例子用固定 logits 确认可复现的选择规则。如果本地已经准备好 Ollama 和模型，就可以继续观察：即使是同一个 prompt，只要改变生成设置，实际输出的稳定性和变化宽度也可能不同。Part 1 没有要求读者用 Python 调用 LLM，但到了这里，我们已经讨论过生成模型和 sampling，所以可以用真实输出来确认这一点。
 
 这个例子不是为了熟练掌握 API 用法。核心是看到：`模型计算候选`和`从候选中取出实际句子`是分开的步骤，而生成设置会改变第二个步骤带来的用户体验。
 

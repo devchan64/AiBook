@@ -20,15 +20,48 @@ OUT_DIR = Path(__file__).resolve().parent
 DATA_PATH = OUT_DIR / "optimizer-step-role-log.csv"
 RISK_WEIGHT_BEFORE = 1.0
 LEARNING_RATE = 0.03
+CHART_TEXT = {
+    "ko": {
+        "before": "optimizer step 전",
+        "after": "optimizer step 후",
+        "weight_ylabel": "risk_weight",
+        "weight_title": "CSV batch update 전후 위험 가중치",
+        "score_ylabel": "평균 predicted_block_score",
+        "score_title": "CSV batch update 전후 평균 차단 점수",
+        "loss_ylabel": "평균 loss",
+        "loss_title": "CSV batch update 전후 평균 손실",
+    },
+    "en": {
+        "before": "Before optimizer step",
+        "after": "After optimizer step",
+        "weight_ylabel": "risk_weight",
+        "weight_title": "Risk weight before and after CSV batch update",
+        "score_ylabel": "Mean predicted_block_score",
+        "score_title": "Mean block score before and after CSV batch update",
+        "loss_ylabel": "Mean loss",
+        "loss_title": "Mean loss before and after CSV batch update",
+    },
+    "zh": {
+        "before": "optimizer step 前",
+        "after": "optimizer step 后",
+        "weight_ylabel": "risk_weight",
+        "weight_title": "CSV batch update 前后的风险权重",
+        "score_ylabel": "平均 predicted_block_score",
+        "score_title": "CSV batch update 前后的平均阻断分数",
+        "loss_ylabel": "平均 loss",
+        "loss_title": "CSV batch update 前后的平均损失",
+    },
+}
 
 
 def choose_font() -> str:
     candidates = [
         "Noto Sans CJK KR",
+        "Arial Unicode MS",
+        "Songti SC",
         "NanumGothic",
         "Apple SD Gothic Neo",
         "AppleGothic",
-        "Arial Unicode MS",
         "DejaVu Sans",
     ]
     available = {font.name for font in font_manager.fontManager.ttflist}
@@ -97,13 +130,21 @@ def style_axis(ax) -> None:
     ax.set_axisbelow(True)
 
 
-def save_before_after(values: list[float], ylabel: str, title: str, filename: str, ylim: tuple[float, float]) -> None:
+def save_before_after(
+    values: list[float],
+    before_label: str,
+    after_label: str,
+    ylabel: str,
+    title: str,
+    filename: str,
+    ylim: tuple[float, float],
+) -> None:
     plt.rcParams["font.family"] = choose_font()
     plt.rcParams["axes.unicode_minus"] = False
     fig, ax = plt.subplots(figsize=(6.8, 3.7), constrained_layout=True)
     bars = ax.bar([0, 1], values, color=["#94a3b8", "#0f766e"], width=0.5)
     ax.set_xticks([0, 1])
-    ax.set_xticklabels(["optimizer step 전", "optimizer step 후"])
+    ax.set_xticklabels([before_label, after_label])
     ax.set_ylabel(ylabel)
     ax.set_ylim(*ylim)
     ax.set_title(title, fontsize=11.2)
@@ -123,27 +164,34 @@ def save_before_after(values: list[float], ylabel: str, title: str, filename: st
 
 def main() -> None:
     weights, scores, losses = batch_step_values()
-    save_before_after(
-        weights,
-        "risk_weight",
-        "CSV batch update 전후 위험 가중치",
-        "optimizer-step-batch-before-after-weight-ko.png",
-        (0, 1.9),
-    )
-    save_before_after(
-        scores,
-        "평균 predicted_block_score",
-        "CSV batch update 전후 평균 차단 점수",
-        "optimizer-step-batch-before-after-score-ko.png",
-        (0, 6.4),
-    )
-    save_before_after(
-        losses,
-        "평균 loss",
-        "CSV batch update 전후 평균 손실",
-        "optimizer-step-batch-before-after-loss-ko.png",
-        (0, 8.1),
-    )
+    for lang, text in CHART_TEXT.items():
+        save_before_after(
+            weights,
+            text["before"],
+            text["after"],
+            text["weight_ylabel"],
+            text["weight_title"],
+            f"optimizer-step-batch-before-after-weight-{lang}.png",
+            (0, 1.9),
+        )
+        save_before_after(
+            scores,
+            text["before"],
+            text["after"],
+            text["score_ylabel"],
+            text["score_title"],
+            f"optimizer-step-batch-before-after-score-{lang}.png",
+            (0, 6.4),
+        )
+        save_before_after(
+            losses,
+            text["before"],
+            text["after"],
+            text["loss_ylabel"],
+            text["loss_title"],
+            f"optimizer-step-batch-before-after-loss-{lang}.png",
+            (0, 8.1),
+        )
 
 
 if __name__ == "__main__":

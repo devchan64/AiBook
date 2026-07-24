@@ -1,7 +1,7 @@
 # P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.22`
+> Version: `v2026.07.24`
 
 P5-15.2에서는 생성 모델(generative model)이 정답 하나를 외워 꺼내는 것이 아니라, 가능한 출력 후보들의 상대적 그럴듯함을 후보 분포로 남긴다는 점을 보았습니다. 그러면 다음 질문이 자연스럽게 따라옵니다.
 
@@ -148,7 +148,139 @@ top-k, top-p, temperature의 세부 차이는 P6-5.2에서 다시 구체화합�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 Ollama로 로컬 LLM을 실행해, 같은 프롬프트라도 생성 설정을 바꾸면 실제 출력의 안정성과 변주 폭이 달라질 수 있음을 관찰하는 것입니다. Part 1에서는 Python으로 LLM을 호출하지 않았지만, 여기서는 이미 생성 모델과 샘플링을 다뤘으므로 실제 출력으로 확인해 볼 수 있습니다.
+### 예제 1. 고정 logits로 temperature와 top-k 확인하기
+
+이번 예제의 목표는 실제 LLM을 실행하기 전에, 이미 계산된 후보 점수(logits)에서 temperature와 top-k가 실제 선택 분포를 어떻게 바꾸는지 재현 가능한 숫자로 확인하는 것입니다. LLM은 내부에서 훨씬 많은 토큰 후보를 다루지만, 입문 단계에서는 작은 후보 집합으로도 `점수 -> 확률 -> 실제 선택`의 구분을 충분히 볼 수 있습니다.
+
+입력:
+
+- 같은 prefix 뒤에 올 수 있는 5개 운영 안내 후보
+- 후보별 logits
+- `argmax`, 낮은 temperature, 높은 temperature, top-k 제한 설정
+
+출력:
+
+- 설정별 후보 확률
+- 40회 sampling 선택 빈도
+- 후보 분포가 얼마나 넓게 퍼졌는지 보여 주는 entropy
+
+확인할 개념:
+
+- argmax는 후보 하나만 남긴다
+- temperature를 높이면 낮은 후보도 선택될 여지가 커진다
+- top-k는 낮은 후보 일부를 선택 대상에서 제외한다
+- 같은 logits라도 선택 규칙이 바뀌면 실제 출력 경험이 달라진다
+
+```python
+# 고정 logits에서 sampling 설정만 바꾸어 후보 확률, 선택 빈도, entropy를 비교하는 예제입니다.
+import math
+import random
+
+import numpy as np
+
+candidates = [
+    "재확인이 필요합니다.",
+    "담당자 확인 후 재개합니다.",
+    "10분 뒤 재측정합니다.",
+    "현재 기준에서는 정상으로 유지합니다.",
+    "즉시 재기동합니다.",
+]
+logits = np.array([3.2, 2.4, 1.7, 0.6, -0.4])
+
+experiments = [
+    ("argmax", 0.0, None),
+    ("temperature_0.7", 0.7, None),
+    ("temperature_1.4", 1.4, None),
+    ("top_k_3_temperature_1.0", 1.0, 3),
+]
+
+
+def softmax(values, temperature):
+    scaled = values / temperature
+    shifted = scaled - np.max(scaled)
+    exp_scores = np.exp(shifted)
+    return exp_scores / exp_scores.sum()
+
+
+def apply_top_k(probabilities, k):
+    if k is None:
+        return probabilities
+    kept_indices = np.argsort(probabilities)[-k:]
+    filtered = np.zeros_like(probabilities)
+    filtered[kept_indices] = probabilities[kept_indices]
+    return filtered / filtered.sum()
+
+
+def probabilities_for(temperature, top_k):
+    if temperature == 0.0:
+        probabilities = np.zeros_like(logits, dtype=float)
+        probabilities[int(np.argmax(logits))] = 1.0
+        return probabilities
+    return apply_top_k(softmax(logits, temperature), top_k)
+
+
+def entropy_bits(probabilities):
+    non_zero = probabilities[probabilities > 0]
+    if len(non_zero) <= 1:
+        return 0.0
+    return -sum(p * math.log2(p) for p in non_zero)
+
+
+for label, temperature, top_k in experiments:
+    probabilities = probabilities_for(temperature, top_k)
+    random.seed(15)
+    choices = random.choices(
+        range(len(candidates)),
+        weights=probabilities,
+        k=40,
+    )
+    counts = [choices.count(index) for index in range(len(candidates))]
+
+    print(f"[{label}]")
+    print("probabilities =", [round(float(value), 3) for value in probabilities])
+    print("counts =", counts)
+    print("entropy_bits =", round(entropy_bits(probabilities), 3))
+    print("top_choice =", candidates[int(np.argmax(probabilities))])
+    print()
+```
+
+```text
+[argmax]
+probabilities = [1.0, 0.0, 0.0, 0.0, 0.0]
+counts = [40, 0, 0, 0, 0]
+entropy_bits = 0.0
+top_choice = 재확인이 필요합니다.
+
+[temperature_0.7]
+probabilities = [0.682, 0.217, 0.08, 0.017, 0.004]
+counts = [24, 8, 5, 2, 1]
+entropy_bits = 1.277
+top_choice = 재확인이 필요합니다.
+
+[temperature_1.4]
+probabilities = [0.467, 0.264, 0.16, 0.073, 0.036]
+counts = [18, 7, 7, 4, 4]
+entropy_bits = 1.89
+top_choice = 재확인이 필요합니다.
+
+[top_k_3_temperature_1.0]
+probabilities = [0.598, 0.269, 0.133, 0.0, 0.0]
+counts = [22, 8, 10, 0, 0]
+entropy_bits = 1.341
+top_choice = 재확인이 필요합니다.
+```
+
+이 출력에서 먼저 볼 것은 `top_choice`가 네 설정 모두 같다는 점입니다. 가장 높은 후보는 계속 `재확인이 필요합니다.`이지만, 실제 선택 분포는 크게 달라집니다. `argmax`는 한 후보만 40번 고르고, `temperature_1.4`는 낮은 후보까지 더 넓게 남기며, `top_k_3_temperature_1.0`은 하위 두 후보를 아예 선택 대상에서 제외합니다.
+
+![sampling 설정별 후보 확률](../../../assets/part-05/chapter-15/sampling-control-probabilities-ko.png)
+
+![sampling 설정별 40회 선택 빈도](../../../assets/part-05/chapter-15/sampling-control-counts-ko.png)
+
+따라서 이 예제의 결론은 `temperature가 높으면 항상 좋다`가 아닙니다. 같은 logits에서 선택 규칙만 바꿔도 후보 분포의 퍼짐과 실제 선택 빈도가 달라지므로, 생성 설정은 모델의 지식 자체가 아니라 `그 지식에서 무엇을 꺼낼지`를 조절하는 단계로 읽어야 합니다.
+
+### 선택 예제. Ollama로 실제 LLM 출력 변화 관찰하기
+
+앞 예제는 고정 logits로 재현 가능한 선택 규칙을 확인했습니다. 이제 로컬에 Ollama와 모델이 준비되어 있다면, 같은 프롬프트라도 생성 설정을 바꾸면 실제 출력의 안정성과 변주 폭이 달라질 수 있음을 관찰할 수 있습니다. Part 1에서는 Python으로 LLM을 호출하지 않았지만, 여기서는 이미 생성 모델과 샘플링을 다뤘으므로 실제 출력으로 확인해 볼 수 있습니다.
 
 이 예제는 API 사용법을 익히기 위한 절이 아닙니다. 핵심은 `모델이 후보를 계산하는 일`과 `그 후보 중 실제 문장을 꺼내는 일`이 분리되어 있으며, 생성 설정이 두 번째 단계의 사용자 경험을 바꿀 수 있다는 점을 보는 것입니다.
 

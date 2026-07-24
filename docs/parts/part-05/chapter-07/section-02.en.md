@@ -258,11 +258,11 @@ This output is the scene where the same gradient passes through the optimizer's 
 
 The output format itself now also shows that comparison structure directly. The `[shared state]` section shows the CSV batch, current mean loss, and gradient shared by all three cases. The lines `[lr=0.003]`, `[lr=0.03]`, and `[lr=0.12]` then show side by side how the result differs when only the learning rate is changed for that same starting point. So what the reader has to compare in this example is not `three different gradients`, but `how one same batch gradient is turned into different updates by the learning rate`.
 
-![Batch updated risk weight by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-weight-en.png)
+![Batch updated risk weight by learning rate](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-weight-en.png)
 
-![Batch updated mean block score by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-score-en.png)
+![Batch updated mean block score by learning rate](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-score-en.png)
 
-![Batch updated mean loss by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-loss-en.png)
+![Batch updated mean loss by learning rate](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-loss-en.png)
 
 When reading these three charts together, the safest order is the following. First, in `learning-rate-batch-updated-weight`, look at how differently the actual movement amount changes the weight number by learning rate. Then, in `learning-rate-batch-updated-score`, check where that difference moved the batch mean prediction. Finally, in `learning-rate-batch-updated-loss`, see whether the result of that movement reduced the mean loss, barely moved, or overshot.
 
