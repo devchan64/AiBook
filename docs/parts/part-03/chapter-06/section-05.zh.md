@@ -1,7 +1,7 @@
 # P3-6.5 当特征的单位和尺度不同的时候，应该怎样一起读取和保留
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 做出几个特征之后，很容易又重新陷入一种混乱。`值大的那一列是不是更重要？` `秒和压力单位，可以放在同一张表里吗？` `平均值 200 的列和 0.2 的列，能不能就这样并排比较？` 这里首先需要的，不是去看数字大小，而是先建立一种感觉：要区分单位(unit)、范围(range)、变化幅度、以及相对基准线的变化。
 
@@ -117,6 +117,63 @@
 
 因为特征表里的数字并不都在表达同一种大小，所以应先写清单位和角色，再通过同一列相对基准线的变化去读取。这一节与其说是在介绍缩放公式，不如说更接近于：在一张工作表里，应该如何进行 `跨异质尺度的角色感知阅读(role-aware reading across heterogeneous scales)`。
 
+
+同样的问题也会出现在模型输入里。下面的例子使用同一个 k-NN 模型，但比较两种读法：不做尺度调整直接读取，以及用 `StandardScaler` 把各列调整到可比较尺度后再读取。
+
+问题场景：想确认当单位和范围不同的特征被直接放进 k-NN 时，数值范围大的列可能会更强地牵动邻居判断。
+
+输入(input)：包含持续时间、压力变化、流量波动变化的小型特征表，以及一个要确认的新样本。
+
+期望输出(output)：尺度调整前后的最近 `event_id` 和预测值。
+
+要确认的概念：即使特征在同一张表里，当模型用距离来比较它们时，是否做尺度调整也可能改变邻居和预测。
+
+```python
+# 这个例子用来确认距离模型会怎样读取单位和范围不同的特征。
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+features = pd.DataFrame(
+    [
+        {"event_id": "A", "duration_seconds": 44, "pressure_delta": 0.10, "flow_std_delta": 0.02, "review_needed": 0},
+        {"event_id": "B", "duration_seconds": 48, "pressure_delta": 0.20, "flow_std_delta": 0.15, "review_needed": 1},
+        {"event_id": "C", "duration_seconds": 43, "pressure_delta": -0.10, "flow_std_delta": 0.01, "review_needed": 0},
+        {"event_id": "D", "duration_seconds": 49, "pressure_delta": 0.00, "flow_std_delta": 0.16, "review_needed": 1},
+    ]
+)
+query = pd.DataFrame(
+    [{"duration_seconds": 44, "pressure_delta": 0.15, "flow_std_delta": 0.14}]
+)
+columns = ["duration_seconds", "pressure_delta", "flow_std_delta"]
+
+plain = KNeighborsClassifier(n_neighbors=1).fit(features[columns], features["review_needed"])
+scaled = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=1))
+scaled.fit(features[columns], features["review_needed"])
+
+plain_neighbor = plain.kneighbors(query, return_distance=False)[0][0]
+scaled_query = scaled.named_steps["standardscaler"].transform(query)
+scaled_neighbor = scaled.named_steps["kneighborsclassifier"].kneighbors(
+    scaled_query, return_distance=False
+)[0][0]
+
+print("without scaling nearest_event:", features.iloc[plain_neighbor]["event_id"])
+print("without scaling prediction:", int(plain.predict(query)[0]))
+print("with scaling nearest_event:", features.iloc[scaled_neighbor]["event_id"])
+print("with scaling prediction:", int(scaled.predict(query)[0]))
+```
+
+期望输出：
+
+```text
+without scaling nearest_event: A
+without scaling prediction: 0
+with scaling nearest_event: B
+with scaling prediction: 1
+```
+
+尺度调整前，因为 A 的 `duration_seconds=44` 与查询样本相同，所以它会被选成最近案例。但把压力变化和流量波动变化也调整到可比较尺度后，B 会变成更近的案例。这个输出不是在说 `数值更大的列更重要`，而是在说明：在距离模型里，范围更大的列可能支配计算。所以即使还没有细学模型公式，Part 3 也应该先写下每个特征的单位、范围和比较方式。
 
 因此，特征表不该被理解成“数值大小竞赛表”，而应理解成一种结构：不同测量轴被并排放在一起，并按照各自角色来读取。
 

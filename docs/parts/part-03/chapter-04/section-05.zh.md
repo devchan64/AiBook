@@ -1,7 +1,7 @@
 # P3-4.5 现在收集到的样本，在多大程度上代表了整体运行情况
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 一旦把样本单位定成“一次完整动作”或“一个近期区段”之类的形式之后，还有一个很容易被漏掉的问题会留下来。那就是：`现在收集到的这组样本，在多大程度上代表了整体运行情况？` 即使表本身整理得很好，如果里面的案例只来自某一种工艺模式、某一段时期，或者某一种设备状态，那么这张表也可能没法均匀地描述整个运行场景。样本单位选得对，和样本集合能够均匀代表整体情况，并不是同一回事。
 
@@ -148,6 +148,94 @@ maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_c
 这个例子里真正重要的，不是某种分类技巧，而是让人一眼就看见 `当前这张表到底看到了什么很多，什么又几乎没看到`。这里可以调节的值是 `minimum_count`。当 `minimum_count = 9` 时，有些范围如 `shift` 的所有条件都超过标准，而 `load_mode`、`machine_id`、`maintenance_phase` 中则有部分条件会被标为代表性空白。降低这个值，空白会减少；提高这个值，更多条件会被标为不足。这样才能同时用数字和表解释：`样本数虽然有 36 条，为什么代表性仍然会因条件而不同。`
 
 读这张表时，最好一起检查三件事。它能不能说明样本来自怎样的时间、模式和设备范围？能不能把几乎没看到的条件写下来？等以后读评估分数时，能不能连这个代表性范围也一起想起来？只有把这样的记录附上去，样本表才不只是 `整理好的表`，而会变成 `同时记录了自己代表什么运行范围的表`。
+
+代表性空白之后也会出现在模型评估里。下面的例子继续使用同一个 CSV，把前 24 条作为训练集合，把后 12 条作为确认集合。训练集合里 `normal` 和 `stable` 条件很多，而确认集合里 `low` 和 `after-maintenance` 条件更多。这里把 `high` 负载或维修后条件标为 1，做成一个观察用的简化标签 `needs_review`，并比较一个简单基准模型和一棵小决策树。
+
+问题场景：想确认在代表性偏斜的训练集合中，基准模型和模型的错误会集中在哪些条件上。
+
+输入(input)：同一个 `p3_4_5_sample_coverage.csv`、类别条件列，以及简化标签 `needs_review`。
+
+期望输出(output)：训练/确认集合的条件分布、基准模型和决策树的准确率、按 `load_mode` 汇总的错误数。
+
+要确认的概念：如果只看一个整体准确率，几乎没见过的运行条件可能会被隐藏，所以代表性空白必须和条件级错误一起读。
+
+```python
+# 这个例子用来确认训练覆盖偏斜时，基准模型和模型错误会集中在哪里。
+import pandas as pd
+from pathlib import Path
+from sklearn.compose import ColumnTransformer
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.tree import DecisionTreeClassifier
+
+input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
+samples = pd.read_csv(input_path)
+
+# 这是本节观察用的简化标签。真实运行标签需要另外经过业务检视来定义。
+samples["needs_review"] = (
+    samples["load_mode"].eq("high") | samples["maintenance_phase"].eq("after-maintenance")
+).astype(int)
+
+train = samples[samples["event_id"].between("E01", "E24")]
+test = samples[samples["event_id"].between("E25", "E36")]
+features = ["shift", "load_mode", "machine_id", "maintenance_phase"]
+
+preprocess = ColumnTransformer(
+    [("category", OneHotEncoder(handle_unknown="ignore"), features)]
+)
+models = {
+    "dummy": DummyClassifier(strategy="most_frequent"),
+    "tree": DecisionTreeClassifier(random_state=0, max_depth=3),
+}
+
+print("train coverage")
+print(train.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
+print()
+print("test coverage")
+print(test.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
+print()
+
+for name, estimator in models.items():
+    model = make_pipeline(preprocess, estimator)
+    model.fit(train[features], train["needs_review"])
+    predicted = model.predict(test[features])
+    result = test.assign(
+        predicted=predicted,
+        error=lambda df: df["predicted"].ne(df["needs_review"]),
+    )
+    print(f"{name} accuracy:", accuracy_score(test["needs_review"], predicted))
+    print("errors by load_mode:", result.groupby("load_mode")["error"].sum().to_dict())
+```
+
+期望输出：
+
+```text
+train coverage
+load_mode  maintenance_phase
+high       stable                4
+normal     after-maintenance     2
+           stable               18
+Name: event_id, dtype: int64
+
+test coverage
+load_mode  maintenance_phase
+high       after-maintenance    1
+           stable               1
+low        after-maintenance    2
+           stable               3
+normal     after-maintenance    3
+           stable               2
+Name: event_id, dtype: int64
+
+dummy accuracy: 0.4166666666666667
+errors by load_mode: {'high': 2, 'low': 2, 'normal': 3}
+tree accuracy: 0.75
+errors by load_mode: {'high': 0, 'low': 3, 'normal': 0}
+```
+
+如果只看整体准确率，决策树看起来比基准模型好。但 `errors by load_mode` 显示，`low` 条件上仍然留下了错误。这个条件在训练集合里没有出现，而是在确认集合中第一次出现。因此这段输出会让我们先问的不是 `模型分数有多好`，而是 `评估前几乎没有见过哪些条件`。代表性检查既是模型训练前的表格检查，也是阅读模型评估时必须回头看的条件检查。
 
 样本单位选得对，并不自动意味着这组样本就能代表整个运行情况。所以，在 Part 3 里，时间范围、模式范围、设备范围以及剩余空白，都应该一起写下来。
 

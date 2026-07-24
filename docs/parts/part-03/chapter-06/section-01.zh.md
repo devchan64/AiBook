@@ -1,7 +1,7 @@
 # P3-6.1 应该用什么特征把可比较的结构留下来
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 第一次学习特征时，人们常常会把它理解成 `列越多越好吗？` 但特征(feature)并不是简单地往里塞更多数值。特征是把样本所具有的结构，重新表达成可以用于比较和预测的值。所以，好的特征与其说是“更多”，不如说应该先让 `它到底想展示什么` 变得清楚。如果前一节已经把原始日志变成了汇总表，那么现在就要决定：这张汇总表里到底该留下什么结构。
 
@@ -137,6 +137,70 @@ for focus_name, columns in focus_map.items():
 ```
 
 输出的第 1 步，还只是带有区间平均值的汇总表。到了第 2 步，`overall_mean`、`late_minus_early`、`early_to_late_slope`、`segment_variability` 才被新加上去。`overall_mean` 展示整体水平，`late_minus_early` 展示前后段差异，`early_to_late_slope` 把这种差异除以区间距离后，变成一个简单斜率表达，`segment_variability` 则展示各区间之间的波动程度。这里可以操作的值是 `feature_focus`。设为 `"change"` 时，会优先留下变化特征；改成 `"level"` 时，会优先留下整体水平特征；改成 `"stability"` 时，会优先留下波动性特征。第 4 步说明，即使是同一张特征表，只要问题焦点改变，真正留下的列组合也会改变。也就是说，特征不是把原本写着的值再展示一遍，而是从同一张汇总表中，计算并附着上想比较的结构，再按当前问题选择的结果。
+
+同样的差异也会出现在真实模型输入里。下面的例子比较两种模型输入：一种只保留整体平均值，另一种把变化和变动性特征也一起保留。两个模型都使用同一个决策树分类器，但只要输入特征不同，测试预测就会改变。
+
+问题场景：想比较平均值相近但区段变化不同的动作，在只看平均特征和同时看结构特征时预测会有什么差异。
+
+输入(input)：包含 `early`、`mid`、`late` 区段平均值和 `review_needed` 标签的小型动作表。
+
+期望输出(output)：`mean_only` 特征组与 `structure_features` 特征组的准确率和测试预测。
+
+要确认的概念：特征选择是在决定模型能看到什么结构；如果只保留平均值，就可能漏掉变化或变动性结构。
+
+```python
+# 这个例子比较只保留平均值的模型，以及加入变化/变动性特征的模型预测差异。
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+events = pd.DataFrame(
+    [
+        {"event_id": "A", "early": 1.8, "mid": 2.2, "late": 2.6, "review_needed": 1},
+        {"event_id": "B", "early": 2.1, "mid": 2.2, "late": 2.3, "review_needed": 0},
+        {"event_id": "C", "early": 2.5, "mid": 2.2, "late": 1.9, "review_needed": 1},
+        {"event_id": "D", "early": 2.0, "mid": 2.2, "late": 2.4, "review_needed": 0},
+        {"event_id": "E", "early": 1.7, "mid": 2.2, "late": 2.7, "review_needed": 1},
+        {"event_id": "F", "early": 2.2, "mid": 2.2, "late": 2.2, "review_needed": 0},
+        {"event_id": "G", "early": 2.6, "mid": 2.2, "late": 1.8, "review_needed": 1},
+        {"event_id": "H", "early": 2.0, "mid": 2.1, "late": 2.3, "review_needed": 0},
+    ]
+)
+
+segment_values = events[["early", "mid", "late"]]
+events["overall_mean"] = segment_values.mean(axis=1)
+events["late_minus_early"] = events["late"] - events["early"]
+events["segment_variability"] = segment_values.std(axis=1)
+
+train = events[events["event_id"].isin(["A", "B", "C", "D", "E", "F"])]
+test = events[events["event_id"].isin(["G", "H"])]
+feature_sets = {
+    "mean_only": ["overall_mean"],
+    "structure_features": ["overall_mean", "late_minus_early", "segment_variability"],
+}
+
+for name, columns in feature_sets.items():
+    model = DecisionTreeClassifier(random_state=0, max_depth=2)
+    model.fit(train[columns], train["review_needed"])
+    predicted = model.predict(test[columns])
+    comparison = [
+        (event_id, int(prediction), int(actual))
+        for event_id, prediction, actual in zip(test["event_id"], predicted, test["review_needed"])
+    ]
+    print(name, "accuracy:", accuracy_score(test["review_needed"], predicted))
+    print(name, "predictions:", comparison)
+```
+
+期望输出：
+
+```text
+mean_only accuracy: 0.5
+mean_only predictions: [('G', 0, 1), ('H', 0, 0)]
+structure_features accuracy: 1.0
+structure_features predictions: [('G', 1, 1), ('H', 0, 0)]
+```
+
+如果只看整体平均值，`G` 很难和稳定动作区分开。但如果同时看 `late_minus_early` 和 `segment_variability`，后段下降的结构和区段波动就会显现出来。所以即使用同一个模型，只看平均值时会漏掉 `G`，看到结构特征时就能预测正确。这个输出说明：特征不是单纯多加一列，而是在选择让模型能看到什么结构。
 
 如果把这些特征按更小的层次来读，每个值承担的角色会更清楚。
 

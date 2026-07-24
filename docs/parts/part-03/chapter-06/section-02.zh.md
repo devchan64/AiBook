@@ -1,7 +1,7 @@
 # P3-6.2 当特征本身还不够时，还可以加入什么中间表示
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/en/reference/concept-glossary/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
 
@@ -167,6 +167,65 @@ token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
 例如，`['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']` 可以总结成 `前段上升很强，中间暂时变平，后段下降变得更大`。
 
 还要注意的一点是：即使平均值相同，token 序列也可能不同。比如，两次动作的平均流量都可能是 2.5，但其中一次是 `UP, FLAT, DOWN`，另一次却可能是 `FLAT, FLAT, FLAT`。如果只看平均值，它们会显得相似；但一看 token 序列，就会发现一个发生了结构变化，另一个则维持稳定。正因为这样，token 化不是装饰，而是一种用来补足平均值摘要遗漏结构的表示。
+
+这个差异也可以用一个简单的向量化(vectorization)例子来确认。下面的代码会比较两种排序：一种只按数值平均值排序，另一种先用 `TfidfVectorizer` 把 token 序列向量化，再按它和查询序列的相似度排序。
+
+```python
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+patterns = pd.DataFrame(
+    [
+        {"event_id": "A", "overall_mean": 2.5, "token_sequence": "UP2 UP1 FLAT DOWN1 DOWN2"},
+        {"event_id": "B", "overall_mean": 2.5, "token_sequence": "FLAT FLAT FLAT FLAT FLAT"},
+        {"event_id": "C", "overall_mean": 2.4, "token_sequence": "UP1 UP1 FLAT DOWN1 DOWN1"},
+        {"event_id": "D", "overall_mean": 2.8, "token_sequence": "DOWN2 DOWN1 FLAT UP1 UP2"},
+    ]
+)
+
+query_mean = 2.5
+query_text = "UP2 UP1 FLAT DOWN1 DOWN2"
+
+patterns["mean_distance"] = (patterns["overall_mean"] - query_mean).abs()
+mean_rank = patterns.sort_values(["mean_distance", "event_id"])[
+    ["event_id", "overall_mean", "mean_distance"]
+]
+
+vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+matrix = vectorizer.fit_transform(patterns["token_sequence"])
+query_vector = vectorizer.transform([query_text])
+patterns["token_similarity"] = cosine_similarity(query_vector, matrix)[0]
+token_rank = patterns.sort_values(["token_similarity", "event_id"], ascending=[False, True])[
+    ["event_id", "token_sequence", "token_similarity"]
+]
+
+print("rank by numeric mean")
+print(mean_rank.to_string(index=False))
+print()
+print("rank by token sequence")
+print(token_rank.to_string(index=False))
+```
+
+输出如下。
+
+```text
+rank by numeric mean
+event_id  overall_mean  mean_distance
+       A           2.5            0.0
+       B           2.5            0.0
+       C           2.4            0.1
+       D           2.8            0.3
+
+rank by token sequence
+event_id           token_sequence  token_similarity
+       A UP2 UP1 FLAT DOWN1 DOWN2          1.000000
+       C UP1 UP1 FLAT DOWN1 DOWN1          0.511833
+       D DOWN2 DOWN1 FLAT UP1 UP2          0.392319
+       B FLAT FLAT FLAT FLAT FLAT          0.120765
+```
+
+如果只看数值平均值，`A` 和 `B` 是同样接近的候选。但 `B` 实际上每个区段都是平的，并没有和查询相同的“上升-平坦-下降”结构。把 token 序列向量化之后，`A` 会变成最接近的候选，而共享部分上升和下降结构的 `C` 会排到后面。这里的重点并不是说 `TfidfVectorizer` 就是正确答案。重点是：当人先定义好的区段 token 被转换成真实库可以处理的输入时，我们就能重新比较那些被平均值摘要抹掉的顺序和方向差异。
 
 这一点之所以重要，是因为区段 token 仍然是人自己定规则的表达，但它已经拥有 `具有顺序的序列` 这一性质。所以，它可以更直接地保留那些数字特征容易漏掉的结构；而到了后面讲顺序数据和表示学习时，也能自然地沿用同一类输入结构继续看下去。
 

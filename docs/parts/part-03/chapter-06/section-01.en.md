@@ -1,7 +1,7 @@
 # P3-6.1 What Features Should We Keep to Represent a Structure for Comparison
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 When people first learn about features, they often take them to mean `wouldn't more columns always be better?` But a feature is not just the act of inserting many values. A feature is a value that rewrites the structure of a sample so it can be used for comparison and prediction. So a good feature is less about being numerous and more about making `what it is trying to show` clear. If the raw log was turned into a summary table in the previous chapter, we now have to decide what structure should remain inside that summary table.
 
@@ -137,6 +137,70 @@ Expected output:
 ```
 
 Stage 1 of the output is still only a summary table with segment averages. Only in stage 2 do `overall_mean`, `late_minus_early`, `early_to_late_slope`, and `segment_variability` get added. `overall_mean` shows the overall level, `late_minus_early` shows the late-versus-early difference, `early_to_late_slope` shows a simple slope expression that divides that difference by segment distance, and `segment_variability` shows the degree of fluctuation across segments. The value to manipulate here is `feature_focus`. If it is set to `"change"`, change features are kept first. If it is changed to `"level"`, the overall-level feature is kept first. If it is changed to `"stability"`, the variability feature is kept first. Stage 4 shows that even with the same feature table, the actual group of columns kept changes when the question focus changes. In other words, a feature is not something that merely re-shows what was already written down. It is the result of computing and attaching the structure we want to compare from the same summary table and choosing it for the current question.
+
+The same difference appears in actual model input. The next example compares a model that keeps only the overall mean with a model that also keeps change and variability features. Both models use the same decision-tree classifier, but the test predictions change depending on which features are given as input.
+
+Problem situation: We want to compare predictions when actions with similar averages but different segment changes are read through only mean features versus through structure features.
+
+Input: A small action table with `early`, `mid`, `late` segment means and the label `review_needed`.
+
+Expected output: Accuracy and test predictions for the `mean_only` feature set and the `structure_features` feature set.
+
+Concept to check: Feature selection decides which structure the model can see, and if we keep only the mean, we can miss change or variability structure.
+
+```python
+# This example compares predictions from a mean-only model and a model with change/variability features.
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+events = pd.DataFrame(
+    [
+        {"event_id": "A", "early": 1.8, "mid": 2.2, "late": 2.6, "review_needed": 1},
+        {"event_id": "B", "early": 2.1, "mid": 2.2, "late": 2.3, "review_needed": 0},
+        {"event_id": "C", "early": 2.5, "mid": 2.2, "late": 1.9, "review_needed": 1},
+        {"event_id": "D", "early": 2.0, "mid": 2.2, "late": 2.4, "review_needed": 0},
+        {"event_id": "E", "early": 1.7, "mid": 2.2, "late": 2.7, "review_needed": 1},
+        {"event_id": "F", "early": 2.2, "mid": 2.2, "late": 2.2, "review_needed": 0},
+        {"event_id": "G", "early": 2.6, "mid": 2.2, "late": 1.8, "review_needed": 1},
+        {"event_id": "H", "early": 2.0, "mid": 2.1, "late": 2.3, "review_needed": 0},
+    ]
+)
+
+segment_values = events[["early", "mid", "late"]]
+events["overall_mean"] = segment_values.mean(axis=1)
+events["late_minus_early"] = events["late"] - events["early"]
+events["segment_variability"] = segment_values.std(axis=1)
+
+train = events[events["event_id"].isin(["A", "B", "C", "D", "E", "F"])]
+test = events[events["event_id"].isin(["G", "H"])]
+feature_sets = {
+    "mean_only": ["overall_mean"],
+    "structure_features": ["overall_mean", "late_minus_early", "segment_variability"],
+}
+
+for name, columns in feature_sets.items():
+    model = DecisionTreeClassifier(random_state=0, max_depth=2)
+    model.fit(train[columns], train["review_needed"])
+    predicted = model.predict(test[columns])
+    comparison = [
+        (event_id, int(prediction), int(actual))
+        for event_id, prediction, actual in zip(test["event_id"], predicted, test["review_needed"])
+    ]
+    print(name, "accuracy:", accuracy_score(test["review_needed"], predicted))
+    print(name, "predictions:", comparison)
+```
+
+Expected output:
+
+```text
+mean_only accuracy: 0.5
+mean_only predictions: [('G', 0, 1), ('H', 0, 0)]
+structure_features accuracy: 1.0
+structure_features predictions: [('G', 1, 1), ('H', 0, 0)]
+```
+
+If we look only at the overall mean, `G` is hard to distinguish from a stable action. But if we also look at `late_minus_early` and `segment_variability`, the downward late-section structure and segment fluctuation become visible. So even with the same model, `G` is missed when only the mean is visible, and correctly predicted when structure features are visible. This output shows that a feature is not just another column. It is a choice about which structure the model can see.
 
 If these features are read in smaller layers, the role of each value becomes clearer.
 

@@ -1,7 +1,7 @@
 # P3-9.7 입력과 결과는 어떤 조건이 닫혀야 예측 문제로 읽을 수 있는가
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 문제를 예측 문제로 올리기로 했다면, 이제는 그 구조가 실제 예측 조건을 만족하는지 닫아야 합니다. 중요한 것은 긴 이론이 아니라 네 가지 확인입니다. 어떤 열이 입력인지, 어떤 열이 결과 후보인지, 예측 시점 이후 정보가 섞이지 않았는지, 그리고 어디까지의 정보를 보고 언제의 결과를 맞히는지입니다.
 
@@ -24,6 +24,66 @@
 | B | -0.06 | low | skipped | normal |
 
 여기서 `recent_diff`와 `repeatability`는 예측 전에 만들 수 있는 열입니다. 반면 `review_result`는 사람이 이미 검토를 끝낸 뒤에야 생기는 열입니다. 그런데 이 열을 입력에 같이 두면, 표 모양만 보면 멀쩡해 보여도 실제로는 `정답을 보고 입력을 만든 구조`가 됩니다. 이렇게 되면 학습 시점에는 높은 점수가 나와도, 실제 예측 시점에는 존재하지 않는 정보를 써서 맞힌 셈이므로 같은 문제로 볼 수 없습니다.
+
+아래 예제는 이 차이를 실제 모델 출력으로 확인합니다. `available_at_cutoff`는 예측 시점에 만들 수 있는 열만 사용하고, `leaky_after_review`는 예측 뒤에 생기는 `review_result_code`만 사용합니다. 두 번째 모델의 점수가 좋아 보여도, 운영 시점에는 쓸 수 없는 열이므로 예측 계약이 깨진 예입니다.
+
+문제 상황: 예측 시점에 사용 가능한 입력과 예측 뒤에 생기는 누수 입력이 모델 점수를 어떻게 다르게 보이게 하는지 확인합니다.
+
+입력(input): `recent_diff`, `repeatability`, `review_result_code`, `target`.
+
+기대 출력(output): feature set별 사용 열, 테스트 정확도, 예측/실제 비교.
+
+확인할 개념: 예측 뒤에 생기는 열을 입력에 넣으면 점수는 좋아 보일 수 있지만 실제 운영 예측 문제로는 성립하지 않습니다.
+
+```python
+# 예측 시점에 쓸 수 있는 열과 예측 뒤에 생기는 누수 열의 차이를 확인합니다.
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+records = pd.DataFrame(
+    [
+        {"event_id": "A", "recent_diff": -0.32, "repeatability": 3, "review_result_code": 1, "target": 1},
+        {"event_id": "B", "recent_diff": -0.06, "repeatability": 1, "review_result_code": 0, "target": 0},
+        {"event_id": "C", "recent_diff": -0.28, "repeatability": 2, "review_result_code": 1, "target": 1},
+        {"event_id": "D", "recent_diff": -0.04, "repeatability": 1, "review_result_code": 0, "target": 0},
+        {"event_id": "E", "recent_diff": -0.18, "repeatability": 1, "review_result_code": 1, "target": 1},
+        {"event_id": "F", "recent_diff": -0.12, "repeatability": 3, "review_result_code": 0, "target": 0},
+    ]
+)
+
+train = records.iloc[:4]
+test = records.iloc[4:]
+feature_sets = {
+    "available_at_cutoff": ["recent_diff", "repeatability"],
+    "leaky_after_review": ["review_result_code"],
+}
+
+for name, columns in feature_sets.items():
+    model = DecisionTreeClassifier(random_state=0, max_depth=2)
+    model.fit(train[columns], train["target"])
+    predicted = model.predict(test[columns])
+    comparison = [
+        (event_id, int(prediction), int(actual))
+        for event_id, prediction, actual in zip(test["event_id"], predicted, test["target"])
+    ]
+    print(name, "features:", columns)
+    print(name, "accuracy:", accuracy_score(test["target"], predicted))
+    print(name, "predictions:", comparison)
+```
+
+예상 출력:
+
+```text
+available_at_cutoff features: ['recent_diff', 'repeatability']
+available_at_cutoff accuracy: 0.0
+available_at_cutoff predictions: [('E', 0, 1), ('F', 1, 0)]
+leaky_after_review features: ['review_result_code']
+leaky_after_review accuracy: 1.0
+leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
+```
+
+`leaky_after_review`는 정확도가 `1.0`이지만, 이 결과를 좋은 예측 문제라고 읽으면 안 됩니다. `review_result_code`는 사람이 이미 검토한 뒤에 생기는 열이기 때문입니다. 실제 운영 시점에는 이 값을 아직 모릅니다. 따라서 이 예제의 핵심은 높은 점수를 얻는 모델을 찾는 것이 아니라, `이 열을 예측 시점에 실제로 만들 수 있는가`를 먼저 닫아야 한다는 점입니다.
 
 ## 작은 도식으로 보기
 

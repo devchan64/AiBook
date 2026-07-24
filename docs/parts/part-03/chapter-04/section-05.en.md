@@ -1,7 +1,7 @@
 # P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 Once the sample unit has been fixed as something like one full action or one recent segment, one more question remains that is easy to miss. `How well does the sample set we collected represent the overall operating situation?` Even if the table itself is well organized, if the cases in it were gathered only from a specific process mode, a specific time period, or a specific equipment state, then the table may fail to describe the overall operating scene evenly. Choosing the sample unit correctly and having a sample bundle that evenly represents the whole situation are not the same thing.
 
@@ -148,6 +148,94 @@ maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_c
 What matters in this example is not a classification technique, but making visible at a glance `what the current table sees a lot of` and `what it barely sees`. The value to manipulate here is `minimum_count`. When `minimum_count = 9`, some scopes such as `shift` have all conditions above the criterion, while scopes such as `load_mode`, `machine_id`, and `maintenance_phase` have some conditions marked as representativeness gaps. If this value is lowered, the gaps decrease; if it is raised, more conditions are marked as insufficient. That is how we can explain with both numbers and a table why `even with 36 samples, representativeness can look different by condition`.
 
 When reading this table, three things should be checked together. Can this table explain the time, mode, and equipment range from which it collected samples? Can we write down the conditions that were barely seen? And later, when reading evaluation scores, can we also bring back to mind this range of representativeness? Only when notes like these are attached does the sample table become not just `an organized table`, but `a table that also records what operating range it represents`.
+
+A representativeness gap also appears later in model evaluation. The next example uses the same CSV, takes the first 24 rows as the training bundle, and the last 12 rows as the checking bundle. The training bundle is dominated by `normal` and `stable` conditions, while the checking bundle contains more `low` and `after-maintenance` conditions. Here we make a reduced label, `needs_review`, which is 1 for high load or after-maintenance conditions, and compare a simple baseline with a small decision tree.
+
+Problem situation: We want to see which conditions receive the errors of a baseline and a model when the training bundle is not representative.
+
+Input: The same `p3_4_5_sample_coverage.csv`, categorical condition columns, and the reduced label `needs_review`.
+
+Expected output: Condition distribution in the training/checking bundles, baseline and decision-tree accuracy, and the number of errors by `load_mode`.
+
+Concept to check: If we look only at one overall accuracy number, the operating conditions that were barely seen can stay hidden, so representativeness gaps should be read together with condition-level errors.
+
+```python
+# This example checks where baseline and model errors concentrate when training coverage is biased.
+import pandas as pd
+from pathlib import Path
+from sklearn.compose import ColumnTransformer
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.tree import DecisionTreeClassifier
+
+input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
+samples = pd.read_csv(input_path)
+
+# This is a reduced label for this section's observation. A real operational label needs separate review.
+samples["needs_review"] = (
+    samples["load_mode"].eq("high") | samples["maintenance_phase"].eq("after-maintenance")
+).astype(int)
+
+train = samples[samples["event_id"].between("E01", "E24")]
+test = samples[samples["event_id"].between("E25", "E36")]
+features = ["shift", "load_mode", "machine_id", "maintenance_phase"]
+
+preprocess = ColumnTransformer(
+    [("category", OneHotEncoder(handle_unknown="ignore"), features)]
+)
+models = {
+    "dummy": DummyClassifier(strategy="most_frequent"),
+    "tree": DecisionTreeClassifier(random_state=0, max_depth=3),
+}
+
+print("train coverage")
+print(train.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
+print()
+print("test coverage")
+print(test.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
+print()
+
+for name, estimator in models.items():
+    model = make_pipeline(preprocess, estimator)
+    model.fit(train[features], train["needs_review"])
+    predicted = model.predict(test[features])
+    result = test.assign(
+        predicted=predicted,
+        error=lambda df: df["predicted"].ne(df["needs_review"]),
+    )
+    print(f"{name} accuracy:", accuracy_score(test["needs_review"], predicted))
+    print("errors by load_mode:", result.groupby("load_mode")["error"].sum().to_dict())
+```
+
+Expected output:
+
+```text
+train coverage
+load_mode  maintenance_phase
+high       stable                4
+normal     after-maintenance     2
+           stable               18
+Name: event_id, dtype: int64
+
+test coverage
+load_mode  maintenance_phase
+high       after-maintenance    1
+           stable               1
+low        after-maintenance    2
+           stable               3
+normal     after-maintenance    3
+           stable               2
+Name: event_id, dtype: int64
+
+dummy accuracy: 0.4166666666666667
+errors by load_mode: {'high': 2, 'low': 2, 'normal': 3}
+tree accuracy: 0.75
+errors by load_mode: {'high': 0, 'low': 3, 'normal': 0}
+```
+
+If we look only at overall accuracy, the decision tree appears better than the baseline. But `errors by load_mode` shows that errors remain in the `low` condition. That condition was absent from the training bundle and appears for the first time in the checking bundle. So this output makes us ask first not `how well did the model score?`, but `which conditions were barely seen before evaluation?` Representativeness checking is a table check before training a model, and it is also a condition check we must return to when reading model evaluation.
 
 Fixing the sample unit correctly does not automatically mean that the sample bundle represents the whole operating situation. That is why, in Part 3, the time range, mode range, equipment range, and remaining gaps should all be written down together.
 

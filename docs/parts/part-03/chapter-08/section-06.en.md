@@ -1,7 +1,7 @@
 # P3-8.6 Confirmed Labels Left Only on Some Cases
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _Subtitle: What should be written with the interpretation when confirmed labels exist only for reviewed cases?_
 
@@ -35,6 +35,95 @@ At the interpretation stage, notes like the following are enough.
 | Range bias in the set with labels | To avoid overstating interpretation strength |
 
 The important point here is that `a selectively attached confirmed label can serve as interpretation evidence, but before reading it as a full answer set that represents all events, you should first write the review path and possible bias`. A confirmed-label table should therefore first be read not as `the answer table for all events`, but as a confirmation result for some events that passed through a review path.
+
+The next example reduces this problem into a small model evaluation. In real operations, the final result of unreviewed events may be unknown. So `actual_failure_for_demo` in the code is a hidden outcome used only for learning. The goal is not to use this value as an answer table, but to check what kind of illusion can appear when a model is evaluated only with labels left on reviewed cases.
+
+Problem situation: We want to see how a model score can look different depending on the review path when confirmed labels exist only for reviewed cases.
+
+Input: `risk_score`, `manually_reviewed`, and the hidden demo outcome `actual_failure_for_demo`.
+
+Expected output: Label coverage, accuracy on reviewed labels, accuracy when all events are opened for the demo, and error counts by review path.
+
+Concept to check: A model can look good if we only inspect selectively reviewed labels, while errors may be hidden in the unreviewed range.
+
+```python
+# This example checks how evaluation can become biased when only selectively reviewed labels are used.
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+events = pd.DataFrame(
+    [
+        {"event_id": "A", "risk_score": 0.92, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "B", "risk_score": 0.88, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "C", "risk_score": 0.81, "manually_reviewed": 1, "actual_failure_for_demo": 0},
+        {"event_id": "D", "risk_score": 0.76, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "E", "risk_score": 0.69, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "F", "risk_score": 0.62, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+        {"event_id": "G", "risk_score": 0.55, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "H", "risk_score": 0.48, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+        {"event_id": "I", "risk_score": 0.37, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "J", "risk_score": 0.29, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+    ]
+)
+
+reviewed = events[events["manually_reviewed"].eq(1)]
+
+model = DecisionTreeClassifier(random_state=0, max_depth=2)
+model.fit(reviewed[["risk_score"]], reviewed["actual_failure_for_demo"])
+events["predicted_from_reviewed_only"] = model.predict(events[["risk_score"]])
+events["error"] = events["predicted_from_reviewed_only"].ne(events["actual_failure_for_demo"])
+
+print("label coverage")
+print(events.groupby("manually_reviewed")["event_id"].count().to_dict())
+print("failure rate in reviewed labels:", reviewed["actual_failure_for_demo"].mean())
+print("failure rate in all events for demo:", events["actual_failure_for_demo"].mean())
+print(
+    "accuracy on reviewed labels:",
+    accuracy_score(reviewed["actual_failure_for_demo"], model.predict(reviewed[["risk_score"]])),
+)
+print(
+    "accuracy on all events for demo:",
+    accuracy_score(events["actual_failure_for_demo"], events["predicted_from_reviewed_only"]),
+)
+print("errors by review path:", events.groupby("manually_reviewed")["error"].sum().to_dict())
+print(
+    events[
+        [
+            "event_id",
+            "manually_reviewed",
+            "actual_failure_for_demo",
+            "predicted_from_reviewed_only",
+            "error",
+        ]
+    ].to_string(index=False)
+)
+```
+
+Expected output:
+
+```text
+label coverage
+{0: 6, 1: 4}
+failure rate in reviewed labels: 0.75
+failure rate in all events for demo: 0.6
+accuracy on reviewed labels: 1.0
+accuracy on all events for demo: 0.7
+errors by review path: {0: 3, 1: 0}
+event_id  manually_reviewed  actual_failure_for_demo  predicted_from_reviewed_only  error
+       A                  1                        1                             1  False
+       B                  1                        1                             1  False
+       C                  1                        0                             0  False
+       D                  1                        1                             1  False
+       E                  0                        1                             1  False
+       F                  0                        0                             1   True
+       G                  0                        1                             1  False
+       H                  0                        0                             1   True
+       I                  0                        1                             1  False
+       J                  0                        0                             1   True
+```
+
+If we look only at reviewed labels, the accuracy is `1.0`. But when all events are opened for the demo, accuracy drops to `0.7`, and all three errors are on the `manually_reviewed=0` path. This output shows that cases with confirmed labels may not represent all events. In real operations, we may not know the result of unreviewed events, so it is even more important to write together whether a missing label means normal or unchecked, and by what rule a person reviewed only some events.
 
 ## A Small Diagram
 

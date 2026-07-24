@@ -1,7 +1,7 @@
 # P3-6.2 What Intermediate Representations Can We Add When Features Alone Are Not Enough
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 Features such as averages, slopes, and variability are good starting points. But in some cases, a few numbers alone are not enough to describe the segment-level structure fully. Suppose there is a pattern that rises slowly in the early phase, stays flat in the middle phase, and then drops quickly in the late phase. If that structure is left as only two or three numbers, it can feel insufficient both when a person reads it again and when a model compares it. So in Part 3, [intermediate representation](/AiBook/reference/concept-glossary/#glossary-intermediate-representation) is read together as a human-led input re-expression that remains between raw logs and summary features so the structure can stay more visible.
 
@@ -167,6 +167,65 @@ If this example is checked in the following order, the role of tokenization beco
 For example, `['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']` can be summarized as `the early rise is strong, the middle flattens for a while, and the late decline becomes larger`.
 
 It is also important that the token sequence can differ even when the average is the same. For example, even if the average flow of two actions is 2.5 in both cases, one may be `UP, FLAT, DOWN` while the other is `FLAT, FLAT, FLAT`. They look similar if we inspect only the average, but the token sequence reveals that one had structural change while the other remained stable. Because of this, tokenization is not mere decoration. It is a representation that complements structure missed by average-based summaries.
+
+We can also check this difference with a small vectorization example. The code below compares a ranking based only on the numerical average with a ranking that vectorizes the token sequence using `TfidfVectorizer` and sorts candidates by similarity to a query.
+
+```python
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+patterns = pd.DataFrame(
+    [
+        {"event_id": "A", "overall_mean": 2.5, "token_sequence": "UP2 UP1 FLAT DOWN1 DOWN2"},
+        {"event_id": "B", "overall_mean": 2.5, "token_sequence": "FLAT FLAT FLAT FLAT FLAT"},
+        {"event_id": "C", "overall_mean": 2.4, "token_sequence": "UP1 UP1 FLAT DOWN1 DOWN1"},
+        {"event_id": "D", "overall_mean": 2.8, "token_sequence": "DOWN2 DOWN1 FLAT UP1 UP2"},
+    ]
+)
+
+query_mean = 2.5
+query_text = "UP2 UP1 FLAT DOWN1 DOWN2"
+
+patterns["mean_distance"] = (patterns["overall_mean"] - query_mean).abs()
+mean_rank = patterns.sort_values(["mean_distance", "event_id"])[
+    ["event_id", "overall_mean", "mean_distance"]
+]
+
+vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+matrix = vectorizer.fit_transform(patterns["token_sequence"])
+query_vector = vectorizer.transform([query_text])
+patterns["token_similarity"] = cosine_similarity(query_vector, matrix)[0]
+token_rank = patterns.sort_values(["token_similarity", "event_id"], ascending=[False, True])[
+    ["event_id", "token_sequence", "token_similarity"]
+]
+
+print("rank by numeric mean")
+print(mean_rank.to_string(index=False))
+print()
+print("rank by token sequence")
+print(token_rank.to_string(index=False))
+```
+
+The output looks like this.
+
+```text
+rank by numeric mean
+event_id  overall_mean  mean_distance
+       A           2.5            0.0
+       B           2.5            0.0
+       C           2.4            0.1
+       D           2.8            0.3
+
+rank by token sequence
+event_id           token_sequence  token_similarity
+       A UP2 UP1 FLAT DOWN1 DOWN2          1.000000
+       C UP1 UP1 FLAT DOWN1 DOWN1          0.511833
+       D DOWN2 DOWN1 FLAT UP1 UP2          0.392319
+       B FLAT FLAT FLAT FLAT FLAT          0.120765
+```
+
+If we inspect only the numerical average, `A` and `B` are equally close candidates. But `B` is actually flat in every segment and does not have the same rise-flat-decline structure as the query. When the token sequences are vectorized, `A` becomes the closest candidate, and `C`, which shares part of the rise and decline structure, moves next. The point is not that `TfidfVectorizer` is the correct answer. The point is that once human-defined segment tokens are turned into real library input, we can compare order and direction differences that average-based summaries erased.
 
 This matters because segment tokens are still human-defined expressions, yet they already have the property of being `a sequence with order`. So they can preserve structure more directly when numerical features alone might miss it, and they also let us carry the same input structure forward naturally when sequential data or representation learning is explained later.
 

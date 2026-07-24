@@ -1,7 +1,7 @@
 # P3-8.6 일부 사례에만 남은 확정 라벨
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: 확정 라벨이 검토된 사례에만 있을 때 해석에 무엇을 함께 적어야 하는가_
 
@@ -35,6 +35,95 @@ _보조제목: 확정 라벨이 검토된 사례에만 있을 때 해석에 무�
 | 라벨 있는 집합의 범위 편중 | 해석 강도를 과장하지 않기 위해 |
 
 여기서 중요한 점은 `선택적으로 붙은 확정 라벨은 해석 근거가 될 수는 있지만, 전체 사건을 대표하는 정답 집합처럼 읽기 전에 검토 경로와 편중을 먼저 적어야 한다`는 사실입니다. 따라서 확정 라벨 표는 `전체 사건의 정답표`가 아니라, 검토 경로를 거친 일부 사건의 확인 결과일 수 있다는 점을 먼저 봐야 합니다.
+
+아래 예제는 이 문제를 작은 모델 평가로 축소해 봅니다. 실제 운영에서는 검토되지 않은 사건의 최종 결과를 모를 수 있습니다. 그래서 코드의 `actual_failure_for_demo`는 학습용으로만 둔 숨은 결과입니다. 목적은 이 값을 정답표처럼 쓰는 것이 아니라, 검토된 사례에만 남은 라벨로 모델을 평가하면 어떤 착시가 생기는지 확인하는 데 있습니다.
+
+문제 상황: 검토된 사례에만 확정 라벨이 있을 때, 모델 점수가 검토 경로에 따라 어떻게 달라져 보이는지 확인합니다.
+
+입력(input): `risk_score`, `manually_reviewed`, 데모용 숨은 결과 `actual_failure_for_demo`.
+
+기대 출력(output): 라벨 coverage, 검토된 라벨에서의 정확도, 전체 사건을 데모로 열어 봤을 때의 정확도와 검토 경로별 오류 수.
+
+확인할 개념: 선택적으로 검토된 라벨만 보면 모델이 좋아 보일 수 있지만, 검토되지 않은 구간에서는 오류가 숨어 있을 수 있습니다.
+
+```python
+# 선택적으로 검토된 라벨만 사용할 때 평가가 어떻게 치우칠 수 있는지 확인합니다.
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+events = pd.DataFrame(
+    [
+        {"event_id": "A", "risk_score": 0.92, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "B", "risk_score": 0.88, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "C", "risk_score": 0.81, "manually_reviewed": 1, "actual_failure_for_demo": 0},
+        {"event_id": "D", "risk_score": 0.76, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "E", "risk_score": 0.69, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "F", "risk_score": 0.62, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+        {"event_id": "G", "risk_score": 0.55, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "H", "risk_score": 0.48, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+        {"event_id": "I", "risk_score": 0.37, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "J", "risk_score": 0.29, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+    ]
+)
+
+reviewed = events[events["manually_reviewed"].eq(1)]
+
+model = DecisionTreeClassifier(random_state=0, max_depth=2)
+model.fit(reviewed[["risk_score"]], reviewed["actual_failure_for_demo"])
+events["predicted_from_reviewed_only"] = model.predict(events[["risk_score"]])
+events["error"] = events["predicted_from_reviewed_only"].ne(events["actual_failure_for_demo"])
+
+print("label coverage")
+print(events.groupby("manually_reviewed")["event_id"].count().to_dict())
+print("failure rate in reviewed labels:", reviewed["actual_failure_for_demo"].mean())
+print("failure rate in all events for demo:", events["actual_failure_for_demo"].mean())
+print(
+    "accuracy on reviewed labels:",
+    accuracy_score(reviewed["actual_failure_for_demo"], model.predict(reviewed[["risk_score"]])),
+)
+print(
+    "accuracy on all events for demo:",
+    accuracy_score(events["actual_failure_for_demo"], events["predicted_from_reviewed_only"]),
+)
+print("errors by review path:", events.groupby("manually_reviewed")["error"].sum().to_dict())
+print(
+    events[
+        [
+            "event_id",
+            "manually_reviewed",
+            "actual_failure_for_demo",
+            "predicted_from_reviewed_only",
+            "error",
+        ]
+    ].to_string(index=False)
+)
+```
+
+예상 출력:
+
+```text
+label coverage
+{0: 6, 1: 4}
+failure rate in reviewed labels: 0.75
+failure rate in all events for demo: 0.6
+accuracy on reviewed labels: 1.0
+accuracy on all events for demo: 0.7
+errors by review path: {0: 3, 1: 0}
+event_id  manually_reviewed  actual_failure_for_demo  predicted_from_reviewed_only  error
+       A                  1                        1                             1  False
+       B                  1                        1                             1  False
+       C                  1                        0                             0  False
+       D                  1                        1                             1  False
+       E                  0                        1                             1  False
+       F                  0                        0                             1   True
+       G                  0                        1                             1  False
+       H                  0                        0                             1   True
+       I                  0                        1                             1  False
+       J                  0                        0                             1   True
+```
+
+검토된 라벨만 보면 정확도가 `1.0`입니다. 하지만 데모용으로 전체 사건의 실제 결과를 열어 보면 정확도는 `0.7`로 내려가고, 오류 3건은 모두 `manually_reviewed=0` 경로에 있습니다. 이 출력은 확정 라벨이 붙은 사례가 전체 사건을 대표하지 않을 수 있음을 보여 줍니다. 실제 운영에서는 검토되지 않은 사건의 결과를 모를 수 있으므로, 더더욱 `라벨 없음은 정상인가, 미확인인가`, `어떤 기준으로 사람이 검토했는가`를 함께 남겨야 합니다.
 
 ## 작은 도식으로 보기
 

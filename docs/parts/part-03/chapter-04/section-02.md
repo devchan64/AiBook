@@ -1,7 +1,7 @@
 # P3-4.2 샘플 단위가 흔들리면 무엇이 함께 흔들리는가
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 샘플 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. 특징(feature)의 뜻도 흔들리고, 라벨(label)의 뜻도 흔들리고, 평가(evaluation)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
 
@@ -165,6 +165,81 @@ event-level samples: 3
 3. 훈련/평가 분할을 한다면 `per_row`를 나눌 것인가, `per_event`를 나눌 것인가
 
 세 질문에 답해 보면 왜 `같은 원천데이터라도 샘플 단위를 먼저 정해야 한다`는 말이 반복되는지 더 분명해집니다.
+
+같은 문제를 실제 모델 평가로도 축소해 볼 수 있습니다. 아래 예제는 `DecisionTreeClassifier`를 잘 쓰는 법을 가르치려는 코드가 아닙니다. 같은 동작의 행이 훈련과 평가에 동시에 들어가면 평가 점수가 좋아 보일 수 있고, 동작 단위로 떼어 내면 그 착시가 줄어든다는 점을 확인하는 코드입니다.
+
+문제 상황: 같은 원시 로그를 행 단위로 나눈 평가와 동작 단위로 나눈 평가가 서로 다른 점수를 만들 수 있음을 확인합니다.
+
+입력(input): `event_id`, `second`, `flow`, `review_needed`가 있는 작은 동작 로그.
+
+기대 출력(output): 행 단위 분할에서 훈련과 평가에 동시에 들어간 `event_id`, 행 단위 평가 점수, 동작 단위 평가 점수.
+
+확인할 개념: 같은 동작에서 나온 가까운 행이 훈련과 평가에 섞이면 모델이 새 동작을 맞힌 것이 아니라 이미 본 동작의 근처 값을 다시 맞힌 것처럼 보일 수 있습니다.
+
+```python
+# 같은 원시 로그라도 분할 단위가 평가 점수를 어떻게 바꾸는지 확인합니다.
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+raw_rows = []
+labels = {"A": 1, "B": 0, "C": 1, "D": 0, "E": 1, "F": 0, "G": 0, "H": 1}
+base_flow = {"A": 10, "B": 30, "C": 50, "D": 70, "E": 90, "F": 110, "G": 130, "H": 150}
+
+for event_id, label in labels.items():
+    for second, offset in enumerate([0.0, 0.2, -0.1]):
+        raw_rows.append(
+            {
+                "event_id": event_id,
+                "second": second,
+                "flow": base_flow[event_id] + offset,
+                "review_needed": label,
+            }
+        )
+
+raw = pd.DataFrame(raw_rows)
+
+# 행 단위 분할: 모든 event_id의 일부 행이 train/test 양쪽에 동시에 들어갑니다.
+row_train = raw[raw["second"].isin([0, 1])]
+row_test = raw[raw["second"].eq(2)]
+
+# 동작 단위 분할: test event_id는 훈련에서 완전히 제외합니다.
+event_train = raw[raw["event_id"].isin(["A", "B", "C", "D"])]
+event_test = raw[raw["event_id"].isin(["E", "F", "G", "H"])]
+
+
+def evaluate(train, test):
+    model = DecisionTreeClassifier(random_state=0)
+    model.fit(train[["flow"]], train["review_needed"])
+    predictions = model.predict(test[["flow"]])
+    return accuracy_score(test["review_needed"], predictions), [
+        (event_id, int(prediction), int(actual))
+        for event_id, prediction, actual in zip(test["event_id"], predictions, test["review_needed"])
+    ]
+
+
+row_accuracy, _ = evaluate(row_train, row_test)
+event_accuracy, event_predictions = evaluate(event_train, event_test)
+leaked_events = sorted(set(row_train["event_id"]) & set(row_test["event_id"]))
+
+print("leaked events in row split:", leaked_events)
+print("row split accuracy:", row_accuracy)
+print("event split accuracy:", event_accuracy)
+print("event split predictions:", event_predictions)
+```
+
+예상 출력:
+
+```text
+leaked events in row split: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+row split accuracy: 1.0
+event split accuracy: 0.5
+event split predictions: [('E', 0, 1), ('E', 0, 1), ('E', 0, 1), ('F', 0, 0), ('F', 0, 0), ('F', 0, 0), ('G', 0, 0), ('G', 0, 0), ('G', 0, 0), ('H', 0, 1), ('H', 0, 1), ('H', 0, 1)]
+```
+
+행 단위 분할에서는 모든 `event_id`가 훈련과 평가에 동시에 들어갑니다. 그래서 점수가 `1.0`으로 좋아 보입니다. 하지만 이것은 새 동작을 잘 맞혔다는 뜻보다, 같은 동작에서 나온 가까운 행을 다시 맞힌 것에 가깝습니다. 동작 단위 분할에서는 `E`, `F`, `G`, `H` 전체가 훈련에서 빠지므로 점수가 `0.5`로 내려갑니다. 이 차이는 샘플 단위가 평가 단위까지 함께 고정해야 한다는 사실을 모델 출력으로 보여 줍니다.
+
+이 코드에서 바꿔 볼 값은 두 가지입니다. `event_train`과 `event_test`에 들어가는 `event_id` 묶음을 바꾸면 동작 단위 평가가 달라집니다. `features`를 늘려 `second` 같은 열을 함께 넣으면 모델이 무엇을 근거로 예측하는지도 달라질 수 있습니다. 중요한 것은 점수 자체가 아니라, `무엇을 한 샘플로 나누었는가`가 평가 결과의 뜻을 바꾼다는 점입니다.
 
 여기에 한 줄만 더 붙이면 흔들림의 방향을 바로 읽을 수 있습니다.
 

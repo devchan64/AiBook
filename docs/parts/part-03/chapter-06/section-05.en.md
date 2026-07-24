@@ -1,7 +1,7 @@
 # P3-6.5 How Should We Read and Keep Features Together When Their Units and Scales Differ
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 Once we build a few features, another confusion easily returns. `Is the column with the larger value more important?` `Can seconds and pressure units stay in the same table?` `Can a column with an average of 200 and another with 0.2 simply be compared side by side?` What is needed first here is the sense to distinguish unit, range, size of variation, and change relative to the baseline before looking at the size of the numbers.
 
@@ -117,6 +117,63 @@ So Part 3's responsibility reaches this far.
 
 Because the numbers in a feature table do not all describe the same kind of magnitude, we should first write down the unit and role, and then read them through the baseline-relative change of the same column. This section can be read not as an introduction to scaling formulas, but as the problem of `role-aware reading across heterogeneous scales` inside one working table.
 
+
+The same issue appears in model input. The next example uses the same k-NN model, but compares reading the features without scaling and reading them after `StandardScaler` puts each column onto a comparable scale.
+
+Problem situation: We want to confirm that if features with different units and ranges are passed directly into k-NN, the column with the large numeric range can pull the neighbor decision more strongly.
+
+Input: A small feature table containing duration, pressure change, flow-variability change, and a new sample to check.
+
+Expected output: The nearest `event_id` and prediction before and after scaling.
+
+Concept to check: Even if features sit in the same table, when a model compares them by distance, scaling can change both the neighbor and the prediction.
+
+```python
+# This example checks how a distance-based model reads features with different units and ranges.
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+features = pd.DataFrame(
+    [
+        {"event_id": "A", "duration_seconds": 44, "pressure_delta": 0.10, "flow_std_delta": 0.02, "review_needed": 0},
+        {"event_id": "B", "duration_seconds": 48, "pressure_delta": 0.20, "flow_std_delta": 0.15, "review_needed": 1},
+        {"event_id": "C", "duration_seconds": 43, "pressure_delta": -0.10, "flow_std_delta": 0.01, "review_needed": 0},
+        {"event_id": "D", "duration_seconds": 49, "pressure_delta": 0.00, "flow_std_delta": 0.16, "review_needed": 1},
+    ]
+)
+query = pd.DataFrame(
+    [{"duration_seconds": 44, "pressure_delta": 0.15, "flow_std_delta": 0.14}]
+)
+columns = ["duration_seconds", "pressure_delta", "flow_std_delta"]
+
+plain = KNeighborsClassifier(n_neighbors=1).fit(features[columns], features["review_needed"])
+scaled = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=1))
+scaled.fit(features[columns], features["review_needed"])
+
+plain_neighbor = plain.kneighbors(query, return_distance=False)[0][0]
+scaled_query = scaled.named_steps["standardscaler"].transform(query)
+scaled_neighbor = scaled.named_steps["kneighborsclassifier"].kneighbors(
+    scaled_query, return_distance=False
+)[0][0]
+
+print("without scaling nearest_event:", features.iloc[plain_neighbor]["event_id"])
+print("without scaling prediction:", int(plain.predict(query)[0]))
+print("with scaling nearest_event:", features.iloc[scaled_neighbor]["event_id"])
+print("with scaling prediction:", int(scaled.predict(query)[0]))
+```
+
+Expected output:
+
+```text
+without scaling nearest_event: A
+without scaling prediction: 0
+with scaling nearest_event: B
+with scaling prediction: 1
+```
+
+Before scaling, A is chosen as the nearest case because it has the same `duration_seconds=44`. But when pressure change and flow-variability change are put onto a comparable scale, B becomes the nearer case. This output does not mean that `the larger number is more important`; it shows that in distance-based models, a column with a larger range can dominate the calculation. So even before studying model formulas in detail, Part 3 should record each feature's unit, range, and comparison method.
 
 So a feature table should be understood not as a competition chart of raw magnitudes, but as a structure where different measurement axes are placed side by side and read according to their roles.
 

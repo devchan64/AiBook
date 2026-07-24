@@ -1,7 +1,7 @@
 # P3-6.1 비교할 구조는 어떤 특징으로 남기는가
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 특징을 처음 배울 때는 `열이 많을수록 좋은 것 아닐까`라고 받아들이곤 합니다. 하지만 특징(feature)은 단순히 많은 값을 넣는 일이 아닙니다. 특징은 샘플이 가진 구조를 비교와 예측에 쓸 수 있도록 다시 표현한 값입니다. 그래서 좋은 특징은 많기보다, `무엇을 보여 주려는가`가 분명해야 합니다. 앞 절에서 원시 로그를 요약 표로 바꿨다면, 이제 그 요약 표 안에 어떤 구조를 남길지 정해야 합니다.
 
@@ -137,6 +137,70 @@ for focus_name, columns in focus_map.items():
 ```
 
 출력의 1단계는 아직 구간 평균만 있는 요약 표입니다. 2단계에 가서야 `overall_mean`, `late_minus_early`, `early_to_late_slope`, `segment_variability`가 새로 붙습니다. `overall_mean`은 전체 수준을, `late_minus_early`는 초반 대비 후반 차이를, `early_to_late_slope`는 그 차이를 구간 거리로 나눈 단순 기울기 표현을, `segment_variability`는 구간별 흔들림 정도를 보여 줍니다. 여기서 조작할 값은 `feature_focus`입니다. `"change"`로 두면 변화 특징을 우선 남기고, `"level"`로 바꾸면 전체 수준 특징을, `"stability"`로 바꾸면 변동성 특징을 우선 남깁니다. 4단계는 같은 특징 표라도 질문 초점이 달라지면 실제로 남기는 열 묶음이 달라진다는 점을 보여 줍니다. 즉 특징은 원래 적혀 있던 값을 다시 보여 주는 것이 아니라, 같은 요약 표에서 비교하고 싶은 구조를 계산해 붙이고 현재 질문에 맞게 고른 결과입니다.
+
+같은 차이는 실제 모델 입력에서도 드러납니다. 아래 예제는 전체 평균만 남긴 모델과 변화·변동성 특징까지 함께 남긴 모델을 비교합니다. 두 모델 모두 같은 결정트리(classifier)를 쓰지만, 어떤 특징을 입력으로 주느냐에 따라 테스트 예측이 달라집니다.
+
+문제 상황: 평균은 비슷하지만 구간 변화가 다른 동작을 평균 특징만으로 볼 때와 구조 특징까지 함께 볼 때의 예측 차이를 확인합니다.
+
+입력(input): `early`, `mid`, `late` 구간 평균과 `review_needed` 라벨이 있는 작은 동작 표.
+
+기대 출력(output): `mean_only` 특징 묶음과 `structure_features` 특징 묶음의 정확도와 테스트 예측 비교.
+
+확인할 개념: 특징 선택은 모델에 어떤 구조를 보이게 할지 정하는 일이며, 평균만 남기면 변화나 변동성 구조를 놓칠 수 있습니다.
+
+```python
+# 평균만 남긴 모델과 변화·변동성 특징까지 남긴 모델의 예측 차이를 비교합니다.
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+events = pd.DataFrame(
+    [
+        {"event_id": "A", "early": 1.8, "mid": 2.2, "late": 2.6, "review_needed": 1},
+        {"event_id": "B", "early": 2.1, "mid": 2.2, "late": 2.3, "review_needed": 0},
+        {"event_id": "C", "early": 2.5, "mid": 2.2, "late": 1.9, "review_needed": 1},
+        {"event_id": "D", "early": 2.0, "mid": 2.2, "late": 2.4, "review_needed": 0},
+        {"event_id": "E", "early": 1.7, "mid": 2.2, "late": 2.7, "review_needed": 1},
+        {"event_id": "F", "early": 2.2, "mid": 2.2, "late": 2.2, "review_needed": 0},
+        {"event_id": "G", "early": 2.6, "mid": 2.2, "late": 1.8, "review_needed": 1},
+        {"event_id": "H", "early": 2.0, "mid": 2.1, "late": 2.3, "review_needed": 0},
+    ]
+)
+
+segment_values = events[["early", "mid", "late"]]
+events["overall_mean"] = segment_values.mean(axis=1)
+events["late_minus_early"] = events["late"] - events["early"]
+events["segment_variability"] = segment_values.std(axis=1)
+
+train = events[events["event_id"].isin(["A", "B", "C", "D", "E", "F"])]
+test = events[events["event_id"].isin(["G", "H"])]
+feature_sets = {
+    "mean_only": ["overall_mean"],
+    "structure_features": ["overall_mean", "late_minus_early", "segment_variability"],
+}
+
+for name, columns in feature_sets.items():
+    model = DecisionTreeClassifier(random_state=0, max_depth=2)
+    model.fit(train[columns], train["review_needed"])
+    predicted = model.predict(test[columns])
+    comparison = [
+        (event_id, int(prediction), int(actual))
+        for event_id, prediction, actual in zip(test["event_id"], predicted, test["review_needed"])
+    ]
+    print(name, "accuracy:", accuracy_score(test["review_needed"], predicted))
+    print(name, "predictions:", comparison)
+```
+
+예상 출력:
+
+```text
+mean_only accuracy: 0.5
+mean_only predictions: [('G', 0, 1), ('H', 0, 0)]
+structure_features accuracy: 1.0
+structure_features predictions: [('G', 1, 1), ('H', 0, 0)]
+```
+
+`G`는 전체 평균만 보면 안정적인 동작과 구분하기 어렵지만, `late_minus_early`와 `segment_variability`를 함께 보면 후반으로 갈수록 내려가는 구조와 구간 흔들림이 드러납니다. 그래서 같은 모델이라도 평균만 볼 때는 `G`를 놓치고, 구조 특징을 함께 볼 때는 맞힙니다. 이 출력은 특징이 단순한 열 추가가 아니라, 모델이 볼 수 있는 구조를 정하는 선택이라는 점을 보여 줍니다.
 
 이 특징들은 작은 층위로 나누어 읽으면 각 값이 맡는 역할이 더 분명해집니다.
 

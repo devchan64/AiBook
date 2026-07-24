@@ -1,7 +1,7 @@
 # P3-9.12 target 이름과 오류 비용
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: 같은 target이라도 놓침과 과검출 중 무엇이 더 아픈지 왜 먼저 적어야 하는가_
 
@@ -31,6 +31,60 @@ _보조제목: 같은 target이라도 놓침과 과검출 중 무엇이 더 아�
 | C | 0.41 | 보조 검토 후보로 남김 | 제외 |
 
 놓침 비용이 큰 문제라면 `B`도 검토 큐에 넣는 편이 더 자연스럽습니다. 반대로 과검출 비용이 큰 문제라면 `B`는 아직 보류하고 `A`만 보는 편이 더 자연스러울 수 있습니다. 즉 같은 점수와 같은 target 이름이 있어도, 오류 비용 구조가 다르면 review queue 우선순위와 threshold 해석도 함께 달라집니다.
+
+아래 예제는 같은 점수에 threshold를 바꾸어 적용하고, false negative와 false positive 비용을 따로 계산합니다. 여기서는 놓침 비용을 10, 과검출 비용을 2로 둡니다.
+
+문제 상황: 같은 `review_needed` 점수라도 threshold와 오류 비용 설정에 따라 총비용이 어떻게 달라지는지 확인합니다.
+
+입력(input): event별 `score`, 실제 결과 `actual`, threshold 후보, 오류 비용.
+
+기대 출력(output): threshold별 검토 큐 크기, false negative 수, false positive 수, 총비용.
+
+확인할 개념: threshold 선택은 정확도 하나가 아니라 어떤 오류 비용을 더 크게 보는지와 함께 읽어야 합니다.
+
+```python
+# 같은 score라도 threshold와 오류 비용 설정에 따라 판단 비용이 달라지는지 확인합니다.
+import pandas as pd
+from sklearn.metrics import confusion_matrix
+
+scores = pd.DataFrame(
+    [
+        {"event_id": "A", "score": 0.82, "actual": 1},
+        {"event_id": "B", "score": 0.64, "actual": 1},
+        {"event_id": "C", "score": 0.41, "actual": 0},
+        {"event_id": "D", "score": 0.36, "actual": 1},
+        {"event_id": "E", "score": 0.22, "actual": 0},
+    ]
+)
+
+thresholds = [0.3, 0.5, 0.7]
+miss_cost = 10
+false_alarm_cost = 2
+
+for threshold in thresholds:
+    predicted = scores["score"].ge(threshold).astype(int)
+    tn, fp, fn, tp = confusion_matrix(scores["actual"], predicted, labels=[0, 1]).ravel()
+    total_cost = fn * miss_cost + fp * false_alarm_cost
+    print(
+        {
+            "threshold": threshold,
+            "queued": int(predicted.sum()),
+            "false_negative": int(fn),
+            "false_positive": int(fp),
+            "total_cost": int(total_cost),
+        }
+    )
+```
+
+예상 출력:
+
+```text
+{'threshold': 0.3, 'queued': 4, 'false_negative': 0, 'false_positive': 1, 'total_cost': 2}
+{'threshold': 0.5, 'queued': 2, 'false_negative': 1, 'false_positive': 0, 'total_cost': 10}
+{'threshold': 0.7, 'queued': 1, 'false_negative': 2, 'false_positive': 0, 'total_cost': 20}
+```
+
+threshold가 낮으면 검토 큐는 커지지만 위험 사례를 놓치지 않습니다. threshold가 높으면 검토 큐는 작아지지만 놓침이 늘어 총비용이 커집니다. 이 예제에서 바꿔 볼 값은 `miss_cost`, `false_alarm_cost`, `thresholds`입니다. 과검출 비용을 크게 두면 다른 threshold가 더 자연스러워질 수 있습니다. 따라서 target 이름이 같아도 오류 비용을 먼저 적어야 score와 threshold를 같은 방향으로 해석할 수 있습니다.
 
 ## 작은 도식으로 보기
 

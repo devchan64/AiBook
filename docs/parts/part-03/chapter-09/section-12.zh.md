@@ -1,7 +1,7 @@
 # P3-9.12 target 名称与错误成本
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一种更痛？_
 
@@ -31,6 +31,60 @@ _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一
 | C | 0.41 | 作为辅助复核候选保留 | 排除 |
 
 如果漏判成本高，那么把 `B` 也放进复核队列会更自然。相反，如果过检成本高，那么更自然的做法可能是先保留 `B`，只看 `A`。也就是说，即使分数相同、target 名称相同，只要错误成本结构不同，复核队列优先级和 threshold 解读也会一起改变。
+
+下面的例子把多个 threshold 应用到同一组分数上，并分别计算 false negative 和 false positive 的成本。这里把漏判成本设为 10，把误报成本设为 2。
+
+问题场景：想确认同一组 `review_needed` 分数在 threshold 和错误成本设置改变时，总成本会怎样变化。
+
+输入(input)：每个 event 的 `score`、实际结果 `actual`、threshold 候选和错误成本。
+
+期望输出(output)：每个 threshold 下的复核队列大小、false negative 数、false positive 数和总成本。
+
+要确认的概念：threshold 选择不能只看准确率，而要和“哪种错误成本更大”一起读。
+
+```python
+# 这个例子用来确认同一组 score 在 threshold 和错误成本设置下会产生不同判断成本。
+import pandas as pd
+from sklearn.metrics import confusion_matrix
+
+scores = pd.DataFrame(
+    [
+        {"event_id": "A", "score": 0.82, "actual": 1},
+        {"event_id": "B", "score": 0.64, "actual": 1},
+        {"event_id": "C", "score": 0.41, "actual": 0},
+        {"event_id": "D", "score": 0.36, "actual": 1},
+        {"event_id": "E", "score": 0.22, "actual": 0},
+    ]
+)
+
+thresholds = [0.3, 0.5, 0.7]
+miss_cost = 10
+false_alarm_cost = 2
+
+for threshold in thresholds:
+    predicted = scores["score"].ge(threshold).astype(int)
+    tn, fp, fn, tp = confusion_matrix(scores["actual"], predicted, labels=[0, 1]).ravel()
+    total_cost = fn * miss_cost + fp * false_alarm_cost
+    print(
+        {
+            "threshold": threshold,
+            "queued": int(predicted.sum()),
+            "false_negative": int(fn),
+            "false_positive": int(fp),
+            "total_cost": int(total_cost),
+        }
+    )
+```
+
+期望输出：
+
+```text
+{'threshold': 0.3, 'queued': 4, 'false_negative': 0, 'false_positive': 1, 'total_cost': 2}
+{'threshold': 0.5, 'queued': 2, 'false_negative': 1, 'false_positive': 0, 'total_cost': 10}
+{'threshold': 0.7, 'queued': 1, 'false_negative': 2, 'false_positive': 0, 'total_cost': 20}
+```
+
+threshold 较低时，复核队列会变大，但不会漏掉风险案例。threshold 较高时，复核队列会变小，但漏判增加，总成本也会上升。这个例子里可以改的值是 `miss_cost`、`false_alarm_cost` 和 `thresholds`。如果把误报成本设得更高，另一个 threshold 可能会更自然。因此，即使 target 名称相同，也必须先写清错误成本，才能沿着同一个方向解释 score 和 threshold。
 
 ## 用一个小图来看
 

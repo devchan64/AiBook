@@ -1,7 +1,7 @@
 # P3-9.12 Target Names and Error Costs
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _Subtitle: Why must you first write whether missed cases or false alarms hurt more, even for the same target?_
 
@@ -31,6 +31,60 @@ Suppose the model scores look like this.
 | C | 0.41 | Keep as a secondary review candidate | Exclude |
 
 If the cost of missing a case is high, then including `B` in the review queue is more natural. If the cost of over-detection is high, then it may be more natural to hold `B` and look only at `A`. So even under the same score and the same target name, a different error-cost structure changes both review-queue priority and threshold interpretation.
+
+The next example applies several thresholds to the same scores and calculates false-negative and false-positive costs separately. Here, the miss cost is 10 and the false-alarm cost is 2.
+
+Problem situation: We want to see how total cost changes under the same `review_needed` scores when thresholds and error costs change.
+
+Input: Each event's `score`, the actual result `actual`, threshold candidates, and error costs.
+
+Expected output: Review-queue size, false-negative count, false-positive count, and total cost by threshold.
+
+Concept to check: Threshold selection should be read together with which error cost matters more, not with accuracy alone.
+
+```python
+# This example checks how judgment cost changes with threshold and error-cost settings.
+import pandas as pd
+from sklearn.metrics import confusion_matrix
+
+scores = pd.DataFrame(
+    [
+        {"event_id": "A", "score": 0.82, "actual": 1},
+        {"event_id": "B", "score": 0.64, "actual": 1},
+        {"event_id": "C", "score": 0.41, "actual": 0},
+        {"event_id": "D", "score": 0.36, "actual": 1},
+        {"event_id": "E", "score": 0.22, "actual": 0},
+    ]
+)
+
+thresholds = [0.3, 0.5, 0.7]
+miss_cost = 10
+false_alarm_cost = 2
+
+for threshold in thresholds:
+    predicted = scores["score"].ge(threshold).astype(int)
+    tn, fp, fn, tp = confusion_matrix(scores["actual"], predicted, labels=[0, 1]).ravel()
+    total_cost = fn * miss_cost + fp * false_alarm_cost
+    print(
+        {
+            "threshold": threshold,
+            "queued": int(predicted.sum()),
+            "false_negative": int(fn),
+            "false_positive": int(fp),
+            "total_cost": int(total_cost),
+        }
+    )
+```
+
+Expected output:
+
+```text
+{'threshold': 0.3, 'queued': 4, 'false_negative': 0, 'false_positive': 1, 'total_cost': 2}
+{'threshold': 0.5, 'queued': 2, 'false_negative': 1, 'false_positive': 0, 'total_cost': 10}
+{'threshold': 0.7, 'queued': 1, 'false_negative': 2, 'false_positive': 0, 'total_cost': 20}
+```
+
+A lower threshold makes the review queue larger, but it does not miss risky cases. A higher threshold makes the review queue smaller, but missed cases increase and total cost rises. The values to change in this example are `miss_cost`, `false_alarm_cost`, and `thresholds`. If the false-alarm cost is set higher, another threshold may become more natural. So even with the same target name, the error cost has to be written first so that score and threshold are interpreted in the same direction.
 
 ## A Small Diagram
 

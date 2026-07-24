@@ -1,7 +1,7 @@
 # P3-6.2 특징만으로 부족할 때 어떤 중간 표현을 더 둘 수 있는가
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 평균, 기울기, 변동성 같은 특징은 좋은 출발점이 됩니다. 하지만 어떤 경우에는 숫자 몇 개만으로는 구간별 구조를 충분히 설명하기 어렵습니다. 예를 들어 초반에는 천천히 오르고, 중반에는 평평하게 유지되다가, 후반에는 빠르게 떨어지는 패턴이 있다고 하겠습니다. 이런 구조를 숫자 두세 개로만 남기면 사람이 다시 읽을 때도 아쉽고, 모델이 비교할 때도 중요한 모양 차이를 놓칠 수 있습니다. 그래서 Part 3에서는 [중간 표현(intermediate representation)](../../../reference/concept-glossary.md#glossary-intermediate-representation)을 원시 로그와 요약 특징 사이에서 구조를 더 또렷하게 남기기 위해 두는 사람 주도 입력 재표현으로 함께 봅니다.
 
@@ -167,6 +167,65 @@ token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
 예를 들어 `['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']`는 `초반 상승이 강하고, 중간에는 잠시 평평해지며, 후반에는 하강이 커지는 구조`라고 요약할 수 있습니다.
 
 같은 평균이라도 토큰 시퀀스가 다를 수 있다는 점도 중요합니다. 예를 들어 두 동작 1회의 평균 유량이 둘 다 2.5라고 해도, 하나는 `UP, FLAT, DOWN`이고 다른 하나는 `FLAT, FLAT, FLAT`일 수 있습니다. 평균만 보면 비슷하지만, 토큰 시퀀스를 보면 하나는 구조 변화가 있었고 다른 하나는 안정적이었다는 차이가 드러납니다. 이 점 때문에 토큰화는 단순 장식이 아니라, 평균 요약이 놓치는 구조를 보완하는 표현이 됩니다.
+
+이 차이는 간단한 벡터화(vectorization) 예제로도 확인할 수 있습니다. 아래 코드는 같은 평균을 가진 후보를 숫자 평균만으로 정렬한 결과와, 토큰 시퀀스를 `TfidfVectorizer`로 벡터화해 쿼리와의 유사도로 정렬한 결과를 비교합니다.
+
+```python
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+patterns = pd.DataFrame(
+    [
+        {"event_id": "A", "overall_mean": 2.5, "token_sequence": "UP2 UP1 FLAT DOWN1 DOWN2"},
+        {"event_id": "B", "overall_mean": 2.5, "token_sequence": "FLAT FLAT FLAT FLAT FLAT"},
+        {"event_id": "C", "overall_mean": 2.4, "token_sequence": "UP1 UP1 FLAT DOWN1 DOWN1"},
+        {"event_id": "D", "overall_mean": 2.8, "token_sequence": "DOWN2 DOWN1 FLAT UP1 UP2"},
+    ]
+)
+
+query_mean = 2.5
+query_text = "UP2 UP1 FLAT DOWN1 DOWN2"
+
+patterns["mean_distance"] = (patterns["overall_mean"] - query_mean).abs()
+mean_rank = patterns.sort_values(["mean_distance", "event_id"])[
+    ["event_id", "overall_mean", "mean_distance"]
+]
+
+vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+matrix = vectorizer.fit_transform(patterns["token_sequence"])
+query_vector = vectorizer.transform([query_text])
+patterns["token_similarity"] = cosine_similarity(query_vector, matrix)[0]
+token_rank = patterns.sort_values(["token_similarity", "event_id"], ascending=[False, True])[
+    ["event_id", "token_sequence", "token_similarity"]
+]
+
+print("rank by numeric mean")
+print(mean_rank.to_string(index=False))
+print()
+print("rank by token sequence")
+print(token_rank.to_string(index=False))
+```
+
+출력은 다음처럼 나옵니다.
+
+```text
+rank by numeric mean
+event_id  overall_mean  mean_distance
+       A           2.5            0.0
+       B           2.5            0.0
+       C           2.4            0.1
+       D           2.8            0.3
+
+rank by token sequence
+event_id           token_sequence  token_similarity
+       A UP2 UP1 FLAT DOWN1 DOWN2          1.000000
+       C UP1 UP1 FLAT DOWN1 DOWN1          0.511833
+       D DOWN2 DOWN1 FLAT UP1 UP2          0.392319
+       B FLAT FLAT FLAT FLAT FLAT          0.120765
+```
+
+숫자 평균만 보면 `A`와 `B`는 똑같이 가까운 후보입니다. 하지만 `B`는 실제로는 모든 구간이 평평한 패턴이고, 쿼리와 같은 상승-평탄-하강 구조를 갖지 않습니다. 반대로 토큰 시퀀스를 벡터화하면 `A`가 가장 가깝고, 일부 상승과 하강 구조를 공유하는 `C`가 그다음으로 올라옵니다. 여기서 중요한 점은 `TfidfVectorizer`가 정답이라는 뜻이 아닙니다. 이미 사람이 만든 세그먼트 토큰을 실제 라이브러리 입력으로 바꾸면, 평균 요약이 지워 버린 순서와 방향 차이를 다시 비교할 수 있다는 점입니다.
 
 이 점이 중요한 이유는 세그먼트 토큰이 아직 사람이 규칙을 정한 표현이면서도, 이미 `순서를 가진 시퀀스`라는 성질을 갖고 있기 때문입니다. 그래서 숫자 특징만으로는 놓치기 쉬운 구조를 더 직접 남길 수 있고, 뒤에서 순차 데이터나 표현 학습을 설명할 때도 같은 입력 구조를 자연스럽게 이어서 볼 수 있습니다.
 

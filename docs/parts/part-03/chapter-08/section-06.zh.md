@@ -1,7 +1,7 @@
 # P3-8.6 只留在部分案例上的确认标签
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _副标题: 当确认标签只存在于被复核案例上时，解读里还要一起写什么？_
 
@@ -35,6 +35,95 @@ _副标题: 当确认标签只存在于被复核案例上时，解读里还要�
 | 有标签集合的范围偏向 | 为了不把解读强度说得过重 |
 
 这里重要的点是：`选择性附着的确认标签，可以成为解读依据，但在把它当作代表所有事件的完整答案集合之前，必须先写出复核路径和可能的偏向。` 因此，确认标签表首先不该被读成`全部事件的答案表`，而应被读成通过复核路径后，对部分事件得到的确认结果。
+
+下面的例子把这个问题缩小成一次小型模型评估。在真实运营里，未被复核事件的最终结果可能并不知道。因此，代码中的 `actual_failure_for_demo` 只是学习用的隐藏结果。目的不是把这个值当作答案表，而是确认：如果只用被复核案例上留下的标签来评估模型，会出现什么样的错觉。
+
+问题场景：当确认标签只存在于被复核案例上时，想确认模型分数会怎样随着复核路径而看起来不同。
+
+输入(input)：`risk_score`、`manually_reviewed`、演示用隐藏结果 `actual_failure_for_demo`。
+
+期望输出(output)：标签覆盖情况、在被复核标签上的准确率、为了演示而打开全部事件时的准确率，以及按复核路径汇总的错误数。
+
+要确认的概念：如果只看选择性复核后的标签，模型可能看起来很好，但错误可能隐藏在未复核区间里。
+
+```python
+# 这个例子用来确认只使用选择性复核标签时，评估会如何偏斜。
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+events = pd.DataFrame(
+    [
+        {"event_id": "A", "risk_score": 0.92, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "B", "risk_score": 0.88, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "C", "risk_score": 0.81, "manually_reviewed": 1, "actual_failure_for_demo": 0},
+        {"event_id": "D", "risk_score": 0.76, "manually_reviewed": 1, "actual_failure_for_demo": 1},
+        {"event_id": "E", "risk_score": 0.69, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "F", "risk_score": 0.62, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+        {"event_id": "G", "risk_score": 0.55, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "H", "risk_score": 0.48, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+        {"event_id": "I", "risk_score": 0.37, "manually_reviewed": 0, "actual_failure_for_demo": 1},
+        {"event_id": "J", "risk_score": 0.29, "manually_reviewed": 0, "actual_failure_for_demo": 0},
+    ]
+)
+
+reviewed = events[events["manually_reviewed"].eq(1)]
+
+model = DecisionTreeClassifier(random_state=0, max_depth=2)
+model.fit(reviewed[["risk_score"]], reviewed["actual_failure_for_demo"])
+events["predicted_from_reviewed_only"] = model.predict(events[["risk_score"]])
+events["error"] = events["predicted_from_reviewed_only"].ne(events["actual_failure_for_demo"])
+
+print("label coverage")
+print(events.groupby("manually_reviewed")["event_id"].count().to_dict())
+print("failure rate in reviewed labels:", reviewed["actual_failure_for_demo"].mean())
+print("failure rate in all events for demo:", events["actual_failure_for_demo"].mean())
+print(
+    "accuracy on reviewed labels:",
+    accuracy_score(reviewed["actual_failure_for_demo"], model.predict(reviewed[["risk_score"]])),
+)
+print(
+    "accuracy on all events for demo:",
+    accuracy_score(events["actual_failure_for_demo"], events["predicted_from_reviewed_only"]),
+)
+print("errors by review path:", events.groupby("manually_reviewed")["error"].sum().to_dict())
+print(
+    events[
+        [
+            "event_id",
+            "manually_reviewed",
+            "actual_failure_for_demo",
+            "predicted_from_reviewed_only",
+            "error",
+        ]
+    ].to_string(index=False)
+)
+```
+
+期望输出：
+
+```text
+label coverage
+{0: 6, 1: 4}
+failure rate in reviewed labels: 0.75
+failure rate in all events for demo: 0.6
+accuracy on reviewed labels: 1.0
+accuracy on all events for demo: 0.7
+errors by review path: {0: 3, 1: 0}
+event_id  manually_reviewed  actual_failure_for_demo  predicted_from_reviewed_only  error
+       A                  1                        1                             1  False
+       B                  1                        1                             1  False
+       C                  1                        0                             0  False
+       D                  1                        1                             1  False
+       E                  0                        1                             1  False
+       F                  0                        0                             1   True
+       G                  0                        1                             1  False
+       H                  0                        0                             1   True
+       I                  0                        1                             1  False
+       J                  0                        0                             1   True
+```
+
+只看被复核标签时，准确率是 `1.0`。但为了演示而打开全部事件的真实结果后，准确率会降到 `0.7`，而且 3 个错误全部都在 `manually_reviewed=0` 路径上。这个输出说明，有确认标签的案例未必代表全部事件。在真实运营中，未被复核事件的结果可能并不知道，所以更应该一起留下：`缺失标签是正常，还是未确认`，以及 `人工是按什么标准只复核了部分事件`。
 
 ## 用一个小图来看
 

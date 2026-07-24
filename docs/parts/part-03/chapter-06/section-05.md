@@ -1,7 +1,7 @@
 # P3-6.5 서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 특징을 몇 개 만들고 나면 다시 이런 혼동을 겪기 쉽습니다. `값이 큰 열이 더 중요한가?`, `초 단위와 압력 단위를 같은 표에 둬도 되는가?`, `평균이 200인 열과 0.2인 열을 그냥 나란히 비교해도 되는가?` 여기서 먼저 필요한 것은 숫자 크기보다 단위, 범위, 변동 폭, 기준선 대비 변화를 구분해 읽는 감각입니다.
 
@@ -117,6 +117,63 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 
 특징 표의 숫자들은 모두 같은 종류의 크기를 말하지 않으므로, 단위와 역할을 먼저 적고 같은 열의 기준선 대비 변화로 읽어야 합니다. 이 절은 스케일 공식 소개가 아니라, `서로 다른 측정 축을 한 작업 표 안에서 어떻게 역할별로 읽을 것인가(role-aware reading across heterogeneous scales)`의 문제로 다시 볼 수 있습니다.
 
+
+같은 문제는 모델 입력에서도 드러납니다. 아래 예제는 같은 k-NN 모델을 쓰되, 스케일 조정 없이 읽을 때와 `StandardScaler`로 각 열을 같은 비교 눈금으로 맞춘 뒤 읽을 때 최근접 이웃이 어떻게 달라지는지 보여 줍니다.
+
+문제 상황: 단위와 범위가 다른 특징을 그대로 k-NN에 넣으면 큰 숫자 범위의 열이 이웃 판단을 더 크게 끌고 갈 수 있음을 확인합니다.
+
+입력(input): 지속 시간, 압력 변화, 유량 변동성 변화가 함께 있는 작은 특징 표와 확인할 새 샘플.
+
+기대 출력(output): 스케일 조정 전후의 최근접 `event_id`와 예측값.
+
+확인할 개념: 같은 표에 둔 특징이라도 모델이 거리로 비교할 때는 스케일 조정 여부가 이웃과 예측을 바꿀 수 있습니다.
+
+```python
+# 단위와 범위가 다른 특징을 거리 기반 모델이 어떻게 다르게 읽는지 확인합니다.
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+
+features = pd.DataFrame(
+    [
+        {"event_id": "A", "duration_seconds": 44, "pressure_delta": 0.10, "flow_std_delta": 0.02, "review_needed": 0},
+        {"event_id": "B", "duration_seconds": 48, "pressure_delta": 0.20, "flow_std_delta": 0.15, "review_needed": 1},
+        {"event_id": "C", "duration_seconds": 43, "pressure_delta": -0.10, "flow_std_delta": 0.01, "review_needed": 0},
+        {"event_id": "D", "duration_seconds": 49, "pressure_delta": 0.00, "flow_std_delta": 0.16, "review_needed": 1},
+    ]
+)
+query = pd.DataFrame(
+    [{"duration_seconds": 44, "pressure_delta": 0.15, "flow_std_delta": 0.14}]
+)
+columns = ["duration_seconds", "pressure_delta", "flow_std_delta"]
+
+plain = KNeighborsClassifier(n_neighbors=1).fit(features[columns], features["review_needed"])
+scaled = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=1))
+scaled.fit(features[columns], features["review_needed"])
+
+plain_neighbor = plain.kneighbors(query, return_distance=False)[0][0]
+scaled_query = scaled.named_steps["standardscaler"].transform(query)
+scaled_neighbor = scaled.named_steps["kneighborsclassifier"].kneighbors(
+    scaled_query, return_distance=False
+)[0][0]
+
+print("without scaling nearest_event:", features.iloc[plain_neighbor]["event_id"])
+print("without scaling prediction:", int(plain.predict(query)[0]))
+print("with scaling nearest_event:", features.iloc[scaled_neighbor]["event_id"])
+print("with scaling prediction:", int(scaled.predict(query)[0]))
+```
+
+예상 출력:
+
+```text
+without scaling nearest_event: A
+without scaling prediction: 0
+with scaling nearest_event: B
+with scaling prediction: 1
+```
+
+스케일 조정 전에는 `duration_seconds=44`가 같은 A가 가장 가깝게 잡힙니다. 하지만 압력 변화와 유량 변동성 변화까지 같은 눈금으로 맞추면 B가 더 가까운 사례로 바뀝니다. 이 출력은 `값이 큰 열이 더 중요하다`가 아니라, 거리 기반 모델에서는 큰 범위의 열이 계산을 지배할 수 있음을 보여 줍니다. 그래서 Part 3에서는 모델 공식을 자세히 배우기 전에도, 각 특징의 단위와 범위, 비교 방식을 먼저 적어 두어야 합니다.
 
 따라서 특징 표는 숫자 크기 경쟁표가 아니라, 서로 다른 측정 축을 역할별로 나란히 두고 읽는 구조로 이해해야 합니다.
 

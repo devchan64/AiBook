@@ -1,7 +1,7 @@
 # P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 Once you decide to raise the problem into a prediction problem, you now need to close whether its structure satisfies actual prediction conditions. What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
 
@@ -24,6 +24,66 @@ Even with the same event table, the structure breaks immediately if `columns kno
 | B | -0.06 | low | skipped | normal |
 
 Here, `recent_diff` and `repeatability` are columns that can be built before prediction. By contrast, `review_result` appears only after a person has already completed the review. If that column is placed together with the inputs, the table may still look normal in shape, but in reality it becomes a structure in which `the inputs were built after looking at the answer`. In that case, even if the score is high during training, the model is effectively using information that does not exist at the real prediction time, so it is no longer the same problem.
+
+The next example checks this difference through actual model output. `available_at_cutoff` uses only columns that can be made at prediction time, while `leaky_after_review` uses only `review_result_code`, which is created after prediction. Even if the second model looks better, it breaks the prediction contract because the column is unavailable in operations.
+
+Problem situation: We want to see how model scores look different when we compare inputs available at prediction time with a leaky input created after prediction.
+
+Input: `recent_diff`, `repeatability`, `review_result_code`, and `target`.
+
+Expected output: The columns used by each feature set, test accuracy, and prediction/actual comparison.
+
+Concept to check: If a column created after prediction is put into the inputs, the score may look better, but the structure is not a valid operational prediction problem.
+
+```python
+# This example checks the difference between prediction-time inputs and a leaky post-review column.
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+records = pd.DataFrame(
+    [
+        {"event_id": "A", "recent_diff": -0.32, "repeatability": 3, "review_result_code": 1, "target": 1},
+        {"event_id": "B", "recent_diff": -0.06, "repeatability": 1, "review_result_code": 0, "target": 0},
+        {"event_id": "C", "recent_diff": -0.28, "repeatability": 2, "review_result_code": 1, "target": 1},
+        {"event_id": "D", "recent_diff": -0.04, "repeatability": 1, "review_result_code": 0, "target": 0},
+        {"event_id": "E", "recent_diff": -0.18, "repeatability": 1, "review_result_code": 1, "target": 1},
+        {"event_id": "F", "recent_diff": -0.12, "repeatability": 3, "review_result_code": 0, "target": 0},
+    ]
+)
+
+train = records.iloc[:4]
+test = records.iloc[4:]
+feature_sets = {
+    "available_at_cutoff": ["recent_diff", "repeatability"],
+    "leaky_after_review": ["review_result_code"],
+}
+
+for name, columns in feature_sets.items():
+    model = DecisionTreeClassifier(random_state=0, max_depth=2)
+    model.fit(train[columns], train["target"])
+    predicted = model.predict(test[columns])
+    comparison = [
+        (event_id, int(prediction), int(actual))
+        for event_id, prediction, actual in zip(test["event_id"], predicted, test["target"])
+    ]
+    print(name, "features:", columns)
+    print(name, "accuracy:", accuracy_score(test["target"], predicted))
+    print(name, "predictions:", comparison)
+```
+
+Expected output:
+
+```text
+available_at_cutoff features: ['recent_diff', 'repeatability']
+available_at_cutoff accuracy: 0.0
+available_at_cutoff predictions: [('E', 0, 1), ('F', 1, 0)]
+leaky_after_review features: ['review_result_code']
+leaky_after_review accuracy: 1.0
+leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
+```
+
+`leaky_after_review` has accuracy `1.0`, but this should not be read as a good prediction problem. `review_result_code` is created only after a person has already completed the review. At the real operating prediction time, that value is still unknown. So the point of this example is not to find a high-scoring model, but to close first whether this column can actually be made at prediction time.
 
 ## A Small Diagram
 

@@ -1,7 +1,7 @@
 # P3-4.5 지금 모은 샘플은 전체 운영 상황을 얼마나 대표하는가
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 샘플 단위를 동작 1회나 최근 구간 1개처럼 정하고 나면, 한 번 더 놓치기 쉬운 질문이 남습니다. `지금 모은 샘플이 전체 운영 상황을 얼마나 대표하는가?` 표가 잘 정리되어 있어도, 그 표가 특정 공정 모드나 특정 기간, 특정 장비 상태에서만 모인 사례라면 전체 운영 장면을 고르게 설명하지 못할 수 있습니다. 샘플 단위를 잘 정한 것과, 그 샘플 묶음이 전체 상황을 고르게 대표하는 것은 같은 말이 아닙니다.
 
@@ -148,6 +148,94 @@ maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_c
 이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 여기서 조작할 값은 `minimum_count`입니다. `minimum_count = 9`일 때는 `shift`처럼 두 조건이 모두 기준을 넘는 범위도 있고, `load_mode`, `machine_id`, `maintenance_phase`처럼 일부 조건이 대표성 공백으로 잡히는 범위도 있습니다. 이 값을 낮추면 공백이 줄고, 높이면 더 많은 조건이 부족한 조건으로 표시됩니다. 이렇게 해야 `샘플 수는 36건인데도 왜 대표성은 조건별로 다르게 보이는가`를 숫자와 표 둘 다로 설명할 수 있습니다.
 
 이 표를 읽을 때는 세 가지를 함께 확인하면 됩니다. 이 표가 모은 시간·모드·장비 범위를 설명할 수 있는가, 거의 보지 못한 조건을 적어 둘 수 있는가, 그리고 나중에 평가 점수를 읽을 때도 이 대표성 범위를 함께 떠올릴 수 있는가입니다. 이런 메모가 붙어 있어야 샘플 표는 단순히 `정리된 표`가 아니라, `어떤 운영 범위를 대표하는지`까지 함께 남긴 표가 됩니다.
+
+대표성 공백은 나중에 모델 평가에서도 보입니다. 아래 예제는 같은 CSV를 사용해 앞쪽 24건을 학습 묶음, 뒤쪽 12건을 확인 묶음으로 나눕니다. 학습 묶음은 `normal`과 `stable` 조건이 많고, 확인 묶음에는 `low`와 `after-maintenance` 조건이 더 많이 보입니다. 여기서는 `needs_review`를 `high` 부하 또는 정비 직후 조건이면 1로 두는 축소 라벨로 만들고, 단순 기준선과 작은 결정트리를 비교합니다.
+
+문제 상황: 대표성이 치우친 학습 묶음에서 기준선과 모델의 오류가 어떤 조건에 몰리는지 확인합니다.
+
+입력(input): 앞 예제와 같은 `p3_4_5_sample_coverage.csv`, 범주형 조건 열, 축소 라벨 `needs_review`.
+
+기대 출력(output): 학습/확인 묶음의 조건 분포, 기준선과 결정트리의 정확도, `load_mode`별 오류 수.
+
+확인할 개념: 전체 정확도 하나만 보면 어떤 운영 조건을 거의 보지 못했는지 숨을 수 있으므로, 대표성 공백은 조건별 오류와 함께 읽어야 합니다.
+
+```python
+# 대표성이 치우친 학습 묶음에서 기준선과 모델 오류가 어디에 몰리는지 확인합니다.
+import pandas as pd
+from pathlib import Path
+from sklearn.compose import ColumnTransformer
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.tree import DecisionTreeClassifier
+
+input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
+samples = pd.read_csv(input_path)
+
+# 이 절의 관찰용 축소 라벨입니다. 실제 운영 라벨은 별도 검토로 정의해야 합니다.
+samples["needs_review"] = (
+    samples["load_mode"].eq("high") | samples["maintenance_phase"].eq("after-maintenance")
+).astype(int)
+
+train = samples[samples["event_id"].between("E01", "E24")]
+test = samples[samples["event_id"].between("E25", "E36")]
+features = ["shift", "load_mode", "machine_id", "maintenance_phase"]
+
+preprocess = ColumnTransformer(
+    [("category", OneHotEncoder(handle_unknown="ignore"), features)]
+)
+models = {
+    "dummy": DummyClassifier(strategy="most_frequent"),
+    "tree": DecisionTreeClassifier(random_state=0, max_depth=3),
+}
+
+print("train coverage")
+print(train.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
+print()
+print("test coverage")
+print(test.groupby(["load_mode", "maintenance_phase"])["event_id"].count())
+print()
+
+for name, estimator in models.items():
+    model = make_pipeline(preprocess, estimator)
+    model.fit(train[features], train["needs_review"])
+    predicted = model.predict(test[features])
+    result = test.assign(
+        predicted=predicted,
+        error=lambda df: df["predicted"].ne(df["needs_review"]),
+    )
+    print(f"{name} accuracy:", accuracy_score(test["needs_review"], predicted))
+    print("errors by load_mode:", result.groupby("load_mode")["error"].sum().to_dict())
+```
+
+예상 출력:
+
+```text
+train coverage
+load_mode  maintenance_phase
+high       stable                4
+normal     after-maintenance     2
+           stable               18
+Name: event_id, dtype: int64
+
+test coverage
+load_mode  maintenance_phase
+high       after-maintenance    1
+           stable               1
+low        after-maintenance    2
+           stable               3
+normal     after-maintenance    3
+           stable               2
+Name: event_id, dtype: int64
+
+dummy accuracy: 0.4166666666666667
+errors by load_mode: {'high': 2, 'low': 2, 'normal': 3}
+tree accuracy: 0.75
+errors by load_mode: {'high': 0, 'low': 3, 'normal': 0}
+```
+
+결정트리는 전체 정확도만 보면 기준선보다 좋아 보입니다. 하지만 `errors by load_mode`를 보면 `low` 조건 오류가 남아 있습니다. 이 조건은 학습 묶음에 없고 확인 묶음에서 처음 나타난 조건입니다. 따라서 이 출력은 `모델이 어느 정도 맞혔다`보다 `어떤 조건을 거의 보지 못한 채 평가했는가`를 먼저 묻게 만듭니다. 대표성 점검은 모델을 학습하기 전의 표 점검이면서, 모델 평가를 읽을 때 다시 돌아와야 하는 조건 점검이기도 합니다.
 
 샘플 단위를 잘 정했다고 해서 그 샘플 묶음이 전체 운영 상황을 자동으로 대표하는 것은 아닙니다. 그래서 Part 3에서는 시간·모드·장비 범위와 남은 공백을 함께 적어 두어야 합니다.
 

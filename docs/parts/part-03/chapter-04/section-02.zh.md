@@ -1,7 +1,7 @@
 # P3-4.2 一旦样本单位摇摆，哪些东西会一起摇摆
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.24`
 
 样本单位，是后面几乎所有概念的基准点。所以，如果把测量值和样本混在一起，问题不会只是“某个术语用错了”这么简单。特征的含义会一起摇摆，标签的含义会一起摇摆，甚至连评估到底在评估什么，也会跟着一起摇摆。如果前一节已经定下了什么算一条样本，那么这一节要看的，就是那个决定还会一起固定什么、一起摇晃什么。
 
@@ -165,6 +165,81 @@ event-level samples: 3
 3. 真要做训练/评估分割时，我们分的是 `per_row`，还是 `per_event`？
 
 只要把这三个问题答出来，就会更明白为什么那句 `同一份原始数据也必须先固定样本单位` 会被反复强调。
+
+同样的问题也可以缩小成一次真实模型评估来看。下面的代码不是为了教学怎样用好 `DecisionTreeClassifier`。它只是用来确认：如果同一次动作的行同时进入训练和评估，评估分数可能看起来过高；而按动作整体留出测试时，这种错觉会变小。
+
+问题场景：想确认同一份原始日志用行级分割评估和用动作级分割评估时，可能得到不同分数。
+
+输入(input)：包含 `event_id`、`second`、`flow`、`review_needed` 的小型动作日志。
+
+期望输出(output)：在行级分割中同时进入训练和评估的 `event_id`、行级评估分数、动作级评估分数。
+
+要确认的概念：如果同一次动作中的相邻行混进训练和评估两边，模型看起来像是在预测新动作，但更接近于重新匹配已经见过的动作附近的数值。
+
+```python
+# 这个例子用来确认同一份原始日志的分割单位会如何改变评估分数。
+import pandas as pd
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
+
+raw_rows = []
+labels = {"A": 1, "B": 0, "C": 1, "D": 0, "E": 1, "F": 0, "G": 0, "H": 1}
+base_flow = {"A": 10, "B": 30, "C": 50, "D": 70, "E": 90, "F": 110, "G": 130, "H": 150}
+
+for event_id, label in labels.items():
+    for second, offset in enumerate([0.0, 0.2, -0.1]):
+        raw_rows.append(
+            {
+                "event_id": event_id,
+                "second": second,
+                "flow": base_flow[event_id] + offset,
+                "review_needed": label,
+            }
+        )
+
+raw = pd.DataFrame(raw_rows)
+
+# 行级分割：每个 event_id 的部分行会同时进入 train 和 test。
+row_train = raw[raw["second"].isin([0, 1])]
+row_test = raw[raw["second"].eq(2)]
+
+# 动作级分割：test event_id 会从训练中被完整排除。
+event_train = raw[raw["event_id"].isin(["A", "B", "C", "D"])]
+event_test = raw[raw["event_id"].isin(["E", "F", "G", "H"])]
+
+
+def evaluate(train, test):
+    model = DecisionTreeClassifier(random_state=0)
+    model.fit(train[["flow"]], train["review_needed"])
+    predictions = model.predict(test[["flow"]])
+    return accuracy_score(test["review_needed"], predictions), [
+        (event_id, int(prediction), int(actual))
+        for event_id, prediction, actual in zip(test["event_id"], predictions, test["review_needed"])
+    ]
+
+
+row_accuracy, _ = evaluate(row_train, row_test)
+event_accuracy, event_predictions = evaluate(event_train, event_test)
+leaked_events = sorted(set(row_train["event_id"]) & set(row_test["event_id"]))
+
+print("leaked events in row split:", leaked_events)
+print("row split accuracy:", row_accuracy)
+print("event split accuracy:", event_accuracy)
+print("event split predictions:", event_predictions)
+```
+
+期望输出：
+
+```text
+leaked events in row split: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+row split accuracy: 1.0
+event split accuracy: 0.5
+event split predictions: [('E', 0, 1), ('E', 0, 1), ('E', 0, 1), ('F', 0, 0), ('F', 0, 0), ('F', 0, 0), ('G', 0, 0), ('G', 0, 0), ('G', 0, 0), ('H', 0, 1), ('H', 0, 1), ('H', 0, 1)]
+```
+
+在行级分割中，所有 `event_id` 都同时进入训练和评估。所以分数看起来很好，达到 `1.0`。但这与其说是模型很好地预测了新动作，不如说是它重新匹配了同一次动作附近的行。动作级分割中，`E`、`F`、`G`、`H` 整体都没有进入训练，所以分数降到 `0.5`。这个差异通过模型输出说明：样本单位也必须一起固定评估单位。
+
+这段代码里可以改两个值。改变 `event_train` 和 `event_test` 中的 `event_id` 组合，动作级评估会改变。把 `second` 这样的列也加入特征时，模型用于预测的依据也可能改变。重要的不是分数本身，而是 `把什么切成一个样本` 会改变评估结果的含义。
 
 再补一层很短的说明，就能更直接地读出摇摆的方向。
 
