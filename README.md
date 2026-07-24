@@ -2,7 +2,12 @@
 
 AiBook은 AI를 다시 배우기 위한 정적 웹 책 프로젝트입니다. AI를 처음 공부하는 사람, 예전에 AI 개론을 배웠지만 개념이 흐릿해진 사람, AI 도구는 써 봤지만 내부 원리를 더 알고 싶은 비전공자가 같은 흐름으로 다시 학습할 수 있게 구성합니다.
 
-- 배포 페이지: [https://devchan64.github.io/AiBook/](https://devchan64.github.io/AiBook/)
+## 배포 페이지
+
+[https://devchan64.github.io/AiBook/](https://devchan64.github.io/AiBook/)
+
+## 주요 문서
+
 - 독자용 소개: [`docs/index.md`](docs/index.md)
 - 독자용 목차: [`docs/table-of-contents.md`](docs/table-of-contents.md)
 - 개념사전: [`docs/reference/concept-glossary.md`](docs/reference/concept-glossary.md)
