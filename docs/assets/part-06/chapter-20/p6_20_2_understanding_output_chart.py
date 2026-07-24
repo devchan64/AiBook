@@ -15,10 +15,9 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
-CSV_PATH = OUT_DIR / "p6-20-understanding-task-cases.csv"
-
 LANG_TEXT = {
     "ko": {
+        "csv_path": OUT_DIR / "p6-20-understanding-task-cases.csv",
         "font_candidates": [
             "Noto Sans CJK KR",
             "NanumGothic",
@@ -35,6 +34,7 @@ LANG_TEXT = {
         "output_title": "출력 형식별 등장",
     },
     "en": {
+        "csv_path": OUT_DIR / "p6-20-understanding-task-cases-en.csv",
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "understanding-output-types-en.png",
         "ylabel": "cases",
@@ -66,13 +66,13 @@ def style_axis(ax) -> None:
     ax.spines["right"].set_visible(False)
 
 
-def read_cases() -> list[dict[str, str]]:
-    with CSV_PATH.open(encoding="utf-8", newline="") as file:
+def read_cases(csv_path: Path) -> list[dict[str, str]]:
+    with csv_path.open(encoding="utf-8", newline="") as file:
         return list(csv.DictReader(file))
 
 
-def summarize_outputs() -> dict[str, list[int]]:
-    cases = read_cases()
+def summarize_outputs(csv_path: Path) -> dict[str, list[int]]:
+    cases = read_cases(csv_path)
     task_order = ["classification", "pair_relation", "ranking"]
     task_counts = [sum(row["task_type"] == task for row in cases) for task in task_order]
 
@@ -120,7 +120,7 @@ def annotate_bars(bars) -> None:
 
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    summary = summarize_outputs()
+    summary = summarize_outputs(text["csv_path"])
 
     fig, (task_ax, output_ax) = plt.subplots(
         1,

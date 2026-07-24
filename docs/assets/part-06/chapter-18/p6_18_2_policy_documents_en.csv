@@ -1,0 +1,13 @@
+doc_id,title,policy_text,keyword_groups
+policy_001,new_employee_leave,New employees can use monthly leave after one month from their start date,onboarding|leave
+policy_002,summer_vacation_approval,Summer vacation can be used within the announced period after team approval,leave|approval
+policy_003,remaining_leave_lookup,Remaining leave days are checked in the HR system,leave|lookup
+policy_004,new_benefit_notice,New benefit programs require HR confirmation until the official notice is posted,benefits|approval
+policy_005,remote_work_request,Remote work can be requested after checking the team schedule and security standards,remote|approval
+policy_006,equipment_request,Work equipment is requested in the asset management system after department-head approval,equipment|approval|lookup
+policy_007,expense_reimbursement,Work expenses must be registered in the reimbursement system with receipts attached,expense|reimbursement|lookup
+policy_008,training_budget,Job training expenses can be reimbursed after prior approval and completion confirmation,training|expense|approval
+policy_009,security_incident,"If a security incident is suspected, report it to the security team immediately and keep related records",security|incident|record
+policy_010,personal_data_access,Personal data access is allowed only for business purposes and with approval records,personal_data|approval|security
+policy_011,customer_refund_exception,Refund exceptions require customer-support leader approval and evidence records,refund|exception|approval|record
+policy_012,system_access_request,System access requests must leave the purpose and period and receive administrator approval,access|approval|record

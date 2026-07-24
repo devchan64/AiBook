@@ -13,7 +13,14 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
-from p6_18_2_generate_run_records import load_run_records, summarize_records
+from p6_18_2_generate_run_records import (
+    load_run_records as load_run_records_ko,
+    summarize_records as summarize_records_ko,
+)
+from p6_18_2_generate_run_records_en import (
+    load_run_records as load_run_records_en,
+    summarize_records as summarize_records_en,
+)
 
 OUT_DIR = Path(__file__).resolve().parent
 
@@ -33,6 +40,8 @@ LANG_TEXT = {
         "review_title": "사람 검토",
         "status_labels": ["다중 근거", "근거 부족", "문서 미회수"],
         "review_labels": ["검토 필요", "자동 초안"],
+        "load_run_records": load_run_records_ko,
+        "summarize_records": summarize_records_ko,
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -42,6 +51,8 @@ LANG_TEXT = {
         "review_title": "Human review",
         "status_labels": ["multi evidence", "single evidence", "retrieval failed"],
         "review_labels": ["needs review", "auto draft"],
+        "load_run_records": load_run_records_en,
+        "summarize_records": summarize_records_en,
     },
 }
 
@@ -68,7 +79,7 @@ def style_axis(ax) -> None:
 
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    summary = summarize_records(load_run_records())
+    summary = text["summarize_records"](text["load_run_records"]())
     status_values = [
         summary["multi_evidence_count"],
         summary["single_evidence_count"],

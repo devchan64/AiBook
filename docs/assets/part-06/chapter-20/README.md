@@ -10,3 +10,4 @@
   - `p6_20_2_understanding_output_chart.py` generates `understanding-output-types-ko.png` and `understanding-output-types-en.png`.
 - CSV inputs:
   - `p6-20-understanding-task-cases.csv`: P6-20.2 Python example input. Each row is one understanding-centered task case for classification, pair relation, or ranking output inspection.
+  - `p6-20-understanding-task-cases-en.csv`: English companion input for the P6-20.2 translated manuscript and English chart.

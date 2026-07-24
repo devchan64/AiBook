@@ -1,0 +1,37 @@
+query_id,question,query_groups,requires_review,scenario
+query_001,Can an employee who joined this month use summer vacation right away,onboarding|leave,no,multi_evidence
+query_002,Can new benefit points be used starting this week,benefits,yes,single_evidence
+query_003,How much is the night-shift allowance starting this month,night|allowance,yes,retrieval_failed
+query_004,Can I request remote work starting next week,remote|approval,no,multi_evidence
+query_005,Where do I request work equipment,equipment|lookup,no,multi_evidence
+query_006,Can training expenses be reimbursed before completion,training|expense|approval,yes,multi_evidence
+query_007,Can I share a file containing personal data outside the company,personal_data|security|approval,yes,multi_evidence
+query_008,Can I immediately tell a customer about a refund exception,refund|exception|approval,yes,multi_evidence
+query_009,Can I get temporary system access right away,access|approval,yes,multi_evidence
+query_010,Who should I notify about a suspected security incident,security|incident|record,no,multi_evidence
+query_011,Where can I check my remaining leave days,leave|lookup,no,multi_evidence
+query_012,What materials should be attached for work expenses,expense|reimbursement,no,multi_evidence
+query_013,Can a newly announced benefit program be used before the notice is posted,benefits|approval,yes,multi_evidence
+query_014,What are the conditions for monthly leave right after joining,onboarding|leave,no,multi_evidence
+query_015,Can summer vacation be registered without approval,leave|approval,yes,multi_evidence
+query_016,Is department-head approval needed to receive equipment,equipment|approval,no,multi_evidence
+query_017,Should security incident records be kept,security|incident|record,no,multi_evidence
+query_018,Should an access request include a period,access|record,no,multi_evidence
+query_019,What records are needed for a customer refund exception,refund|exception|record,no,multi_evidence
+query_020,Should remote work and security standards be checked together,remote|security,yes,multi_evidence
+query_021,Are training expenses and work expense reimbursements handled the same way,training|expense|reimbursement,yes,multi_evidence
+query_022,Why are personal data access approval records needed,personal_data|approval|record,yes,multi_evidence
+query_023,Can I check payroll as well as leave in the HR system,lookup|payroll,yes,single_evidence
+query_024,Do benefit programs and training support follow the same approval process,benefits|training|approval,yes,multi_evidence
+query_025,Is customer-support leader approval needed only for refund exceptions,refund|approval|exception,yes,multi_evidence
+query_026,Do I request access in the asset management system,equipment|access|lookup,yes,multi_evidence
+query_027,Can I notify the customer right after reporting to the security team,security|incident|customer,yes,multi_evidence
+query_028,How should team schedules and summer vacation approval be checked together,leave|approval,no,multi_evidence
+query_029,Where do I apply for interim severance settlement,severance|reimbursement,yes,single_evidence
+query_030,Where is the night-shift meal allowance policy,night|meal,yes,retrieval_failed
+query_031,What is the business-trip flight booking policy,travel|booking,yes,retrieval_failed
+query_032,Who should I notify when a corporate card is lost,corporate_card|lost,yes,retrieval_failed
+query_033,What is the recruiting interview expense payment standard,recruiting|interview_expense,yes,retrieval_failed
+query_034,How much is the internal club subsidy,club|subsidy,yes,retrieval_failed
+query_035,When should a sick-leave certificate be submitted,sick_leave|certificate,yes,retrieval_failed
+query_036,Where can I check the bonus calculation standard,bonus|calculation,yes,retrieval_failed
