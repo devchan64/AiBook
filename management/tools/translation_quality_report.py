@@ -22,10 +22,11 @@ from typing import Any
 
 SUPPORTED_LOCALES = {"en": "English", "zh": "Simplified Chinese"}
 DEFAULT_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:14b")
-DEFAULT_REPORT_DIR = Path("management/authoring/translation-quality")
+DEFAULT_REPORT_DIR = Path(".tmp/translation-quality")
 METADATA_RE = re.compile(r"^\s*(Section ID|Version)\s*:\s*(.+?)\s*$", re.MULTILINE)
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 LINK_RE = re.compile(r"!?\[[^\]]*]\(([^)]+)\)")
+TOKEN_RE = re.compile(r"[0-9A-Za-z가-힣]+")
 
 
 @dataclasses.dataclass(frozen=True)
@@ -88,11 +89,27 @@ class SegmentReview:
 
 
 @dataclasses.dataclass(frozen=True)
+class BackTranslationReview:
+    index: int
+    source_start_line: int
+    source_end_line: int
+    target_start_line: int
+    target_end_line: int
+    similarity: float
+    status: str
+    source_token_count: int
+    back_translation_token_count: int
+    back_translation: str
+    raw: str
+
+
+@dataclasses.dataclass(frozen=True)
 class PairReport:
     pair: FilePair
     checks: DeterministicChecks
     llm_review: LlmReview | None
     segment_reviews: list[SegmentReview]
+    back_translation_reviews: list[BackTranslationReview]
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
@@ -101,9 +118,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     parser.add_argument(
         "--locale",
-        required=True,
         choices=sorted(SUPPORTED_LOCALES),
-        help="Target locale suffix to inspect. Supported: en, zh.",
+        help="Target locale suffix to inspect. Required for directory scans and Korean source targets.",
     )
     parser.add_argument(
         "--root",
@@ -112,14 +128,32 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="Directory to scan for manuscript Markdown files.",
     )
     parser.add_argument(
+        "--target",
+        type=Path,
+        help=(
+            "Single file to inspect. Accepts a localized translation file "
+            "such as section-01.en.md, or a Korean source file with --locale."
+        ),
+    )
+    parser.add_argument(
         "--output",
         type=Path,
-        help="Markdown report path. Defaults to management/authoring/translation-quality/.",
+        help="Markdown report path. Defaults to .tmp/translation-quality/.",
     )
     parser.add_argument(
         "--model",
         default=DEFAULT_MODEL,
         help="Ollama model name. Can also be set with OLLAMA_MODEL.",
+    )
+    parser.add_argument(
+        "--pull-model",
+        action="store_true",
+        help="Pull the Ollama model before LLM review if it is not available locally.",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print low-level progress logs for analysis steps.",
     )
     parser.add_argument(
         "--ollama-host",
@@ -148,6 +182,35 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         type=int,
         default=2,
         help="Neighboring lines added around each segment for sliding-context review.",
+    )
+    parser.add_argument(
+        "--skip-back-translation",
+        action="store_true",
+        help="Skip line-window back-translation token comparison in Ollama mode.",
+    )
+    parser.add_argument(
+        "--line-window-size",
+        type=int,
+        default=24,
+        help="Core line count for back-translation token comparison windows.",
+    )
+    parser.add_argument(
+        "--line-window-stride",
+        type=int,
+        default=16,
+        help="Stride in lines for back-translation token comparison windows.",
+    )
+    parser.add_argument(
+        "--back-translation-threshold",
+        type=float,
+        default=0.72,
+        help="Similarity below this value triggers review.",
+    )
+    parser.add_argument(
+        "--back-translation-fail-threshold",
+        type=float,
+        default=0.55,
+        help="Similarity below this value triggers additional translation.",
     )
     parser.add_argument(
         "--limit",
@@ -254,6 +317,36 @@ def target_for_source(source: Path, locale: str) -> Path:
     return source.with_name(source.stem + f".{locale}.md")
 
 
+def infer_locale_from_path(path: Path) -> str | None:
+    for locale in SUPPORTED_LOCALES:
+        if path.name.endswith(f".{locale}.md"):
+            return locale
+    return None
+
+
+def file_pair_for_target(path: Path, locale: str | None) -> FilePair:
+    inferred_locale = infer_locale_from_path(path)
+    if inferred_locale:
+        if locale and locale != inferred_locale:
+            raise ValueError(
+                f"Target suffix locale .{inferred_locale}.md does not match --locale {locale}."
+            )
+        return FilePair(
+            source=source_for_target(path, inferred_locale),
+            target=path,
+            locale=inferred_locale,
+        )
+
+    if is_localized_markdown(path):
+        raise ValueError(f"Unsupported localized Markdown suffix: {path}")
+    if path.suffix != ".md":
+        raise ValueError(f"Target must be a Markdown file: {path}")
+    if not locale:
+        raise ValueError("A Korean source --target requires --locale.")
+
+    return FilePair(source=path, target=target_for_source(path, locale), locale=locale)
+
+
 def discover_pairs(root: Path, locale: str, include_missing: bool) -> list[FilePair]:
     translated_targets = sorted(root.rglob(f"*.{locale}.md"))
     pairs = [
@@ -271,6 +364,23 @@ def discover_pairs(root: Path, locale: str, include_missing: bool) -> list[FileP
                 pairs.append(FilePair(source=source, target=target, locale=locale))
 
     return sorted(pairs, key=lambda pair: str(pair.target))
+
+
+def select_pairs(args: argparse.Namespace) -> tuple[str, list[FilePair]]:
+    if args.target:
+        pair = file_pair_for_target(args.target, args.locale)
+        return pair.locale, [pair]
+
+    if not args.locale:
+        raise ValueError("--locale is required when scanning a directory with --root.")
+    if not args.root.exists():
+        raise FileNotFoundError(f"Root directory does not exist: {args.root}")
+
+    return args.locale, discover_pairs(
+        root=args.root,
+        locale=args.locale,
+        include_missing=args.include_missing,
+    )
 
 
 def truncate_for_prompt(text: str, max_chars: int) -> str:
@@ -332,6 +442,82 @@ def split_heading_segments(source_text: str, target_text: str, context_lines: in
             )
         )
     return segments
+
+
+def tokenize_for_similarity(text: str) -> list[str]:
+    return [token.lower() for token in TOKEN_RE.findall(text)]
+
+
+def token_f1_similarity(source_text: str, candidate_text: str) -> float:
+    source_tokens = tokenize_for_similarity(source_text)
+    candidate_tokens = tokenize_for_similarity(candidate_text)
+    if not source_tokens and not candidate_tokens:
+        return 1.0
+    if not source_tokens or not candidate_tokens:
+        return 0.0
+
+    source_counts: dict[str, int] = {}
+    for token in source_tokens:
+        source_counts[token] = source_counts.get(token, 0) + 1
+
+    overlap = 0
+    for token in candidate_tokens:
+        count = source_counts.get(token, 0)
+        if count:
+            overlap += 1
+            source_counts[token] = count - 1
+
+    precision = overlap / len(candidate_tokens)
+    recall = overlap / len(source_tokens)
+    if precision + recall == 0:
+        return 0.0
+    return 2 * precision * recall / (precision + recall)
+
+
+def line_windows(
+    source_text: str,
+    target_text: str,
+    window_size: int,
+    stride: int,
+    context_lines: int,
+) -> list[tuple[int, int, int, int, str, str]]:
+    source_lines = source_text.splitlines()
+    target_lines = target_text.splitlines()
+    max_lines = max(len(source_lines), len(target_lines))
+    if max_lines == 0:
+        return []
+
+    safe_window_size = max(1, window_size)
+    safe_stride = max(1, stride)
+    windows: list[tuple[int, int, int, int, str, str]] = []
+    start = 0
+    while start < max_lines:
+        end = min(start + safe_window_size, max_lines)
+        source_start = min(start, len(source_lines))
+        source_end = min(end, len(source_lines))
+        target_start = min(start, len(target_lines))
+        target_end = min(end, len(target_lines))
+
+        source_context_start = max(0, source_start - context_lines)
+        source_context_end = min(len(source_lines), source_end + context_lines)
+        target_context_start = max(0, target_start - context_lines)
+        target_context_end = min(len(target_lines), target_end + context_lines)
+
+        windows.append(
+            (
+                source_start + 1,
+                source_end,
+                target_start + 1,
+                target_end,
+                "\n".join(source_lines[source_context_start:source_context_end]),
+                "\n".join(target_lines[target_context_start:target_context_end]),
+            )
+        )
+        if end == max_lines:
+            break
+        start += safe_stride
+
+    return windows
 
 
 def build_llm_prompt(
@@ -457,6 +643,26 @@ Translated segment:
 """
 
 
+def build_back_translation_prompt(pair: FilePair, target_window_text: str, max_chars: int) -> str:
+    target_language = SUPPORTED_LOCALES[pair.locale]
+    target_excerpt = truncate_for_prompt(target_window_text, max_chars)
+    return f"""Back-translate this {target_language} Markdown manuscript window into Korean.
+
+Preserve technical terms, examples, list structure, code-ish tokens, and Markdown markers
+as much as possible. Do not explain. Do not judge quality.
+
+Return strict JSON:
+{{
+  "korean": "back-translated Korean text"
+}}
+
+Translated Markdown window:
+```markdown
+{target_excerpt}
+```
+"""
+
+
 def parse_llm_json(raw: str) -> dict[str, Any]:
     try:
         return json.loads(raw)
@@ -514,6 +720,100 @@ def normalize_segment_review(segment: Segment, data: dict[str, Any], raw: str) -
     )
 
 
+def is_ollama_model_not_found_error(exc: Exception) -> bool:
+    status_code = getattr(exc, "status_code", None)
+    message = str(exc).lower()
+    return status_code == 404 and "not found" in message and "model" in message
+
+
+def model_not_found_message(model: str) -> str:
+    return (
+        f"Ollama model '{model}' is not available locally. "
+        f"Run `ollama pull {model}` first, or rerun this script with `--pull-model`."
+    )
+
+
+def require_ollama_module():
+    try:
+        import ollama
+    except ImportError as exc:
+        raise RuntimeError(
+            "The ollama Python package is not installed. Install requirements.txt "
+            "or rerun with --skip-llm."
+        ) from exc
+    return ollama
+
+
+def make_ollama_client(host: str | None):
+    ollama = require_ollama_module()
+    return ollama.Client(host=host) if host else ollama.Client()
+
+
+def log_verbose(enabled: bool, message: str) -> None:
+    if enabled:
+        print(f"[debug] {message}", file=sys.stderr)
+
+
+def format_bytes(value: int | None) -> str:
+    if value is None:
+        return "-"
+    units = ["B", "KiB", "MiB", "GiB", "TiB"]
+    amount = float(value)
+    for unit in units:
+        if amount < 1024 or unit == units[-1]:
+            return f"{amount:.1f} {unit}" if unit != "B" else f"{int(amount)} {unit}"
+        amount /= 1024
+    return f"{value} B"
+
+
+def render_pull_progress(status: str | None, completed: int | None, total: int | None) -> str:
+    status_text = status or "pulling"
+    if completed is None or total in {None, 0}:
+        return status_text
+    percent = completed / total * 100
+    return (
+        f"{status_text}: {percent:5.1f}% "
+        f"({format_bytes(completed)} / {format_bytes(total)})"
+    )
+
+
+def pull_ollama_model(model: str, host: str | None) -> None:
+    client = make_ollama_client(host)
+    print(f"Pulling Ollama model: {model}", file=sys.stderr)
+    last_message = ""
+    try:
+        for progress in client.pull(model, stream=True):
+            message = render_pull_progress(
+                status=getattr(progress, "status", None),
+                completed=getattr(progress, "completed", None),
+                total=getattr(progress, "total", None),
+            )
+            if message == last_message:
+                continue
+            print(f"\r{message}", end="", file=sys.stderr, flush=True)
+            last_message = message
+        if last_message:
+            print(file=sys.stderr)
+    except Exception as exc:
+        if is_ollama_model_not_found_error(exc):
+            raise RuntimeError(model_not_found_message(model)) from exc
+        raise
+
+
+def chat_ollama_json(client: Any, model: str, prompt: str):
+    try:
+        return client.chat(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            format="json",
+            options={"temperature": 0.1},
+        )
+    except Exception as exc:
+        if is_ollama_model_not_found_error(exc):
+            raise RuntimeError(model_not_found_message(model)) from exc
+        raise
+
+
 def run_ollama_review(
     pair: FilePair,
     source_text: str,
@@ -523,22 +823,9 @@ def run_ollama_review(
     host: str | None,
     max_chars: int,
 ) -> LlmReview:
-    try:
-        import ollama
-    except ImportError as exc:
-        raise RuntimeError(
-            "The ollama Python package is not installed. Install requirements.txt "
-            "or rerun with --skip-llm."
-        ) from exc
-
-    client = ollama.Client(host=host) if host else ollama.Client()
+    client = make_ollama_client(host)
     prompt = build_llm_prompt(pair, source_text, target_text, checks, max_chars)
-    response = client.chat(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        format="json",
-        options={"temperature": 0.1},
-    )
+    response = chat_ollama_json(client, model, prompt)
     raw = response["message"]["content"]
     try:
         return normalize_review(parse_llm_json(raw), raw)
@@ -561,12 +848,7 @@ def run_segment_review(
     max_chars: int,
 ) -> SegmentReview:
     prompt = build_segment_prompt(pair, segment, max_chars)
-    response = client.chat(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        format="json",
-        options={"temperature": 0.1},
-    )
+    response = chat_ollama_json(client, model, prompt)
     raw = response["message"]["content"]
     try:
         return normalize_segment_review(segment, parse_llm_json(raw), raw)
@@ -591,27 +873,136 @@ def run_segment_reviews(
     host: str | None,
     segment_max_chars: int,
     context_lines: int,
+    verbose: bool,
 ) -> list[SegmentReview]:
-    try:
-        import ollama
-    except ImportError as exc:
-        raise RuntimeError(
-            "The ollama Python package is not installed. Install requirements.txt "
-            "or rerun with --skip-llm."
-        ) from exc
-
-    client = ollama.Client(host=host) if host else ollama.Client()
+    client = make_ollama_client(host)
     segments = split_heading_segments(source_text, target_text, context_lines)
-    return [
-        run_segment_review(
+    log_verbose(verbose, f"{pair.target}: segment review windows={len(segments)}")
+    reviews: list[SegmentReview] = []
+    for segment in segments:
+        log_verbose(
+            verbose,
+            f"{pair.target}: segment {segment.index}/{len(segments)} title={segment.title}",
+        )
+        reviews.append(
+            run_segment_review(
             client=client,
             pair=pair,
             segment=segment,
             model=model,
             max_chars=segment_max_chars,
+            )
         )
-        for segment in segments
-    ]
+    return reviews
+
+
+def run_back_translation_window(
+    client: Any,
+    pair: FilePair,
+    index: int,
+    source_start_line: int,
+    source_end_line: int,
+    target_start_line: int,
+    target_end_line: int,
+    source_window_text: str,
+    target_window_text: str,
+    model: str,
+    max_chars: int,
+    review_threshold: float,
+    fail_threshold: float,
+) -> BackTranslationReview:
+    prompt = build_back_translation_prompt(pair, target_window_text, max_chars)
+    response = chat_ollama_json(client, model, prompt)
+    raw = response["message"]["content"]
+    try:
+        data = parse_llm_json(raw)
+        back_translation = str(data.get("korean", ""))
+    except json.JSONDecodeError:
+        back_translation = raw
+
+    similarity = token_f1_similarity(source_window_text, back_translation)
+    if similarity < fail_threshold:
+        status = "fail"
+    elif similarity < review_threshold:
+        status = "review"
+    else:
+        status = "pass"
+
+    return BackTranslationReview(
+        index=index,
+        source_start_line=source_start_line,
+        source_end_line=source_end_line,
+        target_start_line=target_start_line,
+        target_end_line=target_end_line,
+        similarity=similarity,
+        status=status,
+        source_token_count=len(tokenize_for_similarity(source_window_text)),
+        back_translation_token_count=len(tokenize_for_similarity(back_translation)),
+        back_translation=back_translation,
+        raw=raw,
+    )
+
+
+def run_back_translation_reviews(
+    pair: FilePair,
+    source_text: str,
+    target_text: str,
+    model: str,
+    host: str | None,
+    max_chars: int,
+    window_size: int,
+    stride: int,
+    context_lines: int,
+    review_threshold: float,
+    fail_threshold: float,
+    verbose: bool,
+) -> list[BackTranslationReview]:
+    client = make_ollama_client(host)
+    windows = line_windows(
+        source_text=source_text,
+        target_text=target_text,
+        window_size=window_size,
+        stride=stride,
+        context_lines=context_lines,
+    )
+    log_verbose(
+        verbose,
+        f"{pair.target}: back-translation line windows={len(windows)} "
+        f"size={window_size} stride={stride}",
+    )
+    reviews: list[BackTranslationReview] = []
+    for index, (
+        source_start_line,
+        source_end_line,
+        target_start_line,
+        target_end_line,
+        source_window_text,
+        target_window_text,
+    ) in enumerate(windows, start=1):
+        log_verbose(
+            verbose,
+            f"{pair.target}: back-translation window {index}/{len(windows)} "
+            f"source_lines={source_start_line}-{source_end_line} "
+            f"target_lines={target_start_line}-{target_end_line}",
+        )
+        reviews.append(
+            run_back_translation_window(
+            client=client,
+            pair=pair,
+            index=index,
+            source_start_line=source_start_line,
+            source_end_line=source_end_line,
+            target_start_line=target_start_line,
+            target_end_line=target_end_line,
+            source_window_text=source_window_text,
+            target_window_text=target_window_text,
+            model=model,
+            max_chars=max_chars,
+            review_threshold=review_threshold,
+            fail_threshold=fail_threshold,
+            )
+        )
+    return reviews
 
 
 def make_missing_report(pair: FilePair) -> PairReport:
@@ -641,7 +1032,13 @@ def make_missing_report(pair: FilePair) -> PairReport:
         suggestions=[f"`{pair.target}` 파일을 만든 뒤 다시 실행하세요."],
         raw="",
     )
-    return PairReport(pair=pair, checks=checks, llm_review=review, segment_reviews=[])
+    return PairReport(
+        pair=pair,
+        checks=checks,
+        llm_review=review,
+        segment_reviews=[],
+        back_translation_reviews=[],
+    )
 
 
 def make_report(
@@ -652,18 +1049,37 @@ def make_report(
     max_chars: int,
     segment_max_chars: int,
     context_lines: int,
+    skip_back_translation: bool,
+    line_window_size: int,
+    line_window_stride: int,
+    back_translation_threshold: float,
+    back_translation_fail_threshold: float,
+    verbose: bool,
 ) -> PairReport:
     if not pair.target.exists():
+        log_verbose(verbose, f"{pair.target}: target translation missing")
         return make_missing_report(pair)
     if not pair.source.exists():
         raise FileNotFoundError(f"Missing Korean source for {pair.target}: {pair.source}")
 
+    log_verbose(verbose, f"{pair.target}: reading source={pair.source}")
     source_text = read_text(pair.source)
     target_text = read_text(pair.target)
+    log_verbose(
+        verbose,
+        f"{pair.target}: source_chars={len(source_text)} target_chars={len(target_text)}",
+    )
     checks = deterministic_checks(source_text, target_text)
+    log_verbose(
+        verbose,
+        f"{pair.target}: deterministic warnings={len(checks.warnings)} "
+        f"line_delta={checks.line_delta_percent:.1f}%",
+    )
     llm_review = None
     segment_reviews: list[SegmentReview] = []
+    back_translation_reviews: list[BackTranslationReview] = []
     if not skip_llm:
+        log_verbose(verbose, f"{pair.target}: starting segment LLM review")
         segment_reviews = run_segment_reviews(
             pair=pair,
             source_text=source_text,
@@ -672,7 +1088,27 @@ def make_report(
             host=host,
             segment_max_chars=segment_max_chars,
             context_lines=context_lines,
+            verbose=verbose,
         )
+        if not skip_back_translation:
+            log_verbose(verbose, f"{pair.target}: starting back-translation token review")
+            back_translation_reviews = run_back_translation_reviews(
+                pair=pair,
+                source_text=source_text,
+                target_text=target_text,
+                model=model,
+                host=host,
+                max_chars=segment_max_chars,
+                window_size=line_window_size,
+                stride=line_window_stride,
+                context_lines=context_lines,
+                review_threshold=back_translation_threshold,
+                fail_threshold=back_translation_fail_threshold,
+                verbose=verbose,
+            )
+        else:
+            log_verbose(verbose, f"{pair.target}: skipping back-translation token review")
+        log_verbose(verbose, f"{pair.target}: starting full-file LLM review")
         llm_review = run_ollama_review(
             pair=pair,
             source_text=source_text,
@@ -688,6 +1124,7 @@ def make_report(
         checks=checks,
         llm_review=llm_review,
         segment_reviews=segment_reviews,
+        back_translation_reviews=back_translation_reviews,
     )
 
 
@@ -700,6 +1137,8 @@ def status_for_report(report: PairReport) -> str:
 
 
 def needs_additional_translation(report: PairReport) -> bool:
+    if any(review.status in {"review", "fail"} for review in report.back_translation_reviews):
+        return True
     if any(review.status in {"review", "fail"} for review in report.segment_reviews):
         return True
     if report.llm_review and report.llm_review.status in {"review", "fail"}:
@@ -708,10 +1147,14 @@ def needs_additional_translation(report: PairReport) -> bool:
 
 
 def gateway_decision_for_report(report: PairReport) -> str:
+    if any(review.status == "fail" for review in report.back_translation_reviews):
+        return "추가 번역 필요"
     if any(review.status == "fail" for review in report.segment_reviews):
         return "추가 번역 필요"
     if report.llm_review and report.llm_review.status == "fail":
         return "추가 번역 필요"
+    if any(review.status == "review" for review in report.back_translation_reviews):
+        return "번역 검수 필요"
     if any(review.status == "review" for review in report.segment_reviews):
         return "번역 검수 필요"
     if report.llm_review and report.llm_review.status == "review":
@@ -722,6 +1165,11 @@ def gateway_decision_for_report(report: PairReport) -> str:
 
 
 def score_for_report(report: PairReport) -> str:
+    back_translation_scores = [
+        review.similarity * 5 for review in report.back_translation_reviews
+    ]
+    if back_translation_scores:
+        return f"{min(back_translation_scores):.1f}"
     segment_scores = [
         review.score for review in report.segment_reviews if review.score is not None
     ]
@@ -753,7 +1201,7 @@ def render_markdown(reports: list[PairReport], locale: str, model: str, skip_llm
         f"- 생성 시각: {now}",
         f"- 대상 언어: {SUPPORTED_LOCALES[locale]} (`{locale}`)",
         f"- Ollama 모델: {'사용 안 함' if skip_llm else model}",
-        f"- 분석 방식: {'기계 점검만 수행' if skip_llm else '제목 구간 기반 슬라이딩 검수 + 전체 파일 검수'}",
+        f"- 분석 방식: {'기계 점검만 수행' if skip_llm else '라인 윈도우 역번역 토큰 비교 + 제목 구간 슬라이딩 검수 + 전체 파일 검수'}",
         f"- 파일 수: {len(reports)}",
         f"- 게이트 판정: {gate_result}",
         f"- 통과 파일 수: {passed_count}",
@@ -773,6 +1221,11 @@ def render_markdown(reports: list[PairReport], locale: str, model: str, skip_llm
         flagged_segment_count = sum(
             1 for review in report.segment_reviews if review.status in {"review", "fail"}
         )
+        flagged_back_translation_count = sum(
+            1
+            for review in report.back_translation_reviews
+            if review.status in {"review", "fail"}
+        )
         lines.append(
             "| {decision} | {status} | {score} | `{source}` | `{target}` | {delta:.1f}% | {warnings} |".format(
                 decision=gateway_decision_for_report(report),
@@ -781,7 +1234,9 @@ def render_markdown(reports: list[PairReport], locale: str, model: str, skip_llm
                 source=report.pair.source,
                 target=report.pair.target,
                 delta=checks.line_delta_percent,
-                warnings=len(checks.warnings) + flagged_segment_count,
+                warnings=len(checks.warnings)
+                + flagged_segment_count
+                + flagged_back_translation_count,
             )
         )
 
@@ -850,6 +1305,28 @@ def render_markdown(reports: list[PairReport], locale: str, model: str, skip_llm
                         markdown_list(segment.suggestions),
                     ]
                 )
+        if report.back_translation_reviews:
+            flagged_windows = [
+                window
+                for window in report.back_translation_reviews
+                if window.status in {"review", "fail"}
+            ]
+            lines.extend(["역번역 토큰 비교:", ""])
+            if not flagged_windows:
+                lines.append("- 추가 번역 신호가 있는 라인 윈도우 없음\n")
+            for window in flagged_windows:
+                lines.extend(
+                    [
+                        f"#### 윈도우 {window.index}",
+                        "",
+                        f"- 상태: `{window.status}`",
+                        f"- 원문 라인: {window.source_start_line}-{window.source_end_line}",
+                        f"- 번역본 라인: {window.target_start_line}-{window.target_end_line}",
+                        f"- 토큰 유사도: {window.similarity:.3f}",
+                        f"- 원문 토큰 수: {window.source_token_count}",
+                        f"- 역번역 토큰 수: {window.back_translation_token_count}",
+                    ]
+                )
         lines.append("")
 
     return "\n".join(lines)
@@ -862,37 +1339,57 @@ def default_output_path(locale: str) -> Path:
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    root = args.root
-    if not root.exists():
-        print(f"Root directory does not exist: {root}", file=sys.stderr)
+    try:
+        locale, pairs = select_pairs(args)
+    except (FileNotFoundError, ValueError) as exc:
+        print(str(exc), file=sys.stderr)
         return 2
 
-    pairs = discover_pairs(root=root, locale=args.locale, include_missing=args.include_missing)
     if args.limit is not None:
         pairs = pairs[: args.limit]
     if not pairs:
-        print(f"No .{args.locale}.md translation files found under {root}", file=sys.stderr)
+        print(f"No .{locale}.md translation files found.", file=sys.stderr)
         return 1
+
+    log_verbose(args.verbose, f"selected locale={locale} files={len(pairs)}")
+
+    if not args.skip_llm and args.pull_model:
+        try:
+            pull_ollama_model(args.model, args.ollama_host)
+        except RuntimeError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
 
     reports: list[PairReport] = []
     for index, pair in enumerate(pairs, start=1):
         print(f"[{index}/{len(pairs)}] reviewing {pair.target}", file=sys.stderr)
-        reports.append(
-            make_report(
-                pair=pair,
-                model=args.model,
-                host=args.ollama_host,
-                skip_llm=args.skip_llm,
-                max_chars=args.max_chars,
-                segment_max_chars=args.segment_max_chars,
-                context_lines=args.context_lines,
+        try:
+            reports.append(
+                make_report(
+                    pair=pair,
+                    model=args.model,
+                    host=args.ollama_host,
+                    skip_llm=args.skip_llm,
+                    max_chars=args.max_chars,
+                    segment_max_chars=args.segment_max_chars,
+                    context_lines=args.context_lines,
+                    skip_back_translation=args.skip_back_translation,
+                    line_window_size=args.line_window_size,
+                    line_window_stride=args.line_window_stride,
+                    back_translation_threshold=args.back_translation_threshold,
+                    back_translation_fail_threshold=args.back_translation_fail_threshold,
+                    verbose=args.verbose,
+                )
             )
-        )
+        except RuntimeError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
 
-    output = args.output or default_output_path(args.locale)
+    output = args.output or default_output_path(locale)
+    log_verbose(args.verbose, f"writing report={output}")
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
-        render_markdown(reports, locale=args.locale, model=args.model, skip_llm=args.skip_llm),
+        render_markdown(reports, locale=locale, model=args.model, skip_llm=args.skip_llm),
         encoding="utf-8",
     )
     print(f"Wrote report: {output}")
