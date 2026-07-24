@@ -7,7 +7,7 @@
 
 在 CNN 之后经常一起被提到的视觉 Transformer（ViT, Vision Transformer）到底有什么不同？为什么在理解后面的生成式 AI 与多模态模型之前，先知道这种差异会有帮助？
 
-当需要再次简短确认 Vision Transformer 的不同起始单位时，可以回到英文概念词汇表里的[ViT（Vision Transformer）](/AiBook/en/reference/concept-glossary/#vit-vision-transformer)条目重新对齐。
+当需要再次简短确认 Vision Transformer 的不同起始单位时，可以回到英文概念词汇表里的[ViT（Vision Transformer）](/AiBook/reference/concept-glossary-parts/06-bieup/#vit-vision-transformer)条目重新对齐。
 
 ## 区分 CNN 与 ViT 的输入单位
 

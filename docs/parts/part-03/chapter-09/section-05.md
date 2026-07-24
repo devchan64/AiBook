@@ -3,7 +3,7 @@
 > Section ID: `P3-9.5`
 > Version: `v2026.07.20`
 
-비교 리포트, 검토 후보 큐, 목표 라벨 후보 표가 서로 다른 역할을 맡더라도, 가능하면 같은 샘플 1건은 같은 식별 기준으로 계속 추적해야 합니다. `event_id` 같은 열이 여러 표에 반복 등장하는 이유도 여기에 있습니다. 이 연결이 흐리면 세 산출물이 서로 다른 표라는 점은 이해해도, 왜 이 사건이 올라왔고 어떤 검토 결과가 나중에 어떤 목표 라벨 후보로 바뀌었는지는 다시 설명하기 어려워집니다. [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue), [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate) 표는 서로 다른 역할을 맡지만, 같은 샘플 정체와 최소 근거 연결은 가능하면 끊지 않아야 합니다.
+비교 리포트, 검토 후보 큐, 목표 라벨 후보 표가 서로 다른 역할을 맡더라도, 가능하면 같은 샘플 1건은 같은 식별 기준으로 계속 추적해야 합니다. `event_id` 같은 열이 여러 표에 반복 등장하는 이유도 여기에 있습니다. 이 연결이 흐리면 세 산출물이 서로 다른 표라는 점은 이해해도, 왜 이 사건이 올라왔고 어떤 검토 결과가 나중에 어떤 목표 라벨 후보로 바뀌었는지는 다시 설명하기 어려워집니다. [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue), [목표 라벨 후보(target candidate)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-target-candidate) 표는 서로 다른 역할을 맡지만, 같은 샘플 정체와 최소 근거 연결은 가능하면 끊지 않아야 합니다.
 
 ## 왜 같은 사건을 계속 추적해야 하는가
 

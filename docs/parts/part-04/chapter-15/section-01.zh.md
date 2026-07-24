@@ -13,7 +13,7 @@
 
 也就是说，随机森林不是 `把树丢掉的模型`， 而是 `把很多树聚在一起并减少其弱点的模型`。
 
-这一节说明 `随机森林(random forest)`、`集成(ensemble)`、`bootstrap`、 `特征随机选择` 的基本含义。 后面的 Section 会沿着这些抓手继续往前推进， 而通过多棵树的合意来降低摇摆的基础直觉， 也会通过这一节和[概念词典](/AiBook/en/reference/concept-glossary/)重新连接。
+这一节说明 `随机森林(random forest)`、`集成(ensemble)`、`bootstrap`、 `特征随机选择` 的基本含义。 后面的 Section 会沿着这些抓手继续往前推进， 而通过多棵树的合意来降低摇摆的基础直觉， 也会通过这一节和[概念词典](/AiBook/reference/concept-glossary/)重新连接。
 
 ## 本节范围
 

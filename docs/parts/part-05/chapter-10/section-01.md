@@ -11,7 +11,7 @@ P5-9장까지 오면 딥러닝이 큰 텐서 계산을 배치 단위로 반복�
 
 표현 학습은 사람이 특징(feature)을 일일이 설계하는 대신, 모델이 데이터에서 유용한 내부 표현을 스스로 배우는 과정을 뜻한다.
 
-표현과 표현 학습의 구분이 뒤 구조 장에서 다시 흐려지면 개념사전의 [표현(representation)](../../../reference/concept-glossary.md#representation)과 [표현 학습(representation learning)](../../../reference/concept-glossary.md#representation-learning) 항목을 함께 다시 봅니다.
+표현과 표현 학습의 구분이 뒤 구조 장에서 다시 흐려지면 개념사전의 [표현(representation)](../../../reference/concept-glossary-parts/13-pieup.md#representation)과 [표현 학습(representation learning)](../../../reference/concept-glossary-parts/13-pieup.md#representation-learning) 항목을 함께 다시 봅니다.
 
 ## 표현 학습이 특징을 바꾸는 질문
 

@@ -3,9 +3,9 @@
 > Section ID: `P3-5.1`
 > Version: `v2026.07.20`
 
-원시 로그를 처음 보면 데이터가 매우 풍부해 보입니다. 시간 순서대로 값이 많이 쌓여 있고, 센서도 여럿이고, 제어 파라미터도 함께 보일 수 있기 때문입니다. 하지만 이런 풍부함이 곧바로 비교 가능한 데이터셋을 뜻하지는 않습니다. [샘플(sample)](../../../reference/concept-glossary.md#glossary-sample) 단위를 정한 뒤에는 원시 로그를 요약 표와 집계 표로 바꾸는 절차가 필요합니다. 원시 로그와 요약 표, 집계 표는 서로 다른 역할을 맡고 있으며, 한 행이 뜻하는 대상도 다릅니다.
+원시 로그를 처음 보면 데이터가 매우 풍부해 보입니다. 시간 순서대로 값이 많이 쌓여 있고, 센서도 여럿이고, 제어 파라미터도 함께 보일 수 있기 때문입니다. 하지만 이런 풍부함이 곧바로 비교 가능한 데이터셋을 뜻하지는 않습니다. [샘플(sample)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-sample) 단위를 정한 뒤에는 원시 로그를 요약 표와 집계 표로 바꾸는 절차가 필요합니다. 원시 로그와 요약 표, 집계 표는 서로 다른 역할을 맡고 있으며, 한 행이 뜻하는 대상도 다릅니다.
 
-`원시 로그 -> 요약 표 -> 집계 표`는 같은 시계열을 서로 다른 질문에 맞는 표로 다시 표현하는 순서입니다. 이 순서가 보여야 [기준선(baseline)](../../../reference/concept-glossary.md#glossary-baseline) 비교와 [중간 표현(intermediate representation)](../../../reference/concept-glossary.md#glossary-intermediate-representation) 설계도 어느 층위에서 붙는지 분명해집니다.
+`원시 로그 -> 요약 표 -> 집계 표`는 같은 시계열을 서로 다른 질문에 맞는 표로 다시 표현하는 순서입니다. 이 순서가 보여야 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교와 [중간 표현(intermediate representation)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation) 설계도 어느 층위에서 붙는지 분명해집니다.
 
 자동으로 실행되는 동작을 예로 들겠습니다. 원시 로그에서는 동작 중 매 시점마다 센서 값과 제어값이 한 줄씩 남습니다. 반면 요약 표에서는 자동으로 실행된 동작 1회가 한 행이 됩니다. 집계 표에서는 최근 20건 평균이나 평소 구간 평균처럼, 여러 동작을 다시 묶은 결과가 한 행이 될 수 있습니다.
 

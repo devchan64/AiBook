@@ -9,7 +9,7 @@
 
 sampling 是模型从多个它认为可信的候选里，一次取出一个实际输出的过程，而这种方式会直接影响结果的多样性与稳定性。
 
-当你需要重新区分“模型分数”和“实际输出选择”时，可以回到概念词汇表里的 [sampling](/AiBook/reference/concept-glossary/#sampling) 条目。
+当你需要重新区分“模型分数”和“实际输出选择”时，可以回到概念词汇表里的 [sampling](/AiBook/reference/concept-glossary-parts/07-siot/#sampling) 条目。
 
 ## 候选分布和实际输出选择不同
 

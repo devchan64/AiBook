@@ -3,7 +3,7 @@
 > Section ID: `P3-9.4`
 > Version: `v2026.07.20`
 
-Even when the [review queue](/AiBook/reference/concept-glossary/#glossary-review-queue) and [comparison report](/AiBook/reference/concept-glossary/#glossary-comparison-report) appear first, a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate) is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
+Even when the [review queue](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-review-queue) and [comparison report](/AiBook/reference/concept-glossary-parts/06-bieup/#glossary-comparison-report) appear first, a [target candidate](/AiBook/reference/concept-glossary-parts/05-mieum/#glossary-target-candidate) is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
 
 ## Why Do Only Notes Remain at First
 

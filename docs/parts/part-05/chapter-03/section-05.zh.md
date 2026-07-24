@@ -5,7 +5,7 @@
 
 从 P5-3.2 到 P5-3.4，我们已经分别看过 sigmoid、tanh、ReLU。现在把这三个函数放在一起比较。这里的目的不是背名字，而是确认：同样的分数 \(z\)，在不同公式与不同输出范围下，究竟会变成怎样的值。
 
-如果代表性激活函数之间的比较再次变模糊，可以先回到[英文概念词汇表里的 activation function 条目](/AiBook/en/reference/concept-glossary/#activation-function)作为基准线。
+如果代表性激活函数之间的比较再次变模糊，可以先回到[英文概念词汇表里的 activation function 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function)作为基准线。
 
 ## 比较代表性激活函数的问题
 

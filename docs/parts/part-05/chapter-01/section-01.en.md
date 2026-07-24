@@ -5,7 +5,7 @@
 
 Part 4 read machine learning through the flow of problem definition, data splitting, generalization, evaluation, and model selection. Now, in Part 5, we first ask what the smallest neural-network computation unit looks like when it receives values and produces an output. That question leads into the perceptron. A perceptron is the simplest neural-network decision unit: it multiplies several inputs by different weights, adds them together, and then produces an output based on that result.
 
-If the term perceptron needs to be checked again briefly in later sections, return to the [perceptron](/AiBook/reference/concept-glossary/#perceptron) entry in the concept glossary as the baseline.
+If the term perceptron needs to be checked again briefly in later sections, return to the [perceptron](/AiBook/reference/concept-glossary-parts/13-pieup/#perceptron) entry in the concept glossary as the baseline.
 
 ## Questions Closed By The Perceptron
 

@@ -9,7 +9,7 @@ gradient까지 계산했다면, 실제 학습 과정에서는 어떤 순서로 �
 
 딥러닝 학습 루프의 핵심 4단계는 `forward -> loss -> backward -> optimizer step`이다. 먼저 이 4단계를 한 번의 공통 반복으로 붙잡는 편이 안전하다.
 
-학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [학습(training)](../../../reference/concept-glossary.md#training), [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
+학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [학습(training)](../../../reference/concept-glossary-parts/14-hieut.md#training), [역전파(backpropagation)](../../../reference/concept-glossary-parts/08-ieung.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary-parts/08-ieung.md#optimizer) 항목을 함께 다시 봅니다.
 
 ## 학습 루프가 한 바퀴 도는 질문
 

@@ -5,7 +5,7 @@
 
 _Subtitle: How should delayed labels be distinguished from 0 labels that have not yet closed?_
 
-When choosing a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate), you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed labels. Delayed label confirmation and incompletely observed negatives are different problems, so they need to be separated first.
+When choosing a [target candidate](/AiBook/reference/concept-glossary-parts/05-mieum/#glossary-target-candidate), you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed labels. Delayed label confirmation and incompletely observed negatives are different problems, so they need to be separated first.
 
 | Category | Central question |
 | --- | --- |

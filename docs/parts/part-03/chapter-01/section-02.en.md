@@ -3,7 +3,7 @@
 > Section ID: `P3-1.2`
 > Version: `v2026.07.20`
 
-Once we understand what data modeling is trying to achieve, the next question follows immediately: in what sequence should the work actually proceed? Features cannot be built before the sample unit is fixed, and without a comparison reference even the [output structure](/AiBook/reference/concept-glossary/#glossary-output-structure) becomes unstable. So data modeling is best read as an order that fixes the structures needed later, one by one, from the front.
+Once we understand what data modeling is trying to achieve, the next question follows immediately: in what sequence should the work actually proceed? Features cannot be built before the sample unit is fixed, and without a comparison reference even the [output structure](/AiBook/reference/concept-glossary-parts/11-chieut/#glossary-output-structure) becomes unstable. So data modeling is best read as an order that fixes the structures needed later, one by one, from the front.
 
 In practice, as soon as source data arrives, it is easy to want to choose the learning-problem frame first, with familiar labels such as `prediction problem`, `classification problem`, or `anomaly-detection problem`. But this order often creates trouble, because `what one row means`, `the sample unit`, `the comparison reference`, and `the output structure` have not yet been fixed.
 

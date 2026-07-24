@@ -7,7 +7,7 @@
 
 这里重要的一点是，`会熟练使用 Pandas` 与 `会准备学习数据集` 并不是同一件事。前者是操作表格的技术，后者是决定模型接收什么输入、学习什么答案的工作。
 
-本节说明 `数据集(dataset)`、`特征(feature)`、`目标(target)`、`验证(validation)`、`数据泄漏(data leakage)` 的基本区分。`DataFrame` 与表选择的代表性说明放在 P2-12.1、P2-12.2 与[概念词汇表](/AiBook/en/reference/concept-glossary/)中，这里关注的是：如何把那张表重新组织成学习输入与答案。
+本节说明 `数据集(dataset)`、`特征(feature)`、`目标(target)`、`验证(validation)`、`数据泄漏(data leakage)` 的基本区分。`DataFrame` 与表选择的代表性说明放在 P2-12.1、P2-12.2 与[概念词汇表](/AiBook/reference/concept-glossary/)中，这里关注的是：如何把那张表重新组织成学习输入与答案。
 
 如果说 Chapter 11 让我们得到可计算的数组形状，那么现在的 Chapter 12 就是在表中决定哪些列要留下、哪些列要去掉。这里整理出的输入与答案候选，会接到下一章 Chapter 13 的可视化，以及 Chapter 14 的记录整理。
 

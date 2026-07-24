@@ -7,7 +7,7 @@ P5-3.1에서는 활성화 함수(activation function)가 가중합 점수 \(z\)�
 
 sigmoid는 입력 점수 \(z\)를 0과 1 사이 값으로 눌러 주는 활성화 함수입니다. 큰 음수는 0에 가까워지고, 큰 양수는 1에 가까워지며, 0 근처에서는 비교적 빠르게 변합니다.
 
-대표 활성화 함수의 기준선이 다시 필요하면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary.md#activation-function) 항목으로 돌아갑니다.
+대표 활성화 함수의 기준선이 다시 필요하면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function) 항목으로 돌아갑니다.
 
 ## sigmoid가 값을 눌러 담는 질문
 

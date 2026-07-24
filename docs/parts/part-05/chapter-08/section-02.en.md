@@ -11,7 +11,7 @@ The representative answer to this question is dropout. In other words, this sect
 
 Dropout is a regularization technique that randomly turns off some node outputs or connections during training so that the model does not depend too heavily on particular paths.
 
-When you need to check again the intuition that dropout is an example of regularization that shakes the structure, reread the glossary entry on [dropout](/AiBook/reference/concept-glossary/#dropout).
+When you need to check again the intuition that dropout is an example of regularization that shakes the structure, reread the glossary entry on [dropout](/AiBook/reference/concept-glossary-parts/03-digeut/#dropout).
 
 ## The Question Of How Dropout Reduces Path Dependence
 

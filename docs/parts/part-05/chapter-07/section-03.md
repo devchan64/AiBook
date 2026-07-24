@@ -9,7 +9,7 @@ P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보�
 
 이 절에서는 Adam(Adaptive Moment Estimation)을 대표 예로 삼아 그 직관을 읽습니다. 중심은 Adam이라는 이름 자체보다, `왜 update 규칙에 최근 흐름과 좌표별 조절이 들어가는가`입니다.
 
-기본 업데이트와 적응형 업데이트의 차이가 다시 섞이면 개념사전의 [경사하강법(gradient descent)](../../../reference/concept-glossary.md#gradient-descent)과 [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
+기본 업데이트와 적응형 업데이트의 차이가 다시 섞이면 개념사전의 [경사하강법(gradient descent)](../../../reference/concept-glossary-parts/01-giyeok.md#gradient-descent)과 [옵티마이저(optimizer)](../../../reference/concept-glossary-parts/08-ieung.md#optimizer) 항목을 함께 다시 봅니다.
 
 ## Adam이 적응형으로 보정하는 질문
 

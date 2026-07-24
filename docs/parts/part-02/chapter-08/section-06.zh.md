@@ -5,7 +5,7 @@
 
 在 P2-8.5 里，我们把函数(function)看成小型复用单元。函数接收输入、进行处理、返回结果。但在阅读 Python 代码时，我们经常会遇到一种看起来和函数调用相似、却又稍微不同的表达。
 
-这里提供一个基础补充说明，用来阅读 `class`、`object`、`method`。这个补充学习整理的是：怎样去读 `value.method()`、`model.fit()` 这样的调用形状。`值(value)`、`类型(type)`、`字典(dictionary)` 的代表性说明仍然放在 P2-8.1、P2-8.3 和[概念词汇表](/AiBook/en/reference/concept-glossary/)里，而这里是在这些内容之上，再加上类和对象的视角。
+这里提供一个基础补充说明，用来阅读 `class`、`object`、`method`。这个补充学习整理的是：怎样去读 `value.method()`、`model.fit()` 这样的调用形状。`值(value)`、`类型(type)`、`字典(dictionary)` 的代表性说明仍然放在 P2-8.1、P2-8.3 和[概念词汇表](/AiBook/reference/concept-glossary/)里，而这里是在这些内容之上，再加上类和对象的视角。
 
 问题场景：想先用一个最小例子，看看带点(`.`)的调用和普通函数调用到底有什么不同。
 输入(input)：字符串 `text = " AI is Useful "`。

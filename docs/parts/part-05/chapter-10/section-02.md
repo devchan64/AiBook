@@ -9,7 +9,7 @@ P5-10.1에서는 표현 학습(representation learning)을 `모델이 유용한 
 
 깊은 층으로 갈수록 표현은 보통 더 국소적이고 단순한 패턴에서, 더 추상적이고 과업(task)에 가까운 패턴으로 이동한다.
 
-층이 깊어질수록 표현이 어떻게 달라진다고 읽어야 하는지 다시 확인할 때는 개념사전의 [표현(representation)](../../../reference/concept-glossary.md#representation) 항목으로 돌아갑니다.
+층이 깊어질수록 표현이 어떻게 달라진다고 읽어야 하는지 다시 확인할 때는 개념사전의 [표현(representation)](../../../reference/concept-glossary-parts/13-pieup.md#representation) 항목으로 돌아갑니다.
 
 ## 깊은 층이 표현을 바꾸는 질문
 

@@ -11,7 +11,7 @@ P5-13.1에서는 어텐션(Attention)을 `현재 계산에 중요한 위치를 �
 
 셀프 어텐션은 시퀀스 안의 각 토큰이 같은 시퀀스의 다른 토큰들을 서로 참고하며, 현재 표현을 다시 계산하는 방식입니다.
 
-Transformer 직전의 핵심 메커니즘을 다시 짧게 확인해야 할 때는 개념사전의 [셀프 어텐션(self-attention)](../../../reference/concept-glossary.md#self-attention) 항목으로 돌아갑니다.
+Transformer 직전의 핵심 메커니즘을 다시 짧게 확인해야 할 때는 개념사전의 [셀프 어텐션(self-attention)](../../../reference/concept-glossary-parts/07-siot.md#self-attention) 항목으로 돌아갑니다.
 
 ## self-attention으로 넘어갈 때 붙잡을 질문
 

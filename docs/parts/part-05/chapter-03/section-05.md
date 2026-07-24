@@ -5,7 +5,7 @@
 
 P5-3.2부터 P5-3.4까지 sigmoid, tanh, ReLU를 각각 따로 보았습니다. 이제 세 함수를 한 번에 놓고 비교합니다. 여기서 목적은 이름 암기가 아니라, 같은 점수 \(z\)가 어떤 수식과 출력 범위로 달라지는지 확인하는 것입니다.
 
-대표 활성화 함수 비교가 다시 흐려지면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary.md#activation-function) 항목을 기준선으로 다시 봅니다.
+대표 활성화 함수 비교가 다시 흐려지면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function) 항목을 기준선으로 다시 봅니다.
 
 ## 대표 활성화 함수를 비교하는 질문
 

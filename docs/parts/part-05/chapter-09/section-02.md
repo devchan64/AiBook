@@ -11,7 +11,7 @@ P5-9.1에서는 딥러닝이 왜 GPU와 병렬 처리(parallel processing)에 �
 
 배치(batch)는 여러 샘플을 한꺼번에 계산하기 위한 묶음이고, 텐서(tensor)는 그런 묶음을 포함해 딥러닝이 다루는 다차원 숫자 배열의 일반 이름이다.
 
-shape와 계산 단위를 다시 짧게 복습해야 할 때는 개념사전의 [배치(batch)](../../../reference/concept-glossary.md#batch)와 [텐서(tensor)](../../../reference/concept-glossary.md#tensor) 항목으로 돌아갑니다.
+shape와 계산 단위를 다시 짧게 복습해야 할 때는 개념사전의 [배치(batch)](../../../reference/concept-glossary-parts/06-bieup.md#batch)와 [텐서(tensor)](../../../reference/concept-glossary-parts/12-tieut.md#tensor) 항목으로 돌아갑니다.
 
 ## batch와 tensor가 계산을 묶는 질문
 

@@ -9,7 +9,7 @@
 
 通常的说法是：层越深，表征会从更局部、更简单的 pattern，逐渐移动到更抽象、也更靠近任务（task）的 pattern。
 
-如果之后又想重新确认：`层变深时，表征究竟该怎样读`，更适合回到[英文概念词汇表里的 representation 条目](/AiBook/en/reference/concept-glossary/#representation)。
+如果之后又想重新确认：`层变深时，表征究竟该怎样读`，更适合回到[英文概念词汇表里的 representation 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation)。
 
 ## 深层怎样改变表征的问题
 

@@ -9,7 +9,7 @@
 
 用来回答这个问题的视角，就是表征（representation）。隐藏层并不是把输入值原封不动复制一遍的地方，而是一个会在内部逐渐形成、更利于后续判断的中间表征层。
 
-如果后面章节里需要再次快速复习表征这个概念，更适合回到[英文概念词汇表里的 representation 条目](/AiBook/en/reference/concept-glossary/#representation)作为基线。
+如果后面章节里需要再次快速复习表征这个概念，更适合回到[英文概念词汇表里的 representation 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation)作为基线。
 
 ## 隐藏层怎样改变表征的问题
 

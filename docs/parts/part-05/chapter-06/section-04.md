@@ -11,7 +11,7 @@ P5-6.3에서는 학습(learning)과 모델 실행(inference)을 `파라미터를
 
 학습 모드(training mode)는 파라미터 업데이트를 준비하는 계산 환경이고, 평가 모드(evaluation mode)는 현재 모델을 안정적으로 측정하거나 사용하는 계산 환경이다.
 
-mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode)와 [평가 모드(evaluation mode)](../../../reference/concept-glossary.md#evaluation-mode) 항목으로 돌아갑니다.
+mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary-parts/14-hieut.md#training-mode)와 [평가 모드(evaluation mode)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-mode) 항목으로 돌아갑니다.
 
 ## 학습 모드와 평가 모드가 필요한 질문
 

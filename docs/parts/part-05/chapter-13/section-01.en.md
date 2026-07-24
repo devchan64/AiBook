@@ -11,7 +11,7 @@ The representative answer to this question is attention.
 
 Attention is a method that places greater weight on the positions or tokens that are truly important for the current computation, so the needed information can be referred to more directly.
 
-When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](/AiBook/reference/concept-glossary/#attention).
+When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](/AiBook/reference/concept-glossary-parts/08-ieung/#attention).
 
 ## The Question Of How Attention Revisits Needed Positions
 

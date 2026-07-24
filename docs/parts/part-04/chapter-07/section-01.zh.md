@@ -7,7 +7,7 @@
 
 这一节处理的是 `该怎样挑出好特征`。它的目的不是深讲复杂选择算法，而是先固定在实际工作里应该优先检查的判断标准。
 
-这一节会说明 `特征选择(feature selection)` 和 `特征空间(feature space)` 的含义。下一节会沿着这个抓手继续当前语境，而 `到底用什么去填输入格子` 的基本标准，会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再次接回。
+这一节会说明 `特征选择(feature selection)` 和 `特征空间(feature space)` 的含义。下一节会沿着这个抓手继续当前语境，而 `到底用什么去填输入格子` 的基本标准，会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 

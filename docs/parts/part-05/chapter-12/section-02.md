@@ -11,7 +11,7 @@ P5-12.1에서는 RNN, LSTM, GRU가 순차 데이터(sequence data)를 다루기 
 
 장기 의존성은 현재 판단에 오래전 정보가 중요한데도, 모델이 그 정보를 충분히 오래 유지하거나 전달하지 못하는 문제를 뜻합니다.
 
-이후 attention 장을 읽다가 거리 문제의 출발점을 다시 확인해야 할 때는 개념사전의 [장기 의존성(long-term dependency)](../../../reference/concept-glossary.md#long-term-dependency) 항목으로 돌아갑니다.
+이후 attention 장을 읽다가 거리 문제의 출발점을 다시 확인해야 할 때는 개념사전의 [장기 의존성(long-term dependency)](../../../reference/concept-glossary-parts/09-jieut.md#long-term-dependency) 항목으로 돌아갑니다.
 
 ## 장기 의존성이 현재 판단을 흔드는 질문
 

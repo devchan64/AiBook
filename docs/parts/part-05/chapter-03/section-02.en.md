@@ -7,7 +7,7 @@ In P5-3.1, we saw that an activation function changes the weighted-sum score \(z
 
 The sigmoid is an activation function that compresses the input score \(z\) into a value between 0 and 1. Large negative values move close to 0, large positive values move close to 1, and values near 0 change relatively quickly.
 
-If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
+If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function) entry in the concept glossary.
 
 ## The Question Of How Sigmoid Compresses Values
 

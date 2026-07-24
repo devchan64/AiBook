@@ -31,11 +31,11 @@ Part 1에서 `규칙 기반 시스템(rule-based system)`의 강점, 한계, 현
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [규칙 기반 시스템](../../../reference/concept-glossary.md#rule-based-system) | 현재 사실과 규칙을 대조해 결론이나 행동을 정하는 시스템 | 장점과 한계를 평가할 대상 자체를 분명히 하기 위해 |
-| [사실](../../../reference/concept-glossary.md#fact) | 현재 참이라고 두는 상태 정보 | 규칙이 무엇에 적용되는지 보기 위해 |
-| [지식 기반](../../../reference/concept-glossary.md#knowledge-base) | 사실과 규칙과 도메인 지식을 모아 둔 구조 | 규칙 집합이 어디에 담기는지 보기 위해 |
-| [추론 엔진](../../../reference/concept-glossary.md#inference-engine) | 현재 사실에 맞는 규칙을 찾아 적용하는 장치 | 결론이 실제로 어떻게 만들어지는지 보기 위해 |
-| [설명 기능](../../../reference/concept-glossary.md#explanation-facility) | 어떤 규칙 때문에 결과가 나왔는지 보여 주는 기능 | 규칙 기반 시스템의 강점인 설명 가능성을 잡기 위해 |
+| [규칙 기반 시스템](../../../reference/concept-glossary-parts/01-giyeok.md#rule-based-system) | 현재 사실과 규칙을 대조해 결론이나 행동을 정하는 시스템 | 장점과 한계를 평가할 대상 자체를 분명히 하기 위해 |
+| [사실](../../../reference/concept-glossary-parts/07-siot.md#fact) | 현재 참이라고 두는 상태 정보 | 규칙이 무엇에 적용되는지 보기 위해 |
+| [지식 기반](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-base) | 사실과 규칙과 도메인 지식을 모아 둔 구조 | 규칙 집합이 어디에 담기는지 보기 위해 |
+| [추론 엔진](../../../reference/concept-glossary-parts/11-chieut.md#inference-engine) | 현재 사실에 맞는 규칙을 찾아 적용하는 장치 | 결론이 실제로 어떻게 만들어지는지 보기 위해 |
+| [설명 기능](../../../reference/concept-glossary-parts/07-siot.md#explanation-facility) | 어떤 규칙 때문에 결과가 나왔는지 보여 주는 기능 | 규칙 기반 시스템의 강점인 설명 가능성을 잡기 위해 |
 
 ## 세 가지 기준
 

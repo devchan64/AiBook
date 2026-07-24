@@ -32,11 +32,11 @@ Part 1에서 `기호 기반 AI`, `규칙 기반 접근`, `지식 표현`의 기�
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [기호 기반 AI](../../../reference/concept-glossary.md#aisymbolic-ai) | 기호, 규칙, 명시적 지식 표현을 중심으로 한 AI 접근 | 뒤의 학습 기반 접근과 대비되는 출발점을 잡기 위해 |
-| [규칙 기반 시스템](../../../reference/concept-glossary.md#rule-based-system) | 현재 사실과 규칙을 대조해 결론이나 행동을 정하는 시스템 | 기호 기반 접근의 구현 모습을 구체적으로 보기 위해 |
-| [지식 표현](../../../reference/concept-glossary.md#knowledge-representation) | 사실, 관계, 규칙을 적는 형식 | 시스템이 무엇을 알고 있다고 볼지 정하기 위해 |
-| [사실](../../../reference/concept-glossary.md#fact) | 현재 참이라고 두는 정보 | 규칙 적용의 입력 재료를 분리하기 위해 |
-| [추론 엔진](../../../reference/concept-glossary.md#inference-engine) | 현재 사실에 맞는 규칙을 찾아 적용하는 장치 | 규칙과 결론 사이의 실행 구조를 보기 위해 |
+| [기호 기반 AI](../../../reference/concept-glossary-parts/01-giyeok.md#aisymbolic-ai) | 기호, 규칙, 명시적 지식 표현을 중심으로 한 AI 접근 | 뒤의 학습 기반 접근과 대비되는 출발점을 잡기 위해 |
+| [규칙 기반 시스템](../../../reference/concept-glossary-parts/01-giyeok.md#rule-based-system) | 현재 사실과 규칙을 대조해 결론이나 행동을 정하는 시스템 | 기호 기반 접근의 구현 모습을 구체적으로 보기 위해 |
+| [지식 표현](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) | 사실, 관계, 규칙을 적는 형식 | 시스템이 무엇을 알고 있다고 볼지 정하기 위해 |
+| [사실](../../../reference/concept-glossary-parts/07-siot.md#fact) | 현재 참이라고 두는 정보 | 규칙 적용의 입력 재료를 분리하기 위해 |
+| [추론 엔진](../../../reference/concept-glossary-parts/11-chieut.md#inference-engine) | 현재 사실에 맞는 규칙을 찾아 적용하는 장치 | 규칙과 결론 사이의 실행 구조를 보기 위해 |
 
 ## 주요 학습내용
 

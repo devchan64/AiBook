@@ -11,7 +11,7 @@ The key expression for answering this question is representation learning.
 
 Representation learning means the process in which, instead of a person designing each feature one by one, the model learns useful internal representations from the data by itself.
 
-When the distinction between representation and representation learning becomes blurry again in later structure chapters, reread together the glossary entries on [representation](/AiBook/reference/concept-glossary/#representation) and [representation learning](/AiBook/reference/concept-glossary/#representation-learning).
+When the distinction between representation and representation learning becomes blurry again in later structure chapters, reread together the glossary entries on [representation](/AiBook/reference/concept-glossary-parts/13-pieup/#representation) and [representation learning](/AiBook/reference/concept-glossary-parts/13-pieup/#representation-learning).
 
 ## The Question Of How Representation Learning Changes Features
 

@@ -11,7 +11,7 @@ P5-10장에서는 깊은 신경망이 층을 거치며 더 유용한 표현(repr
 
 합성곱 신경망은 이미지 전체를 한꺼번에 같은 방식으로 보지 않고, 작은 지역 패턴(local pattern)을 반복해서 살피며 더 큰 시각적 구조를 배우는 신경망이다.
 
-이미지 구조를 읽는 기본 정의를 다시 잡아야 할 때는 개념사전의 [합성곱 신경망(CNN, convolutional neural network)](../../../reference/concept-glossary.md#cnn-convolutional-neural-network) 항목을 기준으로 돌아옵니다.
+이미지 구조를 읽는 기본 정의를 다시 잡아야 할 때는 개념사전의 [합성곱 신경망(CNN, convolutional neural network)](../../../reference/concept-glossary-parts/14-hieut.md#cnn-convolutional-neural-network) 항목을 기준으로 돌아옵니다.
 
 ## CNN이 이미지와 맞물리는 질문
 

@@ -5,7 +5,7 @@
 
 P5-1.1에서는 퍼셉트론(perceptron)을 `입력(input) -> 가중치(weight) -> 합(sum) -> 출력(output)` 흐름으로 보았습니다. 이제는 입력들을 가중합으로 묶는다는 것이 정확히 무엇을 뜻하는지, 그리고 왜 그 합만으로는 딥러닝이 되지 않는지를 바로 이어서 봅니다. 퍼셉트론은 먼저 입력들의 선형 결합(linear combination)을 만들고, 그 결과를 활성화(activation) 규칙에 통과시켜 판단을 만듭니다.
 
-활성화의 기본 뜻이 뒤 절에서 다시 흐려지면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary.md#activation-function) 항목을 먼저 다시 봅니다.
+활성화의 기본 뜻이 뒤 절에서 다시 흐려지면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function) 항목을 먼저 다시 봅니다.
 
 ## 선형 결합과 활성화가 나누는 역할
 

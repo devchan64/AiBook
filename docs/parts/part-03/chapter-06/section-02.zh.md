@@ -3,7 +3,7 @@
 > Section ID: `P3-6.2`
 > Version: `v2026.07.24`
 
-平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/en/reference/concept-glossary/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
+平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/reference/concept-glossary-parts/09-jieut/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
 
 这里不会重复讲特征设计本身，而是更集中在：当前一节的数字特征还不足以完整保留结构时，我们还能在什么范围内继续增加区段表示、token 化这样的中间表示。
 

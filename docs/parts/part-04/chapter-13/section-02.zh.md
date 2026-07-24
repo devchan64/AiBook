@@ -13,7 +13,7 @@ P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary �
 
 所以，13.2 的核心不是 `一个新的魔法函数`，而是这样一种观点：`只要表示方式变了，即使线性 boundary 也会拥有不同的意义`。
 
-这一节不会重新长篇重复 SVM 的基本定义。`寻找大 margin boundary` 这个核心直觉，会通过 P4-13.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。这里专注的是：为什么要引入改变表示空间的想法。
+这一节不会重新长篇重复 SVM 的基本定义。`寻找大 margin boundary` 这个核心直觉，会通过 P4-13.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。这里专注的是：为什么要引入改变表示空间的想法。
 
 ## 本节范围
 

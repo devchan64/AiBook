@@ -31,14 +31,14 @@ Part 1에서 분류, 예측, 추천, 생성 같은 문제 유형의 기본 구�
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [인식](../../../reference/concept-glossary.md#recognition) | 입력에서 대상이나 상태를 읽는 문제 | 분류보다 더 넓은 읽기 문제를 먼저 구분하기 위해 |
-| [분류](../../../reference/concept-glossary.md#classification) | 미리 정한 범주 가운데 하나를 고르는 문제 | `무엇을 맞히는가`가 분명한 대표 문제를 잡기 위해 |
-| [예측](../../../reference/concept-glossary.md#prediction) | 현재 정보에서 미래 값이나 결과를 추정하는 문제 | 분류와 달리 값이나 가능성을 내는 문제를 구분하기 위해 |
-| [추천](../../../reference/concept-glossary.md#recommendation) | 여러 후보 중 다음에 볼 만한 것을 고르는 문제 | AI가 답변 생성만 하는 것이 아님을 보기 위해 |
-| [생성](../../../reference/concept-glossary.md#generation) | 새 텍스트, 이미지, 음성, 코드를 만드는 문제 | 출력의 성격이 왜 다른지 잡기 위해 |
-| [입력](../../../reference/concept-glossary.md#input) | 시스템이 받아 보는 정보 | 문제 정의를 `무엇을 넣는가`부터 읽기 위해 |
-| [출력](../../../reference/concept-glossary.md#output) | 시스템이 만들어 내는 결과 | 문제 유형을 `무엇이 나오는가`로 나누기 위해 |
-| [목표](../../../reference/concept-glossary.md#goal) | 어떤 출력을 좋다고 볼지 정하는 기준 | 같은 데이터도 질문이 바뀌면 다른 문제가 됨을 보기 위해 |
+| [인식](../../../reference/concept-glossary-parts/08-ieung.md#recognition) | 입력에서 대상이나 상태를 읽는 문제 | 분류보다 더 넓은 읽기 문제를 먼저 구분하기 위해 |
+| [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification) | 미리 정한 범주 가운데 하나를 고르는 문제 | `무엇을 맞히는가`가 분명한 대표 문제를 잡기 위해 |
+| [예측](../../../reference/concept-glossary-parts/08-ieung.md#prediction) | 현재 정보에서 미래 값이나 결과를 추정하는 문제 | 분류와 달리 값이나 가능성을 내는 문제를 구분하기 위해 |
+| [추천](../../../reference/concept-glossary-parts/11-chieut.md#recommendation) | 여러 후보 중 다음에 볼 만한 것을 고르는 문제 | AI가 답변 생성만 하는 것이 아님을 보기 위해 |
+| [생성](../../../reference/concept-glossary-parts/07-siot.md#generation) | 새 텍스트, 이미지, 음성, 코드를 만드는 문제 | 출력의 성격이 왜 다른지 잡기 위해 |
+| [입력](../../../reference/concept-glossary-parts/08-ieung.md#input) | 시스템이 받아 보는 정보 | 문제 정의를 `무엇을 넣는가`부터 읽기 위해 |
+| [출력](../../../reference/concept-glossary-parts/11-chieut.md#output) | 시스템이 만들어 내는 결과 | 문제 유형을 `무엇이 나오는가`로 나누기 위해 |
+| [목표](../../../reference/concept-glossary-parts/05-mieum.md#goal) | 어떤 출력을 좋다고 볼지 정하는 기준 | 같은 데이터도 질문이 바뀌면 다른 문제가 됨을 보기 위해 |
 
 ## 주요 학습내용
 

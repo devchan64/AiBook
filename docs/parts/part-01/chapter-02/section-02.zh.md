@@ -7,7 +7,7 @@
 
 这里需要做的，不是详细学习算法，而是先固定：为什么 `search`、`knowledge representation` 与 `probabilistic reasoning` 会在 AI 导论里反复出现，以及这条脉络如何构成后面解释机器学习与深度学习的背景。
 
-在 Part 1 中，`search` 与 `probabilistic reasoning` 的基本区分固定在这一节。`Knowledge representation` 已在 2.1 做过初步介绍，这里只在比较它与搜索和概率推理之间的角色时重新连接；如果这些边界之后又变模糊，就回到这一节与共享的 [Concept Glossary (English)](/AiBook/en/reference/concept-glossary/)。
+在 Part 1 中，`search` 与 `probabilistic reasoning` 的基本区分固定在这一节。`Knowledge representation` 已在 2.1 做过初步介绍，这里只在比较它与搜索和概率推理之间的角色时重新连接；如果这些边界之后又变模糊，就回到这一节与共享的 [Concept Glossary (English)](/AiBook/reference/concept-glossary/)。
 
 这一节整理以下问题：
 
@@ -30,10 +30,10 @@
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
-| [search](/AiBook/en/reference/concept-glossary/#search) | 沿着可能状态与行动寻找目标的方法 | 为了看见候选很多时为什么“顺序”会成为问题 |
-| [knowledge representation](/AiBook/en/reference/concept-glossary/#knowledge-representation) | 用来书写事实、关系与约束的形式 | 为了把系统“应该知道什么”的问题单独分出来 |
-| [probabilistic reasoning](/AiBook/en/reference/concept-glossary/#probabilistic-reasoning) | 在不完整信息下处理“多大程度上可信”的方式 | 为了避免把所有判断压成简单的真或假 |
-| [goal](/AiBook/en/reference/concept-glossary/#goal) | 想要到达的条件 | 为了看搜索在什么地方停下 |
+| [search](/AiBook/reference/concept-glossary-parts/01-giyeok/#search) | 沿着可能状态与行动寻找目标的方法 | 为了看见候选很多时为什么“顺序”会成为问题 |
+| [knowledge representation](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-representation) | 用来书写事实、关系与约束的形式 | 为了把系统“应该知道什么”的问题单独分出来 |
+| [probabilistic reasoning](/AiBook/reference/concept-glossary-parts/14-hieut/#probabilistic-reasoning) | 在不完整信息下处理“多大程度上可信”的方式 | 为了避免把所有判断压成简单的真或假 |
+| [goal](/AiBook/reference/concept-glossary-parts/05-mieum/#goal) | 想要到达的条件 | 为了看搜索在什么地方停下 |
 
 ## 主要学习内容
 

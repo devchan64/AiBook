@@ -11,7 +11,7 @@
 
 注意力是一种方式：它会对当前计算里真正重要的位置或 token 赋予更大的权重，让需要的信息能被更直接地参考到。
 
-当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的 [attention](/AiBook/reference/concept-glossary/#attention) 条目重新对齐。
+当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的 [attention](/AiBook/reference/concept-glossary-parts/08-ieung/#attention) 条目重新对齐。
 
 ## Attention 怎样重新查看所需位置的问题
 

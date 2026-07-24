@@ -5,7 +5,7 @@
 
 In P5-1.1, the perceptron was read through the flow `input -> weight -> sum -> output`. Now we continue directly to see what it exactly means to gather inputs into a weighted sum, and why that sum alone is not yet deep learning. The perceptron first creates a linear combination of the inputs, and then passes that result through an activation rule to make a decision.
 
-If the basic meaning of activation becomes blurry again in later sections, first return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
+If the basic meaning of activation becomes blurry again in later sections, first return to the [activation function](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function) entry in the concept glossary.
 
 ## Roles Separated By Linear Combination And Activation
 

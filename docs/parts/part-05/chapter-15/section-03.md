@@ -9,7 +9,7 @@ P5-15.2에서는 생성 모델(generative model)이 정답 하나를 외워 꺼�
 
 샘플링(sampling)은 모델이 그럴듯하다고 본 여러 후보 중 실제 출력을 하나씩 꺼내는 과정이며, 이 방식은 결과의 다양성과 안정성에 직접 영향을 줍니다.
 
-모델 점수와 실제 출력 선택을 다시 구분해야 할 때는 개념사전의 [샘플링(sampling)](../../../reference/concept-glossary.md#sampling) 항목을 기준으로 다시 읽습니다.
+모델 점수와 실제 출력 선택을 다시 구분해야 할 때는 개념사전의 [샘플링(sampling)](../../../reference/concept-glossary-parts/07-siot.md#sampling) 항목을 기준으로 다시 읽습니다.
 
 ## 후보 분포와 실제 출력 선택은 다르다
 

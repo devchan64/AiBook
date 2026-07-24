@@ -31,10 +31,10 @@ Part 1에서 `모델(model, 모형)`과 `시스템(system)`의 기본 구분, �
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [모델](../../../reference/concept-glossary.md#model) | 입력을 받아 출력을 계산하는 핵심 계산 부품 | AI 문맥의 `model`을 현실 전체와 구분하기 위해 |
-| [시스템](../../../reference/concept-glossary.md#system) | 모델과 규칙과 사람 검토까지 포함한 전체 구조 | 서비스 전체를 모델 하나로 오해하지 않기 위해 |
-| [입력](../../../reference/concept-glossary.md#input) | 시스템이 받아 보는 정보 | 모델이 무엇을 계산 재료로 받는지 보기 위해 |
-| [출력](../../../reference/concept-glossary.md#output) | 시스템이 만들어 내는 결과 | 모델이 무엇을 계산해 내는지 보기 위해 |
+| [모델](../../../reference/concept-glossary-parts/05-mieum.md#model) | 입력을 받아 출력을 계산하는 핵심 계산 부품 | AI 문맥의 `model`을 현실 전체와 구분하기 위해 |
+| [시스템](../../../reference/concept-glossary-parts/07-siot.md#system) | 모델과 규칙과 사람 검토까지 포함한 전체 구조 | 서비스 전체를 모델 하나로 오해하지 않기 위해 |
+| [입력](../../../reference/concept-glossary-parts/08-ieung.md#input) | 시스템이 받아 보는 정보 | 모델이 무엇을 계산 재료로 받는지 보기 위해 |
+| [출력](../../../reference/concept-glossary-parts/11-chieut.md#output) | 시스템이 만들어 내는 결과 | 모델이 무엇을 계산해 내는지 보기 위해 |
 
 ## 세 가지 기준
 

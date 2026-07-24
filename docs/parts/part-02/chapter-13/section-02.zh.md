@@ -7,7 +7,7 @@
 
 本节的核心不是“背 Matplotlib 函数名”，而是先确定问题，再建立为这个问题选择合适图表的感觉。
 
-本节说明 `折线图（line plot）`、`散点图（scatter plot）`、`直方图（histogram）`、`损失曲线（loss curve）` 的基本区分。关于 `plot` 本身的角色，以及 `Figure`、`Axes` 的代表性说明，放在 P2-13.1 和[概念词汇表](/AiBook/en/reference/concept-glossary/)中；这里重点讨论：面对什么问题，应该先选哪一种基础图表。
+本节说明 `折线图（line plot）`、`散点图（scatter plot）`、`直方图（histogram）`、`损失曲线（loss curve）` 的基本区分。关于 `plot` 本身的角色，以及 `Figure`、`Axes` 的代表性说明，放在 P2-13.1 和[概念词汇表](/AiBook/reference/concept-glossary/)中；这里重点讨论：面对什么问题，应该先选哪一种基础图表。
 
 ## 用不同问题重新阅读同一个学习场景
 

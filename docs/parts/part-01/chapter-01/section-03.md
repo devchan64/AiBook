@@ -31,11 +31,11 @@ Part 1에서 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계�
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [AI](../../../reference/concept-glossary.md#ai-artificial-intelligence) | 가장 넓은 분야와 시스템 범주 | 나머지 용어가 어디에 놓이는지 보기 위해 |
-| [머신러닝](../../../reference/concept-glossary.md#machine-learning) | 데이터로 성능을 개선하는 학습 접근 | 규칙 기반 방식과 학습 기반 방식을 구분하기 위해 |
-| [딥러닝](../../../reference/concept-glossary.md#deep-learning) | 신경망과 표현 학습을 강하게 쓰는 접근 | 머신러닝 안의 중요한 확장 방향을 잡기 위해 |
-| [생성형 AI](../../../reference/concept-glossary.md#aigenerative-ai) | 새 콘텐츠를 만들어 내는 출력 범주 | 학습 방법과 출력 성격을 섞지 않기 위해 |
-| [LLM](../../../reference/concept-glossary.md#llm) | 언어를 다루는 대규모 언어 모델 계열 | 생성형 AI와 AI 전체를 좁게 같은 말로 읽지 않기 위해 |
+| [AI](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence) | 가장 넓은 분야와 시스템 범주 | 나머지 용어가 어디에 놓이는지 보기 위해 |
+| [머신러닝](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning) | 데이터로 성능을 개선하는 학습 접근 | 규칙 기반 방식과 학습 기반 방식을 구분하기 위해 |
+| [딥러닝](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning) | 신경망과 표현 학습을 강하게 쓰는 접근 | 머신러닝 안의 중요한 확장 방향을 잡기 위해 |
+| [생성형 AI](../../../reference/concept-glossary-parts/07-siot.md#aigenerative-ai) | 새 콘텐츠를 만들어 내는 출력 범주 | 학습 방법과 출력 성격을 섞지 않기 위해 |
+| [LLM](../../../reference/concept-glossary-parts/08-ieung.md#llm) | 언어를 다루는 대규모 언어 모델 계열 | 생성형 AI와 AI 전체를 좁게 같은 말로 읽지 않기 위해 |
 
 ## 주요 학습내용
 

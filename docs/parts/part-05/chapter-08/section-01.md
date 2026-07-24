@@ -11,7 +11,7 @@ P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 
 정규화는 모델이 학습 데이터에만 과하게 맞추지 않도록, 학습 과정에 제약이나 비용을 추가하는 생각이다.
 
-과적합 억제와 normalization을 다시 구분해야 할 때는 개념사전의 [정규화(regularization)](../../../reference/concept-glossary.md#regularization) 항목으로 돌아갑니다.
+과적합 억제와 normalization을 다시 구분해야 할 때는 개념사전의 [정규화(regularization)](../../../reference/concept-glossary-parts/09-jieut.md#regularization) 항목으로 돌아갑니다.
 
 ## regularization이 목적 함수에 거는 질문
 

@@ -11,7 +11,7 @@
 
 计算图，是把模型里的运算展开成节点（node）与连接（edge）的表示方式。这样我们就能看见：顺向传播里值是在哪里生成的，而自动微分又会在反向阶段沿着哪条路径把梯度送回来。
 
-如果之后需要把这种运算关系再拆小来读，更适合回到[英文概念词汇表里的 computation graph 条目](/AiBook/en/reference/concept-glossary/#computation-graph)。
+如果之后需要把这种运算关系再拆小来读，更适合回到[英文概念词汇表里的 computation graph 条目](/AiBook/reference/concept-glossary-parts/01-giyeok/#computation-graph)。
 
 ## 计算图怎样记住微分的问题
 

@@ -11,7 +11,7 @@
 
 输出层的激活会随着模型到底在预测什么而改变，它必须被选成一种能够匹配“输出值应该具有什么意义”的形式。
 
-如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看[英文概念词汇表里的 output 条目](/AiBook/en/reference/concept-glossary/#output)与[activation function 条目](/AiBook/en/reference/concept-glossary/#activation-function)。
+如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看[英文概念词汇表里的 output 条目](/AiBook/reference/concept-glossary-parts/11-chieut/#output)与[activation function 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function)。
 
 ## 选择输出层激活的问题
 

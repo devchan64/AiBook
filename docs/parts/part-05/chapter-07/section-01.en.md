@@ -11,7 +11,7 @@ The component that takes on that role is the optimizer.
 
 An optimizer is the rule that receives the gradient computed by backpropagation and actually updates parameters in the direction that reduces the loss. In other words, it takes the computed result `if we change it this way, the loss may decrease` and passes it into the actual adjustment `so in this step, let us change the weights like this`.
 
-If the roles of loss, gradient, and update start to blur together again, go back to the [optimizer](/AiBook/reference/concept-glossary/#optimizer) entry in the concept glossary and separate the roles again from there.
+If the roles of loss, gradient, and update start to blur together again, go back to the [optimizer](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer) entry in the concept glossary and separate the roles again from there.
 
 If we describe one learning step very roughly, the model first makes a prediction, then computes how wrong that prediction is, then computes which weights that wrongness is connected to, and finally changes the actual weight values. The optimizer is what takes charge of that last stage.
 

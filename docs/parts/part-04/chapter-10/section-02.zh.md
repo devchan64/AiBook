@@ -13,7 +13,7 @@ P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`�
 
 所以，这一节不是停在 `画出了一条直线`，而是进入 `那条直线到底解释了多少数据`。
 
-本节不会长篇重复 linear regression 的基本定义。`用直线读取关系的模型` 这个核心直觉，继续通过 P4-10.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 接回来；这里则把焦点放在评价与局限上。
+本节不会长篇重复 linear regression 的基本定义。`用直线读取关系的模型` 这个核心直觉，继续通过 P4-10.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 接回来；这里则把焦点放在评价与局限上。
 
 ## 本节范围
 

@@ -5,7 +5,7 @@
 
 _副标题: 比较报告、复核候选队列与目标标签候选表如何用不同方式组织同一批事件？_
 
-同一个事件列表，也会因为目的不同而变成[比较报告（comparison report）](/AiBook/en/reference/concept-glossary/#glossary-comparison-report)、[复核候选队列（review queue）](/AiBook/en/reference/concept-glossary/#glossary-review-queue)、或者[目标标签候选（target candidate）](/AiBook/en/reference/concept-glossary/#glossary-target-candidate)表。有的表把比较句子和差值放在前面，有的表把复核优先级放在前面，还有的表把输入列和结果候选列的区分放在前面。这里的目标标签候选，即使还没有凝固成确认答案，也应该被读成：在把输入列和结果列分开的问题结构里，先被立起来的一列结果候选。
+同一个事件列表，也会因为目的不同而变成[比较报告（comparison report）](/AiBook/reference/concept-glossary-parts/06-bieup/#glossary-comparison-report)、[复核候选队列（review queue）](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-review-queue)、或者[目标标签候选（target candidate）](/AiBook/reference/concept-glossary-parts/05-mieum/#glossary-target-candidate)表。有的表把比较句子和差值放在前面，有的表把复核优先级放在前面，还有的表把输入列和结果候选列的区分放在前面。这里的目标标签候选，即使还没有凝固成确认答案，也应该被读成：在把输入列和结果列分开的问题结构里，先被立起来的一列结果候选。
 
 核心差别不在于`计算了什么`，而在于`同一个事件列表，会按照什么问题被重新组织`。
 

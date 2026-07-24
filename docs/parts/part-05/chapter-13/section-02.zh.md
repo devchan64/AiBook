@@ -11,7 +11,7 @@
 
 self-attention 是一种方式：序列里的每个 token 会参考同一序列里的其他 token，并重新计算自己的当前表示。
 
-当需要在 Transformer 之前再次简短确认这个核心机制时，可以回到概念词汇表里的 [self-attention](/AiBook/reference/concept-glossary/#self-attention) 条目重新对齐。
+当需要在 Transformer 之前再次简短确认这个核心机制时，可以回到概念词汇表里的 [self-attention](/AiBook/reference/concept-glossary-parts/07-siot/#self-attention) 条目重新对齐。
 
 ## Self-attention 怎样重读同一序列的问题
 

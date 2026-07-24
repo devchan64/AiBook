@@ -13,7 +13,8 @@
 
 ## 파일 위치
 
-- 개념사전 원고: `docs/reference/concept-glossary.md`
+- 개념사전 공개 진입 원고: `docs/reference/concept-glossary.md`
+- 개념사전 자음별 항목 원고: `docs/reference/concept-glossary-parts/*.md`
 - 언어별 보조 인덱스:
   - `management/glossary-indexes/concept-glossary-index.ko.md`
   - `management/glossary-indexes/concept-glossary-index.en.md`
@@ -89,6 +90,9 @@
 
 ## 정렬과 중복
 
+- 항목 본문은 자음별 파일에 나누어 둔다. `docs/reference/concept-glossary.md`는 소개와 자음별 include 목록만 유지한다.
+- 새 항목은 대표 표제어의 첫 글자 기준으로 해당 자음 파일에 추가한다.
+- 자음별 파일 안에서는 표제어 기준 가나다순 정렬을 유지한다.
 - 표제어는 기본적으로 한글 표제어 기준 가나다순으로 정렬한다.
 - 영어 원어는 표제어 괄호 안에 병기한다.
 - 영문 약어가 더 널리 쓰이는 경우에도 가능한 한 한글 표제어를 먼저 세운다. 다만 책 본문에서 약어가 중심 용어라면 실제 표제어 문자열을 기준으로 정렬한다.

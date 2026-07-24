@@ -3,7 +3,7 @@
 > Section ID: `P3-1.1`
 > Version: `v2026.07.20`
 
-一进入 Part 3，读者很快就会遇到 [sample](/AiBook/en/reference/concept-glossary/#glossary-sample)、[feature](/AiBook/en/reference/concept-glossary/#glossary-feature)、[baseline](/AiBook/en/reference/concept-glossary/#glossary-baseline)、[output structure](/AiBook/en/reference/concept-glossary/#glossary-output-structure)、[target](/AiBook/en/reference/concept-glossary/#glossary-target) 这些词。它们并不是彼此分开的。真正把 `什么算一条记录`、`哪些值要保留`、`拿什么去比较`、`最终要用什么结果格式收口` 一起决定下来的外层判断，就是 [data modeling](/AiBook/en/reference/concept-glossary/#glossary-data-modeling)。
+一进入 Part 3，读者很快就会遇到 [sample](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-sample)、[feature](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-feature)、[baseline](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-baseline)、[output structure](/AiBook/reference/concept-glossary-parts/11-chieut/#glossary-output-structure)、[target](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-target) 这些词。它们并不是彼此分开的。真正把 `什么算一条记录`、`哪些值要保留`、`拿什么去比较`、`最终要用什么结果格式收口` 一起决定下来的外层判断，就是 [data modeling](/AiBook/reference/concept-glossary-parts/03-digeut/#glossary-data-modeling)。
 
 如果只把数据建模理解成整理存储结构，就很容易把它想成“把已经存在的表整理得更好看一点”。但在 AI 和数据分析里，数据建模是更靠前的一层判断。它是在决定：`现在这份源数据，应该被改造成什么样的问题结构，才能回答某个问题？`
 

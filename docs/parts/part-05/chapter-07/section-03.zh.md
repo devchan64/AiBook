@@ -9,7 +9,7 @@
 
 这一节会以 Adam（Adaptive Moment Estimation）为代表例子来读这种直觉。这里真正要抓住的，不是 Adam 这个名字本身，而是：`为什么 update 规则里会开始加入最近流向和按坐标调节。`
 
-如果之后又把基本 update 与自适应 update 的区别混在一起，更适合回到[英文概念词汇表里的 gradient descent 条目](/AiBook/en/reference/concept-glossary/#gradient-descent)和[optimizer 条目](/AiBook/en/reference/concept-glossary/#optimizer)，重新对齐比较基准。
+如果之后又把基本 update 与自适应 update 的区别混在一起，更适合回到[英文概念词汇表里的 gradient descent 条目](/AiBook/reference/concept-glossary-parts/01-giyeok/#gradient-descent)和[optimizer 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer)，重新对齐比较基准。
 
 ## Adam 自适应修正的问题
 

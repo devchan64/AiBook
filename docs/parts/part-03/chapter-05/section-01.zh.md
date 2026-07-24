@@ -3,9 +3,9 @@
 > Section ID: `P3-5.1`
 > Version: `v2026.07.20`
 
-第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/en/reference/concept-glossary/#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成汇总表和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且每一行所代表的对象也不同。
+第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成汇总表和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且每一行所代表的对象也不同。
 
-`原始日志 -> 汇总表 -> 聚合表`，是把同一条时间序列重新表达成适合不同问题的表结构的顺序。只要这个顺序能被看见，后面的 [baseline](/AiBook/en/reference/concept-glossary/#glossary-baseline) 比较和 [intermediate representation](/AiBook/en/reference/concept-glossary/#glossary-intermediate-representation) 设计究竟接在什么层级上，也会更清楚。
+`原始日志 -> 汇总表 -> 聚合表`，是把同一条时间序列重新表达成适合不同问题的表结构的顺序。只要这个顺序能被看见，后面的 [baseline](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-baseline) 比较和 [intermediate representation](/AiBook/reference/concept-glossary-parts/09-jieut/#glossary-intermediate-representation) 设计究竟接在什么层级上，也会更清楚。
 
 以自动执行的一次动作作为例子。原始日志里，在动作进行中的每一个时点，都会留下包含传感器值和控制值的一行记录。到了汇总表，一次完整的自动动作才会变成一行。到了聚合表，一行又可能表示把多个动作重新汇总后的结果，比如最近 20 次的平均值，或者平时某个区间的平均值。
 

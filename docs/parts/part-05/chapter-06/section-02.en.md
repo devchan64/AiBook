@@ -17,7 +17,7 @@ So in this section, rather than trying to memorize the three terms separately, i
 
 As an analogy, batch is like the bundle of materials placed on the workbench at one time, step is how many times that bundle was processed and reflected once, and epoch is closer to how many full rounds you made through the materials in the storage room. The analogy cannot replace the concept itself, but it helps capture the feeling that `what counts as one` is different in each case.
 
-If this distinction among the three units starts to blur again, it helps to return to the [batch](/AiBook/reference/concept-glossary/#batch), [training](/AiBook/reference/concept-glossary/#training), and [epoch](/AiBook/reference/concept-glossary/#epoch) entries in the concept glossary together.
+If this distinction among the three units starts to blur again, it helps to return to the [batch](/AiBook/reference/concept-glossary-parts/06-bieup/#batch), [training](/AiBook/reference/concept-glossary-parts/14-hieut/#training), and [epoch](/AiBook/reference/concept-glossary-parts/08-ieung/#epoch) entries in the concept glossary together.
 
 ## The Question Separated By Step, Batch, And Epoch
 

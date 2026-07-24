@@ -7,7 +7,7 @@
 
 这一节不是要用一句完美的话把 AI 一次性定义完，而是整理这个词的范围，让后面关于规则式系统、机器学习、深度学习、生成式 AI 和 LLM 的内容都能放在同一张地图上阅读。
 
-在 Part 1 中，`AI` 是最外层、最宽的类别。后面的 Section 再次出现这个词时，只保留当前问题所需的最小连接；如果需要重新拆分这个范围，就回到这一节，以及 [Concept Glossary (English)](/AiBook/en/reference/concept-glossary/)。
+在 Part 1 中，`AI` 是最外层、最宽的类别。后面的 Section 再次出现这个词时，只保留当前问题所需的最小连接；如果需要重新拆分这个范围，就回到这一节，以及 [Concept Glossary (English)](/AiBook/reference/concept-glossary/)。
 
 ## 把 AI 放在最宽的外层类别上
 
@@ -31,18 +31,18 @@
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
-| [AI](/AiBook/en/reference/concept-glossary/#ai-artificial-intelligence) | 最宽的外层类别 | 为了把后面出现的多种方法放在同一张地图上 |
-| [machine learning](/AiBook/en/reference/concept-glossary/#machine-learning) | 从数据中学习模式的方法 | 为了区分规则式方法和学习式方法 |
-| [deep learning](/AiBook/en/reference/concept-glossary/#deep-learning) | 用神经网络学习复杂表征的一条技术主线 | 为了固定机器学习内部的重要扩展方向 |
-| [generative AI](/AiBook/en/reference/concept-glossary/#aigenerative-ai) | 生成文本、图像、音频等结果的一条技术流 | 为了避免把最近的 AI 经验理解得过窄 |
-| [LLM](/AiBook/en/reference/concept-glossary/#llm) | 以语言数据为中心的大规模语言模型 | 为了区分生成式 AI 和 AI 整体 |
-| [system](/AiBook/en/reference/concept-glossary/#system) | 接收输入并产出结果的实际实现结构 | 为了区分“领域”与“实现” |
-| [input](/AiBook/en/reference/concept-glossary/#input) | 系统接收的信息 | 为了阅读系统依据什么做判断 |
-| [output](/AiBook/en/reference/concept-glossary/#output) | 系统产生的结果 | 为了阅读分类、推荐、生成等差异 |
-| [goal](/AiBook/en/reference/concept-glossary/#goal) | 为什么要得到某种输出的目的 | 为了看到同样的输出也可能服务于不同目的 |
-| [prediction](/AiBook/en/reference/concept-glossary/#prediction) | 根据当前信息估计结果 | 为了避免和生成、推荐、分类混成一类 |
-| [recommendation](/AiBook/en/reference/concept-glossary/#recommendation) | 在多个候选中挑出接下来值得看的内容 | 为了看出 AI 不只是在生成答案 |
-| [rule-based system](/AiBook/en/reference/concept-glossary/#rule-based-system) | 由人写规则并导出结论的系统 | 为了避免把 AI 缩窄成只有最近的学习模型 |
+| [AI](/AiBook/reference/concept-glossary-parts/08-ieung/#ai-artificial-intelligence) | 最宽的外层类别 | 为了把后面出现的多种方法放在同一张地图上 |
+| [machine learning](/AiBook/reference/concept-glossary-parts/05-mieum/#machine-learning) | 从数据中学习模式的方法 | 为了区分规则式方法和学习式方法 |
+| [deep learning](/AiBook/reference/concept-glossary-parts/03-digeut/#deep-learning) | 用神经网络学习复杂表征的一条技术主线 | 为了固定机器学习内部的重要扩展方向 |
+| [generative AI](/AiBook/reference/concept-glossary-parts/07-siot/#aigenerative-ai) | 生成文本、图像、音频等结果的一条技术流 | 为了避免把最近的 AI 经验理解得过窄 |
+| [LLM](/AiBook/reference/concept-glossary-parts/08-ieung/#llm) | 以语言数据为中心的大规模语言模型 | 为了区分生成式 AI 和 AI 整体 |
+| [system](/AiBook/reference/concept-glossary-parts/07-siot/#system) | 接收输入并产出结果的实际实现结构 | 为了区分“领域”与“实现” |
+| [input](/AiBook/reference/concept-glossary-parts/08-ieung/#input) | 系统接收的信息 | 为了阅读系统依据什么做判断 |
+| [output](/AiBook/reference/concept-glossary-parts/11-chieut/#output) | 系统产生的结果 | 为了阅读分类、推荐、生成等差异 |
+| [goal](/AiBook/reference/concept-glossary-parts/05-mieum/#goal) | 为什么要得到某种输出的目的 | 为了看到同样的输出也可能服务于不同目的 |
+| [prediction](/AiBook/reference/concept-glossary-parts/08-ieung/#prediction) | 根据当前信息估计结果 | 为了避免和生成、推荐、分类混成一类 |
+| [recommendation](/AiBook/reference/concept-glossary-parts/11-chieut/#recommendation) | 在多个候选中挑出接下来值得看的内容 | 为了看出 AI 不只是在生成答案 |
+| [rule-based system](/AiBook/reference/concept-glossary-parts/01-giyeok/#rule-based-system) | 由人写规则并导出结论的系统 | 为了避免把 AI 缩窄成只有最近的学习模型 |
 
 ## 主要学习点
 

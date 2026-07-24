@@ -32,11 +32,11 @@ This section is the representative place where the baseline for the core Chapter
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [symbolic AI](/AiBook/reference/concept-glossary/#aisymbolic-ai) | an AI approach centered on symbols, rules, and explicit knowledge representation | to establish the starting point that later learning-based approaches are contrasted against |
-| [rule-based system](/AiBook/reference/concept-glossary/#rule-based-system) | a system that compares current facts with rules to decide a conclusion or action | to see a concrete implementation shape of symbolic AI |
-| [knowledge representation](/AiBook/reference/concept-glossary/#knowledge-representation) | a format for writing facts, relations, and rules | to define what it means for a system to be treated as knowing something |
-| [fact](/AiBook/reference/concept-glossary/#fact) | information treated as true in the current state | to separate the input material to which rules are applied |
-| [inference engine](/AiBook/reference/concept-glossary/#inference-engine) | a mechanism that finds and applies rules matching the current facts | to see the execution structure between rules and conclusions |
+| [symbolic AI](/AiBook/reference/concept-glossary-parts/01-giyeok/#aisymbolic-ai) | an AI approach centered on symbols, rules, and explicit knowledge representation | to establish the starting point that later learning-based approaches are contrasted against |
+| [rule-based system](/AiBook/reference/concept-glossary-parts/01-giyeok/#rule-based-system) | a system that compares current facts with rules to decide a conclusion or action | to see a concrete implementation shape of symbolic AI |
+| [knowledge representation](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-representation) | a format for writing facts, relations, and rules | to define what it means for a system to be treated as knowing something |
+| [fact](/AiBook/reference/concept-glossary-parts/07-siot/#fact) | information treated as true in the current state | to separate the input material to which rules are applied |
+| [inference engine](/AiBook/reference/concept-glossary-parts/11-chieut/#inference-engine) | a mechanism that finds and applies rules matching the current facts | to see the execution structure between rules and conclusions |
 
 ## Main Learning Points
 

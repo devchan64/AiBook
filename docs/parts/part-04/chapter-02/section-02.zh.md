@@ -7,7 +7,7 @@
 
 无监督学习并不是 `没有答案就随便学`。它更准确地说，是在没有人工预先贴好 label 的情况下，去寻找数据中的相似性、分组、坐标轴、密度或异常点的方法。这里 model 常常不是在匹配某个答案，而是在做出结构候选，好让人更好地理解数据，或为下一步工作做准备。
 
-这一节会说明 `unsupervised learning`、`在没有标签时阅读结构`、`clustering` 和 `dimensionality reduction` 之间的大体区分。后面的章节会带着这个抓手继续判断当前语境，而 `结构探索到底是什么意思` 这个基础含义，会通过本节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再次接回。
+这一节会说明 `unsupervised learning`、`在没有标签时阅读结构`、`clustering` 和 `dimensionality reduction` 之间的大体区分。后面的章节会带着这个抓手继续判断当前语境，而 `结构探索到底是什么意思` 这个基础含义，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 

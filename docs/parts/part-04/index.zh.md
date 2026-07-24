@@ -9,7 +9,7 @@ Part 2 重新补回了阅读公式、Python、数组、表格、图表和运行�
 
 Part 4 的核心目标，是把机器学习读成 `问题 - 数据 - 学习 - 评估 - 应用` 的流程，而不是模型目录。线性回归、逻辑回归、决策树、随机森林、Boosting、聚类、降维、强化学习都不是需要分开背诵的项目。它们是在 `要解决什么问题、输入和输出是什么、用什么标准判断好坏` 的前提下出现的选择。
 
-Part 4 也遵守同样的原则：在同一个 Part 内，核心概念尽量先在一个代表性 Section 里集中说明，后续 Section 只保留当前语境所需的最小解释。所以 `supervised learning` 先以 `P4-2.1` 为代表说明位置，`unsupervised learning` 先以 `P4-2.2` 为代表说明位置，`reinforcement learning` 先以 `P4-2.3` 为代表说明位置，`validation` 与 `test` 的角色区分放在 `P4-4.2`，`overfitting` 与 `underfitting` 放在 `P4-5.1`，`metric` 放在 `P4-6.1`，`feature selection` 放在 `P4-7.1`，`preprocessing` 放在 `P4-7.2`，`baseline` 放在 `P4-8.2`，`linear regression` 放在 `P4-10.1`，`logistic regression` 放在 `P4-11.1`，`k-NN` 放在 `P4-12.1`，`SVM` 放在 `P4-13.1`，`decision tree` 放在 `P4-14.1`，`random forest` 放在 `P4-15.1`，`gradient boosting` 放在 `P4-16.1`，`clustering` 放在 `P4-17.1`，`dimensionality reduction` 放在 `P4-18.1`。再次出现时，要和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 以及当前语境一起读。
+Part 4 也遵守同样的原则：在同一个 Part 内，核心概念尽量先在一个代表性 Section 里集中说明，后续 Section 只保留当前语境所需的最小解释。所以 `supervised learning` 先以 `P4-2.1` 为代表说明位置，`unsupervised learning` 先以 `P4-2.2` 为代表说明位置，`reinforcement learning` 先以 `P4-2.3` 为代表说明位置，`validation` 与 `test` 的角色区分放在 `P4-4.2`，`overfitting` 与 `underfitting` 放在 `P4-5.1`，`metric` 放在 `P4-6.1`，`feature selection` 放在 `P4-7.1`，`preprocessing` 放在 `P4-7.2`，`baseline` 放在 `P4-8.2`，`linear regression` 放在 `P4-10.1`，`logistic regression` 放在 `P4-11.1`，`k-NN` 放在 `P4-12.1`，`SVM` 放在 `P4-13.1`，`decision tree` 放在 `P4-14.1`，`random forest` 放在 `P4-15.1`，`gradient boosting` 放在 `P4-16.1`，`clustering` 放在 `P4-17.1`，`dimensionality reduction` 放在 `P4-18.1`。再次出现时，要和 [概念词汇表](/AiBook/reference/concept-glossary/) 以及当前语境一起读。
 
 所以，Part 4 会按下面这个顺序把机器学习的地形图重新连起来。
 

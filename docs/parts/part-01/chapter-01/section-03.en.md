@@ -31,11 +31,11 @@ This section is the baseline for the term relationship that Part 1 will keep reu
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [AI](/AiBook/reference/concept-glossary/#ai-artificial-intelligence) | the broadest field and system category | to see where all other terms sit |
-| [machine learning](/AiBook/reference/concept-glossary/#machine-learning) | a learning approach that improves performance from data | to separate rule-based and learning-based approaches |
-| [deep learning](/AiBook/reference/concept-glossary/#deep-learning) | an approach that strongly uses neural networks and representation learning | to fix a major expansion path inside machine learning |
-| [generative AI](/AiBook/reference/concept-glossary/#aigenerative-ai) | an output category that produces new content | to keep learning method and output character from collapsing into one |
-| [LLM](/AiBook/reference/concept-glossary/#llm) | a family of large language models | to avoid reading generative AI and AI as a whole too narrowly as the same thing |
+| [AI](/AiBook/reference/concept-glossary-parts/08-ieung/#ai-artificial-intelligence) | the broadest field and system category | to see where all other terms sit |
+| [machine learning](/AiBook/reference/concept-glossary-parts/05-mieum/#machine-learning) | a learning approach that improves performance from data | to separate rule-based and learning-based approaches |
+| [deep learning](/AiBook/reference/concept-glossary-parts/03-digeut/#deep-learning) | an approach that strongly uses neural networks and representation learning | to fix a major expansion path inside machine learning |
+| [generative AI](/AiBook/reference/concept-glossary-parts/07-siot/#aigenerative-ai) | an output category that produces new content | to keep learning method and output character from collapsing into one |
+| [LLM](/AiBook/reference/concept-glossary-parts/08-ieung/#llm) | a family of large language models | to avoid reading generative AI and AI as a whole too narrowly as the same thing |
 
 ## Main Learning Points
 

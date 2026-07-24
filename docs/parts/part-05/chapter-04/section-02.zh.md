@@ -11,7 +11,7 @@
 
 损失函数会随着问题类型而改变。因为回归（regression）、分类（classification）、生成（generation）这三类问题，`错误长什么样`本身就不同。
 
-如果后面又开始把问题类型对应的损失标准混在一起，更适合回到[英文概念词汇表里的 loss function 条目](/AiBook/en/reference/concept-glossary/#loss-function)。
+如果后面又开始把问题类型对应的损失标准混在一起，更适合回到[英文概念词汇表里的 loss function 条目](/AiBook/reference/concept-glossary-parts/07-siot/#loss-function)。
 
 ## 问题类型改变损失的问题
 

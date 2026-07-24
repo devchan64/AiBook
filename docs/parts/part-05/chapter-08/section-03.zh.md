@@ -13,7 +13,7 @@ _副标题: 初始化、数值稳定性与批归一化分别在什么位置让�
 
 初始化负责决定学习开始时的出发点，数值稳定性负责检查数值和 gradient 在计算过程中会不会过大或过小，而 batch normalization 则是把学习中的 activation distribution 重新整理到更容易处理的范围里的装置。
 
-如果之后这条轴又变模糊了，更适合一起回到[英文概念词汇表里的 training mode 条目](/AiBook/en/reference/concept-glossary/#training-mode)、[batch normalization 条目](/AiBook/en/reference/concept-glossary/#batch-normalization)、[initialization 条目](/AiBook/en/reference/concept-glossary/#initialization)、[numerical stability 条目](/AiBook/en/reference/concept-glossary/#numerical-stability)，重新把这几个概念并排对齐。
+如果之后这条轴又变模糊了，更适合一起回到[英文概念词汇表里的 training mode 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#training-mode)、[batch normalization 条目](/AiBook/reference/concept-glossary-parts/06-bieup/#batch-normalization)、[initialization 条目](/AiBook/reference/concept-glossary-parts/11-chieut/#initialization)、[numerical stability 条目](/AiBook/reference/concept-glossary-parts/07-siot/#numerical-stability)，重新把这几个概念并排对齐。
 
 ## 深层计算为什么会摇晃的问题
 

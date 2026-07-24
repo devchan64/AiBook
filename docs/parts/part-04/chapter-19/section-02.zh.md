@@ -11,7 +11,7 @@
 
 策略型强化学习，不是先造一个行动记分板，而是直接调整行动选择的概率与方式，让系统学会拿到更大的 reward。
 
-这一节解释 `policy-based reinforcement learning`、`policy gradient`、`actor-critic` 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“直接调整行动方式”的强化学习基本感觉，会再次通过这一节和[概念词汇表](/AiBook/en/reference/concept-glossary/)连回来。
+这一节解释 `policy-based reinforcement learning`、`policy gradient`、`actor-critic` 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“直接调整行动方式”的强化学习基本感觉，会再次通过这一节和[概念词汇表](/AiBook/reference/concept-glossary/)连回来。
 
 ## 本节范围
 

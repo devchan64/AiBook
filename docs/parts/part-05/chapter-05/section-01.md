@@ -9,7 +9,7 @@ P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이�
 
 이때 필요한 신호가 그래디언트(gradient)입니다. gradient는 손실이 특정 파라미터에 얼마나 민감하게 반응하는지 나타내는 값입니다. 이 gradient를 손실에서 시작해 뒤쪽 계산부터 앞쪽 계산으로 구하는 절차가 역전파(backpropagation)입니다.
 
-뒤 절에서 계산 그래프나 optimizer와 섞여 보일 때는 개념사전의 [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation) 항목으로 돌아가 계산 역할부터 다시 구분합니다.
+뒤 절에서 계산 그래프나 optimizer와 섞여 보일 때는 개념사전의 [역전파(backpropagation)](../../../reference/concept-glossary-parts/08-ieung.md#backpropagation) 항목으로 돌아가 계산 역할부터 다시 구분합니다.
 
 이 절에서는 다음 세 문장을 먼저 고정합니다.
 

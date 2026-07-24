@@ -23,7 +23,7 @@
 `
 
 这一节不会重新长篇重复 logistic regression 的基本定义。
-`会生成可按 probability 来读的 score 的线性分类器` 这个核心直觉，会通过 P4-11.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
+`会生成可按 probability 来读的 score 的线性分类器` 这个核心直觉，会通过 P4-11.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
 这里专注的是：
 那个 score 怎样切开 input space。
 

@@ -11,7 +11,7 @@ P5-5.1에서는 손실(loss)이 바로 업데이트가 아니라, 파라미터�
 
 계산 그래프는 모델의 연산을 노드(node)와 연결(edge)로 펼쳐 놓아, 순전파에서 값이 어디서 만들어지고 자동미분이 backward에서 어떤 경로로 gradient를 되돌리는지 보이게 하는 표현이다.
 
-연산 관계를 다시 작게 펼쳐 읽어야 할 때는 개념사전의 [계산 그래프(computation graph)](../../../reference/concept-glossary.md#computation-graph) 항목을 기준으로 삼습니다.
+연산 관계를 다시 작게 펼쳐 읽어야 할 때는 개념사전의 [계산 그래프(computation graph)](../../../reference/concept-glossary-parts/01-giyeok.md#computation-graph) 항목을 기준으로 삼습니다.
 
 ## 계산 그래프가 미분을 기억하는 질문
 

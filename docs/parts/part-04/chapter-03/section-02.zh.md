@@ -9,7 +9,7 @@
 
 这里 heuristic 不是最终结论，而是出发点。你会先决定 `这个问题先从这些 model 开始试`，然后再去验证这种选择在真实数据上到底是否合适。
 
-这一节不会再次把 heuristic 本身讲很长。`缩小候选集的判断` 这一基础含义，会通过 P4-3.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来；这里专注的是，这种判断在 model selection 阶段到底怎样发挥作用。
+这一节不会再次把 heuristic 本身讲很长。`缩小候选集的判断` 这一基础含义，会通过 P4-3.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来；这里专注的是，这种判断在 model selection 阶段到底怎样发挥作用。
 
 ## 本节范围
 

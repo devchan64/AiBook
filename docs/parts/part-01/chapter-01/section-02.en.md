@@ -31,14 +31,14 @@ This section is also the main representative location where recurring terms for 
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [recognition](/AiBook/reference/concept-glossary/#recognition) | a problem of reading an object or state from input | to distinguish a broader reading problem before narrowing to classification |
-| [classification](/AiBook/reference/concept-glossary/#classification) | a problem of choosing one predefined category | to fix a representative problem where `what is being predicted` is clear |
-| [prediction](/AiBook/reference/concept-glossary/#prediction) | a problem of estimating a future value or result from current information | to separate problems that produce values or likelihoods from classification |
-| [recommendation](/AiBook/reference/concept-glossary/#recommendation) | a problem of choosing what is worth showing next among many candidates | to show that AI is not only answer generation |
-| [generation](/AiBook/reference/concept-glossary/#generation) | a problem of producing new text, images, audio, or code | to fix why the character of the output differs |
-| [input](/AiBook/reference/concept-glossary/#input) | the information received by the system | to read problem definition from `what is put in` |
-| [output](/AiBook/reference/concept-glossary/#output) | the result produced by the system | to separate problem types by `what comes out` |
-| [goal](/AiBook/reference/concept-glossary/#goal) | the standard that determines what counts as a good output | to see why the same data becomes a different problem when the question changes |
+| [recognition](/AiBook/reference/concept-glossary-parts/08-ieung/#recognition) | a problem of reading an object or state from input | to distinguish a broader reading problem before narrowing to classification |
+| [classification](/AiBook/reference/concept-glossary-parts/06-bieup/#classification) | a problem of choosing one predefined category | to fix a representative problem where `what is being predicted` is clear |
+| [prediction](/AiBook/reference/concept-glossary-parts/08-ieung/#prediction) | a problem of estimating a future value or result from current information | to separate problems that produce values or likelihoods from classification |
+| [recommendation](/AiBook/reference/concept-glossary-parts/11-chieut/#recommendation) | a problem of choosing what is worth showing next among many candidates | to show that AI is not only answer generation |
+| [generation](/AiBook/reference/concept-glossary-parts/07-siot/#generation) | a problem of producing new text, images, audio, or code | to fix why the character of the output differs |
+| [input](/AiBook/reference/concept-glossary-parts/08-ieung/#input) | the information received by the system | to read problem definition from `what is put in` |
+| [output](/AiBook/reference/concept-glossary-parts/11-chieut/#output) | the result produced by the system | to separate problem types by `what comes out` |
+| [goal](/AiBook/reference/concept-glossary-parts/05-mieum/#goal) | the standard that determines what counts as a good output | to see why the same data becomes a different problem when the question changes |
 
 ## Main Learning Points
 

@@ -11,7 +11,7 @@ P5-12.2에서는 장기 의존성(long-term dependency) 때문에 순차 모델�
 
 어텐션은 현재 계산에 정말 중요한 위치나 토큰(token)에 더 큰 비중을 두어, 필요한 정보를 더 직접적으로 참고하게 만드는 방식입니다.
 
-attention의 기본 문제의식을 다시 짧게 잡아야 할 때는 개념사전의 [어텐션(Attention)](../../../reference/concept-glossary.md#attention) 항목을 기준으로 다시 읽습니다.
+attention의 기본 문제의식을 다시 짧게 잡아야 할 때는 개념사전의 [어텐션(Attention)](../../../reference/concept-glossary-parts/08-ieung.md#attention) 항목을 기준으로 다시 읽습니다.
 
 ## Attention이 필요한 위치를 다시 보는 질문
 

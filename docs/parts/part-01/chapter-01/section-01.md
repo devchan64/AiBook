@@ -31,18 +31,18 @@ Part 1에서 `AI`는 가장 넓은 바깥 범주입니다. 뒤 절에서 `AI`라
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [AI](../../../reference/concept-glossary.md#ai-artificial-intelligence) | 가장 넓은 바깥 범주 | 뒤에서 나올 여러 접근을 한 지도에 놓기 위해 |
-| [머신러닝](../../../reference/concept-glossary.md#machine-learning) | 데이터에서 패턴을 학습하는 접근 | 규칙 기반 방식과 학습 기반 방식을 구분하기 위해 |
-| [딥러닝](../../../reference/concept-glossary.md#deep-learning) | 신경망으로 복잡한 표현을 학습하는 흐름 | 머신러닝 안의 중요한 확장 방향을 잡기 위해 |
-| [생성형 AI](../../../reference/concept-glossary.md#aigenerative-ai) | 텍스트, 이미지, 음성 같은 결과를 만들어 내는 흐름 | 최근 AI 경험을 좁게 오해하지 않기 위해 |
-| [LLM](../../../reference/concept-glossary.md#llm) | 언어 데이터를 중심으로 다루는 대규모 언어 모델 | 생성형 AI와 AI 전체를 구분하기 위해 |
-| [시스템](../../../reference/concept-glossary.md#system) | 입력을 받아 결과를 만드는 실제 구현 구조 | 분야와 구현을 구분하기 위해 |
-| [입력](../../../reference/concept-glossary.md#input) | 시스템이 받아 보는 정보 | 무엇을 근거로 판단하는지 읽기 위해 |
-| [출력](../../../reference/concept-glossary.md#output) | 시스템이 만들어 내는 결과 | 분류, 추천, 생성 같은 차이를 읽기 위해 |
-| [목표](../../../reference/concept-glossary.md#goal) | 왜 그런 출력을 만들게 하는가에 대한 목적 | 같은 출력도 다른 목적에서 쓰일 수 있음을 보기 위해 |
-| [예측](../../../reference/concept-glossary.md#prediction) | 현재 정보에서 결과를 추정하는 일 | 생성, 추천, 분류와 헷갈리지 않게 하기 위해 |
-| [추천](../../../reference/concept-glossary.md#recommendation) | 여러 후보 중 다음에 볼 만한 것을 고르는 결과 | AI가 답변만 만드는 것이 아님을 보기 위해 |
-| [규칙 기반 시스템](../../../reference/concept-glossary.md#rule-based-system) | 사람이 규칙을 써서 결론을 내리는 시스템 | AI 범위를 최신 학습 모델로만 좁히지 않기 위해 |
+| [AI](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence) | 가장 넓은 바깥 범주 | 뒤에서 나올 여러 접근을 한 지도에 놓기 위해 |
+| [머신러닝](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning) | 데이터에서 패턴을 학습하는 접근 | 규칙 기반 방식과 학습 기반 방식을 구분하기 위해 |
+| [딥러닝](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning) | 신경망으로 복잡한 표현을 학습하는 흐름 | 머신러닝 안의 중요한 확장 방향을 잡기 위해 |
+| [생성형 AI](../../../reference/concept-glossary-parts/07-siot.md#aigenerative-ai) | 텍스트, 이미지, 음성 같은 결과를 만들어 내는 흐름 | 최근 AI 경험을 좁게 오해하지 않기 위해 |
+| [LLM](../../../reference/concept-glossary-parts/08-ieung.md#llm) | 언어 데이터를 중심으로 다루는 대규모 언어 모델 | 생성형 AI와 AI 전체를 구분하기 위해 |
+| [시스템](../../../reference/concept-glossary-parts/07-siot.md#system) | 입력을 받아 결과를 만드는 실제 구현 구조 | 분야와 구현을 구분하기 위해 |
+| [입력](../../../reference/concept-glossary-parts/08-ieung.md#input) | 시스템이 받아 보는 정보 | 무엇을 근거로 판단하는지 읽기 위해 |
+| [출력](../../../reference/concept-glossary-parts/11-chieut.md#output) | 시스템이 만들어 내는 결과 | 분류, 추천, 생성 같은 차이를 읽기 위해 |
+| [목표](../../../reference/concept-glossary-parts/05-mieum.md#goal) | 왜 그런 출력을 만들게 하는가에 대한 목적 | 같은 출력도 다른 목적에서 쓰일 수 있음을 보기 위해 |
+| [예측](../../../reference/concept-glossary-parts/08-ieung.md#prediction) | 현재 정보에서 결과를 추정하는 일 | 생성, 추천, 분류와 헷갈리지 않게 하기 위해 |
+| [추천](../../../reference/concept-glossary-parts/11-chieut.md#recommendation) | 여러 후보 중 다음에 볼 만한 것을 고르는 결과 | AI가 답변만 만드는 것이 아님을 보기 위해 |
+| [규칙 기반 시스템](../../../reference/concept-glossary-parts/01-giyeok.md#rule-based-system) | 사람이 규칙을 써서 결론을 내리는 시스템 | AI 범위를 최신 학습 모델로만 좁히지 않기 위해 |
 
 ## 주요 학습내용
 

@@ -7,7 +7,7 @@ P5-13.1과 P5-13.2에서는 어텐션(Attention)과 셀프 어텐션(self-attent
 
 그렇다면 어텐션이 실제 계산에서는 쿼리(query), 키(key), 값(value)으로 왜 설명되며, 멀티헤드 어텐션(multi-head attention)은 왜 따로 이름이 붙는가?
 
-용어가 다시 흩어져 보일 때는 개념사전의 [쿼리-키-값(query-key-value, QKV)](../../../reference/concept-glossary.md#-query-key-value-qkv)과 [멀티헤드 어텐션(multi-head attention)](../../../reference/concept-glossary.md#multi-head-attention) 항목을 함께 다시 봅니다.
+용어가 다시 흩어져 보일 때는 개념사전의 [쿼리-키-값(query-key-value, QKV)](../../../reference/concept-glossary-parts/10-kieuk.md#-query-key-value-qkv)과 [멀티헤드 어텐션(multi-head attention)](../../../reference/concept-glossary-parts/05-mieum.md#multi-head-attention) 항목을 함께 다시 봅니다.
 
 ## QKV와 멀티헤드가 필요한 질문
 

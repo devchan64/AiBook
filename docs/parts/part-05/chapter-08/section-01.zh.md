@@ -11,7 +11,7 @@
 
 正则化，是在学习过程中加入约束或额外代价，好让模型不要只对训练数据过度贴合的想法。
 
-如果之后又把过拟合抑制和 normalization 混在一起，更适合回到概念词汇表里的 [regularization](/AiBook/reference/concept-glossary/#regularization) 条目，重新对齐边界。
+如果之后又把过拟合抑制和 normalization 混在一起，更适合回到概念词汇表里的 [regularization](/AiBook/reference/concept-glossary-parts/09-jieut/#regularization) 条目，重新对齐边界。
 
 ## regularization 给目标函数加上的问题
 

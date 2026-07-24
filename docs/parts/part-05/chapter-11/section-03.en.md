@@ -7,7 +7,7 @@ In P5-11.1 and P5-11.2, we first saw why convolutional neural networks (CNNs) fi
 
 What is different about the Vision Transformer (ViT), which is often mentioned after CNNs, and why is it useful to know this difference before trying to understand later generative AI and multimodal models?
 
-When you need to briefly confirm again the different starting unit of a Vision Transformer, return to the glossary entry on [ViT (Vision Transformer)](/AiBook/reference/concept-glossary/#vit-vision-transformer).
+When you need to briefly confirm again the different starting unit of a Vision Transformer, return to the glossary entry on [ViT (Vision Transformer)](/AiBook/reference/concept-glossary-parts/06-bieup/#vit-vision-transformer).
 
 ## The Input Unit That Separates CNNs From ViTs
 

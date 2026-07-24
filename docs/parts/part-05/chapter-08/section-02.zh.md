@@ -11,7 +11,7 @@
 
 dropout 是一种 regularization 技术，它会在训练中随机关闭一部分节点输出或连接，从而让模型不要过度依赖某些特定路径。
 
-如果之后又想重新抓住：dropout 是一种通过摇动结构来起作用的 regularization，更适合回到[英文概念词汇表里的 dropout 条目](/AiBook/en/reference/concept-glossary/#dropout)，再按这个基准重读。
+如果之后又想重新抓住：dropout 是一种通过摇动结构来起作用的 regularization，更适合回到[英文概念词汇表里的 dropout 条目](/AiBook/reference/concept-glossary-parts/03-digeut/#dropout)，再按这个基准重读。
 
 ## dropout 怎样减少路径依赖的问题
 

@@ -11,7 +11,7 @@ P5-8.1에서는 목적 함수 옆에 regularization 항을 두어 학습 루프�
 
 드롭아웃은 학습 중 일부 노드 출력이나 연결을 무작위로 끄면서, 모델이 특정 경로에 과하게 의존하지 않도록 만드는 정규화 기법이다.
 
-구조를 흔드는 regularization 사례라는 감각을 다시 짚어야 할 때는 개념사전의 [드롭아웃(dropout)](../../../reference/concept-glossary.md#dropout) 항목을 기준으로 다시 읽습니다.
+구조를 흔드는 regularization 사례라는 감각을 다시 짚어야 할 때는 개념사전의 [드롭아웃(dropout)](../../../reference/concept-glossary-parts/03-digeut.md#dropout) 항목을 기준으로 다시 읽습니다.
 
 ## dropout이 경로 의존을 줄이는 질문
 

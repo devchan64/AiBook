@@ -11,7 +11,7 @@
 
 如果随机森林更接近 `并行地收集很多意见`， 那么梯度提升更接近 `让下一阶段修正前一阶段的错误`。
 
-这一节解释 `梯度提升(gradient boosting)`、`residual`、`weak learner`、`additive model` 这些基本含义。 后面的 Section 会沿着这些抓手继续推进， 而顺序修正误差的基础感觉， 也会通过这一节和[概念词典](/AiBook/en/reference/concept-glossary/)重新连接。
+这一节解释 `梯度提升(gradient boosting)`、`residual`、`weak learner`、`additive model` 这些基本含义。 后面的 Section 会沿着这些抓手继续推进， 而顺序修正误差的基础感觉， 也会通过这一节和[概念词典](/AiBook/reference/concept-glossary/)重新连接。
 
 ## 本节范围
 

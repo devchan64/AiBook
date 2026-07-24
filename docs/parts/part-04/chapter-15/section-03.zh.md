@@ -15,7 +15,7 @@ OOB 是一种内部验证式方法： 它利用没有被抽进 bootstrap 样本�
 
 也就是说， OOB 不是 `一个新模型`， 而是读取和检查随机森林的方法。
 
-这一节也不会再长篇重复随机森林的基本结构。 核心直觉会通过 P4-15.1 和[概念词典](/AiBook/en/reference/concept-glossary/)重新连接， 这里聚焦的只是： bootstrap 与 OOB 是怎样连成检查装置的。
+这一节也不会再长篇重复随机森林的基本结构。 核心直觉会通过 P4-15.1 和[概念词典](/AiBook/reference/concept-glossary/)重新连接， 这里聚焦的只是： bootstrap 与 OOB 是怎样连成检查装置的。
 
 ## 本节范围
 

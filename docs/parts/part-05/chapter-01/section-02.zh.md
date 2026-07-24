@@ -5,7 +5,7 @@
 
 在 P5-1.1 里，我们把感知机（perceptron）看成了`输入（input） -> 权重（weight） -> 求和（sum） -> 输出（output）`这条流程。现在继续往下看：把输入汇成加权和，到底准确意味着什么？为什么只靠这个和，还不能算深度学习？感知机会先形成输入的线性组合（linear combination），再把这个结果送进激活（activation）规则，从而形成判断。
 
-如果后面的章节里激活的基本含义又开始变模糊，可以先回到[英文概念词汇表里的 activation function 条目](/AiBook/en/reference/concept-glossary/#activation-function)。
+如果后面的章节里激活的基本含义又开始变模糊，可以先回到[英文概念词汇表里的 activation function 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function)。
 
 ## 线性组合与激活分开的角色
 

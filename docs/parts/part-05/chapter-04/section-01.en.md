@@ -13,7 +13,7 @@ A loss function is the rule that turns how far the model's current output differ
 
 However, textbooks and framework documents sometimes separate `loss` from `objective` or `cost` a little more carefully. Often, `loss` refers to the per-sample discrepancy or its average, while the full target that is actually minimized is explained as an `objective/cost` that includes the batch average together with regularization. In this section, for beginner flow, everything is first explained under the single name `loss`, but when gradients and the optimizer are connected in later sections, we return to the question `what is actually being minimized?`
 
-When the role of loss needs to be checked again briefly in later sections, return to the [loss function](/AiBook/reference/concept-glossary/#loss-function) entry in the concept glossary.
+When the role of loss needs to be checked again briefly in later sections, return to the [loss function](/AiBook/reference/concept-glossary-parts/07-siot/#loss-function) entry in the concept glossary.
 
 Here it is enough to fix the following three sentences first.
 

@@ -11,7 +11,7 @@
 
 优化器是接收反向传播算出的 gradient，并把参数真实更新到更可能减小损失方向上的规则。换句话说，前面的计算会告诉我们`朝这边改，损失可能会下降`，而 optimizer 则把这个结果继续变成`那么这一 step 里就把权重这样改`这样的真实调整。
 
-如果后面又开始把 loss、gradient、update 的角色混在一起，更适合回到[英文概念词汇表里的 optimizer 条目](/AiBook/en/reference/concept-glossary/#optimizer)，重新按角色拆开。
+如果后面又开始把 loss、gradient、update 的角色混在一起，更适合回到[英文概念词汇表里的 optimizer 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer)，重新按角色拆开。
 
 如果把一次学习 step 非常粗略地说出来，模型会先做出预测，再计算这个预测错了多少，再计算这种错误与哪些权重有关，最后才真正改动权重数值。这里最后一个阶段，就是 optimizer 的位置。
 

@@ -11,7 +11,7 @@ P5-6장에서는 학습 루프, step/batch/epoch, 학습(learning)과 모델 실
 
 옵티마이저는 역전파가 계산한 gradient를 받아, 손실을 줄이는 방향으로 파라미터를 실제로 업데이트하는 규칙이다. 다시 말해, `이쪽으로 바꾸면 손실이 줄어들 수 있다`는 계산 결과를 받아 `그래서 이번 step에서 가중치를 이렇게 바꾸자`는 실제 조정으로 넘기는 단계가 옵티마이저입니다.
 
-손실, gradient, update의 역할이 다시 섞이면 개념사전의 [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 기준으로 역할을 다시 나눕니다.
+손실, gradient, update의 역할이 다시 섞이면 개념사전의 [옵티마이저(optimizer)](../../../reference/concept-glossary-parts/08-ieung.md#optimizer) 항목을 기준으로 역할을 다시 나눕니다.
 
 한 번의 학습 step을 아주 거칠게 말하면, 모델은 먼저 예측을 내고, 그 예측이 얼마나 틀렸는지 계산하고, 그 틀림이 어느 가중치와 연결되는지 계산한 뒤, 마지막에 실제 가중치 숫자를 바꿉니다. 여기서 마지막 단계를 맡는 것이 옵티마이저입니다.
 

@@ -11,7 +11,7 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 
 손실 함수는 문제 유형에 따라 달라진다. 왜냐하면 회귀(regression), 분류(classification), 생성(generation)은 틀림의 모양 자체가 다르기 때문이다.
 
-문제 유형에 따라 손실을 다르게 읽는 기준이 다시 섞일 때는 개념사전의 [손실 함수(loss function)](../../../reference/concept-glossary.md#loss-function) 항목으로 돌아갑니다.
+문제 유형에 따라 손실을 다르게 읽는 기준이 다시 섞일 때는 개념사전의 [손실 함수(loss function)](../../../reference/concept-glossary-parts/07-siot.md#loss-function) 항목으로 돌아갑니다.
 
 ## 문제 유형이 손실을 바꾸는 질문
 

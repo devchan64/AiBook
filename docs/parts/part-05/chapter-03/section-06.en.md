@@ -11,7 +11,7 @@ This question connects directly to the loss function. So this section is both th
 
 The activation in the output layer changes depending on what the model is trying to predict, and it is chosen to match what meaning the output value should have.
 
-If the criteria for output interpretation and activation choice become blurry again, reread together the [output](/AiBook/reference/concept-glossary/#output) and [activation function](/AiBook/reference/concept-glossary/#activation-function) entries in the concept glossary.
+If the criteria for output interpretation and activation choice become blurry again, reread together the [output](/AiBook/reference/concept-glossary-parts/11-chieut/#output) and [activation function](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function) entries in the concept glossary.
 
 ## The Question Of Choosing Output-Layer Activation
 

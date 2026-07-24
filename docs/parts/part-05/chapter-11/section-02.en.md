@@ -9,7 +9,7 @@ What is the core operation that actually computes those local patterns, and why 
 
 Convolution is the operation that computes local-pattern scores with a small filter, and pooling is the operation that organizes those results into a smaller, more summarized form.
 
-When the operation names become mixed up again, it is useful to reread together the glossary entries on [convolution](/AiBook/reference/concept-glossary/#convolution) and [pooling](/AiBook/reference/concept-glossary/#pooling).
+When the operation names become mixed up again, it is useful to reread together the glossary entries on [convolution](/AiBook/reference/concept-glossary-parts/14-hieut/#convolution) and [pooling](/AiBook/reference/concept-glossary-parts/13-pieup/#pooling).
 
 ## Questions Closed By Convolution And Pooling
 

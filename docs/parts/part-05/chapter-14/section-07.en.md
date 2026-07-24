@@ -9,7 +9,7 @@ In P5-14.2, we saw that a residual connection leaves the original information fl
 
 In a Transformer block, a residual connection does not remove the new computation. It creates a path where the new computed result and the original input representation move on to the next stage together.
 
-When the terminology begins to scatter again, it helps to revisit the [residual connection](/AiBook/reference/concept-glossary/#residual-connection) entry in the concept glossary together with the four-part role split from P5-14.2.
+When the terminology begins to scatter again, it helps to revisit the [residual connection](/AiBook/reference/concept-glossary-parts/09-jieut/#residual-connection) entry in the concept glossary together with the four-part role split from P5-14.2.
 
 ## What Goes Wrong If Only the New Computation Is Passed On?
 

@@ -12,7 +12,7 @@
 
 本节的目的，不是去学习这些概念的全部证明，而是整理 `这些词到底在担心什么`，让读者在看到 regression result 表时不要停住。
 
-这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [概念词汇表](/AiBook/en/reference/concept-glossary/) 里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
+这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [概念词汇表](/AiBook/reference/concept-glossary/) 里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
 
 ## 本补充学习的范围
 

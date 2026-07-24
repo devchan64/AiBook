@@ -11,7 +11,7 @@ The structure that answers this question is the convolutional neural network.
 
 A convolutional neural network is a neural network that does not look at the whole image in one identical way at once, but instead repeatedly inspects small local patterns and learns larger visual structures from them.
 
-When you need to reset the basic definition for reading image structure, return to the glossary entry on [CNN (convolutional neural network)](/AiBook/reference/concept-glossary/#cnn-convolutional-neural-network).
+When you need to reset the basic definition for reading image structure, return to the glossary entry on [CNN (convolutional neural network)](/AiBook/reference/concept-glossary-parts/14-hieut/#cnn-convolutional-neural-network).
 
 ## The Question Of Why CNNs Fit Images
 

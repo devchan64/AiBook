@@ -13,7 +13,7 @@
 
 价值型强化学习，是一种通过给每个状态里的行动附上长期好坏的数值来学习的做法。
 
-这一节解释 `value-based reinforcement learning`、`state value`、`action value`、`Q-value` 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“把行动的长期好坏读成分数”这一基本感觉，会再次通过这一节和[概念词汇表](/AiBook/en/reference/concept-glossary/)连回来。
+这一节解释 `value-based reinforcement learning`、`state value`、`action value`、`Q-value` 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“把行动的长期好坏读成分数”这一基本感觉，会再次通过这一节和[概念词汇表](/AiBook/reference/concept-glossary/)连回来。
 
 ## 本节范围
 

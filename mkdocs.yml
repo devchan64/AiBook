@@ -12,6 +12,7 @@ validation:
 
 not_in_nav: |
   assets/**/README.md
+  reference/concept-glossary-parts/*.md
   *.en.md
   *.zh.md
 

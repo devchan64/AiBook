@@ -25,7 +25,7 @@ a = f(z)
 
 이 변환 규칙이 단순한 비례 관계를 벗어나게 만들면 비선형성(nonlinearity)이 생기고, 신경망은 더 복잡한 패턴을 표현할 수 있습니다.
 
-활성화와 비선형성의 기준선을 다시 짧게 잡아야 할 때는 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary.md#activation-function) 항목으로 돌아갑니다.
+활성화와 비선형성의 기준선을 다시 짧게 잡아야 할 때는 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function) 항목으로 돌아갑니다.
 
 ## 활성화 함수가 필요한 질문
 

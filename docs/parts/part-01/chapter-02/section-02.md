@@ -30,10 +30,10 @@ Part 1에서 `탐색(search)`과 `확률 추론(probabilistic reasoning)`의 기
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [탐색](../../../reference/concept-glossary.md#search) | 가능한 상태와 행동을 따라 목표를 찾는 접근 | 후보가 많을 때 왜 순서 문제가 생기는지 보기 위해 |
-| [지식 표현](../../../reference/concept-glossary.md#knowledge-representation) | 사실과 관계와 제약을 적는 형식 | 무엇을 알고 있다고 볼지 정하는 문제를 분리하기 위해 |
-| [확률 추론](../../../reference/concept-glossary.md#probabilistic-reasoning) | 불완전한 정보에서 그럴듯함을 다루는 방식 | 참/거짓만으로 닫히지 않는 판단을 읽기 위해 |
-| [목표](../../../reference/concept-glossary.md#goal) | 도달하려는 조건 | 탐색이 어디서 멈추는지 정하는 기준을 보기 위해 |
+| [탐색](../../../reference/concept-glossary-parts/01-giyeok.md#search) | 가능한 상태와 행동을 따라 목표를 찾는 접근 | 후보가 많을 때 왜 순서 문제가 생기는지 보기 위해 |
+| [지식 표현](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) | 사실과 관계와 제약을 적는 형식 | 무엇을 알고 있다고 볼지 정하는 문제를 분리하기 위해 |
+| [확률 추론](../../../reference/concept-glossary-parts/14-hieut.md#probabilistic-reasoning) | 불완전한 정보에서 그럴듯함을 다루는 방식 | 참/거짓만으로 닫히지 않는 판단을 읽기 위해 |
+| [목표](../../../reference/concept-glossary-parts/05-mieum.md#goal) | 도달하려는 조건 | 탐색이 어디서 멈추는지 정하는 기준을 보기 위해 |
 
 ## 주요 학습내용
 

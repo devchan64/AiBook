@@ -11,7 +11,7 @@
 
 长期依赖指的是：当前判断需要很久以前的信息，但模型却无法把这条信息稳定地保留或传递足够久。
 
-之后在阅读 attention 章节时，如果需要再次确认距离问题的出发点，可以回到概念词汇表里的 [long-term dependency](/AiBook/reference/concept-glossary/#long-term-dependency) 条目重新对齐。
+之后在阅读 attention 章节时，如果需要再次确认距离问题的出发点，可以回到概念词汇表里的 [long-term dependency](/AiBook/reference/concept-glossary-parts/09-jieut/#long-term-dependency) 条目重新对齐。
 
 ## 长期依赖怎样影响当前判断的问题
 

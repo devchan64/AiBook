@@ -11,7 +11,7 @@
 
 表征学习，指的是：不再由人逐项设计 feature，而是由模型自己从数据里学出有用的内部表征。
 
-如果后面在结构章节里又把`表征`和`表征学习`混在一起，更适合一起回到[英文概念词汇表里的 representation 条目](/AiBook/en/reference/concept-glossary/#representation)和[representation learning 条目](/AiBook/en/reference/concept-glossary/#representation-learning)重新对齐。
+如果后面在结构章节里又把`表征`和`表征学习`混在一起，更适合一起回到[英文概念词汇表里的 representation 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation)和[representation learning 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation-learning)重新对齐。
 
 ## representation learning 怎样改变特征的问题
 

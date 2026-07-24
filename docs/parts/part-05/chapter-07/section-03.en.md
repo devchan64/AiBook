@@ -9,7 +9,7 @@ Adaptive update appears exactly at this point. If the basic direct update is `a 
 
 In this section, we use Adam (Adaptive Moment Estimation) as a representative example to read that intuition. The center is not the name Adam itself, but `why do recent flow and coordinate-wise adjustment enter the update rule?`
 
-If the difference between basic updates and adaptive updates starts to blur together again, return together to the [gradient descent](/AiBook/reference/concept-glossary/#gradient-descent) and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
+If the difference between basic updates and adaptive updates starts to blur together again, return together to the [gradient descent](/AiBook/reference/concept-glossary-parts/01-giyeok/#gradient-descent) and [optimizer](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer) entries in the concept glossary.
 
 ## The Question Of What Adam Adapts
 

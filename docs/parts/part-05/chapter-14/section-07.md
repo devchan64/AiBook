@@ -9,7 +9,7 @@ P5-14.2에서는 Transformer 블록 안에서 residual connection이 원래 정�
 
 Transformer 블록에서 residual connection은 새 계산을 없애는 장치가 아니라, 새 계산 결과와 원래 입력 표현이 함께 다음 단계로 넘어가게 만드는 경로입니다.
 
-용어가 다시 흩어질 때는 개념사전의 [잔차 연결(residual connection)](../../../reference/concept-glossary.md#residual-connection) 항목과 P5-14.2의 네 부품 역할 분담을 함께 다시 보면 좋습니다.
+용어가 다시 흩어질 때는 개념사전의 [잔차 연결(residual connection)](../../../reference/concept-glossary-parts/09-jieut.md#residual-connection) 항목과 P5-14.2의 네 부품 역할 분담을 함께 다시 보면 좋습니다.
 
 ## 새 계산만 넘기면 무엇이 위험한가
 

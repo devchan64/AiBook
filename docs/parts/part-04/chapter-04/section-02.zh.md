@@ -7,7 +7,7 @@
 
 如果不把这个差别分开，人就会在选模型的过程中不断去看 test 结果，而一旦这样做，test data 就不再是 `第一次看到的数据`。因此在实务里，evaluation data 往往还会进一步分成 `validation data` 和 `test data`。
 
-这一节会说明 `validation`、`test`，以及 `中途做模型选择的确认` 和 `最后一次确认` 之间的差别。后面的章节会带着这个抓手继续判断当前语境，而数据拆分之后的评估流程，会通过本节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再次接回。
+这一节会说明 `validation`、`test`，以及 `中途做模型选择的确认` 和 `最后一次确认` 之间的差别。后面的章节会带着这个抓手继续判断当前语境，而数据拆分之后的评估流程，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 

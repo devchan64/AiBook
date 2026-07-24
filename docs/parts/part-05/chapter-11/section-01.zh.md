@@ -11,7 +11,7 @@
 
 卷积神经网络不是把整张图像一次性用同一种方式看完，而是反复观察小的局部模式（local pattern），并从中学出更大的视觉结构的神经网络。
 
-当需要重新确认如何理解图像结构的基本定义时，可以回到概念词汇表里的[卷积神经网络（CNN, convolutional neural network）](/AiBook/en/reference/concept-glossary/#cnn-convolutional-neural-network)条目重新对齐。
+当需要重新确认如何理解图像结构的基本定义时，可以回到概念词汇表里的[卷积神经网络（CNN, convolutional neural network）](/AiBook/reference/concept-glossary-parts/14-hieut/#cnn-convolutional-neural-network)条目重新对齐。
 
 ## CNN 为什么适合图像的问题
 

@@ -31,10 +31,10 @@ Chapter 3 说明了从规则式方法转向学习式方法的脉络。Chapter 4 
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
-| [model](/AiBook/en/reference/concept-glossary/#model) | 接收输入并计算输出的核心计算部件 | 为了把 AI 里的 `model` 和现实整体区分开 |
-| [system](/AiBook/en/reference/concept-glossary/#system) | 把模型、规则和人工复核包在一起的整体结构 | 为了避免把整个服务误当成一个模型 |
-| [input](/AiBook/en/reference/concept-glossary/#input) | 系统接收到的信息 | 为了看模型到底拿什么做计算材料 |
-| [output](/AiBook/en/reference/concept-glossary/#output) | 系统产生的结果 | 为了看模型到底算出什么 |
+| [model](/AiBook/reference/concept-glossary-parts/05-mieum/#model) | 接收输入并计算输出的核心计算部件 | 为了把 AI 里的 `model` 和现实整体区分开 |
+| [system](/AiBook/reference/concept-glossary-parts/07-siot/#system) | 把模型、规则和人工复核包在一起的整体结构 | 为了避免把整个服务误当成一个模型 |
+| [input](/AiBook/reference/concept-glossary-parts/08-ieung/#input) | 系统接收到的信息 | 为了看模型到底拿什么做计算材料 |
+| [output](/AiBook/reference/concept-glossary-parts/11-chieut/#output) | 系统产生的结果 | 为了看模型到底算出什么 |
 
 ## 三个基准
 

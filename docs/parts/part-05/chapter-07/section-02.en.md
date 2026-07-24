@@ -11,7 +11,7 @@ The setting that appears first when answering this question is the learning rate
 
 The learning rate is the stride length that decides how far the optimizer moves at one time when it turns a gradient into an actual update. In other words, if the gradient tells us `in which direction should we change it`, then the learning rate decides `how far should we move in that direction in this step`.
 
-If the relationship among learning rate, gradient, and update starts to blur again, it helps to return together to the [learning rate](/AiBook/reference/concept-glossary/#learning-rate) and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
+If the relationship among learning rate, gradient, and update starts to blur again, it helps to return together to the [learning rate](/AiBook/reference/concept-glossary-parts/14-hieut/#learning-rate) and [optimizer](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer) entries in the concept glossary.
 
 ## The Question Of How Learning Rate Sets Step Size
 
