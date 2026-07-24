@@ -1,7 +1,7 @@
 # P6-10.1 입력 지시·맥락·예시를 조정하는 프롬프트 엔지니어링
 
 > Section ID: `P6-10.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-9.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제가 아니라, 유용성, 안전성, 사실성, 서비스 정책이 함께 걸린 설계 문제라는 점을 보았습니다. 그러면 이제 사용자의 손에 가장 먼저 잡히는 도구를 봐야 합니다.
 
@@ -279,249 +279,317 @@ P6-9.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제
 
 이 예제의 목표는 `좋은 문장을 한 번 쓰는 것`이 아니라, 같은 작업을 여러 요청 카드에 반복 적용했을 때 어떤 프롬프트가 더 안정적인 결과를 내는지 직접 관찰하는 것입니다. 실제 서비스에서도 프롬프트 평가는 한 번의 멋진 출력보다 `여러 입력에서 형식과 핵심 항목이 계속 유지되는가`를 보는 쪽이 더 중요합니다.
 
-이번 예제는 사람이 만든 응답 함수를 쓰지 않고, Ollama 로컬 API로 실제 모델 응답을 받아 점검합니다. 독자의 컴퓨터에서 Ollama가 실행 중이어야 하며, 사용할 모델은 `OLLAMA_MODEL` 환경 변수로 바꿀 수 있습니다. 실행 결과는 모델과 버전에 따라 달라질 수 있으므로, 본문에서 봐야 할 것은 특정 문장 하나가 아니라 `단순 프롬프트와 구조화 프롬프트의 점검 통계가 어떻게 달라지는가`입니다.
+이번 예제는 사람이 만든 응답 함수를 쓰지 않고, 모델 응답을 관찰할 때 쓰는 저장 로그 형식을 읽어 점검합니다. [p6_10_1_generate_prompt_response_log.py](../../../assets/part-06/chapter-10/p6_10_1_generate_prompt_response_log.py)는 Ollama 로컬 모델을 실제로 호출하고, 그 응답 원문을 `모델 응답 원문 -> 형식 신호와 핵심어 보존 여부 -> CSV 관찰 기록` 순서로 줄여 저장합니다. 본문 기본 예제는 이미 실행해 둔 CSV 로그를 읽습니다. 이 CSV는 특정 모델, 설정값, 실행 시점에서 만들어 둔 스냅샷 로그입니다. 실행 결과는 모델과 버전에 따라 달라질 수 있으므로, 본문에서 봐야 할 것은 특정 문장 하나가 아니라 `작업만 적은 프롬프트`, `지시와 맥락을 준 프롬프트`, `예시까지 붙인 프롬프트`, `예시와 점검 지시까지 붙인 프롬프트`의 점검 통계가 어떻게 달라지는가입니다.
 
-고객지원팀이 매일 여러 운영 메모를 짧게 요약한다고 해 봅시다. 단순 요청은 자유롭게 요약되지만, 운영상 꼭 남겨야 하는 항목이 빠질 수 있습니다. 구조화 요청은 `독자`, `줄 수`, `반드시 남길 항목`을 함께 줘서 형식과 누락 여부를 점검합니다.
+고객지원팀이 매일 여러 운영 메모를 짧게 요약한다고 해 봅시다. 단순 요청은 자유롭게 요약되지만, 운영상 꼭 남겨야 하는 항목이 빠질 수 있습니다. 지시와 맥락을 주면 독자, 줄 수, 반드시 남길 항목이 더 분명해집니다. 여기에 예시까지 붙이면 모델은 `어떤 모양의 답을 따라야 하는지`를 더 직접 보게 됩니다.
 
-아래 예제는 운영 메모 3개를 대상으로 단순 프롬프트와 구조화 프롬프트를 각각 실제 모델에 보냅니다. 비교 기준은 메모별 응답, 줄 수, 번호 형식, 핵심 항목 보존율, 슬롯 누락 여부, 프롬프트 유형별 전체 요약 통계입니다.
+아래 예제는 운영 메모 4개를 대상으로 네 프롬프트 유형의 저장 응답 로그를 비교합니다. 비교 기준은 메모별 반복 응답, 줄 수, 번호 형식, 핵심 항목 보존율, 슬롯 누락 여부, 프롬프트 유형별 전체 요약 통계입니다. 생성 스크립트를 실행하면 영어 프롬프트가 Ollama 로컬 모델에 전달되고, 응답은 같은 CSV 열로 저장됩니다. 저장 로그는 `log_source`, `model_name`, `temperature`, `slot_language` 열을 함께 두어 어떤 실행 환경에서 나온 기록인지 확인할 수 있게 했습니다. 본문에서는 재현 가능한 읽기 흐름을 위해 먼저 실행해 둔 저장 로그 CSV를 읽습니다.
 
 프롬프트 설계 차이를 먼저 표로 보면 다음과 같습니다.
 
-| 비교 항목 | 단순 프롬프트 | 구조화 프롬프트 |
-| --- | --- | --- |
-| 작업 지시 | `요약해 주세요` | `운영 담당자가 바로 읽을 3줄 요약` |
-| 독자 정보 | 없음 | 운영 담당자 |
-| 형식 제약 | 없음 | `상황`, `즉시 조치`, `남은 위험` |
-| 점검 기준 | 사람이 눈대중 확인 | 슬롯 누락, 키워드 보존율 확인 |
+| 비교 항목 | 작업만 적은 프롬프트 | 지시+맥락 프롬프트 | 지시+맥락+예시 프롬프트 | 지시+맥락+예시+점검 프롬프트 |
+| --- | --- | --- | --- | --- |
+| 작업 지시 | `요약해 주세요` | `운영 담당자가 바로 읽을 3줄 요약` | 같은 지시를 유지 | 같은 지시를 유지 |
+| 맥락 | 운영 메모만 있음 | 운영 메모와 독자 목적이 함께 있음 | 같은 맥락을 유지 | 같은 맥락을 유지 |
+| 예시 | 없음 | 없음 | 세 줄 슬롯 출력 예시가 있음 | 같은 예시가 있음 |
+| 추가 제어 | 없음 | 없음 | 없음 | 도입 문장 금지와 핵심 사실 확인 지시가 있음 |
+| 점검 기준 | 사람이 눈대중 확인 | 줄 수, 슬롯, 키워드 보존율 확인 | 같은 기준으로 반복 비교 | 같은 기준으로 반복 비교 |
 
-코드에서 확인할 핵심은 프롬프트를 구조화하면 답변 내용뿐 아니라 형식 점검 가능성과 사실 보존 여부도 함께 달라질 수 있다는 점입니다. `temperature`를 0으로 낮춰도 모델 응답은 완전히 고정된 계산 결과가 아니므로, 한 번의 결과보다 여러 카드의 통계를 함께 봐야 합니다.
+코드에서 확인할 핵심은 입력에 지시, 맥락, 예시가 추가될수록 답변 내용뿐 아니라 형식 점검 가능성과 사실 보존 여부도 함께 달라질 수 있다는 점입니다. `temperature`를 0으로 낮춰도 모델 응답은 완전히 고정된 계산 결과가 아니므로, 한 번의 결과보다 여러 카드와 여러 반복 로그의 통계를 함께 봐야 합니다.
+
+저장 응답 로그는 [p6-10-1-prompt-response-log.csv](../../../assets/part-06/chapter-10/p6-10-1-prompt-response-log.csv){ .csv-preview }에 있습니다. 한 행은 하나의 모델 응답 관찰 기록입니다. 핵심 열은 `prompt_type`, `card_name`, `log_source`, `model_name`, `temperature`, `line_count`, `numbered_lines`, `slot_count`, `keyword_hits`, `keyword_total`, `missing_slots`입니다. `response_note`는 원문 응답 전체를 대신하지 않고, 어떤 형식 신호가 보였는지 짧게 남긴 관찰 메모입니다. 이 로그는 `llama3.2:latest`를 `temperature=0.2`로 호출해 만든 실행 스냅샷이며, 생성 스크립트는 번역본에서도 같은 실행 기준을 유지하기 위해 영어 프롬프트와 영어 슬롯 이름을 사용합니다.
+
+Ollama 호출부만 떼어 보면 구조는 다음과 같습니다. 본문 기본 실행은 저장 CSV를 읽지만, 실제 모델 검증은 같은 운영 메모를 네 프롬프트 유형에 반복해서 보내고, 응답 원문을 같은 관찰 열로 줄여 저장하는 방식입니다.
 
 ```python
-# Ollama 로컬 API로 단순 프롬프트와 구조화 프롬프트의 응답을 비교합니다.
+# 선택 실행: 같은 운영 메모를 네 프롬프트 유형으로 보내 응답 원문을 받습니다.
 import json
 import os
 import urllib.request
 
-OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/chat")
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma3")
+ollama_url = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/generate")
+model_name = os.environ.get("OLLAMA_MODEL", "llama3.2:latest")
+temperature = float(os.environ.get("P6_10_1_TEMPERATURE", "0.2"))
 
-requests = [
-    {
-        "name": "billing outage",
-        "facts": [
-            "새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다.",
-            "문제는 오전 9시 10분부터 시작되었고 모바일 결제에서 특히 크게 나타났다.",
-            "운영팀은 새 결제 모듈을 이전 버전으로 되돌렸다.",
-            "재발 방지를 위해 승인 로그 누락 구간을 오늘 안에 다시 수집해야 한다.",
-        ],
-        "must_keep": ["승인 실패율", "되돌렸다", "로그"],
-    },
-    {
-        "name": "shipping delay",
-        "facts": [
-            "폭우로 남부 물류 허브 진입이 막혀 출고가 평균 하루 반 지연되고 있다.",
-            "신선식품 주문은 일반 주문보다 먼저 안내 문자를 보내야 한다.",
-            "고객센터는 환불보다 배송 지연 고지 문구를 먼저 확인해 달라는 요청을 받았다.",
-            "오늘 저녁 6시에 허브 운영 재개 여부를 다시 확인할 예정이다.",
-        ],
-        "must_keep": ["하루 반", "신선식품", "저녁 6시"],
-    },
-    {
-        "name": "account lock",
-        "facts": [
-            "사내 SSO 설정 변경 뒤 일부 사용자가 로그인 직후 계정 잠금 상태가 되었다.",
-            "문제는 외부 파트너 계정에서 더 자주 나타났고, 비밀번호 재설정만으로는 풀리지 않았다.",
-            "인프라팀은 정책 롤백 대신 동기화 지연 구간을 먼저 추적하고 있다.",
-            "헬프데스크는 잠금 해제 수동 절차를 공지 문서에 추가해야 한다.",
-        ],
-        "must_keep": ["외부 파트너", "동기화", "수동 절차"],
-    },
-]
-
-required_slots = ["상황", "즉시 조치", "남은 위험"]
+note = (
+    "Mobile checkout approvals failed for 17 minutes. "
+    "The payment gateway was rolled back. "
+    "Operations still need to collect transaction logs before closing the incident."
+)
 
 
-def ask_ollama(prompt):
+def build_prompt(prompt_type):
+    if prompt_type == "simple":
+        return f"Summarize this operations note briefly.\n\nNote:\n{note}"
+    if prompt_type == "instruction_context":
+        return (
+            "Summarize this operations note for an operations owner.\n"
+            "Return exactly three numbered lines.\n"
+            "Use these slot labels exactly: Situation, Immediate action, Remaining risk.\n"
+            "Keep the important operational facts from the note.\n\n"
+            f"Note:\n{note}"
+        )
+    if prompt_type == "instruction_context_example":
+        return (
+            "Summarize this operations note for an operations owner.\n"
+            "Return exactly three numbered lines.\n"
+            "Use these slot labels exactly: Situation, Immediate action, Remaining risk.\n"
+            "Keep the important operational facts from the note.\n\n"
+            "Example output format:\n"
+            "1. Situation: One sentence about what happened.\n"
+            "2. Immediate action: One sentence about what the operator should do now.\n"
+            "3. Remaining risk: One sentence about what still needs watching.\n\n"
+            f"Note:\n{note}"
+        )
+    return (
+        "Summarize this operations note for an operations owner.\n"
+        "Return exactly three numbered lines.\n"
+        "Use these slot labels exactly: Situation, Immediate action, Remaining risk.\n"
+        "Keep the important operational facts from the note.\n\n"
+        "Before answering, check that each important fact from the note appears in the final answer.\n"
+        "Do not add an introduction or closing sentence.\n\n"
+        "Example output format:\n"
+        "1. Situation: One sentence about what happened.\n"
+        "2. Immediate action: One sentence about what the operator should do now.\n"
+        "3. Remaining risk: One sentence about what still needs watching.\n\n"
+        f"Note:\n{note}"
+    )
+
+
+def call_ollama(prompt):
     payload = {
-        "model": OLLAMA_MODEL,
+        "model": model_name,
+        "prompt": prompt,
         "stream": False,
-        "messages": [
-            {
-                "role": "system",
-                "content": (
-                    "한국어로 답하세요. 입력에 없는 사실을 만들지 말고, "
-                    "운영 메모 안의 정보만 사용하세요."
-                ),
-            },
-            {"role": "user", "content": prompt},
-        ],
-        "options": {
-            "temperature": 0,
-        },
+        "options": {"temperature": temperature, "num_predict": 160},
     }
-    data = json.dumps(payload).encode("utf-8")
     request = urllib.request.Request(
-        OLLAMA_URL,
-        data=data,
+        ollama_url,
+        data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json"},
         method="POST",
     )
     with urllib.request.urlopen(request, timeout=120) as response:
-        result = json.loads(response.read().decode("utf-8"))
-    return result["message"]["content"].strip()
+        return json.loads(response.read().decode("utf-8"))["response"]
 
 
-def make_simple_prompt(card):
-    memo = "\n".join(f"- {fact}" for fact in card["facts"])
-    return f"다음 운영 메모를 짧게 요약해 주세요.\n\n{memo}"
-
-
-def make_structured_prompt(card):
-    memo = "\n".join(f"- {fact}" for fact in card["facts"])
-    must_keep = ", ".join(card["must_keep"])
-    slots = ", ".join(required_slots)
-    return f"""
-다음 운영 메모를 운영 담당자가 바로 읽고 행동할 수 있게 요약해 주세요.
-
-조건:
-- 정확히 3줄로 답하세요.
-- 각 줄은 `1. 상황:`, `2. 즉시 조치:`, `3. 남은 위험:`으로 시작하세요.
-- 반드시 확인할 핵심 항목: {must_keep}
-- 필요한 슬롯: {slots}
-- 입력에 없는 사실은 추가하지 마세요.
-
-운영 메모:
-{memo}
-""".strip()
-
-
-def inspect_response(response, must_keep, required_slots):
-    lines = [line.strip() for line in response.splitlines() if line.strip()]
-    numbered_lines = all(
-        line.startswith(f"{idx}.") for idx, line in enumerate(lines, start=1)
-    ) if lines else False
-    present_keywords = [keyword for keyword in must_keep if keyword in response]
-    missing_slots = [
-        slot for slot in required_slots if not any(slot in line for line in lines)
-    ]
-    return {
-        "line_count": len(lines),
-        "numbered_lines": numbered_lines,
-        "keyword_coverage": f"{len(present_keywords)}/{len(must_keep)}",
-        "present_keywords": present_keywords,
-        "missing_slots": missing_slots,
-    }
-
-
-def run_batch(prompt_name, prompt_builder):
-    reports = []
-    for card in requests:
-        prompt = prompt_builder(card)
-        response = ask_ollama(prompt)
-        inspect = inspect_response(
-            response=response,
-            must_keep=card["must_keep"],
-            required_slots=required_slots,
-        )
-        reports.append(
-            {
-                "name": card["name"],
-                "prompt": prompt,
-                "response": response,
-                "inspect": inspect,
-            }
-        )
-    format_ok_count = sum(1 for report in reports if report["inspect"]["numbered_lines"])
-    full_keyword_keep_count = sum(
-        1 for report in reports if report["inspect"]["keyword_coverage"] == "3/3"
-    )
-    slot_ok_count = sum(
-        1 for report in reports if not report["inspect"]["missing_slots"]
-    )
-    average_keyword_ratio = sum(
-        len(report["inspect"]["present_keywords"]) / len(requests[idx]["must_keep"])
-        for idx, report in enumerate(reports)
-    ) / len(reports)
-    return {
-        "prompt_name": prompt_name,
-        "reports": reports,
-        "format_ok_count": format_ok_count,
-        "full_keyword_keep_count": full_keyword_keep_count,
-        "slot_ok_count": slot_ok_count,
-        "average_keyword_ratio": round(average_keyword_ratio, 2),
-    }
-
-simple_batch = run_batch("simple", make_simple_prompt)
-structured_batch = run_batch("structured", make_structured_prompt)
-
-for batch in [simple_batch, structured_batch]:
-    print(f"[{batch['prompt_name']} batch]")
-    print("format_ok_count =", batch["format_ok_count"])
-    print("slot_ok_count =", batch["slot_ok_count"])
-    print("full_keyword_keep_count =", batch["full_keyword_keep_count"])
-    print("average_keyword_ratio =", batch["average_keyword_ratio"])
-    for report in batch["reports"]:
-        print(f"- {report['name']}")
-        print("response:")
-        print(report["response"])
-        print("inspect =", report["inspect"])
-    print()
+for prompt_type in [
+    "simple",
+    "instruction_context",
+    "instruction_context_example",
+    "instruction_context_example_check",
+]:
+    print(f"\n[{prompt_type}]")
+    print(call_ollama(build_prompt(prompt_type)))
 ```
 
-실행 전에 Ollama를 설치하고 모델을 받을 필요가 있습니다. 예를 들어 터미널에서 `ollama pull gemma3`를 실행한 뒤, Ollama가 켜진 상태에서 본문 코드를 실행합니다. 다른 모델을 쓰려면 `OLLAMA_MODEL=사용할_모델명`처럼 환경 변수를 바꿉니다.
+이 호출은 Ollama 서버와 모델이 준비된 환경에서만 실행합니다. 본문에 고정한 아래 예제는 같은 관찰 구조를 서버 없이 재현하기 위해 저장 CSV를 읽습니다.
 
-실행 결과는 모델과 버전에 따라 달라집니다. 예시는 다음과 같은 형태로 읽으면 됩니다.
+```python
+# 저장 응답 로그를 읽어 입력 요소별 프롬프트의 반복 관찰 통계를 비교합니다.
+import csv
+from collections import defaultdict
+from pathlib import Path
+
+log_path = Path("docs/assets/part-06/chapter-10/p6-10-1-prompt-response-log.csv")
+prompt_order = [
+    "simple",
+    "instruction_context",
+    "instruction_context_example",
+    "instruction_context_example_check",
+]
+
+
+def to_bool(value):
+    return value.lower() == "true"
+
+
+def read_logs(path):
+    with path.open(encoding="utf-8", newline="") as file:
+        rows = list(csv.DictReader(file))
+    for row in rows:
+        row["line_count"] = int(row["line_count"])
+        row["slot_count"] = int(row["slot_count"])
+        row["keyword_hits"] = int(row["keyword_hits"])
+        row["keyword_total"] = int(row["keyword_total"])
+        row["numbered_lines"] = to_bool(row["numbered_lines"])
+    return rows
+
+
+def summarize(rows):
+    by_prompt = defaultdict(list)
+    for row in rows:
+        by_prompt[row["prompt_type"]].append(row)
+
+    summary = {}
+    for prompt_type in prompt_order:
+        group = by_prompt[prompt_type]
+        format_ok_count = sum(
+            row["numbered_lines"] and row["line_count"] == 3
+            for row in group
+        )
+        slot_ok_count = sum(row["slot_count"] == 3 for row in group)
+        full_keyword_keep_count = sum(
+            row["keyword_hits"] == row["keyword_total"]
+            for row in group
+        )
+        average_keyword_ratio = sum(
+            row["keyword_hits"] / row["keyword_total"]
+            for row in group
+        ) / len(group)
+        summary[prompt_type] = {
+            "run_count": len(group),
+            "format_ok_count": format_ok_count,
+            "slot_ok_count": slot_ok_count,
+            "full_keyword_keep_count": full_keyword_keep_count,
+            "average_keyword_ratio": round(average_keyword_ratio, 2),
+        }
+    return summary
+
+
+def summarize_by_card(rows):
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[(row["card_name"], row["prompt_type"])].append(row)
+
+    result = {}
+    for card_name in sorted({row["card_name"] for row in rows}):
+        for prompt_type in prompt_order:
+            group = grouped[(card_name, prompt_type)]
+            if not group:
+                continue
+            result[(card_name, prompt_type)] = {
+                "runs": len(group),
+                "format_ok": sum(
+                    row["numbered_lines"] and row["line_count"] == 3
+                    for row in group
+                ),
+                "slot_ok": sum(row["slot_count"] == 3 for row in group),
+                "full_keyword": sum(
+                    row["keyword_hits"] == row["keyword_total"]
+                    for row in group
+                ),
+            }
+    return result
+
+
+logs = read_logs(log_path)
+summary = summarize(logs)
+by_card = summarize_by_card(logs)
+
+print("[dataset]")
+print("log_count =", len(logs))
+print("prompt_types =", list(summary))
+print("card_names =", sorted({row["card_name"] for row in logs}))
+print("log_sources =", sorted({row["log_source"] for row in logs}))
+print("models =", sorted({row["model_name"] for row in logs}))
+print("temperatures =", sorted({row["temperature"] for row in logs}))
+print()
+
+for prompt_type, values in summary.items():
+    print(f"[{prompt_type}]")
+    for key, value in values.items():
+        print(key, "=", value)
+print()
+
+print("[by card]")
+for (card_name, prompt_type), values in by_card.items():
+    print(card_name, prompt_type, values)
+```
+
+이번 실행 스냅샷의 집계 결과는 다음처럼 읽을 수 있습니다.
 
 ```text
-[simple batch]
-format_ok_count = ...
-slot_ok_count = ...
-full_keyword_keep_count = ...
-average_keyword_ratio = ...
-- billing outage
-response:
-...
-inspect = {'line_count': ..., 'numbered_lines': ..., 'keyword_coverage': '...', ...}
+[dataset]
+log_count = 80
+prompt_types = ['simple', 'instruction_context', 'instruction_context_example', 'instruction_context_example_check']
+card_names = ['account lock', 'billing outage', 'refund backlog', 'shipping delay']
+log_sources = ['ollama_generated']
+models = ['llama3.2:latest']
+temperatures = ['0.2']
 
-[structured batch]
-format_ok_count = ...
-slot_ok_count = ...
-full_keyword_keep_count = ...
-average_keyword_ratio = ...
-- billing outage
-response:
-...
-inspect = {'line_count': ..., 'numbered_lines': ..., 'keyword_coverage': '...', ...}
+[simple]
+run_count = 20
+format_ok_count = 0
+slot_ok_count = 0
+full_keyword_keep_count = 6
+average_keyword_ratio = 0.77
+[instruction_context]
+run_count = 20
+format_ok_count = 3
+slot_ok_count = 20
+full_keyword_keep_count = 9
+average_keyword_ratio = 0.82
+[instruction_context_example]
+run_count = 20
+format_ok_count = 20
+slot_ok_count = 20
+full_keyword_keep_count = 14
+average_keyword_ratio = 0.9
+[instruction_context_example_check]
+run_count = 20
+format_ok_count = 20
+slot_ok_count = 20
+full_keyword_keep_count = 17
+average_keyword_ratio = 0.95
+
+[by card]
+account lock simple {'runs': 5, 'format_ok': 0, 'slot_ok': 0, 'full_keyword': 4}
+account lock instruction_context {'runs': 5, 'format_ok': 0, 'slot_ok': 5, 'full_keyword': 5}
+account lock instruction_context_example {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 5}
+account lock instruction_context_example_check {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 5}
+billing outage simple {'runs': 5, 'format_ok': 0, 'slot_ok': 0, 'full_keyword': 2}
+billing outage instruction_context {'runs': 5, 'format_ok': 0, 'slot_ok': 5, 'full_keyword': 3}
+billing outage instruction_context_example {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 3}
+billing outage instruction_context_example_check {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 5}
+refund backlog simple {'runs': 5, 'format_ok': 0, 'slot_ok': 0, 'full_keyword': 0}
+refund backlog instruction_context {'runs': 5, 'format_ok': 0, 'slot_ok': 5, 'full_keyword': 0}
+refund backlog instruction_context_example {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 5}
+refund backlog instruction_context_example_check {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 3}
+shipping delay simple {'runs': 5, 'format_ok': 0, 'slot_ok': 0, 'full_keyword': 0}
+shipping delay instruction_context {'runs': 5, 'format_ok': 3, 'slot_ok': 5, 'full_keyword': 1}
+shipping delay instruction_context_example {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 1}
+shipping delay instruction_context_example_check {'runs': 5, 'format_ok': 5, 'slot_ok': 5, 'full_keyword': 4}
 ```
 
-이 결과를 읽을 때 핵심은 `구조화 프롬프트면 언제나 완벽하다`가 아닙니다. 어떤 모델은 3줄 형식을 잘 지키지만 핵심 키워드를 빠뜨릴 수 있고, 어떤 모델은 핵심 정보를 잘 보존하지만 줄 수나 슬롯 이름을 흔들 수 있습니다. 즉, 구조화 프롬프트는 형식과 전개 순서를 더 안정시켜 줄 가능성이 있지만, 정말 빠뜨리면 안 되는 항목이 있다면 `반드시 포함할 키워드`, `누락 시 다시 작성`, `검사 후 재요청` 같은 추가 제어가 더 필요할 수 있습니다.
+같은 저장 로그를 차트로 보면 입력 요소가 추가될수록 어떤 항목이 먼저 안정되는지 보입니다. 단순 프롬프트는 핵심어 일부를 남기더라도 번호 형식과 필수 슬롯을 거의 만들지 못했습니다. 지시와 맥락을 주면 슬롯 이름은 안정적으로 나오지만, 모델이 앞에 도입 문장을 붙이면서 `정확히 3줄` 조건은 자주 깨졌습니다. 예시까지 붙이면 번호 형식과 슬롯은 안정됐고, 예시에 점검 지시까지 붙이면 이번 스냅샷에서는 핵심 키워드 보존 수가 더 올라갔습니다. 즉, 예시는 출력 모양을 강하게 잡아 주고, 점검 지시는 빠뜨리면 안 되는 사실을 다시 보게 만들 수 있습니다.
+
+![입력 요소별 프롬프트의 저장 응답 로그 점검 결과](../../../assets/part-06/chapter-10/prompt-structure-check-ko.png)
+
+이 결과를 읽을 때 핵심은 `점검 지시까지 붙이면 언제나 완벽하다`가 아닙니다. 이번 스냅샷에서는 지시+맥락+예시+점검 프롬프트가 전체 핵심 키워드 보존 수는 가장 높았지만, 환불 backlog 카드에서는 예시만 붙인 프롬프트가 더 잘 보존했습니다. 반대로 지시+맥락 프롬프트는 형식 앞에 불필요한 도입 문장을 붙여 실패한 경우가 많았지만, 슬롯 이름 자체는 안정적으로 만들었습니다. 여기서 `핵심 키워드`는 의미를 깊게 평가한 점수가 아니라 지정 문자열이 응답 안에 남았는지 보는 간단한 관찰 기준입니다. 따라서 정말 빠뜨리면 안 되는 항목이 있다면 `반드시 포함할 키워드`, `누락 시 다시 작성`, `검사 후 재요청` 같은 추가 제어를 실험하되, 그 제어도 여러 메모에서 다시 확인해야 합니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 구조화 프롬프트가 여러 요청 카드에서 `줄 수`, `번호 형식`, `슬롯 유지`를 실제로 더 안정적으로 만드는지 본다.
-- 그래도 핵심 항목 보존이 자동으로 해결되는 것은 아니므로, 프롬프트 실험은 `형식 안정성`과 `내용 보존율`을 함께 점검해야 한다.
+- 지시, 맥락, 예시, 점검 지시가 추가될수록 여러 요청 카드와 반복 응답에서 `줄 수`, `번호 형식`, `슬롯 유지`가 어떻게 달라지는지 본다.
+- 형식 안정성이 좋아져도 핵심 항목 보존이 자동으로 해결되는 것은 아니므로, 프롬프트 실험은 `형식 안정성`과 `내용 보존율`을 함께 점검해야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `required_slots`에 `고객 영향`을 추가하고 구조화 프롬프트의 줄 형식도 4줄로 바꿔 보기
-- `OLLAMA_MODEL`을 바꿔 모델에 따라 어떤 항목이 쉽게 빠지는지 보기
-- `inspect_response`에 `max_line_length`, `must_quote_time`, `must_include_number` 같은 운영 규칙을 더 넣어 보기
+- CSV에 `customer_impact` 같은 새 슬롯을 추가하고 `slot_count` 기준을 더 엄격하게 바꿔 보기
+- `format_ok_count` 기준을 `line_count == 3`에서 `line_count <= 3`으로 바꿔 보기
+- `full_keyword_keep_count` 대신 평균 키워드 보존율을 먼저 보는 방식으로 요약 기준을 바꿔 보기
+
+Ollama가 설치되어 있고 로컬 모델을 받을 수 있는 환경이라면, 같은 요청 카드를 실제 모델에 다시 보내 새 로그를 만들 수 있습니다. 이때는 `OLLAMA_MODEL=사용할_모델명 .venv/bin/python docs/assets/part-06/chapter-10/p6_10_1_generate_prompt_response_log.py`처럼 실행합니다. 모델에 보내는 프롬프트는 번역본에서도 같은 실행 기준을 유지하기 위해 영어로 작성했습니다. 새 CSV를 만든 뒤에는 이 본문 코드와 `p6_10_1_prompt_structure_chart.py`를 다시 실행해 저장 로그와 차트를 같은 기준으로 비교합니다. 응답 원문을 그대로 본문에 고정하기보다 위 CSV와 같은 관찰 열로 다시 저장하는 편이 좋습니다. 실시간 호출 결과는 모델과 버전에 따라 달라지므로 본문에서는 특정 문장 자체보다 `format_ok_count`, `slot_ok_count`, `full_keyword_keep_count`, `average_keyword_ratio`의 변화로 비교합니다. 저장 CSV는 이 실행 조건에서 얻은 스냅샷이므로, 독자가 다시 실행하면 숫자가 달라질 수 있습니다.
+
+이 검증 방법이 중요한 이유는 프롬프트 엔지니어링이 `좋은 예시 하나`가 아니라 `같은 기준으로 다시 관찰할 수 있는가`의 문제이기 때문입니다. 직접 실행할 때의 흐름은 다음처럼 잡습니다.
+
+| 단계 | 확인할 것 |
+| --- | --- |
+| Ollama 로그 생성 | 같은 운영 메모와 네 프롬프트 유형을 모델에 다시 보내는가 |
+| CSV 관찰 열 저장 | 응답 원문을 줄 수, 슬롯 수, 핵심어 보존율 같은 비교 가능한 열로 줄였는가 |
+| 집계와 차트 재생성 | 모델이나 temperature를 바꿔도 같은 지표로 입력 요소별 차이를 다시 비교할 수 있는가 |
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
 - 단순 프롬프트는 `작업만 말한 상태`
-- 구조화 프롬프트는 `작업, 독자, 슬롯, 점검 기준`을 함께 준 상태
+- 지시+맥락 프롬프트는 `작업, 독자, 슬롯, 점검 기준`을 함께 준 상태
+- 지시+맥락+예시 프롬프트는 `따라야 할 출력 패턴`까지 보여 준 상태
+- 지시+맥락+예시+점검 프롬프트는 `출력 전 확인해야 할 조건`까지 붙인 상태
 - 따라서 프롬프트 엔지니어링은 예쁜 문장 경쟁이 아니라 `반복 가능한 입력 설계와 점검 설계`에 가깝습니다
-
-## 입력 설계에서 바뀌는 응답 조건
-
-이 비교에서 중요한 것은 문장을 길게 쓰느냐가 아니라, 모델이 판단에 써야 할 정보를 어떤 칸에 나눠 넣느냐입니다. 그래서 프롬프트 엔지니어링은 표현 솜씨보다 `작업 요구`, `맥락`, `출력 형식`을 어떻게 구조적으로 배치하느냐의 문제로 읽는 편이 정확합니다.
-
-Ollama로 직접 실행하면 매번 같은 숫자가 고정되지는 않을 수 있습니다. 그래서 이 절에서는 고정 차트보다 실행 로그의 `format_ok_count`, `slot_ok_count`, `full_keyword_keep_count`, `average_keyword_ratio`를 직접 비교하는 편이 더 중요합니다. 프롬프트 엔지니어링은 모델 출력 하나를 감상하는 일이 아니라, 입력을 바꾼 뒤 관찰 기록을 남기고 그 기록으로 다음 수정을 정하는 작업입니다.
 
 ## 프롬프트가 바꾸는 입력 설계
 
-프롬프트 엔지니어링은 멋진 문장을 찾는 일이 아니라, 같은 모델이 여러 입력에서도 더 안정적으로 원하는 형식과 핵심 정보를 내놓게 만드는 입력 설계 작업입니다.
+이 비교에서 중요한 것은 문장을 길게 쓰느냐가 아니라, 모델이 판단에 써야 할 정보를 어떤 칸에 나눠 넣느냐입니다. Ollama로 직접 실행하면 매번 같은 숫자가 고정되지는 않을 수 있습니다. 그래서 이 절에서는 응답 원문 하나보다 저장 로그의 `format_ok_count`, `slot_ok_count`, `full_keyword_keep_count`, `average_keyword_ratio`를 비교하는 편이 더 중요합니다. 프롬프트 엔지니어링은 모델 출력 하나를 감상하는 일이 아니라, 입력을 바꾼 뒤 관찰 기록을 남기고 그 기록으로 다음 수정을 정하는 작업입니다.
 
 ## 체크리스트
 - 프롬프트를 `문장 요령`이 아니라 `입력 설계와 행동 관찰 실험`으로 설명할 수 있는가?
