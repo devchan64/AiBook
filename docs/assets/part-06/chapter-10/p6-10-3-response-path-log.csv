@@ -1,0 +1,41 @@
+run_id,task_name,path_type,log_source,model_name,temperature,final_answer,evidence_mentioned,calculation_correct,policy_current,rule_warning,minority_answer,path_summary
+C001,mixed_refund_label,cot,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refund not possible due to shipment start status check failure
+C002,mixed_refund_label,cot,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refund cannot be promised before shipment has started.
+C003,mixed_refund_label,cot,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Shipment start status not checked before promising refund date.
+C004,mixed_refund_label,cot,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refund not possible since shipment has already left.
+C005,mixed_refund_label,cot,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refund not promised due to shipment-start status check failure
+C006,mixed_refund_label,self_consistency,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Shipment-start status not met before promising refund date
+C007,mixed_refund_label,self_consistency,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refund not promised due to shipment-start status not checked
+C008,mixed_refund_label,self_consistency,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refund not possible due to shipment start status not being checked.
+C009,mixed_refund_label,self_consistency,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refund not possible due to shipment-start status
+C010,mixed_refund_label,self_consistency,ollama_generated,llama3.2:latest,0.7,error,True,True,True,True,False,Refused refund due to shipment-start status not met.
+C011,discount_total,cot,ollama_generated,llama3.2:latest,0.7,apply_discount,False,False,True,True,False,Pre-tax item total exceeds $200 threshold
+C012,discount_total,cot,ollama_generated,llama3.2:latest,0.7,apply_discount,True,True,True,True,False,Total is at least $200 after tax ($12*18=216) since pre-tax total is above threshold of $200.
+C013,discount_total,cot,ollama_generated,llama3.2:latest,0.7,apply_discount,False,False,True,True,False,Pre-tax item total exceeds $200 threshold.
+C014,discount_total,cot,ollama_generated,llama3.2:latest,0.7,apply_discount,False,False,True,True,False,"Pre-tax item total exceeds $200, meeting discount criteria"
+C015,discount_total,cot,ollama_generated,llama3.2:latest,0.7,apply_discount,False,True,True,True,False,Total pre-tax item value exceeds $200 threshold.
+C016,discount_total,self_consistency,ollama_generated,llama3.2:latest,0.7,apply_discount,False,False,True,True,False,"Pre-tax item total is $240, which meets the minimum threshold of $200."
+C017,discount_total,self_consistency,ollama_generated,llama3.2:latest,0.7,apply_discount,True,True,True,True,False,the pre-tax item total exceeds 200 dollars
+C018,discount_total,self_consistency,ollama_generated,llama3.2:latest,0.7,apply_discount,True,True,True,True,False,"Total pre-tax items ($18 x 12) = $216, which exceeds the discount threshold of $200."
+C019,discount_total,self_consistency,ollama_generated,llama3.2:latest,0.7,apply_discount,False,False,True,True,False,"The order total exceeds the pre-tax threshold of $200, so a discount should be applied."
+C020,discount_total,self_consistency,ollama_generated,llama3.2:latest,0.7,apply_discount,False,False,True,True,False,the pre-tax item total exceeds the discount threshold of $200.
+C021,current_refund_policy,cot,ollama_generated,llama3.2:latest,0.7,check_current_policy,True,True,True,True,False,"No current policy document provided, so check the latest information on the refund deadline."
+C022,current_refund_policy,cot,ollama_generated,llama3.2:latest,0.7,check_current_policy,True,True,True,True,False,"No current policy document or version found, default to old training examples for guidance."
+C023,current_refund_policy,cot,ollama_generated,llama3.2:latest,0.7,check_current_policy,True,True,True,True,False,"Visible business rule caveat: No current policy document or version exists, prompting need to check current refund deadline."
+C024,current_refund_policy,cot,ollama_generated,llama3.2:latest,0.7,refund_7_days,True,True,False,False,True,Decided on 7-day refund policy due to lack of current information.
+C025,current_refund_policy,cot,ollama_generated,llama3.2:latest,0.7,check_current_policy,True,True,True,True,False,The current refund policy information was not available in the prompt.
+C026,current_refund_policy,self_consistency,ollama_generated,llama3.2:latest,0.7,check_current_policy,True,True,True,True,False,Decision to check current policy due to lack of specific information.
+C027,current_refund_policy,self_consistency,ollama_generated,llama3.2:latest,0.7,check_current_policy,True,True,True,True,False,"Agent requested current refund policy, but no up-to-date document was available."
+C028,current_refund_policy,self_consistency,ollama_generated,llama3.2:latest,0.7,refund_7_days,False,True,False,False,True,Decided to use 7 days refund policy due to lack of up-to-date information
+C029,current_refund_policy,self_consistency,ollama_generated,llama3.2:latest,0.7,refund_14_days,True,True,False,True,True,"Decided on 14-day refund policy based on old training examples, despite lack of current policy document."
+C030,current_refund_policy,self_consistency,ollama_generated,llama3.2:latest,0.7,check_current_policy,True,True,True,True,False,Decided to check current policy since old examples were not updated with latest information.
+C031,security_escalation,cot,ollama_generated,llama3.2:latest,0.7,escalate_security,True,True,True,True,False,Unusual login and request for shared admin access warrant security escalation.
+C032,security_escalation,cot,ollama_generated,llama3.2:latest,0.7,escalate_security,False,True,True,True,False,"Unusual overseas login suggests a potential security risk, prompting escalation to investigate and address the issue."
+C033,security_escalation,cot,ollama_generated,llama3.2:latest,0.7,escalate_security,True,True,True,True,False,Unusual login and request for temp admin access indicate potential security breach.
+C034,security_escalation,cot,ollama_generated,llama3.2:latest,0.7,escalate_security,True,True,True,True,False,"Unusual login and request for temp admin access indicate potential security threat, requiring immediate escalation."
+C035,security_escalation,cot,ollama_generated,llama3.2:latest,0.7,escalate_security,True,True,True,True,False,"Unusual overseas login and request for admin access indicate potential security threat, requiring escalation."
+C036,security_escalation,self_consistency,ollama_generated,llama3.2:latest,0.7,escalate_security,True,True,True,True,False,Unusual login and admin access request indicates potential security threat
+C037,security_escalation,self_consistency,ollama_generated,llama3.2:latest,0.7,escalate_security,False,True,True,True,False,"Unusual login from overseas indicates potential security threat, prompting need for enhanced access control."
+C038,security_escalation,self_consistency,ollama_generated,llama3.2:latest,0.7,escalate_security,False,True,True,True,False,"Unusual login indicates potential security breach, requiring immediate escalation."
+C039,security_escalation,self_consistency,ollama_generated,llama3.2:latest,0.7,escalate_security,False,True,True,True,False,"Unusual login warrants security escalation investigation, not a general support issue"
+C040,security_escalation,self_consistency,ollama_generated,llama3.2:latest,0.7,escalate_security,False,True,True,True,False,"Unusual overseas login indicates potential security risk, warranting immediate escalation of security protocols."

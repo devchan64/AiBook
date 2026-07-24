@@ -1,7 +1,7 @@
 # P6-10.3 보충학습: 답변 경로 관찰과 비교
 
 > Section ID: `P6-10.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: CoT와 self-consistency는 한 경로와 여러 경로를 어떻게 다르게 보게 하는가_
 
@@ -128,6 +128,141 @@ CoT와 self-consistency가 유용한 장면은 `경로를 더 읽어야 하는 �
 이 사례에서 바뀌어야 할 기준은 `답이 몇 번 반복됐는가`가 아니라 `그 반복이 현재 문서 근거 위에서 일어났는가`입니다. self-consistency는 한 번의 흔들림을 줄일 수 있지만, 최신 문서 연결 부재를 해결하지는 못합니다.
 
 ## 연습 및 예제
+
+이 예제의 목표는 CoT와 self-consistency를 말로만 구분하지 않고, 여러 응답 경로 로그에서 결론 분포와 점검 신호를 함께 읽는 것입니다. 같은 결론이 여러 번 반복되어도 근거가 없거나 계산이 틀리면 그대로 채택할 수 없습니다. 반대로 소수 경로라도 업무 규칙상 중요한 경고를 담을 수 있습니다.
+
+아래 CSV는 네 작업에 대해 Ollama 로컬 모델을 실제로 호출해 만든 40개의 응답 경로 스냅샷 로그입니다. 생성 스크립트는 미리 정한 정답 후보를 프롬프트에 넣지 않고, 같은 작업을 CoT식 단일 경로 관찰과 self-consistency식 반복 후보 관찰로 나누어 여러 번 호출합니다. 그런 다음 모델 응답 원문에서 최종 답, 짧은 경로 요약, 근거 언급, 계산 오류, 현재 정책 누락, 규칙 경고, 소수 결론 여부를 관찰 열로 줄여 저장합니다. 실제 모델, 프롬프트, 샘플링 설정이 달라지면 각 경로의 결론과 점검 신호도 달라질 수 있습니다.
+
+먼저 저장 로그를 만드는 코드는 다음과 같습니다. 모델에 보내는 프롬프트는 번역본에서도 같은 실행 기준을 유지하기 위해 영어로 작성하고, 본문 예제는 이 스크립트로 만들어 둔 CSV 스냅샷을 다시 읽습니다.
+
+```python
+--8<-- "assets/part-06/chapter-10/p6_10_3_generate_response_path_log.py"
+```
+
+Ollama가 설치되어 있고 로컬 모델을 받을 수 있는 환경이라면 `.venv/bin/python docs/assets/part-06/chapter-10/p6_10_3_generate_response_path_log.py`를 실행해 같은 형식의 새 로그를 만들 수 있습니다. 본문에 포함된 숫자는 `llama3.2:latest`를 특정 설정으로 실행해 얻은 스냅샷입니다. 새로 실행하면 결론 분포와 점검 신호 수가 달라질 수 있으며, 그 차이 자체가 self-consistency와 로그 관찰이 필요한 이유를 보여 줍니다.
+
+- 응답 경로 로그: [p6-10-3-response-path-log.csv](../../../assets/part-06/chapter-10/p6-10-3-response-path-log.csv){ .csv-preview }
+
+한 행은 하나의 응답 경로입니다. 핵심 열은 `task_name`, `path_type`, `log_source`, `model_name`, `temperature`, `final_answer`, `evidence_mentioned`, `calculation_correct`, `policy_current`, `rule_warning`, `minority_answer`입니다. `path_type`은 CoT식 단일 경로 관찰인지, self-consistency식 반복 후보인지 구분합니다. 여기서 봐야 할 것은 결론 다수결만이 아니라 근거 누락, 계산 오류, 현재 정책 누락, 업무 규칙상 경고 신호, 다수 결론에서 벗어난 소수 결론이 함께 남는가입니다. 특히 `path_summary`는 모델 내부 reasoning 자체가 아니라 검토 가능한 수준으로 줄인 경로 요약입니다.
+
+```python
+# 응답 경로 로그를 읽어 결론 분포와 점검 신호를 함께 비교하는 예제입니다.
+import csv
+from pathlib import Path
+
+log_path = Path("docs/assets/part-06/chapter-10/p6-10-3-response-path-log.csv")
+
+
+def to_bool(value):
+    return value.lower() == "true"
+
+
+def read_rows(path):
+    with path.open(encoding="utf-8", newline="") as file:
+        rows = list(csv.DictReader(file))
+    for row in rows:
+        for column in [
+            "evidence_mentioned",
+            "calculation_correct",
+            "policy_current",
+            "rule_warning",
+            "minority_answer",
+        ]:
+            row[column] = to_bool(row[column])
+    return rows
+
+
+def summarize_task(rows, task_name):
+    group = [row for row in rows if row["task_name"] == task_name]
+    answer_counts = {}
+    for row in group:
+        answer_counts[row["final_answer"]] = answer_counts.get(row["final_answer"], 0) + 1
+    majority_answer, majority_count = max(answer_counts.items(), key=lambda item: item[1])
+    return {
+        "answer_counts": answer_counts,
+        "majority_answer": majority_answer,
+        "majority_ratio": round(majority_count / len(group), 2),
+        "missing_evidence": sum(not row["evidence_mentioned"] for row in group),
+        "calculation_error": sum(not row["calculation_correct"] for row in group),
+        "stale_policy": sum(not row["policy_current"] for row in group),
+        "rule_warning": sum(row["rule_warning"] for row in group),
+        "minority_answer": sum(row["minority_answer"] for row in group),
+    }
+
+
+rows = read_rows(log_path)
+tasks = sorted({row["task_name"] for row in rows})
+
+print("[dataset]")
+print("run_count =", len(rows))
+print("task_count =", len(tasks))
+print("log_sources =", sorted({row["log_source"] for row in rows}))
+print("models =", sorted({row["model_name"] for row in rows}))
+print("temperatures =", sorted({row["temperature"] for row in rows}))
+print()
+
+for task_name in tasks:
+    print(f"[{task_name}]")
+    summary = summarize_task(rows, task_name)
+    for key, value in summary.items():
+        print(key, "=", value)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[dataset]
+run_count = 40
+task_count = 4
+log_sources = ['ollama_generated']
+models = ['llama3.2:latest']
+temperatures = ['0.7']
+
+[current_refund_policy]
+answer_counts = {'check_current_policy': 7, 'refund_7_days': 2, 'refund_14_days': 1}
+majority_answer = check_current_policy
+majority_ratio = 0.7
+missing_evidence = 1
+calculation_error = 0
+stale_policy = 3
+rule_warning = 8
+minority_answer = 3
+[discount_total]
+answer_counts = {'apply_discount': 10}
+majority_answer = apply_discount
+majority_ratio = 1.0
+missing_evidence = 7
+calculation_error = 6
+stale_policy = 0
+rule_warning = 10
+minority_answer = 0
+[mixed_refund_label]
+answer_counts = {'error': 10}
+majority_answer = error
+majority_ratio = 1.0
+missing_evidence = 0
+calculation_error = 0
+stale_policy = 0
+rule_warning = 10
+minority_answer = 0
+[security_escalation]
+answer_counts = {'escalate_security': 10}
+majority_answer = escalate_security
+majority_ratio = 1.0
+missing_evidence = 5
+calculation_error = 0
+stale_policy = 0
+rule_warning = 10
+minority_answer = 0
+```
+
+이 결과에서 `mixed_refund_label`, `discount_total`, `security_escalation`은 최다 결론 비율이 1.0입니다. 하지만 `security_escalation`에는 근거 누락이 5건 남아 있으므로, 결론이 모두 같아도 검토 가능한 기준이 충분히 남았다고 볼 수 없습니다. `discount_total`도 결론은 모두 `apply_discount`로 모였지만, 계산 근거를 충분히 남기지 않은 경로가 많습니다. `current_refund_policy`는 다수 결론이 `check_current_policy`로 모였지만, 여전히 오래된 환불 기한을 고른 소수 결론과 현재 정책 누락이 남아 있습니다. 여기서 `rule_warning`은 응답 안에 업무 규칙상 다시 봐야 할 단서가 남았는지, `minority_answer`는 다수 결론과 다른 결론이 있었는지를 따로 보여 줍니다.
+
+같은 로그를 차트로 보면, 결론 합의와 관찰된 점검 신호가 서로 다른 축이라는 점이 더 분명합니다. 위쪽 막대가 높아도 아래쪽 점검 신호가 함께 높으면, 답이 자주 반복됐다는 사실만으로 채택하면 안 됩니다. 아래쪽 막대는 응답 개수가 아니라 여러 점검 열의 합입니다. 한 응답에 근거 누락과 규칙 경고가 동시에 남으면 두 신호가 함께 더해지므로, 막대 높이는 `몇 개의 답이 실패했는가`보다 `검토자가 다시 볼 신호가 얼마나 남았는가`로 읽어야 합니다.
+
+![응답 경로 로그의 최다 결론 비율과 점검 신호](../../../assets/part-06/chapter-10/response-path-consistency-ko.png)
+
+이 예제에서 독자가 직접 바꿔 볼 값은 로그 행 자체와 점검 신호 기준입니다. 예를 들어 `rule_warning`을 더 엄격하게 잡으면 응답 경로 중 실제 업무 규칙에 중요한 경고만 남길 수 있습니다. `policy_current`가 `False`인 경로를 모두 제외하면 self-consistency의 다수결이 어떻게 달라지는지도 확인할 수 있습니다. 이 조작을 통해 CoT와 self-consistency는 답을 보장하는 기술이 아니라, 답변 경로를 더 잘 관찰하고 비교하게 하는 전략이라는 점을 확인합니다.
 
 다음 장면에서 먼저 볼 것이 CoT인지, self-consistency인지, 아니면 프롬프트 전략보다 시스템 구조인지 표시해 보겠습니다. 핵심은 `출력이 불안한 이유`를 먼저 고르는 것입니다.
 

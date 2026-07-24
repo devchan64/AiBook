@@ -1,7 +1,7 @@
 # P6-10.4 보충학습: 프롬프트 후보 반복 개선
 
 > Section ID: `P6-10.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: automatic prompt optimization은 프롬프트 실험을 어떻게 평가하고 다음 후보로 넘기는가_
 
@@ -98,6 +98,109 @@ automatic prompt optimization은 평가 세트에 있는 신호를 따라갑니�
 이 사례에서 바뀌어야 할 기준은 `점수가 가장 높은 프롬프트`가 아니라 `다양한 입력에서도 기준을 유지하는 프롬프트`입니다.
 
 ## 연습 및 예제
+
+다음 예제의 목표는 automatic prompt optimization을 `가장 그럴듯한 문장을 고르는 일`이 아니라, 여러 평가 입력에서 후보 프롬프트의 실패 항목을 반복해서 집계하는 일로 읽는 것입니다.
+
+아래 CSV는 후보 프롬프트 4개를 평가 입력 9개에 적용한 관찰 로그입니다.
+
+- 후보 평가 로그: [p6-10-4-prompt-candidate-eval.csv](../../../assets/part-06/chapter-10/p6-10-4-prompt-candidate-eval.csv){ .csv-preview }
+
+한 행은 `평가 입력 하나 × 프롬프트 후보 하나`의 관찰값입니다. 핵심 열은 `case_type`, `prompt_candidate`, `format_ok`, `key_fact_ok`, `forbidden_ok`, `boundary_ok`, `response_too_long`입니다. `normal`은 쉬운 정상 사례, `boundary`는 조건이 충돌하는 경계 사례, `failure_expected`는 추측·금지 표현·근거 부족이 드러나기 쉬운 사례입니다.
+
+여기서는 `format_ok`는 1점, `key_fact_ok`와 `forbidden_ok`는 각각 3점, `boundary_ok`는 2점으로 둡니다. 고객 안내 요약에서는 모양보다 핵심 항목 보존과 금지 조건 준수가 더 중요하다는 운영 가정을 넣은 것입니다. 이 가중치를 바꾸면 어떤 후보가 좋아 보이는지도 달라질 수 있습니다.
+
+```python
+# 프롬프트 후보 평가 로그를 읽어 후보별 점수와 실패 항목을 비교하는 예제입니다.
+import csv
+from pathlib import Path
+
+eval_path = Path("docs/assets/part-06/chapter-10/p6-10-4-prompt-candidate-eval.csv")
+
+weights = {
+    "format_ok": 1,
+    "key_fact_ok": 3,
+    "forbidden_ok": 3,
+    "boundary_ok": 2,
+}
+
+
+def to_bool(value):
+    return value.lower() == "true"
+
+
+def read_rows(path):
+    with path.open(encoding="utf-8", newline="") as file:
+        rows = list(csv.DictReader(file))
+    for row in rows:
+        for column in weights:
+            row[column] = to_bool(row[column])
+        row["response_too_long"] = to_bool(row["response_too_long"])
+    return rows
+
+
+def summarize_candidate(rows, candidate):
+    group = [row for row in rows if row["prompt_candidate"] == candidate]
+    score = sum(
+        sum(weight for column, weight in weights.items() if row[column])
+        for row in group
+    )
+    failures = {
+        column.replace("_ok", "_fail"): sum(not row[column] for row in group)
+        for column in weights
+    }
+    return {
+        "score": score,
+        **failures,
+        "too_long": sum(row["response_too_long"] for row in group),
+    }
+
+
+rows = read_rows(eval_path)
+candidates = sorted({row["prompt_candidate"] for row in rows})
+
+print("[dataset]")
+print("case_count =", len({row["case_id"] for row in rows}))
+print("candidate_count =", len(candidates))
+print("row_count =", len(rows))
+print()
+
+print("[candidate summary]")
+summary = {}
+for candidate in candidates:
+    summary[candidate] = summarize_candidate(rows, candidate)
+    print(candidate, summary[candidate])
+
+best_candidate = max(candidates, key=lambda candidate: summary[candidate]["score"])
+print()
+print("[best by total score]")
+print(best_candidate)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[dataset]
+case_count = 9
+candidate_count = 4
+row_count = 36
+
+[candidate summary]
+A {'score': 42, 'format_fail': 0, 'key_fact_fail': 9, 'forbidden_fail': 0, 'boundary_fail': 6, 'too_long': 0}
+B {'score': 75, 'format_fail': 6, 'key_fact_fail': 0, 'forbidden_fail': 0, 'boundary_fail': 0, 'too_long': 9}
+C {'score': 42, 'format_fail': 0, 'key_fact_fail': 0, 'forbidden_fail': 9, 'boundary_fail': 6, 'too_long': 0}
+D {'score': 81, 'format_fail': 0, 'key_fact_fail': 0, 'forbidden_fail': 0, 'boundary_fail': 0, 'too_long': 0}
+
+[best by total score]
+D
+```
+
+이 결과에서 바로 읽어야 할 점은 후보 B와 D의 차이입니다. B는 핵심 항목, 금지 조건, 경계 사례를 모두 잘 지키지만 형식 실패 6건과 길이 초과 9건이 남습니다. D는 같은 평가 세트에서 모든 기준을 통과해 총점이 가장 높습니다. 반대로 A는 짧고 형식은 안정적이지만 핵심 항목을 9번 놓쳤고, C는 핵심 항목은 남기지만 금지 조건을 9번 어겼습니다.
+
+차트로 보면 점수와 실패 유형이 서로 다른 정보를 준다는 점이 더 분명합니다.
+
+![프롬프트 후보별 가중 점수와 실패 유형](../../../assets/part-06/chapter-10/prompt-candidate-score-ko.png)
+
+이 예제에서 독자가 직접 바꿔 볼 값은 `weights`입니다. 예를 들어 형식 안정성이 매우 중요한 문서라면 `format_ok` 가중치를 1에서 3으로 올릴 수 있습니다. 반대로 안전 고지가 더 중요한 업무라면 `forbidden_ok` 가중치를 더 높일 수 있습니다. 이때 중요한 것은 자동 최적화가 점수를 대신 설계해 주지 않는다는 점입니다. 어떤 점수를 크게 볼지는 여전히 사용자가 문제 목적에 맞게 정해야 합니다.
 
 다음은 세 프롬프트 후보를 비교하는 간단한 판단 연습입니다. 먼저 어떤 후보를 바로 채택하면 위험한지 표시해 보겠습니다.
 

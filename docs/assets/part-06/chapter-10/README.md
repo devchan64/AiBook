@@ -14,14 +14,26 @@
   - `p6-c10-s02-diagram-02-en.mmd` / `p6-c10-s02-diagram-02-ko.mmd`
 - PNG chart language pairs:
   - `prompt-structure-check-en.png` / `prompt-structure-check-ko.png`
+  - `response-path-consistency-en.png` / `response-path-consistency-ko.png`
+  - `prompt-candidate-score-en.png` / `prompt-candidate-score-ko.png`
   - `prompt-limit-checks-en.png` / `prompt-limit-checks-ko.png`
   - `rag-grounding-check-en.png` / `rag-grounding-check-ko.png`
   - `rag-failure-split-en.png` / `rag-failure-split-ko.png`
 - Python chart sources:
   - `p6_10_1_prompt_structure_chart.py`
+  - `p6_10_3_response_path_chart.py`
+  - `p6_10_4_prompt_candidate_chart.py`
   - `p6_10_2_prompt_limit_chart.py`
   - `p6_10_1_rag_grounding_chart.py`
   - `p6_10_2_rag_failure_split_chart.py`
+- Python model-log sources:
+  - `p6_10_1_generate_prompt_response_log.py`
+    - Optional Ollama validation script for regenerating `p6-10-1-prompt-response-log.csv` with the same observation columns.
+  - `p6_10_3_generate_response_path_log.py`
+    - Optional Ollama validation script for regenerating `p6-10-3-response-path-log.csv` as a response-path snapshot.
 - CSV example data:
+  - `p6-10-1-prompt-response-log.csv`
+  - `p6-10-3-response-path-log.csv`
+  - `p6-10-4-prompt-candidate-eval.csv`
   - `p6-10-rag-documents.csv`
   - `p6-10-rag-experiments.csv`

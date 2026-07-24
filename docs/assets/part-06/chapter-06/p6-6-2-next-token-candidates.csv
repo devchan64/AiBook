@@ -1,0 +1,37 @@
+step,position_name,candidate_token,base_probability,role_note
+1,first_token,환불,0.52,top start for refund answer
+1,first_token,주문,0.22,related but shifts topic
+1,first_token,확인,0.16,generic support start
+1,first_token,안내,0.10,less direct start
+2,subject_marker,은,0.48,keeps concise policy sentence
+2,subject_marker, 관련 문의는,0.24,changes tone to inquiry handling
+2,subject_marker, 가능 여부는,0.18,adds uncertainty
+2,subject_marker, 접수는,0.10,starts process wording
+3,policy_scope, 배송,0.50,keeps refund condition scope
+3,policy_scope, 주문,0.20,moves to order state
+3,policy_scope, 고객,0.16,moves to customer status
+3,policy_scope, 정책,0.14,abstract policy wording
+4,status_token, 완료,0.46,keeps specific condition
+4,status_token, 상태,0.22,less specific state check
+4,status_token, 접수,0.18,process wording
+4,status_token, 확인,0.14,generic check wording
+5,time_anchor, 후,0.50,keeps after-completion condition
+5,time_anchor, 기준,0.22,changes time relation
+5,time_anchor, 전에,0.16,changes meaning riskily
+5,time_anchor, 시점에,0.12,less direct time anchor
+6,time_window, 7일,0.52,main policy window
+6,time_window, 3일,0.18,narrower alternative
+6,time_window, 14일,0.16,wider alternative
+6,time_window, 영업일 기준 2일,0.14,process time alternative
+7,limit_marker, 이내,0.48,keeps deadline meaning
+7,limit_marker, 안에,0.26,same meaning in softer wording
+7,limit_marker,까지,0.16,deadline phrasing
+7,limit_marker, 이후,0.10,changes meaning
+8,answer_action, 가능합니다,0.44,direct answer completion
+8,answer_action, 접수할 수 있습니다,0.28,process-focused answer
+8,answer_action, 확인해야 합니다,0.18,verification-focused answer
+8,answer_action, 담당자가 검토합니다,0.10,handoff answer
+9,closing_token,.,0.46,stable short close
+9,closing_token, 주문번호가 필요합니다.,0.24,adds required input
+9,closing_token, 자세한 조건을 확인하세요.,0.18,adds caution
+9,closing_token, 고객센터로 문의하세요.,0.12,adds handoff

@@ -1,7 +1,7 @@
 # P6-6.2 답변의 안정성과 다양성을 바꾸는 출력 선택 규칙
 
 > Section ID: `P6-6.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-6.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token prediction)이라는 점을 보았습니다. 하지만 사용자 경험은 단지 `다음 한 조각 예측`이라는 말보다 훨씬 복잡해 보입니다.
 
@@ -214,88 +214,130 @@ beam search나 top-p 같은 세부 공식을 아직 몰라도, 지금 보는 장
 
 ## 연습 및 예제
 
-이 예제의 목표는 확률 후보에서 `greedy`, `sampling`, `temperature`가 실제 사용자에게 보이는 문장 구조를 어떻게 바꾸는지 직접 보는 것입니다. 한 번만 토큰을 뽑는 대신, 고객 지원 답변의 세 슬롯을 채우는 방식으로 `낮은 temperature`, `기본 temperature`, `높은 temperature`에서 문장 순서와 표현 폭이 어떻게 달라지는지 비교하겠습니다.
+이 예제의 목표는 확률 후보에서 `greedy`, `sampling`, `temperature`, `seed`가 다음 토큰 선택을 어떻게 바꾸는지 직접 보는 것입니다. 실제 LLM 내부의 거대한 어휘표를 그대로 가져오지는 않지만, 각 위치마다 `다음 토큰 후보`와 기본 확률을 두고 한 토큰씩 뽑아 문장을 완성합니다. 따라서 핵심은 답변 템플릿 조합이 아니라 `지금 위치에서 어떤 후보 조각을 실제로 선택했는가`입니다.
 
-아래 코드는 고객 지원 답변의 세 슬롯, 슬롯별 후보 확률, temperature 설정값, 반복 샘플링 횟수를 사용합니다. 결과에서는 temperature별 조정 확률, greedy로 만든 고정 답변, sampling으로 만든 여러 답변 미리보기, 샘플링 답변의 표현 조합 수를 확인합니다.
+입력 CSV는 [p6-6-2-next-token-candidates.csv](../../../assets/part-06/chapter-06/p6-6-2-next-token-candidates.csv){ .csv-preview }입니다. 한 행은 특정 위치의 후보 토큰 하나를 뜻합니다. 예를 들어 1번 위치에는 `환불`, `주문`, `확인`, `안내`가 후보로 있고, 6번 위치에는 ` 7일`, ` 3일`, ` 14일`, ` 영업일 기준 2일` 같은 시간 표현 후보가 있습니다. 독자가 직접 바꿔 볼 값은 `base_probability`, `temperatures`, `seeds`입니다.
 
-확인할 핵심은 temperature 조절이 후보 분포의 평탄도를 바꿔 일관성과 다양성의 균형을 달라지게 만든다는 점입니다.
+확인할 핵심은 세 가지입니다.
 
-먼저 입력으로 쓰는 답변 슬롯을 보겠습니다. 이 예제는 고객 지원 답변을 `opening`, `policy`, `next_step` 세 부분으로 나누고, 각 부분마다 후보 문장과 기본 확률을 둡니다. `opening`은 응답의 첫 말투, `policy`는 환불 정책 설명, `next_step`은 사용자가 다음에 해야 할 행동을 뜻합니다.
+- greedy는 매 위치에서 가장 높은 확률의 토큰만 골라 출력이 고정됩니다.
+- sampling은 같은 후보 분포에서도 실제로 뽑힌 토큰이 달라져 출력 다양성이 생깁니다.
+- seed를 고정하면 같은 샘플링 결과를 다시 만들 수 있어 재현성 확인이 가능합니다.
 
-| 슬롯 | 후보 문장과 기본 확률 | 이 슬롯에서 보는 것 |
-| --- | --- | --- |
-| `opening` | `불편을 드려 죄송합니다.` 0.50<br>`문의 주셔서 감사합니다.` 0.30<br>`확인 도와드리겠습니다.` 0.20 | 답변 첫 말투가 얼마나 안정적으로 유지되는가 |
-| `policy` | `환불은 배송 완료 후 7일 이내 가능합니다.` 0.55<br>`배송 완료 후 7일 안에 환불을 접수할 수 있습니다.` 0.25<br>`주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다.` 0.20 | 정책 설명 문장이 얼마나 보수적으로 고정되는가 |
-| `next_step` | `주문번호를 보내 주시면 바로 확인하겠습니다.` 0.60<br>`주문번호와 수령일을 함께 알려 주세요.` 0.25<br>`필요한 정보를 남겨 주시면 순서대로 도와드리겠습니다.` 0.15 | 다음 행동 안내가 얼마나 흔들리는가 |
-
-코드는 이 기본 확률을 temperature로 다시 조정한 뒤, greedy 선택과 sampling 선택을 비교합니다. 실제 LLM 서비스의 전체 디코딩 과정을 그대로 재현하는 코드는 아니지만, temperature가 후보 분포를 더 날카롭게 보거나 더 넓게 보게 만들어 출력 조합 수를 바꾼다는 감각을 확인하는 데 목적이 있습니다.
+다만 여기서 말하는 seed 재현성은 로컬 Python 난수 생성기를 고정한 예제 안에서의 재현성입니다. 실제 API 서비스에서는 같은 seed와 같은 생성 설정을 쓰더라도 모델 제공 환경, 백엔드 설정, 시스템 지문(system fingerprint) 같은 조건에 따라 완전한 결정성을 보장하지 않을 수 있습니다. 이 절에서는 운영 API의 재현성 보장 범위가 아니라, 선택 규칙을 고정하거나 바꾸면 출력 관찰값이 어떻게 달라지는지에 집중합니다.
 
 ```python
-# 고객 지원 답변 슬롯에서 greedy, sampling, temperature가 문장 조합의 일관성과 다양성을 어떻게 바꾸는지 비교하는 예제입니다.
+# 다음 토큰 후보 분포에서 실제로 어떤 토큰을 뽑는지 비교합니다.
+import csv
 import random
+from collections import Counter, defaultdict
+from pathlib import Path
 
-reply_slots = {
-    "opening": {
-        "불편을 드려 죄송합니다.": 0.50,
-        "문의 주셔서 감사합니다.": 0.30,
-        "확인 도와드리겠습니다.": 0.20,
-    },
-    "policy": {
-        "환불은 배송 완료 후 7일 이내 가능합니다.": 0.55,
-        "배송 완료 후 7일 안에 환불을 접수할 수 있습니다.": 0.25,
-        "주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다.": 0.20,
-    },
-    "next_step": {
-        "주문번호를 보내 주시면 바로 확인하겠습니다.": 0.60,
-        "주문번호와 수령일을 함께 알려 주세요.": 0.25,
-        "필요한 정보를 남겨 주시면 순서대로 도와드리겠습니다.": 0.15,
-    },
-}
+candidate_path = Path("docs/assets/part-06/chapter-06/p6-6-2-next-token-candidates.csv")
+temperatures = [0.3, 1.0, 1.7]
+seeds = range(1, 13)
 
-def apply_temperature(prob_dict, temperature):
-    adjusted = {
-        token: prob ** (1.0 / temperature)
-        for token, prob in prob_dict.items()
-    }
-    total = sum(adjusted.values())
-    return {token: adjusted[token] / total for token in adjusted}
+def load_candidates(path):
+    candidates_by_step = defaultdict(list)
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            row["step"] = int(row["step"])
+            row["base_probability"] = float(row["base_probability"])
+            candidates_by_step[row["step"]].append(row)
+    return dict(sorted(candidates_by_step.items()))
 
-def greedy_reply(slots, temperature):
-    parts = []
-    for _, prob_dict in slots.items():
-        adjusted = apply_temperature(prob_dict, temperature)
-        parts.append(max(adjusted, key=adjusted.get))
-    return " ".join(parts)
+def apply_temperature(candidates, temperature):
+    adjusted = [
+        row["base_probability"] ** (1.0 / temperature)
+        for row in candidates
+    ]
+    total = sum(adjusted)
+    return [value / total for value in adjusted]
 
-def sample_many(slots, temperature, trials=12, seed=7):
-    random.seed(seed)
-    replies = []
-    for _ in range(trials):
-        parts = []
-        for _, prob_dict in slots.items():
-            adjusted = apply_temperature(prob_dict, temperature)
-            tokens = list(adjusted.keys())
-            weights = list(adjusted.values())
-            picked = random.choices(tokens, weights=weights, k=1)[0]
-            parts.append(picked)
-        replies.append(" ".join(parts))
-    unique_count = len(set(replies))
-    return replies, unique_count
+def pick_top_token(candidates, probabilities):
+    top_index = max(range(len(candidates)), key=lambda index: probabilities[index])
+    return top_index, candidates[top_index]["candidate_token"]
 
-for temperature in [0.5, 1.0, 1.5]:
-    adjusted_opening = apply_temperature(reply_slots["opening"], temperature)
-    greedy_choice = greedy_reply(reply_slots, temperature)
-    sampled_replies, unique_count = sample_many(reply_slots, temperature, trials=12, seed=7)
+def greedy_decode(candidates_by_step, temperature):
+    tokens = []
+    for candidates in candidates_by_step.values():
+        probabilities = apply_temperature(candidates, temperature)
+        _, token = pick_top_token(candidates, probabilities)
+        tokens.append(token)
+    return "".join(tokens)
 
-    print("temperature =", temperature)
+def sample_decode(candidates_by_step, temperature, seed):
+    rng = random.Random(seed)
+    tokens = []
+    top_hits = 0
+    trace = []
+    for step, candidates in candidates_by_step.items():
+        probabilities = apply_temperature(candidates, temperature)
+        top_index, top_token = pick_top_token(candidates, probabilities)
+        picked_index = rng.choices(
+            range(len(candidates)),
+            weights=probabilities,
+            k=1,
+        )[0]
+        picked_token = candidates[picked_index]["candidate_token"]
+        if picked_index == top_index:
+            top_hits += 1
+        tokens.append(picked_token)
+        trace.append({
+            "step": step,
+            "picked_token": picked_token,
+            "top_token": top_token,
+        })
+    return "".join(tokens), top_hits, trace
+
+candidates_by_step = load_candidates(candidate_path)
+print("candidate_rows =", sum(len(rows) for rows in candidates_by_step.values()))
+same_seed_output_1 = sample_decode(candidates_by_step, temperature=1.0, seed=7)[0]
+same_seed_output_2 = sample_decode(candidates_by_step, temperature=1.0, seed=7)[0]
+different_seed_output = sample_decode(candidates_by_step, temperature=1.0, seed=8)[0]
+
+print("same_seed_reproducible =", same_seed_output_1 == same_seed_output_2)
+print("same_seed_output =", same_seed_output_1)
+print("different_seed_output =", different_seed_output)
+
+print("\ngreedy outputs by temperature")
+for temperature in temperatures:
+    print(temperature, greedy_decode(candidates_by_step, temperature))
+
+print("\nsampling summary")
+token_positions = len(candidates_by_step)
+for temperature in temperatures:
+    greedy_output = greedy_decode(candidates_by_step, temperature)
+    outputs = []
+    top_hits = 0
+    first_tokens = []
+    for seed in seeds:
+        output, hits, trace = sample_decode(candidates_by_step, temperature, seed)
+        outputs.append(output)
+        top_hits += hits
+        first_tokens.append(trace[0]["picked_token"])
     print(
-        "opening_probs =",
-        {token: round(prob, 3) for token, prob in adjusted_opening.items()},
+        "temperature =",
+        temperature,
+        "exact_greedy_matches =",
+        f"{sum(output == greedy_output for output in outputs)}/{len(seeds)}",
+        "unique_outputs =",
+        len(set(outputs)),
+        "top_token_rate =",
+        round(top_hits / (len(seeds) * token_positions), 2),
     )
-    print("greedy_reply =", greedy_choice)
-    print("preview =", sampled_replies[:5])
-    print("unique_reply_count =", unique_count)
-    print()
+
+print("\nfirst token counts")
+for temperature in temperatures:
+    first_token_counter = Counter(
+        sample_decode(candidates_by_step, temperature, seed)[2][0]["picked_token"]
+        for seed in seeds
+    )
+    print("temperature =", temperature, dict(first_token_counter))
+
+print("\nhigh temperature preview")
+for seed in [1, 2, 3]:
+    print("seed =", seed, sample_decode(candidates_by_step, temperature=1.7, seed=seed)[0])
 ```
 
 이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
@@ -303,47 +345,65 @@ for temperature in [0.5, 1.0, 1.5]:
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-temperature = 0.5
-opening_probs = {'불편을 드려 죄송합니다.': 0.658, '문의 주셔서 감사합니다.': 0.237, '확인 도와드리겠습니다.': 0.105}
-greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
-preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.']
-unique_reply_count = 5
+candidate_rows = 36
+same_seed_reproducible = True
+same_seed_output = 환불은 주문 완료 기준 7일 이내 접수할 수 있습니다.
+different_seed_output = 환불 접수는 배송 접수 후 7일 이후 가능합니다 주문번호가 필요합니다.
 
-temperature = 1.0
-opening_probs = {'불편을 드려 죄송합니다.': 0.5, '문의 주셔서 감사합니다.': 0.3, '확인 도와드리겠습니다.': 0.2}
-greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
-preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호와 수령일을 함께 알려 주세요.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다. 주문번호를 보내 주시면 바로 확인하겠습니다.']
-unique_reply_count = 7
+greedy outputs by temperature
+0.3 환불은 배송 완료 후 7일 이내 가능합니다.
+1.0 환불은 배송 완료 후 7일 이내 가능합니다.
+1.7 환불은 배송 완료 후 7일 이내 가능합니다.
 
-temperature = 1.5
-opening_probs = {'불편을 드려 죄송합니다.': 0.444, '문의 주셔서 감사합니다.': 0.316, '확인 도와드리겠습니다.': 0.241}
-greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
-preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호와 수령일을 함께 알려 주세요.', '불편을 드려 죄송합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다. 주문번호를 보내 주시면 바로 확인하겠습니다.']
-unique_reply_count = 8
+sampling summary
+temperature = 0.3 exact_greedy_matches = 3/12 unique_outputs = 8 top_token_rate = 0.88
+temperature = 1.0 exact_greedy_matches = 0/12 unique_outputs = 12 top_token_rate = 0.48
+temperature = 1.7 exact_greedy_matches = 0/12 unique_outputs = 12 top_token_rate = 0.37
+
+first token counts
+temperature = 0.3 {'환불': 11, '주문': 1}
+temperature = 1.0 {'환불': 8, '안내': 1, '주문': 2, '확인': 1}
+temperature = 1.7 {'환불': 5, '안내': 1, '주문': 5, '확인': 1}
+
+high temperature preview
+seed = 1 환불 가능 여부는 고객 완료 기준 3일까지 확인해야 합니다.
+seed = 2 안내 접수는 배송 완료 시점에 14일까지 가능합니다 주문번호가 필요합니다.
+seed = 3 환불 관련 문의는 배송 상태 기준 7일 이내 확인해야 합니다.
 ```
 
-긴 실행 결과를 먼저 압축하면 다음과 같습니다.
+긴 실행 결과를 먼저 압축하면 다음과 같습니다. 첫 표는 greedy가 temperature 변화에도 왜 고정될 수 있는지 보여 줍니다.
 
-| temperature | opening 1위 확률 | greedy 답변 | 서로 다른 sampling 답변 수 | 읽어야 할 의미 |
-| --- | ---: | --- | ---: | --- |
-| 0.5 | 0.658 | 세 슬롯 모두 1위 후보로 고정 | 5 | 상위 후보가 더 강해져 답변 조합이 비교적 좁아짐 |
-| 1.0 | 0.500 | 세 슬롯 모두 1위 후보로 고정 | 7 | 기본 확률 분포를 그대로 반영해 조합 폭이 중간 수준으로 열림 |
-| 1.5 | 0.444 | 세 슬롯 모두 1위 후보로 고정 | 8 | 낮은 후보도 더 자주 선택되어 답변 조합이 더 넓어짐 |
+| temperature | greedy 출력 | 읽어야 할 의미 |
+| --- | --- | --- |
+| 0.3 | `환불은 배송 완료 후 7일 이내 가능합니다.` | 매 위치에서 1위 토큰만 선택하므로 출력이 고정됨 |
+| 1.0 | `환불은 배송 완료 후 7일 이내 가능합니다.` | 기본 확률 분포를 그대로 읽어도 1위 순서가 바뀌지 않음 |
+| 1.7 | `환불은 배송 완료 후 7일 이내 가능합니다.` | 분포가 더 펴져도 greedy는 여전히 1위 토큰만 고름 |
 
-이 표에서 중요한 점은 greedy 답변이 세 temperature에서 모두 같다는 것입니다. temperature가 바뀌어도 가장 높은 후보의 순서가 바뀌지 않으면 greedy 결과는 그대로일 수 있습니다. 반면 sampling에서는 낮은 후보가 선택될 기회가 커지므로 서로 다른 답변 조합 수가 늘어납니다.
+이 표에서 중요한 점은 greedy가 `안정적`으로 보이는 이유입니다. 모델이 더 똑똑해서라기보다, 실제 선택 규칙이 매 위치의 1위 토큰만 고르기 때문입니다.
+
+두 번째 표는 정해 둔 seed 목록으로 sampling을 12회 반복한 결과입니다. 여기서는 문장 품질보다 `상위 토큰이 얼마나 자주 유지되는가`, `서로 다른 출력이 몇 개 생기는가`, `같은 seed로 다시 만들 수 있는가`를 봅니다.
+
+| temperature | greedy와 완전히 같은 출력 | 서로 다른 출력 수 | 상위 토큰 선택 비율 | 읽어야 할 의미 |
+| --- | ---: | ---: | ---: | --- |
+| 0.3 | 3/12 | 8 | 0.88 | 낮은 temperature에서는 상위 토큰 유지가 강해 비교적 안정적임 |
+| 1.0 | 0/12 | 12 | 0.48 | 기본 분포에서도 sampling은 실행마다 다른 토큰을 뽑을 수 있음 |
+| 1.7 | 0/12 | 12 | 0.37 | 높은 temperature에서는 낮은 후보도 더 자주 선택되어 선택 폭이 커짐 |
+
+이 숫자는 `temperature를 높이면 좋은 답이 나온다`는 뜻이 아닙니다. 이 실행에서는 0.3에서 1.0으로 갈 때 서로 다른 출력 수가 크게 늘고, 1.7에서는 출력 수보다 상위 토큰 선택 비율 하락과 첫 토큰 분포 확장이 더 뚜렷하게 보입니다. 고객 지원이나 코드 생성처럼 안정성이 중요한 장면에서는 이런 다양성이 흔들림으로 보일 수 있고, 초안 생성처럼 후보 폭이 필요한 장면에서는 비교할 재료가 될 수 있습니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- greedy는 세 경우 모두 같은 고정 답 구조를 만듭니다.
-- sampling은 temperature가 높아질수록 같은 질문에도 opening, 정책 문장, 다음 단계 표현 조합이 더 다양해집니다.
-- `unique_reply_count`가 5 -> 7 -> 8로 늘어나는 점은, temperature가 단순 랜덤 버튼이 아니라 `답 구조 다양성`을 실제로 밀어 올린다는 점을 보여 줍니다.
-- 즉, temperature는 `무작위성 추가 버튼`이라기보다 `확률 분포를 얼마나 눌러서 볼지, 얼마나 펴서 볼지`를 조절해 결과 구조 흔들림까지 바꾸는 설정값에 가깝습니다.
+- greedy는 세 경우 모두 같은 토큰열을 만듭니다.
+- sampling은 같은 후보 분포에서도 실제로 뽑힌 토큰열을 바꿉니다.
+- 낮은 temperature에서는 1위 토큰 선택 비율이 높아 안정성이 커지고, 높은 temperature에서는 첫 토큰부터 분포가 넓어져 선택 폭이 커집니다.
+- `same_seed_output`과 `different_seed_output`의 차이는 sampling이 있어도 seed를 고정하면 같은 출력을 다시 만들 수 있고, seed가 바뀌면 같은 설정에서도 다른 토큰열이 나올 수 있음을 보여 줍니다.
+- 즉, temperature는 `무작위성 추가 버튼`이라기보다 `다음 토큰 후보 분포를 얼마나 눌러서 볼지, 얼마나 펴서 볼지`를 조절해 안정성, 다양성, 재현성의 균형을 바꾸는 설정값에 가깝습니다.
 
-이 변화를 숫자만 따로 그리면 아래처럼 보입니다. 같은 12회 샘플링에서도 temperature가 높아질수록 서로 다른 답변 조합 수가 늘어나, 일관성보다 후보 다양성을 더 허용하는 방향으로 이동합니다. 다만 이 그래프는 답변 품질이 좋아졌다는 뜻이 아니라, 같은 입력 조건에서 허용된 문장 조합의 폭이 넓어졌다는 뜻으로 읽어야 합니다.
+이 변화를 그래프로 보면 아래처럼 보입니다. 왼쪽은 전체 토큰 위치에서 상위 후보가 얼마나 유지되는지, 가운데는 서로 다른 출력 수가 어느 설정에서 포화되는지, 오른쪽은 첫 토큰 분포가 어떻게 넓어지는지를 나눠 보여 줍니다. 이 그래프는 답변 품질이 좋아졌다는 뜻이 아니라, 같은 후보 분포에서 실제 토큰 선택 폭이 넓어졌다는 뜻으로 읽어야 합니다.
 
-![temperature별 서로 다른 답변 조합 수](../../../assets/part-06/chapter-06/temperature-unique-reply-count-ko.png)
+![temperature별 토큰 선택 안정성과 출력 다양성](../../../assets/part-06/chapter-06/temperature-unique-reply-count-ko.png)
 
-이 예제에서는 `reply_slots`, `temperature`, `trials`, `seed`를 직접 바꿔 볼 수 있습니다. 예를 들어 `trials`를 100으로 늘리면 조합 수 차이가 더 선명해지고, `temperature`를 0.2나 2.0으로 바꾸면 고객 응답처럼 안정성이 중요한 장면에서 구조 흔들림이 얼마나 커지는지도 더 극단적으로 볼 수 있습니다.
+본문 코드에서는 CSV의 `base_probability`, `temperatures`, `seeds`를 직접 바꿔 볼 수 있습니다. 예를 들어 6번 위치에서 ` 7일`의 확률을 낮추고 ` 14일`의 확률을 올리면 greedy 출력 자체가 바뀔 수 있습니다. `temperature`를 0.2나 2.0으로 바꾸면 상위 토큰 고정 정도와 첫 토큰 분포도 더 극단적으로 움직입니다. `seeds`를 늘리면 같은 설정에서 어느 정도까지 다양한 출력이 나오는지도 더 잘 보입니다.
 
 ## temperature가 바꾸는 선택 폭
 
@@ -390,3 +450,6 @@ unique_reply_count = 8
 - Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }
 - Ari Holtzman et al., `The Curious Case of Neural Text Degeneration`, ICLR, 2020, 확인 날짜: 2026-07-19. [https://iclr.cc/virtual_2020/poster_rygGQyrFvH.html](https://iclr.cc/virtual_2020/poster_rygGQyrFvH.html){: target="_blank" rel="noopener noreferrer" }
 - OpenAI API Reference, `Create a model response`, 생성 설정 예시, 확인 날짜: 2026-07-19. [https://developers.openai.com/api/reference/resources/responses/methods/create](https://developers.openai.com/api/reference/resources/responses/methods/create){: target="_blank" rel="noopener noreferrer" }
+- Clara Meister et al., `Language Model Behavior: A Comprehensive Survey`, Computational Linguistics, 2024, 확인 날짜: 2026-07-24. [https://direct.mit.edu/coli/article/50/1/293/118131/Language-Model-Behavior-A-Comprehensive-Survey](https://direct.mit.edu/coli/article/50/1/293/118131/Language-Model-Behavior-A-Comprehensive-Survey){: target="_blank" rel="noopener noreferrer" }. 자기회귀 언어 모델이 다음 토큰 확률 분포를 계산하고, open-ended generation에서 greedy, temperature sampling, top-k, nucleus sampling 같은 선택 방식을 쓴다는 설명 확인에 사용했다.
+- OpenAI Help Center, `Best practices for prompt engineering with the OpenAI API`, 확인 날짜: 2026-07-24. [https://help.openai.com/en/articles/6654000-how-to-prompt-the-models](https://help.openai.com/en/articles/6654000-how-to-prompt-the-models){: target="_blank" rel="noopener noreferrer" }. temperature가 낮은 확률 토큰 선택 빈도와 무작위성, factual use case에서의 보수적 설정과 연결된다는 설명 확인에 사용했다.
+- OpenAI Cookbook, `How to make your completions outputs consistent with the seed parameter`, 확인 날짜: 2026-07-24. [https://developers.openai.com/cookbook/examples/reproducible_outputs_with_the_seed_parameter](https://developers.openai.com/cookbook/examples/reproducible_outputs_with_the_seed_parameter){: target="_blank" rel="noopener noreferrer" }. seed를 통한 재현성은 같은 설정에서 대체로 일관된 출력을 얻기 위한 장치지만 완전한 결정성을 보장하지 않는다는 점을 확인하는 데 사용했다.

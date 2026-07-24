@@ -1,4 +1,6 @@
 from pathlib import Path
+from collections import Counter, defaultdict
+import csv
 import os
 import random
 
@@ -15,25 +17,9 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
-TEMPERATURES = [0.5, 1.0, 1.5]
-
-REPLY_SLOTS = {
-    "opening": {
-        "불편을 드려 죄송합니다.": 0.50,
-        "문의 주셔서 감사합니다.": 0.30,
-        "확인 도와드리겠습니다.": 0.20,
-    },
-    "policy": {
-        "환불은 배송 완료 후 7일 이내 가능합니다.": 0.55,
-        "배송 완료 후 7일 안에 환불을 접수할 수 있습니다.": 0.25,
-        "주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다.": 0.20,
-    },
-    "next_step": {
-        "주문번호를 보내 주시면 바로 확인하겠습니다.": 0.60,
-        "주문번호와 수령일을 함께 알려 주세요.": 0.25,
-        "필요한 정보를 남겨 주시면 순서대로 도와드리겠습니다.": 0.15,
-    },
-}
+CANDIDATE_PATH = OUT_DIR / "p6-6-2-next-token-candidates.csv"
+TEMPERATURES = [0.3, 1.0, 1.7]
+SEEDS = range(1, 13)
 
 LANG_TEXT = {
     "ko": {
@@ -47,13 +33,35 @@ LANG_TEXT = {
         ],
         "outfile": "temperature-unique-reply-count-ko.png",
         "xlabel": "temperature",
-        "ylabel": "서로 다른 답변 조합 수",
+        "retention_ylabel": "상위 토큰 선택 비율",
+        "unique_ylabel": "서로 다른 출력 수",
+        "retention_title": "토큰 선택 안정성",
+        "unique_title": "출력 다양성",
+        "first_token_title": "첫 토큰 분포",
+        "first_token_ylabel": "선택 횟수",
+        "first_token_labels": {
+            "안내": "안내",
+            "주문": "주문",
+            "확인": "확인",
+            "환불": "환불",
+        },
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "temperature-unique-reply-count-en.png",
         "xlabel": "temperature",
-        "ylabel": "unique reply combinations",
+        "retention_ylabel": "top-token rate",
+        "unique_ylabel": "unique outputs",
+        "retention_title": "Token-choice stability",
+        "unique_title": "Output diversity",
+        "first_token_title": "First-token distribution",
+        "first_token_ylabel": "selection count",
+        "first_token_labels": {
+            "안내": "guide",
+            "주문": "order",
+            "확인": "check",
+            "환불": "refund",
+        },
     },
 }
 
@@ -71,33 +79,73 @@ def configure_font(text: dict[str, str]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def apply_temperature(prob_dict: dict[str, float], temperature: float) -> dict[str, float]:
-    adjusted = {token: prob ** (1.0 / temperature) for token, prob in prob_dict.items()}
-    total = sum(adjusted.values())
-    return {token: adjusted[token] / total for token in adjusted}
+def load_candidates() -> dict[int, list[dict[str, str]]]:
+    by_step: dict[int, list[dict[str, str]]] = defaultdict(list)
+    with CANDIDATE_PATH.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            by_step[int(row["step"])].append(row)
+    return dict(sorted(by_step.items()))
 
 
-def sample_many(
-    slots: dict[str, dict[str, float]],
+def apply_temperature(candidates: list[dict[str, str]], temperature: float) -> list[float]:
+    adjusted = [
+        float(candidate["base_probability"]) ** (1.0 / temperature)
+        for candidate in candidates
+    ]
+    total = sum(adjusted)
+    return [value / total for value in adjusted]
+
+
+def greedy_output(candidates_by_step: dict[int, list[dict[str, str]]], temperature: float) -> str:
+    tokens = []
+    for candidates in candidates_by_step.values():
+        probs = apply_temperature(candidates, temperature)
+        top_index = max(range(len(candidates)), key=lambda index: probs[index])
+        tokens.append(candidates[top_index]["candidate_token"])
+    return "".join(tokens)
+
+
+def sample_output(
+    candidates_by_step: dict[int, list[dict[str, str]]],
     temperature: float,
-    trials: int = 12,
-    seed: int = 7,
-) -> int:
-    random.seed(seed)
-    replies = []
-    for _ in range(trials):
-        parts = []
-        for _, prob_dict in slots.items():
-            adjusted = apply_temperature(prob_dict, temperature)
-            tokens = list(adjusted.keys())
-            weights = list(adjusted.values())
-            parts.append(random.choices(tokens, weights=weights, k=1)[0])
-        replies.append(" ".join(parts))
-    return len(set(replies))
+    seed: int,
+) -> tuple[str, int, str]:
+    rng = random.Random(seed)
+    tokens = []
+    top_hits = 0
+    first_token = ""
+    for step, candidates in candidates_by_step.items():
+        probs = apply_temperature(candidates, temperature)
+        top_index = max(range(len(candidates)), key=lambda index: probs[index])
+        picked_index = rng.choices(range(len(candidates)), weights=probs, k=1)[0]
+        if picked_index == top_index:
+            top_hits += 1
+        picked_token = candidates[picked_index]["candidate_token"]
+        if step == 1:
+            first_token = picked_token
+        tokens.append(picked_token)
+    return "".join(tokens), top_hits, first_token
 
 
-def unique_counts() -> list[int]:
-    return [sample_many(REPLY_SLOTS, temperature, trials=12, seed=7) for temperature in TEMPERATURES]
+def summarize(candidates_by_step: dict[int, list[dict[str, str]]]) -> tuple[list[float], list[int], dict[float, Counter]]:
+    token_count = len(candidates_by_step)
+    retention_rates = []
+    unique_counts = []
+    first_token_counts = {}
+    for temperature in TEMPERATURES:
+        greedy = greedy_output(candidates_by_step, temperature)
+        outputs = []
+        top_hits = 0
+        first_tokens = []
+        for seed in SEEDS:
+            output, hits, first_token = sample_output(candidates_by_step, temperature, seed)
+            outputs.append(output)
+            top_hits += hits
+            first_tokens.append(first_token)
+        retention_rates.append(top_hits / (len(SEEDS) * token_count))
+        unique_counts.append(len(set(outputs)))
+        first_token_counts[temperature] = Counter(first_tokens)
+    return retention_rates, unique_counts, first_token_counts
 
 
 def style_axis(ax) -> None:
@@ -109,17 +157,35 @@ def style_axis(ax) -> None:
 
 def save_temperature_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    values = unique_counts()
+    candidates_by_step = load_candidates()
+    retention_rates, unique_counts, first_token_counts = summarize(candidates_by_step)
     labels = [str(temperature) for temperature in TEMPERATURES]
 
-    fig, ax = plt.subplots(figsize=(6.2, 3.6), dpi=180)
+    fig, axes = plt.subplots(1, 3, figsize=(13.2, 3.9), dpi=180)
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
-    style_axis(ax)
-    bars = ax.bar(labels, values, color="#2563eb", width=0.52)
+    for ax in axes:
+        ax.set_facecolor("white")
+        style_axis(ax)
 
-    for bar, value in zip(bars, values):
-        ax.annotate(
+    retention_bars = axes[0].bar(labels, retention_rates, color="#0f766e", width=0.52)
+    for bar, value in zip(retention_bars, retention_rates):
+        axes[0].annotate(
+            f"{value:.2f}",
+            (bar.get_x() + bar.get_width() / 2, value),
+            textcoords="offset points",
+            xytext=(0, 7),
+            ha="center",
+            fontsize=9,
+            color="#172033",
+        )
+    axes[0].set_title(text["retention_title"], fontsize=11, pad=10)
+    axes[0].set_xlabel(text["xlabel"])
+    axes[0].set_ylabel(text["retention_ylabel"])
+    axes[0].set_ylim(0, 1.05)
+
+    unique_bars = axes[1].bar(labels, unique_counts, color="#d97706", width=0.52)
+    for bar, value in zip(unique_bars, unique_counts):
+        axes[1].annotate(
             f"{value:g}",
             (bar.get_x() + bar.get_width() / 2, value),
             textcoords="offset points",
@@ -128,10 +194,34 @@ def save_temperature_chart(text: dict[str, str]) -> None:
             fontsize=9,
             color="#172033",
         )
+    axes[1].set_title(text["unique_title"], fontsize=11, pad=10)
+    axes[1].set_xlabel(text["xlabel"])
+    axes[1].set_ylabel(text["unique_ylabel"])
+    axes[1].set_ylim(0, max(unique_counts) * 1.3)
 
-    ax.set_xlabel(text["xlabel"])
-    ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, max(values) * 1.28)
+    first_tokens = sorted({
+        token
+        for counts in first_token_counts.values()
+        for token in counts
+    })
+    x_positions = list(range(len(first_tokens)))
+    bar_width = 0.24
+    colors = ["#64748b", "#0f766e", "#2563eb"]
+    for index, temperature in enumerate(TEMPERATURES):
+        offsets = [x + (index - 1) * bar_width for x in x_positions]
+        values = [first_token_counts[temperature].get(token, 0) for token in first_tokens]
+        axes[2].bar(offsets, values, width=bar_width, color=colors[index], label=str(temperature))
+    axes[2].set_title(text["first_token_title"], fontsize=11, pad=10)
+    axes[2].set_xticks(x_positions)
+    axes[2].set_xticklabels([
+        text["first_token_labels"].get(token, token)
+        for token in first_tokens
+    ])
+    axes[2].set_xlabel("first token")
+    axes[2].set_ylabel(text["first_token_ylabel"])
+    axes[2].set_ylim(0, 12.8)
+    axes[2].legend(frameon=False, fontsize=8, ncol=3, loc="upper center", bbox_to_anchor=(0.5, 1.18))
+
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
