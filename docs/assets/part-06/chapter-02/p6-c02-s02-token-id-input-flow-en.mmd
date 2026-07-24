@@ -1,0 +1,13 @@
+flowchart TD
+  A["source string"]
+  B["token pieces<br/>piece boundaries"]
+  C["token count<br/>number of pieces"]
+  D["token ID sequence<br/>vocabulary numbers"]
+  E["embedding vectors<br/>calculation input"]
+  F["model computation"]
+
+  A --> B
+  B --> C
+  B --> D
+  D --> E
+  E --> F

@@ -1,0 +1,77 @@
+stage,domain,sentence
+general_text,document,document content check now
+general_text,document,document content organize now
+general_text,document,document content summarize now
+general_text,document,document content explain now
+general_text,document,report content check now
+general_text,document,report content organize now
+general_text,document,report content summarize now
+general_text,document,meeting content organize now
+general_text,document,meeting content summarize now
+general_text,document,meeting content explain now
+general_text,document,material content check now
+general_text,document,material content organize now
+general_text,document,material content explain now
+general_text,document,result content check now
+general_text,document,result content explain now
+general_text,document,result content summarize now
+general_text,document,notice content check now
+general_text,document,notice content organize now
+general_text,document,policy content explain now
+general_text,document,policy content summarize now
+general_text,communication,request content check now
+general_text,communication,request content organize now
+general_text,communication,inquiry content check now
+general_text,communication,inquiry content organize now
+general_text,communication,question content check now
+general_text,communication,question content explain now
+general_text,communication,answer content organize now
+general_text,communication,answer content explain now
+general_text,communication,email content check now
+general_text,communication,email content organize now
+general_text,communication,alert content deliver now
+general_text,communication,guidance email deliver now
+general_text,knowledge,concept relation explain now
+general_text,knowledge,cause relation explain now
+general_text,knowledge,procedure order organize now
+general_text,knowledge,key content summarize now
+general_text,knowledge,comparison content organize now
+general_text,knowledge,background content explain now
+general_text,knowledge,example content check now
+general_text,knowledge,condition content check now
+customer_support,refund,refund inquiry content check now
+customer_support,refund,refund request content check now
+customer_support,refund,refund status content check now
+customer_support,refund,refund process content guide now
+customer_support,refund,refund inquiry procedure guide now
+customer_support,refund,refund request procedure explain now
+customer_support,refund,refund status check guide now
+customer_support,refund,refund process standard explain now
+customer_support,delivery,delivery inquiry content check now
+customer_support,delivery,delivery request content check now
+customer_support,delivery,delivery status content check now
+customer_support,delivery,delivery delay reason explain now
+customer_support,delivery,delivery change procedure guide now
+customer_support,delivery,delivery tracking method guide now
+customer_support,account,account inquiry content check now
+customer_support,account,account request content check now
+customer_support,account,account status content check now
+customer_support,account,account recovery procedure guide now
+customer_support,account,account lock reason explain now
+customer_support,account,account verification method guide now
+customer_support,exchange,exchange inquiry content check now
+customer_support,exchange,exchange request content check now
+customer_support,exchange,exchange process standard explain now
+customer_support,exchange,exchange submission procedure guide now
+instruction_reply,reply_style,step_by_step guide now
+instruction_reply,reply_style,step_by_step explain now
+instruction_reply,reply_style,step_by_step summarize now
+instruction_reply,reply_style,calmly guide now
+instruction_reply,reply_style,calmly explain now
+instruction_reply,reply_style,briefly summarize now
+instruction_reply,reply_style,three_sentences summarize now
+instruction_reply,reply_style,numbered_list guide now
+instruction_reply,reply_style,first_check content organize now
+instruction_reply,reply_style,caution content explain now
+instruction_reply,reply_style,next_action guide now
+instruction_reply,reply_style,necessary_information check now

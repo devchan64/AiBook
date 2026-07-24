@@ -1,0 +1,37 @@
+step,position_name,candidate_token,base_probability,role_note
+1,first_token,Refund,0.52,top start for refund answer
+1,first_token,Order,0.22,related but shifts topic
+1,first_token,Check,0.16,generic support start
+1,first_token,Guide,0.10,less direct start
+2,subject_marker, is,0.48,keeps concise policy sentence
+2,subject_marker, inquiries are,0.24,changes tone to inquiry handling
+2,subject_marker, eligibility is,0.18,adds uncertainty
+2,subject_marker, requests are,0.10,starts process wording
+3,policy_scope, shipping,0.50,keeps refund condition scope
+3,policy_scope, order,0.20,moves to order state
+3,policy_scope, customer,0.16,moves to customer status
+3,policy_scope, policy,0.14,abstract policy wording
+4,status_token, completion,0.46,keeps specific condition
+4,status_token, status,0.22,less specific state check
+4,status_token, receipt,0.18,process wording
+4,status_token, check,0.14,generic check wording
+5,time_anchor, after,0.50,keeps after-completion condition
+5,time_anchor, based on,0.22,changes time relation
+5,time_anchor, before,0.16,changes meaning riskily
+5,time_anchor, at the time of,0.12,less direct time anchor
+6,time_window, 7 days,0.52,main policy window
+6,time_window, 3 days,0.18,narrower alternative
+6,time_window, 14 days,0.16,wider alternative
+6,time_window, 2 business days,0.14,process time alternative
+7,limit_marker, within,0.48,keeps deadline meaning
+7,limit_marker, inside,0.26,same meaning in softer wording
+7,limit_marker, by,0.16,deadline phrasing
+7,limit_marker, after,0.10,changes meaning
+8,answer_action, is available,0.44,direct answer completion
+8,answer_action, can be submitted,0.28,process-focused answer
+8,answer_action, should be checked,0.18,verification-focused answer
+8,answer_action, will be reviewed by staff,0.10,handoff answer
+9,closing_token,.,0.46,stable short close
+9,closing_token, and the order number is required.,0.24,adds required input
+9,closing_token, and detailed conditions should be checked.,0.18,adds caution
+9,closing_token, and the support center should be contacted.,0.12,adds handoff
