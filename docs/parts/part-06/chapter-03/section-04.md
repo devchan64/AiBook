@@ -1,7 +1,7 @@
 # P6-3.4 보충학습: ANN 검색의 속도와 후보 누락 절충
 
 > Section ID: `P6-3.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-3.2에서는 `가까운 후보를 찾는다`는 비교 기준을 붙잡았고, P6-3.3에서는 그 비교가 성립하도록 표현 공간을 어떻게 배울지를 봤습니다. 이제 남는 질문은 하나입니다.
 
@@ -131,7 +131,7 @@ ANN 관점으로 실무 현상을 다시 보면, 아직 인덱스 이름을 자�
 
 ### 예제. `coarse_window`로 후보 축소 실험하기
 
-이 예제의 목표는 `전수 비교`와 `빠른 후보 축소`를 나란히 놓고, 왜 ANN이 실무에서 필요한지 직접 보는 것입니다. 실제 ANN 인덱스를 구현하지는 않지만, 후보를 3,000개 이상으로 늘린 뒤 모든 후보를 다 보는 방식과 1차 조건으로 일부 후보만 남기는 방식을 비교하면 핵심 감각은 더 분명해집니다.
+이 예제의 목표는 `전수 비교`와 `빠른 후보 축소`를 나란히 놓고, 왜 ANN이 실무에서 필요한지 직접 보는 것입니다. 실제 ANN 인덱스를 구현하지는 않지만, `scikit-learn`의 `NearestNeighbors`로 기준 상위 후보를 찾고, 1차 조건으로 일부 후보만 남긴 뒤 같은 검색 API를 다시 적용하면 핵심 감각은 더 분명해집니다.
 
 이 예제는 Python 사용법을 배우기 위한 설명형 예제가 아니라, 값을 바꾸며 결과 차이를 보는 실험형 예제입니다. 여기서 직접 바꿔 볼 값은 `coarse_window`입니다. 이 값이 넓으면 더 많은 후보를 비교하므로 후보 누락 위험이 줄고, 좁으면 비교 후보 수가 줄어드는 대신 가까운 후보 일부를 놓칠 수 있습니다.
 
@@ -143,16 +143,15 @@ ANN 관점으로 실무 현상을 다시 보면, 아직 인덱스 이름을 자�
 | 빠른 후보 축소의 비교 비용 | `candidates` | 후보를 몇 개만 실제로 비교했는지 보기 위해서입니다. |
 | 공격적 축소의 손실 | `recall@5`, `missed` | 속도를 얻는 대신 가까운 후보를 얼마나 놓쳤는지 확인하기 위해서입니다. |
 
-아래 코드는 하나의 질의 벡터, 수작업으로 넣은 근접 FAQ 후보 몇 개, 무작위로 만든 배경 FAQ 후보 3,000개를 사용합니다. 실행 결과에서는 전수 비교 결과와 `coarse_window`를 바꿨을 때의 빠른 후보 축소 결과를 나란히 보고, 각 설정이 실제로 비교한 후보 수, `recall@5`, 놓친 상위 후보를 확인합니다. 모든 후보를 다 보는 방식은 안전하지만 후보 수가 커질수록 느려질 수 있고, 빠른 후보 축소는 설정을 너무 공격적으로 잡으면 중요한 후보를 놓칠 수 있다는 점을 직접 읽는 것이 핵심입니다.
+아래 코드는 하나의 질의 벡터, 수작업으로 넣은 근접 FAQ 후보 몇 개, 무작위로 만든 배경 FAQ 후보 3,000개를 사용합니다. 실행 결과에서는 `NearestNeighbors`로 만든 전수 비교 기준선과 `coarse_window`를 바꿨을 때의 빠른 후보 축소 결과를 나란히 보고, 각 설정이 실제로 비교한 후보 수, `recall@5`, 놓친 상위 후보를 확인합니다. 모든 후보를 다 보는 방식은 안전하지만 후보 수가 커질수록 느려질 수 있고, 빠른 후보 축소는 설정을 너무 공격적으로 잡으면 중요한 후보를 놓칠 수 있다는 점을 직접 읽는 것이 핵심입니다.
 
 ```python
 # 전수 비교와 coarse_window 기반 후보 축소를 비교해 ANN식 검색에서 비교 비용과 recall 손실을 함께 보는 예제입니다.
 import random
+import numpy as np
+from sklearn.neighbors import NearestNeighbors
 
 random.seed(24)
-
-def squared_distance(a, b):
-    return sum((x - y) ** 2 for x, y in zip(a, b))
 
 query = [0.90, 0.80]
 docs = {
@@ -172,19 +171,23 @@ for i in range(3000):
         random.random() * 0.45,
     ]
 
-full_scan = sorted(
-    ((name, squared_distance(query, vec)) for name, vec in docs.items()),
-    key=lambda x: x[1],
-)
-full_top5 = [name for name, _ in full_scan[:5]]
+def rank_with_neighbors(names, vectors, k=5):
+    # 같은 검색 API를 전수 기준선과 축소 후보에 모두 적용해 비교 대상을 맞춥니다.
+    model = NearestNeighbors(n_neighbors=min(k, len(names)), metric="euclidean")
+    model.fit(np.array(vectors))
+    distances, indices = model.kneighbors(np.array([query]))
+    return [(names[index], float(distance)) for index, distance in zip(indices[0], distances[0])]
+
+full_scan = rank_with_neighbors(list(docs), list(docs.values()))
+full_top5 = [name for name, _ in full_scan]
 
 def fast_scan_with_window(coarse_window):
-    coarse_candidates = {
-        name: vec for name, vec in docs.items() if abs(vec[0] - query[0]) <= coarse_window
-    }
-    ranked = sorted(
-        ((name, squared_distance(query, vec)) for name, vec in coarse_candidates.items()),
-        key=lambda x: x[1],
+    coarse_candidates = [
+        (name, vec) for name, vec in docs.items() if abs(vec[0] - query[0]) <= coarse_window
+    ]
+    ranked = rank_with_neighbors(
+        [name for name, _ in coarse_candidates],
+        [vec for _, vec in coarse_candidates],
     )
     return ranked, len(coarse_candidates)
 
@@ -219,7 +222,7 @@ for label, (ranked, candidate_count) in fast_results.items():
 
 ```text
 doc_count = 3007
-full_top5 = [('refund_policy', 0.0008), ('cancel_payment', 0.0031), ('billing_deadline', 0.0032), ('payment_receipt', 0.0045), ('refund_exception', 0.0085)]
+full_top5 = [('refund_policy', 0.0283), ('cancel_payment', 0.0559), ('billing_deadline', 0.0566), ('payment_receipt', 0.0671), ('refund_exception', 0.0922)]
 wide window = 0.2 candidates = 900 recall@5 = 1.0
 top5 = ['refund_policy', 'cancel_payment', 'billing_deadline', 'payment_receipt', 'refund_exception']
 missed = []

@@ -13,49 +13,48 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
+import tiktoken
 
 OUT_DIR = Path(__file__).resolve().parent
 
 CONTEXT_ITEMS = [
     {
         "name": "system instruction",
-        "tokens": 18,
         "priority": 100,
         "content": "Follow policy and explain the cause clearly.",
     },
     {
         "name": "older chat history",
-        "tokens": 30,
         "priority": 40,
         "content": "Earlier small talk and unrelated setup questions.",
     },
     {
         "name": "repeated greeting",
-        "tokens": 8,
         "priority": 5,
         "content": "Hello again thank you hello again.",
     },
     {
         "name": "user question",
-        "tokens": 12,
         "priority": 95,
         "content": "Why did login fail after the deploy?",
     },
     {
         "name": "current error log",
-        "tokens": 22,
         "priority": 90,
         "content": "Login failed because session token signature mismatch after deploy.",
     },
     {
         "name": "related function code",
-        "tokens": 20,
         "priority": 88,
         "content": "verify_session_token compares signature and rejects mismatch.",
     },
 ]
 
-TOKEN_BUDGET = 60
+ENCODING = tiktoken.get_encoding("o200k_base")
+for item in CONTEXT_ITEMS:
+    item["tokens"] = len(ENCODING.encode(item["content"]))
+
+BUDGET_OPTIONS = [24, 32, 40]
 MUST_KEEP = {"system instruction", "user question", "current error log"}
 QUERY_KEYWORDS = {"login", "fail", "deploy", "token", "signature", "mismatch"}
 
@@ -82,9 +81,9 @@ LANG_TEXT = {
             "naive": "입력 순서",
             "priority": "우선순위",
         },
-        "selected_tokens_ylabel": "선택된 토큰 수",
-        "summary_ylabel": "보존/관련도 점수",
-        "must_keep_label": "필수 상태 보존",
+        "budget_xlabel": "토큰 예산",
+        "coverage_ylabel": "필수 상태 보존 수",
+        "relevance_ylabel": "relevance 합계",
         "relevance_label": "relevance 합계",
     },
     "en": {
@@ -102,9 +101,9 @@ LANG_TEXT = {
             "naive": "original order",
             "priority": "priority based",
         },
-        "selected_tokens_ylabel": "selected tokens",
-        "summary_ylabel": "coverage / relevance score",
-        "must_keep_label": "must-keep coverage",
+        "budget_xlabel": "token budget",
+        "coverage_ylabel": "must-keep items kept",
+        "relevance_ylabel": "relevance sum",
         "relevance_label": "relevance sum",
     },
 }
@@ -149,23 +148,23 @@ def relevance_score(item: dict[str, object]) -> int:
     return len(set(clean_content.split()) & QUERY_KEYWORDS)
 
 
-def summarize() -> dict[str, dict[str, object]]:
+def summarize_budget(budget: int) -> dict[str, dict[str, int]]:
     methods = {
-        "naive": select_in_original_order(CONTEXT_ITEMS, TOKEN_BUDGET),
-        "priority": select_by_priority(CONTEXT_ITEMS, TOKEN_BUDGET),
+        "naive": select_in_original_order(CONTEXT_ITEMS, budget),
+        "priority": select_by_priority(CONTEXT_ITEMS, budget),
     }
     summary = {}
     for method, selected in methods.items():
         selected_names = {item["name"] for item in selected}
         summary[method] = {
-            "selected_tokens": {
-                item["name"]: item["tokens"] if item["name"] in selected_names else 0
-                for item in CONTEXT_ITEMS
-            },
             "must_keep_count": len(selected_names & MUST_KEEP),
             "relevance_sum": sum(relevance_score(item) for item in selected),
         }
     return summary
+
+
+def summarize_all_budgets() -> dict[int, dict[str, dict[str, int]]]:
+    return {budget: summarize_budget(budget) for budget in BUDGET_OPTIONS}
 
 
 def style_axis(ax) -> None:
@@ -177,76 +176,63 @@ def style_axis(ax) -> None:
 
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    rows = summarize()
-    item_names = [item["name"] for item in CONTEXT_ITEMS]
-    item_labels = [text["item_labels"][name] for name in item_names]
-    x_positions = list(range(len(item_names)))
+    rows = summarize_all_budgets()
+    x_positions = list(range(len(BUDGET_OPTIONS)))
     width = 0.34
 
-    fig, (selection_ax, summary_ax) = plt.subplots(
+    fig, (coverage_ax, relevance_ax) = plt.subplots(
         2,
         1,
-        figsize=(7.6, 5.6),
+        figsize=(7.6, 5.2),
         dpi=180,
-        gridspec_kw={"height_ratios": [2.1, 1.0], "hspace": 0.42},
+        gridspec_kw={"height_ratios": [1.0, 1.0], "hspace": 0.36},
     )
     fig.patch.set_facecolor("white")
-    for axis in (selection_ax, summary_ax):
+    for axis in (coverage_ax, relevance_ax):
         axis.set_facecolor("white")
         style_axis(axis)
 
     method_order = ["naive", "priority"]
     colors = {"naive": "#64748b", "priority": "#0f766e"}
-    for index, method in enumerate(method_order):
-        values = [rows[method]["selected_tokens"][name] for name in item_names]
-        positions = [x + (index - 0.5) * width for x in x_positions]
-        bars = selection_ax.bar(
-            positions,
-            values,
-            width=width,
-            color=colors[method],
-            label=text["method_labels"][method],
-        )
-        for bar, value in zip(bars, values):
-            if value == 0:
-                continue
-            selection_ax.annotate(
-                f"{value:g}",
-                (bar.get_x() + bar.get_width() / 2, value),
-                textcoords="offset points",
-                xytext=(0, 5),
-                ha="center",
-                fontsize=7.8,
-                color="#172033",
+    metric_axes = [
+        (coverage_ax, "must_keep_count", text["coverage_ylabel"], 3.8),
+        (relevance_ax, "relevance_sum", text["relevance_ylabel"], 11),
+    ]
+    for axis, metric, ylabel, ymax in metric_axes:
+        for index, method in enumerate(method_order):
+            values = [rows[budget][method][metric] for budget in BUDGET_OPTIONS]
+            positions = [x + (index - 0.5) * width for x in x_positions]
+            bars = axis.bar(
+                positions,
+                values,
+                width=width,
+                color=colors[method],
+                label=text["method_labels"][method],
             )
+            for bar, value in zip(bars, values):
+                axis.annotate(
+                    f"{value:g}",
+                    (bar.get_x() + bar.get_width() / 2, value),
+                    textcoords="offset points",
+                    xytext=(0, 5),
+                    ha="center",
+                    fontsize=8,
+                    color="#172033",
+                )
+        axis.set_xticks(x_positions, [str(budget) for budget in BUDGET_OPTIONS])
+        axis.set_ylabel(ylabel)
+        axis.set_ylim(0, ymax)
 
-    selection_ax.axhline(TOKEN_BUDGET, color="#dc2626", linewidth=1.0, linestyle="--", alpha=0.8)
-    selection_ax.set_xticks(x_positions, item_labels)
-    selection_ax.set_ylabel(text["selected_tokens_ylabel"])
-    selection_ax.set_ylim(0, 34)
-    selection_ax.legend(loc="upper right", frameon=False, fontsize=8.5)
+    coverage_ax.legend(
+        loc="lower center",
+        bbox_to_anchor=(0.5, 1.01),
+        ncol=2,
+        frameon=False,
+        fontsize=8.5,
+    )
+    relevance_ax.set_xlabel(text["budget_xlabel"])
 
-    summary_labels = [text["must_keep_label"], text["relevance_label"]]
-    summary_x = [0, 1]
-    for index, method in enumerate(method_order):
-        values = [rows[method]["must_keep_count"], rows[method]["relevance_sum"]]
-        positions = [x + (index - 0.5) * width for x in summary_x]
-        bars = summary_ax.bar(positions, values, width=width, color=colors[method])
-        for bar, value in zip(bars, values):
-            summary_ax.annotate(
-                f"{value:g}",
-                (bar.get_x() + bar.get_width() / 2, value),
-                textcoords="offset points",
-                xytext=(0, 5),
-                ha="center",
-                fontsize=8,
-                color="#172033",
-            )
-    summary_ax.set_xticks(summary_x, summary_labels)
-    summary_ax.set_ylabel(text["summary_ylabel"])
-    summary_ax.set_ylim(0, 9)
-
-    fig.subplots_adjust(left=0.11, right=0.98, top=0.96, bottom=0.11, hspace=0.42)
+    fig.subplots_adjust(left=0.11, right=0.98, top=0.96, bottom=0.12, hspace=0.36)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
 

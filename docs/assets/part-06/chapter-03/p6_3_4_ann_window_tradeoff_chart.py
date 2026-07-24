@@ -1,6 +1,8 @@
 from pathlib import Path
 import os
 import random
+import numpy as np
+from sklearn.neighbors import NearestNeighbors
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 MPL_CACHE = REPO_ROOT / ".tmp" / "matplotlib-cache"
@@ -17,6 +19,7 @@ from matplotlib import font_manager
 OUT_DIR = Path(__file__).resolve().parent
 
 QUERY = [0.90, 0.80]
+QUERY_ARRAY = np.array([QUERY])
 SETTINGS = {
     "wide": 0.20,
     "balanced": 0.08,
@@ -39,6 +42,11 @@ LANG_TEXT = {
         "recall_ylabel": "recall@5",
         "candidate_label": "비교 후보 수",
         "recall_label": "recall@5",
+        "setting_labels": {
+            "wide": "넓음",
+            "balanced": "균형",
+            "aggressive": "공격적",
+        },
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -48,6 +56,11 @@ LANG_TEXT = {
         "recall_ylabel": "recall@5",
         "candidate_label": "candidates",
         "recall_label": "recall@5",
+        "setting_labels": {
+            "wide": "wide",
+            "balanced": "balanced",
+            "aggressive": "aggressive",
+        },
     },
 }
 
@@ -63,10 +76,6 @@ def choose_font(candidates: list[str]) -> str:
 def configure_font(text: dict[str, str]) -> None:
     plt.rcParams["font.family"] = choose_font(text["font_candidates"])
     plt.rcParams["axes.unicode_minus"] = False
-
-
-def squared_distance(a: list[float], b: list[float]) -> float:
-    return sum((x - y) ** 2 for x, y in zip(a, b))
 
 
 def build_docs() -> dict[str, list[float]]:
@@ -89,28 +98,31 @@ def build_docs() -> dict[str, list[float]]:
     return docs
 
 
-def summarize_windows() -> list[dict[str, float]]:
+def rank_with_neighbors(names: list[str], vectors: list[list[float]], k: int = 5) -> list[str]:
+    model = NearestNeighbors(n_neighbors=min(k, len(names)), metric="euclidean")
+    model.fit(np.array(vectors))
+    _, indices = model.kneighbors(QUERY_ARRAY)
+    return [names[index] for index in indices[0]]
+
+
+def summarize_windows(text: dict[str, str]) -> list[dict[str, float]]:
     docs = build_docs()
-    full_scan = sorted(
-        ((name, squared_distance(QUERY, vec)) for name, vec in docs.items()),
-        key=lambda x: x[1],
-    )
-    full_top5 = [name for name, _ in full_scan[:5]]
+    full_top5 = rank_with_neighbors(list(docs), list(docs.values()))
 
     summaries = []
     for label, window in SETTINGS.items():
-        coarse_candidates = {
-            name: vec for name, vec in docs.items() if abs(vec[0] - QUERY[0]) <= window
-        }
-        ranked = sorted(
-            ((name, squared_distance(QUERY, vec)) for name, vec in coarse_candidates.items()),
-            key=lambda x: x[1],
+        coarse_candidates = [
+            (name, vec) for name, vec in docs.items() if abs(vec[0] - QUERY[0]) <= window
+        ]
+        top5 = rank_with_neighbors(
+            [name for name, _ in coarse_candidates],
+            [vec for _, vec in coarse_candidates],
         )
-        top5 = [name for name, _ in ranked[:5]]
         recall = len(set(full_top5) & set(top5)) / len(full_top5)
         summaries.append(
             {
                 "label": f"{label}\n({window:g})",
+                "display_label": f"{text['setting_labels'][label]}\n({window:g})",
                 "candidates": len(coarse_candidates),
                 "recall": recall,
             }
@@ -126,8 +138,8 @@ def style_axis(ax) -> None:
 
 def save_tradeoff_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    summaries = summarize_windows()
-    labels = [row["label"] for row in summaries]
+    summaries = summarize_windows(text)
+    labels = [row["display_label"] for row in summaries]
     candidates = [row["candidates"] for row in summaries]
     recalls = [row["recall"] for row in summaries]
     x_positions = range(len(labels))

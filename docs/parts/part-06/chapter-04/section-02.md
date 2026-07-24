@@ -1,7 +1,7 @@
 # P6-4.2 attention의 참조 범위
 
 > Section ID: `P6-4.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 _보조제목: attention은 context window 안에서만 무엇을 다시 볼 수 있는가_
 
@@ -11,22 +11,14 @@ Transformer가 이전 토큰을 참고할 수 있다면, 실제로는 어디까�
 
 ## attention이 읽을 수 있는 입력 범위
 
-입력 범위 제약을 읽을 때 핵심 질문은 다음 세 가지입니다.
-
-- attention과 context window는 어떤 관계인가?
-- 왜 `모든 이전 토큰을 본다`는 말에도 실제 한계가 붙는가?
-- context window는 왜 비용, 품질, 서비스 구조에 영향을 주는가?
-
-따라서 핵심은 `attention이 모든 것을 본다`가 아니라 `입력 범위가 먼저 제한되고 attention은 그 안에서만 작동한다`는 점입니다.
+입력 범위 제약을 읽을 때는 attention과 context window를 먼저 갈라야 합니다. attention은 입력 안의 토큰들이 서로 얼마나 관련되는지 계산하지만, 그 계산 대상은 context window 안에 들어온 토큰으로 제한됩니다. 따라서 핵심은 `attention이 모든 것을 본다`가 아니라 `입력 범위가 먼저 제한되고 attention은 그 안에서만 작동한다`는 점입니다.
 
 | 지금 읽는 것 | 이후 넓어지는 질문 |
 | --- | --- |
 | 모델이 한 번의 계산에서 어디까지 입력으로 볼 수 있는가 | 그 제약을 실제 retrieval, 요약, 운영 정책으로 어떻게 풀어내는가 |
 | attention이 그 범위 안에서만 중요도를 계산한다는 점 | 긴 문맥 전용 아키텍처와 서빙 최적화가 어떤 구현 차이를 만드는가 |
 
-이 구분이 잡히면 반복 생성에서 왜 KV cache가 필요해지는지, 긴 문맥에서 왜 sparse attention과 long-context 이야기가 따로 나오는지, RAG가 왜 입력 선택 문제와 연결되는지도 자연스럽게 이어집니다.
-
-`문맥을 다 본다`는 표현을 너무 크게 해석하면 LLM이 앞선 모든 정보를 언제나 기억하는 것처럼 오해하기 쉽습니다. 여기서 확인해야 할 결과는 P6-4.1의 Transformer 구조를 실제 사용 제약과 연결해, 이후 RAG, prompt 설계, tool use, agent loop에서 왜 입력 선택이 중요해지는지 설명할 수 있게 되는가입니다.
+이 구분이 잡히면 반복 생성에서 왜 KV cache가 필요해지는지, 긴 문맥에서 왜 sparse attention과 long-context 이야기가 따로 나오는지, RAG가 왜 입력 선택 문제와 연결되는지도 자연스럽게 이어집니다. `문맥을 다 본다`는 표현을 너무 크게 해석하면 LLM이 앞선 모든 정보를 언제나 기억하는 것처럼 오해하기 쉽습니다.
 
 ## context window는 무엇을 뜻하나
 
@@ -92,19 +84,9 @@ context window는 단순 숫자 제한이 아닙니다. 실제로는 입력을 �
 
 즉, context window 문제는 길이 경쟁이 아니라 `입력 선택과 압축의 기준`을 세우는 문제이기도 합니다. 이 관점을 잡아야 뒤에서 RAG, 대화 요약, 에이전트 문맥 관리가 왜 모두 비슷한 설계 문제로 묶이는지 자연스럽게 읽을 수 있습니다.
 
-## 그래서 왜 RAG와 연결되는가
+## RAG로 이어지는 입력 선택 문제
 
-RAG(retrieval-augmented generation)는 바로 이 문제와 연결됩니다.
-
-긴 문서 전체를 넣는 대신:
-
-- 관련 문서 조각만 검색하고
-- 필요한 부분만 잘라 넣어
-- 제한된 context window 안에서 근거를 더 효율적으로 사용하려는 구조이기 때문입니다
-
-즉, context window의 존재는 RAG가 왜 필요한지 설명하는 중요한 배경입니다.
-
-여기서 읽어야 할 핵심은 `attention이 강하니 문서를 전부 넣으면 된다`가 아니라, `윈도우 안에 남길 근거를 먼저 고르고 그 안에서 attention이 작동한다`는 순서입니다.
+RAG(retrieval-augmented generation)는 이 절에서 자세히 설명할 대상은 아니지만, context window 제약이 어디로 이어지는지 보여 주는 대표 장면입니다. 긴 문서 전체를 넣는 대신 관련 문서 조각을 검색하고 필요한 부분만 잘라 넣는 이유는, 제한된 context window 안에서 근거를 더 효율적으로 쓰기 위해서입니다. 여기서 읽어야 할 핵심은 `attention이 강하니 문서를 전부 넣으면 된다`가 아니라, `윈도우 안에 남길 근거를 먼저 고르고 그 안에서 attention이 작동한다`는 순서입니다.
 
 ## 아주 단순하게 그리면
 
@@ -189,9 +171,9 @@ context window를 적용 장면에서 다시 볼 때 자주 하는 실수는, `�
 
 이 예제의 목표는 `길이 제한이 있을 때 무엇을 우선 남길 것인가`를 더 분명하게 보는 것입니다. 단순 개수 제한이 아니라 `토큰 예산`을 두고, 입력 순서대로 그냥 넣는 방식과 중요도 기준으로 다시 고르는 방식을 비교하겠습니다. 여기에 `현재 질문과 얼마나 직접 연결되는가`를 흉내 내는 간단한 relevance 점수도 붙여, context window 안에 무엇이 남느냐가 attention이 실제로 볼 수 있는 단서와 어떻게 연결되는지도 함께 보겠습니다.
 
-아래 코드는 여러 개의 문맥 항목, 각 항목의 토큰 길이와 우선순위, 여러 개의 토큰 예산을 사용합니다. 결과에서는 입력 순서대로 넣었을 때 남는 항목, 중요도 기준으로 다시 골랐을 때 남는 항목, 예산 변화에 따라 탈락하는 항목, 핵심 상태 보존 정도, 선택된 항목 안에서 질문과 직접 연결된 단서의 relevance 순위를 함께 봅니다.
+아래 코드에서 `priority`, `must_keep`, `query_keywords`는 모델이 자동으로 정답을 알아낸 값이 아닙니다. 서비스 설계자가 현재 작업에서 중요하다고 정한 문맥 선택 규칙입니다. 코드는 그 규칙이 토큰 예산 안에서 실제로 어떤 항목을 남기고, 어떤 항목을 밀어내는지 비교합니다. 각 항목의 토큰 길이는 `tiktoken`의 `o200k_base` 인코딩으로 직접 계산합니다. 결과에서는 입력 순서대로 넣었을 때 남는 항목, 중요도 기준으로 다시 골랐을 때 남는 항목, 예산 변화에 따라 탈락하는 항목, 핵심 상태 보존 정도, 선택된 항목 안에서 질문과 직접 연결된 단서의 relevance 순위를 함께 봅니다.
 
-확인할 핵심은 context budget이 부족할 때 어떤 정보를 남기고 버리느냐에 따라 최종 답변에 쓸 수 있는 근거가 달라진다는 점입니다. `budget_options` 값을 바꾸면 어떤 항목이 살아남는지 달라지고, attention은 선택 뒤에 남은 항목 안에서만 관련도를 계산할 수 있습니다.
+확인할 핵심은 context budget이 부족할 때 어떤 정보를 남기고 버리느냐에 따라 최종 답변에 쓸 수 있는 근거가 달라진다는 점입니다. 여기서 실제 tokenizer가 계산하는 값은 각 항목의 `tokens`이고, `budget_options`는 독자가 바꿔 볼 수 있는 운영 가정값입니다. `budget_options` 값을 바꾸면 어떤 항목이 살아남는지 달라지고, attention은 선택 뒤에 남은 항목 안에서만 관련도를 계산할 수 있습니다.
 
 아래 도식은 이 예제가 비교하려는 두 선택 방식을 먼저 압축한 것입니다. 같은 토큰 예산이어도 입력 순서대로 남기는 방식과 우선순위로 다시 고르는 방식은, attention이 실제로 볼 수 있는 단서를 다르게 만듭니다.
 
@@ -203,46 +185,47 @@ context window를 적용 장면에서 다시 볼 때 자주 하는 실수는, `�
 # context window 토큰 예산 안에서 입력 순서 선택과 중요도 기반 선택이 남기는 단서를 비교하는 예제입니다.
 import string
 
+import tiktoken
+
 context_items = [
     {
         "name": "system instruction",
-        "tokens": 18,
         "priority": 100,
         "content": "Follow policy and explain the cause clearly.",
     },
     {
         "name": "older chat history",
-        "tokens": 30,
         "priority": 40,
         "content": "Earlier small talk and unrelated setup questions.",
     },
     {
         "name": "repeated greeting",
-        "tokens": 8,
         "priority": 5,
         "content": "Hello again thank you hello again.",
     },
     {
         "name": "user question",
-        "tokens": 12,
         "priority": 95,
         "content": "Why did login fail after the deploy?",
     },
     {
         "name": "current error log",
-        "tokens": 22,
         "priority": 90,
         "content": "Login failed because session token signature mismatch after deploy.",
     },
     {
         "name": "related function code",
-        "tokens": 20,
         "priority": 88,
         "content": "verify_session_token compares signature and rejects mismatch.",
     },
 ]
 
-budget_options = [50, 60, 80]
+encoding = tiktoken.get_encoding("o200k_base")
+for item in context_items:
+    # 토큰 예산 판단은 사람이 넣은 추정치가 아니라 실제 tokenizer 관찰값에서 시작한다.
+    item["tokens"] = len(encoding.encode(item["content"]))
+
+budget_options = [24, 32, 40]
 must_keep = {"system instruction", "user question", "current error log"}
 query_keywords = {"login", "fail", "deploy", "token", "signature", "mismatch"}
 
@@ -309,45 +292,45 @@ for budget in budget_options:
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-budget = 50
+budget = 24
 [original order]
-used_tokens = 48
-selected = ['system instruction', 'older chat history']
-dropped = ['repeated greeting', 'user question', 'current error log', 'related function code']
-must_keep_missing = ['current error log', 'user question']
-top_relevance = [(0, 'system instruction'), (0, 'older chat history')]
-[priority based]
-used_tokens = 50
-selected = ['system instruction', 'user question', 'related function code']
-dropped = ['current error log', 'older chat history', 'repeated greeting']
-must_keep_missing = ['current error log']
-top_relevance = [(3, 'user question'), (2, 'related function code'), (0, 'system instruction')]
----
-budget = 60
-[original order]
-used_tokens = 56
+used_tokens = 23
 selected = ['system instruction', 'older chat history', 'repeated greeting']
 dropped = ['user question', 'current error log', 'related function code']
 must_keep_missing = ['current error log', 'user question']
 top_relevance = [(0, 'system instruction'), (0, 'repeated greeting'), (0, 'older chat history')]
 [priority based]
-used_tokens = 60
-selected = ['system instruction', 'user question', 'current error log', 'repeated greeting']
-dropped = ['related function code', 'older chat history']
-must_keep_missing = []
-top_relevance = [(5, 'current error log'), (3, 'user question'), (0, 'system instruction')]
+used_tokens = 24
+selected = ['system instruction', 'user question', 'older chat history']
+dropped = ['current error log', 'related function code', 'repeated greeting']
+must_keep_missing = ['current error log']
+top_relevance = [(3, 'user question'), (0, 'system instruction'), (0, 'older chat history')]
 ---
-budget = 80
+budget = 32
 [original order]
-used_tokens = 68
+used_tokens = 31
 selected = ['system instruction', 'older chat history', 'repeated greeting', 'user question']
 dropped = ['current error log', 'related function code']
 must_keep_missing = ['current error log']
 top_relevance = [(3, 'user question'), (0, 'system instruction'), (0, 'repeated greeting')]
 [priority based]
-used_tokens = 80
-selected = ['system instruction', 'user question', 'current error log', 'related function code', 'repeated greeting']
-dropped = ['older chat history']
+used_tokens = 26
+selected = ['system instruction', 'user question', 'current error log']
+dropped = ['related function code', 'older chat history', 'repeated greeting']
+must_keep_missing = []
+top_relevance = [(5, 'current error log'), (3, 'user question'), (0, 'system instruction')]
+---
+budget = 40
+[original order]
+used_tokens = 40
+selected = ['system instruction', 'older chat history', 'repeated greeting', 'user question', 'related function code']
+dropped = ['current error log']
+must_keep_missing = ['current error log']
+top_relevance = [(3, 'user question'), (2, 'related function code'), (0, 'system instruction')]
+[priority based]
+used_tokens = 35
+selected = ['system instruction', 'user question', 'current error log', 'related function code']
+dropped = ['older chat history', 'repeated greeting']
 must_keep_missing = []
 top_relevance = [(5, 'current error log'), (3, 'user question'), (2, 'related function code')]
 ```
@@ -356,13 +339,15 @@ top_relevance = [(5, 'current error log'), (3, 'user question'), (2, 'related fu
 
 - 같은 토큰 예산이어도 입력 순서대로 그냥 넣으면 `older chat history`와 `repeated greeting`이 자리를 차지해, 정작 `user question`과 `current error log`가 잘릴 수 있습니다.
 - 중요도 기준으로 다시 고르면 현재 질문과 직접 연결된 항목이 먼저 살아남고, 오래된 기록이나 반복 인사는 뒤로 밀립니다.
-- 예산이 50에서 60으로 늘어날 때 priority 방식은 `current error log`를 새로 살리지만, original order 방식은 여전히 오래된 대화 기록이 자리를 차지합니다.
-- 예산이 80까지 늘어나면 original order 방식도 `user question`은 살리지만, `current error log`는 여전히 빠집니다. 많이 넣었다고 핵심 단서가 자동으로 보존되는 것은 아닙니다.
+- 예산이 24에서 32로 늘어날 때 priority 방식은 `current error log`를 새로 살리지만, original order 방식은 여전히 오래된 대화 기록이 자리를 차지합니다.
+- 예산이 40까지 늘어나면 original order 방식도 `user question`과 `related function code`는 살리지만, `current error log`는 여전히 빠집니다. 많이 넣었다고 핵심 단서가 자동으로 보존되는 것은 아닙니다.
 - original order 선택에서는 attention이 볼 수 있는 범위 안에 질문·오류 단서 자체가 없을 수 있으므로, relevance 순위를 매겨도 전부 0점에 가깝습니다.
 - priority 선택에서는 `current error log`와 `user question`이 윈도우 안에 함께 들어와, attention이 실제로 참고할 만한 단서가 남습니다.
 - context window 관리에서 중요한 것은 `얼마나 많이 넣었는가`보다 `예산 안에서 핵심 상태를 실제로 살렸는가`입니다.
 - 우선순위 선택 뒤에 예산이 조금 남으면 낮은 우선순위 항목이 일부 들어올 수 있지만, 그보다 먼저 `필수 상태가 전부 살아남았는가`를 확인하는 편이 더 중요합니다.
 - 그래서 문맥 선택 로직을 볼 때는 총 토큰 수뿐 아니라 `주문번호`, `현재 질문`, `최신 오류 로그` 같은 필수 상태가 실제로 남았는지를 함께 점검해야 합니다.
+
+아래 그래프는 예산이 늘어날 때 두 선택 방식의 차이가 어떻게 바뀌는지 요약합니다. 위쪽은 필수 상태 세 가지 중 몇 개가 살아남았는지, 아래쪽은 선택된 항목 안에서 질문 관련 단서가 얼마나 남았는지를 보여 줍니다.
 
 ![문맥 선택 방식에 따른 토큰 예산과 단서 보존](../../../assets/part-06/chapter-04/context-selection-budget-ko.png)
 
