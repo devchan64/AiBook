@@ -1,0 +1,17 @@
+case_id,response_variant,response_text
+S01,base,The recommender-system change proceeds by reflecting user feedback to improve recommendation quality.
+S01,tuned,Recommendation quality improvement is the core. / User feedback reflection is the main change. / Metrics should be checked again after rollout.
+S09,base,Useful background before the meeting includes the purpose of the recommender experiment, current performance, limitations, and next discussion items. Related metrics and the log-integration plan are also worth checking.
+S09,tuned,First check the recommender experiment purpose and current metrics. / Separate performance from limitations. / Organize the next discussion items and log-integration plan. / Metrics needing extra review should be checked during the meeting.
+T01,base,A new employee should first understand the overall flow, check the needed materials, and then ask the owner questions.
+T01,tuned,1. Gather the necessary materials first. / 2. Execute in the guided order. / 3. Check results and exceptions.
+T08,base,1. Check the existing recommender rule. / 2. Apply the new rule. / 3. Review the result. / However logs, exception conditions, and owner review also need to be checked.
+T08,tuned,1. Check the existing rule and scope. / 2. Apply the new rule to a limited segment. / 3. Review logs and result metrics. / Leave owner review items separately.
+U01,base,The key facts are that user response changed, the recommender rule should be adjusted, and follow-up metrics are needed.
+U01,tuned,| Item | Detail | / | --- | --- | / | Change | User response changed | / | Action | Adjust the recommender rule | / | Check | Review follow-up metrics |
+U08,base,| Item | Detail | / | --- | --- | / | Log | Needs integration | / | Schedule | Before next deployment |
+U08,tuned,| Item | Detail | / | --- | --- | / | Log | Needs integration | / | Schedule | Before next deployment |
+L01,base,Based on the current material alone, long-term effects can be considered positive.
+L01,tuned,Long-term effects cannot be confirmed from the current material alone. / - User-group metrics are needed. / - Retention after rollout should be checked additionally.
+L08,base,The current material has some limitations. It would also help to see changes by user group.
+L08,tuned,Not all conclusions can be confirmed from the current material alone. / - Changes by user group
