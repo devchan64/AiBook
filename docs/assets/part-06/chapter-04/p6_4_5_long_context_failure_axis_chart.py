@@ -71,6 +71,25 @@ LANG_TEXT = {
         "columns": ["compute burden", "clue retention"],
         "levels": ["low", "medium", "high"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "long-context-failure-axis-zh.png",
+        "row_labels": {
+            "too_many_comparisons": "输入变长\n响应变卡",
+            "early_clue_fades": "前面定义或例外\n在后面判断中变弱",
+            "large_window_weak_clue": "window 变大\n但关键线索变模糊",
+            "both_bottlenecks": "既要减少比较\n也要保留远处线索",
+        },
+        "columns": ["计算负担", "线索维持"],
+        "levels": ["低", "中", "高"],
+    },
 }
 
 

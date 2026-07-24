@@ -1,0 +1,37 @@
+step,position_name,candidate_token,base_probability,role_note
+1,first_token,退款,0.52,top start for refund answer
+1,first_token,订单,0.22,related but shifts topic
+1,first_token,确认,0.16,generic support start
+1,first_token,引导,0.10,less direct start
+2,subject_marker,可以,0.48,keeps concise policy sentence
+2,subject_marker,相关咨询,0.24,changes tone to inquiry handling
+2,subject_marker,资格,0.18,adds uncertainty
+2,subject_marker,申请,0.10,starts process wording
+3,policy_scope,配送,0.50,keeps refund condition scope
+3,policy_scope,订单,0.20,moves to order state
+3,policy_scope,客户,0.16,moves to customer status
+3,policy_scope,政策,0.14,abstract policy wording
+4,status_token,完成,0.46,keeps specific condition
+4,status_token,状态,0.22,less specific state check
+4,status_token,受理,0.18,process wording
+4,status_token,确认,0.14,generic check wording
+5,time_anchor,后,0.50,keeps after-completion condition
+5,time_anchor,为准,0.22,changes time relation
+5,time_anchor,之前,0.16,changes meaning riskily
+5,time_anchor,时点,0.12,less direct time anchor
+6,time_window,7天,0.52,main policy window
+6,time_window,3天,0.18,narrower alternative
+6,time_window,14天,0.16,wider alternative
+6,time_window,2个工作日,0.14,process time alternative
+7,limit_marker,以内,0.48,keeps deadline meaning
+7,limit_marker,内,0.26,same meaning in softer wording
+7,limit_marker,为止,0.16,deadline phrasing
+7,limit_marker,之后,0.10,changes meaning
+8,answer_action,办理,0.44,direct answer completion
+8,answer_action,提交申请,0.28,process-focused answer
+8,answer_action,需要确认,0.18,verification-focused answer
+8,answer_action,由负责人审核,0.10,handoff answer
+9,closing_token,。,0.46,stable short close
+9,closing_token,需要订单号。,0.24,adds required input
+9,closing_token,请确认详细条件。,0.18,adds caution
+9,closing_token,请联系客户中心。,0.12,adds handoff

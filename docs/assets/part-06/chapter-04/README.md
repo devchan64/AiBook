@@ -12,7 +12,7 @@
   - `p6-c04-s02-selection-flow-en.mmd` / `p6-c04-s02-selection-flow-ko.mmd` / `p6-c04-s02-selection-flow-zh.mmd`
   - `p6-c04-s03-attention-position-flow-en.mmd` / `p6-c04-s03-attention-position-flow-ko.mmd` / `p6-c04-s03-attention-position-flow-zh.mmd`
   - `p6-c04-s04-kv-cache-flow-en.mmd` / `p6-c04-s04-kv-cache-flow-ko.mmd` / `p6-c04-s04-kv-cache-flow-zh.mmd`
-  - `p6-c04-s05-long-context-flow-en.mmd` / `p6-c04-s05-long-context-flow-ko.mmd`
+  - `p6-c04-s05-long-context-flow-en.mmd` / `p6-c04-s05-long-context-flow-ko.mmd` / `p6-c04-s05-long-context-flow-zh.mmd`
   - `p6-c04-s01-diagram-01-en.mmd` / `p6-c04-s01-diagram-01-ko.mmd`
   - `p6-c04-s01-diagram-02-en.mmd` / `p6-c04-s01-diagram-02-ko.mmd`
   - `p6-c04-s02-diagram-01-en.mmd` / `p6-c04-s02-diagram-01-ko.mmd`
@@ -23,7 +23,7 @@
   - `attention-position-role-split-en.png` / `attention-position-role-split-ko.png` / `attention-position-role-split-zh.png`
   - `kv-cache-step-projection-en.png` / `kv-cache-step-projection-ko.png` / `kv-cache-step-projection-zh.png`
   - `kv-cache-projection-count-en.png` / `kv-cache-projection-count-ko.png` / `kv-cache-projection-count-zh.png`
-  - `long-context-failure-axis-en.png` / `long-context-failure-axis-ko.png`
+  - `long-context-failure-axis-en.png` / `long-context-failure-axis-ko.png` / `long-context-failure-axis-zh.png`
   - `autoregressive-path-split-en.png` / `autoregressive-path-split-ko.png`
   - `conversation-experience-criteria-en.png` / `conversation-experience-criteria-ko.png`
 - Python chart source:

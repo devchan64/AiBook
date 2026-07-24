@@ -17,7 +17,6 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
-CANDIDATE_PATH = OUT_DIR / "p6-6-2-next-token-candidates.csv"
 TEMPERATURES = [0.3, 1.0, 1.7]
 SEEDS = range(1, 13)
 
@@ -32,6 +31,7 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "temperature-unique-reply-count-ko.png",
+        "candidate_file": "p6-6-2-next-token-candidates.csv",
         "xlabel": "temperature",
         "retention_ylabel": "상위 토큰 선택 비율",
         "unique_ylabel": "서로 다른 출력 수",
@@ -49,6 +49,7 @@ LANG_TEXT = {
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "temperature-unique-reply-count-en.png",
+        "candidate_file": "p6-6-2-next-token-candidates-en.csv",
         "xlabel": "temperature",
         "retention_ylabel": "top-token rate",
         "unique_ylabel": "unique outputs",
@@ -61,6 +62,31 @@ LANG_TEXT = {
             "주문": "order",
             "확인": "check",
             "환불": "refund",
+        },
+    },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "temperature-unique-reply-count-zh.png",
+        "candidate_file": "p6-6-2-next-token-candidates-zh.csv",
+        "xlabel": "temperature",
+        "retention_ylabel": "上位 token 选择比例",
+        "unique_ylabel": "不同输出数",
+        "retention_title": "token 选择稳定性",
+        "unique_title": "输出多样性",
+        "first_token_title": "第一 token 分布",
+        "first_token_ylabel": "选择次数",
+        "first_token_labels": {
+            "引导": "引导",
+            "订单": "订单",
+            "确认": "确认",
+            "退款": "退款",
         },
     },
 }
@@ -79,9 +105,9 @@ def configure_font(text: dict[str, str]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def load_candidates() -> dict[int, list[dict[str, str]]]:
+def load_candidates(candidate_path: Path) -> dict[int, list[dict[str, str]]]:
     by_step: dict[int, list[dict[str, str]]] = defaultdict(list)
-    with CANDIDATE_PATH.open(encoding="utf-8", newline="") as file:
+    with candidate_path.open(encoding="utf-8", newline="") as file:
         for row in csv.DictReader(file):
             by_step[int(row["step"])].append(row)
     return dict(sorted(by_step.items()))
@@ -157,7 +183,7 @@ def style_axis(ax) -> None:
 
 def save_temperature_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    candidates_by_step = load_candidates()
+    candidates_by_step = load_candidates(OUT_DIR / text["candidate_file"])
     retention_rates, unique_counts, first_token_counts = summarize(candidates_by_step)
     labels = [str(temperature) for temperature in TEMPERATURES]
 

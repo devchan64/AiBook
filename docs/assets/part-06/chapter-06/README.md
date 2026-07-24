@@ -4,17 +4,17 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Current language pairs:
-  - `p6-c06-s01-next-token-loop-en.mmd` / `p6-c06-s01-next-token-loop-ko.mmd`
-  - `p6-c06-s01-branch-effects-en.mmd` / `p6-c06-s01-branch-effects-ko.mmd`
-  - `p6-c06-s02-decoding-loop-en.mmd` / `p6-c06-s02-decoding-loop-ko.mmd`
-  - `p6-c06-s02-selection-criteria-en.mmd` / `p6-c06-s02-selection-criteria-ko.mmd`
+  - `p6-c06-s01-next-token-loop-en.mmd` / `p6-c06-s01-next-token-loop-ko.mmd` / `p6-c06-s01-next-token-loop-zh.mmd`
+  - `p6-c06-s01-branch-effects-en.mmd` / `p6-c06-s01-branch-effects-ko.mmd` / `p6-c06-s01-branch-effects-zh.mmd`
+  - `p6-c06-s02-decoding-loop-en.mmd` / `p6-c06-s02-decoding-loop-ko.mmd` / `p6-c06-s02-decoding-loop-zh.mmd`
+  - `p6-c06-s02-selection-criteria-en.mmd` / `p6-c06-s02-selection-criteria-ko.mmd` / `p6-c06-s02-selection-criteria-zh.mmd`
   - `p6-c06-s01-diagram-01-en.mmd` / `p6-c06-s01-diagram-01-ko.mmd`
   - `p6-c06-s01-diagram-02-en.mmd` / `p6-c06-s01-diagram-02-ko.mmd`
   - `p6-c06-s02-diagram-01-en.mmd` / `p6-c06-s02-diagram-01-ko.mmd`
   - `p6-c06-s02-diagram-02-en.mmd` / `p6-c06-s02-diagram-02-ko.mmd`
 - PNG chart assets:
   - `next-token-first-branch-en.png` / `next-token-first-branch-ko.png`
-  - `temperature-unique-reply-count-en.png` / `temperature-unique-reply-count-ko.png`
+  - `temperature-unique-reply-count-en.png` / `temperature-unique-reply-count-ko.png` / `temperature-unique-reply-count-zh.png`
   - `pretraining-adaptation-counts-en.png` / `pretraining-adaptation-counts-ko.png`
   - `scale-context-coverage-en.png` / `scale-context-coverage-ko.png`
   - `scale-inference-cost-en.png` / `scale-inference-cost-ko.png`
@@ -25,4 +25,6 @@
   - `p6_6_1_pretraining_adaptation_chart.py`
   - `p6_6_2_scale_tradeoff_charts.py`
 - CSV example data:
-  - `p6-6-2-next-token-candidates.csv`: P6-6.2 next-token candidate table. Each row is one candidate token at one output position, with the base probability used by the decoding example and chart script.
+  - `p6-6-2-next-token-candidates.csv`: P6-6.2 Korean next-token candidate table. Each row is one candidate token at one output position, with the base probability used by the decoding example and chart script.
+  - `p6-6-2-next-token-candidates-en.csv`: P6-6.2 English next-token candidate table.
+  - `p6-6-2-next-token-candidates-zh.csv`: P6-6.2 Chinese next-token candidate table.

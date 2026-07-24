@@ -4,16 +4,16 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Current language pairs:
-  - `p6-c05-s01-diagram-01-en.mmd` / `p6-c05-s01-diagram-01-ko.mmd`
-  - `p6-c05-s01-diagram-02-en.mmd` / `p6-c05-s01-diagram-02-ko.mmd`
+  - `p6-c05-s01-diagram-01-en.mmd` / `p6-c05-s01-diagram-01-ko.mmd` / `p6-c05-s01-diagram-01-zh.mmd`
+  - `p6-c05-s01-diagram-02-en.mmd` / `p6-c05-s01-diagram-02-ko.mmd` / `p6-c05-s01-diagram-02-zh.mmd`
   - `p6-c05-s02-diagram-01-en.mmd` / `p6-c05-s02-diagram-01-ko.mmd`
   - `p6-c05-s02-diagram-02-en.mmd` / `p6-c05-s02-diagram-02-ko.mmd`
-  - `p6-c05-s02-conversation-shift-en.mmd` / `p6-c05-s02-conversation-shift-ko.mmd`
-  - `p6-c05-s02-experience-types-en.mmd` / `p6-c05-s02-experience-types-ko.mmd`
+  - `p6-c05-s02-conversation-shift-en.mmd` / `p6-c05-s02-conversation-shift-ko.mmd` / `p6-c05-s02-conversation-shift-zh.mmd`
+  - `p6-c05-s02-experience-types-en.mmd` / `p6-c05-s02-experience-types-ko.mmd` / `p6-c05-s02-experience-types-zh.mmd`
 - PNG chart assets:
-  - `autoregressive-path-split-en.png` / `autoregressive-path-split-ko.png`
+  - `autoregressive-path-split-en.png` / `autoregressive-path-split-ko.png` / `autoregressive-path-split-zh.png`
   - `next-token-first-branch-en.png` / `next-token-first-branch-ko.png`
-  - `conversation-experience-criteria-en.png` / `conversation-experience-criteria-ko.png`
+  - `conversation-experience-criteria-en.png` / `conversation-experience-criteria-ko.png` / `conversation-experience-criteria-zh.png`
   - `temperature-unique-reply-count-en.png` / `temperature-unique-reply-count-ko.png`
 - Python chart source:
   - `p6_5_1_next_token_branch_chart.py`

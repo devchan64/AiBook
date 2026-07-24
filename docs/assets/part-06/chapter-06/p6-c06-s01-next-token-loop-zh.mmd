@@ -1,0 +1,12 @@
+flowchart TD
+  A["上下文 token"]
+  B["下一个 token 分布"]
+  C["选择一个 token"]
+  D["把所选 token 加入上下文"]
+  E["用改变后的上下文重复"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> B

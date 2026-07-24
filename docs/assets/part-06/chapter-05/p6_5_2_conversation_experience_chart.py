@@ -54,6 +54,21 @@ LANG_TEXT = {
         "met": "met",
         "not_met": "not met",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "conversation-experience-criteria-zh.png",
+        "row_labels": ["自动补全型", "指令回应型"],
+        "column_labels": ["格式遵守", "角色反映", "安全条件", "结构化"],
+        "met": "满足",
+        "not_met": "未满足",
+    },
 }
 
 

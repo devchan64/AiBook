@@ -1,0 +1,14 @@
+flowchart TD
+  A["长输入问题"]
+  B["计算负担<br/>token 比较过多"]
+  C["线索保留<br/>前面的关键线索变弱"]
+  D["sparse attention<br/>降低连接密度"]
+  E["long-context 设计<br/>把必要线索保留到最后"]
+  F["实际处理长文档"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> E
+  D --> F
+  E --> F

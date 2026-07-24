@@ -1,0 +1,12 @@
+flowchart TD
+  A["当前上下文"]
+  B["候选分布"]
+  C["选择规则<br/>greedy、sampling、temperature"]
+  D["用户看到的 token"]
+  E["更新后的回答"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> A
