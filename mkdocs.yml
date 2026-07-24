@@ -1451,6 +1451,8 @@ plugins:
             - "Part 7. 项目":
                 - "概览": parts/part-07/index.md
                 - "总结": parts/part-07/summary.md
+            - "附录":
+                - "概念词汇表": reference/concept-glossary.md
           theme:
             language: zh
   - search:

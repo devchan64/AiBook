@@ -229,7 +229,7 @@ If you can answer the following questions, the role of this section is sufficien
 | What does numerical stability worry about? | It checks whether values and gradients stay within a manageable range during deep repeated computation. |
 | Where does batch normalization intervene? | It reorganizes intermediate activation distributions into a standard that the next layer can handle more easily. |
 
-Because this section closes the concept map first, we do not repeat executable code here right away. Instead, in the next [P5-8.4](section-04.en.md) we separately confirm with a Python example and graphs how a large initialization scale grows values while passing through deep layers, and what changes once batch normalization is inserted.
+Because this section closes the concept map first, we do not repeat executable code here right away. Instead, in the next [P5-8.4](section-04.md) we separately confirm with a Python example and graphs how a large initialization scale grows values while passing through deep layers, and what changes once batch normalization is inserted.
 
 ## Checklist
 
