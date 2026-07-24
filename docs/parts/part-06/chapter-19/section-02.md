@@ -1,7 +1,7 @@
 # P6-19.2 직접 계보와 주변 근거를 분리해 읽는 기준
 
 > Section ID: `P6-19.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계보와 주변 확산 근거를 가르는 기준이 더 중요합니다. 모든 딥러닝 발전사가 곧바로 LLM의 직접 계보인 것은 아니기 때문입니다.
 
@@ -165,134 +165,33 @@ P6-19.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 
 먼저 익혀야 하는 기준은 단순합니다. direct lineage는 `언어 입력`, `문맥 계산`, `다음 토큰/표현 학습`, `Attention-Transformer-pretraining`으로 직접 이어지는 흐름이고, surrounding evidence는 딥러닝 확산과 계산 조건을 설명하지만 구조 조상으로 바로 놓기엔 거리가 있는 배경 흐름입니다.
 
-## 연습 및 예제
+## 연습: 한 줄 역사 설명을 다시 나누기
 
-예제의 목표는 항목 이름을 외우는 것이 아니라, `어떤 기준으로 direct lineage와 surrounding evidence를 나누는가`를 실제 규칙으로 확인하는 것입니다.
+다음 설명은 유명한 사건과 조건을 한 줄에 섞어 놓은 예입니다.
 
-아래 예제는 LLM 계보를 설명할 때 직접 구조 계보와 주변 배경 조건을 섞어 말하기 쉬운 상황을 작은 규칙으로 확인합니다. 입력으로는 대표 연구 흐름 CSV([p6-19-lineage-items.csv](../../../assets/part-06/chapter-19/p6-19-lineage-items.csv){ .csv-preview })와 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도를 사용합니다. 출력에서는 자동 분류 결과, 분류 기준 통과 여부, 분류 이유를 함께 봅니다.
+`AlexNet -> YOLO -> GPU scaling -> Transformer -> GPT`
 
-확인할 핵심은 같은 AI 역사 항목이라도 현재 LLM 구조와의 직접 연결 정도가 다를 수 있다는 점입니다. direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않고, 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있습니다. 또한 분류 기준을 바꾸면 같은 항목도 다른 경계에서 다시 검토될 수 있습니다.
+이 설명을 그대로 읽으면 딥러닝의 유명 사건이 모두 LLM의 직접 조상처럼 보입니다. 하지만 이 절에서 필요한 판단은 이름을 시간순으로 외우는 것이 아니라, 각 항목이 현재 LLM 구조와 어떤 관계인지 나누는 일입니다.
 
-아래 코드는 위에 정리한 입력 파일을 사용합니다. CSV는 `name`, `domain`, `target`, `connects_to_transformer_llm` 열을 기준으로 판정합니다. 여기에 `boundary_hint`, `reader_hint` 열을 함께 두어, 파일을 열었을 때 항목이 언어 구조 흐름에 가까운지, 주변 조건에 가까운지 먼저 가늠할 수 있게 했습니다. 코드는 이 설명 열을 정답으로 복사하지 않고, 규칙으로 다시 분류한 뒤 결과가 어떻게 나오는지 보여 줍니다.
+먼저 아래 세 칸에 항목을 다시 넣어 보세요.
 
-```python
-# 언어 모델 역사 항목 CSV를 읽어 domain, target, Transformer 연결 여부로 직접 계보와 주변 근거를 분류하는 예제입니다.
-import csv
-from pathlib import Path
+| 구분 | 넣어 볼 항목 | 판단 질문 |
+| --- | --- | --- |
+| 직접 구조사 |  | 언어 입력, 문맥 계산, 다음 토큰 또는 표현 학습으로 현재 LLM 구조에 직접 이어지는가? |
+| 주변 확산사 |  | 딥러닝이 여러 도메인에서 강해졌다는 배경 증거인가? |
+| 인프라 조건 |  | 모델 구조 자체보다 대규모 학습과 배포를 가능하게 한 조건인가? |
 
-item_path = Path("docs/assets/part-06/chapter-19/p6-19-lineage-items.csv")
+해설은 다음처럼 정리할 수 있습니다.
 
-def read_items(path):
-    items = []
-    with path.open(encoding="utf-8", newline="") as file:
-        for row in csv.DictReader(file):
-            items.append(
-                {
-                    "name": row["name"],
-                    "domain": row["domain"],
-                    "target": row["target"],
-                    "connects_to_transformer_llm": (
-                        row["connects_to_transformer_llm"].lower() == "true"
-                    ),
-                }
-            )
-    return items
+| 항목 | 더 적절한 위치 | 이유 |
+| --- | --- | --- |
+| AlexNet | 주변 확산사 | 이미지 인식에서 딥러닝의 성능 전환을 보여 주지만, 언어 모델의 문맥 계산 구조 자체로 이어지는 항목은 아닙니다. |
+| YOLO | 주변 확산사 | 객체 검출의 대표 성과이지만, 다음 토큰 예측이나 attention 기반 언어 생성 구조의 직접 조상은 아닙니다. |
+| GPU scaling | 인프라 조건 | 대규모 학습을 가능하게 한 중요한 조건이지만, 모델이 무엇을 어떻게 계산하는지를 설명하는 구조 원리는 아닙니다. |
+| Transformer | 직접 구조사 | attention을 중심 구조로 올려 토큰 간 관계 계산을 직접 다루므로 현재 LLM 구조로 바로 이어집니다. |
+| GPT | 직접 구조사 | decoder-only Transformer와 사전학습, prompt 기반 사용 흐름을 통해 현재 생성형 LLM 경험과 직접 연결됩니다. |
 
-items = read_items(item_path)
-
-lineage_rules = {
-    "direct_domains": {"language"},
-    "direct_targets": {
-        "next_token",
-        "representation",
-        "sequence_alignment",
-        "sequence_modeling",
-    },
-    "requires_transformer_connection": True,
-}
-
-def classify_item(item):
-    domain_ok = item["domain"] in lineage_rules["direct_domains"]
-    target_ok = item["target"] in lineage_rules["direct_targets"]
-    connection_ok = (
-        item["connects_to_transformer_llm"]
-        if lineage_rules["requires_transformer_connection"]
-        else True
-    )
-
-    checks = {
-        "domain_ok": domain_ok,
-        "target_ok": target_ok,
-        "connection_ok": connection_ok,
-    }
-
-    if all(checks.values()):
-        reason = "언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐"
-        return "direct_lineage", reason, checks
-
-    reason = "LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움"
-    return "surrounding_evidence", reason, checks
-
-grouped = {"direct_lineage": [], "surrounding_evidence": []}
-
-for item in items:
-    label, reason, checks = classify_item(item)
-    grouped[label].append(item["name"])
-
-representative_names = {
-    "language modeling",
-    "Transformer",
-    "text classification benchmark",
-    "YOLO",
-    "GPU scaling",
-}
-
-for item in items:
-    if item["name"] not in representative_names:
-        continue
-    label, reason, checks = classify_item(item)
-    print(
-        item["name"],
-        "->",
-        label,
-        "| domain =",
-        item["domain"],
-        "| target =",
-        item["target"],
-        "| checks =",
-        checks,
-        "| reason =",
-        reason,
-    )
-
-print("\n[summary]")
-for label, names in grouped.items():
-    print(label, "count =", len(names), "| examples =", names[:5])
-```
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-language modeling -> direct_lineage | domain = language | target = next_token | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-Transformer -> direct_lineage | domain = language | target = sequence_modeling | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-text classification benchmark -> surrounding_evidence | domain = language | target = classification | checks = {'domain_ok': True, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-YOLO -> surrounding_evidence | domain = vision | target = object_detection | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-GPU scaling -> surrounding_evidence | domain = infrastructure | target = compute_enablement | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-
-[summary]
-direct_lineage count = 12 | examples = ['language modeling', 'n-gram language model', 'neural language model', 'word embeddings', 'contextual embeddings']
-surrounding_evidence count = 24 | examples = ['machine translation dataset', 'syntax parser', 'search engine ranking', 'text classification benchmark', 'speech transcript dataset']
-```
-
-![직접 계보 판정 기준 통과 여부](../../../assets/part-06/chapter-19/lineage-rule-check-matrix-ko.png)
-
-그래서 이 예제에서 확인해야 할 결과는 항목 이름을 많이 아는가보다, 역사 설명을 `직접 구조사`와 `주변 확산사`로 실제 기준에 따라 나누어 읽는가입니다.
-
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
-
-- `lineage_rules["direct_targets"]`에 `compute_enablement`를 넣으면 GPU scaling이 왜 여전히 직접 계보로 보기 어려운지 `domain_ok`과 `connection_ok`에서 다시 확인하기
-- `items`에 `Seq2Seq`나 `RNN` 항목을 추가하고 target을 바꿔 직접 계보로 들어오는 조건을 비교하기
-- `requires_transformer_connection`을 `False`로 바꿨을 때 기준이 느슨해져 어떤 항목이 더 검토 후보가 되는지 보기
+이 연습에서 확인해야 할 결과는 `유명하다`, `같은 시기에 중요했다`, `AI 발전에 기여했다`가 모두 같은 뜻이 아니라는 점입니다. 직접 구조사는 현재 LLM의 입력, 학습 목표, 문맥 계산 방식으로 이어지는 항목이고, 주변 확산사와 인프라 조건은 LLM이 커지고 받아들여진 배경을 설명하는 항목입니다.
 
 ## 계보 선별에서 갈리는 본류와 배경
 

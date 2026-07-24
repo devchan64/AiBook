@@ -1,7 +1,7 @@
 # P6-20.2 긴 답변보다 판단값을 먼저 내는 이해 중심 태스크
 
 > Section ID: `P6-20.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 BERT 계열을 Transformer 인코더 기반의 표현 모델로 읽었다면, 그 표현이 어떤 작업 묶음으로 이어지는지도 구분해야 합니다. 이해 중심 태스크는 입력 전체를 읽고 분류, 관련도 판단, 검색, 임베딩처럼 `무엇인지` 또는 `얼마나 맞는지`를 판단하는 작업이며, BERT 계열 표현 모델과 잘 맞습니다.
 
@@ -197,163 +197,122 @@ BERT 계열과 그 이후의 encoder 중심 모델은 문장을 임베딩으로 
 
 ## 연습 및 예제
 
-예제의 목표는 이해 중심 태스크가 실제로 `라벨`, `관계 점수`, `검색 순위` 같은 판단 결과를 낸다는 점을 작은 규칙 기반 실험으로 확인하는 것입니다.
+예제의 목표는 이해 중심 태스크가 실제로 `라벨`, `관계 점수`, `검색 순위` 같은 판단 결과를 낸다는 점을 작은 벡터 표현 실험으로 확인하는 것입니다.
 
 아래 예제는 생성형 응답과 달리 이해 중심 태스크가 읽고 판단값을 내는 구조를 확인합니다. 입력 CSV [p6-20-understanding-task-cases.csv](../../../assets/part-06/chapter-20/p6-20-understanding-task-cases.csv){ .csv-preview }는 분류, 문장쌍 판단, 검색 랭킹 사례를 각각 12개씩 담고 있습니다. 한 행은 하나의 판단 사례이며, `task_type`은 출력 형식을, `scenario_pattern`은 직접 신호·경계 신호·서로 다른 의도 같은 관찰 역할을 알려 줍니다.
 
-확인할 핵심은 이해 중심 태스크가 긴 답변보다 라벨, 점수, 순위 같은 판단 결과를 먼저 낸다는 점입니다. 분류, 문장쌍 비교, 검색 랭킹은 모두 읽고 점수를 내는 흐름으로 묶을 수 있고, 단순 규칙 예제여도 입력이 어떤 판단값으로 바뀌는지 직접 볼 수 있어야 합니다.
+확인할 핵심은 이해 중심 태스크가 긴 답변보다 라벨, 점수, 순위 같은 판단 결과를 먼저 낸다는 점입니다. 여기서는 BERT를 직접 내려받아 실행하지 않고, 로컬에서 재현 가능한 TF-IDF 벡터를 작은 대체 표현으로 사용합니다. 실제 BERT 계열에서는 이 표현이 더 풍부한 문맥 표현으로 바뀌지만, `입력을 표현으로 바꾼 뒤 판단값을 낸다`는 출력 흐름은 같습니다.
 
-코드에서 바꿔 볼 값은 `relation_threshold`입니다. 이 값을 높이면 문장쌍 판단이 더 보수적으로 바뀌고, 경계 사례 일부가 `related`에서 `not_related`로 이동합니다. 이 변화가 보여 주는 것은 이해 중심 태스크의 출력이 긴 문장이 아니라 `어떤 기준으로 판단값을 내는가`에 더 가깝다는 점입니다.
+코드에서 바꿔 볼 값은 `relation_threshold`입니다. 이 값을 높이면 문장쌍 판단이 더 보수적으로 바뀌고, 경계 사례 일부가 `related`에서 `not_related`로 이동합니다. 이 변화가 보여 주는 것은 이해 중심 태스크의 출력이 긴 문장이 아니라 `표현 사이 점수를 기준으로 어떤 판단값을 내는가`에 더 가깝다는 점입니다.
 
 ```python
 # CSV에 담긴 분류, 문장쌍 관계, 문서 순위화 사례를 읽어
-# 이해 중심 NLP 태스크의 출력 형식이 어떻게 달라지는지 비교하는 예제입니다.
+# 입력 표현이 라벨, 관계 점수, 문서 순위로 바뀌는 흐름을 확인하는 예제입니다.
 import csv
-from collections import Counter, defaultdict
 from pathlib import Path
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 case_path = Path("docs/assets/part-06/chapter-20/p6-20-understanding-task-cases.csv")
 
-label_keywords = {
-    "배송": {"배송", "지연", "택배", "출고", "박스", "주소", "조회"},
-    "계정": {"로그인", "비밀번호", "계정", "인증번호", "잠금", "인증"},
-    "결제": {"결제", "환불", "취소", "영수증", "청구", "돈", "내역"},
+domain_terms = {
+    "배송": ["배송", "택배", "출고", "배송지", "주소", "도착", "박스"],
+    "계정": ["계정", "로그인", "비밀번호", "인증번호", "잠금", "인증", "재설정"],
+    "결제": ["결제", "환불", "취소", "영수증", "청구", "돈", "내역", "주문"],
+    "문서": ["FAQ", "공지", "중복", "문서", "점검", "안내"],
+    "장비": ["퇴사", "오프보딩", "장비", "자산", "반납", "회수"],
 }
 
-synonyms = {
-    "결제는": "결제",
-    "결제가": "결제",
-    "내역이": "내역",
-    "돈이": "돈",
-    "들어오지": "환불",
-    "배송이": "배송",
-    "지연되고": "지연",
-    "늦어지고": "지연",
-    "배송지를": "주소",
-    "택배가": "택배",
-    "출고됐습니다": "출고",
-    "박스가": "박스",
-    "로그인이": "로그인",
-    "로그인하지": "로그인",
-    "계정": "계정",
-    "계정이": "계정",
-    "계정으로": "계정",
-    "잠금을": "잠금",
-    "잠금이": "잠금",
-    "인증번호를": "인증번호",
-    "비밀번호를": "비밀번호",
-    "바꾸고": "변경",
-    "설정하려면": "설정",
-    "취소했는데": "취소",
-    "환불이": "환불",
-    "환불은": "환불",
-    "청구서": "청구",
-    "청구": "청구",
-    "안": "미완료",
-    "반납하나요": "반납",
-    "장비를": "장비",
-    "장비": "장비",
-    "자산": "장비",
-    "회수": "반납",
-    "오프보딩": "퇴사",
-    "퇴사": "퇴사",
-    "FAQ에서": "FAQ",
-    "도착하지": "지연",
-    "않았습니다": "지연",
-    "점검": "점검",
-    "공지": "공지",
-    "중복된": "중복",
-    "합쳐야": "중복",
-    "정리하고": "중복",
-    "동기화가": "동기화",
-    "보이지": "동기화",
+queue_prototypes = {
+    "배송": "배송 지연 택배 출고 주소 박스 배송 조회 배송지",
+    "계정": "로그인 비밀번호 계정 인증번호 잠금 인증 메일 재설정",
+    "결제": "결제 환불 취소 영수증 청구 돈 내역 주문 결제 상태",
 }
 
-def tokenize(text):
-    cleaned = text.replace("?", "").replace(".", "").replace(",", "")
-    if cleaned == "-":
-        return []
-    return [synonyms.get(token, token) for token in cleaned.split()]
+def enrich(text):
+    if text == "-":
+        return ""
+    tags = []
+    for tag, terms in domain_terms.items():
+        if any(term in text for term in terms):
+            tags.extend([tag, tag])
+    return text + " " + " ".join(tags)
 
-def classify(text):
-    tokens = tokenize(text)
-    scores = {}
-    for label, keywords in label_keywords.items():
-        scores[label] = sum(1 for token in tokens if token in keywords)
-    best_label = max(scores, key=scores.get)
-    return best_label, scores
-
-def jaccard_similarity(left, right):
-    left_tokens = set(tokenize(left))
-    right_tokens = set(tokenize(right))
-    intersection = len(left_tokens & right_tokens)
-    union = len(left_tokens | right_tokens)
-    return round(intersection / union, 2) if union else 0.0
-
-def rank_documents(query, docs):
-    query_tokens = Counter(tokenize(query))
-    ranked = []
-    for doc in docs:
-        doc_tokens = Counter(tokenize(doc))
-        score = sum(min(query_tokens[token], doc_tokens[token]) for token in query_tokens)
-        ranked.append((doc, score))
-    return sorted(ranked, key=lambda item: item[1], reverse=True)
+def cosine_scores(left_texts, right_texts):
+    vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4))
+    matrix = vectorizer.fit_transform([enrich(text) for text in left_texts + right_texts])
+    left_matrix = matrix[:len(left_texts)]
+    right_matrix = matrix[len(left_texts):]
+    return cosine_similarity(left_matrix, right_matrix)
 
 with case_path.open(encoding="utf-8", newline="") as file:
     cases = list(csv.DictReader(file))
 
-relation_threshold = 0.18
-strict_relation_threshold = 0.30
-outputs = []
-relation_sensitivity = []
+classification_rows = [row for row in cases if row["task_type"] == "classification"]
+pair_rows = [row for row in cases if row["task_type"] == "pair_relation"]
+ranking_rows = [row for row in cases if row["task_type"] == "ranking"]
 
-for row in cases:
-    if row["task_type"] == "classification":
-        label, scores = classify(row["text_a"])
-        outputs.append(
-            {
-                "case_id": row["case_id"],
-                "task_type": row["task_type"],
-                "output": label,
-                "score_detail": scores,
-            }
-        )
-    elif row["task_type"] == "pair_relation":
-        similarity = jaccard_similarity(row["text_a"], row["text_b"])
-        outputs.append(
-            {
-                "case_id": row["case_id"],
-                "task_type": row["task_type"],
-                "output": "related" if similarity >= relation_threshold else "not_related",
-                "score_detail": {"similarity": similarity},
-            }
-        )
-        relation_sensitivity.append(
-            {
-                "case_id": row["case_id"],
-                "default": "related" if similarity >= relation_threshold else "not_related",
-                "strict": "related" if similarity >= strict_relation_threshold else "not_related",
-            }
-        )
-    elif row["task_type"] == "ranking":
-        candidates = [row["candidate_1"], row["candidate_2"], row["candidate_3"]]
-        ranked = rank_documents(row["text_a"], candidates)
-        outputs.append(
-            {
-                "case_id": row["case_id"],
-                "task_type": row["task_type"],
-                "output": ranked[0][0],
-                "score_detail": {doc: score for doc, score in ranked},
-            }
-        )
+queue_names = list(queue_prototypes)
+queue_scores = cosine_scores(
+    [row["text_a"] for row in classification_rows],
+    list(queue_prototypes.values()),
+)
+classification_outputs = []
+for row, scores in zip(classification_rows, queue_scores):
+    best_index = scores.argmax()
+    classification_outputs.append(
+        {
+            "case_id": row["case_id"],
+            "pattern": row["scenario_pattern"],
+            "output": queue_names[best_index],
+            "score": round(float(scores[best_index]), 2),
+        }
+    )
 
-by_task = defaultdict(list)
-for item in outputs:
-    by_task[item["task_type"]].append(item)
+relation_threshold = 0.24
+strict_relation_threshold = 0.34
+pair_scores = cosine_scores(
+    [row["text_a"] for row in pair_rows],
+    [row["text_b"] for row in pair_rows],
+)
+pair_outputs = []
+for index, row in enumerate(pair_rows):
+    similarity = float(pair_scores[index][index])
+    pair_outputs.append(
+        {
+            "case_id": row["case_id"],
+            "pattern": row["scenario_pattern"],
+            "similarity": round(similarity, 2),
+            "output": "related" if similarity >= relation_threshold else "not_related",
+            "strict_output": "related" if similarity >= strict_relation_threshold else "not_related",
+        }
+    )
+
+ranking_outputs = []
+for row in ranking_rows:
+    candidates = [row["candidate_1"], row["candidate_2"], row["candidate_3"]]
+    scores = cosine_scores([row["text_a"]], candidates)[0]
+    ranked = sorted(zip(candidates, scores), key=lambda item: item[1], reverse=True)
+    ranking_outputs.append(
+        {
+            "case_id": row["case_id"],
+            "pattern": row["scenario_pattern"],
+            "top_document": ranked[0][0],
+            "top_score": round(float(ranked[0][1]), 2),
+        }
+    )
+
+by_task = {
+    "classification": classification_outputs,
+    "pair_relation": pair_outputs,
+    "ranking": ranking_outputs,
+}
 
 print("[dataset]")
 print("case_count =", len(cases))
 print("task_counts =", {task: len(items) for task, items in by_task.items()})
+print("representation = char_wb 2-4 gram TF-IDF + domain terms")
 print("relation_threshold =", relation_threshold)
 print("strict_relation_threshold =", strict_relation_threshold)
 print()
@@ -364,41 +323,38 @@ for task_type in ["classification", "pair_relation", "ranking"]:
         print(item)
     print("---")
 
-changed = [
-    item
-    for item in relation_sensitivity
-    if item["default"] != item["strict"]
-]
+changed = [item for item in pair_outputs if item["output"] != item["strict_output"]]
 print("[threshold sensitivity]")
 print("changed_pair_cases =", changed[:5])
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다. 첫 번째 문장쌍의 유사도가 낮게 나온 이유는 단순 단어 겹침 규칙이 `변경`과 `재설정`의 의미적 유사성을 충분히 잡지 못하기 때문입니다. 바로 이 한계가 encoder 기반 임베딩과 관련도 모델이 필요해지는 이유이기도 합니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다. `representation` 줄은 이 예제가 문장을 그대로 키워드로만 세지 않고, 작은 벡터 표현으로 바꾼 뒤 라벨, 관계 점수, 문서 순위를 만든다는 뜻입니다.
 
 ```text
 [dataset]
 case_count = 36
 task_counts = {'classification': 12, 'pair_relation': 12, 'ranking': 12}
-relation_threshold = 0.18
-strict_relation_threshold = 0.3
+representation = char_wb 2-4 gram TF-IDF + domain terms
+relation_threshold = 0.24
+strict_relation_threshold = 0.34
 
 [classification preview]
-{'case_id': 'C01', 'task_type': 'classification', 'output': '배송', 'score_detail': {'배송': 2, '계정': 0, '결제': 0}}
-{'case_id': 'C02', 'task_type': 'classification', 'output': '계정', 'score_detail': {'배송': 0, '계정': 2, '결제': 0}}
-{'case_id': 'C03', 'task_type': 'classification', 'output': '결제', 'score_detail': {'배송': 0, '계정': 0, '결제': 3}}
+{'case_id': 'C01', 'pattern': 'direct_label', 'output': '배송', 'score': 0.5}
+{'case_id': 'C02', 'pattern': 'direct_label', 'output': '계정', 'score': 0.37}
+{'case_id': 'C03', 'pattern': 'direct_label', 'output': '결제', 'score': 0.43}
 ---
 [pair_relation preview]
-{'case_id': 'P01', 'task_type': 'pair_relation', 'output': 'not_related', 'score_detail': {'similarity': 0.14}}
-{'case_id': 'P02', 'task_type': 'pair_relation', 'output': 'not_related', 'score_detail': {'similarity': 0.0}}
-{'case_id': 'P03', 'task_type': 'pair_relation', 'output': 'related', 'score_detail': {'similarity': 0.2}}
+{'case_id': 'P01', 'pattern': 'same_intent', 'similarity': 0.42, 'output': 'related', 'strict_output': 'related'}
+{'case_id': 'P02', 'pattern': 'different_intent', 'similarity': 0.0, 'output': 'not_related', 'strict_output': 'not_related'}
+{'case_id': 'P03', 'pattern': 'same_intent', 'similarity': 0.38, 'output': 'related', 'strict_output': 'related'}
 ---
 [ranking preview]
-{'case_id': 'R01', 'task_type': 'ranking', 'output': '오프보딩 장비 반납 안내', 'score_detail': {'오프보딩 장비 반납 안내': 3, '퇴사 체크리스트와 자산 회수 절차': 3, '법인카드 사용 정산 가이드': 0}}
-{'case_id': 'R02', 'task_type': 'ranking', 'output': '로그인 비밀번호 재설정 안내', 'score_detail': {'로그인 비밀번호 재설정 안내': 1, '배송 조회 방법': 0, '결제 영수증 다운로드': 0}}
-{'case_id': 'R03', 'task_type': 'ranking', 'output': '취소 후 환불 접수 절차', 'score_detail': {'취소 후 환불 접수 절차': 1, '계정 잠금 해제 방법': 0, '배송지 변경 안내': 0}}
+{'case_id': 'R01', 'pattern': 'semantic_match', 'top_document': '오프보딩 장비 반납 안내', 'top_score': 0.32}
+{'case_id': 'R02', 'pattern': 'semantic_match', 'top_document': '로그인 비밀번호 재설정 안내', 'top_score': 0.38}
+{'case_id': 'R03', 'pattern': 'semantic_match', 'top_document': '취소 후 환불 접수 절차', 'top_score': 0.4}
 ---
 [threshold sensitivity]
-changed_pair_cases = [{'case_id': 'P03', 'default': 'related', 'strict': 'not_related'}, {'case_id': 'P09', 'default': 'related', 'strict': 'not_related'}]
+changed_pair_cases = [{'case_id': 'P06', 'pattern': 'near_boundary', 'similarity': 0.33, 'output': 'related', 'strict_output': 'not_related'}, {'case_id': 'P08', 'pattern': 'same_intent', 'similarity': 0.28, 'output': 'related', 'strict_output': 'not_related'}, {'case_id': 'P12', 'pattern': 'same_intent', 'similarity': 0.25, 'output': 'related', 'strict_output': 'not_related'}]
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
@@ -406,9 +362,11 @@ changed_pair_cases = [{'case_id': 'P03', 'default': 'related', 'strict': 'not_re
 - 이해 중심 태스크는 대개 `판단 결과`를 출력합니다
 - 생성형 모델처럼 긴 답변을 만드는 것이 중심은 아닙니다
 - 분류, 관계 판단, 검색 랭킹도 모두 같은 `읽고 점수나 라벨을 내는 흐름`으로 묶을 수 있습니다
-- 단순 규칙만으로도 어떤 입력이 어느 판단값으로 바뀌는지는 확인할 수 있고, 실제 모델은 이 점수 계산을 더 풍부한 표현 공간에서 수행합니다
+- 작은 TF-IDF 벡터만으로도 어떤 입력이 어느 판단값으로 바뀌는지는 확인할 수 있고, 실제 BERT 계열은 이 점수 계산을 더 풍부한 문맥 표현에서 수행합니다
 - `relation_threshold`를 높이면 경계 문장쌍이 더 쉽게 `not_related`로 바뀌며, 판단 기준이 출력 라벨을 바꾼다는 점을 볼 수 있습니다
 - BERT 계열은 이런 판단 작업과 잘 맞습니다
+
+아래 그래프는 같은 CSV를 기준으로 태스크별 사례 수와 출력 형식별 등장 수를 요약합니다. 여기서 중요한 점은 그래프의 막대값 자체가 아니라, 분류·문장쌍·랭킹이 모두 긴 답변 대신 라벨, 점수, 순위 같은 판단값을 남긴다는 점입니다.
 
 ![이해 중심 태스크의 출력 유형](../../../assets/part-06/chapter-20/understanding-output-types-ko.png)
 
@@ -457,3 +415,5 @@ BERT가 중요했던 이유는 단지 새로운 구조였기 때문이 아닙니
 - Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
 - Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-19.
 - Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
+- scikit-learn, [TfidfVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-24.
+- scikit-learn, [cosine_similarity](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-24.

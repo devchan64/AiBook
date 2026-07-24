@@ -1,7 +1,7 @@
 # P6-19.1 한계와 구조 전환의 흐름으로 읽는 LLM 발전사
 
 > Section ID: `P6-19.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 오늘의 LLM(large language model)을 이해할 때 자주 생기는 오해는 `갑자기 등장한 거대한 모델`로만 보는 것입니다. 하지만 실제로는 언어 모델(language model), 임베딩, 순차 모델(sequence model), Attention, Transformer, 대규모 사전학습(pretraining)이 겹치며 지금의 생성 경험을 만들었습니다.
 
@@ -202,182 +202,39 @@ GPT 계열이 커지면서 사용자 경험도 달라졌습니다.
 
 먼저 익혀야 하는 기준은 단순합니다. 발전사는 `이름 목록`이 아니라, `빈도 계산의 한계 -> 표현 공간 필요 -> 긴 순서 처리 필요 -> 관련 위치 재참조 -> Transformer -> 사전학습`처럼 한계를 줄이려던 구조 전환의 연속으로 읽는 편이 안전합니다.
 
-## 연습 및 예제
-
-예제의 목표는 발전사에서 왜 `빈도`, `표현`, `순서`, `집중 위치`가 차례로 중요해졌는지를 한 스크립트 안에서 확인하는 것입니다.
-
-아래 예제는 언어 모델 발전사를 사건 이름 나열이 아니라 계산 관점의 변화로 읽기 위한 작은 실습입니다. 짧은 문장 말뭉치, 표현이 다른 사용자 질문, 긴 문장 안의 핵심 정보 위치를 사용해 bigram 기반 다음 단어 빈도, 동의어 정규화 전후 검색 결과, 순서에 따라 달라지는 간단한 판정, 질문과 문서 사이의 attention-like 점수를 함께 확인합니다.
-
-확인할 핵심은 빈도 기반 예측, 표현 정규화, 순서 해석, attention-like 비교가 서로 다른 문제를 다룬다는 점입니다. 언어 모델 발전사는 필요한 계산 범위를 넓혀 온 흐름으로 읽을 수 있고, 같은 입력이라도 어떤 계산을 하느냐에 따라 출력 관찰 포인트가 달라집니다.
-
-예제를 읽기 전에 먼저 다음을 예상해 보면 발전사 흐름이 더 잘 보입니다.
-
-| 비교 장면 | 실행 전에 먼저 예상할 변화 | 왜 이 예상이 중요한가 |
-| --- | --- | --- |
-| lexical search와 normalized search 비교 | 표현을 정규화한 쪽이 더 관련 문서를 잘 잡는다 | 표현 학습이 왜 단순 빈도 계산을 넘어섰는지 연결되기 때문입니다. |
-| `승인합니다`와 `승인하지 않습니다` 비교 | 비슷한 단어가 있어도 순서와 부정 표현 때문에 결과가 갈린다 | 순차 모델이 왜 필요했는지 바로 읽을 수 있기 때문입니다. |
-| attention-like focus 출력 | 질문과 겹치는 토큰 위치가 먼저 떠오른다 | 관련 위치를 다시 보는 계산이 왜 전환점이었는지 감각적으로 잡기 위해서입니다. |
-
-아래 코드는 위에 정리한 문장 목록과 질문-문서 비교 예시를 사용합니다.
-
-```python
-# bigram, 정규화 검색, 순서 인식, attention-like focus를 한데 비교해 LLM 발전 흐름의 핵심 직관을 압축해 보는 예제입니다.
-from collections import Counter
-
-sentences = [
-    ["나는", "커피를", "마신다"],
-    ["나는", "차를", "마신다"],
-    ["나는", "커피를", "좋아한다"],
-]
-
-documents = [
-    "환급 처리 지연 안내",
-    "주문 취소 요청 절차",
-    "비밀번호 재설정 방법",
-]
-
-queries = [
-    "환불이 늦어요",
-    "주문 취소하고 싶어요",
-]
-
-synonyms = {
-    "환불": "환급",
-    "지연은": "지연",
-    "늦어요": "지연",
-    "취소하고": "취소",
-    "확인하나요": "확인",
-    "싶어요": "요청",
-}
-
-def tokenize(text):
-    return text.replace(",", "").split()
-
-def normalize(tokens):
-    return [synonyms.get(token, token) for token in tokens]
-
-def bigram_counts(tokenized_sentences):
-    counts = Counter()
-    for sent in tokenized_sentences:
-        for left, right in zip(sent, sent[1:]):
-            counts[(left, right)] += 1
-    return counts
-
-def lexical_search(query, docs):
-    query_tokens = set(tokenize(query))
-    scored = []
-    for doc in docs:
-        doc_tokens = set(tokenize(doc))
-        score = len(query_tokens & doc_tokens)
-        scored.append((doc, score))
-    return sorted(scored, key=lambda item: item[1], reverse=True)
-
-def normalized_search(query, docs):
-    query_tokens = set(normalize(tokenize(query)))
-    scored = []
-    for doc in docs:
-        doc_tokens = set(normalize(tokenize(doc)))
-        score = len(query_tokens & doc_tokens)
-        scored.append((doc, score))
-    return sorted(scored, key=lambda item: item[1], reverse=True)
-
-def read_with_order(sentence):
-    tokens = tokenize(sentence)
-    if "않습니다" in tokens:
-        return "negative"
-    return "positive"
-
-def attention_like_focus(question, document):
-    q_tokens = normalize(tokenize(question))
-    doc_tokens = normalize(tokenize(document))
-    scores = []
-    for position, token in enumerate(doc_tokens):
-        score = sum(1 for q_token in q_tokens if q_token == token)
-        scores.append((position, token, score))
-    return sorted(scores, key=lambda item: item[2], reverse=True)
-
-print("[1] bigram counts")
-for pair, count in sorted(bigram_counts(sentences).items()):
-    print(pair, "->", count)
-
-print("\n[2] lexical search vs normalized search")
-for query in queries:
-    print("query =", query)
-    print(" lexical_top =", lexical_search(query, documents)[0])
-    print(" normalized_top =", normalized_search(query, documents)[0])
-
-print("\n[3] sequence-aware reading")
-for sentence in ["결제를 승인합니다", "결제를 승인하지 않습니다"]:
-    print(sentence, "->", read_with_order(sentence))
-
-print("\n[4] attention-like focus")
-question = "환불 지연은 어디에서 확인하나요"
-document = "환급 처리 지연 안내와 확인 방법"
-for position, token, score in attention_like_focus(question, document):
-    print("position=", position, "token=", token, "score=", score)
-```
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-[1] bigram counts
-('나는', '차를') -> 1
-('나는', '커피를') -> 2
-('차를', '마신다') -> 1
-('커피를', '마신다') -> 1
-('커피를', '좋아한다') -> 1
-
-[2] lexical search vs normalized search
-query = 환불이 늦어요
- lexical_top = ('환급 처리 지연 안내', 0)
- normalized_top = ('환급 처리 지연 안내', 1)
-query = 주문 취소하고 싶어요
- lexical_top = ('주문 취소 요청 절차', 1)
- normalized_top = ('주문 취소 요청 절차', 3)
-
-[3] sequence-aware reading
-결제를 승인합니다 -> positive
-결제를 승인하지 않습니다 -> negative
-
-[4] attention-like focus
-position= 0 token= 환급 score= 1
-position= 2 token= 지연 score= 1
-position= 4 token= 확인 score= 1
-position= 1 token= 처리 score= 0
-position= 3 token= 안내와 score= 0
-position= 5 token= 방법 score= 0
-```
-
-![정규화 전후 검색 점수 변화](../../../assets/part-06/chapter-19/history-computation-search-gain-ko.png)
-
 ## 발전사 축에서 보이는 구조 전환
 
-앞의 예제는 언어 모델 발전사를 계산하는 코드가 아니라, `초기 빈도 기반 구조에서 출발해 왜 더 긴 문맥과 일반화가 필요한가`를 가장 작은 장면으로 압축해 보여 주는 예시입니다. 여기서 읽어야 할 핵심은 숫자 자체보다, 어떤 한계가 다음 구조 전환을 불렀는가를 순서대로 잡는 데 있습니다.
+이 절에서 필요한 활동은 코드를 실행해 작은 결과값을 확인하는 일이 아니라, 눈앞의 기능이나 사례를 발전사 축에 다시 배치해 보는 일입니다. LLM 발전사를 이해할 때 더 중요한 것은 `어떤 계산을 흉내 낼 수 있는가`보다 `어떤 한계 때문에 다음 구조가 필요해졌는가`를 말로 구분하는 능력입니다.
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
+다음 표는 앞에서 본 사례를 발전사 축으로 다시 접는 기준입니다. 각 행에서 확인해야 할 것은 기술 이름 자체가 아니라, 그 기술이 줄이려던 한계와 다음 구조로 이어지는 이유입니다.
 
-- 초기 언어 모델은 bigram 같은 빈도 구조에서 출발했다는 점
-- 표현이 달라지면 단순 단어 일치만으로는 관련 항목을 못 찾는다는 점
-- 순서와 부정 표현을 읽으려면 더 긴 상태 추적이 필요하다는 점
-- 질문의 어느 위치를 더 볼지 계산하는 흐름이 attention 감각으로 이어진다는 점입니다
-
-이 예제를 발전사 메모로 다시 줄이면 다음과 같습니다.
-
-| 예제 장면 | 바로 대응되는 역사 단계 | 지금 독자가 얻어야 할 판단 |
+| 관찰 장면 | 바로 대응되는 역사 단계 | 지금 독자가 얻어야 할 판단 |
 | --- | --- | --- |
-| bigram count | 통계적 언어 모델 출발점 | 빈도만으로는 긴 문맥과 일반화가 약하다는 한계를 읽어야 합니다. |
-| normalized search | 임베딩과 표현 일반화 방향 | 같은 단어가 없어도 비슷한 의미를 묶는 표현 공간이 필요하다는 점을 읽어야 합니다. |
-| sequence-aware reading | RNN, LSTM, GRU 같은 순차 처리 문제의식 | 순서를 놓치면 부정과 상태 변화가 무너진다는 점을 읽어야 합니다. |
-| attention-like focus | Attention과 Transformer 전환 | 필요한 순간에 관련 위치를 다시 보는 계산이 구조 중심으로 올라왔다는 점을 읽어야 합니다. |
+| 다음 단어를 짧은 문맥 빈도로 예측한다 | 통계적 언어 모델 출발점 | 빈도만으로는 긴 문맥과 새로운 조합에 약하다는 한계를 읽어야 합니다. |
+| `환불`과 `환급`, `늦음`과 `지연`처럼 표현이 달라도 비슷한 뜻을 묶어야 한다 | 임베딩과 표현 일반화 방향 | 같은 단어가 없어도 비슷한 의미를 비교할 표현 공간이 필요하다는 점을 읽어야 합니다. |
+| `승인합니다`와 `승인하지 않습니다`처럼 순서와 부정 표현이 의미를 바꾼다 | RNN, LSTM, GRU 같은 순차 처리 문제의식 | 단어가 비슷해도 앞뒤 상태를 놓치면 문장 해석이 무너진다는 점을 읽어야 합니다. |
+| 긴 문장 번역에서 지금 생성할 단어와 관련된 입력 위치를 다시 봐야 한다 | Attention과 Transformer 전환 | 필요한 순간에 관련 위치를 다시 참고하는 계산이 구조 중심으로 올라왔다는 점을 읽어야 합니다. |
+| 하나의 큰 모델이 요약, 분류, 번역, 초안 작성을 같은 인터페이스에서 처리한다 | 사전학습과 GPT형 인터페이스 | 과업별 모델을 따로 떠올리던 감각에서 큰 언어 패턴을 재사용하는 감각으로 이동해야 합니다. |
 
-### 연습 2. 생성형 AI 기능을 발전사 축으로 분류하기
+## 연습: 기능 장면을 발전사 축에 놓기
 
-다음 기능을 보고, 어느 역사 단계의 문제의식이 가장 직접적으로 연결되는지 적어 보세요. 가능하면 `빈도`, `표현`, `순서`, `관련 위치 재참조`, `사전학습` 중 두 개 이상을 함께 써 보세요.
+다음 기능을 보고, 어느 역사 단계의 문제의식이 가장 직접적으로 연결되는지 먼저 적어 보세요. 하나만 고르기 어렵다면 `빈도`, `표현`, `순서`, `관련 위치 재참조`, `사전학습` 중 두 개를 함께 써도 됩니다.
 
 1. 고객이 `환불이 늦어요`라고 말해도 `환급 처리 지연 안내` 문서를 잘 찾는다.
 2. 긴 이메일 스레드에서 마지막 요청이 무엇인지 요약한다.
 3. 하나의 채팅 인터페이스에서 번역, 초안 작성, 분류를 모두 처리하는 것처럼 보인다.
 4. 같은 질문에 예시를 조금 바꾸면 답변 스타일이 같이 달라진다.
+
+위 네 장면을 먼저 분류한 뒤, 아래 해설과 비교해 보세요.
+
+| 기능 장면 | 먼저 표시할 발전사 축 | 확인 해설 |
+| --- | --- | --- |
+| 고객이 `환불이 늦어요`라고 말해도 `환급 처리 지연 안내` 문서를 잘 찾는다 | 표현 | 같은 단어가 없어도 비슷한 의미를 묶어야 하므로 임베딩과 표현 공간의 문제의식이 가장 직접적입니다. |
+| 긴 이메일 스레드에서 마지막 요청이 무엇인지 요약한다 | 순서, 관련 위치 재참조 | 긴 입력의 앞뒤 흐름을 따라가면서도, 현재 요약에 필요한 위치를 다시 봐야 하므로 순차 처리와 attention 문제가 함께 보입니다. |
+| 하나의 채팅 인터페이스에서 번역, 초안 작성, 분류를 모두 처리하는 것처럼 보인다 | 사전학습, GPT형 인터페이스 | 과업별 모델을 따로 만들기보다, 큰 언어 패턴을 먼저 배운 모델을 여러 지시로 재사용하는 감각이 중심입니다. |
+| 같은 질문에 예시를 조금 바꾸면 답변 스타일이 같이 달라진다 | 사전학습, 문맥 사용 | 모델이 현재 입력 문맥 안의 예시를 조건처럼 읽어 생성 방식을 바꾸므로, pretraining 이후 prompt 기반 사용 감각과 연결됩니다. |
+
+이 연습에서 정답보다 중요한 것은 이유입니다. `검색은 표현 문제`, `요약은 긴 문맥과 관련 위치 문제`, `채팅 인터페이스는 사전학습 이후 사용 방식 문제`처럼 기능을 구조 전환의 이유로 다시 설명할 수 있으면 이 절의 목적은 닫힙니다.
 
 ## 한계에서 다음 구조로 이어지는 기준
 
@@ -411,4 +268,5 @@ position= 5 token= 방법 score= 0
 - Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-19.
 - Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-19.
 - Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-19.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-19.

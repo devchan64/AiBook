@@ -1,4 +1,5 @@
 from pathlib import Path
+import csv
 import os
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -14,12 +15,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
-
-TASK_OUTPUTS = {
-    "classification": {"label": 3, "score": 3, "rank": 0},
-    "pair_relation": {"label": 2, "score": 2, "rank": 0},
-    "ranking": {"label": 0, "score": 3, "rank": 3},
-}
+CSV_PATH = OUT_DIR / "p6-20-understanding-task-cases.csv"
 
 LANG_TEXT = {
     "ko": {
@@ -32,16 +28,20 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "understanding-output-types-ko.png",
-        "ylabel": "출력 항목 수",
-        "tasks": ["분류", "문장쌍", "검색 랭킹"],
-        "series": ["라벨", "점수", "순위"],
+        "ylabel": "사례 수",
+        "task_labels": ["분류", "문장쌍", "검색 랭킹"],
+        "output_labels": ["라벨", "점수", "순위"],
+        "task_title": "태스크별 입력 사례",
+        "output_title": "출력 형식별 등장",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "understanding-output-types-en.png",
-        "ylabel": "output items",
-        "tasks": ["classification", "pair relation", "ranking"],
-        "series": ["label", "score", "rank"],
+        "ylabel": "cases",
+        "task_labels": ["classification", "pair relation", "ranking"],
+        "output_labels": ["label", "score", "rank"],
+        "task_title": "input cases by task",
+        "output_title": "judgment output forms",
     },
 }
 
@@ -66,47 +66,97 @@ def style_axis(ax) -> None:
     ax.spines["right"].set_visible(False)
 
 
+def read_cases() -> list[dict[str, str]]:
+    with CSV_PATH.open(encoding="utf-8", newline="") as file:
+        return list(csv.DictReader(file))
+
+
+def summarize_outputs() -> dict[str, list[int]]:
+    cases = read_cases()
+    task_order = ["classification", "pair_relation", "ranking"]
+    task_counts = [sum(row["task_type"] == task for row in cases) for task in task_order]
+
+    output_counts = {
+        "label": 0,
+        "score": 0,
+        "rank": 0,
+    }
+    for row in cases:
+        if row["task_type"] == "classification":
+            output_counts["label"] += 1
+            output_counts["score"] += 1
+        elif row["task_type"] == "pair_relation":
+            output_counts["label"] += 1
+            output_counts["score"] += 1
+        elif row["task_type"] == "ranking":
+            output_counts["score"] += 1
+            output_counts["rank"] += 1
+
+    return {
+        "task_counts": task_counts,
+        "output_counts": [
+            output_counts["label"],
+            output_counts["score"],
+            output_counts["rank"],
+        ],
+    }
+
+
+def annotate_bars(bars) -> None:
+    for bar in bars:
+        value = bar.get_height()
+        if value == 0:
+            continue
+        bar.axes.annotate(
+            f"{value:g}",
+            (bar.get_x() + bar.get_width() / 2, value),
+            textcoords="offset points",
+            xytext=(0, 7),
+            ha="center",
+            fontsize=8.7,
+            color="#172033",
+        )
+
+
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    task_keys = list(TASK_OUTPUTS)
-    series_keys = ["label", "score", "rank"]
-    x_positions = range(len(task_keys))
-    width = 0.24
-    colors = ["#0f766e", "#2563eb", "#f59e0b"]
+    summary = summarize_outputs()
 
-    fig, ax = plt.subplots(figsize=(8.1, 3.9), dpi=180)
+    fig, (task_ax, output_ax) = plt.subplots(
+        1,
+        2,
+        figsize=(9.0, 3.9),
+        dpi=180,
+        gridspec_kw={"width_ratios": [1.2, 1]},
+    )
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
-    style_axis(ax)
 
-    for offset_index, series_key in enumerate(series_keys):
-        values = [TASK_OUTPUTS[task][series_key] for task in task_keys]
-        bars = ax.bar(
-            [x + (offset_index - 1) * width for x in x_positions],
-            values,
-            width=width,
-            color=colors[offset_index],
-            label=text["series"][offset_index],
-        )
-        for bar in bars:
-            value = bar.get_height()
-            if value == 0:
-                continue
-            ax.annotate(
-                f"{value:g}",
-                (bar.get_x() + bar.get_width() / 2, value),
-                textcoords="offset points",
-                xytext=(0, 7),
-                ha="center",
-                fontsize=8.4,
-                color="#172033",
-            )
+    for ax in (task_ax, output_ax):
+        ax.set_facecolor("white")
+        style_axis(ax)
 
-    ax.set_xticks(list(x_positions))
-    ax.set_xticklabels(text["tasks"])
-    ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, 3.9)
-    ax.legend(frameon=False, fontsize=8.7, ncol=3)
+    task_bars = task_ax.bar(
+        text["task_labels"],
+        summary["task_counts"],
+        color=["#0f766e", "#2563eb", "#f59e0b"],
+        width=0.52,
+    )
+    annotate_bars(task_bars)
+    task_ax.set_title(text["task_title"], fontsize=10, pad=8)
+    task_ax.set_ylabel(text["ylabel"])
+    task_ax.set_ylim(0, max(summary["task_counts"]) * 1.35)
+
+    output_bars = output_ax.bar(
+        text["output_labels"],
+        summary["output_counts"],
+        color=["#0f766e", "#2563eb", "#f59e0b"],
+        width=0.52,
+    )
+    annotate_bars(output_bars)
+    output_ax.set_title(text["output_title"], fontsize=10, pad=8)
+    output_ax.set_ylabel(text["ylabel"])
+    output_ax.set_ylim(0, max(summary["output_counts"]) * 1.25)
+
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
