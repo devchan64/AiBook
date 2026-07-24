@@ -1,7 +1,7 @@
 # P6-17.2 오류를 복구 경로로 나누는 운영 중 실패 대응
 
 > Section ID: `P6-17.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 서비스 운영 한도를 세웠다면, 실제 실패가 발생했을 때 어떤 경로로 보낼지도 정해야 합니다. 실패 대응은 최종 답변 문장만 고치는 일이 아니라, 검색, 도구 호출, 권한, 지연 시간, 로그를 함께 보고 `retry`, `fallback`, `stop`, `approval` 중 어느 경로가 안전한지 고르는 일입니다. 즉, 답변 한 줄만 보는 것이 아니라 그 답이 만들어진 전체 과정을 다시 추적하는 일에 가깝습니다.
 
@@ -125,6 +125,7 @@ retry는 일시적 실패를 다시 시도하는 방법입니다. 하지만 무�
 | retry | 잠깐의 실패를 다시 시도해 회복 |
 | fallback | 원래 경로가 실패했을 때 대체 경로 사용 |
 | stop | 더 큰 오류를 막기 위해 진행 중단 |
+| approval | 권한이나 외부 영향이 큰 실행을 사람 승인 뒤로 넘김 |
 
 즉, retry, fallback, stop, approval은 단순 기능 이름이 아니라 `실패 triage`의 기본 갈래입니다.
 
@@ -138,7 +139,7 @@ P6-16.2의 자동 평가와 사람 평가, P6-17.1의 운영 제약, 지금 절�
 | --- | --- | --- |
 | 자동 게이트 | 형식, 출처 힌트, 금지 표현, 기본 길이 조건을 통과하는가? | 답 상태 점검, 자동 점검 결과 |
 | 사람 검토 | 말투, 오해 가능성, 다음 행동 이해도, 예외 해석이 괜찮은가? | 검토 요약, 검토 의견 |
-| 운영 한도 확인 | latency, cost, retry 횟수, 처리량 한도를 버티는가? | 실행 시간, 호출 수, 비용 요약 |
+| 운영 한도 확인 | latency, cost, 처리량, rate limit 한도를 버티는가? | 실행 시간, 호출 수, 비용 요약 |
 | 실패 대응 | retry, fallback, stop, approval 중 어느 경로로 갈 것인가? | 장애 기록, 다음 조치, 추적 기록 |
 
 이 표의 핵심은 `평가`와 `운영`을 따로 읽지 않는 데 있습니다. 좋은 답처럼 보여도 자동 게이트를 못 넘기면 배포 후보가 아니고, 자동 게이트를 통과해도 사람이 읽었을 때 오해를 만들면 수정이 필요합니다. 또 둘 다 좋아 보여도 latency나 cost를 못 버티면 운영안으로는 탈락할 수 있고, 실제 실패가 났을 때 추적 기록과 다음 조치 메모가 없으면 같은 문제를 반복하게 됩니다.
@@ -234,19 +235,24 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 
 아래 예제는 여러 개의 실패 상황, 재시도 허용 횟수와 캐시 사용 가능 여부, 사람 검토 가능 여부와 근거 문서 존재 여부를 사용합니다. 검색 단계에서는 timeout이, 도구 호출 단계에서는 permission error가, 답변 단계에서는 환각이나 형식 불일치가 생길 수 있습니다.
 
-출력에서는 실패 유형별 최종 대응 결정, retry와 fallback 여부, 사람 검토 전환 여부, 모델 수정 과제와 시스템 복구 과제의 요약값, 운영자가 바로 해야 할 다음 조치를 함께 확인합니다. 코드에서 확인할 핵심은 운영 실패를 모델 오류와 시스템 오류로 나눠야 적절한 복구 절차와 사용자 대응을 정할 수 있다는 점입니다.
+여기에 LLM grader 관점을 한 단계 섞습니다. LLM grader는 실패 관찰 기록을 읽고 `suggested_family`, `suggested_risk`, `reason`만 제안합니다. 하지만 최종 복구 결정은 LLM이 바로 내리지 않습니다. `trace_saved`, `retry_count`, `cached_summary_available`, `approval_required`, `grounding_available` 같은 명시적인 운영 신호를 정책 코드가 다시 확인한 뒤 `decision`을 닫습니다.
+
+출력에서는 LLM grader가 제안한 실패 계열과 위험도, 정책 게이트가 내린 최종 대응 결정, retry와 fallback 여부, 사람 검토 전환 여부, 모델 수정 과제와 시스템 복구 과제의 요약값, 운영자가 바로 해야 할 다음 조치를 함께 확인합니다. 코드에서 확인할 핵심은 LLM이 실패 관찰을 정리할 수는 있지만, 승인·중단·복구 경로 같은 운영 결정은 명시 정책으로 다시 닫아야 한다는 점입니다.
 
 먼저 이 예제에서 함께 볼 대응 기준은 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| 실패 계열 | 모델 실패와 시스템 실패를 섞어 보지 않기 위해 |
+| LLM grader 제안 | 관찰 기록에서 실패 계열과 위험도 초안을 만들기 위해 |
+| 실패 계열 | 운영자가 기록한 시스템 실패와 모델 실패를 섞어 보지 않기 위해 |
 | 대응 결정 | retry, fallback, approval, stop, human review, model fix 중 어떤 경로를 탈지 남기기 위해 |
 | 다음 조치 | 운영자가 다음에 무엇을 해야 하는지 바로 읽기 위해 |
 | 추적 기록 저장 여부 | 실패 원인을 나중에 다시 재현하고 분석할 수 있어야 해서 |
 | 사용자 영향 | 사용자 경험을 즉시 보호해야 하는 실패인지 구분해야 해서 |
 
-아래 예제는 실패 사례 CSV [p6_17_2_failure_cases.csv](../../../assets/part-06/chapter-17/p6_17_2_failure_cases.csv){ .csv-preview }를 사용합니다. 한 행은 하나의 실패 장면입니다. `failure_family`는 시스템 실패와 모델 실패를 나누고, `error`는 timeout, 권한 오류, 환각, 형식 불일치처럼 먼저 관찰된 실패 신호를 담습니다. `retry_count`, `max_retries`, `cached_summary_available`, `approval_required`, `trace_saved` 같은 열은 같은 오류라도 retry, fallback, approval, stop 중 어느 경로로 갈지 바꾸는 조작 변수입니다.
+아래 예제는 실패 사례 CSV [p6_17_2_failure_cases.csv](../../../assets/part-06/chapter-17/p6_17_2_failure_cases.csv){ .csv-preview }를 사용합니다. 한 행은 하나의 실패 장면입니다. `failure_family`는 운영자가 trace를 보고 먼저 남긴 관찰 분류이고, `error`는 timeout, 권한 오류, 환각, 형식 불일치처럼 먼저 관찰된 실패 신호를 담습니다. `retry_count`, `max_retries`, `cached_summary_available`, `approval_required`, `trace_saved` 같은 열은 같은 오류라도 retry, fallback, approval, stop 중 어느 경로로 갈지 바꾸는 조작 변수입니다.
+
+코드는 기본 실행에서는 재현 가능한 로컬 grader를 사용합니다. 로컬 Ollama 모델이 준비되어 있으면 `P6_17_2_USE_OLLAMA=1`과 `OLLAMA_MODEL`을 지정해 같은 자리에서 실제 LLM grader를 호출할 수 있습니다. 출력의 `grader_source`는 지금 본 제안이 재현용 fallback grader에서 온 것인지, 실제 Ollama 호출에서 온 것인지 구분합니다. 프롬프트는 다국어 번역본에서도 같은 실행 기준을 유지하기 위해 영어로 작성합니다.
 
 ```python
 --8<-- "assets/part-06/chapter-17/p6_17_2_evaluate_failure_recovery.py"
@@ -271,54 +277,86 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
  'decision_reason': 'retry_budget_remaining',
  'error': 'timeout',
  'failure_family': 'system',
+ 'grader_source': 'fallback',
  'next_action': 'retry_search_docs',
+ 'reason': 'Timeout belongs to the service path, so retry budget and fallback '
+           'state must be checked next.',
  'step': 'search_docs',
+ 'suggested_family': 'system',
+ 'suggested_risk': 'medium',
  'user_impact': 'temporary_delay'}
 {'case_name': 'timeout_fallback_search',
  'decision': 'fallback',
  'decision_reason': 'retry_budget_exhausted_with_cache',
  'error': 'timeout',
  'failure_family': 'system',
+ 'grader_source': 'fallback',
  'next_action': 'use_cached_or_simplified_path',
+ 'reason': 'Timeout belongs to the service path, so retry budget and fallback '
+           'state must be checked next.',
  'step': 'search_docs',
+ 'suggested_family': 'system',
+ 'suggested_risk': 'medium',
  'user_impact': 'reduced_freshness_but_service_continues'}
 {'case_name': 'permission_approval_send',
  'decision': 'approval',
  'decision_reason': 'approval_required',
  'error': 'permission_error',
  'failure_family': 'system',
+ 'grader_source': 'fallback',
  'next_action': 'request_human_approval',
+ 'reason': 'Permission failure crosses an execution boundary, so approval or '
+           'stop policy must be checked next.',
  'step': 'send_email',
+ 'suggested_family': 'system',
+ 'suggested_risk': 'high',
  'user_impact': 'wait_for_safe_execution'}
 {'case_name': 'risky_action_stop_no_reviewer',
  'decision': 'stop_and_escalate',
  'decision_reason': 'approval_required_but_unavailable',
  'error': 'risky_action',
  'failure_family': 'system',
+ 'grader_source': 'fallback',
  'next_action': 'stop_without_execution',
+ 'reason': 'Risky external action needs an approval boundary before any '
+           'execution continues.',
  'step': 'update_database',
+ 'suggested_family': 'system',
+ 'suggested_risk': 'high',
  'user_impact': 'unsafe_to_continue'}
 {'case_name': 'hallucination_review_grounded',
  'decision': 'human_review',
  'decision_reason': 'compare_answer_with_grounding',
  'error': 'hallucination',
  'failure_family': 'model',
+ 'grader_source': 'fallback',
  'next_action': 'compare_with_grounding',
+ 'reason': 'Hallucination is a model output risk, so grounding and human '
+           'review must be checked next.',
  'step': 'answer_generation',
+ 'suggested_family': 'model',
+ 'suggested_risk': 'high',
  'user_impact': 'potential_wrong_answer'}
 {'case_name': 'format_fix_parser',
  'decision': 'model_fix',
  'decision_reason': 'format_mismatch',
  'error': 'format_mismatch',
  'failure_family': 'model',
+ 'grader_source': 'fallback',
  'next_action': 'tighten_prompt_parser_or_schema',
+ 'reason': 'Format mismatch blocks delivery or parsing, so prompt and schema '
+           'repair must be checked next.',
  'step': 'answer_generation',
+ 'suggested_family': 'model',
+ 'suggested_risk': 'medium',
  'user_impact': 'delivery_blocked_until_format_fixed'}
 ```
 
-![실패 계열과 복구 결정 분포](../../../assets/part-06/chapter-17/failure-recovery-routing-ko.png)
+![조건에 따라 갈라지는 실패 복구 경로](../../../assets/part-06/chapter-17/failure-recovery-routing-ko.png)
 
-이 예제에서 먼저 봐야 할 것은 `system`과 `model` 실패가 같은 표에서 다르게 갈라지고, 사용자 영향과 다음 조치가 그 차이를 실제 운영 판단으로 바꿔 준다는 점입니다. `timeout`은 남은 재시도 횟수와 캐시 여부에 따라 retry와 fallback으로 나뉘고, 권한이나 위험 실행은 approval 또는 stop으로 갈라집니다. 반면 `hallucination`과 `format_mismatch`는 검색 재시도보다 사람 검토나 프롬프트/파서 수정이 더 먼저인 문제입니다.
+이 그림에서 먼저 봐야 할 것은 LLM grader의 제안과 최종 복구 결정이 같은 단계가 아니라는 점입니다. `grader_source`가 `fallback`이면 재현 가능한 로컬 grader가 만든 제안이고, `ollama`이면 실제 LLM 호출이 만든 제안입니다. 어느 쪽이든 grader는 관찰 기록을 읽고 `timeout`을 시스템 계열, `hallucination`을 모델 계열로 태깅할 수 있습니다. 그러나 `timeout`을 retry로 보낼지 fallback으로 보낼지는 재시도 예산과 캐시 여부를 정책 코드가 다시 봐야 합니다. 위험 실행도 검토자가 있으면 approval로 넘길 수 있지만, 검토자가 없으면 자동 실행하지 않고 멈춰야 합니다. 환각처럼 보이는 모델 실패도 근거와 검토자가 있으면 사람 검토로 갈 수 있지만, 근거가 없으면 답변을 막아야 합니다.
+
+따라서 그래프는 복구 결정의 전체 개수를 세려는 그림이 아니라, `LLM grader 태그 -> 조건 확인 -> 복구 경로`로 이어지는 분기 감각을 보여 주는 그림입니다. 운영에서 중요한 것은 timeout이 몇 번 나왔는가보다, 같은 timeout을 다시 시도할지, 낮은 기능으로 계속할지, 멈출지를 가르는 입력 조건을 기록해 두는 일입니다.
 
 같은 결과를 실패 경로 기준으로 다시 짧게 묶으면 다음처럼 읽을 수 있습니다.
 
@@ -333,12 +371,7 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 
 그래서 이 예제에서 확인해야 할 결과는 실패가 났을 때 응답이 그냥 중단되는 것이 아니라, 재시도, 대체 경로, 승인 대기, 사람 검토 전환, 모델 수정 같은 분기가 실제로 따로 설계된다는 점입니다. 특히 `timeout`이라고 해도 retry 가능 횟수와 캐시 존재 여부에 따라 다른 경로를 타고, 권한이나 위험 실행처럼 재시도보다 승인 또는 즉시 중단이 맞는 오류, `hallucination`처럼 근거 비교가 먼저 필요한 오류도 따로 구분해야 한다는 점이 중요합니다.
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
-
-- 실패를 발견하고
-- 바로 끝내는 것이 아니라
-- 재시도, 대체 경로, 기록 저장, 승인 대기, 사람 전환, 모델 수정 경로를 같이 설계해야 한다는 점입니다
-- 같은 실패처럼 보여도 오류 종류와 남은 복구 수단에 따라 대응이 달라져야 한다는 점입니다
+실패 대응에서 남겨야 할 기록도 여기서 갈라집니다. LLM grader를 썼다면 어떤 grader가 계열과 위험도를 제안했는지, 그 이유가 무엇인지 먼저 남겨야 합니다. retry로 보낸다면 재시도 횟수와 단계별 지연 시간이 필요하고, fallback으로 보낸다면 어떤 단순 경로를 썼는지 남겨야 합니다. approval이나 stop으로 보낸다면 권한 상태, 검토자 유무, 중단 사유가 필요합니다. 사람 검토나 모델 수정으로 보낸다면 최종 답변, 근거 문서, 형식 오류, 수정 과제를 함께 남겨야 합니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 

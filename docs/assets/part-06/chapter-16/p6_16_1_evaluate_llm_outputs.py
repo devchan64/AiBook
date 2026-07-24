@@ -14,6 +14,8 @@ def split_terms(value: str) -> list[str]:
 
 
 def choose_next_fix(evaluation: dict[str, object]) -> str:
+    if not evaluation["safety"]:
+        return "remove_risky_or_overconfident_claim"
     if not evaluation["correctness"]:
         return "fix_missing_or_wrong_core_claim"
     if not evaluation["groundedness"]:
@@ -30,6 +32,8 @@ def evaluate_row(row: dict[str, str]) -> dict[str, object]:
     source = row["source_excerpt"]
     required_claims = split_terms(row["required_claim_terms"])
     unsupported_claims = split_terms(row["unsupported_claim_terms"])
+    safety_risk_terms = split_terms(row.get("safety_risk_terms", ""))
+    safety_required_terms = split_terms(row.get("safety_required_terms", ""))
     format_terms = split_terms(row["format_terms"])
     helpful_terms = split_terms(row["helpful_terms"])
 
@@ -38,25 +42,33 @@ def evaluate_row(row: dict[str, str]) -> dict[str, object]:
     unsupported_hits = [
         term for term in unsupported_claims if term in output and term not in source
     ]
+    safety_risk_hits = [term for term in safety_risk_terms if term in output]
+    missing_safety_terms = [
+        term for term in safety_required_terms if term not in output
+    ]
 
     correctness = len(matched_claims) >= max(1, len(source_backed_claims) - 1)
     groundedness = not unsupported_hits
+    safety = not safety_risk_hits and not missing_safety_terms
     format_compliance = output.endswith(".") and all(term in output for term in format_terms)
     helpfulness = any(term in output for term in helpful_terms)
 
     evaluation: dict[str, object] = {
         "correctness": correctness,
         "groundedness": groundedness,
+        "safety": safety,
         "format_compliance": format_compliance,
         "helpfulness": helpfulness,
     }
-    axes = ["correctness", "groundedness", "format_compliance", "helpfulness"]
+    axes = ["correctness", "groundedness", "safety", "format_compliance", "helpfulness"]
     evaluation["passes_all"] = all(evaluation[axis] for axis in axes)
     evaluation["axis_score"] = sum(bool(evaluation[axis]) for axis in axes)
     evaluation["next_fix"] = choose_next_fix(evaluation)
     evaluation["failed_axes"] = [axis for axis in axes if not evaluation[axis]]
     evaluation["matched_claims"] = matched_claims
     evaluation["unsupported_hits"] = unsupported_hits
+    evaluation["safety_risk_hits"] = safety_risk_hits
+    evaluation["missing_safety_terms"] = missing_safety_terms
     return evaluation
 
 
@@ -79,7 +91,7 @@ def load_reports() -> list[dict[str, object]]:
 
 
 def summarize_reports(reports: list[dict[str, object]]) -> dict[str, object]:
-    axes = ["correctness", "groundedness", "format_compliance", "helpfulness"]
+    axes = ["correctness", "groundedness", "safety", "format_compliance", "helpfulness"]
     best_candidate = max(
         reports,
         key=lambda report: int(report["evaluation"]["axis_score"]),  # type: ignore[index]

@@ -1,5 +1,5 @@
-from pathlib import Path
 import os
+from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 MPL_CACHE = REPO_ROOT / ".tmp" / "matplotlib-cache"
@@ -13,15 +13,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
-OUT_DIR = Path(__file__).resolve().parent
+from p6_18_2_generate_run_records import load_run_records, summarize_records
 
-SUMMARY = {
-    "run_count": 3,
-    "multi_evidence_count": 1,
-    "single_evidence_count": 1,
-    "retrieval_failed_count": 1,
-    "needs_human_review_count": 2,
-}
+OUT_DIR = Path(__file__).resolve().parent
 
 LANG_TEXT = {
     "ko": {
@@ -35,13 +29,19 @@ LANG_TEXT = {
         ],
         "outfile": "run-record-status-summary-ko.png",
         "ylabel": "요청 수",
-        "labels": ["다중 근거", "근거 부족", "문서 미회수", "사람 검토 필요"],
+        "status_title": "실행 상태",
+        "review_title": "사람 검토",
+        "status_labels": ["다중 근거", "근거 부족", "문서 미회수"],
+        "review_labels": ["검토 필요", "자동 초안"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "run-record-status-summary-en.png",
         "ylabel": "requests",
-        "labels": ["multi evidence", "single evidence", "retrieval failed", "human review"],
+        "status_title": "Run status",
+        "review_title": "Human review",
+        "status_labels": ["multi evidence", "single evidence", "retrieval failed"],
+        "review_labels": ["needs review", "auto draft"],
     },
 }
 
@@ -68,36 +68,58 @@ def style_axis(ax) -> None:
 
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    values = [
-        SUMMARY["multi_evidence_count"],
-        SUMMARY["single_evidence_count"],
-        SUMMARY["retrieval_failed_count"],
-        SUMMARY["needs_human_review_count"],
+    summary = summarize_records(load_run_records())
+    status_values = [
+        summary["multi_evidence_count"],
+        summary["single_evidence_count"],
+        summary["retrieval_failed_count"],
     ]
-    colors = ["#0f766e", "#f59e0b", "#dc2626", "#9333ea"]
+    review_values = [
+        summary["needs_human_review_count"],
+        summary["run_count"] - summary["needs_human_review_count"],
+    ]
+    status_colors = ["#0f766e", "#f59e0b", "#dc2626"]
+    review_colors = ["#9333ea", "#64748b"]
 
-    fig, ax = plt.subplots(figsize=(7.8, 3.8), dpi=180)
+    fig, axes = plt.subplots(
+        1,
+        2,
+        figsize=(9.2, 3.8),
+        dpi=180,
+        gridspec_kw={"width_ratios": [1.35, 1]},
+        constrained_layout=True,
+    )
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
-    style_axis(ax)
 
-    bars = ax.bar(text["labels"], values, color=colors, width=0.56)
-    for bar in bars:
-        value = bar.get_height()
-        ax.annotate(
-            f"{value:g}\n({value / SUMMARY['run_count']:.0%})",
-            (bar.get_x() + bar.get_width() / 2, value),
-            textcoords="offset points",
-            xytext=(0, 7),
-            ha="center",
-            fontsize=8.7,
-            color="#172033",
-        )
+    for ax in axes:
+        ax.set_facecolor("white")
+        style_axis(ax)
+        ax.set_ylabel(text["ylabel"])
+        ax.set_ylim(0, summary["run_count"] * 1.08)
+        ax.tick_params(axis="x", labelsize=8.7)
 
-    ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, SUMMARY["run_count"] * 1.35)
-    ax.tick_params(axis="x", labelsize=8.7)
-    fig.tight_layout(pad=0.9)
+    status_bars = axes[0].bar(
+        text["status_labels"], status_values, color=status_colors, width=0.56
+    )
+    review_bars = axes[1].bar(
+        text["review_labels"], review_values, color=review_colors, width=0.56
+    )
+    axes[0].set_title(text["status_title"], fontsize=10, pad=8)
+    axes[1].set_title(text["review_title"], fontsize=10, pad=8)
+
+    for bars in (status_bars, review_bars):
+        for bar in bars:
+            value = bar.get_height()
+            bar.axes.annotate(
+                f"{value:g}\n({value / summary['run_count']:.0%})",
+                (bar.get_x() + bar.get_width() / 2, value),
+                textcoords="offset points",
+                xytext=(0, 7),
+                ha="center",
+                fontsize=8.7,
+                color="#172033",
+            )
+
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
 

@@ -1,0 +1,37 @@
+query_id,question,query_groups,requires_review,scenario
+query_001,이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요,입사|휴가,no,multi_evidence
+query_002,신규 복지포인트는 이번 주부터 바로 쓸 수 있나요,복지,yes,single_evidence
+query_003,야간 근무 수당은 이번 달부터 얼마인가요,야간|수당,yes,retrieval_failed
+query_004,재택근무를 다음 주부터 바로 신청할 수 있나요,재택|승인,no,multi_evidence
+query_005,업무 장비 신청은 어디에서 하나요,장비|조회,no,multi_evidence
+query_006,교육비 정산은 수료 전에 가능한가요,교육|비용|승인,yes,multi_evidence
+query_007,개인정보가 들어간 파일을 외부에 공유해도 되나요,개인정보|보안|승인,yes,multi_evidence
+query_008,환불 예외를 고객에게 바로 안내해도 되나요,환불|예외|승인,yes,multi_evidence
+query_009,시스템 권한은 임시로 바로 받을 수 있나요,권한|승인,yes,multi_evidence
+query_010,보안 사고 의심 상황은 누구에게 알려야 하나요,보안|사고|기록,no,multi_evidence
+query_011,잔여 휴가 일수는 어디서 확인하나요,휴가|조회,no,multi_evidence
+query_012,업무 비용은 어떤 자료를 붙여야 하나요,비용|정산,no,multi_evidence
+query_013,새로 나온 복지 제도는 공지 전에 쓸 수 있나요,복지|승인,yes,multi_evidence
+query_014,입사 직후 월차 사용 조건은 무엇인가요,입사|휴가,no,multi_evidence
+query_015,여름휴가는 승인 없이 바로 등록해도 되나요,휴가|승인,yes,multi_evidence
+query_016,장비를 받으려면 부서장 승인이 필요한가요,장비|승인,no,multi_evidence
+query_017,보안 사고 기록은 남겨야 하나요,보안|사고|기록,no,multi_evidence
+query_018,권한 요청에는 기간을 써야 하나요,권한|기록,no,multi_evidence
+query_019,고객 환불 예외에는 어떤 기록이 필요한가요,환불|예외|기록,no,multi_evidence
+query_020,재택근무와 보안 기준은 같이 확인해야 하나요,재택|보안,yes,multi_evidence
+query_021,교육비와 업무 비용 정산은 같은 방식인가요,교육|비용|정산,yes,multi_evidence
+query_022,개인정보 접근 승인 기록은 왜 필요한가요,개인정보|승인|기록,yes,multi_evidence
+query_023,인사 시스템에서 휴가 외에 급여도 볼 수 있나요,조회|급여,yes,single_evidence
+query_024,복지 제도와 교육비 지원은 같은 승인 절차인가요,복지|교육|승인,yes,multi_evidence
+query_025,고객지원 리더 승인은 환불 예외에만 필요한가요,환불|승인|예외,yes,multi_evidence
+query_026,자산 관리 시스템에서 권한도 신청하나요,장비|권한|조회,yes,multi_evidence
+query_027,보안팀 신고 후 고객에게 바로 안내해도 되나요,보안|사고|고객,yes,multi_evidence
+query_028,팀 일정과 여름휴가 승인은 어떻게 같이 봐야 하나요,휴가|승인,no,multi_evidence
+query_029,퇴직금 중간정산은 어디서 신청하나요,퇴직금|정산,yes,single_evidence
+query_030,야간 근무 식대 기준은 어디에 있나요,야간|식대,yes,retrieval_failed
+query_031,출장 항공권 예약 규정은 무엇인가요,출장|예약,yes,retrieval_failed
+query_032,법인카드 분실은 누구에게 알려야 하나요,법인카드|분실,yes,retrieval_failed
+query_033,채용 면접비 지급 기준은 무엇인가요,채용|면접비,yes,retrieval_failed
+query_034,사내 동호회 지원금은 얼마인가요,동호회|지원금,yes,retrieval_failed
+query_035,병가 진단서는 언제 제출하나요,병가|진단서,yes,retrieval_failed
+query_036,성과급 산정 기준은 어디서 확인하나요,성과급|산정,yes,retrieval_failed

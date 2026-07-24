@@ -51,8 +51,8 @@ P6-18.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도�
 
 입력:
 
-- 정책 문서 네 개
-- 서로 다른 실패 유형을 유도하는 사용자 질문 세 개
+- 정책 문서 CSV에 담긴 정책 조각 12개
+- 서로 다른 실패 유형을 유도하는 사용자 질문 36개
 
 출력:
 
@@ -61,11 +61,11 @@ P6-18.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도�
 - 생성된 답변 초안
 - 사람 검토 필요 여부와 평가 메모
 
-이 예제의 목표는 `정답률`이 아니라 `운영 상태 구분`을 포함한 흐름 확인입니다. 같은 최소 기능이라도 `여러 근거가 맞물린 경우`, `근거가 부족한 경우`, `검색 자체가 실패한 경우`를 구분해 읽어야 다음 개선 우선순위를 정할 수 있습니다.
+이 예제의 목표는 `정답률`이 아니라 `운영 상태 구분`을 포함한 흐름 확인입니다. 같은 최소 기능이라도 `여러 근거가 맞물린 경우`, `근거가 부족한 경우`, `검색 자체가 실패한 경우`를 구분해 읽어야 다음 개선 우선순위를 정할 수 있습니다. 질문 CSV의 `requires_review`는 정답표가 아니라, 질문 자체가 승인, 예외, 보안처럼 사람 검토 경계를 건드리는지 표시하는 관찰 신호입니다.
 
 ## 사례 및 예시
 
-최소 구현 절이 실제로 필요한 이유는 `한 번 돌았다`와 `운영 판단까지 남겼다`를 분리해 보여 주기 위해서입니다. 아래 두 장면은 같은 정책 안내 도우미처럼 보여도, 요청 실행 기록을 남기지 않으면 어디서 실패했는지 다시 읽을 수 없다는 점을 보여 줍니다.
+최소 구현 절이 실제로 필요한 이유는 `한 번 돌았다`와 `운영 판단까지 남겼다`를 분리해 보여 주기 위해서입니다. 아래 세 장면은 같은 정책 안내 도우미처럼 보여도, 요청 실행 기록을 남기지 않으면 어디서 실패했는지 다시 읽을 수 없다는 점을 보여 줍니다.
 
 ### 사례 1. 답은 나왔는데 왜 나왔는지 남기지 않으면
 
@@ -145,11 +145,11 @@ P6-18.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도�
 
 예제는 `질문 -> 검색 -> 답변 초안 -> 평가 -> 기록`을 한 번에 확인하는 데 목적이 있습니다. 질문 두 개만 보는 대신 `다중 근거가 잡히는 경우`, `근거가 하나만 잡히는 경우`, `아예 검색 실패가 나는 경우`를 함께 넣어, 작은 기준선 구현도 여러 실패 유형으로 갈라진다는 점을 확인합니다. 특히 각 질문이 끝난 뒤 요청 실행 기록 하나로 남도록 만들어, 회고나 운영 판단에서 무엇을 고쳐야 하는지 바로 다시 읽을 수 있게 합니다.
 
-예제 입력은 정책 문서 4개와 사용자 질문 3개입니다. 결과에서는 문서별 검색 점수, 선택된 근거 문서, 답변 초안, 사람 검토 필요 여부와 회고 메모, 질문별 요청 실행 기록, 전체 질문 묶음에 대한 요약 통계를 함께 확인합니다.
+예제 입력은 정책 문서 CSV와 사용자 질문 CSV입니다. 결과에서는 문서별 검색 점수, 선택된 근거 문서, 답변 초안, 사람 검토 필요 여부와 회고 메모, 질문별 요청 실행 기록, 전체 질문 묶음에 대한 요약 통계를 함께 확인합니다.
 
 확인할 핵심은 최소 구현도 검색, 답변, 평가, 기록이 한 흐름으로 묶여야 한다는 점입니다. 질문별 요청 실행 기록을 남겨야 어떤 실패 유형이 반복되는지 다시 읽을 수 있고, 운영 관점에서는 정답률보다 근거 부족과 검색 실패를 어떻게 구분했는지가 더 중요합니다.
 
-코드를 보기 전에, 먼저 아래 세 질문에 대해 어떤 실행 상태가 남아야 하는지 스스로 적어 보는 편이 좋습니다.
+코드를 보기 전에, 먼저 아래 대표 질문에 대해 어떤 실행 상태가 남아야 하는지 스스로 적어 보는 편이 좋습니다.
 
 | 질문 | 먼저 예상해 볼 실행 상태 | 왜 이렇게 예상하는가 |
 | --- | --- | --- |
@@ -168,218 +168,108 @@ P6-18.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도�
 | 실행 상태 | 다중 근거 확보, 근거 부족, 검색 실패를 한눈에 구분해야 해서 |
 | 전체 요약 | 한 질문씩만 보지 않고 전체 흐름에서 어떤 실패가 많은지 읽어야 해서 |
 
-아래 코드는 위에 정리한 정책 문서 목록과 질문 실행 시나리오를 사용합니다.
+아래 예제는 정책 문서 CSV [p6_18_2_policy_documents.csv](../../../assets/part-06/chapter-18/p6_18_2_policy_documents.csv){ .csv-preview }와 질문 CSV [p6_18_2_policy_questions.csv](../../../assets/part-06/chapter-18/p6_18_2_policy_questions.csv){ .csv-preview }를 사용합니다. 문서 파일의 한 행은 정책 조각 하나이고, 질문 파일의 한 행은 사용자 질문과 질문을 해석해 만든 키워드 묶음, 사람 검토 필요 신호를 담습니다. `requires_review`는 모델이 맞혔는지 확인하는 정답 열이 아니라, 자동 확답이 위험한 질문 유형을 관찰하기 위한 입력 신호입니다. 이 예제는 실제 LLM이나 실제 검색 엔진을 붙인 것이 아니라, 요청 실행 기록에 어떤 근거와 상태가 남아야 하는지 확인하는 기준선 구현입니다.
+
+검색도 자연어 질문을 직접 이해하는 방식이 아닙니다. 질문 CSV의 `query_groups`와 문서 CSV의 `keyword_groups`가 겹치는 정도를 점수로 삼는 단순 검색입니다. 그래서 이 예제에서 중요한 것은 검색 품질을 과장하는 것이 아니라, 느슨한 검색이 어떤 문서를 같이 끌고 왔는지와 그 한계를 실행 기록에 남기는 것입니다.
 
 ```python
-# 사내 정책 문서와 질문을 keyword group으로 매칭해 미니 RAG 초안과 사람 검토 필요 여부를 판단하는 예제입니다.
-documents = [
-    {
-        "id": "policy-1",
-        "text": "신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다.",
-    },
-    {
-        "id": "policy-2",
-        "text": "여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다.",
-    },
-    {
-        "id": "policy-3",
-        "text": "잔여 휴가 일수 조회는 인사 시스템에서 확인합니다.",
-    },
-    {
-        "id": "policy-4",
-        "text": "신규 복지 제도는 공지 전까지 인사팀 확인이 필요합니다.",
-    },
-]
-
-queries = [
-    "이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?",
-    "신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?",
-    "야간 근무 수당은 이번 달부터 얼마인가요?",
-]
-
-keyword_groups = {
-    "입사": ["입사", "신입", "직원"],
-    "휴가": ["휴가", "월차", "여름휴가"],
-    "복지": ["복지", "포인트", "제도"],
-}
-
-def score_document(query, doc):
-    score = 0
-    matched_groups = []
-    for group_name, keywords in keyword_groups.items():
-        query_hit = any(keyword in query for keyword in keywords)
-        doc_hit = any(keyword in doc["text"] for keyword in keywords)
-        if query_hit and doc_hit:
-            score += 1
-            matched_groups.append(group_name)
-    return score, matched_groups
-
-def retrieve_docs(query, docs, top_k=2):
-    scored = []
-    for doc in docs:
-        score, matched_groups = score_document(query, doc)
-        scored.append(
-            {
-                "id": doc["id"],
-                "text": doc["text"],
-                "score": score,
-                "matched_groups": matched_groups,
-            }
-        )
-    scored.sort(key=lambda item: item["score"], reverse=True)
-    return scored[:top_k], scored
-
-def draft_answer(query, retrieved):
-    top_docs = [doc for doc in retrieved if doc["score"] > 0]
-    if not top_docs:
-        return "관련 규정을 찾지 못했습니다. 답변을 확정하지 말고 인사팀 확인으로 넘깁니다."
-
-    evidence_lines = [f"- {doc['id']}: {doc['text']}" for doc in top_docs]
-    if len(top_docs) == 1:
-        summary_line = "초안 판단: 근거가 하나뿐이므로 예외 조항이나 최신 공지를 다시 확인해야 합니다."
-    else:
-        summary_line = "초안 판단: 여러 근거를 함께 읽어 조건 충돌과 적용 순서를 확인해야 합니다."
-    return "\n".join(
-        [
-            f"질문: {query}",
-            "확인된 근거:",
-            *evidence_lines,
-            summary_line,
-        ]
-    )
-
-def evaluate_run(query, retrieved):
-    positive_docs = [doc for doc in retrieved if doc["score"] > 0]
-    notes = []
-    if not positive_docs:
-        notes.append("검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함")
-        run_status = "retrieval_failed"
-    elif len(positive_docs) == 1:
-        notes.append("근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검")
-        run_status = "single_evidence"
-    else:
-        notes.append("다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검")
-        run_status = "multi_evidence"
-
-    if "복지포인트" in query:
-        notes.append("현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인")
-
-    return {
-        "needs_human_review": len(positive_docs) == 0 or len(positive_docs) == 1 or "복지포인트" in query,
-        "run_status": run_status,
-        "notes": notes,
-    }
-
-run_records = []
-for query in queries:
-    top_docs, full_scores = retrieve_docs(query, documents)
-    answer = draft_answer(query, top_docs)
-    evaluation = evaluate_run(query, top_docs)
-    run_records.append(
-        {
-            "question": query,
-            "document_scores": full_scores,
-            "retrieved_doc_ids": [doc["id"] for doc in top_docs if doc["score"] > 0],
-            "draft_answer": answer,
-            "evaluation": evaluation,
-        }
-    )
-
-summary = {
-    "run_count": len(run_records),
-    "multi_evidence_count": sum(record["evaluation"]["run_status"] == "multi_evidence" for record in run_records),
-    "single_evidence_count": sum(record["evaluation"]["run_status"] == "single_evidence" for record in run_records),
-    "retrieval_failed_count": sum(record["evaluation"]["run_status"] == "retrieval_failed" for record in run_records),
-    "needs_human_review_count": sum(record["evaluation"]["needs_human_review"] for record in run_records),
-}
-
-print("[summary]")
-print(summary)
-print()
-
-for record in run_records:
-    print("=" * 80)
-    print("question =", record["question"])
-    print("[document scores]")
-    for item in record["document_scores"]:
-        print(item["id"], "score=", item["score"], "matched_groups=", item["matched_groups"])
-    print("[retrieved_doc_ids]")
-    print(record["retrieved_doc_ids"])
-    print("[draft answer]")
-    print(record["draft_answer"])
-    print("[evaluation]")
-    print("run_status =", record["evaluation"]["run_status"])
-    print("needs_human_review =", record["evaluation"]["needs_human_review"])
-    for note in record["evaluation"]["notes"]:
-        print("-", note)
+--8<-- "assets/part-06/chapter-18/p6_18_2_generate_run_records.py"
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과 예시는 세 층으로 읽으면 됩니다. `[summary]`는 36개 질문의 상태 분포를 보고, `[selected_records]`는 대표 질문들이 서로 다른 실행 상태로 갈라지는지 보고, `[detailed_record]`는 한 요청 안에 문서 점수, 선택 근거, 답변 초안, 평가 상태가 함께 남는지 확인합니다.
 
 ```text
 [summary]
-{'run_count': 3, 'multi_evidence_count': 1, 'single_evidence_count': 1, 'retrieval_failed_count': 1, 'needs_human_review_count': 2}
-
-================================================================================
-question = 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
-[document scores]
-policy-1 score= 2 matched_groups= ['입사', '휴가']
-policy-2 score= 1 matched_groups= ['휴가']
-policy-3 score= 1 matched_groups= ['휴가']
-policy-4 score= 0 matched_groups= []
-[retrieved_doc_ids]
-['policy-1', 'policy-2']
-[draft answer]
-질문: 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
-확인된 근거:
-- policy-1: 신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다.
-- policy-2: 여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다.
-초안 판단: 여러 근거를 함께 읽어 조건 충돌과 적용 순서를 확인해야 합니다.
-[evaluation]
-run_status = multi_evidence
-needs_human_review = False
-- 다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검
-================================================================================
-question = 신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?
-[document scores]
-policy-4 score= 1 matched_groups= ['복지']
-policy-1 score= 0 matched_groups= []
-policy-2 score= 0 matched_groups= []
-policy-3 score= 0 matched_groups= []
-[retrieved_doc_ids]
-['policy-4']
-[draft answer]
-질문: 신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?
-확인된 근거:
-- policy-4: 신규 복지 제도는 공지 전까지 인사팀 확인이 필요합니다.
-초안 판단: 근거가 하나뿐이므로 예외 조항이나 최신 공지를 다시 확인해야 합니다.
-[evaluation]
-run_status = single_evidence
-needs_human_review = True
-- 근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검
-- 현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인
-================================================================================
-question = 야간 근무 수당은 이번 달부터 얼마인가요?
-[document scores]
-policy-1 score= 0 matched_groups= []
-policy-2 score= 0 matched_groups= []
-policy-3 score= 0 matched_groups= []
-policy-4 score= 0 matched_groups= []
-[retrieved_doc_ids]
-[]
-[draft answer]
-관련 규정을 찾지 못했습니다. 답변을 확정하지 말고 인사팀 확인으로 넘깁니다.
-[evaluation]
-run_status = retrieval_failed
-needs_human_review = True
-- 검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함
+{'multi_evidence_count': 26,
+ 'needs_human_review_count': 24,
+ 'next_patch_counts': {'expand_index_or_add_policy_documents': 8,
+                       'expand_retrieval_or_add_review_gate': 2,
+                       'improve_grounded_answer_rules': 26},
+ 'retrieval_failed_count': 8,
+ 'run_count': 36,
+ 'single_evidence_count': 2}
+[selected_records]
+{'needs_human_review': False,
+ 'next_patch': 'improve_grounded_answer_rules',
+ 'notes': ['다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검'],
+ 'query_id': 'query_001',
+ 'question': '이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요',
+ 'retrieved_doc_ids': ['policy_001', 'policy_002', 'policy_003'],
+ 'run_status': 'multi_evidence'}
+{'needs_human_review': True,
+ 'next_patch': 'expand_retrieval_or_add_review_gate',
+ 'notes': ['근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검',
+           '질문 특성상 자동 확답보다 사람 검토 상태를 남김'],
+ 'query_id': 'query_002',
+ 'question': '신규 복지포인트는 이번 주부터 바로 쓸 수 있나요',
+ 'retrieved_doc_ids': ['policy_004'],
+ 'run_status': 'single_evidence'}
+{'needs_human_review': True,
+ 'next_patch': 'expand_index_or_add_policy_documents',
+ 'notes': ['검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함', '질문 특성상 자동 확답보다 사람 검토 상태를 남김'],
+ 'query_id': 'query_003',
+ 'question': '야간 근무 수당은 이번 달부터 얼마인가요',
+ 'retrieved_doc_ids': [],
+ 'run_status': 'retrieval_failed'}
+{'needs_human_review': True,
+ 'next_patch': 'improve_grounded_answer_rules',
+ 'notes': ['다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검',
+           '질문 특성상 자동 확답보다 사람 검토 상태를 남김'],
+ 'query_id': 'query_007',
+ 'question': '개인정보가 들어간 파일을 외부에 공유해도 되나요',
+ 'retrieved_doc_ids': ['policy_010', 'policy_002', 'policy_004'],
+ 'run_status': 'multi_evidence'}
+{'needs_human_review': True,
+ 'next_patch': 'improve_grounded_answer_rules',
+ 'notes': ['다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검',
+           '질문 특성상 자동 확답보다 사람 검토 상태를 남김'],
+ 'query_id': 'query_026',
+ 'question': '자산 관리 시스템에서 권한도 신청하나요',
+ 'retrieved_doc_ids': ['policy_006', 'policy_003', 'policy_007'],
+ 'run_status': 'multi_evidence'}
+{'needs_human_review': True,
+ 'next_patch': 'expand_index_or_add_policy_documents',
+ 'notes': ['검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함', '질문 특성상 자동 확답보다 사람 검토 상태를 남김'],
+ 'query_id': 'query_030',
+ 'question': '야간 근무 식대 기준은 어디에 있나요',
+ 'retrieved_doc_ids': [],
+ 'run_status': 'retrieval_failed'}
+[detailed_record]
+{'draft_answer': '질문: 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요\n'
+                 '확인된 근거:\n'
+                 '- policy_001: 신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다\n'
+                 '- policy_002: 여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다\n'
+                 '- policy_003: 잔여 휴가 일수 조회는 인사 시스템에서 확인합니다\n'
+                 '초안 판단: 여러 근거를 함께 읽어 조건 충돌과 적용 순서를 확인해야 합니다.',
+ 'evaluation': {'needs_human_review': False,
+                'next_patch': 'improve_grounded_answer_rules',
+                'notes': ['다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검'],
+                'run_status': 'multi_evidence'},
+ 'query_id': 'query_001',
+ 'question': '이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요',
+ 'retrieved_doc_ids': ['policy_001', 'policy_002', 'policy_003'],
+ 'top_document_scores': [{'doc_id': 'policy_001',
+                          'matched_groups': ['입사', '휴가'],
+                          'score': 2},
+                         {'doc_id': 'policy_002',
+                          'matched_groups': ['휴가'],
+                          'score': 1},
+                         {'doc_id': 'policy_003',
+                          'matched_groups': ['휴가'],
+                          'score': 1},
+                         {'doc_id': 'policy_004',
+                          'matched_groups': [],
+                          'score': 0},
+                         {'doc_id': 'policy_005',
+                          'matched_groups': [],
+                          'score': 0}]}
 ```
 
 ![요청 실행 상태와 사람 검토 필요 분포](../../../assets/part-06/chapter-18/run-record-status-summary-ko.png)
 
 ## 검색 점수와 운영 상태를 함께 읽기
 
-이 코드는 실제 LLM도, 실제 검색 엔진도 아닙니다. 하지만 다음 다섯 가지를 분명히 드러냅니다.
+이 예제는 실제 LLM이나 실제 검색 엔진을 호출하지 않습니다. 여기서 먼저 보는 것은 성능이 아니라, 이후 LLM, RAG, tool use를 붙일 때도 유지해야 할 요청 실행 기록의 뼈대입니다. 하지만 이 작은 기준선만으로도 다음 다섯 가지를 분명히 드러낼 수 있습니다.
 
 - 질문이 들어온다
 - 검색 단계가 점수와 함께 따로 존재한다
@@ -387,7 +277,9 @@ needs_human_review = True
 - 다중 근거, 근거 부족, 검색 실패가 서로 다른 메모와 실행 상태로 기록된다
 - 질문별 실행 결과가 마지막에 전체 요약으로 다시 묶인다
 
-그래서 이 예제에서 확인해야 할 결과는 `모델이 답했다`는 한 줄 뒤에 검색 점수, 근거 문서, 사람 검토 플래그, 회고 메모, 질문별 요청 실행 기록이 실제로 따로 남는가입니다. 특히 같은 최소 기능 안에서도 `다중 근거 확보`, `근거 부족`, `검색 실패`가 서로 다른 운영 상태로 남는지가 중요합니다.
+그래서 이 예제에서 확인해야 할 결과는 `모델이 답했다`는 한 줄이 아니라, 검색 점수, 근거 문서, 답변 초안, 사람 검토 플래그, 회고 메모, 질문별 요청 실행 기록이 실제로 따로 남는가입니다. 특히 같은 최소 기능 안에서도 `다중 근거 확보`, `근거 부족`, `검색 실패`가 서로 다른 운영 상태로 남는지가 중요합니다.
+
+대표 상세 기록에서 `잔여 휴가 일수 조회` 문서가 함께 잡히는 것도 의도적으로 볼 지점입니다. 이 문서는 같은 `휴가` 키워드 그룹을 공유하지만, `입사 직후 여름휴가 사용 가능 여부`를 닫는 직접 근거라고 보기는 어렵습니다. 따라서 이 결과를 완전한 검색 성공으로 읽으면 안 됩니다. 오히려 단순 키워드 그룹 검색은 주변 문서를 함께 끌고 올 수 있으므로, 실행 기록에 문서 점수와 선택 문서를 남겨야 다음 단계에서 재순위화, 근거 인용 규칙, groundedness 점검을 붙일 수 있다는 점을 확인해야 합니다.
 
 같은 결과를 실무 검토 메모처럼 다시 적으면 다음과 같습니다.
 

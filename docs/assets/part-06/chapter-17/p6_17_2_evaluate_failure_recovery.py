@@ -1,9 +1,34 @@
 from collections import Counter
 from csv import DictReader
+import json
+import os
 from pathlib import Path
 from pprint import pprint
+from urllib import request
 
 CSV_PATH = Path(__file__).with_name("p6_17_2_failure_cases.csv")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/generate")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2:1b")
+USE_OLLAMA = os.environ.get("P6_17_2_USE_OLLAMA") == "1"
+GRADER_RUBRIC = """
+Grade the failure trace, but do not choose the final recovery route.
+- suggested_family is "system" when the failure is in retrieval, tools,
+  permissions, timeout, cache, queue, API, or trace capture.
+- suggested_family is "model" when the failure is in generation, grounding,
+  citation, tone, format, or unsupported content.
+- suggested_risk is "high" when the trace is missing, evidence is missing,
+  approval is required, or unsafe output may reach a user.
+- suggested_risk is "medium" when service can continue only after retry,
+  fallback, parser repair, or human review.
+- suggested_risk is "low" only when the failure is minor and already contained.
+
+Examples:
+- error=timeout at step=search_docs -> system, medium
+- error=permission_error at step=send_email -> system, high
+- error=risky_action at step=update_database -> system, high
+- error=hallucination at step=answer_generation -> model, high
+- error=format_mismatch at step=answer_generation -> model, medium
+"""
 
 SELECTED_CASES = [
     "timeout_retry_search",
@@ -44,6 +69,112 @@ def load_failure_cases(csv_path=CSV_PATH):
             }
         )
     return cases
+
+
+def build_failure_observation(case):
+    return (
+        f"step={case['step']}; error={case['error']}; "
+        f"retry_count={case['retry_count']}; max_retries={case['max_retries']}; "
+        f"cached_summary_available={case['cached_summary_available']}; "
+        f"trace_saved={case['trace_saved']}; "
+        f"human_review_available={case['human_review_available']}; "
+        f"grounding_available={case['grounding_available']}; "
+        f"approval_required={case['approval_required']}"
+    )
+
+
+def fallback_grade_failure_trace(case):
+    if case["error"] in {
+        "hallucination",
+        "wrong_citation",
+        "grounding_gap",
+        "format_mismatch",
+        "overlong_answer",
+        "tone_mismatch",
+        "ambiguous_answer",
+        "unverified_number",
+        "unsafe_claim",
+        "unsupported_instruction",
+    }:
+        suggested_family = "model"
+    else:
+        suggested_family = "system"
+
+    if not case["trace_saved"] or case["approval_required"]:
+        suggested_risk = "high"
+    elif case["error"] in {"hallucination", "wrong_citation", "unsafe_claim"}:
+        suggested_risk = "high"
+    elif case["error"] in {"timeout", "rate_limit", "format_mismatch"}:
+        suggested_risk = "medium"
+    else:
+        suggested_risk = "medium"
+
+    reason_by_error = {
+        "timeout": "Timeout belongs to the service path, so retry budget and fallback state must be checked next.",
+        "rate_limit": "Rate limit is a system capacity signal, so retry and fallback policy should be checked next.",
+        "permission_error": "Permission failure crosses an execution boundary, so approval or stop policy must be checked next.",
+        "risky_action": "Risky external action needs an approval boundary before any execution continues.",
+        "hallucination": "Hallucination is a model output risk, so grounding and human review must be checked next.",
+        "wrong_citation": "Wrong citation is a model grounding risk, so evidence comparison must be checked next.",
+        "format_mismatch": "Format mismatch blocks delivery or parsing, so prompt and schema repair must be checked next.",
+    }
+    return {
+        "grader_source": "fallback",
+        "suggested_family": suggested_family,
+        "suggested_risk": suggested_risk,
+        "reason": reason_by_error.get(
+            case["error"],
+            f"The observed {case['error']} should be graded before the policy gate chooses a recovery route.",
+        ),
+    }
+
+
+def call_ollama_grader(case):
+    prompt = f"""
+You are an LLM grader for AI service failure traces.
+Return only compact JSON with these keys:
+suggested_family: "system" or "model"
+suggested_risk: "low", "medium", or "high"
+reason: one short sentence
+
+Rubric:
+{GRADER_RUBRIC}
+
+Failure observation:
+{build_failure_observation(case)}
+"""
+    payload = {
+        "model": OLLAMA_MODEL,
+        "prompt": prompt,
+        "stream": False,
+        "format": "json",
+        "options": {"temperature": 0},
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = request.Request(
+        OLLAMA_URL,
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    with request.urlopen(req, timeout=20) as response:
+        body = json.loads(response.read().decode("utf-8"))
+    return json.loads(body["response"])
+
+
+def llm_grade_failure_trace(case):
+    if USE_OLLAMA:
+        try:
+            grade = call_ollama_grader(case)
+            return {
+                "grader_source": "ollama",
+                "suggested_family": grade["suggested_family"],
+                "suggested_risk": grade["suggested_risk"],
+                "reason": grade["reason"],
+            }
+        except Exception:
+            pass
+    return fallback_grade_failure_trace(case)
 
 
 def decide_recovery(case):
@@ -130,10 +261,14 @@ def decide_recovery(case):
 
 
 def evaluate_case(case):
+    # The LLM grader reads the trace and produces bounded tags. The policy
+    # gate below still makes the final recovery decision from explicit signals.
+    grade = llm_grade_failure_trace(case)
     recovery = decide_recovery(case)
     return {
         "case_name": case["case_name"],
         "failure_family": case["failure_family"],
+        **grade,
         "step": case["step"],
         "error": case["error"],
         "retry_count": case["retry_count"],
@@ -169,6 +304,10 @@ def compact_report(report):
     return {
         "case_name": report["case_name"],
         "failure_family": report["failure_family"],
+        "grader_source": report["grader_source"],
+        "suggested_family": report["suggested_family"],
+        "suggested_risk": report["suggested_risk"],
+        "reason": report["reason"],
         "step": report["step"],
         "error": report["error"],
         "decision": report["decision"],

@@ -13,7 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
-from p6_17_2_evaluate_failure_recovery import load_reports, summarize_reports
+from p6_17_2_evaluate_failure_recovery import load_reports
 
 OUT_DIR = Path(__file__).resolve().parent
 
@@ -28,21 +28,73 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "failure-recovery-routing-ko.png",
-        "left_title": "실패 계열",
-        "right_title": "복구 결정",
-        "family_labels": ["시스템 실패", "모델 실패"],
-        "decision_labels": ["재시도", "대체 경로", "승인", "사람 검토", "중단·상향", "모델 수정"],
-        "xlabel": "사례 수",
+        "title": "같은 실패도 조건에 따라 복구 경로가 갈라짐",
+        "headers": ["실패 신호", "조건", "복구 결정"],
+        "rows": [
+            ("timeout", "재시도 남음", "재시도"),
+            ("timeout", "재시도 소진 + 캐시 있음", "대체 경로"),
+            ("timeout", "재시도 소진 + 캐시 없음", "중단·상향"),
+            ("위험 실행", "검토자 있음", "승인"),
+            ("위험 실행", "검토자 없음", "중단·상향"),
+            ("환각", "근거 + 검토자 있음", "사람 검토"),
+            ("환각", "근거 없음", "중단·상향"),
+        ],
+        "case_names": [
+            "timeout_retry_search",
+            "timeout_fallback_search",
+            "timeout_stop_search",
+            "risky_action_approval_delete",
+            "risky_action_stop_no_reviewer",
+            "hallucination_review_grounded",
+            "hallucination_stop_ungrounded",
+        ],
+        "decision_labels": {
+            "retry": "재시도",
+            "fallback": "대체 경로",
+            "approval": "승인",
+            "human_review": "사람 검토",
+            "stop_and_escalate": "중단·상향",
+        },
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "failure-recovery-routing-en.png",
-        "left_title": "Failure family",
-        "right_title": "Recovery decision",
-        "family_labels": ["system failure", "model failure"],
-        "decision_labels": ["retry", "fallback", "approval", "human review", "stop/escalate", "model fix"],
-        "xlabel": "cases",
+        "title": "The same failure can route differently by condition",
+        "headers": ["failure signal", "condition", "recovery decision"],
+        "rows": [
+            ("timeout", "retry budget left", "retry"),
+            ("timeout", "retry exhausted + cache", "fallback"),
+            ("timeout", "retry exhausted + no cache", "stop/escalate"),
+            ("risky action", "reviewer available", "approval"),
+            ("risky action", "no reviewer", "stop/escalate"),
+            ("hallucination", "grounding + reviewer", "human review"),
+            ("hallucination", "no grounding", "stop/escalate"),
+        ],
+        "case_names": [
+            "timeout_retry_search",
+            "timeout_fallback_search",
+            "timeout_stop_search",
+            "risky_action_approval_delete",
+            "risky_action_stop_no_reviewer",
+            "hallucination_review_grounded",
+            "hallucination_stop_ungrounded",
+        ],
+        "decision_labels": {
+            "retry": "retry",
+            "fallback": "fallback",
+            "approval": "approval",
+            "human_review": "human review",
+            "stop_and_escalate": "stop/escalate",
+        },
     },
+}
+
+DECISION_COLORS = {
+    "retry": "#0f766e",
+    "fallback": "#64748b",
+    "approval": "#f59e0b",
+    "human_review": "#9333ea",
+    "stop_and_escalate": "#dc2626",
 }
 
 
@@ -59,75 +111,72 @@ def configure_font(text: dict[str, object]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def style_axis(ax) -> None:
-    ax.grid(True, axis="x", color="#d0d7de", linewidth=0.75, alpha=0.85)
-    ax.set_axisbelow(True)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-
-
-def annotate_bars(ax, bars, total: int) -> None:
-    for bar in bars:
-        value = bar.get_width()
-        ax.annotate(
-            f"{value:g} ({value / total:.0%})",
-            (value, bar.get_y() + bar.get_height() / 2),
-            textcoords="offset points",
-            xytext=(7, 0),
-            va="center",
-            fontsize=8.4,
-            color="#172033",
-        )
-
-
 def save_chart(text: dict[str, object]) -> None:
     configure_font(text)
-    summary = summarize_reports(load_reports())
+    reports = {report["case_name"]: report for report in load_reports()}
+    rows = text["rows"]
 
-    family_values = [
-        summary["system_failure_count"],
-        summary["model_failure_count"],
-    ]
-    decision_values = [
-        summary["retry_count"],
-        summary["fallback_count"],
-        summary["approval_count"],
-        summary["human_review_count"],
-        summary["stop_and_escalate_count"],
-        summary["model_fix_count"],
-    ]
-
-    fig, axes = plt.subplots(
-        1,
-        2,
-        figsize=(9.4, 4.1),
-        dpi=180,
-        gridspec_kw={"width_ratios": [0.86, 1.34], "wspace": 0.42},
-        constrained_layout=True,
-    )
+    fig, ax = plt.subplots(figsize=(10.2, 4.8), dpi=180)
     fig.patch.set_facecolor("white")
+    ax.set_facecolor("white")
+    ax.set_xlim(0, 3)
+    ax.set_ylim(0, len(rows) + 1)
+    ax.axis("off")
 
-    family_colors = ["#2563eb", "#f59e0b"]
-    decision_colors = ["#0f766e", "#64748b", "#f59e0b", "#9333ea", "#dc2626", "#2563eb"]
+    col_x = [0.05, 1.02, 2.14]
+    col_w = [0.86, 1.02, 0.78]
+    header_y = len(rows) + 0.18
 
-    for ax in axes:
-        ax.set_facecolor("white")
-        style_axis(ax)
-        ax.set_xlabel(text["xlabel"])
-        ax.set_xlim(0, summary["case_count"] * 0.62)
+    for index, header in enumerate(text["headers"]):
+        ax.text(
+            col_x[index],
+            header_y,
+            header,
+            fontsize=11,
+            fontweight="bold",
+            color="#172033",
+            va="center",
+        )
 
-    family_bars = axes[0].barh(text["family_labels"], family_values, color=family_colors, height=0.48)
-    axes[0].invert_yaxis()
-    axes[0].set_title(text["left_title"], fontsize=11, pad=8)
-    annotate_bars(axes[0], family_bars, summary["case_count"])
+    for row_index, ((signal, condition, _), case_name) in enumerate(
+        zip(rows, text["case_names"])
+    ):
+        report = reports[case_name]
+        y = len(rows) - row_index - 0.55
+        fill = "#f8fafc" if row_index % 2 == 0 else "#ffffff"
+        ax.add_patch(
+            plt.Rectangle(
+                (0.0, y - 0.35),
+                2.95,
+                0.7,
+                facecolor=fill,
+                edgecolor="#e5e7eb",
+                linewidth=0.8,
+            )
+        )
+        decision = report["decision"]
+        ax.text(col_x[0], y, signal, fontsize=9.2, color="#172033", va="center")
+        ax.text(col_x[1], y, condition, fontsize=9.2, color="#172033", va="center")
+        ax.add_patch(
+            plt.Rectangle(
+                (col_x[2] - 0.02, y - 0.22),
+                col_w[2],
+                0.44,
+                facecolor=DECISION_COLORS[decision],
+                edgecolor="none",
+            )
+        )
+        ax.text(
+            col_x[2] + 0.04,
+            y,
+            text["decision_labels"][decision],
+            fontsize=9.2,
+            color="white",
+            va="center",
+            fontweight="bold",
+        )
 
-    decision_bars = axes[1].barh(text["decision_labels"], decision_values, color=decision_colors, height=0.48)
-    axes[1].invert_yaxis()
-    axes[1].set_title(text["right_title"], fontsize=11, pad=8)
-    annotate_bars(axes[1], decision_bars, summary["case_count"])
-
-    for ax in axes:
-        ax.tick_params(axis="y", labelsize=8.6)
+    ax.set_title(text["title"], fontsize=12, fontweight="bold", pad=12, color="#111827")
 
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)

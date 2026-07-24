@@ -3,9 +3,12 @@ flowchart TD
   B{"is current input enough?"}
   C{"is latest document grounding needed?"}
   D{"is live system state needed?"}
+  H{"is certainty risky or evidence weak?"}
   E["prompt-centered flow"]
   F["prompt + retrieval flow"]
   G["prompt + tool flow"]
+  I["human review or follow-up question"]
+  J["answer and run record"]
 
   A --> B
   B -->|yes| E
@@ -14,3 +17,9 @@ flowchart TD
   C -->|no| D
   D -->|yes| G
   D -->|no| E
+  E --> H
+  F --> H
+  G --> H
+  H -->|yes| I
+  H -->|no| J
+  I --> J

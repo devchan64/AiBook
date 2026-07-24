@@ -49,7 +49,7 @@ LANG_TEXT = {
         ],
         "outfile": "request-structure-matrix-ko.png",
         "request_labels": ["문장 다듬기", "육아휴직 순서", "잔여 휴가", "복지포인트"],
-        "structure_labels": ["prompt", "retrieval", "tool use", "사람 검토"],
+        "structure_labels": ["프롬프트", "검색", "도구 사용", "사람 검토"],
         "needed": "필요",
         "not_needed": "불필요",
     },

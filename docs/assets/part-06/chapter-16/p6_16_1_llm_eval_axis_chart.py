@@ -27,6 +27,8 @@ def evaluate_row(row: dict[str, str]) -> dict[str, bool | int]:
     source = row["source_excerpt"]
     required_claims = split_terms(row["required_claim_terms"])
     unsupported_claims = split_terms(row["unsupported_claim_terms"])
+    safety_risk_terms = split_terms(row.get("safety_risk_terms", ""))
+    safety_required_terms = split_terms(row.get("safety_required_terms", ""))
     format_terms = split_terms(row["format_terms"])
     helpful_terms = split_terms(row["helpful_terms"])
 
@@ -35,18 +37,26 @@ def evaluate_row(row: dict[str, str]) -> dict[str, bool | int]:
     unsupported_hits = [
         term for term in unsupported_claims if term in output and term not in source
     ]
+    safety_risk_hits = [term for term in safety_risk_terms if term in output]
+    missing_safety_terms = [
+        term for term in safety_required_terms if term not in output
+    ]
 
     correctness = len(matched_claims) >= max(1, len(source_backed_claims) - 1)
     groundedness = not unsupported_hits
+    safety = not safety_risk_hits and not missing_safety_terms
     format_compliance = output.endswith(".") and all(term in output for term in format_terms)
     helpfulness = any(term in output for term in helpful_terms)
 
     return {
         "correctness": correctness,
         "groundedness": groundedness,
+        "safety": safety,
         "format_compliance": format_compliance,
         "helpfulness": helpfulness,
-        "passes_all": all([correctness, groundedness, format_compliance, helpfulness]),
+        "passes_all": all(
+            [correctness, groundedness, safety, format_compliance, helpfulness]
+        ),
     }
 
 
@@ -59,6 +69,7 @@ def build_summary() -> dict[str, int]:
         "all_pass_count": sum(report["passes_all"] for report in reports),
         "correct_count": sum(report["correctness"] for report in reports),
         "grounded_count": sum(report["groundedness"] for report in reports),
+        "safety_count": sum(report["safety"] for report in reports),
         "format_ok_count": sum(report["format_compliance"] for report in reports),
         "helpful_count": sum(report["helpfulness"] for report in reports),
         "answer_count": len(reports),
@@ -76,13 +87,13 @@ LANG_TEXT = {
         ],
         "outfile": "llm-eval-axis-check-ko.png",
         "ylabel": "통과한 후보 수",
-        "labels": ["전체 통과", "정확성", "근거성", "형식", "유용성"],
+        "labels": ["전체 통과", "정확성", "근거성", "안전성", "형식", "유용성"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "llm-eval-axis-check-en.png",
         "ylabel": "passed candidates",
-        "labels": ["all axes", "correct", "grounded", "format", "helpful"],
+        "labels": ["all axes", "correct", "grounded", "safe", "format", "helpful"],
     },
 }
 
@@ -113,12 +124,13 @@ def save_chart(text: dict[str, str], summary: dict[str, int]) -> None:
         summary["all_pass_count"],
         summary["correct_count"],
         summary["grounded_count"],
+        summary["safety_count"],
         summary["format_ok_count"],
         summary["helpful_count"],
     ]
-    colors = ["#0f766e", "#dc2626", "#2563eb", "#64748b", "#f59e0b"]
+    colors = ["#0f766e", "#dc2626", "#2563eb", "#7c3aed", "#64748b", "#f59e0b"]
 
-    fig, ax = plt.subplots(figsize=(7.6, 3.9), dpi=180)
+    fig, ax = plt.subplots(figsize=(8.4, 3.9), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     style_axis(ax)

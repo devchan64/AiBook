@@ -32,17 +32,17 @@ LANG_TEXT = {
         ],
         "outfile": "auto-human-eval-routing-ko.png",
         "ylabel": "해당 후보 수",
-        "gate_label": "자동 게이트",
-        "route_label": "최종 라우팅",
-        "legend": ["자동 통과", "사전 탈락", "사람 검토", "승인 후보"],
+        "gate_label": "자동 채점기",
+        "route_label": "검토 준비",
+        "legend": ["채점기 통과", "자동 수정 필요", "사람 검토 큐"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "auto-human-eval-routing-en.png",
         "ylabel": "matching candidates",
-        "gate_label": "auto gate",
-        "route_label": "final routing",
-        "legend": ["auto pass", "pre-reject", "human review", "approve"],
+        "gate_label": "automatic grader",
+        "route_label": "review prep",
+        "legend": ["grader pass", "auto fix needed", "human review queue"],
     },
 }
 
@@ -73,16 +73,14 @@ def save_chart(text: dict[str, str], summary: dict[str, object]) -> None:
         int(summary["auto_pass_count"]),
         int(summary["auto_fail_count"]),
         0,
-        0,
     ]
     route_values = [
         0,
-        int(summary["reject_before_human_review_count"]),
-        int(summary["send_to_human_review_count"]),
-        int(summary["approve_candidate_count"]),
+        int(summary["automatic_fix_first_count"]),
+        int(summary["human_review_queue_count"]),
     ]
     answer_count = int(summary["case_count"])
-    colors = ["#2563eb", "#64748b", "#9333ea", "#0f766e"]
+    colors = ["#2563eb", "#64748b", "#9333ea"]
 
     fig, ax = plt.subplots(figsize=(8.6, 3.9), dpi=180)
     fig.patch.set_facecolor("white")
