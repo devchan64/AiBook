@@ -162,7 +162,7 @@ The integrated record criteria for this example are:
 | Execution state | To distinguish multiple evidence, insufficient evidence, and retrieval failure at a glance |
 | Overall summary | To read which failures are common in the whole flow, not only one question at a time |
 
-The example below uses the policy document CSV [p6_18_2_policy_documents_en.csv](../../../assets/part-06/chapter-18/p6_18_2_policy_documents_en.csv){ .csv-preview } and the question CSV [p6_18_2_policy_questions_en.csv](../../../assets/part-06/chapter-18/p6_18_2_policy_questions_en.csv){ .csv-preview }. One row in the document file is one policy fragment. One row in the question file contains a user question, interpreted keyword groups, and a human-review-needed signal. `requires_review` is not an answer-key column for whether the model was correct. It is an input signal for observing question types where an automatic definite answer is risky. This example does not attach a real LLM or real search engine. It is a baseline implementation for checking which evidence and state should remain in the request execution record.
+The example below uses the policy document CSV [p6_18_2_policy_documents_en.csv](/AiBook/assets/part-06/chapter-18/p6_18_2_policy_documents_en.csv){ .csv-preview } and the question CSV [p6_18_2_policy_questions_en.csv](/AiBook/assets/part-06/chapter-18/p6_18_2_policy_questions_en.csv){ .csv-preview }. One row in the document file is one policy fragment. One row in the question file contains a user question, interpreted keyword groups, and a human-review-needed signal. `requires_review` is not an answer-key column for whether the model was correct. It is an input signal for observing question types where an automatic definite answer is risky. This example does not attach a real LLM or real search engine. It is a baseline implementation for checking which evidence and state should remain in the request execution record.
 
 Retrieval does not directly understand natural-language questions. It uses the overlap between `query_groups` in the question CSV and `keyword_groups` in the document CSV as a simple score. So the important point here is not to exaggerate retrieval quality. It is to record which documents this loose retrieval pulled in and what its limits are.
 
@@ -280,7 +280,7 @@ Read the output in three layers. `[summary]` shows the state distribution over 3
                           'score': 0}]}
 ```
 
-![Request execution status and human-review distribution](../../../assets/part-06/chapter-18/run-record-status-summary-en.png)
+![Request execution status and human-review distribution](/AiBook/assets/part-06/chapter-18/run-record-status-summary-en.png)
 
 ## Reading Retrieval Scores and Operating State Together
 

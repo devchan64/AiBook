@@ -229,8 +229,8 @@ RAG 会先从最新手册和 FAQ 中找到相关文档，附加当前版本说�
 
 下面示例使用两个 CSV 文件作为输入。
 
-- 问题列表：[p6-11-rag-need-questions-zh.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-questions-zh.csv){ .csv-preview }
-- 文档候选：[p6-11-rag-need-documents-zh.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-documents-zh.csv){ .csv-preview }
+- 问题列表：[p6-11-rag-need-questions-zh.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-need-questions-zh.csv){ .csv-preview }
+- 文档候选：[p6-11-rag-need-documents-zh.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-need-documents-zh.csv){ .csv-preview }
 
 问题列表的一行表示一个用户问题。核心列是 `case_id`, `question`, `memory_answer`, `current_signal`。`memory_answer` 是不检索、只依赖模型记忆时可能出现的旧答案，`current_signal` 是用于观察回答是否提到最新依据的线索。这个线索不是答案表，所以还要同时看检索文档的主题一致性、版本状态、相似度、依据文档数量。
 
@@ -472,7 +472,7 @@ pricing
 
 查看首位检索文档的相似度时，这种差异会更自然地出现。政策、手册、SDK 问题会把符合问题主题的当前文档放到前面，并基于这些文档生成回答。相反，计费问题会把低相似度的其他主题文档或归档文档放到前面，所以仅仅“检索到了文档”并不意味着依据连接已经准备好。因此，这里要读的变化不是回答句子稍微变好，而是必须另外记录回答前选中了哪份文档，以及它的相关性有多高。RAG 的核心不是让模型记住更多，而是在回答前检索当前相关文档，并让模型从这些文档出发说话。
 
-![RAG 示例中的首位检索文档相似度和依据连接准备状态](../../../assets/part-06/chapter-11/rag-grounding-check-zh.png)
+![RAG 示例中的首位检索文档相似度和依据连接准备状态](/AiBook/assets/part-06/chapter-11/rag-grounding-check-zh.png)
 
 更重要的是，`说得像真的`和`附带依据回答`不是同一个问题。因此，最好不要把 RAG 读成让模型变聪明的装置，而要读成通过回答前检索依据文档，结构性补偿提示限制的第一个连接结构。
 

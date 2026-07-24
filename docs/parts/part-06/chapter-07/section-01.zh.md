@@ -265,7 +265,7 @@
 
 这个示例的目标是直接观察 `如何先从一般文本中收集模式，再用小规模任务数据进一步收窄这些模式`。它不是实现真实 LLM 预训练的示例，而是一个缩小实验，用来分开观察学习数据束变化时，连接会如何变化。
 
-示例数据在 [p6-7-pretraining-stage-sentences-zh.csv](../../../assets/part-06/chapter-07/p6-7-pretraining-stage-sentences-zh.csv){ .csv-preview } 中。一行是一条短学习句子，`stage` 表示该句子属于哪个学习数据束。`general_text` 是宽广的一般句子，`customer_support` 是客服领域句子，`instruction_reply` 是符合请求格式的回应句子。
+示例数据在 [p6-7-pretraining-stage-sentences-zh.csv](/AiBook/assets/part-06/chapter-07/p6-7-pretraining-stage-sentences-zh.csv){ .csv-preview } 中。一行是一条短学习句子，`stage` 表示该句子属于哪个学习数据束。`general_text` 是宽广的一般句子，`customer_support` 是客服领域句子，`instruction_reply` 是符合请求格式的回应句子。
 
 输入：
 
@@ -397,7 +397,7 @@ instruction_style: general_only=0, with_domain=0, with_instruction=3
 
 用图来看，三种连接并不是以同一种方式增长的差异会更清楚。
 
-![按学习阶段统计的下一个词元连接次数](../../../assets/part-06/chapter-07/pretraining-adaptation-counts-zh.png)
+![按学习阶段统计的下一个词元连接次数](/AiBook/assets/part-06/chapter-07/pretraining-adaptation-counts-zh.png)
 
 这个示例中要读出的核心如下。
 

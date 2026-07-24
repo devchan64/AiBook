@@ -142,7 +142,7 @@ RoPE、ALiBi 这样的名称，是处理位置信息的不同方式。初学时�
 
 这张表的目的不是让人更快背下两个术语。它的作用是，在阅读真实句子时先区分：`现在是模型没能分开多种关系的问题`，还是 `现在是顺序容易另行丢失的问题`。
 
-![multi-head attention 与位置表示的角色分离](../../../assets/part-06/chapter-04/attention-position-role-split-zh.png)
+![multi-head attention 与位置表示的角色分离](/AiBook/assets/part-06/chapter-04/attention-position-role-split-zh.png)
 
 ## 练习和示例
 

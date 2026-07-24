@@ -103,7 +103,7 @@ automatic prompt optimization 会跟随评价集中的信号。评价集太窄�
 
 下面的 CSV 是把 4 个候选提示应用到 9 个评价输入上的观察日志。
 
-- 候选评价日志：[p6-10-4-prompt-candidate-eval-zh.csv](../../../assets/part-06/chapter-10/p6-10-4-prompt-candidate-eval-zh.csv){ .csv-preview }
+- 候选评价日志：[p6-10-4-prompt-candidate-eval-zh.csv](/AiBook/assets/part-06/chapter-10/p6-10-4-prompt-candidate-eval-zh.csv){ .csv-preview }
 
 一行是`一个评价输入 × 一个提示候选`的观察值。核心列是 `case_type`, `prompt_candidate`, `format_ok`, `key_fact_ok`, `forbidden_ok`, `boundary_ok`, `response_too_long`。`normal` 是简单正常案例，`boundary` 是条件冲突的边界案例，`failure_expected` 是容易出现猜测、禁止表达或依据不足的案例。
 
@@ -198,7 +198,7 @@ D
 
 用图表看，分数和失败类型提供的是不同信息，这一点会更清楚。
 
-![按提示候选划分的加权分数和失败类型](../../../assets/part-06/chapter-10/prompt-candidate-score-zh.png)
+![按提示候选划分的加权分数和失败类型](/AiBook/assets/part-06/chapter-10/prompt-candidate-score-zh.png)
 
 这个示例中，读者可以直接改动的值是 `weights`。例如，如果某类文档非常重视格式稳定性，可以把 `format_ok` 的权重从 1 提高到 3。反过来，如果安全告知更重要，可以进一步提高 `forbidden_ok` 的权重。这里重要的是，自动优化不会替我们设计分数。哪个分数应该更重要，仍要由使用者根据问题目的决定。
 

@@ -195,7 +195,7 @@ The first criterion to learn is simple. Understanding-centered tasks are closer 
 
 The goal of the example is to check, with a small vector-representation experiment, that understanding-centered tasks actually output judgment results such as `labels`, `relation scores`, and `search ranks`.
 
-Unlike a generative response, the example below checks the structure where an understanding-centered task reads and outputs judgment values. The input CSV [p6-20-understanding-task-cases-en.csv](../../../assets/part-06/chapter-20/p6-20-understanding-task-cases-en.csv){ .csv-preview } contains 12 cases each for classification, sentence-pair judgment, and search ranking. One row is one judgment case. `task_type` indicates the output form, and `scenario_pattern` indicates the observation role, such as direct signal, boundary signal, or different intent.
+Unlike a generative response, the example below checks the structure where an understanding-centered task reads and outputs judgment values. The input CSV [p6-20-understanding-task-cases-en.csv](/AiBook/assets/part-06/chapter-20/p6-20-understanding-task-cases-en.csv){ .csv-preview } contains 12 cases each for classification, sentence-pair judgment, and search ranking. One row is one judgment case. `task_type` indicates the output form, and `scenario_pattern` indicates the observation role, such as direct signal, boundary signal, or different intent.
 
 The key to confirm is that understanding-centered tasks output labels, scores, and ranks before long answers. Here we do not download and run BERT directly. Instead, we use locally reproducible TF-IDF vectors as small substitute representations. In a real BERT family model, those representations become richer contextual representations, but the output flow `turn input into representation, then output a judgment value` is the same.
 
@@ -366,7 +366,7 @@ The key points to read from this example are:
 
 The chart below summarizes the number of cases by task and the appearances of output forms from the same CSV. What matters here is not the bar value itself, but that classification, sentence-pair judgment, and ranking all leave judgment values such as labels, scores, and ranks instead of long answers.
 
-![Output types in understanding-centered tasks](../../../assets/part-06/chapter-20/understanding-output-types-en.png)
+![Output types in understanding-centered tasks](/AiBook/assets/part-06/chapter-20/understanding-output-types-en.png)
 
 ## Reconnecting Through Operational Judgment
 

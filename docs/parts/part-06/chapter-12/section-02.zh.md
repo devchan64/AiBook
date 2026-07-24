@@ -177,8 +177,8 @@ RAG 会把检索结果附加到生成中。因此检索质量低时，生成做�
 
 文档向量和问题向量不直接长篇放进正文代码，而是分离成 CSV 资产。
 
-- 文档向量：[`p6-12-index-documents-zh.csv`](../../../assets/part-06/chapter-12/p6-12-index-documents-zh.csv){ .csv-preview }
-- 问题向量：[`p6-12-index-queries-zh.csv`](../../../assets/part-06/chapter-12/p6-12-index-queries-zh.csv){ .csv-preview }
+- 文档向量：[`p6-12-index-documents-zh.csv`](/AiBook/assets/part-06/chapter-12/p6-12-index-documents-zh.csv){ .csv-preview }
+- 问题向量：[`p6-12-index-queries-zh.csv`](/AiBook/assets/part-06/chapter-12/p6-12-index-queries-zh.csv){ .csv-preview }
 
 先短看输入文件的一部分会有帮助。文档 CSV 不只包含数值向量，也在同一主题中放入当前版本文档，以及容易混淆的旧版本和一般说明文档。
 
@@ -392,7 +392,7 @@ query_id = Q52
 
 从图表看，快速设置的平均延迟较低，但目标文档遗漏和首位错误较大。均衡设置减少遗漏，但首位错误和版本错误仍然存在。严格设置更慢，但消除了目标遗漏和版本错误，仍留下相关 v2 文档排在首位的一部分错误。因此索引评价不能只看 `latency`，而要把`目标遗漏`、`首位错误`、`版本错误`一起放着读。
 
-![快速搜索设置和严格搜索设置的质量与延迟时间比较](../../../assets/part-06/chapter-12/index-quality-latency-zh.png)
+![快速搜索设置和严格搜索设置的质量与延迟时间比较](/AiBook/assets/part-06/chapter-12/index-quality-latency-zh.png)
 
 ## 选择索引时一起摇摆的东西
 

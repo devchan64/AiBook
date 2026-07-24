@@ -222,7 +222,7 @@ The standard to learn first is simple. Automatic evaluation is stronger at quick
 
 The goal of the example is to see that automatic evaluation and human evaluation have different roles through different check items. Instead of looking at one answer, we compare several LLM output candidates and ask `what does automatic evaluation stop first through repeated checks` and `what moves to a review packet for a person to read`.
 
-The example uses the English evaluation-routing candidate CSV [p6_16_2_eval_routing_cases_en.csv](../../../assets/part-06/chapter-16/p6_16_2_eval_routing_cases_en.csv){ .csv-preview }. One row is one LLM output candidate that can appear in operation. `model_output` is the candidate answer, and `source_marker`, `required_action`, `format_marker`, `max_length`, and `banned_terms` are criteria the automatic grader checks repeatedly. The CSV does not contain prewritten human risk labels or answer labels.
+The example uses the English evaluation-routing candidate CSV [p6_16_2_eval_routing_cases_en.csv](/AiBook/assets/part-06/chapter-16/p6_16_2_eval_routing_cases_en.csv){ .csv-preview }. One row is one LLM output candidate that can appear in operation. `model_output` is the candidate answer, and `source_marker`, `required_action`, `format_marker`, `max_length`, and `banned_terms` are criteria the automatic grader checks repeatedly. The CSV does not contain prewritten human risk labels or answer labels.
 
 The automatic grader names continue from P6-16.1's evaluation axes. `source_marker_grader` maps to groundedness, `required_action_grader` maps to helpfulness, `format_grader` and `length_grader` map to format compliance, and `banned_terms_grader` maps to safety. This mapping also appears in the code's `GRADER_AXIS_MAP`.
 
@@ -298,7 +298,7 @@ The first thing to notice is that the code does not imitate human judgment. A ca
 
 Another value to watch is `reason_source` when the optional LLM judge is available. If `reason_source` is `llm`, the local LLM judge produced the reason directly. If it is `code_grader_fallback`, the LLM judge's reason was empty or weak, so code-grader observations reinforced the reason. This distinction matters because the LLM judge itself is also something to review. Automatic grading does not end with one LLM judgment; it records code-check signals and LLM-judge signals together and leaves room for conflict.
 
-![automatic and human evaluation routing](../../../assets/part-06/chapter-16/auto-human-eval-routing-en.png)
+![automatic and human evaluation routing](/AiBook/assets/part-06/chapter-16/auto-human-eval-routing-en.png)
 
 This chart shows that the first row splits candidates into automatic-grader pass and fail, while the second row sends failed candidates to automatic fix and passed candidates to the human review queue. An `automatic pass` is therefore not an approval result. It is an intermediate state organized so a person can read further.
 

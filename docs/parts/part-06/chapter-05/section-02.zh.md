@@ -300,7 +300,7 @@ GPT-3 时期之后，用户更强烈地体验到，可以在 prompt 里放入说
 
 如果把这个差异逐项分开看，可以读成下面这样。自动补全型回应更接近自然接下一句，无法满足四个标准；指令回应型则把格式、角色、安全条件、结构化都纳入回应评价标准。
 
-![自动补全型与指令回应型的用户体验标准比较](../../../assets/part-06/chapter-05/conversation-experience-criteria-zh.png)
+![自动补全型与指令回应型的用户体验标准比较](/AiBook/assets/part-06/chapter-05/conversation-experience-criteria-zh.png)
 
 对话式 LLM 转变很难只用简单的模型规模增长来说明。实际用户体验之所以大幅改变，是因为：
 

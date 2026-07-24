@@ -419,7 +419,7 @@ Readers can directly adjust the example in the following ways.
 
 When the score table is shown as a graph, the reason each failure type splits toward a different support path becomes clearer. The darkest cell is the path to check first, and the next darkest cell is the second-priority support candidate to keep. Even similar-looking failures change priority depending on which signal is larger among format, evidence, execution, and persistent style.
 
-![Support Path Scores by Missing Signal](../../../assets/part-06/chapter-09/solution-selection-score-map-en.png)
+![Support Path Scores by Missing Signal](/AiBook/assets/part-06/chapter-09/solution-selection-score-map-en.png)
 
 ## Support Paths Split by the Diagnostic Map
 

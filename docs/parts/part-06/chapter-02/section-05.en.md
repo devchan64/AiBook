@@ -219,7 +219,7 @@ The purpose of this small practice is not choosing `which family is best`. What 
 
 Representative tokenizers should not end at knowing their names. When an execution environment is ready, it is better to use each one directly at least once. However, this example is not a basic execution example that always closes with package installation alone. Even if `transformers` and `sentencepiece` are installed, the first execution environment may need to download tokenizer files from Hugging Face. If the internet is blocked or the files are not in the local cache, the process can stop at `AutoTokenizer.from_pretrained(...)`.
 
-So this section separates two layers. The code below is an optional execution example for directly checking actual tokenizer output. In an environment where you cannot run it immediately, first read the saved observation CSV [p6-2-5-tokenizer-family-observations.csv](../../../assets/part-06/chapter-02/p6-2-5-tokenizer-family-observations.csv){ .csv-preview } and the result tables that follow. One row in the CSV means `the token count and representative pieces when one input is passed into a specific tokenizer`.
+So this section separates two layers. The code below is an optional execution example for directly checking actual tokenizer output. In an environment where you cannot run it immediately, first read the saved observation CSV [p6-2-5-tokenizer-family-observations.csv](/AiBook/assets/part-06/chapter-02/p6-2-5-tokenizer-family-observations.csv){ .csv-preview } and the result tables that follow. One row in the CSV means `the token count and representative pieces when one input is passed into a specific tokenizer`.
 
 The example has three goals.
 

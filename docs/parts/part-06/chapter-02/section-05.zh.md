@@ -219,7 +219,7 @@ SentencePiece 可以读成不预设空白已经是完美单词边界，而是更
 
 代表 tokenizer 不应该停在知道名称。执行环境准备好时，最好实际各用一次。不过这个例子不是只靠安装包就一定能完成的基本执行示例。即使安装了 `transformers` 和 `sentencepiece`，第一次执行的环境也可能需要从 Hugging Face 下载 tokenizer 文件。如果没有网络，或者本地缓存没有文件，程序可能会在 `AutoTokenizer.from_pretrained(...)` 阶段停止。
 
-因此本节分成两个层次。下面代码是直接确认实际 tokenizer 输出的选择性执行示例。无法马上执行的环境中，先阅读保存的观察值 CSV [p6-2-5-tokenizer-family-observations.csv](../../../assets/part-06/chapter-02/p6-2-5-tokenizer-family-observations.csv){ .csv-preview }和后续结果表。CSV 的一行表示`把一个输入放入某个 tokenizer 后得到的 token count 和代表片段`。
+因此本节分成两个层次。下面代码是直接确认实际 tokenizer 输出的选择性执行示例。无法马上执行的环境中，先阅读保存的观察值 CSV [p6-2-5-tokenizer-family-observations.csv](/AiBook/assets/part-06/chapter-02/p6-2-5-tokenizer-family-observations.csv){ .csv-preview }和后续结果表。CSV 的一行表示`把一个输入放入某个 tokenizer 后得到的 token count 和代表片段`。
 
 示例目标有三点。
 

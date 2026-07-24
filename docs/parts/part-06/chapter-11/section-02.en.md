@@ -164,8 +164,8 @@ Suppose the user asks, `Why do we need vector search?` The retrieval stage must 
 
 The example below uses two CSV files as input.
 
-- Document list: [p6-11-rag-documents-en.csv](../../../assets/part-06/chapter-11/p6-11-rag-documents-en.csv){ .csv-preview }
-- Experiment conditions: [p6-11-rag-experiments-en.csv](../../../assets/part-06/chapter-11/p6-11-rag-experiments-en.csv){ .csv-preview }
+- Document list: [p6-11-rag-documents-en.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-documents-en.csv){ .csv-preview }
+- Experiment conditions: [p6-11-rag-experiments-en.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-experiments-en.csv){ .csv-preview }
 
 One row in the document list is one candidate document fragment for retrieval. The key columns are `title`, `text`, `category`, and `source_role`. If `category` is `retrieval`, the row is an evidence document related to the current question. If it is `irrelevant`, the row is an unrelated document that can be mixed in when retrieval conditions become unstable.
 
@@ -390,7 +390,7 @@ The example above is not a complete implementation of retrieval and generation. 
 
 As a matrix of the three representative runs, the normal retrieval example turns on only related top-document retrieval and leaves no failure signal. The retrieval-contamination example turns on irrelevant-document inclusion, answer contamination, and retrieval failure together. The answer-overclaim example retrieves related documents but turns on overclaiming and generation failure separately. In other words, even results that look like the same wrong answer can be read by the stage where they became unstable. In RAG inspection, we should separate which stage record to revisit before concluding only that the answer is wrong.
 
-![Matrix showing retrieval contamination and generation overclaiming as different failure locations in the RAG example](../../../assets/part-06/chapter-11/rag-failure-split-en.png)
+![Matrix showing retrieval contamination and generation overclaiming as different failure locations in the RAG example](/AiBook/assets/part-06/chapter-11/rag-failure-split-en.png)
 
 The conclusion to keep from this matrix is simple. The actual RAG combination flow has two stages: `attach documents first, then answer on top of them`. When an answer is wrong, we need to decide separately whether to fix retrieval or to fix generation instructions and evaluation. This distinction connects the next chapter on vector databases and indexes to retrieval-quality inspection, and the later evaluation chapter to answer-quality inspection.
 

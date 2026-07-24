@@ -250,7 +250,7 @@ Retry、fallback、stop、approval 不只是功能名称。它们是`失败分�
 | Trace saved state | 因为失败原因必须之后可复现、可分析 |
 | User impact | 区分必须立刻保护用户体验的失败 |
 
-下面的例子使用失败案例 CSV [p6_17_2_failure_cases.csv](../../../assets/part-06/chapter-17/p6_17_2_failure_cases.csv){ .csv-preview }。一行表示一个失败场景。`failure_family` 是运营者读取 trace 后首先留下的观察分类，`error` 包含首先观察到的失败信号，例如 timeout、permission error、hallucination 或 format mismatch。`retry_count`、`max_retries`、`cached_summary_available`、`approval_required`、`trace_saved` 等列是控制变量，会改变同一错误在 retry、fallback、approval、stop 之间走向哪条路线。
+下面的例子使用失败案例 CSV [p6_17_2_failure_cases.csv](/AiBook/assets/part-06/chapter-17/p6_17_2_failure_cases.csv){ .csv-preview }。一行表示一个失败场景。`failure_family` 是运营者读取 trace 后首先留下的观察分类，`error` 包含首先观察到的失败信号，例如 timeout、permission error、hallucination 或 format mismatch。`retry_count`、`max_retries`、`cached_summary_available`、`approval_required`、`trace_saved` 等列是控制变量，会改变同一错误在 retry、fallback、approval、stop 之间走向哪条路线。
 
 默认情况下，代码使用可复现的本地 grader。如果本地 Ollama 模型已经准备好，可以设置 `P6_17_2_USE_OLLAMA=1` 和 `OLLAMA_MODEL`，在同一位置调用真实 LLM grader。输出字段 `grader_source` 会区分建议来自可复现 fallback grader，还是实际 Ollama 调用。Prompt 使用英文，以便跨翻译版本保持相同执行标准。
 
@@ -352,7 +352,7 @@ Retry、fallback、stop、approval 不只是功能名称。它们是`失败分�
  'user_impact': 'delivery_blocked_until_format_fixed'}
 ```
 
-![按条件分开的失败恢复路径](../../../assets/part-06/chapter-17/failure-recovery-routing-zh.png)
+![按条件分开的失败恢复路径](/AiBook/assets/part-06/chapter-17/failure-recovery-routing-zh.png)
 
 这张图中首先要看的，是 LLM grader 的建议和最终恢复决策不是同一步。如果 `grader_source` 是 `fallback`，建议来自可复现本地 grader。如果它是 `ollama`，建议来自实际 LLM 调用。无论哪种情况，grader 都可以读取观察记录，把 `timeout` 标记为 system family failure，把 `hallucination` 标记为 model family failure。但 policy code 仍然必须检查重试预算和缓存状态，才能决定把 timeout 送到 retry 还是 fallback。风险动作如果有审查者，可以等待 approval；如果没有审查者，就必须停止，而不是自动执行。看起来像 hallucination 的模型失败，如果有 grounding 和审查者，可以进入人工审查；如果缺少依据，就必须阻断回答。
 

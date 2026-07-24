@@ -349,7 +349,7 @@ top_relevance = [(5, 'current error log'), (3, 'user question'), (2, 'related fu
 
 下面的图总结了预算增加时，两种选择方式的差异如何变化。上半部分显示三个必需状态中有几个存活，下半部分显示已选项目中留下了多少和问题相关的线索。
 
-![文脉选择方式导致的词元预算与线索保存](../../../assets/part-06/chapter-04/context-selection-budget-zh.png)
+![文脉选择方式导致的词元预算与线索保存](/AiBook/assets/part-06/chapter-04/context-selection-budget-zh.png)
 
 ## 输入选择中分开的相关度
 

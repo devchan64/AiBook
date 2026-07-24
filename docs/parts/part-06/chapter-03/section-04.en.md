@@ -244,7 +244,7 @@ The core to read in this example is as follows.
 
 If we draw only the movement of the numbers, it can be read as follows. Up to `balanced`, the baseline top 5 are preserved even though candidate count is reduced. At `aggressive`, candidate count shrinks further, but `recall@5` collapses together.
 
-![Compared candidate count and recall@5 by coarse_window setting](../../../assets/part-06/chapter-03/ann-window-tradeoff-en.png)
+![Compared candidate count and recall@5 by coarse_window setting](/AiBook/assets/part-06/chapter-03/ann-window-tradeoff-en.png)
 
 ### Exercise 2. Reading the Baseline and Loss from Output
 

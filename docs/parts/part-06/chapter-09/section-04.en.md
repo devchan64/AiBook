@@ -104,7 +104,7 @@ This difference helps explain why the phrase `efficient adjustment` appeared.
 
 The chart below again shows how the LoRA adjustment-delta ratio increases as rank grows. The key is not only that the adjustment delta is smaller than the whole matrix, but also that rank choice is a handle that changes both cost and room for expression.
 
-![LoRA adjustment-delta ratio to the whole matrix by rank](../../../assets/part-06/chapter-09/lora-rank-ratio-en.png)
+![LoRA adjustment-delta ratio to the whole matrix by rank](/AiBook/assets/part-06/chapter-09/lora-rank-ratio-en.png)
 
 After the example, it is more important to translate the numbers back into a structural choice.
 

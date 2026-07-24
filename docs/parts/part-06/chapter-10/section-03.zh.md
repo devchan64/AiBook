@@ -141,7 +141,7 @@ CoT 和 self-consistency 有用的场景，是 `需要更仔细阅读路径的�
 
 如果安装了 Ollama，并且本地模型可用，可以运行 `.venv/bin/python docs/assets/part-06/chapter-10/p6_10_3_generate_response_path_log.py` 来生成同一格式的新日志。正文中包含的数字是用 `llama3.2:latest` 和特定设置运行得到的快照。重新执行时，结论分布和检查信号数可能改变，这个差异本身也说明为什么需要 self-consistency 和日志观察。
 
-- 响应路径日志：[p6-10-3-response-path-log.csv](../../../assets/part-06/chapter-10/p6-10-3-response-path-log.csv){ .csv-preview }
+- 响应路径日志：[p6-10-3-response-path-log.csv](/AiBook/assets/part-06/chapter-10/p6-10-3-response-path-log.csv){ .csv-preview }
 
 一行是一条响应路径。核心列是 `task_name`、`path_type`、`log_source`、`model_name`、`temperature`、`final_answer`、`evidence_mentioned`、`calculation_correct`、`policy_current`、`rule_warning`、`minority_answer`。`path_type` 区分这是 CoT 式单一路径观察，还是 self-consistency 式重复候选。这里要看的不是结论多数票，而是依据缺失、计算错误、当前政策缺失、业务规则警告信号、偏离多数结论的少数结论是否一起留下。尤其是 `path_summary` 不是模型内部 reasoning 本身，而是压缩到可审阅水平的路径摘要。
 
@@ -260,7 +260,7 @@ minority_answer = 0
 
 把同一日志画成图，会更清楚地看到结论合意和观察到的检查信号是不同轴。即使上方柱很高，如果下方检查信号也高，就不能只因为答案经常重复而采用。下方柱不是响应数量，而是多个检查列的合计。一个响应中如果同时有依据缺失和规则警告，两个信号都会一起加上，所以柱高应该读成 `审阅者还要重新看的信号有多少`，而不是 `有几个答案失败`。
 
-![响应路径日志中的最多结论比例和检查信号](../../../assets/part-06/chapter-10/response-path-consistency-zh.png)
+![响应路径日志中的最多结论比例和检查信号](/AiBook/assets/part-06/chapter-10/response-path-consistency-zh.png)
 
 读者可以在这个示例中直接改变的值，是日志行本身和检查信号标准。例如，把 `rule_warning` 定得更严格，就能只留下响应路径中对真实业务规则重要的警告。把 `policy_current` 为 `False` 的路径全部排除，也能确认 self-consistency 的多数票如何改变。通过这种操作，可以确认 CoT 和 self-consistency 不是保证答案的技术，而是帮助更好观察和比较回答路径的策略。
 

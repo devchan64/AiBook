@@ -243,7 +243,7 @@ Even when the same ending is shared, if the clue read from preceding context dif
 | Internal team memo | `today` | 0.684 | `was completed` | 1.38 | Internal memo clues raise a shorter expression |
 | Internal team memo with polite tone mixed in | `as scheduled` | 0.372 | `today` | 0.09 | Rank 1 changes, but the gap is small, so the choice looks unstable |
 
-![Candidate distribution by context clue change](../../../assets/part-06/chapter-04/context-candidate-distribution-en.png)
+![Candidate distribution by context clue change](/AiBook/assets/part-06/chapter-04/context-candidate-distribution-en.png)
 
 When reading the table, first look at the `Context change` column, then what the rank-1 candidate is, and finally whether the gap between rank 1 and 2 is large or small. For example, in `Client notice email`, rank 1 is `as scheduled`, and the gap is also large. Conversely, in `Internal team memo with polite tone mixed in`, rank 1 changes to `as scheduled`, but the gap is small at 0.09. This is the point where even the same rank 1 looks different as a stable choice or a shaky choice.
 

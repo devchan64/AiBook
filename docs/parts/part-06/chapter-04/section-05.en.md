@@ -147,7 +147,7 @@ At first, computation burden, length numbers, and key clue maintenance easily mi
 
 The purpose of this table is not to completely detach sparse attention and long-context. When seeing an actual failure scene, it makes you first read separately `how many connections should be maintained` and `how long important clues can be held`.
 
-![Computation burden and clue-maintenance axes in long-context failure scenes](../../../assets/part-06/chapter-04/long-context-failure-axis-en.png)
+![Computation burden and clue-maintenance axes in long-context failure scenes](/AiBook/assets/part-06/chapter-04/long-context-failure-axis-en.png)
 
 This distinction also shows where the two names touch. In long input, computation burden and clue maintenance often intertwine at the same time. But `what to reduce` and `what to keep to the end` are still different questions.
 

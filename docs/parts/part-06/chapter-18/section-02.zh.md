@@ -162,7 +162,7 @@
 | 执行状态 | 一眼区分多重依据、依据不足、检索失败 |
 | 整体摘要 | 读取整个流程中常见失败，而不是一次只看一个问题 |
 
-下面的例子使用政策文档 CSV [p6_18_2_policy_documents_zh.csv](../../../assets/part-06/chapter-18/p6_18_2_policy_documents_zh.csv){ .csv-preview } 和问题 CSV [p6_18_2_policy_questions_zh.csv](../../../assets/part-06/chapter-18/p6_18_2_policy_questions_zh.csv){ .csv-preview }。文档文件的一行是一条政策片段。问题文件的一行包含用户问题、解释问题得到的关键词组，以及是否需要人工审查的信号。`requires_review` 不是判断模型答对与否的答案键，而是用于观察自动确定回答有风险的问题类型的输入信号。这个例子没有接真实 LLM 或真实搜索引擎。它是一个基线实现，用来检查请求执行记录中应该留下哪些依据和状态。
+下面的例子使用政策文档 CSV [p6_18_2_policy_documents_zh.csv](/AiBook/assets/part-06/chapter-18/p6_18_2_policy_documents_zh.csv){ .csv-preview } 和问题 CSV [p6_18_2_policy_questions_zh.csv](/AiBook/assets/part-06/chapter-18/p6_18_2_policy_questions_zh.csv){ .csv-preview }。文档文件的一行是一条政策片段。问题文件的一行包含用户问题、解释问题得到的关键词组，以及是否需要人工审查的信号。`requires_review` 不是判断模型答对与否的答案键，而是用于观察自动确定回答有风险的问题类型的输入信号。这个例子没有接真实 LLM 或真实搜索引擎。它是一个基线实现，用来检查请求执行记录中应该留下哪些依据和状态。
 
 Retrieval 不会直接理解自然语言问题。它使用问题 CSV 的 `query_groups` 和文档 CSV 的 `keyword_groups` 的重叠作为简单分数。所以这里的重点不是夸大 retrieval quality，而是记录这个松散 retrieval 拉来了哪些文档，以及它的限制是什么。
 
@@ -261,7 +261,7 @@ Retrieval 不会直接理解自然语言问题。它使用问题 CSV 的 `query_
                           'score': 0}]}
 ```
 
-![请求执行状态和人工审查分布](../../../assets/part-06/chapter-18/run-record-status-summary-zh.png)
+![请求执行状态和人工审查分布](/AiBook/assets/part-06/chapter-18/run-record-status-summary-zh.png)
 
 ## 一起读取 Retrieval Score 和运营状态
 

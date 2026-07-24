@@ -349,7 +349,7 @@ The core to read in this example is as follows.
 
 The graph below summarizes how the difference between the two selection methods changes as the budget grows. The top part shows how many of the three required states survived, and the bottom part shows how much question-related evidence remained inside the selected items.
 
-![Token budget and clue preservation by context selection method](../../../assets/part-06/chapter-04/context-selection-budget-en.png)
+![Token budget and clue preservation by context selection method](/AiBook/assets/part-06/chapter-04/context-selection-budget-en.png)
 
 ## Relevance That Diverges in Input Selection
 

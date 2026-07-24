@@ -419,7 +419,7 @@ not_first = tool use 3
 
 把分数表画成图后，失败类型为什么会分到不同补强路径会更清楚。颜色最深的格子是首先确认的路径，下一深的格子是一起保留的二阶补强候选。即使失败看起来相似，只要格式、依据、执行、持续文体中的某个信号更大，优先级就会改变。
 
-![按缺失信号计算补强路径得分](../../../assets/part-06/chapter-09/solution-selection-score-map-zh.png)
+![按缺失信号计算补强路径得分](/AiBook/assets/part-06/chapter-09/solution-selection-score-map-zh.png)
 
 ## 诊断地图中分开的补强路径
 

@@ -217,7 +217,7 @@ Agent 常被粗略理解成`更聪明的聊天机器人`。但更稳妥的解释
 
 这个示例的目标不是实现完整 agent 框架。这里检查的是，当观察结果不同时，下一项行动也应该不同。编码辅助、文档研究和业务自动化是不同任务，但从 agent 视角看，都可以重新读成从当前状态选择下一项行动的问题。没有相关语境、只有过期语境、依据不足、执行失败、需要人工审查、来源已经附上，这些状态分别需要不同的下一项行动。
 
-下面的示例使用观察状态 CSV [p6-14-1-agent-observation-states-zh.csv](../../../assets/part-06/chapter-14/p6-14-1-agent-observation-states-zh.csv){ .csv-preview }。一行表示 agent 在编码辅助、文档研究、业务自动化等任务中间看到的当前状态。CSV 的 `observation_zh` 是显示给读者的中文观察说明，`model_observation_en` 是传给模型的英文观察句，`found_context`、`current_context`、`detail_missing`、`conflict_found`、`action_failed`、`approval_needed`、`sources_attached` 是应用检查模型建议时使用的状态信号。
+下面的示例使用观察状态 CSV [p6-14-1-agent-observation-states-zh.csv](/AiBook/assets/part-06/chapter-14/p6-14-1-agent-observation-states-zh.csv){ .csv-preview }。一行表示 agent 在编码辅助、文档研究、业务自动化等任务中间看到的当前状态。CSV 的 `observation_zh` 是显示给读者的中文观察说明，`model_observation_en` 是传给模型的英文观察句，`found_context`、`current_context`、`detail_missing`、`conflict_found`、`action_failed`、`approval_needed`、`sources_attached` 是应用检查模型建议时使用的状态信号。
 
 代码中要检查的重点是，模型读取观察句并提出下一项行动，但应用不会原样信任这个建议。它会用状态信号再次检查建议。运行代码前，需要安装 Ollama 并拉取模型。例如运行 `ollama pull qwen2.5:1.5b`，然后在 Ollama 运行时执行代码。若要使用其他模型，可以把环境变量改成 `AIBOOK_OLLAMA_MODEL=model-name` 这样的值。传给模型的 prompt 和观察句保持英文。
 
@@ -426,7 +426,7 @@ workflow {'search_or_inspect': 1, 'refine_search_or_reload': 1, 'collect_support
 
 同样，像 `old_error_log` 或 `stale_policy_notice` 这样依据不是最新时，agent 必须重新搜索或重新读取。像 `new_test_failure` 或 `calendar_api_failed` 这样执行本身失败时，不应该继续推进同一个顺序，而应该换一个步骤重试。像 `security_sensitive_change` 或 `manager_approval_required` 这样出现权限或批准边界时，agent 不应该独自继续，而应该交给人工审查。
 
-![agent 下一项行动分支](../../../assets/part-06/chapter-14/agent-state-progress-zh.png)
+![agent 下一项行动分支](/AiBook/assets/part-06/chapter-14/agent-state-progress-zh.png)
 
 这张图显示模型建议和 guard 最终行动之间的差异。模型相对频繁地提出 `attach_sources`，但 guard 会再次检查状态信号，并把已经附上证据的案例关闭为 `finish`。相反，当出现权限、失败或冲突信号时，guard 可以把最终行动固定为人工审查、重试或证据比较，而不完全跟随模型建议。
 

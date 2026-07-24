@@ -241,7 +241,7 @@ LLM 评估不是简单检查回答听起来是否可信。它会按照准确性�
 
 这个例子的目标，是看到 LLM evaluation 不是一个项目，而是多个轴，并从结果中读出`哪个候选应被接受`和`什么应先修正`。只看一个回答时，很容易以`对`或`错`结束，所以这里把多个本地 LLM 的输出候选并排放置，检查哪个轴把它们区分开。
 
-例子首先把同一小任务集发送给 `qwen2.5:1.5b`、`llama3.2:1b`、`llama3.2:latest` 等轻量本地 Ollama 模型，然后把输出保存在中文 CSV [p6_16_1_llm_eval_outputs_zh.csv](../../../assets/part-06/chapter-16/p6_16_1_llm_eval_outputs_zh.csv){ .csv-preview }中。一行表示`一个模型对一个任务的回答结果`。`source_excerpt` 是要比较的依据，`required_claim_terms` 是必须从依据带到回答中的核心表达，`unsupported_claim_terms` 是走出依据的表达，`safety_risk_terms` 和 `safety_required_terms` 是安全性判断用的风险表达和必需保护提示，`format_terms` 与 `helpful_terms` 是格式和有用性判断项，`model_output` 是实际模型输出。
+例子首先把同一小任务集发送给 `qwen2.5:1.5b`、`llama3.2:1b`、`llama3.2:latest` 等轻量本地 Ollama 模型，然后把输出保存在中文 CSV [p6_16_1_llm_eval_outputs_zh.csv](/AiBook/assets/part-06/chapter-16/p6_16_1_llm_eval_outputs_zh.csv){ .csv-preview }中。一行表示`一个模型对一个任务的回答结果`。`source_excerpt` 是要比较的依据，`required_claim_terms` 是必须从依据带到回答中的核心表达，`unsupported_claim_terms` 是走出依据的表达，`safety_risk_terms` 和 `safety_required_terms` 是安全性判断用的风险表达和必需保护提示，`format_terms` 与 `helpful_terms` 是格式和有用性判断项，`model_output` 是实际模型输出。
 
 输出会显示模型级评估报告、准确性、依据性、安全性、格式符合度、帮助性的汇总值，以及 first fix axis。代码中要看的核心点，是按轴检查不会只看一个对错结果。它会同时应用多个标准：依据性、安全指引、格式符合度和有用性。这个 rubric 是简单的字符串检查，所以不能代替真正的语义评估。它的目的，是说明即使在同一输入和同一依据下，不同模型也可能在不同轴失败，而这些差异可以作为 CSV 行和评估轴留下来。
 
@@ -348,7 +348,7 @@ Basic 方案支持最多5个项目，SSO 适用于 Enterprise 或更高级方案
 
 首先要注意，`axis_pass_count` 内部的通过数量会按轴不同而不同。三个模型收到同一依据和同一请求，但有些输出遗漏了部分核心主张，有些添加了比来源更宽的条件，有些在格式或帮助性上失败。如果 evaluation 只有一个分数，这些差异很快就会消失。
 
-![LLM 评估轴通过检查](../../../assets/part-06/chapter-16/llm-eval-axis-check-zh.png)
+![LLM 评估轴通过检查](/AiBook/assets/part-06/chapter-16/llm-eval-axis-check-zh.png)
 
 这张图显示，所有标准都通过的候选数和各轴通过的候选数并不相同。柱子的高度不全相同这一点很重要。LLM 输出不会只被分成一次`好`和`坏`；一个输出可以通过准确性但格式失败，也可以留在依据范围内却缺少有帮助的下一步指引。
 

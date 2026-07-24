@@ -229,8 +229,8 @@ Users can ask about latest policies, current-version product screens, and curren
 
 The example below uses two CSV files as input.
 
-- Question list: [p6-11-rag-need-questions-en.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-questions-en.csv){ .csv-preview }
-- Document candidates: [p6-11-rag-need-documents-en.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-documents-en.csv){ .csv-preview }
+- Question list: [p6-11-rag-need-questions-en.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-need-questions-en.csv){ .csv-preview }
+- Document candidates: [p6-11-rag-need-documents-en.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-need-documents-en.csv){ .csv-preview }
 
 One row in the question list means one user question. The core columns are `case_id`, `question`, `memory_answer`, and `current_signal`. `memory_answer` is an old answer that could appear when relying only on model memory without retrieval, and `current_signal` is an observation clue for checking whether the answer mentions latest evidence. This clue is not an answer key, so we also check the topic match, version status, similarity, and number of evidence documents in the retrieved documents.
 
@@ -472,7 +472,7 @@ In other words, the core change of RAG is in the `evidence step before answering
 
 The difference appears more naturally when we look at similarities for the top retrieved documents. Policy, manual, and SDK questions place current documents matching the question topic near the top and create answers from those documents. By contrast, the pricing question places low-similarity documents from other topics near the top, so the mere fact that documents were retrieved does not mean evidence connection is ready. The change to read here is therefore not that the answer sentence became slightly better, but that we need to separately record which document was selected before answering and with what level of relevance. The core of RAG is not making the model remember more, but retrieving current related documents before answering and making the model speak from them.
 
-![Top Retrieved Document Similarity and Evidence-Connection Readiness in the RAG Example](../../../assets/part-06/chapter-11/rag-grounding-check-en.png)
+![Top Retrieved Document Similarity and Evidence-Connection Readiness in the RAG Example](/AiBook/assets/part-06/chapter-11/rag-grounding-check-en.png)
 
 The more important point is that `speaking plausibly` and `answering with attached evidence` are not the same problem. So RAG is better read not as a device that makes the model smarter, but as the first connection structure that compensates for prompt limits structurally by retrieving evidence documents before answering.
 

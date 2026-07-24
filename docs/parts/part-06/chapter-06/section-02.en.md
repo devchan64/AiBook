@@ -216,7 +216,7 @@ The purpose of this distinction is not to decide the cause all at once. Instead 
 
 The goal of this example is to directly see how `greedy`, `sampling`, `temperature`, and `seed` change next-token selection from probability candidates. We do not bring in the huge vocabulary table inside a real LLM, but place `next-token candidates` and base probabilities at each position and complete a sentence by drawing one token at a time. Therefore, the core is not combining answer templates, but `which candidate piece was actually selected at the current position`.
 
-The input CSV is [p6-6-2-next-token-candidates-en.csv](../../../assets/part-06/chapter-06/p6-6-2-next-token-candidates-en.csv){ .csv-preview }. One row means one candidate token at a specific position. For example, at position 1, `Refund`, `Order`, `Check`, and `Guide` are candidates, and at position 6, time-expression candidates such as ` 7 days`, ` 3 days`, ` 14 days`, and ` 2 business days` appear. The values readers can directly change are `base_probability`, `temperatures`, and `seeds`.
+The input CSV is [p6-6-2-next-token-candidates-en.csv](/AiBook/assets/part-06/chapter-06/p6-6-2-next-token-candidates-en.csv){ .csv-preview }. One row means one candidate token at a specific position. For example, at position 1, `Refund`, `Order`, `Check`, and `Guide` are candidates, and at position 6, time-expression candidates such as ` 7 days`, ` 3 days`, ` 14 days`, and ` 2 business days` appear. The values readers can directly change are `base_probability`, `temperatures`, and `seeds`.
 
 There are three key points to confirm.
 
@@ -401,7 +401,7 @@ The core to read in this example is as follows.
 
 If we view this change as a graph, it looks as follows. The left panel shows how often upper candidates are maintained across all token positions, the middle panel shows where the number of different outputs saturates, and the right panel separately shows how the first-token distribution widens. This graph should be read not as meaning that answer quality improved, but that the actual token-selection range widened from the same candidate distribution.
 
-![Token-selection stability and output diversity by temperature](../../../assets/part-06/chapter-06/temperature-unique-reply-count-en.png)
+![Token-selection stability and output diversity by temperature](/AiBook/assets/part-06/chapter-06/temperature-unique-reply-count-en.png)
 
 In the body code, readers can directly change the CSV's `base_probability`, `temperatures`, and `seeds`. For example, if you lower the probability of ` 7 days` at position 6 and raise the probability of ` 14 days`, the greedy output itself can change. If you change `temperature` to 0.2 or 2.0, the degree of upper-token fixation and the first-token distribution also move more extremely. If you increase `seeds`, you can better see how diverse outputs become under the same setting.
 

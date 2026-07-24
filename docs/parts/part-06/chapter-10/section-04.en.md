@@ -103,7 +103,7 @@ The goal of the following example is to read automatic prompt optimization not a
 
 The CSV below is an observation log that applies four prompt candidates to nine evaluation inputs.
 
-- Candidate evaluation log: [p6-10-4-prompt-candidate-eval-en.csv](../../../assets/part-06/chapter-10/p6-10-4-prompt-candidate-eval-en.csv){ .csv-preview }
+- Candidate evaluation log: [p6-10-4-prompt-candidate-eval-en.csv](/AiBook/assets/part-06/chapter-10/p6-10-4-prompt-candidate-eval-en.csv){ .csv-preview }
 
 One row is an observation value for `one evaluation input x one prompt candidate`. The core columns are `case_type`, `prompt_candidate`, `format_ok`, `key_fact_ok`, `forbidden_ok`, `boundary_ok`, and `response_too_long`. `normal` means an easy normal case, `boundary` means a boundary case where conditions conflict, and `failure_expected` means a case where guessing, prohibited expressions, or missing evidence are likely to appear.
 
@@ -199,7 +199,7 @@ The point to read directly from this result is the difference between candidates
 
 The chart makes it clearer that score and failure type give different information.
 
-![Weighted Scores and Failure Types by Prompt Candidate](../../../assets/part-06/chapter-10/prompt-candidate-score-en.png)
+![Weighted Scores and Failure Types by Prompt Candidate](/AiBook/assets/part-06/chapter-10/prompt-candidate-score-en.png)
 
 The value readers can directly change in this example is `weights`. For example, if format stability is very important for a document, the weight of `format_ok` can be raised from 1 to 3. Conversely, if safety notices are more important, `forbidden_ok` can receive a higher weight. What matters here is that automatic optimization does not design the score for us. Which score should matter more must still be decided by the user according to the purpose of the problem.
 

@@ -242,7 +242,7 @@ LLM 很擅长生成文本，但有些任务只靠文字处理会困难或有风�
 
 下面的示例使用用户请求 CSV、本地 LLM 的 route 提议、应用 guard 的最终判断、工具返回的查询和计算结果，以及执行类请求的等待批准状态。如果已经安装 `ollama`，并且 `AIBOOK_OLLAMA_MODEL` 指定的模型可用，模型会先提出请求类型。发送给模型的 prompt 和 `model_request_en` 保持英文。这样做可以提高小型本地模型的路由稳定性，也更容易在韩文、英文、中文翻译之间维持相同执行标准。即使本地模型不可用或输出不稳定，应用 guard 也会最终确定执行 route，所以同一段代码仍然可以运行。在输出中，我们检查模型建议、guard 是否修正、工具调用结构、执行结果，以及每个请求的最终回答。
 
-输入 CSV [p6-13-1-tool-use-requests-zh.csv](../../../assets/part-06/chapter-13/p6-13-1-tool-use-requests-zh.csv){ .csv-preview } 包含 18 个请求。`user_request_zh` 是显示给读者的中文请求，`model_request_en` 是用于模型路由判断的英文请求。`request_signal` 是应用在执行前 guard 中检查的最小信号。这个信号不是给模型的答案表，而是把真实服务代码在执行前必须检查的信息不足、状态变更、计算需要简化成输入。
+输入 CSV [p6-13-1-tool-use-requests-zh.csv](/AiBook/assets/part-06/chapter-13/p6-13-1-tool-use-requests-zh.csv){ .csv-preview } 包含 18 个请求。`user_request_zh` 是显示给读者的中文请求，`model_request_en` 是用于模型路由判断的英文请求。`request_signal` 是应用在执行前 guard 中检查的最小信号。这个信号不是给模型的答案表，而是把真实服务代码在执行前必须检查的信息不足、状态变更、计算需要简化成输入。
 
 这个示例中先看的检查项如下。
 
@@ -658,7 +658,7 @@ Check today's exchange rate and meeting room availability.
 
 下面的图把同一个结果重新读成决策检查。不需要工具的请求应该跳过执行；查询和计算请求应该使用返回值；改变状态的请求应该保持等待批准。这就是工具使用从 prompt 技巧变成系统结构的位置。
 
-![工具使用示例中的请求处理分支类型比较](../../../assets/part-06/chapter-13/tool-use-decision-check-zh.png)
+![工具使用示例中的请求处理分支类型比较](/AiBook/assets/part-06/chapter-13/tool-use-decision-check-zh.png)
 
 ## 工具使用连接了什么
 

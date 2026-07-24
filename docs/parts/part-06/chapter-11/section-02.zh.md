@@ -164,8 +164,8 @@ RAG 结合了两个阶段，所以可能摇摆的点也更多。
 
 下面示例使用两个 CSV 文件作为输入。
 
-- 文档列表：[p6-11-rag-documents-zh.csv](../../../assets/part-06/chapter-11/p6-11-rag-documents-zh.csv){ .csv-preview }
-- 实验条件：[p6-11-rag-experiments-zh.csv](../../../assets/part-06/chapter-11/p6-11-rag-experiments-zh.csv){ .csv-preview }
+- 文档列表：[p6-11-rag-documents-zh.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-documents-zh.csv){ .csv-preview }
+- 实验条件：[p6-11-rag-experiments-zh.csv](/AiBook/assets/part-06/chapter-11/p6-11-rag-experiments-zh.csv){ .csv-preview }
 
 文档列表的一行是一个检索候选文档片段。关键列是 `title`, `text`, `category`, `source_role`。`category` 为 `retrieval` 时，表示与当前问题相关的依据文档；为 `irrelevant` 时，表示检索条件摇摆时可能混入的无关文档。
 
@@ -389,7 +389,7 @@ for report in selected_reports:
 
 把三个代表性运行看成矩阵时，正常检索例只打开相关首位文档取回，不留下失败信号。检索污染例会同时打开无关文档包含、回答污染和检索失败。回答夸大例取回的是相关文档，但会单独打开夸大表达和生成失败。换句话说，即使结果看起来像同一种错误答案，也可以按开始不稳定的阶段来阅读。在 RAG 检查中，不应只得出`答案错了`，而要先区分该重看哪个阶段的记录。
 
-![RAG 示例中把检索污染和生成夸大显示为不同失败位置的矩阵](../../../assets/part-06/chapter-11/rag-failure-split-zh.png)
+![RAG 示例中把检索污染和生成夸大显示为不同失败位置的矩阵](/AiBook/assets/part-06/chapter-11/rag-failure-split-zh.png)
 
 从这个矩阵中保留的结论很简单。实际 RAG 结合流程有两个阶段：`先附加文档，再在其上回答`。回答错误时，要分开决定是修检索，还是修生成指令和评价。这个区分会把下一章的向量数据库和索引连接到检索质量检查，也把后面的评价章连接到回答质量检查。
 

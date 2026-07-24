@@ -244,7 +244,7 @@ missed = ['cancel_payment', 'payment_receipt', 'refund_exception']
 
 只画数值变化时，可以像下面这样阅读。到 `balanced` 为止，即使候选数减少，也仍保留基准前 5 个；但在 `aggressive` 中，候选数继续减少的同时，`recall@5` 也一起崩掉。
 
-![按 coarse_window 设置比较候选数和 recall@5](../../../assets/part-06/chapter-03/ann-window-tradeoff-zh.png)
+![按 coarse_window 设置比较候选数和 recall@5](/AiBook/assets/part-06/chapter-03/ann-window-tradeoff-zh.png)
 
 ### 练习 2. 从输出中阅读基准线和损失
 

@@ -197,8 +197,8 @@ Input:
 
 The code below uses two input CSV files.
 
-- request list: [p6-7-scale-requests.csv](../../../assets/part-06/chapter-07/p6-7-scale-requests.csv){ .csv-preview }
-- scale stages: [p6-7-scale-steps.csv](../../../assets/part-06/chapter-07/p6-7-scale-steps.csv){ .csv-preview }
+- request list: [p6-7-scale-requests.csv](/AiBook/assets/part-06/chapter-07/p6-7-scale-requests.csv){ .csv-preview }
+- scale stages: [p6-7-scale-steps.csv](/AiBook/assets/part-06/chapter-07/p6-7-scale-steps.csv){ .csv-preview }
 
 One row in the request list is one user request. `request_type` indicates the request character, such as FAQ, summarization, contract review, code assistance, and multi-document request, and `input_tokens` is a simplified value for the input length needed to place that request inside context. One row in the scale-stage CSV is one model-scale assumption, and `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`, and `review_batches` are the manipulation variables readers can directly change in this example.
 
@@ -311,15 +311,15 @@ The core to read in this example is as follows.
 
 When separated as graphs, it becomes clearer that the three axes grow with different meanings. First, as context range grows, the number of processable requests increases.
 
-![Number of processable requests by scale stage](../../../assets/part-06/chapter-07/scale-context-coverage-en.png)
+![Number of processable requests by scale stage](/AiBook/assets/part-06/chapter-07/scale-context-coverage-en.png)
 
 But the total inference cost for handling the same request bundle also grows. What this graph confirms is not that `large` handles more requests, but that the choice comes with cost increase.
 
-![Total inference cost by scale stage](../../../assets/part-06/chapter-07/scale-inference-cost-en.png)
+![Total inference cost by scale stage](/AiBook/assets/part-06/chapter-07/scale-inference-cost-en.png)
 
 When data volume grows, the data-quality burden to verify also grows. The graph below is not an actual risk measurement value, but a simplification to show the structure that as data increases, the batches to review also increase.
 
-![Data verification burden by scale stage](../../../assets/part-06/chapter-07/scale-data-review-burden-en.png)
+![Data verification burden by scale stage](/AiBook/assets/part-06/chapter-07/scale-data-review-burden-en.png)
 
 In this example, readers can directly change `input_tokens` and `priority` in the request CSV, and `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`, and `review_batches` in the scale-stage CSV. For example, if you increase long contract requests, the context over-limit issue for `small` and `medium` becomes more visible; conversely, if only short FAQs remain, you can reconsider whether the additional cost of `frontier` is really needed.
 

@@ -230,9 +230,9 @@ pprint({"uri": resource_uri, "text": resource_text})
 
 在这个输出中，`search_policy(query: str)` 是可执行工具，`policy://refund/latest` 是可读取资源。重要的不是函数内部计算，而是工具名称、输入格式、资源 URI 被注册在服务器上。真实 MCP client 会基于服务器暴露的信息发现并调用工具和资源。MCP 整理的不是`很好地总结退款政策的能力`，而是查找退款政策的工具和读取退款政策的资源如何以共享格式暴露。
 
-把同一原则扩展到多个请求，连接格式的差异会更清楚。下面的图不是为了解释 SDK 使用方法，而是一个辅助实验，用来比较工具/资源暴露格式一致时和摇晃时会发生什么。使用工具目录 CSV [p6-15-1-mcp-tool-catalog-zh.csv](../../../assets/part-06/chapter-15/p6-15-1-mcp-tool-catalog-zh.csv){ .csv-preview }、资源目录 CSV [p6-15-1-mcp-resource-catalog-zh.csv](../../../assets/part-06/chapter-15/p6-15-1-mcp-resource-catalog-zh.csv){ .csv-preview }、请求 CSV [p6-15-1-mcp-connection-requests-zh.csv](../../../assets/part-06/chapter-15/p6-15-1-mcp-connection-requests-zh.csv){ .csv-preview }，把 36 个请求分别流过共享连接层(`common_layer`)和临时连接层(`mixed_layer`)。比较结果会显示请求完成、连接准备、工具解释、资源解释在哪里分裂。
+把同一原则扩展到多个请求，连接格式的差异会更清楚。下面的图不是为了解释 SDK 使用方法，而是一个辅助实验，用来比较工具/资源暴露格式一致时和摇晃时会发生什么。使用工具目录 CSV [p6-15-1-mcp-tool-catalog-zh.csv](/AiBook/assets/part-06/chapter-15/p6-15-1-mcp-tool-catalog-zh.csv){ .csv-preview }、资源目录 CSV [p6-15-1-mcp-resource-catalog-zh.csv](/AiBook/assets/part-06/chapter-15/p6-15-1-mcp-resource-catalog-zh.csv){ .csv-preview }、请求 CSV [p6-15-1-mcp-connection-requests-zh.csv](/AiBook/assets/part-06/chapter-15/p6-15-1-mcp-connection-requests-zh.csv){ .csv-preview }，把 36 个请求分别流过共享连接层(`common_layer`)和临时连接层(`mixed_layer`)。比较结果会显示请求完成、连接准备、工具解释、资源解释在哪里分裂。
 
-![MCP 连接层检查](../../../assets/part-06/chapter-15/mcp-connection-layer-check-zh.png)
+![MCP 连接层检查](/AiBook/assets/part-06/chapter-15/mcp-connection-layer-check-zh.png)
 
 这张图把共享连接层和临时连接层之间的差异拆成请求完成、连接准备、工具解释、资源解释。即使在共享连接层中，因为批准和缺失输入，请求完成也停在 19 个案例，但连接准备通过了全部 36 个案例。相反，临时连接层即使能在一定程度上找到工具和资源，输入格式和资源类型仍然摇晃，所以连接准备和请求完成都会明显下降。
 

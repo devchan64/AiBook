@@ -278,7 +278,7 @@ The operational-constraint criteria to read together are:
 | `throughput_ok` | If it cannot survive repeated requests, it is a demo rather than a service. |
 | Next adjustment | We need to know what to reduce or change first for a failed design. |
 
-The example uses the service candidate CSV [p6_17_1_service_candidates.csv](../../../assets/part-06/chapter-17/p6_17_1_service_candidates.csv){ .csv-preview }. One row is one service design. `quality_score` is answer quality, `avg_latency_ms` is average response time, `estimated_cost_per_1k_requests` is estimated cost per 1,000 requests, and `max_requests_per_minute` is the requests per minute the current structure can handle. These values are learning candidates, not real operational logs, but 36 candidates are compared together so we do not decide from only one or two numbers.
+The example uses the service candidate CSV [p6_17_1_service_candidates.csv](/AiBook/assets/part-06/chapter-17/p6_17_1_service_candidates.csv){ .csv-preview }. One row is one service design. `quality_score` is answer quality, `avg_latency_ms` is average response time, `estimated_cost_per_1k_requests` is estimated cost per 1,000 requests, and `max_requests_per_minute` is the requests per minute the current structure can handle. These values are learning candidates, not real operational logs, but 36 candidates are compared together so we do not decide from only one or two numbers.
 
 ```python
 --8<-- "assets/part-06/chapter-17/p6_17_1_evaluate_service_candidates_en.py"
@@ -330,7 +330,7 @@ The example output can be read like this.
  'service_name': 'rich_deep_rag'}
 ```
 
-![service operational constraint pass by axis](../../../assets/part-06/chapter-17/service-constraint-matrix-en.png)
+![service operational constraint pass by axis](/AiBook/assets/part-06/chapter-17/service-constraint-matrix-en.png)
 
 The first thing to notice is the difference between `failed_checks` and `primary_tradeoff`. `failed_checks` shows all limits a candidate failed to pass, while `primary_tradeoff` narrows which axis to adjust first. The judgment order is not simply choosing the largest number. If the candidate does not pass the minimum quality line, it is first treated as a quality problem. If it passes quality but is blocked by operational limits, the bottleneck is narrowed in the order of latency, cost, and throughput because these connect directly to user experience and request-path reduction.
 

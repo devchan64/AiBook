@@ -141,7 +141,7 @@ First, the code that creates the stored log is as follows. The prompts sent to t
 
 If Ollama is installed and a local model is available, `.venv/bin/python docs/assets/part-06/chapter-10/p6_10_3_generate_response_path_log.py` can be run to create a new log with the same format. The numbers included in the manuscript are a snapshot obtained by running `llama3.2:latest` with a specific setting. If it is run again, conclusion distributions and check-signal counts can change, and that difference itself shows why self-consistency and log observation are needed.
 
-- Response path log: [p6-10-3-response-path-log.csv](../../../assets/part-06/chapter-10/p6-10-3-response-path-log.csv){ .csv-preview }
+- Response path log: [p6-10-3-response-path-log.csv](/AiBook/assets/part-06/chapter-10/p6-10-3-response-path-log.csv){ .csv-preview }
 
 One row is one response path. The core columns are `task_name`, `path_type`, `log_source`, `model_name`, `temperature`, `final_answer`, `evidence_mentioned`, `calculation_correct`, `policy_current`, `rule_warning`, and `minority_answer`. `path_type` distinguishes whether this is CoT-style single-path observation or a self-consistency-style repeated candidate. What should be checked here is not only conclusion majority vote, but whether missing evidence, calculation error, missing current policy, work-rule warning signals, and minority conclusions outside the majority remain together. In particular, `path_summary` is not model-internal reasoning itself. It is a path summary reduced to a reviewable level.
 
@@ -261,7 +261,7 @@ In this result, `mixed_refund_label`, `discount_total`, and `security_escalation
 
 When the same log is shown as a chart, it becomes clearer that conclusion agreement and observed check signals are different axes. Even if the upper bar is high, if the lower check signals are also high, the answer should not be adopted only because it repeated often. The lower bars are not response counts, but the sum of several check columns. If one response has both missing evidence and a rule warning, both signals are added together, so the bar height should be read not as `how many answers failed`, but as `how many signals remain for reviewers to revisit`.
 
-![Majority Conclusion Ratio and Check Signals in Response-Path Logs](../../../assets/part-06/chapter-10/response-path-consistency-en.png)
+![Majority Conclusion Ratio and Check Signals in Response-Path Logs](/AiBook/assets/part-06/chapter-10/response-path-consistency-en.png)
 
 Values readers can directly change in this example are the log rows themselves and the check-signal standards. For example, if `rule_warning` is made stricter, only warnings that are important under real work rules can remain among response paths. If paths where `policy_current` is `False` are all excluded, we can also check how the self-consistency majority changes. Through this manipulation, we confirm that CoT and self-consistency are not answer-guaranteeing technologies. They are strategies that help observe and compare response paths better.
 

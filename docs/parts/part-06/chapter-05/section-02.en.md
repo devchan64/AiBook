@@ -300,7 +300,7 @@ The core to read in this example is as follows.
 
 If we separate this difference item by item, it can be read as follows. The autocomplete-style response is closer to writing a natural next sentence and does not satisfy the four criteria, while the instruction-response style includes format, role, safety conditions, and structure as response evaluation criteria.
 
-![Comparison of user-experience criteria between autocomplete-style and instruction-response-style outputs](../../../assets/part-06/chapter-05/conversation-experience-criteria-en.png)
+![Comparison of user-experience criteria between autocomplete-style and instruction-response-style outputs](/AiBook/assets/part-06/chapter-05/conversation-experience-criteria-en.png)
 
 The conversational LLM transition is hard to explain only as a simple increase in model scale. The reason actual user experience changed greatly is that:
 

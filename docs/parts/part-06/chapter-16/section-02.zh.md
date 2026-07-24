@@ -222,7 +222,7 @@ LLM 评估轴确定之后，下一个标准是不要把所有评估都用同一�
 
 这个例子的目标，是通过不同检查项看到自动评估和人工评估的角色不同。我们不只看一个回答，而是比较多个 LLM 输出候选，并问：`自动评估通过重复检查先阻断什么`，以及`什么会进入人要读取的审查包`。
 
-例子使用中文评估路由候选 CSV [p6_16_2_eval_routing_cases_zh.csv](../../../assets/part-06/chapter-16/p6_16_2_eval_routing_cases_zh.csv){ .csv-preview }。一行表示运营中可能出现的一个 LLM 输出候选。`model_output` 是候选回答，`source_marker`、`required_action`、`format_marker`、`max_length`、`banned_terms` 是自动 grader 会反复检查的标准。CSV 中不放预先写好的人类风险标签或答案标签。
+例子使用中文评估路由候选 CSV [p6_16_2_eval_routing_cases_zh.csv](/AiBook/assets/part-06/chapter-16/p6_16_2_eval_routing_cases_zh.csv){ .csv-preview }。一行表示运营中可能出现的一个 LLM 输出候选。`model_output` 是候选回答，`source_marker`、`required_action`、`format_marker`、`max_length`、`banned_terms` 是自动 grader 会反复检查的标准。CSV 中不放预先写好的人类风险标签或答案标签。
 
 自动 grader 的名称延续 P6-16.1 的评估轴。`source_marker_grader` 对应 groundedness，`required_action_grader` 对应 helpfulness，`format_grader` 和 `length_grader` 对应 format compliance，`banned_terms_grader` 对应 safety。这个映射也出现在代码的 `GRADER_AXIS_MAP` 中。
 
@@ -295,7 +295,7 @@ route = human_review_queue
 
 另一个要观察的值是可选 LLM judge 可用时的 `reason_source`。如果 `reason_source` 是 `llm`，说明本地 LLM judge 直接给出了理由。如果它是 `code_grader_fallback`，说明 LLM judge 的理由为空或较弱，于是 code-grader 观察会强化理由。这个区分很重要，因为 LLM judge 本身也需要被审查。自动评分不会以一个 LLM 判断结束；它会把 code-check 信号和 LLM-judge 信号一起记录下来，并为冲突留下空间。
 
-![自动评估和人工评估路径](../../../assets/part-06/chapter-16/auto-human-eval-routing-zh.png)
+![自动评估和人工评估路径](/AiBook/assets/part-06/chapter-16/auto-human-eval-routing-zh.png)
 
 这张图显示，第一行把候选分成自动 grader 通过和失败，第二行把失败候选送去自动修正，把通过候选送到人工审查队列。因此，`automatic pass` 不是批准结果，而是组织出来供人继续阅读的中间状态。
 

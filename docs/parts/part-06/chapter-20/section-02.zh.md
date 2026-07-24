@@ -195,7 +195,7 @@ BERT 家族以及后来的 encoder-centered 模型，也常被用来把句子转
 
 这个例子的目标，是用一个小型向量表示实验确认：理解中心任务实际输出的是 `labels`、`relation scores`、`search ranks` 等判断结果。
 
-与生成式回答不同，下面的例子检查的是理解中心任务读取并输出判断值的结构。输入 CSV [p6-20-understanding-task-cases-zh.csv](../../../assets/part-06/chapter-20/p6-20-understanding-task-cases-zh.csv){ .csv-preview } 分别包含分类、句子对判断、搜索排序各 12 个案例。一行是一个判断案例。`task_type` 表示输出形式，`scenario_pattern` 表示观察角色，例如直接信号、边界信号或不同意图。
+与生成式回答不同，下面的例子检查的是理解中心任务读取并输出判断值的结构。输入 CSV [p6-20-understanding-task-cases-zh.csv](/AiBook/assets/part-06/chapter-20/p6-20-understanding-task-cases-zh.csv){ .csv-preview } 分别包含分类、句子对判断、搜索排序各 12 个案例。一行是一个判断案例。`task_type` 表示输出形式，`scenario_pattern` 表示观察角色，例如直接信号、边界信号或不同意图。
 
 关键是确认：理解中心任务会在长回答之前输出标签、分数和排名。这里不直接下载并运行 BERT，而是使用本地可复现的 TF-IDF 向量作为小型替代表示。在真实 BERT 家族模型中，这些表示会变成更丰富的上下文表示，但输出流程仍然是`把输入转成表示，再输出判断值`。
 
@@ -365,7 +365,7 @@ changed_pair_cases = [{'case_id': 'P05', 'pattern': 'same_intent', 'similarity':
 
 下面的图按任务和输出形式汇总了同一 CSV 中的案例数。这里重要的不是条形值本身，而是分类、句子对判断和排序都会留下标签、分数、排名等判断值，而不是长回答。
 
-![理解中心任务的输出类型](../../../assets/part-06/chapter-20/understanding-output-types-zh.png)
+![理解中心任务的输出类型](/AiBook/assets/part-06/chapter-20/understanding-output-types-zh.png)
 
 ## 通过运营判断重新连接
 

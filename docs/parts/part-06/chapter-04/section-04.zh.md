@@ -340,11 +340,11 @@ prefix_length=100, generated_length=5, without_cache=515, with_cache=105, saved_
 - 同样生成 5 个词元时，prefix 为 20、100 时的 `without_cache` 与 `with_cache` 差距，比 prefix 为 3 时大得多。
 - 因此 prefix 越长，或生成 step 越多，`projected_token_count` 差异会迅速变大。
 
-![按生成 step 比较 KV projection 对象词元数](../../../assets/part-06/chapter-04/kv-cache-step-projection-zh.png)
+![按生成 step 比较 KV projection 对象词元数](/AiBook/assets/part-06/chapter-04/kv-cache-step-projection-zh.png)
 
 把 prefix 长度带来的重新投影量差异画出来，会像下面这样拉开。没有 cache 时，已经看过的 prefix 越长，每个新词元需要重新投影的量会快速增加；使用 KV cache 时，在相同条件下增长幅度要小得多。
 
-![按 prefix 长度比较 KV projection 对象词元数](../../../assets/part-06/chapter-04/kv-cache-projection-count-zh.png)
+![按 prefix 长度比较 KV projection 对象词元数](/AiBook/assets/part-06/chapter-04/kv-cache-projection-count-zh.png)
 
 这里比起数字本身，更重要的是阅读比较方向。
 

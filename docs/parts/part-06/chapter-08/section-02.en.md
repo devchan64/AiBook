@@ -230,7 +230,7 @@ Therefore, the sentence `LoRA is an operational method for adapting a large foun
 
 The goal of this example is to directly see what difference `full fine-tuning` and the `LoRA approach` make when operating several work-specific adjusted versions. Instead of manually counting three work types, we will read a list of purpose-adaptation experiments planned by several teams for one month, and compare the additional storage burden when using full fine-tuning versus LoRA updates.
 
-The input file is [P6-8.2 purpose-adaptation portfolio](../../../assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv){ .csv-preview }. One row means one purpose-adaptation task reviewed by one team. The core columns are `team`, `task`, `monthly_experiments`, and `expected_change`. Here, we do not predict quality scores by work type; we only look at the structure of storage and version-management burden when several adjustment experiments must be repeated on top of the same foundation model.
+The input file is [P6-8.2 purpose-adaptation portfolio](/AiBook/assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv){ .csv-preview }. One row means one purpose-adaptation task reviewed by one team. The core columns are `team`, `task`, `monthly_experiments`, and `expected_change`. Here, we do not predict quality scores by work type; we only look at the structure of storage and version-management burden when several adjustment experiments must be repeated on top of the same foundation model.
 
 The code below reads the CSV and sums monthly experiment counts by team. In the result, it compares the additional storage size when storing a large artifact for every full fine-tuning experiment and when storing only a small LoRA update.
 
@@ -341,7 +341,7 @@ In this example, you can change `monthly_experiments` in the CSV to see a situat
 
 The chart below redraws the same CSV input by each team's monthly experiment count. The left panel is the monthly additional storage size for full fine-tuning, and the right panel is the monthly additional storage size when only LoRA updates are stored. The axis ranges differ because the LoRA bars need to be visible; the core is to read which teams have many experiment rotations and how those rotations translate into storage and version-management burden.
 
-![Additional storage size for full fine-tuning and LoRA by monthly purpose-adaptation experiments per team](../../../assets/part-06/chapter-08/lora-storage-growth-en.png)
+![Additional storage size for full fine-tuning and LoRA by monthly purpose-adaptation experiments per team](/AiBook/assets/part-06/chapter-08/lora-storage-growth-en.png)
 
 ## Scale Difference Seen in Adjustment Cost Reduction
 

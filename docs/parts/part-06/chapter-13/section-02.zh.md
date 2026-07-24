@@ -187,7 +187,7 @@ Function calling 不只是整齐的格式。它是一种提高`可验证性(veri
 
 这个示例不会调用真实 API 或模型。它展示函数调用候选在执行前必须通过哪些验证检查。如果只看一两句话，很容易以为`做出函数名称和参数就够了`。所以我们一次验证多个函数候选，看看哪些已经准备好执行，哪些需要追问，哪些必须因为批准而停止。
 
-下面的示例使用函数调用候选 CSV [p6-13-2-function-call-requests-zh.csv](../../../assets/part-06/chapter-13/p6-13-2-function-call-requests-zh.csv){ .csv-preview }。一行包含用户请求、参考用英文请求、函数名称、参数候选，以及是否需要批准。这个 CSV 不是真实模型产生的日志，而是为了观察 function calling 验证结构而制作的输入。`model_request_en` 是为了想象多语言译本和模型输入格式而保留的参考列。这个示例中的验证代码只使用函数名称和参数候选。CSV 中的空白单元格表示该函数调用候选仍然缺少参数，或执行前需要再次确认。
+下面的示例使用函数调用候选 CSV [p6-13-2-function-call-requests-zh.csv](/AiBook/assets/part-06/chapter-13/p6-13-2-function-call-requests-zh.csv){ .csv-preview }。一行包含用户请求、参考用英文请求、函数名称、参数候选，以及是否需要批准。这个 CSV 不是真实模型产生的日志，而是为了观察 function calling 验证结构而制作的输入。`model_request_en` 是为了想象多语言译本和模型输入格式而保留的参考列。这个示例中的验证代码只使用函数名称和参数候选。CSV 中的空白单元格表示该函数调用候选仍然缺少参数，或执行前需要再次确认。
 
 用户用自然语言请求创建日历事件、查询汇率、修改文件，或发送邮件草稿。系统不会直接执行这些句子。它会先根据每个函数的 schema 检查必填参数，并把会改变外部状态的请求分离到等待批准状态。因此，`已经结构化`和`已经准备好执行`不是同一件事。
 
@@ -360,7 +360,7 @@ for report in reports:
 
 图中，同一批请求里的每个函数会分裂成不同的执行准备状态。左侧显示日历创建、汇率查询、文件补丁、邮件草稿分别落入 `ready`、`needs clarification`、`needs approval`。右侧显示阻止执行的所有缺失字段。所以重点不只是有结构，而是这个结构能显示哪些字段缺失、哪些请求不能在没有批准时继续。
 
-![函数调用示例中的各函数执行准备状态和缺失字段分布](../../../assets/part-06/chapter-13/function-call-validation-zh.png)
+![函数调用示例中的各函数执行准备状态和缺失字段分布](/AiBook/assets/part-06/chapter-13/function-call-validation-zh.png)
 
 ## Function calling 如何稳定执行请求
 

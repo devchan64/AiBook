@@ -142,7 +142,7 @@ At first, both names look like internal Transformer parts, so it is easy to memo
 
 The purpose of this table is not to make you memorize the two terms faster. When reading an actual sentence, it makes you first distinguish `is the model failing to separate several relationships`, or `is it a problem where order is easy to miss separately`.
 
-![Role split between multi-head attention and positional representations](../../../assets/part-06/chapter-04/attention-position-role-split-en.png)
+![Role split between multi-head attention and positional representations](/AiBook/assets/part-06/chapter-04/attention-position-role-split-en.png)
 
 ## Practice and Examples
 

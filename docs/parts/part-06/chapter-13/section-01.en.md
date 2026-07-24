@@ -242,7 +242,7 @@ Some requests need a live lookup and therefore need a tool. Some are general exp
 
 The example below uses a user-request CSV, a local LLM route proposal, an application guard's final judgment, tool-returned lookup and computation results, and an approval-pending state for execution. If `ollama` is installed and the model specified by `AIBOOK_OLLAMA_MODEL` is available, the model first proposes a request type. The prompt sent to the model and `model_request_en` are kept in English. This improves small local model routing stability and also makes it easier to keep the same execution standard across Korean, English, and Chinese translations. Even if the local model is unavailable or its output is unstable, the application guard finalizes the execution route, so the same code can run. In the output, we inspect the model suggestion, whether the guard corrected it, the tool-call structure, execution result, and final answer for each request.
 
-The input CSV [p6-13-1-tool-use-requests-en.csv](../../../assets/part-06/chapter-13/p6-13-1-tool-use-requests-en.csv){ .csv-preview } contains 18 requests. `user_request_en` is the English request shown to the reader, and `model_request_en` is the English request used for model routing. `request_signal` is the minimal signal checked by the application guard before execution. This signal is not an answer key for the model, but a simplified input representing missing information, state change, or computation need that real service code must check before execution.
+The input CSV [p6-13-1-tool-use-requests-en.csv](/AiBook/assets/part-06/chapter-13/p6-13-1-tool-use-requests-en.csv){ .csv-preview } contains 18 requests. `user_request_en` is the English request shown to the reader, and `model_request_en` is the English request used for model routing. `request_signal` is the minimal signal checked by the application guard before execution. This signal is not an answer key for the model, but a simplified input representing missing information, state change, or computation need that real service code must check before execution.
 
 The first inspection items in this example are these.
 
@@ -658,7 +658,7 @@ The example above is not a real tool integration. It is a minimal structure show
 
 The chart below rereads the same result as a decision check. Requests that need no tool should skip execution, lookup and computation requests should use returned values, and state-changing requests should remain approval pending. This is the point where tool use becomes a system structure rather than a prompt trick.
 
-![Tool-use decision check showing skipped calls, result use, approvals, and missing information](../../../assets/part-06/chapter-13/tool-use-decision-check-en.png)
+![Tool-use decision check showing skipped calls, result use, approvals, and missing information](/AiBook/assets/part-06/chapter-13/tool-use-decision-check-en.png)
 
 ## What tool use connects
 

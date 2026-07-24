@@ -236,7 +236,7 @@ BERT 家族更接近`读取并输出判断值`，GPT 家族更接近`读取并�
 | I want to reset my password | `account_topic` | 账户访问问题 | `account_intent` |
 | I canceled the order but the payment still remains | `payment_topic` | 订单取消后的付款状态问题 | `order_support_intent` |
 
-![通过上下文解释产生的标签转换](../../../assets/part-06/chapter-20/contextual-label-shift-zh.png)
+![通过上下文解释产生的标签转换](/AiBook/assets/part-06/chapter-20/contextual-label-shift-zh.png)
 
 从这个练习中要读出的核心点是：
 

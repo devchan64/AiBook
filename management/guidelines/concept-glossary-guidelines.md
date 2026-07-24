@@ -16,7 +16,7 @@
 - 개념사전 공개 진입 원고: `docs/reference/concept-glossary.md`
 - 개념사전 자음별 항목 원고: `docs/reference/concept-glossary-parts/*.md`
 - 영어 알파벳별 탐색 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
-- 중국어 병음별 탐색 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.md`, `docs/reference/concept-glossary-zh-index.md`
+- 중국어 병음별 탐색 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
 - 언어별 보조 인덱스:
   - `management/glossary-indexes/concept-glossary-index.ko.md`
   - `management/glossary-indexes/concept-glossary-index.en.md`

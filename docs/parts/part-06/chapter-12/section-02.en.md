@@ -177,8 +177,8 @@ The inspection items to read together in this example are these.
 
 Document vectors and question vectors are not placed directly in the body code. They are separated into CSV assets.
 
-- Document vectors: [`p6-12-index-documents-en.csv`](../../../assets/part-06/chapter-12/p6-12-index-documents-en.csv){ .csv-preview }
-- Question vectors: [`p6-12-index-queries-en.csv`](../../../assets/part-06/chapter-12/p6-12-index-queries-en.csv){ .csv-preview }
+- Document vectors: [`p6-12-index-documents-en.csv`](/AiBook/assets/part-06/chapter-12/p6-12-index-documents-en.csv){ .csv-preview }
+- Question vectors: [`p6-12-index-queries-en.csv`](/AiBook/assets/part-06/chapter-12/p6-12-index-queries-en.csv){ .csv-preview }
 
 A short look at the input files helps. The document CSV does not contain only numeric vectors. It also includes current-version documents and confusing old-version or general documents for the same topics.
 
@@ -392,7 +392,7 @@ The example above is not code that implements a real ANN system. It is the small
 
 In the chart, the fast setting has low average latency but many target misses and top-1 errors. The balanced setting reduces misses but leaves top-1 errors and version errors. The strict setting is slower but removes target misses and version errors, while some errors remain where a related v2 document ranks first. This is why index evaluation should read `latency`, `target misses`, `top-1 errors`, and `version errors` together.
 
-![Quality and latency comparison between fast and strict retrieval settings](../../../assets/part-06/chapter-12/index-quality-latency-en.png)
+![Quality and latency comparison between fast and strict retrieval settings](/AiBook/assets/part-06/chapter-12/index-quality-latency-en.png)
 
 ## What moves together when choosing an index
 

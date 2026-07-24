@@ -307,7 +307,7 @@ final_text = 今天会议线上进行确认
 path_score_total = 1.58
 ```
 
-![第一 token 选择之后分岔的累积生成路径](../../../assets/part-06/chapter-05/autoregressive-path-split-zh.png)
+![第一 token 选择之后分岔的累积生成路径](/AiBook/assets/part-06/chapter-05/autoregressive-path-split-zh.png)
 
 所以，这个例子中要确认的结果是：生成不是一次拿出完成句子，而是先前输出会改变下一候选群，并逐 token 累积。尤其是第一选择为 `下午` 还是 `线上`，从第二个候选表开始就已经不同，`cumulative_score` 也沿着不同路径累积。GPT 系列生成在这个意义上，更准确地说，是 `前面选择会持续推动后面路径与累积分数流动的结构`。
 

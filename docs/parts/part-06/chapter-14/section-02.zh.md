@@ -177,7 +177,7 @@ Agent 循环很强大，但失败点也很多。
 
 这个示例的目标不是实现完整 agent 框架。这里检查的是，当计划、行动、观察和决策作为多轮记录留下时，哪些观察会产生继续探索、停止或人工审查。
 
-下面的示例使用观察日志 CSV [p6-14-2-agent-loop-observations-zh.csv](../../../assets/part-06/chapter-14/p6-14-2-agent-loop-observations-zh.csv){ .csv-preview }。一行是 agent 在一个目标的一轮中留下的记录。`has_current_context`、`evidence_sufficient`、`conflict_found`、`approval_needed`、`action_failed`、`retry_count`、`retry_limit` 列是会改变下一项决策的信号。如果这些值改变，即使是同一个目标，最终决策也可能在 `continue_refine`、`stop_ready`、`human_review` 之间变化。
+下面的示例使用观察日志 CSV [p6-14-2-agent-loop-observations-zh.csv](/AiBook/assets/part-06/chapter-14/p6-14-2-agent-loop-observations-zh.csv){ .csv-preview }。一行是 agent 在一个目标的一轮中留下的记录。`has_current_context`、`evidence_sufficient`、`conflict_found`、`approval_needed`、`action_failed`、`retry_count`、`retry_limit` 列是会改变下一项决策的信号。如果这些值改变，即使是同一个目标，最终决策也可能在 `continue_refine`、`stop_ready`、`human_review` 之间变化。
 
 代码中，Ollama 模型读取观察日志，并先提出下一项计划候选。运行前先执行 `ollama pull qwen2.5:1.5b`，并确认 Ollama 正在运行。若要使用其他模型，可以把环境变量改成 `AIBOOK_OLLAMA_MODEL=model-name` 这样的值。传给模型的 prompt 保持英文。输出中要检查的重点是，即使存在模型提议，最终决策仍会由检查 CSV 观察信号和停止条件的 guard 再次确认。
 
@@ -382,7 +382,7 @@ for row in rows[:8]:
 
 接着要看的是，最终决策并不会平均分布。16 个目标中，6 个在收集到足够依据后以 `stop_ready` 关闭，9 个因为冲突、批准或重试上限转向 `human_review`，还有 1 个留在继续探索中。真实 agent loop 也并不总是整齐地分成三个方向。重要的是，记录是否能让我们追踪哪一个观察信号分开了模型建议和 guard 最终决策。
 
-![agent loop 决策分支](../../../assets/part-06/chapter-14/agent-loop-decision-split-zh.png)
+![agent loop 决策分支](/AiBook/assets/part-06/chapter-14/agent-loop-decision-split-zh.png)
 
 这张图显示轮次推进时决策如何移动。第 1 轮中，大多数案例是 `continue_refine`。但在第 2 轮和第 3 轮，一部分案例因为获得足够依据而停止，另一部分因为冲突或批准边界转向人工审查。因此，这张图不是为了展示均衡的决策数量。它显示的是，随着观察日志累积，循环不会只剩下继续推进，而会实际分裂出停止和人工审查。
 

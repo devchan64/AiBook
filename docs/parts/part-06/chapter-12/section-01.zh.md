@@ -172,7 +172,7 @@ RAG 是`问题 -> 相关文档检索 -> 生成`结构。如果检索以语义为
 
 文档块不能只有数值向量。它们还要同时带有原文和来源信息。问题进来时，系统要找到接近问题向量的块；检索之后，则必须把原文文本和元数据一起交给生成阶段。因此，重要的不只是`哪个是 1 位候选`，也包括`随它一起返回的来源和类别是什么`。
 
-下面示例使用文档块 CSV [p6-12-vector-db-documents-zh.csv](../../../assets/part-06/chapter-12/p6-12-vector-db-documents-zh.csv){ .csv-preview } 和问题 CSV [p6-12-vector-db-queries-zh.csv](../../../assets/part-06/chapter-12/p6-12-vector-db-queries-zh.csv){ .csv-preview }。文档文件的一行就像检索存储中的一条记录，包含文档 ID、标题、原文块、来源、类别、版本、状态。问题文件的一行包含一个用户问题。输出中会确认每个问题的相似度分数、首位候选文档块、检索后重新取出的原文和元数据，以及交给生成阶段的检索结果包。
+下面示例使用文档块 CSV [p6-12-vector-db-documents-zh.csv](/AiBook/assets/part-06/chapter-12/p6-12-vector-db-documents-zh.csv){ .csv-preview } 和问题 CSV [p6-12-vector-db-queries-zh.csv](/AiBook/assets/part-06/chapter-12/p6-12-vector-db-queries-zh.csv){ .csv-preview }。文档文件的一行就像检索存储中的一条记录，包含文档 ID、标题、原文块、来源、类别、版本、状态。问题文件的一行包含一个用户问题。输出中会确认每个问题的相似度分数、首位候选文档块、检索后重新取出的原文和元数据，以及交给生成阶段的检索结果包。
 
 先要确认的点如下。
 
@@ -395,7 +395,7 @@ offboarding_asset 离职前公司笔记本要归还到哪里？
 
 在相似度图中，首位候选和下一候选的差距会因问题而异。设置重置问题的首位候选相对清楚，而退款问题则留下同时检查回复模板和政策通知的余地。当检索结果进入生成阶段时，这种差距可以帮助我们决定哪个文档块成为第一依据，哪个候选作为辅助依据保留。图表显示的是候选排名分离，但要把结果当作真实 RAG payload 使用，仍必须像文本输出那样同时保留原文和元数据。
 
-![向量数据库示例中按问题划分的首位候选和下一候选相似度差距](../../../assets/part-06/chapter-12/vector-db-payload-check-zh.png)
+![向量数据库示例中按问题划分的首位候选和下一候选相似度差距](/AiBook/assets/part-06/chapter-12/vector-db-payload-check-zh.png)
 
 ## 向量存储必须一起返回什么
 

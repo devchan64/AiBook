@@ -382,7 +382,7 @@ The key to read from this result is not one number but the movement of judgment.
 
 If we see the number movement as a figure, it becomes visible that `expected output format` can eat into the total budget faster than long input.
 
-![Input tokens and output room viewed through tiktoken observations](../../../assets/part-06/chapter-02/tiktoken-budget-en.png)
+![Input tokens and output room viewed through tiktoken observations](/AiBook/assets/part-06/chapter-02/tiktoken-budget-en.png)
 
 The purpose of this example is not memorizing the tokenizer's internal rules. It is to check actual token count and then change human standards such as `does it look short`, `are the paragraphs natural`, and `is the output friendly` into input budget, chunk room, and output-preservation standards.
 

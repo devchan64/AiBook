@@ -187,7 +187,7 @@ The first standard is simple. Function calling is not `making natural language l
 
 This example does not call a real API or model. It shows which validation checks function-call candidates must pass before execution. With only one or two sentences, it is easy to think that `making a function name and arguments is enough`. So we validate several function candidates in one batch and see which are ready, which need clarification, and which must stop for approval.
 
-The example below uses the function-call candidate CSV [p6-13-2-function-call-requests-en.csv](../../../assets/part-06/chapter-13/p6-13-2-function-call-requests-en.csv){ .csv-preview }. One row contains a user request, reference English request, function name, argument candidates, and whether approval is required. This CSV is not a log produced by a real model. It is input created to inspect the validation structure of function calling. `model_request_en` is a reference column for imagining multilingual translations and model input format. The validation code in this example uses only the function name and argument candidates. Blank cells in the CSV mean that the function-call candidate still lacks an argument or needs confirmation before execution.
+The example below uses the function-call candidate CSV [p6-13-2-function-call-requests-en.csv](/AiBook/assets/part-06/chapter-13/p6-13-2-function-call-requests-en.csv){ .csv-preview }. One row contains a user request, reference English request, function name, argument candidates, and whether approval is required. This CSV is not a log produced by a real model. It is input created to inspect the validation structure of function calling. `model_request_en` is a reference column for imagining multilingual translations and model input format. The validation code in this example uses only the function name and argument candidates. Blank cells in the CSV mean that the function-call candidate still lacks an argument or needs confirmation before execution.
 
 Users ask in natural language to create calendar events, look up exchange rates, patch files, or send email drafts. The system does not execute those sentences directly. It first checks required arguments against each function's schema, and separates requests that change external state into an approval-pending state. Therefore, `structured` and `ready to execute` are not the same.
 
@@ -360,7 +360,7 @@ The example above is not code that implements all of function calling. It shows 
 
 In the chart, each function splits into a different execution-readiness state within the same batch. The left side shows calendar creation, exchange-rate lookup, file patch, and email draft divided into `ready`, `needs clarification`, and `needs approval`. The right side shows every missing field that blocked execution. So the important point is not merely that a structure exists, but that the structure can reveal which fields are missing and which requests must not proceed without approval.
 
-![Function-call validation example showing readiness state by function and missing-field distribution](../../../assets/part-06/chapter-13/function-call-validation-en.png)
+![Function-call validation example showing readiness state by function and missing-field distribution](/AiBook/assets/part-06/chapter-13/function-call-validation-en.png)
 
 ## How function calling stabilizes execution requests
 

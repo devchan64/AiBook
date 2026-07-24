@@ -212,7 +212,7 @@
 
 这个示例的目标不是复现真实指令调优训练整体，而是通过评估日志确认，即使面对 `同一组事实`，回应习惯也会如何不同。它不是只直接比较四个请求，而是从 36 个请求评估记录中，汇总 `三行摘要`、`3 步说明`、`表格整理`、`依据不足时限制告知` 满足了多少。
 
-下面的代码使用指令执行评估 CSV [p6_9_1_instruction_following_eval-zh.csv](../../../assets/part-06/chapter-09/p6_9_1_instruction_following_eval-zh.csv){ .csv-preview }。代表性原始回应日志另放在 [p6-9-1-instruction-response-log-zh.csv](../../../assets/part-06/chapter-09/p6-9-1-instruction-response-log-zh.csv){ .csv-preview }。评估 CSV 的一行是一个用户指令评估案例，回应日志 CSV 的一行是在同一案例中观察到的一般回应或指令格式反映回应。
+下面的代码使用指令执行评估 CSV [p6_9_1_instruction_following_eval-zh.csv](/AiBook/assets/part-06/chapter-09/p6_9_1_instruction_following_eval-zh.csv){ .csv-preview }。代表性原始回应日志另放在 [p6-9-1-instruction-response-log-zh.csv](/AiBook/assets/part-06/chapter-09/p6-9-1-instruction-response-log-zh.csv){ .csv-preview }。评估 CSV 的一行是一个用户指令评估案例，回应日志 CSV 的一行是在同一案例中观察到的一般回应或指令格式反映回应。
 
 核心列是 `request_type`、`requested_signal`、`base_*`、`tuned_*`。`requested_signal` 告诉我们要看哪种指令遵守信号，例如行数、编号步骤、表格行数、不确定性标记。
 
@@ -351,7 +351,7 @@ three_steps {'count': 9, 'base_ok': 0, 'tuned_ok': 8, 'improved': 8}
 
 把摘要统计画成图，一般回应和指令调优回应的差异会更简单地显现。这里的 `0.03 -> 0.89` 不是一般性能分数，而是按上面标准统计本示例 36 条评估日志得到的观察值。即使用同一组事实，指令调优回应也会朝着在多种请求格式中更稳定提高满足率的方向改变输出规则。同时仍有 4 个未满足案例，所以这张图也让我们把指令调优读作提高请求格式遵守率的调整，而不是完美答案装置。
 
-![一般回应和指令调优回应的请求满足与未满足数](../../../assets/part-06/chapter-09/instruction-tuning-request-match-zh.png)
+![一般回应和指令调优回应的请求满足与未满足数](/AiBook/assets/part-06/chapter-09/instruction-tuning-request-match-zh.png)
 
 读者可以在这个示例中直接尝试下面的调整。
 

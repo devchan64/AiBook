@@ -382,7 +382,7 @@ verbose_output_request input_tokens= 22 expected_output_tokens= 105 total_tokens
 
 把数值移动画成图，可以看到比长输入更快侵蚀总体预算的，可能是 `预计输出格式`。
 
-![用 tiktoken 观察值看到的输入 token 和输出余量](../../../assets/part-06/chapter-02/tiktoken-budget-zh.png)
+![用 tiktoken 观察值看到的输入 token 和输出余量](/AiBook/assets/part-06/chapter-02/tiktoken-budget-zh.png)
 
 这个示例的目的不是背 tokenizer 的内部规则。它是先确认实际 token count，再把 `看起来是否短`、`段落是否自然`、`输出是否亲切` 这些人的标准，换成输入预算、chunk 余量、输出保留标准。
 

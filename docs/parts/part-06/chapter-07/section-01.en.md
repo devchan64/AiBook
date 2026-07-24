@@ -265,7 +265,7 @@ The purpose of this distinction is not to decide the cause all at once. Instead 
 
 The goal of this example is to directly see `how patterns are first collected from general text, and how those patterns are narrowed further with small task data`. It is not an example that implements real LLM pretraining, but a reduced experiment that separately observes how connections change when the training-data bundle changes.
 
-The example data is in [p6-7-pretraining-stage-sentences-en.csv](../../../assets/part-06/chapter-07/p6-7-pretraining-stage-sentences-en.csv){ .csv-preview }. One row is one short training sentence, and `stage` indicates which learning bundle the sentence belongs to. `general_text` is broad general sentences, `customer_support` is customer-center domain sentences, and `instruction_reply` is response sentences that match request formats.
+The example data is in [p6-7-pretraining-stage-sentences-en.csv](/AiBook/assets/part-06/chapter-07/p6-7-pretraining-stage-sentences-en.csv){ .csv-preview }. One row is one short training sentence, and `stage` indicates which learning bundle the sentence belongs to. `general_text` is broad general sentences, `customer_support` is customer-center domain sentences, and `instruction_reply` is response sentences that match request formats.
 
 Input:
 
@@ -397,7 +397,7 @@ Finally, `instruction_style` remains 0 even after domain sentences are added, an
 
 As a graph, the difference that the three connections do not grow in the same way becomes clearer.
 
-![Next-token link counts by learning stage](../../../assets/part-06/chapter-07/pretraining-adaptation-counts-en.png)
+![Next-token link counts by learning stage](/AiBook/assets/part-06/chapter-07/pretraining-adaptation-counts-en.png)
 
 The core to read in this example is as follows.
 

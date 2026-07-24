@@ -191,7 +191,7 @@ Input:
 
 - Medical, code, internal sharing, finance, legal, and customer-support tasks
 - Six candidate responses for each task
-- Candidate response CSV: [p6-9-2-alignment-candidate-responses-en.csv](../../../assets/part-06/chapter-09/p6-9-2-alignment-candidate-responses-en.csv){ .csv-preview }
+- Candidate response CSV: [p6-9-2-alignment-candidate-responses-en.csv](/AiBook/assets/part-06/chapter-09/p6-9-2-alignment-candidate-responses-en.csv){ .csv-preview }
 
 One row in the CSV means one task, question, response ID, and candidate response. The response ID is not an answer label. It is a log identifier. Values readers can directly change include the response sentence, the list of risky expressions, the list of safe-path expressions, and the task-specific minimum passing line.
 
@@ -450,7 +450,7 @@ Readers can directly adjust the example in the following ways.
 
 The graph shows pass/fail counts by task and the overall failure axes separately. The left side shows how many of the six responses in each task cross the passing line. The right side counts safety misses, factuality misses, and high-surface-score failure signals with overlap. Since one response can fail both safety and factuality at the same time, the sum of the right-side bars does not have to equal the total number of responses.
 
-![Alignment Evaluation Passes and Failure Axes](../../../assets/part-06/chapter-09/alignment-axis-average-en.png)
+![Alignment Evaluation Passes and Failure Axes](/AiBook/assets/part-06/chapter-09/alignment-axis-average-en.png)
 
 ## Approval Standards Split by Multiple Evaluation Axes
 

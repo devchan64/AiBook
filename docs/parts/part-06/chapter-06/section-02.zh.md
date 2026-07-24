@@ -216,7 +216,7 @@ greedy 更可预测，sampling 更多样。
 
 这个例子的目标，是直接看到 `greedy`、`sampling`、`temperature`、`seed` 如何改变从概率候选中选择下一个 token。这里不拿真实 LLM 内部巨大的词汇表，而是在每个位置放置 `下一个 token 候选` 和基础概率，一次抽取一个 token 来完成句子。因此，核心不是组合回答模板，而是 `当前位置实际选择了哪个候选片段`。
 
-输入 CSV 是 [p6-6-2-next-token-candidates-zh.csv](../../../assets/part-06/chapter-06/p6-6-2-next-token-candidates-zh.csv){ .csv-preview }。一行表示某个位置的一个候选 token。例如，1 号位置有 `退款`、`订单`、`确认`、`引导` 作为候选，6 号位置有 `7天`、`3天`、`14天`、`2个工作日` 这类时间表达候选。读者可以直接改动的值是 `base_probability`、`temperatures`、`seeds`。
+输入 CSV 是 [p6-6-2-next-token-candidates-zh.csv](/AiBook/assets/part-06/chapter-06/p6-6-2-next-token-candidates-zh.csv){ .csv-preview }。一行表示某个位置的一个候选 token。例如，1 号位置有 `退款`、`订单`、`确认`、`引导` 作为候选，6 号位置有 `7天`、`3天`、`14天`、`2个工作日` 这类时间表达候选。读者可以直接改动的值是 `base_probability`、`temperatures`、`seeds`。
 
 要确认的核心有三点。
 
@@ -401,7 +401,7 @@ seed = 3 退款相关咨询配送状态为准7天以内需要确认。
 
 把这个变化画成图，会如下所示。左侧显示所有 token 位置中上位候选维持得多频繁，中间显示不同输出数在哪个设置上饱和，右侧显示第一 token 分布如何变宽。这个图不表示回答质量提高，而应读成同一候选分布中实际 token 选择范围变宽。
 
-![按 temperature 区分的 token 选择稳定性与输出多样性](../../../assets/part-06/chapter-06/temperature-unique-reply-count-zh.png)
+![按 temperature 区分的 token 选择稳定性与输出多样性](/AiBook/assets/part-06/chapter-06/temperature-unique-reply-count-zh.png)
 
 正文代码中，读者可以直接修改 CSV 的 `base_probability`、`temperatures`、`seeds`。例如，如果降低 6 号位置 `7天` 的概率、提高 `14天` 的概率，greedy 输出本身也可能改变。把 `temperature` 改成 0.2 或 2.0，上位 token 固定程度和第一 token 分布也会更极端地移动。增加 `seeds`，则能更清楚地看到同一设置下输出会多样到什么程度。
 

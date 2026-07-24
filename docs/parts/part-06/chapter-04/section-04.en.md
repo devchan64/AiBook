@@ -340,11 +340,11 @@ The core to read in this example is as follows.
 - Even when generating the same 5 tokens, the difference between `without_cache` and `with_cache` becomes much larger at prefix lengths 20 and 100 than at prefix length 3.
 - So as the prefix gets longer or generation steps increase, the `projected_token_count` difference grows quickly.
 
-![Number of tokens targeted for KV projection by generation step](../../../assets/part-06/chapter-04/kv-cache-step-projection-en.png)
+![Number of tokens targeted for KV projection by generation step](/AiBook/assets/part-06/chapter-04/kv-cache-step-projection-en.png)
 
 If the reprojection amount by prefix length is drawn, the difference opens as follows. Without cache, the longer the already seen prefix, the faster the amount that must be projected again for each new token grows. With KV cache, the growth is much smaller under the same condition.
 
-![Number of tokens targeted for KV projection by prefix length](../../../assets/part-06/chapter-04/kv-cache-projection-count-en.png)
+![Number of tokens targeted for KV projection by prefix length](/AiBook/assets/part-06/chapter-04/kv-cache-projection-count-en.png)
 
 Here, it is more important to read the comparison direction than the numbers themselves.
 

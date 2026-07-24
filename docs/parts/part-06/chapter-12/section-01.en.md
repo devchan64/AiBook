@@ -172,7 +172,7 @@ The goal of this example is not to implement a full vector database engine. It i
 
 Document chunks need more than numeric vectors. They need source text and source information together. When a question arrives, the system finds chunks close to the question vector. After retrieval, it must pass source text and metadata together to the generation stage. Therefore, not only `which item is the top candidate`, but also `which source and category come with it` matters.
 
-The example below uses the document-chunk CSV [p6-12-vector-db-documents-en.csv](../../../assets/part-06/chapter-12/p6-12-vector-db-documents-en.csv){ .csv-preview } and the question CSV [p6-12-vector-db-queries-en.csv](../../../assets/part-06/chapter-12/p6-12-vector-db-queries-en.csv){ .csv-preview }. One row in the document file behaves like one record in retrieval storage: document ID, title, source text chunk, source, category, version, and status. One row in the question file is one user question. In the output, we inspect similarity scores by question, top candidate chunks, the source text and metadata retrieved after search, and the retrieval payload passed to generation.
+The example below uses the document-chunk CSV [p6-12-vector-db-documents-en.csv](/AiBook/assets/part-06/chapter-12/p6-12-vector-db-documents-en.csv){ .csv-preview } and the question CSV [p6-12-vector-db-queries-en.csv](/AiBook/assets/part-06/chapter-12/p6-12-vector-db-queries-en.csv){ .csv-preview }. One row in the document file behaves like one record in retrieval storage: document ID, title, source text chunk, source, category, version, and status. One row in the question file is one user question. In the output, we inspect similarity scores by question, top candidate chunks, the source text and metadata retrieved after search, and the retrieval payload passed to generation.
 
 The first inspection points are these.
 
@@ -396,7 +396,7 @@ The example above is not code that implements a vector database. It is a minimal
 
 In the similarity chart, the gap between the top candidate and the next candidate differs by question. The settings-reset question has a relatively clear top candidate, while the refund question leaves room to inspect both the response template and the policy notice. This difference lets us decide which document chunk should become the first piece of evidence and which candidate should remain supporting evidence when retrieval results move to generation. The chart shows candidate-rank separation, but to use the result as a real RAG payload, the source text and metadata must be preserved together as shown in the text output.
 
-![Similarity gap between the top candidate and next candidate by question in the vector database example](../../../assets/part-06/chapter-12/vector-db-payload-check-en.png)
+![Similarity gap between the top candidate and next candidate by question in the vector database example](/AiBook/assets/part-06/chapter-12/vector-db-payload-check-en.png)
 
 ## What a vector store must return together
 

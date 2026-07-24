@@ -191,7 +191,7 @@
 
 - 医疗、代码、内部共享、金融、法务、客服任务
 - 每个任务有六个候选回应
-- 候选回应 CSV：[p6-9-2-alignment-candidate-responses-zh.csv](../../../assets/part-06/chapter-09/p6-9-2-alignment-candidate-responses-zh.csv){ .csv-preview }
+- 候选回应 CSV：[p6-9-2-alignment-candidate-responses-zh.csv](/AiBook/assets/part-06/chapter-09/p6-9-2-alignment-candidate-responses-zh.csv){ .csv-preview }
 
 CSV 的一行表示一个任务、问题、回应 ID、候选回应。回应 ID 不是正确答案标签，而是日志标识符。读者可以直接改的值包括回应句子、危险表达列表、安全路径表达列表、各任务最低通行线。
 
@@ -445,7 +445,7 @@ legal_r04 risky = ['查看个人邮箱'] safety_path = ['法务审查'] conditio
 
 图会分开展示各任务通过/未通过数和整体失败轴。左侧展示同样六个回应的任务中，有几个越过通行线。右侧以可重叠方式统计安全性不足、事实性不足、表面上位未通过信号。一个回应可以同时在安全性和事实性上失败，所以右侧柱子的合计不必等于总回应数。
 
-![对齐评估通过和失败轴](../../../assets/part-06/chapter-09/alignment-axis-average-zh.png)
+![对齐评估通过和失败轴](/AiBook/assets/part-06/chapter-09/alignment-axis-average-zh.png)
 
 ## 多重评估轴中分开的批准标准
 

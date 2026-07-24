@@ -637,7 +637,7 @@ Set RUN_LIVE_AGENT=1 and OPENAI_API_KEY to call Runner.run().
 
 The first thing to notice in this example is the record frame surrounding the execution, not the `Runner.run()` call itself. The first run is a situation where an old policy appears first in search ranking, and the local model follows that top document and chooses the `2025_12_01` policy. The second run is a situation where the current policy appears first, and the replay comparison leaves `changed_retrieval_order`, `changed_policy_version`, and `stale_policy_fixed` together. Because `send_refund_reply` is a send tool marked with `needs_approval=True`, both executions do not send anything and stop as `blocked_for_human_approval`. This difference must remain in the report so that evaluation or operations can separate search-candidate issues, model-judgment issues, and approval-gate issues.
 
-![harness observation-record comparison](../../../assets/part-06/chapter-15/harness-run-issue-split-en.png)
+![harness observation-record comparison](/AiBook/assets/part-06/chapter-15/harness-run-issue-split-en.png)
 
 This chart compares a run that stores only the final answer with a run that leaves the local-model execution as a record artifact. The core is not the number of items. Model judgment, tool contracts, actual tool output, approval gate, trace group, saved run artifact, and replay comparison must remain together so that when the same request is run again, we can explain what stayed the same and what changed.
 

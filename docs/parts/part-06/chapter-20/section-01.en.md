@@ -236,7 +236,7 @@ The exercise uses the example sentence list organized above.
 | I want to reset my password | `account_topic` | Account access problem | `account_intent` |
 | I canceled the order but the payment still remains | `payment_topic` | Payment-status issue after order cancellation | `order_support_intent` |
 
-![Label shift by contextual interpretation](../../../assets/part-06/chapter-20/contextual-label-shift-en.png)
+![Label shift by contextual interpretation](/AiBook/assets/part-06/chapter-20/contextual-label-shift-en.png)
 
 The core points to read from this exercise are:
 

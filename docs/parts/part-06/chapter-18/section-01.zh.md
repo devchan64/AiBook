@@ -263,7 +263,7 @@ Retrieval 更接近检查`规则是什么`，tool use 更接近处理`当前状�
 | `我还剩多少休假？` | prompt + tool use | 需要当前账户状态查询，而不是规则说明 | 问题、调用的查询工具、查询结果、回答 |
 | `今年福利积分会马上过期吗？` | prompt + retrieval，必要时 human review | 首先需要当前通知文档，若文档不足，回答不应过于确定 | 问题、选中文档、依据是否不足、是否需要人工审查 |
 
-![按请求首先需要的结构](../../../assets/part-06/chapter-18/request-structure-matrix-zh.png)
+![按请求首先需要的结构](/AiBook/assets/part-06/chapter-18/request-structure-matrix-zh.png)
 
 读这张表时，比`正确功能名称`更重要的是`回答要关闭时首先缺什么`。例如，如果只给剩余休假查询附上 retrieval，可能检索到规则句，但当前余额仍然没有回答。如果给句子润色附上 retrieval，回答反而可能发散。
 

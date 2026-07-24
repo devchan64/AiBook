@@ -197,8 +197,8 @@
 
 下面的代码使用两个输入 CSV。
 
-- 请求列表：[p6-7-scale-requests.csv](../../../assets/part-06/chapter-07/p6-7-scale-requests.csv){ .csv-preview }
-- 规模阶段：[p6-7-scale-steps.csv](../../../assets/part-06/chapter-07/p6-7-scale-steps.csv){ .csv-preview }
+- 请求列表：[p6-7-scale-requests.csv](/AiBook/assets/part-06/chapter-07/p6-7-scale-requests.csv){ .csv-preview }
+- 规模阶段：[p6-7-scale-steps.csv](/AiBook/assets/part-06/chapter-07/p6-7-scale-steps.csv){ .csv-preview }
 
 请求列表的一行是一个用户请求。`request_type` 表示 FAQ、摘要、合同审查、代码辅助、多文档请求等请求性质，`input_tokens` 是把该请求放进上下文时所需输入长度的简化值。规模阶段 CSV 的一行是假设的一个模型规模，`context_window`、`cost_per_1k_tokens`、`latency_per_1k_tokens`、`review_batches` 是本示例中可直接改变的操作变量。
 
@@ -311,15 +311,15 @@ scale_steps = 4
 
 分成图来看，三个轴以不同意义变大这一点会更清楚。首先，上下文范围变大后，可处理请求数会增加。
 
-![按规模阶段统计的可处理请求数](../../../assets/part-06/chapter-07/scale-context-coverage-zh.png)
+![按规模阶段统计的可处理请求数](/AiBook/assets/part-06/chapter-07/scale-context-coverage-zh.png)
 
 但处理同一组请求时的总推理成本也会一起变大。这张图要确认的不是 `large` 能处理更多请求，而是这个选择伴随着成本增加。
 
-![按规模阶段统计的总推理成本](../../../assets/part-06/chapter-07/scale-inference-cost-zh.png)
+![按规模阶段统计的总推理成本](/AiBook/assets/part-06/chapter-07/scale-inference-cost-zh.png)
 
 数据量变大后，需要验证的数据质量负担也会一起变大。下面的图不是实际风险测量值，而是为了展示数据越多、需要审查的批次也越多这一结构的简化图。
 
-![按规模阶段统计的数据验证负担](../../../assets/part-06/chapter-07/scale-data-review-burden-zh.png)
+![按规模阶段统计的数据验证负担](/AiBook/assets/part-06/chapter-07/scale-data-review-burden-zh.png)
 
 在这个示例中，可以直接修改请求 CSV 的 `input_tokens` 和 `priority`，以及规模阶段 CSV 的 `context_window`、`cost_per_1k_tokens`、`latency_per_1k_tokens`、`review_batches`。例如，如果增加长合同请求，`small` 和 `medium` 的上下文超限会更明显；反过来，如果只留下短 FAQ，就可以重新思考 `frontier` 的额外成本是否真的必要。
 

@@ -104,7 +104,7 @@ rank=32: lora_update_params=262144, ratio=0.0156
 
 下面图表再次展示 rank 变大时，LoRA 调整分比例如何一起变大。这里的核心不只是调整分比完整矩阵小，还包括 rank 选择是同时改变成本和表达余地的把手。
 
-![各 rank 的 LoRA 调整分相对完整矩阵比例](../../../assets/part-06/chapter-09/lora-rank-ratio-zh.png)
+![各 rank 的 LoRA 调整分相对完整矩阵比例](/AiBook/assets/part-06/chapter-09/lora-rank-ratio-zh.png)
 
 示例之后，更重要的是把数字重新翻译成结构选择。
 

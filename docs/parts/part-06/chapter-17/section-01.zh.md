@@ -278,7 +278,7 @@ AI 服务通常会产生每次调用成本，或在直接运营时产生基础�
 | `throughput_ok` | 如果无法承受重复请求，它就是 demo，而不是服务。 |
 | Next adjustment | 对失败设计，需要知道首先减少或改变什么。 |
 
-例子使用服务候选 CSV [p6_17_1_service_candidates.csv](../../../assets/part-06/chapter-17/p6_17_1_service_candidates.csv){ .csv-preview }。一行表示一个服务设计案。`quality_score` 是回答质量，`avg_latency_ms` 是平均响应时间，`estimated_cost_per_1k_requests` 是每 1,000 个请求的预估成本，`max_requests_per_minute` 是当前结构能处理的每分钟请求数。这些值不是实际运营日志，而是学习用候选值；但它们会一起比较 36 个候选，避免只看一两个数字就下结论。
+例子使用服务候选 CSV [p6_17_1_service_candidates.csv](/AiBook/assets/part-06/chapter-17/p6_17_1_service_candidates.csv){ .csv-preview }。一行表示一个服务设计案。`quality_score` 是回答质量，`avg_latency_ms` 是平均响应时间，`estimated_cost_per_1k_requests` 是每 1,000 个请求的预估成本，`max_requests_per_minute` 是当前结构能处理的每分钟请求数。这些值不是实际运营日志，而是学习用候选值；但它们会一起比较 36 个候选，避免只看一两个数字就下结论。
 
 ```python
 --8<-- "assets/part-06/chapter-17/p6_17_1_evaluate_service_candidates_zh.py"
@@ -330,7 +330,7 @@ AI 服务通常会产生每次调用成本，或在直接运营时产生基础�
  'service_name': 'rich_deep_rag'}
 ```
 
-![服务运营约束按轴通过情况](../../../assets/part-06/chapter-17/service-constraint-matrix-zh.png)
+![服务运营约束按轴通过情况](/AiBook/assets/part-06/chapter-17/service-constraint-matrix-zh.png)
 
 首先要注意 `failed_checks` 和 `primary_tradeoff` 的区别。`failed_checks` 显示候选没通过的所有限制，而 `primary_tradeoff` 缩小为首先要调整的轴。判断顺序不是简单选择最大数字。如果候选没有通过最低质量线，它首先被视为质量问题。如果它通过质量但被运营限制阻塞，瓶颈会按延迟、成本、处理量的顺序缩小，因为这些直接连接到用户体验和请求路径缩减。
 

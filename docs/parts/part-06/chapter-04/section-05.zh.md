@@ -147,7 +147,7 @@ long-context 通常把下面这些问题一起叫出来。
 
 这个表的目的不是把 sparse attention 和 long-context 完全分离。它是为了让我们在看到实际失败场景时，先把 `要维持多少连接` 和 `重要线索能抓住多久` 分开阅读。
 
-![长上下文失败场景中的计算负担与线索维持轴](../../../assets/part-06/chapter-04/long-context-failure-axis-zh.png)
+![长上下文失败场景中的计算负担与线索维持轴](/AiBook/assets/part-06/chapter-04/long-context-failure-axis-zh.png)
 
 看到这个区分，也能同时看出两个名称在哪里相接。长输入中，计算负担与线索维持很容易同时纠缠。但 `要减少什么` 和 `要把什么保留到最后` 仍然是不同的问题。
 

@@ -263,7 +263,7 @@ First, cover the `structure to attach first` column in the table below and write
 | `How many vacation days do I have left?` | prompt + tool use | A current account-state lookup is needed, not a rule explanation | Question, called lookup tool, lookup result, answer |
 | `Do welfare points expire immediately this year?` | prompt + retrieval, human review if needed | Current notice documents are needed first, and the answer should not be definite if the documents are insufficient | Question, selected document, whether evidence is insufficient, whether human review is needed |
 
-![Structures needed first by request](../../../assets/part-06/chapter-18/request-structure-matrix-en.png)
+![Structures needed first by request](/AiBook/assets/part-06/chapter-18/request-structure-matrix-en.png)
 
 When reading this table, what matters more than the `correct feature name` is `what is missing first if the answer is to close`. For example, if retrieval alone is attached to a remaining-vacation lookup, the rule sentence may be retrieved, but the current balance remains unanswered. If retrieval is attached to sentence polishing, the answer can become scattered instead.
 

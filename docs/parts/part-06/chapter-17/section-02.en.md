@@ -250,7 +250,7 @@ The response criteria for this example are:
 | Trace saved state | Because the failure cause must be reproducible and analyzable later |
 | User impact | To distinguish failures that must immediately protect the user experience |
 
-The example below uses the failure-case CSV [p6_17_2_failure_cases.csv](../../../assets/part-06/chapter-17/p6_17_2_failure_cases.csv){ .csv-preview }. One row is one failure scene. `failure_family` is the first observation category that the operator left after reading the trace, and `error` contains the first observed failure signal, such as timeout, permission error, hallucination, or format mismatch. Columns such as `retry_count`, `max_retries`, `cached_summary_available`, `approval_required`, and `trace_saved` are control variables that change which route the same error takes among retry, fallback, approval, and stop.
+The example below uses the failure-case CSV [p6_17_2_failure_cases.csv](/AiBook/assets/part-06/chapter-17/p6_17_2_failure_cases.csv){ .csv-preview }. One row is one failure scene. `failure_family` is the first observation category that the operator left after reading the trace, and `error` contains the first observed failure signal, such as timeout, permission error, hallucination, or format mismatch. Columns such as `retry_count`, `max_retries`, `cached_summary_available`, `approval_required`, and `trace_saved` are control variables that change which route the same error takes among retry, fallback, approval, and stop.
 
 By default, the code uses a reproducible local grader. If a local Ollama model is ready, you can set `P6_17_2_USE_OLLAMA=1` and `OLLAMA_MODEL` to call a real LLM grader in the same position. The output field `grader_source` distinguishes whether the suggestion came from the reproducible fallback grader or an actual Ollama call. The prompt is written in English so the same execution criteria can be preserved across translations.
 
@@ -352,7 +352,7 @@ An example run can be read as follows.
  'user_impact': 'delivery_blocked_until_format_fixed'}
 ```
 
-![Failure recovery routes split by condition](../../../assets/part-06/chapter-17/failure-recovery-routing-en.png)
+![Failure recovery routes split by condition](/AiBook/assets/part-06/chapter-17/failure-recovery-routing-en.png)
 
 What to look at first in this figure is that the LLM grader's suggestion and the final recovery decision are not the same step. If `grader_source` is `fallback`, the suggestion came from the reproducible local grader. If it is `ollama`, the suggestion came from an actual LLM call. In either case, the grader can read the observation record and tag `timeout` as a system family failure and `hallucination` as a model family failure. But policy code must still inspect retry budget and cache state to decide whether to send a timeout to retry or fallback. A risky action can wait for approval if a reviewer exists, but must stop instead of executing automatically if no reviewer exists. A model failure that looks like hallucination can go to human review if grounding and a reviewer exist, but must block the answer if evidence is missing.
 

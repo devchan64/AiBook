@@ -212,7 +212,7 @@ So the closing point of this section is to turn the sentence `instruction tuning
 
 The goal of this example is not to reproduce actual instruction-tuning training as a whole, but to check through evaluation logs how response habits differ even with the `same bundle of facts`. Instead of directly comparing only four requests, we aggregate 36 request-evaluation records and check how often `three-line summary`, `3-step explanation`, `table organization`, and `limitation notice when evidence is insufficient` are satisfied.
 
-The code below uses the instruction-following evaluation CSV [p6_9_1_instruction_following_eval-en.csv](../../../assets/part-06/chapter-09/p6_9_1_instruction_following_eval-en.csv){ .csv-preview }. Representative raw response logs are stored separately in [p6-9-1-instruction-response-log-en.csv](../../../assets/part-06/chapter-09/p6-9-1-instruction-response-log-en.csv){ .csv-preview }. One row in the evaluation CSV is one user-instruction evaluation case, and one row in the response-log CSV is a base response or instruction-format-reflecting response observed for the same case.
+The code below uses the instruction-following evaluation CSV [p6_9_1_instruction_following_eval-en.csv](/AiBook/assets/part-06/chapter-09/p6_9_1_instruction_following_eval-en.csv){ .csv-preview }. Representative raw response logs are stored separately in [p6-9-1-instruction-response-log-en.csv](/AiBook/assets/part-06/chapter-09/p6-9-1-instruction-response-log-en.csv){ .csv-preview }. One row in the evaluation CSV is one user-instruction evaluation case, and one row in the response-log CSV is a base response or instruction-format-reflecting response observed for the same case.
 
 The core columns are `request_type`, `requested_signal`, `base_*`, and `tuned_*`. `requested_signal` tells us which instruction-following signal to check, such as line count, numbered steps, table rows, or uncertainty marking.
 
@@ -351,7 +351,7 @@ So the result to check in this example is not one or two success cases, but how 
 
 When the summary statistics are shown as a chart, the difference between base responses and instruction-tuned responses becomes simpler to see. Here, `0.03 -> 0.89` is not a general performance score, but an observed value from counting 36 cases in this example evaluation log by the criteria above. Even with the same bundle of facts, instruction-tuned responses change output rules in the direction of stably increasing satisfaction across several request formats. At the same time, 4 unmet cases remain, so this graph makes us read instruction tuning not as a perfect-answer device, but as adjustment that raises request-format-following rates.
 
-![Request-met and unmet counts for base and instruction-tuned responses](../../../assets/part-06/chapter-09/instruction-tuning-request-match-en.png)
+![Request-met and unmet counts for base and instruction-tuned responses](/AiBook/assets/part-06/chapter-09/instruction-tuning-request-match-en.png)
 
 Readers can directly try the following adjustments in this example.
 

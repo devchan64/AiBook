@@ -637,7 +637,7 @@ Set RUN_LIVE_AGENT=1 and OPENAI_API_KEY to call Runner.run().
 
 这个示例中首先要注意的是包围执行的记录框架，而不是 `Runner.run()` 调用本身。第一次运行是旧政策在搜索排序中排在前面的情况，本地模型跟随顶部文档并选择 `2025_12_01` 政策。第二次运行是当前政策排在前面的情况，replay 比较会同时留下 `changed_retrieval_order`、`changed_policy_version` 和 `stale_policy_fixed`。因为 `send_refund_reply` 是标记为 `needs_approval=True` 的发送工具，两次执行都没有实际发送，而是以 `blocked_for_human_approval` 停止。这个差异必须留在报告中，评估或运行层才能分开搜索候选问题、模型判断问题和批准 gate 问题。
 
-![harness 观察记录比较](../../../assets/part-06/chapter-15/harness-run-issue-split-zh.png)
+![harness 观察记录比较](/AiBook/assets/part-06/chapter-15/harness-run-issue-split-zh.png)
 
 这张图比较只保存最终回答的运行，和把本地模型执行作为记录 artifact 留下的运行。核心不是项目数量。模型判断、工具契约、实际工具输出、批准 gate、trace group、保存的 run artifact、replay 比较必须一起留下，这样同一请求再次运行时，我们才能解释什么保持不变、什么发生了改变。
 

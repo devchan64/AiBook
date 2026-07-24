@@ -317,7 +317,7 @@ final_text = Today the meeting is online today confirmed
 path_score_total = 1.58
 ```
 
-![Cumulative generation paths split after the first token choice](../../../assets/part-06/chapter-05/autoregressive-path-split-en.png)
+![Cumulative generation paths split after the first token choice](/AiBook/assets/part-06/chapter-05/autoregressive-path-split-en.png)
 
 So the result to check in this example is that generation does not pull out a completed sentence all at once; previous outputs change the next candidate set and accumulate one token at a time. In particular, depending on whether the first choice is `afternoon` or `online`, the second candidate table already changes, and `cumulative_score` also accumulates along different paths. In this sense, it is more accurate to read GPT-family generation as a `structure where earlier choices keep pushing later paths and cumulative score flows`.
 

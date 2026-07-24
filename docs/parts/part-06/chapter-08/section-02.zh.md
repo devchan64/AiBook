@@ -230,7 +230,7 @@ LoRA 相对容易制作多个小调整件并接上或拆下，因此适合更快
 
 这个示例的目标是直接观察，当运营多个业务用调整件时，`全量微调` 和 `LoRA 方式` 会产生什么差异。不是手工数三个业务，而是读取多个团队一个月内计划的目的适应实验列表，比较全量微调时和 LoRA 调整件方式下的追加存储负担。
 
-输入文件是 [P6-8.2 目的适应组合](../../../assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv){ .csv-preview }。一行表示一个团队正在审查的目的适应任务。核心列是 `team`、`task`、`monthly_experiments`、`expected_change`。这里不预测各业务的质量分数，只看在同一个基础模型上必须反复做多个调整实验时，存储和版本管理负担会以什么结构增长。
+输入文件是 [P6-8.2 目的适应组合](/AiBook/assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv){ .csv-preview }。一行表示一个团队正在审查的目的适应任务。核心列是 `team`、`task`、`monthly_experiments`、`expected_change`。这里不预测各业务的质量分数，只看在同一个基础模型上必须反复做多个调整实验时，存储和版本管理负担会以什么结构增长。
 
 下面的代码读取 CSV，按团队合计月度实验次数。结果中会比较每次全量微调都存储大结果物时的追加存储大小，以及 LoRA 只存储小调整件时的追加存储大小。
 
@@ -341,7 +341,7 @@ monthly total: 75 runs, full=977.89 GB, LoRA=1.12 GB
 
 下面的图按团队月度实验数重新绘制同一个 CSV 输入。左侧是走全量微调时的月度追加存储大小，右侧是只存储 LoRA 调整件时的月度追加存储大小。两个面板的轴范围不同，是为了让 LoRA 的柱形能看见；核心是读取哪些团队实验回转数多，以及这些回转数如何转化为存储和版本管理负担。
 
-![按团队月度目的适应实验数比较全量微调和 LoRA 的追加存储大小](../../../assets/part-06/chapter-08/lora-storage-growth-zh.png)
+![按团队月度目的适应实验数比较全量微调和 LoRA 的追加存储大小](/AiBook/assets/part-06/chapter-08/lora-storage-growth-zh.png)
 
 ## 调整成本降低中看到的规模差异
 

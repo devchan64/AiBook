@@ -177,7 +177,7 @@ The key point is that the flow does not end immediately after `action`. It passe
 
 The goal of the example is not to implement a whole agent framework. What we check here is which observations create continued exploration, stopping, or human review when plan, action, observation, and decision remain as records across several rounds.
 
-The example below uses the observation-log CSV [p6-14-2-agent-loop-observations.csv](../../../assets/part-06/chapter-14/p6-14-2-agent-loop-observations.csv){ .csv-preview }. One row is a record left by the agent in one round of one goal. The `has_current_context`, `evidence_sufficient`, `conflict_found`, `approval_needed`, `action_failed`, `retry_count`, and `retry_limit` columns are signals that change the next decision. If these values change, the final decision can change among `continue_refine`, `stop_ready`, and `human_review` even for the same goal.
+The example below uses the observation-log CSV [p6-14-2-agent-loop-observations.csv](/AiBook/assets/part-06/chapter-14/p6-14-2-agent-loop-observations.csv){ .csv-preview }. One row is a record left by the agent in one round of one goal. The `has_current_context`, `evidence_sufficient`, `conflict_found`, `approval_needed`, `action_failed`, `retry_count`, and `retry_limit` columns are signals that change the next decision. If these values change, the final decision can change among `continue_refine`, `stop_ready`, and `human_review` even for the same goal.
 
 In the code, an Ollama model reads the observation log and first proposes a next-plan candidate. Before running it, run `ollama pull qwen2.5:1.5b`, and make sure Ollama is running. To use another model, change the environment variable with a value such as `AIBOOK_OLLAMA_MODEL=model-name`. The prompt sent to the model remains in English. The key point to check in the output is that even when a model proposal exists, the final decision is confirmed again by the guard that checks CSV observation signals and stop conditions.
 
@@ -382,7 +382,7 @@ The first thing to notice is that although model proposals appeared for all 36 o
 
 The next thing to see is that final decisions are not evenly balanced. Among 16 goals, 6 close as `stop_ready` after enough evidence is collected, 9 move to `human_review` because of conflict, approval, or retry limits, and 1 remains in continued exploration. Real agent loops also do not always divide neatly into three directions. What matters is whether the record lets us follow which observation signal separated the model proposal from the guard's final decision.
 
-![agent loop decision branching](../../../assets/part-06/chapter-14/agent-loop-decision-split-en.png)
+![agent loop decision branching](/AiBook/assets/part-06/chapter-14/agent-loop-decision-split-en.png)
 
 This chart shows how decisions move as rounds progress. In round 1, most cases are `continue_refine`. But in rounds 2 and 3, some stop after gaining enough evidence, while others move to human review because of conflicts or approval boundaries. So the chart is not about balanced decision counts. It shows that as observation logs accumulate, the loop does not leave only continued progress; stopping and human review actually split out.
 
