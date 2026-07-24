@@ -1,0 +1,37 @@
+name,retrieval_terms,generation_style,scenario_pattern,reader_hint
+clean_grounded_vector_search,semantic;vector;search,grounded,related_terms,Core related documents rank near the top and generation stays inside the evidence.
+clean_grounded_keyword_vs_semantic,keyword;semantic;wording,grounded,related_terms,The comparison document for keyword search and semantic search is retrieved.
+clean_grounded_embedding_similarity,embedding;similarity;vector,grounded,related_terms,The embedding and similarity explanation document is retrieved.
+clean_grounded_rag_pipeline,RAG;retrieval;generation,grounded,related_terms,The document that separates RAG stages is retrieved.
+clean_grounded_answer_boundary,document;evidence;scope,grounded,related_terms,The answer-boundary document is retrieved.
+clean_grounded_freshness_caution,current;retrieval;guarantee,grounded,related_terms,The document warning that freshness is not automatic is retrieved.
+clean_grounded_synonym_query,synonym;wording;question,grounded,related_terms,The document about semantic retrieval across wording differences is retrieved.
+clean_grounded_topk_record,top-k;document;candidate,grounded,related_terms,The top-k candidate inspection document is retrieved.
+clean_grounded_failure_split,retrieval;failure;generation,grounded,related_terms,The document separating retrieval failure and generation failure is retrieved.
+clean_grounded_query_terms,search term;question;candidate,grounded,related_terms,The search-term design document is retrieved.
+clean_grounded_source_title,document;title;record,grounded,related_terms,The evidence document title record is retrieved.
+clean_grounded_policy_document,policy;document;date,grounded,related_terms,The policy-style retrieval condition document is retrieved.
+noisy_retrieval_marketing_copy,marketing;copy;promotion,grounded,off_topic_terms,Marketing documents rise to the top and leak into the answer.
+noisy_retrieval_banner_text,promotion;banner;sentence,grounded,off_topic_terms,A banner-copy document is attached like retrieval evidence.
+noisy_retrieval_coupon_event,coupon;event;copy,grounded,off_topic_terms,Coupon event copy is attached as irrelevant evidence.
+noisy_retrieval_brand_slogan,brand;slogan;promotion,grounded,off_topic_terms,A brand slogan document rises to the top.
+noisy_retrieval_social_post,social;post;engagement,grounded,off_topic_terms,A social post document is mixed into the answer.
+noisy_retrieval_ad_copy,ad;copy;emphasis,grounded,off_topic_terms,An ad copy document is attached like evidence.
+noisy_retrieval_newsletter_title,newsletter;title;promotion,grounded,off_topic_terms,A newsletter title document is retrieved.
+noisy_retrieval_landing_copy,landing;copy;marketing,grounded,off_topic_terms,A landing page copy document is retrieved.
+noisy_retrieval_sales_message,sales;purchase;copy,grounded,off_topic_terms,Sales copy leaks into the answer.
+noisy_retrieval_review_edit,customer;review;promotion,grounded,off_topic_terms,A customer review editing document is retrieved.
+noisy_retrieval_promotion_translation,promotion;translation;tone,grounded,off_topic_terms,A promotion translation document is retrieved.
+noisy_retrieval_campaign_class,campaign;copy;classification,grounded,off_topic_terms,A campaign copy classification document is retrieved.
+clean_but_overclaim_vector_search,semantic;vector;search,overclaim,related_terms_with_overclaim,Search terms are related but the generated sentence may speak more strongly than the evidence.
+clean_but_overclaim_keyword_vs_semantic,keyword;semantic;wording,overclaim,related_terms_with_overclaim,Check whether assertive wording is added after the evidence document.
+clean_but_overclaim_embedding_similarity,embedding;similarity;vector,overclaim,related_terms_with_overclaim,Check whether a similarity explanation turns into a correctness guarantee.
+clean_but_overclaim_rag_pipeline,RAG;retrieval;generation,overclaim,related_terms_with_overclaim,Check whether a stage explanation turns into an automatic guarantee.
+clean_but_overclaim_answer_boundary,document;evidence;scope,overclaim,related_terms_with_overclaim,Check whether a guarantee not present in the document is added.
+clean_but_overclaim_freshness_caution,current;retrieval;guarantee,overclaim,related_terms_with_overclaim,Check whether a caution document is still rewritten as a freshness guarantee.
+clean_but_overclaim_synonym_query,synonym;wording;question,overclaim,related_terms_with_overclaim,Check whether possibility is rewritten as perfection.
+clean_but_overclaim_topk_record,top-k;document;candidate,overclaim,related_terms_with_overclaim,Check whether the need to inspect candidates disappears.
+clean_but_overclaim_failure_split,retrieval;failure;generation,overclaim,related_terms_with_overclaim,Check whether failure separation is rewritten as no failure.
+clean_but_overclaim_query_terms,search term;question;candidate,overclaim,related_terms_with_overclaim,Check whether search-term design is rewritten as automatic resolution.
+clean_but_overclaim_source_title,document;title;record,overclaim,related_terms_with_overclaim,Check whether the need for evidence records is weakened.
+clean_but_overclaim_policy_document,policy;document;date,overclaim,related_terms_with_overclaim,Check whether date checking is rewritten as a freshness guarantee.

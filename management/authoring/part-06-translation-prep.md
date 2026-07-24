@@ -89,8 +89,8 @@
 | 33 | P6-10.3 | `docs/parts/part-06/chapter-10/section-03.md` | `v2026.07.24` | 있음 | 최신 | 영문 완료 |
 | 34 | P6-10.4 | `docs/parts/part-06/chapter-10/section-04.md` | `v2026.07.24` | 있음 | 최신 | 영문 완료 |
 | 35 | P6-11.1 | `docs/parts/part-06/chapter-11/section-01.md` | `v2026.07.24` | 있음 | 최신 | 영문 완료 |
-| 36 | P6-11.2 | `docs/parts/part-06/chapter-11/section-02.md` | `v2026.07.24` | 없음 | 없음 | 신규 번역 |
-| 37 | P6-12.1 | `docs/parts/part-06/chapter-12/section-01.md` | `v2026.07.23` | 없음 | 없음 | 신규 번역 |
+| 36 | P6-11.2 | `docs/parts/part-06/chapter-11/section-02.md` | `v2026.07.24` | 있음 | 최신 | 영문 완료 |
+| 37 | P6-12.1 | `docs/parts/part-06/chapter-12/section-01.md` | `v2026.07.23` | 있음 | 최신 | 영문 완료 |
 | 38 | P6-12.2 | `docs/parts/part-06/chapter-12/section-02.md` | `v2026.07.23` | 없음 | 없음 | 신규 번역 |
 | 39 | P6-13.1 | `docs/parts/part-06/chapter-13/section-01.md` | `v2026.07.23` | 없음 | 없음 | 신규 번역 |
 | 40 | P6-13.2 | `docs/parts/part-06/chapter-13/section-02.md` | `v2026.07.23` | 없음 | 없음 | 신규 번역 |

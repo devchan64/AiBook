@@ -20,4 +20,6 @@
   - `p6-11-rag-need-documents.csv`
   - `p6-11-rag-need-documents-en.csv`
   - `p6-11-rag-documents.csv`
+  - `p6-11-rag-documents-en.csv`
   - `p6-11-rag-experiments.csv`
+  - `p6-11-rag-experiments-en.csv`

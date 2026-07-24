@@ -1,0 +1,37 @@
+doc_id,title,text,source,category,version,status
+R01,Current Refund Processing Time Notice,Current refund processing takes 14 days from the received date and applies to requests received after the effective date,policy_notice_2026_06_29,refund,2026-06,current
+R02,Refund Evidence Documents,When requesting a refund, the customer must submit the order number and payment receipt together,help_center_refund,refund,2026-05,current
+R03,Old Return Review Archive,The old return standard said requests would be reviewed within 30 days under the previous rule,policy_archive_2025_12,refund,2025-12,archived
+R04,Partial Refund Exceptions,Partial refunds are approved after checking usage volume and contract conditions,finance_policy,refund,2026-04,current
+R05,Refund After Subscription Cancellation,Refunds for the remaining period after subscription cancellation depend on payment method and usage history,billing_manual,refund,2026-03,current
+R06,Refund Support Response Template,Customer refund inquiries should include the received date processing period and required documents,support_playbook,refund,2026-02,current
+S01,Settings Reset Procedure,To return settings to the initial state open Preferences and press the reset button before restarting,manual_v4,settings,2026-06,current
+S02,Turn Off Autosave,Autosave can be turned off in the Preferences Editing menu and changes must be saved afterward,manual_v4,settings,2026-06,current
+S03,Advanced Settings Location,In the current version advanced settings are under the Preferences Labs menu,manual_v4,settings,2026-06,current
+S04,Settings Restore Archive,In the previous version users restored defaults from the advanced settings screen,manual_v2_archive,settings,2025-08,archived
+S05,Change Notification Settings,Notification frequency is adjusted from the Preferences Notifications menu,manual_v4,settings,2026-06,current
+S06,Display Language Settings,The display language can be changed from the Language item in account settings,manual_v4,settings,2026-06,current
+A01,SDK Rate Limit Retry,When a rate limit occurs use exponential backoff and the max_retries option to adjust retry intervals,sdk_guide_v5,api,2026-06,current
+A02,SDK Auth Object,The current SDK creates the client by putting the token in the auth object,sdk_guide_v5,api,2026-06,current
+A03,API Timeout Setting,The timeout option sets the per request time limit and operates separately from the retry count,sdk_reference_v5,api,2026-06,current
+A04,Authorization Header Archive,Older SDK examples put the token directly in the Authorization header,sdk_archive_v4,api,2025-10,archived
+A05,Webhook Signature Verification,Webhook requests are verified by comparing the signature header with the payload hash,sdk_security_v5,api,2026-06,current
+A06,Pagination Handling,List retrieval passes the cursor value to the next request to fetch the next page,sdk_reference_v5,api,2026-06,current
+O01,Offboarding Asset Return,Before leaving the company the laptop and security key are returned to the security team desk,hr_wiki_2026,offboarding,2026-06,current
+O02,Account Deactivation Procedure,On the termination processing date work accounts and access permissions are deactivated in order,hr_wiki_2026,offboarding,2026-06,current
+O03,Offboarding Checklist,Departing employees complete equipment return reservation and document handover by the day before leaving,hr_wiki_2026,offboarding,2026-06,current
+O04,Asset Return Archive,The old standard instructed employees to return laptops to the general affairs counter,hr_archive_2024,offboarding,2024-11,archived
+O05,Security Card Return,Security cards are collected at the information desk on the last workday,security_policy,offboarding,2026-05,current
+O06,Handover Document Location,Handover documents are uploaded to the offboarding folder on the team drive,hr_wiki_2026,offboarding,2026-06,current
+B01,Seat Pricing Table Location,The current seat based pricing table is available in the billing settings screen of the admin console,billing_guide_2026,billing,2026-06,current
+B02,Monthly Billing Standard,Monthly billing is calculated from the number of active seats and usage period,billing_guide_2026,billing,2026-06,current
+B03,Annual Contract Discount,Annual contract discounts vary by seat count tier,billing_policy_2026,billing,2026-06,current
+B04,Pricing Plan Archive,The old pricing plans were offered only as Basic and Pro tiers,billing_archive_2025,billing,2025-09,archived
+B05,Tax Invoice Issuance,A tax invoice is issued after payment is complete and business information is verified,billing_manual,billing,2026-04,current
+B06,Change Payment Method,Payment method can be changed from billing settings in the admin console,billing_guide_2026,billing,2026-06,current
+G01,Support Screenshot Standard,Screen guidance answers should first check the current manual path and screenshot standard,support_style_guide,general,2026-06,current
+G02,Notice Writing Rule,A notice should describe the effective date target and before after change in one paragraph,content_guide,general,2026-05,current
+G03,Privacy Inquiry Routing,Personal data access and deletion inquiries are routed to the privacy owner for review,privacy_policy,general,2026-05,current
+G04,Incident Notice Template,Incident notices include impact scope current status and next update time,incident_playbook,general,2026-06,current
+G05,Support Priority Standard,Support ticket priority is decided by considering affected user count and blocking severity,support_ops,general,2026-04,current
+G06,Release Note Writing,Release notes separate feature changes bug fixes and user actions,release_guide,general,2026-06,current

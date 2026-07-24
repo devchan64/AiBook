@@ -1,0 +1,5 @@
+query_id,question
+refund_current,How many days does refund processing take now?
+settings_reset,Where do I reset settings back to the initial state?
+api_retry,Is there an option to wait briefly and retry when rate limits occur?
+offboarding_asset,Where do I return the company laptop before leaving?
