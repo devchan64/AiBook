@@ -1,7 +1,7 @@
 # P6-2.3 길이·비용·청크를 바꾸는 토큰화(tokenization)
 
 > Section ID: `P6-2.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-2.2에서는 tokenizer 출력에서 토큰 문자열, 토큰 수, 토큰 ID, token ID 순서열을 구분했습니다. 이제는 `어떻게 읽는가`에서 한 걸음 더 나아가, 토큰화 결과가 실제 판단을 어떻게 바꾸는지 봅니다.
 
@@ -300,7 +300,91 @@ P6-2.2에서는 tokenizer 출력에서 토큰 문자열, 토큰 수, 토큰 ID, 
 
 ## 연습 및 예제
 
-아래 연습은 토큰 수를 정확히 맞히는 문제가 아닙니다. 토큰화 뒤에 보이는 작은 관찰값을 보고, 어떤 운영 판단을 먼저 바꿔야 하는지 고르는 연습입니다. 질문마다 먼저 스스로 답한 뒤, 바로 아래 해설과 비교합니다.
+아래 연습은 토큰 수를 정확히 맞히는 문제가 아닙니다. 먼저 실제 tokenizer SDK로 입력이 몇 토큰이 되는지 확인하고, 그 값을 비용·청크·출력 보존 판단으로 옮겨 봅니다. 질문마다 먼저 스스로 답한 뒤, 바로 아래 해설과 비교합니다.
+
+### 예제. `tiktoken`으로 입력 예산과 출력 여유 확인하기
+
+이 예제는 OpenAI의 `tiktoken` 라이브러리로 같은 인코딩에서 입력 토큰 수를 직접 세어 봅니다. 특정 모델의 최신 문맥 길이를 외우는 예제가 아니라, 입력 토큰과 예상 출력 토큰을 합쳤을 때 운영 판단이 어떻게 바뀌는지 보는 예제입니다. 여기서는 `o200k_base` 인코딩을 사용합니다.
+
+여기서 실제 tokenizer가 계산하는 값은 `input_tokens`입니다. `expected_output_tokens`, `token_budget`, `chunk_size`는 서비스 설계자가 놓는 운영 가정값입니다. 이 둘을 구분해야 `SDK가 모든 판단을 자동으로 내려 준다`고 오해하지 않습니다. tokenizer는 입력이 몇 조각으로 바뀌었는지를 알려 주고, 사람은 그 값을 출력 여유와 청크 여유 판단에 연결합니다.
+
+직접 조작할 값은 `samples`의 `text`, `expected_output_tokens`, `token_budget`, `chunk_size`입니다. 실행 결과에서 먼저 볼 값은 `input_tokens`, `remaining_tokens`, `chunk_margin`입니다.
+
+```python
+# tiktoken으로 실제 입력 토큰 수를 세고, 비용·청크·출력 여유 판단으로 연결하는 예제입니다.
+import tiktoken
+
+encoding = tiktoken.get_encoding("o200k_base")
+
+samples = [
+    {
+        "case": "plain_notice",
+        "text": "회의는 내일 열립니다.",
+        "expected_output_tokens": 40,
+        "token_budget": 120,
+        "chunk_size": 80,
+    },
+    {
+        "case": "mixed_schedule",
+        "text": "회의는 내일 10:00 AM에 열립니다. Zoom 링크는 mail@example.com으로 보냈어요.",
+        "expected_output_tokens": 55,
+        "token_budget": 120,
+        "chunk_size": 80,
+    },
+    {
+        "case": "policy_with_exception",
+        "text": "연차는 3일 전 신청합니다. 단, 긴급 병가는 사후 보고가 가능하며 증빙을 첨부해야 합니다.",
+        "expected_output_tokens": 70,
+        "token_budget": 120,
+        "chunk_size": 30,
+    },
+    {
+        "case": "verbose_output_request",
+        "text": "배송 지연 사유를 표로 정리하고, 주의사항 목록과 환불 제한 조건을 마지막에 덧붙여 주세요.",
+        "expected_output_tokens": 95,
+        "token_budget": 120,
+        "chunk_size": 80,
+    },
+]
+
+for sample in samples:
+    input_tokens = len(encoding.encode(sample["text"]))
+    total_tokens = input_tokens + sample["expected_output_tokens"]
+    remaining_tokens = sample["token_budget"] - total_tokens
+    chunk_margin = sample["chunk_size"] - input_tokens
+    print(
+        sample["case"],
+        "input_tokens=", input_tokens,
+        "expected_output_tokens=", sample["expected_output_tokens"],
+        "total_tokens=", total_tokens,
+        "remaining_tokens=", remaining_tokens,
+        "chunk_margin=", chunk_margin,
+    )
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다. 아래 출력은 로컬 `.venv`에서 `tiktoken==0.13.0`으로 확인했습니다.
+
+```text
+plain_notice input_tokens= 7 expected_output_tokens= 40 total_tokens= 47 remaining_tokens= 73 chunk_margin= 73
+mixed_schedule input_tokens= 24 expected_output_tokens= 55 total_tokens= 79 remaining_tokens= 41 chunk_margin= 56
+policy_with_exception input_tokens= 31 expected_output_tokens= 70 total_tokens= 101 remaining_tokens= 19 chunk_margin= -1
+verbose_output_request input_tokens= 30 expected_output_tokens= 95 total_tokens= 125 remaining_tokens= -5 chunk_margin= 50
+```
+
+이 결과에서 읽어야 할 핵심은 숫자 하나가 아니라 판단의 이동입니다. 입력 토큰은 실제 tokenizer 결과이고, 출력 토큰·예산·청크 크기는 독자가 바꿔 볼 수 있는 조건입니다.
+
+| 사례 | 먼저 보이는 값 | 바뀌는 판단 |
+| --- | ---: | --- |
+| `plain_notice` | 입력 7토큰, 전체 47토큰 | 짧은 공지는 입력과 출력 여유가 충분합니다. |
+| `mixed_schedule` | 입력 24토큰, 전체 79토큰 | 숫자, 영문, 이메일이 붙으면 화면상 짧아도 입력 토큰이 늘어납니다. |
+| `policy_with_exception` | 입력 31토큰, `chunk_margin` -1토큰 | 청크 크기를 30으로 잡으면 이 입력은 한 묶음 안에 남지 못합니다. |
+| `verbose_output_request` | 전체 125토큰, 남은 여유 -5토큰 | 친절한 출력 형식이 예산을 넘겨 핵심 조건을 밀어낼 수 있습니다. |
+
+수치 움직임을 그림으로 보면, 긴 입력보다도 `예상 출력 형식`이 전체 예산을 더 빠르게 잠식하는 장면이 보입니다.
+
+![tiktoken 관찰값으로 본 입력 토큰과 출력 여유](../../../assets/part-06/chapter-02/tiktoken-budget-ko.png)
+
+이 예제의 목적은 tokenizer의 내부 규칙을 외우는 것이 아닙니다. 실제 token count를 확인한 뒤 `짧아 보이는가`, `문단이 자연스러운가`, `출력이 친절한가`라는 사람 기준을 입력 예산, 청크 여유, 출력 보존 기준으로 바꾸어 읽는 것입니다.
 
 ### 연습 1. 짧은 공지의 판단값 고르기
 

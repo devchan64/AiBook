@@ -1,7 +1,7 @@
 # P6-3.2 정답이 아니라 후보를 만드는 가까운 벡터
 
 > Section ID: `P6-3.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-3.1에서는 임베딩(embedding)을 토큰이나 문장을 벡터(vector)로 바꾸는 표현 방식이라고 설명했습니다. 이제 벡터를 만들었다면, 그다음에는 이 벡터를 어떻게 읽을지가 문제입니다.
 
@@ -37,12 +37,7 @@ P6-3.1의 임베딩 설명이 `표현을 벡터로 바꾸는가`를 다뤘다면
 
 ## 가까운 후보와 맞는 근거의 구분
 
-- 거리(distance)와 유사도(similarity)를 비교 기준으로 설명할 수 있습니다.
-- 가까운 벡터가 `비슷한 후보일 수 있음`을 설명할 수 있습니다.
-- 가까운 벡터가 곧 정답은 아니라는 점을 설명할 수 있습니다.
-- 이후 RAG와 검색 품질 절을 더 정확하게 읽을 수 있습니다.
-
-이 구분은 P6-3.1의 임베딩을 `벡터를 만든다`에서 `벡터를 비교한다`로 확장하고, 검색과 외부 지식 연결을 이해하는 핵심 기초가 됩니다.
+이 구분은 P6-3.1의 임베딩을 `벡터를 만든다`에서 `벡터를 비교한다`로 확장하고, 검색과 외부 지식 연결을 이해하는 핵심 기초가 됩니다. 이 절을 읽은 뒤에는 거리(distance)와 유사도(similarity)를 후보 비교 기준으로 설명하고, 가까운 벡터가 `비슷한 후보일 수 있음`과 `곧 정답은 아님`을 함께 말할 수 있어야 합니다.
 
 ## `가깝다`는 말은 무엇을 뜻하나
 
@@ -185,7 +180,7 @@ P6-3.1의 임베딩 설명이 `표현을 벡터로 바꾸는가`를 다뤘다면
 
 ## 연습 및 예제
 
-이 연습의 목표는 `가까운 후보를 먼저 고른다`는 감각과 `가까움이 곧 정답은 아니다`라는 점을 코드 없이 구분해 보는 것입니다. 아래 수치 예시는 이미 계산된 거리값과 문서 메타데이터를 함께 보여 줍니다.
+이 연습의 목표는 `가까운 후보를 먼저 고른다`는 감각과 `가까움이 곧 정답은 아니다`라는 점을 구분해 보는 것입니다. 먼저 작은 수치 예시로 판단 자리를 잡고, 이어서 같은 구조를 두 가지 검색 신호로 확인합니다.
 
 질문은 `출장비 정산 마감일이 언제인가요?`이고, 검색 시스템이 다음 세 후보를 올렸다고 가정합니다.
 
@@ -197,64 +192,237 @@ P6-3.1의 임베딩 설명이 `표현을 벡터로 바꾸는가`를 다뤘다면
 
 이 표에서 거리값은 `질문과 가까운 후보를 먼저 세우는 신호`이고, 업데이트와 메모는 `최종 근거로 쓸 수 있는지 다시 확인해야 하는 신호`입니다.
 
-이 예시에서 읽어야 할 핵심은 다음입니다.
-
-- `doc_A`와 `doc_C`는 질의와 비교적 가까운 후보로 먼저 올라옵니다.
-- `doc_B`는 훨씬 멀어서 우선순위가 뒤로 밀립니다.
-- 하지만 1등으로 올라온 `doc_A`가 곧 정답이라는 뜻은 아닙니다. 실제 본문을 열어 최신성, 예외 조건, 사실 일치를 따로 확인해야 하고, 그 결과 `doc_C`가 최종 근거로 바뀔 수 있습니다.
-
-이 결과를 실무 점검 메모로 다시 줄이면 다음처럼 읽는 편이 안전합니다.
-
-| 출력에서 바로 읽어야 할 것 | 그 결과를 잘못 읽으면 생기는 오해 | 다음 판단으로 이어지는 질문 |
-| --- | --- | --- |
-| 거리 기준 1등은 `doc_A`다 | 1등 후보가 곧 최종 답이라고 오해할 수 있다 | 최신성, 예외 조건, 본문 사실 확인을 끝냈는가 |
-| `doc_C`는 거리 2등이지만 최신 예외 조항을 담고 있다 | 거리 점수만 조금 낮으면 바로 버려도 된다고 오해할 수 있다 | top-k 안의 후보를 실제로 열어 검토했는가 |
-| `doc_B`는 멀어서 뒤로 밀린다 | 거리 계산이 곧 진실 판정이라고 오해할 수 있다 | 우선순위와 최종 확정을 분리해서 읽고 있는가 |
-
-이 표의 목적은 절차를 더 많이 외우게 하는 데 있지 않습니다. `가까운 후보가 나왔다`는 순간 바로 답을 확정하지 않고, 지금이 `후보 선정`, `후보 검토`, `근거 확정` 중 어느 단계인지 먼저 가르게 만드는 데 있습니다.
+여기서 `doc_A`가 거리 기준 1등이라는 사실은 `먼저 열어 볼 후보`를 뜻합니다. 그러나 `doc_A`는 지난 분기 정책이고, `doc_C`는 거리 기준 2등이어도 최신 예외 조항을 담고 있습니다. 따라서 거리 순위는 후보 선정 단계의 출력이고, 최종 근거 확정은 본문과 메타데이터를 다시 확인한 뒤에야 가능합니다.
 
 ## 검색 후보 판단에서 갈리는 것
 
-이 절의 연습은 거리 계산을 한 번 더 반복하는 데 있지 않습니다. `가까운 후보`, `검토할 후보 묶음`, `최종 근거`를 서로 다른 단계로 가르는 데 있습니다. 질문마다 먼저 스스로 답한 뒤, 바로 아래 해설과 비교합니다.
+이 절의 코드는 같은 문서 후보를 두 방식으로 세워 봅니다. 먼저 `TfidfVectorizer`로 문자 겹침에 가까운 재현 가능한 기준선을 만들고, 이어서 Ollama embedding 모델로 실제 임베딩 기반 후보 순위를 확인합니다. 두 출력의 순위는 달라질 수 있습니다. 그러나 읽어야 할 중심은 같습니다. `가까운 후보`, `검토할 후보 묶음`, `최종 근거`를 서로 다른 단계로 가르는 것입니다.
 
-### 연습 1. 거리 기준 후보 순서 읽기
+### 기본 예제. top-k 후보와 최종 근거 후보 분리하기
 
-관찰값:
+이 예제는 실제 임베딩 모델을 대신해 `TfidfVectorizer`를 작은 검색 모델처럼 사용합니다. 핵심은 검색 모델 종류가 아니라, 가까운 후보 순서와 최종 근거 후보가 다를 수 있음을 출력으로 확인하는 것입니다. 직접 조작할 값은 `query`, `top_k`, `min_similarity`입니다.
 
-| 후보 | 거리 | 메모 |
+```python
+# 가까운 후보 top-k와 최종 근거 후보를 분리해서 보는 예제입니다.
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+documents = [
+    {
+        "doc_id": "doc_A",
+        "title": "출장비 정산 정책",
+        "text": "출장비 정산 마감일과 제출 마감일은 매월 5영업일입니다. 지난 분기 기준입니다.",
+        "current_version": False,
+        "contains_exception": False,
+    },
+    {
+        "doc_id": "doc_C",
+        "title": "출장비 정산 최신 예외",
+        "text": "해외 출장 예외 조건과 긴급 승인 예외 조건은 최신 공지 링크를 확인합니다.",
+        "current_version": True,
+        "contains_exception": True,
+    },
+    {
+        "doc_id": "doc_B",
+        "title": "회의실 예약",
+        "text": "회의실 예약은 사내 캘린더에서 신청하고 장비 대여 여부를 함께 기록합니다.",
+        "current_version": True,
+        "contains_exception": False,
+    },
+]
+
+# 조작 변수: query, top_k, min_similarity를 바꾸면 검토할 후보 묶음이 달라집니다.
+query = "출장비 정산 마감일과 예외 조건은 무엇인가요?"
+top_k = 3
+min_similarity = 0.10
+
+vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4))
+document_vectors = vectorizer.fit_transform([doc["text"] for doc in documents])
+query_vector = vectorizer.transform([query])
+similarities = cosine_similarity(query_vector, document_vectors)[0]
+
+ranked = sorted(
+    zip(documents, similarities),
+    key=lambda item: item[1],
+    reverse=True,
+)[:top_k]
+
+print("retrieved candidates:")
+for rank, (doc, score) in enumerate(ranked, start=1):
+    print(
+        rank,
+        doc["doc_id"],
+        "similarity=", round(float(score), 3),
+        "current=", doc["current_version"],
+        "exception=", doc["contains_exception"],
+    )
+
+grounding_candidates = [
+    doc["doc_id"]
+    for doc, score in ranked
+    if score >= min_similarity and doc["current_version"] and doc["contains_exception"]
+]
+
+print("grounding_candidates =", grounding_candidates)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+retrieved candidates:
+1 doc_A similarity= 0.459 current= False exception= False
+2 doc_C similarity= 0.408 current= True exception= True
+3 doc_B similarity= 0.046 current= True exception= False
+grounding_candidates = ['doc_C']
+```
+
+이 출력에서 `doc_A`는 유사도 기준 1등이지만 지난 분기 기준이고 예외 조건도 없습니다. 반대로 `doc_C`는 2등이지만 최신 문서이고 예외 조건을 담고 있으므로 최종 근거 후보가 됩니다. 즉, 가까운 후보를 먼저 찾는 일과 답변 근거로 확정하는 일은 서로 다른 단계입니다.
+
+### 선택 예제. 로컬 임베딩 모델로 같은 후보 비교하기
+
+Ollama가 설치되어 있고 `nomic-embed-text` 모델을 내려받은 환경이라면 같은 구조를 실제 임베딩 모델로도 확인할 수 있습니다. 이 선택 예제의 목적은 모델 성능을 비교하는 데 있지 않습니다. 문자열 겹침 기반 벡터화가 아니라, embedding 모델이 만든 벡터를 사용해 후보를 세워도 `가까운 후보`와 `최종 근거 후보`를 다시 분리해서 봐야 한다는 점을 확인하는 데 있습니다.
+
+먼저 로컬 터미널에서 모델을 준비합니다.
+
+```bash
+ollama pull nomic-embed-text
+```
+
+그다음 아래 코드를 실행합니다. 이 코드는 Python 패키지 `ollama`를 사용합니다. 코드가 `Ollama embedding model is not ready.`를 출력하면 Ollama 서버가 꺼져 있거나, `nomic-embed-text` 모델이 아직 준비되지 않은 상태입니다.
+
+```python
+# Ollama의 로컬 embedding 모델로 top-k 후보와 최종 근거 후보를 다시 비교하는 선택 예제입니다.
+from math import sqrt
+
+import ollama
+
+documents = [
+    {
+        "doc_id": "doc_A",
+        "title": "출장비 정산 정책",
+        "text": "출장비 정산 마감일과 제출 마감일은 매월 5영업일입니다. 지난 분기 기준입니다.",
+        "current_version": False,
+        "contains_exception": False,
+    },
+    {
+        "doc_id": "doc_C",
+        "title": "출장비 정산 최신 예외",
+        "text": "해외 출장 예외 조건과 긴급 승인 예외 조건은 최신 공지 링크를 확인합니다.",
+        "current_version": True,
+        "contains_exception": True,
+    },
+    {
+        "doc_id": "doc_B",
+        "title": "회의실 예약",
+        "text": "회의실 예약은 사내 캘린더에서 신청하고 장비 대여 여부를 함께 기록합니다.",
+        "current_version": True,
+        "contains_exception": False,
+    },
+]
+
+# 조작 변수: query, top_k, min_similarity를 바꾸면 검색 후보와 근거 후보가 달라질 수 있습니다.
+query = "출장비 정산 마감일과 예외 조건은 무엇인가요?"
+top_k = 3
+min_similarity = 0.25
+model_name = "nomic-embed-text"
+
+def embed(text: str) -> list[float]:
+    return ollama.embed(model=model_name, input=text).embeddings[0]
+
+def cosine_similarity(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = sqrt(sum(x * x for x in a))
+    norm_b = sqrt(sum(y * y for y in b))
+    return dot / (norm_a * norm_b)
+
+try:
+    query_vector = embed(query)
+    document_vectors = [embed(doc["text"]) for doc in documents]
+except Exception as error:
+    print("Ollama embedding model is not ready.")
+    print(type(error).__name__, error)
+    raise SystemExit
+
+ranked = sorted(
+    zip(documents, document_vectors),
+    key=lambda item: cosine_similarity(query_vector, item[1]),
+    reverse=True,
+)[:top_k]
+
+print("embedding candidates:")
+for rank, (doc, vector) in enumerate(ranked, start=1):
+    score = cosine_similarity(query_vector, vector)
+    print(
+        rank,
+        doc["doc_id"],
+        "similarity=", round(float(score), 3),
+        "current=", doc["current_version"],
+        "exception=", doc["contains_exception"],
+    )
+
+grounding_candidates = [
+    doc["doc_id"]
+    for doc, vector in ranked
+    if (
+        cosine_similarity(query_vector, vector) >= min_similarity
+        and doc["current_version"]
+        and doc["contains_exception"]
+    )
+]
+
+print("grounding_candidates =", grounding_candidates)
+```
+
+실행 결과 예시는 다음처럼 나왔습니다.
+
+```text
+embedding candidates:
+1 doc_C similarity= 0.85 current= True exception= True
+2 doc_A similarity= 0.833 current= False exception= False
+3 doc_B similarity= 0.813 current= True exception= False
+grounding_candidates = ['doc_C']
+```
+
+이 선택 예제에서는 실제 embedding 모델이 `doc_C`를 1등으로 올렸습니다. 그러나 이것만으로 embedding 모델이 최종 답을 맞혔다고 읽으면 안 됩니다. `doc_A`와 `doc_B`도 높은 유사도로 함께 올라왔기 때문입니다. 짧은 문서 후보가 적게 들어 있는 예제에서는 넓은 의미의 업무 문서, 신청 절차, 정책 문장이 서로 가깝게 잡힐 수 있습니다. 실제 embedding 모델을 써도 가까움은 `후보 선정 신호`이지, 최신성과 예외 조건을 자동으로 보장하는 판정값이 아닙니다.
+
+### 연습 1. 두 검색 신호의 순위 차이 읽기
+
+두 실행 결과를 나란히 보면 같은 질문에서도 1등 후보가 달라집니다.
+
+| 실행 방식 | 1등 후보 | 같이 읽어야 할 신호 |
 | --- | --- | --- |
-| `doc_A` | `0.02` | 지난 분기 정책 |
-| `doc_C` | `0.05` | 최신 예외 조항 포함 |
-| `doc_B` | `1.0` | 다른 주제 |
+| `TfidfVectorizer` 기준선 | `doc_A` | 마감일 표현이 많이 겹치지만 `current_version=False`이고 예외 조건이 없다 |
+| Ollama embedding 모델 | `doc_C` | 예외 조건 문서가 먼저 올라오지만 다른 후보도 높은 유사도로 함께 올라온다 |
 
 먼저 스스로 답해 봅니다.
 
-- 거리 기준 1등 후보는 무엇인가?
-- 거리 기준으로 우선순위가 가장 낮은 후보는 무엇인가?
-- 이 결과는 최종 답 확정인가, 1차 후보 선정인가?
+- `TfidfVectorizer`에서는 왜 `doc_A`가 먼저 올라왔는가?
+- Ollama embedding 모델에서는 왜 `doc_C`가 먼저 올라올 수 있는가?
+- 두 출력이 달라도 최종 근거를 확정하기 전에 공통으로 확인해야 할 것은 무엇인가?
 
-해설: 거리 기준 1등은 `doc_A`이고, 우선순위가 가장 낮은 후보는 `doc_B`입니다. 하지만 이 결과는 최종 답 확정이 아니라 1차 후보 선정입니다. P6-3.2의 중심은 `가깝다`를 정답으로 읽지 않고, 먼저 검토할 후보 순서로 읽는 데 있습니다.
+해설: `TfidfVectorizer`는 문자 조각의 겹침을 강하게 봅니다. 그래서 `출장비`, `정산`, `마감일` 표현이 많이 겹치는 `doc_A`가 먼저 올라옵니다. Ollama embedding 모델은 문장 전체의 의미 관계를 더 넓게 보므로 `예외 조건`을 담은 `doc_C`를 먼저 올릴 수 있습니다. 하지만 두 방식 모두 최종 근거 확정 전에는 문서 본문, 최신성, 예외 조건을 다시 확인해야 합니다.
 
-### 연습 2. top-k 후보를 다시 검토하기
+### 연습 2. 높은 유사도를 바로 믿지 않기
 
-관찰값:
+Ollama embedding 출력만 보면 세 후보의 유사도가 모두 높게 보입니다.
 
-| 후보 | 거리 순위 | 추가 확인 정보 |
-| --- | --- | --- |
-| `doc_A` | 1등 | 지난 분기 정책 |
-| `doc_C` | 2등 | 최신 예외 조항 포함 |
+| 후보 | 유사도 | 현재 버전 | 예외 조건 |
+| --- | ---: | --- | --- |
+| `doc_C` | `0.850` | 예 | 예 |
+| `doc_A` | `0.833` | 아니요 | 아니요 |
+| `doc_B` | `0.813` | 예 | 아니요 |
 
 먼저 스스로 답해 봅니다.
 
-- 거리만 보면 어느 후보가 먼저인가?
-- 최신성과 예외 조건을 보면 어떤 후보를 최종 근거로 더 검토해야 하는가?
-- 왜 2등 후보를 바로 버리면 안 되는가?
+- `doc_B`의 유사도가 높게 나왔다고 최종 근거로 써도 되는가?
+- `doc_A`의 유사도가 높게 나왔다고 지난 분기 정책을 답에 넣어도 되는가?
+- 이 출력에서 최종 근거 후보를 `doc_C`로 좁히는 이유는 무엇인가?
 
-해설: 거리만 보면 `doc_A`가 먼저입니다. 그러나 최신성과 예외 조건을 함께 보면 `doc_C`를 최종 근거 후보로 더 검토해야 합니다. 2등 후보를 바로 버리면 최신 예외 조항처럼 답의 정확성을 바꾸는 정보를 놓칠 수 있습니다. 따라서 top-k 후보는 거리 순서만 보는 목록이 아니라, 본문과 메타데이터를 다시 열어 볼 검토 묶음입니다.
+해설: `doc_B`는 현재 버전이어도 질문의 핵심인 출장비 정산 예외 조건을 담지 않습니다. `doc_A`는 질문과 가까워도 지난 분기 정책입니다. 따라서 세 후보가 모두 가까워 보여도 최종 근거 후보는 `current_version=True`이고 `contains_exception=True`인 `doc_C`로 좁혀야 합니다. 이때 유사도는 후보를 버리거나 믿는 최종 판정이 아니라, 무엇을 먼저 열어 볼지 정하는 순서입니다.
 
 ### 연습 3. 다음 조치 고르기
 
-다음 장면마다 `거리 계산`, `문서 본문 검토`, `최신성 확인`, `추가 검색` 중 무엇을 먼저 해야 하는지 고르고 이유를 한 문장으로 적어 보세요.
+다음 장면마다 `문서 본문 검토`, `최신성 확인`, `추가 검색`, `근거 후보 확정` 중 무엇을 먼저 해야 하는지 고르고 이유를 한 문장으로 적어 보세요.
 
 | 장면 | 먼저 고를 조치 |
 | --- | --- |
@@ -265,7 +433,7 @@ P6-3.1의 임베딩 설명이 `표현을 벡터로 바꾸는가`를 다뤘다면
 
 해설: 첫 장면은 최신성 확인이 먼저입니다. 가까운 후보라도 작년 정책만 담고 있으면 최종 근거가 될 수 없습니다. 둘째 장면은 문서 본문 검토와 최신성 확인을 함께 해야 합니다. top-k가 모두 가깝다면 거리 순서만 보지 말고 실제 공지 링크와 근거 문단을 열어 봐야 합니다. 셋째 장면은 추가 검색이 먼저입니다. 후보 전체가 멀고 핵심 단어도 겹치지 않으면 현재 검색 질의나 인덱스가 맞지 않을 수 있습니다. 넷째 장면은 문서 본문 검토가 먼저입니다. top-1 후보가 그럴듯해도 예외 조항이 없으면 답을 확정하기 어렵습니다. 네 장면 모두 핵심은 `가까운 후보 선정`과 `최종 근거 확정`을 분리해서 읽는 것입니다.
 
-이 축약된 예시는 `가까운 벡터를 찾는다`는 말이 실제 서비스에서는 `답을 바로 확정한다`가 아니라 `먼저 검토할 후보를 순서대로 좁힌다`는 뜻임을 다시 보여 줍니다. 예를 들어 `doc_A`가 가장 가깝게 나왔더라도, 실제 문단을 열어 보면 지난 분기 기준만 담겨 있고 `doc_C`에 최신 예외 조건이 들어 있을 수 있습니다. 그래서 이후 검색, RAG, 추천 절을 읽을 때도 핵심은 거리 계산 그 자체보다 `무엇을 후보로 올리고, 그다음 어떤 단계로 검토하는가`에 있습니다.
+이 예시는 `가까운 벡터를 찾는다`는 말이 실제 서비스에서는 `답을 바로 확정한다`가 아니라 `먼저 검토할 후보를 순서대로 좁힌다`는 뜻임을 보여 줍니다. TF-IDF 기준선과 Ollama embedding 모델은 서로 다른 순위를 만들 수 있지만, 둘 다 최종 근거를 대신 확정해 주지는 않습니다. 그래서 이후 검색, RAG, 추천 절을 읽을 때도 핵심은 거리 계산 그 자체보다 `무엇을 후보로 올리고, 그다음 어떤 단계로 검토하는가`에 있습니다.
 
 임베딩과 거리 개념은 통계적 언어 모델 이후의 표현 학습(representation learning) 흐름과 깊게 연결됩니다. 단어를 one-hot처럼 분리된 기호로만 다루는 대신, 벡터 공간 안에서 관계를 표현하려는 시도가 이후 검색과 생성 서비스 전반으로 확장되었습니다.
 
@@ -286,3 +454,4 @@ LLM 시대에는 이 관점이 더 중요해졌습니다.
 - Tomas Mikolov et al., [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-19. 단어와 구를 벡터 공간에서 비교 가능한 표현으로 다루는 배경 근거로 사용했다.
 - Nils Reimers, Iryna Gurevych, [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084){: target="_blank" rel="noopener noreferrer" }, arXiv, 2019, 확인 날짜: 2026-07-19. 문장 임베딩을 cosine similarity로 비교해 semantic similarity search에 사용하는 설명의 근거로 사용했다.
 - Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. 임베딩과 유사도 비교 설명의 일반 NLP 배경 근거로 사용했다.
+- Ollama, [nomic-embed-text](https://registry.ollama.com/library/nomic-embed-text){: target="_blank" rel="noopener noreferrer" }, Ollama model registry, 확인 날짜: 2026-07-24. 로컬 embedding 모델을 사용한 선택 실행 예제의 모델 설명과 호출 방식 확인에 사용했다.

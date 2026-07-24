@@ -18,5 +18,9 @@
   - `p6-c02-s05-tokenizer-difference-cases-en.mmd` / `p6-c02-s05-tokenizer-difference-cases-ko.mmd`
 - PNG chart assets:
   - `ann-window-tradeoff-en.png` / `ann-window-tradeoff-ko.png`
+  - `tiktoken-budget-en.png` / `tiktoken-budget-ko.png`
 - Python chart source:
   - `p6_2_4_ann_window_tradeoff_chart.py`
+  - `p6_2_3_tiktoken_budget_chart.py`
+- Stored observation CSV outputs:
+  - `p6-2-5-tokenizer-family-observations.csv`

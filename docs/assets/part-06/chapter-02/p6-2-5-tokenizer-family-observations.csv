@@ -1,0 +1,16 @@
+sample_id,text,tokenizer_family,model,token_count,representative_tokens,observation_axis
+ko_plain,회의는 내일 열립니다.,BPE,gpt2,24,"['íļ', 'Į', 'ìĿ', 'ĺ', 'ëĬ', 'Ķ', ...]",korean_fragmentation
+ko_plain,회의는 내일 열립니다.,WordPiece,bert-base-uncased,17,"['[UNK]', 'ᄂ', '##ᅢ', ...]",korean_unknown_and_subword
+ko_plain,회의는 내일 열립니다.,SentencePiece,google/mt5-small,8,"['▁', '회의', '는', '▁내', '일', '▁열', '립니다', '.']",space_aware_segments
+ko_time,회의는 내일 10:00 AM에 열립니다.,BPE,gpt2,31,"['Ġ10', ':', '00', 'ĠAM', ...]",mixed_time_notation
+ko_time,회의는 내일 10:00 AM에 열립니다.,WordPiece,bert-base-uncased,23,"['10', ':', '00', 'am', ...]",mixed_time_notation
+ko_time,회의는 내일 10:00 AM에 열립니다.,SentencePiece,google/mt5-small,11,"['▁10', ':00', '▁AM', ...]",mixed_time_notation
+ko_zoom,"회의는 내일 10:00 AM, Zoom 링크 포함입니다.",BPE,gpt2,39,"['Ġ10', ':', '00', 'ĠAM', ',', 'ĠZoom', ...]",mixed_product_notation
+ko_zoom,"회의는 내일 10:00 AM, Zoom 링크 포함입니다.",WordPiece,bert-base-uncased,30,"['10', ':', '00', 'am', ',', 'zoom', ...]",mixed_product_notation
+ko_zoom,"회의는 내일 10:00 AM, Zoom 링크 포함입니다.",SentencePiece,google/mt5-small,16,"['▁10', ':00', '▁AM', ',', '▁Zoom', ...]",mixed_product_notation
+word_tokenization,tokenization,BPE,gpt2,2,"['token', 'ization']",english_subword_split
+word_tokenization,tokenization,WordPiece,bert-base-uncased,2,"['token', '##ization']",english_subword_split
+word_tokenization,tokenization,SentencePiece,google/mt5-small,3,"['▁', 'token', 'ization']",space_marker_and_subword
+en_sentence,tokenization helps models read rare words,BPE,gpt2,7,"['token', 'ization', 'Ġhelps', 'Ġmodels', 'Ġread', 'Ġrare', 'Ġwords']",english_sentence
+en_sentence,tokenization helps models read rare words,WordPiece,bert-base-uncased,7,"['token', '##ization', 'helps', 'models', 'read', 'rare', 'words']",english_sentence
+en_sentence,tokenization helps models read rare words,SentencePiece,google/mt5-small,9,"['▁', 'token', 'ization', '▁help', 's', '▁models', '▁read', '▁rare', '▁words']",english_sentence
