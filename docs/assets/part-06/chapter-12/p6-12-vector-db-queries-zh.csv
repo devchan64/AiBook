@@ -1,0 +1,5 @@
+query_id,question
+refund_current,现在退款处理需要多少天？
+settings_reset,在哪里把设置恢复到初始状态？
+api_retry,请求限制发生时有没有稍等后重试的选项？
+offboarding_asset,离职前公司笔记本要归还到哪里？

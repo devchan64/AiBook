@@ -38,6 +38,20 @@ LANG_TEXT = {
         "xlabel": "rank",
         "ylabel": "update ratio vs full matrix",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Microsoft YaHei",
+            "SimHei",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "lora-rank-ratio-zh.png",
+        "xlabel": "rank",
+        "ylabel": "相对完整矩阵的调整分比例",
+    },
 }
 
 

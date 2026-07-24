@@ -1,0 +1,37 @@
+doc_id,title,text,source,category,version,status
+R01,当前退款处理时间通知,当前退款处理从收到日期起需要 14 天，并适用于生效日期之后收到的申请,policy_notice_2026_06_29,refund,2026-06,current
+R02,退款依据文件,申请退款时，客户必须同时提交订单号和付款收据,help_center_refund,refund,2026-05,current
+R03,旧退货审核归档,旧退货标准规定请求会按此前规则在 30 天内审核,policy_archive_2025_12,refund,2025-12,archived
+R04,部分退款例外,部分退款需检查使用量和合同条件后批准,finance_policy,refund,2026-04,current
+R05,订阅取消后的退款,订阅取消后剩余期间的退款取决于付款方式和使用记录,billing_manual,refund,2026-03,current
+R06,退款支持回复模板,客户退款咨询应包含收到日期、处理期间和必需文件,support_playbook,refund,2026-02,current
+S01,设置重置步骤,要把设置恢复到初始状态，请打开偏好设置，并在重启前按下重置按钮,manual_v4,settings,2026-06,current
+S02,关闭自动保存,自动保存可以在偏好设置的编辑菜单中关闭，之后必须保存更改,manual_v4,settings,2026-06,current
+S03,高级设置位置,当前版本中高级设置位于偏好设置的实验室菜单下,manual_v4,settings,2026-06,current
+S04,设置恢复归档,旧版本中用户从高级设置画面恢复默认值,manual_v2_archive,settings,2025-08,archived
+S05,更改通知设置,通知频率从偏好设置的通知菜单中调整,manual_v4,settings,2026-06,current
+S06,显示语言设置,显示语言可以从账户设置中的语言项目更改,manual_v4,settings,2026-06,current
+A01,SDK 请求限制重试,请求限制发生时，使用指数退避和 max_retries 选项调整重试间隔,sdk_guide_v5,api,2026-06,current
+A02,SDK auth 对象,当前 SDK 通过把令牌放入 auth 对象来创建客户端,sdk_guide_v5,api,2026-06,current
+A03,API 超时设置,timeout 选项设置单次请求时间限制，并与重试次数分开运行,sdk_reference_v5,api,2026-06,current
+A04,Authorization Header 归档,旧 SDK 示例把令牌直接放在 Authorization header 中,sdk_archive_v4,api,2025-10,archived
+A05,Webhook 签名验证,Webhook 请求通过比较签名 header 和 payload 哈希来验证,sdk_security_v5,api,2026-06,current
+A06,分页处理,列表检索把 cursor 值传给下一次请求来获取下一页,sdk_reference_v5,api,2026-06,current
+O01,离职资产归还,离职前笔记本和安全钥匙要归还到安全团队服务台,hr_wiki_2026,offboarding,2026-06,current
+O02,账户停用流程,在离职处理日，工作账户和访问权限会按顺序停用,hr_wiki_2026,offboarding,2026-06,current
+O03,离职检查清单,离职员工在离职前一天完成设备归还预约和文档交接,hr_wiki_2026,offboarding,2026-06,current
+O04,资产归还归档,旧标准要求员工把笔记本归还到总务柜台,hr_archive_2024,offboarding,2024-11,archived
+O05,安全卡归还,安全卡在最后工作日由信息台回收,security_policy,offboarding,2026-05,current
+O06,交接文档位置,交接文档上传到团队驱动器中的离职文件夹,hr_wiki_2026,offboarding,2026-06,current
+B01,按席位计费表位置,当前按席位计费表可以在管理控制台的账单设置画面查看,billing_guide_2026,billing,2026-06,current
+B02,月度计费标准,月度计费根据活跃席位数和使用期间计算,billing_guide_2026,billing,2026-06,current
+B03,年度合同折扣,年度合同折扣根据席位数量层级而变化,billing_policy_2026,billing,2026-06,current
+B04,定价方案归档,旧定价方案只提供 Basic 和 Pro 层级,billing_archive_2025,billing,2025-09,archived
+B05,税务发票开具,付款完成并验证企业信息后开具税务发票,billing_manual,billing,2026-04,current
+B06,更改付款方式,付款方式可以从管理控制台的账单设置中更改,billing_guide_2026,billing,2026-06,current
+G01,支持截图标准,画面引导回答应先检查当前手册路径和截图标准,support_style_guide,general,2026-06,current
+G02,公告写作规则,公告应在一个段落中说明生效日期、对象和变更前后,content_guide,general,2026-05,current
+G03,隐私咨询路由,个人数据访问和删除咨询会转给隐私负责人审核,privacy_policy,general,2026-05,current
+G04,事故公告模板,事故公告包括影响范围、当前状态和下一次更新时间,incident_playbook,general,2026-06,current
+G05,支持优先级标准,支持工单优先级根据受影响用户数和阻塞严重度决定,support_ops,general,2026-04,current
+G06,发布说明写法,发布说明区分功能变更、错误修复和用户操作,release_guide,release,2026-06,current

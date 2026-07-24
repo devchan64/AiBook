@@ -43,6 +43,20 @@ LANG_TEXT = {
         "ylabel": "detected payloads",
         "labels": ["retrieval\nfailure", "generation\nfailure", "irrelevant\nleak", "overclaim"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Microsoft YaHei",
+            "SimHei",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "rag-failure-split-zh.png",
+        "ylabel": "检测到的实验数",
+        "labels": ["检索失败", "生成失败", "无关内容\n泄漏", "夸大表达"],
+    },
 }
 
 

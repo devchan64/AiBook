@@ -1,0 +1,37 @@
+case_id,domain,round,goal_zh,planned_step_zh,observation_zh,goal,planned_step,observation_signal,has_current_context,evidence_sufficient,conflict_found,approval_needed,action_failed,retry_count,retry_limit
+policy-01,policy,1,总结最新退款政策,搜索政策公告,只有旧公告,latest refund policy summary,search policy notice,old notice only,false,false,false,false,false,0,2
+policy-01,policy,2,总结最新退款政策,细化日期过滤,找到当前公告,latest refund policy summary,refine date filter,current notice found,true,false,false,false,false,1,2
+policy-01,policy,3,总结最新退款政策,读取来源并总结,当前依据足够,latest refund policy summary,read source and summarize,sufficient current evidence,true,true,false,false,false,1,2
+policy-02,policy,1,解决退款规则不一致,搜索政策公告,找到当前公告,resolve refund rule mismatch,search policy notice,current notice found,true,false,false,false,false,0,2
+policy-02,policy,2,解决退款规则不一致,比较政策附录,生效日期冲突,resolve refund rule mismatch,compare policy appendix,conflicting effective dates,true,false,true,false,false,1,2
+policy-03,policy,1,检查当前政策是否存在,搜索政策公告,只有旧公告,check whether current policy exists,search policy notice,old notice only,false,false,false,false,false,0,2
+policy-03,policy,2,检查当前政策是否存在,细化日期过滤,仍然没有当前公告,check whether current policy exists,refine date filter,still no current notice,false,false,false,false,false,1,2
+policy-03,policy,3,检查当前政策是否存在,尝试备用来源,重试后仍没有当前来源,check whether current policy exists,try alternate source,no current source after retry,false,false,false,false,true,2,2
+policy-04,policy,1,用退款资格来源回答,搜索政策公告,找到当前公告,answer with refund eligibility source,search policy notice,current notice found,true,false,false,false,false,0,2
+policy-04,policy,2,用退款资格来源回答,读取详细条款,缺少资格条件,answer with refund eligibility source,read detailed terms,eligibility condition missing,true,false,false,false,false,1,2
+policy-04,policy,3,用退款资格来源回答,打开附录,当前依据足够,answer with refund eligibility source,open appendix,sufficient current evidence,true,true,false,false,false,1,2
+code-01,coding,1,修复认证回归,修补可能文件,出现新测试失败,fix authentication regression,patch likely file,new test failure,true,false,false,false,true,0,2
+code-01,coding,2,修复认证回归,根据测试日志调整补丁,测试通过且有说明,fix authentication regression,adjust patch from test log,tests pass with notes,true,true,false,false,false,1,2
+code-02,coding,1,更新计费验证,检查文件,缺少相关文件,update billing validation,inspect files,related file missing,false,false,false,false,false,0,2
+code-02,coding,2,更新计费验证,搜索相关测试,找到测试语境,update billing validation,search related tests,test context found,true,false,false,false,false,1,2
+code-02,coding,3,更新计费验证,运行测试,涉及权限敏感修改,update billing validation,run tests,permission-sensitive change,true,false,false,true,false,1,2
+code-03,coding,1,应用安全敏感补丁,检查修改范围,写入前需要批准,apply security-sensitive patch,inspect change scope,approval required before write,true,false,false,true,false,0,1
+code-04,coding,1,修复不稳定 import 路径,运行失败测试,出现新 import 错误,repair flaky import path,run failing test,new import error,true,false,false,false,true,0,2
+code-04,coding,2,修复不稳定 import 路径,修改 import 路径,重试后同样失败,repair flaky import path,change import path,same failure after retry,true,false,false,false,true,1,2
+code-04,coding,3,修复不稳定 import 路径,尝试备用修复,达到重试上限,repair flaky import path,try alternate fix,retry limit reached,true,false,false,false,true,2,2
+schedule-01,schedule,1,寻找 30 分钟会议时间,查询日历,没有空档,find thirty minute meeting time,query calendar,no open slot,false,false,false,false,false,0,2
+schedule-01,schedule,2,寻找 30 分钟会议时间,搜索备用时间窗口,找到备用空档,find thirty minute meeting time,search alternate window,alternate slot found,true,false,false,false,false,1,2
+schedule-01,schedule,3,寻找 30 分钟会议时间,请求用户确认备用方案,需要用户确认,find thirty minute meeting time,ask user to confirm alternate,user confirmation needed,true,false,false,true,false,1,2
+schedule-02,schedule,1,预订团队同步会议,查询日历,找到空档,book team sync,query calendar,open slot found,true,true,false,false,false,0,2
+schedule-03,schedule,1,重新安排客户电话,查询日历,两个日历不一致,reschedule customer call,query calendar,two calendars disagree,true,false,true,false,false,0,2
+research-01,research,1,比较供应商政策来源,搜索网页结果,相关但过旧的来源,compare vendor policy sources,search web results,relevant but old source,false,false,false,false,false,0,2
+research-01,research,2,比较供应商政策来源,筛选近期来源,找到近期来源,compare vendor policy sources,filter recent source,recent source found,true,false,false,false,false,1,2
+research-01,research,3,比较供应商政策来源,比较来源主张,来源主张冲突,compare vendor policy sources,compare source claims,conflicting source claims,true,false,true,false,false,1,2
+research-02,research,1,准备带引用的回答,搜索来源,找到来源但缺少引用细节,prepare cited answer,search source,source found without citation detail,true,false,false,false,false,0,2
+research-02,research,2,准备带引用的回答,打开一手来源,引用细节足够,prepare cited answer,open primary source,sufficient citation detail,true,true,false,false,false,1,2
+workflow-01,workflow,1,发送修订报告,检查文档状态,当前草稿存在,send revised report,check document status,current draft exists,true,false,false,false,false,0,2
+workflow-01,workflow,2,发送修订报告,检查收件人批准,需要经理批准,send revised report,check recipient approval,manager approval needed,true,false,false,true,false,0,2
+workflow-02,workflow,1,分流支持升级,检查工单,缺少客户语境,triage support escalation,inspect ticket,missing customer context,false,false,false,false,false,0,2
+workflow-02,workflow,2,分流支持升级,打开账户历史,找到当前语境,triage support escalation,open account history,current context found,true,false,false,false,false,1,2
+workflow-02,workflow,3,分流支持升级,带来源撰写回复,回复语境足够,triage support escalation,compose response with source,sufficient context for response,true,true,false,false,false,1,2
+workflow-03,workflow,1,运行每日自动化,调用自动化 API,调度器超时,run daily automation,call automation api,timeout from scheduler,true,false,false,false,true,0,2

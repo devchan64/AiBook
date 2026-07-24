@@ -1,19 +1,19 @@
 # Part 6 Chapter 9 Assets
 
 - Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
+- The matching `-en.mmd` and `-zh.mmd` files remain in this directory as translated derivatives for multilingual manuscript work.
+- When updating a Mermaid diagram set, revise the source structure first, then sync the translated derivatives so all files keep the same conceptual flow.
 - Mermaid language pairs:
-  - `p6-c09-s01-instruction-tuning-flow-en.mmd` / `p6-c09-s01-instruction-tuning-flow-ko.mmd`
-  - `p6-c09-s02-alignment-check-flow-en.mmd` / `p6-c09-s02-alignment-check-flow-ko.mmd`
-  - `p6-c09-s02-alignment-risk-flow-en.mmd` / `p6-c09-s02-alignment-risk-flow-ko.mmd`
-  - `p6-c09-s03-solution-map-en.mmd` / `p6-c09-s03-solution-map-ko.mmd`
-  - `p6-c09-s03-missing-piece-map-en.mmd` / `p6-c09-s03-missing-piece-map-ko.mmd`
+  - `p6-c09-s01-instruction-tuning-flow-en.mmd` / `p6-c09-s01-instruction-tuning-flow-ko.mmd` / `p6-c09-s01-instruction-tuning-flow-zh.mmd`
+  - `p6-c09-s02-alignment-check-flow-en.mmd` / `p6-c09-s02-alignment-check-flow-ko.mmd` / `p6-c09-s02-alignment-check-flow-zh.mmd`
+  - `p6-c09-s02-alignment-risk-flow-en.mmd` / `p6-c09-s02-alignment-risk-flow-ko.mmd` / `p6-c09-s02-alignment-risk-flow-zh.mmd`
+  - `p6-c09-s03-solution-map-en.mmd` / `p6-c09-s03-solution-map-ko.mmd` / `p6-c09-s03-solution-map-zh.mmd`
+  - `p6-c09-s03-missing-piece-map-en.mmd` / `p6-c09-s03-missing-piece-map-ko.mmd` / `p6-c09-s03-missing-piece-map-zh.mmd`
 - PNG chart language pairs:
-  - `alignment-axis-average-en.png` / `alignment-axis-average-ko.png`
-  - `instruction-tuning-request-match-en.png` / `instruction-tuning-request-match-ko.png`
-  - `lora-rank-ratio-en.png` / `lora-rank-ratio-ko.png`
-  - `solution-selection-score-map-en.png` / `solution-selection-score-map-ko.png`
+  - `alignment-axis-average-en.png` / `alignment-axis-average-ko.png` / `alignment-axis-average-zh.png`
+  - `instruction-tuning-request-match-en.png` / `instruction-tuning-request-match-ko.png` / `instruction-tuning-request-match-zh.png`
+  - `lora-rank-ratio-en.png` / `lora-rank-ratio-ko.png` / `lora-rank-ratio-zh.png`
+  - `solution-selection-score-map-en.png` / `solution-selection-score-map-ko.png` / `solution-selection-score-map-zh.png`
 - Python chart sources:
   - `p6_9_1_instruction_tuning_chart.py`
   - `p6_9_2_alignment_axis_chart.py`
@@ -21,6 +21,11 @@
   - `p6_9_4_lora_rank_ratio_chart.py`
 - CSV inputs:
   - `p6_9_1_instruction_following_eval.csv`: P6-9.1 Python example input. Each row is one instruction-following evaluation case with observed response-structure signals for a base response and an instruction-tuned response.
+  - `p6_9_1_instruction_following_eval-en.csv`: P6-9.1 English Python example input. It mirrors the Korean evaluation cases with English instruction and observation text.
+  - `p6_9_1_instruction_following_eval-zh.csv`: P6-9.1 Chinese Python example input. It mirrors the Korean evaluation cases with Simplified Chinese instruction and observation text.
   - `p6-9-1-instruction-response-log.csv`: P6-9.1 representative raw response log. Each row is one observed base or instruction-formatted response for checking where the evaluation signals came from.
+  - `p6-9-1-instruction-response-log-en.csv`: P6-9.1 English representative raw response log.
+  - `p6-9-1-instruction-response-log-zh.csv`: P6-9.1 Chinese representative raw response log.
   - `p6-9-2-alignment-candidate-responses.csv`: P6-9.2 Python example and chart input. Each row is one task/question/response log case for comparing policy pass/fail and failure axes across helpfulness, safety, and factuality checks.
   - `p6-9-2-alignment-candidate-responses-en.csv`: P6-9.2 English Python example input. It mirrors the Korean response log with English task questions and candidate responses for the translated manuscript.
+  - `p6-9-2-alignment-candidate-responses-zh.csv`: P6-9.2 Chinese Python example input. It mirrors the Korean response log with Simplified Chinese task questions and candidate responses for the translated manuscript.

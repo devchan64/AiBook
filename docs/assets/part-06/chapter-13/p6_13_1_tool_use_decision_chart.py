@@ -52,6 +52,21 @@ LANG_TEXT = {
         "route_labels": ["no tool", "lookup", "lookup+\ncompute", "compute", "approval\npending", "missing\ninfo"],
         "outcome_labels": ["tool\nexecuted", "no tool\nanswer", "approval\npending", "missing\ninfo", "guard\ncorrected"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "tool-use-decision-check-zh.png",
+        "route_ylabel": "最终 route 数",
+        "outcome_ylabel": "对应请求数",
+        "route_labels": ["只需\n说明", "需要\n查询", "查询+\n计算", "需要\n计算", "等待\n批准", "信息\n不足"],
+        "outcome_labels": ["工具\n执行", "说明\n结束", "等待\n批准", "信息\n不足", "guard\n修正"],
+    },
 }
 
 

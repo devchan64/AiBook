@@ -61,6 +61,21 @@ LANG_TEXT = {
         "needed": "needed",
         "not_needed": "skip",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "request-structure-matrix-zh.png",
+        "request_labels": ["润色通知", "育儿假顺序", "剩余休假", "福利积分"],
+        "structure_labels": ["prompt", "检索", "工具使用", "人工审查"],
+        "needed": "需要",
+        "not_needed": "跳过",
+    },
 }
 
 

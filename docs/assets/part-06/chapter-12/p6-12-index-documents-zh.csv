@@ -1,0 +1,53 @@
+doc_id,topic,version,boundary_hint,reader_hint,config_axis,recovery_axis,flow_axis
+sdk_v2_request_timeout,request timeout,v2,current_version_candidate,用于 2.x 请求 timeout 设置的基准文档,0.90,0.18,0.10
+sdk_v1_request_timeout_guide,request timeout,v1,old_version_collision,词语很相近但基于 1.x，不能用于当前设置说明,0.93,0.16,0.09
+sdk_general_request_timeout_notes,request timeout,general,general_note_collision,说明 timeout 概念，但缺少 SDK 版本条件,0.87,0.22,0.12
+sdk_v2_retry_backoff,retry backoff,v2,current_version_candidate,用于 2.x 重试间隔和 backoff 规则的基准文档,0.38,0.92,0.09
+sdk_v1_retry_backoff_guide,retry backoff,v1,old_version_collision,backoff 表达相近，但旧默认值会让 top-1 错误,0.41,0.91,0.08
+sdk_general_retry_backoff_notes,retry backoff,general,general_note_collision,说明重试概念，但缺少 2.x 适用条件,0.35,0.97,0.11
+sdk_v2_auth_refresh_flow,auth refresh flow,v2,current_version_candidate,用于 2.x 认证 token 刷新顺序的基准文档,0.30,0.20,0.95
+sdk_v1_auth_refresh_flow_guide,auth refresh flow,v1,old_version_collision,刷新流程相似，但 1.x 认证流程会干扰当前登录问题,0.33,0.18,0.94
+sdk_general_auth_refresh_flow_notes,auth refresh flow,general,general_note_collision,说明 token 刷新概念，但不能确定版本特定调用顺序,0.27,0.24,0.97
+sdk_v2_billing_invoice,billing invoice,v2,current_version_candidate,用于 2.x 发票查询端点和发票处理规则的文档,0.76,0.51,0.16
+sdk_v1_billing_invoice_guide,billing invoice,v1,old_version_collision,invoice 术语匹配，但 1.x 支付 API 会污染当前回答,0.79,0.49,0.15
+sdk_general_billing_invoice_notes,billing invoice,general,general_note_collision,只说明账单概念，作为 2.x 端点依据较弱,0.73,0.56,0.18
+sdk_v2_webhook_signature,webhook signature,v2,current_version_candidate,用于 2.x webhook 签名验证和 header 检查规则的文档,0.22,0.70,0.62
+sdk_v1_webhook_signature_guide,webhook signature,v1,old_version_collision,同一签名主题，但可能混入 1.x header 规则,0.24,0.68,0.61
+sdk_general_webhook_signature_notes,webhook signature,general,general_note_collision,webhook 安全概念相关，但不能确定 2.x 签名顺序,0.19,0.74,0.64
+sdk_v2_streaming_events,streaming events,v2,current_version_candidate,用于 2.x streaming event 顺序和事件名的基准文档,0.58,0.34,0.73
+sdk_v1_streaming_events_guide,streaming events,v1,old_version_collision,streaming 表达相近，但旧事件名会破坏当前代码,0.60,0.33,0.72
+sdk_general_streaming_events_notes,streaming events,general,general_note_collision,说明实时事件，但不能替代 2.x 事件处理规则,0.55,0.39,0.75
+sdk_v2_rate_limit,rate limit,v2,current_version_candidate,用于 2.x rate limit 和重试规则的基准文档,0.42,0.82,0.36
+sdk_v1_rate_limit_guide,rate limit,v1,old_version_collision,rate limit 词语匹配，但 1.x 限制会扭曲重试判断,0.45,0.80,0.35
+sdk_general_rate_limit_notes,rate limit,general,general_note_collision,说明 429 处理，但不能确认 2.x 限制或重试条件,0.39,0.86,0.38
+sdk_v2_file_upload,file upload,v2,current_version_candidate,用于 2.x 文件上传限制和接受格式的基准文档,0.66,0.28,0.69
+sdk_v1_file_upload_guide,file upload,v1,old_version_collision,上传主题匹配，但 1.x 限制会误读当前失败,0.69,0.27,0.68
+sdk_general_file_upload_notes,file upload,general,general_note_collision,一般上传说明，不足以作为 2.x 限制依据,0.63,0.33,0.71
+sdk_v2_logging_trace,logging trace,v2,current_version_candidate,用于 2.x 请求 trace logging 设置和 trace 记录的基准文档,0.18,0.57,0.79
+sdk_v1_logging_trace_guide,logging trace,v1,old_version_collision,trace 表达相近，但 1.x 日志设置可能不符合当前观察,0.20,0.55,0.78
+sdk_general_logging_trace_notes,logging trace,general,general_note_collision,说明 trace logging，但不能确定 2.x 设置键或输出位置,0.15,0.61,0.81
+sdk_v2_proxy_network,proxy network,v2,current_version_candidate,用于 2.x proxy network 设置和请求路由条件的基准文档,0.84,0.40,0.24
+sdk_v1_proxy_network_guide,proxy network,v1,old_version_collision,proxy 表达匹配，但 1.x 网络设置会给出错误当前环境说明,0.86,0.39,0.23
+sdk_general_proxy_network_notes,proxy network,general,general_note_collision,说明 proxy 概念，但不给出 SDK 2.x 设置位置,0.81,0.45,0.26
+sdk_v2_cache_policy,cache policy,v2,current_version_candidate,用于 2.x cache invalidation 和响应复用规则的基准文档,0.52,0.76,0.24
+sdk_v1_cache_policy_guide,cache policy,v1,old_version_collision,同一 cache policy 主题，但 1.x 失效规则可能与当前规则冲突,0.55,0.74,0.23
+sdk_general_cache_policy_notes,cache policy,general,general_note_collision,cache 概念相关，但不能确定 2.x policy key 或过期条件,0.49,0.81,0.26
+sdk_v2_region_endpoint,region endpoint,v2,current_version_candidate,用于 2.x region endpoint 选择和目标请求区域的文档,0.72,0.24,0.58
+sdk_v1_region_endpoint_guide,region endpoint,v1,old_version_collision,endpoint 主题匹配，但 1.x region 规则会破坏当前请求路由,0.74,0.22,0.57
+sdk_general_region_endpoint_notes,region endpoint,general,general_note_collision,说明 region endpoint 概念，但不能确定 2.x 选择规则,0.69,0.28,0.60
+sdk_v2_pagination_cursor,pagination cursor,v2,current_version_candidate,用于 2.x pagination cursor 顺序和 next cursor 处理的文档,0.62,0.48,0.41
+sdk_v1_pagination_cursor_guide,pagination cursor,v1,old_version_collision,cursor 表达匹配，但 1.x 响应字段会破坏当前重复检索,0.65,0.46,0.40
+sdk_general_pagination_notes,pagination cursor,general,general_note_collision,说明 pagination，但不能确认 SDK 2.x cursor 字段和循环条件,0.59,0.53,0.43
+sdk_v2_pagination_troubleshooting,pagination cursor,v2,related_current_but_not_target,当前 2.x cursor 排障相关，但不是基本使用顺序的主要依据,0.64,0.44,0.45
+sdk_v2_idempotency_key,idempotency key,v2,current_version_candidate,用于 2.x idempotency key 位置和重试请求使用方式的文档,0.47,0.64,0.54
+sdk_v1_idempotency_key_guide,idempotency key,v1,old_version_collision,idempotency 表达匹配，但 1.x header 规则会扭曲当前重试安全判断,0.50,0.62,0.53
+sdk_general_idempotency_notes,idempotency key,general,general_note_collision,说明防止重复请求，但不说明 SDK 2.x header 名称或范围,0.44,0.69,0.56
+sdk_v2_retry_safety_notes,idempotency key,v2,related_current_but_not_target,说明 2.x 重试安全背景，但不直接说明 idempotency key 设置位置,0.49,0.67,0.50
+sdk_v2_webhook_replay,webhook replay,v2,current_version_candidate,用于 2.x webhook replay 检测和重复事件处理规则的文档,0.28,0.77,0.55
+sdk_v1_webhook_replay_guide,webhook replay,v1,old_version_collision,replay 主题匹配，但 1.x 事件签名规则会扭曲当前重复处理,0.31,0.75,0.54
+sdk_general_webhook_replay_notes,webhook replay,general,general_note_collision,说明 webhook replay 概念，但不说明 2.x event ID 或再处理条件,0.25,0.82,0.57
+sdk_v2_webhook_delivery_log,webhook replay,v2,related_current_but_not_target,当前 2.x webhook delivery log 相关，但不是 replay 处理规则的主要依据,0.30,0.73,0.59
+sdk_v2_quota_burst,quota burst,v2,current_version_candidate,用于 2.x quota burst 限制和溢出后等待规则的文档,0.70,0.66,0.21
+sdk_v1_quota_burst_guide,quota burst,v1,old_version_collision,quota burst 表达匹配，但 1.x 限制会与当前流量控制规则冲突,0.73,0.64,0.20
+sdk_general_quota_notes,quota burst,general,general_note_collision,说明 quota 概念，但不能确认 2.x burst 限制或等待条件,0.67,0.71,0.23
+sdk_v2_quota_troubleshooting,quota burst,v2,related_current_but_not_target,当前 2.x quota 排障相关，但不是 burst 设置规则的主要依据,0.72,0.62,0.25

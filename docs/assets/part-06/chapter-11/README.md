@@ -1,25 +1,29 @@
 # Part 6 Chapter 11 Assets
 
 - Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
+- The matching `-en.mmd` and `-zh.mmd` files remain in this directory as translated derivatives for multilingual manuscript work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Mermaid language pairs:
-  - `p6-c11-s01-rag-need-flow-en.mmd` / `p6-c11-s01-rag-need-flow-ko.mmd`
-  - `p6-c11-s01-rag-grounding-cases-en.mmd` / `p6-c11-s01-rag-grounding-cases-ko.mmd`
-  - `p6-c11-s02-rag-combine-flow-en.mmd` / `p6-c11-s02-rag-combine-flow-ko.mmd`
-  - `p6-c11-s02-rag-failure-split-en.mmd` / `p6-c11-s02-rag-failure-split-ko.mmd`
+  - `p6-c11-s01-rag-need-flow-en.mmd` / `p6-c11-s01-rag-need-flow-ko.mmd` / `p6-c11-s01-rag-need-flow-zh.mmd`
+  - `p6-c11-s01-rag-grounding-cases-en.mmd` / `p6-c11-s01-rag-grounding-cases-ko.mmd` / `p6-c11-s01-rag-grounding-cases-zh.mmd`
+  - `p6-c11-s02-rag-combine-flow-en.mmd` / `p6-c11-s02-rag-combine-flow-ko.mmd` / `p6-c11-s02-rag-combine-flow-zh.mmd`
+  - `p6-c11-s02-rag-failure-split-en.mmd` / `p6-c11-s02-rag-failure-split-ko.mmd` / `p6-c11-s02-rag-failure-split-zh.mmd`
 - PNG chart language pairs:
-  - `rag-grounding-check-en.png` / `rag-grounding-check-ko.png`
-  - `rag-failure-split-en.png` / `rag-failure-split-ko.png`
+  - `rag-grounding-check-en.png` / `rag-grounding-check-ko.png` / `rag-grounding-check-zh.png`
+  - `rag-failure-split-en.png` / `rag-failure-split-ko.png` / `rag-failure-split-zh.png`
 - Python chart sources:
   - `p6_11_1_rag_grounding_chart.py`
   - `p6_11_2_rag_failure_split_chart.py`
 - CSV example data:
   - `p6-11-rag-need-questions.csv`
   - `p6-11-rag-need-questions-en.csv`
+  - `p6-11-rag-need-questions-zh.csv`
   - `p6-11-rag-need-documents.csv`
   - `p6-11-rag-need-documents-en.csv`
+  - `p6-11-rag-need-documents-zh.csv`
   - `p6-11-rag-documents.csv`
   - `p6-11-rag-documents-en.csv`
+  - `p6-11-rag-documents-zh.csv`
   - `p6-11-rag-experiments.csv`
   - `p6-11-rag-experiments-en.csv`
+  - `p6-11-rag-experiments-zh.csv`

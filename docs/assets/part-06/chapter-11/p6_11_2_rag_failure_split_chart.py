@@ -42,6 +42,9 @@ LANG_TEXT = {
         "columns": ["관련 문서\n상위 회수", "무관 문서\n포함", "답변\n오염", "과장 표현", "검색 실패", "생성 실패"],
         "pass_label": "신호 있음",
         "fail_label": "신호 없음",
+        "question": QUESTION,
+        "document_path": DOCUMENT_PATH,
+        "experiment_path": EXPERIMENT_PATH,
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -54,6 +57,31 @@ LANG_TEXT = {
         "columns": ["relevant doc\ntop result", "irrelevant doc\nincluded", "answer\nleak", "overclaim", "retrieval\nfailure", "generation\nfailure"],
         "pass_label": "signal on",
         "fail_label": "signal off",
+        "question": QUESTION,
+        "document_path": DOCUMENT_PATH,
+        "experiment_path": EXPERIMENT_PATH,
+    },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "rag-failure-split-zh.png",
+        "row_labels": {
+            "clean_grounded_vector_search": "正常检索例",
+            "noisy_retrieval_marketing_copy": "检索污染例",
+            "clean_but_overclaim_vector_search": "回答夸大例",
+        },
+        "columns": ["相关文档\n首位取回", "包含无关\n文档", "回答\n污染", "夸大表达", "检索失败", "生成失败"],
+        "pass_label": "有信号",
+        "fail_label": "无信号",
+        "question": "为什么需要向量搜索？",
+        "document_path": OUT_DIR / "p6-11-rag-documents-zh.csv",
+        "experiment_path": OUT_DIR / "p6-11-rag-experiments-zh.csv",
     },
 }
 
@@ -76,9 +104,9 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(file))
 
 
-def build_query(experiment: dict[str, str]) -> str:
+def build_query(experiment: dict[str, str], question: str) -> str:
     terms = experiment["retrieval_terms"].split(";")
-    return f"{QUESTION} {' '.join(terms)}"
+    return f"{question} {' '.join(terms)}"
 
 
 def retrieve_documents(
@@ -107,17 +135,28 @@ def retrieve_documents(
     return retrieved
 
 
-def generate_answer(retrieved_docs: list[dict[str, Any]], generation_style: str) -> str:
-    first = str(retrieved_docs[0]["text"]) if retrieved_docs else "참고 문서가 없다."
-    second = str(retrieved_docs[1]["text"]) if len(retrieved_docs) > 1 else "추가 근거가 부족하다."
+def generate_answer(
+    retrieved_docs: list[dict[str, Any]],
+    generation_style: str,
+    no_doc_text: str,
+    missing_doc_text: str,
+    overclaim_text: str,
+    connector: str,
+) -> str:
+    first = str(retrieved_docs[0]["text"]) if retrieved_docs else no_doc_text
+    second = str(retrieved_docs[1]["text"]) if len(retrieved_docs) > 1 else missing_doc_text
 
     if generation_style == "overclaim":
-        return f"{first} 그래서 항상 최신 정보와 정답을 자동으로 보장한다."
+        return f"{first} {connector} {overclaim_text}"
 
-    return f"{first} 그래서 {second}"
+    return f"{first} {connector} {second}"
 
 
-def inspect_result(retrieved_docs: list[dict[str, Any]], answer: str) -> dict[str, bool]:
+def inspect_result(
+    retrieved_docs: list[dict[str, Any]],
+    answer: str,
+    overclaim_text: str,
+) -> dict[str, bool]:
     contains_irrelevant_doc = any(
         doc["category"] == "irrelevant" for doc in retrieved_docs
     )
@@ -131,7 +170,7 @@ def inspect_result(retrieved_docs: list[dict[str, Any]], answer: str) -> dict[st
         fragment and fragment in answer
         for fragment in irrelevant_fragments
     )
-    answer_overclaims = "항상 최신 정보와 정답을 자동으로 보장" in answer
+    answer_overclaims = overclaim_text in answer
 
     return {
         "top_doc_is_relevant": top_doc_is_relevant,
@@ -143,9 +182,9 @@ def inspect_result(retrieved_docs: list[dict[str, Any]], answer: str) -> dict[st
     }
 
 
-def build_rows() -> list[dict[str, Any]]:
-    documents = read_csv(DOCUMENT_PATH)
-    experiments = read_csv(EXPERIMENT_PATH)
+def build_rows(text: dict[str, Any]) -> list[dict[str, Any]]:
+    documents = read_csv(text["document_path"])
+    experiments = read_csv(text["experiment_path"])
     document_texts = [
         f"{doc['title']} {doc['text']}"
         for doc in documents
@@ -162,10 +201,32 @@ def build_rows() -> list[dict[str, Any]]:
     for experiment in experiments:
         if experiment["name"] not in selected_names:
             continue
-        query = build_query(experiment)
+        query = build_query(experiment, text["question"])
         retrieved_docs = retrieve_documents(documents, vectorizer, document_vectors, query)
-        answer = generate_answer(retrieved_docs, experiment["generation_style"])
-        inspection = inspect_result(retrieved_docs, answer)
+        answer = generate_answer(
+            retrieved_docs,
+            experiment["generation_style"],
+            no_doc_text="참고 문서가 없다.",
+            missing_doc_text="추가 근거가 부족하다.",
+            overclaim_text="항상 최신 정보와 정답을 자동으로 보장한다.",
+            connector="그래서",
+        )
+        if text["outfile"] == "rag-failure-split-zh.png":
+            answer = generate_answer(
+                retrieved_docs,
+                experiment["generation_style"],
+                no_doc_text="没有参考文档。",
+                missing_doc_text="缺少追加依据。",
+                overclaim_text="它总是会自动保证最新信息和正确答案。",
+                connector="因此",
+            )
+        inspection = inspect_result(
+            retrieved_docs,
+            answer,
+            "它总是会自动保证最新信息和正确答案。"
+            if text["outfile"] == "rag-failure-split-zh.png"
+            else "항상 최신 정보와 정답을 자동으로 보장한다.",
+        )
         rows.append(
             {
                 "name": experiment["name"],
@@ -191,7 +252,7 @@ def build_rows() -> list[dict[str, Any]]:
 
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    rows = build_rows()
+    rows = build_rows(text)
     columns = text["columns"]
 
     fig, ax = plt.subplots(figsize=(10.0, 3.6), dpi=180)

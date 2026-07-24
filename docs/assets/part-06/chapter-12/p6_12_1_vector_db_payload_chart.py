@@ -43,6 +43,8 @@ LANG_TEXT = {
             "api_retry": "요청 제한",
             "offboarding_asset": "장비 반납",
         },
+        "document_path": DOCUMENT_PATH,
+        "query_path": QUERY_PATH,
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -56,6 +58,30 @@ LANG_TEXT = {
             "api_retry": "rate-limit retry",
             "offboarding_asset": "asset return",
         },
+        "document_path": DOCUMENT_PATH,
+        "query_path": QUERY_PATH,
+    },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "vector-db-payload-check-zh.png",
+        "xlabel": "首位检索文档相似度",
+        "top1_label": "首位候选",
+        "runner_up_label": "下一候选",
+        "labels": {
+            "refund_current": "退款",
+            "settings_reset": "设置重置",
+            "api_retry": "请求限制",
+            "offboarding_asset": "设备归还",
+        },
+        "document_path": OUT_DIR / "p6-12-vector-db-documents-zh.csv",
+        "query_path": OUT_DIR / "p6-12-vector-db-queries-zh.csv",
     },
 }
 
@@ -78,9 +104,9 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(file))
 
 
-def search_rows(top_k: int = 2) -> list[dict[str, Any]]:
-    documents = read_csv(DOCUMENT_PATH)
-    queries = read_csv(QUERY_PATH)
+def search_rows(text: dict[str, Any], top_k: int = 2) -> list[dict[str, Any]]:
+    documents = read_csv(text["document_path"])
+    queries = read_csv(text["query_path"])
     document_texts = [f"{doc['title']} {doc['text']}" for doc in documents]
     vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4))
     document_vectors = vectorizer.fit_transform(document_texts)
@@ -159,7 +185,7 @@ def style_axis(ax) -> None:
 
 def save_chart(text: dict[str, Any]) -> None:
     configure_font(text)
-    rows = search_rows()
+    rows = search_rows(text)
     y_positions = list(range(len(rows)))
     top1_values = [row["top_similarity"] for row in rows]
     runner_up_values = [row["runner_up_similarity"] for row in rows]

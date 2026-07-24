@@ -50,6 +50,23 @@ LANG_TEXT = {
         "lora_label": "LoRA adapters",
         "total_prefix": "monthly total",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Songti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "lora-storage-growth-zh.png",
+        "full_title": "全量微调",
+        "lora_title": "LoRA 调整件",
+        "xlabel": "月度额外存储大小(GB)",
+        "full_label": "全量微调",
+        "lora_label": "LoRA 调整件",
+        "total_prefix": "月度合计",
+    },
 }
 
 

@@ -1,0 +1,53 @@
+query_id,topic,question,variant,target_doc,reader_hint,config_axis,recovery_axis,flow_axis
+Q01,request timeout,2.x 版本的 request timeout 选项文档在哪里？,direct_name,sdk_v2_request_timeout,文档名和查询词几乎一致的基准问题,0.89,0.19,0.10
+Q02,request timeout,哪份 SDK 2.x 设置文档说明如何调整响应等待时间？,paraphrase,sdk_v2_request_timeout,不用 timeout 一词也应找到同义文档,0.90,0.18,0.10
+Q03,request timeout,连接耗时太久时，我需要 2.x timeout 指南而不是 1.x 指南,boundary_wording,sdk_v2_request_timeout,1.x 文档可能看起来更近，因此要一起看版本条件,0.91,0.17,0.10
+Q04,retry backoff,2.x 版本的 retry backoff 默认值文档在哪里？,direct_name,sdk_v2_retry_backoff,用于检查索引位置的直接文档名问题,0.37,0.93,0.09
+Q05,retry backoff,我想找说明 SDK 2.x 中重试间隔如何增加的文档,paraphrase,sdk_v2_retry_backoff,用日常表达改写 backoff 的语义搜索问题,0.38,0.92,0.09
+Q06,retry backoff,我需要 2.x 重试策略，而不是旧的 backoff 指南,boundary_wording,sdk_v2_retry_backoff,旧指南可能混入，因此当前版本优先很重要,0.39,0.91,0.09
+Q07,auth refresh flow,2.x 版本的 auth token refresh flow 文档在哪里？,direct_name,sdk_v2_auth_refresh_flow,直接关键词检查 auth refresh 的基本检索成功,0.29,0.21,0.95
+Q08,auth refresh flow,哪份文档说明 SDK 2.x 如何取得新的过期 auth 值？,paraphrase,sdk_v2_auth_refresh_flow,token refresh 的日常表达也应找到同一文档,0.30,0.20,0.95
+Q09,auth refresh flow,我有登录保持问题，需要 2.x refresh flow 而不是 1.x auth 指南,boundary_wording,sdk_v2_auth_refresh_flow,1.x auth 指南可能在语义上接近,0.31,0.19,0.95
+Q10,billing invoice,2.x 版本的 invoice lookup 文档在哪里？,direct_name,sdk_v2_billing_invoice,invoice 术语应提起基准账单文档,0.75,0.52,0.16
+Q11,billing invoice,哪份 SDK 2.x 文档说明如何取回 billing invoice 历史？,paraphrase,sdk_v2_billing_invoice,invoice 表达被改写成 billing history,0.76,0.51,0.16
+Q12,billing invoice,invoice lookup 失败时，我要 2.x billing 文档而不是旧 payment 文档,boundary_wording,sdk_v2_billing_invoice,旧 payment 文档可能接近，但 2.x billing 文档应胜出,0.77,0.50,0.16
+Q13,webhook signature,2.x 版本的 webhook signature verification 文档在哪里？,direct_name,sdk_v2_webhook_signature,直接 webhook signature 查询检查基准排名,0.21,0.71,0.62
+Q14,webhook signature,我想要 SDK 2.x 检查 webhook 请求是否真实的流程,paraphrase,sdk_v2_webhook_signature,改写后的签名验证问题应抓住安全流程,0.22,0.70,0.62
+Q15,webhook signature,发生 signature verification 错误时，我需要 2.x signature 文档而不是 general webhook notes,boundary_wording,sdk_v2_webhook_signature,一般 webhook notes 可能出现，因此签名条件重要,0.23,0.69,0.62
+Q16,streaming events,2.x 版本的 streaming event handling 文档在哪里？,direct_name,sdk_v2_streaming_events,直接 streaming event 查询检查基准排名,0.57,0.35,0.73
+Q17,streaming events,我想知道 SDK 2.x 如何按顺序处理实时响应事件,paraphrase,sdk_v2_streaming_events,实时响应流程仍应找到 streaming 文档,0.58,0.34,0.73
+Q18,streaming events,stream logs 掉落时，我需要 2.x streaming guide 而不是 general event 文档,boundary_wording,sdk_v2_streaming_events,一般事件文档不应超过 2.x streaming 指南,0.59,0.33,0.73
+Q19,rate limit,2.x 版本的 rate limit retry 文档在哪里？,direct_name,sdk_v2_rate_limit,rate limit 和 retry 术语应提起政策文档,0.41,0.83,0.36
+Q20,rate limit,达到请求限制后再次发送请求时，我想找 SDK 2.x 规则,paraphrase,sdk_v2_rate_limit,没有 429 或 rate limit 表达时也应找到 retry 规则,0.42,0.82,0.36
+Q21,rate limit,发生 429 错误时，我需要 2.x rate limit retry 文档而不是旧 limits 文档,boundary_wording,sdk_v2_rate_limit,旧限制策略可能混入，因此要检查当前版本,0.43,0.81,0.36
+Q22,file upload,2.x 版本的 file upload limits 文档在哪里？,direct_name,sdk_v2_file_upload,直接 file upload 和 limit 查询,0.65,0.29,0.69
+Q23,file upload,我想确认 SDK 2.x 可以上传哪些文件大小和格式,paraphrase,sdk_v2_file_upload,上传限制的用户表达应找到同一文档,0.66,0.28,0.69
+Q24,file upload,文件传输失败时，我需要 2.x limit 文档而不是 general upload 文档,boundary_wording,sdk_v2_file_upload,2.x limits 应超过一般上传说明,0.67,0.27,0.69
+Q25,logging trace,2.x 版本的 logging trace setup 文档在哪里？,direct_name,sdk_v2_logging_trace,直接 logging trace 文档名查询,0.17,0.58,0.79
+Q26,logging trace,我想找 SDK 2.x 记录请求流程为 trace logs 的设置,paraphrase,sdk_v2_logging_trace,trace 被改写成 request-flow logging,0.18,0.57,0.79
+Q27,logging trace,我要为事故分析打开 trace，需要 2.x 设置文档而不是 general log notes,boundary_wording,sdk_v2_logging_trace,一般 log 文档不应替代 2.x trace 设置,0.19,0.56,0.79
+Q28,proxy network,2.x 版本的 proxy network settings 文档在哪里？,direct_name,sdk_v2_proxy_network,直接 proxy network 文档名查询,0.83,0.41,0.24
+Q29,proxy network,我想找 SDK 2.x 通过内部 proxy 发送请求的设置,paraphrase,sdk_v2_proxy_network,办公 proxy 表达应找到同一文档,0.84,0.40,0.24
+Q30,proxy network,我需要 2.x network bypass 设置文档而不是旧 proxy 指南,boundary_wording,sdk_v2_proxy_network,旧 proxy 指南可能接近但不应胜出,0.85,0.39,0.24
+Q31,cache policy,2.x 版本的 cache policy invalidation 文档在哪里？,direct_name,sdk_v2_cache_policy,直接 cache policy 和 invalidation 查询,0.51,0.77,0.24
+Q32,cache policy,我想找 SDK 2.x 判断何时必须重新取得已缓存响应的文档,paraphrase,sdk_v2_cache_policy,cache policy 被表达成 response reuse,0.52,0.76,0.24
+Q33,cache policy,处理 stale cache 问题时，我需要 2.x cache policy 而不是 general performance 文档,boundary_wording,sdk_v2_cache_policy,performance 文档可能混入但 2.x cache policy 应优先,0.53,0.75,0.24
+Q34,region endpoint,2.x 版本的 region endpoint selection 文档在哪里？,direct_name,sdk_v2_region_endpoint,直接 region endpoint 查询,0.71,0.25,0.58
+Q35,region endpoint,我想确认 SDK 2.x 应向哪个 regional endpoint 发送请求,paraphrase,sdk_v2_region_endpoint,自然语言的 region endpoint selection 查询,0.72,0.24,0.58
+Q36,region endpoint,region selection 错误时，我需要 2.x region 文档而不是 general endpoint notes,boundary_wording,sdk_v2_region_endpoint,一般 endpoint notes 可能接近，但 2.x region 条件重要,0.73,0.23,0.58
+Q37,pagination cursor,2.x 版本的 pagination cursor usage 文档在哪里？,direct_name,sdk_v2_pagination_cursor,直接 cursor usage 查询,0.61,0.49,0.41
+Q38,pagination cursor,为了在 SDK 2.x 中继续取得下一页，我该读哪份 cursor 文档？,paraphrase,sdk_v2_pagination_cursor,next cursor 表达仍应找到 usage 文档,0.62,0.48,0.41
+Q39,pagination cursor,我想要 2.x cursor loop 标准而不是旧 pagination 指南,boundary_wording,sdk_v2_pagination_cursor,1.x cursor 文档可能排名高，因此版本条件重要,0.66,0.45,0.40
+Q40,pagination cursor,cursor 为空且重复检索停止，但我需要 2.x 基本使用顺序而不是错误诊断,symptom_wording,sdk_v2_pagination_cursor,troubleshooting 相关，但基本 usage 文档应保持可见,0.63,0.45,0.44
+Q41,idempotency key,2.x 版本的 idempotency key setup 文档在哪里？,direct_name,sdk_v2_idempotency_key,直接 idempotency key 查询,0.46,0.65,0.54
+Q42,idempotency key,哪份 SDK 2.x 文档能防止再次发送相同请求时重复处理？,paraphrase,sdk_v2_idempotency_key,没有 key 术语的 duplicate-request 表达应找到同一文档,0.47,0.64,0.54
+Q43,idempotency key,我想要 2.x idempotency key header 标准而不是 1.x retry 指南,boundary_wording,sdk_v2_idempotency_key,旧 header 规则可能混入，因此当前规则重要,0.51,0.61,0.53
+Q44,idempotency key,我在读 retry safety notes，现在需要实际 key 设置位置,mixed_intent,sdk_v2_idempotency_key,混合意图问题，需区分安全背景和实际设置文档,0.49,0.67,0.51
+Q45,webhook replay,2.x 版本的 webhook replay handling 文档在哪里？,direct_name,sdk_v2_webhook_replay,直接 webhook replay 查询,0.27,0.78,0.55
+Q46,webhook replay,同一 webhook event 再次到达时 SDK 2.x 应如何处理重复处理？,paraphrase,sdk_v2_webhook_replay,duplicate event 表达应无需 replay 术语也找到处理文档,0.28,0.77,0.55
+Q47,webhook replay,我需要 2.x event reprocessing 标准而不是 1.x replay 指南,boundary_wording,sdk_v2_webhook_replay,旧 webhook replay 文档可能接近但当前标准应胜出,0.32,0.74,0.54
+Q48,webhook replay,我在检查 webhook delivery logs，需要 replay 判断文档,mixed_intent,sdk_v2_webhook_replay,混合意图问题，需把 delivery logs 和 replay rules 分开,0.30,0.73,0.58
+Q49,quota burst,2.x 版本的 quota burst limits 文档在哪里？,direct_name,sdk_v2_quota_burst,直接 quota burst 查询,0.69,0.67,0.21
+Q50,quota burst,短时间内很多请求到达时，应检查哪条 SDK 2.x limit？,paraphrase,sdk_v2_quota_burst,没有 burst 词的流量突增表达应找到同一文档,0.70,0.66,0.21
+Q51,quota burst,我想要 2.x burst limit 数值和等待条件，而不是 1.x quota 指南,boundary_wording,sdk_v2_quota_burst,旧 quota 文档可能语义接近但当前限制应胜出,0.74,0.63,0.20
+Q52,quota burst,我在诊断 quota exceeded 错误，需要先检查 burst 标准,symptom_wording,sdk_v2_quota_burst,troubleshooting 相关，但应找到 limit standard 文档,0.72,0.62,0.25

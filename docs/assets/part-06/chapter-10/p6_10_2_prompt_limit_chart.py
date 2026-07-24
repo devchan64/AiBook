@@ -52,6 +52,22 @@ LANG_TEXT = {
         "structured_label": "structured support",
         "labels": ["fully passed tasks", "passed checks"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Microsoft YaHei",
+            "SimHei",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "prompt-limit-checks-zh.png",
+        "ylabel": "通过数",
+        "prompt_only_label": "只靠强提示",
+        "structured_label": "结构补强",
+        "labels": ["完全通过的任务", "通过的检查"],
+    },
 }
 
 

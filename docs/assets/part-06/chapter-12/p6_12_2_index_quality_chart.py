@@ -67,6 +67,24 @@ LANG_TEXT = {
         "quality_labels": ["target missed", "top-1 error", "version error"],
         "latency_label": "avg latency",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "index-quality-latency-zh.png",
+        "quality_ylabel": "失败问题数",
+        "latency_ylabel": "平均延迟时间(ms)",
+        "fast_label": "快速设置",
+        "balanced_label": "均衡设置",
+        "strict_label": "严格设置",
+        "quality_labels": ["目标文档\n遗漏", "首位错误", "版本错误"],
+        "latency_label": "平均延迟",
+    },
 }
 
 

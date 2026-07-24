@@ -1,0 +1,37 @@
+name,retrieval_terms,generation_style,scenario_pattern,reader_hint
+clean_grounded_vector_search,语义;向量;搜索,grounded,related_terms,核心相关文档排在前面，生成停留在依据范围内。
+clean_grounded_keyword_vs_semantic,关键词;语义;措辞,grounded,related_terms,取回关键词搜索和语义搜索的比较文档。
+clean_grounded_embedding_similarity,嵌入;相似度;向量,grounded,related_terms,取回嵌入和相似度说明文档。
+clean_grounded_rag_pipeline,RAG;检索;生成,grounded,related_terms,取回区分 RAG 阶段的文档。
+clean_grounded_answer_boundary,文档;依据;范围,grounded,related_terms,取回答案边界文档。
+clean_grounded_freshness_caution,当前;检索;保证,grounded,related_terms,取回警告新鲜度不是自动保证的文档。
+clean_grounded_synonym_query,同义;措辞;问题,grounded,related_terms,取回跨措辞差异进行语义检索的文档。
+clean_grounded_topk_record,top-k;文档;候选,grounded,related_terms,取回 top-k 候选检查文档。
+clean_grounded_failure_split,检索;失败;生成,grounded,related_terms,取回区分检索失败和生成失败的文档。
+clean_grounded_query_terms,搜索词;问题;候选,grounded,related_terms,取回搜索词设计文档。
+clean_grounded_source_title,文档;标题;记录,grounded,related_terms,取回依据文档标题记录文档。
+clean_grounded_policy_document,政策;文档;日期,grounded,related_terms,取回政策型检索条件文档。
+noisy_retrieval_marketing_copy,营销;文案;促销,grounded,off_topic_terms,营销文档上升到前面并渗入回答。
+noisy_retrieval_banner_text,促销;横幅;句子,grounded,off_topic_terms,横幅文案文档像检索依据一样被附加。
+noisy_retrieval_coupon_event,优惠券;活动;文案,grounded,off_topic_terms,优惠券活动文案作为无关依据被附加。
+noisy_retrieval_brand_slogan,品牌;口号;促销,grounded,off_topic_terms,品牌口号文档升到前面。
+noisy_retrieval_social_post,社交;帖子;互动,grounded,off_topic_terms,社交帖子文档混入回答。
+noisy_retrieval_ad_copy,广告;文案;强调,grounded,off_topic_terms,广告文案文档像依据一样被附加。
+noisy_retrieval_newsletter_title,新闻邮件;标题;促销,grounded,off_topic_terms,新闻邮件标题文档被取回。
+noisy_retrieval_landing_copy,落地页;文案;营销,grounded,off_topic_terms,落地页文案文档被取回。
+noisy_retrieval_sales_message,销售;购买;文案,grounded,off_topic_terms,销售文案渗入回答。
+noisy_retrieval_review_edit,客户;评论;促销,grounded,off_topic_terms,客户评论编辑文档被取回。
+noisy_retrieval_promotion_translation,促销;翻译;语气,grounded,off_topic_terms,促销翻译文档被取回。
+noisy_retrieval_campaign_class,活动;文案;分类,grounded,off_topic_terms,活动文案分类文档被取回。
+clean_but_overclaim_vector_search,语义;向量;搜索,overclaim,related_terms_with_overclaim,搜索词相关，但生成句子可能比依据更强。
+clean_but_overclaim_keyword_vs_semantic,关键词;语义;措辞,overclaim,related_terms_with_overclaim,检查依据文档之后是否加入断言式措辞。
+clean_but_overclaim_embedding_similarity,嵌入;相似度;向量,overclaim,related_terms_with_overclaim,检查相似度说明是否变成正确性保证。
+clean_but_overclaim_rag_pipeline,RAG;检索;生成,overclaim,related_terms_with_overclaim,检查阶段说明是否变成自动保证。
+clean_but_overclaim_answer_boundary,文档;依据;范围,overclaim,related_terms_with_overclaim,检查是否加入文档中没有的保证。
+clean_but_overclaim_freshness_caution,当前;检索;保证,overclaim,related_terms_with_overclaim,检查警告文档是否仍被改写成新鲜度保证。
+clean_but_overclaim_synonym_query,同义;措辞;问题,overclaim,related_terms_with_overclaim,检查可能性是否被改写成完美。
+clean_but_overclaim_topk_record,top-k;文档;候选,overclaim,related_terms_with_overclaim,检查检查候选的必要性是否消失。
+clean_but_overclaim_failure_split,检索;失败;生成,overclaim,related_terms_with_overclaim,检查失败分离是否被改写成不会失败。
+clean_but_overclaim_query_terms,搜索词;问题;候选,overclaim,related_terms_with_overclaim,检查搜索词设计是否被改写成自动解决。
+clean_but_overclaim_source_title,文档;标题;记录,overclaim,related_terms_with_overclaim,检查依据记录的必要性是否被削弱。
+clean_but_overclaim_policy_document,政策;文档;日期,overclaim,related_terms_with_overclaim,检查日期确认是否被改写成新鲜度保证。

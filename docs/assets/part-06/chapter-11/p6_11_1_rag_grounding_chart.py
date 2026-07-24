@@ -44,6 +44,8 @@ LANG_TEXT = {
         "review_label": "근거 재검토",
         "title_prefix": "상위 문서",
         "label_mode": "title",
+        "question_path": OUT_DIR / "p6-11-rag-need-questions.csv",
+        "document_path": OUT_DIR / "p6-11-rag-need-documents.csv",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -59,6 +61,32 @@ LANG_TEXT = {
         "review_label": "review grounding",
         "title_prefix": "top doc",
         "label_mode": "doc_id",
+        "question_path": OUT_DIR / "p6-11-rag-need-questions.csv",
+        "document_path": OUT_DIR / "p6-11-rag-need-documents.csv",
+    },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "rag-grounding-check-zh.png",
+        "case_labels": {
+            "policy": "政策",
+            "manual": "手册",
+            "sdk": "SDK",
+            "pricing": "计费",
+        },
+        "xlabel": "首位检索文档相似度",
+        "ready_label": "证据连接就绪",
+        "review_label": "重新检查证据",
+        "title_prefix": "首位文档",
+        "label_mode": "title",
+        "question_path": OUT_DIR / "p6-11-rag-need-questions-zh.csv",
+        "document_path": OUT_DIR / "p6-11-rag-need-documents-zh.csv",
     },
 }
 
@@ -121,9 +149,9 @@ def answer_with_rag(retrieved_docs: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def build_rows() -> list[dict[str, Any]]:
-    questions = read_csv(QUESTION_PATH)
-    documents = read_csv(DOCUMENT_PATH)
+def build_rows(text: dict[str, str]) -> list[dict[str, Any]]:
+    questions = read_csv(text.get("question_path", QUESTION_PATH))
+    documents = read_csv(text.get("document_path", DOCUMENT_PATH))
     document_texts = [
         f"{doc['title']} {doc['text']}"
         for doc in documents
@@ -175,7 +203,7 @@ def doc_label(row: dict[str, Any], text: dict[str, str]) -> str:
 
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    rows = build_rows()
+    rows = build_rows(text)
 
     fig, ax = plt.subplots(figsize=(9.0, 4.2), dpi=180)
     fig.patch.set_facecolor("white")
@@ -220,7 +248,8 @@ def save_chart(text: dict[str, str]) -> None:
             fontweight="bold",
         )
 
-    ax.set_xlim(0, 0.58)
+    max_similarity = max(row["top_similarity"] for row in rows)
+    ax.set_xlim(0, max(0.58, max_similarity * 1.32))
     ax.set_xlabel(text["xlabel"])
     ax.set_yticks(range(len(rows)))
     ax.set_yticklabels([text["case_labels"].get(row["case_id"], row["case_id"]) for row in rows])

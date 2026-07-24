@@ -110,6 +110,30 @@ LANG_TEXT = {
             "finish": "finish",
         },
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "agent-state-progress-zh.png",
+        "xlabel": "案例数",
+        "model_label": "模型建议",
+        "guard_label": "guard 最终行动",
+        "actions": {
+            "search_or_inspect": "重新查找",
+            "refine_search_or_reload": "重新确认当前语境",
+            "collect_supporting_context": "补充依据",
+            "retry_with_changed_step": "改变步骤重试",
+            "compare_evidence": "比较证据",
+            "handoff_for_review": "交给人工审查",
+            "attach_sources": "附上来源",
+            "finish": "结束",
+        },
+    },
 }
 
 

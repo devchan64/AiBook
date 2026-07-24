@@ -46,6 +46,23 @@ LANG_TEXT = {
         "cost_ylabel": "total inference cost",
         "review_ylabel": "data review batches",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Songti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "coverage_outfile": "scale-context-coverage-zh.png",
+        "cost_outfile": "scale-inference-cost-zh.png",
+        "review_outfile": "scale-data-review-burden-zh.png",
+        "step_xlabel": "规模阶段",
+        "coverage_ylabel": "可放入上下文的请求数",
+        "cost_ylabel": "总推理成本",
+        "review_ylabel": "待验证数据批次",
+    },
 }
 
 

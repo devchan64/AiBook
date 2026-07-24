@@ -87,6 +87,44 @@ LANG_TEXT = {
             "stop_and_escalate": "stop/escalate",
         },
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "failure-recovery-routing-zh.png",
+        "title": "同一失败会因条件不同进入不同恢复路径",
+        "headers": ["失败信号", "条件", "恢复决策"],
+        "rows": [
+            ("timeout", "仍有重试预算", "retry"),
+            ("timeout", "重试用尽 + 有缓存", "fallback"),
+            ("timeout", "重试用尽 + 无缓存", "stop/escalate"),
+            ("风险执行", "有审查者", "approval"),
+            ("风险执行", "无审查者", "stop/escalate"),
+            ("幻觉", "有依据 + 有审查者", "human review"),
+            ("幻觉", "无依据", "stop/escalate"),
+        ],
+        "case_names": [
+            "timeout_retry_search",
+            "timeout_fallback_search",
+            "timeout_stop_search",
+            "risky_action_approval_delete",
+            "risky_action_stop_no_reviewer",
+            "hallucination_review_grounded",
+            "hallucination_stop_ungrounded",
+        ],
+        "decision_labels": {
+            "retry": "重试",
+            "fallback": "替代路径",
+            "approval": "批准",
+            "human_review": "人工审查",
+            "stop_and_escalate": "停止/上报",
+        },
+    },
 }
 
 DECISION_COLORS = {

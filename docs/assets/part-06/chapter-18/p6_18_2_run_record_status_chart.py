@@ -21,6 +21,10 @@ from p6_18_2_generate_run_records_en import (
     load_run_records as load_run_records_en,
     summarize_records as summarize_records_en,
 )
+from p6_18_2_generate_run_records_zh import (
+    load_run_records as load_run_records_zh,
+    summarize_records as summarize_records_zh,
+)
 
 OUT_DIR = Path(__file__).resolve().parent
 
@@ -53,6 +57,24 @@ LANG_TEXT = {
         "review_labels": ["needs review", "auto draft"],
         "load_run_records": load_run_records_en,
         "summarize_records": summarize_records_en,
+    },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "run-record-status-summary-zh.png",
+        "ylabel": "请求数",
+        "status_title": "执行状态",
+        "review_title": "人工审查",
+        "status_labels": ["多重依据", "单一依据", "检索失败"],
+        "review_labels": ["需要审查", "自动草稿"],
+        "load_run_records": load_run_records_zh,
+        "summarize_records": summarize_records_zh,
     },
 }
 

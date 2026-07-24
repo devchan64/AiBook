@@ -1,22 +1,22 @@
 # Part 6 Chapter 7 Assets
 
 - Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
+- The matching `-en.mmd` and `-zh.mmd` files remain in this directory as translated derivatives for multilingual manuscript work.
+- When updating a Mermaid diagram set, revise the source structure first, then sync the translated derivatives so all files keep the same conceptual flow.
 - Current language pairs:
-  - `p6-c07-s01-pretraining-flow-en.mmd` / `p6-c07-s01-pretraining-flow-ko.mmd`
-  - `p6-c07-s01-pretraining-cases-en.mmd` / `p6-c07-s01-pretraining-cases-ko.mmd`
-  - `p6-c07-s02-scale-tradeoff-en.mmd` / `p6-c07-s02-scale-tradeoff-ko.mmd`
-  - `p6-c07-s02-scale-decision-en.mmd` / `p6-c07-s02-scale-decision-ko.mmd`
+  - `p6-c07-s01-pretraining-flow-en.mmd` / `p6-c07-s01-pretraining-flow-ko.mmd` / `p6-c07-s01-pretraining-flow-zh.mmd`
+  - `p6-c07-s01-pretraining-cases-en.mmd` / `p6-c07-s01-pretraining-cases-ko.mmd` / `p6-c07-s01-pretraining-cases-zh.mmd`
+  - `p6-c07-s02-scale-tradeoff-en.mmd` / `p6-c07-s02-scale-tradeoff-ko.mmd` / `p6-c07-s02-scale-tradeoff-zh.mmd`
+  - `p6-c07-s02-scale-decision-en.mmd` / `p6-c07-s02-scale-decision-ko.mmd` / `p6-c07-s02-scale-decision-zh.mmd`
   - `p6-c07-s01-diagram-01-en.mmd` / `p6-c07-s01-diagram-01-ko.mmd`
   - `p6-c07-s01-diagram-02-en.mmd` / `p6-c07-s01-diagram-02-ko.mmd`
   - `p6-c07-s02-diagram-01-en.mmd` / `p6-c07-s02-diagram-01-ko.mmd`
   - `p6-c07-s02-diagram-02-en.mmd` / `p6-c07-s02-diagram-02-ko.mmd`
 - PNG chart assets:
-  - `pretraining-adaptation-counts-en.png` / `pretraining-adaptation-counts-ko.png`
-  - `scale-context-coverage-en.png` / `scale-context-coverage-ko.png`
-  - `scale-inference-cost-en.png` / `scale-inference-cost-ko.png`
-  - `scale-data-review-burden-en.png` / `scale-data-review-burden-ko.png`
+  - `pretraining-adaptation-counts-en.png` / `pretraining-adaptation-counts-ko.png` / `pretraining-adaptation-counts-zh.png`
+  - `scale-context-coverage-en.png` / `scale-context-coverage-ko.png` / `scale-context-coverage-zh.png`
+  - `scale-inference-cost-en.png` / `scale-inference-cost-ko.png` / `scale-inference-cost-zh.png`
+  - `scale-data-review-burden-en.png` / `scale-data-review-burden-ko.png` / `scale-data-review-burden-zh.png`
   - `lora-storage-growth-en.png` / `lora-storage-growth-ko.png`
 - Python chart source:
   - `p6_7_1_pretraining_adaptation_chart.py`
@@ -24,5 +24,7 @@
   - `p6_7_2_lora_storage_chart.py`
 - CSV example inputs:
   - `p6-7-pretraining-stage-sentences.csv`
+  - `p6-7-pretraining-stage-sentences-en.csv`
+  - `p6-7-pretraining-stage-sentences-zh.csv`
   - `p6-7-scale-requests.csv`
   - `p6-7-scale-steps.csv`

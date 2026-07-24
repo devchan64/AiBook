@@ -1,0 +1,37 @@
+doc_id,title,text,category,source_role,reader_hint
+R01,向量搜索基础,向量搜索通过把语义相近的文本放在向量空间中靠近查询的位置来寻找相似文本。即使关键词不同，也可以按意义取回。,retrieval,primary_evidence,检查问题含义和文档关键词是否都匹配
+R02,关键词搜索和语义搜索,关键词搜索先检查是否出现相同词语，而语义搜索比较问题和文档含义是否接近。这样即使用词不同，也能取回相关文档。,retrieval,primary_evidence,比较词面匹配和语义匹配
+R03,嵌入和相似度,嵌入把文本变成数值向量，相似度计算比较问题向量和各文档向量有多接近。,retrieval,supporting_explanation,支持向量和相似度术语
+R04,RAG 检索阶段,在 RAG 中，系统先取回相关文档，把这些文档附加到生成输入，然后再产生回答。检索和生成应分开检查。,retrieval,supporting_explanation,说明检索和生成的拆分
+R05,文档依据和回答范围,取回的文档定义回答不应超出的依据边界。断言文档中没有的内容，是生成阶段的夸大。,retrieval,boundary_caution,用于发现生成夸大的边界文档
+R06,新鲜度和检索,检索可以帮助附加当前文档，但检索结果并不总是保证当前信息或正确答案。,retrieval,boundary_caution,阻止检索总能保证新鲜度的夸大
+R07,同义问题处理,即使用户用不同措辞提问，基于嵌入的检索也可以把含义接近的文档提升为候选。,retrieval,supporting_explanation,说明表达差异和检索召回
+R08,检查 Top-k 候选,评价检索质量时，不要只看最终回答；要先检查哪些文档作为 top-k 候选被附加。,retrieval,supporting_explanation,强调检查检索记录
+R09,无关文档污染,如果搜索词过宽或噪声较多，无关文档可能进入候选集合。生成回答也可能因此受到污染。,retrieval,boundary_caution,用于说明检索失败传染到生成的边界文档
+R10,搜索词设计,搜索词应携带问题的核心含义。装饰词或与任务无关的词会让候选质量不稳定。,retrieval,supporting_explanation,说明为什么要操作 retrieval_terms
+R11,记录依据文档标题,审查 RAG 回答时，把使用的文档标题和检索分数同回答一起保留，会让根因追踪更容易。,retrieval,supporting_explanation,说明为什么要记录文档标题
+R12,分离检索失败和生成失败,回答错误时，要分别检查是取回文档错误，还是文档正确但生成发生夸大。,retrieval,primary_evidence,用于分开阅读检索记录和回答文本的标准文档
+R13,查询改写,问题含糊时，在检索前把它改写得更具体可能有帮助。,retrieval,supporting_explanation,支持处理含糊问题
+R14,文档块大小,块太大时需要的依据可能被埋没；块太小时周边上下文可能消失。,retrieval,supporting_explanation,支持文档块边界
+R15,引用显示,如果生成回答记录使用了哪些文档，用户就能重新检查依据。,retrieval,supporting_explanation,支持引用显示
+R16,政策文档检索,政策问题需要当前政策文档、例外条件和生效日期来定义回答范围。,retrieval,domain_example,政策类问题示例文档
+R17,客户支持检索,在客户支持回答中，可以把订单状态、政策文档和此前支持记录一起附加为候选。,retrieval,domain_example,客户支持示例文档
+R18,开发文档检索,在开发文档检索中，版本、函数名和错误消息会强烈影响候选质量。,retrieval,domain_example,开发文档示例文档
+X01,营销文案 A/B 测试,这说明如何把无关营销文案组合成更多样的促销文本。它与检索质量检查没有直接关系。,irrelevant,off_topic_noise,搜索词偏向促销时可能进入的文档
+X02,促销横幅句子候选,这说明如何变化营销活动文案和促销横幅句子。它不是向量搜索的依据。,irrelevant,off_topic_noise,检查无关文案文档是否改变回答主题
+X03,优惠券活动文案,这说明如何编写简短多样的优惠券活动消息。它与 RAG 检索阶段无关。,irrelevant,off_topic_noise,优惠券词语造成的营销污染候选
+X04,品牌口号候选,这里包含强调品牌形象的口号和促销短语示例。,irrelevant,off_topic_noise,混入促销品牌词时选中的文档
+X05,社交媒体帖子,这说明如何变化句子以提高社交媒体帖子的互动。,irrelevant,off_topic_noise,社交推广污染候选
+X06,广告文案长度调整,这说明如何缩短广告文案或加入强调措辞。,irrelevant,off_topic_noise,广告文案污染候选
+X07,新闻邮件标题候选,这说明如何选择促销表达，让新闻邮件标题更突出。,irrelevant,off_topic_noise,新闻邮件促销污染候选
+X08,落地页文案,这说明如何为落地页撰写有力的开头句，属于营销文案。,irrelevant,off_topic_noise,文案写作污染候选
+X09,销售消息集合,这说明如何创建鼓励购买的多样短语。,irrelevant,off_topic_noise,销售污染候选
+X10,客户评论编辑,这说明如何把客户评论改写成促销句子。,irrelevant,off_topic_noise,评论编辑污染候选
+X11,促销翻译,这说明翻译促销句子时如何保留语气。,irrelevant,off_topic_noise,促销翻译污染候选
+X12,活动文案分类,这说明如何把活动文案分为情感型、价格型和紧迫型。,irrelevant,off_topic_noise,分类式促销污染候选
+X13,设计草案说明,这说明如何写描述设计草案颜色和氛围的句子。,irrelevant,adjacent_noise,泛生成式 AI 文案，但与 RAG 检索没有直接关系
+X14,活动公告文案,这说明如何编写线下活动公告和报名提示。,irrelevant,off_topic_noise,活动促销污染候选
+X15,产品介绍句,这说明如何变化强调产品优势的介绍句。,irrelevant,off_topic_noise,产品促销污染候选
+X16,广告效果报告,这说明如何编写总结广告点击率和转化率的报告句子。,irrelevant,adjacent_noise,看起来像报告文档，但与检索质量无关
+X17,文案语气转换,这说明如何把同一促销文案转换成亲切或专业语气。,irrelevant,off_topic_noise,语气转换污染候选
+X18,品牌指南句子,这说明如何按照品牌指南用多种方式润色句子。,irrelevant,off_topic_noise,品牌文案污染候选

@@ -1,0 +1,13 @@
+layer,resource_name,exposed_name,resource_type,permission_scope,resource_label_zh
+common_layer,policy_repository,policy_repository,document_store,read,政策文档库
+common_layer,codebase_files,codebase_files,filesystem,read,代码库文件
+common_layer,employee_directory,employee_directory,database,read,员工目录
+common_layer,calendar_service,calendar_service,api,read_write,日历服务
+common_layer,ticket_system,ticket_system,issue_tracker,read,工单系统
+common_layer,report_repository,report_repository,document_store,write,报告文档库
+mixed_layer,policy_repository,policy_repository,,read,政策文档库
+mixed_layer,codebase_files,codebase_files,filesystem,read,代码库文件
+mixed_layer,employee_directory,employee_db,database,read,员工目录
+mixed_layer,calendar_service,calendar_service,api,read_write,日历服务
+mixed_layer,ticket_system,ticket_system,,read,工单系统
+mixed_layer,report_repository,report_repository,document_store,,报告文档库

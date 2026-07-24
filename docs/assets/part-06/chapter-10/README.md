@@ -1,24 +1,24 @@
 # Part 6 Chapter 10 Assets
 
 - Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
+- The matching `-en.mmd` and `-zh.mmd` files remain in this directory as translated derivatives for multilingual manuscript work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Mermaid language pairs:
-  - `p6-c10-s01-prompt-loop-en.mmd` / `p6-c10-s01-prompt-loop-ko.mmd`
-  - `p6-c10-s01-prompt-cases-en.mmd` / `p6-c10-s01-prompt-cases-ko.mmd`
-  - `p6-c10-s02-prompt-limit-flow-en.mmd` / `p6-c10-s02-prompt-limit-flow-ko.mmd`
-  - `p6-c10-s02-system-boundary-en.mmd` / `p6-c10-s02-system-boundary-ko.mmd`
+  - `p6-c10-s01-prompt-loop-en.mmd` / `p6-c10-s01-prompt-loop-ko.mmd` / `p6-c10-s01-prompt-loop-zh.mmd`
+  - `p6-c10-s01-prompt-cases-en.mmd` / `p6-c10-s01-prompt-cases-ko.mmd` / `p6-c10-s01-prompt-cases-zh.mmd`
+  - `p6-c10-s02-prompt-limit-flow-en.mmd` / `p6-c10-s02-prompt-limit-flow-ko.mmd` / `p6-c10-s02-prompt-limit-flow-zh.mmd`
+  - `p6-c10-s02-system-boundary-en.mmd` / `p6-c10-s02-system-boundary-ko.mmd` / `p6-c10-s02-system-boundary-zh.mmd`
   - `p6-c10-s01-diagram-01-en.mmd` / `p6-c10-s01-diagram-01-ko.mmd`
   - `p6-c10-s01-diagram-02-en.mmd` / `p6-c10-s01-diagram-02-ko.mmd`
   - `p6-c10-s02-diagram-01-en.mmd` / `p6-c10-s02-diagram-01-ko.mmd`
   - `p6-c10-s02-diagram-02-en.mmd` / `p6-c10-s02-diagram-02-ko.mmd`
 - PNG chart language pairs:
-  - `prompt-structure-check-en.png` / `prompt-structure-check-ko.png`
-  - `response-path-consistency-en.png` / `response-path-consistency-ko.png`
-  - `prompt-candidate-score-en.png` / `prompt-candidate-score-ko.png`
-  - `prompt-limit-checks-en.png` / `prompt-limit-checks-ko.png`
+  - `prompt-structure-check-en.png` / `prompt-structure-check-ko.png` / `prompt-structure-check-zh.png`
+  - `response-path-consistency-en.png` / `response-path-consistency-ko.png` / `response-path-consistency-zh.png`
+  - `prompt-candidate-score-en.png` / `prompt-candidate-score-ko.png` / `prompt-candidate-score-zh.png`
+  - `prompt-limit-checks-en.png` / `prompt-limit-checks-ko.png` / `prompt-limit-checks-zh.png`
   - `rag-grounding-check-en.png` / `rag-grounding-check-ko.png`
-  - `rag-failure-split-en.png` / `rag-failure-split-ko.png`
+  - `rag-failure-split-en.png` / `rag-failure-split-ko.png` / `rag-failure-split-zh.png`
 - Python chart sources:
   - `p6_10_1_prompt_structure_chart.py`
   - `p6_10_3_response_path_chart.py`
@@ -36,5 +36,6 @@
   - `p6-10-3-response-path-log.csv`
   - `p6-10-4-prompt-candidate-eval.csv`
   - `p6-10-4-prompt-candidate-eval-en.csv`
+  - `p6-10-4-prompt-candidate-eval-zh.csv`
   - `p6-10-rag-documents.csv`
   - `p6-10-rag-experiments.csv`

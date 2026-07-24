@@ -1,0 +1,37 @@
+case_id,domain,observation_signal,observation_zh,model_observation_en,found_context,current_context,detail_missing,conflict_found,action_failed,approval_needed,sources_attached
+coding-01,coding,no_related_file,编码助手还没有找到登录错误相关文件。,"The coding assistant has not found a related file for the login error yet.",false,false,false,false,false,false,false
+coding-02,coding,old_error_log,助手找到了旧错误日志，但它可能不能说明当前失败。,"The assistant found an old error log, but it may not describe the current failure.",true,false,false,false,false,false,false
+coding-03,coding,missing_test_context,助手找到了当前源文件，但仍然缺少失败测试语境。,"The assistant found the current source file, but the failing test context is still missing.",true,true,true,false,false,false,false
+coding-04,coding,new_test_failure,助手修改了代码，但下一次测试运行出现了新错误。,"The assistant changed code, but the next test run failed with a new error.",true,true,false,false,true,false,false
+coding-05,coding,security_sensitive_change,下一项修改涉及认证安全，不应在没有审查的情况下应用。,"The next change touches authentication security and should not be applied without review.",true,true,false,false,false,true,false
+coding-06,coding,patch_ready_without_test_note,补丁看起来已经准备好，但回答还没有附上测试依据。,"The patch looks ready, but the answer has not attached test evidence yet.",true,true,false,false,false,false,false
+coding-07,coding,verified_patch_with_notes,补丁已经验证，回答也已经包含来源和测试依据。,"The patch was verified and the answer already includes the source and test evidence.",true,true,false,false,false,false,true
+coding-08,coding,conflicting_test_results,两次测试运行结果不一致，所以助手必须先比较证据。,"Two test runs disagree, so the assistant must compare the evidence before moving on.",true,true,false,true,false,false,false
+coding-09,coding,missing_dependency_trace,助手看到了依赖错误，但仍缺少选择修复方向所需的 trace。,"The assistant saw a dependency error and still lacks the trace needed to choose a fix.",true,true,true,false,true,false,false
+coding-10,coding,permission_needed_for_prod_log,助手需要访问生产日志，而这需要明确权限。,"The assistant needs production logs that require explicit permission.",true,true,false,false,false,true,false
+coding-11,coding,current_file_and_failing_test_found,当前源文件和失败测试已经找到，但最终回答还没有附上依据。,"The current source file and failing test were found, but the final answer has no evidence attached yet.",true,true,false,false,false,false,false
+coding-12,coding,reproduced_failure_and_source_attached,失败已经复现，最终回答也已经包含相关源代码依据。,"The failure was reproduced and the final answer already includes the related source evidence.",true,true,false,false,false,false,true
+research-01,research,no_document_found,研究助手还没有找到任何相关文档。,"The research assistant has not found any relevant document yet.",false,false,false,false,false,false,false
+research-02,research,stale_policy_notice,助手找到了政策通知，但它已经过时，不是当前版本。,"The assistant found a policy notice, but it is stale and not the current version.",true,false,false,false,false,false,false
+research-03,research,current_notice_without_appendix,助手找到了当前通知，但缺少包含详细条件的附录。,"The assistant found the current notice, but the appendix with detailed conditions is missing.",true,true,true,false,false,false,false
+research-04,research,current_notice_and_appendix_conflict,当前通知和附录在关键条件上互相冲突。,"The current notice and appendix disagree on a key condition.",true,true,false,true,false,false,false
+research-05,research,private_policy_link,助手找到了私有政策链接，使用前需要人工批准。,"The assistant found a private policy link that requires human approval before use.",true,true,false,false,false,true,false
+research-06,research,current_sources_ready_without_citation,当前来源已经准备好，但回答还没有附上引用。,"The current sources are ready, but the answer has not attached citations yet.",true,true,false,false,false,false,false
+research-07,research,cited_current_sources_ready,当前来源已经准备好，引用也已经附上。,"The current sources are ready and citations have already been attached.",true,true,false,false,false,false,true
+research-08,research,search_api_timeout,文档搜索 API 在返回可用语境前超时。,"The document search API timed out before returning usable context.",false,false,false,false,true,false,false
+research-09,research,too_many_low_quality_hits,搜索返回了很多低质量结果，助手仍缺少所需细节。,"The search returned many low quality hits and the assistant still lacks the needed detail.",true,false,true,false,false,false,false
+research-10,research,legal_wording_conflict,来源中存在冲突的法律措辞，请求应在最终确定前接受审查。,"The sources contain conflicting legal wording and the request should be reviewed before finalizing.",true,true,false,true,false,true,false
+research-11,research,latest_notice_and_rule_found,最新通知和规则已经找到，但回答还没有附上证据。,"The latest notice and rule were found, but the answer has not attached the evidence yet.",true,true,false,false,false,false,false
+research-12,research,summary_ready_with_sources,摘要已经准备好，回答也已经包含支持来源。,"The summary is ready and the answer already includes the supporting sources.",true,true,false,false,false,false,true
+workflow-01,workflow,no_ticket_context,工作流助手还没有找到紧急请求的工单语境。,"The workflow assistant has not found the ticket context for the urgent request yet.",false,false,false,false,false,false,false
+workflow-02,workflow,old_ticket_status,助手找到了旧工单状态，它可能不能反映当前队列。,"The assistant found an old ticket status that may not reflect the current queue.",true,false,false,false,false,false,false
+workflow-03,workflow,calendar_missing_for_owner,负责人已经识别出来，但仍缺少日历信息。,"The owner was identified, but calendar information is still missing.",true,true,true,false,false,false,false
+workflow-04,workflow,calendar_api_failed,日历 API 在检查下一步时失败。,"The calendar API failed while checking the next step.",true,true,false,false,true,false,false
+workflow-05,workflow,owner_schedule_conflict,负责人日程和请求的紧急处理窗口发生冲突。,"The owner schedule conflicts with the requested urgent handling window.",true,true,false,true,false,false,false
+workflow-06,workflow,manager_approval_required,下一项工作流动作需要经理批准。,"The next workflow action requires manager approval.",true,true,false,false,false,true,false
+workflow-07,workflow,route_ready_without_audit_note,处理路径已经准备好，但回答还没有附上审计备注。,"The route is ready, but the answer has not attached an audit note yet.",true,true,false,false,false,false,false
+workflow-08,workflow,route_ready_with_audit_note,处理路径已经准备好，审计备注也已经附上。,"The route is ready and the audit note is already attached.",true,true,false,false,false,false,true
+workflow-09,workflow,urgent_label_disagrees_with_content,紧急标签和实际工单内容不一致。,"The urgent label disagrees with the actual ticket content.",true,true,false,true,false,false,false
+workflow-10,workflow,crm_permission_denied,CRM 动作因为权限不足而失败，并且需要批准。,"The CRM action failed because permission was denied and approval is required.",true,true,false,false,true,true,false
+workflow-11,workflow,owner_and_calendar_found,负责人和日历信息已经找到，但最终证据还没有附上。,"The owner and calendar information were found, but the final evidence is not attached yet.",true,true,false,false,false,false,false
+workflow-12,workflow,completed_route_with_evidence,处理路径已经完成，回答也已经包含证据。,"The route is complete and the answer already includes the evidence.",true,true,false,false,false,false,true

@@ -1,0 +1,38 @@
+doc_id,case_id,title,text,version_status,source_type
+P01,policy,2026-07-22 退款政策变更,"从今天开始，退款申请处理期改为 14 天，并适用于生效日期之后收到的申请",current,policy_notice
+P02,policy,2026-07-22 退款例外条件,"已开封商品和有使用痕迹的商品，即使在 14 天处理期内也需要追加审核",current,policy_notice
+P03,policy,2026-07-22 退款提交路径,"退款提交从账户菜单的订单记录开始，并留下提交编号",current,policy_notice
+P04,policy,2026-07-22 退款批准通知,"提交状态变为已批准后，会向客户发送退款批准通知",current,policy_notice
+P05,policy,2026-07-22 退款文档版本,"当前退款政策文档版本为 2026-07-22，之前的 7 天标准文档仅供归档使用",current,policy_notice
+P06,policy,2026-07-22 退款咨询回复标准,"退款咨询回复必须同时说明 14 天处理期和例外条件",current,policy_notice
+P07,policy,2025-12-01 退款政策归档,"旧退款申请处理期为 7 天，此文档仅供归档使用",old,archive
+P08,policy,2025-12-01 退款 FAQ 归档,"旧 FAQ 说明退款提交会在 7 天内处理",old,archive
+P09,policy,退款账户菜单指南,"退款提交画面位于账户菜单，但此文档不说明处理期",related,faq
+P10,policy,配送延迟通知,"配送延迟通知与退款政策变更不同，不说明处理期",related,notice
+P11,policy,支付取消流程,"支付取消请求按各支付方式的批准取消流程处理",related,manual
+P12,policy,客服措辞指南,"退款说明应保持礼貌，但必须先检查最新政策文档",related,style_guide
+M01,manual,当前 v3 高级设置位置,"在当前版本中，高级设置菜单现在位于偏好设置 > 实验室",current,manual
+M02,manual,v3 偏好设置入口路径,"当前版本用户从画面右上角的个人资料图标进入偏好设置",current,manual
+M03,manual,v3 实验室功能指南,"实验室菜单包含从高级设置移动过来的自动化选项和测试功能",current,manual
+M04,manual,v3 菜单名称变更通知,"高级设置菜单名称已在当前版本中并入偏好设置",current,manual
+M05,manual,v3 设置搜索指南,"在设置搜索框输入实验室，会移动到偏好设置内的高级功能位置",current,manual
+M06,manual,v3 手册版本信息,"当前产品手册版本为 v3，v2 高级设置文档仅供归档使用",current,manual
+M07,manual,v2 旧设置指南,"旧版本中有单独的旧设置菜单",old,archive
+M08,manual,v2 自动保存位置,"旧自动保存选项位于高级设置菜单内",old,archive
+M09,manual,个人资料画面指南,"个人资料画面显示账户名称和通知状态",related,manual
+M10,manual,恢复默认设置,"恢复默认设置在偏好设置下的恢复菜单中执行",related,manual
+M11,manual,通知菜单说明,"通知菜单用于开启或关闭消息和电子邮件通知",related,manual
+M12,manual,客服中心截图标准,"画面说明回答必须先检查当前版本手册路径",related,style_guide
+S01,sdk,SDK v5 auth 对象认证,"在当前 SDK 版本中，通过把令牌放入 auth 对象来创建客户端",current,sdk_doc
+S02,sdk,SDK v5 客户端创建示例,"当前版本认证写成 client = SDK(auth={'token': API_KEY}) 的形式",current,sdk_doc
+S03,sdk,SDK v5 认证错误检查,"如果没有 auth 对象，当前 SDK 可能返回认证错误",current,sdk_doc
+S04,sdk,SDK v5 迁移指南,"直接构造 Authorization header 的方法在 v5 中移动为 auth 对象方法",current,sdk_doc
+S05,sdk,SDK v5 环境变量连接,"推荐方法是从环境变量读取 API_KEY，并把它传给 auth 对象",current,sdk_doc
+S06,sdk,SDK v5 文档版本,"当前 SDK 文档版本为 v5，v4 header 示例仅供归档使用",current,sdk_doc
+S07,sdk,SDK v4 Authorization Header 示例,"旧 SDK 版本中直接设置 Authorization header",old,archive
+S08,sdk,SDK v4 认证文档归档,"归档文档包含直接设置 Authorization header 的示例",old,archive
+S09,sdk,SDK 速率限制指南,"发生速率限制时，检查重试间隔和退避设置",related,sdk_doc
+S10,sdk,SDK 错误代码说明,"认证失败和速率限制错误代码记录了不同原因",related,sdk_doc
+S11,sdk,SDK 安装指南,"SDK 安装首先检查包管理器和运行时版本",related,sdk_doc
+S12,sdk,开发文档回答标准,"开发文档回答应以当前 SDK 版本和官方示例为依据",related,style_guide
+R01,pricing,按席位计费通知归档,"旧按席位计费页面已归档，不能说明当前计费表",old,archive

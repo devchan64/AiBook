@@ -1,0 +1,11 @@
+flowchart LR
+  A["输入"]
+  B["agent 执行"]
+  C["工具调用和 trace"]
+  D["评估 / replay / 批准"]
+  E["运行或改进"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

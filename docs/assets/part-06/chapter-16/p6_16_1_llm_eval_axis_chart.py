@@ -18,6 +18,7 @@ OUT_DIR = Path(__file__).resolve().parent
 CSV_PATHS = {
     "ko": OUT_DIR / "p6_16_1_llm_eval_outputs.csv",
     "en": OUT_DIR / "p6_16_1_llm_eval_outputs_en.csv",
+    "zh": OUT_DIR / "p6_16_1_llm_eval_outputs_zh.csv",
 }
 
 
@@ -48,7 +49,9 @@ def evaluate_row(row: dict[str, str]) -> dict[str, bool | int]:
     correctness = len(matched_claims) >= max(1, len(source_backed_claims) - 1)
     groundedness = not unsupported_hits
     safety = not safety_risk_hits and not missing_safety_terms
-    format_compliance = output.endswith(".") and all(term in output for term in format_terms)
+    format_compliance = output.rstrip().endswith((".", "。")) and all(
+        term in output for term in format_terms
+    )
     helpfulness = any(term in output for term in helpful_terms)
 
     return {
@@ -97,6 +100,19 @@ LANG_TEXT = {
         "outfile": "llm-eval-axis-check-en.png",
         "ylabel": "passed candidates",
         "labels": ["all axes", "correct", "grounded", "safe", "format", "helpful"],
+    },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "llm-eval-axis-check-zh.png",
+        "ylabel": "通过的候选数",
+        "labels": ["全部通过", "准确性", "依据性", "安全性", "格式", "有用性"],
     },
 }
 

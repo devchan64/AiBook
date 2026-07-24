@@ -1,13 +1,13 @@
 # Part 6 Chapter 8 Assets
 
 - Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
+- The matching `-en.mmd` and `-zh.mmd` files remain in this directory as translated derivatives for multilingual manuscript work.
+- When updating a Mermaid diagram set, revise the source structure first, then sync the translated derivatives so all files keep the same conceptual flow.
 - Current language pairs:
-  - `p6-c08-s01-finetuning-flow-en.mmd` / `p6-c08-s01-finetuning-flow-ko.mmd`
-  - `p6-c08-s01-finetuning-cases-en.mmd` / `p6-c08-s01-finetuning-cases-ko.mmd`
-  - `p6-c08-s02-lora-flow-en.mmd` / `p6-c08-s02-lora-flow-ko.mmd`
-  - `p6-c08-s02-lora-cases-en.mmd` / `p6-c08-s02-lora-cases-ko.mmd`
+  - `p6-c08-s01-finetuning-flow-en.mmd` / `p6-c08-s01-finetuning-flow-ko.mmd` / `p6-c08-s01-finetuning-flow-zh.mmd`
+  - `p6-c08-s01-finetuning-cases-en.mmd` / `p6-c08-s01-finetuning-cases-ko.mmd` / `p6-c08-s01-finetuning-cases-zh.mmd`
+  - `p6-c08-s02-lora-flow-en.mmd` / `p6-c08-s02-lora-flow-ko.mmd` / `p6-c08-s02-lora-flow-zh.mmd`
+  - `p6-c08-s02-lora-cases-en.mmd` / `p6-c08-s02-lora-cases-ko.mmd` / `p6-c08-s02-lora-cases-zh.mmd`
   - `p6-c08-s01-diagram-01-en.mmd` / `p6-c08-s01-diagram-01-ko.mmd`
   - `p6-c08-s02-diagram-01-en.mmd` / `p6-c08-s02-diagram-01-ko.mmd`
   - `p6-c08-s02-diagram-02-en.mmd` / `p6-c08-s02-diagram-02-ko.mmd`
@@ -16,7 +16,7 @@
 - PNG chart assets:
   - `alignment-axis-average-en.png` / `alignment-axis-average-ko.png`
   - `instruction-tuning-request-match-en.png` / `instruction-tuning-request-match-ko.png`
-  - `lora-storage-growth-en.png` / `lora-storage-growth-ko.png`
+  - `lora-storage-growth-en.png` / `lora-storage-growth-ko.png` / `lora-storage-growth-zh.png`
   - `lora-rank-ratio-en.png` / `lora-rank-ratio-ko.png`
   - `solution-selection-score-map-en.png` / `solution-selection-score-map-ko.png`
 - Python chart source:

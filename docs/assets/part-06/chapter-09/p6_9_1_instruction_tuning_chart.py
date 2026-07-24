@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
-EVAL_PATH = OUT_DIR / "p6_9_1_instruction_following_eval.csv"
 
 def to_bool(value: str) -> bool:
     return value.lower() == "true"
@@ -42,7 +41,26 @@ def check_case(row: dict[str, str], prefix: str) -> bool:
 
 def summarize_eval(path: Path) -> dict[str, int]:
     with path.open(encoding="utf-8", newline="") as file:
-        rows = list(csv.DictReader(file))
+        next(file)
+        rows = []
+        for line in file:
+            parts = line.rstrip("\n").split(",")
+            metrics = parts[-10:]
+            rows.append(
+                {
+                    "request_type": parts[1],
+                    "base_lines": metrics[0],
+                    "base_numbered_steps": metrics[1],
+                    "base_table_rows": metrics[2],
+                    "base_uncertainty_marker": metrics[3],
+                    "base_bullets": metrics[4],
+                    "tuned_lines": metrics[5],
+                    "tuned_numbered_steps": metrics[6],
+                    "tuned_table_rows": metrics[7],
+                    "tuned_uncertainty_marker": metrics[8],
+                    "tuned_bullets": metrics[9],
+                }
+            )
     return {
         "request_count": len(rows),
         "base_meets_request_count": sum(check_case(row, "base") for row in rows),
@@ -51,6 +69,7 @@ def summarize_eval(path: Path) -> dict[str, int]:
 
 LANG_TEXT = {
     "ko": {
+        "eval_file": "p6_9_1_instruction_following_eval.csv",
         "font_candidates": [
             "Noto Sans CJK KR",
             "NanumGothic",
@@ -66,12 +85,29 @@ LANG_TEXT = {
         "missed_label": "미충족",
     },
     "en": {
+        "eval_file": "p6_9_1_instruction_following_eval-en.csv",
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "instruction-tuning-request-match-en.png",
         "ylabel": "evaluation cases",
         "labels": ["base response", "instruction-tuned"],
         "met_label": "met",
         "missed_label": "missed",
+    },
+    "zh": {
+        "eval_file": "p6_9_1_instruction_following_eval-zh.csv",
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Songti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "instruction-tuning-request-match-zh.png",
+        "ylabel": "评估案例数",
+        "labels": ["一般回应", "指令调优回应"],
+        "met_label": "满足",
+        "missed_label": "未满足",
     },
 }
 
@@ -98,7 +134,7 @@ def style_axis(ax) -> None:
 
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    summary = summarize_eval(EVAL_PATH)
+    summary = summarize_eval(OUT_DIR / text["eval_file"])
     met_values = [
         summary["base_meets_request_count"],
         summary["tuned_meets_request_count"],

@@ -68,6 +68,21 @@ LANG_TEXT = {
         "rows": ["format drift", "missing policy", "calculation error", "style drift", "format + evidence"],
         "columns": ["prompt", "RAG", "tool use", "fine-tuning"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Microsoft YaHei",
+            "SimHei",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "solution-selection-score-map-zh.png",
+        "title": "按缺失信号计算补强路径得分",
+        "rows": ["格式摇摆", "最新规定错误", "计算错误", "风格摇摆", "格式+依据"],
+        "columns": ["提示", "RAG", "工具使用", "微调"],
+    },
 }
 
 

@@ -1,0 +1,9 @@
+flowchart TD
+  subgraph L["agent 循环"]
+    direction LR
+    A["计划"] --> B["行动"] --> C["观察"] --> D["决策"]
+  end
+
+  D -->|继续| A
+  D -->|依据足够| F["停止"]
+  D -->|需要批准或冲突检查| G["请求人工审查"]

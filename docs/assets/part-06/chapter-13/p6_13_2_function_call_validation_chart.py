@@ -82,6 +82,37 @@ LANG_TEXT = {
             "body": "body",
         },
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "function-call-validation-zh.png",
+        "status_ylabel": "各函数调用数",
+        "missing_ylabel": "缺失字段出现数",
+        "status_labels": ["执行准备", "需要追问", "需要批准"],
+        "function_labels": {
+            "create_calendar_event": "日程创建",
+            "lookup_exchange_rate": "汇率查询",
+            "apply_file_patch": "文件补丁",
+            "send_email_draft": "邮件草稿",
+        },
+        "missing_labels": {
+            "attendees": "attendees",
+            "timezone": "timezone",
+            "time": "time",
+            "quote_currency": "quote_currency",
+            "base_currency": "base_currency",
+            "file_path": "file_path",
+            "change_summary": "change_summary",
+            "recipient": "recipient",
+            "body": "body",
+        },
+    },
 }
 
 

@@ -1,0 +1,11 @@
+flowchart TD
+  A["agent 执行"]
+  B["trace 和日志"]
+  C["评估和 replay"]
+  D["改进或批准"]
+  E["人工交接或策略阻断"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E

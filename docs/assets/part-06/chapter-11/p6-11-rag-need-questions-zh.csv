@@ -1,0 +1,5 @@
+case_id,question,memory_answer,current_signal
+policy,今天退款政策有什么变化？,退款申请会在 7 天内处理。,14 天
+manual,当前版本的高级设置菜单在哪里？,可以直接在高级设置菜单中找到。,偏好设置
+sdk,当前 SDK 版本中认证头应该放在哪里？,把令牌直接放入 Authorization header。,auth
+pricing,在哪里可以查看当前按席位计费表？,套餐按月计费。,按席位计费表

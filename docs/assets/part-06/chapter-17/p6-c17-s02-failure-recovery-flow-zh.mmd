@@ -1,0 +1,9 @@
+flowchart LR
+  A["检测到失败"]
+  B["分类失败"]
+  C["retry / fallback / stop / review"]
+  D["保存 trace 并改进"]
+
+  A --> B
+  B --> C
+  C --> D

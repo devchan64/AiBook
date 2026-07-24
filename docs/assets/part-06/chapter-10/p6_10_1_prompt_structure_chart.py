@@ -45,6 +45,24 @@ LANG_TEXT = {
         "instruction_context_example_check_label": "instruction+context+example+check",
         "labels": ["numbered format", "required slots", "key facts"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Microsoft YaHei",
+            "SimHei",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "prompt-structure-check-zh.png",
+        "ylabel_template": "通过的响应日志数(共 {run_count} 次)",
+        "simple_label": "简单提示",
+        "instruction_context_label": "指令+上下文",
+        "instruction_context_example_label": "指令+上下文+示例",
+        "instruction_context_example_check_label": "指令+上下文+示例+检查",
+        "labels": ["编号格式", "必需槽位", "关键事实"],
+    },
 }
 
 PROMPT_ORDER = [

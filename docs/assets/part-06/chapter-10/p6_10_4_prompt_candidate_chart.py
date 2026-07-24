@@ -46,6 +46,20 @@ LANG_TEXT = {
         "failure_ylabel": "failure count",
         "failure_labels": ["format", "key facts", "forbidden rule", "boundary cases"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "prompt-candidate-score-zh.png",
+        "score_ylabel": "加权分数",
+        "failure_ylabel": "失败次数",
+        "failure_labels": ["格式", "关键项", "禁止条件", "边界案例"],
+    },
 }
 
 

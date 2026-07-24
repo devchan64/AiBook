@@ -17,7 +17,6 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
-DATA_PATH = OUT_DIR / "p6-7-pretraining-stage-sentences.csv"
 
 STAGE_BUNDLES = [
     ("general_only", ("general_text",)),
@@ -25,28 +24,27 @@ STAGE_BUNDLES = [
     ("with_instruction", ("general_text", "customer_support", "instruction_reply")),
 ]
 
-FOCUS_LINKS = [
-    {
-        "key": "broad_language",
-        "left": "내용을",
-        "rights": ("확인", "정리", "요약", "설명"),
-    },
-    {
-        "key": "domain_support",
-        "left": "환불",
-        "rights": ("문의", "요청", "상태", "처리"),
-    },
-    {
-        "key": "instruction_style",
-        "left": "단계별로",
-        "rights": ("안내", "설명", "정리"),
-    },
-]
-
-DOMAIN_START_TOKENS = {"환불", "배송", "계정", "교환"}
-
 LANG_TEXT = {
     "ko": {
+        "data_file": "p6-7-pretraining-stage-sentences.csv",
+        "focus_links": [
+            {
+                "key": "broad_language",
+                "left": "내용을",
+                "rights": ("확인", "정리", "요약", "설명"),
+            },
+            {
+                "key": "domain_support",
+                "left": "환불",
+                "rights": ("문의", "요청", "상태", "처리"),
+            },
+            {
+                "key": "instruction_style",
+                "left": "단계별로",
+                "rights": ("안내", "설명", "정리"),
+            },
+        ],
+        "domain_start_tokens": {"환불", "배송", "계정", "교환"},
         "font_candidates": [
             "Noto Sans CJK KR",
             "NanumGothic",
@@ -70,6 +68,25 @@ LANG_TEXT = {
         },
     },
     "en": {
+        "data_file": "p6-7-pretraining-stage-sentences-en.csv",
+        "focus_links": [
+            {
+                "key": "broad_language",
+                "left": "content",
+                "rights": ("check", "organize", "summarize", "explain"),
+            },
+            {
+                "key": "domain_support",
+                "left": "refund",
+                "rights": ("inquiry", "request", "status", "process"),
+            },
+            {
+                "key": "instruction_style",
+                "left": "step_by_step",
+                "rights": ("guide", "explain", "summarize"),
+            },
+        ],
+        "domain_start_tokens": {"refund", "delivery", "account", "exchange"},
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "outfile": "pretraining-adaptation-counts-en.png",
         "xlabel": "",
@@ -83,6 +100,48 @@ LANG_TEXT = {
             "broad_language": "broad language link\ncontent -> check/summarize/explain",
             "domain_support": "domain link\nrefund -> inquiry/request/status/process",
             "instruction_style": "instruction-style link\nstep-by-step -> guide/explain/summarize",
+        },
+    },
+    "zh": {
+        "data_file": "p6-7-pretraining-stage-sentences-zh.csv",
+        "focus_links": [
+            {
+                "key": "broad_language",
+                "left": "内容",
+                "rights": ("确认", "整理", "摘要", "说明"),
+            },
+            {
+                "key": "domain_support",
+                "left": "退款",
+                "rights": ("咨询", "请求", "状态", "处理"),
+            },
+            {
+                "key": "instruction_style",
+                "left": "逐步",
+                "rights": ("引导", "说明", "整理"),
+            },
+        ],
+        "domain_start_tokens": {"退款", "配送", "账号", "换货"},
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Songti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "pretraining-adaptation-counts-zh.png",
+        "xlabel": "",
+        "ylabel": "下一个词元观测次数",
+        "bundle_labels": {
+            "general_only": "一般语料",
+            "with_domain": "加入领域数据",
+            "with_instruction": "加入指令型回应",
+        },
+        "link_labels": {
+            "broad_language": "宽广语言连接\n内容 -> 确认/整理/摘要/说明",
+            "domain_support": "领域连接\n退款 -> 咨询/请求/状态/处理",
+            "instruction_style": "请求格式连接\n逐步 -> 引导/说明/整理",
         },
     },
 }
@@ -101,8 +160,8 @@ def configure_font(text: dict[str, object]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def load_rows() -> list[dict[str, str]]:
-    with DATA_PATH.open(newline="", encoding="utf-8") as f:
+def load_rows(data_path: Path) -> list[dict[str, str]]:
+    with data_path.open(newline="", encoding="utf-8") as f:
         return list(DictReader(f))
 
 
@@ -123,12 +182,15 @@ def link_count(counts: dict[str, Counter], left: str, rights: tuple[str, ...]) -
     return sum(counts[left][right] for right in rights)
 
 
-def collect_link_rows(rows: list[dict[str, str]]) -> list[dict[str, Union[int, str]]]:
+def collect_link_rows(
+    rows: list[dict[str, str]],
+    focus_links: list[dict[str, object]],
+) -> list[dict[str, Union[int, str]]]:
     result = []
     for bundle_name, stages in STAGE_BUNDLES:
         bundle_rows = rows_for_stages(rows, stages)
         counts = build_bigram_counts(row["sentence"] for row in bundle_rows)
-        for link in FOCUS_LINKS:
+        for link in focus_links:
             result.append(
                 {
                     "bundle": bundle_name,
@@ -144,7 +206,11 @@ def collect_stage_sizes(rows: list[dict[str, str]]) -> dict[str, int]:
     return {stage: sizes[stage] for stage in ("general_text", "customer_support", "instruction_reply")}
 
 
-def collect_new_domain_links(rows: list[dict[str, str]], limit: int = 6) -> list[tuple[str, int]]:
+def collect_new_domain_links(
+    rows: list[dict[str, str]],
+    domain_start_tokens: set[str],
+    limit: int = 6,
+) -> list[tuple[str, int]]:
     general_counts = build_bigram_counts(
         row["sentence"] for row in rows if row["stage"] == "general_text"
     )
@@ -153,7 +219,7 @@ def collect_new_domain_links(rows: list[dict[str, str]], limit: int = 6) -> list
     )
     new_links = []
     for left, right_counts in domain_counts.items():
-        if left not in DOMAIN_START_TOKENS:
+        if left not in domain_start_tokens:
             continue
         for right, domain_count in right_counts.items():
             if general_counts[left][right] == 0:
@@ -161,14 +227,14 @@ def collect_new_domain_links(rows: list[dict[str, str]], limit: int = 6) -> list
     return sorted(new_links, key=lambda item: (-item[1], item[0]))[:limit]
 
 
-def print_summary(rows: list[dict[str, str]]) -> None:
+def print_summary(rows: list[dict[str, str]], text: dict[str, object]) -> None:
     print("[stage_rows]")
     for stage, count in collect_stage_sizes(rows).items():
         print(f"{stage}: {count}")
 
     print("\n[focus_link_counts]")
-    link_rows = collect_link_rows(rows)
-    for link in FOCUS_LINKS:
+    link_rows = collect_link_rows(rows, text["focus_links"])
+    for link in text["focus_links"]:
         values = {
             row["bundle"]: row["count"]
             for row in link_rows
@@ -182,7 +248,7 @@ def print_summary(rows: list[dict[str, str]]) -> None:
         )
 
     print("\n[new_links_after_domain]")
-    for link_name, count in collect_new_domain_links(rows):
+    for link_name, count in collect_new_domain_links(rows, text["domain_start_tokens"]):
         print(f"{link_name}: {count}")
 
 
@@ -195,8 +261,8 @@ def style_axis(ax) -> None:
 
 def save_chart(rows: list[dict[str, str]], text: dict[str, object]) -> None:
     configure_font(text)
-    link_rows = collect_link_rows(rows)
-    link_keys = [link["key"] for link in FOCUS_LINKS]
+    link_rows = collect_link_rows(rows, text["focus_links"])
+    link_keys = [link["key"] for link in text["focus_links"]]
     bundle_keys = [bundle_name for bundle_name, _ in STAGE_BUNDLES]
     x_positions = list(range(len(link_keys)))
     bar_width = 0.24
@@ -257,9 +323,10 @@ def save_chart(rows: list[dict[str, str]], text: dict[str, object]) -> None:
 
 
 def main() -> None:
-    rows = load_rows()
-    print_summary(rows)
     for text in LANG_TEXT.values():
+        rows = load_rows(OUT_DIR / text["data_file"])
+        print(f"[{text['outfile']}]")
+        print_summary(rows, text)
         save_chart(rows, text)
 
 

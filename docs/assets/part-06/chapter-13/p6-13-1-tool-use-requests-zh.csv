@@ -1,0 +1,19 @@
+id,user_request_zh,model_request_en,request_signal
+R01,"用一段话说明什么是汇率。","Explain what an exchange rate is in one paragraph.",concept_only
+R02,"简要说明工具使用和 RAG 有什么不同。","Briefly explain how tool use differs from RAG.",concept_only
+R03,"不要使用类比，说明为什么工具使用中会讨论函数调用。","Explain why function calling is discussed in tool use.",concept_only
+R04,"告诉我今天首尔的美元汇率。","Tell me today's USD exchange rate for Seoul.",current_exchange_rate
+R05,"告诉我今天东京的日元汇率。","Tell me today's JPY exchange rate for Tokyo.",current_exchange_rate
+R06,"使用今天的汇率，计算 300 美元是多少韩元。","Using today's exchange rate, calculate how much 300 USD is in KRW.",exchange_rate_conversion
+R07,"使用今天的汇率，计算 120 欧元是多少韩元。","Using today's exchange rate, calculate how much 120 EUR is in KRW.",exchange_rate_conversion
+R08,"计算连续三次打 13.7% 折扣后剩下的比例。","Calculate the remaining ratio after applying a 13.7% discount three times.",pure_calculation
+R09,"计算 120000 韩元加上 8% 税后的最终价格。","Calculate the final price after adding 8% tax to 120000 KRW.",pure_calculation
+R10,"查看三楼会议室明天下午是否可用。","Check whether a meeting room on the third floor is available tomorrow afternoon.",calendar_lookup
+R11,"查看二楼会议室下周一上午是否可用。","Check whether a meeting room on the second floor is available next Monday morning.",calendar_lookup
+R12,"预订三楼 A 会议室，时间是明天下午。","Reserve meeting room A on the third floor for tomorrow afternoon.",state_change
+R13,"通过电子邮件把报价文件发送给客户。","Send the quote document to the customer by email.",state_change
+R14,"修改仓库配置文件。","Modify the repository configuration file.",state_change
+R15,"告诉我美元汇率。","Tell me the USD exchange rate.",missing_date
+R16,"预订一个会议室。","Reserve a meeting room.",missing_target
+R17,"计算折扣。","Calculate the discount.",missing_amount
+R18,"查看今天的汇率和会议室可用情况。","Check today's exchange rate and meeting room availability.",mixed_lookup

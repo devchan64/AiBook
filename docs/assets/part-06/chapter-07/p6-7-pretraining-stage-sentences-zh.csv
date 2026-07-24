@@ -1,0 +1,77 @@
+stage,domain,sentence
+general_text,document,文档 内容 确认 现在
+general_text,document,文档 内容 整理 现在
+general_text,document,文档 内容 摘要 现在
+general_text,document,文档 内容 说明 现在
+general_text,document,报告 内容 确认 现在
+general_text,document,报告 内容 整理 现在
+general_text,document,报告 内容 摘要 现在
+general_text,document,会议 内容 整理 现在
+general_text,document,会议 内容 摘要 现在
+general_text,document,会议 内容 说明 现在
+general_text,document,资料 内容 确认 现在
+general_text,document,资料 内容 整理 现在
+general_text,document,资料 内容 说明 现在
+general_text,document,结果 内容 确认 现在
+general_text,document,结果 内容 说明 现在
+general_text,document,结果 内容 摘要 现在
+general_text,document,通知 内容 确认 现在
+general_text,document,通知 内容 整理 现在
+general_text,document,政策 内容 说明 现在
+general_text,document,政策 内容 摘要 现在
+general_text,communication,请求 内容 确认 现在
+general_text,communication,请求 内容 整理 现在
+general_text,communication,咨询 内容 确认 现在
+general_text,communication,咨询 内容 整理 现在
+general_text,communication,问题 内容 确认 现在
+general_text,communication,问题 内容 说明 现在
+general_text,communication,回答 内容 整理 现在
+general_text,communication,回答 内容 说明 现在
+general_text,communication,邮件 内容 确认 现在
+general_text,communication,邮件 内容 整理 现在
+general_text,communication,提醒 内容 传达 现在
+general_text,communication,引导 邮件 传达 现在
+general_text,knowledge,概念 关系 说明 现在
+general_text,knowledge,原因 关系 说明 现在
+general_text,knowledge,流程 顺序 整理 现在
+general_text,knowledge,核心 内容 摘要 现在
+general_text,knowledge,比较 内容 整理 现在
+general_text,knowledge,背景 内容 说明 现在
+general_text,knowledge,示例 内容 确认 现在
+general_text,knowledge,条件 内容 确认 现在
+customer_support,refund,退款 咨询 内容 确认 现在
+customer_support,refund,退款 请求 内容 确认 现在
+customer_support,refund,退款 状态 内容 确认 现在
+customer_support,refund,退款 处理 内容 引导 现在
+customer_support,refund,退款 咨询 流程 引导 现在
+customer_support,refund,退款 请求 流程 说明 现在
+customer_support,refund,退款 状态 确认 引导 现在
+customer_support,refund,退款 处理 标准 说明 现在
+customer_support,delivery,配送 咨询 内容 确认 现在
+customer_support,delivery,配送 请求 内容 确认 现在
+customer_support,delivery,配送 状态 内容 确认 现在
+customer_support,delivery,配送 延迟 原因 说明 现在
+customer_support,delivery,配送 变更 流程 引导 现在
+customer_support,delivery,配送 跟踪 方法 引导 现在
+customer_support,account,账号 咨询 内容 确认 现在
+customer_support,account,账号 请求 内容 确认 现在
+customer_support,account,账号 状态 内容 确认 现在
+customer_support,account,账号 恢复 流程 引导 现在
+customer_support,account,账号 锁定 原因 说明 现在
+customer_support,account,账号 验证 方法 引导 现在
+customer_support,exchange,换货 咨询 内容 确认 现在
+customer_support,exchange,换货 请求 内容 确认 现在
+customer_support,exchange,换货 处理 标准 说明 现在
+customer_support,exchange,换货 受理 流程 引导 现在
+instruction_reply,reply_style,逐步 引导 现在
+instruction_reply,reply_style,逐步 说明 现在
+instruction_reply,reply_style,逐步 整理 现在
+instruction_reply,reply_style,平稳地 引导 现在
+instruction_reply,reply_style,平稳地 说明 现在
+instruction_reply,reply_style,简短地 整理 现在
+instruction_reply,reply_style,三句话 摘要 现在
+instruction_reply,reply_style,编号列表 引导 现在
+instruction_reply,reply_style,先确认 内容 整理 现在
+instruction_reply,reply_style,注意 内容 说明 现在
+instruction_reply,reply_style,下一步 引导 现在
+instruction_reply,reply_style,必要信息 确认 现在

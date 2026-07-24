@@ -1,0 +1,17 @@
+layer,tool_name,exposed_name,input_schema,returns,permission_scope,tool_label_zh
+common_layer,search_docs,search_docs,query,document_hits,read,搜索文档
+common_layer,read_resource,read_resource,path,resource_text,read,读取资源
+common_layer,run_tests,run_tests,target,test_report,execute,运行测试
+common_layer,query_employee_db,query_employee_db,employee_id,employee_record,read,查询员工数据库
+common_layer,create_calendar_event,create_calendar_event,date|attendee|title,calendar_event_id,write,创建日历事件
+common_layer,fetch_ticket,fetch_ticket,ticket_id,ticket_record,read,读取工单
+common_layer,send_report,send_report,recipient|document_id,delivery_receipt,write,发送报告
+common_layer,query_calendar,query_calendar,date|attendee,calendar_slots,read,查询日历
+mixed_layer,search_docs,docs_search,query,document_hits,read,搜索文档
+mixed_layer,read_resource,read_resource,,resource_text,read,读取资源
+mixed_layer,run_tests,run_tests,target,test_report,execute,运行测试
+mixed_layer,query_employee_db,query_employee_db,employee_id,,read,查询员工数据库
+mixed_layer,create_calendar_event,create_calendar_event,date|attendee|title,calendar_event_id,write,创建日历事件
+mixed_layer,fetch_ticket,fetch_ticket,ticket_id,ticket_record,read,读取工单
+mixed_layer,send_report,send_document,recipient|document_id,delivery_receipt,write,发送报告
+mixed_layer,query_calendar,query_calendar,date,calendar_slots,read,查询日历

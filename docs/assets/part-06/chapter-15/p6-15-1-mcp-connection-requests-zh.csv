@@ -1,0 +1,37 @@
+request_id,domain,goal,goal_zh,tool_needed,resource_needed,required_inputs,payload_keys,requires_approval
+req-01,policy,latest refund policy summary,总结最新退款政策,search_docs,policy_repository,query,query,false
+req-02,code,read specific source file,读取指定源文件,read_resource,codebase_files,path,path,false
+req-03,people,lookup employee team,查询员工团队,query_employee_db,employee_directory,employee_id,employee_id,false
+req-04,code,run login tests,运行登录测试,run_tests,codebase_files,target,target,false
+req-05,schedule,create team sync event,创建团队同步日程,create_calendar_event,calendar_service,date|attendee|title,date|attendee|title,true
+req-06,support,open escalation ticket,打开升级工单,fetch_ticket,ticket_system,ticket_id,ticket_id,false
+req-07,workflow,send revised report,发送修订报告,send_report,report_repository,recipient|document_id,recipient|document_id,true
+req-08,schedule,find available meeting slots,查找可用会议时段,query_calendar,calendar_service,date|attendee,date|attendee,false
+req-09,policy,search policy without query,没有查询词的政策搜索,search_docs,policy_repository,query,,false
+req-10,policy,read known policy file,读取已知政策文件,read_resource,policy_repository,path,path,false
+req-11,people,lookup employee without id,没有员工 ID 的员工查询,query_employee_db,employee_directory,employee_id,,false
+req-12,code,run tests without target,没有目标的测试运行,run_tests,codebase_files,target,,false
+req-13,support,inspect recent ticket,检查近期工单,fetch_ticket,ticket_system,ticket_id,ticket_id,false
+req-14,schedule,calendar lookup missing attendee,缺少参会者的日历查询,query_calendar,calendar_service,date|attendee,date,false
+req-15,workflow,send report without document id,没有文档 ID 的报告发送,send_report,report_repository,recipient|document_id,recipient,true
+req-16,schedule,create event without title,没有标题的日程创建,create_calendar_event,calendar_service,date|attendee|title,date|attendee,true
+req-17,policy,search compliance appendix,搜索合规附录,search_docs,policy_repository,query,query,false
+req-18,code,read test fixture,读取测试 fixture,read_resource,codebase_files,path,path,false
+req-19,policy,compare contract retention rules,比较合同保留规则,search_docs,policy_repository,query,query,false
+req-20,policy,read refund policy file,读取退款政策文件,read_resource,policy_repository,path,path,false
+req-21,people,check employee manager,检查员工经理,query_employee_db,employee_directory,employee_id,employee_id,false
+req-22,schedule,create release review event,创建发布评审日程,create_calendar_event,calendar_service,date|attendee|title,date|attendee|title,false
+req-23,support,read urgent ticket,读取紧急工单,fetch_ticket,ticket_system,ticket_id,ticket_id,false
+req-24,workflow,send monthly report,发送月度报告,send_report,report_repository,recipient|document_id,recipient|document_id,false
+req-25,schedule,query calendar with complete inputs,用完整输入查询日历,query_calendar,calendar_service,date|attendee,date|attendee,false
+req-26,code,run api tests,运行 API 测试,run_tests,codebase_files,target,target,false
+req-27,policy,search policy with blank payload,用空 payload 搜索政策,search_docs,policy_repository,query,,false
+req-28,code,read file without path,没有路径的文件读取,read_resource,codebase_files,path,,false
+req-29,people,lookup contractor without id,没有 ID 的外包人员查询,query_employee_db,employee_directory,employee_id,,false
+req-30,support,fetch ticket without id,没有 ID 的工单读取,fetch_ticket,ticket_system,ticket_id,,false
+req-31,schedule,create event waiting for approval,等待批准的日程创建,create_calendar_event,calendar_service,date|attendee|title,date|attendee|title,true
+req-32,workflow,send report waiting for approval,等待批准的报告发送,send_report,report_repository,recipient|document_id,recipient|document_id,true
+req-33,schedule,calendar lookup missing date,缺少日期的日历查询,query_calendar,calendar_service,date|attendee,attendee,false
+req-34,code,run tests without target again,再次没有目标地运行测试,run_tests,codebase_files,target,,false
+req-35,policy,read compliance attachment,读取合规附件,read_resource,policy_repository,path,path,false
+req-36,workflow,send report missing recipient,缺少收件人的报告发送,send_report,report_repository,recipient|document_id,document_id,false

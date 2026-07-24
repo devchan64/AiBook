@@ -1,0 +1,13 @@
+doc_id,title,policy_text,keyword_groups
+policy_001,new_employee_leave,新员工入职满一个月后可以使用月度休假,onboarding|leave
+policy_002,summer_vacation_approval,夏季休假可在公告期间内经团队批准后使用,leave|approval
+policy_003,remaining_leave_lookup,剩余休假天数在 HR 系统中查询,leave|lookup
+policy_004,new_benefit_notice,新福利项目在正式通知发布前需要 HR 确认,benefits|approval
+policy_005,remote_work_request,远程办公可在检查团队日程和安全标准后申请,remote|approval
+policy_006,equipment_request,办公设备需在资产管理系统中申请并获得部门负责人批准,equipment|approval|lookup
+policy_007,expense_reimbursement,工作费用必须在报销系统中登记并附上票据,expense|reimbursement|lookup
+policy_008,training_budget,岗位培训费用可在事前批准和完成确认后报销,training|expense|approval
+policy_009,security_incident,如果怀疑发生安全事件，应立即报告安全团队并保留相关记录,security|incident|record
+policy_010,personal_data_access,个人数据访问仅限业务目的，并且必须留下批准记录,personal_data|approval|security
+policy_011,customer_refund_exception,退款例外需要客户支持负责人批准并保留依据记录,refund|exception|approval|record
+policy_012,system_access_request,系统访问请求必须留下目的和期间，并获得管理员批准,access|approval|record

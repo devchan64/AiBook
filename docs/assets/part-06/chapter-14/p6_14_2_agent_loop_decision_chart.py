@@ -66,6 +66,26 @@ LANG_TEXT = {
         "title": "Loop decisions change across rounds",
         "final_title": "Final decision by case",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "agent-loop-decision-split-zh.png",
+        "decision_labels": {
+            "continue_refine": "继续·重规划",
+            "stop_ready": "停止",
+            "human_review": "人工审查",
+        },
+        "xlabel": "轮次",
+        "ylabel": "决策数",
+        "title": "轮次推进时分裂的循环决策",
+        "final_title": "各案例最后决策",
+    },
 }
 
 

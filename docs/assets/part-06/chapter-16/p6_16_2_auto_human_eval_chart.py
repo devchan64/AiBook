@@ -20,6 +20,7 @@ from matplotlib import font_manager
 
 import p6_16_2_eval_routing_cases as ko_routing
 import p6_16_2_eval_routing_cases_en as en_routing
+import p6_16_2_eval_routing_cases_zh as zh_routing
 
 LANG_TEXT = {
     "ko": {
@@ -44,6 +45,21 @@ LANG_TEXT = {
         "gate_label": "automatic grader",
         "route_label": "review prep",
         "legend": ["grader pass", "auto fix needed", "human review queue"],
+    },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "auto-human-eval-routing-zh.png",
+        "ylabel": "候选数",
+        "gate_label": "自动 grader",
+        "route_label": "审查准备",
+        "legend": ["grader 通过", "需要自动修正", "人工审查队列"],
     },
 }
 
@@ -129,6 +145,7 @@ def main() -> None:
     summaries = {
         "ko": ko_routing.summarize_reports(ko_routing.load_reports()),
         "en": en_routing.summarize_reports(en_routing.load_reports()),
+        "zh": zh_routing.summarize_reports(zh_routing.load_reports()),
     }
     for lang, text in LANG_TEXT.items():
         summary = summaries[lang]

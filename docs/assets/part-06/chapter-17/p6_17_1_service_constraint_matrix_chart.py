@@ -41,6 +41,21 @@ LANG_TEXT = {
         "fail": "fail",
         "ylabel": "candidate count",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "service-constraint-matrix-zh.png",
+        "checks": ["质量", "延迟", "成本", "处理量", "运营候选"],
+        "pass": "通过",
+        "fail": "未通过",
+        "ylabel": "候选数",
+    },
 }
 
 

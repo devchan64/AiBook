@@ -45,6 +45,21 @@ LANG_TEXT = {
         "mixed_label": "mixed layer",
         "labels": ["request success", "connection ready", "tool resolved", "resource resolved"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "mcp-connection-layer-check-zh.png",
+        "ylabel": "通过请求数",
+        "common_label": "共享连接层",
+        "mixed_label": "临时连接层",
+        "labels": ["请求完成", "连接准备", "工具解析", "资源解析"],
+    },
 }
 
 

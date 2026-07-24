@@ -38,6 +38,20 @@ LANG_TEXT = {
         "labels": ["answer", "observations", "model decision", "tool contracts", "approval gate", "replay compare"],
         "legend": ["answer only", "local model run record"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK",
+            "PingFang SC",
+            "Heiti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "harness-run-issue-split-zh.png",
+        "ylabel": "保留记录项数",
+        "labels": ["最终回答", "观察记录", "模型判断", "工具契约", "批准 gate", "replay 比较"],
+        "legend": ["只保存回答", "本地模型执行记录"],
+    },
 }
 
 ARTIFACT_DIR = REPO_ROOT / ".tmp" / "p6-15-2-harness-runs"

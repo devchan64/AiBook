@@ -1,25 +1,29 @@
 # Part 6 Chapter 12 Assets
 
 - Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
+- The matching `-en.mmd` and `-zh.mmd` files remain in this directory as translated derivatives for multilingual manuscript work.
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all files keep the same conceptual flow.
 - Mermaid language pairs:
-  - `p6-c12-s01-vector-store-flow-en.mmd` / `p6-c12-s01-vector-store-flow-ko.mmd`
-  - `p6-c12-s01-vector-payload-en.mmd` / `p6-c12-s01-vector-payload-ko.mmd`
-  - `p6-c12-s02-index-candidate-flow-en.mmd` / `p6-c12-s02-index-candidate-flow-ko.mmd`
-  - `p6-c12-s02-index-tradeoff-en.mmd` / `p6-c12-s02-index-tradeoff-ko.mmd`
+  - `p6-c12-s01-vector-store-flow-en.mmd` / `p6-c12-s01-vector-store-flow-ko.mmd` / `p6-c12-s01-vector-store-flow-zh.mmd`
+  - `p6-c12-s01-vector-payload-en.mmd` / `p6-c12-s01-vector-payload-ko.mmd` / `p6-c12-s01-vector-payload-zh.mmd`
+  - `p6-c12-s02-index-candidate-flow-en.mmd` / `p6-c12-s02-index-candidate-flow-ko.mmd` / `p6-c12-s02-index-candidate-flow-zh.mmd`
+  - `p6-c12-s02-index-tradeoff-en.mmd` / `p6-c12-s02-index-tradeoff-ko.mmd` / `p6-c12-s02-index-tradeoff-zh.mmd`
 - PNG chart language pairs:
-  - `vector-db-payload-check-en.png` / `vector-db-payload-check-ko.png`
-  - `index-quality-latency-en.png` / `index-quality-latency-ko.png`
+  - `vector-db-payload-check-en.png` / `vector-db-payload-check-ko.png` / `vector-db-payload-check-zh.png`
+  - `index-quality-latency-en.png` / `index-quality-latency-ko.png` / `index-quality-latency-zh.png`
 - Python chart sources:
   - `p6_12_1_vector_db_payload_chart.py`
   - `p6_12_2_index_quality_chart.py`
 - CSV example data:
   - `p6-12-vector-db-documents.csv`
   - `p6-12-vector-db-documents-en.csv`
+  - `p6-12-vector-db-documents-zh.csv`
   - `p6-12-vector-db-queries.csv`
   - `p6-12-vector-db-queries-en.csv`
+  - `p6-12-vector-db-queries-zh.csv`
   - `p6-12-index-documents.csv`
   - `p6-12-index-documents-en.csv`
+  - `p6-12-index-documents-zh.csv`
   - `p6-12-index-queries.csv`
   - `p6-12-index-queries-en.csv`
+  - `p6-12-index-queries-zh.csv`

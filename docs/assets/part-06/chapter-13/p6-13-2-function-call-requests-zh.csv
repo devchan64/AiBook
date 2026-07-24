@@ -1,0 +1,25 @@
+request_id,user_request_zh,model_request_en,function_name,title,date,time,timezone,attendees,base_currency,quote_currency,amount,file_path,change_summary,recipient,subject,body,approval_required
+F01,创建一个明天下午 3 点首尔时间的设计评审会议。,Create a design review meeting tomorrow at 3 PM in Seoul time.,create_calendar_event,Design review,tomorrow,15:00,Asia/Seoul,design@example.com,,,,,,,,,false
+F02,安排一个明天下午首尔时间的团队会议。,Schedule a team meeting tomorrow afternoon in Seoul time.,create_calendar_event,Team meeting,tomorrow,,Asia/Seoul,team@example.com,,,,,,,,,false
+F03,安排下周一上午 10 点的招聘面试。,Schedule a hiring interview next Monday at 10 AM.,create_calendar_event,Hiring interview,next_monday,10:00,,hr@example.com,,,,,,,,,false
+F04,周五下午 2 点创建产品演示活动，并邀请 Minsu。,Create a product demo event on Friday at 2 PM and invite Minsu.,create_calendar_event,Product demo,friday,14:00,Asia/Seoul,minsu@example.com,,,,,,,,,false
+F05,明天下午 4 点创建活动，标题和参会者之后再填。,Create an event tomorrow at 4 PM and leave the title and attendees for later.,create_calendar_event,,tomorrow,16:00,Asia/Seoul,,,,,,,,,,false
+F06,下周二上午 9 点首尔时间创建入职会议。,Create an onboarding meeting next Tuesday at 9 AM in Seoul time.,create_calendar_event,Onboarding meeting,next_tuesday,09:00,Asia/Seoul,newhire@example.com,,,,,,,,,false
+F07,使用今天的汇率把 300 USD 换算成 KRW。,Convert 300 USD to KRW using today's rate.,lookup_exchange_rate,,,,,,USD,KRW,300,,,,,,false
+F08,查询今天的 JPY 汇率。,Look up today's JPY exchange rate.,lookup_exchange_rate,,,,,,JPY,,1,,,,,,false
+F09,把 120 EUR 换算成 KRW。,Convert 120 EUR to KRW.,lookup_exchange_rate,,,,,,EUR,KRW,120,,,,,,false
+F10,使用今天的汇率，并告诉我韩元金额。,Use today's exchange rate and tell me the KRW amount.,lookup_exchange_rate,,,,,,USD,KRW,,,,,,,false
+F11,查询 USD/KRW 汇率，并包含基准时间。,Look up the USD/KRW rate and include the as-of time.,lookup_exchange_rate,,,,,,USD,KRW,1,,,,,,false
+F12,今天把 50 GBP 换算成 KRW。,Convert 50 GBP to KRW today.,lookup_exchange_rate,,,,,,GBP,KRW,50,,,,,,false
+F13,把 README 的安装命令改成使用 uv。,Update the README install command to use uv.,apply_file_patch,,,,,,,,,README.md,Change the install command to use uv,,,,false
+F14,扩展第 13 章第 02 节的示例说明。,Expand the example explanation in chapter 13 section 02.,apply_file_patch,,,,,,,,,docs/parts/part-06/chapter-13/section-02.md,Expand the example explanation,,,,false
+F15,修复这个文件。位置你自己找。,Fix the file. Find the location yourself.,apply_file_patch,,,,,,,,,,Unclear edit location,,,,false
+F16,把 chromadb 添加到 requirements。,Add chromadb to requirements.,apply_file_patch,,,,,,,,,requirements.txt,Add chromadb dependency,,,,false
+F17,修正本节中的错字。,Fix typos in this section.,apply_file_patch,,,,,,,,,docs/parts/part-06/chapter-13/section-02.md,,,,,false
+F18,整理部署配置中的 Part 6 导航。,Clean up the Part 6 navigation in the deployment config.,apply_file_patch,,,,,,,,,mkdocs.yml,Clean up Part 6 nav,,,,false
+F19,给 Minsu 发送会议记录草稿。,Send Minsu a meeting notes draft.,send_email_draft,,,,,,,,,,,minsu@example.com,Meeting notes draft,Here is today's meeting notes draft,true
+F20,给团队起草一封关于明天日程变更的邮件。,Draft an email to the team about tomorrow's schedule change.,send_email_draft,,,,,,,,,,,team@example.com,Tomorrow schedule change,Tomorrow's schedule has changed,false
+F21,把这个发给客户。,Send this to the customer.,send_email_draft,,,,,,,,,,,,Customer notice,,true
+F22,向 support 发送事故通知。,Send an incident notice to support.,send_email_draft,,,,,,,,,,,support@example.com,Incident notice,,true
+F23,把 PR 描述发送给 reviewer。,Send the PR description to the reviewer.,send_email_draft,,,,,,,,,,,reviewer@example.com,PR description,Sharing the change summary,false
+F24,把价格表发送给外部合作伙伴。,Send the price list to the external partner.,send_email_draft,,,,,,,,,,,partner@example.com,Price list,Please review the attached price list,true

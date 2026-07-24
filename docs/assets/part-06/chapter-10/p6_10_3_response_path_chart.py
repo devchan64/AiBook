@@ -58,6 +58,33 @@ LANG_TEXT = {
             "minority answer",
         ],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Microsoft YaHei",
+            "SimHei",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "response-path-consistency-zh.png",
+        "answer_ylabel": "最多结论比例",
+        "risk_ylabel": "观察到的检查信号数",
+        "task_labels": {
+            "mixed_refund_label": "复合\n分类",
+            "discount_total": "数值\n比较",
+            "current_refund_policy": "当前\n政策",
+            "security_escalation": "安全\n升级",
+        },
+        "risk_labels": [
+            "依据缺失",
+            "计算错误",
+            "政策过旧",
+            "规则警告",
+            "少数结论",
+        ],
+    },
 }
 
 
