@@ -15,7 +15,10 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
-CSV_PATH = OUT_DIR / "p6_16_1_llm_eval_outputs.csv"
+CSV_PATHS = {
+    "ko": OUT_DIR / "p6_16_1_llm_eval_outputs.csv",
+    "en": OUT_DIR / "p6_16_1_llm_eval_outputs_en.csv",
+}
 
 
 def split_terms(value: str) -> list[str]:
@@ -60,8 +63,8 @@ def evaluate_row(row: dict[str, str]) -> dict[str, bool | int]:
     }
 
 
-def build_summary() -> dict[str, int]:
-    with CSV_PATH.open(newline="", encoding="utf-8") as csv_file:
+def build_summary(csv_path: Path) -> dict[str, int]:
+    with csv_path.open(newline="", encoding="utf-8") as csv_file:
         rows = list(csv.DictReader(csv_file))
 
     reports = [evaluate_row(row) for row in rows]
@@ -157,8 +160,8 @@ def save_chart(text: dict[str, str], summary: dict[str, int]) -> None:
 
 
 def main() -> None:
-    summary = build_summary()
-    for text in LANG_TEXT.values():
+    for lang, text in LANG_TEXT.items():
+        summary = build_summary(CSV_PATHS[lang])
         save_chart(text, summary)
 
 

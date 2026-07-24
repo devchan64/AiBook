@@ -18,7 +18,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from matplotlib import font_manager
 
-from p6_16_2_eval_routing_cases import load_reports, summarize_reports
+import p6_16_2_eval_routing_cases as ko_routing
+import p6_16_2_eval_routing_cases_en as en_routing
 
 LANG_TEXT = {
     "ko": {
@@ -125,8 +126,12 @@ def save_chart(text: dict[str, str], summary: dict[str, object]) -> None:
 
 
 def main() -> None:
-    summary = summarize_reports(load_reports())
-    for text in LANG_TEXT.values():
+    summaries = {
+        "ko": ko_routing.summarize_reports(ko_routing.load_reports()),
+        "en": en_routing.summarize_reports(en_routing.load_reports()),
+    }
+    for lang, text in LANG_TEXT.items():
+        summary = summaries[lang]
         save_chart(text, summary)
 
 
