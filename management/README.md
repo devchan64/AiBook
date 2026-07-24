@@ -10,6 +10,7 @@
 - `guidelines/`: 책 원고 세부 작성 규칙과 반복 워크플로우 문서를 둔다.
 - `release-notes/`: 책 본문 문서의 릴리즈노트를 모아 두는 최상위 디렉터리다.
 - `release-notes/sections/`: Section별 버전 코드 기준, 수정일 기준 개정 이력, 번역본 동기화 메모를 둔다.
+- `tools/`: 번역 품질 리포트 생성처럼 집필·검수 작업을 돕는 보조 스크립트를 둔다.
 
 ## 우선 확인 순서
 
@@ -26,6 +27,7 @@
 - `guidelines/chinese-translation-guidelines.md`
 - `guidelines/chart-guidelines.md`
 - `release-notes/README.md`
+- `tools/README.md`
 
 ### 3. Section 버전과 번역 동기화
 
