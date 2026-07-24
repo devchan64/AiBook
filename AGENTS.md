@@ -36,6 +36,7 @@
 - `docs/index.md`와 `docs/table-of-contents.md`는 Part 본문 밖에 있는 공개 진입 문서이므로, 본문 메타데이터 관리 대상에 포함합니다.
 - `docs/index.md`는 릴리즈노트 관리 대상에 포함하지만, `docs/table-of-contents.md`는 독자용 목차 갱신이 잦으므로 별도 Section 릴리즈노트를 운영하지 않습니다.
 - `docs/reference/concept-glossary.md`는 공개 참조 본문이지만, 전용 가이드에 따라 `Section ID`와 `Version`만 유지하고 별도 Section 릴리즈노트는 운영하지 않습니다.
+- `management/glossary-indexes/`는 개념사전의 한글·영문·중국어 보조 인덱스를 관리하는 곳이며, 공개 본문이나 최종 정의 원고로 취급하지 않습니다.
 - 집필 기준, 조사 자료, 근거 분석, 작성 원칙은 `management/` 아래에 둡니다.
 - `management/README.md`는 관리 문서의 역할 분담과 위치를 설명하는 인덱스로 사용합니다.
 - 릴리즈노트는 `management/release-notes/` 아래에 모아 둡니다.
@@ -51,6 +52,8 @@
   - Part/Section 초안 작성, 초심자 보강, 사례 작성 전에 먼저 본다.
 - 개념사전 작성 가이드: `management/guidelines/concept-glossary-guidelines.md`
   - 개념사전 항목 추가·수정, 중심 Section과 등장 Section 정리 전에 먼저 본다.
+- 개념사전 보조 인덱스: `management/glossary-indexes/`
+  - 표제어, 영어 기준 용어, 번역어 대응을 빠르게 대조할 때 본다.
 - Python 예제 작성 가이드: `management/guidelines/python-example-guidelines.md`
   - Python 예제 추가·수정, 코드 블록 유지 여부 판단 전에 먼저 본다.
 - 영문 번역 워크플로우: `management/guidelines/english-translation-guidelines.md`
