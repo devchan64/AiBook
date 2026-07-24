@@ -1,0 +1,19 @@
+id,user_request_en,model_request_en,request_signal
+R01,"Explain what an exchange rate is in one paragraph.","Explain what an exchange rate is in one paragraph.",concept_only
+R02,"Briefly explain how tool use differs from RAG.","Briefly explain how tool use differs from RAG.",concept_only
+R03,"Explain why function calling is discussed in tool use without using an analogy.","Explain why function calling is discussed in tool use.",concept_only
+R04,"Tell me today's USD exchange rate for Seoul.","Tell me today's USD exchange rate for Seoul.",current_exchange_rate
+R05,"Tell me today's JPY exchange rate for Tokyo.","Tell me today's JPY exchange rate for Tokyo.",current_exchange_rate
+R06,"Using today's exchange rate, calculate how much 300 USD is in KRW.","Using today's exchange rate, calculate how much 300 USD is in KRW.",exchange_rate_conversion
+R07,"Using today's exchange rate, calculate how much 120 EUR is in KRW.","Using today's exchange rate, calculate how much 120 EUR is in KRW.",exchange_rate_conversion
+R08,"Calculate the remaining ratio after applying a 13.7% discount three times.","Calculate the remaining ratio after applying a 13.7% discount three times.",pure_calculation
+R09,"Calculate the final price after adding 8% tax to 120000 KRW.","Calculate the final price after adding 8% tax to 120000 KRW.",pure_calculation
+R10,"Check whether a meeting room on the third floor is available tomorrow afternoon.","Check whether a meeting room on the third floor is available tomorrow afternoon.",calendar_lookup
+R11,"Check whether a meeting room on the second floor is available next Monday morning.","Check whether a meeting room on the second floor is available next Monday morning.",calendar_lookup
+R12,"Reserve meeting room A on the third floor for tomorrow afternoon.","Reserve meeting room A on the third floor for tomorrow afternoon.",state_change
+R13,"Send the quote document to the customer by email.","Send the quote document to the customer by email.",state_change
+R14,"Modify the repository configuration file.","Modify the repository configuration file.",state_change
+R15,"Tell me the USD exchange rate.","Tell me the USD exchange rate.",missing_date
+R16,"Reserve a meeting room.","Reserve a meeting room.",missing_target
+R17,"Calculate the discount.","Calculate the discount.",missing_amount
+R18,"Check today's exchange rate and meeting room availability.","Check today's exchange rate and meeting room availability.",mixed_lookup

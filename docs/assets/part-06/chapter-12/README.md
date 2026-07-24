@@ -20,4 +20,6 @@
   - `p6-12-vector-db-queries.csv`
   - `p6-12-vector-db-queries-en.csv`
   - `p6-12-index-documents.csv`
+  - `p6-12-index-documents-en.csv`
   - `p6-12-index-queries.csv`
+  - `p6-12-index-queries-en.csv`

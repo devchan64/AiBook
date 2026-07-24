@@ -1,0 +1,53 @@
+doc_id,topic,version,boundary_hint,reader_hint,config_axis,recovery_axis,flow_axis
+sdk_v2_request_timeout,request timeout,v2,current_version_candidate,Baseline document for 2.x request timeout configuration,0.90,0.18,0.10
+sdk_v1_request_timeout_guide,request timeout,v1,old_version_collision,Very similar terms but based on 1.x so it must not be used for current configuration guidance,0.93,0.16,0.09
+sdk_general_request_timeout_notes,request timeout,general,general_note_collision,Explains the timeout concept but lacks SDK version conditions and should remain supporting material in strict search,0.87,0.22,0.12
+sdk_v2_retry_backoff,retry backoff,v2,current_version_candidate,Baseline document for 2.x retry interval and backoff rules,0.38,0.92,0.09
+sdk_v1_retry_backoff_guide,retry backoff,v1,old_version_collision,Backoff wording is close but old defaults would make it wrong as top-1,0.41,0.91,0.08
+sdk_general_retry_backoff_notes,retry backoff,general,general_note_collision,Explains retry concepts but lacks 2.x application conditions,0.35,0.97,0.11
+sdk_v2_auth_refresh_flow,auth refresh flow,v2,current_version_candidate,Baseline document for the 2.x authentication token refresh order,0.30,0.20,0.95
+sdk_v1_auth_refresh_flow_guide,auth refresh flow,v1,old_version_collision,Similar refresh flow but risky for current login issues because it uses the 1.x auth procedure,0.33,0.18,0.94
+sdk_general_auth_refresh_flow_notes,auth refresh flow,general,general_note_collision,Covers token refresh concepts but cannot determine version-specific call order,0.27,0.24,0.97
+sdk_v2_billing_invoice,billing invoice,v2,current_version_candidate,Document for 2.x invoice lookup endpoint and invoice handling rules,0.76,0.51,0.16
+sdk_v1_billing_invoice_guide,billing invoice,v1,old_version_collision,The invoice term matches but the 1.x payment API can contaminate current answers,0.79,0.49,0.15
+sdk_general_billing_invoice_notes,billing invoice,general,general_note_collision,Only explains billing concepts and is weak as evidence for choosing a 2.x endpoint,0.73,0.56,0.18
+sdk_v2_webhook_signature,webhook signature,v2,current_version_candidate,Document for 2.x webhook signature verification and header checking rules,0.22,0.70,0.62
+sdk_v1_webhook_signature_guide,webhook signature,v1,old_version_collision,Same signature topic but may mix in 1.x header rules,0.24,0.68,0.61
+sdk_general_webhook_signature_notes,webhook signature,general,general_note_collision,Webhook security concept is relevant but does not settle the 2.x signature order,0.19,0.74,0.64
+sdk_v2_streaming_events,streaming events,v2,current_version_candidate,Baseline document for 2.x streaming event order and event names,0.58,0.34,0.73
+sdk_v1_streaming_events_guide,streaming events,v1,old_version_collision,Streaming wording is close but old event names can break current code,0.60,0.33,0.72
+sdk_general_streaming_events_notes,streaming events,general,general_note_collision,Explains real-time events but cannot replace 2.x event handling rules,0.55,0.39,0.75
+sdk_v2_rate_limit,rate limit,v2,current_version_candidate,Baseline document for 2.x rate limits and retry rules,0.42,0.82,0.36
+sdk_v1_rate_limit_guide,rate limit,v1,old_version_collision,The rate limit words match but 1.x limits can distort retry decisions,0.45,0.80,0.35
+sdk_general_rate_limit_notes,rate limit,general,general_note_collision,Explains 429 handling but cannot confirm 2.x limits or retry conditions,0.39,0.86,0.38
+sdk_v2_file_upload,file upload,v2,current_version_candidate,Baseline document for 2.x file upload limits and accepted formats,0.66,0.28,0.69
+sdk_v1_file_upload_guide,file upload,v1,old_version_collision,Upload topic matches but 1.x limits can misread current failures,0.69,0.27,0.68
+sdk_general_file_upload_notes,file upload,general,general_note_collision,General upload explanation and not enough evidence for 2.x limits,0.63,0.33,0.71
+sdk_v2_logging_trace,logging trace,v2,current_version_candidate,Baseline document for 2.x request trace logging setup and trace records,0.18,0.57,0.79
+sdk_v1_logging_trace_guide,logging trace,v1,old_version_collision,Trace wording is close but 1.x logging settings may not match current observations,0.20,0.55,0.78
+sdk_general_logging_trace_notes,logging trace,general,general_note_collision,Explains trace logging but cannot determine the 2.x setting key or output location,0.15,0.61,0.81
+sdk_v2_proxy_network,proxy network,v2,current_version_candidate,Baseline document for 2.x proxy network settings and request routing conditions,0.84,0.40,0.24
+sdk_v1_proxy_network_guide,proxy network,v1,old_version_collision,Proxy wording matches but 1.x network settings can produce wrong current environment guidance,0.86,0.39,0.23
+sdk_general_proxy_network_notes,proxy network,general,general_note_collision,Explains proxy concepts but does not give the SDK 2.x setting location,0.81,0.45,0.26
+sdk_v2_cache_policy,cache policy,v2,current_version_candidate,Baseline document for 2.x cache invalidation and response reuse rules,0.52,0.76,0.24
+sdk_v1_cache_policy_guide,cache policy,v1,old_version_collision,Same cache policy topic but 1.x invalidation rules can conflict with current rules,0.55,0.74,0.23
+sdk_general_cache_policy_notes,cache policy,general,general_note_collision,Cache concept is relevant but does not determine 2.x policy keys or expiration conditions,0.49,0.81,0.26
+sdk_v2_region_endpoint,region endpoint,v2,current_version_candidate,Document for 2.x region endpoint selection and target request region,0.72,0.24,0.58
+sdk_v1_region_endpoint_guide,region endpoint,v1,old_version_collision,Endpoint topic matches but 1.x region rules can break current request routing,0.74,0.22,0.57
+sdk_general_region_endpoint_notes,region endpoint,general,general_note_collision,Explains region endpoint concepts but cannot determine 2.x selection rules,0.69,0.28,0.60
+sdk_v2_pagination_cursor,pagination cursor,v2,current_version_candidate,Document for 2.x pagination cursor order and next cursor handling,0.62,0.48,0.41
+sdk_v1_pagination_cursor_guide,pagination cursor,v1,old_version_collision,Cursor wording matches but 1.x response fields can break current repeated retrieval,0.65,0.46,0.40
+sdk_general_pagination_notes,pagination cursor,general,general_note_collision,Explains pagination but cannot confirm SDK 2.x cursor fields and loop conditions,0.59,0.53,0.43
+sdk_v2_pagination_troubleshooting,pagination cursor,v2,related_current_but_not_target,Current 2.x cursor troubleshooting is related but not the primary evidence for basic usage order,0.64,0.44,0.45
+sdk_v2_idempotency_key,idempotency key,v2,current_version_candidate,Document for 2.x idempotency key placement and use in retry requests,0.47,0.64,0.54
+sdk_v1_idempotency_key_guide,idempotency key,v1,old_version_collision,Idempotency wording matches but 1.x header rules can distort current retry-safety judgment,0.50,0.62,0.53
+sdk_general_idempotency_notes,idempotency key,general,general_note_collision,Explains duplicate request prevention but not SDK 2.x header name or scope,0.44,0.69,0.56
+sdk_v2_retry_safety_notes,idempotency key,v2,related_current_but_not_target,Explains 2.x retry safety background but not the idempotency key setting location directly,0.49,0.67,0.50
+sdk_v2_webhook_replay,webhook replay,v2,current_version_candidate,Document for 2.x webhook replay detection and duplicate event handling rules,0.28,0.77,0.55
+sdk_v1_webhook_replay_guide,webhook replay,v1,old_version_collision,Replay topic matches but 1.x event signature rules can distort current duplicate handling,0.31,0.75,0.54
+sdk_general_webhook_replay_notes,webhook replay,general,general_note_collision,Explains webhook replay concepts but not 2.x event ID or reprocessing conditions,0.25,0.82,0.57
+sdk_v2_webhook_delivery_log,webhook replay,v2,related_current_but_not_target,Current 2.x webhook delivery log document is related but not the primary replay handling rule,0.30,0.73,0.59
+sdk_v2_quota_burst,quota burst,v2,current_version_candidate,Document for 2.x quota burst limits and waiting rules after overflow,0.70,0.66,0.21
+sdk_v1_quota_burst_guide,quota burst,v1,old_version_collision,Quota burst wording matches but 1.x limits can conflict with current traffic control rules,0.73,0.64,0.20
+sdk_general_quota_notes,quota burst,general,general_note_collision,Explains quota concepts but cannot confirm 2.x burst limits or waiting conditions,0.67,0.71,0.23
+sdk_v2_quota_troubleshooting,quota burst,v2,related_current_but_not_target,Current 2.x quota troubleshooting is related but not primary evidence for burst setting rules,0.72,0.62,0.25
