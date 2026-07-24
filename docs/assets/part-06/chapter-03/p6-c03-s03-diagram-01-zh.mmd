@@ -1,0 +1,12 @@
+flowchart TD
+  A["输入 token"]
+  B["位置信息<br/>每个 token 在哪里？"]
+  C["multi-head attention<br/>哪些关系重要？"]
+  D["上下文表达<br/>同时反映顺序和关系"]
+  E["下一个 token 分数"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D
+  D --> E

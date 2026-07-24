@@ -6,19 +6,19 @@
 - Current language pairs:
   - `p6-c03-s01-embedding-flow-en.mmd` / `p6-c03-s01-embedding-flow-ko.mmd` / `p6-c03-s01-embedding-flow-zh.mmd`
   - `p6-c03-s01-embedding-use-cases-en.mmd` / `p6-c03-s01-embedding-use-cases-ko.mmd` / `p6-c03-s01-embedding-use-cases-zh.mmd`
-  - `p6-c03-s02-similarity-flow-en.mmd` / `p6-c03-s02-similarity-flow-ko.mmd`
-  - `p6-c03-s02-similarity-use-cases-en.mmd` / `p6-c03-s02-similarity-use-cases-ko.mmd`
+  - `p6-c03-s02-similarity-flow-en.mmd` / `p6-c03-s02-similarity-flow-ko.mmd` / `p6-c03-s02-similarity-flow-zh.mmd`
+  - `p6-c03-s02-similarity-use-cases-en.mmd` / `p6-c03-s02-similarity-use-cases-ko.mmd` / `p6-c03-s02-similarity-use-cases-zh.mmd`
   - `p6-c03-s01-diagram-01-en.mmd` / `p6-c03-s01-diagram-01-ko.mmd`
   - `p6-c03-s01-diagram-02-en.mmd` / `p6-c03-s01-diagram-02-ko.mmd`
   - `p6-c03-s01-diagram-03-en.mmd` / `p6-c03-s01-diagram-03-ko.mmd`
   - `p6-c03-s02-diagram-01-en.mmd` / `p6-c03-s02-diagram-01-ko.mmd`
   - `p6-c03-s02-diagram-02-en.mmd` / `p6-c03-s02-diagram-02-ko.mmd`
   - `p6-c03-s02-diagram-03-en.mmd` / `p6-c03-s02-diagram-03-ko.mmd`
-  - `p6-c03-s03-diagram-01-en.mmd` / `p6-c03-s03-diagram-01-ko.mmd`
-  - `p6-c03-s04-diagram-01-en.mmd` / `p6-c03-s04-diagram-01-ko.mmd`
+  - `p6-c03-s03-diagram-01-en.mmd` / `p6-c03-s03-diagram-01-ko.mmd` / `p6-c03-s03-diagram-01-zh.mmd`
+  - `p6-c03-s04-diagram-01-en.mmd` / `p6-c03-s04-diagram-01-ko.mmd` / `p6-c03-s04-diagram-01-zh.mmd`
   - `p6-c03-s05-diagram-01-en.mmd` / `p6-c03-s05-diagram-01-ko.mmd`
 - PNG chart assets:
-  - `ann-window-tradeoff-en.png` / `ann-window-tradeoff-ko.png`
+  - `ann-window-tradeoff-en.png` / `ann-window-tradeoff-ko.png` / `ann-window-tradeoff-zh.png`
   - `context-candidate-distribution-en.png` / `context-candidate-distribution-ko.png`
   - `context-selection-budget-en.png` / `context-selection-budget-ko.png`
   - `attention-position-role-split-en.png` / `attention-position-role-split-ko.png`

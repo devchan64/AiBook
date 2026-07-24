@@ -62,6 +62,27 @@ LANG_TEXT = {
             "aggressive": "aggressive",
         },
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK TC",
+            "PingFang SC",
+            "Songti SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "ann-window-tradeoff-zh.png",
+        "xlabel": "coarse_window 设置",
+        "candidate_ylabel": "实际比较候选数",
+        "recall_ylabel": "recall@5",
+        "candidate_label": "比较候选数",
+        "recall_label": "recall@5",
+        "setting_labels": {
+            "wide": "宽",
+            "balanced": "平衡",
+            "aggressive": "激进",
+        },
+    },
 }
 
 
