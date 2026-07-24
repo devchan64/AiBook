@@ -138,12 +138,11 @@ def build_rows() -> list[dict[str, Any]]:
         top_doc = retrieved_docs[0] if retrieved_docs else None
         top_doc_matches_case = bool(top_doc) and top_doc["case_id"] == question_row["case_id"]
         top_doc_is_current = bool(top_doc) and top_doc["version_status"] == "current"
-        answer_contains_update_signal = question_row["current_signal"] in rag_result["answer"]
+        answer_mentions_expected_update = question_row["current_signal"] in rag_result["answer"]
         grounding_ready = (
             top_doc_matches_case
             and top_doc_is_current
-            and answer_contains_update_signal
-            and len(rag_result["grounding_titles"]) >= 2
+            and answer_mentions_expected_update
         )
         rows.append(
             {
@@ -153,7 +152,7 @@ def build_rows() -> list[dict[str, Any]]:
                 "top_similarity": top_doc["similarity"] if top_doc else 0,
                 "top_doc_matches_case": top_doc_matches_case,
                 "top_doc_is_current": top_doc_is_current,
-                "answer_contains_update_signal": answer_contains_update_signal,
+                "answer_mentions_expected_update": answer_mentions_expected_update,
                 "grounding_ready": grounding_ready,
             }
         )

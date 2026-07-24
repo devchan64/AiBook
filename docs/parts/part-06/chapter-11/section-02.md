@@ -1,7 +1,7 @@
 # P6-11.2 검색 실패와 생성 실패를 가르는 RAG 흐름
 
 > Section ID: `P6-11.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-11.1에서는 RAG(retrieval-augmented generation)가 답변 전에 외부 근거를 붙이는 구조라는 점을 보았습니다. 이제는 그 근거가 실제 입력 흐름에서 어디에 놓이고, 답변 실패를 어떻게 나누어 읽어야 하는지 봐야 합니다.
 
@@ -18,13 +18,6 @@ RAG에서 검색 결과는 답변 뒤에 붙는 장식이 아니라, 생성 전�
 | 답이 틀렸을 때 어디를 봐야 하는가? | 검색 실패와 생성 실패를 따로 본다 |
 
 P6-11.1의 질문이 `왜 답 전에 문서를 붙여야 하는가`였다면, 여기서는 `붙인 문서가 입력 맥락과 최종 답 사이에서 어떻게 작동하는가`를 봅니다. 그다음 P6-12에서는 그 문서를 어떤 저장 구조와 인덱스로 다시 꺼낼지로 넘어갑니다.
-
-## 검색 단계와 생성 단계 실패의 구분
-
-- 검색 결과와 생성이 어떻게 이어지는지 설명할 수 있습니다.
-- 검색 단계와 생성 단계의 실패를 구분할 수 있습니다.
-- 많이 넣는 것과 잘 넣는 것이 다르다는 점을 말할 수 있습니다.
-- 벡터 데이터베이스와 인덱스 설명을 `검색 가능한 문서 준비`의 문제로 읽을 수 있습니다.
 
 ## 검색 결과는 어디에 붙나
 
@@ -55,7 +48,7 @@ P6-11.1의 질문이 `왜 답 전에 문서를 붙여야 하는가`였다면, �
 
 따라서 검색 결과는 `많이 모으는 것`보다 `질문에 맞는 자료를 적절한 크기와 순서로 넣는 것`이 더 중요합니다.
 
-이 지점에서 한 걸음만 더 가면 `검색-생성 결합` 앞에 이미 문서 준비 단계가 있다는 점도 보입니다. 검색이 잘 되려면 문서를 그냥 쌓아 두는 것이 아니라, 미리 `분할`, `최신 버전 구분`, `중복 제거`, `검색 가능한 메타데이터 정리`가 어느 정도 되어 있어야 합니다.
+이 지점에서 한 걸음만 더 가면 `검색-생성 결합` 앞에 이미 문서 준비 단계가 있다는 점도 보입니다. 검색이 잘 되려면 문서를 그냥 쌓아 두는 것이 아니라, 질문이 왔을 때 찾아 붙일 수 있는 형태로 미리 정리해 두어야 합니다.
 
 즉, 여기서는 `찾아온 문서를 어디에 붙이는가`를 다루고 있지만, 그 전에 이미 `붙일 수 있게 문서를 정리해 두는 단계`가 있습니다. 이 차이가 보여야 벡터 데이터베이스와 인덱스 설명도 단순 저장소 소개가 아니라 `검색 가능한 문서 준비`의 연장선으로 읽힙니다.
 
@@ -153,15 +146,7 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 
 ## 검색 실패와 생성 실패가 갈리는 장면
 
-자주 생기는 오해는 `답이 이상하다`는 인상만으로 검색과 생성을 한꺼번에 묶어 버리는 점입니다. 하지만 실제로는 `무엇을 가져왔는가`와 `가져온 것을 어떻게 다시 썼는가`를 나눠 봐야 다음 조치가 맞아집니다.
-
-| 이런 장면이 보이면 | 먼저 의심할 것 | 왜 먼저 그쪽을 봐야 하는가 |
-| --- | --- | --- |
-| 답변에 붙은 문서 제목이나 발췌부터 질문과 어긋남 | 검색 실패 | 잘못 가져온 문서를 바탕으로는 생성이 자연스러워도 방향이 처음부터 틀어지기 때문입니다. |
-| 붙은 문서는 맞는데 답이 조건을 빼먹거나 과장함 | 생성 실패 | 근거는 맞아도 다시 쓰는 단계에서 의미가 바뀌면 최종 답이 틀어지기 때문입니다. |
-| 문서도 어색하고 답도 함께 흔들림 | 검색 실패가 생성으로 전염된 경우 | 먼저 검색 오염을 줄여야 뒤 생성 조정이 의미를 갖기 때문입니다. |
-
-같은 기준을 더 짧은 점검 질문으로 바꾸면 다음처럼 읽을 수 있습니다.
+앞의 표를 사례 뒤에서 다시 적용하면 판단 질문은 세 개로 압축됩니다. `답이 이상하다`는 인상에서 바로 모델 전체 문제로 뛰지 않고, 먼저 검색 기록과 생성 답변을 따로 놓고 봅니다.
 
 | 이런 의심이 들면 | 먼저 던질 질문 |
 | --- | --- |
@@ -184,7 +169,7 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 
 문서 목록의 한 행은 검색 후보 문서 조각 하나입니다. 핵심 열은 `title`, `text`, `category`, `source_role`입니다. `category`가 `retrieval`이면 현재 질문과 관련 있는 근거 문서이고, `irrelevant`이면 검색 조건이 흔들릴 때 섞일 수 있는 무관 문서입니다.
 
-실험 조건의 한 행은 한 번의 RAG 요청을 뜻합니다. `retrieval_terms`는 질문을 구성하는 검색 신호이고, `generation_style`은 찾은 문서를 답으로 바꿀 때의 생성 방식을 뜻합니다. 출력에서는 검색 모델이 고른 문서 제목과 유사도, 답변 문장, 검색 실패와 생성 실패를 나누어 보는 점검값을 확인합니다.
+실험 조건의 한 행은 한 번의 RAG 요청을 뜻합니다. `retrieval_terms`는 질문을 구성하는 검색 신호이고, `generation_style`은 찾은 문서를 답으로 바꿀 때의 생성 방식을 뜻합니다. 출력에서는 검색 모델이 고른 문서 제목과 유사도, 답변 문장, 검색 실패와 생성 실패를 나누어 보는 점검값을 확인합니다. 특히 `source_trace`는 생성 직전에 붙은 문서 ID, 제목, 역할, 유사도, 본문 미리보기를 묶어 남기므로, 답변만 보지 않고 어떤 근거 문서가 입력 맥락으로 들어갔는지 다시 확인하게 해 줍니다.
 
 먼저 이 예제에서 직접 바꿔 볼 설정은 다음과 같습니다.
 
@@ -194,7 +179,7 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 | `noisy_retrieval` | 무관한 검색어가 섞인 검색 조건 | 검색 실패가 생성으로 전염 |
 | `clean_but_overclaim` | 검색은 정상, 생성 조건만 과장형 | 생성 실패 |
 
-코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 검색은 P6-11.1과 같은 `TfidfVectorizer` 흐름을 사용하고, 생성 실패는 검색 결과가 맞았는데도 답변 문장이 근거보다 강하게 말하는 경우로 따로 잡습니다. 이 코드는 실제 생성 평가기를 구현하는 예제가 아니라, 검색 기록과 답변 점검 기록을 분리해 실패 위치를 읽는 축약 실험입니다.
+코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 검색은 P6-11.1과 같은 `TfidfVectorizer` 흐름을 사용하고, 생성 실패는 검색 결과가 맞았는데도 답변 문장이 근거보다 강하게 말하는 경우로 따로 잡습니다. 이 코드는 검색 기록과 답변 점검 기록을 따로 남겨, 어느 단계의 기록을 먼저 다시 봐야 하는지 읽는 연습에 초점을 둡니다.
 
 ```python
 # 검색 결과와 생성 답변을 따로 기록해 RAG 실패 위치를 나누어 보는 예제입니다.
@@ -263,6 +248,16 @@ def generate_answer(retrieved_docs, generation_style):
     )
 
 def inspect_result(retrieved_docs, answer):
+    source_trace = [
+        {
+            "doc_id": doc["doc_id"],
+            "title": doc["title"],
+            "source_role": doc["source_role"],
+            "similarity": doc["similarity"],
+            "text_preview": doc["text"][:34],
+        }
+        for doc in retrieved_docs
+    ]
     contains_irrelevant_doc = any(
         doc["category"] == "irrelevant" for doc in retrieved_docs
     )
@@ -278,6 +273,7 @@ def inspect_result(retrieved_docs, answer):
     answer_overclaims = "항상 최신 정보와 정답을 자동으로 보장" in answer
 
     return {
+        "source_trace": source_trace,
         "doc_titles": [doc["title"] for doc in retrieved_docs],
         "doc_similarities": [doc["similarity"] for doc in retrieved_docs],
         "top_doc_category": retrieved_docs[0]["category"] if retrieved_docs else "none",
@@ -357,28 +353,28 @@ for report in selected_reports:
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는 검색 방식이다. 키워드가 달라도 의미 기반 검색이 가능하다. 그래서 키워드 검색은 같은 단어가 있는지 먼저 보지만, 의미 검색은 질문과 문서의 의미가 가까운지 비교한다. 그래서 표현이 달라도 관련 문서를 찾을 수 있다.
 [inspect]
-{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'doc_similarities': [0.555, 0.189], 'top_doc_category': 'retrieval', 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
+{'source_trace': [{'doc_id': 'R01', 'title': '벡터 검색 기본 설명', 'source_role': 'primary_evidence', 'similarity': 0.555, 'text_preview': '벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는'}, {'doc_id': 'R02', 'title': '키워드 검색과 의미 검색 차이', 'source_role': 'primary_evidence', 'similarity': 0.189, 'text_preview': '키워드 검색은 같은 단어가 있는지 먼저 보지만, 의미 검색은 '}], 'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'doc_similarities': [0.555, 0.189], 'top_doc_category': 'retrieval', 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
 ================================================================================
 [experiment]
 {'name': 'noisy_retrieval_marketing_copy', 'query': '벡터 검색이 왜 필요한가요? 마케팅 문구 홍보', 'generation_style': 'grounded'}
 [generated answer]
 마케팅 캠페인용 문구와 홍보 배너 문장을 다양하게 바꾸는 방법을 설명한다. 벡터 검색 근거가 아니다. 그래서 무관한 마케팅 문구를 더 다양하게 조합해 홍보 문안을 만드는 설명이다. 검색 품질 판단과 직접 관련이 없다.
 [inspect]
-{'doc_titles': ['홍보 배너 문장 후보', '마케팅 문구 A/B 테스트'], 'doc_similarities': [0.334, 0.321], 'top_doc_category': 'irrelevant', 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
+{'source_trace': [{'doc_id': 'X02', 'title': '홍보 배너 문장 후보', 'source_role': 'off_topic_noise', 'similarity': 0.334, 'text_preview': '마케팅 캠페인용 문구와 홍보 배너 문장을 다양하게 바꾸는 방법'}, {'doc_id': 'X01', 'title': '마케팅 문구 A/B 테스트', 'source_role': 'off_topic_noise', 'similarity': 0.321, 'text_preview': '무관한 마케팅 문구를 더 다양하게 조합해 홍보 문안을 만드는 '}], 'doc_titles': ['홍보 배너 문장 후보', '마케팅 문구 A/B 테스트'], 'doc_similarities': [0.334, 0.321], 'top_doc_category': 'irrelevant', 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
 ================================================================================
 [experiment]
 {'name': 'clean_but_overclaim_vector_search', 'query': '벡터 검색이 왜 필요한가요? 의미 벡터 검색', 'generation_style': 'overclaim'}
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는 검색 방식이다. 키워드가 달라도 의미 기반 검색이 가능하다. 그래서 항상 최신 정보와 정답을 자동으로 보장한다.
 [inspect]
-{'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'doc_similarities': [0.555, 0.189], 'top_doc_category': 'retrieval', 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
+{'source_trace': [{'doc_id': 'R01', 'title': '벡터 검색 기본 설명', 'source_role': 'primary_evidence', 'similarity': 0.555, 'text_preview': '벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는'}, {'doc_id': 'R02', 'title': '키워드 검색과 의미 검색 차이', 'source_role': 'primary_evidence', 'similarity': 0.189, 'text_preview': '키워드 검색은 같은 단어가 있는지 먼저 보지만, 의미 검색은 '}], 'doc_titles': ['벡터 검색 기본 설명', '키워드 검색과 의미 검색 차이'], 'doc_similarities': [0.555, 0.189], 'top_doc_category': 'retrieval', 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
 ```
 
 이 결과에서 먼저 봐야 할 것은 `retrieval_failure_count`와 `generation_failure_count`가 각각 따로 잡힌다는 점입니다. 즉, `noisy_retrieval`은 검색 조건에 섞인 잡음 때문에 무관 문서가 선택되고 생성까지 오염된 경우이고, `clean_but_overclaim`은 검색은 맞았지만 생성 조건이 문서 밖으로 과장된 경우입니다. 이 구분이 있어야 RAG 시스템을 손볼 때 `검색을 고칠지`, `생성 지시와 평가를 고칠지`를 분리해서 판단할 수 있습니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남는다.
+- 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 `source_trace`처럼 별도의 입력 근거 기록으로 남는다.
 - 검색 실패와 생성 실패는 같은 오답처럼 보여도 원인이 다르므로, 점검 항목도 따로 가져가야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
@@ -396,17 +392,7 @@ for report in selected_reports:
 
 ![RAG 예제에서 검색 오염과 생성 과장이 서로 다른 실패 위치로 갈리는 매트릭스](../../../assets/part-06/chapter-11/rag-failure-split-ko.png)
 
-## RAG 실패를 두 단계로 나누기
-
-RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한다`는 두 단계 구조이며, 검색 실패와 생성 실패를 따로 봐야만 어디를 고쳐야 하는지 판단할 수 있습니다.
-
-더 중요하게 붙잡아야 할 점은 `문서를 찾는 단계`와 `그 문서를 바탕으로 답을 만드는 단계`가 같은 문제가 아니라는 것입니다. 그래서 RAG는 검색을 더 붙였다는 설명보다, 검색 실패와 생성 실패를 따로 구분해 어디를 고쳐야 할지 판단하게 만드는 결합 구조로 읽는 편이 좋습니다.
-
-이 구분이 중요한 이유는 다음과 같습니다.
-
-- 검색과 생성을 하나로 뭉뚱그리지 않게 하고
-- 다음 장의 벡터 데이터베이스와 인덱스가 왜 필요한지 준비시키며
-- 이후 평가 장에서 `검색 품질`과 `답변 품질`을 따로 점검해야 한다는 관점을 만들기 때문입니다
+이 매트릭스를 보고 남겨야 할 결론은 하나입니다. RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한다`는 두 단계 구조이며, 답이 틀렸을 때 검색을 고칠지, 생성 지시와 평가를 고칠지 분리해서 판단해야 합니다. 이 구분이 있어야 다음 장의 벡터 데이터베이스와 인덱스는 검색 품질 점검으로, 이후 평가 장은 답변 품질 점검으로 이어집니다.
 
 ## 체크리스트
 - 검색 결과가 답변 뒤가 아니라 생성 전 입력 구성 요소라는 점을 설명할 수 있는가?

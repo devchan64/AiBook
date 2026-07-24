@@ -1,7 +1,7 @@
 # P6-11.1 모델 기억 대신 외부 근거를 붙이는 RAG
 
 > Section ID: `P6-11.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.24`
 
 P6-10.2에서는 프롬프트만으로는 최신성, 근거 보장, 실행 가능성 같은 문제를 해결하기 어렵다는 점을 보았습니다. 그러면 답변 문장 자체보다, 답변에 들어갈 재료를 먼저 어떻게 바꿀지가 중요해집니다.
 
@@ -11,45 +11,15 @@ RAG(retrieval-augmented generation)는 모델이 답을 만들기 전에 관련 
 
 ## 답변 전에 외부 근거를 붙이는 기준
 
-외부 근거 연결은 다음 질문에서 시작합니다.
-
-- 왜 프롬프트만으로는 부족해서 RAG가 필요해지는가?
-- RAG는 어떤 문제를 줄이려는가?
-- 어떤 상황에서 RAG가 파인튜닝보다 먼저 고려될 수 있는가?
-
 RAG는 `답의 출발점을 모델 기억에서 외부 문서 근거로 바꾸는 구조`입니다. 프롬프트와 지시 조정이 `모델이 어떻게 답하게 할까`를 다뤘다면, RAG는 `무엇을 근거로 답하게 할까`로 질문을 바꿉니다. 실제 결합 흐름은 검색 결과가 입력 맥락에 붙고 그 위에서 답이 생성되는 문제이고, 검색 저장 구조와 인덱스는 필요한 문서를 다시 찾을 수 있게 준비하는 문제입니다.
 
-따라서 여기서의 핵심 변화는 `질문 문장을 더 잘 다듬는가`가 아니라 `답하기 전에 어떤 문서를 먼저 붙이게 만들 것인가`입니다. 이 기준이 서야 RAG를 프롬프트의 연장선이 아니라 별도의 근거 연결 구조로 읽을 수 있습니다. 문서를 읽는 것만으로 부족해 실제 조회나 실행이 필요해지면 tool use와 function calling이 다시 별도 층위로 이어집니다.
+따라서 여기서의 핵심 변화는 `질문 문장을 더 잘 다듬는가`가 아니라 `답하기 전에 어떤 문서를 먼저 붙이게 만들 것인가`입니다. 이 기준이 서야 RAG를 프롬프트의 연장선이 아니라 별도의 근거 연결 구조로 읽을 수 있습니다.
 
-이 경계는 `프롬프트만으로 닫히는 질문`과 `문서를 먼저 붙여야 하는 질문`을 나란히 볼 때 가장 빨리 잡힙니다.
+처음에는 두 질문만 갈라도 충분합니다. 이미 가진 회의 메모를 세 줄로 요약하거나 분류 결과를 표 형식으로 다시 쓰는 일은 대체로 `같은 재료로 답하는 방식을 조정하는 문제`입니다. 반대로 오늘 바뀐 사내 정책이나 현재 SDK 버전의 사용법을 묻는 일은 `답의 재료 자체를 현재 문서로 다시 고르는 문제`입니다. 이 두 번째 장면에서 RAG가 필요해집니다.
 
-| 질문 장면 | 프롬프트만으로 먼저 시도해 볼 수 있는가 | RAG가 바로 필요한가 | 경계가 갈리는 이유 |
-| --- | --- | --- | --- |
-| 회의 메모를 세 줄로 요약 | 그렇다 | 보통 아니다 | 이미 가진 문서를 어떻게 정리할지가 핵심이기 때문입니다. |
-| 사내 환불 정책이 오늘 어떻게 바뀌었는가 | 아니다 | 그렇다 | 최신 정책 문서를 먼저 확인하지 않으면 기억 의존 오답이 나기 쉽기 때문입니다. |
-| 현재 SDK 버전에서 인증 헤더를 어디에 넣는가 | 아니다 | 그렇다 | 현재 버전 문서와 예제를 먼저 붙여야 버전 불일치를 줄일 수 있기 때문입니다. |
-| 분류 결과를 표 형식으로 다시 써 달라 | 그렇다 | 보통 아니다 | 답의 형식과 순서를 바꾸는 문제가 중심이기 때문입니다. |
+`프롬프트에 문서를 길게 붙이는 요령`이라는 인상은 `답의 출발점을 외부 근거 문서로 바꾸는 구조`로 바꾸어 읽어야 합니다. 여기서 먼저 남겨야 할 것은 어떤 문서를 근거 후보로 찾았는지, 각 문서가 왜 관련 있다고 판단되었는지, 최종 답이 실제 문서 근거 위에 섰는지를 보여 주는 검색 메모와 근거 점검 기록입니다.
 
-즉, 프롬프트는 `같은 재료로 답하는 방식을 조정하는 방법`이고, RAG는 `답의 재료 자체를 현재 문서로 다시 고르는 구조`입니다.
-
-`프롬프트에 문서를 길게 붙이는 요령`이라는 인상은 `답의 출발점을 외부 근거 문서로 바꾸는 구조`로 바꾸어 읽어야 합니다.
-
-여기서 먼저 남겨야 할 것은 어떤 문서를 근거 후보로 찾았는지, 각 문서가 왜 관련 있다고 판단되었는지, 최종 답이 실제 문서 근거 위에 섰는지를 보여 주는 검색 메모와 근거 점검 기록입니다. 이 기록이 있어야 검색 품질과 최신성 문제를 다시 볼 수 있습니다.
-
-## 프롬프트 조정과 외부 근거 연결의 구분
-
-- RAG의 필요성을 입문 수준에서 설명할 수 있습니다.
-- 왜 최신성, 근거, 내부 문서 활용 문제가 RAG로 이어지는지 말할 수 있습니다.
-- 파인튜닝과 RAG가 해결하려는 문제가 다르다는 점을 구분할 수 있습니다.
-- 검색 결과와 생성이 결합되는 흐름을 RAG의 다음 점검 단계로 읽을 수 있습니다.
-
-이 구조가 중요한 이유는 다음과 같습니다.
-
-- 프롬프트의 한계를 구조적으로 보완하는 첫 번째 해법을 보여 주고
-- 임베딩과 벡터 검색이 P6-12.1 벡터 데이터베이스, P6-12.2 인덱스와 검색 품질에서 어떻게 다시 확장되고, 외부 기능 연결이 P6-13.1 도구 사용으로 어떻게 이어지는지 연결하며
-- 이후 서비스 아키텍처 설명에서 `모델만으로 끝나지 않는다`는 시각을 고정해 주기 때문입니다
-
-RAG를 처음 볼 때는 문서가 보이면 일단 붙이는 기술처럼 읽기 쉽습니다. 하지만 실제로는 먼저 `같은 재료로 더 잘 말하면 되는가`, `답하기 전에 재료 자체를 현재 문서로 다시 가져와야 하는가`, `문서를 읽어도 아직 실행이나 계산이 더 중요한가`를 가르는 편이 더 중요합니다.
+문서가 답변 앞에 저절로 붙는 것은 아닙니다. 보통은 문서 조각을 검색 가능한 형태로 저장해 두고, 질문이 들어오면 관련 조각을 먼저 꺼냅니다. 이 저장 구조에는 키워드 검색, 일반 데이터베이스, 벡터 데이터베이스(vector database)가 섞일 수 있지만, LLM 서비스에서는 의미가 가까운 문서를 찾기 위해 벡터 데이터베이스가 자주 쓰입니다. 이 절에서는 먼저 `답하기 전에 근거를 찾아 붙인다`는 RAG 구조를 잡고, P6-12.1에서 그 근거를 어떻게 임베딩, 원문, 메타데이터로 저장하고 다시 꺼내는지 봅니다.
 
 | 먼저 구분할 장면 | 먼저 잡을 판단 | 왜 먼저 갈라야 하는가 |
 | --- | --- | --- |
@@ -264,7 +234,7 @@ RAG를 처음 읽을 때 가장 자주 헷갈리는 지점은 `답이 틀렸다`
 - 질문 목록: [p6-11-rag-need-questions.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-questions.csv){ .csv-preview }
 - 문서 후보: [p6-11-rag-need-documents.csv](../../../assets/part-06/chapter-11/p6-11-rag-need-documents.csv){ .csv-preview }
 
-질문 목록의 한 행은 사용자 질문 하나를 뜻합니다. 핵심 열은 `case_id`, `question`, `memory_answer`, `current_signal`입니다. `memory_answer`는 검색 없이 모델 기억에만 의존했을 때 나올 수 있는 오래된 답이고, `current_signal`은 답변이 최신 근거를 실제로 반영했는지 확인할 보조 신호입니다. 이 신호만으로 성공을 판정하지 않고, 검색된 문서의 주제 일치, 버전 상태, 유사도, 근거 문서 수를 함께 봅니다.
+질문 목록의 한 행은 사용자 질문 하나를 뜻합니다. 핵심 열은 `case_id`, `question`, `memory_answer`, `current_signal`입니다. `memory_answer`는 검색 없이 모델 기억에만 의존했을 때 나올 수 있는 오래된 답이고, `current_signal`은 답변이 최신 근거를 언급했는지 확인하는 관찰용 단서입니다. 이 단서는 정답표가 아니므로, 검색된 문서의 주제 일치, 버전 상태, 유사도, 근거 문서 수를 함께 봅니다.
 
 문서 후보의 한 행은 검색 대상 문서 조각 하나입니다. 핵심 열은 `title`, `text`, `version_status`, `source_type`입니다. `version_status`가 `current`인 행은 현재 근거 문서이고, `old`인 행은 보관 문서이며, `related`인 행은 관련은 있지만 최종 답의 핵심 근거가 되기 어려운 보조 문서입니다.
 
@@ -346,22 +316,20 @@ def inspect_question(question_row):
     top_doc = retrieved_docs[0] if retrieved_docs else None
     top_doc_matches_case = bool(top_doc) and top_doc["case_id"] == question_row["case_id"]
     top_doc_is_current = bool(top_doc) and top_doc["version_status"] == "current"
-    answer_contains_update_signal = question_row["current_signal"] in rag_result["answer"]
+    answer_mentions_expected_update = question_row["current_signal"] in rag_result["answer"]
     grounding_ready = (
         top_doc_matches_case
         and top_doc_is_current
-        and answer_contains_update_signal
-        and len(rag_result["grounding_titles"]) >= 2
+        and answer_mentions_expected_update
     )
     inspection = {
-        "memory_contains_update_signal": question_row["current_signal"] in question_row["memory_answer"],
-        "answer_contains_update_signal": answer_contains_update_signal,
+        "memory_mentions_expected_update": question_row["current_signal"] in question_row["memory_answer"],
+        "answer_mentions_expected_update": answer_mentions_expected_update,
         "top_grounding_doc": rag_result["grounding_titles"][0] if rag_result["grounding_titles"] else "none",
         "top_doc_matches_case": top_doc_matches_case,
         "top_doc_is_current": top_doc_is_current,
         "top_doc_similarity": top_doc["similarity"] if top_doc else 0,
         "grounding_count": len(rag_result["grounding_titles"]),
-        "retrieved_pair_available": len(rag_result["grounding_titles"]) >= 2,
         "grounding_ready": grounding_ready,
     }
     return {
@@ -376,14 +344,13 @@ def inspect_question(question_row):
 
 reports = [inspect_question(question) for question in questions]
 summary = {
-    "memory_signal_count": sum(report["inspection"]["memory_contains_update_signal"] for report in reports),
-    "rag_signal_count": sum(report["inspection"]["answer_contains_update_signal"] for report in reports),
+    "memory_update_mention_count": sum(report["inspection"]["memory_mentions_expected_update"] for report in reports),
+    "rag_update_mention_count": sum(report["inspection"]["answer_mentions_expected_update"] for report in reports),
     "top_doc_case_match_count": sum(report["inspection"]["top_doc_matches_case"] for report in reports),
     "top_doc_current_count": sum(report["inspection"]["top_doc_is_current"] for report in reports),
-    "retrieved_pair_count": sum(report["inspection"]["retrieved_pair_available"] for report in reports),
     "grounding_ready_count": sum(report["inspection"]["grounding_ready"] for report in reports),
-    "memory_signal_ratio": round(
-        sum(report["inspection"]["memory_contains_update_signal"] for report in reports) / len(reports),
+    "memory_update_mention_ratio": round(
+        sum(report["inspection"]["memory_mentions_expected_update"] for report in reports) / len(reports),
         2,
     ),
     "grounding_ready_ratio": round(
@@ -417,7 +384,7 @@ for report in reports:
 
 ```text
 [summary]
-{'memory_signal_count': 0, 'rag_signal_count': 3, 'top_doc_case_match_count': 3, 'top_doc_current_count': 3, 'retrieved_pair_count': 4, 'grounding_ready_count': 3, 'memory_signal_ratio': 0.0, 'grounding_ready_ratio': 0.75}
+{'memory_update_mention_count': 0, 'rag_update_mention_count': 3, 'top_doc_case_match_count': 3, 'top_doc_current_count': 3, 'grounding_ready_count': 3, 'memory_update_mention_ratio': 0.0, 'grounding_ready_ratio': 0.75}
 
 ================================================================================
 [task]
@@ -432,7 +399,7 @@ policy
 [rag answer]
 근거 문서 '2026-07-22 환불 정책 변경'에 따르면 오늘부터 환불 요청 처리 기한은 14일로 변경되며 적용 날짜 이후 접수 건에 적용된다
 [inspection]
-{'memory_contains_update_signal': False, 'answer_contains_update_signal': True, 'top_grounding_doc': '2026-07-22 환불 정책 변경', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.244, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': True}
+{'memory_mentions_expected_update': False, 'answer_mentions_expected_update': True, 'top_grounding_doc': '2026-07-22 환불 정책 변경', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.244, 'grounding_count': 2, 'grounding_ready': True}
 ================================================================================
 [task]
 manual
@@ -446,7 +413,7 @@ manual
 [rag answer]
 근거 문서 'v3 고급 설정 위치'에 따르면 현재 버전에서는 고급 설정 관련 기능을 환경설정 > 실험실 메뉴에서 찾는다
 [inspection]
-{'memory_contains_update_signal': False, 'answer_contains_update_signal': True, 'top_grounding_doc': 'v3 고급 설정 위치', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.447, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': True}
+{'memory_mentions_expected_update': False, 'answer_mentions_expected_update': True, 'top_grounding_doc': 'v3 고급 설정 위치', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.447, 'grounding_count': 2, 'grounding_ready': True}
 ================================================================================
 [task]
 sdk
@@ -460,7 +427,7 @@ Authorization 헤더에 직접 토큰을 넣으면 됩니다.
 [rag answer]
 근거 문서 'SDK v5 auth 객체 인증'에 따르면 현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다
 [inspection]
-{'memory_contains_update_signal': False, 'answer_contains_update_signal': True, 'top_grounding_doc': 'SDK v5 auth 객체 인증', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.337, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': True}
+{'memory_mentions_expected_update': False, 'answer_mentions_expected_update': True, 'top_grounding_doc': 'SDK v5 auth 객체 인증', 'top_doc_matches_case': True, 'top_doc_is_current': True, 'top_doc_similarity': 0.337, 'grounding_count': 2, 'grounding_ready': True}
 ================================================================================
 [task]
 pricing
@@ -474,10 +441,10 @@ pricing
 [rag answer]
 근거 문서 '고객센터 화면 캡처 기준'에 따르면 화면 안내 답변에는 현재 버전 매뉴얼 경로를 먼저 확인해야 한다
 [inspection]
-{'memory_contains_update_signal': False, 'answer_contains_update_signal': False, 'top_grounding_doc': '고객센터 화면 캡처 기준', 'top_doc_matches_case': False, 'top_doc_is_current': False, 'top_doc_similarity': 0.163, 'grounding_count': 2, 'retrieved_pair_available': True, 'grounding_ready': False}
+{'memory_mentions_expected_update': False, 'answer_mentions_expected_update': False, 'top_grounding_doc': '고객센터 화면 캡처 기준', 'top_doc_matches_case': False, 'top_doc_is_current': False, 'top_doc_similarity': 0.163, 'grounding_count': 2, 'grounding_ready': False}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `memory_signal_count`가 0이고 `grounding_ready_count`가 3이라는 점입니다. 검색 없이 기억으로만 답하면 네 질문 모두 최신 신호를 놓쳤지만, RAG는 정책, 매뉴얼, SDK 질문에서 질문 주제와 맞는 현재 문서를 먼저 붙이고 답변 안에 최신 신호를 회수했습니다. 반대로 `pricing` 질문은 문서 후보가 없기 때문에 문서가 두 개 붙어도 `top_doc_matches_case`와 `answer_contains_update_signal`이 모두 false입니다. 즉, `current_signal`은 보조 확인 신호일 뿐이고, 실제 판단은 질문 주제와 맞는 현재 문서가 검색됐는지, 그 근거가 답변에 연결됐는지를 함께 봐야 합니다.
+이 결과에서 먼저 봐야 할 것은 `memory_update_mention_count`가 0이고 `grounding_ready_count`가 3이라는 점입니다. 검색 없이 기억으로만 답하면 네 질문 모두 최신 단서를 놓쳤지만, RAG는 정책, 매뉴얼, SDK 질문에서 질문 주제와 맞는 현재 문서를 먼저 붙이고 답변 안에 최신 단서를 회수했습니다. 반대로 `pricing` 질문은 문서 후보가 없기 때문에 문서가 두 개 붙어도 `top_doc_matches_case`와 `answer_mentions_expected_update`가 모두 false입니다. 즉, `grounding_ready`는 검색된 문서 수가 아니라 질문 주제와 맞는 현재 문서가 답에 실제로 연결됐는지 보는 값입니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
@@ -504,13 +471,9 @@ pricing
 
 즉, RAG의 핵심 변화는 `답변 문장`보다 `답변 전에 거치는 근거 단계`에 있습니다.
 
-상위 검색 문서의 유사도를 보면 차이가 더 자연스럽게 드러납니다. 정책, 매뉴얼, SDK 질문은 질문 주제와 맞는 현재 문서가 상위에 올라오고, 그 문서를 바탕으로 답변이 만들어집니다. 반대로 요금 질문은 낮은 유사도의 다른 주제 문서가 상위에 올라오므로, 문서가 검색되었다는 사실만으로는 근거 연결이 준비됐다고 볼 수 없습니다. 그래서 여기서 읽어야 할 변화는 답변 문장이 조금 좋아졌다는 정도가 아니라, 답변 전에 어떤 문서가 어느 정도 관련성으로 선택됐는지를 따로 남겨야 한다는 점입니다.
+상위 검색 문서의 유사도를 보면 차이가 더 자연스럽게 드러납니다. 정책, 매뉴얼, SDK 질문은 질문 주제와 맞는 현재 문서가 상위에 올라오고, 그 문서를 바탕으로 답변이 만들어집니다. 반대로 요금 질문은 낮은 유사도의 다른 주제 문서가 상위에 올라오므로, 문서가 검색되었다는 사실만으로는 근거 연결이 준비됐다고 볼 수 없습니다. 그래서 여기서 읽어야 할 변화는 답변 문장이 조금 좋아졌다는 정도가 아니라, 답변 전에 어떤 문서가 어느 정도 관련성으로 선택됐는지를 따로 남겨야 한다는 점입니다. RAG의 핵심은 모델이 더 많이 기억하게 만드는 것이 아니라, 답변 전에 현재 관련 문서를 먼저 회수해 그 문서를 근거로 말하게 만드는 데 있습니다.
 
 ![RAG 예제에서 상위 검색 문서 유사도와 근거 연결 준비 여부](../../../assets/part-06/chapter-11/rag-grounding-check-ko.png)
-
-## RAG가 바꾸는 답변의 출발점
-
-RAG의 핵심은 모델이 더 많이 기억하게 만드는 것이 아니라, 답변 전에 현재 관련 문서를 먼저 회수해 그 문서를 근거로 말하게 만드는 데 있습니다.
 
 더 중요하게 붙잡아야 할 점은 `그럴듯하게 말하는가`와 `근거를 붙여 답하는가`가 같은 문제가 아니라는 것입니다. 그래서 RAG는 모델을 더 똑똑하게 만드는 장치라기보다, 답변 전에 근거 문서를 먼저 회수하게 해 프롬프트 한계를 구조적으로 보완하는 첫 번째 연결 구조로 읽는 편이 좋습니다.
 
