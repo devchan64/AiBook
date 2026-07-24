@@ -106,6 +106,32 @@ LANG_TEXT = {
         "relevance_ylabel": "relevance sum",
         "relevance_label": "relevance sum",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "context-selection-budget-zh.png",
+        "item_labels": {
+            "system instruction": "系统\n指令",
+            "older chat history": "旧\n对话",
+            "repeated greeting": "重复\n问候",
+            "user question": "当前\n问题",
+            "current error log": "当前\n错误",
+            "related function code": "相关\n代码",
+        },
+        "method_labels": {
+            "naive": "输入顺序",
+            "priority": "优先级",
+        },
+        "budget_xlabel": "词元预算",
+        "coverage_ylabel": "保留的必需状态数",
+        "relevance_ylabel": "relevance 合计",
+        "relevance_label": "relevance 合计",
+    },
 }
 
 

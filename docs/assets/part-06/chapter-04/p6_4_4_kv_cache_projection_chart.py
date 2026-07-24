@@ -51,6 +51,24 @@ LANG_TEXT = {
         "prefix_load": "prefix load",
         "step_labels": ["prefix load", "new token 1", "new token 2"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "kv-cache-projection-count-zh.png",
+        "xlabel": "prefix 长度",
+        "ylabel": "K/V projection 对象词元数",
+        "without_cache": "无 cache",
+        "with_cache": "KV cache",
+        "step_outfile": "kv-cache-step-projection-zh.png",
+        "step_ylabel": "本 step 中 K/V projection 的词元数",
+        "prefix_load": "加载 prefix",
+        "step_labels": ["加载 prefix", "新词元 1", "新词元 2"],
+    },
 }
 
 

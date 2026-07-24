@@ -4,25 +4,25 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Current language pairs:
-  - `p6-c04-s01-transformer-flow-en.mmd` / `p6-c04-s01-transformer-flow-ko.mmd`
-  - `p6-c04-s01-use-cases-en.mmd` / `p6-c04-s01-use-cases-ko.mmd`
-  - `p6-c04-s01-scoring-flow-en.mmd` / `p6-c04-s01-scoring-flow-ko.mmd`
-  - `p6-c04-s02-window-flow-en.mmd` / `p6-c04-s02-window-flow-ko.mmd`
-  - `p6-c04-s02-use-cases-en.mmd` / `p6-c04-s02-use-cases-ko.mmd`
-  - `p6-c04-s02-selection-flow-en.mmd` / `p6-c04-s02-selection-flow-ko.mmd`
-  - `p6-c04-s03-attention-position-flow-en.mmd` / `p6-c04-s03-attention-position-flow-ko.mmd`
-  - `p6-c04-s04-kv-cache-flow-en.mmd` / `p6-c04-s04-kv-cache-flow-ko.mmd`
+  - `p6-c04-s01-transformer-flow-en.mmd` / `p6-c04-s01-transformer-flow-ko.mmd` / `p6-c04-s01-transformer-flow-zh.mmd`
+  - `p6-c04-s01-use-cases-en.mmd` / `p6-c04-s01-use-cases-ko.mmd` / `p6-c04-s01-use-cases-zh.mmd`
+  - `p6-c04-s01-scoring-flow-en.mmd` / `p6-c04-s01-scoring-flow-ko.mmd` / `p6-c04-s01-scoring-flow-zh.mmd`
+  - `p6-c04-s02-window-flow-en.mmd` / `p6-c04-s02-window-flow-ko.mmd` / `p6-c04-s02-window-flow-zh.mmd`
+  - `p6-c04-s02-use-cases-en.mmd` / `p6-c04-s02-use-cases-ko.mmd` / `p6-c04-s02-use-cases-zh.mmd`
+  - `p6-c04-s02-selection-flow-en.mmd` / `p6-c04-s02-selection-flow-ko.mmd` / `p6-c04-s02-selection-flow-zh.mmd`
+  - `p6-c04-s03-attention-position-flow-en.mmd` / `p6-c04-s03-attention-position-flow-ko.mmd` / `p6-c04-s03-attention-position-flow-zh.mmd`
+  - `p6-c04-s04-kv-cache-flow-en.mmd` / `p6-c04-s04-kv-cache-flow-ko.mmd` / `p6-c04-s04-kv-cache-flow-zh.mmd`
   - `p6-c04-s05-long-context-flow-en.mmd` / `p6-c04-s05-long-context-flow-ko.mmd`
   - `p6-c04-s01-diagram-01-en.mmd` / `p6-c04-s01-diagram-01-ko.mmd`
   - `p6-c04-s01-diagram-02-en.mmd` / `p6-c04-s01-diagram-02-ko.mmd`
   - `p6-c04-s02-diagram-01-en.mmd` / `p6-c04-s02-diagram-01-ko.mmd`
   - `p6-c04-s02-diagram-02-en.mmd` / `p6-c04-s02-diagram-02-ko.mmd`
 - PNG chart assets:
-  - `context-candidate-distribution-en.png` / `context-candidate-distribution-ko.png`
-  - `context-selection-budget-en.png` / `context-selection-budget-ko.png`
-  - `attention-position-role-split-en.png` / `attention-position-role-split-ko.png`
-  - `kv-cache-step-projection-en.png` / `kv-cache-step-projection-ko.png`
-  - `kv-cache-projection-count-en.png` / `kv-cache-projection-count-ko.png`
+  - `context-candidate-distribution-en.png` / `context-candidate-distribution-ko.png` / `context-candidate-distribution-zh.png`
+  - `context-selection-budget-en.png` / `context-selection-budget-ko.png` / `context-selection-budget-zh.png`
+  - `attention-position-role-split-en.png` / `attention-position-role-split-ko.png` / `attention-position-role-split-zh.png`
+  - `kv-cache-step-projection-en.png` / `kv-cache-step-projection-ko.png` / `kv-cache-step-projection-zh.png`
+  - `kv-cache-projection-count-en.png` / `kv-cache-projection-count-ko.png` / `kv-cache-projection-count-zh.png`
   - `long-context-failure-axis-en.png` / `long-context-failure-axis-ko.png`
   - `autoregressive-path-split-en.png` / `autoregressive-path-split-ko.png`
   - `conversation-experience-criteria-en.png` / `conversation-experience-criteria-ko.png`

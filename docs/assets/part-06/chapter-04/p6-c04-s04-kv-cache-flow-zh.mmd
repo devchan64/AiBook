@@ -1,0 +1,14 @@
+flowchart TD
+  A["已经看过的 prefix 词元"]
+  B["没有 cache<br/>重新投影整个 prefix"]
+  C["有 KV cache<br/>复用已保存的 K/V"]
+  D["只追加新词元的 K/V"]
+  E["相同的最后 attention 结果"]
+  F["减少重复 projection 工作"]
+
+  A --> B
+  A --> C
+  C --> D
+  B --> E
+  D --> E
+  D --> F

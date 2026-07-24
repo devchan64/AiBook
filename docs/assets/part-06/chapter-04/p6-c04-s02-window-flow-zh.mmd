@@ -1,0 +1,9 @@
+flowchart TD
+  A["所有可能的前置信息"]
+  B["context window 中留下的词元"]
+  C["在已选词元上计算 attention"]
+  D["下一词元预测"]
+
+  A --> B
+  B --> C
+  C --> D

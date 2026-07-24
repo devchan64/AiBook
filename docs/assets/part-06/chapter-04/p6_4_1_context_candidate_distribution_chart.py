@@ -121,6 +121,25 @@ LANG_TEXT = {
             "되었습니다": "past formal",
         },
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "context-candidate-distribution-zh.png",
+        "experiment_labels": ["通知", "通知\n减弱", "团队备忘", "团队备忘\n礼貌线索"],
+        "probability_ylabel": "候选概率",
+        "margin_ylabel": "第 1、2 名分数差",
+        "margin_label": "top_2_margin",
+        "candidate_labels": {
+            "합니다": "举行",
+            "이다": "开始",
+            "되었습니다": "结束",
+        },
+    },
 }
 
 COLORS = {

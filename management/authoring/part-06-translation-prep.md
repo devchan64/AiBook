@@ -66,10 +66,10 @@
 | 10 | P6-3.2 | `docs/parts/part-06/chapter-03/section-02.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
 | 11 | P6-3.3 | `docs/parts/part-06/chapter-03/section-03.md` | `v2026.07.23` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
 | 12 | P6-3.4 | `docs/parts/part-06/chapter-03/section-04.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
-| 13 | P6-4.1 | `docs/parts/part-06/chapter-04/section-01.md` | `v2026.07.23` | 있음, 최신 | 없음 | 영문 완료 |
-| 14 | P6-4.2 | `docs/parts/part-06/chapter-04/section-02.md` | `v2026.07.24` | 있음, 최신 | 없음 | 영문 완료 |
-| 15 | P6-4.3 | `docs/parts/part-06/chapter-04/section-03.md` | `v2026.07.23` | 있음, 최신 | 없음 | 영문 완료 |
-| 16 | P6-4.4 | `docs/parts/part-06/chapter-04/section-04.md` | `v2026.07.23` | 있음, 최신 | 없음 | 영문 완료 |
+| 13 | P6-4.1 | `docs/parts/part-06/chapter-04/section-01.md` | `v2026.07.23` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
+| 14 | P6-4.2 | `docs/parts/part-06/chapter-04/section-02.md` | `v2026.07.24` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
+| 15 | P6-4.3 | `docs/parts/part-06/chapter-04/section-03.md` | `v2026.07.23` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
+| 16 | P6-4.4 | `docs/parts/part-06/chapter-04/section-04.md` | `v2026.07.23` | 있음, 최신 | 있음, 최신 | 영문 완료, 중문 완료 |
 | 17 | P6-4.5 | `docs/parts/part-06/chapter-04/section-05.md` | `v2026.07.23` | 있음, 최신 | 없음 | 영문 완료 |
 | 18 | P6-5.1 | `docs/parts/part-06/chapter-05/section-01.md` | `v2026.07.23` | 있음, 최신 | 없음 | 영문 완료 |
 | 19 | P6-5.2 | `docs/parts/part-06/chapter-05/section-02.md` | `v2026.07.23` | 있음, 최신 | 없음 | 영문 완료 |

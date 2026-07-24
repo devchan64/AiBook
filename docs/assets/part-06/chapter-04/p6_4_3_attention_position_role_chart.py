@@ -72,6 +72,25 @@ LANG_TEXT = {
         "multi_head_label": "multi-head attention",
         "position_label": "positional information",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "attention-position-role-split-zh.png",
+        "row_labels": {
+            "subject_action": "主体-动作\n关系",
+            "object_change": "对象-变化\n关系",
+            "recipient_relation": "传递对象\n关系",
+            "order_switch": "前后顺序\n反转",
+        },
+        "xlabel": "直接连接强度",
+        "multi_head_label": "multi-head attention",
+        "position_label": "位置表示",
+    },
 }
 
 
