@@ -7,4 +7,3 @@
 - 함께 볼 개념: `틀린 사례 목록(wrong-case list)`, `오류 사례(error case)`, `샘플별 비교표(sample-by-sample comparison table)`, `평가 기록(evaluation record)`, `검토 대상 샘플(review-target sample)`
 - 중심 Section: `P7-3.1`
 - 등장 Section: `P7-3.2`, `P7-4.1`, `P7-4.2`, `P7-summary`
-

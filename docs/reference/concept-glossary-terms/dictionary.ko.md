@@ -7,4 +7,3 @@
 - 함께 볼 개념: `키(key)`, `리스트(list)`, `매핑(mapping)`
 - 중심 Section: `P2-8.3`
 - 등장 Section: `P2-8.4`, `P2-9.4`
-

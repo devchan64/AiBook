@@ -7,4 +7,3 @@
 - 함께 볼 개념: `평가(evaluation)`, `실행 요약(execution summary)`, `틀린 사례 목록(wrong-case list)`, `검토 요약(review summary)`, `회고(retrospective)`
 - 중심 Section: `P7-3.2`
 - 등장 Section: `P7-4.2`, `P7-5.2`, `P7-7.2`, `P7-summary`
-

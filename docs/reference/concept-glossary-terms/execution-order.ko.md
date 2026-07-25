@@ -7,4 +7,3 @@
 - 함께 볼 개념: `노트북(notebook)`, `숨은 상태(hidden state)`, `재실행 가능한 기록(reproducible record)`
 - 중심 Section: `P2-10.3`
 - 등장 Section: `P2-10.1`, `P2-10.2`
-

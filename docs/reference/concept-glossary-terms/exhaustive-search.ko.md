@@ -7,4 +7,3 @@
 - 함께 볼 개념: `탐색(search)`, `탐색 공간(search space)`, `계산 한계(computational limit)`
 - 중심 Section: `P1-7.1`
 - 등장 Section: `P1-7.2`, `P1-13.4`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `배치(batch)`, `학습(training)`, `손실 곡선(loss curve)`, `정확도(accuracy)`
 - 중심 Section: `P5-6.2`
 - 등장 Section: `P2-13.2`, `P5-6.1`, `P7-4.1`
-

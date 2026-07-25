@@ -7,4 +7,3 @@
 - 함께 볼 개념: `트랜스포머(Transformer)`, `셀프 어텐션(self-attention)`, `레이어 정규화(layer normalization)`
 - 중심 Section: `P5-14.1`
 - 등장 Section: `P5-14.2`
-

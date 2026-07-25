@@ -7,4 +7,3 @@
 - 함께 볼 개념: `기준선(baseline)`, `검토(review)`, `타깃(target)`, `출력 구조(output structure)`
 - 중심 Section: `P3-9.2`
 - 등장 Section: `P3-index`, `P3-1.1`, `P3-3.2`, `P3-8.2`, `P3-9.1`, `P3-9.3`, `P3-9.4`, `P3-9.5`, `P3-9.6`, `P3-summary`
-

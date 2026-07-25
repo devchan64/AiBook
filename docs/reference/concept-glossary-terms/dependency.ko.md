@@ -7,4 +7,3 @@
 - 함께 볼 개념: `패키지(package)`, `재현성(reproducibility)`, `리콰이어먼트 파일(requirements.txt)`
 - 중심 Section: `P2-7.5`
 - 등장 Section: `P2-10.1`, `P2-10.2`, `P2-10.3`
-

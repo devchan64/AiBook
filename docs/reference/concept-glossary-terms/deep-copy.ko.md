@@ -7,4 +7,3 @@
 - 함께 볼 개념: `얕은 복사(shallow copy)`, `참조(reference)`, `리스트(list)`
 - 중심 Section: `P2-8.7`
 - 등장 Section: `P2-11.4`
-

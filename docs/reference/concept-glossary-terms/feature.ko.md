@@ -7,4 +7,3 @@
 - 함께 볼 개념: `표현(representation)`, `입력(input)`, `파라미터(parameter)`, `특징 선택(feature selection)`, `표현 학습(representation learning)`
 - 중심 Section: `P1-4.3`
 - 등장 Section: `P1-2.3`, `P1-3.2`, `P1-3.3`, `P3-1.1`, `P3-2.2`, `P3-4.1`, `P3-4.2`, `P3-5.1`, `P3-6.1`, `P3-6.2`, `P3-6.3`, `P3-6.4`, `P5-10.1`
-

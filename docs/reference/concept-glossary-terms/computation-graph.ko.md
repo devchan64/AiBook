@@ -7,4 +7,3 @@
 - 함께 볼 개념: `역전파(backpropagation)`, `그래디언트(gradient)`, `자동미분(automatic differentiation)`
 - 중심 Section: `P5-5.2`
 - 등장 Section: `P5-6.1`
-

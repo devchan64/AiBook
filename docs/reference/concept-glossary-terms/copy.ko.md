@@ -7,4 +7,3 @@
 - 함께 볼 개념: `shared view(원본 공유)`, `불리언 마스크(boolean mask)`, `팬시 인덱싱(fancy indexing)`
 - 중심 Section: `P2-11.4`
 - 등장 Section: `P2-8.7`, `P2-12.1`
-

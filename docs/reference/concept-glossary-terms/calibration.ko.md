@@ -7,4 +7,3 @@
 - 함께 볼 개념: `확률(probability)`, `분류(classification)`, `평가(evaluation)`
 - 중심 Section: `P1-6.2`
 - 등장 Section: `P1-6.3`, `P1-7.3`, `P4-6.4`, `P4-11.1`, `P4-15.3`
-

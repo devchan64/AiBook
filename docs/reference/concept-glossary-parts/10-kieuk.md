@@ -2,6 +2,8 @@
 
 --8<-- "reference/concept-glossary-terms/confabulation.ko.md"
 
+--8<-- "reference/concept-glossary-terms/k-means.ko.md"
+
 --8<-- "reference/concept-glossary-terms/k-nnk-nearest-neighbors.ko.md"
 
 --8<-- "reference/concept-glossary-terms/kv-cache.ko.md"
@@ -10,11 +12,17 @@
 
 --8<-- "reference/concept-glossary-terms/caching.ko.md"
 
+--8<-- "reference/concept-glossary-terms/opinion-column.ko.md"
+
 --8<-- "reference/concept-glossary-terms/commit.ko.md"
+
+--8<-- "reference/concept-glossary-terms/code.ko.md"
 
 --8<-- "reference/concept-glossary-terms/code-cell.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cosine-similarity.ko.md"
+
+--8<-- "reference/concept-glossary-terms/keyword-search.ko.md"
 
 --8<-- "reference/concept-glossary-terms/colab.ko.md"
 

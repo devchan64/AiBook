@@ -7,4 +7,3 @@
 - 함께 볼 개념: `비교표(comparison table)`, `기준선(baseline)`, `실행 요약(execution summary)`, `다음 질문(next question)`, `평가(evaluation)`
 - 중심 Section: `P7-1.2`
 - 등장 Section: `P7-index`, `P7-2.2`, `P7-summary`
-

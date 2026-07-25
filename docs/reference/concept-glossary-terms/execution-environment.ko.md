@@ -7,4 +7,3 @@
 - 함께 볼 개념: `하네스(harness)`, `재현성(reproducibility)`, `호스트(host)`
 - 중심 Section: `P1-14.5`
 - 등장 Section: `P2-7.1`
-

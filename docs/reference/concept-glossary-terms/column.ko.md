@@ -7,4 +7,3 @@
 - 함께 볼 개념: `행(row)`, `DataFrame`, `특징(feature)`
 - 중심 Section: `P2-12.1`
 - 등장 Section: `P2-12.2`, `P2-12.3`, `P2-15.2`
-

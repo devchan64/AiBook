@@ -8,4 +8,3 @@
 - 함께 볼 개념: `시퀀스 투 시퀀스(Seq2Seq)`, `고정 길이 벡터(fixed-length vector)`, `어텐션(Attention)`
 - 중심 Section: `P1-11.2`
 - 등장 Section: `P1-11.3`, `P6-5.1`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `도구 사용(tool use)`, `에이전트(agent)`, `모델 컨텍스트 프로토콜(Model Context Protocol, MCP)`
 - 중심 Section: `P6-13.2`
 - 등장 Section: `P6-14.1`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `Git`, `스테이징 영역(staging area)`, `저장소(repository)`
 - 중심 Section: `P2-14.1`
 - 등장 Section: `P2-14.2`
-

@@ -8,4 +8,3 @@
 - 함께 볼 개념: `데이터셋(dataset)`, `검증(validation)`, `타깃(target)`
 - 중심 Section: `P2-12.3`
 - 등장 Section: `P4-7.1`
-

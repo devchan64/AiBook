@@ -7,4 +7,3 @@
 - 함께 볼 개념: `브랜치(branch)`, `정적 배포(static deployment)`, `문서 재현성(document reproducibility)`
 - 중심 Section: `P7-7.1`
 - 등장 Section: `P2-14.2`, `P7-7.2`
-

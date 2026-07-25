@@ -7,4 +7,3 @@
 - 함께 볼 개념: `탐색(search)`, `휴리스틱(heuristic)`, `최적화(optimization)`
 - 중심 Section: `P1-6.1`
 - 등장 Section: `P1-7.1`
-

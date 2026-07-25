@@ -7,4 +7,3 @@
 - 함께 볼 개념: `민감 정보(sensitive information)`, `비밀 정보(confidential information)`, `보안(security)`, `로그(log)`, `권한(permission)`
 - 중심 Section: `P1-15.3`
 - 등장 Section: `P1-14.5`, `P1-16.2`
-

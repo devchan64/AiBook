@@ -7,4 +7,3 @@
 - 함께 볼 개념: `객체(object)`, `메서드(method)`, `속성(attribute)`
 - 중심 Section: `P2-8.6`
 - 등장 Section: `P2-9.1`, `P2-12.3`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `주피터(Jupyter)`, `실행 환경(runtime)`, `재현성(reproducibility)`
 - 중심 Section: `P2-10.2`
 - 등장 Section: `P2-3.5`, `P2-7.1`, `P2-10.1`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `보류 상태(hold state)`, `요청 실행 기록(run record)`, `평가(evaluation)`, `재시도(retry)`, `다음 행동(next action)`
 - 중심 Section: `P7-6.2`
 - 등장 Section: `P1-14.6`, `P1-16.3`, `P7-6.1`, `P7-6.3`, `P7-7.2`
-

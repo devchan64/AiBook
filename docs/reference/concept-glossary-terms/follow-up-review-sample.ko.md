@@ -7,4 +7,3 @@
 - 함께 볼 개념: `검토 대상(review target)`, `평가 기록(evaluation record)`, `실행 요약(execution summary)`, `오류 사례(error case)`, `우선순위(priority)`
 - 중심 Section: `P7-3.1`
 - 등장 Section: `P7-3.2`, `P7-4.2`, `P7-summary`
-

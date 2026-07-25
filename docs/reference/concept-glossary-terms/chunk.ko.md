@@ -7,4 +7,3 @@
 - 함께 볼 개념: `임베딩(embedding)`, `문서(document)`, `검색 증강 생성(retrieval-augmented generation, RAG)`
 - 중심 Section: `P1-13.1`
 - 등장 Section: `P1-13.2`, `P1-13.3`, `P1-14.2`, `P6-12.1`, `P6-12.2`
-

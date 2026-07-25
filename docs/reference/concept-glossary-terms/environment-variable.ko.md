@@ -7,4 +7,3 @@
 - 함께 볼 개념: `리다이렉션(redirection)`, `패스 환경 변수(PATH)`, `실행 환경(runtime)`
 - 중심 Section: `P2-7.8`
 - 등장 Section: `P2-7.9`
-

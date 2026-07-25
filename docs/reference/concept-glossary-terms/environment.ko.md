@@ -7,4 +7,3 @@
 - 함께 볼 개념: `에이전트(agent)`, `상태(state)`, `보상(reward)`
 - 중심 Section: `P1-8.3`
 - 등장 Section: `P4-2.3`
-

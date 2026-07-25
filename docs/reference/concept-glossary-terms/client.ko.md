@@ -7,4 +7,3 @@
 - 함께 볼 개념: `호스트(host)`, `서버(server)`, `모델 컨텍스트 프로토콜(Model Context Protocol, MCP)`, `앱(application)`
 - 중심 Section: `P1-14.4`
 - 등장 Section: `P1-14.6`, `P6-11.1`
-

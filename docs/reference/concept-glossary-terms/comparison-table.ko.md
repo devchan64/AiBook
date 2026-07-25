@@ -7,4 +7,3 @@
 - 함께 볼 개념: `기준선(baseline)`, `오류 사례(error case)`, `회고(retrospective)`, `검토(review)`, `평가 지표(evaluation metric)`
 - 중심 Section: `P7-2.1`
 - 등장 Section: `P7-index`, `P7-1.1`, `P7-1.3`, `P7-2.2`, `P7-5.1`, `P7-summary`
-

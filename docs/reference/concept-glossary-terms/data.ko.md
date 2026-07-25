@@ -7,4 +7,3 @@
 - 함께 볼 개념: `입력(input)`, `출력(output)`, `라벨(label)`, `사례(example)`, `상태(state)`, `리소스(resource)`
 - 중심 Section: `P1-4.2`
 - 등장 Section: `P1-2.3`, `P1-3.2`, `P1-14.1`
-

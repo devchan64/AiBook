@@ -7,4 +7,3 @@
 - 함께 볼 개념: `Axes`, `그래프(plot)`, `savefig`
 - 중심 Section: `P2-13.1`
 - 등장 Section: `P2-13.2`, `P2-13.3`
-

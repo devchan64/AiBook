@@ -7,4 +7,3 @@
 - 함께 볼 개념: `인코더(encoder)`, `인코더-디코더(Encoder-Decoder)`, `GPT`
 - 중심 Section: `P1-11.3`
 - 등장 Section: `P1-11.2`, `P6-5.1`, `P6-20.1`
-

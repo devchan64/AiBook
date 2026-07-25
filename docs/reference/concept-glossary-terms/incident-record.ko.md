@@ -7,4 +7,3 @@
 - 함께 볼 개념: `실패(failure)`, `실패 유형(failure type)`, `상태 점검(status inspection)`, `다음 행동(next action)`, `회고(retrospective)`
 - 중심 Section: `P7-7.2`
 - 등장 Section: `P7-index`, `P7-summary`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `환각(hallucination)`, `근거(evidence)`, `사실성(factuality)`, `검토(review)`
 - 중심 Section: `P1-10.3`
 - 등장 Section: `P1-12.3`, `P1-13.2`, `P7-5.2`
-

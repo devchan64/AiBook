@@ -7,4 +7,3 @@
 - 함께 볼 개념: `정규화(regularization)`, `일반화(generalization)`, `학습 모드(training mode)`
 - 중심 Section: `P5-8.2`
 - 등장 Section: `P5-6.4`, `P5-8.1`, `P5-8.3`, `P5-summary`
-

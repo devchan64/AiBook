@@ -7,4 +7,3 @@
 - 함께 볼 개념: `그래프(graph)`, `가중치(weight)`, `방향 그래프(directed graph)`
 - 중심 Section: `P2-9.3`
 - 등장 Section: `P2-9.4`
-

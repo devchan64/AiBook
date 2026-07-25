@@ -8,4 +8,3 @@
 - 함께 볼 개념: `극한(limit)`, `변화율(rate of change)`, `최적화(optimization)`
 - 중심 Section: `P2-2.3`
 - 등장 Section: `P2-6.3`
-

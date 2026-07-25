@@ -7,4 +7,3 @@
 - 함께 볼 개념: `언어 모델(language model)`, `데이터(data)`, `워드투벡(word2vec)`
 - 중심 Section: `P1-11.1`
 - 등장 Section: `P1-11.3`, `P6-2.5`, `P6-19.1`
-

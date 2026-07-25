@@ -2,11 +2,17 @@
 
 --8<-- "reference/concept-glossary-terms/harness.ko.md"
 
+--8<-- "reference/concept-glossary-terms/hnsw-hierarchical-navigable-small-world.ko.md"
+
 --8<-- "reference/concept-glossary-terms/hyperparameter.ko.md"
 
 --8<-- "reference/concept-glossary-terms/training-mode.ko.md"
 
+--8<-- "reference/concept-glossary-terms/learning.ko.md"
+
 --8<-- "reference/concept-glossary-terms/training.ko.md"
+
+--8<-- "reference/concept-glossary-terms/training-data.ko.md"
 
 --8<-- "reference/concept-glossary-terms/learned-representation.ko.md"
 
@@ -14,6 +20,9 @@
 
 --8<-- "reference/concept-glossary-terms/function-calling.ko.md"
 --8<-- "reference/concept-glossary-terms/function.ko.md"
+
+--8<-- "reference/concept-glossary-terms/composite-function.ko.md"
+--8<-- "reference/concept-glossary-terms/summation-term.ko.md"
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.ko.md"
 --8<-- "reference/concept-glossary-terms/convolution.ko.md"
 --8<-- "reference/concept-glossary-terms/interpretation.ko.md"
@@ -37,9 +46,15 @@
 
 --8<-- "reference/concept-glossary-terms/probabilistic-reasoning.ko.md"
 
+--8<-- "reference/concept-glossary-terms/probabilistic-prediction.ko.md"
+
 --8<-- "reference/concept-glossary-terms/probability-estimate.ko.md"
 
 --8<-- "reference/concept-glossary-terms/probability.ko.md"
+
+--8<-- "reference/concept-glossary-terms/probability-distribution.ko.md"
+
+--8<-- "reference/concept-glossary-terms/probabilistic-choice.ko.md"
 
 --8<-- "reference/concept-glossary-terms/stochastic-process.ko.md"
 
@@ -57,6 +72,7 @@
 
 --8<-- "reference/concept-glossary-terms/combinatorial-explosion.ko.md"
 
+--8<-- "reference/concept-glossary-terms/postprocessing.ko.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic-score.ko.md"
 

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `요청 실행 기록(run record)`, `기준 모델(baseline model)`, `오류 사례(error case)`, `검토 요약(review summary)`, `회고(retrospective)`
 - 중심 Section: `P7-2.1`
 - 등장 Section: `P7-index`, `P7-3.1`, `P7-4.1`, `P7-5.1`, `P7-summary`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `표현 학습(representation learning)`, `파라미터(parameter)`, `특징(feature)`
 - 중심 Section: `P1-2.3`
 - 등장 Section: `P1-1.3`
-

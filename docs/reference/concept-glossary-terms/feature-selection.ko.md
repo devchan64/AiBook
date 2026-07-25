@@ -7,4 +7,3 @@
 - 함께 볼 개념: `특징(feature)`, `전처리(preprocessing)`, `데이터 누수(data leakage)`
 - 중심 Section: `P4-7.1`
 - 등장 Section: `P3-6.1`, `P4-7.3`, `P4-7.4`, `P4-15.2`
-

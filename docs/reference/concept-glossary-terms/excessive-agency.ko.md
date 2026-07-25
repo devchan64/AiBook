@@ -7,4 +7,3 @@
 - 함께 볼 개념: `최소 권한(least privilege)`, `실행 범위(scope)`, `승인(approval)`, `보안(security)`, `에이전트(agent)`
 - 중심 Section: `P1-15.3`
 - 등장 Section: `P1-10.3`, `P1-14.6`, `P7-6.2`
-

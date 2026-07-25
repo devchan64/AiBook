@@ -7,4 +7,3 @@
 - 함께 볼 개념: `Series`, `행(row)`, `열(column)`
 - 중심 Section: `P2-12.1`
 - 등장 Section: `P2-12.2`, `P2-12.3`
-

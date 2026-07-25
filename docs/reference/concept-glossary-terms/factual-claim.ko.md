@@ -7,4 +7,3 @@
 - 함께 볼 개념: `해석(interpretation)`, `작업 가설(working hypothesis)`, `예측(prediction)`
 - 중심 Section: `P1-17.3`
 - 등장 Section: `P1-17.2`
-

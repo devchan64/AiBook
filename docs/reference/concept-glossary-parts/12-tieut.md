@@ -18,7 +18,11 @@
 
 --8<-- "reference/concept-glossary-terms/test.ko.md"
 
+--8<-- "reference/concept-glossary-terms/test-data.ko.md"
+
 --8<-- "reference/concept-glossary-terms/table.ko.md"
+
+--8<-- "reference/concept-glossary-terms/text-and-data-mining.ko.md"
 
 --8<-- "reference/concept-glossary-terms/tts-text-to-speech.ko.md"
 
@@ -31,6 +35,10 @@
 --8<-- "reference/concept-glossary-terms/tokenization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/statistical-language-model.ko.md"
+
+--8<-- "reference/concept-glossary-terms/statistic.ko.md"
+
+--8<-- "reference/concept-glossary-terms/statistical-inference.ko.md"
 
 --8<-- "reference/concept-glossary-terms/transparency.ko.md"
 

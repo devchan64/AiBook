@@ -7,4 +7,3 @@
 - 함께 볼 개념: `불리언 마스크(boolean mask)`, `인덱싱(indexing)`, `복사(copy)`
 - 중심 Section: `P2-11.4`
 - 등장 Section: `P2-12.2`
-

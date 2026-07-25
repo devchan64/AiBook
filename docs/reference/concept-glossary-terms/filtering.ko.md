@@ -7,4 +7,3 @@
 - 함께 볼 개념: `집계(aggregation)`, `groupby`, `DataFrame`
 - 중심 Section: `P2-12.2`
 - 등장 Section: `P1-13.4`
-

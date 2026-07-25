@@ -6,6 +6,8 @@
 
 --8<-- "reference/concept-glossary-terms/automatic-evaluation.ko.md"
 
+--8<-- "reference/concept-glossary-terms/autoregressive-model.ko.md"
+
 --8<-- "reference/concept-glossary-terms/data-structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/working-hypothesis.ko.md"
@@ -18,16 +20,26 @@
 
 --8<-- "reference/concept-glossary-terms/noise.ko.md"
 
+--8<-- "reference/concept-glossary-terms/naturalness.ko.md"
+
 --8<-- "reference/concept-glossary-terms/long-term-dependency.ko.md"
 --8<-- "reference/concept-glossary-terms/lstm-long-short-term-memory.ko.md"
 
+--8<-- "reference/concept-glossary-terms/long-run-frequency.ko.md"
+
 --8<-- "reference/concept-glossary-terms/retry.ko.md"
+
+--8<-- "reference/concept-glossary-terms/exponential-backoff.ko.md"
+
+--8<-- "reference/concept-glossary-terms/exponential-function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reproducible-record.ko.md"
 
 --8<-- "reference/concept-glossary-terms/recheck.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reproducibility.ko.md"
+
+--8<-- "reference/concept-glossary-terms/recall.ko.md"
 
 --8<-- "reference/concept-glossary-terms/copyright.ko.md"
 
@@ -36,14 +48,34 @@
 --8<-- "reference/concept-glossary-terms/fitting.ko.md"
 --8<-- "reference/concept-glossary-terms/expert-system.ko.md"
 
+--8<-- "reference/concept-glossary-terms/score.ko.md"
+
+--8<-- "reference/concept-glossary-terms/precision.ko.md"
+
+--8<-- "reference/concept-glossary-terms/point-prediction.ko.md"
+
+--8<-- "reference/concept-glossary-terms/centroid.ko.md"
+
+--8<-- "reference/concept-glossary-terms/center.ko.md"
+
 --8<-- "reference/concept-glossary-terms/preprocessing.ko.md"
 
 --8<-- "reference/concept-glossary-terms/brute-force-search.ko.md"
+
+--8<-- "reference/concept-glossary-terms/exact-search.ko.md"
 
 --8<-- "reference/concept-glossary-terms/regularization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/alignment.ko.md"
 --8<-- "reference/concept-glossary-terms/information-retrieval.ko.md"
+
+--8<-- "reference/concept-glossary-terms/information-integrity.ko.md"
+
+--8<-- "reference/concept-glossary-terms/query-vector.ko.md"
+
+--8<-- "reference/concept-glossary-terms/question-structuring.ko.md"
+
+--8<-- "reference/concept-glossary-terms/tangent-line.ko.md"
 
 --8<-- "reference/concept-glossary-terms/static-deployment.ko.md"
 
@@ -51,9 +83,19 @@
 
 --8<-- "reference/concept-glossary-terms/policy.ko.md"
 
+--8<-- "reference/concept-glossary-terms/policy-document.ko.md"
+
+--8<-- "reference/concept-glossary-terms/policy-proposal.ko.md"
+
 --8<-- "reference/concept-glossary-terms/accuracy.ko.md"
 
 --8<-- "reference/concept-glossary-terms/constraint.ko.md"
+
+--8<-- "reference/concept-glossary-terms/condition.ko.md"
+
+--8<-- "reference/concept-glossary-terms/update-direction.ko.md"
+
+--8<-- "reference/concept-glossary-terms/dense-vector.ko.md"
 
 --8<-- "reference/concept-glossary-terms/control.ko.md"
 
@@ -62,6 +104,8 @@
 --8<-- "reference/concept-glossary-terms/surrounding-evidence.ko.md"
 
 --8<-- "reference/concept-glossary-terms/jupyter.ko.md"
+
+--8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.ko.md"
 
 --8<-- "reference/concept-glossary-terms/intermediate-representation.ko.md"
 --8<-- "reference/concept-glossary-terms/interrupt-authority.ko.md"
@@ -81,5 +125,8 @@
 --8<-- "reference/concept-glossary-terms/latency.ko.md"
 
 --8<-- "reference/concept-glossary-terms/indicator.ko.md"
+--8<-- "reference/concept-glossary-terms/jitter.ko.md"
+--8<-- "reference/concept-glossary-terms/delayed-reward.ko.md"
 --8<-- "reference/concept-glossary-terms/direct-lineage.ko.md"
+--8<-- "reference/concept-glossary-terms/local-pattern.ko.md"
 --8<-- "reference/concept-glossary-terms/aggregation.ko.md"

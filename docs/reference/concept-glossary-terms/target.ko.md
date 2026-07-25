@@ -1,3 +1,5 @@
+<a id="target"></a>
+
 <a id="glossary-sample"></a>
 
 ### 타깃(target)

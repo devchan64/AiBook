@@ -3,6 +3,9 @@
 --8<-- "reference/concept-glossary-terms/bert.ko.md"
 
 
+--8<-- "reference/concept-glossary-terms/bayes-rule.ko.md"
+
+
 --8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.ko.md"
 
 
@@ -11,7 +14,11 @@
 
 --8<-- "reference/concept-glossary-terms/loop.ko.md"
 
+--8<-- "reference/concept-glossary-terms/summation-index.ko.md"
+
 --8<-- "reference/concept-glossary-terms/return-value.ko.md"
+
+--8<-- "reference/concept-glossary-terms/directional-derivative.ko.md"
 
 --8<-- "reference/concept-glossary-terms/discovery.ko.md"
 
@@ -35,15 +42,29 @@
 
 --8<-- "reference/concept-glossary-terms/legend.ko.md"
 
+--8<-- "reference/concept-glossary-terms/category.ko.md"
+
 --8<-- "reference/concept-glossary-terms/vector-space.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector-database.ko.md"
+
+--8<-- "reference/concept-glossary-terms/vector-search.ko.md"
+
+--8<-- "reference/concept-glossary-terms/vector-addition.ko.md"
+
+--8<-- "reference/concept-glossary-terms/vector-field.ko.md"
+
+--8<-- "reference/concept-glossary-terms/vector-calculus.ko.md"
+
+--8<-- "reference/concept-glossary-terms/vector-position.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vectorization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/variable.ko.md"
+
+--8<-- "reference/concept-glossary-terms/transformative-use.ko.md"
 
 --8<-- "reference/concept-glossary-terms/rate-of-change.ko.md"
 
@@ -54,6 +75,10 @@
 
 --8<-- "reference/concept-glossary-terms/hold-state.ko.md"
 
+--8<-- "reference/concept-glossary-terms/report.ko.md"
+
+--8<-- "reference/concept-glossary-terms/report-limit.ko.md"
+
 --8<-- "reference/concept-glossary-terms/reward.ko.md"
 
 --8<-- "reference/concept-glossary-terms/security.ko.md"
@@ -62,6 +87,8 @@
 
 
 --8<-- "reference/concept-glossary-terms/copy.ko.md"
+
+--8<-- "reference/concept-glossary-terms/relearning.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/partial-observability.ko.md"

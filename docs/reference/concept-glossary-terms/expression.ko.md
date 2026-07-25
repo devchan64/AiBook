@@ -7,4 +7,3 @@
 - 함께 볼 개념: `변수(variable)`, `함수(function)`, `출력(output)`
 - 중심 Section: `P2-2.1`
 - 등장 Section: `P2-3.1`
-

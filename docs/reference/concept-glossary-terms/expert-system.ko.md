@@ -7,4 +7,3 @@
 - 함께 볼 개념: `규칙 기반 시스템(rule-based system)`, `지식 획득(knowledge acquisition)`, `추론 엔진(inference engine)`
 - 중심 Section: `P1-3.1`
 - 등장 Section: `P1-2.1`, `P1-2.2`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `데이터셋(dataset)`, `샘플(sample)`, `비교 리포트(comparison report)`, `출력 구조(output structure)`, `문제 정의(task definition)`
 - 중심 Section: `P3-1.1`
 - 등장 Section: `P3-index`, `P3-1.2`, `P3-1.3`, `P3-2.1`, `P3-2.2`, `P3-3.1`, `P3-3.2`, `P3-summary`
-

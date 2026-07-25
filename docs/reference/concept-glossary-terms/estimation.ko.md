@@ -7,4 +7,3 @@
 - 함께 볼 개념: `모집단(population)`, `표본(sample)`, `오차(error)`
 - 중심 Section: `P2-5.3`
 - 등장 Section: `P2-5.4`, `P2-6.1`
-

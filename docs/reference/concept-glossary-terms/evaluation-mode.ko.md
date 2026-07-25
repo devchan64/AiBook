@@ -7,4 +7,3 @@
 - 함께 볼 개념: `학습(training)`, `학습 모드(training mode)`, `테스트(test)`
 - 중심 Section: `P5-6.4`
 - 등장 Section: `P5-8.2`
-

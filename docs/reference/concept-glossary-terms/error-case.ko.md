@@ -7,4 +7,3 @@
 - 함께 볼 개념: `검토 대상(review target)`, `구조 계열 가설(structural hypothesis)`, `실패 유형(failure type)`, `평가(evaluation)`, `회고(retrospective)`
 - 중심 Section: `P7-2.1`
 - 등장 Section: `P7-2.3`, `P7-3.2`, `P7-4.2`, `P7-summary`
-

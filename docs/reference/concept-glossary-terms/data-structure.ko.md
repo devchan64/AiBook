@@ -7,4 +7,3 @@
 - 함께 볼 개념: `추상 자료형(abstract data type)`, `선형 구조(linear structure)`, `비선형 구조(non-linear structure)`
 - 중심 Section: `P2-9.1`
 - 등장 Section: `P2-9.2`, `P2-9.3`, `P2-9.4`
-

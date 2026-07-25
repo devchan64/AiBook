@@ -7,4 +7,3 @@
 - 함께 볼 개념: `ndarray`, `넘파이(NumPy)`, `shape`
 - 중심 Section: `P2-11.1`
 - 등장 Section: `P2-11.2`, `P2-12.1`, `P2-12.2`
-

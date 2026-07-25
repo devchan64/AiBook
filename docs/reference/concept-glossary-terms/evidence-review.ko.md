@@ -7,4 +7,3 @@
 - 함께 볼 개념: `검토(review)`, `근거(evidence)`, `출처 추적(provenance)`, `사실성(factuality)`, `최신성(recency)`
 - 중심 Section: `P1-16.1`
 - 등장 Section: `P1-10.3`, `P1-12.3`, `P1-16.2`, `P7-5.1`, `P7-5.2`
-

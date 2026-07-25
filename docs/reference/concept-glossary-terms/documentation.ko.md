@@ -7,4 +7,3 @@
 - 함께 볼 개념: `개인 학습(personal learning)`, `근거 확인(evidence review)`, `기록(record)`
 - 중심 Section: `P1-16.1`
 - 등장 Section: `P1-16.2`, `P7-7.1`, `P7-7.2`
-

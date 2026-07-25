@@ -7,4 +7,3 @@
 - 함께 볼 개념: `실패(failure)`, `평가(evaluation)`, `사건 기록(incident record)`, `다음 행동(next action)`, `프로젝트(project)`
 - 중심 Section: `P1-16.3`
 - 등장 Section: `P7-2.3`, `P7-7.2`
-

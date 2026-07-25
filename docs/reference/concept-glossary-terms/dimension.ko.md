@@ -7,4 +7,3 @@
 - 함께 볼 개념: `벡터(vector)`, `shape`, `행렬(matrix)`
 - 중심 Section: `P2-3.2`
 - 등장 Section: `P2-3.3`, `P2-11.1`, `P2-11.2`
-

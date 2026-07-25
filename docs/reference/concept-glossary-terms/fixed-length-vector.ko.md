@@ -7,4 +7,3 @@
 - 함께 볼 개념: `인코더-디코더(Encoder-Decoder)`, `어텐션(Attention)`, `벡터(vector)`
 - 중심 Section: `P1-11.2`
 - 등장 Section: `P1-9.3`, `P1-11.3`
-

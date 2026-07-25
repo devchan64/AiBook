@@ -7,4 +7,3 @@
 - 함께 볼 개념: `트리(tree)`, `과적합(overfitting)`, `분기(split)`
 - 중심 Section: `P4-14.1`
 - 등장 Section: `P4-14.2`
-

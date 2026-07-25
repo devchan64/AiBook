@@ -34,6 +34,8 @@
 
 --8<-- "reference/concept-glossary-terms/trace.ko.md"
 
+--8<-- "reference/concept-glossary-terms/attribution.ko.md"
+
 --8<-- "reference/concept-glossary-terms/estimation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/recommendation.ko.md"
@@ -43,6 +45,8 @@
 --8<-- "reference/concept-glossary-terms/output-structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/output-format.ko.md"
+
+--8<-- "reference/concept-glossary-terms/output-definition.ko.md"
 
 --8<-- "reference/concept-glossary-terms/output.ko.md"
 

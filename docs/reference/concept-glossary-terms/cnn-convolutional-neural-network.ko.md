@@ -7,4 +7,3 @@
 - 함께 볼 개념: `이미지 인식(image recognition)`, `학습된 표현(learned representation)`, `알렉스넷(AlexNet)`
 - 중심 Section: `P1-9.1`
 - 등장 Section: `P5-11.1`, `P5-11.2`, `P5-11.3`
-

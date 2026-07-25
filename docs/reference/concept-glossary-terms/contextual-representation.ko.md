@@ -7,4 +7,3 @@
 - 함께 볼 개념: `임베딩(embedding)`, `BERT`, `인코더(encoder)`
 - 중심 Section: `P1-11.3`
 - 등장 Section: `P6-20.1`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `배포(deployment)`, `상태 점검(status inspection)`, `사건 기록(incident record)`, `검토(review)`, `최신성(recency)`
 - 중심 Section: `P7-7.1`
 - 등장 Section: `P7-7.2`, `P7-7.3`
-

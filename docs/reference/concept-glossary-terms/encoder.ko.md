@@ -7,4 +7,3 @@
 - 함께 볼 개념: `디코더(decoder)`, `인코더-디코더(Encoder-Decoder)`, `문맥적 표현(contextual representation)`
 - 중심 Section: `P1-11.3`
 - 등장 Section: `P1-11.2`, `P6-20.1`, `P6-20.2`
-

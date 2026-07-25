@@ -7,4 +7,3 @@
 - 함께 볼 개념: `재현성(reproducibility)`, `배포(deployment)`, `Git`
 - 중심 Section: `P2-14.2`
 - 등장 Section: `P7-7.1`, `P7-7.2`
-

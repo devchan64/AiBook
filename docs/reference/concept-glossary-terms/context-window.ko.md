@@ -7,4 +7,3 @@
 - 함께 볼 개념: `토큰(token)`, `토큰화(tokenization)`, `검색 증강 생성(retrieval-augmented generation, RAG)`
 - 중심 Section: `P6-4.2`
 - 등장 Section: `P6-2.1`
-

@@ -7,4 +7,3 @@
 - 함께 볼 개념: `실행 요약(execution summary)`, `비교표(comparison table)`, `회고(retrospective)`, `요청 실행 기록(run record)`, `검토(review)`
 - 중심 Section: `P7-index`
 - 등장 Section: `P7-1.1`, `P7-2.1`, `P7-7.1`, `P7-summary`
-

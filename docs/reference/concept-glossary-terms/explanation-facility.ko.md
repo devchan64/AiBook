@@ -7,4 +7,3 @@
 - 함께 볼 개념: `규칙 기반 시스템(rule-based system)`, `추론 엔진(inference engine)`, `사실(fact)`
 - 중심 Section: `P1-3.1`
 - 등장 Section: `P1-2.1`
-
