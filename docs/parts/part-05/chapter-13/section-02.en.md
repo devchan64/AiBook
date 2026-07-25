@@ -11,7 +11,7 @@ The core answer to this question is self-attention.
 
 Self-attention is a method in which each token inside a sequence refers to other tokens in the same sequence and recalculates its current representation.
 
-When you need to briefly confirm again the core mechanism right before the Transformer, return to the glossary entry on [self-attention](/AiBook/reference/concept-glossary-parts/07-siot/#self-attention).
+When you need to briefly confirm again the core mechanism right before the Transformer, return to the glossary entry on [self-attention](/AiBook/en/reference/concept-glossary-alpha/s/#self-attention).
 
 ## The Question Of How Self-Attention Rereads The Same Sequence
 

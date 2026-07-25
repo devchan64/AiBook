@@ -1,8 +1,6 @@
 # Concept Glossary
 
-The project keeps one shared concept glossary as the canonical source of truth. For English readers, glossary terms are also split into lightweight alphabetical index pages.
-
-Use the alphabetical pages below to find an English term and jump to the canonical shared entry.
+This is the English entry point for the concept glossary. Use the alphabetical pages below to open the page for a term's first letter and read the entries directly there.
 
 ## Alphabetical Index
 
@@ -33,8 +31,6 @@ Use the alphabetical pages below to find an English term and jump to the canonic
 - [Y](concept-glossary-alpha/y.md) (1)
 - [Z](concept-glossary-alpha/z.md)
 
-## Shared Glossary
+## English Glossary Pages
 
-- [Korean consonant index](concept-glossary.md)
-
-When English pages refer to glossary terms, treat the shared glossary and its common `Section ID` references as the canonical anchor.
+English glossary links should stay inside the English glossary path, and glossary entries should be written for English readers without requiring Korean term labels.

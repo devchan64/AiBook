@@ -1,0 +1,8 @@
+<a id="context"></a>
+
+## context
+
+- Meaning: Context is the background information, document material, and situation provided so a task or response can be interpreted correctly. It changes how the same instruction should be read.
+- Why it matters: The same request can produce different useful answers depending on the audience, source material, and scope included as context. Context selection is therefore a design choice in prompting, RAG, and long-document work.
+- Related concepts: `prompt`, `instruction`, `example`
+- Core Section: `P1-12.1`

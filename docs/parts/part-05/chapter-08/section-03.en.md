@@ -13,7 +13,7 @@ To answer this question, it is better not to memorize initialization, numerical 
 
 Initialization sets the starting point where learning begins, numerical stability is the standard for checking whether values and gradients become too large or too small during computation, and batch normalization is the device that organizes activation distributions into a range that is easier to handle during learning.
 
-When this axis becomes blurry again, it helps to reread together the glossary entries for [training mode](/AiBook/reference/concept-glossary-parts/14-hieut/#training-mode), [batch normalization](/AiBook/reference/concept-glossary-parts/06-bieup/#batch-normalization), [initialization](/AiBook/reference/concept-glossary-parts/11-chieut/#initialization), and [numerical stability](/AiBook/reference/concept-glossary-parts/07-siot/#numerical-stability).
+When this axis becomes blurry again, it helps to reread together the glossary entries for [training mode](/AiBook/en/reference/concept-glossary-alpha/t/#training-mode), [batch normalization](/AiBook/en/reference/concept-glossary-alpha/b/#batch-normalization), [initialization](/AiBook/en/reference/concept-glossary-alpha/i/#initialization), and [numerical stability](/AiBook/en/reference/concept-glossary-alpha/n/#numerical-stability).
 
 ## The Question Of Why Deep Computation Shakes
 

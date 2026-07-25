@@ -11,7 +11,7 @@ The concept that answers this question is long-term dependency.
 
 Long-term dependency means a problem where information from far earlier matters for the current judgment, but the model cannot maintain or pass that information forward for long enough.
 
-When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](/AiBook/reference/concept-glossary-parts/09-jieut/#long-term-dependency).
+When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](/AiBook/en/reference/concept-glossary-alpha/l/#long-term-dependency).
 
 ## The Question Of How Long-Term Dependencies Shape Current Decisions
 

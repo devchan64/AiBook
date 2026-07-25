@@ -11,7 +11,7 @@ The answer is no.
 
 The loss function changes by problem type, because regression, classification, and generation each have a different shape of wrongness.
 
-When the standards for reading loss differently by problem type start to get mixed together again, return to the [loss function](/AiBook/reference/concept-glossary-parts/07-siot/#loss-function) entry in the concept glossary.
+When the standards for reading loss differently by problem type start to get mixed together again, return to the [loss function](/AiBook/en/reference/concept-glossary-alpha/l/#loss-function) entry in the concept glossary.
 
 ## The Question Where Problem Type Changes The Loss
 

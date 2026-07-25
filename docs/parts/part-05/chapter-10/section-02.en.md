@@ -9,7 +9,7 @@ Then in a deep neural network, how do we say the representations change as the l
 
 As layers get deeper, representations usually move from more local and simple patterns toward more abstract patterns that are closer to the task.
 
-When you need to confirm again how to read the claim that representations change as layers get deeper, return to the glossary entry on [representation](/AiBook/reference/concept-glossary-parts/13-pieup/#representation).
+When you need to confirm again how to read the claim that representations change as layers get deeper, return to the glossary entry on [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation).
 
 ## The Question Of How Deep Layers Change Representations
 

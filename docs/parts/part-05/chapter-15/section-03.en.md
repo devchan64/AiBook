@@ -9,7 +9,7 @@ If a generative model can produce several plausible answers, how does it actuall
 
 Sampling is the process by which the model takes out one actual output at a time from several candidates it judged plausible, and this method directly affects the diversity and stability of the result.
 
-When the model’s scores and the actual output choice need to be separated again, reread the glossary entry on [sampling](/AiBook/reference/concept-glossary-parts/07-siot/#sampling).
+When the model’s scores and the actual output choice need to be separated again, reread the glossary entry on [sampling](/AiBook/en/reference/concept-glossary-alpha/s/#sampling).
 
 ## Candidate Distributions And Actual Output Choice Are Different
 

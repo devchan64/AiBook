@@ -9,7 +9,7 @@ In P5-14.2, we saw that layer normalization organizes the value range inside a T
 
 In a Transformer block, layer normalization is not a device that chooses new meaning. It adjusts the mean and spread of the values inside one position representation so that they lie on a baseline that is easier for the next computation to handle.
 
-When the terminology begins to scatter again, revisit the [layer normalization](/AiBook/reference/concept-glossary-parts/04-rieul/#layer-normalization) entry in the concept glossary together with the four-part role split from P5-14.2.
+When the terminology begins to scatter again, revisit the [layer normalization](/AiBook/en/reference/concept-glossary-alpha/l/#layer-normalization) entry in the concept glossary together with the four-part role split from P5-14.2.
 
 ## What It Means for the Value Baseline to Shake
 

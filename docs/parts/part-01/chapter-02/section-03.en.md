@@ -32,13 +32,13 @@ This section is the representative place where the shift of the explanatory cent
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [data](/AiBook/reference/concept-glossary-parts/03-digeut/#data) | the material for learning and judgment | to see what the model learns criteria from instead of hand-written rules |
-| [feature](/AiBook/reference/concept-glossary-parts/12-tieut/#feature) | a clue that people organize or select first | to understand what kind of input representation early machine learning depends on |
-| [representation](/AiBook/reference/concept-glossary-parts/13-pieup/#representation) | the internal form handled inside the model | to see why deep learning is explained as representation learning |
-| [parameter](/AiBook/reference/concept-glossary-parts/13-pieup/#parameter) | an internal value adjusted through learning | to fix what learning actually changes |
-| [machine learning](/AiBook/reference/concept-glossary-parts/05-mieum/#machine-learning) | a learning approach that improves performance from data | to understand why the center moved from writing rules to training models |
-| [deep learning](/AiBook/reference/concept-glossary-parts/03-digeut/#deep-learning) | a neural-network-based approach that strongly uses representation learning | to understand the move from feature design toward representation learning |
-| [generative AI](/AiBook/reference/concept-glossary-parts/07-siot/#aigenerative-ai) | a category of models and services that produce new content | to see how far the recent flow extends |
+| [data](/AiBook/en/reference/concept-glossary-alpha/d/#data) | the material for learning and judgment | to see what the model learns criteria from instead of hand-written rules |
+| [feature](/AiBook/en/reference/concept-glossary-alpha/f/#feature) | a clue that people organize or select first | to understand what kind of input representation early machine learning depends on |
+| [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation) | the internal form handled inside the model | to see why deep learning is explained as representation learning |
+| [parameter](/AiBook/en/reference/concept-glossary-alpha/p/#parameter) | an internal value adjusted through learning | to fix what learning actually changes |
+| [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) | a learning approach that improves performance from data | to understand why the center moved from writing rules to training models |
+| [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning) | a neural-network-based approach that strongly uses representation learning | to understand the move from feature design toward representation learning |
+| [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai) | a category of models and services that produce new content | to see how far the recent flow extends |
 
 ## Main Learning Points
 

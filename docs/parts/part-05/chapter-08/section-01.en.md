@@ -11,7 +11,7 @@ One of the core concepts that answers this question is regularization. Chapter 8
 
 Regularization is the idea of adding constraints or costs to the learning process so that the model does not fit the training data too aggressively.
 
-When you need to distinguish overfitting control from normalization again, return to the glossary entry on [regularization](/AiBook/reference/concept-glossary-parts/09-jieut/#regularization).
+When you need to distinguish overfitting control from normalization again, return to the glossary entry on [regularization](/AiBook/en/reference/concept-glossary-alpha/r/#regularization).
 
 ## The Question Regularization Adds To The Objective Function
 

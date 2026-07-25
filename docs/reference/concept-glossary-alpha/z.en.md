@@ -1,5 +1,3 @@
 # Concept Glossary: Z
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
-
-No indexed terms yet.
+This page lists English glossary entries for this letter directly. Terms are written as entries on this page instead of linking out to a separate glossary page.

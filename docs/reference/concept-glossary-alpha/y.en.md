@@ -1,5 +1,7 @@
 # Concept Glossary: Y
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
-- [YOLO](/AiBook/reference/concept-glossary-parts/08-ieung/#yolo) — 욜로 — Core Section: `P1-9.2`
+<a id="yolo"></a>
+
+--8<-- "reference/concept-glossary-terms/yolo.en.md"

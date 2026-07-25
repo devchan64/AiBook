@@ -31,11 +31,11 @@ This section is the representative place where a rule-based system is read as an
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [rule-based system](/AiBook/reference/concept-glossary-parts/01-giyeok/#rule-based-system) | a system that compares current facts against rules to determine a conclusion or action | to make the evaluation target itself explicit |
-| [fact](/AiBook/reference/concept-glossary-parts/07-siot/#fact) | state information treated as true in the current situation | to see what the rules are applied to |
-| [knowledge base](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-base) | the structure that collects facts, rules, and domain knowledge | to see where the rule set is stored |
-| [inference engine](/AiBook/reference/concept-glossary-parts/11-chieut/#inference-engine) | the mechanism that finds and applies rules matching the current facts | to see how a conclusion is actually produced |
-| [explanation facility](/AiBook/reference/concept-glossary-parts/07-siot/#explanation-facility) | the function that shows which rules caused the result | to fix explainability, one of the main strengths of rule-based systems |
+| [rule-based system](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-system) | a system that compares current facts against rules to determine a conclusion or action | to make the evaluation target itself explicit |
+| [fact](/AiBook/en/reference/concept-glossary-alpha/f/#fact) | state information treated as true in the current situation | to see what the rules are applied to |
+| [knowledge base](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-base) | the structure that collects facts, rules, and domain knowledge | to see where the rule set is stored |
+| [inference engine](/AiBook/en/reference/concept-glossary-alpha/i/#inference-engine) | the mechanism that finds and applies rules matching the current facts | to see how a conclusion is actually produced |
+| [explanation facility](/AiBook/en/reference/concept-glossary-alpha/e/#explanation-facility) | the function that shows which rules caused the result | to fix explainability, one of the main strengths of rule-based systems |
 
 ## Three Standards
 

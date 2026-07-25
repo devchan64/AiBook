@@ -30,10 +30,10 @@ This section is the representative place in Chapter 2 where the role difference 
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [search](/AiBook/reference/concept-glossary-parts/01-giyeok/#search) | an approach that follows possible states and actions to find a goal | to see why candidate order becomes a problem when there are too many options |
-| [knowledge representation](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-representation) | a format for writing facts, relations, and constraints | to separate the question of what the system should count as knowledge |
-| [probabilistic reasoning](/AiBook/reference/concept-glossary-parts/14-hieut/#probabilistic-reasoning) | a way to handle plausibility under incomplete information | to read judgments that do not close into simple true or false form |
-| [goal](/AiBook/reference/concept-glossary-parts/05-mieum/#goal) | the condition to be reached | to see what tells search where to stop |
+| [search](/AiBook/en/reference/concept-glossary-alpha/s/#search) | an approach that follows possible states and actions to find a goal | to see why candidate order becomes a problem when there are too many options |
+| [knowledge representation](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-representation) | a format for writing facts, relations, and constraints | to separate the question of what the system should count as knowledge |
+| [probabilistic reasoning](/AiBook/en/reference/concept-glossary-alpha/p/#probabilistic-reasoning) | a way to handle plausibility under incomplete information | to read judgments that do not close into simple true or false form |
+| [goal](/AiBook/en/reference/concept-glossary-alpha/g/#goal) | the condition to be reached | to see what tells search where to stop |
 
 ## Main Learning Points
 

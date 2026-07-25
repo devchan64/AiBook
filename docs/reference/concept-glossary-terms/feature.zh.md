@@ -1,0 +1,10 @@
+<a id="feature"></a>
+
+## 特征
+
+- 含义: 特征是模型用作输入信号或判断依据的值。
+- 为什么重要: 理解它有助于区分数据、建模、评估、提示或系统运行中的具体角色。
+- 相关概念: `representation`, `input`, `parameter`, `feature selection`, `representation learning`
+- 核心 Section: `P1-4.3`
+- 出现 Section: `P1-2.3`, `P1-3.2`, `P1-3.3`, `P3-1.1`, `P3-2.2`, `P3-4.1`, `P3-4.2`, `P3-5.1`, `P3-6.1`, `P3-6.2`, `P3-6.3`, `P3-6.4`, `P5-10.1`
+

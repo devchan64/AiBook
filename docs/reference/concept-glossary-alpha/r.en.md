@@ -1,45 +1,87 @@
 # Concept Glossary: R
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
-- [random](/AiBook/reference/concept-glossary-parts/05-mieum/#random) — 무작위 — Core Section: `P1-6.2`
-- [random forest](/AiBook/reference/concept-glossary-parts/04-rieul/#random-forest) — 랜덤포레스트 — Core Section: `P4-15.1`
-- [ranking](/AiBook/reference/concept-glossary-parts/07-siot/#ranking) — 순위화 — Core Section: `P1-13.2`
-- [rate limit](/AiBook/reference/concept-glossary-parts/04-rieul/#rate-limit) — 레이트 리밋 — Core Section: `P1-14.6`
-- [rate of change](/AiBook/reference/concept-glossary-parts/06-bieup/#rate-of-change) — 변화율 — Core Section: `P2-4.2`
-- [recency](/AiBook/reference/concept-glossary-parts/11-chieut/#recency) — 최신성 — Core Section: `P1-12.3`
-- [recheck](/AiBook/reference/concept-glossary-parts/09-jieut/#recheck) — 재현 확인 — Core Section: `P7-7.3`
-- [recognition](/AiBook/reference/concept-glossary-parts/08-ieung/#recognition) — 인식 — Core Section: `P1-1.2`
-- [recommendation](/AiBook/reference/concept-glossary-parts/11-chieut/#recommendation) — 추천 — Core Section: `P1-1.2`
-- [redirection](/AiBook/reference/concept-glossary-parts/04-rieul/#redirection) — 리다이렉션 — Core Section: `P2-7.8`
-- [reference](/AiBook/reference/concept-glossary-parts/11-chieut/#reference) — 참조 — Core Section: `P2-8.7`
-- [regression](/AiBook/reference/concept-glossary-parts/14-hieut/#regression) — 회귀 — Core Section: `P1-8.1`
-- [regularization](/AiBook/reference/concept-glossary-parts/09-jieut/#regularization) — 정규화 — Core Section: `P5-8.1`
-- [reinforcement learning](/AiBook/reference/concept-glossary-parts/01-giyeok/#reinforcement-learning) — 강화학습 — Core Section: `P4-2.3`
-- [reinforcement learning agent](/AiBook/reference/concept-glossary-parts/01-giyeok/#reinforcement-learning-agent) — 강화학습 에이전트 — Core Section: `P1-8.3`
-- [repository](/AiBook/reference/concept-glossary-parts/09-jieut/#repository) — 저장소 — Core Section: `P2-14.1`
-- [representation](/AiBook/reference/concept-glossary-parts/13-pieup/#representation) — 표현 — Core Section: `P1-3.3`
-- [representation learning](/AiBook/reference/concept-glossary-parts/13-pieup/#representation-learning) — 표현 학습 — Core Section: `P1-3.3`
-- [reproducibility](/AiBook/reference/concept-glossary-parts/09-jieut/#glossary-intermediate-representation) — 재현성 — Core Section: `P2-7.5`
-- [reproducible record](/AiBook/reference/concept-glossary-parts/09-jieut/#reproducible-record) — 재실행 가능한 기록 — Core Section: `P2-10.3`
-- [requirements.txt](/AiBook/reference/concept-glossary-parts/04-rieul/#requirementstxt) — 리콰이어먼트 파일 — Core Section: `P2-7.5`
-- [residual connection](/AiBook/reference/concept-glossary-parts/09-jieut/#residual-connection) — 잔차 연결 — Core Section: `P5-14.1`
-- [resource](/AiBook/reference/concept-glossary-parts/04-rieul/#resource) — 리소스 — Core Section: `P1-14.4`
-- [result interpretation table](/AiBook/reference/concept-glossary-parts/01-giyeok/#result-interpretation-table) — 결과 해석 표 — Core Section: `P7-1.1`
-- [retrieval-augmented generation, RAG](/AiBook/reference/concept-glossary-parts/01-giyeok/#retrieval-augmented-generation-rag) — 검색 증강 생성 — Core Section: `P1-13.3`
-- [retrospective](/AiBook/reference/concept-glossary-parts/14-hieut/#retrospective) — 회고 — Core Section: `P7-1.2`
-- [retry](/AiBook/reference/concept-glossary-parts/09-jieut/#retry) — 재시도 — Core Section: `P1-14.6`
-- [return value](/AiBook/reference/concept-glossary-parts/06-bieup/#return-value) — 반환값 — Core Section: `P2-8.5`
-- [review](/AiBook/reference/concept-glossary-parts/01-giyeok/#review) — 검토 — Core Section: `P1-10.3`
-- [review queue](/AiBook/reference/concept-glossary-parts/01-giyeok/#review-queue) — 검토 후보 큐 — Core Section: `P3-9.3`
-- [review summary](/AiBook/reference/concept-glossary-parts/01-giyeok/#review-summary) — 검토 요약 — Core Section: `P7-6.2`
-- [review target](/AiBook/reference/concept-glossary-parts/01-giyeok/#review-target) — 검토 대상 — Core Section: `P7-4.2`
-- [review-target sample](/AiBook/reference/concept-glossary-parts/01-giyeok/#review-target-sample) — 검토 대상 샘플 — Core Section: `P7-4.2`
-- [reward](/AiBook/reference/concept-glossary-parts/06-bieup/#reward) — 보상 — Core Section: `P1-8.3`
-- [rights and responsibility](/AiBook/reference/concept-glossary-parts/01-giyeok/#rights-and-responsibility) — 권리와 책임 — Core Section: `P1-10.3`
-- [RNN, recurrent neural network](/AiBook/reference/concept-glossary-parts/07-siot/#rnn-recurrent-neural-network) — 순환 신경망 — Core Section: `P1-11.2`
-- [row](/AiBook/reference/concept-glossary-parts/14-hieut/#row) — 행 — Core Section: `P2-12.1`
-- [rule-based system](/AiBook/reference/concept-glossary-parts/01-giyeok/#rule-based-system) — 규칙 기반 시스템 — Core Section: `P1-3.1`
-- [run record](/AiBook/reference/concept-glossary-parts/08-ieung/#run-record) — 요청 실행 기록 — Core Section: `P6-18.2`
-- [runtime](/AiBook/reference/concept-glossary-parts/07-siot/#runtime) — 실행 환경 — Core Section: `P2-7.1`
-- [runtime state](/AiBook/reference/concept-glossary-parts/04-rieul/#runtime-state) — 런타임 상태 — Core Section: `P2-10.3`
+<a id="random"></a>
+
+--8<-- "reference/concept-glossary-terms/random.en.md"
+
+--8<-- "reference/concept-glossary-terms/random-forest.en.md"
+
+--8<-- "reference/concept-glossary-terms/ranking.en.md"
+
+--8<-- "reference/concept-glossary-terms/rate-limit.en.md"
+
+--8<-- "reference/concept-glossary-terms/rate-of-change.en.md"
+
+--8<-- "reference/concept-glossary-terms/recency.en.md"
+
+--8<-- "reference/concept-glossary-terms/recheck.en.md"
+
+--8<-- "reference/concept-glossary-terms/recognition.en.md"
+
+--8<-- "reference/concept-glossary-terms/recommendation.en.md"
+
+--8<-- "reference/concept-glossary-terms/redirection.en.md"
+
+--8<-- "reference/concept-glossary-terms/reference.en.md"
+
+--8<-- "reference/concept-glossary-terms/regression.en.md"
+
+--8<-- "reference/concept-glossary-terms/regularization.en.md"
+
+--8<-- "reference/concept-glossary-terms/reinforcement-learning.en.md"
+
+--8<-- "reference/concept-glossary-terms/reinforcement-learning-agent.en.md"
+
+--8<-- "reference/concept-glossary-terms/repository.en.md"
+
+--8<-- "reference/concept-glossary-terms/representation.en.md"
+
+--8<-- "reference/concept-glossary-terms/representation-learning.en.md"
+
+--8<-- "reference/concept-glossary-terms/reproducibility.en.md"
+
+--8<-- "reference/concept-glossary-terms/reproducible-record.en.md"
+
+--8<-- "reference/concept-glossary-terms/requirements-file.en.md"
+
+--8<-- "reference/concept-glossary-terms/residual-connection.en.md"
+
+--8<-- "reference/concept-glossary-terms/resource.en.md"
+
+--8<-- "reference/concept-glossary-terms/result-interpretation-table.en.md"
+
+--8<-- "reference/concept-glossary-terms/retrieval-augmented-generation-rag.en.md"
+
+--8<-- "reference/concept-glossary-terms/retrospective.en.md"
+
+--8<-- "reference/concept-glossary-terms/retry.en.md"
+
+--8<-- "reference/concept-glossary-terms/return-value.en.md"
+
+--8<-- "reference/concept-glossary-terms/review.en.md"
+
+--8<-- "reference/concept-glossary-terms/review-queue.en.md"
+
+--8<-- "reference/concept-glossary-terms/review-summary.en.md"
+
+--8<-- "reference/concept-glossary-terms/review-target.en.md"
+
+--8<-- "reference/concept-glossary-terms/review-target-sample.en.md"
+
+--8<-- "reference/concept-glossary-terms/reward.en.md"
+
+--8<-- "reference/concept-glossary-terms/rights-and-responsibility.en.md"
+
+--8<-- "reference/concept-glossary-terms/recurrent-neural-network.en.md"
+
+--8<-- "reference/concept-glossary-terms/row.en.md"
+
+--8<-- "reference/concept-glossary-terms/rule-based-system.en.md"
+
+--8<-- "reference/concept-glossary-terms/run-record.en.md"
+
+--8<-- "reference/concept-glossary-terms/runtime.en.md"
+
+--8<-- "reference/concept-glossary-terms/runtime-state.en.md"

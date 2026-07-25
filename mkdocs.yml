@@ -16,6 +16,7 @@ not_in_nav: |
   reference/concept-glossary-entries/*.md
   reference/concept-glossary-parts/*.md
   reference/concept-glossary-pinyin/*.zh.md
+  reference/concept-glossary-terms/*.md
   reference/concept-glossary-zh-index.zh.md
   *.en.md
   *.zh.md
