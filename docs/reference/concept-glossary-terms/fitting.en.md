@@ -6,5 +6,3 @@
 - Why it matters: This concept helps readers distinguish a specific role in data, modeling, evaluation, prompting, or system operation instead of treating nearby terms as interchangeable.
 - Related concepts: `training`, `inference`, `model`
 - Core Section: `P1-5.1`
-
---8<-- "reference/concept-glossary-terms/expert-system.ko.md"

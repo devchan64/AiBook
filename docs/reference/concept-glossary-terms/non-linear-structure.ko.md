@@ -7,5 +7,3 @@
 - 함께 볼 개념: `선형 구조(linear structure)`, `트리(tree)`, `그래프(graph)`
 - 중심 Section: `P2-9.1`
 - 등장 Section: `P2-9.4`
-
---8<-- "reference/concept-glossary-terms/cost.ko.md"

@@ -8,5 +8,3 @@
 - 중심 Section: `P2-9.3`
 - 등장 Section: `P2-9.4`, `P4-14.1`
 
---8<-- "reference/concept-glossary-terms/backpropagation.ko.md"
-

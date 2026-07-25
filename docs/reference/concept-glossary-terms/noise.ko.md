@@ -6,7 +6,3 @@
 - 왜 중요한가: 규칙이나 모델이 모두 입력 품질의 한계를 그대로 받기 때문에, 관측값과 실제 상태를 구분해 읽는 기준이 되기 때문입니다. 이 개념이 있어야 모델이 틀렸다는 사실만 보고 곧바로 규칙이나 구조 문제로 단정하지 않고, 입력 자체가 흔들렸는지부터 따로 점검하게 됩니다. 예를 들어 센서의 작은 흔들림이나 우연한 오탈자는 표면적으로는 데이터지만, 그대로 따라가면 모델이 중요한 규칙 대신 흔들림 자체를 배우게 될 수 있습니다. 결국 잡음을 이해해야 `데이터가 많다`와 `의미 있는 신호가 많다`를 같은 말로 보지 않게 됩니다.
 - 함께 볼 개념: `불확실성(uncertainty)`, `부분 관측(partial observability)`, `오차(error)`
 - 중심 Section: `P1-6.1`
-
---8<-- "reference/concept-glossary-terms/long-term-dependency.ko.md"
-
---8<-- "reference/concept-glossary-terms/lstm-long-short-term-memory.ko.md"

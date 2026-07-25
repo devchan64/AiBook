@@ -7,13 +7,5 @@
 - 함께 볼 개념: `무작위(random)`, `확률적 과정(stochastic process)`, `불확실성(uncertainty)`
 - 중심 Section: `P1-6.2`
 
---8<-- "reference/concept-glossary-terms/comparison-result.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/comparison-report.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/comparison-table.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/confidential-information.ko.md"

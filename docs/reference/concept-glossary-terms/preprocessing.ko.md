@@ -5,5 +5,3 @@
 - 함께 볼 개념: `특징(feature)`, `특징 선택(feature selection)`, `데이터 누수(data leakage)`
 - 중심 Section: `P4-7.2`
 - 등장 Section: `P4-7.3`, `P4-9.2`, `P4-12.2`
-
---8<-- "reference/concept-glossary-terms/brute-force-search.ko.md"

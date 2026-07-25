@@ -6,5 +6,3 @@
 - Why it matters: One good-looking output is not enough to judge quality. Consistency asks whether similar inputs receive decisions based on the same standard, which is especially important for generative AI evaluation and repeated use.
 - Related concepts: `evaluation`, `reproducibility`, `limit of prompting`, `quality`, `human evaluation`
 - Core Section: `P1-12.3`
-
---8<-- "reference/concept-glossary-terms/generalization.ko.md"

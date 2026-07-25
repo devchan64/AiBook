@@ -12,6 +12,13 @@
 
 --8<-- "reference/concept-glossary-terms/next-action.ko.md"
 
+--8<-- "reference/concept-glossary-terms/multilayer-neural-network.ko.md"
+--8<-- "reference/concept-glossary-terms/assignment.ko.md"
+--8<-- "reference/concept-glossary-terms/conversational-llm.ko.md"
+--8<-- "reference/concept-glossary-terms/interactive-mode.ko.md"
+--8<-- "reference/concept-glossary-terms/data-leakage.ko.md"
+--8<-- "reference/concept-glossary-terms/data-modeling.ko.md"
+
 --8<-- "reference/concept-glossary-terms/sparsity.ko.md"
 
 --8<-- "reference/concept-glossary-terms/data.ko.md"

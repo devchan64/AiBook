@@ -7,5 +7,3 @@
 - 함께 볼 개념: `유사도 검색(similarity search)`, `거리(distance)`, `상위 k개(top-k)`
 - 중심 Section: `P1-13.2`
 - 등장 Section: `P1-13.4`, `P7-2.1`, `P7-2.2`
-
---8<-- "reference/concept-glossary-terms/least-privilege.ko.md"

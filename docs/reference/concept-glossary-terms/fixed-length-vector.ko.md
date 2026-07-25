@@ -8,5 +8,3 @@
 - 중심 Section: `P1-11.2`
 - 등장 Section: `P1-9.3`, `P1-11.3`
 
---8<-- "reference/concept-glossary-terms/excessive-agency.ko.md"
-

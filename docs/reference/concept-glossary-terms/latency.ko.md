@@ -7,5 +7,3 @@
 - 함께 볼 개념: `비용(cost)`, `처리량(throughput)`, `스트리밍(streaming)`, `재시도(retry)`
 - 중심 Section: `P1-14.6`
 - 등장 Section: `P1-14.5`
-
---8<-- "reference/concept-glossary-terms/indicator.ko.md"

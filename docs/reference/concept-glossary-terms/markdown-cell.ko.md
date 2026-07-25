@@ -7,5 +7,3 @@
 - 함께 볼 개념: `노트북(notebook)`, `코드 셀(code cell)`, `출력(output)`
 - 중심 Section: `P2-10.1`
 - 등장 Section: `P2-10.3`
-
---8<-- "reference/concept-glossary-terms/corpus.ko.md"

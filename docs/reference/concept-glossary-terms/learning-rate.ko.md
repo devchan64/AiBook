@@ -8,10 +8,4 @@
 - 중심 Section: `P2-6.3`
 - 등장 Section: `P5-7.1`, `P5-7.2`, `P5-7.3`
 
---8<-- "reference/concept-glossary-terms/function-calling.ko.md"
 
-
---8<-- "reference/concept-glossary-terms/function.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/interpretation.ko.md"

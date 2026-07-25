@@ -7,6 +7,3 @@
 - 相关概念: `scenario`, `indicator`, `prediction`
 - 核心 Section: `P1-17.1`
 - 出现 Section: `P1-17.3`
-
---8<-- "reference/concept-glossary-terms/derivative.ko.md"
-

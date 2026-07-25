@@ -7,6 +7,3 @@
 - 相关概念: `graph`, `node`, `weight`
 - 核心 Section: `P2-9.3`
 - 出现 Section: `P2-9.4`, `P4-14.1`
-
---8<-- "reference/concept-glossary-terms/backpropagation.ko.md"
-

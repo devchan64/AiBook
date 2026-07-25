@@ -7,9 +7,3 @@
 - 함께 볼 개념: `confabulation`, `근거(evidence)`, `검토(review)`, `사실성(factuality)`, `프롬프트의 한계(limit of prompting)`
 - 중심 Section: `P1-12.3`
 - 등장 Section: `P1-10.3`
-
---8<-- "reference/concept-glossary-terms/environment-variable.ko.md"
-
---8<-- "reference/concept-glossary-terms/environment.ko.md"
-
---8<-- "reference/concept-glossary-terms/exploitation.ko.md"

@@ -5,7 +5,3 @@
 - 함께 볼 개념: `과적합(overfitting)`, `일반화(generalization)`, `드롭아웃(dropout)`
 - 중심 Section: `P5-8.1`
 - 등장 Section: `P5-8.2`
-
---8<-- "reference/concept-glossary-terms/alignment.ko.md"
-
---8<-- "reference/concept-glossary-terms/information-retrieval.ko.md"

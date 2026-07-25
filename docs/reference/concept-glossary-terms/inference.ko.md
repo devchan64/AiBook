@@ -7,5 +7,3 @@
 - 함께 볼 개념: `추론 엔진(inference engine)`, `학습(training)`, `예측(prediction)`, `생성(generation)`
 - 중심 Section: `P1-5.3`
 - 등장 Section: `P1-2.1`, `P1-3.2`, `P1-5.2`, `P5-6.1`, `P5-6.3`
-
---8<-- "reference/concept-glossary-terms/abstract-data-type.ko.md"

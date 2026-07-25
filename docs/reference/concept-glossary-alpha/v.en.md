@@ -1,133 +1,31 @@
 # Concept Glossary: V
 
-This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
+This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
 <a id="glossary-review-queue"></a>
 
-## validation
+--8<-- "reference/concept-glossary-terms/validation.en.md"
 
-- Meaning: 여러 설정이나 전처리 선택을 비교 점검하기 위해 학습 과정 중간에 따로 확인하는 데이터 또는 절차입니다. 학습 자체를 위한 데이터와, 설정을 고르기 위한 확인 단계를 분리해 두는 역할을 맡습니다.
-- Why it matters: 학습에 직접 쓴 데이터만으로 판단하면 과적합을 놓치기 쉬워, 설정을 고르는 단계와 마지막 테스트 단계를 분리해 읽어야 하기 때문입니다. 그래서 검증은 `모델을 고르는 자리`에 더 가깝고, 테스트는 `최종 확인 자리`에 더 가깝습니다. 이 개념이 있어야 학습 도중 점수를 계속 보는 일이 곧 정답 유출은 아니라는 점과, 반대로 검증 점수에 맞춰 지나치게 반복 조정하면 또 다른 과적합이 생길 수 있다는 점도 함께 이해하게 됩니다. 또한 검증은 `한 번만 보는 의식`이 아니라, 하이퍼파라미터와 전처리 선택을 비교하는 반복 판단 지점이라는 점도 붙잡게 됩니다.
-- Related concepts: `test`, `data leakage`, `generalization`, `evaluation`
-- Core Section: `P4-4.2`
-- Appears in: `P2-12.3`, `P4-4.1`, `P4-9.2`, `P4-15.3`
+--8<-- "reference/concept-glossary-terms/value.en.md"
 
-<a id="value"></a>
+--8<-- "reference/concept-glossary-terms/variable.en.md"
 
-## value
+--8<-- "reference/concept-glossary-terms/variance.en.md"
 
-- Meaning: 계산이 실제로 다루는 데이터 그 자체입니다. 숫자 하나일 수도 있고, 문자열, 리스트, 딕셔너리, 배열, 함수 호출 결과처럼 더 큰 구조일 수도 있습니다. 즉 값은 `이름표`가 아니라, 계산이 실제로 받아서 비교하고 저장하고 바꾸는 대상입니다.
-- Why it matters: 변수는 값을 가리키고, 식은 값을 계산하고, 함수는 값을 받아 새 값을 돌려줍니다. Python과 수식 읽기의 대부분은 결국 `지금 무엇이 값으로 취급되는가`를 구분하는 일에서 시작됩니다. 이 개념이 있어야 이름과 실제 데이터, 계산식과 계산 결과를 분리해 읽게 되고, 같은 값이 여러 이름으로 참조될 수 있다는 점도 더 자연스럽게 이해하게 됩니다. 또한 값을 이해해야 `무엇을 계산하고 있는가`를 이름이 아니라 실제 데이터 층위에서 따라가게 됩니다. 초심자에게는 `변수 이름`과 `그 안에 들어 있는 실제 내용`을 분리해 읽는 첫 기준이기도 합니다.
-- Related concepts: `variable`, `type`, `return value`
-- Core Section: `P2-8.1`
-- Appears in: `P2-8.2`, `P2-8.3`, `P2-8.5`, `P2-8.6`, `P2-12.1`
+--8<-- "reference/concept-glossary-terms/vector.en.md"
 
-<a id="variable"></a>
+--8<-- "reference/concept-glossary-terms/vector-database.en.md"
 
-## variable
+--8<-- "reference/concept-glossary-terms/vector-space.en.md"
 
-- Meaning: 값을 가리키기 위해 붙인 이름입니다. 변수 자체가 값 그 자체라기보다, 현재 어떤 값을 참조하거나 담고 있는 이름표에 가깝습니다. 즉 변수는 데이터를 새로 만드는 것이 아니라, 계산 과정에서 값을 다시 부르고 넘기기 쉽게 붙여 두는 표식입니다.
-- Why it matters: `x`, `loss`, `prediction` 같은 이름이 무엇을 가리키는지 놓치면 수식과 코드를 함께 읽기 어렵습니다. 변수 감각이 있어야 같은 값이 어디서 만들어지고 어디로 전달되는지 추적할 수 있습니다. 이 개념이 있어야 이름표와 실제 데이터를 분리해 읽게 되고, 변수 재할당이나 중간 계산 저장이 왜 필요한지도 더 자연스럽게 이해하게 됩니다. 또한 변수를 이해해야 코드가 길어질수록 `지금 이 이름이 무엇을 가리키는가`를 놓치지 않고 따라갈 수 있습니다. 초심자에게는 `이름이 바뀌었다`와 `값이 바뀌었다`를 구분하는 출발점이기도 합니다.
-- Related concepts: `function`, `expression`, `input`
-- Core Section: `P2-2.1`
-- Appears in: `P2-8.5`, `P2-10.3`
+--8<-- "reference/concept-glossary-terms/vectorization.en.md"
 
-<a id="variance"></a>
+--8<-- "reference/concept-glossary-terms/version-control.en.md"
 
-## variance
+--8<-- "reference/concept-glossary-terms/version-pinning.en.md"
 
-- Meaning: 값들이 평균 주변에서 얼마나 퍼져 있는지를 나타내는 값입니다. 같은 평균을 가진 데이터라도 값들이 중심 근처에 촘촘히 모여 있는지, 멀리 흩어져 있는지를 한 숫자로 요약한 퍼짐의 정도라고 볼 수 있습니다. 즉 분산은 `대표값이 어디쯤인가`와는 다른 질문으로, `그 주변에서 얼마나 흔들리는가`를 수치로 붙잡는 도구입니다.
-- Why it matters: 평균이 같아도 데이터의 퍼짐과 안정성이 다를 수 있음을 드러내기 때문입니다. 이 개념이 있어야 `대표값이 같다`는 사실만으로 두 데이터가 비슷하다고 단정하지 않게 되고, 예측 오차나 성능 점수의 흔들림도 중심값뿐 아니라 퍼짐과 함께 읽어야 한다는 점을 이해하게 됩니다. 또한 분산을 이해해야 평균 하나만 보면 안정적으로 보이는 데이터와, 실제로는 큰 흔들림을 가진 데이터를 구분하게 됩니다. 결국 분산은 `대표값의 위치`만이 아니라 `값들의 안정성`을 함께 보게 만드는 핵심 지표입니다.
-- Related concepts: `mean`, `standard deviation`, `distribution`
-- Core Section: `P2-5.2`
-- Appears in: `P2-5.3`, `P2-5.5`, `P2-13.2`
+--8<-- "reference/concept-glossary-terms/virtual-environment.en.md"
 
-<a id="vector"></a>
+--8<-- "reference/concept-glossary-terms/visualization.en.md"
 
-## vector
-
-- Meaning: 순서가 있는 여러 값을 한 묶음으로 담은 표현입니다. 수학에서는 크기와 방향을 가진 대상으로 읽고, AI 문맥에서는 한 대상을 여러 숫자로 표현한 1차원 수치 묶음이라는 뜻으로 자주 씁니다. 즉 벡터는 여러 숫자를 나열한 목록이면서도, 하나의 대상을 표현하는 통합 단위로 읽어야 합니다.
-- Why it matters: 리스트와 비슷해 보여도 벡터는 단순 보관 구조보다 계산과 표현에 더 가깝기 때문입니다. 특징 벡터, 임베딩 벡터, 그래디언트 벡터처럼 `무엇을 여러 차원 숫자로 나타냈는가`를 읽는 기본 단위가 되고, 같은 차원 수를 가진 벡터끼리는 거리, 방향, 내적 같은 연산으로 비교할 수 있다는 점도 함께 중요합니다. 이 개념이 있어야 AI에서 많은 대상이 결국 `숫자 배열`이 아니라 `비교와 계산이 가능한 표현`으로 다뤄진다는 점을 이해하게 됩니다. 결국 벡터를 이해해야 숫자 여러 개를 `분리된 값들`이 아니라 `하나의 표현`으로 읽게 됩니다.
-- Related concepts: `matrix`, `dimension`, `representation`
-- Core Section: `P2-3.1`
-- Appears in: `P1-3.3`, `P1-4.3`, `P1-13.1`, `P2-3.2`, `P2-3.3`, `P2-4.3`, `P2-11.3`
-
-<a id="vector-database"></a>
-
-## vector database
-
-- Meaning: 임베딩 벡터를 저장하고, 검색 인덱스와 메타데이터, 필터링, 업데이트를 함께 관리하는 검색용 시스템입니다. 즉 단순히 `벡터 몇 개를 보관하는 저장소`가 아니라, 실제 검색 서비스에 필요한 조회와 운영 기능을 묶어 둔 인프라 계층이라고 볼 수 있습니다.
-- Why it matters: RAG 구현에서 중요한 것은 벡터 비교 알고리즘 하나가 아니라, 저장, 메타데이터 필터링, 권한, 갱신, 운영을 함께 다루는 전체 시스템이라는 점을 보여 주기 때문입니다. 이 개념이 있어야 `가까운 벡터를 찾는다`는 수학적 문제와 `실제 서비스에서 어떤 문서를 안전하게, 빠르게, 최신 상태로 꺼내 쓸 것인가`라는 운영 문제를 함께 읽게 됩니다. 즉 벡터 데이터베이스는 검색 알고리즘의 부속품이 아니라, 검색 품질과 운영 품질을 같이 떠받치는 계층이라는 감각을 만들어 줍니다. 결국 벡터 데이터베이스는 `벡터 저장소`보다 `벡터 검색 서비스 인프라`에 더 가깝습니다.
-- Related concepts: `search index`, `ANN, approximate nearest neighbor`, `metadata`
-- Core Section: `P6-12.1`
-- Appears in: `P1-13.4`, `P6-12.2`
-
-<a id="vector-space"></a>
-
-## vector space
-
-- Meaning: 벡터들이 놓여 서로의 위치 관계를 비교할 수 있는 표현 공간입니다. 각 벡터를 좌표 하나처럼 두고, 거리와 방향을 통해 대상들 사이의 닮음과 차이를 읽는 추상적 좌표계라고 볼 수 있습니다. 즉 벡터 공간은 벡터를 `숫자 묶음`으로만 보지 않고 `위치 관계를 가진 점`처럼 읽게 만드는 틀입니다.
-- Why it matters: 임베딩을 `숫자 목록`이 아니라 `서로 가까운 것과 먼 것을 비교할 수 있는 좌표계`로 읽게 해 주기 때문입니다. 이 개념이 있어야 검색과 추천에서 가까움이 왜 중요한 신호가 되는지 이해하게 되고, 같은 벡터라도 절대값보다 다른 벡터와의 상대적 위치 관계가 더 중요할 수 있다는 점도 자연스럽게 받아들이게 됩니다. 결국 벡터 공간 개념이 있어야 `비슷하다`는 말을 막연한 직관이 아니라, 공간 안의 거리와 방향 관계로 읽게 됩니다. 다시 말해 벡터 공간은 의미 비교를 `좌표 비교`로 바꾸어 주는 공통 무대입니다.
-- Related concepts: `vector`, `embedding`, `similarity search`
-- Core Section: `P1-13.1`
-- Appears in: `P6-3.1`, `P6-3.2`
-
-<a id="vectorization"></a>
-
-## vectorization
-
-- Meaning: 반복 계산을 Python `for` 문 대신 배열 연산 하나로 표현하는 방식입니다. 사람 눈에는 `하나씩 반복하지 않았는데 어떻게 전체 계산이 되지?`처럼 보일 수 있지만, 실제로는 같은 계산 규칙을 배열의 각 위치나 각 축에 한꺼번에 적용하도록 계산 단위를 올려 적는 표현입니다.
-- Why it matters: 같은 계산을 배열 단위 문법으로 읽어야 NumPy와 이후 머신러닝 코드의 핵심 흐름을 빠르게 파악할 수 있기 때문입니다. 이 개념이 있어야 `한 원소씩 처리한다`는 사고에서 `배열 전체에 같은 계산을 한 번에 적용한다`는 사고로 넘어가게 되고, 속도 향상뿐 아니라 코드 구조가 더 짧고 명확해지는 이유도 함께 이해하게 됩니다. 예를 들어 모든 점수에 5점을 더하는 일을 반복문으로 하나씩 돌리는 대신 `scores + 5`처럼 적을 수 있다는 감각이 바로 벡터화의 출발점입니다. 결국 벡터화는 단순 최적화 기법이 아니라, 계산 단위를 `원소`에서 `배열`로 올려 읽는 표현 전환입니다.
-- Related concepts: `broadcasting`, `array`, `shape`
-- Core Section: `P2-11.3`
-- Appears in: `P2-12.1`, `P2-15.1`
-
-<a id="version-control"></a>
-
-## version control
-
-- Meaning: 시간이 지나며 파일과 폴더가 어떻게 바뀌었는지 그 상태와 이유를 기록하고 다시 찾게 해 주는 방식입니다. 단순 백업과 달리, 어느 시점의 내용이 무엇 때문에 달라졌는지 이력과 비교 단위까지 함께 남기는 작업 방식에 가깝습니다. 즉 버전 관리는 파일 사본을 많이 남기는 일보다, 변경 역사와 판단 맥락을 추적 가능하게 만드는 체계입니다.
-- Why it matters: 단순 저장만으로는 설명되지 않는 변경 맥락을 남겨, 어떤 상태가 언제 왜 생겼는지 추적하게 해 주기 때문입니다. 문서 집필과 코드 작업에서는 특히 `현재 파일 내용`보다 `어떤 판단으로 바뀌었는가`가 중요하므로, 버전 관리가 있어야 수정 실험, 검토, 되돌리기, 배포 이력을 같은 흐름으로 읽을 수 있습니다. 또한 버전 관리를 이해해야 백업 파일 더미와 검토 가능한 이력 체계가 왜 다른지, 그리고 왜 협업이 이력 단위 위에서 가능해지는지도 더 분명히 읽게 됩니다.
-- Related concepts: `Git`, `commit`, `repository`
-- Core Section: `P2-14.1`
-- Appears in: `P2-14.2`
-
-<a id="version-pinning"></a>
-
-## version pinning
-
-- Meaning: 패키지 이름만이 아니라 특정 버전까지 함께 기록해 같은 환경을 다시 만들기 쉽게 하는 방법입니다. `무엇을 설치할까`뿐 아니라 `정확히 어떤 판을 설치할까`까지 적어 두는 방식입니다. 즉 버전 고정은 설치 목록만 남기는 것이 아니라, 실행 조건을 가능한 한 같은 시점 상태로 묶어 두는 재현 장치입니다.
-- Why it matters: 같은 패키지라도 버전이 달라지면 코드 동작이나 결과가 바뀔 수 있어서 재현성을 높이는 기본 장치가 되기 때문입니다. 환경 차이로 생긴 오류를 줄이려면 코드보다 먼저 버전 차이를 의심해야 하는 경우도 많습니다. 이 개념이 있어야 `패키지 이름이 같다`와 `실행 조건이 같다`를 같은 말로 보지 않게 되고, 예제 문서가 나중에도 같은 결과를 내게 하려면 코드와 함께 버전 정보도 관리해야 한다는 점을 이해하게 됩니다. 결국 버전 고정은 `같은 코드`를 `같은 환경`에서 다시 실행하게 만드는 재현성 안전장치입니다.
-- Related concepts: `dependency`, `reproducibility`, `requirements.txt`
-- Core Section: `P2-7.5`
-- Appears in: `P2-10.2`
-
-<a id="virtual-environment"></a>
-
-## virtual environment
-
-- Meaning: 프로젝트마다 Python과 패키지를 분리해 둘 수 있도록 만든 독립 실행 공간입니다. 같은 컴퓨터 안에서도 프로젝트별로 다른 의존성 조합을 따로 유지하게 해 주는 작은 격리 상자에 가깝습니다. 시스템 전체 Python을 하나만 쓰는 대신, 프로젝트별로 `이 작업은 이 인터프리터와 이 패키지 묶음으로 돈다`고 분리해 두는 방식입니다.
-- Why it matters: 프로젝트별 패키지 충돌을 줄이고, 어떤 환경에 설치했고 어떤 환경에서 실행했는지 더 분명히 관리할 수 있기 때문입니다. 가상환경 개념이 있어야 `내 컴퓨터에는 되는데 다른 프로젝트에서는 안 된다`는 상황을 구조적으로 이해할 수 있습니다. 예를 들어 한 프로젝트는 `pandas` 최신판을 쓰고 다른 프로젝트는 예전판을 써야 할 때, 가상환경이 없으면 서로의 실행 조건을 쉽게 깨뜨릴 수 있습니다. 결국 가상환경은 `한 컴퓨터에서 여러 프로젝트를 서로 덜 망가뜨리며 공존시키는` 기본 격리 장치입니다.
-- Related concepts: `local environment`, `runtime`, `package`
-- Core Section: `P2-7.4`
-- Appears in: `P2-7.5`, `P2-7.9`, `P2-10.2`
-
-<a id="visualization"></a>
-
-## visualization
-
-- Meaning: 숫자나 표 데이터를 선, 점, 막대, 구간 같은 시각적 모양으로 바꾸어 확인하는 과정입니다. 단순히 보기 좋게 꾸미는 일이 아니라, 숫자만으로는 잘 안 보이던 변화와 관계를 눈으로 비교 가능한 형태로 바꾸는 해석 과정이라고 볼 수 있습니다.
-- Why it matters: 표에서 바로 드러나지 않는 변화, 관계, 분포를 더 빨리 읽게 해 주며, 이후 실험 해석과 기록 작성의 출발점이 되기 때문입니다. 이 개념이 있어야 시각화가 단순 꾸미기가 아니라 `무슨 패턴을 먼저 관찰할 것인가`를 정하는 분석 도구라는 점을 이해하게 되고, 선 그래프·산점도·히스토그램처럼 형식 선택 자체도 질문에 따라 달라져야 한다는 판단으로 이어집니다. 또한 시각화를 이해해야 같은 데이터라도 어떤 그래프를 고르느냐에 따라 보이는 패턴과 놓치는 패턴이 달라질 수 있다는 점도 더 분명히 읽게 됩니다.
-- Related concepts: `plot`, `distribution`, `Figure`
-- Core Section: `P2-13.1`
-- Appears in: `P2-13.2`, `P2-13.3`, `P2-15.1`
-
-<a id="vit-vision-transformer"></a>
-
-## ViT, Vision Transformer
-
-- Meaning: 이미지를 작은 패치 토큰으로 나눈 뒤, 각 패치 사이 관계를 self-attention으로 읽어 표현을 만드는 비전 모델 계열입니다. 즉 문장에서 단어 조각을 토큰으로 다루듯, ViT는 이미지도 작은 조각들의 시퀀스로 바꾸어 읽습니다. 그래서 핵심 직관은 `이미지를 한 장의 격자`로 직접 다루기보다 `관계 있는 패치들의 집합`으로 다시 표현하는 데 있습니다.
-- Why it matters: CNN이 가까운 픽셀 묶음에서 점차 큰 패턴을 읽는 방식과 달리, ViT는 처음부터 이미지를 `패치들의 시퀀스`처럼 다룬다는 점이 핵심 대비가 되기 때문입니다. 이 개념이 있어야 Transformer가 언어 밖으로 확장될 때 무엇이 토큰 역할을 하는지 이해하게 되고, 이미지 분류에서도 지역 특징과 전역 관계를 읽는 방식이 어떻게 달라지는지 더 자연스럽게 비교하게 됩니다. 특히 `이미지에서도 attention이 통하는 이유는 무엇인가`라는 질문에 대해, 픽셀 자체가 아니라 패치 표현 사이 관계를 읽는 구조라고 설명할 수 있게 됩니다.
-- Related concepts: `CNN, convolutional neural network`, `Attention`, `patch`
-- Core Section: `P5-11.3`
-- Appears in: `P5-11.1`, `P5-11.2`, `P6-19.2`
+--8<-- "reference/concept-glossary-terms/vit-vision-transformer.en.md"

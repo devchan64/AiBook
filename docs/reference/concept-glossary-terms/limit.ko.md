@@ -7,7 +7,3 @@
 - 함께 볼 개념: `수렴(convergence)`, `함수(function)`, `변화율(rate of change)`
 - 중심 Section: `P2-2.3`
 - 등장 Section: `P2-4.1`, `P2-4.2`
-
---8<-- "reference/concept-glossary-terms/evidence-review.ko.md"
-
---8<-- "reference/concept-glossary-terms/evidence.ko.md"

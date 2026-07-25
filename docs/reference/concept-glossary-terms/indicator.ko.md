@@ -7,5 +7,3 @@
 - 함께 볼 개념: `미래 전망(forecast)`, `시나리오(scenario)`, `보고서(report)`
 - 중심 Section: `P1-17.1`
 - 등장 Section: `P1-17.2`, `P1-17.3`, `P7-1.1`, `P7-1.3`, `P7-7.4`
-
---8<-- "reference/concept-glossary-terms/direct-lineage.ko.md"

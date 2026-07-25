@@ -7,5 +7,3 @@
 - 함께 볼 개념: `사실 주장(factual claim)`, `칼럼(column)`, `작업 가설(working hypothesis)`
 - 중심 Section: `P1-17.3`
 - 등장 Section: `P1-17.1`, `P1-17.2`
-
---8<-- "reference/concept-glossary-terms/hash-table.ko.md"

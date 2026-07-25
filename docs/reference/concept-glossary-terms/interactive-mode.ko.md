@@ -7,7 +7,3 @@
 - 함께 볼 개념: `Python 인터프리터(interpreter)`, `스크립트(script)`, `프롬프트(prompt)`
 - 중심 Section: `P2-7.3`
 - 등장 Section: `P2-10.1`
-
---8<-- "reference/concept-glossary-terms/data-leakage.ko.md"
-
---8<-- "reference/concept-glossary-terms/data-modeling.ko.md"

@@ -7,6 +7,3 @@
 - 相关概念: `概率`, `均值`, `方差`
 - 核心 Section: `P2-5.2`
 - 出现 Section: `P2-5.3`, `P2-13.1`, `P2-13.2`
-
---8<-- "reference/concept-glossary-terms/boolean-mask.ko.md"
-

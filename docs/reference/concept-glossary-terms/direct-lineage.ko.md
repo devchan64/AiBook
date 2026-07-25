@@ -8,5 +8,3 @@
 - 중심 Section: `P6-19.2`
 - 등장 Section: `P1-9.3`, `P6-19.1`
 
---8<-- "reference/concept-glossary-terms/aggregation.ko.md"
-

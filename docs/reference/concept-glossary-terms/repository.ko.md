@@ -5,5 +5,3 @@
 - 함께 볼 개념: `Git`, `커밋(commit)`, `스테이징 영역(staging area)`
 - 중심 Section: `P2-14.1`
 - 등장 Section: `P2-14.2`, `P6-3.1`
-
---8<-- "reference/concept-glossary-terms/fitting.ko.md"

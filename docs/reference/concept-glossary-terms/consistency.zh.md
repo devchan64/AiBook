@@ -6,5 +6,3 @@
 - 为什么重要: 一次看起来不错的输出不足以判断质量。一致性关注类似输入是否按同一标准处理，是生成式 AI 评估的重要轴。
 - 相关概念: `评估`, `可复现性`, `提示限制`, `质量`, `人工评估`
 - 核心 Section: `P1-12.3`
-
---8<-- "reference/concept-glossary-terms/generalization.ko.md"

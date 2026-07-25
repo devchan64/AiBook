@@ -7,6 +7,3 @@
 - Related concepts: `scenario`, `indicator`, `prediction`
 - Core Section: `P1-17.1`
 - Appears in: `P1-17.3`
-
---8<-- "reference/concept-glossary-terms/derivative.ko.md"
-

@@ -48,6 +48,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/consistency.en.md"
 
+--8<-- "reference/concept-glossary-terms/generalization.en.md"
+
 --8<-- "reference/concept-glossary-terms/constraint.en.md"
 
 --8<-- "reference/concept-glossary-terms/context.en.md"

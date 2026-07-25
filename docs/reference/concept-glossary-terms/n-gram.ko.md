@@ -7,5 +7,3 @@
 - 함께 볼 개념: `언어 모델(language model)`, `통계적 언어 모델(statistical language model)`, `데이터 희소성(sparsity)`
 - 중심 Section: `P1-11.1`
 - 등장 Section: `P1-9.3`, `P6-19.1`
-
---8<-- "reference/concept-glossary-terms/edge.ko.md"

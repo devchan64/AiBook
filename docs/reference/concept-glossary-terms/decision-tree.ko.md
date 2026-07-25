@@ -8,9 +8,3 @@
 - 중심 Section: `P4-14.1`
 - 등장 Section: `P4-14.2`
 
---8<-- "reference/concept-glossary-terms/alert-grade.ko.md"
-
---8<-- "reference/concept-glossary-terms/computation-graph.ko.md"
-
---8<-- "reference/concept-glossary-terms/computational-limit.ko.md"
-

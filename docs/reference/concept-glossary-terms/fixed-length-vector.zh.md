@@ -7,6 +7,3 @@
 - 相关概念: `Encoder-Decoder`, `Attention`, `vector`
 - 核心 Section: `P1-11.2`
 - 出现 Section: `P1-9.3`, `P1-11.3`
-
---8<-- "reference/concept-glossary-terms/excessive-agency.ko.md"
-

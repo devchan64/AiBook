@@ -18,6 +18,8 @@
 
 --8<-- "reference/concept-glossary-terms/nearest-neighbor.ko.md"
 
+--8<-- "reference/concept-glossary-terms/least-privilege.ko.md"
+
 --8<-- "reference/concept-glossary-terms/recency.ko.md"
 
 --8<-- "reference/concept-glossary-terms/optimization.ko.md"
@@ -27,6 +29,8 @@
 --8<-- "reference/concept-glossary-terms/inference-engine.ko.md"
 
 --8<-- "reference/concept-glossary-terms/inference.ko.md"
+
+--8<-- "reference/concept-glossary-terms/abstract-data-type.ko.md"
 
 --8<-- "reference/concept-glossary-terms/trace.ko.md"
 

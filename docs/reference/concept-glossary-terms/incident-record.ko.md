@@ -8,7 +8,3 @@
 - 중심 Section: `P7-7.2`
 - 등장 Section: `P7-index`, `P7-summary`
 
---8<-- "reference/concept-glossary-terms/event.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/human-evaluation.ko.md"

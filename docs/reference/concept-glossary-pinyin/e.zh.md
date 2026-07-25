@@ -4,6 +4,8 @@
 
 --8<-- "reference/concept-glossary-terms/edge.zh.md"
 
+--8<-- "reference/concept-glossary-terms/backpropagation.zh.md"
+
 --8<-- "reference/concept-glossary-terms/edge-weight.zh.md"
 
 --8<-- "reference/concept-glossary-terms/embedding.zh.md"
@@ -13,6 +15,9 @@
 --8<-- "reference/concept-glossary-terms/encoder-decoder.zh.md"
 
 --8<-- "reference/concept-glossary-terms/environment.zh.md"
+
+--8<-- "reference/concept-glossary-terms/activation.zh.md"
+--8<-- "reference/concept-glossary-terms/activation-function.zh.md"
 
 --8<-- "reference/concept-glossary-terms/environment-variable.zh.md"
 
@@ -35,6 +40,8 @@
 --8<-- "reference/concept-glossary-terms/event.zh.md"
 
 --8<-- "reference/concept-glossary-terms/evidence.zh.md"
+
+--8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.zh.md"
 
 --8<-- "reference/concept-glossary-terms/evidence-review.zh.md"
 

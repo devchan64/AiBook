@@ -8,5 +8,3 @@
 - 중심 Section: `P1-17.1`
 - 등장 Section: `P1-17.3`
 
---8<-- "reference/concept-glossary-terms/derivative.ko.md"
-

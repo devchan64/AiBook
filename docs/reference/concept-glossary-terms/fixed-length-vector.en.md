@@ -7,6 +7,3 @@
 - Related concepts: `Encoder-Decoder`, `Attention`, `vector`
 - Core Section: `P1-11.2`
 - Appears in: `P1-9.3`, `P1-11.3`
-
---8<-- "reference/concept-glossary-terms/excessive-agency.ko.md"
-

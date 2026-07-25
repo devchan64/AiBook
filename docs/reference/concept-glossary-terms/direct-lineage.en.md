@@ -7,6 +7,3 @@
 - Related concepts: `surrounding evidence`, `language modeling`, `Transformer`
 - Core Section: `P6-19.2`
 - Appears in: `P1-9.3`, `P6-19.1`
-
---8<-- "reference/concept-glossary-terms/aggregation.ko.md"
-

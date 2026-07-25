@@ -7,6 +7,3 @@
 - Related concepts: `probability`, `mean`, `variance`
 - Core Section: `P2-5.2`
 - Appears in: `P2-5.3`, `P2-13.1`, `P2-13.2`
-
---8<-- "reference/concept-glossary-terms/boolean-mask.ko.md"
-

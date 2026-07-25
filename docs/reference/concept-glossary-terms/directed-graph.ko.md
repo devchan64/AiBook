@@ -8,9 +8,3 @@
 - 중심 Section: `P2-9.3`
 - 등장 Section: `P2-9.4`
 
---8<-- "reference/concept-glossary-terms/array.ko.md"
-
---8<-- "reference/concept-glossary-terms/batch-normalization.ko.md"
-
---8<-- "reference/concept-glossary-terms/batch.ko.md"
-

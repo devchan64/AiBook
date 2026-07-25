@@ -7,6 +7,3 @@
 - Related concepts: `graph`, `node`, `weight`
 - Core Section: `P2-9.3`
 - Appears in: `P2-9.4`, `P4-14.1`
-
---8<-- "reference/concept-glossary-terms/backpropagation.ko.md"
-

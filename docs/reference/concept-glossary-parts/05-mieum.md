@@ -4,9 +4,13 @@
 
 --8<-- "reference/concept-glossary-terms/markdown-cell.ko.md"
 
+--8<-- "reference/concept-glossary-terms/corpus.ko.md"
+
 --8<-- "reference/concept-glossary-terms/parameter-function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/mapping.ko.md"
+
+--8<-- "reference/concept-glossary-terms/context.ko.md"
 
 --8<-- "reference/concept-glossary-terms/machine-learning.ko.md"
 
@@ -36,11 +40,18 @@
 
 --8<-- "reference/concept-glossary-terms/in-context-learning.ko.md"
 
+--8<-- "reference/concept-glossary-terms/context-window.ko.md"
+--8<-- "reference/concept-glossary-terms/contextual-representation.ko.md"
+--8<-- "reference/concept-glossary-terms/document-reproducibility.ko.md"
+--8<-- "reference/concept-glossary-terms/documentation.ko.md"
+
 --8<-- "reference/concept-glossary-terms/sentence-paragraph-document-embedding.ko.md"
 
 --8<-- "reference/concept-glossary-terms/task-definition.ko.md"
 
 --8<-- "reference/concept-glossary-terms/forecast.ko.md"
+
+--8<-- "reference/concept-glossary-terms/derivative.ko.md"
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.ko.md"
 

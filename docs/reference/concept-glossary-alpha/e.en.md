@@ -4,6 +4,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/edge.en.md"
 
+--8<-- "reference/concept-glossary-terms/backpropagation.en.md"
+
 --8<-- "reference/concept-glossary-terms/edge-weight.en.md"
 
 --8<-- "reference/concept-glossary-terms/embedding.en.md"
@@ -13,6 +15,9 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/encoder-decoder.en.md"
 
 --8<-- "reference/concept-glossary-terms/environment.en.md"
+
+--8<-- "reference/concept-glossary-terms/activation.en.md"
+--8<-- "reference/concept-glossary-terms/activation-function.en.md"
 
 --8<-- "reference/concept-glossary-terms/environment-variable.en.md"
 
@@ -35,6 +40,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/event.en.md"
 
 --8<-- "reference/concept-glossary-terms/evidence.en.md"
+
+--8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.en.md"
 
 --8<-- "reference/concept-glossary-terms/evidence-review.en.md"
 

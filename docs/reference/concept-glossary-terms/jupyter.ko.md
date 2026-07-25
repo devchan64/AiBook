@@ -7,7 +7,3 @@
 - 함께 볼 개념: `노트북(notebook)`, `콜랩(Colab)`, `실행 환경(runtime)`
 - 중심 Section: `P2-10.2`
 - 등장 Section: `P2-10.1`, `P2-10.3`
-
---8<-- "reference/concept-glossary-terms/intermediate-representation.ko.md"
-
---8<-- "reference/concept-glossary-terms/interrupt-authority.ko.md"

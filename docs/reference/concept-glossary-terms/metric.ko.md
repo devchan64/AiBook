@@ -7,5 +7,3 @@
 - 함께 볼 개념: `평가(evaluation)`, `정확도(accuracy)`, `재현율(recall)`
 - 중심 Section: `P4-6.1`
 - 등장 Section: `P4-6.2`, `P4-6.3`, `P4-6.4`, `P4-8.2`, `P4-10.2`, `P4-15.3`
-
---8<-- "reference/concept-glossary-terms/evaluation.ko.md"

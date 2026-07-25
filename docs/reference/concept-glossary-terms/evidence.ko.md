@@ -8,5 +8,3 @@
 - 중심 Section: `P1-12.3`
 - 등장 Section: `P1-6.2`, `P1-10.3`, `P7-5.1`, `P7-5.2`
 
---8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.ko.md"
-

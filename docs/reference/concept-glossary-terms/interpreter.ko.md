@@ -7,5 +7,3 @@
 - 함께 볼 개념: `스크립트(script)`, `대화형 모드(interactive mode)`, `실행 환경(runtime)`
 - 중심 Section: `P2-7.3`
 - 등장 Section: `P2-8.1`, `P2-10.1`
-
---8<-- "reference/concept-glossary-terms/consistency.ko.md"

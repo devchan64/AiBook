@@ -16,6 +16,10 @@
 
 --8<-- "reference/concept-glossary-terms/decision-tree.zh.md"
 
+--8<-- "reference/concept-glossary-terms/alert-grade.zh.md"
+--8<-- "reference/concept-glossary-terms/computation-graph.zh.md"
+--8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
+
 --8<-- "reference/concept-glossary-terms/decoder.zh.md"
 
 --8<-- "reference/concept-glossary-terms/deep-copy.zh.md"
@@ -40,7 +44,13 @@
 
 --8<-- "reference/concept-glossary-terms/direct-lineage.zh.md"
 
+--8<-- "reference/concept-glossary-terms/aggregation.zh.md"
+
 --8<-- "reference/concept-glossary-terms/directed-graph.zh.md"
+
+--8<-- "reference/concept-glossary-terms/array.zh.md"
+--8<-- "reference/concept-glossary-terms/batch-normalization.zh.md"
+--8<-- "reference/concept-glossary-terms/batch.zh.md"
 
 --8<-- "reference/concept-glossary-terms/discovery.zh.md"
 
@@ -49,6 +59,8 @@
 --8<-- "reference/concept-glossary-terms/distributed-representation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/distribution.zh.md"
+
+--8<-- "reference/concept-glossary-terms/boolean-mask.zh.md"
 
 --8<-- "reference/concept-glossary-terms/document-reproducibility.zh.md"
 

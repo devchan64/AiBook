@@ -12,6 +12,13 @@
 
 --8<-- "reference/concept-glossary-terms/learning-rate.ko.md"
 
+--8<-- "reference/concept-glossary-terms/function-calling.ko.md"
+--8<-- "reference/concept-glossary-terms/function.ko.md"
+--8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.ko.md"
+--8<-- "reference/concept-glossary-terms/convolution.ko.md"
+--8<-- "reference/concept-glossary-terms/interpretation.ko.md"
+--8<-- "reference/concept-glossary-terms/hash-table.ko.md"
+
 --8<-- "reference/concept-glossary-terms/row.ko.md"
 
 --8<-- "reference/concept-glossary-terms/action-bucket.ko.md"
@@ -24,6 +31,8 @@
 
 --8<-- "reference/concept-glossary-terms/matrix.ko.md"
 
+--8<-- "reference/concept-glossary-terms/host.ko.md"
+
 --8<-- "reference/concept-glossary-terms/probabilistic-model.ko.md"
 
 --8<-- "reference/concept-glossary-terms/probabilistic-reasoning.ko.md"
@@ -35,6 +44,12 @@
 --8<-- "reference/concept-glossary-terms/stochastic-process.ko.md"
 
 --8<-- "reference/concept-glossary-terms/hallucination.ko.md"
+
+--8<-- "reference/concept-glossary-terms/environment-variable.ko.md"
+--8<-- "reference/concept-glossary-terms/environment.ko.md"
+--8<-- "reference/concept-glossary-terms/activation.ko.md"
+--8<-- "reference/concept-glossary-terms/activation-function.ko.md"
+--8<-- "reference/concept-glossary-terms/exploitation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/retrospective.ko.md"
 

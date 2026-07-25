@@ -7,5 +7,3 @@
 - 함께 볼 개념: `이터러블(iterable)`, `반복(loop)`, `값(value)`
 - 중심 Section: `P2-8.4`
 - 등장 Section: `P2-8.5`, `P2-10.1`
-
---8<-- "reference/concept-glossary-terms/human-oversight.ko.md"

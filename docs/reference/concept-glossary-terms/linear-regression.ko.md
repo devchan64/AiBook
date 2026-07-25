@@ -7,5 +7,3 @@
 - 함께 볼 개념: `회귀(regression)`, `기울기(slope)`, `잔차(residual)`
 - 중심 Section: `P4-10.1`
 - 등장 Section: `P4-10.2`, `P4-10.3`
-
---8<-- "reference/concept-glossary-terms/explanation-facility.ko.md"

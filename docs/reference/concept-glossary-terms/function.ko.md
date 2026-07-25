@@ -8,7 +8,3 @@
 - 중심 Section: `P2-2.1`
 - 등장 Section: `P2-4.2`, `P2-4.3`, `P2-6.2`, `P2-8.5`, `P2-10.3`
 
---8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.ko.md"
-
---8<-- "reference/concept-glossary-terms/convolution.ko.md"
-

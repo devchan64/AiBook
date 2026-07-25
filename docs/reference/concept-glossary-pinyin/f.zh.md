@@ -30,12 +30,21 @@
 
 --8<-- "reference/concept-glossary-terms/fitting.zh.md"
 
+--8<-- "reference/concept-glossary-terms/expert-system.zh.md"
+
 --8<-- "reference/concept-glossary-terms/fixed-length-vector.zh.md"
+
+--8<-- "reference/concept-glossary-terms/excessive-agency.zh.md"
 
 --8<-- "reference/concept-glossary-terms/follow-up-review-sample.zh.md"
 
 --8<-- "reference/concept-glossary-terms/forecast.zh.md"
 
+--8<-- "reference/concept-glossary-terms/derivative.zh.md"
+
 --8<-- "reference/concept-glossary-terms/function.zh.md"
+
+--8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.zh.md"
+--8<-- "reference/concept-glossary-terms/convolution.zh.md"
 
 --8<-- "reference/concept-glossary-terms/function-calling.zh.md"

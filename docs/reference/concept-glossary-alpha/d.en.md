@@ -16,6 +16,10 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/decision-tree.en.md"
 
+--8<-- "reference/concept-glossary-terms/alert-grade.en.md"
+--8<-- "reference/concept-glossary-terms/computation-graph.en.md"
+--8<-- "reference/concept-glossary-terms/computational-limit.en.md"
+
 --8<-- "reference/concept-glossary-terms/decoder.en.md"
 
 --8<-- "reference/concept-glossary-terms/deep-copy.en.md"
@@ -40,7 +44,13 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/direct-lineage.en.md"
 
+--8<-- "reference/concept-glossary-terms/aggregation.en.md"
+
 --8<-- "reference/concept-glossary-terms/directed-graph.en.md"
+
+--8<-- "reference/concept-glossary-terms/array.en.md"
+--8<-- "reference/concept-glossary-terms/batch-normalization.en.md"
+--8<-- "reference/concept-glossary-terms/batch.en.md"
 
 --8<-- "reference/concept-glossary-terms/discovery.en.md"
 
@@ -49,6 +59,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/distributed-representation.en.md"
 
 --8<-- "reference/concept-glossary-terms/distribution.en.md"
+
+--8<-- "reference/concept-glossary-terms/boolean-mask.en.md"
 
 --8<-- "reference/concept-glossary-terms/document-reproducibility.en.md"
 

@@ -7,5 +7,3 @@
 - 함께 볼 개념: `벡터(vector)`, `행렬 곱(matrix multiplication)`, `shape`
 - 중심 Section: `P2-3.1`
 - 등장 Section: `P2-3.3`, `P2-11.3`
-
---8<-- "reference/concept-glossary-terms/host.ko.md"

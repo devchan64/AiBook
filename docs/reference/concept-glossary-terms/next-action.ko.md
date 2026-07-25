@@ -7,5 +7,3 @@
 - 함께 볼 개념: `관찰(observation)`, `상태(state)`, `보류 상태(hold state)`, `승인 정책(approval policy)`, `재시도(retry)`
 - 중심 Section: `P7-6.3`
 - 등장 Section: `P1-14.4`, `P7-6.1`, `P7-6.2`
-
---8<-- "reference/concept-glossary-terms/multilayer-neural-network.ko.md"

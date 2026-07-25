@@ -7,9 +7,3 @@
 - 함께 볼 개념: `퍼셉트론(perceptron)`, `은닉층(hidden layer)`, `활성화 함수(activation function)`
 - 중심 Section: `P5-2.1`
 - 등장 Section: `P5-2.2`, `P5-11.1`
-
---8<-- "reference/concept-glossary-terms/assignment.ko.md"
-
---8<-- "reference/concept-glossary-terms/conversational-llm.ko.md"
-
---8<-- "reference/concept-glossary-terms/interactive-mode.ko.md"

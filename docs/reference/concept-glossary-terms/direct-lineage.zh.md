@@ -7,6 +7,3 @@
 - 相关概念: `周边证据`, `语言建模`, `Transformer`
 - 核心 Section: `P6-19.2`
 - 出现 Section: `P1-9.3`, `P6-19.1`
-
---8<-- "reference/concept-glossary-terms/aggregation.ko.md"
-

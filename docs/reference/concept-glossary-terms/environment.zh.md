@@ -7,8 +7,3 @@
 - 相关概念: `agent`, `state`, `reward`
 - 核心 Section: `P1-8.3`
 - 出现 Section: `P4-2.3`
-
---8<-- "reference/concept-glossary-terms/activation.ko.md"
-
---8<-- "reference/concept-glossary-terms/activation-function.ko.md"
-

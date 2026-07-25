@@ -7,8 +7,3 @@
 - Related concepts: `agent`, `state`, `reward`
 - Core Section: `P1-8.3`
 - Appears in: `P4-2.3`
-
---8<-- "reference/concept-glossary-terms/activation.ko.md"
-
---8<-- "reference/concept-glossary-terms/activation-function.ko.md"
-

@@ -48,6 +48,8 @@
 
 --8<-- "reference/concept-glossary-terms/consistency.zh.md"
 
+--8<-- "reference/concept-glossary-terms/generalization.zh.md"
+
 --8<-- "reference/concept-glossary-terms/constraint.zh.md"
 
 --8<-- "reference/concept-glossary-terms/context.zh.md"

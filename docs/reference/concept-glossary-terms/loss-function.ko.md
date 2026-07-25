@@ -8,7 +8,3 @@
 - 중심 Section: `P2-6.2`
 - 등장 Section: `P2-6.3`, `P2-13.2`, `P2-15.1`, `P5-4.1`, `P5-4.2`
 
---8<-- "reference/concept-glossary-terms/convergence.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/hand-crafted-features.ko.md"

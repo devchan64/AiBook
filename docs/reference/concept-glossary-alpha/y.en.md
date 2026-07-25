@@ -1,12 +1,7 @@
 # Concept Glossary: Y
 
-This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
+This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
 <a id="yolo"></a>
 
-## YOLO
-
-- Meaning: 객체 검출을 바운딩 박스와 클래스 확률을 한 번에 예측하는 단일 신경망 문제로 재구성한 대표 모델 계열입니다. 즉 화면 안의 물체 후보를 따로 뽑고 그 뒤에 분류기를 붙이는 식보다, `어디에 무엇이 있는가`를 한 번의 예측 구조 안에서 함께 다루려는 접근이라고 볼 수 있습니다. 그래서 YOLO는 검출 문제를 더 직접적인 end-to-end 예측 문제로 바꾼 상징적 사례입니다.
-- Why it matters: 후보 생성과 분류를 여러 단계로 나누던 검출 파이프라인을 end-to-end 학습 구조로 바꾸는 전환을 상징하기 때문입니다. 이 개념이 있어야 객체 검출이 `먼저 후보를 찾고 나중에 분류한다`는 전통 흐름에서 `한 번에 위치와 종류를 함께 예측한다`는 흐름으로 바뀐 이유를 읽게 되고, 속도와 구조 단순화가 왜 중요한지 이해하게 됩니다. 또한 YOLO는 이미지 분류와 달리 출력이 하나의 라벨이 아니라 다수의 위치-종류 후보 묶음이라는 점을 더 분명히 보여 주는 예이기도 합니다.
-- Related concepts: `object detection`, `bounding box`, `CNN, convolutional neural network`
-- Core Section: `P1-9.2`
+--8<-- "reference/concept-glossary-terms/yolo.en.md"

@@ -7,5 +7,3 @@
 - 함께 볼 개념: `행동 구간(action bucket)`, `우선순위(priority)`, `재현 확인(recheck)`, `상태 점검(status inspection)`, `사건 기록(incident record)`
 - 중심 Section: `P7-7.4`
 - 등장 Section: `P7-summary`
-
---8<-- "reference/concept-glossary-terms/gradient-descent.ko.md"

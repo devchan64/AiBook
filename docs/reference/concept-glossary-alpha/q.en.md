@@ -1,51 +1,15 @@
 # Concept Glossary: Q
 
-This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
+This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
 <a id="qlora"></a>
 
-## QLoRA
+--8<-- "reference/concept-glossary-terms/qlora.en.md"
 
-- Meaning: LoRA 조정 방식에 양자화(quantization)를 함께 써서, 큰 기반 모델을 더 낮은 메모리 조건에서 다루기 쉽게 하려는 실무 확장입니다. 핵심은 기반 모델 본체를 더 가볍게 들고 있으면서, 적응에 필요한 작은 조정분은 LoRA처럼 따로 학습해 메모리 부담과 적응 유연성을 함께 잡으려는 데 있습니다. 즉 `효율적 조정`과 `효율적 저장`을 결합한 형태라고 볼 수 있습니다.
-- Why it matters: LoRA 자체와 메모리 제약 완화가 어떻게 결합되는지 이해해야 제한된 자원에서 어떤 조정 전략을 고를지 설명할 수 있기 때문입니다. 이 개념이 있어야 `조정 가능성`과 `메모리 가능성`을 따로 보지 않고 함께 판단하게 되고, 같은 기반 모델도 하드웨어 제약에 따라 현실적인 조정 방법이 달라진다는 점을 더 분명히 읽게 됩니다. 또한 QLoRA는 `모델이 너무 커서 조정은 불가능하다`는 판단이 절대적인 것이 아니라, 어떤 저장 형식과 적응 방식을 쓰느냐에 따라 현실 조건이 달라질 수 있음을 보여 주는 대표 사례이기도 합니다.
-- Related concepts: `LoRA`, `quantization`, `fine-tuning`
-- Core Section: `P6-9.5`
+--8<-- "reference/concept-glossary-terms/quality.en.md"
 
-<a id="quality"></a>
+--8<-- "reference/concept-glossary-terms/query-key-value-qkv.en.md"
 
-## quality
+--8<-- "reference/concept-glossary-terms/queue.en.md"
 
-- Meaning: 결과가 요청에 맞고 읽을 수 있으며 실제 사용에 도움이 되는 정도입니다. 단순히 문장이 자연스러운가를 넘어서, 현재 목적에 비춰 받아들일 만한 결과인가를 넓게 묻는 판단 기준이며, 여러 세부 기준을 묶는 상위 평가 축에 가깝습니다. 즉 품질은 예쁘게 보이는지보다, 지금 이 작업 맥락에서 실제로 쓸 만한가를 묻는 판단에 더 가깝습니다.
-- Why it matters: 생성형 AI 결과를 평가할 때 자연스러움만 볼 것이 아니라, 사실성·근거·안전성과 구분된 첫 번째 점검 축으로 읽어야 하기 때문입니다. 이 개념이 있어야 `좋아 보이는 답`과 `실제로 써도 되는 답`을 구분하는 출발점을 잡을 수 있고, 품질이 높아 보여도 왜 여전히 검토와 근거 확인이 필요한지도 함께 설명할 수 있습니다. 결국 품질은 하나의 숫자보다, 어떤 목적에서 어떤 실패를 허용하지 않을 것인가를 정하는 운영 판단과도 맞닿아 있습니다. 또한 품질을 이해해야 동일한 결과라도 학습용 초안, 내부 참고, 외부 공개 문서에서 요구 수준이 달라질 수 있다는 점도 더 분명해집니다.
-- Related concepts: `hallucination`, `evidence`, `review`, `consistency`, `metric`
-- Core Section: `P1-10.3`
-- Appears in: `P7-5.2`
-
-<a id="-query-key-value-qkv"></a>
-
-## query-key-value, QKV
-
-- Meaning: attention 계산에서 현재 위치가 무엇을 찾는지 나타내는 query, 각 위치가 어떤 정보인지 알려 주는 key, 실제로 섞어 올 내용을 담는 value를 함께 묶어 부르는 표현입니다. 즉 query는 `무엇을 찾고 싶은가`, key는 `어디가 그 조건에 맞는가`, value는 `그래서 실제로 무엇을 가져올 것인가`를 나누어 맡는 구조입니다.
-- Why it matters: attention 직관을 `질문하고, 맞는 위치를 찾고, 그 내용을 가져온다`는 계산 흐름으로 다시 읽게 해 주어, Transformer 설명에서 반복되는 QKV 이름을 덜 추상적으로 만들기 때문입니다. 이 개념이 있어야 attention이 단순 가중합이 아니라, 조회 기준과 내용 전달이 분리된 구조라는 점을 이해하게 됩니다. 또한 QKV를 이해해야 같은 attention 블록 안에서도 `유사도 계산용 정보`와 `실제 전달 내용`이 서로 다른 역할이라는 점을 더 분명하게 읽게 됩니다.
-- Related concepts: `self-attention`, `multi-head attention`, `Transformer`
-- Core Section: `P5-13.3`
-- Appears in: `P5-14.1`, `P6-4.3`
-
-<a id="queue"></a>
-
-## queue
-
-- Meaning: 먼저 들어온 값을 먼저 꺼내는 규칙으로 작동하는 자료구조 또는 추상 자료형입니다. 줄 서기와 비슷하게, 앞에서 기다리던 항목이 먼저 처리되는 `선입선출(FIFO, first-in first-out)` 구조로 이해하면 됩니다. 즉 `도착 순서`를 보존한 채 처리 순서를 정하고 싶을 때 쓰는 기본 장치입니다. 컴퓨터에서는 보통 `뒤에 넣고(enqueue) 앞에서 꺼내는(dequeue)` 흐름으로 설명하며, 이 두 동작이 큐의 핵심을 이룹니다.
-- Why it matters: 요청 처리 순서, 작업 대기열, 메시지 전달처럼 `도착한 순서` 자체가 중요한 시스템을 설명할 때 가장 기본적인 모델이 되기 때문입니다. 스택처럼 가장 최근 것을 먼저 꺼내는 구조와 구분해야 작업 흐름과 병목 위치를 더 정확히 읽을 수 있고, 큐 길이가 길어진다는 말이 곧 처리 속도보다 유입 속도가 더 빠르다는 운영 신호라는 점도 함께 이해하게 됩니다. 이 개념이 있어야 운영체제의 작업 스케줄링, 서버의 요청 대기열, 데이터 처리 파이프라인의 버퍼를 볼 때 `무엇이 얼마나 밀리고 있는가`를 순서 관점에서 해석할 수 있습니다.
-- Related concepts: `stack`, `linear structure`, `data structure`
-- Core Section: `P2-9.4`
-- Appears in: `P3-4.2`
-
-<a id="quotation"></a>
-
-## quotation
-
-- Meaning: 필요한 범위 안에서 외부 표현의 일부를 출처와 함께 가져와 설명, 비평, 검토에 사용하는 일입니다. 핵심은 남의 표현을 통째로 대신 쓰는 것이 아니라, 내 설명이 중심인 상태에서 꼭 필요한 부분만 보조 근거로 끌어오는 데 있습니다. 즉 인용은 `자료를 참고했다`는 막연한 말보다 더 좁고 엄격한 사용 방식입니다.
-- Why it matters: 공개 배포 원고에서 자료를 보수적으로 사용하면서도 검증 가능한 근거를 제시하려면 인용의 경계를 구분해야 하기 때문입니다. 이 개념이 있어야 `출처를 달았다`는 사실만으로 모든 재사용이 정당화되는 것은 아니라는 점을 이해하게 되고, 내 설명이 중심인지 외부 표현이 중심인지도 함께 점검하게 됩니다. 예를 들어 개념 차이를 설명하기 위해 논문 한 문장을 짧게 가져오는 것과, 교재의 설명 단락을 길게 옮겨 적는 것은 모두 `출처가 있다`고 해도 같은 성격의 사용이 아닙니다. 결국 인용을 이해해야 근거 제시와 표현 재사용을 같은 말로 섞지 않게 되고, 저작권과 출처 검토를 더 신중하게 연결하게 됩니다.
-- Related concepts: `copyright`, `representation`, `attribution`
-- Core Section: `P1-15.2`
+--8<-- "reference/concept-glossary-terms/quotation.en.md"

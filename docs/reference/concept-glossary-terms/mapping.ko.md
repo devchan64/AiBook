@@ -7,5 +7,3 @@
 - 함께 볼 개념: `딕셔너리(dictionary)`, `키(key)`, `값(value)`
 - 중심 Section: `P2-8.3`
 - 등장 Section: `P2-8.4`, `P2-9.1`
-
---8<-- "reference/concept-glossary-terms/context.ko.md"
