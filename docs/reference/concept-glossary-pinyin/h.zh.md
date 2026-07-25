@@ -10,6 +10,8 @@
 
 --8<-- "reference/concept-glossary-terms/hash-table.zh.md"
 
+--8<-- "reference/concept-glossary-terms/row.zh.md"
+
 --8<-- "reference/concept-glossary-terms/heuristic.zh.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic-function.zh.md"

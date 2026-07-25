@@ -12,8 +12,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/failure-type.en.md"
 
---8<-- "reference/concept-glossary-terms/fancy-indexing.en.md"
-
 --8<-- "reference/concept-glossary-terms/feature.en.md"
 
 --8<-- "reference/concept-glossary-terms/feature-selection.en.md"
@@ -21,8 +19,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/feed-forward-network.en.md"
 
 --8<-- "reference/concept-glossary-terms/few-shot-prompting.en.md"
-
---8<-- "reference/concept-glossary-terms/figure.en.md"
 
 --8<-- "reference/concept-glossary-terms/filtering.en.md"
 
@@ -40,11 +36,11 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/forecast.en.md"
 
+--8<-- "reference/concept-glossary-terms/formula.en.md"
+
 --8<-- "reference/concept-glossary-terms/derivative.en.md"
 
 --8<-- "reference/concept-glossary-terms/function.en.md"
 
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.en.md"
 --8<-- "reference/concept-glossary-terms/convolution.en.md"
-
---8<-- "reference/concept-glossary-terms/function-calling.en.md"

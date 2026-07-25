@@ -4,7 +4,11 @@
 
 --8<-- "reference/concept-glossary-terms/caching.zh.md"
 
+--8<-- "reference/concept-glossary-terms/repository.zh.md"
+
 --8<-- "reference/concept-glossary-terms/calibration.zh.md"
+
+--8<-- "reference/concept-glossary-terms/hierarchy.zh.md"
 
 --8<-- "reference/concept-glossary-terms/chain-of-thought-cot.zh.md"
 
@@ -24,7 +28,9 @@
 
 --8<-- "reference/concept-glossary-terms/code-cell.zh.md"
 
---8<-- "reference/concept-glossary-terms/colab.zh.md"
+--8<-- "reference/concept-glossary-terms/test.zh.md"
+
+--8<-- "reference/concept-glossary-terms/test-data.zh.md"
 
 --8<-- "reference/concept-glossary-terms/column.zh.md"
 
@@ -40,7 +46,11 @@
 
 --8<-- "reference/concept-glossary-terms/computation-graph.zh.md"
 
+--8<-- "reference/concept-glossary-terms/operation.zh.md"
+
 --8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
+
+--8<-- "reference/concept-glossary-terms/output.zh.md"
 
 --8<-- "reference/concept-glossary-terms/confabulation.zh.md"
 

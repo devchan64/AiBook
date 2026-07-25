@@ -10,6 +10,8 @@
 
 --8<-- "reference/concept-glossary-terms/masking.zh.md"
 
+--8<-- "reference/concept-glossary-terms/target.zh.md"
+
 --8<-- "reference/concept-glossary-terms/matrix.zh.md"
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.zh.md"

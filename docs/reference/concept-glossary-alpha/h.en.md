@@ -10,6 +10,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/hash-table.en.md"
 
+--8<-- "reference/concept-glossary-terms/hierarchy.en.md"
+
 --8<-- "reference/concept-glossary-terms/heuristic.en.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic-function.en.md"

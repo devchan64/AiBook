@@ -20,6 +20,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/test.en.md"
 
+--8<-- "reference/concept-glossary-terms/test-data.en.md"
+
 --8<-- "reference/concept-glossary-terms/test-record.en.md"
 
 --8<-- "reference/concept-glossary-terms/threshold.en.md"
@@ -43,6 +45,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/trace.en.md"
 
 --8<-- "reference/concept-glossary-terms/training.en.md"
+
+--8<-- "reference/concept-glossary-terms/training-data.en.md"
 
 --8<-- "reference/concept-glossary-terms/training-mode.en.md"
 

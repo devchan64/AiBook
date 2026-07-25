@@ -54,6 +54,4 @@
 
 --8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.zh.md"
 
---8<-- "reference/concept-glossary-terms/axes.zh.md"
-
 --8<-- "reference/concept-glossary-terms/axis.zh.md"

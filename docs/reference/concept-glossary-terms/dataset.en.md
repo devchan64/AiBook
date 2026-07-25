@@ -7,5 +7,4 @@
 - Why it matters: The same raw table can become different learning problems depending on how the dataset is built. Dataset design often shapes performance and interpretation before model choice does.
 - Related concepts: `DataFrame`, `feature`, `target`, `sample`, `task definition`
 - Core Section: `P2-12.3`
-- Appears in: `P3-2.1`, `P3-2.2`, `P3-3.2`, `P3-9.2`
-
+- Appears in: `P2-12.1`, `P2-12.2`, `P3-2.1`, `P3-2.2`, `P3-3.2`, `P3-9.2`

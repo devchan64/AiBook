@@ -1,12 +1,8 @@
 ## ㄱ
 
---8<-- "reference/concept-glossary-terms/git.ko.md"
-
 --8<-- "reference/concept-glossary-terms/validation-data.ko.md"
 
 --8<-- "reference/concept-glossary-terms/hypothesis-testing.ko.md"
-
---8<-- "reference/concept-glossary-terms/groupby.ko.md"
 
 --8<-- "reference/concept-glossary-terms/curve.ko.md"
 
@@ -16,7 +12,13 @@
 
 --8<-- "reference/concept-glossary-terms/edge-weight.ko.md"
 
+--8<-- "reference/concept-glossary-terms/relation.ko.md"
+
+--8<-- "reference/concept-glossary-terms/hierarchy.ko.md"
+
 --8<-- "reference/concept-glossary-terms/value.ko.md"
+
+--8<-- "reference/concept-glossary-terms/default-value.ko.md"
 
 --8<-- "reference/concept-glossary-terms/weighted-sum.ko.md"
 

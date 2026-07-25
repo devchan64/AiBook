@@ -10,11 +10,15 @@
 
 --8<-- "reference/concept-glossary-terms/generative-model.zh.md"
 
---8<-- "reference/concept-glossary-terms/git.zh.md"
+--8<-- "reference/concept-glossary-terms/relation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/shared-view.zh.md"
 
 --8<-- "reference/concept-glossary-terms/goal.zh.md"
 
 --8<-- "reference/concept-glossary-terms/good-enough-solution.zh.md"
+
+--8<-- "reference/concept-glossary-terms/formula.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gpt.zh.md"
 
@@ -32,6 +36,6 @@
 
 --8<-- "reference/concept-glossary-terms/graph-based-search.zh.md"
 
---8<-- "reference/concept-glossary-terms/groupby.zh.md"
+--8<-- "reference/concept-glossary-terms/workflow.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.zh.md"

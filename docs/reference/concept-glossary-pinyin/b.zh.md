@@ -10,9 +10,17 @@
 
 --8<-- "reference/concept-glossary-terms/baseline-window.zh.md"
 
+--8<-- "reference/concept-glossary-terms/version-control.zh.md"
+
+--8<-- "reference/concept-glossary-terms/comparison-plot.zh.md"
+
+--8<-- "reference/concept-glossary-terms/identifier.zh.md"
+
 --8<-- "reference/concept-glossary-terms/batch.zh.md"
 
 --8<-- "reference/concept-glossary-terms/batch-normalization.zh.md"
+
+--8<-- "reference/concept-glossary-terms/scalar.zh.md"
 
 --8<-- "reference/concept-glossary-terms/bert.zh.md"
 
@@ -29,5 +37,7 @@
 --8<-- "reference/concept-glossary-terms/branch.zh.md"
 
 --8<-- "reference/concept-glossary-terms/broadcasting.zh.md"
+
+--8<-- "reference/concept-glossary-terms/table.zh.md"
 
 --8<-- "reference/concept-glossary-terms/brute-force-search.zh.md"

@@ -6,4 +6,4 @@
 - Why it matters: Accuracy is useful as a first check, but it can hide important failure patterns. With imbalanced data, a model can look accurate while ignoring rare but important cases. Readers should treat accuracy as a starting point and then ask what kinds of mistakes remain, whether some errors cost more than others, and whether other metrics are needed.
 - Related concepts: `loss curve`, `validation`, `test`
 - Core Section: `P2-13.3`
-- Appears in: `P2-14.2`
+- Appears in: `P2-13.3`

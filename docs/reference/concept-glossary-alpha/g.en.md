@@ -10,8 +10,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/generative-model.en.md"
 
---8<-- "reference/concept-glossary-terms/git.en.md"
-
 --8<-- "reference/concept-glossary-terms/goal.en.md"
 
 --8<-- "reference/concept-glossary-terms/good-enough-solution.en.md"
@@ -31,7 +29,5 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/graph.en.md"
 
 --8<-- "reference/concept-glossary-terms/graph-based-search.en.md"
-
---8<-- "reference/concept-glossary-terms/groupby.en.md"
 
 --8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.en.md"

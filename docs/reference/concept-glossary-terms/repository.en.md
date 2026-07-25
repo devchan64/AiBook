@@ -1,7 +1,7 @@
 ## repository
 
-- Meaning: 커밋 이력과 파일 상태가 함께 기록되는 Git의 관리 공간입니다. 단순 파일 폴더라기보다, 현재 상태와 그 상태에 이르기까지의 기록을 함께 관리하는 프로젝트 단위라고 볼 수 있습니다. 즉 저장소는 `파일이 놓인 위치`만이 아니라, 변경 이력과 브랜치 구조까지 포함한 작업 공간입니다. 보통 작업 디렉터리와 `.git` 내부 기록이 합쳐져 하나의 저장소를 이룬다고 이해하면 됩니다.
-- Why it matters: 지금 작업 중인 파일과 이미 기록으로 남긴 변경을 구분해 이해해야, 어떤 상태가 현재 작업장에 있고 어떤 상태가 이력으로 남았는지 명확히 읽을 수 있기 때문입니다. 이 개념이 있어야 `현재 파일 묶음`과 `이력까지 포함한 프로젝트 상태`를 다른 개념으로 읽게 되고, 같은 폴더처럼 보여도 Git 저장소 여부에 따라 추적 가능성과 협업 방식이 달라진다는 점도 더 분명히 이해하게 됩니다. 또한 저장소를 기준으로 브랜치, 원격 저장소, 커밋 비교가 모두 연결되므로, Git 명령이 `어느 파일`이 아니라 `어느 프로젝트 상태`를 다루는지 이해하는 출발점이 됩니다.
-- Related concepts: `Git`, `commit`, `staging area`
+- Meaning: A repository is the project space where file states and change history are managed together. It is not just a folder of files; it includes the recorded history and branch structure used to understand project state over time.
+- Why it matters: Readers need this concept to distinguish current working files from changes already recorded in history. It is the unit where commits, branches, and comparisons become meaningful.
+- Related concepts: `version control`, `commit`, `staging area`
 - Core Section: `P2-14.1`
 - Appears in: `P2-14.2`, `P6-3.1`

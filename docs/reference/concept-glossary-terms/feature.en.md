@@ -1,4 +1,5 @@
 <a id="feature"></a>
+<a id="glossary-feature"></a>
 
 ## feature
 
@@ -6,5 +7,4 @@
 - Why it matters: This concept helps readers distinguish a specific role in data, modeling, evaluation, prompting, or system operation instead of treating nearby terms as interchangeable.
 - Related concepts: `representation`, `input`, `parameter`, `feature selection`, `representation learning`
 - Core Section: `P1-4.3`
-- Appears in: `P1-2.3`, `P1-3.2`, `P1-3.3`, `P3-1.1`, `P3-2.2`, `P3-4.1`, `P3-4.2`, `P3-5.1`, `P3-6.1`, `P3-6.2`, `P3-6.3`, `P3-6.4`, `P5-10.1`
-
+- Appears in: `P1-2.3`, `P1-3.2`, `P1-3.3`, `P2-11.1`, `P2-11.2`, `P2-11.3`, `P2-12.3`, `P2-15.2`, `P3-1.1`, `P3-2.2`, `P3-4.1`, `P3-4.2`, `P3-5.1`, `P3-6.1`, `P3-6.2`, `P3-6.3`, `P3-6.4`, `P5-10.1`

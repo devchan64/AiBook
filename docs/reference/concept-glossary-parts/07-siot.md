@@ -1,16 +1,12 @@
 ## ㅅ
 
---8<-- "reference/concept-glossary-terms/savefig.ko.md"
-
 --8<-- "reference/concept-glossary-terms/self-consistency.ko.md"
-
---8<-- "reference/concept-glossary-terms/sentencepiece.ko.md"
-
---8<-- "reference/concept-glossary-terms/series.ko.md"
 
 --8<-- "reference/concept-glossary-terms/shape.ko.md"
 
 --8<-- "reference/concept-glossary-terms/shared-view.ko.md"
+
+--8<-- "reference/concept-glossary-terms/identifier.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sparse-attention.ko.md"
 
@@ -42,6 +38,8 @@
 --8<-- "reference/concept-glossary-terms/status-inspection.ko.md"
 
 --8<-- "reference/concept-glossary-terms/state.ko.md"
+
+--8<-- "reference/concept-glossary-terms/relative-path.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sample.ko.md"
 
@@ -129,6 +127,8 @@
 --8<-- "reference/concept-glossary-terms/forward-pass.ko.md"
 
 --8<-- "reference/concept-glossary-terms/script.ko.md"
+
+--8<-- "reference/concept-glossary-terms/slice.ko.md"
 
 --8<-- "reference/concept-glossary-terms/stack.ko.md"
 

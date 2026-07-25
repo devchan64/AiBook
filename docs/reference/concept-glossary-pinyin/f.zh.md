@@ -12,8 +12,6 @@
 
 --8<-- "reference/concept-glossary-terms/failure-type.zh.md"
 
---8<-- "reference/concept-glossary-terms/fancy-indexing.zh.md"
-
 --8<-- "reference/concept-glossary-terms/feature.zh.md"
 
 --8<-- "reference/concept-glossary-terms/feature-selection.zh.md"
@@ -22,9 +20,9 @@
 
 --8<-- "reference/concept-glossary-terms/few-shot-prompting.zh.md"
 
---8<-- "reference/concept-glossary-terms/figure.zh.md"
-
 --8<-- "reference/concept-glossary-terms/filtering.zh.md"
+
+--8<-- "reference/concept-glossary-terms/score.zh.md"
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.zh.md"
 
@@ -46,5 +44,3 @@
 
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.zh.md"
 --8<-- "reference/concept-glossary-terms/convolution.zh.md"
-
---8<-- "reference/concept-glossary-terms/function-calling.zh.md"

@@ -1,9 +1,5 @@
 ## ㅍ
 
---8<-- "reference/concept-glossary-terms/figure.ko.md"
-
---8<-- "reference/concept-glossary-terms/pip.ko.md"
-
 --8<-- "reference/concept-glossary-terms/python-interpreter.ko.md"
 
 --8<-- "reference/concept-glossary-terms/parametric-memory.ko.md"
@@ -14,11 +10,11 @@
 
 --8<-- "reference/concept-glossary-terms/path.ko.md"
 
+--8<-- "reference/concept-glossary-terms/file-path.ko.md"
+
 --8<-- "reference/concept-glossary-terms/proxy-label.ko.md"
 
 --8<-- "reference/concept-glossary-terms/package.ko.md"
-
---8<-- "reference/concept-glossary-terms/fancy-indexing.ko.md"
 
 --8<-- "reference/concept-glossary-terms/pixel.ko.md"
 

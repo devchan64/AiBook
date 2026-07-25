@@ -14,8 +14,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/sampling.en.md"
 
---8<-- "reference/concept-glossary-terms/savefig.en.md"
-
 --8<-- "reference/concept-glossary-terms/scalar.en.md"
 
 --8<-- "reference/concept-glossary-terms/scale.en.md"
@@ -46,11 +44,9 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/sentence-paragraph-and-document-embedding.en.md"
 
---8<-- "reference/concept-glossary-terms/sentencepiece.en.md"
-
 --8<-- "reference/concept-glossary-terms/seq2seq.en.md"
 
---8<-- "reference/concept-glossary-terms/series.en.md"
+--8<-- "reference/concept-glossary-terms/set-data-structure.en.md"
 
 --8<-- "reference/concept-glossary-terms/server.en.md"
 
@@ -103,6 +99,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/structural-hypothesis.en.md"
 
 --8<-- "reference/concept-glossary-terms/structure.en.md"
+
+--8<-- "reference/concept-glossary-terms/squared-error.en.md"
 
 --8<-- "reference/concept-glossary-terms/summary-table.en.md"
 

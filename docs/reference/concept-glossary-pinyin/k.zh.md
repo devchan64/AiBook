@@ -4,7 +4,13 @@
 
 --8<-- "reference/concept-glossary-terms/k-nnk-nearest-neighbors.zh.md"
 
+--8<-- "reference/concept-glossary-terms/reproducibility.zh.md"
+
+--8<-- "reference/concept-glossary-terms/visualization.zh.md"
+
 --8<-- "reference/concept-glossary-terms/key.zh.md"
+
+--8<-- "reference/concept-glossary-terms/reproducible-record.zh.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-acquisition.zh.md"
 

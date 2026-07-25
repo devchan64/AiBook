@@ -4,6 +4,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/abstract-data-type.en.md"
 
+--8<-- "reference/concept-glossary-terms/adjacency-list.en.md"
+
 --8<-- "reference/concept-glossary-terms/accountability.en.md"
 
 --8<-- "reference/concept-glossary-terms/accuracy.en.md"
@@ -54,6 +56,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.en.md"
 
---8<-- "reference/concept-glossary-terms/axes.en.md"
-
 --8<-- "reference/concept-glossary-terms/axis.en.md"
+
+--8<-- "reference/concept-glossary-terms/axis-label.en.md"

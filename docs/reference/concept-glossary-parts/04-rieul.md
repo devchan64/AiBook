@@ -34,8 +34,6 @@
 
 --8<-- "reference/concept-glossary-terms/local-environment.ko.md"
 
---8<-- "reference/concept-glossary-terms/loc.ko.md"
-
 --8<-- "reference/concept-glossary-terms/long-context.ko.md"
 
 --8<-- "reference/concept-glossary-terms/redirection.ko.md"
@@ -43,5 +41,3 @@
 --8<-- "reference/concept-glossary-terms/resource.ko.md"
 
 --8<-- "reference/concept-glossary-terms/list.ko.md"
-
---8<-- "reference/concept-glossary-terms/requirements-file.ko.md"

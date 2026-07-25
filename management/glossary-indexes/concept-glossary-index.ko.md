@@ -175,7 +175,7 @@
 | 라이선스 | 라이선스 | license | P1-15.2 | license | license | copyright licensing context | 자료 사용 조건과 허락 범위를 정한 규칙 |
 | 아이디어 | 아이디어 | idea | P1-15.2 | idea | idea | copyright idea/expression distinction | 구체적 표현으로 고정되기 전의 주제·발상·원리 |
 | 사실 | 사실 | fact | P1-10.3 | fact | fact | information integrity context | 참거짓을 확인할 수 있는 현실 주장 |
-| 학습 데이터 | 학습 데이터 | training data | P1-15.2 | training-data | training-data | generative AI training data context | 모델이 패턴을 배우는 데 사용되는 데이터 |
+| 학습 데이터 | 학습 데이터 | training data | P1-15.2 | training-data | training-data | P1-15.2, P2-15.2 source context | 모델이 패턴이나 규칙을 배우는 데 직접 사용하는 데이터 |
 | 권리자 | 권리자 | rightsholder | P1-15.2 | rightsholder | rightsholder | copyright rightsholder context | 저작물이나 자료의 이용 권리를 가진 사람이나 기관 |
 | 공정 이용 | 공정 이용 | fair use | P1-15.2 | fair-use | fair-use | U.S. Copyright Office AI reports | 저작물의 제한적 이용 가능성을 여러 요소로 보는 법적 개념 |
 | 변형적 이용 | 변형적 이용 | transformative use | P1-15.2 | transformative-use | transformative-use | fair use context | 원저작물을 새로운 목적이나 성격으로 바꾸어 쓰는 이용 주장 |
@@ -267,12 +267,9 @@
 | 거리 | 거리 | distance | P2-3.4 | distance | distance | P2-3.4 source context | 두 벡터가 표현 공간에서 얼마나 떨어져 있는지 보는 기준 |
 | 유사도 | 유사도 | similarity | P2-3.4 | similarity | similarity | P2-3.4 source context | 두 벡터나 표현이 얼마나 닮았는지 보는 비교 기준 |
 | 코사인 유사도 | 코사인 유사도 | cosine similarity | P2-3.4 | cosine-similarity | cosine-similarity | P2-3.4 source context | 두 벡터의 방향 유사성을 보는 기준 |
-| 콜랩 | Colab | Colab | P2-10.2 | colab | colab | P2-3.5 source context | 브라우저에서 노트북을 실행하는 Google 호스팅형 Jupyter 환경 |
 | 로컬 PC | 로컬 PC | local PC | P2-3.5 | local-pc | local-pc | P2-3.5 source context | 독자 자신의 컴퓨터에서 Python과 터미널로 코드를 실행하는 자리 |
 | 코드 셀 | 코드 셀 | code cell | P2-10.1 | code-cell | code-cell | P2-3.5 source context | 노트북에서 실제 코드를 입력하고 실행하는 셀 |
-| 매직 명령 | 매직 명령 | magic command | P2-3.5 | magic-command | magic-command | P2-3.5 source context | Jupyter/Colab 코드 셀에서 쓰는 특수 환경 명령 |
 | import 문 | import 문 | import statement | P2-3.5 | import-statement | import-statement | P2-3.5 source context | 설치된 모듈이나 패키지를 Python 코드에서 불러오는 문장 |
-| 넘파이 | NumPy | NumPy | P2-3.6 | numpy | numpy | P2-3.6 source context | Python에서 숫자 배열과 벡터·행렬 계산을 다루는 라이브러리 |
 | 변화 비교 | 변화 비교 | change comparison | P2-4.1 | change-comparison | change-comparison | P2-4.1 source context | 입력 변화와 출력 변화가 어떻게 함께 움직이는지 보는 질문 |
 | 접선 | 접선 | tangent line | P2-4.1 | tangent-line | tangent-line | P2-4.1 source context | 곡선의 한 지점 근처 변화 방향을 보여 주는 직선 |
 | 기울기 | 기울기 | slope | P2-4.2 | slope | slope | P2-4.2 source context | 입력 변화에 대한 출력 변화를 그래프 위에서 읽는 값 |
@@ -350,3 +347,124 @@
 | 학습 반복 | 학습 반복 | iteration | P2-6.3 | iteration | iteration | P2-6.3 source context | 예측, 손실 계산, 그래디언트 계산, 업데이트를 한 차례 수행하는 학습 단위 |
 | 업데이트 | 업데이트 | update | P2-6.3 | update | update | P2-6.3 source context | 현재 파라미터나 설정값을 새 계산 결과에 맞게 바꾸는 단계 |
 | 손실 지형 | 손실 지형 | loss landscape | P2-6.3 | loss-landscape | loss-landscape | P2-6.3 source context | 파라미터 위치에 따라 손실값이 달라지는 모양을 지형처럼 본 표현 |
+| 로컬 환경 | 로컬 환경 | local environment | P2-7.1 | local-environment | local-environment | P2-7.1 source context | 내 컴퓨터에서 코드를 실행하기 위해 준비된 프로그램, 파일, 설정의 묶음 |
+| 실행 환경 | 실행 환경 | runtime | P2-7.1 | runtime | runtime | Python runtime context | 코드가 실제로 실행되는 자리와 연결된 프로그램·패키지·설정 묶음 |
+| 터미널 | 터미널 | terminal | P2-7.2 | terminal | terminal | P2-7.2 source context | 명령을 입력하고 결과를 보는 문자 기반 창이나 앱 |
+| 셸 | 셸 | shell | P2-7.2 | shell | shell | Bash manual | 터미널 안에서 명령을 읽고 해석해 실행하는 프로그램 |
+| 명령 | 명령 | command | P2-7.2 | command | command | P2-7.2 source context | 셸에게 지금 수행하라고 요청하는 실행 문장 |
+| 작업 폴더 | 작업 폴더 | working directory | P2-7.2 | working-directory | working-directory | P2-7.2 source context | 현재 명령이 기준으로 삼는 폴더 |
+| 파일 경로 | 파일 경로 | file path | P2-7.2 | file-path | file-path | P2-7.2 source context | 파일이나 폴더가 어디에 있는지 가리키는 위치 문자열 |
+| 상대 경로 | 상대 경로 | relative path | P2-7.2 | relative-path | relative-path | P2-7.2 source context | 현재 작업 폴더를 기준으로 위치를 가리키는 경로 |
+| 절대 경로 | 절대 경로 | absolute path | P2-7.2 | absolute-path | absolute-path | P2-7.2 source context | 파일 시스템 시작점부터 모두 적은 경로 |
+| Python 인터프리터 | Python 인터프리터 | Python interpreter | P2-7.3 | python-interpreter | python-interpreter | Python interpreter docs | Python 코드를 읽고 실행하는 프로그램 |
+| 인터프리터 | 인터프리터 | interpreter | P2-7.3 | interpreter | interpreter | Python interpreter docs | 코드를 읽고 실행 결과로 연결하는 실행 프로그램 |
+| 대화형 모드 | 대화형 모드 | interactive mode | P2-7.3 | interactive-mode | interactive-mode | Python interpreter docs | 한 줄씩 입력하고 바로 결과를 확인하는 실행 방식 |
+| 스크립트 | 스크립트 | script | P2-7.3 | script | script | Python command-line docs | 여러 줄 코드를 파일로 저장해 한 번에 실행하는 방식 |
+| 가상환경 | 가상환경 | virtual environment | P2-7.4 | virtual-environment | virtual-environment | Python venv docs | 프로젝트별로 분리한 Python 실행 공간 |
+| 패키지 | 패키지 | package | P2-7.4 | package | package | Python Packaging User Guide | Python에서 가져다 쓸 수 있도록 배포되는 코드 묶음 |
+| 의존성 | 의존성 | dependency | P2-7.5 | dependency | dependency | Python Packaging User Guide | 코드 실행에 필요한 외부 패키지나 환경 조건 |
+| 버전 고정 | 버전 고정 | version pinning | P2-7.5 | version-pinning | version-pinning | pip repeatable installs | 특정 패키지 버전을 명시해 환경 차이를 줄이는 방법 |
+| 셸 스크립트 | 셸 스크립트 | shell script | P2-7.8 | shell-script | shell-script | Bash manual | 터미널 명령 여러 줄을 파일에 묶어 둔 실행 기록 |
+| 파이프 | 파이프 | pipe | P2-7.8 | pipe | pipe | Bash manual, PowerShell pipelines | 앞 명령의 출력을 뒤 명령의 입력으로 넘기는 연결 |
+| 리다이렉션 | 리다이렉션 | redirection | P2-7.8 | redirection | redirection | Bash manual, PowerShell redirection | 명령의 입출력 방향을 파일 같은 대상으로 바꾸는 표기 |
+| 환경 변수 | 환경 변수 | environment variable | P2-7.8 | environment-variable | environment-variable | Bash manual, PowerShell environment variables | 프로그램이 바깥 실행 환경에서 읽는 이름표 붙은 설정값 |
+| 패스 환경 변수 | 패스 환경 변수 | PATH | P2-7.9 | path | path | P2-7.9 source context | 터미널이 명령 이름만 보고 실행 파일을 찾을 때 참고하는 위치 목록 |
+| 환경 불일치 | 환경 불일치 | environment mismatch | P2-7.9 | environment-mismatch | environment-mismatch | P2-7.9 source context | 패키지를 설치한 환경과 코드를 실행하는 환경이 서로 다른 상태 |
+| 값 | 값 | value | P2-8.1 | value | value | P2-8.1 source context | 계산이 실제로 다루는 데이터 자체 |
+| 타입 | 타입 | type | P2-8.1 | type | type | Python data model | 값이 어떤 종류이며 어떤 연산을 허용하는지 구분하는 정보 |
+| 대입 | 대입 | assignment | P2-8.7 | assignment | assignment | Python data model | 이름을 어떤 값이나 객체에 연결하는 동작 |
+| 리스트 | 리스트 | list | P2-8.2 | list | list | Python data structures | 여러 값을 순서대로 담고 인덱스로 꺼낼 수 있는 자료구조 |
+| 인덱스 | 인덱스 | index | P2-8.2 | index | index | P2-8.2 source context | 순서 있는 묶음에서 몇 번째 값인지 가리키는 위치 번호 |
+| 변경 가능한 값 | 변경 가능한 값 | mutable value | P2-8.2 | mutable-value | mutable-value | Python mutable sequence context | 만든 뒤에도 내부 항목이나 상태를 바꿀 수 있는 값 |
+| 중첩 리스트 | 중첩 리스트 | nested list | P2-8.2 | nested-list | nested-list | P2-8.2 source context | 리스트 안에 다시 리스트가 들어 있는 구조 |
+| 슬라이스 | 슬라이스 | slice | P2-8.2 | slice | slice | Python sequence operations | 순서 있는 값 묶음에서 일부 구간을 잘라 읽는 문법이나 구간 |
+| 딕셔너리 | 딕셔너리 | dictionary | P2-8.3 | dictionary | dictionary | Python mapping types | 키를 기준으로 값을 찾도록 구성한 매핑 자료구조 |
+| 키 | 키 | key | P2-8.3 | key | key | Python glossary dictionary | 딕셔너리 같은 매핑 구조에서 값을 찾기 위한 기준 이름 |
+| 매핑 | 매핑 | mapping | P2-8.3 | mapping | mapping | Python mapping types | 어떤 기준 키를 특정 값에 연결해 두는 구조 |
+| 반복 | 반복 | loop | P2-8.4 | loop | loop | Python for statement context | 여러 값에 같은 처리 기준을 차례대로 적용하는 흐름 |
+| 이터러블 | 이터러블 | iterable | P2-8.4 | iterable | iterable | Python glossary iterable | 값을 하나씩 꺼내며 순회할 수 있는 대상 |
+| 이터레이터 | 이터레이터 | iterator | P2-8.4 | iterator | iterator | Python glossary iterator | 다음 값을 하나씩 실제로 꺼내 주는 반복 장치 |
+| 누적 | 누적 | accumulation | P2-8.4 | accumulation | accumulation | P2-8.4 source context | 반복 중 현재까지의 결과를 계속 쌓아 하나의 결과를 만드는 패턴 |
+| 컴프리헨션 | 컴프리헨션 | comprehension | P2-8.4 | comprehension | comprehension | Python list comprehensions | 반복으로 새 리스트나 딕셔너리 같은 컬렉션을 만드는 축약 표현 |
+| 매개변수 | 매개변수 | parameter | P2-8.5 | parameter-function | parameter-function | Python function definitions | 함수를 정의할 때 입력 자리를 나타내기 위해 적는 이름 |
+| 인자 | 인자 | argument | P2-8.5 | argument | argument | Python function definitions | 함수를 실제로 호출할 때 넘기는 값 |
+| 반환값 | 반환값 | return value | P2-8.5 | return-value | return-value | Python function definitions | 함수가 계산을 마친 뒤 바깥으로 돌려주는 결과 값 |
+| 기본값 | 기본값 | default value | P2-8.5 | default-value | default-value | Python default argument values | 함수 호출에서 인자를 따로 주지 않았을 때 자동으로 사용되는 값 |
+| 메서드 | 메서드 | method | P2-8.5 | method | method | Python method objects | 객체에 붙어 호출되는 함수 형태 |
+| 클래스 | 클래스 | class | P2-8.6 | class | class | Python classes | 객체를 만들기 위한 정의나 틀 |
+| 객체 | 객체 | object | P2-8.6 | object | object | Python data model | Python이 메모리 안에서 다루는 실제 값의 대상 |
+| 속성 | 속성 | attribute | P2-8.6 | attribute | attribute | Python classes attributes | 객체에 붙어 있는 값이나 상태 정보 |
+| 참조 | 참조 | reference | P2-8.7 | reference | reference | Python copy docs | 여러 이름이 같은 객체를 함께 가리키는 상태 |
+| 얕은 복사 | 얕은 복사 | shallow copy | P2-8.7 | shallow-copy | shallow-copy | Python copy docs | 바깥 컨테이너만 새로 만들고 안쪽 중첩 값은 공유할 수 있는 복사 |
+| 깊은 복사 | 깊은 복사 | deep copy | P2-8.7 | deep-copy | deep-copy | Python copy docs | 중첩된 내부 값까지 새로 만들어 원본과 분리하는 복사 |
+| 자료구조 | 자료구조 | data structure | P2-9.1 | data-structure | data-structure | P2-9.1 source context | 데이터를 조직하는 모양과 자주 수행할 연산을 함께 보는 기준 |
+| 연산 | 연산 | operation | P2-9.1 | operation | operation | P2-9.1 source context | 자료구조나 값 위에서 수행하는 접근, 검색, 추가, 삭제, 순회 같은 작업 |
+| 추상 자료형 | 추상 자료형 | abstract data type | P2-9.1 | abstract-data-type | abstract-data-type | P2-9.1 source context | 실제 구현보다 어떤 값과 연산을 제공하는지 먼저 보는 동작 관점의 틀 |
+| 선형 구조 | 선형 구조 | linear structure | P2-9.1 | linear-structure | linear-structure | P2-9.1 source context | 데이터가 한 줄의 순서로 이어진다고 보는 구조 |
+| 비선형 구조 | 비선형 구조 | non-linear structure | P2-9.1 | non-linear-structure | non-linear-structure | P2-9.1 source context | 계층이나 관계처럼 한 줄로만 읽히지 않는 구조 |
+| 키 기반 구조 | 키 기반 구조 | key-based structure | P2-9.1 | key-based-structure | key-based-structure | P2-9.1 source context | 위치보다 키를 기준으로 값을 찾고 관리하는 구조 감각 |
+| 배열 | 배열 | array | P2-9.2 | array | array | P2-9.2 source context | 위치와 축을 기준으로 값을 읽는 구조 |
+| 테이블 | 테이블 | table | P2-9.2 | table | table | P2-9.2 source context | 행과 열의 교차로 값을 정리하는 표 구조 |
+| 행 | 행 | row | P2-12.1 | row | row | P2-9.2 source context | 표에서 한 사례, 관측, 샘플 단위를 가로로 나타낸 줄 |
+| 열 | 열 | column | P2-12.1 | column | column | P2-9.2 source context | 표에서 하나의 변수나 속성을 아래로 모아 놓은 세로줄 |
+| 트리 | 트리 | tree | P2-9.2 | tree | tree | P2-9.2 source context | 부모와 자식의 계층 관계로 항목을 조직하는 구조 |
+| 계층 | 계층 | hierarchy | P2-9.2 | hierarchy | hierarchy | P2-9.2 source context | 상위와 하위가 나뉘는 관계 구조 |
+| 그래프 | 그래프 | graph | P2-9.3 | graph | graph | P2-9.3 source context | 대상을 노드로 두고 관계를 엣지로 연결한 구조 |
+| 노드 | 노드 | node | P2-9.3 | node | node | P2-9.3 source context | 그래프 안에서 하나의 대상이나 지점을 나타내는 단위 |
+| 엣지 | 엣지 | edge | P2-9.3 | edge | edge | P2-9.3 source context | 그래프에서 노드와 노드 사이의 연결 |
+| 관계 | 관계 | relation | P2-9.2 | relation | relation | P2-9.2 source context | 두 대상이 어떻게 연결되거나 대응되는지를 나타내는 구조적 정보 |
+| 인접 리스트 | 인접 리스트 | adjacency list | P2-9.3 | adjacency-list | adjacency-list | P2-9.3 source context | 그래프에서 각 노드마다 바로 연결된 이웃 노드 목록을 적는 표현 |
+| 방향 그래프 | 방향 그래프 | directed graph | P2-9.3 | directed-graph | directed-graph | P2-9.3 source context | 엣지의 방향이 중요한 그래프 |
+| 무방향 그래프 | 무방향 그래프 | undirected graph | P2-9.3 | undirected-graph | undirected-graph | P2-9.3 source context | 엣지에 방향이 없고 양쪽으로 같은 관계를 읽는 그래프 |
+| 엣지 가중치 | 엣지 가중치 | edge weight | P2-9.3 | edge-weight | edge-weight | P2-9.3 source context | 그래프 엣지에 붙은 강도, 거리, 비용 같은 숫자 |
+| 연결 리스트 | 연결 리스트 | linked list | P2-9.4 | linked-list | linked-list | P2-9.4 source context | 각 항목이 다음 항목을 가리키는 방식으로 이어진 선형 자료구조 |
+| 스택 | 스택 | stack | P2-9.4 | stack | stack | P2-9.4 source context | 마지막에 넣은 것을 먼저 꺼내는 LIFO 규칙 중심 구조 |
+| 큐 | 큐 | queue | P2-9.4 | queue | queue | P2-9.4 source context | 먼저 들어온 것을 먼저 꺼내는 FIFO 규칙 중심 구조 |
+| 해시 테이블 | 해시 테이블 | hash table | P2-9.4 | hash-table | hash-table | P2-9.4 source context | 키를 해시 방식으로 다루어 값을 빠르게 찾는 구조 |
+| 집합 | 집합 | set | P2-9.1 | set-data-structure | set-data-structure | P2-9.1 source context | 중복보다 포함 여부를 중심으로 다루는 자료구조 |
+| 노트북, 계산 문서 | 노트북 | notebook | P2-10.1 | notebook | notebook | Jupyter docs, P2-10.1 source context | 코드, 설명, 출력이 함께 들어 있는 계산 문서 |
+| 마크다운 셀 | 마크다운 셀 | markdown cell | P2-10.1 | markdown-cell | markdown-cell | Jupyter docs, P2-10.1 source context | 질문, 설명, 해석을 글로 남기는 노트북 블록 |
+| 출력 | 출력 | output | P2-10.1 | output | output | Jupyter docs, P2-10.1 source context | 코드 실행 결과로 보이는 값, 표, 차트, 오류 메시지 |
+| 실행 순서 | 실행 순서 | execution order | P2-10.3 | execution-order | execution-order | P2-10.3 source context | 셀이 실제로 어떤 순서로 실행되었는지를 나타내는 기록 조건 |
+| 숨은 상태 | 숨은 상태 | hidden state | P2-10.3 | hidden-state | hidden-state | P2-10.3 source context | 문서에는 드러나지 않지만 런타임 안에 남아 있는 변수, import, 임시 결과 |
+| 런타임 상태 | 런타임 상태 | runtime state | P2-10.3 | runtime-state | runtime-state | P2-10.3 source context | 현재 세션에만 살아 있는 변수, 패키지, 메모리 상태 |
+| 재실행 가능한 기록 | 재실행 가능한 기록 | reproducible record | P2-10.3 | reproducible-record | reproducible-record | P2-10.3 source context | 나중에 다시 열어도 같은 흐름으로 실행과 해석을 재현할 수 있는 기록 |
+| dtype | dtype | dtype | P2-11.1 | dtype | dtype | P2-11.1 source context | 배열에 담긴 값의 자료형 정보 |
+| ndim | ndim | number of dimensions | P2-11.1 | ndim | ndim | P2-11.1 source context | 배열이 몇 개의 축을 가진 구조인지 나타내는 차원 수 |
+| 인덱싱 | 인덱싱 | indexing | P2-11.2 | indexing | indexing | P2-11.2 source context | 배열, 리스트 같은 구조에서 특정 위치의 값을 고르는 선택 방식 |
+| 슬라이싱 | 슬라이싱 | slicing | P2-11.2 | slicing | slicing | P2-11.2 source context | 시작과 끝을 정해 연속된 구간을 남기는 선택 방식 |
+| 축 | 축 | axis | P2-11.2 | axis | axis | P2-11.2 source context | 배열 계산이 어느 방향을 따라 진행되는지 정하는 기준 |
+| 브로드캐스팅 | 브로드캐스팅 | broadcasting | P2-11.3 | broadcasting | broadcasting | P2-11.3 source context | 작은 값이나 배열을 큰 배열의 shape에 맞춰 적용하는 계산 규칙 |
+| 벡터화 | 벡터화 | vectorization | P2-11.3 | vectorization | vectorization | P2-11.3 source context | 반복 계산을 배열 연산 하나로 표현하는 방식 |
+| 불리언 마스크 | 불리언 마스크 | boolean mask | P2-11.4 | boolean-mask | boolean-mask | P2-11.4 source context | 조건이 참인 위치만 남기기 위해 참·거짓 배열로 값을 고르는 방식 |
+| 원본 공유 | 원본 공유 | shared view | P2-11.4 | shared-view | shared-view | P2-11.4 source context | 선택 결과가 원본 배열과 같은 데이터를 바라보아 함께 바뀔 수 있는 상태 |
+| DataFrame | DataFrame | DataFrame | P2-12.1 | dataframe | dataframe | P2-12.1 source context | 행과 열 라벨이 붙은 2차원 표 형식 데이터 구조 |
+| 필터링 | 필터링 | filtering | P2-12.2 | filtering | filtering | P2-12.2 source context | 조건에 맞는 일부 행이나 값만 남기는 선택 과정 |
+| 집계 | 집계 | aggregation | P2-12.2 | aggregation | aggregation | P2-12.2 source context | 여러 행이나 값을 평균, 합, 개수 같은 더 작은 요약값으로 바꾸는 과정 |
+| 데이터셋 | 데이터셋 | dataset | P2-12.3 | dataset | dataset | P2-12.3 source context | 학습이나 평가를 위해 정리한 샘플과 변수의 묶음 |
+| 타깃 | 타깃 | target | P1-8.1 | target | target | P2-12.3 source context | 모델이 맞혀야 하는 정답 열 또는 목표 값 |
+| 검증 | 검증 | validation | P4-4.2 | validation | validation | P2-12.3 source context | 설정과 선택을 비교 점검하기 위한 중간 평가 데이터 또는 절차 |
+| 테스트 | 테스트 | test | P2-12.3 | test | test | P2-12.3 source context | 선택이 끝난 뒤 마지막으로 확인하는 평가 데이터 또는 절차 |
+| 데이터 누수 | 데이터 누수 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 예측 시점에 알 수 없는 정보가 학습 과정에 미리 섞이는 문제 |
+| 식별자 | 식별자 | identifier | P2-12.3 | identifier | identifier | P2-12.3 source context | 개별 행, 사례, 사용자, 이벤트를 구분하기 위해 붙인 값 |
+| 전처리 | 전처리 | preprocessing | P4-7.2 | preprocessing | preprocessing | P2-12.3 source context | 모델에 넣기 전에 입력 표현을 계산 가능한 형태로 준비하는 과정 |
+| 그래프(plot) | 그래프 | plot | P2-13.1 | plot | plot | P2-13.1 source context | 숫자나 표 데이터를 시각적 모양으로 바꾸어 보여 주는 그림 |
+| 시각화 | 시각화 | visualization | P2-13.1 | visualization | visualization | P2-13.1 source context | 숫자나 표 데이터를 눈으로 비교 가능한 모양으로 바꾸어 확인하는 과정 |
+| 막대 그래프 | 막대 그래프 | bar chart | P2-13.1 | bar-chart | bar-chart | P2-13.1 source context | 범주별 값의 크기를 막대 길이로 비교하는 차트 |
+| 선 그래프 | 선 그래프 | line plot | P2-13.2 | line-plot | line-plot | P2-13.2 source context | 순서나 시간에 따른 값 변화를 선으로 잇는 차트 |
+| 산점도 | 산점도 | scatter plot | P2-13.2 | scatter-plot | scatter-plot | P2-13.2 source context | 두 변수의 관계와 흩어짐을 점으로 보여 주는 그래프 |
+| 히스토그램 | 히스토그램 | histogram | P2-13.2 | histogram | histogram | P2-13.2 source context | 값이 어느 구간에 얼마나 몰려 있는지 보여 주는 차트 |
+| 손실 곡선 | 손실 곡선 | loss curve | P2-13.2 | loss-curve | loss-curve | P2-13.2 source context | 학습 반복에 따라 손실이 어떻게 변하는지 보여 주는 선 그래프 |
+| 축 라벨 | 축 라벨 | axis label | P2-13.2 | axis-label | axis-label | P2-13.2 source context | 그래프의 가로축과 세로축이 무엇을 뜻하는지 적는 설명 |
+| 비교 그래프 | 비교 그래프 | comparison plot | P2-13.3 | comparison-plot | comparison-plot | P2-13.3 source context | 둘 이상의 값, 흐름, 조건을 나란히 놓거나 같은 축에서 비교하는 그래프 |
+| 범례 | 범례 | legend | P2-13.3 | legend | legend | P2-13.3 source context | 여러 선이나 점이 각각 무엇을 뜻하는지 구분해 주는 표식 |
+| 정확도 | 정확도 | accuracy | P2-13.3 | accuracy | accuracy | P2-13.3 source context | 전체 예측 중 맞춘 비율을 나타내는 성능 지표 |
+| 버전 관리 | 버전 관리 | version control | P2-14.1 | version-control | version-control | P2-14.1 source context | 시간에 따라 바뀐 파일 상태와 이유를 다시 찾게 해 주는 기록 방식 |
+| 커밋 | 커밋 | commit | P2-14.1 | commit | commit | P2-14.1 source context | 의미 있는 변경 묶음을 저장소 이력에 남긴 기록 단위 |
+| 스테이징 영역 | 스테이징 영역 | staging area | P2-14.1 | staging-area | staging-area | P2-14.1 source context | 이번 커밋에 넣을 변경을 고르는 중간 공간 |
+| 저장소 | 저장소 | repository | P2-14.1 | repository | repository | P2-14.1 source context | 파일 상태와 변경 이력을 함께 관리하는 프로젝트 공간 |
+| 브랜치 | 브랜치 | branch | P2-14.2 | branch | branch | P2-14.2 source context | 같은 저장소 안에서 작업 흐름을 분리해 가리키는 이름 붙은 이력선 |
+| 배포 | 배포 | deployment | P2-14.2 | deployment | deployment | P2-14.2 source context | 독자에게 보이는 문서 결과를 실제 공개 상태로 갱신하는 일 |
+| 작업 흐름 | 작업 흐름 | workflow | P2-14.2 | workflow | workflow | P2-14.2 source context | 작성, 점검, 배포를 어떤 순서와 기준으로 나눌지 정한 운영 방식 |
+| 정적 배포 | 정적 배포 | static deployment | P7-7.1 | static-deployment | static-deployment | P2-14.2 source context | 미리 생성한 정적 파일을 사이트 형태로 공개하는 방식 |
+| 문서 재현성 | 문서 재현성 | document reproducibility | P2-14.2 | document-reproducibility | document-reproducibility | P2-14.2 source context | 원고, 코드, 이미지, 설정을 맞춰 같은 문서 결과를 다시 만들 수 있는 성질 |

@@ -34,6 +34,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-agent.en.md"
 
+--8<-- "reference/concept-glossary-terms/relation.en.md"
+
 --8<-- "reference/concept-glossary-terms/repository.en.md"
 
 --8<-- "reference/concept-glossary-terms/representation.en.md"
@@ -43,8 +45,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/reproducibility.en.md"
 
 --8<-- "reference/concept-glossary-terms/reproducible-record.en.md"
-
---8<-- "reference/concept-glossary-terms/requirements-file.en.md"
 
 --8<-- "reference/concept-glossary-terms/residual-connection.en.md"
 

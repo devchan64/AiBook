@@ -1,7 +1,9 @@
+<a id="shared-view"></a>
+
 ## shared view
 
-- Meaning: 선택 결과가 원본 배열과 같은 데이터를 바라보고 있어 한쪽 변경이 다른 쪽에도 반영될 수 있는 상태입니다. 겉으로는 새 변수처럼 보여도 실제로는 같은 메모리 일부를 함께 참조하고 있는 관계라고 이해하면 됩니다. 즉 새 이름이 생겼어도 새 데이터가 생긴 것은 아닐 수 있다는 뜻입니다.
-- Why it matters: 결과가 새 변수에 담겼다고 해서 새 데이터가 만들어진 것은 아닐 수 있다는 점을 알려 주기 때문입니다. 이 개념이 있어야 NumPy 전처리에서 `부분을 골랐을 뿐`인데 원본이 함께 바뀌는 이유를 이해하게 되고, 언제는 메모리를 아끼는 장점이 되지만 언제는 디버깅을 어렵게 만드는 위험이 되는지도 함께 판단하게 됩니다. 또한 슬라이싱과 복사가 언제 같은 듯 보이지만 수정 부작용에서 결정적으로 달라지는지도 더 분명히 읽게 됩니다. 결국 원본 공유 뷰를 이해해야 메모리 효율과 수정 부작용을 함께 따져 보게 됩니다.
+- Meaning: A shared view is a selected result that still refers to the same underlying data as the original array. Changing one side can therefore affect the other.
+- Why it matters: A new variable name does not always mean new data. This concept helps readers distinguish memory-efficient views from independent copies, especially when preprocessing code modifies selected array parts.
 - Related concepts: `slicing`, `copy`, `boolean mask`
 - Core Section: `P2-11.4`
 - Appears in: `P2-8.7`

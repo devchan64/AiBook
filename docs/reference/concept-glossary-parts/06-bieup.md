@@ -14,6 +14,10 @@
 
 --8<-- "reference/concept-glossary-terms/loop.ko.md"
 
+--8<-- "reference/concept-glossary-terms/comparison-plot.ko.md"
+
+--8<-- "reference/concept-glossary-terms/mutable-value.ko.md"
+
 --8<-- "reference/concept-glossary-terms/criterion.ko.md"
 
 --8<-- "reference/concept-glossary-terms/summation-index.ko.md"

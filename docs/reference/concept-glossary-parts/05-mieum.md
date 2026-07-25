@@ -1,12 +1,12 @@
 ## ㅁ
 
+--8<-- "reference/concept-glossary-terms/bar-chart.ko.md"
+
 --8<-- "reference/concept-glossary-terms/masking.ko.md"
 
 --8<-- "reference/concept-glossary-terms/masked-language-model.ko.md"
 
 --8<-- "reference/concept-glossary-terms/markdown-cell.ko.md"
-
---8<-- "reference/concept-glossary-terms/magic-command.ko.md"
 
 --8<-- "reference/concept-glossary-terms/corpus.ko.md"
 
@@ -27,6 +27,8 @@
 --8<-- "reference/concept-glossary-terms/method.ko.md"
 
 --8<-- "reference/concept-glossary-terms/methodology.ko.md"
+
+--8<-- "reference/concept-glossary-terms/command.ko.md"
 
 --8<-- "reference/concept-glossary-terms/median.ko.md"
 

@@ -32,11 +32,11 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/linear-structure.en.md"
 
+--8<-- "reference/concept-glossary-terms/linked-list.en.md"
+
 --8<-- "reference/concept-glossary-terms/list.en.md"
 
 --8<-- "reference/concept-glossary-terms/llm.en.md"
-
---8<-- "reference/concept-glossary-terms/loc.en.md"
 
 --8<-- "reference/concept-glossary-terms/local-environment.en.md"
 

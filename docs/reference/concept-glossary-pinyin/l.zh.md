@@ -12,6 +12,8 @@
 
 --8<-- "reference/concept-glossary-terms/latency.zh.md"
 
+--8<-- "reference/concept-glossary-terms/category.zh.md"
+
 --8<-- "reference/concept-glossary-terms/layer-normalization.zh.md"
 
 --8<-- "reference/concept-glossary-terms/learned-representation.zh.md"
@@ -32,11 +34,13 @@
 
 --8<-- "reference/concept-glossary-terms/linear-structure.zh.md"
 
+--8<-- "reference/concept-glossary-terms/adjacency-list.zh.md"
+
+--8<-- "reference/concept-glossary-terms/linked-list.zh.md"
+
 --8<-- "reference/concept-glossary-terms/list.zh.md"
 
 --8<-- "reference/concept-glossary-terms/llm.zh.md"
-
---8<-- "reference/concept-glossary-terms/loc.zh.md"
 
 --8<-- "reference/concept-glossary-terms/local-environment.zh.md"
 

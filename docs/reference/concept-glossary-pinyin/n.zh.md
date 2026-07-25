@@ -4,13 +4,9 @@
 
 --8<-- "reference/concept-glossary-terms/n-gram.zh.md"
 
---8<-- "reference/concept-glossary-terms/ndarray.zh.md"
-
 --8<-- "reference/concept-glossary-terms/ndim.zh.md"
 
 --8<-- "reference/concept-glossary-terms/nearest-neighbor.zh.md"
-
---8<-- "reference/concept-glossary-terms/newaxisnpnewaxis.zh.md"
 
 --8<-- "reference/concept-glossary-terms/next-action.zh.md"
 
@@ -33,5 +29,3 @@
 --8<-- "reference/concept-glossary-terms/notebook.zh.md"
 
 --8<-- "reference/concept-glossary-terms/numerical-stability.zh.md"
-
---8<-- "reference/concept-glossary-terms/numpy.zh.md"

@@ -14,22 +14,15 @@
 --8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/axes.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/llm.ko.md"
 
 --8<-- "reference/concept-glossary-terms/rlhf-reinforcement-learning-from-human-feedback.ko.md"
-
---8<-- "reference/concept-glossary-terms/ndarray.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ndim.ko.md"
 
 --8<-- "reference/concept-glossary-terms/support-vector-machine.ko.md"
 
 --8<-- "reference/concept-glossary-terms/wordpiece.ko.md"
-
---8<-- "reference/concept-glossary-terms/iloc.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ai-safety.ko.md"
 
@@ -79,9 +72,13 @@
 
 --8<-- "reference/concept-glossary-terms/operation.ko.md"
 
+--8<-- "reference/concept-glossary-terms/adjacency-list.ko.md"
+
 --8<-- "reference/concept-glossary-terms/element-wise-multiplication.ko.md"
 
 --8<-- "reference/concept-glossary-terms/column.ko.md"
+
+--8<-- "reference/concept-glossary-terms/linked-list.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/exception.ko.md"

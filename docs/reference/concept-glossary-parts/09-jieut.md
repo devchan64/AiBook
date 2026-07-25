@@ -10,9 +10,13 @@
 
 --8<-- "reference/concept-glossary-terms/data-structure.ko.md"
 
+--8<-- "reference/concept-glossary-terms/set-data-structure.ko.md"
+
 --8<-- "reference/concept-glossary-terms/working-hypothesis.ko.md"
 
 --8<-- "reference/concept-glossary-terms/working-directory.ko.md"
+
+--8<-- "reference/concept-glossary-terms/absolute-path.ko.md"
 
 --8<-- "reference/concept-glossary-terms/workflow.ko.md"
 
@@ -21,6 +25,8 @@
 --8<-- "reference/concept-glossary-terms/noise.ko.md"
 
 --8<-- "reference/concept-glossary-terms/naturalness.ko.md"
+
+--8<-- "reference/concept-glossary-terms/nested-list.ko.md"
 
 --8<-- "reference/concept-glossary-terms/long-term-dependency.ko.md"
 --8<-- "reference/concept-glossary-terms/lstm-long-short-term-memory.ko.md"
@@ -106,8 +112,6 @@
 --8<-- "reference/concept-glossary-terms/stop-condition.ko.md"
 
 --8<-- "reference/concept-glossary-terms/surrounding-evidence.ko.md"
-
---8<-- "reference/concept-glossary-terms/jupyter.ko.md"
 
 --8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.ko.md"
 

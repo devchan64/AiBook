@@ -1,7 +1,7 @@
 ## training
 
-- Meaning: 넓게는 경험 이후 특정 과제의 성능이 나아지는 변화이고, 좁게는 과거 사례를 사용해 모델 내부 기준과 값을 조정하는 훈련 절차를 가리킬 수 있습니다. 문맥에 따라 `배우는 현상`을 뜻하기도 하고, `가중치를 실제로 업데이트하는 실행 단계`를 뜻하기도 하므로 둘을 구분해 읽어야 합니다.
-- Why it matters: 한국어 `학습`이 `learning`과 `training`을 함께 번역하는 경우가 많아, 성능 개선이라는 넓은 뜻과 내부 값 조정 절차라는 좁은 뜻을 구분해 읽어야 하기 때문입니다. 이 차이를 알아야 `모델이 학습했다`는 말을 막연한 지능 향상으로 읽지 않고, 어떤 데이터와 손실을 기준으로 어떤 내부 값이 조정되었는지까지 더 구체적으로 생각할 수 있습니다. 또한 학습은 한 번의 계산이 아니라 손실 계산, 그래디언트 계산, 파라미터 업데이트가 반복되는 과정이라는 점도 함께 붙잡게 됩니다. 즉 학습을 이해해야 결과가 좋아졌다는 현상과 그 현상을 만드는 실제 업데이트 절차를 분리해 설명하게 됩니다.
+- Meaning: Training is the process of using past examples to adjust a model's internal values or decision rules.
+- Why it matters: Korean often translates both `learning` and `training` as `학습`, so the broader idea of improvement through experience should be separated from the narrower update procedure used to fit a model.
 - Related concepts: `parameter`, `fitting`, `inference`
 - Core Section: `P1-3.2`
-- Appears in: `P1-4.1`, `P1-5.1`, `P5-6.3`, `P5-6.4`
+- Appears in: `P1-4.1`, `P1-5.1`, `P2-15.2`, `P5-6.3`, `P5-6.4`

@@ -1,3 +1,5 @@
+<a id="glossary-output-structure"></a>
+
 ## output structure
 
 - Meaning: Output structure is the designed result frame that determines how a computation should be delivered, such as a comparison report, review candidate queue, or target label candidates. It asks not only `what is the answer?`, but also `what container should hold the result, and who will use it next?` Choosing between a single number, a human-readable comparison table, or a candidate set for later training is a choice of output structure.

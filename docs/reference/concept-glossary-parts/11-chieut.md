@@ -46,6 +46,8 @@
 
 --8<-- "reference/concept-glossary-terms/axis.ko.md"
 
+--8<-- "reference/concept-glossary-terms/axis-label.ko.md"
+
 --8<-- "reference/concept-glossary-terms/output-structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/output-format.ko.md"

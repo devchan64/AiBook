@@ -2,9 +2,9 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
---8<-- "reference/concept-glossary-terms/iloc.en.md"
-
 --8<-- "reference/concept-glossary-terms/image-recognition.en.md"
+
+--8<-- "reference/concept-glossary-terms/identifier.en.md"
 
 --8<-- "reference/concept-glossary-terms/improvement-plan.en.md"
 

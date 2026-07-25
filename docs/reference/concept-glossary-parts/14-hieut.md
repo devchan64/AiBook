@@ -20,7 +20,6 @@
 
 --8<-- "reference/concept-glossary-terms/learning-rate.ko.md"
 
---8<-- "reference/concept-glossary-terms/function-calling.ko.md"
 --8<-- "reference/concept-glossary-terms/function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/composite-function.ko.md"
@@ -63,6 +62,7 @@
 --8<-- "reference/concept-glossary-terms/hallucination.ko.md"
 
 --8<-- "reference/concept-glossary-terms/environment-variable.ko.md"
+--8<-- "reference/concept-glossary-terms/environment-mismatch.ko.md"
 --8<-- "reference/concept-glossary-terms/environment.ko.md"
 --8<-- "reference/concept-glossary-terms/activation.ko.md"
 --8<-- "reference/concept-glossary-terms/activation-function.ko.md"

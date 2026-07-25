@@ -24,8 +24,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/personal-learning.en.md"
 
---8<-- "reference/concept-glossary-terms/pip.en.md"
-
 --8<-- "reference/concept-glossary-terms/pipe.en.md"
 
 --8<-- "reference/concept-glossary-terms/plot.en.md"

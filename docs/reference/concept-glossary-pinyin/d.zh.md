@@ -14,6 +14,8 @@
 
 --8<-- "reference/concept-glossary-terms/dataset.zh.md"
 
+--8<-- "reference/concept-glossary-terms/queue.zh.md"
+
 --8<-- "reference/concept-glossary-terms/decision-tree.zh.md"
 
 --8<-- "reference/concept-glossary-terms/alert-grade.zh.md"
