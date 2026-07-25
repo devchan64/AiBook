@@ -14,13 +14,29 @@
 ## 파일 위치
 
 - 개념사전 공개 진입 원고: `docs/reference/concept-glossary.md`
-- 개념사전 자음별 항목 원고: `docs/reference/concept-glossary-parts/*.md`
-- 영어 알파벳별 개념사전 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
-- 중국어 병음별 탐색 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
+- 단어별 개념사전 원고: `docs/reference/concept-glossary-terms/<english-slug>.<lang>.md`
+- 한국어 자음별 색인 원고: `docs/reference/concept-glossary-parts/*.md`
+- 영어 알파벳별 색인 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
+- 중국어 병음별 색인 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
 - 언어별 보조 인덱스:
   - `management/glossary-indexes/concept-glossary-index.ko.md`
   - `management/glossary-indexes/concept-glossary-index.en.md`
   - `management/glossary-indexes/concept-glossary-index.zh.md`
+
+## 단어별 원고와 색인 조립 원칙
+
+- 개념사전 항목 본문은 원칙적으로 단어별 파일 하나에 둔다. 자음별, 알파벳별, 병음별 파일에 항목 본문을 직접 누적하지 않는다.
+- 단어별 파일명은 언어별 표제어가 아니라 영어 기준 용어를 kebab-case slug로 만든다.
+  - 예: `git.ko.md`, `git.en.md`, `git.zh.md`
+  - 예: `gradient-descent.ko.md`, `gradient-descent.en.md`, `gradient-descent.zh.md`
+  - 예: `ann-approximate-nearest-neighbor.ko.md`, `ann-approximate-nearest-neighbor.en.md`, `ann-approximate-nearest-neighbor.zh.md`
+- 영어 기준 용어가 바뀌면 파일명 변경이 링크와 검사에 영향을 주므로, 먼저 언어별 보조 인덱스에서 기존 slug와 새 slug의 관계를 확인한다.
+- 각 언어별 공개 색인 구조는 유지한다. 한국어는 자음별, 영어는 알파벳별, 중국어는 병음별 색인을 유지하되, 색인 파일은 단어별 원고를 `pymdownx.snippets`로 include해 페이지를 만든다.
+- MkDocs snippets 기준 경로는 `docs`이므로 include 경로는 `reference/concept-glossary-terms/<english-slug>.<lang>.md` 형식을 쓴다.
+- 단어별 파일 안의 앵커는 영어 slug를 기준으로 둔다. 언어별 공개 색인에서 같은 단어 파일을 include하더라도 본문 링크와 검사 스크립트가 같은 기준으로 추적할 수 있어야 한다.
+- 단어별 파일은 Section 파일처럼 독립적으로 검사할 수 있어야 한다. 항목 하나의 `Section ID`, `Version`, `Core/중심 Section`, `Appears/등장 Section` 대응을 파일 단위로 확인할 수 있게 유지한다.
+- 색인 파일은 정렬, include 순서, 짧은 안내 문구만 맡는다. 뜻, 중요성, 관련 개념 같은 본문 필드는 단어별 파일에만 둔다.
+- 임시 전환 기간에는 기존 자음별, 알파벳별, 병음별 파일에 직접 작성된 항목이 남아 있을 수 있다. 새 항목과 대규모 보강은 단어별 파일 구조를 우선 적용하고, 기존 직접 작성 항목은 이동 대상으로 본다.
 
 ## 핵심 원칙
 
@@ -48,18 +64,21 @@
 1. 본문에서 실제로 반복되는 표현을 모은다.
 2. 같은 개념을 가리키는 표현과 서로 다른 개념을 가리키는 표현을 나눈다.
 3. 영어권 표준 용어 또는 널리 쓰이는 학술·기술 용어를 외부 레퍼런스로 확인한다.
-4. 한국어 대표 표제어와 영어 병기를 정한다.
-5. 대표 설명 위치를 정하고 `중심 Section`을 하나만 적는다.
-6. 관련 언어별 인덱스를 갱신한다. 세부 기준은 `management/glossary-indexes/README.md`를 따른다.
-7. 본문 설명이 부족하면 개념사전만 늘리지 말고 해당 Section 보강을 먼저 검토한다.
+4. 영어 기준 용어로 파일 slug를 정하고, 필요한 언어별 단어 파일을 만든다.
+5. 한국어 대표 표제어와 영어 병기, 영어 표제어, 중국어 표제어를 언어별로 정한다.
+6. 대표 설명 위치를 정하고 `중심 Section`을 하나만 적는다.
+7. 관련 언어별 색인 파일에 단어 파일 include를 추가한다.
+8. 관련 언어별 보조 인덱스를 갱신한다. 세부 기준은 `management/glossary-indexes/README.md`를 따른다.
+9. 본문 설명이 부족하면 개념사전만 늘리지 말고 해당 Section 보강을 먼저 검토한다.
 
 ### 기존 항목을 바꿀 때
 
 1. 기존 대표 표제어, 영어 병기, `중심 Section`, `등장 Section`을 확인한다.
 2. 표제어·정의·대표 설명 위치 변경이 본문과 충돌하지 않는지 확인한다.
 3. 표제어를 합치거나 나눌 때는 한국어 표면형보다 영어 기준 개념을 먼저 본다.
-4. 대표 설명 위치를 옮겼다면 관련 본문, 개념사전, 관련 Section 릴리즈노트를 함께 갱신한다.
-5. 개념사전 자체의 전용 릴리즈노트 파일은 만들지 않고 `Version`만 갱신한다.
+4. 영어 기준 slug가 달라지는지 확인한다. slug가 바뀌면 단어별 파일명, 언어별 색인 include, 본문 링크, 보조 인덱스를 함께 갱신한다.
+5. 대표 설명 위치를 옮겼다면 관련 본문, 개념사전, 관련 Section 릴리즈노트를 함께 갱신한다.
+6. 개념사전 자체의 전용 릴리즈노트 파일은 만들지 않고 `Version`만 갱신한다.
 
 ### 본문에서 다시 연결할 때
 
@@ -92,19 +111,23 @@
 
 ## 정렬과 중복
 
-- 항목 본문은 자음별 파일에 나누어 둔다. `docs/reference/concept-glossary.md`는 소개와 자음별 include 목록만 유지한다.
-- 새 항목은 대표 표제어의 첫 글자 기준으로 해당 자음 파일에 추가한다.
-- 자음별 파일 안에서는 표제어 기준 가나다순 정렬을 유지한다.
-- 영어판 개념사전은 영문 독자가 한국어 개념사전 페이지로 되돌아가지 않도록 알파벳별 영문 전용 페이지에 항목 내용을 직접 둔다. 각 영어 표제어 링크는 `docs/reference/concept-glossary-alpha/*.en.md`의 대응 앵커로 연결한다.
+- 항목 본문은 단어별 파일에 둔다. `docs/reference/concept-glossary.md`와 언어별 색인 파일은 소개와 include 목록만 유지한다.
+- 새 항목은 영어 기준 slug로 단어별 파일을 만들고, 각 언어 색인의 정렬 기준에 맞는 파일에 include한다.
+- 한국어 자음별 파일 안에서는 한국어 표제어 기준 가나다순 include 순서를 유지한다.
+- 영어 알파벳별 파일 안에서는 영어 표제어 기준 알파벳순 include 순서를 유지한다.
+- 중국어 병음별 파일 안에서는 중국어 표제어의 병음 기준 include 순서를 유지한다.
+- 영어판 개념사전은 영문 독자가 한국어 개념사전 페이지로 되돌아가지 않도록 알파벳별 영문 전용 페이지에서 단어별 영문 원고를 include한다. 각 영어 표제어 링크는 `docs/reference/concept-glossary-alpha/*.en.md`의 대응 앵커로 연결한다.
 - 영어판 개념사전 항목은 영어 독자 기준으로 작성한다. 항목 본문에는 `Korean term:` 행, 한국어 표제어 병기, 한국어 설명 문장을 넣지 않는다.
 - 영어판 개념사전의 `Related concepts`도 영어 표제어만 쓴다. `과적합(overfitting)`처럼 한국어 표기와 영어 표기를 함께 넣지 않는다.
 - 한국어 개념사전의 `뜻`, `왜 중요한가`, `함께 볼 개념`, `중심 Section`, `등장 Section` 구조를 영문 개념사전에도 대응시키되, `Meaning`, `Why it matters`, `Related concepts`, `Core Section`, `Appears in`으로 영어화한다.
-- 영어판 개념사전 항목이 아직 충분히 번역되지 않았더라도 한국어 자음별 개념사전으로 되돌려 링크하지 않는다. 해당 영어 알파벳 페이지의 항목을 보강 대상으로 남긴다.
-- 중국어판 개념사전도 중국어 독자가 한국어 개념사전 페이지로 되돌아가지 않도록 중국어 전용 경로에 항목 내용을 직접 두는 방향으로 운영한다. 각 중국어 표제어 링크는 `docs/reference/concept-glossary-pinyin/*.zh.md` 또는 중국어 전용 개념사전 항목 페이지의 대응 앵커로 연결한다.
+- 영어판 개념사전 항목이 아직 충분히 번역되지 않았더라도 한국어 자음별 개념사전으로 되돌려 링크하지 않는다. 해당 영어 단어 파일을 보강 대상으로 남긴다.
+- 중국어판 개념사전도 영문 개념사전과 같은 원칙으로 운영한다. 중국어 독자가 한국어 개념사전 페이지로 되돌아가지 않도록 병음별 중국어 전용 페이지에서 단어별 중국어 원고를 include한다. 각 중국어 표제어 링크는 `docs/reference/concept-glossary-pinyin/*.zh.md` 또는 중국어 전용 개념사전 항목 페이지의 대응 앵커로 연결한다.
+- 중국어판 개념사전은 단순 탐색 색인이나 한국어 항목으로 보내는 중간 페이지가 아니라 중국어 독자용 직접 본문을 조립한 페이지여야 한다.
+- 중국어판 개념사전의 `Section ID`와 `Version`은 대응 한국어 항목과 추적 가능하게 유지한다. 중국어 번역만 보강한 경우에는 원문 기준 `Version`을 임의로 올리지 않고, 필요하면 관리 메모나 공통 릴리즈노트에 중국어판 보강 사실을 남긴다.
 - 중국어판 개념사전 항목은 중국어 독자 기준으로 작성한다. 항목 본문에는 한국어 표제어 병기나 한국어 설명 문장을 넣지 않는다.
 - 중국어판 개념사전의 관련 개념은 중국어 표제어를 우선 쓰고, 필요한 경우에만 영어 원어를 짧게 병기한다. 한국어 표기와 중국어·영어 표기를 함께 나열하지 않는다.
 - 한국어 개념사전의 `뜻`, `왜 중요한가`, `함께 볼 개념`, `중심 Section`, `등장 Section` 구조를 중국어 개념사전에도 대응시키되, 중국어 필드명으로 자연스럽게 옮긴다.
-- 중국어판 개념사전 항목이 아직 충분히 번역되지 않았더라도 한국어 자음별 개념사전으로 되돌려 링크하지 않는다. 해당 중국어 개념사전 페이지의 항목을 보강 대상으로 남긴다.
+- 중국어판 개념사전 항목이 아직 충분히 번역되지 않았더라도 한국어 자음별 개념사전으로 되돌려 링크하지 않는다. 해당 중국어 단어 파일을 보강 대상으로 남긴다.
 - 표제어는 기본적으로 한글 표제어 기준 가나다순으로 정렬한다.
 - 영어 원어는 표제어 괄호 안에 병기한다.
 - 영문 약어가 더 널리 쓰이는 경우에도 가능한 한 한글 표제어를 먼저 세운다. 다만 책 본문에서 약어가 중심 용어라면 실제 표제어 문자열을 기준으로 정렬한다.
