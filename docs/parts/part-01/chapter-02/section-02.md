@@ -1,7 +1,7 @@
 # P1-2.2 탐색, 지식 표현, 확률 추론
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 2.1에서는 기호 기반 AI와 규칙 기반 접근을 봤습니다. 이번 절에서는 그 다음 질문을 다룹니다. 규칙을 적는 것만으로는 충분하지 않을 때, AI는 가능한 후보를 탐색(search)하고, 필요한 지식을 표현(knowledge representation)하며, 불확실한 정보에서 그럴듯한 결론을 추론(probabilistic reasoning)하려 했습니다.
 
@@ -30,7 +30,7 @@ Part 1에서 `탐색(search)`과 `확률 추론(probabilistic reasoning)`의 기
 
 | 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| [탐색](../../../reference/concept-glossary-parts/01-giyeok.md#search) | 가능한 상태와 행동을 따라 목표를 찾는 접근 | 후보가 많을 때 왜 순서 문제가 생기는지 보기 위해 |
+| [탐색](../../../reference/concept-glossary-parts/12-tieut.md#search) | 가능한 상태와 행동을 따라 목표를 찾는 접근 | 후보가 많을 때 왜 순서 문제가 생기는지 보기 위해 |
 | [지식 표현](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) | 사실과 관계와 제약을 적는 형식 | 무엇을 알고 있다고 볼지 정하는 문제를 분리하기 위해 |
 | [확률 추론](../../../reference/concept-glossary-parts/14-hieut.md#probabilistic-reasoning) | 불완전한 정보에서 그럴듯함을 다루는 방식 | 참/거짓만으로 닫히지 않는 판단을 읽기 위해 |
 | [목표](../../../reference/concept-glossary-parts/05-mieum.md#goal) | 도달하려는 조건 | 탐색이 어디서 멈추는지 정하는 기준을 보기 위해 |
