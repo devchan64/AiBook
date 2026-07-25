@@ -11,6 +11,7 @@
 - 초심자 보강 판단 절차
 - 사례 작성 순서
 - Section 경계와 생략 회수 규칙
+- 본문 핵심 용어와 개념사전의 연계 점검 기준
 
 이 문서가 직접 다루지 않는 범위는 다음과 같다.
 
@@ -39,9 +40,10 @@
 2. 수정 대상의 `Section ID`, `Version`, 대응 릴리즈노트 연결은 `section-metadata-guidelines.md`로 확인한다.
 3. 수정 대상 Section의 중심 질문과 Section 경계를 확인한다.
 4. 필요하면 해당 `management/authoring/section-...-evidence-analysis.md`를 열어 근거, 용어, 후속 회수 지점을 확인한다.
-5. 문단 재구성이 크면 이 문서의 문단 구조 점검 메모를 함께 적용한다.
-6. Part 수준 흐름과 중심 주제를 다시 잡아야 하면 해당 `management/authoring/part-XX-open-checklist.md`를 확인한다.
-7. 본문을 실제로 수정했다면 `section-metadata-guidelines.md`에 따라 메타데이터와 릴리즈노트 연결을 함께 갱신한다.
+5. 본문에서 새로 고정하거나 반복 사용할 핵심 용어가 있으면 개념사전의 대표 표제어, `중심 Section`, `등장 Section`, 언어별 보조 인덱스와 연결이 필요한지 확인한다.
+6. 문단 재구성이 크면 이 문서의 문단 구조 점검 메모를 함께 적용한다.
+7. Part 수준 흐름과 중심 주제를 다시 잡아야 하면 해당 `management/authoring/part-XX-open-checklist.md`를 확인한다.
+8. 본문을 실제로 수정했다면 `section-metadata-guidelines.md`에 따라 메타데이터와 릴리즈노트 연결을 함께 갱신한다.
 
 ## 목차 변경 워크플로우
 
@@ -58,6 +60,18 @@
 - 이 문서는 원고 구조와 표현 판단을 다룬다.
 - `Section ID`, 제목 앞 인덱스, `Version`, 릴리즈노트 연결은 `section-metadata-guidelines.md`를 따른다.
 - 릴리즈노트 파일의 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다.
+- 원고 수정으로 핵심 용어의 대표 설명 위치가 새로 생기거나 바뀌면 `concept-glossary-guidelines.md`에 따라 개념사전 항목, 색인 include, 언어별 보조 인덱스를 함께 확인한다.
+
+## 개념사전 연계 점검
+
+- 새 Section에서 처음 충분히 설명한 핵심 개념은 본문에만 남기지 않고 개념사전의 대표 표제어 후보로 검토한다.
+- 이미 개념사전에 있는 개념을 본문에서 다시 설명할 때는 대표 표제어와 영어 병기를 우선 사용하고, 상세 정의 반복은 줄인다.
+- 같은 한국어 표현이 여러 개념 층위를 가리킬 수 있으면 본문에서도 표면형만 쓰지 말고 실제 개념을 분명히 쓴다.
+  - 예: `예시`가 데이터 한 건인지, 설명 보조 장면인지, 프롬프트 안의 task demonstration인지 구분한다.
+  - 예: `조건`이 생성 조건인지, 프롬프트의 입력 조건인지, 실험 조건인지 구분한다.
+- 본문에서 일반화 용어를 새로 고정했다면 단어별 개념사전 파일의 `중심 Section`과 `등장 Section`에 현재 Section ID가 맞게 반영되는지 확인한다.
+- 후속 Section에서 이미 설명한 개념을 다시 쓰는 경우, 현재 절 이해에 필요한 최소 연결만 남기고 필요하면 개념사전 앵커로 연결한다.
+- 개념사전 항목의 세부 필드, 색인 include, 언어별 보조 인덱스 형식은 이 문서에서 다시 정의하지 않고 `concept-glossary-guidelines.md`와 `management/glossary-indexes/README.md`를 따른다.
 
 ## 근거 메모 정리 워크플로우
 
