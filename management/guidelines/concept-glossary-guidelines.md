@@ -15,6 +15,7 @@
 
 - 개념사전 공개 진입 원고: `docs/reference/concept-glossary.md`
 - 단어별 개념사전 원고: `docs/reference/concept-glossary-terms/<english-slug>.<lang>.md`
+  - 이 디렉터리는 단어별 항목 파일을 모아 두는 영어 기준 slug 디렉터리다.
 - 한국어 자음별 색인 원고: `docs/reference/concept-glossary-parts/*.md`
 - 영어 알파벳별 색인 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
 - 중국어 병음별 색인 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
@@ -89,7 +90,7 @@
 
 ## 항목 구조
 
-각 항목은 다음 정보를 기본으로 포함한다.
+각 단어별 원고 파일은 다음 정보를 기본으로 포함한다.
 
 ```md
 ### 모델(model, 모형)
@@ -103,11 +104,27 @@
 
 규칙:
 
+- 한 파일에는 원칙적으로 하나의 대표 표제어만 둔다.
+- 항목 제목 수준은 색인 파일에 include될 때의 문서 구조를 고려해 `###`를 기본으로 한다.
+- 항목 파일 안에는 자음·알파벳·병음 색인용 제목을 따로 넣지 않는다.
 - `중심 Section`은 하나만 적는다.
 - `등장 Section`에는 대표 설명 위치를 반복하지 않고, 실제 재등장 위치만 적는다.
 - Section은 파일 경로가 아니라 `P1-4.1` 같은 `Section ID`로 적는다.
 - 뜻이 다른 개념을 하나의 표제어 안에 억지로 병렬 배치하지 않는다.
 - 표현만 다른 동의어는 별도 항목으로 만들지 말고 대표 항목 안에서 함께 설명한다.
+
+색인 파일에서 항목을 불러올 때는 다음 형식을 쓴다.
+
+```md
+--8<-- "reference/concept-glossary-terms/model.ko.md"
+```
+
+규칙:
+
+- include 대상 파일은 항상 `docs/reference/concept-glossary-terms/` 아래의 단어별 원고 파일이어야 한다.
+- `docs/reference/concept-glossary-parts/`, `docs/reference/concept-glossary-alpha/`, `docs/reference/concept-glossary-pinyin/` 파일끼리는 서로 include하지 않는다.
+- 언어별 색인 파일은 해당 언어의 단어별 원고 파일을 include하고, 정의 원고를 색인 파일에 직접 복제하지 않는다.
+- include 경로를 바꿨다면 MkDocs 빌드에서 snippet 경로 오류가 나지 않는지 확인한다.
 
 ## 정렬과 중복
 
@@ -132,6 +149,29 @@
 - 영어 원어는 표제어 괄호 안에 병기한다.
 - 영문 약어가 더 널리 쓰이는 경우에도 가능한 한 한글 표제어를 먼저 세운다. 다만 책 본문에서 약어가 중심 용어라면 실제 표제어 문자열을 기준으로 정렬한다.
 - 새 항목을 추가하기 전에는 기존 개념사전과 언어별 인덱스에서 같은 뜻의 표제어가 이미 있는지 확인한다.
+
+권장 구조:
+
+```text
+docs/reference/
+  concept-glossary.md
+  concept-glossary.en.md
+  concept-glossary.zh.md
+  concept-glossary-terms/
+    README.md
+    model.ko.md
+    model.en.md
+    model.zh.md
+    parameter-function.ko.md
+    parameter-model.ko.md
+  concept-glossary-parts/
+    05-mieum.md
+  concept-glossary-alpha/
+    m.en.md
+    p.en.md
+  concept-glossary-pinyin/
+    m.zh.md
+```
 
 ## 외부 레퍼런스와 근거 기록
 
