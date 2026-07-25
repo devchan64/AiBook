@@ -1,173 +1,35 @@
 # Concept Glossary: M
 
-This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
+This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
-<a id="machine-learning"></a>
+--8<-- "reference/concept-glossary-terms/machine-learning.en.md"
 
-## machine learning
+--8<-- "reference/concept-glossary-terms/mapping.en.md"
 
-- Meaning: 데이터나 경험을 사용해 모델의 성능을 개선하는 접근입니다. 사람이 규칙을 낱낱이 직접 적기보다, 예시와 피드백을 바탕으로 더 나은 예측이나 판단 방식을 찾게 만드는 방법이라고 볼 수 있습니다. 즉 머신러닝은 `규칙을 써 넣는 일`보다 `데이터를 통해 규칙을 조정하게 만드는 일`에 더 가깝습니다.
-- Why it matters: 사람이 모든 규칙을 직접 쓰기 어려운 문제에서 중심 설명이 학습 기반으로 이동하는 이유를 이해하게 해 주기 때문입니다. 이 개념이 있어야 `AI가 똑똑하다`는 인상을 넘어서, 실제로는 데이터에서 반복 패턴을 조정해 가는 모델 개선 절차라는 점을 붙잡을 수 있습니다. 또한 머신러닝은 `정답을 외운다`보다 `새 사례에도 통할 규칙을 찾는다`는 문제 설정이라는 점을 분명히 해, 일반화와 평가 개념으로 자연스럽게 이어지게 합니다. 결국 머신러닝을 이해해야 AI를 `마법 같은 답변기`가 아니라 데이터 기반 모델 개선 방식으로 읽게 됩니다.
-- Related concepts: `model`, `training`, `parameter`
-- Core Section: `P1-3.2`
-- Appears in: `P1-1.3`, `P1-2.3`
+--8<-- "reference/concept-glossary-terms/markdown-cell.en.md"
 
-<a id="mapping"></a>
+--8<-- "reference/concept-glossary-terms/masking.en.md"
 
-## mapping
+--8<-- "reference/concept-glossary-terms/matrix.en.md"
 
-- Meaning: 어떤 기준 키를 특정 값에 연결해 두는 구조입니다. 프로그래밍에서는 키에서 값으로 이어지는 자료구조를, 더 넓게는 한 표현을 다른 표현에 대응시키는 관계를 가리킬 수 있습니다. 즉 숫자 ID를 이름으로 바꾸거나, 라벨 문자열을 정수 코드로 바꾸거나, 토큰을 벡터 인덱스로 잇는 일 모두가 넓게 보면 매핑입니다.
-- Why it matters: 딕셔너리, 라벨 변환, ID-메타데이터 연결은 겉모습이 달라도 모두 `무엇이 무엇에 대응되는가`라는 질문으로 읽을 수 있습니다. 이 감각이 있어야 자료구조 설명과 함수 설명을 서로 연결해 이해할 수 있습니다. 또한 매핑을 알아야 `원본 값`과 `모델이 쓰기 좋은 표현`이 왜 다를 수 있는지 더 자연스럽게 받아들이게 됩니다. 결국 매핑은 단순 사전 구조가 아니라, 한 표현 체계를 다른 표현 체계로 번역하는 가장 기초적인 연결 장치입니다.
-- Related concepts: `dictionary`, `key`, `value`
-- Core Section: `P2-8.3`
-- Appears in: `P2-8.4`, `P2-9.1`
+--8<-- "reference/concept-glossary-terms/matrix-multiplication.en.md"
 
-<a id="markdown-cell"></a>
+--8<-- "reference/concept-glossary-terms/mean.en.md"
 
-## markdown cell
+--8<-- "reference/concept-glossary-terms/mean-squared-error-mse.en.md"
 
-- Meaning: 노트북에서 설명 문장, 제목, 목록, 수식 같은 서술 내용을 적는 셀입니다. 코드를 실행하지는 않지만, 실험 맥락과 해석을 문서처럼 함께 남기는 기록 칸이라고 볼 수 있습니다. 즉 마크다운 셀은 계산 자체보다 `무엇을 왜 하고 있는가`를 설명하는 서술 층입니다.
-- Why it matters: 노트북이 코드만 실행하는 공간이 아니라, 실험 의도와 해석을 함께 남기는 계산 문서라는 점을 드러내기 때문입니다. 이 개념이 있어야 코드 셀만으로는 남지 않는 가설, 실험 목적, 결과 해석을 어디에 기록해야 하는지 이해하게 되고, 나중에 다시 읽을 때도 `무엇을 왜 시도했는가`를 복원할 수 있게 됩니다. 결국 마크다운 셀은 실행 결과를 꾸미는 장식이 아니라, 재현 가능한 실험 기록을 만드는 문서 구조의 핵심 요소입니다. 초심자에게는 `코드만 남기면 실험이 남는 것`이 아니라는 점을 익히게 하는 기본 장치이기도 합니다.
-- Related concepts: `notebook`, `code cell`, `output`
-- Core Section: `P2-10.1`
-- Appears in: `P2-10.3`
+--8<-- "reference/concept-glossary-terms/metadata.en.md"
 
-<a id="masking"></a>
+--8<-- "reference/concept-glossary-terms/method.en.md"
 
-## masking
+--8<-- "reference/concept-glossary-terms/metric.en.md"
 
-- Meaning: 민감 정보나 비밀값의 전체 내용을 그대로 드러내지 않고, 일부를 가리거나 대체 표기로 바꾸어 노출 위험을 줄이는 처리 방식입니다. 예를 들어 전화번호 뒤 몇 자리를 가리거나, API 키를 전체 대신 앞뒤 일부만 남기는 식의 노출 축소가 여기에 해당합니다. 즉 마스킹은 정보를 완전히 삭제하는 일과 달리, 필요한 최소 식별 단서만 남기면서 위험한 부분은 감추는 절충형 보호 장치입니다.
-- Why it matters: 로그, 디버깅 기록, 평가 샘플은 나중에 다시 읽어야 하지만, 그렇다고 민감 정보와 비밀값을 원문 그대로 남기면 그 기록 자체가 새로운 보안 사고 경로가 될 수 있기 때문입니다. 이 개념이 있어야 `기록을 남긴다`와 `위험한 값을 그대로 저장한다`를 같은 것으로 보지 않게 되고, 추적 가능성과 정보 보호를 함께 설계해야 한다는 점을 더 구체적으로 이해하게 됩니다. 또한 마스킹을 이해해야 삭제, 비저장, 접근 제한 같은 다른 보호 전략과 어떻게 역할이 다른지도 읽게 되고, 어떤 값은 일부만 남겨도 충분하지만 어떤 값은 아예 저장하면 안 된다는 판단도 더 분명하게 하게 됩니다.
-- Related concepts: `sensitive information`, `confidential information`, `log`, `security`, `review`
-- Core Section: `P1-15.3`
-- Appears in: `P1-14.5`, `P1-16.2`
+--8<-- "reference/concept-glossary-terms/model.en.md"
 
-<a id="matrix"></a>
+--8<-- "reference/concept-glossary-terms/model-context-protocol-mcp.en.md"
 
-## matrix
+--8<-- "reference/concept-glossary-terms/model-selection.en.md"
 
-- Meaning: 숫자를 행(row)과 열(column) 구조로 배열한 2차원 표현입니다. 벡터가 한 줄의 값 묶음이라면, 행렬은 그런 값 묶음이 여러 줄로 쌓인 구조라고 볼 수 있습니다. 즉 `하나의 샘플과 하나의 특징`을 넘어서, 여러 샘플과 여러 특징을 한꺼번에 담아 계산하는 기본 수학 그릇입니다.
-- Why it matters: 표 데이터, 미니배치 입력, 가중치 묶음은 자주 행렬 형태로 읽힙니다. 행렬 감각이 있어야 벡터 하나를 넘어서 여러 샘플과 여러 특징을 동시에 계산하는 구조를 이해할 수 있습니다. 이 개념이 있어야 딥러닝 계산을 `숫자가 많다` 수준이 아니라 `행과 열이 어떤 역할로 묶여 있는가`로 읽게 되고, shape 변화와 행렬 곱의 의미도 더 자연스럽게 연결됩니다. 또한 행렬을 이해해야 표처럼 생긴 데이터와 선형대수 계산 대상이 어떻게 이어지는지도 더 자연스럽게 받아들이게 됩니다.
-- Related concepts: `vector`, `matrix multiplication`, `shape`
-- Core Section: `P2-3.1`
-- Appears in: `P2-3.3`, `P2-11.3`
+--8<-- "reference/concept-glossary-terms/multi-head-attention.en.md"
 
-<a id="matrix-multiplication"></a>
-
-## matrix multiplication
-
-- Meaning: 한쪽의 행과 다른 쪽의 열을 조합해 새로운 값을 만드는 계산입니다. 직관적으로는 `입력 값 묶음`과 `가중치 묶음`을 체계적으로 섞어 새 점수나 새 표현을 만드는 연산이라고 볼 수 있습니다. 즉 행렬 곱은 값들을 아무렇게나 곱하는 일이 아니라, 구조화된 입력을 구조화된 새 표현으로 바꾸는 규칙적 변환입니다.
-- Why it matters: 입력 벡터를 가중치와 결합해 새 표현이나 출력을 만드는 AI 계산의 기본 구조입니다. 행렬 곱 감각이 있어야 여러 샘플과 여러 특징을 한 번에 처리하는 신경망 계산을 개별 곱셈의 반복이 아니라 `묶음 계산`으로 이해할 수 있습니다. 또한 행렬 곱을 이해해야 shape이 왜 맞아야 하는지, 그리고 선형층이 왜 사실상 행렬 곱으로 표현된다고 말하는지도 더 선명하게 읽게 됩니다. 다시 말해 행렬 곱은 `신경망이 많은 값을 한꺼번에 섞는 방식`을 읽는 가장 기본적인 계산 언어입니다.
-- Related concepts: `weighted sum`, `matrix`, `linear transformation`
-- Core Section: `P2-3.3`
-- Appears in: `P2-11.1`
-
-<a id="mean"></a>
-
-## mean
-
-- Meaning: 여러 값을 더한 뒤 개수로 나눈 대표 중심값입니다. 개별 값이 제각각일 때도 전체가 대략 어느 수준에 모여 있는지 한 숫자로 압축해 보여 주는 가장 기본적인 요약치라고 볼 수 있습니다. 즉 평균은 여러 결과를 하나의 대표값으로 접어 비교하기 쉽게 만드는 가장 익숙한 중심 요약 방식입니다.
-- Why it matters: 데이터 묶음과 손실 값을 하나의 대표 숫자로 요약할 때 가장 자주 쓰이기 때문입니다. 이 개념이 있어야 배치 손실, 평균 제곱 오차, 평균 정확도처럼 여러 사례 결과를 왜 하나의 비교 가능한 숫자로 바꾸는지 자연스럽게 읽을 수 있습니다. 또한 평균은 중심을 보여 주지만 퍼짐과 이상치를 숨길 수도 있어, 대표값 하나만 보고 분포 전체를 다 안다고 착각하지 않게 만드는 출발점이기도 합니다. 결국 평균을 이해해야 `대표 숫자 하나`가 유용하면서도 불완전하다는 점을 함께 읽게 됩니다.
-- Related concepts: `distribution`, `variance`, `median`
-- Core Section: `P2-5.2`
-- Appears in: `P2-5.3`, `P2-5.4`, `P2-6.1`
-
-<a id="mean-squared-error-mse"></a>
-
-## mean squared error, MSE
-
-- Meaning: 실제값과 예측값의 차이를 제곱한 뒤 여러 샘플에 대해 평균낸 값입니다. 예측이 얼마나 틀렸는지를 하나의 숫자로 요약하되, 큰 오차에는 더 큰 벌점을 주는 방식이라고 볼 수 있습니다. 즉 작은 여러 실수보다 드문 큰 실수를 더 무겁게 보는 오차 요약 방식입니다.
-- Why it matters: 여러 예측의 오차를 하나의 숫자로 요약해 손실 함수와 평가 지표가 어떻게 연결되는지 보여 줍니다. 특히 제곱을 쓰기 때문에 큰 실수를 더 민감하게 반영한다는 점을 이해해야, 같은 평균 오차처럼 보여도 왜 MSE가 다른 판단을 줄 수 있는지 읽을 수 있습니다. 또한 MSE를 이해해야 `큰 실패를 특히 피하고 싶은 문제`와 `전반적으로 고르게 맞히고 싶은 문제`에서 왜 같은 회귀라도 다른 오차 기준을 택할 수 있는지 구분하게 됩니다. 결국 MSE는 `얼마나 자주 틀리는가`보다 `얼마나 크게 틀리는가`에 더 민감한 기준이라는 점이 핵심입니다.
-- Related concepts: `error`, `loss function`, `mean`
-- Core Section: `P2-6.2`
-- Appears in: `P2-2.2`, `P2-15.1`, `P5-4.2`
-
-<a id="metadata"></a>
-
-## metadata
-
-- Meaning: 문서 본문 자체가 아니라 제목, 날짜, 출처, 권한, 문서 종류처럼 그 문서를 설명하는 부가 정보입니다. 내용 그 자체는 아니지만, `이 자료를 어떻게 읽고 다뤄야 하는가`를 알려 주는 설명 표지라고 볼 수 있습니다. 예를 들어 같은 내용 요약이라도 작성 시점, 저자, 공개 범위, 원문 위치가 다르면 문서를 쓰는 방식과 신뢰 판단도 함께 달라집니다.
-- Why it matters: 벡터가 가까워 보여도 최신 문서인지, 접근 권한이 있는지, 어떤 자료 유형인지 함께 봐야 실제 검색 품질과 운영 품질이 올라가기 때문입니다. 이 개념이 있어야 검색이 본문 의미 비교만으로 끝나지 않고, 필터링과 정렬, 접근 제어가 함께 작동해야 한다는 점을 이해하게 됩니다. 또한 메타데이터를 알아야 `비슷한 문서`와 `지금 써도 되는 문서`를 구분하게 되고, 최신성 확인과 출처 추적도 더 체계적으로 연결됩니다.
-- Related concepts: `vector database`, `filtering`, `provenance`
-- Core Section: `P1-13.4`
-- Appears in: `P1-13.2`, `P1-14.1`, `P6-11.2`, `P6-12.1`, `P6-12.2`
-
-<a id="method"></a>
-
-## method
-
-- Meaning: 어떤 객체에 붙어 호출되는 함수 형태입니다. 같은 `함수`라도 객체와 함께 정의된 동작이라서, 보통 `value.method()`처럼 `무엇에 대해 수행하는가`가 함께 드러납니다. 즉 메서드는 독립된 계산 절차이면서도, 특정 객체가 제공하는 `자기 관련 행동`으로 읽어야 하는 호출 방식입니다.
-- Why it matters: `function(x)`와 `value.method()`는 겉보기엔 둘 다 호출이지만, 메서드는 특정 타입의 객체가 제공하는 동작이라는 점이 다릅니다. 이 차이를 이해해야 `df.head()`, `model.fit()`, `text.lower()` 같은 호출을 단순 문법이 아니라 객체가 가진 기능으로 읽을 수 있고, 어떤 값에서 어떤 동작을 기대할 수 있는지도 더 빨리 판단할 수 있습니다. 결국 메서드를 이해해야 코드에서 `무슨 일을 하나`뿐 아니라 `누가 그 일을 제공하나`까지 함께 읽게 됩니다.
-- Related concepts: `function`, `value`, `type`
-- Core Section: `P2-8.5`
-- Appears in: `P2-8.6`, `P2-12.2`
-
-<a id="metric"></a>
-
-## metric
-
-- Meaning: 모델이 얼마나 잘했는지, 또는 어떤 종류의 오류를 얼마나 냈는지 숫자로 요약해 보여 주는 기준입니다. 정확도처럼 한 숫자일 수도 있고, 정밀도와 재현율처럼 서로 다른 오류 성격을 따로 보여 주는 여러 숫자 묶음일 수도 있습니다. 즉 평가 지표는 `성능이 좋다`를 막연히 말하는 대신, 어떤 기준에서 얼마나 좋거나 나쁜지를 수치로 드러내는 언어입니다.
-- Why it matters: 같은 점수라도 무엇을 잘했다고 보는지 먼저 정하지 않으면 모델 비교와 업무 판단이 함께 흔들리기 때문입니다. 이 개념이 있어야 `높은 점수` 자체보다 그 점수가 무엇을 반영하고 무엇을 놓치는지를 함께 읽게 됩니다. 또한 하나의 지표가 좋아졌더라도 다른 실패 유형이 가려질 수 있어, 문제 성격에 따라 여러 지표를 함께 보는 이유도 더 자연스럽게 이해하게 됩니다. 특히 평가 지표를 이해해야 모델 훈련 목표, 사용자 경험, 업무 비용이 항상 같은 숫자로 요약되지는 않는다는 점도 읽게 됩니다.
-- Related concepts: `evaluation`, `accuracy`, `recall`
-- Core Section: `P4-6.1`
-- Appears in: `P4-6.2`, `P4-6.3`, `P4-6.4`, `P4-8.2`, `P4-10.2`, `P4-15.3`
-
-<a id="glossary-target-candidate"></a>
-
-## model
-
-- Meaning: 현실 전체를 그대로 복사한 것이 아니라 목적에 맞게 줄여 만든 계산용 모형입니다. AI 문맥에서는 특히 입력을 받아 예측, 분류, 생성, 판단 같은 출력을 만드는 학습된 계산 구조를 뜻하지만, 서비스 전체나 앱 전체와 같은 말은 아닙니다.
-- Why it matters: `모델`을 사람처럼 모든 일을 알아서 처리하는 존재로 보지 않고, 무엇을 입력으로 받아 어떤 출력을 만들며 서비스 안에서 어디까지 맡는지 구분하는 출발점이 되기 때문입니다. 이 구분이 잡혀야 모델 자체의 한계와 시스템 설계의 책임을 섞지 않게 됩니다. 이 개념이 있어야 `좋은 모델을 고른다`는 말이 곧바로 `좋은 제품이 된다`는 뜻이 아니라는 점도 분명해지고, 입력 설계, 근거 연결, 검토 절차, 권한 통제가 왜 여전히 별도 과제로 남는지 더 자연스럽게 이해하게 됩니다. 다시 말해 모델은 시스템의 핵심 부품일 수는 있어도, 시스템 전체와 같은 말은 아니라는 점이 중요합니다.
-- Related concepts: `input`, `output`, `system`, `application`, `orchestration`, `parameter`
-- Core Section: `P1-4.1`
-- Appears in: `P1-14.1`
-
-<a id="model"></a>
-
-## model
-
-- Meaning: 현실 전체를 그대로 복사한 것이 아니라 목적에 맞게 줄여 만든 계산용 모형입니다. AI 문맥에서는 특히 입력을 받아 예측, 분류, 생성, 판단 같은 출력을 만드는 학습된 계산 구조를 뜻하지만, 서비스 전체나 앱 전체와 같은 말은 아닙니다.
-- Why it matters: `모델`을 사람처럼 모든 일을 알아서 처리하는 존재로 보지 않고, 무엇을 입력으로 받아 어떤 출력을 만들며 서비스 안에서 어디까지 맡는지 구분하는 출발점이 되기 때문입니다. 이 구분이 잡혀야 모델 자체의 한계와 시스템 설계의 책임을 섞지 않게 됩니다. 이 개념이 있어야 `좋은 모델을 고른다`는 말이 곧바로 `좋은 제품이 된다`는 뜻이 아니라는 점도 분명해지고, 입력 설계, 근거 연결, 검토 절차, 권한 통제가 왜 여전히 별도 과제로 남는지 더 자연스럽게 이해하게 됩니다. 다시 말해 모델은 시스템의 핵심 부품일 수는 있어도, 시스템 전체와 같은 말은 아니라는 점이 중요합니다.
-- Related concepts: `input`, `output`, `system`, `application`, `orchestration`, `parameter`
-- Core Section: `P1-4.1`
-- Appears in: `P1-14.1`
-
-<a id="model-context-protocol-mcp"></a>
-
-## Model Context Protocol, MCP
-
-- Meaning: AI 앱이 외부 도구, 리소스, 프롬프트와 공통 방식으로 연결되게 하려는 공개 프로토콜입니다. 핵심은 모델 자체를 바꾸는 기술이 아니라, 바깥 기능을 더 표준화된 방식으로 발견하고 연결하는 인터페이스 규칙이며, 서로 다른 시스템이 `무엇을 제공하는지`, `어떻게 요청하는지`를 같은 틀로 맞추려는 약속에 가깝습니다. 즉 MCP는 `모델이 더 똑똑해지는 기술`보다 `모델 주변 연결을 더 일관되게 만드는 규칙` 쪽에 가깝습니다.
-- Why it matters: 에이전트나 AI 앱이 여러 외부 시스템을 제각각 붙이는 대신, 발견과 호출 방식을 더 일관되게 만들 수 있기 때문입니다. 이 표준화가 있어야 앱, 호스트, 클라이언트, 서버, 도구, 리소스의 경계를 더 명확히 설명할 수 있고, 연결 구조를 바꾸더라도 전체 오케스트레이션을 덜 제각각 설계하게 됩니다. 결국 MCP를 이해해야 에이전트 시스템의 핵심 문제가 모델 성능만이 아니라, 바깥 기능과 정보를 어떤 규칙으로 연결하느냐에도 있다는 점을 읽게 됩니다.
-- Related concepts: `tool`, `agent`, `orchestration`, `resource`, `server`, `client`
-- Core Section: `P6-15.1`
-- Appears in: `P1-14.3`, `P1-14.4`, `P1-14.5`, `P6-15.2`
-
-<a id="model-selection"></a>
-
-## model selection
-
-- Meaning: 문제 유형, 데이터 상태, 설명 가능성, 계산 비용을 함께 보고 먼저 비교할 모델 후보를 좁히는 과정입니다. 한 번에 `정답 모델`을 맞히는 일이 아니라, 현재 과제에 맞는 후보군을 합리적으로 줄여 실험 순서를 세우는 판단 단계에 가깝습니다. 즉 모델 선택은 학습 버튼을 누르기 전부터 시작되는 설계 판단이며, 어떤 모델 계열을 왜 후보에 올렸는지 설명할 수 있어야 하는 과정입니다.
-- Why it matters: 유명한 알고리즘 이름을 고르는 일보다, 어떤 문제에서 어느 모델 서랍을 먼저 열어야 하는지 정하는 판단이 더 앞서기 때문입니다. 이 단계가 있어야 데이터 양이 적은데도 과하게 무거운 모델로 바로 가거나, 설명 가능성이 중요한데도 해석이 어려운 모델부터 쓰는 식의 어긋난 출발을 줄일 수 있습니다. 결국 모델 선택은 `무엇을 학습시킬 수 있는가`보다 `지금 조건에서 무엇부터 시험하는 것이 타당한가`를 정리하는 기초 판단입니다.
-- Related concepts: `task definition`, `baseline`, `evaluation`
-- Core Section: `P4-8.1`
-- Appears in: `P4-3.2`, `P4-8.2`, `P4-9.1`, `P4-9.2`, `P4-9.3`
-
-<a id="multi-head-attention"></a>
-
-## multi-head attention
-
-- Meaning: 같은 입력 토큰 관계를 한 번만 읽지 않고, 여러 head가 서로 다른 관련성 관점으로 나누어 읽은 뒤 그 결과를 다시 합치는 attention 방식입니다. 즉 한 시선으로만 `무엇이 중요하지`를 보는 대신, 여러 작은 시선을 병렬로 두어 서로 다른 연결 패턴을 동시에 포착하려는 구조라고 볼 수 있습니다. 그래서 같은 문장 안에서도 어떤 head는 가까운 문법 관계를, 다른 head는 멀리 떨어진 참조 관계를 더 강하게 읽을 수 있습니다.
-- Why it matters: 번역, 요약, 코드 이해처럼 한 종류의 관련성만으로는 부족한 문제에서, 서로 다른 관계 패턴을 함께 보존하는 Transformer 핵심 장치이기 때문입니다. 이 개념이 있어야 한 문장 안에서도 문법적 관계, 의미적 관련성, 장거리 참조 같은 서로 다른 연결을 동시에 볼 수 있다는 점을 이해하게 되고, self-attention이 하나의 시선이라면 multi-head는 여러 시선을 병렬로 둔 구조라는 점도 더 쉽게 붙잡게 됩니다. 또한 여러 head가 있다고 해서 자동으로 각각 인간이 해석 가능한 역할 하나씩만 맡는 것은 아니라는 점도 중요합니다. 즉 multi-head는 해석 가능한 규칙표보다, 다양한 관계를 담을 수 있게 표현 용량을 나누는 설계 장치로 읽는 편이 더 정확합니다.
-- Related concepts: `self-attention`, `query-key-value, QKV`, `Transformer`
-- Core Section: `P5-13.3`
-- Appears in: `P6-4.3`
-
-<a id="multilayer-neural-network"></a>
-
-## multilayer neural network
-
-- Meaning: 퍼셉트론 같은 계산 단위를 여러 층으로 쌓아 중간 표현을 단계적으로 만드는 신경망 구조입니다. 앞 층이 만든 표현을 다음 층이 다시 가공하면서, 단순한 신호에서 더 추상적인 특징으로 올라가는 구조라고 이해하면 됩니다. 즉 다층 신경망은 `한 번 바로 분류한다`보다 `여러 단계의 중간 표현을 거쳐 판단한다`는 구조에 가깝습니다.
-- Why it matters: 단일 퍼셉트론이 만들 수 없는 더 복잡한 경계와 표현을 설명할 수 있어, 딥러닝이 깊어지는 이유를 보여 주기 때문입니다. 이 개념이 있어야 층이 많아진다는 말이 단순 계산 반복이 아니라, 표현 수준을 단계적으로 바꾸는 일이라는 점이 드러납니다. 또한 다층 신경망을 이해해야 `깊다`는 표현이 단순히 파라미터 수가 많다는 뜻이 아니라, 중간 표현 변환 단계가 여러 층으로 쌓였다는 뜻이라는 점도 더 분명해집니다. 결국 다층 신경망은 `한 번의 선형 판단`을 `여러 단계 표현 변환`으로 확장한 기본 구조입니다.
-- Related concepts: `perceptron`, `hidden layer`, `activation function`
-- Core Section: `P5-2.1`
-- Appears in: `P5-2.2`, `P5-11.1`
+--8<-- "reference/concept-glossary-terms/multilayer-neural-network.en.md"

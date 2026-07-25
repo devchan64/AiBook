@@ -54,31 +54,7 @@
 - 함께 볼 개념: `멀티헤드 어텐션(multi-head attention)`, `문맥 창(context window)`, `롱 컨텍스트(long-context)`
 - 중심 Section: `P6-4.3`
 
-### 사건 기록(incident record)
-
-- 뜻: 배포나 운영 중 관찰된 문제를 날짜, 신호, 가능한 원인, 독자 영향, 다음 조치까지 묶어 남긴 운영 사건 단위 기록입니다. 단순 오류 메모가 아니라, `무슨 문제가 있었는가`, `어디를 먼저 확인해야 하는가`, `다음 반복에서 무엇을 바꿀 것인가`를 다시 읽을 수 있게 만든 회고 원장에 가깝습니다. 즉 사건 기록은 실패 사실을 보관하는 데서 끝나지 않고, 다음 점검과 수정 순서를 여는 실행 기록입니다.
-- 왜 중요한가: 같은 404라도 배포 미반영, 링크 경로 오류, 공개 반영 지연처럼 해석이 달라질 수 있어, 사건별로 신호와 확인 위치를 함께 남기지 않으면 다음 조치가 쉽게 흐려지기 때문입니다. 이 개념이 있어야 실패를 단순 나열하지 않고 범주, 우선순위, 확인 위치, 다음 행동까지 포함한 운영 회고로 남기게 됩니다. 또한 사건 기록을 이해해야 Part 7의 에이전트 run 기록, 실패 유형 분류, 배포 회고가 모두 `사실 -> 해석 경계 -> 다음 조치` 구조로 다시 묶일 수 있다는 점도 더 분명하게 읽게 됩니다.
-- 함께 볼 개념: `실패(failure)`, `실패 유형(failure type)`, `상태 점검(status inspection)`, `다음 행동(next action)`, `회고(retrospective)`
-- 중심 Section: `P7-7.2`
-- 등장 Section: `P7-index`, `P7-summary`
-
---8<-- "reference/concept-glossary-terms/event.ko.md"
-
-### 사람 평가(human evaluation)
-
-- 뜻: 사람이 실제 맥락, 말투, 해석 적절성, 오해 가능성을 읽으며 품질을 판단하는 평가 방식입니다. 정답 문자열 일치보다, 사용자가 실제로 이 결과를 받아도 되는지를 더 넓게 살피는 평가에 가깝고, 여러 평가자가 기준표(rubric)를 맞춰 비교하기도 합니다. 즉 사람 평가는 점수 계산보다 `이 결과가 실제 상황에서 어떤 의미를 갖는가`를 읽는 데 강합니다.
-- 왜 중요한가: 자동 평가가 잘 잡지 못하는 미묘한 품질 문제와 실제 사용 적합성을 확인하는 마지막 기준이 되기 때문입니다. 특히 생성형 AI에서는 사실성, 안전성, 도움 됨 여부가 함께 얽혀 있어 사람 평가가 빠지면 중요한 실패를 놓치기 쉽고, 반대로 사람 평가만 믿으면 비용과 일관성 문제가 커질 수 있어 자동 평가와의 역할 분담이 중요합니다. 또한 사람 평가를 이해해야 평가자 기준표와 합의 절차가 왜 필요한지, 사람 판단이라고 해서 자동으로 공정하고 일관적인 것은 아니라는 점도 읽게 됩니다.
-- 함께 볼 개념: `평가(evaluation)`, `자동 평가(automatic evaluation)`, `검토(review)`, `사실성(factuality)`
-- 중심 Section: `P6-16.2`
-- 등장 Section: `P6-17.1`
-
---8<-- "reference/concept-glossary-terms/example.ko.md"
-
---8<-- "reference/concept-glossary-terms/factual-claim.ko.md"
-
---8<-- "reference/concept-glossary-terms/fact.ko.md"
-
---8<-- "reference/concept-glossary-terms/factuality.ko.md"
+--8<-- "reference/concept-glossary-terms/incident-record.ko.md"
 
 ### 사전학습(pretraining)
 
@@ -153,9 +129,12 @@
 
 --8<-- "reference/concept-glossary-terms/generative-model.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/generation.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/aigenerative-ai.ko.md"
+
 
 ### 서버(server)
 
@@ -165,23 +144,9 @@
 - 중심 Section: `P1-14.4`
 - 등장 Section: `P1-14.3`
 
-### 선형 구조(linear structure)
+--8<-- "reference/concept-glossary-terms/linear-structure.ko.md"
 
-- 뜻: 데이터가 한 줄의 순서로 이어진다고 보고 다루는 구조입니다. 각 원소가 보통 앞뒤 위치 관계 속에서 읽히며, `처음부터 끝까지` 또는 `몇 번째인가` 같은 질문이 기본이 되는 자료구조 범주라고 볼 수 있습니다.
-- 왜 중요한가: 배열, 리스트, 스택, 큐처럼 순서와 위치가 핵심인 구조를 트리·그래프와 구분해 읽는 기준이 되기 때문입니다. 이 개념이 있어야 데이터를 `앞에서부터 차례로 읽는 문제`와 `여러 갈래 연결을 따라가야 하는 문제`를 다른 구조 선택 문제로 보게 되고, 같은 저장이라도 왜 선형 구조와 비선형 구조의 탐색 방식이 달라지는지도 더 쉽게 이해하게 됩니다. 또한 선형 구조에서는 `몇 번째인가`가 중요한 질문이 되지만, 그래프에서는 `무엇과 연결되었는가`가 더 중요해진다는 차이도 자연스럽게 잡게 됩니다. 결국 선형 구조는 순서가 곧 해석의 기본 축이 되는 자료구조 묶음입니다.
-- 함께 볼 개념: `비선형 구조(non-linear structure)`, `배열(array)`, `자료구조(data structure)`
-- 중심 Section: `P2-9.1`
-- 등장 Section: `P2-9.4`
-
-### 선형회귀(linear regression)
-
-- 뜻: 입력 특징과 연속 출력 사이의 관계를 직선 또는 평면처럼 가장 단순한 선형 형태로 먼저 읽어 보는 회귀 모델입니다. 특징이 하나면 직선, 여러 개면 고차원 평면처럼 `입력이 조금 바뀌면 출력이 어느 방향으로 얼마나 달라지는가`를 선형 규칙으로 표현하는 방식입니다.
-- 왜 중요한가: 복잡한 모델로 가기 전에 `입력과 출력이 대체로 직선 관계라면 어느 정도 설명되는가`를 먼저 확인하게 해 주는 가장 기본적인 회귀 기준선이기 때문입니다. 이 개념이 있어야 회귀 문제에서 관계를 가장 단순한 형태로 먼저 읽는 이유를 이해하게 되고, 이후 더 복잡한 모델이 왜 필요한지도 `직선으로는 설명되지 않는 패턴이 남는가`라는 기준으로 비교하게 됩니다. 또 계수와 기울기를 통해 각 입력이 출력 변화에 어떤 방향으로 연결되는지 해석하는 출발점도 마련됩니다. 결국 선형회귀는 `가장 단순한 설명이 어디까지 통하는가`를 먼저 시험하는 기준선 역할을 합니다.
-- 함께 볼 개념: `회귀(regression)`, `기울기(slope)`, `잔차(residual)`
-- 중심 Section: `P4-10.1`
-- 등장 Section: `P4-10.2`, `P4-10.3`
-
---8<-- "reference/concept-glossary-terms/explanation-facility.ko.md"
+--8<-- "reference/concept-glossary-terms/linear-regression.ko.md"
 
 ### 셀프 어텐션(self-attention)
 
@@ -209,37 +174,12 @@
 
 --8<-- "reference/concept-glossary-terms/attribute.ko.md"
 
-### 손실 곡선(loss curve)
 
-- 뜻: 학습 반복이나 epoch가 진행될수록 손실값이 어떻게 변하는지 선 그래프로 나타낸 것입니다. 한 번의 숫자를 따로 보는 대신, `처음엔 빠르게 줄다가 완만해지는가`, `갑자기 튀는가`, `훈련과 검증이 갈라지는가`처럼 학습의 시간 흐름을 눈으로 읽게 해 주는 기록입니다.
-- 왜 중요한가: 손실이 줄어드는지, 흔들리는지, 검증 손실과 벌어지는지를 빠르게 확인하게 해 주어 학습 상태를 점검하는 가장 기본적인 시각화가 되기 때문입니다. 이 개념이 있어야 숫자 한 번의 결과보다 학습의 흐름 자체를 읽게 되고, 과적합, 학습 정체, 불안정한 진동처럼 서로 다른 문제 양상을 더 일찍 구분하게 됩니다. 예를 들어 훈련 손실만 계속 내려가고 검증 손실이 다시 올라가면, `계속 학습 중`이라는 사실보다 `일반화가 무너지고 있다`는 신호를 먼저 읽어야 합니다. 결국 손실 곡선은 `현재 점수`보다 `학습이 어떤 방향으로 흘러가고 있는가`를 읽게 만드는 시간형 진단 도구입니다.
-- 함께 볼 개념: `라인 플롯(line plot)`, `손실 함수(loss function)`, `정확도(accuracy)`
-- 중심 Section: `P2-13.2`
-- 등장 Section: `P2-13.3`, `P2-15.1`
+--8<-- "reference/concept-glossary-terms/loss-curve.ko.md"
 
-### 손실 함수(loss function)
+--8<-- "reference/concept-glossary-terms/loss-function.ko.md"
 
-- 뜻: 예측이 얼마나 틀렸는지를 학습에 사용할 수 있는 숫자로 바꾸는 함수입니다. 단순히 `틀렸다`고 말하는 데서 끝나지 않고, 얼마나 틀렸는지와 어떤 종류의 오류를 더 크게 벌줄지까지 숫자로 정리하는 기준이라고 볼 수 있습니다. 즉 손실 함수는 `모델이 무엇을 나쁘다고 배울 것인가`를 수치로 정해 주는 규칙이며, 학습의 방향키 역할을 합니다.
-- 왜 중요한가: 학습이 무엇을 줄이려 하는지 정의하지 않으면 모델을 어느 방향으로 조정할지 정할 수 없기 때문입니다. 이 개념이 있어야 같은 정확도처럼 보여도 학습 중에는 왜 별도의 손실값을 계산하는지, 또 손실 설계가 달라지면 모델이 우선적으로 줄이려는 오류도 달라질 수 있다는 점을 이해하게 됩니다. 또한 손실 함수를 이해해야 `평가 지표가 좋다`와 `학습 중 실제로 줄인 값이 무엇인가`를 같은 것으로 섞지 않게 되고, 어떤 오류를 더 무겁게 볼지 자체가 모델 행동을 바꾼다는 점도 읽게 됩니다.
-- 함께 볼 개념: `오차(error)`, `목적 함수(objective function)`, `경사하강법(gradient descent)`
-- 중심 Section: `P2-6.2`
-- 등장 Section: `P2-6.3`, `P2-13.2`, `P2-15.1`, `P5-4.1`, `P5-4.2`
-
---8<-- "reference/concept-glossary-terms/convergence.ko.md"
-
-### 수작업 특징(hand-crafted features)
-
-- 뜻: 사람이 미리 중요하다고 판단한 단서나 속성을 직접 설계해 만든 특징입니다. 예를 들어 모서리, 색 분포, 질감, 길이 같은 요소를 사람이 먼저 골라 숫자로 바꿔 넣는 방식이라고 볼 수 있습니다. 즉 모델이 무엇을 볼지 스스로 정하게 두기보다, 사람이 `이 단서가 중요하다`고 먼저 골라 넣는 입력 설계 방식입니다.
-- 왜 중요한가: 딥러닝 이전 이미지 인식 흐름이 어떤 한계를 가졌는지, 그리고 표현 학습이 왜 중요한 전환이 되었는지 비교하게 해 주기 때문입니다. 이 개념이 있어야 사람이 먼저 만든 입력 단서와 모델이 중간층에서 스스로 배운 표현을 구분해 읽게 됩니다. 결국 수작업 특징은 `무엇이 중요할지 사람이 먼저 정한다`는 접근의 장단점을 드러내는 기준점입니다. 또한 수작업 특징을 이해해야 성능 차이가 단순 모델 복잡도 차이만이 아니라, 애초에 입력 단서를 누가 설계했는가의 차이에서 올 수 있다는 점도 보게 됩니다.
-- 함께 볼 개념: `특징(feature)`, `이미지 인식(image recognition)`, `학습된 표현(learned representation)`
-- 중심 Section: `P1-9.1`
-
-### 수치 안정성(numerical stability)
-
-- 뜻: 계산을 여러 번 반복하더라도 값과 gradient가 지나치게 커지거나 작아지지 않아, 학습이 감당 가능한 숫자 범위 안에서 계속 이어지는 성질입니다. 즉 수식은 맞더라도 실제 컴퓨터 숫자 범위 안에서 계산이 터지거나 사라지지 않게 유지되는 상태를 뜻합니다. 다시 말해 수치 안정성은 `수학적으로 가능한 계산`을 `실제 기계에서도 무너지지 않게 구현하는 조건`이라고 볼 수 있습니다.
-- 왜 중요한가: 컴퓨터는 무한히 정확한 실수를 다루지 못하므로, 수학적으로는 맞는 계산도 실제 실행에서는 overflow, underflow, gradient 폭주 같은 문제로 무너질 수 있기 때문입니다. 이 개념이 있어야 초기화, 정규화, 학습률 조정이 단순 튜닝 요령이 아니라 계산 자체를 지속 가능하게 만드는 조건이라는 점을 이해하게 되고, `모델 구조는 맞는데 학습이 안 된다`는 상황도 수치 문제로 다시 읽게 됩니다. 또한 softmax 계산 순서, 로그 변환 사용, 정규화 층 배치처럼 겉보기에는 사소한 구현 선택도 실제 학습 가능성을 크게 바꾼다는 점을 함께 이해하게 됩니다.
-- 함께 볼 개념: `초기화(initialization)`, `배치 정규화(batch normalization)`, `역전파(backpropagation)`
-- 중심 Section: `P5-8.3`
+--8<-- "reference/concept-glossary-terms/numerical-stability.ko.md"
 
 ### 순위화(ranking)
 
@@ -257,13 +197,7 @@
 - 중심 Section: `P1-11.2`
 - 등장 Section: `P5-12.1`, `P5-12.2`
 
-### 숨은 상태(hidden state)
-
-- 뜻: 문맥에 따라 두 가지로 쓰입니다. 순환 신경망에서는 앞 입력 정보를 누적해 다음 계산으로 넘기는 내부 상태를 뜻하고, 노트북 문맥에서는 화면에 직접 보이지 않지만 다음 셀 실행에 영향을 주는 런타임 안의 값이나 설정을 뜻합니다. 공통점은 둘 다 `겉으로 바로 보이지 않지만 다음 결과를 바꾸는 내부 기억`이라는 점입니다.
-- 왜 중요한가: 같은 `hidden state`라도 모델 내부 문맥과 실행 환경 문맥을 구분해야 RNN 설명과 노트북 재현성 설명을 혼동하지 않기 때문입니다. 이 개념이 있어야 보이지 않는 중간 상태가 왜 다음 출력에 큰 영향을 주는지 이해하게 되고, `겉으로 같은 입력인데 결과가 다르다`는 현상을 모델의 문맥 기억 문제와 노트북 실행 순서 문제로 나누어 해석할 수 있게 됩니다. 결국 숨은 상태를 이해해야 `보이는 입력만 같으면 같은 결과가 나온다`는 단순한 직관이 왜 자주 깨지는지도 읽게 됩니다.
-- 함께 볼 개념: `순환 신경망(RNN, recurrent neural network)`, `실행 순서(execution order)`, `런타임 상태(runtime state)`
-- 중심 Section: `P1-11.2`
-- 등장 Section: `P2-10.3`
+--8<-- "reference/concept-glossary-terms/hidden-state.ko.md"
 
 ### 스칼라(scalar)
 
@@ -314,7 +248,9 @@
 
 --8<-- "reference/concept-glossary-terms/approval-policy.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/approval.ko.md"
+
 
 ### 시각화(visualization)
 
@@ -358,9 +294,12 @@
 
 --8<-- "reference/concept-glossary-terms/expression.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/failure-type.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/failure.ko.md"
+
 
 ### 실행 범위(scope)
 
@@ -372,11 +311,15 @@
 
 --8<-- "reference/concept-glossary-terms/execution-order.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/execution-summary.ko.md"
+
 
 --8<-- "reference/concept-glossary-terms/execution-scene.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/execution-environment.ko.md"
+
 
 ### 실행 환경(runtime)
 

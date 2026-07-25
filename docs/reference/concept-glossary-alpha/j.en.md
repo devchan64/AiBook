@@ -1,13 +1,5 @@
 # Concept Glossary: J
 
-This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
+This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
-<a id="jupyter"></a>
-
-## Jupyter
-
-- Meaning: 브라우저에서 코드 셀과 설명 셀을 함께 다루는 노트북 환경을 제공하는 도구 계열입니다. 코드 실행, 결과 확인, 해설 작성이 한 문서 안에서 이어지는 형식을 제공하므로, 계산 문서와 실험 기록을 한 자리에서 남기게 해 주는 작업 틀이라고 볼 수 있습니다. 즉 주피터는 단순 편집기가 아니라 `설명과 실행을 함께 담는 노트북 형식`의 중심 도구입니다.
-- Why it matters: Colab과 로컬 노트북 환경을 비교할 때, 노트북 형식 자체와 실행 위치를 분리해 이해하는 기준이 되기 때문입니다. 이 개념이 있어야 `노트북으로 작업한다`는 말이 곧 클라우드 실행을 뜻하는 것은 아니라는 점을 이해하게 되고, 같은 Jupyter 형식도 로컬 커널과 원격 실행 환경에서 다르게 동작할 수 있다는 점을 읽게 됩니다. 예를 들어 Colab은 Jupyter 형식을 Google 호스팅 환경에서 제공하는 한 형태이고, 로컬 Jupyter는 내 컴퓨터 커널과 파일을 직접 쓰는 형태입니다. 결국 주피터를 이해해야 `문서 형식`, `실행 위치`, `런타임 상태`를 분리해 보게 되고, 노트북 실습의 재현성 문제도 더 정확히 진단하게 됩니다.
-- Related concepts: `notebook`, `Colab`, `runtime`
-- Core Section: `P2-10.2`
-- Appears in: `P2-10.1`, `P2-10.3`
+--8<-- "reference/concept-glossary-terms/jupyter.en.md"

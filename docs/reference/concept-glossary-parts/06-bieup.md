@@ -2,17 +2,14 @@
 
 --8<-- "reference/concept-glossary-terms/bert.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.ko.md"
+
 
 --8<-- "reference/concept-glossary-terms/bounding-box.ko.md"
 
-### 반복(loop)
 
-- 뜻: 여러 값에 같은 처리 기준을 차례대로 적용하는 흐름입니다. 즉 같은 코드를 매번 다시 쓰지 않고, 항목만 바꿔 가며 같은 절차를 반복 실행하는 제어 구조라고 볼 수 있습니다. 그래서 반복은 `값이 여러 개 있다`는 사실을 `작업을 여러 번 수행한다`는 실행 흐름으로 바꾸는 가장 기본적인 다리입니다.
-- 왜 중요한가: 데이터 묶음을 읽기만 하는 상태에서, 각 원소에 검사·변환·누적 같은 작업을 실제로 적용하는 실행 흐름으로 넘어가게 해 주기 때문입니다. 이 개념이 있어야 리스트와 딕셔너리 같은 자료구조가 단순 저장소가 아니라 처리 대상이라는 점을 이해하게 되고, 같은 로직을 여러 항목에 반복 적용하는 사고방식이 함수, 데이터 전처리, 학습 반복 설명으로도 이어지게 됩니다. 또한 반복은 무조건 느리고 낡은 방식이라는 뜻이 아니라, 언제는 직접 반복이 필요하고 언제는 벡터화나 내장 함수로 더 높은 단위 표현이 가능한지를 비교하는 기준이 되기도 합니다.
-- 함께 볼 개념: `이터러블(iterable)`, `이터레이터(iterator)`, `리스트(list)`
-- 중심 Section: `P2-8.4`
-- 등장 Section: `P2-8.5`, `P2-10.3`
+--8<-- "reference/concept-glossary-terms/loop.ko.md"
 
 ### 반환값(return value)
 
@@ -24,11 +21,15 @@
 
 --8<-- "reference/concept-glossary-terms/discovery.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/directed-graph.ko.md"
+
 
 --8<-- "reference/concept-glossary-terms/deployment-check.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/deployment.ko.md"
+
 
 ### 버전 고정(version pinning)
 
@@ -46,13 +47,7 @@
 - 중심 Section: `P2-14.1`
 - 등장 Section: `P2-14.2`
 
-### 범례(legend)
-
-- 뜻: 그래프 안의 여러 선, 점, 색이 각각 무엇을 뜻하는지 구분해 주는 설명 상자입니다. 축이 숫자 범위를 보여 준다면, 범례는 `이 표식이 어떤 데이터 계열인가`를 알려 주는 이름표 묶음이라고 볼 수 있습니다. 즉 범례는 그림의 시각 요소와 데이터 의미를 연결해 주는 해석 열쇠입니다.
-- 왜 중요한가: train loss와 validation loss처럼 같은 축에 여러 선이나 색을 함께 올릴 때, 무엇이 무엇인지 분명하지 않으면 비교 해석이 바로 무너지기 때문입니다. 이 개념이 있어야 그래프를 볼 때 숫자 축만이 아니라 `각 표식이 어떤 데이터 계열을 뜻하는가`를 먼저 확인하게 되고, 같은 그림이라도 범례가 부정확하면 결론 전체가 흔들릴 수 있다는 점도 이해하게 됩니다. 결국 범례를 읽을 수 있어야 `선이 두 개 있다`를 넘어서 `각 선이 무엇을 대표하는가`를 정확히 해석하게 됩니다.
-- 함께 볼 개념: `그래프(plot)`, `정확도(accuracy)`, `손실 곡선(loss curve)`
-- 중심 Section: `P2-13.3`
-- 등장 Section: `P2-15.1`
+--8<-- "reference/concept-glossary-terms/legend.ko.md"
 
 ### 벡터 공간(vector space)
 
@@ -112,13 +107,8 @@
 
 --8<-- "reference/concept-glossary-terms/augmentation.ko.md"
 
-### 보류 상태(hold state)
 
-- 뜻: 도구나 기능이 망가져서 실패한 것이 아니라, 승인 미도착, 사람 응답 대기, 허용 범위 미충족처럼 외부 조건이 아직 열리지 않아 현재 실행을 더 진행하지 않고 멈춰 둔 상태입니다. 이미 확보한 관찰과 판단은 남아 있지만, 다음 변경 단계로 넘어가면 정책을 어기게 되므로 안전하게 멈춘 실행 상태라고 볼 수 있습니다. 즉 보류 상태는 `아무것도 못 했다`가 아니라 `지금은 더 하면 안 된다`를 기록한 운영 상태입니다.
-- 왜 중요한가: blocked와 failure를 같은 실패로 묶어 버리면 문제 원인을 잘못 읽게 되고, 다음 행동도 재시도와 승인 요청을 구분하지 못하게 되기 때문입니다. 이 개념이 있어야 실행이 끝나지 않았더라도 왜 멈췄는지를 더 정확하게 남기게 되고, 승인 정책과 사람 응답 흐름이 실제 운영 기록 안에서 어떻게 드러나는지도 이해하게 됩니다. 또한 보류 상태를 이해해야 안전한 멈춤과 기능 고장을 같은 것으로 보지 않게 되고, 사용자 상태 보고와 회고 문장도 `실패` 대신 `외부 조건 미충족`이라는 더 정확한 표현으로 정리하게 됩니다.
-- 함께 볼 개념: `승인 정책(approval policy)`, `승인(approval)`, `상태(state)`, `재시도(retry)`, `요청 실행 기록(run record)`
-- 중심 Section: `P7-6.3`
-- 등장 Section: `P7-6.1`, `P7-6.2`
+--8<-- "reference/concept-glossary-terms/hold-state.ko.md"
 
 ### 보상(reward)
 
@@ -138,7 +128,9 @@
 
 --8<-- "reference/concept-glossary-terms/calibration.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/copy.ko.md"
+
 
 ### 부분 관측(partial observability)
 
@@ -150,7 +142,9 @@
 
 --8<-- "reference/concept-glossary-terms/classification.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/distributed-representation.ko.md"
+
 
 ### 분산(variance)
 
@@ -162,13 +156,8 @@
 
 --8<-- "reference/concept-glossary-terms/distribution.ko.md"
 
-### 불완전한 정보(incomplete information)
 
-- 뜻: 판단이나 선택에 필요한 상태 정보가 처음부터 모두 주어지지 않은 상황입니다. 규칙이나 목표가 있더라도, 결정을 위해 알아야 할 사실 일부가 애초에 제공되지 않은 조건이라고 볼 수 있습니다. 즉 문제는 있는데, 그 문제를 닫는 데 필요한 입력이 처음부터 비어 있는 상태입니다.
-- 왜 중요한가: 규칙이 있어도 핵심 정보가 빠져 있으면 결과를 확정하기 어렵고, 확률·탐색·사람 검토 같은 보완 접근이 왜 필요한지 설명해 주기 때문입니다. 이 개념이 있어야 `규칙이 부족한가`와 `정보가 부족한가`를 구분해 읽게 되고, 같은 문제라도 더 많은 관측이 들어오면 판단 방식이 달라질 수 있다는 점도 자연스럽게 이해하게 됩니다. 예를 들어 고객 문의만 있고 주문 기록이 전혀 없으면, 문제는 규칙의 부재가 아니라 입력 사실의 부재일 수 있습니다. 이런 구분이 있어야 규칙을 더 쓰는 방향과 추가 관측이나 검색을 붙이는 방향을 다르게 선택하게 됩니다.
-- 함께 볼 개념: `부분 관측(partial observability)`, `불확실성(uncertainty)`, `규칙 기반 시스템(rule-based system)`
-- 중심 Section: `P1-6.1`
-- 등장 Section: `P1-2.2`, `P1-7.1`
+--8<-- "reference/concept-glossary-terms/incomplete-information.ko.md"
 
 ### 불확실성(uncertainty)
 
@@ -180,22 +169,11 @@
 
 --8<-- "reference/concept-glossary-terms/branch.ko.md"
 
+
 --8<-- "reference/concept-glossary-terms/broadcasting.ko.md"
 
-### 비결정적(nondeterministic)
 
-- 뜻: 같은 입력이나 상태에서도 결과가 하나로 고정되지 않을 수 있는 성질입니다. 하나의 규칙 경로만 있는 것이 아니라, 여러 다음 상태나 결과 가능성이 열려 있는 조건이라고 볼 수 있습니다. 즉 비결정적이라는 말은 `반드시 하나의 다음 결과로 닫히지 않는다`는 구조를 가리키며, 곧바로 무작위 선택을 뜻하는 것은 아닙니다.
-- 왜 중요한가: 규칙이 모자라서 여러 경로가 가능한 경우, 무작위 요소가 들어간 경우, 외부 상태에 따라 실행이 달라지는 경우를 한데 섞지 않고 읽는 출발점이 되기 때문입니다. 이 개념이 있어야 `정답이 하나로 결정되지 않는다`는 말이 언제는 탐색 문제를 뜻하고 언제는 확률적 생성이나 시스템 실행 차이를 뜻하는지 더 조심해서 구분하게 됩니다. 또한 비결정적을 이해해야 `결과가 여러 개일 수 있다`와 `그중 하나를 무작위로 고른다`를 다른 층위로 읽게 됩니다.
-- 함께 볼 개념: `무작위(random)`, `확률적 과정(stochastic process)`, `불확실성(uncertainty)`
-- 중심 Section: `P1-6.2`
-
---8<-- "reference/concept-glossary-terms/comparison-result.ko.md"
-
---8<-- "reference/concept-glossary-terms/comparison-report.ko.md"
-
---8<-- "reference/concept-glossary-terms/comparison-table.ko.md"
-
---8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
+--8<-- "reference/concept-glossary-terms/nondeterministic.ko.md"
 
 ### 비밀키(secret)
 
@@ -205,15 +183,7 @@
 - 중심 Section: `P1-14.5`
 - 등장 Section: `P1-15.3`, `P1-16.2`
 
-### 비선형 구조(non-linear structure)
-
-- 뜻: 데이터가 한 줄의 순서로만 이어지지 않고, 계층이나 관계처럼 여러 갈래로 연결되는 구조입니다. 앞뒤 한 방향으로만 훑는 대신, 가지를 타고 내려가거나 연결선을 따라 이동해야 하는 구조라고 이해하면 됩니다. 즉 저장 방식보다 `어떤 관계를 기본으로 드러내는가`가 더 중요한 자료구조 범주입니다.
-- 왜 중요한가: 트리와 그래프를 리스트나 배열 같은 선형 구조와 구분해 읽어야 질문에 맞는 구조 선택이 가능해지기 때문입니다. 이 개념이 있어야 데이터를 `앞에서부터 순서대로 훑는 문제`와 `부모-자식 관계나 연결을 따라가야 하는 문제`로 나누어 보게 되고, 같은 저장 대상이라도 어떤 질문을 자주 던질지에 따라 구조 선택이 달라진다는 점도 이해하게 됩니다. 결국 비선형 구조를 이해해야 `데이터가 많다`보다 `데이터가 어떻게 연결되어 있나`가 더 중요한 문제를 따로 식별하게 됩니다.
-- 함께 볼 개념: `선형 구조(linear structure)`, `트리(tree)`, `그래프(graph)`
-- 중심 Section: `P2-9.1`
-- 등장 Section: `P2-9.4`
-
---8<-- "reference/concept-glossary-terms/cost.ko.md"
+--8<-- "reference/concept-glossary-terms/non-linear-structure.ko.md"
 
 ### 비전 트랜스포머(ViT, Vision Transformer)
 
@@ -231,9 +201,4 @@
 - 중심 Section: `P4-2.2`
 - 등장 Section: `P1-8.2`, `P4-17.1`, `P4-17.2`, `P4-18.1`, `P4-18.2`
 
-### 비파라메트릭 메모리(non-parametric memory)
-
-- 뜻: 모델 파라미터 밖에 따로 저장되어 검색으로 접근할 수 있는 외부 문서나 자료 저장소입니다. 모델이 가중치 안에 압축해 기억한 정보와 달리, 필요할 때 다시 찾아 읽을 수 있도록 바깥에 남겨 둔 메모리 층이라고 볼 수 있습니다. 즉 비파라메트릭 메모리는 `모델이 몸속에 기억한 것`이 아니라 `밖에 두고 필요할 때 꺼내 보는 것`에 가깝습니다.
-- 왜 중요한가: RAG가 모델 내부 기억만 쓰는 것이 아니라, 나중에 추가·수정할 수 있는 바깥 자료를 함께 연결한다는 점을 이해하게 해 주기 때문입니다. 이 개념이 있어야 최신 문서 교체와 출처 추적이 왜 파라미터 수정 없이 가능해지는지도 설명할 수 있습니다. 예를 들어 회사 정책 문서가 바뀌었을 때 모델 전체를 다시 학습하지 않고도 검색 저장소의 문서만 교체해 최신 답변 재료를 바꿀 수 있다면, 그 바깥 저장소가 바로 비파라메트릭 메모리 역할을 하는 셈입니다. 결국 이 개념을 이해해야 `모델이 안다`와 `모델이 찾아 읽는다`를 분리해 설명하게 되고, 최신성·출처성·수정 용이성이 왜 RAG 구조의 핵심 장점인지도 더 분명히 읽게 됩니다.
-- 함께 볼 개념: `파라메트릭 메모리(parametric memory)`, `검색 증강 생성(retrieval-augmented generation, RAG)`, `검색(search)`
-- 중심 Section: `P1-13.3`
+--8<-- "reference/concept-glossary-terms/non-parametric-memory.ko.md"

@@ -1,0 +1,17 @@
+<a id="in-context-learning"></a>
+
+### 문맥 내 학습(in-context learning)
+
+- 뜻: 모델 가중치를 업데이트하지 않고도, 프롬프트 안의 지시와 예시 문맥만으로 출력 행동이 달라지는 현상 또는 사용 방식입니다. 즉 모델 본체를 다시 학습시키지 않은 채, 이번 입력 안에 담긴 설명과 사례를 임시 작업 맥락으로 삼아 답변 방식을 바꾸는 접근이라고 볼 수 있습니다. 말하자면 `모델을 다시 훈련한다`보다 `이번 입력 안에서 잠깐 적응하게 만든다`에 가까운 방식입니다.
+- 왜 중요한가: 오늘날 LLM 사용 경험에서 자연어 설명과 few-shot 예시가 왜 중요한지 보여 주며, fine-tuning과 다른 적용 방식을 구분하게 해 주기 때문입니다. 이 개념이 있어야 `모델을 바꾼 것`과 `입력을 더 잘 설계한 것`을 섞지 않게 되고, 프롬프트 설계가 실제로 어떤 범위까지 성능을 바꿀 수 있는지도 더 현실적으로 이해할 수 있습니다. 결국 문맥 내 학습을 이해해야 LLM 성능 개선이 항상 추가 학습을 뜻하는 것은 아니며, 입력 설계만으로도 행동이 크게 달라질 수 있다는 점을 읽게 됩니다.
+- 함께 볼 개념: `사전학습(pretraining)`, `미세조정(fine-tuning)`, `GPT`
+- 중심 Section: `P1-12.2`
+- 등장 Section: `P1-11.3`
+
+--8<-- "reference/concept-glossary-terms/context-window.ko.md"
+
+--8<-- "reference/concept-glossary-terms/contextual-representation.ko.md"
+
+--8<-- "reference/concept-glossary-terms/document-reproducibility.ko.md"
+
+--8<-- "reference/concept-glossary-terms/documentation.ko.md"

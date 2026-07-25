@@ -1,6 +1,15 @@
 # 概念词汇表：K
 
-本页用于整理拼音首字母为 `K` 的中文概念索引。具体词条内容将在后续补充。
+本页整理拼音首字母为 `K` 的中文概念词条。词条正文由单词源文件 include 生成。
 
-| 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
-| --- | --- | --- | --- | --- |
+--8<-- "reference/concept-glossary-terms/k-nnk-nearest-neighbors.zh.md"
+
+--8<-- "reference/concept-glossary-terms/key.zh.md"
+
+--8<-- "reference/concept-glossary-terms/knowledge-acquisition.zh.md"
+
+--8<-- "reference/concept-glossary-terms/knowledge-base.zh.md"
+
+--8<-- "reference/concept-glossary-terms/knowledge-representation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/kv-cache.zh.md"

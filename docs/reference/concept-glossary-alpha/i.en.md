@@ -1,273 +1,57 @@
 # Concept Glossary: I
 
-This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
+This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
-<a id="iloc"></a>
+--8<-- "reference/concept-glossary-terms/iloc.en.md"
 
-## iloc
+--8<-- "reference/concept-glossary-terms/image-recognition.en.md"
 
-- Meaning: Pandas에서 행과 열을 정수 위치 기준으로 고를 때 쓰는 선택 도구입니다. `loc`가 라벨 선택이라면, `iloc`는 배열처럼 위치를 기준으로 고르는 방식입니다. 즉 `세 번째 행`, `두 번째 열`처럼 순서를 기준으로 집어내고 싶을 때 쓰는 접근자라고 보면 됩니다.
-- Why it matters: 라벨 이름이 아니라 몇 번째 위치인지로 선택해야 할 때 `loc`와 기준을 분리해 읽어야, 표 선택 코드의 의도를 더 정확히 해석할 수 있기 때문입니다. 이 구분이 있어야 DataFrame을 표처럼 읽는 순간과 배열처럼 읽는 순간을 나눌 수 있습니다. 또한 `iloc`는 인덱스 라벨이 숫자처럼 보여도 실제로는 위치를 본다는 점을 분명히 하여, 초심자가 가장 자주 하는 선택 기준 혼동을 줄여 줍니다. 결국 `iloc`를 이해해야 표 데이터 선택에서 `이름으로 고르는가, 위치로 고르는가`를 코드 수준에서 명확히 구분하게 됩니다.
-- Related concepts: `loc`, `index`, `column`
-- Core Section: `P2-12.2`
-- Appears in: `P2-12.3`
+--8<-- "reference/concept-glossary-terms/improvement-plan.en.md"
 
-<a id="image-recognition"></a>
+--8<-- "reference/concept-glossary-terms/in-context-learning.en.md"
 
-## image recognition
+--8<-- "reference/concept-glossary-terms/incident-record.en.md"
 
-- Meaning: 입력 이미지에 무엇이 있는지, 어떤 범주에 속하는지 예측하는 문제 유형입니다. 사진 전체를 보고 하나의 라벨을 붙이는 분류부터, 장면 안의 물체와 상태를 읽는 더 넓은 시각 인식 문제의 출발점으로 볼 수 있습니다. 즉 이미지 인식은 픽셀 배열을 사람에게 의미 있는 시각 범주로 연결하는 문제라고 볼 수 있습니다.
-- Why it matters: 딥러닝이 수작업 특징 설계에서 표현 학습 중심으로 전환되는 흐름을 가장 선명하게 보여 준 대표 사례이기 때문입니다. 이 개념이 있어야 픽셀 자체는 숫자 배열이지만, 학습은 그 안에서 모서리, 질감, 형태, 객체 같은 더 높은 수준 표현을 스스로 잡아 갈 수 있다는 점을 이해하게 됩니다. 또한 `이미지를 본다`는 일상 표현이 실제로는 분류, 검출, 분할처럼 더 세분된 문제들로 나뉠 수 있다는 감각도 얻게 됩니다. 결국 이미지 인식을 이해해야 `그림을 본다`는 말이 실제로는 여러 시각 문제 유형으로 분해된다는 점을 읽게 됩니다.
-- Related concepts: `CNN, convolutional neural network`, `hand-crafted features`, `learned representation`
-- Core Section: `P1-9.1`
-- Appears in: `P1-9.2`, `P1-9.3`, `P1-10.1`, `P5-2.1`, `P5-11.1`, `P5-11.2`
+--8<-- "reference/concept-glossary-terms/incomplete-information.en.md"
 
-<a id="improvement-plan"></a>
+--8<-- "reference/concept-glossary-terms/index.en.md"
 
-## improvement plan
+--8<-- "reference/concept-glossary-terms/indexing.en.md"
 
-- Meaning: 회고와 실패 기록에서 확인된 문제를 다음 반복에서 실제로 어떤 순서로 바꿀지 적어 둔 실행 목록입니다. 막연한 반성문이 아니라, `무엇을 먼저 고칠 것인가`, `무엇을 다음 반복으로 넘길 것인가`, `어떤 점검을 추가할 것인가`를 작업 단위로 다시 정리한 계획표에 가깝습니다. 즉 개선 계획은 과거 기록을 미래 작업으로 번역하는 중간 문서입니다.
-- Why it matters: 실패 기록과 검토 요약이 남아 있어도 이를 실제 수정 순서와 작업 항목으로 다시 묶지 않으면 회고가 메모로 끝나고 다음 반복이 쉽게 흐려지기 때문입니다. 이 개념이 있어야 우선순위 1 문제와 장기 개선 항목을 분리하게 되고, `관찰된 문제`와 `이번 주에 바로 바꿀 일`을 같은 칸에 섞지 않게 됩니다. 또한 개선 계획을 이해해야 Part 7의 비교 실험, 텍스트 검토, 에이전트 run, 배포 회고가 모두 결국 `다음 반복을 어떻게 열 것인가`로 수렴한다는 점도 더 또렷하게 읽게 됩니다.
-- Related concepts: `retrospective`, `priority`, `next action`, `failure type`, `incident record`
-- Core Section: `P7-7.2`
-- Appears in: `P7-3.2`, `P7-summary`
+--8<-- "reference/concept-glossary-terms/indicator.en.md"
 
-<a id="in-context-learning"></a>
+--8<-- "reference/concept-glossary-terms/inference.en.md"
 
-## in-context learning
+--8<-- "reference/concept-glossary-terms/inference-engine.en.md"
 
-- Meaning: 모델 가중치를 업데이트하지 않고도, 프롬프트 안의 지시와 예시 문맥만으로 출력 행동이 달라지는 현상 또는 사용 방식입니다. 즉 모델 본체를 다시 학습시키지 않은 채, 이번 입력 안에 담긴 설명과 사례를 임시 작업 맥락으로 삼아 답변 방식을 바꾸는 접근이라고 볼 수 있습니다. 말하자면 `모델을 다시 훈련한다`보다 `이번 입력 안에서 잠깐 적응하게 만든다`에 가까운 방식입니다.
-- Why it matters: 오늘날 LLM 사용 경험에서 자연어 설명과 few-shot 예시가 왜 중요한지 보여 주며, fine-tuning과 다른 적용 방식을 구분하게 해 주기 때문입니다. 이 개념이 있어야 `모델을 바꾼 것`과 `입력을 더 잘 설계한 것`을 섞지 않게 되고, 프롬프트 설계가 실제로 어떤 범위까지 성능을 바꿀 수 있는지도 더 현실적으로 이해할 수 있습니다. 결국 문맥 내 학습을 이해해야 LLM 성능 개선이 항상 추가 학습을 뜻하는 것은 아니며, 입력 설계만으로도 행동이 크게 달라질 수 있다는 점을 읽게 됩니다.
-- Related concepts: `pretraining`, `fine-tuning`, `GPT`
-- Core Section: `P1-12.2`
-- Appears in: `P1-11.3`
+--8<-- "reference/concept-glossary-terms/information-retrieval.en.md"
 
-<a id="incident-record"></a>
+--8<-- "reference/concept-glossary-terms/initialization.en.md"
 
-## incident record
+--8<-- "reference/concept-glossary-terms/input.en.md"
 
-- Meaning: 배포나 운영 중 관찰된 문제를 날짜, 신호, 가능한 원인, 독자 영향, 다음 조치까지 묶어 남긴 운영 사건 단위 기록입니다. 단순 오류 메모가 아니라, `무슨 문제가 있었는가`, `어디를 먼저 확인해야 하는가`, `다음 반복에서 무엇을 바꿀 것인가`를 다시 읽을 수 있게 만든 회고 원장에 가깝습니다. 즉 사건 기록은 실패 사실을 보관하는 데서 끝나지 않고, 다음 점검과 수정 순서를 여는 실행 기록입니다.
-- Why it matters: 같은 404라도 배포 미반영, 링크 경로 오류, 공개 반영 지연처럼 해석이 달라질 수 있어, 사건별로 신호와 확인 위치를 함께 남기지 않으면 다음 조치가 쉽게 흐려지기 때문입니다. 이 개념이 있어야 실패를 단순 나열하지 않고 범주, 우선순위, 확인 위치, 다음 행동까지 포함한 운영 회고로 남기게 됩니다. 또한 사건 기록을 이해해야 Part 7의 에이전트 run 기록, 실패 유형 분류, 배포 회고가 모두 `사실 -> 해석 경계 -> 다음 조치` 구조로 다시 묶일 수 있다는 점도 더 분명하게 읽게 됩니다.
-- Related concepts: `failure`, `failure type`, `status inspection`, `next action`, `retrospective`
-- Core Section: `P7-7.2`
-- Appears in: `P7-index`, `P7-summary`
+--8<-- "reference/concept-glossary-terms/input-file.en.md"
 
-<a id="incomplete-information"></a>
+--8<-- "reference/concept-glossary-terms/input-unit.en.md"
 
-## incomplete information
+--8<-- "reference/concept-glossary-terms/instruction.en.md"
 
-- Meaning: 판단이나 선택에 필요한 상태 정보가 처음부터 모두 주어지지 않은 상황입니다. 규칙이나 목표가 있더라도, 결정을 위해 알아야 할 사실 일부가 애초에 제공되지 않은 조건이라고 볼 수 있습니다. 즉 문제는 있는데, 그 문제를 닫는 데 필요한 입력이 처음부터 비어 있는 상태입니다.
-- Why it matters: 규칙이 있어도 핵심 정보가 빠져 있으면 결과를 확정하기 어렵고, 확률·탐색·사람 검토 같은 보완 접근이 왜 필요한지 설명해 주기 때문입니다. 이 개념이 있어야 `규칙이 부족한가`와 `정보가 부족한가`를 구분해 읽게 되고, 같은 문제라도 더 많은 관측이 들어오면 판단 방식이 달라질 수 있다는 점도 자연스럽게 이해하게 됩니다. 예를 들어 고객 문의만 있고 주문 기록이 전혀 없으면, 문제는 규칙의 부재가 아니라 입력 사실의 부재일 수 있습니다. 이런 구분이 있어야 규칙을 더 쓰는 방향과 추가 관측이나 검색을 붙이는 방향을 다르게 선택하게 됩니다.
-- Related concepts: `partial observability`, `uncertainty`, `rule-based system`
-- Core Section: `P1-6.1`
-- Appears in: `P1-2.2`, `P1-7.1`
+--8<-- "reference/concept-glossary-terms/instruction-tuning.en.md"
 
-<a id="index"></a>
+--8<-- "reference/concept-glossary-terms/interactive-mode.en.md"
 
-## index
+--8<-- "reference/concept-glossary-terms/intermediate-representation.en.md"
 
-- Meaning: 순서가 있는 묶음에서 몇 번째 값인지를 가리키는 위치 번호입니다. 다만 Pandas 문맥에서는 단순 위치 번호가 아니라, 행을 식별하는 이름표 역할도 함께 할 수 있습니다. 즉 인덱스는 문맥에 따라 `위치`를 뜻할 수도 있고 `식별 라벨`을 뜻할 수도 있어 구분이 필요합니다.
-- Why it matters: 리스트, 문자열, 배열에서 어떤 값을 꺼내는지 읽는 가장 기본 기준이 되기 때문입니다. 또 표 데이터에서는 `위치 인덱스`와 `행 라벨`이 섞일 수 있어, 이 차이를 잡아야 `loc`와 `iloc`를 제대로 읽을 수 있습니다. 이 개념이 있어야 `첫 번째 줄`을 고르는 것과 `이름이 A인 줄`을 고르는 것이 전혀 다른 선택일 수 있다는 점을 이해하게 되고, 표 선택 오류도 훨씬 줄어듭니다. 결국 인덱스를 이해해야 같은 숫자 표기라도 `순번`인지 `이름표`인지 먼저 해석하는 습관이 생깁니다.
-- Related concepts: `list`, `value`, `loop`
-- Core Section: `P2-8.2`
-- Appears in: `P6-12.2`
+--8<-- "reference/concept-glossary-terms/interpretation.en.md"
 
-<a id="indexing"></a>
+--8<-- "reference/concept-glossary-terms/python-interpreter.en.md"
 
-## indexing
+--8<-- "reference/concept-glossary-terms/interpreter.en.md"
 
-- Meaning: 배열이나 리스트에서 하나의 정확한 위치를 지정해 값을 고르는 읽기 방식입니다. 보통 `몇 번째 값인가`를 직접 찍어 읽는 선택이라고 볼 수 있으며, 구간을 남기는 슬라이싱과 달리 특정 자리 하나를 집는 데 초점이 있습니다. 즉 인덱싱은 `범위를 남긴다`보다 `이 자리 값을 집는다`에 가까운 접근입니다.
-- Why it matters: 인덱싱은 점 하나를 고르는 읽기이고, 슬라이싱은 구간을 남기는 읽기입니다. 이 차이를 모르면 NumPy에서 값 하나가 나온 것인지, 행이나 열 전체가 남은 것인지 해석이 흔들리기 쉽습니다. 이 개념이 있어야 같은 배열 접근 문법도 결과가 스칼라인지 부분 배열인지 먼저 구분하게 되고, 전처리 코드에서 `무엇을 뽑았는가`와 `shape가 어떻게 바뀌었는가`를 함께 읽게 됩니다. 결국 인덱싱을 이해해야 배열 접근 결과가 값 하나인지 구조 일부인지 코드 수준에서 정확히 해석하게 됩니다.
-- Related concepts: `slicing`, `axis`, `matrix`
-- Core Section: `P2-11.2`
-- Appears in: `P2-11.3`, `P2-11.4`, `P2-12.2`
+--8<-- "reference/concept-glossary-terms/interrupt-authority.en.md"
 
-<a id="indicator"></a>
+--8<-- "reference/concept-glossary-terms/isolation.en.md"
 
-## indicator
+--8<-- "reference/concept-glossary-terms/iterable.en.md"
 
-- Meaning: 투자, 성능, 고용, 정책 같은 변화 방향을 보여 주는 수치나 신호입니다. Part 7의 프로젝트 문맥에서는 오류율, 정확도, coverage, 응답 시간처럼 현재 비교에서 무엇을 먼저 읽을지 정한 관찰 숫자도 지표로 볼 수 있습니다.
-- Why it matters: 전망 자료를 읽을 때 수치 자체와 그 해석을 분리하게 해 주며, 방향 신호를 확정 결론으로 오해하지 않게 만들기 때문입니다. 이 개념이 있어야 지표가 `현실 그 자체`가 아니라 특정 현상을 간접적으로 읽게 해 주는 관측 신호라는 점을 이해하게 되고, 같은 지표라도 어떤 기간과 어떤 기준으로 읽었는지에 따라 해석이 달라질 수 있다는 점도 더 자연스럽게 붙잡게 됩니다. 또한 지표를 이해해야 Part 7의 요약표와 결과 해석 표가 단순 숫자 나열이 아니라, 어떤 신호를 기준선과 비교하고 어떤 신호를 다음 질문으로 넘길지 정하는 문서라는 점도 더 분명하게 읽게 됩니다.
-- Related concepts: `forecast`, `scenario`, `report`
-- Core Section: `P1-17.1`
-- Appears in: `P1-17.2`, `P1-17.3`, `P7-1.1`, `P7-1.3`, `P7-7.4`
-
-<a id="inference"></a>
-
-## inference
-
-- Meaning: 문맥에 따라 두 뜻으로 쓰입니다. 기호 기반 AI에서는 주어진 지식에서 결론을 이끌어 내는 과정이고, 머신러닝에서는 학습된 모델을 새 입력에 실행해 출력을 얻는 과정일 수 있습니다. 한국어로는 둘 다 `추론`이라 부르지만, 영어로는 `reasoning`에 가까운 경우와 `model inference`에 가까운 경우를 나누어 읽어야 합니다.
-- Why it matters: 같은 한국어 표현이 서로 다른 영어 문맥을 가리킬 수 있어 혼동을 줄여야 합니다. 이 차이를 놓치면 `모델이 추론한다`는 말을 논리적 사고 과정과 실행 단계로 뒤섞어 이해하게 됩니다. 이 개념이 있어야 문서나 강의에서 `추론`이 나왔을 때 지금 말하는 것이 규칙 적용인지, 학습된 모델 실행인지, 생성 단계인지 먼저 구분하게 됩니다. 결국 추론은 번역어 하나만 보고 넘기기보다, 문맥과 영어 원어를 함께 확인해야 하는 대표적인 용어입니다.
-- Related concepts: `inference engine`, `training`, `prediction`, `generation`
-- Core Section: `P1-5.3`
-- Appears in: `P1-2.1`, `P1-3.2`, `P1-5.2`, `P5-6.1`, `P5-6.3`
-
-<a id="inference-engine"></a>
-
-## inference engine
-
-- Meaning: 현재 사실에 맞는 규칙을 찾아 적용하는 장치입니다. 단순히 규칙을 저장해 두는 것이 아니라, `지금 어떤 사실이 참인가`, `다음에 어떤 규칙을 적용할 수 있는가`를 순서대로 따지며 결론을 만들어 가는 실행 장치라고 볼 수 있습니다. 즉 추론 엔진은 규칙을 읽어 두는 곳이 아니라, 규칙을 실제 결론 생성 절차로 움직이는 부분입니다.
-- Why it matters: 규칙 기반 시스템이 단순 규칙 목록이 아니라 적용 절차를 가진 시스템임을 보여 줍니다. 같은 규칙 집합이라도 어떤 사실부터 보고 어떤 규칙을 먼저 적용하느냐에 따라 결론 경로가 달라질 수 있어, 지식 표현과 실행 절차를 함께 이해하게 해 주는 핵심 개념입니다. 이 개념이 있어야 지식 기반은 저장소이고, 추론 엔진은 그 저장소를 실제로 움직이는 실행기라는 역할 차이도 분명해집니다. 결국 추론 엔진을 이해해야 규칙 기반 AI에서 `무엇을 안다`와 `어떻게 결론에 도달한다`를 분리해 읽게 됩니다.
-- Related concepts: `rule-based system`, `fact`
-- Core Section: `P1-3.1`
-- Appears in: `P1-2.1`
-
-<a id="information-retrieval"></a>
-
-## information retrieval
-
-- Meaning: 큰 자료 집합에서 현재 질문이나 정보 요구에 맞는 문서, 문단, 근거 후보를 찾아오는 검색 문제입니다. 단순 문자열 찾기를 넘어서, `지금 이 질문에 어떤 자료가 관련 있는가`를 순위화하는 문제로 보는 편이 더 가깝습니다. 그래서 정보 검색은 답을 직접 만들어 내는 단계라기보다, 답을 만들 재료를 얼마나 잘 가져오느냐를 다루는 후보 선택 문제입니다.
-- Why it matters: 검색 증강 생성에서는 먼저 관련 근거를 찾는 단계가 있어야, 생성 모델이 아무 맥락 없이 답을 이어 쓰지 않고 찾은 자료를 바탕으로 답변을 구성할 수 있기 때문입니다. 이 개념이 있어야 웹 검색, 문서 검색, 벡터 검색이 모두 결국 `관련 후보를 먼저 가져오는 단계`라는 공통 문제를 공유한다는 점을 이해하게 됩니다. 또한 정보 검색은 생성과 경쟁하는 대체물이 아니라, 생성 이전 단계에서 근거와 최신성을 보강하는 별도 계층이라는 점도 중요합니다. 결국 검색 품질이 약하면 생성 품질도 함께 흔들릴 수 있다는 연결이 여기서 드러납니다.
-- Related concepts: `retrieval-augmented generation, RAG`, `similarity search`, `search`, `ranking`
-- Core Section: `P1-13.3`
-- Appears in: `P1-13.4`, `P1-14.2`, `P7-5.1`, `P7-5.2`
-
-<a id="initialization"></a>
-
-## initialization
-
-- Meaning: 학습을 시작하기 전에 가중치와 같은 파라미터를 어떤 값으로 배치할지 정하는 단계입니다. 완전히 비슷한 값으로 둘지, 분산을 어느 정도로 줄지처럼 학습 출발점의 숫자 지형을 미리 세팅하는 과정이라고 볼 수 있습니다. 즉 초기화는 학습 전에 `어디서 출발할 것인가`를 정하는 숫자 배치 단계입니다.
-- Why it matters: 출발점이 너무 같거나 너무 극단적이면 여러 뉴런이 같은 역할로 묶이거나 값과 gradient 흐름이 흔들려, 깊은 네트워크가 제대로 학습을 시작하기 어려울 수 있기 때문입니다. 이 개념이 있어야 학습 실패가 항상 데이터나 모델 구조 탓만은 아니고, 출발점 설정에서도 이미 크게 갈릴 수 있다는 점을 이해하게 됩니다. 또한 초기화를 이해해야 학습은 완전히 빈 상태에서 자동으로 잘 시작되는 것이 아니라, 시작 숫자 배치 자체도 중요한 설계 선택이라는 점을 읽게 됩니다.
-- Related concepts: `numerical stability`, `weight`, `backpropagation`
-- Core Section: `P5-8.3`
-- Appears in: `P5-3.2`
-
-<a id="input"></a>
-
-## input
-
-- Meaning: 모델이 실제로 받는 정보입니다. 원천데이터 전체가 아니라, 현재 한 번의 계산에서 모델에게 실제로 보여 주는 값 묶음이라고 보는 편이 더 정확합니다. 즉 입력은 바깥 현실 전체가 아니라, 그 현실에서 잘라 내어 이번 계산 안으로 들여온 관찰값입니다.
-- Why it matters: 모델이 무엇을 근거로 판단할 수 있는지는 어떤 입력을 보여 주는지에 달려 있습니다. 같은 현실 문제도 입력을 어떻게 자르느냐에 따라 모델이 볼 수 있는 단서와 한계가 크게 달라집니다. 이 개념이 있어야 `원래 데이터에 정보가 있다`는 사실과 `모델이 실제로 그 정보를 받는다`는 사실을 구분하게 되고, 전처리와 특징 설계가 왜 성능에 직접 영향을 주는지도 더 분명히 이해하게 됩니다. 또한 입력을 이해해야 성능 문제를 `모델이 부족하다`보다 `모델이 애초에 무엇을 보았는가`의 질문으로 다시 점검하게 됩니다.
-- Related concepts: `output`, `data`, `model`, `feature`, `task definition`
-- Core Section: `P1-4.2`
-- Appears in: `P1-4.1`
-
-<a id="input-file"></a>
-
-## input file
-
-- Meaning: 이번 실습이나 실행에서 실제로 읽어 들이는 원본 데이터 파일, 설정 파일, 로그 파일처럼 입력의 출발점을 이루는 파일입니다. 추상적인 `입력 데이터`가 아니라, 독자가 같은 실행을 다시 따라가려 할 때 `무엇을 먼저 열어야 하는가`를 가리키는 구체 경로 단위라고 볼 수 있습니다. 즉 입력 파일은 실행 재현의 첫 관문 역할을 하는 실제 입력 자원입니다.
-- Why it matters: 같은 질문과 같은 코드라도 어떤 파일을 읽었는지 흐리면 결과 해석과 재실행이 금방 어긋나고, 입력 단위 정의도 공중에 뜨기 쉽기 때문입니다. 이 개념이 있어야 `어떤 표를 보고 시작했는가`와 `그 표를 어떤 단위로 다시 묶었는가`를 구분하게 되고, Part 7의 각 절이 왜 거의 모두 `입력 파일` 절을 먼저 두는지도 더 자연스럽게 읽게 됩니다. 또한 입력 파일을 이해해야 프로젝트 문서가 결과만 적는 메모가 아니라, 다시 실행 가능한 경로를 남기는 기록이라는 점도 더 분명하게 보게 됩니다.
-- Related concepts: `input`, `input unit`, `run record`, `reproducibility`, `working directory`
-- Core Section: `P7-1.1`
-- Appears in: `P7-1.3`, `P7-2.1`, `P7-3.1`, `P7-4.1`, `P7-5.1`, `P7-6.1`, `P7-7.1`
-
-<a id="glossary-batch-normalization"></a>
-
-## input unit
-
-- Meaning: 현재 프로젝트나 분석에서 무엇을 `한 건의 입력`으로 묶어 읽을지 정한 기준입니다. 행 하나를 그대로 입력으로 볼 수도 있고, 여러 행을 묶어 채널-일자나 세션 같은 더 큰 단위를 하나의 입력으로 볼 수도 있습니다. 즉 입력 단위는 데이터를 받는 기술 형식이 아니라, 질문에 맞게 사례 경계를 어디서 자를지 정하는 분석 설계 기준입니다.
-- Why it matters: 같은 원천 표라도 입력 단위를 어떻게 잡느냐에 따라 요약값, 비교표, 기준선, 오류 사례가 전부 달라져 뒤의 해석까지 함께 흔들리기 때문입니다. 이 개념이 있어야 `데이터가 있다`와 `질문에 맞는 한 건의 입력이 정해졌다`를 같은 말로 보지 않게 되고, 전체 문제와 특정 채널 문제, 하루 단위 변화와 세션 단위 변화를 더 정확히 가르게 됩니다. 또한 입력 단위를 이해해야 Part 7의 분석 시작이 모델 선택보다 먼저 `무엇을 한 건으로 볼 것인가`를 고정하는 작업이라는 점도 더 선명하게 읽게 됩니다.
-- Related concepts: `sample`, `row`, `summary table`, `comparison table`, `task definition`
-- Core Section: `P7-1.1`
-- Appears in: `P7-index`, `P7-1.3`, `P7-summary`
-
-<a id="instruction"></a>
-
-## instruction
-
-- Meaning: 모델에게 무엇을 하라고 요청하는 작업 지정 문장입니다. 같은 자료가 주어져도 `요약하라`, `분류하라`, `비교하라`, `번역하라`처럼 어떤 과업으로 읽을지를 정하는 작업 방향 표지라고 볼 수 있습니다. 즉 지시는 자료 자체보다 `이 자료를 어떤 작업으로 변환할 것인가`를 정하는 입력의 행동 명령 층입니다.
-- Why it matters: 같은 자료를 주어도 요약할지, 비교할지, 번역할지, 비판할지에 따라 출력이 달라지므로 프롬프트의 핵심 축을 이루기 때문입니다. 이 개념이 있어야 입력 자료 자체와 `그 자료로 무엇을 하라고 했는가`를 분리해 읽게 되고, 맥락이 같아도 지시가 달라지면 전혀 다른 출력이 나오는 이유를 더 명확히 이해하게 됩니다. 즉 지시는 정보 제공이 아니라 작업 방향 지정이라는 점이 중요합니다. 또한 지시를 이해해야 `내용이 부족해서 못 푼다`는 문제와 `무엇을 하라는지 अस्पष्ट하다`는 문제를 따로 분리해 진단하게 됩니다.
-- Related concepts: `prompt`, `context`, `constraint`
-- Core Section: `P1-12.1`
-- Appears in: `P1-12.2`, `P1-12.3`, `P1-14.3`, `P6-10.1`, `P6-10.3`, `P6-summary`
-
-<a id="instruction-tuning"></a>
-
-## instruction tuning
-
-- Meaning: 사전학습된 모델이 사람의 자연어 지시를 더 잘 이해하고, 요청 형식에 맞는 답변 습관을 보이도록 추가로 조정하는 단계입니다. 즉 언어 자체를 배우는 것과는 별개로, `사용자 요청에 어떻게 반응할 것인가`를 더 잘 맞추는 적응 단계라고 볼 수 있습니다. 말하자면 지시 튜닝은 `무엇을 아는가`보다 `그 지식을 요청 형식에 맞게 어떻게 꺼내는가`를 다듬는 과정입니다.
-- Why it matters: 대화형 LLM이 단순 이어쓰기 모델보다 왜 더 `assistant-like`하게 느껴지는지 설명하며, 언어 지식과 응답 형식 조정이 다른 층위라는 점을 구분하게 해 주기 때문입니다. 이 개념이 있어야 사전학습이 크다고 해서 자동으로 지시를 잘 따르는 것은 아니라는 점을 이해하게 되고, 모델이 `무엇을 알고 있는가`와 `그 지식을 사용자 요청 형식에 맞춰 어떻게 꺼내는가`를 따로 읽게 됩니다. 결국 지시 튜닝을 이해해야 LLM의 도움말 같은 말투와 응답 습관이 어디서 오는지도 읽게 됩니다.
-- Related concepts: `fine-tuning`, `pretraining`, `prompt`
-- Core Section: `P6-9.1`
-- Appears in: `P6-9.2`
-
-<a id="interactive-mode"></a>
-
-## interactive mode
-
-- Meaning: 한 줄씩 명령을 입력하고 바로 결과를 확인하는 실행 방식입니다. 결과를 보면서 다음 입력을 바꾸는 즉석 실험 흐름에 더 가깝고, `지금 이 자리에서 바로 확인해 본다`는 성격이 강합니다. 즉 대화형 모드는 완성된 프로그램을 한 번에 돌리는 방식보다, 짧은 질문과 짧은 답을 주고받는 실행 형태입니다.
-- Why it matters: 작은 계산을 빠르게 시험하는 흐름과 파일로 남겨 반복 실행하는 스크립트 흐름을 구분하는 기준이 되기 때문입니다. 즉 대화형 모드는 `빠른 확인`에는 강하지만 `반복 가능한 기록`에는 약하다는 차이를 드러내고, 노트북·REPL·스크립트가 왜 서로 다른 학습 도구인지도 이해하게 해 줍니다. 예를 들어 `2+2`, 문자열 처리 한 줄, 배열 shape 확인 같은 작업은 대화형 모드에서 빠르게 시험하기 좋지만, 여러 단계를 다시 재현해야 하는 실험은 스크립트나 노트북 기록이 더 적합합니다. 결국 대화형 모드를 이해해야 `당장 확인하기 좋은 실행`과 `다시 돌리기 좋은 실행`을 분리해 선택하게 됩니다.
-- Related concepts: `interpreter`, `script`, `prompt`
-- Core Section: `P2-7.3`
-- Appears in: `P2-10.1`
-
-<a id="intermediate-representation"></a>
-
-## intermediate representation
-
-- Meaning: 원시 로그를 그대로 두거나 숫자 특징만 남기는 대신, 구조와 순서를 더 잘 보이게 하려고 그 사이에 두는 사람 주도 입력 재표현입니다. 즉 원본 데이터와 최종 특징 사이에 `문제를 더 잘 드러내도록 한 번 더 바꾼 표현 층`을 둔 것이라고 볼 수 있습니다.
-- Why it matters: 같은 시계열이라도 평균과 기울기만으로는 놓치기 쉬운 모양 차이를 세그먼트 표현, 토큰 시퀀스, 구간 패턴처럼 더 직접 남길 수 있어, 비교와 후속 입력 설계를 함께 도와주기 때문입니다. 이 개념이 있어야 원시 데이터와 최종 특징 사이에 `사람이 해석하기 쉬운 중간 단계`를 둘 수 있다는 발상이 생기고, 어떤 표현이 현재 문제를 더 잘 드러내는지 비교하는 기준도 잡게 됩니다. 또한 중간 표현을 이해해야 특징 설계가 곧바로 숫자 추출만을 뜻하지 않고, 문제에 맞는 표현 단계를 새로 만드는 일일 수도 있다는 점을 읽게 됩니다.
-- Related concepts: `feature`, `representation`, `representation learning`
-- Core Section: `P3-6.2`
-- Appears in: `P3-index`, `P3-5.1`, `P3-5.3`, `P3-6.1`, `P3-6.3`, `P3-summary`
-
-<a id="interpretation"></a>
-
-## interpretation
-
-- Meaning: 사건이나 자료에 사람이 의미를 붙여 설명한 문장입니다. 관찰된 사실을 그대로 다시 적는 것이 아니라, 그 사실이 왜 중요하고 어떤 뜻을 가진다고 볼지를 사람의 관점으로 연결한 설명이라고 이해하면 됩니다. 즉 해석은 `무슨 일이 있었다`를 넘어서 `그 일을 어떻게 읽을 것인가`를 붙이는 두 번째 층위의 문장입니다.
-- Why it matters: 뉴스와 보고서 읽기에서 사건 자체와 해석을 분리해야 과장과 단정을 줄일 수 있기 때문입니다. 이 개념이 있어야 `무슨 일이 있었는가`와 `그 일을 어떻게 보아야 하는가`를 따로 읽게 되고, 같은 사실에서도 서로 다른 관점이 붙을 수 있다는 점을 자연스럽게 이해하게 됩니다. 또한 해석을 이해해야 데이터 결과를 설명할 때도 숫자 자체와 그 숫자에 붙인 의미를 같은 것으로 섞지 않게 됩니다. 결국 해석은 사실을 부정하는 것이 아니라, 사실 위에 어떤 의미를 덧붙였는지 드러내는 읽기 장치입니다.
-- Related concepts: `factual claim`, `column`, `working hypothesis`
-- Core Section: `P1-17.3`
-- Appears in: `P1-17.1`, `P1-17.2`
-
-<a id="python-interpreter"></a>
-
-## interpreter
-
-- Meaning: Python 코드를 읽고 실행하는 프로그램입니다. 사용자가 적은 Python 문장을 실제 실행 단계로 넘기는 구체적인 실행 주체이며, 같은 Python 문법을 쓰더라도 어떤 인터프리터를 쓰는지에 따라 설치된 패키지와 실행 결과가 달라질 수 있습니다. 즉 `.py` 파일을 이해하는 개념적 언어와, 그 언어를 실제로 돌리는 실행 프로그램을 구분하게 만드는 개념입니다.
-- Why it matters: `python`, `python file.py`, 노트북 셀 실행이 모두 무엇을 통해 동작하는지 설명하는 중심 축이기 때문입니다. Python 언어와 Python 실행기 자체를 분리해 읽어야 버전 차이와 환경 차이도 설명할 수 있고, `코드는 맞는데 왜 여기서는 안 돌아가는가` 같은 문제도 인터프리터와 가상환경 관점에서 풀 수 있습니다. 또한 인터프리터를 이해해야 노트북, 터미널, IDE가 겉모습은 달라도 결국 어떤 Python 실행기를 붙잡고 있느냐가 중요하다는 점도 읽게 됩니다.
-- Related concepts: `interpreter`, `script`, `interactive mode`
-- Core Section: `P2-7.3`
-- Appears in: `P2-8.1`, `P2-10.1`
-
-<a id="interpreter"></a>
-
-## interpreter
-
-- Meaning: 코드를 읽고 즉시 실행해 주는 프로그램입니다. Chapter 7에서는 주로 Python 인터프리터를 가리키며, 작성된 코드를 실제 실행 결과로 연결하는 주체입니다. 즉 인터프리터는 코드 파일을 단순 보관하는 것이 아니라, 지금 읽은 코드를 계산과 오류 처리로 바꾸는 실행 층입니다.
-- Why it matters: 터미널 명령과 Python 코드, 대화형 실행과 스크립트 실행을 같은 흐름으로 묶어 이해하는 기준이 되기 때문입니다. 인터프리터를 알아야 `코드를 쓴다`와 `코드가 돌아간다` 사이에 어떤 실행 주체가 있는지 보입니다. 이 개념이 있어야 파일 자체와 그 파일을 실제로 읽어 실행하는 프로그램을 구분하게 되고, 같은 코드라도 어떤 인터프리터와 환경에서 돌리는지에 따라 결과가 달라질 수 있다는 점도 더 자연스럽게 읽게 됩니다. 초심자에게는 `.py` 파일과 `python` 명령이 왜 다른 층위인지 이해하는 핵심 연결점이기도 합니다.
-- Related concepts: `script`, `interactive mode`, `runtime`
-- Core Section: `P2-7.3`
-- Appears in: `P2-8.1`, `P2-10.1`
-
-<a id="interrupt-authority"></a>
-
-## interrupt authority
-
-- Meaning: 자동 실행 중이거나 곧 실행될 행동을 사람이 실제로 멈추거나 취소하거나 보류로 돌릴 수 있는 권한입니다. 단순히 `나중에 문제를 지적할 수 있다`는 뜻이 아니라, 실행 전후의 위험을 보고 흐름 자체를 끊을 수 있는 실질적 통제 수단이라는 점이 핵심입니다. 즉 중단 권한은 의견 제시가 아니라 상태 변경을 멈추는 실행 제어 권한입니다.
-- Why it matters: 승인과 감독이 있어 보여도 실제로 멈출 수 없다면, 자동화는 위험 신호를 본 뒤에도 계속 진행되어 피해를 키울 수 있기 때문입니다. 이 개념이 있어야 형식적 인간 감독과 실질적 개입 가능성을 구분하게 되고, `검토자 있음`과 `사고를 막을 수 있음`이 같은 말이 아니라는 점도 더 분명하게 읽게 됩니다. 또한 중단 권한을 이해해야 종료 조건, 승인, 실행 범위 제한 같은 장치가 왜 기록만 남기는 절차가 아니라 실제 운영 안전성을 지탱하는 제어축인지도 더 또렷하게 보게 됩니다.
-- Related concepts: `human oversight`, `approval`, `stop condition`, `scope`, `safety`
-- Core Section: `P1-15.1`
-- Appears in: `P1-15.3`
-
-<a id="isolation"></a>
-
-## isolation
-
-- Meaning: 어떤 도구, 프로세스, 서버, 파일 접근이 다른 시스템이나 민감 자원 전체에 곧바로 번지지 않도록 경계를 나누어 두는 보호 방식입니다. 같은 실행 환경에 모든 권한과 자원을 섞어 두지 않고, 위험한 능력은 더 좁은 공간과 더 적은 연결 안에서만 작동하게 만드는 설계라고 볼 수 있습니다. 즉 격리는 `사용 여부`만 통제하는 것이 아니라, 문제가 생겨도 영향이 번지는 범위를 구조적으로 잘라 두는 장치입니다.
-- Why it matters: 권한과 승인만으로는 허용된 실행 내부에서 생긴 오류나 공격이 다른 자원으로 번지는 것을 완전히 막지 못하므로, 실행 경계 자체를 나누는 추가 방어선이 필요하기 때문입니다. 이 개념이 있어야 외부 능력을 연결할 때 `쓸 수 있는가`뿐 아니라 `어디까지 퍼질 수 있는가`를 함께 묻게 되고, MCP 서버나 에이전트 도구 연결을 더 안전하게 읽게 됩니다. 또한 격리를 이해해야 최소 권한, 실행 범위, 로그, 보안이 왜 따로따로가 아니라 서로 겹쳐야 하는 안전 설계인지도 더 또렷하게 보게 됩니다.
-- Related concepts: `permission`, `scope`, `least privilege`, `security`, `agent`
-- Core Section: `P1-14.4`
-- Appears in: `P1-15.3`
-
-<a id="iterable"></a>
-
-## iterable
-
-- Meaning: 값을 하나씩 차례대로 꺼내는 방식으로 순회할 수 있는 대상입니다. 리스트만이 아니라 문자열, 딕셔너리, 파일 객체, 생성기처럼 `for`문에 넣어 반복할 수 있는 것은 모두 이터러블로 볼 수 있습니다. 즉 이터러블은 `자료형 이름`보다 `하나씩 꺼내며 순회할 수 있는가`라는 공통 성질로 묶인 대상 집합입니다.
-- Why it matters: `반복할 수 있다`는 공통 성질을 기준으로 보면, 서로 다른 자료형도 같은 반복 문법으로 다룰 수 있다는 점이 보입니다. 이 개념이 있어야 Python의 반복이 특정 자료형 전용 기능이 아니라, `하나씩 꺼낼 수 있는 대상` 전반에 적용되는 약속이라는 점을 이해할 수 있습니다. 또한 이터러블을 이해해야 리스트, 문자열, 파일 객체가 생김새는 달라도 같은 반복 구조 안에서 처리될 수 있다는 점도 더 자연스럽게 읽게 됩니다. 결국 이터러블은 `자료형 이름`보다 `반복 가능성`이라는 공통 성질로 대상을 묶어 읽게 합니다.
-- Related concepts: `iterator`, `loop`, `list`
-- Core Section: `P2-8.4`
-- Appears in: `P2-8.5`, `P2-10.1`
-
-<a id="iterator"></a>
-
-## iterator
-
-- Meaning: 이터러블에서 다음 값을 하나씩 실제로 꺼내 주는 반복 장치입니다. 이터러블이 `반복 가능한 대상`이라면, 이터레이터는 그 대상을 실제로 한 칸씩 전진시키며 값을 내주는 실행 주체에 가깝습니다. 즉 자료 전체 그 자체라기보다, `지금 어디까지 읽었는가`를 품고 앞으로 진행하는 읽기 장치라고 볼 수 있습니다.
-- Why it matters: `for`문은 눈에 보이지 않게 이터레이터를 만들어 값을 하나씩 받아 옵니다. 이 차이를 이해해야 반복이 한 번 지나가면 소진되는 경우, 파일이나 생성기처럼 순차적으로만 읽히는 경우, 같은 데이터를 다시 반복하려면 왜 새 이터레이터가 필요한지 자연스럽게 설명할 수 있습니다. 또한 이터레이터를 이해해야 반복이 단순 문법이 아니라, 값을 하나씩 요청하고 상태를 전진시키는 실행 모델이라는 점도 더 분명히 읽게 됩니다. 결국 이터레이터는 `반복 가능한 자료`와 `실제로 한 칸씩 읽는 실행자`를 구분하게 만드는 핵심 개념입니다.
-- Related concepts: `iterable`, `loop`, `value`
-- Core Section: `P2-8.4`
-- Appears in: `P2-8.5`, `P2-10.1`
+--8<-- "reference/concept-glossary-terms/iterator.en.md"

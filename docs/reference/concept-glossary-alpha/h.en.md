@@ -1,151 +1,33 @@
 # Concept Glossary: H
 
-This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
+This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
-<a id="hallucination"></a>
+--8<-- "reference/concept-glossary-terms/hallucination.en.md"
 
-## hallucination
+--8<-- "reference/concept-glossary-terms/hand-crafted-features.en.md"
 
-- Meaning: 근거가 없거나 틀린 내용을 그럴듯하고 자신 있게 생성하는 오류입니다. 문장이 매끄럽고 설득력 있어 보여도 사실 확인, 출처 확인, 최신성 확인이 빠져 있으면 환각일 수 있습니다. 핵심은 `이상한 말`만 환각이 아니라, `겉으로는 정상인데 내용이 비어 있거나 틀린 말`도 환각이라는 점입니다.
-- Why it matters: 생성형 AI의 대표 위험을 이해하고, 자연스러운 문장과 정확한 문장을 구분하게 해 주기 때문입니다. 이 개념이 잡혀야 프롬프트 개선만으로 해결되는 문제와 검색, 검토, 사람 확인이 필요한 문제를 구분할 수 있고, 유창함이 사실성의 증거는 아니라는 점도 더 분명히 읽게 됩니다. 예를 들어 존재하지 않는 논문 제목, 잘못된 법 조항, 틀린 버전 정보도 문장 모양만 보면 자연스러울 수 있으므로, 환각 문제는 문체보다 근거 확인 체계의 문제로 읽어야 합니다.
-- Related concepts: `confabulation`, `evidence`, `review`, `factuality`, `limit of prompting`
-- Core Section: `P1-12.3`
-- Appears in: `P1-10.3`
+--8<-- "reference/concept-glossary-terms/harness.en.md"
 
-<a id="hand-crafted-features"></a>
+--8<-- "reference/concept-glossary-terms/hash-table.en.md"
 
-## hand-crafted features
+--8<-- "reference/concept-glossary-terms/heuristic.en.md"
 
-- Meaning: 사람이 미리 중요하다고 판단한 단서나 속성을 직접 설계해 만든 특징입니다. 예를 들어 모서리, 색 분포, 질감, 길이 같은 요소를 사람이 먼저 골라 숫자로 바꿔 넣는 방식이라고 볼 수 있습니다. 즉 모델이 무엇을 볼지 스스로 정하게 두기보다, 사람이 `이 단서가 중요하다`고 먼저 골라 넣는 입력 설계 방식입니다.
-- Why it matters: 딥러닝 이전 이미지 인식 흐름이 어떤 한계를 가졌는지, 그리고 표현 학습이 왜 중요한 전환이 되었는지 비교하게 해 주기 때문입니다. 이 개념이 있어야 사람이 먼저 만든 입력 단서와 모델이 중간층에서 스스로 배운 표현을 구분해 읽게 됩니다. 결국 수작업 특징은 `무엇이 중요할지 사람이 먼저 정한다`는 접근의 장단점을 드러내는 기준점입니다. 또한 수작업 특징을 이해해야 성능 차이가 단순 모델 복잡도 차이만이 아니라, 애초에 입력 단서를 누가 설계했는가의 차이에서 올 수 있다는 점도 보게 됩니다.
-- Related concepts: `feature`, `image recognition`, `learned representation`
-- Core Section: `P1-9.1`
+--8<-- "reference/concept-glossary-terms/heuristic-function.en.md"
 
-<a id="harness"></a>
+--8<-- "reference/concept-glossary-terms/heuristic-score.en.md"
 
-## harness
+--8<-- "reference/concept-glossary-terms/hidden-layer.en.md"
 
-- Meaning: 모델과 도구의 실행을 감싸고, 단계별 기록과 평가를 가능하게 만드는 실행 장치입니다. 실험을 그냥 한 번 돌리는 데서 끝내지 않고, 같은 조건으로 다시 실행하고 결과를 비교할 수 있게 받쳐 주는 운영 틀이며, 입력 세트와 실행 규칙과 평가 절차를 한꺼번에 묶는 받침대에 가깝습니다. 즉 모델 자체가 아니라, 모델을 같은 방식으로 반복 측정하게 만드는 바깥 실행 골격이라고 볼 수 있습니다. 여기에는 보통 테스트 입력 묶음, 호출 규칙, 로그 수집, 추적 연결, 평가 결과 정리까지 함께 포함됩니다.
-- Why it matters: 에이전트형 작업에서 무엇이 실행되었고 어디서 실패했는지 다시 확인하고 비교할 수 있게 만듭니다. 하네스가 있어야 입력 세트, 실행 로그, 평가 결과를 같은 틀로 반복 수집할 수 있어, 모델 변경이나 프롬프트 변경의 영향을 더 체계적으로 비교할 수 있습니다. 이 개념이 있어야 단순 데모 실행과 반복 가능한 측정 환경을 분리해 읽게 되고, 운영 개선이 왜 기록과 평가 체계까지 포함해야 하는지도 더 분명해집니다. 또한 하네스를 이해해야 `한 번 잘 됐다`와 `같은 조건에서 계속 같은 품질이 나온다`를 구분하는 운영 감각도 더 선명해집니다. 결국 하네스는 결과를 예쁘게 보여 주는 포장 도구가 아니라, 변화 전후를 같은 기준으로 재는 비교 장치라는 점이 중요합니다.
-- Related concepts: `agent`, `log`, `evaluation`, `trace`
-- Core Section: `P6-15.2`
-- Appears in: `P1-14.5`, `P1-15.1`, `P6-14.1`, `P6-15.1`, `P6-16.1`, `P6-17.2`, `P6-18.2`
+--8<-- "reference/concept-glossary-terms/hidden-state.en.md"
 
-<a id="hash-table"></a>
+--8<-- "reference/concept-glossary-terms/histogram.en.md"
 
-## hash table
+--8<-- "reference/concept-glossary-terms/hold-state.en.md"
 
-- Meaning: 키를 해시 방식으로 다루어 값을 빠르게 찾도록 조직한 자료구조입니다. 이름표를 바로 저장 위치 후보로 바꾸어, 순서대로 끝까지 훑지 않고도 원하는 값을 찾게 해 주는 구조라고 생각할 수 있습니다. 파이썬의 딕셔너리(dictionary)가 대표적인 예로, `사용자 ID -> 정보`, `설정 이름 -> 설정값`처럼 이름표 기반 대응 관계를 다루는 데 자주 쓰입니다.
-- Why it matters: `몇 번째인가`보다 `이 이름표에 대응하는 값이 무엇인가`를 빠르게 찾고 갱신해야 하는 문제에서 왜 딕셔너리 같은 구조가 강한지 설명해 주기 때문입니다. 이 개념이 있어야 리스트처럼 순서를 따라 찾는 구조와, 키를 통해 거의 바로 접근하는 구조의 차이를 더 분명히 읽게 되고, 데이터 처리에서 ID 조회와 설정값 매핑이 왜 이런 구조에 잘 맞는지도 이해하게 됩니다. 또한 해시 테이블을 이해하면 `빠르다`는 말이 마법이 아니라, 키를 위치 후보로 바꾸는 계산 규칙 덕분이라는 점도 읽게 됩니다.
-- Related concepts: `key`, `data structure`, `operation`
-- Core Section: `P2-9.4`
-- Appears in: `P2-9.1`
+--8<-- "reference/concept-glossary-terms/host.en.md"
 
-<a id="heuristic"></a>
+--8<-- "reference/concept-glossary-terms/human-evaluation.en.md"
 
-## heuristic
+--8<-- "reference/concept-glossary-terms/human-oversight.en.md"
 
-- Meaning: 정답을 바로 보장하지는 않지만 더 유망해 보이는 후보를 먼저 살펴보게 하는 경험적 기준입니다. 엄밀한 최적해 보장보다, 제한된 시간 안에 더 괜찮은 답을 빨리 찾도록 돕는 실용적 판단 규칙에 가깝습니다. 즉 휴리스틱은 `항상 맞는 공식`보다 `지금 이 상황에서 먼저 써 볼 만한 판단 기준`에 더 가까운 말입니다.
-- Why it matters: 가능한 경로와 조합이 너무 많아 전부 다 볼 수 없을 때 탐색 순서를 정하는 실용적 기준이 됩니다. 이 개념이 있어야 `완벽한 정답 보장`과 `실제로 쓸 만한 답을 빨리 찾는 전략`을 구분해 읽을 수 있습니다. 예를 들어 길 찾기에서는 목적지까지의 직선거리, 모델 선택에서는 해석이 쉬운 기준선 모델부터 먼저 보는 순서가 모두 휴리스틱이 될 수 있습니다. 결국 휴리스틱을 이해해야 AI에서 `정확히 증명된 규칙`과 `제한된 시간 안에 먼저 시도하는 그럴듯한 기준`이 다른 층위라는 점도 더 선명하게 읽게 됩니다.
-- Related concepts: `search`, `state`, `goal`
-- Core Section: `P4-3.1`
-- Appears in: `P1-2.2`, `P1-7.2`, `P4-3.2`
-
-<a id="heuristic-function"></a>
-
-## heuristic function
-
-- Meaning: 각 후보가 얼마나 유망한지 추정값이나 점수로 표현해 우선순위를 정하는 기준 함수입니다. 즉 탐색 중인 여러 상태를 숫자로 비교해 `어느 쪽을 먼저 볼지` 결정하게 만드는 계산 규칙입니다. 정답을 직접 계산하는 함수라기보다, 정답에 더 가까워 보이는 후보를 먼저 보게 하는 안내 함수에 가깝습니다.
-- Why it matters: 휴리스틱이 막연한 감이 아니라, 후보 비교 순서를 만드는 구체적 절차로 구현될 수 있음을 보여 줍니다. 이 개념이 있어야 탐색이 단순 무작위 시도가 아니라 `유망도 점수`에 따라 계산적으로 정렬될 수 있다는 점을 이해하게 됩니다. 또한 휴리스틱 함수를 이해해야 높은 점수가 곧 정답 보장이라는 뜻은 아니라는 점, 그리고 점수의 정확성보다 후보 순서를 얼마나 잘 정렬하느냐가 더 중요할 수 있다는 점도 함께 읽게 됩니다. 결국 휴리스틱 함수는 `정답을 맞히는 공식`보다 `무엇부터 볼지 정하는 기준`에 더 가깝습니다.
-- Related concepts: `heuristic`, `search`, `good-enough solution`
-- Core Section: `P1-7.2`
-- Appears in: `P1-2.2`, `P1-7.1`, `P1-7.3`
-
-<a id="heuristic-score"></a>
-
-## heuristic score
-
-- Meaning: 각 후보가 얼마나 유망해 보이는지 비교하기 위해 붙이는 상대적 점수입니다. 절대적인 정답 확률이라기보다, 여러 후보를 줄 세우기 위한 비교용 숫자라고 보는 편이 더 정확합니다. 즉 `이 값이 0.8이니 80% 확률이다`처럼 읽기보다, `다른 후보보다 먼저 볼 만하다`는 신호로 읽어야 합니다.
-- Why it matters: 숫자가 있어도 그것이 곧 확률은 아니며, 우선순위를 정하는 점수일 수 있다는 점을 분명히 해 주기 때문입니다. 이 개념이 있어야 탐색에서 쓰는 점수와 모델이 내는 확률 추정값을 같은 의미로 오해하지 않게 되고, `더 크다`는 비교만 중요할 수도 있고 그 숫자 자체의 해석은 제한적일 수 있다는 점도 이해하게 됩니다. 즉 휴리스틱 점수는 진실을 직접 말하는 숫자보다, 다음에 어디를 볼지 정하게 만드는 작업용 숫자에 가깝습니다. 또한 휴리스틱 점수를 이해해야 낮은 점수 후보를 완전히 버리는 전략이 언제 위험한지, 점수의 절대값보다 후보 순서가 더 중요한 상황이 많다는 점도 함께 읽게 됩니다.
-- Related concepts: `heuristic`, `heuristic function`, `probability estimate`
-- Core Section: `P1-7.3`
-- Appears in: `P1-7.2`
-
-<a id="hidden-layer"></a>
-
-## hidden layer
-
-- Meaning: 입력층과 출력층 사이에서 중간 표현을 만드는 신경망 층입니다. 바깥에서 직접 정답으로 읽히는 층은 아니지만, 입력을 더 유용한 내부 특징으로 바꾸는 계산 단계라고 볼 수 있습니다. 즉 은닉층은 `정답을 바로 내는 층`이 아니라, 그 정답에 이르기 전에 필요한 내부 표현을 만드는 작업 층입니다.
-- Why it matters: 딥러닝이 단순 입력-출력 대응을 넘어 더 복잡한 특징과 경계를 학습하는 이유를 설명할 때 핵심 구조가 되기 때문입니다. 은닉층 개념이 있어야 `깊어진다`는 말이 층 수만 늘어난다는 뜻이 아니라, 중간 표현을 여러 단계로 바꾸어 간다는 뜻으로 읽힙니다. 예를 들어 이미지에서는 가장자리 같은 단서가 더 뒤 층에서 부분 형태와 객체 수준 표현으로 바뀌는데, 이런 중간 변환의 핵심 자리가 은닉층입니다. 결국 은닉층을 이해해야 신경망이 입력을 곧바로 답으로 바꾸는 것이 아니라, 내부 표현을 여러 번 다시 만들며 판단한다는 점도 더 또렷하게 보게 됩니다.
-- Related concepts: `perceptron`, `multilayer neural network`, `activation function`
-- Core Section: `P5-2.1`
-- Appears in: `P5-2.2`, `P5-7.1`
-
-<a id="hidden-state"></a>
-
-## hidden state
-
-- Meaning: 문맥에 따라 두 가지로 쓰입니다. 순환 신경망에서는 앞 입력 정보를 누적해 다음 계산으로 넘기는 내부 상태를 뜻하고, 노트북 문맥에서는 화면에 직접 보이지 않지만 다음 셀 실행에 영향을 주는 런타임 안의 값이나 설정을 뜻합니다. 공통점은 둘 다 `겉으로 바로 보이지 않지만 다음 결과를 바꾸는 내부 기억`이라는 점입니다.
-- Why it matters: 같은 `hidden state`라도 모델 내부 문맥과 실행 환경 문맥을 구분해야 RNN 설명과 노트북 재현성 설명을 혼동하지 않기 때문입니다. 이 개념이 있어야 보이지 않는 중간 상태가 왜 다음 출력에 큰 영향을 주는지 이해하게 되고, `겉으로 같은 입력인데 결과가 다르다`는 현상을 모델의 문맥 기억 문제와 노트북 실행 순서 문제로 나누어 해석할 수 있게 됩니다. 결국 숨은 상태를 이해해야 `보이는 입력만 같으면 같은 결과가 나온다`는 단순한 직관이 왜 자주 깨지는지도 읽게 됩니다.
-- Related concepts: `RNN, recurrent neural network`, `execution order`, `runtime state`
-- Core Section: `P1-11.2`
-- Appears in: `P2-10.3`
-
-<a id="histogram"></a>
-
-## histogram
-
-- Meaning: 값을 여러 구간(bin)으로 나누고, 각 구간에 몇 개가 들어가는지 보여 주는 그래프입니다. 개별 점을 하나씩 보는 대신, 값이 어디에 많이 몰려 있고 어디가 드문지를 구간 단위로 읽게 해 주는 시각화라고 볼 수 있습니다. 막대가 붙어 있는 이유는 범주 막대그래프와 달리, 서로 이어진 수치 축을 구간으로 나누어 본다는 뜻을 드러내기 위해서입니다.
-- Why it matters: 평균 하나만으로는 보이지 않는 값의 몰림, 퍼짐, 치우침을 확인하게 해 주어 분포를 읽는 기본 시각화가 됩니다. 이 개념이 있어야 데이터가 한 덩어리인지, 여러 봉우리가 있는지, 이상값이 있는지를 숫자 요약만이 아니라 모양으로도 읽을 수 있습니다. 또한 구간을 어떻게 자르느냐에 따라 보이는 모양이 달라질 수 있다는 점을 이해해야, 히스토그램을 절대적인 진실이 아니라 `분포를 읽기 위한 관찰 창`으로 다루게 됩니다.
-- Related concepts: `distribution`, `outlier`, `plot`
-- Core Section: `P2-13.2`
-- Appears in: `P2-13.3`, `P4-16.1`
-
-<a id="hold-state"></a>
-
-## hold state
-
-- Meaning: 도구나 기능이 망가져서 실패한 것이 아니라, 승인 미도착, 사람 응답 대기, 허용 범위 미충족처럼 외부 조건이 아직 열리지 않아 현재 실행을 더 진행하지 않고 멈춰 둔 상태입니다. 이미 확보한 관찰과 판단은 남아 있지만, 다음 변경 단계로 넘어가면 정책을 어기게 되므로 안전하게 멈춘 실행 상태라고 볼 수 있습니다. 즉 보류 상태는 `아무것도 못 했다`가 아니라 `지금은 더 하면 안 된다`를 기록한 운영 상태입니다.
-- Why it matters: blocked와 failure를 같은 실패로 묶어 버리면 문제 원인을 잘못 읽게 되고, 다음 행동도 재시도와 승인 요청을 구분하지 못하게 되기 때문입니다. 이 개념이 있어야 실행이 끝나지 않았더라도 왜 멈췄는지를 더 정확하게 남기게 되고, 승인 정책과 사람 응답 흐름이 실제 운영 기록 안에서 어떻게 드러나는지도 이해하게 됩니다. 또한 보류 상태를 이해해야 안전한 멈춤과 기능 고장을 같은 것으로 보지 않게 되고, 사용자 상태 보고와 회고 문장도 `실패` 대신 `외부 조건 미충족`이라는 더 정확한 표현으로 정리하게 됩니다.
-- Related concepts: `approval policy`, `approval`, `state`, `retry`, `run record`
-- Core Section: `P7-6.3`
-- Appears in: `P7-6.1`, `P7-6.2`
-
-<a id="host"></a>
-
-## host
-
-- Meaning: 사용자가 실제로 상호작용하는 앱이나 실행 환경처럼, 여러 연결과 도구 사용을 바깥에서 감싸는 쪽 구성요소입니다. 사용자의 요청을 받아 어떤 클라이언트를 통해 어떤 서버와 연결할지, 어떤 도구 사용 정책과 승인 규칙을 적용할지를 조율하는 바깥쪽 실행 주체에 가깝습니다. 즉 호스트는 모델이나 서버 자체보다, 이들을 어떤 규칙으로 엮어 사용자 경험으로 내보낼지를 관리하는 상위 껍데기라고 볼 수 있습니다.
-- Why it matters: MCP 문맥에서는 서버와 직접 같은 뜻으로 쓰이지 않고, 여러 MCP 클라이언트를 소유하며 사용자 요청과 실행 정책을 함께 관리하는 바깥쪽 단위를 가리킵니다. 이 차이를 이해해야 `사용자가 보는 앱`, `연결을 여는 클라이언트`, `도구를 제공하는 서버`를 한 덩어리로 섞지 않고 시스템 구조를 설명할 수 있고, 실행 책임이 어디서 묶이는지도 더 분명해집니다. 또한 호스트를 이해해야 승인 정책, UI 흐름, 연결 관리 문제가 서버 기능 자체와는 다른 층위라는 점도 구분하게 됩니다.
-- Related concepts: `client`, `server`, `Model Context Protocol, MCP`, `approval`
-- Core Section: `P1-14.4`
-
-<a id="human-evaluation"></a>
-
-## human evaluation
-
-- Meaning: 사람이 실제 맥락, 말투, 해석 적절성, 오해 가능성을 읽으며 품질을 판단하는 평가 방식입니다. 정답 문자열 일치보다, 사용자가 실제로 이 결과를 받아도 되는지를 더 넓게 살피는 평가에 가깝고, 여러 평가자가 기준표(rubric)를 맞춰 비교하기도 합니다. 즉 사람 평가는 점수 계산보다 `이 결과가 실제 상황에서 어떤 의미를 갖는가`를 읽는 데 강합니다.
-- Why it matters: 자동 평가가 잘 잡지 못하는 미묘한 품질 문제와 실제 사용 적합성을 확인하는 마지막 기준이 되기 때문입니다. 특히 생성형 AI에서는 사실성, 안전성, 도움 됨 여부가 함께 얽혀 있어 사람 평가가 빠지면 중요한 실패를 놓치기 쉽고, 반대로 사람 평가만 믿으면 비용과 일관성 문제가 커질 수 있어 자동 평가와의 역할 분담이 중요합니다. 또한 사람 평가를 이해해야 평가자 기준표와 합의 절차가 왜 필요한지, 사람 판단이라고 해서 자동으로 공정하고 일관적인 것은 아니라는 점도 읽게 됩니다.
-- Related concepts: `evaluation`, `automatic evaluation`, `review`, `factuality`
-- Core Section: `P6-16.2`
-- Appears in: `P6-17.1`
-
-<a id="human-oversight"></a>
-
-## human oversight
-
-- Meaning: 사람이 AI 결과를 실제로 검토하고, 필요하면 멈추고, 다시 판단할 수 있게 만드는 구조입니다. 단순히 사람이 마지막에 이름만 붙이는 절차가 아니라, 중단, 수정, 반려 권한이 실제로 살아 있는 통제 구조를 뜻합니다. 즉 인간 감독은 자동화 바깥에서 비판하는 태도만이 아니라, 실제 시스템 안에 사람 개입 지점을 설계하는 문제입니다.
-- Why it matters: 고위험 판단과 자동화에서 형식적 승인만으로는 피해를 막기 어렵기 때문입니다. 사람의 개입 지점이 실질적이어야 안전성과 책임이 문서상 구호에 그치지 않습니다. 이 개념이 있어야 `사람이 있다`는 사실과 `사람이 실제로 멈추고 수정할 수 있다`는 조건을 구분하게 됩니다. 또한 인간 감독을 이해해야 검토자가 언제 개입하는지, 무엇을 보고 판단하는지, 실제로 중단 권한이 있는지까지 함께 설계해야 한다는 점도 더 분명히 읽게 됩니다.
-- Related concepts: `safety`, `accountability`, `harness`, `approval`
-- Core Section: `P1-15.1`
-- Appears in: `P1-10.3`
-
-<a id="hyperparameter"></a>
-
-## hyperparameter
-
-- Meaning: 모델이 학습되기 전에 사람이 먼저 정해 두는 설정값으로, 모델이 어떤 모양과 강도로 학습될지를 바깥에서 정하는 값입니다. 층 수, 학습률, 트리 깊이처럼 `학습이 어떤 방식으로 진행될지`를 정하는 제어 손잡이라고 생각할 수 있습니다. 즉 데이터에서 자동으로 배우는 값이 아니라, 사람이 실험을 통해 바깥에서 조절하는 설정 층입니다.
-- Why it matters: 데이터에서 학습되는 내부 파라미터와, 학습 전에 사람이 정하는 바깥 설정값을 구분해야 튜닝과 검증 절차를 올바르게 읽을 수 있습니다. 이 차이를 이해해야 모델이 스스로 배우는 것과 사람이 실험으로 정하는 것을 섞지 않게 됩니다. 또한 하이퍼파라미터를 이해해야 성능 차이가 모델 구조 자체 때문인지, 학습률이나 깊이 같은 바깥 설정 차이 때문인지 더 정확히 따져 보게 됩니다. 즉 하이퍼파라미터는 `모델이 무엇을 배웠는가`보다 `어떤 조건에서 배우게 했는가`를 설명하는 값입니다.
-- Related concepts: `parameter`, `tuning`, `validation`
-- Core Section: `P4-9.1`
-- Appears in: `P4-9.2`, `P4-9.3`, `P4-14.2`, `P4-16.2`
+--8<-- "reference/concept-glossary-terms/hyperparameter.en.md"
