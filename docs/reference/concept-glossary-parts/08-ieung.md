@@ -109,6 +109,8 @@
 --8<-- "reference/concept-glossary-terms/error-accumulation.ko.md"
 
 
+--8<-- "reference/concept-glossary-terms/update.ko.md"
+
 --8<-- "reference/concept-glossary-terms/decision.ko.md"
 
 --8<-- "reference/concept-glossary-terms/end-to-end-learning.ko.md"

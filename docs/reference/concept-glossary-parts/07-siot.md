@@ -93,9 +93,13 @@
 
 --8<-- "reference/concept-glossary-terms/loss-curve.ko.md"
 
+--8<-- "reference/concept-glossary-terms/loss-landscape.ko.md"
+
 --8<-- "reference/concept-glossary-terms/loss.ko.md"
 
 --8<-- "reference/concept-glossary-terms/loss-function.ko.md"
+
+--8<-- "reference/concept-glossary-terms/mean-loss.ko.md"
 
 --8<-- "reference/concept-glossary-terms/convergence.ko.md"
 --8<-- "reference/concept-glossary-terms/hand-crafted-features.ko.md"

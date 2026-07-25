@@ -30,6 +30,8 @@
 
 --8<-- "reference/concept-glossary-terms/median.ko.md"
 
+--8<-- "reference/concept-glossary-terms/minimization.ko.md"
+
 --8<-- "reference/concept-glossary-terms/manifold.ko.md"
 
 --8<-- "reference/concept-glossary-terms/metadata.ko.md"

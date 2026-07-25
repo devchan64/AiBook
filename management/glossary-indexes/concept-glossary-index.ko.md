@@ -331,3 +331,22 @@
 | 표준오차 | 표준오차 | standard error | P2-5.5 | standard-error | standard-error | P2-5.5 source context | 표본 평균 같은 추정값이 얼마나 흔들릴 수 있는지 보여 주는 값 |
 | 신뢰구간 | 신뢰구간 | confidence interval | P2-5.5 | confidence-interval | confidence-interval | P2-5.5 source context | 추정값을 어느 범위 안에서 함께 읽어야 하는지 보여 주는 방식 |
 | 가설검정 | 가설검정 | hypothesis testing | P2-5.5 | hypothesis-testing | hypothesis-testing | P2-5.5 source context | 관측된 차이가 표본 우연만으로 설명될 수 있는지 따져 보는 절차 |
+| 최적화 | 최적화 | optimization | P2-6.1 | optimization | optimization | P2-6.1 source context | 기준과 제약을 고려해 여러 후보 중 더 나은 값을 찾는 문제 |
+| 후보 | 후보 | candidate | P2-6.1 | candidate | candidate | P2-6.1 source context | 아직 확정된 답이 아니라 비교해 볼 수 있는 선택지나 값 |
+| 비교 기준 | 비교 기준 | criterion | P2-6.1 | criterion | criterion | P2-6.1 source context | 후보 가운데 무엇이 더 나은지 판단하기 위해 쓰는 기준 |
+| 최소화 | 최소화 | minimization | P2-6.1 | minimization | minimization | P2-6.1 source context | 비용, 오차, 손실처럼 작을수록 좋은 값을 줄이는 최적화 방향 |
+| 최대화 | 최대화 | maximization | P2-6.1 | maximization | maximization | P2-6.1 source context | 정확도, 수익, 만족도처럼 클수록 좋은 값을 키우는 최적화 방향 |
+| 최적 | 최적 | optimal | P2-6.1 | optimal | optimal | P2-6.1 source context | 정해진 후보 범위, 기준, 제약 안에서 가장 좋다고 판단된 상태 |
+| 파라미터 | 파라미터 | parameter | P1-4.3 | parameter | parameter | P2-6.1 source context | 학습 과정에서 조정되는 모델 내부 값 |
+| 손실 함수 | 손실 함수 | loss function | P2-6.2 | loss-function | loss-function | P2-6.2 source context | 예측의 틀림을 학습에 쓸 수 있는 숫자로 바꾸는 함수 |
+| 목적 함수 | 목적 함수 | objective function | P2-6.2 | objective-function | objective-function | P2-6.2 source context | 학습이나 최적화가 실제로 줄이거나 키우려는 전체 기준 |
+| 제곱 오차 | 제곱 오차 | squared error | P2-6.2 | squared-error | squared-error | P2-6.2 source context | 실제값과 예측값의 차이를 제곱한 값 |
+| 평균 손실 | 평균 손실 | mean loss | P2-6.2 | mean-loss | mean-loss | P2-6.2 source context | 여러 샘플에서 계산한 손실을 평균낸 값 |
+| 평균 제곱 오차 | 평균 제곱 오차 | mean squared error, MSE | P2-6.2 | mean-squared-error-mse | mean-squared-error-mse | P2-6.2 source context | 실제값과 예측값의 차이를 제곱한 뒤 여러 샘플에 대해 평균낸 값 |
+| 정규화 벌점 | 정규화 벌점 | regularization penalty | P2-6.2 | regularization-penalty | regularization-penalty | P2-6.2 source context | 모델이 지나치게 복잡해지지 않도록 목적 함수에 더하는 벌점 항 |
+| 평가 지표 | 평가 지표 | metric | P4-6.1 | metric | metric | P2-6.2 source context | 모델 결과를 사람이 해석하고 비교하기 위해 쓰는 성능 기준 |
+| 검증 데이터 | 검증 데이터 | validation data | P2-6.2 | validation-data | validation-data | P2-6.2 source context | 학습 중 모델 설정을 확인하고 조정하는 데 쓰는 데이터 |
+| 경사하강법 | 경사하강법 | gradient descent | P2-6.3 | gradient-descent | gradient-descent | P2-6.3 source context | 손실을 낮추기 위해 파라미터를 조금씩 바꾸는 반복 최적화 방법 |
+| 학습 반복 | 학습 반복 | iteration | P2-6.3 | iteration | iteration | P2-6.3 source context | 예측, 손실 계산, 그래디언트 계산, 업데이트를 한 차례 수행하는 학습 단위 |
+| 업데이트 | 업데이트 | update | P2-6.3 | update | update | P2-6.3 source context | 현재 파라미터나 설정값을 새 계산 결과에 맞게 바꾸는 단계 |
+| 손실 지형 | 손실 지형 | loss landscape | P2-6.3 | loss-landscape | loss-landscape | P2-6.3 source context | 파라미터 위치에 따라 손실값이 달라지는 모양을 지형처럼 본 표현 |

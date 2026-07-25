@@ -66,6 +66,8 @@
 
 --8<-- "reference/concept-glossary-terms/regularization.ko.md"
 
+--8<-- "reference/concept-glossary-terms/regularization-penalty.ko.md"
+
 --8<-- "reference/concept-glossary-terms/alignment.ko.md"
 --8<-- "reference/concept-glossary-terms/information-retrieval.ko.md"
 
@@ -88,6 +90,8 @@
 --8<-- "reference/concept-glossary-terms/policy-proposal.ko.md"
 
 --8<-- "reference/concept-glossary-terms/accuracy.ko.md"
+
+--8<-- "reference/concept-glossary-terms/squared-error.ko.md"
 
 --8<-- "reference/concept-glossary-terms/constraint.ko.md"
 

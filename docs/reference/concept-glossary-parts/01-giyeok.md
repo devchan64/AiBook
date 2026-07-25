@@ -2,6 +2,8 @@
 
 --8<-- "reference/concept-glossary-terms/git.ko.md"
 
+--8<-- "reference/concept-glossary-terms/validation-data.ko.md"
+
 --8<-- "reference/concept-glossary-terms/hypothesis-testing.ko.md"
 
 --8<-- "reference/concept-glossary-terms/groupby.ko.md"

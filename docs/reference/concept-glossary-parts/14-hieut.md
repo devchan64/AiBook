@@ -6,6 +6,8 @@
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.ko.md"
 
+--8<-- "reference/concept-glossary-terms/candidate.ko.md"
+
 --8<-- "reference/concept-glossary-terms/training-mode.ko.md"
 
 --8<-- "reference/concept-glossary-terms/learning.ko.md"

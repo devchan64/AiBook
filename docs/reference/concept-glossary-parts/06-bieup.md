@@ -14,9 +14,13 @@
 
 --8<-- "reference/concept-glossary-terms/loop.ko.md"
 
+--8<-- "reference/concept-glossary-terms/criterion.ko.md"
+
 --8<-- "reference/concept-glossary-terms/summation-index.ko.md"
 
 --8<-- "reference/concept-glossary-terms/return-value.ko.md"
+
+--8<-- "reference/concept-glossary-terms/iteration.ko.md"
 
 --8<-- "reference/concept-glossary-terms/directional-derivative.ko.md"
 
