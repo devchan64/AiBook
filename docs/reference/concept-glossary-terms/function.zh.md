@@ -1,0 +1,14 @@
+<a id="function"></a>
+
+## 函数
+
+- 含义: 函数按规则把输入映射到输出。
+- 为什么重要: 理解它有助于区分数据、建模、评估、提示或系统运行中的具体角色。
+- 相关概念: `variable`, `expression`, `model`
+- 核心 Section: `P2-2.1`
+- 出现 Section: `P2-4.2`, `P2-4.3`, `P2-6.2`, `P2-8.5`, `P2-10.3`
+
+--8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.ko.md"
+
+--8<-- "reference/concept-glossary-terms/convolution.ko.md"
+

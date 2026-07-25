@@ -1,6 +1,65 @@
 # 概念词汇表：E
 
-本页用于整理拼音首字母为 `E` 的中文概念索引。具体词条内容将在后续补充。
+本页整理拼音首字母为 `E` 的中文概念词条。词条正文由单词源文件 include 生成。
 
-| 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
-| --- | --- | --- | --- | --- |
+--8<-- "reference/concept-glossary-terms/edge.zh.md"
+
+--8<-- "reference/concept-glossary-terms/edge-weight.zh.md"
+
+--8<-- "reference/concept-glossary-terms/embedding.zh.md"
+
+--8<-- "reference/concept-glossary-terms/encoder.zh.md"
+
+--8<-- "reference/concept-glossary-terms/encoder-decoder.zh.md"
+
+--8<-- "reference/concept-glossary-terms/environment.zh.md"
+
+--8<-- "reference/concept-glossary-terms/environment-variable.zh.md"
+
+--8<-- "reference/concept-glossary-terms/epoch.zh.md"
+
+--8<-- "reference/concept-glossary-terms/error.zh.md"
+
+--8<-- "reference/concept-glossary-terms/error-case.zh.md"
+
+--8<-- "reference/concept-glossary-terms/error-sample.zh.md"
+
+--8<-- "reference/concept-glossary-terms/estimation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/evaluation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/evaluation-mode.zh.md"
+
+--8<-- "reference/concept-glossary-terms/evaluation-record.zh.md"
+
+--8<-- "reference/concept-glossary-terms/event.zh.md"
+
+--8<-- "reference/concept-glossary-terms/evidence.zh.md"
+
+--8<-- "reference/concept-glossary-terms/evidence-review.zh.md"
+
+--8<-- "reference/concept-glossary-terms/example.zh.md"
+
+--8<-- "reference/concept-glossary-terms/exception.zh.md"
+
+--8<-- "reference/concept-glossary-terms/excessive-agency.zh.md"
+
+--8<-- "reference/concept-glossary-terms/execution-environment.zh.md"
+
+--8<-- "reference/concept-glossary-terms/execution-order.zh.md"
+
+--8<-- "reference/concept-glossary-terms/execution-scene.zh.md"
+
+--8<-- "reference/concept-glossary-terms/execution-summary.zh.md"
+
+--8<-- "reference/concept-glossary-terms/exhaustive-search.zh.md"
+
+--8<-- "reference/concept-glossary-terms/expert-system.zh.md"
+
+--8<-- "reference/concept-glossary-terms/explanation-facility.zh.md"
+
+--8<-- "reference/concept-glossary-terms/exploitation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/exploration.zh.md"
+
+--8<-- "reference/concept-glossary-terms/expression.zh.md"
