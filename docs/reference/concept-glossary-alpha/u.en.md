@@ -1,8 +1,42 @@
 # Concept Glossary: U
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [uncertainty](/AiBook/reference/concept-glossary-parts/06-bieup/#uncertainty) — 불확실성 — Core Section: `P1-6.2`
-- [underfitting](/AiBook/reference/concept-glossary-parts/01-giyeok/#underfitting) — 과소적합 — Core Section: `P1-3.2`
-- [undirected graph](/AiBook/reference/concept-glossary-parts/05-mieum/#undirected-graph) — 무방향 그래프 — Core Section: `P2-9.3`
-- [unsupervised learning](/AiBook/reference/concept-glossary-parts/06-bieup/#unsupervised-learning) — 비지도학습 — Core Section: `P4-2.2`
+<a id="uncertainty"></a>
+
+## uncertainty
+
+- Meaning: 현재 정보만으로 하나의 상태나 결과를 확정할 수 없고 여러 가능성을 함께 고려해야 하는 상태입니다. 모른다는 사실을 감추지 않고, 가능한 경우들과 그 가능성 크기를 함께 다뤄야 하는 판단 조건이라고 볼 수 있습니다. 즉 불확실성은 `아직 정보가 부족하다`는 상태를 체계적으로 다루기 위한 개념입니다.
+- Why it matters: 실제 문제에서는 `모른다`를 오류로만 보지 않고, 어느 정도 확신할 수 있는지와 어떤 경우를 더 조심해야 하는지 함께 판단해야 하기 때문입니다. 이 개념이 있어야 예측 결과를 단일 답 하나로만 읽지 않고 확률, 신뢰도, 위험, 추가 확인 필요성을 함께 보게 되고, 사람 검토와 자동화 경계를 정하는 기준도 더 자연스럽게 세우게 됩니다. AI 시스템 운영에서도 불확실성을 읽을 수 있어야 자동 응답으로 넘길지, 사람 검토를 붙일지, 추가 정보를 먼저 요청할지를 나누게 됩니다.
+- Related concepts: `probability`, `incomplete information`, `noise`
+- Core Section: `P1-6.2`
+- Appears in: `P1-6.1`
+
+<a id="underfitting"></a>
+
+## underfitting
+
+- Meaning: 데이터 안의 관계를 충분히 배우지 못해 학습 데이터와 새 데이터 모두에서 성능이 약한 상태입니다. 모델이 너무 단순하거나 학습이 충분히 진행되지 않아, 아직 중요한 패턴 자체를 붙잡지 못한 상태라고 볼 수 있습니다. 쉽게 말해 문제를 너무 대충 본 탓에, 훈련 때 본 예시에서도 기본 규칙을 제대로 설명하지 못하는 상황입니다.
+- Why it matters: 학습이 잘 안 된 경우와 너무 많이 맞춘 경우를 구분할 때 필요합니다. 이 개념이 있어야 성능이 낮다고 해서 무조건 과적합을 의심하지 않고, 모델 용량 부족인지 학습 부족인지도 따로 따져 보게 됩니다. 또한 과소적합은 `더 일반적이라서 좋은 상태`가 아니라, 아직 기본 패턴조차 충분히 설명하지 못한 상태라는 점을 보여 주어 모델 단순화와 성능 저하를 같은 말로 섞지 않게 합니다. 결국 과적합과 과소적합은 둘 다 문제지만, 원인과 손보는 방향이 다르다는 점을 함께 읽어야 합니다.
+- Related concepts: `generalization`, `overfitting`, `model complexity`
+- Core Section: `P1-3.2`
+
+<a id="undirected-graph"></a>
+
+## undirected graph
+
+- Meaning: 연결이 어느 한쪽 방향으로만 향하지 않고 양쪽 관계로 읽히는 그래프입니다. 한 엣지가 `A에서 B로 간다`보다 `A와 B가 서로 연결되어 있다`를 뜻하는 구조라고 볼 수 있습니다. 즉 화살표 없는 선 하나가 두 노드 사이의 상호 관계나 인접 관계를 함께 표현하는 셈입니다.
+- Why it matters: 친구 관계처럼 `A가 B와 연결되어 있다`와 `B가 A와 연결되어 있다`를 따로 구분하지 않는 상호 연결을 표현할 때, 방향 그래프와 다른 해석 기준이 필요하기 때문입니다. 이 개념이 있어야 연결선 하나가 양쪽 관계를 동시에 뜻할 수 있다는 점을 이해하게 되고, 링크처럼 방향이 중요한 문제와 친분·인접성처럼 방향이 중요하지 않은 문제를 다른 구조로 읽게 됩니다. 그래프 문제를 읽을 때도 `선이 있다`는 사실만 볼 것이 아니라, 그 선이 방향 정보를 담는지 아닌지를 먼저 구분해야 해석이 달라진다는 점을 잡게 해 줍니다.
+- Related concepts: `graph`, `directed graph`, `edge`
+- Core Section: `P2-9.3`
+- Appears in: `P2-9.4`
+
+<a id="unsupervised-learning"></a>
+
+## unsupervised learning
+
+- Meaning: 사람이 미리 붙인 라벨 없이 데이터 안의 구조나 묶음, 표현을 찾으려는 학습 방식입니다. 즉 `정답이 무엇인가`를 바로 맞히는 대신, 사례들이 어떻게 비슷하고 어떻게 갈라지는지 먼저 읽으려는 문제 설정이라고 볼 수 있습니다. 다시 말해 비지도학습은 답을 외우는 학습보다, 데이터 안에 숨어 있는 질서를 드러내는 학습에 더 가깝습니다.
+- Why it matters: 지도학습처럼 정답 라벨을 맞히는 문제와 달리, 데이터 자체의 관계를 발견하는 질문이 따로 있다는 점을 보여 주기 때문입니다. 이 개념이 있어야 학습이 반드시 `정답 맞히기`만 뜻하는 것은 아니라는 점을 이해하게 되고, 군집화·차원 축소·표현 학습처럼 데이터 구조를 먼저 읽는 문제들이 별도 축으로 존재한다는 점도 자연스럽게 이어집니다. 예를 들어 고객 데이터에 라벨이 없어도 비슷한 행동 패턴끼리 먼저 묶어 보면, 이후 어떤 집단을 먼저 해석하거나 검토할지 새로운 질문이 생길 수 있습니다. 결국 비지도학습을 이해해야 `라벨이 없으니 아무것도 못 한다`가 아니라 `라벨 없이도 먼저 볼 수 있는 구조가 있다`는 관점으로 넘어가게 됩니다.
+- Related concepts: `structure`, `clustering`, `dimensionality reduction`
+- Core Section: `P4-2.2`
+- Appears in: `P1-8.2`, `P4-17.1`, `P4-17.2`, `P4-18.1`, `P4-18.2`

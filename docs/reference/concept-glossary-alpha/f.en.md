@@ -1,23 +1,191 @@
 # Concept Glossary: F
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [fact](/AiBook/reference/concept-glossary-parts/07-siot/#fact) — 사실 — Core Section: `P1-3.1`
-- [factual claim](/AiBook/reference/concept-glossary-parts/07-siot/#factual-claim) — 사실 주장 — Core Section: `P1-17.3`
-- [factuality](/AiBook/reference/concept-glossary-parts/07-siot/#factuality) — 사실성 — Core Section: `P1-12.3`
-- [failure](/AiBook/reference/concept-glossary-parts/07-siot/#failure) — 실패 — Core Section: `P7-6.2`
-- [failure type](/AiBook/reference/concept-glossary-parts/07-siot/#failure-type) — 실패 유형 — Core Section: `P1-16.3`
-- [fancy indexing](/AiBook/reference/concept-glossary-parts/13-pieup/#fancy-indexing) — 팬시 인덱싱 — Core Section: `P2-11.4`
-- [feature](/AiBook/reference/concept-glossary-parts/12-tieut/#feature) — 특징 — Core Section: `P1-4.3`
-- [feature selection](/AiBook/reference/concept-glossary-parts/12-tieut/#feature-selection) — 특징 선택 — Core Section: `P4-7.1`
-- [feed-forward network](/AiBook/reference/concept-glossary-parts/13-pieup/#feed-forward-network) — 피드포워드 네트워크 — Core Section: `P5-14.1`
-- [few-shot prompting](/AiBook/reference/concept-glossary-parts/13-pieup/#few-shot-prompting) — 퓨샷 프롬프팅 — Core Section: `P1-12.2`
-- [Figure](/AiBook/reference/concept-glossary-parts/13-pieup/#figure) — Figure — Core Section: `P2-13.1`
-- [filtering](/AiBook/reference/concept-glossary-parts/13-pieup/#filtering) — 필터링 — Core Section: `P2-12.2`
-- [fine-tuning](/AiBook/reference/concept-glossary-parts/05-mieum/#fine-tuning) — 미세조정 — Core Section: `P6-8.1`
-- [fitting](/AiBook/reference/concept-glossary-parts/09-jieut/#fitting) — 적합 — Core Section: `P1-5.1`
-- [fixed-length vector](/AiBook/reference/concept-glossary-parts/01-giyeok/#fixed-length-vector) — 고정 길이 벡터 — Core Section: `P1-11.2`
-- [follow-up review sample](/AiBook/reference/concept-glossary-parts/11-chieut/#follow-up-review-sample) — 추가 검토 샘플 — Core Section: `P7-3.1`
-- [forecast](/AiBook/reference/concept-glossary-parts/05-mieum/#forecast) — 미래 전망 — Core Section: `P1-17.1`
-- [function](/AiBook/reference/concept-glossary-parts/14-hieut/#function) — 함수 — Core Section: `P2-2.1`
-- [function calling](/AiBook/reference/concept-glossary-parts/14-hieut/#function-calling) — 함수 호출 — Core Section: `P6-13.2`
+<a id="fact"></a>
+
+## fact
+
+- Meaning: 현재 입력이나 관찰 상태 가운데 규칙 적용의 근거로 사용하는 값이나 조건입니다. 즉 `지금 참이라고 받아들이는 문장`을 작업 메모처럼 들고 있다가, 그 위에 규칙을 적용해 다음 결론을 끌어내는 출발 재료라고 볼 수 있습니다. 예를 들어 `열이 있다`, `환자가 기침한다`, `파일이 존재한다` 같은 현재 상태 문장이 사실에 해당합니다. 여기서 사실은 철학적 절대진리라기보다, 현재 시스템이 입력으로 받아들인 상태 문장에 더 가깝습니다.
+- Why it matters: 규칙 기반 시스템은 추상적인 규칙만으로 동작하지 않고, 지금 어떤 상태가 참인지 나타내는 사실과 규칙을 연결해 결론을 내리기 때문입니다. 이 개념이 있어야 규칙은 일반 기준이고 사실은 현재 상황이라는 역할 차이를 분리하게 되며, 같은 규칙도 어떤 사실이 입력되느냐에 따라 다른 결론이 나온다는 점을 더 분명히 이해하게 됩니다. 또한 사실을 이해해야 `일반 지식`과 `현재 관찰`을 섞지 않고 읽게 되고, 규칙 시스템이 왜 입력 상태를 조금만 잘못 받아도 결론이 크게 달라질 수 있는지도 더 자연스럽게 보게 됩니다. 더 나아가 책 전체에서는 저작권이나 평가 문맥에서 `사실 그 자체`와 `그 사실을 표현한 문장`을 구분하는 감각으로도 이어집니다.
+- Related concepts: `rule-based system`, `inference engine`, `knowledge base`
+- Core Section: `P1-3.1`
+- Appears in: `P1-2.2`, `P1-15.2`, `P4-index`, `P4-summary`, `P4-15.3`
+
+<a id="factual-claim"></a>
+
+## factual claim
+
+- Meaning: 외부 자료와 근거로 확인되어야 하는 문장입니다. 단순 의견이나 비유가 아니라, `실제로 그런 일이 있었는가`, `정말 그런 수치와 정의가 맞는가`를 출처로 검증할 수 있어야 하는 진술이라고 볼 수 있습니다. 날짜, 수치, 제품 기능, 역사적 사건, 논문 내용처럼 확인 가능한 대상을 말할 때는 대부분 사실 주장에 해당합니다.
+- Why it matters: 개인적 직관이나 해석을 본문 사실처럼 단정하지 않게 해 주며, 출처 검토의 기준점이 되기 때문입니다. 이 개념이 있어야 같은 문장 안에서도 `검증 가능한 사실`, `그 사실에 대한 해석`, `앞으로의 전망`을 나누어 읽게 되고, AI 초안에서 무엇을 반드시 출처로 다시 확인해야 하는지도 더 분명해집니다. 결국 사실 주장을 먼저 골라낼 수 있어야 어디에 검증 노력을 집중할지도 결정할 수 있습니다. 다시 말해 사실 주장은 `느낌상 맞아 보인다`가 아니라 `근거로 확인할 수 있다`가 핵심인 문장입니다.
+- Related concepts: `interpretation`, `working hypothesis`, `prediction`
+- Core Section: `P1-17.3`
+- Appears in: `P1-17.2`
+
+<a id="factuality"></a>
+
+## factuality
+
+- Meaning: 문장이 실제 사실과 맞는지, 핵심 주장에 오류나 왜곡이 없는지를 보는 기준입니다. 표현이 매끄러운가와는 다른 질문이며, `그럴듯하게 들리는가`보다 `검증 가능한 내용과 맞는가`를 묻는 평가 축에 가깝습니다. 즉 사실성은 문장 스타일이 아니라, 그 문장이 외부 세계와 얼마나 정확하게 맞물리는지를 묻는 품질 기준입니다.
+- Why it matters: 자연스럽고 설득력 있는 문장이라도 사실과 다를 수 있으므로, 출력 품질과 정확성을 분리해 읽게 해 주기 때문입니다. 특히 생성형 AI에서는 문체가 좋아도 출처가 약하거나 최신 정보가 틀릴 수 있어, 사실성을 따로 점검해야 실제 사용 가능성을 판단할 수 있습니다. 이 개념이 있어야 `도움이 되는 답`과 `사실에 맞는 답`이 언제는 겹치고 언제는 어긋날 수 있는지 함께 보게 되고, 환각 문제를 단순 문체 문제가 아니라 검증 체계 문제로 읽게 됩니다.
+- Related concepts: `evidence`, `hallucination`, `evaluation`
+- Core Section: `P1-12.3`
+- Appears in: `P1-10.3`, `P1-11.1`, `P1-13.1`, `P6-9.2`
+
+<a id="failure"></a>
+
+## failure
+
+- Meaning: 실행을 실제로 시도했지만 기능적으로 끝나지 못했거나, 기대한 결과 조건을 충족하지 못한 상태입니다. 단순히 결과가 마음에 들지 않는다는 인상보다, 오류 로그, timeout, 잘못된 출력, 누락된 근거처럼 `무엇이 작동하지 않았는가`를 다시 읽을 수 있어야 실패라고 부를 수 있습니다. 즉 실패는 막연한 불만이 아니라, 다시 분류하고 수정 지점을 찾을 수 있는 형태로 남겨야 하는 문제 상태입니다.
+- Why it matters: AI 프로젝트와 운영 run에서는 실패를 숨기면 다음 요구사항과 검증 기준이 생기지 않고, 보류 상태와 같은 다른 미완료 상태까지 함께 흐려지기 때문입니다. 이 개념이 있어야 승인 대기와 기능 고장을 같은 칸에 넣지 않게 되고, 검색 실패, 환각, 권한 문제, 비용 문제처럼 반복되는 실패 유형을 따로 이름 붙여 회고하게 됩니다. 또한 실패를 이해해야 기록, 평가, 다음 행동이 왜 한 묶음으로 남아야 하는지, 그리고 좋은 프로젝트 문서가 성공 화면만이 아니라 실패 구조까지 보존해야 한다는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `hold state`, `run record`, `evaluation`, `retry`, `next action`
+- Core Section: `P7-6.2`
+- Appears in: `P1-14.6`, `P1-16.3`, `P7-6.1`, `P7-6.3`, `P7-7.2`
+
+<a id="failure-type"></a>
+
+## failure type
+
+- Meaning: 여러 실패 사례를 그대로 흩어 두지 않고, 반복되는 문제 구조에 따라 몇 가지 범주로 묶어 다시 읽는 분류 틀입니다. 검색 실패, 권한 문제, 빌드 실패, 공개 확인 실패처럼 `어디서 무엇이 어긋났는가`를 반복 가능한 이름으로 붙여 두는 방식이라고 볼 수 있습니다. 즉 실패 유형은 단일 사건 설명이 아니라, 비슷한 실패들을 다음 회고와 개선 계획에 다시 쓸 수 있게 만드는 정리 단위입니다.
+- Why it matters: 실패를 한 건씩 감상문처럼 남기면 다음 프로젝트에서 같은 문제가 다시 나타나도 비교와 우선순위 판단이 어려워지기 때문입니다. 이 개념이 있어야 `실패했다`에서 멈추지 않고, 어떤 실패가 전처리 문제인지, 어떤 실패가 배포 경로 문제인지, 어떤 실패가 근거 부족 문제인지를 분리해 기록하게 됩니다. 또한 실패 유형을 이해해야 회고 문서가 과거 설명을 넘어서 다음 요구사항 목록으로 이어지고, Part 7의 비교 실험, 에이전트 실행 기록, 배포 회고가 같은 언어로 연결된다는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `failure`, `evaluation`, `incident record`, `next action`, `project`
+- Core Section: `P1-16.3`
+- Appears in: `P7-2.3`, `P7-7.2`
+
+<a id="fancy-indexing"></a>
+
+## fancy indexing
+
+- Meaning: 여러 위치 번호를 목록처럼 지정해 값을 따로 모아 새 배열처럼 선택하는 방식입니다. 연속된 구간을 자르는 것이 아니라, `이 위치와 저 위치만 골라 새 묶음을 만든다`는 선택 방식이라고 이해하면 됩니다. 즉 팬시 인덱싱은 원본 순서를 그대로 따라가기보다, 필요한 위치를 골라 새 집합으로 재조립하는 접근입니다.
+- Why it matters: 구간을 그대로 보는 슬라이싱과 달리, 특정 위치만 모으는 선택은 원본 공유 방식과 결과 해석이 달라져 전처리 코드에서 의도를 더 정확히 읽게 해 주기 때문입니다. 이 개념이 있어야 `원본의 한 조각을 본다`와 `필요한 원소를 다시 모은다`를 구분하게 되고, 복사 여부와 후속 수정 영향도 더 정확히 예상하게 됩니다. 또 표본 추출, 후보 재배열, 조건 통과 항목 재선택처럼 실제 전처리 장면에서 왜 팬시 인덱싱이 자주 등장하는지도 자연스럽게 연결됩니다.
+- Related concepts: `boolean mask`, `indexing`, `copy`
+- Core Section: `P2-11.4`
+- Appears in: `P2-12.2`
+
+<a id="feature"></a>
+
+## feature
+
+- Meaning: 모델이 입력으로 사용하는 값이나 단서입니다. 표의 열 하나일 수도 있고, 사람이 계산해 만든 지표일 수도 있으며, 딥러닝 안에서는 더 깊은 층이 만들어 낸 중간 활성값이 특징 역할을 할 수도 있습니다. 즉 특징은 원자료 전체가 아니라, 모델이 판단 근거로 삼도록 꺼내 쓴 정보 조각입니다.
+- Why it matters: 전통적 머신러닝에서는 사람이 많이 설계했고, 딥러닝에서는 더 깊은 표현으로 바뀌는 출발점이 됩니다. `무엇을 입력 단서로 볼 것인가`를 구분해야 특징 선택, 전처리, 표현 학습의 차이도 선명해집니다. 이 개념이 있어야 입력 전체와 그 안에서 실제로 모델 판단에 쓰이는 단서를 구분하게 되고, 좋은 특징이란 단순히 많거나 복잡한 값이 아니라 문제와 더 잘 연결되는 정보라는 점도 함께 이해하게 됩니다. 결국 특징을 이해해야 `데이터가 있다`와 `모델이 실제로 쓰는 정보가 있다`를 분리해 읽게 됩니다.
+- Related concepts: `representation`, `input`, `parameter`, `feature selection`, `representation learning`
+- Core Section: `P1-4.3`
+- Appears in: `P1-2.3`, `P1-3.2`, `P1-3.3`, `P3-1.1`, `P3-2.2`, `P3-4.1`, `P3-4.2`, `P3-5.1`, `P3-6.1`, `P3-6.2`, `P3-6.3`, `P3-6.4`, `P5-10.1`
+
+<a id="feature-selection"></a>
+
+## feature selection
+
+- Meaning: 입력으로 쓸 수 있는 많은 특징 가운데 현재 문제에 실제로 남길 특징을 고르는 과정입니다. 이미 만들 수 있는 입력 후보가 많을 때, 무엇을 넣고 무엇을 빼야 현재 문제를 더 잘 설명하는지 따져 정리하는 단계라고 볼 수 있습니다.
+- Why it matters: 특징을 무조건 많이 넣는다고 항상 좋아지지 않으므로, 정보량과 일반화 사이에서 어떤 입력 칸을 채택할지 따로 판단해야 하기 때문입니다. 이 개념이 있어야 입력 열을 많이 모으는 것과 좋은 표현을 만드는 것을 같은 일로 보지 않게 되고, 불필요한 특징이 과적합, 해석 혼란, 계산 비용 증가로 이어질 수 있다는 점도 읽게 됩니다. 또한 특징 선택을 이해해야 `많이 넣는 것`이 아니라 `문제와 더 직접 연결된 단서를 남기는 것`이 중요하다는 점, 그리고 누수 가능성이 있는 열을 빼는 일도 성능 저하가 아니라 품질 보전일 수 있다는 점도 함께 보게 됩니다.
+- Related concepts: `feature`, `preprocessing`, `data leakage`
+- Core Section: `P4-7.1`
+- Appears in: `P3-6.1`, `P4-7.3`, `P4-7.4`, `P4-15.2`
+
+<a id="feed-forward-network"></a>
+
+## feed-forward network
+
+- Meaning: 입력이 앞에서 뒤로만 흐르며 각 층을 차례대로 통과하는 신경망 구조, 또는 트랜스포머 안에서 attention 뒤에 붙어 각 위치 표현을 다시 비선형적으로 가공하는 작은 신경망 블록을 가리키는 말입니다. 공통점은 `되돌아가는 순환 없이 현재 입력을 다음 층으로 밀어 보내며 변환한다`는 점입니다.
+- Why it matters: Transformer가 토큰 관계를 읽는 단계와 각 위치 표현을 다시 다듬는 단계를 분리해, 문맥 반영 뒤의 표현 재가공을 반복 가능하게 만듭니다. 동시에 더 넓게는 신경망의 기본 계산 흐름이 `앞으로만 전달되는 층 구조`라는 점을 보여 주기 때문에, 순환 신경망과의 차이도 함께 이해하게 해 줍니다. 결국 피드포워드 네트워크를 이해해야 `관계를 읽는 단계`와 `표현을 다시 가공하는 단계`가 트랜스포머 안에서 어떻게 나뉘는지도 읽게 됩니다. 다시 말해 피드포워드 네트워크는 `문맥을 섞는 일`과 `각 위치 표현을 다시 변환하는 일`을 나누어 보게 하는 블록입니다.
+- Related concepts: `Transformer`, `self-attention`, `layer normalization`
+- Core Section: `P5-14.1`
+- Appears in: `P5-14.2`
+
+<a id="few-shot-prompting"></a>
+
+## few-shot prompting
+
+- Meaning: 현재 프롬프트 안에 몇 개의 입력-출력 예시를 함께 넣어 원하는 패턴을 보여 주는 방식입니다. 규칙을 길게 설명하기보다, `이런 입력에는 이런 식으로 답하라`는 사례를 바로 보여 주는 접근이라고 볼 수 있습니다. 즉 모델 파라미터를 바꾸지 않은 채, 현재 문맥 안의 예시만으로 작업 패턴을 유도하는 방법입니다.
+- Why it matters: 모델을 다시 학습시키지 않고도 형식과 판단 기준을 유도하는 대표 방법이며, 예시가 현재 입력 안에서 어떻게 작동하는지 이해하게 해 줍니다. 이 개념이 있어야 `설명만 주는 프롬프트`와 `패턴 예시까지 주는 프롬프트`의 차이를 구분해 읽을 수 있습니다. 또한 퓨샷 프롬프팅을 이해해야 예시가 많아질수록 도움이 될 수도 있지만, 문맥 길이를 더 쓰고 원치 않는 패턴까지 따라 하게 만들 수 있다는 절충도 함께 보게 됩니다. 결국 퓨샷 프롬프팅은 `모델을 바꾸지 않고도 작업 습관을 문맥 안에서 잠시 빌려 쓰는 방법`으로 읽을 수 있습니다.
+- Related concepts: `example`, `in-context learning`, `prompt`
+- Core Section: `P1-12.2`
+
+<a id="figure"></a>
+
+## Figure
+
+- Meaning: Matplotlib에서 전체 그래프 그림 하나를 감싸는 큰 캔버스 또는 그림 영역입니다. 여러 개의 작은 그래프 칸을 품을 수 있는 바깥 컨테이너라고 생각하면 됩니다. 보고서 한 페이지를 Figure라고 보면, 그 안에 들어가는 개별 그래프 칸들이 Axes에 해당합니다.
+- Why it matters: 여러 그래프를 한 화면에 배치하거나 저장할 때, 개별 그래프 칸과 전체 그림을 구분해야 `subplots`, `savefig` 같은 흐름을 자연스럽게 읽을 수 있기 때문입니다. Figure를 알아야 `무엇을 그리고 있는가`와 `어디에 그리고 있는가`를 나누어 해석할 수 있고, 제목·여백·파일 저장처럼 전체 그림 수준의 설정과 개별 Axes 수준의 설정을 혼동하지 않게 됩니다. 이 구분이 있어야 `savefig`가 한 선만 저장하는 것이 아니라 현재 Figure 전체를 파일로 저장한다는 점도 자연스럽게 이해됩니다.
+- Related concepts: `Axes`, `plot`, `savefig`
+- Core Section: `P2-13.1`
+- Appears in: `P2-13.2`, `P2-13.3`
+
+<a id="filtering"></a>
+
+## filtering
+
+- Meaning: 표나 배열에서 조건에 맞는 일부 행이나 값만 남기는 선택 과정입니다. 데이터를 바꾸는 일이라기보다, 현재 질문에 필요한 부분만 먼저 드러내는 읽기 단계에 가깝습니다. 예를 들어 특정 기간, 특정 클래스, 결측치가 없는 행만 남기는 일이 여기에 해당합니다. 즉 필터링은 `데이터를 고친다`보다 `지금 볼 대상을 추린다`에 가까운 작업입니다.
+- Why it matters: 전체 데이터를 한 번에 보는 대신 현재 질문과 관련된 부분만 남겨야 다음 집계나 그래프 해석이 더 명확해지기 때문입니다. 필터링을 먼저 하느냐 나중에 하느냐에 따라 집계 결과와 해석도 달라질 수 있습니다. 또한 필터링을 이해해야 `무엇을 제외했는가`가 결과 해석의 일부라는 점을 보게 되고, 조건 하나가 데이터 분포와 결론을 얼마나 바꿀 수 있는지도 더 조심해서 읽게 됩니다. 결국 필터링을 이해해야 데이터 분석은 `무엇을 포함했는가`만이 아니라 `무엇을 남기고 무엇을 뺐는가`까지 함께 읽게 됩니다.
+- Related concepts: `aggregation`, `groupby`, `DataFrame`
+- Core Section: `P2-12.2`
+- Appears in: `P1-13.4`
+
+<a id="fine-tuning"></a>
+
+## fine-tuning
+
+- Meaning: 사전학습된 모델을 특정 과업이나 도메인 데이터에 맞게 추가로 조정하는 학습 단계입니다. 이미 넓게 배워 둔 일반 능력을 바탕으로, 특정 말투, 형식, 분류 기준, 업무 지식에 더 잘 맞도록 방향을 다시 맞추는 과정이라고 볼 수 있습니다. 즉 모델을 처음부터 다시 만드는 일이라기보다, 넓게 배운 기반 위에 특정 사용 목적의 습관을 덧입히는 적응 단계에 가깝습니다.
+- Why it matters: 큰 말뭉치에서 먼저 배운 범용 언어 패턴과, 실제 업무 과업에 맞는 적응 단계를 구분하게 해 주기 때문입니다. 이 구분이 있어야 프롬프트만으로 해결할 문제와, 데이터로 모델 자체를 다시 조정해야 할 문제를 나눠 판단할 수 있습니다. 또한 미세조정은 늘 성능만 올리는 마법 단계가 아니라, 어떤 데이터를 어떤 형식으로 넣느냐에 따라 편향과 과적합, 비용 문제가 함께 따라온다는 점도 중요합니다. 결국 미세조정은 `모델을 바꾼다`는 말의 가장 대표적인 실제 형태이면서, 그만큼 데이터 품질과 목적 정의가 더 엄격하게 요구되는 단계입니다.
+- Related concepts: `pretraining`, `in-context learning`, `GPT`
+- Core Section: `P6-8.1`
+- Appears in: `P1-11.3`, `P1-12.1`, `P6-8.2`, `P6-9.3`, `P6-9.5`
+
+<a id="fitting"></a>
+
+## fitting
+
+- Meaning: 주어진 데이터에 맞춰 모델 상태를 조정하거나, 특정 도구의 `fit` 절차를 실행해 예측 가능한 상태로 만드는 과정입니다. `모델을 고른다`가 어떤 틀을 선택하는 일이라면, 적합은 그 틀을 실제 데이터에 맞게 조정하는 단계에 가깝습니다.
+- Why it matters: `learning`과 `training`이 넓은 개념과 절차를 가리킬 때, 실무 코드에서는 `fit`이라는 실행 단위로 같은 변화가 표현된다는 점을 이해해야 하기 때문입니다. 이 개념이 있어야 교재 설명의 학습 개념과 라이브러리 API의 실행 메서드를 자연스럽게 연결하게 되고, `모델을 만든다`와 `데이터에 맞게 적합시킨다`를 구분하게 됩니다. 또한 적합을 이해해야 같은 모델 구조라도 얼마나 데이터에 맞춰졌는지에 따라 과적합과 과소적합의 양상이 달라질 수 있다는 점도 더 분명히 읽게 됩니다. 결국 적합은 `모델 종류를 고르는 일`이 아니라 `선택한 모델을 실제 데이터에 맞추는 일`입니다.
+- Related concepts: `training`, `inference`, `model`
+- Core Section: `P1-5.1`
+
+<a id="fixed-length-vector"></a>
+
+## fixed-length vector
+
+- Meaning: 입력 길이와 상관없이 항상 같은 차원 크기로 압축해 만든 벡터 표현입니다. 짧은 문장이든 긴 문장이든 하나의 같은 크기 통에 요약해서 담는 방식이라고 생각하면 됩니다. 입력이 길어져도 출력 벡터 길이는 늘어나지 않으므로, 많은 정보를 제한된 자리 안에 눌러 담는 구조라고 볼 수 있습니다. 즉 입력 길이가 달라도 모델 바깥에서는 늘 같은 크기의 표현 하나만 받게 되는 압축 방식입니다.
+- Why it matters: 초기 Encoder-Decoder 구조에서는 긴 입력 전체를 하나의 고정 길이 벡터에 담아야 해서 정보 병목이 왜 생겼는지 이해하는 핵심 기준이 되기 때문입니다. 이 개념이 있어야 attention이 왜 `전부 한 번에 압축하지 말고 필요한 위치를 다시 보자`는 방향으로 나아갔는지도 이해하기 쉬워집니다. 예를 들어 아주 긴 문장의 앞부분 정보가 뒤쪽 번역에 계속 중요할 때, 하나의 작은 벡터에만 모두 넣으려 하면 세부 정보가 쉽게 희미해질 수 있습니다. 결국 고정 길이 벡터를 이해해야 `문장을 표현으로 요약한다`는 말의 장점과 한계, 그리고 긴 문맥 처리 구조가 왜 바뀌었는지를 함께 읽게 됩니다.
+- Related concepts: `Encoder-Decoder`, `Attention`, `vector`
+- Core Section: `P1-11.2`
+- Appears in: `P1-9.3`, `P1-11.3`
+
+<a id="follow-up-review-sample"></a>
+
+## follow-up review sample
+
+- Meaning: 실행은 끝났지만 확신 차이가 낮거나, 오분류이거나, coverage가 낮아 다음 반복에서 먼저 다시 봐야 한다고 별도로 표시해 둔 샘플입니다. 단순 오답 전체와 달리, 지금 당장 구조 변경이나 데이터 보강 판단에 더 직접적인 단서를 줄 것 같은 사례를 따로 고정한 표지라고 볼 수 있습니다. 즉 추가 검토 샘플은 `나중에 다시 보자`가 아니라 `다음 반복의 첫 재검토 후보`를 문서 안에 명시한 기록입니다.
+- Why it matters: 모든 실패 샘플을 같은 강도로 다시 볼 수는 없으므로, 실제로 어떤 샘플이 다음 조치와 가장 직접 연결되는지를 따로 남겨 두어야 회고와 개선 계획이 흐려지지 않기 때문입니다. 이 개념이 있어야 단순 오답 목록과 우선 재검토 대상이 구분되고, 샘플별 비교표와 평가 기록도 `무엇을 먼저 다시 볼 것인가`라는 실제 작업 순서 위에서 다시 읽게 됩니다. 또한 추가 검토 샘플을 이해해야 Part 7의 실행 요약이 점수 보관이 아니라 다음 질문을 여는 작업 메모라는 점도 더 선명하게 읽게 됩니다.
+- Related concepts: `review target`, `evaluation record`, `execution summary`, `error case`, `priority`
+- Core Section: `P7-3.1`
+- Appears in: `P7-3.2`, `P7-4.2`, `P7-summary`
+
+<a id="forecast"></a>
+
+## forecast
+
+- Meaning: 앞으로 어떤 변화가 일어날 수 있는지 근거를 바탕으로 말하는 문장이나 자료입니다. 중요한 점은 `아직 일어나지 않은 일`을 다루므로, 현재 데이터와 과거 추세, 가정한 조건, 해석자의 판단이 함께 섞여 있고 그만큼 불확실성도 같이 따라온다는 점입니다.
+- Why it matters: AI가 만든 그럴듯한 미래 이야기를 사실처럼 옮기지 않고, 누가 언제 어떤 근거로 말했는지 따져 보게 만들기 때문입니다. 이 개념이 있어야 현재 관측값, 과거 추세, 해석자의 가정이 한 문장 안에서 어떻게 섞여 있는지 분리해 읽게 되고, 전망 자료를 근거 없는 단정과 구분하는 기본 기준도 잡게 됩니다. 예를 들어 `AI 일자리가 늘어날 것이다`라는 문장만 보면 단정처럼 들리지만, 실제로는 어느 산업을 기준으로 했는지, 어떤 기간을 보는지, 자동화와 신규 수요를 어떻게 가정했는지 함께 확인해야 합니다.
+- Related concepts: `scenario`, `indicator`, `prediction`
+- Core Section: `P1-17.1`
+- Appears in: `P1-17.3`
+
+<a id="function"></a>
+
+## function
+
+- Meaning: 입력을 받아 어떤 규칙에 따라 출력을 만드는 관계입니다. 수학에서는 입력-출력 대응 관계를 뜻하고, 프로그래밍에서는 그 관계를 코드로 묶어 재사용 가능한 계산 단위로 만든 것을 가리키기도 합니다. 즉 함수는 `이 값을 넣으면 이런 값이 나온다`는 대응 규칙을 명시적으로 다루는 가장 기본적인 틀입니다.
+- Why it matters: AI에서는 손실 함수, 활성화 함수, 예측 함수처럼 많은 개념이 함수 언어로 표현됩니다. 함수 감각이 있어야 `무엇을 넣으면 무엇이 나오는가`, `어떤 계산을 묶어 반복 사용하는가`를 공통 구조로 읽을 수 있습니다. 또한 수학식의 함수와 Python의 함수가 완전히 다른 것이 아니라, 입력과 출력 관계를 더 명시적으로 다루는 같은 사고 틀이라는 점도 함께 이해하게 됩니다. 이 개념이 있어야 수학과 코드가 따로 노는 것이 아니라 같은 계산 구조를 다른 표현으로 적는 일이라는 감각도 생깁니다.
+- Related concepts: `variable`, `expression`, `model`
+- Core Section: `P2-2.1`
+- Appears in: `P2-4.2`, `P2-4.3`, `P2-6.2`, `P2-8.5`, `P2-10.3`
+
+<a id="function-calling"></a>
+
+## function calling
+
+- Meaning: 모델이 어떤 도구를 어떤 인자(arguments)로 호출해야 하는지 구조화된 형식으로 표현하게 하는 방식입니다. 단순히 `이 도구를 써야 한다`고 말하는 것이 아니라, 함수 이름과 입력 필드를 기계가 읽을 수 있는 형태로 분명히 적어 내는 단계라고 볼 수 있습니다. 즉 함수 호출은 자연어 의도와 실제 시스템 실행 사이를 잇는 인터페이스 층입니다.
+- Why it matters: 자연어 실행 요청을 이름과 인자가 분리된 검증 가능한 구조로 바꿔야 시스템이 허용 도구 확인, 인자 검증, 승인 요구를 안정적으로 처리할 수 있기 때문입니다. 이 개념이 있어야 자연어 의도와 실제 실행 명세를 분리해 읽게 되고, 안전한 자동화가 왜 구조화된 호출 형식에 의존하는지도 이해하게 됩니다. 예를 들어 날씨를 묻는 문장을 그대로 실행하는 것과 `location`, `date` 필드를 담은 구조화 호출을 만드는 것은 운영 안정성에서 큰 차이가 납니다. 결국 함수 호출을 이해해야 도구 사용이 단순 답변 생성이 아니라, 입력 계약을 가진 시스템 연동 문제라는 점도 더 선명하게 읽게 됩니다.
+- Related concepts: `tool use`, `agent`, `Model Context Protocol, MCP`
+- Core Section: `P6-13.2`
+- Appears in: `P6-14.1`

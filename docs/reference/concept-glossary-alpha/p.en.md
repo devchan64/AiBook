@@ -1,38 +1,325 @@
 # Concept Glossary: P
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [package](/AiBook/reference/concept-glossary-parts/13-pieup/#package) — 패키지 — Core Section: `P2-7.4`
-- [parallel processing](/AiBook/reference/concept-glossary-parts/06-bieup/#parallel-processing) — 병렬 처리 — Core Section: `P5-9.1`
-- [parameter](/AiBook/reference/concept-glossary-parts/05-mieum/#parameter) — 매개변수 — Core Section: `P2-8.5`
-- [parameter](/AiBook/reference/concept-glossary-parts/13-pieup/#parameter) — 파라미터 — Core Section: `P1-4.3`
-- [parametric memory](/AiBook/reference/concept-glossary-parts/13-pieup/#parametric-memory) — 파라메트릭 메모리 — Core Section: `P1-13.3`
-- [partial derivative](/AiBook/reference/concept-glossary-parts/13-pieup/#partial-derivative) — 편미분 — Core Section: `P2-4.3`
-- [partial observability](/AiBook/reference/concept-glossary-parts/06-bieup/#partial-observability) — 부분 관측 — Core Section: `P1-6.1`
-- [PATH](/AiBook/reference/concept-glossary-parts/13-pieup/#path) — 패스 환경 변수 — Core Section: `P2-7.9`
-- [perceptron](/AiBook/reference/concept-glossary-parts/13-pieup/#perceptron) — 퍼셉트론 — Core Section: `P5-1.1`
-- [permission](/AiBook/reference/concept-glossary-parts/01-giyeok/#permission) — 권한 — Core Section: `P7-6.2`
-- [personal learning](/AiBook/reference/concept-glossary-parts/01-giyeok/#personal-learning) — 개인 학습 — Core Section: `P1-16.1`
-- [pip](/AiBook/reference/concept-glossary-parts/13-pieup/#pip) — pip — Core Section: `P2-7.4`
-- [pipe](/AiBook/reference/concept-glossary-parts/13-pieup/#pipe) — 파이프 — Core Section: `P2-7.8`
-- [plot](/AiBook/reference/concept-glossary-parts/01-giyeok/#plot) — 그래프 — Core Section: `P2-13.1`
-- [policy](/AiBook/reference/concept-glossary-parts/09-jieut/#policy) — 정책 — Core Section: `P1-8.3`
-- [policy-based reinforcement learning](/AiBook/reference/concept-glossary-parts/09-jieut/#policy-based-reinforcement-learning) — 정책 기반 강화학습 — Core Section: `P4-19.2`
-- [pooling](/AiBook/reference/concept-glossary-parts/13-pieup/#pooling) — 풀링 — Core Section: `P5-11.2`
-- [population](/AiBook/reference/concept-glossary-parts/05-mieum/#population) — 모집단 — Core Section: `P2-5.3`
-- [positional encoding](/AiBook/reference/concept-glossary-parts/08-ieung/#positional-encoding) — 위치 인코딩 — Core Section: `P1-11.3`
-- [prediction](/AiBook/reference/concept-glossary-parts/08-ieung/#prediction) — 예측 — Core Section: `P1-10.1`
-- [preprocessing](/AiBook/reference/concept-glossary-parts/09-jieut/#preprocessing) — 전처리 — Core Section: `P4-7.2`
-- [pretraining](/AiBook/reference/concept-glossary-parts/07-siot/#pretraining) — 사전학습 — Core Section: `P1-11.3`
-- [priority](/AiBook/reference/concept-glossary-parts/08-ieung/#priority) — 우선순위 — Core Section: `P7-7.3`
-- [privacy](/AiBook/reference/concept-glossary-parts/01-giyeok/#privacy) — 개인정보 — Core Section: `P1-15.3`
-- [probabilistic model](/AiBook/reference/concept-glossary-parts/14-hieut/#probabilistic-model) — 확률 모델 — Core Section: `P1-7.3`
-- [probabilistic reasoning](/AiBook/reference/concept-glossary-parts/14-hieut/#probabilistic-reasoning) — 확률 추론 — Core Section: `P1-2.2`
-- [probability](/AiBook/reference/concept-glossary-parts/14-hieut/#probability) — 확률 — Core Section: `P2-5.1`
-- [probability estimate](/AiBook/reference/concept-glossary-parts/14-hieut/#probability-estimate) — 확률 추정값 — Core Section: `P1-7.3`
-- [productivity](/AiBook/reference/concept-glossary-parts/07-siot/#productivity) — 생산성 — Core Section: `P1-16.2`
-- [prompt](/AiBook/reference/concept-glossary-parts/13-pieup/#prompt) — 프롬프트 — Core Section: `P1-12.1`
-- [prompt engineering](/AiBook/reference/concept-glossary-parts/13-pieup/#prompt-engineering) — 프롬프트 엔지니어링 — Core Section: `P6-10.1`
-- [prompt injection](/AiBook/reference/concept-glossary-parts/13-pieup/#prompt-injection) — 프롬프트 인젝션 — Core Section: `P1-15.3`
-- [prompt structuring](/AiBook/reference/concept-glossary-parts/13-pieup/#prompt-structuring) — 프롬프트 구조화 — Core Section: `P1-12.2`
-- [provenance](/AiBook/reference/concept-glossary-parts/11-chieut/#provenance) — 출처 추적 — Core Section: `P1-13.3`
+<a id="package"></a>
+
+## package
+
+- Meaning: Python에서 `import`해 가져다 쓸 수 있도록 배포된 코드 묶음입니다. 언어 자체에 기본 포함된 것이 아니라, 필요에 따라 설치하고 불러와 쓰는 기능 단위에 가깝습니다. 즉 Python은 바탕 언어이고, 패키지는 그 위에 필요한 기능을 덧붙이는 부품 묶음이라고 이해하면 됩니다.
+- Why it matters: NumPy, Pandas 같은 실습 도구를 Python 언어 자체와 구분해 이해해야 설치와 사용 단계를 올바르게 나눌 수 있기 때문입니다. 패키지 개념이 있어야 `문법 오류`와 `설치되지 않은 도구 오류`를 따로 읽을 수 있습니다. 또한 패키지를 이해해야 `코드는 맞는데 import가 안 된다`는 상황을 언어 문제보다 환경 문제로 해석하게 되고, 프로젝트마다 필요한 의존성 목록을 관리해야 하는 이유도 자연스럽게 이어집니다. 초심자에게는 `Python을 설치했다`와 `필요한 패키지까지 준비됐다`가 다른 말이라는 점을 이해하는 기준이기도 합니다.
+- Related concepts: `virtual environment`, `pip`, `dependency`
+- Core Section: `P2-7.4`
+- Appears in: `P2-7.5`, `P2-10.1`, `P2-10.2`
+
+<a id="parallel-processing"></a>
+
+## parallel processing
+
+- Meaning: 서로 비슷하거나 독립적인 여러 계산을 한 줄로 차례대로 하지 않고, 여러 계산 자원에 나누어 동시에 처리하는 방식입니다. 핵심은 `무조건 빨리 돌린다`가 아니라, 같은 종류의 계산을 한꺼번에 묶어 계산기 구조에 맞게 배치하는 데 있습니다. 그래서 병렬 처리는 알고리즘 아이디어와 하드웨어 활용 방식이 만나는 지점이라고 볼 수 있습니다.
+- Why it matters: 딥러닝 계산은 같은 연산을 많은 데이터 조각과 많은 파라미터에 반복 적용하는 경우가 많아, `한 번에 많이 처리할수록 유리한 구조`라는 점을 읽어야 GPU와 텐서 연산의 장점이 함께 연결되기 때문입니다. 이 개념이 있어야 속도 차이를 단순한 기계 성능 차이로 보지 않고, 문제를 어떤 형태의 계산으로 바꾸었는지가 효율을 좌우한다는 점도 이해하게 됩니다. 예를 들어 샘플 하나씩 순서대로 처리하던 계산을 행렬 곱 한 번으로 바꾸면, 같은 수학이라도 실제 실행 시간과 자원 사용 패턴은 크게 달라질 수 있습니다.
+- Related concepts: `graphics processing unit`, `batch`, `matrix multiplication`
+- Core Section: `P5-9.1`
+- Appears in: `P5-14.2`
+
+<a id="parameter"></a>
+
+## parameter
+
+- Meaning: 함수를 정의할 때 입력 자리를 나타내기 위해 적는 이름입니다. 아직 실제 값이 들어오기 전, `이 함수는 이런 자리에 값을 받는다`고 약속해 두는 이름표라고 볼 수 있습니다. 즉 매개변수는 호출 시점의 실제 값이 아니라, 그 값을 받아 둘 자리를 미리 정의한 이름입니다.
+- Why it matters: 실제로 넘겨지는 인자와 함수 안에서 사용할 입력 이름을 구분해야 함수의 입력 계약을 정확히 읽을 수 있기 때문입니다. 이 개념이 있어야 함수 정의를 볼 때 `무엇을 받을 준비를 해 두었는가`와 실제 호출에서 `무엇이 들어왔는가`를 분리하게 되고, 코드 예시를 읽을 때도 입력 규칙을 더 안정적으로 따라가게 됩니다. 또한 매개변수를 이해해야 모델 파라미터(parameter)와 함수 매개변수(parameter)가 전혀 다른 층위의 말이라는 점도 더 분명히 구분하게 됩니다.
+- Related concepts: `argument`, `function`, `return value`
+- Core Section: `P2-8.5`
+- Appears in: `P2-8.6`, `P2-10.3`, `P2-15.2`
+
+<a id="parametric-memory"></a>
+
+## parametric memory
+
+- Meaning: 모델이 학습 과정에서 파라미터 안에 압축해 둔 내부 지식입니다. 문장을 그대로 저장한 데이터베이스라기보다, 학습 과정에서 가중치 속에 스며든 경향성과 패턴 지식에 가깝습니다. 즉 필요할 때 원문을 꺼내 읽는 저장소라기보다, 모델의 반응 습관과 연결 강도로 흡수된 기억에 더 가깝습니다.
+- Why it matters: RAG를 이해할 때 모델이 원래 알고 있는 것과, 외부 문서에서 새로 가져오는 자료를 구분하는 기준이 됩니다. 이 개념이 있어야 `모델 파라미터 안에 든 지식`과 `검색으로 붙여 주는 최신 근거`를 섞지 않고 설명할 수 있고, 둘을 왜 다른 갱신 방식으로 다뤄야 하는지도 이해하게 됩니다. 또한 파라메트릭 메모리를 이해해야 미세조정으로 바꾸기 쉬운 것과, 문서 교체만으로 빠르게 갱신할 수 있는 것이 다르다는 점도 더 선명하게 읽게 됩니다. 결국 파라메트릭 메모리는 `모델이 원래 품고 있는 지식`을 말할 때 쓰는 내부 기억 이름입니다.
+- Related concepts: `non-parametric memory`, `retrieval-augmented generation, RAG`, `parameter`
+- Core Section: `P1-13.3`
+
+<a id="partial-derivative"></a>
+
+## partial derivative
+
+- Meaning: 입력이 여러 개일 때 그중 하나만 바꿨다고 보고 계산한 변화율입니다. 나머지 변수는 잠시 고정해 둔 채, 특정 방향으로만 얼마나 민감하게 값이 바뀌는지를 읽는 도구라고 볼 수 있습니다. 즉 여러 변수가 얽힌 문제를 `지금은 이 변수 하나의 영향만 본다`는 방식으로 나누어 보는 셈입니다. 한꺼번에 모든 변화를 보지 않고, 변수별 책임을 따로 읽는 미분 방식이라고 이해하면 됩니다.
+- Why it matters: 여러 파라미터가 있는 손실 함수에서 각 방향의 민감도를 따로 읽어야 그래디언트를 이해할 수 있습니다. 이 개념이 있어야 `전체 변화`와 `특정 파라미터 하나의 영향`을 구분하고, 역전파가 왜 파라미터별 업데이트 신호를 줄 수 있는지 이해하게 됩니다. 또한 다변수 문제에서도 변화율을 포기하는 것이 아니라, 방향별 기여를 쪼개어 보고 다시 모아 학습 방향을 정한다는 점이 더 분명해집니다. 결국 편미분은 `어느 파라미터를 조금 바꾸면 손실이 어느 쪽으로 얼마나 달라지는가`를 읽는 기본 문법이 됩니다.
+- Related concepts: `derivative`, `gradient`, `parameter`
+- Core Section: `P2-4.3`
+- Appears in: `P2-4.4`, `P2-6.3`
+
+<a id="partial-observability"></a>
+
+## partial observability
+
+- Meaning: 전체 상태 가운데 지금 보이는 일부 정보만 가지고 판단해야 하는 조건입니다. 세계 전체는 더 크지만, 현재 관찰 창에는 그 일부 신호만 들어오는 상황이라고 이해하면 됩니다. 즉 정보가 아예 없는 경우와 달리, 일부는 보이지만 전체는 가려져 있는 상태입니다.
+- Why it matters: 관측된 입력이 곧 전체 현실은 아니라는 점을 분리해 읽게 해 주어, 왜 메모리, 추가 관측, 추정, 사람 확인이 필요한지 설명해 주기 때문입니다. 이 개념이 있어야 `지금 보이는 신호가 약해서 틀린가`와 `애초에 중요한 부분이 안 보이는가`를 구분하게 되고, 에이전트·센서·대화 시스템에서 현재 문맥만으로 답을 확정하기 어려운 이유도 더 선명하게 이해하게 됩니다. 결국 부분 관측은 모델 성능 문제가 아니라 정보 조건의 한계일 수 있다는 점을 붙잡게 합니다. 예를 들어 자율주행 차량이 도로 전체가 아니라 현재 센서가 비추는 일부만 보고 있다면, 판단 오류는 규칙이 나빠서가 아니라 관찰 창 자체가 제한된 데서 나올 수 있습니다.
+- Related concepts: `incomplete information`, `noise`, `search`
+- Core Section: `P1-6.1`
+- Appears in: `P1-6.2`
+
+<a id="path"></a>
+
+## PATH
+
+- Meaning: 터미널이 명령 이름만 보고 실행 파일을 찾을 때 참고하는 위치 목록입니다. 즉 `python`, `pip`, `git`처럼 짧은 이름만 쳐도 셸이 어느 폴더를 먼저 뒤져 실행 파일을 찾을지 정해 둔 검색 경로라고 볼 수 있습니다.
+- Why it matters: Python이 설치되어 있어도 `python` 명령이 잡히지 않는 문제를 설치 실패와 명령 연결 문제로 구분하게 해 주기 때문입니다. 이 개념이 있어야 `프로그램이 없다`와 `프로그램은 있는데 셸이 찾지 못한다`를 분리해 읽게 되고, 가상환경이나 여러 버전의 실행기가 왜 서로 다른 경로 우선순위를 가질 수 있는지도 이해하게 됩니다. 또한 PATH를 이해해야 `같은 이름의 명령이 왜 환경마다 다른 프로그램을 실행하는가`를 해석하게 되고, 실행 문제를 코드 오류가 아니라 경로 우선순위 문제로 진단하는 감각도 생깁니다.
+- Related concepts: `environment variable`, `interpreter`, `terminal`
+- Core Section: `P2-7.9`
+- Appears in: `P2-10.2`, `P2-10.3`
+
+<a id="perceptron"></a>
+
+## perceptron
+
+- Meaning: 여러 입력에 가중치를 곱해 더한 뒤, 편향을 더하고, 그 결과를 기준으로 출력을 만드는 가장 단순한 신경망 판단 단위입니다. 즉 `입력들을 한 번 섞어 점수를 만들고, 그 점수로 반응을 정하는 계산`의 출발점이라고 볼 수 있습니다. 복잡한 딥러닝 모델도 이 작은 계산 단위가 층층이 겹친 형태로 이해할 수 있습니다.
+- Why it matters: 신경망이 무엇을 계산하는지 처음 보여 주는 출발점입니다. 가중치, 편향, 선형 결합, 활성화가 이후 다층 구조로 이어지는 기본 문법이 모두 여기서 드러나므로, 퍼셉트론을 이해하면 복잡한 신경망도 `작은 판단 단위가 겹겹이 쌓인 구조`로 읽기 쉬워집니다. 또한 퍼셉트론을 이해해야 신경망의 힘이 마법적 지능에서 오기보다, 단순 계산 단위를 많이 조합해 복잡한 경계를 만들 수 있다는 점에서 나온다는 감각도 생깁니다. 결국 퍼셉트론은 `신경망이 실제로 무슨 계산을 하는가`를 가장 작게 보여 주는 기본 블록입니다.
+- Related concepts: `weight`, `bias`, `linear combination`, `activation function`
+- Core Section: `P5-1.1`
+- Appears in: `P5-1.2`, `P5-2.1`
+
+<a id="permission"></a>
+
+## permission
+
+- Meaning: 어떤 도구나 동작을 어디까지 허용할지 정한 실행 가능 범위입니다. 같은 기능이라도 `읽기만 가능한가`, `수정까지 가능한가`, `외부 세계에 실제 변화를 일으킬 수 있는가`처럼 허용 범위가 층위별로 나뉠 수 있고, 누가 어떤 조건에서 그 범위를 갖는지도 함께 정해집니다. 즉 권한은 실행 전에 미리 잘라 둔 가능 범위이며, 개별 행동을 그때그때 허락할지 묻는 승인과는 다른 층위의 통제 장치입니다.
+- Why it matters: 같은 도구 호출도 읽기, 쓰기, 배포처럼 위험도와 허용 범위가 다르므로, `실행할 수 있다`와 `실행해도 된다`를 구분해야 운영 판단과 책임 경계가 분명해지기 때문입니다. 이 구분이 있어야 모델 능력과 제도적 허용 범위를 섞지 않게 되고, 승인 절차가 왜 권한과 별개로 또 필요한지도 이해하게 됩니다. 결국 권한은 `가능한 행동의 바깥 경계`를 정하는 장치이고, 안전성과 검토는 그 경계 안에서 지금 무엇을 실제로 할지 다시 판단하는 장치라는 점이 함께 읽혀야 합니다. 또한 권한을 이해해야 작은 프롬프트 실수도 넓은 쓰기 권한과 결합하면 큰 피해로 이어질 수 있다는 점도 더 분명하게 보게 됩니다.
+- Related concepts: `approval`, `tool use`, `log`, `accountability`
+- Core Section: `P7-6.2`
+- Appears in: `P6-13.1`, `P6-15.2`, `P6-17.2`, `P7-6.1`
+
+<a id="personal-learning"></a>
+
+## personal learning
+
+- Meaning: 스스로 잊은 개념을 다시 익히고, 질문과 근거를 정리하며 이해를 회복하는 학습 과정입니다. 단순 암기보다 `무엇을 모르고 있는지 드러내고, 그 빈칸을 다시 메우는 과정`에 더 가까운 재학습 흐름이라고 볼 수 있습니다.
+- Why it matters: AI를 정답 기계가 아니라, 잊은 개념을 다시 떠올리고 질문을 정리하며 근거를 대조하는 재학습 보조 도구로 쓰는 가장 현실적인 장면을 보여 주기 때문입니다. 이 개념이 있어야 `무엇을 외워서 끝내는가`보다 `어떤 질문 흐름으로 이해를 복구하는가`에 초점을 맞추게 되고, 초안 생성과 근거 검토를 함께 묶는 학습 방식도 더 자연스럽게 이해하게 됩니다. 또한 개인 학습을 이해해야 동일한 AI 도구라도 시험 정답을 대신 받는 용도와, 개념 복구와 설명 정리에 쓰는 용도가 다르다는 점도 더 분명하게 구분하게 됩니다. 결국 개인 학습은 `답을 받는 일`보다 `이해 구조를 다시 세우는 일`에 더 가깝습니다.
+- Related concepts: `documentation`, `working hypothesis`, `evidence review`
+- Core Section: `P1-16.1`
+
+<a id="pip"></a>
+
+## pip
+
+- Meaning: Python 패키지를 설치하고 관리할 때 자주 쓰는 도구입니다. Python 언어 자체의 일부라기보다, 바깥에서 필요한 라이브러리를 내려받고 현재 환경에 연결해 주는 패키지 관리자에 가깝습니다. 즉 `코드를 실행하는 도구`라기보다 `실행에 필요한 부품을 환경에 붙이는 도구`라고 이해하는 편이 정확합니다.
+- Why it matters: 패키지 설치가 Python 코드 안이 아니라 터미널 명령과 실행 환경 관리의 문제라는 점을 보여 줍니다. 이 개념이 있어야 `문법 문제`, `패키지 미설치 문제`, `가상환경이 다른 문제`를 분리해서 읽을 수 있습니다. 또한 pip를 이해해야 설치는 성공했는데 다른 환경에 설치된 경우를 해석하게 되고, `어느 인터프리터의 pip인가`를 함께 확인해야 하는 이유도 자연스럽게 이어집니다. 초심자에게는 `코드가 틀렸다`와 `환경이 비어 있다`를 구분하는 첫 관문이기도 합니다.
+- Related concepts: `package`, `virtual environment`, `requirements.txt`
+- Core Section: `P2-7.4`
+- Appears in: `P2-7.5`, `P2-10.2`, `P2-12.3`
+
+<a id="pipe"></a>
+
+## pipe
+
+- Meaning: 한 명령의 출력을 다음 명령의 입력으로 넘기는 연결 표기입니다. 즉 명령을 나란히 쓰는 것이 아니라, 앞 단계 결과를 뒤 단계 재료로 흘려보내는 셸 연결입니다. `결과를 화면에만 보여 주고 끝내는가`가 아니라 `다음 명령이 바로 이어 받아 처리하는가`를 결정하는 흐름 표기라고 볼 수 있습니다.
+- Why it matters: 긴 출력 처리와 여러 단계 명령 연결을 문서에서 읽을 때 결과가 어떻게 흘러가는지 이해하게 해 줍니다. 파이프를 읽을 수 있어야 여러 작은 명령이 하나의 처리 흐름으로 묶이는 이유가 보이고, `파일에 저장하는 일`과 `출력을 바로 다음 단계로 넘기는 일`도 구분해 이해할 수 있습니다. 또한 파이프를 이해해야 복잡한 셸 명령을 `앞 단계가 무엇을 만들고 뒤 단계가 무엇을 소비하는가`의 연쇄로 읽게 되어, 명령어 문법을 외우는 것보다 처리 흐름을 파악하는 데 더 도움이 됩니다.
+- Related concepts: `redirection`, `shell script`, `terminal`
+- Core Section: `P2-7.8`
+- Appears in: `P2-12.3`
+
+<a id="plot"></a>
+
+## plot
+
+- Meaning: 숫자나 표 데이터를 선, 점, 막대, 구간 같은 시각적 모양으로 바꾸어 보여 주는 그림입니다. 같은 숫자 집합이라도 어떤 축에 놓고 어떤 표식으로 그리느냐에 따라, 독자가 먼저 읽게 되는 관계가 달라집니다. 즉 그래프는 숫자를 보기 좋게 꾸미는 그림이 아니라, 숫자 관계를 눈으로 읽게 바꾼 표현 방식입니다.
+- Why it matters: 표에서는 바로 드러나지 않는 변화, 관계, 분포를 더 빨리 읽게 해 주어, 계산과 표 해석 다음 단계의 시각적 점검 도구가 되기 때문입니다. 이 개념이 있어야 `값을 계산했다`와 `패턴을 읽었다` 사이에 시각화라는 중간 해석 단계가 있다는 점이 분명해지고, 어떤 그래프를 고르느냐에 따라 독자가 먼저 보게 되는 관계도 달라진다는 점을 이해하게 됩니다. 즉 그래프는 단순 장식이 아니라, 숫자에서 무엇을 먼저 읽게 할지 정하는 해석 장치입니다.
+- Related concepts: `visualization`, `Figure`, `Axes`
+- Core Section: `P2-13.1`
+- Appears in: `P2-13.2`, `P2-13.3`, `P2-15.1`
+
+<a id="policy"></a>
+
+## policy
+
+- Meaning: 현재 상태나 관측을 보고 어떤 행동을 선택할지 정하는 기준 또는 함수입니다. 한 번의 정답을 찍는 규칙이라기보다, 상황이 달라질 때마다 어떤 행동 습관을 유지할지를 정하는 반복적 선택 기준에 가깝습니다. 즉 정책은 `이 상황이면 이 행동`이라는 대응표일 수도 있고, 각 행동의 확률을 정하는 규칙일 수도 있습니다.
+- Why it matters: 강화학습이 한 번의 정답을 맞히는 문제가 아니라, 상황이 달라져도 반복해서 괜찮은 행동을 고르는 방식을 배우는 문제라는 점을 가장 직접적으로 보여 주기 때문입니다. 이 개념이 있어야 `이번 한 번 잘 맞히는가`와 `여러 단계에서 일관되게 좋은 선택을 하는가`를 구분해 읽게 되고, 상태 표현이 달라지면 정책도 함께 달라져야 한다는 점도 자연스럽게 이해하게 됩니다. 또한 정책을 이해해야 모델이 직접 예측하는 것이 값인지 행동 점수인지 행동 확률인지에 따라 학습 방식이 달라진다는 점도 더 쉽게 연결됩니다.
+- Related concepts: `reinforcement learning`, `state`, `action`
+- Core Section: `P1-8.3`
+- Appears in: `P1-14.3`, `P4-2.3`, `P4-11.1`, `P4-19.1`, `P4-19.2`
+
+<a id="policy-based-reinforcement-learning"></a>
+
+## policy-based reinforcement learning
+
+- Meaning: 상태와 행동의 값을 먼저 점수표로 만드는 대신, 어떤 행동을 선택할 정책 자체를 직접 조정하며 더 큰 보상을 얻도록 학습하는 강화학습 접근입니다. 즉 `상황별 점수를 계산한 뒤 고른다`보다 `행동 규칙 자체를 바로 바꾼다`는 쪽에 더 가깝습니다. 현재 상태에서 어떤 행동을 어느 확률로 고를지 직접 출력하는 정책을 조금씩 업데이트한다고 생각하면 됩니다.
+- Why it matters: 값(value)을 거쳐 행동을 고르는 관점과 달리, 행동 방식을 직접 최적화하는 강화학습 계보를 따로 읽게 해 주기 때문입니다. 이 개념이 있어야 value-based 방법과 policy-based 방법이 같은 강화학습 안에서도 무엇을 직접 학습 대상으로 삼는지가 다르다는 점을 분명히 이해할 수 있습니다. 또한 정책 자체를 바로 조정하는 접근이 연속 행동 공간이나 확률적 행동 선택과 어떻게 연결되는지도 더 자연스럽게 읽게 됩니다. 즉 `어떤 행동이 좋은가를 점수로 매길 것인가`와 `행동 규칙을 바로 다듬을 것인가`라는 두 관점을 비교하는 기준점이 됩니다.
+- Related concepts: `reinforcement learning`, `policy`, `policy gradient`
+- Core Section: `P4-19.2`
+- Appears in: `P4-2.3`, `P4-19.3`, `P4-19.4`
+
+<a id="pooling"></a>
+
+## pooling
+
+- Meaning: feature map에서 지역적으로 강한 반응을 요약해 더 작고 압축된 형태로 넘기는 연산입니다. 예를 들어 작은 구역 안에서 가장 큰 값만 남기거나 평균을 내어, 세부 위치 정보를 일부 줄이는 대신 핵심 반응을 요약하는 단계라고 볼 수 있습니다.
+- Why it matters: 공간 크기를 줄이면서도 중요한 지역 반응을 남겨, CNN이 더 큰 시각 단서를 단계적으로 읽게 해 주기 때문입니다. 이 개념이 있어야 합성곱 뒤에 왜 바로 다음 층으로 넘기지 않고 일부 요약 단계를 두는지 이해하게 되고, 해상도 축소와 중요한 패턴 보존 사이의 절충도 함께 읽게 됩니다. 또한 풀링을 이해해야 `어디에 있었는가`보다 `있었는가`가 더 중요해지는 장면이 있다는 점, 반대로 위치 정보가 중요하면 과한 풀링이 손해가 될 수 있다는 점도 함께 해석하게 됩니다. 결국 풀링은 정보 손실이 아니라 `어떤 정보를 남기고 어떤 세부는 버릴지`를 정하는 요약 선택입니다.
+- Related concepts: `convolution`, `feature map`, `CNN, convolutional neural network`
+- Core Section: `P5-11.2`
+
+<a id="population"></a>
+
+## population
+
+- Meaning: 우리가 알고 싶어 하는 전체 대상입니다. 실제로 손에 든 데이터 몇 건이 아니라, 그 데이터가 대표한다고 가정하는 더 넓은 전체 집합이라고 볼 수 있습니다. 즉 모집단은 `지금 측정한 표본`이 아니라, 그 표본이 대신 말해 주길 기대하는 바깥 전체입니다.
+- Why it matters: 표본이 무엇의 일부인지 분명히 해야 추정과 오차를 올바르게 읽을 수 있기 때문입니다. 이 개념이 있어야 손에 쥔 데이터셋이 `전체 현실`이 아니라 그 일부 관측이라는 점을 놓치지 않게 되고, 표본에서 얻은 평균과 분포를 왜 곧바로 전체 사실로 단정하면 안 되는지도 자연스럽게 이해하게 됩니다. 결국 모집단을 먼저 정해야 `무엇에 대해 말하고 있는가`가 분명해지고, 평가 결과를 어디까지 일반화할 수 있는지도 더 조심해서 읽게 됩니다. AI 데이터셋을 볼 때도 `이 데이터가 어떤 현실 전체를 대표한다고 보는가`를 먼저 묻는 습관과 연결됩니다.
+- Related concepts: `sample`, `estimation`, `error`
+- Core Section: `P2-5.3`
+- Appears in: `P2-5.4`, `P2-6.1`
+
+<a id="positional-encoding"></a>
+
+## positional encoding
+
+- Meaning: 토큰 자체의 의미 벡터와 별도로, 그 토큰이 시퀀스의 어느 위치에 있는지 알려 주는 정보입니다. 즉 같은 단어라도 문장 맨 앞에 있는지, 중간에 있는지, 뒤에 있는지를 모델이 구분할 수 있게 덧붙이는 위치 정보라고 볼 수 있습니다.
+- Why it matters: Transformer가 순차 recurrence 없이도 단어 순서를 반영할 수 있게 해 주는 기본 장치이기 때문입니다. 이 개념이 있어야 self-attention이 토큰들 사이 관계를 잘 본다고 해도, 순서 정보가 따로 들어가지 않으면 `누가 먼저 왔는가`를 구분하기 어렵다는 점을 이해하게 됩니다. 결국 위치 인코딩은 `무슨 토큰인가`와 `어디에 놓였는가`를 함께 읽게 만드는 장치입니다. 또한 위치 인코딩을 이해해야 토큰 의미 정보만으로는 문장 순서를 충분히 설명할 수 없다는 점도 더 분명히 읽게 됩니다.
+- Related concepts: `Transformer`, `self-attention`, `token`
+- Core Section: `P1-11.3`
+- Appears in: `P6-4.3`
+
+<a id="prediction"></a>
+
+## prediction
+
+- Meaning: 주어진 입력이나 현재 정보에서 다음 값, 상태, 범주, 사건이 어떻게 될지 추정하는 일입니다. 머신러닝에서는 숫자를 맞히는 회귀와 범주를 맞히는 분류를 모두 넓게 보면 예측의 하위 형태로 읽을 수 있습니다. 즉 예측은 `앞으로 무슨 일이 벌어질까`뿐 아니라 `이 입력은 어떤 결과에 해당할까`까지 포함하는 넓은 문제 틀입니다.
+- Why it matters: 머신러닝에서는 분류와 회귀도 넓게 보면 예측 문제로 읽히므로, 입력과 현재 정보를 바탕으로 어떤 결과를 추정하는가를 문제 유형 차원에서 먼저 구분해야 하기 때문입니다. 또 `예측`을 미래 전망과 같은 말로 뭉개지지 않게 해 줍니다. 이 개념이 있어야 `무엇을 알아차리는가`를 묻는 인식, `무엇을 추천할까`를 묻는 순위화, `무엇을 실제로 할까`를 묻는 제어를 각각 다른 문제로 구분해 읽을 수 있습니다. 결국 예측을 이해해야 같은 추정 행위도 출력이 숫자인지, 범주인지, 행동 선택인지에 따라 다른 문제로 갈라진다는 점을 읽게 됩니다.
+- Related concepts: `classification`, `regression`, `forecast`, `probability estimate`
+- Core Section: `P1-10.1`
+- Appears in: `P1-17.1`, `P1-17.3`
+
+<a id="preprocessing"></a>
+
+## preprocessing
+
+- Meaning: 모델에 넣기 전에 결측치 처리, 스케일 조정, 범주형 인코딩처럼 입력 표현을 더 안정적으로 바꾸는 준비 과정입니다. 원시 입력을 그대로 던지지 않고, 현재 모델이 계산할 수 있는 형태로 정리하고 맞추는 단계라고 볼 수 있습니다. 즉 전처리는 데이터를 `더 예쁘게 만드는 일`이 아니라 `계산 가능한 입력으로 바꾸는 일`에 가깝습니다.
+- Why it matters: 같은 모델이라도 입력을 어떤 형태로 정리했는지에 따라 거리 계산, 학습 안정성, 평가 결과가 크게 달라질 수 있기 때문입니다. 이 개념이 있어야 성능 차이를 모델 구조만으로 설명하지 않고, 입력 표현을 어떤 규칙으로 맞췄는지도 함께 보게 됩니다. 예를 들어 k-NN에서는 스케일이 큰 변수 하나가 거리 계산을 거의 지배할 수 있고, 선형 모델에서는 범주형 값을 그대로 넣으면 계산 자체가 어긋날 수 있습니다. 결국 전처리를 이해해야 `데이터를 썼다`와 `모델이 실제로 읽을 수 있는 입력으로 준비했다`를 같은 말로 보지 않게 됩니다.
+- Related concepts: `feature`, `feature selection`, `data leakage`
+- Core Section: `P4-7.2`
+- Appears in: `P4-7.3`, `P4-9.2`, `P4-12.2`
+
+<a id="pretraining"></a>
+
+## pretraining
+
+- Meaning: 특정 과업을 바로 학습하기 전에, 큰 말뭉치에서 일반적인 언어 패턴과 표현을 먼저 학습하는 단계입니다. 한 업무를 잘하게 만들기보다, 다양한 문장 구조와 지식 표현을 넓게 접하게 해 범용적인 초기 능력을 만드는 준비 단계라고 볼 수 있습니다. 즉 사전학습은 `이 일만 잘하는 모델`을 만드는 첫 단계가 아니라, 여러 작업에 옮겨 갈 수 있는 공통 기반을 먼저 쌓는 과정입니다.
+- Why it matters: 현대 LLM이 개별 업무 데이터를 보기 전부터 범용적인 언어 감각과 표현을 갖게 되는 이유를 설명하는 핵심 절차이기 때문입니다. 이 개념이 있어야 `왜 적은 예시만으로도 어느 정도 반응하는가`, `왜 미세조정 없이도 기본 응답이 가능한가`를 이해할 수 있고, 이후 적응 단계와의 역할 분담도 더 분명해집니다. 결국 사전학습을 이해해야 모델 능력의 상당 부분이 배포 직전 설정이 아니라, 대규모 일반 학습 단계에서 이미 형성된다는 점을 읽게 됩니다.
+- Related concepts: `fine-tuning`, `in-context learning`, `GPT`
+- Core Section: `P1-11.3`
+- Appears in: `P6-5.1`, `P6-5.2`, `P6-7.1`, `P6-7.2`, `P6-9.1`, `P6-19.1`, `P6-20.1`
+
+<a id="priority"></a>
+
+## priority
+
+- Meaning: 여러 문제, 후보, 점검 항목 가운데 무엇을 먼저 보고 무엇을 나중에 다룰지 정한 순서 기준입니다. 단순 중요도 인상보다, 독자 영향, 재현 가능성, 수정 비용, 범위 같은 판단 기준을 반영해 실제 행동 순서를 정리한 운영용 서열이라고 볼 수 있습니다. 즉 우선순위는 `무엇이 더 큰 문제인가`를 넘어서 `그래서 지금 무엇부터 할 것인가`를 닫아 주는 정렬 기준입니다.
+- Why it matters: 실패 기록과 운영 신호가 여러 건 모였을 때 이를 모두 같은 속도로 다루면 즉시 수정해야 할 문제와 다음 반복 개선으로 미뤄도 되는 문제가 섞여 버리기 때문입니다. 이 개념이 있어야 404 링크 같은 즉시 수정 대상, 반영 지연처럼 재현 확인이 먼저인 대상, 품질 개선처럼 다음 반복으로 넘길 대상을 더 분명히 구분하게 됩니다. 또한 우선순위를 이해해야 비교 실험, 운영 점검, 회고 문장이 모두 `다음 행동`으로 이어질 수 있고, 프로젝트 기록이 단순 목록이 아니라 실제 작업 순서를 가진 계획표가 된다는 점도 더 또렷하게 보게 됩니다.
+- Related concepts: `next action`, `failure type`, `incident record`, `retrospective`, `operation`
+- Core Section: `P7-7.3`
+- Appears in: `P7-1.3`, `P7-7.2`
+
+<a id="privacy"></a>
+
+## privacy
+
+- Meaning: 개인을 식별하거나 추적할 수 있는 정보와, 그 정보가 다뤄지는 방식에 대한 보호 요구입니다. 이름, 연락처처럼 직접 드러나는 정보만이 아니라, 여러 조각을 합치면 특정 사람을 다시 알아볼 수 있는 기록과 맥락까지 함께 포함될 수 있습니다. 따라서 개인정보는 `민감한 단어 몇 개를 가리는 일`로만 닫히지 않고, 수집, 저장, 검색, 재사용, 출력 전주기에서 다시 식별 가능성을 계속 점검해야 하는 문제입니다.
+- Why it matters: AI 입력, 검색 문서, 로그, 평가 데이터에는 개인 관련 정보가 섞이기 쉬워, 한 번 시스템 안으로 들어오면 저장, 검색, 재노출 과정 전체에서 위험이 커질 수 있기 때문입니다. 이 개념이 있어야 `모델 성능을 높이기 위해 데이터를 더 모은다`는 판단과 `그 데이터를 어디까지 써도 되는가`를 분리해 읽게 되고, 개인정보 보호가 단순 법무 이슈가 아니라 수집, 저장, 출력, 운영 전부에 걸친 설계 문제라는 점도 이해하게 됩니다. 예를 들어 프롬프트 입력창에 들어온 상담 기록은 답변 생성에만 쓰일 것처럼 보여도, 로그 보관, 검색 색인, 평가 샘플 재사용, 디버깅 기록 공유 단계까지 모두 다시 점검해야 합니다.
+- Related concepts: `security`, `sensitive information`, `log`
+- Core Section: `P1-15.3`
+
+<a id="probabilistic-model"></a>
+
+## probabilistic model
+
+- Meaning: 불확실한 상태나 결과를 확률, 조건부 확률, 분포 같은 형태로 표현하는 모델입니다. 단순히 점수를 매기는 데서 멈추지 않고, 그 숫자가 어떤 사건의 가능성이나 어떤 변수의 분포를 뜻하는지까지 함께 정의합니다. 다시 말해 `얼마나 높다`보다 `무엇이 얼마나 그럴듯한가`를 수학적으로 적는 모델이라고 볼 수 있습니다. 따라서 확률 모델은 숫자를 `순위용 신호`로만 두지 않고, 그 숫자의 해석 규칙까지 함께 묶어 둔 표현입니다.
+- Why it matters: 휴리스틱 점수와 달리 숫자가 무엇을 뜻하는지 더 엄격하게 정의하고, 근거가 바뀔 때 판단을 갱신하는 구조를 이해하게 해 주기 때문입니다. 그래서 규칙 기반 판단과 통계적 판단의 차이도 더 선명하게 드러납니다. 이 개념이 있어야 새로운 관측이 들어왔을 때 확률을 어떻게 업데이트할지, 그리고 왜 같은 0.8이라도 모델마다 의미가 다를 수 있는지 더 조심해서 읽게 됩니다. 예를 들어 위험 점수처럼 보이는 숫자도 어떤 것은 단순 우선순위 점수이고, 어떤 것은 실제 사건 가능성을 뜻하려는 확률 모델 출력일 수 있습니다.
+- Related concepts: `probability`, `probabilistic reasoning`, `calibration`, `probability estimate`, `heuristic`, `evidence`
+- Core Section: `P1-7.3`
+- Appears in: `P1-7.2`, `P1-7.4`, `P4-1.2`, `P1-summary`
+
+<a id="probabilistic-reasoning"></a>
+
+## probabilistic reasoning
+
+- Meaning: 불완전하거나 잡음이 있는 정보에서 가능한 결론이 얼마나 그럴듯한지 확률로 계산하는 추론 방식입니다. 즉 `이 결론이 반드시 참인가`를 묻기보다, `현재 정보로 볼 때 어느 결론이 더 가능성이 큰가`를 따지는 접근입니다. 다시 말해 확률 추론은 확실한 정답을 바로 찍기보다, 불확실성 안에서 더 그럴듯한 설명을 고르는 사고방식입니다.
+- Why it matters: 참/거짓 규칙만으로는 다루기 어려운 현실 문제를 AI가 어떻게 판단하려 했는지 보여 주는 핵심 축입니다. 이 개념이 있어야 규칙 기반 추론과 확률 기반 판단의 차이, 그리고 불확실한 데이터에서 왜 점수나 분포가 필요한지 더 분명히 읽을 수 있습니다. 또한 확률 추론을 이해해야 `정답이 하나로 닫히지 않는 상황`에서 AI가 왜 확률적 언어로 판단을 표현하는지, 그리고 점수가 높다고 해도 불확실성이 완전히 사라진 것은 아니라는 점도 함께 읽게 됩니다.
+- Related concepts: `probability`, `uncertainty`, `inference`
+- Core Section: `P1-2.2`
+- Appears in: `P1-index`, `P1-2.3`, `P1-3.1`, `P1-summary`, `P4-1.1`
+
+<a id="probability"></a>
+
+## probability
+
+- Meaning: 아직 확실하지 않은 상태를 0과 1 사이의 숫자로 표현하는 방법입니다. 어떤 결과가 반드시 일어난다는 뜻이 아니라, 가능한 결과들 가운데 특정 사건이 어느 정도 그럴듯한지를 수치로 적는 언어라고 볼 수 있습니다. 여러 결과가 있을 때는 각 가능성에 숫자를 나누어 붙여, 무엇이 더 가능해 보이는지 비교하게 해 주는 표현 체계이기도 합니다.
+- Why it matters: 예측, 위험, 분류 결과를 확실한 답이 아니라 가능성으로 읽게 해 주기 때문입니다. 이 감각이 있어야 점수, 빈도, 확률 추정값을 같은 숫자로 착각하지 않고 구분하게 됩니다. 또한 확률은 `일어날지 안 일어날지`를 단정하는 언어가 아니라, 아직 남아 있는 불확실성을 더 정교하게 비교하는 언어라는 점도 함께 이해하게 됩니다. AI에서는 모델 출력이 단순 정답이 아니라 여러 후보에 대한 상대적 가능성일 수 있다는 해석의 출발점이 됩니다.
+- Related concepts: `uncertainty`, `event`, `distribution`, `probability estimate`, `estimation`
+- Core Section: `P2-5.1`
+- Appears in: `P1-6.2`, `P2-5.2`, `P2-5.3`, `P2-6.2`
+
+<a id="probability-estimate"></a>
+
+## probability estimate
+
+- Meaning: 특정 결과나 클래스가 맞을 가능성을 확률처럼 수치로 표현한 값입니다. 다만 이 값이 언제나 진짜 확률처럼 잘 맞는 것은 아니어서, 모델 출력 점수와 확률 추정값은 구분해서 읽어야 합니다. 겉으로는 둘 다 0과 1 사이 숫자여도, 어떤 것은 단순 순위 점수이고 어떤 것은 실제 빈도와 대응되도록 해석하려는 값일 수 있습니다. 즉 확률 추정값은 `확률처럼 읽고 싶은 숫자`이지, 자동으로 `이미 믿어도 되는 확률`은 아닙니다.
+- Why it matters: 점수처럼 보이는 수치가 실제 확률로 읽혀도 되는지, 보정이 필요한지 따로 확인하게 해 주기 때문입니다. 분류 결과를 임계값으로 행동에 연결할 때도 이 구분이 직접 중요해집니다. 이 개념이 있어야 `0.9`라는 숫자가 단순히 상대적으로 높은 점수인지, 정말 열 번 중 아홉 번 정도 맞는 수준인지 구분해서 읽게 됩니다. 결국 확률 추정값은 `숫자가 있다`보다 `그 숫자를 행동 기준으로 써도 되는가`를 묻게 만드는 표지입니다. 예를 들어 사람 검토 큐를 `0.8 이상`으로 자를 때는, 그 숫자가 후보 정렬용 점수인지 실제 위험 확률처럼 읽어도 되는지에 따라 운영 판단이 달라집니다.
+- Related concepts: `probability`, `probabilistic model`, `calibration`, `threshold`, `human review`
+- Core Section: `P1-7.3`
+- Appears in: `P1-6.3`, `P4-6.4`, `P4-15.3`
+
+<a id="productivity"></a>
+
+## productivity
+
+- Meaning: 생성 속도만이 아니라 검토 비용, 실패 비용, 재작업 비용, 운영 비용까지 포함해 실제로 얼마나 효율적인지 보는 기준입니다. 즉 버튼을 눌렀을 때 첫 출력이 빨리 나오는가만이 아니라, 그 결과를 실제로 쓸 수 있는 상태까지 만드는 총시간과 총노력을 함께 보는 관점입니다. 다시 말해 생산성은 `순간 속도`보다 `끝까지 완료하는 전체 비용`에 더 가깝습니다.
+- Why it matters: AI 도구가 빠른 초안을 만든다는 이유만으로 전체 업무가 나아졌다고 착각하지 않게 해 주기 때문입니다. 이 개념이 있어야 `처음 출력이 빠르다`와 `끝까지 완료하는 총비용이 낮다`를 구분하게 되고, 초안 생성 이후의 검토·수정·재실행·승인 비용까지 포함해 도구 효율을 판단하게 됩니다. 예를 들어 10초 만에 초안을 만들어도 사람이 사실 확인과 형식 수정을 20분 동안 다시 해야 한다면, 그 작업은 체감상 빠를 수 있어도 전체 생산성은 높지 않을 수 있습니다. 결국 생산성을 이해해야 속도, 품질, 검토 가능성, 재사용성을 함께 놓고 AI 도구의 실제 가치를 평가하게 됩니다.
+- Related concepts: `work automation`, `review`, `evaluation`
+- Core Section: `P1-16.2`
+
+<a id="prompt"></a>
+
+## prompt
+
+- Meaning: 현재 응답을 만들기 위해 모델에 주는 입력 전체입니다. 한 줄 질문만이 아니라, 지시, 맥락, 예시, 제약, 출력 형식까지 포함한 `현재 작업 조건 묶음`으로 보는 편이 더 정확합니다. 즉 프롬프트는 질문 문장 하나보다, 이번 계산에서 모델이 어떤 역할과 자료와 형식을 참고해야 하는지 정해 주는 입력 설계물에 가깝습니다.
+- Why it matters: 사용자가 모델을 직접 다시 학습시키지 않고도, 지시와 맥락, 예시, 제약, 출력 형식을 입력으로 배치해 현재 출력 조건을 조정하는 기본 수단입니다. 이 개념이 있어야 `모델 자체를 바꾸는 일`과 `현재 응답 조건을 바꾸는 일`을 구분해 이해할 수 있습니다. 또한 프롬프트를 이해해야 같은 모델이라도 어떤 자료를 함께 넣고 어떤 형식을 요구하느냐에 따라 응답 방향이 크게 달라질 수 있다는 점, 그리고 그 변화가 곧 모델 내부 지식 갱신을 뜻하는 것은 아니라는 점도 분명해집니다.
+- Related concepts: `instruction`, `context`, `in-context learning`
+- Core Section: `P1-12.1`
+- Appears in: `P6-9.1`, `P6-9.3`
+
+<a id="prompt-engineering"></a>
+
+## prompt engineering
+
+- Meaning: 입력 지시, 맥락, 예시, 형식을 설계해 현재 모델 반응을 관찰하고 원하는 방향으로 더 안정적으로 조정하려는 실천적 작업입니다. 단순히 문장을 예쁘게 쓰는 일이 아니라, 실패 유형을 보고 입력 구조를 다시 설계하는 반복 실험에 가깝습니다. 즉 프롬프트 엔지니어링은 `좋은 문장 감각`보다 `실패 원인을 보고 입력 조건을 체계적으로 바꾸는 실험 과정`으로 보는 편이 더 정확합니다.
+- Why it matters: 모델 내부를 다시 학습시키지 않고도 가장 빠르게 실험하고 수정할 수 있는 첫 번째 실무 손잡이입니다. 동시에 이 개념이 있어야 `프롬프트만으로 줄일 수 있는 문제`와 `검색, 도구 사용, 모델 교체가 필요한 문제`를 구분하는 출발점을 잡을 수 있습니다. 또한 프롬프트 엔지니어링을 이해해야 결과가 좋아졌을 때 그것이 표현 수정 덕분인지, 예시 추가 덕분인지, 맥락 정리 덕분인지 분리해서 관찰하게 되고, 같은 실수를 반복하지 않는 입력 설계 지식도 축적하게 됩니다.
+- Related concepts: `prompt`, `instruction`, `instruction tuning`
+- Core Section: `P6-10.1`
+
+<a id="prompt-injection"></a>
+
+## prompt injection
+
+- Meaning: 사용자 입력이나 외부 문서 안에 숨은 지시가 원래 시스템 지시를 흔들거나 우회해, 모델이나 에이전트가 의도하지 않은 행동을 하게 만드는 공격입니다. 핵심은 문서 내용처럼 보이는 텍스트가 사실은 행동 규칙을 바꾸는 입력으로 작동할 수 있다는 점입니다. 즉 프롬프트 인젝션은 단순 장난 문구가 아니라, `명령`과 `자료`의 경계를 무너뜨려 시스템 행동을 바꾸려는 입력 공격으로 읽어야 합니다.
+- Why it matters: 검색, 브라우징, 파일 읽기, 도구 사용이 붙은 AI 시스템에서는 외부 문서가 단순 참고자료가 아니라 실제 행동 결정 입력이 되기 쉬워, 숨은 지시 하나가 권한 남용과 정보 유출로 이어질 수 있기 때문입니다. 이 개념이 있어야 `모델이 문서를 읽었다`와 `문서가 모델 행동을 바꿨다`를 구분하게 되고, 보안 문제를 단순 품질 저하와 다른 층위의 위험으로 읽게 됩니다. 또한 프롬프트 인젝션을 이해해야 왜 최소 권한, 승인, 실행 범위 제한, 추적 기록이 함께 필요해지는지, 그리고 모델이 더 똑똑해지는 것만으로는 보안 문제가 자동으로 닫히지 않는다는 점도 더 분명하게 보게 됩니다.
+- Related concepts: `security`, `least privilege`, `permission`, `retrieval-augmented generation, RAG`, `tool use`
+- Core Section: `P1-15.3`
+- Appears in: `P1-10.3`, `P1-14.2`, `P1-14.4`, `P1-14.5`
+
+<a id="prompt-structuring"></a>
+
+## prompt structuring
+
+- Meaning: 프롬프트 안에서 작업, 맥락, 예시, 제약, 출력 형식 같은 역할을 구분해 나눠 쓰는 방식입니다. 한 덩어리 문장으로 모두 밀어 넣기보다, 각 정보가 어떤 역할을 하는지 드러나게 배치하는 입력 설계라고 볼 수 있습니다. 즉 프롬프트 구조화는 문장을 예쁘게 다듬는 일보다, 입력 내부의 역할 경계를 보이게 만드는 설계에 더 가깝습니다.
+- Why it matters: 긴 요청에서 무엇이 지시이고 무엇이 참고 정보인지 분리해야 재현성과 검토성이 올라가고, 모델도 입력 역할을 더 안정적으로 해석할 가능성이 커집니다. 이 개념이 있어야 프롬프트 품질이 `좋은 표현 한 줄`의 문제가 아니라 `역할이 보이게 구조를 나누는 문제`라는 점을 이해할 수 있습니다. 또한 프롬프트 구조화를 이해해야 같은 내용을 담더라도 배치 순서와 역할 분리가 달라지면 결과 안정성이 달라질 수 있다는 점도 읽게 됩니다.
+- Related concepts: `prompt`, `instruction`, `context`
+- Core Section: `P1-12.2`
+
+<a id="provenance"></a>
+
+## provenance
+
+- Meaning: 현재 답변이나 생성 결과가 어떤 문서와 어떤 조각을 참고했는지 다시 따라갈 수 있게 남기는 출처 정보입니다. 단순 링크 모음이 아니라, 이 결과가 어떤 근거 경로를 거쳐 나왔고 어떤 자료 조각이 실제 판단에 쓰였는지를 되짚게 하는 연결 기록에 가깝습니다. 즉 출처 추적은 `무엇을 봤는가`만 적는 일이 아니라, `무엇을 실제로 근거로 삼았는가`를 다시 복원할 수 있게 남기는 작업입니다.
+- Why it matters: RAG에서 문서를 붙였다고 끝나는 것이 아니라, 실제로 어떤 근거를 사용했는지 확인해야 검토와 책임 추적이 가능해지기 때문입니다. 출처 추적이 있어야 최신성 확인과 오류 수정도 더 빨라지고, 나중에 같은 답변이 왜 나왔는지 설명하거나 잘못된 근거를 교체하는 작업도 더 쉬워집니다. 이 개념이 있어야 단순 참고 링크와 실제 판단에 쓰인 근거 경로를 구분하게 되고, 답변 재검토도 훨씬 구체적으로 진행할 수 있습니다. 또한 출처 추적을 이해해야 `문서를 검색했다`는 사실과 `그 문서의 어느 부분이 결론을 바꾸었는가`를 अलग개념으로 읽게 되고, 책임 있는 AI 사용에서 로그, 검토, 최신성 확인이 왜 출처 정보와 함께 움직여야 하는지도 더 선명해집니다.
+- Related concepts: `evidence`, `retrieval-augmented generation, RAG`, `review`, `log`, `recency`
+- Core Section: `P1-13.3`

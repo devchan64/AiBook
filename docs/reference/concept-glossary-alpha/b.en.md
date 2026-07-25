@@ -1,19 +1,151 @@
 # Concept Glossary: B
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [backpropagation](/AiBook/reference/concept-glossary-parts/08-ieung/#backpropagation) — 역전파 — Core Section: `P5-5.1`
-- [baseline](/AiBook/reference/concept-glossary-parts/01-giyeok/#baseline) — 기준선 — Core Section: `P3-7.3`
-- [baseline model](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-baseline) — 기준 모델 — Core Section: `P4-8.2`
-- [baseline window](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-dataset) — 기준선 구간 — Core Section: `P7-1.3`
-- [batch](/AiBook/reference/concept-glossary-parts/06-bieup/#batch) — 배치 — Core Section: `P1-14.6`
-- [batch normalization](/AiBook/reference/concept-glossary-parts/06-bieup/#batch-normalization) — 배치 정규화 — Core Section: `P5-8.3`
-- [BERT](/AiBook/reference/concept-glossary-parts/06-bieup/#bert) — BERT — Core Section: `P6-20.1`
-- [bias](/AiBook/reference/concept-glossary-parts/13-pieup/#bias) — 편향 — Core Section: `P1-15.1`
-- [bias term](/AiBook/reference/concept-glossary-parts/13-pieup/#bias-term) — 편향 항 — Core Section: `P1-5.1`
-- [boolean mask](/AiBook/reference/concept-glossary-parts/06-bieup/#boolean-mask) — 불리언 마스크 — Core Section: `P2-11.4`
-- [bounding box](/AiBook/reference/concept-glossary-parts/06-bieup/#bounding-box) — 바운딩 박스 — Core Section: `P1-9.2`
-- [BPE, Byte Pair Encoding](/AiBook/reference/concept-glossary-parts/06-bieup/#bpebyte-pair-encoding) — BPE — Core Section: `P6-2.2`
-- [branch](/AiBook/reference/concept-glossary-parts/06-bieup/#branch) — 브랜치 — Core Section: `P2-14.2`
-- [broadcasting](/AiBook/reference/concept-glossary-parts/06-bieup/#broadcasting) — 브로드캐스팅 — Core Section: `P2-11.3`
-- [brute-force search](/AiBook/reference/concept-glossary-parts/09-jieut/#brute-force-search) — 전체 비교 — Core Section: `P1-13.4`
+<a id="backpropagation"></a>
+
+## backpropagation
+
+- Meaning: 출력 쪽에서 계산된 손실이 각 파라미터에 얼마나 영향을 주는지 뒤에서 앞으로 계산하는 절차입니다. 더 정확히는 계산 그래프를 따라 연쇄 법칙을 적용해, 최종 오차가 중간 활성값과 가중치에 어떻게 나뉘어 전달되는지 구하는 과정입니다. 즉 마지막에 나온 `틀림의 정도`를 거꾸로 추적해, 각 층이 그 틀림에 얼마나 기여했는지 나누어 계산하는 방식입니다.
+- Why it matters: 손실을 줄이려면 각 가중치를 어느 방향으로 얼마나 바꿔야 하는지 알아야 하고, 그 gradient를 효율적으로 계산하는 핵심 절차가 역전파이기 때문입니다. 이 개념이 잡혀야 `신경망이 스스로 배운다`는 말을 막연한 자동 조정이 아니라, 오차를 각 층의 수정 신호로 되돌려 보내는 계산 절차로 이해할 수 있습니다. 또한 층이 깊어져도 학습이 가능한 이유가 무작정 반복이 아니라, 각 연결의 기여도를 체계적으로 계산해 주는 절차 덕분이라는 점도 분명해집니다.
+- Related concepts: `gradient`, `loss function`, `chain rule`
+- Core Section: `P5-5.1`
+- Appears in: `P5-5.2`, `P5-6.1`, `P5-7.1`
+
+<a id="baseline"></a>
+
+## baseline
+
+- Meaning: 지금 상태를 그냥 절대값으로 읽지 않고, 평소 구간이나 비교 대상과 나란히 놓아 변화와 차이를 읽기 위해 먼저 두는 참조 기준입니다. 숫자 하나를 단독으로 읽지 않고, 무엇과 비교해 달라졌는지를 말하게 만드는 기준점이라고 볼 수 있습니다.
+- Why it matters: 최근 구간이나 특정 사건의 수치만 따로 보면 무엇이 달라졌는지 말하기 어렵기 때문에, 같은 단위의 평소 구조나 비교 집단을 함께 두어야 차이 문장과 비교 리포트가 성립하기 때문입니다. 운영 데이터와 모델 점수를 해석할 때 모두 공통으로 필요한 읽기 틀이기도 합니다. 이 개념이 있어야 `점수가 높다`는 절대값만 보지 않고, `무엇과 비교해 얼마나 나아졌는가`를 먼저 묻게 되어 과장된 해석을 줄이게 됩니다. 또한 기준선을 이해해야 Part 7의 분석 프로젝트가 숫자 계산보다 먼저 비교 바닥선을 고정하는 문서 작업이라는 점도 더 선명하게 읽게 됩니다.
+- Related concepts: `comparison report`, `output structure`, `baseline model`, `evaluation`
+- Core Section: `P3-7.3`
+- Appears in: `P3-1.1`, `P3-1.2`, `P3-2.2`, `P3-3.2`, `P3-4.1`, `P3-5.1`, `P3-7.1`, `P3-7.4`, `P3-7.5`, `P3-8.1`, `P3-9.1`, `P3-9.3`, `P3-summary`, `P4-8.2`, `P7-index`, `P7-1.1`, `P7-1.3`, `P7-2.2`, `P7-7.3`, `P7-summary`
+
+<a id="glossary-baseline"></a>
+
+## baseline model
+
+- Meaning: 복잡한 모델이 정말 의미 있는 개선을 만들었는지 확인하기 위해 먼저 두는 가장 단순한 비교용 모델이나 점수 기준입니다. 단순하지만 해석 가능한 출발점을 먼저 세워 두고, 그 위에서 복잡성을 추가할 가치가 있는지 보는 장치라고 할 수 있습니다. Part 7의 프로젝트 문맥에서는 `가장 단순한 기준도 어디까지 맞는가`를 먼저 남겨 두는 실행 기록의 첫 비교 대상이라고 볼 수 있습니다.
+- Why it matters: 점수가 높아 보여도 쉬운 문제 덕분인지 실제 모델링 덕분인지 구분하려면, 후보 모델이 최소한 넘어야 할 출발점을 먼저 고정해야 하기 때문입니다. 기준 모델이 없으면 복잡한 방법이 실제로 나아진 것인지 설명하기 어려워집니다. 이 개념이 있어야 정확도 숫자만 남기지 않고, 기준 모델이 틀린 샘플과 새 모델이 바꾼 샘플을 함께 비교하게 되어 Part 7의 실행 요약과 틀린 사례 목록도 더 살아납니다.
+- Related concepts: `evaluation`, `baseline`, `model selection`, `task definition`
+- Core Section: `P4-8.2`
+- Appears in: `P4-index`, `P4-6.1`, `P4-6.2`, `P4-9.1`, `P4-10.1`, `P4-12.1`, `P4-13.1`, `P4-15.1`, `P4-16.1`, `P4-summary`, `P7-index`, `P7-2.1`, `P7-4.2`, `P7-summary`
+
+<a id="glossary-dataset"></a>
+
+## baseline window
+
+- Meaning: 최근 변화와 비교하기 위해 `평소 상태`로 간주하고 따로 묶어 읽는 시간 구간이나 관측 구간입니다. 단순히 예전 데이터 전부를 뜻하는 것이 아니라, 현재 질문에 맞게 비교 기준으로 삼기로 정한 참조 구간이라고 볼 수 있습니다. 즉 기준선 구간은 `언제와 비교하고 있는가`를 문서 안에 명시해 주는 시간 축 기준점입니다.
+- Why it matters: 기준선이 있어도 어느 기간을 평소 상태로 삼았는지 흐리면 같은 수치 변화도 과장되거나 축소되어 읽힐 수 있기 때문입니다. 이 개념이 있어야 최근 구간과 기준선 구간의 샘플 수, 계절성, 이벤트 영향, 채널 구성을 함께 점검하게 되고, `좋아졌다` 또는 `벗어났다`는 말이 실제로 어떤 비교 창 위에서 나온 해석인지 다시 확인하게 됩니다. 또한 기준선 구간을 이해해야 Part 7의 로그 분석과 운영 경고가 단일 숫자 비교가 아니라, 어떤 참조 기간을 잡았는지까지 포함한 비교 설계라는 점도 더 또렷하게 읽게 됩니다.
+- Related concepts: `baseline`, `sample`, `comparison table`, `indicator`, `retrospective`
+- Core Section: `P7-1.3`
+- Appears in: `P7-index`, `P7-7.3`, `P7-7.4`, `P7-summary`
+
+<a id="batch"></a>
+
+## batch
+
+- Meaning: 문맥에 따라 두 뜻으로 쓰입니다. 운영 문맥에서는 여러 요청이나 작업을 모아서 함께 처리하는 방식이고, 딥러닝 문맥에서는 여러 샘플을 한 번에 계산하기 위해 묶은 입력 단위입니다. 공통점은 둘 다 `하나씩 따로 처리하지 않고 여러 개를 묶어 한 번에 다룬다`는 운영 원리를 가진다는 점입니다.
+- Why it matters: 서비스 운영에서는 처리량과 비용 설계를 바꾸고, 딥러닝에서는 같은 연산을 여러 샘플에 병렬로 적용하는 기본 계산 단위가 되기 때문입니다. 특히 딥러닝에서는 배치 크기에 따라 메모리 사용, 그래디언트의 흔들림, 학습 속도가 함께 달라지므로, 배치는 단순 묶음이 아니라 계산 안정성과 자원 제약을 동시에 건드리는 설계 단위로 읽어야 합니다. 이 개념이 있어야 `한 번에 몇 개를 같이 처리하는가`가 운영 최적화 문제이면서 동시에 학습 절차 문제이기도 하다는 점을 자연스럽게 이해하게 됩니다.
+- Related concepts: `throughput`, `operation`, `tensor`
+- Core Section: `P1-14.6`
+- Appears in: `P5-6.1`, `P5-9.2`
+
+<a id="batch-normalization"></a>
+
+## batch normalization
+
+- Meaning: 한 배치 안의 평균과 분산을 참고해 활성값 분포를 다시 정리함으로써, 다음 층이 더 다루기 쉬운 범위의 값을 받게 하는 정규화 방식입니다. 쉽게 말해 각 층으로 들어가는 값의 스케일이 지나치게 치우치지 않게 중간에 다시 정돈해 주는 장치입니다. 즉 배치 정규화는 입력 전처리만이 아니라, 네트워크 안쪽 표현을 계속 정리해 주는 중간 안정화 단계입니다.
+- Why it matters: 깊은 네트워크에서 활성값 분포가 계속 흔들리면 학습이 불안정해질 수 있어, 학습 중 계산을 더 덜 흔들리게 만들고 mode 차이도 함께 이해하게 해 주기 때문입니다. 이 개념이 있어야 왜 학습 모드에서는 현재 배치 통계를 쓰고, 평가 모드에서는 누적 통계를 쓰는지가 자연스럽게 연결됩니다. 또한 배치 정규화를 이해해야 `정규화`가 입력 하나만 다듬는 작업이 아니라, 깊은 층 계산 흐름을 안정화하는 설계 선택이라는 점도 더 분명히 읽게 됩니다.
+- Related concepts: `training mode`, `evaluation mode`, `numerical stability`
+- Core Section: `P5-8.3`
+- Appears in: `P5-6.3`, `P5-8.1`
+
+<a id="bert"></a>
+
+## BERT
+
+- Meaning: Transformer encoder를 바탕으로 입력 전체 문맥을 함께 보는 표현을 사전학습한 대표 언어 모델 계열입니다. 문장을 왼쪽에서 오른쪽으로만 읽기보다, 앞뒤 문맥을 함께 참고해 각 토큰의 의미 표현을 더 풍부하게 만드는 쪽에 강한 구조라고 볼 수 있습니다. 그래서 BERT는 문장을 `다음에 무엇을 쓸까`보다 `지금 이 말이 전체 문맥에서 무슨 뜻일까`에 더 가깝게 읽는 모델 계열입니다.
+- Why it matters: GPT와 같은 Transformer 계열이라도 구조와 학습 목표에 따라 쓰임이 달라진다는 점을 보여 주는 대표 비교 대상이기 때문입니다. 이 개념이 있어야 `같은 Transformer`라도 어떤 모델은 표현 이해와 분류에 강하고, 어떤 모델은 이어쓰기와 생성에 더 직접 연결된다는 차이를 읽을 수 있습니다. 예를 들어 감성 분류, 문장 관계 판단, 검색용 표현 추출처럼 입력을 잘 이해해야 하는 과업에서 왜 encoder 계열 설명이 자주 나오는지도 자연스럽게 이어집니다.
+- Related concepts: `encoder`, `pretraining`, `contextual representation`
+- Core Section: `P6-20.1`
+- Appears in: `P1-11.3`, `P6-20.2`
+
+<a id="bias"></a>
+
+## bias
+
+- Meaning: AI 시스템이 특정 사람, 집단, 상황에 반복적으로 더 불리하거나 왜곡된 결과를 내는 문제입니다. 단발성 실수라기보다, 어떤 조건에서 비슷한 방향의 불균형이 계속 나타나는 구조적 문제에 더 가깝습니다. 따라서 편향은 단순히 `틀린 예측이 있다`는 말이 아니라, `실패가 누구에게 어떤 방향으로 더 자주 몰리는가`를 묻는 질문입니다.
+- Why it matters: 편향은 나쁜 의도만의 문제가 아니라 데이터 수집, 라벨 기준, 특징 선택, 평가 방식, 사용 맥락에서 함께 생길 수 있어, 모델 성능이 높아 보여도 실제 피해를 만들 수 있기 때문입니다. 이 개념이 있어야 `전체 평균 성능이 좋다`는 사실만으로 시스템을 안전하다고 보지 않게 되고, 누구에게 어떤 실패가 더 집중되는지 따로 살펴봐야 한다는 점도 분명해집니다. 또한 편향을 이해해야 오류율 비교, 집단별 사례 검토, 운영 맥락 점검 없이 `모두에게 비슷하게 잘 작동한다`고 단정하는 위험도 더 분명히 읽게 됩니다.
+- Related concepts: `safety`, `accountability`, `human oversight`
+- Core Section: `P1-15.1`
+
+<a id="bias-term"></a>
+
+## bias term
+
+- Meaning: 입력 단서가 약하거나 없을 때도 출력 계산의 기본 위치를 조정하는 모델 파라미터입니다. 직선 식의 절편처럼, 입력이 0이거나 영향이 작아도 출력이 어디쯤에서 시작할지를 정하는 값이라고 생각할 수 있습니다. 즉 가중치가 입력별 기울기를 조정한다면, 편향 항은 전체 출력의 출발 위치를 밀어 올리거나 내리는 역할에 가깝습니다.
+- Why it matters: 가중치만으로는 설명되지 않는 출력의 기본 위치를 이해하게 해 주며, 학습이 조정하는 내부 값의 범위를 더 정확히 보게 해 줍니다. 이 개념이 있어야 모델이 `입력의 영향`만 배우는 것이 아니라 `기본 출발점`도 함께 조정한다는 점을 읽을 수 있습니다. 또한 편향 항을 이해해야 입력이 모두 0일 때도 왜 출력이 꼭 0일 필요는 없는지, 선형 모델과 신경망 계산을 더 정확히 해석하게 됩니다. 결국 편향 항은 `기울기 조정`과 별도로 `출발 위치 조정`이 필요하다는 점을 보여 주는 파라미터입니다.
+- Related concepts: `weight`, `parameter`, `training`
+- Core Section: `P1-5.1`
+
+<a id="boolean-mask"></a>
+
+## boolean mask
+
+- Meaning: 조건이 참인 위치만 남기기 위해 같은 길이의 참·거짓 배열을 사용해 값을 고르는 방식입니다. 숫자 인덱스를 직접 적는 대신, `이 조건을 만족하는가`를 먼저 계산한 뒤 그 결과로 원소를 선택하는 조건 기반 선택 도구라고 볼 수 있습니다. 즉 불리언 마스크는 `몇 번째를 고른다`보다 `어떤 조건을 만족한 것만 남긴다`는 선택 방식에 가깝습니다.
+- Why it matters: 조건에 맞는 샘플만 골라 새 배열을 만들 때, 단순 슬라이싱과 다른 선택 방식이라는 점을 구분해야 원본 공유와 결과 shape를 올바르게 읽을 수 있기 때문입니다. 이 개념이 있어야 데이터 전처리에서 `무엇을 남길지`를 위치가 아니라 조건으로 읽는 사고방식이 자연스럽게 잡힙니다. 또한 불리언 마스크를 이해해야 조건 기반 선택이 결과 구조와 복사 동작까지 바꿀 수 있다는 점도 함께 읽게 됩니다.
+- Related concepts: `filtering`, `fancy indexing`, `copy`
+- Core Section: `P2-11.4`
+- Appears in: `P2-12.2`
+
+<a id="bounding-box"></a>
+
+## bounding box
+
+- Meaning: 이미지 안에서 물체가 차지하는 위치를 사각형 영역으로 표시한 표현입니다. 보통 왼쪽 위와 오른쪽 아래 좌표, 또는 중심점과 너비·높이처럼 `어디서 시작해 얼마나 차지하는가`를 숫자로 적는 방식입니다. 즉 `고양이가 있다`라는 말만 하는 것이 아니라, `고양이가 화면의 어느 구역에 있다`를 구조적으로 적어 두는 위치 표현이라고 볼 수 있습니다. 따라서 바운딩 박스는 객체 검출에서 위치 정보를 가장 빠르게 기록하는 기본 단위입니다.
+- Why it matters: 객체 검출이 `무엇이 있는가`만이 아니라 `어디에 있는가`를 함께 다루는 문제라는 점을 가장 간단히 보여 주는 출력 형식이기 때문입니다. 이 개념이 있어야 이미지 분류와 객체 검출을 구분하게 되고, 예측 결과가 단일 라벨 하나가 아니라 좌표와 크기를 포함한 구조적 출력이라는 점도 이해하게 됩니다. 또한 바운딩 박스가 곧 물체의 정밀한 윤곽 전체를 뜻하는 것은 아니라는 점도 중요합니다. 즉 이 표현은 빠르고 단순한 위치 기술에는 강하지만, 픽셀 단위 경계가 필요한 분할(segmentation) 문제와는 다른 층위의 출력이라는 점을 함께 읽어야 합니다. 나아가 YOLO 같은 모델을 읽을 때도 `무엇을 예측하는가`를 라벨 하나가 아니라 `박스 + 클래스 확률`로 이해하게 만드는 핵심 손잡이입니다.
+- Related concepts: `object detection`, `YOLO`, `image recognition`
+- Core Section: `P1-9.2`
+- Appears in: `P1-10.1`
+
+<a id="bpebyte-pair-encoding"></a>
+
+## BPE, Byte Pair Encoding
+
+- Meaning: 자주 함께 나타나는 문자 조각이나 부분 단위를 점점 더 큰 조각으로 묶어 서브워드 vocabulary를 만드는 대표 토크나이저 계열입니다. 처음에는 작은 문자 단위에서 시작해, 자주 붙어 다니는 조각을 점차 하나의 토큰처럼 합쳐 가는 방식이라고 볼 수 있습니다. 그래서 BPE는 `단어를 사전에 통째로 다 넣어 둔다`기보다, 자주 반복되는 부분 조각을 학습해 단어를 여러 토큰으로 나누는 기준을 만드는 방법에 가깝습니다.
+- Why it matters: 같은 문장도 어떤 조각을 자주 묶어 두었는지에 따라 토큰 수와 비용 감각이 달라질 수 있음을 보여 주는 가장 널리 알려진 출발점입니다. 이 개념이 있어야 토큰화가 단순 띄어쓰기 분할이 아니라, 자주 나오는 조각을 기준으로 계산 단위를 설계하는 문제라는 점을 이해할 수 있습니다. 예를 들어 희귀한 긴 단어는 여러 조각으로 나뉘고 자주 쓰이는 표현은 한 토큰에 더 가깝게 남을 수 있으므로, 사용자가 보는 문장 길이와 모델이 계산하는 토큰 길이는 다를 수 있습니다. 결국 BPE를 이해하면 `왜 같은 문장인데 토큰 수가 예상과 다르지?`라는 질문을 vocabulary 설계 문제로 읽게 됩니다.
+- Related concepts: `tokenization`, `WordPiece`, `SentencePiece`
+- Core Section: `P6-2.2`
+- Appears in: `P6-2.2`, `P7-4.1`
+
+<a id="branch"></a>
+
+## branch
+
+- Meaning: 같은 저장소 안에서 작업 흐름을 분리해 진행할 수 있게 해 주는 이름 붙은 이력선입니다. 파일을 따로 복사해 두는 것과 비슷해 보이지만, 실제로는 같은 프로젝트 안에서 서로 다른 변경 역사와 공개 준비 상태를 나누는 장치에 가깝습니다. 즉 브랜치는 `같은 프로젝트의 다른 시간선`처럼, 작업 목적에 따라 이력 흐름을 나누어 두는 방법입니다.
+- Why it matters: 작성 중인 문서와 배포 가능한 문서를 분리하고, 실험적 변경과 공개 기준 반영을 섞지 않게 만드는 운영 기준이 되기 때문입니다. 이 개념이 있어야 `작업 중인 상태`와 `독자에게 보여 줄 상태`를 한 저장소 안에서 분리해 다루는 이유를 자연스럽게 이해할 수 있습니다. 또한 브랜치를 이해해야 같은 파일을 다루더라도 어느 브랜치에 있는지가 곧 공개 범위와 작업 목적을 바꾼다는 점도 더 분명히 읽게 됩니다.
+- Related concepts: `commit`, `deployment`, `workflow`
+- Core Section: `P2-14.2`
+- Appears in: `P2-14.1`, `P7-7.1`
+
+<a id="broadcasting"></a>
+
+## broadcasting
+
+- Meaning: shape가 호환되는 작은 배열이나 스칼라를 더 큰 배열 계산에 맞춰 적용하는 NumPy 계산 규칙입니다. 같은 값을 무작정 복사해 늘리는 것이라기보다, `모양이 맞는 방향으로 값이 퍼져 적용된다`는 계산 해석 규칙이라고 이해하면 됩니다. 즉 실제로 거대한 복사본을 손으로 만드는 직관보다는, 계산기가 축의 길이를 맞춰 읽는 방식이라고 보는 편이 더 정확합니다.
+- Why it matters: 배열 전체에 같은 보정값을 더하거나 특징별 연산을 한 번에 적용할 때, 반복문 없이도 어떤 계산이 일어나는지 읽는 기준이 되기 때문입니다. 이 개념이 있어야 배열 계산 코드가 짧게 적혀 있어도 실제로 어떤 축을 따라 값이 퍼져 적용되는지 해석할 수 있습니다. 예를 들어 `(3, 4)` 배열에 `(4,)` 벡터를 더하면 각 행에 같은 4개 값이 적용되고, `(3, 1)` 벡터를 더하면 각 열보다 각 행 쪽 보정처럼 읽히게 됩니다. 결국 브로드캐스팅은 `왜 계산은 되는데 내가 기대한 축과 다르게 적용되지?`라는 질문에 답하는 핵심 shape 해석 규칙입니다.
+- Related concepts: `vectorization`, `shape`, `scalar`
+- Core Section: `P2-11.3`
+- Appears in: `P2-11.4`, `P2-12.1`
+
+<a id="brute-force-search"></a>
+
+## brute-force search
+
+- Meaning: 질문 벡터를 저장된 모든 벡터와 하나씩 직접 비교해 가장 가까운 후보를 찾는 방식입니다. 중간 지름길 없이 전체 후보를 끝까지 다 훑는 정직한 검색 방식이라고 볼 수 있습니다. 즉 전체 비교는 `모든 후보를 빠짐없이 본다`는 가장 단순한 검색 기준선입니다. 보통 구현은 쉽지만, 후보 수만큼 비교 횟수가 그대로 늘어나는 방식입니다.
+- Why it matters: 데이터가 작을 때는 단순하고 정확하지만, 벡터 수가 커질수록 왜 별도 인덱스와 근사 검색이 필요해지는지 보여 주는 기준선이 되기 때문입니다. 이 개념이 있어야 검색 속도 문제를 구현 실수만이 아니라 비교 횟수 자체의 문제로 읽게 되고, ANN이 무엇을 절충하는지도 더 분명해집니다. 즉 전체 비교는 `가장 단순하고 정확한 기준선`이면서도, 규모가 커질 때 왜 시스템 설계가 달라져야 하는지를 보여 주는 대비점이 됩니다. 그래서 실제 시스템에서는 먼저 이 기준선을 이해한 뒤, 어느 시점부터 근사 검색으로 넘어갈지 판단하게 됩니다.
+- Related concepts: `search index`, `ANN, approximate nearest neighbor`, `similarity search`
+- Core Section: `P1-13.4`
+- Appears in: `P1-13.2`

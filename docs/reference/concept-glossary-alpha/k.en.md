@@ -1,10 +1,62 @@
 # Concept Glossary: K
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [k-NN, k-nearest neighbors](/AiBook/reference/concept-glossary-parts/10-kieuk/#k-nnk-nearest-neighbors) — k-NN — Core Section: `P4-12.1`
-- [key](/AiBook/reference/concept-glossary-parts/10-kieuk/#key) — 키 — Core Section: `P2-8.3`
-- [knowledge acquisition](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-acquisition) — 지식 획득 — Core Section: `P1-3.1`
-- [knowledge base](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-base) — 지식 기반 — Core Section: `P1-3.1`
-- [knowledge representation](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-representation) — 지식 표현 — Core Section: `P1-2.1`
-- [KV cache](/AiBook/reference/concept-glossary-parts/10-kieuk/#kv-cache) — KV cache — Core Section: `P6-4.3`
+<a id="k-nnk-nearest-neighbors"></a>
+
+## k-NN, k-nearest neighbors
+
+- Meaning: 새 입력과 가장 가까운 `k`개의 사례를 찾아 그 이웃의 다수결이나 평균으로 예측하는 모델입니다. 별도의 복잡한 파라미터를 많이 학습하기보다, 저장된 사례와의 가까움을 직접 활용해 판단하는 방식에 가깝습니다. 즉 k-NN은 `전역 규칙 하나를 만든다`보다 `주변의 비슷한 사례를 먼저 본다`는 발상으로 읽는 편이 더 정확합니다.
+- Why it matters: 학습된 복잡한 식보다 `가까운 사례를 근거로 판단한다`는 가장 직접적인 사례 기반 직관을 보여 줍니다. 그래서 거리 개념, 특징 스케일, 이웃 수 `k`가 결과에 얼마나 큰 영향을 주는지 설명하기 좋은 출발점이 됩니다. 예를 들어 새 고객을 볼 때 공통 공식 하나로 바로 분류하기보다, 비슷한 기존 고객 몇 명의 결과를 먼저 참고하는 방식이 바로 k-NN의 직관에 가깝습니다. 결국 k-NN을 이해해야 모델이 언제는 식을 배우고, 언제는 비교할 기준 사례를 준비하는 방식으로 작동할 수 있다는 점도 더 또렷하게 보게 됩니다.
+- Related concepts: `nearest neighbor`, `distance`, `scale`
+- Core Section: `P4-12.1`
+- Appears in: `P4-12.2`
+
+<a id="key"></a>
+
+## key
+
+- Meaning: 딕셔너리 같은 매핑 구조에서 값을 찾기 위해 사용하는 기준 이름 또는 식별자입니다. 리스트의 인덱스가 위치 표식이라면, 키는 의미 이름표에 더 가깝습니다. 즉 `몇 번째에 있나`보다 `어떤 이름으로 불러야 하나`를 중심으로 값을 찾는 방식이라고 볼 수 있습니다.
+- Why it matters: 설정값, JSON, 메타데이터에서는 값보다 먼저 키 이름을 읽어야 의미가 드러나기 때문입니다. 키 개념이 잡혀야 위치 기반 접근과 이름 기반 접근을 자연스럽게 구분할 수 있고, 같은 값 `8080`도 `port`라는 키가 붙을 때와 `timeout`이라는 키가 붙을 때 의미가 전혀 달라진다는 점을 이해하게 됩니다. 즉 키는 값을 담는 통로가 아니라, 그 값의 역할을 해석하게 만드는 이름표입니다. 또한 키를 이해해야 순서가 조금 바뀌어도 의미가 유지되는 데이터 구조와, 위치가 바뀌면 의미가 달라지는 데이터 구조를 더 정확히 구분하게 됩니다.
+- Related concepts: `dictionary`, `mapping`, `value`
+- Core Section: `P2-8.3`
+- Appears in: `P2-8.4`, `P2-9.4`
+
+<a id="knowledge-acquisition"></a>
+
+## knowledge acquisition
+
+- Meaning: 전문가의 판단 기준과 도메인 지식을 시스템이 사용할 수 있는 규칙과 구조로 옮기는 과정입니다. 이미 머릿속에 있는 실무 감각을 인터뷰, 문서화, 규칙화 과정을 거쳐 기계가 다룰 수 있는 형식으로 바꾸는 단계라고 볼 수 있습니다. 즉 지식 획득은 지식을 저장한 뒤의 검색 문제가 아니라, 애초에 `무엇을 어떤 규칙으로 적어 넣을까`를 정하는 변환 작업입니다.
+- Why it matters: 규칙 기반 시스템의 어려움이 단순 구현이 아니라, 좋은 지식을 꺼내고 검증하고 최신 상태로 유지하는 일에 있다는 점을 보여 주기 때문입니다. 이 개념이 있어야 전문가 시스템이 왜 `코드만 잘 짜면 되는 문제`가 아니었는지, 그리고 유지보수가 왜 어려웠는지도 이해하게 됩니다. 또한 지식 획득을 이해해야 설명 가능한 규칙 체계도 입력 지식이 부실하거나 오래되면 쉽게 약해진다는 점을 함께 보게 됩니다.
+- Related concepts: `expert system`, `knowledge base`, `knowledge representation`
+- Core Section: `P1-3.1`
+
+<a id="knowledge-base"></a>
+
+## knowledge base
+
+- Meaning: 규칙, 사실, 관계, 도메인 정보를 모아 두고 시스템이 참조하는 지식 저장 구조입니다. 프로그램 코드 안에 모든 판단을 직접 박아 넣는 대신, 시스템이 꺼내 볼 수 있는 지식 창고를 따로 두는 방식이라고 볼 수 있습니다. 즉 지식 기반은 `판단 규칙을 실행하는 곳`이 아니라, 그 판단에 필요한 재료를 구조화해 쌓아 둔 층입니다.
+- Why it matters: 규칙 기반 시스템이 단순 조건문 나열이 아니라, 도메인 지식을 분리해 저장하고 추론 엔진이 참조하는 구조라는 점을 이해하게 해 주기 때문입니다. 이 개념이 있어야 `지식을 저장하는 곳`과 `그 지식을 적용하는 절차`를 나누어 읽게 됩니다. 또한 지식 기반을 이해해야 규칙 추가, 사실 수정, 도메인 확장이 왜 코드 전체를 뜯어고치지 않고도 가능하도록 설계되었는지 더 자연스럽게 읽게 됩니다. 결국 지식 기반은 `판단 로직`과 `판단 재료`를 분리해 유지보수 가능성을 높이는 구조입니다.
+- Related concepts: `rule-based system`, `knowledge representation`, `inference engine`
+- Core Section: `P1-3.1`
+- Appears in: `P1-2.1`, `P1-3.3`
+
+<a id="knowledge-representation"></a>
+
+## knowledge representation
+
+- Meaning: 사실, 관계, 규칙, 제약을 컴퓨터가 다룰 수 있는 형식으로 정리하는 일입니다. 사람이 머릿속에서 아는 내용을 그대로 둘 수 없으므로, 컴퓨터가 조회하고 비교하고 추론할 수 있는 구조로 바꾸는 번역 작업에 가깝습니다. 즉 지식 표현은 `무엇을 아는가`뿐 아니라 `그 지식을 어떤 형식으로 적어 두어야 계산할 수 있는가`를 함께 다루는 문제입니다.
+- Why it matters: 기호 기반 AI와 규칙 기반 접근이 무엇을 저장하고 조작하려 했는지 이해하게 해 줍니다. 이 개념이 있어야 `지식을 안다`는 말이 막연한 기억이 아니라, 어떤 형식으로 저장되어 어떤 규칙과 함께 작동하는가의 문제라는 점이 분명해집니다. 또한 지식 표현을 이해해야 같은 사실도 표, 규칙, 그래프, 논리식처럼 어떤 형식으로 담느냐에 따라 가능한 질문과 추론 방식이 달라진다는 점도 보게 됩니다. 결국 지식 표현은 `지식 내용`과 `지식을 계산 가능한 형식으로 적는 방식`을 함께 묻게 만드는 개념입니다.
+- Related concepts: `symbolic AI`, `rule-based system`
+- Core Section: `P1-2.1`
+- Appears in: `P1-2.2`
+
+<a id="kv-cache"></a>
+
+## KV cache
+
+- Meaning: 이미 계산한 이전 토큰의 key/value 표현을 저장해 두고, 다음 토큰 생성 때 다시 전부 계산하지 않도록 재사용하는 장치입니다. 즉 매 step마다 과거 문맥 전체를 처음부터 다시 풀지 않고, 이미 계산한 중간 표현을 붙여 이어 가게 만드는 추론 최적화 장치라고 볼 수 있습니다.
+- Why it matters: 대화형 생성에서 긴 문맥을 매 step 처음부터 다시 계산하면 지연 시간이 크게 늘어나므로, 실제 서비스 속도와 비용을 좌우하는 핵심 최적화 감각이기 때문입니다. 이 개념이 있어야 긴 문맥 처리가 단순 모델 성능 문제가 아니라, 이전 계산을 어떻게 재사용하느냐의 시스템 문제이기도 하다는 점을 읽게 됩니다. 또한 KV cache를 이해해야 `문맥이 길어질수록 왜 느려지는가`를 막연한 인상으로 두지 않고, 어떤 계산을 저장하고 어떤 계산을 새로 하는지의 관점에서 더 구체적으로 설명하게 됩니다.
+- Related concepts: `query-key-value, QKV`, `context window`, `long-context`
+- Core Section: `P6-4.3`
+- Appears in: `P5-14.2`

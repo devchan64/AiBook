@@ -1,35 +1,312 @@
 # Concept Glossary: E
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [edge](/AiBook/reference/concept-glossary-parts/08-ieung/#edge) — 엣지 — Core Section: `P2-9.3`
-- [edge weight](/AiBook/reference/concept-glossary-parts/01-giyeok/#edge-weight) — 간선 가중치 — Core Section: `P2-9.3`
-- [embedding](/AiBook/reference/concept-glossary-parts/08-ieung/#embedding) — 임베딩 — Core Section: `P6-3.1`
-- [encoder](/AiBook/reference/concept-glossary-parts/08-ieung/#encoder) — 인코더 — Core Section: `P1-11.3`
-- [Encoder-Decoder](/AiBook/reference/concept-glossary-parts/08-ieung/#-encoder-decoder) — 인코더-디코더 — Core Section: `P1-11.2`
-- [environment](/AiBook/reference/concept-glossary-parts/14-hieut/#environment) — 환경 — Core Section: `P1-8.3`
-- [environment variable](/AiBook/reference/concept-glossary-parts/14-hieut/#environment-variable) — 환경 변수 — Core Section: `P2-7.8`
-- [epoch](/AiBook/reference/concept-glossary-parts/08-ieung/#epoch) — 에폭 — Core Section: `P5-6.2`
-- [error](/AiBook/reference/concept-glossary-parts/08-ieung/#error) — 오차 — Core Section: `P2-5.3`
-- [error case](/AiBook/reference/concept-glossary-parts/08-ieung/#error-case) — 오류 사례 — Core Section: `P7-2.1`
-- [error sample](/AiBook/reference/concept-glossary-parts/08-ieung/#error-sample) — 오류 샘플 — Core Section: `P7-3.1`
-- [estimation](/AiBook/reference/concept-glossary-parts/11-chieut/#estimation) — 추정 — Core Section: `P2-5.3`
-- [evaluation](/AiBook/reference/concept-glossary-parts/13-pieup/#evaluation) — 평가 — Core Section: `P6-16.1`
-- [evaluation mode](/AiBook/reference/concept-glossary-parts/13-pieup/#evaluation-mode) — 평가 모드 — Core Section: `P5-6.4`
-- [evaluation record](/AiBook/reference/concept-glossary-parts/13-pieup/#evaluation-record) — 평가 기록 — Core Section: `P7-3.2`
-- [event](/AiBook/reference/concept-glossary-parts/07-siot/#event) — 사건 — Core Section: `P2-5.1`
-- [evidence](/AiBook/reference/concept-glossary-parts/01-giyeok/#evidence) — 근거 — Core Section: `P1-12.3`
-- [evidence review](/AiBook/reference/concept-glossary-parts/01-giyeok/#evidence-review) — 근거 확인 — Core Section: `P1-16.1`
-- [example](/AiBook/reference/concept-glossary-parts/07-siot/#example) — 사례 — Core Section: `P1-4.2`
-- [exception](/AiBook/reference/concept-glossary-parts/08-ieung/#exception) — 예외 — Core Section: `P1-6.1`
-- [excessive agency](/AiBook/reference/concept-glossary-parts/01-giyeok/#excessive-agency) — 과도한 권한 — Core Section: `P1-15.3`
-- [execution environment](/AiBook/reference/concept-glossary-parts/07-siot/#execution-environment) — 실행 환경 — Core Section: `P1-14.5`
-- [execution order](/AiBook/reference/concept-glossary-parts/07-siot/#execution-order) — 실행 순서 — Core Section: `P2-10.3`
-- [execution scene](/AiBook/reference/concept-glossary-parts/07-siot/#execution-scene) — 실행 장면 — Core Section: `P7-index`
-- [execution summary](/AiBook/reference/concept-glossary-parts/07-siot/#execution-summary) — 실행 요약 — Core Section: `P7-2.1`
-- [exhaustive search](/AiBook/reference/concept-glossary-parts/08-ieung/#exhaustive-search) — 완전 탐색 — Core Section: `P1-7.1`
-- [expert system](/AiBook/reference/concept-glossary-parts/09-jieut/#expert-system) — 전문가 시스템 — Core Section: `P1-3.1`
-- [explanation facility](/AiBook/reference/concept-glossary-parts/07-siot/#explanation-facility) — 설명 기능 — Core Section: `P1-3.1`
-- [exploitation](/AiBook/reference/concept-glossary-parts/14-hieut/#exploitation) — 활용 — Core Section: `P1-8.3`
-- [exploration](/AiBook/reference/concept-glossary-parts/12-tieut/#exploration) — 탐험 — Core Section: `P1-8.3`
-- [expression](/AiBook/reference/concept-glossary-parts/07-siot/#expression) — 식 — Core Section: `P2-2.1`
+<a id="edge"></a>
+
+## edge
+
+- Meaning: 그래프에서 노드와 노드 사이의 연결을 나타내는 선 또는 관계 단위입니다. 단순한 선처럼 보이지만, 실제로는 `친구이다`, `링크한다`, `의존한다`, `비슷하다`처럼 어떤 관계가 성립하는 방식을 담는 데이터 항목입니다. 따라서 엣지는 그림 장식이 아니라, 노드 사이에 어떤 의미를 기록했는지를 담는 핵심 데이터 단위입니다.
+- Why it matters: 어떤 대상이 서로 연결되어 있는지, 그리고 그 연결에 방향이나 가중치가 있는지를 읽는 핵심 단위이기 때문입니다. 노드만 보면 대상 목록에 머물지만, 엣지를 읽어야 관계망의 흐름과 영향 경로를 해석할 수 있습니다. 이 개념이 있어야 그래프가 단순 그림이 아니라 `어떤 관계를 데이터로 삼았는가`를 담는 구조라는 점도 이해하게 됩니다. 결국 같은 노드 집합이라도 엣지를 어떻게 정의하느냐에 따라 전혀 다른 문제 표현이 된다는 점을 잡게 해 줍니다.
+- Related concepts: `graph`, `node`, `weight`
+- Core Section: `P2-9.3`
+- Appears in: `P2-9.4`, `P4-14.1`
+
+<a id="edge-weight"></a>
+
+## edge weight
+
+- Meaning: 그래프에서 한 노드와 다른 노드를 잇는 간선에 붙어, 거리, 비용, 강도, 중요도 같은 관계 크기를 나타내는 값입니다. 여기서의 가중치는 신경망 파라미터처럼 `학습되는 내부 계수`일 수도 있지만, 많은 그래프 문제에서는 `관계의 세기나 비용을 적어 둔 데이터 값`으로 쓰입니다. 즉 간선 가중치는 `연결이 있는가`를 넘어서 `그 연결이 얼마나 큰 의미를 갖는가`를 수치로 붙인 정보입니다.
+- Why it matters: 같은 연결이라도 모두 같은 의미가 아니라, 얼마나 가깝고 얼마나 비싸고 얼마나 강한지를 숫자로 다르게 읽어야 추천, 경로 탐색, 관계 분석의 기준이 분명해지기 때문입니다. 이 개념이 있어야 `연결 여부`만 보는 그래프와 `연결의 크기`까지 함께 계산하는 그래프 문제를 분리해 이해할 수 있습니다. 결국 간선 가중치를 이해해야 그래프를 단순 연결 그림이 아니라, 관계 강도와 비용까지 담는 정량 구조로 읽게 됩니다.
+- Related concepts: `graph`, `weight`, `directed graph`
+- Core Section: `P2-9.3`
+- Appears in: `P2-9.4`
+
+<a id="embedding"></a>
+
+## embedding
+
+- Meaning: 텍스트, 토큰, 문장, 문서 같은 입력을 모델과 검색 시스템이 비교할 수 있는 벡터 표현으로 바꾸는 방식입니다. 사람이 읽는 기호를 바로 계산하는 대신, 비슷한 의미나 용법이 가까운 위치에 놓이도록 수치 공간에 옮겨 놓는 표현층이라고 볼 수 있습니다. 즉 임베딩은 원래 표현을 버리는 것이 아니라, 비교와 계산에 더 잘 맞는 좌표 표현으로 다시 바꾸는 단계입니다.
+- Why it matters: 단어와 토큰을 조밀한 벡터 표현으로 바꿔 비슷한 문맥의 일반화를 가능하게 하고, 뒤에서는 유사도 검색과 RAG의 출발점이 되기 때문입니다. `임베딩`을 단순 저장 형식이 아니라 의미 비교를 가능하게 하는 표현 장치로 이해해야 벡터 검색도 자연스럽게 이어집니다. 또한 임베딩을 이해해야 같은 문장을 문자열 일치가 아니라 의미적 가까움으로 비교하는 방식이 왜 가능한지도 더 분명히 읽게 됩니다.
+- Related concepts: `distributed representation`, `similarity search`, `word2vec`, `vector`, `representation`
+- Core Section: `P6-3.1`
+- Appears in: `P1-11.1`, `P1-13.1`, `P1-13.2`, `P1-13.3`, `P5-10.1`, `P6-3.2`, `P6-3.3`, `P6-3.4`, `P7-5.1`
+
+<a id="encoder"></a>
+
+## encoder
+
+- Meaning: 입력 전체를 읽어 문맥이 반영된 내부 표현을 만드는 구성 요소입니다. 바깥의 문장이나 시퀀스를 바로 최종 답으로 내보내기보다, 먼저 모델이 다루기 좋은 내부 벡터 표현으로 바꾸는 읽기 단계라고 이해할 수 있습니다. 즉 인코더는 원본 기호열을 그대로 들고 가기보다, 이후 계산이 활용할 수 있는 요약된 표현 층으로 바꾸는 해석 장치입니다.
+- Why it matters: BERT 계열과 Encoder-Decoder 구조를 이해할 때, 입력을 어떻게 표현으로 바꾸는지 설명하는 핵심 역할이기 때문입니다. 이 개념이 있어야 `입력을 읽는 부분`과 `출력을 만들어 내는 부분`을 분리해 볼 수 있고, 인코더 중심 모델과 디코더 중심 모델의 역할 차이도 더 분명히 이해할 수 있습니다. 또한 인코더를 이해해야 분류, 검색, 의미 비교처럼 `좋은 내부 표현을 만드는 일`이 중심인 과제와, 실제 문장을 이어 생성하는 과제를 다른 층위로 설명하게 됩니다.
+- Related concepts: `decoder`, `Encoder-Decoder`, `contextual representation`
+- Core Section: `P1-11.3`
+- Appears in: `P1-11.2`, `P6-20.1`, `P6-20.2`
+
+<a id="-encoder-decoder"></a>
+
+## Encoder-Decoder
+
+- Meaning: 입력 시퀀스를 읽어 내부 표현으로 압축하는 부분과, 그 표현을 바탕으로 출력 시퀀스를 생성하는 부분을 나눈 구조입니다. 즉 `먼저 읽고`, `그다음 그 읽은 내용을 바탕으로 새 시퀀스를 만든다`는 두 단계 구조를 명시적으로 나눈 방식입니다.
+- Why it matters: 번역과 요약처럼 `입력을 읽고 다른 형태의 출력을 만든다`는 문제를 신경망이 어떻게 나누어 처리했는지 가장 분명하게 보여 주기 때문입니다. 이 개념이 있어야 입력을 이해하는 단계와 출력을 생성하는 단계를 분리해 읽게 되고, 왜 초기 Seq2Seq에서 고정 길이 벡터 병목이 생겼는지, 또 attention이 왜 필요한 보강으로 등장했는지도 자연스럽게 이어집니다. 또한 인코더-디코더를 이해해야 BERT류, GPT류, 번역기류 모델이 같은 언어 모델 계보 안에서도 입력 처리와 출력 생성의 배치를 어떻게 다르게 잡았는지 비교하기 쉬워집니다.
+- Related concepts: `Seq2Seq`, `fixed-length vector`, `Attention`
+- Core Section: `P1-11.2`
+- Appears in: `P1-11.3`, `P6-5.1`
+
+<a id="environment"></a>
+
+## environment
+
+- Meaning: 에이전트가 행동을 하고, 그 결과 상태 변화와 보상이 돌아오는 바깥 세계 또는 상호작용 대상입니다. 즉 환경은 에이전트 바깥에서 반응을 돌려주는 상대이며, 에이전트는 이 환경과 주고받으며 학습을 진행합니다.
+- Why it matters: 강화학습이 모델 내부 계산만이 아니라, 행동 이후 바깥 세계가 어떻게 반응하는지를 함께 다루는 문제라는 점을 보여 주기 때문입니다. 이 개념이 있어야 에이전트의 성능은 정책만으로 정해지는 것이 아니라, 어떤 환경에서 어떤 보상 규칙과 상태 전이를 만나느냐에도 크게 좌우된다는 점을 이해하게 됩니다. 즉 같은 행동도 환경이 다르면 전혀 다른 결과를 낳을 수 있다는 감각이 중요합니다. 또한 환경을 이해해야 `모델이 나쁘다`는 판단과 `문제가 놓인 세계 규칙이 다르다`는 상황을 분리해 읽게 됩니다. 다시 말해 환경은 에이전트가 풀어야 할 문제의 규칙 자체를 담는 바깥 조건입니다.
+- Related concepts: `agent`, `state`, `reward`
+- Core Section: `P1-8.3`
+- Appears in: `P4-2.3`
+
+<a id="environment-variable"></a>
+
+## environment variable
+
+- Meaning: 프로그램이 실행될 때 바깥 환경에서 함께 전달받는 이름표 붙은 설정값입니다. 코드 파일 안에 직접 적지 않고, 실행 시점 바깥에서 주입하는 설정 통로라고 볼 수 있습니다. 즉 프로그램 내부 로직과 별도로 `이 실행에서는 어떤 키와 경로와 모드를 쓸 것인가`를 바깥에서 정해 전달하는 방식입니다.
+- Why it matters: API 키, 경로, 실행 모드처럼 코드 본문 밖의 설정이 어떻게 전달되는지 이해해야 터미널 명령과 환경 점검을 올바르게 읽을 수 있기 때문입니다. 이 개념이 있어야 코드 로직과 배포·운영 설정을 분리해 이해할 수 있고, 같은 코드라도 환경 변수 값에 따라 왜 다른 동작을 할 수 있는지도 설명할 수 있습니다. 특히 비밀값을 소스코드에 직접 적지 않고 바깥에서 주입하는 이유, 그리고 로컬 실행과 배포 환경이 왜 서로 다른 설정을 가질 수 있는지도 자연스럽게 이어집니다. 또한 환경 변수를 이해해야 `설정 파일을 읽는 일`과 `운영체제가 실행 시 전달하는 값`을 구분하게 되어, 문제 원인을 코드 오류가 아니라 실행 환경 차이에서 찾는 감각도 더 빨리 생깁니다.
+- Related concepts: `redirection`, `PATH`, `runtime`
+- Core Section: `P2-7.8`
+- Appears in: `P2-7.9`
+
+<a id="epoch"></a>
+
+## epoch
+
+- Meaning: 학습 데이터 전체를 한 번 끝까지 본 반복 횟수입니다. step이 `업데이트 한 번`을 세고, batch가 `한 번에 함께 넣는 샘플 묶음`을 가리킨다면, 에폭은 그 묶음들을 모두 지나 데이터셋 한 바퀴를 돌았는지를 세는 더 큰 반복 단위입니다.
+- Why it matters: 학습 로그에서 `step 2000`, `batch size 32`, `epoch 4`가 서로 다른 대상을 센다는 점을 구분해야 학습 진행 상황을 덜 헷갈리기 때문입니다. 이 개념이 있어야 업데이트 횟수와 데이터 전체 순환 횟수를 같은 말로 섞지 않게 되고, 손실 곡선과 정확도 곡선을 읽을 때도 `지금 몇 번의 업데이트가 있었는가`와 `데이터를 몇 바퀴 돌았는가`를 함께 해석하게 됩니다. 또한 에폭을 이해해야 조기 종료, 검증 손실 비교, 학습 정체 판단이 왜 step 수만이 아니라 데이터 전체 반복 기준으로도 자주 기록되는지 자연스럽게 이어집니다.
+- Related concepts: `batch`, `training`, `loss curve`, `accuracy`
+- Core Section: `P5-6.2`
+- Appears in: `P2-13.2`, `P5-6.1`, `P7-4.1`
+
+<a id="error"></a>
+
+## error
+
+- Meaning: 추정값이나 예측값과 실제 값 사이의 차이입니다. 핵심은 `틀렸는가`만이 아니라 `얼마나, 어느 방향으로 벗어났는가`를 함께 보는 데 있습니다. 그래서 오차는 단순 실패 표시가 아니라, 예측이 얼마나 빗나갔는지 측정하는 수치적 차이로 읽어야 합니다.
+- Why it matters: 모델 평가와 통계 추정이 모두 완전히 맞는 것이 아니라 차이를 줄이고 해석하는 과정임을 보여 주기 때문입니다. 이 개념이 있어야 손실 함수가 왜 필요한지, 그리고 큰 오차와 작은 오차를 다르게 다루는 이유도 함께 이해하게 됩니다. 또한 오차의 부호와 크기를 함께 보면 `항상 한쪽으로 치우쳐 틀리는가`와 `무작위로 흔들리는가`를 구분하게 되어, 단순 성능 저하와 체계적 편향을 더 분명히 읽게 됩니다. 결국 오차를 읽을 수 있어야 모델이 `좋다/나쁘다`를 넘어서 `어떤 방식으로 빗나가는가`까지 진단하게 됩니다.
+- Related concepts: `estimation`, `loss`, `sample`
+- Core Section: `P2-5.3`
+- Appears in: `P2-5.4`, `P2-6.1`, `P2-6.3`
+
+<a id="error-case"></a>
+
+## error case
+
+- Meaning: 모델, 검색, 실행, 배포 결과에서 예상과 달리 흔들린 구체 사례 하나를 다시 추적할 수 있게 기록한 항목입니다. 단순히 `틀렸다`는 결론만 적는 것이 아니라, 어떤 샘플이었는지, 실제 결과와 예측 결과가 어떻게 갈렸는지, 다음에 무엇을 다시 봐야 하는지까지 함께 남긴 사례 단위 기록이라고 볼 수 있습니다. 즉 오류 사례는 점수표 바깥에서 실패 구조를 다시 읽게 만드는 대표 장면입니다.
+- Why it matters: 정확도나 평균 점수만으로는 어떤 샘플에서 왜 흔들렸는지 보이지 않아, 다음 데이터 보강이나 표현 수정, 구조 선택 질문이 쉽게 막연해지기 때문입니다. 이 개념이 있어야 `점수가 낮다`와 `이 샘플에서 어떤 종류의 실패가 났다`를 분리해 읽게 되고, 비교표와 회고 문장이 실제 사례에 발을 딛게 됩니다. 또한 오류 사례를 이해해야 Part 7의 비교 실험이 단순 모델 순위표가 아니라, 실패를 다음 질문으로 바꾸는 프로젝트 기록이라는 점도 더 또렷하게 보게 됩니다.
+- Related concepts: `review target`, `structural hypothesis`, `failure type`, `evaluation`, `retrospective`
+- Core Section: `P7-2.1`
+- Appears in: `P7-2.3`, `P7-3.2`, `P7-4.2`, `P7-summary`
+
+<a id="error-sample"></a>
+
+## error sample
+
+- Meaning: 평가나 실행 과정에서 예측이 틀렸거나 기대와 다르게 흔들린 개별 샘플입니다. `오류 사례(error case)`가 실패 원인과 다음 조치까지 더 넓게 묶은 기록이라면, 오류 샘플은 그 기록의 출발점이 되는 개별 실패 사례 한 건이라고 볼 수 있습니다. 즉 오류 샘플은 점수표 뒤에 숨어 있는 실제 오답 위치를 다시 찾게 만드는 최소 단위입니다.
+- Why it matters: 정확도나 평균 점수만으로는 무엇이 틀렸는지 보이지 않아, 다음 분석과 수정이 막연해지기 때문입니다. 이 개념이 있어야 어떤 문장, 어떤 이미지, 어떤 로그 구간이 흔들렸는지를 다시 고정하게 되고, 틀린 사례 목록과 샘플별 비교표도 단순 표가 아니라 실제 실패 위치를 가리키는 기록이 됩니다. 또한 오류 샘플을 이해해야 Part 7의 학습 로그와 평가 기록이 `몇 점이 나왔는가`를 넘어서 `어디서 흔들렸는가`를 남기는 문서라는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `wrong-case list`, `error case`, `sample-by-sample comparison table`, `evaluation record`, `review-target sample`
+- Core Section: `P7-3.1`
+- Appears in: `P7-3.2`, `P7-4.1`, `P7-4.2`, `P7-summary`
+
+<a id="estimation"></a>
+
+## estimation
+
+- Meaning: 표본으로 모집단의 값이나 성질을 조심스럽게 짐작하는 일입니다. 즉 지금 손에 든 일부 데이터를 바탕으로, 전체가 어떨지를 수치나 규칙으로 가늠하는 과정입니다. 직접 전체를 다 볼 수 없기 때문에, 현재 관측에서 얻은 신호를 근거로 가장 그럴듯한 값을 세우는 판단 절차라고 볼 수 있습니다.
+- Why it matters: 우리가 가진 데이터와 점수는 현실 전체를 직접 본 결과가 아니라 일부 표본에서 계산한 근사치라는 점을 잊지 않게 해 주기 때문입니다. 이 감각이 있어야 `현재 데이터셋 점수`와 `실제 환경 전체 성능`을 구분하게 되고, 표본이 바뀌면 평균과 성능 평가도 흔들릴 수 있다는 점을 더 자연스럽게 받아들이게 됩니다. 예를 들어 테스트셋 정확도 92%는 `항상 92%`라는 확정 진실이 아니라, 지금 가진 표본에서 그렇게 보였다는 추정 결과입니다. 결국 추정 개념이 있어야 숫자를 결과 그 자체가 아니라, 오차와 불확실성을 가진 판단 근거로 읽게 됩니다.
+- Related concepts: `population`, `sample`, `error`
+- Core Section: `P2-5.3`
+- Appears in: `P2-5.4`, `P2-6.1`
+
+<a id="evaluation"></a>
+
+## evaluation
+
+- Meaning: 모델 출력이 정답이나 기준에 얼마나 맞는지, 또는 여러 모델 가운데 무엇이 더 나은지 점검하는 과정입니다. 점수 하나를 읽는 일에 그치지 않고, 무엇을 비교하고 어떤 기준으로 채점할지를 먼저 정하는 판단 절차까지 포함합니다. 즉 평가는 결과를 나중에 재는 부속 단계가 아니라, `무엇을 잘한 것으로 볼 것인가`를 먼저 정하는 설계 행위이기도 합니다.
+- Why it matters: 같은 모델이라도 무엇을 잘했다고 볼지 먼저 정하지 않으면 성능 비교가 흔들리고, 모델 점수와 실제 업무 성과를 구분하기 어려워지기 때문입니다. 그래서 평가는 모델 성능 확인이면서 동시에 문제 정의 점검이기도 합니다. 이 개념이 있어야 `숫자가 올랐다`는 사실만으로 충분하지 않고, 그 숫자가 실제 사용 목표를 얼마나 제대로 대변하는지도 함께 따져야 함을 이해하게 됩니다. 또한 평가를 이해해야 좋은 모델을 찾는 일과 좋은 평가 절차를 짜는 일이 따로 존재한다는 점도 자연스럽게 받아들이게 됩니다. 특히 Part 7에서는 평가를 `정확도 숫자를 적는 일`로만 보지 않고, 기준 모델과의 비교, 틀린 사례 목록, 다음 질문까지 함께 남기는 프로젝트 기록으로 읽어야 한다는 점도 더 선명하게 보게 됩니다.
+- Related concepts: `output`, `metric`, `task definition`, `validation`, `human evaluation`
+- Core Section: `P6-16.1`
+- Appears in: `P1-4.4`, `P1-12.3`, `P1-14.5`, `P1-14.6`, `P3-3.2`, `P3-8.2`, `P3-9.2`, `P6-16.2`, `P6-17.1`, `P6-17.2`, `P6-18.2`, `P7-2.1`, `P7-2.2`, `P7-4.2`, `P7-5.2`, `P7-7.2`
+
+<a id="evaluation-mode"></a>
+
+## evaluation mode
+
+- Meaning: 현재 모델을 흔들림 적게 측정하거나 실제 서비스에 사용하기 위해, 평가용 계산 규칙을 적용하고 있는 상태입니다. 학습 때와 달리 dropout 같은 무작위 요소를 끄고, 축적된 통계를 기준으로 더 안정된 출력을 내게 하는 실행 상태라고 볼 수 있습니다. 즉 파라미터는 그대로 두되, `지금은 배우는 중인가 아니면 재는 중인가`에 따라 계산 태도를 바꾸는 모드입니다.
+- Why it matters: 검증, 테스트, 배포에서는 학습 중의 무작위 흔들림과 배치 의존성을 줄여야 현재 모델의 성능과 서비스 출력 안정성을 더 공정하게 확인할 수 있기 때문입니다. 이 개념이 있어야 `같은 모델인데 왜 학습 중과 평가 때 결과가 다를 수 있는가`를 설명할 수 있습니다. 또한 평가 모드를 이해해야 성능 저하가 모델 자체 문제인지, 학습 모드로 잘못 둔 실행 절차 문제인지 분리해서 진단하게 됩니다.
+- Related concepts: `training`, `training mode`, `test`
+- Core Section: `P5-6.4`
+- Appears in: `P5-8.2`
+
+<a id="evaluation-record"></a>
+
+## evaluation record
+
+- Meaning: 모델이나 시스템을 평가할 때 남긴 점수, 실패 샘플, 기준 설정, 메모, 후속 조치를 묶어 둔 기록입니다. 점수 한 줄만 적는 것이 아니라, `어떤 기준으로 재었고`, `어디서 흔들렸고`, `다음에 무엇을 더 봐야 하는가`까지 다시 읽을 수 있게 남긴 평가용 원장이라고 볼 수 있습니다. 즉 평가 기록은 채점 결과 보관함이 아니라, 비교와 회고를 다시 열기 위한 실행 문서입니다.
+- Why it matters: 같은 정확도 숫자라도 어떤 데이터와 어떤 설정과 어떤 실패 샘플에서 나온 것인지 흐리면 다음 수정 방향을 잘못 잡기 쉽기 때문입니다. 이 개념이 있어야 평가를 점수 하나로 끝내지 않고, 비교 결과와 틀린 사례 목록과 검토 요약을 함께 남기게 됩니다. 또한 평가 기록을 이해해야 Part 7의 구조 선택, 검색 품질 점검, 실패 회고가 서로 다른 프로젝트처럼 보여도 실제로는 모두 `무엇을 재었고 무엇이 남았는가`라는 공통 기록 구조 위에서 다시 연결된다는 점도 더 선명하게 읽게 됩니다.
+- Related concepts: `evaluation`, `execution summary`, `wrong-case list`, `review summary`, `retrospective`
+- Core Section: `P7-3.2`
+- Appears in: `P7-4.2`, `P7-5.2`, `P7-7.2`, `P7-summary`
+
+<a id="event"></a>
+
+## event
+
+- Meaning: 관심 있는 결과들을 묶어 놓은 집합입니다. 예를 들어 주사위에서 `짝수가 나온다`는 사건은 `2`, `4`, `6`이라는 여러 개별 결과를 한 관심 주제로 묶어 놓은 표현입니다. 즉 사건은 낱개 결과를 그대로 세는 대신, 우리가 알고 싶은 조건 중심으로 묶어 읽는 단위입니다.
+- Why it matters: 확률 문제는 보통 하나의 미세한 결과보다 `이 조건을 만족하는가`를 묻기 때문에, 개별 결과들을 어떤 기준으로 한 덩어리로 묶는지가 해석의 출발점이 되기 때문입니다. 이 개념이 있어야 현실의 질문이 `정확히 이 값인가`보다 `허용 범위를 넘었는가`, `위험 구간에 들어갔는가` 같은 사건 형태로 주어진다는 점을 이해하게 되고, 같은 표본공간도 무엇을 관심 사건으로 잡느냐에 따라 읽는 의미가 달라진다는 점도 자연스럽게 보게 됩니다. 결국 사건을 이해해야 확률은 `무슨 결과가 나왔는가`만이 아니라 `어떤 조건이 성립했는가`를 묻는 언어라는 점을 읽게 됩니다.
+- Related concepts: `outcome`, `sample space`, `probability`
+- Core Section: `P2-5.1`
+- Appears in: `P2-5.2`, `P2-5.3`
+
+<a id="evidence"></a>
+
+## evidence
+
+- Meaning: 현재 판단을 바꾸거나 더 정교하게 만드는 관측 정보와 단서입니다. 문장 하나를 그럴듯하게 만드는 배경 장식이 아니라, 지금 내린 결론을 실제로 지지하거나 약화시키는 자료를 뜻합니다. 중요한 점은 근거가 `있다`는 사실보다, 그 근거가 지금 주장과 실제로 어떻게 연결되는지가 더 본질이라는 점입니다. 즉 근거는 링크나 인용 이름표 자체가 아니라, `이 자료가 지금 이 주장에 왜 해당하는가`를 설명할 수 있어야 비로소 근거 역할을 합니다.
+- Why it matters: 불확실한 상태에서도 새 관측이 들어오면 결론의 그럴듯함이 어떻게 바뀌는지 읽게 해 주기 때문입니다. 생성형 AI 문맥에서는 자연스러운 답변과 근거 있는 답변을 구분하는 기준점이기도 합니다. 이 개념이 있어야 `말이 그럴듯하다`와 `실제로 뒷받침되는 자료가 있다`를 분리하게 되고, 검토 과정에서도 무엇을 다시 확인해야 하는지 더 선명해집니다. 예를 들어 논문 제목 하나만 붙이는 것은 충분한 근거가 아닐 수 있고, 실제로 그 논문이 지금 주장한 정의나 수치를 지지하는지까지 확인해야 합니다. 또한 근거를 이해해야 `관련 있어 보이는 자료`와 `현재 결론을 직접 떠받치는 자료`를 구분하게 되고, 검색 결과를 많이 붙이는 일과 실제 주장을 검증하는 일을 같은 것으로 보지 않게 됩니다.
+- Related concepts: `uncertainty`, `probability`, `probabilistic reasoning`, `provenance`, `review`
+- Core Section: `P1-12.3`
+- Appears in: `P1-6.2`, `P1-10.3`, `P7-5.1`, `P7-5.2`
+
+<a id="evidence-review"></a>
+
+## evidence review
+
+- Meaning: AI 초안이나 검색 결과를 그대로 믿지 않고, 현재 주장에 맞는 자료인지 다시 대조해 보는 검토 과정입니다. 단순히 링크를 하나 붙이거나 문서 제목을 찾는 데서 끝나는 것이 아니라, 출처의 신뢰도, 주장과 자료의 실제 대응 관계, 확인 시점까지 함께 점검하는 절차에 가깝습니다. 즉 근거 확인은 `자료를 찾았다`보다 `그 자료가 지금 이 문장을 정말 떠받치는가`를 다시 묻는 단계입니다.
+- Why it matters: 생성형 AI는 그럴듯한 초안을 빠르게 만들 수 있지만, 사실 주장과 법적 판단, 최신 정보, 수치 설명은 여전히 별도 검증이 필요하기 때문입니다. 이 개념이 있어야 검색, 요약, 생성이 끝났다고 해서 곧바로 검토까지 끝난 것으로 보지 않게 되고, `후보 자료 수집`과 `실제 주장 검증`을 다른 작업으로 나누어 읽게 됩니다. 또한 근거 확인을 이해해야 같은 출처를 보더라도 어떤 문장은 충분히 뒷받침되고 어떤 문장은 여전히 과장일 수 있다는 점, 그리고 사람 검토와 출처 추적이 왜 마지막 단계까지 남아 있어야 하는지도 더 분명하게 읽게 됩니다.
+- Related concepts: `review`, `evidence`, `provenance`, `factuality`, `recency`
+- Core Section: `P1-16.1`
+- Appears in: `P1-10.3`, `P1-12.3`, `P1-16.2`, `P7-5.1`, `P7-5.2`
+
+<a id="example"></a>
+
+## example
+
+- Meaning: 데이터 안의 한 건을 이루는 관찰 사례입니다. 추상 개념을 실제 데이터 한 건이나 업무 한 장면으로 내려와 보이게 하는 학습용 단위로도 읽을 수 있습니다. 즉 사례는 `이론에서 말한 입력과 출력이 실제로는 어떤 모습인가`를 손에 잡히게 보여 주는 구체 한 건입니다.
+- Why it matters: 데이터가 단순 파일 모음이 아니라 입력과 출력이 연결된 사례 묶음이라는 점을 보여 줍니다. 사례를 통해서야 독자가 입력, 라벨, 출력이 실제로 어떤 모습인지 손에 잡히게 볼 수 있습니다. 또한 사례 단위로 생각해야 데이터셋 분할, 오류 분석, 라벨 품질 점검도 실제 한 건씩 다시 읽으며 진행된다는 점을 이해하게 되고, 평균 점수 뒤에 가려진 실패 양상도 한 사례씩 열어 봐야 드러난다는 점을 함께 읽게 됩니다. 즉 사례 개념이 분명해야 `전체 평균 성능`과 `개별 실패 장면`을 분리해 읽는 습관이 생깁니다.
+- Related concepts: `data`, `label`, `input`, `sample`
+- Core Section: `P1-4.2`
+- Appears in: `P1-3.2`, `P1-12.1`
+
+<a id="exception"></a>
+
+## exception
+
+- Meaning: 기존 규칙이나 일반적 패턴으로는 잘 처리되지 않는 특별한 사례입니다. 평소에는 잘 맞던 규칙이 어떤 조건에서는 갑자기 어긋나게 만드는 경계 사례라고 볼 수 있습니다. 즉 예외는 단순한 오류 메시지가 아니라, `지금까지 세운 일반 규칙이 어디서 깨지는가`를 드러내는 사례입니다.
+- Why it matters: 규칙 집합이 현실 문제에서 빠르게 복잡해지는 핵심 원인 중 하나이며, 언제 규칙만으로 닫히지 않는지 읽게 해 주기 때문입니다. 이 개념이 있어야 `규칙을 하나 더 추가하면 되지 않을까`라는 직관이 왜 금방 관리 불가능한 분기 폭증으로 이어지는지 이해하게 되고, 탐색, 확률, 학습 기반 접근이 등장한 배경도 더 자연스럽게 연결됩니다. 예를 들어 고객 문의를 키워드 규칙으로만 분류할 때 대부분은 잘 나뉘어도, 풍자 표현이나 복합 요청처럼 예외가 조금씩 늘어나면 규칙 추가만으로는 전체 구조가 급격히 복잡해집니다. 결국 예외를 이해해야 틀린 사례가 단순 실수인지, 아니면 표현 방식 전체를 다시 바꿔야 한다는 신호인지도 구분하게 됩니다.
+- Related concepts: `rule-based system`, `incomplete information`, `noise`
+- Core Section: `P1-6.1`
+
+<a id="excessive-agency"></a>
+
+## excessive agency
+
+- Meaning: 에이전트나 자동화 시스템이 현재 작업 목적에 비해 지나치게 넓은 실행 권한과 행동 자율성을 가진 상태입니다. 단순히 도구가 많다는 뜻이 아니라, 읽기만 필요한 작업인데 쓰기와 전송과 배포까지 열려 있거나, 확인 단계가 필요한데 곧바로 실행까지 이어질 수 있는 상태를 가리킵니다. 즉 과도한 권한은 `할 수 있는 일`이 `해야 하는 일`보다 너무 넓게 열려 있는 구조적 위험입니다.
+- Why it matters: 생성형 AI는 한 번의 판단 오류나 입력 공격이 곧바로 실제 상태 변경으로 이어질 수 있어, 권한 과잉이 작은 실수를 큰 사고로 확대하기 때문입니다. 이 개념이 있어야 모델의 지능 수준과 별개로, 시스템이 허용한 실행 자율성 자체가 위험 원인이 될 수 있다는 점을 이해하게 됩니다. 또한 과도한 권한을 이해해야 최소 권한, 실행 범위 제한, 명시적 승인, 중단 권한 같은 장치들이 왜 편의를 줄이는 부가 절차가 아니라 사고 규모를 줄이는 핵심 안전장치인지도 더 선명하게 읽게 됩니다.
+- Related concepts: `least privilege`, `scope`, `approval`, `security`, `agent`
+- Core Section: `P1-15.3`
+- Appears in: `P1-10.3`, `P1-14.6`, `P7-6.2`
+
+<a id="execution-environment"></a>
+
+## execution environment
+
+- Meaning: 모델 호출, 도구 실행, 파일 접근, 설정, 권한처럼 실제 작업이 돌아가는 조건 전체를 가리키는 말입니다. 코드나 모델 자체 바깥에서, 실행 가능 범위와 연결 능력을 함께 정하는 바깥 껍질에 가깝습니다. 예를 들어 같은 에이전트라도 네트워크가 막혀 있는지, 로컬 파일 쓰기가 되는지, 어떤 승인 정책이 걸려 있는지에 따라 사실상 다른 실행 환경에서 일하는 셈입니다.
+- Why it matters: 같은 모델과 같은 프롬프트라도 어떤 파일에 접근할 수 있는지, 어떤 도구가 연결되어 있는지, 어떤 제한 안에서 실행되는지에 따라 결과와 위험이 크게 달라지기 때문입니다. 그래서 실행 환경은 단순 기술 배경이 아니라 품질과 안전을 함께 바꾸는 조건입니다. 이 개념이 있어야 `모델이 못했다`는 문제와 `환경이 허용하지 않았다`는 문제를 구분해 해석할 수 있습니다. 또한 실행 환경을 분리해 이해해야 권한, 재현성, 안전성 문제를 모두 모델 성능 탓으로 돌리지 않고, 운영 설계 문제로도 정확히 읽게 됩니다.
+- Related concepts: `harness`, `reproducibility`, `host`
+- Core Section: `P1-14.5`
+- Appears in: `P2-7.1`
+
+<a id="execution-order"></a>
+
+## execution order
+
+- Meaning: 노트북에서 셀들이 실제로 어떤 순서로 실행되었는지를 가리키는 기록입니다. 문서에 보이는 배치 순서와는 별개로, 런타임 상태를 실제로 만든 시간 순서라고 볼 수 있습니다. 즉 실행 순서는 `화면에서 위에 있느냐`보다 `무엇이 먼저 상태를 바꿨느냐`를 알려 주는 정보입니다.
+- Why it matters: 화면에 보이는 위아래 순서와 실제 실행 순서가 다르면 같은 노트북도 다시 실행했을 때 다른 결과가 나올 수 있기 때문입니다. 노트북 오류를 읽을 때는 코드 내용만이 아니라 실행 순서도 함께 봐야 하는 이유가 여기 있습니다. 이 개념이 있어야 `정의 셀을 건너뛰고 아래 셀만 다시 실행한 문제`를 문법 오류와 구분해 읽을 수 있습니다. 또한 실행 순서를 이해해야 출력이 맞아 보인다고 해서 현재 코드와 상태가 일치한다고 바로 단정하지 않게 됩니다. 결국 실행 순서는 노트북이 `문서`이면서 동시에 `상태를 가진 실행 기록`이라는 점을 드러냅니다.
+- Related concepts: `notebook`, `hidden state`, `reproducible record`
+- Core Section: `P2-10.3`
+- Appears in: `P2-10.1`, `P2-10.2`
+
+<a id="execution-scene"></a>
+
+## execution scene
+
+- Meaning: 문서나 회고에서 형식 이름만 적지 않고, 실제로 무엇을 돌렸고 무엇을 비교했고 무엇을 확인하는 단계인지 한눈에 보이게 만드는 실행 맥락 단위입니다. 예를 들어 `기준점 비교`, `오류 사례 검토`, `배포 점검`처럼 독자가 지금 보고 있는 표와 로그가 어떤 작업 순간에 속하는지 드러내는 이름표라고 볼 수 있습니다. 즉 실행 장면은 문서 구조를 실제 작업 흐름에 다시 묶어 주는 서술 단위입니다.
+- Why it matters: 같은 비교표나 요약표라도 어느 장면에서 나온 것인지 흐리면 숫자와 해석을 다시 읽기 어려워지고, 문서가 형식 목록처럼 보이기 쉽기 때문입니다. 이 개념이 있어야 `표가 있다`보다 `지금은 기준 모델과 비교하는 장면인가, 실패 샘플을 검토하는 장면인가`를 먼저 구분하게 되고, 프로젝트 문서를 다시 실행 가능한 기록으로 읽게 됩니다. 또한 실행 장면을 이해해야 Part 7의 프로젝트 글쓰기가 템플릿 채우기가 아니라, 실제 실행 흐름을 독자가 다시 따라갈 수 있게 배치하는 작업이라는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `execution summary`, `comparison table`, `retrospective`, `run record`, `review`
+- Core Section: `P7-index`
+- Appears in: `P7-1.1`, `P7-2.1`, `P7-7.1`, `P7-summary`
+
+<a id="execution-summary"></a>
+
+## execution summary
+
+- Meaning: 한 번의 실행에서 질문, 입력 규모, 기준 모델 결과, 현재 모델 결과, 실패 샘플, 추가 검토 대상을 짧은 구조로 다시 묶어 남긴 요약 기록입니다. 전체 코드나 로그를 다시 열지 않아도 `이번 실행에서 무엇을 돌렸고 어떤 결과가 나왔는가`를 한눈에 읽게 만드는 최소 실행 묶음이라고 볼 수 있습니다. 즉 실행 요약은 긴 실행 흔적을 사람이 바로 다시 읽을 수 있는 비교 가능한 단위로 압축한 기록입니다.
+- Why it matters: 모델 실험과 검색 실험은 같은 프로젝트 안에서도 입력 수, 기준점, 실패 샘플이 쉽게 달라지므로, 최소 실행 결과를 따로 묶지 않으면 다음 비교와 재실험 판단이 흐려지기 때문입니다. 이 개념이 있어야 전체 점수만 남기지 않고, 학습 샘플 수, 평가 샘플 수, baseline 결과, 오류 샘플처럼 해석에 필요한 실행 문맥을 함께 남기게 됩니다. 또한 실행 요약을 이해해야 Part 7의 비교 실험이 단순 로그 출력이 아니라, 다음 회고와 개선 계획이 기대는 기준 기록이라는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `run record`, `baseline model`, `error case`, `review summary`, `retrospective`
+- Core Section: `P7-2.1`
+- Appears in: `P7-index`, `P7-3.1`, `P7-4.1`, `P7-5.1`, `P7-summary`
+
+<a id="exhaustive-search"></a>
+
+## exhaustive search
+
+- Meaning: 가능한 경우를 빠짐없이 하나씩 모두 살펴보는 탐색 방식입니다. 즉 후보를 미리 줄이거나 우선순위를 두지 않고, 정답이 있을 만한 모든 경로를 끝까지 다 확인하는 접근입니다. 말하자면 완전 탐색은 `혹시 빠뜨린 경우가 없도록 전부 본다`는 가장 직선적인 탐색 태도입니다.
+- Why it matters: 모든 경우를 직접 확인하므로 정답 보장 측면에서는 가장 단순하고 분명한 기준선이 되지만, 경우의 수가 조금만 커져도 계산량이 급격히 늘어난다는 한계를 함께 보여 주기 때문입니다. 이 개념이 있어야 휴리스틱, 가지치기, 근사 해법이 왜 등장하는지 이해하게 되고, `가능한가`와 `현실 시간 안에 가능한가`를 구분해 읽게 됩니다. 또한 완전 탐색을 이해해야 어떤 방법이 `빠른 대신 일부를 건너뛴다`고 말할 때, 정확히 무엇을 포기하고 무엇을 얻는지 비교 기준도 더 분명해집니다.
+- Related concepts: `search`, `search space`, `computational limit`
+- Core Section: `P1-7.1`
+- Appears in: `P1-7.2`, `P1-13.4`
+
+<a id="expert-system"></a>
+
+## expert system
+
+- Meaning: 특정 도메인의 전문가 판단을 규칙과 지식 기반으로 표현해 결론이나 조언을 제공하려 한 규칙 기반 시스템 계열입니다. 즉 숙련된 사람의 판단 절차를 좁은 분야 안에서 기계적으로 재현해 보려는 시도라고 이해할 수 있습니다. 다시 말해 전문가 시스템은 기호 기반 AI가 실제 업무 조언 형태로 구현된 대표 응용 장면입니다.
+- Why it matters: 규칙 기반 시스템의 가능성과 한계를 역사적으로 가장 선명하게 보여 주는 대표 사례이기 때문입니다. 이 개념이 있어야 AI 역사에서 `잘 정의된 좁은 문제에서는 강했지만 지식 획득과 유지가 어려웠다`는 교훈이 왜 중요한지 읽을 수 있습니다. 또한 전문가 시스템을 이해해야 설명 가능성과 통제 가능성이 강점이더라도, 도메인이 넓어지거나 예외가 많아질수록 왜 유지 비용이 급격히 커질 수 있는지도 더 분명히 보게 됩니다. 결국 전문가 시스템은 `규칙으로 풀 수 있는 문제의 힘`과 `규칙만으로 버티기 어려운 한계`를 함께 보여 준 역사적 기준점입니다.
+- Related concepts: `rule-based system`, `knowledge acquisition`, `inference engine`
+- Core Section: `P1-3.1`
+- Appears in: `P1-2.1`, `P1-2.2`
+
+<a id="explanation-facility"></a>
+
+## explanation facility
+
+- Meaning: 어떤 사실과 어떤 규칙이 연결되어 현재 결론이 나왔는지 보여 주는 기능입니다. 단순히 답만 내놓는 것이 아니라, `이 사실이 참이었고 이 규칙이 적용되어 이런 결론이 나왔다`는 경로를 사람이 다시 읽을 수 있게 보여 주는 장치입니다. 즉 결과만 보여 주는 시스템이 아니라, 결과가 나온 이유를 규칙 경로로 되짚을 수 있는 시스템이라고 볼 수 있습니다. 다시 말해 설명 기능은 `정답 제시`보다 `판단 경로 공개`에 더 가까운 기능입니다.
+- Why it matters: 규칙 기반 시스템의 강점인 설명 가능성이 어디서 나오는지 구체적으로 이해하게 해 주기 때문입니다. 이 개념이 있어야 규칙 기반 접근이 왜 감사(audit), 정책 검토, 책임 추적에 유리했는지, 반대로 데이터 기반 모델에서는 같은 수준 설명이 왜 더 어려운지도 비교해 읽을 수 있습니다. 또한 설명 기능을 이해해야 `설명할 수 있다`는 말이 단순 요약 문장을 붙이는 일이 아니라, 실제 판단 근거 경로를 재구성할 수 있는가의 문제라는 점도 더 분명해집니다. 그래서 이 항목은 오늘날 LLM 설명 가능성 논의와도 대비됩니다. 규칙 기반 시스템은 경로를 직접 보여 주기 쉽지만, 학습된 모델은 같은 수준의 근거 경로를 항상 그대로 드러내지 못할 수 있습니다.
+- Related concepts: `rule-based system`, `inference engine`, `fact`
+- Core Section: `P1-3.1`
+- Appears in: `P1-2.1`
+
+<a id="exploitation"></a>
+
+## exploitation
+
+- Meaning: 지금까지 얻은 정보 기준으로 가장 좋아 보이는 행동을 선택하는 방식입니다. 이미 효과가 좋아 보이는 선택지를 반복 활용해 당장 더 높은 보상을 얻으려는 전략이라고 볼 수 있습니다. 즉 새 정보를 얻기보다, 현재까지의 학습 결과를 실제 성과로 바꾸는 쪽에 무게를 두는 선택입니다.
+- Why it matters: 새로운 시도를 줄이는 대신 현재 성과를 높이려는 선택이므로, 탐험과 함께 강화학습의 핵심 균형 문제를 이룹니다. 이 개념이 있어야 `지금 당장 좋아 보이는 선택`과 `미래를 위해 새로운 선택을 시험하는 일`이 왜 자주 충돌하는지 읽을 수 있습니다. 또한 활용을 이해해야 탐험이 너무 적으면 조기 수렴에 빠질 수 있지만, 활용이 너무 약하면 이미 배운 좋은 전략을 제대로 수확하지 못한다는 점도 함께 보게 됩니다. 즉 활용은 `이미 배운 것을 얼마나 믿고 밀어붙일 것인가`를 정하는 선택이라고도 볼 수 있습니다.
+- Related concepts: `exploration`, `policy`, `reward`
+- Core Section: `P1-8.3`
+- Appears in: `P4-2.3`
+
+<a id="exploration"></a>
+
+## exploration
+
+- Meaning: 아직 충분히 시도하지 않은 행동을 일부러 해 보며 정보를 늘리는 선택입니다. 지금 당장 최고로 보이지 않더라도, 더 나은 전략이 숨어 있는지 확인하기 위해 일부러 새로운 행동을 시험하는 단계라고 볼 수 있습니다.
+- Why it matters: 현재 좋아 보이는 행동만 반복하면 더 나은 행동을 영영 발견하지 못할 수 있어, 강화학습에서 학습 자체를 가능하게 만드는 축이 되기 때문입니다. 이 개념이 있어야 `지금 당장 점수가 높은 선택`과 `장기적으로 더 좋은 전략을 찾기 위한 시도`를 구분하게 되고, 강화학습이 단순 최적 행동 반복으로는 성립하지 않는다는 점도 읽게 됩니다. 또한 탐험을 이해해야 실수처럼 보이는 선택이 사실은 정보 수집을 위한 합리적 시도일 수 있다는 점, 그리고 탐험 비율을 어떻게 조절하느냐가 학습 속도와 최종 성능 모두에 영향을 준다는 점도 함께 보게 됩니다.
+- Related concepts: `exploitation`, `policy`, `reward`
+- Core Section: `P1-8.3`
+- Appears in: `P4-2.3`, `P4-19.3`, `P4-summary`
+
+<a id="expression"></a>
+
+## expression
+
+- Meaning: 값, 변수, 연산, 함수 호출을 조합해 계산이나 관계를 적어 놓은 표현입니다. 식은 평가되면 하나의 값이 되거나, 현재 값들 사이의 계산 규칙을 드러냅니다. 즉 식은 `어떻게 계산할 것인가`를 한 덩어리로 적어 둔 최소 계산 단위라고 볼 수 있으며, 문장 전체보다 더 작은 계산 조각입니다.
+- Why it matters: AI 수식과 Python 코드 모두 긴 절차를 작은 식들로 쪼개 읽습니다. 식을 읽는 감각이 있어야 `지금 계산되는 값`, `아직 정의 단계인 관계`, `다음 단계로 넘길 결과`를 구분할 수 있습니다. 또한 식은 여러 값을 한 번에 엮어 새 값을 만드는 최소 계산 단위이므로, 복잡한 코드와 수식을 더 작은 조각으로 나눠 이해하는 기본 도구가 됩니다. 이 개념이 있어야 긴 코드 줄도 `여러 식이 어떻게 이어지는가`로 분해해 읽게 되고, 수식이 복잡해 보여도 어느 부분이 새 값을 만드는 핵심 조각인지 더 안정적으로 따라가게 됩니다.
+- Related concepts: `variable`, `function`, `output`
+- Core Section: `P2-2.1`
+- Appears in: `P2-3.1`

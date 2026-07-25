@@ -1,32 +1,281 @@
 # Concept Glossary: L
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [label](/AiBook/reference/concept-glossary-parts/04-rieul/#label) — 라벨 — Core Section: `P1-4.2`
-- [labeling](/AiBook/reference/concept-glossary-parts/04-rieul/#labeling) — 라벨링 — Core Section: `P1-8.1`
-- [language model](/AiBook/reference/concept-glossary-parts/08-ieung/#language-model) — 언어 모델 — Core Section: `P1-11.1`
-- [language modeling](/AiBook/reference/concept-glossary-parts/08-ieung/#language-modeling) — 언어 모델링 — Core Section: `P1-9.3`
-- [latency](/AiBook/reference/concept-glossary-parts/09-jieut/#latency) — 지연 시간 — Core Section: `P1-14.6`
-- [layer normalization](/AiBook/reference/concept-glossary-parts/04-rieul/#layer-normalization) — 레이어 정규화 — Core Section: `P5-14.1`
-- [learned representation](/AiBook/reference/concept-glossary-parts/14-hieut/#learned-representation) — 학습된 표현 — Core Section: `P1-9.1`
-- [learning rate](/AiBook/reference/concept-glossary-parts/14-hieut/#learning-rate) — 학습률 — Core Section: `P2-6.3`
-- [least privilege](/AiBook/reference/concept-glossary-parts/11-chieut/#least-privilege) — 최소 권한 — Core Section: `P1-15.3`
-- [legend](/AiBook/reference/concept-glossary-parts/06-bieup/#legend) — 범례 — Core Section: `P2-13.3`
-- [limit](/AiBook/reference/concept-glossary-parts/01-giyeok/#limit) — 극한 — Core Section: `P2-2.3`
-- [limit of prompting](/AiBook/reference/concept-glossary-parts/13-pieup/#limit-of-prompting) — 프롬프트의 한계 — Core Section: `P1-12.3`
-- [line plot](/AiBook/reference/concept-glossary-parts/04-rieul/#line-plot) — 라인 플롯 — Core Section: `P2-13.2`
-- [linear regression](/AiBook/reference/concept-glossary-parts/07-siot/#linear-regression) — 선형회귀 — Core Section: `P4-10.1`
-- [linear structure](/AiBook/reference/concept-glossary-parts/07-siot/#linear-structure) — 선형 구조 — Core Section: `P2-9.1`
-- [list](/AiBook/reference/concept-glossary-parts/04-rieul/#list) — 리스트 — Core Section: `P2-8.2`
-- [LLM](/AiBook/reference/concept-glossary-parts/08-ieung/#llm) — LLM — Core Section: `P1-1.3`
-- [loc](/AiBook/reference/concept-glossary-parts/04-rieul/#loc) — 로크 — Core Section: `P2-12.2`
-- [local environment](/AiBook/reference/concept-glossary-parts/04-rieul/#local-environment) — 로컬 환경 — Core Section: `P2-7.1`
-- [log](/AiBook/reference/concept-glossary-parts/04-rieul/#log) — 로그 — Core Section: `P7-6.2`
-- [logistic regression](/AiBook/reference/concept-glossary-parts/04-rieul/#logistic-regression) — 로지스틱 회귀 — Core Section: `P4-11.1`
-- [long-context](/AiBook/reference/concept-glossary-parts/04-rieul/#long-context) — 롱 컨텍스트 — Core Section: `P6-4.3`
-- [long-term dependency](/AiBook/reference/concept-glossary-parts/09-jieut/#long-term-dependency) — 장기 의존성 — Core Section: `P5-12.2`
-- [loop](/AiBook/reference/concept-glossary-parts/06-bieup/#loop) — 반복 — Core Section: `P2-8.4`
-- [LoRA](/AiBook/reference/concept-glossary-parts/04-rieul/#lora) — LoRA — Core Section: `P6-8.2`
-- [loss curve](/AiBook/reference/concept-glossary-parts/07-siot/#loss-curve) — 손실 곡선 — Core Section: `P2-13.2`
-- [loss function](/AiBook/reference/concept-glossary-parts/07-siot/#loss-function) — 손실 함수 — Core Section: `P2-6.2`
-- [LSTM, long short-term memory](/AiBook/reference/concept-glossary-parts/09-jieut/#lstm-long-short-term-memory) — 장단기 메모리 — Core Section: `P1-11.2`
+<a id="label"></a>
+
+## label
+
+- Meaning: 데이터 사례에 사람이 붙인 정답이나 목표 출력입니다. 모델이 스스로 발견한 구조가 아니라, 현재 문제에서 무엇을 맞았다고 볼지 사람이 정의해 놓은 기준이라고 볼 수 있습니다. 즉 라벨은 데이터 안에 자연히 숨어 있는 값이라기보다, `이번 학습에서 무엇을 답으로 삼을 것인가`를 정해 둔 해석 규칙에 가깝습니다. 분류에서는 보통 범주 이름이 라벨이 되고, 회귀에서는 맞혀야 할 수치 값이 라벨 역할을 합니다.
+- Why it matters: 지도학습에서는 모델이 무엇을 맞혀야 하는지를 라벨이 정해 줍니다. 같은 입력 데이터라도 라벨 정의가 달라지면 전혀 다른 문제와 평가 방식으로 바뀔 수 있습니다. 이 개념이 있어야 데이터에 원래 들어 있던 사실 기록과, 학습을 위해 사람이 부여한 정답 기준을 구분해 읽게 되고, 모델 성능 문제가 사실은 라벨 정의 문제일 수도 있다는 점도 함께 이해하게 됩니다. 특히 애매한 기준으로 붙인 라벨, 사람마다 다르게 붙는 라벨, 현실을 지나치게 단순화한 라벨은 학습 한계를 미리 만들어 버릴 수 있으므로, 데이터 품질을 볼 때 라벨 설계 자체를 함께 점검해야 합니다.
+- Related concepts: `example`, `data`, `output`, `labeling`, `target`
+- Core Section: `P1-4.2`
+- Appears in: `P1-2.1`, `P1-3.2`, `P1-8.1`
+
+<a id="labeling"></a>
+
+## labeling
+
+- Meaning: 데이터 사례에 사람이 구분 표식이나 목표 출력을 붙이는 작업입니다. 단순 입력 작업이 아니라, 어떤 기준으로 사례를 나누고 무엇을 정답으로 인정할지 운영 규칙을 문서화하는 과정까지 포함할 수 있습니다. 즉 라벨링은 데이터에 이름표를 붙이는 일만이 아니라, 모델이 무엇을 배우게 할지 기준을 현실 데이터 위에 새기는 과정입니다.
+- Why it matters: 지도학습의 성능은 모델 구조만이 아니라 어떤 기준으로 라벨을 붙였는지에도 크게 좌우되므로, 학습 전 준비 과정 자체를 따로 읽어야 하기 때문입니다. 라벨링 기준이 흔들리면 모델 품질보다 먼저 데이터 의미가 흔들립니다. 이 개념이 있어야 `정답이 있다`는 말을 당연하게 보지 않고, 그 정답이 어떤 사람의 어떤 기준으로 만들어졌는지도 함께 묻게 됩니다. 결국 라벨링을 이해해야 모델 오류의 일부가 알고리즘보다 정답 설계와 작업 규칙에서 왔을 수 있다는 점도 읽게 됩니다.
+- Related concepts: `label`, `supervised learning`, `target`, `task definition`
+- Core Section: `P1-8.1`
+
+<a id="language-model"></a>
+
+## language model
+
+- Meaning: 앞의 단어나 토큰 문맥을 바탕으로 다음에 올 표현의 가능성을 계산하거나, 단어열 전체에 확률을 부여하는 모델입니다. 즉 언어를 단순 규칙 모음으로 보는 대신, `어떤 표현이 얼마나 자연스럽게 이어지는가`를 확률 문제로 다루는 모델 계열이라고 볼 수 있습니다. 그래서 언어 모델의 핵심은 정답 문장 하나를 외우는 데 있지 않고, 가능한 표현들의 분포를 다루는 데 있습니다.
+- Why it matters: LLM을 갑자기 등장한 챗봇이 아니라, 언어를 확률적으로 예측하고 평가하려는 오래된 문제 설정 위에서 읽게 해 주는 가장 직접적인 출발점이기 때문입니다. 이 개념이 있어야 챗봇 대화 경험을 넘어, 문장 생성과 다음 토큰 예측이 같은 뿌리에서 나온다는 점을 이해하게 되고, 통계적 언어 모델에서 신경망 언어 모델, 다시 LLM으로 이어지는 계보도 더 선명하게 보게 됩니다. 또한 언어 모델은 곧바로 대화형 제품을 뜻하는 것이 아니라, 그 위에 지시 튜닝과 도구 연결, UI가 더해져 오늘날의 챗봇 경험이 만들어진다는 점도 함께 구분하게 됩니다.
+- Related concepts: `language modeling`, `statistical language model`, `token`
+- Core Section: `P1-11.1`
+- Appears in: `P1-10.2`, `P1-11.2`, `P1-11.3`, `P6-19.1`, `P6-19.2`
+
+<a id="language-modeling"></a>
+
+## language modeling
+
+- Meaning: 단어나 토큰의 순서를 바탕으로 다음에 올 표현의 확률을 다루는 문제입니다. 문장을 `무슨 뜻인가`만이 아니라 `어떤 순서가 얼마나 자주 이어지는가`라는 확률적 예측 문제로 바꾸어 다루는 설정이라고 볼 수 있습니다. 다시 말해 언어 모델링은 언어를 정답 문장 암기가 아니라, 시퀀스 분포를 추정하는 문제로 바꾸는 관점입니다.
+- Why it matters: LLM의 직접 계보가 이미지 생성이나 단순 대화 UI가 아니라, 언어 시퀀스를 확률적으로 다루는 문제 설정에 놓여 있다는 점을 보여 주는 출발점이기 때문입니다. 이 개념이 있어야 `언어를 안다`는 말을 막연한 이해가 아니라, 순서 있는 토큰열의 가능성을 모델링하는 계산 문제로 읽게 되고, 다음 토큰 예측이 왜 현대 LLM 설명의 핵심 축이 되는지도 자연스럽게 이어집니다. 또한 언어 모델링을 이해해야 통계적 빈도 기반 접근, RNN 계열 접근, Transformer 기반 접근이 서로 다른 모델이라도 같은 문제 틀 위에 놓인다는 점을 더 선명하게 보게 됩니다.
+- Related concepts: `direct lineage`, `Transformer`, `embedding`
+- Core Section: `P1-9.3`
+- Appears in: `P1-10.1`, `P1-11.1`, `P1-11.3`, `P6-19.2`
+
+<a id="latency"></a>
+
+## latency
+
+- Meaning: 요청을 보낸 뒤 첫 응답이나 최종 결과를 받을 때까지 걸리는 시간입니다. 같은 작업량이라도 사용자는 `얼마나 많은 일을 처리했는가`보다 `얼마나 오래 기다렸는가`를 먼저 체감하므로, 체감 품질과 직접 연결된 시간 지표에 가깝습니다. 즉 지연 시간은 시스템 안의 계산량보다, 사용자 입장에서 `답이 오기까지 얼마나 걸렸는가`를 나타내는 시간입니다.
+- Why it matters: 모델 품질이 좋아도 너무 오래 기다리게 하면 사용 경험이 나빠지고, 검색·도구 호출·후처리까지 포함한 전체 대기 시간을 함께 봐야 서비스 품질을 제대로 읽을 수 있기 때문입니다. 이 개념이 있어야 단순 모델 응답 속도와 전체 작업 흐름의 지연을 구분해 읽을 수 있고, 처리량을 높이는 전략이 개별 요청 대기 시간에는 어떤 영향을 주는지도 함께 보게 됩니다. 결국 지연 시간을 이해해야 `빠른 시스템`이란 처리량만 높은 시스템이 아니라, 사용자가 덜 기다리게 만드는 시스템이라는 점도 읽게 됩니다.
+- Related concepts: `cost`, `throughput`, `streaming`, `retry`
+- Core Section: `P1-14.6`
+- Appears in: `P1-14.5`
+
+<a id="layer-normalization"></a>
+
+## layer normalization
+
+- Meaning: 한 위치의 표현값들을 평균과 분산 기준으로 다시 정리해, 다음 계산으로 넘길 값 범위를 안정적으로 맞추는 정규화 방식입니다. 배치 전체 통계를 쓰는 방식과 달리, 현재 한 사례 안의 표현 벡터를 기준으로 값을 다듬는 쪽에 가깝습니다. 그래서 입력이 하나씩 들어오더라도 비교적 일관된 방식으로 값 스케일을 정리할 수 있습니다.
+- Why it matters: Transformer 블록이 깊게 반복될 때 값의 스케일이 지나치게 흔들리지 않도록 도와, attention과 feed-forward 계산을 더 안정적으로 이어 가게 만들기 때문입니다. 이 개념이 있어야 깊은 층을 쌓을 때 왜 단순 계산 블록만 반복하지 않고 중간에 값 범위를 정돈하는 단계가 필요한지 이해하게 됩니다. 또한 배치 정규화와 달리 시퀀스 길이와 배치 구성 변화에 덜 묶이는 이유를 읽게 되어, 왜 Transformer 계열에서 layer normalization이 자주 등장하는지도 더 자연스럽게 연결됩니다.
+- Related concepts: `Transformer`, `residual connection`, `feed-forward network`
+- Core Section: `P5-14.1`
+- Appears in: `P5-14.2`
+
+<a id="learned-representation"></a>
+
+## learned representation
+
+- Meaning: 모델이 데이터를 보면서 분류나 예측에 유용하도록 내부에서 함께 만들어 낸 표현입니다. 입력을 그대로 복사한 모습이 아니라, 현재 과제에 맞게 중요한 차이와 패턴이 더 잘 드러나도록 바뀐 내부 형태라고 볼 수 있습니다. 즉 원본 데이터의 겉모습이 아니라, 모델이 `이 과제에는 이런 구분이 중요하다`고 학습하며 스스로 재구성한 내부 좌표계에 가깝습니다. 다시 말해 학습된 표현은 표현 학습의 결과로 실제 모델 안에 자리 잡은 구체적 내부 표현입니다.
+- Why it matters: 사람이 특징을 직접 설계하던 방식과, 모델이 표현을 함께 학습하는 딥러닝 방식의 차이를 가장 직접적으로 보여 줍니다. 이 개념이 있어야 중간 층의 벡터가 왜 단순 저장값이 아니라 `과제에 맞게 가공된 의미 공간`으로 읽히는지 설명할 수 있습니다. 또한 학습된 표현을 이해해야 마지막 분류기나 생성기 성능 차이를 단순 출력층만의 차이로 보지 않고, 내부에서 어떤 구분이 더 잘 드러나게 되었는지까지 함께 읽게 됩니다. 결국 학습된 표현은 `표현 학습이라는 과정`과 `그 결과 남은 내부 구조`를 나누어 읽게 만드는 핵심 연결점입니다.
+- Related concepts: `representation`, `representation learning`, `hand-crafted features`
+- Core Section: `P1-9.1`
+- Appears in: `P5-10.1`, `P5-10.2`
+
+<a id="learning-rate"></a>
+
+## learning rate
+
+- Meaning: 경사하강법에서 한 번에 얼마나 크게 움직일지 정하는 값입니다. 즉 `손실을 줄이는 방향`은 정해졌다고 할 때, 그 방향으로 얼만큼 한 번에 이동할지를 정하는 크기 조절 손잡이입니다. 쉽게 말해 학습률은 `정답 쪽으로 움직이되 얼마나 성급하게 움직일 것인가`를 정하는 값입니다.
+- Why it matters: 같은 방향 정보라도 너무 크게 움직이면 최솟값 근처를 지나치거나 학습이 흔들리고, 너무 작게 움직이면 지나치게 느려질 수 있습니다. 그래서 학습률은 단순 설정값이 아니라, 학습 안정성과 속도 사이의 균형을 잡는 핵심 하이퍼파라미터로 읽어야 합니다. 이 개념이 있어야 `방향을 아는 것`과 `얼마나 크게 움직일지 정하는 것`이 서로 다른 문제라는 점을 이해하게 되고, 같은 경사하강법도 왜 설정에 따라 전혀 다르게 보일 수 있는지 더 자연스럽게 읽게 됩니다. 또한 학습률을 이해해야 손실이 내려가지 않는 문제가 모델 구조가 아니라 업데이트 크기 문제일 수도 있다는 점을 진단하게 됩니다.
+- Related concepts: `gradient descent`, `gradient`, `optimization`
+- Core Section: `P2-6.3`
+- Appears in: `P5-7.1`, `P5-7.2`, `P5-7.3`
+
+<a id="least-privilege"></a>
+
+## least privilege
+
+- Meaning: 사람이나 에이전트나 도구가 현재 작업에 꼭 필요한 범위까지만 접근 권한을 갖도록 제한하는 보안 원칙입니다. `할 수 있으면 편하다`가 아니라 `꼭 필요한가`를 먼저 묻는 원칙이며, 읽기와 쓰기, 내부와 외부 전송, 특정 폴더와 전체 시스템 접근을 세밀하게 나누어 여는 방식과 연결됩니다. 즉 최소 권한은 자동화를 막자는 말이 아니라, 피해가 커질 수 있는 범위를 처음부터 좁혀 두자는 설계 원칙입니다.
+- Why it matters: 생성형 AI 시스템은 검색, 파일 수정, 네트워크 호출, 배포처럼 실제 상태를 바꾸는 도구와 연결되기 쉬워, 넓은 권한 하나가 작은 실수를 큰 사고로 번지게 만들 수 있기 때문입니다. 이 개념이 있어야 `권한이 있다`와 `지금 이 작업에 필요한 권한만 있다`를 구분하게 되고, 승인 절차와 실행 범위 제한이 왜 함께 필요해지는지도 이해하게 됩니다. 또한 최소 권한을 이해해야 보안은 모델 출력 품질보다 먼저 시스템 행동 범위를 줄이는 설계 문제라는 점, 그리고 프롬프트 인젝션 같은 공격이 일어나도 피해 규모를 줄이는 마지막 방어선이 권한 제한이라는 점도 더 분명히 읽게 됩니다.
+- Related concepts: `permission`, `approval`, `security`, `agent`, `tool use`
+- Core Section: `P1-15.3`
+- Appears in: `P1-14.5`, `P1-14.6`, `P7-6.2`
+
+<a id="legend"></a>
+
+## legend
+
+- Meaning: 그래프 안의 여러 선, 점, 색이 각각 무엇을 뜻하는지 구분해 주는 설명 상자입니다. 축이 숫자 범위를 보여 준다면, 범례는 `이 표식이 어떤 데이터 계열인가`를 알려 주는 이름표 묶음이라고 볼 수 있습니다. 즉 범례는 그림의 시각 요소와 데이터 의미를 연결해 주는 해석 열쇠입니다.
+- Why it matters: train loss와 validation loss처럼 같은 축에 여러 선이나 색을 함께 올릴 때, 무엇이 무엇인지 분명하지 않으면 비교 해석이 바로 무너지기 때문입니다. 이 개념이 있어야 그래프를 볼 때 숫자 축만이 아니라 `각 표식이 어떤 데이터 계열을 뜻하는가`를 먼저 확인하게 되고, 같은 그림이라도 범례가 부정확하면 결론 전체가 흔들릴 수 있다는 점도 이해하게 됩니다. 결국 범례를 읽을 수 있어야 `선이 두 개 있다`를 넘어서 `각 선이 무엇을 대표하는가`를 정확히 해석하게 됩니다.
+- Related concepts: `plot`, `accuracy`, `loss curve`
+- Core Section: `P2-13.3`
+- Appears in: `P2-15.1`
+
+<a id="limit"></a>
+
+## limit
+
+- Meaning: 입력이 어떤 값에 가까워질 때 함수값이 어디로 가까워지는지 보는 표기입니다. 실제로 그 점에 정확히 도달했는가보다, `그 근처로 갈수록 값이 어떤 방향으로 다가가는가`를 읽는 수학적 관찰 도구에 가깝습니다. 즉 한 점을 딱 찍어 읽는 도구라기보다, 그 점 주변에서 값의 흐름이 어떻게 모여드는지 살피는 언어라고 볼 수 있습니다.
+- Why it matters: 작은 변화의 경향, 변화율, 미분을 읽는 수학 언어의 출발점이 되기 때문입니다. 이 개념이 있어야 순간 변화율과 연속성 같은 아이디어가 왜 단순 대입만으로는 설명되지 않는지 이해할 수 있습니다. 예를 들어 분모가 0이 되어 바로 계산할 수 없는 식도, 그 점에 가까워질 때 전체 값이 어떤 수로 접근하는지를 보면 중요한 성질을 읽어 낼 수 있습니다. 결국 극한은 `정확히 그 점의 값`과 `그 점으로 다가갈 때의 흐름`을 구분해 읽게 만드는 핵심 장치입니다.
+- Related concepts: `convergence`, `function`, `rate of change`
+- Core Section: `P2-2.3`
+- Appears in: `P2-4.1`, `P2-4.2`
+
+<a id="limit-of-prompting"></a>
+
+## limit of prompting
+
+- Meaning: 입력을 더 명확히 써도 사실성, 최신성, 안전성, 긴 문서 전체 일관성처럼 자동으로 해결되지 않는 문제 영역입니다. 즉 표현을 다듬는 것만으로는 넘어설 수 없는 구조적 한계가 있으며, 문제에 따라서는 모델 밖의 근거나 절차가 추가로 필요하다는 뜻입니다.
+- Why it matters: 프롬프트 개선과 모델 능력, 외부 자료 확인, 도구 사용, 사람 검토를 구분해야 다음 단계 구조가 왜 필요한지 이해할 수 있기 때문입니다. 이 개념이 있어야 `프롬프트를 더 잘 쓰면 다 해결된다`는 오해를 줄이고, 검색·평가·승인 절차가 왜 별도로 필요한지도 이해하게 됩니다. 또한 프롬프트의 한계를 이해해야 실패 원인을 무조건 입력 문장 탓으로 돌리지 않고, 최신 정보 접근 부재나 작업 구조 부족 같은 더 근본적인 원인을 찾게 됩니다. 즉 이 개념은 `말을 잘 거는 문제`와 `시스템을 잘 설계하는 문제`를 분리해 읽게 합니다.
+- Related concepts: `prompt`, `evaluation`, `hallucination`
+- Core Section: `P1-12.3`
+
+<a id="line-plot"></a>
+
+## line plot
+
+- Meaning: 순서나 시간에 따라 변하는 값을 점과 선으로 이어 보여 주는 기본 차트입니다. 개별 값 하나하나보다 `앞뒤 값이 어떻게 이어지는가`를 읽게 하는 시계열형 표현이라고 볼 수 있습니다. 즉 라인 플롯은 같은 크기 비교보다, 값이 흐르며 올라가고 내려가는 추세를 보는 데 더 맞는 그림입니다.
+- Why it matters: 학습 반복에 따른 손실 변화, 함수 모양, 시간 흐름 같은 질문은 값 사이의 연속적 관계를 읽어야 하므로 가장 자주 쓰이는 시각화 기준이 되기 때문입니다. 이 개념이 있어야 막대그래프처럼 크기 비교가 중심인 차트와, 변화 추세를 읽는 차트를 구분하게 되고, 학습 곡선 해석도 더 자연스럽게 붙잡게 됩니다. 또한 라인 플롯을 이해해야 값 하나의 높낮이만이 아니라, 전체 흐름이 안정적으로 내려가는지 흔들리는지를 함께 읽게 됩니다. 즉 라인 플롯은 `각 점의 크기`보다 `점들이 이어 만드는 흐름`을 읽는 차트입니다.
+- Related concepts: `plot`, `loss curve`, `axis`
+- Core Section: `P2-13.2`
+- Appears in: `P2-13.3`
+
+<a id="linear-regression"></a>
+
+## linear regression
+
+- Meaning: 입력 특징과 연속 출력 사이의 관계를 직선 또는 평면처럼 가장 단순한 선형 형태로 먼저 읽어 보는 회귀 모델입니다. 특징이 하나면 직선, 여러 개면 고차원 평면처럼 `입력이 조금 바뀌면 출력이 어느 방향으로 얼마나 달라지는가`를 선형 규칙으로 표현하는 방식입니다.
+- Why it matters: 복잡한 모델로 가기 전에 `입력과 출력이 대체로 직선 관계라면 어느 정도 설명되는가`를 먼저 확인하게 해 주는 가장 기본적인 회귀 기준선이기 때문입니다. 이 개념이 있어야 회귀 문제에서 관계를 가장 단순한 형태로 먼저 읽는 이유를 이해하게 되고, 이후 더 복잡한 모델이 왜 필요한지도 `직선으로는 설명되지 않는 패턴이 남는가`라는 기준으로 비교하게 됩니다. 또 계수와 기울기를 통해 각 입력이 출력 변화에 어떤 방향으로 연결되는지 해석하는 출발점도 마련됩니다. 결국 선형회귀는 `가장 단순한 설명이 어디까지 통하는가`를 먼저 시험하는 기준선 역할을 합니다.
+- Related concepts: `regression`, `slope`, `residual`
+- Core Section: `P4-10.1`
+- Appears in: `P4-10.2`, `P4-10.3`
+
+<a id="linear-structure"></a>
+
+## linear structure
+
+- Meaning: 데이터가 한 줄의 순서로 이어진다고 보고 다루는 구조입니다. 각 원소가 보통 앞뒤 위치 관계 속에서 읽히며, `처음부터 끝까지` 또는 `몇 번째인가` 같은 질문이 기본이 되는 자료구조 범주라고 볼 수 있습니다.
+- Why it matters: 배열, 리스트, 스택, 큐처럼 순서와 위치가 핵심인 구조를 트리·그래프와 구분해 읽는 기준이 되기 때문입니다. 이 개념이 있어야 데이터를 `앞에서부터 차례로 읽는 문제`와 `여러 갈래 연결을 따라가야 하는 문제`를 다른 구조 선택 문제로 보게 되고, 같은 저장이라도 왜 선형 구조와 비선형 구조의 탐색 방식이 달라지는지도 더 쉽게 이해하게 됩니다. 또한 선형 구조에서는 `몇 번째인가`가 중요한 질문이 되지만, 그래프에서는 `무엇과 연결되었는가`가 더 중요해진다는 차이도 자연스럽게 잡게 됩니다. 결국 선형 구조는 순서가 곧 해석의 기본 축이 되는 자료구조 묶음입니다.
+- Related concepts: `non-linear structure`, `array`, `data structure`
+- Core Section: `P2-9.1`
+- Appears in: `P2-9.4`
+
+<a id="list"></a>
+
+## list
+
+- Meaning: 여러 값을 순서대로 담고, 인덱스(index)로 다시 꺼낼 수 있는 선형 자료구조입니다. Python에서는 서로 다른 타입의 값도 함께 넣을 수 있습니다. 즉 리스트는 `순서 있는 값 모음`을 가장 일반적인 형태로 다루는 기본 그릇입니다.
+- Why it matters: 초심자는 리스트, 벡터, 배열을 쉽게 같은 말로 섞기 때문입니다. 리스트는 우선 `순서 있는 값 묶음`이라는 프로그래밍 구조를 가리키고, 수치 계산용 배열이나 수학적 벡터는 그다음 층위에서 구분해 읽어야 합니다. 이 개념이 있어야 Python 입문에서 다루는 일반 자료구조와 NumPy가 다루는 계산 구조를 섞지 않게 되고, 같은 대괄호 표기라도 용도와 성질이 다를 수 있다는 점을 이해하게 됩니다. 또한 리스트는 값 추가, 순서 유지, 반복 순회처럼 일반 프로그래밍 작업의 기본 그릇이라는 점도 자연스럽게 붙잡게 됩니다. 나중에 배열이나 텐서를 배울 때도, 리스트를 기준점으로 삼아 `어떤 점이 더 계산 특화되어 있는가`를 비교하게 됩니다.
+- Related concepts: `index`, `dictionary`, `loop`
+- Core Section: `P2-8.2`
+- Appears in: `P2-8.3`, `P2-8.4`, `P2-8.7`, `P2-9.1`
+
+<a id="llm"></a>
+
+## LLM
+
+- Meaning: 대규모 텍스트 데이터를 바탕으로 다음 토큰 예측을 학습해, 문장 이어쓰기와 생성 능력을 보이는 언어 모델 계열입니다. 핵심은 문법 규칙을 손으로 적어 넣는 시스템이 아니라, 많은 언어 사용 사례에서 다음 표현이 어떻게 이어지는지 통계적으로 학습한 거대한 신경망이라는 점입니다. 따라서 LLM은 `언어를 다루는 생성 모델`을 가리키는 말이지, 챗봇 제품 전체나 AI 전체를 뜻하는 포괄어로 쓰면 층위가 섞이기 쉽습니다.
+- Why it matters: 오늘날 사용자가 가장 자주 만나는 생성형 AI 경험의 중심이지만, 동시에 `기반 모델`, `대화형 제품`, `도구 연결 시스템`을 구분하는 출발점이기 때문입니다. 이 개념이 있어야 LLM이 스스로 모든 최신 사실을 항상 알고 있는 것처럼 오해하지 않고, 학습된 파라미터 기반 생성과 검색·도구 사용·운영 계층이 맡는 역할을 나누어 보게 됩니다. 또한 같은 생성형 AI라도 이미지 생성 모델, 음성 생성 모델과 무엇이 다른지, 그리고 같은 언어 모델이라도 GPT 계열과 BERT 계열이 왜 쓰임이 다른지도 더 자연스럽게 이어집니다.
+- Related concepts: `generative AI`, `machine learning`, `deep learning`, `GPT`, `conversational LLM`
+- Core Section: `P1-1.3`
+- Appears in: `P1-9.3`, `P1-11.3`, `P6-19.1`, `P6-summary`
+
+<a id="loc"></a>
+
+## loc
+
+- Meaning: Pandas에서 행과 열을 라벨 이름 기준으로 고를 때 쓰는 선택 도구입니다. 즉 `몇 번째인가`보다 `어떤 이름표인가`를 기준으로 선택하는 방식입니다. 다시 말해 `0번째 줄`이 아니라 `index가 A인 줄`, `열 이름이 score인 열`처럼 의미 이름으로 접근하는 도구입니다.
+- Why it matters: 표를 읽을 때 몇 번째 위치가 아니라 어떤 이름표를 가진 행과 열을 보고 싶은지 구분해야, 인덱스와 열 이름의 의미를 자연스럽게 살린 선택이 가능하기 때문입니다. `loc`를 이해해야 DataFrame이 단순 2차원 배열이 아니라 라벨이 붙은 표라는 점이 분명해집니다. 이 개념이 있어야 표를 볼 때 `값의 위치`보다 `행과 열의 의미`를 먼저 살리는 선택 습관을 갖게 되고, `iloc`와의 차이도 더 안정적으로 구분하게 됩니다. 결국 `loc`는 `어디 있나`보다 `무슨 이름인가`를 먼저 묻는 선택 방식입니다.
+- Related concepts: `index`, `column`, `iloc`
+- Core Section: `P2-12.2`
+- Appears in: `P2-12.3`
+
+<a id="local-environment"></a>
+
+## local environment
+
+- Meaning: 내 컴퓨터 안에서 코드를 실행하기 위해 준비된 프로그램, 파일, 설정의 묶음입니다. 브라우저 너머 원격 런타임이 아니라, 현재 내 장치에 설치된 실행 조건 전체를 뜻합니다. 운영체제, Python 설치 위치, 패키지 상태, 환경 변수, 작업 폴더 같은 요소가 함께 엮여 현재 로컬 환경을 이룬다고 볼 수 있습니다.
+- Why it matters: 같은 Python 코드라도 어느 컴퓨터와 어느 설정에서 실행했는지에 따라 결과와 오류가 달라질 수 있기 때문입니다. Colab 같은 호스팅 환경과 대비해 보면, 설치 자유도가 큰 대신 환경 차이도 더 직접 관리해야 한다는 점이 드러납니다. 예를 들어 브라우저에서는 잘 되던 코드가 로컬에서는 패키지 누락, 경로 차이, Python 버전 차이 때문에 바로 실패할 수 있습니다. 결국 로컬 환경을 이해해야 `코드가 틀렸다`는 문제와 `실행 자리가 다르다`는 문제를 분리해 읽게 되고, 설치·가상환경·재현성 점검도 더 체계적으로 따라가게 됩니다.
+- Related concepts: `runtime`, `virtual environment`, `working directory`
+- Core Section: `P2-7.1`
+- Appears in: `P2-7.4`, `P2-7.5`, `P2-10.2`
+
+<a id="log"></a>
+
+## log
+
+- Meaning: 실행 과정에서 나중에 다시 확인할 수 있도록 남기는 기록입니다. 단순 결과 저장만이 아니라, 언제 어떤 입력을 받았고 무엇을 읽었으며 어떤 도구를 어떤 순서로 호출했고 어떤 오류와 응답이 돌아왔는지 되짚게 하는 운영 기록을 뜻합니다. 즉 로그는 시스템이 `무슨 일을 했는가`를 사후에 복원하게 해 주는 시간 순서의 흔적입니다.
+- Why it matters: 에이전트 실행에서는 최종 답변만으로는 무엇을 근거로 판단했고 어디서 실패했는지 설명하기 어려워, 책임 추적과 재현 검토를 위해 기록이 필요하기 때문입니다. 특히 승인, 권한, 개인정보, 비용 문제를 나중에 점검하려면 로그가 핵심 증거가 됩니다. 이 개념이 있어야 `결과만 본다`와 `과정을 함께 본다`를 분리하게 되고, 품질 문제와 운영 문제를 같은 실행에서 함께 읽을 수 있습니다. 또한 로그를 이해해야 추적 가능성을 높이는 일과 개인정보를 과도하게 남기지 않는 일을 동시에 설계해야 한다는 긴장도 함께 읽게 됩니다.
+- Related concepts: `trace`, `harness`, `reproducibility`, `accountability`
+- Core Section: `P7-6.2`
+- Appears in: `P1-14.3`, `P1-14.5`, `P1-15.3`, `P7-6.1`, `P7-7.1`, `P7-7.2`
+
+<a id="logistic-regression"></a>
+
+## logistic regression
+
+- Meaning: 선형 계산 결과를 확률처럼 읽히는 점수로 바꾸어 분류 문제를 다루는 선형 모델입니다. 이름에 `회귀`가 들어가지만, 보통은 연속값 예측보다 `어느 범주에 더 가까운가`를 판단하는 분류 모델로 배웁니다. 즉 입력 특징을 직선 경계로 나누어 두 범주를 가르는 가장 기본적인 분류기 중 하나라고 볼 수 있습니다.
+- Why it matters: 분류 문제에서 가장 기본적인 출발점이면서, 점수와 임계값(threshold)을 분리해 읽는 감각을 만들어 줍니다. 이 개념이 있어야 `모델이 낸 확률 비슷한 점수`와 `그 점수를 바탕으로 실제로 어떤 클래스를 선택할지`를 다른 개념으로 이해할 수 있습니다. 또한 로지스틱 회귀를 이해해야 단순한 선형 경계 모델이 어디까지 설명력을 가지는지, 더 복잡한 모델이 정말 필요한지 비교하는 기준선도 세울 수 있습니다. 결국 로지스틱 회귀는 `간단하지만 해석 가능한 분류 기준선`으로 자주 쓰인다는 점이 중요합니다.
+- Related concepts: `classification`, `threshold`, `decision boundary`
+- Core Section: `P4-11.1`
+- Appears in: `P4-11.2`
+
+<a id="long-context"></a>
+
+## long-context
+
+- Meaning: 더 긴 입력을 실제로 유지하고, 앞쪽 단서와 뒤쪽 단서를 한 작업 안에서 다시 참고하려는 설계 문제 전체를 가리키는 표현입니다. 단지 토큰 한도를 늘리는 문제가 아니라, 긴 문서 속에서 무엇을 계속 들고 가고 무엇을 요약하거나 버릴지까지 포함한 문맥 관리 문제라고 볼 수 있습니다. 즉 롱 컨텍스트는 `길게 넣을 수 있다`를 넘어서 `길게 넣은 정보를 어떻게 유지하고 활용할 것인가`의 문제입니다.
+- Why it matters: 단순히 숫자 큰 context window를 자랑하는 문제가 아니라, 비용·지연 시간·핵심 단서 보존을 함께 다뤄야 하는 실제 서비스 설계 문제라는 점을 드러내기 때문입니다. 이 개념이 있어야 긴 입력을 잘 다루는 능력이 모델 스펙 하나로 닫히지 않고, 검색·요약·메모리 전략과 함께 설계된다는 점을 이해하게 됩니다. 결국 롱 컨텍스트를 이해해야 긴 입력 처리 능력을 `창 크기 숫자`가 아니라 시스템적 문맥 관리 역량으로 읽게 됩니다.
+- Related concepts: `context window`, `retrieval-augmented generation, RAG`, `sparse attention`
+- Core Section: `P6-4.3`
+- Appears in: `P5-14.2`
+
+<a id="long-term-dependency"></a>
+
+## long-term dependency
+
+- Meaning: 현재 판단에 오래전 정보가 중요하지만, 순차 모델이 그 정보를 충분히 오래 유지하거나 전달하지 못해 해석이 흔들리는 문제입니다. 즉 앞부분 단서가 뒤쪽 판단에 계속 중요해도, 중간 단계를 거치며 그 신호가 희미해지거나 끊어지는 현상이라고 볼 수 있습니다.
+- Why it matters: 기본 RNN의 한계를 이해하고, LSTM/GRU 보강과 attention으로의 전환이 왜 필요했는지 설명하는 핵심 연결 고리이기 때문입니다. 이 개념이 있어야 `문장이 길어지면 왜 앞정보를 놓치기 쉬운가`를 단순 성능 저하가 아니라 정보 전달 경로 문제로 읽게 되고, 시퀀스 모델 설계가 메모리를 어떻게 유지할지와 직접 연결된다는 점도 이해하게 됩니다. 또한 장기 의존성을 이해해야 `긴 문맥을 다룬다`는 말이 단순 입력 길이 확장이 아니라, 오래전 정보를 실제로 유지하고 참조할 수 있는가의 문제라는 점도 더 분명히 보게 됩니다.
+- Related concepts: `RNN, recurrent neural network`, `LSTM, long short-term memory`, `Attention`
+- Core Section: `P5-12.2`
+- Appears in: `P1-9.3`, `P5-12.1`, `P5-13.1`, `P5-13.2`, `P5-14.1`, `P5-14.2`
+
+<a id="loop"></a>
+
+## loop
+
+- Meaning: 여러 값에 같은 처리 기준을 차례대로 적용하는 흐름입니다. 즉 같은 코드를 매번 다시 쓰지 않고, 항목만 바꿔 가며 같은 절차를 반복 실행하는 제어 구조라고 볼 수 있습니다. 그래서 반복은 `값이 여러 개 있다`는 사실을 `작업을 여러 번 수행한다`는 실행 흐름으로 바꾸는 가장 기본적인 다리입니다.
+- Why it matters: 데이터 묶음을 읽기만 하는 상태에서, 각 원소에 검사·변환·누적 같은 작업을 실제로 적용하는 실행 흐름으로 넘어가게 해 주기 때문입니다. 이 개념이 있어야 리스트와 딕셔너리 같은 자료구조가 단순 저장소가 아니라 처리 대상이라는 점을 이해하게 되고, 같은 로직을 여러 항목에 반복 적용하는 사고방식이 함수, 데이터 전처리, 학습 반복 설명으로도 이어지게 됩니다. 또한 반복은 무조건 느리고 낡은 방식이라는 뜻이 아니라, 언제는 직접 반복이 필요하고 언제는 벡터화나 내장 함수로 더 높은 단위 표현이 가능한지를 비교하는 기준이 되기도 합니다.
+- Related concepts: `iterable`, `iterator`, `list`
+- Core Section: `P2-8.4`
+- Appears in: `P2-8.5`, `P2-10.3`
+
+<a id="lora"></a>
+
+## LoRA
+
+- Meaning: 기반 모델의 큰 가중치 본체는 최대한 유지하고, 작은 추가 조정분만 학습해 목적 적응 비용을 줄이려는 효율적 조정 방식입니다. 직관적으로는 거대한 본체를 통째로 다시 쓰기보다, 필요한 방향 변화만 작은 보조 조정판처럼 덧붙이는 방법이라고 볼 수 있습니다. 그래서 같은 기반 모델을 공유하면서도 업무별 추가분만 따로 저장하는 운영이 가능해집니다.
+- Why it matters: 전체 파인튜닝이 너무 무거운 상황에서도 같은 기반 모델을 여러 업무에 맞게 더 가볍게 적응시키는 대표 실무 선택지이기 때문입니다. 이 개념이 있어야 `모델을 다시 조정한다`는 일이 언제나 본체 전체를 다시 학습하는 뜻은 아니라는 점을 이해하게 되고, 성능·비용·저장 공간 사이의 절충으로 조정 전략을 고른다는 실무 감각도 함께 붙잡게 됩니다. 또한 LoRA는 기반 모델을 얼마나 유지하면서 어떤 수준의 업무 특화를 얻고 싶은지 판단하는 절충점이라는 점도 중요합니다. 즉 완전한 독립 모델을 새로 만드는 방식과, 프롬프트만 바꾸는 방식 사이에 놓인 중간 적응 전략으로 읽을 수 있습니다.
+- Related concepts: `fine-tuning`, `parameter`, `quantization`
+- Core Section: `P6-8.2`
+- Appears in: `P6-9.4`, `P6-9.5`
+
+<a id="loss-curve"></a>
+
+## loss curve
+
+- Meaning: 학습 반복이나 epoch가 진행될수록 손실값이 어떻게 변하는지 선 그래프로 나타낸 것입니다. 한 번의 숫자를 따로 보는 대신, `처음엔 빠르게 줄다가 완만해지는가`, `갑자기 튀는가`, `훈련과 검증이 갈라지는가`처럼 학습의 시간 흐름을 눈으로 읽게 해 주는 기록입니다.
+- Why it matters: 손실이 줄어드는지, 흔들리는지, 검증 손실과 벌어지는지를 빠르게 확인하게 해 주어 학습 상태를 점검하는 가장 기본적인 시각화가 되기 때문입니다. 이 개념이 있어야 숫자 한 번의 결과보다 학습의 흐름 자체를 읽게 되고, 과적합, 학습 정체, 불안정한 진동처럼 서로 다른 문제 양상을 더 일찍 구분하게 됩니다. 예를 들어 훈련 손실만 계속 내려가고 검증 손실이 다시 올라가면, `계속 학습 중`이라는 사실보다 `일반화가 무너지고 있다`는 신호를 먼저 읽어야 합니다. 결국 손실 곡선은 `현재 점수`보다 `학습이 어떤 방향으로 흘러가고 있는가`를 읽게 만드는 시간형 진단 도구입니다.
+- Related concepts: `line plot`, `loss function`, `accuracy`
+- Core Section: `P2-13.2`
+- Appears in: `P2-13.3`, `P2-15.1`
+
+<a id="loss-function"></a>
+
+## loss function
+
+- Meaning: 예측이 얼마나 틀렸는지를 학습에 사용할 수 있는 숫자로 바꾸는 함수입니다. 단순히 `틀렸다`고 말하는 데서 끝나지 않고, 얼마나 틀렸는지와 어떤 종류의 오류를 더 크게 벌줄지까지 숫자로 정리하는 기준이라고 볼 수 있습니다. 즉 손실 함수는 `모델이 무엇을 나쁘다고 배울 것인가`를 수치로 정해 주는 규칙이며, 학습의 방향키 역할을 합니다.
+- Why it matters: 학습이 무엇을 줄이려 하는지 정의하지 않으면 모델을 어느 방향으로 조정할지 정할 수 없기 때문입니다. 이 개념이 있어야 같은 정확도처럼 보여도 학습 중에는 왜 별도의 손실값을 계산하는지, 또 손실 설계가 달라지면 모델이 우선적으로 줄이려는 오류도 달라질 수 있다는 점을 이해하게 됩니다. 또한 손실 함수를 이해해야 `평가 지표가 좋다`와 `학습 중 실제로 줄인 값이 무엇인가`를 같은 것으로 섞지 않게 되고, 어떤 오류를 더 무겁게 볼지 자체가 모델 행동을 바꾼다는 점도 읽게 됩니다.
+- Related concepts: `error`, `objective function`, `gradient descent`
+- Core Section: `P2-6.2`
+- Appears in: `P2-6.3`, `P2-13.2`, `P2-15.1`, `P5-4.1`, `P5-4.2`
+
+<a id="lstm-long-short-term-memory"></a>
+
+## LSTM, long short-term memory
+
+- Meaning: 순환 신경망에서 어떤 정보를 유지하고 어떤 정보를 잊을지 게이트로 조절해 긴 문맥을 더 안정적으로 다루려는 구조입니다. 단순히 이전 상태를 그대로 넘기는 대신, `무엇을 남길까`, `무엇을 버릴까`, `지금 무엇을 새로 넣을까`를 더 세밀하게 조절하는 메모리 장치라고 볼 수 있습니다. 즉 LSTM은 순차 모델에 `기억 관리 규칙`을 덧붙인 구조입니다.
+- Why it matters: 기본 RNN이 먼 과거 정보를 전달하기 어려웠던 문제를 완화하며, Seq2Seq와 초기 신경망 언어 모델에서 긴 의존성을 다루는 대표 해법이 되었기 때문입니다. 이 개념이 있어야 순환 모델 개선이 단순 층 추가가 아니라, 무엇을 기억하고 무엇을 잊을지 제어하는 구조 변화였다는 점을 이해하게 됩니다. 예를 들어 문장 앞부분의 주어 정보가 뒤쪽 동사 해석에 오래 영향을 줘야 할 때, LSTM은 그 단서를 더 오래 살아남게 하려는 구조로 읽을 수 있습니다. 결국 LSTM을 이해해야 attention 이전 시기의 순차 모델이 왜 `상태를 넘긴다`를 넘어서 `상태를 관리한다`는 방향으로 발전했는지도 더 자연스럽게 이어집니다.
+- Related concepts: `RNN, recurrent neural network`, `GRU, gated recurrent unit`, `hidden state`
+- Core Section: `P1-11.2`
+- Appears in: `P5-12.1`, `P5-12.2`

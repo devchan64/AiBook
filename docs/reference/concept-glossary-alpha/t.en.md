@@ -1,30 +1,259 @@
 # Concept Glossary: T
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [table](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-target) — 테이블 — Core Section: `P2-9.2`
-- [target](/AiBook/reference/concept-glossary-parts/12-tieut/#target) — 타깃 — Core Section: `P1-8.1`
-- [target candidate](/AiBook/reference/concept-glossary-parts/05-mieum/#target-candidate) — 목표 라벨 후보 — Core Section: `P3-9.3`
-- [task definition](/AiBook/reference/concept-glossary-parts/05-mieum/#task-definition) — 문제 정의 — Core Section: `P1-4.4`
-- [temperature](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-sample) — temperature — Core Section: `P6-6.2`
-- [tensor](/AiBook/reference/concept-glossary-parts/12-tieut/#tensor) — 텐서 — Core Section: `P5-9.2`
-- [terminal](/AiBook/reference/concept-glossary-parts/12-tieut/#terminal) — 터미널 — Core Section: `P2-7.2`
-- [test](/AiBook/reference/concept-glossary-parts/12-tieut/#test) — 테스트 — Core Section: `P2-12.3`
-- [test record](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-feature) — 테스트 기록 — Core Section: `P7-3.1`
-- [threshold](/AiBook/reference/concept-glossary-parts/08-ieung/#threshold) — 임계값 — Core Section: `P1-7.3`
-- [throughput](/AiBook/reference/concept-glossary-parts/11-chieut/#glossary-initialization) — 처리량 — Core Section: `P1-14.6`
-- [token](/AiBook/reference/concept-glossary-parts/12-tieut/#token) — 토큰 — Core Section: `P6-2.1`
-- [token coverage](/AiBook/reference/concept-glossary-parts/12-tieut/#token-coverage) — 토큰 커버리지 — Core Section: `P7-4.2`
-- [tokenization](/AiBook/reference/concept-glossary-parts/12-tieut/#tokenization) — 토큰화 — Core Section: `P6-2.2`
-- [tool](/AiBook/reference/concept-glossary-parts/03-digeut/#tool) — 도구 — Core Section: `P1-14.1`
-- [tool call](/AiBook/reference/concept-glossary-parts/03-digeut/#tool-call) — 도구 호출 — Core Section: `P1-14.2`
-- [tool use](/AiBook/reference/concept-glossary-parts/03-digeut/#tool-use) — 도구 사용 — Core Section: `P6-13.1`
-- [top-k](/AiBook/reference/concept-glossary-parts/07-siot/#ktop-k) — 상위 k개 — Core Section: `P1-13.2`
-- [trace](/AiBook/reference/concept-glossary-parts/11-chieut/#trace) — 추적 — Core Section: `P1-14.5`
-- [training](/AiBook/reference/concept-glossary-parts/14-hieut/#training) — 학습 — Core Section: `P1-3.2`
-- [training mode](/AiBook/reference/concept-glossary-parts/14-hieut/#training-mode) — 학습 모드 — Core Section: `P5-6.4`
-- [Transformer](/AiBook/reference/concept-glossary-parts/12-tieut/#transformer) — 트랜스포머 — Core Section: `P1-11.3`
-- [transparency](/AiBook/reference/concept-glossary-parts/12-tieut/#transparency) — 투명성 — Core Section: `P1-15.1`
-- [tree](/AiBook/reference/concept-glossary-parts/12-tieut/#tree) — 트리 — Core Section: `P2-9.2`
-- [TTS, text-to-speech](/AiBook/reference/concept-glossary-parts/12-tieut/#tts-text-to-speech) — 텍스트 음성 변환 — Core Section: `P1-9.2`
-- [type](/AiBook/reference/concept-glossary-parts/12-tieut/#type) — 타입 — Core Section: `P2-8.1`
+<a id="glossary-target"></a>
+
+## table
+
+- Meaning: 행과 열의 교차로 값을 정리하는 표 구조입니다. 보통 한 행은 한 사례를, 한 열은 그 사례의 속성 하나를 뜻하므로, `대상이 여러 개 있고 각 대상의 같은 종류 정보를 나란히 비교하고 싶을 때` 쓰는 기본 표현입니다. 즉 사건의 흐름이나 연결 관계보다, 여러 대상의 속성을 같은 축에서 맞춰 읽는 데 적합한 형태입니다.
+- Why it matters: 데이터셋과 평가 결과처럼 사례별 속성을 비교하는 작업에서 가장 자연스러운 기본 모양이 되기 때문입니다. 그래프가 관계를, 트리가 계층을 잘 드러낸다면, 테이블은 `같은 속성을 가진 여러 사례를 나란히 보는 작업`에 가장 강하다는 점을 구분하게 해 줍니다. 또한 테이블을 이해해야 `열은 변수`, `행은 사례`라는 표 읽기 기본 규칙이 왜 머신러닝 입력 구성의 출발점이 되는지도 더 자연스럽게 연결됩니다. 결국 테이블은 `무슨 관계가 있는가`보다 `같은 속성을 어떻게 비교할 것인가`를 먼저 드러내는 구조입니다.
+- Related concepts: `array`, `tree`, `graph`
+- Core Section: `P2-9.2`
+- Appears in: `P2-11.1`, `P2-12.1`
+
+<a id="target"></a>
+
+## target
+
+- Meaning: 지도학습에서 모델이 맞혀야 하는 정답 열 또는 목표 값입니다. 라벨이 이미 붙어 있는 정답 열일 수도 있고, 앞으로 예측 문제로 삼기 위해 별도로 정의한 결과 열일 수도 있습니다. 즉 타깃은 데이터표 안의 많은 열 가운데 `모델이 최종적으로 맞혀야 하는 답 자리`를 지정한 것입니다.
+- Why it matters: 원본 표를 그대로 쓰지 않고 입력 특징과 정답을 나누어 읽어야 학습 구조가 분명해지며, 타깃 열을 잘못 입력에 섞으면 데이터 누수 문제가 생기기 때문입니다. 결국 타깃 선택은 `무엇을 맞히는 문제인가`를 닫는 핵심 결정입니다. 이 개념이 있어야 같은 데이터표를 두고도 어떤 열을 타깃으로 잡느냐에 따라 전혀 다른 학습 문제가 만들어질 수 있다는 점을 분명히 이해하게 됩니다. 또한 타깃이 바뀌면 필요한 특징, 평가 방식, 실무 활용 시나리오도 함께 바뀐다는 점을 읽게 됩니다.
+- Related concepts: `feature`, `dataset`, `label`, `task definition`, `target candidate`
+- Core Section: `P1-8.1`
+- Appears in: `P2-12.3`, `P3-1.1`, `P3-1.2`, `P3-2.2`, `P3-3.2`, `P3-9.1`, `P3-9.2`, `P3-9.3`, `P3-9.11`
+
+<a id="target-candidate"></a>
+
+## target candidate
+
+- Meaning: 아직 완전히 확정된 정답 열은 아니더라도, 나중에 맞히고 싶은 결과로 삼을 수 있는지 검토하기 위해 따로 세워 보는 결과 후보 열입니다. 즉시 학습 라벨로 쓰기보다, 반복적으로 정의할 수 있는 예측 목표인지 먼저 시험하는 중간 후보라고 볼 수 있습니다. 즉 목표 라벨 후보는 `바로 정답으로 쓴다`보다 `정답으로 발전시킬 수 있는가`를 검토하는 잠정 결과 열입니다.
+- Why it matters: 비교 리포트, 검토 후보 큐, 운영 메모를 그대로 학습 문제로 올릴 수는 없으므로, 어떤 결과 열이 반복성, 정의 일관성, 근거 추적성을 갖추었는지 먼저 가르는 중간 구조가 필요하기 때문입니다. 이 단계가 있어야 운영 출력과 학습 타깃을 무리하게 같은 것으로 착각하지 않게 됩니다. 또한 목표 라벨 후보를 이해해야 `좋아 보이는 출력`과 `학습 가능한 정답 정의`가 다른 층위라는 점도 더 분명히 읽게 됩니다.
+- Related concepts: `target`, `output structure`, `comparison report`, `label`
+- Core Section: `P3-9.3`
+- Appears in: `P3-index`, `P3-1.2`, `P3-1.3`, `P3-2.2`, `P3-3.2`, `P3-6.4`, `P3-8.5`, `P3-9.4`, `P3-9.5`, `P3-9.6`, `P3-9.10`, `P3-9.11`, `P3-summary`
+
+<a id="task-definition"></a>
+
+## task definition
+
+- Meaning: 현실 목표를 모델이 실제로 풀 수 있는 입력, 출력, 데이터, 평가 기준의 형태로 좁혀 정하는 일입니다. 막연한 업무 목표를 계산 가능한 과업으로 번역하는 단계라고 볼 수 있습니다. Part 7의 프로젝트 문맥에서는 질문 한 문장, 입력 단위, 비교 기준을 고정해 `이번 문서가 정확히 무엇을 풀려고 하는가`를 먼저 닫는 작업이라고 이해하면 됩니다.
+- Why it matters: 같은 목표도 어떤 출력을 시키는지에 따라 필요한 데이터, 모델 후보, 평가 방식이 함께 달라지므로, 모델 선택보다 먼저 흔들리지 않는 과제 경계를 세워야 하기 때문입니다. 이 단계가 불분명하면 뒤의 데이터셋, 라벨, 평가 숫자도 의미를 잃기 쉽습니다. 이 개념이 있어야 `문서를 잘 이해하게 하고 싶다` 같은 넓은 바람을 `분류할 것인가`, `검색할 것인가`, `요약할 것인가`, `추천할 것인가` 같은 구체 과업으로 나누어 생각하게 되고, 결국 무엇을 성공으로 볼지도 더 분명해집니다. 또한 문제 정의를 이해해야 Part 7의 분석 시작이 요약표나 비교표보다 앞서 `무엇을 한 건의 입력으로 보고 어떤 질문에 답할 것인가`를 먼저 고정하는 이유도 더 또렷하게 읽게 됩니다.
+- Related concepts: `model`, `input`, `output`, `dataset`, `evaluation`
+- Core Section: `P1-4.4`
+- Appears in: `P3-1.1`, `P3-2.2`, `P7-index`, `P7-1.1`, `P7-summary`
+
+<a id="glossary-sample"></a>
+
+## temperature
+
+- Meaning: 생성 시 다음 토큰 후보 분포를 얼마나 날카롭거나 퍼지게 읽을지 조정하는 설정값입니다. 가장 그럴듯한 후보에 더 몰아줄지, 덜 유력한 후보에도 더 기회를 줄지를 조절하는 다이얼이라고 이해하면 됩니다. 보통 temperature가 낮을수록 상위 후보 쏠림이 강해지고, 높을수록 덜 유력한 후보도 더 자주 선택될 수 있습니다.
+- Why it matters: 모델이 이미 학습한 지식 자체와, 실제 생성에서 어떤 후보를 얼마나 보수적 또는 다양하게 고를지를 구분해 이해하게 해 주기 때문입니다. 이 개념이 있어야 응답 다양성 조절과 모델 지식 변화가 같은 일이 아니라는 점도 더 분명히 읽게 됩니다. 또한 같은 모델이라도 temperature 설정에 따라 `거의 가장 가능성 높은 답을 고르는 모드`와 `여러 후보를 더 넓게 시도하는 모드`가 달라질 수 있어, 생성 결과 비교에서는 모델 이름뿐 아니라 샘플링 설정도 함께 봐야 한다는 점을 붙잡게 됩니다. 특히 temperature는 `더 창의적이다` 같은 모호한 말보다, 후보 분포를 얼마나 평평하게 만들 것인가의 문제로 읽어야 오해가 줄어듭니다.
+- Related concepts: `sampling`, `next-token prediction`, `generation`
+- Core Section: `P6-6.2`
+
+<a id="tensor"></a>
+
+## tensor
+
+- Meaning: 스칼라, 벡터, 행렬을 포함해 딥러닝이 입력, 중간 표현, 출력을 담는 데 쓰는 다차원 숫자 배열의 일반 이름입니다. `몇 차원짜리 수치 묶음인가`를 하나의 공통 언어로 묶어 부르는 표현입니다. 즉 텐서는 `숫자가 한 개냐, 한 줄이냐, 표냐, 더 높은 차원의 묶음이냐`를 하나의 틀에서 다루게 해 주는 계산 단위입니다.
+- Why it matters: 이미지, 문장, 오디오, 배치 데이터는 겉보기에는 다르지만 학습 프레임워크 안에서는 결국 텐서로 계산됩니다. 텐서라는 공통 이름을 알아야 도메인이 달라도 shape와 축 중심으로 계산을 해석할 수 있습니다. 이 개념이 있어야 `이미지 모델`, `언어 모델`, `표 데이터 모델`이 완전히 다른 계산처럼 보이더라도 실제로는 같은 배열 연산 언어 위에 놓인다는 점을 이해하게 됩니다. 또한 텐서는 값 자체만이 아니라 `각 축이 무엇을 뜻하는가`를 함께 읽어야 한다는 점이 중요합니다. 초심자에게는 `데이터 모양을 텐서로 읽는 습관`이 생겨야 모델 입력과 출력이 더 이상 막연한 큰 숫자 덩어리로 보이지 않게 됩니다.
+- Related concepts: `batch`, `shape`, `matrix`
+- Core Section: `P5-9.2`
+- Appears in: `P2-1.1`, `P2-1.2`, `P5-9.1`, `P5-10.1`, `P5-summary`
+
+<a id="terminal"></a>
+
+## terminal
+
+- Meaning: 명령을 입력하고 결과를 보는 문자 기반 창 또는 앱입니다. 셸이 명령을 해석한다면, 터미널은 그 셸과 사람이 만나는 작업 창에 가깝습니다. 초심자 입장에서는 `코드를 적는 편집기`와 달리 `코드를 실행하고 시스템 상태를 확인하는 창`으로 구분해 이해하면 됩니다.
+- Why it matters: Python 실행, 가상환경 활성화, 패키지 설치, 파일 확인처럼 로컬 실습의 많은 단계가 터미널에서 시작되기 때문입니다. 터미널을 알아야 코드 작성과 환경 운영이 서로 다른 층위라는 점이 분명해지고, `프로그램 안의 오류`와 `실행 전에 준비가 안 된 문제`도 더 잘 구분하게 됩니다. 즉 터미널은 단순 입력창이 아니라, 코드를 둘러싼 실행 환경을 다루는 기본 작업장이라는 감각을 만들어 줍니다. 에이전트나 자동화 도구가 실행한 명령을 읽을 때도, 실제로 무엇이 시스템에 적용되는지 이해하는 기본 문해력이 됩니다.
+- Related concepts: `shell`, `working directory`, `command`
+- Core Section: `P2-7.2`
+- Appears in: `P2-7.3`, `P2-10.1`, `P2-10.2`
+
+<a id="test"></a>
+
+## test
+
+- Meaning: 학습과 설정 선택이 끝난 뒤, 처음 보는 데이터처럼 마지막으로 확인하는 평가용 데이터 또는 절차입니다. 모델을 고르는 데 다시 쓰지 않고, 선택이 끝난 뒤 성능을 한 번 더 확인하는 최종 점검 자리입니다. 즉 테스트는 `더 잘 맞추도록 다시 손보는 자리`가 아니라, 현재 선택이 밖에서도 통하는지 확인하는 마지막 검문소에 가깝습니다.
+- Why it matters: 모델이 이미 본 정보에 익숙해서 잘하는 것과, 새 데이터에서도 일반화되는 것을 구분하려면 마지막 확인 단계를 따로 남겨 두어야 하기 때문입니다. 검증과 테스트를 섞으면 성능 수치를 지나치게 낙관적으로 읽기 쉬워집니다. 또한 테스트를 이해해야 개발 중 계속 들여다본 검증 점수와 최종 보고용 성능 수치를 구분하게 되고, 평가 절차를 한 번만 잘못 섞어도 결과 해석 전체가 흔들릴 수 있다는 점도 읽게 됩니다.
+- Related concepts: `validation`, `data leakage`, `generalization`, `evaluation`
+- Core Section: `P2-12.3`
+- Appears in: `P2-15.2`
+
+<a id="glossary-feature"></a>
+
+## test record
+
+- Meaning: 테스트 단계에서 사용한 데이터, 설정, 점수, 오류 샘플, 메모를 묶어 남긴 기록입니다. 단순히 `테스트 정확도 0.85`처럼 최종 숫자만 적는 것이 아니라, 어떤 테스트 입력과 어떤 결과가 나왔는지 다시 읽을 수 있게 정리한 최종 점검 문서라고 볼 수 있습니다. 즉 테스트 기록은 테스트를 한 사실 자체보다, 그 테스트를 나중에 다시 검토할 수 있도록 남긴 흔적입니다.
+- Why it matters: 테스트는 최종 확인 단계인데도 기록이 약하면 나중에 같은 모델과 같은 데이터로 무엇을 확인했는지 다시 구분하기 어려워지기 때문입니다. 이 개념이 있어야 평가 기록과 테스트 기록을 같은 말로 섞지 않고, 반복 비교용 중간 기록과 최종 확인용 기록을 분리해 읽게 됩니다. 또한 테스트 기록을 이해해야 Part 7의 이미지·텍스트 프로젝트가 `최종 점수`만이 아니라 오류 샘플, 비교 이유, 다음 조치까지 다시 이어지는 살아 있는 문서라는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `test`, `evaluation record`, `error case`, `execution summary`, `reproducibility`
+- Core Section: `P7-3.1`
+- Appears in: `P7-4.1`, `P7-summary`
+
+<a id="threshold"></a>
+
+## threshold
+
+- Meaning: 출력 숫자를 실제 행동으로 바꿀 때 기준선으로 사용하는 값입니다. 같은 점수라도 어디서 잘라 자동 처리할지, 사람 검토로 돌릴지, 경고를 띄울지를 정하는 경계선이라고 볼 수 있습니다. 즉 임계값은 모델이 계산한 점수 위에 추가로 놓이는 운영 판단 장치일 수 있습니다.
+- Why it matters: 모델이 낸 점수나 확률 그 자체와, 그 숫자를 바탕으로 자동 처리·보류·사람 검토를 가르는 운영 기준을 분리해 읽게 해 주기 때문입니다. 이 개념이 있어야 `0.8이 나왔다`는 예측 결과와 `0.8 이상이면 승인한다`는 운영 판단을 같은 말로 보지 않게 되고, 임계값을 어디에 두느냐에 따라 오탐과 미탐, 자동화 범위, 사람 검토 부담이 함께 달라진다는 점도 이해하게 됩니다. 또한 threshold를 바꾸는 일은 모델을 다시 학습하는 일과 다를 수 있으므로, 성능 문제와 정책 문제를 섞지 않고 읽는 데도 중요합니다.
+- Related concepts: `probability estimate`, `calibration`, `classification`
+- Core Section: `P1-7.3`
+- Appears in: `P1-7.2`, `P4-11.1`, `P4-11.2`, `P4-15.3`, `P7-7.4`
+
+<a id="glossary-initialization"></a>
+
+## throughput
+
+- Meaning: 일정 시간 동안 시스템이 처리할 수 있는 요청, 토큰, 작업의 양입니다. `하나를 얼마나 빨리 끝내는가`보다 `단위 시간에 전체를 얼마나 많이 흘려보내는가`에 초점을 둔 지표이며, 서비스가 몰릴 때 얼마나 버틸 수 있는지를 읽는 기준에 가깝습니다. 즉 처리량은 개별 요청의 체감 속도보다, 시스템 전체가 얼마나 많은 일을 소화하는지 보는 숫자입니다.
+- Why it matters: 한 요청을 잘 처리하는 것과 많은 요청을 동시에 감당하는 것은 다른 문제입니다. 지연 시간이 낮아도 전체 처리량이 낮으면 사용자가 몰릴 때 서비스가 버거워질 수 있으므로, 시스템 성능은 `개별 응답 속도`와 `전체 처리 능력`을 따로 봐야 합니다. 이 개념이 있어야 배치 처리, 캐싱, 호출 제한 같은 전략이 왜 종종 처리량 개선을 목표로 논의되는지도 더 자연스럽게 연결됩니다. 결국 처리량을 이해해야 서비스 성능을 `한 명이 얼마나 빨리 받는가`와 `모두가 합쳐 얼마나 많이 처리되는가`로 나누어 읽게 됩니다.
+- Related concepts: `latency`, `rate limit`, `batch`, `caching`
+- Core Section: `P1-14.6`
+- Appears in: `P1-14.5`
+
+<a id="token"></a>
+
+## token
+
+- Meaning: 모델이 텍스트를 처리하기 위해 나눈 기본 계산 단위입니다. 이 단위는 항상 `단어`와 같지 않아서, 한 단어가 여러 토큰으로 쪼개지거나 반대로 짧은 표현 몇 개가 하나처럼 다뤄질 수 있습니다. 즉 사람 눈에는 한 문장처럼 보여도, 모델 내부에서는 토큰들의 순서열로 바뀌어 계산됩니다.
+- Why it matters: 사람이 읽는 단어와 모델이 실제로 다루는 단위가 다를 수 있다는 점을 이해해야 다음 토큰 예측과 LLM 생성 과정을 올바르게 읽을 수 있기 때문입니다. 비용, 문맥 창 길이, 토큰 커버리지 문제도 모두 이 계산 단위에서 시작됩니다. 또한 토큰을 이해해야 `글자 수가 비슷한데 왜 비용이 다르지` 같은 질문을 더 정확히 해석하게 되고, 프롬프트 설계나 문맥 길이 제한을 문자 수가 아니라 실제 토큰 수 기준으로 보는 이유도 자연스럽게 이어집니다. 결국 토큰은 `사람이 읽는 문장`과 `모델이 계산하는 입력` 사이를 이어 주는 실제 계산 단위입니다.
+- Related concepts: `next-token prediction`, `language modeling`, `embedding`, `tokenization`, `context window`
+- Core Section: `P6-2.1`
+- Appears in: `P1-10.2`, `P5-13.1`, `P5-13.2`, `P6-2.2`, `P6-2.2`, `P7-4.1`, `P7-4.2`
+
+<a id="token-coverage"></a>
+
+## token coverage
+
+- Meaning: 평가 문장이나 문서 안의 토큰 가운데 현재 vocabulary나 tokenizer 규칙으로 실제로 읽힌 토큰이 얼마나 되는지를 비율로 본 값입니다. 즉 입력 문장이 사람 눈에는 온전해 보여도, 모델 입장에서는 얼마만큼이 실제 토큰 단위로 잘 보존되었는지를 점검하는 수치입니다.
+- Why it matters: 정확도 숫자가 같아 보여도 입력의 많은 부분이 어휘 밖이면 해석이 달라지므로, 텍스트 프로젝트에서는 예측 결과와 함께 입력이 얼마나 실제로 읽혔는지 확인해야 하기 때문입니다. 이 개념이 있어야 낮은 성능을 곧바로 모델 구조 문제로만 돌리지 않고, 먼저 입력 표현이 얼마나 보존되었는지 점검하게 됩니다. 결국 토큰 커버리지는 `모델이 무엇을 봤는가`를 확인하는 기본 진단 지표이며, 토큰화 설계 문제를 성능 문제와 구분하는 데도 도움이 됩니다. 다시 말해 낮은 커버리지는 `모델이 못 배웠다`기보다 `입력 자체를 충분히 읽지 못했다`는 신호일 수 있습니다.
+- Related concepts: `tokenization`, `token`, `out-of-vocabulary, OOV`
+- Core Section: `P7-4.2`
+
+<a id="tokenization"></a>
+
+## tokenization
+
+- Meaning: 원문 텍스트를 모델이 읽을 수 있는 토큰 시퀀스로 바꾸는 절차입니다. 사람이 보기에는 한 문장이어도, 모델은 이 단계에서 잘린 토큰 조각들의 순서열로만 입력을 받으므로, 토큰화는 언어를 계산 단위로 번역하는 첫 관문이라고 볼 수 있습니다.
+- Why it matters: 같은 뜻의 문장도 어떻게 잘랐는지에 따라 토큰 수, 비용, 문맥 사용량, 검색 청크 경계, 생성 해석이 모두 달라질 수 있기 때문입니다. 이 개념이 있어야 모델이 `문장 전체`를 직접 읽는 것이 아니라 tokenizer가 만든 계산 단위를 읽는다는 점을 이해하게 되고, 언어·기호·공백 처리 방식이 실제 비용과 성능에 영향을 준다는 점도 자연스럽게 읽게 됩니다. 또한 토큰화가 달라지면 같은 모델 계열이라도 입력 길이 체감, 희귀어 처리, 비용 계산이 달라질 수 있어, 토큰화는 단순 전처리가 아니라 모델 사용 경험 자체를 바꾸는 설계 단계라는 점도 중요합니다.
+- Related concepts: `token`, `context window`, `Byte Pair Encoding`
+- Core Section: `P6-2.2`
+- Appears in: `P6-2.2`, `P7-4.1`, `P7-4.2`
+
+<a id="tool"></a>
+
+## tool
+
+- Meaning: 모델 밖의 시스템 기능을 조회하거나 실행하기 위해 연결하는 수단입니다. 파일 읽기, 검색, API 호출, 데이터베이스 조회처럼 언어 생성만으로는 할 수 없는 일을 시스템 차원에서 맡는 외부 기능이라고 볼 수 있습니다. 즉 도구는 모델의 내부 지식을 늘리는 장치라기보다, 바깥 세계와 실제로 상호작용하게 만드는 실행 통로에 가깝습니다.
+- Why it matters: AI 서비스가 답변 생성에 그치지 않고 파일 수정, API 호출, 상태 조회 같은 실제 작업으로 이어질 때 핵심이 됩니다. 이 개념이 있어야 `모델이 안다`와 `시스템이 조회했다`를 구분하고, 응답 생성과 실제 실행을 다른 개념으로 설명할 수 있습니다. 또한 도구를 이해해야 실패가 모델 추론 한계에서 온 것인지, 연결된 외부 시스템 조회 실패에서 온 것인지도 더 정확히 나누어 읽게 됩니다. 결국 도구는 `말을 잘하는 능력`을 `실제 행동 능력`으로 바꾸는 연결 지점입니다.
+- Related concepts: `application`, `agent`, `Model Context Protocol, MCP`
+- Core Section: `P1-14.1`
+- Appears in: `P1-14.2`
+
+<a id="tool-call"></a>
+
+## tool call
+
+- Meaning: 어떤 도구를 어떤 인자로 실행할지 이름과 입력값을 정해 외부 기능 실행 요청을 만드는 단계입니다. 자연어 의도를 실제 실행 가능한 구조로 바꾸는 번역 단계라고 볼 수 있습니다. 즉 `검색해 줘` 같은 말이 시스템 안에서는 `어느 도구를 어떤 형식으로 부를지`로 다시 표현되는 순간이 도구 호출입니다.
+- Why it matters: 모델이 `도구를 쓴다`고 말해도 실제 시스템은 이름, 인자, 형식이 맞아야만 실행할 수 있기 때문입니다. 이 단계를 분리해 이해해야 자연어 의도와 실행 명세를 같은 것으로 혼동하지 않게 되고, 인자 검증, 승인 요구, 실행 실패 처리, 재시도 지점을 어디에 둘지도 더 명확하게 설계할 수 있습니다. 또한 도구 호출을 이해해야 실패가 `모델이 틀렸다`가 아니라 `호출 형식이 맞지 않았다`에서 올 수 있다는 점도 더 자연스럽게 설명하게 됩니다.
+- Related concepts: `tool use`, `tool`, `approval`, `function calling`
+- Core Section: `P1-14.2`
+- Appears in: `P1-14.3`, `P1-14.4`, `P1-14.5`
+
+<a id="tool-use"></a>
+
+## tool use
+
+- Meaning: 모델이 직접 처리할 수 없는 조회, 계산, 저장, 수정, 전송 같은 일을 위해 외부 시스템 기능을 호출해 쓰는 구조입니다. 단순히 답변 안에 정보를 적는 것과 달리, 바깥 시스템에 실제 요청을 보내 상태를 읽거나 바꾸는 단계가 포함됩니다. 즉 도구 사용은 `말로 설명하는 일`에서 `바깥 세계에 행동을 일으키는 일`로 넘어가는 구조입니다.
+- Why it matters: 문서를 읽어 답을 만드는 일과 외부 세계에 실제 조회·수정·전송을 일으키는 일은 책임과 위험이 전혀 다르기 때문입니다. 이 개념이 있어야 RAG처럼 정보를 참고하는 구조와, 함수 호출이나 파일 수정처럼 상태를 바꾸는 구조를 구분하게 되고, 권한·승인·실패 복구가 왜 도구 사용 단계에서 중요해지는지도 자연스럽게 이해하게 됩니다. 결국 도구 사용을 이해해야 에이전트의 능력을 `똑똑한 답변`이 아니라 `권한을 가진 실행 구조`까지 포함해 읽게 됩니다.
+- Related concepts: `tool`, `tool call`, `orchestration`, `permission`, `approval`
+- Core Section: `P6-13.1`
+- Appears in: `P1-14.2`, `P1-14.3`, `P1-14.4`, `P1-14.5`, `P1-14.6`, `P6-9.3`, `P6-13.2`, `P6-14.1`, `P7-6.1`, `P7-6.2`
+
+<a id="ktop-k"></a>
+
+## top-k
+
+- Meaning: 가장 가까운 후보 하나만이 아니라, 가까운 순서대로 k개 후보를 함께 가져오는 방식입니다. 즉 `한 개 정답만 뽑기`보다 `먼저 볼 만한 후보 묶음 만들기`에 더 가까운 선택 전략입니다. 여기서 중요한 점은 정답을 확정한다기보다, 다음 단계에서 검토하거나 조합할 후보 폭을 얼마나 열어 둘지 정한다는 데 있습니다.
+- Why it matters: 검색에서 관련 후보를 놓치지 않으려면 몇 개를 가져올지 정해야 하고, 너무 적거나 너무 많을 때의 trade-off를 이해해야 하기 때문입니다. 이 수가 달라지면 검색 품질, 검토 비용, RAG 맥락 길이도 함께 달라집니다. 예를 들어 `top-1`은 간단하지만 한 후보에 과하게 의존하기 쉽고, `top-20`은 관련성을 넓힐 수 있지만 잡음과 맥락 길이 소모도 함께 키울 수 있습니다. 결국 상위 k개를 이해해야 검색은 `가장 비슷한 것 하나를 찍는 일`이 아니라, 다음 생성이나 검토 단계에 넘길 후보 폭을 조절하는 설계 문제라는 점도 읽게 됩니다.
+- Related concepts: `nearest neighbor`, `ranking`, `similarity search`, `context window`
+- Core Section: `P1-13.2`
+- Appears in: `P5-15.3`, `P6-12.2`, `P6-17.1`
+
+<a id="trace"></a>
+
+## trace
+
+- Meaning: 하나의 요청이 어떤 단계들을 거쳐 처리되었는지 순서와 연결 관계를 따라 남기는 기록입니다. 단일 로그 한 줄이 아니라, 한 요청 안에서 여러 호출과 하위 작업이 어떻게 이어졌는지를 묶어 보여 주는 실행 흐름 기록이며, `무슨 일이 있었는가`보다 `어떤 흐름으로 이어졌는가`를 보는 데 더 가깝습니다. 즉 추적은 낱개 사건 목록보다, 모델 호출과 검색과 도구 실행과 사람 개입이 어떻게 한 줄기의 요청 경로를 이루었는지 복원하는 지도에 가깝습니다.
+- Why it matters: 최종 결과만으로는 모델 호출, 검색, 도구 실행, 오류가 어디서 발생했는지 구분하기 어렵습니다. 추적이 있어야 에이전트 실행을 단계별로 다시 읽고, 어느 단계에서 지연이 커졌는지, 어떤 호출이 실패했는지, 어떤 하위 작업이 전체 결과를 흔들었는지 더 정확히 분석할 수 있습니다. 이 개념이 있어야 로그가 낱개 사건 기록이라면, 추적은 그 사건들을 요청 단위 흐름으로 묶는 기록이라는 차이도 더 분명해집니다. 또한 추적을 이해해야 출력 오류를 단순 모델 성능 문제로만 보지 않고, 검색 실패, 잘못된 도구 선택, 승인 대기, 재시도 반복 같은 흐름 문제로도 분해해서 읽게 됩니다.
+- Related concepts: `log`, `observation`, `harness`, `run record`
+- Core Section: `P1-14.5`
+- Appears in: `P1-14.6`
+
+<a id="training"></a>
+
+## training
+
+- Meaning: 넓게는 경험 이후 특정 과제의 성능이 나아지는 변화이고, 좁게는 과거 사례를 사용해 모델 내부 기준과 값을 조정하는 훈련 절차를 가리킬 수 있습니다. 문맥에 따라 `배우는 현상`을 뜻하기도 하고, `가중치를 실제로 업데이트하는 실행 단계`를 뜻하기도 하므로 둘을 구분해 읽어야 합니다.
+- Why it matters: 한국어 `학습`이 `learning`과 `training`을 함께 번역하는 경우가 많아, 성능 개선이라는 넓은 뜻과 내부 값 조정 절차라는 좁은 뜻을 구분해 읽어야 하기 때문입니다. 이 차이를 알아야 `모델이 학습했다`는 말을 막연한 지능 향상으로 읽지 않고, 어떤 데이터와 손실을 기준으로 어떤 내부 값이 조정되었는지까지 더 구체적으로 생각할 수 있습니다. 또한 학습은 한 번의 계산이 아니라 손실 계산, 그래디언트 계산, 파라미터 업데이트가 반복되는 과정이라는 점도 함께 붙잡게 됩니다. 즉 학습을 이해해야 결과가 좋아졌다는 현상과 그 현상을 만드는 실제 업데이트 절차를 분리해 설명하게 됩니다.
+- Related concepts: `parameter`, `fitting`, `inference`
+- Core Section: `P1-3.2`
+- Appears in: `P1-4.1`, `P1-5.1`, `P5-6.3`, `P5-6.4`
+
+<a id="training-mode"></a>
+
+## training mode
+
+- Meaning: 모델이 파라미터 업데이트를 준비하는 학습용 계산 규칙을 사용하고 있는 상태입니다. 이 상태에서는 dropout 같은 무작위 정규화가 켜지고, batch normalization도 현재 배치 통계를 사용하며, 역전파를 위한 중간 정보가 함께 준비됩니다. 즉 학습 모드는 `같은 모델`이라도 학습을 위해 일부 층의 동작 규칙을 바꾸어 쓰는 실행 상태입니다.
+- Why it matters: 같은 모델이라도 dropout이나 batch normalization처럼 일부 층은 학습 중과 평가 중 동작이 달라져, 손실 계산과 성능 측정 결과를 올바르게 읽으려면 모드 차이를 먼저 구분해야 하기 때문입니다. 이 개념이 있어야 `모델 구조는 같지만 실행 규칙은 다를 수 있다`는 점과, 학습 중 출력 흔들림이 꼭 오류를 뜻하지는 않는다는 점도 함께 이해하게 됩니다. 결국 학습 모드를 이해해야 같은 코드로 실행해도 목적이 학습인지 평가인지에 따라 결과 해석 기준이 달라진다는 점을 읽게 됩니다.
+- Related concepts: `evaluation`, `dropout`, `validation`
+- Core Section: `P5-6.4`
+- Appears in: `P5-6.1`, `P5-7.1`, `P5-8.2`
+
+<a id="transformer"></a>
+
+## Transformer
+
+- Meaning: recurrence 없이 attention을 중심으로 시퀀스 안의 여러 위치가 서로를 참고하게 만드는 신경망 구조 계열입니다. 앞에서부터 하나씩만 넘겨 읽는 대신, 문장 안의 여러 위치 관계를 병렬적으로 비교하며 표현을 만드는 구조라고 볼 수 있습니다. 즉 트랜스포머는 `현재 단어를 이해하려면 문장 전체의 다른 위치를 함께 참고하자`는 발상을 구조적으로 밀어붙인 계열입니다.
+- Why it matters: 현대 LLM의 핵심 구조적 기반이지만, 사전학습과 스케일링 같은 다른 요소와 함께 읽어야 전체 역사를 올바르게 이해할 수 있기 때문입니다. 이 개념이 있어야 `LLM의 핵심은 단순히 큰 모델`이 아니라, attention 기반 구조와 대규모 학습 전략이 결합된 결과라는 점을 더 정확히 붙잡을 수 있습니다. 또한 트랜스포머를 이해해야 RNN 계열과 달리 긴 문맥 관계를 병렬적으로 다루는 방향으로 왜 구조적 전환이 일어났는지도 읽게 됩니다.
+- Related concepts: `Attention`, `language modeling`, `direct lineage`
+- Core Section: `P1-11.3`
+- Appears in: `P1-9.3`, `P5-13.2`, `P5-14.1`, `P5-14.2`, `P5-15.1`, `P6-4.1`, `P6-4.2`, `P6-4.3`
+
+<a id="transparency"></a>
+
+## transparency
+
+- Meaning: 사용자가 AI가 어디에 개입했고 어떤 목적과 한계 안에서 쓰였는지 알 수 있게 드러내는 성질입니다. 모든 내부 계산을 다 보여 준다는 뜻이라기보다, 사용자가 결과를 해석하고 이의를 제기하는 데 필요한 핵심 경계를 숨기지 않는다는 뜻에 가깝습니다. 즉 투명성은 `모든 것을 공개한다`보다 `판단에 필요한 중요한 정보를 감추지 않는다`에 더 가깝습니다.
+- Why it matters: 모델 내부 계산을 모두 공개하지 않더라도 AI 사용 여부, 근거, 한계, 검토 가능성, 이의 제기 가능성을 알아야 결과를 맹신하지 않고 다시 읽을 수 있기 때문입니다. 투명성이 있어야 책임과 감독도 실제로 작동할 수 있고, 문제가 생겼을 때 무엇이 자동화 판단이었고 무엇이 사람 판단이었는지도 추적할 수 있습니다. 이 개념이 있어야 설명 한 줄을 붙이는 것과, 실제 검토 가능한 경계를 공개하는 것을 같은 말로 보지 않게 됩니다.
+- Related concepts: `accountability`, `human oversight`, `evidence`, `provenance`
+- Core Section: `P1-15.1`
+
+<a id="tree"></a>
+
+## tree
+
+- Meaning: 부모와 자식의 계층 관계로 항목을 조직하는 구조입니다. 한 항목이 위쪽의 더 큰 범주 아래에 놓이고, 다시 그 아래에 더 작은 하위 항목이 이어지는 `가지형 계층 구조`로 이해하면 됩니다. 즉 트리는 앞뒤 순서보다 `누가 누구 아래에 속하는가`가 더 중요한 비선형 구조입니다.
+- Why it matters: 목차, 폴더, 분류 체계처럼 상위와 하위가 분명한 데이터를 읽을 때 가장 기본적인 계층 감각을 제공하기 때문입니다. 그래프보다 더 제한된 구조이지만 그만큼 `어디에 속하는가`를 읽기 쉬워, 분류와 의사결정 흐름의 기본 틀이 됩니다. 예를 들어 파일 시스템은 상위 폴더 아래 하위 폴더가 붙는 트리로 읽을 수 있고, 결정트리는 질문이 아래로 분기되는 판단 구조로 읽을 수 있습니다. 결국 트리를 이해해야 `관계가 있다`는 말 안에서도 순서 구조, 표 구조, 그래프 구조와 달리 `계층과 분기`가 중심인 경우를 따로 분리해 보게 됩니다.
+- Related concepts: `graph`, `linear structure`, `non-linear structure`
+- Core Section: `P2-9.2`
+- Appears in: `P2-9.3`, `P2-14.1`
+
+<a id="tts-text-to-speech"></a>
+
+## TTS, text-to-speech
+
+- Meaning: 텍스트 입력을 사람이 들을 수 있는 음성 출력으로 바꾸는 응용 문제입니다. 문장을 이해 가능한 소리로 읽어 주는 기술 계열로, 발음뿐 아니라 속도, 억양, 자연스러움도 함께 다루게 됩니다. 즉 TTS는 글자를 단순 소리 목록으로 치환하는 수준을 넘어, 문장 구조와 말하기 흐름을 고려해 `읽히는 음성`을 만드는 문제입니다.
+- Why it matters: 음성 생성 모델이 실제 음성 합성 시스템과 만나는 대표 맥락이지만, 음성 생성 전체와 같은 말은 아니라는 점을 구분하게 해 주기 때문입니다. 이 개념이 있어야 `텍스트를 음성으로 바꾸는 일`과 `아무 음성이나 만들어 내는 생성 문제`를 같은 것으로 섞지 않게 되고, 입력이 텍스트로 정해져 있다는 점에서 제어 조건이 더 강한 응용이라는 점도 이해하게 됩니다. 예를 들어 내비게이션 안내, 화면 읽기, 음성 비서 응답은 모두 TTS지만, 배경 소음이나 자유로운 목소리 합성을 만드는 문제와는 목표가 다릅니다. 결국 TTS를 이해해야 음성 생성(speech generation) 안에서도 `무엇을 입력으로 삼고 무엇을 얼마나 제어할 수 있는가`에 따라 과제가 달라진다는 점을 읽게 됩니다.
+- Related concepts: `speech generation`, `WaveNet`, `generation`
+- Core Section: `P1-9.2`
+
+<a id="type"></a>
+
+## type
+
+- Meaning: 값이 어떤 종류이며 어떤 연산을 허용하는지 구분하는 정보입니다. 숫자, 문자열, 리스트, 딕셔너리처럼 값의 해석 방식과 가능한 동작 범위를 함께 정해 주는 분류라고 볼 수 있습니다. 즉 타입은 값의 겉모양보다 `어떻게 다뤄야 하는가`를 정해 주는 규칙 묶음입니다.
+- Why it matters: 같은 `+` 기호도 숫자에는 덧셈이고 문자열에는 이어 붙이기가 될 수 있습니다. 타입을 구분해야 오류 원인, 메서드 사용 가능 여부, 배열 계산 제한을 함께 읽을 수 있습니다. 이 개념이 있어야 코드를 볼 때 `값이 들어 있다`에서 멈추지 않고, `어떤 규칙으로 해석되는 값인가`를 먼저 따지게 됩니다. 결국 타입은 문법 암기보다, 데이터와 연산이 어디서 맞물리고 어디서 충돌하는지 읽는 가장 기본적인 해석 단위가 됩니다. 초심자가 자주 겪는 오류 상당수도 `값은 있는데 타입이 기대와 다르다`는 데서 시작합니다.
+- Related concepts: `value`, `variable`, `method`
+- Core Section: `P2-8.1`
+- Appears in: `P2-8.2`, `P2-8.3`, `P2-11.1`

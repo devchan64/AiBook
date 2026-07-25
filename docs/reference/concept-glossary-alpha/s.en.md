@@ -1,63 +1,555 @@
 # Concept Glossary: S
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [safety](/AiBook/reference/concept-glossary-parts/03-digeut/#safety) — 디지털 안전성 — Core Section: `P1-15.1`
-- [safety](/AiBook/reference/concept-glossary-parts/08-ieung/#safety) — 안전성 — Core Section: `P1-15.1`
-- [sample](/AiBook/reference/concept-glossary-parts/07-siot/#sample) — 샘플 — Core Section: `P3-4.1`
-- [sample](/AiBook/reference/concept-glossary-parts/13-pieup/#sample) — 표본 — Core Section: `P2-5.3`
-- [sample space](/AiBook/reference/concept-glossary-parts/13-pieup/#sample-space) — 표본공간 — Core Section: `P2-5.1`
-- [sample-by-sample comparison table](/AiBook/reference/concept-glossary-parts/07-siot/#sample-by-sample-comparison-table) — 샘플별 비교표 — Core Section: `P7-2.1`
-- [sampling](/AiBook/reference/concept-glossary-parts/07-siot/#sampling) — 샘플링 — Core Section: `P5-15.3`
-- [savefig](/AiBook/reference/concept-glossary-parts/07-siot/#savefig) — savefig — Core Section: `P2-13.3`
-- [scalar](/AiBook/reference/concept-glossary-parts/07-siot/#scalar) — 스칼라 — Core Section: `P2-3.1`
-- [scale](/AiBook/reference/concept-glossary-parts/07-siot/#scale) — 스케일 — Core Section: `P6-7.2`
-- [scatter plot](/AiBook/reference/concept-glossary-parts/07-siot/#scatter-plot) — 산점도 — Core Section: `P2-13.2`
-- [scenario](/AiBook/reference/concept-glossary-parts/07-siot/#scenario) — 시나리오 — Core Section: `P1-17.1`
-- [scope](/AiBook/reference/concept-glossary-parts/07-siot/#scope) — 실행 범위 — Core Section: `P1-15.3`
-- [script](/AiBook/reference/concept-glossary-parts/07-siot/#script) — 스크립트 — Core Section: `P2-7.3`
-- [search](/AiBook/reference/concept-glossary-parts/01-giyeok/#search) — 검색 — Core Section: `P1-16.2`
-- [search](/AiBook/reference/concept-glossary-parts/12-tieut/#search) — 탐색 — Core Section: `P1-2.2`
-- [search index](/AiBook/reference/concept-glossary-parts/01-giyeok/#search-index) — 검색 인덱스 — Core Section: `P1-13.4`
-- [search space](/AiBook/reference/concept-glossary-parts/12-tieut/#search-space) — 탐색 공간 — Core Section: `P1-7.1`
-- [secret](/AiBook/reference/concept-glossary-parts/06-bieup/#secret) — 비밀키 — Core Section: `P1-14.5`
-- [security](/AiBook/reference/concept-glossary-parts/06-bieup/#security) — 보안 — Core Section: `P1-15.3`
-- [self-attention](/AiBook/reference/concept-glossary-parts/07-siot/#self-attention) — 셀프 어텐션 — Core Section: `P5-13.2`
-- [self-consistency](/AiBook/reference/concept-glossary-parts/07-siot/#self-consistency) — self-consistency — Core Section: `P6-10.3`
-- [sensitive information](/AiBook/reference/concept-glossary-parts/05-mieum/#sensitive-information) — 민감 정보 — Core Section: `P1-15.3`
-- [sentence, paragraph, and document embedding](/AiBook/reference/concept-glossary-parts/05-mieum/#sentence-paragraph-and-document-embedding) — 문장·문단·문서 임베딩 — Core Section: `P1-13.1`
-- [SentencePiece](/AiBook/reference/concept-glossary-parts/07-siot/#sentencepiece) — SentencePiece — Core Section: `P6-2.2`
-- [Seq2Seq](/AiBook/reference/concept-glossary-parts/07-siot/#seq2seq) — 시퀀스 투 시퀀스 — Core Section: `P1-11.2`
-- [Series](/AiBook/reference/concept-glossary-parts/07-siot/#series) — Series — Core Section: `P2-12.2`
-- [server](/AiBook/reference/concept-glossary-parts/07-siot/#server) — 서버 — Core Section: `P1-14.4`
-- [shallow copy](/AiBook/reference/concept-glossary-parts/08-ieung/#shallow-copy) — 얕은 복사 — Core Section: `P2-8.7`
-- [shape](/AiBook/reference/concept-glossary-parts/07-siot/#shape) — shape — Core Section: `P2-3.1`
-- [shared view](/AiBook/reference/concept-glossary-parts/07-siot/#shared-view) — shared view — Core Section: `P2-11.4`
-- [shell](/AiBook/reference/concept-glossary-parts/07-siot/#shell) — 셸 — Core Section: `P2-7.2`
-- [shell script](/AiBook/reference/concept-glossary-parts/07-siot/#shell-script) — 셸 스크립트 — Core Section: `P2-7.8`
-- [sigma](/AiBook/reference/concept-glossary-parts/07-siot/#sigma) — 시그마 — Core Section: `P2-2.2`
-- [similarity](/AiBook/reference/concept-glossary-parts/08-ieung/#similarity) — 유사도 — Core Section: `P1-13.2`
-- [similarity search](/AiBook/reference/concept-glossary-parts/08-ieung/#similarity-search) — 유사도 검색 — Core Section: `P1-13.2`
-- [slicing](/AiBook/reference/concept-glossary-parts/07-siot/#slicing) — 슬라이싱 — Core Section: `P2-11.2`
-- [slope](/AiBook/reference/concept-glossary-parts/01-giyeok/#slope) — 기울기 — Core Section: `P2-4.2`
-- [sparse attention](/AiBook/reference/concept-glossary-parts/07-siot/#sparse-attention) — sparse attention — Core Section: `P6-4.3`
-- [sparsity](/AiBook/reference/concept-glossary-parts/03-digeut/#sparsity) — 데이터 희소성 — Core Section: `P1-11.1`
-- [speech generation](/AiBook/reference/concept-glossary-parts/08-ieung/#speech-generation) — 음성 생성 — Core Section: `P1-9.2`
-- [stack](/AiBook/reference/concept-glossary-parts/07-siot/#stack) — 스택 — Core Section: `P2-9.4`
-- [staging area](/AiBook/reference/concept-glossary-parts/07-siot/#staging-area) — 스테이징 영역 — Core Section: `P2-14.1`
-- [standard deviation](/AiBook/reference/concept-glossary-parts/13-pieup/#standard-deviation) — 표준편차 — Core Section: `P2-5.5`
-- [standard error](/AiBook/reference/concept-glossary-parts/13-pieup/#standard-error) — 표준오차 — Core Section: `P2-5.5`
-- [state](/AiBook/reference/concept-glossary-parts/07-siot/#state) — 상태 — Core Section: `P1-7.1`
-- [static deployment](/AiBook/reference/concept-glossary-parts/09-jieut/#static-deployment) — 정적 배포 — Core Section: `P7-7.1`
-- [statistical language model](/AiBook/reference/concept-glossary-parts/12-tieut/#statistical-language-model) — 통계적 언어 모델 — Core Section: `P1-11.1`
-- [status inspection](/AiBook/reference/concept-glossary-parts/07-siot/#status-inspection) — 상태 점검 — Core Section: `P7-7.1`
-- [stochastic process](/AiBook/reference/concept-glossary-parts/14-hieut/#stochastic-process) — 확률적 과정 — Core Section: `P1-6.2`
-- [stop condition](/AiBook/reference/concept-glossary-parts/09-jieut/#stop-condition) — 종료 조건 — Core Section: `P1-14.3`
-- [structural hypothesis](/AiBook/reference/concept-glossary-parts/01-giyeok/#structural-hypothesis) — 구조 계열 가설 — Core Section: `P7-3.2`
-- [structure](/AiBook/reference/concept-glossary-parts/01-giyeok/#structure) — 구조 — Core Section: `P1-8.2`
-- [summary table](/AiBook/reference/concept-glossary-parts/08-ieung/#summary-table) — 요약표 — Core Section: `P7-1.1`
-- [supervised learning](/AiBook/reference/concept-glossary-parts/09-jieut/#supervised-learning) — 지도학습 — Core Section: `P4-2.1`
-- [surrounding evidence](/AiBook/reference/concept-glossary-parts/09-jieut/#surrounding-evidence) — 주변 근거 — Core Section: `P6-19.2`
-- [SVM, support vector machine](/AiBook/reference/concept-glossary-parts/08-ieung/#svmsupport-vector-machine) — SVM — Core Section: `P4-13.1`
-- [symbolic AI](/AiBook/reference/concept-glossary-parts/01-giyeok/#aisymbolic-ai) — 기호 기반 AI — Core Section: `P1-2.1`
-- [system](/AiBook/reference/concept-glossary-parts/07-siot/#system) — 시스템 — Core Section: `P1-4.1`
+<a id="safety"></a>
+
+## safety
+
+- Meaning: AI 결과나 자동화가 사람, 조직, 절차에 실제 피해를 만들지 않도록 제한하고 검토하는 조건입니다. 단순히 위험한 단어를 막는 수준이 아니라, 잘못된 판단, 과신, 권한 오남용, 개인정보 노출, 검토 없는 자동 실행처럼 디지털 환경에서 생기는 피해 경로 전체를 함께 봅니다. 즉 디지털 안전성은 `무슨 말을 했는가`만이 아니라 `그 말과 행동이 시스템 안에서 어떤 결과를 일으키는가`를 묻는 개념입니다.
+- Why it matters: AI의 오류가 문장 품질 문제로 끝나지 않고 실제 의사결정, 추천, 실행 피해로 이어질 수 있기 때문입니다. 특히 도구 사용과 자동화가 붙는 순간 안전성은 응답 예절이나 유해 표현 차단만의 문제가 아니라, 어떤 행동 권한을 어디까지 위임할지 정하는 실행 통제 문제이기도 합니다. 이 개념이 있어야 `불쾌한 답을 줄이기`와 `실제 피해를 줄이기`를 같은 말로 보지 않게 되고, 잘못된 실행, 과도한 권한, 검토 없는 자동화를 안전 설계의 핵심 위험으로 함께 읽게 됩니다.
+- Related concepts: `bias`, `accountability`, `human oversight`, `permission`
+- Core Section: `P1-15.1`
+
+<a id="sample"></a>
+
+## sample
+
+- Meaning: 현재 질문에 답하기 위해 한 건으로 묶어 읽기로 정한 사례 단위입니다. 행 하나, 문서 하나, 이벤트 한 번처럼 모델이 `한 번 본다`고 셀 수 있는 기본 단위라고 이해하면 됩니다. Part 7에서는 이 샘플 경계가 곧 입력 단위와 비교 단위가 되어, 같은 로그라도 하루 전체를 샘플로 볼지 채널-일자를 샘플로 볼지에 따라 프로젝트 문서의 첫 문장이 달라집니다.
+- Why it matters: 같은 원천데이터라도 한 시점 기록을 샘플로 볼지, 동작 1회를 샘플로 볼지에 따라 뒤의 특징, 기준선, 출력 구조가 모두 달라지기 때문입니다. 샘플 단위가 흔들리면 데이터셋 크기와 라벨 의미도 함께 흔들립니다. 이 개념이 있어야 Part 7의 입력 단위 정의, 샘플별 비교표, 틀린 사례 목록이 모두 `무엇을 한 건으로 셌는가` 위에 서 있다는 점도 더 분명하게 읽게 됩니다. 결국 샘플은 `데이터가 많다`는 사실을 `무엇을 한 건으로 볼 것인가`라는 분석 단위로 닫아 주는 기준입니다.
+- Related concepts: `sample`, `row`, `dataset`, `example`
+- Core Section: `P3-4.1`
+- Appears in: `P3-1.1`, `P3-2.2`, `P3-3.2`, `P3-4.2`, `P3-4.3`, `P3-5.1`, `P3-5.6`, `P7-index`, `P7-1.1`, `P7-1.3`, `P7-2.1`, `P7-3.2`, `P7-summary`
+
+<a id="sample-space"></a>
+
+## sample space
+
+- Meaning: 가능한 모든 결과를 모아 둔 전체 집합입니다. 동전 던지기라면 앞면과 뒷면 전체가 되고, 시험 점수 문제라면 나올 수 있는 모든 점수 범위가 이 틀에 해당합니다. 즉 표본공간은 `무엇이 가능한 경우 전체인가`를 정해 두는 확률 문제의 바깥 테두리입니다.
+- Why it matters: 사건과 결과를 어떤 전체 틀 안에서 볼지 먼저 정해야 확률 계산이 흔들리지 않기 때문입니다. 무엇을 가능한 전체 경우로 둘지 정하지 않으면, `어떤 일이 얼마나 자주 일어나는가`도 일관되게 정의할 수 없습니다. 이 개념이 있어야 사건은 표본공간의 일부이고, 확률은 그 일부가 전체에서 차지하는 비중을 읽는 일이라는 구조가 더 선명해지고, 문제 정의를 바꾸면 표본공간도 함께 달라질 수 있다는 점도 자연스럽게 이해하게 됩니다. 결국 표본공간을 이해해야 확률은 낱개 결과만이 아니라 `어떤 전체를 기준으로 보느냐`에 따라 달라진다는 점을 읽게 됩니다.
+- Related concepts: `outcome`, `event`, `probability`
+- Core Section: `P2-5.1`
+- Appears in: `P2-5.2`
+
+<a id="sample-by-sample-comparison-table"></a>
+
+## sample-by-sample comparison table
+
+- Meaning: 전체 평균 하나로 덮지 않고, 각 샘플마다 기준 모델과 현재 모델의 예측, 정답, 실패 여부를 나란히 적어 차이를 읽게 만드는 표입니다. 즉 `이번 모델이 전체로는 좋아졌는가`보다 `어떤 샘플에서 무엇이 달라졌는가`를 직접 다시 열어 보는 비교 기록이라고 볼 수 있습니다. 평균 점수 뒤에 가려진 개별 실패 장면을 표 단위로 다시 드러내는 구조입니다.
+- Why it matters: 정확도나 평균 점수만으로는 어떤 샘플이 계속 틀리고 어떤 샘플은 새로 좋아졌는지 잘 보이지 않아, 다음 질문과 오류 사례 분석이 쉽게 막연해지기 때문입니다. 이 개념이 있어야 기준 모델과 개선 모델의 차이를 실제 사례 위에서 다시 확인하게 되고, 틀린 사례 목록과 오류 사례도 `어디를 다시 봐야 하는가`라는 더 구체적인 위치 정보 위에 서게 됩니다. 또한 샘플별 비교표를 이해해야 Part 7의 기준점 비교가 단순 점수 경쟁이 아니라, 실패 구조를 다음 반복 판단으로 넘기는 프로젝트 기록이라는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `comparison table`, `wrong-case list`, `error case`, `execution summary`, `evaluation`
+- Core Section: `P7-2.1`
+- Appears in: `P7-2.3`, `P7-summary`
+
+<a id="sampling"></a>
+
+## sampling
+
+- Meaning: 모델이 계산한 후보 분포를 바탕으로 실제 출력 조각 하나를 선택하는 절차입니다. 즉 모델이 `어떤 후보들이 얼마나 그럴듯한가`를 계산한 뒤, 그 가운데 무엇을 실제로 꺼내 쓸지 정하는 마지막 선택 단계라고 볼 수 있습니다. 언어 모델에서는 다음 토큰 후보 중 하나를 고르는 일이 되고, 이미지 생성에서는 다음 단계의 잡음 제거 경로를 확률적으로 밟는 선택으로 이어질 수 있습니다.
+- Why it matters: 같은 입력에서도 생성 결과가 달라질 수 있는 이유와, 확률 분포 계산과 실제 출력 선택이 구분된다는 점을 이해하게 해 주기 때문입니다. 이 개념이 있어야 모델이 아는 후보 분포와 실제로 채택된 한 결과를 다른 개념으로 해석하게 됩니다. 또한 생성 품질이 언제나 모델 가중치만으로 결정되는 것이 아니라, 마지막 선택 절차의 설정에도 크게 영향을 받는다는 점을 읽게 해 주어 temperature나 top-k 같은 생성 설정의 역할도 더 분명히 이해하게 됩니다. 즉 샘플링을 이해해야 `모델이 무엇을 알고 있는가`와 `그 가운데 실제로 무엇을 꺼내는가`를 분리해 보게 되고, 같은 모델 비교에서도 생성 설정을 함께 기록해야 하는 이유가 선명해집니다.
+- Related concepts: `next-token prediction`, `token`, `diffusion model`
+- Core Section: `P5-15.3`
+- Appears in: `P1-10.2`, `P5-15.1`, `P5-15.2`, `P6-6.1`, `P6-6.2`
+
+<a id="savefig"></a>
+
+## savefig
+
+- Meaning: Matplotlib에서 현재 Figure를 PNG 같은 이미지 파일로 저장하는 함수 호출입니다. 화면에 그린 그림을 눈앞의 출력에서 끝내지 않고 파일 자산으로 바꾸는 단계입니다. 즉 `그려 본다`에서 멈추지 않고 `남겨 둔다`로 넘어가는 저장 명령이라고 볼 수 있습니다.
+- Why it matters: 화면에서 한 번 본 그래프를 문서, 리포트, 실험 기록에 다시 쓰려면 결과를 파일로 남겨야 하고, 이 저장 단계가 그래프를 기록 자산으로 바꾸기 때문입니다. 즉 시각화가 `잠깐 보기`에서 `재사용 가능한 기록`으로 넘어가는 지점이기도 합니다. 이 개념이 있어야 실험 결과를 나중에 다시 검토하거나 비교할 때 화면 캡처에 의존하지 않고, 같은 코드에서 같은 자산을 다시 만들 수 있는 기록 흐름을 더 분명히 잡게 됩니다. 결국 `savefig`를 이해해야 시각화 코드가 화면 출력용인지, 문서와 실험 기록용 자산 생성까지 포함하는지 구분하게 됩니다.
+- Related concepts: `Figure`, `reproducible record`, `plot`
+- Core Section: `P2-13.3`
+- Appears in: `P2-15.1`
+
+<a id="scalar"></a>
+
+## scalar
+
+- Meaning: 숫자 하나로 표현되는 값입니다. 벡터가 여러 값을 가진 1차원 표현이라면, 스칼라는 더 이상 쪼개지지 않는 단일 수치 결과라고 볼 수 있습니다. 손실값, 평균, 확률 하나처럼 계산의 마지막에 비교와 판단 기준으로 쓰이는 한 숫자 결과가 대표적인 스칼라입니다.
+- Why it matters: 벡터와 행렬이 중간 계산을 풍부하게 담더라도, 학습과 평가에서는 손실, 확률, 평균처럼 결국 한 숫자로 요약된 판단값을 자주 사용하기 때문입니다. 이 개념이 있어야 큰 모양의 텐서 계산과 마지막 의사결정에 쓰이는 단일 수치를 구분하게 되고, `출력 전체`와 `그 출력을 대표해 비교하는 값`이 서로 다른 층위라는 점도 더 분명히 읽게 됩니다. 또한 스칼라를 이해해야 `모양이 큰 계산`과 `비교를 위한 최종 요약값`이 어떻게 이어지는지 더 자연스럽게 연결됩니다. 결국 스칼라는 복잡한 계산을 마지막 판단으로 압축하는 가장 작은 수치 단위입니다.
+- Related concepts: `vector`, `matrix`, `output`
+- Core Section: `P2-3.1`
+- Appears in: `P2-3.2`, `P2-11.1`, `P2-15.1`
+
+<a id="scale"></a>
+
+## scale
+
+- Meaning: 데이터 양, 모델 크기, 계산량이 함께 커지며 모델 능력과 운영 부담이 동시에 커지는 현상입니다. 단순히 파라미터 수만 늘어나는 일이 아니라, 학습 데이터, 하드웨어 자원, 추론 비용, 운영 복잡성까지 연쇄적으로 커지는 흐름을 함께 가리킵니다. 즉 스케일은 `더 크게 만든다`는 한 가지 변화가 아니라, 성능과 비용과 운영 조건이 함께 움직이는 확장 축입니다.
+- Why it matters: LLM 성능 향상을 `큰 모델이 더 좋다`는 한 문장으로만 보지 않고, 비용·지연 시간·데이터 검증 책임까지 함께 읽게 해 주기 때문입니다. 이 개념이 있어야 스케일 확장이 성능 향상 전략이면서 동시에 안전성, 접근성, 운영비를 바꾸는 선택이라는 점을 놓치지 않게 됩니다. 또한 스케일을 이해해야 같은 성능 향상이라도 더 많은 데이터, 더 큰 모델, 더 긴 문맥, 더 많은 GPU 중 무엇을 키운 결과인지 따로 읽게 됩니다.
+- Related concepts: `pretraining`, `parameter`, `latency`
+- Core Section: `P6-7.2`
+
+<a id="scatter-plot"></a>
+
+## scatter plot
+
+- Meaning: 각 샘플을 하나의 점으로 찍어 두 변수의 관계와 흩어짐을 보여 주는 그래프입니다. 한 점이 한 사례를 뜻하고, 점들의 모양 전체가 두 변수 사이 패턴을 드러내는 시각화라고 볼 수 있습니다. 즉 산점도는 값 하나의 높낮이보다, 점들이 어떤 구름 모양을 이루는가를 읽는 그래프입니다.
+- Why it matters: 두 값이 함께 커지거나 줄어드는지, 그리고 점들이 얼마나 퍼져 있는지를 한눈에 보게 해 주어 관계 후보를 빠르게 점검하게 만들기 때문입니다. 이 개념이 있어야 평균이나 상관계수 하나로는 놓치기 쉬운 군집, 이상치, 비선형 관계 후보도 먼저 눈으로 확인하게 되고, `수치 요약 전에 데이터 모양을 본다`는 기본 습관도 함께 잡게 됩니다. 또한 산점도를 이해해야 같은 상관계수라도 실제 점 모양은 매우 다를 수 있다는 점도 더 자연스럽게 받아들이게 됩니다. 결국 산점도는 `숫자 관계`를 `점들의 배치`로 바꾸어 읽게 만드는 가장 기본적인 관계 시각화입니다.
+- Related concepts: `plot`, `distribution`, `sample`
+- Core Section: `P2-13.2`
+- Appears in: `P2-13.3`, `P4-18.2`
+
+<a id="scenario"></a>
+
+## scenario
+
+- Meaning: 미래에 가능한 여러 경로를 나누어 설명하는 형식입니다. 하나의 확정 결론을 단정하기보다, 어떤 조건이 붙으면 어떤 방향으로 전개될 수 있는지를 분기 형태로 정리한 전망 틀이라고 볼 수 있습니다. 즉 시나리오는 `정답 하나를 맞힌다`보다 `가능한 전개 경로를 조건과 함께 펼쳐 본다`는 분석 방식에 가깝습니다.
+- Why it matters: 확정 예측과 가능성 검토를 구분해 전망 자료를 더 안전하게 읽게 해 주기 때문입니다. 이 개념이 있어야 `이렇게 될 것이다`라는 단정과 `이런 조건이면 이런 경로도 가능하다`는 분석을 분리해 읽게 되고, 전망 자료를 읽을 때도 단일 결론보다 가정과 분기 조건을 먼저 확인하는 습관이 생깁니다. 또한 시나리오를 이해해야 예측 자료를 볼 때 결과 문장만 소비하지 않고, 어떤 조건이 바뀌면 다른 경로가 열리는지도 함께 읽게 됩니다. 결국 시나리오는 `미래를 맞힌다`보다 `미래의 갈림길을 조건과 함께 펼쳐 본다`는 형식입니다.
+- Related concepts: `forecast`, `prediction`, `indicator`
+- Core Section: `P1-17.1`
+- Appears in: `P1-17.3`
+
+<a id="scope"></a>
+
+## scope
+
+- Meaning: 현재 요청이나 자동화가 실제로 영향을 줄 수 있는 대상과 경계를 미리 정해 둔 제한 조건입니다. 어떤 폴더까지 수정 가능한지, 어떤 서비스까지만 호출 가능한지, 어떤 단계에서 멈춰야 하는지처럼 `이번 실행이 어디까지 닿아도 되는가`를 닫아 두는 선에 가깝습니다. 즉 권한이 가능한 행동의 종류를 정한다면, 실행 범위는 그 행동이 미치는 대상과 경로를 더 좁혀 두는 운영 경계입니다.
+- Why it matters: 같은 `쓰기 권한`이 있어도 전체 저장소를 바꾸는 것과 특정 임시 폴더만 바꾸는 것은 위험 규모가 크게 다르므로, 권한만으로는 실제 위험을 충분히 설명하지 못하기 때문입니다. 이 개념이 있어야 `허용된 도구`와 `허용된 대상 범위`를 분리해 읽게 되고, 승인 절차도 `무슨 행동인가`뿐 아니라 `어디까지 영향을 주는가`를 함께 묻게 됩니다. 또한 실행 범위를 이해해야 과도한 권한을 줄이는 일이 단순 yes/no 허용 문제가 아니라, 같은 도구라도 더 좁은 범위에서만 작동하게 만드는 세밀한 설계 문제라는 점도 더 분명하게 보게 됩니다.
+- Related concepts: `permission`, `least privilege`, `approval`, `agent`, `tool use`
+- Core Section: `P1-15.3`
+- Appears in: `P1-14.3`, `P1-14.5`, `P7-6.2`
+
+<a id="script"></a>
+
+## script
+
+- Meaning: 여러 줄 코드를 파일로 저장해 한 번에 실행하도록 만든 프로그램 파일 또는 그 실행 방식입니다. 즉 즉석 입력을 넘어, 같은 절차를 다시 실행할 수 있게 고정한 코드 묶음입니다. 대화형 모드가 한 줄씩 시험하는 방식이라면, 스크립트는 그 절차를 순서대로 묶어 재실행 가능한 작업 단위로 만든 형태라고 볼 수 있습니다.
+- Why it matters: 대화형으로 시험한 코드를 반복 실행 가능한 형태로 옮기고, 학습 예제를 공유하거나 다시 돌릴 때 기본 단위가 되기 때문입니다. 스크립트 개념이 있어야 `한 번 성공한 실험`과 `다시 돌릴 수 있는 작업`의 차이를 분명히 읽을 수 있고, 실행 결과를 다시 검증하는 출발점도 마련됩니다. 또한 스크립트를 이해해야 학습 메모와 실제 실행 절차를 분리해 관리할 수 있고, 환경이 바뀌어도 같은 순서로 다시 확인하는 재현성 감각이 더 분명해집니다.
+- Related concepts: `interpreter`, `interactive mode`, `reproducibility`
+- Core Section: `P2-7.3`
+- Appears in: `P2-10.1`, `P2-10.2`, `P2-10.3`
+
+<a id="search"></a>
+
+## search
+
+- Meaning: 사람이 바로 읽어 볼 자료나 작업 후보를 찾기 위해 문서, 웹, 기록, 파일 목록을 살펴보는 일반적인 찾기 활동입니다. 정확한 답을 즉시 내는 행위라기보다, 다음 판단에 쓸 후보를 모으는 넓은 단계라고 볼 수 있습니다. 즉 검색은 `결론을 바로 확정한다`보다 `먼저 볼 만한 자료를 줄인다`는 단계에 더 가깝습니다.
+- Why it matters: 실무 보조에서는 검색 결과가 곧 최종 답이 아니라, 다음 검토와 판단으로 이어질 후보 집합을 만드는 단계이기 때문입니다. 이 개념이 있어야 검색은 `답변` 자체가 아니라 `답변을 더 잘 만들기 위한 재료 수집`일 수 있고, 사람 검색과 시스템 검색을 같은 흐름 안에서 연결해 읽을 수 있습니다. 또한 검색을 이해해야 찾았다는 사실과 그 자료가 실제로 적절한 근거라는 판단이 서로 다른 단계라는 점도 함께 읽게 됩니다. 결국 검색은 `답을 낸다`보다 `답을 만들 재료를 먼저 좁힌다`는 작업으로 읽는 편이 더 정확합니다.
+- Related concepts: `work automation`, `review`, `information retrieval`, `retrieval-augmented generation, RAG`
+- Core Section: `P1-16.2`
+- Appears in: `P2-3.2`, `P2-9.1`, `P2-9.3`
+
+<a id="search-index"></a>
+
+## search index
+
+- Meaning: 많은 벡터나 문서 가운데 관련 후보를 더 빨리 찾기 위해 미리 만들어 두는 검색용 구조입니다. 원본 데이터를 그대로 쌓아 두는 저장 층이 아니라, 나중에 찾을 때 어떤 후보부터 비교하고 어떤 경로로 좁혀 갈지를 미리 조직해 둔 탐색 층에 가깝습니다. 책 맨 뒤의 색인처럼 `무엇을 어디서부터 찾아볼지`를 빠르게 안내하는 장치라고 생각하면 이해하기 쉽습니다.
+- Why it matters: 모든 벡터를 매번 처음부터 비교하지 않고도 가까운 후보를 빠르게 좁힐 수 있어, 대규모 벡터 검색이 실제 서비스에서 가능해지기 때문입니다. 같은 임베딩을 써도 인덱스 구조에 따라 속도, 메모리 사용, 검색 누락 가능성이 함께 달라지므로, 검색 품질은 모델과 표현뿐 아니라 인덱스 설계의 영향도 크게 받습니다. 이 개념이 있어야 `좋은 임베딩을 만들었다`와 `실제로 빠르고 안정적으로 찾는다`를 같은 문제로 보지 않게 됩니다.
+- Related concepts: `similarity search`, `ANN, approximate nearest neighbor`, `vector database`
+- Core Section: `P1-13.4`
+- Appears in: `P6-12.2`
+
+<a id="search-space"></a>
+
+## search space
+
+- Meaning: 문제를 풀 때 고려할 수 있는 상태와 선택지, 경로 후보의 전체 구조입니다. 단순히 답 후보 목록만이 아니라, 현재 어디에 있고 다음에 무엇을 할 수 있으며 그 선택이 어떤 새 상태로 이어지는지까지 포함한 전체 가능성 지형이라고 볼 수 있습니다.
+- Why it matters: 선택 단계가 늘어날수록 후보 수가 왜 빠르게 커지는지 설명해 주며, 완전 탐색이 어려워지는 배경을 직접 보여 주기 때문입니다. 이 개념이 있어야 계산이 느린 이유를 단순 구현 미숙으로만 보지 않고, 애초에 후보 공간 자체가 얼마나 큰지부터 따져 보게 됩니다. 결국 탐색 공간은 휴리스틱, 근사, 가지치기가 왜 필요한지 설명하는 배경이 됩니다. 또한 탐색 공간을 이해해야 문제를 더 잘 푼다는 말이 종종 `더 좋은 알고리즘을 쓴다`뿐 아니라 `후보 구조를 더 작고 읽기 좋게 표현한다`는 뜻일 수도 있다는 점도 함께 보게 됩니다.
+- Related concepts: `search`, `computational limit`, `exhaustive search`
+- Core Section: `P1-7.1`
+- Appears in: `P1-7.2`, `P1-7.4`, `P2-summary`
+
+<a id="secret"></a>
+
+## secret
+
+- Meaning: 외부 서비스 인증, 서명, 암호화, 내부 시스템 접근을 위해 노출 없이 보관해야 하는 비밀값입니다. API key처럼 요청 자격을 증명하는 값도 여기에 포함되며, 어떤 경우에는 사용자 계정 비밀번호와 달리 사람이 직접 읽고 입력하기보다 시스템이 대신 보관하고 호출에 붙이는 형태로 쓰이기도 합니다. 즉 비밀키는 `설정값 하나`가 아니라, 새면 곧바로 권한 오남용으로 이어질 수 있는 고위험 실행 자산입니다.
+- Why it matters: 문서, 로그, 코드 예제, 환경 변수 화면에 비밀키가 그대로 드러나면 AI 보조 작업 과정 자체가 즉시 보안 사고 경로가 될 수 있기 때문입니다. 이 개념이 있어야 비밀 정보를 일반 내부 자료와 같은 수준으로만 보지 않게 되고, `잠깐 테스트용으로 붙여 둔 값`도 실제 운영 피해를 만들 수 있다는 점을 이해하게 됩니다. 또한 비밀키를 이해해야 인증 정보, 마스킹, 최소 권한, 실행 범위 제한이 왜 함께 설계되어야 하는지도 더 구체적으로 읽게 됩니다.
+- Related concepts: `credential`, `confidential information`, `sensitive information`, `environment variable`, `security`
+- Core Section: `P1-14.5`
+- Appears in: `P1-15.3`, `P1-16.2`
+
+<a id="security"></a>
+
+## security
+
+- Meaning: AI 시스템이 입력, 출력, 권한, 연결된 도구, 저장된 데이터 경로에서 악용되거나 손상되지 않도록 보호하는 조건입니다. 단순히 비밀번호를 잘 숨기는 문제를 넘어서, 프롬프트 인젝션, 과도한 권한, 민감 정보 유출, 잘못된 도구 실행처럼 시스템 전체가 공격이나 오용에 얼마나 취약한지를 함께 보는 운영 개념입니다. 즉 보안은 `모델이 똑똑한가`보다 `이 시스템이 악의적 입력과 잘못된 실행에 얼마나 버틸 수 있는가`를 묻는 질문에 가깝습니다.
+- Why it matters: 생성형 AI는 문서 요약에만 머무르지 않고 검색, 코드 실행, 파일 수정, 외부 API 호출과 연결되기 쉬워, 작은 입력 조작이 실제 권한 남용과 정보 유출로 이어질 수 있기 때문입니다. 이 개념이 있어야 품질 문제와 보안 문제를 섞지 않게 되고, 잘못된 답변과 위험한 실행이 서로 다른 층위의 실패라는 점을 이해하게 됩니다. 또한 보안을 이해해야 `권한을 줄인다`, `승인을 둔다`, `로그를 남긴다`, `민감 정보를 막는다` 같은 장치들이 왜 별도 부가 기능이 아니라 기본 설계 조건인지도 더 분명하게 읽게 됩니다.
+- Related concepts: `privacy`, `sensitive information`, `permission`, `approval`, `log`
+- Core Section: `P1-15.3`
+- Appears in: `P1-14.2`, `P1-14.4`, `P1-14.6`, `P1-16.1`
+
+<a id="self-attention"></a>
+
+## self-attention
+
+- Meaning: 같은 시퀀스 안의 각 토큰이 다른 토큰들과의 관련도를 계산해 자기 표현을 갱신하는 attention 방식입니다. 즉 현재 위치의 표현을 만들 때 자기 자신만 보지 않고, 같은 문장 안의 다른 위치들을 얼마나 참고할지 가중치를 두어 다시 섞는 구조라고 볼 수 있습니다.
+- Why it matters: Transformer가 순차 recurrence 없이도 문맥 관계를 직접 계산할 수 있게 해 주는 핵심 메커니즘이기 때문입니다. 이 개념이 있어야 현재 토큰 표현이 자기 자신만이 아니라 문장 안의 다른 토큰들과의 관계를 반영해 바뀐다는 점을 이해하게 되고, 긴 문맥에서 어떤 단어가 어떤 단어를 참고하는지 설명하는 출발점도 잡게 됩니다. 또한 셀프 어텐션을 이해해야 `문장을 앞에서 뒤로만 전달한다`는 직관에서 벗어나, 시퀀스 안 여러 위치의 관계를 한 층 안에서 직접 섞는다는 Transformer의 차별점을 더 분명히 읽게 됩니다.
+- Related concepts: `Transformer`, `Attention`, `positional encoding`
+- Core Section: `P5-13.2`
+- Appears in: `P1-11.3`, `P5-14.1`, `P5-14.2`
+
+<a id="self-consistency"></a>
+
+## self-consistency
+
+- Meaning: 한 번의 reasoning 경로만 믿지 않고, 여러 후보 경로를 생성해 더 자주 모이는 결론을 채택하려는 프롬프트 전략입니다. 한 번 나온 답을 그대로 믿기보다, 여러 경로를 비교해 더 안정적으로 반복되는 결론을 고르려는 방식이라고 볼 수 있습니다. 즉 한 번의 사고흐름에 과하게 기대지 않고, `여러 번 풀어 본 뒤 더 자주 나오는 답`을 택하는 전략입니다.
+- Why it matters: 한 번의 우연한 실수나 경로 흔들림을 줄이려는 전략이라는 점을 이해해야, 여러 후보 합의와 사실 보장을 같은 문제로 섞지 않게 됩니다. 이 개념이 있어야 `경로 일관성`을 높이는 전략과 `외부 근거 확인`을 구분해 읽을 수 있습니다. 또한 self-consistency를 이해해야 답이 자주 반복된다는 사실이 곧 외부 세계에서 참이라는 뜻은 아니라는 점도 함께 분명해집니다. 결국 self-consistency는 `같은 모델 안의 반복 안정성`을 높이는 전략이지 `사실 검증` 자체를 대신하는 장치는 아닙니다.
+- Related concepts: `CoT`, `prompt engineering`, `evaluation`
+- Core Section: `P6-10.3`
+
+<a id="sensitive-information"></a>
+
+## sensitive information
+
+- Meaning: 노출되면 개인, 조직, 거래, 보안 상태에 직접 피해를 줄 수 있어 입력, 저장, 출력에서 특별히 더 조심해서 다뤄야 하는 정보입니다. 개인정보가 대표 예지만, 비밀번호, API 키, 내부 문서, 계약서 초안, 의료 정보, 재무 정보처럼 꼭 개인 식별 정보가 아니어도 민감 정보가 될 수 있습니다. 즉 민감 정보는 `법적으로 개인정보인가`만이 아니라 `새면 실제 피해가 큰가`를 기준으로 함께 판단해야 하는 범주입니다.
+- Why it matters: AI 시스템은 프롬프트, 검색 문서, 로그, 평가 샘플, 디버깅 기록에 같은 정보를 여러 번 복제하기 쉬워, 한 번 들어온 민감 정보가 여러 경로로 재노출될 수 있기 때문입니다. 이 개념이 있어야 개인정보와 보안을 같은 말로 섞지 않게 되고, `개인 식별 정보는 아니지만 외부로 나가면 안 되는 정보`도 따로 보호해야 한다는 점을 이해하게 됩니다. 또한 민감 정보를 이해해야 입력 금지 규칙, 최소 권한, 로그 마스킹, 사람 검토 같은 운영 장치가 왜 실제 피해 예방의 핵심인지도 더 구체적으로 읽게 됩니다.
+- Related concepts: `privacy`, `security`, `log`, `permission`, `review`
+- Core Section: `P1-15.3`
+- Appears in: `P1-10.3`, `P1-14.2`, `P1-16.2`
+
+<a id="sentence-paragraph-and-document-embedding"></a>
+
+## sentence, paragraph, and document embedding
+
+- Meaning: 단어 하나가 아니라 문장, 문단, 문서 같은 더 긴 텍스트 단위를 하나의 벡터 표현으로 바꾸는 방식입니다. 즉 개별 단어 뜻을 따로 비교하기보다, 여러 문장이 함께 이루는 주제와 의미 흐름을 한 좌표 표현으로 압축하는 접근이라고 볼 수 있습니다. 그래서 이 임베딩은 `이 문서에 어떤 단어가 있나`보다 `이 문서가 전체적으로 무슨 말을 하고 있나`를 비교하기 위한 표현에 가깝습니다.
+- Why it matters: 실제 검색과 RAG에서는 질문과 비교할 대상이 긴 문서 조각인 경우가 많아, 단어 임베딩만이 아니라 더 큰 텍스트 단위의 표현이 필요하기 때문입니다. 이 개념이 있어야 검색이 낱말 일치만이 아니라 문장이나 문단 전체 의미 단위의 가까움을 비교하는 과정이라는 점을 이해하게 되고, 청크를 어떻게 나누느냐가 검색 품질에 직접 영향을 준다는 점도 더 분명히 읽게 됩니다. 예를 들어 너무 긴 문단을 한 벡터로 만들면 세부 주제가 섞일 수 있고, 너무 짧게 자르면 문맥이 끊어질 수 있으므로, 임베딩 단위 선택 자체가 검색 설계 문제라는 점도 함께 드러납니다.
+- Related concepts: `embedding`, `chunk`, `vector space`
+- Core Section: `P1-13.1`
+
+<a id="sentencepiece"></a>
+
+## SentencePiece
+
+- Meaning: 공백을 미리 단어 경계로 고정하지 않고, 문자열 전체에서 서브워드 조각을 학습해 토큰 단위를 만드는 토크나이저 계열입니다. 즉 `단어를 먼저 나누고 다시 쪼개는 방식`보다, 텍스트 전체에서 직접 쓸 만한 조각을 배우는 접근에 가깝습니다. 그래서 공백 규칙이 언어마다 다르거나 형태 변화가 많은 언어에서도 비교적 일관된 분절 단위를 만들기 쉽고, 문자 수준과 단어 수준 사이의 중간 조각을 잘 다룹니다.
+- Why it matters: 단어 경계가 공백에만 크게 의존하지 않는 언어에서도 일관된 분절 방식을 잡기 쉽습니다. 그래서 한국어처럼 조사와 어미 변화가 잦은 언어에서 토큰이 어떻게 나뉘는지 설명할 때 자주 등장하고, `단어 수`와 `토큰 수`가 왜 다를 수 있는지도 더 자연스럽게 이해하게 해 줍니다. 또한 SentencePiece를 이해해야 토큰화가 영어 단어 경계 직관과 항상 같지 않으며, 같은 문장도 토크나이저 설계에 따라 전혀 다른 조각으로 나뉠 수 있다는 점을 보게 되고, 토큰 길이와 비용 감각도 함께 더 정확히 읽게 됩니다.
+- Related concepts: `tokenization`, `Byte Pair Encoding`, `WordPiece`
+- Core Section: `P6-2.2`
+- Appears in: `P6-2.2`, `P7-4.1`
+
+<a id="seq2seq"></a>
+
+## Seq2Seq
+
+- Meaning: 입력 시퀀스를 받아 다른 출력 시퀀스를 순서대로 생성하도록 학습하는 구조입니다. 문장 하나를 받아 다른 문장으로 바꾸거나, 입력 기록을 받아 요약된 출력 순서로 바꾸는 `순서열 대 순서열 변환 구조`라고 볼 수 있습니다. 즉 Seq2Seq는 `입력도 순서열이고 출력도 순서열인 문제`를 한 구조로 다루려는 모델 관점입니다.
+- Why it matters: 언어를 입력 순서와 출력 순서의 대응 문제로 다루는 흐름을 보여 주며, LLM 이전 언어 생성 구조의 중요한 전 단계를 이해하게 해 주기 때문입니다. 이 개념이 있어야 번역, 요약, 질의응답처럼 `입력 하나를 받아 다른 시퀀스를 만든다`는 과제가 어떻게 모델 구조로 표현되었는지 읽게 되고, 인코더-디코더와 어텐션이 왜 등장했는지도 더 자연스럽게 이어집니다. 결국 Seq2Seq를 이해해야 생성 문제를 `자유 생성`만이 아니라 `입력 시퀀스를 다른 출력 시퀀스로 바꾸는 변환`으로도 읽게 됩니다.
+- Related concepts: `Encoder-Decoder`, `Attention`, `Transformer`
+- Core Section: `P1-11.2`
+- Appears in: `P1-9.3`
+
+<a id="series"></a>
+
+## Series
+
+- Meaning: Pandas에서 인덱스가 붙은 1차원 값 열을 나타내는 자료구조입니다. DataFrame의 한 열을 꺼냈을 때 자주 만나며, `표 전체`보다 `값 한 줄기`에 가까운 구조입니다. 즉 Series는 `행과 열이 있는 표`보다 한 단계 단순한, 인덱스가 붙은 값 벡터에 가까운 형태입니다.
+- Why it matters: DataFrame에서 한 열을 고르면 결과가 다시 표 전체가 아니라 Series가 될 수 있어서, 같은 선택처럼 보여도 반환 구조가 어떻게 달라지는지 읽는 기준이 되기 때문입니다. 이 차이를 알아야 표 선택 뒤에 어떤 메서드와 집계가 가능한지도 자연스럽게 이해할 수 있습니다. 이 개념이 있어야 `표의 한 열을 뽑았다`는 일이 단순 잘라내기가 아니라, 더 좁은 차원의 자료구조로 내려오는 변화라는 점도 분명히 읽게 됩니다. 결국 Series를 이해해야 Pandas에서 `한 열 선택`이 반환 타입과 후속 연산 가능성까지 함께 바꾼다는 점을 읽게 됩니다.
+- Related concepts: `DataFrame`, `column`, `index`
+- Core Section: `P2-12.2`
+- Appears in: `P2-12.3`
+
+<a id="server"></a>
+
+## server
+
+- Meaning: 요청을 받아 도구, 데이터, 기능을 제공하거나 처리 결과를 돌려주는 쪽 프로그램 또는 서비스입니다. 사용자가 직접 누르는 화면이라기보다, 바깥에서 들어온 요청에 응답하면서 필요한 기능이나 리소스를 내어주는 제공자 쪽 구성요소에 가깝습니다. 즉 서버는 `누가 요청했는가`보다 `무엇을 제공하고 어떻게 응답하는가`에 초점이 있는 역할입니다.
+- Why it matters: MCP처럼 연결 구조를 설명할 때는 앱 전체와 서버, 서버 안의 도구 제공 단위를 구분해야 권한 경계와 실행 책임을 올바르게 읽을 수 있기 때문입니다. 서버를 분리해 이해해야 `사용자가 쓰는 제품`과 `그 제품이 연결하는 기능 제공자`를 섞지 않게 되고, 어떤 시스템이 상태를 실제로 바꾸는지도 더 정확히 설명할 수 있습니다. 결국 서버를 이해해야 화면 뒤에 숨어 있는 기능 제공층과 사용자 접점 층을 분리해 시스템 구조를 읽게 됩니다.
+- Related concepts: `client`, `host`, `Model Context Protocol, MCP`, `tool`
+- Core Section: `P1-14.4`
+- Appears in: `P1-14.3`
+
+<a id="shallow-copy"></a>
+
+## shallow copy
+
+- Meaning: 바깥 컨테이너만 새로 만들고 안쪽 중첩 값은 그대로 공유할 수 있는 복사 방식입니다. 즉 겉 껍데기는 새로 생기지만, 안쪽 리스트나 딕셔너리 같은 하위 객체는 여전히 원본과 연결되어 있을 수 있습니다. 말하자면 얕은 복사는 `겉은 새것, 속은 일부 공유`인 복사입니다.
+- Why it matters: 중첩 리스트나 딕셔너리에서 복사본을 바꿨는데 원본도 함께 바뀌는 이유를 설명하는 핵심 기준이기 때문입니다. 이 개념이 있어야 `복사했다`는 말이 항상 완전한 분리를 뜻하는 것은 아니라는 점을 이해하게 되고, 중첩 구조에서는 어느 수준까지 새 객체가 만들어졌는지를 따로 점검하게 됩니다. 또한 얕은 복사를 이해해야 표면상 안전해 보이는 수정이 실제로는 공유된 안쪽 데이터까지 건드릴 수 있다는 점을 읽게 되어, 실험용 사본과 원본 보존을 더 조심해서 다루게 됩니다. 결국 얕은 복사는 `복사본이 있다`와 `완전히 독립적이다`가 같은 말이 아니라는 점을 가장 직접적으로 보여 줍니다.
+- Related concepts: `deep copy`, `reference`, `list`
+- Core Section: `P2-8.7`
+- Appears in: `P2-11.4`
+
+<a id="shape"></a>
+
+## shape
+
+- Meaning: 배열이나 텐서가 몇 차원이며 각 축에 값이 몇 개 들어 있는지를 보여 주는 모양 정보입니다. 숫자 묶음을 `어떤 뜻인가`보다 먼저 `어떤 구조인가`로 읽게 하는 표기라고 볼 수 있습니다. 즉 shape는 값 자체보다 `행과 열이 몇 개인가`, `배치가 포함됐는가`처럼 계산 구조를 먼저 드러내는 요약표입니다.
+- Why it matters: 벡터, 행렬, 배치 계산에서 어떤 연산이 가능한지 가장 먼저 판단하게 해 주기 때문입니다. shape를 먼저 읽는 습관이 있어야 브로드캐스팅, 슬라이싱, 행렬 곱이 왜 가능한지 빠르게 판단할 수 있습니다. 즉 shape는 값 의미를 읽기 전, 계산이 성립하는 구조부터 확인하게 만드는 기본 점검표입니다. 또한 shape를 이해해야 같은 값 개수라도 배열 배치가 다르면 완전히 다른 연산 대상으로 읽어야 한다는 점도 자연스럽게 받아들이게 됩니다.
+- Related concepts: `dimension`, `vector`, `matrix`
+- Core Section: `P2-3.1`
+- Appears in: `P2-3.6`, `P2-11.1`, `P2-11.2`, `P2-11.3`, `P2-12.1`, `P2-15.2`, `P5-9.2`
+
+<a id="shared-view"></a>
+
+## shared view
+
+- Meaning: 선택 결과가 원본 배열과 같은 데이터를 바라보고 있어 한쪽 변경이 다른 쪽에도 반영될 수 있는 상태입니다. 겉으로는 새 변수처럼 보여도 실제로는 같은 메모리 일부를 함께 참조하고 있는 관계라고 이해하면 됩니다. 즉 새 이름이 생겼어도 새 데이터가 생긴 것은 아닐 수 있다는 뜻입니다.
+- Why it matters: 결과가 새 변수에 담겼다고 해서 새 데이터가 만들어진 것은 아닐 수 있다는 점을 알려 주기 때문입니다. 이 개념이 있어야 NumPy 전처리에서 `부분을 골랐을 뿐`인데 원본이 함께 바뀌는 이유를 이해하게 되고, 언제는 메모리를 아끼는 장점이 되지만 언제는 디버깅을 어렵게 만드는 위험이 되는지도 함께 판단하게 됩니다. 또한 슬라이싱과 복사가 언제 같은 듯 보이지만 수정 부작용에서 결정적으로 달라지는지도 더 분명히 읽게 됩니다. 결국 원본 공유 뷰를 이해해야 메모리 효율과 수정 부작용을 함께 따져 보게 됩니다.
+- Related concepts: `slicing`, `copy`, `boolean mask`
+- Core Section: `P2-11.4`
+- Appears in: `P2-8.7`
+
+<a id="shell"></a>
+
+## shell
+
+- Meaning: 터미널 안에서 사용자가 입력한 명령을 읽고 해석해 실행하는 프로그램입니다. 사용자가 친 글자를 운영체제가 실행할 수 있는 작업으로 번역하는 해석기 층이라고 볼 수 있습니다. 즉 터미널 창이 입력을 보여 주는 표면이라면, 셸은 그 입력의 의미를 정해 실제 명령 실행으로 넘기는 안쪽 해석기입니다.
+- Why it matters: 같은 화면에서도 어떤 셸을 쓰는지에 따라 명령 해석 방식과 사용 가능한 문법이 달라질 수 있기 때문입니다. 그래서 터미널 화면이 같아 보여도, 실제로는 셸이 바뀌면 명령 의미와 스크립트 호환성도 바뀔 수 있습니다. 이 개념이 있어야 `터미널에서 쳤다`는 말만으로는 충분하지 않고, 어떤 셸 문법을 전제로 했는지도 함께 봐야 한다는 점을 이해하게 됩니다. 또한 파이프, 리다이렉션, 환경 변수 확장 같은 기능이 단순 운영체제 기능이 아니라 셸 해석과 밀접하다는 점도 자연스럽게 연결됩니다.
+- Related concepts: `terminal`, `working directory`, `command`
+- Core Section: `P2-7.2`
+- Appears in: `P2-7.3`, `P2-7.8`, `P2-10.1`
+
+<a id="shell-script"></a>
+
+## shell script
+
+- Meaning: 셸에서 실행할 명령 여러 줄을 텍스트 파일에 묶어 둔 것입니다. Python 스크립트가 Python 문법을 담는 파일이라면, 셸 스크립트는 명령줄 절차를 묶은 파일에 가깝습니다. 즉 프로그램 내부 계산을 길게 적기보다, 어떤 명령을 어떤 순서와 환경에서 실행할지를 고정해 두는 자동화 절차 파일이라고 볼 수 있습니다.
+- Why it matters: 터미널에서 한 줄씩 치던 절차를 반복 가능한 파일로 바꾸고, 명령 연결과 환경 설정을 한 번에 읽게 해 주기 때문입니다. 이 개념이 있어야 설치 절차, 배포 절차, 데이터 준비 절차가 왜 코드 파일이 아니라 명령 흐름으로 배포되는지도 자연스럽게 이해됩니다. 또한 셸 스크립트는 `무엇을 계산하나`보다 `어떤 도구들을 어떻게 이어 붙이나`에 더 가깝기 때문에, Python 스크립트와 역할이 다르다는 점도 중요합니다. 결국 셸 스크립트는 운영 절차와 실행 재현성을 묶는 바깥 자동화 계층으로 읽는 편이 더 정확합니다.
+- Related concepts: `shell`, `pipe`, `redirection`
+- Core Section: `P2-7.8`
+- Appears in: `P2-7.9`
+
+<a id="sigma"></a>
+
+## sigma
+
+- Meaning: 같은 모양의 덧셈을 여러 번 반복하라는 합 기호입니다. `i=1부터 n까지 더하라`처럼, 인덱스가 바뀌며 같은 형태의 항을 차례로 모두 모은다는 뜻을 짧게 적는 표기라고 볼 수 있습니다. 즉 긴 덧셈을 줄여 쓰는 기호이면서, 어떤 규칙으로 많은 값을 하나의 결과로 모으는지도 함께 보여 주는 표현입니다.
+- Why it matters: 평균, 손실 합계, 확률 계산처럼 여러 항을 한 규칙으로 모아야 하는 수식을 아주 자주 만나기 때문입니다. 이 기호를 읽을 수 있어야 긴 덧셈을 단순 암호처럼 보지 않고 `어떤 항을 어떤 인덱스 범위에 걸쳐 반복해 더하는가`로 풀어 읽게 되고, 배치 평균이나 전체 손실처럼 `많은 값을 하나의 스칼라로 모으는 과정`도 더 자연스럽게 해석하게 됩니다. 또한 시그마를 이해해야 수식이 길어져도 계산 흐름을 잃지 않고, 개별 항의 의미와 전체 요약값의 의미를 함께 따라가게 됩니다.
+- Related concepts: `index`, `mean`, `loss`
+- Core Section: `P2-2.2`
+- Appears in: `P2-2.3`, `P2-5.2`, `P2-15.1`
+
+<a id="similarity"></a>
+
+## similarity
+
+- Meaning: 두 벡터나 두 표현이 얼마나 비슷한 방향이나 특성을 가지는지 보는 비교 기준입니다. 같은 단어를 쓰지 않아도 의미상 가까운지, 같은 문맥에서 비슷하게 쓰였는지를 수치로 비교하는 기준이라고 볼 수 있습니다. 벡터 공간에서는 절대 위치보다 두 표현이 얼마나 비슷한 방향을 향하는지가 중요할 때가 많습니다.
+- Why it matters: 유사도 검색이 단순 문자열 일치가 아니라, 표현 공간에서 얼마나 가깝게 쓰였는지를 기준으로 후보를 고른다는 점을 이해하게 해 주기 때문입니다. 거리와 유사도를 함께 알아야 `가깝다`는 말이 무엇을 뜻하는지 더 정확히 읽힙니다. 또한 유사도를 이해해야 높은 유사도 값이 곧 사실 정답을 뜻하는 것은 아니라는 점, 비슷한 표현을 찾는 일과 옳은 근거를 찾는 일이 완전히 같은 작업은 아니라는 점도 구분하게 됩니다. 결국 유사도는 `같은가`를 묻는 기준이 아니라 `얼마나 비슷한가`를 수치화하는 기준입니다.
+- Related concepts: `distance`, `cosine similarity`, `similarity search`, `vector space`
+- Core Section: `P1-13.2`
+- Appears in: `P6-3.2`
+
+<a id="similarity-search"></a>
+
+## similarity search
+
+- Meaning: 질문이나 문서의 벡터 표현과 가까운 다른 벡터를 찾아 관련 후보를 고르는 방식입니다. 문자열이 정확히 같은지를 찾기보다, 의미적으로 비슷한 후보를 표현 공간에서 가깝게 찾는 검색에 가깝습니다. 즉 `같은 단어가 있는가`보다 `비슷한 뜻과 맥락인가`를 기준으로 문서 조각이나 예시를 끌어오는 검색 방식이라고 볼 수 있습니다.
+- Why it matters: RAG에서 질문과 관련된 문서 조각을 찾는 핵심 단계이며, 임베딩을 실제 검색 흐름으로 연결하기 때문입니다. 이 개념이 있어야 임베딩이 단순 저장 형식이 아니라 검색 가능한 표현이라는 점이 분명해집니다. 또한 유사도 검색을 이해해야 키워드 검색과 벡터 검색이 경쟁 관계만은 아니라는 점, 어떤 문제에서는 둘을 함께 써야 더 안정적인 검색이 된다는 점도 자연스럽게 읽게 됩니다. 결국 유사도 검색은 `정확히 같은 표현 찾기`보다 `가까운 의미의 후보 찾기`에 강한 검색이라는 점이 핵심입니다.
+- Related concepts: `embedding`, `retrieval-augmented generation, RAG`, `vector`, `similarity`, `top-k`
+- Core Section: `P1-13.2`
+- Appears in: `P1-13.3`, `P1-13.4`
+
+<a id="slicing"></a>
+
+## slicing
+
+- Meaning: 시작 위치와 끝 위치를 정해 배열이나 리스트의 연속된 구간을 남기는 선택 방식입니다. 하나의 점을 찍는 인덱싱과 달리, 범위를 잘라 부분 구조를 얻는 쪽에 가깝습니다. 즉 슬라이싱은 `몇 번째 하나를 집는다`보다 `어느 구간을 남긴다`는 선택에 더 가깝습니다.
+- Why it matters: NumPy에서는 `값 하나를 읽는가`와 `부분 배열을 남기는가`가 결과 shape와 원본 공유 여부를 바꿉니다. 슬라이싱을 이해해야 전처리 코드에서 어느 축을 어떻게 잘랐는지 정확히 읽을 수 있습니다. 이 개념이 있어야 같은 대괄호 문법 안에서도 `일부 구간을 남긴다`는 뜻이 계산 결과 구조를 어떻게 바꾸는지 함께 해석하게 됩니다. 또한 슬라이싱을 이해해야 범위를 남기는 선택이 단순 편의 문법이 아니라, 이후 shape와 수정 부작용까지 바꾸는 구조적 선택이라는 점도 읽게 됩니다.
+- Related concepts: `indexing`, `axis`, `shared underlying object`
+- Core Section: `P2-11.2`
+- Appears in: `P2-11.3`, `P2-11.4`, `P2-12.2`
+
+<a id="slope"></a>
+
+## slope
+
+- Meaning: 입력 변화에 비해 출력이 얼마나 변하는지를 그래프 위에서 읽는 값입니다. 선이 가파를수록 작은 입력 변화에 출력이 크게 달라지고, 완만할수록 변화가 작다는 직관을 숫자로 붙잡는 방식이라고 볼 수 있습니다. 즉 기울기는 `얼마나 빠르게 변하고 있는가`를 그림과 숫자 사이에서 이어 주는 표현입니다.
+- Why it matters: 변화율, 평균 변화율, 미분을 시각적으로 연결하는 가장 쉬운 손잡이이기 때문입니다. 이 개념이 있어야 그래프 모양과 수식 속 변화율이 따로 노는 것이 아니라 같은 현상을 다른 언어로 본 것임을 이해할 수 있고, `선이 가파르다`는 직관을 정량적 비교로 바꾸어 읽게 됩니다. 즉 기울기는 그림에서 보이는 변화 감각을 계산 가능한 질문으로 옮기는 첫 단계입니다. 결국 기울기를 이해해야 함수 그래프를 단순 모양이 아니라, 입력 변화에 대한 반응 속도를 담은 표현으로 읽게 됩니다.
+- Related concepts: `rate of change`, `derivative`, `tangent line`
+- Core Section: `P2-4.2`
+- Appears in: `P2-4.3`, `P2-13.2`
+
+<a id="sparse-attention"></a>
+
+## sparse attention
+
+- Meaning: 모든 토큰 쌍을 같은 밀도로 보지 않고, 일부 연결만 선택적으로 남겨 계산 부담을 줄이려는 attention 설계 방향입니다. 즉 모든 위치가 서로를 전부 다 보는 기본 self-attention 대신, 가까운 위치나 중요한 위치만 우선 연결해 계산량을 줄이는 구조적 절충이라고 볼 수 있습니다.
+- Why it matters: 문맥이 길어질수록 attention 비교 수가 빠르게 늘어나기 때문에, 긴 입력을 다루기 위한 현실적 타협이 왜 필요한지 설명해 주기 때문입니다. 이 개념이 있어야 긴 문맥 처리에서 `모든 관계를 다 본다`와 `계산 가능하게 일부 관계만 본다` 사이의 절충을 읽게 되고, 긴 입력 지원이 단순 모델 크기 문제가 아니라 attention 구조 설계 문제이기도 하다는 점을 이해하게 됩니다. 또한 sparse attention을 이해하면 `긴 문맥을 지원한다`는 말이 단지 더 많이 넣는다는 뜻이 아니라, 어떤 관계를 남기고 어떤 관계를 생략할지 정하는 구조 선택이라는 점도 더 분명히 보게 됩니다.
+- Related concepts: `multi-head attention`, `context window`, `long-context`
+- Core Section: `P6-4.3`
+
+<a id="sparsity"></a>
+
+## sparsity
+
+- Meaning: 가능한 단어 조합이나 상태에 비해 실제로 관찰된 사례가 너무 적어서 확률이나 가중치를 안정적으로 추정하기 어려운 문제입니다. 조합 수는 매우 큰데 실제 데이터는 듬성듬성 비어 있어, 조금만 문맥이 길어져도 `처음 보는 경우`가 빠르게 늘어나는 상황이라고 볼 수 있습니다. 즉 데이터 개수만 보는 것이 아니라, 가능한 경우의 수에 비해 얼마나 촘촘하게 채워져 있는지를 함께 봐야 한다는 뜻입니다.
+- Why it matters: 엔그램 같은 초기 언어 모델이 짧은 문맥을 넘어가면 왜 빠르게 한계에 부딪히는지 보여 주고, 더 나은 일반화와 벡터 표현이 왜 필요했는지 설명하기 때문입니다. 이 개념이 있어야 데이터가 많아 보여도 조합 공간이 훨씬 더 크면 여전히 희소성 문제가 남는다는 점을 이해하게 됩니다. 결국 희소성은 `데이터가 적다`는 막연한 말보다, 관찰하지 못한 경우가 너무 많아 직접 세기 기반 접근이 흔들린다는 구조적 문제를 드러냅니다.
+- Related concepts: `n-gram`, `corpus`, `statistical language model`
+- Core Section: `P1-11.1`
+
+<a id="speech-generation"></a>
+
+## speech generation
+
+- Meaning: 시간 순서로 이어진 오디오 신호를 새로 만들어 내는 문제 유형입니다. 텍스트처럼 토큰 몇 개를 고르는 일이 아니라, 시간축을 따라 연속적으로 변하는 소리 파형이나 음향 특징을 실제로 구성하는 생성 문제라고 볼 수 있습니다. 즉 음성 생성은 `소리 내용을 고른다`보다 `들릴 수 있는 신호를 만들어 낸다`에 더 가깝습니다.
+- Why it matters: 딥러닝이 이미지 분류를 넘어 순차적 파형 생성 같은 다른 출력 구조로 확장된 흐름을 보여 주는 대표 사례이기 때문입니다. 이 개념이 있어야 생성이 텍스트나 이미지에만 국한된 문제가 아니라, 시간축을 가진 연속 신호를 다루는 문제로도 확장된다는 점을 이해하게 되고, TTS와 일반 음성 생성의 경계도 더 또렷하게 읽게 됩니다. 예를 들어 TTS는 입력 텍스트가 주어진 상태에서 그 문장을 읽는 음성을 만드는 문제지만, 음성 생성은 더 넓게는 특정 스타일의 음향 신호나 발화 흐름 자체를 만드는 문제까지 포함할 수 있습니다. 결국 음성 생성을 이해해야 생성형 AI의 범위를 텍스트 중심으로만 좁혀 보지 않게 되고, 오디오라는 다른 출력 층위의 특수성도 함께 읽게 됩니다.
+- Related concepts: `WaveNet`, `text-to-speech`, `generation`
+- Core Section: `P1-9.2`
+
+<a id="stack"></a>
+
+## stack
+
+- Meaning: 마지막에 넣은 값을 먼저 꺼내는 규칙으로 작동하는 자료구조 또는 추상 자료형입니다. 접시를 위로 차곡차곡 쌓아 맨 위 접시부터 다시 꺼내는 방식처럼, `나중에 들어온 것이 먼저 나온다`는 LIFO 규칙이 핵심입니다. 즉 스택은 저장 자체보다 `꺼내는 순서 규칙`이 본질인 구조입니다.
+- Why it matters: 호출 흐름, 되돌리기, 임시 저장처럼 순서 규칙이 중요한 작업을 읽는 대표 예가 되기 때문입니다. 이 개념이 있어야 `무엇을 저장하느냐`만이 아니라 `어떤 순서로 다시 꺼내는가`가 문제 구조를 바꾼다는 점을 이해하게 되고, 함수 호출 스택이나 DFS 같은 후속 개념도 더 자연스럽게 이어서 읽게 됩니다. 결국 스택은 저장 공간 설명을 넘어서, 절차가 거꾸로 풀려 나오는 문제를 읽는 기본 틀입니다. 큐와 대비해 보면 `최근 작업을 먼저 되돌리거나 처리하는 구조`가 왜 필요한지도 더 선명해집니다.
+- Related concepts: `queue`, `linear structure`, `data structure`
+- Core Section: `P2-9.4`
+- Appears in: `P4-15.1`
+
+<a id="staging-area"></a>
+
+## staging area
+
+- Meaning: 이번 커밋에 포함할 변경을 먼저 골라 올려 두는 중간 공간입니다. 작업 폴더의 수정 전체가 아니라, 그중 `이번 기록 단위에 넣을 것만 잠시 모아 두는 선별 구역`에 가깝습니다. 즉 스테이징 영역은 작업 중인 파일 상태와 최종 이력 기록 사이에 놓인 선택 버퍼라고 볼 수 있습니다.
+- Why it matters: 바뀐 파일 전체를 무조건 한 번에 저장하지 않고, 의미 있는 변경 묶음만 선별해 커밋하게 만드는 핵심 단계이기 때문입니다. 이 개념이 있어야 저장은 했지만 아직 커밋에는 넣지 않은 수정과, 이번 커밋에 포함될 수정이 서로 다를 수 있다는 점을 이해하게 되고, 하나의 파일 안에서도 어떤 줄은 이번 커밋에 넣고 어떤 줄은 다음으로 미루는 판단이 왜 가능한지도 읽게 됩니다. 결국 스테이징 영역을 이해해야 Git 기록이 `바뀐 파일 자동 저장`이 아니라 `의미 단위 선별 기록`이라는 점을 읽게 됩니다.
+- Related concepts: `commit`, `Git`, `repository`
+- Core Section: `P2-14.1`
+- Appears in: `P2-14.2`
+
+<a id="standard-deviation"></a>
+
+## standard deviation
+
+- Meaning: 분산의 제곱근으로, 데이터가 평균 주변에서 얼마나 퍼져 있는지를 원래 데이터 단위에 더 가깝게 읽게 해 주는 값입니다. 키 데이터라면 `cm`, 점수 데이터라면 `점수` 단위 감각으로 다시 퍼짐을 해석하게 만드는 지표라고 볼 수 있습니다. 즉 `평균에서 보통 얼마나 떨어져 있는가`를 직관적으로 읽게 해 주는 퍼짐 요약값입니다.
+- Why it matters: 분산만으로는 제곱 단위가 되어 직관이 약해질 수 있습니다. 표준편차는 퍼짐을 원래 단위 감각으로 다시 보여 주기 때문에, `평균은 비슷한데 데이터 흩어짐은 다른 경우`를 읽고 비교하는 데 더 직접적인 손잡이가 됩니다. 이 개념이 있어야 평균 하나만으로는 보이지 않는 변동성 차이를 함께 읽게 되고, 안정적인 집합과 불안정한 집합을 더 분명히 구분할 수 있습니다. 또한 표준편차를 이해해야 `값이 큰가`와 `흔들림이 큰가`를 अलग개념으로 읽게 되어, 평균 비교만으로는 놓치는 데이터 성격을 더 잘 붙잡게 됩니다.
+- Related concepts: `variance`, `distribution`, `standard error`
+- Core Section: `P2-5.5`
+- Appears in: `P3-1.2`, `P4-12.2`
+
+<a id="standard-error"></a>
+
+## standard error
+
+- Meaning: 표본 평균 같은 추정값이 표본을 바꾸면 얼마나 흔들릴 수 있는지 보여 주는 값입니다. 데이터 자체가 얼마나 퍼져 있는가보다, `지금 계산한 추정값이 얼마나 불안정할 수 있는가`를 나타내는 지표에 가깝습니다. 즉 데이터의 흩어짐보다 `평균을 다시 뽑아도 비슷하게 나올까`를 묻는 수치라고 볼 수 있습니다.
+- Why it matters: 데이터 자체의 퍼짐과 추정값의 불안정성을 구분해 읽게 해 줍니다. 같은 데이터라도 표본 수가 커지면 표준오차는 줄어들 수 있으므로, `데이터가 제각각인 정도`와 `평균 추정이 얼마나 믿을 만한가`를 다른 개념으로 이해하게 해 주는 역할을 합니다. 이 구분이 있어야 표준편차와 표준오차를 같은 퍼짐 수치로 오해하지 않고, 추정의 신뢰 가능성을 따로 읽게 됩니다. 또한 표준오차를 이해해야 표본 수가 늘어날수록 추정이 왜 더 안정적으로 보일 수 있는지 자연스럽게 연결됩니다.
+- Related concepts: `standard deviation`, `estimation`, `confidence interval`
+- Core Section: `P2-5.5`
+- Appears in: `P3-1.2`
+
+<a id="state"></a>
+
+## state
+
+- Meaning: 현재 상황에서 다음 행동 선택에 필요한 정보를 요약한 표현입니다. 강화학습에서는 환경의 현재 상황을 뜻하고, 에이전트 실행 문맥에서는 지금까지 읽은 자료, 실행 결과, 중간 판단을 포함한 작업 진행 상태를 뜻할 수 있습니다.
+- Why it matters: 탐색, 강화학습, 에이전트 실행 모두에서 지금 어디까지 왔고 무엇을 이미 확인했는지에 따라 다음 행동이 달라지기 때문입니다. 이 개념이 있어야 `입력 하나를 바로 답으로 바꾸는 문제`와 `중간 상황을 계속 갱신하며 여러 단계를 밟는 문제`를 구분하게 되고, 상태를 어떻게 요약하느냐에 따라 같은 환경에서도 전혀 다른 행동이 나올 수 있다는 점도 이해하게 됩니다. 결국 상태는 단순 기록이 아니라 다음 판단의 바탕이므로, 상태 표현 자체가 성능과 안정성에 직접 영향을 줍니다. 즉 상태는 `지금 무엇을 알고 있는가`를 다음 행동이 쓸 수 있는 형태로 정리한 표현입니다.
+- Related concepts: `action`, `environment`, `policy`, `observation`
+- Core Section: `P1-7.1`
+- Appears in: `P1-8.3`, `P1-14.3`, `P1-14.4`, `P1-14.5`, `P5-12.1`, `P5-12.2`, `P7-6.1`, `P7-6.2`
+
+<a id="static-deployment"></a>
+
+## static deployment
+
+- Meaning: 미리 생성한 HTML, CSS, 이미지 같은 정적 파일을 사이트 형태로 그대로 공개하는 방식입니다. 사용자가 페이지를 열 때마다 서버가 내용을 새로 계산하는 것이 아니라, 빌드 시점에 만들어 둔 결과물을 그대로 전달하는 공개 방식이라고 볼 수 있습니다. 즉 정적 배포는 `미리 만든 산출물을 배포한다`는 성격이 강합니다.
+- Why it matters: 문서 프로젝트에서는 배포 브랜치 반영이 곧 공개 결과 갱신으로 이어질 수 있어, 빌드와 자산 연결을 먼저 확인해야 하는 이유를 설명해 주기 때문입니다. 이 개념이 있어야 `코드를 올린다`와 `렌더된 정적 결과물을 공개한다`를 구분하게 되고, 링크·이미지·빌드 산출물 정합성이 왜 배포 전에 중요해지는지도 이해하게 됩니다. 예를 들어 MkDocs 사이트는 원고를 수정한 뒤 다시 빌드해 정적 파일을 만들고, 그 파일이 공개되면 독자는 그 시점 결과를 보게 됩니다. 결국 정적 배포를 이해해야 `배포했다`는 말이 실행 서버를 띄운다는 뜻이 아니라, 빌드된 결과 파일을 공개 상태로 반영했다는 뜻일 수 있다는 점도 읽게 됩니다.
+- Related concepts: `deployment`, `branch`, `document reproducibility`
+- Core Section: `P7-7.1`
+- Appears in: `P2-14.2`, `P7-7.2`
+
+<a id="statistical-language-model"></a>
+
+## statistical language model
+
+- Meaning: 말뭉치에서 관찰된 단어나 토큰의 빈도와 조건부 확률을 바탕으로 다음 표현의 가능성을 추정하는 언어 모델입니다. 언어를 `의미를 완전히 이해하는 체계`보다 `어떤 표현이 얼마나 자주, 어떤 맥락 뒤에 나왔는가`로 계산하는 초기 접근이라고 볼 수 있습니다. 즉 언어를 먼저 빈도와 확률의 문제로 바꾸어 다뤘던 전통적 계산 언어 모델 계열입니다.
+- Why it matters: LLM 이전에도 언어를 계산 가능한 확률 문제로 다루려는 흐름이 있었음을 보여 주며, 엔그램의 장점과 한계를 통해 신경망 언어 모델로 넘어가는 이유를 드러내기 때문입니다. 이 개념이 있어야 현대 언어 모델이 갑자기 등장한 것이 아니라, 빈도 기반 예측에서 분산 표현과 대규모 신경망으로 발전해 온 흐름 위에 있다는 점을 읽게 됩니다. 또 데이터 희소성이 왜 전통 언어 모델의 핵심 한계였는지도 더 분명하게 이해하게 됩니다. 결국 통계적 언어 모델은 현대 LLM의 직접 구조는 아니더라도, `언어를 다음 표현 확률 문제로 본다`는 관점의 중요한 출발점입니다.
+- Related concepts: `language model`, `n-gram`, `sparsity`
+- Core Section: `P1-11.1`
+- Appears in: `P1-9.3`, `P1-13.2`, `P1-13.3`, `P6-19.1`
+
+<a id="status-inspection"></a>
+
+## status inspection
+
+- Meaning: 서비스나 배포가 현재 어느 단계까지 정상인지, 어디에서 멈췄는지, 무엇을 다시 확인해야 하는지를 단계별로 읽는 운영 확인 절차입니다. 단순히 `된다/안 된다`를 한 줄로 적는 것이 아니라, 빌드 상태, 배포 상태, 공개 주소, 최신 반영 여부처럼 서로 다른 상태 층위를 나누어 보는 점검이라고 이해하면 됩니다. 즉 상태 점검은 성공 선언이 아니라, 현재 운영 상태를 다시 읽기 위한 구조화된 확인 작업입니다.
+- Why it matters: 로컬 빌드 성공, CI 완료, 공개 페이지 정상 노출은 서로 다른 상태인데 이를 한 번에 섞어 보면 어디서 문제가 생겼는지 곧바로 흐려지기 때문입니다. 이 개념이 있어야 `workflow 초록색`과 `독자가 최신 본문을 읽는다`를 같은 말로 보지 않게 되고, 배포 뒤에도 무엇을 더 확인해야 하는지 운영 문서에 남기게 됩니다. 또한 상태 점검을 이해해야 배포 기록이 단순 완료 보고를 넘어서, 다음 재확인 시점과 검토 대상까지 포함한 살아 있는 점검표가 되어야 한다는 점도 더 또렷하게 보게 됩니다.
+- Related concepts: `deployment`, `incident record`, `next action`, `review`, `recency`
+- Core Section: `P7-7.1`
+- Appears in: `P7-summary`
+
+<a id="stochastic-process"></a>
+
+## stochastic process
+
+- Meaning: 과정이나 행동 자체에 확률적 변동이 들어 있어 같은 조건에서도 결과가 조금씩 달라질 수 있는 성질 또는 과정입니다. 한 번의 결과만 무작위인 것이 아니라, 시간에 따라 이어지는 변화 전체가 확률적으로 전개되는 경우를 가리킵니다. 즉 확률적 과정은 개별 사건 하나보다 `시간을 따라 흔들리며 전개되는 흐름 전체`를 다루는 개념입니다.
+- Why it matters: 확률을 숫자 언어로 쓰는 일과, 과정 자체가 흔들릴 수 있는 성질을 구분해 읽게 해 줍니다. 이 개념이 있어야 `한 번의 무작위 사건`과 `시간에 따라 확률적으로 진화하는 시스템`을 다르게 이해할 수 있습니다. 또한 확률적 과정을 이해해야 강화학습 환경, 센서 잡음, 시계열 변동처럼 시간에 따라 결과가 흔들리는 문제를 더 적절한 층위에서 해석하게 됩니다. 결국 이 개념은 `현재 상태만 보는 해석`에서 `시간을 따라 변하는 확률 구조를 읽는 해석`으로 넘어가게 합니다.
+- Related concepts: `probability`, `random`, `nondeterministic`
+- Core Section: `P1-6.2`
+
+<a id="stop-condition"></a>
+
+## stop condition
+
+- Meaning: 작업을 계속할지 멈출지 결정하는 기준입니다. 목표 달성, 실패 반복, 사람 승인 대기, 정보 부족처럼 `여기서 더 진행해도 좋은가`를 판정하는 멈춤 규칙이라고 볼 수 있습니다. 즉 종료 조건은 단순 시간 제한이 아니라, 현재 상태를 보고 다음 행동을 끝낼지 이어 갈지 정하는 제어 규칙입니다.
+- Why it matters: 여러 단계 실행 구조에서 이미 충분한 결과가 나왔는지, 추가 정보가 필요한지, 반복을 중단해야 하는지를 분명히 해야 과잉 실행과 무한 루프를 줄일 수 있기 때문입니다. 종료 조건이 있어야 속도만 빠른 자동화가 아니라, 적절한 시점에 멈추고 사람에게 넘기는 제어 가능한 자동화를 설계할 수 있습니다. 또한 종료 조건을 이해해야 `계속 실행할 수 있다`와 `계속 실행해야 한다`를 같은 말로 보지 않게 됩니다. 즉 종료 조건은 자동화의 성능뿐 아니라 통제 가능성을 좌우하는 핵심 규칙입니다.
+- Related concepts: `agent`, `state`, `observation`
+- Core Section: `P1-14.3`
+- Appears in: `P1-14.5`
+
+<a id="structural-hypothesis"></a>
+
+## structural hypothesis
+
+- Meaning: 현재 실패 사례를 보고 `다음에는 어떤 모델 구조 계열을 먼저 의심하거나 검토할 것인가`를 임시 설명 형태로 정리한 가설입니다. 확정된 원인 진단이 아니라, 데이터 범위 문제인지, 입력 표현 문제인지, CNN·순차 모델·attention 계열 중 어느 질문이 더 직접적인지 다음 반복의 구조 선택 질문으로 좁혀 두는 메모라고 볼 수 있습니다. 즉 구조 계열 가설은 `당장 이 구조가 정답이다`가 아니라 `어느 구조 질문을 먼저 열 것인가`를 정하는 임시 작업 가설입니다.
+- Why it matters: 오류 사례를 단순 오답 표시로만 남기면 `모델을 바꿔야 한다`는 막연한 결론으로 쉽게 뛰게 되고, 데이터 부족과 표현 손실, 구조 한계를 서로 섞어 읽게 되기 때문입니다. 이 개념이 있어야 같은 실패도 데이터 가설, 표현 가설, 모델 가설로 나누어 적게 되고, 왜 어떤 경우에는 CNN이 먼저 떠오르고 어떤 경우에는 더 넓은 문맥 구조를 뒤에 검토해야 하는지도 더 분명하게 남길 수 있습니다. 또한 구조 계열 가설을 이해해야 Part 7의 회고 문장이 확정 원인 보고가 아니라, 다음 실험 설계를 여는 검토 문서라는 점도 더 선명하게 읽게 됩니다.
+- Related concepts: `error case`, `review target`, `working hypothesis`, `representation`, `structure`
+- Core Section: `P7-3.2`
+- Appears in: `P7-summary`
+
+<a id="structure"></a>
+
+## structure
+
+- Meaning: 데이터 안에 숨어 있는 관계, 반복 패턴, 묶임, 축의 배열 방식입니다. 겉으로는 숫자나 항목의 모음처럼 보여도, 그 안에 어떤 항목이 함께 움직이고 무엇이 갈라지고 어떤 축을 따라 정리되는지가 바로 구조입니다. 따라서 구조는 `데이터가 생긴 모양`만이 아니라, 무엇을 가까운 것으로 보고 무엇을 다른 것으로 읽을지 정하는 관계의 틀이라고 볼 수 있습니다.
+- Why it matters: 비지도학습이 라벨 대신 무엇을 찾으려 하는지 설명하는 가장 넓은 기준이기 때문입니다. 이 개념이 있어야 군집화, 차원 축소, 표현 학습이 서로 다른 기법이어도 모두 데이터 안의 구조를 더 잘 드러내려는 시도라는 공통점을 읽을 수 있습니다. 또한 구조를 본다는 말이 단순히 `모양이 있다`는 느낌이 아니라, 어떤 관계를 남기고 어떤 차이를 무시할지 정하는 해석 선택이라는 점도 함께 이해하게 됩니다. 예를 들어 고객 데이터를 볼 때도 단순 평균만 보면 안 보이던 묶음이, 가까운 이웃 관계나 공통 행동 패턴을 기준으로 보면 새로운 구조로 드러날 수 있습니다.
+- Related concepts: `unsupervised learning`, `clustering`, `representation`
+- Core Section: `P1-8.2`
+- Appears in: `P1-5.1`, `P4-6.2`, `P4-17.3`, `P4-18.1`, `P4-18.2`
+
+<a id="summary-table"></a>
+
+## summary table
+
+- Meaning: 여러 값과 관찰을 한 자리에서 빠르게 훑을 수 있도록 핵심 열만 남겨 압축한 표입니다. 원본 데이터 전체를 다시 보여 주는 표가 아니라, 현재 질문에 답하는 데 필요한 집계값, 비교값, 메모를 먼저 모아 놓은 읽기용 표라고 볼 수 있습니다. 즉 요약표는 계산 결과를 줄여 적는 데서 끝나지 않고, 다음 해석과 비교가 기대는 첫 번째 읽기 창 역할을 합니다.
+- Why it matters: 원본 표가 길어질수록 어디서 차이가 났는지와 어떤 단위를 비교하고 있는지가 금방 흐려져, 질문에 맞는 핵심 열만 남긴 중간 표가 필요하기 때문입니다. 이 개념이 있어야 집계 결과와 비교표, 결과 해석 표의 역할을 나누어 읽게 되고, `숫자가 있다`와 `지금 질문에 답하는 구조로 정리돼 있다`를 같은 말로 보지 않게 됩니다. 또한 요약표를 이해해야 Part 7의 분석 시작이 전체 데이터 나열이 아니라, 무엇을 한 건으로 보고 어떤 신호를 먼저 읽을지 정리하는 문서 작업이라는 점도 더 선명하게 읽게 됩니다.
+- Related concepts: `aggregation`, `comparison table`, `result interpretation table`, `sample`, `indicator`
+- Core Section: `P7-1.1`
+- Appears in: `P7-1.3`, `P7-summary`
+
+<a id="supervised-learning"></a>
+
+## supervised learning
+
+- Meaning: 입력 예시와 사람이 붙인 정답 라벨을 함께 사용해, 입력과 출력의 관계를 학습하는 방식입니다. 즉 모델이 `무엇을 정답으로 볼 것인가`를 사람이 미리 정해 둔 상태에서, 그 대응 관계를 데이터로부터 익히는 문제 설정이라고 볼 수 있습니다. 다시 말해 지도학습은 데이터만 있는 것이 아니라 정답 기준까지 함께 준비된 학습 방식입니다.
+- Why it matters: `예시`, `특징`, `라벨`, `학습`, `일반화`를 가장 기본적인 구조로 묶어 보여 주는 대표 입문 형태이기 때문입니다. 이 개념이 있어야 모델 학습을 `입력을 보고 정답을 맞히는 규칙을 찾는 일`로 가장 먼저 붙잡게 되고, 이후 분류·회귀·평가 지표 같은 여러 주제를 하나의 공통 틀로 읽을 수 있습니다. 예를 들어 메일 분류에서는 본문만 모아 두는 것으로는 부족하고, `스팸/정상` 같은 라벨이 함께 있어야 모델이 무엇을 맞혀야 하는지 배울 수 있습니다. 결국 지도학습을 이해해야 모델 성능을 읽을 때도 구조만이 아니라 라벨 정의와 라벨 품질을 함께 점검하게 됩니다.
+- Related concepts: `label`, `training`, `generalization`
+- Core Section: `P4-2.1`
+- Appears in: `P1-3.2`, `P1-8.1`, `P4-8.1`, `P4-10.1`, `P4-11.1`, `P4-12.1`, `P4-13.1`, `P4-14.1`, `P4-15.1`, `P4-16.1`
+
+<a id="surrounding-evidence"></a>
+
+## surrounding evidence
+
+- Meaning: 어떤 기술의 직접 구조로 이어지지는 않지만, 그 기술이 설득력을 얻는 배경이 된 주변 사례와 흐름입니다. 즉 `이 기술이 왜 주목받게 되었는가`를 설명하는 바깥 장면이지, `핵심 구조가 어디서 바로 이어졌는가`를 말하는 직접 계보와는 다릅니다.
+- Why it matters: AlexNet, YOLO, WaveNet 같은 사례를 LLM의 직접 조상으로 과장하지 않고, 딥러닝 확산의 배경으로 적절히 배치하게 해 주기 때문입니다. 이 개념이 있어야 역사 설명에서 `영향을 준 분위기`와 `핵심 구조를 직접 물려준 흐름`을 분리하게 되고, 사례 나열이 과장된 계보 주장으로 흐르지 않게 됩니다. 예를 들어 이미지와 음성 분야의 성공은 `딥러닝이 큰 모델과 큰 데이터로 성과를 낼 수 있다`는 신뢰를 키웠지만, 그것이 곧바로 언어 모델 구조를 직접 만든 것은 아니라는 식으로 읽어야 합니다.
+- Related concepts: `direct lineage`, `deep learning`, `language modeling`
+- Core Section: `P6-19.2`
+- Appears in: `P1-9.3`
+
+<a id="svmsupport-vector-machine"></a>
+
+## SVM, support vector machine
+
+- Meaning: 클래스를 나누는 경계와 가장 가까운 사례들 사이의 여유 폭(margin)을 크게 만드는 방향으로 경계를 찾는 분류 모델입니다. 단순히 두 집단을 가르기만 하는 선보다, `경계 주변에 얼마나 안전한 간격을 둘 수 있는가`를 함께 따지는 방식이라고 볼 수 있습니다.
+- Why it matters: 단순히 선을 긋는 것이 아니라, 경계의 안정성을 함께 고려하는 분류 직관을 보여 주기 때문입니다. 이 개념이 있어야 `훈련 데이터를 겨우 가르는 경계`와 `새 데이터에도 더 버틸 가능성이 있는 경계`를 구분하게 되고, 분류 문제에서 왜 가장 가까운 사례들의 위치가 전체 일반화 감각에 중요해지는지도 더 자연스럽게 읽게 됩니다. 또한 SVM을 이해해야 분류가 단순 정확도 경쟁만이 아니라, 경계가 얼마나 안정적으로 놓였는가를 따지는 문제이기도 하다는 점을 보게 됩니다. 결국 SVM은 `어떻게 나눌까`뿐 아니라 `얼마나 여유 있게 나눌까`를 함께 묻는 분류기입니다.
+- Related concepts: `margin`, `decision boundary`, `kernel`
+- Core Section: `P4-13.1`
+- Appears in: `P4-13.2`
+
+<a id="aisymbolic-ai"></a>
+
+## symbolic AI
+
+- Meaning: 기호, 규칙, 논리, 명시적 지식 표현을 사용해 문제를 풀려는 AI 접근입니다. 데이터를 많이 보여 주어 경향을 배우게 하기보다, 사람이 이해 가능한 개념과 규칙을 기호 형태로 적어 두고 그 조작으로 추론하려는 흐름이라고 볼 수 있습니다. 즉 `패턴을 수치적으로 익힌다`보다 `개념과 규칙을 명시적으로 적어 둔다`는 쪽에 더 가까운 전통입니다.
+- Why it matters: 머신러닝 이전의 대표 흐름을 이해하고, 명시적 규칙과 지식 표현의 위치를 잡는 데 필요합니다. 이 개념이 있어야 현대 AI를 설명할 때도 `모든 AI가 곧 통계적 학습`은 아니라는 점, 그리고 설명 가능성과 일반화 방식이 서로 다른 두 전통이 있었다는 점을 분명히 읽을 수 있습니다. 또한 규칙 기반 시스템과 전문가 시스템이 왜 자연스럽게 이 계보 안에서 등장했는지도 함께 연결됩니다. 결국 기호 기반 AI를 이해해야 `AI가 배운다`는 말과 `AI가 규칙을 적용한다`는 말을 같은 의미로 섞지 않게 됩니다.
+- Related concepts: `rule-based system`, `knowledge representation`
+- Core Section: `P1-2.1`
+- Appears in: `P1-index`, `P1-2.3`, `P1-3.1`, `P1-8.1`, `P1-11.1`, `P1-summary`
+
+<a id="system"></a>
+
+## system
+
+- Meaning: 모델뿐 아니라 입력 처리, 규칙, 사람 검토, 저장, 실행 절차까지 포함한 전체 구조입니다. 즉 AI가 실제로 동작하는 현장은 `모델 하나`가 아니라, 여러 구성 요소가 연결된 운영 단위 전체를 뜻하는 경우가 많습니다. 사용자가 보는 결과는 보통 이 전체 시스템의 산출물이지, 모델 단독 산출물이 아닙니다.
+- Why it matters: 실제 문제에서는 모델 성능 하나만 좋아도 끝나는 일이 드물고, 입력 품질, 상태 관리, 권한 구조, 사람 검토, 배포 경로가 함께 맞물려 결과를 만들기 때문입니다. 이 개념이 있어야 `모델이 좋다`와 `시스템이 잘 작동한다`를 같은 말로 보지 않게 되고, 어디서 오류가 생겼는지 찾을 때도 모델 바깥의 연결부와 운영 절차를 함께 점검하게 됩니다. 또한 시스템 관점이 있어야 같은 모델을 써도 검색 연결, 승인 절차, 캐시 정책에 따라 전혀 다른 사용자 경험과 위험 수준이 나온다는 점을 더 분명히 읽게 됩니다.
+- Related concepts: `model`, `input`, `output`
+- Core Section: `P1-4.1`
+- Appears in: `P1-3.1`

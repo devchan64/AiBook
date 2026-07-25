@@ -1,21 +1,168 @@
 # Concept Glossary: N
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [n-gram](/AiBook/reference/concept-glossary-parts/08-ieung/#n-gram) — 엔그램 — Core Section: `P1-11.1`
-- [ndarray](/AiBook/reference/concept-glossary-parts/08-ieung/#ndarray) — ndarray — Core Section: `P2-11.1`
-- [ndim](/AiBook/reference/concept-glossary-parts/08-ieung/#ndim) — ndim — Core Section: `P2-11.1`
-- [nearest neighbor](/AiBook/reference/concept-glossary-parts/11-chieut/#nearest-neighbor) — 최근접 이웃 — Core Section: `P1-13.2`
-- [newaxis, np.newaxis](/AiBook/reference/concept-glossary-parts/02-nieun/#newaxisnpnewaxis) — newaxis — Core Section: `P2-11.4`
-- [next action](/AiBook/reference/concept-glossary-parts/03-digeut/#next-action) — 다음 행동 — Core Section: `P7-6.3`
-- [next question](/AiBook/reference/concept-glossary-parts/03-digeut/#next-question) — 다음 질문 — Core Section: `P7-2.2`
-- [next-output generation](/AiBook/reference/concept-glossary-parts/03-digeut/#next-output-generation) — 다음 출력 생성 — Core Section: `P1-10.2`
-- [next-token prediction](/AiBook/reference/concept-glossary-parts/03-digeut/#next-token-prediction) — 다음 토큰 예측 — Core Section: `P6-6.1`
-- [node](/AiBook/reference/concept-glossary-parts/02-nieun/#node) — 노드 — Core Section: `P2-9.3`
-- [noise](/AiBook/reference/concept-glossary-parts/09-jieut/#noise) — 잡음 — Core Section: `P1-6.1`
-- [non-linear structure](/AiBook/reference/concept-glossary-parts/06-bieup/#non-linear-structure) — 비선형 구조 — Core Section: `P2-9.1`
-- [non-parametric memory](/AiBook/reference/concept-glossary-parts/06-bieup/#non-parametric-memory) — 비파라메트릭 메모리 — Core Section: `P1-13.3`
-- [nondeterministic](/AiBook/reference/concept-glossary-parts/06-bieup/#nondeterministic) — 비결정적 — Core Section: `P1-6.2`
-- [notebook](/AiBook/reference/concept-glossary-parts/02-nieun/#notebook) — 노트북 — Core Section: `P2-10.1`
-- [numerical stability](/AiBook/reference/concept-glossary-parts/07-siot/#numerical-stability) — 수치 안정성 — Core Section: `P5-8.3`
-- [NumPy](/AiBook/reference/concept-glossary-parts/02-nieun/#numpy) — 넘파이 — Core Section: `P2-11.1`
+<a id="n-gram"></a>
+
+## n-gram
+
+- Meaning: 연속해서 붙어 있는 n개의 단어, 문자, 토큰 단위를 묶어 보는 표현이며, 초기 통계적 언어 모델에서는 이 짧은 문맥으로 다음 단어 확률을 추정했습니다. 예를 들어 bigram은 두 개씩, trigram은 세 개씩 이어진 조각을 본다는 뜻입니다.
+- Why it matters: 언어 모델이 처음부터 긴 문맥 의미를 이해한 것이 아니라, 먼저 `가까이 붙어 나온 조각이 얼마나 자주 함께 나타나는가`를 세는 방식에서 출발했다는 점을 보여 주기 때문입니다. 이 개념이 있어야 통계적 언어 모델의 직관과 함께, 문맥 창이 짧아질수록 멀리 떨어진 의존 관계를 놓치고 데이터 희소성 문제가 커진다는 한계도 더 자연스럽게 이해하게 됩니다. 결국 엔그램을 이해해야 현대 LLM 이전의 언어 모델이 무엇을 셌고 어디서 막혔는지, 그리고 왜 더 긴 문맥과 더 풍부한 표현을 다루는 구조가 필요해졌는지도 이어서 읽게 됩니다.
+- Related concepts: `language model`, `statistical language model`, `sparsity`
+- Core Section: `P1-11.1`
+- Appears in: `P1-9.3`, `P6-19.1`
+
+<a id="ndarray"></a>
+
+## ndarray
+
+- Meaning: NumPy가 기본으로 사용하는 다차원 배열 자료구조입니다. 순서 있는 값 보관 구조를 넘어, 같은 타입의 숫자를 빠르게 계산하기 위한 배열 중심 구조라고 볼 수 있습니다. 즉 `숫자를 담아 둔 통`이면서 동시에, 축과 모양 정보를 바탕으로 대량 계산을 수행하는 계산 객체이기도 합니다.
+- Why it matters: Python 리스트와 달리 shape, ndim, dtype 같은 속성을 가진 계산용 배열이라는 점을 이해해야 이후 인덱싱, 축, 브로드캐스팅 설명이 자연스럽게 이어지기 때문입니다. `리스트를 여러 겹 넣은 것`과 `계산 가능한 배열 객체`를 구분하는 핵심 표제어이기도 합니다. 또한 ndarray를 이해해야 왜 넘파이 연산이 값 하나씩 반복하는 코드보다 훨씬 큰 묶음 계산으로 읽히는지, 그리고 배열 모양이 계산 가능성을 직접 바꾼다는 점도 더 분명해집니다.
+- Related concepts: `NumPy`, `shape`, `dtype`
+- Core Section: `P2-11.1`
+- Appears in: `P2-11.2`, `P2-11.4`, `P2-12.1`
+
+<a id="ndim"></a>
+
+## ndim
+
+- Meaning: NumPy 배열이 몇 차원으로 이루어져 있는지를 나타내는 값입니다. 즉 shape의 각 축 개수를 한 숫자로 요약한 정보입니다. 값의 총개수와는 다른 질문으로, `이 배열을 몇 개의 축으로 읽어야 하는가`를 먼저 알려 주는 표지라고 볼 수 있습니다. 다시 말해 ndim은 배열의 `축 개수`만 빠르게 알려 주는 가장 압축된 구조 정보입니다.
+- Why it matters: 같은 숫자 묶음도 1차원 벡터인지 2차원 행렬인지에 따라 읽는 방식과 가능한 계산이 달라지므로, 배열 해석의 가장 기본 점검 지점이 되기 때문입니다. `값이 몇 개인가`와 `축이 몇 개인가`를 분리해 읽게 해 주는 표지이기도 합니다. 이 개념이 있어야 같은 데이터 개수라도 `(6,)`와 `(2, 3)`이 왜 다른 계산 대상으로 읽히는지, 브로드캐스팅과 축 연산도 왜 ndim 확인에서 출발하는지 더 자연스럽게 이해하게 됩니다. 초심자는 배열 길이만 보려 하기 쉬운데, ndim을 먼저 보는 습관이 있어야 계산 오류를 더 빨리 줄일 수 있습니다.
+- Related concepts: `shape`, `ndarray`, `dimension`
+- Core Section: `P2-11.1`
+- Appears in: `P2-11.2`, `P2-11.3`
+
+<a id="nearest-neighbor"></a>
+
+## nearest neighbor
+
+- Meaning: 질문 벡터나 기준 벡터와 가장 가깝게 위치한 후보입니다. 여기서 `가깝다`는 말은 보통 거리나 유사도 기준에 따라 계산된 가까움이지, 사람이 눈으로 보기 비슷하다는 뜻만은 아닙니다. 다시 말해 최근접 이웃은 `이 입력과 가장 닮은 예시는 무엇인가`를 수치 비교로 정한 결과입니다.
+- Why it matters: 유사도 검색이 모든 문서를 읽는 것이 아니라, 먼저 가장 가까운 관련 후보부터 고르는 과정이라는 점을 이해하게 해 줍니다. 이 개념이 있어야 검색과 분류에서 `무엇을 근거 사례로 삼는가`를 설명할 수 있고, 거리 기준을 바꾸면 결과가 왜 달라지는지도 읽을 수 있습니다. 또한 최근접 이웃을 이해해야 복잡한 규칙을 직접 세우지 않아도, 이미 있는 사례 가운데 가까운 것들을 근거로 새 입력을 해석하는 방식이 가능하다는 점도 자연스럽게 보게 됩니다. 더 나아가 전처리나 정규화가 바뀌면 `가장 가까운 후보` 자체가 달라질 수 있으므로, 최근접 이웃은 단순 결과가 아니라 입력 표현의 영향을 직접 드러내는 관찰 창이 되기도 합니다.
+- Related concepts: `similarity search`, `distance`, `top-k`
+- Core Section: `P1-13.2`
+- Appears in: `P1-13.4`, `P7-2.1`, `P7-2.2`
+
+<a id="newaxisnpnewaxis"></a>
+
+## newaxis, np.newaxis
+
+- Meaning: NumPy 배열에 길이 1인 축을 추가해 shape를 바꾸는 표기입니다. 값 자체를 바꾸지 않고, `이 값을 행처럼 볼지 열처럼 볼지`, `배치 축을 하나 더 둘지` 같은 계산 관점을 모양 차원에서 조정하는 도구라고 볼 수 있습니다. 즉 데이터 내용은 그대로 두고, 계산이 읽는 배열의 구조만 다시 보이게 만드는 표기입니다.
+- Why it matters: 같은 값 묶음도 `(3,)`, `(3, 1)`, `(1, 3)`처럼 다르게 읽히면 브로드캐스팅 방식이 달라지므로, 계산 방향을 의도적으로 정렬하는 핵심 도구가 되기 때문입니다. 이 개념이 있어야 배열 계산 오류가 값 문제인지, shape 해석 문제인지 더 빠르게 구분할 수 있습니다. 예를 들어 하나의 특징 벡터를 여러 샘플에 더할지, 한 샘플 안의 여러 특징을 세로줄처럼 볼지를 shape 수준에서 명시적으로 바꿀 수 있습니다.
+- Related concepts: `broadcasting`, `shape`, `shared underlying object`
+- Core Section: `P2-11.4`
+- Appears in: `P2-12.1`
+
+<a id="next-action"></a>
+
+## next action
+
+- Meaning: 현재 상태, 관찰, 정책 판정, 실패 기록을 읽은 뒤 지금 시점에서 가장 안전하고 유의미하게 이어 가야 할 바로 다음 조치입니다. 막연한 장기 계획 전체가 아니라, 현재 실행을 어디서 멈추고 무엇으로 이어야 하는지를 닫아 주는 한 단계 판단에 가깝습니다. 즉 다음 행동은 `무엇이 문제였는가`를 읽은 뒤 `그래서 지금 무엇을 해야 하는가`를 실행 가능 문장으로 바꾸는 연결 고리입니다.
+- Why it matters: 보류 상태와 failure를 기록만 해 두고 다음 행동으로 연결하지 않으면 운영 회고가 설명 메모로 끝나고 실제 개선으로 이어지지 않기 때문입니다. 이 개념이 있어야 승인 요청, 재시도, 사람 보고, 범위 축소처럼 서로 다른 후속 조치를 상태별로 구분하게 되고, `문제가 있었다`와 `그래서 무엇을 바꿀 것인가`를 분리해 읽게 됩니다. 또한 다음 행동을 이해해야 계획, 관찰, 상태, 승인 정책이 모두 현재 실행의 다음 한 걸음으로 수렴해야 한다는 점도 더 분명하게 보게 됩니다.
+- Related concepts: `observation`, `state`, `hold state`, `approval policy`, `retry`
+- Core Section: `P7-6.3`
+- Appears in: `P1-14.4`, `P7-6.1`, `P7-6.2`
+
+<a id="next-question"></a>
+
+## next question
+
+- Meaning: 현재 비교, 검토, 실패 해석을 마친 뒤 바로 이어서 무엇을 더 확인하거나 바꿔 봐야 하는지를 한 문장으로 좁힌 후속 탐색 질문입니다. 막연한 호기심이 아니라, 이번 결과가 남긴 불확실성이나 경계 사례를 다음 반복의 실험 조건으로 바꾸는 연결 고리라고 볼 수 있습니다. 즉 다음 질문은 회고의 마지막 문장이면서, 다음 실행의 첫 입력이기도 합니다.
+- Why it matters: 비교표와 오류 사례가 남아 있어도 이를 `그래서 무엇을 더 확인해야 하는가`로 닫지 않으면 프로젝트 기록이 과거 설명에서 멈추고 다음 반복의 출발점이 흐려지기 때문입니다. 이 개념이 있어야 실패를 단순 오답 목록으로 두지 않고, 더 모을 사례, 더 바꿀 특징, 더 좁힐 범위 같은 실험 질문으로 다시 묶게 됩니다. 또한 다음 질문을 이해해야 Part 7의 회고가 감상문이 아니라 `사실 -> 해석 -> 다음 질문` 구조로 이어지는 작업 문서라는 점도 더 또렷하게 읽게 됩니다.
+- Related concepts: `retrospective`, `error case`, `review`, `improvement plan`, `working hypothesis`
+- Core Section: `P7-2.2`
+- Appears in: `P7-index`, `P7-1.1`, `P7-1.3`, `P7-2.1`, `P7-2.3`, `P7-5.3`, `P7-summary`
+
+<a id="next-output-generation"></a>
+
+## next-output generation
+
+- Meaning: 앞에서 만들어진 출력과 현재 조건을 바탕으로 작은 출력 조각을 이어 가며 산출물을 구성하는 직관입니다. 텍스트, 코드, 일부 구조화 출력이 모두 `한 번에 완성본을 꺼낸다`기보다 `부분 결과를 계속 이어 붙이며 완성해 간다`는 관점입니다. 즉 생성은 통째 결과를 미리 꺼내는 마법이라기보다, 직전까지의 결과를 조건으로 삼는 연속적 확장 과정에 가깝습니다.
+- Why it matters: 생성형 AI가 완성된 결과를 한 번에 꺼내는 것처럼 보이더라도, 실제로는 반복적 생성 과정으로 이해하는 출발점이 되기 때문입니다. 이 개념이 있어야 중간 한 조각의 선택이 뒤 문맥 전체에 영향을 준다는 점, 그리고 생성 품질이 누적 과정의 결과라는 점을 읽을 수 있습니다. 또한 다음 출력 생성을 이해해야 텍스트 생성, 코드 생성, JSON 생성이 겉보기 형식은 달라도 모두 `직전 상태를 이어 가는 과정`이라는 공통 구조 위에 놓여 있다는 점도 함께 보게 됩니다.
+- Related concepts: `next-token prediction`, `sampling`, `generation`
+- Core Section: `P1-10.2`
+
+<a id="next-token-prediction"></a>
+
+## next-token prediction
+
+- Meaning: 현재 문맥을 바탕으로 다음에 올 토큰 후보들의 분포를 계산하고 그중 하나를 이어 가는 생성 방식입니다. 한 문장 전체를 미리 완성해 두는 것이 아니라, 현재까지의 문맥에서 `다음 한 조각이 무엇일 가능성이 큰가`를 계속 다시 묻는 과정입니다. 그래서 생성은 한 번에 끝나는 답안 출력이라기보다, 짧은 선택을 매우 많이 이어 붙여 문장을 만들어 가는 절차라고 볼 수 있습니다.
+- Why it matters: LLM 텍스트 생성이 문장을 통째로 꺼내는 방식이 아니라, 토큰 단위의 순차 생성으로 이해된다는 점을 가장 직접적으로 보여 주기 때문입니다. 이 개념이 있어야 temperature, 샘플링, context window, 토큰화 같은 여러 설정이 왜 실제 생성 결과를 바꾸는지 더 자연스럽게 이어집니다. 또한 앞쪽에서 선택한 토큰이 뒤쪽 선택의 문맥이 되므로, 초기 몇 단계의 차이가 문장 전체 분위기와 내용에 연쇄적으로 영향을 준다는 점도 이해하게 됩니다.
+- Related concepts: `token`, `language modeling`, `sampling`
+- Core Section: `P6-6.1`
+- Appears in: `P1-10.2`, `P5-15.1`, `P5-15.2`, `P6-5.1`, `P6-6.2`
+
+<a id="node"></a>
+
+## node
+
+- Meaning: 그래프 안에서 하나의 대상, 지점, 항목을 나타내는 단위입니다. 사람, 문서, 웹페이지, 도시, 상품처럼 관계의 출발점이나 도착점이 되는 개별 대상을 그래프에서는 노드로 둡니다. 즉 노드는 `연결 자체`가 아니라, 그 연결이 붙는 개별 객체나 위치를 가리키는 기본 단위입니다.
+- Why it matters: 관계 데이터를 읽을 때 무엇이 연결의 주체인지 먼저 분명히 해야 엣지와 가중치를 올바르게 해석할 수 있기 때문입니다. 이 개념이 있어야 `무엇이 연결되어 있는가`와 `어떻게 연결되어 있는가`를 분리해 읽을 수 있습니다. 예를 들어 추천 그래프에서는 사용자와 상품이 각각 노드가 되고, 계산 그래프에서는 연산 결과 하나하나가 노드가 되어 값과 gradient 흐름을 읽게 됩니다. 결국 노드를 이해해야 그래프를 단순 선 그림이 아니라, `무엇을 개별 단위로 삼았는가`가 먼저 정해진 표현 구조로 보게 됩니다.
+- Related concepts: `graph`, `edge`, `weight`
+- Core Section: `P2-9.3`
+- Appears in: `P2-9.4`, `P4-14.1`
+
+<a id="noise"></a>
+
+## noise
+
+- Meaning: 관측된 입력이나 데이터가 흔들리거나 일부가 틀려 있어 그대로 믿기 어려운 상태입니다. 데이터 안에 실제로 중요한 패턴과 함께 섞여 있지만, 지금 풀고 싶은 질문과는 직접 관련이 없거나 오히려 해석을 흐리게 만드는 변동이라고 볼 수 있습니다. 즉 잡음은 `값이 있다`는 사실만으로 중요한 정보가 되는 것은 아니라는 점을 드러냅니다.
+- Why it matters: 규칙이나 모델이 모두 입력 품질의 한계를 그대로 받기 때문에, 관측값과 실제 상태를 구분해 읽는 기준이 되기 때문입니다. 이 개념이 있어야 모델이 틀렸다는 사실만 보고 곧바로 규칙이나 구조 문제로 단정하지 않고, 입력 자체가 흔들렸는지부터 따로 점검하게 됩니다. 예를 들어 센서의 작은 흔들림이나 우연한 오탈자는 표면적으로는 데이터지만, 그대로 따라가면 모델이 중요한 규칙 대신 흔들림 자체를 배우게 될 수 있습니다. 결국 잡음을 이해해야 `데이터가 많다`와 `의미 있는 신호가 많다`를 같은 말로 보지 않게 됩니다.
+- Related concepts: `uncertainty`, `partial observability`, `error`
+- Core Section: `P1-6.1`
+
+<a id="non-linear-structure"></a>
+
+## non-linear structure
+
+- Meaning: 데이터가 한 줄의 순서로만 이어지지 않고, 계층이나 관계처럼 여러 갈래로 연결되는 구조입니다. 앞뒤 한 방향으로만 훑는 대신, 가지를 타고 내려가거나 연결선을 따라 이동해야 하는 구조라고 이해하면 됩니다. 즉 저장 방식보다 `어떤 관계를 기본으로 드러내는가`가 더 중요한 자료구조 범주입니다.
+- Why it matters: 트리와 그래프를 리스트나 배열 같은 선형 구조와 구분해 읽어야 질문에 맞는 구조 선택이 가능해지기 때문입니다. 이 개념이 있어야 데이터를 `앞에서부터 순서대로 훑는 문제`와 `부모-자식 관계나 연결을 따라가야 하는 문제`로 나누어 보게 되고, 같은 저장 대상이라도 어떤 질문을 자주 던질지에 따라 구조 선택이 달라진다는 점도 이해하게 됩니다. 결국 비선형 구조를 이해해야 `데이터가 많다`보다 `데이터가 어떻게 연결되어 있나`가 더 중요한 문제를 따로 식별하게 됩니다.
+- Related concepts: `linear structure`, `tree`, `graph`
+- Core Section: `P2-9.1`
+- Appears in: `P2-9.4`
+
+<a id="non-parametric-memory"></a>
+
+## non-parametric memory
+
+- Meaning: 모델 파라미터 밖에 따로 저장되어 검색으로 접근할 수 있는 외부 문서나 자료 저장소입니다. 모델이 가중치 안에 압축해 기억한 정보와 달리, 필요할 때 다시 찾아 읽을 수 있도록 바깥에 남겨 둔 메모리 층이라고 볼 수 있습니다. 즉 비파라메트릭 메모리는 `모델이 몸속에 기억한 것`이 아니라 `밖에 두고 필요할 때 꺼내 보는 것`에 가깝습니다.
+- Why it matters: RAG가 모델 내부 기억만 쓰는 것이 아니라, 나중에 추가·수정할 수 있는 바깥 자료를 함께 연결한다는 점을 이해하게 해 주기 때문입니다. 이 개념이 있어야 최신 문서 교체와 출처 추적이 왜 파라미터 수정 없이 가능해지는지도 설명할 수 있습니다. 예를 들어 회사 정책 문서가 바뀌었을 때 모델 전체를 다시 학습하지 않고도 검색 저장소의 문서만 교체해 최신 답변 재료를 바꿀 수 있다면, 그 바깥 저장소가 바로 비파라메트릭 메모리 역할을 하는 셈입니다. 결국 이 개념을 이해해야 `모델이 안다`와 `모델이 찾아 읽는다`를 분리해 설명하게 되고, 최신성·출처성·수정 용이성이 왜 RAG 구조의 핵심 장점인지도 더 분명히 읽게 됩니다.
+- Related concepts: `parametric memory`, `retrieval-augmented generation, RAG`, `search`
+- Core Section: `P1-13.3`
+
+<a id="nondeterministic"></a>
+
+## nondeterministic
+
+- Meaning: 같은 입력이나 상태에서도 결과가 하나로 고정되지 않을 수 있는 성질입니다. 하나의 규칙 경로만 있는 것이 아니라, 여러 다음 상태나 결과 가능성이 열려 있는 조건이라고 볼 수 있습니다. 즉 비결정적이라는 말은 `반드시 하나의 다음 결과로 닫히지 않는다`는 구조를 가리키며, 곧바로 무작위 선택을 뜻하는 것은 아닙니다.
+- Why it matters: 규칙이 모자라서 여러 경로가 가능한 경우, 무작위 요소가 들어간 경우, 외부 상태에 따라 실행이 달라지는 경우를 한데 섞지 않고 읽는 출발점이 되기 때문입니다. 이 개념이 있어야 `정답이 하나로 결정되지 않는다`는 말이 언제는 탐색 문제를 뜻하고 언제는 확률적 생성이나 시스템 실행 차이를 뜻하는지 더 조심해서 구분하게 됩니다. 또한 비결정적을 이해해야 `결과가 여러 개일 수 있다`와 `그중 하나를 무작위로 고른다`를 다른 층위로 읽게 됩니다.
+- Related concepts: `random`, `stochastic process`, `uncertainty`
+- Core Section: `P1-6.2`
+
+<a id="notebook"></a>
+
+## notebook
+
+- Meaning: 코드, 설명, 출력 결과를 한 문서 안에서 함께 다루는 계산 문서 형식입니다. 문서처럼 읽히지만, 실제로는 셀 단위 실행 상태를 가진 상호작용형 실행 환경이기도 합니다. 즉 `문서를 읽는 경험`과 `프로그램을 실행하는 경험`이 한 파일 안에 겹쳐 있는 형태라고 볼 수 있습니다.
+- Why it matters: 실험과 설명을 같은 맥락에서 기록할 수 있어 학습과 검증에는 편리하지만, 실행 순서와 상태 관리 문제도 함께 생기기 때문입니다. 그래서 노트북은 `보기 좋은 문서`이면서 동시에 `숨은 실행 상태를 가진 프로그램`이라는 점을 함께 이해해야 합니다. 이 개념이 있어야 출력이 남아 있다고 해서 현재 코드와 실제 상태가 항상 일치하는 것은 아니라는 점을 읽게 되고, 재현 가능한 기록을 만들려면 셀 순서와 실행 과정을 함께 점검해야 한다는 감각도 붙잡게 됩니다. 결국 노트북은 설명과 실험을 붙이기 쉬운 대신, 상태가 섞이기 쉬운 형식이라는 양면을 같이 봐야 합니다.
+- Related concepts: `code cell`, `markdown cell`, `reproducible record`
+- Core Section: `P2-10.1`
+- Appears in: `P2-10.2`, `P2-10.3`
+
+<a id="numerical-stability"></a>
+
+## numerical stability
+
+- Meaning: 계산을 여러 번 반복하더라도 값과 gradient가 지나치게 커지거나 작아지지 않아, 학습이 감당 가능한 숫자 범위 안에서 계속 이어지는 성질입니다. 즉 수식은 맞더라도 실제 컴퓨터 숫자 범위 안에서 계산이 터지거나 사라지지 않게 유지되는 상태를 뜻합니다. 다시 말해 수치 안정성은 `수학적으로 가능한 계산`을 `실제 기계에서도 무너지지 않게 구현하는 조건`이라고 볼 수 있습니다.
+- Why it matters: 컴퓨터는 무한히 정확한 실수를 다루지 못하므로, 수학적으로는 맞는 계산도 실제 실행에서는 overflow, underflow, gradient 폭주 같은 문제로 무너질 수 있기 때문입니다. 이 개념이 있어야 초기화, 정규화, 학습률 조정이 단순 튜닝 요령이 아니라 계산 자체를 지속 가능하게 만드는 조건이라는 점을 이해하게 되고, `모델 구조는 맞는데 학습이 안 된다`는 상황도 수치 문제로 다시 읽게 됩니다. 또한 softmax 계산 순서, 로그 변환 사용, 정규화 층 배치처럼 겉보기에는 사소한 구현 선택도 실제 학습 가능성을 크게 바꾼다는 점을 함께 이해하게 됩니다.
+- Related concepts: `initialization`, `batch normalization`, `backpropagation`
+- Core Section: `P5-8.3`
+
+<a id="numpy"></a>
+
+## NumPy
+
+- Meaning: Python에서 숫자 배열과 벡터·행렬 계산을 다루는 대표적인 오픈소스 라이브러리입니다. Python 기본 리스트보다 `같은 형태의 수치 데이터를 한꺼번에 계산하기 좋은 배열 중심 도구`라고 생각하면 됩니다. 단순 보관용 자료구조를 넘어, shape와 축(axis)을 가진 계산 대상이라는 감각을 처음 붙잡게 해 주는 핵심 도구이기도 합니다.
+- Why it matters: AI 실습의 많은 입력과 중간 계산이 결국 숫자 배열 형태로 표현되므로, 계산 가능한 모양을 읽는 가장 기본 도구가 되기 때문입니다. 이 개념이 있어야 이후 Pandas, 신경망 텐서, 시각화 입력도 결국 배열 계산 위에서 움직인다는 점이 자연스럽게 이어집니다. 즉 NumPy를 이해하면 `숫자 하나씩 처리하는 코드`에서 `배열 전체를 한 번에 다루는 코드`로 넘어가는 감각이 잡힙니다. 결국 넘파이는 Python을 `일반 프로그래밍 언어`에서 `수치 계산 언어`로 확장해 주는 핵심 기반층입니다.
+- Related concepts: `array`, `ndarray`, `shape`
+- Core Section: `P2-11.1`
+- Appears in: `P2-11.2`, `P2-11.3`, `P2-11.4`, `P2-15.1`

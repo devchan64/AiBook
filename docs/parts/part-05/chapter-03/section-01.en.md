@@ -25,7 +25,7 @@ If only this positional relationship is drawn separately, it becomes the followi
 
 Once this transformation rule makes the relationship depart from a simple proportional line, nonlinearity appears, and the neural network can express more complex patterns.
 
-When the baseline of activation and nonlinearity needs to be fixed briefly again, return to the [activation function](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function) entry in the concept glossary.
+When the baseline of activation and nonlinearity needs to be fixed briefly again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entry in the concept glossary.
 
 ## The Question That Needs Activation Functions
 

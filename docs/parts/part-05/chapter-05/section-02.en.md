@@ -11,7 +11,7 @@ The viewpoint that answers this question is the computation graph and automatic 
 
 A computation graph is a representation that unfolds a model's computation into nodes and edges so that we can see where values are created in the forward pass and along what path automatic differentiation sends gradients back during backward.
 
-When you need to unfold the computational relationships into a smaller reading again, use the [computation graph](/AiBook/reference/concept-glossary-parts/01-giyeok/#computation-graph) entry in the concept glossary as the anchor.
+When you need to unfold the computational relationships into a smaller reading again, use the [computation graph](/AiBook/en/reference/concept-glossary-alpha/c/#computation-graph) entry in the concept glossary as the anchor.
 
 ## The Question Of How Computation Graphs Remember Differentiation
 

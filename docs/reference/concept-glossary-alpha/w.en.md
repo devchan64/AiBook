@@ -1,13 +1,92 @@
 # Concept Glossary: W
 
-This page is an English alphabetical index for the shared concept glossary. It does not duplicate definitions; each link points to the canonical glossary entry.
+This page lists English glossary entries for this letter directly. Each entry is written directly on this page so readers can review the concept without jumping to another glossary page.
 
-- [WaveNet](/AiBook/reference/concept-glossary-parts/08-ieung/#wavenet) — 웨이브넷 — Core Section: `P1-9.2`
-- [weight](/AiBook/reference/concept-glossary-parts/01-giyeok/#weight) — 가중치 — Core Section: `P1-4.3`
-- [word2vec](/AiBook/reference/concept-glossary-parts/08-ieung/#word2vec) — 워드투벡 — Core Section: `P1-11.1`
-- [WordPiece](/AiBook/reference/concept-glossary-parts/08-ieung/#wordpiece) — WordPiece — Core Section: `P6-2.2`
-- [work automation](/AiBook/reference/concept-glossary-parts/08-ieung/#work-automation) — 업무 자동화 — Core Section: `P1-16.2`
-- [workflow](/AiBook/reference/concept-glossary-parts/09-jieut/#workflow) — 작업 흐름 — Core Section: `P2-14.2`
-- [working directory](/AiBook/reference/concept-glossary-parts/09-jieut/#working-directory) — 작업 폴더 — Core Section: `P2-7.2`
-- [working hypothesis](/AiBook/reference/concept-glossary-parts/09-jieut/#working-hypothesis) — 작업 가설 — Core Section: `P1-17.3`
-- [wrong-case list](/AiBook/reference/concept-glossary-parts/12-tieut/#wrong-case-list) — 틀린 사례 목록 — Core Section: `P7-2.1`
+<a id="wavenet"></a>
+
+## WaveNet
+
+- Meaning: 이전 오디오 샘플들을 조건으로 삼아 raw audio waveform을 순차적으로 생성하는 확률적 신경망 모델입니다. 즉 사람이 먼저 정리한 음향 특징을 조합하는 방식이 아니라, 실제 파형 값 자체를 다음 샘플 예측 문제로 다루는 생성 구조라고 볼 수 있습니다. 그래서 WaveNet은 음성을 `사람이 해석한 특징 묶음`보다 `직접 생성할 신호 시퀀스`로 읽는 전환을 보여 줍니다.
+- Why it matters: 사람이 미리 만든 음향 특징만이 아니라 파형 자체를 생성 모델의 대상으로 삼아, 딥러닝이 음성 생성 문제를 어떻게 다시 구성했는지 보여 주기 때문입니다. 이 개념이 있어야 음성 생성이 단순 텍스트 후처리가 아니라, 오디오 신호 자체를 직접 모델링하는 문제로 확장되었다는 점을 이해하게 됩니다. 또한 WaveNet은 LLM의 직접 계보라기보다, `딥러닝이 복잡한 순차 신호도 end-to-end로 생성할 수 있다`는 신뢰를 키운 주변 근거라는 점에서 읽는 편이 더 정확합니다.
+- Related concepts: `speech generation`, `text-to-speech`, `deep learning`
+- Core Section: `P1-9.2`
+
+<a id="weight"></a>
+
+## weight
+
+- Meaning: 모델 안에서 어떤 입력 값이나 중간 값이 출력 계산에 얼마나 크게 반영될지를 정하는 파라미터입니다. 같은 입력이라도 어떤 신호는 더 크게, 어떤 신호는 더 약하게 통과시키도록 정하는 `중요도 조절값`에 가깝습니다. 즉 가중치는 입력과 출력 사이 연결 강도를 수치로 정한 조정 손잡이라고 볼 수 있습니다.
+- Why it matters: 딥러닝과 머신러닝에서 학습은 결국 이런 가중치를 조정해 입력-출력 관계를 바꾸는 과정이므로, 모델이 무엇을 얼마나 반영하는지 읽는 가장 기본적인 손잡이가 되기 때문입니다. 이 개념이 있어야 `모델이 배운다`는 말을 막연한 지능 증가가 아니라, 계산 연결마다 반영 비율이 바뀌는 과정으로 더 구체적으로 이해할 수 있습니다. 또한 가중치를 이해해야 모델 변화가 `어떤 연결이 더 중요해졌는가`의 누적으로 일어난다는 점도 더 분명히 읽게 됩니다.
+- Related concepts: `parameter`, `activation`, `training`
+- Core Section: `P1-4.3`
+- Appears in: `P1-5.1`
+
+<a id="word2vec"></a>
+
+## word2vec
+
+- Meaning: 단어가 함께 나타나는 문맥을 바탕으로 단어 임베딩을 효율적으로 학습하는 대표적인 방법 계열입니다. 즉 단어 뜻을 사전식으로 적어 넣는 대신, 함께 등장한 주변 단어 패턴에서 단어 벡터를 배우는 접근입니다.
+- Why it matters: 단어 뜻을 사람이 직접 적지 않아도, 사용 맥락에서 벡터 표현을 학습할 수 있다는 직관을 널리 각인시킨 사례이기 때문입니다. 이 개념이 있어야 임베딩이 사전식 정의를 사람이 손으로 넣은 결과가 아니라, 함께 등장한 문맥 통계에서 나온 학습 결과일 수 있다는 점을 이해하게 되고, 분산 표현이 왜 단어 유사성 일반화에 강한지도 더 자연스럽게 읽게 됩니다. 또한 word2vec은 현대 LLM의 문맥적 표현 전체를 설명하지는 못하지만, `단어를 벡터 공간에 놓고 비슷한 단어를 가깝게 배운다`는 감각을 처음 붙잡는 중요한 전 단계입니다. 결국 워드투벡은 `단어 의미를 숫자 벡터로 배운다`는 현대 표현 학습 감각의 출발점입니다.
+- Related concepts: `embedding`, `distributed representation`, `corpus`
+- Core Section: `P1-11.1`
+- Appears in: `P1-9.3`, `P6-19.1`
+
+<a id="wordpiece"></a>
+
+## WordPiece
+
+- Meaning: 전체 vocabulary 효율을 기준으로 서브워드 조각을 고르며, 드문 단어도 여러 조각으로 안정적으로 표현하려는 토크나이저 계열입니다. 이미 있는 조각들을 어떻게 조합하면 어휘 전체를 더 효율적으로 덮을 수 있을지에 더 신경 쓰는 방식이라고 볼 수 있습니다. 단어를 통째로 다 외우기보다, 자주 재사용되는 조각을 잘 고른 뒤 그 조각들로 새로운 단어를 분해해 읽게 하는 전략입니다.
+- Why it matters: BPE와 비슷해 보여도 조각을 고르는 기준이 달라 같은 문장에서도 토큰 수와 분절 감각이 달라질 수 있음을 보여 줍니다. 이 개념이 있어야 토크나이저마다 같은 텍스트를 다른 계산 단위로 읽을 수 있고, 그 차이가 모델 입력 길이와 비용에도 영향을 준다는 점을 이해하게 됩니다. 특히 사전학습 모델 문서를 읽을 때 `어떤 토크나이저를 썼는가`가 단순 구현 세부가 아니라 입력 표현 자체를 바꾸는 선택이라는 점을 분명하게 해 줍니다.
+- Related concepts: `tokenization`, `Byte Pair Encoding`, `SentencePiece`
+- Core Section: `P6-2.2`
+- Appears in: `P6-2.2`, `P7-4.1`
+
+<a id="work-automation"></a>
+
+## work automation
+
+- Meaning: 사람이 반복하던 업무 흐름의 일부 단계를 AI나 스크립트에 맡겨 처리 시간을 줄이려는 적용 방식입니다. 핵심은 사람의 일 전체를 한 번에 없애는 발상보다, 현재 흐름을 더 작은 단계로 쪼개 어느 부분을 자동화할지 정하는 운영 설계에 가깝습니다. 그래서 업무 자동화는 기술 문제이면서 동시에 경계 설정 문제이기도 합니다.
+- Why it matters: AI 적용을 막연한 전면 대체가 아니라 단계 분해와 책임 분리의 문제로 보게 해 주기 때문입니다. 이 개념이 있어야 자동화 대상이 `직업 전체`가 아니라 입력 정리, 초안 작성, 검색, 검토 보조 같은 부분 단계일 수 있다는 점을 이해하게 되고, 사람 검토를 어디에 남길지까지 함께 설계해야 한다는 점도 읽게 됩니다. 또한 자동화는 빠르게 돌린다는 뜻만이 아니라, 실패했을 때 누가 멈추고 수정할지까지 정해야 실제 업무에 안전하게 들어갈 수 있다는 점을 함께 보여 줍니다.
+- Related concepts: `search`, `review`, `productivity`
+- Core Section: `P1-16.2`
+- Appears in: `P1-16.1`
+
+<a id="workflow"></a>
+
+## workflow
+
+- Meaning: 작성, 점검, 배포를 어떤 순서와 기준으로 나눌지 정한 운영 방식입니다. 개별 명령이나 도구 사용법의 목록이라기보다, `언제 무엇을 하고 어떤 조건에서 다음 단계로 넘길까`를 정한 절차적 구조라고 볼 수 있습니다. 즉 작업 흐름은 한 번의 행동보다 여러 단계의 연결 방식을 설명하는 개념입니다.
+- Why it matters: 같은 도구를 써도 어떤 브랜치에서 작업하고 언제 배포할지 흐름이 없으면, 중간 판단과 공개 기준이 뒤섞여 문서 품질과 재현성이 흔들리기 때문입니다. 이 개념이 있어야 개별 명령보다 순서와 역할 분담이 더 중요할 때가 있다는 점을 이해하게 되고, 초안 작성, 검토, 배포를 한 덩어리로 섞지 않게 됩니다. 예를 들어 초안을 바로 `main`에 올리는 흐름과, `dev`에서 집필하고 검토 후 배포하는 흐름은 같은 도구를 써도 품질 통제 방식이 전혀 다릅니다. 결국 작업 흐름을 이해해야 `무슨 도구를 썼는가`보다 `어떤 순서와 검토 기준으로 연결했는가`가 실제 운영 품질을 더 크게 좌우할 수 있다는 점도 읽게 됩니다.
+- Related concepts: `branch`, `deployment`, `document reproducibility`
+- Core Section: `P2-14.2`
+- Appears in: `P7-6.1`, `P7-7.1`
+
+<a id="working-directory"></a>
+
+## working directory
+
+- Meaning: 현재 실행 중인 명령이 기준으로 삼는 폴더입니다. 상대 경로를 해석할 때 출발점이 되는 현재 위치라고 볼 수 있습니다. `./data/input.csv` 같은 경로가 실제로 어느 파일을 가리키는지는 이 작업 폴더가 어디인지에 따라 달라집니다. 즉 작업 폴더는 명령이 `지금 어디를 기준으로 세상을 보고 있는가`를 정하는 위치입니다.
+- Why it matters: 같은 명령도 어느 폴더에 서 있는지에 따라 찾는 파일과 실행 결과가 달라지기 때문입니다. 파일을 못 찾는 오류나 엉뚱한 위치에 결과가 생기는 문제를 읽을 때 가장 먼저 확인해야 하는 기준이기도 합니다. 이 개념이 있어야 상대 경로 오류를 코드 자체 문제와 분리해 해석할 수 있고, 셸 명령과 파이썬 코드가 `같은 파일명`을 써도 왜 서로 다른 대상을 가리킬 수 있는지도 더 자연스럽게 이해하게 됩니다. 결국 작업 폴더를 이해해야 경로 문제를 `파일 이름`보다 `기준 위치`의 문제로 먼저 읽게 됩니다.
+- Related concepts: `terminal`, `shell`, `path`
+- Core Section: `P2-7.2`
+- Appears in: `P2-7.3`, `P2-7.6`, `P2-7.9`
+
+<a id="working-hypothesis"></a>
+
+## working hypothesis
+
+- Meaning: 아직 완전히 검증되지는 않았지만 설명을 위해 임시로 세운 가설적 문장입니다. `일단 이렇게 이해하고 시작하되, 나중에 자료와 예시로 다시 확인하겠다`는 상태를 명시해 두는 표현이라고 볼 수 있습니다.
+- Why it matters: 처음 떠오른 직관과 기억을 바로 사실로 굳히지 않으면서도, 학습 출발점으로는 계속 붙잡아 둘 수 있게 해 주기 때문입니다. 이 개념이 있어야 `지금은 이렇게 이해하고 있다`는 임시 설명과 `근거로 확인된 표준 설명`을 분리해 읽게 되고, 개인적 비유와 재학습 메모를 버리지 않으면서도 검증 단계로 자연스럽게 넘길 수 있습니다. 예를 들어 `attention은 중요한 단어에 형광펜을 치는 것 같다`는 표현은 작업 가설로는 유용하지만, 실제 계산 구조를 설명할 때는 더 정확한 표준 설명으로 다시 연결해야 합니다. 결국 작업 가설은 틀려도 되는 생각이 아니라, `나중에 반드시 검증해야 하는 임시 설명`을 분명히 표시하는 장치입니다.
+- Related concepts: `personal learning`, `factual claim`, `prediction`
+- Core Section: `P1-17.3`
+- Appears in: `P1-16.1`
+
+<a id="wrong-case-list"></a>
+
+## wrong-case list
+
+- Meaning: 기준 모델이나 현재 모델이 어디에서 틀렸는지 샘플 ID나 사례 설명을 묶어 남긴 목록입니다. 점수 하나로는 보이지 않는 실패 위치를 다시 열어 보기 위한 최소 기록이며, `몇 개를 틀렸는가`보다 `어떤 사례를 틀렸는가`를 다시 읽게 만드는 목록이라고 볼 수 있습니다. 즉 틀린 사례 목록은 평균 성능 뒤에 가려진 실패 장면을 다시 꺼내는 회고용 표지입니다.
+- Why it matters: 정확도나 평균 점수만 남기면 어떤 샘플이 계속 흔들리는지와 기준 모델 대비 무엇이 실제로 달라졌는지가 잘 보이지 않기 때문입니다. 이 개념이 있어야 `점수가 올랐다`와 `틀리는 샘플 구성이 바뀌었다`를 분리해 읽게 되고, 샘플별 비교표와 오류 사례 분석이 실제 사례 위에서 다시 이어집니다. 또한 틀린 사례 목록을 이해해야 Part 7의 기준점 비교가 단순 점수 경쟁이 아니라, 실패 위치를 다음 질문과 개선 계획으로 연결하는 기록 작업이라는 점도 더 분명하게 읽게 됩니다.
+- Related concepts: `error case`, `execution summary`, `comparison table`, `next question`, `retrospective`
+- Core Section: `P7-2.1`
+- Appears in: `P7-2.3`, `P7-summary`

@@ -9,7 +9,7 @@ Loss tells us `how wrong it is`, but `which parameter should move in which direc
 
 The signal needed here is the gradient. A gradient is the value that shows how sensitively the loss responds to a specific parameter. Backpropagation is the procedure that starts from the loss and computes that gradient from the later calculations back toward the earlier ones.
 
-When this starts to blur together again with the computation graph or the optimizer in later sections, return to the [backpropagation](/AiBook/reference/concept-glossary-parts/08-ieung/#backpropagation) entry in the concept glossary and separate the computational roles first.
+When this starts to blur together again with the computation graph or the optimizer in later sections, return to the [backpropagation](/AiBook/en/reference/concept-glossary-alpha/b/#backpropagation) entry in the concept glossary and separate the computational roles first.
 
 Fix these three sentences first in this section.
 

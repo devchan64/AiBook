@@ -15,7 +15,7 @@
 
 - 개념사전 공개 진입 원고: `docs/reference/concept-glossary.md`
 - 개념사전 자음별 항목 원고: `docs/reference/concept-glossary-parts/*.md`
-- 영어 알파벳별 탐색 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
+- 영어 알파벳별 개념사전 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
 - 중국어 병음별 탐색 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
 - 언어별 보조 인덱스:
   - `management/glossary-indexes/concept-glossary-index.ko.md`
@@ -95,7 +95,7 @@
 - 항목 본문은 자음별 파일에 나누어 둔다. `docs/reference/concept-glossary.md`는 소개와 자음별 include 목록만 유지한다.
 - 새 항목은 대표 표제어의 첫 글자 기준으로 해당 자음 파일에 추가한다.
 - 자음별 파일 안에서는 표제어 기준 가나다순 정렬을 유지한다.
-- 영어판 개념사전은 항목 정의를 중복하지 않고 알파벳별 탐색 페이지를 둔다. 각 영어 표제어는 canonical 항목인 자음별 개념사전 앵커로 연결한다.
+- 영어판 개념사전은 영문 독자가 한국어 개념사전 페이지로 되돌아가지 않도록 알파벳별 영문 전용 페이지에 항목 내용을 직접 둔다. 각 영어 표제어 링크는 `docs/reference/concept-glossary-alpha/*.en.md`의 대응 앵커로 연결한다.
 - 중국어판 개념사전은 항목 정의를 중복하지 않고 병음 초성별 탐색 페이지와 전체 중국어 표제어 색인을 둔다. 각 중국어 색인어는 canonical 항목인 자음별 개념사전 앵커로 연결한다.
 - 표제어는 기본적으로 한글 표제어 기준 가나다순으로 정렬한다.
 - 영어 원어는 표제어 괄호 안에 병기한다.

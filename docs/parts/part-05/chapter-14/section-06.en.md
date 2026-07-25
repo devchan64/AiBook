@@ -9,7 +9,7 @@ In P5-14.2, we saw that the feed-forward network does a different job from self-
 
 In a Transformer block, the feed-forward network is not a device that chooses a new token to refer to. It is a device that reprocesses each position representation whose context has already been mixed by attention.
 
-When the terms scatter again, it is useful to reread the [feed-forward network](/AiBook/reference/concept-glossary-parts/13-pieup/#feed-forward-network) glossary entry together with the four-component role division in P5-14.2.
+When the terms scatter again, it is useful to reread the [feed-forward network](/AiBook/en/reference/concept-glossary-alpha/f/#feed-forward-network) glossary entry together with the four-component role division in P5-14.2.
 
 ## Why Process Once More After Attention?
 
