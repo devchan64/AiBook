@@ -13,14 +13,27 @@
 
 ## 파일 위치
 
-- 개념사전 공개 진입 원고: `docs/reference/concept-glossary.md`
-- 개념사전 자음별 항목 원고: `docs/reference/concept-glossary-parts/*.md`
-- 영어 알파벳별 탐색 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
-- 중국어 병음별 탐색 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
+- 개념사전 공개 진입 원고:
+  - 한국어: `docs/reference/concept-glossary.md`
+  - 영어: `docs/reference/concept-glossary.en.md`
+  - 중국어 간체: `docs/reference/concept-glossary.zh.md`
+- 개념사전 항목 canonical 원고: `docs/reference/concept-glossary-entries/*.md`
+  - 이 디렉터리는 단어별 항목 파일을 모아 두는 slug 디렉터리다.
+- 한국어 자음별 색인 원고: `docs/reference/concept-glossary-parts/*.md`
+- 영어 알파벳별 색인 원고: `docs/reference/concept-glossary-alpha/*.en.md`
+- 중국어 병음별 색인 원고: `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
 - 언어별 보조 인덱스:
   - `management/glossary-indexes/concept-glossary-index.ko.md`
   - `management/glossary-indexes/concept-glossary-index.en.md`
   - `management/glossary-indexes/concept-glossary-index.zh.md`
+
+원칙:
+
+- 개념 정의 본문은 단어별 항목 파일 하나에만 둔다.
+- 공개 색인 원고는 직접 정의를 중복 작성하지 않고, 단어별 항목 파일을 import/include해 구성한다.
+- 현재 MkDocs 설정은 `pymdownx.snippets.base_path = docs`이므로 include 경로는 `reference/...`로 시작한다.
+- 새 항목 파일은 slug 디렉터리 안의 `docs/reference/concept-glossary-entries/{english-slug}.md` 형식을 기본으로 한다. 같은 영어 표면형이 서로 다른 개념을 가리키면 `{english-slug}-{qualifier}.md`처럼 의미 구분자를 붙인다.
+- 항목 파일명은 언어별 표시 표제어가 아니라 영어 기준 용어와 의미 구분자를 기준으로 정한다. 그래야 한국어·영어·중국어 색인에서 같은 canonical 파일을 안정적으로 가리킬 수 있다.
 
 ## 핵심 원칙
 
@@ -49,17 +62,22 @@
 2. 같은 개념을 가리키는 표현과 서로 다른 개념을 가리키는 표현을 나눈다.
 3. 영어권 표준 용어 또는 널리 쓰이는 학술·기술 용어를 외부 레퍼런스로 확인한다.
 4. 한국어 대표 표제어와 영어 병기를 정한다.
-5. 대표 설명 위치를 정하고 `중심 Section`을 하나만 적는다.
-6. 관련 언어별 인덱스를 갱신한다. 세부 기준은 `management/glossary-indexes/README.md`를 따른다.
-7. 본문 설명이 부족하면 개념사전만 늘리지 말고 해당 Section 보강을 먼저 검토한다.
+5. `docs/reference/concept-glossary-entries/` 아래에 단어별 canonical 항목 파일을 만든다.
+6. 대표 설명 위치를 정하고 `중심 Section`을 하나만 적는다.
+7. 한국어 자음별 색인 원고에 해당 항목 파일을 include한다.
+8. 영어·중국어 공개 색인에 이미 노출할 용어라면 해당 알파벳·병음 색인 원고에도 같은 항목 파일을 include한다.
+9. 관련 언어별 보조 인덱스를 갱신한다. 세부 기준은 `management/glossary-indexes/README.md`를 따른다.
+10. 본문 설명이 부족하면 개념사전만 늘리지 말고 해당 Section 보강을 먼저 검토한다.
 
 ### 기존 항목을 바꿀 때
 
 1. 기존 대표 표제어, 영어 병기, `중심 Section`, `등장 Section`을 확인한다.
 2. 표제어·정의·대표 설명 위치 변경이 본문과 충돌하지 않는지 확인한다.
 3. 표제어를 합치거나 나눌 때는 한국어 표면형보다 영어 기준 개념을 먼저 본다.
-4. 대표 설명 위치를 옮겼다면 관련 본문, 개념사전, 관련 Section 릴리즈노트를 함께 갱신한다.
-5. 개념사전 자체의 전용 릴리즈노트 파일은 만들지 않고 `Version`만 갱신한다.
+4. 단어별 canonical 항목 파일을 먼저 수정한다.
+5. 표제어를 합치거나 나누어 항목 파일명이 바뀌면 한국어·영어·중국어 공개 색인의 include 경로와 언어별 보조 인덱스의 앵커를 함께 갱신한다.
+6. 대표 설명 위치를 옮겼다면 관련 본문, 개념사전, 관련 Section 릴리즈노트를 함께 갱신한다.
+7. 개념사전 자체의 전용 릴리즈노트 파일은 만들지 않고 `Version`만 갱신한다.
 
 ### 본문에서 다시 연결할 때
 
@@ -70,7 +88,7 @@
 
 ## 항목 구조
 
-각 항목은 다음 정보를 기본으로 포함한다.
+각 단어별 canonical 항목 파일은 다음 정보를 기본으로 포함한다.
 
 ```md
 ### 모델(model, 모형)
@@ -84,23 +102,60 @@
 
 규칙:
 
+- 한 파일에는 원칙적으로 하나의 대표 표제어만 둔다.
+- 항목 제목 수준은 색인 파일에 include될 때의 문서 구조를 고려해 `###`를 기본으로 한다.
+- 항목 파일 안에는 자음·알파벳·병음 색인용 제목을 따로 넣지 않는다.
 - `중심 Section`은 하나만 적는다.
 - `등장 Section`에는 대표 설명 위치를 반복하지 않고, 실제 재등장 위치만 적는다.
 - Section은 파일 경로가 아니라 `P1-4.1` 같은 `Section ID`로 적는다.
 - 뜻이 다른 개념을 하나의 표제어 안에 억지로 병렬 배치하지 않는다.
 - 표현만 다른 동의어는 별도 항목으로 만들지 말고 대표 항목 안에서 함께 설명한다.
 
+색인 파일에서 항목을 불러올 때는 다음 형식을 쓴다.
+
+```md
+--8<-- "reference/concept-glossary-entries/model.md"
+```
+
+규칙:
+
+- include 대상 파일은 항상 `docs/reference/concept-glossary-entries/` 아래의 canonical 항목 파일이어야 한다.
+- `docs/reference/concept-glossary-parts/`, `docs/reference/concept-glossary-alpha/`, `docs/reference/concept-glossary-pinyin/` 파일끼리는 서로 include하지 않는다.
+- 언어별 색인 파일에서 같은 항목을 include하더라도 정의 원고를 복제하지 않는다.
+- include 경로를 바꿨다면 MkDocs 빌드에서 snippet 경로 오류가 나지 않는지 확인한다.
+
 ## 정렬과 중복
 
-- 항목 본문은 자음별 파일에 나누어 둔다. `docs/reference/concept-glossary.md`는 소개와 자음별 include 목록만 유지한다.
-- 새 항목은 대표 표제어의 첫 글자 기준으로 해당 자음 파일에 추가한다.
-- 자음별 파일 안에서는 표제어 기준 가나다순 정렬을 유지한다.
-- 영어판 개념사전은 항목 정의를 중복하지 않고 알파벳별 탐색 페이지를 둔다. 각 영어 표제어는 canonical 항목인 자음별 개념사전 앵커로 연결한다.
-- 중국어판 개념사전은 항목 정의를 중복하지 않고 병음 초성별 탐색 페이지와 전체 중국어 표제어 색인을 둔다. 각 중국어 색인어는 canonical 항목인 자음별 개념사전 앵커로 연결한다.
+- 항목 본문은 단어별 canonical 파일에 둔다. `docs/reference/concept-glossary.md`는 소개와 한국어 자음별 색인 연결을 유지한다.
+- 새 항목은 대표 표제어의 첫 글자 기준으로 해당 한국어 자음별 색인 파일에 include한다.
+- 자음별 색인 파일 안에서는 include 순서를 표제어 기준 가나다순으로 유지한다.
+- 영어판 개념사전은 알파벳별 색인 페이지를 둔다. 각 영어 표제어는 해당 단어별 canonical 항목 파일을 include해 구성한다.
+- 중국어판 개념사전은 병음 초성별 색인 페이지와 전체 중국어 표제어 색인을 둔다. 각 중국어 색인어는 해당 단어별 canonical 항목 파일을 include해 구성한다.
 - 표제어는 기본적으로 한글 표제어 기준 가나다순으로 정렬한다.
 - 영어 원어는 표제어 괄호 안에 병기한다.
 - 영문 약어가 더 널리 쓰이는 경우에도 가능한 한 한글 표제어를 먼저 세운다. 다만 책 본문에서 약어가 중심 용어라면 실제 표제어 문자열을 기준으로 정렬한다.
 - 새 항목을 추가하기 전에는 기존 개념사전과 언어별 인덱스에서 같은 뜻의 표제어가 이미 있는지 확인한다.
+
+권장 구조:
+
+```text
+docs/reference/
+  concept-glossary.md
+  concept-glossary.en.md
+  concept-glossary.zh.md
+  concept-glossary-entries/
+    README.md
+    model.md
+    parameter-function.md
+    parameter-model.md
+  concept-glossary-parts/
+    05-mieum.md
+  concept-glossary-alpha/
+    m.en.md
+    p.en.md
+  concept-glossary-pinyin/
+    m.zh.md
+```
 
 ## 외부 레퍼런스와 근거 기록
 
