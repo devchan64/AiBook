@@ -21,7 +21,6 @@
 --8<-- "reference/concept-glossary-terms/support-vector.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/shared-view.ko.md"
 
 --8<-- "reference/concept-glossary-terms/identifier.ko.md"
 
@@ -139,7 +138,6 @@
 --8<-- "reference/concept-glossary-terms/slice.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/slicing.ko.md"
 
 --8<-- "reference/concept-glossary-terms/approval-policy.ko.md"
 
@@ -184,7 +182,6 @@
 
 --8<-- "reference/concept-glossary-terms/scope.ko.md"
 
---8<-- "reference/concept-glossary-terms/execution-order.ko.md"
 
 
 

@@ -14,7 +14,6 @@
 | 검색 | 검색 | retrieval | P1-13.3 | retrieval | retrieval | RAG paper | RAG에서 생성 입력에 넣을 외부 문서 후보를 찾아오는 단계 |
 | 검색 인덱스 | 검색 인덱스 | search index | P1-13.4 | search-index | search-index | HNSW, FAISS context | 많은 벡터나 문서를 빠르게 찾기 위해 미리 만든 검색 구조 |
 | 검색 질의 | 검색 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 검색과 k-NN에서 저장된 기준 사례와 비교할 새 입력 기준 |
-| 글로벌 플래너 | 글로벌 플래너 | global planner | P1-7.4 | global-planner | global-planner | autonomous driving planning context | 목적지까지의 큰 경로 흐름을 정하는 계획 층위 |
 | 그룹 분할 | 그룹 분할 | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | 같은 개체나 그룹이 학습 쪽과 검증·테스트 쪽에 동시에 섞이지 않도록 나누는 방식 |
 | 기대 출력 | 기대 출력 | expected output | P1-8.1 | expected-output | expected-output | P1-8.1 source context | 지도학습에서 입력에 대해 기대하는 정답 또는 목표 출력 |
 | 기준 모델 | 기준 모델 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 후보 모델이 넘어야 할 가장 단순한 비교용 모델이나 점수 기준 |
@@ -36,13 +35,11 @@
 | 라벨 일관성 | 라벨 일관성 | label consistency | P3-9.6 | label-consistency | label-consistency | P3-9.6 source context | 같은 사건이나 비슷한 조건에 같은 의미의 라벨이 반복해서 붙는 정도 |
 | 라벨 확정 지연 | 라벨 확정 지연 | delayed label confirmation | P3-9.10 | delayed-label-confirmation | delayed-label-confirmation | Google ML Glossary label, P3-9.10 source context | 실제 결과가 아직 정답 라벨로 닫히지 않은 시간 지연 상태 |
 | 라벨 예측 | 라벨 예측 | label prediction | P3-9.1 | label-prediction | label-prediction | P3-9.1 source context | 안정된 목표 라벨을 맞히도록 문제를 올리는 더 강한 문제 설정 |
-| 로컬 플래너 | 로컬 플래너 | local planner | P1-7.4 | local-planner | local-planner | autonomous driving planning context | 현재 상황에 맞는 짧은 궤적을 고르는 계획 층위 |
 | 밀도 | 밀도 | density | P1-8.2 | density | density | P1-8.2 source context | 데이터 공간에서 사례들이 촘촘히 모인 정도 |
 | 문맥 의존성 | 문맥 의존성 | context dependency | P1-10.2 | context-dependency | context-dependency | P1-10.2 source context | 현재 출력 후보가 앞선 입력과 생성 내용에 따라 달라지는 성질 |
 | 메타데이터 | 메타데이터 | metadata | P1-13.4 | metadata | metadata | 단어별 원고 기준 | 문서·검색 맥락의 부가 정보로 관리; 일반 사전 의미와 구분 |
 | 모션 플래닝 | 모션 플래닝 | motion planning | P1-7.4 | motion-planning | motion-planning | Motion Planning for Autonomous Driving survey | 실행 가능한 움직임 후보를 만들고 평가하는 계획 문제 |
 | 모델링 과제 | 모델링 과제 | modeling task | P1-4.4 | modeling-task | modeling-task | Google ML Glossary task | 현실 목표를 입력·출력 계산 문제로 좁힌 형태 |
-| 바운딩 박스 | 바운딩 박스 | bounding box | P1-9.2 | bounding-box | bounding-box | YOLO paper | 객체 검출에서 물체 위치를 사각형으로 나타내는 출력 표현 |
 | 범주 | 범주 | category | P1-8.1 | category | category | P1-8.1 source context | 분류 문제에서 사례를 넣을 후보 그룹 |
 | RLHF | RLHF | reinforcement learning from human feedback | P1-8.3 | rlhf-reinforcement-learning-from-human-feedback | rlhf-reinforcement-learning-from-human-feedback | P1-8.3 source context | 사람 피드백을 보상 신호처럼 쓰는 LLM 조정 접근 |
 | 수작업 특징 | 수작업 특징 | hand-crafted features | P1-9.1 | hand-crafted-features | hand-crafted-features | face recognition survey, representation learning review | 사람이 미리 설계한 입력 단서 |
@@ -58,7 +55,6 @@
 | 엡실론 그리디 정책 | 엡실론 그리디 정책 | epsilon-greedy policy | P1-8.3 | epsilon-greedy-policy | epsilon-greedy-policy | P1-8.3 source context | 대부분 활용하되 작은 확률로 탐험하는 정책 |
 | 엔드투엔드 학습 | 엔드투엔드 학습 | end-to-end learning | P1-9.2 | end-to-end-learning | end-to-end-learning | YOLO paper | 입력에서 최종 출력까지 연결된 구조를 함께 학습하는 접근 |
 | 언어 모델링 | 언어 모델링 | language modeling | P1-9.3 | language-modeling | language-modeling | Bengio neural probabilistic language model | 단어·토큰 순서의 확률을 다루는 LLM 직접 계보의 문제 설정 |
-| 원시 오디오 파형 | 원시 오디오 파형 | raw audio waveform | P1-9.2 | raw-audio-waveform | raw-audio-waveform | WaveNet paper | 시간 순서로 기록된 오디오 신호 값 자체에 가까운 표현 |
 | 원천데이터 | 원천데이터 | source data | P3-1.1 | source-data | source-data | P3-1.1 source context | 분석이나 학습 문제로 다시 구성하기 전의 출발 기록 |
 | 입력 창 | 입력 창 | input window | P3-5.4 | input-window | input-window | P3-5.4 source context | 원천 시계열에서 한 번의 학습 입력으로 볼 시간 구간 |
 | 입력 명세 | 입력 명세 | input specification | P3-6.3 | input-specification | input-specification | P3-6.3 source context | 모델이나 학습 단계에 넘길 입력 단위와 구조를 정한 설명 |
@@ -103,7 +99,6 @@
 | 벡터 검색 | 벡터 검색 | vector search | P1-13.4 | vector-search | vector-search | vector search implementation context | 임베딩 벡터 공간에서 가까운 후보를 찾는 검색 방식 |
 | 벡터 데이터베이스 | 벡터 데이터베이스 | vector database | P6-12.1 | vector-database | vector-database | vector database context | 벡터 저장, 인덱스, 메타데이터, 필터링을 함께 다루는 시스템 |
 | 프록시 라벨 | 프록시 라벨 | proxy label | P1-8.1 | proxy-label | proxy-label | P1-8.1 source context | 직접 목표를 대신하는 대리 라벨 |
-| 픽셀 | 픽셀 | pixel | P1-9.1 | pixel | pixel | P1-9.1 source context | 디지털 이미지를 이루는 가장 작은 위치 단위 |
 | 프롬프트 | 프롬프트 | prompt | P1-12.1 | prompt | prompt | OpenAI prompt engineering, GPT-3 paper | 현재 응답 조건을 담은 입력 전체 |
 | 프롬프트 구조화 | 프롬프트 구조화 | prompt structuring | P1-12.2 | prompt-structuring | prompt-structuring | prompt engineering context | 입력 안의 역할을 나눠 쓰는 방식 |
 | 프롬프트 예시 | 프롬프트 예시 | prompt example, task demonstration | P1-12.2 | prompt-example | prompt-example | GPT-3 paper | 현재 입력 안에서 원하는 패턴이나 판단 기준을 보여 주는 예시 |
@@ -138,7 +133,6 @@
 | 확률적 예측 | 확률적 예측 | probabilistic prediction | P1-6.3 | probabilistic-prediction | probabilistic-prediction | Google ML Glossary probabilistic regression model | 가능한 결과의 범위나 가능성을 함께 표현하는 예측 |
 | 확률적 선택 | 확률적 선택 | probabilistic choice | P1-10.2 | probabilistic-choice | probabilistic-choice | P1-10.2 source context | 후보 분포에서 실제 출력 하나를 선택하는 과정 |
 | 키워드 검색 | 키워드 검색 | keyword search | P1-13.2 | keyword-search | keyword-search | information retrieval context | 단어나 구문 일치를 기준으로 후보를 찾는 검색 방식 |
-| 웨이포인트 | 웨이포인트 | waypoint | P1-7.4 | waypoint | waypoint | autonomous driving planning context | 큰 경로나 참조선을 표현하는 기준점 열 |
 | 입력 조건 | 입력 조건 | input condition | P1-12.1 | input-condition | input-condition | P1-12.1 source context | 현재 실행에서 프롬프트로 제공한 작업 조건 |
 | 출력 정의 | 출력 정의 | output definition | P1-4.4 | output-definition | output-definition | P1-4.4 source context | 모델이 내야 하는 결과 형식과 의미 |
 | 출력 형식 | 출력 형식 | output format | P1-12.1 | output-format | output-format | OpenAI prompt engineering | 결과를 표, 목록, JSON, 문단 등 어떤 모양으로 받을지 정하는 조건 |
@@ -375,12 +369,7 @@
 | 관계 | 관계 | relation | P2-9.2 | relation | relation | P2-9.2 source context | 두 대상이 어떻게 연결되거나 대응되는지를 나타내는 구조적 정보 |
 | 노트북, 계산 문서 | 노트북 | notebook | P2-10.1 | notebook | notebook | Jupyter docs, P2-10.1 source context | 코드, 설명, 출력이 함께 들어 있는 계산 문서 |
 | 출력 | 출력 | output | P2-10.1 | output | output | Jupyter docs, P2-10.1 source context | 코드 실행 결과로 보이는 값, 표, 차트, 오류 메시지 |
-| 실행 순서 | 실행 순서 | execution order | P2-10.3 | execution-order | execution-order | P2-10.3 source context | 셀이 실제로 어떤 순서로 실행되었는지를 나타내는 기록 조건 |
-| 숨은 상태 | 숨은 상태 | hidden state | P2-10.3 | hidden-state | hidden-state | P2-10.3 source context | 문서에는 드러나지 않지만 런타임 안에 남아 있는 변수, import, 임시 결과 |
-| 런타임 상태 | 런타임 상태 | runtime state | P2-10.3 | runtime-state | runtime-state | P2-10.3 source context | 현재 세션에만 살아 있는 변수, 패키지, 메모리 상태 |
-| 재실행 가능한 기록 | 재실행 가능한 기록 | reproducible record | P2-10.3 | reproducible-record | reproducible-record | P2-10.3 source context | 나중에 다시 열어도 같은 흐름으로 실행과 해석을 재현할 수 있는 기록 |
-| 인덱싱 | 인덱싱 | indexing | P2-11.2 | indexing | indexing | P2-11.2 source context | 배열, 리스트 같은 구조에서 특정 위치의 값을 고르는 선택 방식 |
-| 슬라이싱 | 슬라이싱 | slicing | P2-11.2 | slicing | slicing | P2-11.2 source context | 시작과 끝을 정해 연속된 구간을 남기는 선택 방식 |
+| 숨은 상태 | 숨은 상태 | hidden state | P1-11.2 | hidden-state | hidden-state | P1-11.2 source context | 순환 신경망에서 앞 입력 정보를 누적해 다음 계산으로 넘기는 내부 상태 |
 | 배열 축 | 배열 축 | axis | P2-11.2 | axis | axis | P2-11.2 source context | 배열 계산이 어느 방향과 차원 의미를 따라 진행되는지 정하는 기준 |
 | 브로드캐스팅 | 브로드캐스팅 | broadcasting | P2-11.3 | broadcasting | broadcasting | P2-11.3 source context | 작은 값이나 배열을 큰 배열의 shape에 맞춰 적용하는 계산 규칙 |
 | 벡터화 | 벡터화 | vectorization | P2-11.3 | vectorization | vectorization | P2-11.3 source context | 반복 계산을 배열 연산 하나로 표현하는 방식 |
@@ -394,11 +383,7 @@
 | 어휘 밖 | 어휘 밖 | out-of-vocabulary, OOV | P7-4.2 | out-of-vocabulary-oov | out-of-vocabulary-oov | P7-4.2 source context | 현재 vocabulary나 tokenization 규칙 밖에 있어 낯선 입력으로 남는 단어 또는 token |
 | 토큰 커버리지 | 토큰 커버리지 | token coverage | P7-4.2 | token-coverage | token-coverage | P7-4.2 source context | 입력 token 중 현재 vocabulary나 tokenizer 규칙으로 실제 읽힌 비율 |
 | 청크 | 청크 | chunk | P1-13.1 | chunk | chunk | P1-13.1 source context | 긴 문서를 검색과 비교에 쓰기 좋은 작은 텍스트 단위로 나눈 묶음 |
-| 불리언 마스크 | 불리언 마스크 | boolean mask | P2-11.4 | boolean-mask | boolean-mask | P2-11.4 source context | 조건이 참인 위치만 남기기 위해 참·거짓 배열로 값을 고르는 방식 |
-| 원본 공유 | 원본 공유 | shared view | P2-11.4 | shared-view | shared-view | P2-11.4 source context | 선택 결과가 원본 배열과 같은 데이터를 바라보아 함께 바뀔 수 있는 상태 |
 | DataFrame | DataFrame | DataFrame | P2-12.1 | dataframe | dataframe | P2-12.1 source context | 행과 열 라벨이 붙은 2차원 표 형식 데이터 구조 |
-| 필터링 | 필터링 | filtering | P2-12.2 | filtering | filtering | P2-12.2 source context | 조건에 맞는 일부 행이나 값만 남기는 선택 과정 |
-| 집계 | 집계 | aggregation | P2-12.2 | aggregation | aggregation | P2-12.2 source context | 여러 행이나 값을 평균, 합, 개수 같은 더 작은 요약값으로 바꾸는 과정 |
 | 접기 규칙 | 접기 규칙 | folding rule | P3-5.7 | folding-rule | folding-rule | P3-5.7 source context | 여러 후속 사건이나 값을 하나의 대표 결과 열로 줄이는 명시적 기준 |
 | 데이터셋 | 데이터셋 | dataset | P2-12.3 | dataset | dataset | P2-12.3 source context | 학습이나 평가를 위해 정리한 샘플과 변수의 묶음 |
 | 타깃 | 타깃 | target | P1-8.1 | target | target | P2-12.3 source context | 모델이 맞혀야 하는 정답 열 또는 목표 값 |

@@ -68,7 +68,6 @@
 
 --8<-- "reference/concept-glossary-terms/language-modeling.ko.md"
 
---8<-- "reference/concept-glossary-terms/raw-audio-waveform.ko.md"
 
 --8<-- "reference/concept-glossary-terms/source-data.ko.md"
 
@@ -179,7 +178,6 @@
 
 --8<-- "reference/concept-glossary-terms/positional-encoding.ko.md"
 
---8<-- "reference/concept-glossary-terms/waypoint.ko.md"
 
 --8<-- "reference/concept-glossary-terms/similarity-search.ko.md"
 
@@ -202,7 +200,6 @@
 
 --8<-- "reference/concept-glossary-terms/index.ko.md"
 
---8<-- "reference/concept-glossary-terms/indexing.ko.md"
 
 --8<-- "reference/concept-glossary-terms/recognition.ko.md"
 

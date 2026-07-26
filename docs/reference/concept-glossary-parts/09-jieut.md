@@ -31,7 +31,6 @@
 
 --8<-- "reference/concept-glossary-terms/exponential-function.ko.md"
 
---8<-- "reference/concept-glossary-terms/reproducible-record.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/reproducibility.ko.md"
@@ -139,7 +138,6 @@
 --8<-- "reference/concept-glossary-terms/delayed-reward.ko.md"
 --8<-- "reference/concept-glossary-terms/direct-lineage.ko.md"
 --8<-- "reference/concept-glossary-terms/local-pattern.ko.md"
---8<-- "reference/concept-glossary-terms/aggregation.ko.md"
 --8<-- "reference/concept-glossary-terms/folding-rule.ko.md"
 
 --8<-- "reference/concept-glossary-terms/full-scan.ko.md"

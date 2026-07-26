@@ -24,7 +24,6 @@
 --8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/bounding-box.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/loop.ko.md"
@@ -119,7 +118,6 @@
 
 --8<-- "reference/concept-glossary-terms/distribution.ko.md"
 
---8<-- "reference/concept-glossary-terms/boolean-mask.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/incomplete-information.ko.md"

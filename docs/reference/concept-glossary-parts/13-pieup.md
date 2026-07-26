@@ -16,7 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/code.ko.md"
 
---8<-- "reference/concept-glossary-terms/pixel.ko.md"
 
 --8<-- "reference/concept-glossary-terms/perceptron.ko.md"
 
@@ -86,4 +85,3 @@
 
 
 --8<-- "reference/concept-glossary-terms/feed-forward-network.ko.md"
---8<-- "reference/concept-glossary-terms/filtering.ko.md"

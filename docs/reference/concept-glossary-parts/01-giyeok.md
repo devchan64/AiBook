@@ -103,7 +103,6 @@
 
 --8<-- "reference/concept-glossary-terms/route.ko.md"
 
---8<-- "reference/concept-glossary-terms/global-planner.ko.md"
 
 --8<-- "reference/concept-glossary-terms/group-split.ko.md"
 

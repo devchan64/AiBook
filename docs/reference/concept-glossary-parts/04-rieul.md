@@ -24,7 +24,6 @@
 
 --8<-- "reference/concept-glossary-terms/reinforce.ko.md"
 
---8<-- "reference/concept-glossary-terms/runtime-state.ko.md"
 
 --8<-- "reference/concept-glossary-terms/layer-normalization.ko.md"
 
@@ -40,7 +39,6 @@
 
 --8<-- "reference/concept-glossary-terms/logistic-regression.ko.md"
 
---8<-- "reference/concept-glossary-terms/local-planner.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/local-environment.ko.md"
