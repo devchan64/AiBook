@@ -27,7 +27,6 @@
 
 --8<-- "reference/concept-glossary-terms/layer-normalization.ko.md"
 
---8<-- "reference/concept-glossary-terms/rate-limit.ko.md"
 
 --8<-- "reference/concept-glossary-terms/logarithm.ko.md"
 
@@ -44,5 +43,3 @@
 --8<-- "reference/concept-glossary-terms/local-environment.ko.md"
 
 --8<-- "reference/concept-glossary-terms/long-context.ko.md"
-
---8<-- "reference/concept-glossary-terms/list.ko.md"

@@ -22,7 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/q-table.ko.md"
 
---8<-- "reference/concept-glossary-terms/caching.ko.md"
 
 
 
@@ -34,6 +33,5 @@
 --8<-- "reference/concept-glossary-terms/query-key-value-qkv.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/class.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cluster-label.ko.md"

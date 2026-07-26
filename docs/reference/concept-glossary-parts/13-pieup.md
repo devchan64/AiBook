@@ -2,7 +2,6 @@
 
 --8<-- "reference/concept-glossary-terms/mean-decrease-in-impurity-mdi.ko.md"
 
---8<-- "reference/concept-glossary-terms/python-interpreter.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ppo.ko.md"
 

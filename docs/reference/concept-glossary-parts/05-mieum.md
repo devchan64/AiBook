@@ -11,9 +11,7 @@
 
 --8<-- "reference/concept-glossary-terms/corpus.ko.md"
 
---8<-- "reference/concept-glossary-terms/parameter-function.ko.md"
 
---8<-- "reference/concept-glossary-terms/mapping.ko.md"
 
 --8<-- "reference/concept-glossary-terms/context.ko.md"
 
@@ -27,11 +25,9 @@
 
 --8<-- "reference/concept-glossary-terms/multi-head-attention.ko.md"
 
---8<-- "reference/concept-glossary-terms/command.ko.md"
 
 --8<-- "reference/concept-glossary-terms/median.ko.md"
 
---8<-- "reference/concept-glossary-terms/minimization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/manifold.ko.md"
 

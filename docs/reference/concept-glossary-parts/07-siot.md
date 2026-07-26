@@ -97,7 +97,6 @@
 
 --8<-- "reference/concept-glossary-terms/skip-gram.ko.md"
 
---8<-- "reference/concept-glossary-terms/shell.ko.md"
 
 --8<-- "reference/concept-glossary-terms/loss-curve.ko.md"
 
@@ -107,7 +106,6 @@
 
 --8<-- "reference/concept-glossary-terms/loss-function.ko.md"
 
---8<-- "reference/concept-glossary-terms/mean-loss.ko.md"
 
 --8<-- "reference/concept-glossary-terms/convergence.ko.md"
 --8<-- "reference/concept-glossary-terms/hand-crafted-features.ko.md"
@@ -135,7 +133,6 @@
 
 --8<-- "reference/concept-glossary-terms/forward-pass.ko.md"
 
---8<-- "reference/concept-glossary-terms/slice.ko.md"
 
 
 
@@ -163,7 +160,6 @@
 
 --8<-- "reference/concept-glossary-terms/success-criteria.ko.md"
 
---8<-- "reference/concept-glossary-terms/service.ko.md"
 
 --8<-- "reference/concept-glossary-terms/service-constraints.ko.md"
 

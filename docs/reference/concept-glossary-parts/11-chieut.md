@@ -10,17 +10,14 @@
 
 --8<-- "reference/concept-glossary-terms/dimension.ko.md"
 
---8<-- "reference/concept-glossary-terms/reference.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reference-maintenance-strategy.ko.md"
 
---8<-- "reference/concept-glossary-terms/optimal.ko.md"
 
 --8<-- "reference/concept-glossary-terms/argmax.ko.md"
 
 --8<-- "reference/concept-glossary-terms/accountability.ko.md"
 
---8<-- "reference/concept-glossary-terms/throughput.ko.md"
 
 --8<-- "reference/concept-glossary-terms/chunk.ko.md"
 
@@ -46,7 +43,6 @@
 
 --8<-- "reference/concept-glossary-terms/estimation.ko.md"
 
---8<-- "reference/concept-glossary-terms/maximization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.ko.md"
 

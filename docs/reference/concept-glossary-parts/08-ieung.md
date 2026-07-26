@@ -198,14 +198,12 @@
 
 --8<-- "reference/concept-glossary-terms/human-oversight.ko.md"
 
---8<-- "reference/concept-glossary-terms/index.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/recognition.ko.md"
 
 --8<-- "reference/concept-glossary-terms/quotation.ko.md"
 
---8<-- "reference/concept-glossary-terms/argument.ko.md"
 
 --8<-- "reference/concept-glossary-terms/trustworthiness.ko.md"
 
@@ -223,7 +221,6 @@
 --8<-- "reference/concept-glossary-terms/encoder-decoder.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/interpreter.ko.md"
 
 --8<-- "reference/concept-glossary-terms/consistency.ko.md"
 --8<-- "reference/concept-glossary-terms/generalization.ko.md"

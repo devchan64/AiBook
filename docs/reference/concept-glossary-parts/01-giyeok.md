@@ -23,7 +23,6 @@
 --8<-- "reference/concept-glossary-terms/relation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/value.ko.md"
 
 --8<-- "reference/concept-glossary-terms/value-based-reinforcement-learning.ko.md"
 
@@ -55,7 +54,6 @@
 
 --8<-- "reference/concept-glossary-terms/object-detection.ko.md"
 
---8<-- "reference/concept-glossary-terms/object.ko.md"
 
 --8<-- "reference/concept-glossary-terms/distance.ko.md"
 

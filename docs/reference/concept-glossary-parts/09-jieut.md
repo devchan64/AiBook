@@ -69,7 +69,6 @@
 
 --8<-- "reference/concept-glossary-terms/regularization.ko.md"
 
---8<-- "reference/concept-glossary-terms/regularization-penalty.ko.md"
 
 --8<-- "reference/concept-glossary-terms/automatic-differentiation.ko.md"
 
@@ -98,7 +97,6 @@
 
 --8<-- "reference/concept-glossary-terms/accuracy.ko.md"
 
---8<-- "reference/concept-glossary-terms/squared-error.ko.md"
 
 --8<-- "reference/concept-glossary-terms/constraint.ko.md"
 
@@ -132,7 +130,6 @@
 
 --8<-- "reference/concept-glossary-terms/knowledge-acquisition.ko.md"
 
---8<-- "reference/concept-glossary-terms/latency.ko.md"
 
 --8<-- "reference/concept-glossary-terms/indicator.ko.md"
 --8<-- "reference/concept-glossary-terms/delayed-reward.ko.md"

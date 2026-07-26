@@ -13,7 +13,6 @@
 
 --8<-- "reference/concept-glossary-terms/tanh.ko.md"
 
---8<-- "reference/concept-glossary-terms/type.ko.md"
 
 --8<-- "reference/concept-glossary-terms/search-space.ko.md"
 
@@ -23,7 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/exploration-cost.ko.md"
 
---8<-- "reference/concept-glossary-terms/terminal.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/test-data.ko.md"

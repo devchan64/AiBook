@@ -26,10 +26,8 @@
 
 
 
---8<-- "reference/concept-glossary-terms/loop.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/criterion.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/iteration.ko.md"
@@ -42,7 +40,6 @@
 
 --8<-- "reference/concept-glossary-terms/array.ko.md"
 --8<-- "reference/concept-glossary-terms/batch-normalization.ko.md"
---8<-- "reference/concept-glossary-terms/batch.ko.md"
 
 --8<-- "reference/concept-glossary-terms/penalty.ko.md"
 
@@ -136,7 +133,6 @@
 --8<-- "reference/concept-glossary-terms/secret.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/cost.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vit-vision-transformer.ko.md"
 

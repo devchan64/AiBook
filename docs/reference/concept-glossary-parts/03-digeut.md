@@ -61,7 +61,6 @@
 
 --8<-- "reference/concept-glossary-terms/diffusion-model.ko.md"
 
---8<-- "reference/concept-glossary-terms/dictionary.ko.md"
 
 --8<-- "reference/concept-glossary-terms/deep-reinforcement-learning.ko.md"
 

@@ -47,7 +47,6 @@
 | 순차 모델링 | 순차 모델링 | sequence modeling | P1-9.3 | sequence-modeling | sequence-modeling | Seq2Seq, Attention, Transformer papers | 순서 있는 데이터의 관계와 생성을 다루는 문제 설정 |
 | 출력 산출물 | 출력 산출물 | output artifact | P1-10.1 | output-artifact | output-artifact | P1-10.1 source context | 생성형 AI가 만들어 사람이 검토·재사용하는 결과물 |
 | 생성 설정값 | 생성 설정값 | generation setting | P1-4.3 | generation-setting | generation-setting | Google ML Glossary temperature | 생성 시점의 출력 선택 조절값 |
-| 서비스 | 서비스 | service | P1-4.1 | service | service | P1-4.1 source context | 사용자가 실제로 만나는 제공 형태와 운영 구조 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |
 | 신뢰 수준 | 신뢰 수준 | confidence level | P1-6.2 | confidence-level | confidence-level | scikit-learn probability calibration | 보정된 확률 출력을 어느 정도 믿을 수 있는지 읽는 수준 |
 | 순전파 | 순전파 | forward pass | P1-5.2 | forward-pass | forward-pass | P1-5.2 source context | 입력이 학습된 파라미터를 지나 출력으로 계산되는 방향 |
@@ -137,7 +136,7 @@
 | 출력 정의 | 출력 정의 | output definition | P1-4.4 | output-definition | output-definition | P1-4.4 source context | 모델이 내야 하는 결과 형식과 의미 |
 | 출력 형식 | 출력 형식 | output format | P1-12.1 | output-format | output-format | OpenAI prompt engineering | 결과를 표, 목록, JSON, 문단 등 어떤 모양으로 받을지 정하는 조건 |
 | 평가 설계 | 평가 설계 | evaluation design | P3-9.13 | evaluation-design | evaluation-design | P3-9.13 source context | 문제 구조에 맞는 데이터 분할, 지표, 비교 조건을 정하는 평가 기준 설계 |
-| reasoning | reasoning | reasoning | P1-5.3 | reasoning | reasoning | P1-5.3 source context | 모델 실행과 구분해야 하는 논리적 사고 과정 |
+| 논리적 추론 | 논리적 추론 | reasoning | P1-5.3 | reasoning | reasoning | P1-5.3 source context | 모델 실행과 구분해야 하는 논리적 사고 과정 |
 | CBOW | 연속 bag-of-words | continuous bag-of-words | P1-11.1 | cbow-continuous-bag-of-words | cbow-continuous-bag-of-words | P1-11.1 source context | 주변 단어로 중심 단어를 예측하며 단어 벡터를 배우는 word2vec 방식 |
 | 어텐션 가중치 | 어텐션 가중치 | attention weight | P1-11.2 | attention-weight | attention-weight | P1-11.2 source context | 모델 파라미터 weight와 구분되는 현재 문맥의 참고 비중 |
 | 지시 | 지시 | instruction | P1-12.1 | instruction | instruction | InstructGPT, prompt engineering context | 모델에게 수행할 작업을 알려 주는 요청 요소 |
@@ -172,12 +171,6 @@
 | 소프트웨어 회귀 | 소프트웨어 회귀 | software regression | P1-14.5 | software-regression | software-regression | P1-14.5 source context | 변경 뒤 이전에는 되던 기능이나 품질이 나빠지는 현상 |
 | 가드레일 | 가드레일 | guardrail | P1-14.5 | guardrail | guardrail | P1-14.5 source context | 허용 범위를 벗어난 입력·출력·실행을 막는 제한과 점검 장치 |
 | 서비스 제약 | 서비스 제약 | service constraints | P1-14.6 | service-constraints | service-constraints | P1-14.6 source context | 비용, 지연 시간, 처리량, 호출 한도 같은 운영 제한 조건 |
-| 비용 | 비용 | cost | P1-14.6 | cost | cost | P1-14.6 source context | 모델 호출과 서비스 운영에 드는 자원·요금 부담 |
-| 지연 시간 | 지연 시간 | latency | P1-14.6 | latency | latency | P1-14.6 source context | 요청 후 결과가 돌아오기까지 걸리는 시간 |
-| 처리량 | 처리량 | throughput | P1-14.6 | throughput | throughput | P1-14.6 source context | 단위 시간 동안 처리할 수 있는 요청·토큰·작업의 양 |
-| 레이트 리밋 | 레이트 리밋 | rate limit | P1-14.6 | rate-limit | rate-limit | P1-14.6 source context | 짧은 시간 안에 허용되는 요청 수나 토큰 수 제한 |
-| 배치 | 배치 | batch | P1-14.6 | batch | batch | P1-14.6 source context | 여러 요청이나 작업을 묶어 처리하는 방식 |
-| 캐싱 | 캐싱 | caching | P1-14.6 | caching | caching | P1-14.6 source context | 반복 계산이나 요청 결과를 저장해 재사용하는 방식 |
 | 서비스 운영 | 서비스 운영 | service operation | P1-14.6 | service-operation | service-operation | P1-14.6 source context | AI 서비스를 반복 사용 속에서 비용·오류·속도·품질까지 관리하는 일 |
 | AI 윤리 | AI 윤리 | AI ethics | P1-15.1 | ai-ethics | ai-ethics | NIST AI RMF, OECD AI Principles | AI 시스템의 사회적 위험과 책임 구조를 다루는 기준 |
 | 편향 | 편향 | bias | P1-15.1 | bias | bias | NIST AI RMF, fairness context | 특정 사람·집단·상황에 반복적으로 불리한 결과가 몰리는 문제 |
@@ -318,17 +311,10 @@
 | 다음 토큰 예측 | 다음 토큰 예측 | next-token prediction | P1-10.2 | next-token-prediction | next-token-prediction | LLM generation context | 현재 문맥에서 다음 토큰 후보를 계산하고 한 토큰씩 생성을 이어 가는 방식 |
 | 샘플링 | 샘플링 | sampling | P5-15.3 | sampling | sampling | P5-15.3 source context | 후보 분포에서 실제 출력 조각 하나를 선택하는 절차 |
 | Transformer | 트랜스포머 | Transformer | P1-11.3 | transformer | transformer | Attention Is All You Need | attention 기반으로 시퀀스 위치 관계를 비교하는 신경망 구조 계열 |
-| 비교 기준 | 비교 기준 | criterion | P2-6.1 | criterion | criterion | P2-6.1 source context | 후보 가운데 무엇이 더 나은지 판단하기 위해 쓰는 기준 |
-| 최소화 | 최소화 | minimization | P2-6.1 | minimization | minimization | P2-6.1 source context | 비용, 오차, 손실처럼 작을수록 좋은 값을 줄이는 최적화 방향 |
-| 최대화 | 최대화 | maximization | P2-6.1 | maximization | maximization | P2-6.1 source context | 정확도, 수익, 만족도처럼 클수록 좋은 값을 키우는 최적화 방향 |
-| 최적 | 최적 | optimal | P2-6.1 | optimal | optimal | P2-6.1 source context | 정해진 후보 범위, 기준, 제약 안에서 가장 좋다고 판단된 상태 |
 | 파라미터 | 파라미터 | parameter | P1-4.3 | parameter | parameter | P2-6.1 source context | 학습 과정에서 조정되는 모델 내부 값 |
 | 손실 함수 | 손실 함수 | loss function | P2-6.2 | loss-function | loss-function | P2-6.2 source context | 예측의 틀림을 학습에 쓸 수 있는 숫자로 바꾸는 함수 |
 | 목적 함수 | 목적 함수 | objective function | P2-6.2 | objective-function | objective-function | P2-6.2 source context | 학습이나 최적화가 실제로 줄이거나 키우려는 전체 기준 |
-| 제곱 오차 | 제곱 오차 | squared error | P2-6.2 | squared-error | squared-error | P2-6.2 source context | 실제값과 예측값의 차이를 제곱한 값 |
-| 평균 손실 | 평균 손실 | mean loss | P2-6.2 | mean-loss | mean-loss | P2-6.2 source context | 여러 샘플에서 계산한 손실을 평균낸 값 |
 | 평균 제곱 오차 | 평균 제곱 오차 | mean squared error, MSE | P2-6.2 | mean-squared-error-mse | mean-squared-error-mse | P2-6.2 source context | 실제값과 예측값의 차이를 제곱한 뒤 여러 샘플에 대해 평균낸 값 |
-| 정규화 벌점 | 정규화 벌점 | regularization penalty | P2-6.2 | regularization-penalty | regularization-penalty | P2-6.2 source context | 모델이 지나치게 복잡해지지 않도록 목적 함수에 더하는 벌점 항 |
 | 평가 지표 | 평가 지표 | metric | P4-6.1 | metric | metric | P2-6.2 source context | 모델 결과를 사람이 해석하고 비교하기 위해 쓰는 성능 기준 |
 | 검증 데이터 | 검증 데이터 | validation data | P2-6.2 | validation-data | validation-data | P2-6.2 source context | 학습 중 모델 설정을 확인하고 조정하는 데 쓰는 데이터 |
 | 교차검증 | 교차검증 | cross-validation | P4-4.2 | cross-validation | cross-validation | scikit-learn Cross-validation, P4-4.2 source context | 주어진 데이터를 여러 번 나누어 서로 다른 검증 구간에서 모델이나 설정을 반복 평가하는 방법 |
@@ -338,29 +324,11 @@
 | 손실 지형 | 손실 지형 | loss landscape | P2-6.3 | loss-landscape | loss-landscape | P2-6.3 source context | 파라미터 위치에 따라 손실값이 달라지는 모양을 지형처럼 본 표현 |
 | 로컬 환경 | 로컬 환경 | local environment | P2-7.1 | local-environment | local-environment | P2-7.1 source context | 내 컴퓨터에서 코드를 실행하기 위해 준비된 프로그램, 파일, 설정의 묶음 |
 | 실행 환경 | 실행 환경 | runtime | P2-7.1 | runtime | runtime | Python runtime context | 코드가 실제로 실행되는 자리와 연결된 프로그램·패키지·설정 묶음 |
-| 터미널 | 터미널 | terminal | P2-7.2 | terminal | terminal | P2-7.2 source context | 명령을 입력하고 결과를 보는 문자 기반 창이나 앱 |
-| 셸 | 셸 | shell | P2-7.2 | shell | shell | Bash manual | 터미널 안에서 명령을 읽고 해석해 실행하는 프로그램 |
-| 명령 | 명령 | command | P2-7.2 | command | command | P2-7.2 source context | 셸에게 지금 수행하라고 요청하는 실행 문장 |
-| Python 인터프리터 | Python 인터프리터 | Python interpreter | P2-7.3 | python-interpreter | python-interpreter | Python interpreter docs | Python 코드를 읽고 실행하는 프로그램 |
-| 인터프리터 | 인터프리터 | interpreter | P2-7.3 | interpreter | interpreter | Python interpreter docs | 코드를 읽고 실행 결과로 연결하는 실행 프로그램 |
 | 가상환경 | 가상환경 | virtual environment | P2-7.4 | virtual-environment | virtual-environment | Python venv docs | 프로젝트별로 분리한 Python 실행 공간 |
 | 의존성 | 의존성 | dependency | P2-7.5 | dependency | dependency | Python Packaging User Guide | 코드 실행에 필요한 외부 패키지나 환경 조건 |
 | 버전 고정 | 버전 고정 | version pinning | P2-7.5 | version-pinning | version-pinning | pip repeatable installs | 특정 패키지 버전을 명시해 환경 차이를 줄이는 방법 |
 | 환경 불일치 | 환경 불일치 | environment mismatch | P2-7.9 | environment-mismatch | environment-mismatch | P2-7.9 source context | 패키지를 설치한 환경과 코드를 실행하는 환경이 서로 다른 상태 |
-| 값 | 값 | value | P2-8.1 | value | value | P2-8.1 source context | 계산이 실제로 다루는 데이터 자체 |
-| 타입 | 타입 | type | P2-8.1 | type | type | Python data model | 값이 어떤 종류이며 어떤 연산을 허용하는지 구분하는 정보 |
-| 리스트 | 리스트 | list | P2-8.2 | list | list | Python data structures | 여러 값을 순서대로 담고 인덱스로 꺼낼 수 있는 자료구조 |
-| 인덱스 | 인덱스 | index | P2-8.2 | index | index | P2-8.2 source context | 순서 있는 묶음에서 몇 번째 값인지 가리키는 위치 번호 |
-| 슬라이스 | 슬라이스 | slice | P2-8.2 | slice | slice | Python sequence operations | 순서 있는 값 묶음에서 일부 구간을 잘라 읽는 문법이나 구간 |
-| 딕셔너리 | 딕셔너리 | dictionary | P2-8.3 | dictionary | dictionary | Python mapping types | 키를 기준으로 값을 찾도록 구성한 매핑 자료구조 |
-| 매핑 | 매핑 | mapping | P2-8.3 | mapping | mapping | Python mapping types | 어떤 기준 키를 특정 값에 연결해 두는 구조 |
-| 반복 | 반복 | loop | P2-8.4 | loop | loop | Python for statement context | 여러 값에 같은 처리 기준을 차례대로 적용하는 흐름 |
 | 반복 누적 | 반복 누적 | iterative accumulation | P2-8.4 | accumulation | accumulation | P2-8.4 source context | 반복 중 현재까지의 결과를 계속 쌓아 하나의 결과를 만드는 패턴 |
-| 매개변수 | 매개변수 | parameter | P2-8.5 | parameter-function | parameter-function | Python function definitions | 함수를 정의할 때 입력 자리를 나타내기 위해 적는 이름 |
-| 인자 | 인자 | argument | P2-8.5 | argument | argument | Python function definitions | 함수를 실제로 호출할 때 넘기는 값 |
-| 클래스 | 클래스 | class | P2-8.6 | class | class | Python classes | 객체를 만들기 위한 정의나 틀 |
-| 객체 | 객체 | object | P2-8.6 | object | object | Python data model | Python이 메모리 안에서 다루는 실제 값의 대상 |
-| 참조 | 참조 | reference | P2-8.7 | reference | reference | Python copy docs | 여러 이름이 같은 객체를 함께 가리키는 상태 |
 | 자료구조 | 자료구조 | data structure | P2-9.1 | data-structure | data-structure | P2-9.1 source context | 데이터를 조직하는 모양과 자주 수행할 연산을 함께 보는 기준 |
 | 자료구조 연산 | 자료구조 연산 | operation | P2-9.1 | operation | operation | P2-9.1 source context | 자료구조 위에서 수행하는 접근, 검색, 추가, 삭제, 순회 같은 작업 |
 | 배열 | 배열 | array | P2-9.2 | array | array | P2-9.2 source context | 위치와 축을 기준으로 값을 읽는 구조 |
