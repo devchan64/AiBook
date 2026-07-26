@@ -15,7 +15,6 @@
 | 검색 인덱스 | 검색 인덱스 | search index | P1-13.4 | search-index | search-index | HNSW, FAISS context | 많은 벡터나 문서를 빠르게 찾기 위해 미리 만든 검색 구조 |
 | 검색 질의 | 검색 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 검색과 k-NN에서 저장된 기준 사례와 비교할 새 입력 기준 |
 | 그룹 분할 | 그룹 분할 | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | 같은 개체나 그룹이 학습 쪽과 검증·테스트 쪽에 동시에 섞이지 않도록 나누는 방식 |
-| 기대 출력 | 기대 출력 | expected output | P1-8.1 | expected-output | expected-output | P1-8.1 source context | 지도학습에서 입력에 대해 기대하는 정답 또는 목표 출력 |
 | 기준 모델 | 기준 모델 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 후보 모델이 넘어야 할 가장 단순한 비교용 모델이나 점수 기준 |
 | 기준선 | 기준선 | baseline | P3-7.3 | baseline | baseline | BLS base period, NCI baseline context | 현재 값이나 모델 점수를 단독으로 읽지 않기 위해 두는 참조 기준 |
 | 비교 가능한 참조 집단 | 비교 가능한 참조 집단 | comparable reference group | P3-7.4 | comparable-reference-group | comparable-reference-group | P3-7.4 source context | 현재 샘플과 같은 샘플 단위와 운영 조건을 공유한다고 보고 남겨 둔 과거 사례 묶음 |
@@ -66,7 +65,6 @@
 | 이미지 인식 | 이미지 인식 | image recognition | P1-9.1 | image-recognition | image-recognition | LeCun deep learning review, face recognition survey | 이미지에서 의미 있는 시각 범주를 예측하는 문제 |
 | 자기회귀 모델 | 자기회귀 모델 | autoregressive model | P1-9.2 | autoregressive-model | autoregressive-model | WaveNet paper, language modeling context | 앞 값에 조건부로 다음 값을 순서대로 예측·생성하는 모델 |
 | 자동 프롬프트 최적화 | 자동 프롬프트 최적화 | automatic prompt optimization | P6-10.3 | automatic-prompt-optimization | automatic-prompt-optimization | 단어별 원고 기준 | 프롬프트 후보 생성·평가·선택을 자동 탐색 문제로 다루는 접근 |
-| 증거 강도 | 증거 강도 | evidence strength | P3-8.1 | evidence-strength | evidence-strength | P3-8.1 source context | 차이나 신호를 어느 문장 강도로 말해도 되는지 판단하기 위한 근거의 단단함 |
 | 모델 점수 | 모델 점수 | model score | P1-5.2 | score | score | Google ML Glossary score context | 후보 출력 비교와 임계값 판단에 쓰이는 모델 출력 수치 |
 | 순위화 | 순위화 | ranking | P1-13.2 | ranking | ranking | P1-13.2 source context | 여러 후보를 점수나 우선순위 기준으로 줄 세우는 문제 유형 |
 | 점 예측 | 점 예측 | point prediction | P1-6.3 | point-prediction | point-prediction | P1-6.3 source context | 불확실성 범위 없이 하나의 대표 숫자만 제시하는 예측 |

@@ -26,8 +26,6 @@
 
 --8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.zh.md"
 
---8<-- "reference/concept-glossary-terms/evidence-strength.zh.md"
-
 --8<-- "reference/concept-glossary-terms/state.zh.md"
 
 --8<-- "reference/concept-glossary-terms/true-objective.zh.md"

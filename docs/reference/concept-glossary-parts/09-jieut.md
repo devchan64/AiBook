@@ -46,8 +46,6 @@
 
 --8<-- "reference/concept-glossary-terms/true-objective.ko.md"
 
---8<-- "reference/concept-glossary-terms/evidence-strength.ko.md"
-
 --8<-- "reference/concept-glossary-terms/precision.ko.md"
 
 --8<-- "reference/concept-glossary-terms/point-prediction.ko.md"

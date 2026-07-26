@@ -117,8 +117,6 @@
 
 --8<-- "reference/concept-glossary-terms/structural-hypothesis.ko.md"
 
---8<-- "reference/concept-glossary-terms/expected-output.ko.md"
-
 --8<-- "reference/concept-glossary-terms/hierarchical-clustering.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cluster.ko.md"
