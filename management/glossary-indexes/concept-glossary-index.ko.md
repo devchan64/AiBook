@@ -19,7 +19,6 @@
 | 기준 모델 | 기준 모델 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 후보 모델이 넘어야 할 가장 단순한 비교용 모델이나 점수 기준 |
 | 기준선 | 기준선 | baseline | P3-7.3 | baseline | baseline | BLS base period, NCI baseline context | 현재 값이나 모델 점수를 단독으로 읽지 않기 위해 두는 참조 기준 |
 | 비교 가능한 참조 집단 | 비교 가능한 참조 집단 | comparable reference group | P3-7.4 | comparable-reference-group | comparable-reference-group | P3-7.4 source context | 현재 샘플과 같은 샘플 단위와 운영 조건을 공유한다고 보고 남겨 둔 과거 사례 묶음 |
-| 모델 비교표 | 모델 비교표 | model comparison table | P7-2.1 | comparison-table | comparison-table | P3-7.2 source context | 모델 출력이나 평가 대상을 같은 기준 열 위에 놓고 차이를 읽게 만드는 표 |
 | 혼동 행렬 | 혼동 행렬 | confusion matrix | P4-6.1 | confusion-matrix | confusion-matrix | P4-6.1 source context | 실제 라벨과 예측 라벨의 조합으로 분류 오류 방향을 읽는 표 |
 | 군집 | 군집 | cluster | P1-8.2 | cluster | cluster | P1-8.2 source context | 알고리즘이 찾은 묶음이며 지도학습 라벨과 구분 |
 | k-평균 | k-평균 | k-means | P1-8.2 | k-means | k-means | P1-8.2 source context | k개의 중심점을 반복 갱신하는 군집화 알고리즘 |
@@ -43,7 +42,6 @@
 | 수작업 특징 | 수작업 특징 | hand-crafted features | P1-9.1 | hand-crafted-features | hand-crafted-features | face recognition survey, representation learning review | 사람이 미리 설계한 입력 단서 |
 | 알고리즘 | 알고리즘 | algorithm | P4-3.1 | algorithm | algorithm | AIMA, P4-3.1 source context | 문제를 풀기 위해 정해진 순서대로 수행하는 절차 |
 | 순차 모델링 | 순차 모델링 | sequence modeling | P1-9.3 | sequence-modeling | sequence-modeling | Seq2Seq, Attention, Transformer papers | 순서 있는 데이터의 관계와 생성을 다루는 문제 설정 |
-| 출력 산출물 | 출력 산출물 | output artifact | P1-10.1 | output-artifact | output-artifact | P1-10.1 source context | 생성형 AI가 만들어 사람이 검토·재사용하는 결과물 |
 | 생성 설정값 | 생성 설정값 | generation setting | P1-4.3 | generation-setting | generation-setting | Google ML Glossary temperature | 생성 시점의 출력 선택 조절값 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |
 | 신뢰 수준 | 신뢰 수준 | confidence level | P1-6.2 | confidence-level | confidence-level | scikit-learn probability calibration | 보정된 확률 출력을 어느 정도 믿을 수 있는지 읽는 수준 |

@@ -37,8 +37,6 @@
 
 --8<-- "reference/concept-glossary-terms/model.ko.md"
 
---8<-- "reference/concept-glossary-terms/comparison-table.ko.md"
-
 --8<-- "reference/concept-glossary-terms/score.ko.md"
 
 --8<-- "reference/concept-glossary-terms/postprocessing.ko.md"
