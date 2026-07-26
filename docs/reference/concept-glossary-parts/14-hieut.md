@@ -76,8 +76,6 @@
 
 --8<-- "reference/concept-glossary-terms/combinatorial-explosion.ko.md"
 
---8<-- "reference/concept-glossary-terms/heuristic-score.ko.md"
-
 --8<-- "reference/concept-glossary-terms/heuristic-function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic.ko.md"

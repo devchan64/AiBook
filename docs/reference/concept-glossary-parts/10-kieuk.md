@@ -20,8 +20,6 @@
 
 --8<-- "reference/concept-glossary-terms/q-value.ko.md"
 
---8<-- "reference/concept-glossary-terms/q-table.ko.md"
-
 
 
 

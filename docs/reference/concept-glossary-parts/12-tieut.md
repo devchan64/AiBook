@@ -20,8 +20,6 @@
 
 --8<-- "reference/concept-glossary-terms/exploration.ko.md"
 
---8<-- "reference/concept-glossary-terms/exploration-cost.ko.md"
-
 
 
 --8<-- "reference/concept-glossary-terms/test-data.ko.md"

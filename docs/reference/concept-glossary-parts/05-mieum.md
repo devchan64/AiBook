@@ -1,7 +1,5 @@
 ## ㅁ
 
---8<-- "reference/concept-glossary-terms/random-threshold.ko.md"
-
 --8<-- "reference/concept-glossary-terms/masking.ko.md"
 
 --8<-- "reference/concept-glossary-terms/masked-language-model.ko.md"
