@@ -69,8 +69,6 @@
 
 --8<-- "reference/concept-glossary-terms/linear-transformation.ko.md"
 
---8<-- "reference/concept-glossary-terms/explanation-facility.ko.md"
-
 --8<-- "reference/concept-glossary-terms/self-attention.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sigmoid.ko.md"
@@ -143,8 +141,6 @@
 
 
 
-
---8<-- "reference/concept-glossary-terms/execution-environment.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/runtime.ko.md"

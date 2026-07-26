@@ -139,8 +139,6 @@
 
 --8<-- "reference/concept-glossary-terms/similarity.ko.md"
 
---8<-- "reference/concept-glossary-terms/connectivity.ko.md"
-
 --8<-- "reference/concept-glossary-terms/speech-generation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dependency.ko.md"
