@@ -87,8 +87,6 @@
 
 --8<-- "reference/concept-glossary-terms/dense-vector.ko.md"
 
---8<-- "reference/concept-glossary-terms/control.ko.md"
-
 --8<-- "reference/concept-glossary-terms/stop-condition.ko.md"
 
 
