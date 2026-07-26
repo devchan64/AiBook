@@ -90,7 +90,6 @@
 | 마스크드 언어 모델 | 마스크드 언어 모델 | masked language model | P1-11.3 | masked-language-model | masked-language-model | P1-11.3 source context | 문장 일부를 가리고 주변 문맥으로 맞히는 사전학습 방식 |
 | 문맥 내 학습 | 문맥 내 학습 | in-context learning | P1-12.1 | in-context-learning | in-context-learning | GPT-3 paper | 모델 가중치 업데이트 없이 현재 입력 문맥으로 출력 행동이 달라지는 현상 |
 | 맥락 | 맥락 | context | P1-12.1 | context | context | prompt engineering context | 작업에 필요한 배경·자료·앞선 결정을 제공하는 입력 요소 |
-| 문서 벡터 | 문서 벡터 | document vector | P1-13.2 | document-vector | document-vector | P1-13.2 source context | 문서나 문서 조각을 검색 비교용 임베딩으로 바꾼 표현 |
 | 벡터 검색 | 벡터 검색 | vector search | P1-13.4 | vector-search | vector-search | vector search implementation context | 임베딩 벡터 공간에서 가까운 후보를 찾는 검색 방식 |
 | 벡터 데이터베이스 | 벡터 데이터베이스 | vector database | P6-12.1 | vector-database | vector-database | vector database context | 벡터 저장, 인덱스, 메타데이터, 필터링을 함께 다루는 시스템 |
 | 프록시 라벨 | 프록시 라벨 | proxy label | P1-8.1 | proxy-label | proxy-label | P1-8.1 source context | 직접 목표를 대신하는 대리 라벨 |
@@ -107,7 +106,6 @@
 | 정확 검색 | 정확 검색 | exact search | P1-13.4 | exact-search | exact-search | vector search context | 가장 가까운 후보를 정확히 찾기 위해 충분히 비교하는 방식 |
 | 참조 유지 전략 | 참조 유지 전략 | reference maintenance strategy | P3-7.5 | reference-maintenance-strategy | reference-maintenance-strategy | P3-7.5 source context | 기준선이나 참조 구간을 고정할지 최근 평소 구간에 맞춰 갱신할지 정하는 운영 선택 |
 | 정보 검색 | 정보 검색 | information retrieval | P1-13.3 | information-retrieval | information-retrieval | IR textbook, RAG context | 질문에 맞는 문서·문단·근거 후보를 찾아오는 문제 |
-| 질문 벡터 | 질문 벡터 | query vector | P1-13.2 | query-vector | query-vector | P1-13.2 source context | 검색 요청을 임베딩으로 바꾼 기준 벡터 |
 | 회귀 | 회귀 | regression | P1-8.1 | regression | regression | P1-8.1 source context | 입력을 바탕으로 연속적인 수치 값이나 점수를 예측하는 모델링 과제 |
 | 학습 | 학습 | learning | P1-5.1 | learning | learning | Deep Learning Book, Mitchell definition | 경험 이후 과제 성능이 개선되는 넓은 개념 |
 | 학습 기반 접근 | 학습 기반 접근 | learning-based approach | P4-1.2 | learning-based-approach | learning-based-approach | P4-1.2 source context | 사례 데이터에서 입력과 출력의 관계를 맞추어 판단 기준을 만드는 접근 |
@@ -365,6 +363,4 @@
 | 정적 배포 | 정적 배포 | static deployment | P7-7.1 | static-deployment | static-deployment | P2-14.2 source context | 미리 생성한 정적 파일을 사이트 형태로 공개하는 방식 |
 | 문서 재현성 | 문서 재현성 | document reproducibility | P2-14.2 | document-reproducibility | document-reproducibility | P2-14.2 source context | 원고, 코드, 이미지, 설정을 맞춰 같은 문서 결과를 다시 만들 수 있는 성질 |
 | 대조 학습 | 대조 학습 | contrastive learning | P6-3.3 | contrastive-learning | contrastive-learning | SimCLR, SBERT context | 가까워져야 할 쌍과 멀어져야 할 쌍으로 표현 공간 배치를 배우는 접근 |
-| 양성 쌍 | 양성 쌍 | positive pair | P6-3.3 | positive-pair | positive-pair | contrastive learning context | 표현 학습에서 서로 가까워져야 한다고 주는 입력 쌍 |
-| 음성 쌍 | 음성 쌍 | negative pair | P6-3.3 | negative-pair | negative-pair | contrastive learning context | 표현 학습에서 서로 멀어져야 한다고 주는 입력 쌍 |
 | GloVe | GloVe | GloVe | P6-3.3 | glove | glove | Pennington et al. 2014 | 전역 단어-단어 동시출현 통계를 반영하는 단어 임베딩 방법 |

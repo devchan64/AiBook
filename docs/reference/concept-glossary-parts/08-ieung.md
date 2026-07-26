@@ -214,7 +214,3 @@
 --8<-- "reference/concept-glossary-terms/input-specification.ko.md"
 
 --8<-- "reference/concept-glossary-terms/input.ko.md"
-
---8<-- "reference/concept-glossary-terms/negative-pair.ko.md"
-
---8<-- "reference/concept-glossary-terms/positive-pair.ko.md"

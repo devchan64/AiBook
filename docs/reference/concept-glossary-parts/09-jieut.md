@@ -77,8 +77,6 @@
 
 --8<-- "reference/concept-glossary-terms/information-loss.ko.md"
 
---8<-- "reference/concept-glossary-terms/query-vector.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/question-structuring.ko.md"
 
