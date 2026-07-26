@@ -22,8 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/least-privilege.ko.md"
 
---8<-- "reference/concept-glossary-terms/recency.ko.md"
-
 --8<-- "reference/concept-glossary-terms/optimization.ko.md"
 
 

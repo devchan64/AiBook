@@ -65,7 +65,6 @@
 | 원-핫 표현 | 원-핫 표현 | one-hot representation | P1-11.1 | one-hot-representation | one-hot-representation | P1-11.1 source context | 항목 위치 한 칸만 1로 켜는 희소한 식별 표현 |
 | 이미지 인식 | 이미지 인식 | image recognition | P1-9.1 | image-recognition | image-recognition | LeCun deep learning review, face recognition survey | 이미지에서 의미 있는 시각 범주를 예측하는 문제 |
 | 자기회귀 모델 | 자기회귀 모델 | autoregressive model | P1-9.2 | autoregressive-model | autoregressive-model | WaveNet paper, language modeling context | 앞 값에 조건부로 다음 값을 순서대로 예측·생성하는 모델 |
-| 자연스러움 | 자연스러움 | naturalness | P1-10.3 | naturalness | naturalness | P1-10.3 source context | 생성 문장이 매끄럽고 그럴듯해 보이는 성질 |
 | 자동 프롬프트 최적화 | 자동 프롬프트 최적화 | automatic prompt optimization | P6-10.3 | automatic-prompt-optimization | automatic-prompt-optimization | 단어별 원고 기준 | 프롬프트 후보 생성·평가·선택을 자동 탐색 문제로 다루는 접근 |
 | 증거 강도 | 증거 강도 | evidence strength | P3-8.1 | evidence-strength | evidence-strength | P3-8.1 source context | 차이나 신호를 어느 문장 강도로 말해도 되는지 판단하기 위한 근거의 단단함 |
 | 모델 점수 | 모델 점수 | model score | P1-5.2 | score | score | Google ML Glossary score context | 후보 출력 비교와 임계값 판단에 쓰이는 모델 출력 수치 |
@@ -93,7 +92,6 @@
 | 프롬프트의 한계 | 프롬프트의 한계 | limit of prompting | P1-12.3 | limit-of-prompting | limit-of-prompting | P1-12.3 source context | 입력을 잘 써도 자동으로 해결되지 않는 문제 |
 | 사전학습 LLM | 사전학습 LLM | pretrained LLM | P1-11.3 | pretrained-llm | pretrained-llm | P1-11.3 source context | 대규모 일반 학습을 먼저 마친 대규모 언어 모델 |
 | 사실성 | 사실성 | factuality | P1-12.3 | factuality | factuality | NIST GenAI Profile | 문장이 실제 사실과 맞는지 보는 기준 |
-| 최신성 | 최신성 | recency | P1-12.3 | recency | recency | P1-12.3 source context | 정보가 지금 시점에도 유효한지 보는 기준 |
 | 유사도 검색 | 유사도 검색 | similarity search | P1-13.2 | similarity-search | similarity-search | information retrieval context | 질문 벡터와 가까운 문서 벡터 후보를 찾는 과정 |
 | 재현율 | 재현율 | recall | P1-13.4 | recall | recall | IR evaluation context | 찾아야 할 관련 후보 중 실제로 찾아낸 비율 |
 | 정밀도 | 정밀도 | precision | P1-13.4 | precision | precision | IR evaluation context | 가져온 후보 중 실제로 관련 있는 후보의 비율 |
@@ -122,7 +120,6 @@
 | 근거성 | 근거 | evidence | P1-12.3 | evidence | evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |
 | 평가 데이터 | 평가 데이터 | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | 모델 학습에 직접 쓰지 않고 학습된 모델의 동작을 확인하기 위해 따로 남겨 둔 데이터 |
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
-| 일관성 | 일관성 | consistency | P1-12.3 | consistency | consistency | P1-12.3 source context | 여러 입력과 반복 결과에서 기준이 유지되는 정도 |
 | RAG | 검색 증강 생성 | retrieval-augmented generation | P1-13.3 | retrieval-augmented-generation-rag | retrieval-augmented-generation-rag | RAG paper | 검색한 외부 자료를 생성 입력에 붙이는 구조 |
 | HNSW | HNSW | hierarchical navigable small world | P1-13.4 | hnsw-hierarchical-navigable-small-world | hnsw-hierarchical-navigable-small-world | HNSW paper | 그래프 기반 ANN의 대표적인 벡터 검색 인덱스 방법 |
 | AI 앱 | AI 앱 | application | P1-14.1 | application | application | P1-14.1 source context | 일반 앱이 아니라 모델·도구·데이터를 묶어 사용자가 만나는 AI 서비스 표면 |

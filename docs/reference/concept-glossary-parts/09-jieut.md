@@ -23,8 +23,6 @@
 
 --8<-- "reference/concept-glossary-terms/noise.ko.md"
 
---8<-- "reference/concept-glossary-terms/naturalness.ko.md"
-
 --8<-- "reference/concept-glossary-terms/long-term-dependency.ko.md"
 --8<-- "reference/concept-glossary-terms/lstm-long-short-term-memory.ko.md"
 

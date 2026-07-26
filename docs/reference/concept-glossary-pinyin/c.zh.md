@@ -98,8 +98,6 @@
 
 --8<-- "reference/concept-glossary-terms/confidential-information.zh.md"
 
---8<-- "reference/concept-glossary-terms/consistency.zh.md"
-
 --8<-- "reference/concept-glossary-terms/generalization.zh.md"
 
 --8<-- "reference/concept-glossary-terms/constraint.zh.md"

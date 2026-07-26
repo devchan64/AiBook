@@ -170,7 +170,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/consistency.ko.md"
 --8<-- "reference/concept-glossary-terms/generalization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/threshold.ko.md"
