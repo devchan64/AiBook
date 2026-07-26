@@ -94,7 +94,6 @@
 | 프롬프트 구조화 | 프롬프트 구조화 | prompt structuring | P1-12.2 | prompt-structuring | prompt-structuring | prompt engineering context | 입력 안의 역할을 나눠 쓰는 방식 |
 | 프롬프트의 한계 | 프롬프트의 한계 | limit of prompting | P1-12.3 | limit-of-prompting | limit-of-prompting | P1-12.3 source context | 입력을 잘 써도 자동으로 해결되지 않는 문제 |
 | 사전학습 LLM | 사전학습 LLM | pretrained LLM | P1-11.3 | pretrained-llm | pretrained-llm | P1-11.3 source context | 대규모 일반 학습을 먼저 마친 대규모 언어 모델 |
-| 스킵그램 | 스킵그램 | Skip-gram | P1-11.1 | skip-gram | skip-gram | P1-11.1 source context | 중심 단어로 주변 단어를 예측하며 단어 벡터를 배우는 word2vec 방식 |
 | 사실성 | 사실성 | factuality | P1-12.3 | factuality | factuality | NIST GenAI Profile | 문장이 실제 사실과 맞는지 보는 기준 |
 | 최신성 | 최신성 | recency | P1-12.3 | recency | recency | P1-12.3 source context | 정보가 지금 시점에도 유효한지 보는 기준 |
 | 유사도 검색 | 유사도 검색 | similarity search | P1-13.2 | similarity-search | similarity-search | information retrieval context | 질문 벡터와 가까운 문서 벡터 후보를 찾는 과정 |
@@ -122,7 +121,6 @@
 | 출력 정의 | 출력 정의 | output definition | P1-4.4 | output-definition | output-definition | P1-4.4 source context | 모델이 내야 하는 결과 형식과 의미 |
 | 평가 설계 | 평가 설계 | evaluation design | P3-9.13 | evaluation-design | evaluation-design | P3-9.13 source context | 문제 구조에 맞는 데이터 분할, 지표, 비교 조건을 정하는 평가 기준 설계 |
 | 논리적 추론 | 논리적 추론 | reasoning | P1-5.3 | reasoning | reasoning | P1-5.3 source context | 모델 실행과 구분해야 하는 논리적 사고 과정 |
-| CBOW | 연속 bag-of-words | continuous bag-of-words | P1-11.1 | cbow-continuous-bag-of-words | cbow-continuous-bag-of-words | P1-11.1 source context | 주변 단어로 중심 단어를 예측하며 단어 벡터를 배우는 word2vec 방식 |
 | 근거성 | 근거 | evidence | P1-12.3 | evidence | evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |
 | 평가 데이터 | 평가 데이터 | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | 모델 학습에 직접 쓰지 않고 학습된 모델의 동작을 확인하기 위해 따로 남겨 둔 데이터 |
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
@@ -306,4 +304,3 @@
 | 배포 | 배포 | deployment | P2-14.2 | deployment | deployment | P2-14.2 source context | 독자에게 보이는 문서 결과를 실제 공개 상태로 갱신하는 일 |
 | 문서 재현성 | 문서 재현성 | document reproducibility | P2-14.2 | document-reproducibility | document-reproducibility | P2-14.2 source context | 원고, 코드, 이미지, 설정을 맞춰 같은 문서 결과를 다시 만들 수 있는 성질 |
 | 대조 학습 | 대조 학습 | contrastive learning | P6-3.3 | contrastive-learning | contrastive-learning | SimCLR, SBERT context | 가까워져야 할 쌍과 멀어져야 할 쌍으로 표현 공간 배치를 배우는 접근 |
-| GloVe | GloVe | GloVe | P6-3.3 | glove | glove | Pennington et al. 2014 | 전역 단어-단어 동시출현 통계를 반영하는 단어 임베딩 방법 |

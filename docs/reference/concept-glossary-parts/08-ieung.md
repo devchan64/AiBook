@@ -111,8 +111,6 @@
 
 --8<-- "reference/concept-glossary-terms/topology.ko.md"
 
---8<-- "reference/concept-glossary-terms/cbow-continuous-bag-of-words.ko.md"
-
 --8<-- "reference/concept-glossary-terms/orchestration.ko.md"
 
 --8<-- "reference/concept-glossary-terms/optimizer.ko.md"
