@@ -61,9 +61,6 @@
 --8<-- "reference/concept-glossary-terms/target-candidate.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/random.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/in-context-learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/context-window.ko.md"

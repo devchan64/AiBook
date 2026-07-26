@@ -114,9 +114,6 @@
 
 --8<-- "reference/concept-glossary-terms/scalar-multiplication.ko.md"
 
---8<-- "reference/concept-glossary-terms/scale.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/confidence-interval.ko.md"
 
 --8<-- "reference/concept-glossary-terms/correlation-coefficient.ko.md"
@@ -154,8 +151,6 @@
 --8<-- "reference/concept-glossary-terms/service-constraints.ko.md"
 
 --8<-- "reference/concept-glossary-terms/software-regression.ko.md"
-
---8<-- "reference/concept-glossary-terms/system.ko.md"
 
 --8<-- "reference/concept-glossary-terms/seq2seq.ko.md"
 
