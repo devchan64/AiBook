@@ -13,7 +13,6 @@
 --8<-- "reference/concept-glossary-terms/confusion-matrix.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/candidate-distribution.ko.md"
 
 --8<-- "reference/concept-glossary-terms/training-mode.ko.md"
 
@@ -38,7 +37,6 @@
 --8<-- "reference/concept-glossary-terms/convolution.ko.md"
 --8<-- "reference/concept-glossary-terms/interpretation.ko.md"
 --8<-- "reference/concept-glossary-terms/interpretation-boundary.ko.md"
---8<-- "reference/concept-glossary-terms/hash-table.ko.md"
 
 --8<-- "reference/concept-glossary-terms/format-consistency.ko.md"
 
@@ -74,7 +72,6 @@
 
 --8<-- "reference/concept-glossary-terms/hallucination.ko.md"
 
---8<-- "reference/concept-glossary-terms/environment-variable.ko.md"
 --8<-- "reference/concept-glossary-terms/environment-mismatch.ko.md"
 --8<-- "reference/concept-glossary-terms/activation.ko.md"
 --8<-- "reference/concept-glossary-terms/activation-function.ko.md"
@@ -85,12 +82,8 @@
 
 --8<-- "reference/concept-glossary-terms/combinatorial-explosion.ko.md"
 
---8<-- "reference/concept-glossary-terms/postprocessing.ko.md"
-
 --8<-- "reference/concept-glossary-terms/heuristic-score.ko.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic-function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic.ko.md"
-
---8<-- "reference/concept-glossary-terms/histogram.ko.md"

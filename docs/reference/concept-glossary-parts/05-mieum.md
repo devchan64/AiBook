@@ -2,13 +2,9 @@
 
 --8<-- "reference/concept-glossary-terms/random-threshold.ko.md"
 
---8<-- "reference/concept-glossary-terms/bar-chart.ko.md"
-
 --8<-- "reference/concept-glossary-terms/masking.ko.md"
 
 --8<-- "reference/concept-glossary-terms/masked-language-model.ko.md"
-
---8<-- "reference/concept-glossary-terms/markdown-cell.ko.md"
 
 --8<-- "reference/concept-glossary-terms/margin.ko.md"
 
@@ -31,10 +27,6 @@
 
 --8<-- "reference/concept-glossary-terms/multi-head-attention.ko.md"
 
---8<-- "reference/concept-glossary-terms/method.ko.md"
-
---8<-- "reference/concept-glossary-terms/methodology.ko.md"
-
 --8<-- "reference/concept-glossary-terms/command.ko.md"
 
 --8<-- "reference/concept-glossary-terms/median.ko.md"
@@ -55,23 +47,28 @@
 
 --8<-- "reference/concept-glossary-terms/model.ko.md"
 
+--8<-- "reference/concept-glossary-terms/comparison-table.ko.md"
+
+--8<-- "reference/concept-glossary-terms/score.ko.md"
+
+--8<-- "reference/concept-glossary-terms/postprocessing.ko.md"
+
 --8<-- "reference/concept-glossary-terms/modeling-task.ko.md"
+
+--8<-- "reference/concept-glossary-terms/output-structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/motion-planning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/population.ko.md"
 
---8<-- "reference/concept-glossary-terms/population-variance.ko.md"
 
 --8<-- "reference/concept-glossary-terms/objective-function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/target-candidate.ko.md"
 
---8<-- "reference/concept-glossary-terms/undirected-graph.ko.md"
 
 --8<-- "reference/concept-glossary-terms/random.ko.md"
 
---8<-- "reference/concept-glossary-terms/degree-of-belief.ko.md"
 
 --8<-- "reference/concept-glossary-terms/in-context-learning.ko.md"
 
@@ -88,7 +85,6 @@
 
 --8<-- "reference/concept-glossary-terms/derivative.ko.md"
 
---8<-- "reference/concept-glossary-terms/derivative-at-a-point.ko.md"
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.ko.md"
 

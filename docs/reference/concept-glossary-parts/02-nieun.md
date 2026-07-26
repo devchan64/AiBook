@@ -8,9 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/dot-product.ko.md"
 
---8<-- "reference/concept-glossary-terms/node.ko.md"
-
---8<-- "reference/concept-glossary-terms/accumulation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/accumulation-effect.ko.md"
 

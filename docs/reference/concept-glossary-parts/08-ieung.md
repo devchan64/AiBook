@@ -25,23 +25,16 @@
 
 --8<-- "reference/concept-glossary-terms/algorithm.ko.md"
 
---8<-- "reference/concept-glossary-terms/import-statement.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/ai-artificial-intelligence.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ai-ethics.ko.md"
 
 --8<-- "reference/concept-glossary-terms/notation.ko.md"
 
---8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/llm.ko.md"
 
 --8<-- "reference/concept-glossary-terms/rlhf-reinforcement-learning-from-human-feedback.ko.md"
-
---8<-- "reference/concept-glossary-terms/ndim.ko.md"
 
 --8<-- "reference/concept-glossary-terms/support-vector-machine.ko.md"
 
@@ -62,8 +55,6 @@
 
 --8<-- "reference/concept-glossary-terms/application.ko.md"
 
-
---8<-- "reference/concept-glossary-terms/shallow-copy.ko.md"
 
 --8<-- "reference/concept-glossary-terms/attention.ko.md"
 
@@ -87,6 +78,8 @@
 
 --8<-- "reference/concept-glossary-terms/work-automation.ko.md"
 
+--8<-- "reference/concept-glossary-terms/productivity.ko.md"
+
 --8<-- "reference/concept-glossary-terms/ai-agent.ko.md"
 
 --8<-- "reference/concept-glossary-terms/goal.ko.md"
@@ -107,7 +100,6 @@
 
 --8<-- "reference/concept-glossary-terms/n-gram.ko.md"
 
---8<-- "reference/concept-glossary-terms/edge.ko.md"
 --8<-- "reference/concept-glossary-terms/backpropagation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/backward-pass.ko.md"
@@ -120,15 +112,11 @@
 
 --8<-- "reference/concept-glossary-terms/operation.ko.md"
 
---8<-- "reference/concept-glossary-terms/adjacency-list.ko.md"
 
 --8<-- "reference/concept-glossary-terms/element-wise-multiplication.ko.md"
 
---8<-- "reference/concept-glossary-terms/column.ko.md"
-
 --8<-- "reference/concept-glossary-terms/column-role-separation.ko.md"
 
---8<-- "reference/concept-glossary-terms/linked-list.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/exception.ko.md"
@@ -155,8 +143,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/role-aware-reading-across-heterogeneous-scales.ko.md"
-
---8<-- "reference/concept-glossary-terms/update.ko.md"
 
 --8<-- "reference/concept-glossary-terms/decision.ko.md"
 
@@ -212,10 +198,6 @@
 
 --8<-- "reference/concept-glossary-terms/outlier.ko.md"
 
---8<-- "reference/concept-glossary-terms/iterable.ko.md"
-
---8<-- "reference/concept-glossary-terms/iterator.ko.md"
-
 --8<-- "reference/concept-glossary-terms/human-oversight.ko.md"
 
 --8<-- "reference/concept-glossary-terms/index.ko.md"
@@ -228,8 +210,14 @@
 
 --8<-- "reference/concept-glossary-terms/argument.ko.md"
 
+--8<-- "reference/concept-glossary-terms/trustworthiness.ko.md"
+
+--8<-- "reference/concept-glossary-terms/report.ko.md"
+
 
 --8<-- "reference/concept-glossary-terms/credential.ko.md"
+
+--8<-- "reference/concept-glossary-terms/review-cost.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/encoder.ko.md"

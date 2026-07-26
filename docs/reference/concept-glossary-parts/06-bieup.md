@@ -30,13 +30,8 @@
 --8<-- "reference/concept-glossary-terms/loop.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/mutable-value.ko.md"
-
 --8<-- "reference/concept-glossary-terms/criterion.ko.md"
 
---8<-- "reference/concept-glossary-terms/summation-index.ko.md"
-
---8<-- "reference/concept-glossary-terms/return-value.ko.md"
 
 --8<-- "reference/concept-glossary-terms/iteration.ko.md"
 
@@ -45,7 +40,6 @@
 --8<-- "reference/concept-glossary-terms/discovery.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/directed-graph.ko.md"
 
 --8<-- "reference/concept-glossary-terms/array.ko.md"
 --8<-- "reference/concept-glossary-terms/batch-normalization.ko.md"
@@ -62,8 +56,6 @@
 --8<-- "reference/concept-glossary-terms/version-pinning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/version-control.ko.md"
-
---8<-- "reference/concept-glossary-terms/legend.ko.md"
 
 --8<-- "reference/concept-glossary-terms/category.ko.md"
 
@@ -96,8 +88,6 @@
 --8<-- "reference/concept-glossary-terms/augmentation.ko.md"
 
 
-
---8<-- "reference/concept-glossary-terms/report.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/reward.ko.md"
@@ -136,8 +126,6 @@
 
 --8<-- "reference/concept-glossary-terms/uncertainty.ko.md"
 
---8<-- "reference/concept-glossary-terms/branch.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/broadcasting.ko.md"
 
@@ -145,12 +133,10 @@
 --8<-- "reference/concept-glossary-terms/nondeterministic.ko.md"
 
 --8<-- "reference/concept-glossary-terms/comparable-reference-group.ko.md"
---8<-- "reference/concept-glossary-terms/comparison-table.ko.md"
 --8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
 
 --8<-- "reference/concept-glossary-terms/secret.ko.md"
 
---8<-- "reference/concept-glossary-terms/non-linear-structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cost.ko.md"
 

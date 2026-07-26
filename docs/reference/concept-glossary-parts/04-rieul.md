@@ -18,9 +18,9 @@
 
 --8<-- "reference/concept-glossary-terms/labeling.ko.md"
 
---8<-- "reference/concept-glossary-terms/line-plot.ko.md"
-
 --8<-- "reference/concept-glossary-terms/random-forest.ko.md"
+
+--8<-- "reference/concept-glossary-terms/accumulation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reinforce.ko.md"
 
@@ -46,7 +46,5 @@
 --8<-- "reference/concept-glossary-terms/local-environment.ko.md"
 
 --8<-- "reference/concept-glossary-terms/long-context.ko.md"
-
---8<-- "reference/concept-glossary-terms/redirection.ko.md"
 
 --8<-- "reference/concept-glossary-terms/list.ko.md"

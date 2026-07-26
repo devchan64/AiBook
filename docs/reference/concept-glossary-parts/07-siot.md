@@ -41,11 +41,6 @@
 
 --8<-- "reference/concept-glossary-terms/sequence-modeling.ko.md"
 
---8<-- "reference/concept-glossary-terms/scatter-plot.ko.md"
-
---8<-- "reference/concept-glossary-terms/prior-belief.ko.md"
-
---8<-- "reference/concept-glossary-terms/posterior-belief.ko.md"
 
 --8<-- "reference/concept-glossary-terms/top-k.ko.md"
 
@@ -58,8 +53,6 @@
 --8<-- "reference/concept-glossary-terms/sim-to-real-gap.ko.md"
 
 --8<-- "reference/concept-glossary-terms/time-split.ko.md"
-
---8<-- "reference/concept-glossary-terms/relative-path.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sample.ko.md"
 
@@ -75,10 +68,6 @@
 
 --8<-- "reference/concept-glossary-terms/sample-by-sample-comparison-table.ko.md"
 
---8<-- "reference/concept-glossary-terms/output-artifact.ko.md"
-
---8<-- "reference/concept-glossary-terms/productivity.ko.md"
-
 --8<-- "reference/concept-glossary-terms/generative-model.ko.md"
 
 
@@ -90,9 +79,6 @@
 --8<-- "reference/concept-glossary-terms/generation-setting.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/server.ko.md"
-
---8<-- "reference/concept-glossary-terms/linear-structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/linear-algebra.ko.md"
 
@@ -112,14 +98,7 @@
 
 --8<-- "reference/concept-glossary-terms/skip-gram.ko.md"
 
---8<-- "reference/concept-glossary-terms/shell-script.ko.md"
-
 --8<-- "reference/concept-glossary-terms/shell.ko.md"
-
---8<-- "reference/concept-glossary-terms/log.ko.md"
-
---8<-- "reference/concept-glossary-terms/attribute.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/loss-curve.ko.md"
 
@@ -150,7 +129,6 @@
 
 --8<-- "reference/concept-glossary-terms/scale.ko.md"
 
---8<-- "reference/concept-glossary-terms/true-value.ko.md"
 
 --8<-- "reference/concept-glossary-terms/confidence-interval.ko.md"
 
@@ -158,13 +136,8 @@
 
 --8<-- "reference/concept-glossary-terms/forward-pass.ko.md"
 
---8<-- "reference/concept-glossary-terms/script.ko.md"
-
 --8<-- "reference/concept-glossary-terms/slice.ko.md"
 
---8<-- "reference/concept-glossary-terms/stack.ko.md"
-
---8<-- "reference/concept-glossary-terms/staging-area.ko.md"
 
 --8<-- "reference/concept-glossary-terms/slicing.ko.md"
 
@@ -198,13 +171,9 @@
 
 --8<-- "reference/concept-glossary-terms/software-regression.ko.md"
 
---8<-- "reference/concept-glossary-terms/streaming.ko.md"
-
 --8<-- "reference/concept-glossary-terms/system.ko.md"
 
 --8<-- "reference/concept-glossary-terms/seq2seq.ko.md"
-
---8<-- "reference/concept-glossary-terms/formula.ko.md"
 
 --8<-- "reference/concept-glossary-terms/expression.ko.md"
 
@@ -228,5 +197,3 @@
 --8<-- "reference/concept-glossary-terms/runtime.ko.md"
 
 --8<-- "reference/concept-glossary-terms/trust-boundary.ko.md"
-
---8<-- "reference/concept-glossary-terms/usage-limit.ko.md"

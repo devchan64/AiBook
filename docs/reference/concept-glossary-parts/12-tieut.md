@@ -5,8 +5,6 @@
 
 --8<-- "reference/concept-glossary-terms/t-sne.ko.md"
 
---8<-- "reference/concept-glossary-terms/trustworthiness.ko.md"
-
 --8<-- "reference/concept-glossary-terms/trpo.ko.md"
 
 --8<-- "reference/concept-glossary-terms/target.ko.md"
@@ -28,11 +26,7 @@
 --8<-- "reference/concept-glossary-terms/terminal.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/test.ko.md"
-
 --8<-- "reference/concept-glossary-terms/test-data.ko.md"
-
---8<-- "reference/concept-glossary-terms/table.ko.md"
 
 --8<-- "reference/concept-glossary-terms/text-and-data-mining.ko.md"
 
@@ -49,7 +43,6 @@
 
 --8<-- "reference/concept-glossary-terms/statistical-language-model.ko.md"
 
---8<-- "reference/concept-glossary-terms/statistic.ko.md"
 
 --8<-- "reference/concept-glossary-terms/statistical-inference.ko.md"
 

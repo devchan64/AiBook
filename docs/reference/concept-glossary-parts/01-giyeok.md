@@ -14,25 +14,20 @@
 
 --8<-- "reference/concept-glossary-terms/hypothesis-testing.ko.md"
 
---8<-- "reference/concept-glossary-terms/curve.ko.md"
 
 --8<-- "reference/concept-glossary-terms/virtual-environment.ko.md"
 
 --8<-- "reference/concept-glossary-terms/weight.ko.md"
 
---8<-- "reference/concept-glossary-terms/edge-weight.ko.md"
 
 --8<-- "reference/concept-glossary-terms/relation.ko.md"
 
---8<-- "reference/concept-glossary-terms/hierarchy.ko.md"
 
 --8<-- "reference/concept-glossary-terms/value.ko.md"
 
 --8<-- "reference/concept-glossary-terms/value-based-reinforcement-learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/expected-reward.ko.md"
-
---8<-- "reference/concept-glossary-terms/default-value.ko.md"
 
 --8<-- "reference/concept-glossary-terms/weighted-sum.ko.md"
 
@@ -92,8 +87,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/review-cost.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.ko.md"
 
@@ -120,7 +113,6 @@
 
 --8<-- "reference/concept-glossary-terms/calculation-language.ko.md"
 
---8<-- "reference/concept-glossary-terms/limit-approach.ko.md"
 
 --8<-- "reference/concept-glossary-terms/planning.ko.md"
 
@@ -189,8 +181,6 @@
 --8<-- "reference/concept-glossary-terms/baseline.ko.md"
 
 --8<-- "reference/concept-glossary-terms/symbolic-ai.ko.md"
-
---8<-- "reference/concept-glossary-terms/deep-copy.ko.md"
 
 --8<-- "reference/concept-glossary-terms/glove.ko.md"
 

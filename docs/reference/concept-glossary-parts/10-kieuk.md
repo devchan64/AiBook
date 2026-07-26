@@ -26,15 +26,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/commit.ko.md"
-
---8<-- "reference/concept-glossary-terms/comprehension.ko.md"
-
---8<-- "reference/concept-glossary-terms/key-based-structure.ko.md"
-
---8<-- "reference/concept-glossary-terms/code.ko.md"
-
---8<-- "reference/concept-glossary-terms/code-cell.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cosine-similarity.ko.md"
 
@@ -42,12 +33,7 @@
 
 --8<-- "reference/concept-glossary-terms/query-key-value-qkv.ko.md"
 
---8<-- "reference/concept-glossary-terms/queue.ko.md"
-
---8<-- "reference/concept-glossary-terms/client.ko.md"
 
 --8<-- "reference/concept-glossary-terms/class.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cluster-label.ko.md"
-
---8<-- "reference/concept-glossary-terms/key.ko.md"
