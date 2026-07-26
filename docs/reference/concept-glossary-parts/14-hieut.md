@@ -1,7 +1,5 @@
 ## ㅎ
 
---8<-- "reference/concept-glossary-terms/histogram-binning.ko.md"
-
 --8<-- "reference/concept-glossary-terms/hessian.ko.md"
 
 --8<-- "reference/concept-glossary-terms/hnsw-hierarchical-navigable-small-world.ko.md"
@@ -68,7 +66,5 @@
 --8<-- "reference/concept-glossary-terms/regression.ko.md"
 
 --8<-- "reference/concept-glossary-terms/combinatorial-explosion.ko.md"
-
---8<-- "reference/concept-glossary-terms/heuristic-function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic.ko.md"
