@@ -100,18 +100,15 @@
 | 프록시 라벨 | 프록시 라벨 | proxy label | P1-8.1 | proxy-label | proxy-label | P1-8.1 source context | 직접 목표를 대신하는 대리 라벨 |
 | 프롬프트 | 프롬프트 | prompt | P1-12.1 | prompt | prompt | OpenAI prompt engineering, GPT-3 paper | 현재 응답 조건을 담은 입력 전체 |
 | 프롬프트 구조화 | 프롬프트 구조화 | prompt structuring | P1-12.2 | prompt-structuring | prompt-structuring | prompt engineering context | 입력 안의 역할을 나눠 쓰는 방식 |
-| 프롬프트 예시 | 프롬프트 예시 | prompt example, task demonstration | P1-12.2 | prompt-example | prompt-example | GPT-3 paper | 현재 입력 안에서 원하는 패턴이나 판단 기준을 보여 주는 예시 |
 | 프롬프트의 한계 | 프롬프트의 한계 | limit of prompting | P1-12.3 | limit-of-prompting | limit-of-prompting | P1-12.3 source context | 입력을 잘 써도 자동으로 해결되지 않는 문제 |
 | 사전학습 LLM | 사전학습 LLM | pretrained LLM | P1-11.3 | pretrained-llm | pretrained-llm | P1-11.3 source context | 대규모 일반 학습을 먼저 마친 대규모 언어 모델 |
 | 스킵그램 | 스킵그램 | Skip-gram | P1-11.1 | skip-gram | skip-gram | P1-11.1 source context | 중심 단어로 주변 단어를 예측하며 단어 벡터를 배우는 word2vec 방식 |
 | 사실성 | 사실성 | factuality | P1-12.3 | factuality | factuality | NIST GenAI Profile | 문장이 실제 사실과 맞는지 보는 기준 |
 | 최신성 | 최신성 | recency | P1-12.3 | recency | recency | P1-12.3 source context | 정보가 지금 시점에도 유효한지 보는 기준 |
-| 상위 k개 | 상위 k개 | top-k | P1-13.2 | top-k | top-k | vector retrieval context | 가까운 후보 k개를 가져오는 검색 결과 선택 방식 |
 | 유사도 검색 | 유사도 검색 | similarity search | P1-13.2 | similarity-search | similarity-search | information retrieval context | 질문 벡터와 가까운 문서 벡터 후보를 찾는 과정 |
 | 재현율 | 재현율 | recall | P1-13.4 | recall | recall | IR evaluation context | 찾아야 할 관련 후보 중 실제로 찾아낸 비율 |
 | 정밀도 | 정밀도 | precision | P1-13.4 | precision | precision | IR evaluation context | 가져온 후보 중 실제로 관련 있는 후보의 비율 |
 | 정확 검색 | 정확 검색 | exact search | P1-13.4 | exact-search | exact-search | vector search context | 가장 가까운 후보를 정확히 찾기 위해 충분히 비교하는 방식 |
-| 전체 비교 | 전체 비교 | brute-force search | P1-13.4 | brute-force-search | brute-force-search | vector search context | 모든 벡터를 매번 직접 비교하는 기준선 검색 |
 | 참조 유지 전략 | 참조 유지 전략 | reference maintenance strategy | P3-7.5 | reference-maintenance-strategy | reference-maintenance-strategy | P3-7.5 source context | 기준선이나 참조 구간을 고정할지 최근 평소 구간에 맞춰 갱신할지 정하는 운영 선택 |
 | 정보 검색 | 정보 검색 | information retrieval | P1-13.3 | information-retrieval | information-retrieval | IR textbook, RAG context | 질문에 맞는 문서·문단·근거 후보를 찾아오는 문제 |
 | 질문 벡터 | 질문 벡터 | query vector | P1-13.2 | query-vector | query-vector | P1-13.2 source context | 검색 요청을 임베딩으로 바꾼 기준 벡터 |
@@ -132,15 +129,11 @@
 | 확률적 예측 | 확률적 예측 | probabilistic prediction | P1-6.3 | probabilistic-prediction | probabilistic-prediction | Google ML Glossary probabilistic regression model | 가능한 결과의 범위나 가능성을 함께 표현하는 예측 |
 | 확률적 선택 | 확률적 선택 | probabilistic choice | P1-10.2 | probabilistic-choice | probabilistic-choice | P1-10.2 source context | 후보 분포에서 실제 출력 하나를 선택하는 과정 |
 | 키워드 검색 | 키워드 검색 | keyword search | P1-13.2 | keyword-search | keyword-search | information retrieval context | 단어나 구문 일치를 기준으로 후보를 찾는 검색 방식 |
-| 입력 조건 | 입력 조건 | input condition | P1-12.1 | input-condition | input-condition | P1-12.1 source context | 현재 실행에서 프롬프트로 제공한 작업 조건 |
 | 출력 정의 | 출력 정의 | output definition | P1-4.4 | output-definition | output-definition | P1-4.4 source context | 모델이 내야 하는 결과 형식과 의미 |
-| 출력 형식 | 출력 형식 | output format | P1-12.1 | output-format | output-format | OpenAI prompt engineering | 결과를 표, 목록, JSON, 문단 등 어떤 모양으로 받을지 정하는 조건 |
 | 평가 설계 | 평가 설계 | evaluation design | P3-9.13 | evaluation-design | evaluation-design | P3-9.13 source context | 문제 구조에 맞는 데이터 분할, 지표, 비교 조건을 정하는 평가 기준 설계 |
 | 논리적 추론 | 논리적 추론 | reasoning | P1-5.3 | reasoning | reasoning | P1-5.3 source context | 모델 실행과 구분해야 하는 논리적 사고 과정 |
 | CBOW | 연속 bag-of-words | continuous bag-of-words | P1-11.1 | cbow-continuous-bag-of-words | cbow-continuous-bag-of-words | P1-11.1 source context | 주변 단어로 중심 단어를 예측하며 단어 벡터를 배우는 word2vec 방식 |
 | 어텐션 가중치 | 어텐션 가중치 | attention weight | P1-11.2 | attention-weight | attention-weight | P1-11.2 source context | 모델 파라미터 weight와 구분되는 현재 문맥의 참고 비중 |
-| 지시 | 지시 | instruction | P1-12.1 | instruction | instruction | InstructGPT, prompt engineering context | 모델에게 수행할 작업을 알려 주는 요청 요소 |
-| 제약 | 제약 | constraint | P1-12.1 | constraint | constraint | P1-12.1 source context | 길이, 범위, 금지 조건처럼 결과 범위를 좁히는 조건 |
 | 근거성 | 근거 | evidence | P1-12.3 | evidence | evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |
 | 평가 데이터 | 평가 데이터 | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | 모델 학습에 직접 쓰지 않고 학습된 모델의 동작을 확인하기 위해 따로 남겨 둔 데이터 |
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
@@ -163,7 +156,6 @@
 | 종료 조건 | 종료 조건 | stop condition | P1-14.3 | stop-condition | stop-condition | P1-14.3 source context | 작업을 계속할지 멈출지 정하는 기준 |
 | MCP | 모델 컨텍스트 프로토콜 | Model Context Protocol | P1-14.4 | model-context-protocol-mcp | model-context-protocol-mcp | MCP specification context | AI 앱과 외부 도구·리소스·프롬프트 연결을 표준화하려는 프로토콜 |
 | 외부 리소스 | 외부 리소스 | external resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽는 외부 맥락 데이터 |
-| 도구 발견 | 도구 발견 | discovery | P1-14.4 | discovery | discovery | P1-14.4 source context | 연결 대상이 제공하는 도구와 리소스를 먼저 확인하는 단계 |
 | 신뢰 경계 | 신뢰 경계 | trust boundary | P1-14.4 | trust-boundary | trust-boundary | P1-14.4 source context | 믿을 수 있는 영역과 검증해야 하는 영역을 나누는 경계 |
 | 하네스 | 하네스 | harness | P1-14.5 | harness | harness | P1-14.5 source context | 실행을 감싸고 기록·평가·재실행을 가능하게 하는 틀 |
 | 추적 | 추적 | trace | P1-14.5 | trace | trace | P1-14.5 source context | 한 요청이 거친 단계와 연결 관계를 따라 남기는 기록 |
@@ -239,7 +231,6 @@
 | 벡터 | 벡터 | vector | P2-3.1 | vector | vector | P2-3.1 source context | 순서가 있는 여러 값을 한 묶음으로 담은 표현 |
 | 행렬 | 행렬 | matrix | P2-3.1 | matrix | matrix | P2-3.1 source context | 행과 열 구조로 배열한 2차원 숫자 표현 |
 | 벡터 공간 | 벡터 공간 | vector space | P2-3.2 | vector-space | vector-space | P2-3.2 source context | 벡터들이 놓이고 서로 비교되는 표현 공간 |
-| 벡터 위치 | 벡터 위치 | vector position | P2-3.2 | vector-position | vector-position | P2-3.2 source context | 벡터 공간에서 좌표나 점처럼 읽는 표현의 자리 |
 | 차원 | 차원 | dimension | P2-3.2 | dimension | dimension | P2-3.2 source context | 벡터가 가진 값의 개수 또는 좌표 축의 수 |
 | 위상 | 위상 | topology | P2-3.2 | topology | topology | P2-3.2 source context | 공간의 가까움·연결·연속성 구조를 보는 추상 관점 |
 | 매니폴드 | 매니폴드 | manifold | P2-3.2 | manifold | manifold | P2-3.2 source context | 데이터 표현들이 이루는 더 낮거나 부드러운 공간 구조 |
@@ -262,8 +253,6 @@
 | 미분 | 미분 | derivative | P2-4.3 | derivative | derivative | P2-4.3 source context | 입력을 아주 조금 바꿨을 때 출력이 얼마나 변하는지 나타내는 순간 변화율 |
 | 편미분 | 편미분 | partial derivative | P2-4.3 | partial-derivative | partial-derivative | P2-4.3 source context | 여러 입력 중 하나만 바꿨다고 보고 계산한 변화율 |
 | 그래디언트 | 그래디언트 | gradient | P2-4.3 | gradient | gradient | P2-4.3 source context | 여러 편미분을 순서 있게 모은 변화율 벡터 |
-| 나블라 | 나블라 | nabla | P2-4.3 | nabla | nabla | P2-4.3 source context | 그래디언트를 적을 때 쓰는 ∇ 기호의 이름 |
-| 조정 방향 | 조정 방향 | update direction | P2-4.4 | update-direction | update-direction | P2-4.4 source context | 손실을 줄이기 위해 파라미터를 움직일 방향 정보 |
 | 방향도함수 | 방향도함수 | directional derivative | P2-4.5 | directional-derivative | directional-derivative | P2-4.5 source context | 특정 방향으로 조금 움직였을 때 함수값이 얼마나 변하는지 보는 변화율 |
 | 벡터해석 | 벡터해석 | vector calculus | P2-4.5 | vector-calculus | vector-calculus | P2-4.5 source context | 벡터·공간·함수·변화율을 함께 다루는 수학 체계 |
 | 일변수 함수 | 일변수 함수 | single-variable function | P2-4.5 | single-variable-function | single-variable-function | P2-4.5 source context | 입력 변수가 하나인 함수 |
@@ -388,4 +377,3 @@
 | 양성 쌍 | 양성 쌍 | positive pair | P6-3.3 | positive-pair | positive-pair | contrastive learning context | 표현 학습에서 서로 가까워져야 한다고 주는 입력 쌍 |
 | 음성 쌍 | 음성 쌍 | negative pair | P6-3.3 | negative-pair | negative-pair | contrastive learning context | 표현 학습에서 서로 멀어져야 한다고 주는 입력 쌍 |
 | GloVe | GloVe | GloVe | P6-3.3 | glove | glove | Pennington et al. 2014 | 전역 단어-단어 동시출현 통계를 반영하는 단어 임베딩 방법 |
-| 전수 비교 | 전수 비교 | full scan | P6-3.4 | full-scan | full-scan | P6-3.4 source context | 모든 후보 벡터를 빠짐없이 비교하는 기준선 검색 방식 |

@@ -63,8 +63,6 @@
 
 --8<-- "reference/concept-glossary-terms/preprocessing.ko.md"
 
---8<-- "reference/concept-glossary-terms/brute-force-search.ko.md"
-
 --8<-- "reference/concept-glossary-terms/exact-search.ko.md"
 
 --8<-- "reference/concept-glossary-terms/regularization.ko.md"
@@ -98,11 +96,7 @@
 --8<-- "reference/concept-glossary-terms/accuracy.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/constraint.ko.md"
-
 --8<-- "reference/concept-glossary-terms/condition.ko.md"
-
---8<-- "reference/concept-glossary-terms/update-direction.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dense-vector.ko.md"
 
@@ -122,8 +116,6 @@
 
 --8<-- "reference/concept-glossary-terms/instruction-tuning.ko.md"
 
---8<-- "reference/concept-glossary-terms/instruction.ko.md"
-
 --8<-- "reference/concept-glossary-terms/knowledge-base.ko.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-representation.ko.md"
@@ -136,5 +128,3 @@
 --8<-- "reference/concept-glossary-terms/direct-lineage.ko.md"
 --8<-- "reference/concept-glossary-terms/local-pattern.ko.md"
 --8<-- "reference/concept-glossary-terms/folding-rule.ko.md"
-
---8<-- "reference/concept-glossary-terms/full-scan.ko.md"

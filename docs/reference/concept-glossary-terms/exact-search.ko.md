@@ -4,6 +4,6 @@
 
 - 뜻: 가장 가까운 후보를 정확히 찾기 위해 필요한 비교를 충분히 수행하는 검색 방식입니다. 벡터 검색에서는 질문 벡터와 문서 벡터들을 폭넓게 비교해 실제 최근접 후보를 놓치지 않으려는 접근으로 이해할 수 있습니다.
 - 왜 중요한가: 근사 검색과의 절충을 이해하기 위한 기준선이기 때문입니다. 정확 검색은 결과 해석이 단순하지만 데이터가 커질수록 느려질 수 있습니다. 이 개념이 있어야 벡터 검색 구현에서 왜 항상 완벽한 최근접만 고집하지 않고, 속도와 품질 사이의 균형을 잡는지 이해하게 됩니다.
-- 함께 볼 개념: `근사 검색(approximate search)`, `전체 비교(brute-force search)`, `근사 최근접 이웃(ANN, approximate nearest neighbor)`, `벡터 검색(vector search)`
+- 함께 볼 개념: `근사 검색(approximate search)`, `근사 최근접 이웃(ANN, approximate nearest neighbor)`, `벡터 검색(vector search)`, `검색 인덱스(search index)`
 - 중심 Section: `P1-13.4`
 - 등장 Section:

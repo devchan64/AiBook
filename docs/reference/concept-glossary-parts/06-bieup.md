@@ -34,10 +34,6 @@
 
 --8<-- "reference/concept-glossary-terms/directional-derivative.ko.md"
 
---8<-- "reference/concept-glossary-terms/discovery.ko.md"
-
-
-
 --8<-- "reference/concept-glossary-terms/array.ko.md"
 --8<-- "reference/concept-glossary-terms/batch-normalization.ko.md"
 
@@ -66,8 +62,6 @@
 --8<-- "reference/concept-glossary-terms/vector-field.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector-calculus.ko.md"
-
---8<-- "reference/concept-glossary-terms/vector-position.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector.ko.md"
 

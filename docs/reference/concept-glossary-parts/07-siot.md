@@ -41,8 +41,6 @@
 --8<-- "reference/concept-glossary-terms/sequence-modeling.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/top-k.ko.md"
-
 --8<-- "reference/concept-glossary-terms/status-inspection.ko.md"
 
 --8<-- "reference/concept-glossary-terms/state.ko.md"
