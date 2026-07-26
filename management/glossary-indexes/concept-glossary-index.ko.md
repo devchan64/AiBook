@@ -336,7 +336,7 @@
 | 그래프 | 그래프 | graph | P2-9.3 | graph | graph | P2-9.3 source context | 대상을 노드로 두고 관계를 엣지로 연결한 구조 |
 | 관계 | 관계 | relation | P2-9.2 | relation | relation | P2-9.2 source context | 두 대상이 어떻게 연결되거나 대응되는지를 나타내는 구조적 정보 |
 | 노트북, 계산 문서 | 노트북 | notebook | P2-10.1 | notebook | notebook | Jupyter docs, P2-10.1 source context | 코드, 설명, 출력이 함께 들어 있는 계산 문서 |
-| 출력 | 출력 | output | P2-10.1 | output | output | Jupyter docs, P2-10.1 source context | 코드 실행 결과로 보이는 값, 표, 차트, 오류 메시지 |
+| 출력 | 출력 | output | P1-4.2 | output | output | 단어별 원고 기준 | 모델링에서 문제를 어떤 결과 형태로 풀지 드러내는 결과 설계 |
 | 숨은 상태 | 숨은 상태 | hidden state | P1-11.2 | hidden-state | hidden-state | P1-11.2 source context | 순환 신경망에서 앞 입력 정보를 누적해 다음 계산으로 넘기는 내부 상태 |
 | 배열 축 | 배열 축 | axis | P2-11.2 | axis | axis | P2-11.2 source context | 배열 계산이 어느 방향과 차원 의미를 따라 진행되는지 정하는 기준 |
 | 브로드캐스팅 | 브로드캐스팅 | broadcasting | P2-11.3 | broadcasting | broadcasting | P2-11.3 source context | 작은 값이나 배열을 큰 배열의 shape에 맞춰 적용하는 계산 규칙 |
