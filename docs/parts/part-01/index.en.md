@@ -1,13 +1,13 @@
 # Part 1. Introduction to AI and the Landscape
 
 > Section ID: `P1-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 1 is the section where we rebuild the overall landscape before studying AI again in depth. It does not begin by implementing one specific algorithm in detail. Instead, it first clarifies how later work on mathematical recovery, machine learning, deep learning, LLMs, generative AI, service architecture, and project practice fits into one connected map.
 
-Within the same Part, detailed explanation of a major concept should stay in one main section whenever possible. Later sections only reconnect what is needed for the current question. If a term becomes unstable again while reading, return to the [Concept Glossary](/AiBook/reference/concept-glossary/), check the `Core Section` first, and then trace the `Appears In` list to see where the concept returns in later context.
+Within the same Part, detailed explanation of a major concept should stay in one main section whenever possible. Later sections only reconnect what is needed for the current question. If a term becomes unstable again while reading, return to representative glossary entries such as [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence), [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning), and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), check the `Core Section` first, and then trace the `Appears In` list to see where the concept returns in later context.
 
-The central purpose of this Part is to rebuild what should come to mind when someone says “AI.” AI is not just the name of one technology. It is a broad field that includes rule-based approaches, search, probabilistic judgment, data-driven learning, deep learning, generative models, agent-style tools, and social responsibility. If that range is treated as one undifferentiated mass from the beginning, the learning flow breaks quickly.
+The central purpose of this Part is to rebuild what should come to mind when someone says “AI.” AI is not just the name of one technology. It is a broad field that includes rule-based approaches, search, probabilistic judgment, data-driven learning, deep learning, generative models, AI-agent-style tools, and social responsibility. If that range is treated as one undifferentiated mass from the beginning, the learning flow breaks quickly.
 
 Part 1 is also the starting point where personal intuition and scattered experience are connected back to reusable standard concepts. Instead of leaving private impressions as isolated fragments, it reorganizes them into generalized knowledge that can be checked and reused across later study.
 
@@ -49,7 +49,7 @@ After reading Part 1, the goal is not to know every formula or implementation de
 - You can look at an AI service through the lenses of model, app, data, tools, operational constraints, and responsibility.
 - You can maintain the habit of separating personal working hypotheses from standard explanations.
 
-## The Boundary Between the AI Landscape and Later Study
+## Boundary Between AI Landscape and Later Study
 
 Part 1 is for establishing the overall terrain of AI. It therefore covers:
 
@@ -105,7 +105,7 @@ The role of Part 1 becomes clearest when the following five standards remain in 
 | Deep learning is the stream that learns representations, and Transformers are one structure within it. | Part 5 |
 | In services, data, tools, and operational judgment outside the model also matter. | Part 6, Part 7 |
 
-## The 17 Flows That Make Up the AI Introduction
+## 17 Flows Making Up the AI Introduction
 
 Part 1 is organized into 17 chapters.
 

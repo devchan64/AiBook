@@ -1,7 +1,7 @@
 # P5-13.1 注意力（Attention）的直觉
 
 > Section ID: `P5-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-12.2 里，我们已经看到：因为长期依赖（long-term dependency），序列模型可能很难把很早之前的信息充分保留到当前位置。这里就会出现下一个问题。
 
@@ -11,7 +11,7 @@
 
 注意力是一种方式：它会对当前计算里真正重要的位置或 token 赋予更大的权重，让需要的信息能被更直接地参考到。
 
-当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的 [attention](/AiBook/reference/concept-glossary-parts/08-ieung/#attention) 条目重新对齐。
+当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的[注意力（Attention）](/AiBook/zh/reference/concept-glossary-pinyin/a/#attention)重新对齐。
 
 ## Attention 怎样重新查看所需位置的问题
 

@@ -1,13 +1,13 @@
 # P2-14.2 Branches, Commits, and Document Reproducibility
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-14.1, we treated Git as a tool for managing change history. Now, following the writing flow of a document project, we connect branches, commits, and the reproducibility of published documents.
 
 This section is not for learning Git deeply. The goal is to understand why, as a learning document grows, the writing branch and the deployment branch should be separated, and why commit boundaries should be handled carefully. You need this flow now so that, even after Part 3 when model comparisons and experiment records increase, you do not mix up `judgment still under writing` with `explanation ready to publish`.
 
-This section explains the basic distinctions among `branch`, `deployment`, `workflow`, `static deployment`, and `document reproducibility`. The representative explanation of `Git` itself and commit boundaries stays in P2-14.1 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here, we focus on how to separate those records by lines of work and by public-release standards.
+This section explains the basic distinctions among `branch`, `deployment`, `workflow`, `static deployment`, and `document reproducibility`. The representative explanation of `Git` itself and commit boundaries stays in P2-14.1 and the [branch glossary entry](/AiBook/en/reference/concept-glossary-alpha/b.en/#branch). Here, we focus on how to separate those records by lines of work and by public-release standards.
 
 This section focuses on separating workflows and setting deployment criteria. If the previous section asked how changes should be recorded, the question here changes into on which line of work that record should remain, and when it should be moved into public-release standards. So a branch is not an extra feature only for developers. It is an operating standard that separates the manuscript, code, and image interpretation created in the previous chapters into `judgment in progress` and `explanation fit for publication`.
 
@@ -72,7 +72,7 @@ In a document project, you need branches in situations such as the following.
 
 A branch is not merely a convenience feature for developers. It is a device that protects the stability of the document that readers actually see.
 
-## In a Document Project, You Can Separate the Writing Branch and the Deployment Branch
+## in a Document Project, You Can Separate the Writing Branch and the Deployment Branch
 
 In a document project, the branch for writing and the branch for deployment standards can be operated separately. Branch names differ by team, but you can separate roles, for example, into a writing branch and a deployment branch.
 

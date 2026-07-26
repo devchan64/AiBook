@@ -1,11 +1,11 @@
 # P4-17.4 보충학습: 군집과 반지도학습을 처음 연결하는 법
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
-군집이 라벨 가설을 제안할 수 있다면, 적은 라벨과 많은 비라벨 데이터를 함께 쓰는 반지도학습(semi-supervised learning)과는 어떻게 이어질까?
+[군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster)이 [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label) 가설을 제안할 수 있다면, 적은 라벨과 많은 비라벨 데이터를 함께 쓰는 [반지도학습(semi-supervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#semi-supervised-learning)과는 어떻게 이어질까?
 
 이 절은 반지도학습의 전체 알고리즘 분류를 길게 나열하기보다, `군집은 어디까지 보조 신호가 될 수 있고 어디서부터 사람 검토와 추가 학습이 필요한가`를 처음 구분하는 보충학습입니다.
 
@@ -35,7 +35,7 @@ P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
 하지만 실제로는 바로 그 지점이 가장 위험합니다.
 
-군집은 `비슷해 보이는 묶음`을 제안할 수는 있지만, 그 묶음이 실제 정답 경계와 같은지는 별도 검토가 필요합니다.
+군집은 `비슷해 보이는 묶음`을 제안할 수는 있지만, 그 묶음이 실제 정답 경계와 같은지는 별도 [검토(review)](../../../reference/concept-glossary-parts/01-giyeok.md#review)가 필요합니다.
 
 즉, 이 절의 핵심은 `군집 -> 자동 라벨`이 아니라 `군집 -> 라벨 가설 -> 사람 검토 -> 제한적 반영` 흐름을 처음 붙잡는 데 있습니다.
 
@@ -63,7 +63,7 @@ P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
 ## 군집은 왜 보조 신호가 될 수 있는가
 
-군집이 유용한 이유는 비슷한 샘플이 한 묶음에 모이는 장면을 먼저 제안해 줄 수 있기 때문입니다.
+군집이 유용한 이유는 [비슷한(similarity)](../../../reference/concept-glossary-parts/08-ieung.md#similarity) 샘플이 한 묶음에 모이는 장면을 먼저 제안해 줄 수 있기 때문입니다.
 
 즉, 사람이 다음처럼 생각할 수 있습니다.
 
@@ -90,7 +90,7 @@ P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
 ## 왜 바로 자동 라벨 생성기로 읽으면 위험한가
 
-군집은 정답 구조가 아니라 유사도 구조를 먼저 반영합니다. 따라서 한 군집 안에 비슷해 보이지만 실제 라벨은 다른 샘플이 섞일 수 있습니다.
+군집은 정답 구조가 아니라 [유사도(similarity)](../../../reference/concept-glossary-parts/08-ieung.md#similarity) 구조를 먼저 반영합니다. 따라서 한 군집 안에 비슷해 보이지만 실제 라벨은 다른 샘플이 섞일 수 있습니다.
 
 예를 들어 기사 군집 안에 다음이 함께 들어올 수 있습니다.
 
@@ -195,5 +195,5 @@ P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. 적은 라벨과 많은 비라벨 데이터를 함께 쓰는 문제 설정, label propagation/self-training의 기본 전제를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 군집화가 라벨 없는 데이터의 구조를 탐색하는 방법이라는 기본 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. 적은 라벨과 많은 비라벨 데이터를 함께 쓰는 문제 설정, label propagation/self-training의 기본 전제를 확인할 때 참고했다. 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 군집화가 라벨 없는 데이터의 구조를 탐색하는 방법이라는 기본 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }

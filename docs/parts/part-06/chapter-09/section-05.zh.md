@@ -1,7 +1,7 @@
 # P6-9.5 补充学习：高效调整方式的约束
 
 > Section ID: `P6-9.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题：adapter、LoRA、QLoRA 如何在追加结构、小变化分、内存约束上分开_
 

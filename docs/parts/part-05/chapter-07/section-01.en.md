@@ -1,7 +1,7 @@
-# P5-7.1 The Role Of The Optimizer
+# P5-7.1 The Role of the Optimizer
 
 > Section ID: `P5-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Chapter P5-6, we separated the training loop, step/batch/epoch, learning and model execution (inference), and training mode and evaluation mode. Once we reach this point, one very direct question remains. After the model has computed in number form that it is wrong, where do the actual numbers inside the model change next?
 
@@ -21,7 +21,7 @@ When reading this flow, it is safer to hold onto the following three sentences f
 - Backpropagation computes the direction signal of each weight.
 - The optimizer turns that signal into an actual update.
 
-## The Question Of What The Optimizer Updates
+## The Question of What the Optimizer Updates
 
 - Where does the optimizer sit in the learning procedure?
 - What role differences do the loss function, backpropagation, and the optimizer have?
@@ -32,14 +32,14 @@ This section focuses on closing `who actually changes the parameters`. In other 
 
 At the same time, it is also clear which question we will not widen immediately in this section. How the update step size changes even with the same gradient depending on the learning rate continues in the next section, P5-7.2. What adaptive optimizers such as Adam try to additionally compensate beyond a simple reference update is explained again in P5-7.3. The convergence analysis of adaptive optimization is separated into the supplementary study of P5-7.4.
 
-## Standards For Gradients And Update Rules
+## Standards for Gradients and Update Rules
 
 - You can explain the optimizer as `the rule that turns gradients into actual updates`.
 - You can distinguish what stage the loss function, backpropagation, and the optimizer each finish.
 - You can explain why `the gradient was computed` and `the parameters actually changed` are different statements.
 - You can read a small Python example and confirm that gradient, update, and parameter application are different stages.
 
-## Where Is The Optimizer In The Learning Procedure
+## Where Is the Optimizer in the Learning Procedure
 
 If we gather the early flow of Part 5 again, deep-learning training proceeds in the following order.
 
@@ -66,7 +66,7 @@ If we read these three stages mixed together, then phrases such as `the loss was
 
 These three sentences are the smallest map for reading the flow of learning computation in Part 5. Rather than memorizing the three terms separately, it is much safer for the reader to remember them grouped as `wrongness -> responsibility -> actual correction`. Once this order is fixed in the mind, it becomes easier to read in code what stage `loss`, `backward`, and `step` have each finished.
 
-## Why Is The Gradient Alone Not Enough
+## Why Is the Gradient Alone Not Enough
 
 The gradient is information about direction. Usually, it tells us `in which direction will the loss decrease if we move`. Even with that signal alone, it is clear that learning is not completely random. But for an actual update, the mere fact that `we know a good direction` is still not enough.
 
@@ -90,7 +90,7 @@ If we rewrite this analogy back into actual statements, it becomes the following
 - the optimizer decides `how should we turn that direction into an actual update`, and `how much should we change it in one step`
 - so even with the same gradient, the actual learning behavior can differ if the optimizer rule differs
 
-## What Should We Read As The Update That The Optimizer Produces
+## What Should We Read as the Update That the Optimizer Produces
 
 A misunderstanding that often appears for beginners is reading `the gradient was computed` and `the model has already changed` as if they mean the same thing. But in reality there is one more stage.
 
@@ -106,7 +106,7 @@ If we miss this distinction, then the stages also mix together when reading a tr
 
 If we do not distinguish this difference, it becomes hard to read what the bottleneck is when learning is slow. The gradient may have been computed well, but the update may be too conservative. Or conversely, the direction may be right, but the update may be too aggressive. This problem of step size is read more directly with the learning rate in the next section, P5-7.2.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Loss And Gradient Were Computed, But The Update Has Not Yet Been Applied
 
@@ -140,7 +140,7 @@ If we compress this case once more, the first flow for reading the optimizer is 
 
 This diagram is not there to explain the case all over again, but to separate once more, at a glance, `gradient computation` from `actual update application`. How the same gradient turns into different stride lengths depending on the learning rate continues in the next section, P5-7.2. How Adam-like methods additionally reflect recent flow and coordinate-by-coordinate differences continues in P5-7.3.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to separate gradient computation from actual update application. Here, rather than comparing the size of the learning rate itself, it is more important to check with our eyes the sequence `compute the gradient -> the optimizer makes an update -> only then do the parameters change`. In other words, this example is not for choosing `which learning rate is best`, but for reading how `gradient`, `update`, and `parameter change` appear in different places in the code and output.
 
@@ -309,7 +309,7 @@ In other words, what the reader absolutely has to read in this example is the fo
 
 The key the reader should gain here is that a real intermediate stage made by the optimizer exists between `the gradient came out` and `the model changed`. How the results differ more depending on how the update step size is chosen, even with the same gradient, continues in the next section, P5-7.2.
 
-## When Do We Read From The Optimizer Viewpoint First
+## When Do We Read from the Optimizer Viewpoint First
 
 The time to bring out this section is when the explanation `the gradient was computed` is still not enough to close how the parameters actually move.
 
@@ -327,7 +327,7 @@ The time to bring out this section is when the explanation `the gradient was com
 - Can you explain that only after the update value made by the optimizer is actually reflected do parameter and loss changes appear?
 - Do you know that in the next section, P5-7.2, the learning rate changes the update step size, and in P5-7.3 Adam-like methods add further compensation?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, accessed 2026-07-19. [https://doi.org/10.1007/978-3-7908-2604-3_16](https://doi.org/10.1007/978-3-7908-2604-3_16){: target="_blank" rel="noopener noreferrer" }

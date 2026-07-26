@@ -1,11 +1,13 @@
 # P5-3.3 tanh
 
 > Section ID: `P5-3.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-3.2에서는 sigmoid가 점수를 0과 1 사이로 누르는 방식을 보았습니다. tanh는 비슷하게 S자형 압축을 하지만, 출력 범위가 \(-1\)부터 \(1\)까지라는 점이 다릅니다.
 
 tanh는 음수와 양수를 모두 남기면서 0을 중심으로 표현을 만들고 싶을 때 중요한 비교 기준이 됩니다.
+
+대표 활성화 함수의 기준선이 다시 필요하면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function)와 [tanh](../../../reference/concept-glossary-parts/12-tieut.md#tanh) 항목으로 돌아갑니다.
 
 ## tanh의 0 중심 변환 질문
 

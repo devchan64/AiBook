@@ -1,7 +1,7 @@
-# P2-9.2 The Intuition of Arrays, Tables, Trees, and Graphs
+# P2-9.2 Intuition of Arrays, Tables, Trees, and Graphs
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-9.1, we viewed a data structure as a question of how data is organized into a shape. Now we compare broadly four shapes that appear often in AI practice.
 
@@ -27,14 +27,14 @@ Instead of memorizing all data-structure names at once, this Section compares wh
 | graph | A structure read mainly through nodes and connections |
 | structure question | A question asking which matters in the current data: position, row-column layout, hierarchy, or relation |
 
-## Core Criteria: The Intuition of Arrays, Tables, Trees, and Graphs
+## Core Criteria: the Intuition of Arrays, Tables, Trees, and Graphs
 
 - You can distinguish arrays, tables, trees, and graphs as different views of data.
 - You can explain arrays through position and axis, tables through rows and columns, trees through parent-child relations, and graphs through nodes and edges.
 - You can explain which structural intuition connects to tokens, embeddings, datasets, document structure, and knowledge graphs in AI practice.
 - You can explain that the same information can be viewed as an array, table, tree, or graph depending on the purpose.
 
-## The First Standard to Hold
+## First Standard to Hold
 
 The first standard to hold in this Section is not the `name of the data structure`, but `what question is being asked right now`.
 

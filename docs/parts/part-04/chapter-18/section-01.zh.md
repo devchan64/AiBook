@@ -1,21 +1,17 @@
 # P4-18.1 降维(dimensionality reduction)
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-17 里，我们看到了通过聚类(clustering)在没有标签的情况下寻找数据结构的视角。在同样的无监督学习脉络里，这里会出现另一个问题。
+在 P4-17 里，我们用[聚类(clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)追问`隐藏着什么分组`。这里抓住另一个问题。
 
-如果特征(feature)太多，能不能把这些信息压缩成更少的轴，再重新去看？
+如果[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)太多，结构很难读，能不能把表达本身重新做成更少的轴？
 
-这个问题，就是降维(dimensionality reduction)的起点。
+这个问题，就是[降维(dimensionality reduction)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction)的起点。降维不是简单丢掉很多特征的技术，而更接近`当原始表达太复杂时，用更容易阅读的轴重新表达`。
 
-降维是一种把大量特征转换成更少的轴或成分(component)的方法，目的是让结构更容易看懂，也让计算更容易处理。
+这一节会用同一个玩具数据场景，把[维度(dimension)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimension)、[PCA(principal component analysis)](/AiBook/zh/reference/concept-glossary-pinyin/p/#principal-component-analysis-pca)，以及`为什么这里会出现[特征值(eigenvalue)](/AiBook/zh/reference/concept-glossary-pinyin/e/#eigenvalue)和[特征向量(eigenvector)](/AiBook/zh/reference/concept-glossary-pinyin/e/#eigenvector)`连在一起说明。下一节 P4-18.2 会继续讨论这样得到的图能信到什么程度，以及信息损失该怎么读。
 
-降维既是在`删去一部分信息`，同时也是在`让结构更容易看见`。
-
-这一节解释 `dimenstionality reduction`、`dimension`、`PCA(principal component analysis)` 的基本含义。下一节会在这个把手的基础上继续当前语境里的判断，而“把大量特征重新表达成更少的轴”这一基本感觉，会再次通过这一节和[概念词汇表](/AiBook/reference/concept-glossary/)连回来。
-
-## 本节范围
+## 降维先收束的问题
 
 这一节回答下面这些问题。
 
@@ -23,18 +19,17 @@
 - 为什么特征数一多，学习和解释都会变难？
 - 降维想缓解什么问题？
 - PCA 展示了什么代表性直觉？
-- 降维会保留什么，又会丢掉什么？
-- 为什么 PCA 里会出现 eigenvalue 和 eigenvector？
-- kernel PCA、Truncated SVD 和 PCA 有什么不同？
+- 为什么[方差(variance)](/AiBook/zh/reference/concept-glossary-pinyin/v/#variance)、[正交(orthogonal)](/AiBook/zh/reference/concept-glossary-pinyin/o/#orthogonal)、特征值、特征向量会一起出现在 PCA 说明里？
+- [kernel PCA](/AiBook/zh/reference/concept-glossary-pinyin/k/#kernel-pca) 和 [Truncated SVD](/AiBook/zh/reference/concept-glossary-pinyin/t/#truncated-svd) 与 PCA 应该用什么直觉区分？
 
-这一节集中在入门层面抓住`为什么要降维`以及`应该怎样先用直觉和最低限度的数学去读 PCA`。所以，这一节会直接处理 PCA 的新轴为什么会读成 eigenvector，以及 PCA、kernel PCA、Truncated SVD 这些分支差异。相对地，更偏可视化的方法和 reconstruction error 的解释，会在下一节 P4-18.2 里收尾。
+这一节集中在入门层面抓住`为什么要降维`以及`PCA 做的是一种什么计算`。可视化结果解释、t-SNE、UMAP、[重构误差(reconstruction error)](/AiBook/zh/reference/concept-glossary-pinyin/r/#reconstruction-error)、trustworthiness 会在下一节 P4-18.2 里继续处理。
 
-## 用降维(dimensionality reduction)留下的判断标准
+## 降维要留下的判断标准
 
 - 能把降维解释为`用更少的轴重新表达特征空间`。
-- 能说明为什么特征很多时，解释和计算都会变难。
-- 能在入门层面把 PCA 解释成`寻找能解释较大方差的正交轴的方法`。
-- 能理解降维会同时带来便利和信息损失。
+- 能把 PCA 解释成`把数据变化很大的方向重新设成新轴的方法`。
+- 能说明为什么第一成分和第二成分要彼此正交。
+- 能把特征向量读成新轴方向，把特征值读成该轴解释的变动大小。
 
 ## 为什么需要这一节
 
@@ -49,35 +44,32 @@
 - 特征越多，不是应该越细吗？
 - 那为什么反而会更难理解？
 
-这正是降维变得必要的地方。
+这正是降维变得必要的地方。特征数越多，信息可能更多，但人更难一次抓住结构。所以降维会先检查`现在这个表达是不是太复杂`，再创建能重新阅读大流向的轴。
 
-所以，18.1 是学习`为什么信息越多，反而越需要再次做简化`的一节。
+## 先看一个场景
 
-如果把它和前面的聚类放在一起看，首先要看到的是：即使都在无监督学习里，抓住的问题也并不一样。
+这一节会反复使用下面这个两个特征几乎一起移动的小数据。
 
-| 问题 | 聚类 | 降维 |
-| --- | --- | --- |
-| 最先问什么 | 隐藏着什么分组？ | 通过什么轴重新表达会更容易看懂？ |
-| 立刻想得到什么 | 聚类结构、异常值候选 | 更少的成分、更容易阅读的表达 |
-| 下一步常做什么 | 解释聚类意义、审查分群 | 可视化、减弱噪声、整理后续模型输入 |
+| 样本 | 每月访问次数 `x1` | 平均购买金额 `x2` |
+| --- | ---: | ---: |
+| A | 2.0 | 2.1 |
+| B | 3.0 | 3.2 |
+| C | 4.0 | 3.9 |
+| D | 5.0 | 5.1 |
 
-如果说聚类更接近`找分组`，那么降维就更接近`重建表达`。这个差别必须先抓住，这样 PCA 才不会只是又一个算法名字，而会被读成`怎样把高维表达变成更容易读的轴`这一问题的代表回答。
+这张表有一个流向：`访问次数较高的客户，平均购买金额也大体一起升高`。现在只有两条轴，所以还能直接看出来，但 PCA 为什么有用的核心已经出现了。
+
+1. 两个特征几乎朝同一个方向移动。
+2. 于是不用一直分别拿着两条轴，一个新轴也可能概括大的流向。
+3. 但两条轴之间细小错位的差异可能会变弱。
+
+也就是说，降维不是`把复杂表格硬塞进几个轴里`，而是`决定什么作为大流向、什么作为细节差异留下`。
 
 ## dimension 在这里指什么
 
 在机器学习语境里，dimension 通常和描述一个样本所需的轴数量相连，也就是特征数。
 
-例如，如果一个客户用下面三个数字来表示：
-
-- 每月访问次数
-- 平均购买金额
-- 距离最近一次登录已经过去多少天
-
-那么，这个客户就可以被看成三维特征空间里的一个点。
-
-dimension 既是一个数学抽象概念，也可以理解成`描述数据时用到的坐标轴个数`。
-
-每增加一个特征，就多出一条看数据的轴。
+在上面的表里，一个客户由`每月访问次数`和`平均购买金额`两个值表示，所以这是二维数据。如果再加上`距离最近一次登录已经过去多少天`，它就变成三维；如果再加上`退货比例`，它就变成四维。
 
 如果把这个感觉画得很简单，会是下面这样。
 
@@ -85,7 +77,7 @@ dimension 既是一个数学抽象概念，也可以理解成`描述数据时用
 --8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-01-zh.mmd"
 ```
 
-这张图展示出：维度越多，数据就越难像简单图形那样直接想象。只要先抓住“一个特征就多一条轴”这个感觉，就更容易理解：为什么高维数据里又需要重新做概括轴。
+这里先把维度理解成`看数据时使用的坐标轴个数`就够了。每增加一个特征，描述数据的轴也会增加一条。
 
 ## 为什么特征一多就会更难
 
@@ -95,22 +87,20 @@ dimension 既是一个数学抽象概念，也可以理解成`描述数据时用
 2. 计算成本可能上升
 3. 无用或重叠的信息可能很多
 
-例如，二维点可以直接画出来。但 50 维、500 维、5000 维数据没法直接看见。最终还是要想办法重新概括。
-
-而且当特征很多时，常常还会重复存放相似信息。比如：
+例如，下面这些值彼此可能并不完全独立。
 
 - 每月购买金额
 - 每年购买金额
 - 购买次数
 - 平均订单金额
 
-这些值彼此很可能并不独立。
+这时问题不只是`特征数很多`，而是`真正新增的信息到底有多少`。如果很多特征几乎朝同一个方向变化，原始表格可能很长，但真正要读的大流向也许并不多。
 
-所以，降维常常也在重新追问：`真正新增的信息到底有多少？`
+所以，降维也会变成一个重新追问`当前表达是不是不必要地变得太庞大`的步骤。
 
 ## 降维想缓解什么
 
-scikit-learn 用户指南把 PCA 描述成：把多变量(multivariate)数据集分解成连续的正交成分(orthogonal components)，并找出能解释最多方差的方向。
+scikit-learn 用户指南把 PCA 描述成：把多变量(multivariate)数据集分解成连续的正交[成分(component)](/AiBook/zh/reference/concept-glossary-pinyin/c/#component)，并找出能解释最多方差的方向。
 
 在入门层面，可以把降维读成一种试图缓解下面问题的做法。
 
@@ -123,15 +113,13 @@ scikit-learn 用户指南把 PCA 描述成：把多变量(multivariate)数据集
 
 所以，与其把降维理解成`完全替代原始数据`，不如理解成`构建一种更容易阅读的表达工具`。
 
-## 先看一个场景
+## PCA 怎样重新表达这个场景
 
 ```mermaid
 --8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-02-zh.mmd"
 ```
 
-这张图的核心在于：降维不是简单删除，而是`通过新建轴来重新表达`。当特征太多、很难直接看见结构，而且还可能存在重叠信息时，就会创建更少的轴，用来重新解释结构，或者送进后续模型。
-
-这张图真正的重点，是降维不是盲目地把原始特征扔掉，而是`重新通过新轴来看`。
+PCA 试图把`数据实际扩散很多的方向`重新设成新轴。在上面的玩具数据里，`x1` 和 `x2` 几乎一起变大，所以比起分别看两个轴，一条对角线方向更像重要的大流向。
 
 ## PCA 展示了什么代表性直觉
 
@@ -184,7 +172,7 @@ scikit-learn 文档把 PCA 的成分描述成 orthogonal components。这里的 
 
 ## 为什么 PCA 里会出现 eigenvalue 和 eigenvector
 
-只要稍微往深一点看 PCA，马上就会碰到协方差矩阵(covariance matrix)的 eigenvalue 和 eigenvector。原因其实很简单。
+只要稍微往深一点看 PCA，马上就会碰到[协方差矩阵(covariance matrix)](/AiBook/zh/reference/concept-glossary-pinyin/c/#covariance-matrix)的 eigenvalue 和 eigenvector。原因其实很简单。
 
 `如果要用公式找出数据扩散最大的方向，就得找到最能解释这种扩散的方向向量。`
 
@@ -242,7 +230,6 @@ PCA 并不是降维里唯一的标准。即便都属于`重建表达`这条大�
 | 比较项 | PCA | kernel PCA | Truncated SVD |
 | --- | --- | --- | --- |
 | 基本起点 | 协方差结构 | 通过 kernel 构造的相似度结构 | 对原始数据矩阵本身做分解 |
-
 | 更贴合的感觉 | 线性再表达 | 非线性再表达 | 大矩阵的低秩近似 |
 | 初学者最先要记住的差异 | `旋转轴并抓住大方差` | `把直线轴看不清的结构放到别的空间里看` | `把矩阵压成少数几个成分` |
 
@@ -404,5 +391,5 @@ D reduced = [1.952] restored = [5.554 3.698] row_error = 1.727
 
 ## 出处与参考资料
 
-- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `PCA`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `PCA`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }

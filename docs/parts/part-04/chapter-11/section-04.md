@@ -1,27 +1,27 @@
 # P4-11.4 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.3에서 본 log-odds와 MLE는 기본적으로 `둘 중 하나를 고르는 이진 분류(binary classification)`를 기준으로 설명했습니다. 하지만 현실의 분류 문제는 셋 이상 중 하나를 고르는 경우도 많습니다.
+P4-11.3에서 본 [log-odds](../../../reference/concept-glossary-parts/04-rieul.md#log-odds)와 [MLE](../../../reference/concept-glossary-parts/11-chieut.md#maximum-likelihood-estimation-mle)는 기본적으로 `둘 중 하나를 고르는 이진 분류(binary classification)`를 기준으로 설명했습니다. 하지만 현실의 분류 문제는 셋 이상 중 하나를 고르는 경우도 많습니다.
 
 이 절의 중심 질문은 다음입니다.
 
 이진 분류에서 익힌 `점수 -> 확률 -> class 선택` 감각은 여러 클래스 문제에서도 어떻게 이어지는가?
 
-## 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법에서 닫을 질문
+## 다중 클래스 로지스틱 회귀를 읽을 때 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
 - 다중 클래스(multinomial) 문제에서는 무엇이 유지되는가?
-- softmax는 왜 등장하는가?
-- one-vs-rest와 multinomial은 어떤 차이로 읽으면 되는가?
+- [softmax](../../../reference/concept-glossary-parts/07-siot.md#softmax)는 왜 등장하는가?
+- [one-vs-rest](../../../reference/concept-glossary-parts/08-ieung.md#one-vs-rest)와 [multinomial logistic regression](../../../reference/concept-glossary-parts/03-digeut.md#multinomial-logistic-regression)은 어떤 차이로 읽으면 되는가?
 
-이 절은 다중 클래스 로지스틱 회귀를 `점수 -> 확률 분포 -> class 선택` 구조가 여러 클래스에도 이어지는 확장으로 먼저 닫고, threshold 감각이 argmax 감각으로 어떻게 옮겨가는지를 붙잡는 데 집중합니다.
+이 절은 [다중 클래스 로지스틱 회귀(multinomial logistic regression)](../../../reference/concept-glossary-parts/03-digeut.md#multinomial-logistic-regression)를 `점수 -> 확률 분포 -> class 선택` 구조가 여러 클래스에도 이어지는 확장으로 먼저 닫고, threshold 감각이 [argmax](../../../reference/concept-glossary-parts/11-chieut.md#argmax) 감각으로 어떻게 옮겨가는지를 붙잡는 데 집중합니다.
 
 대신 이번 절에서 바로 더 좁혀 볼 질문도 분명합니다. solver와 regularization의 구현 관점은 P4-11.5에서 이어서 다룹니다.
 
-## 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법에서 남길 판단 기준
+## 다중 클래스 로지스틱 회귀에서 남길 판단 기준
 
 - 다중 클래스에서도 `입력 -> 점수 -> 확률 비교 -> class 선택` 구조가 유지된다는 점을 설명할 수 있습니다.
 - softmax를 `클래스별 점수를 확률 분포로 바꾸는 함수`라고 읽을 수 있습니다.
@@ -132,6 +132,11 @@ P(y = k \mid x) = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}
 | `class_names` | 클래스 이름 목록 |
 | `multi_proba` | 클래스별 확률 분포 예시 |
 
+조작해 볼 값:
+
+- 첫 번째 행을 `[0.34, 0.33, 0.33]`처럼 더 비슷하게 바꾸면 argmax는 여전히 하나를 고르지만 판단이 훨씬 애매해지는 장면을 볼 수 있습니다.
+- 마지막 행을 `[0.22, 0.28, 0.49]`로 바꾸면 0.5를 넘지 않아도 가장 큰 class가 선택되는지 확인할 수 있습니다.
+
 ```python
 # 다중 클래스 로지스틱 회귀에서 클래스별 점수와 softmax 확률을 비교하는 예제입니다.
 import numpy as np
@@ -171,6 +176,6 @@ multiclass predictions
 
 ## 출처와 참고 자료
 
-- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 확인 날짜: 2026-07-26. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26

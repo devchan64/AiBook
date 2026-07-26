@@ -1,15 +1,15 @@
 # P4-12.3 What Should Be Checked First When Using k-NN?
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-P4-12.1 introduced the intuition of k-NN, and P4-12.2 showed why distance and scale can change the result. The remaining question is the following.
+P4-12.1 introduced the intuition of [k-NN](/AiBook/en/reference/concept-glossary-alpha/k/#k-nnk-nearest-neighbors), and P4-12.2 showed why [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) and [feature scale](/AiBook/en/reference/concept-glossary-alpha/f/#feature-scale) can change the result. The remaining question is the following.
 
 When the judgment of k-NN shakes, what should be checked first?
 
 The purpose of this Section is not to explain preprocessing in general again. It is to organize `what should be inspected first` when reading k-NN.
 
-## Scope Of This Section
+## Questions Closed By The k-NN Inspection Order
 
 This Section answers the following questions.
 
@@ -18,7 +18,7 @@ This Section answers the following questions.
 - Among `distance rule`, `k`, and `data representation`, what should be rechecked first?
 - How should a query that needs review be read?
 
-## Goals Of This Section
+## Judgments To Keep From The k-NN Inspection Order
 
 - You can explain what kinds of problems make k-NN worth raising as a first candidate.
 - You can explain the signals that suggest a distance or scale issue.
@@ -71,7 +71,7 @@ This order matters because each question points to a different kind of issue.
 
 So even the single sentence `the result looks strange` can hide causes from several different layers.
 
-Especially once scale or representation becomes suspicious at item 4, the general theory of preprocessing itself should not be re-explained at length here. It is more appropriate to return to `P4-7.2 Preprocessing` and recheck the criteria there.
+Especially once scale or representation becomes suspicious at item 4, the general theory of preprocessing itself should not be re-explained at length here. It is more appropriate to return to [P4-7.2 Preprocessing](../chapter-07/section-02.en.md) and recheck the criteria there.
 
 ### If The Same Query From P4-12.1 Is Read Again
 
@@ -157,6 +157,11 @@ This example keeps the same query and checks how `k` and scaling change the neig
   - increasing `k` can change the local majority vote
   - features with different numeric ranges can change neighbor order before and after scaling
 
+Values to change:
+
+- Change `support_tickets` in `query` to `2`, `5`, and `9` to see when a query starts needing review.
+- Change `n_neighbors` to even values such as `2` or `4` to inspect how ties or narrow majorities should be recorded.
+
 ```python
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
@@ -216,5 +221,5 @@ This output does not mean readers should immediately say `k-NN is wrong`. With t
 
 ## Sources And References
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, checked on 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, checked on 2026-06-27. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, checked on 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, checked on 2026-07-26. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }

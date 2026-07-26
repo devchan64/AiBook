@@ -1,7 +1,7 @@
 # P5-7.3 自适应 update 的直觉：以 Adam 为例
 
 > Section ID: `P5-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-7.2 里，我们已经看到：即使 gradient 相同，真实的 update 步幅也会因为 learning rate 而不同。走到这里，接下来会自然出现一个新问题：`是不是所有参数都应该永远用完全相同的方式去应用这个步幅？`
 
@@ -9,7 +9,7 @@
 
 这一节会以 Adam（Adaptive Moment Estimation）为代表例子来读这种直觉。这里真正要抓住的，不是 Adam 这个名字本身，而是：`为什么 update 规则里会开始加入最近流向和按坐标调节。`
 
-如果之后又把基本 update 与自适应 update 的区别混在一起，更适合回到[英文概念词汇表里的 gradient descent 条目](/AiBook/reference/concept-glossary-parts/01-giyeok/#gradient-descent)和[optimizer 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer)，重新对齐比较基准。
+如果之后又把基本 update 与自适应 update 的区别混在一起，更适合回到概念词汇表里的[梯度下降（gradient descent）](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient-descent)和[优化器（optimizer）](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimizer)，重新对齐比较基准。
 
 ## Adam 自适应修正的问题
 

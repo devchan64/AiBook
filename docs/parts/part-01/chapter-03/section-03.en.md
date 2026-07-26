@@ -1,7 +1,7 @@
 # P1-3.3 Rule-Based Approaches and Representation Learning
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly, and Section 3.2 examined the basic structure of learning patterns from data. This section does not explain the whole learning process again. Instead, it narrows the focus to one point: what changes when the system handles input in different forms?
 
@@ -65,7 +65,7 @@ The key point here is `internal representation`. The model does not simply read 
 
 This diagram only shows that the same input can be processed in two branches. The left branch is a structure in which rules written in advance by people influence the result directly. The right branch is a structure in which the input is first changed into an internal representation the model can compute over, and only then is a prediction produced. The key point of this section is not `which one is better`, but the difference between whether the criterion is `written outside` or `computed inside the model`.
 
-## The Boundary of This Section: It Focuses on Representation, Not All of Learning
+## Section Boundary: Representation Focus, Not All Learning
 
 Section 3.2 explained the basic structure of training data, labels, models, training, and inference. Section 3.3 does not repeat that structure. The concern here is how input changes into some internal form inside the model, and how that differs from rules written by people.
 

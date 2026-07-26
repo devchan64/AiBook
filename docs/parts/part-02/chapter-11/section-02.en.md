@@ -1,7 +1,7 @@
 # P2-11.2 Indexing, Slicing, and Axis
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-11.1, we created NumPy arrays and checked `shape`, `ndim`, and `dtype`. Now we move on to which value to read from an array, which range to cut out, and which direction to calculate along.
 
@@ -11,7 +11,7 @@ Indexing, slicing, and axis.
 
 These three can look similar, but their roles are different. Indexing chooses a position. Slicing chooses a range. Axis decides the direction of a calculation.
 
-This Section explains the basic distinctions among `indexing`, `slicing`, and `axis`. You can revisit `NumPy` and the basic properties of arrays in P2-11.1 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here the focus is on what to choose from an array and in which direction to read it.
+This Section explains the basic distinctions among `indexing`, `slicing`, and `axis`. You can revisit `NumPy` and the basic properties of arrays in P2-11.1 and the [indexing glossary entry](/AiBook/en/reference/concept-glossary-alpha/i.en/#indexing). Here the focus is on what to choose from an array and in which direction to read it.
 
 ## Core Criteria: Indexing, Slicing, and Axis
 
@@ -92,7 +92,7 @@ This point is often confusing.
 
 Indexing is the act of asking, `Which value is at this position?`
 
-## In a Two-Dimensional Array, Choose Rows and Columns Together
+## in a Two-Dimensional Array, Choose Rows and Columns Together
 
 In a two-dimensional array, you usually specify a row and a column together.
 

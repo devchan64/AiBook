@@ -1,13 +1,13 @@
 # P2-9.3 图(graph)如何表达关系
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P2-9.2 中，我们把数组、表、树、图作为不同的数据视角进行了比较。其中图尤其容易让人感到陌生。
 
 图并不只意味着图表或统计折线图。在数据结构和数学语境里，图是一种表达对象之间关系的结构。
 
-这里说明 `graph`、`node`、`edge`、`direction`、`weight` 的基本区分。把 `data structure` 读成“一个问题”的代表性说明放在 P2-9.1，四种结构的比较放在 P2-9.2 和[概念词汇表](/AiBook/reference/concept-glossary/)中，而这里专注于：我们该用什么问题来阅读关系数据。
+这里说明 `graph`、`node`、`edge`、`direction`、`weight` 的基本区分。把 `data structure` 读成“一个问题”的代表性说明放在 P2-9.1，四种结构的比较放在 P2-9.2 和[数据结构词条](/AiBook/zh/reference/concept-glossary-pinyin/d.zh/#data-structure)中，而这里专注于：我们该用什么问题来阅读关系数据。
 
 本节通过 node 和 edge 这两个最小概念来读图。
 

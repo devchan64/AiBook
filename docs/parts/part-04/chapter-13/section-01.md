@@ -1,19 +1,19 @@
 # P4-13.1 SVM의 직관
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-11.2에서는 분류를 `경계(boundary)를 그어 공간을 나누는 일`로 보았습니다. P4-12에서는 `가까운 이웃을 보고 판단하는 방식`도 살펴보았습니다. 이제 같은 분류 문제를 다른 질문으로 다시 읽습니다.
 
 경계를 그을 수 있다면, 그중 어떤 경계가 더 좋은 경계인가?
 
-이 질문이 SVM(support vector machine)의 출발점입니다.
+이 질문이 [SVM(support vector machine)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine)의 출발점입니다.
 
 SVM은 class를 나누는 선을 찾되, 그 선이 양쪽 데이터로부터 가능한 한 여유 있게 떨어지도록 하려는 모델이다.
 
 SVM은 단지 `분류선 하나`를 찾는 데서 멈추지 않고, `가장 안정적으로 보이는 분리선`을 찾으려는 시도입니다.
 
-이 절은 `SVM(support vector machine)`, `margin`, `support vector`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 경계의 안정성을 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [SVM(support vector machine)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine), [마진(margin)](../../../reference/concept-glossary-parts/05-mieum.md#margin), [서포트 벡터(support vector)](../../../reference/concept-glossary-parts/07-siot.md#support-vector)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 경계의 안정성을 읽는 기본 감각은 이 절의 판단 기준으로 다시 연결합니다.
 
 ## SVM의 직관에서 닫을 질문
 
@@ -137,6 +137,11 @@ SVM의 직관에서 가장 중요한 점들은 보통 `경계에 가장 가까�
   - 경계를 만들 수 있는 후보는 여러 개일 수 있다.
   - SVM의 관심은 그중 `가장 작은 여유 폭(minimum gap)`이 큰 경계를 찾는 데 있다.
   - 경계에서 가장 가까운 점들이 support vector처럼 읽힌다.
+
+조작해 볼 값:
+
+- `candidates`에 `3.8`, `4.2`를 추가하면 경계 위치가 조금씩 바뀔 때 margin이 어떻게 달라지는지 더 촘촘히 볼 수 있습니다.
+- `negative`의 `(3.0, 2.5)`나 `positive`의 `(5.0, 2.2)`를 경계 쪽으로 옮기면 support vector처럼 작동하는 점이 왜 중요해지는지 확인할 수 있습니다.
 
 ```python
 # SVM에서 여러 경계 후보의 margin과 support vector처럼 작동하는 가까운 점을 비교하는 예제입니다.
@@ -315,6 +320,11 @@ SVM은 `경계를 그릴 수 있는가`를 넘어서 `그 경계가 얼마나 �
 - 어떤 경계는 더 이상 완벽한 분리를 만들지 못한다
 - 완벽한 분리가 어려워지면 `margin이 큰가`만이 아니라 `어느 정도의 침범을 허용할 것인가`도 같이 생각해야 한다
 
+조작해 볼 값:
+
+- `negative`의 마지막 점을 `(4.6, 2.4)`나 `(4.9, 2.4)`로 바꾸면 완벽 분리 여부가 얼마나 쉽게 흔들리는지 볼 수 있습니다.
+- 후보 경계 `[4.0, 4.8, 5.2]`에 `4.6`, `5.0`을 추가하면 작은 margin과 분리 실패가 함께 나타나는 구간을 더 잘 비교할 수 있습니다.
+
 ```python
 # SVM에서 여러 경계 후보의 margin과 support vector처럼 작동하는 가까운 점을 비교하는 예제입니다.
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.7, 2.4)]
@@ -364,6 +374,11 @@ boundary x = 5.2
 ### 값 하나 더 바꿔 보기: 예외 점이 경계에 더 가까워지면 무엇이 유지되고 무엇이 달라지는가
 
 이번에는 애매한 negative 점을 `(4.7, 2.4)`에서 `(4.9, 2.4)`로 더 오른쪽으로 옮겨 봅니다.
+
+조작해 볼 값:
+
+- `boundary_x` 후보를 `[4.85, 4.9, 4.95]`로 바꾸면 margin이 아주 좁아지는 지점을 더 세밀하게 볼 수 있습니다.
+- 마지막 negative 점의 x값을 `4.8`, `4.95`처럼 조금씩 바꾸면 예외 점 하나가 경계 품질을 얼마나 크게 흔드는지 확인할 수 있습니다.
 
 ```python
 # SVM에서 여러 경계 후보의 margin과 support vector처럼 작동하는 가까운 점을 비교하는 예제입니다.
@@ -486,5 +501,5 @@ SVM은 통계학습이론과 일반화 논의에서 매우 중요한 위치를 �
 
 ## 출처와 참고 자료
 
-- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, 확인 날짜: 2026-07-19. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 확인 날짜: 2026-07-26. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
+- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, 확인 날짜: 2026-07-26. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }

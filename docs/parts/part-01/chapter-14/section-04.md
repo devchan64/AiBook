@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)와 도구 연결 표준화
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14.3에서는 에이전트(agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation)을 이어 가는 작업 흐름(workflow)으로 봤습니다. 이때 에이전트가 외부 자료나 도구를 쓰려면 연결 방식이 필요합니다.
 

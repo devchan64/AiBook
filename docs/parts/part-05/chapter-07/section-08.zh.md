@@ -1,7 +1,7 @@
 # P5-7.8 补充学习：gradient clipping 与不稳定的 update
 
 > Section ID: `P5-7.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 一旦理解了 optimizer 把 gradient 变成 update 的结构，在真实训练日志里就会冒出另一个问题。方向已经知道了，但某些 step 的 update 看起来会突然变得过于猛烈。此时，问题应该先被读成 learning rate 问题，还是 gradient 尺度问题，还是说需要另外一种安全装置？
 

@@ -1,17 +1,17 @@
-# P2-12.3 The Intuition of Preparing a Learning Dataset
+# P2-12.3 Intuition of Preparing a Learning Dataset
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-12.1, we read a `DataFrame` as a table-shaped data structure. In P2-12.2, we chose the needed columns from that table, filtered rows by condition, and checked summary values. Now the question moves one step further: `what must be prepared to turn this table into a learning dataset that a model can read?`
 
 The important point here is that `handling Pandas well` and `preparing a learning dataset well` are not the same thing. The former is a table-manipulation skill. The latter is the work of deciding what inputs the model receives and what answers it should learn.
 
-This Section explains the basic distinction among dataset, feature, target, validation, and data leakage. The representative explanation of `DataFrame` and table selection stays in P2-12.1, P2-12.2, and the [concept glossary](/AiBook/reference/concept-glossary/). Here, the focus is on how to reorganize that table into learning inputs and answers.
+This Section explains the basic distinction among dataset, feature, target, validation, and data leakage. The representative explanation of `DataFrame` and table selection stays in P2-12.1, P2-12.2, and the [dataset glossary entry](/AiBook/en/reference/concept-glossary-alpha/d.en/#dataset). Here, the focus is on how to reorganize that table into learning inputs and answers.
 
 If Chapter 11 made a computable array shape, Chapter 12 is now the stage where we decide which columns to keep from the table and which to remove. The input and answer candidates organized here lead into the visualizations of Chapter 13 and the record organization of Chapter 14.
 
-## Core Criteria: The Intuition of Preparing a Learning Dataset
+## Core Criteria: the Intuition of Preparing a Learning Dataset
 
 - You can explain learning-dataset preparation as `reorganizing the original table into model inputs and answers`.
 - You can read one row as one sample and one column as a candidate feature or target.
@@ -52,7 +52,7 @@ If this picture is held first, later expressions such as `train_test_split`, `fi
 | validation | Intermediate evaluation data used to compare settings and choices. |
 | data leakage | The problem where information unavailable at prediction time gets mixed into the learning process in advance. |
 
-## Do Not Train the Table As It Is; Reorganize It for the Question
+## Do Not Train the Table as It Is; Reorganize It for the Question
 
 The original table is often organized so that a person can read it easily, but it is not always in a shape that a model can learn from directly.
 
@@ -172,7 +172,7 @@ print("train/test rows:", len(train_index), len(test_index))
 
 The same code can be run as [`p2_12_3_dataset_split_preview.py`](/AiBook/assets/part-02/chapter-12/p2_12_3_dataset_split_preview.py). This does not train a scikit-learn model. The goal of Part 2 is first to check, at the Pandas level, which columns are inputs, which column is the answer, and which rows should be held out for later checking.
 
-## You Should Not Put Every Column In As-Is
+## You Should Not Put Every Column in as-Is
 
 Not every column in the table is suitable as model input. Usually, the following three groups must be separated.
 
@@ -366,7 +366,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 The important point here is not memorizing the full function usage, but understanding that `table manipulation` and `learning split` are different stages that connect to each other.
 
-## In One Sentence, What Is Learning-Dataset Preparation?
+## in One Sentence, What Is Learning-Dataset Preparation?
 
 If we reduce the core of this Section to one sentence, preparing a learning dataset is `reassigning the roles of sample, feature, and target in the original table, and preserving the split order so that evaluation is not distorted`.
 

@@ -1,7 +1,7 @@
 # P5-7.1 옵티마이저(optimizer)의 역할
 
 > Section ID: `P5-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-6장에서는 학습 루프, step/batch/epoch, 학습(learning)과 모델 실행(inference), 그리고 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분했습니다. 여기까지 오면 이제 아주 직접적인 질문이 남습니다. 모델이 틀렸다는 사실을 숫자로 계산한 뒤, 그다음 실제 모델 내부 숫자는 어디에서 바뀌는가 하는 질문입니다.
 

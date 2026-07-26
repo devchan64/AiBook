@@ -1,7 +1,7 @@
 # P5-2.2 은닉층(hidden layer)과 표현
 
 > Section ID: `P5-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-2.1에서는 다층 신경망(multilayer neural network)이 퍼셉트론 같은 계산 단위를 여러 층으로 쌓아, 입력을 바로 최종 판단으로 보내지 않고 중간 단계를 거치게 만든다는 점을 보았습니다. 이제 질문을 조금 더 구체적으로 바꿔 봅니다.
 
@@ -9,7 +9,7 @@ P5-2.1에서는 다층 신경망(multilayer neural network)이 퍼셉트론 같�
 
 이 질문에 답하려는 관점이 바로 표현(representation)입니다. 은닉층은 입력값을 그대로 복사하는 곳이 아니라, 이후 판단에 더 유리한 중간 표현을 내부적으로 만들어 가는 층입니다.
 
-표현 개념을 뒤 장에서 다시 짧게 복습해야 할 때는 개념사전의 [표현(representation)](../../../reference/concept-glossary-parts/13-pieup.md#representation) 항목을 기준으로 돌아옵니다.
+표현 개념을 뒤 장에서 다시 짧게 복습해야 할 때는 개념사전의 [표현(representation)](../../../reference/concept-glossary-parts/13-pieup.md#representation), [표현 학습(representation learning)](../../../reference/concept-glossary-parts/13-pieup.md#representation-learning), [분산 표현(distributed representation)](../../../reference/concept-glossary-parts/06-bieup.md#distributed-representation) 항목을 기준으로 돌아옵니다.
 
 ## 은닉층이 표현을 바꾸는 질문
 

@@ -1,17 +1,17 @@
 # P4-7.4 补充学习：区分特征选择方式
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-从 P4-7.1 到 P4-7.3，我们已经依次处理了特征挑选、输入表达问题拆分，以及预处理的基本判断。但在实际阅读中，读者很快就会遇到下面这些名字。
+从 P4-7.1 到 P4-7.3，我们已经依次处理了[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)挑选、输入表达问题拆分，以及预处理的基本判断。但在实际阅读中，读者很快就会遇到下面这些名字。
 
 - 基于统计检验的特征选择
 - 递归特征消除(recursive feature elimination, RFE)
-- 降维(dimensionality reduction)
+- [降维(dimensionality reduction)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction)
 
 这些名字看起来都像是在 `减少输入，或者重新表达输入`，但它们到底按什么标准减少、又留下什么，其实并不一样。
 
-## 本补充学习的范围
+## 各种缩减方式的分界标准
 
 这一节回答下面这些问题。
 
@@ -22,9 +22,9 @@
 
 这一节先收束 `该怎样区分减少输入或重新表达输入的那些名称`。各种降维算法的直觉和局限，会在 P4-18.1、P4-18.2 继续展开。
 
-## 用补充学习: 第一次区分 filter、wrapper、dimensionality reduction 的方法恢复的概念连接
+## 区分方法名称时要留下的判断
 
-- 能把特征选择和降维区分开来，而不是把它们当成同一件事混在一起。
+- 能把[特征选择(feature selection)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature-selection)和降维区分开来，而不是把它们当成同一件事混在一起。
 - 能说明 filter、wrapper、embedded 方法分别是按什么标准去减少特征的。
 - 能说明 RFE 是 `反复运行 model，并逐步减少不太重要特征的方法`。
 
@@ -128,6 +128,11 @@
   - PCA 不保留原始特征名，而是重新表达成新轴
   - 分数看起来接近，也不代表解释性相同
 
+可以改动的值:
+
+- 把 `SelectKBest(..., k=3)`、`RFE(..., n_features_to_select=3)`、`PCA(n_components=3)` 里的 `3` 改成 `2` 或 `4`，保留特征数、新轴数量和分数都会一起变化。
+- 改动 `class_sep=1.1` 或 `random_state=7`，被选中的特征列表和分数差距也可能变化。
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.decomposition import PCA
@@ -216,6 +221,6 @@ pca_reduced cv= 0.617 shape= (180, 3)
 
 ## 出处与参考资料
 
-- scikit-learn developers, [Feature selection](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-01.
-- scikit-learn developers, [Unsupervised dimensionality reduction](https://scikit-learn.org/stable/modules/unsupervised_reduction.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-01.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-01.
+- scikit-learn developers, [Feature selection](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- scikit-learn developers, [Unsupervised dimensionality reduction](https://scikit-learn.org/stable/modules/unsupervised_reduction.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.

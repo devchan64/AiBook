@@ -1,7 +1,7 @@
 # P1-12.3 提示词(prompt)的限制(limit)与评估(evaluation)
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 12.1 中，我们看了提示词(prompt)指定了什么；在 12.2 中，我们又把指示(instruction)、上下文(context)、示例(example)拆开来看。现在剩下的问题是：
 

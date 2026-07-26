@@ -1,25 +1,25 @@
 # P4-4.2 验证(validation)与测试(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-4.1 里，我们看过为什么要把数据分成 training data 和 evaluation data。现在再往前走一步。`在选模型过程中使用的数据` 和 `最后只检查一次的数据`，它们承担的角色并不一样。
+在 P4-4.1 里，我们看过为什么要把数据分成 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 和 [evaluation data](/AiBook/zh/reference/concept-glossary-pinyin/e/#evaluation-data)。现在再往前走一步。`在选模型过程中使用的数据` 和 `最后只检查一次的数据`，它们承担的角色并不一样。
 
-如果不把这个差别分开，人就会在选模型的过程中不断去看 test 结果，而一旦这样做，test data 就不再是 `第一次看到的数据`。因此在实务里，evaluation data 往往还会进一步分成 `validation data` 和 `test data`。
+如果不把这个差别分开，人就会在选模型的过程中不断去看 test 结果，而一旦这样做，test data 就不再是 `第一次看到的数据`。因此在实务里，evaluation data 往往还会进一步分成 [validation data](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation-data) 和 [test data](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data)。
 
-这一节会说明 `validation`、`test`，以及 `中途做模型选择的确认` 和 `最后一次确认` 之间的差别。后面的章节会带着这个抓手继续判断当前语境，而数据拆分之后的评估流程，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
+这一节会说明 `validation`、`test`，以及 `中途做模型选择的确认` 和 `最后一次确认` 之间的差别。后面的章节会带着这个抓手继续判断当前语境，而数据拆分之后的评估流程，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
-这一节解释 validation 和 test 的角色差异。metric 的计算本身，这里不会详细展开。accuracy、precision、recall 等指标会在 P4-6 再处理。
+这一节解释 validation 和 test 的角色差异。[metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 的计算本身，这里不会详细展开。[accuracy](/AiBook/zh/reference/concept-glossary-pinyin/a/#accuracy)、precision、recall 等指标会在 P4-6 再处理。
 
-同时，这一节会说明 `在选模型的过程中，到底该看什么` 这条流程，但完整的 model selection 程序和 baseline model 讨论会在 P4-8 再回来。overfitting 与 generalization 的概念，会在 P4-5 里更详细展开。
+同时，这一节会说明 `在选模型的过程中，到底该看什么` 这条流程，但完整的 [model selection](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection) 程序和 [baseline model](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model) 讨论会在 P4-8 再回来。[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 与 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 的概念，会在 P4-5 里更详细展开。
 
 - 为什么 validation data 和 test data 要分开？
 - 它们各自应该在什么时候使用？
 - 为什么在中途不断看 test data 会有问题？
 - 当数据很少时，应该怎样更谨慎地理解这个区分？
-- cross-validation 会怎样接到这个结构里？
+- [cross-validation](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation) 会怎样接到这个结构里？
 
 ## 用验证(validation)与测试(test)留下的判断标准
 
@@ -55,10 +55,10 @@ validation data 和 test data 最大的差别，在于 `它们被用于决策的
 
 validation data 是在选模型过程中使用的数据。例如，它会用于下面这些选择。
 
-- logistic regression 和 decision tree 先试哪个
+- [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 和 [decision tree](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree) 先试哪个
 - tree depth 应该设成 3 还是 5
-- 改 preprocessing 后结果有没有变好
-- 加入某个 feature 后到底有没有帮助
+- 改 [preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing) 后结果有没有变好
+- 加入某个 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) 后到底有没有帮助
 
 也就是说，validation data 是在实验中途拿来比较 `这个选择是不是比前一个更好` 的。
 
@@ -334,6 +334,6 @@ test labels: ['stay', 'stay', 'stay']
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

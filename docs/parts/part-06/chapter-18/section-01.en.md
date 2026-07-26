@@ -1,7 +1,7 @@
 # P6-18.1 A Small Generative AI Feature that Connects Question, Evidence, Answer, and Record
 
 > Section ID: `P6-18.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Even if you can explain LLMs, RAG, tool use, agents, evaluation, and failure handling separately, the actual feature design is not finished yet. The question now gathers around how these concepts move together inside one real request.
 

@@ -1,7 +1,7 @@
 # P6-6.2 Output Selection Rules That Change Answer Stability and Diversity
 
 > Section ID: `P6-6.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-6.1, we saw that the basic training objective of an LLM is next-token prediction. But the user experience looks much more complicated than the phrase `predicting the next piece`.
 

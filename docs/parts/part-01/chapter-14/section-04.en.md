@@ -1,7 +1,7 @@
 # P1-14.4 MCP and the Standardization of Tool Connections
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14.3 described an `agent` as a workflow that carries `goal`, `state`, `action`, and `observation` forward. When an agent uses outside data or tools, it needs a connection method.
 

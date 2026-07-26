@@ -1,16 +1,26 @@
 ## ㅎ
 
+--8<-- "reference/concept-glossary-terms/histogram-binning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/hessian.ko.md"
+
 --8<-- "reference/concept-glossary-terms/harness.ko.md"
 
 --8<-- "reference/concept-glossary-terms/hnsw-hierarchical-navigable-small-world.ko.md"
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.ko.md"
 
+--8<-- "reference/concept-glossary-terms/confusion-matrix.ko.md"
+
 --8<-- "reference/concept-glossary-terms/candidate.ko.md"
+
+--8<-- "reference/concept-glossary-terms/candidate-distribution.ko.md"
 
 --8<-- "reference/concept-glossary-terms/training-mode.ko.md"
 
 --8<-- "reference/concept-glossary-terms/learning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/learning-based-approach.ko.md"
 
 --8<-- "reference/concept-glossary-terms/training.ko.md"
 
@@ -22,12 +32,17 @@
 
 --8<-- "reference/concept-glossary-terms/function.ko.md"
 
+--8<-- "reference/concept-glossary-terms/function-approximation.ko.md"
+
 --8<-- "reference/concept-glossary-terms/composite-function.ko.md"
 --8<-- "reference/concept-glossary-terms/summation-term.ko.md"
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.ko.md"
 --8<-- "reference/concept-glossary-terms/convolution.ko.md"
 --8<-- "reference/concept-glossary-terms/interpretation.ko.md"
+--8<-- "reference/concept-glossary-terms/interpretation-boundary.ko.md"
 --8<-- "reference/concept-glossary-terms/hash-table.ko.md"
+
+--8<-- "reference/concept-glossary-terms/format-consistency.ko.md"
 
 --8<-- "reference/concept-glossary-terms/row.ko.md"
 
@@ -35,6 +50,8 @@
 
 
 --8<-- "reference/concept-glossary-terms/action.ko.md"
+
+--8<-- "reference/concept-glossary-terms/action-value.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.ko.md"

@@ -1,7 +1,7 @@
 # P4-19.3 Caution In Applying Reinforcement Learning
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P4-19.1, we saw value-based reinforcement learning, and in P4-19.2, policy-based reinforcement learning. Once readers reach that point, the next question appears.
 
@@ -11,9 +11,9 @@ That is why P4-19.3 is needed.
 
 Because reinforcement learning learns by trying actions, the design of reward, the place where experiments can be run, and whether what was learned in simulation still works in reality must always be checked together.
 
-This Section does not repeat the basic definitions of value-based and policy-based reinforcement learning at length. The main handles remain in P4-19.1, P4-19.2, and the [concept glossary](/AiBook/reference/concept-glossary/). Here, the focus stays only on the application risks that arise when those algorithms are attached to real problems.
+This Section does not repeat the basic definitions of value-based and policy-based reinforcement learning at length. The main handles remain in P4-19.1's [value-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning), P4-19.2's [policy-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning), and related glossary entries. Here, the focus stays only on the application risks that arise when those algorithms are attached to real problems.
 
-## Scope Of This Section
+## Questions Closed By Reinforcement-Learning Application Cautions
 
 This Section answers the following questions.
 
@@ -24,16 +24,16 @@ This Section answers the following questions.
 
 This Section first closes the question of `what application risks must be checked together when reinforcement learning is connected to real problems`. The larger picture of safe RL, offline RL, sim-to-real reinforcement strategies, RLHF, and preference optimization is gathered again in supplementary learning P4-19.4, and RLHF in the LLM-alignment context reconnects again in Part 5, especially P5-6, P5-8, and P5-10.
 
-## Goals Of This Section
+## Judgments To Keep From Reinforcement-Learning Application Cautions
 
-- You can explain that reward may not be the same thing as the true objective.
-- You can say that exploration may look easy in games but creates cost and risk in the real world.
-- You can explain why the sim-to-real gap matters.
+- You can explain that reward may not be the same thing as the [true objective](/AiBook/en/reference/concept-glossary-alpha/t/#true-objective).
+- You can say that exploration may look easy in games but creates [exploration cost](/AiBook/en/reference/concept-glossary-alpha/e/#exploration-cost) and risk in the real world.
+- You can explain why the [sim-to-real gap](/AiBook/en/reference/concept-glossary-alpha/s/#sim-to-real-gap) matters.
 - You can build your own checklist questions before applying reinforcement learning.
 
-## Judgment Flow for Caution In Applying Reinforcement Learning For This Section
+## Judgment Flow For Reinforcement-Learning Application Cautions
 
-In this Section, `reward design`, `exploration cost`, `sim-to-real gap`, and `pre-deployment checks` appear in one continuous block, so the pace can easily become too fast. On a first reading, it is best to hold only the next four questions in order.
+In this Section, [reward design](/AiBook/en/reference/concept-glossary-alpha/r/#reward-design), exploration cost, sim-to-real gap, and `pre-deployment checks` appear in one continuous block, so the pace can easily become too fast. On a first reading, it is best to hold only the next four questions in order.
 
 1. What is the first reason reinforcement learning becomes difficult immediately in the real world?
 2. How roughly does the current reward stand in for the real objective?
@@ -114,7 +114,7 @@ So in reward design, the first question is not `is this number easy to compute?`
 
 ## Why Does Reward Hacking Happen?
 
-AI safety literature calls this kind of problem reward hacking. It means the following.
+AI safety literature calls this kind of problem [reward hacking](/AiBook/en/reference/concept-glossary-alpha/r/#reward-hacking). It means the following.
 
 `A phenomenon where the model optimizes the reward function literally, misses the meaning intended by humans, and only raises the number`
 
@@ -167,7 +167,7 @@ This judgment is not a matter of supporting or rejecting exploration in the abst
 
 | Exploration scene | What can be gained | What must be calculated together |
 | --- | --- | --- |
-| Trying a new route in a game agent | Discovery of a higher-scoring strategy | Mostly time loss |
+| Trying a new route in a game reinforcement learning agent | Discovery of a higher-scoring strategy | Mostly time loss |
 | Trying a new grasp angle in a robot arm | Discovery of a more stable control combination | Collision, wear, equipment damage |
 | Trying a new exposure ratio in a recommendation policy | Discovery of a better conversion pattern | User fatigue, churn, more complaints |
 
@@ -175,7 +175,7 @@ So exploration can be both `a process of getting new information` and `a process
 
 ## Why Does Safe Exploration Become Its Own Topic?
 
-AI safety literature treats safe exploration as a separate problem. The reason is simple.
+AI safety literature treats [safe exploration](/AiBook/en/reference/concept-glossary-alpha/s/#safe-exploration) as a separate problem. The reason is simple.
 
 `Reinforcement learning learns by trying, but in the real world the trying itself can be dangerous.`
 
@@ -546,7 +546,5 @@ The core of this Section is not to increase the number of names for application 
 ## Sources And References
 
 - Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018, checked on 2026-06-28. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
-- Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, checked on 2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
-- Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, checked on 2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }
 - Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, checked on 2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
 - Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, checked on 2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }

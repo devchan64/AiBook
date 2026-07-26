@@ -1,9 +1,9 @@
 # P3-1.3 数据问题要怎么写，问题结构才会先于模型显现出来
 
 > Section ID: `P3-1.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-一个好的数据问题，首先应该让人看见 `什么算一条案例`、`什么和什么比较`、`最终想知道什么`。只有在模型名或技术名之前，先把这种问题结构立起来，后面的样本单位、表结构、特征、基准线、输出结构才会一起跟着定下来。尤其是，先挑出人要优先看的对象的问题，应该能自然通向 [review queue](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-review-queue)；而先定义以后要预测什么结果的问题，则应该通向 [target candidate](/AiBook/reference/concept-glossary-parts/05-mieum/#glossary-target-candidate)。相反，不好的问题往往只有模型名字，却把样本单位和比较基准留空了。
+一个好的[数据问题](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-data-question)，首先应该让人看见 `什么算一条案例`、`什么和什么比较`、`最终想知道什么`。只有在模型名或技术名之前，先把这种问题结构立起来，后面的样本单位、表结构、特征、基准线、输出结构才会一起跟着定下来。尤其是，先挑出人要优先看的对象的问题，应该能自然通向 [review queue](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)；而先定义以后要预测什么结果的问题，则应该通向 [target candidate](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)。相反，不好的问题往往只有模型名字，却把样本单位和比较基准留空了。
 
 | 还是太早的说法 | 更好的数据问题 |
 | --- | --- |

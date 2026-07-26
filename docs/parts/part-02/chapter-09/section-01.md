@@ -1,7 +1,7 @@
 # P2-9.1 자료구조(data structure)는 왜 필요한가
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P2-8에서는 Python의 값(value), 리스트(list), 딕셔너리(dictionary), 반복(loop), 함수(function), 클래스(class)를 봤습니다. 이제 한 걸음 물러서서 질문을 바꿉니다.
 
@@ -9,7 +9,7 @@ P2-8에서는 Python의 값(value), 리스트(list), 딕셔너리(dictionary), �
 
 이 질문이 자료구조(data structure)의 출발점입니다. 자료구조는 단순히 문법 이름이 아닙니다. 데이터를 어떻게 조직하고, 어떤 연산을 자주 할 것인지에 따라 코드의 모양과 계산 방식이 달라집니다.
 
-여기서는 `자료구조(data structure)`, `추상 자료형(abstract data type)`, `선형 구조(linear structure)`, `비선형 구조(non-linear structure)`의 기본 구분을 설명합니다. 뒤 절에서 배열, 표, 트리, 그래프를 나누어 다시 보더라도, 자료구조를 왜 먼저 질문으로 읽어야 하는지는 여기 기준으로 다시 연결합니다. 이후 구조 이름이 반복될 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 확인합니다.
+여기서는 `자료구조(data structure)`, `추상 자료형(abstract data type)`, `선형 구조(linear structure)`, `비선형 구조(non-linear structure)`의 기본 구분을 설명합니다. 뒤 절에서 배열, 표, 트리, 그래프를 나누어 다시 보더라도, 자료구조를 왜 먼저 질문으로 읽어야 하는지는 여기 기준으로 다시 연결합니다. 이후 구조 이름이 반복될 때는 [개념사전의 자료구조 항목](../../../reference/concept-glossary-parts/09-jieut.md#data-structure)도 함께 확인합니다.
 
 이 절은 새 Python 문법을 더하는 대신, 앞 절에서 배운 문법을 데이터 조직 관점으로 다시 묶습니다. Chapter 8이 값, 묶음, 반복, 함수라는 실행 문장을 익히는 구간이었다면, 여기서는 그 문장들이 어떤 데이터 모양을 전제하고 있었는지 다시 봅니다. 이렇게 읽으면 리스트와 딕셔너리를 문법 항목이 아니라 서로 다른 자료구조 선택으로 연결하기 쉬워집니다.
 

@@ -1,6 +1,9 @@
+<a id="sentence-paragraph-and-document-embedding"></a>
+
 ## sentence, paragraph, and document embedding
 
-- Meaning: 단어 하나가 아니라 문장, 문단, 문서 같은 더 긴 텍스트 단위를 하나의 벡터 표현으로 바꾸는 방식입니다. 즉 개별 단어 뜻을 따로 비교하기보다, 여러 문장이 함께 이루는 주제와 의미 흐름을 한 좌표 표현으로 압축하는 접근이라고 볼 수 있습니다. 그래서 이 임베딩은 `이 문서에 어떤 단어가 있나`보다 `이 문서가 전체적으로 무슨 말을 하고 있나`를 비교하기 위한 표현에 가깝습니다.
-- Why it matters: 실제 검색과 RAG에서는 질문과 비교할 대상이 긴 문서 조각인 경우가 많아, 단어 임베딩만이 아니라 더 큰 텍스트 단위의 표현이 필요하기 때문입니다. 이 개념이 있어야 검색이 낱말 일치만이 아니라 문장이나 문단 전체 의미 단위의 가까움을 비교하는 과정이라는 점을 이해하게 되고, 청크를 어떻게 나누느냐가 검색 품질에 직접 영향을 준다는 점도 더 분명히 읽게 됩니다. 예를 들어 너무 긴 문단을 한 벡터로 만들면 세부 주제가 섞일 수 있고, 너무 짧게 자르면 문맥이 끊어질 수 있으므로, 임베딩 단위 선택 자체가 검색 설계 문제라는 점도 함께 드러납니다.
+- Meaning: Sentence, paragraph, and document embedding turns longer text units into one vector representation, instead of embedding only individual words. It compresses the topic and semantic flow of multiple words or sentences into a coordinate representation.
+- Why it matters: Search and RAG often compare a question against longer document chunks, so they need representations larger than word embeddings. This concept helps readers see that retrieval compares meaning at the sentence, paragraph, or document level, and that chunking choices directly affect search quality.
 - Related concepts: `embedding`, `chunk`, `vector space`
 - Core Section: `P1-13.1`
+- Appears in: `P1-13.1`, `P6-3.3`

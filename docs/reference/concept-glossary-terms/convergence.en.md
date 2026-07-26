@@ -7,5 +7,4 @@
 - Why it matters: Convergence helps readers interpret iterative computation and training curves. It separates movement toward a stable point from divergence, oscillation, or unstable learning behavior.
 - Related concepts: `limit`, `rate of change`, `optimization`
 - Core Section: `P2-2.3`
-- Appears in: `P2-6.3`
-
+- Appears in: `P2-6.3`, `P4-19.5`

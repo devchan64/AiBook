@@ -1,7 +1,7 @@
 # P1-6.3 AI에서 확률적 판단이 쓰이는 곳
 
 > Section ID: `P1-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 6.2에서는 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)을 구분했습니다. 이번 절에서는 그 구분이 실제 AI 시스템에서 어디에 쓰이는지 봅니다.
 

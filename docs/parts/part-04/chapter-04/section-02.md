@@ -1,25 +1,25 @@
 # P4-4.2 검증(validation)과 테스트(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터(evaluation data)로 나누는 이유를 봤습니다. 이제 한 단계 더 나아갑니다. 모델을 고르는 과정에서 쓰는 데이터와, 마지막에 한 번만 확인하는 데이터는 같은 역할이 아닙니다.
+P4-4.1에서는 데이터를 [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data)와 [평가 데이터(evaluation data)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-data)로 나누는 이유를 봤습니다. 이제 한 단계 더 나아갑니다. 모델을 고르는 과정에서 쓰는 데이터와, 마지막에 한 번만 확인하는 데이터는 같은 역할이 아닙니다.
 
-이 차이를 구분하지 않으면 모델을 고르는 동안 테스트 결과를 자꾸 들여다보게 되고, 그 순간 테스트 데이터는 더 이상 “처음 보는 데이터” 역할을 하지 못하게 됩니다. 그래서 실무에서는 평가 데이터를 다시 `검증 데이터(validation data)`와 `테스트 데이터(test data)`로 나누어 쓰는 경우가 많습니다.
+이 차이를 구분하지 않으면 모델을 고르는 동안 테스트 결과를 자꾸 들여다보게 되고, 그 순간 테스트 데이터는 더 이상 “처음 보는 데이터” 역할을 하지 못하게 됩니다. 그래서 실무에서는 평가 데이터를 다시 [검증 데이터(validation data)](../../../reference/concept-glossary-parts/01-giyeok.md#validation-data)와 [테스트 데이터(test data)](../../../reference/concept-glossary-parts/12-tieut.md#test-data)로 나누어 쓰는 경우가 많습니다.
 
 이 절은 `검증(validation)`, `테스트(test)`, `모델 선택 중간 확인과 마지막 확인의 구분`을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 데이터 분리 이후의 평가 절차는 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 검증(validation)과 테스트(test)에서 닫을 질문
 
-이 절은 검증과 테스트의 역할 차이를 설명합니다. 평가 지표(metric)의 계산 자체는 여기서 자세히 다루지 않습니다. 정확도, 정밀도, 재현율 같은 지표는 P4-6에서 다룹니다.
+이 절은 검증과 테스트의 역할 차이를 설명합니다. [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)의 계산 자체는 여기서 자세히 다루지 않습니다. [정확도(accuracy)](../../../reference/concept-glossary-parts/09-jieut.md#accuracy), [정밀도(precision)](../../../reference/concept-glossary-parts/09-jieut.md#precision), [재현율(recall)](../../../reference/concept-glossary-parts/09-jieut.md#recall) 같은 지표는 P4-6에서 다룹니다.
 
-또한 이 절은 “어떤 모델을 고르는 동안 무엇을 봐야 하는가”라는 흐름을 설명하지만, 본격적인 모델 선택(model selection) 절차와 기준 모델(baseline) 논의는 P4-8에서 다시 다룹니다. 과적합(overfitting)과 일반화(generalization)의 개념은 P4-5에서 더 자세히 다룹니다.
+또한 이 절은 “어떤 모델을 고르는 동안 무엇을 봐야 하는가”라는 흐름을 설명하지만, 본격적인 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection) 절차와 [기준 모델(baseline model)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model) 논의는 P4-8에서 다시 다룹니다. [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)과 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)의 개념은 P4-5에서 더 자세히 다룹니다.
 
 - 검증 데이터와 테스트 데이터는 왜 따로 두는가?
 - 두 데이터는 각각 언제 써야 하는가?
 - 테스트 데이터를 중간에 자꾸 보면 왜 문제가 되는가?
 - 데이터가 적을 때는 이 구분을 어떻게 조심해서 읽어야 하는가?
-- 교차검증(cross-validation)은 이 구조와 어떻게 연결되는가?
+- [교차검증(cross-validation)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation)은 이 구조와 어떻게 연결되는가?
 
 ## 검증(validation)과 테스트(test)에서 남길 판단 기준
 
@@ -55,10 +55,10 @@ P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터
 
 검증 데이터는 모델을 고르는 동안 사용합니다. 예를 들어 다음과 같은 선택에 쓰입니다.
 
-- 로지스틱 회귀와 결정트리 중 무엇을 먼저 쓸지
+- [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)와 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree) 중 무엇을 먼저 쓸지
 - 트리 깊이를 3으로 할지 5로 할지
-- 전처리를 바꿨을 때 결과가 나아졌는지
-- 특징(feature)을 추가했을 때 도움이 되는지
+- [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing)를 바꿨을 때 결과가 나아졌는지
+- [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)을 추가했을 때 도움이 되는지
 
 즉, 검증 데이터는 실험 중간에 “이 선택이 이전보다 나은가?”를 비교하는 데 쓰입니다.
 
@@ -334,6 +334,6 @@ test labels: ['stay', 'stay', 'stay']
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

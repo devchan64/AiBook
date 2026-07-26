@@ -1,11 +1,11 @@
 # Part 1. AI 导论与地形图
 
 > Section ID: `P1-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 1 是在重新深入学习 AI 之前，先把整体地形重新搭起来的区段。它并不是从实现某个具体算法开始，而是先说明后面要读到的数学修复、机器学习、深度学习、LLM、生成式 AI、服务架构与项目实践，怎样被放进同一张连贯地图中。
 
-在同一个 Part 内，重要概念的详细说明应尽量只留在一个主 Section。后续 Section 只重新接回当前问题所需的内容。如果阅读过程中某个术语再次变得不稳定，请先回到 [概念词汇表](/AiBook/reference/concept-glossary/)，先看 `Core Section`，再沿着 `Appears In` 列表追踪它在后续语境中的回归位置。
+在同一个 Part 内，重要概念的详细说明应尽量只留在一个主 Section。后续 Section 只重新接回当前问题所需的内容。如果阅读过程中某个术语再次变得不稳定，请先回到 [AI](/AiBook/zh/reference/concept-glossary-pinyin/a/#ai-artificial-intelligence)、[machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning)、[LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) 等代表词条，先看 `Core Section`，再沿着 `Appears In` 列表追踪它在后续语境中的回归位置。
 
 这一 Part 的核心目的，是重建当人们说出 “AI” 时脑中应该浮现的范围。AI 并不只是某一种技术的名称，而是一个包含规则式方法、搜索、概率判断、数据驱动学习、深度学习、生成模型、代理式工具与社会责任的广阔领域。如果一开始就把这些都看成一团没有区分的整体，学习流程很快就会断掉。
 
@@ -18,14 +18,14 @@ Part 1 也是把个人直觉和零散经验重新连接回可复用标准概念�
 3. 看清从规则到学习的移动。
 4. 建立模型、数据、学习与执行的基础语言。
 5. 连接深度学习与生成式 AI 的兴起。
-6. 把 LLM、prompt、embedding、RAG 与 agent 放到同一张大地图上。
+6. 把 LLM、prompt、embedding、RAG 与 AI agent 放到同一张大地图上。
 7. 同时保持对服务架构、伦理、版权、安全与预测问题的视野。
 
 ## 为什么先建立 AI 的整体地图
 
 这一 Part 是把过去学过的 AI 导论，与当前 AI 地形重新连接起来的起点。
 
-许多读者第一次接触 AI 时，规则式系统、搜索、知识表示、启发式、概率推理、数据挖掘和机器学习往往被当作彼此分离的话题。今天，这些话题又与深度学习、LLM、prompt、embedding、向量搜索、RAG、agent、工具使用、服务运维、版权和安全问题并列出现。
+许多读者第一次接触 AI 时，规则式系统、搜索、知识表示、启发式、概率推理、数据挖掘和机器学习往往被当作彼此分离的话题。今天，这些话题又与深度学习、LLM、prompt、embedding、向量搜索、RAG、AI agent、工具使用、服务运维、版权和安全问题并列出现。
 
 Part 1 不会试图一次把这些全都讲深，而是先让读者能够回答下面这些问题：
 
@@ -45,7 +45,7 @@ Part 1 不会试图一次把这些全都讲深，而是先让读者能够回答�
 - 你可以区分 AI、机器学习、深度学习、生成式 AI 与 LLM 之间的大致关系。
 - 你可以说明规则式方法、搜索、启发式、概率判断和学习式方法分别扮演不同角色。
 - 你可以逐渐熟悉数据、特征、表征、模型、参数、学习与 inference 这些基础语言。
-- 你可以在现代 LLM 使用场景中区分 prompt、embedding、向量搜索、RAG 与 agent。
+- 你可以在现代 LLM 使用场景中区分 prompt、embedding、向量搜索、RAG 与 AI agent。
 - 你可以通过模型、应用、数据、工具、运维约束与责任这些视角来看待 AI 服务。
 - 你可以保持把个人工作假设与标准解释分开的习惯。
 
@@ -56,13 +56,13 @@ Part 1 的职责是建立 AI 的整体地形，因此它会覆盖：
 - AI、机器学习、深度学习、生成式 AI 与 LLM 之间的广义关系
 - 规则式方法、搜索、概率判断与学习式方法各自所处的位置
 - 数据、模型、学习、inference 与服务结构的基础语言
-- 阅读 prompt、embedding、RAG、agent 与运维约束所需的大地图
+- 阅读 prompt、embedding、RAG、AI agent 与运维约束所需的大地图
 
 它不会在这里试图完成以下内容：
 
 - 各类算法的详细公式与实现
 - 深度学习架构内部的计算过程
-- LLM、RAG 与 agent 的服务级详细设计
+- LLM、RAG 与 AI agent 的服务级详细设计
 
 这并不是回避，而是范围控制。Part 1 的责任，是先把“什么东西属于哪里”说清楚。更深入的解释会在后续 Part 中回收。
 
@@ -115,7 +115,7 @@ Part 1 由 17 个 Chapter 组成。
 
 接着还会回看不确定性、概率、随机性、搜索空间、启发式、监督学习、无监督学习与强化学习。尤其在第 6、7 章里，会故意把常常混在一起的边界拆开：不确定性、概率和随机过程不是同一回事；启发式也不等于概率模型。Part 1 先把这些区分关上，后面的统计、评估与生成部分再继续把它们重新接回来。像 `0.80` 这样的分数该怎样读、校准与 confidence 该相信到什么程度、uncertainty estimation 怎样更细地讨论，这些内容在这里先只放到地图上，之后会在 Part 2 的概率统计和 Part 4 的评估与阈值决策中继续回收。
 
-后面章节会进入深度学习范式的扩散、生成式 AI、LLM 的谱系、prompt、embedding、向量搜索、RAG、AI 服务架构、agent、MCP、harness 与运维约束。这里要先固定的一个边界是：生成式 AI 是按“生成什么”来归类的更宽范畴，包含文本、图像、音频、代码等；而 LLM 是其中处理语言数据的代表模型家族。这个区分会在 Part 6 里通过 token、Transformer、GPT 主线与 BERT 对比重新展开。最后几章则让伦理、版权、安全、现实应用与 AI 预测始终和技术说明绑在一起。
+后面章节会进入深度学习范式的扩散、生成式 AI、LLM 的谱系、prompt、embedding、向量搜索、RAG、AI 服务架构、AI agent、MCP、harness 与运维约束。这里要先固定的一个边界是：生成式 AI 是按“生成什么”来归类的更宽范畴，包含文本、图像、音频、代码等；而 LLM 是其中处理语言数据的代表模型家族。这个区分会在 Part 6 里通过 token、Transformer、GPT 主线与 BERT 对比重新展开。最后几章则让伦理、版权、安全、现实应用与 AI 预测始终和技术说明绑在一起。
 
 第 9 章也会特别谨慎地拆边界。像 CNN、GPU、YOLO、WaveNet 这样的案例，会放在“深度学习范式如何扩散”的背景位置；而 LLM 的直接谱系，则会放在语言模型、Seq2Seq、Attention 和 Transformer 这一边。这个边界如果不先固定，后面在 Part 5 和 Part 6 学 CNN、Transformer、GPT、BERT 时，就很容易把时间顺序和直接谱系混在一起。
 
@@ -147,7 +147,7 @@ Part 1 并不是每项技术的终点，而是避免后续解释失去连接位�
 | model、data、parameter、learning、inference | 先知道模型接收输入、产生输出，学习会改变内部值 | Part 2 的公式与 Python 基础、Part 3 的数据建模、Part 4 的学习与评估 |
 | supervised、unsupervised、reinforcement learning | 先知道它们的学习信号分别来自标签、结构和奖励 | Part 4 机器学习 |
 | representation learning、CNN、RNN、Attention、Transformer | 先知道它们是为了回应不同数据结构问题而出现 | Part 5 深度学习 |
-| generative AI、LLM、token、prompt、RAG、agent | 先知道一个生成式服务不会只靠单一模型就结束 | Part 6 LLM 与生成式 AI |
+| generative AI、LLM、token、prompt、RAG、AI agent | 先知道一个生成式服务不会只靠单一模型就结束 | Part 6 LLM 与生成式 AI |
 | 服务运维、评估与责任 | 先知道模型输出之后还会继续连到人、政策、成本与安全 | Part 6 的评估与运维、Part 7 的项目回顾 |
 
 ## 留到后续 Part 的计算与实现问题
@@ -156,7 +156,7 @@ Part 1 并不是每项技术的终点，而是避免后续解释失去连接位�
 
 - 损失(loss)和梯度(gradient)到底是怎样计算的？
 - 为什么深度学习架构会分化成 CNN、RNN 和 Transformer？
-- 为什么 LLM 服务还需要 RAG、工具使用、agent 和 MCP 这类层次？
+- 为什么 LLM 服务还需要 RAG、工具使用、AI agent 和 MCP 这类层次？
 
 这些问题都会在后续 Part 中回收。
 
@@ -179,7 +179,7 @@ Part 1 并不是每项技术的终点，而是避免后续解释失去连接位�
 - 你可以说明规则式方法与学习式方法的差异。
 - 你可以说出数据、特征、表征、模型、参数、学习与 inference 的基本关系。
 - 你可以解释为什么不确定性、概率、搜索与启发式会在 AI 说明里反复出现。
-- 你可以解释 prompt、embedding、向量搜索、RAG 与 agent 之间的大致连接流程。
+- 你可以解释 prompt、embedding、向量搜索、RAG 与 AI agent 之间的大致连接流程。
 - 你可以把 AI 服务看成不仅有模型，也同时包含应用、数据、工具、运维约束与责任的结构。
 - 你已经准备好把个人工作假设与标准解释分开。
 

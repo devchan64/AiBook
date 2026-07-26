@@ -7,4 +7,4 @@
 - 함께 볼 개념: `일반화(generalization)`, `과소적합(underfitting)`, `정규화(regularization)`
 - 대표 반대 개념: `과소적합(underfitting)`, `일반화(generalization)`
 - 중심 Section: `P4-5.1`
-- 등장 Section: `P1-3.2`, `P1-5.1`, `P4-5.2`, `P4-14.2`, `P4-16.2`, `P5-8.1`, `P5-8.2`
+- 등장 Section: `P1-3.2`, `P1-5.1`, `P4-3.2`, `P4-4.1`, `P4-5.2`, `P4-6.1`, `P4-9.1`, `P4-9.2`, `P4-14.2`, `P4-16.2`, `P5-8.1`, `P5-8.2`

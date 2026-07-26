@@ -1,7 +1,7 @@
 # P6-4.5 Supplement: Long Context and Sparse Attention
 
 > Section ID: `P6-4.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How do sparse attention and long context separate computation burden from clue preservation?_
 

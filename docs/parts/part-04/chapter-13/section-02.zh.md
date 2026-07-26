@@ -1,21 +1,21 @@
 # P4-13.2 kernel 的入门含义
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary 的分类器`。接着自然会冒出下一个问题。
 
 如果 boundary 必须保持成一条直线，那么那些用直线不好分开的数据该怎么办？
 
-这个问题正是现在必须介绍 kernel 的原因。
+这个问题正是现在必须介绍 [kernel](/AiBook/zh/reference/concept-glossary-pinyin/h/#kernel) 的原因。
 
 `kernel 是这样一种想法：让数据在另一种表示空间里被比较，从而让原本在线性空间里难以分开的结构变得更容易处理。`
 
 所以，13.2 的核心不是 `一个新的魔法函数`，而是这样一种观点：`只要表示方式变了，即使线性 boundary 也会拥有不同的意义`。
 
-这一节不会重新长篇重复 SVM 的基本定义。`寻找大 margin boundary` 这个核心直觉，会通过 P4-13.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。这里专注的是：为什么要引入改变表示空间的想法。
+这一节不会重新长篇重复 [SVM(support vector machine)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine) 的基本定义。`寻找大 margin boundary` 这个核心直觉，会通过 P4-13.1 的判断标准再接回来。这里专注的是：为什么要引入改变 [feature space](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-space) 的想法。
 
-## 本节范围
+## kernel 想法先收束的问题
 
 这一节回答下面这些问题。
 
@@ -27,7 +27,7 @@ P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary �
 
 `gamma`、`degree`、`coef0` 这些设置该怎样读，以及验证成本该怎么看，会在 P4-9.1 和 P4-9.2 再接回来。也就是说，这一节先专注抓住 `只要 representation space 改变，linear boundary 的意义也会改变` 这个想法。
 
-## 用kernel 的入门含义留下的判断标准
+## kernel 想法要留下的判断标准
 
 - 能举例说明为什么线性 boundary 有时会显得不够。
 - 能说明如果 feature space 改变，同一批数据会被读成不同的结构。
@@ -35,7 +35,7 @@ P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary �
 - 能从直觉上说出 polynomial kernel 和 RBF kernel 分别在意什么样的非线性。
 - 能把 kernel-based 方法放在 `当线性 boundary 看起来不足时才想起的候选` 这个位置上，而不是当成默认答案。
 
-## 这一节建议怎么读
+## kernel 想法的阅读顺序
 
 因为这里会一下子冒出好几个新词，第一次读时最好只按下面四个问题来抓。
 
@@ -347,6 +347,11 @@ kernel 的想法是在 SVM 走向更广泛应用的过程中一同重要起来�
   - 在原始坐标里，像 `x1 + x2` 这样的简单线性读取并不自然
   - 一旦加上 `x1 * x2` 这个新特征，class 就会简单得多
 
+可以改动的值：
+
+- 在 `points` 中加入 `(0, 1)` 或 `(1, 0)` 这类新点，可以确认这个简单变换并不能解决所有情况。
+- 把 `z = x1 * x2` 改成 `z = x1 ** 2 + x2 ** 2`，可以比较 XOR 型结构和圆形结构为什么需要不同表示。
+
 ```python
 # 这个例子为了理解 kernel，把原始坐标转换到新的特征空间并检查可分性。
 points = [
@@ -429,5 +434,5 @@ transformed space with z = x1 * x2
 
 ## 出处与参考资料
 
-- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 确认日期: 2026-07-19. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 确认日期: 2026-07-26. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
+- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 确认日期: 2026-07-26. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }

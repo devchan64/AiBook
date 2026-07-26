@@ -7,3 +7,4 @@
 - 함께 볼 개념: `일반화(generalization)`, `과적합(overfitting)`, `모델 복잡도(model complexity)`
 - 대표 반대 개념: `과적합(overfitting)`, `일반화(generalization)`
 - 중심 Section: `P1-3.2`
+- 등장 Section: `P4-4.1`, `P4-5.1`, `P4-5.2`

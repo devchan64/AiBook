@@ -1,7 +1,7 @@
 # P2-8.1 값(value), 변수(variable), 타입(type)
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P2-7에서는 코드가 어디에서 실행되는지 봤습니다. Colab에서 실행할 수도 있고, 로컬 PC(local PC)의 터미널에서 Python 인터프리터(Python interpreter)를 실행할 수도 있습니다.
 
@@ -13,7 +13,7 @@ P2-7에서는 코드가 어디에서 실행되는지 봤습니다. Colab에서 �
 
 첫 번째 단어는 값(value), 변수(variable), 타입(type)입니다.
 
-여기서는 `값(value)`, `변수(variable)`, `타입(type)`의 기본 구분을 설명합니다. 이 세 단어는 Python에만 갇힌 표현이 아니라, 대부분의 프로그래밍 언어와 데이터 처리 도구가 공통으로 쓰는 최소 단위입니다. 이후 Part 2에서 이 개념들을 다시 만날 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 기준점으로 삼습니다.
+여기서는 `값(value)`, `변수(variable)`, `타입(type)`의 기본 구분을 설명합니다. 이 세 단어는 Python에만 갇힌 표현이 아니라, 대부분의 프로그래밍 언어와 데이터 처리 도구가 공통으로 쓰는 최소 단위입니다. 이후 Part 2에서 이 개념들을 다시 만날 때는 [개념사전의 값 항목](../../../reference/concept-glossary-parts/01-giyeok.md#value)도 함께 기준점으로 삼습니다.
 
 ## 이번 절에서 남길 3개 문장
 

@@ -1,7 +1,7 @@
 # P5-12.2 장기 의존성(long-term dependency)
 
 > Section ID: `P5-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-12.1에서는 RNN, LSTM, GRU가 순차 데이터(sequence data)를 다루기 위해 등장한 구조라고 설명했습니다. 여기서 바로 다음 질문이 생깁니다.
 

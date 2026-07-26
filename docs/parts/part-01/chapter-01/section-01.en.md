@@ -1,13 +1,13 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
 The purpose of this section is not to produce one perfect sentence that defines AI once and for all. The purpose is to organize the range of the term so that later sections on rule-based systems, machine learning, deep learning, generative AI, and LLMs can be read on the same map.
 
-In Part 1, `AI` is the widest outer category. Even when the term appears again in later sections, only the amount needed for the current question is carried forward there. When the range itself needs to be separated again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
+In Part 1, `AI` is the widest outer category. Even when the term appears again in later sections, only the amount needed for the current question is carried forward there. When the range itself needs to be separated again, return to this section and to the glossary entry for [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence).
 
 ## Placing AI as the Widest Outer Category
 
@@ -65,7 +65,7 @@ Many terms appear in this section, but the structure becomes much clearer once t
 | goal | the purpose that defines why such an output is desirable | approval support, recommendation, search, answer generation |
 | impact | the effect the output has on human judgment or the environment | approval decisions, ranking changes, workflow changes |
 
-The first baseline that should remain from this section is that `AI is a broad field` and that `an AI system is a structure with inputs, goals, and outputs`. `Impact` is included because the same output can play very different roles depending on how it affects real people and real environments. If the terms become unstable again, return to the relevant entries in the [Concept Glossary](/AiBook/reference/concept-glossary/).
+The first baseline that should remain from this section is that `AI is a broad field` and that `an AI system is a structure with inputs, goals, and outputs`. `Impact` is included because the same output can play very different roles depending on how it affects real people and real environments. If the terms become unstable again, return to the relevant glossary entries for [system](/AiBook/en/reference/concept-glossary-alpha/s/#system), [input](/AiBook/en/reference/concept-glossary-alpha/i/#input), [output](/AiBook/en/reference/concept-glossary-alpha/o/#output), and impact.
 
 For example, consider an online store product recommendation. AI is the broad field that includes such recommendation problems. A `recommendation system` is the actually implemented system. The inputs are click records and purchase records. The output is a ranked list of products. The goal is to choose what the user is likely to look at next. The `impact` is that some products are shown more often and the user’s decision flow changes. Even when later sections introduce different cases, dividing them first into these six slots is often more helpful than trying to memorize the terms directly.
 
@@ -113,7 +113,7 @@ This separation is a safety device that prevents dictionary-style definition fro
 
 The reason `DSS/BI/DW/OLAP` appears here is to show early that data modeling does not suddenly appear later as a separate technique. It grows on top of an older flow that collected data and connected it to decision-making. Memorizing every abbreviation is not the goal. For the present context, it is enough to read `DSS (decision support system)` as a system that supports decisions, `BI (business intelligence)` as a structure for reading data and using it in business judgment, `DW (data warehouse)` as a storage structure that collects data, and `OLAP (online analytical processing)` as a way to analyze collected data by several criteria.
 
-### The Scope of AI Changes by Context
+### AI Scope Changes by Context
 
 The word AI is used differently depending on context.
 
@@ -133,7 +133,7 @@ So this book keeps AI as the widest category first, then separates lower concept
 
 This diagram is a learning map. It places `AI` as the outer category and shows where rule-based approaches, search and planning, probabilistic reasoning, machine learning, deep learning, generative AI, and LLMs sit relative to one another. The important thing is not to memorize every arrow as a strict inclusion relation. The important thing is to read that `LLM` does not mean all of AI and that `rule-based approaches` are not outside AI but one stream inside it.
 
-### The Questions This Book Uses to Read AI
+### Questions This Book Uses to Read AI
 
 The key is not to judge once and for all whether something is or is not AI. The key is to check how the system in front of you answers the following questions.
 

@@ -1,9 +1,9 @@
 # P3-7.1 What Should We Compare the Structure We Kept Against So That Change Becomes Visible
 
 > Section ID: `P3-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-When people hear the word baseline, they often think first of model evaluation or performance comparison. That is understandable, because the phrase baseline model also appears often in machine learning. But the baseline discussed in this Part comes earlier than that. Here, a baseline is part of the data-representation structure that decides `what should the current state be compared against` before model-performance comparison begins. If the previous chapter preserved structure through features and intermediate representations, then we now have to decide what that structure should be compared against so that change becomes visible.
+When people hear the word [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), they often think first of model evaluation or performance comparison. That is understandable, because the phrase [baseline model](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline-model) also appears often in machine learning. But the baseline discussed in this Part comes earlier than that. Here, a baseline is part of the data-representation structure that decides `what should the current state be compared against` before model-performance comparison begins. If the previous chapter preserved structure through features and intermediate representations, then we now have to decide what that structure should be compared against so that change becomes visible.
 
 To establish a baseline is not to write down one more current value. It is to decide what usual structure the current structure has to meet before change can be seen. Even when the recent value is the same, the interpretation sentence changes according to what we choose as the baseline, so the comparison structure itself has to be designed first. If the previous chapter built a feature table that contains level, change, and stability, we now enter the stage of deciding what usual range that table must meet before it becomes a comparison table.
 
@@ -63,7 +63,7 @@ The situations where a baseline is especially needed can be summarized more brie
 
 The key point of this table is that the baseline is not `an extra reference number`, but `the premise of comparison needed to speak about whether change exists`.
 
-So this section is more accurately read not as an introduction to the word baseline, but as the problem of `what reference window should be placed alongside the current state in order to read it`. A baseline is not an extra number. It is a reference window that turns the current structure from a standalone value into `a comparable state`.
+So this section is more accurately read not as an introduction to the word baseline, but as the problem of [what reference window should be placed alongside the current state in order to read it](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline-window). A baseline is not an extra number. It is a reference window that turns the current structure from a standalone value into `a comparable state`.
 
 ## Sources and Further Reading
 

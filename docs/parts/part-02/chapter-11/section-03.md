@@ -1,7 +1,7 @@
 # P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P2-11.1에서는 NumPy 배열(array)의 `shape`, `ndim`, `dtype`을 확인했습니다. P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 사용해 배열의 어느 부분을 읽고 어느 방향으로 계산할지 봤습니다.
 
@@ -30,7 +30,7 @@ print(scores + 10)
 
 코드에는 `for`가 없습니다. 하지만 결과를 보면 각 값에 10이 더해졌습니다. 이런 계산을 이해하려면 브로드캐스팅(broadcasting)과 벡터화(vectorization)를 함께 봐야 합니다.
 
-여기서는 `브로드캐스팅(broadcasting)`과 `벡터화(vectorization)`의 기본 구분을 설명합니다. `NumPy`, `shape`, `축(axis)`의 대표 설명은 P2-11.1, P2-11.2와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 배열 전체에 계산이 어떻게 퍼져 적용되는지에 집중합니다.
+여기서는 `브로드캐스팅(broadcasting)`과 `벡터화(vectorization)`의 기본 구분을 설명합니다. `NumPy`, `shape`, `축(axis)`의 대표 설명은 P2-11.1, P2-11.2와 [개념사전의 브로드캐스팅 항목](../../../reference/concept-glossary-parts/06-bieup.md#broadcasting)에 두고, 여기서는 그 배열 전체에 계산이 어떻게 퍼져 적용되는지에 집중합니다.
 
 ## 핵심 기준: 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 

@@ -1,7 +1,7 @@
 # P1-15.2 저작권(copyright)과 학습 데이터(training data)
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-15.1에서는 AI 결과가 사람과 사회에 영향을 줄 때 편향(bias), 안전성(safety), 책임(accountability)을 어떻게 봐야 하는지 살펴봤습니다. 이제 질문은 조금 더 구체적입니다.
 

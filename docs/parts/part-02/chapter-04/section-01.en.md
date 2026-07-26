@@ -1,7 +1,7 @@
 # P2-4.1 Rereading How We Learned Differentiation
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Part 2 Chapter 3, we looked at the shapes of data and model computation through scalars, vectors, and matrices. Now, in Part 2 Chapter 4, we move to differentiation.
 
@@ -77,7 +77,7 @@ For example, you may have learned it like this.
 
 This explanation matches the standard introduction to differentiation well. But as time passes, `why bring the two points closer together?`, `why is slope important?`, and `what does this have to do with AI learning?` can all become blurred.
 
-## The Memory of Distance, Speed, and Acceleration
+## Memory of Distance, Speed, and Acceleration
 
 An example that is easy to remember when learning differentiation is the relation among distance, speed, and acceleration over time.
 
@@ -97,7 +97,7 @@ Here as well, we can change the question.
 2. If we look at speed with respect to time, it becomes acceleration.
 3. So differentiation can be read as a tool for seeing how much one value changes with respect to another.
 
-## The Memory of Point, Line, Area, and Volume
+## Memory of Point, Line, Area, and Volume
 
 Another memory may be the relationship that continues from point, to line, to area, to volume.
 
@@ -134,7 +134,7 @@ Now reread differentiation not as a formula, but through the following questions
 
 Once these questions are understood, terms such as rate of change, slope, derivative, and gradient no longer appear only as completely unfamiliar words.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. When Delivery Time Grows Longer, What Should We Ask First?
 

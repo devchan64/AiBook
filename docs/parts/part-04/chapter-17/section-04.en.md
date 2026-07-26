@@ -1,15 +1,15 @@
 # P4-17.4 Supplementary Learning: How To Connect Clustering And Semi-Supervised Learning For The First Time
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 After reading through P4-17.2, this question naturally remains.
 
-If clusters can suggest label hypotheses, how does that connect to semi-supervised learning, where we use a small amount of labeled data together with a large amount of unlabeled data?
+If [clusters](/AiBook/en/reference/concept-glossary-alpha/c/#cluster) can suggest [label](/AiBook/en/reference/concept-glossary-alpha/l/#label) hypotheses, how does that connect to [semi-supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#semi-supervised-learning), where we use a small amount of labeled data together with a large amount of unlabeled data?
 
 Rather than listing the full taxonomy of semi-supervised learning algorithms, this supplementary Section distinguishes `how far clustering can serve as an auxiliary signal and where human review and additional learning become necessary`.
 
-## Scope Of This Section
+## Questions Closed By This Connection
 
 This Section answers the following questions.
 
@@ -20,7 +20,7 @@ This Section answers the following questions.
 
 This Section focuses on reading the starting point of semi-supervised learning through four handles: `few labels`, `many unlabeled examples`, `hypothesis`, and `review`.
 
-## Goals Of This Section
+## Judgments To Keep From This Supplement
 
 - You can explain semi-supervised learning as `a problem setting that uses a small amount of labeled data together with a large amount of unlabeled data`.
 - You can explain that clustering can help as an auxiliary signal for label hypotheses, but cannot automatically replace true labels.
@@ -35,7 +35,7 @@ When people first hear about semi-supervised learning, two misunderstandings oft
 
 But in practice, that exact point is usually the most dangerous one.
 
-Clustering can suggest `groups that look similar`, but whether those groups match the true label boundary still requires separate review.
+Clustering can suggest `groups that look similar`, but whether those groups match the true label boundary still requires separate [review](/AiBook/en/reference/concept-glossary-alpha/r/#review).
 
 So the core of this Section is not `cluster -> automatic label`, but first grasping the flow `cluster -> label hypothesis -> human review -> limited adoption`.
 
@@ -63,7 +63,7 @@ In short, clustering is closer to `seeing structure first`, while semi-supervise
 
 ## Why Can Clustering Become An Auxiliary Signal?
 
-Clustering is useful because it can first suggest scenes where similar samples gather into one group.
+Clustering is useful because it can first suggest scenes where [similar](/AiBook/en/reference/concept-glossary-alpha/s/#similarity) samples gather into one group.
 
 That lets a person think in the following way.
 
@@ -90,7 +90,7 @@ This can be summarized even more briefly like this.
 
 ## Why Is It Risky To Read Clustering As An Automatic Label Generator?
 
-Clustering reflects similarity structure first, not answer structure. That means one cluster can still contain samples that look similar but actually belong to different labels.
+Clustering reflects [similarity](/AiBook/en/reference/concept-glossary-alpha/s/#similarity) structure first, not answer structure. That means one cluster can still contain samples that look similar but actually belong to different labels.
 
 For example, one article cluster might contain the following together.
 
@@ -195,5 +195,5 @@ The point of this practice is not whether clustering replaces labels, but how fa
 
 ## Sources And References
 
-- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. Consulted for the problem setting that uses a small amount of labeled data together with a large amount of unlabeled data, and for the basic assumptions of label propagation and self-training. Accessed 2026-07-19. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. Consulted for the basic background that clustering explores structure in unlabeled data. Accessed 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. Consulted for the problem setting that uses a small amount of labeled data together with a large amount of unlabeled data, and for the basic assumptions of label propagation and self-training. Accessed 2026-07-26. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. Consulted for the basic background that clustering explores structure in unlabeled data. Accessed 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }

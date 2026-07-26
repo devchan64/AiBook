@@ -1,31 +1,31 @@
 # P4-15.2 特征重要度(feature importance)
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-15.1 里，我们看过随机森林(random forest)为什么能通过聚合很多棵树， 得到更稳定的预测。 接下来立刻会冒出一个问题。
+在 P4-15.1 里，我们看过[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)为什么能通过聚合很多棵树， 得到更稳定的预测。 接下来立刻会冒出一个问题。
 
 这片森林在做判断时，到底把什么看得更重要？
 
-这个问题就是特征重要度(feature importance)的出发点。
+这个问题就是[特征重要度(feature importance)](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-importance)的出发点。
 
 特征重要度是一个把模型更常使用、或使用得更重的特征总结成数字的方法， 但如果把这个数字直接读成原因或真相的排序，就会很危险。
 
 特征重要度是有用的总结， 同时也是带着解释陷阱的工具。
 
-这一节不会再长篇重复随机森林的基本定义。 `通过多棵树的合意来降低摇摆` 这个核心直觉， 会通过 P4-15.1 和[概念词典](/AiBook/reference/concept-glossary/)重新连接。 这里聚焦的只是： 应该怎样解释这片森林把什么看得重要。
+这一节不会再长篇重复随机森林的基本定义。 `通过多棵树的合意来降低摇摆` 这个核心直觉， 会通过 P4-15.1 和[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)条目重新连接。 这里聚焦的只是： 应该怎样解释这片森林把什么看得重要。
 
-## 本节范围
+## 特征重要度先收束的问题
 
 本节回答以下问题。
 
 - 在随机森林里，特征重要度是怎样产生的？
-- `feature_importances_` 是什么意思？
-- impurity-based importance 和 permutation importance 有什么不同？
+- [`feature_importances_`](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-importance) 是什么意思？
+- impurity-based importance 和[置换重要度(permutation importance)](/AiBook/zh/reference/concept-glossary-pinyin/z/#permutation-importance)有什么不同？
 - 为什么一个看起来很重要的数字仍然可能制造误解？
-- PDP(partial dependence plot)、SHAP 与 importance 相比，到底在问什么不同的问题？
-- 为什么不能把 importance 的解释直接跳成因果推断(causal inference)？
-- 当真实数据里相关特征非常强时，需要怎样更保守的解释策略？
+- [部分依赖图(PDP, partial dependence plot)](/AiBook/zh/reference/concept-glossary-pinyin/b/#partial-dependence-plot-pdp)、[SHAP](/AiBook/zh/reference/concept-glossary-pinyin/s/#shap)与 importance 相比，到底在问什么不同的问题？
+- 为什么不能把 importance 的解释直接跳成[因果推断(causal inference)](/AiBook/zh/reference/concept-glossary-pinyin/y/#causal-inference)？
+- 当真实数据里[相关特征(correlated features)](/AiBook/zh/reference/concept-glossary-pinyin/x/#correlated-features)非常强时，需要怎样更保守的解释策略？
 
 这一节不会只停在画出 importance 解释的外围边界。 它还会在当前 Section 里直接回收： `当数字总结不够时该再看什么`、 `为什么要与原因解释分开`、 以及 `相关性很强时应该怎样更保守地读`。
 
@@ -37,12 +37,12 @@
 
 本节的重点，是先建立一种 `阅读数字的态度`。
 
-## 用特征重要度(feature importance)留下的判断标准
+## 特征重要度要留下的判断标准
 
 - 你可以把特征重要度解释成 `模型内部使用量的总结`。
-- 你可以区分 impurity-based importance(MDI) 与 permutation importance。
+- 你可以区分[基于不纯度的重要度(MDI, mean decrease in impurity)](/AiBook/zh/reference/concept-glossary-pinyin/p/#mean-decrease-in-impurity-mdi)与[置换重要度(permutation importance)](/AiBook/zh/reference/concept-glossary-pinyin/z/#permutation-importance)。
 - 你可以说明特征重要度并不直接等于因果关系(causality)或真正的原因排序。
-- 你可以说明为什么相关特征(correlated features)与 high-cardinality feature 会扭曲解释。
+- 你可以说明为什么[相关特征(correlated features)](/AiBook/zh/reference/concept-glossary-pinyin/x/#correlated-features)与[高基数特征(high-cardinality feature)](/AiBook/zh/reference/concept-glossary-pinyin/g/#high-cardinality-feature)会扭曲解释。
 
 ## 学习背景
 
@@ -409,6 +409,9 @@ importance 数字大小很直观， 所以读者很容易直接跳到行动结�
 - 要确认的概念：
   - importance 是相对占比
   - 所有值加总会接近 1
+- 可以改动的值：
+  - 把 `n_estimators` 改成 50、200、500，观察重要度排序会摇动多少。
+  - 改变 `random_state`，检查大致模式是否仍然保留。
 
 ```python
 # 这个例子通过随机森林的 feature_importances_ 阅读基于 MDI 的特征重要度。
@@ -452,8 +455,7 @@ sum: 1.0
 
 1. importance 是相对占比
 2. 在这个模型里，petal length 和 petal width 被用得更多
-3. 这只是 `这个模型的分支使用痕迹`，
-不是立刻就能拿去做因果解释的东西
+3. 这只是 `这个模型的分支使用痕迹`，不是立刻就能拿去做因果解释的东西
 
 ### Python 示例：和 permutation importance 并排看
 
@@ -478,6 +480,11 @@ sum: 1.0
 
 - MDI 和 permutation importance 不一定给出相同的值
 - 如果两个数字不同，先想到它们回答的是不同问题
+
+可以改动的值：
+
+- 把 `n_repeats` 改成 5、20、50，观察 permutation 结果的摇动。
+- 改变 `test_size`，观察评估数据划分会让 permutation importance 改变多少。
 
 ```python
 # 这个例子在同一个模型上并排比较 MDI 和 permutation importance。
@@ -529,8 +536,7 @@ petal width (cm)        0.430        0.189
 这个结果说明的是：
 
 - 两种方法的排序有时相似，有时也可能不一样
-- 即使是同一个特征，`它在分支里被用了多少`
-和 `打乱后性能掉多少` 是两种不同的问题
+- 即使是同一个特征，`它在分支里被用了多少` 和 `打乱后性能掉多少` 是两种不同的问题
 - 因此，只看一个 importance 数字就结束解释，是危险的
 
 ### 试着自己先判断
@@ -589,7 +595,7 @@ petal width (cm)        0.430        0.189
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Permutation feature importance`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/permutation_importance.html](https://scikit-learn.org/stable/modules/permutation_importance.html){: target="_blank" rel="noopener noreferrer" }
-- Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, PhD Thesis, University of Liege, 2014. [https://arxiv.org/abs/1407.7502](https://arxiv.org/abs/1407.7502){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Permutation feature importance`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/permutation_importance.html](https://scikit-learn.org/stable/modules/permutation_importance.html){: target="_blank" rel="noopener noreferrer" }
+- Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, PhD Thesis, University of Liege, 2014, 确认日期: 2026-07-26. [https://arxiv.org/abs/1407.7502](https://arxiv.org/abs/1407.7502){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P6-4.1 LLM 内部的 Transformer 计算流程
 
 > Section ID: `P6-4.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题：Transformer 如何把词元表示连接到下一候选分数？_
 
@@ -21,7 +21,7 @@ _副标题：Transformer 如何把词元表示连接到下一候选分数？_
 
 先抓住 Transformer 块的大结构之后，multi-head attention、位置表示、KV cache、sparse attention、long context 这些补充主题也都能放在同一条流程上。服务运营视角中的延迟和成本限制，最终也会连接到这条计算流程被重复多少次、重复多久、重复得多快。
 
-比重新展开 Transformer 公式更重要的是一张 `LLM 标准的结构地图`。它会支撑 Part 6 后面关于 GPT、pretraining、next-token prediction、RAG、agent 的说明。比细节块名称更重要的判断标准是：`输入词元经过怎样的计算流程，才连接到下一词元分数`。
+比重新展开 Transformer 公式更重要的是一张 `LLM 标准的结构地图`。它会支撑 Part 6 后面关于 GPT、pretraining、next-token prediction、RAG、AI agent 的说明。比细节块名称更重要的判断标准是：`输入词元经过怎样的计算流程，才连接到下一词元分数`。
 
 | 现在阅读的内容 | 后面会扩展的问题 |
 | --- | --- |

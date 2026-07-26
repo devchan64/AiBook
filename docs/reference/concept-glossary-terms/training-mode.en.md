@@ -1,7 +1,7 @@
 ## training mode
 
-- Meaning: 모델이 파라미터 업데이트를 준비하는 학습용 계산 규칙을 사용하고 있는 상태입니다. 이 상태에서는 dropout 같은 무작위 정규화가 켜지고, batch normalization도 현재 배치 통계를 사용하며, 역전파를 위한 중간 정보가 함께 준비됩니다. 즉 학습 모드는 `같은 모델`이라도 학습을 위해 일부 층의 동작 규칙을 바꾸어 쓰는 실행 상태입니다.
-- Why it matters: 같은 모델이라도 dropout이나 batch normalization처럼 일부 층은 학습 중과 평가 중 동작이 달라져, 손실 계산과 성능 측정 결과를 올바르게 읽으려면 모드 차이를 먼저 구분해야 하기 때문입니다. 이 개념이 있어야 `모델 구조는 같지만 실행 규칙은 다를 수 있다`는 점과, 학습 중 출력 흔들림이 꼭 오류를 뜻하지는 않는다는 점도 함께 이해하게 됩니다. 결국 학습 모드를 이해해야 같은 코드로 실행해도 목적이 학습인지 평가인지에 따라 결과 해석 기준이 달라진다는 점을 읽게 됩니다.
+- Meaning: Training mode is the execution state in which a model uses calculation rules prepared for learning and parameter updates. In this state, regularization such as dropout is active, batch normalization uses current-batch statistics, and intermediate information needed for backpropagation is kept.
+- Why it matters: Some layers behave differently during training and evaluation even when the model structure is the same. Understanding training mode helps distinguish output fluctuation that belongs to the learning procedure from errors that should be read as deployment behavior.
 - Related concepts: `evaluation`, `dropout`, `validation`
 - Core Section: `P5-6.4`
-- Appears in: `P5-6.1`, `P5-7.1`, `P5-8.2`
+- Appears in: `P5-6.1`, `P5-7.1`, `P5-8.2`, `P5-8.3`

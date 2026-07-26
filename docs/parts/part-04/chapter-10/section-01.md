@@ -1,11 +1,11 @@
 # P4-10.1 선형회귀(linear regression)의 직관
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-9.2에서는 튜닝(tuning)과 검증 비용(validation cost)을 통해 `좋아 보이는 설정을 어떻게 비교할 것인가`를 봤습니다. 이제 그 비교 절차를 실제 알고리즘 하나에 연결할 차례입니다.
 
-Part 4의 첫 알고리즘으로 선형회귀(linear regression)를 보는 이유는 분명합니다. 선형회귀는 회귀(regression) 문제의 가장 기본적인 출발점이면서, 입력과 출력의 관계를 `기울기`와 `절편`으로 가장 투명하게 보여 주는 모델이기 때문입니다.
+Part 4의 첫 알고리즘으로 [선형회귀(linear regression)](../../../reference/concept-glossary-parts/07-siot.md#linear-regression)를 보는 이유는 분명합니다. 선형회귀는 [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression) 문제의 가장 기본적인 출발점이면서, 입력과 출력의 관계를 `기울기`와 `절편`으로 가장 투명하게 보여 주는 모델이기 때문입니다.
 
 이 절의 중심 질문은 다음입니다.
 
@@ -13,7 +13,7 @@ Part 4의 첫 알고리즘으로 선형회귀(linear regression)를 보는 이�
 
 선형회귀는 이 질문에 대해 `직선(line)`으로 먼저 답해 보는 모델입니다.
 
-이 절은 `회귀(regression)`, `선형회귀(linear regression)`, `기울기(coefficient)`, `절편(intercept)`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 연속값 예측을 직선으로 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 `회귀(regression)`, `선형회귀(linear regression)`, `기울기(coefficient)`, `절편(intercept)`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 연속값 예측을 직선으로 읽는 기본 감각은 이 절과 관련 개념사전 항목을 기준으로 다시 연결합니다.
 
 ## 선형회귀(linear regression)의 직관에서 닫을 질문
 
@@ -21,7 +21,7 @@ Part 4의 첫 알고리즘으로 선형회귀(linear regression)를 보는 이�
 
 - 회귀(regression)는 어떤 문제를 다루는가?
 - 선형회귀는 왜 `직선`으로 관계를 표현한다고 말하는가?
-- 입력(feature)과 출력(target) 사이의 방향성과 크기를 어떻게 읽을 수 있는가?
+- 입력([feature](../../../reference/concept-glossary-parts/12-tieut.md#feature))과 출력([target](../../../reference/concept-glossary-parts/12-tieut.md#target)) 사이의 방향성과 크기를 어떻게 읽을 수 있는가?
 - 선형회귀를 왜 Part 4의 첫 알고리즘으로 배우는가?
 
 이 절에서는 선형회귀를 `입력과 출력의 관계를 직선으로 먼저 설명해 보는 가장 기본적인 회귀 모델`로 먼저 닫고, 기울기와 절편을 읽는 기본 손잡이를 붙잡는 데 집중합니다.
@@ -85,7 +85,7 @@ y = wx + b
 \]
 
 - `x`: 입력(input)
-- `y`: 예측값(prediction)
+- `y`: 예측값([prediction](../../../reference/concept-glossary-parts/08-ieung.md#prediction))
 - `w`: 기울기(coefficient)
 - `b`: 절편(intercept)
 
@@ -383,6 +383,11 @@ scikit-learn의 `LinearRegression`은 기본적으로 ordinary least squares에 
   - `coef_`는 기울기, `intercept_`는 출발점입니다.
   - 새 입력에 대해 연속값 예측을 만들 수 있습니다.
 
+조작해 볼 값:
+
+- `study_hours`에 `7`이나 `8`을 추가하고 그에 맞는 점수를 넣으면 기울기와 절편이 어떻게 바뀌는지 볼 수 있습니다.
+- `pred_7 = model.predict([[7]])[0]`의 입력을 `[[0]]`이나 `[[10]]`으로 바꾸면 학습 범위 안팎의 예측을 비교할 수 있습니다.
+
 ```python
 # 선형회귀의 기울기, 절편, 예측값, 잔차를 NumPy 계산으로 확인하는 예제입니다.
 import numpy as np
@@ -442,6 +447,11 @@ prediction at x=7 : 76.4
   - 계수의 부호로 방향을 읽을 수 있습니다.
   - 계수의 크기는 단위와 함께 조심해서 읽어야 합니다.
 
+조작해 볼 값:
+
+- `assignment_score` 열의 값을 몇 개 크게 바꾸면 해당 계수와 다른 계수가 함께 흔들릴 수 있습니다.
+- `new_student`의 세 값을 하나씩만 바꿔 보면 어떤 특징 변화가 예측을 어느 방향으로 움직이는지 비교할 수 있습니다.
+
 ```python
 # 선형회귀의 기울기, 절편, 예측값, 잔차를 NumPy 계산으로 확인하는 예제입니다.
 import numpy as np
@@ -498,6 +508,11 @@ prediction new    : 73.12
 ### 값 하나 더 바꿔 보기: 입력 하나를 올리면 무엇이 유지되고 무엇이 달라지는가
 
 이번에는 같은 학생에서 `attendance`와 `assignment_score`는 그대로 두고 `study_hours`만 `5`에서 `7`로 올려 봅니다.
+
+조작해 볼 값:
+
+- `student_more_hours`의 첫 값을 `6`이나 `8`로 바꾸면 예측 차이가 계수와 거의 비례해 움직이는지 볼 수 있습니다.
+- 고정해 둔 `attendance`나 `assignment_score`도 하나씩 바꾸면 `무엇을 고정했고 무엇을 바꾸었는가`를 더 분명히 설명할 수 있습니다.
 
 ```python
 # 선형회귀의 기울기, 절편, 예측값, 잔차를 NumPy 계산으로 확인하는 예제입니다.
@@ -575,5 +590,5 @@ difference              : 4.348
 
 ## 출처와 참고 자료
 
-- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LinearRegression`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LinearRegression`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }

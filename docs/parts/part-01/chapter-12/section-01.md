@@ -1,7 +1,7 @@
 # P1-12.1 프롬프트(prompt)는 무엇을 지정하는가
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 11장에서는 LLM(large language model)이 어디에서 왔는지 봤습니다. 언어 모델(language model)은 다음 토큰의 확률을 다루는 문제에서 출발했고, Transformer와 사전학습(pretraining)은 현대 LLM의 중요한 기반이 되었습니다.
 

@@ -1,7 +1,7 @@
 # P6-19.1 한계와 구조 전환의 흐름으로 읽는 LLM 발전사
 
 > Section ID: `P6-19.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 오늘의 LLM(large language model)을 이해할 때 자주 생기는 오해는 `갑자기 등장한 거대한 모델`로만 보는 것입니다. 하지만 실제로는 언어 모델(language model), 임베딩, 순차 모델(sequence model), Attention, Transformer, 대규모 사전학습(pretraining)이 겹치며 지금의 생성 경험을 만들었습니다.
 

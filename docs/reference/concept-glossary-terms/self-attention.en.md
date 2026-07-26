@@ -1,7 +1,7 @@
 ## self-attention
 
-- Meaning: 같은 시퀀스 안의 각 토큰이 다른 토큰들과의 관련도를 계산해 자기 표현을 갱신하는 attention 방식입니다. 즉 현재 위치의 표현을 만들 때 자기 자신만 보지 않고, 같은 문장 안의 다른 위치들을 얼마나 참고할지 가중치를 두어 다시 섞는 구조라고 볼 수 있습니다.
-- Why it matters: Transformer가 순차 recurrence 없이도 문맥 관계를 직접 계산할 수 있게 해 주는 핵심 메커니즘이기 때문입니다. 이 개념이 있어야 현재 토큰 표현이 자기 자신만이 아니라 문장 안의 다른 토큰들과의 관계를 반영해 바뀐다는 점을 이해하게 되고, 긴 문맥에서 어떤 단어가 어떤 단어를 참고하는지 설명하는 출발점도 잡게 됩니다. 또한 셀프 어텐션을 이해해야 `문장을 앞에서 뒤로만 전달한다`는 직관에서 벗어나, 시퀀스 안 여러 위치의 관계를 한 층 안에서 직접 섞는다는 Transformer의 차별점을 더 분명히 읽게 됩니다.
+- Meaning: Self-attention is an attention mechanism in which each token in the same sequence calculates relationships with other tokens and updates its own representation. Instead of looking only at the current position, it mixes information from other positions with learned weights.
+- Why it matters: Self-attention is a core mechanism that lets Transformers compute contextual relationships directly without sequential recurrence. It helps explain why a token representation can reflect other tokens in the same sequence and why Transformers can mix relationships among many positions within one layer.
 - Related concepts: `Transformer`, `Attention`, `positional encoding`
 - Core Section: `P5-13.2`
-- Appears in: `P1-11.3`, `P5-14.1`, `P5-14.2`
+- Appears in: `P1-11.3`, `P5-14.1`, `P5-14.2`, `P6-4.1`

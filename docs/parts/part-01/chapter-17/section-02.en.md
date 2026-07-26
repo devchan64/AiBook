@@ -1,7 +1,7 @@
 # P1-17.2 Reading News, Columns, and Reports
 
 > Section ID: `P1-17.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-17.1 explained that, when writing forecasts, sources and the nature of the material should be checked first. This section turns to the practical question:
 

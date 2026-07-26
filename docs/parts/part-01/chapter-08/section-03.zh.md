@@ -1,11 +1,11 @@
 # P1-8.3 强化学习：动作与奖励
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 8.1 把监督学习说明成：从同时包含 input 与 label 的例子中学习。8.2 则把无监督学习说明成：从无标签数据中寻找 `structure`、`cluster` 和 `representation`。
 
-这一节引入第三个基本区分。`reinforcement learning` 既不是直接去对齐标签，也不是只在无标签数据里找结构。它是一种这样的学习设定：`agent` 在 `state` 中选择 `action`，在行动之后收到 `reward`，并随着时间改进自己选择动作的 `policy`。
+这一节引入第三个基本区分。`reinforcement learning` 既不是直接去对齐标签，也不是只在无标签数据里找结构。它是一种这样的学习设定：`reinforcement learning agent` 在 `state` 中选择 `action`，在行动之后收到 `reward`，并随着时间改进自己选择动作的 `policy`。
 
 这并不是最近才突然冒出来的新区分。强化学习在 1990 年代和 2000 年代的 AI 与机器学习教育里，就已经是重要主轴之一。所以如果更早的入门材料里强化学习比重大，并不表示那段记忆一定错了。真正需要分开的，是“更早期的基本问题设定”和后来公众更熟悉的 Atari、AlphaGo、RLHF 这些案例。这里采用的是前一种更基础的框架：`state`、`action`、`reward` 和 `policy`。
 
@@ -17,7 +17,7 @@
 > 强化学习不是在匹配一张答案表，  
 > 而是在动作之后收到奖励信号，并据此调整行为方式。
 
-这一节会把 `reinforcement learning`、`agent`、`environment`、`state`、`action`、`reward`、`policy`、`exploration` 和 `exploitation` 用“动作结果带来的奖励信号”这一条线串起来。`state` 和 `action` 的基本直觉已经在 7.1 出现，label、监督学习和无监督学习的区分则已经在 8.1 和 8.2 出现。
+这一节会把 `reinforcement learning`、`reinforcement learning agent`、`environment`、`state`、`action`、`reward`、`policy`、`exploration` 和 `exploitation` 用“动作结果带来的奖励信号”这一条线串起来。`state` 和 `action` 的基本直觉已经在 7.1 出现，label、监督学习和无监督学习的区分则已经在 8.1 和 8.2 出现。
 
 这一节不会计算强化学习算法。MDP、Bellman equation、Q-learning、policy gradient、actor-critic 和 deep reinforcement learning 都只会以名称与位置的形式出现。
 
@@ -32,7 +32,7 @@
 ## 用动作与奖励确定学习方向的方式
 
 - 用动作与奖励的语言解释 reinforcement learning。
-- 在入门层面区分 agent、environment、state、action、reward 和 policy。
+- 在入门层面区分强化学习智能体、environment、state、action、reward 和 policy。
 - 避免把 reward 和监督学习里的 label 混为一谈。
 - 理解 delayed reward 的直觉。
 - 理解 exploration 与 exploitation 之间的张力。
@@ -51,10 +51,10 @@
 | 术语 | 极短含义 | 本节里的作用 |
 | --- | --- | --- |
 | reinforcement learning | 通过动作结果的奖励来调整 policy 的学习方式 | Chapter 8 的第三个基准点 |
-| agent | 选择动作的行动主体 | 核心决策者 |
-| environment | agent 与之交互的外部世界 | 结果返回的地方 |
+| reinforcement learning agent | 选择动作的行动主体 | 核心决策者 |
+| environment | 强化学习智能体与之交互的外部世界 | 结果返回的地方 |
 | state | 当前情境的信息 | 选择动作的依据 |
-| action | agent 实际做出的选择 | 直接影响奖励与下一状态的原因 |
+| action | 强化学习智能体实际做出的选择 | 直接影响奖励与下一状态的原因 |
 | reward | 动作之后回来的数值反馈 | 必须和 label 区分开的学习信号 |
 | policy | 从状态映射到动作的方法 | 强化学习试图改进的对象 |
 | exploration | 试尚未充分了解的动作 | 为学习收集信息 |
@@ -62,9 +62,9 @@
 
 ## 强化学习是在动作后果中学习
 
-在强化学习里，最中心的词是 `action`。一个 `agent` 在 `environment` 里观察当前 `state` 或 `observation`，然后选一个 `action`。环境随后发生变化，并把 `reward` 反馈回来。
+在强化学习里，最中心的词是 `action`。一个 `reinforcement learning agent` 在 `environment` 里观察当前 `state` 或 `observation`，然后选一个 `action`。环境随后发生变化，并把 `reward` 反馈回来。
 
-OpenAI 的 Spinning Up 把强化学习说明成：agent 通过与环境交互，并在 trial and error 中学习。Google 的术语表也说明，agent 会根据 policy 选择 action，并观察环境的 state。
+OpenAI 的 Spinning Up 把强化学习说明成：强化学习智能体通过与环境交互，并在 trial and error 中学习。Google 的术语表也说明，强化学习智能体会根据 policy 选择 action，并观察环境的 state。
 
 入门阶段的基线流程是：
 
@@ -78,7 +78,7 @@ OpenAI 的 Spinning Up 把强化学习说明成：agent 通过与环境交互，
 
 | 元素 | 仓库机器人例子 |
 | --- | --- |
-| agent | 负责搬运货物的机器人 |
+| reinforcement learning agent | 负责搬运货物的机器人 |
 | environment | 仓库、货架、通道与障碍物 |
 | state 或 observation | 机器人位置、目标位置、周围障碍 |
 | action | 前进、转向、停止、抓取货物 |
@@ -114,7 +114,7 @@ OpenAI 的 Spinning Up 把强化学习说明成：agent 通过与环境交互，
 
 ## policy 是选择动作的方法
 
-`policy` 指的是：agent 在看到 state 或 observation 后，怎样决定接下来做什么动作。Google 的 Machine Learning Glossary 把 policy 定义成从 state 到 action 的映射。OpenAI Spinning Up 也把它解释成 agent 决定做什么动作的规则。
+`policy` 指的是：强化学习智能体 在看到 state 或 observation 后，怎样决定接下来做什么动作。Google 的 Machine Learning Glossary 把 policy 定义成从 state 到 action 的映射。OpenAI Spinning Up 也把它解释成强化学习智能体决定做什么动作的规则。
 
 所以这里的工作读法是：
 
@@ -137,7 +137,7 @@ OpenAI 的 Spinning Up 把强化学习说明成：agent 通过与环境交互，
 
 强化学习之所以难，一个原因是 `reward` 不一定立刻回来。这就是 `delayed reward` 的直觉。
 
-想一个迷宫里的 agent：
+想一个迷宫里的强化学习智能体：
 
 > 它不会在每一步都被告诉“这一步对不对”；  
 > 它可能只有走到出口时才收到一个大的奖励；  
@@ -214,7 +214,7 @@ Google 的术语表也用 `epsilon-greedy policy` 来解释这种平衡。入门
 ## 检查清单
 
 - 能把 reinforcement learning 说明成由 state、action 和 reward 串起来的学习流程。
-- 能在入门层面区分 agent、environment 和 policy。
+- 能在入门层面区分强化学习智能体、environment 和 policy。
 - 能说明 reward 并不等于监督学习里的 label。
 - 能说明 delayed reward 为什么会让强化学习更难。
 - 能说明 exploration 和 exploitation 的差别。

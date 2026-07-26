@@ -1,7 +1,7 @@
 # P5-14.4 RNN State Passing and Transformer Parallel Computation
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How do sequential state passing and token-relation computation split in parallel processing?_
 
@@ -11,7 +11,7 @@ Why does an RNN feel like sequential state passing, while a Transformer fits tok
 
 The comparison standard is not a timeline impression such as `the Transformer is newer`. The key is the difference between a computation that passes the previous step’s state forward one step at a time and a computation that is easier to organize as large matrix operations over many token relations in one layer.
 
-## Questions About Computation Flow and Parallel Processing
+## Questions about Computation Flow and Parallel Processing
 
 - Why is an RNN read as a structure that passes state forward step by step?
 - Why is a Transformer read as a structure that computes token relations more all at once?

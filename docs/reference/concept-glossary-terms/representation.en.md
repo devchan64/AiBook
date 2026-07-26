@@ -1,7 +1,9 @@
+<a id="representation"></a>
+
 ## representation
 
-- Meaning: 입력을 모델이 다룰 수 있게 바꾼 내부 형태입니다. 원본 데이터 그 자체라기보다, 현재 문제에 유용한 차이와 관계가 더 잘 드러나도록 재구성된 계산용 모습이라고 볼 수 있습니다. 즉 표현은 `세상을 그대로 복사한 모습`보다 `현재 과제를 위해 다시 정리된 내부 좌표계`에 가깝습니다. 다시 말해 표현은 입력의 외형보다, 모델이 실제로 계산에 쓰기 좋게 바꾼 내부 버전입니다.
-- Why it matters: 딥러닝과 표현 학습을 이해하려면 사람이 읽는 입력과 모델이 계산하는 내부 형태를 구분해야 합니다. `특징`이 입력 단서라는 말이라면 `표현`은 그 단서가 모델 안에서 어떤 구조로 다시 조직되었는가를 보여 주는 쪽에 더 가깝습니다. 또한 표현을 이해해야 같은 이미지, 같은 문장도 모델 안에서는 전혀 다른 계산 가능 형태로 바뀌어 다뤄진다는 점, 그리고 좋은 표현이 있으면 이후 분류나 생성 문제가 더 쉬워질 수 있다는 점도 함께 읽게 됩니다. 결국 표현을 이해해야 `입력 자체가 중요하다`와 `입력을 어떤 내부 구조로 바꾸었는가가 중요하다`를 분리해 보게 됩니다.
+- Meaning: An internal form that makes input usable by a model. It is not the raw data itself, but a computational form reorganized so useful differences and relationships for the current task become easier to use.
+- Why it matters: To understand deep learning and representation learning, the reader must separate the input that humans see from the internal form a model computes with. If a feature is an input clue, a representation is closer to how those clues are reorganized inside the model. A good representation can make later classification or generation easier.
 - Related concepts: `feature`, `vector`, `activation`, `embedding`, `representation learning`
 - Core Section: `P1-3.3`
-- Appears in: `P1-2.3`, `P1-4.3`, `P1-8.2`, `P3-6.1`, `P3-6.2`, `P5-10.1`, `P5-10.2`
+- Appears in: `P1-2.3`, `P1-4.3`, `P1-8.2`, `P3-6.1`, `P3-6.2`, `P4-13.2`, `P5-2.2`, `P5-10.1`, `P5-10.2`

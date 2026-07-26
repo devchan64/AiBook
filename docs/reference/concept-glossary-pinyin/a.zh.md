@@ -2,6 +2,14 @@
 
 本页整理拼音首字母为 `A` 的中文概念词条。词条正文由单词源文件 include 生成。
 
+--8<-- "reference/concept-glossary-terms/actor-critic.zh.md"
+
+--8<-- "reference/concept-glossary-terms/a2c.zh.md"
+
+--8<-- "reference/concept-glossary-terms/a3c.zh.md"
+
+--8<-- "reference/concept-glossary-terms/safe-reinforcement-learning.zh.md"
+
 --8<-- "reference/concept-glossary-terms/abstract-data-type.zh.md"
 
 --8<-- "reference/concept-glossary-terms/accountability.zh.md"
@@ -18,7 +26,7 @@
 
 --8<-- "reference/concept-glossary-terms/adapter.zh.md"
 
---8<-- "reference/concept-glossary-terms/agent.zh.md"
+--8<-- "reference/concept-glossary-terms/ai-agent.zh.md"
 
 --8<-- "reference/concept-glossary-terms/aggregation.zh.md"
 
@@ -39,6 +47,8 @@
 --8<-- "reference/concept-glossary-terms/approval-policy.zh.md"
 
 --8<-- "reference/concept-glossary-terms/argument.zh.md"
+
+--8<-- "reference/concept-glossary-terms/argmax.zh.md"
 
 --8<-- "reference/concept-glossary-terms/array.zh.md"
 

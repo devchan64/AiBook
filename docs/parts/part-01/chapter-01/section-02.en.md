@@ -1,13 +1,13 @@
-# P1-1.2 Problems AI Deals With
+# P1-1.2 Problems AI Handles
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 1.1 organized the scope of the word AI. This section looks at what kinds of problems AI actually deals with inside that broad range.
 
 If AI is read only as the name of a technology, rule-based AI, machine learning, deep learning, and generative AI can look like separate worlds. But if the focus shifts to problem form, common structure starts to appear. Most AI systems receive some input, produce output aligned with an objective, and affect human judgment or the environment.
 
-In Part 1, the baseline distinction among problem types such as classification, prediction, recommendation, and generation is fixed in this section. Even when the same words appear again later, only the amount needed for the current question is carried forward there. When the problem types themselves need to be separated again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
+In Part 1, the baseline distinction among problem types such as classification, prediction, recommendation, and generation is fixed in this section. Even when the same words appear again later, only the amount needed for the current question is carried forward there. When the problem types themselves need to be separated again, return to this section and to the glossary entries for [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification), [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction), [recommendation](/AiBook/en/reference/concept-glossary-alpha/r/#recommendation), and [generation](/AiBook/en/reference/concept-glossary-alpha/g/#generation).
 
 ## Dividing AI Problems by Input and Output
 
@@ -50,7 +50,7 @@ This section looks at the shape of the problem before it looks at algorithm name
 | The same data becomes a different problem when the `question` changes | That reveals why classification, prediction, recommendation, and generation branch apart. | You should distinguish that one customer dataset can support several different problems. |
 | Results have `impact` on people or services | This makes AI readable not as abstract calculation but as an actual judgment structure. | Connect the output to where it is used in one sentence. |
 
-`Input`, `output`, `goal`, and `impact` already appeared in the previous section as the basic language for reading an AI system. Here those same four terms are reconnected to problem types. Input is the information received by the system. Output is the result it produces. Goal is the standard that determines what counts as a good output. `Impact` indicates where that result reaches real human judgment or environmental change. If the terms themselves become unstable again, return to the previous section and the representative entries in the [Concept Glossary](/AiBook/reference/concept-glossary/). In this section, they are used to read problem types as structures of `what goes in and what comes out`.
+`Input`, `output`, `goal`, and `impact` already appeared in the previous section as the basic language for reading an AI system. Here those same four terms are reconnected to problem types. Input is the information received by the system. Output is the result it produces. Goal is the standard that determines what counts as a good output. `Impact` indicates where that result reaches real human judgment or environmental change. If the terms themselves become unstable again, return to the previous section and the representative glossary entries for [input](/AiBook/en/reference/concept-glossary-alpha/i/#input), [output](/AiBook/en/reference/concept-glossary-alpha/o/#output), and [goal](/AiBook/en/reference/concept-glossary-alpha/g/#goal). In this section, they are used to read problem types as structures of `what goes in and what comes out`.
 
 ## Detailed Learning
 
@@ -60,7 +60,7 @@ If AI is relearned by memorizing algorithm names first, it quickly becomes compl
 
 So the first question should not be “What technology does it use?” but “What does it receive as input, and what is it trying to produce as output?” That question lets rule-based systems, machine-learning models, deep-learning models, and LLM services sit on the same map.
 
-### Problem Types AI Often Deals With
+### Problem Types AI Often Handles
 
 The following table lists the problem types that this book will reuse repeatedly. It is a learning map, not a complete taxonomy.
 
@@ -88,7 +88,7 @@ Not every problem type is closed here. Instead, the section first connects where
 | generation, retrieval combination, tool execution | Part 6 | because LLMs, RAG, and agents are explained there in terms of what is generated and what is brought in from outside |
 | planning, control, action | Part 1 supplementary learning and Part 7 small-system perspective | because in the current book it is more important first to hold the `input-judgment-action` structure than to expand into full control theory |
 
-### The Same Data Can Become a Different Problem
+### Same Data, Different Problem
 
 An AI problem is not determined by the data alone. It is determined by what question the data is turned into.
 
@@ -159,7 +159,7 @@ This diagram shows that a broad real-world question does not become a model prob
 
 ## Cases and Examples
 
-### Case 1. The Same Customer Data, Different Problems
+### Case 1. Same Customer Data, Different Problems
 
 Suppose there is one set of customer purchase data. At first, people often feel that if the data is one thing, then the AI problem must also be one thing. But with the same data, asking `is this customer likely to churn?` creates a prediction problem, asking `what did similar customers buy?` creates a recommendation problem, and asking `can the support conversation be summarized?` creates a generation problem. This case shows that problem type changes less with the data source itself than with the question asked.
 
@@ -167,7 +167,7 @@ Suppose there is one set of customer purchase data. At first, people often feel 
 
 Suppose a user asks a product manual site, `When is my refund completed?` From the outside it looks like one search box, but internally question understanding, document retrieval, ranking, and answer generation occur in a short chain. This case shows that a real service often does not deal with only one AI problem, but with several problem types bound into one flow.
 
-### The Questions This Book Will Reuse
+### Questions This Book Will Reuse
 
 When a new AI case appears later, read it in the following order.
 

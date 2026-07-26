@@ -1,6 +1,10 @@
 ## ㅍ
 
+--8<-- "reference/concept-glossary-terms/mean-decrease-in-impurity-mdi.ko.md"
+
 --8<-- "reference/concept-glossary-terms/python-interpreter.ko.md"
+
+--8<-- "reference/concept-glossary-terms/ppo.ko.md"
 
 --8<-- "reference/concept-glossary-terms/parametric-memory.ko.md"
 
@@ -28,6 +32,10 @@
 
 --8<-- "reference/concept-glossary-terms/bias.ko.md"
 
+--8<-- "reference/concept-glossary-terms/variable-transformation.ko.md"
+
+--8<-- "reference/concept-glossary-terms/comparability.ko.md"
+
 --8<-- "reference/concept-glossary-terms/evaluation-record.ko.md"
 
 --8<-- "reference/concept-glossary-terms/evaluation-mode.ko.md"
@@ -36,11 +44,17 @@
 
 --8<-- "reference/concept-glossary-terms/evaluation.ko.md"
 
+--8<-- "reference/concept-glossary-terms/evaluation-data.ko.md"
+
+--8<-- "reference/concept-glossary-terms/evaluation-design.ko.md"
+
 --8<-- "reference/concept-glossary-terms/eval-run.ko.md"
 
 --8<-- "reference/concept-glossary-terms/mean-squared-error-mse.ko.md"
 
 --8<-- "reference/concept-glossary-terms/mean.ko.md"
+
+--8<-- "reference/concept-glossary-terms/skewness.ko.md"
 
 --8<-- "reference/concept-glossary-terms/statistical-sample.ko.md"
 
@@ -57,6 +71,8 @@
 --8<-- "reference/concept-glossary-terms/standard-error.ko.md"
 
 --8<-- "reference/concept-glossary-terms/standard-deviation.ko.md"
+
+--8<-- "reference/concept-glossary-terms/standardization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/representation-learning.ko.md"
 

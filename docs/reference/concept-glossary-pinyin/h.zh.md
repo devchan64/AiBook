@@ -8,9 +8,23 @@
 
 --8<-- "reference/concept-glossary-terms/harness.zh.md"
 
+--8<-- "reference/concept-glossary-terms/hessian.zh.md"
+
 --8<-- "reference/concept-glossary-terms/hash-table.zh.md"
 
+--8<-- "reference/concept-glossary-terms/candidate-distribution.zh.md"
+
+--8<-- "reference/concept-glossary-terms/function-approximation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/kernel.zh.md"
+
 --8<-- "reference/concept-glossary-terms/row.zh.md"
+
+--8<-- "reference/concept-glossary-terms/confusion-matrix.zh.md"
+
+--8<-- "reference/concept-glossary-terms/regression.zh.md"
+
+--8<-- "reference/concept-glossary-terms/summary-table.zh.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic.zh.md"
 
@@ -33,3 +47,5 @@
 --8<-- "reference/concept-glossary-terms/human-oversight.zh.md"
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.zh.md"
+
+--8<-- "reference/concept-glossary-terms/hnsw-hierarchical-navigable-small-world.zh.md"

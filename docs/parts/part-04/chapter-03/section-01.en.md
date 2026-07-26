@@ -1,19 +1,19 @@
 # P4-3.1 Why Heuristics Are Needed
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 In Chapter P4-2, we divided supervised learning, unsupervised learning, and reinforcement learning into broad learning types. That immediately raises a question. When solving a real problem, which data should be looked at first, which model should be tried first, and at what point should the work move to the next stage?
 
-The word that appears here is `heuristic`. A heuristic is not a rule that guarantees a complete proof or an optimal solution. It is a judgment criterion that helps you make a plausible choice quickly under limited time and limited information.
+The word that appears here is [heuristic](/AiBook/en/reference/concept-glossary-alpha/h/#heuristic). A heuristic is not a rule that guarantees a complete proof or an optimal solution. It is a judgment criterion that helps you make a plausible choice quickly under limited time and limited information.
 
 A heuristic is easy to misunderstand as `just taking a rough guess`. But in machine learning practice, a heuristic is not random guessing. It is a way to reduce candidates by using experience, problem structure, computational cost, and validation results.
 
-This Section explains the meaning of `heuristic`, `judging by reducing candidates instead of exhaustive search`, and `a verifiable working hypothesis`. Later Sections continue the current context through this handle, and the basic meaning of reading practical judgment as a structure of hypothesis and verification is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the meaning of heuristic, judging by reducing candidates instead of [exhaustive search](/AiBook/en/reference/concept-glossary-alpha/e/#exhaustive-search), and a verifiable [working hypothesis](/AiBook/en/reference/concept-glossary-alpha/w/#working-hypothesis). Later Sections continue the current context through this handle, and the basic meaning of reading practical judgment as a structure of hypothesis and verification is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
-This Section explains why heuristics are needed. Specific model selection, feature selection, preprocessing, and hyperparameter tuning are handled separately later. Model-selection heuristics return in P4-8, feature selection and preprocessing in P4-7, and hyperparameter tuning in P4-9.
+This Section explains why heuristics are needed. Specific [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection), [feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#feature-selection), [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing), and [hyperparameter tuning](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter) are handled separately later. Model-selection heuristics return in P4-8, feature selection and preprocessing in P4-7, and hyperparameter tuning in P4-9.
 
 This Section answers the following questions.
 
@@ -28,7 +28,7 @@ This Section answers the following questions.
 - You can explain a heuristic as a practical judgment criterion that reduces candidates under limited conditions.
 - You can understand that a heuristic does not guarantee the optimal solution.
 - You can describe situations where heuristics become necessary because of time, data, computation, or cost constraints.
-- You can explain why heuristics and validation must be used together.
+- You can explain why heuristics and [validation](/AiBook/en/reference/concept-glossary-alpha/v/#validation) must be used together.
 - You can treat heuristics not as private intuition, but as verifiable working hypotheses.
 
 ## Understanding It First Through One Scene
@@ -37,12 +37,12 @@ Suppose you are building a new customer-churn prediction model. The data are not
 
 | What must be chosen | Possible choices | Why trying every choice is difficult |
 | --- | --- | --- |
-| Features to use | visit count, purchase amount, login interval, inquiry history | The number of feature combinations grows. |
-| Model to use | logistic regression, decision tree, random forest, boosting | Each model takes training and tuning time. |
-| Evaluation criterion | accuracy, precision, recall, F1 | What matters most changes with the business goal. |
+| [Features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) to use | visit count, purchase amount, login interval, inquiry history | The number of feature combinations grows. |
+| [Model](/AiBook/en/reference/concept-glossary-alpha/m/#model) to use | logistic regression, decision tree, random forest, boosting | Each model takes training and tuning time. |
+| Evaluation [metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric) | accuracy, precision, recall, F1 | What matters most changes with the business goal. |
 | Tuning range | tree depth, learning rate, number of iterations | The cost becomes large if every combination is tried. |
 
-In this situation, the idea `let's try every possible combination all the way through, then choose the best one` sounds reasonable in theory but is difficult in reality. So heuristics are needed, such as setting a simple baseline first, excluding obviously unnecessary features, and choosing metrics that fit the business goal.
+In this situation, the idea `let's try every possible combination all the way through, then choose the best one` sounds reasonable in theory but is difficult in reality. So heuristics are needed, such as setting a simple [baseline model](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model) first, excluding obviously unnecessary features, and choosing metrics that fit the business goal.
 
 ## A Heuristic Is A Way To Reduce Candidates
 
@@ -72,13 +72,13 @@ So in practice, instead of exploring every possibility completely, people first 
 
 ## The Difference Between A Heuristic And An Algorithm
 
-An algorithm is a way of solving a problem by following a fixed procedure. A heuristic is the judgment criterion that decides which candidates to inspect first, how far to calculate, and which choice to prioritize inside or around that procedure.
+An [algorithm](/AiBook/en/reference/concept-glossary-alpha/a/#algorithm) is a way of solving a problem by following a fixed procedure. A heuristic is the judgment criterion that decides which candidates to inspect first, how far to calculate, and which choice to prioritize inside or around that procedure.
 
 | Category | Phrase to recall first | Example |
 | --- | --- | --- |
 | Algorithm | fixed procedure | Train a decision tree on the given data. |
 | Heuristic | judgment criterion for reducing candidates | Try an easy-to-interpret model first. |
-| Optimization | finding values that improve the objective function | Find parameter values that reduce loss. |
+| [Optimization](/AiBook/en/reference/concept-glossary-alpha/o/#optimization) | finding values that improve the objective function | Find parameter values that reduce loss. |
 | Validation | checking whether the choice is actually acceptable | Check performance on validation data. |
 
 A heuristic does not replace an algorithm. Instead, it is used to decide which algorithm to try first, which settings to inspect first, and what level of result is enough to move to the next stage.
@@ -87,7 +87,7 @@ A heuristic does not replace an algorithm. Instead, it is used to decide which a
 
 When understanding heuristics, Herbert A. Simon's perspective of bounded rationality is useful. The Stanford Encyclopedia of Philosophy explains bounded rationality as a view that departs from the assumption of perfect rationality and instead studies rationality appropriate for agents with limits in access to information and computational ability.
 
-That perspective also fits machine learning practice well. We do not have complete information, infinite computation time, or a perfect evaluation environment. So `a verifiable good-enough choice under current conditions` matters more than `theoretically possible optimality`.
+That perspective also fits machine learning practice well. We do not have complete information, infinite computation time, or a perfect evaluation environment. So a verifiable [good-enough solution](/AiBook/en/reference/concept-glossary-alpha/g/#good-enough-solution) under current conditions matters more than `theoretically possible optimality`.
 
 This does not mean giving up accuracy. It means admitting the limits and working in a way that makes better choices inside them.
 
@@ -167,6 +167,6 @@ Whether that judgment is right still has to be checked through validation. You c
 
 ## Sources And References
 
-- Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, accessed 2026-06-25. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
-- Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 4th ed., Pearson, 2020, accessed 2026-06-25. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
-- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984, accessed 2026-07-19. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }
+- Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, accessed 2026-07-26. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
+- Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 4th ed., Pearson, 2020, accessed 2026-07-26. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
+- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984, accessed 2026-07-26. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }

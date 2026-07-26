@@ -6,4 +6,4 @@
 - Why it matters: Batches affect throughput and cost in services, and they are a basic computation unit in deep learning. Batch size changes memory use, gradient noise, and training speed, so a batch is both an operational grouping and a learning-procedure design choice.
 - Related concepts: `throughput`, `operation`, `tensor`
 - Core Section: `P1-14.6`
-- Appears in: `P5-6.1`, `P5-9.2`
+- Appears in: `P5-6.1`, `P5-6.2`, `P5-9.2`

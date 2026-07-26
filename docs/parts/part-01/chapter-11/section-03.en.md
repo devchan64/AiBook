@@ -1,7 +1,7 @@
 # P1-11.3 Transformers and Pretrained LLMs
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 11.1 introduced language models and embeddings. Section 11.2 covered the flow of RNNs, Seq2Seq, and Attention for handling order and context.
 

@@ -1,7 +1,7 @@
 # P5-8.2 如何减少路径依赖：dropout
 
 > Section ID: `P5-8.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P5-8.1 里，我们已经看到：可以把 regularization term 放在目标函数旁边，去调整学习循环本身的目标。现在顺着同一章的流程再往前走一步，看看除了在 loss 旁边加 penalty 之外，是否也能通过摇动神经网络内部路径本身来进行控制。接下来的问题会自然出现。
 
@@ -11,7 +11,7 @@
 
 dropout 是一种 regularization 技术，它会在训练中随机关闭一部分节点输出或连接，从而让模型不要过度依赖某些特定路径。
 
-如果之后又想重新抓住：dropout 是一种通过摇动结构来起作用的 regularization，更适合回到[英文概念词汇表里的 dropout 条目](/AiBook/reference/concept-glossary-parts/03-digeut/#dropout)，再按这个基准重读。
+如果之后又想重新抓住：dropout 是一种通过摇动结构来起作用的 regularization，更适合回到概念词汇表里的[dropout](/AiBook/zh/reference/concept-glossary-pinyin/d/#dropout)，再按这个基准重读。
 
 ## dropout 怎样减少路径依赖的问题
 

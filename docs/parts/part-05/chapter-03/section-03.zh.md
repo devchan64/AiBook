@@ -1,11 +1,13 @@
 # P5-3.3 tanh
 
 > Section ID: `P5-3.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-3.2 里，我们已经看到 sigmoid 会把分数压到 0 与 1 之间。tanh 也会做类似的 S 形压缩，但它和 sigmoid 的关键差别在于：输出范围是 \(-1\) 到 \(1\)。
 
 当你希望在内部表征里同时保留负值与正值，并且让表征围绕 0 展开时，tanh 就会成为一个很重要的比较基准。
+
+如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)与[tanh](/AiBook/zh/reference/concept-glossary-pinyin/t/#tanh)条目。
 
 ## tanh 的 0 中心变换问题
 

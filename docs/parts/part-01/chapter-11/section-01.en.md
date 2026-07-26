@@ -1,7 +1,7 @@
 # P1-11.1 Statistical Language Models and Embeddings
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 10 showed that when generative AI creates outputs, naturalness, factuality, evidence, and risk all need separate review.
 
@@ -131,7 +131,7 @@ This is a simplified teaching example, but the core idea is clear:
 > instead of handling sentences only as lists of rules,  
 > estimate the likelihood of the next word from frequencies observed in a corpus
 
-## The Limits of N-grams Were Important Before LLMs
+## N-gram Limits Before LLMs
 
 N-grams are intuitive and useful, but they have clear limits.
 
@@ -230,7 +230,7 @@ So the safer explanation is:
 
 This connects back to the earlier discussions of `symbols`, `labels`, `features`, and `representations`. But an embedding is not a human-written meaning table. It is a learned numeric representation.
 
-## The Connection to LLMs
+## Connection to LLMs
 
 Modern LLMs inherit both lines from this section:
 

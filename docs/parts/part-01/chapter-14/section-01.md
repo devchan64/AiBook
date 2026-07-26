@@ -1,7 +1,7 @@
 # P1-14.1 모델(model), 앱(application), 데이터(data), 도구(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 13장에서는 임베딩(embedding), 유사도 검색(similarity search), RAG(retrieval-augmented generation), 벡터 검색 구현의 직관을 봤습니다. 이 흐름은 중요한 전환을 만듭니다.
 

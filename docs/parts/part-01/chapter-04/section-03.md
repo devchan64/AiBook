@@ -1,7 +1,7 @@
 # P1-4.3 특징(feature), 표현(representation), 파라미터(parameter)
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 4.2에서는 모델에게 무엇을 보여 주고 무엇을 받으려는지, 즉 `입력(input)`, `출력(output)`, `데이터(data)`의 관계를 봤습니다. 이번 절에서는 그 입력이 모델 안에서 어떤 계산 재료로 보이는지 설명합니다.
 

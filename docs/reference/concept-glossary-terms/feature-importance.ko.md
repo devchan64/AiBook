@@ -1,0 +1,9 @@
+<a id="feature-importance"></a>
+
+### 특징 중요도(feature importance)
+
+- 뜻: 특징 중요도는 학습된 모델이 어떤 특징(feature)을 예측에 상대적으로 많이 사용했는지 요약한 값입니다. 트리 계열 모델에서는 분기에서 불순도(impurity)를 얼마나 줄였는지, 또는 특정 특징을 섞었을 때 성능이 얼마나 떨어지는지 같은 방식으로 계산할 수 있습니다.
+- 왜 중요한가: 모델이 무엇을 보고 판단했는지 점검하는 출발점입니다. 다만 중요도는 모델의 사용 흔적이지, 곧바로 현실의 원인 순위나 인과 효과를 뜻하지 않습니다.
+- 함께 볼 개념: `랜덤포레스트(random forest)`, `평균 불순도 감소(MDI)`, `permutation importance`, `상관 특성(correlated features)`
+- 중심 Section: `P4-15.2`
+- 등장 Section: `P4-15.2`

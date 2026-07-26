@@ -1,7 +1,9 @@
+<a id="support-vector-machine"></a>
+
 ## SVM, support vector machine
 
-- Meaning: 클래스를 나누는 경계와 가장 가까운 사례들 사이의 여유 폭(margin)을 크게 만드는 방향으로 경계를 찾는 분류 모델입니다. 단순히 두 집단을 가르기만 하는 선보다, `경계 주변에 얼마나 안전한 간격을 둘 수 있는가`를 함께 따지는 방식이라고 볼 수 있습니다.
-- Why it matters: 단순히 선을 긋는 것이 아니라, 경계의 안정성을 함께 고려하는 분류 직관을 보여 주기 때문입니다. 이 개념이 있어야 `훈련 데이터를 겨우 가르는 경계`와 `새 데이터에도 더 버틸 가능성이 있는 경계`를 구분하게 되고, 분류 문제에서 왜 가장 가까운 사례들의 위치가 전체 일반화 감각에 중요해지는지도 더 자연스럽게 읽게 됩니다. 또한 SVM을 이해해야 분류가 단순 정확도 경쟁만이 아니라, 경계가 얼마나 안정적으로 놓였는가를 따지는 문제이기도 하다는 점을 보게 됩니다. 결국 SVM은 `어떻게 나눌까`뿐 아니라 `얼마나 여유 있게 나눌까`를 함께 묻는 분류기입니다.
-- Related concepts: `margin`, `decision boundary`, `kernel`
+- Meaning: A classification model that searches for a boundary while trying to keep a large margin between that boundary and the closest cases from each class. Instead of only asking whether two groups can be separated, it also asks how much safety gap can be left around the boundary.
+- Why it matters: SVM shows a classification intuition that considers boundary stability, not only the act of drawing a separating line. It helps distinguish a boundary that barely separates the training data from a boundary that may hold up better on new data, and it makes the closest cases central to the reader's sense of generalization. In short, SVM asks both `how should we separate the classes?` and `how much room does that separation leave?`
+- Related concepts: `margin`, `decision boundary`, `support vector`, `kernel`
 - Core Section: `P4-13.1`
-- Appears in: `P4-13.2`
+- Appears in: `P4-13.1`, `P4-13.2`

@@ -1,11 +1,11 @@
 # Part 2. Rebuilding the Foundations
 
 > Section ID: `P2-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2 is the section for recovering math, Python, data tools, and document-management instincts before studying machine learning and deep learning again. It does not try to prove mathematics deeply or make you memorize all Python syntax. Instead, it builds the foundation needed to read model training, data splitting, evaluation, overfitting, and generalization in Part 3 and to verify them with small code examples.
 
-Within the same Part, Part 2 also places the detailed explanation of each major concept in one representative Section first whenever possible. Later sections keep only the minimum connection needed for the current context. Concepts that keep returning, such as reading formulas, vectors and matrices, derivatives, probability, optimization, arrays, and tabular data, should first be read in the representative Sections and then rechecked together with the [Concept Glossary](/AiBook/reference/concept-glossary/) when they reappear.
+Within the same Part, Part 2 also places the detailed explanation of each major concept in one representative Section first whenever possible. Later sections keep only the minimum connection needed for the current context. Concepts that keep returning, such as reading formulas, vectors and matrices, derivatives, probability, optimization, arrays, and tabular data, should first be read in the representative Sections and then rechecked together with the [formula glossary entry](/AiBook/en/reference/concept-glossary-alpha/f.en/#formula) when they reappear.
 
 The central purpose here is `to become able to read again the language of computation that keeps appearing in AI documents and example code`. Formulas, arrays, tables, graphs, runtime environments, and Git history are not separate topics. They are tools used together to read model computation, inspect datasets, visualize results, and leave learning records.
 

@@ -1,15 +1,15 @@
 # P4-12.1 Intuition For k-NN
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.2 showed logistic regression as `a model that draws a boundary in the input space and separates classes`. Now the question changes.
+P4-11.2 showed [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) as `a model that draws a boundary in the input space and separates classes`. Now the question changes.
 
 Can we make a judgment without drawing a line first, by looking instead at nearby similar examples?
 
-That question is the starting point of k-NN (k-nearest neighbors). It is more accurate to read k-NN not as `a model that first builds a formula`, but as `a model that first looks for similar cases around a new input`.
+That question is the starting point of [k-NN (k-nearest neighbors)](/AiBook/en/reference/concept-glossary-alpha/k/#k-nnk-nearest-neighbors). It is more accurate to read k-NN not as `a model that first builds a formula`, but as `a model that first looks for similar cases around a new input`.
 
-## Scope Of This Section
+## Questions Closed By k-NN Intuition
 
 This Section answers the following questions.
 
@@ -20,7 +20,7 @@ This Section answers the following questions.
 
 This Section first closes `what basic idea k-NN uses to judge from nearby cases`. Why distance functions and scale change the result continues in `P4-12.2 Distance And Scale`, and the practical guidance continues in `P4-12.3 What Should Be Checked First When Using k-NN?`
 
-## Goals Of This Section
+## Judgments To Keep From k-NN Intuition
 
 - You can explain k-NN as `a method that gathers nearby cases and makes a judgment by majority vote or average`.
 - You can explain what `query`, `training data`, `neighbor`, and `label` each do inside the judgment.
@@ -31,7 +31,7 @@ This Section first closes `what basic idea k-NN uses to judge from nearby cases`
 
 ### How Does k-NN Make A Judgment?
 
-k-NN first looks at a new input, called the query. Then it finds cases in the training data whose labels are already known and are close to that query. Finally, it gathers the labels of those neighbors and creates a result by majority vote or average.
+k-NN first looks at a new input, called the [query](/AiBook/en/reference/concept-glossary-alpha/q/#query). Then it finds cases in the [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) whose [labels](/AiBook/en/reference/concept-glossary-alpha/l/#label) are already known and are close to that query. Finally, it gathers the labels of those [neighbors](/AiBook/en/reference/concept-glossary-alpha/n/#nearest-neighbor) and creates a result by majority vote or average.
 
 In short, the order is the following.
 
@@ -156,6 +156,11 @@ This case shows three key points.
   - even for the same query, the result can actually change when `k` changes
   - a query near the boundary can shake interpretation easily
 
+Values to change:
+
+- Change `query` to `(4.3, 4.1)` or `(3.9, 4.0)` to see how the nearest-neighbor order changes.
+- Change the `k` list to something like `[1, 2, 3, 5]` to check whether an even `k` can create a tie.
+
 ```python
 # This example calculates distances between a new query and existing samples to choose k-NN neighbors and a predicted label.
 from math import dist
@@ -227,4 +232,4 @@ In other words, this example closes the point that `one exceptional nearest poin
 
 ## Sources And References
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, checked on 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, checked on 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }

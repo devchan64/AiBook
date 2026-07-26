@@ -1,7 +1,7 @@
 # P5-14.3 Two Devices That Stabilize Deep Repetition
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How do residual and normalization divide stabilization between information flow and value range?_
 
@@ -11,7 +11,7 @@ Why are residual connection and layer normalization not secondary decoration in 
 
 The core is not `stronger attention`, but `information flow that can endure deep repetition`.
 
-## Questions Handled By Stabilization Devices
+## Questions Handled by Stabilization Devices
 
 - What can go wrong if only new computation is repeated?
 - Why does residual connection leave the original representation together?
@@ -28,9 +28,9 @@ So a Transformer block usually keeps the following two intuitions together.
 | residual connection | new computation covers the original information too much | leave the original representation together |
 | layer normalization | the value range shakes and makes the next computation unstable | organize the representation range |
 
-## Cases And Examples
+## Cases and Examples
 
-### Case. When The Action Token Must Not Lose Its Original Meaning
+### Case. When the Action Token Must Not Lose Its Original Meaning
 
 In an incident-response sentence, the action token has an original axis called `recovery state`. Even if attention and feed-forward reflect new context, if that original axis completely disappears, the current representation becomes unstable. The representation should differ depending on whether rollback was confirmed, but the basic meaning that the action token points to an action state should be preserved.
 
@@ -59,9 +59,9 @@ When reading the numbers, first see that both axes remain together, rather than 
 
 The result to confirm in this case is that residual and normalization are not `components that newly create the answer`, but devices that protect the action token's basic axis and the stability of the next computation even after new computation enters.
 
-## Practice And Example
+## Practice and Example
 
-### Practice. What Is Missing If We Remove Residual And Normalization?
+### Practice. What Is Missing if We Remove Residual and Normalization?
 
 Answer the questions below by separating the roles of residual and normalization.
 
@@ -73,7 +73,7 @@ Answer the questions below by separating the roles of residual and normalization
 
 Explanation: The core of this practice is not reading residual and normalization as `decorations that improve performance`. Because a deep Transformer block keeps stacking new computations, it needs both a path where original information remains and a value range that the next computation can handle.
 
-### Practice. Diagnose The Action Token Axis
+### Practice. Diagnose the Action Token Axis
 
 Choose which stabilization device is needed more directly in each situation below.
 
@@ -92,7 +92,7 @@ Explanation: This practice is for avoiding memorizing residual and normalization
 - Can you explain that layer normalization organizes the value range and stabilizes the next computation?
 - Can you explain the Transformer block as a combination of `context mixing + position-wise processing + original-information preservation + stabilization`?
 
-## Sources And References
+## Sources and References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

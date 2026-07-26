@@ -1,6 +1,30 @@
 ## ㅇ
 
+--8<-- "reference/concept-glossary-terms/weak-learner.ko.md"
+
+--8<-- "reference/concept-glossary-terms/xgboost.ko.md"
+
+--8<-- "reference/concept-glossary-terms/umap.ko.md"
+
+--8<-- "reference/concept-glossary-terms/extra-trees.ko.md"
+
+--8<-- "reference/concept-glossary-terms/causal-inference.ko.md"
+
+--8<-- "reference/concept-glossary-terms/rbf-kernel.ko.md"
+
+--8<-- "reference/concept-glossary-terms/leaf.ko.md"
+
+--8<-- "reference/concept-glossary-terms/ensemble.ko.md"
+
 --8<-- "reference/concept-glossary-terms/adapter.ko.md"
+
+--8<-- "reference/concept-glossary-terms/actor-critic.ko.md"
+
+--8<-- "reference/concept-glossary-terms/a2c.ko.md"
+
+--8<-- "reference/concept-glossary-terms/a3c.ko.md"
+
+--8<-- "reference/concept-glossary-terms/algorithm.ko.md"
 
 --8<-- "reference/concept-glossary-terms/import-statement.ko.md"
 
@@ -24,7 +48,15 @@
 
 --8<-- "reference/concept-glossary-terms/wordpiece.ko.md"
 
+--8<-- "reference/concept-glossary-terms/vocabulary.ko.md"
+
 --8<-- "reference/concept-glossary-terms/ai-safety.ko.md"
+
+--8<-- "reference/concept-glossary-terms/offline-reinforcement-learning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/safe-reinforcement-learning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/safe-exploration.ko.md"
 
 --8<-- "reference/concept-glossary-terms/alexnet.ko.md"
 
@@ -41,15 +73,23 @@
 
 --8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.ko.md"
 
+--8<-- "reference/concept-glossary-terms/oob-score.ko.md"
+
 --8<-- "reference/concept-glossary-terms/language-model.ko.md"
 
 --8<-- "reference/concept-glossary-terms/language-modeling.ko.md"
 
 --8<-- "reference/concept-glossary-terms/raw-audio-waveform.ko.md"
 
+--8<-- "reference/concept-glossary-terms/source-data.ko.md"
+
+--8<-- "reference/concept-glossary-terms/source-event.ko.md"
+
+--8<-- "reference/concept-glossary-terms/prediction-contract.ko.md"
+
 --8<-- "reference/concept-glossary-terms/work-automation.ko.md"
 
---8<-- "reference/concept-glossary-terms/agent.ko.md"
+--8<-- "reference/concept-glossary-terms/ai-agent.ko.md"
 
 --8<-- "reference/concept-glossary-terms/external-system.ko.md"
 
@@ -57,6 +97,10 @@
 --8<-- "reference/concept-glossary-terms/epoch.ko.md"
 
 --8<-- "reference/concept-glossary-terms/epsilon-greedy-policy.ko.md"
+
+--8<-- "reference/concept-glossary-terms/off-policy.ko.md"
+
+--8<-- "reference/concept-glossary-terms/on-policy.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/n-gram.ko.md"
@@ -70,6 +114,8 @@
 
 --8<-- "reference/concept-glossary-terms/one-hot-representation.ko.md"
 
+--8<-- "reference/concept-glossary-terms/one-vs-rest.ko.md"
+
 --8<-- "reference/concept-glossary-terms/operation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/adjacency-list.ko.md"
@@ -77,6 +123,8 @@
 --8<-- "reference/concept-glossary-terms/element-wise-multiplication.ko.md"
 
 --8<-- "reference/concept-glossary-terms/column.ko.md"
+
+--8<-- "reference/concept-glossary-terms/column-role-separation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/linked-list.ko.md"
 
@@ -105,6 +153,8 @@
 
 --8<-- "reference/concept-glossary-terms/error-accumulation.ko.md"
 
+
+--8<-- "reference/concept-glossary-terms/role-aware-reading-across-heterogeneous-scales.ko.md"
 
 --8<-- "reference/concept-glossary-terms/update.ko.md"
 
@@ -153,6 +203,8 @@
 
 --8<-- "reference/concept-glossary-terms/similarity.ko.md"
 
+--8<-- "reference/concept-glossary-terms/connectivity.ko.md"
+
 --8<-- "reference/concept-glossary-terms/hidden-layer.ko.md"
 
 --8<-- "reference/concept-glossary-terms/speech-generation.ko.md"
@@ -197,13 +249,23 @@
 
 --8<-- "reference/concept-glossary-terms/threshold.ko.md"
 
+--8<-- "reference/concept-glossary-terms/error-cost.ko.md"
+
 --8<-- "reference/concept-glossary-terms/embedding.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/input-unit.ko.md"
+
+--8<-- "reference/concept-glossary-terms/input-specification.ko.md"
+
+--8<-- "reference/concept-glossary-terms/input-window.ko.md"
 
 --8<-- "reference/concept-glossary-terms/input-condition.ko.md"
 
 --8<-- "reference/concept-glossary-terms/input-file.ko.md"
 
 --8<-- "reference/concept-glossary-terms/input.ko.md"
+
+--8<-- "reference/concept-glossary-terms/negative-pair.ko.md"
+
+--8<-- "reference/concept-glossary-terms/positive-pair.ko.md"

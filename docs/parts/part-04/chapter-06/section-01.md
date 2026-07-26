@@ -1,13 +1,13 @@
 # P4-6.1 평가 지표(metric)의 역할
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-5장에서는 과적합(overfitting)과 일반화(generalization)를 봤습니다. 이제 다음 질문이 이어집니다. `새 데이터에서도 버틴다`는 말을 실제로 무엇으로 확인할까요? 그때 등장하는 것이 `평가 지표(metric)`입니다.
+P4-5장에서는 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)과 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)를 봤습니다. 이제 다음 질문이 이어집니다. `새 데이터에서도 버틴다`는 말을 실제로 무엇으로 확인할까요? 그때 등장하는 것이 [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)입니다.
 
 평가 지표는 모델이 얼마나 잘 맞는지 숫자로 보여 주는 도구입니다. 하지만 더 중요한 점은, 지표가 단순히 점수판이 아니라 `무엇을 중요하게 보겠다는 약속`이라는 사실입니다. 같은 모델이라도 어떤 지표를 보느냐에 따라 좋아 보일 수도 있고, 위험해 보일 수도 있습니다.
 
-이 절은 `평가 지표(metric)`, `정확도(accuracy)`, `정밀도(precision)`, `재현율(recall)`, `F1`의 기본 역할을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 무엇을 중요한 오류로 볼지 정하는 기준은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 평가 지표(metric), [정확도(accuracy)](../../../reference/concept-glossary-parts/09-jieut.md#accuracy), [정밀도(precision)](../../../reference/concept-glossary-parts/09-jieut.md#precision), [재현율(recall)](../../../reference/concept-glossary-parts/09-jieut.md#recall), `F1`의 기본 역할을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 무엇을 중요한 오류로 볼지 정하는 기준은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 평가 지표(metric)의 역할에서 닫을 질문
 
@@ -15,7 +15,7 @@ P4-5장에서는 과적합(overfitting)과 일반화(generalization)를 봤습�
 
 즉, 본편의 책임은 `무엇을 중요하게 볼 것인가`를 정하는 데 있습니다. 확률 점수의 세밀한 해석, reliability diagram, Brier score, threshold 세부 조정처럼 한 단계 더 섬세한 읽기는 P4-6.4와 뒤의 P4-15.3으로 넘기고, 이 절은 지표가 왜 하나가 아닌지부터 분명히 잡습니다.
 
-또한 이 절은 지표를 읽는 기본 태도도 함께 고정합니다. 분류(classification)에서는 혼동 행렬(confusion matrix)과 대표 오류 사례를 먼저 보고, 뒤의 P4-8.2에서는 baseline과 비교해 그 오류 구조 개선이 실제로 의미 있는지 다시 읽습니다. 즉, Part 4의 평가는 `숫자 하나`보다 `어디서 틀렸는가`와 `무엇과 비교해 나아졌는가`를 우선 보는 흐름으로 이어집니다.
+또한 이 절은 지표를 읽는 기본 태도도 함께 고정합니다. [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification)에서는 [혼동 행렬(confusion matrix)](../../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 대표 오류 사례를 먼저 보고, 뒤의 P4-8.2에서는 [baseline](../../../reference/concept-glossary-parts/01-giyeok.md#baseline)과 비교해 그 오류 구조 개선이 실제로 의미 있는지 다시 읽습니다. 즉, Part 4의 평가는 `숫자 하나`보다 `어디서 틀렸는가`와 `무엇과 비교해 나아졌는가`를 우선 보는 흐름으로 이어집니다.
 
 P4-6.2에서는 문제 유형별로 어떤 평가 기준을 더 우선해야 하는지 이어서 다룹니다. 지금은 `지표는 왜 하나가 아니며`, `왜 같은 숫자라도 의미가 다를 수 있는가`, `왜 업무 목표와 오류 비용이 지표 선택에 들어와야 하는가`를 잡는 데 집중합니다.
 
@@ -255,7 +255,7 @@ Google 용어집은 F1 점수를 정밀도와 재현율을 함께 쓰는 대표�
 | 읽는 순서 | 먼저 확인할 것 | 왜 이 순서가 필요한가 |
 | --- | --- | --- |
 | 1 | 혼동 행렬(confusion matrix) | 어떤 종류의 실수가 많은지 먼저 봐야 정확도 착시를 줄일 수 있기 때문입니다. |
-| 2 | 대표 오류 사례(error case) | 같은 FN, FP라도 실제로 어떤 입력을 놓쳤는지 봐야 데이터 문제와 경계 사례가 드러나기 때문입니다. |
+| 2 | 대표 [오류 사례(error case)](../../../reference/concept-glossary-parts/08-ieung.md#error-case) | 같은 FN, FP라도 실제로 어떤 입력을 놓쳤는지 봐야 데이터 문제와 경계 사례가 드러나기 때문입니다. |
 | 3 | 정밀도, 재현율, F1 | 오류 구조를 본 뒤에야 어떤 숫자가 그 문제를 더 잘 요약하는지 읽을 수 있기 때문입니다. |
 | 4 | baseline과 비교 | 뒤의 P4-8.2에서 이 점수 변화가 정말 의미 있는 개선인지 다시 확인해야 하기 때문입니다. |
 
@@ -313,7 +313,9 @@ f1: 0.0583
 
 이 예제에서 중요한 것은 `누가 더 낫다`를 기계적으로 고르는 일이 아닙니다. 중요한 것은 `무엇을 더 중요하게 보느냐에 따라 해석이 달라진다`는 점입니다.
 
-운영 문장으로 아주 짧게 바꾸면 다음처럼 적을 수 있습니다. `모델 A는 놓침(FN)이 많으니 위험 사례 재검토가 먼저 필요하다. 모델 B는 괜한 경보(FP)가 늘 수 있으니 재검사 비용과 threshold를 함께 다시 봐야 한다.` 즉, 지표 표를 읽은 뒤에는 `어느 오류가 더 늘었는가`와 `그 오류 때문에 다음에 무엇을 점검할 것인가`가 바로 이어져야 합니다.
+운영 문장으로 아주 짧게 바꾸면 다음처럼 적을 수 있습니다. `모델 A는 놓침(FN)이 많으니 위험 사례 재검토가 먼저 필요하다. 모델 B는 괜한 경보(FP)가 늘 수 있으니 재검사 비용과 threshold를 함께 다시 봐야 한다.`
+
+여기서 [threshold](../../../reference/concept-glossary-parts/08-ieung.md#threshold)는 양성으로 판단할 경계값입니다. 즉, 지표 표를 읽은 뒤에는 `어느 오류가 더 늘었는가`와 `그 오류 때문에 다음에 무엇을 점검할 것인가`가 바로 이어져야 합니다.
 
 ## 체크리스트
 
@@ -326,6 +328,6 @@ f1: 0.0583
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
-- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. 정보 검색 평가에서 precision과 recall을 중심으로 효과성 척도를 구성한 역사적 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. 정보 검색 평가에서 precision과 recall을 중심으로 효과성 척도를 구성한 역사적 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-26. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }

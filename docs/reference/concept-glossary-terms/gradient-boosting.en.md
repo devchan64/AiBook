@@ -6,4 +6,4 @@
 - Why it matters: Gradient boosting is a strong candidate for many tabular-data problems, but it is also sensitive to tuning and overfitting. It shows that ensembles can work by sequential correction, not only by training many independent models and averaging them.
 - Related concepts: `ensemble`, `residual`, `hyperparameter`
 - Core Section: `P4-16.1`
-- Appears in: `P4-16.2`
+- Appears in: `P4-3.2`, `P4-16.2`

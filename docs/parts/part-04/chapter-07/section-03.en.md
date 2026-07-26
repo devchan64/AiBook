@@ -1,15 +1,15 @@
 # P4-7.3 Supplementary Learning: Separating Preprocessing Input Problems
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: What input problem does missingness, scale, and encoding each start from?_
 
-In P4-7.2, the broad meaning of preprocessing was established as `the work of changing raw input into a representation the model can calculate with`. But when readers first learn preprocessing, confusion immediately appears. Some columns are empty, some have wildly different numeric magnitudes, and some are strings, so it is not always intuitive why all three are handled under the single word preprocessing.
+In P4-7.2, the broad meaning of [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing) was established as `the work of changing raw input into a representation the model can calculate with`. But when readers first learn preprocessing, confusion immediately appears. Some columns are empty, some have wildly different numeric magnitudes, and some are strings, so it is not always intuitive why all three are handled under the single word preprocessing.
 
 The purpose of this supplementary learning is not to add more preprocessing technique names. Rather, it is to create a criterion that first looks at `what problem has appeared in the current input` and then separates the kinds of preprocessing that should be brought to mind for that problem.
 
-## Scope Of This Supplementary Learning
+## The Criteria For Separating Missingness, Scale, And Encoding
 
 This Section answers the following questions.
 
@@ -18,9 +18,9 @@ This Section answers the following questions.
 - Does one column need only one preprocessing rule, or can several rules be attached together?
 - Even after separating preprocessing types, why must the rules learned on train still be reused?
 
-This Section first closes `what input problems missing-value handling, scale adjustment, and encoding correspond to`. The distinction among filter, wrapper, embedded, and dimensionality reduction continues in the next Section, P4-7.4.
+This Section first closes `what input problems missing-value handling, scale adjustment, and encoding correspond to`. The distinction among filter, wrapper, embedded, and [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction) continues in the next Section, P4-7.4.
 
-## Goals Of This Supplementary Learning
+## Judgments To Keep When Reading Input Problems
 
 - You can distinguish preprocessing types not by `technique name` but by `type of input problem`.
 - You can inspect one column by first checking `is it empty`, `is its magnitude axis unstable`, or `is it an uncomputable representation`.
@@ -33,7 +33,7 @@ Preprocessing types are usually not separated by column name, but by `what is cu
 
 | Problem seen first in the input | Preprocessing to bring to mind first | Key question |
 | --- | --- | --- |
-| the value is empty | imputation | by what rule should this blank be handled |
+| the value is empty | [imputation](/AiBook/en/reference/concept-glossary-alpha/m/#missing-value) | by what rule should this blank be handled |
 | the numeric magnitude axes are too different | scaling | how should these numbers be compared fairly |
 | strings, categories, or tiers are mixed in | encoding | how should this value be changed into a calculable representation |
 
@@ -125,7 +125,7 @@ First, readers need to look at `what the input problem is`.
 - If there are string categories, inspect encoding first.
 - If the numeric axes differ greatly, review scale adjustment.
 
-Only after that is it stable to add `which models are more sensitive to this problem`. For example, distance-based models or gradient-based optimization can be affected more directly by scale, but before that readers first need to know `is the problem really that numeric axes differ in scale`.
+Only after that is it stable to add which models are more sensitive to this problem. For example, [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance)-based models or gradient-based [optimization](/AiBook/en/reference/concept-glossary-alpha/o/#optimization) can be affected more directly by scale, but before that readers first need to know whether the problem really is that numeric axes differ in scale.
 
 That means the first order of preprocessing is not `model name -> technique choice`, but `input problem -> preprocessing type -> inspect model sensitivity`.
 
@@ -135,7 +135,7 @@ Even if preprocessing types are separated correctly, a problem returns if the pl
 
 For example:
 
-- If the median for missing values is computed by mixing in test rather than only train, evaluation leaks.
+- If the median for missing values is computed by mixing in [test data](/AiBook/en/reference/concept-glossary-alpha/t/#test-data) rather than only [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data), evaluation leaks.
 - If the list of encoding categories is built from the whole dataset first, it means information was seen in advance that would not be available in the real deployment scene.
 - If scaling references are set using the mean and variance of the whole dataset, the comparison is no longer fair.
 
@@ -146,7 +146,7 @@ So the judgment that separates preprocessing types and the location where the ru
 | what preprocessing type is needed | this current Section that reads the input problem |
 | where should that rule be learned | the train-based reuse principle of P4-7.2 |
 
-If readers separate them this way, they avoid mixing up `what rule is needed` and `where that rule was learned`.
+If readers separate them this way, they avoid mixing up `what rule is needed` and `where that rule was learned`. If this boundary is missed, evaluation can still become unstable through [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#data-leakage), even when the preprocessing type itself was chosen correctly.
 
 ## Cases And Examples
 
@@ -183,6 +183,6 @@ What matters here is not `memorizing four preprocessing techniques`, but the fac
 
 ## Sources And References
 
-- scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-08.
-- scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-08.
-- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, accessed 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, accessed 2026-07-26. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,10 @@
-## regression
+<a id="regression"></a>
+<a id="glossary-regression"></a>
 
-- Meaning: 입력을 바탕으로 연속적인 수치 값이나 점수를 예측하는 모델링 과제입니다. 분류처럼 범주 이름을 고르는 것이 아니라, 가격, 온도, 수요량처럼 이어지는 수치 축 위의 값을 맞히는 문제라고 볼 수 있습니다. 출력이 숫자라는 점은 같아도, 단순 계산 결과를 내는 프로그램과 달리 회귀는 데이터에서 `입력과 수치 결과 사이의 관계`를 학습해 새로운 입력의 값을 추정합니다.
-- Why it matters: 현실의 많은 문제는 `이 범주인가`보다 `얼마나 큰가`를 묻기 때문에, 숫자 축 위에서 오차를 해석하는 별도 문제 유형이 필요하기 때문입니다. 이 개념이 있어야 분류의 `맞다/틀리다` 평가와 회귀의 `얼마나 가까운가` 평가를 구분하게 되고, 작은 오차와 큰 오차를 어떻게 다르게 벌점 줄지에 따라 손실 함수와 모델 선택이 달라진다는 점도 이해하게 됩니다. 또한 회귀를 이해해야 출력값이 연속 수치일 때 정확도(accuracy) 같은 분류 지표가 바로 맞지 않는 이유, 평균절대오차(MAE)나 평균제곱오차(MSE)처럼 `거리`를 재는 지표가 왜 등장하는지도 더 자연스럽게 읽게 됩니다.
+### regression
+
+- Meaning: Regression is a modeling task that predicts a continuous numeric value or score from inputs. Unlike classification, which chooses a category name, regression estimates a value on a numeric axis such as price, temperature, or demand.
+- Why it matters: Many real problems ask `how much?` rather than `which category?` Regression helps separate classification-style right/wrong evaluation from distance-based error evaluation, and it explains why accuracy is not the right metric for continuous outputs.
 - Related concepts: `classification`, `output`, `task definition`
 - Core Section: `P1-8.1`
-- Appears in: `P1-4.4`
+- Appears in: `P1-4.4`, `P1-6.3`, `P3-9.13`, `P4-2.1`, `P4-3.2`, `P4-6.2`, `P4-8.1`, `P4-8.3`, `P4-10.1`

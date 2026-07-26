@@ -1,11 +1,11 @@
 # P2-8.6 Supplemental Learning: First Meeting Classes and Objects
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
 
-Here we provide a basic supplemental explanation for reading `class`, `object`, and `method`. This supplemental learning organizes the standard for reading call shapes such as `value.method()` and `model.fit()`. The representative explanations of `value`, `type`, and `dictionary` remain in P2-8.1, P2-8.3, and the [concept glossary](/AiBook/reference/concept-glossary/), and here we read class and object on top of that.
+Here we provide a basic supplemental explanation for reading `class`, `object`, and `method`. This supplemental learning organizes the standard for reading call shapes such as `value.method()` and `model.fit()`. The representative explanations of `value`, `type`, and `dictionary` remain in P2-8.1, P2-8.3, and the [class glossary entry](/AiBook/en/reference/concept-glossary-alpha/c.en/#class), and here we read class and object on top of that.
 
 Problem situation: We want to see, through the smallest example, how a dot-based call differs from an ordinary function call.
 Input: The string `text = " AI is Useful "`.
@@ -44,7 +44,7 @@ Because this is supplemental learning, the explanation is slightly more detailed
 - You can explain at an entry level the difference between `function(value)` and `value.method()`.
 - You can read expressions such as `model.fit()` and `model.predict()` in AI libraries from the perspective of classes and methods.
 
-## The First Standard to Hold
+## First Standard to Hold
 
 The first standard to hold in this supplement is this: `a call with a dot is an action provided by an object`.
 
@@ -65,7 +65,7 @@ So the core of this section is not learning to design classes freely, but buildi
 | A class is the definition for making such objects | It explains why attributes and methods appear as one bundle. | Be able to explain it as something like a blueprint. |
 | These expressions appear often in AI libraries because it is convenient to handle a model or dataset as one bundle | It helps us read `model.fit()` structurally instead of reading only the syntax. | Understand that models, datasets, and settings are handled like objects. |
 
-## In Python, Many Things Are Objects
+## in Python, Many Things Are Objects
 
 The Python official documentation explains an object as something that has identity, type, and value. Here it is enough to understand it like this:
 

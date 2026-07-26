@@ -1,7 +1,7 @@
 # P5-7.4 Supplementary Reading: Distinguishing Adaptive Optimization Claims
 
 > Section ID: `P5-7.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P5-7.3, we saw what adaptive update is trying to additionally compensate beyond a basic update, and we looked at Adam as a representative example. If we go deeper from there, the next question remains.
 
@@ -19,14 +19,14 @@ This distinction is a standard that can be reused as it is when we later meet op
 
 Here, the goal is not `can we do the proof`, but `can we distinguish what kind of guarantee each explanation is actually making`.
 
-## Standards For Guarantee Claims And Assumptions
+## Standards for Guarantee Claims and Assumptions
 
 - You can distinguish an experimental-performance claim from a convergence-guarantee claim.
 - You can explain why assumptions matter in convergence analysis of adaptive optimizers.
 - You can say that the practical usability of Adam and the theoretical convergence guarantee of Adam are not the same question.
 - You can make a checklist of conditions to confirm first when reading texts or presentations that explain optimizers.
 
-## Practical Performance And Convergence Guarantees Are Different Questions
+## Practical Performance and Convergence Guarantees Are Different Questions
 
 In practice, when we use Adam, we often encounter the experience that the loss decreases quickly. But from that fact alone, we still cannot say `Adam converges under all conditions`.
 
@@ -76,7 +76,7 @@ If we reread it through a graph, it becomes more direct why one well-decreasing 
 
 This graph compresses the point that, even within the same optimizer family, the observed loss curve can look very different depending on initialization, step size, and noise conditions. A one-time experiment like the blue curve that went down quickly is certainly evidence that `it went down well in this experiment`. But that alone does not guarantee stability under every condition represented by the green or red curves. So the loss curve should first be read as an `experimental-performance observation`, and the convergence guarantee should be checked separately through `under what conditions can such a conclusion be stated`.
 
-## What Becomes More Complex In Adaptive Optimizers
+## What Becomes More Complex in Adaptive Optimizers
 
 If we look at SGD very simply, it moves one step by multiplying the current gradient by the learning rate. The target of analysis is also relatively direct.
 
@@ -90,7 +90,7 @@ Adaptive optimizers in the Adam or AdaGrad family additionally use coordinate-wi
 
 So convergence analysis of adaptive optimization is not the section that asks `is Adam smarter?` It asks `for update rules that differ by coordinate, under what conditions are they stable, and under what conditions can problems arise?`
 
-## Conditions To Check First When Someone Talks About Convergence Guarantees
+## Conditions to Check First When Someone Talks About Convergence Guarantees
 
 In explanations that claim convergence guarantees, we should look at the assumptions before the conclusion sentence. If the assumptions change, even the same word `convergence` changes its meaning.
 
@@ -105,7 +105,7 @@ In explanations that claim convergence guarantees, we should look at the assumpt
 
 If we use this table as the standard, convergence analysis is not the task of reading only the conclusion sentence. It is the task of reading together `what type of problem`, `what gradient condition`, `what learning-rate condition`, and `what optimizer-state condition` the conclusion is talking about.
 
-## What We Should Learn From The Convergence Discussion Around Adam
+## What We Should Learn from the Convergence Discussion Around Adam
 
 The original Adam paper proposed Adam as a first-order optimizer for stochastic objectives, and together presented both why Adam is attractive in practice and what form convergence-related analysis can take in an online convex optimization frame. This paper is the starting point that shows both why Adam can be appealing in practice and how convergence analysis is presented.
 
@@ -117,7 +117,7 @@ The conclusion the reader should take here is not `do not use Adam`. The safer c
 
 If we restate this from a beginner's viewpoint, it becomes this. The phrase `it is used a lot in practice` usually means many people experienced that it worked well. The phrase `it is guaranteed to converge`, by contrast, means whether the conclusion still holds when mathematical conditions are attached. The two are related, but one does not automatically replace the other.
 
-## Cases And Examples
+## Cases and Examples
 
 The cases in this section are not optimizer-selection cases. They are cases for distinguishing more accurately the sentences that explain optimizers. Every case is organized in the same order.
 
@@ -155,7 +155,7 @@ So the result to confirm in this case is not `ban Adam`. It is that we need to r
 | If there is a convergence issue, practical performance is always bad too | record theoretical guarantees and particular experimental performance separately |
 | Reading only the paper conclusion is enough | read the theorem's assumptions, step-size conditions, and objective conditions together |
 
-## Practice And Example
+## Practice and Example
 
 Look at the following sentences and fill in the `claim-type distinction table`. Even without doing any formula proof, just separating which sentence is an experimental claim and which is a convergence-analysis claim, and writing down the conclusion that must not be overextended, already lets us interpret explanations about adaptive optimization more accurately.
 
@@ -177,7 +177,7 @@ What matters in this exercise is not memorizing many paper titles or optimizer n
 - Can you read a variant such as AMSGrad not as `a new name`, but as `an optimizer-state modification that tries to compensate convergence issues in Adam-like methods`?
 - When reading optimizer explanations, can you label experimental performance, convergence analysis, and generalization performance separately?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - Diederik P. Kingma, Jimmy Ba, [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, accessed 2026-07-16.
 - Sashank J. Reddi, Satyen Kale, Sanjiv Kumar, [On the Convergence of Adam and Beyond](https://arxiv.org/abs/1904.09237){: target="_blank" rel="noopener noreferrer" }, arXiv, ICLR 2018 paper, accessed 2026-07-16.

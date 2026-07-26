@@ -1,22 +1,22 @@
 # P4-19.4 보충학습: 강화학습 후속 갈래 지도
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _보조제목: DQN, PPO, RLHF는 강화학습의 어떤 문제의식에서 갈라졌는가_
 
 P4-19.1부터 P4-19.3까지 읽고 나면 강화학습을 더 공부할 때 곧 여러 이름을 만나게 됩니다.
 
-- DQN
-- PPO, TRPO, A2C, A3C
-- safe reinforcement learning
-- offline reinforcement learning
-- domain randomization
-- RLHF, preference optimization
+- [DQN](../../../reference/concept-glossary-parts/03-digeut.md#dqn)
+- [PPO](../../../reference/concept-glossary-parts/13-pieup.md#ppo), [TRPO](../../../reference/concept-glossary-parts/12-tieut.md#trpo), [A2C](../../../reference/concept-glossary-parts/08-ieung.md#a2c), [A3C](../../../reference/concept-glossary-parts/08-ieung.md#a3c)
+- [safe reinforcement learning](../../../reference/concept-glossary-parts/08-ieung.md#safe-reinforcement-learning)
+- [offline reinforcement learning](../../../reference/concept-glossary-parts/08-ieung.md#offline-reinforcement-learning)
+- [domain randomization](../../../reference/concept-glossary-parts/03-digeut.md#domain-randomization)
+- [RLHF](../../../reference/concept-glossary-parts/08-ieung.md#rlhf-reinforcement-learning-from-human-feedback), [preference optimization](../../../reference/concept-glossary-parts/07-siot.md#preference-optimization)
 
 이 이름들은 서로 다른 시대와 문제의식에서 나왔지만, 한꺼번에 밀려들기 쉽습니다. 이 절은 각 알고리즘 구현을 배우기보다, `왜 이런 이름들이 분기되었는가`를 큰 흐름으로 정리하는 데 집중합니다.
 
-이 보충학습은 강화학습의 기본 정의를 다시 처음부터 설명하는 절이 아닙니다. 가치 기반 강화학습의 손잡이는 P4-19.1, 정책 기반 강화학습의 손잡이는 P4-19.2, 적용 위험의 손잡이는 P4-19.3과 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 뒤에 붙는 이름들을 계보처럼만 정리합니다.
+이 보충학습은 강화학습의 기본 정의를 다시 처음부터 설명하는 절이 아닙니다. 가치 기반 강화학습의 손잡이는 P4-19.1의 [가치 기반 강화학습(value-based reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning), 정책 기반 강화학습의 손잡이는 P4-19.2의 [정책 기반 강화학습(policy-based reinforcement learning)](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), 적용 위험의 손잡이는 P4-19.3의 [reward design](../../../reference/concept-glossary-parts/06-bieup.md#reward-design)과 [sim-to-real gap](../../../reference/concept-glossary-parts/07-siot.md#sim-to-real-gap)에 두고, 여기서는 그 뒤에 붙는 이름들을 계보처럼만 정리합니다.
 
 ## 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기에서 구분할 경계
 

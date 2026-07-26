@@ -1,7 +1,7 @@
 # P1-14.1 模型、应用、数据与工具
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 第 13 章已经看过嵌入(embedding)、相似度搜索(similarity search)、RAG(retrieval-augmented generation)，以及向量搜索实现的直觉。这条脉络会带来一个重要转向：
 

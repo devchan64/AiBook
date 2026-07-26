@@ -1,7 +1,7 @@
 # P5-7.2 학습률(learning rate)과 update 보폭
 
 > Section ID: `P5-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 업데이트로 바꾸는 규칙`이라는 점을 보았습니다. 여기까지 오면 바로 다음 질문이 생깁니다.
 

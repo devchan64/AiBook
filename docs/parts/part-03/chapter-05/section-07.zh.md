@@ -1,13 +1,13 @@
 # P3-5.7 折叠多个后续事件的规则
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _副标题: 同一个样本之后的多个事件应该按什么规则折叠进一个表结构？_
 
-即使样本单位和输入窗口都已经定好了，表结构里仍然常常会再卡住一个地方：同一个样本之后挂着多个后续事件。比如，一次动作之后，可能依次留下 `review`、`warning`、`failure`、`revisit`。如果不先决定要怎样把它们折叠成一个结果列，同一个样本在不同表里就很容易变成不同含义。
+即使[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)单位和输入窗口都已经定好了，表结构里仍然常常会再卡住一个地方：同一个样本之后挂着多个后续事件。比如，一次动作之后，可能依次留下 `review`、`warning`、`failure`、`revisit`。如果不先决定要怎样把它们折叠成一个结果列，同一个样本在不同表里就很容易变成不同含义。
 
-如果后续事件有多个，就应该先写清：它们是按什么规则被折叠进同一个表结构里的。
+如果后续事件有多个，就应该先写清：它们是按什么[折叠规则(folding rule)](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-folding-rule)被折叠进同一个表结构里的。
 
 常见的折叠规则有下面这些。
 
@@ -34,7 +34,7 @@ _副标题: 同一个样本之后的多个事件应该按什么规则折叠进�
 | B | 0 | review | 1 |
 | C | 0 | none | 0 |
 
-也就是说，即使面对的是同一个源事件，只要 `代表结果到底选什么` 的规则不同，表结构就会不同。这个问题本质上是一个数据建模问题：要先决定用什么规则把代表结果折叠进表里。
+也就是说，即使面对的是同一个[源事件(source event)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-event)，只要 `代表结果到底选什么` 的规则不同，表结构就会不同。这个问题本质上是一个数据建模问题：要先决定用什么规则把代表结果折叠进表里。
 
 先留下下面这些备注，后面的混乱会少很多。
 
@@ -42,7 +42,7 @@ _副标题: 同一个样本之后的多个事件应该按什么规则折叠进�
 | --- | --- |
 | 哪些后续事件被看成同一组 | 为了固定这张表所处理的结果范围 |
 | 使用了 `any`、`first`、`worst`、`count` 里的哪一种 | 为了重新解释结果列到底是什么意思 |
-| 折叠出来的结果是用于报告，还是预测候选 | 为了避免把比较报告和目标候选混在一起 |
+| 折叠出来的结果是用于报告，还是预测候选 | 为了避免把比较报告和[目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)混在一起 |
 
 小例子：
 
@@ -54,7 +54,7 @@ _副标题: 同一个样本之后的多个事件应该按什么规则折叠进�
 
 期望输出(output)：即使是同一个源事件，`first_event`、`worst_event`、`event_count`、`event_sequence`、`any_failure` 也会被生成成不同结果。改变 `failure_severity_cutoffs` 时，失败候选样本数和样本列表也会改变。
 
-要确认的概念：当多个后续事件被折叠成一个结果列时，必须先写明折叠规则，否则表结构的含义会漂移
+要确认的概念：当多个后续事件被折叠成一个结果列时，必须先写明折叠规则和[阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold)，否则表结构的含义会漂移
 
 ```python
 # 这个例子把同一样本之后的多个后续事件折叠进表结构，并确定代表标签。
@@ -226,7 +226,7 @@ sample_id      first_event      worst_event  worst_severity  event_count        
                        2                    21 S01,S02,S04,S05,S07,S08,S10,S11,S12,S13,S16,S17,S18,S19,S21,S22,S24,S25,S26,S28,S29
 ```
 
-这个例子的关键在于：即使看的是同一个源事件，`first_event`、`worst_event`、`event_count`、`event_sequence`、`any_failure` 也可能被生成成不同的结果列。S01 的第一个后续事件是 `review`，但最严重的事件是 `failure`；S02 的第一个事件是 `review`，但最严重的事件是 `warning`。像 S30 这样没有后续事件的样本，也仍然在样本名册里，所以会被折叠成 `none` 和 0，并保留在最终表中。这里可以操作的值是 `selected_failure_severity_cutoff` 和 `failure_severity_cutoffs`。阈值为 4 时，只有带有 `failure` 的 S01、S07、S13、S19、S25 成为失败候选；如果阈值降到 3，最严重事件为 `warning` 的样本也会进入失败候选；如果降到 2，最严重事件为 `review` 或 `inspection` 的样本也会被包括进来。也就是说，如果不写清折叠规则和阈值，同一份后续事件日志在不同表里就会被读成不同含义。
+这个例子的关键在于：即使看的是同一个源事件，`first_event`、`worst_event`、`event_count`、`event_sequence`、`any_failure` 也可能被生成成不同的结果列。S01 的第一个后续事件是 `review`，但最严重的事件是 `failure`；S02 的第一个事件是 `review`，但最严重的事件是 `warning`。像 S30 这样没有后续事件的样本，也仍然在样本名册里，所以会被折叠成 `none` 和 0，并保留在最终表中。这里可以操作的值是 `selected_failure_severity_cutoff` 和 `failure_severity_cutoffs`。阈值为 4 时，只有带有 `failure` 的 S01、S07、S13、S19、S25 成为失败候选；如果阈值降到 3，最严重事件为 `warning` 的样本也会进入失败候选；如果降到 2，最严重事件为 `review` 或 `inspection` 的样本也会被包括进来。也就是说，如果不写清折叠规则和阈值，同一份后续事件日志在不同表里就会被读成不同[标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#glossary-label)含义。
 
 ## 用一个小图来看
 

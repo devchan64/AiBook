@@ -1,7 +1,7 @@
 # P5-13.3 보충학습: QKV와 multi-head attention
 
 > Section ID: `P5-13.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P5-13.1과 P5-13.2에서는 어텐션(Attention)과 셀프 어텐션(self-attention)의 직관을 먼저 잡았습니다. 그런데 여기까지 읽으면 자연스럽게 다음 질문이 생깁니다.
 

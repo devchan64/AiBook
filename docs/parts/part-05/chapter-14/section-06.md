@@ -1,7 +1,7 @@
 # P5-14.6 보충학습: 위치별 표현 가공
 
 > Section ID: `P5-14.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: feed-forward network는 attention 뒤에서 각 위치 표현을 어떻게 다시 가공하는가_
 

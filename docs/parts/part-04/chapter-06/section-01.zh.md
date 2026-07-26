@@ -1,13 +1,13 @@
 # P4-6.1 评价指标(metric)的作用
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-5 章里，我们看过过拟合和泛化。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是 `评价指标(metric)`。
+在 P4-5 章里，我们看过[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)和[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization)。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。
 
 评价指标是把 model 拟合得怎样，用数字显示出来的工具。但更重要的一点是，metric 不只是记分牌，它还是一种 `我们决定把什么当成更重要` 的约定。即使是同一个 model，因为看的 metric 不同，它也可能显得不错，也可能显得有风险。
 
-这一节说明 `评价指标(metric)`、`准确率(accuracy)`、`精确率(precision)`、`召回率(recall)`、`F1` 的基本作用。下一节会沿着这个抓手继续判断当前语境，而 `到底把哪一类错误当成更重要` 的标准，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
+这一节说明评价指标(metric)、[准确率(accuracy)](/AiBook/zh/reference/concept-glossary-pinyin/a/#accuracy)、[精确率(precision)](/AiBook/zh/reference/concept-glossary-pinyin/j/#precision)、[召回率(recall)](/AiBook/zh/reference/concept-glossary-pinyin/z/#recall)、`F1` 的基本作用。下一节会沿着这个抓手继续判断当前语境，而 `到底把哪一类错误当成更重要` 的标准，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
@@ -15,7 +15,7 @@
 
 也就是说，本篇核心的责任，是先把 `什么该被视为更重要` 固定下来。像概率分数的细致解释、reliability diagram、Brier score、threshold 的细调，这类更精细的读取，会留到 P4-6.4 和后面的 P4-15.3。这里先要明确的，是为什么 metric 不是只有一个。
 
-这一节也会一起固定读 metric 的基本态度。在 classification 里，首先该看的是 confusion matrix 和代表性的错误案例；后面的 P4-8.2 则会再拿 baseline 来比较，看这种错误结构的变化到底算不算真的改进。也就是说，Part 4 里的评价，会沿着 `在哪些地方错了` 和 `相对什么变好了` 这个顺序继续，而不只是盯着 `一个数字`。
+这一节也会一起固定读 metric 的基本态度。在 [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) 里，首先该看的是 [confusion matrix](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix) 和代表性的错误案例；后面的 P4-8.2 则会再拿 [baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline) 来比较，看这种错误结构的变化到底算不算真的改进。也就是说，Part 4 里的评价，会沿着 `在哪些地方错了` 和 `相对什么变好了` 这个顺序继续，而不只是盯着 `一个数字`。
 
 P4-6.2 会继续讨论：不同问题类型里，哪些评价标准应该被更优先地看。现在的重点，是先抓住 `为什么 metric 不只一个`、`为什么同样的数字也可能有不同含义`，以及 `为什么工作目标和错误成本必须进入 metric 选择`。
 
@@ -255,7 +255,7 @@ Google glossary 把 F1 score 解释成：把 precision 和 recall 一起使用�
 | 阅读顺序 | 先确认什么 | 为什么需要这个顺序 |
 | --- | --- | --- |
 | 1 | confusion matrix | 因为要先看哪一类错误更多，才能减少 accuracy 幻觉 |
-| 2 | 代表错误案例 | 因为即使都是 FN、FP，也要看具体漏掉了什么输入，才能发现数据问题和边界案例 |
+| 2 | 代表[错误案例(error case)](/AiBook/zh/reference/concept-glossary-pinyin/e/#error-case) | 因为即使都是 FN、FP，也要看具体漏掉了什么输入，才能发现数据问题和边界案例 |
 | 3 | precision、recall、F1 | 因为先看完错误结构后，才知道哪个数字更能概括那个问题 |
 | 4 | 和 baseline 比较 | 因为后面的 P4-8.2 还要再确认，这种分数变化到底算不算真的改进 |
 
@@ -313,7 +313,9 @@ f1: 0.0583
 
 这个例子里，重要的不是机械地选出 `谁更好`。更重要的是理解：`只要更重要的东西变了，解释就会跟着变。`
 
-如果把它非常短地改写成运营语句，可以这样写：`Model A 漏掉的情况更多，所以应该先重新看危险案例。Model B 可能会带来更多误报，因此复检成本和 threshold 需要一起重新检查。` 也就是说，看完指标表之后，下一句应该马上接到 `哪一类错误变多了`，以及 `因为这种错误，下一步应该检查什么`。
+如果把它非常短地改写成运营语句，可以这样写：`Model A 漏掉的情况更多，所以应该先重新看危险案例。Model B 可能会带来更多误报，因此复检成本和 threshold 需要一起重新检查。`
+
+这里的 [threshold](/AiBook/zh/reference/concept-glossary-pinyin/y/#threshold) 是判断正类的边界值。也就是说，看完指标表之后，下一句应该马上接到 `哪一类错误变多了`，以及 `因为这种错误，下一步应该检查什么`。
 
 ## Checklist
 
@@ -326,6 +328,6 @@ f1: 0.0583
 
 ## 出处与参考资料
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-19. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
-- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. 参考该文确认 information retrieval evaluation 中围绕 precision 和 recall 构成 effectiveness measure 的历史背景。确认日期: 2026-07-19. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-26. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. 参考该文确认 information retrieval evaluation 中围绕 precision 和 recall 构成 effectiveness measure 的历史背景。确认日期: 2026-07-26. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }

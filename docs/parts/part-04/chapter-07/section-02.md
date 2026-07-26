@@ -1,13 +1,13 @@
 # P4-7.2 전처리(preprocessing)
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 P4-7.1에서는 `어떤 입력을 남길 것인가`를 봤습니다. 이제 남긴 입력을 그대로 모델에 던지지 않고, 모델이 읽기 좋은 형태로 정리하는 단계로 넘어갑니다. 이 단계가 전처리(preprocessing)입니다.
 
 이 절의 핵심은 복잡한 라이브러리 문법이 아닙니다. 전처리를 `데이터 청소` 정도로만 이해하지 않고, `입력 표현을 모델이 다룰 수 있는 형태로 바꾸는 일`로 이해하는 데 있습니다.
 
-이 절은 `전처리(preprocessing)`, `결측치 처리(imputation)`, `스케일(scale) 조정`, `범주형 인코딩(encoding)`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 입력 표현 변환의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing), [결측치 처리(imputation)](../../../reference/concept-glossary-parts/01-giyeok.md#missing-value), 스케일(scale) 조정, 범주형 인코딩(encoding)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 입력 표현 변환의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 또 한 가지 중요한 이유가 있습니다. 종종 알고리즘을 먼저 배우고, 전처리는 나중에 붙는 보조 작업이라고 생각합니다. 하지만 실제로는 반대에 가깝습니다. 입력 표현이 정리되지 않으면, 뒤에서 배우는 선형회귀(linear regression), 로지스틱 회귀(logistic regression), k-NN, SVM 같은 알고리즘의 성격도 제대로 읽기 어렵습니다.
 
@@ -15,7 +15,7 @@ P4-7.1에서는 `어떤 입력을 남길 것인가`를 봤습니다. 이제 남�
 
 학술적으로도 전처리는 주변 작업이 아닙니다. 데이터 마이닝(data mining), 패턴 인식(pattern recognition), 머신러닝(machine learning) 교재와 도구 문서에서는 전처리를 보통 `원시 데이터(raw data)`를 `특징 공간(feature space)` 또는 `모델 입력(model input)`으로 옮기는 독립 단계로 다룹니다. 전처리는 모델 앞에 붙는 잡무가 아니라 `학습 가능한 표현을 만드는 단계`입니다.
 
-이 관점이 중요한 이유는 간단합니다. 모델은 현실 그 자체를 배우지 않고, 전처리를 거쳐 표현된 입력을 배웁니다. 따라서 전처리를 어떻게 했는가는 모델의 경계(boundary), 거리(distance), 최적화(optimization), 해석 가능성(interpretability)에 직접 영향을 줍니다.
+이 관점이 중요한 이유는 간단합니다. 모델은 현실 그 자체를 배우지 않고, 전처리를 거쳐 표현된 입력을 배웁니다. 따라서 전처리를 어떻게 했는가는 모델의 경계(boundary), [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance), [최적화(optimization)](../../../reference/concept-glossary-parts/11-chieut.md#optimization), 해석 가능성(interpretability)에 직접 영향을 줍니다.
 
 ## 전처리(preprocessing)에서 닫을 질문
 
@@ -40,7 +40,7 @@ P4-7.1에서는 `어떤 입력을 남길 것인가`를 봤습니다. 이제 남�
 Part 4의 앞 절들은 다음 흐름으로 이어졌습니다.
 
 - P4-4: 데이터를 어떻게 나눌 것인가
-- P4-5: 일반화(generalization)가 왜 어려운가
+- P4-5: [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)가 왜 어려운가
 - P4-6: 무엇을 기준으로 평가할 것인가
 - P4-7.1: 어떤 입력을 남길 것인가
 
@@ -60,7 +60,7 @@ Part 4의 앞 절들은 다음 흐름으로 이어졌습니다.
 
 커리큘럼적으로 보면 이 절은 Module 2와 Module 3의 성격이 바뀌는 경계이기도 합니다. Module 2에서 다룬 데이터 분리, 일반화, 평가 지표는 `모델을 공정하게 비교하려면 무엇을 먼저 정리해야 하는가`를 다뤘습니다. 반면 Module 3은 `실제로 어떤 입력과 어떤 모델 조합으로 실험을 시작할 것인가`를 다룹니다. 전처리는 바로 그 전환점에 놓여 있습니다.
 
-이 절을 지나면 독자는 단순히 데이터를 모아 둔 상태에서 벗어나, `비교 가능한 입력 표현을 만든 뒤 모델 후보를 세우는 흐름`으로 넘어가게 됩니다. 그래서 P4-7.2는 P4-8 모델 선택(model selection), P4-9 하이퍼파라미터 튜닝(hyperparameter tuning), P4-10 이후 알고리즘 절의 공통 바탕이 됩니다.
+이 절을 지나면 독자는 단순히 데이터를 모아 둔 상태에서 벗어나, `비교 가능한 입력 표현을 만든 뒤 모델 후보를 세우는 흐름`으로 넘어가게 됩니다. 그래서 P4-7.2는 P4-8 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection), P4-9 [하이퍼파라미터 튜닝(hyperparameter tuning)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter), P4-10 이후 알고리즘 절의 공통 바탕이 됩니다.
 
 ## 주요 학습내용
 
@@ -137,7 +137,7 @@ scikit-learn 전처리 문서는 `raw feature vectors`를 다운스트림 추정
 | 범주형 인코딩(encoding) | 문자열/범주 값을 계산 가능한 표현으로 바꾼다 | 자세히 다룸 |
 | 이상치 대응(outlier handling) | 극단값이 학습을 과도하게 흔들지 않게 다룬다 | 개념만 언급 |
 | 특징 생성(feature construction) | 원래 칼럼으로부터 더 유용한 입력 표현을 만든다 | 넓은 분류로만 언급, 이 책에서는 주로 P4-7.1과 연결 |
-| 차원 축소(dimensionality reduction) | 많은 입력을 더 작은 표현으로 압축한다 | P4-18에서 다시 다룸 |
+| [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction) | 많은 입력을 더 작은 표현으로 압축한다 | P4-18에서 다시 다룸 |
 | 텍스트/이미지 등 특수 표현 변환 | 비정형 데이터를 수치 표현으로 바꾼다 | 뒤 Part에서 별도 입력 표현으로 다룸 |
 
 이 표의 목적은 전처리의 모든 기술을 한 절에 넣기 위한 것이 아닙니다. 오히려 `전처리`라는 말이 결측치 평균 채우기만 가리키는 좁은 말이 아니라는 점을 먼저 잡게 하려는 것입니다.
@@ -607,7 +607,7 @@ scikit-learn의 common pitfalls 문서는 다음을 강하게 권고합니다.
 | 전체 데이터를 보고 인코딩 범주를 정리한 뒤 평가함 | 실제 배포 전 상황보다 낙관적일 수 있다 |
 | 테스트 데이터까지 같이 스케일링 기준을 맞춤 | 평가가 더 좋아 보일 수 있다 |
 
-즉, 전처리의 누수(leakage)는 모델 구조를 안 바꿔도 평가 숫자를 왜곡할 수 있습니다.
+즉, 전처리의 [데이터 누수(data leakage)](../../../reference/concept-glossary-parts/03-digeut.md#data-leakage)는 모델 구조를 안 바꿔도 평가 숫자를 왜곡할 수 있습니다.
 
 이 차이를 더 직접적으로 보면 다음처럼 읽을 수 있습니다.
 
@@ -826,7 +826,7 @@ processed rows:
 - 숫자형 값은 비교 가능한 스케일로 옮겼다.
 - 범주형 값은 계산 가능한 벡터로 바꿨다.
 
-즉, 전처리는 데이터를 더 예쁘게 만드는 작업이 아니라 `계산 가능한 입력 행렬(matrix)`로 바꾸는 과정입니다.
+즉, 전처리는 데이터를 더 예쁘게 만드는 작업이 아니라 [계산 가능한 입력 행렬(matrix)](../../../reference/concept-glossary-parts/14-hieut.md#matrix)로 바꾸는 과정입니다.
 
 ### Python 예제로 스케일이 거리 계산을 어떻게 바꾸는지 보기
 
@@ -918,7 +918,7 @@ scaled distance A-C: 1.0
 
 ## 출처와 참고 자료
 
-- scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

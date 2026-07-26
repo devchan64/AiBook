@@ -1,19 +1,19 @@
 # P4-5.1 과적합(overfitting)과 과소적합(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
+P4-4장에서는 데이터를 [학습용](../../../reference/concept-glossary-parts/14-hieut.md#training-data), [검증용](../../../reference/concept-glossary-parts/01-giyeok.md#validation-data), [테스트용](../../../reference/concept-glossary-parts/12-tieut.md#test-data)으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
 
-이 절은 그 두 상태를 구분합니다. `과적합(overfitting)`은 학습 데이터에 너무 맞춘 상태이고, `과소적합(underfitting)`은 아직 중요한 패턴을 충분히 배우지 못한 상태입니다. 머신러닝에서는 이 둘 사이를 구분할 수 있어야 다음 선택이 가능합니다.
+이 절은 그 두 상태를 구분합니다. [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)은 학습 데이터에 너무 맞춘 상태이고, [과소적합(underfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#underfitting)은 아직 중요한 패턴을 충분히 배우지 못한 상태입니다. 머신러닝에서는 이 둘 사이를 구분할 수 있어야 다음 선택이 가능합니다.
 
 이 절은 `과적합(overfitting)`과 `과소적합(underfitting)`의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 새 데이터에서 버티는가를 묻는 기본 구분은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 과적합(overfitting)과 과소적합(underfitting)에서 닫을 질문
 
-이 절은 과적합과 과소적합의 기본 구분을 설명합니다. 아직 정규화(regularization), 드롭아웃(dropout), 조기 종료(early stopping) 같은 구체적 완화 기법은 다루지 않습니다. 그런 대응 방법은 Part 4 딥러닝과 이후의 모델별 장에서 다시 다룹니다.
+이 절은 과적합과 과소적합의 기본 구분을 설명합니다. 아직 [정규화(regularization)](../../../reference/concept-glossary-parts/09-jieut.md#regularization), [드롭아웃(dropout)](../../../reference/concept-glossary-parts/03-digeut.md#dropout), 조기 종료(early stopping) 같은 구체적 완화 기법은 다루지 않습니다. 그런 대응 방법은 Part 4 딥러닝과 이후의 모델별 장에서 다시 다룹니다.
 
-또한 이 절은 `왜 새 데이터에서 잘 작동하는가`라는 더 넓은 질문 전체를 끝내지 않습니다. 그 질문은 P4-5.2 `일반화(generalization)`에서 이어집니다. 이 절의 초점은 “너무 맞춘 상태”와 “충분히 못 배운 상태”를 눈으로 구분하는 일입니다.
+또한 이 절은 `왜 새 데이터에서 잘 작동하는가`라는 더 넓은 질문 전체를 끝내지 않습니다. 그 질문은 P4-5.2 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)에서 이어집니다. 이 절의 초점은 “너무 맞춘 상태”와 “충분히 못 배운 상태”를 눈으로 구분하는 일입니다.
 
 - 과적합과 과소적합은 각각 어떤 상태인가?
 - 왜 학습 데이터 점수만으로는 모델을 믿기 어려운가?
@@ -60,7 +60,7 @@ P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는
 
 ### 과소적합은 아직 덜 배운 상태다
 
-과소적합은 모델이 문제의 중요한 구조를 아직 충분히 잡지 못한 상태입니다. 너무 단순한 규칙을 쓰거나, 학습이 충분히 진행되지 않았거나, 필요한 특징(feature)을 거의 보지 못할 때 자주 생깁니다.
+과소적합은 모델이 문제의 중요한 구조를 아직 충분히 잡지 못한 상태입니다. 너무 단순한 규칙을 쓰거나, 학습이 충분히 진행되지 않았거나, 필요한 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)을 거의 보지 못할 때 자주 생깁니다.
 
 조금 더 엄밀하게 말하면, 과소적합은 `모델이 표현할 수 있는 설명의 폭이 너무 좁거나`, `그 폭을 아직 충분히 활용하지 못한 상태`입니다. 그래서 학습 데이터 안에서도 반복적으로 놓치는 부분이 생깁니다.
 
@@ -109,7 +109,7 @@ P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는
 
 과적합은 모델이 학습 데이터에 너무 밀착한 상태입니다. 중요한 패턴만 잡은 것이 아니라, 그 데이터 안에 우연히 들어 있던 흔들림이나 특이한 배치까지 함께 따라간 경우를 말합니다.
 
-여기서 중요한 단어가 `우연한 흔들림`입니다. 모든 데이터에는 실제로 중요한 구조(signal)도 있고, 그때그때 섞여 들어간 우연한 변동(noise)도 있습니다. 과적합은 이 둘을 충분히 구분하지 못한 채, 잡음까지 `배워야 할 규칙`처럼 다루는 상태라고 볼 수 있습니다.
+여기서 중요한 단어가 `우연한 흔들림`입니다. 모든 데이터에는 실제로 중요한 구조(signal)도 있고, 그때그때 섞여 들어간 우연한 [잡음(noise)](../../../reference/concept-glossary-parts/09-jieut.md#noise)도 있습니다. 과적합은 이 둘을 충분히 구분하지 못한 채, 잡음까지 `배워야 할 규칙`처럼 다루는 상태라고 볼 수 있습니다.
 
 조금 더 엄밀하게 읽으면 과적합은 다음 질문으로 바꿀 수 있습니다.
 
@@ -152,7 +152,7 @@ P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는
 
 과적합과 과소적합은 대개 `학습 점수`와 `검증 점수`를 같이 보면서 읽습니다.
 
-| 후보 | 학습 정확도(training accuracy) | 검증 정확도(validation accuracy) | 읽는 법 |
+| 후보 | 학습 [정확도(accuracy)](../../../reference/concept-glossary-parts/09-jieut.md#accuracy) | 검증 정확도(validation accuracy) | 읽는 법 |
 | --- | --- | --- | --- |
 | 모델 A | 0.62 | 0.60 | 둘 다 낮다. 과소적합 가능성이 있다 |
 | 모델 B | 0.84 | 0.82 | 둘이 비슷하고 둘 다 괜찮다 |
@@ -236,7 +236,7 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 이 두 질문은 이후 장에서도 계속 쓸 수 있습니다.
 
 - 선형회귀를 볼 때도
-- 결정트리를 볼 때도
+- [결정트리](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)를 볼 때도
 - 신경망을 볼 때도
 
 먼저 던질 질문은 비슷합니다. `지금 이 모델은 덜 배운 것인가, 너무 외운 것인가?`
@@ -365,7 +365,7 @@ very_complex_model -> 학습 데이터에는 너무 세게 맞췄을 수 있다
 
 여기서 독자가 기억할 핵심 문장은 하나입니다.
 
-`모델 선택은 학습 점수 최고를 고르는 일이 아니라, 검증 기준에서 더 안정적인 후보를 고르는 일이다.`
+`모델 선택은 학습 점수 최고를 고르는 일이 아니라, 검증 기준에서 더 안정적인 후보를 고르는 일이다.` 이 문장은 뒤에서 다룰 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection)의 기본 감각과 이어집니다.
 
 그리고 그 안정성 판단의 중심에는 결국 이 질문이 있습니다.
 
@@ -382,6 +382,6 @@ very_complex_model -> 학습 데이터에는 너무 세게 맞췄을 수 있다
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

@@ -1,9 +1,9 @@
 # P4-11.1 로지스틱 회귀(logistic regression)의 직관
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 분류(classification)에서는 어떻게 바뀌는지로 넘어갑니다.
+P4-10에서는 [선형회귀(linear regression)](../../../reference/concept-glossary-parts/07-siot.md#linear-regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification)에서는 어떻게 바뀌는지로 넘어갑니다.
 
 이번 절의 중심 질문은 다음입니다.
 
@@ -15,7 +15,7 @@ P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값
 
 즉, 로지스틱 회귀는 `선형회귀를 그대로 분류에 쓰는 모델`이 아니라, `선형 계산의 출력을 분류용 확률처럼 해석할 수 있게 바꾼 모델`입니다.
 
-이 절은 `로지스틱 회귀(logistic regression)`, `sigmoid`, `predict_proba`, `threshold`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 선형 계산을 분류용 확률처럼 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression), `sigmoid`, `predict_proba`, [threshold(임계값)](../../../reference/concept-glossary-parts/08-ieung.md#threshold)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 선형 계산을 [확률 추정값(probability estimate)](../../../reference/concept-glossary-parts/14-hieut.md#probability-estimate)처럼 읽는 기본 감각은 이 절과 개념사전의 관련 항목을 기준으로 다시 연결합니다.
 
 ## 로지스틱 회귀(logistic regression)의 직관에서 닫을 질문
 
@@ -25,7 +25,7 @@ P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값
 - 왜 이름은 `regression`인데 결과는 분류처럼 읽는가?
 - 선형 결합이 어떻게 0과 1 사이의 값으로 바뀌는가?
 - `predict_proba` 같은 출력은 무엇을 의미하는가?
-- threshold(임계값)는 왜 필요한가?
+- [threshold(임계값)](../../../reference/concept-glossary-parts/08-ieung.md#threshold)는 왜 필요한가?
 
 이 절은 로지스틱 회귀를 `선형 계산의 출력을 분류용 확률처럼 읽는 모델`로 먼저 닫고, 점수와 threshold가 어떻게 분류 판단으로 이어지는지를 붙잡는 데 집중합니다.
 
@@ -447,6 +447,11 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 
 즉, 이 예제는 `공부 시간이 4시간대에서 5시간대로 넘어갈 때 합격 class 쪽으로 읽히기 시작하는가`를 보는 가장 작은 장난감 데이터입니다.
 
+조작해 볼 값:
+
+- `[[3], [5], [7]]`을 `[[4], [5], [6]]`처럼 더 촘촘히 바꾸면 경계 근처 점수 변화를 볼 수 있습니다.
+- `passed`에서 경계 근처 정답 하나를 바꾸면 계수와 절편이 함께 움직이는지 확인할 수 있습니다.
+
 ```python
 # 로지스틱 회귀의 선형 점수, sigmoid 확률, threshold 분류를 계산하는 예제입니다.
 import numpy as np
@@ -489,11 +494,34 @@ class prediction : [0 1 1]
 
 중요한 것은 `0.548` 같은 값이 보이면, 그것이 곧 절대적 사실이라기보다 `현재 모델이 이 데이터를 보고 그쪽 class를 더 가능성 높게 본다`는 뜻으로 읽어야 한다는 점입니다.
 
-직접 값을 바꿔 보면 더 잘 보이는 지점도 있습니다.
+### Python 예제로 `predict_proba`와 `predict`를 분리해 읽기
 
-- `[[3], [5], [7]]` 대신 `[[4], [5], [6]]`처럼 더 촘촘히 넣으면 경계 근처 점수 변화를 더 자세히 볼 수 있습니다.
-- `passed`에서 경계 근처 정답을 조금 바꾸면 계수와 절편도 함께 움직입니다.
-- 같은 점수라도 threshold를 바꾸면 최종 행동이 달라진다는 점은 바로 다음 예제로 이어집니다.
+아래 예제는 로지스틱 회귀가 먼저 점수를 만들고, threshold를 거쳐 class로 바꾸는 흐름을 보여 줍니다.
+
+조작해 볼 값:
+
+- `scores`에 `0.48`, `0.50`, `0.52`처럼 0.5 근처 값을 넣으면 가까운 점수가 서로 다른 class 결정으로 갈리는 장면을 볼 수 있습니다.
+- `pred_05`의 기준을 `0.6`으로 바꾸면 점수와 결정이 서로 다른 단계라는 점이 더 분명해집니다.
+
+```python
+# 로지스틱 회귀의 선형 점수, sigmoid 확률, threshold 분류를 계산하는 예제입니다.
+import numpy as np
+
+scores = np.array([0.18, 0.49, 0.51, 0.87])
+pred_05 = (scores >= 0.5).astype(int)
+
+print("scores        :", scores)
+print("threshold 0.5 :", pred_05)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+scores        : [0.18 0.49 0.51 0.87]
+threshold 0.5 : [0 0 1 1]
+```
+
+이 출력은 `0.49`와 `0.51`이 점수로는 가깝지만, threshold가 적용되면 최종 class 결정에서는 서로 다른 쪽에 놓인다는 점을 보여 줍니다.
 
 ### Python 예제로 threshold 차이도 함께 보기
 
@@ -505,6 +533,11 @@ class prediction : [0 1 1]
 - 확인할 개념:
   - 점수는 같아도 정책 기준이 바뀌면 class decision이 달라집니다.
   - 모델의 출력과 서비스의 행동은 분리해서 읽어야 합니다.
+
+조작해 볼 값:
+
+- `scores`에 `0.49`, `0.50`, `0.51`을 넣으면 0.5 경계에서 판단이 어떻게 갈리는지 볼 수 있습니다.
+- `pred_07`의 기준을 `0.6`이나 `0.8`로 바꾸면 같은 점수표에서 정책 기준만 달라지는 장면을 비교할 수 있습니다.
 
 ```python
 # 로지스틱 회귀의 선형 점수, sigmoid 확률, threshold 분류를 계산하는 예제입니다.
@@ -535,6 +568,11 @@ threshold 0.7   : [0 0 1]
 ### 값 하나 더 바꿔 보기: 경계 근처 정답이 하나 바뀌면 점수 해석은 어떻게 흔들리는가
 
 이번에는 훈련 데이터에서 경계 근처의 `study_hours = 4` 사례를 `불합격(0)`에서 `합격(1)`으로 바꿔 봅니다.
+
+조작해 볼 값:
+
+- `study_hours = 3`이나 `study_hours = 5`의 정답을 바꿔 보면 경계 위치에 따라 점수 흔들림이 어떻게 달라지는지 볼 수 있습니다.
+- `predict_proba([[4]])`를 `[[3]], [[4]], [[5]]`로 넓히면 변화가 경계 주변에 어떻게 퍼지는지 비교할 수 있습니다.
 
 ```python
 # 로지스틱 회귀의 선형 점수, sigmoid 확률, threshold 분류를 계산하는 예제입니다.
@@ -595,5 +633,5 @@ class 1 score at x=4, shifted labels  : 0.579
 
 ## 출처와 참고 자료
 
-- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }

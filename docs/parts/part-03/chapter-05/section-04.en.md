@@ -1,9 +1,9 @@
 # P3-5.4 Where Do We Cut the Input Window and How Do We Align Its Length
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-If a raw time series is not yet a learning input by itself, one more concrete question immediately remains. `Then where should the real input begin and end?` `If actions have different lengths, how can we treat them like the same kind of input?` The input window is the data-modeling decision that answers exactly these questions.
+If a [source time series](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) is not yet a learning [input](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-input) by itself, one more concrete question immediately remains. `Then where should the real input begin and end?` `If actions have different lengths, how can we treat them like the same kind of input?` The [input window](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-input-window) is the data-modeling decision that answers exactly these questions.
 
 An input window should not be cut by first choosing `a length that is convenient for the model`. It should be cut only after deciding `what should count as one input in this problem`.
 
@@ -32,7 +32,7 @@ When deciding the input window, at least the following four things should be clo
 | Length criterion | By what common rule will samples with different lengths be aligned? |
 | Alignment criterion | Will they be aligned by time itself, or by progress? |
 
-These four things are not needed only for sequence models. The same judgment is already hidden even when we build a summary table. Dividing into early, middle, and late ranges also means that we already decided the input window and the alignment criterion first.
+These four things are not needed only for sequence models. The same judgment is already hidden even when we build a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table). Dividing into early, middle, and late ranges also means that we already decided the input window and the alignment criterion first.
 
 ## Several Possible Window Designs from the Same Source Data
 
@@ -56,7 +56,7 @@ Aligning lengths is not just the job of making the number of values match. The m
 | Progress-based segmentation | Relative structure by action stage | Differences in actual elapsed time |
 | Regular-interval resampling | Shape along the time axis | Fine momentary changes |
 | Fixed-length clipping | Comparison of same-length inputs | Information outside the clipped range |
-| Collapsing into summary features | Overall tendency and comparable numbers | Detailed time-series shape |
+| Collapsing into summary [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) | Overall tendency and comparable numbers | Detailed time-series shape |
 
 So the length-alignment method should not be chosen only for model convenience. For example, if differences in actual time are important, keeping only a progress-based view may discard important information. Conversely, even if total time varies, progress-based segmentation may be better if the key question is `does the action collapse in the late phase?`
 
@@ -96,7 +96,7 @@ The boundary should also be kept clear here. This section answers `why was the i
 | Question | Answered in this section? | Postponed from here? |
 | --- | --- | --- |
 | Where does one input start and end? | Yes | No |
-| By what criterion will samples of different length be aligned? | Yes | No |
+| By what criterion will [samples](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) of different length be aligned? | Yes | No |
 | How will this input structure be used for learning? | No | Yes |
 | How should we implement padding, masking, or architecture details? | No | Yes |
 

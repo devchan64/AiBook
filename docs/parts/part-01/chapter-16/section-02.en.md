@@ -1,7 +1,7 @@
 # P1-16.2 Work Automation and Search
 
 > Section ID: `P1-16.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-16.1 treated an AI relearning documentation project as a case of personal learning and documentation. This section widens the view toward workplace use.
 

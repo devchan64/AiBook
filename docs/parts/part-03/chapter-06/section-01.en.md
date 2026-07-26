@@ -1,11 +1,11 @@
 # P3-6.1 What Features Should We Keep to Represent a Structure for Comparison
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-When people first learn about features, they often take them to mean `wouldn't more columns always be better?` But a feature is not just the act of inserting many values. A feature is a value that rewrites the structure of a sample so it can be used for comparison and prediction. So a good feature is less about being numerous and more about making `what it is trying to show` clear. If the raw log was turned into a summary table in the previous chapter, we now have to decide what structure should remain inside that summary table.
+When people first learn about [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), they often take them to mean `wouldn't more columns always be better?` But a feature is not just the act of inserting many values. A feature is a value that rewrites the structure of a sample so it can be used for comparison and prediction. So a good feature is less about being numerous and more about making `what it is trying to show` clear. If the raw log was turned into a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table) in the previous chapter, we now have to decide what structure should remain inside that summary table.
 
-To say that we design features means not that we use the numbers already sitting in the summary table as they are, but that we choose again how to express the structure we want to compare in numerical form. So only after we first decide what structure to preserve do candidate features such as averages, slopes, and variability gain meaning. At this point, one more judgment splits in two. Turning the same structure into different expressions such as an average, a difference, a slope, a token, or a ratio is variable transformation, while choosing which of those transformed expressions should actually remain is feature selection.
+To say that we design features means not that we use the numbers already sitting in the summary table as they are, but that we choose again how to express the structure we want to compare in numerical form. So only after we first decide what structure to preserve do candidate features such as averages, slopes, and variability gain meaning. At this point, one more judgment splits in two. Turning the same structure into different expressions such as an average, a difference, a slope, a token, or a ratio is [variable transformation](/AiBook/en/reference/concept-glossary-alpha/v/#glossary-variable-transformation), while choosing which of those transformed expressions should actually remain is [feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature-selection).
 
 | Viewpoint | The question being asked now | Representative examples |
 | --- | --- | --- |
@@ -210,7 +210,7 @@ If these features are read in smaller layers, the role of each value becomes cle
 | Change features | Segment difference, slope | Direction and speed |
 | Stability features | Standard deviation, variability | Degree of fluctuation |
 
-This table brings back the two-way split mentioned earlier. The stage that turns the structure into an average, difference, slope, or variability is variable transformation. The stage that chooses which of those values should remain for the current question is feature selection. Numerical features are the first step of summarizing structure, while tokenized expressions are the next step of turning that structure into an intermediate representation that is easier for people to read.
+This table brings back the two-way split mentioned earlier. The stage that turns the structure into an average, difference, slope, or variability is variable transformation. The stage that chooses which of those values should remain for the current question is feature selection. Numerical features are the first step of summarizing structure, while tokenized expressions are the next step of turning that structure into an [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation) that is easier for people to read.
 
 When designing features, the following questions should keep being checked.
 

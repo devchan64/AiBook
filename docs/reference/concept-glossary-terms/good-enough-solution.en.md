@@ -6,3 +6,4 @@
 - Why it matters: Real systems often cannot wait for a perfect answer. This concept explains why heuristics, search shortcuts, recommendation systems, and agents often prefer useful quality within time and cost limits over theoretical optimality.
 - Related concepts: `heuristic`, `exhaustive search`, `optimization`
 - Core Section: `P1-7.2`
+- Appears in: `P4-3.1`

@@ -1,9 +1,9 @@
 # P4-9.2 튜닝(tuning)과 검증 비용
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오래전부터 별도 문제로 다뤄졌는지 봤습니다. 이제 다음 질문으로 넘어갑니다.
+P4-9.1에서는 [하이퍼파라미터(hyperparameter)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter)가 무엇인지, 왜 오래전부터 별도 문제로 다뤄졌는지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
 좋아 보이는 설정값을 실제로 어떻게 고를 것인가?
 
@@ -13,7 +13,7 @@ P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오�
 
 즉, 튜닝은 `더 좋은 값 찾기`이기도 하지만, 동시에 `비교를 망치지 않는 실험 설계`이기도 합니다.
 
-이 절은 하이퍼파라미터 자체의 정의를 다시 길게 반복하지 않습니다. `학습되는 값`과 `미리 정하는 값`의 기본 구분은 P4-9.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 그 설정값을 어떻게 비교하고 관리할지에만 집중합니다.
+이 절은 하이퍼파라미터 자체의 정의를 다시 길게 반복하지 않습니다. `학습되는 값`과 `미리 정하는 값`의 기본 구분은 P4-9.1과 개념사전을 기준으로 다시 연결하고, 여기서는 그 설정값을 어떻게 비교하고 관리할지에만 집중합니다.
 
 ## 튜닝(tuning)과 검증 비용에서 닫을 질문
 
@@ -25,7 +25,7 @@ P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오�
 - test 데이터를 마지막에만 써야 하는 이유는 무엇인가?
 - grid search와 random search를 입문 수준에서 어떻게 이해하면 좋은가?
 
-이 절은 먼저 `설정값 후보를 어떤 검증 절차 안에서 비교할 것인가`를 닫습니다. Bayesian optimization, Hyperband, nested cross-validation, 실험 추적과 분산 튜닝의 큰 그림은 P4-9.3 보충학습에서 다시 정리합니다.
+이 절은 먼저 `설정값 후보를 어떤 검증 절차 안에서 비교할 것인가`를 닫습니다. Bayesian optimization, Hyperband, nested cross-validation, 실험 추적과 분산 튜닝의 큰 그림은 P4-9.3에서 다시 정리합니다.
 
 ## 튜닝(tuning)과 검증 비용에서 남길 판단 기준
 
@@ -72,7 +72,7 @@ P4-8.2까지는 `무엇을 기준으로 비교할 것인가`를 정리했고, P4
 
 ### 튜닝은 무엇을 하는가
 
-scikit-learn의 하이퍼파라미터 튜닝 문서는 추정기(estimator)의 설정값을 후보 집합으로 두고, 교차검증(cross-validation) 점수로 비교하는 절차를 설명합니다.
+scikit-learn의 하이퍼파라미터 튜닝 문서는 추정기(estimator)의 설정값을 후보 집합으로 두고, [교차검증(cross-validation)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation) 점수로 비교하는 절차를 설명합니다.
 
 `튜닝은 하이퍼파라미터 후보를 정해 놓고, 검증 점수로 비교해 현재 데이터와 목적에 더 맞는 설정을 고르는 일이다.`
 
@@ -98,7 +98,7 @@ scikit-learn의 하이퍼파라미터 튜닝 문서는 추정기(estimator)의 �
 | 비용 종류 | 뜻 |
 | --- | --- |
 | 계산 비용(computational cost) | 모델을 여러 번 학습하고 점수 내는 데 드는 시간, 메모리, GPU/CPU 자원 |
-| 검증 비용(validation cost) | 검증 데이터를 반복해서 보며 설정을 고르는 과정에서 생기는 과대적합 위험 |
+| 검증 비용(validation cost) | 검증 데이터를 반복해서 보며 설정을 고르는 과정에서 생기는 [과적합](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting) 위험 |
 
 계산 비용은 비교적 눈에 보입니다.
 
@@ -353,12 +353,17 @@ Bergstra와 Bengio의 논문은 하이퍼파라미터 공간에서 실제 성능
 
 아래 예제는 같은 결정트리 모델에 대해 `max_depth`와 `min_samples_split` 후보를 두고 `GridSearchCV`로 비교하는 아주 작은 실습입니다.
 
-- 문제 상황: 꽃 데이터(iris)를 품종 분류 문제로 다룹니다.
-- 입력(input): 네 개의 수치 특징
+- 문제 상황: 꽃 데이터(iris)를 품종 [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification) 문제로 다룹니다.
+- 입력(input): 네 개의 수치 [특징](../../../reference/concept-glossary-parts/12-tieut.md#feature)
 - 정답(label): 세 가지 품종
 - 확인할 개념:
   - 여러 하이퍼파라미터 조합을 validation 절차로 비교할 수 있다
   - `best_params_`, `best_score_`, `test score`를 구분해서 읽어야 한다
+
+조작해 볼 값:
+
+- `param_grid`의 `"max_depth"` 후보에 `4`나 `5`를 추가하면 후보 조합 수와 `total model fits`가 함께 늘어나는 것을 볼 수 있습니다.
+- `cv=5`를 `3`이나 `10`으로 바꾸면 같은 후보표에서도 교차검증 fold 수가 계산 비용을 어떻게 바꾸는지 확인할 수 있습니다.
 
 ```python
 # 여러 하이퍼파라미터 후보를 검증 데이터로 반복 평가해 튜닝 비용을 확인하는 예제입니다.
@@ -440,6 +445,6 @@ test score            : 0.978
 
 ## 출처와 참고 자료
 
-- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 확인 날짜: 2026-06-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 확인 날짜: 2026-07-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }

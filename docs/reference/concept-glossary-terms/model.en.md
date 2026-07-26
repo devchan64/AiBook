@@ -7,4 +7,4 @@
 - Why it matters: The distinction prevents readers from confusing model behavior with system design, input design, review flow, or product quality.
 - Related concepts: `input`, `output`, `system`, `application`, `orchestration`, `parameter`
 - Core Section: `P1-4.1`
-- Appears in: `P1-14.1`
+- Appears in: `P1-14.1`, `P4-1.1`, `P4-1.2`, `P4-3.1`

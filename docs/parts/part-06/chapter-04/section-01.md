@@ -1,7 +1,7 @@
 # P6-4.1 LLM 안의 Transformer 계산 흐름
 
 > Section ID: `P6-4.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: Transformer는 토큰 표현을 어떻게 다음 후보 점수로 이어 주는가_
 
@@ -21,7 +21,7 @@ LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가? LL
 
 Transformer 블록의 큰 구조를 먼저 잡으면, multi-head attention과 위치 표현, KV cache, sparse attention, long-context 같은 보강 주제도 같은 흐름 위에 놓을 수 있습니다. 서비스 운영 관점의 지연 시간과 비용 제약도 결국 이 계산 흐름을 얼마나 많이, 얼마나 오래, 얼마나 빠르게 반복하는가와 연결됩니다.
 
-Transformer 공식을 다시 전개하는 것보다 중요한 것은 Part 6에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`입니다. 세부 블록 이름보다 중요한 기준은 `입력 토큰이 어떤 계산 흐름을 거쳐 다음 토큰 점수로 이어지는가`입니다.
+Transformer 공식을 다시 전개하는 것보다 중요한 것은 Part 6에서 다룰 GPT, pretraining, next-token prediction, RAG, AI agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`입니다. 세부 블록 이름보다 중요한 기준은 `입력 토큰이 어떤 계산 흐름을 거쳐 다음 토큰 점수로 이어지는가`입니다.
 
 | 지금 읽는 것 | 이후 넓어지는 질문 |
 | --- | --- |

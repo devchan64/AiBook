@@ -1,7 +1,7 @@
 # P6-10.3 Supplement: Observing and Comparing Response Paths
 
 > Section ID: `P6-10.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _Subtitle: How CoT and self-consistency make us view one path and many paths differently_
 

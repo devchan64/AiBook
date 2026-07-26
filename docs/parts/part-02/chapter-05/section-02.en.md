@@ -1,7 +1,7 @@
 # P2-5.2 Distribution, Mean, and Variance
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-5.1, we looked at probability as the language that expresses uncertainty as numbers. Now we move to the question of what we should look at when many of those numbers are gathered together.
 
@@ -97,7 +97,7 @@ This distinction matters in AI. The distribution of training data is the shape o
 
 This problem returns again in the contexts of dataset preparation in P2-12.3, generalization in P3-5, and checking data distributions in Part 6 projects.
 
-## The Mean Summarizes the Center into One Value
+## Mean Summarizes the Center into One Value
 
 The mean is the value that summarizes many values into one representative center.
 
@@ -123,7 +123,7 @@ The mean is used very often. The reason is simple. It compresses many values int
 
 But the mean does not tell us every feature of the data.
 
-## The Mean Is Convenient, but It Can Be Dangerous
+## Mean Is Convenient, but It Can Be Dangerous
 
 The mean shows the center quickly, but it can hide the shape of the values.
 

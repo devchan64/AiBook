@@ -1,7 +1,7 @@
 # P5-3.1 활성화 함수(activation function)
 
 > Section ID: `P5-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-2.2에서는 은닉층(hidden layer)이 입력을 더 유용한 내부 표현(representation)으로 바꿀 수 있다는 점을 보았습니다. 이제 바로 다음 질문이 생깁니다.
 

@@ -1,7 +1,7 @@
 ## tensor
 
-- Meaning: 스칼라, 벡터, 행렬을 포함해 딥러닝이 입력, 중간 표현, 출력을 담는 데 쓰는 다차원 숫자 배열의 일반 이름입니다. `몇 차원짜리 수치 묶음인가`를 하나의 공통 언어로 묶어 부르는 표현입니다. 즉 텐서는 `숫자가 한 개냐, 한 줄이냐, 표냐, 더 높은 차원의 묶음이냐`를 하나의 틀에서 다루게 해 주는 계산 단위입니다.
-- Why it matters: 이미지, 문장, 오디오, 배치 데이터는 겉보기에는 다르지만 학습 프레임워크 안에서는 결국 텐서로 계산됩니다. 텐서라는 공통 이름을 알아야 도메인이 달라도 shape와 축 중심으로 계산을 해석할 수 있습니다. 이 개념이 있어야 `이미지 모델`, `언어 모델`, `표 데이터 모델`이 완전히 다른 계산처럼 보이더라도 실제로는 같은 배열 연산 언어 위에 놓인다는 점을 이해하게 됩니다. 또한 텐서는 값 자체만이 아니라 `각 축이 무엇을 뜻하는가`를 함께 읽어야 한다는 점이 중요합니다. 초심자에게는 `데이터 모양을 텐서로 읽는 습관`이 생겨야 모델 입력과 출력이 더 이상 막연한 큰 숫자 덩어리로 보이지 않게 됩니다.
+- Meaning: A tensor is a general name for a multidimensional numeric array used to hold inputs, intermediate representations, and outputs in deep learning. It includes scalars, vectors, and matrices as simpler cases.
+- Why it matters: Images, sentences, audio, and tabular batches look different on the surface, but learning frameworks usually compute with them as tensors. The concept lets readers interpret model inputs, batches, hidden representations, and outputs by shape and axis.
 - Related concepts: `batch`, `shape`, `matrix`
 - Core Section: `P5-9.2`
 - Appears in: `P2-1.1`, `P2-1.2`, `P5-9.1`, `P5-10.1`, `P5-summary`

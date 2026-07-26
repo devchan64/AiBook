@@ -1,7 +1,7 @@
-# P6-2.1 Token Units That Limit Inputs And Outputs
+# P6-2.1 Token Units Limiting Inputs and Outputs
 
 > Section ID: `P6-2.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Once we start using an LLM (large language model) in practice, another question appears immediately. Why are some inputs more expensive than expected, why are long documents cut off in the middle, and why can the sense of length change depending on how the same one-line sentence is written?
 
@@ -34,7 +34,7 @@ The key here is that `the unit people count first` and `the unit the model actua
 
 So the first judgment in this section is closer to `What length of computational pieces does the model see in this input?` than to `What does this token mean?` Meaning interpretation returns later through embeddings and Transformers. Here, first hold onto the fact that before input enters model computation, it can already diverge from a person's sense of length.
 
-## Problems That Appear First From A Token View
+## Problems First Seen Through a Token View
 
 Problems that require a token view usually appear first in the following scenes.
 
@@ -66,9 +66,9 @@ The same scenes can be grouped again as practical judgments.
 
 What this diagram asks us to check is that different tasks still hit similar problems first. A short sentence, a long document, and a cost calculation are different scenes, but they all eventually require us to look again at `what the model actually reads as how many computational pieces`.
 
-## Cases And Examples
+## Cases and Examples
 
-### Case 1. When The Cost Sense Of A Short-Looking Sentence Shifts
+### Case 1. When Cost Sense Shifts for a Short-Looking Sentence
 
 `The weather is nice today` and `The meeting is tomorrow at 10:00 AM. Please refer to https://example.com/report for the materials` can both look like short one-line inputs. People usually judge first by sentence count or screen length.
 
@@ -82,7 +82,7 @@ The result to check is not `Does it look short?` but `How many input and output 
 | `The meeting is tomorrow at 10:00 AM` | A short schedule notice | How numbers and English notation are counted |
 | Notice with a URL | Still one sentence | How much symbols and long strings increase input length |
 
-### Case 2. When One File Is Not Read To The End
+### Case 2. When One File Is Not Read Fully
 
 If we provide a 30-page meeting note as a whole, people can easily think, `It is one file, so it will be read at once.` But the model meets its limit based on how many tokens the whole input contains, not on the number of files.
 
@@ -161,7 +161,7 @@ In other words, the token does not appear just so we can learn one more term. It
 
 What a token itself is, how it differs from a word, and how it is computed inside the model continue in P6-2.2. Here, when you see scenes such as `the answer costs more than expected`, `the end of a long document is missing`, or `the search answer misses an exception`, first let go of the human-standard sense of length. Then ask one question: by the computational pieces counted by the model, how long are this input and output, and how much remains in the same context?
 
-## Exercises And Examples
+## Exercises and Examples
 
 Read the three input scenes below and choose the token view to check first. At first, it is useful to cover the `example answer` column and choose directly.
 
@@ -181,7 +181,7 @@ The goal of this exercise is not to count exact tokens. It is to build the habit
 - Can you explain the token first as a computational piece counted by the model, without defining it as one word or one meaning?
 - Can you explain that the token first appears as `a computational unit for solving problems`?
 
-## Sources And References
+## Sources and References
 
 - OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19. Used to confirm that tokens are pieces of text processed by models and that input and output token counts connect to usage and limit judgments.
 - OpenAI, [tiktoken README](https://github.com/openai/tiktoken/blob/main/README.md){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19. Used to confirm the flow of OpenAI-model BPE tokenizers and converting text into token-number sequences.

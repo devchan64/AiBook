@@ -1,7 +1,7 @@
 # P4-10.3 Supplementary Learning: How To First Read Regression Diagnostics
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 By the time the reader finishes P4-10.2, the basic evaluation of linear regression is in place. In actual documents and lectures, however, the reader soon meets expressions such as the following.
 
@@ -12,9 +12,9 @@ By the time the reader finishes P4-10.2, the basic evaluation of linear regressi
 
 The purpose of this Section is not to learn proofs of every one of these concepts. Its purpose is to organize `what kind of worry these words point to` so that the reader does not stop when reading a regression-results table.
 
-This supplementary learning does not re-explain the definition of linear regression by extending it. The basic intuition and the evaluation handles remain in P4-10.1, P4-10.2, and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus is only on what kinds of risk regression-diagnostic terms point to.
+This supplementary learning does not re-explain the definition of linear regression by extending it. The basic intuition and the evaluation handles remain in P4-10.1, P4-10.2, and the [linear regression](/AiBook/en/reference/concept-glossary-alpha/l/#linear-regression) entry. Here the focus is only on what kinds of risk regression-diagnostic terms point to.
 
-## Scope Of This Supplementary Learning
+## Boundaries To Separate When First Reading Regression Diagnostics
 
 This Section answers the following questions.
 
@@ -27,7 +27,7 @@ This supplementary learning first closes regression diagnostics through the ques
 
 Formula derivations of each test statistic, the full history of debates around p-value interpretation, VIF practice, and advanced regression-package usage go beyond the direct scope of this supplementary learning, so they are not treated in detail here.
 
-## Goals Of This Supplementary Learning
+## Connections To Restore When First Reading Regression Diagnostics
 
 - You can explain regression diagnostics as `checks that keep the reader from overtrusting a linear-regression result`.
 - You can distinguish what significance, normality, homoscedasticity, and multicollinearity each worry about.
@@ -64,9 +64,14 @@ Residual normality, stated very simply, worries about `whether error is becoming
 The reader does not need to feel that normality is an absolute condition for making predictions. But inside coefficient interpretation and some statistical-test contexts, if residual shape is strongly crushed toward one side, the interpretation can become less stable.
 
 - when residuals stretch very far to one side, interpretation needs more caution
-- one large outlier can shake the residual shape strongly
+- one large [outlier](/AiBook/en/reference/concept-glossary-alpha/o/#outlier) can shake the residual shape strongly
 
 A very small comparison exercise can be read as follows.
+
+Values to change:
+
+- Change the last value of `skewed_residuals` to `8`, `12`, or `20` and observe how the range grows as one tail stretches farther.
+- Add both `-8` and `8` to `balanced_residuals` to compare a case with large values on both sides against a case where only one side jumps.
 
 ```python
 # This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
@@ -159,6 +164,11 @@ The example below shows that when two features carrying nearly the same informat
   - when strongly overlapping features enter together, coefficient roles can appear split
   - keeping prediction stable and keeping coefficient interpretation stable are not the same thing
 
+Values to change:
+
+- Make `yearly_spend_proxy` closer to `monthly_spend * 12` and watch how the coefficient split changes as the two features overlap more.
+- Change the two values in `query_two` together to compare how the prediction moves and why coefficient interpretation still needs caution.
+
 ```python
 # This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
 import numpy as np
@@ -204,6 +214,11 @@ What the reader should first take from this result is the following.
 ### What Stays The Same And What Changes If Only One Point Of An Overlapping Feature Moves?
 
 This time, the reader changes only the last value of `yearly_spend_proxy` from `239` to `233` and trains again.
+
+Values to change:
+
+- Change the last value of `yearly_spend_shifted` to `229`, `233`, or `239` and compare the size of prediction movement with coefficient movement.
+- Change the last value of `monthly_spend` slightly as well to see which of the two overlapping-feature coefficients moves more.
 
 ```python
 # This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
@@ -257,6 +272,11 @@ This exercise recovers regression diagnostics not as `a list of statistical term
 
 Instead of stopping after multicollinearity alone, the reader can compare one tiny scene where the spread of error differs by region.
 
+Values to change:
+
+- Reduce `high_range_residuals` to values such as `[-5, 4, 6]` and see how the interpretation changes when the spread gap by region becomes smaller.
+- Add one large value to `low_range_residuals` too to make clearer why regional error spread should be checked separately from average performance.
+
 ```python
 # This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
 low_range_residuals = [-2, 1, 0]
@@ -294,5 +314,5 @@ So regression diagnostics is better read not as a chapter for memorizing one tes
 
 ## Sources And References
 
-- statsmodels developers, [Regression diagnostics](https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-01.
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, [An Introduction to Statistical Learning](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-01.
+- statsmodels developers, `Regression diagnostics`, statsmodels 0.14.6, accessed 2026-07-26. [https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html](https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, `An Introduction to Statistical Learning`, accessed 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

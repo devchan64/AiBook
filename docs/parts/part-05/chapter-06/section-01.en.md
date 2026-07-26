@@ -1,7 +1,7 @@
 # P5-6.1 The Four Steps of the Training Loop
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In Chapter P5-5, we saw how deep-learning models compute gradients through loss, backpropagation, and the computation graph. Once we reach this point, the next question remains naturally.
 
@@ -11,7 +11,7 @@ The core four stages of a deep-learning training loop are `forward -> loss -> ba
 
 If the places of loss, backpropagation, update, and mode switching start to blur together again inside the training loop, go back together to the [training](/AiBook/en/reference/concept-glossary-alpha/t/#training), [backpropagation](/AiBook/en/reference/concept-glossary-alpha/b/#backpropagation), and [optimizer](/AiBook/en/reference/concept-glossary-alpha/o/#optimizer) entries in the concept glossary.
 
-## The Question Of One Turn Through The Training Loop
+## The Question of One Turn Through the Training Loop
 
 - How do the loss and backpropagation we have seen so far connect inside one training loop?
 - Where does the optimizer step attach after gradient computation?
@@ -21,7 +21,7 @@ Here, we first hold only the shared skeleton of a single training loop. The view
 
 At the same time, it is also clear which questions we will not widen immediately in this section. Why step, batch, and epoch are needed continues in the next section, P5-6.2. The difference between learning and inference is explained again in P5-6.3. The difference between training mode and evaluation mode is explained again in P5-6.4. In other words, this section is the place to hold `the order of the training loop`, and the next sections are the place to separate `in what units that loop is repeated` and `when and in what mode it runs`.
 
-## Standards For Forward-Loss-Backward-Step
+## Standards for Forward-Loss-Backward-Step
 
 - You can explain the deep-learning training loop at once.
 - You can state the order of forward, loss, backward, and optimizer step.
@@ -64,7 +64,7 @@ So in this section, rather than memorizing the English names themselves, it is s
 
 `A training loop is a repetition that makes a prediction, reads the error, sends responsibility back, and changes the model values once.`
 
-## The Boundary To Fix First In This Section
+## The Boundary to Fix First in This Section
 
 In P5-6.1, we first fix only the core four stages: `make a prediction -> score the error -> send responsibility back -> update the values`. The repetition units of step, batch, and epoch are read again in P5-6.2. The difference between learning and inference is read again in P5-6.3. The difference between training mode and evaluation mode is read again in P5-6.4. Regularization also reconnects in a later chapter.
 
@@ -88,7 +88,7 @@ One more standard to emphasize here is not mixing up `what connects immediately 
 
 If we remember these three sentences separately, then even when phrases like `the loss was computed`, `the gradient was computed`, and `the batch was run` appear together in the same paragraph, it becomes less confusing which is a computational stage and which is a repetition unit.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. Image-Classification Training
 
@@ -125,7 +125,7 @@ flowchart TD
 
 The result to confirm at the end of these cases is clear. The core of the training loop is not `do you know many new structure names?` It is whether you can explain that the common repetition stays the same no matter what structure appears, and how `prediction -> error -> gradient -> update` continues inside that repetition.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is not to handle a real deep-learning framework, but to confirm how `forward -> loss -> backward -> optimizer step` repeats one operational batch at a time inside the training loop.
 
@@ -267,7 +267,7 @@ Before moving directly to the next section, it is helpful to split one more time
 | --- | --- | --- |
 | The shared loop `forward -> loss -> backward -> optimizer step` | CNN's reading of local patterns, RNN's sequential state, attention's selective reference, Transformer's parallel blocks | So that even when new names appear later, we can separate `did the learning procedure change?` from `did the internal computational structure change?` |
 
-## When Do We Read The Training Loop Again As One Bundle
+## When Do We Read the Training Loop Again as One Bundle
 
 The time to bring out this section is when loss, backpropagation, optimizer, mode, and regularization are each understood separately, but they still do not yet look like one repeated structure.
 
@@ -285,7 +285,7 @@ The time to bring out this section is when loss, backpropagation, optimizer, mod
 - When looking at later CNN, RNN, and Transformer chapters, can you say that `the shared learning procedure` and `the internal structure that changes` should be read separately?
 - Do you know that after this section, the flow goes on to reread the distinction between learning and inference, and the difference in modes, in the later sections?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, accessed 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

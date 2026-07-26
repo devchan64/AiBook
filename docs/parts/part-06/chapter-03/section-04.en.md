@@ -1,7 +1,7 @@
 # P6-3.4 Supplement: Speed and Candidate-Missing Tradeoff in ANN Search
 
 > Section ID: `P6-3.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-3.2, we held onto the comparison standard of `finding nearby candidates`, and in P6-3.3, we saw how to learn a representation space so that comparison works. Now one question remains.
 

@@ -1,9 +1,9 @@
 # P4-16.1 梯度提升(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-我们在 P4-15 里看到的随机森林(random forest)， 是一种把很多树 `并行地` 建起来， 再把结果聚在一起以减少摇摆的集成方法。
+我们在 P4-15 里看到的[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)， 是一种把很多树 `并行地` 建起来， 再把结果聚在一起以减少摇摆的集成方法。
 
 到了这里， 围绕梯度提升(gradient boosting)会冒出另一个问题： 既然已经能聚很多棵树， 能不能让下一棵树直接去修正前一阶段留下来的错误？
 
@@ -11,20 +11,20 @@
 
 如果随机森林更接近 `并行地收集很多意见`， 那么梯度提升更接近 `让下一阶段修正前一阶段的错误`。
 
-这一节解释 `梯度提升(gradient boosting)`、`residual`、`weak learner`、`additive model` 这些基本含义。 后面的 Section 会沿着这些抓手继续推进， 而顺序修正误差的基础感觉， 也会通过这一节和[概念词典](/AiBook/reference/concept-glossary/)重新连接。
+这一节解释 [梯度提升(gradient boosting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient-boosting)、[残差(residual)](/AiBook/zh/reference/concept-glossary-pinyin/c/#residual)、[弱学习器(weak learner)](/AiBook/zh/reference/concept-glossary-pinyin/r/#weak-learner)、[加性模型(additive model)](/AiBook/zh/reference/concept-glossary-pinyin/j/#additive-model) 这些基本含义。 后面的 Section 会沿着这些抓手继续推进， 而顺序修正误差的基础感觉， 也会通过这一节和概念词典重新连接。
 
-## 本节范围
+## 梯度提升先收束的问题
 
 本节回答以下问题。
 
 - 为什么梯度提升会被叫作 `顺序的(sequential)`？
 - `weak learner`、`residual`、`additive model` 分别是什么意思？
 - 梯度提升和随机森林的思考方式到底哪里不同？
-- 为什么 `n_estimators` 和 `learning_rate` 要一起读？
+- 为什么 [`n_estimators`](/AiBook/zh/reference/concept-glossary-pinyin/n/#n-estimators) 和 [学习率(learning_rate)](/AiBook/zh/reference/concept-glossary-pinyin/l/#learning-rate) 要一起读？
 
 这一节聚焦的是： `boosting 到底是一种怎样的方式`。 性能与风险、以及 early stopping 和 shrinkage 的角色， 会在 P4-16.2 继续。 更宽一点的超参数与验证成本视角，会在 P4-9.1 和 P4-9.2 再接回来。XGBoost、LightGBM、CatBoost 的实现差异也会在 P4-16.2 继续，主要从 `它们想让什么更快，想让什么更安全` 的角度来读；如果后面需要更宽的实现比较，再把它分出去作为本章的补充学习回收。
 
-## 用梯度提升(gradient boosting)留下的判断标准
+## 梯度提升要留下的判断标准
 
 - 你可以把梯度提升解释成 `顺序减少误差的集成`。
 - 你可以说明为什么 weak learner 常常通过小树来解释。
@@ -387,7 +387,12 @@ scikit-learn 用户指南经常把 gradient-boosted trees 和 histogram-based gr
 - 输入(input)：当前预测与真实值
 - 期望输出(output)：各阶段 residual 和更新后的预测
 - 要确认的概念：
-- residual 是剩余误差 - 下一阶段会朝着减少 residual 的方向移动 - learning rate 决定一次修多重
+  - residual 是剩余误差
+  - 下一阶段会朝着减少 residual 的方向移动
+  - learning rate 决定一次修多重
+- 可以改动的值：
+  - 把 `learning_rate` 改成 `0.1`、`0.3`、`0.5`，比较 residual 下降速度
+  - 改变 `tree1_correction` 的符号或大小，确认修正方向怎样累积到预测里
 
 ```python
 # 这个玩具例子展示 gradient boosting 中沿 residual 方向的修正如何累积到预测里。
@@ -436,6 +441,10 @@ stage2 residual  : [18.5, 9.0, -9.0, -18.5]
 ### 改一个值看看：如果 `learning_rate` 变大，同样的 correction 会怎样不同地生效？
 
 这一次保留同样的 correction， 只把 `learning_rate` 改成 `0.5`。
+
+- 可以改动的值：
+  - 在 `0.1` 和 `0.5` 之间改变 `learning_rate`，比较单阶段修正强度
+  - 保持 `tree1_correction` 不变，单独观察 learning rate 的影响
 
 ```python
 # 这个例子比较在相同 correction 下，增大 learning_rate 会如何改变 residual 的下降速度。
@@ -493,6 +502,6 @@ stage2 residual  : [12.5, 5.0, -5.0, -12.5]
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, 确认日期: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, 确认日期: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, 确认日期: 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, 确认日期: 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

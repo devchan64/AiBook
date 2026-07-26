@@ -1,21 +1,21 @@
 # P4-13.1 SVM 的直觉
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 又看过了 `通过附近 neighbors 做判断` 的方式。现在，同一个分类问题要再换一个问题来读。
 
 如果能画出 boundary，那么其中哪一条 boundary 才是更好的 boundary？
 
-这正是 SVM(support vector machine) 的出发点。
+这正是 [SVM(support vector machine)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine) 的出发点。
 
 `SVM 是这样一种模型：它不仅要找到一条能把 class 分开的线，还要尽量让这条线和两边数据之间都留出更大的余地。`
 
 所以，SVM 不会停在 `找出一条分割线` 上，而是会继续去找 `看起来更稳定的分割线`。
 
-这一节会说明 `SVM`、`margin`、`support vector` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
+这一节会说明 [SVM(support vector machine)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine)、[间隔(margin)](/AiBook/zh/reference/concept-glossary-pinyin/j/#margin)、[支持向量(support vector)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector) 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节的判断标准再接回来。
 
-## 本节范围
+## SVM 直觉先收束的问题
 
 这一节是第一次用 SVM 抓住 `什么是好的 boundary` 这个问题的地方。这里会围绕 margin、support vector、soft margin 的直觉，先读出不只是 `能不能分开`，还包括 `什么样的标准能分得更稳定`。
 
@@ -29,7 +29,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 
 kernel 的大图景和 nonlinear boundary 会在 P4-13.2 立刻继续；`C`、`gamma` 这类 hyperparameter 的读取标准和验证成本，会在 P4-9.1 和 P4-9.2 再接回来。也就是说，这一节是先用 margin 和 support vector 视角抓住 `什么是好的 boundary` 的位置。
 
-## 用SVM 的直觉留下的判断标准
+## SVM 直觉要留下的判断标准
 
 - 能用 `最大化 margin 的分类器` 这个直觉来说明 SVM
 - 能说明：即使多条 boundary 都能分开同一批数据，仍然可以说其中一些 boundary 更好
@@ -135,6 +135,11 @@ SVM 这个名字里就带着 `support vector`。之所以重要，是因为并�
   - 能把 class 分开的候选 boundary 可能有不止一条
   - SVM 真正关心的是 `最小余量` 最大的那条
   - 最靠近 boundary 的点会像 support vector 一样起作用
+
+可以改动的值：
+
+- 在 `candidates` 中加入 `3.8` 或 `4.2`，可以更细地观察 boundary 移动时 margin 怎样变化。
+- 把 `negative` 里的 `(3.0, 2.5)` 或 `positive` 里的 `(5.0, 2.2)` 往 boundary 方向移动，可以确认为什么像 support vector 一样的点很重要。
 
 ```python
 # 这个例子比较 SVM 多个边界候选的 margin，以及像 support vector 一样起作用的近邻点。
@@ -327,6 +332,11 @@ SVM 会把中心问题从 `能不能画出 boundary` 换成 `这条 boundary 到
   - 有些 boundary 可能不再能完美分离
   - 一旦完美分离变困难，就不只是看 `margin 大不大`，还要一起想 `允许多少侵入`
 
+可以改动的值：
+
+- 把 `negative` 的最后一个点改成 `(4.6, 2.4)` 或 `(4.9, 2.4)`，可以观察完美分离有多容易被打破。
+- 在候选 boundary `[4.0, 4.8, 5.2]` 中加入 `4.6` 或 `5.0`，可以更清楚地比较小 margin 和分离失败同时出现的位置。
+
 ```python
 # 这个例子比较 SVM 多个边界候选的 margin，以及像 support vector 一样起作用的近邻点。
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.7, 2.4)]
@@ -387,6 +397,11 @@ SVM 在 statistical learning theory 和 generalization 讨论里占据很重要�
 ### 再改一个值：如果例外点更靠近 boundary，什么保持不变，什么会改变
 
 现在把那个模糊的 negative 点从 `(4.7, 2.4)` 再往右移到 `(4.9, 2.4)`。
+
+可以改动的值：
+
+- 把 `boundary_x` 候选改成 `[4.85, 4.9, 4.95]`，可以更细地查看 margin 变得很窄的位置。
+- 把最后一个 negative 点的 x 值改成 `4.8`、`4.95` 这一类数值，可以确认一个例外点会怎样明显摇动 boundary 质量。
 
 ```python
 # 这个例子比较 SVM 多个边界候选的 margin，以及像 support vector 一样起作用的近邻点。
@@ -462,5 +477,5 @@ boundary x = 4.95
 
 ## 出处与参考资料
 
-- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, 确认日期: 2026-07-19. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 确认日期: 2026-07-26. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
+- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, 确认日期: 2026-07-26. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }

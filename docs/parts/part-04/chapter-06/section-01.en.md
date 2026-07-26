@@ -1,13 +1,13 @@
 # P4-6.1 The Role Of Evaluation Metrics
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-In Chapter P4-5, we looked at overfitting and generalization. The next question follows naturally. What do we actually use to check the claim that `the model also holds up on new data`? What appears at that point is the `evaluation metric`.
+In Chapter P4-5, we looked at [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) and [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization). The next question follows naturally. What do we actually use to check the claim that `the model also holds up on new data`? What appears at that point is the [evaluation metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric).
 
 An evaluation metric is a tool that shows with numbers how well a model fits. But the more important point is that a metric is not just a scoreboard. It is also `a promise about what we are choosing to treat as important`. Even with the same model, it may look good or risky depending on which metric is examined.
 
-This Section explains the basic roles of `evaluation metrics`, `accuracy`, `precision`, `recall`, and `F1`. The next Section continues the current context through this handle, and the criterion for deciding what kind of error should be treated as important is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic roles of evaluation metrics, [accuracy](/AiBook/en/reference/concept-glossary-alpha/a/#accuracy), [precision](/AiBook/en/reference/concept-glossary-alpha/p/#precision), [recall](/AiBook/en/reference/concept-glossary-alpha/r/#recall), and `F1`. The next Section continues the current context through this handle, and the criterion for deciding what kind of error should be treated as important is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
@@ -15,7 +15,7 @@ This Section is an introduction to the role of evaluation metrics. It connects a
 
 So the main responsibility of this core Section is to fix `what should be treated as important`. More delicate readings such as probability-score interpretation, reliability diagrams, Brier score, or fine threshold adjustment are passed to P4-6.4 and later P4-15.3. Here the first task is to make clear why there is not just one metric.
 
-This Section also fixes a basic attitude for reading metrics. In classification, the first thing to inspect is the confusion matrix and representative error cases, and later in P4-8.2 the question returns again by comparing with a baseline to see whether the change in error structure is actually meaningful. In other words, evaluation in Part 4 continues along a flow that prioritizes `where did the model fail?` and `better compared to what?` over `one number`.
+This Section also fixes a basic attitude for reading metrics. In [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification), the first thing to inspect is the [confusion matrix](/AiBook/en/reference/concept-glossary-alpha/c/#confusion-matrix) and representative error cases, and later in P4-8.2 the question returns again by comparing with a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#baseline) to see whether the change in error structure is actually meaningful. In other words, evaluation in Part 4 continues along a flow that prioritizes `where did the model fail?` and `better compared to what?` over `one number`.
 
 P4-6.2 continues by asking which evaluation criteria should be given more weight for different problem types. For now, the focus is on `why there is not just one metric`, `why even the same number can mean different things`, and `why work goals and error costs must enter the choice of metric`.
 
@@ -255,7 +255,7 @@ This Section sees it as more accurate to read classification evaluation through 
 | Reading order | What to inspect first | Why this order is needed |
 | --- | --- | --- |
 | 1 | confusion matrix | because you should first see which kind of mistake is frequent if you want to reduce illusions caused by accuracy |
-| 2 | representative error cases | because even with the same FN or FP, looking at what kind of input was missed reveals data problems and boundary cases |
+| 2 | representative [error cases](/AiBook/en/reference/concept-glossary-alpha/e/#error-case) | because even with the same FN or FP, looking at what kind of input was missed reveals data problems and boundary cases |
 | 3 | precision, recall, F1 | because only after seeing the error structure can you judge which number summarizes the problem better |
 | 4 | comparison with a baseline | because later in P4-8.2 you still need to check whether the score change is actually a meaningful improvement |
 
@@ -313,7 +313,9 @@ This time, read a simple record showing that accuracy can be the same while prec
 
 The important point in this example is not to mechanically choose `which one is better`. The important point is that `the interpretation changes depending on what is treated as more important`.
 
-If you rewrite it very briefly as an operations sentence, it can be said like this: `Model A has many misses, so dangerous cases should be reviewed first. Model B may create more false alarms, so reinspection cost and the threshold should be checked together again.` In other words, once a metric table is read, the next sentence should immediately become `which error increased more` and `what should be checked next because of that error`.
+If you rewrite it very briefly as an operations sentence, it can be said like this: `Model A has many misses, so dangerous cases should be reviewed first. Model B may create more false alarms, so reinspection cost and the threshold should be checked together again.`
+
+Here, the [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#threshold) is the boundary value for deciding positive. In other words, once a metric table is read, the next sentence should immediately become `which error increased more` and `what should be checked next because of that error`.
 
 ## Checklist
 
@@ -326,6 +328,6 @@ If you rewrite it very briefly as an operations sentence, it can be said like th
 
 ## Sources And References
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
-- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. Referenced for the historical background in which effectiveness measures centered on precision and recall in information retrieval evaluation. Accessed 2026-07-19. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-26. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. Referenced for the historical background in which effectiveness measures centered on precision and recall in information retrieval evaluation. Accessed 2026-07-26. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }

@@ -2,19 +2,39 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
+--8<-- "reference/concept-glossary-terms/dbscan.en.md"
+
+--8<-- "reference/concept-glossary-terms/dqn.en.md"
+
+--8<-- "reference/concept-glossary-terms/domain-randomization.en.md"
+
 --8<-- "reference/concept-glossary-terms/data.en.md"
 
 --8<-- "reference/concept-glossary-terms/data-leakage.en.md"
 
 --8<-- "reference/concept-glossary-terms/data-modeling.en.md"
 
+--8<-- "reference/concept-glossary-terms/data-quality-check.en.md"
+
+--8<-- "reference/concept-glossary-terms/data-question.en.md"
+
+--8<-- "reference/concept-glossary-terms/data-science.en.md"
+
 --8<-- "reference/concept-glossary-terms/data-structure.en.md"
 
 --8<-- "reference/concept-glossary-terms/dataframe.en.md"
 
+--8<-- "reference/concept-glossary-terms/dataset-candidate.en.md"
+
 --8<-- "reference/concept-glossary-terms/dataset.en.md"
 
+--8<-- "reference/concept-glossary-terms/decision-boundary.en.md"
+
 --8<-- "reference/concept-glossary-terms/decision-tree.en.md"
+
+--8<-- "reference/concept-glossary-terms/delayed-label-confirmation.en.md"
+
+--8<-- "reference/concept-glossary-terms/distributed-training.en.md"
 
 --8<-- "reference/concept-glossary-terms/alert-grade.en.md"
 --8<-- "reference/concept-glossary-terms/computation-graph.en.md"
@@ -55,6 +75,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/discovery.en.md"
 
 --8<-- "reference/concept-glossary-terms/distance.en.md"
+
+--8<-- "reference/concept-glossary-terms/density.en.md"
 
 --8<-- "reference/concept-glossary-terms/distributed-representation.en.md"
 

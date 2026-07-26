@@ -1,7 +1,7 @@
 # P1-14.5 하네스(harness)와 평가 실행 환경
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14.4에서는 MCP(Model Context Protocol)를 AI 앱과 외부 도구, 데이터가 연결되는 방식을 표준화하는 프로토콜(protocol)로 봤습니다. 이제 질문은 한 단계 더 실무적으로 바뀝니다.
 

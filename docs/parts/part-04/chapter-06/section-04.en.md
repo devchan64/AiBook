@@ -1,7 +1,7 @@
 # P4-6.4 Supplementary Learning: A Question Map for Evaluation Metrics
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
 _Subtitle: What evaluation question does ROC, PR, log loss, calibration, and silhouette answer?_
 
@@ -17,10 +17,10 @@ The purpose of this supplementary learning is not to calculate formulas at lengt
 
 ## Scope Of This Supplementary Learning
 
-This Section is a first supplementary reading of ROC, PR, log loss, calibration, and silhouette, which appear often in classification and clustering. The focus is not on proof details but on `when and why they get inspected`.
+This Section is a first supplementary reading of ROC, PR, log loss, calibration, and silhouette, which appear often in [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) and [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering). The focus is not on proof details but on `when and why they get inspected`.
 
-- Why do ROC and PR curves lead into the problem of score and threshold?
-- Why does log loss make people inspect probability output as well as right and wrong?
+- Why do ROC and PR curves lead into the problem of [score](/AiBook/en/reference/concept-glossary-alpha/s/#score) and [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#threshold)?
+- Why does log loss make people inspect [probability estimates](/AiBook/en/reference/concept-glossary-alpha/p/#probability-estimate) as well as right and wrong?
 - Why does calibration make people doubt again `a score that looks like a probability`?
 - Why does silhouette make people read structure even without answer labels in clustering?
 
@@ -45,7 +45,7 @@ These five names are actually answering different questions.
 | calibration | Does a score like `0.8` really mean about an 80% frequency in reality? |
 | silhouette | Even without answer labels, are the groups compact and separated? |
 
-In other words, these metrics appear `when accuracy alone is not enough`.
+In other words, these metrics appear when [accuracy](/AiBook/en/reference/concept-glossary-alpha/a/#accuracy) alone is not enough.
 
 The role of this Section can be stated even more briefly as `a place to stop by for a moment when a finer criterion for reading scores is needed while reading the main evaluation questions`.
 
@@ -83,7 +83,7 @@ P4-6.2 explained that classification is not only about matching a category, but 
 
 ROC and PR curves show that when the threshold for treating a model's score as positive changes, the balance between false alarms and misses changes with it.
 
-An ROC curve shows this balance through false positive rate and true positive rate. A PR curve shows it through precision and recall.
+An ROC curve shows this balance through [false positive rate](/AiBook/en/reference/concept-glossary-alpha/f/#false-positive) and true positive rate. A PR curve shows it through [precision](/AiBook/en/reference/concept-glossary-alpha/p/#precision) and [recall](/AiBook/en/reference/concept-glossary-alpha/r/#recall).
 
 The reason they are read separately is the following.
 
@@ -198,7 +198,7 @@ This perspective matters especially in the following scenes.
 
 Because threshold adjustment and calibration return again in P4-15.3, this Section first connects the perspective that `even scores that look like probabilities must be examined again`.
 
-What beginners especially confuse is that `classifying well` and `speaking probabilities well` are not the same ability. A model may rank positives and negatives reasonably well, while the score value itself still deviates from actual frequency. In other words, ranking can be acceptable while probability interpretation is poor.
+What beginners especially confuse is that `classifying well` and `speaking probabilities well` are not the same ability. A model may rank positives and negatives reasonably well, while the score value itself still deviates from actual frequency. In other words, [ranking](/AiBook/en/reference/concept-glossary-alpha/r/#ranking) can be acceptable while probability interpretation is poor.
 
 The distinction becomes clearer like this.
 
@@ -230,11 +230,11 @@ By contrast, even if calibration looks good, that is not the end. Score interpre
 
 ## Silhouette Is An Internal Criterion For Reading Cluster Structure Without Answers
 
-P4-6.2 explained that in clustering there may be no answer labels. Silhouette score is an internal evaluation criterion that appears often in that kind of scene.
+P4-6.2 explained that in clustering there may be no answer [labels](/AiBook/en/reference/concept-glossary-alpha/l/#label). Silhouette score is an internal evaluation criterion that appears often in that kind of scene.
 
 Silhouette score is a criterion that reads the grouping as better when points are closer within the same cluster and farther from other clusters.
 
-Silhouette can be read through the feeling of comparing `closeness to my own cluster` and `distance to the nearest other cluster`.
+Silhouette can be read through the feeling of comparing `closeness to my own cluster` and [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) to the nearest other cluster.
 
 So silhouette helps the following questions.
 
@@ -384,6 +384,6 @@ The checkable result also differs by question. Precision and recall must be insp
 
 ## Sources And References
 
-- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-29.
-- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-29.
-- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-29.
+- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.

@@ -1,11 +1,11 @@
 # P4-9.3 Supplementary Learning: Tool Map After Model Selection
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: What levels of problems do advanced model selection, tuning automation, and experiment tracking separate?_
 
-P4-8 and P4-9 established the basic flow of setting model candidates, placing a baseline, and comparing hyperparameters inside a validation procedure. After that, the following names usually appear.
+P4-8 and P4-9 established the basic flow of setting model candidates, placing a baseline, and comparing [hyperparameters](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter) inside a validation procedure. After that, the following names usually appear.
 
 - information criteria (AIC, BIC)
 - AutoML
@@ -16,9 +16,9 @@ P4-8 and P4-9 established the basic flow of setting model candidates, placing a 
 
 The goal of this Section is not to learn the implementation details of each of them, but to organize `why these names appeared and what level of problem each of them handles`.
 
-This supplementary learning also does not re-explain from the beginning the basic definitions of hyperparameters and tuning. The basic handles remain in P4-9.1, P4-9.2, and the [concept glossary](/AiBook/reference/concept-glossary/), while this Section only organizes the advanced names that come after them in a broad flow.
+This supplementary learning also does not re-explain from the beginning the basic definitions of hyperparameters and tuning. The basic handles remain in P4-9.1, P4-9.2, and the concept glossary, while this Section only organizes the advanced names that come after them in a broad flow.
 
-## Scope Of This Supplementary Learning
+## Problem Levels Where Tool Names Split
 
 This Section answers the following questions.
 
@@ -30,7 +30,7 @@ This Section answers the following questions.
 
 This Section first closes `what different problems advanced model selection, tuning automation, and experiment tracking handle`. GPU computation structure is revisited in Part 5, and large-scale operational constraints reconnect in Part 6.
 
-## Goals Of This Supplementary Learning
+## Judgments To Keep From The Advanced Tool Map
 
 - You can distinguish that advanced model-selection topics are not all concepts at the same level.
 - You can explain AIC/BIC, AutoML, benchmarks, and experiment tracking as solutions to different problems.
@@ -49,7 +49,7 @@ These items can look similar when listed in one line, but in reality they answer
 | benchmark, leaderboard | By what common standard should multiple models or systems be compared? |
 | experiment tracking | How can many experiment results be preserved and explained again without losing them? |
 
-In other words, all of these connect to `choosing a good model`, but the detailed problems they try to solve differ.
+In other words, all of these connect to [choosing a good model](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection), but the detailed problems they try to solve differ.
 
 ## Where Do AIC And BIC Fit?
 
@@ -128,7 +128,7 @@ That is why experiment tracking is not a simple record-keeping habit, but a foun
 | data version | to confirm whether it was the same data |
 | preprocessing rules | to confirm whether the inputs were the same |
 | hyperparameters | to explain what was changed |
-| metric | to compare what improved |
+| [metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric) | to compare what improved |
 
 ## When Should Which Advanced Tool Be Brought To Mind?
 
@@ -138,7 +138,7 @@ Advanced model-selection tools all look like `techniques for running more things
 | --- | --- | --- |
 | You want to view the fit and complexity of a statistical model together. | AIC, BIC | because they compare fit together with a complexity penalty |
 | The search space is wide and grid search is too expensive. | Bayesian optimization, Hyperband | because they reduce search cost through next-candidate choice or early stopping |
-| You want to separate selection and final evaluation more strictly. | nested cross-validation | because it reduces the optimistic bias of the selection process further |
+| You want to separate selection and final evaluation more strictly. | nested [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) | because it reduces the optimistic bias of the selection process further |
 | You want to automatically repeat candidate generation and some tuning. | AutoML | because it automates preprocessing, candidate generation, and part of the search |
 | There are too many experiments and you are starting to lose the grounds for comparison. | experiment tracking | because it lets you trace again the data version, rules, scores, and reasons for setting changes |
 
@@ -173,6 +173,7 @@ The confirmable result appears immediately in whether the record items remain. I
 
 ## Sources And References
 
-- scikit-learn developers, [Tuning the hyper-parameters of an estimator](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }, accessed on 2026-07-01.
-- Takuya Akiba et al., [Optuna: A Next-generation Hyperparameter Optimization Framework](https://arxiv.org/abs/1907.10902){: target="_blank" rel="noopener noreferrer" }, accessed on 2026-07-01.
-- MLflow, [Tracking](https://mlflow.org/docs/latest/ml/tracking/){: target="_blank" rel="noopener noreferrer" }, accessed on 2026-07-01.
+- scikit-learn developers, [Tuning the hyper-parameters of an estimator](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }, accessed on 2026-07-26.
+- scikit-learn developers, [Nested versus non-nested cross-validation](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html){: target="_blank" rel="noopener noreferrer" }, accessed on 2026-07-26.
+- Takuya Akiba et al., [Optuna: A Next-generation Hyperparameter Optimization Framework](https://arxiv.org/abs/1907.10902){: target="_blank" rel="noopener noreferrer" }, accessed on 2026-07-26.
+- MLflow, [Tracking](https://mlflow.org/docs/latest/ml/tracking/){: target="_blank" rel="noopener noreferrer" }, accessed on 2026-07-26.

@@ -1,13 +1,13 @@
 # P4-7.2 Preprocessing
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 P4-7.1 examined `what inputs should remain`. Now the discussion moves to the stage where those remaining inputs are not thrown to the model as they are, but are organized into a form the model can read more easily. That stage is preprocessing.
 
 The core point of this Section is not complex library syntax. It is understanding preprocessing not as something like `data cleaning` alone, but as `the work of changing input representations into a form the model can handle`.
 
-This Section explains the basic meanings of `preprocessing`, `imputation`, `scale adjustment`, and `categorical encoding`. Later Sections continue the current judgment through this handle, and the basic meaning of input-representation transformation reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meanings of [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing), [imputation](/AiBook/en/reference/concept-glossary-alpha/m/#missing-value), scale adjustment, and categorical encoding. Later Sections continue the current judgment through this handle, and the basic meaning of input-representation transformation reconnects through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 There is one more important reason. People often learn algorithms first and think preprocessing is an auxiliary step added later. In practice, it is closer to the opposite. If input representations are not organized, it is hard to read the character of algorithms such as linear regression, logistic regression, k-NN, and SVM that appear later.
 
@@ -15,7 +15,7 @@ This Section is not an appendix to one specific algorithm. It is a common founda
 
 Academically as well, preprocessing is not peripheral work. In textbooks and tool documentation on data mining, pattern recognition, and machine learning, preprocessing is usually treated as an independent step that moves `raw data` into `feature space` or `model input`. Preprocessing is not miscellaneous work attached before a model, but `the stage that creates a learnable representation`.
 
-The reason this perspective matters is simple. A model does not learn reality itself. It learns inputs represented through preprocessing. Therefore, how preprocessing is done directly affects boundary, distance, optimization, and interpretability.
+The reason this perspective matters is simple. A model does not learn reality itself. It learns inputs represented through preprocessing. Therefore, how preprocessing is done directly affects boundary, [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance), [optimization](/AiBook/en/reference/concept-glossary-alpha/o/#optimization), and interpretability.
 
 ## Scope Of This Section
 
@@ -40,7 +40,7 @@ This Section first closes `how to change the remaining inputs into calculable an
 The earlier Sections in Part 4 have continued in the following flow.
 
 - P4-4: how should data be split
-- P4-5: why is generalization difficult
+- P4-5: why is [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization) difficult
 - P4-6: what criterion should be used for evaluation
 - P4-7.1: what inputs should remain
 
@@ -60,7 +60,7 @@ Preprocessing is the Section that connects `input design` and `model understandi
 
 From the curriculum point of view, this Section is also a boundary where the character of Module 2 and Module 3 changes. The data splitting, generalization, and evaluation metrics covered in Module 2 dealt with `what must be organized first to compare models fairly`. By contrast, Module 3 deals with `what combination of inputs and models should actually be used to begin experiments`. Preprocessing sits exactly at that turning point.
 
-After passing this Section, the reader moves beyond simply having collected data and into the flow of `building comparable input representations and then setting up model candidates`. For that reason, P4-7.2 becomes the common foundation of P4-8 model selection, P4-9 hyperparameter tuning, and the algorithm Sections after P4-10.
+After passing this Section, the reader moves beyond simply having collected data and into the flow of `building comparable input representations and then setting up model candidates`. For that reason, P4-7.2 becomes the common foundation of P4-8 [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection), P4-9 [hyperparameter tuning](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), and the algorithm Sections after P4-10.
 
 ## Main Learning Content
 
@@ -137,7 +137,7 @@ However, if readers look a little more broadly at the types of preprocessing use
 | categorical encoding | changes string and categorical values into calculable representations | covered in detail |
 | outlier handling | keeps extreme values from shaking learning too much | concept only |
 | feature construction | creates more useful input representations from original columns | mentioned only as a broad category, connected mainly to P4-7.1 in this book |
-| dimensionality reduction | compresses many inputs into a smaller representation | revisited in P4-18 |
+| [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction) | compresses many inputs into a smaller representation | revisited in P4-18 |
 | special representation transforms for text/images and so on | converts unstructured data into numeric representation | treated in later Parts as separate input representations |
 
 The purpose of this table is not to force every preprocessing technique into one Section. Rather, it is to help readers first grasp that the term `preprocessing` does not refer only to the narrow act of filling missing values with an average.
@@ -607,7 +607,7 @@ This difference can actually create performance illusions.
 | organize encoding categories after looking at the whole dataset and then evaluate | the result can become more optimistic than the pre-deployment situation |
 | align scaling references using test data too | evaluation can look better than it really is |
 
-That means leakage in preprocessing can distort evaluation numbers even without changing model structure.
+That means [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#data-leakage) in preprocessing can distort evaluation numbers even without changing model structure.
 
 If readers look at this difference more directly, it reads as follows.
 
@@ -826,7 +826,7 @@ This example shows three things at once.
 - numeric values were moved onto a comparable scale
 - categorical values were changed into calculable vectors
 
-In other words, preprocessing is not the work of making data prettier, but the process of changing them into a `calculable input matrix`.
+In other words, preprocessing is not the work of making data prettier, but the process of changing them into a [calculable input matrix](/AiBook/en/reference/concept-glossary-alpha/m/#matrix).
 
 ### Looking At How Scale Changes Distance Calculation Through A Python Example
 
@@ -918,8 +918,7 @@ The goal of this Section is not API memorization. It is first to understand `wha
 
 ## Sources And References
 
-- scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

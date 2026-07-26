@@ -1,9 +1,9 @@
 # P4-11.1 逻辑回归(logistic regression)的直觉
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-10 里，我们通过 linear regression 看到了 `怎样用一条直线预测连续值`。现在要接着看：同样是线性思路，到了 classification 问题时会怎样变化。
+在 P4-10 里，我们通过 [linear regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#linear-regression) 看到了 `怎样用一条直线预测连续值`。现在要接着看：同样是线性思路，到了 [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) 问题时会怎样变化。
 
 本节的中心问题如下。
 
@@ -15,9 +15,9 @@
 
 也就是说，logistic regression 不是 `把 linear regression 原样拿去做分类`，而是 `把线性计算的输出改写成可以按分类概率来解释的模型`。
 
-这一节会说明 `logistic regression`、`sigmoid`、`predict_proba`、`threshold` 的基本含义。后面的章节会沿着这个抓手继续当前语境下的判断，而把线性计算先读成分类概率的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
+这一节会说明 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression)、`sigmoid`、`predict_proba`、[threshold](/AiBook/zh/reference/concept-glossary-pinyin/y/#threshold) 的基本含义。后面的章节会沿着这个抓手继续当前语境下的判断，而把线性计算先读成 [probability estimate](/AiBook/zh/reference/concept-glossary-pinyin/g/#probability-estimate) 的基础感觉，也会通过这一节和相关概念词汇条目再接回来。
 
-## 本节范围
+## logistic regression 直觉先收束的问题
 
 这一节回答下面这些问题。
 
@@ -31,7 +31,7 @@
 
 不过，从这一节继续扩展的问题也很明确。decision boundary 与 threshold 的空间解释，会在 P4-11.2 立刻继续；为什么会看到 log-odds，为什么会用 maximum likelihood estimation(MLE)，会在 P4-11.3 回收；二元分类怎样扩展到 multinomial，会在 P4-11.4 回收；solver 与 regularization 为什么会作为实现设置出现，会在 P4-11.5 回收。regularization 的一般原理以及 hyperparameter 的读取，也会在 P4-9.1、P4-9.2、P5-8.1 再接回来。
 
-## 用逻辑回归(logistic regression)的直觉留下的判断标准
+## logistic regression 要留下的判断标准
 
 - 能把 logistic regression 说明成 `在分类问题里生成可按概率读取输出的线性模型`。
 - 能区分 linear regression 和 logistic regression 的共同点与差别。
@@ -399,6 +399,11 @@ logistic regression 是 linear model。这种简单性同时是优点，也是�
 | S7 | 7 | 通过 |
 | S8 | 8 | 通过 |
 
+可以改动的值：
+
+- 把 `[[3], [5], [7]]` 换成更密一些的 `[[4], [5], [6]]`，可以观察边界附近的 score 变化。
+- 改动 `passed` 里一个靠近边界的标签，可以看 coefficient 和 intercept 是否会一起移动。
+
 ```python
 # 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
 import numpy as np
@@ -441,15 +446,14 @@ class prediction : [0 1 1]
 
 重要的是，如果看到像 `0.548` 这样的值，不要把它读成绝对事实，而应读成：`当前 model 在看到这些数据后，认为那个 class 更有可能。`
 
-如果自己改值再看，还会更清楚。
-
-- 如果把 `[[3], [5], [7]]` 换成更密一些的 `[[4], [5], [6]]`，更容易看到边界附近的 score 变化
-- 如果略微改动 `passed` 里靠近边界的标签，coefficient 和 intercept 也会一起变化
-- 同样的 score 在 threshold 改变后会导向不同的最终行为，这一点会直接接到下一个例子
-
 ### Python 例子：把 `predict_proba` 和 `predict` 分开读取
 
 下面的例子说明 logistic regression 会先产出 score，然后再通过 threshold 把它变成 class。
+
+可以改动的值：
+
+- 在 `scores` 中加入 `0.48`、`0.50`、`0.52` 这样的值，可以看到 0.5 附近很接近的 score 怎样变成不同 class 决定。
+- 把 `pred_05` 的 cutoff 改成 `0.6`，可以更清楚地看到 score 和 decision 是不同阶段。
 
 ```python
 # 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
@@ -482,6 +486,11 @@ threshold 0.5 : [0 0 1 1]
   - 即使 score 不变，policy 标准变化也会改变 class decision
   - 模型输出和服务行为必须分开读取
 
+可以改动的值：
+
+- 在 `scores` 中加入 `0.49`、`0.50`、`0.51`，可以观察 0.5 边界处判断怎样分开。
+- 把 `pred_07` 的 cutoff 改成 `0.6` 或 `0.8`，可以在同一张 score 表上比较只改变 policy 标准时发生什么。
+
 ```python
 # 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
 import numpy as np
@@ -509,6 +518,11 @@ threshold 0.7   : [0 0 1]
 ### 再改一个值：如果边界附近的一个标签变了，分数解释会怎样摇晃
 
 现在把训练数据里边界附近的 `study_hours = 4` 从 `不及格(0)` 改成 `及格(1)`。
+
+可以改动的值：
+
+- 改动 `study_hours = 3` 或 `study_hours = 5` 的标签，可以看边界位置不同会怎样改变 score 摇晃。
+- 把 `predict_proba([[4]])` 扩展成 `[[3]], [[4]], [[5]]`，可以比较这种变化怎样扩散到边界周围。
 
 ```python
 # 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
@@ -569,5 +583,5 @@ class 1 score at x=4, shifted labels  : 0.579
 
 ## 出处与参考资料
 
-- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }

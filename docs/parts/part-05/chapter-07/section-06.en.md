@@ -1,14 +1,14 @@
 # P5-7.6 Supplementary Reading: Learning-Rate Control Strategies
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P5-7.2, we read the learning rate as `the stride length of one update`. But once we look at actual training settings, we meet scenes where the learning rate is not fixed from beginning to end and instead keeps changing under names such as warmup, decay, and cosine schedule.
 
 The question the reader should hold onto immediately here is not `did another new optimizer appear?`, but `even while using the same optimizer, why is the stride-management policy made different over time?`
 This viewpoint also becomes a reusable standard later when reading training logs, fine-tuning settings, and experiment tables in papers, because it lets us separate `optimizer choice` from `stride-management policy`.
 
-## The Question That Needs A Learning-Rate Schedule
+## The Question That Needs a Learning-Rate Schedule
 
 - Why do we distinguish a fixed learning rate from a learning rate that changes over time?
 - Why should warmup be read as a device that gradually increases the stride at the beginning?
@@ -17,14 +17,14 @@ This viewpoint also becomes a reusable standard later when reading training logs
 
 This section focuses not on the implementation API of schedulers, but on explaining how we should manage the stride during `the early phase of learning`, `the middle phase of learning`, and `the later phase of learning`.
 
-## Standards For Warmup And Decay
+## Standards for Warmup and Decay
 
 - You can explain a learning rate scheduler as `a stride-management policy`.
 - You can say what kind of training-stage problem warmup and decay each try to alleviate.
 - You can distinguish step decay, linear decay, and cosine decay at a broad level.
 - You can explain when scheduler questions should be brought out first while reading a training log.
 
-## Why Doesn't The Explanation End With A Fixed Learning Rate
+## Why Doesn't the Explanation End With a Fixed Learning Rate
 
 A fixed learning rate is very appropriate for the introductory explanation in P5-7.2. But in actual learning, it is not always the case that the same stride is good across every interval.
 
@@ -107,7 +107,7 @@ This table does not say `which formula is more elegant`. It is a table that help
 
 For a beginner, it is better not to read this table as a formula table. It is closer to an operations table that writes down `how will we change the stride on the time axis of learning?`
 
-## Reading It Again As Stride-Management Patterns
+## Reading It Again as Stride-Management Patterns
 
 | Learning interval | Stride-management question | Device often connected |
 | --- | --- | --- |
@@ -119,7 +119,7 @@ Seen this way, a scheduler is not `a new optimizer`, but `the rule for operating
 
 If we miss this distinction, the reader can easily accept `we decided the learning rate` and `we decided the learning-rate schedule` as if they were the same statement. But in reality they are different. The former decides `the basic size of the stride now`, while the latter decides `how that stride will be changed over the whole learning run`. These two have to look separate so that later, when reading a paper or practical setting, a sentence such as `optimizer is Adam, scheduler is cosine, warmup is 5%` can be decomposed naturally.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. The Same Optimizer, But Different Problems Appear In The Early And Later Phases
 
@@ -137,7 +137,7 @@ What the current section has to close is not `which scheduler is famous`, but `d
 
 If we unpack this case more, what is hard for a beginner when reading an actual log is not the number itself, but the timing. Even on the same loss curve, the strong fluctuation in the early phase and the small oscillation in the later phase may not have the same cause. That is why the scheduler viewpoint first makes us ask `in what interval is the problem appearing right now?` If it is the aggressiveness of the beginning, then the warmup question appears first. If it is the remaining small oscillation in the later phase, then the decay question appears first. Once the time axis is split first, guessing the cause becomes far less lumped together.
 
-## Practice And Example
+## Practice and Example
 
 Read the following log-interpretation sentences and write down what stride-management pattern should be checked first.
 
@@ -158,7 +158,7 @@ The purpose of this exercise is not to memorize scheduler names, but to build th
 - Can you read step decay, linear decay, and cosine decay as `stride patterns`?
 - When reading a training log, can you connect early instability, later oscillation, and overall overspeed/underspeed to scheduler questions?
 
-## Sources And References
+## Sources and References
 
 - PyTorch, `torch.optim`, PyTorch documentation. Referenced to confirm that `lr_scheduler` adjusts the learning rate according to epochs or validation metrics, and that PyTorch provides schedulers such as `StepLR`, `LinearLR`, and `CosineAnnealingLR`. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate](https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate){: target="_blank" rel="noopener noreferrer" }
 - Ilya Loshchilov, Frank Hutter, `SGDR: Stochastic Gradient Descent with Warm Restarts`, ICLR 2017. Referenced to confirm background on cosine annealing and restart-style learning rate schedules. Checked: 2026-07-19. [https://arxiv.org/abs/1608.03983](https://arxiv.org/abs/1608.03983){: target="_blank" rel="noopener noreferrer" }

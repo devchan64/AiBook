@@ -1,7 +1,7 @@
 # P5-14.4 RNN 状态传递与 Transformer 并行计算
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: 顺序状态传递与 token 关系计算在并行处理中如何分开？_
 

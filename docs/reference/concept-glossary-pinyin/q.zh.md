@@ -4,4 +4,24 @@
 
 --8<-- "reference/concept-glossary-terms/slicing.zh.md"
 
+--8<-- "reference/concept-glossary-terms/reinforcement-learning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/reinforcement-learning-agent.zh.md"
+
+--8<-- "reference/concept-glossary-terms/q-learning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/q-value.zh.md"
+
+--8<-- "reference/concept-glossary-terms/q-table.zh.md"
+
+--8<-- "reference/concept-glossary-terms/query-key-value-qkv.zh.md"
+
+--8<-- "reference/concept-glossary-terms/expected-reward.zh.md"
+
+--8<-- "reference/concept-glossary-terms/underfitting.zh.md"
+
+--8<-- "reference/concept-glossary-terms/missing-value.zh.md"
+
 --8<-- "reference/concept-glossary-terms/weight.zh.md"
+
+--8<-- "reference/concept-glossary-terms/full-scan.zh.md"

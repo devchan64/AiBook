@@ -1,7 +1,7 @@
 # P1-9.1 Image Recognition and Representation Learning
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 8 distinguished supervised learning, unsupervised learning, and reinforcement learning by the kind of learning signal they use. Now we move into `deep learning`.
 

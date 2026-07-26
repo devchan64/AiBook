@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)与工具连接标准化
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P1-14.3 中，我们把 agent 看成一种把 `目标(goal)`、`状态(state)`、`动作(action)`、`观察(observation)` 持续推进的工作流结构。要让 agent 使用外部资料或工具，就必须有一种连接方式。
 
@@ -91,7 +91,7 @@ MCP(Model Context Protocol) 是一种开放协议(open protocol)，目标是标�
 
 ## host、client、server
 
-MCP 遵循 client-server 结构。但如果只想到一般 웹 服务里的 client 和 server，画面会不够清楚。在 MCP 语境里，更有帮助的是把 `host`、`client`、`server` 分开。
+MCP 遵循 client-server 结构。但如果只想到一般 Web 服务里的 client 和 server，画面会不够清楚。在 MCP 语境里，更有帮助的是把 `host`、`client`、`server` 分开。
 
 | 组成部分 | 说明 |
 | --- | --- |

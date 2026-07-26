@@ -1,9 +1,9 @@
 # Part 3 마무리
 
 > Section ID: `P3-summary`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-이 Part에서는 데이터 모델링을 저장 구조 설명이 아니라 문제 표현 구조 설계로 읽었습니다. 핵심은 원천데이터가 곧바로 데이터셋이 아니라는 점입니다. Part 2와 Part 3은 함께 기본기 점검 구간을 이루며, Part 3은 그중 `데이터과학 문제 구조 복구`를 맡습니다. 먼저 데이터 모델링의 목표와 범위를 고정하고, 저장된 기록을 데이터셋 후보로 다시 읽고, 샘플과 표 구조를 정하고, 특징과 기준선을 설계하고, 해석 경계를 세운 뒤에야 뒤의 머신러닝 설명이 제대로 읽힙니다.
+이 Part에서는 [데이터 모델링(data modeling)](/AiBook/reference/concept-glossary-parts/03-digeut/#glossary-data-modeling)을 저장 구조 설명이 아니라 문제 표현 구조 설계로 읽었습니다. 핵심은 [원천데이터(source data)](/AiBook/reference/concept-glossary-parts/08-ieung/#glossary-source-data)가 곧바로 [데이터셋(dataset)](/AiBook/reference/concept-glossary-parts/03-digeut/#glossary-dataset)이 아니라는 점입니다. Part 2와 Part 3은 함께 기본기 점검 구간을 이루며, Part 3은 그중 `데이터과학 문제 구조 복구`를 맡습니다. 먼저 데이터 모델링의 목표와 범위를 고정하고, 저장된 기록을 데이터셋 후보로 다시 읽고, 샘플과 표 구조를 정하고, [특징(feature)](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-feature)과 [기준선(baseline)](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-baseline)을 설계하고, 해석 경계를 세운 뒤에야 뒤의 머신러닝 설명이 제대로 읽힙니다.
 
 대표 사례는 자동으로 실행되는 동작 1회가 있고, 그 안에 제어 파라미터 시계열과 센서 시계열이 남으며, 여러 동작을 최근 구간과 기준선으로 다시 비교하는 구조입니다. Part 3은 이 구조를 사람이 읽고 모델이 이어받을 수 있는 표 구조로 바꾸는 과정을 설명했습니다.
 
@@ -13,7 +13,7 @@ Part 3의 흐름은 Chapter 번호보다 다음 세 묶음으로 기억하는 �
 | --- | --- | --- |
 | 역할과 순서 고정 | 데이터 모델링은 무엇을 맡고 어떤 순서로 판단하는가 | 문제 구조 설계의 위치, 작업 순서 지도 |
 | 비교 구조 재구성 | 저장된 기록을 어떤 샘플, 표, 특징, 기준선 구조로 다시 읽을 것인가 | 데이터셋 후보, 요약 표, 특징(feature), 기준선 비교표 |
-| 해석과 문제 마감 | 어디까지 말하고 무엇을 아직 리포트로 둘 것인가 | 보수적 문장, 운영 산출물, 입력/결과 경계, 시간 경계 |
+| 해석과 문제 마감 | 어디까지 말하고 무엇을 아직 [비교 리포트(comparison report)](/AiBook/reference/concept-glossary-parts/06-bieup/#glossary-comparison-report)로 둘 것인가 | 보수적 문장, 운영 산출물, 입력/결과 경계, 시간 경계 |
 
 이 세 줄만 남겨도 Part 3을 `문제를 표현 가능한 구조로 바꾸는 판단의 연쇄`로 다시 읽을 수 있습니다.
 

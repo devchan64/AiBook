@@ -1,7 +1,7 @@
 # P1-13.4 벡터 검색 구현의 직관
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 가까운 벡터를 찾는 유사도 검색(similarity search)을 봤습니다. P1-13.3에서는 검색된 후보를 LLM 입력 맥락(context)에 붙이는 RAG(retrieval-augmented generation)를 봤습니다.
 

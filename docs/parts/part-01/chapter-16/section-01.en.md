@@ -1,7 +1,7 @@
 # P1-16.1 Personal Learning and Documentation
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-15 examined where AI connects to social risk, copyright, and security. P1-16 moves into application cases. The first case is an AI relearning documentation project.
 

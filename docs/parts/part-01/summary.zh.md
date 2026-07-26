@@ -1,13 +1,13 @@
 # Part 1 总结：AI 导论与整体地形回顾
 
 > Section ID: `P1-summary`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 1 是在重新学习 AI 之前，先把整体地形固定下来的区段。它不是要先把细节算法实现完，或把公式深入证明完，而是先整理那些之后会反复出现的术语与视角。
 
-这份总结不是把 Part 1 里的所有概念再长篇重复一遍的文档，而是一份帮助你重新想起“哪些概念在什么位置被当作基准线固定下来”的收尾页。如果术语又开始混乱，请回到 [概念词汇表](/AiBook/reference/concept-glossary/) 和其中列出的代表 Section 一起查看。
+这份总结不是把 Part 1 里的所有概念再长篇重复一遍的文档，而是一份帮助你重新想起“哪些概念在什么位置被当作基准线固定下来”的收尾页。如果术语又开始混乱，请回到 [AI](/AiBook/zh/reference/concept-glossary-pinyin/a/#ai-artificial-intelligence)、[system](/AiBook/zh/reference/concept-glossary-pinyin/s/#system)、[LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) 等代表词条，并和其中列出的代表 Section 一起查看。
 
-这里最重要的目标，是不要把 AI 看成一个流行词，或者某个产品的名字。AI 是一个宽广领域，其中规则式方法、搜索、启发式、概率判断、数据驱动学习、深度学习、生成式 AI、LLM、agent、服务运维和社会责任彼此重叠。
+这里最重要的目标，是不要把 AI 看成一个流行词，或者某个产品的名字。AI 是一个宽广领域，其中规则式方法、搜索、启发式、概率判断、数据驱动学习、深度学习、生成式 AI、LLM、AI agent、服务运维和社会责任彼此重叠。
 
 ## 重新抓住 AI 的整体地图
 
@@ -37,7 +37,7 @@ Part 1 的流程可以整理成下面这样。
 4. 进入从数据中学习模式的机器学习。
 5. 再连接到学习表征的深度学习。
 6. 把生成式 AI 和 LLM 放进同一张大地图。
-7. 接着读 prompt、embedding、RAG 和 agent。
+7. 接着读 prompt、embedding、RAG 和 AI agent。
 8. 同时保留服务架构和运维约束的视角。
 9. 最后把伦理、版权、安全、实务应用和前景检讨绑在一起。
 
@@ -69,7 +69,7 @@ AI 这个词的范围也要这样记。当前版本里，先抓住 OECD、英语
 | 学习与模型执行 | 学习会改变模型内部数值，模型执行则使用已经学好的模型。 |
 | `inference` 周边表达 | 先把 `inference` 读成模型执行，把 `reasoning` 读成思考过程，把 `prediction` 读成模型输出，把 `generation` 读成生成结果。 |
 | Prompt 与模型 | Prompt 是指定模型行为的输入，不是完全控制模型内部知识与行为的装置。 |
-| RAG 与 agent | RAG 是检索外部信息并补进输入的结构，agent 是把目标串成多个任务流程的结构。 |
+| RAG 与 AI agent | RAG 是检索外部信息并补进输入的结构，agent 是把目标串成多个任务流程的结构。 |
 | 模型与服务 | 真实 AI 服务不是只有一个模型，而是应用、数据、工具、权限、日志、评估和运维约束一起运作的结构。 |
 
 一旦这些区分固定下来，后面各 Part 里的数学、代码、模型、数据、服务结构，就更容易重新放回整体地图里。
@@ -116,7 +116,7 @@ Part 1 会有意把下面这些问题打开。
 - 能否说明规则式方法和学习式方法的差别？
 - 能否大致说明 data、feature、representation、model、parameter、learning、model execution 之间的关系？
 - 能否说明 uncertainty、probability、stochastic 不是同一个词？
-- 能否说明 prompt、embedding、vector search、RAG、agent 各自扮演不同角色？
+- 能否说明 prompt、embedding、vector search、RAG、AI agent 各自扮演不同角色？
 - 能否说明 AI 服务不是只由一个模型构成？
 - 能否区分个人工作假设和有外部证据支撑的事实性主张？
 
@@ -126,7 +126,7 @@ Part 1 会有意把下面这些问题打开。
 
 - 还不能用公式解释损失函数和梯度，也没关系。
 - 还不熟悉 Transformer 和 attention 的内部计算细节，也没关系。
-- 还不能自己写出 RAG、工具使用、agent 的实现代码，也没关系。
+- 还不能自己写出 RAG、工具使用、AI agent 的实现代码，也没关系。
 - 真正重要的是，你能说出 `问题是怎样被拆开的`、`模型负责到哪里`、`服务还要额外补什么` 这一层的大图景。
 
 ## 结束 Part 1

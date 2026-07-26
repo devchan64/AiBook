@@ -1,7 +1,7 @@
 # P5-9.2 배치(batch)와 텐서(tensor) 계산
 
 > Section ID: `P5-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-9.1에서는 딥러닝이 왜 GPU와 병렬 처리(parallel processing)에 잘 맞는지 보았습니다. 여기서 바로 다음 질문이 생깁니다.
 

@@ -1,19 +1,19 @@
 # P4-4.1 학습 데이터와 평가 데이터
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 후보를 좁히는 법을 봤습니다. 이제 중요한 질문이 생깁니다. 그 선택이 실제로 괜찮은지 어떻게 확인할 수 있을까요?
+P4-3장에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-parts/14-hieut.md#heuristic)을 사용해 먼저 시도할 모델 후보를 좁히는 법을 봤습니다. 이제 중요한 질문이 생깁니다. 그 선택이 실제로 괜찮은지 어떻게 확인할 수 있을까요?
 
 머신러닝에서는 모델이 이미 본 데이터에 잘 맞는 것만으로는 충분하지 않습니다. 우리가 원하는 것은 앞으로 들어올 새 데이터에서도 쓸 만한 판단을 하는 것입니다. 그래서 데이터를 모두 학습에만 쓰지 않고, 일부는 평가를 위해 따로 남겨 둡니다.
 
-학습 데이터(training data)는 모델이 배우는 데 쓰는 데이터입니다. 평가 데이터(evaluation data)는 모델이 배운 결과를 확인하는 데 쓰는 데이터입니다. 가장 중요한 첫 관점은 간단합니다. “배운 문제지로만 시험을 보면 실력을 착각할 수 있다”는 것입니다.
+[학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data)는 모델이 배우는 데 쓰는 데이터입니다. [평가 데이터(evaluation data)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-data)는 모델이 배운 결과를 확인하는 데 쓰는 데이터입니다. 가장 중요한 첫 관점은 간단합니다. “배운 문제지로만 시험을 보면 실력을 착각할 수 있다”는 것입니다.
 
 ## 학습 데이터와 평가 데이터에서 닫을 질문
 
-이 절은 데이터를 왜 나누는지 설명합니다. 검증 데이터(validation data)와 테스트 데이터(test data)의 자세한 구분은 P4-4.2에서 다루고, 이 절은 학습에 쓰는 데이터와 평가에 남겨 두는 데이터의 차이를 먼저 고정합니다.
+이 절은 데이터를 왜 나누는지 설명합니다. [검증 데이터(validation data)](../../../reference/concept-glossary-parts/01-giyeok.md#validation-data)와 [테스트 데이터(test data)](../../../reference/concept-glossary-parts/12-tieut.md#test-data)의 자세한 구분은 P4-4.2에서 다루고, 이 절은 학습에 쓰는 데이터와 평가에 남겨 두는 데이터의 차이를 먼저 고정합니다.
 
-과적합(overfitting)과 일반화(generalization)는 P4-5에서 자세히 다룹니다. 정확도(accuracy), 정밀도(precision), 재현율(recall) 같은 평가 지표(metric)는 P4-6에서 다룹니다. 이 절의 초점은 “나누어 확인해야 한다”는 이유입니다.
+[과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)과 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)는 P4-5에서 자세히 다룹니다. [정확도(accuracy)](../../../reference/concept-glossary-parts/09-jieut.md#accuracy), [정밀도(precision)](../../../reference/concept-glossary-parts/09-jieut.md#precision), [재현율(recall)](../../../reference/concept-glossary-parts/09-jieut.md#recall) 같은 [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)는 P4-6에서 다룹니다. 이 절의 초점은 “나누어 확인해야 한다”는 이유입니다.
 
 - 왜 데이터를 전부 학습에 쓰면 안 되는가?
 - 학습 데이터와 평가 데이터는 어떤 역할을 하는가?
@@ -26,7 +26,7 @@ P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 �
 - 학습 데이터와 평가 데이터의 역할을 구분할 수 있습니다.
 - 같은 데이터로 학습하고 평가하면 성능을 과대평가할 수 있음을 설명할 수 있습니다.
 - 평가 데이터가 “새 데이터에서의 동작을 추정하기 위한 대리 장면”임을 이해할 수 있습니다.
-- 데이터 분리가 모델 선택, 과적합, 일반화로 이어지는 이유를 말할 수 있습니다.
+- 데이터 분리가 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection), 과적합, 일반화로 이어지는 이유를 말할 수 있습니다.
 - 검증과 테스트의 세부 구분은 다음 절에서 다룬다는 경계를 잡을 수 있습니다.
 
 ## 학습 배경
@@ -200,7 +200,7 @@ Name: proportion, dtype: float64
 | 상황 | 먼저 생각할 분리 방식 | 이유 |
 | --- | --- | --- |
 | 고객 이탈, 점수 예측처럼 표 형식 데이터 | 무작위 분리(random split) | 학습용과 평가용이 비슷한 분포를 갖게 하려는 경우가 많습니다. |
-| 월별 매출, 센서 로그, 주가처럼 시간 순서가 중요한 데이터 | 시간 순 분리(time-based split) | 미래 정보를 과거 학습에 섞으면 실제 배포 상황을 왜곡할 수 있습니다. |
+| 월별 매출, 센서 로그, 주가처럼 시간 순서가 중요한 데이터 | [시간 순 분리(time-based split)](../../../reference/concept-glossary-parts/07-siot.md#time-split) | 미래 정보를 과거 학습에 섞으면 실제 배포 상황을 왜곡할 수 있습니다. |
 | 불량 탐지, 희귀 질병처럼 한 라벨이 매우 적은 데이터 | 비율을 맞춘 분리(stratified split) | 한쪽에만 희귀 라벨이 몰리면 평가가 불안정해질 수 있습니다. |
 
 예를 들어 쇼핑몰 데이터를 1월부터 6월까지 모았다고 해 봅니다.
@@ -256,7 +256,7 @@ Name: proportion, dtype: float64
 
 학습 점수가 높고 평가 점수도 높으면 비교적 좋은 신호일 수 있습니다. 학습 점수는 높은데 평가 점수가 낮으면, 모델이 학습 데이터에만 지나치게 맞았을 수 있습니다. 이 문제를 과적합(overfitting)이라고 부르며 P4-5에서 자세히 봅니다.
 
-반대로 학습 점수와 평가 점수가 모두 낮으면 모델이 충분히 배우지 못했을 수 있습니다. 이것은 과소적합(underfitting)과 연결됩니다. 이것도 P4-5에서 함께 다룹니다.
+반대로 학습 점수와 평가 점수가 모두 낮으면 모델이 충분히 배우지 못했을 수 있습니다. 이것은 [과소적합(underfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#underfitting)과 연결됩니다. 이것도 P4-5에서 함께 다룹니다.
 
 짧은 실무형 예시로 보면 다음처럼 읽을 수 있습니다.
 
@@ -274,7 +274,7 @@ Name: proportion, dtype: float64
 
 예를 들어 쇼핑몰 데이터를 1월부터 6월까지 모았고, 그중 일부를 평가 데이터로 남겨 두었다고 해 봅니다. 이 평가 데이터는 같은 기간의 고객 행동을 보여 줍니다. 하지만 11월 할인 시즌이나 다음 해의 고객 행동까지 완벽히 대표하지는 못할 수 있습니다.
 
-그래서 데이터 분리는 필요한 출발점이지만 충분한 전부는 아닙니다. 시간 변화, 표본 편향(sampling bias), 데이터 수집 방식, 서비스 정책 변화도 함께 봐야 합니다. 표본과 편향의 기본 감각은 앞선 확률·통계 복구 구간에서 이미 보았고, 머신러닝에서는 P4-5와 P4-6에서 다시 연결합니다.
+그래서 데이터 분리는 필요한 출발점이지만 충분한 전부는 아닙니다. 시간 변화, [표본 편향(sampling bias)](../../../reference/concept-glossary-parts/13-pieup.md#sampling-bias), 데이터 수집 방식, 서비스 정책 변화도 함께 봐야 합니다. 표본과 편향의 기본 감각은 앞선 확률·통계 복구 구간에서 이미 보았고, 머신러닝에서는 P4-5와 P4-6에서 다시 연결합니다.
 
 ### 작은 데이터에서는 더 조심한다
 
@@ -486,6 +486,6 @@ evaluation churn count: 0
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

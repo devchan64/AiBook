@@ -1,13 +1,13 @@
 # P1-2.3 走向机器学习、深度学习与生成式 AI 的脉络
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 2.1 看过符号主义 AI 与规则式方法，2.2 看过搜索、知识表示与概率推理。这一节继续看下一个脉络。为什么 AI 的说明中心会越来越多地转向“从数据中学习的模型”？
 
 这里需要做的，不是完整解释机器学习、深度学习与生成式 AI，而是先从历史角度建立一个解释：为什么说明中心会从 `人把规则都直接写出来`，移动到 `模型从数据和经验中学习`。Part 3 会先整理数据建模，Part 4、Part 5、Part 6 会分别深入展开这些结构。
 
-在 Part 1 中，从规则式方法转向学习式方法的历史脉络，以及 `data`、`feature`、`representation` 与 `parameter` 的基本连接，固定在这里。`AI / machine learning / deep learning / generative AI / LLM` 的基本关系已在 1.3 先建立；这里再把它们接回到一条历史脉络中。如果这些术语边界之后再次摇晃，就回到这一节和共享的 [Concept Glossary (English)](/AiBook/reference/concept-glossary/)。
+在 Part 1 中，从规则式方法转向学习式方法的历史脉络，以及 `data`、`feature`、`representation` 与 `parameter` 的基本连接，固定在这里。`AI / machine learning / deep learning / generative AI / LLM` 的基本关系已在 1.3 先建立；这里再把它们接回到一条历史脉络中。如果这些术语边界之后再次摇晃，就回到这一节和 [data](/AiBook/zh/reference/concept-glossary-pinyin/d/#data)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)、[representation](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation)、[parameter](/AiBook/zh/reference/concept-glossary-pinyin/c/#parameter) 等词条。
 
 ## 从写规则转向从数据中学习的理由
 
@@ -32,13 +32,13 @@
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
-| [data](/AiBook/reference/concept-glossary-parts/03-digeut/#data) | 学习与判断的材料 | 为了看见模型不是从手写规则，而是从什么材料里学习标准 |
-| [feature](/AiBook/reference/concept-glossary-parts/12-tieut/#feature) | 先由人整理或选出的线索 | 为了理解早期机器学习依赖怎样的输入表示 |
-| [representation](/AiBook/reference/concept-glossary-parts/13-pieup/#representation) | 模型内部处理数据的形式 | 为了看出深度学习为何常被解释为表征学习 |
-| [parameter](/AiBook/reference/concept-glossary-parts/13-pieup/#parameter) | 在学习中被调整的内部值 | 为了固定“学习到底改变了什么” |
-| [machine learning](/AiBook/reference/concept-glossary-parts/05-mieum/#machine-learning) | 从数据中提高性能的学习式方法 | 为了理解为什么中心会从写规则转向训练模型 |
-| [deep learning](/AiBook/reference/concept-glossary-parts/03-digeut/#deep-learning) | 以神经网络为基础、强烈依赖表征学习的方法 | 为了理解从特征设计转向学习表征 |
-| [generative AI](/AiBook/reference/concept-glossary-parts/07-siot/#aigenerative-ai) | 生成新内容的模型与服务类别 | 为了看清最近这条技术流延伸到了哪里 |
+| [data](/AiBook/zh/reference/concept-glossary-pinyin/d/#data) | 学习与判断的材料 | 为了看见模型不是从手写规则，而是从什么材料里学习标准 |
+| [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) | 先由人整理或选出的线索 | 为了理解早期机器学习依赖怎样的输入表示 |
+| [representation](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation) | 模型内部处理数据的形式 | 为了看出深度学习为何常被解释为表征学习 |
+| [parameter](/AiBook/zh/reference/concept-glossary-pinyin/c/#parameter) | 在学习中被调整的内部值 | 为了固定“学习到底改变了什么” |
+| [machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning) | 从数据中提高性能的学习式方法 | 为了理解为什么中心会从写规则转向训练模型 |
+| [deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning) | 以神经网络为基础、强烈依赖表征学习的方法 | 为了理解从特征设计转向学习表征 |
+| [generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#aigenerative-ai) | 生成新内容的模型与服务类别 | 为了看清最近这条技术流延伸到了哪里 |
 
 ## 主要学习内容
 
@@ -196,7 +196,7 @@ LLM(large language model) 是生成式 AI 中最有代表性的模型家族之�
 
 这是累积关系，而不是替代关系。现代 AI 服务并不只由 LLM 组成。搜索、数据库、知识图谱、规则式过滤器、权限控制、评估、UI 与运维系统都可能一起存在于同一个产品里。
 
-因此，这一节的 흐름最好读成下面这样。
+因此，这一节的脉络最好读成下面这样。
 
 > AI 的说明中心从显式规则和搜索，扩展到了处理不确定性的概率推理，再扩展到从数据中学习模式的机器学习。深度学习极大增强了从数据中学习表征的能力，而生成式 AI 与 LLM 则是这种表征学习、大规模数据、计算资源与语言建模结合后的近期强势案例。
 

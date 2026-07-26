@@ -1,7 +1,7 @@
 # P4-10.3 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지만 실제 문서나 강의에서는 곧 다음 표현을 만나게 됩니다.
 
@@ -12,9 +12,9 @@ P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지
 
 이 절의 목적은 이 모든 개념의 증명을 배우는 것이 아니라, 회귀 결과표를 읽다가 멈추지 않도록 `이 말들이 무엇을 걱정하는가`를 정리하는 데 있습니다.
 
-이 보충학습은 선형회귀의 정의를 확장해서 다시 설명하는 절이 아닙니다. 기본 직관과 평가 손잡이는 P4-10.1, P4-10.2와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 회귀 진단 용어들이 어떤 종류의 위험을 가리키는지만 정리합니다.
+이 보충학습은 선형회귀의 정의를 확장해서 다시 설명하는 절이 아닙니다. 기본 직관과 평가 손잡이는 P4-10.1, P4-10.2와 [선형회귀(linear regression)](../../../reference/concept-glossary-parts/07-siot.md#linear-regression) 항목에 두고, 여기서는 회귀 진단 용어들이 어떤 종류의 위험을 가리키는지만 정리합니다.
 
-## 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법에서 구분할 경계
+## 회귀 진단(regression diagnostics)을 처음 읽을 때 구분할 경계
 
 이 절은 다음 질문에 답합니다.
 
@@ -27,7 +27,7 @@ P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지
 
 각 검정 통계량의 수식 유도, p-value 해석 논쟁의 전체 역사, VIF 계산 실습과 고급 회귀 패키지 사용법은 현재 보충학습의 직접 범위를 넘어가므로 자세히 다루지 않습니다.
 
-## 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법에서 복구할 연결
+## 회귀 진단(regression diagnostics)을 처음 읽을 때 복구할 연결
 
 - 회귀 진단을 `선형회귀 결과를 과신하지 않기 위한 점검`으로 설명할 수 있습니다.
 - 유의성, 정규성, 등분산성, 다중공선성이 각각 무엇을 걱정하는지 구분할 수 있습니다.
@@ -64,9 +64,14 @@ P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지
 예측 자체를 하는 데는 정규성이 절대 조건처럼 느껴질 필요는 없습니다. 하지만 회귀 계수 해석이나 일부 통계 검정 문맥에서는 잔차 모양이 한쪽으로 심하게 찌그러져 있으면 해석이 덜 안정적일 수 있습니다.
 
 - 잔차가 한쪽으로 매우 길게 치우치면 해석에 주의가 필요하다
-- 큰 이상치(outlier)가 잔차 모양을 크게 흔들 수 있다
+- 큰 [이상치(outlier)](../../../reference/concept-glossary-parts/08-ieung.md#outlier)가 잔차 모양을 크게 흔들 수 있다
 
 아주 작은 비교 실습으로 보면 다음처럼 읽을 수 있습니다.
+
+조작해 볼 값:
+
+- `skewed_residuals`의 마지막 값을 `8`, `12`, `20`으로 바꿔 보며 한쪽 꼬리가 길어질수록 범위가 어떻게 커지는지 볼 수 있습니다.
+- `balanced_residuals`에 `-8`과 `8`을 함께 넣으면 큰 값이 있어도 양쪽 균형이 있을 때와 한쪽만 튈 때를 비교할 수 있습니다.
 
 ```python
 # 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
@@ -159,6 +164,11 @@ skewed range      : 13
   - 서로 강하게 겹치는 특징이 함께 있으면 계수 역할이 나뉘어 보일 수 있습니다.
   - 예측이 유지되는 것과 계수 해석이 안정적인 것은 같은 말이 아닙니다.
 
+조작해 볼 값:
+
+- `yearly_spend_proxy` 값을 `monthly_spend * 12`에 더 가깝게 만들면 두 특징이 더 겹칠 때 계수 분배가 어떻게 달라지는지 볼 수 있습니다.
+- `query_two`의 두 값을 함께 바꾸면 예측값은 어떻게 움직이고 계수 해석은 왜 여전히 조심해야 하는지 비교할 수 있습니다.
+
 ```python
 # 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
 import numpy as np
@@ -204,6 +214,11 @@ one-feature prediction   : 47.5
 ### 값 하나 더 바꿔 보기: 겹치는 특징 한 점만 흔들어도 무엇이 유지되고 무엇이 달라지는가
 
 이번에는 `yearly_spend_proxy`의 마지막 값만 `239`에서 `233`으로 바꿔 다시 학습해 봅니다.
+
+조작해 볼 값:
+
+- `yearly_spend_shifted`의 마지막 값을 `229`, `233`, `239`로 바꿔 보며 예측 변화와 계수 변화의 크기를 비교할 수 있습니다.
+- `monthly_spend`의 마지막 값도 함께 조금 바꾸면 겹치는 특징 둘 중 어느 쪽 계수가 더 흔들리는지 확인할 수 있습니다.
 
 ```python
 # 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
@@ -257,6 +272,11 @@ shifted prediction    : 47.479
 
 다중공선성만 보는 것으로 끝내지 않고, 구간별 오차 퍼짐이 다른 장면도 아주 작게 비교해 보겠습니다.
 
+조작해 볼 값:
+
+- `high_range_residuals`의 값을 `[-5, 4, 6]`처럼 줄이면 구간별 spread 차이가 작아질 때 해석이 어떻게 달라지는지 볼 수 있습니다.
+- `low_range_residuals`에도 큰 값을 하나 넣으면 평균 성능보다 구간별 오차 퍼짐을 따로 봐야 하는 이유가 더 분명해집니다.
+
 ```python
 # 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
 low_range_residuals = [-2, 1, 0]
@@ -294,5 +314,5 @@ high-range spread : 33
 
 ## 출처와 참고 자료
 
-- statsmodels developers, [Regression diagnostics](https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, [An Introduction to Statistical Learning](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- statsmodels developers, `Regression diagnostics`, statsmodels 0.14.6, 확인 날짜: 2026-07-26. [https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html](https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, `An Introduction to Statistical Learning`, 확인 날짜: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

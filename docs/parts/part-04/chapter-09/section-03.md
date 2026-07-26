@@ -1,11 +1,11 @@
 # P4-9.3 보충학습: 모델 선택 이후의 도구 지도
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: 고급 모델 선택, 튜닝 자동화, 실험 추적은 어떤 층위의 문제를 나누는가_
 
-P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, 하이퍼파라미터를 검증 절차 안에서 비교하는 기본 흐름을 잡았습니다. 그다음에는 보통 다음 이름들이 등장합니다.
+P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, [하이퍼파라미터](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter)를 검증 절차 안에서 비교하는 기본 흐름을 잡았습니다. 그다음에는 보통 다음 이름들이 등장합니다.
 
 - 정보 기준(AIC, BIC)
 - AutoML
@@ -16,9 +16,9 @@ P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, 하이퍼�
 
 이 절의 목적은 이 각각의 구현 세부를 익히는 것이 아니라, `이 이름들이 왜 생겼고 서로 어떤 층위의 문제를 다루는가`를 정리하는 데 있습니다.
 
-이 보충학습도 하이퍼파라미터와 튜닝의 기본 정의를 다시 처음부터 설명하지 않습니다. 기본 손잡이는 P4-9.1, P4-9.2와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 뒤에 붙는 고급 이름들을 큰 흐름으로만 정리합니다.
+이 보충학습도 하이퍼파라미터와 튜닝의 기본 정의를 다시 처음부터 설명하지 않습니다. 기본 손잡이는 P4-9.1, P4-9.2와 개념사전에 두고, 여기서는 그 뒤에 붙는 고급 이름들을 큰 흐름으로만 정리합니다.
 
-## 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기에서 구분할 경계
+## 도구 이름이 갈라지는 문제 층위
 
 이 절은 다음 질문에 답합니다.
 
@@ -30,7 +30,7 @@ P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, 하이퍼�
 
 이 절은 먼저 `고급 모델 선택, 튜닝 자동화, 실험 추적이 서로 어떤 다른 문제를 다루는가`를 닫습니다. GPU 계산 구조는 Part 5에서 다시 다루고, 대규모 운영 제약은 Part 6에서 다시 연결합니다.
 
-## 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기에서 복구할 연결
+## 고급 도구 지도에서 남길 판단 기준
 
 - 고급 모델 선택 주제들이 모두 같은 층위의 개념이 아니라는 점을 구분할 수 있습니다.
 - AIC/BIC, AutoML, benchmark, experiment tracking을 각각 다른 문제의 해법으로 설명할 수 있습니다.
@@ -49,7 +49,7 @@ P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, 하이퍼�
 | benchmark, leaderboard | 여러 모델이나 시스템을 어떤 공통 기준으로 비교할까? |
 | experiment tracking | 수많은 실험 결과를 어떻게 잃지 않고 다시 설명할까? |
 
-즉, 이것들은 모두 `좋은 모델을 고르는 일`과 연결되지만, 해결하려는 세부 문제가 다릅니다.
+즉, 이것들은 모두 [좋은 모델을 고르는 일](../../../reference/concept-glossary-parts/05-mieum.md#model-selection)과 연결되지만, 해결하려는 세부 문제가 다릅니다.
 
 ## AIC와 BIC는 어디에 놓이는가
 
@@ -128,7 +128,7 @@ nested cross-validation은 단순히 교차검증을 한 번 더 복잡하게 �
 | 데이터 버전 | 같은 데이터였는지 확인하기 위해 |
 | 전처리 규칙 | 입력이 같았는지 확인하기 위해 |
 | 하이퍼파라미터 | 무엇을 바꾸었는지 설명하기 위해 |
-| metric | 무엇이 좋아졌는지 비교하기 위해 |
+| [metric](../../../reference/concept-glossary-parts/13-pieup.md#metric) | 무엇이 좋아졌는지 비교하기 위해 |
 
 ## 어떤 고급 도구를 언제 떠올려야 하는가
 
@@ -138,7 +138,7 @@ nested cross-validation은 단순히 교차검증을 한 번 더 복잡하게 �
 | --- | --- | --- |
 | 통계 모형의 적합도와 복잡도를 함께 보고 싶다 | AIC, BIC | 적합도와 복잡도 벌점을 함께 비교하기 때문 |
 | 탐색 공간이 넓어 grid search가 너무 비싸다 | Bayesian optimization, Hyperband | 다음 후보 선택이나 조기 중단으로 탐색 비용을 줄이기 때문 |
-| 선택과 최종 평가를 더 엄격히 분리하고 싶다 | nested cross-validation | 선택 과정의 낙관적 편향을 더 줄이기 때문 |
+| 선택과 최종 평가를 더 엄격히 분리하고 싶다 | nested [cross-validation](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation) | 선택 과정의 낙관적 편향을 더 줄이기 때문 |
 | 후보 생성과 튜닝 일부를 자동 반복하고 싶다 | AutoML | 전처리, 후보 생성, 탐색 일부를 자동화하기 때문 |
 | 실험이 많아져 비교 근거를 잃기 시작했다 | experiment tracking | 데이터 버전, 규칙, 점수, 설정 변경 이유를 다시 추적하기 때문 |
 
@@ -173,6 +173,7 @@ nested cross-validation은 단순히 교차검증을 한 번 더 복잡하게 �
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, [Tuning the hyper-parameters of an estimator](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
-- Takuya Akiba et al., [Optuna: A Next-generation Hyperparameter Optimization Framework](https://arxiv.org/abs/1907.10902){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
-- MLflow, [Tracking](https://mlflow.org/docs/latest/ml/tracking/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- scikit-learn developers, [Tuning the hyper-parameters of an estimator](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [Nested versus non-nested cross-validation](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- Takuya Akiba et al., [Optuna: A Next-generation Hyperparameter Optimization Framework](https://arxiv.org/abs/1907.10902){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- MLflow, [Tracking](https://mlflow.org/docs/latest/ml/tracking/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.

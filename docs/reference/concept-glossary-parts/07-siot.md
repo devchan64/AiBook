@@ -1,6 +1,24 @@
 ## ㅅ
 
+--8<-- "reference/concept-glossary-terms/permutation-importance.ko.md"
+
+--8<-- "reference/concept-glossary-terms/shap.ko.md"
+
+--8<-- "reference/concept-glossary-terms/shrinkage.ko.md"
+
+--8<-- "reference/concept-glossary-terms/spectral-clustering.ko.md"
+
+--8<-- "reference/concept-glossary-terms/component.ko.md"
+
+--8<-- "reference/concept-glossary-terms/correlated-features.ko.md"
+
 --8<-- "reference/concept-glossary-terms/self-consistency.ko.md"
+
+--8<-- "reference/concept-glossary-terms/preference-optimization.ko.md"
+
+--8<-- "reference/concept-glossary-terms/soft-margin.ko.md"
+
+--8<-- "reference/concept-glossary-terms/support-vector.ko.md"
 
 --8<-- "reference/concept-glossary-terms/shape.ko.md"
 
@@ -39,11 +57,25 @@
 
 --8<-- "reference/concept-glossary-terms/state.ko.md"
 
+--8<-- "reference/concept-glossary-terms/state-value.ko.md"
+
+--8<-- "reference/concept-glossary-terms/sim-to-real-gap.ko.md"
+
+--8<-- "reference/concept-glossary-terms/time-split.ko.md"
+
 --8<-- "reference/concept-glossary-terms/relative-path.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sample.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sampling.ko.md"
+
+--8<-- "reference/concept-glossary-terms/sarsa.ko.md"
+
+--8<-- "reference/concept-glossary-terms/selective-labels.ko.md"
+
+--8<-- "reference/concept-glossary-terms/sentencepiece.ko.md"
+
+--8<-- "reference/concept-glossary-terms/actual-target.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sample-by-sample-comparison-table.ko.md"
 
@@ -79,6 +111,8 @@
 --8<-- "reference/concept-glossary-terms/self-attention.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sigmoid.ko.md"
+
+--8<-- "reference/concept-glossary-terms/solver.ko.md"
 
 --8<-- "reference/concept-glossary-terms/skip-gram.ko.md"
 

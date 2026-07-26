@@ -1,7 +1,7 @@
 # P6-10.4 补充学习：提示候选的反复改进
 
 > Section ID: `P6-10.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _副标题：automatic prompt optimization 如何评价提示实验，并把结果交给下一个候选_
 

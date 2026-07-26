@@ -1,7 +1,7 @@
 # P1-13.3 通向 RAG(retrieval-augmented generation)的流程
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P1-13.1 中，我们看了把文本(text)表示成向量(vector)的嵌入(embedding)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到与问题向量(query vector)接近的文档向量(document vector)。
 

@@ -1,17 +1,17 @@
 # P4-8.3 Supplementary Learning: How To First Set A Baseline By Problem Type
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-If P4-8.2 showed why a baseline is needed, then the next question immediately appears.
+If P4-8.2 showed why a [baseline is needed](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model), then the next question immediately appears.
 
 So how is a baseline actually set?
 
 This supplementary learning answers that question. Its goal is not to memorize many baseline names, but to enable the reader to look at the problem type and directly choose `the simplest standard that still carries comparison meaning`.
 
-## Scope Of This Supplementary Learning
+## Problem Types That Split Baseline Choices
 
-This Section handles how to first set representative baselines in classification, regression, and time-series problems.
+This Section handles how to first set representative baselines in [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification), [regression](/AiBook/en/reference/concept-glossary-alpha/r/#regression), and time-series problems.
 
 - What should be fixed first before setting a baseline?
 - What baseline can be brought to mind first depending on problem type?
@@ -20,7 +20,7 @@ This Section handles how to first set representative baselines in classification
 
 This Section first closes `how to set the simplest baseline that still carries comparison meaning by problem type`. Cross-validation, model-comparison procedures, and more complex tuning methods continue after P4-9.
 
-## Goals Of This Supplementary Learning
+## Judgments To Keep From Baselines By Problem Type
 
 - You can distinguish representative baseline candidates in classification, regression, and time series.
 - You can explain the baseline-setting procedure in the order `fix the problem type -> choose the simplest rule -> measure with the same metric -> inspect errors -> decide the next comparison`.
@@ -45,7 +45,7 @@ If this order is grouped again in a table, it becomes the following.
 | --- | --- | --- |
 | 1. fix the problem type | is it classification, regression, or time series | because the form of the baseline itself changes here |
 | 2. choose the simplest rule | is it majority class, mean/median, or previous value | because the reader must first set the minimum standard that uses features very little |
-| 3. measure with the same metric | should it be judged by accuracy, recall, MAE, or MAPE | because the baseline and candidate model must be compared with the same yardstick |
+| 3. measure with the same metric | should it be judged by accuracy, recall, MAE, or MAPE | because the baseline and candidate model must be compared with the same [metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric) |
 | 4. inspect error scenes | what is it especially missing or getting badly wrong | because it is hard to read the direction of improvement from score difference alone |
 | 5. decide the next step after interpretation | should the reader tune, change candidates, or revisit features | so that a candidate that cannot beat the baseline is not held onto for too long |
 
@@ -91,7 +91,7 @@ If the baseline predicts `always non-churn`, accuracy can become 90%. But what m
 | problem | predict whether a customer will churn next month |
 | class distribution | non-churn 90%, churn 10% |
 | baseline | always predict `non-churn` |
-| metric to look at first | accuracy, recall, F1 |
+| metric to look at first | accuracy, [recall](/AiBook/en/reference/concept-glossary-alpha/r/#recall), F1 |
 | error to check immediately | cases where actual churn customers were missed |
 
 ```mermaid
@@ -213,6 +213,11 @@ Concepts to check:
 - the baseline is the comparison standard that a complex model must at least beat
 - in imbalanced data, not only accuracy but also recall and F1 should be viewed together
 
+Values to change:
+
+- If the positive-class ratio in `weights=[0.9, 0.1]` is changed to `0.2` or `0.05`, the interpretation of baseline accuracy, recall, and F1 changes.
+- If `DummyClassifier(strategy="most_frequent")` is changed to `DummyClassifier(strategy="stratified")`, the reader can compare a majority-class-only standard with a standard that predicts randomly according to the class distribution.
+
 ```python
 # This example sets baselines by problem type and compares candidate model performance against them.
 from sklearn.datasets import make_classification
@@ -290,6 +295,11 @@ Concept to check:
 
 - even for a baseline, the more natural starting point can change depending on the actual data scene
 
+Values to change:
+
+- If the large value `120` in `y_train` is changed to `60` or `200`, the mean baseline moves strongly while the median baseline moves less.
+- If one more large delay value is added to `y_test`, the reader can compare again which baseline has the more stable MAE.
+
 ```python
 # This example sets baselines by problem type and compares candidate model performance against them.
 y_train = [32, 35, 31, 120, 33]
@@ -339,9 +349,9 @@ This example shows why both the mean baseline and the median baseline should be 
 
 ## Sources And References
 
-- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-09.
-- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-09.
-- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, accessed 2026-07-09.
-- Rob J Hyndman, George Athanasopoulos, [`Forecasting: Principles and Practice (3rd ed), 5.2 Some simple forecasting methods`](https://otexts.com/fpp3/simple-methods.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-09.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-09.
-- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, accessed 2026-07-09.
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-26.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-26.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, accessed 2026-07-26.
+- Rob J Hyndman, George Athanasopoulos, [`Forecasting: Principles and Practice (3rd ed), 5.2 Some simple forecasting methods`](https://otexts.com/fpp3/simple-methods.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, accessed 2026-07-26.

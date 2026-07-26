@@ -1,15 +1,15 @@
 # P3-8.3 保守解读句子应当按什么顺序、用什么词来写
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完比较表之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的比较结果和解读强度按正确顺序放进句子里。
+保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-table)之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的[比较结果](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-result)和[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)按正确顺序放进句子里。
 
 最安全的基本顺序如下。
 
 1. 先说比较结果。
 2. 然后附上会降低或提高解读强度的条件。
-3. 最后写上人接下来要做的动作。
+3. 最后写上人接下来要做的[下一步行动](/AiBook/zh/reference/concept-glossary-pinyin/n/#glossary-next-action)。
 4. 如果没有额外证据，就不要写原因确认。
 
 把这个顺序再压缩一点，就是`比较结果 -> 确信强度 -> 下一步动作`。
@@ -38,7 +38,7 @@
 
 如果一边看比较表一边直接写句子，很容易把原因断言混进去。因此在这个阶段，最好先把下面这个骨架固定下来。
 
-安全的基本骨架是这样的：最近区间相对基线表现出[怎样的差异]，考虑到[样本量/重复性条件]，[复核强度或下一步动作]更合适。
+安全的基本骨架是这样的：最近区间相对[基线（baseline）](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)表现出[怎样的差异]，考虑到[样本量/重复性条件]，[复核强度或下一步动作]更合适。
 
 把实际数值代进去后，就会变成下面这样的句子。
 

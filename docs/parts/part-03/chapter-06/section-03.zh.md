@@ -1,9 +1,9 @@
 # P3-6.3 人工设计的特征，与模型学习到的表示，应该怎样区分
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-当我们把特征(feature)和 [中间表示(intermediate representation)](/AiBook/reference/concept-glossary-parts/09-jieut/#glossary-intermediate-representation) 放在一起看时，就会出现一个重要问题：`人来决定输入结构`，和 `模型在这个输入里学习表示`，到底应该在哪里分开来读。如果这个区别变得模糊，Part 3 的特征设计就容易看起来像过时的预处理；反过来，也容易误以为模型会替我们把问题结构也一起决定掉。关键在于，它们并不是竞争关系。Part 3 里人设计出来的特征和中间表示，是先决定 `应该把问题读成什么输入结构`；而模型学到的表示，则是在这个输入结构里进一步学习 `哪些模式更能把有用差异区分出来`。
+当我们把 [特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature) 和 [中间表示(intermediate representation)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) 放在一起看时，就会出现一个重要问题：`人来决定输入结构`，和 `模型在这个输入里学习表示`，到底应该在哪里分开来读。如果这个区别变得模糊，Part 3 的特征设计就容易看起来像过时的预处理；反过来，也容易误以为模型会替我们把问题结构也一起决定掉。关键在于，它们并不是竞争关系。Part 3 里人设计出来的特征和中间表示，是先决定 `应该把问题读成什么输入结构`；而模型学到的表示，则是在这个输入结构里进一步学习 `哪些模式更能把有用差异区分出来`。
 
 读者首先应该抓住的区分其实很简单。人来构造输入，模型在这个输入里面学习表示。先最短地拆开来看，就是下面这样。
 
@@ -75,7 +75,7 @@
 4. 这样整理出来的表和序列，会成为后续学习阶段里模型读取的输入。
 5. 然后，模型才会在这个输入里继续学习更长的依赖关系或更复杂的组合。
 
-看清这个顺序之后，就会明白：特征设计不是深度学习之前过时的准备动作，而是不管用什么学习方法都需要先完成的输入定义阶段。所以，这一节的结论也不是 `人工特征 vs 深度学习` 的对立，而是 `输入说明(input specification)` 和 `表示学习(representation learning)` 究竟从哪里分开。特征设计不该被读成过时的手工劳动，而应被读成：它是先把后续学习阶段所依赖的输入结构说明清楚的工作。
+看清这个顺序之后，就会明白：特征设计不是深度学习之前过时的准备动作，而是不管用什么学习方法都需要先完成的输入定义阶段。所以，这一节的结论也不是 `人工特征 vs 深度学习` 的对立，而是 [输入说明(input specification)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-input-specification) 和 [表示学习(representation learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-representation-learning) 究竟从哪里分开。特征设计不该被读成过时的手工劳动，而应被读成：它是先把后续学习阶段所依赖的输入结构说明清楚的工作。
 
 ## 用一个小图来看
 

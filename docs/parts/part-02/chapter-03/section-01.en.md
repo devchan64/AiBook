@@ -1,7 +1,7 @@
 # P2-3.1 Scalar, Vector, and Matrix
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2 Chapter 2 reread mathematical notation. Variables, functions, expressions, sigma, and limits were the basic grammar for reading what a formula is saying. From here, we move to the basic expressions of linear algebra that appear often when AI data is turned into a calculable shape.
 
@@ -267,7 +267,7 @@ scalar = np.array(3)
 vector = np.array([1, 2, 3])
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 
-# The shape output makes you read dimension and size before the numeric values.
+# shape output makes you read dimension and size before the numeric values.
 print(scalar.shape)
 print(vector.shape)
 print(matrix.shape)
@@ -285,7 +285,7 @@ Shape matters because whether a calculation is possible changes with shape. For 
 
 This expression does not align which values should be added together. In code as well, if the shape does not match, an error can occur or the calculation can proceed in a way you did not intend.
 
-## The Meaning of Rows and Columns Is Decided by the Problem
+## Meaning of Rows and Columns Is Decided by the Problem
 
 A matrix is a numeric array, but the meaning of those numbers is decided by the problem definition. Even for the same \(3 \times 3\) matrix, rows may mean people and columns may mean features in table data; rows and columns may represent pixel positions in part of an image; rows may mean tokens and columns may mean embedding dimensions in sentence data; and rows may mean samples and columns may mean features in batch data.
 

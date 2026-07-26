@@ -1,7 +1,7 @@
 # P6-7.1 Pretraining That First Builds a Broad Language Base
 
 > Section ID: `P6-7.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Up to P6-6, we saw that the Transformer and GPT structures create next-token candidates, and that output selection rules change the stability and diversity of actual answers. But that still leaves one thing. `Why do some models respond plausibly across broader scenes even with the same generation structure, while others quickly reveal limits?`
 
@@ -11,7 +11,7 @@ In P6-5.2, we saw that a conversational LLM is a user experience where instructi
 
 Pretraining is the stage where, before entering one specific task, a model first learns general language patterns and expressions from large-scale text. In other words, it is closer to a preparation stage that first learns a broad basic sense of language than to a stage that immediately solves practical work problems.
 
-## The Stage That First Builds a Broad Language Base
+## Stage Building a Broad Language Base First
 
 The foundation-learning stage begins with the following questions.
 
@@ -37,7 +37,7 @@ The impression that `the model is already smart` should be reread as `a structur
 
 Therefore, the center of this section is the sense that `a language base is made first`. Once this criterion is in place, later fine-tuning and instruction tuning also begin to look not like adding new functions, but as later adjustments that narrow an already-made base toward purposes and user responses.
 
-## Distinguishing a Broad Language Base From Later Adjustment
+## Distinguishing Broad Language Base from Later Adjustment
 
 - You can explain pretraining at an introductory level.
 - You can say the difference between pretraining, fine-tuning, and instruction tuning.
@@ -159,7 +159,7 @@ can continue on top of one large foundation model instead of each starting as a 
 
 This is an important shift in the LLM era.
 
-## The Base Made by Pretraining and the Remaining Adjustment
+## Pretraining Base and Remaining Adjustment
 
 If we summarize this so far in the shortest form, it is as follows.
 

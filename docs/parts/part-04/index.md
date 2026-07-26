@@ -1,15 +1,15 @@
 # Part 4. 머신러닝
 
 > Section ID: `P4-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2에서는 수식, Python, 배열, 표, 그래프, 실행 환경을 다시 읽는 기초를 복구했습니다. 이제 Part 4에서는 그 도구들이 실제로 무엇을 위해 쓰이는지, 즉 `데이터로부터 규칙을 학습한다`는 말이 무엇인지 정리합니다.
 
 이미 AI 서비스를 써 본 독자도 많겠지만, 여기서는 경험을 표준 개념으로 다시 묶는 일이 더 중요합니다. 모델 이름을 외우기보다 어떤 문제가 머신러닝 문제인지, 어떤 데이터를 모아야 하는지, 모델은 무엇을 배우는지, 학습이 잘되었다는 것은 무엇을 뜻하는지, 왜 어떤 모델은 잘 맞는 것처럼 보여도 실제로는 위험할 수 있는지부터 분명히 잡습니다.
 
-Part 4의 핵심 목적은 “머신러닝을 모델 목록이 아니라 문제-데이터-학습-평가-적용의 흐름으로 읽게 되는 것”입니다. 선형회귀, 로지스틱 회귀, 결정트리, 랜덤포레스트, 부스팅, 클러스터링, 차원 축소, 강화학습은 각각 따로 외우는 항목이 아닙니다. 어떤 문제를 풀고 있는지, 입력과 출력이 무엇인지, 어떤 기준으로 좋고 나쁨을 판단하는지에 따라 등장하는 선택지들입니다.
+Part 4의 핵심 목적은 “[머신러닝](../../reference/concept-glossary-parts/05-mieum.md#machine-learning)을 모델 목록이 아니라 문제-데이터-학습-평가-적용의 흐름으로 읽게 되는 것”입니다. [선형회귀](../../reference/concept-glossary-parts/07-siot.md#linear-regression), [로지스틱 회귀](../../reference/concept-glossary-parts/04-rieul.md#logistic-regression), [결정트리](../../reference/concept-glossary-parts/01-giyeok.md#decision-tree), [랜덤포레스트](../../reference/concept-glossary-parts/04-rieul.md#random-forest), 부스팅, [클러스터링](../../reference/concept-glossary-parts/01-giyeok.md#clustering), [차원 축소](../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction), [강화학습](../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning)은 각각 따로 외우는 항목이 아닙니다. 어떤 문제를 풀고 있는지, [입력](../../reference/concept-glossary-parts/08-ieung.md#input)과 [출력](../../reference/concept-glossary-parts/11-chieut.md#output)이 무엇인지, 어떤 기준으로 좋고 나쁨을 판단하는지에 따라 등장하는 선택지들입니다.
 
-Part 4도 같은 Part 안에서는 주요 개념의 상세 설명을 가능한 한 한 Section에 먼저 둡니다. 이후 절에서는 현재 맥락에 필요한 최소 설명만 남깁니다. 그래서 `지도학습(supervised learning)`은 `P4-2.1`, `비지도학습(unsupervised learning)`은 `P4-2.2`, `강화학습(reinforcement learning)`은 `P4-2.3`, `검증(validation)`과 `테스트(test)`의 역할 구분은 `P4-4.2`, `과적합(overfitting)`과 `과소적합(underfitting)`은 `P4-5.1`, `평가 지표(metric)`는 `P4-6.1`, `특징 선택(feature selection)`은 `P4-7.1`, `전처리(preprocessing)`는 `P4-7.2`, `기준 모델(baseline)`은 `P4-8.2`, `선형회귀(linear regression)`는 `P4-10.1`, `로지스틱 회귀(logistic regression)`는 `P4-11.1`, `k-NN`은 `P4-12.1`, `SVM`은 `P4-13.1`, `결정트리(decision tree)`는 `P4-14.1`, `랜덤포레스트(random forest)`는 `P4-15.1`, `그래디언트 부스팅(gradient boosting)`은 `P4-16.1`, `클러스터링(clustering)`은 `P4-17.1`, `차원 축소(dimensionality reduction)`는 `P4-18.1`을 대표 설명 위치로 먼저 붙잡고, 다시 등장할 때는 [개념사전](../../reference/concept-glossary.md)과 현재 맥락을 함께 확인합니다.
+Part 4도 같은 Part 안에서는 주요 개념의 상세 설명을 가능한 한 한 Section에 먼저 둡니다. 이후 절에서는 현재 맥락에 필요한 최소 설명만 남깁니다. 그래서 `지도학습(supervised learning)`은 `P4-2.1`, `비지도학습(unsupervised learning)`은 `P4-2.2`, `강화학습(reinforcement learning)`은 `P4-2.3`, `검증(validation)`과 `테스트(test)`의 역할 구분은 `P4-4.2`, `과적합(overfitting)`과 `과소적합(underfitting)`은 `P4-5.1`, `평가 지표(metric)`는 `P4-6.1`, `특징 선택(feature selection)`은 `P4-7.1`, `전처리(preprocessing)`는 `P4-7.2`, `기준 모델(baseline)`은 `P4-8.2`, `선형회귀(linear regression)`는 `P4-10.1`, `로지스틱 회귀(logistic regression)`는 `P4-11.1`, `k-NN`은 `P4-12.1`, `SVM`은 `P4-13.1`, `결정트리(decision tree)`는 `P4-14.1`, `랜덤포레스트(random forest)`는 `P4-15.1`, `그래디언트 부스팅(gradient boosting)`은 `P4-16.1`, `클러스터링(clustering)`은 `P4-17.1`, `차원 축소(dimensionality reduction)`는 `P4-18.1`을 대표 설명 위치로 먼저 붙잡고, 다시 등장할 때는 [머신러닝](../../reference/concept-glossary-parts/05-mieum.md#machine-learning), [차원 축소](../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction) 같은 관련 개념사전 항목과 현재 맥락을 함께 확인합니다.
 
 그래서 Part 4는 머신러닝의 지형도를 다음 순서로 다시 연결합니다.
 
@@ -25,11 +25,11 @@ Part 4도 같은 Part 안에서는 주요 개념의 상세 설명을 가능한 �
 
 Part 4는 알고리즘 이름을 늘어놓기보다, 머신러닝 설명을 읽을 때 반복해서 붙잡아야 할 질문을 먼저 세웁니다.
 
-- 어떤 문제가 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)으로 나뉘는가?
-- 입력(input), 출력(output), 라벨(label), 보상(reward)은 각각 무엇을 뜻하며 어디서 구분되는가?
-- 학습(train), 검증(validation), 테스트(test)는 왜 나뉘고, 일반화(generalization)는 무엇으로 확인하는가?
-- 평가 지표(metric)는 어떤 오류를 보여 주고, 어떤 오류를 가릴 수 있는가?
-- 특징 선택(feature selection), 전처리(preprocessing), 기준 모델(baseline), 튜닝(tuning)은 왜 모델 이름보다 먼저 점검해야 하는가?
+- 어떤 문제가 [지도학습(supervised learning)](../../reference/concept-glossary-parts/09-jieut.md#supervised-learning), [비지도학습(unsupervised learning)](../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [강화학습(reinforcement learning)](../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning)으로 나뉘는가?
+- [입력(input)](../../reference/concept-glossary-parts/08-ieung.md#input), [출력(output)](../../reference/concept-glossary-parts/11-chieut.md#output), [라벨(label)](../../reference/concept-glossary-parts/04-rieul.md#label), [보상(reward)](../../reference/concept-glossary-parts/06-bieup.md#reward)은 각각 무엇을 뜻하며 어디서 구분되는가?
+- [학습(training)](../../reference/concept-glossary-parts/14-hieut.md#training), [검증(validation)](../../reference/concept-glossary-parts/01-giyeok.md#validation), [테스트(test)](../../reference/concept-glossary-parts/12-tieut.md#test)는 왜 나뉘고, [일반화(generalization)](../../reference/concept-glossary-parts/08-ieung.md#generalization)는 무엇으로 확인하는가?
+- [평가 지표(metric)](../../reference/concept-glossary-parts/13-pieup.md#metric)는 어떤 오류를 보여 주고, 어떤 오류를 가릴 수 있는가?
+- [특징 선택(feature selection)](../../reference/concept-glossary-parts/12-tieut.md#feature-selection), [전처리(preprocessing)](../../reference/concept-glossary-parts/09-jieut.md#preprocessing), [기준 모델(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#baseline-model), 튜닝(tuning)은 왜 모델 이름보다 먼저 점검해야 하는가?
 - 대표 전통 모델은 어떤 문제 감각을 주고, 어디까지를 강점으로 보고 어디서부터 한계를 의심해야 하는가?
 
 ## 머신러닝을 문제와 평가의 흐름으로 읽기
@@ -79,7 +79,7 @@ Part 4는 크게 네 흐름으로 구성됩니다.
 
 평가 지표 범위도 이 흐름 안에서 분명히 둡니다. Part 4 본편에서는 정확도(accuracy), 정밀도(precision), 재현율(recall), F1, MAE, RMSE, R²처럼 `문제 유형에 따라 먼저 어떤 질문을 던져야 하는가`를 붙잡는 지표를 우선 다룹니다. ROC, PR, log loss, calibration, reliability, silhouette처럼 점수 해석을 더 섬세하게 만드는 항목은 P4-6.4 보충학습에서 입문 해설로 모으고, threshold와 calibration의 재등장은 P4-15.3에서 다시 회수합니다.
 
-이때 독자가 같이 붙잡아야 할 비교 장치는 두 가지입니다. 혼동 행렬(confusion matrix)과 오류 사례(error case)는 `어디서 어떻게 틀렸는가`를 읽게 하고, 기준선(baseline)은 `그 점수가 정말 의미 있는 개선인가`를 묻게 합니다. Part 4는 점수를 단독 숫자로 외우게 하기보다, 오류 구조와 기준선을 함께 읽는 습관을 만드는 데 더 큰 비중을 둡니다.
+이때 독자가 같이 붙잡아야 할 비교 장치는 두 가지입니다. [혼동 행렬(confusion matrix)](../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 [오류 사례(error case)](../../reference/concept-glossary-parts/08-ieung.md#error-case)는 `어디서 어떻게 틀렸는가`를 읽게 하고, [기준선(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#baseline)은 `그 점수가 정말 의미 있는 개선인가`를 묻게 합니다. Part 4는 점수를 단독 숫자로 외우게 하기보다, 오류 구조와 기준선을 함께 읽는 습관을 만드는 데 더 큰 비중을 둡니다.
 
 이 흐름은 다음 순서로 읽습니다.
 

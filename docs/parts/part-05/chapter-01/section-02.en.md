@@ -1,25 +1,25 @@
-# P5-1.2 Linear Combination And Activation
+# P5-1.2 Linear Combination and Activation
 
 > Section ID: `P5-1.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-1.1, the perceptron was read through the flow `input -> weight -> sum -> output`. Now we continue directly to see what it exactly means to gather inputs into a weighted sum, and why that sum alone is not yet deep learning. The perceptron first creates a linear combination of the inputs, and then passes that result through an activation rule to make a decision.
 
-If the basic meaning of activation becomes blurry again in later sections, first return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entry in the concept glossary.
+If the basic meaning of linear combination or activation becomes blurry again in later sections, first return to the [linear combination](/AiBook/en/reference/concept-glossary-alpha/l/#linear-combination), [weighted sum](/AiBook/en/reference/concept-glossary-alpha/w/#weighted-sum), and [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entries in the concept glossary.
 
-## Roles Separated By Linear Combination And Activation
+## Roles Separated by Linear Combination and Activation
 
 This section organizes the following questions.
 
 - What does a linear combination mean?
-- What does it mean to say that the perceptron creates a decision boundary?
+- What does it mean to say that the perceptron creates a [decision boundary](/AiBook/en/reference/concept-glossary-alpha/d/#decision-boundary)?
 - Why is activation needed?
 - Where does the expressive limit of a single perceptron appear?
 - Why does the next chapter need a multilayer neural network?
 
 The limit of one perceptron and multilayer structure continue in P5-2.1 and P5-2.2. Comparisons among sigmoid, tanh, and ReLU return from P5-3.1 through P5-3.5. The computation procedure of backpropagation reconnects in P5-5.1 and P5-5.2. In other words, this section first closes why linear combination and activation create `the boundary of a single perceptron`, and why that leads to the next chapter's question about multilayer structure.
 
-## Standards For Weighted Sums And Output Transformations
+## Standards for Weighted Sums and Output Transformations
 
 - You can explain a linear combination as `a calculation that gathers inputs into one score while giving each input a different share of importance`.
 - You can say that the perceptron creates a linear boundary.
@@ -27,7 +27,7 @@ The limit of one perceptron and multilayer structure continue in P5-2.1 and P5-2
 - You can explain that some problems are hard to express with only one perceptron.
 - You can connect intuitively why a multilayer structure is needed.
 
-## What Is The Linear Combination Doing
+## What Is the Linear Combination Doing
 
 As seen in Part 4 with linear regression and logistic regression, the first thing done when several inputs are handled at once is `to combine them while giving each input a different weight`.
 
@@ -48,7 +48,7 @@ This equation can be read as follows.
 
 So the perceptron does not create a `decision` from the start. It first creates a `score to be used for the decision`.
 
-## Why Gather Things Into A Score First
+## Why Gather Things into a Score First
 
 When there are several inputs, the signals can conflict with one another.
 
@@ -71,7 +71,7 @@ In this way, the perceptron starts making a decision by gathering several input 
 
 If the same scene is reread, the difference appears in the procedure. First, each condition is checked, and each one is given a direction toward resume or hold. Next, the size of the weight adjusts the strength of the influence. Finally, all signals are examined on one score axis by how far they moved toward the boundary. So from the viewpoint of linear combination, what matters more than `how many conditions were checked` is `how far and in what direction each condition pushed the score`.
 
-## The Perceptron Creates A Linear Boundary
+## The Perceptron Creates a Linear Boundary
 
 To say that the perceptron reads inputs through a linear combination ultimately means that it connects to a decision that divides data with a line, a plane, or more generally a hyperplane.
 
@@ -122,7 +122,7 @@ The result to confirm in this diagram is that the step that creates the score `z
 
 Because of this structure, the perceptron is not just a simple adder. It becomes a `sum + decision` unit.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. Maintenance-Work Resume Score
 
@@ -137,7 +137,7 @@ What matters in this short example is that each condition is not written as a se
 
 Scene A leans toward resume because the safety-check and permit-approval signals work more strongly than the hold signal. In scene B, even if some items look acceptable, the negative contribution of the residual gas alarm presses down the other approval signals and moves the result toward hold. What the linear combination does here is not to list the impressions of the two scenes, but to separate which input actually pushed the boundary.
 
-### Case 2. Threshold Judgment For Automatic Blocking
+### Case 2. Threshold Judgment for Automatic Blocking
 
 The same score may still not be used directly as an operation command. For example, suppose an automatic blocking system keeps the block in place if `z > 0.5`, and otherwise passes the case to on-site rechecking. A person might read both 1.4 and 0.6 as `toward keeping the block`, and both 0.2 and -0.3 as `toward rechecking`. Here, activation is the step that turns a continuous score into an actual decision rule. In other words, if the linear combination gathers `how strongly the situation leans toward keeping the block` into a score, activation closes the question `so should the automatic block actually remain or not?` based on that score. So the result to confirm in this case is whether scores with a similar direction are grouped into the same operational decision.
 
@@ -195,7 +195,7 @@ If this is reduced very simply into a diagram, it becomes the following.
 
 The result to confirm in this diagram is that a single perceptron can make only one linear boundary at a time, so it immediately reveals its limit on problems such as XOR, where the rule description is short but one line still does not separate the points cleanly.
 
-## Then What Does A Multilayer Structure Add
+## Then What Does a Multilayer Structure Add
 
 This is exactly where the multilayer neural network of Chapter 2 becomes necessary.
 
@@ -210,7 +210,7 @@ So it is understood through the following flow.
 
 This connection is the starting point of deep learning.
 
-## Practice And Exercise
+## Practice and Exercise
 
 The goal of this exercise is not only to see with your own eyes that `the linear combination first creates a score, and activation then turns that score into a decision`. It is also to explore directly `where the boundary actually flips when one value is moved`. Compared with calculating the same expression once, it connects more directly to the core of this section to watch the scene where the boundary moves while changing inputs, bias, and threshold little by little.
 
@@ -334,7 +334,7 @@ If you recall the linear regression and logistic regression seen in Part 4, the 
 - When the flow of first gathering inputs into one score and then making a decision becomes confusing, can you first recall the two steps of linear combination and activation?
 - Do you understand the flow that when one linear boundary is not enough, the next step is to move to the multilayer neural network of the next chapter?
 
-## Sources And References
+## Sources and References
 
 - Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, date checked: 2026-07-19. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519){: target="_blank" rel="noopener noreferrer" }
 - Marvin Minsky, Seymour Papert, `Perceptrons: An Introduction to Computational Geometry`, MIT Press, 1969/1988, date checked: 2026-07-19. [https://mitpress.mit.edu/9780262534772/perceptrons/](https://mitpress.mit.edu/9780262534772/perceptrons/){: target="_blank" rel="noopener noreferrer" }

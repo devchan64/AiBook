@@ -2,6 +2,8 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
+--8<-- "reference/concept-glossary-terms/feature-importance.en.md"
+
 --8<-- "reference/concept-glossary-terms/fact.en.md"
 
 --8<-- "reference/concept-glossary-terms/factual-claim.en.md"
@@ -12,9 +14,19 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/failure-type.en.md"
 
+--8<-- "reference/concept-glossary-terms/false-negative.en.md"
+
+--8<-- "reference/concept-glossary-terms/false-positive.en.md"
+
 --8<-- "reference/concept-glossary-terms/feature.en.md"
 
+--8<-- "reference/concept-glossary-terms/feature-definition-identity.en.md"
+
 --8<-- "reference/concept-glossary-terms/feature-selection.en.md"
+
+--8<-- "reference/concept-glossary-terms/feature-scale.en.md"
+
+--8<-- "reference/concept-glossary-terms/feature-space.en.md"
 
 --8<-- "reference/concept-glossary-terms/feed-forward-network.en.md"
 
@@ -26,6 +38,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/fitting.en.md"
 
+--8<-- "reference/concept-glossary-terms/folding-rule.en.md"
+
 --8<-- "reference/concept-glossary-terms/expert-system.en.md"
 
 --8<-- "reference/concept-glossary-terms/fixed-length-vector.en.md"
@@ -36,7 +50,11 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/forecast.en.md"
 
+--8<-- "reference/concept-glossary-terms/format-consistency.en.md"
+
 --8<-- "reference/concept-glossary-terms/formula.en.md"
+
+--8<-- "reference/concept-glossary-terms/function-approximation.en.md"
 
 --8<-- "reference/concept-glossary-terms/derivative.en.md"
 
@@ -44,3 +62,5 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.en.md"
 --8<-- "reference/concept-glossary-terms/convolution.en.md"
+
+--8<-- "reference/concept-glossary-terms/full-scan.en.md"

@@ -1,7 +1,7 @@
 # P1-6.3 AI 在哪些地方使用概率性判断
 
 > Section ID: `P1-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 6.2 已经区分了 `uncertainty`、`probability` 和 `stochastic`。这一节把这个区分推进成一个更实际的问题：在真实 AI 系统里，概率到底出现在哪些位置，这些数字又该怎样谨慎地读？
 

@@ -1,7 +1,10 @@
+<a id="recurrent-neural-network"></a>
+<a id="rnn-recurrent-neural-network"></a>
+
 ## RNN, recurrent neural network
 
-- Meaning: 이전 단계의 숨은 상태를 다음 계산에 넘기며 순서가 있는 데이터를 처리하는 신경망 구조입니다. 앞에서 본 정보를 작은 작업 메모처럼 들고 다음 토큰이나 다음 시점 계산으로 넘기는 방식이라고 이해하면 됩니다. 즉 RNN은 입력 전체를 한꺼번에 보기보다, 순서를 따라 한 칸씩 읽으며 내부 상태에 정보를 누적하는 구조입니다.
-- Why it matters: 언어와 시계열처럼 순서가 중요한 데이터를 신경망이 어떻게 누적 처리하려 했는지 보여 주는 대표적인 출발점이기 때문입니다. 이 개념이 있어야 입력을 한 번에 던져 처리하는 구조와, 앞에서 본 정보를 숨은 상태에 누적하며 다음 토큰을 읽는 구조를 구분할 수 있고, 나중에 트랜스포머가 왜 다른 방식으로 긴 문맥 문제를 다루게 되었는지도 비교해서 이해하게 됩니다. 결국 RNN을 이해해야 `순서 정보는 어떻게 기억되는가`라는 질문에 대한 초기 신경망 답변을 읽을 수 있습니다.
+- Meaning: An RNN is a neural-network structure that passes a hidden state from one step to the next while processing ordered data. It reads a sequence one step at a time and accumulates information in an internal state.
+- Why it matters: RNNs show an early neural-network answer to the question of how order can be remembered in language, time series, and other sequential data. Understanding RNNs also makes it easier to compare why Transformers later handled long-context relationships differently.
 - Related concepts: `hidden state`, `LSTM, long short-term memory`, `Seq2Seq`
 - Core Section: `P1-11.2`
 - Appears in: `P5-12.1`, `P5-12.2`

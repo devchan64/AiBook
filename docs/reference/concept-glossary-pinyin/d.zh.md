@@ -2,7 +2,17 @@
 
 本页整理拼音首字母为 `D` 的中文概念词条。词条正文由单词源文件 include 生成。
 
+--8<-- "reference/concept-glossary-terms/dbscan.zh.md"
+
+--8<-- "reference/concept-glossary-terms/dqn.zh.md"
+
 --8<-- "reference/concept-glossary-terms/data.zh.md"
+
+--8<-- "reference/concept-glossary-terms/log-probability.zh.md"
+
+--8<-- "reference/concept-glossary-terms/polynomial-kernel.zh.md"
+
+--8<-- "reference/concept-glossary-terms/multinomial-logistic-regression.zh.md"
 
 --8<-- "reference/concept-glossary-terms/data-leakage.zh.md"
 
@@ -13,6 +23,10 @@
 --8<-- "reference/concept-glossary-terms/dataframe.zh.md"
 
 --8<-- "reference/concept-glossary-terms/dataset.zh.md"
+
+--8<-- "reference/concept-glossary-terms/representative-target.zh.md"
+
+--8<-- "reference/concept-glossary-terms/proxy-target.zh.md"
 
 --8<-- "reference/concept-glossary-terms/queue.zh.md"
 
@@ -71,3 +85,5 @@
 --8<-- "reference/concept-glossary-terms/dropout.zh.md"
 
 --8<-- "reference/concept-glossary-terms/dtype.zh.md"
+
+--8<-- "reference/concept-glossary-terms/contrastive-learning.zh.md"

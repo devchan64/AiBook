@@ -1,7 +1,7 @@
 # P6-13.1 Tool Use That Hands Lookup, Computation, and Execution Outside the Model
 
 > Section ID: `P6-13.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-12.2, we saw that an index in vector retrieval creates a balance between retrieval speed and candidate quality. But retrieval is only one way to connect to the outside world. Now a broader question appears.
 
@@ -91,11 +91,11 @@ Compressed to the main flow of Part 6, the difference is this.
 | Tool use | External function call | What should be actually looked up or executed? | Computed value, lookup value, execution result |
 | Agent | Multiple connected steps | In what order should work continue? | A workflow that updates state |
 
-The core point of this table is that `reading documents`, `executing functions`, and `continuing multiple steps` are different levels. RAG can have tool use on top of it, and an agent can then tie the two into one goal flow.
+The core point of this table is that `reading documents`, `executing functions`, and `continuing multiple steps` are different levels. RAG can have tool use on top of it, and an AI agent can then tie the two into one goal flow.
 
-Up to this point, we are still reading `which external function should be attached for one request`. For example, `summarize our internal refund policy` is closer to a RAG problem that first finds document evidence. `Use today's exchange rate to convert 300 dollars to KRW` is closer to a tool-use problem that needs a current value lookup and computation tool. A request such as `find and reserve an available meeting room tomorrow` connects lookup and execution, so it is revisited later in the agent structure.
+Up to this point, we are still reading `which external function should be attached for one request`. For example, `summarize our internal refund policy` is closer to a RAG problem that first finds document evidence. `Use today's exchange rate to convert 300 dollars to KRW` is closer to a tool-use problem that needs a current value lookup and computation tool. A request such as `find and reserve an available meeting room tomorrow` connects lookup and execution, so it is revisited later in the AI agent structure.
 
-In this Section, we close the move from `what should be read` to `what should actually be looked up, computed, or executed`. How to stabilize that execution request as a name and argument structure continues in P6-13.2's function calling, and how to chain multiple executions continues in P6-14's agent structure.
+In this Section, we close the move from `what should be read` to `what should actually be looked up, computed, or executed`. How to stabilize that execution request as a name and argument structure continues in P6-13.2's function calling, and how to chain multiple executions continues in P6-14's AI agent structure.
 
 ## Does the model directly use tools?
 

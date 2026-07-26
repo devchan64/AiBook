@@ -1,7 +1,7 @@
 # P6-8.2 LoRA That Reduces the Burden of Full Fine-Tuning
 
 > Section ID: `P6-8.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-8.1, we saw that fine-tuning is the process of additionally adjusting a pretrained model so it fits a specific purpose better. But a realistic next question appears immediately here.
 
@@ -113,7 +113,7 @@ To unpack it a little more:
 
 So it is better to understand LoRA not as `a method for making a new model from scratch`, but as `a method for efficiently adapting one large foundation model to several purposes`.
 
-## What Is Different From Full Fine-Tuning?
+## Difference from Full Fine-Tuning
 
 | Method | Core Difference |
 | --- | --- |
@@ -135,7 +135,7 @@ Methods like LoRA are attractive for the following reasons.
 
 In other words, LoRA is not just a theoretical idea, but an option connected to the `operational reality of LLMs`.
 
-## What Should We Be Careful About?
+## Cautions to Keep
 
 But LoRA is not万能 either.
 
@@ -186,7 +186,7 @@ The LoRA approach creates a flow where the foundation model body is shared and o
 | When one more work type appears | large copies and training results grow together | respond mainly by adding a small update |
 | When tracking version differences | the whole body difference must be handled together | first look at differences in purpose-specific updates |
 
-### Case 2. A Team With Strong Cost Constraints
+### Case 2. A Team Under Strong Cost Constraints
 
 Suppose a small startup wants to test an internal document-summarization model but has a tight GPU budget. People first tend to think, `Isn't full fine-tuning the proper way to improve performance?` But if full fine-tuning is attempted, memory use and storage space during training quickly grow, making even one experiment burdensome. For example, if no resources remain to rerun after the first experiment fails, the experimentation culture itself can be blocked before performance is discussed. What this team may need first is more likely `can we start and compare experiments?` than `best performance`.
 

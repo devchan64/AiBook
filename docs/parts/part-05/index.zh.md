@@ -1,7 +1,7 @@
 # Part 5. 深度学习
 
 Section ID: `P5-index`
-Version: `v2026.07.20`
+Version: `v2026.07.26`
 
 Part 5 是正式解释神经网络与深度学习的 Part。Part 1、Part 2、Part 4 已经多次预告了感知机、表征学习、反向传播、优化器、卷积神经网络（CNN）、循环神经网络（RNN）、注意力（Attention）、Transformer 等主题，但那时的角色主要是先画出地形图并补回基础。到了 Part 5，这些解释不再往后推。从这里开始，必须真正回收 `为什么需要这样的结构`、`它是怎样被训练的`、`什么差异让模型结构分叉开来`。
 
@@ -28,13 +28,13 @@ Part 5 是正式解释神经网络与深度学习的 Part。Part 1、Part 2、Pa
 
 Part 5 不能被读成 `深度学习预告片`。因此，默认原则是让 CNN、RNN、Attention、Transformer 各自在这个 Part 内先闭合 `为什么在这种数据结构问题上会出现这样的设计`，而与 Part 6 的连接只保留为一个很短的下一步提示。
 
-如果在读这一 Part 时核心术语的基线又开始变模糊，默认参考点是回到[概念词汇表](/AiBook/reference/concept-glossary/)，把各个词条的 `Core Section` 与 `Appears In` 一起看，沿着那个复习路径重新接回去。
+如果在读这一 Part 时核心术语的基线又开始变模糊，默认参考点是回到[概念词汇表](/AiBook/zh/reference/concept-glossary/)，把各个词条的 `Core Section` 与 `Appears In` 一起看，沿着那个复习路径重新接回去。
 
 如果把这个标准按当前 Part 5 目录再压成一行，可以得到下面这个表。
 
 | 当前 Part 5 先闭合的内容 | 交给 Part 6 的内容 |
 | --- | --- |
-| 感知机、损失、反向传播、优化器（optimizer）、正则化（regularization）、CNN、RNN、Attention、Transformer、生成与采样的基本结构与角色 | 分词（tokenization）、预训练（pretraining）、指令微调（instruction tuning）、检索增强生成（RAG）、工具使用（tool use）、agent、服务运营 |
+| 感知机、损失、反向传播、优化器（optimizer）、正则化（regularization）、CNN、RNN、Attention、Transformer、生成与采样的基本结构与角色 | 分词（tokenization）、预训练（pretraining）、指令微调（instruction tuning）、检索增强生成（RAG）、工具使用（tool use）、AI agent、服务运营 |
 
 这个 Part 也会预先准备好在 Part 6 以及更后面的 Part 里再次出现的解释对象。
 

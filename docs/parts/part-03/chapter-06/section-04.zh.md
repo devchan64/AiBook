@@ -1,9 +1,9 @@
 # P3-6.4 为什么汇总表里的所有列都不一定是特征
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-“汇总表里有一列”这件事，和“它就是特征(feature)”这个判断，并不是同一句话。汇总表里当然会有用来描述样本结构的特征，但也可能同时包含用于比较的列、结果候选列，以及用于识别和保留上下文的列。所以，这一节最先要抓住的区分是：`汇总表中的列` 和 `应该被当成模型输入来读取的特征`，并不会自动重合。
+“[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-summary-table)里有一列”这件事，和“它就是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)”这个判断，并不是同一句话。汇总表里当然会有用来描述样本结构的特征，但也可能同时包含用于比较的列、结果候选列，以及用于识别和保留上下文的列。所以，这一节最先要抓住的区分是：`汇总表中的列` 和 `应该被当成模型输入来读取的特征`，并不会自动重合。
 
 ## 为什么需要这个区分
 
@@ -84,7 +84,7 @@
 
 如果在特征设计之后，先把这个区分碰一遍，`反正不都是 feature 吗？` 这种错觉就会弱很多。汇总表并不是一个只存放 feature 的表，而是一张工作表：feature 候选、比较列、结果候选、识别/上下文列，都可能暂时一起放在里面。这样读过之后，后面再次碰到基准线比较列和 target 候选列时，它们的角色也不会显得那么突兀地“突然变了”。
 
-这一节与其说只是在问 `哪一个数值列算 feature`，不如说更接近于在讨论：`工作表里的列角色应该怎样分离(column-role separation in a working table)`。
+这一节与其说只是在问 `哪一个数值列算 feature`，不如说更接近于在讨论：[工作表里的列角色应该怎样分离(column-role separation in a working table)](/AiBook/zh/reference/concept-glossary-pinyin/l/#glossary-column-role-separation)。
 
 
 因此，取代 `只要是数字列就是 feature` 这种误解，更应该先问：每一列是在描述样本、保存比较基准、记录结果，还是只是保留上下文。

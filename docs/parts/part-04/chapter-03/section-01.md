@@ -1,19 +1,19 @@
 # P4-3.1 휴리스틱(heuristic)이 필요한 이유
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 큰 학습 유형으로 나누어 봤습니다. 이제 질문이 하나 생깁니다. 실제 문제를 풀 때는 어떤 데이터부터 보고, 어떤 모델부터 시도하고, 어느 정도 결과가 나오면 다음 단계로 넘어가야 할까요?
 
-이때 등장하는 말이 휴리스틱(heuristic)입니다. 휴리스틱은 완전한 증명이나 최적해를 보장하는 규칙이 아니라, 제한된 시간과 정보 안에서 그럴듯한 선택을 빠르게 하도록 돕는 판단 기준입니다.
+이때 등장하는 말이 [휴리스틱(heuristic)](../../../reference/concept-glossary-parts/14-hieut.md#heuristic)입니다. 휴리스틱은 완전한 증명이나 최적해를 보장하는 규칙이 아니라, 제한된 시간과 정보 안에서 그럴듯한 선택을 빠르게 하도록 돕는 판단 기준입니다.
 
 휴리스틱은 “대충 찍는 것”으로 오해되기 쉽습니다. 하지만 머신러닝 실무에서 휴리스틱은 무작위 추측이 아니라, 경험, 문제 구조, 계산 비용, 검증 결과를 바탕으로 후보를 줄이는 방법입니다.
 
-이 절은 `휴리스틱(heuristic)`, `완전 탐색 대신 후보를 줄이는 판단`, `검증 가능한 작업 가설`의 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 실무 판단을 가설과 검증의 구조로 읽는 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 휴리스틱(heuristic), [완전 탐색(exhaustive search)](../../../reference/concept-glossary-parts/08-ieung.md#exhaustive-search) 대신 후보를 줄이는 판단, 검증 가능한 [작업 가설(working hypothesis)](../../../reference/concept-glossary-parts/09-jieut.md#working-hypothesis)의 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 실무 판단을 가설과 검증의 구조로 읽는 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 휴리스틱(heuristic)이 필요한 이유에서 닫을 질문
 
-이 절은 휴리스틱이 왜 필요한지 설명합니다. 구체적인 모델 선택(model selection), 특징 선택(feature selection), 전처리(preprocessing), 하이퍼파라미터 튜닝(hyperparameter tuning)은 뒤에서 따로 다룹니다. 모델 선택 휴리스틱은 P4-8, 특징 선택과 전처리는 P4-7, 하이퍼파라미터 튜닝은 P4-9에서 다시 다룹니다.
+이 절은 휴리스틱이 왜 필요한지 설명합니다. 구체적인 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection), [특징 선택(feature selection)](../../../reference/concept-glossary-parts/12-tieut.md#feature-selection), [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing), [하이퍼파라미터 튜닝(hyperparameter tuning)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter)은 뒤에서 따로 다룹니다. 모델 선택 휴리스틱은 P4-8, 특징 선택과 전처리는 P4-7, 하이퍼파라미터 튜닝은 P4-9에서 다시 다룹니다.
 
 이 절은 다음 질문에 답합니다.
 
@@ -28,7 +28,7 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 - 휴리스틱을 제한된 조건에서 후보를 줄이는 실용적 판단 기준으로 설명할 수 있습니다.
 - 휴리스틱이 최적해를 보장하지 않음을 이해할 수 있습니다.
 - 시간, 데이터, 계산량, 비용 때문에 휴리스틱이 필요해지는 상황을 예시로 말할 수 있습니다.
-- 휴리스틱과 검증(validation)을 함께 사용해야 하는 이유를 설명할 수 있습니다.
+- 휴리스틱과 [검증(validation)](../../../reference/concept-glossary-parts/01-giyeok.md#validation)을 함께 사용해야 하는 이유를 설명할 수 있습니다.
 - 휴리스틱을 개인 감각이 아니라 검증 가능한 작업 가설로 다루는 관점을 가질 수 있습니다.
 
 ## 먼저 한 장면으로 이해하기
@@ -37,12 +37,12 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 | 선택해야 할 것 | 가능한 선택 | 모든 선택을 다 해 보기 어려운 이유 |
 | --- | --- | --- |
-| 사용할 특징(feature) | 방문 횟수, 구매 금액, 접속 간격, 문의 내역 | 특징 조합이 많아집니다. |
-| 사용할 모델(model) | 로지스틱 회귀, 결정트리, 랜덤포레스트, 부스팅 | 모델마다 학습과 튜닝 시간이 듭니다. |
-| 평가 기준(metric) | 정확도, 정밀도, 재현율, F1 | 업무 목적에 따라 중요도가 다릅니다. |
+| 사용할 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature) | 방문 횟수, 구매 금액, 접속 간격, 문의 내역 | 특징 조합이 많아집니다. |
+| 사용할 [모델(model)](../../../reference/concept-glossary-parts/05-mieum.md#model) | 로지스틱 회귀, 결정트리, 랜덤포레스트, 부스팅 | 모델마다 학습과 튜닝 시간이 듭니다. |
+| 평가 기준([metric](../../../reference/concept-glossary-parts/13-pieup.md#metric)) | 정확도, 정밀도, 재현율, F1 | 업무 목적에 따라 중요도가 다릅니다. |
 | 튜닝 범위 | 트리 깊이, 학습률, 반복 횟수 | 모든 조합을 시도하면 비용이 커집니다. |
 
-이 상황에서 “가능한 모든 조합을 끝까지 다 시도한 뒤 가장 좋은 것을 고르자”는 말은 이상적으로는 그럴듯하지만 현실적으로는 어렵습니다. 그래서 간단한 기준 모델(baseline)을 세우고, 명백히 불필요한 특징을 제외하고, 업무 목적에 맞는 평가 지표를 고르는 식의 휴리스틱이 필요합니다.
+이 상황에서 “가능한 모든 조합을 끝까지 다 시도한 뒤 가장 좋은 것을 고르자”는 말은 이상적으로는 그럴듯하지만 현실적으로는 어렵습니다. 그래서 간단한 [기준 모델(baseline model)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model)을 세우고, 명백히 불필요한 특징을 제외하고, 업무 목적에 맞는 평가 지표를 고르는 식의 휴리스틱이 필요합니다.
 
 ## 휴리스틱은 후보를 줄이는 방법이다
 
@@ -72,13 +72,13 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 ## 휴리스틱과 알고리즘의 차이
 
-알고리즘(algorithm)은 정해진 절차를 따라 문제를 푸는 방법입니다. 휴리스틱은 그 절차 안팎에서 어떤 후보를 먼저 볼지, 어디까지 계산할지, 어떤 선택을 우선할지 정하는 판단 기준입니다.
+[알고리즘(algorithm)](../../../reference/concept-glossary-parts/08-ieung.md#algorithm)은 정해진 절차를 따라 문제를 푸는 방법입니다. 휴리스틱은 그 절차 안팎에서 어떤 후보를 먼저 볼지, 어디까지 계산할지, 어떤 선택을 우선할지 정하는 판단 기준입니다.
 
 | 구분 | 먼저 떠올릴 말 | 예시 |
 | --- | --- | --- |
 | 알고리즘(algorithm) | 정해진 절차 | 주어진 데이터로 결정트리를 학습합니다. |
 | 휴리스틱(heuristic) | 후보를 줄이는 판단 기준 | 해석이 쉬운 모델부터 시도합니다. |
-| 최적화(optimization) | 목적 함수를 좋게 만드는 값 찾기 | 손실(loss)을 줄이는 파라미터를 찾습니다. |
+| [최적화(optimization)](../../../reference/concept-glossary-parts/11-chieut.md#optimization) | 목적 함수를 좋게 만드는 값 찾기 | 손실(loss)을 줄이는 파라미터를 찾습니다. |
 | 검증(validation) | 선택이 실제로 괜찮은지 확인 | 검증 데이터에서 성능을 확인합니다. |
 
 휴리스틱은 알고리즘을 대체하지 않습니다. 오히려 어떤 알고리즘을 먼저 시도할지, 어떤 설정부터 볼지, 어느 수준이면 다음 단계로 넘어갈지를 정하는 데 쓰입니다.
@@ -87,7 +87,7 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 휴리스틱을 이해할 때 Herbert A. Simon의 제한된 합리성(bounded rationality) 관점이 도움이 됩니다. Stanford Encyclopedia of Philosophy는 제한된 합리성을 완전한 합리성의 가정에서 벗어나, 정보 접근과 계산 능력의 제약을 가진 주체에게 맞는 합리성을 다루는 관점으로 설명합니다.
 
-이 관점은 머신러닝 실무에도 잘 맞습니다. 우리는 완전한 정보, 무한한 계산 시간, 완벽한 평가 환경을 갖고 있지 않습니다. 그래서 “이론적으로 가능한 최적해”보다 “현재 조건에서 검증 가능한 충분히 좋은 선택”이 더 중요합니다.
+이 관점은 머신러닝 실무에도 잘 맞습니다. 우리는 완전한 정보, 무한한 계산 시간, 완벽한 평가 환경을 갖고 있지 않습니다. 그래서 “이론적으로 가능한 최적해”보다 현재 조건에서 검증 가능한 [충분히 좋은 선택(good-enough solution)](../../../reference/concept-glossary-parts/11-chieut.md#good-enough-solution)이 더 중요합니다.
 
 이것은 정확성을 포기한다는 뜻이 아닙니다. 오히려 제한을 인정하고, 그 안에서 더 나은 선택을 하기 위한 작업 방식입니다.
 
@@ -167,6 +167,6 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 ## 출처와 참고 자료
 
-- Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, 확인 날짜: 2026-06-25. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
-- Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 4th ed., Pearson, 2020, 확인 날짜: 2026-06-25. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
-- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984. 확인 날짜: 2026-07-19. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }
+- Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, 확인 날짜: 2026-07-26. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
+- Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 4th ed., Pearson, 2020, 확인 날짜: 2026-07-26. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
+- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984. 확인 날짜: 2026-07-26. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # Part 3. Data Modeling
 
 > Section ID: `P3-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 In Part 2, we rebuilt the foundations for reading math, Python, arrays, tables, and graphs. But being able to read computational tools again does not immediately mean you can build an AI problem well. When you first face real source data, the first question is usually closer to `what should count as one item of data?` than to `which model should we use?` In the overall structure of this book, Part 2 and Part 3 together form the basic-skills recovery range, and Part 3 is responsible for `rebuilding data-science problem structure`.
 

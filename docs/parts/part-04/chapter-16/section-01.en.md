@@ -1,9 +1,9 @@
 # P4-16.1 Gradient Boosting
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-The random forest in P4-15 was an ensemble that built many trees `in parallel` and reduced instability by gathering their results.
+The [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) in P4-15 was an ensemble that built many trees `in parallel` and reduced instability by gathering their results.
 
 At this point, a different question appears with gradient boosting: instead of stopping at gathering many trees, can the next tree directly correct the error left by the previous stage?
 
@@ -11,20 +11,20 @@ Gradient boosting is an ensemble method that stacks small trees so that the next
 
 If random forest is closer to `gathering many opinions in parallel`, gradient boosting is closer to `having the next stage fix the previous stage's error`.
 
-This Section explains the basic meanings of `gradient boosting`, `residual`, `weak learner`, and `additive model`. The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meanings of [gradient boosting](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-boosting), [residual](/AiBook/en/reference/concept-glossary-alpha/r/#residual), [weak learner](/AiBook/en/reference/concept-glossary-alpha/w/#weak-learner), and [additive model](/AiBook/en/reference/concept-glossary-alpha/a/#additive-model). The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the concept glossary.
 
-## Scope Of This Section
+## Questions Closed By Gradient Boosting
 
 This Section answers the following questions.
 
 - Why is gradient boosting called `sequential`?
 - What do `weak learner`, `residual`, and `additive model` mean?
 - How is the mindset of gradient boosting different from that of random forest?
-- Why should `n_estimators` and `learning_rate` be read together?
+- Why should [`n_estimators`](/AiBook/en/reference/concept-glossary-alpha/n/#n-estimators) and [learning rate](/AiBook/en/reference/concept-glossary-alpha/l/#learning-rate) be read together?
 
 This Section focuses on understanding `what kind of approach boosting is`. Performance and risk, and the roles of early stopping and shrinkage, continue in P4-16.2. The wider view of hyperparameters and validation cost reconnects in P4-9.1 and P4-9.2. Implementation differences among XGBoost, LightGBM, and CatBoost also continue in P4-16.2 at the level of `what they try to make faster and what they try to make safer to handle`, and if a wider implementation comparison becomes necessary, it can be recovered separately as supplementary learning for this chapter.
 
-## Goals Of This Section
+## Judgments To Keep From Gradient Boosting
 
 - You can explain gradient boosting as `an ensemble that reduces error sequentially`.
 - You can explain why weak learners are usually described through small trees.
@@ -127,7 +127,7 @@ In this table, stage 2 does not create a brand-new answer from scratch. It corre
 
 So additive model can be read like this.
 
-- the first stage 잡s the rough direction
+- the first stage catches the rough direction
 - later stages keep correcting that answer little by little
 - the final answer is built not by `one big jump`, but by `the sum of many small moves`
 
@@ -386,7 +386,12 @@ This example is a toy exercise used only to build the feel that `corrections acc
 - input: current predictions and actual values
 - expected output: stage-wise residuals and updated predictions
 - concepts to check:
-- residual is the remaining error - the next stage moves in the direction that reduces the residual - learning rate decides how much to correct at one time
+  - residual is the remaining error
+  - the next stage moves in the direction that reduces the residual
+  - learning rate decides how much to correct at one time
+- values to change:
+  - change `learning_rate` to `0.1`, `0.3`, and `0.5` and compare how quickly residuals shrink
+  - change the sign or size of `tree1_correction` and check how correction direction accumulates into predictions
 
 ```python
 # This toy example shows how residual-direction corrections accumulate into predictions in gradient boosting.
@@ -435,6 +440,10 @@ So gradient boosting is closer to `many small corrections` than to `one large co
 ### Change One Value: If `learning_rate` Grows, How Is The Same Correction Reflected Differently?
 
 This time, keep the same correction and change only `learning_rate` to `0.5`.
+
+- values to change:
+  - change `learning_rate` between `0.1` and `0.5` and compare the strength of one correction stage
+  - keep `tree1_correction` fixed so the learning-rate effect is separated
 
 ```python
 # This example compares how a larger learning_rate changes residual reduction for the same correction.
@@ -492,6 +501,6 @@ What matters here is not only `how much the value changed`. More important is re
 
 ## Sources And References
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, accessed 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, accessed 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, accessed 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, accessed 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

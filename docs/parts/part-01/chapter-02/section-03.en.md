@@ -1,13 +1,13 @@
-# P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI
+# P1-2.3 Flow Toward Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 2.1 covered symbolic AI and rule-based approaches, and Section 2.2 covered search, knowledge representation, and probabilistic reasoning. This section turns to the next flow. Why did the center of AI explanation move more and more toward models that learn from data?
 
 The task here is not to explain machine learning, deep learning, and generative AI in full detail. The task is to place, from a historical point of view, why the center of explanation moved from `a way in which people write all the rules directly` toward `a way in which models are trained from data and experience`. Part 3 first organizes data modeling, and Parts 4, 5, and 6 later handle each structure in depth.
 
-In Part 1, the historical flow in which the center moved from rule-based approaches toward learning-based approaches, and the basic connection among `data`, `feature`, `representation`, and `parameter`, is fixed here. The broad relation among `AI / machine learning / deep learning / generative AI / LLM` was already fixed in 1.3, and is reconnected here only as much as needed to see how those terms join into one flow. If the distinction becomes unstable again later, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
+In Part 1, the historical flow in which the center moved from rule-based approaches toward learning-based approaches, and the basic connection among `data`, `feature`, `representation`, and `parameter`, is fixed here. The broad relation among `AI / machine learning / deep learning / generative AI / LLM` was already fixed in 1.3, and is reconnected here only as much as needed to see how those terms join into one flow. If the distinction becomes unstable again later, return to this section and to the glossary entries for [data](/AiBook/en/reference/concept-glossary-alpha/d/#data), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#feature), [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation), and [parameter](/AiBook/en/reference/concept-glossary-alpha/p/#parameter).
 
 ## Why AI Moved from Writing Rules to Learning from Data
 
@@ -82,7 +82,7 @@ The key point of this table is not that rules became useless. It is that even in
 
 The Stanford Encyclopedia of Philosophy entry on AI describes machine-learning systems as systems that improve performance on a task when given examples. From that perspective, learning is not the act of a person writing every rule. It is the act of adjusting the model's judgment criteria through data and experience.
 
-### Machine Learning: From Writing Rules to Training Models
+### Machine Learning: Writing Rules to Training Models
 
 Machine learning is an approach that improves a model's performance by using data or experience. Here, a model is the computational structure that takes input and produces outputs such as prediction, classification, recommendation, score, or action.
 
@@ -136,7 +136,7 @@ At this stage, it is enough if the following distinction remains: `data is mater
 
 If `parameter` still feels especially abstract, it helps to think about why the answer of the model can change even for the same kind of input. Imagine a customer-churn model that looks at `number of logins in the last 30 days`, `whether there was a recent payment`, and `support history`. Before learning, it is not fixed which factor should matter more. During learning, the parameters inside the model are adjusted so that `no recent payment` may be treated more strongly, or `falling login count` may be treated more sensitively. In other words, a parameter is not a rule sentence written directly by a person. It is an adjustment value that reflects relations repeatedly found in data inside the model.
 
-### Deep Learning: From Feature Design to Representation Learning
+### Deep Learning: Feature Design to Representation Learning
 
 In machine learning, data does not simply enter the model in raw form. Usually it must be transformed into features or representations the model can handle.
 

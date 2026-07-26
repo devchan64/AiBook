@@ -1,13 +1,13 @@
 # P4-9.1 하이퍼파라미터(hyperparameter)
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-8에서는 모델 후보를 고르고, baseline으로 비교의 출발점을 세웠습니다. 이제 다음 질문으로 넘어갑니다.
+P4-8에서는 모델 후보를 고르고, [baseline](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model)으로 비교의 출발점을 세웠습니다. 이제 다음 질문으로 넘어갑니다.
 
 같은 모델 계열이라도, 어떤 설정값으로 학습시킬 것인가?
 
-이 질문이 바로 하이퍼파라미터(hyperparameter)의 출발점입니다.
+이 질문이 바로 [하이퍼파라미터(hyperparameter)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter)의 출발점입니다.
 
 종종 하이퍼파라미터를 `복잡한 고급 옵션`처럼 이해합니다. 하지만 실제로는 훨씬 더 기본적인 개념입니다. 하이퍼파라미터는 모델이 학습을 시작하기 전에 사람이 먼저 정해 두는 설정값입니다. 즉, 모델이 데이터에서 스스로 배우는 값이 아니라, 어떤 방식으로 배우게 할지를 바깥에서 정하는 값입니다.
 
@@ -15,7 +15,7 @@ scikit-learn 문서는 하이퍼파라미터를 `estimator 내부에서 직접 �
 
 하이퍼파라미터는 모델이 배울 규칙 자체가 아니라, 그 모델이 어떤 모양과 강도로 배우게 할지를 미리 정하는 값이다.
 
-이 절은 `하이퍼파라미터(hyperparameter)`, `학습되는 값과 미리 정하는 값의 구분`, `설정값이 비교 실험에 미치는 영향`을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 모델 바깥에서 먼저 정하는 설정값의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 하이퍼파라미터(hyperparameter), `학습되는 값과 미리 정하는 값의 구분`, `설정값이 비교 실험에 미치는 영향`을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 모델 바깥에서 먼저 정하는 설정값의 기본 뜻은 이 절과 개념사전을 기준으로 다시 연결합니다.
 
 가장 먼저 구분할 기준은 다음과 같습니다.
 
@@ -34,7 +34,7 @@ scikit-learn 문서는 하이퍼파라미터를 `estimator 내부에서 직접 �
 - 왜 같은 알고리즘도 하이퍼파라미터에 따라 전혀 다르게 보일 수 있는가?
 - 독자가 처음 구분해야 할 대표 하이퍼파라미터는 무엇인가?
 
-이 절은 먼저 `학습되는 값과 사람이 먼저 정하는 설정값을 어떻게 구분할 것인가`를 닫습니다. GridSearchCV, RandomizedSearchCV의 기본 비교와 검증 비용은 다음 절 P4-9.2에서 바로 이어서 다루고, 고급 탐색 공간 설계와 분산 실험 관리는 P4-9.3 보충학습에서 다시 정리합니다.
+이 절은 먼저 `학습되는 값과 사람이 먼저 정하는 설정값을 어떻게 구분할 것인가`를 닫습니다. GridSearchCV, RandomizedSearchCV의 기본 비교와 검증 비용은 다음 절 P4-9.2에서 바로 이어서 다루고, 고급 탐색 공간 설계와 분산 실험 관리는 P4-9.3에서 다시 정리합니다.
 
 ## 하이퍼파라미터(hyperparameter)에서 남길 판단 기준
 
@@ -81,7 +81,7 @@ P4-8.2까지 오면 독자는 이런 오해를 하기 쉽습니다.
 
 | 구분 | 누가 정하는가 | 예시 |
 | --- | --- | --- |
-| 모델 파라미터(parameter) | 데이터로부터 학습 과정에서 정해짐 | 선형회귀의 가중치(weight), 절편(intercept) |
+| [모델 파라미터(parameter)](../../../reference/concept-glossary-parts/13-pieup.md#parameter) | 데이터로부터 학습 과정에서 정해짐 | 선형회귀의 가중치(weight), 절편(intercept) |
 | 하이퍼파라미터(hyperparameter) | 사람이 학습 전에 정함 | `max_depth`, `n_neighbors`, `C` |
 
 이 구분은 머신러닝 전체에서 반복해서 등장합니다.
@@ -120,7 +120,7 @@ P4-8.2까지 오면 독자는 이런 오해를 하기 쉽습니다.
 | 하이퍼파라미터 변화 | 자주 바뀌는 것 |
 | --- | --- |
 | 모델 복잡도(complexity) | 얼마나 세밀하게 맞추는가 |
-| 일반화(generalization) | 새 데이터에서 버티는가 |
+| [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization) | 새 데이터에서 버티는가 |
 | 계산 비용(computational cost) | 학습과 예측에 시간이 얼마나 드는가 |
 | 결과 해석 가능성(interpretability) | 사람이 읽기 쉬운가 |
 
@@ -152,7 +152,7 @@ P4-8.2까지 오면 독자는 이런 오해를 하기 쉽습니다.
 
 | 지금 보이는 설정 | 먼저 읽을 축 | 왜 먼저 보나 |
 | --- | --- | --- |
-| `max_depth`, `min_samples_leaf` | 모델 복잡도 | 과적합과 규칙 깊이를 바로 흔들기 때문 |
+| `max_depth`, `min_samples_leaf` | 모델 복잡도 | [과적합](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)과 규칙 깊이를 바로 흔들기 때문 |
 | `n_neighbors` | 지역성/매끄러움 | 이웃을 넓게 볼지 좁게 볼지 바꾸기 때문 |
 | `C`, `alpha` | 규제 강도 | 과하게 맞추는 경향과 일반화를 직접 조정하기 때문 |
 | `n_estimators` | 계산량과 안정성 | 성능이 늘어도 시간과 자원 비용이 함께 늘기 때문 |
@@ -250,7 +250,7 @@ Bergstra와 Bengio의 2012년 JMLR 논문은 하이퍼파라미터 공간에서 
 
 ### 하이퍼파라미터는 왜 사람이 직접 정해야 하는가
 
-scikit-learn의 하이퍼파라미터 튜닝 문서는 이런 값들이 추정기 내부에서 직접 학습되지 않으므로, 교차검증(cross-validation) 점수를 기준으로 탐색하는 것이 가능하고 권장된다고 설명합니다. 이 설명은 다음 문장으로 바로 정리할 수 있습니다.
+scikit-learn의 하이퍼파라미터 튜닝 문서는 이런 값들이 추정기 내부에서 직접 학습되지 않으므로, [교차검증(cross-validation)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation) 점수를 기준으로 탐색하는 것이 가능하고 권장된다고 설명합니다. 이 설명은 다음 문장으로 바로 정리할 수 있습니다.
 
 `하이퍼파라미터는 데이터가 스스로 알려 주지 않기 때문에, 여러 값을 시험해 보고 검증 점수로 비교해야 한다.`
 
@@ -306,10 +306,15 @@ scikit-learn의 common pitfalls 문서는 테스트 데이터가 모델 선택�
 
 아래 예제는 같은 결정트리 알고리즘에서 `max_depth`만 바꾸어 학습 결과가 어떻게 달라지는지 보는 실습입니다.
 
-- 문제 상황: 꽃 데이터(iris)를 품종 분류(classification) 문제로 다룹니다.
-- 입력(input): 꽃받침 길이, 너비, 꽃잎 길이, 너비 네 개의 특징(feature)
+- 문제 상황: 꽃 데이터(iris)를 품종 [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification) 문제로 다룹니다.
+- 입력(input): 꽃받침 길이, 너비, 꽃잎 길이, 너비 네 개의 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)
 - 정답(label): 세 가지 품종(class)
 - 확인할 개념: 같은 알고리즘도 하이퍼파라미터가 바뀌면 train 점수와 test 점수가 달라질 수 있다
+
+조작해 볼 값:
+
+- `for depth in [1, 3, None]`에 `2`나 `5`를 추가하면 깊이를 조금씩 늘릴 때 train 점수와 test 점수가 어떻게 갈라지는지 볼 수 있습니다.
+- `test_size=0.3`을 `0.2`나 `0.4`로 바꾸면 같은 하이퍼파라미터라도 평가 데이터 크기에 따라 점수 흔들림이 달라질 수 있습니다.
 
 ```python
 # Iris 데이터에서 하이퍼파라미터 설정이 모델 성능과 성격을 어떻게 바꾸는지 비교하는 예제입니다.
@@ -387,9 +392,6 @@ scikit-learn 문서는 어떤 추정기와 교차검증 분할기가 본질적�
 
 ## 체크리스트
 
-- 지금 보는 값이 학습으로 얻는 파라미터인지, 사람이 먼저 정하는 하이퍼파라미터인지 구분하고 있는가?
-- 설정값을 바꿀 때 성능만이 아니라 복잡도, 일반화, 계산 비용이 함께 달라진다는 점을 보고 있는가?
-- `random_state`처럼 성능보다 재현성을 위한 값도 별도로 구분하고 있는가?
 - 지금 보고 있는 값이 학습되는 파라미터인가, 미리 정하는 하이퍼파라미터인가?
 - 같은 알고리즘이라도 설정값이 바뀌면 결과가 달라질 수 있다는 점을 이해했는가?
 - train 점수와 test 점수를 함께 보아야 하는 이유를 설명할 수 있는가?
@@ -401,9 +403,9 @@ scikit-learn 문서는 어떤 추정기와 교차검증 분할기가 본질적�
 
 ## 출처와 참고 자료
 
-- scikit-learn, `Glossary of Common Terms and API Elements`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- Marc Claesen, Bart De Moor, `Hyperparameter Search in Machine Learning`, arXiv, 2015, 확인 날짜: 2026-06-26. [https://arxiv.org/abs/1502.02127](https://arxiv.org/abs/1502.02127){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Daniel Yamins, David D. Cox, `Making a Science of Model Search`, arXiv, 2012, 확인 날짜: 2026-06-26. [https://arxiv.org/abs/1209.5111](https://arxiv.org/abs/1209.5111){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 확인 날짜: 2026-06-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `Glossary of Common Terms and API Elements`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- Marc Claesen, Bart De Moor, `Hyperparameter Search in Machine Learning`, arXiv, 2015, 확인 날짜: 2026-07-26. [https://arxiv.org/abs/1502.02127](https://arxiv.org/abs/1502.02127){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Daniel Yamins, David D. Cox, `Making a Science of Model Search`, arXiv, 2012, 확인 날짜: 2026-07-26. [https://arxiv.org/abs/1209.5111](https://arxiv.org/abs/1209.5111){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 확인 날짜: 2026-07-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }

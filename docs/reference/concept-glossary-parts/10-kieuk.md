@@ -1,6 +1,12 @@
 ## ㅋ
 
+--8<-- "reference/concept-glossary-terms/catboost.ko.md"
+
 --8<-- "reference/concept-glossary-terms/confabulation.ko.md"
+
+--8<-- "reference/concept-glossary-terms/kernel.ko.md"
+
+--8<-- "reference/concept-glossary-terms/kernel-pca.ko.md"
 
 --8<-- "reference/concept-glossary-terms/k-means.ko.md"
 
@@ -10,7 +16,15 @@
 
 --8<-- "reference/concept-glossary-terms/qlora.ko.md"
 
+--8<-- "reference/concept-glossary-terms/q-learning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/q-value.ko.md"
+
+--8<-- "reference/concept-glossary-terms/q-table.ko.md"
+
 --8<-- "reference/concept-glossary-terms/caching.ko.md"
+
+--8<-- "reference/concept-glossary-terms/ccp-alpha.ko.md"
 
 --8<-- "reference/concept-glossary-terms/opinion-column.ko.md"
 

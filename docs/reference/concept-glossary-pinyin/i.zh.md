@@ -24,6 +24,8 @@
 
 --8<-- "reference/concept-glossary-terms/information-retrieval.zh.md"
 
+--8<-- "reference/concept-glossary-terms/information-loss.zh.md"
+
 --8<-- "reference/concept-glossary-terms/initialization.zh.md"
 
 --8<-- "reference/concept-glossary-terms/input.zh.md"
@@ -31,6 +33,8 @@
 --8<-- "reference/concept-glossary-terms/input-file.zh.md"
 
 --8<-- "reference/concept-glossary-terms/input-unit.zh.md"
+
+--8<-- "reference/concept-glossary-terms/input-window.zh.md"
 
 --8<-- "reference/concept-glossary-terms/instruction.zh.md"
 

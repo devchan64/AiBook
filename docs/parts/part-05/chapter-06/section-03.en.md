@@ -1,7 +1,7 @@
-# P5-6.3 Learning And Model Execution (Inference)
+# P5-6.3 Learning and Model Execution (Inference)
 
 > Section ID: `P5-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-6.2, we first grouped how the training loop repeats in units of step, batch, and epoch. Once we reach this point, the next question appears.
 
@@ -13,7 +13,7 @@ Learning is the stage that changes model parameters, and model execution (infere
 
 If the distinction between learning and model execution starts to blur again in later sections, it helps to return together to the [training](/AiBook/en/reference/concept-glossary-alpha/t/#training) and [inference](/AiBook/en/reference/concept-glossary-alpha/i/#inference) entries in the concept glossary.
 
-## The Question That Separates Learning From Execution
+## The Question That Separates Learning from Execution
 
 - Why do we need to distinguish learning from model execution?
 - In the deep-learning context, what does the learning stage include?
@@ -24,7 +24,7 @@ This section focuses on distinguishing `the time when parameters are actually ch
 
 At the same time, it is also clear which question we will not widen immediately in this section. `Inside the interval that uses the current parameters, what computational rule should be used?` is still the next question. Why the computational rule may differ between training and evaluation even for the same model continues in the next section, P5-6.4. The larger meaning of dropout and regularization reconnects again in P5-8.1 and P5-8.2.
 
-## Standards For Parameter Changes And Prediction Use
+## Standards for Parameter Changes and Prediction Use
 
 - You can distinguish learning and model execution using the criterion `whether parameters change`.
 - You can explain that learning includes not only forward pass, but also loss computation, backpropagation, and update.
@@ -58,7 +58,7 @@ There is one question to fix first here.
 
 Once this question is answered, the primary boundary between learning and inference is fixed. We are not yet asking how dropout or batch normalization differ inside a region that uses the same parameters. That is because the question there is not `do the parameters change`, but the next-stage question `by what computational rule should the same parameters be used?`
 
-## What Does Learning Include In Deep Learning
+## What Does Learning Include in Deep Learning
 
 Here, it is enough to understand learning in the deep-learning context as the following bundle of four stages.
 
@@ -89,7 +89,7 @@ In other words, inference is `the stage that uses what the model currently knows
 
 `Learning is the time when the model changes, and inference is the time when it is used without changing.`
 
-## Even The Same Forward Pass Has A Different Meaning
+## Even the Same Forward Pass Has a Different Meaning
 
 There is one more important point here. Both learning and inference use the forward pass. So to the reader they can look similar.
 
@@ -134,7 +134,7 @@ In other words, the core here is not `how deeply did it think`, but `was the out
 
 So in this section it is safer to keep the paired expression `model execution (inference)` rather than using only one localized translation. The same point should carry into other language editions later too: do not mix together `reasoning`, `inference`, `prediction`, and `generation` again in this position, and instead translate around the role `the stage that executes the learned model`.
 
-## Fixing The Boundary Between 6.3 And 6.4 First
+## Fixing the Boundary Between 6.3 and 6.4 First
 
 P5-6.3 and the next section, P5-6.4, can look attached on first reading because both discuss the expressions `during learning` and `during use`. So here too it is safer to separate the questions into two levels.
 
@@ -145,7 +145,7 @@ P5-6.3 and the next section, P5-6.4, can look attached on first reading because 
 
 In other words, P5-6.3 is the section that separates `whether an update path exists`, and P5-6.4 is the section that then separates `even when the same model is being executed, what computational state should be used`.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Splitting The Same Alarm Input Into Two Execution Logs
 
@@ -186,7 +186,7 @@ If we compress this case one more time, the first flow for reading learning and 
 
 This diagram is not there to explain the service execution log and training log all over again, but to separate once more, at a glance, `the output changed because a new input was processed` from `the parameters changed because loss and update were attached`.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm over several steps that the same small risk-score model changes several parameters when it sees a `training batch`, and does not change those parameters when it sees `service inputs`. Here, the code does not merely print one number. It serves the role of testing whether the parameters actually become different depending on `whether an update path was attached`, even for the same kind of input.
 
@@ -405,7 +405,7 @@ The reason this section is needed from the curriculum viewpoint is also clear. I
 
 In other words, this section is the first section that starts reading the deep-learning procedure from an operational viewpoint.
 
-## When Do We First Separate Learning And Inference
+## When Do We First Separate Learning and Inference
 
 The time to bring out this section is when the explanation `the model produces a result` is not enough to see clearly when parameters actually change and when they stay fixed.
 
@@ -427,7 +427,7 @@ The time to bring out this section is when the explanation `the model produces a
 - When the same model execution and service processing are being described as the same thing, can you first recall the distinction between learning and inference?
 - Do you know that after this section, the flow goes on to separately examine the computational difference between training mode and evaluation mode?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, accessed 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

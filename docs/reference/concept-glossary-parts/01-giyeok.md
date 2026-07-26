@@ -1,6 +1,16 @@
 ## ㄱ
 
+--8<-- "reference/concept-glossary-terms/additive-model.ko.md"
+
+--8<-- "reference/concept-glossary-terms/high-cardinality-feature.ko.md"
+
 --8<-- "reference/concept-glossary-terms/validation-data.ko.md"
+
+--8<-- "reference/concept-glossary-terms/cross-validation.ko.md"
+
+--8<-- "reference/concept-glossary-terms/cross-entropy.ko.md"
+
+--8<-- "reference/concept-glossary-terms/decision-boundary.ko.md"
 
 --8<-- "reference/concept-glossary-terms/hypothesis-testing.ko.md"
 
@@ -18,6 +28,10 @@
 
 --8<-- "reference/concept-glossary-terms/value.ko.md"
 
+--8<-- "reference/concept-glossary-terms/value-based-reinforcement-learning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/expected-reward.ko.md"
+
 --8<-- "reference/concept-glossary-terms/default-value.ko.md"
 
 --8<-- "reference/concept-glossary-terms/weighted-sum.ko.md"
@@ -28,9 +42,17 @@
 
 --8<-- "reference/concept-glossary-terms/covariance.ko.md"
 
+--8<-- "reference/concept-glossary-terms/covariance-matrix.ko.md"
+
+--8<-- "reference/concept-glossary-terms/eigenvalue.ko.md"
+
+--8<-- "reference/concept-glossary-terms/eigenvector.ko.md"
+
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-agent.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/likelihood-ratio-trick.ko.md"
 
 --8<-- "reference/concept-glossary-terms/improvement-plan.ko.md"
 
@@ -58,13 +80,25 @@
 
 --8<-- "reference/concept-glossary-terms/validation.ko.md"
 
+--8<-- "reference/concept-glossary-terms/false-negative.ko.md"
+
+--8<-- "reference/concept-glossary-terms/false-positive.ko.md"
+
 --8<-- "reference/concept-glossary-terms/review-target-sample.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review-target.ko.md"
 
+--8<-- "reference/concept-glossary-terms/review-candidate.ko.md"
+
 --8<-- "reference/concept-glossary-terms/review-summary.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review-queue.ko.md"
+
+--8<-- "reference/concept-glossary-terms/incomplete-negative.ko.md"
+
+--8<-- "reference/concept-glossary-terms/intervention-feedback.ko.md"
+
+--8<-- "reference/concept-glossary-terms/alert.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review.ko.md"
 
@@ -78,6 +112,8 @@
 
 --8<-- "reference/concept-glossary-terms/result-interpretation-table.ko.md"
 
+--8<-- "reference/concept-glossary-terms/missing-value.ko.md"
+
 --8<-- "reference/concept-glossary-terms/record.ko.md"
 
 --8<-- "reference/concept-glossary-terms/outcome.ko.md"
@@ -89,6 +125,8 @@
 --8<-- "reference/concept-glossary-terms/route.ko.md"
 
 --8<-- "reference/concept-glossary-terms/global-planner.ko.md"
+
+--8<-- "reference/concept-glossary-terms/group-split.ko.md"
 
 --8<-- "reference/concept-glossary-terms/alert-grade.ko.md"
 --8<-- "reference/concept-glossary-terms/gradient-descent.ko.md"
@@ -109,6 +147,8 @@
 
 --8<-- "reference/concept-glossary-terms/overfitting.ko.md"
 
+--8<-- "reference/concept-glossary-terms/pruning.ko.md"
+
 --8<-- "reference/concept-glossary-terms/trajectory.ko.md"
 
 --8<-- "reference/concept-glossary-terms/observation.ko.md"
@@ -118,6 +158,8 @@
 --8<-- "reference/concept-glossary-terms/structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/expected-output.ko.md"
+
+--8<-- "reference/concept-glossary-terms/hierarchical-clustering.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cluster.ko.md"
 
@@ -166,3 +208,5 @@
 --8<-- "reference/concept-glossary-terms/symbolic-ai.ko.md"
 
 --8<-- "reference/concept-glossary-terms/deep-copy.ko.md"
+
+--8<-- "reference/concept-glossary-terms/glove.ko.md"

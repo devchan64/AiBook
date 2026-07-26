@@ -1,7 +1,7 @@
 # P5-4.2 문제 유형별 손실
 
 > Section ID: `P5-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목표와 얼마나 어긋나는지 숫자로 만드는 기준`으로 보았습니다. 이제 자연스럽게 다음 질문이 생깁니다.
 
@@ -11,7 +11,7 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 
 손실 함수는 문제 유형에 따라 달라진다. 왜냐하면 회귀(regression), 분류(classification), 생성(generation)은 틀림의 모양 자체가 다르기 때문이다.
 
-문제 유형에 따라 손실을 다르게 읽는 기준이 다시 섞일 때는 개념사전의 [손실 함수(loss function)](../../../reference/concept-glossary-parts/07-siot.md#loss-function) 항목으로 돌아갑니다.
+문제 유형에 따라 손실을 다르게 읽는 기준이 다시 섞일 때는 개념사전의 [손실 함수(loss function)](../../../reference/concept-glossary-parts/07-siot.md#loss-function), [평균 제곱 오차(mean squared error, MSE)](../../../reference/concept-glossary-parts/13-pieup.md#mean-squared-error-mse), [교차 엔트로피(cross-entropy)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-entropy) 항목으로 돌아갑니다.
 
 ## 문제 유형이 손실을 바꾸는 질문
 
@@ -438,7 +438,7 @@ generation_loss= 0.288
 
 생성 모델에서는 분류와 비슷한 손실을 긴 시퀀스에 걸쳐 반복합니다. 그래서 LLM도 구조적으로는 매우 큰 분류 문제를 다음 토큰마다 반복하는 것처럼 읽을 수 있습니다.
 
-이 연결을 독자가 알면, Part 5에서 토큰(token), 다음 토큰 예측(next-token prediction), cross-entropy, perplexity 같은 말이 अचानक 등장해도 덜 낯설게 느껴집니다.
+이 연결을 독자가 알면, Part 5에서 토큰(token), 다음 토큰 예측(next-token prediction), cross-entropy, perplexity 같은 말이 갑자기 등장해도 덜 낯설게 느껴집니다.
 
 즉, Part 5의 손실 함수 설명은 다음 Part의 LLM 학습 이해를 위한 준비이기도 합니다.
 

@@ -1,7 +1,7 @@
 # P2-2.1 Reading Variables, Functions, and Expressions Again
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-1.2, we established the perspective that formulas, code, and data are different ways of showing the same computation. Now we recover the basic notation that appears first whenever you read a formula.
 
@@ -263,7 +263,7 @@ In AI, errors often occur at the connection point between formulas and data or c
 
 ## Case Study
 
-### Case 1. The Moment When `y = f(x)` Stops Looking Like an Abstract Formula and Starts Reading as Model Execution
+### Case 1. Moment When `y = f(x)` Stops Looking Like an Abstract Formula and Starts Reading as Model Execution
 
 Suppose a learner sees `y = f(x)` and feels that it is only a function problem from an old math class. But in AI documents, this expression often appears as the most basic computational structure: `put input x into model f and obtain output y`.
 

@@ -20,6 +20,10 @@
 
 --8<-- "reference/concept-glossary-terms/workflow.ko.md"
 
+--8<-- "reference/concept-glossary-terms/early-stopping.ko.md"
+
+--8<-- "reference/concept-glossary-terms/residual.ko.md"
+
 --8<-- "reference/concept-glossary-terms/residual-connection.ko.md"
 
 --8<-- "reference/concept-glossary-terms/noise.ko.md"
@@ -56,6 +60,18 @@
 
 --8<-- "reference/concept-glossary-terms/score.ko.md"
 
+--8<-- "reference/concept-glossary-terms/policy-gradient.ko.md"
+
+--8<-- "reference/concept-glossary-terms/policy-gradient-theorem.ko.md"
+
+--8<-- "reference/concept-glossary-terms/true-objective.ko.md"
+
+--8<-- "reference/concept-glossary-terms/policy-rule.ko.md"
+
+--8<-- "reference/concept-glossary-terms/storage-structure.ko.md"
+
+--8<-- "reference/concept-glossary-terms/evidence-strength.ko.md"
+
 --8<-- "reference/concept-glossary-terms/precision.ko.md"
 
 --8<-- "reference/concept-glossary-terms/point-prediction.ko.md"
@@ -74,12 +90,18 @@
 
 --8<-- "reference/concept-glossary-terms/regularization-penalty.ko.md"
 
+--8<-- "reference/concept-glossary-terms/automatic-differentiation.ko.md"
+
 --8<-- "reference/concept-glossary-terms/alignment.ko.md"
 --8<-- "reference/concept-glossary-terms/information-retrieval.ko.md"
 
 --8<-- "reference/concept-glossary-terms/information-integrity.ko.md"
 
+--8<-- "reference/concept-glossary-terms/information-loss.ko.md"
+
 --8<-- "reference/concept-glossary-terms/query-vector.ko.md"
+
+--8<-- "reference/concept-glossary-terms/query.ko.md"
 
 --8<-- "reference/concept-glossary-terms/question-structuring.ko.md"
 
@@ -115,6 +137,8 @@
 
 --8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.ko.md"
 
+--8<-- "reference/concept-glossary-terms/orthogonal.ko.md"
+
 --8<-- "reference/concept-glossary-terms/intermediate-representation.ko.md"
 --8<-- "reference/concept-glossary-terms/interrupt-authority.ko.md"
 
@@ -138,3 +162,6 @@
 --8<-- "reference/concept-glossary-terms/direct-lineage.ko.md"
 --8<-- "reference/concept-glossary-terms/local-pattern.ko.md"
 --8<-- "reference/concept-glossary-terms/aggregation.ko.md"
+--8<-- "reference/concept-glossary-terms/folding-rule.ko.md"
+
+--8<-- "reference/concept-glossary-terms/full-scan.ko.md"

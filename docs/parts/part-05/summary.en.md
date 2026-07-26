@@ -1,7 +1,7 @@
 # Part 5 Wrap-up. Deep Learning Review
 
 > Section ID: `P5-summary`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 5 was the section that actually explained how the larger family of functions called neural networks was built on top of the common questions of machine learning. If Part 4 established the standard for reading models around data splitting, generalization, and evaluation, Part 5 had to recover `the structure that learns deeper representations` and `the procedure that actually trains that structure`, while keeping that same standard.
 
@@ -19,9 +19,9 @@ That core can be regrouped into the following three lines.
 
 At this point, an important principle is not to end Part 5 as a `preview for the next Part`. CNNs, RNNs, Attention, and Transformers all connect to the later explanation of LLMs, but that connection must follow the order `close the current structure first, then expand it into a different problem in the next Part`, not `we will look at it later`.
 
-When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](../../reference/concept-glossary.md) together with its `Core Section`.
+When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](/AiBook/en/reference/concept-glossary/) together with its `Core Section`.
 
-## The Review Flow That Regroups Part 5
+## Review Flow That Regroups Part 5
 
 This document holds its flow best if read in the following order.
 
@@ -30,7 +30,7 @@ This document holds its flow best if read in the following order.
 3. Then, check what questions Part 5 intentionally did not close.
 4. Finally, connect how those questions reopen in the next Part.
 
-## The Core Flow Covered In This Part
+## Core Flow Covered in This Part
 
 The flow of Part 5 can be organized as follows.
 
@@ -121,7 +121,7 @@ These concepts also become less confusing if they are regrouped again into two a
 
 In other words, in Part 5 it is important to build the habit of reading `what structure was used` separately from `how that structure was trained`.
 
-## Points That Are Easy To Misunderstand
+## Points That Are Easy to Misunderstand
 
 The misunderstandings that especially require caution in Part 5 are the following.
 
@@ -152,7 +152,7 @@ If this transition is reduced as briefly as possible, it becomes the following.
 - Part 5 explains `why these computational structures are needed`.
 - The next Part explains `why those structures lead into the actual understanding and use of generative AI`.
 
-## Questions To Check Before Moving To The Next Part
+## Questions to Check Before Moving to the Next Part
 
 Before moving to Part 6, you should be able to answer the following questions.
 
@@ -189,6 +189,6 @@ One final point must be fixed again here: to say you have finished Part 5 does n
 - Can you explain Transformers not just as a famous structure, but as `a structure that bundles relationship computation into parallel blocks`?
 - Can you explain generation and sampling not as `topics that newly appear in the next Part`, but as `topics whose structural starting point is already closed here`?
 
-## Sources And References
+## Sources and References
 
 This document is an internal summary of all of Part 5. It does not directly cite external sources.

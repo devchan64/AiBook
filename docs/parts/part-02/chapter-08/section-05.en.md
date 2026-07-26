@@ -1,7 +1,7 @@
 # P2-8.5 Functions and Small Reuse
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-8.1, we looked at values, variables, and types. From P2-8.2 to P2-8.4, we looked at ways of handling multiple values through lists, dictionaries, and loops.
 
@@ -11,7 +11,7 @@ What should we do if we need to use the same handling many times?
 
 In Python, we use functions. A function is a structure that gives a name to repeated handling, receives the values it needs, performs a calculation, and then returns the result.
 
-Here we explain the basic distinction among `function`, `parameter`, `argument`, and `return value`. The representative explanations of `value`, `variable`, and `loop` remain in P2-8.1, P2-8.4, and the [concept glossary](/AiBook/reference/concept-glossary/). Here we focus on reading the input-process-output contract as a small unit of reuse.
+Here we explain the basic distinction among `function`, `parameter`, `argument`, and `return value`. The representative explanations of `value`, `variable`, and `loop` remain in P2-8.1, P2-8.4, and the [function glossary entry](/AiBook/en/reference/concept-glossary-alpha/f.en/#function). Here we focus on reading the input-process-output contract as a small unit of reuse.
 
 Rather than memorizing all function syntax, this section builds the sense of how mathematical functions and Python functions are similar and different, and how to divide small data-processing code into reusable units.
 

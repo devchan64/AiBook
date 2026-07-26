@@ -1,13 +1,13 @@
 # P4-7.2 预处理(preprocessing)
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 在 P4-7.1 里，我们看的是 `要保留什么输入`。现在要进入下一步：不是把保留下来的输入原样扔给 model，而是先整理成 model 更容易读取的形式。这个阶段就是预处理(preprocessing)。
 
 这一节的核心不是复杂的库语法，而是不要只把预处理理解成 `数据清扫`，而要把它理解成 `把输入表达改造成 model 能处理的形式`。
 
-这一节会说明 `预处理(preprocessing)`、`缺失值处理(imputation)`、`尺度(scale)调整`、`类别编码(encoding)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而输入表达变换的基本含义，也会以这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 为基准再次接回。
+这一节会说明 [预处理(preprocessing)](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing)、[缺失值处理(imputation)](/AiBook/zh/reference/concept-glossary-pinyin/q/#missing-value)、尺度(scale)调整、类别编码(encoding) 的基本含义。后面的章节会沿着这个抓手继续当前判断，而输入表达变换的基本含义，也会以这一节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 为基准再次接回。
 
 还有一个重要原因。人们常常先学算法，再把预处理当成后面补上的辅助工作。但实际情况更接近相反。如果输入表达没有先整理好，后面要学的线性回归(linear regression)、逻辑回归(logistic regression)、k-NN、SVM 这些算法的性质也很难真正读清。
 
@@ -15,7 +15,7 @@
 
 从学术上看，预处理也不是外围工作。在数据挖掘(data mining)、模式识别(pattern recognition)、机器学习(machine learning)的教材和工具文档里，预处理通常被当作一个独立阶段：把 `原始数据(raw data)` 移到 `特征空间(feature space)` 或 `模型输入(model input)`。预处理不是贴在 model 前面的杂务，而是 `构造可学习表达的阶段`。
 
-这个视角之所以重要，原因很简单。model 学的不是现实本身，而是经过预处理后得到的输入表达。因此，预处理怎么做，会直接影响 boundary、distance、optimization 和 interpretability。
+这个视角之所以重要，原因很简单。model 学的不是现实本身，而是经过预处理后得到的输入表达。因此，预处理怎么做，会直接影响 boundary、[distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)、[optimization](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimization) 和 interpretability。
 
 ## 本节范围
 
@@ -40,7 +40,7 @@
 Part 4 前面的章节是按下面这个流程接过来的。
 
 - P4-4: 应该怎样划分数据
-- P4-5: 为什么泛化(generalization)很难
+- P4-5: 为什么[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization)很难
 - P4-6: 应该用什么标准评价
 - P4-7.1: 应该保留什么输入
 
@@ -60,7 +60,7 @@ Part 4 前面的章节是按下面这个流程接过来的。
 
 从课程结构上看，这一节也是 Module 2 和 Module 3 性质发生变化的边界。Module 2 里讲的数据划分、泛化、评价指标，处理的是 `为了公平比较 model，必须先整理什么`。而 Module 3 处理的是 `实际要用什么输入和什么 model 组合来开始实验`。预处理就正好落在这个转折点上。
 
-经过这一节之后，读者就会从单纯把数据收集起来的状态，走向 `先构造可比较的输入表达，再建立 model 候选` 的流程。所以 P4-7.2 会成为 P4-8 模型选择(model selection)、P4-9 超参数调优(hyperparameter tuning)、以及 P4-10 之后算法章节的共同基础。
+经过这一节之后，读者就会从单纯把数据收集起来的状态，走向 `先构造可比较的输入表达，再建立 model 候选` 的流程。所以 P4-7.2 会成为 P4-8 [模型选择(model selection)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection)、P4-9 [超参数调优(hyperparameter tuning)](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、以及 P4-10 之后算法章节的共同基础。
 
 ## 主要学习内容
 
@@ -137,7 +137,7 @@ scikit-learn 的预处理文档说明，它提供了多种函数和 transformer�
 | 类别编码(encoding) | 把字符串/类别值改成可计算表达 | 详细讲 |
 | 异常值处理(outlier handling) | 让极端值不要过度扰动学习 | 只提概念 |
 | 特征构造(feature construction) | 从原始列再造更有用的输入表达 | 只作为大类提及，本书主要和 P4-7.1 相连 |
-| 降维(dimensionality reduction) | 把很多输入压缩成更小的表达 | 在 P4-18 再讲 |
+| [降维(dimensionality reduction)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction) | 把很多输入压缩成更小的表达 | 在 P4-18 再讲 |
 | 文本/图像等特殊表达变换 | 把非结构化数据改成数值表达 | 在后续 Part 作为单独的输入表达处理 |
 
 这张表的目的，不是把所有预处理技术都塞进一节里，而是先让读者抓住：`预处理` 这个词并不只是一个狭义的“用平均值填缺失”的动作。
@@ -607,7 +607,7 @@ scikit-learn 的 common pitfalls 文档强烈建议下面这些做法。
 | 先看全体数据整理编码类别，再做评价 | 结果可能比部署前的真实情况更乐观 |
 | 连 test data 也一起参与缩放基准计算 | 评价可能会显得比实际更好 |
 
-也就是说，即使不改 model 结构，预处理里的泄漏(leakage)也足以扭曲评价数字。
+也就是说，即使不改 model 结构，预处理里的[数据泄漏(data leakage)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-leakage)也足以扭曲评价数字。
 
 如果更直接地看这个差别，可以像下面这样读。
 
@@ -826,7 +826,7 @@ processed rows:
 - 数值型被移到了可比较的尺度上
 - 类别值被改造成了可计算的向量
 
-也就是说，预处理不是把数据弄得更漂亮，而是在把它变成 `可计算的输入矩阵(matrix)`。
+也就是说，预处理不是把数据弄得更漂亮，而是在把它变成[可计算的输入矩阵(matrix)](/AiBook/zh/reference/concept-glossary-pinyin/m/#matrix)。
 
 ### 用 Python 例子看尺度如何改变距离计算
 
@@ -918,8 +918,7 @@ scaled distance A-C: 1.0
 
 ## 出处与参考资料
 
-- scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

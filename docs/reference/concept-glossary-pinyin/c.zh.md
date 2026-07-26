@@ -2,15 +2,39 @@
 
 本页整理拼音首字母为 `C` 的中文概念词条。词条正文由单词源文件 include 生成。
 
+--8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/policy-gradient.zh.md"
+
+--8<-- "reference/concept-glossary-terms/policy-gradient-theorem.zh.md"
+
 --8<-- "reference/concept-glossary-terms/caching.zh.md"
 
 --8<-- "reference/concept-glossary-terms/repository.zh.md"
 
+--8<-- "reference/concept-glossary-terms/reference-maintenance-strategy.zh.md"
+
+--8<-- "reference/concept-glossary-terms/storage-structure.zh.md"
+
 --8<-- "reference/concept-glossary-terms/calibration.zh.md"
+
+--8<-- "reference/concept-glossary-terms/catboost.zh.md"
+
+--8<-- "reference/concept-glossary-terms/ccp-alpha.zh.md"
+
+--8<-- "reference/concept-glossary-terms/residual.zh.md"
+
+--8<-- "reference/concept-glossary-terms/penalty.zh.md"
 
 --8<-- "reference/concept-glossary-terms/hierarchy.zh.md"
 
 --8<-- "reference/concept-glossary-terms/chain-of-thought-cot.zh.md"
+
+--8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.zh.md"
+
+--8<-- "reference/concept-glossary-terms/vocabulary.zh.md"
+
+--8<-- "reference/concept-glossary-terms/query.zh.md"
 
 --8<-- "reference/concept-glossary-terms/chunk.zh.md"
 
@@ -19,6 +43,10 @@
 --8<-- "reference/concept-glossary-terms/classification.zh.md"
 
 --8<-- "reference/concept-glossary-terms/client.zh.md"
+
+--8<-- "reference/concept-glossary-terms/hierarchical-clustering.zh.md"
+
+--8<-- "reference/concept-glossary-terms/cluster.zh.md"
 
 --8<-- "reference/concept-glossary-terms/cluster-label.zh.md"
 
@@ -44,13 +72,27 @@
 
 --8<-- "reference/concept-glossary-terms/comparison-table.zh.md"
 
+--8<-- "reference/concept-glossary-terms/error-cost.zh.md"
+
 --8<-- "reference/concept-glossary-terms/computation-graph.zh.md"
 
 --8<-- "reference/concept-glossary-terms/operation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
 
+--8<-- "reference/concept-glossary-terms/component.zh.md"
+
+--8<-- "reference/concept-glossary-terms/pooling.zh.md"
+
+--8<-- "reference/concept-glossary-terms/covariance-matrix.zh.md"
+
 --8<-- "reference/concept-glossary-terms/output.zh.md"
+
+--8<-- "reference/concept-glossary-terms/output-layer.zh.md"
+
+--8<-- "reference/concept-glossary-terms/policy.zh.md"
+
+--8<-- "reference/concept-glossary-terms/policy-rule.zh.md"
 
 --8<-- "reference/concept-glossary-terms/confabulation.zh.md"
 
@@ -87,3 +129,5 @@
 --8<-- "reference/concept-glossary-terms/cost.zh.md"
 
 --8<-- "reference/concept-glossary-terms/credential.zh.md"
+
+--8<-- "reference/concept-glossary-terms/parameter.zh.md"

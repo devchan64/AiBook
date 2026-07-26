@@ -1,15 +1,15 @@
 # P3-3.3 Which Columns Should Be Sketched First to Move a Question into the First Table Draft
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which columns identify the sample and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into problem-representation structure, this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
+After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which [columns](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column) identify the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-problem-representation-structure), this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
 
 When drawing the first table draft, it is safer not to try to write every column. Instead, write down the following four groups first.
 
 1. columns that identify the sample
-2. candidate feature columns that describe the sample
-3. baseline or difference columns needed for comparison
+2. candidate [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) columns that describe the sample
+3. [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) or difference columns needed for comparison
 4. result columns that a person reads or that may later become the outcome to predict
 
 Condensed into a table, those four groups are the following.
@@ -19,7 +19,7 @@ Condensed into a table, those four groups are the following.
 | Sample-identification columns | Because the table has to reveal what counts as one case |
 | Candidate feature columns | Because values are needed to describe the state of the sample |
 | Comparison columns | Because a difference structure is needed for change relative to the usual state to become visible |
-| Result columns | Because the direction has to be visible: review candidate or target-label candidate |
+| Result columns | Because the direction has to be visible: review candidate or [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate) |
 
 So the first table draft is not `copying over every source column`, but `placing the column groups by role that this problem needs first`.
 

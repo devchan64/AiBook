@@ -2,6 +2,14 @@
 
 This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
+--8<-- "reference/concept-glossary-terms/truncated-svd.en.md"
+
+--8<-- "reference/concept-glossary-terms/t-sne.en.md"
+
+--8<-- "reference/concept-glossary-terms/trustworthiness.en.md"
+
+--8<-- "reference/concept-glossary-terms/trpo.en.md"
+
 <a id="glossary-target"></a>
 
 --8<-- "reference/concept-glossary-terms/table.en.md"
@@ -9,6 +17,12 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/target.en.md"
 
 --8<-- "reference/concept-glossary-terms/target-candidate.en.md"
+
+--8<-- "reference/concept-glossary-terms/target-definition-version.en.md"
+
+--8<-- "reference/concept-glossary-terms/tanh.en.md"
+
+--8<-- "reference/concept-glossary-terms/true-objective.en.md"
 
 --8<-- "reference/concept-glossary-terms/task-definition.en.md"
 
@@ -28,11 +42,17 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/throughput.en.md"
 
+--8<-- "reference/concept-glossary-terms/time-split.en.md"
+
 --8<-- "reference/concept-glossary-terms/token.en.md"
 
 --8<-- "reference/concept-glossary-terms/token-coverage.en.md"
 
+--8<-- "reference/concept-glossary-terms/token-id.en.md"
+
 --8<-- "reference/concept-glossary-terms/tokenization.en.md"
+
+--8<-- "reference/concept-glossary-terms/top-k.en.md"
 
 --8<-- "reference/concept-glossary-terms/tool.en.md"
 

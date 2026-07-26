@@ -1,7 +1,7 @@
 # P1-9.1 图像识别与表征学习
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 第 8 章已经按学习信号的差异区分了 `supervised learning`、`unsupervised learning` 和 `reinforcement learning`。现在开始转向 `deep learning`。
 

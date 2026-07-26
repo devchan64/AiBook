@@ -1,7 +1,7 @@
 # P6-18.2 A Minimal Implementation that Records Evidence, State, and Review Before the Response
 
 > Section ID: `P6-18.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-18.1, we tied a small generative AI feature into the flow `request interpretation -> retrieval or tool selection -> response generation -> state judgment -> record`. Here, we redraw that flow with a very small piece of code.
 
@@ -321,7 +321,7 @@ One step further, it is useful to separate what the minimal implementation direc
 | Evidence is insufficient or missing | Retrieval and interpretation are reviewed separately | Better search infrastructure and tool-call connection |
 | The code runs once | Request path and record structure appear separately | Service work that includes cost, latency, and operating limits |
 
-The key in this table is that the minimal implementation is more than a `working example`. It is a `baseline that shows where to fix next`. Real embedding search, tool use, agent loops, and operating controls are then added on top of this baseline.
+The key in this table is that the minimal implementation is more than a `working example`. It is a `baseline that shows where to fix next`. Real embedding search, tool use, AI agent loops, and operating controls are then added on top of this baseline.
 
 The retrospective questions can be this simple.
 
@@ -359,7 +359,7 @@ It is enough to connect it as follows.
 
 - If better evidence connection is needed, return to the RAG flow in P6-11 and the vector database structure in P6-12.
 - If real state lookup or calculation is needed, move to tool use in P6-13.
-- If multi-step judgment is needed, move to the agent structure in P6-14.
+- If multi-step judgment is needed, move to the AI agent structure in P6-14.
 - Failure records and safety devices should be reread through the evaluation viewpoint in P6-16 and the operation viewpoint in P6-17.
 
 ## Checklist

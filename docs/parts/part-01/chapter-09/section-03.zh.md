@@ -1,7 +1,7 @@
 # P1-9.3 区分 LLM 的直接谱系与外围证据
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: direct lineage 与 surrounding evidence 在 LLM 历史中有什么不同？_
 

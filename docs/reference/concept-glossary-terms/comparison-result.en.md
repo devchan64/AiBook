@@ -1,4 +1,5 @@
 <a id="comparison-result"></a>
+<a id="glossary-comparison-result"></a>
 
 ## comparison result
 
@@ -6,5 +7,4 @@
 - Why it matters: Without a comparison result, “better” can remain an impression. The concept connects scores, samples, tables, and execution summaries into a record of what changed and where.
 - Related concepts: `comparison table`, `baseline`, `execution summary`, `next question`, `evaluation`
 - Core Section: `P7-1.2`
-- Appears in: `P7-index`, `P7-2.2`, `P7-summary`
-
+- Appears in: `P3-2.2`, `P3-8.3`, `P3-8.4`, `P7-index`, `P7-2.2`, `P7-summary`

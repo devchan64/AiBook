@@ -1,11 +1,11 @@
 # P4-6.2 按问题类型区分的评价标准
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-6.1 里，我们看过评价指标(metric)不只是记分牌，而是会暴露出我们把什么看得更重要的标准。接下来就要进入下一个问题。`为什么问题一变，先看的指标也会跟着变？`
+在 P4-6.1 里，我们看过[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)不只是记分牌，而是会暴露出我们把什么看得更重要的标准。接下来就要进入下一个问题。`为什么问题一变，先看的指标也会跟着变？`
 
-答案很简单。因为 model 产出的 output 不同，而这个 output 接到的判断也不同。classification 是挑选类别的问题，regression 是预测数字的问题，clustering 是把相似东西分组的问题。因此，`做得好` 的意思也不可能完全一样。
+答案很简单。因为 model 产出的 [output](/AiBook/zh/reference/concept-glossary-pinyin/c/#output) 不同，而这个 output 接到的判断也不同。[classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) 是挑选类别的问题，[regression](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression) 是预测数字的问题，[clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering) 是把相似东西分组的问题。因此，`做得好` 的意思也不可能完全一样。
 
 ## 本节范围
 
@@ -25,7 +25,7 @@
 
 - 能说明：评价问题会随着问题类型而改变。
 - 能说明：为什么 classification 的代表指标和 regression 的代表指标不同。
-- 能说明：clustering 往往因为没有 label 而必须更谨慎地评价。
+- 能说明：clustering 往往因为没有 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label) 而必须更谨慎地评价。
 - 能为后面学习 linear regression、logistic regression、k-NN、decision tree 等算法时会跟上的评价问题做好准备。
 
 ## 学习背景
@@ -54,7 +54,7 @@ scikit-learn 文档会按问题目标来分评价函数。它把 classification 
 
 | 问题类型 | 先看什么 | 紧接着要问什么 | 和 baseline 连接的地方 |
 | --- | --- | --- | --- |
-| classification | confusion matrix 和代表错误案例 | 哪种 FP/FN 更痛，precision 和 recall 该先看哪一个？ | 在 P4-8.2 里，会把这种错误结构的改善再和 baseline 比较，看是否真的有意义。 |
+| classification | [confusion matrix](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix) 和代表错误案例 | 哪种 FP/FN 更痛，precision 和 recall 该先看哪一个？ | 在 P4-8.2 里，会把这种错误结构的改善再和 [baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline) 比较，看是否真的有意义。 |
 | regression | 代表误差大小与大误差区间 | 平均偏了多少，大失败集中在哪些地方？ | 会拿去和 `只说平均值` 的简单 baseline 比较。 |
 | clustering | cluster 内部紧密度与 cluster 之间分离度 | 这个分组真的有结构吗，人能不能解释？ | 后面章节会再确认，是否能与人的标准 label 或简单分割相比。 |
 
@@ -332,7 +332,7 @@ clustering 比起 `答对既有答案`，更接近 `找出隐藏结构`。因此
 
 ### 用 Python 试一试 classification
 
-在 classification 里，只要 threshold 稍微变化一点，precision 和 recall 就可能变化。下面这个例子说明：即使是同一组 score，只要 `从几分开始算正类` 变了，结果就会变。
+在 classification 里，只要 [threshold](/AiBook/zh/reference/concept-glossary-pinyin/y/#threshold) 稍微变化一点，precision 和 recall 就可能变化。下面这个例子说明：即使是同一组 [score](/AiBook/zh/reference/concept-glossary-pinyin/f/#score)，只要 `从几分开始算正类` 变了，结果就会变。
 
 下面的例子使用实际标签 `y_true`、预测分数 `scores` 和多个 `threshold` 值。结果里同时确认各 threshold 下的预测结果、TP/TN/FP/FN、accuracy、precision、recall。
 
@@ -571,5 +571,5 @@ gap = 1.5
 
 ## 出处与参考资料
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }

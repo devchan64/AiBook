@@ -1,9 +1,9 @@
 # P3-9.5 By What Is the Same Event Continuously Tracked Across Multiple Outputs
 
 > Section ID: `P3-9.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Even if a comparison report, a review-candidate queue, and a target-candidate table play different roles, one sample should still be tracked continuously by the same identification rule whenever possible. That is why a column such as `event_id` appears repeatedly across multiple tables. If this link becomes vague, it may still be possible to understand that the three outputs are different tables, but it becomes hard to explain again why a given event was promoted and how a given review result later turned into a target candidate. A [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report), [review queue](/AiBook/en/reference/concept-glossary-alpha/v/#glossary-review-queue), and [target candidate](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-target-candidate) table can play different roles, but the same sample identity and the minimum evidence link should not be broken if possible.
+Even if a comparison report, a review-candidate queue, and a target-candidate table play different roles, one sample should still be tracked continuously by the same identification rule whenever possible. That is why a column such as `event_id` appears repeatedly across multiple tables. If this link becomes vague, it may still be possible to understand that the three outputs are different tables, but it becomes hard to explain again why a given event was promoted and how a given review result later turned into a target candidate. A [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report), [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue), and [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate) table can play different roles, but the same sample identity and the minimum evidence link should not be broken if possible.
 
 ## Why Must the Same Event Be Tracked Continuously
 

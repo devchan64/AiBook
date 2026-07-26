@@ -1,9 +1,9 @@
 # P6-15.2 Harnesses That Wrap Execution Records and Reproducible Environments
 
 > Section ID: `P6-15.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-In P6-15.1, we saw that MCP is an interface viewpoint that makes connections between models, external tools, and data more consistent. But even if the connection format is organized, it is hard to explain the cause of failure or the effect of improvement again unless the execution flow remains as a record. Now we need to look at the structure that wraps agent execution, leaves logs and evaluation inputs, and manages the flow so it can be repeated.
+In P6-15.1, we saw that MCP is an interface viewpoint that makes connections between models, external tools, and data more consistent. But even if the connection format is organized, it is hard to explain the cause of failure or the effect of improvement again unless the execution flow remains as a record. Now we need to look at the structure that wraps AI agent execution, leaves logs and evaluation inputs, and manages the flow so it can be repeated.
 
 A harness is close to an execution environment or operational device that wraps an agent or model run and manages inputs, tool calls, results, logs, evaluation inputs, and reproduction information.
 
@@ -79,7 +79,7 @@ So the following become important.
 
 The structure that wraps these requirements is close to a harness.
 
-## The difference between connection format and execution record
+## Connection Format and Execution Record Difference
 
 This difference must also be separated.
 
@@ -141,7 +141,7 @@ Suppose a coding agent changed several files and then tests failed. If we look o
 
 If this path is not left behind, more time can be spent rerunning the same experiment than tracking the cause. With a harness, read files, applied changes, executed tests, and results remain as a trace, making the problem point easier to track again. The criterion changes from looking only at `whether the final result succeeded or failed` to checking `can we retrace which execution path led to the failure`. The result to check in this case is whether the record leaves not only one final failure line, but also which test first broke after which file change.
 
-This is a practical scene because coding-agent output usually passes through several files, several commands, and several verification steps, not one file. Even when people edit manually, finding `which commit broke it` can take time. If an agent applies several patches in a short time, reconstructing the path from memory becomes even harder. So the value of a harness is closer to `making failure explainable again` than to `preventing failure`. A single test failure line tells us that something broke, but not which reading step or which edit created the failure.
+This is a practical scene because coding-agent output usually passes through several files, several commands, and several verification steps, not one file. Even when people edit manually, finding `which commit broke it` can take time. If an AI agent applies several patches in a short time, reconstructing the path from memory becomes even harder. So the value of a harness is closer to `making failure explainable again` than to `preventing failure`. A single test failure line tells us that something broke, but not which reading step or which edit created the failure.
 
 The judgment an operator can make changes greatly depending on the record level, even for the same failure.
 
@@ -155,7 +155,7 @@ The important criterion in this table is not `more logs are annoying`, but `with
 
 ### Case 2. Document-research agent
 
-Suppose a document-research agent produced a policy-change summary, but the content was wrong. If a person looks only at the final sentence, it is hard to tell whether the agent summarized incorrectly or searched for the wrong document in the first place. Real improvement can start only after separating those two, but without execution records both remain guesses. For example, accurately summarizing last year's notice and incorrectly summarizing the latest notice are completely different failures.
+Suppose a document-research AI agent produced a policy-change summary, but the content was wrong. If a person looks only at the final sentence, it is hard to tell whether the agent summarized incorrectly or searched for the wrong document in the first place. Real improvement can start only after separating those two, but without execution records both remain guesses. For example, accurately summarizing last year's notice and incorrectly summarizing the latest notice are completely different failures.
 
 If this distinction is missing, the decision about whether to fix search logic or summarization prompts also shakes. A harness leaves which documents were searched, which paragraphs were read, and what summarization steps were taken, so the problem can be separated step by step. The criterion changes from asking only `was the answer wrong` to asking `can we distinguish whether the search stage or the summarization stage was wrong`. The result to check in this case is whether a wrong answer actually separates into different causes such as `search failure` and `summary failure`.
 
@@ -173,7 +173,7 @@ The misunderstanding this case corrects is the feeling that `all wrong answers a
 
 ### Case 3. Customer-support agent
 
-Suppose a customer-support agent sent a no-refund answer, but the actual latest policy allowed refunds. The first things a person should check are the flow: `did it read an old policy document`, `did it read correctly but apply the response rule incorrectly`, or `was it sent immediately without an approval step`. But without execution records, only one wrong answer remains, and it is hard to explain organizationally where the error occurred. For example, if the policy interpretation was right but the approval step was skipped and the answer was sent immediately, the problem may be operational-control failure, not model knowledge.
+Suppose a customer-support AI agent sent a no-refund answer, but the actual latest policy allowed refunds. The first things a person should check are the flow: `did it read an old policy document`, `did it read correctly but apply the response rule incorrectly`, or `was it sent immediately without an approval step`. But without execution records, only one wrong answer remains, and it is hard to explain organizationally where the error occurred. For example, if the policy interpretation was right but the approval step was skipped and the answer was sent immediately, the problem may be operational-control failure, not model knowledge.
 
 If this difference is invisible, it is hard to design controls to prevent the same answer error again. A harness leaves the read policy, used tool, approval status, and evaluation status together, making audit and reproduction possible. The criterion changes from asking only `was the answer wrong` to asking `in which operational stage did the error occur`. The result to check in this case is whether, when an answer error occurs, the system can explain again which stage was the problem: old document reference, rule-application error, or missing approval.
 

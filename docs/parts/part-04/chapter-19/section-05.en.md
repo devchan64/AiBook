@@ -1,28 +1,28 @@
 # P4-19.5 Supplementary Learning: First Reading of Reinforcement-Learning Formula Names
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Once readers begin studying value-based reinforcement learning in P4-19.1, the following names quickly appear next to it.
 
-- Bellman equation
-- convergence
-- function approximation
+- [Bellman equation](/AiBook/en/reference/concept-glossary-alpha/b/#bellman-equation)
+- [convergence](/AiBook/en/reference/concept-glossary-alpha/c/#convergence)
+- [function approximation](/AiBook/en/reference/concept-glossary-alpha/f/#function-approximation)
 
 Rather than unfolding these names through a long sequence of rigorous proofs, this supplementary Section first connects `why the score table of value-based reinforcement learning is written recursively`, `why repeated updates are checked for stability`, and `why large problems move from a table to a function`.
 
-## Scope Of This Section
+## Questions Closed By First Reading Of Formula Names
 
 This Section answers the following questions.
 
 - Why is the Bellman equation read as something like `current reward + value of the next state`?
 - What does it mean to say we are checking convergence, and what is becoming less unstable?
-- Why does function approximation appear instead of a Q-table?
-- As what kind of extension of value-based reinforcement learning should DQN be read?
+- Why does function approximation appear instead of a [Q-table](/AiBook/en/reference/concept-glossary-alpha/q/#q-table)?
+- As what kind of extension of value-based reinforcement learning should [DQN](/AiBook/en/reference/concept-glossary-alpha/d/#dqn) be read?
 
 This Section focuses on reading the expansion background of reinforcement learning through three handles: `recursive value reading`, `stabilization of repeated updates`, and `moving from a table to a function`.
 
-## Goals Of This Section
+## Judgments To Keep From Formula Names
 
 - You can explain the Bellman equation as `an equation that connects current reward and future value`.
 - You can explain convergence as `the question of whether repeated update results stabilize near some value`.

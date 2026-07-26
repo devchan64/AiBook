@@ -1,13 +1,13 @@
 # P3-6.2 当特征本身还不够时，还可以加入什么中间表示
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/reference/concept-glossary-parts/09-jieut/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
+平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
 
 这里不会重复讲特征设计本身，而是更集中在：当前一节的数字特征还不足以完整保留结构时，我们还能在什么范围内继续增加区段表示、token 化这样的中间表示。
 
-于是，区段表示和 token 化表示就出现了。核心想法其实很简单。我们不再直接盯着整条很长的原始曲线，而是先把它切成几个区间，再把每个区间的方向和强度，改写成简短符号或简短汇总值。
+于是，区段表示和 [token 化(tokenization)](/AiBook/zh/reference/concept-glossary-pinyin/t/#glossary-tokenization)表示就出现了。核心想法其实很简单。我们不再直接盯着整条很长的原始曲线，而是先把它切成几个区间，再把每个区间的方向和强度，改写成简短符号或简短汇总值。
 
 | 区间 | 数值摘要 | 符号摘要示例 |
 | --- | --- | --- |
@@ -156,7 +156,7 @@ token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
 
 在这个输出里，最关键的不只是连续数值被改写成短符号序列的那一刻，还包括边界值改变时哪些动作的解释真的发生变化。这里可以操作的值是 `token_settings` 里的 `strong_threshold` 和 `weak_threshold`。在保守设置下，更多小变化会保留为 `FLAT`，像 `B`、`D`、`E`、`F`、`H` 这样接近边界的动作，token 序列会发生变化。相反，像 `A` 这样强上升和强下降都很清楚的动作，即使改变设置，主要结构也会保留下来。
 
-把多个动作放在一起看，token 规则不是简单标签，而是设计判断这一点会更清楚。现在，人可以更快地把结构读成 `上升、缓慢上升、几乎平、下降、大幅下降`，但也能反过来检查：到底是哪一个阈值把哪个区段折成了 `FLAT`。
+把多个动作放在一起看，token 规则不是简单标签，而是设计判断这一点会更清楚。现在，人可以更快地把结构读成 `上升、缓慢上升、几乎平、下降、大幅下降`，但也能反过来检查：到底是哪一个[阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold)把哪个区段折成了 `FLAT`。
 
 如果按下面顺序来看这个例子，token 化所承担的作用会更清楚。
 
@@ -168,7 +168,7 @@ token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
 
 还要注意的一点是：即使平均值相同，token 序列也可能不同。比如，两次动作的平均流量都可能是 2.5，但其中一次是 `UP, FLAT, DOWN`，另一次却可能是 `FLAT, FLAT, FLAT`。如果只看平均值，它们会显得相似；但一看 token 序列，就会发现一个发生了结构变化，另一个则维持稳定。正因为这样，token 化不是装饰，而是一种用来补足平均值摘要遗漏结构的表示。
 
-这个差异也可以用一个简单的向量化(vectorization)例子来确认。下面的代码会比较两种排序：一种只按数值平均值排序，另一种先用 `TfidfVectorizer` 把 token 序列向量化，再按它和查询序列的相似度排序。
+这个差异也可以用一个简单的[向量化(vectorization)](/AiBook/zh/reference/concept-glossary-pinyin/x/#glossary-vectorization)例子来确认。下面的代码会比较两种排序：一种只按数值平均值排序，另一种先用 `TfidfVectorizer` 把 token 序列向量化，再按它和查询序列的相似度排序。
 
 ```python
 import pandas as pd

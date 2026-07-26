@@ -1,15 +1,15 @@
 # P3-8.4 Conservative Interpretation and Operational Columns
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _Subtitle: How do interpretation sentences become warning columns and review-queue criteria?_
 
-After reading a comparison table, you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into `structured operational output` such as a [review queue](/AiBook/en/reference/concept-glossary-alpha/v/#glossary-review-queue). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
+After reading a [comparison table](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table), you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into an [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) such as a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
 
 | Level | Main form | Role |
 | --- | --- | --- |
-| Comparison result | Difference value, baseline, repeatability | Shows what changed |
+| [Comparison result](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-result) | Difference value, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), repeatability | Shows what changed |
 | Conservative interpretation sentence | `needs more observation`, `raise review priority` | Organizes judgment strength for human reading |
 | Structured operational output | `warning_level`, `review_needed`, `priority_score` | Enables resorting, searching, and follow-up processing in operations |
 
@@ -23,7 +23,7 @@ The reason to go through a sentence stage before creating operational columns is
 - Which difference should become a `review candidate`
 - Which difference should become a `strong warning`
 
-That judgment usually depends not on one number alone, but on sample size, repeatability, and comparison conditions read together. The sentence is therefore not decoration. It is an intermediate stage that translates numbers into operational judgment.
+That judgment usually depends not on one number alone, but on the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) created by sample size, repeatability, and comparison conditions read together. The sentence is therefore not decoration. It is an intermediate stage that translates numbers into operational judgment.
 
 ## Looking at One Scene Again in Three Stages
 

@@ -1,7 +1,7 @@
 # P6-9.2 Alignment That Separates Well-Followed Answers from Acceptable Answers
 
 > Section ID: `P6-9.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-9.1, we saw that instruction tuning is an adjustment step that makes a model respond more like a conversational assistant. But an answer that follows instructions well is not automatically safe or desirable.
 

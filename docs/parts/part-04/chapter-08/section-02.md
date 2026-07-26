@@ -1,13 +1,13 @@
 # P4-8.2 기준 모델(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 P4-8.1에서는 어떤 모델 계열을 후보로 올릴지 봤습니다. 이제 그 후보들을 바로 복잡한 순서대로 붙잡기보다, 먼저 비교의 출발점을 세우는 질문으로 넘어갑니다.
 
 이 문제에서 가장 먼저 이겨야 할 가장 단순한 기준은 무엇인가?
 
-이 질문이 바로 기준 모델(baseline)의 출발점입니다.
+이 질문이 바로 [기준 모델(baseline model)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model)의 출발점입니다.
 
 종종 기준 모델을 `성능이 낮은 임시 모델`처럼 이해합니다. 하지만 실제로는 그보다 훨씬 중요합니다. 기준 모델은 복잡한 모델이 정말로 의미 있는 개선을 만들고 있는지 확인하는 비교의 바닥선(floor)입니다.
 
@@ -24,7 +24,7 @@ baseline 비교 순서는 아래처럼 짧게 고정해 둡니다.
 | 먼저 볼 것 | 바로 다음에 붙는 질문 | 그다음에 판단할 것 |
 | --- | --- | --- |
 | baseline 점수 | 이 점수가 쉬운 착시인지, 실제 출발점인지 | 후보 모델이 같은 지표에서 얼마나 나아졌는가 |
-| 혼동 행렬과 대표 오류 사례 | 어떤 실패가 줄었고 어떤 실패가 남았는가 | 이 변화가 운영상 의미 있는가 |
+| [혼동 행렬(confusion matrix)](../../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 대표 [오류 사례(error case)](../../../reference/concept-glossary-parts/08-ieung.md#error-case) | 어떤 실패가 줄었고 어떤 실패가 남았는가 | 이 변화가 운영상 의미 있는가 |
 | 후보 모델 점수 | 정확도 외에 recall, F1, 오차 크기에서 무엇이 달라졌는가 | 튜닝으로 더 갈지, 후보를 바꿀지 정할 수 있는가 |
 
 baseline을 실제로 세우려면 두 가지가 함께 필요합니다.
@@ -34,7 +34,7 @@ baseline을 실제로 세우려면 두 가지가 함께 필요합니다.
 
 이 절은 이 가운데 `왜 먼저 필요한가`와 `무엇을 먼저 고정해야 하는가`를 맡고, 이어지는 `P4-8.3 보충학습`은 `어떤 대표 baseline을 어떻게 세울 것인가`를 예시와 예제로 이어서 다룹니다.
 
-## 기준 모델(baseline)에서 닫을 질문
+## 기준선을 세울 때 먼저 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -45,7 +45,7 @@ baseline을 실제로 세우려면 두 가지가 함께 필요합니다.
 
 이 절은 먼저 `복잡한 모델의 개선을 무엇과 비교해야 하는가`를 닫습니다. 벤치마크와 리더보드의 운영 관점, 통계 검정 기반 모델 비교의 큰 그림은 P4-9.3 보충학습에서 다시 정리하고, 실제 하이퍼파라미터 비교 절차는 P4-9.2에서 바로 이어서 봅니다.
 
-## 기준 모델(baseline)에서 남길 판단 기준
+## 기준 모델에서 남길 판단 기준
 
 - baseline을 `복잡한 모델보다 먼저 세우는 비교 기준`으로 설명할 수 있습니다.
 - baseline이 없을 때 왜 정확도 착시, 평균 예측 착시가 생기는지 말할 수 있습니다.
@@ -77,7 +77,7 @@ P4-8.1에서 우리는 후보 모델군을 세웠습니다. 하지만 후보군�
 - 내가 만든 모델은 그 쉬운 기준보다 정말 나은가?
 - 나아졌다면 어떤 지표에서 나아진 것인가?
 
-여기서 한 가지를 더 붙여야 합니다. 분류 문제에서는 baseline보다 점수가 조금 높아졌다는 사실만으로 충분하지 않습니다. 혼동 행렬(confusion matrix)과 대표 오류 사례를 같이 놓고 `놓침이 줄었는가`, `괜한 경보가 늘었는가`, `중요한 소수 사례를 더 잘 잡는가`를 봐야만 baseline 비교가 살아납니다. 즉, baseline은 숫자 비교표이면서 동시에 오류 해석의 기준선입니다.
+여기서 한 가지를 더 붙여야 합니다. 분류 문제에서는 baseline보다 점수가 조금 높아졌다는 사실만으로 충분하지 않습니다. 혼동 행렬과 대표 오류 사례를 같이 놓고 `놓침이 줄었는가`, `괜한 경보가 늘었는가`, `중요한 소수 사례를 더 잘 잡는가`를 봐야만 baseline 비교가 살아납니다. 즉, baseline은 숫자 비교표이면서 동시에 오류 해석의 기준선입니다.
 
 고객 이탈 사례로 바꾸면 baseline은 `점수 하나`보다 `지금 모델이 정말 쉬운 기준을 넘었는가`를 읽는 분기점으로 보입니다.
 
@@ -287,6 +287,11 @@ scikit-learn의 dummy 계열 모델은 교육적으로 특히 유용합니다.
 
 아래 예제는 이 착시를 실제 `DummyClassifier`와 `DecisionTreeClassifier`로 축소해 봅니다. 데이터는 사기 거래처럼 양성 클래스가 적은 분류 문제로 만들었습니다.
 
+조작해 볼 값:
+
+- `weights=[0.82, 0.18]`에서 양성 클래스 비율을 더 낮추면 baseline accuracy는 더 높아 보일 수 있고, positive recall의 의미는 더 중요해집니다.
+- `class_sep=0.9`나 `max_depth=3`을 바꾸면 decision tree가 양성 클래스를 얼마나 잡는지와 혼동 행렬이 함께 달라집니다.
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.dummy import DummyClassifier
@@ -335,7 +340,7 @@ decision_tree
  confusion= {'tn': 75, 'fp': 0, 'fn': 4, 'tp': 12}
 ```
 
-`dummy_most_frequent`도 accuracy는 0.824로 높아 보입니다. 하지만 양성 클래스 재현율은 0.0이고, 실제 양성 16개를 모두 놓쳤습니다. 기준 모델은 그래서 실패한 모델을 보여 주기 위한 장식이 아니라, “정확도만 보면 생기는 착시”를 먼저 드러내는 비교선입니다.
+`dummy_most_frequent`도 accuracy는 0.824로 높아 보입니다. 하지만 양성 클래스 [재현율(recall)](../../../reference/concept-glossary-parts/09-jieut.md#recall)은 0.0이고, 실제 양성 16개를 모두 놓쳤습니다. 기준 모델은 그래서 실패한 모델을 보여 주기 위한 장식이 아니라, “정확도만 보면 생기는 착시”를 먼저 드러내는 비교선입니다.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-ko.mmd"
@@ -356,8 +361,8 @@ decision_tree
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-09.
-- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-09.
-- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-09.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09.
-- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-09.
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-26.

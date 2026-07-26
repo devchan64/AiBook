@@ -1,7 +1,7 @@
-# P5-7.2 Learning Rate And Update Step Size
+# P5-7.2 Learning Rate and Update Step Size
 
 > Section ID: `P5-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-7.1, we saw that the optimizer is `the rule that turns gradients into actual parameter updates`. Once we reach this point, the next question appears immediately.
 
@@ -13,7 +13,7 @@ The learning rate is the stride length that decides how far the optimizer moves 
 
 If the relationship among learning rate, gradient, and update starts to blur again, it helps to return together to the [learning rate](/AiBook/en/reference/concept-glossary-alpha/l/#learning-rate) and [optimizer](/AiBook/en/reference/concept-glossary-alpha/o/#optimizer) entries in the concept glossary.
 
-## The Question Of How Learning Rate Sets Step Size
+## The Question of How Learning Rate Sets Step Size
 
 - Where does the learning rate attach in the optimizer update?
 - Why, even with the same gradient, does the actual update result differ when the learning rate differs?
@@ -24,14 +24,14 @@ This section focuses on closing `how far should we actually move with the same g
 
 At the same time, it is also clear which questions we will not widen immediately in this section. Adaptive updates that additionally reflect recent gradient flow and coordinate-by-coordinate differences continue in the next section, P5-7.3. Ways of not keeping the learning rate fixed throughout training but operating it through warmup or decay are explained again in the supplementary study of P5-7.6. The convergence analysis of adaptive optimization is separated into the supplementary study of P5-7.4.
 
-## Standards For Update Size And Stability
+## Standards for Update Size and Stability
 
 - You can explain the learning rate as `the stride length of the optimizer update`.
 - You can say that even with the same gradient, the actual update result can differ depending on the learning rate.
 - You can explain why too small a stride and too large a stride create different problems.
 - You can confirm the difference between the gradient and the update stride with an executable Python example.
 
-## Where Does The Learning Rate Attach When The Optimizer Makes An Update
+## Where Does the Learning Rate Attach When the Optimizer Makes an Update
 
 The reason the learning rate appears together when explaining the optimizer is that the learning rate attaches as the stride length at the exact moment when the optimizer turns the gradient into an actual update. The learning rate itself does not change the weight directly, but it is used as the key scale factor when the optimizer decides `how much should we change it`.
 
@@ -81,7 +81,7 @@ Here, it is safer to hold the following distinction together.
 
 If we bundle this table back into one sentence, it becomes `gradient is the direction`, `learning rate is the distance`, and `optimizer is the execution of the actual movement`. From this point on, all the cases and examples should be read through the same question: `how does the learning rate turn the same gradient into different actual movement amounts?`
 
-## Why Do The Results Differ Even With The Same Gradient
+## Why Do the Results Differ Even With the Same Gradient
 
 Even if we know from the same position which direction goes downward, if the stride is too small we can barely move, if it is appropriate we can approach the low-loss region, and if it is too large we can overshoot a good point and make the loss large again. The important point here is that `knowing the direction` and `arriving at a good next position` are not the same thing.
 
@@ -95,7 +95,7 @@ It is enough to understand it like this.
 - the learning rate decides `how far should we go`
 - so even with the same gradient, the result can differ if the learning rate differs
 
-## Cases And Examples
+## Cases and Examples
 
 The cases in this section are not about choosing an optimizer. They are about reading `a scene where the same gradient turns into different update step sizes`. So when looking at a case here, always confirm it in the following order. The core is to go beyond `was there a gradient` and read `what happened after that gradient turned into an actual movement amount`.
 
@@ -127,7 +127,7 @@ If we restate this case in a table, it becomes the following.
 
 The reason this case supports the current section is clear. The learning rate is not `an extra number for explanation`. It is the value that decides how much of the same gradient is actually reflected. So the central sentence the reader needs to hold in P5-7.2 is `even with the same gradient, the actual update result differs when the learning rate differs`. The example and charts in this section are exactly devices for checking that sentence again through numbers and pictures.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to see a scene where the same gradient result turns into different updates depending on the learning rate. So rather than the learning rate value itself, we read the output centered on how much `optimizer_delta` changes. In this example, the `same CSV batch`, the `current risk weight`, and the `gradient` are fixed, while the `learning rate` and the resulting actual movement amount change.
 
@@ -273,7 +273,7 @@ What the reader absolutely has to read in this example is the following.
 - `0.03` got closer to the mean target, but `0.12`, even with the right direction, moved too far and instead increased the mean loss.
 - So `the gradient was computed` and `the model learns well` are not the same statement.
 
-## When Do We Read From The Learning-Rate Viewpoint First
+## When Do We Read from the Learning-Rate Viewpoint First
 
 The time to bring out this section is when `we know the gradient, but we still cannot see why the actual movement speed is too slow or too rough`.
 
@@ -291,7 +291,7 @@ The time to bring out this section is when `we know the gradient, but we still c
 - Can you distinguish `the gradient direction is correct` from `the update result is appropriate`?
 - Do you know that the next section, P5-7.3, continues by explaining that Adam-like methods additionally reflect recent flow and coordinate-wise differences?
 
-## Sources And References
+## Sources and References
 
 - PyTorch, `Optimizing Model Parameters`, PyTorch Tutorials. Referenced to confirm the structure in which the optimizer uses gradients to adjust parameters and receives the learning rate as a hyperparameter. Checked: 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }
 - PyTorch, `torch.optim.SGD`, PyTorch API Reference. Referenced to confirm how `lr` and momentum enter parameter updates in SGD. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.optim.SGD.html](https://docs.pytorch.org/docs/stable/generated/torch.optim.SGD.html){: target="_blank" rel="noopener noreferrer" }

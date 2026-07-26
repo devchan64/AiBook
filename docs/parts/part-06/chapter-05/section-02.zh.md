@@ -1,7 +1,7 @@
 # P6-5.2 加在生成结构之上的指令遵循与对话界面
 
 > Section ID: `P6-5.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P6-5.1 中，我们把 GPT 系列说明为以 decoder 为中心、基于先前 token 继续生成下一个 token 的流程。可是，我们实际遇到的聊天机器人、copilot、对话式助手，并不只是让人感觉像简单续写。
 
@@ -17,7 +17,7 @@
 - 为什么用户会把 LLM 感觉成 `回答问题的系统`？
 - 为了做出对话式体验，结构之外还需要什么？
 
-如果先抓住对话式转变的大流程，后面的 instruction tuning、alignment、prompt 设计、tool use、agent loop 也可以分成 `模型本身` 和 `制造用户体验的调节层` 来阅读。
+如果先抓住对话式转变的大流程，后面的 instruction tuning、alignment、prompt 设计、tool use、AI agent loop 也可以分成 `模型本身` 和 `制造用户体验的调节层` 来阅读。
 
 用户体验的变化并不只是模型参数增加带来的。如果 P6-5.1 的 GPT 说明处理的是 `用什么生成结构接上下一个 token`，那么这里要读的是，在这个生成结构之上加入了哪些调节和界面，才让用户感觉它像 `回答问题的系统`。
 
@@ -37,7 +37,7 @@
 - 可以说明自动补全式 GPT 与对话式 LLM 的差异。
 - 可以说出对话式体验需要 instruction tuning、安全调节、界面设计一起参与。
 - 可以说明聊天机器人体验并不是只靠一个模型结构就能完成。
-- 可以自然连接到后续的 pretraining、instruction tuning、prompt、agent 说明。
+- 可以自然连接到后续的 pretraining、instruction tuning、prompt、AI agent 说明。
 
 这里要确认的结果是：是否开始把对话式 LLM 体验读成不是简单自动补全，而是指令解释、对话历史、安全性修正捆在一起的结构。
 
@@ -143,7 +143,7 @@ GPT-3 时期之后，用户更强烈地体验到，可以在 prompt 里放入说
 - 系统 prompt 约束回应方向
 - 工具连接执行外部计算或搜索
 
-必须区分这些差异，后面才不会在说明 agent、MCP、harness 时混淆。
+必须区分这些差异，后面才不会在说明 AI agent、MCP、harness 时混淆。
 
 ## 制造对话式体验的三层
 

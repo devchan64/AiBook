@@ -1,7 +1,7 @@
 # P6-19.1 以限制和结构转换的流程阅读 LLM 发展史
 
 > Section ID: `P6-19.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 理解今天的 LLM(large language model，大语言模型)时，常见误解是只把它看成`突然出现的巨大模型`。但实际上，今天的生成体验是由语言模型(language model)、嵌入(embedding)、序列模型(sequence model)、attention、Transformer 和大规模预训练(pretraining)相互重叠后形成的。
 

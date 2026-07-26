@@ -1,13 +1,13 @@
-# P6-2.2 Model Input As Source Strings, Tokens, And Token IDs
+# P6-2.2 Model Input: Source Strings, Tokens, and Token IDs
 
 > Section ID: `P6-2.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-2.1, we held onto the token as a computational unit for explaining length, cost, truncation, and context preservation. Now we need to read how that computational unit appears in tokenizer output and model input.
 
 The center of this section is not explaining the word token broadly. It is to distinguish the `token pieces`, `token count`, and `token IDs` visible in tokenizer output, and to hold onto the fact that those IDs become a sequence used as model input.
 
-## Values To Distinguish First In Tokenizer Output
+## Values to Distinguish First in Tokenizer Output
 
 A token is the basic computational unit a model counts when handling inputs and outputs. But in an actual output screen or log, a token does not appear as only one value. The source string, token pieces, token count, and token IDs often appear together, and if these values are mixed together, it becomes unclear how model input is made.
 
@@ -24,7 +24,7 @@ The minimum distinction needed here is as follows.
 
 This table is the standard for this section. First read separately `how the source was split`, `how many pieces there are`, and `which number each piece became`, and then look at how those numbers are placed in sequence as model input.
 
-## Misunderstandings To Drop First
+## Misunderstandings to Drop First
 
 Depending on the case, a token can look like the following.
 
@@ -59,7 +59,7 @@ Another misunderstanding is reading a token like the symbol from symbolic AI see
 
 Therefore, we should not overinterpret tokens as logical symbols. On the other hand, we should not pass over token IDs as meaningless internal numbers either. What is needed now is not reading token pieces as definitions, but reading which vocabulary number each piece becomes and where it is placed in the model input.
 
-## How Tokens Are Used Inside The Model
+## How Tokens Are Used Inside the Model
 
 Tokens are not computed as-is. A model usually handles input in the following flow.
 
@@ -86,9 +86,9 @@ So knowing `what a token is` does not mean memorizing one definition. It means b
 
 When reading token IDs, one more caution is needed. An ID is closer to an identifier saying `which entry in the vocabulary this piece is`. If `4012` is larger than `812`, that does not mean the token is more important or more complex. What matters in model computation is not the size of the ID itself, but which embedding vector that ID retrieves and how it enters later context computation.
 
-## Output-Value Distinction Cases And Examples
+## Output-Value Distinction Cases and Examples
 
-### Case 1. When The Word People See Differs From The Token
+### Case 1. When Visible Words Differ from Tokens
 
 Suppose the expression `refundpolicy` keeps appearing in a customer-support document. A person reads this expression as one word with a clear meaning. So it is easy to think the model also receives this one word as one computational unit.
 
@@ -145,7 +145,7 @@ The same scene can be compressed once more into a comparison table.
 | Token pieces are visible | Model computation continues through token IDs and vector conversion |
 | It looks like a meaningful symbol | A token is not a human-chosen logical symbol, but a computational piece made by a tokenizer |
 
-## Practice Asking At The Right Level
+## Practice Asking at the Right Level
 
 Even if we cannot run an actual tokenizer yet, we can practice changing `what people first say` into `a model-standard checking question` as follows.
 
@@ -178,7 +178,7 @@ When the same distinction is applied to an actual log or explanation screen, rea
 
 This table is a device for pausing again inside the current integrated section to check the distinction among `piece`, `count`, `number`, and `position`. If readers pass through this table, they can read the levels between tokenizer output and model input without seeing a token as an isolated name.
 
-## Example Of Reading Tokenizer Output Values
+## Example: Reading Tokenizer Output Values
 
 Before comparing tokenization types, it is better to first check `how to read the token itself`. The example below simplifies three values often seen in real tokenizer output. It is not a table for memorizing the exact result of a particular model, but an example for distinguishing what to read from output.
 
@@ -242,7 +242,7 @@ Earlier, we read tokens separately as `token pieces`, `token count`, and `token 
 
 The key is not the definition of one token but the `sequence` of tokens. The model does not receive the source sentence as a whole. It receives input where token IDs are lined up, and it continues the next computation on top of that order.
 
-## The Sequence Matters More Than One Token
+## Sequence Matters More Than One Token
 
 Tokens are not used only one at a time. In model input, multiple tokens are placed in order, and that order becomes material for the structure of the sentence.
 
@@ -291,9 +291,9 @@ More carefully, when reading model input, we look at three things together.
 
 Therefore, model input is neither just an `ID list` nor just a `word-meaning list`. It is a structure that sees together `which ID is placed in which order and position`.
 
-## ID-Sequence Cases And Examples
+## ID-Sequence Cases and Examples
 
-### Case 1. When The Input Changes Because The Same Pieces Change Order
+### Case 1. When Input Changes Because Same Pieces Change Order
 
 Suppose we automatically classify `refund possible` and `refund not possible` in a customer-support document. A person immediately distinguishes the two expressions by meaning, but a reader seeing tokenizer output for the first time may feel they are similar inputs because both contain `refund` and `possible`.
 
@@ -308,7 +308,7 @@ The result to check in this case is that tokens should be read not as a set coll
 
 So the safer judgment in this case is not stopping at `which tokens are included`, but also checking `in what order those tokens are placed`.
 
-### Case 2. When The Same Token Repeats But Its Position Differs
+### Case 2. When Same Token Repeats but Position Differs
 
 The input `The meeting is tomorrow. Please send the meeting materials.` contains `meeting` twice. A person may first see the same word repeated, and tokenizer output may also show the same token piece or the same ID twice.
 
@@ -339,7 +339,7 @@ The result to check in this case is that tokens are not markers used only when r
 
 So the safer judgment in this case is not separating `input as input, output as result`, but reading that `output tokens continue after input tokens and the same sequence becomes longer`.
 
-## Reading Tokens As A Sequence
+## Reading Tokens as a Sequence
 
 When you see the following scenes, first distinguish whether you are seeing `tokens one by one` or `tokens as a sequence`.
 
@@ -360,17 +360,17 @@ If you see the same judgment in an actual log or explanation screen, check in th
 | 3 | Position | At what position in the input is that number placed? |
 | 4 | Surrounding context | How do nearby tokens change the role of this position? |
 
-## Standard To Keep From Token-ID Sequences
+## Standard to Keep from Token-ID Sequences
 
 The token is not simply a concept word. It is the basic unit through which model input and output continue. The question to close now is not an operation judgment, but the fact that tokens are used inside the model as `ordered input`.
 
 Once this flow is understood, the need for tokenization, the procedure that turns a source string into this token sequence, also follows naturally.
 
-## Exercises And Examples
+## Exercises and Examples
 
 The goal of this exercise is not guessing tokenization rules. It is practice in looking at given token pieces and IDs and reading model input not as `an individual list` but as `a sequence with positions`. For each item, first choose your own answer, then compare it with the explanation immediately below.
 
-### Exercise 1. Finding Order Differences In The Same Piece List
+### Exercise 1. Finding Order Differences in the Same Piece List
 
 The two inputs below contain all the same pieces: `refund`, `not`, and `possible`.
 
@@ -387,7 +387,7 @@ First answer for yourself.
 
 Explanation: The two inputs are not the same even though they contain the same pieces. In A, `920` is placed before `7731`, and in B, `920` is placed at the end. By the standard of this section, `which ID is placed in what order` comes before `what is included`.
 
-### Exercise 2. Reading The Position Of The Same Token
+### Exercise 2. Reading the Position of the Same Token
 
 Below is a simplified input where the same token ID `5100` appears twice.
 
@@ -433,7 +433,7 @@ After the three exercises, you should be able to summarize the point in one sent
 - Can you say that surrounding order and position matter more than the name of one token?
 - Can you explain that answers are made as output tokens continue after input tokens?
 
-## Sources And References
+## Sources and References
 
 - OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19. Used to confirm that API request text is split into tokens and that responses are generated as token sequences before being converted into text.
 - OpenAI, [tiktoken README](https://github.com/openai/tiktoken/blob/main/README.md){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19. Used to confirm the explanation that language models see text as a sequence of token numbers rather than in the way people read it.

@@ -1,7 +1,7 @@
 ## unsupervised learning
 
-- Meaning: 사람이 미리 붙인 라벨 없이 데이터 안의 구조나 묶음, 표현을 찾으려는 학습 방식입니다. 즉 `정답이 무엇인가`를 바로 맞히는 대신, 사례들이 어떻게 비슷하고 어떻게 갈라지는지 먼저 읽으려는 문제 설정이라고 볼 수 있습니다. 다시 말해 비지도학습은 답을 외우는 학습보다, 데이터 안에 숨어 있는 질서를 드러내는 학습에 더 가깝습니다.
-- Why it matters: 지도학습처럼 정답 라벨을 맞히는 문제와 달리, 데이터 자체의 관계를 발견하는 질문이 따로 있다는 점을 보여 주기 때문입니다. 이 개념이 있어야 학습이 반드시 `정답 맞히기`만 뜻하는 것은 아니라는 점을 이해하게 되고, 군집화·차원 축소·표현 학습처럼 데이터 구조를 먼저 읽는 문제들이 별도 축으로 존재한다는 점도 자연스럽게 이어집니다. 예를 들어 고객 데이터에 라벨이 없어도 비슷한 행동 패턴끼리 먼저 묶어 보면, 이후 어떤 집단을 먼저 해석하거나 검토할지 새로운 질문이 생길 수 있습니다. 결국 비지도학습을 이해해야 `라벨이 없으니 아무것도 못 한다`가 아니라 `라벨 없이도 먼저 볼 수 있는 구조가 있다`는 관점으로 넘어가게 됩니다.
+- Meaning: Unsupervised learning is a learning setup that looks for structure, groups, or representations in data without human-provided answer labels. Instead of predicting a predefined target, it first asks how examples resemble or differ from one another.
+- Why it matters: It shows that learning is not only about getting known answers right. Clustering, dimensionality reduction, and representation learning all begin from the question of what structure can be read from the data itself.
 - Related concepts: `structure`, `clustering`, `dimensionality reduction`
 - Core Section: `P4-2.2`
-- Appears in: `P1-8.2`, `P4-17.1`, `P4-17.2`, `P4-18.1`, `P4-18.2`
+- Appears in: `P1-8.2`, `P4-index`, `P4-2.2`, `P4-17.1`, `P4-17.2`, `P4-18.1`, `P4-18.2`, `P4-2.3`

@@ -1,7 +1,7 @@
 # P1-3.1 Strengths and Limits of Rule-Based Systems
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 2.1 located symbolic AI and rule-based approaches historically. Section 2.3 showed that even inside the same workflow, there is a split between `parts that are easy to write as explicit policy conditions` and `parts that need to learn relations from data, such as intent classification`. This section narrows the question one step further and organizes what practical strengths rule-based systems had and where they began to show their limits.
 

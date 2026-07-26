@@ -1,8 +1,16 @@
 ## ㄷ
 
+--8<-- "reference/concept-glossary-terms/polynomial-kernel.ko.md"
+
 --8<-- "reference/concept-glossary-terms/dataframe.ko.md"
 
+--8<-- "reference/concept-glossary-terms/dqn.ko.md"
+
+--8<-- "reference/concept-glossary-terms/domain-randomization.ko.md"
+
 --8<-- "reference/concept-glossary-terms/multivariable-function.ko.md"
+
+--8<-- "reference/concept-glossary-terms/multinomial-logistic-regression.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dtype.ko.md"
 
@@ -23,6 +31,18 @@
 --8<-- "reference/concept-glossary-terms/data-leakage.ko.md"
 --8<-- "reference/concept-glossary-terms/data-modeling.ko.md"
 
+--8<-- "reference/concept-glossary-terms/data-quality-check.ko.md"
+
+--8<-- "reference/concept-glossary-terms/dataset-candidate.ko.md"
+
+--8<-- "reference/concept-glossary-terms/data-question.ko.md"
+
+--8<-- "reference/concept-glossary-terms/data-science.ko.md"
+
+--8<-- "reference/concept-glossary-terms/representative-target.ko.md"
+
+--8<-- "reference/concept-glossary-terms/proxy-target.ko.md"
+
 --8<-- "reference/concept-glossary-terms/substitution.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sparsity.ko.md"
@@ -32,6 +52,8 @@
 --8<-- "reference/concept-glossary-terms/data-distribution.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dataset.ko.md"
+
+--8<-- "reference/concept-glossary-terms/dbscan.ko.md"
 
 --8<-- "reference/concept-glossary-terms/tool-use.ko.md"
 
@@ -52,3 +74,5 @@
 --8<-- "reference/concept-glossary-terms/deep-reinforcement-learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/deep-learning.ko.md"
+
+--8<-- "reference/concept-glossary-terms/contrastive-learning.ko.md"

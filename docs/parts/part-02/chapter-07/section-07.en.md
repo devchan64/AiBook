@@ -1,7 +1,7 @@
 # P2-7.7 Supplemental Learning: When Is Python Installation Needed?
 
 > Section ID: `P2-7.7`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-7.6, we looked at how to open a terminal and check the current location on Windows, macOS, and Linux. Now this question remains.
 
@@ -52,7 +52,7 @@ Installation screens and recommended methods can change over time. When actually
 | Local installation is the act of building the base for running the Python interpreter on my computer | If you see installation, virtual environments, and package preparation as one lump, judgment becomes blurry | You should be able to explain what installation is preparing |
 | After installation, the first thing to check is the version and the execution command | Installation success and command-connection success are not the same thing | You should be able to explain the purpose of `python --version`-type checks |
 
-## The Stage You Can Start with Colab
+## Stage You Can Start with Colab
 
 In early learning, Colab is often enough.
 
@@ -66,7 +66,7 @@ Because Colab runs in the browser, it lets you postpone Python installation issu
 
 But Colab is not your own computer. The runtime is provided by an external service, the session can be reset, and it is hard to guarantee that files and package state will keep being preserved. So as learning moves to the next stage, the need for local installation grows.
 
-## The Point Where Local Installation Becomes Necessary
+## Point Where Local Installation Becomes Necessary
 
 The point when you need to install Python on a local PC is not “the first day you start learning Python,” but when you need to manage the execution environment directly.
 
@@ -229,9 +229,9 @@ The following situations are especially common.
 
 When reading error messages, you need the habit of separating “Python code error” from “execution-environment error.”
 
-## Cases And Examples
+## Cases and Examples
 
-### Case 1. Until When Is Colab Enough, and From When Is Local Installation Needed?
+### Case 1. Until When Is Colab Enough, and from When Is Local Installation Needed?
 
 Suppose a learner has followed examples only in Colab so far. But now a situation appears where a project with several `.py` files must be downloaded and run from a local folder. At that point, the learner first asks `do I really need installation now?` and `can't I just upload it to Colab?`
 

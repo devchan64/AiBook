@@ -1,7 +1,7 @@
 # P2-8.1 Values, Variables, and Types
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-7, we looked at where code runs. You can run it in Colab, or you can run the Python interpreter on the terminal of a local PC.
 
@@ -13,7 +13,7 @@ In other words, the reason for learning these words now is also clear. Later, wh
 
 The first words are value, variable, and type.
 
-Here, we explain the basic distinction among `value`, `variable`, and `type`. These three words are not expressions trapped only inside Python. They are the minimum units shared by most programming languages and data-processing tools. When you meet these concepts again later in Part 2, also use the [Concept Glossary](../../../reference/concept-glossary.md) as a reference point.
+Here, we explain the basic distinction among `value`, `variable`, and `type`. These three words are not expressions trapped only inside Python. They are the minimum units shared by most programming languages and data-processing tools. When you meet these concepts again later in Part 2, also use the [value glossary entry](/AiBook/en/reference/concept-glossary-alpha/v.en/#value) as a reference point.
 
 ## Three Sentences to Leave from This Section
 

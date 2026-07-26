@@ -1,7 +1,7 @@
-# P6-1.2 LLMs As The Central Case For Reading Generative AI
+# P6-1.2 LLMs as the Central Case for Reading Generative AI
 
 > Section ID: `P6-1.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Generative AI includes many flows: image generation, speech generation, video generation, code generation, and more. Part 6 does not cover all of them in depth. In this Part, we use an LLM (large language model) as the central case for reading how generative AI works and how it is used.
 
@@ -17,7 +17,7 @@ Image and speech generation still share the common problem of `creating and revi
 
 The text LLM is suitable as the representative case not because its output is easy just because it is made of sentences. On the contrary, sentence artifacts reveal many of the problems users face in real services on one screen.
 
-## The LLM Is Not All Of Generative AI, But A Connection Point
+## LLM Role: Generative AI Connection Point
 
 Reading through LLMs as the central case does not mean image generation or speech generation is less important. The purpose of Part 6 is not to survey every type of generative AI, but to follow one generated artifact all the way through how it is reinforced and reviewed in a use scene.
 
@@ -32,7 +32,7 @@ The text LLM fits this purpose well. A user's request, the model's intermediate 
 
 Therefore, in Part 6, the LLM is not the conclusion that it is `the most important generative AI`. It is `the representative path where generation, reinforcement, execution, and review continue on one screen`. Without this perspective, the terms that appear later scatter like a list of product features.
 
-## Reinforcement Structures Differ By Request Type
+## Reinforcement Structures Differ by Request Type
 
 | User request | What the LLM can do first | Why it is hard to stop there | Needed reinforcement |
 | --- | --- | --- | --- |
@@ -45,7 +45,7 @@ The important point in this table is not that the LLM solves every problem alone
 
 So there are three misunderstandings to correct here. An LLM is not all of generative AI, but a representative case. Generative AI is not a technology that simply creates an artifact and ends there; in a use scene, review, reinforcement, and records must be attached. Text generation is not merely a writing function, but an execution flow that easily connects to retrieval, tools, evaluation, and operation structures.
 
-## Cases And Examples
+## Cases and Examples
 
 The following examples look like the same request to `create an answer`, but the needed structure differs.
 
@@ -70,7 +70,7 @@ Read the following requests and separate `what to try first with prompts alone` 
 
 The reason for reading LLMs as the central case is that this boundary is visible. The text answer is the starting point, and the actual service is completed by attaching evidence, execution, evaluation, and records to that answer.
 
-## Exercises And Examples
+## Exercises and Examples
 
 Look at the following requests and mark one reason why the LLM artifact alone is not enough. The right column gives the checking explanation.
 

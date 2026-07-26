@@ -1,18 +1,18 @@
-# P2-4.5 Gradient Supplement: From School Differentiation to Multivariable Differentiation
+# P2-4.5 Gradient Supplement: from School Differentiation to Multivariable Differentiation
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-4.3, we connected derivative, partial derivative, and gradient, and in P2-4.4, we looked at why differentiation is needed in learning.
 
-Here, we provide supplementary learning to reduce the unfamiliarity that appears when moving from school-level differentiation memory to the gradient. The representative explanation of `gradient` stays in P2-4.3, and the representative explanation of `gradient descent` stays in P2-6.3. This Section more slowly organizes only the background needed to fill the gap between them. When you want to check terms quickly again, you can also look at the [concept glossary](../../../reference/concept-glossary.md).
+Here, we provide supplementary learning to reduce the unfamiliarity that appears when moving from school-level differentiation memory to the gradient. The representative explanation of `gradient` stays in P2-4.3, and the representative explanation of `gradient descent` stays in P2-6.3. This Section more slowly organizes only the background needed to fill the gap between them. When you want to check terms quickly again, you can also look at the [gradient glossary entry](/AiBook/en/reference/concept-glossary-alpha/g.en/#gradient).
 
 This Section reads mainly background concepts that passed quickly in the main text, such as supplementary learning, directional derivative, and vector calculus. Instead of pushing `gradient`, `gradient descent`, and `backpropagation` as formulas from the beginning, the goal is to recover what kind of concepts they are trying to look at.
 The purpose is to make the jump from one remembered slope to many-direction change feel readable again.
 
 From the reader's point of view, this Section can feel especially long. So it helps more to enter by first organizing briefly `where does the school-level differentiation memory break?`
 
-## The Break Point to See First
+## Break Point to See First
 
 | School Memory | Why It Gets Stuck Here | Expression to Hold Again in This Section |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ When reading this flow, it helps to keep asking together: `what is changing?`, `
 
 These questions become the starting point when we meet optimization, gradient descent, and backpropagation again later.
 
-## First Reading Criteria: Gradient: From School Differentiation to Multivariable Differentiation
+## First Reading Criteria: Gradient: from School Differentiation to Multivariable Differentiation
 
 - You can explain why the gradient may feel unfamiliar when starting only from school-level differentiation memory.
 - You can explain the difference between a single-variable function and a multivariable function.

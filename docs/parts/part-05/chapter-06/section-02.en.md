@@ -1,7 +1,7 @@
 # P5-6.2 Training Step, Batch, Epoch
 
 > Section ID: `P5-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-6.1, we first grouped together the smallest training loop that continues as `forward -> loss -> backward -> optimizer step`. Once we reach that point, the next question appears immediately.
 
@@ -19,7 +19,7 @@ As an analogy, batch is like the bundle of materials placed on the workbench at 
 
 If this distinction among the three units starts to blur again, it helps to return to the [batch](/AiBook/en/reference/concept-glossary-alpha/b/#batch), [training](/AiBook/en/reference/concept-glossary-alpha/t/#training), and [epoch](/AiBook/en/reference/concept-glossary-alpha/e/#epoch) entries in the concept glossary together.
 
-## The Question Separated By Step, Batch, And Epoch
+## The Question Separated by Step, Batch, and Epoch
 
 - What does each of step, batch, and epoch count?
 - How is the training loop from P5-6.1 repeated through batch and step?
@@ -32,14 +32,14 @@ That also means that this section is not the place to explain again what forward
 
 At the same time, it is also clear which question we will not widen immediately in this section. Whether that repetition is training that actually changes the parameters, or execution that uses the current parameters, continues in the next section, P5-6.3. Even inside a region that uses the same parameters, why training mode and evaluation mode split is explained again in P5-6.4.
 
-## Standards For Update Units And Repetition Units
+## Standards for Update Units and Repetition Units
 
 - You can explain step, batch, and epoch as different units of repetition.
 - You can say that one training loop from P5-6.1 runs as one step for each batch.
 - You can explain an epoch as `one full pass through the entire dataset`.
 - You can confirm with a simple Python example how step and epoch accumulate.
 
-## Seeing Step, Batch, And Epoch In One Scene
+## Seeing Step, Batch, and Epoch in One Scene
 
 Suppose there are 12 training samples and the batch size is 4.
 
@@ -109,7 +109,7 @@ Especially when reading logs, it is safer to use the following order.
 
 Once that order is fixed, even when you see a number like `step 2000`, it becomes less confusing that this does not mean `the whole dataset was repeated 2000 times`, but is much closer to `2000 updates happened`.
 
-## What Does Batch Point To
+## What Does Batch Point to
 
 In theory, we could update immediately for every single sample, or put the whole dataset in at once. But in actual training, both can be inconvenient.
 
@@ -128,7 +128,7 @@ So if someone says `we increased the batch size from 32 to 64`, it is more accur
 
 The final core point to hold when reading batch is simple. Batch counts `how many samples are grouped together at one time`. It does not tell us how many times the whole training was repeated. It tells us the size of the input group placed in front of the model just before one update.
 
-## What Does Step Point To
+## What Does Step Point to
 
 If we count step simply as `forward happened once`, the core of the training loop becomes blurry. As we saw in P5-6.1, the training loop closes as `forward -> loss -> backward -> optimizer step`.
 
@@ -146,7 +146,7 @@ In practical logs, the expression `global step` also appears often, and even the
 
 The last core point to hold when reading step is also clear. Step means, more precisely than `the training loop ran once`, that `an update happened once`. So it is safest to understand the step count as the number that counts how many times the model has been modified.
 
-## What Does Epoch Point To
+## What Does Epoch Point to
 
 Epoch is a larger unit than step. Only after the whole training dataset has been read once does epoch 1 finish.
 
@@ -169,7 +169,7 @@ This point also matters later when comparing experiment results. Even if two exp
 
 The final core point to hold when reading epoch is that this number does not directly tell us `how strong the training was`. It tells us `how many times the entire dataset was repeated`. So if we look at epoch alone, we still have not read the whole training process. We also need to see how many steps were inside it before the actual repetition structure becomes visible.
 
-## Fixing The Boundary Between 6.2 And 6.3 First
+## Fixing the Boundary Between 6.2 and 6.3 First
 
 After P5-6.2, P5-6.3 distinguishes learning and inference. Because both often appear together with the phrase `training repeats many times`, they can look attached when read for the first time. So it is safer here to split the questions into two levels.
 
@@ -180,7 +180,7 @@ After P5-6.2, P5-6.3 distinguishes learning and inference. Because both often ap
 
 In other words, P5-6.2 is the section that separates `units of repetition`, and P5-6.3 is the section that then separates `whether parameters change`.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Training 12 Alarm Records In Three Parts
 
@@ -219,7 +219,7 @@ flowchart LR
 
 This diagram is there not to add more formulas, but to fix the reading order `whole dataset -> batch groups -> accumulated step -> epoch complete`.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm how the same small training dataset is divided into several steps depending on the batch size, and when the epoch finishes. Here, the code is not training a complicated model, but serving the role of making the `units of repetition` visible.
 
@@ -294,7 +294,7 @@ The last core point to hold here is simple. Batch is `the grouping unit`, step i
 - Can you say that the one training loop from P5-6.1 is repeated as many steps in actual training, one for each batch?
 - Can you distinguish that the learning/inference section in P5-6.3 asks not about `units of repetition`, but about `whether parameters change`?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - PyTorch, `Optimizing Model Parameters`, PyTorch Tutorials. Used to check the structure in which training repeatedly continues through prediction, loss computation, gradient computation, and parameter optimization, and the training-loop terminology. Accessed 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }
 - PyTorch, `Training with PyTorch`, PyTorch Tutorials. Used to check the training-loop structure that takes batches from a DataLoader and repeats through one epoch. Accessed 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html](https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html){: target="_blank" rel="noopener noreferrer" }

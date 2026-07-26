@@ -1,6 +1,10 @@
 ## ㅊ
 
+--8<-- "reference/concept-glossary-terms/feature-importance.ko.md"
+
 --8<-- "reference/concept-glossary-terms/chain-of-thought-cot.ko.md"
+
+--8<-- "reference/concept-glossary-terms/feature-space.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.ko.md"
 
@@ -8,7 +12,11 @@
 
 --8<-- "reference/concept-glossary-terms/reference.ko.md"
 
+--8<-- "reference/concept-glossary-terms/reference-maintenance-strategy.ko.md"
+
 --8<-- "reference/concept-glossary-terms/optimal.ko.md"
+
+--8<-- "reference/concept-glossary-terms/argmax.ko.md"
 
 --8<-- "reference/concept-glossary-terms/accountability.ko.md"
 
@@ -42,6 +50,12 @@
 
 --8<-- "reference/concept-glossary-terms/maximization.ko.md"
 
+--8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.ko.md"
+
+--8<-- "reference/concept-glossary-terms/max-depth.ko.md"
+
+--8<-- "reference/concept-glossary-terms/min-samples-leaf.ko.md"
+
 --8<-- "reference/concept-glossary-terms/recommendation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/axis.ko.md"
@@ -55,6 +69,8 @@
 --8<-- "reference/concept-glossary-terms/output-definition.ko.md"
 
 --8<-- "reference/concept-glossary-terms/output.ko.md"
+
+--8<-- "reference/concept-glossary-terms/output-layer.ko.md"
 
 --8<-- "reference/concept-glossary-terms/provenance.ko.md"
 

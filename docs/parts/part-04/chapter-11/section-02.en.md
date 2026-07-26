@@ -1,14 +1,14 @@
 # P4-11.2 Decision Boundary
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-11.1, logistic regression was read as `a linear model that creates scores that can be read like probabilities`.
+In P4-11.1, [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) was read as `a linear model that creates scores that can be read like probabilities`.
 Now the question changes by one step.
 
 Why does that score divide some inputs into class 0 and others into class 1?
 
-To answer that, it is not enough to ask only `what is the probability?` The reader also has to see `up to where is it read as class 0, and from where is it read as class 1?` The perspective that reads that criterion inside the input space is the decision boundary.
+To answer that, it is not enough to ask only `what is the probability?` The reader also has to see `up to where is it read as class 0, and from where is it read as class 1?` The perspective that reads that criterion inside the input space is the [decision boundary](/AiBook/en/reference/concept-glossary-alpha/d/#decision-boundary).
 
 So the phrase `where does the model draw a line in the input space?` is closer to a result than the deepest idea.
 The more essential question is the following.
@@ -20,11 +20,11 @@ If P4-11.1 was the Section of reading the output, P4-11.2 is the Section of look
 `A decision boundary is the criterion line or criterion surface that separates class 0 and class 1.`
 
 This Section does not repeat the basic definition of logistic regression at length.
-The core intuition, `a linear classifier that makes a score that can be read like a probability`, reconnects through P4-11.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus stays on how that score divides the input space.
+The core intuition, `a linear classifier that makes a score that can be read like a probability`, reconnects through P4-11.1 and the glossary entries for [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) and [decision boundary](/AiBook/en/reference/concept-glossary-alpha/d/#decision-boundary). Here the focus stays on how that score divides the input space.
 
 After reading the decision boundary, the next questions remain: `why is probability transformed and read in this way`, `why do log-odds and MLE follow in the explanation of learning`, and `how does this intuition widen to multiclass settings and model comparison`. That recovery continues in the supplementary learning of P4-11.3, P4-11.4, and P4-11.5.
 
-## Scope Of This Section
+## Questions Closed By Decision Boundary
 
 This Section answers the following questions.
 
@@ -38,7 +38,7 @@ This Section first closes the decision boundary as `the criterion that divides t
 
 At the same time, the broader questions that should be revisited later are also clear. The hyperplane intuition reconnects again in P4-1.2, and kernel methods and nonlinear boundaries return in P4-13.1 and P4-13.2. Settings and computation costs such as `C`, `gamma`, and threshold adjustment reconnect again in P4-9.1 and P4-9.2, and multiclass expansion continues in P4-11.4.
 
-## Goals Of This Section
+## Judgments To Keep From Decision Boundary
 
 - You can explain a decision boundary not as `an output score` but as `a criterion that divides the input space`.
 - You can understand that in one dimension the boundary looks like `one point`, and in two dimensions it usually looks like `one line`.
@@ -361,7 +361,9 @@ This example is a very small binary-classification exercise that classifies whet
 - input: scores from two subjects
 - label: pass (1) / fail (0)
 - concept to check:
-- logistic regression computes one score using the two features together - two coefficients and one intercept participate in the position and direction of the decision boundary - even in the same input space, classes split on the two sides of the boundary
+  - logistic regression computes one score using the two features together
+  - two coefficients and one intercept participate in the position and direction of the decision boundary
+  - even in the same input space, classes split on the two sides of the boundary
 
 The inputs can be read as follows.
 
@@ -370,6 +372,11 @@ The inputs can be read as follows.
 | `X` | two-dimensional input made of the two subject scores |
 | `y` | pass / fail labels |
 | `samples` | samples to inspect below the boundary, near the boundary, and above the boundary |
+
+Values to change:
+
+- Change `samples` more densely to `[48, 49]`, `[50, 50]`, and `[52, 51]` to inspect score movement near the boundary.
+- Move one or two points in `X` to see whether the coefficients, intercept, and boundary interpretation move together.
 
 ```python
 # This example checks how a logistic regression decision boundary separates classes in input space.
@@ -439,12 +446,6 @@ In actual operation, this way of reading continues directly.
 - Samples very near the boundary are easier to separate as review targets.
 - So the decision boundary is not just a picture. It also connects to an operating criterion for finding ambiguous cases.
 
-There are also points that become clearer if the values are changed directly.
-
-- If `samples` are changed more densely to `[48, 49]`, `[50, 50]`, and `[52, 51]`, the score shift near the boundary becomes easier to inspect.
-- If one or two points in `X` are moved, the coefficients and intercept change, and the interpretation of the boundary changes together.
-- Even with the same model, if the threshold changes, the final action of near-boundary samples changes too. That point connects directly to the next example.
-
 ### Python Example: Confirm Threshold Change With A Small Script
 
 This time, use class 1 scores that have already been calculated and check how the boundary interpretation changes when the threshold changes.
@@ -466,6 +467,11 @@ Concept to check:
 
 - changing the threshold changes the size of the class regions
 - the boundary is connected not only to a formula, but also to an operating rule
+
+Values to change:
+
+- Add `0.49`, `0.50`, and `0.51` to `proba_class_1` to see how classes split at the 0.5 boundary.
+- Change the cutoff in `pred_07` to `0.6` or `0.8` to compare how much the class 1 region changes over the same score array.
 
 ```python
 # This example checks how a logistic regression decision boundary separates classes in input space.
@@ -495,6 +501,11 @@ This result shows that a point such as `0.62` can already look fairly positive f
 
 Now keep the same score array and raise the threshold again to `0.9`.
 
+Values to change:
+
+- Change `0.81` to `0.91` to see which cases still remain automatic class 1 under a high threshold.
+- Change `pred_09` to an `0.85` cutoff to compare how the review candidates change when the operating criterion is lowered slightly.
+
 ```python
 # This example checks how a logistic regression decision boundary separates classes in input space.
 import numpy as np
@@ -522,6 +533,14 @@ threshold 0.9   : [0 0 0]
 - What stayed the same: the relative order of the scores is unchanged. `0.81` is still closest to class 1, and `0.48` is still the farthest.
 - What changed: once the threshold rose again, even `0.81`, which used to look like an automatic candidate, no longer became class 1 automatically.
 - Judgment to leave first: the score itself and the final behavior are not the same stage. Not only near-boundary cases, but even cases that once looked certain can return to the review pool when the operating criterion changes.
+
+This comparison makes a classification model readable as an `operating-boundary adjustment device`, not just as a `probability calculator`. What matters is not only making one score higher, but reading which cases move from automatic handling back to review when the threshold changes and which error costs move with them. Repeating the same score array while changing only the boundary trains the reader to separate `model output` from `applied judgment`.
+
+| Common record language | What to record immediately from this exercise |
+| --- | --- |
+| structure observed | even with the same scores, raising the threshold shrank the class 1 region and returned an automatic case to review candidacy |
+| interpretation boundary | a more conservative threshold is not automatically a better service policy, because the increased FN cost must be read together |
+| next question | should the team first compare whether the reduced FP is really more important than the increased FN and review load? |
 
 ## Supplementary Reading On Detailed Content
 
@@ -576,6 +595,7 @@ This point connects to the threshold of 11.1, the evaluation metrics in the earl
 
 ## Sources And References
 
-- Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
-- Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
-- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, checked on 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
+- Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26.
+- Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26.
+- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, checked on 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LogisticRegression`, scikit-learn API Reference, checked on 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }

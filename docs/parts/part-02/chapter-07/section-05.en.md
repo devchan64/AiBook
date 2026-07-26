@@ -1,7 +1,7 @@
 # P2-7.5 Dependency and Reproducibility
 
 > Section ID: `P2-7.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-7.4, we looked at virtual environments and packages. Now one question remains.
 
@@ -85,7 +85,7 @@ Dependencies can be divided into direct dependencies and indirect dependencies.
 
 You do not need to memorize this whole structure. But you do need the sense that “behind one package I installed, several other packages may come along together.”
 
-## Example: The Same Code Fails in Some Places
+## Example: the Same Code Fails in Some Places
 
 Think about the following situation. You downloaded an example from the book and ran a Python file that calculates a mean.
 

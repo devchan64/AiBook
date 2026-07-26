@@ -1,7 +1,7 @@
 # P6-3.1 Embeddings That Turn Token IDs into Comparable Coordinates
 
 > Section ID: `P6-3.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In Chapter P6-2, we saw that an LLM reads text in token units, and that token length connects directly to cost and context length. But token numbers alone cannot let the model compute meaning, so tokens must soon be changed into another numerical representation.
 
@@ -9,7 +9,7 @@ What numerical representation does tokenized input become inside the model? An e
 
 The first thing to separate here is `assigning a number` and `turning something into comparable coordinates`. A token ID is a number that points to an item in a vocabulary, while an embedding vector is a coordinate representation that lets that item be compared and computed with other representations.
 
-## From Token Numbers to Vector Representations
+## Token Numbers Become Vector Representations
 
 When first reading embeddings, hold onto the questions below.
 
@@ -80,7 +80,7 @@ A safer explanation is as follows.
 For example:
 
 - `car` and `automobile`
-- `문서 요약` and `요약 생성`
+- `document summarization` and `summary generation`
 
 Expressions like these can become close if they were used in similar contexts, even if they are not completely identical.
 
@@ -348,7 +348,7 @@ Answer by yourself first.
 
 Explanation: The rank-1 item is not a confirmed answer. Even if `factuality_risk_phrase` is closest to the query vector, you must separately check whether there is enough evidence to answer the actual question and whether it matches the scope the user asked about. Therefore, this result should be used not as `the answer right away`, but as `a candidate list to review first`. The embedding view is not an answer judge. It is a representation foundation that makes candidate comparison possible where numbers alone could not.
 
-## As Background Only
+## Background Only
 
 Embeddings are not a concept that appeared only in the LLM era. In natural language processing, research has long continued on turning words into distributed representations, and studies such as word2vec spread the sense that `words in similar contexts can become similar vectors`.
 

@@ -1,9 +1,9 @@
 # P4-16.1 그래디언트 부스팅(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
+P4-15에서 본 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
 
 여기서 그래디언트 부스팅(gradient boosting)이라는 다른 질문이 나옵니다. 여러 트리를 모으는 데서 그치지 말고, 앞 단계 트리의 오차를 다음 트리가 바로 보정하게 만들 수는 없을까 하는 질문입니다.
 
@@ -11,7 +11,7 @@ P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적
 
 랜덤포레스트가 `여러 의견을 병렬로 모으는 방식`에 가깝다면, 그래디언트 부스팅은 `이전 단계의 오차를 다음 단계가 고쳐 가는 방식`에 가깝습니다.
 
-이 절은 `그래디언트 부스팅(gradient boosting)`, `residual`, `weak learner`, `additive model`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 오차를 순차적으로 보정하는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [그래디언트 부스팅(gradient boosting)](../../../reference/concept-glossary-parts/01-giyeok.md#gradient-boosting), [잔차(residual)](../../../reference/concept-glossary-parts/09-jieut.md#residual), [약한 학습기(weak learner)](../../../reference/concept-glossary-parts/08-ieung.md#weak-learner), [가법 모델(additive model)](../../../reference/concept-glossary-parts/01-giyeok.md#additive-model)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 오차를 순차적으로 보정하는 기본 감각은 이 절과 개념사전을 기준으로 다시 연결합니다.
 
 ## 그래디언트 부스팅(gradient boosting)에서 닫을 질문
 
@@ -20,7 +20,7 @@ P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적
 - 그래디언트 부스팅은 왜 `순차적(sequential)`이라고 부르는가?
 - `weak learner`, `residual`, `additive model`은 어떤 뜻으로 쓰이는가?
 - 랜덤포레스트와 그래디언트 부스팅의 사고방식은 어떻게 다른가?
-- `n_estimators`와 `learning_rate`는 왜 함께 읽어야 하는가?
+- [`n_estimators`](../../../reference/concept-glossary-parts/02-nieun.md#n-estimators)와 [학습률(learning_rate)](../../../reference/concept-glossary-parts/14-hieut.md#learning-rate)는 왜 함께 읽어야 하는가?
 
 이 절은 입문적으로 `부스팅이 무엇을 하려는 방식인가`를 이해하는 데 초점을 둡니다. 성능과 위험, early stopping과 shrinkage의 역할은 P4-16.2에서 이어서 다루고, 하이퍼파라미터와 검증 비용의 더 넓은 관점은 P4-9.1, P4-9.2에서 다시 연결합니다. XGBoost, LightGBM, CatBoost 같은 구현 차이도 P4-16.2에서 `무엇을 더 빠르게 하고 무엇을 더 안전하게 다루려는가` 수준으로 이어서 읽고, 더 넓은 구현 비교가 필요해지면 이 장의 보충학습으로 분리해 회수합니다.
 
@@ -395,6 +395,9 @@ scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gr
   - residual은 남은 오차다
   - 다음 단계는 residual을 줄이는 방향으로 움직인다
   - learning rate는 한 번에 얼마나 고칠지 정한다
+- 조작해 볼 값:
+  - `learning_rate`를 `0.1`, `0.3`, `0.5`로 바꾸어 residual 감소 속도를 비교한다
+  - `tree1_correction`의 부호나 크기를 바꾸어 보정 방향이 예측에 어떻게 누적되는지 확인한다
 
 ```python
 # 그래디언트 부스팅에서 residual 방향 보정이 예측에 누적되는 과정을 보는 장난감 예제입니다.
@@ -443,6 +446,10 @@ stage2 residual  : [18.5, 9.0, -9.0, -18.5]
 ### 값 하나 바꿔 보기: learning_rate를 키우면 같은 correction도 어떻게 다르게 반영될까
 
 이번에는 같은 correction을 두고 `learning_rate`만 `0.5`로 바꿔 봅니다.
+
+- 조작해 볼 값:
+  - `learning_rate`를 `0.1`과 `0.5` 사이에서 바꾸어 한 단계 보정 강도를 비교한다
+  - `tree1_correction`은 그대로 두어 learning rate만 바뀐 효과를 분리해서 본다
 
 ```python
 # 같은 correction에서 learning_rate를 키우면 residual 감소 속도가 어떻게 달라지는지 비교하는 예제입니다.
@@ -500,6 +507,6 @@ stage2 residual  : [12.5, 5.0, -5.0, -12.5]
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001. 확인 날짜: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002. 확인 날짜: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001. 확인 날짜: 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002. 확인 날짜: 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

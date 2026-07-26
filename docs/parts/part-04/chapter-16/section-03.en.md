@@ -1,25 +1,25 @@
 # P4-16.3 Supplementary Learning: Boosting Libraries And Operational Feel
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-16.1 and P4-16.2, we saw the sequential-correction structure of gradient boosting and the combined story of performance and overfitting risk. The next natural question is why, even inside the same boosting family, XGBoost, LightGBM, and CatBoost feel different in name and in usage.
+In P4-16.1 and P4-16.2, we saw the sequential-correction structure of [gradient boosting](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-boosting) and the combined story of performance and overfitting risk. The next natural question is why, even inside the same boosting family, [XGBoost](/AiBook/en/reference/concept-glossary-alpha/x/#xgboost), [LightGBM](/AiBook/en/reference/concept-glossary-alpha/l/#lightgbm), and [CatBoost](/AiBook/en/reference/concept-glossary-alpha/c/#catboost) feel different in name and in usage.
 
 This Section groups that difference not as `memorizing new algorithm names`, but as `what are they trying to make faster, and what are they trying to make safer to handle?`
 
-## Scope Of This Section
+## Questions Closed By Boosting Libraries
 
 This Section answers the following questions.
 
 - Why do XGBoost, LightGBM, and CatBoost all belong to boosting but still feel different in implementation?
-- What does histogram binning change, and why does it keep appearing together with speed and memory?
-- Why are GPU and distributed training repeatedly mentioned in boosting practice?
+- What does [histogram binning](/AiBook/en/reference/concept-glossary-alpha/h/#histogram-binning) change, and why does it keep appearing together with speed and memory?
+- Why are [GPU](/AiBook/en/reference/concept-glossary-alpha/g/#gpugraphics-processing-unit) and [distributed training](/AiBook/en/reference/concept-glossary-alpha/d/#distributed-training) repeatedly mentioned in boosting practice?
 - How does cross-validation automation connect to early stopping and stage selection?
-- Why do gradient and hessian appear together so often in implementation comparisons?
+- Why do gradient and [hessian](/AiBook/en/reference/concept-glossary-alpha/h/#hessian) appear together so often in implementation comparisons?
 
 This Section is centered on `why implementation choice and operational feel diverge even inside the same boosting family`.
 
-## Goals Of This Section
+## Judgments To Keep From Boosting Libraries
 
 - You can explain XGBoost, LightGBM, and CatBoost as `different implementation choices inside the same boosting family`.
 - You can explain that histogram binning connects directly to `a tradeoff between speed and memory`.
@@ -302,6 +302,6 @@ The verifiable result can be recorded like this.
 
 ## Sources And References
 
-- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016. Consulted for XGBoost's sparse-aware handling, approximate tree learning, and scalability based on cache/data compression/sharding. Accessed 2026-07-19. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785){: target="_blank" rel="noopener noreferrer" }
-- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017. Consulted for LightGBM's GOSS, EFB, and large-scale GBDT efficiency direction. Accessed 2026-07-19. [https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html](https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
-- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018. Consulted for CatBoost's ordered boosting, categorical feature handling, and target-leakage mitigation perspective. Accessed 2026-07-19. [https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html](https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016. Consulted for XGBoost's sparse-aware handling, approximate tree learning, and scalability based on cache/data compression/sharding. Accessed 2026-07-26. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785){: target="_blank" rel="noopener noreferrer" }
+- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017. Consulted for LightGBM's GOSS, EFB, and large-scale GBDT efficiency direction. Accessed 2026-07-26. [https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html](https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018. Consulted for CatBoost's ordered boosting, categorical feature handling, and target-leakage mitigation perspective. Accessed 2026-07-26. [https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html](https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html){: target="_blank" rel="noopener noreferrer" }

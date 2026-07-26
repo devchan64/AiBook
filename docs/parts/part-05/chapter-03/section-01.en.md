@@ -1,7 +1,7 @@
 # P5-3.1 Activation Functions
 
 > Section ID: `P5-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-2.2, we saw that the hidden layer can turn the input into a more useful internal representation. The next question then appears immediately.
 
@@ -36,7 +36,7 @@ When the baseline of activation and nonlinearity needs to be fixed briefly again
 
 The differences among representative activation functions continue in P5-3.2 through P5-3.5. The connection between output-layer activation and loss functions returns in P5-3.6, P5-4.1, and P5-4.2. The more detailed context of gradient flow reconnects in P5-5.1 and P5-7.1. In other words, this section first closes why the activation function turns `a structure that only repeats linear calculation` into real expressive power.
 
-## Standards For Nonlinearity And Expressive Power
+## Standards for Nonlinearity and Expressive Power
 
 - You can explain the activation function as `a rule that gives a nonlinear transformation to a score`.
 - You can understand that if only linear combinations are repeated, the whole network can easily collapse back into something linear.
@@ -108,7 +108,7 @@ By contrast, once an activation function enters between them, the flow changes.
 
 The result to confirm in this diagram is that the activation function inserts a nonlinear transformation between linear calculations, so the next layer can create a more complex representation and connect depth to a real increase in expressive power.
 
-## What Does The Activation Function Do To The Score
+## What Does the Activation Function Do to the Score
 
 Let us read again the expression seen above.
 
@@ -135,7 +135,7 @@ This equation is not here so that you memorize the name of a representative acti
 
 In this graph, the gray dashed line is a linear pass-through such as `a = z`, where the score is passed unchanged. The blue line is a nonlinear transformation whose response differs by range. To say that the activation function gives a nonlinear transformation means that the value \(a\) received by the next layer is not simply a copy of \(z\), but can become a value whose meaning changes by range in this way.
 
-## How Do Hidden Layers And Activation Connect
+## How Do Hidden Layers and Activation Connect
 
 In P5-2.2, we said that the hidden layer creates an internal representation. The activation function is exactly what keeps that representation from remaining just a simple linear copy.
 
@@ -147,7 +147,7 @@ That is:
 
 Because of this connection, the activation function should be read not as a simple output rule, but as a device that makes representation learning possible.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. Classifying Equipment Visual Signals
 
@@ -224,7 +224,7 @@ If the two cases are placed side by side, the role of the activation function do
 
 The result the reader should hold first here is that the activation function is not merely a device that changes numbers. It is a device that changes `what the next layer will look at again as an important signal`.
 
-## Practice And Exercise
+## Practice and Exercise
 
 The goal of this exercise is to confirm through case comparison the feeling that an activation function changes `a linear-combination score` into `the value passed to the next layer`. Instead of looking at only one input, several operational states are placed side by side so that we can read together which signals survive and which almost disappear.
 
@@ -360,7 +360,7 @@ From the curriculum viewpoint as well, the activation function must appear early
 
 So the activation function is one of the key connecting links in the early part of Part 5.
 
-## When Should The Activation-Function View Be Read First
+## When Should the Activation-Function View Be Read First
 
 The point where the activation-function section needs to be brought in is when `the reason for stacking layers is understood, but why that depth is no longer just a repetition of linear operations` is still not closed.
 
@@ -382,7 +382,7 @@ The point where the activation-function section needs to be brought in is when `
 - Can you describe nonlinearity at least as `the property that prevents everything from following only direct straight-line proportionality`?
 - Before jumping straight into comparing function names, can you use this section as the baseline when you need to regroup why activation is needed?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, date checked: 2026-06-29. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

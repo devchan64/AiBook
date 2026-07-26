@@ -1,7 +1,7 @@
 # P1-5.2 模型执行(inference)在运行什么
 
 > Section ID: `P1-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 5.1 已经把 `learning` 和 `training` 区分开来。`Training` 是利用数据去调整模型内部值的过程，而 `learning` 是更宽的概念，表示作为结果，模型在某个任务上的表现提升了。
 

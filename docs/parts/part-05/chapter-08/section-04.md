@@ -1,7 +1,7 @@
 # P5-8.4 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가
 
 > Section ID: `P5-8.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-8.3에서는 깊은 계산이 실제로 덜 흔들리게 되는 조건을 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)로 묶어 읽었습니다. 이제 그 말을 실제 숫자로 확인합니다.
 

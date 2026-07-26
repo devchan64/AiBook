@@ -2,8 +2,8 @@
 
 ## learning rate
 
-- Meaning: Learning rate controls how large each update step is when optimization moves in a direction that should reduce loss.
-- Why it matters: Learning rate controls the balance between stable progress and speed. Too large or too small a step can derail or slow training.
-- Related concepts: `gradient descent`, `gradient`, `optimization`
+- Meaning: Learning rate controls how large each update step is when optimization moves in a direction that should reduce loss. In gradient boosting, it controls how strongly each weak learner's correction is reflected.
+- Why it matters: Learning rate controls the balance between stable progress and speed. In gradient boosting, a larger learning rate gives each correction stage more influence, while a smaller learning rate may require more stages. It is therefore a core hyperparameter for reading both training stability and correction strength.
+- Related concepts: `gradient descent`, `gradient`, `optimization`, `gradient boosting`
 - Core Section: `P2-6.3`
-- Appears in: `P5-7.1`, `P5-7.2`, `P5-7.3`
+- Appears in: `P4-16.1`, `P5-7.1`, `P5-7.2`, `P5-7.3`

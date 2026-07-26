@@ -1,7 +1,7 @@
-# P5-10.2 Representations In Deep Layers
+# P5-10.2 Representations in Deep Layers
 
 > Section ID: `P5-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-10.1, we explained representation learning as `the process in which the model learns useful internal features on its own`. The next question then follows naturally.
 
@@ -11,7 +11,7 @@ As layers get deeper, representations usually move from more local and simple pa
 
 When you need to confirm again how to read the claim that representations change as layers get deeper, return to the glossary entry on [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation).
 
-## The Question Of How Deep Layers Change Representations
+## The Question of How Deep Layers Change Representations
 
 - What do low-level features and high-level representations mean?
 - Why do we say stacking many layers makes more abstract representations possible?
@@ -24,14 +24,14 @@ At the same time, it is clear what we will not widen right away in this section.
 
 In other words, here we safely explain the intuition of hierarchical representation without creating exaggerations such as `deeper layers are automatically more intelligent`.
 
-## Standards For Low-Level And High-Level Features
+## Standards for Low-Level and High-Level Features
 
 - You can explain deep-layer representation as `the tendency to move from simple patterns toward more abstract representations`.
 - You can state that the reason for stacking layers is connected not only to increasing the number of parameters, but also to changing the level of representation.
 - You can compare the intuition of hierarchical representations in images, speech, and text.
 - Through an executable Python example, you can confirm the intuition that the representation space changes as the signal passes through multiple layers.
 
-## What Do Low-Level And High-Level Mean
+## What Do Low-Level and High-Level Mean
 
 At the introductory stage, the following distinction is enough.
 
@@ -56,7 +56,7 @@ If we write the same content more clearly by layer role, it becomes the followin
 | mid-level | partial shapes, syllable clues, syntactic patterns | intermediate structure linking input and task |
 | high-level | object clues, speaker characteristics, sentence-semantic roles | closer to task judgment |
 
-## Why Can The Representation Change When We Stack Layers
+## Why Can the Representation Change When We Stack Layers
 
 One layer makes combinations on top of the output of the previous layer. So later layers use the representations created earlier as material, rather than looking directly at the original input.
 
@@ -88,7 +88,7 @@ What matters here is the sense that later layers do not simply reread the origin
 
 That is, depth is more accurately read not simply as `the number of layers increased`, but as `an additional stage was added that recombines representations that were already made`.
 
-## The Intuition Of Hierarchical Representation In Images
+## The Intuition of Hierarchical Representation in Images
 
 The image domain is the field where this explanation sounds the most intuitive.
 
@@ -100,7 +100,7 @@ For example, if we think of a CNN:
 
 Of course, the actual inside of a network is more complex than this. But here the key flow is `small pattern -> partial structure -> larger meaningful clue`.
 
-## The Intuition Of Hierarchical Representation In Speech And Text
+## The Intuition of Hierarchical Representation in Speech and Text
 
 This intuition is useful outside images as well.
 
@@ -156,7 +156,7 @@ In particular, it is better to avoid the following misunderstandings.
 
 This diagram is the most compressed form of the intuition behind deep-layer representation.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. Classifying Sealing Defects In Images
 
@@ -179,7 +179,7 @@ The same viewpoint applies to other data as well. But the key to hold onto in th
 | sentence classification | if a few key words are similar, it is easy to feel the type is the same | in deeper representations, sentence intent and risk direction may remain as a more important axis than the words themselves | check whether a sentence that looked like a status report becomes separated as a reinspection request |
 | production-batch time series | if the most recent values are similar, the states can look similar | in deeper representations, repeated rhythm and response order may remain as a more important axis than the recent average value | check whether risk and stable groups separate earlier |
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to see how anomaly signals from production batches are rearranged into a different representation space as they pass through one layer and then two layers.
 
@@ -361,7 +361,7 @@ If we pause here once and briefly fix `when should we read first from the viewpo
 - When you are explaining depth only through parameter increase, can you think first of the hierarchical-representation viewpoint?
 - When reading the next CNN chapter, are you ready to think first about `how local patterns grow hierarchically`?
 
-## Sources And References
+## Sources and References
 
 - Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, checked on 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

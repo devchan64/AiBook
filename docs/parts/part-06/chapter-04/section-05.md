@@ -1,7 +1,7 @@
 # P6-4.5 보충학습: 긴 문맥과 희소 attention
 
 > Section ID: `P6-4.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: sparse attention과 long-context는 계산 부담과 단서 보존을 어떻게 나누는가_
 

@@ -1,7 +1,7 @@
 # P6-17.1 Operational Constraints That Filter Again by Cost, Latency, and Usage
 
 > Section ID: `P6-17.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 Even if evaluation selects a good answer candidate, that does not immediately make a service viable. The answer must be provided within a waiting time users can tolerate, at an affordable cost, and repeatedly even when expected request volume arrives. Service operational constraints are a separate pass line that filters candidates that already passed quality evaluation into actual operational candidates.
 
@@ -156,9 +156,9 @@ Shortened into deployment-candidate judgment, the following checklist should app
 
 `Evaluation pass` and `operational candidate pass` are not the same thing. This is why practical materials often treat LLMOps or serving as separate modules.
 
-## Why RAG and agent structures become more complex
+## Why RAG and AI agent structures become more complex
 
-Compared with simple chat, RAG and agents have more steps.
+Compared with simple chat, RAG and AI agents have more steps.
 
 - retrieval
 - document organization
@@ -175,7 +175,7 @@ As steps increase:
 
 The stronger the structure becomes, the stronger operational constraints become.
 
-In a simple prompt-only structure, constraints are relatively simple. But when RAG and agents are added, the core of this section is that `steps for making a good answer` and `the operational burden of maintaining those steps` grow together.
+In a simple prompt-only structure, constraints are relatively simple. But when RAG and AI agents are added, the core of this section is that `steps for making a good answer` and `the operational burden of maintaining those steps` grow together.
 
 Simplified once more:
 

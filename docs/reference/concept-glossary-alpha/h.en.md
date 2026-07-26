@@ -2,6 +2,8 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
+--8<-- "reference/concept-glossary-terms/high-cardinality-feature.en.md"
+
 --8<-- "reference/concept-glossary-terms/hallucination.en.md"
 
 --8<-- "reference/concept-glossary-terms/hand-crafted-features.en.md"
@@ -11,6 +13,10 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/hash-table.en.md"
 
 --8<-- "reference/concept-glossary-terms/hierarchy.en.md"
+
+--8<-- "reference/concept-glossary-terms/hierarchical-clustering.en.md"
+
+--8<-- "reference/concept-glossary-terms/hessian.en.md"
 
 --8<-- "reference/concept-glossary-terms/heuristic.en.md"
 
@@ -24,6 +30,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/histogram.en.md"
 
+--8<-- "reference/concept-glossary-terms/histogram-binning.en.md"
+
 --8<-- "reference/concept-glossary-terms/hold-state.en.md"
 
 --8<-- "reference/concept-glossary-terms/host.en.md"
@@ -33,3 +41,5 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/human-oversight.en.md"
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.en.md"
+
+--8<-- "reference/concept-glossary-terms/hnsw-hierarchical-navigable-small-world.en.md"

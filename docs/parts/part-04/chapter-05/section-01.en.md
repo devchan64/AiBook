@@ -1,19 +1,19 @@
 # P4-5.1 Overfitting And Underfitting
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-In Chapter P4-4, we looked at why data are divided into training, validation, and test sets. The next question follows naturally. After splitting the data and checking the results, why do some models work well on training data but weaken on new data? And why do some models fail to explain even the training data well enough?
+In Chapter P4-4, we looked at why data are divided into [training](/AiBook/en/reference/concept-glossary-alpha/t/#training-data), [validation](/AiBook/en/reference/concept-glossary-alpha/v/#validation-data), and [test](/AiBook/en/reference/concept-glossary-alpha/t/#test-data) sets. The next question follows naturally. After splitting the data and checking the results, why do some models work well on training data but weaken on new data? And why do some models fail to explain even the training data well enough?
 
-This Section separates those two states. `Overfitting` means a state that is too tightly matched to the training data, while `underfitting` means a state that still has not learned the important patterns well enough. In machine learning, you need to distinguish these two states before you can make the next choice.
+This Section separates those two states. [Overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) means a state that is too tightly matched to the training data, while [underfitting](/AiBook/en/reference/concept-glossary-alpha/u/#underfitting) means a state that still has not learned the important patterns well enough. In machine learning, you need to distinguish these two states before you can make the next choice.
 
-This Section explains the basic distinction between `overfitting` and `underfitting`. The next Section continues the current context through this handle, and the basic distinction of whether a model holds up on new data is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic distinction between `overfitting` and `underfitting`. The next Section continues the current context through this handle, and the basic distinction of whether a model holds up on new data is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
-This Section explains the basic distinction between overfitting and underfitting. It does not yet cover specific mitigation methods such as regularization, dropout, or early stopping. Those responses return in the deep learning parts of Part 4 and later model-specific chapters.
+This Section explains the basic distinction between overfitting and underfitting. It does not yet cover specific mitigation methods such as [regularization](/AiBook/en/reference/concept-glossary-alpha/r/#regularization), [dropout](/AiBook/en/reference/concept-glossary-alpha/d/#dropout), or early stopping. Those responses return in the deep learning parts of Part 4 and later model-specific chapters.
 
-This Section also does not finish the wider question, `why does a model work well on new data?` That question continues in P4-5.2 on `generalization`. The focus here is to visually distinguish `a state that fit too much` from `a state that did not learn enough`.
+This Section also does not finish the wider question, `why does a model work well on new data?` That question continues in P4-5.2 on [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization). The focus here is to visually distinguish `a state that fit too much` from `a state that did not learn enough`.
 
 - What kind of state is overfitting, and what kind of state is underfitting?
 - Why is it hard to trust a model by training score alone?
@@ -60,7 +60,7 @@ You can remember this as the difference between `a state that learned too little
 
 ### Underfitting Is A State That Has Not Learned Enough Yet
 
-Underfitting is a state where the model still has not captured the important structure of the problem well enough. It appears often when the model uses rules that are too simple, when training has not progressed enough, or when the model sees only a small part of the features it needs.
+Underfitting is a state where the model still has not captured the important structure of the problem well enough. It appears often when the model uses rules that are too simple, when training has not progressed enough, or when the model sees only a small part of the [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) it needs.
 
 Put a bit more carefully, underfitting means `the range of explanation the model can express is too narrow`, or `the model has not yet used that range well enough`. Because of that, it repeatedly misses parts even inside the training data.
 
@@ -109,7 +109,7 @@ If you turn this into a defect-detection case, even the same image-classificatio
 
 Overfitting is a state where the model sticks too tightly to the training data. It has not only captured the important patterns, but also followed accidental fluctuations and odd arrangements that happened to be present in that particular data.
 
-The important phrase here is `accidental fluctuations`. Every dataset contains meaningful structure, or signal, but also accidental variation, or noise, mixed into it. Overfitting can be read as a state where the model does not separate those two well enough and ends up treating the noise as if it were a rule worth learning.
+The important phrase here is `accidental fluctuations`. Every dataset contains meaningful structure, or signal, but also accidental variation, or [noise](/AiBook/en/reference/concept-glossary-alpha/n/#noise), mixed into it. Overfitting can be read as a state where the model does not separate those two well enough and ends up treating the noise as if it were a rule worth learning.
 
 Read a little more carefully, overfitting can be restated as the following question.
 
@@ -152,7 +152,7 @@ So overfitting is often closer to `the model became too familiar with this parti
 
 Overfitting and underfitting are usually read by looking at `training score` and `validation score` together.
 
-| Candidate | training accuracy | validation accuracy | How to read it |
+| Candidate | training [accuracy](/AiBook/en/reference/concept-glossary-alpha/a/#accuracy) | validation accuracy | How to read it |
 | --- | --- | --- | --- |
 | Model A | 0.62 | 0.60 | Both are low. There may be underfitting |
 | Model B | 0.84 | 0.82 | They are similar, and both are fairly good |
@@ -236,7 +236,7 @@ The fourth question is especially important.
 These two questions keep working in later chapters as well.
 
 - when looking at linear regression
-- when looking at decision trees
+- when looking at [decision trees](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree)
 - when looking at neural networks
 
 The first question to ask is similar. `Is this model still under-learned, or has it memorized too much?`
@@ -365,7 +365,7 @@ In this example, `candidate_C` looks best if you look only at training score. Bu
 
 There is one core sentence readers should remember here.
 
-`Model selection is not about choosing the candidate with the highest training score. It is about choosing the candidate that is more stable under the validation criterion.`
+`Model selection is not about choosing the candidate with the highest training score. It is about choosing the candidate that is more stable under the validation criterion.` This sentence connects to the later idea of [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection).
 
 And at the center of that stability judgment is ultimately this question.
 
@@ -382,6 +382,6 @@ And at the center of that stability judgment is ultimately this question.
 
 ## Sources And References
 
-- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, accessed 2026-07-19. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, accessed 2026-07-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

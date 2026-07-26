@@ -1,7 +1,10 @@
-## tokenization
+<a id="tokenization"></a>
+<a id="glossary-tokenization"></a>
 
-- Meaning: 원문 텍스트를 모델이 읽을 수 있는 토큰 시퀀스로 바꾸는 절차입니다. 사람이 보기에는 한 문장이어도, 모델은 이 단계에서 잘린 토큰 조각들의 순서열로만 입력을 받으므로, 토큰화는 언어를 계산 단위로 번역하는 첫 관문이라고 볼 수 있습니다.
-- Why it matters: 같은 뜻의 문장도 어떻게 잘랐는지에 따라 토큰 수, 비용, 문맥 사용량, 검색 청크 경계, 생성 해석이 모두 달라질 수 있기 때문입니다. 이 개념이 있어야 모델이 `문장 전체`를 직접 읽는 것이 아니라 tokenizer가 만든 계산 단위를 읽는다는 점을 이해하게 되고, 언어·기호·공백 처리 방식이 실제 비용과 성능에 영향을 준다는 점도 자연스럽게 읽게 됩니다. 또한 토큰화가 달라지면 같은 모델 계열이라도 입력 길이 체감, 희귀어 처리, 비용 계산이 달라질 수 있어, 토큰화는 단순 전처리가 아니라 모델 사용 경험 자체를 바꾸는 설계 단계라는 점도 중요합니다.
+### tokenization
+
+- Meaning: Tokenization turns raw text into a sequence of tokens a model can process. A sentence that looks whole to a person becomes an ordered series of token pieces for the model.
+- Why it matters: Tokenization affects token count, cost, context use, chunk boundaries, and how inputs are interpreted. In P3-6.2 the same idea is used by analogy: segment tokens turn a raw curve into a shorter sequence so its order and direction can be compared.
 - Related concepts: `token`, `context window`, `Byte Pair Encoding`
 - Core Section: `P6-2.2`
-- Appears in: `P6-2.2`, `P7-4.1`, `P7-4.2`
+- Appears in: `P3-6.2`, `P6-2.2`, `P6-2.3`, `P6-2.4`, `P6-2.5`, `P7-4.1`, `P7-4.2`

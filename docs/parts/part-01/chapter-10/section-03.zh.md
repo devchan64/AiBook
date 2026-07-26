@@ -1,7 +1,7 @@
 # P1-10.3 生成结果(output)的质量(quality)与风险(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 10.1 中，我们看了分类(classification)、预测(prediction)、生成(generation)之间的区别。在 10.2 中，我们又看了生成式 AI(generative AI)会基于条件(condition)逐步构造产出物的直觉。
 

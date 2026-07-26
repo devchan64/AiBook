@@ -1,7 +1,7 @@
 # P2-1.1 What Math Does in AI Computation
 
 > Section ID: `P2-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Part 1, we viewed AI on a broad map of rules, models, learning, generation, and service structure. Starting in Part 2, we recover the foundations needed to read that map. The first question is how much math you need in order to relearn AI.
 
@@ -154,7 +154,7 @@ This code checks the mathematical concept of a mean using small data. The key po
 
 Part 2 keeps connecting these four things. Mathematics is not left alone as "theory that must be understood," but is rechecked through small code and data.
 
-## The Order in Which Part 2 Reads Mathematics
+## Order in Which Part 2 Reads Mathematics
 
 Part 2 is not the order of proving mathematics deeply. It is the recovery order for reading AI computation.
 

@@ -1,11 +1,11 @@
 # P4-1.1 The Relationship Among AI, Machine Learning, and Deep Learning
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Part 1 looked at the broad scope of the word AI. Part 2 revisited formulas, Python, arrays, tables, and graphs. Now Part 4 separates out machine learning on top of that foundation.
+Part 1 looked at the broad scope of the word [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence). Part 2 revisited formulas, Python, arrays, tables, and graphs. Now Part 4 separates out [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) on top of that foundation.
 
-This Section distinguishes the ranges indicated by AI, machine learning, deep learning, generative AI, and LLM, and explains why Part 4 starts again from classical machine learning.
+This Section distinguishes the ranges indicated by AI, machine learning, [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning), [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai), and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), and explains why Part 4 starts again from classical machine learning.
 
 So the focus here is to distinguish `where machine learning sits inside the large field called AI` and `why Part 4 looks at data, models, learning, and evaluation before jumping directly to deep learning or LLMs`.
 
@@ -57,9 +57,9 @@ This distinction is a reading map, not an exam definition. The same word can be 
 
 AI is the broadest term. It can include rule-based systems, search, heuristics, knowledge representation, probabilistic inference, machine learning, deep learning, generative AI, and agents.
 
-Machine learning is the approach among them that learns patterns from data. Instead of a person writing every rule directly, it finds relations in data, builds a model, and uses that model on new data.
+Machine learning is the approach among them that learns patterns from [data](/AiBook/en/reference/concept-glossary-alpha/d/#data). Instead of a person writing every rule directly, it finds relations in data, builds a [model](/AiBook/en/reference/concept-glossary-alpha/m/#model), and uses that model on new data.
 
-Deep learning is a powerful stream inside machine learning that learns representations by stacking neural networks deeply. It created major results in images, audio, natural language, and generative models, but not all machine learning is deep learning.
+Deep learning is a powerful stream inside machine learning that learns representations by stacking neural networks deeply. It created major results in images, audio, natural language, and [generative models](/AiBook/en/reference/concept-glossary-alpha/g/#generative-model), but not all machine learning is deep learning.
 
 Generative AI refers to models and services that generate new outputs such as text, images, audio, and code. Much of today's generative AI is tightly connected with deep learning, but the usage experience called generative AI does not mean all of AI.
 
@@ -208,7 +208,7 @@ The checkable result appears when the service structure is broken into questions
 
 ## Sources And References
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, accessed 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, entries for `artificial intelligence`, `machine learning`, `deep model`, `generative AI`, and `large language model`. Used to compare the scope of AI, machine learning, deep learning, generative AI, LLM, and terms for evaluation and learning. Accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- IBM, `AI vs. machine learning vs. deep learning vs. neural networks: What's the difference?`. Used to check the inclusion relationship that places AI as the broadest scope, with machine learning and deep learning as flows within it. Accessed 2026-07-19. [https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks](https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks){: target="_blank" rel="noopener noreferrer" }
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 1 Introduction, accessed 2026-06-25. [https://www.deeplearningbook.org/contents/intro.html](https://www.deeplearningbook.org/contents/intro.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, accessed 2026-07-26. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, entries for `artificial intelligence`, `machine learning`, `deep model`, `generative AI`, and `large language model`. Used to compare the scope of AI, machine learning, deep learning, generative AI, LLM, and terms for evaluation and learning. Accessed 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- IBM, `AI vs. machine learning vs. deep learning vs. neural networks: What's the difference?`. Used to check the inclusion relationship that places AI as the broadest scope, with machine learning and deep learning as flows within it. Accessed 2026-07-26. [https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks](https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 1 Introduction, accessed 2026-07-26. [https://www.deeplearningbook.org/contents/intro.html](https://www.deeplearningbook.org/contents/intro.html){: target="_blank" rel="noopener noreferrer" }

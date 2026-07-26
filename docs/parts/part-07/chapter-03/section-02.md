@@ -1,7 +1,7 @@
 # P7-3.2 CNN, 순차 모델, attention 계열 비교
 
 Section ID: `P7-3.2`
-Version: `v2026.07.22`
+Version: `v2026.07.26`
 
 기본 이미지 분류기 하나를 학습했는데 test 정확도가 `0.75`로 끝났다고 해서, 그 사실만으로 다음 선택이 정해지지는 않습니다. 여기서 중요한 것은 `어떤 실패가 어떤 구조 계열을 더 의심하게 만드는가`를 프로젝트 문서에 남기는 일입니다.
 
@@ -19,7 +19,7 @@ Version: `v2026.07.22`
 
 Part 7의 error analysis는 이 절처럼 샘플 단위로 흔들린 이유를 남기는 방식으로 읽으면 됩니다. 점수보다 `어떤 샘플이 왜 흔들렸는가`를 남기는 프로젝트 회고 기준을 여기서 고정합니다.
 
-Part 7에서 `회고(retrospective)`, `검토(review)`, `평가(evaluation)`의 역할이 다시 섞이면 이 절과 [개념사전](../../../reference/concept-glossary.md)을 함께 다시 보는 편이 좋습니다.
+Part 7에서 `회고(retrospective)`, `검토(review)`, `평가(evaluation)`의 역할이 다시 섞이면 이 절과 개념사전의 [회고(retrospective)](../../../reference/concept-glossary-parts/14-hieut.md#retrospective), [검토(review)](../../../reference/concept-glossary-parts/01-giyeok.md#review), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 판단 기준
 

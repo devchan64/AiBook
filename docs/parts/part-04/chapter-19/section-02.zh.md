@@ -1,19 +1,19 @@
 # P4-19.2 策略型强化学习
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-在 P4-19.1 里，我们已经看过价值型强化学习(value-based reinforcement learning)把`什么状态里什么行动有多好`学成 value 的视角。如果把问题再换一步，下面的问题就会出现。
+在 P4-19.1 里，我们已经看过[价值型强化学习(value-based reinforcement learning)](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)把`什么状态里什么行动有多好`学成 value 的视角。如果把问题再换一步，下面的问题就会出现。
 
 不经过 value 再去选行动，能不能直接调整行动方式(policy)本身？
 
-从这个问题出发的，就是策略型强化学习(policy-based reinforcement learning)。
+从这个问题出发的，就是[策略型强化学习(policy-based reinforcement learning)](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)。
 
 策略型强化学习，不是先造一个行动记分板，而是直接调整行动选择的概率与方式，让系统学会拿到更大的 reward。
 
-这一节解释 `policy-based reinforcement learning`、`policy gradient`、`actor-critic` 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“直接调整行动方式”的强化学习基本感觉，会再次通过这一节和[概念词汇表](/AiBook/reference/concept-glossary/)连回来。
+这一节解释 [policy-based reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)、[policy gradient](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-gradient)、[actor-critic](/AiBook/zh/reference/concept-glossary-pinyin/a/#actor-critic) 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“直接调整行动方式”的强化学习基本感觉，会再次通过这一节和相关概念词汇表条目连回来。
 
-## 本节范围
+## 策略型强化学习先收束的问题
 
 这一节回答下面这些问题。
 
@@ -25,7 +25,7 @@
 
 这一节先收住`为什么会出现直接调整 policy 本身的强化学习`这个问题。reward 设计与现实应用约束会在 P4-19.3 继续，PPO、TRPO、A2C、A3C 与 continuous control 的扩展流程会在 P4-19.4 继续，policy-gradient theorem 与 likelihood ratio trick 的最小数学感觉会在补充学习 P4-19.6 继续。
 
-## 用策略型强化学习(policy-based reinforcement learning)留下的判断标准
+## 策略型强化学习要留下的判断标准
 
 - 能把策略型强化学习解释成`直接调整行动概率与行动方式的做法`。
 - 能区分价值型与策略型方法在提问上的差异。
@@ -150,7 +150,7 @@ policy gradient 是一类代表性方法，它直接调整 policy parameter，�
 
 这个图的关键点，是把 policy 读成`可调整的行动倾向`，而不是`固定输出规则`。
 
-REINFORCE 可以看成最直接展示上面 policy-gradient 流程的入门例子。它把一个 episode 里的行动与 reward 收集起来，然后在下一轮 policy 里，提高那些最终有帮助的选择的概率。
+[REINFORCE](/AiBook/zh/reference/concept-glossary-pinyin/r/#reinforce) 可以看成最直接展示上面 policy-gradient 流程的入门例子。它把一个 episode 里的行动与 reward 收集起来，然后在下一轮 policy 里，提高那些最终有帮助的选择的概率。
 
 放成一个小直觉例子：
 

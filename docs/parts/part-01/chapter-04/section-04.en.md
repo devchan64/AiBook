@@ -1,7 +1,7 @@
 # P1-4.4 How Problem Definition Determines the Model
 
 > Section ID: `P1-4.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 4.1 treated a model as a computational representation reduced for a purpose. Section 4.2 organized input, output, and data. Section 4.3 showed that input is transformed into features and representations and then computed together with internal parameters.
 
@@ -68,7 +68,7 @@ So problem definition is the work of changing a real-world goal into a task form
 
 This order is not just a planning sentence. It is a baseline that keeps later model candidates and data-collection scope from drifting. The core point here is to understand clearly that `a real-world problem is not put directly into a model`; there is an intermediate task-definition step in between.
 
-## The Same Goal Can Become Several Tasks
+## Same Goal, Several Tasks
 
 Even the same goal, `help with customer-support messages`, becomes a different problem depending on what we ask the model to produce.
 
@@ -97,7 +97,7 @@ Even when the input sentence is the same, changing the output changes both the n
 
 In practice, different teams often imagine different outputs first, even with the same goal. An operations team may think, `let's attach message types automatically`. A manager may think, `let's surface urgent cases first`. A writing-support team may think, `let's generate draft replies`. All three begin from the same goal of `handling messages better`, but the real modeling tasks split into classification, score prediction, and generation. That split is not a problem. The role of problem definition is to fix that difference clearly in writing.
 
-## The Output Definition Changes the Evaluation Metrics
+## Output Definition Changes Evaluation Metrics
 
 Once we decide what the model should output, we then need to decide what should count as doing well.
 

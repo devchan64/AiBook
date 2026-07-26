@@ -1,4 +1,5 @@
 <a id="bias"></a>
+<a id="glossary-bias"></a>
 
 ## bias
 
@@ -6,3 +7,4 @@
 - Why it matters: Bias can arise from data collection, labeling standards, feature choices, evaluation methods, and deployment context, even without bad intent. A model can look strong on average while still creating concentrated harm, so group-level error patterns and operating context must be examined separately.
 - Related concepts: `safety`, `accountability`, `human oversight`
 - Core Section: `P1-15.1`
+- Appears in: `P3-8.6`

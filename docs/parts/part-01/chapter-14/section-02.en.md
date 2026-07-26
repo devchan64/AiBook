@@ -1,7 +1,7 @@
-# P1-14.2 The Place of RAG and Tool Use
+# P1-14.2 Place of RAG and Tool Use
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P1-14.1 described an AI service as a combination of the `model`, `application`, `data`, `tool`, and `orchestration`. This section separates two parts that are easy to confuse.
 
@@ -156,7 +156,7 @@ Even the same source, such as `meeting notes`, can lead to different structures.
 
 The first request mainly needs retrieval and summarization. The second request must also execute an action in an outside system after the material is found.
 
-## The Two Can Be Combined
+## RAG and Tool Use Can Combine
 
 Real AI services often use RAG and tool use together.
 
@@ -208,7 +208,7 @@ That is why tool use should always raise questions such as:
 
 This is also connected to security, privacy, and operation. But the longer discussions of ethics, copyright, and security are left for P1-15.
 
-## The Model Proposes the Call, the System Executes It
+## Model Proposes Calls, System Executes Them
 
 One boundary is especially important in tool use:
 

@@ -1,7 +1,7 @@
 # P1-14.5 Harness and the Evaluation Execution Environment
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14.4 treated MCP as a protocol that standardizes how AI applications connect to outside tools and data. The next question is more operational:
 

@@ -1,7 +1,7 @@
-# P6-9.4 Supplement: The Adjustment Delta That LoRA's Low Rank Represents Compactly
+# P6-9.4 Supplement: LoRA Low-Rank Adjustment Delta
 
 > Section ID: `P6-9.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-8.2, we saw LoRA as `a method that reduces the burden of full fine-tuning by adding a small adjustment delta on top of a large base model`. That explanation is enough to get the broad cost intuition, but real documents soon bring in names such as `Low-Rank Adaptation`, `rank`, `adapter`, and `QLoRA`. If we explain all of these names at once, the supplementary study itself becomes too large, and beginners can easily miss what to hold first.
 

@@ -1,7 +1,7 @@
 # P1-10.3 생성 결과(output)의 품질(quality)과 위험(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)의 차이를 봤습니다. 10.2에서는 생성형 AI(generative AI)가 조건(condition)을 바탕으로 산출물을 점진적으로 구성한다는 직관을 봤습니다.
 

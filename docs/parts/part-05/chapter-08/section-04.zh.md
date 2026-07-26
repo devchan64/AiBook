@@ -1,7 +1,7 @@
 # P5-8.4 补充学习：较大的初始化尺度会怎样摇晃计算范围
 
 > Section ID: `P5-8.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-8.3 里，我们把让深层计算没那么容易摇晃的条件，收成了 initialization、numerical stability、batch normalization 三个概念。现在要用实际数字来确认那条说明。
 

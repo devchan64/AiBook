@@ -1,7 +1,7 @@
 # P1-5.1 학습(learning)은 무엇을 바꾸는가
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 4장에서는 현실 문제를 모델이 다룰 수 있는 입력(input), 출력(output), 특징(feature), 표현(representation), 파라미터(parameter)의 관계로 정리했습니다.
 

@@ -1,7 +1,7 @@
 # P1-17.1 What Evidence Should Forecasts Rely On?
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 1 Chapter 16 covered how AI can be applied to personal learning, work automation, and small projects. Chapter 17 turns to `the future of AI`.
 

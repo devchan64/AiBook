@@ -1,7 +1,7 @@
 ## ViT, Vision Transformer
 
-- Meaning: 이미지를 작은 패치 토큰으로 나눈 뒤, 각 패치 사이 관계를 self-attention으로 읽어 표현을 만드는 비전 모델 계열입니다. 즉 문장에서 단어 조각을 토큰으로 다루듯, ViT는 이미지도 작은 조각들의 시퀀스로 바꾸어 읽습니다. 그래서 핵심 직관은 `이미지를 한 장의 격자`로 직접 다루기보다 `관계 있는 패치들의 집합`으로 다시 표현하는 데 있습니다.
-- Why it matters: CNN이 가까운 픽셀 묶음에서 점차 큰 패턴을 읽는 방식과 달리, ViT는 처음부터 이미지를 `패치들의 시퀀스`처럼 다룬다는 점이 핵심 대비가 되기 때문입니다. 이 개념이 있어야 Transformer가 언어 밖으로 확장될 때 무엇이 토큰 역할을 하는지 이해하게 되고, 이미지 분류에서도 지역 특징과 전역 관계를 읽는 방식이 어떻게 달라지는지 더 자연스럽게 비교하게 됩니다. 특히 `이미지에서도 attention이 통하는 이유는 무엇인가`라는 질문에 대해, 픽셀 자체가 아니라 패치 표현 사이 관계를 읽는 구조라고 설명할 수 있게 됩니다.
+- Meaning: A Vision Transformer is a family of vision models that splits an image into small patch tokens and uses self-attention to read relationships among those patches.
+- Why it matters: CNNs usually begin from local patterns in nearby pixels, while ViTs treat the image as a sequence of patches from the start. This concept helps explain how Transformer-style models extend beyond language and what can play the role of a token in image tasks.
 - Related concepts: `CNN, convolutional neural network`, `Attention`, `patch`
 - Core Section: `P5-11.3`
 - Appears in: `P5-11.1`, `P5-11.2`, `P6-19.2`

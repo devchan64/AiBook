@@ -1,29 +1,29 @@
 # P4-15.3 OOB(out-of-bag)与随机森林检查
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-15.1 里，我们看过随机森林(random forest)为什么能通过聚合很多棵树来得到更稳定的预测。 在 P4-15.2 里，我们又看过怎样更小心地阅读这片森林把什么看得重要，也就是特征重要度(feature importance)。
+在 P4-15.1 里，我们看过[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)为什么能通过聚合很多棵树来得到更稳定的预测。 在 P4-15.2 里，我们又看过怎样更小心地阅读这片森林把什么看得重要，也就是[特征重要度(feature importance)](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-importance)。
 
 那么接下来剩下的问题就是：
 
 怎样检查这片森林是不是真的学得还不错？
 
-在随机森林里， 针对这个问题最先出现的抓手之一就是 OOB(out-of-bag)。
+在随机森林里， 针对这个问题最先出现的抓手之一就是 [OOB(out-of-bag)](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score)。
 
-OOB 是一种内部验证式方法： 它利用没有被抽进 bootstrap 样本的样本， 让随机森林在训练过程中对自己做一个粗略检查。
+OOB 是一种内部验证式方法： 它利用没有被抽进 [bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap) 样本的样本， 让随机森林在训练过程中对自己做一个粗略检查。
 
 也就是说， OOB 不是 `一个新模型`， 而是读取和检查随机森林的方法。
 
-这一节也不会再长篇重复随机森林的基本结构。 核心直觉会通过 P4-15.1 和[概念词典](/AiBook/reference/concept-glossary/)重新连接， 这里聚焦的只是： bootstrap 与 OOB 是怎样连成检查装置的。
+这一节也不会再长篇重复随机森林的基本结构。 核心直觉会通过 P4-15.1 和[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)条目重新连接， 这里聚焦的只是： bootstrap 与 OOB 是怎样连成检查装置的。
 
-## 本节范围
+## OOB 与随机森林检查先收束的问题
 
 本节回答以下问题。
 
-- OOB(out-of-bag) 为什么会出现？
-- bootstrap 与 OOB 是什么关系？
-- `oob_score=True` 是什么意思？
+- [OOB(out-of-bag)](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 为什么会出现？
+- [bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap) 与 OOB 是什么关系？
+- [`oob_score=True`](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 是什么意思？
 - OOB 分数与 train accuracy、validation score、test score 有什么不同？
 - OOB 应该信到什么程度，又该在什么地方停下来？
 
@@ -31,13 +31,13 @@ OOB 的外围边界先固定到下面这个程度就够了。
 
 | 项目 | 在当前正文里的回收状态 |
 | --- | --- |
-| 交叉验证的全部变体 | 交叉验证的基本作用会在 P4-9.1、P4-9.3 重新连接，但本节不代替对全部变体的说明 |
-| 概率校准与 threshold 调整 | threshold 和 calibration 的基本感觉会在 P4-6.4、P4-11.1 重新连接，但本节不会把那些细节与 OOB 一起展开 |
+| [交叉验证(cross-validation)](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation)的全部变体 | 交叉验证的基本作用会在 P4-9.1、P4-9.3 重新连接，但本节不代替对全部变体的说明 |
+| [概率校准(calibration)](/AiBook/zh/reference/concept-glossary-pinyin/c/#calibration)与 [threshold](/AiBook/zh/reference/concept-glossary-pinyin/y/#threshold) 调整 | threshold 和 calibration 的基本感觉会在 P4-6.4、P4-11.1 重新连接，但本节不会把那些细节与 OOB 一起展开 |
 | 梯度提升中的 OOB 性格差异 | boosting 的检查感会在 P4-16.1、P4-16.2 通过 validation 与 early stopping 再次连接，但本节不展开细致对比 |
 
 换句话说， 本节集中做的事是把 OOB 固定成 `随机森林的内部检查板`， 而更宽的评价流程和分数运用策略， 更适合在后续按问题再分开重读。
 
-## 用OOB(out-of-bag)与随机森林检查留下的判断标准
+## OOB 与随机森林检查要留下的判断标准
 
 - 你可以把 OOB 解释成 `利用 bootstrap 漏掉样本得到的内部泛化估计`。
 - 你可以说明为什么只有在 `bootstrap=True` 时 OOB 才成立。
@@ -130,7 +130,7 @@ scikit-learn 的文档和例子说明， OOB error 能让读者在训练随机�
 
 - 小实验可以更快重复
 - 它能减少只看 train score 的错误
-- 它能更快检查树数(`n_estimators`)增加时状态怎么变化
+- 它能更快检查树数([`n_estimators`](/AiBook/zh/reference/concept-glossary-pinyin/n/#n-estimators))增加时状态怎么变化
 
 所以 OOB 更接近 `快速内部检查板`， 而不是 `评价流程的终点`。
 
@@ -179,7 +179,7 @@ OOB 并不会替代所有评价， 但在随机森林实验前期， 它会是�
 
 例如：
 
-- 如果 train 很高，但 OOB 和 test 低很多，就可以怀疑过拟合(overfitting)
+- 如果 train 很高，但 OOB 和 test 低很多，就可以怀疑[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)
 - 如果 train、OOB、test 都差不多低，就可以怀疑表达能力不足或数据限制
 - 如果 train 很高，而 OOB/test 跟得比较近，就可以把森林读成相对稳定
 
@@ -193,7 +193,12 @@ OOB 并不会替代所有评价， 但在随机森林实验前期， 它会是�
 - 输入(input)：30 个连续特征
 - 标签(label)：恶性 / 良性 class
 - 要确认的概念：
-- OOB 通过 `oob_score_` 来读 - OOB 在 train 与 test 之间扮演内部检查角色 - 三个分数的间隔要一起读
+  - OOB 通过 `oob_score_` 来读
+  - OOB 在 train 与 test 之间扮演内部检查角色
+  - 三个分数的间隔要一起读
+- 可以改动的值：
+  - 把 `n_estimators` 改成 100、300、600，观察 OOB 与 test 的间隔是否稳定。
+  - 改变 `random_state`，检查 train/OOB/test 模式是否仍然保留。
 
 ```python
 # 这个例子在乳腺癌分类中一起输出 train、OOB、test 分数，用来阅读它们的间隔。
@@ -260,6 +265,11 @@ n_estimators  : 300
 
 - 树数增加后，OOB 往往会朝着更稳定的方向移动
 - 但只是不断增加树数，并不能解决所有问题
+
+可以改动的值：
+
+- 在 `[10, 50, 100, 300]` 列表里加入 600，把改善幅度和计算成本一起看。
+- 比较限制 `max_depth` 与不限制 `max_depth` 时 train/OOB/test 间隔的变化。
 
 ```python
 # 这个例子改变 n_estimators，比较 OOB 分数和 test 分数如何变化。
@@ -428,5 +438,5 @@ trees=300 | oob=0.960 | test=0.947
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }

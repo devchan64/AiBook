@@ -1,13 +1,13 @@
 # P3-8.7 Data Interpretation Changed by Operational Intervention
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _Subtitle: Why should later data not be read as a natural course when review rules and actions change it?_
 
-The last point to watch at the interpretation boundary is the current operational intervention. If a person quickly acted on cases where `review_needed=1`, the data left afterward may differ from the original natural progression. If you hide that, it becomes too easy to write a sentence such as `the later data looks safer`.
+The last point to watch at the [interpretation boundary](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-interpretation-boundary) is the current [intervention feedback](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intervention-feedback). If a person quickly acted on cases where `review_needed=1`, the data left afterward may differ from the original natural progression. If you hide that, it becomes too easy to write a sentence such as `the later data looks safer`.
 
-If current review rules or actions can change later data and labels, the later data should not be read as if it means the same thing as the natural progression before intervention.
+If current review rules or actions can change later data and [selective labels](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-selective-labels), the later data should not be read as if it means the same thing as the natural progression before intervention.
 
 | Current rule or action | What can change in later data |
 | --- | --- |

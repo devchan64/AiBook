@@ -1,13 +1,13 @@
 # P6-12.1 Vector Databases That Store Embeddings, Source Text, and Metadata Together
 
 > Section ID: `P6-12.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-11.2, we saw that retrieval results are attached to the input context before generation. Now the question moves to what storage structure that retrieval actually runs on.
 
 A vector database is a system that stores embedding vectors together with the source text and metadata connected to them, and helps find similar vectors quickly.
 
-## The job of a retrieval storage structure
+## Retrieval Storage Structure Job
 
 The core questions are these.
 
@@ -413,7 +413,7 @@ This storage layer matters because it:
 The view established here continues into the next sections.
 
 - P6-12.2 indexes and retrieval quality: a standard for reading retrieval speed and candidate quality together
-- P6-13.1 tool use and P6-14.1 agent structure: a standard for seeing where retrieval-based functions sit inside the whole system
+- P6-13.1 tool use and P6-14.1 AI agent structure: a standard for seeing where retrieval-based functions sit inside the whole system
 - P6-16.1 LLM evaluation, P6-17.1 service-operation constraints, and P6-18.1 tying small generative AI features into one flow: a reusable standard for moving retrieval-based and tool-connected functions into actual design and operation judgment
 
 ## Checklist

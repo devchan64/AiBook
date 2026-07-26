@@ -6,4 +6,4 @@
 - Why it matters: Good model quality is not enough if users wait too long. Latency connects model, retrieval, tool calls, and postprocessing to service experience.
 - Related concepts: `cost`, `throughput`, `streaming`, `retry`
 - Core Section: `P1-14.6`
-- Appears in: `P1-14.5`
+- Appears in: `P1-14.5`, `P4-6.3`, `P4-7.1`

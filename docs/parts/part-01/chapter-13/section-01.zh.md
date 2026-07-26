@@ -1,7 +1,7 @@
 # P1-13.1 把文本(text)表示为向量(vector)意味着什么
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在第 12 章中，我们已经看过如何通过提示词(prompt)向 LLM 给出任务条件，也看到了仅靠提示词难以保证事实性(factuality)、依据性(evidence)与最新性(recency)。
 

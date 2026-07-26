@@ -6,5 +6,4 @@
 - Why it matters: This concept gives readers the vocabulary to separate roles, boundaries, and failure modes that otherwise get mixed together in AI systems and data work.
 - Related concepts: `review target`, `structural hypothesis`, `failure type`, `evaluation`, `retrospective`
 - Core Section: `P7-2.1`
-- Appears in: `P7-2.3`, `P7-3.2`, `P7-4.2`, `P7-summary`
-
+- Appears in: `P7-2.3`, `P4-index`, `P4-6.1`, `P4-8.2`, `P7-3.2`, `P7-4.2`, `P7-summary`

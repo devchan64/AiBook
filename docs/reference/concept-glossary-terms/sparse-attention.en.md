@@ -1,6 +1,7 @@
 ## sparse attention
 
-- Meaning: 모든 토큰 쌍을 같은 밀도로 보지 않고, 일부 연결만 선택적으로 남겨 계산 부담을 줄이려는 attention 설계 방향입니다. 즉 모든 위치가 서로를 전부 다 보는 기본 self-attention 대신, 가까운 위치나 중요한 위치만 우선 연결해 계산량을 줄이는 구조적 절충이라고 볼 수 있습니다.
-- Why it matters: 문맥이 길어질수록 attention 비교 수가 빠르게 늘어나기 때문에, 긴 입력을 다루기 위한 현실적 타협이 왜 필요한지 설명해 주기 때문입니다. 이 개념이 있어야 긴 문맥 처리에서 `모든 관계를 다 본다`와 `계산 가능하게 일부 관계만 본다` 사이의 절충을 읽게 되고, 긴 입력 지원이 단순 모델 크기 문제가 아니라 attention 구조 설계 문제이기도 하다는 점을 이해하게 됩니다. 또한 sparse attention을 이해하면 `긴 문맥을 지원한다`는 말이 단지 더 많이 넣는다는 뜻이 아니라, 어떤 관계를 남기고 어떤 관계를 생략할지 정하는 구조 선택이라는 점도 더 분명히 보게 됩니다.
+- Meaning: Sparse attention is an attention design direction that reduces computation by keeping only selected connections instead of comparing every token pair with the same density. It is a structural tradeoff between full self-attention and a more limited pattern that prioritizes nearby or important positions.
+- Why it matters: Attention comparisons grow quickly as context becomes longer, so long-input systems need practical compromises. Sparse attention helps readers see that long-context support is not only a matter of model size; it is also a design question about which relationships to keep and which to skip.
 - Related concepts: `multi-head attention`, `context window`, `long-context`
-- Core Section: `P6-4.3`
+- Core Section: `P6-4.5`
+- Appears in: `P6-4.1`, `P6-4.2`, `P6-4.3`

@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤습니다. 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현(vector representation)으로 바꿉니다.
 

@@ -1,7 +1,7 @@
 # P5-3.6 출력층(output layer)과 활성화의 선택
 
 > Section ID: `P5-3.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았고, P5-3.2부터 P5-3.5까지는 sigmoid, tanh, ReLU와 대표 함수 수식 비교를 따로 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 생깁니다.
 
@@ -11,7 +11,7 @@ P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 
 출력층의 활성화는 모델이 무엇을 예측하는지에 따라 달라지며, 출력값이 어떤 의미를 가져야 하는지에 맞추어 선택한다.
 
-출력 해석과 활성화 선택의 기준이 다시 흐려지면 개념사전의 [출력(output)](../../../reference/concept-glossary-parts/11-chieut.md#output)과 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function) 항목을 함께 다시 봅니다.
+출력 해석과 활성화 선택의 기준이 다시 흐려지면 개념사전의 [출력(output)](../../../reference/concept-glossary-parts/11-chieut.md#output), [출력층(output layer)](../../../reference/concept-glossary-parts/11-chieut.md#output-layer), [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function), [소프트맥스(softmax)](../../../reference/concept-glossary-parts/07-siot.md#softmax) 항목을 함께 다시 봅니다.
 
 ## 출력층 활성화를 고르는 질문
 

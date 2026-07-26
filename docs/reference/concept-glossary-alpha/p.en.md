@@ -2,6 +2,12 @@
 
 This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
+--8<-- "reference/concept-glossary-terms/partial-dependence-plot-pdp.en.md"
+
+--8<-- "reference/concept-glossary-terms/permutation-importance.en.md"
+
+--8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.en.md"
+
 <a id="package"></a>
 
 --8<-- "reference/concept-glossary-terms/package.en.md"
@@ -20,6 +26,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/perceptron.en.md"
 
+--8<-- "reference/concept-glossary-terms/penalty.en.md"
+
 --8<-- "reference/concept-glossary-terms/permission.en.md"
 
 --8<-- "reference/concept-glossary-terms/personal-learning.en.md"
@@ -28,9 +36,19 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/plot.en.md"
 
+--8<-- "reference/concept-glossary-terms/polynomial-kernel.en.md"
+
+--8<-- "reference/concept-glossary-terms/ppo.en.md"
+
 --8<-- "reference/concept-glossary-terms/policy.en.md"
 
+--8<-- "reference/concept-glossary-terms/policy-rule.en.md"
+
 --8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.en.md"
+
+--8<-- "reference/concept-glossary-terms/policy-gradient.en.md"
+
+--8<-- "reference/concept-glossary-terms/policy-gradient-theorem.en.md"
 
 --8<-- "reference/concept-glossary-terms/pooling.en.md"
 
@@ -38,11 +56,21 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/positional-encoding.en.md"
 
+--8<-- "reference/concept-glossary-terms/precision.en.md"
+
 --8<-- "reference/concept-glossary-terms/prediction.en.md"
+
+--8<-- "reference/concept-glossary-terms/prediction-contract.en.md"
 
 --8<-- "reference/concept-glossary-terms/preprocessing.en.md"
 
 --8<-- "reference/concept-glossary-terms/pretraining.en.md"
+
+--8<-- "reference/concept-glossary-terms/preference-optimization.en.md"
+
+--8<-- "reference/concept-glossary-terms/pruning.en.md"
+
+--8<-- "reference/concept-glossary-terms/proxy-target.en.md"
 
 --8<-- "reference/concept-glossary-terms/priority.en.md"
 
@@ -56,6 +84,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/probability-estimate.en.md"
 
+--8<-- "reference/concept-glossary-terms/problem-representation-structure.en.md"
+
 --8<-- "reference/concept-glossary-terms/productivity.en.md"
 
 --8<-- "reference/concept-glossary-terms/prompt.en.md"
@@ -67,3 +97,5 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/prompt-structuring.en.md"
 
 --8<-- "reference/concept-glossary-terms/provenance.en.md"
+
+--8<-- "reference/concept-glossary-terms/positive-pair.en.md"

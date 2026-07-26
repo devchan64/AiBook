@@ -1,7 +1,7 @@
 # P6-4.3 补充学习：attention head 与位置表示
 
 > Section ID: `P6-4.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题：multi-head attention 和位置表示如何分别补强上下文关系与顺序信息？_
 

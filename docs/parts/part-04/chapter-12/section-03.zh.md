@@ -1,15 +1,15 @@
 # P4-12.3 使用 k-NN 时，应该先检查什么？
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 distance 和 scale 会改变结果。现在剩下的问题是：
+P4-12.1 看过了 [k-NN](/AiBook/zh/reference/concept-glossary-pinyin/k/#k-nnk-nearest-neighbors) 的直觉，P4-12.2 看过了为什么 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance) 和 [feature scale](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-scale) 会改变结果。现在剩下的问题是：
 
 当 k-NN 的判断开始摇晃时，应该先重新检查什么？
 
 本节的目的，不是再把 preprocessing 一般论重新讲一遍，而是整理在读取 k-NN 时，`哪里应该先被检查`。
 
-## 本节范围
+## k-NN 检查顺序先收束的问题
 
 这一节回答下面这些问题。
 
@@ -18,7 +18,7 @@ P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 distance 和 scale
 - 在 `distance rule`、`k`、`data representation` 之间，应该先重新看哪个？
 - 对需要 review 的 query，应该怎么读？
 
-## 用使用 k-NN 时，应该先检查什么？留下的判断标准
+## k-NN 检查顺序要留下的判断标准
 
 - 能说明什么样的问题值得先把 k-NN 放上候选
 - 能说明哪些信号意味着应该先怀疑 distance 或 scale
@@ -33,7 +33,7 @@ k-NN 并不是所有 classification 问题的默认答案。但在 `用附近相
 | 当前问题状态 | 为什么会先想到 k-NN |
 | --- | --- |
 | 相似案例往往得到相似结果 | 因为可以很自然地用附近 neighbors 来解释 prediction |
-| 局部模式比一条全局规则更重要 | 因为可以直接把 query 和 주변案例比较 |
+| 局部模式比一条全局规则更重要 | 因为可以直接把 query 和周边案例比较 |
 | 团队想先给出基于案例的判断，而不是基于公式的判断 | 因为 neighbors 本身就能成为解释 |
 | 数据规模还不算太大，比较成本可承受 | 因为 prediction time 的比较仍然是现实可行的 |
 
@@ -71,7 +71,7 @@ k-NN 并不是所有 classification 问题的默认答案。但在 `用附近相
 
 所以，即使只是同一句 `结果看起来怪怪的`，里面也可能混着几个不同层次的原因。
 
-尤其在第 4 项里，一旦真的怀疑到 scale 或 representation，有关 preprocessing 的一般论就不应在本节再长篇展开，而更适合回到 `P4-7.2 Preprocessing` 去重新对 기준。
+尤其在第 4 项里，一旦真的怀疑到 scale 或 representation，有关 preprocessing 的一般论就不应在本节再长篇展开，而更适合回到 [P4-7.2 Preprocessing](../chapter-07/section-02.zh.md) 去重新对齐标准。
 
 ### 如果把 P4-12.1 的同一个 query 再拿回来读
 
@@ -141,7 +141,7 @@ k-NN 并不是所有 classification 问题的默认答案。但在 `用附近相
 - 是否用了像 `k=1` 这样过于敏感的设置？
 - 支付金额这类大轴，是否压住了其他特征？
 
-按这个顺序走，可以更好地把 `模型家族本身失败了` 和 `判断 기준 在摇晃` 区分开来。
+按这个顺序走，可以更好地把 `模型家族本身失败了` 和 `判断标准在摇晃` 区分开来。
 
 所以，这里要留下的标准不是一句模糊的结论 `k-NN 要小心用`。更准确地说，是让读者能自己说出：`prediction 一旦开始摇晃，应该先从哪里重新打开检查`
 
@@ -156,6 +156,11 @@ k-NN 并不是所有 classification 问题的默认答案。但在 `用附近相
   - `k=1` 很容易被最近的一个案例牵动
   - 增大 `k` 后，局部多数表决可能改变
   - 数字范围不同的特征，在 scale 调整前后可能改变近邻顺序
+
+可以改动的值：
+
+- 把 `query` 的 `support_tickets` 改成 `2`、`5`、`9`，观察什么时候开始出现需要 review 的 query。
+- 把 `n_neighbors` 改成 `2`、`4` 这样的偶数，检查平票或很窄的多数表决应该怎样记录。
 
 ```python
 import pandas as pd
@@ -216,5 +221,5 @@ scaled k= 3 prediction= 1 neighbors= ['F', 'E', 'G']
 
 ## 出处与参考资料
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 确认日期: 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 确认日期: 2026-07-26. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }

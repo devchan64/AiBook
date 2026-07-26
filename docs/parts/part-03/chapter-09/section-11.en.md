@@ -1,16 +1,16 @@
 # P3-9.11 Target Candidates and Changing Criteria
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _Subtitle: What should be fixed first when there are multiple target candidates or the criteria keep changing?_
 
-In real data, only one target candidate may not be visible. Multiple candidates such as `review_needed`, `final_status`, `status_type`, and `priority_bucket` may appear together, and even a target with the same name may follow different judgment criteria at different times. In that state, the problem itself becomes unstable unless you first fix which one is the representative problem and which version of the current definition is in use. If there are multiple target candidates or the criteria change, you should first write which target is the representative one and what the current definition version is.
+In real data, only one [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate) may not be visible. Multiple candidates such as `review_needed`, `final_status`, `status_type`, and `priority_bucket` may appear together, and even a [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target) with the same name may follow different judgment criteria at different times. In that state, the problem itself becomes unstable unless you first fix which one is the representative problem and which version of the current definition is in use. If there are multiple target candidates or the criteria change, you should first write which target is the [representative target](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representative-target) and what the current [target definition version](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-definition-version) is.
 
 | What should be fixed first | Why it is needed |
 | --- | --- |
-| Representative target | To make clear which problem is being solved first right now |
-| Target definition version | To avoid mixing different criteria under the same name |
+| [Representative target](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representative-target) | To make clear which problem is being solved first right now |
+| [Target definition version](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-definition-version) | To avoid mixing different criteria under the same name |
 | Other target candidates to manage together | To leave a record of which result candidates coexist in the same data |
 
 | Common scene | Note that is needed |
@@ -43,7 +43,7 @@ When several candidates coexist, the table alone can make it feel like `we can c
 --8<-- "assets/part-03/chapter-09/p3-9-11-mermaid-01-en.mmd"
 ```
 
-What this scene shows is that `choosing the representative target` is not an administrative note added later. It is the act of defining the central question of the current problem, and the definition version is what fixes the criteria by which that question is being read.
+What this scene shows is that choosing the representative target is not an administrative note added later. It is the act of defining the central question of the current problem, and the target definition version is what fixes the criteria by which that question is being read.
 
 So the real difficulty when there are many target candidates is not `name collision`, but that `the problem itself becomes unstable unless the representative result and the definition version are fixed together`. What is fixed here is the combination of `representative-result definition`, `definition-version management`, and `expansion-candidate management`, so that the central problem remains stable even when several target candidates arise from the same data.
 

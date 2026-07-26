@@ -1,7 +1,7 @@
 # P2-11.4 Supplemental: How to Read Shape and Shared Origins Together in NumPy
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-11.2, we looked at indexing, slicing, and axis. In P2-11.3, we looked at broadcasting and vectorization. But when reading actual NumPy code, the next questions often remain.
 
@@ -225,7 +225,7 @@ The key point of this example is shape more than value.
 
 Here, understand `np.newaxis` as notation that makes the row and column roles more explicit for broadcasting.
 
-## In Practical Code, Check Shape and Shared Origin Together
+## in Practical Code, Check Shape and Shared Origin Together
 
 NumPy code becomes confusing because `what was selected`, `how the shape changed`, and `whether the original changes too` can all appear together on one line.
 

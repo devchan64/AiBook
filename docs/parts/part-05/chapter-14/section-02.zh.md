@@ -1,7 +1,7 @@
 # P5-14.2 Transformer block 的四个部件分别负责什么？
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-14.1 里，我们已经看到，只用 self-attention 解释 Transformer 是不够的。现在需要更直接地拆开 block 里面的角色分工。
 

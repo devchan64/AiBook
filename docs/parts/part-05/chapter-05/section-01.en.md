@@ -1,7 +1,7 @@
-# P5-5.1 How Does Loss Become A Gradient Signal
+# P5-5.1 How Does Loss Become a Gradient Signal
 
 > Section ID: `P5-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Chapter P5-4, we saw that the loss function turns the mismatch between the current output and the target into a number. But the loss number alone still cannot change the parameters.
 
@@ -9,7 +9,7 @@ Loss tells us `how wrong it is`, but `which parameter should move in which direc
 
 The signal needed here is the gradient. A gradient is the value that shows how sensitively the loss responds to a specific parameter. Backpropagation is the procedure that starts from the loss and computes that gradient from the later calculations back toward the earlier ones.
 
-When this starts to blur together again with the computation graph or the optimizer in later sections, return to the [backpropagation](/AiBook/en/reference/concept-glossary-alpha/b/#backpropagation) entry in the concept glossary and separate the computational roles first.
+When this starts to blur together again with the computation graph or the optimizer in later sections, return to the [backpropagation](/AiBook/en/reference/concept-glossary-alpha/b/#backpropagation), [gradient](/AiBook/en/reference/concept-glossary-alpha/g/#gradient), and [chain rule](/AiBook/en/reference/concept-glossary-alpha/c/#chain-rule) entries in the concept glossary and separate the computational roles first.
 
 Fix these three sentences first in this section.
 
@@ -17,7 +17,7 @@ Fix these three sentences first in this section.
 - The gradient computes what direction and strength each parameter has in relation to the loss.
 - The optimizer receives that gradient and performs the actual parameter update.
 
-## The Question Of How Loss Becomes A Gradient
+## The Question of How Loss Becomes a Gradient
 
 - Why can't the loss number alone update the parameters directly?
 - What additional information does the gradient provide?
@@ -27,7 +27,7 @@ Fix these three sentences first in this section.
 
 The viewpoint of unfolding complex computational relationships into nodes and connections continues in P5-5.2, and the role of the optimizer, which turns gradients into actual parameter movement, reconnects in P5-7.1 and P5-7.2. Here, we first close the point that learning can continue only when the `loss number` is turned into a `per-parameter gradient signal`.
 
-## Standards For Direction And Size Signals
+## Standards for Direction and Size Signals
 
 - You can distinguish loss, gradient, and optimizer update.
 - You can explain the gradient as `the signal that shows how sensitive the loss is to a specific parameter`.
@@ -35,7 +35,7 @@ The viewpoint of unfolding complex computational relationships into nodes and co
 - You can explain automatic differentiation as `the technique that automatically organizes gradient computation by using the forward-pass record`.
 - You can confirm with a small example that loss magnitude and gradient direction are not the same thing.
 
-## Why Isn't Loss An Update Yet
+## Why Isn't Loss an Update Yet
 
 Loss is one number. For example, even if the loss of a model is `4.0`, that number alone cannot answer the following questions.
 
@@ -55,7 +55,7 @@ So learning needs a step after loss. The loss has to be unpacked again into a si
 
 The important point in this table is that gradient computation and update are different. The gradient is the `signal for how it should move`, and the optimizer decides the `actual movement rule` by using that signal.
 
-## What Does The Gradient Tell Us
+## What Does the Gradient Tell Us
 
 The gradient tells us how sensitive the loss is to a parameter. Look at the following simple expression.
 
@@ -90,7 +90,7 @@ The forward pass starts from the input and computes the output and the loss. Bac
 
 The first result to confirm in this flow is that the forward pass and backpropagation answer different questions. First there is the flow that computes the output and the loss. Then there is the gradient computation that starts from the loss and travels back toward the earlier parameters.
 
-## Why Compute From Back To Front
+## Why Compute from Back to Front
 
 The output layer is most directly connected to the loss.
 
@@ -117,7 +117,7 @@ If we draw it very simply, it looks like this.
 
 The key point of this diagram is the order: `look at the output error -> compute the gradient of the last calculation -> pass that influence to the earlier calculation -> repeat until the first layer`.
 
-## Why Does The Chain Rule Appear
+## Why Does the Chain Rule Appear
 
 Neural networks are structures where functions are stacked over many stages.
 
@@ -139,7 +139,7 @@ The question to grasp before the formula is this.
 
 The chain rule is the rule that makes this intuition mathematically possible. Backpropagation is the procedure that efficiently applies the chain rule to the deep functional structure of a neural network and turns the loss into a per-parameter gradient signal.
 
-## Why Do We Need To Understand Automatic Differentiation Too
+## Why Do We Need to Understand Automatic Differentiation Too
 
 In modern deep learning, users do not expand every derivative formula by hand. Frameworks such as PyTorch, TensorFlow, and JAX record the forward computation process, then follow it backward from the loss and automatically organize the gradient computation.
 
@@ -157,7 +157,7 @@ The level needed in this section is roughly the following.
 
 So automatic differentiation is not `a topic you can ignore`. It is a concept needed to understand why backpropagation runs in actual code. But the general theory of automatic differentiation and the internal implementation of frameworks are not the central scope of P5-5.1.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. The Update Direction Can Differ Even When There Is Loss
 
@@ -219,7 +219,7 @@ When the two cases are placed side by side, backpropagation is not a procedure t
 
 The result the reader should hold first in this table is that the key point is not `we know the loss`, but `we turn the loss back into a per-parameter gradient signal`.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is not to implement the whole of backpropagation. We use a very small expression to check how the `loss number` and the `gradient signal` differ. Instead of looking at only one case, we run together `a case where the block score is too small` and `a case where the block score is too large` so we can also see how the sign of the gradient changes.
 
@@ -370,7 +370,7 @@ If the result is split again by the standards of loss and gradient, the differen
 
 Once this table is read, it becomes clearer again that the core of backpropagation is not `the loss was computed`, but `the loss was rewritten into direction and size for each parameter`.
 
-## What Becomes Harder In Multi-Layer Neural Networks
+## What Becomes Harder in Multi-Layer Neural Networks
 
 The example above was simple because it had only one parameter. In a multi-layer neural network, the situation becomes difficult immediately.
 
@@ -401,7 +401,7 @@ In other words, backpropagation is the gradient-computation procedure that makes
 
 In the next section, P5-5.2, we unfold this execution record as a computation graph. Once you look at the computation graph, it becomes clearer what intermediate values are created during the forward pass and along what path the gradient travels back during the backward pass.
 
-## When Do We Read From The Viewpoint Of Gradient Computation
+## When Do We Read from the Viewpoint of Gradient Computation
 
 | Problem scene that appears first | Why the viewpoint of gradient computation is needed | The next question to hand off immediately |
 | --- | --- | --- |
@@ -418,7 +418,7 @@ In the next section, P5-5.2, we unfold this execution record as a computation gr
 - Can you distinguish gradient computation from optimizer update?
 - Do you understand that the reason for looking at the computation graph in the next section is `to track complex gradient computation`?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, accessed 2026-07-19. [https://doi.org/10.1038/323533a0](https://doi.org/10.1038/323533a0){: target="_blank" rel="noopener noreferrer" }
 - Paul J. Werbos, `Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences`, Harvard University doctoral thesis, 1974, accessed 2026-07-19. [https://cir.nii.ac.jp/crid/1572261550254843264?lang=en](https://cir.nii.ac.jp/crid/1572261550254843264?lang=en){: target="_blank" rel="noopener noreferrer" }

@@ -1,11 +1,11 @@
 # P3-8.6 Confirmed Labels Left Only on Some Cases
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
 _Subtitle: What should be written with the interpretation when confirmed labels exist only for reviewed cases?_
 
-At the interpretation stage, it can matter not only `how the numbers differ` but also `who received a confirmed label`. In real operations, not every event gets reviewed with the same depth. A person may revisit only some cases that looked abnormal, and only those cases may receive confirmed labels. If that structure is hidden, readers can easily read `the set of cases with labels` as if it were `the set of all events`.
+At the interpretation stage, it can matter not only `how the numbers differ` but also who received a confirmed [label](/AiBook/en/reference/concept-glossary-alpha/l/#glossary-label). In real operations, not every event gets reviewed with the same depth. A person may revisit only some cases that looked abnormal, and only those cases may receive confirmed labels. If this [selective labels](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-selective-labels) structure is hidden, readers can easily read `the set of cases with labels` as if it were `the set of all events`.
 
 If confirmed labels remain only on reviewed cases, those labels should not immediately be read as representing the whole.
 
@@ -13,7 +13,7 @@ If confirmed labels remain only on reviewed cases, those labels should not immed
 | --- | --- |
 | Confirmed labels exist only for some cases | By what rule were only those cases reviewed? |
 | Cases with `review_needed=0` were rarely rechecked | Does no label mean normal, or does it mean unchecked? |
-| Labels cluster only in a certain period or on certain equipment | Could the label set itself be biased? |
+| Labels cluster only in a certain period or on certain equipment | Could the label set itself have [bias](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-bias)? |
 
 Consider the table below.
 
@@ -34,7 +34,7 @@ At the interpretation stage, notes like the following are enough.
 | The meaning of a missing label | To avoid mixing normal with unchecked |
 | Range bias in the set with labels | To avoid overstating interpretation strength |
 
-The important point here is that `a selectively attached confirmed label can serve as interpretation evidence, but before reading it as a full answer set that represents all events, you should first write the review path and possible bias`. A confirmed-label table should therefore first be read not as `the answer table for all events`, but as a confirmation result for some events that passed through a review path.
+The important point here is that `a selectively attached confirmed label can serve as interpretation evidence, but before reading it as a full answer set that represents all events, you should first write the review path and possible bias`. A confirmed-label table should therefore first be read not as `the answer table for all events`, but as a confirmation result for some events that passed through a review path such as a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue).
 
 The next example reduces this problem into a small model evaluation. In real operations, the final result of unreviewed events may be unknown. So `actual_failure_for_demo` in the code is a hidden outcome used only for learning. The goal is not to use this value as an answer table, but to check what kind of illusion can appear when a model is evaluated only with labels left on reviewed cases.
 

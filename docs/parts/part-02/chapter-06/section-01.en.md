@@ -1,7 +1,7 @@
-# P2-6.1 What Does Optimization Search For?
+# P2-6.1 What Does Optimization Search for?
 
 > Section ID: `P2-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Chapter 5, we summarized data into numbers, estimated the whole from samples, and checked mean and variance through code. Now the question changes.
 
@@ -15,7 +15,7 @@ Here we reorganize `optimization`, `candidate`, `criterion`, `constraint`, and `
 
 Rather than calculating optimization algorithms here, we focus on rereading learning as the problem of searching for a better value. If you secure the feel of candidates, criteria, constraints, and minimization here, then when you later meet loss function, gradient descent, and optimizer, the problem scene appears before the formulas do.
 
-## The Shared Common Scene to Hold First
+## Shared Common Scene to Hold First
 
 In Chapter 6, one small example is reused across three Sections. Suppose four students have the following study time `x` and quiz score `y`.
 
@@ -47,7 +47,7 @@ You do not need to know the exact formulas or algorithms yet. The purpose here i
 
 ![Optimization flow for comparing candidate values under evaluation criteria and constraints to find a better candidate](/AiBook/assets/part-02/chapter-06/optimization-search-loop-en.svg)
 
-## Core Criteria: What Does Optimization Search For?
+## Core Criteria: What Does Optimization Search for?
 
 - You can explain optimization not as writing the answer directly, but as the perspective of finding a better candidate.
 - You can distinguish `candidate`, `criterion`, and `constraint`.

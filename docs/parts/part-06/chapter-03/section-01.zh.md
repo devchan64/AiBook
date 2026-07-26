@@ -1,7 +1,7 @@
 # P6-3.1 把 token ID 变成可比较坐标的 embedding
 
 > Section ID: `P6-3.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P6-2 章中，我们看到 LLM 会以 token 为单位读取文本，而且 token 长度会直接连接到成本和上下文长度。可是仅靠 token 编号，模型无法计算意义，所以 token 很快必须变成另一种数值表达。
 

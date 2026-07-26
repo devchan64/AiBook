@@ -1,11 +1,11 @@
 # P3-5.3 Why Can We Not Immediately Call Raw Time Series a Learning Input
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-When readers see a raw time series, many of them think like this: `There are many values and they are ordered, so can't we just pass this straight in as the learning input?` But we should pause here once. The mere fact that a raw time series exists does not yet mean we can say `a ready-to-use learning input has been prepared`.
+When readers see a raw time series, many of them think like this: `There are many values and they are ordered, so can't we just pass this straight in as the learning input?` But we should pause here once. The mere fact that a raw time series exists does not yet mean we can say a ready-to-use learning [input](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-input) has been prepared.
 
-The raw time series may contain a lot of information, but `what should count as one sample`, `how much length should be grouped into one input`, and `what we want to predict` may still be undecided. A learning input is not another name for raw data. It is an input structure whose boundaries are fixed to fit a problem. So the first distinction to hold onto in this section is that `a raw time series exists` and `a learning input is ready` are not the same sentence.
+The raw time series may contain a lot of information, but what should count as one [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), `how much length should be grouped into one input`, and `what we want to predict` may still be undecided. A learning input is not another name for raw data. It is an input structure whose boundaries are fixed to fit a problem. So the first distinction to hold onto in this section is that `a raw time series exists` and `a learning input is ready` are not the same sentence.
 
 The shortest first split looks like this.
 
@@ -30,7 +30,7 @@ But all three are illusions that appear when `defining the input structure` and 
 | The thought that comes quickly | The question Part 3 should ask first |
 | --- | --- |
 | The longer the time series, the better it is to feed it in directly | Is one sample one full action or one recent range? |
-| Deep learning will learn the features by itself | Where will we cut the input? |
+| Deep learning will learn the [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) by itself | Where will we cut the input? |
 | There are many raw logs, so learning can start right away | What will count as the result column? |
 
 ## What Else Is Needed to Turn Raw Time Series into a Learning Input
@@ -42,7 +42,7 @@ To turn a raw time series into an actual input structure, at least the following
 | Sample boundaries | We have to decide where one input starts and ends |
 | Segment-cutting rule | We need a comparison criterion such as early/mid/late |
 | Length-alignment rule | Inputs with different lengths are hard to compare immediately |
-| Target-label candidates | We have to decide what we want to predict |
+| [Target-label candidates](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate) | We have to decide what we want to predict |
 
 For example, the same raw time series can become completely different input structures like these.
 
@@ -60,8 +60,8 @@ A common misunderstanding here is the thought that `if we are going to look at t
 
 | Structure built first in Part 3 | Why this structure is needed first |
 | --- | --- |
-| Summary table | It lets us establish the basic comparison unit and baseline comparison first |
-| Segment representation | It lets people read order and structure first |
+| [Summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table) | It lets us establish the basic comparison unit and [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison first |
+| [Segment representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation) | It lets people read order and structure first |
 | Aggregate table | It lets us interpret recent state and usual state operationally |
 
 So the existence of a raw time series does not make the summary table unnecessary. Some questions are read more directly from the summary table first, and some may later move on again to a longer input structure.

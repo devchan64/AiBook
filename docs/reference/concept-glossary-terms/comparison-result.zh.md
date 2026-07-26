@@ -1,4 +1,5 @@
 <a id="comparison-result"></a>
+<a id="glossary-comparison-result"></a>
 
 ## 比较结果
 
@@ -6,5 +7,4 @@
 - 为什么重要: 没有比较结果，“变好”容易停留在印象。它把分数、样本、表格和执行摘要连接成变化记录。
 - 相关概念: `比较表`, `基准线`, `执行摘要`, `下一个问题`, `评估`
 - 核心 Section: `P7-1.2`
-- 出现 Section: `P7-index`, `P7-2.2`, `P7-summary`
-
+- 出现 Section: `P3-2.2`, `P3-8.3`, `P3-8.4`, `P7-index`, `P7-2.2`, `P7-summary`

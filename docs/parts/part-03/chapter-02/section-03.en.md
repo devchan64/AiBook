@@ -1,11 +1,11 @@
 # P3-2.3 What Should Be Written Down First When a New Table Arrives
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 When a new table first arrives, it is easy in many cases to think first of averages, distributions, or model candidates. But what should be written down before that is `what does one row of this table mean?`, `what can be grouped together?`, and `what is still missing?` Only after these three are organized can we distinguish whether what is in hand is already a sample table that can be compared directly, or still raw records that must be regrouped. Rather than deciding immediately whether a new table is `a training dataset`, it helps interpretation more to write down these three points first. Once they are written down, later sample design and dataset redesign also become much less abstract.
 
-The viewpoint that must be held first here is `format consistency` and `the first quality check`. Format consistency means checking first whether keys that refer to the same object are written in the same format, whether time columns are in a form that really allows order to be read, and whether values with the same meaning are mixed across columns with different units or string rules. The first quality check is the next stage after that. It means checking early whether there are problems that immediately break comparison structure, such as missing values, broken order, duplicate rows, or orphan rows that do not group cleanly.
+The viewpoint that must be held first here is [format consistency](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-format-consistency) and the first [data quality check](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-quality-check). Format consistency means checking first whether keys that refer to the same object are written in the same format, whether time columns are in a form that really allows order to be read, and whether values with the same meaning are mixed across columns with different units or string rules. The first quality check is the next stage after that. It means checking early whether there are problems that immediately break comparison structure, such as missing values, broken order, duplicate rows, or orphan rows that do not group cleanly.
 
 When a new table is read for the first time, it is safer to write down first `what is one row?`, `what can be grouped?`, and `what is still missing?` The question `what is one row?` connects to checking the `observation` unit in statistics and data organization. `What can be grouped?` connects to the principle that in time data, `key` and `index` should be made visible first. The item about preserving `raw evidence` also connects to the principle that data provenance and traceability must remain available so that quality and reliability can be judged again later.
 
@@ -33,7 +33,7 @@ Condensed into a table, those five become the following.
 | Row meaning | Because we must distinguish whether it is a time-point record, one full action, or a recent-segment aggregate |
 | Identifier | Because we need to know whether multiple lines belong to the same sample |
 | Time/order column | Because we must decide whether it is a time-series structure or a static table |
-| Comparability | Because we must decide whether samples can already be compared directly, or whether a summary table is needed first |
+| [Comparability](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparability) | Because we must decide whether samples can already be compared directly, or whether a summary table is needed first |
 | Raw-evidence location | Because strange cases must remain traceable later |
 
 Writing down only these five items already reduces how often storage structure and problem-representation structure are mixed together when read.

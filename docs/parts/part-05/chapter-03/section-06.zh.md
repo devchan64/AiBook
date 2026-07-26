@@ -1,7 +1,7 @@
 # P5-3.6 输出层（output layer）与激活的选择
 
 > Section ID: `P5-3.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-3.1 里，我们已经看过为什么需要激活函数；而从 P5-3.2 到 P5-3.5，则分别看了 sigmoid、tanh、ReLU 与代表性函数的公式比较。走到这里之后，下一个问题就会自然出现。
 
@@ -11,7 +11,7 @@
 
 输出层的激活会随着模型到底在预测什么而改变，它必须被选成一种能够匹配“输出值应该具有什么意义”的形式。
 
-如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看[英文概念词汇表里的 output 条目](/AiBook/reference/concept-glossary-parts/11-chieut/#output)与[activation function 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function)。
+如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看概念词汇表里的[输出（output）](/AiBook/zh/reference/concept-glossary-pinyin/c/#output)、[输出层（output layer）](/AiBook/zh/reference/concept-glossary-pinyin/c/#output-layer)、[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)与[softmax](/AiBook/zh/reference/concept-glossary-pinyin/s/#softmax)条目。
 
 ## 选择输出层激活的问题
 

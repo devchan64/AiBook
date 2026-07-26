@@ -1,13 +1,13 @@
 # P2-10.3 Organizing Notebooks as Re-runnable Records
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. In P2-10.2, we distinguished Jupyter, Colab, and local execution from the viewpoint of execution location and file access.
 
 Now we go one step further. A notebook is useful as a learning record, but after cells are run many times, the order visible in the document and the actual execution state can diverge. So a notebook must be organized both as `a readable document` and as `a reproducible record`.
 
-This Section explains the basic distinctions among `reproducible record`, `execution order`, `hidden state`, and `runtime state`. The representative explanation of `notebook` and cell structure is in P2-10.1, execution-location differences are in P2-10.2, and the representative explanation of `reproducibility` is placed in P2-7.5 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here the focus is on the standard for organizing that record so that it can be trusted again.
+This Section explains the basic distinctions among `reproducible record`, `execution order`, `hidden state`, and `runtime state`. The representative explanation of `notebook` and cell structure is in P2-10.1, execution-location differences are in P2-10.2, and the representative explanation of `reproducibility` is placed in P2-7.5 and the [reproducibility glossary entry](/AiBook/en/reference/concept-glossary-alpha/r.en/#reproducibility). Here the focus is on the standard for organizing that record so that it can be trusted again.
 
 Seen in the flow of Part 2, Chapter 7 treated `where execution happens`, Chapters 8 through 9 treated `what is written and in what kind of sentences`, and Chapter 10 treats `how that execution and output are left so that they can be read again`. Only when this standard stands do Chapters 11 through 14 read not as a list of new tool names, but as a preparation flow where arrays are calculated in notebooks, tables are read, graphs are checked, and records are left through Git.
 
@@ -258,7 +258,7 @@ Here the `seed` can be viewed as a starting value for recreating the same random
 
 One caution is that a seed does not solve every reproducibility problem. Results can still vary depending on package version, execution environment, hardware, or parallel processing style. This Section does not go deeply into those details.
 
-## In Colab Sharing, Notebook Sharing and Runtime Sharing Are Different
+## in Colab Sharing, Notebook Sharing and Runtime Sharing Are Different
 
 The Colab FAQ explains that when a notebook is shared, notebook contents such as text, code, output, and comments may be shared, but the virtual machine, runtime files, and installed libraries are not shared.
 

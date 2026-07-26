@@ -1,5 +1,7 @@
 ## ㅁ
 
+--8<-- "reference/concept-glossary-terms/random-threshold.ko.md"
+
 --8<-- "reference/concept-glossary-terms/bar-chart.ko.md"
 
 --8<-- "reference/concept-glossary-terms/masking.ko.md"
@@ -8,6 +10,10 @@
 
 --8<-- "reference/concept-glossary-terms/markdown-cell.ko.md"
 
+--8<-- "reference/concept-glossary-terms/margin.ko.md"
+
+--8<-- "reference/concept-glossary-terms/max-features.ko.md"
+
 --8<-- "reference/concept-glossary-terms/corpus.ko.md"
 
 --8<-- "reference/concept-glossary-terms/parameter-function.ko.md"
@@ -15,6 +21,8 @@
 --8<-- "reference/concept-glossary-terms/mapping.ko.md"
 
 --8<-- "reference/concept-glossary-terms/context.ko.md"
+
+--8<-- "reference/concept-glossary-terms/relu.ko.md"
 
 --8<-- "reference/concept-glossary-terms/context-dependency.ko.md"
 
@@ -37,6 +45,8 @@
 --8<-- "reference/concept-glossary-terms/manifold.ko.md"
 
 --8<-- "reference/concept-glossary-terms/metadata.ko.md"
+
+--8<-- "reference/concept-glossary-terms/problem-representation-structure.ko.md"
 
 --8<-- "reference/concept-glossary-terms/density.ko.md"
 

@@ -1,11 +1,11 @@
 # P3-1.1 What Is Data Modeling Trying to Achieve
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 As soon as the reader enters Part 3, they meet words such as [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target). These terms do not stand alone. The outer judgment that decides what counts as one case, which values remain, what gets compared, and in what result format the process closes is [data modeling](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-modeling).
 
-If data modeling is understood only as organizing storage structure, it is easy to think of it as little more than making an already existing table look cleaner. But in AI and data analysis, data modeling is an earlier judgment than that. Data modeling is the work of deciding `what question can this source data be turned into an answerable structure for?`
+If data modeling is understood only as organizing storage structure, it is easy to think of it as little more than making an already existing table look cleaner. But in AI and data analysis, data modeling is an earlier judgment than that. Data modeling is the work of deciding what question this [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) can be turned into an answerable structure for.
 
 The most common early confusion is to treat `how should we store the database?` and `how should we build a problem structure that AI can read?` as if they were the same task. They are connected, but their goals differ.
 
@@ -30,7 +30,7 @@ What data modeling is trying to achieve here is simple. It takes source data as 
 
 So data modeling is closer to `designing a comparison structure that makes a problem solvable` than simply `organizing a table`.
 
-At this point, the relation between data modeling and data science also needs to be fixed. Data science is the broader flow that includes data collection, cleaning, exploration, summarization, comparison, interpretation, prediction, and connection to decision making. Inside that larger flow, the data modeling that Part 3 focuses on is closer to `the front-end judgment that turns source data into a problem structure for AI learning and analysis`. In other words, Part 3 is not the Part that teaches all of data science. It teaches the core design range inside data science that AI learning must pass through.
+At this point, the relation between data modeling and [data science](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-science) also needs to be fixed. Data science is the broader flow that includes data collection, cleaning, exploration, summarization, comparison, interpretation, prediction, and connection to decision making. Inside that larger flow, the data modeling that Part 3 focuses on is closer to `the front-end judgment that turns source data into a problem structure for AI learning and analysis`. In other words, Part 3 is not the Part that teaches all of data science. It teaches the core design range inside data science that AI learning must pass through.
 
 To see this more clearly, place the outputs data modeling is actually trying to create side by side.
 

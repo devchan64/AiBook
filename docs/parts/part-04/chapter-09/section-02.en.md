@@ -1,9 +1,9 @@
 # P4-9.2 Tuning And Validation Cost
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-In P4-9.1, the discussion examined what a hyperparameter is and why it has long been treated as a separate topic. Now it moves to the next question.
+In P4-9.1, the discussion examined what a [hyperparameter](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter) is and why it has long been treated as a separate topic. Now it moves to the next question.
 
 How should configuration values that look promising actually be chosen?
 
@@ -13,9 +13,9 @@ Tuning is often understood as `trying many different values`. In practice, it is
 
 That means tuning is indeed `finding better values`, but at the same time it is also `experiment design that does not break the comparison`.
 
-This Section does not repeat at length the definition of the hyperparameter itself. The basic distinction between `learned values` and `values fixed in advance` reconnects through P4-9.1 and the [concept glossary](/AiBook/reference/concept-glossary/), while this Section concentrates only on how those setting values should be compared and managed.
+This Section does not repeat at length the definition of the hyperparameter itself. The basic distinction between `learned values` and `values fixed in advance` reconnects through P4-9.1 and the concept glossary, while this Section concentrates only on how those setting values should be compared and managed.
 
-## Scope Of This Section
+## Questions Closed By Tuning And Validation Cost
 
 This Section answers the following questions.
 
@@ -25,9 +25,9 @@ This Section answers the following questions.
 - Why should test data be used only at the end?
 - How should grid search and random search be understood at an introductory level?
 
-This Section first closes `inside what validation procedure candidate settings should be compared`. The bigger picture of Bayesian optimization, Hyperband, nested cross-validation, experiment tracking, and distributed tuning is reorganized again in the supplementary learning of P4-9.3.
+This Section first closes `inside what validation procedure candidate settings should be compared`. The bigger picture of Bayesian optimization, Hyperband, nested cross-validation, experiment tracking, and distributed tuning is reorganized again in P4-9.3.
 
-## Goals Of This Section
+## Judgments To Keep From Tuning And Validation Cost
 
 - You can explain tuning as `the work of comparing setting values inside a validation procedure`.
 - You can distinguish computational cost from validation cost.
@@ -72,7 +72,7 @@ The order of tuning comparison is fixed briefly as follows.
 
 ### What Does Tuning Do?
 
-The scikit-learn documentation on hyperparameter tuning explains a procedure in which an estimator's setting values are treated as candidate sets and compared by cross-validation scores.
+The scikit-learn documentation on hyperparameter tuning explains a procedure in which an estimator's setting values are treated as candidate sets and compared by [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) scores.
 
 `Tuning is the work of fixing hyperparameter candidates in advance and choosing the settings that better fit the current data and objective by comparing validation scores.`
 
@@ -98,7 +98,7 @@ When readers hear the word cost, they easily think only of training time. But in
 | Type of cost | Meaning |
 | --- | --- |
 | computational cost | the time, memory, and GPU/CPU resources required to train models many times and produce scores |
-| validation cost | the risk of overfitting that arises while repeatedly looking at validation data to choose settings |
+| validation cost | the risk of [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) that arises while repeatedly looking at validation data to choose settings |
 
 Computational cost is relatively visible.
 
@@ -353,12 +353,17 @@ That means tuning is not simply the work of choosing values, but the problem of 
 
 The example below is a very small exercise that places candidates for `max_depth` and `min_samples_split` for the same decision-tree model and compares them with `GridSearchCV`.
 
-- Problem situation: flower data (iris) are treated as a classification problem of species.
-- Input: four numeric features.
+- Problem situation: flower data (iris) are treated as a [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) problem of species.
+- Input: four numeric [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature).
 - Label: three species.
 - Concepts to check:
   - several hyperparameter combinations can be compared through a validation procedure
   - `best_params_`, `best_score_`, and `test score` must be read separately
+
+Values to change:
+
+- If `4` or `5` is added to the `"max_depth"` candidates in `param_grid`, the reader can see candidate combinations and `total model fits` increase together.
+- If `cv=5` is changed to `3` or `10`, the reader can check how the number of cross-validation folds changes computational cost under the same candidate table.
 
 ```python
 # This example evaluates multiple hyperparameter candidates on validation data to show tuning cost.
@@ -440,6 +445,6 @@ For example, if the candidate model is 0.910 and after tuning it becomes 0.912, 
 
 ## Sources And References
 
-- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, accessed 2026-06-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, accessed 2026-07-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }

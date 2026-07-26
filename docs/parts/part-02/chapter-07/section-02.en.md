@@ -1,7 +1,7 @@
 # P2-7.2 Terminal, Shell, and Working Directory
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-7.1, we first looked at the place where code runs. Now we look at the first screen a reader usually meets when entering commands on a local PC.
 
@@ -66,7 +66,7 @@ You do not need to memorize the whole history. If you remember the flow below, y
 
 That is why expressions such as `open the terminal`, `run it in the shell`, and `type it on the command line` remain even in modern development environments. All of these are connected to the flow `instead of pressing graphical buttons, enter commands as text and execute them`.
 
-## The Terminal Is the Screen, and the Shell Is the Program That Interprets Commands
+## Terminal Is the Screen, and the Shell Is the Program That Interprets Commands
 
 The `terminal` is the screen where commands are entered and results are viewed. Terminal on macOS, Windows Terminal, and the Terminal panel in VS Code belong here.
 
@@ -116,7 +116,7 @@ You do not need to memorize all commands. What matters is `where the command is 
 
 The same command can target different files when the current folder is different.
 
-## The Working Directory Is the Base Location of a Command
+## Working Directory Is the Base Location of a Command
 
 The `working directory` is the folder currently used as the base by a command. It is also called the `current working directory` (CWD).
 
@@ -188,7 +188,7 @@ Relative paths are short and convenient. But if the current working directory ch
 
 `docs/parts` has meaning when executed inside the `project-name` folder. But if it is executed from another project folder, it points to a completely different location or to a path that does not exist.
 
-## The Habit of Checking the File List Matters
+## Habit of Checking the File List Matters
 
 When a command fails, before immediately editing the code, check the current folder and the file list.
 

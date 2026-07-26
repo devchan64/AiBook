@@ -1,7 +1,7 @@
 # P1-14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14.1에서는 AI 서비스를 모델(model), 앱(application), 데이터(data), 도구(tool), 흐름(orchestration)의 조합으로 봤습니다. 이제 그중 헷갈리기 쉬운 두 가지를 구분합니다.
 

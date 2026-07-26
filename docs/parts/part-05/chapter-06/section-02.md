@@ -1,7 +1,7 @@
 # P5-6.2 학습 step, batch, epoch
 
 > Section ID: `P5-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-6.1에서는 `forward -> loss -> backward -> optimizer step`으로 이어지는 가장 작은 학습 루프를 먼저 묶었습니다. 여기까지 오면 바로 다음 질문이 생깁니다.
 

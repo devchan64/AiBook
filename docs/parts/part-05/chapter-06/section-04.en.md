@@ -1,7 +1,7 @@
-# P5-6.4 Training Mode And Evaluation Mode
+# P5-6.4 Training Mode and Evaluation Mode
 
 > Section ID: `P5-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-6.3, we separated learning and model execution (inference) into `the time when parameters change` and `the time when they are used without changing`. If we go one step further here, the next question appears.
 
@@ -13,7 +13,7 @@ Training mode is the computational environment that prepares parameter updates, 
 
 When the distinction between modes starts to blur again with the explanation of dropout or batch normalization, return to the [training mode](/AiBook/en/reference/concept-glossary-alpha/t/#training-mode) and [evaluation mode](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-mode) entries in the concept glossary.
 
-## The Question That Requires Training And Evaluation Modes
+## The Question That Requires Training and Evaluation Modes
 
 - Why do training mode and evaluation mode split?
 - Which layers, rather than all layers, are sensitive to the mode difference?
@@ -24,14 +24,14 @@ This section focuses on distinguishing which computational rules are more approp
 
 At the same time, it is also clear which question we will not widen immediately in this section. The larger meaning of dropout and regularization themselves is treated again in detail in P5-8.1 and P5-8.2, and where the optimizer enters this training flow reconnects again in P5-7.1 and P5-7.2.
 
-## Standards For Training-Only Behavior And Execution Behavior
+## Standards for Training-Only Behavior and Execution Behavior
 
 - You can explain training mode and evaluation mode as `two states where the computational rules differ`.
 - You can say why dropout and batch normalization are sensitive to the mode difference.
 - You can explain why evaluation mode may be needed in validation and deployment.
 - You can confirm the mode difference intuitively with an executable Python example.
 
-## Why Does The Same Model Need Modes
+## Why Does the Same Model Need Modes
 
 Readers often imagine the model as one fixed function. If the input is the same, they expect it to always compute in the same way and always produce the same result.
 
@@ -74,7 +74,7 @@ If we compress this difference down to only the computational rules, it becomes 
 
 The first result to confirm in this diagram is that even for the same model input, training mode separates its computational rules toward `allowing fluctuation to prepare updates`, while evaluation mode separates them toward `stable measurement and service output`.
 
-## Which Layers Are Sensitive To The Mode Difference
+## Which Layers Are Sensitive to the Mode Difference
 
 Not all layers are sensitive to the mode difference. For example, ordinary linear layers or convolution layers, given the same input and the same parameters, perform broadly the same computation.
 
@@ -87,7 +87,7 @@ But for the following layers, we have to read their behavior during training and
 
 In other words, the mode difference is needed because some layers `deliberately operate differently in order to help learning`.
 
-## Why Is Dropout Different During Training And Evaluation
+## Why Is Dropout Different During Training and Evaluation
 
 Dropout is a technique that randomly cuts off some node outputs during learning so the model does not rely too heavily on one specific path.
 
@@ -99,7 +99,7 @@ But if we also randomly cut nodes during evaluation every time, the result fluct
 
 So in evaluation mode, the random removal of dropout is stopped, and the learned network is used in a fixed form.
 
-## Why Does Batch Normalization Need A Mode Difference
+## Why Does Batch Normalization Need a Mode Difference
 
 Batch normalization is a layer that adjusts the activation distribution using the mean and variance of each batch. During learning, it is natural to use the current batch statistics, but during evaluation the situation changes.
 
@@ -115,7 +115,7 @@ It is enough to remember it like this.
 
 `During learning, batch normalization refers to the current batch, and during evaluation it refers more to the average standard accumulated during learning.`
 
-## Why Must Validation And Test Be In Evaluation Mode
+## Why Must Validation and Test Be in Evaluation Mode
 
 Validation data and test data are meant to show `how well the current model generalizes`. If training mode is still on there, dropout can fluctuate randomly and batch normalization can react sensitively to the batch composition.
 
@@ -127,7 +127,7 @@ As a result:
 
 In other words, validation and test are `the time to measure the current model fairly`, so evaluation mode matters.
 
-## Practice And Example
+## Practice and Example
 
 The distinction between modes is checked first at moments such as validation, deployment, or small-batch evaluation where the computational rule can disturb interpretation of the result. Even the same input batch can split into different computational rules in `training mode` and `evaluation mode`, so the example below checks the difference through stage-by-stage outputs. If we directly put in lists of numbers as in an earlier version, the result can look like hand-made values, so here we first compute one hidden-layer activation from a small user-session batch and then apply the mode difference of dropout and batch normalization to that value.
 
@@ -370,7 +370,7 @@ In particular, dropout became widely known as a practical technique for reducing
 
 In other words, this section is not just a library tip. It is the section that explains `why deep learning can look less like a simple function and more like a system with operational states`.
 
-## When Do We Read The Training/Eval Mode Difference Separately
+## When Do We Read the Training/Eval Mode Difference Separately
 
 After distinguishing learning and inference, we next have to check separately `even for the same model, can some computational rules differ?` That boundary is exactly training/eval mode.
 
@@ -392,7 +392,7 @@ After distinguishing learning and inference, we next have to check separately `e
 - When you need to reduce output fluctuation in validation and deployment, can you bring out the viewpoint that evaluation mode provides a stable reference?
 - Do you understand that after this section, the flow moves on to the optimizer chapters that turn gradients into actual update rules?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, accessed 2026-07-19. [https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }

@@ -1,4 +1,5 @@
 <a id="feature-selection"></a>
+<a id="glossary-feature-selection"></a>
 
 ## feature selection
 
@@ -6,4 +7,4 @@
 - Why it matters: This concept helps readers distinguish a specific role in data, modeling, evaluation, prompting, or system operation instead of treating nearby terms as interchangeable.
 - Related concepts: `feature`, `preprocessing`, `data leakage`
 - Core Section: `P4-7.1`
-- Appears in: `P2-12.3`, `P3-6.1`, `P4-7.3`, `P4-7.4`, `P4-15.2`
+- Appears in: `P2-12.3`, `P4-index`, `P3-6.1`, `P4-7.3`, `P4-7.4`, `P4-15.2`, `P4-3.1`

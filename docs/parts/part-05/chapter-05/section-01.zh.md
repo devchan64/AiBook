@@ -1,7 +1,7 @@
 # P5-5.1 损失如何变成梯度（gradient）信号
 
 > Section ID: `P5-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-4 章里，我们已经看到：损失函数（loss function）会把当前输出与目标之间的偏差变成一个数字。但只有损失数字本身，还不能直接去修改参数（parameter）。
 
@@ -9,7 +9,7 @@
 
 这时真正需要的信号，就是梯度（gradient）。梯度表示的是：损失对某个具体参数到底有多敏感。从损失出发，把这种敏感度从后面的计算一步步往前面的计算重新算出来的过程，就是反向传播（backpropagation）。
 
-如果在后面的章节里又开始把它和计算图或优化器（optimizer）混在一起，更适合回到[英文概念词汇表里的 backpropagation 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#backpropagation)，先重新拆开各自的计算角色。
+如果在后面的章节里又开始把它和计算图或优化器（optimizer）混在一起，更适合回到概念词汇表里的[反向传播（backpropagation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#backpropagation)、[梯度（gradient）](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient)、[链式法则（chain rule）](/AiBook/zh/reference/concept-glossary-pinyin/l/#chain-rule)条目，先重新拆开各自的计算角色。
 
 这一节先固定下面三句话：
 

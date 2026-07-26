@@ -1,13 +1,13 @@
 # P2-13.3 Comparing and Saving Multiple Plots
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-13.2, we looked at what questions basic charts such as line plots, scatter plots, and histograms are used for. Now we go one step further and organize the flow of looking at several plots together and leaving the result as a file.
 
 In AI learning, you often do not stop after looking at one plot. You may need to look at loss and accuracy together, or compare the flow of train data and validation data side by side. At that point, it helps to be a little more conscious of Matplotlib's `Figure` and `Axes` structure.
 
-This section explains the basic distinctions in the compare-and-save flow, including `savefig`, `legend`, and `accuracy`. The representative explanation of `plot`, `Figure`, and `Axes` stays in P2-13.1, and the standards for choosing basic chart types stay in P2-13.2 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here, we focus on how to compare several plots together and leave the results as files.
+This section explains the basic distinctions in the compare-and-save flow, including `savefig`, `legend`, and `accuracy`. The representative explanation of `plot`, `Figure`, and `Axes` stays in P2-13.1, and the standards for choosing basic chart types stay in P2-13.2 and the [legend glossary entry](/AiBook/en/reference/concept-glossary-alpha/l.en/#legend). Here, we focus on how to compare several plots together and leave the results as files.
 
 ## Core Criteria: Comparing and Saving Multiple Plots
 

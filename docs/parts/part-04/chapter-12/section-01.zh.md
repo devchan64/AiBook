@@ -1,15 +1,15 @@
 # P4-12.1 k-NN 的直觉
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-11.2 里，我们看到 logistic regression 是 `通过在 input space 里画出 boundary 来切开 class 的模型`。现在要把问题换一下。
+在 P4-11.2 里，我们看到 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 是 `通过在 input space 里画出 boundary 来切开 class 的模型`。现在要把问题换一下。
 
 如果不先画一条直线，而是先看周围相似的案例，能不能做出判断？
 
-这正是 k-NN(k-nearest neighbors) 的出发点。更准确地说，k-NN 不太像 `先写出一个公式的模型`，而更像 `先去寻找新输入周围相似案例的模型`。
+这正是 [k-NN(k-nearest neighbors)](/AiBook/zh/reference/concept-glossary-pinyin/k/#k-nnk-nearest-neighbors) 的出发点。更准确地说，k-NN 不太像 `先写出一个公式的模型`，而更像 `先去寻找新输入周围相似案例的模型`。
 
-## 本节范围
+## k-NN 直觉先收束的问题
 
 这一节回答下面这些问题。
 
@@ -20,7 +20,7 @@
 
 这一节先收束 `k-NN 是按什么基本想法，从周围案例出发做判断的`。distance function 和 scale 为什么会改变结果，会在 `P4-12.2 距离与尺度` 里继续处理；实际使用时的检查指南，会在 `P4-12.3 使用 k-NN 时应先检查什么` 里继续处理。
 
-## 用k-NN 的直觉留下的判断标准
+## k-NN 直觉要留下的判断标准
 
 - 能把 k-NN 解释成 `把附近案例聚起来，再用多数表决或平均来判断的方法`。
 - 能说明 `query`、`training data`、`neighbor`、`label` 在判断里各自做什么。
@@ -31,7 +31,7 @@
 
 ### k-NN 是怎样做判断的
 
-k-NN 会先看一个新的输入，也就是 query。接着，它会在已经有 label 的 training data 里找出和 query 距离最近的案例。最后，再把这些 neighbors 的 label 收集起来，用多数表决或平均做出结果。
+k-NN 会先看一个新的输入，也就是 [query](/AiBook/zh/reference/concept-glossary-pinyin/c/#query)。接着，它会在已经有 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label) 的 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 里找出和 query 距离最近的案例。最后，再把这些 [neighbors](/AiBook/zh/reference/concept-glossary-pinyin/n/#nearest-neighbor) 的 label 收集起来，用多数表决或平均做出结果。
 
 简单压成下面四步。
 
@@ -156,6 +156,11 @@ logistic regression 会先问：`怎样用一条公式或一条边界，把整�
   - 即使 query 相同，只要 `k` 改变，结果也可能真的改变
   - 靠近边界的 query 很容易让解释摇晃
 
+可以改动的值：
+
+- 把 `query` 改成 `(4.3, 4.1)` 或 `(3.9, 4.0)`，观察最近邻顺序怎样变化。
+- 把 `k` 列表改成 `[1, 2, 3, 5]` 这类形式，检查偶数 `k` 是否可能产生平票。
+
 ```python
 # 这个例子计算新 query 与已有样本之间的距离，用来选择 k-NN 邻居和预测标签。
 from math import dist
@@ -227,4 +232,4 @@ k=5, prediction=0
 
 ## 出处与参考资料
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 确认日期: 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }

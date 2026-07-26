@@ -1,11 +1,11 @@
 # P3-1.1 데이터 모델링은 무엇을 달성하려는가
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary-parts/11-chieut.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-modeling)입니다.
+Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary-parts/11-chieut.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-modeling)입니다.
 
-데이터 모델링을 저장 구조 정리로만 이해하면, 이미 쌓여 있는 표를 보기 좋게 바꾸는 정도로 생각하기 쉽습니다. 하지만 AI와 데이터 분석에서 말하는 데이터 모델링은 그보다 더 앞선 판단입니다. 데이터 모델링은 `지금 있는 원천데이터로 어떤 질문에 답할 수 있게 만들 것인가`를 정하는 일입니다.
+데이터 모델링을 저장 구조 정리로만 이해하면, 이미 쌓여 있는 표를 보기 좋게 바꾸는 정도로 생각하기 쉽습니다. 하지만 AI와 데이터 분석에서 말하는 데이터 모델링은 그보다 더 앞선 판단입니다. 데이터 모델링은 지금 있는 [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)로 어떤 질문에 답할 수 있게 만들 것인가를 정하는 일입니다.
 
 처음 읽을 때 가장 흔한 혼동은 `DB를 어떻게 저장할까`와 `AI가 읽을 문제 구조를 어떻게 만들까`를 같은 일처럼 보는 것입니다. 둘은 연결되지만 목표가 다릅니다.
 
@@ -30,7 +30,7 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 
 즉 데이터 모델링은 `표를 정리하는 일`보다 `문제를 풀 수 있는 비교 구조를 설계하는 일`에 가깝습니다.
 
-이 지점에서 데이터 모델링과 데이터과학(data science)의 관계도 함께 잡아 둘 필요가 있습니다. 데이터과학은 데이터 수집, 정제, 탐색, 요약, 비교, 해석, 예측, 의사결정 연결까지 포함하는 더 넓은 흐름입니다. 그 안에서 Part 3이 집중하는 데이터 모델링은 `원천데이터를 AI 학습과 분석에 들어갈 문제 구조로 바꾸는 앞단 판단`에 가깝습니다. 다시 말해 Part 3은 데이터과학 전체를 가르치는 Part가 아니라, AI 학습을 위해 반드시 지나야 하는 데이터과학의 핵심 설계 구간을 다루는 Part입니다.
+이 지점에서 데이터 모델링과 [데이터과학(data science)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-science)의 관계도 함께 잡아 둘 필요가 있습니다. 데이터과학은 데이터 수집, 정제, 탐색, 요약, 비교, 해석, 예측, 의사결정 연결까지 포함하는 더 넓은 흐름입니다. 그 안에서 Part 3이 집중하는 데이터 모델링은 `원천데이터를 AI 학습과 분석에 들어갈 문제 구조로 바꾸는 앞단 판단`에 가깝습니다. 다시 말해 Part 3은 데이터과학 전체를 가르치는 Part가 아니라, AI 학습을 위해 반드시 지나야 하는 데이터과학의 핵심 설계 구간을 다루는 Part입니다.
 
 이 점을 더 분명히 보기 위해, 데이터 모델링이 실제로 만들고자 하는 산출물을 나란히 놓고 봅니다.
 

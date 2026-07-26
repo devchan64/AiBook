@@ -1,6 +1,9 @@
+<a id="underfitting"></a>
+
 ## underfitting
 
-- Meaning: 데이터 안의 관계를 충분히 배우지 못해 학습 데이터와 새 데이터 모두에서 성능이 약한 상태입니다. 모델이 너무 단순하거나 학습이 충분히 진행되지 않아, 아직 중요한 패턴 자체를 붙잡지 못한 상태라고 볼 수 있습니다. 쉽게 말해 문제를 너무 대충 본 탓에, 훈련 때 본 예시에서도 기본 규칙을 제대로 설명하지 못하는 상황입니다.
-- Why it matters: 학습이 잘 안 된 경우와 너무 많이 맞춘 경우를 구분할 때 필요합니다. 이 개념이 있어야 성능이 낮다고 해서 무조건 과적합을 의심하지 않고, 모델 용량 부족인지 학습 부족인지도 따로 따져 보게 됩니다. 또한 과소적합은 `더 일반적이라서 좋은 상태`가 아니라, 아직 기본 패턴조차 충분히 설명하지 못한 상태라는 점을 보여 주어 모델 단순화와 성능 저하를 같은 말로 섞지 않게 합니다. 결국 과적합과 과소적합은 둘 다 문제지만, 원인과 손보는 방향이 다르다는 점을 함께 읽어야 합니다.
+- Meaning: Underfitting is a state where a model has not learned enough of the relationships in the data, so performance is weak on both training data and new data. The model may be too simple, or training may not have progressed far enough to capture the important pattern.
+- Why it matters: Underfitting helps separate `not learned enough` from `learned the training data too tightly`. Without this distinction, a low score may be misread as overfitting even when the model actually needs more capacity, better features, or more effective training. Underfitting is not a desirable form of generality; it is a failure to capture even the basic pattern needed for the task.
 - Related concepts: `generalization`, `overfitting`, `model complexity`
 - Core Section: `P1-3.2`
+- Appears in: `P4-4.1`, `P4-5.1`, `P4-5.2`

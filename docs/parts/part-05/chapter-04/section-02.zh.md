@@ -1,7 +1,7 @@
 # P5-4.2 按问题类型区分的损失
 
 > Section ID: `P5-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-4.1 里，我们已经把损失函数（loss function）理解成：`把模型当前输出与目标之间偏离了多少变成数字的标准`。接下来就会自然冒出下一个问题：
 
@@ -11,7 +11,7 @@
 
 损失函数会随着问题类型而改变。因为回归（regression）、分类（classification）、生成（generation）这三类问题，`错误长什么样`本身就不同。
 
-如果后面又开始把问题类型对应的损失标准混在一起，更适合回到[英文概念词汇表里的 loss function 条目](/AiBook/reference/concept-glossary-parts/07-siot/#loss-function)。
+如果后面又开始把问题类型对应的损失标准混在一起，更适合回到概念词汇表里的[损失函数（loss function）](/AiBook/zh/reference/concept-glossary-pinyin/l/#loss-function)、[均方误差（mean squared error, MSE）](/AiBook/zh/reference/concept-glossary-pinyin/m/#mean-squared-error-mse)、[交叉熵（cross-entropy）](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-entropy)条目。
 
 ## 问题类型改变损失的问题
 

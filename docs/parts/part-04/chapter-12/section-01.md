@@ -1,13 +1,13 @@
 # P4-12.1 k-NN의 직관
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.2에서는 로지스틱 회귀(logistic regression)가 `입력 공간에 경계를 그어 class를 나누는 방식`을 보았습니다. 이제 질문을 바꿉니다.
+P4-11.2에서는 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)가 `입력 공간에 경계를 그어 class를 나누는 방식`을 보았습니다. 이제 질문을 바꿉니다.
 
 직선을 먼저 만들지 않고, 주변의 비슷한 사례를 보고 판단할 수는 없을까?
 
-이 질문이 k-NN(k-nearest neighbors)의 출발점입니다. k-NN은 `식을 먼저 세우는 모델`이라기보다 `새 입력 주변의 비슷한 사례를 먼저 찾는 모델`로 읽는 편이 더 정확합니다.
+이 질문이 [k-NN(k-nearest neighbors)](../../../reference/concept-glossary-parts/10-kieuk.md#k-nnk-nearest-neighbors)의 출발점입니다. k-NN은 `식을 먼저 세우는 모델`이라기보다 `새 입력 주변의 비슷한 사례를 먼저 찾는 모델`로 읽는 편이 더 정확합니다.
 
 ## k-NN의 직관에서 닫을 질문
 
@@ -31,7 +31,7 @@ P4-11.2에서는 로지스틱 회귀(logistic regression)가 `입력 공간에 �
 
 ### k-NN은 어떤 방식으로 판단하는가
 
-k-NN은 먼저 새 입력(query)을 봅니다. 그다음 이미 label이 붙어 있는 학습 데이터(training data)에서 query와 가까운 사례들을 찾습니다. 마지막으로 그 이웃(neighbors)의 label을 모아 다수결이나 평균으로 판단을 만듭니다.
+k-NN은 먼저 새 입력인 [query](../../../reference/concept-glossary-parts/09-jieut.md#query)를 봅니다. 그다음 이미 [label](../../../reference/concept-glossary-parts/04-rieul.md#label)이 붙어 있는 [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data)에서 query와 가까운 사례들을 찾습니다. 마지막으로 그 [이웃(neighbors)](../../../reference/concept-glossary-parts/11-chieut.md#nearest-neighbor)의 label을 모아 다수결이나 평균으로 판단을 만듭니다.
 
 작게 정리하면 다음 순서입니다.
 
@@ -156,6 +156,11 @@ k-NN의 핵심 가정은 `비슷한 입력은 비슷한 출력을 가질 가능�
   - 같은 query라도 `k`가 바뀌면 결과가 실제로 달라질 수 있습니다.
   - 경계 근처 query는 해석이 쉽게 흔들릴 수 있습니다.
 
+조작해 볼 값:
+
+- `query`를 `(4.3, 4.1)`이나 `(3.9, 4.0)`으로 바꾸면 가까운 이웃 순서가 어떻게 달라지는지 볼 수 있습니다.
+- `k` 목록을 `[1, 2, 3, 5]`처럼 바꾸면 짝수 `k`에서 동률 가능성이 생기는지도 확인할 수 있습니다.
+
 ```python
 # 새 query와 기존 샘플 사이의 거리를 계산해 k-NN 이웃과 예측 label을 고르는 예제입니다.
 from math import dist
@@ -227,4 +232,4 @@ k=5, prediction=0
 
 ## 출처와 참고 자료
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 확인 날짜: 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }

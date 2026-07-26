@@ -1,7 +1,7 @@
 # P5-7.4 보충학습: adaptive optimization 주장 구분
 
 > Section ID: `P5-7.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P5-7.3에서는 적응형 업데이트가 기본 update에 무엇을 더 보완하려 하는지 보고, Adam을 그 대표 예로 살펴보았습니다. 여기서 더 깊게 들어가면 다음 질문이 남습니다.
 

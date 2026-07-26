@@ -1,7 +1,7 @@
 # P6-16.1 LLM Evaluation That Separates Natural Answers from Quality Criteria
 
 > Section ID: `P6-16.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 Even if a harness leaves execution records such as traces, tool-call logs, and replay information, those records alone do not guarantee quality. An LLM-based system needs evaluation criteria that separate `what counts as a pass`, `which axis failed first`, and `what must be fixed before trying again`.
 

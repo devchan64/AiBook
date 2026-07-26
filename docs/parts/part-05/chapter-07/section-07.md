@@ -1,7 +1,7 @@
 # P5-7.7 보충학습: optimizer state와 개별 update
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P5-7.3에서 적응형 업데이트를 볼 때 `최근 gradient 흐름`, `좌표별 조절`이라는 표현이 반복해서 나왔습니다. 여기서 자연스럽게 남는 질문은 이것입니다. 그런 정보는 어디에 남고, 왜 같은 gradient라도 다음 step의 update가 달라질 수 있는가?
 

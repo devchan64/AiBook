@@ -1,13 +1,13 @@
 # P4-2.2 Unsupervised Learning
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-2.1 looked at supervised learning, where a model is trained using examples that already have labels. This time we look at unsupervised learning, which looks for structure in data without labels.
+P4-2.1 looked at [supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning), where a model is trained using examples that already have [labels](/AiBook/en/reference/concept-glossary-alpha/l/#label). This time we look at [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), which looks for structure in data without labels.
 
 Unsupervised learning does not mean `it learns freely without answers` in some vague way. It means an approach that looks for similarity, grouping, axes, density, or unusual points inside data without labels attached beforehand by people. In many cases, the model is not trying to match an answer. It is building structure candidates so that people can understand the data better or prepare the next task.
 
-This Section explains the broad distinction among `unsupervised learning`, `reading structure without labels`, `clustering`, and `dimensionality reduction`. Later Sections continue the current context with this handle, and the basic meaning of structure exploration is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the broad distinction among unsupervised learning, reading structure without labels, [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering), and [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction). Later Sections continue the current context with this handle, and the basic meaning of structure exploration is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
@@ -15,7 +15,7 @@ This Section first closes `what kinds of problems unsupervised learning handles 
 
 - What does it mean that labels are absent?
 - What does unsupervised learning learn?
-- What kinds of problems are clustering, dimensionality reduction, and outlier detection?
+- What kinds of problems are clustering, dimensionality reduction, and [outlier detection](/AiBook/en/reference/concept-glossary-alpha/o/#outlier)?
 - Why must the results of unsupervised learning be interpreted carefully?
 - How can supervised and unsupervised learning connect in real work?
 
@@ -189,5 +189,6 @@ The checkable result can be judged by whether the groupings and axes actually cr
 
 ## Sources And References
 
-- scikit-learn developers, `Unsupervised learning`, scikit-learn User Guide, accessed 2026-06-25. [https://scikit-learn.org/stable/unsupervised_learning.html](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `What is clustering?`, Machine Learning, accessed 2026-06-25. [https://developers.google.com/machine-learning/clustering/overview](https://developers.google.com/machine-learning/clustering/overview){: target="_blank" rel="noopener noreferrer" }
+- Google, `Machine Learning Glossary`, entries including `unsupervised learning`, `clustering`, and `dimensionality reduction`, accessed 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Unsupervised learning`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/unsupervised_learning.html](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `What is clustering?`, Machine Learning, accessed 2026-07-26. [https://developers.google.com/machine-learning/clustering/overview](https://developers.google.com/machine-learning/clustering/overview){: target="_blank" rel="noopener noreferrer" }

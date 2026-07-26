@@ -1,11 +1,11 @@
 # P3-3.2 질문에 맞는 데이터셋은 어떻게 다시 설계하는가
 
 > Section ID: `P3-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-데이터셋을 다시 설계한다는 말은 이미 있는 파일을 그대로 쓰지 않고, 질문이 요구하는 샘플 단위와 열 구조를 다시 고른다는 뜻입니다. 즉 `무엇을 한 행으로 둘지`, `어떤 열을 남길지`, `무엇과 비교할지`를 다시 정하는 일입니다. 동작 단위 표, 비교 리포트, 예측 문제 후보 표가 서로 다른 이유도 바로 이 재설계에서 생깁니다.
+데이터셋을 다시 설계한다는 말은 이미 있는 파일을 그대로 쓰지 않고, 질문이 요구하는 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위와 [열(column)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-column) 구조를 다시 고른다는 뜻입니다. 즉 무엇을 한 [행(row)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-row)으로 둘지, `어떤 열을 남길지`, `무엇과 비교할지`를 다시 정하는 일입니다. 동작 단위 표, [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report), 예측 문제 후보 표가 서로 다른 이유도 바로 이 재설계에서 생깁니다.
 
-같은 원천 시계열이라도 서로 다른 데이터셋으로 다시 만들 수 있습니다. 예를 들어 자동으로 실행되는 동작의 원천데이터가 있을 때, 다음 세 가지 표는 모두 가능하지만 역할이 다릅니다.
+같은 원천 시계열이라도 서로 다른 [데이터셋(dataset)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-dataset)으로 다시 만들 수 있습니다. 예를 들어 자동으로 실행되는 동작의 [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)가 있을 때, 다음 세 가지 표는 모두 가능하지만 역할이 다릅니다.
 
 | 표의 종류 | 한 행이 뜻하는 것 | 주된 목적 |
 | --- | --- | --- |
@@ -30,8 +30,8 @@
 
 - 샘플 1건은 무엇인가
 - 어떤 값은 그대로 두고 어떤 값은 요약할 것인가
-- 비교를 위해 기준선 열이 필요한가
-- 출력 구조가 경고인지, 검토 후보인지, 예측 목표 라벨(target)인지
+- 비교를 위해 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 열이 필요한가
+- [출력 구조(output structure)](../../../reference/concept-glossary-parts/11-chieut.md#glossary-output-structure)가 경고인지, 검토 후보인지, [목표 라벨 후보(target candidate)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-target-candidate)인지
 
 이 판단이 빠진 채 `데이터셋이 있다`고 말하면 실제로는 아직 원천 기록만 들고 있는 경우가 많습니다. 특히 시계열 데이터에서는 원시 로그의 행 수가 많기 때문에 더 쉽게 속습니다. 행이 많고 열도 많으면 이미 풍부한 데이터셋처럼 보이지만, 분석 단위가 정해지지 않았다면 그 표는 아직 문제를 제대로 표현하지 못합니다.
 
@@ -40,7 +40,7 @@
 | 지금 손에 있는 것 | 아직 없을 수 있는 것 |
 | --- | --- |
 | 원천 기록 파일 | 동작 1회 기준으로 다시 묶인 샘플 표 |
-| 시점별 행과 센서 값 | 비교를 위해 골라진 특징 열 |
+| 시점별 행과 센서 값 | 비교를 위해 골라진 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 열 |
 | 기록된 숫자 전체 | 기준선과 비교한 차이 열 |
 | 긴 로그 표 | 검토 후보나 학습 후보로 바로 읽히는 출력 구조 |
 

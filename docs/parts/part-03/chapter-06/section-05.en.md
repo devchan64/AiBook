@@ -1,9 +1,9 @@
 # P3-6.5 How Should We Read and Keep Features Together When Their Units and Scales Differ
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-Once we build a few features, another confusion easily returns. `Is the column with the larger value more important?` `Can seconds and pressure units stay in the same table?` `Can a column with an average of 200 and another with 0.2 simply be compared side by side?` What is needed first here is the sense to distinguish unit, range, size of variation, and change relative to the baseline before looking at the size of the numbers.
+Once we build a few [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), another confusion easily returns. `Is the column with the larger value more important?` `Can seconds and pressure units stay in the same table?` `Can a column with an average of 200 and another with 0.2 simply be compared side by side?` What is needed first here is the sense to distinguish unit, range, size of variation, and change relative to the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) before looking at the size of the numbers.
 
 The fact that they appear together in one table and the judgment that they should be read by the same magnitude standard are not the same thing. Features can have different units, ranges, and widths of variation, and if we look only at raw magnitude without knowing that difference, we can easily misread the structure.
 
@@ -115,10 +115,10 @@ So Part 3's responsibility reaches this far.
 2. Be able to write whether each feature means level, change, variability, or duration.
 3. Know that the raw size of the number itself can matter less than `the difference from baseline inside the same column`.
 
-Because the numbers in a feature table do not all describe the same kind of magnitude, we should first write down the unit and role, and then read them through the baseline-relative change of the same column. This section can be read not as an introduction to scaling formulas, but as the problem of `role-aware reading across heterogeneous scales` inside one working table.
+Because the numbers in a feature table do not all describe the same kind of magnitude, we should first write down the unit and role, and then read them through the baseline-relative change of the same column. This section can be read not as an introduction to scaling formulas, but as the problem of [role-aware reading across heterogeneous scales](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-role-aware-reading-across-heterogeneous-scales) inside one working table.
 
 
-The same issue appears in model input. The next example uses the same k-NN model, but compares reading the features without scaling and reading them after `StandardScaler` puts each column onto a comparable scale.
+The same issue appears in model input. The next example uses the same [k-NN model](/AiBook/en/reference/concept-glossary-alpha/k/#glossary-k-nn), but compares reading the features without scaling and reading them after `StandardScaler` puts each column onto a comparable scale.
 
 Problem situation: We want to confirm that if features with different units and ranges are passed directly into k-NN, the column with the large numeric range can pull the neighbor decision more strongly.
 

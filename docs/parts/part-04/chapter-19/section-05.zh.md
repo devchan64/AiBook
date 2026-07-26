@@ -1,28 +1,28 @@
 # P4-19.5 补充学习：第一次读强化学习中的公式名称
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 一旦开始阅读 P4-19.1 里的价值型强化学习(value-based reinforcement learning)，下面这些名字很快就会跟着出现。
 
-- 贝尔曼方程(Bellman equation)
-- 收敛(convergence)
-- 函数近似(function approximation)
+- [贝尔曼方程(Bellman equation)](/AiBook/zh/reference/concept-glossary-pinyin/b/#bellman-equation)
+- [收敛(convergence)](/AiBook/zh/reference/concept-glossary-pinyin/c/#convergence)
+- [函数近似(function approximation)](/AiBook/zh/reference/concept-glossary-pinyin/h/#function-approximation)
 
 这一节不是按严格证明顺序把这些名字长篇展开，而是先把`为什么价值型强化学习的分数表会递归地写出来`、`为什么要检查反复更新是否稳定`、`为什么在大问题里会从表转向函数`连起来读。
 
-## 本节范围
+## 第一次读公式名称时先收束的问题
 
 这一节回答下面这些问题。
 
 - 为什么贝尔曼方程会被读成`当前奖励 + 下一状态的价值`？
 - 说“看收敛”到底是在看什么，什么正在变得不再大幅摇晃？
-- 为什么函数近似会代替 Q-table 出现？
-- DQN 应该被读成价值型强化学习的哪一种扩展？
+- 为什么函数近似会代替 [Q-table](/AiBook/zh/reference/concept-glossary-pinyin/q/#q-table) 出现？
+- [DQN](/AiBook/zh/reference/concept-glossary-pinyin/d/#dqn) 应该被读成价值型强化学习的哪一种扩展？
 
 这一节集中通过 `递归式价值阅读`、`重复更新的稳定化`、`从表走向函数` 这三个把手来理解强化学习的扩展背景。
 
-## 用补充学习：如何第一次阅读贝尔曼方程、收敛与函数近似留下的判断标准
+## 公式名称要留下的判断标准
 
 - 能把贝尔曼方程解释成`连接当前奖励和未来价值的方程`。
 - 能把收敛解释成`反复更新之后，结果是否稳定在某个值附近`这个问题。

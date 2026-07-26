@@ -1,19 +1,19 @@
 # P4-8.2 Baseline
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P4-8.1, the discussion examined what model families should be raised as candidates. Now, instead of immediately grabbing those candidates in order of complexity, it moves to the question of setting the starting point of comparison first.
 
 In this problem, what is the simplest standard that must be beaten first?
 
-That question is exactly the starting point of the baseline.
+That question is exactly the starting point of the [baseline model](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model).
 
 The baseline is often understood as `a temporary model with low performance`. In practice, however, it is much more important than that. A baseline is the floor line of comparison that checks whether a complex model is really creating meaningful improvement.
 
 In both academic and practical contexts, a baseline is closer not to `a good model`, but to `the minimum standard that makes comparison possible`. In other words, without a baseline, even if a performance number looks high, it becomes hard to tell whether that is because the problem is easy, because the data are biased, or because the modeling actually helped.
 
-This Section explains the meaning and role of the `baseline`. Later Sections continue the current context through this handle, and the criterion for what the improvement of a complex model should be compared against reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the meaning and role of the `baseline`. Later Sections continue the current context through this handle, and the criterion for what the improvement of a complex model should be compared against reconnects through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 The perspective that must be fixed here is the following one sentence.
 
@@ -24,7 +24,7 @@ The order of baseline comparison is fixed briefly as follows.
 | What to look at first | Question that comes immediately next | What to judge after that |
 | --- | --- | --- |
 | baseline score | is this score an easy illusion, or a real starting point | how much did the candidate model improve on the same metric |
-| confusion matrix and representative error cases | what failures were reduced and what failures remain | is this change operationally meaningful |
+| [confusion matrix](/AiBook/en/reference/concept-glossary-alpha/c/#confusion-matrix) and representative [error cases](/AiBook/en/reference/concept-glossary-alpha/e/#error-case) | what failures were reduced and what failures remain | is this change operationally meaningful |
 | candidate-model score | besides accuracy, what changed in recall, F1, or error size | can readers decide whether to tune further or change candidates |
 
 To actually set up a baseline, two things are needed together.
@@ -34,7 +34,7 @@ To actually set up a baseline, two things are needed together.
 
 This Section handles `why it is needed first` and `what must be fixed first`, while the following `P4-8.3 supplementary learning` handles with examples and exercises `what representative baselines should be set and how`.
 
-## Scope Of This Section
+## Questions To Close Before Setting The Reference Line
 
 This Section answers the following questions.
 
@@ -45,7 +45,7 @@ This Section answers the following questions.
 
 This Section first closes `what the improvement of a complex model should be compared against`. The operational perspective of benchmarks and leaderboards, and the big picture of statistical-test-based model comparison, are reorganized again in the supplementary learning of P4-9.3, while the actual hyperparameter comparison procedure continues directly in P4-9.2.
 
-## Goals Of This Section
+## Judgments To Keep From The Baseline Model
 
 - You can explain a baseline as `the comparison standard that is set before a complex model`.
 - You can explain why accuracy illusions and mean-prediction illusions occur when there is no baseline.
@@ -287,6 +287,11 @@ The confirmable result appears when the baseline and actual model are compared s
 
 The example below reduces this illusion with an actual `DummyClassifier` and `DecisionTreeClassifier`. The data are created as a classification problem with a small positive class, like fraud transactions.
 
+Values to change:
+
+- Lower the positive-class ratio in `weights=[0.82, 0.18]`; baseline accuracy can look even higher, and positive recall becomes more important.
+- Change `class_sep=0.9` or `max_depth=3`; how many positive cases the decision tree catches and the confusion matrix will change together.
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.dummy import DummyClassifier
@@ -335,7 +340,7 @@ decision_tree
  confusion= {'tn': 75, 'fp': 0, 'fn': 4, 'tp': 12}
 ```
 
-`dummy_most_frequent` also looks high in accuracy at 0.824. But positive-class recall is 0.0, and it missed all 16 actual positives. A baseline model is therefore not decoration for showing a failed model. It is a comparison line that first reveals the illusion created when only accuracy is read.
+`dummy_most_frequent` also looks high in accuracy at 0.824. But positive-class [recall](/AiBook/en/reference/concept-glossary-alpha/r/#recall) is 0.0, and it missed all 16 actual positives. A baseline model is therefore not decoration for showing a failed model. It is a comparison line that first reveals the illusion created when only accuracy is read.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-en.mmd"
@@ -353,8 +358,8 @@ decision_tree
 
 ## Sources And References
 
-- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-09.
-- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-09.
-- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, accessed 2026-07-09.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-09.
-- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, accessed 2026-07-09.
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-26.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, accessed 2026-07-26.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, accessed 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, accessed 2026-07-26.

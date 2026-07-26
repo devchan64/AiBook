@@ -1,7 +1,7 @@
 # Part 6. LLMs and Generative AI
 
 > Section ID: `P6-index`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 Part 6 moves the deep-learning structures covered in Part 5 into the actual experience of using generative AI. The starting point here is not tokens or the implementation details of Transformers. It is the generative-AI artifact that a person actually receives. First, this Part asks what generative AI creates, why an LLM (large language model) is useful as the representative path, and why generation should be read not as pulling out one finished answer but as repeated candidate distributions and selection.
 
@@ -9,7 +9,7 @@ Then it follows how text becomes a computable input through tokens, token IDs, a
 
 In the middle and later sections, the discussion expands from inside-the-model explanations into actual usage structures. Prompts, RAG (retrieval-augmented generation), vector databases, tool use, agents, MCP (Model Context Protocol), and harnesses are not treated as separate buzzwords. They are reinforcement structures that make generated results easier to review. Finally, LLM evaluation, automatic and human evaluation, service operation constraints, failure response, and the run records of a small generative-AI feature separate a natural answer from a reviewable service result. Development history and the BERT family are placed after the main current as a background map and comparison axis so the GPT-centered explanation does not become overgeneralized.
 
-## Standards For Understanding Generative AI In Part 6
+## Part 6 Generative AI Understanding Standards
 
 - How are the artifacts created by generative AI different from classification or numeric prediction?
 - Why read LLMs as the central example rather than as all of generative AI?
@@ -19,9 +19,9 @@ In the middle and later sections, the discussion expands from inside-the-model e
 - Why are MCP and harnesses closer to questions of connection format, execution records, and reproducibility than to model capability itself?
 - Why is a natural generated result different from a result that can be evaluated, operated, and recovered from failure?
 
-## Scope Of This Part
+## Part Scope
 
-This Part does not equate LLMs with all of generative AI. Instead, it uses LLMs as the central case for explaining the generative-AI flows that readers most often encounter: text generation, chat interfaces, RAG, tool use, and agents.
+This Part does not equate LLMs with all of generative AI. Instead, it uses LLMs as the central case for explaining the generative-AI flows that readers most often encounter: text generation, chat interfaces, RAG, tool use, and AI agents.
 
 This Part is also not an implementation guide for training large models directly. Instead, it asks how a request becomes an input unit, how the model creates candidates, when external evidence and tools become necessary, and how results should be evaluated and recorded. Part 7 handles the implementation details of actual projects. Part 6 prepares the judgment standards needed to understand those projects.
 
@@ -48,7 +48,7 @@ generative-AI artifacts
 -> LLM structures that create the next candidate
 -> learning and adjustment that shape response habits
 -> prompts and evidence reinforcement
--> tool and agent execution structure
+-> tool and AI agent execution structure
 -> reviewable service state
 -> background map and comparison
 ```

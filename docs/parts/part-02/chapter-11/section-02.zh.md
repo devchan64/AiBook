@@ -1,7 +1,7 @@
 # P2-11.2 索引、切片与轴
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P2-11.1 中，我们创建了 NumPy array，并检查了 `shape`、`ndim`、`dtype`。现在继续看：该从数组里读哪一个值、切出哪一段、以及计算沿哪个方向进行。
 
@@ -11,7 +11,7 @@ indexing、slicing、axis。
 
 这三个词看起来相近，但角色不同。indexing 选位置，slicing 选区间，axis 决定计算方向。
 
-本节说明 `indexing`、`slicing`、`axis` 的基本区分。`NumPy` 与数组基本属性可以回到 P2-11.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 再看，这里专注于：从数组里选什么、按哪个方向去读。
+本节说明 `indexing`、`slicing`、`axis` 的基本区分。`NumPy` 与数组基本属性可以回到 P2-11.1 和 [索引词条](/AiBook/zh/reference/concept-glossary-pinyin/i.zh/#indexing) 再看，这里专注于：从数组里选什么、按哪个方向去读。
 
 ## 核心判断标准：索引、切片与轴
 

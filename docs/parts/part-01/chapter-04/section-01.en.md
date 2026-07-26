@@ -1,7 +1,7 @@
 # P1-4.1 Becoming Comfortable with the Word Model
 
 > Section ID: `P1-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 3 showed the flow from rule-based approaches to learning-based approaches. Chapter 4 turns that flow into a more practical question. What must we do to turn a real-world problem into a form AI can compute?
 

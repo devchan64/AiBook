@@ -1,19 +1,19 @@
 # P4-13.2 커널(kernel)의 입문적 의미
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-13.1에서는 SVM(support vector machine)을 `margin이 큰 경계를 찾는 분류기`로 보았습니다. 그런데 거기서 다음 질문이 생깁니다.
 
 그 경계가 직선(line)이어야만 한다면, 직선으로는 잘 나눌 수 없는 데이터는 어떻게 해야 할까?
 
-이 질문이 바로 커널(kernel)을 소개해야 하는 이유입니다.
+이 질문이 바로 [커널(kernel)](../../../reference/concept-glossary-parts/10-kieuk.md#kernel)을 소개해야 하는 이유입니다.
 
 커널은 데이터를 다른 표현 공간에서 비교하게 해, 원래는 선형으로 나누기 어려운 문제를 더 다룰 수 있게 해 주는 발상이다.
 
 즉, 13.2의 핵심은 `새로운 마법 함수`가 아니라, `표현을 바꾸면 선형 경계도 다른 의미를 가질 수 있다`는 관점입니다.
 
-이 절은 SVM의 기본 정의를 다시 길게 반복하지 않습니다. `margin이 큰 경계를 찾는다`는 핵심 직관은 P4-13.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 왜 표현 공간을 바꾸는 발상이 필요한지에만 집중합니다.
+이 절은 [SVM(support vector machine)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine)의 기본 정의를 다시 길게 반복하지 않습니다. `margin이 큰 경계를 찾는다`는 핵심 직관은 P4-13.1의 판단 기준으로 다시 연결하고, 여기서는 왜 [특징 공간(feature space)](../../../reference/concept-glossary-parts/11-chieut.md#feature-space)을 바꾸는 발상이 필요한지에만 집중합니다.
 
 ## 커널(kernel)의 입문적 의미에서 닫을 질문
 
@@ -347,6 +347,11 @@ XOR는 상호작용 특징의 감각을 보여 주는 대표 예시입니다. �
   - 원래 좌표에서는 `x1 + x2` 같은 단순 선형 읽기가 자연스럽지 않다.
   - `x1 * x2`라는 새 특징을 보면 class가 더 단순하게 나뉜다.
 
+조작해 볼 값:
+
+- `points`에 `(0, 1)`이나 `(1, 0)` 같은 새 점을 추가하면 이 단순한 변환이 모든 상황을 해결하지는 않는다는 점을 확인할 수 있습니다.
+- 새 특징을 `z = x1 * x2` 대신 `z = x1 ** 2 + x2 ** 2`로 바꾸면 XOR형 구조와 원형 구조가 서로 다른 표현을 요구한다는 점을 비교할 수 있습니다.
+
 ```python
 # kernel 직관을 위해 원래 좌표를 새 특징 공간으로 바꾸어 분리 가능성을 확인하는 예제입니다.
 points = [
@@ -429,5 +434,5 @@ Module 4를 한 번에 다시 읽을 때는 알고리즘 이름보다 `같은 �
 
 ## 출처와 참고 자료
 
-- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 확인 날짜: 2026-07-19. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 확인 날짜: 2026-07-26. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
+- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 확인 날짜: 2026-07-26. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }

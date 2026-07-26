@@ -1,7 +1,7 @@
 # P6-20.1 作为阅读中心 Transformer 比较轴的 BERT
 
 > Section ID: `P6-20.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 即使同属 Transformer 家族，也有一条流程擅长阅读整个输入，另一条流程擅长生成下一个 token。
 

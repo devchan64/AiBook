@@ -1,7 +1,7 @@
 # P5-6.4 학습 모드(training mode)와 평가 모드(evaluation mode)
 
 > Section ID: `P5-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-6.3에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
 

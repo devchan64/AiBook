@@ -1,13 +1,13 @@
 # P1-2.2 搜索、知识表示与概率推理
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 2.1 已经看过符号主义 AI 与规则式方法。这一节继续回答下一个问题：当“只把规则写下来”还不够时，AI 还必须搜索可能的候选、表示所需知识，并在不完整信息下推理出更可信的结论。
 
 这里需要做的，不是详细学习算法，而是先固定：为什么 `search`、`knowledge representation` 与 `probabilistic reasoning` 会在 AI 导论里反复出现，以及这条脉络如何构成后面解释机器学习与深度学习的背景。
 
-在 Part 1 中，`search` 与 `probabilistic reasoning` 的基本区分固定在这一节。`Knowledge representation` 已在 2.1 做过初步介绍，这里只在比较它与搜索和概率推理之间的角色时重新连接；如果这些边界之后又变模糊，就回到这一节与共享的 [Concept Glossary (English)](/AiBook/reference/concept-glossary/)。
+在 Part 1 中，`search` 与 `probabilistic reasoning` 的基本区分固定在这一节。`Knowledge representation` 已在 2.1 做过初步介绍，这里只在比较它与搜索和概率推理之间的角色时重新连接；如果这些边界之后又变模糊，就回到这一节与 [search](/AiBook/zh/reference/concept-glossary-pinyin/s/#search)、[probabilistic reasoning](/AiBook/zh/reference/concept-glossary-pinyin/g/#probabilistic-reasoning)、[knowledge representation](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-representation) 等词条。
 
 这一节整理以下问题：
 
@@ -30,10 +30,10 @@
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
-| [search](/AiBook/reference/concept-glossary-parts/01-giyeok/#search) | 沿着可能状态与行动寻找目标的方法 | 为了看见候选很多时为什么“顺序”会成为问题 |
-| [knowledge representation](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-representation) | 用来书写事实、关系与约束的形式 | 为了把系统“应该知道什么”的问题单独分出来 |
-| [probabilistic reasoning](/AiBook/reference/concept-glossary-parts/14-hieut/#probabilistic-reasoning) | 在不完整信息下处理“多大程度上可信”的方式 | 为了避免把所有判断压成简单的真或假 |
-| [goal](/AiBook/reference/concept-glossary-parts/05-mieum/#goal) | 想要到达的条件 | 为了看搜索在什么地方停下 |
+| [search](/AiBook/zh/reference/concept-glossary-pinyin/s/#search) | 沿着可能状态与行动寻找目标的方法 | 为了看见候选很多时为什么“顺序”会成为问题 |
+| [knowledge representation](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-representation) | 用来书写事实、关系与约束的形式 | 为了把系统“应该知道什么”的问题单独分出来 |
+| [probabilistic reasoning](/AiBook/zh/reference/concept-glossary-pinyin/g/#probabilistic-reasoning) | 在不完整信息下处理“多大程度上可信”的方式 | 为了避免把所有判断压成简单的真或假 |
+| [goal](/AiBook/zh/reference/concept-glossary-pinyin/g/#goal) | 想要到达的条件 | 为了看搜索在什么地方停下 |
 
 ## 主要学习内容
 

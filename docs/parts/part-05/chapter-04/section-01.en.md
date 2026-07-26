@@ -1,7 +1,7 @@
 # P5-4.1 Loss Functions
 
 > Section ID: `P5-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Chapter 3, we saw that activation functions insert nonlinearity into neural networks and increase expressive power. The next question then follows immediately.
 
@@ -13,7 +13,7 @@ A loss function is the rule that turns how far the model's current output differ
 
 However, textbooks and framework documents sometimes separate `loss` from `objective` or `cost` a little more carefully. Often, `loss` refers to the per-sample discrepancy or its average, while the full target that is actually minimized is explained as an `objective/cost` that includes the batch average together with regularization. In this section, for beginner flow, everything is first explained under the single name `loss`, but when gradients and the optimizer are connected in later sections, we return to the question `what is actually being minimized?`
 
-When the role of loss needs to be checked again briefly in later sections, return to the [loss function](/AiBook/en/reference/concept-glossary-alpha/l/#loss-function) entry in the concept glossary.
+When the role of loss needs to be checked again briefly in later sections, return to the [loss function](/AiBook/en/reference/concept-glossary-alpha/l/#loss-function), [metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric), [squared error](/AiBook/en/reference/concept-glossary-alpha/s/#squared-error), and [cross-entropy](/AiBook/en/reference/concept-glossary-alpha/c/#cross-entropy) entries in the concept glossary.
 
 Here it is enough to fix the following three sentences first.
 
@@ -30,14 +30,14 @@ Here it is enough to fix the following three sentences first.
 
 The concrete kinds of loss functions and their differences by problem type continue in P5-4.2, while how differentiation and gradient calculation actually connect to backpropagation returns in P5-5.1 and P5-5.2. In other words, this section is the place to first hold onto the role of loss as turning `the gap between prediction and target into a number that learning can use`.
 
-## Standards For Reading Error As A Number
+## Standards for Reading Error as a Number
 
 - You can explain the loss function as `the standard that turns the current prediction error into a number`.
 - You can distinguish the loss function from an evaluation metric.
 - You can explain what it means in learning to reduce the loss.
 - You can explain which wrong answers the difference between prediction and target causes the model to correct more strongly first.
 
-## Why Is A Loss Function Needed
+## Why Is a Loss Function Needed
 
 Neural networks produce outputs. But output alone does not yet make learning happen. The model has to be able to ask itself:
 
@@ -87,7 +87,7 @@ If this flow is compressed very briefly, it becomes the following.
 
 The result to confirm first in this diagram is that loss is not just `a bad score`, but `the connection point that passes the difference between prediction and target into the next update`.
 
-## How Is It Different From The Metric In Part 4
+## How Is It Different from the Metric in Part 4
 
 In Part 4, we looked at evaluation metrics such as accuracy, precision, recall, F1, and RMSE. At this point, it is easy to understand the loss function and the evaluation metric as though they were the same thing.
 
@@ -103,7 +103,7 @@ So it is better first to distinguish that the loss function is the standard by w
 
 Of course, the two are not completely separate. A good loss design should usually connect in some way to the performance direction we care about. But the two do not have the same role.
 
-## Why Is Loss Gathered Into One Number
+## Why Is Loss Gathered into One Number
 
 Neural networks have many parameters. In order to change those parameters, the current state has to be gathered into one comparable standard.
 
@@ -121,7 +121,7 @@ If this is reduced into one sentence for readers, it can be remembered like this
 
 `Loss is the signal that compresses into one number the direction in which the model is currently going wrong.`
 
-## What Does It Mean When The Loss Decreases
+## What Does It Mean When the Loss Decreases
 
 This can be explained by the following sentence.
 
@@ -134,7 +134,7 @@ But even here there is a point that needs care.
 
 This point connects directly to the explanation of overfitting and generalization in Part 4. In other words, loss is very important, but the whole model cannot be judged from loss alone.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. Predicting Batch Energy Use
 
@@ -237,7 +237,7 @@ From the curriculum viewpoint as well, only when the loss function is understood
 - what the optimizer is trying to reduce
 - what number the learning rate is following
 
-## Practice And Exercise
+## Practice and Exercise
 
 The goal of this exercise is to read the simplest possible process in which the difference between prediction and target turns into a loss number. Rather than looking only at the average loss, the sample-by-sample errors are also checked so that it becomes visible on which item the large error occurred.
 
@@ -406,7 +406,7 @@ If the same output is turned into operational judgment, it becomes even more dir
 | `restart_delay_batch` | Since it is included in the average anyway, overall adjustment will solve it naturally | Read `restart_delay_batch` as the signal that represents the input region where the model is currently especially weak, because it pulls up the loss the most |
 | Looking only at `mean_loss` | It is easy to feel that as long as the overall loss falls, that is enough | Read that even if the average falls, you still have to check which sample remains the worst case before the real correction direction becomes clear |
 
-## Is A Model Always Good If The Loss Is Small
+## Is a Model Always Good If the Loss Is Small
 
 Readers can easily feel that once the loss number becomes smaller, everything is solved. But the following must also be remembered.
 
@@ -418,7 +418,7 @@ In other words, loss is the central standard of learning, but it still has to be
 
 This is exactly why deep learning inherits the common machine-learning principles of Part 4 without change.
 
-## When Should The Loss-Function View Be Read First
+## When Should the Loss-Function View Be Read First
 
 The moment when the loss-function section needs to be brought in is when the explanation `the model produced an output` is still not enough to make it clear that learning has started.
 
@@ -441,7 +441,7 @@ The moment when the loss-function section needs to be brought in is when the exp
 - When an output was produced but the explanation is still missing what standard the model learns by, can you think of the loss-function view first?
 - Do you know the flow that differences among loss types and backpropagation are passed to the next section and next chapter?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

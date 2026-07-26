@@ -4,4 +4,4 @@
 - Why it matters: When many OOV items appear in classification or search, the model may effectively read less of the input. This helps interpret poor performance as a possible tokenizer or vocabulary design issue, not only as a model capability issue. Domain terms, new words, and product codes can be clear to people while still being fragmented into unfamiliar pieces for a model.
 - Related concepts: `tokenization`, `token coverage`, `embedding`
 - Core Section: `P7-4.2`
-- Appears in: `P7-4.1`, `P7-4.3`, `P7-summary`
+- Appears in: `P6-2.5`, `P7-4.1`, `P7-4.3`, `P7-summary`

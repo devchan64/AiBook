@@ -1,9 +1,25 @@
 ## ㅂ
 
+--8<-- "reference/concept-glossary-terms/best-split.ko.md"
+
+--8<-- "reference/concept-glossary-terms/partial-dependence-plot-pdp.ko.md"
+
+--8<-- "reference/concept-glossary-terms/impurity.ko.md"
+
+--8<-- "reference/concept-glossary-terms/bootstrap.ko.md"
+
+--8<-- "reference/concept-glossary-terms/subsampling.ko.md"
+
+--8<-- "reference/concept-glossary-terms/distributed-training.ko.md"
+
+--8<-- "reference/concept-glossary-terms/split.ko.md"
+
 --8<-- "reference/concept-glossary-terms/bert.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/bayes-rule.ko.md"
+
+--8<-- "reference/concept-glossary-terms/bellman-equation.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.ko.md"
@@ -36,6 +52,8 @@
 --8<-- "reference/concept-glossary-terms/array.ko.md"
 --8<-- "reference/concept-glossary-terms/batch-normalization.ko.md"
 --8<-- "reference/concept-glossary-terms/batch.ko.md"
+
+--8<-- "reference/concept-glossary-terms/penalty.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/deployment-check.ko.md"
@@ -89,6 +107,10 @@
 
 --8<-- "reference/concept-glossary-terms/reward.ko.md"
 
+--8<-- "reference/concept-glossary-terms/reward-design.ko.md"
+
+--8<-- "reference/concept-glossary-terms/reward-hacking.ko.md"
+
 --8<-- "reference/concept-glossary-terms/security.ko.md"
 
 --8<-- "reference/concept-glossary-terms/calibration.ko.md"
@@ -109,6 +131,8 @@
 
 --8<-- "reference/concept-glossary-terms/variance.ko.md"
 
+--8<-- "reference/concept-glossary-terms/reconstruction-error.ko.md"
+
 --8<-- "reference/concept-glossary-terms/distribution.ko.md"
 
 --8<-- "reference/concept-glossary-terms/boolean-mask.ko.md"
@@ -127,6 +151,7 @@
 --8<-- "reference/concept-glossary-terms/nondeterministic.ko.md"
 
 --8<-- "reference/concept-glossary-terms/comparison-result.ko.md"
+--8<-- "reference/concept-glossary-terms/comparable-reference-group.ko.md"
 --8<-- "reference/concept-glossary-terms/comparison-report.ko.md"
 --8<-- "reference/concept-glossary-terms/comparison-table.ko.md"
 --8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
@@ -138,6 +163,8 @@
 --8<-- "reference/concept-glossary-terms/cost.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vit-vision-transformer.ko.md"
+
+--8<-- "reference/concept-glossary-terms/semi-supervised-learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/unsupervised-learning.ko.md"
 

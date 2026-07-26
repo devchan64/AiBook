@@ -1,7 +1,7 @@
 # P6-20.2 Understanding-Centered Tasks that Output Judgment Values Before Long Answers
 
 > Section ID: `P6-20.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 If the BERT family is read as a Transformer-encoder-based representation model, you also need to distinguish which task groups those representations lead to. Understanding-centered tasks read the whole input and judge `what it is` or `how well it matches`, such as classification, relevance judgment, search, and embeddings. These tasks fit BERT-family representation models well.
 

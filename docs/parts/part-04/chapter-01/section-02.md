@@ -1,11 +1,11 @@
 # P4-1.2 데이터에서 규칙을 배운다는 말
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-1.1에서는 AI, 머신러닝(machine learning), 딥러닝(deep learning), 생성형 AI(generative AI), LLM(large language model)의 위치를 구분했습니다. 이제 머신러닝을 조금 더 가까이 봅니다.
+P4-1.1에서는 AI, [머신러닝(machine learning)](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning), 딥러닝(deep learning), 생성형 AI(generative AI), LLM(large language model)의 위치를 구분했습니다. 이제 머신러닝을 조금 더 가까이 봅니다.
 
-Part 3에서는 데이터과학(data science) 전체를 다루기보다, 그 안에서 `원천데이터를 학습과 분석에 들어갈 문제 구조로 바꾸는 앞단 설계`에 집중했습니다. 무엇을 한 건의 사례로 볼지, 어떤 열을 특징(feature)으로 남길지, 무엇을 목표값 후보로 둘지, 무엇은 식별과 해석을 위해 따로 남길지를 먼저 가르는 작업이 바로 그 구간이었습니다.
+Part 3에서는 [데이터과학(data science)](../../../reference/concept-glossary-parts/03-digeut.md#data-science) 전체를 다루기보다, 그 안에서 [원천데이터](../../../reference/concept-glossary-parts/08-ieung.md#source-data)를 학습과 분석에 들어갈 문제 구조로 바꾸는 앞단 설계에 집중했습니다. 무엇을 한 건의 사례로 볼지, 어떤 열을 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)으로 남길지, 무엇을 [목표값 후보](../../../reference/concept-glossary-parts/05-mieum.md#target-candidate)로 둘지, 무엇은 식별과 해석을 위해 따로 남길지를 먼저 가르는 작업이 바로 그 구간이었습니다.
 
 머신러닝을 설명할 때 자주 나오는 말은 “데이터에서 규칙을 배운다”입니다. 이 표현은 모델이 사람이 읽을 수 있는 `if-then` 규칙을 그대로 찾아낸다는 뜻으로 오해되기 쉽습니다. 머신러닝은 데이터의 사례에서 입력과 출력 사이의 관계를 추정하고, 그 관계를 새 데이터에 적용하려는 접근입니다.
 
@@ -13,12 +13,12 @@ Part 3에서는 데이터과학(data science) 전체를 다루기보다, 그 안
 
 ## 데이터에서 규칙을 배운다는 말에서 닫을 질문
 
-이 절은 규칙 기반 접근(rule-based approach)과 학습 기반 접근(learning-based approach)의 차이를 설명합니다. 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)의 세부 구분은 다음 Chapter에서 다룹니다.
+이 절은 [규칙 기반 접근(rule-based approach)](../../../reference/concept-glossary-parts/01-giyeok.md#rule-based-approach)과 [학습 기반 접근(learning-based approach)](../../../reference/concept-glossary-parts/14-hieut.md#learning-based-approach)의 차이를 설명합니다. 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)의 세부 구분은 다음 Chapter에서 다룹니다.
 
 - 사람이 규칙을 쓴다는 것은 무엇인가?
 - 데이터에서 규칙을 배운다는 말은 무엇을 뜻하는가?
 - 모델은 정말 사람이 이해하는 규칙을 찾는가?
-- 학습 데이터(training data), 특징(feature), 라벨(label), 모델(model)은 어떻게 연결되는가?
+- [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature), [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label), [모델(model)](../../../reference/concept-glossary-parts/05-mieum.md#model)은 어떻게 연결되는가?
 - 학습된 모델을 왜 반드시 평가해야 하는가?
 
 ## 데이터에서 규칙을 배운다는 말에서 남길 판단 기준
@@ -259,6 +259,6 @@ scikit-learn의 기본 사용 흐름도 이 구조와 비슷합니다. 모델 �
 
 ## 출처와 참고 자료
 
-- Tom M. Mitchell, `Machine Learning`, McGraw Hill, 1997, 공식 저자 페이지, 확인 날짜: 2026-06-25. [https://www.cs.cmu.edu/~tom/mlbook.html](https://www.cs.cmu.edu/~tom/mlbook.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
+- Tom M. Mitchell, `Machine Learning`, McGraw Hill, 1997, 공식 저자 페이지, 확인 날짜: 2026-07-26. [https://www.cs.cmu.edu/~tom/mlbook.html](https://www.cs.cmu.edu/~tom/mlbook.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }

@@ -1,13 +1,13 @@
 # P1-2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 2.1에서는 기호 기반 AI와 규칙 기반 접근을 봤고, 2.2에서는 탐색, 지식 표현, 확률 추론을 봤습니다. 이번 절에서는 그 다음 흐름을 봅니다. 왜 AI의 중심 설명은 점점 데이터에서 학습하는 모델로 이동했을까요?
 
 여기서 필요한 일은 머신러닝, 딥러닝, 생성형 AI를 깊게 설명하는 것이 아니라, “사람이 규칙을 모두 쓰는 방식”에서 “데이터와 경험으로 모델을 학습하는 방식”으로 설명의 중심이 왜 이동했는지를 역사적 관점에서 잡는 것입니다. Part 3에서는 데이터 모델링을 먼저 정리하고, Part 4, Part 5, Part 6에서 각 구조를 따로 깊게 다룹니다.
 
-Part 1에서 규칙 기반 접근에서 학습 기반 접근으로 중심이 이동한 역사 흐름과 `데이터`, `특징(feature)`, `표현(representation)`, `파라미터(parameter)`의 기본 연결은 이 절에서 잡습니다. `AI/머신러닝/딥러닝/생성형 AI/LLM`의 기본 관계는 1.3에서 먼저 잡았고, 여기서는 그 용어들이 어떤 흐름으로 이어지는지에 필요한 만큼만 다시 연결합니다. 뒤 절에서 이 용어 구분이 다시 흔들리면 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아오면 됩니다.
+Part 1에서 규칙 기반 접근에서 학습 기반 접근으로 중심이 이동한 역사 흐름과 `데이터`, `특징(feature)`, `표현(representation)`, `파라미터(parameter)`의 기본 연결은 이 절에서 잡습니다. `AI/머신러닝/딥러닝/생성형 AI/LLM`의 기본 관계는 1.3에서 먼저 잡았고, 여기서는 그 용어들이 어떤 흐름으로 이어지는지에 필요한 만큼만 다시 연결합니다. 뒤 절에서 이 용어 구분이 다시 흔들리면 이 절과 개념사전의 [데이터(data)](../../../reference/concept-glossary-parts/03-digeut.md#data), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature), [표현(representation)](../../../reference/concept-glossary-parts/13-pieup.md#representation), [파라미터(parameter)](../../../reference/concept-glossary-parts/13-pieup.md#parameter) 항목으로 돌아오면 됩니다.
 
 ## 규칙 작성에서 데이터 학습으로 이동한 이유
 

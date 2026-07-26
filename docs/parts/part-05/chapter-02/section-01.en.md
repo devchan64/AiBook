@@ -1,13 +1,13 @@
 # P5-2.1 Multilayer Neural Networks
 
 > Section ID: `P5-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-1.2, we saw that a single perceptron makes a decision through a linear combination of inputs and activation. At the same time, we also saw that one perceptron can create only one linear boundary at a time, so there is a limit to the patterns it can express. The next question naturally becomes `if one perceptron is not enough, what changes if several such computation units are stacked?` That question leads into the multilayer neural network. A multilayer neural network is a structure that stacks several computation units like perceptrons across multiple layers, turns simple input combinations into intermediate representations, and then connects those representations to more complex decisions.
 
 When the distinction between multilayer structure and intermediate layers needs to be fixed again, it helps to reread the [multilayer neural network](/AiBook/en/reference/concept-glossary-alpha/m/#multilayer-neural-network) and [hidden layer](/AiBook/en/reference/concept-glossary-alpha/h/#hidden-layer) entries together in the concept glossary.
 
-## Questions Raised By Adding Layers
+## Questions Raised by Adding Layers
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 How a hidden layer can be read as creating real representations continues further in P5-2.2. Comparisons among activation functions reconnect from P5-3.1 through P5-3.5. The computation formulas of backpropagation return in P5-5.1 and P5-5.2. In other words, this section is the place to first hold onto what changes when more layers are stacked and why the hidden layer is needed.
 
-## Standards For Multilayer Structure And Expressive Power
+## Standards for Multilayer Structure and Expressive Power
 
 - You can explain a multilayer neural network as `a structure that stacks perceptrons across several layers`.
 - You can say that the hidden layer is responsible for intermediate representations between input and output.
@@ -52,7 +52,7 @@ A multilayer neural network divides this problem structurally.
 
 The difference becomes clearer if this is moved into a scene of judging abnormality in a small production batch. If `x1` alone is high and `x2` alone is high are both read immediately through one perceptron, they both tend to collapse first into the question `which way should one score lean?` By contrast, when layers are separated, the first layer can leave behind `did signal A turn on first?` and `did signal B turn on first?` separately, and the later layer can regroup them into `did the two signals appear together?` and connect that to the final decision. In other words, the core of the multilayer structure is not to crush two inputs directly into one score, but to make it possible to separate `the combinations that must be seen separately` from `the combinations that must be seen together`.
 
-## Seeing A Multilayer Neural Network In One Scene
+## Seeing a Multilayer Neural Network in One Scene
 
 ```mermaid
 --8<-- "assets/part-05/chapter-02/multilayer-network-flow-en.mmd"
@@ -62,7 +62,7 @@ The key point of this diagram is that as the number of layers grows, the structu
 
 In other words, a multilayer neural network does not send the original input directly to the final decision. It re-represents the input several times in the middle.
 
-## How Are The Input Layer, Hidden Layer, And Output Layer Different
+## How Are the Input Layer, Hidden Layer, and Output Layer Different
 
 Because the names of the layers can sound abstract, it is easier to divide them by role.
 
@@ -88,7 +88,7 @@ That is:
 
 So it is often hard for a person to say immediately, `this node means exactly this thing`. Instead, we examine whether `this layer is creating a more useful intermediate representation`.
 
-## Why Does It Become Possible To Express More Complex Patterns
+## Why Does It Become Possible to Express More Complex Patterns
 
 One perceptron looked at the input through one linear combination and immediately made a decision. In a multilayer structure, by contrast, the output of one layer becomes the input of the next layer.
 
@@ -105,9 +105,9 @@ For an image, for example, the intuition can be described like this.
 - higher level: larger part structures
 - final level: a judgment closer to a specific object
 
-Of course, this section is not dealing with CNNs yet. The concrete structure of CNNs returns later in P5-11.1 What Is A CNN. But the feeling that `small combinations are stacked into larger combinations` is needed from now on.
+Of course, this section is not dealing with CNNs yet. The concrete structure of CNNs returns later in P5-11.1 What Is a CNN. But the feeling that `small combinations are stacked into larger combinations` is needed from now on.
 
-## Reading A Multilayer Structure Through A Table-Style Analogy
+## Reading a Multilayer Structure Through a Table-Style Analogy
 
 Something similar can happen even with tabular data.
 
@@ -124,9 +124,9 @@ There are roughly three ways people tend to read this first. First, they look at
 
 The multilayer structure changes this reading. Instead of reading the input values one by one, it first looks at the intermediate combinations created by several inputs together. Instead of making a decision immediately from one single rule, the earlier layer creates small combinations and the later layer groups them again into a larger state judgment. So compared with a structure that only looks at the final label, it becomes easier to follow `why this intervention judgment came out` at the level of intermediate representations.
 
-## Cases And Examples
+## Cases and Examples
 
-### Case 1. Judging Combined Abnormality In A Production Batch
+### Case 1. Judging Combined Abnormality in a Production Batch
 
 Think about judging combined abnormality in a production batch. At first, a person tends to inspect one rule at a time, such as `has the temperature drift duration become longer?`, `have rework calls increased?`, or `has pressure fluctuation grown larger?` But in practice, the need for intervention often grows only when these three conditions appear together. For example, even if output is still maintained, if the temperature drift duration becomes longer and rework calls also increase, the scene is better read as an intermediate combination like `thermal burden + operating instability` rather than through a single rule. The multilayer structure explains exactly this flow: one layer creates small signal combinations, and the next layer groups them again into a larger state judgment. So the result to confirm in this case is whether the intermediate combination created when several signals appear together separates the need for intervention more clearly than any one individual rule.
 
@@ -142,7 +142,7 @@ Think about judging combined abnormality in a production batch. At first, a pers
 
 This diagram is a short compression of how the two readings diverge even for the same batch signals: `look at one indicator first` versus `group several signals together`. It is not a diagram for adding new theory. It is for rereading the decision order just seen in the case above.
 
-### Case 2. Early Intuition For Equipment Image Recognition
+### Case 2. Early Intuition for Equipment Image Recognition
 
 Something similar happens in equipment image recognition. A person may look at one photo and immediately think of a final label such as `mixing tank`, `pipe module`, or `control-box scene`, but in practice small clues are seen first, such as a valve outline, a warning-light position, or a metal edge. A single perceptron has difficulty handling all of these clues at once, but in a multilayer structure the earlier layers can create small shape combinations and the later layers can group them into larger equipment clues. For example, the pattern of a valve handle and a pipe curve may be caught first, and then the tank body and connection structure may be grouped afterward into a larger scene cue. So the result to confirm in this case is whether the final label becomes more stable only after passing through combinations of small clues.
 
@@ -166,7 +166,7 @@ If the two cases are compressed again at once, the first flow for reading a mult
 
 This diagram does not try to explain case 1's production-batch combinations and case 2's equipment-image clues all over again. It is here to hold onto once more the common flow shown by both cases: `first create small combinations, then regroup those combinations into a larger judgment`.
 
-## Comparing One Perceptron And A Multilayer Structure
+## Comparing One Perceptron and a Multilayer Structure
 
 ```mermaid
 --8<-- "assets/part-05/chapter-02/single-vs-multilayer-flow-en.mmd"
@@ -174,7 +174,7 @@ This diagram does not try to explain case 1's production-batch combinations and 
 
 The left side connects the input features directly to the final judgment through one linear score and one activation. So even if there are several signals, they are easy to compress first into a single score. The right side first groups the input features into small combinations, then turns those combinations again into larger combinations, and only then reaches the final judgment. People often feel that both structures are similar because both eventually take input and produce an answer, but the real difference lies in `what new combinations can be created in the middle`. The important change introduced by deep learning is exactly this: `intermediate representations can be learned across several stages`.
 
-## Why The Multilayer Structure Is The Starting Point Of Deep Learning
+## Why the Multilayer Structure Is the Starting Point of Deep Learning
 
 The reason the multilayer neural network is treated as important is that this is where the model begins to move beyond a simple linear boundary and into `representation learning`.
 
@@ -190,7 +190,7 @@ Because of that, the multilayer structure looks like the starting point of deep 
 
 If this difference is reduced again from the viewpoint of learning responsibility, it becomes simpler. In the feel of the traditional models from Part 4, people decide more of which features to provide and by what rule to separate them. In the feel of the multilayer structure in P5-2.1, the input and output are placed first, and the job of creating intermediate representations in between is entrusted more to the model. So the first distinction to hold in this section is not `does the explanation close with one linear boundary?`, but `when intermediate representations appear, where does the pattern explanation start to close better?`
 
-## Practice And Exercise
+## Practice and Exercise
 
 The goal of this exercise is to check directly how hidden-layer patterns diverge when several inputs pass through the same layer structure, and how that difference connects to the final output. In particular, the values are not changed all at once. One value is changed at a time so that the flow `input change -> hidden-layer change -> final-judgment change` can be followed.
 
@@ -352,7 +352,7 @@ The core of this section is not the fact that the number of layers increases, bu
 - When one perceptron no longer closes the explanation and a more complex pattern combination seems necessary, can you think of the multilayer-structure view first?
 - Do you know that the explanation of the multilayer structure alone still does not fully close the role of activation functions and nonlinearity, and that these must be passed to the next chapter?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, date checked: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

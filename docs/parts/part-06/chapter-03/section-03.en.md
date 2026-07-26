@@ -1,7 +1,7 @@
 # P6-3.3 Supplement: Embedding Learning That Learns Nearby and Distant Expressions
 
 > Section ID: `P6-3.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-3.1, we established that embeddings are a representation method that turns tokens and sentences into vectors. In P6-3.2, we held onto the standard for reading those vectors through distance and similarity. Here, we go one step further and organize the big picture of how that vector space is made in the first place.
 
@@ -61,8 +61,8 @@ If contrastive learning is reduced to the shortest form, it asks the following t
 
 For example, it can learn to place:
 
-- `환불이 가능한가요?` and `결제 취소는 어떻게 하나요?` close
-- `환불이 가능한가요?` and `배송 주소를 바꾸고 싶어요` far apart
+- `Can I get a refund?` and `How do I cancel my payment?` close
+- `Can I get a refund?` and `I want to change my shipping address` far apart
 
 In other words, contrastive learning is closer to learning the placement `same problem scenes close, different problem scenes far apart` than to memorizing one answer sentence.
 
@@ -82,10 +82,10 @@ What matters here is not lumping everything together as `search is strange`. Fir
 
 ### Case 1. When Same-Intent Inquiries Scatter
 
-Suppose a customer center receives sentences such as `환불이 가능한가요?`, `결제 취소는 어떻게 하나요?`, and `돈을 다시 받고 싶어요`. If the same words are absent, they can easily look like different inquiries.
+Suppose a customer center receives sentences such as `Can I get a refund?`, `How do I cancel my payment?`, and `I want my money back`. If the same words are absent, they can easily look like different inquiries.
 But in the actual handling flow, it is more natural for these three to first gather into the same candidate group.
 
-This case supports this section because it shows that the core of embedding learning is not `finding the same words`, but `placing expressions that point to the same resolution flow closer`. From the contrastive learning view, the refund inquiries above are close to positive pairs, while a sentence such as `배송 주소를 바꾸고 싶어요` is close to a negative pair.
+This case supports this section because it shows that the core of embedding learning is not `finding the same words`, but `placing expressions that point to the same resolution flow closer`. From the contrastive learning view, the refund inquiries above are close to positive pairs, while a sentence such as `I want to change my shipping address` is close to a negative pair.
 
 The result to check here is whether `the same resolution flow` is placed closer than surface words.
 
@@ -141,9 +141,9 @@ First look at the following sentences.
 
 | Sentence ID | Sentence |
 | --- | --- |
-| `refund_a` | `환불이 가능한가요?` |
-| `refund_b` | `결제 취소는 어떻게 하나요?` |
-| `address` | `배송 주소를 바꾸고 싶어요` |
+| `refund_a` | `Can I get a refund?` |
+| `refund_b` | `How do I cancel my payment?` |
+| `address` | `I want to change my shipping address` |
 
 If these sentences are grouped from the representation learning view, they can be read as follows.
 
@@ -172,10 +172,10 @@ Observations:
 
 | Sentence ID | Sentence |
 | --- | --- |
-| `billing_a` | `이번 달 결제 내역을 확인하고 싶어요` |
-| `billing_b` | `청구 금액이 어디서 나온 건지 알려 주세요` |
-| `login_a` | `비밀번호를 잊어버렸어요` |
-| `refund_a` | `환불이 가능한가요?` |
+| `billing_a` | `I want to check this month's payment history` |
+| `billing_b` | `Please tell me where this billed amount came from` |
+| `login_a` | `I forgot my password` |
+| `refund_a` | `Can I get a refund?` |
 
 Answer by yourself first.
 
@@ -191,9 +191,9 @@ Observations:
 
 | Learning pair | Current label |
 | --- | --- |
-| `환불이 가능한가요?` <-> `결제 취소는 어떻게 하나요?` | negative |
-| `비밀번호를 잊어버렸어요` <-> `로그인이 안 됩니다` | positive |
-| `환불이 가능한가요?` <-> `배송 주소를 바꾸고 싶어요` | positive |
+| `Can I get a refund?` <-> `How do I cancel my payment?` | negative |
+| `I forgot my password` <-> `I cannot log in` | positive |
+| `Can I get a refund?` <-> `I want to change my shipping address` | positive |
 
 Answer by yourself first.
 

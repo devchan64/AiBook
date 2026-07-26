@@ -1,17 +1,17 @@
 # P4-17.3 补充学习：层次聚类与谱聚类
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-如果在 P4-17.1 里已经看过 k-means 和 DBSCAN，接下来通常会留下这样一个问题。
+如果在 P4-17.1 里已经看过 [k-means](/AiBook/zh/reference/concept-glossary-pinyin/k/#k-means) 和 [DBSCAN](/AiBook/zh/reference/concept-glossary-pinyin/d/#dbscan)，接下来通常会留下这样一个问题。
 
 为什么聚类算法会有这么多名字，它们彼此之间到底有什么不同？
 
-第一次整理这个问题时，经常会再次遇到的两个名字，就是层次聚类(hierarchical clustering)和谱聚类(spectral clustering)。
+第一次整理这个问题时，经常会再次遇到的两个名字，就是[层次聚类(hierarchical clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#hierarchical-clustering)和[谱聚类(spectral clustering)](/AiBook/zh/reference/concept-glossary-pinyin/p/#spectral-clustering)。
 
 这一节不是展开两种方法的实现细节，而是从`它们打算依据什么来形成分组`这个角度，做一次入门区分。
 
-## 本节范围
+## 层次聚类与谱聚类先收束的问题
 
 这一节回答下面这些问题。
 
@@ -22,7 +22,7 @@
 
 这一节集中区分`像树一样逐步合并的视角`和`把图切开后再分组的视角`。
 
-## 用补充学习：如何第一次区分层次聚类与谱聚类留下的判断标准
+## 本节补充学习要留下的判断标准
 
 - 能把层次聚类解释为`展示合并顺序的聚类`。
 - 能把谱聚类解释为`重新读取连接结构后再分组的聚类`。
@@ -74,7 +74,7 @@
 
 ## 谱聚类想看的是什么
 
-谱聚类并不只是按坐标距离来读点，而是试图通过`谁和谁相连`这样的图(graph)结构来重新理解它们。
+谱聚类并不只是按坐标距离来读点，而是试图通过`谁和谁相连`这样的[图(graph)](/AiBook/zh/reference/concept-glossary-pinyin/g/#graph)和[连接结构(connectivity)](/AiBook/zh/reference/concept-glossary-pinyin/l/#connectivity)来重新理解它们。
 
 入门时，可以先抓住下面这句话。
 
@@ -106,8 +106,8 @@
 | --- | --- | --- | --- |
 | k-means | 中心(center) | 想快速看到圆形且相对均匀的分组时 | 对聚类数和形状假设很敏感 |
 | DBSCAN | 密度(density) | 想把噪声单独留下并观察不规则分组时 | 对 `eps` 和 `min_samples` 很敏感 |
-| 层次聚类 | 合并顺序 | 想分阶段观察分组如何长大时 | 仍然需要解释到底在哪里切开 |
-| 谱聚类 | 连接(connectivity) | 形状复杂但连接结构很清楚时 | 对相似度图怎么构造很敏感 |
+| [层次聚类](/AiBook/zh/reference/concept-glossary-pinyin/c/#hierarchical-clustering) | 合并顺序 | 想分阶段观察分组如何长大时 | 仍然需要解释到底在哪里切开 |
+| [谱聚类](/AiBook/zh/reference/concept-glossary-pinyin/p/#spectral-clustering) | [连接(connectivity)](/AiBook/zh/reference/concept-glossary-pinyin/l/#connectivity) | 形状复杂但连接结构很清楚时 | 对相似度图怎么构造很敏感 |
 
 这张表的目的不是比较高下，而是先抓住`它们是用不同把手来读取聚类`这一点。
 
@@ -204,5 +204,5 @@
 
 ## 出处与参考资料
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 用于确认 hierarchical clustering、spectral clustering、k-means、DBSCAN 的基本说明和比较轴。确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. 用于确认把 spectral clustering 连接到 graph Laplacian 与连接结构视角的背景。确认日期: 2026-07-19. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 用于确认 hierarchical clustering、spectral clustering、k-means、DBSCAN 的基本说明和比较轴。确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. 用于确认把 spectral clustering 连接到 graph Laplacian 与连接结构视角的背景。确认日期: 2026-07-26. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }

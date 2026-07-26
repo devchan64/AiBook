@@ -1,11 +1,11 @@
 # P2-15.2 Final Check Before Moving to Part 3
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2 is the basic recovery zone. It does not mean that all mathematics and Python are finished perfectly. It is the stage where you check whether you now have the minimum reading ability and practice sense needed to move into machine learning.
 
-Rather than completely closing Part 2, this section serves as a revisit checkpoint that organizes to which concepts you should return when you get stuck in Part 3 and need to restore your standards. Here, instead of learning new content, you distinguish `what you carry forward now` from `what you can come back and recheck later`. When you return to a concept, use both the representative section and the [Concept Glossary](/AiBook/reference/concept-glossary/) as reference points.
+Rather than completely closing Part 2, this section serves as a revisit checkpoint that organizes to which concepts you should return when you get stuck in Part 3 and need to restore your standards. Here, instead of learning new content, you distinguish `what you carry forward now` from `what you can come back and recheck later`. When you return to a concept, use both the representative section and the [formula glossary entry](/AiBook/en/reference/concept-glossary-alpha/f.en/#formula) as reference points.
 
 If you compress that standard into the shortest form again, it becomes the following.
 
@@ -51,7 +51,7 @@ So the minimum preparation right before Part 3 is closer to being able to state 
 | Do you need to memorize everything perfectly already? | It clarifies the role of revisit standards and of the first explanation locations. | Understand that what you need first are reference points to reread and a sense that the terms are not foreign. |
 | What does it mean to be ready for Part 3? | It makes you look first at data and learning flow rather than at model names. | Understand that it is enough if you can read words such as data, loss, learning, and evaluation without fear. |
 
-## The Minimum Map You Need from Part 2
+## Minimum Map You Need from Part 2
 
 The flow of Part 2 can be summarized as follows.
 
@@ -133,7 +133,7 @@ If you get stuck at any point in this flow, return as follows.
 | loss, error, mean | `P2-5`, `P2-6`, `P2-15.1` |
 | execution environment, notebook, terminal | `P2-3.5`, Chapter 7, Chapter 10 |
 
-## What You Can Move On With and What Should Stop You
+## What You Can Move On with and What Should Stop You
 
 Before moving to Part 3, you do not need to memorize everything perfectly. Distinguish it as follows.
 
@@ -149,7 +149,7 @@ Before moving to Part 3, you do not need to memorize everything perfectly. Disti
 
 You do not need perfection. But if you cannot distinguish input, output, data shape, and evaluation result at all, Part 3 may collapse into memorizing model names.
 
-## The Standard for Reading Part 3
+## Standard for Reading Part 3
 
 In Part 3, look first at the following questions before looking at algorithm names.
 

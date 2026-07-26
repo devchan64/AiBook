@@ -1,11 +1,11 @@
 # P4-7.3 补充学习：区分预处理中的输入问题
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: 缺失值、尺度与编码分别从什么输入问题出发？_
 
-在 P4-7.2 里，我们先抓住了 preprocessing 的大意: `把原始输入改造成 model 能计算的表达`。但第一次学预处理时，很快就会出现一种混乱感。有的列是空的，有的列数值大小差别很大，有的列是字符串，于是就很难直觉地理解，为什么这三件事会被放在同一个“预处理”下面来讲。
+在 P4-7.2 里，我们先抓住了 [预处理(preprocessing)](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing) 的大意: `把原始输入改造成 model 能计算的表达`。但第一次学预处理时，很快就会出现一种混乱感。有的列是空的，有的列数值大小差别很大，有的列是字符串，于是就很难直觉地理解，为什么这三件事会被放在同一个“预处理”下面来讲。
 
 这个补充学习的目的，不是继续增加更多预处理技术名称，而是先建立一个判断基准: `当前输入里到底出了什么问题`，然后再按这个问题去区分该想到哪种预处理。
 
@@ -18,9 +18,9 @@ _副标题: 缺失值、尺度与编码分别从什么输入问题出发？_
 - 一列数据只需要一种预处理规则，还是可能要连续套上多种规则？
 - 就算已经把预处理种类分开了，为什么还是要重复使用 train 上学到的规则？
 
-这一节先收束 `缺失值处理、尺度调整、编码分别对应什么输入问题`。filter、wrapper、embedded、降维的区分，会在下一节 P4-7.4 继续展开。
+这一节先收束 `缺失值处理、尺度调整、编码分别对应什么输入问题`。filter、wrapper、embedded、[降维(dimensionality reduction)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction) 的区分，会在下一节 P4-7.4 继续展开。
 
-## 用补充学习: 缺失值、尺度、编码分别对应什么输入问题恢复的概念连接
+## 读输入问题时要留下的判断
 
 - 能把预处理种类区分成 `输入问题的种类`，而不是 `技术名称`。
 - 看一列时，能先检查 `是不是空的`、`数值轴是不是在晃`、`是不是不可计算的表达`。
@@ -33,7 +33,7 @@ _副标题: 缺失值、尺度与编码分别从什么输入问题出发？_
 
 | 输入里最先看到的问题 | 最先想到的预处理 | 核心问题 |
 | --- | --- | --- |
-| 值是空的 | 缺失值处理(imputation) | 这个空白要用什么规则处理 |
+| 值是空的 | [缺失值处理(imputation)](/AiBook/zh/reference/concept-glossary-pinyin/q/#missing-value) | 这个空白要用什么规则处理 |
 | 数值大小轴差太大 | 尺度调整(scaling) | 这些数字要怎样公平比较 |
 | 混有字符串、类别、等级 | 编码(encoding) | 这个值要怎样改造成可计算表达 |
 
@@ -125,7 +125,7 @@ _副标题: 缺失值、尺度与编码分别从什么输入问题出发？_
 - 有字符串类别，就先看编码。
 - 数值轴差很大，就评估尺度调整。
 
-然后再加上 `哪些 model 对这个问题更敏感`，这种顺序会更稳。比如基于距离(distance)的 model 或基于梯度的优化，可能会更直接地受到尺度影响，但在那之前，首先得知道 `问题本身是不是数值尺度差异`。
+然后再加上“哪些 model 对这个问题更敏感”，这种顺序会更稳。比如基于[距离(distance)](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)的 model 或基于梯度的[优化(optimization)](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimization)，可能会更直接地受到尺度影响，但在那之前，首先得知道问题本身是不是数值尺度差异。
 
 也就是说，预处理的第一顺序不是 `model 名称 -> 技术选择`，而是 `输入问题 -> 预处理种类 -> 检查 model 敏感度`。
 
@@ -135,7 +135,7 @@ _副标题: 缺失值、尺度与编码分别从什么输入问题出发？_
 
 例如:
 
-- 如果缺失值的中位数不是只在 train 上算，而是把 test 也混进去，评价就会泄漏。
+- 如果缺失值的中位数不是只在 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 上算，而是把 [test data](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data) 也混进去，评价就会泄漏。
 - 如果编码类别列表是先用全体数据建出来的，那就等于提前看到了真实部署场景里本不该提前知道的信息。
 - 如果尺度基准用的是全体数据的平均值和方差，比较就不再公平。
 
@@ -146,7 +146,7 @@ _副标题: 缺失值、尺度与编码分别从什么输入问题出发？_
 | 需要什么预处理种类 | 在当前这节里，靠读取输入问题来回答 |
 | 这个规则应该在哪里学 | 在 P4-7.2 的“按 train 学规则并复用”原则里回答 |
 
-这样分开之后，读者就不容易把 `需要什么规则` 和 `这个规则是从哪里学出来的` 混在一起。
+这样分开之后，读者就不容易把 `需要什么规则` 和 `这个规则是从哪里学出来的` 混在一起。如果漏掉这条边界，即使预处理种类选对了，也可能因为[数据泄漏(data leakage)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-leakage)让评价变得不稳定。
 
 ## 案例及示例
 
@@ -183,6 +183,6 @@ _副标题: 缺失值、尺度与编码分别从什么输入问题出发？_
 
 ## 出处与参考资料
 
-- scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-08.
-- scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-08.
-- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 第 3 版, O'Reilly Media, 2022, 确认日期: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 第 3 版, O'Reilly Media, 2022, 确认日期: 2026-07-26. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

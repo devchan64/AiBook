@@ -1,7 +1,7 @@
 # P5-9.2 batch 与 tensor 计算
 
 > Section ID: `P5-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-9.1 里，我们已经看到：为什么深度学习会和 GPU、并行处理（parallel processing）特别合拍。接下来会马上冒出一个问题。
 
@@ -11,7 +11,7 @@
 
 batch 是为了把多个样本一起计算而做的分组，而 tensor 则是深度学习处理的多维数字数组的总称，这种分组也包含在里面。
 
-如果之后需要再很短地复习一下 shape 和计算单元，更适合回到[英文概念词汇表里的 batch 条目](/AiBook/reference/concept-glossary-parts/06-bieup/#batch)和[tensor 条目](/AiBook/reference/concept-glossary-parts/12-tieut/#tensor)。
+如果之后需要再很短地复习一下 shape 和计算单元，更适合回到概念词汇表里的[批次（batch）](/AiBook/zh/reference/concept-glossary-pinyin/b/#batch)和[张量（tensor）](/AiBook/zh/reference/concept-glossary-pinyin/z/#tensor)。
 
 ## batch 与 tensor 怎样组织计算的问题
 

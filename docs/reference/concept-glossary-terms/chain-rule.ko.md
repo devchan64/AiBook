@@ -6,3 +6,4 @@
 - 왜 중요한가: 역전파(backpropagation)가 신경망의 많은 파라미터에 대한 그래디언트를 계산할 때 이 규칙을 사용하기 때문입니다. 연쇄 법칙을 이해하면 `chain rule = backpropagation`처럼 섞지 않고, 연쇄 법칙은 수학 규칙이며 역전파는 그 규칙을 이용한 계산 절차라고 구분할 수 있습니다. 이 개념은 손실의 변화가 여러 층을 거쳐 전달된다는 설명의 핵심입니다.
 - 함께 볼 개념: `합성함수(composite function)`, `역전파(backpropagation)`, `그래디언트(gradient)`
 - 중심 Section: `P2-4.6`
+- 등장 Section: `P5-5.1`, `P5-5.2`

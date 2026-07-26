@@ -1,7 +1,7 @@
 # P6-4.4 Supplement: KV Cache and Repeated Generation
 
 > Section ID: `P6-4.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: Which attention computations does KV cache reuse in repeated generation?_
 

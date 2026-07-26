@@ -1,7 +1,7 @@
 # P6-9.3 LLM Failures Divided into Format, Evidence, and Execution Gaps
 
 > Section ID: `P6-9.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 By P6-9.2, we can read `which answer looks more assistant-like` and `which answer is more acceptable and safe`. But when we move into actual feature improvement, the question changes one more time. We cannot stop at knowing the standard for a good answer. We need to diagnose what was missing first in the failed answer.
 
@@ -22,7 +22,7 @@ Prompt revision, RAG, tool use, and fine-tuning are support paths considered aft
 
 The point to be careful about is that these four paths can look lumped together under the name `ways to improve performance`. In reality, they touch different locations. Prompt revision changes the input sentence and output form while keeping the same model. RAG finds documents before the model answers and attaches them to the input side. Tool use lets the model call outside functions and receive results instead of calculating or looking things up directly. Fine-tuning reflects repeatedly needed response habits in the model-adjustment process. So even the same phrase `the answer is wrong` can require different repair points.
 
-This Section does not replace the detailed techniques in later chapters. The problem to close here is `what should be fixed first, and where?` Prompt design itself is handled in P6-10, RAG and vector search in P6-11 and P6-12, and tool use and agent structure in later Modules. P6-9.4 and P6-9.5 are supplementary studies on efficient adjustment when this diagnosis points toward the fine-tuning axis.
+This Section does not replace the detailed techniques in later chapters. The problem to close here is `what should be fixed first, and where?` Prompt design itself is handled in P6-10, RAG and vector search in P6-11 and P6-12, and tool use and AI agent structure in later Modules. P6-9.4 and P6-9.5 are supplementary studies on efficient adjustment when this diagnosis points toward the fine-tuning axis.
 
 ## Why Read a Diagnostic Map Right After Alignment?
 
@@ -38,10 +38,10 @@ The key standard is not `fix every problem with one method`, but `diagnose by se
 
 - You can explain the role differences among prompts, fine-tuning, RAG, and tool use.
 - You can say which axis should be checked first for each problem type.
-- You can read the prompt, RAG, tool-use, and agent chapters inside one diagnostic map.
+- You can read the prompt, RAG, tool-use, and AI agent chapters inside one diagnostic map.
 - You can more easily understand why several devices are combined in the integrated mini-practice.
 
-## The Shortest Separation of Four Shortages
+## Shortest Separation of Four Shortages
 
 | First shortage | Support path to suspect first |
 | --- | --- |
@@ -141,7 +141,7 @@ This diagram is not meant to automate every choice mechanically. It gives an ord
 
 ## Cases and Examples
 
-### Case 1. The Answer Format Often Drifts
+### Case 1. Answer Format Often Drifts
 
 Suppose the user asks, `Always answer as a three-line summary`, but some answers are long and others are short. When answers drift, people may first feel that the model is not smart. But in this case, the model is not failing because it lacks the latest document or because it lacks a calculation tool. The core problem is instability in `what form should the answer take`, so it is natural to check prompt structure and examples before moving to evidence gaps or execution gaps.
 
@@ -153,7 +153,7 @@ For example, if the content is correct but the bullets grow into four lines, sol
 | Title/summary order often changes | Output-order constraint | Fine-tuning review |
 | Content is correct, but shape is inconsistent | Prompt design | Adding latest documents |
 
-### Case 2. The Model Often Gets Internal Policy Wrong
+### Case 2. Model Often Gets Internal Policy Wrong
 
 Suppose internal vacation rules change often, but the model answers from last quarter's standard. If the sentence is natural, people may first pass over it as correct. But in this case, no matter how much we refine the answer form, internal model memory alone cannot easily reflect the latest policy. The core problem is that `current document evidence is missing`, so we should first check whether the latest policy document is retrieved and connected as answer evidence, rather than making the prompt longer.
 
@@ -165,7 +165,7 @@ For example, even if we make the sentence more polite or adjust the answer lengt
 | Sentences are natural, but the standard is old | Current version reference | Tone edits cannot fix factual errors |
 | The answer drifts when asked for a source | Document connection and citation evidence | The core issue is missing evidence, not explanation style |
 
-### Case 3. The Model Often Gets Numbers Wrong
+### Case 3. Model Often Gets Numbers Wrong
 
 Suppose the model often gets discount calculations or total sums wrong. It can feel as if a longer prompt such as `think slowly` will solve the problem, but that does not guarantee calculation accuracy. If the core issue is execution accuracy, connecting a calculation tool may be a more direct solution than a longer prompt.
 

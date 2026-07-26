@@ -1,7 +1,9 @@
+<a id="vector"></a>
+
 ## vector
 
-- Meaning: 순서가 있는 여러 값을 한 묶음으로 담은 표현입니다. 수학에서는 크기와 방향을 가진 대상으로 읽고, AI 문맥에서는 한 대상을 여러 숫자로 표현한 1차원 수치 묶음이라는 뜻으로 자주 씁니다. 즉 벡터는 여러 숫자를 나열한 목록이면서도, 하나의 대상을 표현하는 통합 단위로 읽어야 합니다.
-- Why it matters: 리스트와 비슷해 보여도 벡터는 단순 보관 구조보다 계산과 표현에 더 가깝기 때문입니다. 특징 벡터, 임베딩 벡터, 그래디언트 벡터처럼 `무엇을 여러 차원 숫자로 나타냈는가`를 읽는 기본 단위가 되고, 같은 차원 수를 가진 벡터끼리는 거리, 방향, 내적 같은 연산으로 비교할 수 있다는 점도 함께 중요합니다. 이 개념이 있어야 AI에서 많은 대상이 결국 `숫자 배열`이 아니라 `비교와 계산이 가능한 표현`으로 다뤄진다는 점을 이해하게 됩니다. 결국 벡터를 이해해야 숫자 여러 개를 `분리된 값들`이 아니라 `하나의 표현`으로 읽게 됩니다.
+- Meaning: A vector represents multiple ordered values as one unit. In mathematics it can be read as an object with magnitude and direction, and in AI it often means a one-dimensional bundle of numbers that represents one object.
+- Why it matters: A vector is closer to a computable representation than to a simple storage list. Feature vectors, embedding vectors, and gradient vectors all require readers to ask what object is being represented across several numerical dimensions. Vectors with the same dimensionality can also be compared through distance, direction, dot product, and related operations.
 - Related concepts: `matrix`, `dimension`, `representation`
 - Core Section: `P2-3.1`
-- Appears in: `P1-3.3`, `P1-4.3`, `P1-13.1`, `P2-3.2`, `P2-3.3`, `P2-4.3`, `P2-11.3`
+- Appears in: `P1-3.3`, `P1-4.3`, `P1-13.1`, `P2-3.2`, `P2-3.3`, `P2-4.3`, `P2-11.3`, `P6-3.1`

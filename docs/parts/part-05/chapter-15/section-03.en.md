@@ -1,7 +1,7 @@
-# P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions
+# P5-15.3 How Sampling Pulls Actual Outputs from Candidate Distributions
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P5-15.2, we saw that a generative model does not memorize and return one correct answer, but keeps the relative plausibility of possible output candidates as a candidate distribution. The next question naturally follows.
 
@@ -11,7 +11,7 @@ Sampling is the process by which the model takes out one actual output at a time
 
 When the model’s scores and the actual output choice need to be separated again, reread the glossary entry on [sampling](/AiBook/en/reference/concept-glossary-alpha/s/#sampling).
 
-## Candidate Distributions And Actual Output Choice Are Different
+## Candidate Distributions and Actual Output Choice Are Different
 
 The core point to hold first in this section is that `the quality of a generative model depends not only on what it learned, but also very strongly on which candidates it actually samples`. If P5-15.2 looked at how the model keeps the relative plausibility of candidates, P5-15.3 looks at the procedure that pulls actual outputs from those already calculated candidates.
 
@@ -61,7 +61,7 @@ Then, if we look at the choice frequency when actually sampling 20 times, the hi
 
 The key point in this graph is that sampling is not `picking anything at random`. It should be read as a selection procedure that samples actual outputs based on the weights the model gave to each candidate, but does not fix only one candidate as argmax does.
 
-## Why Must Diversity And Stability Be Seen Together
+## Why Must Diversity and Stability Be Seen Together
 
 If sampling is not used at all and only the highest candidate is repeatedly chosen, the output can look stable. But the result can also feel too monotonous or repetitive.
 
@@ -69,7 +69,7 @@ Conversely, if candidates are allowed too broadly, output diversity can increase
 
 `Generative quality is not only a question of correctness, but also a question of balance between diversity and stability.`
 
-## In What Situations Do We First Look At Which Balance
+## Situations Where We First Look at Which Balance
 
 When reading sampling, it is safer to first ask not `always more diverse` or `always more conservative`, but `what should be prioritized more right now`.
 
@@ -82,7 +82,7 @@ When reading sampling, it is safer to first ask not `always more diverse` or `al
 
 That is, sampling is safer to read not only as `a device that increases fun`, but as a choice that decides which side to prioritize more between consistency and diversity of the output.
 
-## Why Can Even The Same Model Produce Different Results
+## Why Can Even the Same Model Produce Different Results
 
 Even for the same model, the result can change if the following conditions change.
 
@@ -94,7 +94,7 @@ Because of this, users often feel that `the model changed`, but sometimes what a
 
 This viewpoint becomes very important later when reading token-level generation and prompt experiments.
 
-## If We Draw The Flow Very Simply
+## If We Draw the Flow Very Simply
 
 ```mermaid
 --8<-- "assets/part-05/chapter-15/sampling-selection-flow-en.mmd"
@@ -112,7 +112,7 @@ Even when the same candidate scores are given, the user experience can change im
 
 That is, `which candidate the model judged highly` and `which one was actually sampled as the output` are not the same problem.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. Inspection-Result Guidance Phrase
 
@@ -146,9 +146,9 @@ If we pause once here and briefly fix `when the explanation that the model learn
 | why should we not always choose only the highest-score candidate? | because stability rises, but expression diversity and situational fit can shrink too much | product settings and user-experience control |
 | why is output quality not only a model problem? | because what has been learned and what has actually been chosen together create the result | response style, length, and variation-width design |
 
-## Practice And Example
+## Practice and Example
 
-### Example 1. Checking Temperature And Top-k With Fixed Logits
+### Example 1. Checking Temperature and Top-k with Fixed Logits
 
 The goal of this example is to check, before running an actual LLM, how temperature and top-k change the actual selection distribution from already calculated candidate scores, or logits. Real LLMs handle many more token candidates internally, but a small candidate set is enough at this level to separate `scores -> probabilities -> actual choices`.
 
@@ -259,7 +259,7 @@ The first thing to notice is that `top_choice` stays the same across all four se
 
 So the conclusion is not `higher temperature is always better`. Even with the same logits, the spread of the candidate distribution and actual choice counts change when the selection rule changes. Generation settings should therefore be read as the stage that controls `what is sampled from what the model knows`, not as the model's knowledge itself.
 
-### Optional Example. Observing Actual LLM Output Changes With Ollama
+### Optional Example. Observing Actual LLM Output Changes with Ollama
 
 The previous example used fixed logits to make the selection rule reproducible. If Ollama and a local model are available, the next example lets us observe that even with the same prompt, changing generation settings can change the stability and variation width of the actual output. Part 1 did not ask the reader to call an LLM from Python, but by this point we have already covered generative models and sampling, so it is reasonable to confirm the idea through real outputs.
 
@@ -416,7 +416,7 @@ Language models usually calculate the plausibility of the next token, and image-
 - Can you distinguish argmax and sampling as `fix only the highest candidate` versus `choose high candidates more often but still allow other candidates`?
 - When reading the generation settings in later Parts, are you ready first to see `model score calculation` and `actual output selection` as different stages?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, checked on 2026-07-19. [https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/](https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/){: target="_blank" rel="noopener noreferrer" }

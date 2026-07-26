@@ -1,7 +1,7 @@
 # P2-8.1 值（value）、变量（variable）、类型（type）
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P2-7 中，我们看过代码在哪里运行。既可以在 Colab 中运行，也可以在本地 PC（local PC）的终端中运行 Python 解释器（Python interpreter）。
 
@@ -13,7 +13,7 @@
 
 第一个词就是值、变量与类型。
 
-这里会说明 `值（value）`、`变量（variable）`、`类型（type）` 的基本区分。这三个词并不只局限在 Python 里，而是大多数编程语言与数据处理工具共享的最小单位。以后在 Part 2 中再次遇到这些概念时，也把 [概念词典](/AiBook/reference/concept-glossary/) 一起当作参照点。
+这里会说明 `值（value）`、`变量（variable）`、`类型（type）` 的基本区分。这三个词并不只局限在 Python 里，而是大多数编程语言与数据处理工具共享的最小单位。以后在 Part 2 中再次遇到这些概念时，也把 [值词条](/AiBook/zh/reference/concept-glossary-pinyin/z.zh/#value) 一起当作参照点。
 
 ## 这一节要留下的 3 句话
 

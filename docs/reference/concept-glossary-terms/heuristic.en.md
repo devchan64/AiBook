@@ -6,4 +6,4 @@
 - Why it matters: Many AI problems have too many paths or combinations to inspect exhaustively. Heuristics help readers distinguish a guaranteed solution method from a strategy that tries to find a useful answer quickly enough for the situation.
 - Related concepts: `search`, `state`, `goal`
 - Core Section: `P4-3.1`
-- Appears in: `P1-2.2`, `P1-7.2`, `P4-3.2`
+- Appears in: `P1-2.2`, `P1-7.2`, `P4-3.2`, `P4-4.1`

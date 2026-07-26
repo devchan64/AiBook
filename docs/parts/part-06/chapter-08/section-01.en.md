@@ -1,7 +1,7 @@
 # P6-8.1 Fine-Tuning Needed for Purpose-Specific Adjustment
 
 > Section ID: `P6-8.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-7.1, we saw pretraining, which first creates a broad language base.
 But pretraining alone does not automatically create `responses that match our work criteria`. This section explains how the learning axis placed on top of the generation structure narrows from `making a general-purpose base` to `purpose-specific adjustment`.
@@ -16,7 +16,7 @@ If we say the same thing more simply, it is as follows.
 
 Fine-tuning is the stage of refining a large model that has already broadly learned language so it fits our work better.
 
-## The Moment Purpose-Specific Adjustment Is Needed
+## Moment Purpose-Specific Adjustment Is Needed
 
 Purpose-specific adjustment begins with the following questions.
 
@@ -81,7 +81,7 @@ In other words, fine-tuning is a process of placing `additional adaptation for a
 
 Therefore, the core question of fine-tuning is closer to `does this model fit the criteria and format of our problem better?` than `is this model smart?`
 
-## How Is It Different From Prompts?
+## Difference from Prompts
 
 This difference is very important.
 

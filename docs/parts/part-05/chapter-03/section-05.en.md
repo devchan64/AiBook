@@ -1,13 +1,13 @@
-# P5-3.5 Formula Comparison Of Representative Activation Functions
+# P5-3.5 Formula Comparison of Representative Activation Functions
 
 > Section ID: `P5-3.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 From P5-3.2 through P5-3.4, we looked separately at the sigmoid, tanh, and ReLU. Now the three functions are compared in one place. The purpose here is not to memorize names, but to check how the same score \(z\) changes according to different formulas and output ranges.
 
-If the comparison among representative activation functions becomes blurry again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entry in the concept glossary as the baseline.
+If the comparison among representative activation functions becomes blurry again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function), [sigmoid](/AiBook/en/reference/concept-glossary-alpha/s/#sigmoid), [tanh](/AiBook/en/reference/concept-glossary-alpha/t/#tanh), and [ReLU](/AiBook/en/reference/concept-glossary-alpha/r/#relu) entries in the concept glossary as the baseline.
 
-## The Question Of Comparing Representative Activations
+## The Question of Comparing Representative Activations
 
 - Compare the formulas of the sigmoid, tanh, and ReLU in one table.
 - Compare their output ranges and whether they saturate.
@@ -16,7 +16,7 @@ If the comparison among representative activation functions becomes blurry again
 
 This section does not repeat at length the history and detailed usage context of each function. The individual intuition has already been handled in P5-3.2, P5-3.3, and P5-3.4, and the question of what should be used in the output layer continues in P5-3.6.
 
-## Standards For Graph Shape And Output Range
+## Standards for Graph Shape and Output Range
 
 - You can compare the formulas of the three representative activation functions side by side.
 - You can explain the differences among them through output range and saturation.
@@ -49,7 +49,7 @@ If you look at the curve shapes before the names, the difference becomes clear m
 
 If these three graphs are placed side by side, the sigmoid and tanh saturate at both ends. Even if the input grows further, the output no longer changes much near 1 or -1. By contrast, ReLU cuts the negative range to 0, but keeps increasing linearly in the positive range.
 
-## Comparing By Feeding In The Same Score
+## Comparing by Feeding in the Same Score
 
 Suppose that a hidden node in an equipment-warning model created the following five scores.
 
@@ -77,7 +77,7 @@ There is no need to memorize the numbers. The results that should be read are th
 
 Once this comparison is finished, the next question becomes `what activation should be used in the final output layer?` Hidden-layer activation is a problem of creating internal representation, while output-layer activation is a problem of deciding how to read the final number. This distinction continues in P5-3.6.
 
-## Practice And Exercise
+## Practice and Exercise
 
 The goal of this exercise is not to choose a function name, but to check directly how the same linear score \(z\) changes into different output ranges and signal forms after passing through the three activation functions.
 
@@ -168,7 +168,7 @@ When you summarize the answer, the three axes `output range`, `negative-input ha
 - Can you say that the sigmoid, tanh, and ReLU each react differently to negative input?
 - Can you distinguish hidden-layer activation comparison from the question of output-layer choice?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, date checked: 2026-06-29. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

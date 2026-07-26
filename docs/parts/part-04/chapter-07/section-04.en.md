@@ -1,17 +1,17 @@
 # P4-7.4 Supplementary Learning: Distinguishing Feature Selection Methods
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-From P4-7.1 to P4-7.3, the discussion chose features, separated input-representation problems, and established the basic judgment for preprocessing. In practice, however, the reader soon meets names such as the following.
+From P4-7.1 to P4-7.3, the discussion chose [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature), separated input-representation problems, and established the basic judgment for preprocessing. In practice, however, the reader soon meets names such as the following.
 
 - statistical-test-based feature selection
 - recursive feature elimination (RFE)
-- dimensionality reduction
+- [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction)
 
 All of these can look similar in that they `reduce the input or represent it again`, but they differ in what criterion is used to reduce and in what is left behind.
 
-## Scope Of This Supplementary Learning
+## Where Reduction Methods Split
 
 This Section answers the following questions.
 
@@ -22,9 +22,9 @@ This Section answers the following questions.
 
 This Section first closes `how to distinguish names that reduce input or re-express it`. The intuition and limits of individual dimensionality-reduction algorithms continue in P4-18.1 and P4-18.2.
 
-## Goals Of This Supplementary Learning
+## Judgments To Keep When Distinguishing Method Names
 
-- You can distinguish feature selection and dimensionality reduction without mixing them as the same task.
+- You can distinguish [feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#feature-selection) and dimensionality reduction without mixing them as the same task.
 - You can explain what criterion filter, wrapper, and embedded approaches use to reduce features.
 - You can say that RFE is `a method that repeatedly runs a model and reduces less important features`.
 
@@ -128,6 +128,11 @@ This example compares what a filter method, RFE, and PCA leave behind on the sam
   - PCA re-expresses the data into new axes instead of preserving original feature names
   - similar-looking scores do not mean the same level of interpretability
 
+Values to change:
+
+- Change the `3` in `SelectKBest(..., k=3)`, `RFE(..., n_features_to_select=3)`, and `PCA(n_components=3)` to `2` or `4`; the number of retained features, the number of new axes, and the scores will change together.
+- Change `class_sep=1.1` or `random_state=7`; the selected feature lists and score gaps may change.
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.decomposition import PCA
@@ -216,6 +221,6 @@ The first thing to read here is not the score ranking. The filter method and RFE
 
 ## Sources And References
 
-- scikit-learn developers, [Feature selection](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-01.
-- scikit-learn developers, [Unsupervised dimensionality reduction](https://scikit-learn.org/stable/modules/unsupervised_reduction.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-01.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-01.
+- scikit-learn developers, [Feature selection](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- scikit-learn developers, [Unsupervised dimensionality reduction](https://scikit-learn.org/stable/modules/unsupervised_reduction.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-26.

@@ -1,7 +1,7 @@
 # P6-11.2 RAG Flow That Separates Retrieval Failure from Generation Failure
 
 > Section ID: `P6-11.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-11.1, we saw that retrieval-augmented generation (RAG) attaches external evidence before answering. Now we need to see where that evidence sits in the actual input flow and how to split answer failures into different causes.
 

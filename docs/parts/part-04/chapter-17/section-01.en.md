@@ -1,7 +1,7 @@
 # P4-17.1 Intuition For Clustering
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Up through gradient boosting in P4-16, we followed how models improve predictive performance on problems where answer labels already exist. If we shift the viewpoint slightly here, the next question appears.
 
@@ -13,21 +13,21 @@ Clustering is an unsupervised learning problem that tries to find what groups of
 
 In other words, clustering is closer to `discovering structure` than to `solving a problem by getting the answer right`.
 
-This Section explains `clustering`, `cluster`, and `the difference between answer labels and clusters`. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering), [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and the difference between [answer labels](/AiBook/en/reference/concept-glossary-alpha/l/#label) and clusters. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), [similarity](/AiBook/en/reference/concept-glossary-alpha/s/#similarity), and [cluster label](/AiBook/en/reference/concept-glossary-alpha/c/#cluster-label).
 
-## Scope Of This Section
+## Questions Closed By Clustering
 
 This Section answers the following questions.
 
 - How is clustering different from supervised learning?
 - Why is the phrase `similar` so important?
 - Why is a cluster different from a class label?
-- What different intuitions do k-means and DBSCAN show?
+- What different intuitions do [k-means](/AiBook/en/reference/concept-glossary-alpha/k/#k-means) and [DBSCAN](/AiBook/en/reference/concept-glossary-alpha/d/#dbscan) show?
 - With what attitude should clustering results be read?
 
 This Section first closes the question `what question clustering answers in structure exploration without labels`. Cautions for interpreting results continue in P4-17.2, hierarchical clustering and spectral clustering continue in P4-17.3 supplementary learning, cluster quality metrics continue in P4-6.4 supplementary learning, and cautions for reading structure together with dimensionality reduction continue in P4-18.1 and P4-18.2.
 
-## Goals Of This Section
+## Judgments To Keep From Clustering
 
 - You can explain clustering as `finding structure without labels`.
 - You can explain that a cluster is not a human-assigned correct answer, but a group found from the data.
@@ -69,7 +69,7 @@ The scikit-learn user guide describes clustering as a task performed on unlabele
 
 `Look at unlabeled points and try grouping together the ones that are close or show similar patterns.`
 
-The important thing here is `similarity`. Clustering is ultimately connected to the question `what counts as similar?`
+The important thing here is [similarity](/AiBook/en/reference/concept-glossary-alpha/s/#similarity). Clustering is ultimately connected to the question `what counts as similar?`
 
 ## How Is It Different From Supervised Learning?
 
@@ -106,7 +106,7 @@ This diagram shows at a glance where supervised learning and clustering diverge 
 
 ## Why Does The Word `Similar` Matter So Much?
 
-Clustering ultimately works on ideas such as distance, density, connectivity, and center between data points.
+Clustering ultimately works on ideas such as [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance), [density](/AiBook/en/reference/concept-glossary-alpha/d/#density), connectivity, and center between data points.
 
 That means clusters do not just appear on their own. They change depending on `what standard was used to define similarity`.
 
@@ -116,11 +116,11 @@ Consider customer data, for example.
 - Average purchase amount
 - Days since the last login
 
-If we look at customers through these three features, similarity can mean that their positions are close along these three axes.
+If we look at customers through these three [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature), similarity can mean that their positions are close along these three axes.
 
 But for text documents, similarity may change into closeness in word distributions or embedding space.
 
-So in clustering, the word `similar` is not an emotional expression. It is `a definition of relationships inside feature space`.
+So in clustering, the word `similar` is not an emotional expression. It is a definition of relationships inside [feature space](/AiBook/en/reference/concept-glossary-alpha/f/#feature-space).
 
 If this is compressed into a data flow, it looks like this.
 
@@ -157,7 +157,7 @@ This diagram separates cluster numbers from business meaning. Outputs such as `c
 
 ## What Intuition Does k-means Show?
 
-The scikit-learn user guide explains K-means as an algorithm that divides samples into `n groups of equal variance` and tries to reduce inertia, or the within-cluster sum of squares. It also describes the process of assigning each sample to the nearest cluster based on centroids.
+The scikit-learn user guide explains K-means as an algorithm that divides samples into `n groups of equal variance` and tries to reduce inertia, or the within-cluster sum of squares. It also describes the process of assigning each sample to the nearest cluster based on [centroids](/AiBook/en/reference/concept-glossary-alpha/c/#centroid).
 
 k-means creates clusters by placing a few centers and attaching each point to the nearest center.
 
@@ -320,6 +320,10 @@ This time, apply `k-means` and `DBSCAN` side by side to the same toy data and ch
 - Concepts to check:
   - `k-means` assigns every point inside a pre-decided number of clusters
   - `DBSCAN` can leave low-density points outside the clusters
+- Values to change before running:
+  - Change `n_clusters` from 2 to 3 and check whether G starts to look like its own cluster
+  - Make `eps` smaller or larger than 0.6 and check how DBSCAN's noise decision changes
+  - Move G from `[8.5, 1.0]` to `[6.0, 4.0]` and check whether the difference between the two algorithms becomes smaller
 
 ```python
 # This example compares how k-means and DBSCAN assign the outlier-like point G on the same point set.
@@ -407,6 +411,6 @@ The goal of Part 4 is not to list model names, but to build criteria for how pro
 
 ## Sources And References
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `KMeans`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DBSCAN`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `KMeans`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DBSCAN`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html){: target="_blank" rel="noopener noreferrer" }

@@ -6,6 +6,8 @@
 
 --8<-- "reference/concept-glossary-terms/nabla.ko.md"
 
+--8<-- "reference/concept-glossary-terms/n-estimators.ko.md"
+
 --8<-- "reference/concept-glossary-terms/dot-product.ko.md"
 
 --8<-- "reference/concept-glossary-terms/node.ko.md"

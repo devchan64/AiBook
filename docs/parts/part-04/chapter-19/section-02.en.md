@@ -1,19 +1,19 @@
 # P4-19.2 Policy-Based Reinforcement Learning
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-19.1, we looked at the view of learning `how good each action is in each state` as values through value-based reinforcement learning. If we change the question by one step, the next question becomes this.
+In P4-19.1, we looked at the view of learning `how good each action is in each state` as values through [value-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning). If we change the question by one step, the next question becomes this.
 
 Instead of choosing an action only after going through values, can the action pattern itself be adjusted directly?
 
-That question is the starting point of policy-based reinforcement learning.
+That question is the starting point of [policy-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning).
 
 Policy-based reinforcement learning is an approach that learns to gain larger rewards by directly adjusting the probabilities and style of action choice instead of first building a scoreboard for actions.
 
-This Section explains the basic meaning of `policy-based reinforcement learning`, `policy gradient`, and `actor-critic`. Later Sections continue the judgment in the current context from this handle, and the basic meaning of reinforcement learning that directly adjusts behavior reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meaning of [policy-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning), [policy gradient](/AiBook/en/reference/concept-glossary-alpha/p/#policy-gradient), and [actor-critic](/AiBook/en/reference/concept-glossary-alpha/a/#actor-critic). Later Sections continue the judgment in the current context from this handle, and the basic meaning of reinforcement learning that directly adjusts behavior reconnects through this Section and the relevant glossary entries.
 
-## Scope Of This Section
+## Questions Closed By Policy-Based Reinforcement Learning
 
 This Section answers the following questions.
 
@@ -25,7 +25,7 @@ This Section answers the following questions.
 
 This Section first closes the question of `why reinforcement learning that directly adjusts the policy itself appears`. Reward design and constraints in real-world application continue in P4-19.3, the expansion flow of PPO, TRPO, A2C, A3C, and continuous control continues in P4-19.4, and the minimum mathematical feel of the policy-gradient theorem and the likelihood ratio trick continues in supplementary learning P4-19.6.
 
-## Goals Of This Section
+## Judgments To Keep From Policy-Based Reinforcement Learning
 
 - You can explain policy-based reinforcement learning as `an approach that directly adjusts action probabilities and behavior patterns`.
 - You can distinguish the difference in question between the value-based and policy-based approaches.
@@ -150,7 +150,7 @@ Compressed into a diagram, it looks like this.
 
 The key point of this picture is that a policy is read not as `an output rule`, but as `an adjustable action tendency`.
 
-REINFORCE can be seen as the most direct introductory example of the policy-gradient flow above. It gathers the actions and rewards from one episode, then adjusts the next policy so that the choices that helped in the end receive higher probability.
+[REINFORCE](/AiBook/en/reference/concept-glossary-alpha/r/#reinforce) can be seen as the most direct introductory example of the policy-gradient flow above. It gathers the actions and rewards from one episode, then adjusts the next policy so that the choices that helped in the end receive higher probability.
 
 In a small intuitive example:
 

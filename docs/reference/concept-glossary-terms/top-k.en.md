@@ -1,7 +1,9 @@
+<a id="top-k"></a>
+
 ## top-k
 
-- Meaning: 가장 가까운 후보 하나만이 아니라, 가까운 순서대로 k개 후보를 함께 가져오는 방식입니다. 즉 `한 개 정답만 뽑기`보다 `먼저 볼 만한 후보 묶음 만들기`에 더 가까운 선택 전략입니다. 여기서 중요한 점은 정답을 확정한다기보다, 다음 단계에서 검토하거나 조합할 후보 폭을 얼마나 열어 둘지 정한다는 데 있습니다.
-- Why it matters: 검색에서 관련 후보를 놓치지 않으려면 몇 개를 가져올지 정해야 하고, 너무 적거나 너무 많을 때의 trade-off를 이해해야 하기 때문입니다. 이 수가 달라지면 검색 품질, 검토 비용, RAG 맥락 길이도 함께 달라집니다. 예를 들어 `top-1`은 간단하지만 한 후보에 과하게 의존하기 쉽고, `top-20`은 관련성을 넓힐 수 있지만 잡음과 맥락 길이 소모도 함께 키울 수 있습니다. 결국 상위 k개를 이해해야 검색은 `가장 비슷한 것 하나를 찍는 일`이 아니라, 다음 생성이나 검토 단계에 넘길 후보 폭을 조절하는 설계 문제라는 점도 읽게 됩니다.
+- Meaning: top-k means retrieving not only the single nearest candidate, but the k closest candidates in order. It is closer to making a candidate set to review first than to choosing one final answer.
+- Why it matters: Search systems must decide how many related candidates to retrieve. Too few candidates can miss useful evidence, while too many can add noise, review cost, and RAG context-length pressure. Understanding top-k helps readers see retrieval as a design choice about candidate width.
 - Related concepts: `nearest neighbor`, `ranking`, `similarity search`, `context window`
 - Core Section: `P1-13.2`
-- Appears in: `P5-15.3`, `P6-12.2`, `P6-17.1`
+- Appears in: `P5-15.3`, `P6-3.2`, `P6-12.2`, `P6-17.1`

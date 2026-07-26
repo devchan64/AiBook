@@ -1,7 +1,7 @@
 # P1-15.3 Security and Privacy
 
 > Section ID: `P1-15.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-15.2 examined how to handle other people's expression and copyrighted works. P1-15.3 turns to a parallel question:
 

@@ -1,7 +1,7 @@
 # P5-15.1 What Changes When We Read Generative AI Through Deep Learning
 
 > Section ID: `P5-15.1`
-> Version: `v2026.07.21`
+> Version: `v2026.07.26`
 
 In P5-14, we saw that the Transformer directly revisits long context, computes relationships among many tokens at once, and stabilizes deep repeated blocks. The last question in Part 5 is why this structure prepares us to understand generative AI. This question is not only about `what the model computes`; it is also about `what form the computed result takes when it reaches the user`.
 
@@ -11,7 +11,7 @@ Part 5 does not fully explain how to use generative AI. Prompting, tokens, GPT, 
 
 A classification model often summarizes an input as a label or a score. Generative AI goes one step further and tries to compose an output artifact suited to the current input. So reading generative AI through deep learning first means changing the question from `which label is correct?` to `what output artifact is being produced in a way that fits this context?`
 
-## From Labels To Output Artifacts
+## Labels Become Output Artifacts
 
 A classification model usually chooses a category for an input.
 
@@ -31,7 +31,7 @@ These outputs are useful. Labels help route requests, make statistics, and split
 
 So generative AI cannot be judged only by whether it chose the correct label. We also need to ask whether the output fits the current context, continues naturally, and can be reviewed as an actual artifact. From this point, model evaluation includes not only `right or wrong`, but also standards such as `contextual fit`, `enough specificity`, and `reviewable form`.
 
-## What Producing The Output Means
+## What Producing the Output Means
 
 `Producing the output itself` does not mean the model invents anything without constraint. From a deep-learning viewpoint, it means the model uses patterns, representation structures, and continuation possibilities learned from data to compose a new result.
 
@@ -69,7 +69,7 @@ Therefore, the last chapter of Part 5 splits this flow into three steps. P5-15.1
 
 So the first preparation for generative AI is not a list of usage tips. We first need to understand why an output artifact may not behave like one fixed answer, and why that artifact becomes something the user must review. How possible candidates remain, and how one actual output is selected, are handled in the next two sections. Prompting practice and service usage are revisited in Part 6 on top of this structural sense.
 
-## Cases And Examples
+## Cases and Examples
 
 Suppose an operations team asks, `tell me the restart order after line shutdown`. A classification model can label this as a `restart procedure inquiry`. That is useful for routing and statistics.
 
@@ -83,7 +83,7 @@ But the user of generative AI usually does not stop at that label. The user expe
 
 The result to confirm is that generative AI does not stop at the label `restart procedure inquiry`; it tries to produce an output artifact suited to the current context. How to trust, revise, and attach that artifact to a service is handled in Part 6.
 
-## Practice And Example
+## Practice and Example
 
 For each input below, first separate three things yourself. Write what label a classification model would likely return, what output artifact generative AI would produce, and what additional standard should be checked for that artifact. Then compare your answer with the table below.
 
@@ -118,7 +118,7 @@ The result to confirm is that generative AI does not simply make `longer output`
 - Can you explain that producing output means composing a new result from learned patterns, not inventing without constraint?
 - Can you explain why candidate distributions and sampling become necessary in the next two sections because generated artifacts may not be fixed as one answer?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 5 `Machine Learning Basics` and Chapter 20 `Deep Generative Models`, checked on 2026-07-21. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Chloe Autio, Reva Schwartz, Jesse Dunietz, Shomik Jain, Martin Stanley, Elham Tabassi, Patrick Hall, Kamie Roberts, `Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile`, NIST AI 600-1, 2024, checked on 2026-07-21. [https://doi.org/10.6028/NIST.AI.600-1](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }

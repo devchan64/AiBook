@@ -1,7 +1,7 @@
 # P6-11.2 区分检索失败和生成失败的 RAG 流程
 
 > Section ID: `P6-11.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P6-11.1 中，我们看到 RAG(retrieval-augmented generation) 是在回答前附加外部依据的结构。现在要看的是，这些依据在实际输入流程中位于哪里，以及回答失败应该如何拆开阅读。
 

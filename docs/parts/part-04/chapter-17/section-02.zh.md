@@ -1,7 +1,7 @@
 # P4-17.2 解释聚类结果时的注意点
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P4-17.1 里，我们把聚类看成是在无标签数据里寻找结构的无监督学习问题。现在更重要的一步，是解释。
 
@@ -11,13 +11,13 @@
 
 聚类真正更常见的风险，往往不是出在算法计算本身，而是出在`人把结果解释得过头`。
 
-这一节不会再长篇重复聚类的基本定义。`在没有标签时探索结构`这个核心直觉，会通过 P4-17.1 和[概念词汇表](/AiBook/reference/concept-glossary/)重新连回来；这里则只专注于：怎样在不过度相信结果的前提下去读它。
+这一节不会再长篇重复[聚类(clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)的基本定义。`在没有标签时探索结构`这个核心直觉，会通过 P4-17.1、[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)、[聚类标签(cluster label)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster-label)重新连回来；这里则只专注于：怎样在不过度相信结果的前提下去读它。
 
-## 本节范围
+## 聚类解释先收束的问题
 
 这一节回答下面这些问题。
 
-- 为什么不能把聚类结果立刻当成正确标签(label)来读？
+- 为什么不能把聚类结果立刻当成正确[标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)来读？
 - 为什么同样的数据，会因为表达方式和参数不同而得到不同聚类？
 - 为什么聚类编号本身没有意义？
 - 为什么把聚类结果直接连到业务策略或人工评价会有风险？
@@ -25,7 +25,7 @@
 
 这一节会先收束 `为什么不能把聚类结果立刻读成正确答案或原因说明` 这个问题。聚类评价指标会在 P4-6.4 继续，可视化与嵌入空间扭曲会在 P4-18.2 继续，和半监督学习(semi-supervised learning)的连接会在 P4-17.4 补充学习里继续。
 
-## 用解释聚类结果时的注意点留下的判断标准
+## 聚类解释要留下的判断标准
 
 - 能说明聚类结果和正确类别标签并不一样。
 - 能说明同一份数据也可能因为特征选择和参数设置不同而得到不同聚类。
@@ -70,7 +70,7 @@
 
 ## 聚类不是正确答案标签
 
-正如在 P4-17.1 里看到的，聚类(cluster)是算法在数据里找到的分组。相对地，标签(label)是人按照问题定义预先设定好的类别。
+正如在 P4-17.1 里看到的，[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)是算法在数据里找到的分组。相对地，[标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)是人按照问题定义预先设定好的类别。
 
 这两者表面看起来可能相似，但角色不同。
 
@@ -114,9 +114,9 @@
 
 正如在 P4-17.1 里看到的，聚类高度依赖`什么才算相似`。因此，即便是同一份原始数据，只要下面这些东西一变，结果也可能跟着变。
 
-- 放进了哪些特征(feature)
-- 是否做了缩放(scale)
-- 距离(distance)是怎样看的
+- 放进了哪些[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)
+- 是否调整了[特征尺度(feature scale)](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-scale)
+- [距离(distance)](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)是怎样看的
 - 聚类数 `k` 取成多少
 - DBSCAN 的 `eps` 和 `min_samples` 怎样设
 
@@ -178,7 +178,7 @@
 
 至于这种相似为什么会出现、背后是什么原因、应该施加什么策略，都还需要额外分析。
 
-聚类能提出相关模式，但不会自动给出因果关系(causality)。
+聚类能提出相关模式，但不会自动给出[因果关系(causality)](/AiBook/zh/reference/concept-glossary-pinyin/y/#causal-inference)。
 
 ## 它和半监督学习是怎样连起来的
 
@@ -186,7 +186,7 @@
 
 `如果只有少量标签，是不是可以先把数据聚成组，再拿这些组去辅助标签学习？`
 
-这个问题会继续连到半监督学习。半监督学习通常是指：同时使用`少量有标签数据`和`大量无标签数据`的问题设定。
+这个问题会继续连到[半监督学习(semi-supervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#semi-supervised-learning)。半监督学习通常是指：同时使用`少量有标签数据`和`大量无标签数据`的问题设定。
 
 在这种语境里，聚类可以像下面这样连接。
 
@@ -311,6 +311,11 @@
 ### 用库确认：scale 变化后，聚类也可能变化
 
 这个例子会用 `AgglomerativeClustering` 把同一份客户数据分成两个聚类，并比较原始特征和标准化之后的结果。
+
+- 运行前可以改的值：
+  - 把 `n_clusters` 从 2 改成 3，看看哪个客户会单独分出来
+  - 把 `spend` 值放大或缩小，看看原始特征结果变化多大
+  - 移除再恢复 `StandardScaler`，比较每个聚类的均值摘要
 
 ```python
 import pandas as pd
@@ -500,5 +505,5 @@ cluster 1 members= ['A', 'B'] mean= {'visits': 2.5, 'spend': 21.0, 'support': 0.
 
 ## 出处与参考资料
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

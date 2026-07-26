@@ -1,7 +1,7 @@
 # P1-3.1 规则式系统的优势与限制
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 2.1 已经从历史位置上介绍了符号主义 AI(symbolic AI) 与规则式方法(rule-based approach)。2.3 又说明：即使在同一条业务流程里，也会出现 `像政策条件那样容易显式写成规则的部分`，以及 `像意图分类那样需要从数据中学习关系的部分`。这一节把问题再缩小一步，整理真正的规则式系统(rule-based system)究竟有哪些优势，又会在什么地方暴露出限制。
 
@@ -31,11 +31,11 @@
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
-| [rule-based system](/AiBook/reference/concept-glossary-parts/01-giyeok/#rule-based-system) | 把当前事实与规则相对照，从而决定结论或行动的系统 | 为了先把评价对象本身说清楚 |
-| [fact](/AiBook/reference/concept-glossary-parts/07-siot/#fact) | 在当前情境中被当作真的状态信息 | 为了看清规则究竟作用在什么之上 |
-| [knowledge base](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-base) | 汇集事实、规则与领域知识的结构 | 为了看清规则集合存放在哪里 |
-| [inference engine](/AiBook/reference/concept-glossary-parts/11-chieut/#inference-engine) | 找出并应用与当前事实匹配规则的机制 | 为了看清结论究竟是怎样产生的 |
-| [explanation facility](/AiBook/reference/concept-glossary-parts/07-siot/#explanation-facility) | 展示某个结果是由哪些规则导致的功能 | 为了固定规则式系统的重要优势之一：可解释性 |
+| [rule-based system](/AiBook/zh/reference/concept-glossary-pinyin/g/#rule-based-system) | 把当前事实与规则相对照，从而决定结论或行动的系统 | 为了先把评价对象本身说清楚 |
+| [fact](/AiBook/zh/reference/concept-glossary-pinyin/f/#fact) | 在当前情境中被当作真的状态信息 | 为了看清规则究竟作用在什么之上 |
+| [knowledge base](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-base) | 汇集事实、规则与领域知识的结构 | 为了看清规则集合存放在哪里 |
+| [inference engine](/AiBook/zh/reference/concept-glossary-pinyin/i/#inference-engine) | 找出并应用与当前事实匹配规则的机制 | 为了看清结论究竟是怎样产生的 |
+| [explanation facility](/AiBook/zh/reference/concept-glossary-pinyin/e/#explanation-facility) | 展示某个结果是由哪些规则导致的功能 | 为了固定规则式系统的重要优势之一：可解释性 |
 
 ## 三个基准
 

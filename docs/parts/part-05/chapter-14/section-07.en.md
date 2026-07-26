@@ -1,7 +1,7 @@
 # P5-14.7 Supplementary Learning: A Path That Preserves the Original Representation
 
 > Section ID: `P5-14.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How does a residual connection pass the new computation result and the original input representation together?_
 

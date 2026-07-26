@@ -1,7 +1,7 @@
 # P1-12.2 Instructions, Context, and Examples
 
 > Section ID: `P1-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 12.1 described a `prompt` as a way of arranging task conditions inside the current input. A prompt does not retrain the model. Instead, it places instructions, context, examples, constraints, and output format inside the input that the model can use during `inference`.
 
@@ -65,7 +65,7 @@ This section also does not ask whether a prompt `guarantees a good result`. That
 | context is the background the model should refer to | This shows why the same question can lead to different answers under different background information. | It is enough to understand that context includes support material such as documents, role, or scope. |
 | an example shows the desired output pattern | This makes few-shot prompting easier to understand. | It is enough to treat it as a demonstration of how to answer. |
 
-## The Instruction Specifies the Task
+## Instruction Specifies the Task
 
 An `instruction` is the part that tells the model what to do.
 
@@ -102,7 +102,7 @@ In writing this book, it is especially important to include the `target reader` 
 
 That kind of instruction tells the model not only `what to write`, but also `by what standard to write it`.
 
-## Context Provides the Information to Refer To
+## Context Provides Reference Information
 
 `Context` is the information the model should use while carrying out the instruction. This can include background, source text, purpose, earlier decisions, reader conditions, or excluded scope.
 
@@ -211,7 +211,7 @@ The first step to writing better prompts is not to craft stylish sentences. It i
 > context:  
 > - this document is study material for recovering concepts learned long ago  
 > - personal interpretation must be separated from standard explanation  
-> - this section does not cover RAG or agents
+> - this section does not cover RAG or AI agents
 >
 > original text:  
 > prompts are a means to understand how LLMs behave

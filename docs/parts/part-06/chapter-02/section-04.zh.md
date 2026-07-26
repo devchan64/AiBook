@@ -1,7 +1,7 @@
 # P6-2.4 连接到 prompt 长度、RAG chunk 与成本的 token 视角
 
 > Section ID: `P6-2.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 如果已经理解 token 与 tokenization 的差异，接下来剩下的问题只有一个。看到真实故障或运营不便时，能不能马上选出`应该把 token 视角重新应用到哪里`。
 

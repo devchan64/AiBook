@@ -1,7 +1,7 @@
 # P5-6.1 学习循环的四个步骤
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P5-5 章里，我们已经看到：深度学习模型会通过损失（loss）、反向传播（backpropagation）和计算图（computation graph）来计算梯度（gradient）。走到这里以后，下一个问题会自然留下来。
 
@@ -9,7 +9,7 @@
 
 深度学习学习循环的核心四个阶段是 `forward -> loss -> backward -> optimizer step`。先把这四个阶段当成一次共同重复去抓住，会更安全。
 
-如果在学习循环里又开始把损失、反向传播、更新和模式切换混在一起，更适合回到[英文概念词汇表里的 training 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#training)、[backpropagation 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#backpropagation)、[optimizer 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer)，先重新拆开各自的计算角色。
+如果在学习循环里又开始把损失、反向传播、更新和模式切换混在一起，更适合回到概念词汇表里的[训练（training）](/AiBook/zh/reference/concept-glossary-pinyin/x/#training)、[反向传播（backpropagation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#backpropagation)、[优化器（optimizer）](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimizer)条目，先重新拆开各自的计算角色。
 
 ## 学习循环转一圈的问题
 

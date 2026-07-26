@@ -1,13 +1,13 @@
 # P4-9.1 Hyperparameters
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-8, the discussion chose model candidates and set the starting point of comparison with a baseline. Now it moves to the next question.
+In P4-8, the discussion chose model candidates and set the starting point of comparison with a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model). Now it moves to the next question.
 
 Even within the same model family, with what configuration values should training be run?
 
-That question is exactly the starting point of the hyperparameter.
+That question is exactly the starting point of the [hyperparameter](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter).
 
 Hyperparameters are often understood as `complex advanced options`. In practice, they are a much more basic concept than that. Hyperparameters are configuration values that people set first before the model begins learning. In other words, they are not values that the model learns for itself from data, but values set from outside that determine how the model will learn.
 
@@ -15,7 +15,7 @@ The scikit-learn documentation explains hyperparameters as `parameters that are 
 
 A hyperparameter is not the rule that the model itself learns, but a value that fixes in advance what shape and strength the model will learn with.
 
-This Section explains `hyperparameters`, `the distinction between learned values and values fixed in advance`, and `the effect of configuration values on comparison experiments`. Later Sections continue the current context through this handle, and the basic meaning of configuration values fixed first from outside the model reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains hyperparameters, `the distinction between learned values and values fixed in advance`, and `the effect of configuration values on comparison experiments`. Later Sections continue the current context through this handle, and the basic meaning of configuration values fixed first from outside the model reconnects through this Section and the concept glossary.
 
 The first criterion that must be distinguished is the following.
 
@@ -25,7 +25,7 @@ The first criterion that must be distinguished is the following.
 | `max_depth`, `n_neighbors`, `C` | `Was this value set by a person before training?` |
 | `random_state` | `Is this value for experimental reproducibility more than for performance?` |
 
-## Scope Of This Section
+## Questions Closed By Hyperparameters
 
 This Section answers the following questions.
 
@@ -34,9 +34,9 @@ This Section answers the following questions.
 - Why can even the same algorithm look completely different depending on hyperparameters?
 - What representative hyperparameters should the reader first distinguish?
 
-This Section first closes `how to distinguish values learned during training from configuration values fixed by a person first`. The basic comparison of GridSearchCV and RandomizedSearchCV, and the cost of validation, are handled immediately in the next Section, P4-9.2, while advanced search-space design and distributed experiment management are reorganized again in the supplementary learning of P4-9.3.
+This Section first closes `how to distinguish values learned during training from configuration values fixed by a person first`. The basic comparison of GridSearchCV and RandomizedSearchCV, and the cost of validation, are handled immediately in the next Section, P4-9.2, while advanced search-space design and distributed experiment management are reorganized again in P4-9.3.
 
-## Goals Of This Section
+## Judgments To Keep From Hyperparameters
 
 - You can explain a hyperparameter as `a configuration value fixed before learning`.
 - You can distinguish a model parameter from a hyperparameter.
@@ -81,7 +81,7 @@ The very first distinction needed is this.
 
 | Distinction | Who decides it | Example |
 | --- | --- | --- |
-| model parameter | decided from data during the learning process | weights and intercept of linear regression |
+| [model parameter](/AiBook/en/reference/concept-glossary-alpha/p/#parameter) | decided from data during the learning process | weights and intercept of linear regression |
 | hyperparameter | decided by a person before training | `max_depth`, `n_neighbors`, `C` |
 
 This distinction appears repeatedly throughout machine learning.
@@ -120,7 +120,7 @@ This difference can be organized as follows.
 | Hyperparameter change | What often changes |
 | --- | --- |
 | model complexity | how finely it fits |
-| generalization | whether it holds up on new data |
+| [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization) | whether it holds up on new data |
 | computational cost | how much time learning and prediction take |
 | interpretability | how easy it is for a person to read |
 
@@ -152,7 +152,7 @@ When the reader first sees hyperparameters, it is better not to memorize all nam
 
 | Setting visible now | Axis to read first | Why read it first |
 | --- | --- | --- |
-| `max_depth`, `min_samples_leaf` | model complexity | because they immediately shake overfitting and rule depth |
+| `max_depth`, `min_samples_leaf` | model complexity | because they immediately shake [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) and rule depth |
 | `n_neighbors` | locality / smoothness | because they change whether neighbors are viewed narrowly or widely |
 | `C`, `alpha` | regularization strength | because they directly adjust the tendency to fit too much and the degree of generalization |
 | `n_estimators` | computation volume and stability | because even if performance increases, time and resource cost also increase |
@@ -250,7 +250,7 @@ That means the history of hyperparameters is not only the history of some grand 
 
 ### Why Must Hyperparameters Be Fixed Directly By People?
 
-The scikit-learn documentation on hyperparameter tuning explains that because such values are not directly learned inside the estimator, it is possible and recommended to search them based on cross-validation scores. This explanation can be summarized directly in the following sentence.
+The scikit-learn documentation on hyperparameter tuning explains that because such values are not directly learned inside the estimator, it is possible and recommended to search them based on [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) scores. This explanation can be summarized directly in the following sentence.
 
 `Because data do not tell hyperparameters by themselves, several values must be tested and compared through validation scores.`
 
@@ -306,10 +306,15 @@ That means the sense the reader should hold in this Section is the following.
 
 The example below is an exercise that changes only `max_depth` in the same decision-tree algorithm and observes how the training result changes.
 
-- Problem situation: treat flower data (iris) as a classification problem of species.
-- Input: four features, sepal length, sepal width, petal length, and petal width.
+- Problem situation: treat flower data (iris) as a [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) problem of species.
+- Input: four [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature), sepal length, sepal width, petal length, and petal width.
 - Label: three species classes.
 - Concept to check: even with the same algorithm, train score and test score can differ when the hyperparameter changes.
+
+Values to change:
+
+- If `2` or `5` is added to `for depth in [1, 3, None]`, the reader can see how train and test scores split as depth increases gradually.
+- If `test_size=0.3` is changed to `0.2` or `0.4`, score variation can change with the size of the evaluation data even under the same hyperparameter.
 
 ```python
 # This example compares how hyperparameter settings change model performance and behavior on the Iris dataset.
@@ -398,9 +403,9 @@ This distinction becomes especially important later when organizing experiment c
 
 ## Sources And References
 
-- scikit-learn, `Glossary of Common Terms and API Elements`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- Marc Claesen, Bart De Moor, `Hyperparameter Search in Machine Learning`, arXiv, 2015, accessed 2026-06-26. [https://arxiv.org/abs/1502.02127](https://arxiv.org/abs/1502.02127){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Daniel Yamins, David D. Cox, `Making a Science of Model Search`, arXiv, 2012, accessed 2026-06-26. [https://arxiv.org/abs/1209.5111](https://arxiv.org/abs/1209.5111){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, accessed 2026-06-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `Glossary of Common Terms and API Elements`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- Marc Claesen, Bart De Moor, `Hyperparameter Search in Machine Learning`, arXiv, 2015, accessed 2026-07-26. [https://arxiv.org/abs/1502.02127](https://arxiv.org/abs/1502.02127){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Daniel Yamins, David D. Cox, `Making a Science of Model Search`, arXiv, 2012, accessed 2026-07-26. [https://arxiv.org/abs/1209.5111](https://arxiv.org/abs/1209.5111){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, accessed 2026-07-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }

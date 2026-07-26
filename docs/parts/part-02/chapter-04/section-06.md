@@ -1,11 +1,11 @@
 # P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 미분(derivative), 그래디언트(gradient), 경사하강법(gradient descent)까지 읽고 나면 `역전파(backpropagation)는 chain rule을 사용한다`는 문장이 남습니다. 여기서 `연쇄 법칙(chain rule)`을 모르면 역전파는 계산 구조가 아니라 암기 문장처럼 보이기 쉽습니다.
 
-핵심은 `함수가 여러 단계를 거쳐 이어질 때 앞 단계의 변화가 뒤 단계를 거쳐 최종 결과까지 전달된다`는 감각입니다. 이 감각이 있어야 손실(loss)이 각 층과 파라미터에 어떻게 연결되는지 읽을 수 있습니다. 용어를 다시 빠르게 확인할 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 봅니다.
+핵심은 `함수가 여러 단계를 거쳐 이어질 때 앞 단계의 변화가 뒤 단계를 거쳐 최종 결과까지 전달된다`는 감각입니다. 이 감각이 있어야 손실(loss)이 각 층과 파라미터에 어떻게 연결되는지 읽을 수 있습니다. 용어를 다시 빠르게 확인할 때는 [개념사전의 그래디언트 항목](../../../reference/concept-glossary-parts/01-giyeok.md#gradient)도 함께 봅니다.
 
 ## 핵심 기준: 합성함수(composite function)와 연쇄 법칙(chain rule)
 

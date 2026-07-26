@@ -1,7 +1,7 @@
 # P5-14.1 不能只靠 attention 解释的 Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: 为什么 Transformer 应该读成 block 结构，而不是只有 self-attention？_
 

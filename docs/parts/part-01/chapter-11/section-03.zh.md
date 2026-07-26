@@ -1,7 +1,7 @@
 # P1-11.3 Transformer 与预训练 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)；在 11.2 中，我们又看了 RNN、Seq2Seq、Attention 如何处理顺序与上下文。
 

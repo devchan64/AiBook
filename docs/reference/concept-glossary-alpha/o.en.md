@@ -2,6 +2,8 @@
 
 This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
+--8<-- "reference/concept-glossary-terms/orthogonal.en.md"
+
 <a id="object"></a>
 
 --8<-- "reference/concept-glossary-terms/object.en.md"
@@ -9,6 +11,16 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/object-detection.en.md"
 
 --8<-- "reference/concept-glossary-terms/objective-function.en.md"
+
+--8<-- "reference/concept-glossary-terms/off-policy.en.md"
+
+--8<-- "reference/concept-glossary-terms/offline-reinforcement-learning.en.md"
+
+--8<-- "reference/concept-glossary-terms/oob-score.en.md"
+
+--8<-- "reference/concept-glossary-terms/one-vs-rest.en.md"
+
+--8<-- "reference/concept-glossary-terms/on-policy.en.md"
 
 --8<-- "reference/concept-glossary-terms/observation.en.md"
 
@@ -31,6 +43,10 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/outlier.en.md"
 
 --8<-- "reference/concept-glossary-terms/output.en.md"
+
+--8<-- "reference/concept-glossary-terms/output-artifact.en.md"
+
+--8<-- "reference/concept-glossary-terms/output-layer.en.md"
 
 <a id="output-format"></a>
 

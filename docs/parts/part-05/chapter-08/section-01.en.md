@@ -1,7 +1,7 @@
-# P5-8.1 How To Add Constraints To The Objective Function: Regularization
+# P5-8.1 How to Add Constraints to the Objective Function: Regularization
 
 > Section ID: `P5-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Chapter P5-7, we saw that the optimizer is the rule that turns gradients into actual updates. But even if the training loop runs smoothly, that does not immediately mean the model will also hold up on new data. The next question appears right away.
 
@@ -13,7 +13,7 @@ Regularization is the idea of adding constraints or costs to the learning proces
 
 When you need to distinguish overfitting control from normalization again, return to the glossary entry on [regularization](/AiBook/en/reference/concept-glossary-alpha/r/#regularization).
 
-## The Question Regularization Adds To The Objective Function
+## The Question Regularization Adds to the Objective Function
 
 - Why does regularization enter the learning loop?
 - How is it related to overfitting?
@@ -28,7 +28,7 @@ It is safer to read this section not merely as `one more option added after the 
 | regularization | Because it is the viewpoint that constrains movement so it does not go toward an overly complex solution. |
 | normalization | Because unlike overfitting control, it is the question of making value scales and distributions easier to handle. |
 
-## Standards For Constraints And Generalization
+## Standards for Constraints and Generalization
 
 - You can explain regularization as `a constraint for reducing overfitting`.
 - You can distinguish the roles of the optimizer and regularization.
@@ -37,7 +37,7 @@ It is safer to read this section not merely as `one more option added after the 
 - You can explain that regularization plays the role of an `objective-function control device` inside Chapter 8.
 - You can compare training loss, validation loss, and weight size together through an executable Python example.
 
-## Why Are Regularization And Normalization Different
+## Why Are Regularization and Normalization Different
 
 The regularization discussed in this section is regularization in the narrow sense. But in practice the words `normalize` and `normalization` also appear often, so they are easy to mix up at first.
 
@@ -83,7 +83,7 @@ From a beginner's point of view, it is useful to pin this scene down one more ti
 | training accuracy is high | does the same decision hold up when the input changes a little? | Because we want to make overly sensitive solutions less preferred. |
 | the model became more complex | is that complexity also needed on new data? | Because large weights and complex rules can lead to overfitting. |
 
-## What Is Regularization Trying To Prevent
+## What Is Regularization Trying to Prevent
 
 Here it is enough to understand the purpose of regularization in the following three lines.
 
@@ -93,7 +93,7 @@ Here it is enough to understand the purpose of regularization in the following t
 
 In other words, regularization is not just about lowering the loss. It is the idea of constraining `how the loss is allowed to be lowered`.
 
-## Does Regularization Only Mean A Penalty
+## Does Regularization Only Mean a Penalty
 
 Introductory textbooks often present regularization as `adding a penalty term to the loss function`. That explanation is important, but by itself it is somewhat narrow.
 
@@ -108,7 +108,7 @@ For example, the following can also be read as regularization in a broad sense.
 
 So regularization is closer to `a design philosophy for reducing overfitting` than to `a single formula`.
 
-## How Is It Related To The Loss Function
+## How Is It Related to the Loss Function
 
 Regularization often appears together with the loss function.
 
@@ -133,7 +133,7 @@ Compressed very briefly, the connection looks like this.
 
 The first result to confirm in this diagram is that regularization is not `another loss that calculates the error instead`, but a device attached beside the data loss that changes the total objective function and thereby makes the model prefer less aggressive solutions.
 
-## How Is It Related To Model Size And Data Amount
+## How Is It Related to Model Size and Data Amount
 
 The scenes where regularization is needed more often can usually be read as follows.
 
@@ -145,7 +145,7 @@ In that case, the model may easily find a solution that fits the training data v
 
 By contrast, when there is more data and the patterns are distributed more evenly, the chance that the model gains performance mainly by memorizing accidental combinations from specific samples is relatively lower. So regularization is more accurately read not just as a penalty term beside the loss function, but as a judgment standard that considers `model size`, `data amount`, and `how well the model holds up on new data` together.
 
-## What Is Different Between The Optimizer And Regularization
+## What Is Different Between the Optimizer and Regularization
 
 Readers may feel that both the optimizer and regularization are things that `adjust learning`. But their roles are different.
 
@@ -168,7 +168,7 @@ Looking at it one more time more slowly, the optimizer and regularization are in
 | how the optimizer receives the gradient and moves the parameters | how regularization limits the kind of solution that movement is allowed to approach |
 | `is it descending well?` | `is it descending toward an overly aggressive solution?` |
 
-## Cases And Examples
+## Cases and Examples
 
 ### Reading The Same Training Performance Back Through Different Standards
 
@@ -203,7 +203,7 @@ The first points to fix from this comparison diagram are the following.
 - So the comparison standard cannot be only `which error is closer to 0`. It also has to include `how large the weights were and how complex the solution was in order to produce that error`.
 - Only when this viewpoint is fixed can we read the example below not as `a term that interferes with loss reduction`, but as `a term that makes the model prefer a less aggressive solution`.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to read regularization not as `a technique that lowers training loss a little more`, but as `a constraint that makes us look at validation loss and weight size together`. We will place a small training log in a CSV file and compare a setting without regularization with a setting that uses L2 regularization.
 
@@ -358,7 +358,7 @@ From the curriculum point of view, it is natural for this section to come after 
 
 That is, both sections adjust learning, but they answer different questions.
 
-## Where Should We Place Regularization In The Learning Loop
+## Where Should We Place Regularization in the Learning Loop
 
 The point where this section becomes necessary is when the phrase `training is going well` starts getting mixed up with `it fits only the training data well`. Regularization is not a decoration outside the learning loop. It should be placed beside the optimizer, while their roles are read separately.
 
@@ -380,7 +380,7 @@ The point where this section becomes necessary is when the phrase `training is g
 - When the optimizer works well but validation performance is unstable, can you think first of the generalization problem from the regularization viewpoint?
 - Do you understand that this section plays the role of `objective-function control` in Chapter 8, and that the next section moves on to dropout, which shakes the structure?
 
-## Sources And References
+## Sources and References
 
 - Trevor Hastie, Robert Tibshirani, Jerome Friedman, `The Elements of Statistical Learning`, 2nd ed., Springer, 2009, checked on 2026-07-19. [https://hastie.su.domains/ElemStatLearn/](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

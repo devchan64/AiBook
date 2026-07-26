@@ -1,7 +1,7 @@
 # P6-20.1 BERT as a Reading-Centered Transformer Comparison Axis
 
 > Section ID: `P6-20.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Even within the same Transformer family, one flow is strong at reading the whole input, while another flow is strong at generating the next token.
 
@@ -41,7 +41,7 @@ If we compress only the comparison axes to keep, these four lines are enough.
 - You can say why the BERT family connects well to tasks such as classification, search, and embeddings.
 - You can read understanding-centered tasks as an extension of structural comparison.
 
-## What Does BERT Stand For?
+## BERT Acronym Meaning
 
 BERT stands for `Bidirectional Encoder Representations from Transformers`. But seeing the acronym all at once can make it feel even more unfamiliar. Instead of memorizing the name, it is better to first read why those words are attached.
 

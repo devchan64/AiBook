@@ -1,15 +1,15 @@
 # P3-8.3 In What Order and With What Wording Should Conservative Interpretation Sentences Be Written
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a comparison table so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed comparison results and interpretation strength in the sentence.
+A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a [comparison table](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table) so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed [comparison results](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-result) and [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) in the sentence.
 
 The safest default order is as follows.
 
 1. State the comparison result first.
 2. Then attach the condition that lowers or raises interpretation strength.
-3. End with the next action that a person should take.
+3. End with the [next action](/AiBook/en/reference/concept-glossary-alpha/n/#glossary-next-action) that a person should take.
 4. Do not write cause confirmation unless separate evidence exists.
 
 Compressed into a shorter rule, this becomes `comparison result -> confidence strength -> next action`.
@@ -38,7 +38,7 @@ The point of this table is not `speak weakly`. It is `state only the level direc
 
 If you try to write a sentence immediately after reading the comparison table, cause claims can easily slip in. At this stage, it is safer to fix the skeleton below first.
 
-The safe default skeleton is as follows. The recent window shows [what kind of difference from the baseline], and given [the sample-size/repeatability condition], [the review strength or next action] is appropriate.
+The safe default skeleton is as follows. The recent window shows [what kind of difference] from the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and given [the sample-size/repeatability condition], [the review strength or next action] is appropriate.
 
 If you insert actual values into that skeleton, it turns into sentences like these.
 

@@ -1,9 +1,9 @@
 # P4-12.3 k-NN을 사용할 때 무엇을 먼저 점검할까
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-P4-12.1에서 k-NN의 직관을 보았고, P4-12.2에서 거리(distance)와 스케일(scale)이 왜 결과를 바꾸는지 보았습니다. 이제 남는 질문은 이것입니다.
+P4-12.1에서 [k-NN](../../../reference/concept-glossary-parts/10-kieuk.md#k-nnk-nearest-neighbors)의 직관을 보았고, P4-12.2에서 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)와 [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/12-tieut.md#feature-scale)이 왜 결과를 바꾸는지 보았습니다. 이제 남는 질문은 이것입니다.
 
 k-NN의 판단이 흔들릴 때는 무엇을 먼저 다시 봐야 하는가?
 
@@ -71,7 +71,7 @@ k-NN은 모든 분류 문제의 기본 해답은 아닙니다. 하지만 `가까
 
 즉, `결과가 이상하다`는 한 문장 안에도 서로 다른 층위의 원인이 섞여 있을 수 있습니다.
 
-특히 4번에서 실제로 스케일 문제나 표현 문제를 의심하게 되면, 전처리 일반론 자체는 이 절에서 다시 길게 풀지 않고 `P4-7.2 전처리(preprocessing)`로 돌아가 기준을 다시 확인하는 편이 맞습니다.
+특히 4번에서 실제로 스케일 문제나 표현 문제를 의심하게 되면, 전처리 일반론 자체는 이 절에서 다시 길게 풀지 않고 [P4-7.2 전처리(preprocessing)](../chapter-07/section-02.md)로 돌아가 기준을 다시 확인하는 편이 맞습니다.
 
 ### P4-12.1의 같은 query를 다시 읽어 보면
 
@@ -157,6 +157,11 @@ k-NN은 모든 분류 문제의 기본 해답은 아닙니다. 하지만 `가까
   - `k`를 키우면 주변 다수결이 바뀔 수 있다
   - 숫자 범위가 다른 특징은 스케일 조정 전후 이웃 순서를 바꿀 수 있다
 
+조작해 볼 값:
+
+- `query`의 `support_tickets`를 `2`, `5`, `9`로 바꾸면 검토가 필요한 query가 언제 생기는지 볼 수 있습니다.
+- `n_neighbors`를 `2`, `4`처럼 짝수로 바꾸면 동률이나 근소한 다수결을 어떻게 기록해야 하는지도 확인할 수 있습니다.
+
 ```python
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
@@ -216,5 +221,5 @@ scaled k= 3 prediction= 1 neighbors= ['F', 'E', 'G']
 
 ## 출처와 참고 자료
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 확인 날짜: 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 확인 날짜: 2026-07-26. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
-# P5-9.1 GPUs And Parallel Processing
+# P5-9.1 GPUs and Parallel Processing
 
 > Section ID: `P5-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Up through Chapter P5-8, we looked at the learning computation and regularization that happen inside deep learning models. If we widen the view a little from there, the next question appears.
 
@@ -13,7 +13,7 @@ The spread of deep learning did not happen through algorithmic ideas alone. It i
 
 When the story of computational resources starts to feel abstract again, reread together the glossary entries on [GPU (graphics processing unit)](/AiBook/en/reference/concept-glossary-alpha/g/#gpugraphics-processing-unit) and [parallel processing](/AiBook/en/reference/concept-glossary-alpha/p/#parallel-processing).
 
-## The Question That Connects GPUs To Parallel Processing
+## The Question That Connects GPUs to Parallel Processing
 
 - Why does deep learning require so much computation?
 - At the introductory level, how should we distinguish CPUs and GPUs?
@@ -24,7 +24,7 @@ This section first closes why deep learning looks like `a problem of repeating t
 
 At the same time, it is also clear which question will be made more concrete next. What kind of data groupings and shapes are actually fed into the deep-learning computations that GPUs handle well is explained in the next section, P5-9.2, through batches and tensor computation. Why Transformers fit GPU-style parallel processing so well is revisited later in P5-14.4.
 
-## Standards For Repeated Operations And Compute Resources
+## Standards for Repeated Operations and Compute Resources
 
 - You can explain that deep learning is sensitive to computational resources because of large matrix operations and repeated computation.
 - You can explain the difference between CPUs and GPUs intuitively through `how work is grouped`.
@@ -52,7 +52,7 @@ In deep learning, the following kinds of computation are repeated in particular.
 
 In other words, deep learning is closer to `a problem where very similar numerical operations are repeated in enormous quantity` than to `one single complicated problem`.
 
-## How Should We Distinguish CPUs And GPUs At The Introductory Level
+## How Should We Distinguish CPUs and GPUs at the Introductory Level
 
 The following analogy is the safest one.
 
@@ -82,7 +82,7 @@ In deep learning, the following are especially suitable for parallelization:
 
 That is, because deep learning `repeats many numerical operations of the same pattern`, it has a structure that fits GPU-style parallel processing well.
 
-## Why Do Deep Learning And Parallel Processing Fit Well Together
+## Why Do Deep Learning and Parallel Processing Fit Well Together
 
 Deep-learning computation can mostly be summarized by the following three traits.
 
@@ -110,7 +110,7 @@ If we draw this difference by separating sequential processing and parallel proc
 
 The result to confirm first in this diagram is that the core of the GPU is not `it performs more complicated computation`, but `it is easy to place the same computation across many samples and positions at once`.
 
-## Why Does The GPU Look Like A Turning Point In History
+## Why Does the GPU Look Like a Turning Point in History
 
 The core ideas of deep learning did not suddenly appear only recently. Key concepts such as the perceptron, multilayer neural networks, and backpropagation had existed much earlier. Yet one reason deep learning spread rapidly after a certain time is that `it became possible to compute it`.
 
@@ -133,7 +133,7 @@ AlexNet is mentioned so often not simply because the model was large. It is beca
 
 For that reason, the GPU looks not merely like a component, but like `the device that lifted ideas into industrial-scale experiments` in deep-learning history.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Calculating The Same Risk Score One By One Versus Grouping It As A Batch
 
@@ -148,7 +148,7 @@ So there are two results we should confirm first in this case.
 
 If this case is fixed first, it becomes more natural to understand below why the example looks at `same result` and `scalar multiply count` together.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to place side by side the case where the same linear operation is applied to `one sample at a time` and the case where it is applied to `the whole batch at once`.
 
@@ -332,7 +332,7 @@ If we pause here once and briefly fix `when should we think first from the compu
 - When execution speed and experiment turnover look like a bigger bottleneck than model structure, can you think first of the computational-resource viewpoint?
 - Do you know that AlexNet is often read as a turning point where data, model, GPU, and training techniques were combined?
 
-## Sources And References
+## Sources and References
 
 - Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, checked on 2026-06-29.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

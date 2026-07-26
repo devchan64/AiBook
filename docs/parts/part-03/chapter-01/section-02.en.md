@@ -1,7 +1,7 @@
 # P3-1.2 In What Sequence Does Data Modeling Proceed
 
 > Section ID: `P3-1.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 Once we understand what data modeling is trying to achieve, the next question follows immediately: in what sequence should the work actually proceed? Features cannot be built before the sample unit is fixed, and without a comparison reference even the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) becomes unstable. So data modeling is best read as an order that fixes the structures needed later, one by one, from the front.
 

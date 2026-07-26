@@ -1,7 +1,7 @@
 # P5-5.2 Computation Graphs
 
 > Section ID: `P5-5.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P5-5.1, we explained that loss is not itself an update, but has to be unpacked again into a per-parameter gradient signal. Once that much is understood, the next question remains.
 
@@ -11,9 +11,9 @@ The viewpoint that answers this question is the computation graph and automatic 
 
 A computation graph is a representation that unfolds a model's computation into nodes and edges so that we can see where values are created in the forward pass and along what path automatic differentiation sends gradients back during backward.
 
-When you need to unfold the computational relationships into a smaller reading again, use the [computation graph](/AiBook/en/reference/concept-glossary-alpha/c/#computation-graph) entry in the concept glossary as the anchor.
+When you need to unfold the computational relationships into a smaller reading again, use the [computation graph](/AiBook/en/reference/concept-glossary-alpha/c/#computation-graph), [automatic differentiation](/AiBook/en/reference/concept-glossary-alpha/a/#automatic-differentiation), and [chain rule](/AiBook/en/reference/concept-glossary-alpha/c/#chain-rule) entries in the concept glossary as the anchor.
 
-## The Question Of How Computation Graphs Remember Differentiation
+## The Question of How Computation Graphs Remember Differentiation
 
 - What does a computation graph represent?
 - Why do we look at deep-learning computations as graphs?
@@ -30,7 +30,7 @@ From the point of view of Part 5, getting to this point already closes the respo
 | The backward flow of the learning procedure | Because it lets us read step by step how the loss distributes responsibility across operations. |
 | The connection to the next optimizer sections | Because after the gradients are computed, how the parameters are actually changed is revisited in P5-7. |
 
-## Standards For Dependencies And Automatic Differentiation
+## Standards for Dependencies and Automatic Differentiation
 
 - You can explain a computation graph as `a recorded structure that unfolds computational dependencies`.
 - You can read on the graph that the forward pass is value computation and the backward pass is gradient propagation.
@@ -38,7 +38,7 @@ From the point of view of Part 5, getting to this point already closes the respo
 - You can explain that automatic differentiation automatically organizes gradient computation by using the computation graph and local derivative rules.
 - You can confirm the flow of storing intermediate values and computing gradients with an executable Python example.
 
-## What Does A Computation Graph Draw
+## What Does a Computation Graph Draw
 
 Neural networks are not magic boxes that turn input into the answer all at once. In practice, they are structures where many small operations are connected.
 
@@ -57,7 +57,7 @@ In other words, a computation graph shows the following two things at the same t
 1. where a value is created
 2. how the dependency relationship continues
 
-## Why Do We Need To See It As A Graph
+## Why Do We Need to See It as a Graph
 
 As formulas become longer, backpropagation often starts to feel abstract. The reason is that we are looking at the whole expression as one large block.
 
@@ -73,7 +73,7 @@ It is enough to understand it like this.
 
 `A computation graph divides one large formula into small boxes so that forward computes values and backward sends influence back.`
 
-## Looking At The Smallest Example
+## Looking at the Smallest Example
 
 Consider the following expression.
 
@@ -102,7 +102,7 @@ This figure shows two things.
 - in the forward pass, values are computed from left to right
 - in the backward pass, gradients start from the loss and travel from right to left
 
-## How Do We Read The Forward Pass On The Graph
+## How Do We Read the Forward Pass on the Graph
 
 The forward pass is the stage that computes actual numbers at each node of the graph.
 
@@ -117,7 +117,7 @@ In other words, the forward pass is the process of following the graph and filli
 
 The reason storing these intermediate values matters is that the backward pass needs those exact values again.
 
-## How Do We Read The Backward Pass On The Graph
+## How Do We Read the Backward Pass on the Graph
 
 The backward pass is the stage that starts from the loss node and moves backward while computing how much each earlier node contributed to the loss.
 
@@ -133,7 +133,7 @@ So the graph decomposes the following question step by step.
 
 This decomposition is exactly how the chain rule becomes an actual computational procedure.
 
-## How Does A Computation Graph Make The Chain Rule Easier
+## How Does a Computation Graph Make the Chain Rule Easier
 
 In P5-5.1, the chain rule was explained as `the rule that connects influence stage by stage`. The computation graph makes those stages visible.
 
@@ -153,7 +153,7 @@ It is enough to remember it like this.
 
 `A computation graph does not treat differentiation as one giant formula, but divides it into small local rules at each node.`
 
-## Its Relationship To Automatic Differentiation
+## Its Relationship to Automatic Differentiation
 
 When we use modern deep-learning frameworks, there are many cases where we do not write every backpropagation formula by hand. Tools such as PyTorch, TensorFlow, and JAX automatically compute gradients by using the computation graph.
 
@@ -173,7 +173,7 @@ This much is enough.
 --8<-- "assets/part-05/chapter-05/forward-loss-backward-flow-en.mmd"
 ```
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. If We Look Only At The Final Block Score, The Computation Path Disappears
 
@@ -230,7 +230,7 @@ When the two cases are placed together, it becomes clearer why the computation g
 --8<-- "assets/part-05/chapter-05/backprop-direction-and-responsibility-flow-en.mmd"
 ```
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is not to use an automatic-differentiation library, but to directly confirm in a very small expression `what intermediate values are created in forward` and `what gradients are computed in backward`. The role of this example is not to write `code that trains the model well`, but to build the reading standard for following each node of the computation graph by hand.
 
@@ -438,7 +438,7 @@ From the curriculum viewpoint, the result to confirm in this section is whether 
 
 In other words, the computation graph can be seen as a common reading tool for all of Part 5.
 
-## When Do We Raise It To A Computation Graph
+## When Do We Raise It to a Computation Graph
 
 The time to bring out the computation-graph section is when the intuition of backpropagation is there, but the computation has so many stages that `where values are created and where gradients return` starts to blur.
 
@@ -460,7 +460,7 @@ The time to bring out the computation-graph section is when the intuition of bac
 - When automatic differentiation starts to feel like magic, can you bring out the viewpoint that it is a procedure organized along the graph by local derivative rules?
 - Do you understand that after this section, the flow moves to the optimizer that uses the gradient for actual updates, and to the distinction between learning and inference?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, accessed 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

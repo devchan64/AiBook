@@ -1,29 +1,29 @@
 # P4-7.1 Feature Selection
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. Feature selection is the starting point of that input design.
+P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. [Feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#feature-selection) is the starting point of that input design.
 
 This Section deals with `how should good features be chosen?` Rather than explaining complex selection algorithms in depth, the goal is to fix the judgment criteria that should be checked first in actual work.
 
-This Section explains the meanings of `feature selection` and `feature space`. The next Section continues the current context through this handle, and the basic criterion for deciding what should fill the input slots is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the meanings of `feature selection` and `feature space`. The next Section continues the current context through this handle, and the basic criterion for deciding what should fill the input slots is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
 This Section answers the following questions.
 
-- What is a feature, and why is input design important?
+- What is a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#feature), and why is input design important?
 - Why should not everything be included just because a lot of data are available?
 - What feature-selection criteria should a reader inspect first?
-- How is feature selection different from preprocessing?
+- How is feature selection different from [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing)?
 
 This Section first closes `how to choose good features` and `why feature selection is an input-design problem`. The sense of separating preprocessing types by input problem is revisited in the supplementary P4-7.3, and the comparison perspective between statistical-test-based selection and recursive feature elimination is organized again in supplementary P4-7.4. The big picture of dimensionality reduction continues in P4-18.1 and P4-18.2.
 
 ## Goals Of This Section
 
 - You can explain a feature as `a form in which real-world information has been turned into model input`.
-- You can explain that feature selection is connected not only to performance numbers but also to leakage, cost, stability, and interpretability.
+- You can explain that feature selection is connected not only to performance numbers but also to [leakage](/AiBook/en/reference/concept-glossary-alpha/d/#data-leakage), [cost](/AiBook/en/reference/concept-glossary-alpha/c/#cost), stability, and interpretability.
 - You can use basic questions that distinguish features to discard first from features to keep first.
 - You can explain that if preprocessing is `refining the selected features`, then feature selection is `deciding which features should be adopted in the first place`.
 
@@ -240,7 +240,7 @@ Theoretically, the following five perspectives matter.
 
 #### 1. Does It Contain Signal?
 
-That feature should contain some pattern related to the target label.
+That feature should contain some pattern related to the target [label](/AiBook/en/reference/concept-glossary-alpha/l/#label).
 
 For example, in a churn problem, recent visit count may plausibly relate to churn. By contrast, a completely arbitrary internal serial number usually does not explain the cause or tendency of the problem.
 
@@ -254,7 +254,7 @@ Just because a value looks present does not automatically make it a good feature
 - Was it entered manually, so fluctuation is large?
 - Does the meaning often change by situation?
 
-In such a feature, the noise can become larger than the signal. Then the model becomes more likely to learn accidental fluctuation than a stable rule.
+In such a feature, the [noise](/AiBook/en/reference/concept-glossary-alpha/n/#noise) can become larger than the signal. Then the model becomes more likely to learn accidental fluctuation than a stable rule.
 
 #### 3. Can It Actually Be Used At Prediction Time?
 
@@ -395,7 +395,7 @@ Some features look present inside a training dataset but are hard to obtain stab
 - Does collection delay happen often?
 - Does quality fluctuate because a human must type it by hand?
 - Is it difficult to use in operations because of privacy or cost?
-- Does it increase inference-time latency because it has to be fetched at every model call?
+- Does it increase inference-time [latency](/AiBook/en/reference/concept-glossary-alpha/l/#latency) because it has to be fetched at every model call?
 
 In the end, feature selection is not only a data-science problem. It is also a service-design problem.
 
@@ -749,6 +749,11 @@ Concept to check:
 - the first step of feature selection is to inspect candidate columns by risk signal before model learning
 - it is safer to read identifiers, labels, and post-outcome values as exclusion candidates first
 
+Values to change:
+
+- If you make `membership_tier` or `country` vary across `rows`, a candidate that was rejected as a constant column moves into the first-pass candidate list.
+- If you add a post-outcome column whose name ends with `_at`, such as `contract_cancelled_at`, it is caught by the timing-risk rule.
+
 ```python
 # This example compares raw feature candidates and selected feature sets to design the model input space.
 rows = [
@@ -859,5 +864,6 @@ The goal of this Section is not to memorize those algorithms. It is to first fix
 
 ## Sources And References
 
-- scikit-learn, `1.13. Feature selection`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/feature_selection.html](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12.2. Data leakage during pre-processing`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.13. Feature selection`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/feature_selection.html](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `12.2. Data leakage during pre-processing`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- Isabelle Guyon and André Elisseeff, `An Introduction to Variable and Feature Selection`, Journal of Machine Learning Research 3(Mar):1157-1182, 2003, accessed 2026-07-26. [https://www.jmlr.org/papers/v3/guyon03a.html](https://www.jmlr.org/papers/v3/guyon03a.html){: target="_blank" rel="noopener noreferrer" }

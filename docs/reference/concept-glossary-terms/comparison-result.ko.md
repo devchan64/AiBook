@@ -1,4 +1,5 @@
 <a id="comparison-result"></a>
+<a id="glossary-comparison-result"></a>
 
 ### 비교 결과(comparison result)
 
@@ -6,4 +7,4 @@
 - 왜 중요한가: 기준선과 점수는 있어도 그 둘을 같은 조건 위에서 묶어 읽지 않으면 `좋아졌다`는 말이 쉽게 인상평으로 흐르기 때문입니다. 이 개념이 있어야 비교표, 실행 요약, 틀린 사례 목록을 따로 보지 않고 `어떤 샘플과 어떤 지표에서 차이가 났는가`를 한 흐름으로 다시 읽게 됩니다. 또한 비교 결과를 이해해야 Part 7의 프로젝트 문서가 계산 로그 모음이 아니라, 다음 질문과 개선 계획이 기대는 변화 기록이라는 점도 더 분명하게 읽게 됩니다.
 - 함께 볼 개념: `비교표(comparison table)`, `기준선(baseline)`, `실행 요약(execution summary)`, `다음 질문(next question)`, `평가(evaluation)`
 - 중심 Section: `P7-1.2`
-- 등장 Section: `P7-index`, `P7-2.2`, `P7-summary`
+- 등장 Section: `P3-2.2`, `P3-8.3`, `P3-8.4`, `P7-index`, `P7-2.2`, `P7-summary`

@@ -1,11 +1,11 @@
 # P4-1.2 从数据中学习规则这句话是什么意思
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-1.1 中，我们区分了 AI、machine learning、deep learning、generative AI、LLM 的位置。现在要把 machine learning 再拉近一点来看。
+在 P4-1.1 中，我们区分了 AI、[machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning)、deep learning、generative AI、LLM 的位置。现在要把 machine learning 再拉近一点来看。
 
-Part 3 并不是想覆盖整个 data science，而是把重点放在 `把原始数据变成能进入学习与分析的问题结构的前段设计` 上。也就是先决定什么算一条案例、哪些列留下来当作 feature、哪些值可以当作 target 候选、哪些东西则要为了识别和解释而分开保存。
+Part 3 并不是想覆盖整个 [data science](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-science)，而是把重点放在把 [source data](/AiBook/zh/reference/concept-glossary-pinyin/y/#source-data) 变成能进入学习与分析的问题结构的前段设计上。也就是先决定什么算一条案例、哪些列留下来当作 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)、哪些值可以当作 [target 候选](/AiBook/zh/reference/concept-glossary-pinyin/m/#target-candidate)、哪些东西则要为了识别和解释而分开保存。
 
 在解释 machine learning 时，人们经常会说 `从数据中学习规则`。这句话很容易让人误解成：模型会直接找出人类能读懂的 `if-then` 规则。其实，machine learning 更准确地说，是从数据案例中估计输入和输出之间的关系，并把这种关系用到新数据上。
 
@@ -13,12 +13,12 @@ Part 3 并不是想覆盖整个 data science，而是把重点放在 `把原始�
 
 ## 本节范围
 
-这一节说明 rule-based approach 和 learning-based approach 的差别。supervised learning、unsupervised learning、reinforcement learning 的具体区分会在下一章展开。
+这一节说明 [rule-based approach](/AiBook/zh/reference/concept-glossary-pinyin/g/#rule-based-approach) 和 [learning-based approach](/AiBook/zh/reference/concept-glossary-pinyin/x/#learning-based-approach) 的差别。supervised learning、unsupervised learning、reinforcement learning 的具体区分会在下一章展开。
 
 - 人写规则，到底是什么意思？
 - 从数据中学习规则，到底是什么意思？
 - 模型真的会找到人能理解的规则吗？
-- training data、feature、label、model 是怎样连起来的？
+- [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)、[label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)、[model](/AiBook/zh/reference/concept-glossary-pinyin/m/#model) 是怎样连起来的？
 - 为什么学出来的 model 一定还要评估？
 
 ## 用从数据中学习规则这句话是什么意思留下的判断标准
@@ -259,7 +259,6 @@ scikit-learn 的基本使用流程也和这个结构很像。先创建 model obj
 
 ## 来源与参考资料
 
-- Tom M. Mitchell, `Machine Learning`, McGraw Hill, 1997, 作者官方页面，确认日期：2026-06-25. [https://www.cs.cmu.edu/~tom/mlbook.html](https://www.cs.cmu.edu/~tom/mlbook.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 确认日期：2026-06-25. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-07-10. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- Tom M. Mitchell, `Machine Learning`, McGraw Hill, 1997, 作者官方页面，确认日期：2026-07-26. [https://www.cs.cmu.edu/~tom/mlbook.html](https://www.cs.cmu.edu/~tom/mlbook.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-07-26. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 确认日期：2026-07-26. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }

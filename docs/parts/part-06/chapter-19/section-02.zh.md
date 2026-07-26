@@ -1,7 +1,7 @@
 # P6-19.2 区分直接谱系和周边证据的标准
 
 > Section ID: `P6-19.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 如果 P6-19.1 抓住了大的发展流程，本节就需要更尖锐的标准，用来区分直接结构谱系和扩散的周边证据。深度学习历史中的每个事件，并不都会立刻成为 LLM 的直接谱系。
 
@@ -204,7 +204,7 @@
 - `direct structural history`：制造当前 LLM 的核心谱系；
 - `surrounding spread history`：显示深度学习为何变强、为何被广泛接受的案例。
 
-有了这个区分，从 Part 6 回忆 BERT、GPT、pretraining、prompt、RAG、agent 时，结构和氛围就不太容易混在一起。
+有了这个区分，从 Part 6 回忆 BERT、GPT、pretraining、prompt、RAG、AI agent 时，结构和氛围就不太容易混在一起。
 
 ## 直接谱系如何改变主流程解释
 

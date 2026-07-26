@@ -1,4 +1,5 @@
 <a id="feature-selection"></a>
+<a id="glossary-feature-selection"></a>
 
 ## 特征选择
 
@@ -6,4 +7,4 @@
 - 为什么重要: 理解它有助于区分数据、建模、评估、提示或系统运行中的具体角色。
 - 相关概念: `feature`, `preprocessing`, `data leakage`
 - 核心 Section: `P4-7.1`
-- 出现 Section: `P2-12.3`, `P3-6.1`, `P4-7.3`, `P4-7.4`, `P4-15.2`
+- 出现 Section: `P2-12.3`, `P4-index`, `P3-6.1`, `P4-7.3`, `P4-7.4`, `P4-15.2`, `P4-3.1`

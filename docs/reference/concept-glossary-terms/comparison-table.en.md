@@ -1,4 +1,5 @@
 <a id="comparison-table"></a>
+<a id="glossary-comparison-table"></a>
 
 ## comparison table
 
@@ -6,5 +7,4 @@
 - Why it matters: Improvement claims only make sense relative to a baseline and comparison unit. A comparison table keeps those units visible, so retrospectives and next experiments can be based on concrete differences rather than impressions.
 - Related concepts: `baseline`, `error case`, `retrospective`, `review`, `evaluation metric`
 - Core Section: `P7-2.1`
-- Appears in: `P7-index`, `P7-1.1`, `P7-1.3`, `P7-2.2`, `P7-5.1`, `P7-summary`
-
+- Appears in: `P3-7.2`, `P3-7.4`, `P3-8.1`, `P3-8.2`, `P3-8.4`, `P3-8.5`, `P7-index`, `P7-1.1`, `P7-1.3`, `P7-2.2`, `P7-5.1`, `P7-summary`

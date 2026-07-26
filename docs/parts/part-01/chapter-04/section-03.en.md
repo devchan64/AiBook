@@ -1,7 +1,7 @@
 # P1-4.3 Features, Representations, and Parameters
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 4.2 examined the relation among `input`, `output`, and `data`, or what we want to show the model and what we want back from it. This section explains what kind of computational material that input becomes inside the model.
 
@@ -47,7 +47,7 @@ Here they are read with the following position split: `feature is an input clue`
 
 The part that is especially easy to confuse here is `feature` versus `representation`. In this section, it is safest to read a `feature` as a value on the input side that the model directly uses, and a `representation` as the overall form or result that turns the original data into such values. In other words, one slot such as `delivery clue present` is closer to a feature, while the state where the whole sentence has been changed into a numeric vector is closer to a representation.
 
-## The Original Input Is Hard to Compute Over Directly
+## Original Input Is Hard to Compute Directly
 
 Return to the customer-support example from 4.2.
 
@@ -190,7 +190,7 @@ At first, the model’s internal criteria may not match the task well. When pred
 
 But the fact that parameters are adjusted does not mean that the model understands meaning like a person. Parameters are computational values adjusted to match the training data and the learning objective.
 
-## The Word "Parameter" Can Refer to Different Levels
+## Parameter Can Refer to Different Levels
 
 There is a common point of confusion for beginners. When using AI tools, values such as `temperature`, `top-p`, and `max tokens` are also sometimes called parameters. But these are not the same thing as the internal model parameters discussed in Section 4.3.
 

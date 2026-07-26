@@ -1,11 +1,11 @@
 # P4-1.1 AI, 머신러닝, 딥러닝의 관계
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Part 1에서는 AI라는 말의 넓은 범위를 봤습니다. Part 2에서는 수식, Python, 배열, 표, 그래프를 다시 읽었습니다. 이제 Part 4에서는 그 기반 위에서 머신러닝(machine learning)을 따로 떼어 봅니다.
+Part 1에서는 [AI(artificial intelligence)](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence)라는 말의 넓은 범위를 봤습니다. Part 2에서는 수식, Python, 배열, 표, 그래프를 다시 읽었습니다. 이제 Part 4에서는 그 기반 위에서 [머신러닝(machine learning)](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning)을 따로 떼어 봅니다.
 
-이 절은 AI, 머신러닝, 딥러닝(deep learning), 생성형 AI(generative AI), LLM(large language model)이 각각 어느 범위를 가리키는지 구분하고, Part 4에서 왜 전통적인 머신러닝부터 다시 보는지 설명합니다.
+이 절은 AI, 머신러닝, [딥러닝(deep learning)](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning), [생성형 AI(generative AI)](../../../reference/concept-glossary-parts/07-siot.md#aigenerative-ai), [LLM(large language model)](../../../reference/concept-glossary-parts/08-ieung.md#llm)이 각각 어느 범위를 가리키는지 구분하고, Part 4에서 왜 전통적인 머신러닝부터 다시 보는지 설명합니다.
 
 따라서 이 절의 초점은 “AI라는 큰 분야 안에서 머신러닝이 어떤 위치에 있는가”와 “왜 바로 LLM이나 딥러닝으로 가지 않고 데이터, 모델, 학습, 평가를 먼저 보는가”를 구분하는 데 있습니다.
 
@@ -57,9 +57,9 @@ Part 1에서는 AI라는 말의 넓은 범위를 봤습니다. Part 2에서는 �
 
 AI(artificial intelligence)는 가장 넓은 말입니다. 규칙 기반 시스템, 탐색(search), 휴리스틱(heuristic), 지식 표현(knowledge representation), 확률 추론(probabilistic inference), 머신러닝, 딥러닝, 생성형 AI, 에이전트(agent) 같은 여러 접근을 포함할 수 있습니다.
 
-머신러닝(machine learning)은 그중 데이터에서 패턴을 배우는 접근입니다. 사람이 모든 규칙을 직접 쓰는 대신, 데이터에서 관계를 찾아 모델(model)을 만들고, 그 모델을 새 데이터에 사용합니다.
+머신러닝(machine learning)은 그중 [데이터(data)](../../../reference/concept-glossary-parts/03-digeut.md#data)에서 패턴을 배우는 접근입니다. 사람이 모든 규칙을 직접 쓰는 대신, 데이터에서 관계를 찾아 [모델(model)](../../../reference/concept-glossary-parts/05-mieum.md#model)을 만들고, 그 모델을 새 데이터에 사용합니다.
 
-딥러닝(deep learning)은 머신러닝 안에서 신경망(neural network)을 깊게 쌓아 표현(representation)을 학습하는 강력한 흐름입니다. 이미지, 음성, 자연어, 생성 모델에서 큰 성과를 만들었지만, 모든 머신러닝이 딥러닝인 것은 아닙니다.
+딥러닝(deep learning)은 머신러닝 안에서 신경망(neural network)을 깊게 쌓아 표현(representation)을 학습하는 강력한 흐름입니다. 이미지, 음성, 자연어, [생성 모델(generative model)](../../../reference/concept-glossary-parts/07-siot.md#generative-model)에서 큰 성과를 만들었지만, 모든 머신러닝이 딥러닝인 것은 아닙니다.
 
 생성형 AI(generative AI)는 텍스트, 이미지, 음성, 코드처럼 새로운 출력을 생성하는 모델과 서비스를 가리키는 말입니다. 오늘날 많이 쓰이는 생성형 AI는 딥러닝과 강하게 연결되어 있지만, 생성형 AI라는 사용 경험이 곧 AI 전체를 뜻하지는 않습니다.
 
@@ -208,7 +208,7 @@ Part 4의 핵심은 모델 목록이 아니라 데이터, 학습, 평가의 흐�
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, `artificial intelligence`, `machine learning`, `deep model`, `generative AI`, `large language model` 항목. AI, 머신러닝, 딥러닝, 생성형 AI, LLM의 용어 범위와 평가·학습 용어를 대조할 때 참고했다. 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- IBM, `AI vs. machine learning vs. deep learning vs. neural networks: What's the difference?`. AI를 가장 넓은 범위로 두고 머신러닝과 딥러닝을 그 하위 흐름으로 설명하는 포함 관계를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks](https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks){: target="_blank" rel="noopener noreferrer" }
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 1 Introduction, 확인 날짜: 2026-06-25. [https://www.deeplearningbook.org/contents/intro.html](https://www.deeplearningbook.org/contents/intro.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, `artificial intelligence`, `machine learning`, `deep model`, `generative AI`, `large language model` 항목. AI, 머신러닝, 딥러닝, 생성형 AI, LLM의 용어 범위와 평가·학습 용어를 대조할 때 참고했다. 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- IBM, `AI vs. machine learning vs. deep learning vs. neural networks: What's the difference?`. AI를 가장 넓은 범위로 두고 머신러닝과 딥러닝을 그 하위 흐름으로 설명하는 포함 관계를 확인할 때 참고했다. 확인 날짜: 2026-07-26. [https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks](https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 1 Introduction, 확인 날짜: 2026-07-26. [https://www.deeplearningbook.org/contents/intro.html](https://www.deeplearningbook.org/contents/intro.html){: target="_blank" rel="noopener noreferrer" }

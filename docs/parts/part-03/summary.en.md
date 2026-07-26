@@ -1,9 +1,9 @@
 # Part 3 Summary
 
 > Section ID: `P3-summary`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-In this Part, data modeling was read not as a description of storage structure but as the design of problem-representation structure. The core point is that source data is not immediately a dataset. Part 2 and Part 3 together form the basic-skills recovery range, and Part 3 is responsible for `rebuilding data-science problem structure`. Only after fixing the goal and scope of data modeling, rereading stored records as dataset candidates, deciding samples and table structure, designing features and baselines, and setting interpretation boundaries, can the later machine-learning explanations be read properly.
+In this Part, [data modeling](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) was read not as a description of storage structure but as the design of problem-representation structure. The core point is that [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) is not immediately a [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset). Part 2 and Part 3 together form the basic-skills recovery range, and Part 3 is responsible for `rebuilding data-science problem structure`. Only after fixing the goal and scope of data modeling, rereading stored records as dataset candidates, deciding samples and table structure, designing [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and [baselines](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and setting interpretation boundaries, can the later machine-learning explanations be read properly.
 
 The representative case is a structure with one automatically executed action, a control-parameter time series and sensor time series left inside it, and several actions later compared again as a recent segment versus a baseline. Part 3 explained how this structure is turned into a table structure that people can read and models can inherit.
 
@@ -13,7 +13,7 @@ The flow of Part 3 matters more as the following three bundles than as chapter n
 | --- | --- | --- |
 | Fixing role and order | What does data modeling take responsibility for, and in what sequence does it decide? | the position of problem-structure design, the map of the working sequence |
 | Rebuilding comparison structure | Into what sample, table, feature, and baseline structure should stored records be read again? | dataset candidates, summary tables, features, baseline comparison tables |
-| Closing interpretation and problems | How far should we speak, and what should still remain a report? | conservative statements, operational outputs, input/output boundaries, time boundaries |
+| Closing interpretation and problems | How far should we speak, and what should still remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report)? | conservative statements, operational outputs, input/output boundaries, time boundaries |
 
 Even if only these three lines remain, Part 3 can still be reread as `a chain of decisions that turns a problem into a representable structure`.
 

@@ -1,13 +1,13 @@
 # P1-2.1 符号主义 AI 与规则式方法
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-1 已经整理了 AI 这个词的范围与主要术语之间的关系。P1-2 转向 AI 历史上曾用来解决问题的范式。这一节的中心是 `symbolic AI` 和 `rule-based approach`。
 
 符号主义 AI，是一种把人的知识表示成符号(symbol)、规则(rule)、逻辑(logic)与显式表征(representation)，再操作这些表征以得到结论或行动的方法。更直白地说，它的想法是：先把人整理好的知识写成计算机能处理的形式，再让计算机在这种形式之上进行推理。
 
-在 Part 1 中，`symbolic AI`、`rule-based approach` 与 `knowledge representation` 的基准含义固定在这一节。后面的 Section 即使再次提到这些术语，也只回收与当前中心问题直接相关的部分；如果需要重新确认完整定义，就回到这一节与共享的 [Concept Glossary (English)](/AiBook/reference/concept-glossary/)。
+在 Part 1 中，`symbolic AI`、`rule-based approach` 与 `knowledge representation` 的基准含义固定在这一节。后面的 Section 即使再次提到这些术语，也只回收与当前中心问题直接相关的部分；如果需要重新确认完整定义，就回到这一节与 [symbolic AI](/AiBook/zh/reference/concept-glossary-pinyin/f/#symbolic-ai)、[rule-based approach](/AiBook/zh/reference/concept-glossary-pinyin/g/#rule-based-approach)、[knowledge representation](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-representation) 等词条。
 
 ## 用符号和规则写下知识
 
@@ -32,11 +32,11 @@ P1-1 已经整理了 AI 这个词的范围与主要术语之间的关系。P1-2 
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
-| [symbolic AI](/AiBook/reference/concept-glossary-parts/01-giyeok/#aisymbolic-ai) | 以符号、规则与显式知识表示为中心的 AI 方法 | 为了先建立后面与学习式方法对照的起点 |
-| [rule-based system](/AiBook/reference/concept-glossary-parts/01-giyeok/#rule-based-system) | 把当前事实与规则相对照，从而决定结论或行动的系统 | 为了看见符号主义 AI 的一种具体实现形态 |
-| [knowledge representation](/AiBook/reference/concept-glossary-parts/09-jieut/#knowledge-representation) | 用来书写事实、关系与规则的形式 | 为了说明系统“知道什么”究竟是什么意思 |
-| [fact](/AiBook/reference/concept-glossary-parts/07-siot/#fact) | 在当前状态下被当作真的信息 | 为了把规则应用的输入材料单独分出来 |
-| [inference engine](/AiBook/reference/concept-glossary-parts/11-chieut/#inference-engine) | 找出并应用与当前事实匹配的规则的机制 | 为了看清规则与结论之间的执行结构 |
+| [symbolic AI](/AiBook/zh/reference/concept-glossary-pinyin/f/#symbolic-ai) | 以符号、规则与显式知识表示为中心的 AI 方法 | 为了先建立后面与学习式方法对照的起点 |
+| [rule-based system](/AiBook/zh/reference/concept-glossary-pinyin/g/#rule-based-system) | 把当前事实与规则相对照，从而决定结论或行动的系统 | 为了看见符号主义 AI 的一种具体实现形态 |
+| [knowledge representation](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-representation) | 用来书写事实、关系与规则的形式 | 为了说明系统“知道什么”究竟是什么意思 |
+| [fact](/AiBook/zh/reference/concept-glossary-pinyin/f/#fact) | 在当前状态下被当作真的信息 | 为了把规则应用的输入材料单独分出来 |
+| [inference engine](/AiBook/zh/reference/concept-glossary-pinyin/i/#inference-engine) | 找出并应用与当前事实匹配的规则的机制 | 为了看清规则与结论之间的执行结构 |
 
 ## 主要学习内容
 

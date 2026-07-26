@@ -1,21 +1,21 @@
 # P4-13.2 Introductory Meaning Of The Kernel
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-13.1 introduced SVM (support vector machine) as `a classifier that looks for a boundary with a large margin`. That immediately leaves the next question.
 
 If the boundary must stay a straight line, what should be done for data that a straight line cannot separate well?
 
-That question is exactly why the kernel must now be introduced.
+That question is exactly why the [kernel](/AiBook/en/reference/concept-glossary-alpha/k/#kernel) must now be introduced.
 
 `A kernel is the idea that lets data be compared in another representation space, so a problem that is hard to separate linearly in the original space can become more manageable.`
 
 So the core of 13.2 is not `a new magic function`, but the perspective that `if the representation changes, even a linear boundary can take on a different meaning`.
 
-This Section does not repeat the basic definition of SVM at length. The core intuition, `finding a large-margin boundary`, reconnects through P4-13.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus stays only on why the idea of changing the representation space is needed.
+This Section does not repeat the basic definition of [SVM (support vector machine)](/AiBook/en/reference/concept-glossary-alpha/s/#support-vector-machine) at length. The core intuition, `finding a large-margin boundary`, reconnects through P4-13.1. Here the focus stays only on why the idea of changing the [feature space](/AiBook/en/reference/concept-glossary-alpha/f/#feature-space) is needed.
 
-## Scope Of This Section
+## Questions Closed By The Kernel Idea
 
 This Section answers the following questions.
 
@@ -27,7 +27,7 @@ This Section answers the following questions.
 
 Criteria for reading settings such as `gamma`, `degree`, and `coef0`, and the cost of validation, reconnect again in P4-9.1 and P4-9.2. In other words, this Section focuses first on holding the idea that `if the representation space changes, the meaning of a linear boundary also changes`.
 
-## Goals Of This Section
+## Judgments To Keep From The Kernel Idea
 
 - You can explain with examples why a linear boundary sometimes fails to work well.
 - You can explain that if the feature space changes, the same data can be read differently.
@@ -35,7 +35,7 @@ Criteria for reading settings such as `gamma`, `degree`, and `coef0`, and the co
 - You can describe intuitively what kinds of nonlinearity are suggested by a polynomial kernel and by an RBF kernel.
 - You can place kernel-based methods not as `the default answer`, but as `a candidate to recall when a linear boundary looks insufficient`.
 
-## A Good Reading Order For This Section
+## Reading Order For The Kernel Idea
 
 Because new terms can gather quickly here, it helps to hold only the following four questions in order during a first reading.
 
@@ -347,6 +347,11 @@ The simplest way to check the explanation so far is to reread an XOR-like exampl
   - in the original coordinates, a simple linear reading such as `x1 + x2` is not natural
   - once a new feature `x1 * x2` is added, the classes split much more simply
 
+Values to change:
+
+- Add points such as `(0, 1)` or `(1, 0)` to `points` to see that this simple transformation does not solve every possible situation.
+- Replace `z = x1 * x2` with `z = x1 ** 2 + x2 ** 2` to compare why XOR-like and circular structures call for different representations.
+
 ```python
 # This example transforms original coordinates into a new feature space to check separability for kernel intuition.
 points = [
@@ -429,5 +434,5 @@ The point of this comparison is not `which model is more advanced`. It is meant 
 
 ## Sources And References
 
-- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, checked on 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, checked on 2026-07-19. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, checked on 2026-07-26. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
+- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, checked on 2026-07-26. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }

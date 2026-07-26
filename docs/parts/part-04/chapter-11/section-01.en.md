@@ -1,9 +1,9 @@
 # P4-11.1 Intuition For Logistic Regression
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-10, linear regression showed `how to predict a continuous value with a line`. The next step is to see how that same linear way of thinking changes when the task becomes classification.
+In P4-10, [linear regression](/AiBook/en/reference/concept-glossary-alpha/l/#linear-regression) showed `how to predict a continuous value with a line`. The next step is to see how that same linear way of thinking changes when the task becomes [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification).
 
 The central question of this Section is the following.
 
@@ -15,9 +15,9 @@ The name often causes confusion. If it is called `regression`, why is it used fo
 
 In other words, logistic regression is not `linear regression used directly for classification`. It is `a model that changes the output of a linear calculation so it can be interpreted like a classification probability`.
 
-This Section explains the basic meanings of `logistic regression`, `sigmoid`, `predict_proba`, and `threshold`. The next Section continues the judgment of the current context from that handle, and the basic sense of reading a linear calculation as a classification probability reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meanings of [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression), `sigmoid`, `predict_proba`, and [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#threshold). The next Section continues the judgment of the current context from that handle, and the basic sense of reading a linear calculation as a [probability estimate](/AiBook/en/reference/concept-glossary-alpha/p/#probability-estimate) reconnects through this Section and the related glossary entries.
 
-## Scope Of This Section
+## Questions Closed By Logistic Regression Intuition
 
 This Section answers the following questions.
 
@@ -31,7 +31,7 @@ This Section first closes logistic regression as `a model that reads the output 
 
 The questions that will be widened from this Section are also clear. The spatial interpretation of a decision boundary and a threshold continues immediately in P4-11.2. Why log-odds appears and why maximum likelihood estimation (MLE) is used is recovered in P4-11.3. How binary classification expands into multinomial classification is recovered in P4-11.4. Why solver and regularization appear as implementation settings is recovered in P4-11.5. The broader general principle of regularization and reading hyperparameters reconnects again in P4-9.1, P4-9.2, and P5-8.1.
 
-## Goals Of This Section
+## Judgments To Keep From Logistic Regression
 
 - You can explain logistic regression as `a linear model that produces an output that can be read like a probability in a classification problem`.
 - You can distinguish the common structure and the difference between linear regression and logistic regression.
@@ -411,6 +411,11 @@ The example below is a very small binary-classification practice that predicts w
 | S7 | 7 | pass |
 | S8 | 8 | pass |
 
+Values to change:
+
+- Replace `[[3], [5], [7]]` with a denser set such as `[[4], [5], [6]]` to inspect score changes near the boundary.
+- Change one near-boundary label inside `passed` to see whether the coefficient and intercept move together.
+
 ```python
 # This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
 import numpy as np
@@ -453,15 +458,14 @@ This output can be read as follows.
 
 The important point is that if a value such as `0.548` appears, it should not be read as an absolute fact. It should be read as `the current model, after seeing this data, considers that class more likely`.
 
-There are also places that become clearer if the reader changes values directly.
-
-- If `[[3], [5], [7]]` is replaced with a denser set such as `[[4], [5], [6]]`, the score change near the boundary becomes easier to inspect.
-- If labels near the boundary are changed slightly inside `passed`, the coefficient and intercept move with them.
-- The fact that the same score can lead to different final behavior once the threshold changes continues directly into the next example.
-
 ### Python Example: Reading `predict_proba` And `predict` Separately
 
 The example below shows that logistic regression creates a score first and then turns it into a class through a threshold.
+
+Values to change:
+
+- Add values such as `0.48`, `0.50`, and `0.52` to `scores` to see how close scores become different class decisions near 0.5.
+- Change the cutoff in `pred_05` to `0.6` to make the difference between score and decision more visible.
 
 ```python
 # This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
@@ -494,6 +498,11 @@ Now, look directly at how the final behavior changes when the threshold changes,
   - the score may stay the same while the policy criterion changes the class decision
   - the model output and the service action should be read separately
 
+Values to change:
+
+- Add `0.49`, `0.50`, and `0.51` to `scores` to see how the decision splits at the 0.5 boundary.
+- Change the cutoff in `pred_07` to `0.6` or `0.8` to compare policy-only changes over the same score table.
+
 ```python
 # This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
 import numpy as np
@@ -521,6 +530,11 @@ This output again shows that the model creates the score, but the operating rule
 ### Change One More Value: How Does Interpretation Shake If One Near-Boundary Label Changes?
 
 Now change the near-boundary case `study_hours = 4` from `fail (0)` to `pass (1)` in the training data.
+
+Values to change:
+
+- Change the label at `study_hours = 3` or `study_hours = 5` to see how score movement differs by boundary location.
+- Expand `predict_proba([[4]])` to `[[3]], [[4]], [[5]]` to compare how the change spreads around the boundary.
 
 ```python
 # This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
@@ -581,5 +595,5 @@ This exercise makes logistic regression readable again not merely as `a model th
 
 ## Sources And References
 
-- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, checked on 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LogisticRegression`, scikit-learn API Reference, checked on 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, checked on 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LogisticRegression`, scikit-learn API Reference, checked on 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }

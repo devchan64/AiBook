@@ -1,27 +1,27 @@
 # P4-11.3 补充学习：第一次如何读 log-odds 与 MLE
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.1 把 logistic regression 介绍成 `生成可按 probability 来读的 score 的线性分类模型`，P4-11.2 又把这些 score 放回 input space，读成 decision boundary。走到这里，就会自然留下一个问题。
+P4-11.1 把 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 介绍成 `生成可按 probability 来读的 score 的线性分类模型`，P4-11.2 又把这些 score 放回 input space，读成 [decision boundary](/AiBook/zh/reference/concept-glossary-pinyin/j/#decision-boundary)。走到这里，就会自然留下一个问题。
 
-为什么不直接把 probability 当作线性公式来处理？为什么后面会跟着出现 log-odds 和 最大似然估计(maximum likelihood estimation, MLE) 这样的词？
+为什么不直接把 probability 当作线性公式来处理？为什么后面会跟着出现 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#log-odds) 和 [最大似然估计(maximum likelihood estimation, MLE)](/AiBook/zh/reference/concept-glossary-pinyin/z/#maximum-likelihood-estimation-mle) 这样的词？
 
 这一节就是用来回收这个问题的补充学习。中心是 `logistic regression 的 probability 解释` 和 `学习目标`。multinomial 扩展，以及 solver / regularization，会分到 P4-11.4 与 P4-11.5。
 
-## 本节范围
+## log-odds 与 MLE 先收束的问题
 
 这一节回答下面这些问题。
 
 - 为什么会出现 log-odds？
 - 为什么说 logistic regression 是用 MLE 学习的？
-- log loss 和 MLE 是怎样连起来的？
+- [log loss](/AiBook/zh/reference/concept-glossary-pinyin/l/#log-loss) 和 MLE 是怎样连起来的？
 
 这一节先把 log-odds 和 MLE 收束为连接 `probability 解释` 与 `学习目标` 的标准，并专注抓住为什么同一个 model 要用这样的数学语言重新读取。
 
 同时，后面还要继续扩展的问题也很清楚。multinomial 扩展会在 P4-11.4 继续，solver 与 regularization 会在 P4-11.5 继续。
 
-## 用补充学习：第一次如何读 log-odds 与 MLE留下的判断标准
+## log-odds 与 MLE 要留下的判断标准
 
 - 能在入门层面解释 probability、odds、log-odds 之间的关系。
 - 能说明 `z = 0`、`probability 0.5`、`odds 1` 指向的是同一个位置。
@@ -217,6 +217,11 @@ L(w, b) = \prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}
 | `true_binary` | 二元分类的真实标签 |
 | `proba_model_a`, `proba_model_b` | 对同一组正确答案给出不同确信程度的两个 probability 例子 |
 
+可以改动的值：
+
+- 把 `proba_model_a` 改得更靠近边界，例如 `0.51`、`0.49`，可以观察 accuracy 不变时 log loss 是否会变大。
+- 在 `proba_model_b` 里放入一个自信但错误的 probability，可以看到 log loss 会怎样强烈惩罚自信错误。
+
 ```python
 # 这个例子计算 log-odds、似然和 MLE 如何连接到逻辑回归训练。
 import numpy as np
@@ -252,6 +257,6 @@ log loss B        : 0.1446
 
 ## 出处与参考资料
 
-- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 确认日期: 2026-07-26. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26

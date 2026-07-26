@@ -2,7 +2,17 @@
 
 本页整理拼音首字母为 `B` 的中文概念词条。词条正文由单词源文件 include 生成。
 
+--8<-- "reference/concept-glossary-terms/best-split.zh.md"
+
+--8<-- "reference/concept-glossary-terms/partial-dependence-plot-pdp.zh.md"
+
+--8<-- "reference/concept-glossary-terms/impurity.zh.md"
+
 --8<-- "reference/concept-glossary-terms/backpropagation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/bellman-equation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/semi-supervised-learning.zh.md"
 
 --8<-- "reference/concept-glossary-terms/baseline.zh.md"
 
@@ -10,7 +20,23 @@
 
 --8<-- "reference/concept-glossary-terms/baseline-window.zh.md"
 
+--8<-- "reference/concept-glossary-terms/standardization.zh.md"
+
+--8<-- "reference/concept-glossary-terms/label-consistency.zh.md"
+
+--8<-- "reference/concept-glossary-terms/label-prediction.zh.md"
+
+--8<-- "reference/concept-glossary-terms/delayed-label-confirmation.zh.md"
+
 --8<-- "reference/concept-glossary-terms/version-control.zh.md"
+
+--8<-- "reference/concept-glossary-terms/variable.zh.md"
+
+--8<-- "reference/concept-glossary-terms/variable-transformation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/representation-learning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/representation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/comparison-plot.zh.md"
 
@@ -35,6 +61,10 @@
 --8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.zh.md"
 
 --8<-- "reference/concept-glossary-terms/branch.zh.md"
+
+--8<-- "reference/concept-glossary-terms/parallel-processing.zh.md"
+
+--8<-- "reference/concept-glossary-terms/bootstrap.zh.md"
 
 --8<-- "reference/concept-glossary-terms/broadcasting.zh.md"
 

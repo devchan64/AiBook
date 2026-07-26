@@ -1,13 +1,13 @@
 # Part 6. LLM 与生成式 AI
 
 > Section ID: `P6-index`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 Part 6 是把 Part 5 中看到的深度学习结构，移到生成式 AI 的使用场景中重新阅读的区间。这里的起点不是 token 或 Transformer 的细节实现，而是人实际收到的生成式 AI 产出物。首先要抓住生成式 AI 到底制造什么，为什么把 LLM(large language model) 作为代表路径，以及生成为什么不是一次性取出完成答案，而是反复处理候选分布与选择的流程。
 
 接着，我们会看文本怎样变成 token、token ID 和 embedding，从而成为可计算的输入。Transformer 与 GPT 系列结构会被读成基于这些输入制造下一个候选的流程。之后通过预训练(pretraining)、微调(fine-tuning)、指令微调(instruction tuning) 和对齐(alignment)，确认回答习惯是怎样形成的。
 
-中段以后，模型内部的说明会扩展到实际使用结构。prompt、RAG(retrieval-augmented generation)、向量数据库(vector database)、工具使用(tool use)、agent、MCP(Model Context Protocol)、harness 并不是彼此孤立的流行词，而是让生成结果更容易被检查的补强结构。最后通过 LLM 评价、自动评价与人工评价、服务运营约束、失败应对，以及一个小型生成式 AI 功能的执行记录，区分自然的回答和可检查的服务结果。发展史与 BERT 系列放在主线之后，作为背景地图和比较轴，用来避免过度放大 GPT 中心的说明。
+中段以后，模型内部的说明会扩展到实际使用结构。prompt、RAG(retrieval-augmented generation)、向量数据库(vector database)、工具使用(tool use)、AI agent、MCP(Model Context Protocol)、harness 并不是彼此孤立的流行词，而是让生成结果更容易被检查的补强结构。最后通过 LLM 评价、自动评价与人工评价、服务运营约束、失败应对，以及一个小型生成式 AI 功能的执行记录，区分自然的回答和可检查的服务结果。发展史与 BERT 系列放在主线之后，作为背景地图和比较轴，用来避免过度放大 GPT 中心的说明。
 
 ## 为理解生成式 AI 而设定的 Part 6 标准
 
@@ -15,13 +15,13 @@ Part 6 是把 Part 5 中看到的深度学习结构，移到生成式 AI 的使�
 - 为什么不是把生成式 AI 全部讲完，而是以 LLM 为中心案例来阅读？
 - 为什么 LLM 的生成要读成候选分布与选择的反复？
 - token、embedding、Transformer、GPT、next-token prediction 按什么顺序连接？
-- 只靠 prompt 能做的事，与需要 RAG、向量数据库、工具使用、agent 的事有什么不同？
+- 只靠 prompt 能做的事，与需要 RAG、向量数据库、工具使用、AI agent 的事有什么不同？
 - MCP 与 harness 为什么更接近连接形式、执行记录、可复现性问题，而不是模型能力本身？
 - 生成结果自然，与它能被评价、运营和失败处理，为什么不是同一件事？
 
 ## 本 Part 涵盖的范围
 
-这个 Part 不把 LLM 等同于整个生成式 AI。不过，为了说明文本生成、对话界面、RAG、工具使用、agent 等读者最常遇到的生成式 AI 流程，本 Part 会把 LLM 作为中心案例。
+这个 Part 不把 LLM 等同于整个生成式 AI。不过，为了说明文本生成、对话界面、RAG、工具使用、AI agent 等读者最常遇到的生成式 AI 流程，本 Part 会把 LLM 作为中心案例。
 
 同时，这个 Part 也不是直接训练大规模模型的实现书。它会看请求怎样变成输入单位，模型怎样制造候选，外部证据和工具什么时候变得必要，以及结果应该怎样评价和记录。实际项目的实现细节会在 Part 7 处理；Part 6 先准备理解那个项目所需的判断标准。
 
@@ -34,7 +34,7 @@ Part 6 是把 Part 5 中看到的深度学习结构，移到生成式 AI 的使�
 | Module 3. 制造下一个候选的 LLM 结构 | Transformer 与 GPT 系列应怎样读成制造下一个候选的结构？ | 长答案也是下一候选选择不断累积的结果 |
 | Module 4. 形成回答习惯的学习与调整 | 预训练、微调、指令微调、对齐分别改变什么？ | 学过很多东西，与按期望方式回答，是不同的事 |
 | Module 5. prompt 与证据补强 | prompt 不够时，需要从外部接上什么？ | 最新性、证据性、检索失败，不能只靠 prompt 句子解决 |
-| Module 6. 工具与 agent 执行结构 | 模型外部执行和多步骤任务怎样连接？ | 工具、agent、MCP、harness 暴露的是连接与观察的问题 |
+| Module 6. 工具与 AI agent 执行结构 | 模型外部执行和多步骤任务怎样连接？ | 工具、AI agent、MCP、harness 暴露的是连接与观察的问题 |
 | Module 7. 可检查的服务状态 | 好句子与可服务的回答有什么不同？ | 评价、成本、延迟、失败应对、执行记录都要一起留下 |
 | Module 8. 背景地图与比较 | 怎样不过度放大 GPT 中心主线？ | 发展史与 BERT 系列让我们分开看直接谱系和比较轴 |
 
@@ -48,7 +48,7 @@ Part 6 是把 Part 5 中看到的深度学习结构，移到生成式 AI 的使�
 -> 制造下一个候选的 LLM 结构
 -> 形成回答习惯的学习与调整
 -> prompt 与证据补强
--> 工具与 agent 执行结构
+-> 工具与 AI agent 执行结构
 -> 可检查的服务状态
 -> 背景地图与比较
 ```

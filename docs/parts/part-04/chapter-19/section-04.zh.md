@@ -1,24 +1,24 @@
 # P4-19.4 补充学习：强化学习后续分支地图
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _副标题: DQN、PPO、RLHF 分别从强化学习的哪些问题意识中分化出来？_
 
 读完 P4-19.1 到 P4-19.3 之后，继续学强化学习时，很快就会遇到更多名字。
 
-- DQN
-- PPO, TRPO, A2C, A3C
-- safe reinforcement learning
-- offline reinforcement learning
-- domain randomization
-- RLHF, preference optimization
+- [DQN](/AiBook/zh/reference/concept-glossary-pinyin/d/#dqn)
+- [PPO](/AiBook/zh/reference/concept-glossary-pinyin/p/#ppo), [TRPO](/AiBook/zh/reference/concept-glossary-pinyin/t/#trpo), [A2C](/AiBook/zh/reference/concept-glossary-pinyin/a/#a2c), [A3C](/AiBook/zh/reference/concept-glossary-pinyin/a/#a3c)
+- [safe reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/a/#safe-reinforcement-learning)
+- [offline reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/l/#offline-reinforcement-learning)
+- [domain randomization](/AiBook/zh/reference/concept-glossary-pinyin/y/#domain-randomization)
+- [RLHF](/AiBook/zh/reference/concept-glossary-pinyin/r/#rlhf), [preference optimization](/AiBook/zh/reference/concept-glossary-pinyin/p/#preference-optimization)
 
 这些名字来自不同时代、不同瓶颈，但很容易一起涌进来。这一节不去学每个实现，而是集中整理`为什么这些名字会分叉出来`
 
-这个补充学习 Section 不会再从头解释强化学习的基本定义。价值型强化学习的把手留在 P4-19.1，策略型强化学习的把手留在 P4-19.2，应用风险的把手留在 P4-19.3 与[概念词汇表](/AiBook/reference/concept-glossary/)。这里做的，只是把后面出现的名字按谱系收一下。
+这个补充学习 Section 不会再从头解释强化学习的基本定义。价值型强化学习的把手留在 P4-19.1 的 [价值型强化学习(value-based reinforcement learning)](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)，策略型强化学习的把手留在 P4-19.2 的 [策略型强化学习(policy-based reinforcement learning)](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)，应用风险的把手留在 P4-19.3 的 [reward design](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward-design) 与 [sim-to-real gap](/AiBook/zh/reference/concept-glossary-pinyin/s/#sim-to-real-gap)。这里做的，只是把后面出现的名字按谱系收一下。
 
-## 本补充学习的范围
+## 强化学习后续分支先区分的边界
 
 这一节回答下面这些问题。
 
@@ -30,7 +30,7 @@ _副标题: DQN、PPO、RLHF 分别从强化学习的哪些问题意识中分化
 
 RLHF 的详细训练流水线和对齐实践，会在 Part 5 再回来。
 
-## 用补充学习：把 DQN、PPO、RLHF 放回强化学习的大流程里来读恢复的概念连接
+## 后续分支地图要恢复的概念连接
 
 - 能把强化学习后续名字整理成四个分支：价值型扩展、策略型稳定化、现实约束强化、LLM 对齐连接。
 - 能说明 DQN 和 PPO 分别站在什么传统上。

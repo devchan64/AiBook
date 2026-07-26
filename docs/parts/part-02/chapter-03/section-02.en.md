@@ -1,7 +1,7 @@
 # P2-3.2 Vector Space and the Intuition of Position
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. Now we extend the vector a little beyond a simple list of values. In AI documents, a vector is often explained as if it were `a position inside some space`.
 
@@ -135,7 +135,7 @@ The important point is that comparison must happen inside the same space. A vect
 
 This also connects to the shape problem in code. The intuition of vector space ultimately gives the sense that `comparison happens inside the same rules and the same shape`.
 
-## The Minimum Mathematical Rules of Vector Space
+## Minimum Mathematical Rules of Vector Space
 
 To define vector space strictly, we would need to handle several axioms. We do not prove the full set here. Instead, there are two calculations a beginner should know first.
 

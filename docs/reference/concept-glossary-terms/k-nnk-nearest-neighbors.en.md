@@ -1,4 +1,6 @@
 <a id="k-nnk-nearest-neighbors"></a>
+<a id="glossary-k-nn"></a>
+<a id="glossary-k-nnk-nearest-neighbors"></a>
 
 ## k-NN, k-nearest neighbors
 
@@ -6,4 +8,4 @@
 - Why it matters: k-NN gives a direct case-based intuition for machine learning. It shows why distance, feature scale, and the chosen number of neighbors can strongly change model behavior.
 - Related concepts: `nearest neighbor`, `distance`, `scale`
 - Core Section: `P4-12.1`
-- Appears in: `P4-12.2`
+- Appears in: `P3-6.5`, `P4-12.2`, `P4-12.3`

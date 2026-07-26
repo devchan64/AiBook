@@ -1,15 +1,15 @@
 # P4-11.5 补充学习：第一次如何读 solver 与 regularization
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-一旦通过 library 使用 logistic regression，很快就会遇到 solver、penalty、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
+一旦通过 library 使用 logistic regression，很快就会遇到 [solver](/AiBook/zh/reference/concept-glossary-pinyin/s/#solver)、[penalty](/AiBook/zh/reference/concept-glossary-pinyin/c/#penalty)、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
 
 本节的中心问题如下。
 
 为什么即使模型名字都还是 logistic regression，也必须把 solver 和 regularization 设置一起记录、一起比较？
 
-## 本节范围
+## solver 与 regularization 先收束的问题
 
 这一节回答下面这些问题。
 
@@ -19,7 +19,7 @@
 
 这一节先把 solver 和 regularization 收束为 `即使模型名相同，也会改变结果解释的比较条件`，并专注读取计算过程和 regularization 的方向，而不是背 library option。
 
-## 用补充学习：第一次如何读 solver 与 regularization留下的判断标准
+## solver 与 regularization 要留下的判断标准
 
 - 能把 solver 说明成 `真正去找参数的计算过程`。
 - 能把 regularization 说明成 `防止模型把训练数据贴得过紧的装置`。
@@ -30,7 +30,7 @@
 
 logistic regression 通常不是直接写出一个 closed-form solution，而是通过反复计算去找到比较好的参数。所以当数据规模不同、输入是否稀疏、所用 penalty 不同时，设置选择就会变得重要。
 
-regularization 可以先读成 `防止模型把训练数据贴得过紧的装置`。即使都叫 logistic regression，如果数据很少、feature 很多，coefficient 就可能变得不稳定，或者过度依赖少数 feature。regularization 会帮助模型把这些 coefficient 拉得更保守。
+[regularization](/AiBook/zh/reference/concept-glossary-pinyin/z/#regularization) 可以先读成 `防止模型把训练数据贴得过紧的装置`。即使都叫 logistic regression，如果数据很少、feature 很多，coefficient 就可能变得不稳定，或者过度依赖少数 feature。regularization 会帮助模型把这些 coefficient 拉得更保守。
 
 ## 主要学习内容
 
@@ -48,7 +48,7 @@ regularization 可以先读成 `防止模型把训练数据贴得过紧的装置
 
 所以，solver 不是 `library 里无关紧要的小选项`，而是把 MLE 或 log loss 所定义的学习目标真正落到计算上的抓手。
 
-下面这张表，概括的是 `2026-07-09` 查看的 scikit-learn stable 文档里的实现说明。solver 的支持范围和默认值会随着版本变化，所以在真实项目里，还是要回头确认你正在使用的文档版本。
+下面这张表，概括的是 `2026-07-26` 查看的 scikit-learn stable 文档里的实现说明。solver 的支持范围和默认值会随着版本变化，所以在真实项目里，还是要回头确认你正在使用的文档版本。
 
 | solver | multinomial 支持 | penalty / regularization | 首先要读出的特点 |
 | --- | --- | --- | --- |
@@ -120,6 +120,11 @@ regularization 可以先读成 `防止模型把训练数据贴得过紧的装置
 
 下面这段代码是一个 toy example，重点不在真正训练，而在展示 `比较记录应该怎么写下来`。
 
+可以改动的值：
+
+- 把 `C` 改成 `0.1`、`1.0`、`10.0`，记录 regularization 强度方向怎样变化。
+- 把 `penalty` 改成 `l1` 时，也要同时确认 `solver` 是否是 `saga` 这类支持该组合的选项。
+
 ```python
 # 这个例子检查 solver 和 regularization 设置如何改变逻辑回归的训练条件。
 from sklearn.linear_model import LogisticRegression
@@ -168,5 +173,5 @@ sparse_candidate -> LogisticRegression(C=0.5, l1_ratio=0.5, max_iter=1000,
 
 ## 出处与参考资料
 
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
-- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26
+- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26

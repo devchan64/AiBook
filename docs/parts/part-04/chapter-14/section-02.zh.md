@@ -1,35 +1,35 @@
 # P4-14.2 树的过拟合
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-14.1 把决策树(decision tree)读成了 `通过拆分问题来做预测的模型`。 那一节的优点很明确。
+P4-14.1 把[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)读成了 `通过拆分问题来做预测的模型`。 那一节的优点很明确。
 
 - 作为问题流很容易阅读
 - 像条件语句一样容易解释
 - 在表格型数据(tabular data)上常常很直观
 
-但同样的性质也会直接变成风险。 如果模型能够一直继续加问题，树就可能几乎把训练数据记住。 这正是树的过拟合(overfitting)问题。
+但同样的性质也会直接变成风险。 如果模型能够一直继续加问题，树就可能几乎把训练数据记住。 这正是树的[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)问题。
 
 如果说 P4-14.1 讨论的是 `应该怎样阅读好的第一问题和下一问题`，那么这一节讨论的就是： `那条问题流从什么地方开始不再解释模式，而开始记忆例外？` 因此这里不仅要看“把树加深”什么时候有帮助，也要一起看它什么时候开始让结构变得不稳定。
 
-这一节不会再长篇重复决策树的基本定义。 `通过问题拆分来预测` 这个核心直觉，会通过 P4-14.1 和[概念词典](/AiBook/reference/concept-glossary/)重新连接； 而过拟合本身的一般抓手，则应该和 P4-5.1 一起再次想起。
+这一节不会再长篇重复决策树的基本定义。 `通过问题拆分来预测` 这个核心直觉，会通过 P4-14.1 和[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)词条重新连接； 而过拟合本身的一般抓手，则应该和[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)词条以及 P4-5.1 一起再次想起。
 
-## 本节范围
+## 树过拟合先收束的问题
 
 本节回答以下问题。
 
 - 为什么在决策树里，过拟合特别容易看出来？
 - 随着树变深，会发生什么？
-- `max_depth`、`min_samples_leaf`、`ccp_alpha` 各自起什么作用？
+- [最大深度(max_depth)](/AiBook/zh/reference/concept-glossary-pinyin/z/#max-depth)、[最小 leaf 样本数(min_samples_leaf)](/AiBook/zh/reference/concept-glossary-pinyin/z/#min-samples-leaf)、[ccp_alpha](/AiBook/zh/reference/concept-glossary-pinyin/c/#ccp-alpha) 各自起什么作用？
 - 为什么 train 表现和 test 表现可能朝不同方向变化？
 
 这些内容会在 P4-15、P4-16，以及 P4-9 的调参语境中再次连接。也就是说，这一节先抓住的是：树的问题流从哪里开始不再解释模式，而是在记忆例外。
 
-## 用树的过拟合留下的判断标准
+## 树过拟合要留下的判断标准
 
 - 你可以把树的过拟合解释成 `过于细碎的问题开始记忆训练数据` 这一现象。
-- 你可以说明深度(depth)、leaf 大小、pruning 是控制树复杂度的装置。
+- 你可以说明深度(depth)、leaf 大小、[剪枝(pruning)](/AiBook/zh/reference/concept-glossary-pinyin/j/#pruning) 是控制树复杂度的装置。
 - 你可以再次确认更高的 train 表现并不保证更高的 test 表现。
 - 你可以形成一个同时阅读树的优点与过拟合风险的标准。
 
@@ -412,7 +412,9 @@ scikit-learn 支持 `Minimal Cost-Complexity Pruning`。 API 把 `ccp_alpha` 解
 - 输入(input)：萼片和花瓣的长度、宽度
 - 标签(label)：三种品种
 - 要确认的概念：
-- 深度变大时，train 表现通常更容易上升 - test 表现到了某一点之后可能停住甚至下降 - 树的深度是最重要的复杂度手柄之一
+  - 深度变大时，train 表现通常更容易上升
+  - test 表现到了某一点之后可能停住甚至下降
+  - 树的深度是最重要的复杂度手柄之一
 
 最好先明确要比较什么。
 
@@ -423,6 +425,12 @@ scikit-learn 支持 `Minimal Cost-Complexity Pruning`。 API 把 `ccp_alpha` 解
 | train accuracy | 为了看训练数据上的拟合程度 |
 | test accuracy | 为了看新数据上的泛化程度 |
 | `train - test` gap | 为了看记忆与泛化究竟拉开了多大差距 |
+
+可以改动的值：
+
+- `max_depth`：按 1、2、3、5、`None` 比较，也可以在 3 和 5 之间加上 4。
+- `random_state`：观察数据切分和树选择变化时，gap 会摇动多少。
+- `test_size`：改变 test 比例，看看分数解释会变得多敏感。
 
 ```python
 # 这个例子改变 max_depth，把树深度和 train-test gap 作为过拟合信号来阅读。
@@ -509,7 +517,15 @@ max_depth=None
 - 要改的值：`min_samples_leaf`
 - 改动原因：想看在相同 depth 限制下，阻止小 leaf 是否真的会减少例外记忆
 - 要确认的概念：
-- `max_depth` 和 `min_samples_leaf` 在不同位置控制同一个复杂度问题 - 即使 depth 看起来接近，更大的 leaf 也会改变 train/test 的解释 - 诊断过拟合时，最好把 `depth + leaf 大小 + gap` 放在一起读
+  - `max_depth` 和 `min_samples_leaf` 在不同位置控制同一个复杂度问题
+  - 即使 depth 看起来接近，更大的 leaf 也会改变 train/test 的解释
+  - 诊断过拟合时，最好把 `depth + leaf 大小 + gap` 放在一起读
+
+可以改动的值：
+
+- `min_samples_leaf`：用 1、2、5、10 等值比较小 leaf 和较大 leaf。
+- `max_depth`：在 3 和 5 之间切换，观察 depth 限制和 leaf 限制怎样一起作用。
+- 输出项：记录 `get_depth()`、`get_n_leaves()`、`train-test gap` 中哪一个先变化。
 
 ```python
 # 这个例子在相同深度限制下再改变 min_samples_leaf，一起阅读 leaf 大小和 gap。
@@ -573,7 +589,15 @@ min_samples_leaf=5
 - 要改的值：`ccp_alpha`
 - 改动原因：depth 与 leaf 大小调节是在一开始阻止生长，而 pruning 是在树已经长出来之后再简化
 - 要确认的概念：
-- `ccp_alpha` 越大，小分支越容易被剪掉 - train 分数可能略降，但 test 侧可能更稳定 - pruning 更接近 `重新选择应该留下的大结构`，而不是 `把树弄坏`
+  - `ccp_alpha` 越大，小分支越容易被剪掉
+  - train 分数可能略降，但 test 侧可能更稳定
+  - pruning 更接近 `重新选择应该留下的大结构`，而不是 `把树弄坏`
+
+可以改动的值：
+
+- `ccp_alpha`：在 0.005 和 0.02 之间加上 0.01，观察变化从哪里开始变大。
+- `max_depth`：比较没有显式 depth 限制和有 depth 限制时，pruning 效果怎样变化。
+- `min_samples_leaf`：观察 pruning 和 leaf 大小限制一起使用时，哪些组合会变得过于简单。
 
 ```python
 # 这个例子改变 ccp_alpha，观察 pruning 如何改变深度、leaf 数量和 train/test gap。
@@ -667,6 +691,6 @@ ccp_alpha=0.02
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, 确认日期: 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, 确认日期: 2026-07-26. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

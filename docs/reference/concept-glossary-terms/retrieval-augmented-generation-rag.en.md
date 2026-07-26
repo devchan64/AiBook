@@ -1,7 +1,7 @@
 ## retrieval-augmented generation, RAG
 
-- Meaning: 질문과 관련된 외부 자료를 먼저 찾고, 그 결과를 모델 입력 맥락에 붙여 답변을 생성하는 구조입니다. 핵심은 `검색`과 `생성`이 분리된 두 단계라는 점이며, 모델이 원래 알고 있던 것과 방금 가져온 근거를 함께 쓰게 만듭니다. 쉽게 말해 `먼저 자료를 찾아 책상 위에 펼쳐 놓고, 그 자료를 보며 답안을 쓰게 하는 방식`이라고 볼 수 있습니다.
-- Why it matters: 모델이 내부 파라미터만으로 답하는 한계를 줄이고, 최신 자료나 조직 문서를 근거로 쓰게 만드는 대표 방식이기 때문입니다. 동시에 검색 품질, 청크 구성, 출처 추적이 나쁘면 생성 단계만 좋아도 전체 답변 품질이 흔들린다는 점을 보여 줍니다. 이 개념이 있어야 `검색을 붙였다`는 사실만으로 답이 자동으로 믿을 만해지는 것은 아니고, 어떤 자료를 어떻게 붙였는지까지 함께 봐야 한다는 점을 이해하게 됩니다. 예를 들어 사내 정책을 묻는 질문에 오래된 문서를 가져오면, 생성 문장이 아무리 매끄러워도 실제로는 잘못된 답을 그럴듯하게 포장할 수 있습니다.
+- Meaning: Retrieval-augmented generation, or RAG, is a structure that first retrieves external material related to a question, attaches that material to the model input context, and then generates an answer. The key point is that retrieval and generation are separate stages, letting the model use both what it learned in its parameters and the evidence just retrieved.
+- Why it matters: RAG is a representative way to reduce the limits of answering only from internal model parameters and to ground responses in current material or organization documents. It also shows that answer quality can fail if retrieval quality, chunk design, or source tracking is weak, even when the generation step sounds fluent.
 - Related concepts: `embedding`, `similarity search`, `tool`, `provenance`, `non-parametric memory`
 - Core Section: `P1-13.3`
-- Appears in: `P1-14.1`, `P1-14.2`, `P1-14.3`, `P6-9.3`, `P6-11.1`, `P6-11.2`, `P6-12.1`, `P7-5.1`, `P7-5.2`
+- Appears in: `P1-14.1`, `P1-14.2`, `P1-14.3`, `P6-4.2`, `P6-9.3`, `P6-11.1`, `P6-11.2`, `P6-12.1`, `P7-5.1`, `P7-5.2`

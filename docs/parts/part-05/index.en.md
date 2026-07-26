@@ -1,7 +1,7 @@
 # Part 5. Deep Learning
 
 Section ID: `P5-index`
-Version: `v2026.07.20`
+Version: `v2026.07.26`
 
 Part 5 is the Part that explains neural networks and deep learning in earnest. In Part 1, Part 2, and Part 4, topics such as perceptrons, representation learning, backpropagation, optimizers, convolutional neural networks (CNNs), recurrent neural networks (RNNs), Attention, and Transformers were previewed several times, but their role there was to sketch the terrain and restore the foundations. Part 5 no longer postpones those explanations. From here on, it must actually recover `why these structures are needed`, `how they are trained`, and `what differences cause model structures to branch`.
 
@@ -28,7 +28,7 @@ In other words, Part 5 is the first Part that actually explains the core deep le
 
 Part 5 must not be read as a `deep learning trailer`. Therefore, the default principle is that CNNs, RNNs, Attention, and Transformers each close `why this design appeared for this kind of data-structure problem` inside this Part first, while the bridge to Part 6 remains only as a short pointer to the next layer.
 
-If the baseline for a core term becomes blurry again while reading this Part, the default reference point is to review through the [Concept Glossary](../../reference/concept-glossary.md) by checking each entry's `Core Section` and `Appears In` list together.
+If the baseline for a core term becomes blurry again while reading this Part, the default reference point is to review through the [Concept Glossary](/AiBook/en/reference/concept-glossary/) by checking each entry's `Core Section` and `Appears In` list together.
 
 If this standard is reassembled into one line for the current Part 5 table of contents, it becomes the following.
 
@@ -54,7 +54,7 @@ If only the latter-half transition is fixed again in the shortest possible form,
 | Parallel blocks | Why bundle this reference computation into a repeatable block structure? |
 | Generation-candidate selection | How is the actual output chosen from the computed distribution? |
 
-## The Purpose Of This Part
+## Purpose of This Part
 
 This Part is the section for understanding deep learning again across three levels: `representation-learning structures`, `training procedures`, and `model-structure branching`.
 
@@ -105,7 +105,7 @@ This distinction can first be fixed in the following three lines.
 | Move from loss to gradients | Learning can actually continue only when a loss number becomes a correction signal for each parameter. |
 | Look at optimizers and regularization last | This lets you separate whether the performance difference came from structure or learning stabilization. |
 
-## What This Part Explains And Does Not Explain
+## What This Part Explains and Does Not Explain
 
 Part 5 is the Part that actually performs the main explanation of deep learning. Therefore, the following content is explained within the main text.
 
@@ -117,7 +117,7 @@ Part 5 is the Part that actually performs the main explanation of deep learning.
 
 Part 5 is responsible for connecting and explaining `why these structures and procedures are needed`. Therefore, this Part opening page first shows the main recovery axes of `structure`, `loss and gradients`, `learning stabilization`, `computational scaling`, `representation learning and structural branching`, and `generation and sampling`. Each chapter then closes the structural explanation and the learning-procedure explanation again at the Section level.
 
-## The Goals Of This Part
+## Goals of This Part
 
 After reading Part 5, the goal is to reach roughly the following level of understanding.
 
@@ -155,7 +155,7 @@ Part 5 must actually fill in the explanations that earlier Parts postponed. In p
 
 If this standard is missing, Part 5 weakens back into a `list of deep learning keywords`.
 
-## Reading Standards For Entry-Level Readers
+## Reading Standards for Entry-Level Readers
 
 This Part is the first section where explanations of computational structure become dense. Rather than trying to hold every formula and implementation detail at once, it is more stable to read it first by the following three questions.
 
@@ -232,6 +232,6 @@ Once this understanding forms, you can move beyond the superficial explanation t
 - Can you explain CNNs, RNNs, Attention, and Transformers all as answers to `what kind of data-structure problem produced them`?
 - Can you distinguish that what is passed to Part 6 is not `the part left unexplained in the current Part`, but `the next layer that is built on top of these structures`?
 
-## Sources And References
+## Sources and References
 
 This overview page is an internal overview that organizes the purpose and learning path of Part 5. It does not directly cite external sources.

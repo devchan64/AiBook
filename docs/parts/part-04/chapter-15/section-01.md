@@ -1,29 +1,29 @@
 # P4-15.1 랜덤포레스트(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-14에서는 결정트리(decision tree)가 왜 직관적이면서도 과적합(overfitting)에 쉽게 빠질 수 있는지 보았습니다. 특히 `max_depth`, `min_samples_leaf`, `ccp_alpha`를 바꾸어도 한 그루의 구조 흔들림이 완전히 사라지지 않을 수 있다는 점을 확인했습니다. 이제 다음 질문이 나옵니다.
+P4-14에서는 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)가 왜 직관적이면서도 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)에 쉽게 빠질 수 있는지 보았습니다. 특히 `max_depth`, `min_samples_leaf`, `ccp_alpha`를 바꾸어도 한 그루의 구조 흔들림이 완전히 사라지지 않을 수 있다는 점을 확인했습니다. 이제 다음 질문이 나옵니다.
 
 그렇다면 트리의 장점은 살리고, 한 그루의 과한 흔들림은 줄일 방법이 없을까?
 
-이 질문이 바로 랜덤포레스트(random forest)의 출발점입니다.
+이 질문이 바로 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)의 출발점입니다.
 
 랜덤포레스트는 서로 조금씩 다르게 학습된 여러 결정트리의 예측을 모아, 한 그루 트리보다 더 안정적인 판단을 만들려는 모델이다.
 
 즉, 랜덤포레스트는 `트리를 버리는 모델`이 아니라 `트리를 여러 개 모아 약점을 줄이는 모델`입니다.
 
-이 절은 `랜덤포레스트(random forest)`, `앙상블(ensemble)`, `bootstrap`, `feature 무작위 선택`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 여러 트리의 합의로 흔들림을 줄이는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest), [앙상블(ensemble)](../../../reference/concept-glossary-parts/08-ieung.md#ensemble), [부트스트랩(bootstrap)](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap), feature 무작위 선택의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 여러 트리의 합의로 흔들림을 줄이는 기본 감각은 이 절과 개념사전의 해당 항목을 기준으로 다시 연결합니다.
 
 ## 랜덤포레스트(random forest)에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
 - 랜덤포레스트는 왜 여러 트리를 쓰는가?
-- `bootstrap`, `max_features`, `averaging`은 어떤 역할을 하는가?
+- [부트스트랩(bootstrap)](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap), [max_features](../../../reference/concept-glossary-parts/05-mieum.md#max-features), `averaging`은 어떤 역할을 하는가?
 - 한 그루 트리보다 왜 더 안정적으로 보일 수 있는가?
 - 분류와 회귀에서 랜덤포레스트는 어떻게 동작하는가?
-- `n_estimators`, `max_features`, `bootstrap`, `oob_score`는 무엇을 뜻하는가?
+- [n_estimators](../../../reference/concept-glossary-parts/02-nieun.md#n-estimators), [max_features](../../../reference/concept-glossary-parts/05-mieum.md#max-features), [부트스트랩(bootstrap)](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap), [oob_score](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)는 무엇을 뜻하는가?
 
 이 절은 먼저 `여러 트리를 모아 왜 한 그루보다 더 안정적인 판단을 만들려 하는가`를 닫습니다. 특징 중요도는 P4-15.2에서, OOB(out-of-bag) 점수의 평가 해석은 P4-15.3에서, Extra Trees 비교는 P4-15.4 보충학습에서, 그래디언트 부스팅과의 대비는 P4-16.1, P4-16.2에서 이어집니다.
 
@@ -338,6 +338,12 @@ OOB는 각 트리가 보지 못한 샘플을 활용해, 별도 검증 감각을 
   - 같은 데이터에서도 test 성능과 안정성이 달라질 수 있다
   - `n_estimators`가 숲의 크기와 연결된다
 
+조작해 볼 값:
+
+- `n_estimators`: 10, 50, 100처럼 숲의 크기를 바꾸어 점수와 계산 시간을 함께 봅니다.
+- `random_state`: 단일 트리와 숲이 같은 시드 변화에 얼마나 다르게 흔들리는지 봅니다.
+- `max_features`: 기본값과 `None`을 비교해 트리 다양성이 줄 때 어떤 차이가 생기는지 봅니다.
+
 ```python
 # iris 분류에서 단일 결정트리와 랜덤포레스트의 점수와 구조를 나란히 비교하는 예제입니다.
 from sklearn.datasets import load_iris
@@ -417,6 +423,12 @@ random forest
 - 랜덤포레스트의 장점은 최고점보다 `흔들림 감소`에서 더 잘 보일 수 있다
 - 여러 시드 비교는 안정성을 읽는 가장 단순한 방법이다
 
+조작해 볼 값:
+
+- `range(10)`: 반복 시드 수를 5, 20처럼 바꾸어 평균이 얼마나 안정되는지 봅니다.
+- `n_estimators`: 10과 100을 비교해 트리 수가 흔들림에 어떤 영향을 주는지 봅니다.
+- `max_depth`: 단일 트리와 숲 안의 개별 트리 깊이를 제한했을 때 평균 점수가 어떻게 달라지는지 봅니다.
+
 ```python
 # 여러 random_state에서 단일 트리와 랜덤포레스트의 test 점수 흔들림을 비교하는 예제입니다.
 from sklearn.datasets import load_iris
@@ -475,6 +487,6 @@ forest avg              : 0.944
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001. 확인 날짜: 2026-07-19. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001. 확인 날짜: 2026-07-26. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }

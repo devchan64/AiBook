@@ -1,7 +1,7 @@
 # P1-8.1 지도학습(supervised learning): 입력(input)과 라벨(label)
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 7장에서는 탐색 공간(search space), 계산 한계(computational limit), 휴리스틱(heuristic)을 다뤘습니다. 이제 학습 유형으로 넘어갑니다. 첫 번째 기준점은 지도학습(supervised learning)입니다.
 

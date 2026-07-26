@@ -6,4 +6,4 @@
 - Why it matters: Testing separates performance on already-used information from performance on data treated as unseen. Mixing validation and test roles can make reported performance too optimistic.
 - Related concepts: `validation`, `data leakage`, `generalization`, `evaluation`
 - Core Section: `P2-12.3`
-- Appears in: `P2-15.2`
+- Appears in: `P2-15.2`, `P4-index`

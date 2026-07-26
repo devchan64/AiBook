@@ -1,13 +1,13 @@
 # P4-8.1 Model Selection
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P4-7, the discussion examined what inputs should remain and what representation those inputs should be changed into. Now it moves to the next question.
 
 What kind of model should those inputs be handed to?
 
-That question is exactly the starting point of model selection.
+That question is exactly the starting point of [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection).
 
 Model selection is often understood as `choosing the most famous algorithm`. In practice, it is closer to the opposite. Model selection is the work of narrowing candidates while looking together at the form of the problem, the nature of the data, interpretability, computational cost, and operational conditions.
 
@@ -15,19 +15,19 @@ In academic contexts as well, model selection is not a peripheral choice. In sta
 
 Model selection is the work of setting up a candidate family of models to test for solving a problem and then narrowing that family into a comparable form.
 
-This Section explains `model selection`, `model candidates`, and `the judgment that narrows candidates by problem form and constraints`. Later Sections continue the current context through this handle, and the criterion for deciding which model drawer should be opened first reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains `model selection`, `model candidates`, and `the judgment that narrows candidates by problem form and constraints`. Later Sections continue the current context through this handle, and the criterion for deciding which model drawer should be opened first reconnects through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 The quickest starting point is the following table.
 
 | Problem seen now | First question for the reader | Candidate family to bring to mind first |
 | --- | --- | --- |
-| classification | `Does it separate two or more classes?` | logistic regression, decision tree, k-NN |
-| regression | `Does it predict a continuous value?` | linear regression, tree regression |
-| clustering | `Does it find groups without labels?` | k-means, DBSCAN |
+| [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) | `Does it separate two or more classes?` | logistic regression, decision tree, k-NN |
+| [regression](/AiBook/en/reference/concept-glossary-alpha/r/#regression) | `Does it predict a continuous value?` | linear regression, tree regression |
+| [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) | `Does it find groups without labels?` | k-means, DBSCAN |
 
 The purpose of this table is not to guess the right answer. It is to help the reader know `which drawer should be opened first` after looking at the problem.
 
-## Scope Of This Section
+## Questions To Close Before Building A Candidate Family
 
 This Section answers the following questions.
 
@@ -36,14 +36,15 @@ This Section answers the following questions.
 - What model families can be brought to mind first depending on the problem type and data conditions?
 - What criteria besides performance enter model selection?
 
-This Section first closes `what model candidates should be built from the problem and constraints`. The basic role of cross-validation reconnects in P4-4.2 and P4-9.2, while information criteria, AutoML, and large-scale search systems continue in the supplementary learning of P4-9.3 from the perspective of `advanced model selection and automation`.
+This Section first closes `what model candidates should be built from the problem and constraints`.
+The basic role of [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) reconnects in P4-4.2 and P4-9.2, while information criteria, AutoML, and large-scale search systems continue in the supplementary learning of P4-9.3 from the perspective of `advanced model selection and automation`.
 
-## Goals Of This Section
+## Judgments To Keep From Model Selection
 
 - You can explain model selection as `the work of narrowing choices that fit the problem from a set of candidate models`.
 - You can say that problem type, data size, feature representation, interpretability, and speed requirements affect model selection.
 - You can use the thinking of setting up `a reasonable candidate set` rather than trying to find one correct model.
-- You can explain how this connects to the baseline model, hyperparameters, and algorithm introduction in the later Sections.
+- You can explain how this connects to the [baseline model](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model), [hyperparameters](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), and algorithm introduction in the later Sections.
 
 ## Learning Background
 
@@ -468,6 +469,11 @@ The purpose of this comparison example is not to find `a good candidate name`, b
 
 If the same candidate-family memo is reduced to an actual comparison procedure, it can look like this. The code below raises logistic regression, k-NN, decision tree, and random forest on the same classification data, then compares train score, CV score, and the fluctuation of CV score with 5-fold cross-validation.
 
+Values to change:
+
+- Change `class_sep=0.9` and `flip_y=0.06`; the data become easier to separate or more mixed, so the CV score and fluctuation can change by candidate.
+- Change `n_neighbors=7`, `max_depth=4`, and `n_estimators=80`; each candidate model's complexity and train/CV score gap will change.
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
@@ -529,8 +535,8 @@ After writing your own answer, compare it with the explanation below.
 
 | Scene | Example explanation |
 | --- | --- |
-| high-risk-patient classification | Because false negatives that miss actual high-risk patients should be reduced first, it is appropriate to note that recall and missed cases should be examined first. |
-| ad-recommendation classification | Because false positives that wrongly judge uninterested people as positive should be reduced first, it is appropriate to note that precision-side errors and overexposure cases should be examined first. |
+| high-risk-patient classification | Because [false negatives](/AiBook/en/reference/concept-glossary-alpha/f/#false-negative) that miss actual high-risk patients should be reduced first, it is appropriate to note that [recall](/AiBook/en/reference/concept-glossary-alpha/r/#recall) and missed cases should be examined first. |
+| ad-recommendation classification | Because [false positives](/AiBook/en/reference/concept-glossary-alpha/f/#false-positive) that wrongly judge uninterested people as positive should be reduced first, it is appropriate to note that [precision](/AiBook/en/reference/concept-glossary-alpha/p/#precision)-side errors and overexposure cases should be examined first. |
 
 This practice is meant to hold on to the point that `writing the candidate family is not the end`. Even with the same candidate family, the comparison memo changes depending on which failure should be reduced first.
 
@@ -549,5 +555,5 @@ This practice is meant to hold on to the point that `writing the candidate famil
 
 ## Sources And References
 
-- Jie Ding, Vahid Tarokh, Yuhong Yang, `Model Selection Techniques -- An Overview`, arXiv, 2018, accessed 2026-06-26. [https://arxiv.org/abs/1810.09583](https://arxiv.org/abs/1810.09583){: target="_blank" rel="noopener noreferrer" }
-- Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`, arXiv, 2018, accessed 2026-06-26. [https://arxiv.org/abs/1811.12808](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }
+- Jie Ding, Vahid Tarokh, Yuhong Yang, `Model Selection Techniques -- An Overview`, arXiv, 2018, accessed 2026-07-26. [https://arxiv.org/abs/1810.09583](https://arxiv.org/abs/1810.09583){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`, arXiv, 2018, accessed 2026-07-26. [https://arxiv.org/abs/1811.12808](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }

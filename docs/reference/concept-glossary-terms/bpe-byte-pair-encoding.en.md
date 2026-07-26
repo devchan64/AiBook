@@ -7,4 +7,4 @@
 - Why it matters: BPE shows why tokenization is not simple whitespace splitting. The learned vocabulary affects token counts, cost, and how rare or frequent words are divided, so the length a user sees and the length a model computes can differ.
 - Related concepts: `tokenization`, `WordPiece`, `SentencePiece`
 - Core Section: `P6-2.2`
-- Appears in: `P6-2.2`, `P7-4.1`
+- Appears in: `P6-2.2`, `P6-2.5`, `P7-4.1`

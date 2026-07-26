@@ -1,11 +1,11 @@
 # P3-9.6 라벨 일관성 점검
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _보조제목: 같은 사건도 사람이나 시기에 따라 다른 라벨이 붙을 때 무엇을 먼저 확인해야 하는가_
 
-라벨 후보 열이 생겼다고 해서 곧바로 안정된 학습 문제라고 말할 수는 없습니다. 현실 데이터에서는 같은 사건을 두 검토자가 다르게 적을 수 있고, 지난달에는 `주의`로 보던 상태를 이번 달에는 `정상`으로 기록할 수도 있기 때문입니다. 그래서 [목표 라벨 후보(target candidate)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-target-candidate)를 읽을 때는 `열이 있는가`뿐 아니라 `같은 사건과 비슷한 조건에서 같은 뜻의 판단이 반복되는가`도 함께 봐야 합니다.
+라벨 후보 열이 생겼다고 해서 곧바로 안정된 학습 문제라고 말할 수는 없습니다. 현실 데이터에서는 같은 사건을 두 검토자가 다르게 적을 수 있고, 지난달에는 "주의"로 보던 상태를 이번 달에는 "정상"으로 기록할 수도 있기 때문입니다. 그래서 [목표 라벨 후보(target candidate)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-target-candidate)를 읽을 때는 "열이 있는가"뿐 아니라 [라벨 일관성(label consistency)](../../../reference/concept-glossary-parts/04-rieul.md#glossary-label-consistency), 즉 "같은 사건과 비슷한 조건에서 같은 뜻의 판단이 반복되는가"도 함께 봐야 합니다.
 
 ## 라벨 일관성은 왜 함께 점검해야 하는가
 

@@ -1,7 +1,7 @@
 # P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes
 
 > Section ID: `P1-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 6.1 showed why some problems are difficult to handle with explicit rules alone. When information is incomplete, observations are unstable, and several outcomes remain possible, AI has to deal with uncertainty.
 
@@ -192,7 +192,7 @@ The reason is practical: `uncertainty` works well for missing information, incom
 
 The goal is not to force language mechanically, but to help readers avoid mixing several levels together.
 
-## The Same Example Again
+## Same Example Revisited
 
 Take the support sentence again:
 

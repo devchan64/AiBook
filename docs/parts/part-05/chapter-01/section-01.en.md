@@ -1,13 +1,13 @@
-# P5-1.1 Intuition For The Perceptron
+# P5-1.1 Intuition for the Perceptron
 
 > Section ID: `P5-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 4 read machine learning through the flow of problem definition, data splitting, generalization, evaluation, and model selection. Now, in Part 5, we first ask what the smallest neural-network computation unit looks like when it receives values and produces an output. That question leads into the perceptron. A perceptron is the simplest neural-network decision unit: it multiplies several inputs by different weights, adds them together, and then produces an output based on that result.
 
 If the term perceptron needs to be checked again briefly in later sections, return to the [perceptron](/AiBook/en/reference/concept-glossary-alpha/p/#perceptron) entry in the concept glossary as the baseline.
 
-## Questions Closed By The Perceptron
+## Questions Closed by the Perceptron
 
 This section organizes the following questions.
 
@@ -18,14 +18,14 @@ This section organizes the following questions.
 
 The geometric meaning of a linear combination and the intuition of a perceptron boundary continue directly in P5-1.2. The XOR problem and the need for multilayer neural networks return in P5-2.1 and P5-2.2. Comparisons among activation-function types are handled separately from P5-3.1 through P5-3.5. In other words, this section is the place to first hold onto the smallest computation grammar of the perceptron.
 
-## Standards For Input Scores And Decision Boundaries
+## Standards for Input Scores and Decision Boundaries
 
 - You can explain the perceptron as `a unit that gathers input values into a weighted sum and makes a decision`.
 - You can say that a weight is the value that gives each input a different level of importance.
 - You can understand why the perceptron looks like a bridge between linear models and neural networks.
 - You can follow the forward-pass calculation of a perceptron through a small numerical comparison.
 
-## Why Start With The Perceptron
+## Why Start with the Perceptron
 
 Deep learning is ultimately the story of neural networks with many layers. But if you start from a deep network, the calculation looks complicated immediately, and it also becomes unclear why such a structure is needed.
 
@@ -53,7 +53,7 @@ This perspective also connects to the earlier 1943 artificial-neuron model of Mc
 
 So the perceptron is not the fully finished model that explains every modern deep-learning structure, but it is a representative early example that shows the basic grammar of `receive inputs, create a weighted sum, and make a decision from that result`.
 
-## Seeing The Perceptron In One Scene
+## Seeing the Perceptron in One Scene
 
 The computation flow of the perceptron can be reduced very briefly.
 
@@ -63,7 +63,7 @@ The computation flow of the perceptron can be reduced very briefly.
 
 What matters in this diagram is the weight. The structure already contains the idea that not every input is treated the same way: some inputs matter more, and some matter less.
 
-## What Do Input, Weight, And Bias Mean
+## What Do Input, Weight, and Bias Mean
 
 There are three basic words that first appear when reading the perceptron.
 
@@ -87,7 +87,7 @@ These three inputs come in, and each input can receive a different weight.
 
 In other words, the perceptron does not just ask whether an input exists. It also represents `what should be treated as more important`.
 
-## Why Is The Weighted Sum Important
+## Why Is the Weighted Sum Important
 
 The key calculation of the perceptron is the weighted sum.
 
@@ -127,7 +127,7 @@ On the other hand, if the system should react very sensitively:
 
 The bias plays the role of moving that baseline.
 
-## What Does The Perceptron Output
+## What Does the Perceptron Output
 
 In early explanations of the perceptron, it is often described with binary output such as `react / do not react`, or `1 / 0`.
 
@@ -139,9 +139,9 @@ This point matters because once activation functions appear later, the output st
 
 So in 1.1, the perceptron is first fixed as `a unit that makes a score from a weighted sum and connects that score to a decision`.
 
-## Cases And Examples
+## Cases and Examples
 
-### Case 1. Approving A Line Restart
+### Case 1. Approving a Line Restart
 
 Imagine the scene of approving a line restart after a shutdown. An operator quickly looks across `Has pressure relief been completed?`, `Has the restart checklist been confirmed?`, and `Is a block alarm still active?` and then makes a decision. A person also looks at several conditions together, but in practice not every condition is given the same weight. The perceptron turns this scene into numbers and leaves behind which inputs raise the score and which inputs strongly pull it down.
 
@@ -181,7 +181,7 @@ The same scene becomes clearer when it is reread with the question `how much doe
 
 People often look at conditions all at once and decide pass or fail by feel. From the viewpoint of the perceptron, each input is examined separately by how much it raises or lowers the score. In particular, the block alarm has a weight of `-1.0`, so it pulls the final sum down sharply. Instead of looking only at the approval/rejection result, this makes it possible to track which input pushed the result across the boundary and reversed it.
 
-### Case 2. First-Pass Priority Judgment For Alarm Response
+### Case 2. First-Pass Priority Judgment for Alarm Response
 
 A first-pass priority judgment for alarm response can be read the same way. A person looks together at `Has the temperature drifted out again?`, `Is the pressure fluctuation large?`, and `Has an on-site call occurred?` and gives a rough danger score. The perceptron gives these signals different weights and gathers them into one score showing `how close the situation is overall to immediate action`. So a vague judgment like `this looks risky` becomes clearer in the form `which inputs contributed how much to the score`.
 
@@ -207,7 +207,7 @@ One step further, the perceptron can also be read not simply as `it adds things 
 
 In the line-restart approval case, a strong penalty input such as `block_alarm` can pull the final sum downward. In the first-pass alarm-priority case, inputs with larger contribution, such as pressure fluctuation and an on-site call, can actually push the judgment more than temperature alone. In both cases, the main result readers should hold onto is that the perceptron is not just `looking at many conditions`, but `leaving behind in numbers which input actually pushed or reversed the final judgment`.
 
-## Practice And Exercise
+## Practice and Exercise
 
 Even without looking at Python code, it is enough to see what the perceptron computes by changing the same inputs across three scenes. Look at the table below and first say why each scene leads to approval or rejection.
 
@@ -229,7 +229,7 @@ So the first feeling for reading the perceptron is enough if it is fixed like th
 
 `The output does not appear suddenly. It is the result of the sum created by inputs, weights, and bias.`
 
-## When To Read Through The Perceptron View First
+## When to Read Through the Perceptron View First
 
 When opening deep-learning structures for the first time, it is usually better not to jump directly into the names of deep networks, but first to hold onto `what is the smallest computation unit that gathers several inputs with different importance and turns them into one judgment?`
 
@@ -276,7 +276,7 @@ The core of this section is not to memorize the name perceptron, but to fix the 
 - When it becomes blurry how several input signals gather into one judgment, can you return to the weighted-sum calculation with weights and bias?
 - Do you know that the explanation of the perceptron closes only the linear decision unit here, and passes activation and multilayer structure to the next section and next chapter?
 
-## Sources And References
+## Sources and References
 
 - Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, date checked: 2026-07-19. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519){: target="_blank" rel="noopener noreferrer" }
 - Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, date checked: 2026-07-19. [https://doi.org/10.1007/BF02478259](https://doi.org/10.1007/BF02478259){: target="_blank" rel="noopener noreferrer" }

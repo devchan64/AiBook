@@ -1,7 +1,7 @@
 # P5-2.2 隐藏层（hidden layer）与表征
 
 > Section ID: `P5-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-2.1 里，我们已经看到：多层神经网络（multilayer neural network）会把感知机这类计算单元按多层堆起来，让输入不会直接走向最终判断，而是先经过中间步骤。现在可以把问题再推进一步。
 
@@ -9,7 +9,7 @@
 
 用来回答这个问题的视角，就是表征（representation）。隐藏层并不是把输入值原封不动复制一遍的地方，而是一个会在内部逐渐形成、更利于后续判断的中间表征层。
 
-如果后面章节里需要再次快速复习表征这个概念，更适合回到[英文概念词汇表里的 representation 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation)作为基线。
+如果后面章节里需要再次快速复习表征这个概念，更适合回到概念词汇表里的[表征（representation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation)、[表征学习（representation learning）](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation-learning)和[分布式表征（distributed representation）](/AiBook/zh/reference/concept-glossary-pinyin/d/#distributed-representation)条目作为基线。
 
 ## 隐藏层怎样改变表征的问题
 

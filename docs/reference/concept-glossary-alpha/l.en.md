@@ -2,9 +2,15 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
+--8<-- "reference/concept-glossary-terms/leaf.en.md"
+
 --8<-- "reference/concept-glossary-terms/label.en.md"
 
+--8<-- "reference/concept-glossary-terms/label-consistency.en.md"
+
 --8<-- "reference/concept-glossary-terms/labeling.en.md"
+
+--8<-- "reference/concept-glossary-terms/label-prediction.en.md"
 
 --8<-- "reference/concept-glossary-terms/language-model.en.md"
 
@@ -18,6 +24,10 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/learning-rate.en.md"
 
+--8<-- "reference/concept-glossary-terms/lightgbm.en.md"
+
+--8<-- "reference/concept-glossary-terms/learning-based-approach.en.md"
+
 --8<-- "reference/concept-glossary-terms/least-privilege.en.md"
 
 --8<-- "reference/concept-glossary-terms/legend.en.md"
@@ -28,7 +38,11 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/line-plot.en.md"
 
+--8<-- "reference/concept-glossary-terms/likelihood-ratio-trick.en.md"
+
 --8<-- "reference/concept-glossary-terms/linear-regression.en.md"
+
+--8<-- "reference/concept-glossary-terms/linear-combination.en.md"
 
 --8<-- "reference/concept-glossary-terms/linear-structure.en.md"
 
@@ -41,6 +55,12 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/local-environment.en.md"
 
 --8<-- "reference/concept-glossary-terms/log.en.md"
+
+--8<-- "reference/concept-glossary-terms/log-loss.en.md"
+
+--8<-- "reference/concept-glossary-terms/log-probability.en.md"
+
+--8<-- "reference/concept-glossary-terms/log-odds.en.md"
 
 --8<-- "reference/concept-glossary-terms/logistic-regression.en.md"
 

@@ -1,7 +1,7 @@
 # P1-16.1 개인 학습(personal learning)과 문서화(documentation)
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-15에서는 AI가 사회적 위험, 저작권, 보안과 연결되는 지점을 봤습니다. P1-16에서는 적용 사례로 넘어갑니다. 첫 사례는 AI 재학습 문서화 프로젝트입니다.
 

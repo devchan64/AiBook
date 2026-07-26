@@ -1,5 +1,5 @@
 <a id="input-unit"></a>
-<a id="glossary-batch-normalization"></a>
+<a id="glossary-input-unit"></a>
 
 ### 입력 단위(input unit)
 
@@ -7,6 +7,4 @@
 - 왜 중요한가: 같은 원천 표라도 입력 단위를 어떻게 잡느냐에 따라 요약값, 비교표, 기준선, 오류 사례가 전부 달라져 뒤의 해석까지 함께 흔들리기 때문입니다. 이 개념이 있어야 `데이터가 있다`와 `질문에 맞는 한 건의 입력이 정해졌다`를 같은 말로 보지 않게 되고, 전체 문제와 특정 채널 문제, 하루 단위 변화와 세션 단위 변화를 더 정확히 가르게 됩니다. 또한 입력 단위를 이해해야 Part 7의 분석 시작이 모델 선택보다 먼저 `무엇을 한 건으로 볼 것인가`를 고정하는 작업이라는 점도 더 선명하게 읽게 됩니다.
 - 함께 볼 개념: `샘플(sample)`, `행(row)`, `요약표(summary table)`, `비교표(comparison table)`, `문제 정의(task definition)`
 - 중심 Section: `P7-1.1`
-- 등장 Section: `P7-index`, `P7-1.3`, `P7-summary`
-
-<a id="glossary-batch-normalization"></a>
+- 등장 Section: `P3-5.4`, `P7-index`, `P7-1.3`, `P7-summary`

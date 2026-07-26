@@ -1,7 +1,7 @@
 ## supervised learning
 
-- Meaning: 입력 예시와 사람이 붙인 정답 라벨을 함께 사용해, 입력과 출력의 관계를 학습하는 방식입니다. 즉 모델이 `무엇을 정답으로 볼 것인가`를 사람이 미리 정해 둔 상태에서, 그 대응 관계를 데이터로부터 익히는 문제 설정이라고 볼 수 있습니다. 다시 말해 지도학습은 데이터만 있는 것이 아니라 정답 기준까지 함께 준비된 학습 방식입니다.
-- Why it matters: `예시`, `특징`, `라벨`, `학습`, `일반화`를 가장 기본적인 구조로 묶어 보여 주는 대표 입문 형태이기 때문입니다. 이 개념이 있어야 모델 학습을 `입력을 보고 정답을 맞히는 규칙을 찾는 일`로 가장 먼저 붙잡게 되고, 이후 분류·회귀·평가 지표 같은 여러 주제를 하나의 공통 틀로 읽을 수 있습니다. 예를 들어 메일 분류에서는 본문만 모아 두는 것으로는 부족하고, `스팸/정상` 같은 라벨이 함께 있어야 모델이 무엇을 맞혀야 하는지 배울 수 있습니다. 결국 지도학습을 이해해야 모델 성능을 읽을 때도 구조만이 아니라 라벨 정의와 라벨 품질을 함께 점검하게 됩니다.
+- Meaning: Supervised learning is a learning setup that uses input examples together with human-provided answer labels to learn a relationship from inputs to outputs. The target of prediction is defined before training.
+- Why it matters: It gives beginners the basic frame that connects examples, features, labels, learning, and generalization. Understanding supervised learning also makes the contrast with clustering clear: supervised learning predicts known targets, while clustering explores structure without answer labels.
 - Related concepts: `label`, `training`, `generalization`
 - Core Section: `P4-2.1`
-- Appears in: `P1-3.2`, `P1-8.1`, `P4-8.1`, `P4-10.1`, `P4-11.1`, `P4-12.1`, `P4-13.1`, `P4-14.1`, `P4-15.1`, `P4-16.1`
+- Appears in: `P1-3.2`, `P4-index`, `P1-8.1`, `P4-8.1`, `P4-10.1`, `P4-11.1`, `P4-12.1`, `P4-13.1`, `P4-14.1`, `P4-15.1`, `P4-16.1`, `P4-17.1`, `P4-2.1`, `P4-2.2`, `P4-2.3`

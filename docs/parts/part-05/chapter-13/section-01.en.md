@@ -1,7 +1,7 @@
-# P5-13.1 The Intuition Of Attention
+# P5-13.1 The Intuition of Attention
 
 > Section ID: `P5-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-12.2, we saw that because of long-term dependency, sequential models can have difficulty maintaining information from far back strongly enough. The next question appears here.
 
@@ -13,7 +13,7 @@ Attention is a method that places greater weight on the positions or tokens that
 
 When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](/AiBook/en/reference/concept-glossary-alpha/a/#attention).
 
-## The Question Of How Attention Revisits Needed Positions
+## The Question of How Attention Revisits Needed Positions
 
 - What problem is attention trying to solve?
 - What does it mean to `look more strongly at the needed position`?
@@ -24,7 +24,7 @@ The core point that this section needs to close first is that `instead of only s
 
 The connection to self-attention and the Transformer is continued in the next section and the next chapter. An introductory explanation of query, key, value, and multi-head attention is revisited in supplementary reading P5-13.3.
 
-## Standards For Reference Weights And Context Choice
+## Standards for Reference Weights and Context Choice
 
 - You can explain attention as `a method that refers more directly to important positions`.
 - You can talk about the connection between the long-term dependency problem and attention.
@@ -68,7 +68,7 @@ The restart was delayed. The reason was pressure instability.
 
 If the model is now trying to answer `What was the reason?`, it does not look at every word with equal weight. Instead, it will put more weight on positions such as `pressure`, `instability`, and `reason`. That is, in attention, `looking more strongly` means that `positions more directly connected to the current question are reflected more strongly in the computation`.
 
-## Why Is It Intuitive When Seen As A Direct-Reference Example
+## Why Is It Intuitive When Seen as a Direct-Reference Example
 
 Historically, attention gained major force in the context of sequence-to-sequence translation, but from the reader's point of view it is more direct to read it as a work-instruction transformation scene that asks `which part of the input should be looked at again when forming the current phrase`.
 
@@ -81,7 +81,7 @@ That is, when forming one output word or phrase, it scans the full input each ti
 
 `Attention is a device that makes the model find the input position that matches the work-instruction phrase being written now, and refer to it more heavily.`
 
-## How Does Attention Answer The Long-Term Dependency Problem
+## How Does Attention Answer the Long-Term Dependency Problem
 
 The long-term dependency problem was that old information could weaken or disappear before reaching the current point. Attention answers this problem in the following way.
 
@@ -121,7 +121,7 @@ The first points to hold from this comparison diagram are the following.
 - so the core of attention is not `deciding one important sentence in advance`, but choosing again the reference position according to the current question
 - this intuition is needed in order to move more naturally into the next section on self-attention, where `the position revisited can differ for each token`
 
-## Where Does It Go Wrong If We Mistake Attention For `Summarization`
+## Where Does It Go Wrong If We Mistake Attention for `Summarization`
 
 When first encountering attention, it is easy to feel that it is just `a summarization device that leaves only the important parts`. But it is better to distinguish it a little more precisely here.
 
@@ -135,7 +135,7 @@ If we reduce this difference to one sentence, it becomes the following.
 
 `Attention is less a device that summarizes context into something short, and more a device that makes the important positions for the current computation be read more strongly.`
 
-## Why Did It Look Like Such A Big Turning Point
+## Why Did It Look Like Such a Big Turning Point
 
 Attention was not merely an auxiliary technique that raised performance a little. It had the effect of changing the viewpoint of sequence modeling itself.
 
@@ -149,7 +149,7 @@ After attention:
 
 This change later continued into self-attention and the Transformer, producing a major transition away from the RNN-centered flow. This is the point the reader should hold in the present section. The question itself changed from `shall we carry the information for a long time?` to `shall we look again at the position we need now?`
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. Operating-Procedure Transformation Document
 
@@ -166,7 +166,7 @@ If we place the three cases together, it becomes clearer why attention should be
 | it feels as if the important sentence is fixed from the beginning | even in the same document, the position receiving the highest weight changes according to `what is being asked` |
 | it is easy to understand attention as a simple summarization device | the core is not reducing the length, but redistributing reference weight according to the current task |
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm the intuition of attention as assigning larger weights to important positions among multiple candidates and forming a weighted average. This time, instead of placing three numbers directly inside the code, we keep operating-manual candidate lines in a separate CSV file and reread the same candidate group by question.
 
@@ -322,7 +322,7 @@ Even when reading the output numbers, we need to separate `the same candidate se
 | `What is the coolant-flow criterion?` | coolant lines gather in the top 3 | with the same CSV, it can look as if larger-valued lines were simply chosen by chance this time | when the question changes, the reference weights are redistributed, so the context on the flow-criterion side is formed more strongly |
 | `What are the restart approval conditions?` | restart lines gather in the top 3 | it can look as if pressure and flow lines are enough for restart | the restart question partly refers to pressure and flow cues, but refers more strongly to final approval and blocking-condition lines |
 
-## If We Reread This Example As A Question-Candidate Comparison
+## If We Reread This Example as a Question-Candidate Comparison
 
 The numbers above do not calculate the whole real word-embedding space, but the intuition is clear.
 
@@ -345,7 +345,7 @@ Attention gained major influence in sequence-to-sequence translation research, a
 - When the explanation of preserving state for a long time is not enough to explain why performance becomes blocked, can you recall the direct-reference viewpoint of attention first?
 - When reading the next section on self-attention, are you ready first to ask `where inside the same sequence does the current token need to look again`?
 
-## Sources And References
+## Sources and References
 
 - Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, checked on 2026-07-19. [https://arxiv.org/abs/1409.0473](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

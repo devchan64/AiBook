@@ -1,7 +1,7 @@
 # P1-17.3 Distinguishing Prediction from a Working Hypothesis
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-17.2 discussed how to read news, columns, and reports. The final section of Part 1 asks how personal ideas can be preserved safely inside a learning document.
 

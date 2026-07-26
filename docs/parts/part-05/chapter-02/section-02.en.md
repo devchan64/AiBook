@@ -1,7 +1,7 @@
-# P5-2.2 Hidden Layers And Representation
+# P5-2.2 Hidden Layers and Representation
 
 > Section ID: `P5-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-2.1, we saw that a multilayer neural network stacks several computation units like perceptrons across multiple layers, so that the input does not go directly to the final judgment but passes through intermediate stages. Now let us make the question a little more concrete.
 
@@ -9,9 +9,9 @@ What exactly is being created in that intermediate stage?
 
 The viewpoint that answers this question is representation. A hidden layer is not the place that simply copies the input values as they are. It is a layer that internally creates intermediate representations that are more favorable for later judgment.
 
-When the idea of representation needs to be reviewed briefly again in later chapters, return to the [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation) entry in the concept glossary as the baseline.
+When the idea of representation needs to be reviewed briefly again in later chapters, return to the [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation), [representation learning](/AiBook/en/reference/concept-glossary-alpha/r/#representation-learning), and [distributed representation](/AiBook/en/reference/concept-glossary-alpha/d/#distributed-representation) entries in the concept glossary as the baseline.
 
-## The Question Of How Hidden Layers Change Representations
+## The Question of How Hidden Layers Change Representations
 
 This section organizes the following questions.
 
@@ -23,14 +23,14 @@ This section organizes the following questions.
 
 The larger flow called representation learning is expanded again in P5-10.1 and P5-10.2. Filters and spatial representations in CNNs return in P5-11.1 and P5-11.2, and attention-based representations reconnect in P5-13.1, P5-13.2, and the Transformer main sections from P5-14.1 through P5-14.5. In other words, this section focuses on first holding onto the hidden layer as `an internal representation layer that rewrites the input`.
 
-## Standards For Internal Representations And Intermediate Features
+## Standards for Internal Representations and Intermediate Features
 
 - You can explain the hidden layer as `a representation-transformation layer between input and output`.
 - You can understand representation as something like `an internal coordinate system that rewrites the original input`.
 - You can say that deeper layers can create more complex and abstract representations.
 - You can understand that forcing simple human names onto each hidden node too quickly can create misunderstanding.
 
-## Why Is The Hidden Layer Important
+## Why Is the Hidden Layer Important
 
 In the traditional machine learning of Part 4, people often selected features directly.
 
@@ -70,7 +70,7 @@ After passing through the hidden layer, the model may no longer keep these in ex
 
 Of course, actual nodes are not literally given these names. But for reader intuition, it is enough to understand that `the original input is rewritten into a more useful internal coordinate system`.
 
-## Why Is The Phrase Internal Coordinate System Useful
+## Why Is the Phrase Internal Coordinate System Useful
 
 If representation is compared to an internal coordinate system, the role of the hidden layer becomes clearer.
 
@@ -87,7 +87,7 @@ If that is reduced very simply, it becomes the following.
 
 The key point of this diagram is not that `the data itself changes`, but that `the model's internal way of viewing the same data changes`. Examples that looked mixed together in the original coordinate system can be rewritten into a coordinate system where they are easier to separate after passing through the hidden layer. That is why the phrase `internal coordinate system` is useful.
 
-## What Changes As The Layers Become Deeper
+## What Changes as the Layers Become Deeper
 
 One explanation that appears often in deep learning is that `earlier layers catch simpler features, while later layers catch more abstract features`.
 
@@ -108,7 +108,7 @@ For images, for example, it is often explained like this.
 
 Text and tabular data can also be read with the same intuition. Of course, what any particular layer captures depends on the model structure and the data. What matters is that `as the data passes through the layers, an internal representation that is increasingly favorable for the problem can be formed`.
 
-## Why Is It Risky To Interpret The Hidden Layer Too Easily
+## Why Is It Risky to Interpret the Hidden Layer Too Easily
 
 Readers can easily want to give each hidden-layer node a name right away, such as `this is stability`, `this is risk level`, or `this is warning-light status`. But such interpretation has to be handled carefully.
 
@@ -138,7 +138,7 @@ For example, instead of one node representing the entire property of an input:
 
 Because of this structure, neural networks gain expressive power, but it also becomes difficult for a person to conclude that `this one cell is exactly this one thing`.
 
-## Where Does The Responsibility For Feature Design Move
+## Where Does the Responsibility for Feature Design Move
 
 Traditional machine learning models also had feature combinations. But in many cases, people controlled more directly:
 
@@ -150,9 +150,9 @@ By contrast, in a multilayer neural network the model itself takes over more of 
 
 This difference does not simply mean that the tool changed. It means that some of the responsibility moves from a mode where people adjust boundaries or scores on top of features they chose directly, to a mode where the model creates internal axes inside the hidden layer that are favorable for the judgment. So the key thing to hold in this section is not `which is better, the traditional model or the multilayer neural network`, but the fact that an intermediate representation emerges before the final judgment and makes the problem easier to separate.
 
-## Cases And Examples
+## Cases and Examples
 
-### Case 1. Judging Warning States On An Equipment Panel
+### Case 1. Judging Warning States on an Equipment Panel
 
 Imagine a scene where an equipment camera reads a frame containing a control panel and warning light together, and distinguishes states such as `normal monitoring`, `warning check`, or `review immediate stop`. At first, people also do not look at the raw pixels directly. Instead, they first use intermediate criteria in their head such as `is the needle close to the red zone?`, `is the warning light on?`, or `is the valve-handle direction different from usual?` This kind of operational video judgment is also a good scene for showing why the hidden layer is needed.
 
@@ -202,7 +202,7 @@ If the two cases are compressed again at once, the first flow for reading the hi
 
 This diagram is not trying to explain separately again the visual clues of case 1 and the tabular signals of case 2. It is here to gather once more the common flow shown by both cases: `original input -> rewrite into internal axes -> the final judgment becomes easier to read`.
 
-## Practice And Exercise
+## Practice and Exercise
 
 The goal of this exercise is to compare how even equipment-panel scenes that look somewhat similar are rewritten into different internal representations after passing through the hidden layer, and how that difference connects to the final score and the next judgment.
 
@@ -345,7 +345,7 @@ After running the code once, it is better to continue changing the values direct
 | Raise `valve_offset` in `needle_dominant_frame` from `0.1` to `0.6` | Does a pressure-axis-centered scene turn into a scene where several axes overlap? | At what point does a frame that was strong on only one input axis move into a combined representation? |
 | Change the bias in the final `score` calculation from `-0.2` to `0.0` | How many more frames become intervention-needed even with the same hidden pattern? | Even when the internal representation stays the same, how does the operational interpretation change if the final judgment rule changes? |
 
-## Why Does The Phrase Representation Learning Appear
+## Why Does the Phrase Representation Learning Appear
 
 In Yoshua Bengio's work and in the 2015 paper by LeCun, Bengio, and Hinton, deep learning is explained not as merely a large neural network, but as a structure that learns representations across several levels.
 
@@ -355,7 +355,7 @@ It can be summarized as follows.
 
 So to understand deep learning, it is more important to look not at depth itself, but at `what kinds of representation transformation the depth makes possible`.
 
-## When To Close The Representation Explanation Here And Pass To The Next Chapter
+## When to Close the Representation Explanation Here and Pass to the Next Chapter
 
 The responsibility of this section, which explains hidden layers and representation, is to close `why the intermediate calculation should be read not as simple arithmetic, but as a representation transformation`. After that, the flow should move to `what nonlinearity makes that representation possible`.
 
@@ -377,7 +377,7 @@ The responsibility of this section, which explains hidden layers and representat
 - When you find yourself describing the hidden layer only as an intermediate calculation box, can you first recall the view that it is a layer that rewrites representation?
 - Do you understand the flow that after explaining representation learning, activation functions and nonlinearity must come next?
 
-## Sources And References
+## Sources and References
 
 - Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, date checked: 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

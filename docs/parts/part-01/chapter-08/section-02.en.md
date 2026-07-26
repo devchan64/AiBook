@@ -1,7 +1,7 @@
 # P1-8.2 Unsupervised Learning: Structure and Representation
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 8.1 explained a `label` as a distinguishing marker attached to data. Supervised learning tries to match the relationship between inputs and outputs using examples where inputs and labels are given together.
 
@@ -205,7 +205,7 @@ Useful questions include:
 > is the result interpretable in business terms?  
 > is the human name attached to it an over-interpretation?
 
-## The Boundary from Other Learning Types
+## Boundary from Other Learning Types
 
 Chapter 8 separates three basic learning types. Summarized again:
 

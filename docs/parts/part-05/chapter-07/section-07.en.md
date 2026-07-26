@@ -1,7 +1,7 @@
 # P5-7.7 Supplementary Reading: Optimizer State and Per-Parameter Updates
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P5-7.3, when we looked at adaptive updates, the expressions `recent gradient flow` and `coordinate-wise adjustment` kept appearing. The natural question left from there is this. Where is that kind of information left, and why can the next update differ even when the same gradient comes in?
 
@@ -10,7 +10,7 @@ This distinction keeps being reused later too when we look at checkpoint saving,
 
 The reason this section feels compressed to beginners is that all four words look like similar numbers. Even in actual code, these values appear together in similar lines, so at first they easily feel like the same thing being called by different names.
 
-## The Question Of How Optimizer State Changes Updates
+## The Question of How Optimizer State Changes Updates
 
 - What are parameter, gradient, update, and optimizer state respectively?
 - Why is optimizer state different from model parameters?
@@ -19,14 +19,14 @@ The reason this section feels compressed to beginners is that all four words loo
 
 This section focuses not on library implementation details, but on explaining `what the optimizer is keeping separately in memory`.
 
-## Standards For Parameter-Wise State And Application Units
+## Standards for Parameter-Wise State and Application Units
 
 - You can distinguish parameter, gradient, update, and optimizer state.
 - You can explain that optimizer state can be maintained separately by coordinate.
 - You can say that even with the same gradient, the next update can differ when the state differs.
 - You can explain that the `adaptive` in an adaptive optimizer is connected to the accumulation of internal state.
 
-## We First Have To Separate Four Things
+## We First Have to Separate Four Things
 
 | Item | What it is | When it changes |
 | --- | --- | --- |
@@ -63,7 +63,7 @@ If we compress it into a diagram, then even inside the same learning loop the fo
 
 The especially important interval for the current section in this diagram is `gradient computation -> optimizer -> parameter application`. It is enough to read optimizer state here as the internal memory that helps answer `into what movement amount should we turn this signal now?`
 
-## Why Does Optimizer State Have To Be Separate
+## Why Does Optimizer State Have to Be Separate
 
 For a basic direct update, the current gradient and the learning rate can be enough to make an update. But if we want to reflect recent flow or coordinate-wise magnitude as in momentum, RMSProp, or Adam, then information from previous steps has to be left somewhere. That role is played by the optimizer state.
 
@@ -111,7 +111,7 @@ If we read this sentence more practically, parameter-wise update is close to say
 
 If this still feels unfamiliar, we can think of the difference between `giving the same homework to the whole class` and `giving different supplementary work according to what each student is lacking`. Parameter-wise update is closer to the latter. It does not treat every coordinate as if it were in the same situation. It reads a different context for each coordinate.
 
-## Separating Time-Axis State And Coordinate-Axis State
+## Separating Time-Axis State and Coordinate-Axis State
 
 | Category | What it means | Example |
 | --- | --- | --- |
@@ -120,7 +120,7 @@ If this still feels unfamiliar, we can think of the difference between `giving t
 
 Actual adaptive optimizers can have both axes together. So the phrase `there is state` does not merely mean more storage is needed. It also means that the update rule has started reading time and coordinates together.
 
-## Why Can The Next Update Differ Even With The Same Gradient
+## Why Can the Next Update Differ Even With the Same Gradient
 
 Even when the same gradient comes in again, the update can differ depending on what state was accumulated in previous steps. For example, one coordinate may have a state already formed by repeated large gradients so that it moves more cautiously, while another coordinate may have hardly moved and therefore can still react more strongly.
 
@@ -134,7 +134,7 @@ Once this sentence is held, the following distinction becomes clearer.
 
 If we understand this structure, then the question `why does Adam move differently even with the same gradient` becomes much easier. The answer is not hidden in a mysterious algorithm name, but in the fact that accumulated context is already attached in front of the current gradient. In other words, an adaptive optimizer does not only react immediately to the current signal. It also reads together the movement history and coordinate-wise response record up to now.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Why Does The Update Look Different Even Though The Gradient Is The Same
 
@@ -169,7 +169,7 @@ If we look at this difference through a graph again, it becomes more direct.
 
 The left panel shows the scene where both coordinates receive the same current gradient `-1.0`. The right panel shows that even then, the updates can split into `0.04` and `0.12`. What changed here is not the current gradient, but the state that had already been attached before it. This graph lets us visually confirm once more that `even with the same input, if the context differs, the output can differ`.
 
-## Practice And Example
+## Practice and Example
 
 Read the following sentences and write down what distinction is missing.
 
@@ -190,7 +190,7 @@ The purpose of this exercise is not to memorize implementation APIs, but to dist
 - Can you explain that even with the same gradient, the next update can differ when the state differs?
 - Can you connect the `adaptive` in an adaptive optimizer to time-axis accumulation and coordinate-axis adjustment of state?
 
-## Sources And References
+## Sources and References
 
 - PyTorch, `torch.optim`, PyTorch documentation. Referenced to confirm that optimizer objects carry parameters, per-parameter options, and optimizer state, and perform updates through `step()`. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
 - PyTorch, `torch.optim.Adam`, PyTorch API Reference. Referenced to confirm that Adam maintains first-moment and second-moment state and computes parameter-wise updates. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html](https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html){: target="_blank" rel="noopener noreferrer" }

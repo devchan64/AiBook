@@ -1,11 +1,11 @@
 # P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언트(gradient)를 연결했고, P2-4.4에서는 미분이 학습(training)에서 왜 필요한지 봤습니다.
 
-여기서는 고등학교 미분 기억에서 그래디언트로 넘어갈 때 생기는 낯섦을 줄이기 위한 보충학습을 제공합니다. `그래디언트(gradient)`의 대표 설명은 P2-4.3에, `경사하강법(gradient descent)`의 대표 설명은 P2-6.3에 두고, 이 절에서는 그 사이 간격을 메우는 데 필요한 배경만 더 천천히 정리합니다. 용어를 다시 빠르게 확인할 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 봅니다.
+여기서는 고등학교 미분 기억에서 그래디언트로 넘어갈 때 생기는 낯섦을 줄이기 위한 보충학습을 제공합니다. `그래디언트(gradient)`의 대표 설명은 P2-4.3에, `경사하강법(gradient descent)`의 대표 설명은 P2-6.3에 두고, 이 절에서는 그 사이 간격을 메우는 데 필요한 배경만 더 천천히 정리합니다. 용어를 다시 빠르게 확인할 때는 [개념사전의 그래디언트 항목](../../../reference/concept-glossary-parts/01-giyeok.md#gradient)도 함께 봅니다.
 
 여기서는 `보충학습`, `방향도함수(directional derivative)`, `벡터해석(vector calculus)`처럼 본문에서 짧게 지나간 배경 개념을 중심으로 읽습니다. `gradient`, `gradient descent`, `backpropagation`을 처음부터 공식으로 밀어붙이기보다, 무엇을 보려는 개념인지 다시 붙잡는 것이 목적입니다.
 

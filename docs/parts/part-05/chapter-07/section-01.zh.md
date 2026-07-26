@@ -1,7 +1,7 @@
 # P5-7.1 optimizer 的角色
 
 > Section ID: `P5-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-6 章里，我们已经区分了学习循环、step/batch/epoch、学习（learning）与模型执行（inference），以及训练模式（training mode）与评估模式（evaluation mode）。走到这里，接下来就会留下一个非常直接的问题：既然已经把模型出错这件事算成了数字，那么模型内部的真实数字到底是在什么地方改变的？
 
@@ -11,7 +11,7 @@
 
 优化器是接收反向传播算出的 gradient，并把参数真实更新到更可能减小损失方向上的规则。换句话说，前面的计算会告诉我们`朝这边改，损失可能会下降`，而 optimizer 则把这个结果继续变成`那么这一 step 里就把权重这样改`这样的真实调整。
 
-如果后面又开始把 loss、gradient、update 的角色混在一起，更适合回到[英文概念词汇表里的 optimizer 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#optimizer)，重新按角色拆开。
+如果后面又开始把 loss、gradient、update 的角色混在一起，更适合回到概念词汇表里的[优化器（optimizer）](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimizer)，重新按角色拆开。
 
 如果把一次学习 step 非常粗略地说出来，模型会先做出预测，再计算这个预测错了多少，再计算这种错误与哪些权重有关，最后才真正改动权重数值。这里最后一个阶段，就是 optimizer 的位置。
 

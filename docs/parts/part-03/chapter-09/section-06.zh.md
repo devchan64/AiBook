@@ -1,11 +1,11 @@
 # P3-9.6 检查标签一致性
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _副标题: 当同一事件因人或时期不同而被贴上不同标签时，应该先确认什么？_
 
-即使已经出现了标签候选列，也不能立刻说这就是一个稳定的学习问题。在现实数据里，同一个事件可能会被两个复核者写成不同结果，上个月还被看作`注意`的状态，这个月也可能被记成`正常`。所以，在读取[目标标签候选（target candidate）](/AiBook/reference/concept-glossary-parts/05-mieum/#glossary-target-candidate)时，不能只看`有没有列`，还要一起看`在同一个事件和相似条件下，是否会重复出现相同含义的判断`。
+即使已经出现了标签候选列，也不能立刻说这就是一个稳定的学习问题。在现实数据里，同一个事件可能会被两个复核者写成不同结果，上个月还被看作“注意”的状态，这个月也可能被记成“正常”。所以，在读取[目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)时，不能只看“有没有列”，还要一起看[标签一致性(label consistency)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-label-consistency)，也就是“在同一个事件和相似条件下，是否会重复出现相同含义的判断”。
 
 ## 为什么还要一起检查标签一致性
 

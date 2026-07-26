@@ -1,7 +1,7 @@
 # P6-2.5 Supplement: Tokenizer Family Differences Revealed by Operational Observations
 
 > Section ID: `P6-2.5`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 BPE, WordPiece, and SentencePiece are not a list of names to memorize. Even the same string can have different piece boundaries, token counts, whitespace handling, and rare-expression handling depending on which tokenizer is used. This difference leads directly to cost prediction, retrieval chunks, long-document input, and the sense of length in mixed-notation documents.
 

@@ -1,9 +1,9 @@
 # P4-12.2 거리(distance)와 스케일(scale)
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-12.1에서 k-NN(k-nearest neighbors)은 `가까운 사례를 보고 판단하는 모델`이라고 했습니다. 그런데 여기서 가장 중요한 단어는 사실 `가깝다`입니다.
+P4-12.1에서 [k-NN(k-nearest neighbors)](../../../reference/concept-glossary-parts/10-kieuk.md#k-nnk-nearest-neighbors)은 `가까운 사례를 보고 판단하는 모델`이라고 했습니다. 그런데 여기서 가장 중요한 단어는 사실 `가깝다`입니다.
 
 가까움은 정확히 무엇을 뜻하는가?
 
@@ -18,7 +18,7 @@ P4-12.1에서 k-NN(k-nearest neighbors)은 `가까운 사례를 보고 판단하
 - 스케일(scale)은 왜 거리 계산을 왜곡할 수 있는가?
 - 표준화(standardization)는 k-NN 해석에서 무엇을 바꾸는가?
 
-이 절은 먼저 `왜 k-NN에서 거리와 스케일이 이웃과 예측을 바꾸는가`를 닫습니다. 전처리 자체의 목적과 종류는 `P4-7.2 전처리(preprocessing)`를 기준 설명 위치로 유지하고, 여기서는 거리와 스케일이 판단을 바꾸는 장면에 집중합니다.
+이 절은 먼저 `왜 k-NN에서 거리와 스케일이 이웃과 예측을 바꾸는가`를 닫습니다. 전처리 자체의 목적과 종류는 [P4-7.2 전처리(preprocessing)](../chapter-07/section-02.md)를 기준 설명 위치로 유지하고, 여기서는 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)와 [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/12-tieut.md#feature-scale)이 판단을 바꾸는 장면에 집중합니다.
 
 ## 거리(distance)와 스케일(scale)에서 남길 판단 기준
 
@@ -31,7 +31,7 @@ P4-12.1에서 k-NN(k-nearest neighbors)은 `가까운 사례를 보고 판단하
 
 ### 거리(distance)는 모델의 판단 규칙이다
 
-k-NN은 새 입력과 기존 데이터 사이의 거리를 계산한 뒤, 가장 가까운 이웃을 찾습니다. 따라서 거리 함수는 단순 계산 도구가 아니라, `누가 이웃으로 뽑힐지`를 정하는 규칙입니다.
+k-NN은 새 입력과 기존 데이터 사이의 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)를 계산한 뒤, 가장 가까운 이웃을 찾습니다. 따라서 거리 함수는 단순 계산 도구가 아니라, `누가 이웃으로 뽑힐지`를 정하는 규칙입니다.
 
 - 유클리드 거리(Euclidean distance): 직선거리처럼 읽는 방법
 - 맨해튼 거리(Manhattan distance): 축 방향 이동량을 더하는 방법
@@ -96,7 +96,7 @@ k-NN은 새 입력과 기존 데이터 사이의 거리를 계산한 뒤, 가장
 
 ### 표준화(standardization)는 무엇을 바꾸는가
 
-표준화는 숫자를 예쁘게 만드는 장식이 아닙니다. 더 정확히 말하면, `각 특징이 거리 계산에 끼치는 영향의 균형`을 다시 맞추는 일입니다.
+[표준화(standardization)](../../../reference/concept-glossary-parts/13-pieup.md#standardization)는 숫자를 예쁘게 만드는 장식이 아닙니다. 더 정확히 말하면, `각 특징이 거리 계산에 끼치는 영향의 균형`을 다시 맞추는 일입니다.
 
 대표적으로는 다음 순서로 이해하면 충분합니다.
 
@@ -137,6 +137,11 @@ k-NN은 새 입력과 기존 데이터 사이의 거리를 계산한 뒤, 가장
   - 원본 숫자에서는 큰 단위의 소득이 거리를 지배할 수 있습니다.
   - 표준화 후에는 작은 축의 정보가 다시 살아날 수 있습니다.
   - 따라서 같은 query라도 가까운 이웃 순서가 바뀔 수 있습니다.
+
+조작해 볼 값:
+
+- `query`의 소득을 `5000000`, `7000000`으로 바꾸면 원본 거리에서 어느 축이 더 크게 작동하는지 볼 수 있습니다.
+- `k=3` 대신 `raw_ranked[:2]`, `scaled_ranked[:2]`처럼 이웃 수를 바꾸면 예측보다 이웃 구성 변화가 먼저 보입니다.
 
 읽는 순서는 다음처럼 잡으면 됩니다.
 
@@ -253,6 +258,11 @@ k=3 prediction after scaling = safe
 
 이번에는 표준화 방식은 그대로 두고, query의 연체 횟수만 `0`에서 `2`로 바꿔 봅니다.
 
+조작해 볼 값:
+
+- `scaled_query_2`의 두 번째 값을 `1`, `3`, `5`로 바꾸며 이웃 순서가 언제 다시 섞이는지 볼 수 있습니다.
+- `ranked_0[:2]`를 `ranked_0[:3]`으로 바꾸면 이웃 교체가 다수결까지 이어지는지 확인할 수 있습니다.
+
 ```python
 # 특징 스케일 차이가 거리 계산과 k-NN 이웃 선택을 어떻게 바꾸는지 확인하는 예제입니다.
 from math import sqrt
@@ -331,5 +341,5 @@ top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
 
 ## 출처와 참고 자료
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 확인 날짜: 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 확인 날짜: 2026-07-26. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }

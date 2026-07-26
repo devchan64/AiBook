@@ -1,25 +1,25 @@
 # P4-3.2 휴리스틱과 모델 선택
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 후보를 줄이는 판단 기준으로 봤습니다. 이번 절에서는 그 관점을 모델 선택(model selection)에 적용합니다.
+P4-3.1에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-parts/14-hieut.md#heuristic)을 제한된 시간과 정보 안에서 후보를 줄이는 판단 기준으로 봤습니다. 이번 절에서는 그 관점을 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection)에 적용합니다.
 
 머신러닝을 공부하다 보면 “어떤 모델을 써야 하나?”라는 질문이 크게 느껴집니다. 하지만 모델 선택은 단순히 유명한 알고리즘 이름을 고르는 일이 아닙니다. 문제의 형태, 데이터의 상태, 설명 가능성, 계산 비용, 평가 기준을 함께 보고 먼저 시도할 후보를 좁히는 일입니다.
 
-이때 휴리스틱은 최종 결론이 아니라 출발점입니다. “이 문제라면 이 모델부터 시도해 보자”라고 정하고, 그 선택이 실제 데이터에서 괜찮은지 검증(validation)해야 합니다.
+이때 휴리스틱은 최종 결론이 아니라 출발점입니다. “이 문제라면 이 모델부터 시도해 보자”라고 정하고, 그 선택이 실제 데이터에서 괜찮은지 [검증(validation)](../../../reference/concept-glossary-parts/01-giyeok.md#validation)해야 합니다.
 
 이 절은 휴리스틱 자체를 다시 길게 정의하지 않습니다. 후보를 줄이는 판단의 기본 뜻은 P4-3.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 그 판단이 모델 선택(model selection) 단계에서 어떻게 작동하는지에만 집중합니다.
 
 ## 휴리스틱과 모델 선택에서 닫을 질문
 
-이 절은 먼저 `모델 선택에서 휴리스틱이 무엇을 줄이고 어떤 비교 출발점을 만드는가`를 닫습니다. 데이터 분리와 검증은 P4-4, 과적합(overfitting)과 일반화(generalization)는 P4-5, 평가 지표(metric)는 P4-6, 전처리(preprocessing)와 특징(feature)은 P4-7, 모델 선택 절차는 P4-8, 하이퍼파라미터 튜닝(hyperparameter tuning)은 P4-9에서 이어집니다. 구체적인 모델은 P4-10부터 P4-19까지 문제별로 다시 만납니다.
+이 절은 먼저 모델 선택에서 휴리스틱이 무엇을 줄이고 어떤 비교 출발점을 만드는가를 닫습니다. 데이터 분리와 검증은 P4-4, [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)과 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)는 P4-5, [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)는 P4-6, [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing)와 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)은 P4-7, 모델 선택 절차는 P4-8, [하이퍼파라미터 튜닝(hyperparameter tuning)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter)은 P4-9에서 이어집니다. 구체적인 모델은 P4-10부터 P4-19까지 문제별로 다시 만납니다.
 
 이 절은 다음 질문에 답합니다.
 
 - 모델 선택에서 휴리스틱은 무엇을 줄이는가?
 - 문제 유형은 모델 후보를 어떻게 좁히는가?
-- 기준 모델(baseline)은 왜 필요한가?
+- [기준 모델(baseline model)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model)은 왜 필요한가?
 - 성능, 설명 가능성, 비용은 어떻게 충돌하는가?
 - 휴리스틱을 검증 가능한 기록으로 남기려면 무엇을 써야 하는가?
 
@@ -39,10 +39,10 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 
 | 후보 | 먼저 떠올릴 이유 | 조심할 점 | 뒤에서 다룰 곳 |
 | --- | --- | --- | --- |
-| 로지스틱 회귀(logistic regression) | 이탈 여부처럼 두 범주를 예측할 때 간단한 기준 모델이 됩니다. | 선형적인 관계만으로 부족할 수 있습니다. | P4-11 |
-| 결정트리(decision tree) | “어떤 조건에서 이탈이 늘어나는가”를 설명하기 쉽습니다. | 깊어지면 훈련 데이터에 과하게 맞을 수 있습니다. | P4-14 |
-| 랜덤포레스트(random forest) | 여러 트리를 묶어 안정적인 성능을 기대할 수 있습니다. | 단일 트리보다 설명이 어려워질 수 있습니다. | P4-15 |
-| 그래디언트 부스팅(gradient boosting) | 표 형식 데이터에서 강한 성능을 보일 때가 많습니다. | 튜닝과 검증을 더 신중히 해야 합니다. | P4-16 |
+| [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression) | 이탈 여부처럼 두 범주를 예측할 때 간단한 기준 모델이 됩니다. | 선형적인 관계만으로 부족할 수 있습니다. | P4-11 |
+| [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree) | “어떤 조건에서 이탈이 늘어나는가”를 설명하기 쉽습니다. | 깊어지면 훈련 데이터에 과하게 맞을 수 있습니다. | P4-14 |
+| [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest) | 여러 트리를 묶어 안정적인 성능을 기대할 수 있습니다. | 단일 트리보다 설명이 어려워질 수 있습니다. | P4-15 |
+| [그래디언트 부스팅(gradient boosting)](../../../reference/concept-glossary-parts/01-giyeok.md#gradient-boosting) | 표 형식 데이터에서 강한 성능을 보일 때가 많습니다. | 튜닝과 검증을 더 신중히 해야 합니다. | P4-16 |
 
 여기서 휴리스틱은 “로지스틱 회귀가 정답이다”라고 말하지 않습니다. 대신 “간단한 기준 모델을 세우고, 그다음 설명 가능성과 성능을 비교해 보자”라는 실험 순서를 만듭니다.
 
@@ -68,11 +68,11 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 
 | 질문 | 문제 유형 | 먼저 떠올릴 후보 | 뒤에서 다룰 곳 |
 | --- | --- | --- | --- |
-| 집값, 매출, 온도처럼 숫자를 예측하는가? | 회귀(regression) | 선형 회귀, 트리 기반 회귀 | P4-10, P4-14 |
-| 합격/불합격, 이탈/유지처럼 범주를 예측하는가? | 분류(classification) | 로지스틱 회귀, 결정트리 | P4-11, P4-14 |
-| 라벨 없이 비슷한 묶음을 찾는가? | 군집화(clustering) | k-means, DBSCAN | P4-17 |
-| 많은 특징을 적은 축으로 줄여 보고 싶은가? | 차원 축소(dimensionality reduction) | PCA, t-SNE | P4-18 |
-| 행동을 선택하고 보상을 받는가? | 강화학습(reinforcement learning) | Q-learning, policy gradient | P4-19 |
+| 집값, 매출, 온도처럼 숫자를 예측하는가? | [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression) | 선형 회귀, 트리 기반 회귀 | P4-10, P4-14 |
+| 합격/불합격, 이탈/유지처럼 범주를 예측하는가? | [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification) | 로지스틱 회귀, 결정트리 | P4-11, P4-14 |
+| 라벨 없이 비슷한 묶음을 찾는가? | [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering) | [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-means), DBSCAN | P4-17 |
+| 많은 특징을 적은 축으로 줄여 보고 싶은가? | [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction) | PCA, t-SNE | P4-18 |
+| 행동을 선택하고 보상을 받는가? | [강화학습(reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning) | Q-learning, policy gradient | P4-19 |
 
 이 표는 정답표가 아닙니다. 후보를 좁히는 지도입니다. 실제 선택은 데이터와 평가 결과로 다시 확인해야 합니다.
 
@@ -142,7 +142,7 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 | 평가 기준 | P4-6에서 다룰 재현율과 정밀도를 함께 본다. |
 | 다음 행동 | 기준 모델보다 충분히 낫지 않으면 데이터와 특징을 다시 본다. |
 
-이렇게 쓰면 휴리스틱은 “감으로 골랐다”가 아니라 “검증 가능한 작업 가설로 시작했다”가 됩니다.
+이렇게 쓰면 휴리스틱은 “감으로 골랐다”가 아니라 “검증 가능한 [작업 가설(working hypothesis)](../../../reference/concept-glossary-parts/09-jieut.md#working-hypothesis)로 시작했다”가 됩니다.
 
 ## 이 절에서 조심할 오해
 
@@ -179,6 +179,6 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Choosing the right estimator`, scikit-learn User Guide, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/machine_learning_map.html](https://scikit-learn.org/stable/machine_learning_map.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Choosing the right estimator`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/machine_learning_map.html](https://scikit-learn.org/stable/machine_learning_map.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

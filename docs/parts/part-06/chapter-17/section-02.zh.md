@@ -1,7 +1,7 @@
 # P6-17.2 把错误分到恢复路径的运营失败处理
 
 > Section ID: `P6-17.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 设定服务运营限制之后，还需要决定实际失败应该走向哪里。失败处理不只是修正最终回答句子。它意味着把检索、工具调用、权限、延迟和日志一起查看，然后在 `retry`、`fallback`、`stop`、`approval` 中选择最安全的路线。换句话说，它更接近回溯产生回答的整个过程，而不是只看一行回答。
 
@@ -33,7 +33,7 @@ Failure routing 可以这样拆开。
 - 你可以在入门层面解释 AI 服务失败类型。
 - 你可以区分模型失败和系统失败。
 - 你可以解释 trace、fallback、retry、approval 的作用。
-- 你可以从运营视角连接 prompting、RAG、tool use、agents、evaluation。
+- 你可以从运营视角连接 prompting、RAG、tool use、AI agents、evaluation。
 
 与其背很多失败类型名称，不如使用一个问题：为什么同一个表面失败会分到 `retry`、`fallback`、`stop` 或 `approval`。
 
@@ -150,7 +150,7 @@ Retry、fallback、stop、approval 不只是功能名称。它们是`失败分�
 
 ## 为什么 Approval 和 Permission 重要
 
-尤其在 agent 结构中，自动执行每个动作可能有风险。
+尤其在 AI agent 结构中，自动执行每个动作可能有风险。
 
 例如：
 
@@ -387,7 +387,7 @@ Retry、fallback、stop、approval 不只是功能名称。它们是`失败分�
 这条恢复路线重要，是因为它：
 
 - 把 P6-17.1 的服务运营约束从`我们应该观察什么？`转为`失败发生时应该追踪哪里？`
-- 从运营视角重新连接 Part 6 的 prompting、RAG、tool use、agents、evaluation
+- 从运营视角重新连接 Part 6 的 prompting、RAG、tool use、AI agents、evaluation
 - 让综合 mini-practice 包含失败处理
 - 明确`使用 AI`和`运营 AI 服务`之间的差异
 

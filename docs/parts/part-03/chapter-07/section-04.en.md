@@ -1,9 +1,9 @@
 # P3-7.4 By What Range and Conditions Should We Set the Baseline
 
 > Section ID: `P3-7.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Once we understand that a baseline is needed, the next question immediately follows. `Then what exactly should count as usual?` This is where readers easily get stuck again. If we gather past ranges at random for comparison with the recent range, a comparison table may still be produced, but the interpretation will shake easily. So it is better to hold on first to the order: `write the comparison question first`, `leave only the candidates that fit that question`, and `among the remaining candidates, choose the bundle that matches the current sample most closely in condition`.
+Once we understand that a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is needed, the next question immediately follows. `Then what exactly should count as usual?` This is where readers easily get stuck again. If we gather past ranges at random for comparison with the recent range, a [comparison table](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table) may still be produced, but the interpretation will shake easily. So it is better to hold on first to the order: `write the comparison question first`, `leave only the candidates that fit that question`, and `among the remaining candidates, choose the bundle that matches the current sample most closely in condition`.
 
 A baseline should be not `just any bundle of past data`, but `a comparison range produced under the same kind of conditions as the sample we are looking at now`. If the action type is not the same, the operating mode is not the same, the range length is not the same, or at least the operational conditions are not similar, then even if a difference value appears, it becomes hard to say what that difference means.
 
@@ -70,7 +70,7 @@ The key point of this table is not `do the numbers look similar?` but `are the c
 
 This diagram shows that baseline selection is not the act of picking one average value. It is a judgment that filters comparison conditions step by step. In other words, it is less about printing a candidate table and more about holding on to the selection structure that checks in sequence `same sample unit`, `same process condition`, `enough sample count`, and `same operational state`.
 
-So this section is more accurately read not as a list of field rules, but as the problem of `selecting a comparable reference group`. Choosing a baseline is not `picking one past average`, but a process of narrowing down by condition to a reference group that is comparable with the current sample.
+So this section is more accurately read not as a list of field rules, but as the problem of [selecting a comparable reference group](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparable-reference-group). Choosing a baseline is not `picking one past average`, but a process of narrowing down by condition to a reference group that is comparable with the current sample.
 
 ## Sources and Further Reading
 

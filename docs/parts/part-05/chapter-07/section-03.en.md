@@ -1,7 +1,7 @@
-# P5-7.3 Intuition For Adaptive Updates: Adam As An Example
+# P5-7.3 Intuition for Adaptive Updates: Adam as an Example
 
 > Section ID: `P5-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-7.2, we saw how the actual update step size can differ depending on the learning rate even with the same gradient. From here, the next question appears immediately. Is it enough to apply that step size to every parameter in exactly the same way all the time?
 
@@ -11,7 +11,7 @@ In this section, we use Adam (Adaptive Moment Estimation) as a representative ex
 
 If the difference between basic updates and adaptive updates starts to blur together again, return together to the [gradient descent](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-descent) and [optimizer](/AiBook/en/reference/concept-glossary-alpha/o/#optimizer) entries in the concept glossary.
 
-## The Question Of What Adam Adapts
+## The Question of What Adam Adapts
 
 - What does adaptive update try to additionally compensate beyond a basic gradient update?
 - What is the core intuition of adaptive update in terms of recent gradient flow and coordinate-wise adjustment?
@@ -26,14 +26,14 @@ This section explains the problem awareness from which adaptive update comes, ra
 | optimizer procedure | because it is the question of by what stride length and accumulation rule the parameters are actually moved even for the same structure |
 | difference from regularization | because the optimizer deals with `how should we move`, while regularization deals with `what kinds of solutions should we prefer less` |
 
-## Standards For Gradient History And Step-Size Adjustment
+## Standards for Gradient History and Step-Size Adjustment
 
 - You can explain adaptive update as `an update method that reflects recent gradient flow and coordinate-wise adjustment`.
 - You can understand the difference between a basic direct update and an adaptive update.
 - You can say why Adam is often mentioned as a representative example of adaptive update.
 - You can confirm the difference in update intuition with an executable Python example.
 
-## The Baseline Needed First To Understand Adaptive Update
+## The Baseline Needed First to Understand Adaptive Update
 
 If we start adaptive update immediately from formulas, beginners can easily miss `what exactly was added`. So we first place the simplest possible baseline. What we have to hold first here is not a specific optimizer name, but the basic feeling that `we move once directly based on the current gradient and the learning rate`.
 
@@ -51,7 +51,7 @@ The reason we do not place a specific optimizer name first here is also clear. W
 
 In other words, the baseline of this section is not an introduction to a specific optimizer, but `the simplest direct-update intuition` used to explain adaptive update.
 
-## What Does Adaptive Update Try To Compensate Further
+## What Does Adaptive Update Try to Compensate Further
 
 Adaptive update uses more information than a simple current-gradient-based update. If we take Adam as the representative example, it is enough to understand the following.
 
@@ -72,7 +72,7 @@ If we make it a little more intuitive, it becomes:
 
 For example, suppose one parameter keeps fluctuating with a large gradient, while another parameter moves very slightly and stably. A basic direct update pushes both using the same learning-rate reference. An adaptive update like Adam, on the other hand, tries to also reflect `is this coordinate fluctuating too strongly right now?` and `is this coordinate moving too slowly?` So adaptive update feels closer to `a different stride for each coordinate` than to `the same single step everywhere`.
 
-## What Do We See About Adaptive Update When We Use Adam As The Example
+## What Do We See About Adaptive Update When We Use Adam as the Example
 
 At the introductory stage, the following table matters more than a complicated formula.
 
@@ -86,7 +86,7 @@ The key in this table is not `which one is absolutely superior`. Rather, it is s
 
 `Adam is a representative example that adds recent flow and coordinate-wise adjustment to a simple gradient-update baseline in order to make a more adaptive update.`
 
-## Why Is Adam So Often Mentioned As The Representative Example
+## Why Is Adam So Often Mentioned as the Representative Example
 
 Adam is often mentioned in practice. What the reader should hold onto for a long time here is not `it is used a lot`, but `why is it often chosen as the representative example of adaptive update`.
 
@@ -110,7 +110,7 @@ If we compress this difference down to only the update rules, it becomes the fol
 
 The first result to confirm in this diagram is that the basic direct update is closer to the feeling of `reacting to the current gradient with the same reference stride`, while Adam is closer to the feeling of `adjusting the stride by reflecting recent flow and coordinate-wise differences more strongly`.
 
-## Practice And Example
+## Practice and Example
 
 We can move directly to the example now. The example in this section is not a `full implementation of real Adam`; it is a simplified example that isolates the core intuition of adaptive update. The example data is in [optimizer-gradient-history.csv](/AiBook/assets/part-05/chapter-07/optimizer-gradient-history.csv). This file contains the gradient flow received by three parameters over 12 steps. One coordinate has a large gradient that steadily shrinks, one has a small gradient that steadily shrinks, and one has a gradient whose direction keeps wobbling.
 
@@ -315,7 +315,7 @@ After reading this example, the compensations of adaptive update divide into two
 
 Once this table is read, the core of adaptive update should be explainable as `a method that puts both time-axis accumulation and coordinate-axis adjustment into the update rule`. It is enough to summarize Adam as a representative example that shows that method.
 
-## When Do We First Bring Out The Adaptive-Update Viewpoint
+## When Do We First Bring Out the Adaptive-Update Viewpoint
 
 After understanding the general role of the optimizer, it is helpful to read separately `is the basic update intuition enough here, or is the adaptive-update intuition needed?`
 
@@ -334,7 +334,7 @@ After understanding the general role of the optimizer, it is helpful to read sep
 - Can you distinguish that the first example should be read as time-axis accumulation, and the second example as coordinate-axis adjustment?
 - Can you say that Adam is only a representative example of adaptive update, and cannot be concluded to be an absolutely better optimizer?
 
-## Sources And Further Reading
+## Sources and Further Reading
 
 - Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, accessed 2026-07-19. [https://doi.org/10.1007/978-3-7908-2604-3_16](https://doi.org/10.1007/978-3-7908-2604-3_16){: target="_blank" rel="noopener noreferrer" }
 - Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, accessed 2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P6-9.5 Supplement: Constraints in Efficient Adjustment Methods
 
 > Section ID: `P6-9.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How adapter, LoRA, and QLoRA split across added structure, small deltas, and memory constraints_
 

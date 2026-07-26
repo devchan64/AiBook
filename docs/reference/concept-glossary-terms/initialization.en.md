@@ -6,4 +6,4 @@
 - Why it matters: Poor starting values can make neurons behave too similarly or make values and gradients unstable. Initialization reminds readers that training success depends not only on data and architecture, but also on the starting numerical layout.
 - Related concepts: `numerical stability`, `weight`, `backpropagation`
 - Core Section: `P5-8.3`
-- Appears in: `P5-3.2`
+- Appears in: `P2-6.3`, `P5-3.2`, `P5-8.4`

@@ -43,7 +43,7 @@ This diagram shows the learning dependency structure in which earlier Parts beco
 | Part 3. Data Modeling | Reorganizes data into samples, features, baselines, and comparison structures. | What does a model learn from this structured data? |
 | Part 4. Machine Learning | Reads problem setup, learning, validation, evaluation, and representative algorithms as one common structure. | How do neural networks extend this structure computationally? |
 | Part 5. Deep Learning | Covers neural-network computation, backpropagation, CNNs, RNNs, attention, and Transformer structure. | How is this structure used in LLM and generative-AI services? |
-| Part 6. LLMs and Generative AI | Connects tokens, prompts, generation settings, embeddings, retrieval, RAG, agents, and evaluation. | How can the learned material be validated and recorded in small projects? |
+| Part 6. LLMs and Generative AI | Connects tokens, prompts, generation settings, embeddings, retrieval, RAG, AI agents, and evaluation. | How can the learned material be validated and recorded in small projects? |
 | Part 7. Projects | Combines questions, inputs, baselines, comparisons, execution logs, and operational reflection into one output. | What should be improved in the next iteration? |
 
 ## Notation
@@ -643,7 +643,7 @@ This Part explains how neural networks represent and learn from data. It follows
 
 ## Part 6. LLMs and Generative AI
 
-Part 6 starts from generative-AI outputs, reads LLMs as the representative case, and connects tokens, embeddings, next-candidate generation, learning and adjustment, prompts and grounding, tools and agent execution, evaluation, and operations. The development history and the BERT family are placed after the main current as a background map and comparison axis.
+Part 6 starts from generative-AI outputs, reads LLMs as the representative case, and connects tokens, embeddings, next-candidate generation, learning and adjustment, prompts and grounding, tools and AI agent execution, evaluation, and operations. The development history and the BERT family are placed after the main current as a background map and comparison axis.
 
 ### Module 1. Entering Generative AI Through LLMs
 
@@ -737,7 +737,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 #### Chapter 14. Agents `Service Structure`
 
 - **P6-14.1 When an Agent Becomes a Goal Flow That Re-Chooses the Next Action**: reviews a structure that connects a goal to planning, tool calls, observations, and state judgment.
-- **P6-14.2 How Planning, Action, and Observation Split Continuation, Termination, and Human Review**: reviews continuation, termination, and human-review branches in the agent loop.
+- **P6-14.2 How Planning, Action, and Observation Split Continuation, Termination, and Human Review**: reviews continuation, termination, and human-review branches in the AI agent loop.
 
 #### Chapter 15. MCP and Harnesses `Service Structure`
 
@@ -775,7 +775,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 ## Part 7. Projects
 
-Part 7 is not a separate Part for new theory. It is the practice space for material introduced earlier. The front half covers questions, input units, baselines, and comparison experiments. The middle covers input structure, learning curves, and error cases. The back half covers RAG, agents, and deployment or operational judgment through logs and failure records.
+Part 7 is not a separate Part for new theory. It is the practice space for material introduced earlier. The front half covers questions, input units, baselines, and comparison experiments. The middle covers input structure, learning curves, and error cases. The back half covers RAG, AI agents, and deployment or operational judgment through logs and failure records.
 
 ### Module 1. Questions and Baselines
 
@@ -814,7 +814,7 @@ Part 7 is not a separate Part for new theory. It is the practice space for mater
 
 #### Chapter 6. Agent Execution and Approval Policies `Project Practice`
 
-- **P7-6.1 Practicing Plans, Tool Calls, and Approval Flow**: follows an execution path through agent plans, tool-call order, approvals, and constraints.
+- **P7-6.1 Practicing Plans, Tool Calls, and Approval Flow**: follows an execution path through AI agent plans, tool-call order, approvals, and constraints.
 - **P7-6.2 Reviewing Permissions, Logs, and Blocked States**: organizes execution logs around permissions, blocked states, and next actions, then examines the role of execution records and failure-handling rules.
 - **P7-6.3 Practicing Approval Policies**: divides the same operating scenario into auto-runnable steps and immediate holds, then rewrites the safer next action.
 
