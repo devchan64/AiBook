@@ -119,8 +119,6 @@
 --8<-- "reference/concept-glossary-terms/market-substitution.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/service-constraints.ko.md"
-
 --8<-- "reference/concept-glossary-terms/software-regression.ko.md"
 
 --8<-- "reference/concept-glossary-terms/seq2seq.ko.md"

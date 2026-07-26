@@ -12,8 +12,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/margin.en.md"
 
---8<-- "reference/concept-glossary-terms/masking.en.md"
-
 --8<-- "reference/concept-glossary-terms/matrix.en.md"
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.en.md"

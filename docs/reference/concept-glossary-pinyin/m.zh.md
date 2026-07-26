@@ -8,8 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/markdown-cell.zh.md"
 
---8<-- "reference/concept-glossary-terms/masking.zh.md"
-
 --8<-- "reference/concept-glossary-terms/target.zh.md"
 
 --8<-- "reference/concept-glossary-terms/target-candidate.zh.md"
