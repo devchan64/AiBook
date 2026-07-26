@@ -17,10 +17,6 @@
 
 --8<-- "reference/concept-glossary-terms/actor-critic.ko.md"
 
---8<-- "reference/concept-glossary-terms/a2c.ko.md"
-
---8<-- "reference/concept-glossary-terms/a3c.ko.md"
-
 --8<-- "reference/concept-glossary-terms/algorithm.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ai-artificial-intelligence.ko.md"

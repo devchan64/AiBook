@@ -5,8 +5,6 @@
 
 --8<-- "reference/concept-glossary-terms/t-sne.ko.md"
 
---8<-- "reference/concept-glossary-terms/trpo.ko.md"
-
 --8<-- "reference/concept-glossary-terms/target.ko.md"
 
 --8<-- "reference/concept-glossary-terms/target-definition-version.ko.md"
