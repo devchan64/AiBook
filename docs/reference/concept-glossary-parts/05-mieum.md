@@ -29,8 +29,6 @@
 
 --8<-- "reference/concept-glossary-terms/metadata.ko.md"
 
---8<-- "reference/concept-glossary-terms/problem-representation-structure.ko.md"
-
 --8<-- "reference/concept-glossary-terms/density.ko.md"
 
 --8<-- "reference/concept-glossary-terms/model-selection.ko.md"

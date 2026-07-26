@@ -92,10 +92,6 @@
 --8<-- "reference/concept-glossary-terms/operation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/column-role-separation.ko.md"
-
-
-
 --8<-- "reference/concept-glossary-terms/business-outcome.ko.md"
 
 --8<-- "reference/concept-glossary-terms/response-generation.ko.md"

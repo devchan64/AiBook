@@ -20,8 +20,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/identifier.ko.md"
-
 --8<-- "reference/concept-glossary-terms/sparse-attention.ko.md"
 
 

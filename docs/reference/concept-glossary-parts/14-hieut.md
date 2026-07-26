@@ -35,9 +35,6 @@
 --8<-- "reference/concept-glossary-terms/convolution.ko.md"
 --8<-- "reference/concept-glossary-terms/interpretation-boundary.ko.md"
 
---8<-- "reference/concept-glossary-terms/format-consistency.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/action.ko.md"
 
 --8<-- "reference/concept-glossary-terms/action-value.ko.md"

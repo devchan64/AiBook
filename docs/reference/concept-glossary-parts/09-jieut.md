@@ -50,8 +50,6 @@
 
 --8<-- "reference/concept-glossary-terms/policy-rule.ko.md"
 
---8<-- "reference/concept-glossary-terms/storage-structure.ko.md"
-
 --8<-- "reference/concept-glossary-terms/evidence-strength.ko.md"
 
 --8<-- "reference/concept-glossary-terms/precision.ko.md"

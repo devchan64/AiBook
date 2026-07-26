@@ -54,7 +54,6 @@
 | 언어 모델링 | 언어 모델링 | language modeling | P1-9.3 | language-modeling | language-modeling | Bengio neural probabilistic language model | 단어·토큰 순서의 확률을 다루는 LLM 직접 계보의 문제 설정 |
 | 원천데이터 | 원천데이터 | source data | P3-1.1 | source-data | source-data | P3-1.1 source context | 분석이나 학습 문제로 다시 구성하기 전의 출발 기록 |
 | 개입 피드백 | 개입 피드백 | intervention feedback | P3-8.7 | intervention-feedback | intervention-feedback | P3-8.7 source context | 검토 규칙이나 운영 조치가 후속 데이터와 라벨을 바꾸는 되먹임 구조 |
-| 열 역할 분리 | 열 역할 분리 | column-role separation | P3-6.4 | column-role-separation | column-role-separation | P3-6.4 source context | 작업 표의 열을 특징·비교·결과 후보·문맥 등 역할별로 나누어 읽는 기준 |
 | 이질적 스케일의 역할별 읽기 | 이질적 스케일의 역할별 읽기 | role-aware reading across heterogeneous scales | P3-6.5 | role-aware-reading-across-heterogeneous-scales | role-aware-reading-across-heterogeneous-scales | P3-6.5 source context | 단위와 범위가 다른 숫자 열을 역할과 기준선 대비 변화로 읽는 관점 |
 | 결측값 | 결측값 | missing value | P3-5.5 | missing-value | missing-value | P3-5.5 source context | 있어야 할 위치에 관측값이나 기록값이 비어 있는 상태 |
 | 이웃 보존 신뢰도 | 이웃 보존 신뢰도 | trustworthiness | P4-18.2 | trustworthiness | trustworthiness | 단어별 원고 기준 | 차원 축소 시각화에서 원래 이웃 관계가 보존되는 정도를 보는 지표 |
@@ -316,12 +315,6 @@
 | 정책 | 정책 | policy | P1-8.3 | policy | policy | P1-14.3 source context | 현재 상태나 관측에서 어떤 행동을 고를지 정하는 기준 또는 함수 |
 | 검증 | 검증 | validation | P4-4.2 | validation | validation | P2-12.3 source context | 설정과 선택을 비교 점검하기 위한 중간 평가 데이터 또는 절차 |
 | 데이터 누수 | 데이터 누수 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 예측 시점에 알 수 없는 정보가 학습 과정에 미리 섞이는 문제 |
-| 저장 구조 | 저장 구조 | storage structure | P3-2.1 | storage-structure | storage-structure | P3-2.1 source context | 기록을 빠짐없이 보존하고 다시 찾기 위해 만든 데이터 저장용 구조 |
-| 문제 표현 구조 | 문제 표현 구조 | problem-representation structure | P3-2.1 | problem-representation-structure | problem-representation-structure | P3-2.1 source context | 저장된 기록을 샘플, 파생 열, 비교 기준, 출력 형식으로 다시 표현한 구조 |
-| 식별자 | 식별자 | identifier | P2-12.3 | identifier | identifier | P2-12.3 source context | 개별 행, 사례, 사용자, 이벤트를 구분하기 위해 붙인 값 |
-| 형식 정합성 | 형식 정합성 | format consistency | P3-2.3 | format-consistency | format-consistency | P3-2.3 source context | 같은 의미의 값이 같은 형식, 단위, 표기 규칙으로 적혀 있는지 보는 기준 |
-| 특징 정의 동일성 | 특징 정의 동일성 | feature-definition identity | P3-6.6 | feature-definition-identity | feature-definition-identity | P3-6.6 source context | 같은 이름의 특징이 같은 단위·규칙·버전·운영 정의를 따르는지 보는 기준 |
-| 데이터 품질 점검 | 데이터 품질 점검 | data quality check | P3-2.3 | data-quality-check | data-quality-check | P3-2.3 source context | 결측, 중복, 순서 오류처럼 비교를 막는 데이터 문제를 먼저 확인하는 절차 |
 | 비교 가능성 | 비교 가능성 | comparability | P3-2.3 | comparability | comparability | P3-2.3 source context | 둘 이상의 값이나 샘플을 같은 기준 위에서 해석해도 되는 정도 |
 | 전처리 | 전처리 | preprocessing | P4-7.2 | preprocessing | preprocessing | P2-12.3 source context | 모델에 넣기 전에 입력 표현을 계산 가능한 형태로 준비하는 과정 |
 | 그래프(plot) | 그래프 | plot | P2-13.1 | plot | plot | P2-13.1 source context | 숫자나 표 데이터를 시각적 모양으로 바꾸어 보여 주는 그림 |

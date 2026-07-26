@@ -49,5 +49,3 @@
 --8<-- "reference/concept-glossary-terms/feature-scale.ko.md"
 
 --8<-- "reference/concept-glossary-terms/feature.ko.md"
-
---8<-- "reference/concept-glossary-terms/feature-definition-identity.ko.md"

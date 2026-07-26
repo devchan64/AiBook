@@ -19,7 +19,7 @@
 
 - 기준 파일: `management/glossary-indexes/concept-glossary-index.ko.md`
 - 단어별 원고 위치: `docs/reference/concept-glossary-terms/*.ko.md`
-- 현재 한국어 인덱스 항목 수: 325개
+- 현재 한국어 인덱스 항목 수: 318개
 - 현재 `표제 관리 제외 검토` 표시: 0개
 - 현재 `표제 통일 관리 검토` 표시: 0개
 - 검토 방식: 인덱스의 `비고` 표시, 대표 표제어, 영어 기준 용어, 중심 Section, 단어별 원고의 뜻·왜 중요한가를 함께 대조
@@ -289,6 +289,13 @@
 | 완료 | 스칼라배 | `scalar-multiplication` | scalar multiplication | 벡터 기본 연산의 하위 설명이다. 독립 표제보다 `스칼라`, `벡터`, `벡터 공간` 안에서 다룬다. | `스칼라`, `벡터`, `벡터 공간` |
 | 완료 | 선형 결합 | `linear-combination` | linear combination | 가중합과 선형 변환으로 이어지는 중간 설명이다. 독립 표제보다 `가중합`, `행렬 곱`, `선형 변환` 안에서 다룬다. | `가중합`, `행렬 곱`, `선형 변환` |
 | 완료 | 위치별 곱 | `element-wise-multiplication` | element-wise multiplication | 배열 연산의 하위 구분이다. 독립 표제보다 `배열`, `행렬 곱`, `브로드캐스팅` 안에서 다룬다. | `배열`, `행렬 곱`, `브로드캐스팅` |
+| 완료 | 저장 구조 | `storage-structure` | storage structure | 원천 기록 보존 방식의 하위 설명이다. 독립 표제보다 `원천데이터`, `데이터 모델링`, `데이터셋` 안에서 다룬다. | `원천데이터`, `데이터 모델링`, `데이터셋` |
+| 완료 | 문제 표현 구조 | `problem-representation-structure` | problem-representation structure | Part 3 작업 표의 설계 구조다. 독립 표제보다 `데이터 모델링`, `데이터셋`, `모델 출력 구조` 안에서 다룬다. | `데이터 모델링`, `데이터셋`, `모델 출력 구조` |
+| 완료 | 식별자 | `identifier` | identifier | 데이터 열 역할의 하위 구성요소다. 독립 표제보다 `샘플`, `특징`, `데이터셋` 안에서 설명한다. | `샘플`, `특징`, `데이터셋` |
+| 완료 | 형식 정합성 | `format-consistency` | format consistency | 데이터 점검 기준의 하위 항목이다. 독립 표제보다 `비교 가능성`, `원천데이터`, `전처리` 안에서 다룬다. | `비교 가능성`, `원천데이터`, `전처리` |
+| 완료 | 특징 정의 동일성 | `feature-definition-identity` | feature-definition identity | 특징 비교의 세부 점검 기준이다. 독립 표제보다 `특징`, `기준선`, `비교 가능성` 안에서 다룬다. | `특징`, `기준선`, `비교 가능성` |
+| 완료 | 데이터 품질 점검 | `data-quality-check` | data quality check | 계산 전 확인 절차다. 독립 표제보다 `비교 가능성`, `원천데이터`, `전처리` 문맥에서 다룬다. | `비교 가능성`, `원천데이터`, `전처리` |
+| 완료 | 열 역할 분리 | `column-role-separation` | column-role separation | 작업 표의 열 설계 기준이다. 독립 표제보다 `데이터셋`, `특징`, `타깃`, `데이터 누수` 안에서 다룬다. | `데이터셋`, `특징`, `타깃`, `데이터 누수` |
 
 ## 재검토 결과 요약
 

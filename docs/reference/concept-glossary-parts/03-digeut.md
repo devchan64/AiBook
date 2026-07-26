@@ -23,10 +23,6 @@
 --8<-- "reference/concept-glossary-terms/data-leakage.ko.md"
 --8<-- "reference/concept-glossary-terms/data-modeling.ko.md"
 
---8<-- "reference/concept-glossary-terms/data-quality-check.ko.md"
-
-
-
 --8<-- "reference/concept-glossary-terms/data-science.ko.md"
 
 --8<-- "reference/concept-glossary-terms/proxy-target.ko.md"
