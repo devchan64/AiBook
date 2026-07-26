@@ -12,8 +12,6 @@
 
 --8<-- "reference/concept-glossary-terms/rbf-kernel.ko.md"
 
---8<-- "reference/concept-glossary-terms/leaf.ko.md"
-
 --8<-- "reference/concept-glossary-terms/ensemble.ko.md"
 
 

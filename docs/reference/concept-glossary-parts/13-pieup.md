@@ -31,8 +31,6 @@
 --8<-- "reference/concept-glossary-terms/comparability.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/evaluation-mode.ko.md"
-
 --8<-- "reference/concept-glossary-terms/metric.ko.md"
 
 

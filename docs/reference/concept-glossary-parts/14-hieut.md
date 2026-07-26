@@ -14,8 +14,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/training-mode.ko.md"
-
 --8<-- "reference/concept-glossary-terms/learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/learning-based-approach.ko.md"
@@ -39,9 +37,6 @@
 --8<-- "reference/concept-glossary-terms/interpretation-boundary.ko.md"
 
 --8<-- "reference/concept-glossary-terms/format-consistency.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/action-bucket.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/action.ko.md"

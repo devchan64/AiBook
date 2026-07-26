@@ -8,8 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/spectral-clustering.ko.md"
 
---8<-- "reference/concept-glossary-terms/component.ko.md"
-
 --8<-- "reference/concept-glossary-terms/correlated-features.ko.md"
 
 --8<-- "reference/concept-glossary-terms/self-consistency.ko.md"
@@ -41,8 +39,6 @@
 --8<-- "reference/concept-glossary-terms/sequence-modeling.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/status-inspection.ko.md"
-
 --8<-- "reference/concept-glossary-terms/state.ko.md"
 
 --8<-- "reference/concept-glossary-terms/state-value.ko.md"
@@ -62,8 +58,6 @@
 --8<-- "reference/concept-glossary-terms/sentencepiece.ko.md"
 
 --8<-- "reference/concept-glossary-terms/actual-target.ko.md"
-
---8<-- "reference/concept-glossary-terms/sample-by-sample-comparison-table.ko.md"
 
 --8<-- "reference/concept-glossary-terms/generative-model.ko.md"
 

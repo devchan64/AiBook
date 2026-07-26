@@ -46,10 +46,6 @@
 
 --8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.ko.md"
 
---8<-- "reference/concept-glossary-terms/max-depth.ko.md"
-
---8<-- "reference/concept-glossary-terms/min-samples-leaf.ko.md"
-
 --8<-- "reference/concept-glossary-terms/recommendation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/axis.ko.md"

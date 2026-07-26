@@ -11,8 +11,6 @@
 
 --8<-- "reference/concept-glossary-terms/distributed-training.ko.md"
 
---8<-- "reference/concept-glossary-terms/split.ko.md"
-
 --8<-- "reference/concept-glossary-terms/bert.ko.md"
 
 
@@ -91,10 +89,6 @@
 --8<-- "reference/concept-glossary-terms/calibration.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/copy.ko.md"
-
-
-
 --8<-- "reference/concept-glossary-terms/partial-observability.ko.md"
 
 --8<-- "reference/concept-glossary-terms/classification.ko.md"
@@ -123,10 +117,6 @@
 
 --8<-- "reference/concept-glossary-terms/comparable-reference-group.ko.md"
 --8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
-
---8<-- "reference/concept-glossary-terms/secret.ko.md"
-
-
 
 --8<-- "reference/concept-glossary-terms/vit-vision-transformer.ko.md"
 
