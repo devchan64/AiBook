@@ -144,9 +144,6 @@
 | MCP | 모델 컨텍스트 프로토콜 | Model Context Protocol | P1-14.4 | model-context-protocol-mcp | model-context-protocol-mcp | MCP specification context | AI 앱과 외부 도구·리소스·프롬프트 연결을 표준화하려는 프로토콜 |
 | 외부 리소스 | 외부 리소스 | external resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽는 외부 맥락 데이터 |
 | 신뢰 경계 | 신뢰 경계 | trust boundary | P1-14.4 | trust-boundary | trust-boundary | P1-14.4 source context | 믿을 수 있는 영역과 검증해야 하는 영역을 나누는 경계 |
-| 하네스 | 하네스 | harness | P1-14.5 | harness | harness | P1-14.5 source context | 실행을 감싸고 기록·평가·재실행을 가능하게 하는 틀 |
-| 추적 | 추적 | trace | P1-14.5 | trace | trace | P1-14.5 source context | 한 요청이 거친 단계와 연결 관계를 따라 남기는 기록 |
-| 그레이더 | 그레이더 | grader | P1-14.5 | grader | grader | P1-14.5 source context | 출력이나 실행 결과를 기준에 따라 판정하는 평가 장치 |
 | 소프트웨어 회귀 | 소프트웨어 회귀 | software regression | P1-14.5 | software-regression | software-regression | P1-14.5 source context | 변경 뒤 이전에는 되던 기능이나 품질이 나빠지는 현상 |
 | 가드레일 | 가드레일 | guardrail | P1-14.5 | guardrail | guardrail | P1-14.5 source context | 허용 범위를 벗어난 입력·출력·실행을 막는 제한과 점검 장치 |
 | 서비스 제약 | 서비스 제약 | service constraints | P1-14.6 | service-constraints | service-constraints | P1-14.6 source context | 비용, 지연 시간, 처리량, 호출 한도 같은 운영 제한 조건 |

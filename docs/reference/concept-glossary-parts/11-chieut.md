@@ -32,8 +32,6 @@
 --8<-- "reference/concept-glossary-terms/inference.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/trace.ko.md"
-
 --8<-- "reference/concept-glossary-terms/attribution.ko.md"
 
 --8<-- "reference/concept-glossary-terms/estimation.ko.md"

@@ -146,8 +146,6 @@
 
 --8<-- "reference/concept-glossary-terms/guardrail.ko.md"
 
---8<-- "reference/concept-glossary-terms/grader.ko.md"
-
 --8<-- "reference/concept-glossary-terms/limit.ko.md"
 
 
