@@ -30,8 +30,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/deployment.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/version-control.ko.md"
 
