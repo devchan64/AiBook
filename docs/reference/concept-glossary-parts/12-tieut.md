@@ -26,8 +26,6 @@
 
 --8<-- "reference/concept-glossary-terms/tensor.ko.md"
 
---8<-- "reference/concept-glossary-terms/token-coverage.ko.md"
-
 --8<-- "reference/concept-glossary-terms/token.ko.md"
 
 

@@ -19,10 +19,6 @@
 --8<-- "reference/concept-glossary-terms/bellman-equation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.ko.md"
-
-
-
 
 
 

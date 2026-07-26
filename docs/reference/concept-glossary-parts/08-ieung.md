@@ -28,8 +28,6 @@
 
 --8<-- "reference/concept-glossary-terms/support-vector-machine.ko.md"
 
---8<-- "reference/concept-glossary-terms/wordpiece.ko.md"
-
 --8<-- "reference/concept-glossary-terms/vocabulary.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ai-safety.ko.md"
@@ -47,9 +45,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/attention.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/language-model.ko.md"

@@ -287,11 +287,6 @@
 | 토큰 | 토큰 | token | P6-2.1 | token | token | P6-2.1 source context | 모델이 텍스트를 처리하기 위해 나누는 기본 계산 단위 |
 | 토큰화 | 토큰화 | tokenization | P6-2.2 | tokenization | tokenization | P3-6.2 source context | 원문이나 구간 구조를 모델이 읽을 수 있는 짧은 token 시퀀스로 바꾸는 과정 |
 | 어휘 사전 | 어휘 사전 | vocabulary | P6-2.2 | vocabulary | vocabulary | P6-2.2 source context | tokenizer가 만들 수 있는 token 조각과 ID를 모아 둔 계산용 목록 |
-| BPE | BPE | Byte Pair Encoding | P6-2.2 | bpe-byte-pair-encoding | bpe-byte-pair-encoding | P6-2.2 source context | 자주 함께 나타나는 조각을 합쳐 subword vocabulary를 만드는 tokenizer 계열 |
-| WordPiece | WordPiece | WordPiece | P6-2.2 | wordpiece | wordpiece | P6-2.2 source context | vocabulary 효율을 기준으로 subword 조각을 고르는 tokenizer 계열 |
-| SentencePiece | SentencePiece | SentencePiece | P6-2.5 | sentencepiece | sentencepiece | P6-2.5 source context | 공백까지 포함한 문자열에서 subword 조각을 다루는 tokenizer 계열 |
-| 어휘 밖 | 어휘 밖 | out-of-vocabulary, OOV | P7-4.2 | out-of-vocabulary-oov | out-of-vocabulary-oov | P7-4.2 source context | 현재 vocabulary나 tokenization 규칙 밖에 있어 낯선 입력으로 남는 단어 또는 token |
-| 토큰 커버리지 | 토큰 커버리지 | token coverage | P7-4.2 | token-coverage | token-coverage | P7-4.2 source context | 입력 token 중 현재 vocabulary나 tokenizer 규칙으로 실제 읽힌 비율 |
 | 청크 | 청크 | chunk | P1-13.1 | chunk | chunk | P1-13.1 source context | 긴 문서를 검색과 비교에 쓰기 좋은 작은 텍스트 단위로 나눈 묶음 |
 | DataFrame | DataFrame | DataFrame | P2-12.1 | dataframe | dataframe | P2-12.1 source context | 행과 열 라벨이 붙은 2차원 표 형식 데이터 구조 |
 | 접기 규칙 | 접기 규칙 | folding rule | P3-5.7 | folding-rule | folding-rule | P3-5.7 source context | 여러 후속 사건이나 값을 하나의 대표 결과 열로 줄이는 명시적 기준 |

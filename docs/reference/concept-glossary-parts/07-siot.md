@@ -49,8 +49,6 @@
 
 --8<-- "reference/concept-glossary-terms/selective-labels.ko.md"
 
---8<-- "reference/concept-glossary-terms/sentencepiece.ko.md"
-
 --8<-- "reference/concept-glossary-terms/actual-target.ko.md"
 
 --8<-- "reference/concept-glossary-terms/generative-model.ko.md"

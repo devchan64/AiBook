@@ -19,7 +19,7 @@
 
 - 기준 파일: `management/glossary-indexes/concept-glossary-index.ko.md`
 - 단어별 원고 위치: `docs/reference/concept-glossary-terms/*.ko.md`
-- 현재 한국어 인덱스 항목 수: 310개
+- 현재 한국어 인덱스 항목 수: 305개
 - 현재 `표제 관리 제외 검토` 표시: 0개
 - 현재 `표제 통일 관리 검토` 표시: 0개
 - 검토 방식: 인덱스의 `비고` 표시, 대표 표제어, 영어 기준 용어, 중심 Section, 단어별 원고의 뜻·왜 중요한가를 함께 대조
@@ -304,6 +304,11 @@
 | 완료 | 피드포워드 네트워크 | `feed-forward-network` | feed-forward network | Transformer 블록의 하위 구성요소다. 독립 표제보다 `트랜스포머`, `셀프 어텐션`, `레이어 정규화` 안에서 다룬다. | `트랜스포머`, `셀프 어텐션`, `레이어 정규화` |
 | 완료 | 쿼리-키-값 | `query-key-value-qkv` | query-key-value, QKV | attention 계산의 내부 역할 구분이다. 독립 표제보다 `셀프 어텐션`, `멀티헤드 어텐션`, `트랜스포머` 안에서 다룬다. | `셀프 어텐션`, `멀티헤드 어텐션`, `트랜스포머` |
 | 완료 | sparse attention | `sparse-attention` | sparse attention | long-context attention 설계의 하위 방식이다. 독립 표제보다 `롱 컨텍스트`, `문맥 창`, `셀프 어텐션` 안에서 다룬다. | `롱 컨텍스트`, `문맥 창`, `셀프 어텐션` |
+| 완료 | BPE | `bpe-byte-pair-encoding` | Byte Pair Encoding | 토크나이저 구현 계열이다. 독립 표제보다 `토큰화`와 `어휘 사전` 안에서 다룬다. | `토큰화`, `어휘 사전`, `토큰` |
+| 완료 | WordPiece | `wordpiece` | WordPiece | 토크나이저 구현 계열이다. 독립 표제보다 `토큰화`와 `어휘 사전` 안에서 다룬다. | `토큰화`, `어휘 사전`, `토큰` |
+| 완료 | SentencePiece | `sentencepiece` | SentencePiece | 토크나이저 구현 계열이다. 독립 표제보다 `토큰화`와 다국어 입력 처리 설명 안에서 다룬다. | `토큰화`, `어휘 사전`, `토큰` |
+| 완료 | 어휘 밖 | `out-of-vocabulary-oov` | out-of-vocabulary, OOV | 토큰화·어휘 체계의 진단 상태다. 독립 표제보다 `토큰화`, `어휘 사전`, `임베딩` 안에서 다룬다. | `토큰화`, `어휘 사전`, `임베딩` |
+| 완료 | 토큰 커버리지 | `token-coverage` | token coverage | 입력 보존 정도를 보는 진단 지표다. 독립 표제보다 `토큰화`, `토큰`, `평가 지표` 안에서 다룬다. | `토큰화`, `토큰`, `평가 지표` |
 
 ## 재검토 결과 요약
 
