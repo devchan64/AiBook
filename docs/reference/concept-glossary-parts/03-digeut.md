@@ -18,7 +18,6 @@
 
 --8<-- "reference/concept-glossary-terms/next-token-prediction.ko.md"
 
---8<-- "reference/concept-glossary-terms/next-action.ko.md"
 
 --8<-- "reference/concept-glossary-terms/derivative-function.ko.md"
 

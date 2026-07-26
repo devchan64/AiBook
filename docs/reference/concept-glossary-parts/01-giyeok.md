@@ -54,9 +54,7 @@
 
 --8<-- "reference/concept-glossary-terms/likelihood-ratio-trick.ko.md"
 
---8<-- "reference/concept-glossary-terms/improvement-plan.ko.md"
 
---8<-- "reference/concept-glossary-terms/personal-learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/privacy.ko.md"
 
@@ -119,7 +117,6 @@
 
 --8<-- "reference/concept-glossary-terms/group-split.ko.md"
 
---8<-- "reference/concept-glossary-terms/alert-grade.ko.md"
 --8<-- "reference/concept-glossary-terms/gradient-descent.ko.md"
 --8<-- "reference/concept-glossary-terms/computation-graph.ko.md"
 --8<-- "reference/concept-glossary-terms/computational-limit.ko.md"

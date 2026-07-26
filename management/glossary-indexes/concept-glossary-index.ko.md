@@ -220,8 +220,6 @@
 | 비밀 정보 | 비밀 정보 | confidential information | P1-15.3 | confidential-information | confidential-information | security/confidentiality context | 외부 노출 시 조직·고객·운영에 피해를 줄 수 있는 내부 정보 |
 | 과도한 권한 | 과도한 권한 | excessive agency | P1-15.3 | excessive-agency | excessive-agency | OWASP LLM agentic risk context | 현재 작업 목적보다 실행 권한과 자율성이 너무 넓은 상태 |
 | 마스킹 | 마스킹 | masking | P1-15.3 | masking | masking | security logging context | 민감 정보 일부를 가리거나 대체해 노출 위험을 줄이는 처리 |
-| 개인 학습 | 개인 학습 | personal learning | P1-16.1 | personal-learning | personal-learning | P1-16.1 source context | 잊은 개념을 질문과 근거로 다시 회복하는 학습 과정; 표제 통일 관리 검토 |
-| 복습 | 복습 | relearning | P1-16.1 | relearning | relearning | P1-16.1 source context | 예전에 배운 내용을 현재 기준으로 다시 재구성하는 과정; 표제 통일 관리 검토 |
 | 작업 가설 | 작업 가설 | working hypothesis | P1-16.1 | working-hypothesis | working-hypothesis | P1-16.1 source context | 검증 전 직관을 사실과 구분해 임시 설명으로 보존하는 문장 |
 | 질문 구조화 | 질문 구조화 | question structuring | P1-16.1 | question-structuring | question-structuring | P1-16.1 source context | 막연한 기억이나 문제의식을 순서와 범위가 있는 질문으로 나누는 과정 |
 | 업무 자동화 | 업무 자동화 | work automation | P1-16.2 | work-automation | work-automation | P1-16.2 source context | 업무 흐름 일부 단계를 AI나 스크립트에 맡기는 적용 방식 |
@@ -534,13 +532,9 @@
 
 | 인덱스 표기 | 대표 표제어 | 영어 기준 용어 | 중심 Section | 파일 slug | 앵커 | 검증 레퍼런스 | 비고 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 경고 등급 | 경고 등급 | alert grade | P7-7.4 | alert-grade | alert-grade | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 검토 대상 | 검토 대상 | review target | P7-4.2 | review-target | review-target | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 개선 계획 | 개선 계획 | improvement plan | P7-7.2 | improvement-plan | improvement-plan | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 권리와 책임 | 권리와 책임 | rights and responsibility | P1-10.3 | rights-and-responsibility | rights-and-responsibility | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 다음 행동 | 다음 행동 | next action | P7-6.3 | next-action | next-action | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 메타데이터 | 메타데이터 | metadata | P1-13.4 | metadata | metadata | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 실행 요약 | 실행 요약 | execution summary | P7-2.1 | execution-summary | execution-summary | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 우선순위 | 우선순위 | priority | P7-7.3 | priority | priority | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 질의 | 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 평가 기록 | 평가 기록 | evaluation record | P7-3.2 | evaluation-record | evaluation-record | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |

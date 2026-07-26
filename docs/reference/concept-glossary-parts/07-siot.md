@@ -217,7 +217,6 @@
 --8<-- "reference/concept-glossary-terms/execution-order.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/execution-summary.ko.md"
 
 
 

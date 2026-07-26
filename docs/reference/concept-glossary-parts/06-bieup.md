@@ -113,7 +113,6 @@
 
 --8<-- "reference/concept-glossary-terms/copy.ko.md"
 
---8<-- "reference/concept-glossary-terms/relearning.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/partial-observability.ko.md"
