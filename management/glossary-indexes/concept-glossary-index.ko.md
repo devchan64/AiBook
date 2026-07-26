@@ -105,7 +105,6 @@
 | 웨이브넷 | 웨이브넷 | WaveNet | P1-9.2 | wavenet | wavenet | WaveNet paper | 원시 오디오 파형을 순차 생성한 모델 사례 |
 | 음성 생성 | 음성 생성 | speech generation | P1-9.2 | speech-generation | speech-generation | WaveNet paper | 시간 순서의 오디오 신호를 만드는 생성 문제 |
 | 텍스트 음성 변환 | 텍스트 음성 변환 | TTS, text-to-speech | P1-9.2 | tts-text-to-speech | tts-text-to-speech | Deep Voice paper | 텍스트 입력을 음성 출력으로 바꾸는 응용 문제 |
-| 모델 후처리 | 모델 후처리 | model postprocessing | P1-5.2 | postprocessing | postprocessing | P1-5.2 source context | 모델 출력을 서비스 결정이나 표시 결과로 바꾸는 모델 바깥 단계 |
 | 위험 | 위험 | risk | P1-10.3 | risk | risk | NIST GenAI Profile | 생성 결과나 AI 사용이 피해로 이어질 가능성 |
 | 확률적 예측 | 확률적 예측 | probabilistic prediction | P1-6.3 | probabilistic-prediction | probabilistic-prediction | Google ML Glossary probabilistic regression model | 가능한 결과의 범위나 가능성을 함께 표현하는 예측 |
 | 확률적 선택 | 확률적 선택 | probabilistic choice | P1-10.2 | probabilistic-choice | probabilistic-choice | P1-10.2 source context | 후보 분포에서 실제 출력 하나를 선택하는 과정 |

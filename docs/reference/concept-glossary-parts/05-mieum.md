@@ -37,8 +37,6 @@
 
 --8<-- "reference/concept-glossary-terms/score.ko.md"
 
---8<-- "reference/concept-glossary-terms/postprocessing.ko.md"
-
 --8<-- "reference/concept-glossary-terms/modeling-task.ko.md"
 
 --8<-- "reference/concept-glossary-terms/output-structure.ko.md"
