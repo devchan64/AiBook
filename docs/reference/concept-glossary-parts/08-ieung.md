@@ -59,8 +59,6 @@
 
 --8<-- "reference/concept-glossary-terms/source-data.ko.md"
 
---8<-- "reference/concept-glossary-terms/source-event.ko.md"
-
 --8<-- "reference/concept-glossary-terms/prediction-contract.ko.md"
 
 --8<-- "reference/concept-glossary-terms/work-automation.ko.md"
@@ -210,7 +208,5 @@
 
 --8<-- "reference/concept-glossary-terms/embedding.ko.md"
 
-
---8<-- "reference/concept-glossary-terms/input-specification.ko.md"
 
 --8<-- "reference/concept-glossary-terms/input.ko.md"
