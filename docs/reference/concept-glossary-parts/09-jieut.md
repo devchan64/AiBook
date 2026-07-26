@@ -78,8 +78,6 @@
 --8<-- "reference/concept-glossary-terms/information-loss.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/static-deployment.ko.md"
-
 --8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/policy.ko.md"

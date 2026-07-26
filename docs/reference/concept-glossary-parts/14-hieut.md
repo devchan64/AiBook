@@ -66,7 +66,6 @@
 
 --8<-- "reference/concept-glossary-terms/hallucination.ko.md"
 
---8<-- "reference/concept-glossary-terms/environment-mismatch.ko.md"
 --8<-- "reference/concept-glossary-terms/activation-function.ko.md"
 --8<-- "reference/concept-glossary-terms/exploitation.ko.md"
 

@@ -15,8 +15,6 @@
 --8<-- "reference/concept-glossary-terms/hypothesis-testing.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/virtual-environment.ko.md"
-
 --8<-- "reference/concept-glossary-terms/weight.ko.md"
 
 

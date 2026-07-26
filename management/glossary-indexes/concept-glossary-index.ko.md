@@ -288,12 +288,8 @@
 | 학습 반복 | 학습 반복 | iteration | P2-6.3 | iteration | iteration | P2-6.3 source context | 예측, 손실 계산, 그래디언트 계산, 업데이트를 한 차례 수행하는 학습 단위 |
 | 파라미터 업데이트 | 파라미터 업데이트 | parameter update | P2-6.3 | update | update | P2-6.3 source context | 학습 계산 결과에 맞춰 모델 파라미터를 바꾸는 단계 |
 | 손실 지형 | 손실 지형 | loss landscape | P2-6.3 | loss-landscape | loss-landscape | P2-6.3 source context | 파라미터 위치에 따라 손실값이 달라지는 모양을 지형처럼 본 표현 |
-| 로컬 환경 | 로컬 환경 | local environment | P2-7.1 | local-environment | local-environment | P2-7.1 source context | 내 컴퓨터에서 코드를 실행하기 위해 준비된 프로그램, 파일, 설정의 묶음 |
 | 실행 환경 | 실행 환경 | runtime | P2-7.1 | runtime | runtime | Python runtime context | 코드가 실제로 실행되는 자리와 연결된 프로그램·패키지·설정 묶음 |
-| 가상환경 | 가상환경 | virtual environment | P2-7.4 | virtual-environment | virtual-environment | Python venv docs | 프로젝트별로 분리한 Python 실행 공간 |
 | 의존성 | 의존성 | dependency | P2-7.5 | dependency | dependency | Python Packaging User Guide | 코드 실행에 필요한 외부 패키지나 환경 조건 |
-| 버전 고정 | 버전 고정 | version pinning | P2-7.5 | version-pinning | version-pinning | pip repeatable installs | 특정 패키지 버전을 명시해 환경 차이를 줄이는 방법 |
-| 환경 불일치 | 환경 불일치 | environment mismatch | P2-7.9 | environment-mismatch | environment-mismatch | P2-7.9 source context | 패키지를 설치한 환경과 코드를 실행하는 환경이 서로 다른 상태 |
 | 반복 누적 | 반복 누적 | iterative accumulation | P2-8.4 | accumulation | accumulation | P2-8.4 source context | 반복 중 현재까지의 결과를 계속 쌓아 하나의 결과를 만드는 패턴 |
 | 자료구조 | 자료구조 | data structure | P2-9.1 | data-structure | data-structure | P2-9.1 source context | 데이터를 조직하는 모양과 자주 수행할 연산을 함께 보는 기준 |
 | 자료구조 연산 | 자료구조 연산 | operation | P2-9.1 | operation | operation | P2-9.1 source context | 자료구조 위에서 수행하는 접근, 검색, 추가, 삭제, 순회 같은 작업 |
@@ -345,7 +341,6 @@
 | 정확도 | 정확도 | accuracy | P2-13.3 | accuracy | accuracy | P2-13.3 source context | 전체 예측 중 맞춘 비율을 나타내는 성능 지표 |
 | 버전 관리 | 버전 관리 | version control | P2-14.1 | version-control | version-control | P2-14.1 source context | 시간에 따라 바뀐 파일 상태와 이유를 다시 찾게 해 주는 기록 방식 |
 | 배포 | 배포 | deployment | P2-14.2 | deployment | deployment | P2-14.2 source context | 독자에게 보이는 문서 결과를 실제 공개 상태로 갱신하는 일 |
-| 정적 배포 | 정적 배포 | static deployment | P7-7.1 | static-deployment | static-deployment | P2-14.2 source context | 미리 생성한 정적 파일을 사이트 형태로 공개하는 방식 |
 | 문서 재현성 | 문서 재현성 | document reproducibility | P2-14.2 | document-reproducibility | document-reproducibility | P2-14.2 source context | 원고, 코드, 이미지, 설정을 맞춰 같은 문서 결과를 다시 만들 수 있는 성질 |
 | 대조 학습 | 대조 학습 | contrastive learning | P6-3.3 | contrastive-learning | contrastive-learning | SimCLR, SBERT context | 가까워져야 할 쌍과 멀어져야 할 쌍으로 표현 공간 배치를 배우는 접근 |
 | GloVe | GloVe | GloVe | P6-3.3 | glove | glove | Pennington et al. 2014 | 전역 단어-단어 동시출현 통계를 반영하는 단어 임베딩 방법 |

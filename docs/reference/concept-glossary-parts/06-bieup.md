@@ -41,8 +41,6 @@
 --8<-- "reference/concept-glossary-terms/deployment.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/version-pinning.ko.md"
-
 --8<-- "reference/concept-glossary-terms/version-control.ko.md"
 
 --8<-- "reference/concept-glossary-terms/category.ko.md"

@@ -36,6 +36,4 @@
 
 
 
---8<-- "reference/concept-glossary-terms/local-environment.ko.md"
-
 --8<-- "reference/concept-glossary-terms/long-context.ko.md"
