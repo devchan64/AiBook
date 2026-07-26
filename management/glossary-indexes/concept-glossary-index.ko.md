@@ -255,13 +255,9 @@
 | 최적화 | 최적화 | optimization | P2-6.1 | optimization | optimization | P2-6.1 source context | 기준과 제약을 고려해 여러 후보 중 더 나은 값을 찾는 문제 |
 | 롱 컨텍스트 | 롱 컨텍스트 | long-context | P6-4.5 | long-context | long-context | long-context design context | 긴 입력에서 중요한 정보를 유지하고 활용하는 설계 문제 |
 | 문맥 창 | 문맥 창 | context window | P6-4.2 | context-window | context-window | P6-4.2 source context | 모델이 한 번의 입력-출력 계산 동안 함께 참고할 수 있는 최대 토큰 범위 |
-| KV cache | KV cache | KV cache | P6-4.4 | kv-cache | kv-cache | long-context generation context | 이전 토큰의 key/value 표현을 저장해 다음 생성에서 재사용하는 장치 |
-| 피드포워드 네트워크 | 피드포워드 네트워크 | feed-forward network | P5-14.6 | feed-forward-network | feed-forward-network | Transformer block context | attention 뒤에서 각 위치 표현을 다시 비선형적으로 가공하는 블록 |
 | 멀티헤드 어텐션 | 멀티헤드 어텐션 | multi-head attention | P5-13.3 | multi-head-attention | multi-head-attention | Transformer context | 여러 attention head로 토큰 관계를 나누어 읽은 뒤 결과를 합치는 구조 |
-| 쿼리-키-값 | 쿼리-키-값 | query-key-value, QKV | P5-13.3 | query-key-value-qkv | query-key-value-qkv | attention context | attention 계산에서 조회 기준, 매칭 조건, 실제 전달 내용을 나누는 세 역할 |
 | 위치 인코딩 | 위치 인코딩 | positional encoding | P1-11.3 | positional-encoding | positional-encoding | Transformer context | 토큰 의미 벡터와 별도로 공급하는 시퀀스 위치 정보 |
 | 셀프 어텐션 | 셀프 어텐션 | self-attention | P5-13.2 | self-attention | self-attention | Transformer context | 같은 시퀀스 안의 토큰 관계를 계산해 각 토큰 표현을 갱신하는 attention 방식 |
-| sparse attention | sparse attention | sparse attention | P6-4.5 | sparse-attention | sparse-attention | long-context attention context | 모든 토큰 쌍을 조밀하게 비교하지 않고 일부 연결만 남기는 attention 설계 |
 | 다음 토큰 예측 | 다음 토큰 예측 | next-token prediction | P1-10.2 | next-token-prediction | next-token-prediction | LLM generation context | 현재 문맥에서 다음 토큰 후보를 계산하고 한 토큰씩 생성을 이어 가는 방식 |
 | 샘플링 | 샘플링 | sampling | P5-15.3 | sampling | sampling | P5-15.3 source context | 후보 분포에서 실제 출력 조각 하나를 선택하는 절차 |
 | Transformer | 트랜스포머 | Transformer | P1-11.3 | transformer | transformer | Attention Is All You Need | attention 기반으로 시퀀스 위치 관계를 비교하는 신경망 구조 계열 |

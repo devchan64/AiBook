@@ -20,9 +20,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/sparse-attention.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/event.ko.md"
 --8<-- "reference/concept-glossary-terms/human-evaluation.ko.md"
 --8<-- "reference/concept-glossary-terms/factual-claim.ko.md"
