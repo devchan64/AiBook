@@ -44,7 +44,6 @@
 
 --8<-- "reference/concept-glossary-terms/local-planner.ko.md"
 
---8<-- "reference/concept-glossary-terms/local-pc.ko.md"
 
 --8<-- "reference/concept-glossary-terms/local-environment.ko.md"
 

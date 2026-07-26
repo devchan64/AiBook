@@ -1,6 +1,5 @@
 ## ㅂ
 
---8<-- "reference/concept-glossary-terms/best-split.ko.md"
 
 --8<-- "reference/concept-glossary-terms/partial-dependence-plot-pdp.ko.md"
 
@@ -30,7 +29,6 @@
 
 --8<-- "reference/concept-glossary-terms/loop.ko.md"
 
---8<-- "reference/concept-glossary-terms/comparison-plot.ko.md"
 
 --8<-- "reference/concept-glossary-terms/mutable-value.ko.md"
 
@@ -56,7 +54,6 @@
 --8<-- "reference/concept-glossary-terms/penalty.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/deployment-check.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/deployment.ko.md"
@@ -99,11 +96,9 @@
 --8<-- "reference/concept-glossary-terms/augmentation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/hold-state.ko.md"
 
 --8<-- "reference/concept-glossary-terms/report.ko.md"
 
---8<-- "reference/concept-glossary-terms/report-limit.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reward.ko.md"
 
@@ -150,9 +145,7 @@
 
 --8<-- "reference/concept-glossary-terms/nondeterministic.ko.md"
 
---8<-- "reference/concept-glossary-terms/comparison-result.ko.md"
 --8<-- "reference/concept-glossary-terms/comparable-reference-group.ko.md"
---8<-- "reference/concept-glossary-terms/comparison-report.ko.md"
 --8<-- "reference/concept-glossary-terms/comparison-table.ko.md"
 --8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
 

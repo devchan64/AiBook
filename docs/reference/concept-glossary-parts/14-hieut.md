@@ -12,7 +12,6 @@
 
 --8<-- "reference/concept-glossary-terms/confusion-matrix.ko.md"
 
---8<-- "reference/concept-glossary-terms/candidate.ko.md"
 
 --8<-- "reference/concept-glossary-terms/candidate-distribution.ko.md"
 
@@ -35,7 +34,6 @@
 --8<-- "reference/concept-glossary-terms/function-approximation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/composite-function.ko.md"
---8<-- "reference/concept-glossary-terms/summation-term.ko.md"
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.ko.md"
 --8<-- "reference/concept-glossary-terms/convolution.ko.md"
 --8<-- "reference/concept-glossary-terms/interpretation.ko.md"
@@ -44,7 +42,6 @@
 
 --8<-- "reference/concept-glossary-terms/format-consistency.ko.md"
 
---8<-- "reference/concept-glossary-terms/row.ko.md"
 
 --8<-- "reference/concept-glossary-terms/action-bucket.ko.md"
 
@@ -58,7 +55,6 @@
 
 --8<-- "reference/concept-glossary-terms/matrix.ko.md"
 
---8<-- "reference/concept-glossary-terms/host.ko.md"
 
 --8<-- "reference/concept-glossary-terms/probabilistic-model.ko.md"
 
@@ -85,7 +81,6 @@
 --8<-- "reference/concept-glossary-terms/activation-function.ko.md"
 --8<-- "reference/concept-glossary-terms/exploitation.ko.md"
 
---8<-- "reference/concept-glossary-terms/retrospective.ko.md"
 
 --8<-- "reference/concept-glossary-terms/regression.ko.md"
 

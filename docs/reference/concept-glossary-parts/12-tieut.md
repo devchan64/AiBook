@@ -1,6 +1,5 @@
 ## ㅌ
 
---8<-- "reference/concept-glossary-terms/temperature.ko.md"
 
 --8<-- "reference/concept-glossary-terms/truncated-svd.ko.md"
 
@@ -28,7 +27,6 @@
 
 --8<-- "reference/concept-glossary-terms/terminal.ko.md"
 
---8<-- "reference/concept-glossary-terms/test-record.ko.md"
 
 --8<-- "reference/concept-glossary-terms/test.ko.md"
 
@@ -46,7 +44,6 @@
 
 --8<-- "reference/concept-glossary-terms/token.ko.md"
 
---8<-- "reference/concept-glossary-terms/token-id.ko.md"
 
 --8<-- "reference/concept-glossary-terms/tokenization.ko.md"
 
@@ -69,5 +66,3 @@
 --8<-- "reference/concept-glossary-terms/feature.ko.md"
 
 --8<-- "reference/concept-glossary-terms/feature-definition-identity.ko.md"
-
---8<-- "reference/concept-glossary-terms/wrong-case-list.ko.md"

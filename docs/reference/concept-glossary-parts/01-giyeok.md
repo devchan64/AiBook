@@ -70,7 +70,6 @@
 
 --8<-- "reference/concept-glossary-terms/search-index.ko.md"
 
---8<-- "reference/concept-glossary-terms/evidence-candidate.ko.md"
 
 --8<-- "reference/concept-glossary-terms/retrieval-augmented-generation-rag.ko.md"
 
@@ -84,39 +83,31 @@
 
 --8<-- "reference/concept-glossary-terms/false-positive.ko.md"
 
---8<-- "reference/concept-glossary-terms/review-target-sample.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review-target.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review-candidate.ko.md"
 
---8<-- "reference/concept-glossary-terms/review-summary.ko.md"
 
---8<-- "reference/concept-glossary-terms/review-queue.ko.md"
 
 --8<-- "reference/concept-glossary-terms/incomplete-negative.ko.md"
 
 --8<-- "reference/concept-glossary-terms/intervention-feedback.ko.md"
 
---8<-- "reference/concept-glossary-terms/alert.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review-cost.ko.md"
 
---8<-- "reference/concept-glossary-terms/change-comparison.ko.md"
 
 --8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.ko.md"
 
 --8<-- "reference/concept-glossary-terms/isolation.ko.md"
 
---8<-- "reference/concept-glossary-terms/result-interpretation-table.ko.md"
 
 --8<-- "reference/concept-glossary-terms/missing-value.ko.md"
 
---8<-- "reference/concept-glossary-terms/record.ko.md"
 
---8<-- "reference/concept-glossary-terms/outcome.ko.md"
 
 --8<-- "reference/concept-glossary-terms/decision-tree.ko.md"
 
@@ -191,7 +182,6 @@
 
 --8<-- "reference/concept-glossary-terms/limit.ko.md"
 
---8<-- "reference/concept-glossary-terms/evidence-review.ko.md"
 
 --8<-- "reference/concept-glossary-terms/fair-use.ko.md"
 --8<-- "reference/concept-glossary-terms/evidence.ko.md"

@@ -45,7 +45,6 @@
 
 --8<-- "reference/concept-glossary-terms/reproducible-record.ko.md"
 
---8<-- "reference/concept-glossary-terms/recheck.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reproducibility.ko.md"
 
@@ -113,9 +112,7 @@
 
 --8<-- "reference/concept-glossary-terms/policy.ko.md"
 
---8<-- "reference/concept-glossary-terms/policy-document.ko.md"
 
---8<-- "reference/concept-glossary-terms/policy-proposal.ko.md"
 
 --8<-- "reference/concept-glossary-terms/accuracy.ko.md"
 
@@ -133,7 +130,6 @@
 
 --8<-- "reference/concept-glossary-terms/stop-condition.ko.md"
 
---8<-- "reference/concept-glossary-terms/surrounding-evidence.ko.md"
 
 --8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.ko.md"
 

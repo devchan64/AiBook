@@ -34,7 +34,6 @@
 
 --8<-- "reference/concept-glossary-terms/optimization.ko.md"
 
---8<-- "reference/concept-glossary-terms/follow-up-review-sample.ko.md"
 
 --8<-- "reference/concept-glossary-terms/inference-engine.ko.md"
 
@@ -73,5 +72,3 @@
 --8<-- "reference/concept-glossary-terms/output-layer.ko.md"
 
 --8<-- "reference/concept-glossary-terms/provenance.ko.md"
-
---8<-- "reference/concept-glossary-terms/good-enough-solution.ko.md"

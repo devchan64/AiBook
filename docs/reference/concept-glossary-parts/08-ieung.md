@@ -16,7 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/ensemble.ko.md"
 
---8<-- "reference/concept-glossary-terms/adapter.ko.md"
 
 --8<-- "reference/concept-glossary-terms/actor-critic.ko.md"
 
@@ -73,7 +72,6 @@
 
 --8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.ko.md"
 
---8<-- "reference/concept-glossary-terms/oob-score.ko.md"
 
 --8<-- "reference/concept-glossary-terms/language-model.ko.md"
 
@@ -132,9 +130,7 @@
 --8<-- "reference/concept-glossary-terms/exception.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/impact.ko.md"
 
---8<-- "reference/concept-glossary-terms/idea.ko.md"
 
 --8<-- "reference/concept-glossary-terms/business-outcome.ko.md"
 
@@ -172,14 +168,11 @@
 
 --8<-- "reference/concept-glossary-terms/optimizer.ko.md"
 
---8<-- "reference/concept-glossary-terms/summary.ko.md"
 
 --8<-- "reference/concept-glossary-terms/exhaustive-search.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/summary-table.ko.md"
 
---8<-- "reference/concept-glossary-terms/run-record.ko.md"
 
 --8<-- "reference/concept-glossary-terms/yolo.ko.md"
 
@@ -262,7 +255,6 @@
 
 --8<-- "reference/concept-glossary-terms/input-condition.ko.md"
 
---8<-- "reference/concept-glossary-terms/input-file.ko.md"
 
 --8<-- "reference/concept-glossary-terms/input.ko.md"
 

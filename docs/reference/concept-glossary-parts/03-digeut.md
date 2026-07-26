@@ -12,9 +12,7 @@
 
 --8<-- "reference/concept-glossary-terms/multinomial-logistic-regression.ko.md"
 
---8<-- "reference/concept-glossary-terms/dtype.ko.md"
 
---8<-- "reference/concept-glossary-terms/next-question.ko.md"
 
 --8<-- "reference/concept-glossary-terms/next-output-generation.ko.md"
 
@@ -33,9 +31,7 @@
 
 --8<-- "reference/concept-glossary-terms/data-quality-check.ko.md"
 
---8<-- "reference/concept-glossary-terms/dataset-candidate.ko.md"
 
---8<-- "reference/concept-glossary-terms/data-question.ko.md"
 
 --8<-- "reference/concept-glossary-terms/data-science.ko.md"
 

@@ -20,7 +20,6 @@
 
 --8<-- "reference/concept-glossary-terms/support-vector.ko.md"
 
---8<-- "reference/concept-glossary-terms/shape.ko.md"
 
 --8<-- "reference/concept-glossary-terms/shared-view.ko.md"
 
@@ -28,13 +27,11 @@
 
 --8<-- "reference/concept-glossary-terms/sparse-attention.ko.md"
 
---8<-- "reference/concept-glossary-terms/incident-record.ko.md"
 
 --8<-- "reference/concept-glossary-terms/event.ko.md"
 --8<-- "reference/concept-glossary-terms/fact-event.ko.md"
 --8<-- "reference/concept-glossary-terms/human-evaluation.ko.md"
 --8<-- "reference/concept-glossary-terms/human-review.ko.md"
---8<-- "reference/concept-glossary-terms/example.ko.md"
 --8<-- "reference/concept-glossary-terms/factual-claim.ko.md"
 --8<-- "reference/concept-glossary-terms/fact.ko.md"
 --8<-- "reference/concept-glossary-terms/factuality.ko.md"
@@ -211,10 +208,8 @@
 --8<-- "reference/concept-glossary-terms/expression.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/failure-type.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/failure.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/scope.ko.md"
@@ -225,7 +220,6 @@
 --8<-- "reference/concept-glossary-terms/execution-summary.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/execution-scene.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/execution-environment.ko.md"

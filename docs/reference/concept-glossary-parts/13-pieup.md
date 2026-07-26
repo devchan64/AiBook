@@ -14,7 +14,6 @@
 
 --8<-- "reference/concept-glossary-terms/path.ko.md"
 
---8<-- "reference/concept-glossary-terms/file-path.ko.md"
 
 --8<-- "reference/concept-glossary-terms/proxy-label.ko.md"
 
@@ -82,7 +81,6 @@
 
 --8<-- "reference/concept-glossary-terms/pooling.ko.md"
 
---8<-- "reference/concept-glossary-terms/quality.ko.md"
 
 --8<-- "reference/concept-glossary-terms/few-shot-prompting.ko.md"
 
@@ -104,7 +102,6 @@
 
 --8<-- "reference/concept-glossary-terms/protected-expression.ko.md"
 
---8<-- "reference/concept-glossary-terms/project.ko.md"
 
 --8<-- "reference/concept-glossary-terms/feed-forward-network.ko.md"
 --8<-- "reference/concept-glossary-terms/filtering.ko.md"

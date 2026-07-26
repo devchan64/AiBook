@@ -12,7 +12,6 @@
 
 --8<-- "reference/concept-glossary-terms/margin.ko.md"
 
---8<-- "reference/concept-glossary-terms/max-features.ko.md"
 
 --8<-- "reference/concept-glossary-terms/corpus.ko.md"
 
@@ -81,7 +80,6 @@
 --8<-- "reference/concept-glossary-terms/context-window.ko.md"
 --8<-- "reference/concept-glossary-terms/contextual-representation.ko.md"
 --8<-- "reference/concept-glossary-terms/document-reproducibility.ko.md"
---8<-- "reference/concept-glossary-terms/documentation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/document-vector.ko.md"
 
@@ -89,7 +87,6 @@
 
 --8<-- "reference/concept-glossary-terms/task-definition.ko.md"
 
---8<-- "reference/concept-glossary-terms/forecast.ko.md"
 
 --8<-- "reference/concept-glossary-terms/derivative.ko.md"
 

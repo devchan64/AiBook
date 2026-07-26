@@ -24,9 +24,7 @@
 
 --8<-- "reference/concept-glossary-terms/caching.ko.md"
 
---8<-- "reference/concept-glossary-terms/ccp-alpha.ko.md"
 
---8<-- "reference/concept-glossary-terms/opinion-column.ko.md"
 
 --8<-- "reference/concept-glossary-terms/commit.ko.md"
 
