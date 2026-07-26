@@ -193,3 +193,7 @@
 --8<-- "reference/concept-glossary-terms/deep-copy.ko.md"
 
 --8<-- "reference/concept-glossary-terms/glove.ko.md"
+
+--8<-- "reference/concept-glossary-terms/query.ko.md"
+
+--8<-- "reference/concept-glossary-terms/environment.ko.md"

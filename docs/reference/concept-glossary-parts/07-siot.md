@@ -116,6 +116,8 @@
 
 --8<-- "reference/concept-glossary-terms/shell.ko.md"
 
+--8<-- "reference/concept-glossary-terms/log.ko.md"
+
 --8<-- "reference/concept-glossary-terms/attribute.ko.md"
 
 

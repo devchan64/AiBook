@@ -67,8 +67,6 @@
 
 --8<-- "reference/concept-glossary-terms/target-candidate.ko.md"
 
---8<-- "reference/concept-glossary-terms/goal.ko.md"
-
 --8<-- "reference/concept-glossary-terms/undirected-graph.ko.md"
 
 --8<-- "reference/concept-glossary-terms/random.ko.md"

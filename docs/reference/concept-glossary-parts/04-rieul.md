@@ -30,8 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/rate-limit.ko.md"
 
---8<-- "reference/concept-glossary-terms/log.ko.md"
-
 --8<-- "reference/concept-glossary-terms/logarithm.ko.md"
 
 --8<-- "reference/concept-glossary-terms/log-loss.ko.md"
@@ -50,7 +48,5 @@
 --8<-- "reference/concept-glossary-terms/long-context.ko.md"
 
 --8<-- "reference/concept-glossary-terms/redirection.ko.md"
-
---8<-- "reference/concept-glossary-terms/resource.ko.md"
 
 --8<-- "reference/concept-glossary-terms/list.ko.md"

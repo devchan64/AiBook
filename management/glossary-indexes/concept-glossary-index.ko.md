@@ -149,8 +149,8 @@
 | 일관성 | 일관성 | consistency | P1-12.3 | consistency | consistency | P1-12.3 source context | 여러 입력과 반복 결과에서 기준이 유지되는 정도 |
 | RAG | 검색 증강 생성 | retrieval-augmented generation | P1-13.3 | retrieval-augmented-generation-rag | retrieval-augmented-generation-rag | RAG paper | 검색한 외부 자료를 생성 입력에 붙이는 구조 |
 | HNSW | HNSW | hierarchical navigable small world | P1-13.4 | hnsw-hierarchical-navigable-small-world | hnsw-hierarchical-navigable-small-world | HNSW paper | 그래프 기반 ANN의 대표적인 벡터 검색 인덱스 방법 |
-| 앱 | 앱 | application | P1-14.1 | application | application | P1-14.1 source context | 모델, 데이터, 도구를 묶어 사용자가 만나는 기능 형태; 표제 통일 관리 검토 |
-| 도구 | 도구 | tool | P1-14.1 | tool | tool | P1-14.1 source context | 모델 밖의 기능을 조회하거나 실행하는 연결 수단; 표제 통일 관리 검토 |
+| AI 앱 | AI 앱 | application | P1-14.1 | application | application | P1-14.1 source context | 일반 앱이 아니라 모델·도구·데이터를 묶어 사용자가 만나는 AI 서비스 표면 |
+| 외부 도구 | 외부 도구 | external tool | P1-14.1 | tool | tool | P1-14.1 source context | 모델이나 AI 앱이 연결해 쓰는 모델 밖 실행 기능 |
 | 오케스트레이션 | 오케스트레이션 | orchestration | P1-14.1 | orchestration | orchestration | P1-14.1 source context | 모델, 데이터, 도구, 앱을 순서와 조건으로 연결하는 제어 층 |
 | 도구 사용 | 도구 사용 | tool use | P1-14.2 | tool-use | tool-use | P1-14.2 source context | 외부 시스템 기능을 호출해 조회·실행·상태 변경을 일으키는 구조 |
 | 도구 호출 | 도구 호출 | tool call | P1-14.2 | tool-call | tool-call | P1-14.2 source context | 어떤 도구를 어떤 인자로 실행할지 만든 요청 |
@@ -158,7 +158,7 @@
 | 권한 | 권한 | permission | P7-6.2 | permission | permission | P1-14.2 source context | 실행 가능한 범위와 접근 한계를 미리 정한 통제 장치 |
 | 승인 | 승인 | approval | P1-14.2 | approval | approval | P1-14.2 source context | 실행 전 지금 이 행동을 실제로 허용할지 확인하는 절차 |
 | AI 에이전트 | AI 에이전트 | AI agent | P1-14.3 | ai-agent | ai-agent | P1-14.3 source context | 목표, 상태, 관찰, 행동을 이어 가며 작업을 수행하는 AI 시스템 문맥의 실행 구조 |
-| 목표 | 목표 | goal | P1-14.3 | goal | goal | P1-14.3 source context | AI 에이전트나 시스템이 도달하려는 작업 상태; 표제 통일 관리 검토 |
+| 에이전트 목표 | 에이전트 목표 | agent goal | P1-14.3 | goal | goal | P1-14.3 source context | AI 에이전트 실행과 종료 판단의 기준이 되는 작업 상태 |
 | 상태 | 상태 | state | P1-7.1 | state | state | P1-14.3 source context | 다음 행동 판단에 쓰이는 현재 정보와 조건의 묶음 |
 | 행동 | 행동 | action | P1-8.3 | action | action | P1-14.3 source context | AI 에이전트나 시스템이 상태를 바꾸기 위해 선택하는 실행 단위 |
 | 관찰 | 관찰 | observation | P1-14.3 | observation | observation | P1-14.3 source context | 행동 뒤 돌아온 결과나 환경에서 새로 확인한 정보 |
@@ -167,12 +167,12 @@
 | 프로토콜 | 프로토콜 | protocol | P1-14.4 | protocol | protocol | P1-14.4 source context | 시스템끼리 요청과 응답 형식을 맞추는 통신 규칙 |
 | 클라이언트 | 클라이언트 | client | P1-14.4 | client | client | P1-14.4 source context | 서버에 요청을 보내는 연결 주체 |
 | 서버 | 서버 | server | P1-14.4 | server | server | P1-14.4 source context | 요청을 받아 도구, 데이터, 기능을 제공하는 쪽 |
-| 리소스 | 리소스 | resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽을 수 있도록 제공되는 외부 맥락 데이터; 표제 통일 관리 검토 |
+| 외부 리소스 | 외부 리소스 | external resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽는 외부 맥락 데이터 |
 | 발견 | 발견 | discovery | P1-14.4 | discovery | discovery | P1-14.4 source context | 연결 대상이 제공하는 도구와 리소스를 알아내는 단계 |
 | 신뢰 경계 | 신뢰 경계 | trust boundary | P1-14.4 | trust-boundary | trust-boundary | P1-14.4 source context | 믿을 수 있는 영역과 검증해야 하는 영역을 나누는 경계 |
 | 하네스 | 하네스 | harness | P1-14.5 | harness | harness | P1-14.5 source context | 실행을 감싸고 기록·평가·재실행을 가능하게 하는 틀 |
 | 추적 | 추적 | trace | P1-14.5 | trace | trace | P1-14.5 source context | 한 요청이 거친 단계와 연결 관계를 따라 남기는 기록 |
-| 실행 로그 | 로그 | log | P7-6.2 | log | log | P1-14.5 source context | 실행 과정에서 나중에 확인할 수 있도록 남기는 기록; 표제 통일 관리 검토 |
+| 실행 로그 | 실행 로그 | execution log | P7-6.2 | log | log | P1-14.5 source context | 실행 과정에서 나중에 확인할 수 있도록 남기는 운영 기록 |
 | 그레이더 | 그레이더 | grader | P1-14.5 | grader | grader | P1-14.5 source context | 출력이나 실행 결과를 기준에 따라 판정하는 평가 장치 |
 | 소프트웨어 회귀 | 소프트웨어 회귀 | software regression | P1-14.5 | software-regression | software-regression | P1-14.5 source context | 변경 뒤 이전에는 되던 기능이나 품질이 나빠지는 현상 |
 | 가드레일 | 가드레일 | guardrail | P1-14.5 | guardrail | guardrail | P1-14.5 source context | 허용 범위를 벗어난 입력·출력·실행을 막는 제한과 점검 장치 |
@@ -185,7 +185,7 @@
 | 재시도 | 재시도 | retry | P1-14.6 | retry | retry | P1-14.6 source context | 실패한 요청을 조건에 따라 다시 실행하는 정책 |
 | 배치 | 배치 | batch | P1-14.6 | batch | batch | P1-14.6 source context | 여러 요청이나 작업을 묶어 처리하는 방식 |
 | 캐싱 | 캐싱 | caching | P1-14.6 | caching | caching | P1-14.6 source context | 반복 계산이나 요청 결과를 저장해 재사용하는 방식 |
-| 운영 | 운영 | operation | P1-14.6 | service-operation | service-operation | P1-14.6 source context | 서비스를 반복 사용 속에서 비용·오류·속도·품질까지 관리하는 일; 표제 통일 관리 검토 |
+| 서비스 운영 | 서비스 운영 | service operation | P1-14.6 | service-operation | service-operation | P1-14.6 source context | AI 서비스를 반복 사용 속에서 비용·오류·속도·품질까지 관리하는 일 |
 | 스트리밍 | 스트리밍 | streaming | P1-14.6 | streaming | streaming | P1-14.6 source context | 전체 결과 완성 전 생성 조각을 순서대로 전달하는 방식 |
 | 프롬프트 캐싱 | 프롬프트 캐싱 | prompt caching | P1-14.6 | prompt-caching | prompt-caching | P1-14.6 source context | 반복되는 프롬프트 입력 처리를 저장해 재사용하는 최적화 |
 | 지수 백오프 | 지수 백오프 | exponential backoff | P1-14.6 | exponential-backoff | exponential-backoff | P1-14.6 source context | 재시도 대기 시간을 점점 크게 늘리는 전략 |
@@ -526,8 +526,8 @@
 
 | 인덱스 표기 | 대표 표제어 | 영어 기준 용어 | 중심 Section | 파일 slug | 앵커 | 검증 레퍼런스 | 비고 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 메타데이터 | 메타데이터 | metadata | P1-13.4 | metadata | metadata | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 질의 | 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 환경 | 환경 | environment | P1-8.3 | environment | environment | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 메타데이터 | 메타데이터 | metadata | P1-13.4 | metadata | metadata | 단어별 원고 기준 | 문서·검색 맥락의 부가 정보로 관리; 일반 사전 의미와 구분 |
+| 검색 질의 | 검색 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 검색과 k-NN에서 저장된 기준 사례와 비교할 새 입력 기준 |
+| 강화학습 환경 | 강화학습 환경 | reinforcement learning environment | P1-8.3 | environment | environment | 단어별 원고 기준 | 강화학습 에이전트가 행동하고 상태 변화와 보상을 돌려받는 상호작용 대상 |
 | automatic prompt optimization | automatic prompt optimization | automatic prompt optimization | P6-10.3 | automatic-prompt-optimization | automatic-prompt-optimization | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | trustworthiness | trustworthiness | trustworthiness | P4-18.2 | trustworthiness | trustworthiness | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |

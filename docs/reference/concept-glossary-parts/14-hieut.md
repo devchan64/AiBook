@@ -76,7 +76,6 @@
 
 --8<-- "reference/concept-glossary-terms/environment-variable.ko.md"
 --8<-- "reference/concept-glossary-terms/environment-mismatch.ko.md"
---8<-- "reference/concept-glossary-terms/environment.ko.md"
 --8<-- "reference/concept-glossary-terms/activation.ko.md"
 --8<-- "reference/concept-glossary-terms/activation-function.ko.md"
 --8<-- "reference/concept-glossary-terms/exploitation.ko.md"
