@@ -212,11 +212,7 @@
 | 차원 | 차원 | dimension | P2-3.2 | dimension | dimension | P2-3.2 source context | 벡터가 가진 값의 개수 또는 좌표 축의 수 |
 | 위상 | 위상 | topology | P2-3.2 | topology | topology | P2-3.2 source context | 공간의 가까움·연결·연속성 구조를 보는 추상 관점 |
 | 매니폴드 | 매니폴드 | manifold | P2-3.2 | manifold | manifold | P2-3.2 source context | 데이터 표현들이 이루는 더 낮거나 부드러운 공간 구조 |
-| 벡터 덧셈 | 벡터 덧셈 | vector addition | P2-3.2 | vector-addition | vector-addition | P2-3.2 source context | 같은 위치 성분끼리 더해 새 벡터를 만드는 계산 |
-| 스칼라배 | 스칼라배 | scalar multiplication | P2-3.2 | scalar-multiplication | scalar-multiplication | P2-3.2 source context | 벡터 각 성분에 같은 스칼라를 곱하는 계산 |
-| 선형 결합 | 선형 결합 | linear combination | P2-3.2 | linear-combination | linear-combination | P2-3.2 source context | 스칼라배와 벡터 덧셈을 묶어 새 표현을 만드는 계산 |
 | 행렬 곱 | 행렬 곱 | matrix multiplication | P2-3.3 | matrix-multiplication | matrix-multiplication | P2-3.3 source context | 행과 열을 조합해 새 값을 만드는 계산 |
-| 위치별 곱 | 위치별 곱 | element-wise multiplication | P2-3.3 | element-wise-multiplication | element-wise-multiplication | P2-3.3 source context | 같은 shape의 같은 위치 값끼리 곱하는 계산 |
 | 가중합 | 가중합 | weighted sum | P2-3.3 | weighted-sum | weighted-sum | P2-3.3 source context | 입력값마다 가중치를 곱한 뒤 더해 하나의 값을 만드는 계산 |
 | 선형 변환 | 선형 변환 | linear transformation | P2-3.3 | linear-transformation | linear-transformation | P2-3.3 source context | 행렬 곱으로 벡터를 다른 표현 공간으로 옮기는 계산 |
 | 내적 | 내적 | dot product | P2-3.4 | dot-product | dot-product | P2-3.4 source context | 같은 위치 성분을 곱해 더한 하나의 요약값 |

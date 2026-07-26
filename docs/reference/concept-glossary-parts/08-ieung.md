@@ -92,8 +92,6 @@
 --8<-- "reference/concept-glossary-terms/operation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/element-wise-multiplication.ko.md"
-
 --8<-- "reference/concept-glossary-terms/column-role-separation.ko.md"
 
 

@@ -72,8 +72,6 @@
 
 --8<-- "reference/concept-glossary-terms/linear-algebra.ko.md"
 
---8<-- "reference/concept-glossary-terms/linear-combination.ko.md"
-
 --8<-- "reference/concept-glossary-terms/linear-regression.ko.md"
 
 --8<-- "reference/concept-glossary-terms/linear-transformation.ko.md"
@@ -108,8 +106,6 @@
 --8<-- "reference/concept-glossary-terms/hidden-state.ko.md"
 
 --8<-- "reference/concept-glossary-terms/scalar.ko.md"
-
---8<-- "reference/concept-glossary-terms/scalar-multiplication.ko.md"
 
 --8<-- "reference/concept-glossary-terms/confidence-interval.ko.md"
 

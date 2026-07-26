@@ -49,8 +49,6 @@
 
 --8<-- "reference/concept-glossary-terms/vector-search.ko.md"
 
---8<-- "reference/concept-glossary-terms/vector-addition.ko.md"
-
 --8<-- "reference/concept-glossary-terms/vector-calculus.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector.ko.md"

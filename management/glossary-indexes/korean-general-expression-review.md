@@ -19,7 +19,7 @@
 
 - 기준 파일: `management/glossary-indexes/concept-glossary-index.ko.md`
 - 단어별 원고 위치: `docs/reference/concept-glossary-terms/*.ko.md`
-- 현재 한국어 인덱스 항목 수: 329개
+- 현재 한국어 인덱스 항목 수: 325개
 - 현재 `표제 관리 제외 검토` 표시: 0개
 - 현재 `표제 통일 관리 검토` 표시: 0개
 - 검토 방식: 인덱스의 `비고` 표시, 대표 표제어, 영어 기준 용어, 중심 Section, 단어별 원고의 뜻·왜 중요한가를 함께 대조
@@ -285,6 +285,10 @@
 | 완료 | 다변수 함수 | `multivariable-function` | multivariable function | 편미분이 필요한 설정 설명이다. 독립 표제보다 `함수`, `편미분`, `그래디언트` 안에서 다룬다. | `함수`, `편미분`, `그래디언트` |
 | 완료 | 스칼라장 | `scalar-field` | scalar field | 벡터해석 배경의 하위 표현이다. 독립 표제보다 `벡터해석`과 `그래디언트` 설명 안에서 다룬다. | `벡터해석`, `그래디언트`, `벡터` |
 | 완료 | 벡터장 | `vector-field` | vector field | 벡터해석 배경의 하위 표현이다. 독립 표제보다 `벡터해석`과 `그래디언트` 설명 안에서 다룬다. | `벡터해석`, `그래디언트`, `벡터` |
+| 완료 | 벡터 덧셈 | `vector-addition` | vector addition | 벡터 기본 연산의 하위 설명이다. 독립 표제보다 `벡터`와 `벡터 공간` 안에서 다룬다. | `벡터`, `벡터 공간`, `행렬 곱` |
+| 완료 | 스칼라배 | `scalar-multiplication` | scalar multiplication | 벡터 기본 연산의 하위 설명이다. 독립 표제보다 `스칼라`, `벡터`, `벡터 공간` 안에서 다룬다. | `스칼라`, `벡터`, `벡터 공간` |
+| 완료 | 선형 결합 | `linear-combination` | linear combination | 가중합과 선형 변환으로 이어지는 중간 설명이다. 독립 표제보다 `가중합`, `행렬 곱`, `선형 변환` 안에서 다룬다. | `가중합`, `행렬 곱`, `선형 변환` |
+| 완료 | 위치별 곱 | `element-wise-multiplication` | element-wise multiplication | 배열 연산의 하위 구분이다. 독립 표제보다 `배열`, `행렬 곱`, `브로드캐스팅` 안에서 다룬다. | `배열`, `행렬 곱`, `브로드캐스팅` |
 
 ## 재검토 결과 요약
 
