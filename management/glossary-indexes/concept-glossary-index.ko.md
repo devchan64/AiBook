@@ -272,15 +272,12 @@
 | 실행 환경 | 실행 환경 | runtime | P2-7.1 | runtime | runtime | Python runtime context | 코드가 실제로 실행되는 자리와 연결된 프로그램·패키지·설정 묶음 |
 | 의존성 | 의존성 | dependency | P2-7.5 | dependency | dependency | Python Packaging User Guide | 코드 실행에 필요한 외부 패키지나 환경 조건 |
 | 자료구조 | 자료구조 | data structure | P2-9.1 | data-structure | data-structure | P2-9.1 source context | 데이터를 조직하는 모양과 자주 수행할 연산을 함께 보는 기준 |
-| 자료구조 연산 | 자료구조 연산 | operation | P2-9.1 | operation | operation | P2-9.1 source context | 자료구조 위에서 수행하는 접근, 검색, 추가, 삭제, 순회 같은 작업 |
 | 배열 | 배열 | array | P2-9.2 | array | array | P2-9.2 source context | 위치와 축을 기준으로 값을 읽는 구조 |
 | 트리 | 트리 | tree | P2-9.2 | tree | tree | P2-9.2 source context | 부모와 자식의 계층 관계로 항목을 조직하는 구조 |
 | 그래프 | 그래프 | graph | P2-9.3 | graph | graph | P2-9.3 source context | 대상을 노드로 두고 관계를 엣지로 연결한 구조 |
-| 관계 | 관계 | relation | P2-9.2 | relation | relation | P2-9.2 source context | 두 대상이 어떻게 연결되거나 대응되는지를 나타내는 구조적 정보 |
 | 노트북, 계산 문서 | 노트북 | notebook | P2-10.1 | notebook | notebook | Jupyter docs, P2-10.1 source context | 코드, 설명, 출력이 함께 들어 있는 계산 문서 |
 | 출력 | 출력 | output | P1-4.2 | output | output | 단어별 원고 기준 | 모델링에서 문제를 어떤 결과 형태로 풀지 드러내는 결과 설계 |
 | 숨은 상태 | 숨은 상태 | hidden state | P1-11.2 | hidden-state | hidden-state | P1-11.2 source context | 순환 신경망에서 앞 입력 정보를 누적해 다음 계산으로 넘기는 내부 상태 |
-| 배열 축 | 배열 축 | axis | P2-11.2 | axis | axis | P2-11.2 source context | 배열 계산이 어느 방향과 차원 의미를 따라 진행되는지 정하는 기준 |
 | 브로드캐스팅 | 브로드캐스팅 | broadcasting | P2-11.3 | broadcasting | broadcasting | P2-11.3 source context | 작은 값이나 배열을 큰 배열의 shape에 맞춰 적용하는 계산 규칙 |
 | 벡터화 | 벡터화 | vectorization | P2-11.3 | vectorization | vectorization | P2-11.3 source context | 반복 계산을 배열 연산 하나로 표현하는 방식 |
 | 변수변환 | 변수변환 | variable transformation | P3-6.1 | variable-transformation | variable-transformation | P3-6.1 source context | 같은 구조나 값을 비교하기 쉬운 다른 표현으로 바꾸는 과정 |
@@ -289,16 +286,13 @@
 | 어휘 사전 | 어휘 사전 | vocabulary | P6-2.2 | vocabulary | vocabulary | P6-2.2 source context | tokenizer가 만들 수 있는 token 조각과 ID를 모아 둔 계산용 목록 |
 | 청크 | 청크 | chunk | P1-13.1 | chunk | chunk | P1-13.1 source context | 긴 문서를 검색과 비교에 쓰기 좋은 작은 텍스트 단위로 나눈 묶음 |
 | DataFrame | DataFrame | DataFrame | P2-12.1 | dataframe | dataframe | P2-12.1 source context | 행과 열 라벨이 붙은 2차원 표 형식 데이터 구조 |
-| 접기 규칙 | 접기 규칙 | folding rule | P3-5.7 | folding-rule | folding-rule | P3-5.7 source context | 여러 후속 사건이나 값을 하나의 대표 결과 열로 줄이는 명시적 기준 |
 | 데이터셋 | 데이터셋 | dataset | P2-12.3 | dataset | dataset | P2-12.3 source context | 학습이나 평가를 위해 정리한 샘플과 변수의 묶음 |
 | 타깃 | 타깃 | target | P1-8.1 | target | target | P2-12.3 source context | 모델이 맞혀야 하는 정답 열 또는 목표 값 |
 | 모델 출력 구조 | 모델 출력 구조 | model output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | 계산 결과를 어떤 형식의 문제 결과로 내보낼지 정한 설계상의 결과 틀 |
 | 실제 목표 | 실제 목표 | actual target | P3-9.9 | actual-target | actual-target | P3-9.9 source context | 정말 알고 싶고 최종적으로 줄이거나 맞히고 싶은 결과 |
 | 대리 타깃 | 대리 타깃 | proxy target | P3-9.9 | proxy-target | proxy-target | Google ML Glossary proxy labels, P3-9.9 source context | 실제 목표를 바로 볼 수 없을 때 임시 목표처럼 사용하는 대체 열 |
-| 관측 미완료 음성 | 관측 미완료 음성 | incomplete negative | P3-9.10 | incomplete-negative | incomplete-negative | Label selection follow-up context, P3-9.10 source context | 충분한 추적 기간이 끝나지 않아 아직 닫힌 0이라고 볼 수 없는 사례 |
 | 확률 추정값 | 확률 추정값 | probability estimate | P1-7.3 | probability-estimate | probability-estimate | P1-7.3 source context | 확률처럼 읽고 싶은 모델 수치 출력이며 보정 여부를 따로 확인해야 하는 값 |
 | 임계값 | 임계값 | threshold | P1-7.3 | threshold | threshold | P3-2.2 source context | 출력 숫자나 비교값을 실제 행동으로 바꿀 때 쓰는 절단 기준 |
-| 정책 규칙 | 정책 규칙 | policy rule | P3-9.8 | policy-rule | policy-rule | P3-9.8 source context | 모델 출력 점수나 범주를 실제 운영 행동으로 바꾸는 명시적 기준 |
 | 정책 | 정책 | policy | P1-8.3 | policy | policy | P1-14.3 source context | 현재 상태나 관측에서 어떤 행동을 고를지 정하는 기준 또는 함수 |
 | 검증 | 검증 | validation | P4-4.2 | validation | validation | P2-12.3 source context | 설정과 선택을 비교 점검하기 위한 중간 평가 데이터 또는 절차 |
 | 데이터 누수 | 데이터 누수 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 예측 시점에 알 수 없는 정보가 학습 과정에 미리 섞이는 문제 |

@@ -48,8 +48,6 @@
 
 --8<-- "reference/concept-glossary-terms/true-objective.ko.md"
 
---8<-- "reference/concept-glossary-terms/policy-rule.ko.md"
-
 --8<-- "reference/concept-glossary-terms/evidence-strength.ko.md"
 
 --8<-- "reference/concept-glossary-terms/precision.ko.md"
@@ -116,4 +114,3 @@
 --8<-- "reference/concept-glossary-terms/delayed-reward.ko.md"
 --8<-- "reference/concept-glossary-terms/direct-lineage.ko.md"
 --8<-- "reference/concept-glossary-terms/local-pattern.ko.md"
---8<-- "reference/concept-glossary-terms/folding-rule.ko.md"

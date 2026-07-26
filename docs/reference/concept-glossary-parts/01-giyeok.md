@@ -18,8 +18,6 @@
 --8<-- "reference/concept-glossary-terms/weight.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/relation.ko.md"
-
 
 
 --8<-- "reference/concept-glossary-terms/value-based-reinforcement-learning.ko.md"
@@ -72,8 +70,6 @@
 
 
 
-
---8<-- "reference/concept-glossary-terms/incomplete-negative.ko.md"
 
 --8<-- "reference/concept-glossary-terms/intervention-feedback.ko.md"
 

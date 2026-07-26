@@ -43,8 +43,6 @@
 
 --8<-- "reference/concept-glossary-terms/recommendation.ko.md"
 
---8<-- "reference/concept-glossary-terms/axis.ko.md"
-
 --8<-- "reference/concept-glossary-terms/output-artifact.ko.md"
 
 --8<-- "reference/concept-glossary-terms/output-definition.ko.md"
