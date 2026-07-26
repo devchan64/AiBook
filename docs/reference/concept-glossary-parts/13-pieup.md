@@ -5,8 +5,6 @@
 
 --8<-- "reference/concept-glossary-terms/parameter.ko.md"
 
---8<-- "reference/concept-glossary-terms/update.ko.md"
-
 --8<-- "reference/concept-glossary-terms/proxy-label.ko.md"
 
 --8<-- "reference/concept-glossary-terms/code.ko.md"
