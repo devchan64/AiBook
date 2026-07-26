@@ -25,21 +25,6 @@
 - 区分识别、搜索、预测、推荐、生成、控制等问题类型。
 - 理解同一个现实场景，会因问题定义不同而变成不同 AI 问题。
 
-## 先连起来的概念
-
-这一节也是和问题类型相关的术语第一次被系统放在一起的代表说明位置。下面这些概念先固定最短含义，之后再通过词汇表重新核对更完整定义。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [recognition](/AiBook/zh/reference/concept-glossary-pinyin/s/#recognition) | 从输入中读出对象或状态的问题 | 为了先区分比分类更宽的“读取”问题 |
-| [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) | 从预先给定的类别中选出一个的问题 | 为了固定一个“猜什么”很清楚的代表问题 |
-| [prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction) | 根据当前信息估计未来值或结果的问题 | 为了区分“输出值或可能性”的问题与分类 |
-| [recommendation](/AiBook/zh/reference/concept-glossary-pinyin/t/#recommendation) | 从多个候选中挑出接下来值得看的内容 | 为了看出 AI 不只是在生成答案 |
-| [generation](/AiBook/zh/reference/concept-glossary-pinyin/g/#generation) | 生成新文本、图像、音频、代码的问题 | 为了固定为什么输出性质不同 |
-| [input](/AiBook/zh/reference/concept-glossary-pinyin/i/#input) | 系统接收的信息 | 为了从“放进去什么”开始阅读问题定义 |
-| [output](/AiBook/zh/reference/concept-glossary-pinyin/c/#output) | 系统产生的结果 | 为了按“出来什么”区分问题类型 |
-| [goal](/AiBook/zh/reference/concept-glossary-pinyin/g/#goal) | 判断什么样的输出算好的标准 | 为了看到同样数据会因问题变化而变成别的问题 |
-
 ## 主要学习点
 
 这一节先看问题的形状，再看算法名字。下面三条就是划分问题类型的基础地图。

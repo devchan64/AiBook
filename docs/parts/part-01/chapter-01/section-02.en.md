@@ -25,21 +25,6 @@ This section first closes `how to divide AI problems from the viewpoint of input
 - Distinguish problem types such as recognition, search, prediction, recommendation, generation, and control.
 - Understand that the same real-world situation can become different AI problems depending on how the question is defined.
 
-## Concepts to Connect First
-
-This section is also the main representative location where recurring terms for reading problem types are introduced together. The concepts below should be fixed briefly here first, then checked again through the glossary when fuller definitions are needed.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [recognition](/AiBook/en/reference/concept-glossary-alpha/r/#recognition) | a problem of reading an object or state from input | to distinguish a broader reading problem before narrowing to classification |
-| [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) | a problem of choosing one predefined category | to fix a representative problem where `what is being predicted` is clear |
-| [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) | a problem of estimating a future value or result from current information | to separate problems that produce values or likelihoods from classification |
-| [recommendation](/AiBook/en/reference/concept-glossary-alpha/r/#recommendation) | a problem of choosing what is worth showing next among many candidates | to show that AI is not only answer generation |
-| [generation](/AiBook/en/reference/concept-glossary-alpha/g/#generation) | a problem of producing new text, images, audio, or code | to fix why the character of the output differs |
-| [input](/AiBook/en/reference/concept-glossary-alpha/i/#input) | the information received by the system | to read problem definition from `what is put in` |
-| [output](/AiBook/en/reference/concept-glossary-alpha/o/#output) | the result produced by the system | to separate problem types by `what comes out` |
-| [goal](/AiBook/en/reference/concept-glossary-alpha/g/#goal) | the standard that determines what counts as a good output | to see why the same data becomes a different problem when the question changes |
-
 ## Main Learning Points
 
 This section looks at the shape of the problem before it looks at algorithm names. The three standards below form the basic map for separating problem types.

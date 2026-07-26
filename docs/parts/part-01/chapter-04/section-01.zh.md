@@ -25,17 +25,6 @@ Chapter 3 说明了从规则式方法转向学习式方法的脉络。Chapter 4 
 - 区分 AI 模型与“像人一样理解整个现实”不是一回事；模型只是接收规定好的输入并计算规定好的输出。
 - 在入门层面理解“训练之后会得到一个模型”这句话。
 
-## 先连起来的概念
-
-这一节是 Part 1 里第一次正式固定 `model` 和 `system` 基本区分的代表位置。下面这些概念，先只固定它们在这里的角色；如果之后需要更详细的定义，可以直接回到对应词条再确认。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [model](/AiBook/zh/reference/concept-glossary-pinyin/m/#model) | 接收输入并计算输出的核心计算部件 | 为了把 AI 里的 `model` 和现实整体区分开 |
-| [system](/AiBook/zh/reference/concept-glossary-pinyin/s/#system) | 把模型、规则和人工复核包在一起的整体结构 | 为了避免把整个服务误当成一个模型 |
-| [input](/AiBook/zh/reference/concept-glossary-pinyin/i/#input) | 系统接收到的信息 | 为了看模型到底拿什么做计算材料 |
-| [output](/AiBook/zh/reference/concept-glossary-pinyin/c/#output) | 系统产生的结果 | 为了看模型到底算出什么 |
-
 ## 三个基准
 
 这里真正需要的不是模型的数学定义，而是角色区分。下面三点先构成结构上的基准线。

@@ -24,17 +24,6 @@ The focus here is on organizing the `difference in role` among the three flows. 
 - Understand that probabilistic reasoning is a way to deal with incomplete information and uncertainty.
 - Distinguish search, knowledge representation, and probabilistic reasoning as major axes of pre-machine-learning AI.
 
-## Concepts to Connect First
-
-This section is the representative place in Chapter 2 where the role difference among `search`, `knowledge representation`, and `probabilistic reasoning` is first separated in earnest. The concepts below are introduced first by role; when a fuller definition is needed, return to each glossary entry.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [search](/AiBook/en/reference/concept-glossary-alpha/s/#search) | an approach that follows possible states and actions to find a goal | to see why candidate order becomes a problem when there are too many options |
-| [knowledge representation](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-representation) | a format for writing facts, relations, and constraints | to separate the question of what the system should count as knowledge |
-| [probabilistic reasoning](/AiBook/en/reference/concept-glossary-alpha/p/#probabilistic-reasoning) | a way to handle plausibility under incomplete information | to read judgments that do not close into simple true or false form |
-| [goal](/AiBook/en/reference/concept-glossary-alpha/g/#goal) | the condition to be reached | to see what tells search where to stop |
-
 ## Main Learning Points
 
 At this stage the flow can scatter because the terms seem to split in three directions. The three guideposts below are the larger map.

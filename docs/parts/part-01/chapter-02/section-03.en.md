@@ -26,20 +26,6 @@ This section first closes `why the center of explanation moved toward data and l
 - See why data, features, representations, models, and parameters became important.
 - Read generative AI and LLMs not as a sudden break, but as the result of an accumulated flow.
 
-## Concepts to Connect First
-
-This section is the representative place where the shift of the explanatory center toward learning-based approaches and the core learning terms are tied together. The concepts below are fixed first by role, and when fuller definitions are needed later, you should return to the corresponding glossary entries.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [data](/AiBook/en/reference/concept-glossary-alpha/d/#data) | the material for learning and judgment | to see what the model learns criteria from instead of hand-written rules |
-| [feature](/AiBook/en/reference/concept-glossary-alpha/f/#feature) | a clue that people organize or select first | to understand what kind of input representation early machine learning depends on |
-| [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation) | the internal form handled inside the model | to see why deep learning is explained as representation learning |
-| [parameter](/AiBook/en/reference/concept-glossary-alpha/p/#parameter) | an internal value adjusted through learning | to fix what learning actually changes |
-| [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) | a learning approach that improves performance from data | to understand why the center moved from writing rules to training models |
-| [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning) | a neural-network-based approach that strongly uses representation learning | to understand the move from feature design toward representation learning |
-| [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai) | a category of models and services that produce new content | to see how far the recent flow extends |
-
 ## Main Learning Points
 
 This part organizes the large flow of modern AI. The three guideposts below are the overall map.

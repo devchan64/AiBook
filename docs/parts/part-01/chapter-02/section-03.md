@@ -26,20 +26,6 @@ Part 1에서 규칙 기반 접근에서 학습 기반 접근으로 중심이 이
 - 데이터, 특징, 표현, 모델, 파라미터가 왜 중요해졌는지 봅니다.
 - 생성형 AI와 LLM을 갑작스러운 단절이 아니라 누적된 흐름의 결과로 읽습니다.
 
-## 먼저 연결할 개념
-
-이 절은 학습 기반 접근으로 설명 중심이 이동하는 흐름과 핵심 학습 용어를 함께 묶어 두는 대표 설명 위치입니다. 아래 개념은 지금 짧게 역할을 잡아 두고, 더 자세한 정의가 필요할 때는 각 표제어 항목으로 바로 이동해 다시 확인합니다.
-
-| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
-| --- | --- | --- |
-| [데이터](../../../reference/concept-glossary-parts/03-digeut.md#data) | 학습과 판단의 재료 | 규칙 대신 무엇에서 기준을 배우는지 보기 위해 |
-| [특징](../../../reference/concept-glossary-parts/12-tieut.md#feature) | 사람이 먼저 정리하거나 선택한 단서 | 초기 머신러닝이 어떤 입력 표현에 기대는지 잡기 위해 |
-| [표현](../../../reference/concept-glossary-parts/13-pieup.md#representation) | 모델 안에서 다루는 내부 형태 | 딥러닝이 왜 표현 학습으로 설명되는지 보기 위해 |
-| [파라미터](../../../reference/concept-glossary-parts/13-pieup.md#parameter) | 학습으로 조정되는 내부 값 | 학습이 실제로 무엇을 바꾸는지 잡기 위해 |
-| [머신러닝](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning) | 데이터로 성능을 개선하는 학습 접근 | 규칙 작성에서 모델 학습으로 이동한 이유를 보기 위해 |
-| [딥러닝](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning) | 표현 학습을 강하게 쓰는 신경망 기반 접근 | 특징 설계 중심에서 표현 학습 중심으로 이동한 흐름을 보기 위해 |
-| [생성형 AI](../../../reference/concept-glossary-parts/07-siot.md#aigenerative-ai) | 새 콘텐츠를 만들어 내는 모델과 서비스 범주 | 최근 흐름이 어디까지 이어졌는지 잡기 위해 |
-
 ## 주요 학습내용
 
 이 장면에서는 현대 AI의 큰 흐름을 정리합니다. 아래 세 가지가 전체 지도입니다.

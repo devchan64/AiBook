@@ -25,18 +25,6 @@ This section first closes `where rule-based systems are strong and where they be
 - Understand why rule writing, knowledge acquisition, and exception management become difficult.
 - Fix a simple picture of where rules and models are used together in modern systems.
 
-## Concepts to Connect First
-
-This section is the representative place where a rule-based system is read as an actual operational structure. The concepts below are first fixed by role, and when a fuller definition is needed, you should move directly to each glossary entry.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [rule-based system](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-system) | a system that compares current facts against rules to determine a conclusion or action | to make the evaluation target itself explicit |
-| [fact](/AiBook/en/reference/concept-glossary-alpha/f/#fact) | state information treated as true in the current situation | to see what the rules are applied to |
-| [knowledge base](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-base) | the structure that collects facts, rules, and domain knowledge | to see where the rule set is stored |
-| [inference engine](/AiBook/en/reference/concept-glossary-alpha/i/#inference-engine) | the mechanism that finds and applies rules matching the current facts | to see how a conclusion is actually produced |
-| [explanation facility](/AiBook/en/reference/concept-glossary-alpha/e/#explanation-facility) | the function that shows which rules caused the result | to fix explainability, one of the main strengths of rule-based systems |
-
 ## Three Standards
 
 In this section, the rule-based system is being evaluated. The following three standards are the baseline of that evaluation.

@@ -26,20 +26,6 @@
 - 看清为什么数据、特征、表征、模型与参数会变得重要。
 - 把生成式 AI 与 LLM 理解成累积脉络的结果，而不是突然断裂的例外。
 
-## 先连起来的概念
-
-这一节是把说明中心转向学习式方法的脉络，与核心学习术语一起固定下来的代表位置。下面这些概念先只固定角色；如果之后需要更完整定义，再回到对应术语条目。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [data](/AiBook/zh/reference/concept-glossary-pinyin/d/#data) | 学习与判断的材料 | 为了看见模型不是从手写规则，而是从什么材料里学习标准 |
-| [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) | 先由人整理或选出的线索 | 为了理解早期机器学习依赖怎样的输入表示 |
-| [representation](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation) | 模型内部处理数据的形式 | 为了看出深度学习为何常被解释为表征学习 |
-| [parameter](/AiBook/zh/reference/concept-glossary-pinyin/c/#parameter) | 在学习中被调整的内部值 | 为了固定“学习到底改变了什么” |
-| [machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning) | 从数据中提高性能的学习式方法 | 为了理解为什么中心会从写规则转向训练模型 |
-| [deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning) | 以神经网络为基础、强烈依赖表征学习的方法 | 为了理解从特征设计转向学习表征 |
-| [generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#aigenerative-ai) | 生成新内容的模型与服务类别 | 为了看清最近这条技术流延伸到了哪里 |
-
 ## 主要学习内容
 
 这里是在整理现代 AI 的大脉络。下面三个基准构成整体地图。

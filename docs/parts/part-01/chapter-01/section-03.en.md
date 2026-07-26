@@ -25,18 +25,6 @@ This section first closes the point that `AI, machine learning, deep learning, g
 - Avoid understanding all of AI too narrowly from recent service experience alone.
 - Understand that even if a broad inclusion relation is roughly useful, real services still mix several technologies together.
 
-## Concepts to Connect First
-
-This section is the baseline for the term relationship that Part 1 will keep reusing. The concepts below should be fixed only by position first, and checked again through their glossary entries when fuller definitions are needed.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence) | the broadest field and system category | to see where all other terms sit |
-| [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) | a learning approach that improves performance from data | to separate rule-based and learning-based approaches |
-| [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning) | an approach that strongly uses neural networks and representation learning | to fix a major expansion path inside machine learning |
-| [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai) | an output category that produces new content | to keep learning method and output character from collapsing into one |
-| [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm) | a family of large language models | to avoid reading generative AI and AI as a whole too narrowly as the same thing |
-
 ## Main Learning Points
 
 What should remain first from this section is that the five terms are not all the same kind of name. The three standards below form the overall map.

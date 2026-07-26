@@ -25,25 +25,6 @@
 - 把 AI 看成处理问题的领域，而不是某一个产品或某一个最新模型的名字。
 - 把 AI、机器学习、深度学习、生成式 AI 之间的关系，整理到后面章节还能继续复用的程度。
 
-## 先连起来的概念
-
-这一节也是几个核心术语第一次被同时引入的入口。下面这些概念先只固定最短含义；如果之后需要更完整的定义，可以点击对应链接直接回到词条重新确认。即使是同一个韩语词，也可能按英语概念分成不同含义，所以概念词汇表的词条需要同时看韩语和英语。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [AI](/AiBook/zh/reference/concept-glossary-pinyin/a/#ai-artificial-intelligence) | 最宽的外层类别 | 为了把后面出现的多种方法放在同一张地图上 |
-| [machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning) | 从数据中学习模式的方法 | 为了区分规则式方法和学习式方法 |
-| [deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning) | 用神经网络学习复杂表征的一条技术主线 | 为了固定机器学习内部的重要扩展方向 |
-| [generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#aigenerative-ai) | 生成文本、图像、音频等结果的一条技术流 | 为了避免把最近的 AI 经验理解得过窄 |
-| [LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) | 以语言数据为中心的大规模语言模型 | 为了区分生成式 AI 和 AI 整体 |
-| [system](/AiBook/zh/reference/concept-glossary-pinyin/s/#system) | 接收输入并产出结果的实际实现结构 | 为了区分“领域”与“实现” |
-| [input](/AiBook/zh/reference/concept-glossary-pinyin/i/#input) | 系统接收的信息 | 为了阅读系统依据什么做判断 |
-| [output](/AiBook/zh/reference/concept-glossary-pinyin/c/#output) | 系统产生的结果 | 为了阅读分类、推荐、生成等差异 |
-| [goal](/AiBook/zh/reference/concept-glossary-pinyin/g/#goal) | 为什么要得到某种输出的目的 | 为了看到同样的输出也可能服务于不同目的 |
-| [prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction) | 根据当前信息估计结果 | 为了避免和生成、推荐、分类混成一类 |
-| [recommendation](/AiBook/zh/reference/concept-glossary-pinyin/t/#recommendation) | 在多个候选中挑出接下来值得看的内容 | 为了看出 AI 不只是在生成答案 |
-| [rule-based system](/AiBook/zh/reference/concept-glossary-pinyin/g/#rule-based-system) | 由人写规则并导出结论的系统 | 为了避免把 AI 缩窄成只有最近的学习模型 |
-
 ## 主要学习点
 
 这一节会出现很多术语，但只要不把它们一开始就当成处在同一概念层级，整体结构其实并不难。下面三点就是这节的总地图。

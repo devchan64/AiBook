@@ -26,18 +26,6 @@ Part 1에서 `기호 기반 AI`, `규칙 기반 접근`, `지식 표현`의 기�
 - 규칙 기반 접근의 강점과 한계를 구분합니다.
 - 이 접근이 왜 여전히 일부 시스템에서 유용한지 이해합니다.
 
-## 먼저 연결할 개념
-
-이 절은 Chapter 2에서 처음 등장하는 핵심 용어의 기준선을 세우는 대표 설명 위치입니다. 아래 개념은 지금 짧게 역할만 잡아 두고, 더 자세한 정의가 필요할 때는 각 표제어 항목으로 바로 이동해 다시 확인합니다.
-
-| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
-| --- | --- | --- |
-| [기호 기반 AI](../../../reference/concept-glossary-parts/01-giyeok.md#aisymbolic-ai) | 기호, 규칙, 명시적 지식 표현을 중심으로 한 AI 접근 | 뒤의 학습 기반 접근과 대비되는 출발점을 잡기 위해 |
-| [규칙 기반 시스템](../../../reference/concept-glossary-parts/01-giyeok.md#rule-based-system) | 현재 사실과 규칙을 대조해 결론이나 행동을 정하는 시스템 | 기호 기반 접근의 구현 모습을 구체적으로 보기 위해 |
-| [지식 표현](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) | 사실, 관계, 규칙을 적는 형식 | 시스템이 무엇을 알고 있다고 볼지 정하기 위해 |
-| [사실](../../../reference/concept-glossary-parts/07-siot.md#fact) | 현재 참이라고 두는 정보 | 규칙 적용의 입력 재료를 분리하기 위해 |
-| [추론 엔진](../../../reference/concept-glossary-parts/11-chieut.md#inference-engine) | 현재 사실에 맞는 규칙을 찾아 적용하는 장치 | 규칙과 결론 사이의 실행 구조를 보기 위해 |
-
 ## 주요 학습내용
 
 이 절은 역사 설명처럼 보이지만, 실제로는 AI가 문제를 푸는 오래된 기본 방식을 소개하는 절입니다. 아래 세 가지가 전체 지도입니다.

@@ -25,18 +25,6 @@
 - 不再只根据最近的产品体验，把整个 AI 读得过于狭窄。
 - 理解：即使粗略的包含关系有用，真实服务里仍然会把多种技术混在一起。
 
-## 先连起来的概念
-
-这一节是 Part 1 之后反复回看的术语关系基准线。下面这些概念先只固定位置，之后若要更完整的定义，再回到对应词条重新核对。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [AI](/AiBook/zh/reference/concept-glossary-pinyin/a/#ai-artificial-intelligence) | 最宽的领域与系统类别 | 为了看清其他词放在哪里 |
-| [machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning) | 通过数据改善性能的学习方法 | 为了区分规则式方法与学习式方法 |
-| [deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning) | 强调神经网络与表征学习的一类方法 | 为了固定机器学习内部的重要扩展方向 |
-| [generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#aigenerative-ai) | 产生新内容的输出类别 | 为了避免把学习方法和输出性质混成一类 |
-| [LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) | 大规模语言模型家族 | 为了避免把生成式 AI 与整个 AI 读成同一回事 |
-
 ## 主要学习点
 
 这一节首先要留下的是：这五个词并不是同一种名字。下面三条构成整体地图。

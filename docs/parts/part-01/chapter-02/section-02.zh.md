@@ -24,17 +24,6 @@
 - 理解概率推理是一种处理不完整信息与不确定性的方式。
 - 把搜索、知识表示与概率推理区分为机器学习出现之前 AI 的重要主轴。
 
-## 先连起来的概念
-
-这一节是 Chapter 2 中首次系统区分 `search`、`knowledge representation` 与 `probabilistic reasoning` 角色差异的代表位置。下面这些概念先只固定其角色；如果需要更完整的定义，再回到对应术语条目。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [search](/AiBook/zh/reference/concept-glossary-pinyin/s/#search) | 沿着可能状态与行动寻找目标的方法 | 为了看见候选很多时为什么“顺序”会成为问题 |
-| [knowledge representation](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-representation) | 用来书写事实、关系与约束的形式 | 为了把系统“应该知道什么”的问题单独分出来 |
-| [probabilistic reasoning](/AiBook/zh/reference/concept-glossary-pinyin/g/#probabilistic-reasoning) | 在不完整信息下处理“多大程度上可信”的方式 | 为了避免把所有判断压成简单的真或假 |
-| [goal](/AiBook/zh/reference/concept-glossary-pinyin/g/#goal) | 想要到达的条件 | 为了看搜索在什么地方停下 |
-
 ## 主要学习内容
 
 在这里，术语看起来会朝三个方向分开，初读时容易觉得脉络散掉。下面三个基准是这一节的大地图。

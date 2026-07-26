@@ -26,18 +26,6 @@ This section first closes `how symbolic AI tried to write and handle knowledge a
 - Distinguish the strengths and limits of rule-based approaches.
 - Understand why this approach is still useful in some systems today.
 
-## Concepts to Connect First
-
-This section is the representative place where the baseline for the core Chapter 2 terms is fixed. The concepts below are introduced here only to establish their role. When a fuller definition is needed, return to the corresponding glossary entry.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [symbolic AI](/AiBook/en/reference/concept-glossary-alpha/s/#aisymbolic-ai) | an AI approach centered on symbols, rules, and explicit knowledge representation | to establish the starting point that later learning-based approaches are contrasted against |
-| [rule-based system](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-system) | a system that compares current facts with rules to decide a conclusion or action | to see a concrete implementation shape of symbolic AI |
-| [knowledge representation](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-representation) | a format for writing facts, relations, and rules | to define what it means for a system to be treated as knowing something |
-| [fact](/AiBook/en/reference/concept-glossary-alpha/f/#fact) | information treated as true in the current state | to separate the input material to which rules are applied |
-| [inference engine](/AiBook/en/reference/concept-glossary-alpha/i/#inference-engine) | a mechanism that finds and applies rules matching the current facts | to see the execution structure between rules and conclusions |
-
 ## Main Learning Points
 
 This section may look like history, but in practice it introduces one old and important way in which AI tried to solve problems. The three guideposts below are the overall map.

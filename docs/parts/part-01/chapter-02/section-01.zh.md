@@ -26,18 +26,6 @@ P1-1 已经整理了 AI 这个词的范围与主要术语之间的关系。P1-2 
 - 区分规则式方法的优势与限制。
 - 理解这种方法为什么在今天的一部分系统里仍然有用。
 
-## 先连起来的概念
-
-这一节是 Chapter 2 中首次固定核心术语基准线的代表位置。下面这些概念先只固定其角色；如果需要更完整的定义，再回到对应的术语条目。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [symbolic AI](/AiBook/zh/reference/concept-glossary-pinyin/f/#symbolic-ai) | 以符号、规则与显式知识表示为中心的 AI 方法 | 为了先建立后面与学习式方法对照的起点 |
-| [rule-based system](/AiBook/zh/reference/concept-glossary-pinyin/g/#rule-based-system) | 把当前事实与规则相对照，从而决定结论或行动的系统 | 为了看见符号主义 AI 的一种具体实现形态 |
-| [knowledge representation](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-representation) | 用来书写事实、关系与规则的形式 | 为了说明系统“知道什么”究竟是什么意思 |
-| [fact](/AiBook/zh/reference/concept-glossary-pinyin/f/#fact) | 在当前状态下被当作真的信息 | 为了把规则应用的输入材料单独分出来 |
-| [inference engine](/AiBook/zh/reference/concept-glossary-pinyin/i/#inference-engine) | 找出并应用与当前事实匹配的规则的机制 | 为了看清规则与结论之间的执行结构 |
-
 ## 主要学习内容
 
 这一节看起来像历史说明，但实际上是在介绍 AI 早期一种重要的问题求解方式。下面三个基准构成整节的总地图。

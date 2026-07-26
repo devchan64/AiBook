@@ -25,18 +25,6 @@
 - 理解为什么写规则、获取知识与管理例外会变得困难。
 - 先固定一个现代服务里规则与模型如何共存的简化图景。
 
-## 先连起来的概念
-
-这一节是把规则式系统读成真实运行结构的代表位置。下面这些概念先按角色固定；如果需要更完整定义，再直接回到对应术语条目。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [rule-based system](/AiBook/zh/reference/concept-glossary-pinyin/g/#rule-based-system) | 把当前事实与规则相对照，从而决定结论或行动的系统 | 为了先把评价对象本身说清楚 |
-| [fact](/AiBook/zh/reference/concept-glossary-pinyin/f/#fact) | 在当前情境中被当作真的状态信息 | 为了看清规则究竟作用在什么之上 |
-| [knowledge base](/AiBook/zh/reference/concept-glossary-pinyin/k/#knowledge-base) | 汇集事实、规则与领域知识的结构 | 为了看清规则集合存放在哪里 |
-| [inference engine](/AiBook/zh/reference/concept-glossary-pinyin/i/#inference-engine) | 找出并应用与当前事实匹配规则的机制 | 为了看清结论究竟是怎样产生的 |
-| [explanation facility](/AiBook/zh/reference/concept-glossary-pinyin/e/#explanation-facility) | 展示某个结果是由哪些规则导致的功能 | 为了固定规则式系统的重要优势之一：可解释性 |
-
 ## 三个基准
 
 这一节是在评价规则式系统。下面三个基准是评价的底线。

@@ -25,25 +25,6 @@ This section first closes the point that `AI is the widest outer category`. The 
 - Read AI as a field for handling problems, not as the name of one product or one latest model.
 - Organize the relationship among AI, machine learning, deep learning, and generative AI at a level that can be reused in later chapters.
 
-## Concepts to Connect First
-
-This section is also the entry point where several core terms are introduced together for the first time. The concepts below should be fixed only briefly here. When a fuller definition is needed, follow each link and check the glossary entry again. Because one Korean term can split into different concepts when mapped into English, the glossary headwords are read in both Korean and English together.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence) | the broadest outer category | to place the many approaches that follow on one map |
-| [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) | an approach that learns patterns from data | to separate rule-based and learning-based approaches |
-| [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning) | a stream that learns complex representations with neural networks | to fix a major expansion path inside machine learning |
-| [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai) | a stream that produces outputs such as text, images, and audio | to avoid reducing recent AI experience too narrowly |
-| [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm) | a large language model centered on language data | to separate generative AI from AI as a whole |
-| [system](/AiBook/en/reference/concept-glossary-alpha/s/#system) | the real implemented structure that receives input and produces results | to distinguish a field from an implementation |
-| [input](/AiBook/en/reference/concept-glossary-alpha/i/#input) | the information a system receives | to read what the system uses as grounds for judgment |
-| [output](/AiBook/en/reference/concept-glossary-alpha/o/#output) | the result produced by the system | to read differences among classification, recommendation, and generation |
-| [goal](/AiBook/en/reference/concept-glossary-alpha/g/#goal) | the purpose that defines why a certain output should be produced | to see that the same output can serve different purposes |
-| [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) | estimating a result from current information | to keep it from collapsing into generation, recommendation, or classification |
-| [recommendation](/AiBook/en/reference/concept-glossary-alpha/r/#recommendation) | choosing what is worth showing next among many candidates | to see that AI is not only about generating answers |
-| [rule-based system](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-system) | a system in which people write rules that lead to conclusions | to avoid narrowing AI only to recent learned models |
-
 ## Main Learning Points
 
 Many terms appear in this section, but the structure becomes much clearer once they are not all treated as if they lived on the same conceptual level. The three points below form the large map of the section.
