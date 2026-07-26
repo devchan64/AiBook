@@ -191,13 +191,7 @@
 | 요구사항 | 요구사항 | requirement | P1-16.3 | requirement | requirement | P1-16.3 source context | 프로젝트나 시스템이 반드시 만족해야 하는 기능·품질·제약 조건 |
 | 시나리오 | 시나리오 | scenario | P1-17.1 | scenario | scenario | forecast scenario context | 확정 예측이 아니라 가능한 전개 경로를 조건별로 나누는 틀 |
 | 지표 | 지표 | indicator | P1-17.1 | indicator | indicator | AI Index indicator context | 변화 방향을 보여 주는 수치나 관찰 신호 |
-| 이해관계 | 이해관계 | stake | P1-17.1 | stake | stake | source evaluation context | 말하는 주체가 얻게 되거나 잃게 되는 이익과 입장 |
-| 기업 발표 | 기업 발표 | company announcement | P1-17.1 | company-announcement | company-announcement | company source context | 기업이 제품·투자·사업 방향을 공개적으로 알리는 자료 |
-| 연구 보고서 | 연구 보고서 | research report | P1-17.2 | report | report | research/report methodology context | 지표, 조사 방법론, 조사 범위, 표본, 한계를 포함해 정리한 근거 자료 |
-| 사실 사건 | 사실 사건 | fact event | P1-17.2 | fact-event | fact-event | source reading context | 발표, 소송, 발간처럼 날짜와 당사자로 확인할 수 있는 현실 사건 |
-| 해석 | 해석 | interpretation | P1-17.2 | interpretation | interpretation | source reading context | 사건이나 자료에 사람이 의미를 붙인 설명 |
 | 해석 경계 | 해석 경계 | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | 데이터나 비교 결과를 어디까지 말할 수 있는지 정하는 설명의 한계선 |
-| 조사 방법론 | 조사 방법론 | research methodology | P1-17.2 | methodology | methodology | report methodology context | 자료를 어떻게 모으고 측정하고 분석했는지 설명하는 조사·분석 절차 |
 | 표본 | 표본 | sample | P2-5.3 | statistical-sample | statistical-sample | P2-5.3 source context | 모집단에서 실제로 관측한 일부 데이터 |
 | 사실 주장 | 사실 주장 | factual claim | P1-17.3 | factual-claim | factual-claim | source verification context | 외부 자료와 근거로 확인되어야 하는 문장 |
 | 예측 | 예측 | prediction | P1-10.1 | prediction | prediction | ML prediction/forecast distinction | 입력이나 현재 정보에서 다음 값·상태·사건을 추정하는 일 |

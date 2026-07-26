@@ -80,8 +80,6 @@
 
 --8<-- "reference/concept-glossary-terms/question-structuring.ko.md"
 
---8<-- "reference/concept-glossary-terms/methodology.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/static-deployment.ko.md"
 

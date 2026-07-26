@@ -33,7 +33,6 @@
 --8<-- "reference/concept-glossary-terms/composite-function.ko.md"
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.ko.md"
 --8<-- "reference/concept-glossary-terms/convolution.ko.md"
---8<-- "reference/concept-glossary-terms/interpretation.ko.md"
 --8<-- "reference/concept-glossary-terms/interpretation-boundary.ko.md"
 
 --8<-- "reference/concept-glossary-terms/format-consistency.ko.md"

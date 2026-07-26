@@ -30,8 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/weighted-sum.ko.md"
 
---8<-- "reference/concept-glossary-terms/company-announcement.ko.md"
-
 --8<-- "reference/concept-glossary-terms/covariance.ko.md"
 
 --8<-- "reference/concept-glossary-terms/covariance-matrix.ko.md"
