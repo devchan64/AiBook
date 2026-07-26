@@ -92,8 +92,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/shell-script.en.md"
 
---8<-- "reference/concept-glossary-terms/sigma.en.md"
-
 --8<-- "reference/concept-glossary-terms/skewness.en.md"
 
 --8<-- "reference/concept-glossary-terms/similarity.en.md"

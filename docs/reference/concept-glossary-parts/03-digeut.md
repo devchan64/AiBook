@@ -27,8 +27,6 @@
 
 --8<-- "reference/concept-glossary-terms/proxy-target.ko.md"
 
---8<-- "reference/concept-glossary-terms/substitution.ko.md"
-
 --8<-- "reference/concept-glossary-terms/sparsity.ko.md"
 
 --8<-- "reference/concept-glossary-terms/data.ko.md"

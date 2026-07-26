@@ -20,8 +20,6 @@
 
 --8<-- "reference/concept-glossary-terms/linear-combination.zh.md"
 
---8<-- "reference/concept-glossary-terms/sigma.zh.md"
-
 --8<-- "reference/concept-glossary-terms/shape.zh.md"
 
 --8<-- "reference/concept-glossary-terms/training.zh.md"

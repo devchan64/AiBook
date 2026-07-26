@@ -187,9 +187,7 @@
 | 변수 | 변수 | variable | P2-2.1 | variable | variable | P2-2.1 source context | 값을 가리키기 위해 붙인 이름 |
 | 함수 | 함수 | function | P2-2.1 | function | function | P2-2.1 source context | 입력을 받아 출력으로 바꾸는 관계나 계산 단위 |
 | 식 | 식 | expression | P2-2.1 | expression | expression | P2-2.1 source context | 값, 변수, 연산, 함수 호출을 조합한 계산 조각 |
-| 시그마 | 시그마 | sigma | P2-2.2 | sigma | sigma | P2-2.2 source context | 반복 덧셈을 압축해 적는 합 기호 |
 | 극한 | 극한 | limit | P2-2.3 | limit | limit | P2-2.3 source context | 입력이 어떤 값에 가까워질 때 함수값의 경향을 보는 표기 |
-| 대입 | 대입 | substitution | P2-2.3 | substitution | substitution | P2-2.3 source context | 변수 자리에 특정 값을 넣어 계산해 보는 절차 |
 | 변화율 | 변화율 | rate of change | P2-4.2 | rate-of-change | rate-of-change | P2-2.3 source context | 입력 변화량에 비해 출력이 얼마나 변하는지 보는 비율 |
 | 로그 | 수학 로그 | logarithm | P2-2.4 | logarithm | logarithm | P2-2.4 source context | 지수 함수를 거꾸로 읽고 곱셈 관계를 더하기 관계로 바꾸는 함수 |
 | 지수 함수 | 지수 함수 | exponential function | P2-2.4 | exponential-function | exponential-function | P2-2.4 source context | 입력이 지수 자리에 들어가 같은 비율의 변화를 표현하는 함수 |
