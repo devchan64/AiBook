@@ -18,7 +18,6 @@
 
 --8<-- "reference/concept-glossary-terms/absolute-path.ko.md"
 
---8<-- "reference/concept-glossary-terms/workflow.ko.md"
 
 --8<-- "reference/concept-glossary-terms/early-stopping.ko.md"
 

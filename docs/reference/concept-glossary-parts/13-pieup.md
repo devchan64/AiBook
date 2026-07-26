@@ -35,19 +35,16 @@
 
 --8<-- "reference/concept-glossary-terms/comparability.ko.md"
 
---8<-- "reference/concept-glossary-terms/evaluation-record.ko.md"
 
 --8<-- "reference/concept-glossary-terms/evaluation-mode.ko.md"
 
 --8<-- "reference/concept-glossary-terms/metric.ko.md"
 
---8<-- "reference/concept-glossary-terms/evaluation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/evaluation-data.ko.md"
 
 --8<-- "reference/concept-glossary-terms/evaluation-design.ko.md"
 
---8<-- "reference/concept-glossary-terms/eval-run.ko.md"
 
 --8<-- "reference/concept-glossary-terms/mean-squared-error-mse.ko.md"
 

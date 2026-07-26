@@ -48,7 +48,6 @@
 | 산출물 | 출력 산출물 | output artifact | P1-10.1 | output-artifact | output-artifact | P1-10.1 source context | 생성형 AI가 만들어 사람이 검토·재사용하는 결과물; 표제 통일 관리 검토 |
 | 생성 설정값 | 생성 설정값 | generation setting | P1-4.3 | generation-setting | generation-setting | Google ML Glossary temperature | 생성 시점의 출력 선택 조절값 |
 | 서비스 | 서비스 | service | P1-4.1 | service | service | P1-4.1 source context | 사용자가 실제로 만나는 제공 형태와 운영 구조 |
-| 사람 검토 | 사람 검토 | human review | P1-6.3 | human-review | human-review | P1-6.3 source context | 자동 처리하기 애매하거나 위험한 사례를 사람이 확인하는 절차; 표제 통일 관리 검토 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |
 | 신뢰 수준 | 신뢰 수준 | confidence level | P1-6.2 | confidence-level | confidence-level | scikit-learn probability calibration | 보정된 확률 출력을 어느 정도 믿을 수 있는지 읽는 수준 |
 | 순전파 | 순전파 | forward pass | P1-5.2 | forward-pass | forward-pass | P1-5.2 source context | 입력이 학습된 파라미터를 지나 출력으로 계산되는 방향 |
@@ -145,7 +144,6 @@
 | 지시 | 지시 | instruction | P1-12.1 | instruction | instruction | InstructGPT, prompt engineering context | 모델에게 수행할 작업을 알려 주는 요청 요소 |
 | 제약 | 제약 | constraint | P1-12.1 | constraint | constraint | P1-12.1 source context | 길이, 범위, 금지 조건처럼 결과 범위를 좁히는 조건 |
 | 근거성 | 근거 | evidence | P1-12.3 | evidence | evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |
-| 평가 | 평가 | evaluation | P6-16.1 | evaluation | evaluation | InstructGPT, evaluation context | 출력이 목적과 기준에 맞는지 확인하는 절차 |
 | 평가 데이터 | 평가 데이터 | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | 모델 학습에 직접 쓰지 않고 학습된 모델의 동작을 확인하기 위해 따로 남겨 둔 데이터 |
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
 | 일관성 | 일관성 | consistency | P1-12.3 | consistency | consistency | P1-12.3 source context | 여러 입력과 반복 결과에서 기준이 유지되는 정도 |
@@ -176,7 +174,6 @@
 | 추적 | 추적 | trace | P1-14.5 | trace | trace | P1-14.5 source context | 한 요청이 거친 단계와 연결 관계를 따라 남기는 기록 |
 | 실행 로그 | 로그 | log | P7-6.2 | log | log | P1-14.5 source context | 실행 과정에서 나중에 확인할 수 있도록 남기는 기록; 표제 통일 관리 검토 |
 | 그레이더 | 그레이더 | grader | P1-14.5 | grader | grader | P1-14.5 source context | 출력이나 실행 결과를 기준에 따라 판정하는 평가 장치 |
-| 평가 실행 | 평가 실행 | eval run | P1-14.5 | eval-run | eval-run | P1-14.5 source context | 정해 둔 입력 세트와 평가 기준으로 한 번 돌린 평가 단위; 표제 통일 관리 검토 |
 | 소프트웨어 회귀 | 소프트웨어 회귀 | software regression | P1-14.5 | software-regression | software-regression | P1-14.5 source context | 변경 뒤 이전에는 되던 기능이나 품질이 나빠지는 현상 |
 | 가드레일 | 가드레일 | guardrail | P1-14.5 | guardrail | guardrail | P1-14.5 source context | 허용 범위를 벗어난 입력·출력·실행을 막는 제한과 점검 장치 |
 | 서비스 제약 | 서비스 제약 | service constraints | P1-14.6 | service-constraints | service-constraints | P1-14.6 source context | 비용, 지연 시간, 처리량, 호출 한도 같은 운영 제한 조건 |
@@ -223,7 +220,6 @@
 | 작업 가설 | 작업 가설 | working hypothesis | P1-16.1 | working-hypothesis | working-hypothesis | P1-16.1 source context | 검증 전 직관을 사실과 구분해 임시 설명으로 보존하는 문장 |
 | 질문 구조화 | 질문 구조화 | question structuring | P1-16.1 | question-structuring | question-structuring | P1-16.1 source context | 막연한 기억이나 문제의식을 순서와 범위가 있는 질문으로 나누는 과정 |
 | 업무 자동화 | 업무 자동화 | work automation | P1-16.2 | work-automation | work-automation | P1-16.2 source context | 업무 흐름 일부 단계를 AI나 스크립트에 맡기는 적용 방식 |
-| 검토 | 검토 | review | P1-10.3 | review | review | P1-16.2 source context | AI 결과의 근거, 표현, 범위, 책임 조건을 사람이 다시 확인하는 절차 |
 | 생산성 | 생산성 | productivity | P1-16.2 | productivity | productivity | P1-16.2 source context | 생성 속도뿐 아니라 검토·실패·운영 비용까지 포함한 효율 기준; 표제 통일 관리 검토 |
 | 검토 비용 | 검토 비용 | review cost | P1-16.2 | review-cost | review-cost | P1-16.2 source context | AI 결과를 실제 사용 가능 상태로 만들기 위한 확인·수정·승인 비용; 표제 통일 관리 검토 |
 | 실행 범위 | 실행 범위 | scope | P1-15.3 | scope | scope | P1-16.3 source context | 현재 요청이나 자동화가 영향을 줄 수 있는 대상과 경계 |
@@ -491,7 +487,6 @@
 | 정책 규칙 | 정책 규칙 | policy rule | P3-9.8 | policy-rule | policy-rule | P3-9.8 source context | 모델 출력 점수나 범주를 실제 운영 행동으로 바꾸는 명시적 기준 |
 | 정책 | 정책 | policy | P1-8.3 | policy | policy | P1-14.3 source context | 현재 상태나 관측에서 어떤 행동을 고를지 정하는 기준 또는 함수 |
 | 검증 | 검증 | validation | P4-4.2 | validation | validation | P2-12.3 source context | 설정과 선택을 비교 점검하기 위한 중간 평가 데이터 또는 절차 |
-| 검토 후보 | 검토 후보 | review candidate | P3-9.1 | review-candidate | review-candidate | P3-9.1 source context | 변화 신호와 판단 맥락을 바탕으로 사람이 다시 확인할 가치가 있는 사례; 표제 통일 관리 검토 |
 | 테스트 | 테스트 | test | P2-12.3 | test | test | P2-12.3 source context | 선택이 끝난 뒤 마지막으로 확인하는 평가 데이터 또는 절차; 표제 통일 관리 검토 |
 | 데이터 누수 | 데이터 누수 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 예측 시점에 알 수 없는 정보가 학습 과정에 미리 섞이는 문제 |
 | 저장 구조 | 저장 구조 | storage structure | P3-2.1 | storage-structure | storage-structure | P3-2.1 source context | 기록을 빠짐없이 보존하고 다시 찾기 위해 만든 데이터 저장용 구조 |
@@ -518,7 +513,6 @@
 | 저장소 | 저장소 | repository | P2-14.1 | repository | repository | P2-14.1 source context | 파일 상태와 변경 이력을 함께 관리하는 프로젝트 공간 |
 | 브랜치 | 브랜치 | branch | P2-14.2 | branch | branch | P2-14.2 source context | 같은 저장소 안에서 작업 흐름을 분리해 가리키는 이름 붙은 이력선 |
 | 배포 | 배포 | deployment | P2-14.2 | deployment | deployment | P2-14.2 source context | 독자에게 보이는 문서 결과를 실제 공개 상태로 갱신하는 일 |
-| 작업 흐름 | 작업 흐름 | workflow | P2-14.2 | workflow | workflow | P2-14.2 source context | 작성, 점검, 배포를 어떤 순서와 기준으로 나눌지 정한 운영 방식; 표제 통일 관리 검토 |
 | 정적 배포 | 정적 배포 | static deployment | P7-7.1 | static-deployment | static-deployment | P2-14.2 source context | 미리 생성한 정적 파일을 사이트 형태로 공개하는 방식 |
 | 문서 재현성 | 문서 재현성 | document reproducibility | P2-14.2 | document-reproducibility | document-reproducibility | P2-14.2 source context | 원고, 코드, 이미지, 설정을 맞춰 같은 문서 결과를 다시 만들 수 있는 성질 |
 | 대조 학습 | 대조 학습 | contrastive learning | P6-3.3 | contrastive-learning | contrastive-learning | SimCLR, SBERT context | 가까워져야 할 쌍과 멀어져야 할 쌍으로 표현 공간 배치를 배우는 접근 |
@@ -532,12 +526,8 @@
 
 | 인덱스 표기 | 대표 표제어 | 영어 기준 용어 | 중심 Section | 파일 slug | 앵커 | 검증 레퍼런스 | 비고 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 검토 대상 | 검토 대상 | review target | P7-4.2 | review-target | review-target | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 권리와 책임 | 권리와 책임 | rights and responsibility | P1-10.3 | rights-and-responsibility | rights-and-responsibility | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 메타데이터 | 메타데이터 | metadata | P1-13.4 | metadata | metadata | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 우선순위 | 우선순위 | priority | P7-7.3 | priority | priority | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 질의 | 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
-| 평가 기록 | 평가 기록 | evaluation record | P7-3.2 | evaluation-record | evaluation-record | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | 환경 | 환경 | environment | P1-8.3 | environment | environment | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | automatic prompt optimization | automatic prompt optimization | automatic prompt optimization | P6-10.3 | automatic-prompt-optimization | automatic-prompt-optimization | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
 | trustworthiness | trustworthiness | trustworthiness | P4-18.2 | trustworthiness | trustworthiness | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |

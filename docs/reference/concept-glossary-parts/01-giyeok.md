@@ -82,9 +82,7 @@
 --8<-- "reference/concept-glossary-terms/false-positive.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/review-target.ko.md"
 
---8<-- "reference/concept-glossary-terms/review-candidate.ko.md"
 
 
 
@@ -93,7 +91,6 @@
 --8<-- "reference/concept-glossary-terms/intervention-feedback.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/review.ko.md"
 
 --8<-- "reference/concept-glossary-terms/review-cost.ko.md"
 
@@ -153,7 +150,6 @@
 
 --8<-- "reference/concept-glossary-terms/clustering.ko.md"
 
---8<-- "reference/concept-glossary-terms/rights-and-responsibility.ko.md"
 
 --8<-- "reference/concept-glossary-terms/permission.ko.md"
 
