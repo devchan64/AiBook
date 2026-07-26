@@ -96,6 +96,7 @@
 - `이 절의 범위`, `이 절의 목표`, `이 절을 읽는 순서` 같은 진행 메타 제목은 쓰지 않고, 구체 개념·오해·비교 대상·판단 기준이 드러나는 소제목으로 바꾸는지를 `manuscript-writing-workflow.md`에서 먼저 확인합니다.
 - 개념사전 항목 구조, `중심 Section`·`등장 Section`, 표제어 분리 기준은 `concept-glossary-guidelines.md`를 기준으로 봅니다.
 - 표제어·영어 기준 용어·번역어 대응만 빠르게 확인하면 되는 작업은 `management/glossary-indexes/`의 언어별 인덱스를 먼저 봅니다.
+- 일반 사전적 의미와 원고 안의 의미가 분리되는 한국어 표제를 정리할 때는 `management/glossary-indexes/korean-general-expression-review.md`에서 `표제 관리 제외`와 `표제 통일 관리` 구분을 먼저 확인합니다.
 - Python 예제 세부 규칙은 `python-example-guidelines.md`, 차트·도식 세부 규칙은 `chart-guidelines.md`를 기준으로 봅니다.
 - 본문 Section을 실제로 수정했다면 `section-metadata-guidelines.md`를 따라 `Version`과 릴리즈노트 연결을 같은 작업 안에서 함께 확인합니다.
 

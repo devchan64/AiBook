@@ -4,6 +4,8 @@
 
 정의는 이 파일에 중복 작성하지 않는다. 대표 정의는 단어별 원고 파일과 해당 `중심 Section`을 기준으로 확인한다.
 
+일반 사전적 의미와 원고 안의 의미가 분리되어 쓰이는 표현은 `비고`에 `표제 관리 제외 검토` 또는 `표제 통일 관리 검토`를 표시한다. 제외 검토 대상은 독립 표제어보다 대표 항목의 하위 설명이나 본문 문맥으로 돌릴 후보이고, 통일 관리 검토 대상은 일반화된 학술·기술 표현을 확인해 대표 표제어를 맞출 후보다. 세부 판정 근거는 `korean-general-expression-review.md`를 기준으로 본다.
+
 | 인덱스 표기 | 대표 표제어 | 영어 기준 용어 | 중심 Section | 파일 slug | 앵커 | 검증 레퍼런스 | 비고 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 결정적 | 결정적 | deterministic | P1-3.1 | deterministic | deterministic | AIMA, SEP AI | 같은 조건에서 결과가 하나로 닫히는 성질 |
@@ -17,10 +19,10 @@
 | 기준 모델 | 기준 모델 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 후보 모델이 넘어야 할 가장 단순한 비교용 모델이나 점수 기준 |
 | 기준선 | 기준선 | baseline | P3-7.3 | baseline | baseline | BLS base period, NCI baseline context | 현재 값이나 모델 점수를 단독으로 읽지 않기 위해 두는 참조 기준 |
 | 기준선 구간 | 기준선 구간 | baseline window | P7-1.3 | baseline-window | baseline-window | P3-7.1 source context | 최근 변화와 비교하기 위해 평소 상태로 간주해 따로 묶어 읽는 시간 구간이나 관측 구간 |
-| 경고 | 경고 | alert | P3-9.1 | alert | alert | P3-9.1 source context | 기준선이나 평소 상태와 다른 변화가 보여 먼저 확인하라는 가벼운 신호 |
+| 경고 | 경고 | alert | P3-9.1 | alert | alert | P3-9.1 source context | 기준선이나 평소 상태와 다른 변화가 보여 먼저 확인하라는 가벼운 신호; 표제 관리 제외 검토 |
 | 비교 가능한 참조 집단 | 비교 가능한 참조 집단 | comparable reference group | P3-7.4 | comparable-reference-group | comparable-reference-group | P3-7.4 source context | 현재 샘플과 같은 샘플 단위와 운영 조건을 공유한다고 보고 남겨 둔 과거 사례 묶음 |
-| 비교 리포트 | 비교 리포트 | comparison report | P3-9.2 | comparison-report | comparison-report | P3-9.2 source context | 최근 상태와 기준선의 차이를 정리해 사람이 먼저 볼 대상과 검토 우선순위를 읽게 하는 출력 구조 |
-| 비교표 | 비교표 | comparison table | P7-2.1 | comparison-table | comparison-table | P3-7.2 source context | 둘 이상 대상을 같은 기준 열 위에 나란히 놓고 차이를 읽게 만드는 표 |
+| 비교 리포트 | 비교 리포트 | comparison report | P3-9.2 | comparison-report | comparison-report | P3-9.2 source context | 최근 상태와 기준선의 차이를 정리해 사람이 먼저 볼 대상과 검토 우선순위를 읽게 하는 출력 구조; 표제 관리 제외 검토 |
+| 비교표 | 비교표 | comparison table | P7-2.1 | comparison-table | comparison-table | P3-7.2 source context | 둘 이상 대상을 같은 기준 열 위에 나란히 놓고 차이를 읽게 만드는 표; 표제 통일 관리 검토 |
 | 혼동 행렬 | 혼동 행렬 | confusion matrix | P4-6.1 | confusion-matrix | confusion-matrix | P4-6.1 source context | 실제 라벨과 예측 라벨의 조합으로 분류 오류 방향을 읽는 표 |
 | 군집 | 군집 | cluster | P1-8.2 | cluster | cluster | P1-8.2 source context | 알고리즘이 찾은 묶음이며 지도학습 라벨과 구분 |
 | k-평균 | k-평균 | k-means | P1-8.2 | k-means | k-means | P1-8.2 source context | k개의 중심점을 반복 갱신하는 군집화 알고리즘 |
@@ -45,10 +47,10 @@
 | 수작업 특징 | 수작업 특징 | hand-crafted features | P1-9.1 | hand-crafted-features | hand-crafted-features | face recognition survey, representation learning review | 사람이 미리 설계한 입력 단서 |
 | 알고리즘 | 알고리즘 | algorithm | P4-3.1 | algorithm | algorithm | AIMA, P4-3.1 source context | 문제를 풀기 위해 정해진 순서대로 수행하는 절차 |
 | 순차 모델링 | 순차 모델링 | sequence modeling | P1-9.3 | sequence-modeling | sequence-modeling | Seq2Seq, Attention, Transformer papers | 순서 있는 데이터의 관계와 생성을 다루는 문제 설정 |
-| 산출물 | 출력 산출물 | output artifact | P1-10.1 | output-artifact | output-artifact | P1-10.1 source context | 생성형 AI가 만들어 사람이 검토·재사용하는 결과물 |
+| 산출물 | 출력 산출물 | output artifact | P1-10.1 | output-artifact | output-artifact | P1-10.1 source context | 생성형 AI가 만들어 사람이 검토·재사용하는 결과물; 표제 통일 관리 검토 |
 | 생성 설정값 | 생성 설정값 | generation setting | P1-4.3 | generation-setting | generation-setting | Google ML Glossary temperature | 생성 시점의 출력 선택 조절값 |
 | 서비스 | 서비스 | service | P1-4.1 | service | service | P1-4.1 source context | 사용자가 실제로 만나는 제공 형태와 운영 구조 |
-| 사람 검토 | 사람 검토 | human review | P1-6.3 | human-review | human-review | P1-6.3 source context | 자동 처리하기 애매하거나 위험한 사례를 사람이 확인하는 절차 |
+| 사람 검토 | 사람 검토 | human review | P1-6.3 | human-review | human-review | P1-6.3 source context | 자동 처리하기 애매하거나 위험한 사례를 사람이 확인하는 절차; 표제 통일 관리 검토 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |
 | 신뢰 수준 | 신뢰 수준 | confidence level | P1-6.2 | confidence-level | confidence-level | scikit-learn probability calibration | 보정된 확률 출력을 어느 정도 믿을 수 있는지 읽는 수준 |
 | 순전파 | 순전파 | forward pass | P1-5.2 | forward-pass | forward-pass | P1-5.2 source context | 입력이 학습된 파라미터를 지나 출력으로 계산되는 방향 |
@@ -72,17 +74,17 @@
 | 거짓 양성 | 거짓 양성 | false positive | P3-9.12 | false-positive | false-positive | Google ML Glossary false positive, P3-9.12 source context | 실제로는 음성인데 모델이나 규칙이 양성으로 판단해 잘못 올린 사례 |
 | 응답 생성 | 응답 생성 | response generation | P1-5.2 | response-generation | response-generation | Google ML Glossary inference LLM context | LLM이 프롬프트를 바탕으로 자연어 응답을 만드는 실행 |
 | 의사결정 | 의사결정 | decision | P1-6.3 | decision | decision | P1-6.3 source context | 모델 숫자와 비용·정책을 함께 보고 실제 행동을 정하는 단계 |
-| 영향 | 영향 | impact | P1-1.1 | impact | impact | OECD AI system definition | 출력이 사람 판단·환경 변화에 닿는 결과 |
+| 영향 | 영향 | impact | P1-1.1 | impact | impact | OECD AI system definition | 출력이 사람 판단·환경 변화에 닿는 결과; 표제 관리 제외 검토 |
 | 원-핫 표현 | 원-핫 표현 | one-hot representation | P1-11.1 | one-hot-representation | one-hot-representation | P1-11.1 source context | 항목 위치 한 칸만 1로 켜는 희소한 식별 표현 |
 | 이미지 인식 | 이미지 인식 | image recognition | P1-9.1 | image-recognition | image-recognition | LeCun deep learning review, face recognition survey | 이미지에서 의미 있는 시각 범주를 예측하는 문제 |
 | 자기회귀 모델 | 자기회귀 모델 | autoregressive model | P1-9.2 | autoregressive-model | autoregressive-model | WaveNet paper, language modeling context | 앞 값에 조건부로 다음 값을 순서대로 예측·생성하는 모델 |
 | 자연스러움 | 자연스러움 | naturalness | P1-10.3 | naturalness | naturalness | P1-10.3 source context | 생성 문장이 매끄럽고 그럴듯해 보이는 성질 |
 | 증거 강도 | 증거 강도 | evidence strength | P3-8.1 | evidence-strength | evidence-strength | P3-8.1 source context | 차이나 신호를 어느 문장 강도로 말해도 되는지 판단하기 위한 근거의 단단함 |
-| 점수 | 점수 | score | P1-5.2 | score | score | Google ML Glossary score context | 후보 출력 비교에 쓰이는 모델 수치 |
+| 점수 | 점수 | score | P1-5.2 | score | score | Google ML Glossary score context | 후보 출력 비교에 쓰이는 모델 수치; 표제 통일 관리 검토 |
 | 순위화 | 순위화 | ranking | P1-13.2 | ranking | ranking | P1-13.2 source context | 여러 후보를 점수나 우선순위 기준으로 줄 세우는 문제 유형 |
 | 점 예측 | 점 예측 | point prediction | P1-6.3 | point-prediction | point-prediction | P1-6.3 source context | 불확실성 범위 없이 하나의 대표 숫자만 제시하는 예측 |
 | 조밀한 벡터 | 조밀한 벡터 | dense vector | P1-11.1 | dense-vector | dense-vector | P1-11.1 source context | 대부분의 차원이 실제 값을 가지는 임베딩식 벡터 표현 |
-| 주변 근거 | 주변 근거 | surrounding evidence | P1-9.3 | surrounding-evidence | surrounding-evidence | P1-9.3 source context | 직접 조상은 아니지만 딥러닝 확산의 배경이 되는 사례 |
+| 주변 근거 | 주변 근거 | surrounding evidence | P1-9.3 | surrounding-evidence | surrounding-evidence | P1-9.3 source context | 직접 조상은 아니지만 딥러닝 확산의 배경이 되는 사례; 표제 관리 제외 검토 |
 | 중심점 | 중심점 | centroid | P1-8.2 | centroid | centroid | P1-8.2 source context | 군집을 대표하는 평균 위치 |
 | 주성분 분석 | 주성분 분석 | principal component analysis, PCA | P1-8.2 | principal-component-analysis-pca | principal-component-analysis-pca | P1-8.2 source context | 분산이 큰 방향을 찾는 차원 축소 방법 |
 | 지연 보상 | 지연 보상 | delayed reward | P1-8.3 | delayed-reward | delayed-reward | P1-8.3 source context | 행동의 결과가 여러 단계 뒤 보상으로 드러나는 상황 |
@@ -131,7 +133,7 @@
 | 웨이브넷 | 웨이브넷 | WaveNet | P1-9.2 | wavenet | wavenet | WaveNet paper | 원시 오디오 파형을 순차 생성한 모델 사례 |
 | 음성 생성 | 음성 생성 | speech generation | P1-9.2 | speech-generation | speech-generation | WaveNet paper | 시간 순서의 오디오 신호를 만드는 생성 문제 |
 | 텍스트 음성 변환 | 텍스트 음성 변환 | TTS, text-to-speech | P1-9.2 | tts-text-to-speech | tts-text-to-speech | Deep Voice paper | 텍스트 입력을 음성 출력으로 바꾸는 응용 문제 |
-| 후처리 | 후처리 | postprocessing | P1-5.2 | postprocessing | postprocessing | P1-5.2 source context | 모델 출력을 서비스 결정이나 표시 결과로 바꾸는 단계 |
+| 후처리 | 후처리 | postprocessing | P1-5.2 | postprocessing | postprocessing | P1-5.2 source context | 모델 출력을 서비스 결정이나 표시 결과로 바꾸는 단계; 표제 통일 관리 검토 |
 | 위험 | 위험 | risk | P1-10.3 | risk | risk | NIST GenAI Profile | 생성 결과나 AI 사용이 피해로 이어질 가능성 |
 | 확률적 예측 | 확률적 예측 | probabilistic prediction | P1-6.3 | probabilistic-prediction | probabilistic-prediction | Google ML Glossary probabilistic regression model | 가능한 결과의 범위나 가능성을 함께 표현하는 예측 |
 | 확률적 선택 | 확률적 선택 | probabilistic choice | P1-10.2 | probabilistic-choice | probabilistic-choice | P1-10.2 source context | 후보 분포에서 실제 출력 하나를 선택하는 과정 |
@@ -153,8 +155,8 @@
 | 일관성 | 일관성 | consistency | P1-12.3 | consistency | consistency | P1-12.3 source context | 여러 입력과 반복 결과에서 기준이 유지되는 정도 |
 | RAG | 검색 증강 생성 | retrieval-augmented generation | P1-13.3 | retrieval-augmented-generation-rag | retrieval-augmented-generation-rag | RAG paper | 검색한 외부 자료를 생성 입력에 붙이는 구조 |
 | HNSW | HNSW | hierarchical navigable small world | P1-13.4 | hnsw-hierarchical-navigable-small-world | hnsw-hierarchical-navigable-small-world | HNSW paper | 그래프 기반 ANN의 대표적인 벡터 검색 인덱스 방법 |
-| 앱 | 앱 | application | P1-14.1 | application | application | P1-14.1 source context | 모델, 데이터, 도구를 묶어 사용자가 만나는 기능 형태 |
-| 도구 | 도구 | tool | P1-14.1 | tool | tool | P1-14.1 source context | 모델 밖의 기능을 조회하거나 실행하는 연결 수단 |
+| 앱 | 앱 | application | P1-14.1 | application | application | P1-14.1 source context | 모델, 데이터, 도구를 묶어 사용자가 만나는 기능 형태; 표제 통일 관리 검토 |
+| 도구 | 도구 | tool | P1-14.1 | tool | tool | P1-14.1 source context | 모델 밖의 기능을 조회하거나 실행하는 연결 수단; 표제 통일 관리 검토 |
 | 오케스트레이션 | 오케스트레이션 | orchestration | P1-14.1 | orchestration | orchestration | P1-14.1 source context | 모델, 데이터, 도구, 앱을 순서와 조건으로 연결하는 제어 층 |
 | 도구 사용 | 도구 사용 | tool use | P1-14.2 | tool-use | tool-use | P1-14.2 source context | 외부 시스템 기능을 호출해 조회·실행·상태 변경을 일으키는 구조 |
 | 도구 호출 | 도구 호출 | tool call | P1-14.2 | tool-call | tool-call | P1-14.2 source context | 어떤 도구를 어떤 인자로 실행할지 만든 요청 |
@@ -162,24 +164,24 @@
 | 권한 | 권한 | permission | P7-6.2 | permission | permission | P1-14.2 source context | 실행 가능한 범위와 접근 한계를 미리 정한 통제 장치 |
 | 승인 | 승인 | approval | P1-14.2 | approval | approval | P1-14.2 source context | 실행 전 지금 이 행동을 실제로 허용할지 확인하는 절차 |
 | AI 에이전트 | AI 에이전트 | AI agent | P1-14.3 | ai-agent | ai-agent | P1-14.3 source context | 목표, 상태, 관찰, 행동을 이어 가며 작업을 수행하는 AI 시스템 문맥의 실행 구조 |
-| 목표 | 목표 | goal | P1-14.3 | goal | goal | P1-14.3 source context | AI 에이전트나 시스템이 도달하려는 작업 상태 |
+| 목표 | 목표 | goal | P1-14.3 | goal | goal | P1-14.3 source context | AI 에이전트나 시스템이 도달하려는 작업 상태; 표제 통일 관리 검토 |
 | 상태 | 상태 | state | P1-7.1 | state | state | P1-14.3 source context | 다음 행동 판단에 쓰이는 현재 정보와 조건의 묶음 |
 | 행동 | 행동 | action | P1-8.3 | action | action | P1-14.3 source context | AI 에이전트나 시스템이 상태를 바꾸기 위해 선택하는 실행 단위 |
 | 관찰 | 관찰 | observation | P1-14.3 | observation | observation | P1-14.3 source context | 행동 뒤 돌아온 결과나 환경에서 새로 확인한 정보 |
 | 종료 조건 | 종료 조건 | stop condition | P1-14.3 | stop-condition | stop-condition | P1-14.3 source context | 작업을 계속할지 멈출지 정하는 기준 |
 | MCP | 모델 컨텍스트 프로토콜 | Model Context Protocol | P1-14.4 | model-context-protocol-mcp | model-context-protocol-mcp | MCP specification context | AI 앱과 외부 도구·리소스·프롬프트 연결을 표준화하려는 프로토콜 |
 | 프로토콜 | 프로토콜 | protocol | P1-14.4 | protocol | protocol | P1-14.4 source context | 시스템끼리 요청과 응답 형식을 맞추는 통신 규칙 |
-| 호스트 | 호스트 | host | P1-14.4 | host | host | P1-14.4 source context | MCP 연결을 품은 사용자 쪽 AI 앱 또는 실행 주체 |
+| 호스트 | 호스트 | host | P1-14.4 | host | host | P1-14.4 source context | MCP 연결을 품은 사용자 쪽 AI 앱 또는 실행 주체; 표제 관리 제외 검토 |
 | 클라이언트 | 클라이언트 | client | P1-14.4 | client | client | P1-14.4 source context | 서버에 요청을 보내는 연결 주체 |
 | 서버 | 서버 | server | P1-14.4 | server | server | P1-14.4 source context | 요청을 받아 도구, 데이터, 기능을 제공하는 쪽 |
-| 리소스 | 리소스 | resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽을 수 있도록 제공되는 외부 맥락 데이터 |
+| 리소스 | 리소스 | resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽을 수 있도록 제공되는 외부 맥락 데이터; 표제 통일 관리 검토 |
 | 발견 | 발견 | discovery | P1-14.4 | discovery | discovery | P1-14.4 source context | 연결 대상이 제공하는 도구와 리소스를 알아내는 단계 |
 | 신뢰 경계 | 신뢰 경계 | trust boundary | P1-14.4 | trust-boundary | trust-boundary | P1-14.4 source context | 믿을 수 있는 영역과 검증해야 하는 영역을 나누는 경계 |
 | 하네스 | 하네스 | harness | P1-14.5 | harness | harness | P1-14.5 source context | 실행을 감싸고 기록·평가·재실행을 가능하게 하는 틀 |
 | 추적 | 추적 | trace | P1-14.5 | trace | trace | P1-14.5 source context | 한 요청이 거친 단계와 연결 관계를 따라 남기는 기록 |
-| 실행 로그 | 로그 | log | P7-6.2 | log | log | P1-14.5 source context | 실행 과정에서 나중에 확인할 수 있도록 남기는 기록 |
+| 실행 로그 | 로그 | log | P7-6.2 | log | log | P1-14.5 source context | 실행 과정에서 나중에 확인할 수 있도록 남기는 기록; 표제 통일 관리 검토 |
 | 그레이더 | 그레이더 | grader | P1-14.5 | grader | grader | P1-14.5 source context | 출력이나 실행 결과를 기준에 따라 판정하는 평가 장치 |
-| 평가 실행 | 평가 실행 | eval run | P1-14.5 | eval-run | eval-run | P1-14.5 source context | 정해 둔 입력 세트와 평가 기준으로 한 번 돌린 평가 단위 |
+| 평가 실행 | 평가 실행 | eval run | P1-14.5 | eval-run | eval-run | P1-14.5 source context | 정해 둔 입력 세트와 평가 기준으로 한 번 돌린 평가 단위; 표제 통일 관리 검토 |
 | 소프트웨어 회귀 | 소프트웨어 회귀 | software regression | P1-14.5 | software-regression | software-regression | P1-14.5 source context | 변경 뒤 이전에는 되던 기능이나 품질이 나빠지는 현상 |
 | 가드레일 | 가드레일 | guardrail | P1-14.5 | guardrail | guardrail | P1-14.5 source context | 허용 범위를 벗어난 입력·출력·실행을 막는 제한과 점검 장치 |
 | 서비스 제약 | 서비스 제약 | service constraints | P1-14.6 | service-constraints | service-constraints | P1-14.6 source context | 비용, 지연 시간, 처리량, 호출 한도 같은 운영 제한 조건 |
@@ -191,7 +193,7 @@
 | 재시도 | 재시도 | retry | P1-14.6 | retry | retry | P1-14.6 source context | 실패한 요청을 조건에 따라 다시 실행하는 정책 |
 | 배치 | 배치 | batch | P1-14.6 | batch | batch | P1-14.6 source context | 여러 요청이나 작업을 묶어 처리하는 방식 |
 | 캐싱 | 캐싱 | caching | P1-14.6 | caching | caching | P1-14.6 source context | 반복 계산이나 요청 결과를 저장해 재사용하는 방식 |
-| 운영 | 운영 | operation | P1-14.6 | service-operation | service-operation | P1-14.6 source context | 서비스를 반복 사용 속에서 비용·오류·속도·품질까지 관리하는 일 |
+| 운영 | 운영 | operation | P1-14.6 | service-operation | service-operation | P1-14.6 source context | 서비스를 반복 사용 속에서 비용·오류·속도·품질까지 관리하는 일; 표제 통일 관리 검토 |
 | 스트리밍 | 스트리밍 | streaming | P1-14.6 | streaming | streaming | P1-14.6 source context | 전체 결과 완성 전 생성 조각을 순서대로 전달하는 방식 |
 | 프롬프트 캐싱 | 프롬프트 캐싱 | prompt caching | P1-14.6 | prompt-caching | prompt-caching | P1-14.6 source context | 반복되는 프롬프트 입력 처리를 저장해 재사용하는 최적화 |
 | 지수 백오프 | 지수 백오프 | exponential backoff | P1-14.6 | exponential-backoff | exponential-backoff | P1-14.6 source context | 재시도 대기 시간을 점점 크게 늘리는 전략 |
@@ -207,7 +209,7 @@
 | 저작권의 표현 | 저작권의 표현 | protected expression | P1-15.2 | protected-expression | protected-expression | copyright expression/idea distinction | 아이디어·사실과 구분되는 구체적 창작 표현 |
 | 출처 표시 | 출처 표시 | attribution | P1-15.2 | attribution | attribution | Korean Copyright Act Article 37 context | 외부 자료의 저자·기관·제목·URL·확인 날짜를 남기는 일 |
 | 라이선스 | 라이선스 | license | P1-15.2 | license | license | copyright licensing context | 자료 사용 조건과 허락 범위를 정한 규칙 |
-| 아이디어 | 아이디어 | idea | P1-15.2 | idea | idea | copyright idea/expression distinction | 구체적 표현으로 고정되기 전의 주제·발상·원리 |
+| 아이디어 | 아이디어 | idea | P1-15.2 | idea | idea | copyright idea/expression distinction | 구체적 표현으로 고정되기 전의 주제·발상·원리; 표제 관리 제외 검토 |
 | 사실 | 사실 | fact | P1-10.3 | fact | fact | information integrity context | 참거짓을 확인할 수 있는 현실 주장 |
 | 학습 데이터 | 학습 데이터 | training data | P1-15.2 | training-data | training-data | P1-15.2, P2-15.2 source context | 모델이 패턴이나 규칙을 배우는 데 직접 사용하는 데이터 |
 | 권리자 | 권리자 | rightsholder | P1-15.2 | rightsholder | rightsholder | copyright rightsholder context | 저작물이나 자료의 이용 권리를 가진 사람이나 기관 |
@@ -224,53 +226,53 @@
 | 비밀 정보 | 비밀 정보 | confidential information | P1-15.3 | confidential-information | confidential-information | security/confidentiality context | 외부 노출 시 조직·고객·운영에 피해를 줄 수 있는 내부 정보 |
 | 과도한 권한 | 과도한 권한 | excessive agency | P1-15.3 | excessive-agency | excessive-agency | OWASP LLM agentic risk context | 현재 작업 목적보다 실행 권한과 자율성이 너무 넓은 상태 |
 | 마스킹 | 마스킹 | masking | P1-15.3 | masking | masking | security logging context | 민감 정보 일부를 가리거나 대체해 노출 위험을 줄이는 처리 |
-| 개인 학습 | 개인 학습 | personal learning | P1-16.1 | personal-learning | personal-learning | P1-16.1 source context | 잊은 개념을 질문과 근거로 다시 회복하는 학습 과정 |
-| 복습 | 복습 | relearning | P1-16.1 | relearning | relearning | P1-16.1 source context | 예전에 배운 내용을 현재 기준으로 다시 재구성하는 과정 |
-| 문서화 | 문서화 | documentation | P1-16.1 | documentation | documentation | P1-16.1 source context | 학습 내용과 판단 과정을 구조화된 글과 기록으로 남기는 일 |
-| 근거 확인 | 근거 확인 | evidence review | P1-16.1 | evidence-review | evidence-review | P1-16.1 source context | AI 초안이나 검색 결과가 실제 주장을 뒷받침하는지 대조하는 절차 |
+| 개인 학습 | 개인 학습 | personal learning | P1-16.1 | personal-learning | personal-learning | P1-16.1 source context | 잊은 개념을 질문과 근거로 다시 회복하는 학습 과정; 표제 통일 관리 검토 |
+| 복습 | 복습 | relearning | P1-16.1 | relearning | relearning | P1-16.1 source context | 예전에 배운 내용을 현재 기준으로 다시 재구성하는 과정; 표제 통일 관리 검토 |
+| 문서화 | 문서화 | documentation | P1-16.1 | documentation | documentation | P1-16.1 source context | 학습 내용과 판단 과정을 구조화된 글과 기록으로 남기는 일; 표제 관리 제외 검토 |
+| 근거 확인 | 근거 확인 | evidence review | P1-16.1 | evidence-review | evidence-review | P1-16.1 source context | AI 초안이나 검색 결과가 실제 주장을 뒷받침하는지 대조하는 절차; 표제 관리 제외 검토 |
 | 작업 가설 | 작업 가설 | working hypothesis | P1-16.1 | working-hypothesis | working-hypothesis | P1-16.1 source context | 검증 전 직관을 사실과 구분해 임시 설명으로 보존하는 문장 |
 | 질문 구조화 | 질문 구조화 | question structuring | P1-16.1 | question-structuring | question-structuring | P1-16.1 source context | 막연한 기억이나 문제의식을 순서와 범위가 있는 질문으로 나누는 과정 |
 | 업무 자동화 | 업무 자동화 | work automation | P1-16.2 | work-automation | work-automation | P1-16.2 source context | 업무 흐름 일부 단계를 AI나 스크립트에 맡기는 적용 방식 |
-| 요약 | 요약 | summary | P1-16.2 | summary | summary | P1-16.2 source context | 긴 자료의 핵심 내용을 짧은 형태로 줄여 보여 주는 작업 |
+| 요약 | 요약 | summary | P1-16.2 | summary | summary | P1-16.2 source context | 긴 자료의 핵심 내용을 짧은 형태로 줄여 보여 주는 작업; 표제 관리 제외 검토 |
 | 검토 | 검토 | review | P1-10.3 | review | review | P1-16.2 source context | AI 결과의 근거, 표현, 범위, 책임 조건을 사람이 다시 확인하는 절차 |
-| 생산성 | 생산성 | productivity | P1-16.2 | productivity | productivity | P1-16.2 source context | 생성 속도뿐 아니라 검토·실패·운영 비용까지 포함한 효율 기준 |
-| 근거 후보 | 근거 후보 | evidence candidate | P1-16.2 | evidence-candidate | evidence-candidate | P1-16.2 source context | 검색이나 RAG가 찾아낸 검증 전 자료 후보 |
-| 검토 비용 | 검토 비용 | review cost | P1-16.2 | review-cost | review-cost | P1-16.2 source context | AI 결과를 실제 사용 가능 상태로 만들기 위한 확인·수정·승인 비용 |
-| 프로젝트 | 프로젝트 | project | P1-16.3 | project | project | P1-16.3 source context | 질문이나 목표를 산출물로 검증하는 작업 단위 |
+| 생산성 | 생산성 | productivity | P1-16.2 | productivity | productivity | P1-16.2 source context | 생성 속도뿐 아니라 검토·실패·운영 비용까지 포함한 효율 기준; 표제 통일 관리 검토 |
+| 근거 후보 | 근거 후보 | evidence candidate | P1-16.2 | evidence-candidate | evidence-candidate | P1-16.2 source context | 검색이나 RAG가 찾아낸 검증 전 자료 후보; 표제 관리 제외 검토 |
+| 검토 비용 | 검토 비용 | review cost | P1-16.2 | review-cost | review-cost | P1-16.2 source context | AI 결과를 실제 사용 가능 상태로 만들기 위한 확인·수정·승인 비용; 표제 통일 관리 검토 |
+| 프로젝트 | 프로젝트 | project | P1-16.3 | project | project | P1-16.3 source context | 질문이나 목표를 산출물로 검증하는 작업 단위; 표제 관리 제외 검토 |
 | 실행 범위 | 실행 범위 | scope | P1-15.3 | scope | scope | P1-16.3 source context | 현재 요청이나 자동화가 영향을 줄 수 있는 대상과 경계 |
 | 성공 기준 | 성공 기준 | success criteria | P1-16.3 | success-criteria | success-criteria | P1-16.3 source context | 프로젝트 결과를 성공으로 볼 조건을 미리 적은 판단 기준 |
-| 기록 | 기록 | record | P1-16.3 | record | record | P1-16.3 source context | 시도, 결과, 실패, 수정 과정을 다시 확인할 수 있게 남긴 자료 |
-| 실패 유형 | 실패 유형 | failure type | P1-16.3 | failure-type | failure-type | P1-16.3 source context | 반복되는 실패를 구조에 따라 묶은 분류 틀 |
+| 기록 | 기록 | record | P1-16.3 | record | record | P1-16.3 source context | 시도, 결과, 실패, 수정 과정을 다시 확인할 수 있게 남긴 자료; 표제 관리 제외 검토 |
+| 실패 유형 | 실패 유형 | failure type | P1-16.3 | failure-type | failure-type | P1-16.3 source context | 반복되는 실패를 구조에 따라 묶은 분류 틀; 표제 관리 제외 검토 |
 | 요구사항 | 요구사항 | requirement | P1-16.3 | requirement | requirement | P1-16.3 source context | 프로젝트나 시스템이 반드시 만족해야 하는 기능·품질·제약 조건 |
-| 전망 | 미래 전망 | forecast | P1-17.1 | forecast | forecast | Stanford HAI AI Index, WEF Future of Jobs | 미래 변화 가능성을 근거와 조건 위에서 말하는 문장이나 자료 |
+| 전망 | 미래 전망 | forecast | P1-17.1 | forecast | forecast | Stanford HAI AI Index, WEF Future of Jobs | 미래 변화 가능성을 근거와 조건 위에서 말하는 문장이나 자료; 표제 관리 제외 검토 |
 | 시나리오 | 시나리오 | scenario | P1-17.1 | scenario | scenario | forecast scenario context | 확정 예측이 아니라 가능한 전개 경로를 조건별로 나누는 틀 |
 | 지표 | 지표 | indicator | P1-17.1 | indicator | indicator | AI Index indicator context | 변화 방향을 보여 주는 수치나 관찰 신호 |
 | 이해관계 | 이해관계 | stake | P1-17.1 | stake | stake | source evaluation context | 말하는 주체가 얻게 되거나 잃게 되는 이익과 입장 |
-| 정책 제안 | 정책 제안 | policy proposal | P1-17.1 | policy-proposal | policy-proposal | policy context | 제도나 규칙을 어떻게 바꾸어야 한다고 제시하는 주장 |
+| 정책 제안 | 정책 제안 | policy proposal | P1-17.1 | policy-proposal | policy-proposal | policy context | 제도나 규칙을 어떻게 바꾸어야 한다고 제시하는 주장; 표제 관리 제외 검토 |
 | 기업 발표 | 기업 발표 | company announcement | P1-17.1 | company-announcement | company-announcement | company source context | 기업이 제품·투자·사업 방향을 공개적으로 알리는 자료 |
-| 뉴스 | 뉴스 | news | P1-17.2 | news | news | news source reading context | 사건과 당사자를 빠르게 전하는 기사 |
-| 칼럼 | 칼럼 | opinion column | P1-17.2 | opinion-column | opinion-column | opinion source context | 필자나 매체의 관점과 해석을 드러내는 글 |
-| 보고서 | 보고서 | report | P1-17.2 | report | report | research/report methodology context | 지표, 방법론, 조사 범위, 표본, 한계를 포함해 정리한 자료 |
-| 정책 문서 | 정책 문서 | policy document | P1-17.2 | policy-document | policy-document | policy document context | 제도 방향, 의무, 권고, 적용 범위를 밝히는 문서 |
+| 뉴스 | 뉴스 | news | P1-17.2 | news | news | news source reading context | 사건과 당사자를 빠르게 전하는 기사; 표제 관리 제외 검토 |
+| 칼럼 | 칼럼 | opinion column | P1-17.2 | opinion-column | opinion-column | opinion source context | 필자나 매체의 관점과 해석을 드러내는 글; 표제 관리 제외 검토 |
+| 보고서 | 보고서 | report | P1-17.2 | report | report | research/report methodology context | 지표, 방법론, 조사 범위, 표본, 한계를 포함해 정리한 자료; 표제 통일 관리 검토 |
+| 정책 문서 | 정책 문서 | policy document | P1-17.2 | policy-document | policy-document | policy document context | 제도 방향, 의무, 권고, 적용 범위를 밝히는 문서; 표제 관리 제외 검토 |
 | 사실 사건 | 사실 사건 | fact event | P1-17.2 | fact-event | fact-event | source reading context | 발표, 소송, 발간처럼 날짜와 당사자로 확인할 수 있는 현실 사건 |
 | 해석 | 해석 | interpretation | P1-17.2 | interpretation | interpretation | source reading context | 사건이나 자료에 사람이 의미를 붙인 설명 |
 | 해석 경계 | 해석 경계 | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | 데이터나 비교 결과를 어디까지 말할 수 있는지 정하는 설명의 한계선 |
-| 방법론 | 방법론 | methodology | P1-17.2 | methodology | methodology | report methodology context | 자료를 어떻게 모으고 측정하고 분석했는지 설명하는 절차 |
+| 방법론 | 방법론 | methodology | P1-17.2 | methodology | methodology | report methodology context | 자료를 어떻게 모으고 측정하고 분석했는지 설명하는 절차; 표제 통일 관리 검토 |
 | 표본 | 표본 | sample | P2-5.3 | statistical-sample | statistical-sample | P2-5.3 source context | 모집단에서 실제로 관측한 일부 데이터 |
-| 보고서 한계 | 보고서 한계 | report limit | P1-17.2 | report-limit | report-limit | report limitation context | 보고서의 범위, 표본, 방법, 기간, 해석 가능성의 제한 |
+| 보고서 한계 | 보고서 한계 | report limit | P1-17.2 | report-limit | report-limit | report limitation context | 보고서의 범위, 표본, 방법, 기간, 해석 가능성의 제한; 표제 관리 제외 검토 |
 | 사실 주장 | 사실 주장 | factual claim | P1-17.3 | factual-claim | factual-claim | source verification context | 외부 자료와 근거로 확인되어야 하는 문장 |
 | 예측 | 예측 | prediction | P1-10.1 | prediction | prediction | ML prediction/forecast distinction | 입력이나 현재 정보에서 다음 값·상태·사건을 추정하는 일 |
 | 계산 언어 | 계산 언어 | calculation language | P2-1.1 | calculation-language | calculation-language | P2-1.1 source context | 데이터와 모델 계산 구조를 읽기 위한 수학적 표현 체계 |
 | 압축 표기 | 압축 표기 | notation | P2-1.1 | notation | notation | P2-1.1 source context | 반복 계산과 관계를 짧은 기호 체계로 줄여 쓰는 방식 |
 | 수식 | 수식 | formula | P2-1.2 | formula | formula | P2-1.2 source context | 계산 관계나 절차를 기호와 숫자로 압축해 적은 표현 |
-| 코드 | 코드 | code | P2-1.2 | code | code | P2-1.2 source context | 컴퓨터가 실행할 계산 절차를 프로그래밍 언어로 적은 구조 |
-| shape | shape | shape | P2-3.1 | shape | shape | P2-1.2 source context | 배열이나 텐서의 차원과 축별 크기를 보여 주는 모양 정보 |
+| 코드 | 코드 | code | P2-1.2 | code | code | P2-1.2 source context | 컴퓨터가 실행할 계산 절차를 프로그래밍 언어로 적은 구조; 표제 통일 관리 검토 |
+| shape | shape | shape | P2-3.1 | shape | shape | P2-1.2 source context | 배열이나 텐서의 차원과 축별 크기를 보여 주는 모양 정보; 표제 관리 제외 검토 |
 | 변수 | 변수 | variable | P2-2.1 | variable | variable | P2-2.1 source context | 값을 가리키기 위해 붙인 이름 |
 | 함수 | 함수 | function | P2-2.1 | function | function | P2-2.1 source context | 입력을 받아 출력으로 바꾸는 관계나 계산 단위 |
 | 식 | 식 | expression | P2-2.1 | expression | expression | P2-2.1 source context | 값, 변수, 연산, 함수 호출을 조합한 계산 조각 |
 | 시그마 | 시그마 | sigma | P2-2.2 | sigma | sigma | P2-2.2 source context | 반복 덧셈을 압축해 적는 합 기호 |
 | 반복 인덱스 | 반복 인덱스 | summation index | P2-2.2 | summation-index | summation-index | P2-2.2 source context | 시그마 표기에서 반복 위치를 나타내는 이름 |
-| 항 | 항 | term | P2-2.2 | summation-term | summation-term | P2-2.2 source context | 시그마에서 반복할 때마다 더해지는 계산 조각 |
+| 항 | 항 | term | P2-2.2 | summation-term | summation-term | P2-2.2 source context | 시그마에서 반복할 때마다 더해지는 계산 조각; 표제 관리 제외 검토 |
 | 극한 | 극한 | limit | P2-2.3 | limit | limit | P2-2.3 source context | 입력이 어떤 값에 가까워질 때 함수값의 경향을 보는 표기 |
 | 대입 | 대입 | substitution | P2-2.3 | substitution | substitution | P2-2.3 source context | 변수 자리에 특정 값을 넣어 계산해 보는 절차 |
 | 가까워짐 | 가까워짐 | approach | P2-2.3 | limit-approach | limit-approach | P2-2.3 source context | 극한에서 값이 목표 지점으로 다가가는 움직임 |
@@ -302,10 +304,10 @@
 | 거리 | 거리 | distance | P2-3.4 | distance | distance | P2-3.4 source context | 두 벡터가 표현 공간에서 얼마나 떨어져 있는지 보는 기준 |
 | 유사도 | 유사도 | similarity | P2-3.4 | similarity | similarity | P2-3.4 source context | 두 벡터나 표현이 얼마나 닮았는지 보는 비교 기준 |
 | 코사인 유사도 | 코사인 유사도 | cosine similarity | P2-3.4 | cosine-similarity | cosine-similarity | P2-3.4 source context | 두 벡터의 방향 유사성을 보는 기준 |
-| 로컬 PC | 로컬 PC | local PC | P2-3.5 | local-pc | local-pc | P2-3.5 source context | 독자 자신의 컴퓨터에서 Python과 터미널로 코드를 실행하는 자리 |
+| 로컬 PC | 로컬 PC | local PC | P2-3.5 | local-pc | local-pc | P2-3.5 source context | 독자 자신의 컴퓨터에서 Python과 터미널로 코드를 실행하는 자리; 표제 관리 제외 검토 |
 | 코드 셀 | 코드 셀 | code cell | P2-10.1 | code-cell | code-cell | P2-3.5 source context | 노트북에서 실제 코드를 입력하고 실행하는 셀 |
 | import 문 | import 문 | import statement | P2-3.5 | import-statement | import-statement | P2-3.5 source context | 설치된 모듈이나 패키지를 Python 코드에서 불러오는 문장 |
-| 변화 비교 | 변화 비교 | change comparison | P2-4.1 | change-comparison | change-comparison | P2-4.1 source context | 입력 변화와 출력 변화가 어떻게 함께 움직이는지 보는 질문 |
+| 변화 비교 | 변화 비교 | change comparison | P2-4.1 | change-comparison | change-comparison | P2-4.1 source context | 입력 변화와 출력 변화가 어떻게 함께 움직이는지 보는 질문; 표제 관리 제외 검토 |
 | 접선 | 접선 | tangent line | P2-4.1 | tangent-line | tangent-line | P2-4.1 source context | 곡선의 한 지점 근처 변화 방향을 보여 주는 직선 |
 | 기울기 | 기울기 | slope | P2-4.2 | slope | slope | P2-4.2 source context | 입력 변화에 대한 출력 변화를 그래프 위에서 읽는 값 |
 | 곡선 | 곡선 | curve | P2-4.2 | curve | curve | P2-4.2 source context | 위치에 따라 변화율이 달라질 수 있는 선 |
@@ -329,7 +331,7 @@
 | 연쇄 법칙 | 연쇄 법칙 | chain rule | P2-4.6 | chain-rule | chain-rule | P2-4.6 source context | 합성함수에서 단계별 변화율을 이어 읽는 미분 규칙 |
 | 확률 | 확률 | probability | P2-5.1 | probability | probability | P2-5.1 source context | 불확실성을 0과 1 사이의 숫자로 표현하는 언어 |
 | 불확실성 | 불확실성 | uncertainty | P1-6.2 | uncertainty | uncertainty | P2-5.1 source context | 현재 정보만으로 하나의 결과를 확정할 수 없는 상태 |
-| 결과 | 결과 | outcome | P2-5.1 | outcome | outcome | P2-5.1 source context | 한 번의 시행에서 나올 수 있는 개별 결과 |
+| 결과 | 결과 | outcome | P2-5.1 | outcome | outcome | P2-5.1 source context | 한 번의 시행에서 나올 수 있는 개별 결과; 표제 관리 제외 검토 |
 | 사건 | 사건 | event | P2-5.1 | event | event | P2-5.1 source context | 관심 있는 결과들을 묶은 집합 |
 | 표본공간 | 표본공간 | sample space | P2-5.1 | sample-space | sample-space | P2-5.1 source context | 가능한 모든 결과를 모아 둔 전체 집합 |
 | 장기 빈도 | 장기 빈도 | long-run frequency | P2-5.1 | long-run-frequency | long-run-frequency | P2-5.1 source context | 반복 실험에서 어떤 결과가 나타나는 비율로 확률을 읽는 관점 |
@@ -340,8 +342,8 @@
 | 분포 | 분포 | distribution | P2-5.2 | distribution | distribution | P2-5.2 source context | 값들이 어디에 몰리고 얼마나 퍼져 있는지 보여 주는 전체 모양 |
 | 데이터 분포 | 데이터 분포 | data distribution | P2-5.2 | data-distribution | data-distribution | P2-5.2 source context | 실제로 관측한 데이터 값들이 놓인 모양 |
 | 데이터 모델링 | 데이터 모델링 | data modeling | P3-1.1 | data-modeling | data-modeling | P3-1.1 source context | 원천데이터를 질문에 답할 수 있는 샘플, 특징, 비교, 출력 구조로 다시 설계하는 과정 |
-| 데이터셋 후보 | 데이터셋 후보 | dataset candidate | P3-2.1 | dataset-candidate | dataset-candidate | P3-2.1 source context | 같은 질문에 답하도록 샘플과 열을 다시 묶은 비교 가능한 후보 표 |
-| 데이터 질문 | 데이터 질문 | data question | P3-1.3 | data-question | data-question | P3-1.3 source context | 샘플 단위, 비교 대상, 알고 싶은 결과를 드러내는 문제 설계 문장 |
+| 데이터셋 후보 | 데이터셋 후보 | dataset candidate | P3-2.1 | dataset-candidate | dataset-candidate | P3-2.1 source context | 같은 질문에 답하도록 샘플과 열을 다시 묶은 비교 가능한 후보 표; 표제 관리 제외 검토 |
+| 데이터 질문 | 데이터 질문 | data question | P3-1.3 | data-question | data-question | P3-1.3 source context | 샘플 단위, 비교 대상, 알고 싶은 결과를 드러내는 문제 설계 문장; 표제 관리 제외 검토 |
 | 데이터과학 | 데이터과학 | data science | P3-1.1 | data-science | data-science | P3-1.1 source context | 데이터를 수집, 정리, 표현, 모델링, 해석해 질문과 의사결정에 연결하는 넓은 흐름 |
 | 확률분포 | 확률분포 | probability distribution | P2-5.2 | probability-distribution | probability-distribution | P2-5.2 source context | 가능한 값이나 결과에 확률을 배정한 수학적 표현 |
 | 중심 | 중심 | center | P2-5.2 | center | center | P2-5.2 source context | 여러 값이 대체로 모여 있는 대표 자리 |
@@ -370,7 +372,7 @@
 | 신뢰구간 | 신뢰구간 | confidence interval | P2-5.5 | confidence-interval | confidence-interval | P2-5.5 source context | 추정값을 어느 범위 안에서 함께 읽어야 하는지 보여 주는 방식 |
 | 가설검정 | 가설검정 | hypothesis testing | P2-5.5 | hypothesis-testing | hypothesis-testing | P2-5.5 source context | 관측된 차이가 표본 우연만으로 설명될 수 있는지 따져 보는 절차 |
 | 최적화 | 최적화 | optimization | P2-6.1 | optimization | optimization | P2-6.1 source context | 기준과 제약을 고려해 여러 후보 중 더 나은 값을 찾는 문제 |
-| 후보 | 후보 | candidate | P2-6.1 | candidate | candidate | P2-6.1 source context | 아직 확정된 답이 아니라 비교해 볼 수 있는 선택지나 값 |
+| 후보 | 후보 | candidate | P2-6.1 | candidate | candidate | P2-6.1 source context | 아직 확정된 답이 아니라 비교해 볼 수 있는 선택지나 값; 표제 관리 제외 검토 |
 | 후보 분포 | 후보 분포 | candidate distribution | P6-1.3 | candidate-distribution | candidate-distribution | P6-1.3 source context | 현재 문맥에서 다음 후보들의 상대적 그럴듯함을 나타내는 분포 |
 | 롱 컨텍스트 | 롱 컨텍스트 | long-context | P6-4.5 | long-context | long-context | long-context design context | 긴 입력에서 중요한 정보를 유지하고 활용하는 설계 문제 |
 | 문맥 창 | 문맥 창 | context window | P6-4.2 | context-window | context-window | P6-4.2 source context | 모델이 한 번의 입력-출력 계산 동안 함께 참고할 수 있는 최대 토큰 범위 |
@@ -400,7 +402,7 @@
 | 교차검증 | 교차검증 | cross-validation | P4-4.2 | cross-validation | cross-validation | scikit-learn Cross-validation, P4-4.2 source context | 주어진 데이터를 여러 번 나누어 서로 다른 검증 구간에서 모델이나 설정을 반복 평가하는 방법 |
 | 경사하강법 | 경사하강법 | gradient descent | P2-6.3 | gradient-descent | gradient-descent | P2-6.3 source context | 손실을 낮추기 위해 파라미터를 조금씩 바꾸는 반복 최적화 방법 |
 | 학습 반복 | 학습 반복 | iteration | P2-6.3 | iteration | iteration | P2-6.3 source context | 예측, 손실 계산, 그래디언트 계산, 업데이트를 한 차례 수행하는 학습 단위 |
-| 업데이트 | 업데이트 | update | P2-6.3 | update | update | P2-6.3 source context | 현재 파라미터나 설정값을 새 계산 결과에 맞게 바꾸는 단계 |
+| 업데이트 | 업데이트 | update | P2-6.3 | update | update | P2-6.3 source context | 현재 파라미터나 설정값을 새 계산 결과에 맞게 바꾸는 단계; 표제 통일 관리 검토 |
 | 손실 지형 | 손실 지형 | loss landscape | P2-6.3 | loss-landscape | loss-landscape | P2-6.3 source context | 파라미터 위치에 따라 손실값이 달라지는 모양을 지형처럼 본 표현 |
 | 로컬 환경 | 로컬 환경 | local environment | P2-7.1 | local-environment | local-environment | P2-7.1 source context | 내 컴퓨터에서 코드를 실행하기 위해 준비된 프로그램, 파일, 설정의 묶음 |
 | 실행 환경 | 실행 환경 | runtime | P2-7.1 | runtime | runtime | Python runtime context | 코드가 실제로 실행되는 자리와 연결된 프로그램·패키지·설정 묶음 |
@@ -408,7 +410,7 @@
 | 셸 | 셸 | shell | P2-7.2 | shell | shell | Bash manual | 터미널 안에서 명령을 읽고 해석해 실행하는 프로그램 |
 | 명령 | 명령 | command | P2-7.2 | command | command | P2-7.2 source context | 셸에게 지금 수행하라고 요청하는 실행 문장 |
 | 작업 폴더 | 작업 폴더 | working directory | P2-7.2 | working-directory | working-directory | P2-7.2 source context | 현재 명령이 기준으로 삼는 폴더 |
-| 파일 경로 | 파일 경로 | file path | P2-7.2 | file-path | file-path | P2-7.2 source context | 파일이나 폴더가 어디에 있는지 가리키는 위치 문자열 |
+| 파일 경로 | 파일 경로 | file path | P2-7.2 | file-path | file-path | P2-7.2 source context | 파일이나 폴더가 어디에 있는지 가리키는 위치 문자열; 표제 관리 제외 검토 |
 | 상대 경로 | 상대 경로 | relative path | P2-7.2 | relative-path | relative-path | P2-7.2 source context | 현재 작업 폴더를 기준으로 위치를 가리키는 경로 |
 | 절대 경로 | 절대 경로 | absolute path | P2-7.2 | absolute-path | absolute-path | P2-7.2 source context | 파일 시스템 시작점부터 모두 적은 경로 |
 | Python 인터프리터 | Python 인터프리터 | Python interpreter | P2-7.3 | python-interpreter | python-interpreter | Python interpreter docs | Python 코드를 읽고 실행하는 프로그램 |
@@ -416,7 +418,7 @@
 | 대화형 모드 | 대화형 모드 | interactive mode | P2-7.3 | interactive-mode | interactive-mode | Python interpreter docs | 한 줄씩 입력하고 바로 결과를 확인하는 실행 방식 |
 | 스크립트 | 스크립트 | script | P2-7.3 | script | script | Python command-line docs | 여러 줄 코드를 파일로 저장해 한 번에 실행하는 방식 |
 | 가상환경 | 가상환경 | virtual environment | P2-7.4 | virtual-environment | virtual-environment | Python venv docs | 프로젝트별로 분리한 Python 실행 공간 |
-| 패키지 | 패키지 | package | P2-7.4 | package | package | Python Packaging User Guide | Python에서 가져다 쓸 수 있도록 배포되는 코드 묶음 |
+| 패키지 | 패키지 | package | P2-7.4 | package | package | Python Packaging User Guide | Python에서 가져다 쓸 수 있도록 배포되는 코드 묶음; 표제 통일 관리 검토 |
 | 의존성 | 의존성 | dependency | P2-7.5 | dependency | dependency | Python Packaging User Guide | 코드 실행에 필요한 외부 패키지나 환경 조건 |
 | 버전 고정 | 버전 고정 | version pinning | P2-7.5 | version-pinning | version-pinning | pip repeatable installs | 특정 패키지 버전을 명시해 환경 차이를 줄이는 방법 |
 | 셸 스크립트 | 셸 스크립트 | shell script | P2-7.8 | shell-script | shell-script | Bash manual | 터미널 명령 여러 줄을 파일에 묶어 둔 실행 기록 |
@@ -439,7 +441,7 @@
 | 반복 | 반복 | loop | P2-8.4 | loop | loop | Python for statement context | 여러 값에 같은 처리 기준을 차례대로 적용하는 흐름 |
 | 이터러블 | 이터러블 | iterable | P2-8.4 | iterable | iterable | Python glossary iterable | 값을 하나씩 꺼내며 순회할 수 있는 대상 |
 | 이터레이터 | 이터레이터 | iterator | P2-8.4 | iterator | iterator | Python glossary iterator | 다음 값을 하나씩 실제로 꺼내 주는 반복 장치 |
-| 누적 | 누적 | accumulation | P2-8.4 | accumulation | accumulation | P2-8.4 source context | 반복 중 현재까지의 결과를 계속 쌓아 하나의 결과를 만드는 패턴 |
+| 누적 | 누적 | accumulation | P2-8.4 | accumulation | accumulation | P2-8.4 source context | 반복 중 현재까지의 결과를 계속 쌓아 하나의 결과를 만드는 패턴; 표제 통일 관리 검토 |
 | 컴프리헨션 | 컴프리헨션 | comprehension | P2-8.4 | comprehension | comprehension | Python list comprehensions | 반복으로 새 리스트나 딕셔너리 같은 컬렉션을 만드는 축약 표현 |
 | 매개변수 | 매개변수 | parameter | P2-8.5 | parameter-function | parameter-function | Python function definitions | 함수를 정의할 때 입력 자리를 나타내기 위해 적는 이름 |
 | 인자 | 인자 | argument | P2-8.5 | argument | argument | Python function definitions | 함수를 실제로 호출할 때 넘기는 값 |
@@ -459,8 +461,8 @@
 | 비선형 구조 | 비선형 구조 | non-linear structure | P2-9.1 | non-linear-structure | non-linear-structure | P2-9.1 source context | 계층이나 관계처럼 한 줄로만 읽히지 않는 구조 |
 | 키 기반 구조 | 키 기반 구조 | key-based structure | P2-9.1 | key-based-structure | key-based-structure | P2-9.1 source context | 위치보다 키를 기준으로 값을 찾고 관리하는 구조 감각 |
 | 배열 | 배열 | array | P2-9.2 | array | array | P2-9.2 source context | 위치와 축을 기준으로 값을 읽는 구조 |
-| 테이블 | 테이블 | table | P2-9.2 | table | table | P2-9.2 source context | 행과 열의 교차로 값을 정리하는 표 구조 |
-| 행 | 행 | row | P2-12.1 | row | row | P2-9.2 source context | 표에서 한 사례, 관측, 샘플 단위를 가로로 나타낸 줄 |
+| 테이블 | 테이블 | table | P2-9.2 | table | table | P2-9.2 source context | 행과 열의 교차로 값을 정리하는 표 구조; 표제 통일 관리 검토 |
+| 행 | 행 | row | P2-12.1 | row | row | P2-9.2 source context | 표에서 한 사례, 관측, 샘플 단위를 가로로 나타낸 줄; 표제 관리 제외 검토 |
 | 열 | 열 | column | P2-12.1 | column | column | P2-9.2 source context | 표에서 하나의 변수나 속성을 아래로 모아 놓은 세로줄 |
 | 트리 | 트리 | tree | P2-9.2 | tree | tree | P2-9.2 source context | 부모와 자식의 계층 관계로 항목을 조직하는 구조 |
 | 계층 | 계층 | hierarchy | P2-9.2 | hierarchy | hierarchy | P2-9.2 source context | 상위와 하위가 나뉘는 관계 구조 |
@@ -484,7 +486,7 @@
 | 숨은 상태 | 숨은 상태 | hidden state | P2-10.3 | hidden-state | hidden-state | P2-10.3 source context | 문서에는 드러나지 않지만 런타임 안에 남아 있는 변수, import, 임시 결과 |
 | 런타임 상태 | 런타임 상태 | runtime state | P2-10.3 | runtime-state | runtime-state | P2-10.3 source context | 현재 세션에만 살아 있는 변수, 패키지, 메모리 상태 |
 | 재실행 가능한 기록 | 재실행 가능한 기록 | reproducible record | P2-10.3 | reproducible-record | reproducible-record | P2-10.3 source context | 나중에 다시 열어도 같은 흐름으로 실행과 해석을 재현할 수 있는 기록 |
-| dtype | dtype | dtype | P2-11.1 | dtype | dtype | P2-11.1 source context | 배열에 담긴 값의 자료형 정보 |
+| dtype | dtype | dtype | P2-11.1 | dtype | dtype | P2-11.1 source context | 배열에 담긴 값의 자료형 정보; 표제 관리 제외 검토 |
 | ndim | ndim | number of dimensions | P2-11.1 | ndim | ndim | P2-11.1 source context | 배열이 몇 개의 축을 가진 구조인지 나타내는 차원 수 |
 | 인덱싱 | 인덱싱 | indexing | P2-11.2 | indexing | indexing | P2-11.2 source context | 배열, 리스트 같은 구조에서 특정 위치의 값을 고르는 선택 방식 |
 | 슬라이싱 | 슬라이싱 | slicing | P2-11.2 | slicing | slicing | P2-11.2 source context | 시작과 끝을 정해 연속된 구간을 남기는 선택 방식 |
@@ -493,7 +495,7 @@
 | 벡터화 | 벡터화 | vectorization | P2-11.3 | vectorization | vectorization | P2-11.3 source context | 반복 계산을 배열 연산 하나로 표현하는 방식 |
 | 변수변환 | 변수변환 | variable transformation | P3-6.1 | variable-transformation | variable-transformation | P3-6.1 source context | 같은 구조나 값을 비교하기 쉬운 다른 표현으로 바꾸는 과정 |
 | 토큰 | 토큰 | token | P6-2.1 | token | token | P6-2.1 source context | 모델이 텍스트를 처리하기 위해 나누는 기본 계산 단위 |
-| token ID | token ID | token ID | P6-2.2 | token-id | token-id | P6-2.2 source context | 토큰 조각을 모델 vocabulary 안에서 가리키는 번호 |
+| token ID | token ID | token ID | P6-2.2 | token-id | token-id | P6-2.2 source context | 토큰 조각을 모델 vocabulary 안에서 가리키는 번호; 표제 관리 제외 검토 |
 | 토큰화 | 토큰화 | tokenization | P6-2.2 | tokenization | tokenization | P3-6.2 source context | 원문이나 구간 구조를 모델이 읽을 수 있는 짧은 token 시퀀스로 바꾸는 과정 |
 | 어휘 사전 | 어휘 사전 | vocabulary | P6-2.2 | vocabulary | vocabulary | P6-2.2 source context | tokenizer가 만들 수 있는 token 조각과 ID를 모아 둔 계산용 목록 |
 | BPE | BPE | Byte Pair Encoding | P6-2.2 | bpe-byte-pair-encoding | bpe-byte-pair-encoding | P6-2.2 source context | 자주 함께 나타나는 조각을 합쳐 subword vocabulary를 만드는 tokenizer 계열 |
@@ -510,7 +512,7 @@
 | 접기 규칙 | 접기 규칙 | folding rule | P3-5.7 | folding-rule | folding-rule | P3-5.7 source context | 여러 후속 사건이나 값을 하나의 대표 결과 열로 줄이는 명시적 기준 |
 | 데이터셋 | 데이터셋 | dataset | P2-12.3 | dataset | dataset | P2-12.3 source context | 학습이나 평가를 위해 정리한 샘플과 변수의 묶음 |
 | 타깃 | 타깃 | target | P1-8.1 | target | target | P2-12.3 source context | 모델이 맞혀야 하는 정답 열 또는 목표 값 |
-| 출력 구조 | 출력 구조 | output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | 계산 결과를 어떤 형식의 문제 결과로 내보낼지 정한 설계상의 결과 틀 |
+| 출력 구조 | 출력 구조 | output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | 계산 결과를 어떤 형식의 문제 결과로 내보낼지 정한 설계상의 결과 틀; 표제 통일 관리 검토 |
 | 목표 라벨 후보 | 목표 라벨 후보 | target candidate | P3-9.3 | target-candidate | target-candidate | P3-1.2 source context | 나중에 맞히고 싶은 결과로 삼을 수 있는지 검토하는 잠정 결과 열 |
 | 대표 타깃 | 대표 타깃 | representative target | P3-9.11 | representative-target | representative-target | P3-9.11 source context | 여러 목표 라벨 후보 가운데 현재 문제의 중심 결과로 고정한 타깃 |
 | 타깃 정의 버전 | 타깃 정의 버전 | target definition version | P3-9.11 | target-definition-version | target-definition-version | W3C PROV versioning context, P3-9.11 source context | 같은 이름의 타깃이 따르는 기준과 시점을 표시한 버전 정보 |
@@ -522,9 +524,9 @@
 | 정책 규칙 | 정책 규칙 | policy rule | P3-9.8 | policy-rule | policy-rule | P3-9.8 source context | 모델 출력 점수나 범주를 실제 운영 행동으로 바꾸는 명시적 기준 |
 | 정책 | 정책 | policy | P1-8.3 | policy | policy | P1-14.3 source context | 현재 상태나 관측에서 어떤 행동을 고를지 정하는 기준 또는 함수 |
 | 검증 | 검증 | validation | P4-4.2 | validation | validation | P2-12.3 source context | 설정과 선택을 비교 점검하기 위한 중간 평가 데이터 또는 절차 |
-| 검토 후보 | 검토 후보 | review candidate | P3-9.1 | review-candidate | review-candidate | P3-9.1 source context | 변화 신호와 판단 맥락을 바탕으로 사람이 다시 확인할 가치가 있는 사례 |
-| 검토 후보 큐 | 검토 후보 큐 | review queue | P3-9.3 | review-queue | review-queue | P3-1.3 source context | 사람이 먼저 볼 후보 사례를 우선순위로 정렬한 운영 출력 |
-| 테스트 | 테스트 | test | P2-12.3 | test | test | P2-12.3 source context | 선택이 끝난 뒤 마지막으로 확인하는 평가 데이터 또는 절차 |
+| 검토 후보 | 검토 후보 | review candidate | P3-9.1 | review-candidate | review-candidate | P3-9.1 source context | 변화 신호와 판단 맥락을 바탕으로 사람이 다시 확인할 가치가 있는 사례; 표제 통일 관리 검토 |
+| 검토 후보 큐 | 검토 후보 큐 | review queue | P3-9.3 | review-queue | review-queue | P3-1.3 source context | 사람이 먼저 볼 후보 사례를 우선순위로 정렬한 운영 출력; 표제 관리 제외 검토 |
+| 테스트 | 테스트 | test | P2-12.3 | test | test | P2-12.3 source context | 선택이 끝난 뒤 마지막으로 확인하는 평가 데이터 또는 절차; 표제 통일 관리 검토 |
 | 데이터 누수 | 데이터 누수 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 예측 시점에 알 수 없는 정보가 학습 과정에 미리 섞이는 문제 |
 | 저장 구조 | 저장 구조 | storage structure | P3-2.1 | storage-structure | storage-structure | P3-2.1 source context | 기록을 빠짐없이 보존하고 다시 찾기 위해 만든 데이터 저장용 구조 |
 | 문제 표현 구조 | 문제 표현 구조 | problem-representation structure | P3-2.1 | problem-representation-structure | problem-representation-structure | P3-2.1 source context | 저장된 기록을 샘플, 파생 열, 비교 기준, 출력 형식으로 다시 표현한 구조 |
@@ -542,16 +544,16 @@
 | 히스토그램 | 히스토그램 | histogram | P2-13.2 | histogram | histogram | P2-13.2 source context | 값이 어느 구간에 얼마나 몰려 있는지 보여 주는 차트 |
 | 손실 곡선 | 손실 곡선 | loss curve | P2-13.2 | loss-curve | loss-curve | P2-13.2 source context | 학습 반복에 따라 손실이 어떻게 변하는지 보여 주는 선 그래프 |
 | 축 라벨 | 축 라벨 | axis label | P2-13.2 | axis-label | axis-label | P2-13.2 source context | 그래프의 가로축과 세로축이 무엇을 뜻하는지 적는 설명 |
-| 비교 그래프 | 비교 그래프 | comparison plot | P2-13.3 | comparison-plot | comparison-plot | P2-13.3 source context | 둘 이상의 값, 흐름, 조건을 나란히 놓거나 같은 축에서 비교하는 그래프 |
+| 비교 그래프 | 비교 그래프 | comparison plot | P2-13.3 | comparison-plot | comparison-plot | P2-13.3 source context | 둘 이상의 값, 흐름, 조건을 나란히 놓거나 같은 축에서 비교하는 그래프; 표제 관리 제외 검토 |
 | 범례 | 범례 | legend | P2-13.3 | legend | legend | P2-13.3 source context | 여러 선이나 점이 각각 무엇을 뜻하는지 구분해 주는 표식 |
 | 정확도 | 정확도 | accuracy | P2-13.3 | accuracy | accuracy | P2-13.3 source context | 전체 예측 중 맞춘 비율을 나타내는 성능 지표 |
 | 버전 관리 | 버전 관리 | version control | P2-14.1 | version-control | version-control | P2-14.1 source context | 시간에 따라 바뀐 파일 상태와 이유를 다시 찾게 해 주는 기록 방식 |
-| 커밋 | 커밋 | commit | P2-14.1 | commit | commit | P2-14.1 source context | 의미 있는 변경 묶음을 저장소 이력에 남긴 기록 단위 |
+| 커밋 | 커밋 | commit | P2-14.1 | commit | commit | P2-14.1 source context | 의미 있는 변경 묶음을 저장소 이력에 남긴 기록 단위; 표제 통일 관리 검토 |
 | 스테이징 영역 | 스테이징 영역 | staging area | P2-14.1 | staging-area | staging-area | P2-14.1 source context | 이번 커밋에 넣을 변경을 고르는 중간 공간 |
 | 저장소 | 저장소 | repository | P2-14.1 | repository | repository | P2-14.1 source context | 파일 상태와 변경 이력을 함께 관리하는 프로젝트 공간 |
 | 브랜치 | 브랜치 | branch | P2-14.2 | branch | branch | P2-14.2 source context | 같은 저장소 안에서 작업 흐름을 분리해 가리키는 이름 붙은 이력선 |
 | 배포 | 배포 | deployment | P2-14.2 | deployment | deployment | P2-14.2 source context | 독자에게 보이는 문서 결과를 실제 공개 상태로 갱신하는 일 |
-| 작업 흐름 | 작업 흐름 | workflow | P2-14.2 | workflow | workflow | P2-14.2 source context | 작성, 점검, 배포를 어떤 순서와 기준으로 나눌지 정한 운영 방식 |
+| 작업 흐름 | 작업 흐름 | workflow | P2-14.2 | workflow | workflow | P2-14.2 source context | 작성, 점검, 배포를 어떤 순서와 기준으로 나눌지 정한 운영 방식; 표제 통일 관리 검토 |
 | 정적 배포 | 정적 배포 | static deployment | P7-7.1 | static-deployment | static-deployment | P2-14.2 source context | 미리 생성한 정적 파일을 사이트 형태로 공개하는 방식 |
 | 문서 재현성 | 문서 재현성 | document reproducibility | P2-14.2 | document-reproducibility | document-reproducibility | P2-14.2 source context | 원고, 코드, 이미지, 설정을 맞춰 같은 문서 결과를 다시 만들 수 있는 성질 |
 | 대조 학습 | 대조 학습 | contrastive learning | P6-3.3 | contrastive-learning | contrastive-learning | SimCLR, SBERT context | 가까워져야 할 쌍과 멀어져야 할 쌍으로 표현 공간 배치를 배우는 접근 |
@@ -559,3 +561,50 @@
 | 음성 쌍 | 음성 쌍 | negative pair | P6-3.3 | negative-pair | negative-pair | contrastive learning context | 표현 학습에서 서로 멀어져야 한다고 주는 입력 쌍 |
 | GloVe | GloVe | GloVe | P6-3.3 | glove | glove | Pennington et al. 2014 | 전역 단어-단어 동시출현 통계를 반영하는 단어 임베딩 방법 |
 | 전수 비교 | 전수 비교 | full scan | P6-3.4 | full-scan | full-scan | P6-3.4 source context | 모든 후보 벡터를 빠짐없이 비교하는 기준선 검색 방식 |
+## 표제 관리 검토 보강 항목
+
+아래 항목은 단어별 한국어 원고에는 있으나 기존 한국어 인덱스 표에는 없던 표제 관리 검토 후보이다. 우선 추적 가능하게 별도 보강 표로 둔다. 후속 정리 때 본표의 가나다순 위치로 통합하고, 표제 통일 관리 대상은 영어 기준 용어와 일반화된 학술·기술 표현을 확인해 대표 표제어를 확정한다.
+
+| 인덱스 표기 | 대표 표제어 | 영어 기준 용어 | 중심 Section | 파일 slug | 앵커 | 검증 레퍼런스 | 비고 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 결과 해석 표 | 결과 해석 표 | result interpretation table | P7-1.1 | result-interpretation-table | result-interpretation-table | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 검토 요약 | 검토 요약 | review summary | P7-6.2 | review-summary | review-summary | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 검토 대상 샘플 | 검토 대상 샘플 | review-target sample | P7-4.2 | review-target-sample | review-target-sample | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 경고 등급 | 경고 등급 | alert grade | P7-7.4 | alert-grade | alert-grade | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 검토 대상 | 검토 대상 | review target | P7-4.2 | review-target | review-target | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 개선 계획 | 개선 계획 | improvement plan | P7-7.2 | improvement-plan | improvement-plan | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 권리와 책임 | 권리와 책임 | rights and responsibility | P1-10.3 | rights-and-responsibility | rights-and-responsibility | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 다음 질문 | 다음 질문 | next question | P7-2.2 | next-question | next-question | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 다음 행동 | 다음 행동 | next action | P7-6.3 | next-action | next-action | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 메타데이터 | 메타데이터 | metadata | P1-13.4 | metadata | metadata | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 비교 결과 | 비교 결과 | comparison result | P7-1.2 | comparison-result | comparison-result | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 배포 점검 | 배포 점검 | deployment check | P7-7.1 | deployment-check | deployment-check | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 보류 상태 | 보류 상태 | hold state | P7-6.3 | hold-state | hold-state | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 사례 | 사례 | example | P1-4.2 | example | example | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 실행 장면 | 실행 장면 | execution scene | P7-index | execution-scene | execution-scene | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 실패 | 실패 | failure | P7-6.2 | failure | failure | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 사건 기록 | 사건 기록 | incident record | P7-7.2 | incident-record | incident-record | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 실행 요약 | 실행 요약 | execution summary | P7-2.1 | execution-summary | execution-summary | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 입력 파일 | 입력 파일 | input file | P7-1.1 | input-file | input-file | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 요약표 | 요약표 | summary table | P7-1.1 | summary-table | summary-table | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 요청 실행 기록 | 요청 실행 기록 | run record | P6-18.2 | run-record | run-record | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 우선순위 | 우선순위 | priority | P7-7.3 | priority | priority | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 재현 확인 | 재현 확인 | recheck | P7-7.3 | recheck | recheck | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 질의 | 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 추가 검토 샘플 | 추가 검토 샘플 | follow-up review sample | P7-3.1 | follow-up-review-sample | follow-up-review-sample | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 충분히 좋은 해 | 충분히 좋은 해 | good-enough solution | P1-7.2 | good-enough-solution | good-enough-solution | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 테스트 기록 | 테스트 기록 | test record | P7-3.1 | test-record | test-record | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 틀린 사례 목록 | 틀린 사례 목록 | wrong-case list | P7-2.1 | wrong-case-list | wrong-case-list | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 품질 | 품질 | quality | P1-10.3 | quality | quality | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 평가 기록 | 평가 기록 | evaluation record | P7-3.2 | evaluation-record | evaluation-record | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| 회고 | 회고 | retrospective | P7-1.2 | retrospective | retrospective | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| 환경 | 환경 | environment | P1-8.3 | environment | environment | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| adapter | adapter | adapter | P6-9.5 | adapter | adapter | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| best split | best split | best split | P4-15.4 | best-split | best-split | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| ccp_alpha | ccp_alpha | ccp_alpha | P4-14.2 | ccp-alpha | ccp-alpha | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| max_features | max_features | max_features | P4-15.1 | max-features | max-features | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| n_estimators | n_estimators | n_estimators | P4-15.1 | n-estimators | n-estimators | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| oob_score | oob_score | oob_score | P4-15.3 | oob-score | oob-score | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| temperature | temperature | temperature | P6-6.2 | temperature | temperature | 단어별 원고 기준 | 인덱스 보강 항목; 표제 관리 제외 검토 |
+| automatic prompt optimization | automatic prompt optimization | automatic prompt optimization | P6-10.3 | automatic-prompt-optimization | automatic-prompt-optimization | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
+| trustworthiness | trustworthiness | trustworthiness | P4-18.2 | trustworthiness | trustworthiness | 단어별 원고 기준 | 인덱스 보강 항목; 표제 통일 관리 검토 |
