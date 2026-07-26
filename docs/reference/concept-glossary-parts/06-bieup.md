@@ -30,8 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/iteration.ko.md"
 
---8<-- "reference/concept-glossary-terms/directional-derivative.ko.md"
-
 --8<-- "reference/concept-glossary-terms/array.ko.md"
 --8<-- "reference/concept-glossary-terms/batch-normalization.ko.md"
 
@@ -52,8 +50,6 @@
 --8<-- "reference/concept-glossary-terms/vector-search.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector-addition.ko.md"
-
---8<-- "reference/concept-glossary-terms/vector-field.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector-calculus.ko.md"
 

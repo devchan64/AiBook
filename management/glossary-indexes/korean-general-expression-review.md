@@ -19,7 +19,7 @@
 
 - 기준 파일: `management/glossary-indexes/concept-glossary-index.ko.md`
 - 단어별 원고 위치: `docs/reference/concept-glossary-terms/*.ko.md`
-- 현재 한국어 인덱스 항목 수: 336개
+- 현재 한국어 인덱스 항목 수: 329개
 - 현재 `표제 관리 제외 검토` 표시: 0개
 - 현재 `표제 통일 관리 검토` 표시: 0개
 - 검토 방식: 인덱스의 `비고` 표시, 대표 표제어, 영어 기준 용어, 중심 Section, 단어별 원고의 뜻·왜 중요한가를 함께 대조
@@ -278,6 +278,13 @@
 | 완료 | 버전 고정 | `version-pinning` | version pinning | 의존성 재현을 위한 세부 관리 방식이다. 독립 표제보다 `의존성`과 `재현성` 안에서 다룬다. | `의존성`, `재현성`, `문서 재현성` |
 | 완료 | 환경 불일치 | `environment-mismatch` | environment mismatch | 실행 환경 점검에서 나타나는 오류 상태다. 독립 표제보다 `실행 환경`과 `의존성` 설명 안에서 다룬다. | `실행 환경`, `의존성`, `재현성` |
 | 완료 | 정적 배포 | `static-deployment` | static deployment | 배포 방식의 하위 유형이다. 독립 표제보다 `배포`와 `문서 재현성` 문맥에서 설명한다. | `배포`, `버전 관리`, `문서 재현성` |
+| 완료 | 평균 변화율 | `average-rate-of-change` | average rate of change | 미분으로 넘어가기 위한 보충 설명이다. 독립 표제보다 `변화율`, `미분`, `기울기` 안에서 다룬다. | `변화율`, `미분`, `기울기` |
+| 완료 | 순간 변화율 | `instantaneous-rate-of-change` | instantaneous rate of change | 미분의 직관을 설명하는 하위 표현이다. 독립 표제보다 `미분`과 `변화율` 설명으로 흡수한다. | `미분`, `변화율`, `그래디언트` |
+| 완료 | 방향도함수 | `directional-derivative` | directional derivative | 편미분과 그래디언트 사이의 보충 개념이다. 독립 표제보다 `편미분`, `그래디언트`, `벡터해석` 안에서 다룬다. | `편미분`, `그래디언트`, `벡터해석` |
+| 완료 | 일변수 함수 | `single-variable-function` | single-variable function | 함수 설명의 하위 유형이다. 독립 표제보다 `함수`, `미분`, `그래디언트` 설명 안에서 다룬다. | `함수`, `미분`, `그래디언트` |
+| 완료 | 다변수 함수 | `multivariable-function` | multivariable function | 편미분이 필요한 설정 설명이다. 독립 표제보다 `함수`, `편미분`, `그래디언트` 안에서 다룬다. | `함수`, `편미분`, `그래디언트` |
+| 완료 | 스칼라장 | `scalar-field` | scalar field | 벡터해석 배경의 하위 표현이다. 독립 표제보다 `벡터해석`과 `그래디언트` 설명 안에서 다룬다. | `벡터해석`, `그래디언트`, `벡터` |
+| 완료 | 벡터장 | `vector-field` | vector field | 벡터해석 배경의 하위 표현이다. 독립 표제보다 `벡터해석`과 `그래디언트` 설명 안에서 다룬다. | `벡터해석`, `그래디언트`, `벡터` |
 
 ## 재검토 결과 요약
 

@@ -109,8 +109,6 @@
 
 --8<-- "reference/concept-glossary-terms/scalar.ko.md"
 
---8<-- "reference/concept-glossary-terms/scalar-field.ko.md"
-
 --8<-- "reference/concept-glossary-terms/scalar-multiplication.ko.md"
 
 --8<-- "reference/concept-glossary-terms/confidence-interval.ko.md"
@@ -126,9 +124,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/approval.ko.md"
-
---8<-- "reference/concept-glossary-terms/instantaneous-rate-of-change.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/visualization.ko.md"
 

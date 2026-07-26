@@ -16,8 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/partial-derivative.ko.md"
 
---8<-- "reference/concept-glossary-terms/average-rate-of-change.ko.md"
-
 --8<-- "reference/concept-glossary-terms/bias.ko.md"
 
 --8<-- "reference/concept-glossary-terms/variable-transformation.ko.md"

@@ -122,8 +122,6 @@
 
 --8<-- "reference/concept-glossary-terms/end-to-end-learning.ko.md"
 
---8<-- "reference/concept-glossary-terms/single-variable-function.ko.md"
-
 --8<-- "reference/concept-glossary-terms/topology.ko.md"
 
 --8<-- "reference/concept-glossary-terms/cbow-continuous-bag-of-words.ko.md"

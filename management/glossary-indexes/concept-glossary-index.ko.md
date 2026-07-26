@@ -225,17 +225,10 @@
 | 유사도 | 유사도 | similarity | P2-3.4 | similarity | similarity | P2-3.4 source context | 두 벡터나 표현이 얼마나 닮았는지 보는 비교 기준 |
 | 코사인 유사도 | 코사인 유사도 | cosine similarity | P2-3.4 | cosine-similarity | cosine-similarity | P2-3.4 source context | 두 벡터의 방향 유사성을 보는 기준 |
 | 기울기 | 기울기 | slope | P2-4.2 | slope | slope | P2-4.2 source context | 입력 변화에 대한 출력 변화를 그래프 위에서 읽는 값 |
-| 평균 변화율 | 평균 변화율 | average rate of change | P2-4.2 | average-rate-of-change | average-rate-of-change | P2-4.2 source context | 두 지점 사이 구간 전체의 변화 비율 |
-| 순간 변화율 | 순간 변화율 | instantaneous rate of change | P2-4.2 | instantaneous-rate-of-change | instantaneous-rate-of-change | P2-4.2 source context | 특정 지점 바로 근처의 변화율 |
 | 미분 | 미분 | derivative | P2-4.3 | derivative | derivative | P2-4.3 source context | 입력을 아주 조금 바꿨을 때 출력이 얼마나 변하는지 나타내는 순간 변화율 |
 | 편미분 | 편미분 | partial derivative | P2-4.3 | partial-derivative | partial-derivative | P2-4.3 source context | 여러 입력 중 하나만 바꿨다고 보고 계산한 변화율 |
 | 그래디언트 | 그래디언트 | gradient | P2-4.3 | gradient | gradient | P2-4.3 source context | 여러 편미분을 순서 있게 모은 변화율 벡터 |
-| 방향도함수 | 방향도함수 | directional derivative | P2-4.5 | directional-derivative | directional-derivative | P2-4.5 source context | 특정 방향으로 조금 움직였을 때 함수값이 얼마나 변하는지 보는 변화율 |
 | 벡터해석 | 벡터해석 | vector calculus | P2-4.5 | vector-calculus | vector-calculus | P2-4.5 source context | 벡터·공간·함수·변화율을 함께 다루는 수학 체계 |
-| 일변수 함수 | 일변수 함수 | single-variable function | P2-4.5 | single-variable-function | single-variable-function | P2-4.5 source context | 입력 변수가 하나인 함수 |
-| 다변수 함수 | 다변수 함수 | multivariable function | P2-4.5 | multivariable-function | multivariable-function | P2-4.5 source context | 입력 변수가 두 개 이상인 함수 |
-| 스칼라장 | 스칼라장 | scalar field | P2-4.5 | scalar-field | scalar-field | P2-4.5 source context | 공간의 각 위치마다 하나의 스칼라 값을 대응시키는 표현 |
-| 벡터장 | 벡터장 | vector field | P2-4.5 | vector-field | vector-field | P2-4.5 source context | 공간의 각 위치마다 하나의 벡터를 대응시키는 표현 |
 | 역방향 패스 | 역방향 패스 | backward pass | P2-4.5 | backward-pass | backward-pass | P2-4.5 source context | 손실에서 거꾸로 각 계산 단계의 그래디언트를 계산하는 실행 방향 |
 | 합성함수 | 합성함수 | composite function | P2-4.6 | composite-function | composite-function | P2-4.6 source context | 한 함수의 출력이 다음 함수의 입력으로 이어지는 함수 구조 |
 | 연쇄 법칙 | 연쇄 법칙 | chain rule | P2-4.6 | chain-rule | chain-rule | P2-4.6 source context | 합성함수에서 단계별 변화율을 이어 읽는 미분 규칙 |

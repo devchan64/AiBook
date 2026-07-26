@@ -8,8 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/domain-randomization.ko.md"
 
---8<-- "reference/concept-glossary-terms/multivariable-function.ko.md"
-
 --8<-- "reference/concept-glossary-terms/multinomial-logistic-regression.ko.md"
 
 
