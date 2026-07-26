@@ -1,7 +1,5 @@
 ## ㅋ
 
---8<-- "reference/concept-glossary-terms/catboost.ko.md"
-
 --8<-- "reference/concept-glossary-terms/confabulation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/kernel.ko.md"

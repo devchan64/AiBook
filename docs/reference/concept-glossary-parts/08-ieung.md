@@ -2,11 +2,7 @@
 
 --8<-- "reference/concept-glossary-terms/weak-learner.ko.md"
 
---8<-- "reference/concept-glossary-terms/xgboost.ko.md"
-
 --8<-- "reference/concept-glossary-terms/umap.ko.md"
-
---8<-- "reference/concept-glossary-terms/extra-trees.ko.md"
 
 --8<-- "reference/concept-glossary-terms/causal-inference.ko.md"
 

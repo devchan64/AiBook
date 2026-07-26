@@ -1,7 +1,5 @@
 ## ㄹ
 
---8<-- "reference/concept-glossary-terms/lightgbm.ko.md"
-
 --8<-- "reference/concept-glossary-terms/lora.ko.md"
 
 --8<-- "reference/concept-glossary-terms/license.ko.md"
