@@ -61,10 +61,6 @@
 
 --8<-- "reference/concept-glossary-terms/prediction-contract.ko.md"
 
---8<-- "reference/concept-glossary-terms/work-automation.ko.md"
-
---8<-- "reference/concept-glossary-terms/productivity.ko.md"
-
 --8<-- "reference/concept-glossary-terms/ai-agent.ko.md"
 
 --8<-- "reference/concept-glossary-terms/goal.ko.md"
@@ -149,8 +145,6 @@
 
 --8<-- "reference/concept-glossary-terms/service-operation.ko.md"
 
---8<-- "reference/concept-glossary-terms/requirement.ko.md"
-
 --8<-- "reference/concept-glossary-terms/word2vec.ko.md"
 
 --8<-- "reference/concept-glossary-terms/wavenet.ko.md"
@@ -186,8 +180,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/credential.ko.md"
-
---8<-- "reference/concept-glossary-terms/review-cost.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/encoder.ko.md"

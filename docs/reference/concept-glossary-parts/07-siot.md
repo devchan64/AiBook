@@ -142,8 +142,6 @@
 
 --8<-- "reference/concept-glossary-terms/market-substitution.ko.md"
 
---8<-- "reference/concept-glossary-terms/success-criteria.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/service-constraints.ko.md"
 

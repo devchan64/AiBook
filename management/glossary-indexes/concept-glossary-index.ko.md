@@ -182,13 +182,7 @@
 | 과도한 권한 | 과도한 권한 | excessive agency | P1-15.3 | excessive-agency | excessive-agency | OWASP LLM agentic risk context | 현재 작업 목적보다 실행 권한과 자율성이 너무 넓은 상태 |
 | 마스킹 | 마스킹 | masking | P1-15.3 | masking | masking | security logging context | 민감 정보 일부를 가리거나 대체해 노출 위험을 줄이는 처리 |
 | 작업 가설 | 작업 가설 | working hypothesis | P1-16.1 | working-hypothesis | working-hypothesis | P1-16.1 source context | 검증 전 직관을 사실과 구분해 임시 설명으로 보존하는 문장 |
-| 질문 구조화 | 질문 구조화 | question structuring | P1-16.1 | question-structuring | question-structuring | P1-16.1 source context | 막연한 기억이나 문제의식을 순서와 범위가 있는 질문으로 나누는 과정 |
-| 업무 자동화 | 업무 자동화 | work automation | P1-16.2 | work-automation | work-automation | P1-16.2 source context | 업무 흐름 일부 단계를 AI나 스크립트에 맡기는 적용 방식 |
-| 업무 생산성 | 업무 생산성 | work productivity | P1-16.2 | productivity | productivity | P1-16.2 source context | AI 도구 사용 뒤 결과 완성까지의 총시간과 총노력을 함께 보는 효율 기준 |
-| AI 검토 비용 | AI 검토 비용 | AI review cost | P1-16.2 | review-cost | review-cost | P1-16.2 source context | AI 결과를 실제 사용 가능 상태로 만들기 위한 확인·수정·승인 비용 |
 | 실행 범위 | 실행 범위 | scope | P1-15.3 | scope | scope | P1-16.3 source context | 현재 요청이나 자동화가 영향을 줄 수 있는 대상과 경계 |
-| 성공 기준 | 성공 기준 | success criteria | P1-16.3 | success-criteria | success-criteria | P1-16.3 source context | 프로젝트 결과를 성공으로 볼 조건을 미리 적은 판단 기준 |
-| 요구사항 | 요구사항 | requirement | P1-16.3 | requirement | requirement | P1-16.3 source context | 프로젝트나 시스템이 반드시 만족해야 하는 기능·품질·제약 조건 |
 | 시나리오 | 시나리오 | scenario | P1-17.1 | scenario | scenario | forecast scenario context | 확정 예측이 아니라 가능한 전개 경로를 조건별로 나누는 틀 |
 | 지표 | 지표 | indicator | P1-17.1 | indicator | indicator | AI Index indicator context | 변화 방향을 보여 주는 수치나 관찰 신호 |
 | 해석 경계 | 해석 경계 | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | 데이터나 비교 결과를 어디까지 말할 수 있는지 정하는 설명의 한계선 |
