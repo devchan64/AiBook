@@ -108,5 +108,3 @@
 
 --8<-- "reference/concept-glossary-terms/indicator.ko.md"
 --8<-- "reference/concept-glossary-terms/delayed-reward.ko.md"
---8<-- "reference/concept-glossary-terms/direct-lineage.ko.md"
---8<-- "reference/concept-glossary-terms/local-pattern.ko.md"

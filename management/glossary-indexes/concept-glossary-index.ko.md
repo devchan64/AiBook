@@ -74,8 +74,6 @@
 | 중심점 | 중심점 | centroid | P1-8.2 | centroid | centroid | P1-8.2 source context | 군집을 대표하는 평균 위치 |
 | 주성분 분석 | 주성분 분석 | principal component analysis, PCA | P1-8.2 | principal-component-analysis-pca | principal-component-analysis-pca | P1-8.2 source context | 분산이 큰 방향을 찾는 차원 축소 방법 |
 | 지연 보상 | 지연 보상 | delayed reward | P1-8.3 | delayed-reward | delayed-reward | P1-8.3 source context | 행동의 결과가 여러 단계 뒤 보상으로 드러나는 상황 |
-| 지역 패턴 | 지역 패턴 | local pattern | P1-9.1 | local-pattern | local-pattern | CNN context | 이미지의 작은 영역에서 반복적으로 나타나는 시각 단서 |
-| 직접 계보 | 직접 계보 | direct lineage | P1-9.3 | direct-lineage | direct-lineage | P1-9.3 source context | 현재 기술 핵심 구조로 직접 이어지는 연구 흐름 |
 | 정보 무결성 | 정보 무결성 | information integrity | P1-10.3 | information-integrity | information-integrity | NIST GenAI Profile | 정보가 사실과 맥락을 왜곡하지 않고 신뢰 가능한 상태 |
 | 시간 순서 분할 | 시간 순서 분할 | time split | P3-9.13 | time-split | time-split | FPP3 time series cross-validation, P3-9.13 source context | 시간 순서가 중요한 문제에서 과거 구간과 이후 구간을 섞지 않고 평가하는 분할 방식 |
 | 생성 조건 | 생성 조건 | condition | P1-10.2 | condition | condition | P1-10.2 source context | 모델 출력을 만들 때 참고하는 입력·지시·맥락·제약 |

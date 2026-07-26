@@ -58,8 +58,6 @@
 
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.zh.md"
 
---8<-- "reference/concept-glossary-terms/direct-lineage.zh.md"
-
 --8<-- "reference/concept-glossary-terms/aggregation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/directed-graph.zh.md"

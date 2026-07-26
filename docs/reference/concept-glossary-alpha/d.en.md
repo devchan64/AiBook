@@ -62,8 +62,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.en.md"
 
---8<-- "reference/concept-glossary-terms/direct-lineage.en.md"
-
 --8<-- "reference/concept-glossary-terms/aggregation.en.md"
 
 --8<-- "reference/concept-glossary-terms/directed-graph.en.md"
