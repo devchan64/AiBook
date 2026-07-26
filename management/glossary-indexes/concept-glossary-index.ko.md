@@ -88,7 +88,6 @@
 | 통계적 언어 모델 | 통계적 언어 모델 | statistical language model | P1-11.1 | statistical-language-model | statistical-language-model | P1-11.1 source context | 빈도와 조건부 확률로 다음 표현 가능성을 추정하는 언어 모델 |
 | 통계적 추론 | 통계적 추론 | statistical inference | P1-5.3 | statistical-inference | statistical-inference | OpenStax Introductory Statistics | 표본에서 모집단과 불확실성을 다루는 통계 절차 |
 | 마스크드 언어 모델 | 마스크드 언어 모델 | masked language model | P1-11.3 | masked-language-model | masked-language-model | P1-11.3 source context | 문장 일부를 가리고 주변 문맥으로 맞히는 사전학습 방식 |
-| 문맥 벡터 | 문맥 벡터 | context vector | P1-11.2 | context-vector | context-vector | P1-11.2 source context | attention에서 입력 표현을 가중합해 만든 현재 단계의 문맥 표현 |
 | 문맥 내 학습 | 문맥 내 학습 | in-context learning | P1-12.1 | in-context-learning | in-context-learning | GPT-3 paper | 모델 가중치 업데이트 없이 현재 입력 문맥으로 출력 행동이 달라지는 현상 |
 | 맥락 | 맥락 | context | P1-12.1 | context | context | prompt engineering context | 작업에 필요한 배경·자료·앞선 결정을 제공하는 입력 요소 |
 | 문서 벡터 | 문서 벡터 | document vector | P1-13.2 | document-vector | document-vector | P1-13.2 source context | 문서나 문서 조각을 검색 비교용 임베딩으로 바꾼 표현 |
@@ -130,7 +129,6 @@
 | 평가 설계 | 평가 설계 | evaluation design | P3-9.13 | evaluation-design | evaluation-design | P3-9.13 source context | 문제 구조에 맞는 데이터 분할, 지표, 비교 조건을 정하는 평가 기준 설계 |
 | 논리적 추론 | 논리적 추론 | reasoning | P1-5.3 | reasoning | reasoning | P1-5.3 source context | 모델 실행과 구분해야 하는 논리적 사고 과정 |
 | CBOW | 연속 bag-of-words | continuous bag-of-words | P1-11.1 | cbow-continuous-bag-of-words | cbow-continuous-bag-of-words | P1-11.1 source context | 주변 단어로 중심 단어를 예측하며 단어 벡터를 배우는 word2vec 방식 |
-| 어텐션 가중치 | 어텐션 가중치 | attention weight | P1-11.2 | attention-weight | attention-weight | P1-11.2 source context | 모델 파라미터 weight와 구분되는 현재 문맥의 참고 비중 |
 | 근거성 | 근거 | evidence | P1-12.3 | evidence | evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |
 | 평가 데이터 | 평가 데이터 | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | 모델 학습에 직접 쓰지 않고 학습된 모델의 동작을 확인하기 위해 따로 남겨 둔 데이터 |
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
@@ -237,7 +235,6 @@
 | 행렬 곱 | 행렬 곱 | matrix multiplication | P2-3.3 | matrix-multiplication | matrix-multiplication | P2-3.3 source context | 행과 열을 조합해 새 값을 만드는 계산 |
 | 위치별 곱 | 위치별 곱 | element-wise multiplication | P2-3.3 | element-wise-multiplication | element-wise-multiplication | P2-3.3 source context | 같은 shape의 같은 위치 값끼리 곱하는 계산 |
 | 가중합 | 가중합 | weighted sum | P2-3.3 | weighted-sum | weighted-sum | P2-3.3 source context | 입력값마다 가중치를 곱한 뒤 더해 하나의 값을 만드는 계산 |
-| 가중치 행렬 | 가중치 행렬 | weight matrix | P2-3.3 | weight-matrix | weight-matrix | P2-3.3 source context | 여러 가중합을 한꺼번에 계산하도록 가중치를 행렬로 묶은 구조 |
 | 선형 변환 | 선형 변환 | linear transformation | P2-3.3 | linear-transformation | linear-transformation | P2-3.3 source context | 행렬 곱으로 벡터를 다른 표현 공간으로 옮기는 계산 |
 | 내적 | 내적 | dot product | P2-3.4 | dot-product | dot-product | P2-3.4 source context | 같은 위치 성분을 곱해 더한 하나의 요약값 |
 | 노름 | 길이 | norm | P2-3.4 | norm | norm | P2-3.4 source context | 벡터의 길이나 크기를 하나의 숫자로 요약한 값 |

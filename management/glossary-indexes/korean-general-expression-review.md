@@ -19,7 +19,7 @@
 
 - 기준 파일: `management/glossary-indexes/concept-glossary-index.ko.md`
 - 단어별 원고 위치: `docs/reference/concept-glossary-terms/*.ko.md`
-- 현재 한국어 인덱스 항목 수: 363개
+- 현재 한국어 인덱스 항목 수: 360개
 - 현재 `표제 관리 제외 검토` 표시: 0개
 - 현재 `표제 통일 관리 검토` 표시: 0개
 - 검토 방식: 인덱스의 `비고` 표시, 대표 표제어, 영어 기준 용어, 중심 Section, 단어별 원고의 뜻·왜 중요한가를 함께 대조
@@ -250,6 +250,10 @@
 | 완료 | 타깃 정의 버전 | `target-definition-version` | target definition version | 타깃 정의의 버전 메모다. 독립 표제보다 `버전 관리`, `출처 추적`, `타깃` 안에서 다룬다. | `버전 관리`, `출처 추적`, `타깃` |
 | 완료 | 기준선 구간 | `baseline-window` | baseline window | 기준선을 정할 때 쓰는 시간 구간 설정이다. 독립 표제보다 `기준선`, `비교 가능한 참조 집단`, `문서 재현성` 안에서 설명한다. | `기준선`, `비교 가능한 참조 집단`, `문서 재현성` |
 | 완료 | 라벨 확정 지연 | `delayed-label-confirmation` | delayed label confirmation | 라벨링 추적의 상태명이다. 독립 표제보다 `라벨`, `타깃`, `관측 미완료 음성` 안에서 다룬다. | `라벨`, `타깃`, `관측 미완료 음성` |
+| 완료 | 어텐션 가중치 | `attention-weight` | attention weight | attention 계산의 하위 비중 값이다. 독립 표제보다 `어텐션`, `셀프 어텐션`, `가중치` 안에서 설명한다. | `어텐션`, `셀프 어텐션`, `가중치` |
+| 완료 | 문맥 벡터 | `context-vector` | context vector | attention 계산의 중간 표현이다. 독립 표제보다 `어텐션`, `인코더-디코더`, `벡터` 안에서 다룬다. | `어텐션`, `인코더-디코더`, `벡터` |
+| 완료 | 가중치 행렬 | `weight-matrix` | weight matrix | 신경망 계산의 하위 파라미터 구조다. 독립 표제보다 `가중치`, `행렬 곱`, `선형 변환` 안에서 설명한다. | `가중치`, `행렬 곱`, `선형 변환` |
+| 완료 | 고정 길이 벡터 | `fixed-length-vector` | fixed-length vector | Encoder-Decoder 설명의 병목 예시다. 독립 표제보다 `인코더-디코더`, `어텐션`, `벡터` 안에서 다룬다. | `인코더-디코더`, `어텐션`, `벡터` |
 
 ## 재검토 결과 요약
 

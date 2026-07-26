@@ -30,8 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/weighted-sum.ko.md"
 
---8<-- "reference/concept-glossary-terms/weight-matrix.ko.md"
-
 --8<-- "reference/concept-glossary-terms/company-announcement.ko.md"
 
 --8<-- "reference/concept-glossary-terms/covariance.ko.md"
@@ -112,8 +110,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/planning.ko.md"
-
---8<-- "reference/concept-glossary-terms/fixed-length-vector.ko.md"
 
 --8<-- "reference/concept-glossary-terms/excessive-agency.ko.md"
 

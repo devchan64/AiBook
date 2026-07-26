@@ -48,8 +48,6 @@
 
 --8<-- "reference/concept-glossary-terms/attention.ko.md"
 
---8<-- "reference/concept-glossary-terms/attention-weight.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.ko.md"
 
