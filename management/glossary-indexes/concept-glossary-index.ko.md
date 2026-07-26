@@ -18,7 +18,6 @@
 | 기대 출력 | 기대 출력 | expected output | P1-8.1 | expected-output | expected-output | P1-8.1 source context | 지도학습에서 입력에 대해 기대하는 정답 또는 목표 출력 |
 | 기준 모델 | 기준 모델 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 후보 모델이 넘어야 할 가장 단순한 비교용 모델이나 점수 기준 |
 | 기준선 | 기준선 | baseline | P3-7.3 | baseline | baseline | BLS base period, NCI baseline context | 현재 값이나 모델 점수를 단독으로 읽지 않기 위해 두는 참조 기준 |
-| 기준선 구간 | 기준선 구간 | baseline window | P7-1.3 | baseline-window | baseline-window | P3-7.1 source context | 최근 변화와 비교하기 위해 평소 상태로 간주해 따로 묶어 읽는 시간 구간이나 관측 구간 |
 | 비교 가능한 참조 집단 | 비교 가능한 참조 집단 | comparable reference group | P3-7.4 | comparable-reference-group | comparable-reference-group | P3-7.4 source context | 현재 샘플과 같은 샘플 단위와 운영 조건을 공유한다고 보고 남겨 둔 과거 사례 묶음 |
 | 모델 비교표 | 모델 비교표 | model comparison table | P7-2.1 | comparison-table | comparison-table | P3-7.2 source context | 모델 출력이나 평가 대상을 같은 기준 열 위에 놓고 차이를 읽게 만드는 표 |
 | 혼동 행렬 | 혼동 행렬 | confusion matrix | P4-6.1 | confusion-matrix | confusion-matrix | P4-6.1 source context | 실제 라벨과 예측 라벨의 조합으로 분류 오류 방향을 읽는 표 |
@@ -33,7 +32,6 @@
 | 딥 강화학습 | 딥 강화학습 | deep reinforcement learning | P1-8.3 | deep-reinforcement-learning | deep-reinforcement-learning | P1-8.3 source context | 딥러닝을 함수 근사 도구로 쓰는 강화학습 접근 |
 | 라벨이 있는 예시 | 라벨이 있는 예시 | labeled example | P1-8.1 | labeled-example | labeled-example | P1-8.1 source context | 입력과 정답 라벨이 함께 묶인 지도학습 사례 |
 | 라벨 일관성 | 라벨 일관성 | label consistency | P3-9.6 | label-consistency | label-consistency | P3-9.6 source context | 같은 사건이나 비슷한 조건에 같은 의미의 라벨이 반복해서 붙는 정도 |
-| 라벨 확정 지연 | 라벨 확정 지연 | delayed label confirmation | P3-9.10 | delayed-label-confirmation | delayed-label-confirmation | Google ML Glossary label, P3-9.10 source context | 실제 결과가 아직 정답 라벨로 닫히지 않은 시간 지연 상태 |
 | 라벨 예측 | 라벨 예측 | label prediction | P3-9.1 | label-prediction | label-prediction | P3-9.1 source context | 안정된 목표 라벨을 맞히도록 문제를 올리는 더 강한 문제 설정 |
 | 밀도 | 밀도 | density | P1-8.2 | density | density | P1-8.2 source context | 데이터 공간에서 사례들이 촘촘히 모인 정도 |
 | 문맥 의존성 | 문맥 의존성 | context dependency | P1-10.2 | context-dependency | context-dependency | P1-10.2 source context | 현재 출력 후보가 앞선 입력과 생성 내용에 따라 달라지는 성질 |
@@ -55,7 +53,6 @@
 | 엔드투엔드 학습 | 엔드투엔드 학습 | end-to-end learning | P1-9.2 | end-to-end-learning | end-to-end-learning | YOLO paper | 입력에서 최종 출력까지 연결된 구조를 함께 학습하는 접근 |
 | 언어 모델링 | 언어 모델링 | language modeling | P1-9.3 | language-modeling | language-modeling | Bengio neural probabilistic language model | 단어·토큰 순서의 확률을 다루는 LLM 직접 계보의 문제 설정 |
 | 원천데이터 | 원천데이터 | source data | P3-1.1 | source-data | source-data | P3-1.1 source context | 분석이나 학습 문제로 다시 구성하기 전의 출발 기록 |
-| 입력 창 | 입력 창 | input window | P3-5.4 | input-window | input-window | P3-5.4 source context | 원천 시계열에서 한 번의 학습 입력으로 볼 시간 구간 |
 | 입력 명세 | 입력 명세 | input specification | P3-6.3 | input-specification | input-specification | P3-6.3 source context | 모델이나 학습 단계에 넘길 입력 단위와 구조를 정한 설명 |
 | 개입 피드백 | 개입 피드백 | intervention feedback | P3-8.7 | intervention-feedback | intervention-feedback | P3-8.7 source context | 검토 규칙이나 운영 조치가 후속 데이터와 라벨을 바꾸는 되먹임 구조 |
 | 열 역할 분리 | 열 역할 분리 | column-role separation | P3-6.4 | column-role-separation | column-role-separation | P3-6.4 source context | 작업 표의 열을 특징·비교·결과 후보·문맥 등 역할별로 나누어 읽는 기준 |
@@ -345,9 +342,6 @@
 | 데이터셋 | 데이터셋 | dataset | P2-12.3 | dataset | dataset | P2-12.3 source context | 학습이나 평가를 위해 정리한 샘플과 변수의 묶음 |
 | 타깃 | 타깃 | target | P1-8.1 | target | target | P2-12.3 source context | 모델이 맞혀야 하는 정답 열 또는 목표 값 |
 | 모델 출력 구조 | 모델 출력 구조 | model output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | 계산 결과를 어떤 형식의 문제 결과로 내보낼지 정한 설계상의 결과 틀 |
-| 목표 라벨 후보 | 목표 라벨 후보 | target candidate | P3-9.3 | target-candidate | target-candidate | P3-1.2 source context | 나중에 맞히고 싶은 결과로 삼을 수 있는지 검토하는 잠정 결과 열 |
-| 대표 타깃 | 대표 타깃 | representative target | P3-9.11 | representative-target | representative-target | P3-9.11 source context | 여러 목표 라벨 후보 가운데 현재 문제의 중심 결과로 고정한 타깃 |
-| 타깃 정의 버전 | 타깃 정의 버전 | target definition version | P3-9.11 | target-definition-version | target-definition-version | W3C PROV versioning context, P3-9.11 source context | 같은 이름의 타깃이 따르는 기준과 시점을 표시한 버전 정보 |
 | 실제 목표 | 실제 목표 | actual target | P3-9.9 | actual-target | actual-target | P3-9.9 source context | 정말 알고 싶고 최종적으로 줄이거나 맞히고 싶은 결과 |
 | 대리 타깃 | 대리 타깃 | proxy target | P3-9.9 | proxy-target | proxy-target | Google ML Glossary proxy labels, P3-9.9 source context | 실제 목표를 바로 볼 수 없을 때 임시 목표처럼 사용하는 대체 열 |
 | 관측 미완료 음성 | 관측 미완료 음성 | incomplete negative | P3-9.10 | incomplete-negative | incomplete-negative | Label selection follow-up context, P3-9.10 source context | 충분한 추적 기간이 끝나지 않아 아직 닫힌 0이라고 볼 수 없는 사례 |

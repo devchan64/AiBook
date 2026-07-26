@@ -213,11 +213,7 @@
 --8<-- "reference/concept-glossary-terms/embedding.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/input-unit.ko.md"
-
 --8<-- "reference/concept-glossary-terms/input-specification.ko.md"
-
---8<-- "reference/concept-glossary-terms/input-window.ko.md"
 
 --8<-- "reference/concept-glossary-terms/input.ko.md"
 

@@ -58,8 +58,6 @@
 
 --8<-- "reference/concept-glossary-terms/objective-function.ko.md"
 
---8<-- "reference/concept-glossary-terms/target-candidate.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/in-context-learning.ko.md"
 

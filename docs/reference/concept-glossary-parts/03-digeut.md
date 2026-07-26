@@ -31,8 +31,6 @@
 
 --8<-- "reference/concept-glossary-terms/data-science.ko.md"
 
---8<-- "reference/concept-glossary-terms/representative-target.ko.md"
-
 --8<-- "reference/concept-glossary-terms/proxy-target.ko.md"
 
 --8<-- "reference/concept-glossary-terms/substitution.ko.md"

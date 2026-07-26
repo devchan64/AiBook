@@ -171,8 +171,6 @@
 
 --8<-- "reference/concept-glossary-terms/baseline-model.ko.md"
 
---8<-- "reference/concept-glossary-terms/baseline-window.ko.md"
-
 --8<-- "reference/concept-glossary-terms/baseline.ko.md"
 
 --8<-- "reference/concept-glossary-terms/symbolic-ai.ko.md"
