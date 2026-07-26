@@ -86,8 +86,6 @@
 --8<-- "reference/concept-glossary-terms/resource.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/epoch.ko.md"
-
 --8<-- "reference/concept-glossary-terms/epsilon-greedy-policy.ko.md"
 
 --8<-- "reference/concept-glossary-terms/off-policy.ko.md"
@@ -113,11 +111,6 @@
 --8<-- "reference/concept-glossary-terms/element-wise-multiplication.ko.md"
 
 --8<-- "reference/concept-glossary-terms/column-role-separation.ko.md"
-
-
-
---8<-- "reference/concept-glossary-terms/exception.ko.md"
-
 
 
 
@@ -182,8 +175,6 @@
 --8<-- "reference/concept-glossary-terms/similarity.ko.md"
 
 --8<-- "reference/concept-glossary-terms/connectivity.ko.md"
-
---8<-- "reference/concept-glossary-terms/hidden-layer.ko.md"
 
 --8<-- "reference/concept-glossary-terms/speech-generation.ko.md"
 

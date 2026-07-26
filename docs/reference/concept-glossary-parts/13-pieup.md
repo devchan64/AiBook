@@ -22,8 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/average-rate-of-change.ko.md"
 
---8<-- "reference/concept-glossary-terms/bias-term.ko.md"
-
 --8<-- "reference/concept-glossary-terms/bias.ko.md"
 
 --8<-- "reference/concept-glossary-terms/variable-transformation.ko.md"

@@ -85,8 +85,6 @@
 
 --8<-- "reference/concept-glossary-terms/sigmoid.ko.md"
 
---8<-- "reference/concept-glossary-terms/solver.ko.md"
-
 --8<-- "reference/concept-glossary-terms/skip-gram.ko.md"
 
 

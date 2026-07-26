@@ -4,6 +4,6 @@
 
 - 뜻: tanh는 입력 점수를 -1과 1 사이 값으로 압축하는 0 중심 S자형 함수입니다. 음수 입력은 음수 출력으로, 양수 입력은 양수 출력으로 남기기 때문에 방향이 있는 내부 표현을 만들 때 비교 기준이 됩니다.
 - 왜 중요한가: sigmoid처럼 값을 압축하지만 0을 중심으로 양쪽 부호를 남긴다는 점이 다릅니다. 이 차이를 알아야 은닉층에서 어떤 활성화 함수가 어떤 신호 형태를 남기는지 비교할 수 있습니다.
-- 함께 볼 개념: `활성화 함수(activation function)`, `sigmoid`, `ReLU`, `은닉층(hidden layer)`
+- 함께 볼 개념: `활성화 함수(activation function)`, `sigmoid`, `ReLU`, `다층 신경망(multilayer neural network)`
 - 중심 Section: `P5-3.3`
 - 등장 Section: `P5-3.5`
