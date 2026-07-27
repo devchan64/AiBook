@@ -27,8 +27,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/human-evaluation.zh.md"
-
 --8<-- "reference/concept-glossary-terms/human-oversight.zh.md"
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.zh.md"

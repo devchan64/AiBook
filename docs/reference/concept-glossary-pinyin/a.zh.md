@@ -35,5 +35,3 @@
 --8<-- "reference/concept-glossary-terms/attention.zh.md"
 
 --8<-- "reference/concept-glossary-terms/augmentation.zh.md"
-
---8<-- "reference/concept-glossary-terms/automatic-evaluation.zh.md"

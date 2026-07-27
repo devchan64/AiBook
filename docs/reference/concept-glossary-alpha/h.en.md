@@ -18,8 +18,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 
 
---8<-- "reference/concept-glossary-terms/human-evaluation.en.md"
-
 --8<-- "reference/concept-glossary-terms/human-oversight.en.md"
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.en.md"

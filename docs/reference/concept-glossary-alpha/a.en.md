@@ -42,6 +42,4 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/augmentation.en.md"
 
---8<-- "reference/concept-glossary-terms/automatic-evaluation.en.md"
-
 --8<-- "reference/concept-glossary-terms/automatic-differentiation.en.md"

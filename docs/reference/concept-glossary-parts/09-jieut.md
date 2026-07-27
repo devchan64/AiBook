@@ -2,9 +2,6 @@
 
 --8<-- "reference/concept-glossary-terms/gpt.ko.md"
 
---8<-- "reference/concept-glossary-terms/automatic-evaluation.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/autoregressive-model.ko.md"
 
 --8<-- "reference/concept-glossary-terms/data-structure.ko.md"
