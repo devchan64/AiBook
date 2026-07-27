@@ -30,7 +30,3 @@
 - [X](concept-glossary-pinyin/x.md)
 - [Y](concept-glossary-pinyin/y.md)
 - [Z](concept-glossary-pinyin/z.md)
-
-## 全部索引
-
-- [全部中文索引](concept-glossary-zh-index.md)

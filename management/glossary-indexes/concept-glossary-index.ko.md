@@ -235,7 +235,6 @@
 | 토큰화 | 토큰화 | tokenization | P6-2.2 | tokenization | tokenization | P3-6.2 source context | 원문이나 구간 구조를 모델이 읽을 수 있는 짧은 token 시퀀스로 바꾸는 과정 |
 | 어휘 사전 | 어휘 사전 | vocabulary | P6-2.2 | vocabulary | vocabulary | P6-2.2 source context | tokenizer가 만들 수 있는 token 조각과 ID를 모아 둔 계산용 목록 |
 | 청크 | 청크 | chunk | P1-13.1 | chunk | chunk | P1-13.1 source context | 긴 문서를 검색과 비교에 쓰기 좋은 작은 텍스트 단위로 나눈 묶음 |
-| DataFrame | DataFrame | DataFrame | P2-12.1 | dataframe | dataframe | P2-12.1 source context | 행과 열 라벨이 붙은 2차원 표 형식 데이터 구조 |
 | 데이터셋 | 데이터셋 | dataset | P2-12.3 | dataset | dataset | P2-12.3 source context | 학습이나 평가를 위해 정리한 샘플과 변수의 묶음 |
 | 타깃 | 타깃 | target | P1-8.1 | target | target | P2-12.3 source context | 모델이 맞혀야 하는 정답 열 또는 목표 값 |
 | 모델 출력 구조 | 모델 출력 구조 | model output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | 계산 결과를 어떤 형식의 문제 결과로 내보낼지 정한 설계상의 결과 틀 |

@@ -45,7 +45,6 @@
 --8<-- "reference/concept-glossary-terms/long-term-dependency.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/lora.zh.md"
 
 --8<-- "reference/concept-glossary-terms/loss-curve.zh.md"
 

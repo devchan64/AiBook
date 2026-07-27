@@ -19,7 +19,7 @@
   - 이 디렉터리는 단어별 항목 파일을 모아 두는 영어 기준 slug 디렉터리다.
 - 한국어 자음별 색인 원고: `docs/reference/concept-glossary-parts/*.md`
 - 영어 알파벳별 색인 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
-- 중국어 병음별 색인 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`, `docs/reference/concept-glossary-zh-index.zh.md`
+- 중국어 병음별 색인 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`
 - 언어별 보조 인덱스:
   - `management/glossary-indexes/concept-glossary-index.ko.md`
   - `management/glossary-indexes/concept-glossary-index.en.md`
