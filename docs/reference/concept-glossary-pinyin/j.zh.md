@@ -30,7 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/weighted-sum.zh.md"
 
---8<-- "reference/concept-glossary-terms/relu.zh.md"
 
 --8<-- "reference/concept-glossary-terms/ensemble.zh.md"
 

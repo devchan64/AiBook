@@ -12,7 +12,6 @@
 
 --8<-- "reference/concept-glossary-terms/feature-space.zh.md"
 
---8<-- "reference/concept-glossary-terms/tanh.zh.md"
 
 --8<-- "reference/concept-glossary-terms/prompt.zh.md"
 

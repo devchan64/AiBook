@@ -11,7 +11,6 @@
 
 --8<-- "reference/concept-glossary-terms/context.ko.md"
 
---8<-- "reference/concept-glossary-terms/relu.ko.md"
 
 --8<-- "reference/concept-glossary-terms/context-dependency.ko.md"
 

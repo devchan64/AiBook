@@ -10,7 +10,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 
 
---8<-- "reference/concept-glossary-terms/tanh.en.md"
 
 --8<-- "reference/concept-glossary-terms/true-objective.en.md"
 

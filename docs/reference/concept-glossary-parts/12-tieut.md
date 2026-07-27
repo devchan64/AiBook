@@ -7,7 +7,6 @@
 
 --8<-- "reference/concept-glossary-terms/target.ko.md"
 
---8<-- "reference/concept-glossary-terms/tanh.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/search-space.ko.md"

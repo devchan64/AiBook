@@ -2,9 +2,7 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
---8<-- "reference/concept-glossary-terms/eigenvalue.en.md"
 
---8<-- "reference/concept-glossary-terms/eigenvector.en.md"
 
 
 --8<-- "reference/concept-glossary-terms/early-stopping.en.md"

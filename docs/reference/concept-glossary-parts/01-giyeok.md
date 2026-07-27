@@ -27,11 +27,8 @@
 
 --8<-- "reference/concept-glossary-terms/covariance.ko.md"
 
---8<-- "reference/concept-glossary-terms/covariance-matrix.ko.md"
 
---8<-- "reference/concept-glossary-terms/eigenvalue.ko.md"
 
---8<-- "reference/concept-glossary-terms/eigenvector.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-agent.ko.md"
 

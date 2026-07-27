@@ -57,7 +57,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/covariance-matrix.zh.md"
 
 --8<-- "reference/concept-glossary-terms/output.zh.md"
 

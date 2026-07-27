@@ -5,9 +5,7 @@
 
 --8<-- "reference/concept-glossary-terms/backpropagation.zh.md"
 
---8<-- "reference/concept-glossary-terms/eigenvalue.zh.md"
 
---8<-- "reference/concept-glossary-terms/eigenvector.zh.md"
 
 --8<-- "reference/concept-glossary-terms/embedding.zh.md"
 
