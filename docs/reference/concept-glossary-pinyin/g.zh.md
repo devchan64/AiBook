@@ -38,8 +38,6 @@
 
 --8<-- "reference/concept-glossary-terms/good-enough-solution.zh.md"
 
---8<-- "reference/concept-glossary-terms/formula.zh.md"
-
 --8<-- "reference/concept-glossary-terms/format-consistency.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gpt.zh.md"

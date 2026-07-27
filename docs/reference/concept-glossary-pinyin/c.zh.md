@@ -56,8 +56,6 @@
 
 --8<-- "reference/concept-glossary-terms/code-cell.zh.md"
 
---8<-- "reference/concept-glossary-terms/test.zh.md"
-
 --8<-- "reference/concept-glossary-terms/test-data.zh.md"
 
 --8<-- "reference/concept-glossary-terms/column.zh.md"

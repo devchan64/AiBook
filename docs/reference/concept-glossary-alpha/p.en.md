@@ -4,10 +4,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.en.md"
 
-<a id="package"></a>
-
---8<-- "reference/concept-glossary-terms/package.en.md"
-
 --8<-- "reference/concept-glossary-terms/parallel-processing.en.md"
 
 --8<-- "reference/concept-glossary-terms/parameter.en.md"

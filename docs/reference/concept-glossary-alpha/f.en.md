@@ -52,8 +52,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/format-consistency.en.md"
 
---8<-- "reference/concept-glossary-terms/formula.en.md"
-
 --8<-- "reference/concept-glossary-terms/function-approximation.en.md"
 
 --8<-- "reference/concept-glossary-terms/derivative.en.md"

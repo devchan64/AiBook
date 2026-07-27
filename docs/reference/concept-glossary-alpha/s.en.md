@@ -78,8 +78,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/set-data-structure.en.md"
 
---8<-- "reference/concept-glossary-terms/server.en.md"
-
 --8<-- "reference/concept-glossary-terms/shallow-copy.en.md"
 
 --8<-- "reference/concept-glossary-terms/shape.en.md"

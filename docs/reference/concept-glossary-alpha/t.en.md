@@ -6,10 +6,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/t-sne.en.md"
 
-<a id="glossary-target"></a>
-
---8<-- "reference/concept-glossary-terms/table.en.md"
-
 --8<-- "reference/concept-glossary-terms/target.en.md"
 
 --8<-- "reference/concept-glossary-terms/target-candidate.en.md"
@@ -27,8 +23,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/tensor.en.md"
 
 --8<-- "reference/concept-glossary-terms/terminal.en.md"
-
---8<-- "reference/concept-glossary-terms/test.en.md"
 
 --8<-- "reference/concept-glossary-terms/test-data.en.md"
 

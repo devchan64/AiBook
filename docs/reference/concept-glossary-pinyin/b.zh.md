@@ -58,14 +58,10 @@
 
 --8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.zh.md"
 
---8<-- "reference/concept-glossary-terms/branch.zh.md"
-
 --8<-- "reference/concept-glossary-terms/parallel-processing.zh.md"
 
 --8<-- "reference/concept-glossary-terms/bootstrap.zh.md"
 
 --8<-- "reference/concept-glossary-terms/broadcasting.zh.md"
-
---8<-- "reference/concept-glossary-terms/table.zh.md"
 
 --8<-- "reference/concept-glossary-terms/brute-force-search.zh.md"

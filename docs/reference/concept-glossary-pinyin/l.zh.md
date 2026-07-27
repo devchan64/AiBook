@@ -58,8 +58,6 @@
 
 --8<-- "reference/concept-glossary-terms/local-environment.zh.md"
 
---8<-- "reference/concept-glossary-terms/log.zh.md"
-
 --8<-- "reference/concept-glossary-terms/log-loss.zh.md"
 
 --8<-- "reference/concept-glossary-terms/log-odds.zh.md"
