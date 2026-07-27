@@ -198,7 +198,6 @@
 | 거리 | 거리 | distance | P2-3.4 | distance | distance | P2-3.4 source context | 두 벡터가 표현 공간에서 얼마나 떨어져 있는지 보는 기준 |
 | 유사도 | 유사도 | similarity | P2-3.4 | similarity | similarity | P2-3.4 source context | 두 벡터나 표현이 얼마나 닮았는지 보는 비교 기준 |
 | 코사인 유사도 | 코사인 유사도 | cosine similarity | P2-3.4 | cosine-similarity | cosine-similarity | P2-3.4 source context | 두 벡터의 방향 유사성을 보는 기준 |
-| 기울기 | 기울기 | slope | P2-4.2 | slope | slope | P2-4.2 source context | 입력 변화에 대한 출력 변화를 그래프 위에서 읽는 값 |
 | 미분 | 미분 | derivative | P2-4.3 | derivative | derivative | P2-4.3 source context | 입력을 아주 조금 바꿨을 때 출력이 얼마나 변하는지 나타내는 순간 변화율 |
 | 편미분 | 편미분 | partial derivative | P2-4.3 | partial-derivative | partial-derivative | P2-4.3 source context | 여러 입력 중 하나만 바꿨다고 보고 계산한 변화율 |
 | 그래디언트 | 그래디언트 | gradient | P2-4.3 | gradient | gradient | P2-4.3 source context | 여러 편미분을 순서 있게 모은 변화율 벡터 |
