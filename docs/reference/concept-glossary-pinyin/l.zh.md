@@ -18,8 +18,6 @@
 
 --8<-- "reference/concept-glossary-terms/latency.zh.md"
 
---8<-- "reference/concept-glossary-terms/category.zh.md"
-
 --8<-- "reference/concept-glossary-terms/layer-normalization.zh.md"
 
 --8<-- "reference/concept-glossary-terms/learned-representation.zh.md"

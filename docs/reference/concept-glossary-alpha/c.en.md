@@ -12,8 +12,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/catboost.en.md"
 
---8<-- "reference/concept-glossary-terms/category.en.md"
-
 --8<-- "reference/concept-glossary-terms/candidate-distribution.en.md"
 
 --8<-- "reference/concept-glossary-terms/ccp-alpha.en.md"

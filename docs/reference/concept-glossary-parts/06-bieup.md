@@ -31,8 +31,6 @@
 
 --8<-- "reference/concept-glossary-terms/version-control.ko.md"
 
---8<-- "reference/concept-glossary-terms/category.ko.md"
-
 --8<-- "reference/concept-glossary-terms/vector-space.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector-database.ko.md"
