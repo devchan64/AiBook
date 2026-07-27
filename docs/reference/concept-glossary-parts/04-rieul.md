@@ -11,8 +11,6 @@
 
 --8<-- "reference/concept-glossary-terms/labeled-example.ko.md"
 
---8<-- "reference/concept-glossary-terms/labeling.ko.md"
-
 
 
 

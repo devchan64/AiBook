@@ -7,8 +7,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/label-consistency.en.md"
 
---8<-- "reference/concept-glossary-terms/labeling.en.md"
-
 --8<-- "reference/concept-glossary-terms/label-prediction.en.md"
 
 --8<-- "reference/concept-glossary-terms/language-model.en.md"

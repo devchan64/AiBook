@@ -4,9 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/label.zh.md"
 
---8<-- "reference/concept-glossary-terms/labeling.zh.md"
-
-
 --8<-- "reference/concept-glossary-terms/language-model.zh.md"
 
 --8<-- "reference/concept-glossary-terms/language-modeling.zh.md"
