@@ -14,7 +14,6 @@
 
 --8<-- "reference/concept-glossary-terms/machine-learning.ko.md"
 
---8<-- "reference/concept-glossary-terms/multi-head-attention.ko.md"
 
 
 

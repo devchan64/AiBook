@@ -73,8 +73,6 @@
 | 上下文窗口 | 上下文窗口 | context window | P6-4.2 | context-window | context-window | P6-4.2 source context | 模型在一次输入输出计算中能够同时参考的最大 token 范围 |
 | 采样 | 采样 | sampling | P5-15.3 | sampling | sampling | P5-15.3 source context | 根据候选分布选择一个实际输出片段的步骤 |
 | Transformer | Transformer | Transformer | P1-11.3 | transformer | transformer | Attention Is All You Need | 以 attention 为中心比较序列位置关系的神经网络结构系列 |
-| 多头注意力 | 多头注意力 | multi-head attention | P5-13.3 | multi-head-attention | multi-head-attention | Transformer context | 用多个 attention head 读取 token 关系后再合并结果的结构 |
-| 位置编码 | 位置编码 | positional encoding | P1-11.3 | positional-encoding | positional-encoding | Transformer context | 在 token 含义向量之外单独供应的序列位置信息 |
 | self-attention | self-attention | self-attention | P5-13.2 | self-attention | self-attention | Transformer context | 同一序列中每个 token 根据其他 token 更新自己表示的 attention 机制 |
 | 下一 token 预测 | 下一 token 预测 | next-token prediction | P1-10.2 | next-token-prediction | next-token-prediction | LLM generation context | 根据当前上下文计算下一个 token 候选并逐 token 继续生成 |
 | softmax | softmax | softmax | P2-2.4 | softmax | softmax | P2-2.4 source context | 把多个 score 归一化为总和为 1 的可比较值的函数 |

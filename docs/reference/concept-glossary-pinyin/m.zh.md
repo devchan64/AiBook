@@ -30,6 +30,5 @@
 
 --8<-- "reference/concept-glossary-terms/model-selection.zh.md"
 
---8<-- "reference/concept-glossary-terms/multi-head-attention.zh.md"
 
 --8<-- "reference/concept-glossary-terms/multilayer-neural-network.zh.md"

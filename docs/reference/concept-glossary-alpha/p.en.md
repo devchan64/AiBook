@@ -28,7 +28,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/population.en.md"
 
---8<-- "reference/concept-glossary-terms/positional-encoding.en.md"
 
 --8<-- "reference/concept-glossary-terms/precision.en.md"
 

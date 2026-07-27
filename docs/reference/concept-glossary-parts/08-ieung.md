@@ -106,7 +106,6 @@
 --8<-- "reference/concept-glossary-terms/service-operation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/positional-encoding.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/similarity-search.ko.md"
