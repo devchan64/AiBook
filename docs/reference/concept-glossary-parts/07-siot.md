@@ -3,7 +3,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/self-consistency.ko.md"
 
 --8<-- "reference/concept-glossary-terms/preference-optimization.ko.md"
 

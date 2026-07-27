@@ -23,7 +23,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/feature-space.en.md"
 
 
---8<-- "reference/concept-glossary-terms/few-shot-prompting.en.md"
 
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.en.md"

@@ -6,7 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/automatic-evaluation.ko.md"
 
---8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/autoregressive-model.ko.md"
 

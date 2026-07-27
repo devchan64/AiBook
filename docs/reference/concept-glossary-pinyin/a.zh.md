@@ -39,5 +39,3 @@
 --8<-- "reference/concept-glossary-terms/augmentation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/automatic-evaluation.zh.md"
-
---8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.zh.md"

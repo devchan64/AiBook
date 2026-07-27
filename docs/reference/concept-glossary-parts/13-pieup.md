@@ -51,7 +51,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/few-shot-prompting.ko.md"
 
 --8<-- "reference/concept-glossary-terms/prompt-structuring.ko.md"
 

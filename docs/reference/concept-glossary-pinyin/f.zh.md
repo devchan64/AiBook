@@ -16,7 +16,6 @@
 --8<-- "reference/concept-glossary-terms/feature-selection.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/few-shot-prompting.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/model-score.zh.md"

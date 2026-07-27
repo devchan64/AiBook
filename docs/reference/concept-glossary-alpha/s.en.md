@@ -49,7 +49,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/self-attention.en.md"
 
---8<-- "reference/concept-glossary-terms/self-consistency.en.md"
 
 --8<-- "reference/concept-glossary-terms/sensitive-information.en.md"
 

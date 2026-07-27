@@ -2,7 +2,6 @@
 
 --8<-- "reference/concept-glossary-terms/feature-importance.ko.md"
 
---8<-- "reference/concept-glossary-terms/chain-of-thought-cot.ko.md"
 
 --8<-- "reference/concept-glossary-terms/feature-space.ko.md"
 

@@ -18,7 +18,6 @@
 --8<-- "reference/concept-glossary-terms/residual.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/chain-of-thought-cot.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/vocabulary.zh.md"
