@@ -2,6 +2,6 @@
 
 - Meaning: 요약값, 관찰된 사실, 그 사실에서 이어지는 해석, 다음 질문을 한 표 안에 나누어 적어 계산 결과와 해석 문장을 섞이지 않게 만드는 표입니다. 수치 결과를 그대로 복사해 두는 표가 아니라, `무엇을 봤고`, `그것을 어떻게 읽었고`, `그래서 무엇을 더 확인할 것인가`를 같은 자리에 다시 정리하는 해석용 구조라고 볼 수 있습니다. 즉 결과 해석 표는 숫자 출력과 사람 판단 사이의 중간 다리입니다.
 - Why it matters: 같은 수치를 보더라도 사실과 해석과 다음 조치를 한 문장에 섞어 쓰면 무엇이 관찰이고 무엇이 판단인지 금방 흐려지기 때문입니다. 이 개념이 있어야 요약값 자체, 그 값이 의미하는 변화, 추가로 확인할 채널이나 샘플을 따로 적게 되고, 비교표와 회고 문장이 더 투명하게 연결됩니다. 또한 결과 해석 표를 이해해야 Part 7의 분석 프로젝트가 계산 실습에서 끝나지 않고 `사실 -> 해석 -> 다음 질문` 구조를 문서에 남기는 훈련이라는 점도 더 선명하게 읽게 됩니다.
-- Related concepts: `interpretation`, `comparison table`, `next question`, `retrospective`, `indicator`
+- Related concepts: `interpretation`, `comparison table`, `next question`, `retrospective`, `metric`
 - Core Section: `P7-1.1`
 - Appears in: `P7-1.3`, `P7-summary`

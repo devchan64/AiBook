@@ -97,5 +97,4 @@
 --8<-- "reference/concept-glossary-terms/knowledge-acquisition.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/indicator.ko.md"
 --8<-- "reference/concept-glossary-terms/delayed-reward.ko.md"

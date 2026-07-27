@@ -16,8 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/indexing.zh.md"
 
---8<-- "reference/concept-glossary-terms/indicator.zh.md"
-
 --8<-- "reference/concept-glossary-terms/inference.zh.md"
 
 --8<-- "reference/concept-glossary-terms/inference-engine.zh.md"
