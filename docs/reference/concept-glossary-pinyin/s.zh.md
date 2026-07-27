@@ -8,8 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/search.zh.md"
 
---8<-- "reference/concept-glossary-terms/recognition.zh.md"
-
 --8<-- "reference/concept-glossary-terms/sigmoid.zh.md"
 
 --8<-- "reference/concept-glossary-terms/similarity-search.zh.md"

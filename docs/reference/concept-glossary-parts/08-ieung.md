@@ -110,8 +110,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/recognition.ko.md"
-
 --8<-- "reference/concept-glossary-terms/quotation.ko.md"
 
 
