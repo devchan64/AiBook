@@ -32,7 +32,7 @@
 
 --8<-- "reference/concept-glossary-terms/vocabulary.zh.md"
 
---8<-- "reference/concept-glossary-terms/query.zh.md"
+--8<-- "reference/concept-glossary-terms/search-query.zh.md"
 
 --8<-- "reference/concept-glossary-terms/chunk.zh.md"
 
