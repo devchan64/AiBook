@@ -121,9 +121,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/yolo.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/risk.ko.md"
 
 --8<-- "reference/concept-glossary-terms/service-operation.ko.md"
