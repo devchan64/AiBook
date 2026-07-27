@@ -4,19 +4,15 @@
 
 --8<-- "reference/concept-glossary-terms/machine-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/mapping.zh.md"
 
 --8<-- "reference/concept-glossary-terms/target.zh.md"
 
---8<-- "reference/concept-glossary-terms/target-candidate.zh.md"
 
---8<-- "reference/concept-glossary-terms/target-definition-version.zh.md"
 
 --8<-- "reference/concept-glossary-terms/matrix.zh.md"
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.zh.md"
 
---8<-- "reference/concept-glossary-terms/max-features.zh.md"
 
 --8<-- "reference/concept-glossary-terms/mean.zh.md"
 

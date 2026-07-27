@@ -6,7 +6,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 <a id="object"></a>
 
---8<-- "reference/concept-glossary-terms/object.en.md"
 
 --8<-- "reference/concept-glossary-terms/object-detection.en.md"
 
@@ -16,7 +15,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/offline-reinforcement-learning.en.md"
 
---8<-- "reference/concept-glossary-terms/oob-score.en.md"
 
 --8<-- "reference/concept-glossary-terms/one-vs-rest.en.md"
 
@@ -34,21 +32,16 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/orchestration.en.md"
 
---8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.en.md"
 
---8<-- "reference/concept-glossary-terms/outcome.en.md"
 
 --8<-- "reference/concept-glossary-terms/outlier.en.md"
 
 --8<-- "reference/concept-glossary-terms/output.en.md"
 
---8<-- "reference/concept-glossary-terms/output-artifact.en.md"
 
---8<-- "reference/concept-glossary-terms/output-layer.en.md"
 
 <a id="output-format"></a>
 
---8<-- "reference/concept-glossary-terms/output-format.en.md"
 
 --8<-- "reference/concept-glossary-terms/output-structure.en.md"
 

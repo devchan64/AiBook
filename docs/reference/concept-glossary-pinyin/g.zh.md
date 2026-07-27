@@ -16,7 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/overfitting.zh.md"
 
---8<-- "reference/concept-glossary-terms/alert.zh.md"
 
 --8<-- "reference/concept-glossary-terms/generation.zh.md"
 
@@ -28,19 +27,14 @@
 
 --8<-- "reference/concept-glossary-terms/probability-estimate.zh.md"
 
---8<-- "reference/concept-glossary-terms/incomplete-negative.zh.md"
 
---8<-- "reference/concept-glossary-terms/shared-view.zh.md"
 
---8<-- "reference/concept-glossary-terms/good-enough-solution.zh.md"
 
---8<-- "reference/concept-glossary-terms/format-consistency.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gpt.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gpugraphics-processing-unit.zh.md"
 
---8<-- "reference/concept-glossary-terms/grader.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gradient.zh.md"
 
@@ -52,8 +46,5 @@
 
 --8<-- "reference/concept-glossary-terms/graph-based-search.zh.md"
 
---8<-- "reference/concept-glossary-terms/workflow.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.zh.md"
-
---8<-- "reference/concept-glossary-terms/glove.zh.md"

@@ -12,21 +12,16 @@
 
 --8<-- "reference/concept-glossary-terms/action.zh.md"
 
---8<-- "reference/concept-glossary-terms/action-bucket.zh.md"
 
---8<-- "reference/concept-glossary-terms/activation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/activation-function.zh.md"
 
---8<-- "reference/concept-glossary-terms/adapter.zh.md"
 
 --8<-- "reference/concept-glossary-terms/ai-agent.zh.md"
 
---8<-- "reference/concept-glossary-terms/aggregation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/ai-artificial-intelligence.zh.md"
 
---8<-- "reference/concept-glossary-terms/alert-grade.zh.md"
 
 --8<-- "reference/concept-glossary-terms/alexnet.zh.md"
 
@@ -38,9 +33,7 @@
 
 --8<-- "reference/concept-glossary-terms/approval-policy.zh.md"
 
---8<-- "reference/concept-glossary-terms/argument.zh.md"
 
---8<-- "reference/concept-glossary-terms/argmax.zh.md"
 
 --8<-- "reference/concept-glossary-terms/array.zh.md"
 
@@ -51,5 +44,3 @@
 --8<-- "reference/concept-glossary-terms/automatic-evaluation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.zh.md"
-
---8<-- "reference/concept-glossary-terms/axis.zh.md"

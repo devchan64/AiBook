@@ -8,7 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/plot.zh.md"
 
---8<-- "reference/concept-glossary-terms/feature-definition-identity.zh.md"
 
 --8<-- "reference/concept-glossary-terms/feature-scale.zh.md"
 
@@ -20,13 +19,10 @@
 
 --8<-- "reference/concept-glossary-terms/token.zh.md"
 
---8<-- "reference/concept-glossary-terms/token-id.zh.md"
 
 --8<-- "reference/concept-glossary-terms/tokenization.zh.md"
 
---8<-- "reference/concept-glossary-terms/token-coverage.zh.md"
 
---8<-- "reference/concept-glossary-terms/top-k.zh.md"
 
 --8<-- "reference/concept-glossary-terms/transformer.zh.md"
 

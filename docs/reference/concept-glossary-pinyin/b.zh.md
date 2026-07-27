@@ -2,7 +2,6 @@
 
 本页整理拼音首字母为 `B` 的中文概念词条。词条正文由单词源文件 include 生成。
 
---8<-- "reference/concept-glossary-terms/best-split.zh.md"
 
 --8<-- "reference/concept-glossary-terms/impurity.zh.md"
 
@@ -16,7 +15,6 @@
 
 --8<-- "reference/concept-glossary-terms/baseline-model.zh.md"
 
---8<-- "reference/concept-glossary-terms/baseline-window.zh.md"
 
 --8<-- "reference/concept-glossary-terms/standardization.zh.md"
 
@@ -24,7 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/label-prediction.zh.md"
 
---8<-- "reference/concept-glossary-terms/delayed-label-confirmation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/version-control.zh.md"
 
@@ -36,11 +33,8 @@
 
 --8<-- "reference/concept-glossary-terms/representation.zh.md"
 
---8<-- "reference/concept-glossary-terms/comparison-plot.zh.md"
 
---8<-- "reference/concept-glossary-terms/identifier.zh.md"
 
---8<-- "reference/concept-glossary-terms/batch.zh.md"
 
 --8<-- "reference/concept-glossary-terms/batch-normalization.zh.md"
 
@@ -50,18 +44,12 @@
 
 --8<-- "reference/concept-glossary-terms/bias.zh.md"
 
---8<-- "reference/concept-glossary-terms/bias-term.zh.md"
 
---8<-- "reference/concept-glossary-terms/boolean-mask.zh.md"
 
---8<-- "reference/concept-glossary-terms/bounding-box.zh.md"
 
---8<-- "reference/concept-glossary-terms/bpe-byte-pair-encoding.zh.md"
 
 --8<-- "reference/concept-glossary-terms/parallel-processing.zh.md"
 
 --8<-- "reference/concept-glossary-terms/bootstrap.zh.md"
 
 --8<-- "reference/concept-glossary-terms/broadcasting.zh.md"
-
---8<-- "reference/concept-glossary-terms/brute-force-search.zh.md"

@@ -4,9 +4,7 @@
 
 --8<-- "reference/concept-glossary-terms/margin.zh.md"
 
---8<-- "reference/concept-glossary-terms/set-data-structure.zh.md"
 
---8<-- "reference/concept-glossary-terms/static-deployment.zh.md"
 
 --8<-- "reference/concept-glossary-terms/false-negative.zh.md"
 
@@ -43,5 +41,3 @@
 --8<-- "reference/concept-glossary-terms/interpretation-boundary.zh.md"
 
 --8<-- "reference/concept-glossary-terms/retrieval-augmented-generation-rag.zh.md"
-
---8<-- "reference/concept-glossary-terms/sentence-paragraph-and-document-embedding.zh.md"

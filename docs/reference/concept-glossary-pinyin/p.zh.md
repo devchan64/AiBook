@@ -8,10 +8,7 @@
 
 --8<-- "reference/concept-glossary-terms/preference-optimization.zh.md"
 
---8<-- "reference/concept-glossary-terms/skewness.zh.md"
 
 --8<-- "reference/concept-glossary-terms/ranking.zh.md"
 
 --8<-- "reference/concept-glossary-terms/evaluation-design.zh.md"
-
---8<-- "reference/concept-glossary-terms/squared-error.zh.md"

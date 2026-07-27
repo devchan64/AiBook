@@ -2,15 +2,12 @@
 
 本页整理拼音首字母为 `Y` 的中文概念词条。词条正文由单词源文件 include 生成。
 
---8<-- "reference/concept-glossary-terms/impact.zh.md"
 
 --8<-- "reference/concept-glossary-terms/causal-inference.zh.md"
 
 --8<-- "reference/concept-glossary-terms/domain-randomization.zh.md"
 
---8<-- "reference/concept-glossary-terms/leaf.zh.md"
 
---8<-- "reference/concept-glossary-terms/runtime-state.zh.md"
 
 --8<-- "reference/concept-glossary-terms/sample.zh.md"
 
@@ -34,6 +31,5 @@
 
 --8<-- "reference/concept-glossary-terms/source-data.zh.md"
 
---8<-- "reference/concept-glossary-terms/source-event.zh.md"
 
 --8<-- "reference/concept-glossary-terms/threshold.zh.md"

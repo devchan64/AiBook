@@ -10,13 +10,11 @@
 
 --8<-- "reference/concept-glossary-terms/labeling.zh.md"
 
---8<-- "reference/concept-glossary-terms/connectivity.zh.md"
 
 --8<-- "reference/concept-glossary-terms/language-model.zh.md"
 
 --8<-- "reference/concept-glossary-terms/language-modeling.zh.md"
 
---8<-- "reference/concept-glossary-terms/latency.zh.md"
 
 --8<-- "reference/concept-glossary-terms/layer-normalization.zh.md"
 
@@ -24,11 +22,9 @@
 
 --8<-- "reference/concept-glossary-terms/chain-rule.zh.md"
 
---8<-- "reference/concept-glossary-terms/column-role-separation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/learning-rate.zh.md"
 
---8<-- "reference/concept-glossary-terms/lightgbm.zh.md"
 
 --8<-- "reference/concept-glossary-terms/least-privilege.zh.md"
 
@@ -36,11 +32,9 @@
 
 --8<-- "reference/concept-glossary-terms/linear-regression.zh.md"
 
---8<-- "reference/concept-glossary-terms/type.zh.md"
 
 --8<-- "reference/concept-glossary-terms/llm.zh.md"
 
---8<-- "reference/concept-glossary-terms/local-environment.zh.md"
 
 --8<-- "reference/concept-glossary-terms/log-loss.zh.md"
 
@@ -52,7 +46,6 @@
 
 --8<-- "reference/concept-glossary-terms/long-term-dependency.zh.md"
 
---8<-- "reference/concept-glossary-terms/loop.zh.md"
 
 --8<-- "reference/concept-glossary-terms/lora.zh.md"
 

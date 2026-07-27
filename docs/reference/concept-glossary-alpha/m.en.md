@@ -4,7 +4,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/machine-learning.en.md"
 
---8<-- "reference/concept-glossary-terms/mapping.en.md"
 
 --8<-- "reference/concept-glossary-terms/margin.en.md"
 
@@ -12,9 +11,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.en.md"
 
---8<-- "reference/concept-glossary-terms/max-features.en.md"
 
---8<-- "reference/concept-glossary-terms/max-depth.en.md"
 
 --8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.en.md"
 
@@ -28,7 +25,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/missing-value.en.md"
 
---8<-- "reference/concept-glossary-terms/min-samples-leaf.en.md"
 
 --8<-- "reference/concept-glossary-terms/model.en.md"
 

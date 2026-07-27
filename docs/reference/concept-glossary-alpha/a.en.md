@@ -16,25 +16,19 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/actual-target.en.md"
 
---8<-- "reference/concept-glossary-terms/action-bucket.en.md"
 
---8<-- "reference/concept-glossary-terms/activation.en.md"
 
 --8<-- "reference/concept-glossary-terms/activation-function.en.md"
 
---8<-- "reference/concept-glossary-terms/adapter.en.md"
 
 --8<-- "reference/concept-glossary-terms/ai-agent.en.md"
 
 --8<-- "reference/concept-glossary-terms/algorithm.en.md"
 
---8<-- "reference/concept-glossary-terms/aggregation.en.md"
 
 --8<-- "reference/concept-glossary-terms/ai-artificial-intelligence.en.md"
 
---8<-- "reference/concept-glossary-terms/alert-grade.en.md"
 
---8<-- "reference/concept-glossary-terms/alert.en.md"
 
 --8<-- "reference/concept-glossary-terms/alexnet.en.md"
 
@@ -46,9 +40,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/approval-policy.en.md"
 
---8<-- "reference/concept-glossary-terms/argument.en.md"
 
---8<-- "reference/concept-glossary-terms/argmax.en.md"
 
 --8<-- "reference/concept-glossary-terms/array.en.md"
 
@@ -61,5 +53,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/automatic-differentiation.en.md"
 
 --8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.en.md"
-
---8<-- "reference/concept-glossary-terms/axis.en.md"

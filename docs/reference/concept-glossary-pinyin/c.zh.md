@@ -8,27 +8,19 @@
 
 --8<-- "reference/concept-glossary-terms/policy-gradient-theorem.zh.md"
 
---8<-- "reference/concept-glossary-terms/caching.zh.md"
 
---8<-- "reference/concept-glossary-terms/repository.zh.md"
 
---8<-- "reference/concept-glossary-terms/reference-maintenance-strategy.zh.md"
 
---8<-- "reference/concept-glossary-terms/storage-structure.zh.md"
 
 --8<-- "reference/concept-glossary-terms/calibration.zh.md"
 
---8<-- "reference/concept-glossary-terms/catboost.zh.md"
 
---8<-- "reference/concept-glossary-terms/ccp-alpha.zh.md"
 
 --8<-- "reference/concept-glossary-terms/residual.zh.md"
 
---8<-- "reference/concept-glossary-terms/penalty.zh.md"
 
 --8<-- "reference/concept-glossary-terms/chain-of-thought-cot.zh.md"
 
---8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.zh.md"
 
 --8<-- "reference/concept-glossary-terms/vocabulary.zh.md"
 
@@ -36,17 +28,14 @@
 
 --8<-- "reference/concept-glossary-terms/chunk.zh.md"
 
---8<-- "reference/concept-glossary-terms/class.zh.md"
 
 --8<-- "reference/concept-glossary-terms/classification.zh.md"
 
---8<-- "reference/concept-glossary-terms/client.zh.md"
 
 --8<-- "reference/concept-glossary-terms/hierarchical-clustering.zh.md"
 
 --8<-- "reference/concept-glossary-terms/cluster.zh.md"
 
---8<-- "reference/concept-glossary-terms/cluster-label.zh.md"
 
 --8<-- "reference/concept-glossary-terms/clustering.zh.md"
 
@@ -54,17 +43,12 @@
 
 --8<-- "reference/concept-glossary-terms/test-data.zh.md"
 
---8<-- "reference/concept-glossary-terms/column.zh.md"
 
 --8<-- "reference/concept-glossary-terms/combinatorial-explosion.zh.md"
 
---8<-- "reference/concept-glossary-terms/commit.zh.md"
 
---8<-- "reference/concept-glossary-terms/comparison-report.zh.md"
 
---8<-- "reference/concept-glossary-terms/comparison-result.zh.md"
 
---8<-- "reference/concept-glossary-terms/comparison-table.zh.md"
 
 --8<-- "reference/concept-glossary-terms/error-cost.zh.md"
 
@@ -72,7 +56,6 @@
 
 --8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
 
---8<-- "reference/concept-glossary-terms/component.zh.md"
 
 --8<-- "reference/concept-glossary-terms/pooling.zh.md"
 
@@ -80,11 +63,9 @@
 
 --8<-- "reference/concept-glossary-terms/output.zh.md"
 
---8<-- "reference/concept-glossary-terms/output-layer.zh.md"
 
 --8<-- "reference/concept-glossary-terms/policy.zh.md"
 
---8<-- "reference/concept-glossary-terms/policy-rule.zh.md"
 
 --8<-- "reference/concept-glossary-terms/confabulation.zh.md"
 
@@ -92,7 +73,6 @@
 
 --8<-- "reference/concept-glossary-terms/generalization.zh.md"
 
---8<-- "reference/concept-glossary-terms/constraint.zh.md"
 
 --8<-- "reference/concept-glossary-terms/context.zh.md"
 
@@ -100,7 +80,6 @@
 
 --8<-- "reference/concept-glossary-terms/contextual-representation.zh.md"
 
---8<-- "reference/concept-glossary-terms/control.zh.md"
 
 --8<-- "reference/concept-glossary-terms/convergence.zh.md"
 
@@ -108,7 +87,6 @@
 
 --8<-- "reference/concept-glossary-terms/convolution.zh.md"
 
---8<-- "reference/concept-glossary-terms/copy.zh.md"
 
 --8<-- "reference/concept-glossary-terms/copyright.zh.md"
 
@@ -116,7 +94,6 @@
 
 --8<-- "reference/concept-glossary-terms/cosine-similarity.zh.md"
 
---8<-- "reference/concept-glossary-terms/cost.zh.md"
 
 --8<-- "reference/concept-glossary-terms/credential.zh.md"
 

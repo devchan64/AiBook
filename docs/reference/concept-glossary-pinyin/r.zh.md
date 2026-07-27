@@ -4,7 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/reinforce.zh.md"
 
---8<-- "reference/concept-glossary-terms/rlhf.zh.md"
 
 --8<-- "reference/concept-glossary-terms/weak-learner.zh.md"
 

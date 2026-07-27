@@ -8,7 +8,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/hand-crafted-features.en.md"
 
---8<-- "reference/concept-glossary-terms/harness.en.md"
 
 --8<-- "reference/concept-glossary-terms/hierarchical-clustering.en.md"
 
@@ -16,17 +15,12 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/heuristic.en.md"
 
---8<-- "reference/concept-glossary-terms/heuristic-function.en.md"
 
---8<-- "reference/concept-glossary-terms/heuristic-score.en.md"
 
---8<-- "reference/concept-glossary-terms/hidden-layer.en.md"
 
 --8<-- "reference/concept-glossary-terms/hidden-state.en.md"
 
---8<-- "reference/concept-glossary-terms/hold-state.en.md"
 
---8<-- "reference/concept-glossary-terms/host.en.md"
 
 --8<-- "reference/concept-glossary-terms/human-evaluation.en.md"
 

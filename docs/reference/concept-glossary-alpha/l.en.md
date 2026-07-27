@@ -2,7 +2,6 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
---8<-- "reference/concept-glossary-terms/leaf.en.md"
 
 --8<-- "reference/concept-glossary-terms/label.en.md"
 
@@ -16,7 +15,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/language-modeling.en.md"
 
---8<-- "reference/concept-glossary-terms/latency.en.md"
 
 --8<-- "reference/concept-glossary-terms/layer-normalization.en.md"
 
@@ -24,7 +22,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/learning-rate.en.md"
 
---8<-- "reference/concept-glossary-terms/lightgbm.en.md"
 
 --8<-- "reference/concept-glossary-terms/learning-based-approach.en.md"
 
@@ -36,11 +33,9 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/linear-regression.en.md"
 
---8<-- "reference/concept-glossary-terms/linear-combination.en.md"
 
 --8<-- "reference/concept-glossary-terms/llm.en.md"
 
---8<-- "reference/concept-glossary-terms/local-environment.en.md"
 
 --8<-- "reference/concept-glossary-terms/log-loss.en.md"
 
@@ -54,7 +49,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/long-term-dependency.en.md"
 
---8<-- "reference/concept-glossary-terms/loop.en.md"
 
 --8<-- "reference/concept-glossary-terms/lora.en.md"
 

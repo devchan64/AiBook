@@ -4,13 +4,10 @@
 
 --8<-- "reference/concept-glossary-terms/n-gram.zh.md"
 
---8<-- "reference/concept-glossary-terms/n-estimators.zh.md"
 
 --8<-- "reference/concept-glossary-terms/nearest-neighbor.zh.md"
 
---8<-- "reference/concept-glossary-terms/next-action.zh.md"
 
---8<-- "reference/concept-glossary-terms/next-question.zh.md"
 
 --8<-- "reference/concept-glossary-terms/next-output-generation.zh.md"
 

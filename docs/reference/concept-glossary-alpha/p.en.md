@@ -16,11 +16,9 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/perceptron.en.md"
 
---8<-- "reference/concept-glossary-terms/penalty.en.md"
 
 --8<-- "reference/concept-glossary-terms/permission.en.md"
 
---8<-- "reference/concept-glossary-terms/personal-learning.en.md"
 
 --8<-- "reference/concept-glossary-terms/plot.en.md"
 
@@ -28,7 +26,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/policy.en.md"
 
---8<-- "reference/concept-glossary-terms/policy-rule.en.md"
 
 --8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.en.md"
 
@@ -58,7 +55,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/proxy-target.en.md"
 
---8<-- "reference/concept-glossary-terms/priority.en.md"
 
 --8<-- "reference/concept-glossary-terms/privacy.en.md"
 
@@ -70,9 +66,7 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/probability-estimate.en.md"
 
---8<-- "reference/concept-glossary-terms/problem-representation-structure.en.md"
 
---8<-- "reference/concept-glossary-terms/productivity.en.md"
 
 --8<-- "reference/concept-glossary-terms/prompt.en.md"
 
@@ -83,5 +77,3 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/prompt-structuring.en.md"
 
 --8<-- "reference/concept-glossary-terms/provenance.en.md"
-
---8<-- "reference/concept-glossary-terms/positive-pair.en.md"

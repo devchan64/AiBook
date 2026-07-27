@@ -4,9 +4,7 @@
 
 --8<-- "reference/concept-glossary-terms/similarity.zh.md"
 
---8<-- "reference/concept-glossary-terms/sparse-attention.zh.md"
 
---8<-- "reference/concept-glossary-terms/xgboost.zh.md"
 
 --8<-- "reference/concept-glossary-terms/recurrent-neural-network.zh.md"
 
@@ -18,13 +16,10 @@
 
 --8<-- "reference/concept-glossary-terms/vectorization.zh.md"
 
---8<-- "reference/concept-glossary-terms/linear-combination.zh.md"
 
---8<-- "reference/concept-glossary-terms/shape.zh.md"
 
 --8<-- "reference/concept-glossary-terms/training.zh.md"
 
---8<-- "reference/concept-glossary-terms/training-mode.zh.md"
 
 --8<-- "reference/concept-glossary-terms/action-value.zh.md"
 

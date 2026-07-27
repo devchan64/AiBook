@@ -10,7 +10,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/generative-model.en.md"
 
---8<-- "reference/concept-glossary-terms/good-enough-solution.en.md"
 
 --8<-- "reference/concept-glossary-terms/gpt.en.md"
 
@@ -18,7 +17,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/group-split.en.md"
 
---8<-- "reference/concept-glossary-terms/grader.en.md"
 
 --8<-- "reference/concept-glossary-terms/gradient.en.md"
 
@@ -31,5 +29,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/graph-based-search.en.md"
 
 --8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.en.md"
-
---8<-- "reference/concept-glossary-terms/glove.en.md"

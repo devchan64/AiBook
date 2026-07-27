@@ -8,9 +8,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/factuality.en.md"
 
---8<-- "reference/concept-glossary-terms/failure.en.md"
 
---8<-- "reference/concept-glossary-terms/failure-type.en.md"
 
 --8<-- "reference/concept-glossary-terms/false-negative.en.md"
 
@@ -18,7 +16,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/feature.en.md"
 
---8<-- "reference/concept-glossary-terms/feature-definition-identity.en.md"
 
 --8<-- "reference/concept-glossary-terms/feature-selection.en.md"
 
@@ -26,29 +23,22 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/feature-space.en.md"
 
---8<-- "reference/concept-glossary-terms/feed-forward-network.en.md"
 
 --8<-- "reference/concept-glossary-terms/few-shot-prompting.en.md"
 
---8<-- "reference/concept-glossary-terms/filtering.en.md"
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.en.md"
 
 --8<-- "reference/concept-glossary-terms/fitting.en.md"
 
---8<-- "reference/concept-glossary-terms/folding-rule.en.md"
 
 --8<-- "reference/concept-glossary-terms/expert-system.en.md"
 
---8<-- "reference/concept-glossary-terms/fixed-length-vector.en.md"
 
 --8<-- "reference/concept-glossary-terms/excessive-agency.en.md"
 
---8<-- "reference/concept-glossary-terms/follow-up-review-sample.en.md"
 
---8<-- "reference/concept-glossary-terms/forecast.en.md"
 
---8<-- "reference/concept-glossary-terms/format-consistency.en.md"
 
 --8<-- "reference/concept-glossary-terms/function-approximation.en.md"
 
@@ -58,5 +48,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.en.md"
 --8<-- "reference/concept-glossary-terms/convolution.en.md"
-
---8<-- "reference/concept-glossary-terms/full-scan.en.md"

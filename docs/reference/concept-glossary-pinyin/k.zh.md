@@ -14,12 +14,9 @@
 
 --8<-- "reference/concept-glossary-terms/comparability.zh.md"
 
---8<-- "reference/concept-glossary-terms/reproducible-record.zh.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-acquisition.zh.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-base.zh.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-representation.zh.md"
-
---8<-- "reference/concept-glossary-terms/kv-cache.zh.md"

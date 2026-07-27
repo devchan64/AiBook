@@ -8,7 +8,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/validation-data.en.md"
 
---8<-- "reference/concept-glossary-terms/value.en.md"
 
 --8<-- "reference/concept-glossary-terms/value-based-reinforcement-learning.en.md"
 
@@ -26,9 +25,7 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/version-control.en.md"
 
---8<-- "reference/concept-glossary-terms/version-pinning.en.md"
 
---8<-- "reference/concept-glossary-terms/virtual-environment.en.md"
 
 --8<-- "reference/concept-glossary-terms/visualization.en.md"
 
