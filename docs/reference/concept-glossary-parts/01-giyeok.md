@@ -129,7 +129,6 @@
 
 --8<-- "reference/concept-glossary-terms/gradient.ko.md"
 
---8<-- "reference/concept-glossary-terms/graph-based-search.ko.md"
 
 --8<-- "reference/concept-glossary-terms/graph.ko.md"
 

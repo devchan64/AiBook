@@ -1,7 +1,6 @@
 ## ㅍ
 
 
---8<-- "reference/concept-glossary-terms/parametric-memory.ko.md"
 
 --8<-- "reference/concept-glossary-terms/parameter.ko.md"
 

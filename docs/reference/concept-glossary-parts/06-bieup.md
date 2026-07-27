@@ -75,7 +75,6 @@
 
 --8<-- "reference/concept-glossary-terms/variance.ko.md"
 
---8<-- "reference/concept-glossary-terms/reconstruction-error.ko.md"
 
 --8<-- "reference/concept-glossary-terms/distribution.ko.md"
 
@@ -98,5 +97,3 @@
 --8<-- "reference/concept-glossary-terms/semi-supervised-learning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/unsupervised-learning.ko.md"
-
---8<-- "reference/concept-glossary-terms/non-parametric-memory.ko.md"

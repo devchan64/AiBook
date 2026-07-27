@@ -53,7 +53,6 @@
 --8<-- "reference/concept-glossary-terms/contextual-representation.ko.md"
 --8<-- "reference/concept-glossary-terms/document-reproducibility.ko.md"
 
---8<-- "reference/concept-glossary-terms/sentence-paragraph-document-embedding.ko.md"
 
 --8<-- "reference/concept-glossary-terms/task-definition.ko.md"
 

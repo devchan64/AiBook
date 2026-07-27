@@ -14,7 +14,6 @@
 
 --8<-- "reference/concept-glossary-terms/noise.zh.md"
 
---8<-- "reference/concept-glossary-terms/non-parametric-memory.zh.md"
 
 --8<-- "reference/concept-glossary-terms/nondeterministic.zh.md"
 
