@@ -59,8 +59,6 @@
 
 --8<-- "reference/concept-glossary-terms/aigenerative-ai.ko.md"
 
---8<-- "reference/concept-glossary-terms/generation-setting.ko.md"
-
 
 
 --8<-- "reference/concept-glossary-terms/linear-algebra.ko.md"

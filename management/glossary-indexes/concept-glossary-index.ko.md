@@ -41,7 +41,6 @@
 | 수작업 특징 | 수작업 특징 | hand-crafted features | P1-9.1 | hand-crafted-features | hand-crafted-features | face recognition survey, representation learning review | 사람이 미리 설계한 입력 단서 |
 | 알고리즘 | 알고리즘 | algorithm | P4-3.1 | algorithm | algorithm | AIMA, P4-3.1 source context | 문제를 풀기 위해 정해진 순서대로 수행하는 절차 |
 | 순차 모델링 | 순차 모델링 | sequence modeling | P1-9.3 | sequence-modeling | sequence-modeling | Seq2Seq, Attention, Transformer papers | 순서 있는 데이터의 관계와 생성을 다루는 문제 설정 |
-| 생성 설정값 | 생성 설정값 | generation setting | P1-4.3 | generation-setting | generation-setting | Google ML Glossary temperature | 생성 시점의 출력 선택 조절값 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |
 | 신뢰 수준 | 신뢰 수준 | confidence level | P1-6.2 | confidence-level | confidence-level | scikit-learn probability calibration | 보정된 확률 출력을 어느 정도 믿을 수 있는지 읽는 수준 |
 | 순전파 | 순전파 | forward pass | P1-5.2 | forward-pass | forward-pass | P1-5.2 source context | 입력이 학습된 파라미터를 지나 출력으로 계산되는 방향 |
