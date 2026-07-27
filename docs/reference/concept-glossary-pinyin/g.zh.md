@@ -22,7 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/generative-model.zh.md"
 
---8<-- "reference/concept-glossary-terms/perceptron.zh.md"
 
 --8<-- "reference/concept-glossary-terms/probability-estimate.zh.md"
 

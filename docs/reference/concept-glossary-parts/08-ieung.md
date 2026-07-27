@@ -23,7 +23,6 @@
 
 --8<-- "reference/concept-glossary-terms/rlhf-reinforcement-learning-from-human-feedback.ko.md"
 
---8<-- "reference/concept-glossary-terms/support-vector-machine.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vocabulary.ko.md"
 

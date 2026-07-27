@@ -9,7 +9,6 @@
 --8<-- "reference/concept-glossary-terms/code.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/perceptron.ko.md"
 
 --8<-- "reference/concept-glossary-terms/partial-derivative.ko.md"
 

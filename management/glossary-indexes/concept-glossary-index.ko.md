@@ -13,7 +13,7 @@
 | 계획 | 계획 | planning | P1-7.4 | planning | planning | Poole & Mackworth search, motion planning survey | 목표에 도달하기 위한 행동·경로 선택 과정 |
 | 검색 | 검색 | retrieval | P1-13.3 | retrieval | retrieval | RAG paper | RAG에서 생성 입력에 넣을 외부 문서 후보를 찾아오는 단계 |
 | 검색 인덱스 | 검색 인덱스 | search index | P1-13.4 | search-index | search-index | ANN, vector search context | 많은 벡터나 문서를 빠르게 찾기 위해 미리 만든 검색 구조 |
-| 검색 질의 | 검색 질의 | search query | P4-12.1 | search-query | search-query | 단어별 원고 기준 | 검색과 k-NN에서 저장된 기준 사례와 비교할 새 입력 기준 |
+| 검색 질의 | 검색 질의 | search query | P4-12.1 | search-query | search-query | 단어별 원고 기준 | 검색과 최근접 이웃 비교에서 저장된 기준 사례와 비교할 새 입력 기준 |
 | 그룹 분할 | 그룹 분할 | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | 같은 개체나 그룹이 학습 쪽과 검증·테스트 쪽에 동시에 섞이지 않도록 나누는 방식 |
 | 기준 모델 | 기준 모델 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 후보 모델이 넘어야 할 가장 단순한 비교용 모델이나 점수 기준 |
 | 기준선 | 기준선 | baseline | P3-7.3 | baseline | baseline | BLS base period, NCI baseline context | 현재 값이나 모델 점수를 단독으로 읽지 않기 위해 두는 참조 기준 |

@@ -7,7 +7,6 @@
 --8<-- "reference/concept-glossary-terms/early-stopping.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/support-vector-machine.zh.md"
 
 
 
