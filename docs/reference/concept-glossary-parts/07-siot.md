@@ -17,8 +17,6 @@
 
 --8<-- "reference/concept-glossary-terms/pretraining.ko.md"
 
---8<-- "reference/concept-glossary-terms/pretrained-llm.ko.md"
-
 --8<-- "reference/concept-glossary-terms/sequence-modeling.ko.md"
 
 

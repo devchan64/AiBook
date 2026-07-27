@@ -46,5 +46,3 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/transparency.en.md"
 
 --8<-- "reference/concept-glossary-terms/tree.en.md"
-
---8<-- "reference/concept-glossary-terms/tts-text-to-speech.en.md"

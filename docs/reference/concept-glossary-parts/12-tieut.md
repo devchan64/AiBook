@@ -19,8 +19,6 @@
 
 --8<-- "reference/concept-glossary-terms/text-and-data-mining.ko.md"
 
---8<-- "reference/concept-glossary-terms/tts-text-to-speech.ko.md"
-
 --8<-- "reference/concept-glossary-terms/tensor.ko.md"
 
 --8<-- "reference/concept-glossary-terms/token.ko.md"
