@@ -29,8 +29,6 @@
 
 --8<-- "reference/concept-glossary-terms/external-tool.ko.md"
 
---8<-- "reference/concept-glossary-terms/dropout.ko.md"
-
 --8<-- "reference/concept-glossary-terms/safety.ko.md"
 
 --8<-- "reference/concept-glossary-terms/decoder.ko.md"
