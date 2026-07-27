@@ -20,8 +20,6 @@
 --8<-- "reference/concept-glossary-terms/multi-head-attention.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/median.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/manifold.ko.md"
 

@@ -222,7 +222,6 @@
 | 표본 편향 | 표본 편향 | sampling bias | P2-5.3 | sampling-bias | sampling-bias | P2-5.3 source context | 표본이 모집단을 잘 대표하지 못하고 특정 방향으로 치우친 상태 |
 | 선택적 라벨 | 선택적 라벨 | selective labels | P3-8.6 | selective-labels | selective-labels | KDD 2017 selective labels problem | 검토나 기존 의사결정 경로를 통과한 일부 사례에만 결과 라벨이 남아 있는 상태 |
 | 테스트 데이터 | 테스트 데이터 | test data | P2-5.3 | test-data | test-data | P2-5.3 source context | 학습에 직접 쓰지 않고 모델 성능 확인을 위해 따로 둔 데이터 |
-| 중위값 | 중위값 | median | P2-5.4 | median | median | P2-5.4 source context | 값을 크기순으로 정렬했을 때 가운데에 놓이는 값 |
 | 이상값 | 이상값 | outlier | P2-13.1 | outlier | outlier | P2-5.4 source context | 전체 값 흐름에서 유난히 멀리 떨어져 보이는 값 |
 | 표준편차 | 표준편차 | standard deviation | P2-5.5 | standard-deviation | standard-deviation | P2-5.5 source context | 분산의 제곱근으로 퍼짐을 원래 단위에 가깝게 읽는 값 |
 | 공분산 | 공분산 | covariance | P2-5.5 | covariance | covariance | P2-5.5 source context | 두 값이 함께 움직이는 방향을 보는 값 |
