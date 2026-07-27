@@ -13,8 +13,6 @@
 --8<-- "reference/concept-glossary-terms/data-structure.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/working-hypothesis.ko.md"
-
 --8<-- "reference/concept-glossary-terms/early-stopping.ko.md"
 
 --8<-- "reference/concept-glossary-terms/residual.ko.md"
