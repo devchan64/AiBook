@@ -41,8 +41,6 @@
 
 --8<-- "reference/concept-glossary-terms/rate-of-change.ko.md"
 
---8<-- "reference/concept-glossary-terms/augmentation.ko.md"
-
 
 
 
