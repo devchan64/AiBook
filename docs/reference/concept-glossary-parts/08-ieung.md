@@ -31,10 +31,6 @@
 
 --8<-- "reference/concept-glossary-terms/safe-reinforcement-learning.ko.md"
 
---8<-- "reference/concept-glossary-terms/safe-exploration.ko.md"
-
-
-
 --8<-- "reference/concept-glossary-terms/ai-application.ko.md"
 
 

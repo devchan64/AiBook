@@ -4,13 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/policy-gradient.zh.md"
-
-
-
-
-
-
 --8<-- "reference/concept-glossary-terms/calibration.zh.md"
 
 

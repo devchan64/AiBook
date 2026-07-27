@@ -38,8 +38,6 @@
 
 --8<-- "reference/concept-glossary-terms/actual-target.zh.md"
 
---8<-- "reference/concept-glossary-terms/safe-exploration.zh.md"
-
 --8<-- "reference/concept-glossary-terms/sim-to-real-gap.zh.md"
 
 --8<-- "reference/concept-glossary-terms/tree.zh.md"

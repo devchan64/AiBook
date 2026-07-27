@@ -5,10 +5,6 @@
 
 --8<-- "reference/concept-glossary-terms/causal-inference.zh.md"
 
---8<-- "reference/concept-glossary-terms/domain-randomization.zh.md"
-
-
-
 --8<-- "reference/concept-glossary-terms/sample.zh.md"
 
 --8<-- "reference/concept-glossary-terms/sampling-bias.zh.md"
