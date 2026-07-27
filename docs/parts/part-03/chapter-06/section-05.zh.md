@@ -115,7 +115,7 @@
 2. 能写出每个特征到底是在表示水平、变化、波动性，还是持续时间。
 3. 知道比起数字大小本身，`同一列相对基准线的变化` 可能更重要。
 
-因为特征表里的数字并不都在表达同一种大小，所以应先写清单位和角色，再通过同一列相对基准线的变化去读取。这一节与其说是在介绍缩放公式，不如说更接近于：在一张工作表里，应该如何进行 [跨异质尺度的角色感知阅读(role-aware reading across heterogeneous scales)](/AiBook/zh/reference/concept-glossary-pinyin/k/#glossary-role-aware-reading-across-heterogeneous-scales)。
+因为特征表里的数字并不都在表达同一种大小，所以应先写清单位和角色，再通过同一列相对基准线的变化去读取。这一节与其说是在介绍缩放公式，不如说更接近于：在一张工作表里，应该如何按角色读取不同测量尺度的数字。
 
 
 同样的问题也会出现在模型输入里。下面的例子使用同一个 [k-NN 模型](/AiBook/zh/reference/concept-glossary-pinyin/k/#glossary-k-nn)，但比较两种读法：不做尺度调整直接读取，以及用 `StandardScaler` 把各列调整到可比较尺度后再读取。

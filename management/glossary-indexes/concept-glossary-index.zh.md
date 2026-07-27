@@ -78,7 +78,6 @@
 | 样本偏差 | 样本偏差 | sampling bias | P2-5.3 | sampling-bias | sampling-bias | P2-5.3 source context | 观测样本不能很好代表总体并向某个方向倾斜的状态 |
 | 选择性标签 | 选择性标签 | selective labels | P3-8.6 | selective-labels | selective-labels | KDD 2017 selective labels problem | 只在经过既有复核或决策路径的部分案例上留下的结果标签 |
 | 验证数据 | 验证数据 | validation data | P2-6.2 | validation-data | validation-data | P2-6.2 source context | 在模型开发过程中用来检查和调整模型设置的数据 |
-| 跨异质尺度的角色感知阅读 | 跨异质尺度的角色感知阅读 | role-aware reading across heterogeneous scales | P3-6.5 | role-aware-reading-across-heterogeneous-scales | role-aware-reading-across-heterogeneous-scales | P3-6.5 source context | 按角色和相对基准线变化读取不同尺度的数值列 |
 | 原始数据 | 原始数据 | source data | P3-1.1 | source-data | source-data | P3-1.1 source context | 重新设计为分析或学习问题之前的起始记录 |
 | 源事件 | 源事件 | source event | P3-5.6 | source-event | source-event | P3-5.6 source context | 被切成输入窗口或汇总行之前实际发生的原始事件单位 |
 | 参考维护策略 | 参考维护策略 | reference maintenance strategy | P3-7.5 | reference-maintenance-strategy | reference-maintenance-strategy | P3-7.5 source context | 决定基准线或参考区间要固定还是随最近平时区间更新的运行选择 |

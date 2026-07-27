@@ -25,7 +25,6 @@
 | 근사 최근접 이웃 | 근사 최근접 이웃 | approximate nearest neighbor, ANN | P1-13.4 | ann-approximate-nearest-neighbor | ann-approximate-nearest-neighbor | vector search context | 정확한 최근접보다 빠른 후보 탐색을 우선하는 방식 |
 | 규칙 기반 접근 | 규칙 기반 접근 | rule-based approach | P1-2.1 | rule-based-approach | rule-based-approach | SEP logic and AI, AIMA | 규칙 기반 시스템보다 넓은 접근 층위 |
 | 궤적 | 궤적 | trajectory | P1-7.4 | trajectory | trajectory | motion planning survey | 시간·속도까지 포함한 실행 직전 움직임 계획 |
-| 누적 효과 | 누적 효과 | accumulation effect | P1-10.2 | accumulation-effect | accumulation-effect | P1-10.2 source context | 앞선 출력 선택이 뒤 생성 조건으로 계속 남는 현상 |
 | 딥 강화학습 | 딥 강화학습 | deep reinforcement learning | P1-8.3 | deep-reinforcement-learning | deep-reinforcement-learning | P1-8.3 source context | 딥러닝을 함수 근사 도구로 쓰는 강화학습 접근 |
 | 라벨이 있는 예시 | 라벨이 있는 예시 | labeled example | P1-8.1 | labeled-example | labeled-example | P1-8.1 source context | 입력과 정답 라벨이 함께 묶인 지도학습 사례 |
 | 라벨 일관성 | 라벨 일관성 | label consistency | P3-9.6 | label-consistency | label-consistency | P3-9.6 source context | 같은 사건이나 비슷한 조건에 같은 의미의 라벨이 반복해서 붙는 정도 |
@@ -49,7 +48,6 @@
 | 언어 모델링 | 언어 모델링 | language modeling | P1-9.3 | language-modeling | language-modeling | Bengio neural probabilistic language model | 단어·토큰 순서의 확률을 다루는 LLM 직접 계보의 문제 설정 |
 | 원천데이터 | 원천데이터 | source data | P3-1.1 | source-data | source-data | P3-1.1 source context | 분석이나 학습 문제로 다시 구성하기 전의 출발 기록 |
 | 개입 피드백 | 개입 피드백 | intervention feedback | P3-8.7 | intervention-feedback | intervention-feedback | P3-8.7 source context | 검토 규칙이나 운영 조치가 후속 데이터와 라벨을 바꾸는 되먹임 구조 |
-| 이질적 스케일의 역할별 읽기 | 이질적 스케일의 역할별 읽기 | role-aware reading across heterogeneous scales | P3-6.5 | role-aware-reading-across-heterogeneous-scales | role-aware-reading-across-heterogeneous-scales | P3-6.5 source context | 단위와 범위가 다른 숫자 열을 역할과 기준선 대비 변화로 읽는 관점 |
 | 결측값 | 결측값 | missing value | P3-5.5 | missing-value | missing-value | P3-5.5 source context | 있어야 할 위치에 관측값이나 기록값이 비어 있는 상태 |
 | 예측 계약 | 예측 계약 | prediction contract | P3-9.7 | prediction-contract | prediction-contract | P3-9.7 source context | 입력 정의, 결과 정의, 시점 가용성, 재현 가능성을 함께 닫는 예측 문제 약속 |
 | 오류 누적 | 오류 누적 | error accumulation | P1-10.2 | error-accumulation | error-accumulation | P1-10.2 source context | 앞 단계 오류가 뒤 생성 조건으로 남아 결과를 흔드는 현상 |
@@ -103,7 +101,6 @@
 | 확률적 예측 | 확률적 예측 | probabilistic prediction | P1-6.3 | probabilistic-prediction | probabilistic-prediction | Google ML Glossary probabilistic regression model | 가능한 결과의 범위나 가능성을 함께 표현하는 예측 |
 | 확률적 선택 | 확률적 선택 | probabilistic choice | P1-10.2 | probabilistic-choice | probabilistic-choice | P1-10.2 source context | 후보 분포에서 실제 출력 하나를 선택하는 과정 |
 | 키워드 검색 | 키워드 검색 | keyword search | P1-13.2 | keyword-search | keyword-search | information retrieval context | 단어나 구문 일치를 기준으로 후보를 찾는 검색 방식 |
-| 출력 정의 | 출력 정의 | output definition | P1-4.4 | output-definition | output-definition | P1-4.4 source context | 모델이 내야 하는 결과 형식과 의미 |
 | 평가 설계 | 평가 설계 | evaluation design | P3-9.13 | evaluation-design | evaluation-design | P3-9.13 source context | 문제 구조에 맞는 데이터 분할, 지표, 비교 조건을 정하는 평가 기준 설계 |
 | 논리적 추론 | 논리적 추론 | reasoning | P1-5.3 | reasoning | reasoning | P1-5.3 source context | 모델 실행과 구분해야 하는 논리적 사고 과정 |
 | 근거성 | 근거 | evidence | P1-12.3 | evidence | evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |

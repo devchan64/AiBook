@@ -8,8 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/k-nnk-nearest-neighbors.zh.md"
 
---8<-- "reference/concept-glossary-terms/role-aware-reading-across-heterogeneous-scales.zh.md"
-
 --8<-- "reference/concept-glossary-terms/reproducibility.zh.md"
 
 --8<-- "reference/concept-glossary-terms/visualization.zh.md"

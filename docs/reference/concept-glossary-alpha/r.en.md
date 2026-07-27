@@ -48,8 +48,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/repository.en.md"
 
---8<-- "reference/concept-glossary-terms/role-aware-reading-across-heterogeneous-scales.en.md"
-
 --8<-- "reference/concept-glossary-terms/rule-based-approach.en.md"
 
 --8<-- "reference/concept-glossary-terms/representation.en.md"

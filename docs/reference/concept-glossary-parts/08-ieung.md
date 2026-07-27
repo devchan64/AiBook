@@ -101,8 +101,6 @@
 --8<-- "reference/concept-glossary-terms/error-accumulation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/role-aware-reading-across-heterogeneous-scales.ko.md"
-
 --8<-- "reference/concept-glossary-terms/decision.ko.md"
 
 --8<-- "reference/concept-glossary-terms/end-to-end-learning.ko.md"

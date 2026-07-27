@@ -115,7 +115,7 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 2. 각 특징이 수준, 변화, 변동성, 시간 길이 중 무엇을 뜻하는지 적을 수 있다.
 3. 숫자 크기 자체보다 `같은 열의 기준선 대비 변화`가 더 중요할 수 있음을 안다.
 
-특징 표의 숫자들은 모두 같은 종류의 크기를 말하지 않으므로, 단위와 역할을 먼저 적고 같은 열의 기준선 대비 변화로 읽어야 합니다. 이 절은 스케일 공식 소개가 아니라, [서로 다른 측정 축을 한 작업 표 안에서 어떻게 역할별로 읽을 것인가(role-aware reading across heterogeneous scales)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-role-aware-reading-across-heterogeneous-scales)의 문제로 다시 볼 수 있습니다.
+특징 표의 숫자들은 모두 같은 종류의 크기를 말하지 않으므로, 단위와 역할을 먼저 적고 같은 열의 기준선 대비 변화로 읽어야 합니다. 이 절은 스케일 공식 소개가 아니라, 서로 다른 측정 축을 한 작업 표 안에서 어떻게 역할별로 읽을 것인가의 문제로 다시 볼 수 있습니다.
 
 
 같은 문제는 모델 입력에서도 드러납니다. 아래 예제는 같은 [k-NN(k-nearest neighbors)](../../../reference/concept-glossary-parts/10-kieuk.md#glossary-k-nn) 모델을 쓰되, 스케일 조정 없이 읽을 때와 `StandardScaler`로 각 열을 같은 비교 눈금으로 맞춘 뒤 읽을 때 최근접 이웃이 어떻게 달라지는지 보여 줍니다.

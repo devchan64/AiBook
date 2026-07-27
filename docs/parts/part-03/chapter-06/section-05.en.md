@@ -115,7 +115,7 @@ So Part 3's responsibility reaches this far.
 2. Be able to write whether each feature means level, change, variability, or duration.
 3. Know that the raw size of the number itself can matter less than `the difference from baseline inside the same column`.
 
-Because the numbers in a feature table do not all describe the same kind of magnitude, we should first write down the unit and role, and then read them through the baseline-relative change of the same column. This section can be read not as an introduction to scaling formulas, but as the problem of [role-aware reading across heterogeneous scales](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-role-aware-reading-across-heterogeneous-scales) inside one working table.
+Because the numbers in a feature table do not all describe the same kind of magnitude, we should first write down the unit and role, and then read them through the baseline-relative change of the same column. This section can be read not as an introduction to scaling formulas, but as the problem of role-aware reading across different measurement scales inside one working table.
 
 
 The same issue appears in model input. The next example uses the same [k-NN model](/AiBook/en/reference/concept-glossary-alpha/k/#glossary-k-nn), but compares reading the features without scaling and reading them after `StandardScaler` puts each column onto a comparable scale.
