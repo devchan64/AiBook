@@ -10,13 +10,7 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/objective-function.en.md"
 
---8<-- "reference/concept-glossary-terms/off-policy.en.md"
 
---8<-- "reference/concept-glossary-terms/offline-reinforcement-learning.en.md"
-
-
-
---8<-- "reference/concept-glossary-terms/on-policy.en.md"
 
 --8<-- "reference/concept-glossary-terms/observation.en.md"
 

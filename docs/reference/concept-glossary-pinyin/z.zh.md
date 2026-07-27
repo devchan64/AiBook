@@ -21,8 +21,6 @@
 
 --8<-- "reference/concept-glossary-terms/automatic-differentiation.zh.md"
 
---8<-- "reference/concept-glossary-terms/on-policy.zh.md"
-
 --8<-- "reference/concept-glossary-terms/recall.zh.md"
 
 --8<-- "reference/concept-glossary-terms/regularization.zh.md"

@@ -7,8 +7,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/safety.en.md"
 
---8<-- "reference/concept-glossary-terms/safe-reinforcement-learning.en.md"
-
 --8<-- "reference/concept-glossary-terms/sim-to-real-gap.en.md"
 
 --8<-- "reference/concept-glossary-terms/source-data.en.md"

@@ -27,10 +27,6 @@
 
 --8<-- "reference/concept-glossary-terms/ai-safety.ko.md"
 
---8<-- "reference/concept-glossary-terms/offline-reinforcement-learning.ko.md"
-
---8<-- "reference/concept-glossary-terms/safe-reinforcement-learning.ko.md"
-
 --8<-- "reference/concept-glossary-terms/ai-application.ko.md"
 
 
@@ -53,10 +49,6 @@
 --8<-- "reference/concept-glossary-terms/external-resource.ko.md"
 
 
-
---8<-- "reference/concept-glossary-terms/off-policy.ko.md"
-
---8<-- "reference/concept-glossary-terms/on-policy.ko.md"
 
 
 
