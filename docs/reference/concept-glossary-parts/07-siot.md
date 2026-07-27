@@ -100,8 +100,6 @@
 --8<-- "reference/concept-glossary-terms/approval-policy.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/approval.ko.md"
-
 --8<-- "reference/concept-glossary-terms/visualization.ko.md"
 
 --8<-- "reference/concept-glossary-terms/confidence-level.ko.md"

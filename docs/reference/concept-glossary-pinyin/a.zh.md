@@ -36,8 +36,6 @@
 
 --8<-- "reference/concept-glossary-terms/application.zh.md"
 
---8<-- "reference/concept-glossary-terms/approval.zh.md"
-
 --8<-- "reference/concept-glossary-terms/approval-policy.zh.md"
 
 --8<-- "reference/concept-glossary-terms/argument.zh.md"

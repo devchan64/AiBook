@@ -44,8 +44,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/application.en.md"
 
---8<-- "reference/concept-glossary-terms/approval.en.md"
-
 --8<-- "reference/concept-glossary-terms/approval-policy.en.md"
 
 --8<-- "reference/concept-glossary-terms/argument.en.md"
