@@ -4,7 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/hallucination.zh.md"
 
---8<-- "reference/concept-glossary-terms/hand-crafted-features.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/hessian.zh.md"

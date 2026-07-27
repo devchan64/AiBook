@@ -19,7 +19,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/feature-selection.en.md"
 
---8<-- "reference/concept-glossary-terms/feature-scale.en.md"
 
 --8<-- "reference/concept-glossary-terms/feature-space.en.md"
 

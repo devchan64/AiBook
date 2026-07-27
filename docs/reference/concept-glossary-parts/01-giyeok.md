@@ -2,7 +2,6 @@
 
 --8<-- "reference/concept-glossary-terms/additive-model.ko.md"
 
---8<-- "reference/concept-glossary-terms/high-cardinality-feature.ko.md"
 
 --8<-- "reference/concept-glossary-terms/validation-data.ko.md"
 

@@ -44,6 +44,5 @@
 
 --8<-- "reference/concept-glossary-terms/feature-selection.ko.md"
 
---8<-- "reference/concept-glossary-terms/feature-scale.ko.md"
 
 --8<-- "reference/concept-glossary-terms/feature.ko.md"

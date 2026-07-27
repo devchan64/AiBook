@@ -9,7 +9,6 @@
 --8<-- "reference/concept-glossary-terms/plot.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/feature-scale.zh.md"
 
 --8<-- "reference/concept-glossary-terms/feature-space.zh.md"
 

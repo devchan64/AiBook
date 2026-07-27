@@ -8,7 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/recurrent-neural-network.zh.md"
 
---8<-- "reference/concept-glossary-terms/correlated-features.zh.md"
 
 --8<-- "reference/concept-glossary-terms/vector.zh.md"
 

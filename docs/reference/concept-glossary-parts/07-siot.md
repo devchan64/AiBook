@@ -3,7 +3,6 @@
 
 --8<-- "reference/concept-glossary-terms/spectral-clustering.ko.md"
 
---8<-- "reference/concept-glossary-terms/correlated-features.ko.md"
 
 --8<-- "reference/concept-glossary-terms/self-consistency.ko.md"
 
@@ -72,7 +71,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/convergence.ko.md"
---8<-- "reference/concept-glossary-terms/hand-crafted-features.ko.md"
 
 --8<-- "reference/concept-glossary-terms/numerical-stability.ko.md"
 

@@ -35,7 +35,6 @@
 | 모션 플래닝 | 모션 플래닝 | motion planning | P1-7.4 | motion-planning | motion-planning | Motion Planning for Autonomous Driving survey | 실행 가능한 움직임 후보를 만들고 평가하는 계획 문제 |
 | 모델링 과제 | 모델링 과제 | modeling task | P1-4.4 | modeling-task | modeling-task | Google ML Glossary task | 현실 목표를 입력·출력 계산 문제로 좁힌 형태 |
 | RLHF | RLHF | reinforcement learning from human feedback | P1-8.3 | rlhf-reinforcement-learning-from-human-feedback | rlhf-reinforcement-learning-from-human-feedback | P1-8.3 source context | 사람 피드백을 보상 신호처럼 쓰는 LLM 조정 접근 |
-| 수작업 특징 | 수작업 특징 | hand-crafted features | P1-9.1 | hand-crafted-features | hand-crafted-features | face recognition survey, representation learning review | 사람이 미리 설계한 입력 단서 |
 | 알고리즘 | 알고리즘 | algorithm | P4-3.1 | algorithm | algorithm | AIMA, P4-3.1 source context | 문제를 풀기 위해 정해진 순서대로 수행하는 절차 |
 | 순차 모델링 | 순차 모델링 | sequence modeling | P1-9.3 | sequence-modeling | sequence-modeling | Seq2Seq, Attention, Transformer papers | 순서 있는 데이터의 관계와 생성을 다루는 문제 설정 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |

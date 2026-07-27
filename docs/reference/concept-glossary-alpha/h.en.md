@@ -2,11 +2,9 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
---8<-- "reference/concept-glossary-terms/high-cardinality-feature.en.md"
 
 --8<-- "reference/concept-glossary-terms/hallucination.en.md"
 
---8<-- "reference/concept-glossary-terms/hand-crafted-features.en.md"
 
 
 --8<-- "reference/concept-glossary-terms/hierarchical-clustering.en.md"
