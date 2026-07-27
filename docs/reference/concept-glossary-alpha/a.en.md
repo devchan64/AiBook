@@ -10,7 +10,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/action-value.en.md"
 
---8<-- "reference/concept-glossary-terms/actor-critic.en.md"
 
 --8<-- "reference/concept-glossary-terms/additive-model.en.md"
 

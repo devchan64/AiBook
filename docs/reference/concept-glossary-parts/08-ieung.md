@@ -8,7 +8,6 @@
 --8<-- "reference/concept-glossary-terms/ensemble.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/actor-critic.ko.md"
 
 --8<-- "reference/concept-glossary-terms/algorithm.ko.md"
 
@@ -58,7 +57,6 @@
 --8<-- "reference/concept-glossary-terms/external-resource.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/epsilon-greedy-policy.ko.md"
 
 --8<-- "reference/concept-glossary-terms/off-policy.ko.md"
 
