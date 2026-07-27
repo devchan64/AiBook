@@ -131,7 +131,6 @@
 | 저작권의 표현 | 저작권의 표현 | protected expression | P1-15.2 | protected-expression | protected-expression | copyright expression/idea distinction | 아이디어·사실과 구분되는 구체적 창작 표현 |
 | 출처 표시 | 출처 표시 | attribution | P1-15.2 | attribution | attribution | Korean Copyright Act Article 37 context | 외부 자료의 저자·기관·제목·URL·확인 날짜를 남기는 일 |
 | 라이선스 | 라이선스 | license | P1-15.2 | license | license | copyright licensing context | 자료 사용 조건과 허락 범위를 정한 규칙 |
-| 사실 | 사실 | fact | P1-10.3 | fact | fact | information integrity context | 참거짓을 확인할 수 있는 현실 주장 |
 | 학습 데이터 | 학습 데이터 | training data | P1-15.2 | training-data | training-data | P1-15.2, P2-15.2 source context | 모델이 패턴이나 규칙을 배우는 데 직접 사용하는 데이터 |
 | 권리자 | 권리자 | rightsholder | P1-15.2 | rightsholder | rightsholder | copyright rightsholder context | 저작물이나 자료의 이용 권리를 가진 사람이나 기관 |
 | 공정 이용 | 공정 이용 | fair use | P1-15.2 | fair-use | fair-use | U.S. Copyright Office AI reports | 저작물의 제한적 이용 가능성을 여러 요소로 보는 법적 개념 |

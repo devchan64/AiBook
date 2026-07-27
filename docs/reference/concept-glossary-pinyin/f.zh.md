@@ -4,8 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/split.zh.md"
 
---8<-- "reference/concept-glossary-terms/fact.zh.md"
-
 --8<-- "reference/concept-glossary-terms/factual-claim.zh.md"
 
 --8<-- "reference/concept-glossary-terms/factuality.zh.md"

@@ -4,8 +4,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/feature-importance.en.md"
 
---8<-- "reference/concept-glossary-terms/fact.en.md"
-
 --8<-- "reference/concept-glossary-terms/factual-claim.en.md"
 
 --8<-- "reference/concept-glossary-terms/factuality.en.md"
