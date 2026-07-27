@@ -8,7 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/data.zh.md"
 
---8<-- "reference/concept-glossary-terms/log-probability.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/multinomial-logistic-regression.zh.md"

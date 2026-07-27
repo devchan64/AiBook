@@ -25,7 +25,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/sampling.en.md"
 
---8<-- "reference/concept-glossary-terms/subsampling.en.md"
 
 --8<-- "reference/concept-glossary-terms/scalar.en.md"
 

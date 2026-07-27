@@ -1,6 +1,5 @@
 ## ㅎ
 
---8<-- "reference/concept-glossary-terms/hessian.ko.md"
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.ko.md"
 

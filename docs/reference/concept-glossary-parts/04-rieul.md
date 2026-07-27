@@ -25,9 +25,7 @@
 
 --8<-- "reference/concept-glossary-terms/log-loss.ko.md"
 
---8<-- "reference/concept-glossary-terms/log-probability.ko.md"
 
---8<-- "reference/concept-glossary-terms/log-odds.ko.md"
 
 --8<-- "reference/concept-glossary-terms/logistic-regression.ko.md"
 

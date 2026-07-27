@@ -68,7 +68,6 @@
 --8<-- "reference/concept-glossary-terms/on-policy.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/n-gram.ko.md"
 
 --8<-- "reference/concept-glossary-terms/backpropagation.ko.md"
 

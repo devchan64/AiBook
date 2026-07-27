@@ -6,7 +6,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/hessian.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/function-approximation.zh.md"

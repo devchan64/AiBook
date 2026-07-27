@@ -4,7 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/bootstrap.ko.md"
 
---8<-- "reference/concept-glossary-terms/subsampling.ko.md"
 
 --8<-- "reference/concept-glossary-terms/distributed-training.ko.md"
 

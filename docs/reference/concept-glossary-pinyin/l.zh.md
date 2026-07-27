@@ -37,7 +37,6 @@
 
 --8<-- "reference/concept-glossary-terms/log-loss.zh.md"
 
---8<-- "reference/concept-glossary-terms/log-odds.zh.md"
 
 --8<-- "reference/concept-glossary-terms/logistic-regression.zh.md"
 

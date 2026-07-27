@@ -37,9 +37,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/log-loss.en.md"
 
---8<-- "reference/concept-glossary-terms/log-probability.en.md"
 
---8<-- "reference/concept-glossary-terms/log-odds.en.md"
 
 --8<-- "reference/concept-glossary-terms/logistic-regression.en.md"
 
