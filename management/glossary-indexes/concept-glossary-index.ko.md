@@ -19,7 +19,6 @@
 | 기준선 | 기준선 | baseline | P3-7.3 | baseline | baseline | BLS base period, NCI baseline context | 현재 값이나 모델 점수를 단독으로 읽지 않기 위해 두는 참조 기준 |
 | 혼동 행렬 | 혼동 행렬 | confusion matrix | P4-6.1 | confusion-matrix | confusion-matrix | P4-6.1 source context | 실제 라벨과 예측 라벨의 조합으로 분류 오류 방향을 읽는 표 |
 | 군집 | 군집 | cluster | P1-8.2 | cluster | cluster | P1-8.2 source context | 알고리즘이 찾은 묶음이며 지도학습 라벨과 구분 |
-| k-평균 | k-평균 | k-means | P1-8.2 | k-means | k-means | P1-8.2 source context | k개의 중심점을 반복 갱신하는 군집화 알고리즘 |
 | 강화학습 환경 | 강화학습 환경 | reinforcement learning environment | P1-8.3 | reinforcement-learning-environment | reinforcement-learning-environment | 단어별 원고 기준 | 강화학습 에이전트가 행동하고 상태 변화와 보상을 돌려받는 상호작용 대상 |
 | 근사 검색 | 근사 검색 | approximate search | P1-13.4 | approximate-search | approximate-search | ANN context | 충분히 가까운 후보를 빠르게 찾는 검색 절충 |
 | 근사 최근접 이웃 | 근사 최근접 이웃 | approximate nearest neighbor, ANN | P1-13.4 | ann-approximate-nearest-neighbor | ann-approximate-nearest-neighbor | vector search context | 정확한 최근접보다 빠른 후보 탐색을 우선하는 방식 |

@@ -32,7 +32,6 @@
 
 --8<-- "reference/concept-glossary-terms/dataset.ko.md"
 
---8<-- "reference/concept-glossary-terms/dbscan.ko.md"
 
 --8<-- "reference/concept-glossary-terms/tool-use.ko.md"
 

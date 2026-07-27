@@ -31,7 +31,6 @@
 --8<-- "reference/concept-glossary-terms/classification.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/hierarchical-clustering.zh.md"
 
 --8<-- "reference/concept-glossary-terms/cluster.zh.md"
 
