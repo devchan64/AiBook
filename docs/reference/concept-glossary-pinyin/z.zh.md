@@ -6,8 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/early-stopping.zh.md"
 
---8<-- "reference/concept-glossary-terms/histogram-binning.zh.md"
-
 --8<-- "reference/concept-glossary-terms/subsampling.zh.md"
 
 --8<-- "reference/concept-glossary-terms/support-vector-machine.zh.md"

@@ -2,8 +2,6 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
---8<-- "reference/concept-glossary-terms/mean-decrease-in-impurity-mdi.en.md"
-
 --8<-- "reference/concept-glossary-terms/machine-learning.en.md"
 
 --8<-- "reference/concept-glossary-terms/mapping.en.md"

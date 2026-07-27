@@ -30,8 +30,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/histogram.en.md"
 
---8<-- "reference/concept-glossary-terms/histogram-binning.en.md"
-
 --8<-- "reference/concept-glossary-terms/hold-state.en.md"
 
 --8<-- "reference/concept-glossary-terms/host.en.md"
