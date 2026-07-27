@@ -112,7 +112,7 @@
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
 | RAG | 검색 증강 생성 | retrieval-augmented generation | P1-13.3 | retrieval-augmented-generation-rag | retrieval-augmented-generation-rag | RAG paper | 검색한 외부 자료를 생성 입력에 붙이는 구조 |
 | AI 앱 | AI 앱 | application | P1-14.1 | application | application | P1-14.1 source context | 일반 앱이 아니라 모델·도구·데이터를 묶어 사용자가 만나는 AI 서비스 표면 |
-| 외부 도구 | 외부 도구 | external tool | P1-14.1 | tool | tool | P1-14.1 source context | 모델이나 AI 앱이 연결해 쓰는 모델 밖 실행 기능 |
+| 외부 도구 | 외부 도구 | external tool | P1-14.1 | external-tool | external-tool | P1-14.1 source context | 모델이나 AI 앱이 연결해 쓰는 모델 밖 실행 기능 |
 | 오케스트레이션 | 오케스트레이션 | orchestration | P1-14.1 | orchestration | orchestration | P1-14.1 source context | 모델, 데이터, 도구, 앱을 순서와 조건으로 연결하는 제어 층 |
 | 도구 사용 | 도구 사용 | tool use | P1-14.2 | tool-use | tool-use | P1-14.2 source context | 외부 시스템 기능을 호출해 조회·실행·상태 변경을 일으키는 구조 |
 | 외부 시스템 | 외부 시스템 | external system | P1-14.2 | external-system | external-system | P1-14.2 source context | 도구 사용으로 연결되는 바깥 서비스·파일·데이터베이스·API |

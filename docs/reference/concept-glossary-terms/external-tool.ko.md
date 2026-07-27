@@ -1,4 +1,4 @@
-<a id="tool"></a>
+<a id="external-tool"></a>
 
 ### 외부 도구(external tool)
 
