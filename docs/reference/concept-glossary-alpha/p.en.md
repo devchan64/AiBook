@@ -48,7 +48,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/preference-optimization.en.md"
 
---8<-- "reference/concept-glossary-terms/pruning.en.md"
 
 --8<-- "reference/concept-glossary-terms/proxy-target.en.md"
 

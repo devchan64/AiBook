@@ -2,7 +2,6 @@
 
 This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
---8<-- "reference/concept-glossary-terms/shrinkage.en.md"
 
 <a id="safety"></a>
 
@@ -33,10 +32,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/sigmoid.en.md"
 
---8<-- "reference/concept-glossary-terms/soft-margin.en.md"
 
 
---8<-- "reference/concept-glossary-terms/support-vector.en.md"
 
 --8<-- "reference/concept-glossary-terms/model-score.en.md"
 

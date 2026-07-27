@@ -104,7 +104,6 @@
 
 --8<-- "reference/concept-glossary-terms/overfitting.ko.md"
 
---8<-- "reference/concept-glossary-terms/pruning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/trajectory.ko.md"
 

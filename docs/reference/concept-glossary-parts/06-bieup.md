@@ -1,7 +1,6 @@
 ## ㅂ
 
 
---8<-- "reference/concept-glossary-terms/impurity.ko.md"
 
 --8<-- "reference/concept-glossary-terms/bootstrap.ko.md"
 

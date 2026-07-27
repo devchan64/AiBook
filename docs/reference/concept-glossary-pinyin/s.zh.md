@@ -23,7 +23,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/shrinkage.zh.md"
 
 --8<-- "reference/concept-glossary-terms/random-forest.zh.md"
 

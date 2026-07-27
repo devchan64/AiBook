@@ -2,7 +2,6 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
---8<-- "reference/concept-glossary-terms/impurity.en.md"
 
 --8<-- "reference/concept-glossary-terms/image-recognition.en.md"
 

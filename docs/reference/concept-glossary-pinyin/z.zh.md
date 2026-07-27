@@ -10,7 +10,6 @@
 
 --8<-- "reference/concept-glossary-terms/support-vector-machine.zh.md"
 
---8<-- "reference/concept-glossary-terms/support-vector.zh.md"
 
 
 

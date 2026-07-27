@@ -1,6 +1,5 @@
 ## ㅅ
 
---8<-- "reference/concept-glossary-terms/shrinkage.ko.md"
 
 --8<-- "reference/concept-glossary-terms/spectral-clustering.ko.md"
 
@@ -10,9 +9,7 @@
 
 --8<-- "reference/concept-glossary-terms/preference-optimization.ko.md"
 
---8<-- "reference/concept-glossary-terms/soft-margin.ko.md"
 
---8<-- "reference/concept-glossary-terms/support-vector.ko.md"
 
 
 

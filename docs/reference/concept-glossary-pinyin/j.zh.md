@@ -34,7 +34,6 @@
 
 --8<-- "reference/concept-glossary-terms/ensemble.zh.md"
 
---8<-- "reference/concept-glossary-terms/pruning.zh.md"
 
 --8<-- "reference/concept-glossary-terms/precision.zh.md"
 

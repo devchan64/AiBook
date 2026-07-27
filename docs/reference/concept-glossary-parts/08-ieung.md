@@ -1,6 +1,5 @@
 ## ㅇ
 
---8<-- "reference/concept-glossary-terms/weak-learner.ko.md"
 
 --8<-- "reference/concept-glossary-terms/umap.ko.md"
 

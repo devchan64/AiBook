@@ -5,9 +5,7 @@
 --8<-- "reference/concept-glossary-terms/reinforce.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/weak-learner.zh.md"
 
---8<-- "reference/concept-glossary-terms/soft-margin.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/reconstruction-error.zh.md"
