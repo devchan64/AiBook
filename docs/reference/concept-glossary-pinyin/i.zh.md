@@ -18,8 +18,6 @@
 
 --8<-- "reference/concept-glossary-terms/information-retrieval.zh.md"
 
---8<-- "reference/concept-glossary-terms/information-loss.zh.md"
-
 --8<-- "reference/concept-glossary-terms/input.zh.md"
 
 
