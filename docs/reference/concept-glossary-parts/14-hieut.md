@@ -17,8 +17,6 @@
 
 --8<-- "reference/concept-glossary-terms/learned-representation.ko.md"
 
---8<-- "reference/concept-glossary-terms/learning-rate.ko.md"
-
 --8<-- "reference/concept-glossary-terms/function.ko.md"
 
 --8<-- "reference/concept-glossary-terms/function-approximation.ko.md"

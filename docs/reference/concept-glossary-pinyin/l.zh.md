@@ -18,8 +18,6 @@
 --8<-- "reference/concept-glossary-terms/chain-rule.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/learning-rate.zh.md"
-
 
 --8<-- "reference/concept-glossary-terms/least-privilege.zh.md"
 

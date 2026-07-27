@@ -15,8 +15,6 @@
 
 --8<-- "reference/concept-glossary-terms/chunk.ko.md"
 
---8<-- "reference/concept-glossary-terms/initialization.ko.md"
-
 --8<-- "reference/concept-glossary-terms/nearest-neighbor.ko.md"
 
 --8<-- "reference/concept-glossary-terms/least-privilege.ko.md"

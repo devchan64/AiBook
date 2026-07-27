@@ -15,8 +15,6 @@
 
 --8<-- "reference/concept-glossary-terms/optimization.zh.md"
 
---8<-- "reference/concept-glossary-terms/optimizer.zh.md"
-
 --8<-- "reference/concept-glossary-terms/outlier.zh.md"
 
 --8<-- "reference/concept-glossary-terms/preprocessing.zh.md"

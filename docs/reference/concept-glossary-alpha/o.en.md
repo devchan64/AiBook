@@ -20,8 +20,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/optimization.en.md"
 
---8<-- "reference/concept-glossary-terms/optimizer.en.md"
-
 --8<-- "reference/concept-glossary-terms/orchestration.en.md"
 
 

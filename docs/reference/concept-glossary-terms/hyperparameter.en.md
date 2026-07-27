@@ -2,7 +2,7 @@
 
 ## hyperparameter
 
-- Meaning: A hyperparameter is a setting chosen before training that controls how a model is trained or shaped. Examples include learning rate, number of layers, tree depth, and other values adjusted from outside the learned model parameters.
+- Meaning: A hyperparameter is a setting chosen before training that controls how a model is trained or shaped. Examples include update step size, number of layers, tree depth, and other values adjusted from outside the learned model parameters.
 - Why it matters: Hyperparameters are different from parameters learned from data. The distinction helps readers understand tuning, validation, and whether a performance change came from learned internal values or from the conditions under which training was run.
 - Related concepts: `parameter`, `tuning`, `validation`
 - Core Section: `P4-9.1`

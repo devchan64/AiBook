@@ -85,8 +85,6 @@
 
 --8<-- "reference/concept-glossary-terms/orchestration.ko.md"
 
---8<-- "reference/concept-glossary-terms/optimizer.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/exhaustive-search.ko.md"
 
