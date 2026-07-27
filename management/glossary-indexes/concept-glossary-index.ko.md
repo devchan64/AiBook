@@ -51,7 +51,6 @@
 | 개입 피드백 | 개입 피드백 | intervention feedback | P3-8.7 | intervention-feedback | intervention-feedback | P3-8.7 source context | 검토 규칙이나 운영 조치가 후속 데이터와 라벨을 바꾸는 되먹임 구조 |
 | 이질적 스케일의 역할별 읽기 | 이질적 스케일의 역할별 읽기 | role-aware reading across heterogeneous scales | P3-6.5 | role-aware-reading-across-heterogeneous-scales | role-aware-reading-across-heterogeneous-scales | P3-6.5 source context | 단위와 범위가 다른 숫자 열을 역할과 기준선 대비 변화로 읽는 관점 |
 | 결측값 | 결측값 | missing value | P3-5.5 | missing-value | missing-value | P3-5.5 source context | 있어야 할 위치에 관측값이나 기록값이 비어 있는 상태 |
-| 이웃 보존 신뢰도 | 이웃 보존 신뢰도 | trustworthiness | P4-18.2 | trustworthiness | trustworthiness | 단어별 원고 기준 | 차원 축소 시각화에서 원래 이웃 관계가 보존되는 정도를 보는 지표 |
 | 예측 계약 | 예측 계약 | prediction contract | P3-9.7 | prediction-contract | prediction-contract | P3-9.7 source context | 입력 정의, 결과 정의, 시점 가용성, 재현 가능성을 함께 닫는 예측 문제 약속 |
 | 오류 누적 | 오류 누적 | error accumulation | P1-10.2 | error-accumulation | error-accumulation | P1-10.2 source context | 앞 단계 오류가 뒤 생성 조건으로 남아 결과를 흔드는 현상 |
 | 오류 비용 | 오류 비용 | error cost | P3-9.12 | error-cost | error-cost | Google ML Glossary thresholding, P3-9.12 source context | 오류 종류별 실제 부담을 다르게 두고 임계값과 판단 방향을 읽는 기준 |

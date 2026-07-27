@@ -6,8 +6,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/t-sne.en.md"
 
---8<-- "reference/concept-glossary-terms/trustworthiness.en.md"
-
 --8<-- "reference/concept-glossary-terms/trpo.en.md"
 
 <a id="glossary-target"></a>

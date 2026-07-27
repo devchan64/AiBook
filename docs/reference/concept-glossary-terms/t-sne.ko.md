@@ -4,6 +4,6 @@
 
 - 뜻: 원래 고차원 공간에서 가까운 이웃 관계가 저차원 그림에서도 비슷하게 보이도록 점의 위치를 조정하는 차원 축소 시각화 방법입니다.
 - 왜 중요한가: t-SNE는 국소 덩어리를 또렷하게 보여 줄 수 있지만, 덩어리 사이 거리나 전체 배치를 그대로 믿으면 해석 오류가 생길 수 있습니다. 그래서 `가까운 이웃 구조 힌트`와 `전체 거리 해석`을 구분해 읽어야 합니다.
-- 함께 볼 개념: `차원 축소(dimensionality reduction)`, `최근접 이웃(nearest neighbor)`, `이웃 보존 신뢰도(trustworthiness)`
+- 함께 볼 개념: `차원 축소(dimensionality reduction)`, `최근접 이웃(nearest neighbor)`
 - 중심 Section: `P4-18.2`
 - 등장 Section:

@@ -157,9 +157,6 @@
 --8<-- "reference/concept-glossary-terms/quotation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/trustworthiness.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/credential.ko.md"
 
 

@@ -34,6 +34,4 @@
 
 --8<-- "reference/concept-glossary-terms/t-sne.zh.md"
 
---8<-- "reference/concept-glossary-terms/trustworthiness.zh.md"
-
 --8<-- "reference/concept-glossary-terms/trpo.zh.md"
