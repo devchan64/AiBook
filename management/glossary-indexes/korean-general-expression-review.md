@@ -404,7 +404,6 @@
 | 완료 | 누적 | `accumulation` | 반복 누적 | 일반 누적 상태가 아니라 반복 계산 중 결과를 계속 쌓는 패턴으로 범위를 좁혔다. |
 | 완료 | 출력 구조 | `output-structure` | 모델 출력 구조 | 일반 출력 형식이 아니라 계산 결과를 문제 결과로 내보내는 모델링 설계 틀로 범위를 좁혔다. |
 | 완료 | automatic prompt optimization | `automatic-prompt-optimization` | 자동 프롬프트 최적화 | 한국어 개념사전의 표제이므로 영문 단독 표제 대신 한국어 대표 표제어를 세웠다. |
-| 완료 | trustworthiness | `trustworthiness` | 이웃 보존 신뢰도 | 일반 신뢰성이 아니라 차원 축소 시각화에서 원래 이웃 관계가 보존되는 정도를 보는 지표로 표제를 세웠다. |
 | 완료 | reasoning | `reasoning` | 논리적 추론 | 한국어 개념사전의 표제이므로 영문 단독 표제 대신 `inference`와 구분되는 reasoning 문맥의 한국어 대표 표제어를 세웠다. |
 
 ## 후속 작업 순서
