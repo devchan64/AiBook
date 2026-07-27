@@ -119,7 +119,6 @@
 | 외부 시스템 | 외부 시스템 | external system | P1-14.2 | external-system | external-system | P1-14.2 source context | 도구 호출로 연결되는 바깥 서비스·파일·데이터베이스·API |
 | 권한 | 권한 | permission | P7-6.2 | permission | permission | P1-14.2 source context | 실행 가능한 범위와 접근 한계를 미리 정한 통제 장치 |
 | AI 에이전트 | AI 에이전트 | AI agent | P1-14.3 | ai-agent | ai-agent | P1-14.3 source context | 목표, 상태, 관찰, 행동을 이어 가며 작업을 수행하는 AI 시스템 문맥의 실행 구조 |
-| 에이전트 목표 | 에이전트 목표 | agent goal | P1-14.3 | goal | goal | P1-14.3 source context | AI 에이전트 실행과 종료 판단의 기준이 되는 작업 상태 |
 | 상태 표현 | 상태 표현 | state | P1-7.1 | state | state | P1-14.3 source context | 다음 행동 판단에 쓰는 현재 상황 정보의 요약 표현 |
 | 에이전트 행동 | 에이전트 행동 | action | P1-8.3 | action | action | P1-14.3 source context | AI 에이전트나 강화학습 에이전트가 상태를 바꾸기 위해 선택하는 실행 단위 |
 | 관찰 결과 | 관찰 결과 | observation | P1-14.3 | observation | observation | P1-14.3 source context | 행동 뒤 돌아와 다음 판단에 쓰는 새 정보나 결과 |

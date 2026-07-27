@@ -32,8 +32,6 @@
 
 --8<-- "reference/concept-glossary-terms/shared-view.zh.md"
 
---8<-- "reference/concept-glossary-terms/goal.zh.md"
-
 --8<-- "reference/concept-glossary-terms/good-enough-solution.zh.md"
 
 --8<-- "reference/concept-glossary-terms/format-consistency.zh.md"

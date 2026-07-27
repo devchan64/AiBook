@@ -58,8 +58,6 @@
 
 --8<-- "reference/concept-glossary-terms/ai-agent.ko.md"
 
---8<-- "reference/concept-glossary-terms/goal.ko.md"
-
 --8<-- "reference/concept-glossary-terms/external-system.ko.md"
 
 --8<-- "reference/concept-glossary-terms/resource.ko.md"

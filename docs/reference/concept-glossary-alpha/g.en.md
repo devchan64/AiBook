@@ -10,8 +10,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/generative-model.en.md"
 
---8<-- "reference/concept-glossary-terms/goal.en.md"
-
 --8<-- "reference/concept-glossary-terms/good-enough-solution.en.md"
 
 --8<-- "reference/concept-glossary-terms/gpt.en.md"
