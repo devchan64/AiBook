@@ -60,7 +60,7 @@
 
 --8<-- "reference/concept-glossary-terms/external-system.ko.md"
 
---8<-- "reference/concept-glossary-terms/resource.ko.md"
+--8<-- "reference/concept-glossary-terms/external-resource.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/epsilon-greedy-policy.ko.md"

@@ -1,4 +1,4 @@
-<a id="resource"></a>
+<a id="external-resource"></a>
 
 ### 외부 리소스(external resource)
 

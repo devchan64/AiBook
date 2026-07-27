@@ -115,14 +115,14 @@
 | 외부 도구 | 외부 도구 | external tool | P1-14.1 | tool | tool | P1-14.1 source context | 모델이나 AI 앱이 연결해 쓰는 모델 밖 실행 기능 |
 | 오케스트레이션 | 오케스트레이션 | orchestration | P1-14.1 | orchestration | orchestration | P1-14.1 source context | 모델, 데이터, 도구, 앱을 순서와 조건으로 연결하는 제어 층 |
 | 도구 사용 | 도구 사용 | tool use | P1-14.2 | tool-use | tool-use | P1-14.2 source context | 외부 시스템 기능을 호출해 조회·실행·상태 변경을 일으키는 구조 |
-| 외부 시스템 | 외부 시스템 | external system | P1-14.2 | external-system | external-system | P1-14.2 source context | 도구 호출로 연결되는 바깥 서비스·파일·데이터베이스·API |
+| 외부 시스템 | 외부 시스템 | external system | P1-14.2 | external-system | external-system | P1-14.2 source context | 도구 사용으로 연결되는 바깥 서비스·파일·데이터베이스·API |
 | 권한 | 권한 | permission | P7-6.2 | permission | permission | P1-14.2 source context | 실행 가능한 범위와 접근 한계를 미리 정한 통제 장치 |
 | AI 에이전트 | AI 에이전트 | AI agent | P1-14.3 | ai-agent | ai-agent | P1-14.3 source context | 목표, 상태, 관찰, 행동을 이어 가며 작업을 수행하는 AI 시스템 문맥의 실행 구조 |
 | 상태 표현 | 상태 표현 | state | P1-7.1 | state | state | P1-14.3 source context | 다음 행동 판단에 쓰는 현재 상황 정보의 요약 표현 |
 | 에이전트 행동 | 에이전트 행동 | action | P1-8.3 | action | action | P1-14.3 source context | AI 에이전트나 강화학습 에이전트가 상태를 바꾸기 위해 선택하는 실행 단위 |
 | 관찰 결과 | 관찰 결과 | observation | P1-14.3 | observation | observation | P1-14.3 source context | 행동 뒤 돌아와 다음 판단에 쓰는 새 정보나 결과 |
 | MCP | 모델 컨텍스트 프로토콜 | Model Context Protocol | P1-14.4 | model-context-protocol-mcp | model-context-protocol-mcp | MCP specification context | AI 앱과 외부 도구·리소스·프롬프트 연결을 표준화하려는 프로토콜 |
-| 외부 리소스 | 외부 리소스 | external resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽는 외부 맥락 데이터 |
+| 외부 리소스 | 외부 리소스 | external resource | P1-14.4 | external-resource | external-resource | P1-14.4 source context | 모델이나 앱이 읽는 외부 맥락 데이터 |
 | 신뢰 경계 | 신뢰 경계 | trust boundary | P1-14.4 | trust-boundary | trust-boundary | P1-14.4 source context | 믿을 수 있는 영역과 검증해야 하는 영역을 나누는 경계 |
 | 소프트웨어 회귀 | 소프트웨어 회귀 | software regression | P1-14.5 | software-regression | software-regression | P1-14.5 source context | 변경 뒤 이전에는 되던 기능이나 품질이 나빠지는 현상 |
 | 가드레일 | 가드레일 | guardrail | P1-14.5 | guardrail | guardrail | P1-14.5 source context | 허용 범위를 벗어난 입력·출력·실행을 막는 제한과 점검 장치 |
