@@ -58,8 +58,6 @@
 
 --8<-- "reference/concept-glossary-terms/retrieval.ko.md"
 
---8<-- "reference/concept-glossary-terms/document-search.ko.md"
-
 --8<-- "reference/concept-glossary-terms/validation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/false-negative.ko.md"
