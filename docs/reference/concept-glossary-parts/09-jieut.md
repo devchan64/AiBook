@@ -81,7 +81,4 @@
 
 --8<-- "reference/concept-glossary-terms/knowledge-representation.ko.md"
 
---8<-- "reference/concept-glossary-terms/knowledge-acquisition.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/delayed-reward.ko.md"
