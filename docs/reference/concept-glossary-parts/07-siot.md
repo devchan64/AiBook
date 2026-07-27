@@ -1,9 +1,5 @@
 ## ㅅ
 
---8<-- "reference/concept-glossary-terms/permutation-importance.ko.md"
-
---8<-- "reference/concept-glossary-terms/shap.ko.md"
-
 --8<-- "reference/concept-glossary-terms/shrinkage.ko.md"
 
 --8<-- "reference/concept-glossary-terms/spectral-clustering.ko.md"

@@ -1,8 +1,6 @@
 ## ㅂ
 
 
---8<-- "reference/concept-glossary-terms/partial-dependence-plot-pdp.ko.md"
-
 --8<-- "reference/concept-glossary-terms/impurity.ko.md"
 
 --8<-- "reference/concept-glossary-terms/bootstrap.ko.md"

@@ -30,8 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/data-question.zh.md"
 
---8<-- "reference/concept-glossary-terms/shap.zh.md"
-
 --8<-- "reference/concept-glossary-terms/shrinkage.zh.md"
 
 --8<-- "reference/concept-glossary-terms/random-forest.zh.md"

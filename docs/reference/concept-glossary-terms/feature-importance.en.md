@@ -4,6 +4,6 @@
 
 - Meaning: Feature importance is a summary value that indicates which features a trained model used relatively more for prediction. In tree-based models, it can be computed from impurity reduction at splits or from the performance drop after shuffling a feature.
 - Why it matters: It is a starting point for inspecting what the model relied on. However, importance is a trace of model usage, not a direct ranking of real-world causes or causal effects.
-- Related concepts: `random forest`, `mean decrease in impurity(MDI)`, `permutation importance`, `correlated features`
+- Related concepts: `random forest`, `mean decrease in impurity(MDI)`, `correlated features`
 - Core Section: `P4-15.2`
 - Appears in: `P4-15.2`

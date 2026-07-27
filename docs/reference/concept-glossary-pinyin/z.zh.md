@@ -4,8 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/centroid.zh.md"
 
---8<-- "reference/concept-glossary-terms/permutation-importance.zh.md"
-
 --8<-- "reference/concept-glossary-terms/early-stopping.zh.md"
 
 --8<-- "reference/concept-glossary-terms/histogram-binning.zh.md"

@@ -4,8 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/best-split.zh.md"
 
---8<-- "reference/concept-glossary-terms/partial-dependence-plot-pdp.zh.md"
-
 --8<-- "reference/concept-glossary-terms/impurity.zh.md"
 
 --8<-- "reference/concept-glossary-terms/backpropagation.zh.md"
