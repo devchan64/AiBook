@@ -71,7 +71,6 @@
 | 지연 보상 | 지연 보상 | delayed reward | P1-8.3 | delayed-reward | delayed-reward | P1-8.3 source context | 행동의 결과가 여러 단계 뒤 보상으로 드러나는 상황 |
 | 정보 무결성 | 정보 무결성 | information integrity | P1-10.3 | information-integrity | information-integrity | NIST GenAI Profile | 정보가 사실과 맥락을 왜곡하지 않고 신뢰 가능한 상태 |
 | 시간 순서 분할 | 시간 순서 분할 | time split | P3-9.13 | time-split | time-split | FPP3 time series cross-validation, P3-9.13 source context | 시간 순서가 중요한 문제에서 과거 구간과 이후 구간을 섞지 않고 평가하는 분할 방식 |
-| 생성 조건 | 생성 조건 | condition | P1-10.2 | condition | condition | P1-10.2 source context | 모델 출력을 만들 때 참고하는 입력·지시·맥락·제약 |
 | 통계적 언어 모델 | 통계적 언어 모델 | statistical language model | P1-11.1 | statistical-language-model | statistical-language-model | P1-11.1 source context | 빈도와 조건부 확률로 다음 표현 가능성을 추정하는 언어 모델 |
 | 통계적 추론 | 통계적 추론 | statistical inference | P1-5.3 | statistical-inference | statistical-inference | OpenStax Introductory Statistics | 표본에서 모집단과 불확실성을 다루는 통계 절차 |
 | 마스크드 언어 모델 | 마스크드 언어 모델 | masked language model | P1-11.3 | masked-language-model | masked-language-model | P1-11.3 source context | 문장 일부를 가리고 주변 문맥으로 맞히는 사전학습 방식 |
