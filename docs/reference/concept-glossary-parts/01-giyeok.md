@@ -121,7 +121,6 @@
 
 --8<-- "reference/concept-glossary-terms/rule-based-system.ko.md"
 
---8<-- "reference/concept-glossary-terms/gradient-boosting.ko.md"
 
 --8<-- "reference/concept-glossary-terms/gradient.ko.md"
 

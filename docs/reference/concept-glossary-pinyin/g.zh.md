@@ -37,7 +37,6 @@
 
 --8<-- "reference/concept-glossary-terms/gradient.zh.md"
 
---8<-- "reference/concept-glossary-terms/gradient-boosting.zh.md"
 
 --8<-- "reference/concept-glossary-terms/gradient-descent.zh.md"
 

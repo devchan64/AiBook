@@ -88,7 +88,6 @@
 | 학습된 표현 | 학습된 표현 | learned representation | P1-9.1 | learned-representation | learned-representation | representation learning review | 모델이 과제에 맞게 데이터에서 배운 내부 표현 |
 | 표현 학습 | 표현 학습 | representation learning | P1-3.3 | representation-learning | representation-learning | representation learning review | 모델이 과제에 유용한 내부 표현을 데이터에서 함께 배우는 접근 |
 | 합성곱 신경망 | 합성곱 신경망 | CNN, convolutional neural network | P1-9.1 | cnn-convolutional-neural-network | cnn-convolutional-neural-network | LeCun deep learning review | 이미지의 지역 패턴을 계층적으로 다루는 신경망 구조 |
-| 알렉스넷 | 알렉스넷 | AlexNet | P1-9.1 | alexnet | alexnet | AlexNet paper | 대규모 이미지 인식에서 딥러닝 확산을 각인시킨 전환점 사례 |
 | 객체 검출 | 객체 검출 | object detection | P1-9.2 | object-detection | object-detection | object detection context | 이미지 안의 물체 범주와 위치를 함께 예측하는 문제 |
 | 음성 생성 | 음성 생성 | speech generation | P1-9.2 | speech-generation | speech-generation | sequence generation context | 시간 순서의 오디오 신호를 만드는 생성 문제 |
 | 텍스트 음성 변환 | 텍스트 음성 변환 | TTS, text-to-speech | P1-9.2 | tts-text-to-speech | tts-text-to-speech | Deep Voice paper | 텍스트 입력을 음성 출력으로 바꾸는 응용 문제 |

@@ -7,7 +7,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 <a id="random"></a>
 
 
---8<-- "reference/concept-glossary-terms/random-forest.en.md"
 
 --8<-- "reference/concept-glossary-terms/ranking.en.md"
 

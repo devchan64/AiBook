@@ -35,7 +35,6 @@
 
 --8<-- "reference/concept-glossary-terms/safe-exploration.ko.md"
 
---8<-- "reference/concept-glossary-terms/alexnet.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/ai-application.ko.md"

@@ -23,7 +23,6 @@
 | 假阴性 | 假阴性 | false negative | P3-9.12 | false-negative | false-negative | Google ML Glossary false negative, P3-9.12 source context | 实际为正例，却被模型或规则判成负例而漏掉的案例 |
 | 假阳性 | 假阳性 | false positive | P3-9.12 | false-positive | false-positive | Google ML Glossary false positive, P3-9.12 source context | 实际为负例，却被模型或规则判成正例而误报的案例 |
 | 精确率 | 精确率 | precision | P1-13.4 | precision | precision | P4-6.1 source context | 被模型预测为正类的案例中实际为正类的比例 |
-| 随机森林 | 随机森林 | random forest | P4-15.1 | random-forest | random-forest | P4-15.1 source context | 把多棵决策树组合起来进行预测的集成模型 |
 | 代理目标 | 代理目标 | proxy target | P3-9.9 | proxy-target | proxy-target | Google ML Glossary proxy labels, P3-9.9 source context | 实际目标不可用或出现太晚时临时当作目标的替代列 |
 | 规则型方法 | 规则型方法 | rule-based approach | P1-2.1 | rule-based-approach | rule-based-approach | P1-2.1 source context | 由人明确写出判断规则后再应用的解决问题方式 |
 | 分组切分 | 分组切分 | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | 避免同一实体或同一组记录同时出现在训练侧和验证/测试侧的切分方式 |

@@ -23,7 +23,6 @@
 --8<-- "reference/concept-glossary-terms/ai-artificial-intelligence.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/alexnet.zh.md"
 
 --8<-- "reference/concept-glossary-terms/alignment.zh.md"
 
