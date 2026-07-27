@@ -4,8 +4,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/preference-optimization.ko.md"
-
 
 
 
