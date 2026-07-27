@@ -4,7 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/variance.zh.md"
 
---8<-- "reference/concept-glossary-terms/vit-vision-transformer.zh.md"
 
 | 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
 | --- | --- | --- | --- | --- |

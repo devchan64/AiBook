@@ -38,7 +38,6 @@
 
 --8<-- "reference/concept-glossary-terms/scalar.zh.md"
 
---8<-- "reference/concept-glossary-terms/bert.zh.md"
 
 --8<-- "reference/concept-glossary-terms/bias.zh.md"
 

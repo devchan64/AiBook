@@ -7,7 +7,6 @@
 
 --8<-- "reference/concept-glossary-terms/distributed-training.ko.md"
 
---8<-- "reference/concept-glossary-terms/bert.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/bayes-rule.ko.md"
@@ -91,7 +90,6 @@
 
 --8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
 
---8<-- "reference/concept-glossary-terms/vit-vision-transformer.ko.md"
 
 --8<-- "reference/concept-glossary-terms/semi-supervised-learning.ko.md"
 

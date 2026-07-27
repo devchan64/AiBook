@@ -100,7 +100,6 @@
 
 --8<-- "reference/concept-glossary-terms/software-regression.ko.md"
 
---8<-- "reference/concept-glossary-terms/seq2seq.ko.md"
 
 --8<-- "reference/concept-glossary-terms/expression.ko.md"
 

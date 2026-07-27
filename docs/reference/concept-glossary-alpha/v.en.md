@@ -29,6 +29,5 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/visualization.en.md"
 
---8<-- "reference/concept-glossary-terms/vit-vision-transformer.en.md"
 
 --8<-- "reference/concept-glossary-terms/vocabulary.en.md"
