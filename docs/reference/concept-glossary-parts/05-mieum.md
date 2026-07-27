@@ -1,7 +1,5 @@
 ## ㅁ
 
---8<-- "reference/concept-glossary-terms/masked-language-model.ko.md"
-
 --8<-- "reference/concept-glossary-terms/margin.ko.md"
 
 

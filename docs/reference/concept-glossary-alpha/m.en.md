@@ -32,8 +32,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/model-selection.en.md"
 
---8<-- "reference/concept-glossary-terms/multinomial-logistic-regression.en.md"
-
 --8<-- "reference/concept-glossary-terms/multi-head-attention.en.md"
 
 --8<-- "reference/concept-glossary-terms/multilayer-neural-network.en.md"

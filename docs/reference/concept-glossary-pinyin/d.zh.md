@@ -8,8 +8,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/multinomial-logistic-regression.zh.md"
-
 --8<-- "reference/concept-glossary-terms/data-leakage.zh.md"
 
 --8<-- "reference/concept-glossary-terms/data-modeling.zh.md"
