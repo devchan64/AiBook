@@ -159,4 +159,4 @@
 
 --8<-- "reference/concept-glossary-terms/search-query.ko.md"
 
---8<-- "reference/concept-glossary-terms/environment.ko.md"
+--8<-- "reference/concept-glossary-terms/reinforcement-learning-environment.ko.md"

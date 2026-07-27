@@ -20,7 +20,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/ensemble.en.md"
 
---8<-- "reference/concept-glossary-terms/environment.en.md"
+--8<-- "reference/concept-glossary-terms/reinforcement-learning-environment.en.md"
 
 --8<-- "reference/concept-glossary-terms/expected-reward.en.md"
 

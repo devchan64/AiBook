@@ -16,7 +16,7 @@
 
 --8<-- "reference/concept-glossary-terms/encoder-decoder.zh.md"
 
---8<-- "reference/concept-glossary-terms/environment.zh.md"
+--8<-- "reference/concept-glossary-terms/reinforcement-learning-environment.zh.md"
 
 --8<-- "reference/concept-glossary-terms/activation.zh.md"
 --8<-- "reference/concept-glossary-terms/activation-function.zh.md"
