@@ -16,7 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/random-forest.ko.md"
 
---8<-- "reference/concept-glossary-terms/reinforce.ko.md"
 
 
 

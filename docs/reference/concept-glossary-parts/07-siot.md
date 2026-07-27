@@ -36,7 +36,6 @@
 
 --8<-- "reference/concept-glossary-terms/sampling.ko.md"
 
---8<-- "reference/concept-glossary-terms/sarsa.ko.md"
 
 --8<-- "reference/concept-glossary-terms/selective-labels.ko.md"
 

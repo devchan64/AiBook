@@ -3,7 +3,6 @@
 
 --8<-- "reference/concept-glossary-terms/dataframe.ko.md"
 
---8<-- "reference/concept-glossary-terms/dqn.ko.md"
 
 --8<-- "reference/concept-glossary-terms/domain-randomization.ko.md"
 
