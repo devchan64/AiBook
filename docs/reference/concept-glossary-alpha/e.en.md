@@ -30,9 +30,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/error-cost.en.md"
 
---8<-- "reference/concept-glossary-terms/error-case.en.md"
 
---8<-- "reference/concept-glossary-terms/error-sample.en.md"
 
 --8<-- "reference/concept-glossary-terms/estimation.en.md"
 

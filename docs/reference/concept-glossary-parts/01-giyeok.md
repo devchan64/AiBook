@@ -76,7 +76,6 @@
 
 --8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.ko.md"
 
---8<-- "reference/concept-glossary-terms/isolation.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/missing-value.ko.md"

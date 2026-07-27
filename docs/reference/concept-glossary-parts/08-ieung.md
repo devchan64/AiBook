@@ -90,10 +90,8 @@
 
 --8<-- "reference/concept-glossary-terms/prediction.ko.md"
 
---8<-- "reference/concept-glossary-terms/error-case.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/error-sample.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/error.ko.md"

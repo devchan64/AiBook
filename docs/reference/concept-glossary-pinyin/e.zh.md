@@ -22,9 +22,7 @@
 
 --8<-- "reference/concept-glossary-terms/error.zh.md"
 
---8<-- "reference/concept-glossary-terms/error-case.zh.md"
 
---8<-- "reference/concept-glossary-terms/error-sample.zh.md"
 
 --8<-- "reference/concept-glossary-terms/estimation.zh.md"
 

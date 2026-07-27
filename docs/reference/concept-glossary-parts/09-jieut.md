@@ -86,7 +86,6 @@
 --8<-- "reference/concept-glossary-terms/orthogonal.ko.md"
 
 --8<-- "reference/concept-glossary-terms/intermediate-representation.ko.md"
---8<-- "reference/concept-glossary-terms/interrupt-authority.ko.md"
 
 --8<-- "reference/concept-glossary-terms/supervised-learning.ko.md"
 

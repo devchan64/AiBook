@@ -31,7 +31,6 @@
 
 --8<-- "reference/concept-glossary-terms/ai-application.zh.md"
 
---8<-- "reference/concept-glossary-terms/approval-policy.zh.md"
 
 
 

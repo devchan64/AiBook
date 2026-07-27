@@ -9,7 +9,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/next-output-generation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/next-token-prediction.zh.md"
 

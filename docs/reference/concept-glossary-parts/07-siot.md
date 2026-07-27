@@ -96,7 +96,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/approval-policy.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/visualization.ko.md"

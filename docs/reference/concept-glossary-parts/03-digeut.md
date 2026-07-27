@@ -12,7 +12,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/next-output-generation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/next-token-prediction.ko.md"
 

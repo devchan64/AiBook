@@ -41,9 +41,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/interpretation-boundary.en.md"
 
 --8<-- "reference/concept-glossary-terms/intervention-feedback.en.md"
-
-
-
---8<-- "reference/concept-glossary-terms/interrupt-authority.en.md"
-
---8<-- "reference/concept-glossary-terms/isolation.en.md"
