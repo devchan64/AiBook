@@ -44,8 +44,6 @@
 
 --8<-- "reference/concept-glossary-terms/distance.ko.md"
 
---8<-- "reference/concept-glossary-terms/approximate-search.ko.md"
-
 --8<-- "reference/concept-glossary-terms/search-index.ko.md"
 
 
@@ -143,7 +141,5 @@
 --8<-- "reference/concept-glossary-terms/baseline.ko.md"
 
 --8<-- "reference/concept-glossary-terms/symbolic-ai.ko.md"
-
---8<-- "reference/concept-glossary-terms/search-query.ko.md"
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-environment.ko.md"

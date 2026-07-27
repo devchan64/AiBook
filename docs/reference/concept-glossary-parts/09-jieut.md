@@ -46,8 +46,6 @@
 
 --8<-- "reference/concept-glossary-terms/preprocessing.ko.md"
 
---8<-- "reference/concept-glossary-terms/exact-search.ko.md"
-
 --8<-- "reference/concept-glossary-terms/regularization.ko.md"
 
 
