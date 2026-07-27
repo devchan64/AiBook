@@ -20,8 +20,6 @@
 --8<-- "reference/concept-glossary-terms/training.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/action-value.zh.md"
-
 --8<-- "reference/concept-glossary-terms/training-data.zh.md"
 
 --8<-- "reference/concept-glossary-terms/learning-based-approach.zh.md"

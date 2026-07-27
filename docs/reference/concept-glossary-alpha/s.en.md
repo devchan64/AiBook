@@ -78,10 +78,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/state.en.md"
 
---8<-- "reference/concept-glossary-terms/state-value.en.md"
-
-
-
 --8<-- "reference/concept-glossary-terms/statistical-language-model.en.md"
 
 

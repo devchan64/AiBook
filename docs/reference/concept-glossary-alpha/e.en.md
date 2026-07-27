@@ -17,8 +17,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-environment.en.md"
 
---8<-- "reference/concept-glossary-terms/expected-reward.en.md"
-
 --8<-- "reference/concept-glossary-terms/activation-function.en.md"
 
 

@@ -9,8 +9,6 @@
 
 --8<-- "reference/concept-glossary-terms/bayes-rule.ko.md"
 
---8<-- "reference/concept-glossary-terms/bellman-equation.ko.md"
-
 
 
 

@@ -30,8 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/action.ko.md"
 
---8<-- "reference/concept-glossary-terms/action-value.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.ko.md"
 

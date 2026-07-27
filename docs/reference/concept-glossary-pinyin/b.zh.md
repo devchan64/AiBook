@@ -6,8 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/backpropagation.zh.md"
 
---8<-- "reference/concept-glossary-terms/bellman-equation.zh.md"
-
 --8<-- "reference/concept-glossary-terms/semi-supervised-learning.zh.md"
 
 --8<-- "reference/concept-glossary-terms/baseline.zh.md"

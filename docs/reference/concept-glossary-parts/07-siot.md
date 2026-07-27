@@ -22,8 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/state.ko.md"
 
---8<-- "reference/concept-glossary-terms/state-value.ko.md"
-
 --8<-- "reference/concept-glossary-terms/sim-to-real-gap.ko.md"
 
 --8<-- "reference/concept-glossary-terms/time-split.ko.md"

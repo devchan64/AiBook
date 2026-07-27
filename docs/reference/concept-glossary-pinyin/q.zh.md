@@ -7,8 +7,6 @@
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-agent.zh.md"
 
---8<-- "reference/concept-glossary-terms/expected-reward.zh.md"
-
 --8<-- "reference/concept-glossary-terms/underfitting.zh.md"
 
 --8<-- "reference/concept-glossary-terms/missing-value.zh.md"

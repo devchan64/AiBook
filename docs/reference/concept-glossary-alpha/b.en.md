@@ -10,11 +10,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/baseline-model.en.md"
 
 
---8<-- "reference/concept-glossary-terms/bellman-equation.en.md"
-
-
-
-
 --8<-- "reference/concept-glossary-terms/bias.en.md"
 
 

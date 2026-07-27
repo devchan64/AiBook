@@ -21,8 +21,6 @@
 
 --8<-- "reference/concept-glossary-terms/value-based-reinforcement-learning.ko.md"
 
---8<-- "reference/concept-glossary-terms/expected-reward.ko.md"
-
 --8<-- "reference/concept-glossary-terms/weighted-sum.ko.md"
 
 --8<-- "reference/concept-glossary-terms/covariance.ko.md"
