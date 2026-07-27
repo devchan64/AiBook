@@ -28,8 +28,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/recommendation.en.md"
 
---8<-- "reference/concept-glossary-terms/redirection.en.md"
-
 --8<-- "reference/concept-glossary-terms/reference.en.md"
 
 --8<-- "reference/concept-glossary-terms/reference-maintenance-strategy.en.md"
@@ -79,8 +77,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/retrospective.en.md"
 
 --8<-- "reference/concept-glossary-terms/retry.en.md"
-
---8<-- "reference/concept-glossary-terms/return-value.en.md"
 
 --8<-- "reference/concept-glossary-terms/review.en.md"
 

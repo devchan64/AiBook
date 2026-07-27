@@ -31,8 +31,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/activation.en.md"
 --8<-- "reference/concept-glossary-terms/activation-function.en.md"
 
---8<-- "reference/concept-glossary-terms/environment-variable.en.md"
-
 --8<-- "reference/concept-glossary-terms/epoch.en.md"
 
 --8<-- "reference/concept-glossary-terms/error.en.md"

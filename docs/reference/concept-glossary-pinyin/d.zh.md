@@ -38,8 +38,6 @@
 
 --8<-- "reference/concept-glossary-terms/decoder.zh.md"
 
---8<-- "reference/concept-glossary-terms/deep-copy.zh.md"
-
 --8<-- "reference/concept-glossary-terms/deep-learning.zh.md"
 
 --8<-- "reference/concept-glossary-terms/dependency.zh.md"

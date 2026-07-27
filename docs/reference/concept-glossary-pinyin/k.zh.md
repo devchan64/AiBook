@@ -16,8 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/comparability.zh.md"
 
---8<-- "reference/concept-glossary-terms/key.zh.md"
-
 --8<-- "reference/concept-glossary-terms/reproducible-record.zh.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-acquisition.zh.md"

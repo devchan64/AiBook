@@ -20,6 +20,4 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/workflow.en.md"
 
---8<-- "reference/concept-glossary-terms/working-directory.en.md"
-
 --8<-- "reference/concept-glossary-terms/wrong-case-list.en.md"

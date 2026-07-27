@@ -6,8 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/mapping.zh.md"
 
---8<-- "reference/concept-glossary-terms/markdown-cell.zh.md"
-
 --8<-- "reference/concept-glossary-terms/target.zh.md"
 
 --8<-- "reference/concept-glossary-terms/target-candidate.zh.md"
@@ -27,8 +25,6 @@
 --8<-- "reference/concept-glossary-terms/density.zh.md"
 
 --8<-- "reference/concept-glossary-terms/metadata.zh.md"
-
---8<-- "reference/concept-glossary-terms/method.zh.md"
 
 --8<-- "reference/concept-glossary-terms/metric.zh.md"
 

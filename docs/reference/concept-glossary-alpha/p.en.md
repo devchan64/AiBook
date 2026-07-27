@@ -14,8 +14,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/partial-observability.en.md"
 
---8<-- "reference/concept-glossary-terms/path.en.md"
-
 --8<-- "reference/concept-glossary-terms/perceptron.en.md"
 
 --8<-- "reference/concept-glossary-terms/penalty.en.md"
@@ -23,8 +21,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/permission.en.md"
 
 --8<-- "reference/concept-glossary-terms/personal-learning.en.md"
-
---8<-- "reference/concept-glossary-terms/pipe.en.md"
 
 --8<-- "reference/concept-glossary-terms/plot.en.md"
 

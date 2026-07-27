@@ -48,8 +48,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/instruction-tuning.en.md"
 
---8<-- "reference/concept-glossary-terms/interactive-mode.en.md"
-
 --8<-- "reference/concept-glossary-terms/intermediate-representation.en.md"
 
 --8<-- "reference/concept-glossary-terms/interpretation.en.md"
@@ -65,7 +63,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/interrupt-authority.en.md"
 
 --8<-- "reference/concept-glossary-terms/isolation.en.md"
-
---8<-- "reference/concept-glossary-terms/iterable.en.md"
-
---8<-- "reference/concept-glossary-terms/iterator.en.md"

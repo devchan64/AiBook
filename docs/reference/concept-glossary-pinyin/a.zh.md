@@ -48,11 +48,7 @@
 
 --8<-- "reference/concept-glossary-terms/array.zh.md"
 
---8<-- "reference/concept-glossary-terms/assignment.zh.md"
-
 --8<-- "reference/concept-glossary-terms/attention.zh.md"
-
---8<-- "reference/concept-glossary-terms/attribute.zh.md"
 
 --8<-- "reference/concept-glossary-terms/augmentation.zh.md"
 

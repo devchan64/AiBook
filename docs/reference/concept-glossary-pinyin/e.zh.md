@@ -25,8 +25,6 @@
 --8<-- "reference/concept-glossary-terms/activation.zh.md"
 --8<-- "reference/concept-glossary-terms/activation-function.zh.md"
 
---8<-- "reference/concept-glossary-terms/environment-variable.zh.md"
-
 --8<-- "reference/concept-glossary-terms/epoch.zh.md"
 
 --8<-- "reference/concept-glossary-terms/error.zh.md"

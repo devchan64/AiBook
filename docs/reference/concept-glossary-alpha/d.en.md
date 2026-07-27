@@ -42,8 +42,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/decoder.en.md"
 
---8<-- "reference/concept-glossary-terms/deep-copy.en.md"
-
 --8<-- "reference/concept-glossary-terms/deep-learning.en.md"
 
 --8<-- "reference/concept-glossary-terms/dependency.en.md"

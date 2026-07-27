@@ -6,8 +6,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/mapping.en.md"
 
---8<-- "reference/concept-glossary-terms/markdown-cell.en.md"
-
 --8<-- "reference/concept-glossary-terms/margin.en.md"
 
 --8<-- "reference/concept-glossary-terms/matrix.en.md"
@@ -25,8 +23,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/mean-squared-error-mse.en.md"
 
 --8<-- "reference/concept-glossary-terms/metadata.en.md"
-
---8<-- "reference/concept-glossary-terms/method.en.md"
 
 --8<-- "reference/concept-glossary-terms/metric.en.md"
 

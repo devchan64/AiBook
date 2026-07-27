@@ -38,8 +38,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.en.md"
 
---8<-- "reference/concept-glossary-terms/code-cell.en.md"
-
 --8<-- "reference/concept-glossary-terms/column.en.md"
 
 --8<-- "reference/concept-glossary-terms/column-role-separation.en.md"

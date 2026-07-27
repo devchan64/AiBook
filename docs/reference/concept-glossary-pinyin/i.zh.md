@@ -40,8 +40,6 @@
 
 --8<-- "reference/concept-glossary-terms/instruction-tuning.zh.md"
 
---8<-- "reference/concept-glossary-terms/interactive-mode.zh.md"
-
 --8<-- "reference/concept-glossary-terms/intermediate-representation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/interpretation.zh.md"
@@ -53,7 +51,3 @@
 --8<-- "reference/concept-glossary-terms/interrupt-authority.zh.md"
 
 --8<-- "reference/concept-glossary-terms/isolation.zh.md"
-
---8<-- "reference/concept-glossary-terms/iterable.zh.md"
-
---8<-- "reference/concept-glossary-terms/iterator.zh.md"
