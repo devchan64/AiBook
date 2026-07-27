@@ -43,6 +43,4 @@
 
 
 
---8<-- "reference/concept-glossary-terms/bootstrap.zh.md"
-
 --8<-- "reference/concept-glossary-terms/broadcasting.zh.md"

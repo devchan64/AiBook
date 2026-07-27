@@ -2,11 +2,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/bootstrap.ko.md"
-
-
-
-
 --8<-- "reference/concept-glossary-terms/bayes-rule.ko.md"
 
 
