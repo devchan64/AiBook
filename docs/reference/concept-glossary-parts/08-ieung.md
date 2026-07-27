@@ -6,7 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/causal-inference.ko.md"
 
---8<-- "reference/concept-glossary-terms/rbf-kernel.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ensemble.ko.md"
 
@@ -80,7 +79,6 @@
 
 --8<-- "reference/concept-glossary-terms/one-hot-representation.ko.md"
 
---8<-- "reference/concept-glossary-terms/one-vs-rest.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/business-outcome.ko.md"

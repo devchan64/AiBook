@@ -1,6 +1,5 @@
 ## ㄷ
 
---8<-- "reference/concept-glossary-terms/polynomial-kernel.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dataframe.ko.md"
 

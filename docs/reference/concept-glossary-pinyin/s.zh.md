@@ -17,7 +17,6 @@
 
 --8<-- "reference/concept-glossary-terms/softmax.zh.md"
 
---8<-- "reference/concept-glossary-terms/likelihood-ratio-trick.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/data-science.zh.md"

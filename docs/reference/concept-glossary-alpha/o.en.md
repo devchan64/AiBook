@@ -16,7 +16,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/offline-reinforcement-learning.en.md"
 
 
---8<-- "reference/concept-glossary-terms/one-vs-rest.en.md"
 
 --8<-- "reference/concept-glossary-terms/on-policy.en.md"
 

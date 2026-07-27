@@ -6,7 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/policy-gradient.zh.md"
 
---8<-- "reference/concept-glossary-terms/policy-gradient-theorem.zh.md"
 
 
 

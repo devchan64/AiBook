@@ -4,7 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/k-means.zh.md"
 
---8<-- "reference/concept-glossary-terms/kernel-pca.zh.md"
 
 --8<-- "reference/concept-glossary-terms/k-nnk-nearest-neighbors.zh.md"
 

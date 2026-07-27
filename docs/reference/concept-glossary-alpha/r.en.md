@@ -15,7 +15,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/rate-of-change.en.md"
 
---8<-- "reference/concept-glossary-terms/rbf-kernel.en.md"
 
 --8<-- "reference/concept-glossary-terms/recall.en.md"
 

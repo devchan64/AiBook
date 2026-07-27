@@ -38,7 +38,6 @@
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning.ko.md"
 
---8<-- "reference/concept-glossary-terms/likelihood-ratio-trick.ko.md"
 
 
 

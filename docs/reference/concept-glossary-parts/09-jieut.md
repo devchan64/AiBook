@@ -42,7 +42,6 @@
 
 --8<-- "reference/concept-glossary-terms/policy-gradient.ko.md"
 
---8<-- "reference/concept-glossary-terms/policy-gradient-theorem.ko.md"
 
 --8<-- "reference/concept-glossary-terms/true-objective.ko.md"
 

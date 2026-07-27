@@ -9,7 +9,6 @@
 
 --8<-- "reference/concept-glossary-terms/soft-margin.zh.md"
 
---8<-- "reference/concept-glossary-terms/rbf-kernel.zh.md"
 
 --8<-- "reference/concept-glossary-terms/reconstruction-error.zh.md"
 
