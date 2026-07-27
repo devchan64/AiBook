@@ -1,7 +1,6 @@
 ## ㅇ
 
 
---8<-- "reference/concept-glossary-terms/umap.ko.md"
 
 --8<-- "reference/concept-glossary-terms/causal-inference.ko.md"
 

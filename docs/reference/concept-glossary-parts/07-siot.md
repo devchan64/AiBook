@@ -1,7 +1,6 @@
 ## ㅅ
 
 
---8<-- "reference/concept-glossary-terms/spectral-clustering.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/self-consistency.ko.md"

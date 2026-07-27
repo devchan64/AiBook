@@ -23,7 +23,3 @@
 
 
 --8<-- "reference/concept-glossary-terms/transformer.zh.md"
-
---8<-- "reference/concept-glossary-terms/truncated-svd.zh.md"
-
---8<-- "reference/concept-glossary-terms/t-sne.zh.md"

@@ -1,9 +1,7 @@
 ## ㅌ
 
 
---8<-- "reference/concept-glossary-terms/truncated-svd.ko.md"
 
---8<-- "reference/concept-glossary-terms/t-sne.ko.md"
 
 --8<-- "reference/concept-glossary-terms/target.ko.md"
 
