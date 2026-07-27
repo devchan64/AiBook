@@ -41,7 +41,7 @@
 --8<-- "reference/concept-glossary-terms/alexnet.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/application.ko.md"
+--8<-- "reference/concept-glossary-terms/ai-application.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/attention.ko.md"

@@ -34,7 +34,7 @@
 
 --8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.zh.md"
 
---8<-- "reference/concept-glossary-terms/application.zh.md"
+--8<-- "reference/concept-glossary-terms/ai-application.zh.md"
 
 --8<-- "reference/concept-glossary-terms/approval-policy.zh.md"
 
