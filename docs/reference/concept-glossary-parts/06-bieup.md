@@ -97,7 +97,6 @@
 
 --8<-- "reference/concept-glossary-terms/nondeterministic.ko.md"
 
---8<-- "reference/concept-glossary-terms/comparable-reference-group.ko.md"
 --8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vit-vision-transformer.ko.md"
