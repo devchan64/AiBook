@@ -1,10 +1,6 @@
 ## ㄴ
 
 
---8<-- "reference/concept-glossary-terms/norm.ko.md"
-
---8<-- "reference/concept-glossary-terms/dot-product.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/accumulation-effect.ko.md"
 
