@@ -7,7 +7,6 @@
 
 --8<-- "reference/concept-glossary-terms/k-nnk-nearest-neighbors.ko.md"
 
---8<-- "reference/concept-glossary-terms/qlora.ko.md"
 
 --8<-- "reference/concept-glossary-terms/q-learning.ko.md"
 
