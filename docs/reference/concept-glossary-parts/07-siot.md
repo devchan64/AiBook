@@ -118,14 +118,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/scope.ko.md"
-
-
-
-
-
-
-
 
 --8<-- "reference/concept-glossary-terms/runtime.ko.md"
 
