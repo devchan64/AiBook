@@ -1,3 +1,4 @@
+<a id="model-score"></a>
 <a id="score"></a>
 <a id="glossary-score"></a>
 

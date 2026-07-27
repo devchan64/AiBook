@@ -26,7 +26,7 @@
 
 --8<-- "reference/concept-glossary-terms/filtering.zh.md"
 
---8<-- "reference/concept-glossary-terms/score.zh.md"
+--8<-- "reference/concept-glossary-terms/model-score.zh.md"
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.zh.md"
 
