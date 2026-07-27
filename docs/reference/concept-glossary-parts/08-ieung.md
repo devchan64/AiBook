@@ -127,8 +127,6 @@
 
 --8<-- "reference/concept-glossary-terms/word2vec.ko.md"
 
---8<-- "reference/concept-glossary-terms/wavenet.ko.md"
-
 --8<-- "reference/concept-glossary-terms/positional-encoding.ko.md"
 
 
