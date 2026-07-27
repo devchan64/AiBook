@@ -2,8 +2,6 @@
 
 --8<-- "reference/concept-glossary-terms/hessian.ko.md"
 
---8<-- "reference/concept-glossary-terms/hnsw-hierarchical-navigable-small-world.ko.md"
-
 --8<-- "reference/concept-glossary-terms/hyperparameter.ko.md"
 
 --8<-- "reference/concept-glossary-terms/confusion-matrix.ko.md"

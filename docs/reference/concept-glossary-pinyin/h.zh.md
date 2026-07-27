@@ -43,5 +43,3 @@
 --8<-- "reference/concept-glossary-terms/human-oversight.zh.md"
 
 --8<-- "reference/concept-glossary-terms/hyperparameter.zh.md"
-
---8<-- "reference/concept-glossary-terms/hnsw-hierarchical-navigable-small-world.zh.md"

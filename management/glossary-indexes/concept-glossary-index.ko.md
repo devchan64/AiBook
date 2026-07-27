@@ -12,7 +12,7 @@
 | 경로 | 경로 | route, path | P1-7.1 | route | route | Poole & Mackworth search as path | PATH 환경 변수와 구분되는 탐색·계획의 이동 흐름 |
 | 계획 | 계획 | planning | P1-7.4 | planning | planning | Poole & Mackworth search, motion planning survey | 목표에 도달하기 위한 행동·경로 선택 과정 |
 | 검색 | 검색 | retrieval | P1-13.3 | retrieval | retrieval | RAG paper | RAG에서 생성 입력에 넣을 외부 문서 후보를 찾아오는 단계 |
-| 검색 인덱스 | 검색 인덱스 | search index | P1-13.4 | search-index | search-index | HNSW, FAISS context | 많은 벡터나 문서를 빠르게 찾기 위해 미리 만든 검색 구조 |
+| 검색 인덱스 | 검색 인덱스 | search index | P1-13.4 | search-index | search-index | ANN, vector search context | 많은 벡터나 문서를 빠르게 찾기 위해 미리 만든 검색 구조 |
 | 검색 질의 | 검색 질의 | query | P4-12.1 | query | query | 단어별 원고 기준 | 검색과 k-NN에서 저장된 기준 사례와 비교할 새 입력 기준 |
 | 그룹 분할 | 그룹 분할 | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | 같은 개체나 그룹이 학습 쪽과 검증·테스트 쪽에 동시에 섞이지 않도록 나누는 방식 |
 | 기준 모델 | 기준 모델 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 후보 모델이 넘어야 할 가장 단순한 비교용 모델이나 점수 기준 |
@@ -21,8 +21,8 @@
 | 군집 | 군집 | cluster | P1-8.2 | cluster | cluster | P1-8.2 source context | 알고리즘이 찾은 묶음이며 지도학습 라벨과 구분 |
 | k-평균 | k-평균 | k-means | P1-8.2 | k-means | k-means | P1-8.2 source context | k개의 중심점을 반복 갱신하는 군집화 알고리즘 |
 | 강화학습 환경 | 강화학습 환경 | reinforcement learning environment | P1-8.3 | environment | environment | 단어별 원고 기준 | 강화학습 에이전트가 행동하고 상태 변화와 보상을 돌려받는 상호작용 대상 |
-| 근사 검색 | 근사 검색 | approximate search | P1-13.4 | approximate-search | approximate-search | HNSW, ANN context | 충분히 가까운 후보를 빠르게 찾는 검색 절충 |
-| 근사 최근접 이웃 | 근사 최근접 이웃 | approximate nearest neighbor, ANN | P1-13.4 | ann-approximate-nearest-neighbor | ann-approximate-nearest-neighbor | HNSW, FAISS context | 정확한 최근접보다 빠른 후보 탐색을 우선하는 방식 |
+| 근사 검색 | 근사 검색 | approximate search | P1-13.4 | approximate-search | approximate-search | ANN context | 충분히 가까운 후보를 빠르게 찾는 검색 절충 |
+| 근사 최근접 이웃 | 근사 최근접 이웃 | approximate nearest neighbor, ANN | P1-13.4 | ann-approximate-nearest-neighbor | ann-approximate-nearest-neighbor | vector search context | 정확한 최근접보다 빠른 후보 탐색을 우선하는 방식 |
 | 규칙 기반 접근 | 규칙 기반 접근 | rule-based approach | P1-2.1 | rule-based-approach | rule-based-approach | SEP logic and AI, AIMA | 규칙 기반 시스템보다 넓은 접근 층위 |
 | 궤적 | 궤적 | trajectory | P1-7.4 | trajectory | trajectory | motion planning survey | 시간·속도까지 포함한 실행 직전 움직임 계획 |
 | 누적 효과 | 누적 효과 | accumulation effect | P1-10.2 | accumulation-effect | accumulation-effect | P1-10.2 source context | 앞선 출력 선택이 뒤 생성 조건으로 계속 남는 현상 |
@@ -113,7 +113,6 @@
 | 평가 데이터 | 평가 데이터 | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | 모델 학습에 직접 쓰지 않고 학습된 모델의 동작을 확인하기 위해 따로 남겨 둔 데이터 |
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
 | RAG | 검색 증강 생성 | retrieval-augmented generation | P1-13.3 | retrieval-augmented-generation-rag | retrieval-augmented-generation-rag | RAG paper | 검색한 외부 자료를 생성 입력에 붙이는 구조 |
-| HNSW | HNSW | hierarchical navigable small world | P1-13.4 | hnsw-hierarchical-navigable-small-world | hnsw-hierarchical-navigable-small-world | HNSW paper | 그래프 기반 ANN의 대표적인 벡터 검색 인덱스 방법 |
 | AI 앱 | AI 앱 | application | P1-14.1 | application | application | P1-14.1 source context | 일반 앱이 아니라 모델·도구·데이터를 묶어 사용자가 만나는 AI 서비스 표면 |
 | 외부 도구 | 외부 도구 | external tool | P1-14.1 | tool | tool | P1-14.1 source context | 모델이나 AI 앱이 연결해 쓰는 모델 밖 실행 기능 |
 | 오케스트레이션 | 오케스트레이션 | orchestration | P1-14.1 | orchestration | orchestration | P1-14.1 source context | 모델, 데이터, 도구, 앱을 순서와 조건으로 연결하는 제어 층 |
