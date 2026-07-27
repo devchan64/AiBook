@@ -37,7 +37,6 @@
 | 알고리즘 | 알고리즘 | algorithm | P4-3.1 | algorithm | algorithm | AIMA, P4-3.1 source context | 문제를 풀기 위해 정해진 순서대로 수행하는 절차 |
 | 순차 모델링 | 순차 모델링 | sequence modeling | P1-9.3 | sequence-modeling | sequence-modeling | Seq2Seq, Attention, Transformer papers | 순서 있는 데이터의 관계와 생성을 다루는 문제 설정 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |
-| 순전파 | 순전파 | forward pass | P1-5.2 | forward-pass | forward-pass | P1-5.2 source context | 입력이 학습된 파라미터를 지나 출력으로 계산되는 방향 |
 | 업무 성과 | 업무 성과 | business outcome | P1-4.4 | business-outcome | business-outcome | scikit-learn model evaluation context | 모델 점수 바깥의 실제 업무 결과 |
 | 엔드투엔드 학습 | 엔드투엔드 학습 | end-to-end learning | P1-9.2 | end-to-end-learning | end-to-end-learning | object detection context | 입력에서 최종 출력까지 연결된 구조를 함께 학습하는 접근 |
 | 언어 모델링 | 언어 모델링 | language modeling | P1-9.3 | language-modeling | language-modeling | Bengio neural probabilistic language model | 단어·토큰 순서의 확률을 다루는 LLM 직접 계보의 문제 설정 |
@@ -172,7 +171,6 @@
 | 편미분 | 편미분 | partial derivative | P2-4.3 | partial-derivative | partial-derivative | P2-4.3 source context | 여러 입력 중 하나만 바꿨다고 보고 계산한 변화율 |
 | 그래디언트 | 그래디언트 | gradient | P2-4.3 | gradient | gradient | P2-4.3 source context | 여러 편미분을 순서 있게 모은 변화율 벡터 |
 | 벡터해석 | 벡터해석 | vector calculus | P2-4.5 | vector-calculus | vector-calculus | P2-4.5 source context | 벡터·공간·함수·변화율을 함께 다루는 수학 체계 |
-| 역방향 패스 | 역방향 패스 | backward pass | P2-4.5 | backward-pass | backward-pass | P2-4.5 source context | 손실에서 거꾸로 각 계산 단계의 그래디언트를 계산하는 실행 방향 |
 | 합성함수 | 합성함수 | composite function | P2-4.6 | composite-function | composite-function | P2-4.6 source context | 한 함수의 출력이 다음 함수의 입력으로 이어지는 함수 구조 |
 | 연쇄 법칙 | 연쇄 법칙 | chain rule | P2-4.6 | chain-rule | chain-rule | P2-4.6 source context | 합성함수에서 단계별 변화율을 이어 읽는 미분 규칙 |
 | 확률 | 확률 | probability | P2-5.1 | probability | probability | P2-5.1 source context | 불확실성을 0과 1 사이의 숫자로 표현하는 언어 |

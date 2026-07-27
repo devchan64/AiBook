@@ -81,7 +81,6 @@
 
 --8<-- "reference/concept-glossary-terms/correlation-coefficient.ko.md"
 
---8<-- "reference/concept-glossary-terms/forward-pass.ko.md"
 
 
 

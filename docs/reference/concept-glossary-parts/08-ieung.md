@@ -62,7 +62,6 @@
 
 --8<-- "reference/concept-glossary-terms/backpropagation.ko.md"
 
---8<-- "reference/concept-glossary-terms/backward-pass.ko.md"
 
 --8<-- "reference/concept-glossary-terms/chain-rule.ko.md"
 
