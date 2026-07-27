@@ -78,7 +78,6 @@
 | 프록시 라벨 | 프록시 라벨 | proxy label | P1-8.1 | proxy-label | proxy-label | P1-8.1 source context | 직접 목표를 대신하는 대리 라벨 |
 | 프롬프트 | 프롬프트 | prompt | P1-12.1 | prompt | prompt | OpenAI prompt engineering, GPT-3 paper | 현재 응답 조건을 담은 입력 전체 |
 | 프롬프트 구조화 | 프롬프트 구조화 | prompt structuring | P1-12.2 | prompt-structuring | prompt-structuring | prompt engineering context | 입력 안의 역할을 나눠 쓰는 방식 |
-| 프롬프트의 한계 | 프롬프트의 한계 | limit of prompting | P1-12.3 | limit-of-prompting | limit-of-prompting | P1-12.3 source context | 입력을 잘 써도 자동으로 해결되지 않는 문제 |
 | 사전학습 LLM | 사전학습 LLM | pretrained LLM | P1-11.3 | pretrained-llm | pretrained-llm | P1-11.3 source context | 대규모 일반 학습을 먼저 마친 대규모 언어 모델 |
 | 사실성 | 사실성 | factuality | P1-12.3 | factuality | factuality | NIST GenAI Profile | 문장이 실제 사실과 맞는지 보는 기준 |
 | 유사도 검색 | 유사도 검색 | similarity search | P1-13.2 | similarity-search | similarity-search | information retrieval context | 질문 벡터와 가까운 문서 벡터 후보를 찾는 과정 |

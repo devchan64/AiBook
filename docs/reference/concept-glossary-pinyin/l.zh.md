@@ -36,8 +36,6 @@
 
 --8<-- "reference/concept-glossary-terms/limit.zh.md"
 
---8<-- "reference/concept-glossary-terms/limit-of-prompting.zh.md"
-
 --8<-- "reference/concept-glossary-terms/linear-regression.zh.md"
 
 --8<-- "reference/concept-glossary-terms/type.zh.md"

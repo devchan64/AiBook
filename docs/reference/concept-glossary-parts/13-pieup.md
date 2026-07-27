@@ -64,6 +64,4 @@
 
 --8<-- "reference/concept-glossary-terms/prompt.ko.md"
 
---8<-- "reference/concept-glossary-terms/limit-of-prompting.ko.md"
-
 --8<-- "reference/concept-glossary-terms/protected-expression.ko.md"
