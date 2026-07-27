@@ -4,10 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/actor-critic.zh.md"
 
---8<-- "reference/concept-glossary-terms/a2c.zh.md"
-
---8<-- "reference/concept-glossary-terms/a3c.zh.md"
-
 --8<-- "reference/concept-glossary-terms/safe-reinforcement-learning.zh.md"
 
 --8<-- "reference/concept-glossary-terms/abstract-data-type.zh.md"

@@ -6,8 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.zh.md"
 
---8<-- "reference/concept-glossary-terms/ppo.zh.md"
-
 --8<-- "reference/concept-glossary-terms/preference-optimization.zh.md"
 
 --8<-- "reference/concept-glossary-terms/skewness.zh.md"

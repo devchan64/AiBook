@@ -16,10 +16,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/actor-critic.en.md"
 
---8<-- "reference/concept-glossary-terms/a2c.en.md"
-
---8<-- "reference/concept-glossary-terms/a3c.en.md"
-
 --8<-- "reference/concept-glossary-terms/additive-model.en.md"
 
 --8<-- "reference/concept-glossary-terms/actual-target.en.md"
