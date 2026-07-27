@@ -51,7 +51,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/residual.en.md"
 
---8<-- "reference/concept-glossary-terms/residual-connection.en.md"
 
 
 --8<-- "reference/concept-glossary-terms/retrieval-augmented-generation-rag.en.md"

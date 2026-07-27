@@ -51,7 +51,6 @@
 --8<-- "reference/concept-glossary-terms/representation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/pooling.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/few-shot-prompting.ko.md"

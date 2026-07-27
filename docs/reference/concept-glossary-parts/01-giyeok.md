@@ -73,7 +73,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.ko.md"
 
 
 

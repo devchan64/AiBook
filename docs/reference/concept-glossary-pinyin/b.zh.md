@@ -36,7 +36,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/batch-normalization.zh.md"
 
 --8<-- "reference/concept-glossary-terms/scalar.zh.md"
 

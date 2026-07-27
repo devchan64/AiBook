@@ -16,7 +16,6 @@
 --8<-- "reference/concept-glossary-terms/language-modeling.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/layer-normalization.zh.md"
 
 --8<-- "reference/concept-glossary-terms/learned-representation.zh.md"
 
@@ -52,5 +51,3 @@
 --8<-- "reference/concept-glossary-terms/loss-curve.zh.md"
 
 --8<-- "reference/concept-glossary-terms/loss-function.zh.md"
-
---8<-- "reference/concept-glossary-terms/lstm-long-short-term-memory.zh.md"

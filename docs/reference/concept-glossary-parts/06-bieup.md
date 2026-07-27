@@ -23,7 +23,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/array.ko.md"
---8<-- "reference/concept-glossary-terms/batch-normalization.ko.md"
 
 
 

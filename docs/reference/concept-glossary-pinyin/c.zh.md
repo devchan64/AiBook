@@ -56,7 +56,6 @@
 --8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/pooling.zh.md"
 
 --8<-- "reference/concept-glossary-terms/covariance-matrix.zh.md"
 

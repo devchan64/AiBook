@@ -16,7 +16,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/language-modeling.en.md"
 
 
---8<-- "reference/concept-glossary-terms/layer-normalization.en.md"
 
 --8<-- "reference/concept-glossary-terms/learned-representation.en.md"
 
@@ -54,5 +53,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/loss-curve.en.md"
 
 --8<-- "reference/concept-glossary-terms/loss-function.en.md"
-
---8<-- "reference/concept-glossary-terms/lstm-long-short-term-memory.en.md"

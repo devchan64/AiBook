@@ -19,7 +19,6 @@
 --8<-- "reference/concept-glossary-terms/reinforce.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/layer-normalization.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/logarithm.ko.md"

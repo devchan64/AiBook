@@ -45,6 +45,3 @@
 --8<-- "reference/concept-glossary-terms/graph.zh.md"
 
 --8<-- "reference/concept-glossary-terms/graph-based-search.zh.md"
-
-
---8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.zh.md"

@@ -19,12 +19,10 @@
 
 --8<-- "reference/concept-glossary-terms/residual.ko.md"
 
---8<-- "reference/concept-glossary-terms/residual-connection.ko.md"
 
 --8<-- "reference/concept-glossary-terms/noise.ko.md"
 
 --8<-- "reference/concept-glossary-terms/long-term-dependency.ko.md"
---8<-- "reference/concept-glossary-terms/lstm-long-short-term-memory.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/exponential-function.ko.md"

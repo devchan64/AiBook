@@ -49,7 +49,6 @@
 
 
 --8<-- "reference/concept-glossary-terms/array.zh.md"
---8<-- "reference/concept-glossary-terms/batch-normalization.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/distance.zh.md"

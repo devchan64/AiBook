@@ -27,5 +27,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/graph.en.md"
 
 --8<-- "reference/concept-glossary-terms/graph-based-search.en.md"
-
---8<-- "reference/concept-glossary-terms/gru-gated-recurrent-unit.en.md"

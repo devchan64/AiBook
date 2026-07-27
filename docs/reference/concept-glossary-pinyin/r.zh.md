@@ -12,7 +12,6 @@
 
 --8<-- "reference/concept-glossary-terms/reconstruction-error.zh.md"
 
---8<-- "reference/concept-glossary-terms/residual-connection.zh.md"
 
 | 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
 | --- | --- | --- | --- | --- |
