@@ -30,13 +30,9 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/least-privilege.en.md"
 
---8<-- "reference/concept-glossary-terms/legend.en.md"
-
 --8<-- "reference/concept-glossary-terms/limit.en.md"
 
 --8<-- "reference/concept-glossary-terms/limit-of-prompting.en.md"
-
---8<-- "reference/concept-glossary-terms/line-plot.en.md"
 
 --8<-- "reference/concept-glossary-terms/likelihood-ratio-trick.en.md"
 

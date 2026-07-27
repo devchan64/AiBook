@@ -34,13 +34,9 @@
 
 --8<-- "reference/concept-glossary-terms/least-privilege.zh.md"
 
---8<-- "reference/concept-glossary-terms/legend.zh.md"
-
 --8<-- "reference/concept-glossary-terms/limit.zh.md"
 
 --8<-- "reference/concept-glossary-terms/limit-of-prompting.zh.md"
-
---8<-- "reference/concept-glossary-terms/line-plot.zh.md"
 
 --8<-- "reference/concept-glossary-terms/linear-regression.zh.md"
 

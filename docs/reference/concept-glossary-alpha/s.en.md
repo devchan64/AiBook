@@ -34,8 +34,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/scale.en.md"
 
---8<-- "reference/concept-glossary-terms/scatter-plot.en.md"
-
 --8<-- "reference/concept-glossary-terms/scenario.en.md"
 
 --8<-- "reference/concept-glossary-terms/sigmoid.en.md"

@@ -8,8 +8,6 @@
 
 --8<-- "reference/concept-glossary-terms/random-threshold.zh.md"
 
---8<-- "reference/concept-glossary-terms/scatter-plot.zh.md"
-
 --8<-- "reference/concept-glossary-terms/search.zh.md"
 
 --8<-- "reference/concept-glossary-terms/recognition.zh.md"

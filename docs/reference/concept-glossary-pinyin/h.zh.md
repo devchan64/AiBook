@@ -36,8 +36,6 @@
 
 --8<-- "reference/concept-glossary-terms/hidden-state.zh.md"
 
---8<-- "reference/concept-glossary-terms/histogram.zh.md"
-
 --8<-- "reference/concept-glossary-terms/hold-state.zh.md"
 
 --8<-- "reference/concept-glossary-terms/host.zh.md"

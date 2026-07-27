@@ -16,8 +16,6 @@
 
 --8<-- "reference/concept-glossary-terms/min-samples-leaf.zh.md"
 
---8<-- "reference/concept-glossary-terms/axis-label.zh.md"
-
 --8<-- "reference/concept-glossary-terms/value.zh.md"
 
 --8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.zh.md"
@@ -45,7 +43,5 @@
 --8<-- "reference/concept-glossary-terms/staging-area.zh.md"
 
 --8<-- "reference/concept-glossary-terms/folding-rule.zh.md"
-
---8<-- "reference/concept-glossary-terms/bar-chart.zh.md"
 
 --8<-- "reference/concept-glossary-terms/positive-pair.zh.md"

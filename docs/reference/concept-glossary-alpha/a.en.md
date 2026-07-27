@@ -73,5 +73,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/automatic-prompt-optimization.en.md"
 
 --8<-- "reference/concept-glossary-terms/axis.en.md"
-
---8<-- "reference/concept-glossary-terms/axis-label.en.md"
