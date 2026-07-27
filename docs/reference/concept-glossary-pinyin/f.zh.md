@@ -9,8 +9,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/distributed-training.zh.md"
-
 --8<-- "reference/concept-glossary-terms/feature.zh.md"
 
 --8<-- "reference/concept-glossary-terms/feature-selection.zh.md"

@@ -5,8 +5,6 @@
 --8<-- "reference/concept-glossary-terms/bootstrap.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/distributed-training.ko.md"
-
 
 
 --8<-- "reference/concept-glossary-terms/bayes-rule.ko.md"
@@ -44,8 +42,6 @@
 --8<-- "reference/concept-glossary-terms/transformative-use.ko.md"
 
 --8<-- "reference/concept-glossary-terms/rate-of-change.ko.md"
-
---8<-- "reference/concept-glossary-terms/parallel-processing.ko.md"
 
 --8<-- "reference/concept-glossary-terms/augmentation.ko.md"
 

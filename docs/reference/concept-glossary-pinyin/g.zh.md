@@ -31,8 +31,6 @@
 
 --8<-- "reference/concept-glossary-terms/gpt.zh.md"
 
---8<-- "reference/concept-glossary-terms/gpugraphics-processing-unit.zh.md"
-
 
 --8<-- "reference/concept-glossary-terms/gradient.zh.md"
 

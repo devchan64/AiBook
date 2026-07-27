@@ -25,8 +25,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/decision-tree.en.md"
 
 
---8<-- "reference/concept-glossary-terms/distributed-training.en.md"
-
 --8<-- "reference/concept-glossary-terms/computation-graph.en.md"
 --8<-- "reference/concept-glossary-terms/computational-limit.en.md"
 
