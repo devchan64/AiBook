@@ -86,11 +86,6 @@
 --8<-- "reference/concept-glossary-terms/orchestration.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/exhaustive-search.ko.md"
-
-
-
-
 --8<-- "reference/concept-glossary-terms/risk.ko.md"
 
 --8<-- "reference/concept-glossary-terms/service-operation.ko.md"

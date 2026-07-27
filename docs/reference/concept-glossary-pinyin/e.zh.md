@@ -44,8 +44,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/exhaustive-search.zh.md"
-
 --8<-- "reference/concept-glossary-terms/expert-system.zh.md"
 
 
