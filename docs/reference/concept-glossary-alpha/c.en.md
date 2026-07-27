@@ -29,9 +29,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 
 
---8<-- "reference/concept-glossary-terms/combinatorial-explosion.en.md"
-
-
 --8<-- "reference/concept-glossary-terms/comparability.en.md"
 
 --8<-- "reference/concept-glossary-terms/cross-validation.en.md"

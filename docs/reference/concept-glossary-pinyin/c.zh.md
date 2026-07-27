@@ -28,12 +28,6 @@
 --8<-- "reference/concept-glossary-terms/test-data.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/combinatorial-explosion.zh.md"
-
-
-
-
-
 --8<-- "reference/concept-glossary-terms/error-cost.zh.md"
 
 --8<-- "reference/concept-glossary-terms/computation-graph.zh.md"

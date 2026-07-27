@@ -58,6 +58,4 @@
 
 --8<-- "reference/concept-glossary-terms/regression.ko.md"
 
---8<-- "reference/concept-glossary-terms/combinatorial-explosion.ko.md"
-
 --8<-- "reference/concept-glossary-terms/heuristic.ko.md"
