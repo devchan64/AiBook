@@ -1,10 +1,5 @@
 ## ㅊ
 
---8<-- "reference/concept-glossary-terms/feature-importance.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/feature-space.ko.md"
-
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dimension.ko.md"

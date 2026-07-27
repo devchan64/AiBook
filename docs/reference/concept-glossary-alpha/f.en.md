@@ -2,8 +2,6 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
---8<-- "reference/concept-glossary-terms/feature-importance.en.md"
-
 --8<-- "reference/concept-glossary-terms/factual-claim.en.md"
 
 --8<-- "reference/concept-glossary-terms/factuality.en.md"
@@ -18,11 +16,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 
 --8<-- "reference/concept-glossary-terms/feature-selection.en.md"
-
-
---8<-- "reference/concept-glossary-terms/feature-space.en.md"
-
-
 
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.en.md"
