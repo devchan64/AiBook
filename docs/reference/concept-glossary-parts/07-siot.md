@@ -102,8 +102,6 @@
 
 --8<-- "reference/concept-glossary-terms/visualization.ko.md"
 
---8<-- "reference/concept-glossary-terms/confidence-level.ko.md"
-
 --8<-- "reference/concept-glossary-terms/softmax.ko.md"
 
 --8<-- "reference/concept-glossary-terms/scenario.ko.md"

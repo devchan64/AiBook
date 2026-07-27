@@ -19,7 +19,7 @@
 
 - 기준 파일: `management/glossary-indexes/concept-glossary-index.ko.md`
 - 단어별 원고 위치: `docs/reference/concept-glossary-terms/*.ko.md`
-- 현재 한국어 인덱스 항목 수: 259개
+- 현재 한국어 인덱스 항목 수: 258개
 - 현재 `표제 관리 제외 검토` 표시: 0개
 - 현재 `표제 통일 관리 검토` 표시: 0개
 - 검토 방식: 인덱스의 `비고` 표시, 대표 표제어, 영어 기준 용어, 중심 Section, 단어별 원고의 뜻·왜 중요한가를 함께 대조
@@ -365,6 +365,7 @@
 | 완료 | 누적 효과 | `accumulation-effect` | accumulation effect | 생성 과정에서 앞선 선택이 뒤 선택에 영향을 주는 설명이다. 독립 표제보다 `문맥 의존성`, `다음 토큰 예측`, `오류 누적` 안에서 다룬다. | `문맥 의존성`, `다음 토큰 예측`, `오류 누적` |
 | 완료 | 이질적 스케일의 역할별 읽기 | `role-aware-reading-across-heterogeneous-scales` | role-aware reading across heterogeneous scales | Part 3의 특정 Section 해석 문장에 가깝다. 독립 표제보다 `특징`, `기준선`, `전처리`, `비교 가능성` 안에서 설명한다. | `특징`, `기준선`, `전처리`, `비교 가능성` |
 | 완료 | 출력 정의 | `output-definition` | output definition | 모델이 내야 할 결과의 형식과 의미를 정하는 설명이지만 `출력`, `모델링 과제`, `모델 출력 구조`와 중복된다. | `출력`, `모델링 과제`, `모델 출력 구조` |
+| 완료 | 신뢰 수준 | `confidence-level` | confidence level | 통계의 confidence level과 충돌할 수 있고 현재 설명은 보정된 확률 출력 해석이다. 독립 표제보다 `보정`, `확률 추정값`, `모델 점수` 안에서 다룬다. | `보정`, `확률 추정값`, `모델 점수` |
 
 ## 재검토 결과 요약
 
