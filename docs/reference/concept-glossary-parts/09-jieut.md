@@ -27,7 +27,6 @@
 
 --8<-- "reference/concept-glossary-terms/copyright.ko.md"
 
---8<-- "reference/concept-glossary-terms/fitting.ko.md"
 --8<-- "reference/concept-glossary-terms/expert-system.ko.md"
 
 --8<-- "reference/concept-glossary-terms/true-objective.ko.md"

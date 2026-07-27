@@ -20,8 +20,6 @@
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.zh.md"
 
---8<-- "reference/concept-glossary-terms/fitting.zh.md"
-
 --8<-- "reference/concept-glossary-terms/symbolic-ai.zh.md"
 
 --8<-- "reference/concept-glossary-terms/expert-system.zh.md"
