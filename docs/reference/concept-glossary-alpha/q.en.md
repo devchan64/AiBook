@@ -18,6 +18,4 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/query.en.md"
 
---8<-- "reference/concept-glossary-terms/queue.en.md"
-
 --8<-- "reference/concept-glossary-terms/quotation.en.md"

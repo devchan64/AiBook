@@ -10,8 +10,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/k-nnk-nearest-neighbors.en.md"
 
---8<-- "reference/concept-glossary-terms/key-based-structure.en.md"
-
 --8<-- "reference/concept-glossary-terms/knowledge-acquisition.en.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-base.en.md"

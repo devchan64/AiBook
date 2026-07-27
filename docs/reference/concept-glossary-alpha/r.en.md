@@ -46,8 +46,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/rlhf.en.md"
 
---8<-- "reference/concept-glossary-terms/relation.en.md"
-
 --8<-- "reference/concept-glossary-terms/repository.en.md"
 
 --8<-- "reference/concept-glossary-terms/role-aware-reading-across-heterogeneous-scales.en.md"

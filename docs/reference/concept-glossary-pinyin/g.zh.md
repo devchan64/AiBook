@@ -30,8 +30,6 @@
 
 --8<-- "reference/concept-glossary-terms/incomplete-negative.zh.md"
 
---8<-- "reference/concept-glossary-terms/relation.zh.md"
-
 --8<-- "reference/concept-glossary-terms/shared-view.zh.md"
 
 --8<-- "reference/concept-glossary-terms/goal.zh.md"

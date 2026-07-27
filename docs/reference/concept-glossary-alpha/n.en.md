@@ -16,11 +16,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/next-token-prediction.en.md"
 
---8<-- "reference/concept-glossary-terms/node.en.md"
-
 --8<-- "reference/concept-glossary-terms/noise.en.md"
-
---8<-- "reference/concept-glossary-terms/non-linear-structure.en.md"
 
 --8<-- "reference/concept-glossary-terms/non-parametric-memory.en.md"
 

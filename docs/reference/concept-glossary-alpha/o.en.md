@@ -24,8 +24,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/observation.en.md"
 
---8<-- "reference/concept-glossary-terms/operation.en.md"
-
 --8<-- "reference/concept-glossary-terms/service-operation.en.md"
 
 <a id="optimization"></a>

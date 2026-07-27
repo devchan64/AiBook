@@ -4,11 +4,7 @@
 
 --8<-- "reference/concept-glossary-terms/extra-trees.zh.md"
 
---8<-- "reference/concept-glossary-terms/edge.zh.md"
-
 --8<-- "reference/concept-glossary-terms/backpropagation.zh.md"
-
---8<-- "reference/concept-glossary-terms/edge-weight.zh.md"
 
 --8<-- "reference/concept-glossary-terms/eigenvalue.zh.md"
 

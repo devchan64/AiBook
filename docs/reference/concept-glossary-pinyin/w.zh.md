@@ -6,8 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/unsupervised-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/undirected-graph.zh.md"
-
 --8<-- "reference/concept-glossary-terms/positional-encoding.zh.md"
 
 --8<-- "reference/concept-glossary-terms/word2vec.zh.md"

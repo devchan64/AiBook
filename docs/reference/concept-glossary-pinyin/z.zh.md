@@ -34,8 +34,6 @@
 
 --8<-- "reference/concept-glossary-terms/on-policy.zh.md"
 
---8<-- "reference/concept-glossary-terms/stack.zh.md"
-
 --8<-- "reference/concept-glossary-terms/recall.zh.md"
 
 --8<-- "reference/concept-glossary-terms/regularization.zh.md"

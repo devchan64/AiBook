@@ -6,8 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/safe-reinforcement-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/abstract-data-type.zh.md"
-
 --8<-- "reference/concept-glossary-terms/accountability.zh.md"
 
 --8<-- "reference/concept-glossary-terms/accuracy.zh.md"

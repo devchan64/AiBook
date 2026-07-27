@@ -40,14 +40,6 @@
 
 --8<-- "reference/concept-glossary-terms/linear-regression.zh.md"
 
---8<-- "reference/concept-glossary-terms/linear-structure.zh.md"
-
---8<-- "reference/concept-glossary-terms/adjacency-list.zh.md"
-
---8<-- "reference/concept-glossary-terms/linked-list.zh.md"
-
---8<-- "reference/concept-glossary-terms/list.zh.md"
-
 --8<-- "reference/concept-glossary-terms/type.zh.md"
 
 --8<-- "reference/concept-glossary-terms/llm.zh.md"

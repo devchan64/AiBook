@@ -52,8 +52,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/derivative.en.md"
 
---8<-- "reference/concept-glossary-terms/dictionary.en.md"
-
 --8<-- "reference/concept-glossary-terms/diffusion-model.en.md"
 
 --8<-- "reference/concept-glossary-terms/dimension.en.md"
@@ -61,8 +59,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.en.md"
 
 --8<-- "reference/concept-glossary-terms/aggregation.en.md"
-
---8<-- "reference/concept-glossary-terms/directed-graph.en.md"
 
 --8<-- "reference/concept-glossary-terms/array.en.md"
 --8<-- "reference/concept-glossary-terms/batch-normalization.en.md"

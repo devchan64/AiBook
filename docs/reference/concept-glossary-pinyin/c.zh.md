@@ -26,8 +26,6 @@
 
 --8<-- "reference/concept-glossary-terms/penalty.zh.md"
 
---8<-- "reference/concept-glossary-terms/hierarchy.zh.md"
-
 --8<-- "reference/concept-glossary-terms/chain-of-thought-cot.zh.md"
 
 --8<-- "reference/concept-glossary-terms/out-of-vocabulary-oov.zh.md"
@@ -71,8 +69,6 @@
 --8<-- "reference/concept-glossary-terms/error-cost.zh.md"
 
 --8<-- "reference/concept-glossary-terms/computation-graph.zh.md"
-
---8<-- "reference/concept-glossary-terms/operation.zh.md"
 
 --8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
 

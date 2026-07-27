@@ -100,8 +100,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/speech-generation.en.md"
 
---8<-- "reference/concept-glossary-terms/stack.en.md"
-
 --8<-- "reference/concept-glossary-terms/staging-area.en.md"
 
 --8<-- "reference/concept-glossary-terms/standard-deviation.en.md"

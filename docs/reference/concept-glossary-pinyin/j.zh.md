@@ -22,8 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/value-based-reinforcement-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/key-based-structure.zh.md"
-
 --8<-- "reference/concept-glossary-terms/additive-model.zh.md"
 
 --8<-- "reference/concept-glossary-terms/cross-validation.zh.md"

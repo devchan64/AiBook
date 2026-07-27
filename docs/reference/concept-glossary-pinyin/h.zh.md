@@ -10,8 +10,6 @@
 
 --8<-- "reference/concept-glossary-terms/hessian.zh.md"
 
---8<-- "reference/concept-glossary-terms/hash-table.zh.md"
-
 --8<-- "reference/concept-glossary-terms/candidate-distribution.zh.md"
 
 --8<-- "reference/concept-glossary-terms/function-approximation.zh.md"

@@ -28,8 +28,6 @@
 
 --8<-- "reference/concept-glossary-terms/proxy-target.zh.md"
 
---8<-- "reference/concept-glossary-terms/queue.zh.md"
-
 --8<-- "reference/concept-glossary-terms/decision-tree.zh.md"
 
 --8<-- "reference/concept-glossary-terms/alert-grade.zh.md"
@@ -48,8 +46,6 @@
 
 --8<-- "reference/concept-glossary-terms/derivative.zh.md"
 
---8<-- "reference/concept-glossary-terms/dictionary.zh.md"
-
 --8<-- "reference/concept-glossary-terms/diffusion-model.zh.md"
 
 --8<-- "reference/concept-glossary-terms/dimension.zh.md"
@@ -57,8 +53,6 @@
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.zh.md"
 
 --8<-- "reference/concept-glossary-terms/aggregation.zh.md"
-
---8<-- "reference/concept-glossary-terms/directed-graph.zh.md"
 
 --8<-- "reference/concept-glossary-terms/array.zh.md"
 --8<-- "reference/concept-glossary-terms/batch-normalization.zh.md"

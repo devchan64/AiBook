@@ -16,11 +16,7 @@
 
 --8<-- "reference/concept-glossary-terms/next-token-prediction.zh.md"
 
---8<-- "reference/concept-glossary-terms/node.zh.md"
-
 --8<-- "reference/concept-glossary-terms/noise.zh.md"
-
---8<-- "reference/concept-glossary-terms/non-linear-structure.zh.md"
 
 --8<-- "reference/concept-glossary-terms/non-parametric-memory.zh.md"
 
