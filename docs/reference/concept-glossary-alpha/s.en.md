@@ -124,8 +124,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/sarsa.en.md"
 
---8<-- "reference/concept-glossary-terms/stop-condition.en.md"
-
 --8<-- "reference/concept-glossary-terms/structural-hypothesis.en.md"
 
 --8<-- "reference/concept-glossary-terms/structure.en.md"

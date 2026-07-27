@@ -123,7 +123,6 @@
 | 상태 표현 | 상태 표현 | state | P1-7.1 | state | state | P1-14.3 source context | 다음 행동 판단에 쓰는 현재 상황 정보의 요약 표현 |
 | 에이전트 행동 | 에이전트 행동 | action | P1-8.3 | action | action | P1-14.3 source context | AI 에이전트나 강화학습 에이전트가 상태를 바꾸기 위해 선택하는 실행 단위 |
 | 관찰 결과 | 관찰 결과 | observation | P1-14.3 | observation | observation | P1-14.3 source context | 행동 뒤 돌아와 다음 판단에 쓰는 새 정보나 결과 |
-| 종료 조건 | 종료 조건 | stop condition | P1-14.3 | stop-condition | stop-condition | P1-14.3 source context | 작업을 계속할지 멈출지 정하는 기준 |
 | MCP | 모델 컨텍스트 프로토콜 | Model Context Protocol | P1-14.4 | model-context-protocol-mcp | model-context-protocol-mcp | MCP specification context | AI 앱과 외부 도구·리소스·프롬프트 연결을 표준화하려는 프로토콜 |
 | 외부 리소스 | 외부 리소스 | external resource | P1-14.4 | resource | resource | P1-14.4 source context | 모델이나 앱이 읽는 외부 맥락 데이터 |
 | 신뢰 경계 | 신뢰 경계 | trust boundary | P1-14.4 | trust-boundary | trust-boundary | P1-14.4 source context | 믿을 수 있는 영역과 검증해야 하는 영역을 나누는 경계 |

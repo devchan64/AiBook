@@ -81,9 +81,6 @@
 
 --8<-- "reference/concept-glossary-terms/dense-vector.ko.md"
 
---8<-- "reference/concept-glossary-terms/stop-condition.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/principal-component-analysis-pca.ko.md"
 
 --8<-- "reference/concept-glossary-terms/orthogonal.ko.md"
