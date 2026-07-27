@@ -46,8 +46,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/tool.en.md"
 
---8<-- "reference/concept-glossary-terms/tool-call.en.md"
-
 --8<-- "reference/concept-glossary-terms/tool-use.en.md"
 
 --8<-- "reference/concept-glossary-terms/top-k.en.md"

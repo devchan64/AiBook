@@ -39,8 +39,6 @@
 
 --8<-- "reference/concept-glossary-terms/tool-use.ko.md"
 
---8<-- "reference/concept-glossary-terms/tool-call.ko.md"
-
 --8<-- "reference/concept-glossary-terms/tool.ko.md"
 
 --8<-- "reference/concept-glossary-terms/dropout.ko.md"
