@@ -5,7 +5,7 @@
 
 Part 1 看过 [AI](/AiBook/zh/reference/concept-glossary-pinyin/a/#ai-artificial-intelligence) 这个词的广义范围。Part 2 重新读过公式、Python、数组、表格和图表。现在到了 Part 4，要在这个基础上把 [machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning) 单独拎出来看。
 
-这一节会区分 AI、machine learning、[deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning)、[generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#aigenerative-ai)、[LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) 分别指向什么范围，并说明为什么在 Part 4 里不是直接进入深度学习，而是先重新回看传统机器学习。
+这一节会区分 AI、machine learning、[deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning)、[generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#generative-ai)、[LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) 分别指向什么范围，并说明为什么在 Part 4 里不是直接进入深度学习，而是先重新回看传统机器学习。
 
 因此，这一节的重点是分清楚 `machine learning 在 AI 这个大领域里处在什么位置`，以及 `为什么不直接跳到 LLM 或 deep learning，而要先看数据、模型、学习、评估`。
 

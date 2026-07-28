@@ -22,7 +22,10 @@
 | evaluation data | evaluation data | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | Data kept out of direct model training and used to check how the trained model behaves |
 | false negative | false negative | false negative | P3-9.12 | false-negative | false-negative | Google ML Glossary false negative, P3-9.12 source context | Case that is actually positive but is judged negative by the model or rule |
 | false positive | false positive | false positive | P3-9.12 | false-positive | false-positive | Google ML Glossary false positive, P3-9.12 source context | Case that is actually negative but is judged positive by the model or rule |
+| function approximation | function approximation | function approximation | P4-19.5 | function-approximation | function-approximation | P4-19.5 source context | Expressing values with a function or model instead of storing every value directly in a table |
+| generative AI | generative AI | generative AI | P1-10.1 | generative-ai | generative-ai | IBM generative AI, P1-10.1 source context | Broad category of models and services that create new content such as text, images, audio, or code |
 | group split | group split | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | Splitting data so records from the same entity or group do not appear on both evaluation sides |
+| heuristic | heuristic | heuristic | P1-7.2 | heuristic | heuristic | AIMA, Poole & Mackworth heuristic search | Experience-based rule that helps inspect promising candidates first without guaranteeing the best answer |
 | intervention feedback | intervention feedback | intervention feedback | P3-8.7 | intervention-feedback | intervention-feedback | P3-8.7 source context | Feedback structure where review rules or operational actions change later data and labels |
 | interpretation boundary | interpretation boundary | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | Limit on how far a data result or comparison can be stated |
 | label consistency | label consistency | label consistency | P3-9.6 | label-consistency | label-consistency | P3-9.6 source context | Degree to which labels with the same meaning repeat for the same event or similar conditions |
@@ -47,6 +50,7 @@
 | state | state | state | P1-7.1 | state | state | P1-14.3 source context | Current information and conditions used to choose the next action |
 | target | target | target | P1-8.1 | target | target | P2-12.3 source context | Answer column or goal value a model is meant to predict |
 | time split | time split | time split | P3-9.13 | time-split | time-split | FPP3 time series cross-validation, P3-9.13 source context | Splitting time-ordered data so later cases are evaluated using only earlier information |
+| task definition | task definition | task definition | P1-4.4 | task-definition | task-definition | P1-4.4 source context | Narrowing a real-world goal into computable input, output, data, and evaluation criteria |
 | token | token | token | P6-2.1 | token | token | P6-2.1 source context | Basic computational unit into which text is split for model processing |
 | tokenization | tokenization | tokenization | P6-2.2 | tokenization | tokenization | P3-6.2 source context | Converting raw text or segment structure into a token sequence |
 | vocabulary | vocabulary | vocabulary | P6-2.2 | vocabulary | vocabulary | P6-2.2 source context | Internal list of token pieces and IDs used by a tokenizer |

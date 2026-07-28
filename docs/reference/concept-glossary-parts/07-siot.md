@@ -38,7 +38,7 @@
 --8<-- "reference/concept-glossary-terms/generation.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/aigenerative-ai.ko.md"
+--8<-- "reference/concept-glossary-terms/generative-ai.ko.md"
 
 
 

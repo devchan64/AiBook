@@ -7,7 +7,7 @@
 
 여기서 필요한 일은 용어를 완벽한 포함 관계로 외우는 것이 아니라, 서로 다른 층위(level)의 말을 같은 뜻처럼 섞어 쓰지 않도록 기준선을 세우는 것입니다.
 
-Part 1에서 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계는 이 절에서 기준선을 잡습니다. 뒤 절에서 이 용어들이 다시 나오더라도 현재 질문에 필요한 최소 연결만 남기고, 용어 관계 자체를 다시 정리해야 할 때는 이 절과 개념사전의 [AI](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence), [머신러닝](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning), [딥러닝](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning), [생성형 AI](../../../reference/concept-glossary-parts/07-siot.md#aigenerative-ai), [LLM](../../../reference/concept-glossary-parts/08-ieung.md#llm) 항목으로 돌아옵니다.
+Part 1에서 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계는 이 절에서 기준선을 잡습니다. 뒤 절에서 이 용어들이 다시 나오더라도 현재 질문에 필요한 최소 연결만 남기고, 용어 관계 자체를 다시 정리해야 할 때는 이 절과 개념사전의 [AI](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence), [머신러닝](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning), [딥러닝](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning), [생성형 AI](../../../reference/concept-glossary-parts/07-siot.md#generative-ai), [LLM](../../../reference/concept-glossary-parts/08-ieung.md#llm) 항목으로 돌아옵니다.
 
 ## AI, 머신러닝, LLM의 층위 구분
 

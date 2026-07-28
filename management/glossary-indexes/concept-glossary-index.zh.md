@@ -20,12 +20,15 @@
 | 过拟合 | 过拟合 | overfitting | P4-5.1 | overfitting | overfitting | P4-5.1 source context | 训练数据表现很好但新数据表现变差的状态 |
 | 错误成本 | 错误成本 | error cost | P3-9.12 | error-cost | error-cost | Google ML Glossary thresholding, P3-9.12 source context | 按错误类型分别记录真实负担，用来解释阈值和判断方向的标准 |
 | 交叉验证 | 交叉验证 | cross-validation | P4-4.2 | cross-validation | cross-validation | scikit-learn Cross-validation, P4-4.2 source context | 在已有数据中多次拆分，并在不同验证部分上反复评估模型或设置的方法 |
+| 生成式 AI | 生成式 AI | generative AI | P1-10.1 | generative-ai | generative-ai | IBM generative AI, P1-10.1 source context | 生成文本、图像、语音、代码等新内容的模型和服务类别 |
+| 函数近似 | 函数近似 | function approximation | P4-19.5 | function-approximation | function-approximation | P4-19.5 source context | 不把所有值存进表里，而是用函数或模型根据输入估计价值 |
 | 假阴性 | 假阴性 | false negative | P3-9.12 | false-negative | false-negative | Google ML Glossary false negative, P3-9.12 source context | 实际为正例，却被模型或规则判成负例而漏掉的案例 |
 | 假阳性 | 假阳性 | false positive | P3-9.12 | false-positive | false-positive | Google ML Glossary false positive, P3-9.12 source context | 实际为负例，却被模型或规则判成正例而误报的案例 |
 | 精确率 | 精确率 | precision | P1-13.4 | precision | precision | P4-6.1 source context | 被模型预测为正类的案例中实际为正类的比例 |
 | 代理目标 | 代理目标 | proxy target | P3-9.9 | proxy-target | proxy-target | Google ML Glossary proxy labels, P3-9.9 source context | 实际目标不可用或出现太晚时临时当作目标的替代列 |
 | 规则型方法 | 规则型方法 | rule-based approach | P1-2.1 | rule-based-approach | rule-based-approach | P1-2.1 source context | 由人明确写出判断规则后再应用的解决问题方式 |
 | 分组切分 | 分组切分 | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | 避免同一实体或同一组记录同时出现在训练侧和验证/测试侧的切分方式 |
+| 启发式 | 启发式 | heuristic | P1-7.2 | heuristic | heuristic | AIMA, Poole & Mackworth heuristic search | 在有限时间和信息下优先查看更有希望候选的经验性判断规则 |
 | 监督学习 | 监督学习 | supervised learning | P1-8.1 | supervised-learning | supervised-learning | P1-8.1 source context | 用带有输入和正确标签的样本学习目标输出的机器学习问题 |
 | 奖励 | 奖励 | reward | P1-8.3 | reward | reward | P1-8.3 source context | 强化学习中行动之后由环境返回的反馈信号 |
 | 学习型方法 | 学习型方法 | learning-based approach | P4-1.2 | learning-based-approach | learning-based-approach | P4-1.2 source context | 从案例数据中拟合输入和输出关系来形成模型判断标准的方法 |

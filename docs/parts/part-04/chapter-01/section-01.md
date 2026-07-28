@@ -5,7 +5,7 @@
 
 Part 1에서는 [AI(artificial intelligence)](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence)라는 말의 넓은 범위를 봤습니다. Part 2에서는 수식, Python, 배열, 표, 그래프를 다시 읽었습니다. 이제 Part 4에서는 그 기반 위에서 [머신러닝(machine learning)](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning)을 따로 떼어 봅니다.
 
-이 절은 AI, 머신러닝, [딥러닝(deep learning)](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning), [생성형 AI(generative AI)](../../../reference/concept-glossary-parts/07-siot.md#aigenerative-ai), [LLM(large language model)](../../../reference/concept-glossary-parts/08-ieung.md#llm)이 각각 어느 범위를 가리키는지 구분하고, Part 4에서 왜 전통적인 머신러닝부터 다시 보는지 설명합니다.
+이 절은 AI, 머신러닝, [딥러닝(deep learning)](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning), [생성형 AI(generative AI)](../../../reference/concept-glossary-parts/07-siot.md#generative-ai), [LLM(large language model)](../../../reference/concept-glossary-parts/08-ieung.md#llm)이 각각 어느 범위를 가리키는지 구분하고, Part 4에서 왜 전통적인 머신러닝부터 다시 보는지 설명합니다.
 
 따라서 이 절의 초점은 “AI라는 큰 분야 안에서 머신러닝이 어떤 위치에 있는가”와 “왜 바로 LLM이나 딥러닝으로 가지 않고 데이터, 모델, 학습, 평가를 먼저 보는가”를 구분하는 데 있습니다.
 

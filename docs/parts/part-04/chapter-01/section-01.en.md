@@ -5,7 +5,7 @@
 
 Part 1 looked at the broad scope of the word [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence). Part 2 revisited formulas, Python, arrays, tables, and graphs. Now Part 4 separates out [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) on top of that foundation.
 
-This Section distinguishes the ranges indicated by AI, machine learning, [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning), [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai), and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), and explains why Part 4 starts again from classical machine learning.
+This Section distinguishes the ranges indicated by AI, machine learning, [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning), [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#generative-ai), and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), and explains why Part 4 starts again from classical machine learning.
 
 So the focus here is to distinguish `where machine learning sits inside the large field called AI` and `why Part 4 looks at data, models, learning, and evaluation before jumping directly to deep learning or LLMs`.
 

@@ -7,7 +7,7 @@
 
 这里需要做的事，并不是把它们背成一条绝对准确的包含链，而是先建立一条基准线，避免把来自不同概念层级(level)的词当成同义词混用。
 
-在 Part 1 中，`AI`、`machine learning`、`deep learning`、`generative AI`、`LLM` 之间的基准关系，就固定在这一节。后面再出现这些词时，只保留当前问题所需的最小连接；如果需要重新整理术语之间的关系，就回到这一节，以及 [AI](/AiBook/zh/reference/concept-glossary-pinyin/a/#ai-artificial-intelligence)、[machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning)、[deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning)、[generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#aigenerative-ai)、[LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) 等词条。
+在 Part 1 中，`AI`、`machine learning`、`deep learning`、`generative AI`、`LLM` 之间的基准关系，就固定在这一节。后面再出现这些词时，只保留当前问题所需的最小连接；如果需要重新整理术语之间的关系，就回到这一节，以及 [AI](/AiBook/zh/reference/concept-glossary-pinyin/a/#ai-artificial-intelligence)、[machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning)、[deep learning](/AiBook/zh/reference/concept-glossary-pinyin/d/#deep-learning)、[generative AI](/AiBook/zh/reference/concept-glossary-pinyin/g/#generative-ai)、[LLM](/AiBook/zh/reference/concept-glossary-pinyin/l/#llm) 等词条。
 
 ## 区分 AI、机器学习和 LLM 的层位
 

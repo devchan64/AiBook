@@ -18,7 +18,7 @@
 
 --8<-- "reference/concept-glossary-terms/generation.zh.md"
 
---8<-- "reference/concept-glossary-terms/aigenerative-ai.zh.md"
+--8<-- "reference/concept-glossary-terms/generative-ai.zh.md"
 
 --8<-- "reference/concept-glossary-terms/generative-model.zh.md"
 

@@ -1,4 +1,4 @@
-<a id="aigenerative-ai"></a>
+<a id="generative-ai"></a>
 
 ### 생성형 AI(generative AI)
 

@@ -6,7 +6,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/generation.en.md"
 
---8<-- "reference/concept-glossary-terms/aigenerative-ai.en.md"
+--8<-- "reference/concept-glossary-terms/generative-ai.en.md"
 
 --8<-- "reference/concept-glossary-terms/generative-model.en.md"
 
