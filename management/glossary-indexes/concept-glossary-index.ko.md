@@ -305,7 +305,7 @@
 | 확률 모델 | 확률 모델 | probabilistic model | P1-7.3 | probabilistic-model | probabilistic-model | probabilistic AI context | 불확실성을 확률 구조로 표현해 후보나 판단을 다루는 모델 |
 | 확률 추론 | 확률 추론 | probabilistic reasoning | P1-2.2 | probabilistic-reasoning | probabilistic-reasoning | probabilistic AI context | 불완전한 정보와 불확실성 아래에서 가능성을 갱신하며 판단하는 추론 |
 | 출처 추적 | 출처 추적 | provenance | P1-13.3 | provenance | provenance | RAG provenance context | 어떤 자료와 조각이 답변에 영향을 주었는지 추적하는 근거 경로 정보 |
-| 추천 | 추천 | recommendation | P1-1.2 | recommendation | recommendation | recommendation context | 사용자·항목·맥락 정보를 바탕으로 보여 줄 후보를 고르는 문제 유형 |
+| 추천 과제 | 추천 과제 | recommendation task | P1-1.2 | recommendation-task | recommendation-task | recommendation context | 사용자·항목·맥락 정보를 바탕으로 보여 줄 후보를 고르는 모델링 과제 |
 | 순환 신경망 | 순환 신경망 | recurrent neural network, RNN | P1-11.2 | recurrent-neural-network | recurrent-neural-network | sequence model context | 이전 숨은 상태를 다음 계산으로 넘기며 순서 데이터를 처리하는 신경망 구조 |
 | 강화학습 에이전트 | 강화학습 에이전트 | reinforcement learning agent | P1-8.3 | reinforcement-learning-agent | reinforcement-learning-agent | reinforcement learning context | 환경과 상호작용하며 행동, 보상, 정책 갱신을 수행하는 학습 주체 |
 | 표현 | 표현 | representation | P1-3.3 | representation | representation | representation learning context | 입력을 현재 과제에 유용한 계산용 내부 형태로 재구성한 모습 |

@@ -29,6 +29,6 @@
 
 --8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.ko.md"
 
---8<-- "reference/concept-glossary-terms/recommendation.ko.md"
+--8<-- "reference/concept-glossary-terms/recommendation-task.ko.md"
 
 --8<-- "reference/concept-glossary-terms/provenance.ko.md"
