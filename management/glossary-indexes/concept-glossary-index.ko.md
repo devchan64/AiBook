@@ -290,15 +290,22 @@
 | 특징 선택 | 특징 선택 | feature selection | P4-7.1 | feature-selection | feature-selection | feature selection context | 입력 후보 중 현재 문제에 남길 특징을 고르는 표준 모델링 과정 |
 | GPT | GPT | Generative Pre-trained Transformer | P6-5.1 | gpt | gpt | GPT model family context | Transformer decoder 기반의 대표 생성형 언어 모델 계열 |
 | 불완전한 정보 | 불완전한 정보 | incomplete information | P1-6.1 | incomplete-information | incomplete-information | AI problem condition context | 판단에 필요한 정보 일부가 처음부터 주어지지 않은 문제 조건 |
+| 입력 | 입력 | input | P1-4.2 | input | input | model input context | 모델이 한 번의 계산에서 실제로 받는 값 묶음 |
+| 중간 표현 | 중간 표현 | intermediate representation | P3-6.2 | intermediate-representation | intermediate-representation | feature engineering context | 원시 데이터와 최종 특징 사이에 두는 사람 주도 입력 재표현 |
 | 커널 | 커널 | kernel | P4-13.2 | kernel | kernel | kernel method context | 새 표현 공간의 비교 효과를 함수 계산으로 다루는 분류·표현 방법 개념 |
+| 라벨 | 라벨 | label | P1-4.2 | label | label | supervised learning label context | 지도학습에서 데이터 사례에 붙인 정답이나 목표 출력 |
 | 장기 의존성 | 장기 의존성 | long-term dependency | P1-11.2 | long-term-dependency | long-term-dependency | sequence model context | 오래전 정보가 뒤 판단에 중요하지만 전달되기 어려운 순차 모델 문제 |
 | 마진 | 마진 | margin | P4-13.1 | margin | margin | margin classifier context | 분류 경계와 가까운 사례 사이의 여유 폭 |
 | 최대우도추정 | 최대우도추정 | maximum likelihood estimation, MLE | P4-11.3 | maximum-likelihood-estimation-mle | maximum-likelihood-estimation-mle | maximum likelihood context | 관찰 데이터가 가장 그럴듯하게 나오도록 파라미터를 찾는 추정 방식 |
 | 다층 신경망 | 다층 신경망 | multilayer neural network | P5-2.1 | multilayer-neural-network | multilayer-neural-network | neural network context | 여러 층의 계산 단위를 쌓아 중간 표현을 단계적으로 만드는 신경망 구조 |
+| 잡음 | 잡음 | noise | P1-6.1 | noise | noise | signal and noise context | 관측 데이터에서 현재 질문과 무관하거나 해석을 흐리는 변동 |
+| 비결정적 | 비결정적 | nondeterministic | P1-6.2 | nondeterministic | nondeterministic | nondeterminism context | 같은 입력이나 상태에서도 결과가 하나로 고정되지 않을 수 있는 성질 |
 | 부분 관측 | 부분 관측 | partial observability | P1-6.1 | partial-observability | partial-observability | AI agent and RL context | 전체 상태 중 현재 보이는 일부 정보만으로 판단해야 하는 조건 |
 | 정책 기반 강화학습 | 정책 기반 강화학습 | policy-based reinforcement learning | P4-19.2 | policy-based-reinforcement-learning | policy-based-reinforcement-learning | reinforcement learning context | 정책 자체를 직접 조정해 행동 선택 기준을 배우는 강화학습 접근 |
 | 확률 모델 | 확률 모델 | probabilistic model | P1-7.3 | probabilistic-model | probabilistic-model | probabilistic AI context | 불확실성을 확률 구조로 표현해 후보나 판단을 다루는 모델 |
 | 확률 추론 | 확률 추론 | probabilistic reasoning | P1-2.2 | probabilistic-reasoning | probabilistic-reasoning | probabilistic AI context | 불완전한 정보와 불확실성 아래에서 가능성을 갱신하며 판단하는 추론 |
+| 출처 추적 | 출처 추적 | provenance | P1-13.3 | provenance | provenance | RAG provenance context | 어떤 자료와 조각이 답변에 영향을 주었는지 추적하는 근거 경로 정보 |
+| 추천 | 추천 | recommendation | P1-1.2 | recommendation | recommendation | recommendation context | 사용자·항목·맥락 정보를 바탕으로 보여 줄 후보를 고르는 문제 유형 |
 | 순환 신경망 | 순환 신경망 | recurrent neural network, RNN | P1-11.2 | recurrent-neural-network | recurrent-neural-network | sequence model context | 이전 숨은 상태를 다음 계산으로 넘기며 순서 데이터를 처리하는 신경망 구조 |
 | 강화학습 에이전트 | 강화학습 에이전트 | reinforcement learning agent | P1-8.3 | reinforcement-learning-agent | reinforcement-learning-agent | reinforcement learning context | 환경과 상호작용하며 행동, 보상, 정책 갱신을 수행하는 학습 주체 |
 | 표현 | 표현 | representation | P1-3.3 | representation | representation | representation learning context | 입력을 현재 과제에 유용한 계산용 내부 형태로 재구성한 모습 |
@@ -308,6 +315,7 @@
 | 탐색 공간 | 탐색 공간 | search space | P1-7.1 | search-space | search-space | AI search context | 문제 해결 때 고려할 상태, 선택지, 경로 후보의 전체 구조 |
 | 반지도학습 | 반지도학습 | semi-supervised learning | P4-17.2 | semi-supervised-learning | semi-supervised-learning | semi-supervised learning context | 적은 라벨 데이터와 많은 비라벨 데이터를 함께 쓰는 학습 문제 설정 |
 | 시뮬레이션-현실 간극 | 시뮬레이션-현실 간극 | sim-to-real gap | P4-19.3 | sim-to-real-gap | sim-to-real-gap | reinforcement learning deployment context | 시뮬레이션에서 확인한 정책이 현실로 옮겨질 때 생기는 조건 차이 |
+| 데이터 희소성 | 데이터 희소성 | sparsity | P1-11.1 | sparsity | sparsity | language model sparsity context | 가능한 조합에 비해 관측 사례가 적어 안정적 추정이 어려운 문제 |
 | 표준화 | 표준화 | standardization | P4-12.2 | standardization | standardization | preprocessing context | 특징의 평균과 표준편차를 맞춰 거리나 모델 계산에서 비교 가능하게 만드는 변환 |
 | 확률적 과정 | 확률적 과정 | stochastic process | P1-6.2 | stochastic-process | stochastic-process | stochastic process context | 시간에 따라 확률적으로 흔들리며 전개되는 변화 구조 |
 | 진짜 목표 | 진짜 목표 | true objective | P4-19.3 | true-objective | true-objective | reward design context | 보상이나 지표가 대신 표현하려는 실제 목표 |
