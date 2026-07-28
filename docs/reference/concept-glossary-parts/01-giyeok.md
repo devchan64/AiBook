@@ -126,7 +126,7 @@
 
 
 --8<-- "reference/concept-glossary-terms/fair-use.ko.md"
---8<-- "reference/concept-glossary-terms/evidence.ko.md"
+--8<-- "reference/concept-glossary-terms/supporting-evidence.ko.md"
 --8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.ko.md"
 
 --8<-- "reference/concept-glossary-terms/baseline-model.ko.md"

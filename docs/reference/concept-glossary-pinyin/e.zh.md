@@ -23,8 +23,6 @@
 
 --8<-- "reference/concept-glossary-terms/event.zh.md"
 
---8<-- "reference/concept-glossary-terms/evidence.zh.md"
-
 
 --8<-- "reference/concept-glossary-terms/exploitation.zh.md"
 

@@ -26,9 +26,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/outlier.en.md"
 
---8<-- "reference/concept-glossary-terms/output.en.md"
-
-
 
 <a id="output-format"></a>
 

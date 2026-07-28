@@ -28,6 +28,10 @@
 
 --8<-- "reference/concept-glossary-terms/model-context-protocol-mcp.zh.md"
 
+--8<-- "reference/concept-glossary-terms/model-input.zh.md"
+
+--8<-- "reference/concept-glossary-terms/model-output.zh.md"
+
 --8<-- "reference/concept-glossary-terms/model-selection.zh.md"
 
 --8<-- "reference/concept-glossary-terms/model-training.zh.md"

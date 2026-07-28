@@ -70,7 +70,7 @@
 | 통계적 언어 모델 | 통계적 언어 모델 | statistical language model | P1-11.1 | statistical-language-model | statistical-language-model | P1-11.1 source context | 빈도와 조건부 확률로 다음 표현 가능성을 추정하는 언어 모델 |
 | 통계적 추론 | 통계적 추론 | statistical inference | P1-5.3 | statistical-inference | statistical-inference | OpenStax Introductory Statistics | 표본에서 모집단과 불확실성을 다루는 통계 절차 |
 | 문맥 내 학습 | 문맥 내 학습 | in-context learning | P1-12.1 | in-context-learning | in-context-learning | GPT-3 paper | 모델 가중치 업데이트 없이 현재 입력 문맥으로 출력 행동이 달라지는 현상 |
-| 맥락 | 맥락 | context | P1-12.1 | context | context | prompt engineering context | 작업에 필요한 배경·자료·앞선 결정을 제공하는 입력 요소 |
+| 입력 맥락 | 입력 맥락 | input context | P1-12.1 | input-context | input-context | prompt engineering context | 작업에 필요한 배경·자료·앞선 결정을 제공하는 입력 요소 |
 | 벡터 검색 | 벡터 검색 | vector search | P1-13.4 | vector-search | vector-search | vector search implementation context | 임베딩 벡터 공간에서 가까운 후보를 찾는 검색 방식 |
 | 벡터 데이터베이스 | 벡터 데이터베이스 | vector database | P6-12.1 | vector-database | vector-database | vector database context | 벡터 저장, 인덱스, 메타데이터, 필터링을 함께 다루는 시스템 |
 | 프록시 라벨 | 프록시 라벨 | proxy label | P1-8.1 | proxy-label | proxy-label | P1-8.1 source context | 직접 목표를 대신하는 대리 라벨 |
@@ -89,14 +89,14 @@
 | 합성곱 신경망 | 합성곱 신경망 | CNN, convolutional neural network | P1-9.1 | cnn-convolutional-neural-network | cnn-convolutional-neural-network | LeCun deep learning review | 이미지의 지역 패턴을 계층적으로 다루는 신경망 구조 |
 | 객체 검출 | 객체 검출 | object detection | P1-9.2 | object-detection | object-detection | object detection context | 이미지 안의 물체 범주와 위치를 함께 예측하는 문제 |
 | 음성 생성 | 음성 생성 | speech generation | P1-9.2 | speech-generation | speech-generation | sequence generation context | 시간 순서의 오디오 신호를 만드는 생성 문제 |
-| 위험 | 위험 | risk | P1-10.3 | risk | risk | NIST GenAI Profile | 생성 결과나 AI 사용이 피해로 이어질 가능성 |
+| AI 위험 | AI 위험 | AI risk | P1-10.3 | ai-risk | ai-risk | NIST GenAI Profile | 생성 결과나 AI 사용이 피해로 이어질 가능성 |
 | 확률적 예측 | 확률적 예측 | probabilistic prediction | P1-6.3 | probabilistic-prediction | probabilistic-prediction | Google ML Glossary probabilistic regression model | 가능한 결과의 범위나 가능성을 함께 표현하는 예측 |
 | 확률적 선택 | 확률적 선택 | probabilistic choice | P1-10.2 | probabilistic-choice | probabilistic-choice | P1-10.2 source context | 후보 분포에서 실제 출력 하나를 선택하는 과정 |
 | 함수 근사 | 함수 근사 | function approximation | P4-19.5 | function-approximation | function-approximation | P4-19.5 source context | 값을 표에 모두 저장하지 않고 함수나 모델로 추정해 표현하는 방식 |
 | 키워드 검색 | 키워드 검색 | keyword search | P1-13.2 | keyword-search | keyword-search | information retrieval context | 단어나 구문 일치를 기준으로 후보를 찾는 검색 방식 |
 | 평가 설계 | 평가 설계 | evaluation design | P3-9.13 | evaluation-design | evaluation-design | P3-9.13 source context | 문제 구조에 맞는 데이터 분할, 지표, 비교 조건을 정하는 평가 기준 설계 |
 | 논리적 추론 | 논리적 추론 | reasoning | P1-5.3 | reasoning | reasoning | P1-5.3 source context | 모델 실행과 구분해야 하는 논리적 사고 과정 |
-| 근거 | 근거 | evidence | P1-12.3 | evidence | evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |
+| 검증 근거 | 검증 근거 | supporting evidence | P1-12.3 | supporting-evidence | supporting-evidence | P1-12.3 source context | 주장을 뒷받침하는 출처나 확인 근거가 있는지 보는 기준 |
 | 평가 데이터 | 평가 데이터 | evaluation data | P4-4.1 | evaluation-data | evaluation-data | P4-4.1 source context | 모델 학습에 직접 쓰지 않고 학습된 모델의 동작을 확인하기 위해 따로 남겨 둔 데이터 |
 | 재현성 | 재현성 | reproducibility | P2-7.5 | reproducibility | reproducibility | reproducible workflow context | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는 성질 |
 | RAG | 검색 증강 생성 | retrieval-augmented generation | P1-13.3 | retrieval-augmented-generation-rag | retrieval-augmented-generation-rag | RAG paper | 검색한 외부 자료를 생성 입력에 붙이는 구조 |
@@ -224,7 +224,7 @@
 | 배열 | 배열 | array | P2-9.2 | array | array | P2-9.2 source context | 위치와 축을 기준으로 값을 읽는 구조 |
 | 트리 | 트리 | tree | P2-9.2 | tree | tree | P2-9.2 source context | 부모와 자식의 계층 관계로 항목을 조직하는 구조 |
 | 그래프 | 그래프 | graph | P2-9.3 | graph | graph | P2-9.3 source context | 대상을 노드로 두고 관계를 엣지로 연결한 구조 |
-| 출력 | 출력 | output | P1-4.2 | output | output | 단어별 원고 기준 | 모델링에서 문제를 어떤 결과 형태로 풀지 드러내는 결과 설계 |
+| 모델 출력 | 모델 출력 | model output | P1-4.2 | model-output | model-output | 단어별 원고 기준 | 모델링에서 문제를 어떤 결과 형태로 풀지 드러내는 결과 설계 |
 | 숨은 상태 | 숨은 상태 | hidden state | P1-11.2 | hidden-state | hidden-state | P1-11.2 source context | 순환 신경망에서 앞 입력 정보를 누적해 다음 계산으로 넘기는 내부 상태 |
 | 브로드캐스팅 | 브로드캐스팅 | broadcasting | P2-11.3 | broadcasting | broadcasting | P2-11.3 source context | 작은 값이나 배열을 큰 배열의 shape에 맞춰 적용하는 계산 규칙 |
 | 벡터화 | 벡터화 | vectorization | P2-11.3 | vectorization | vectorization | P2-11.3 source context | 반복 계산을 배열 연산 하나로 표현하는 방식 |
@@ -290,10 +290,10 @@
 | 특징 선택 | 특징 선택 | feature selection | P4-7.1 | feature-selection | feature-selection | feature selection context | 입력 후보 중 현재 문제에 남길 특징을 고르는 표준 모델링 과정 |
 | GPT | GPT | Generative Pre-trained Transformer | P6-5.1 | gpt | gpt | GPT model family context | Transformer decoder 기반의 대표 생성형 언어 모델 계열 |
 | 불완전한 정보 | 불완전한 정보 | incomplete information | P1-6.1 | incomplete-information | incomplete-information | AI problem condition context | 판단에 필요한 정보 일부가 처음부터 주어지지 않은 문제 조건 |
-| 입력 | 입력 | input | P1-4.2 | input | input | model input context | 모델이 한 번의 계산에서 실제로 받는 값 묶음 |
+| 모델 입력 | 모델 입력 | model input | P1-4.2 | model-input | model-input | model input context | 모델이 한 번의 계산에서 실제로 받는 값 묶음 |
 | 중간 표현 | 중간 표현 | intermediate representation | P3-6.2 | intermediate-representation | intermediate-representation | feature engineering context | 원시 데이터와 최종 특징 사이에 두는 사람 주도 입력 재표현 |
 | 커널 | 커널 | kernel | P4-13.2 | kernel | kernel | kernel method context | 새 표현 공간의 비교 효과를 함수 계산으로 다루는 분류·표현 방법 개념 |
-| 라벨 | 라벨 | label | P1-4.2 | label | label | supervised learning label context | 지도학습에서 데이터 사례에 붙인 정답이나 목표 출력 |
+| 지도학습 라벨 | 지도학습 라벨 | supervised learning label | P1-4.2 | supervised-learning-label | supervised-learning-label | supervised learning label context | 지도학습에서 데이터 사례에 붙인 정답이나 목표 출력 |
 | 장기 의존성 | 장기 의존성 | long-term dependency | P1-11.2 | long-term-dependency | long-term-dependency | sequence model context | 오래전 정보가 뒤 판단에 중요하지만 전달되기 어려운 순차 모델 문제 |
 | 마진 | 마진 | margin | P4-13.1 | margin | margin | margin classifier context | 분류 경계와 가까운 사례 사이의 여유 폭 |
 | 최대우도추정 | 최대우도추정 | maximum likelihood estimation, MLE | P4-11.3 | maximum-likelihood-estimation-mle | maximum-likelihood-estimation-mle | maximum likelihood context | 관찰 데이터가 가장 그럴듯하게 나오도록 파라미터를 찾는 추정 방식 |

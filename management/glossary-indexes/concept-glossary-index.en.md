@@ -29,6 +29,7 @@
 | group split | group split | group split | P3-9.13 | group-split | group-split | scikit-learn grouped cross-validation, P3-9.13 source context | Splitting data so records from the same entity or group do not appear on both evaluation sides |
 | heuristic | heuristic | heuristic | P1-7.2 | heuristic | heuristic | AIMA, Poole & Mackworth heuristic search | Experience-based rule that helps inspect promising candidates first without guaranteeing the best answer |
 | intervention feedback | intervention feedback | intervention feedback | P3-8.7 | intervention-feedback | intervention-feedback | P3-8.7 source context | Feedback structure where review rules or operational actions change later data and labels |
+| input context | input context | input context | P1-12.1 | input-context | input-context | prompt engineering context | Background, documents, and situation included in model input so the task can be interpreted correctly |
 | interpretation boundary | interpretation boundary | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | Limit on how far a data result or comparison can be stated |
 | label consistency | label consistency | label consistency | P3-9.6 | label-consistency | label-consistency | P3-9.6 source context | Degree to which labels with the same meaning repeat for the same event or similar conditions |
 | label prediction | label prediction | label prediction | P3-9.1 | label-prediction | label-prediction | P3-9.1 source context | Stronger problem setup where an input case is used to predict a stable target label |
@@ -51,6 +52,8 @@
 | rule-based approach | rule-based approach | rule-based approach | P1-2.1 | rule-based-approach | rule-based-approach | P1-2.1 source context | Approach where people explicitly write judgment rules before applying them |
 | source data | source data | source data | P3-1.1 | source-data | source-data | P3-1.1 source context | Starting record before redesign into an analysis or learning problem |
 | state | state | state | P1-7.1 | state | state | P1-14.3 source context | Current information and conditions used to choose the next action |
+| supporting evidence | supporting evidence | supporting evidence | P1-12.3 | supporting-evidence | supporting-evidence | P1-12.3 source context | Information that supports or weakens a current claim or judgment |
+| supervised learning label | supervised learning label | supervised learning label | P1-4.2 | supervised-learning-label | supervised-learning-label | supervised learning label context | Target answer attached to a data example in supervised learning |
 | target | target | target | P1-8.1 | target | target | P2-12.3 source context | Answer column or goal value a model is meant to predict |
 | time split | time split | time split | P3-9.13 | time-split | time-split | FPP3 time series cross-validation, P3-9.13 source context | Splitting time-ordered data so later cases are evaluated using only earlier information |
 | task definition | task definition | task definition | P1-4.4 | task-definition | task-definition | P1-4.4 source context | Narrowing a real-world goal into computable input, output, data, and evaluation criteria |
@@ -109,6 +112,8 @@
 | hyperparameter | hyperparameter | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | Setting chosen before training to control model shape or training behavior |
 | inference | inference | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | Deriving conclusions from knowledge or running a trained model on new input, depending on context |
 | model | model | model | P1-4.1 | model | model | AI model context | Purpose-built computational form or learned input-output structure |
+| model input | model input | model input | P1-4.2 | model-input | model-input | model input context | Value bundle a model actually receives for one computation |
+| model output | model output | model output | P1-4.2 | model-output | model-output | model output context | Result form a model is expected to produce for the current problem |
 | model training | model training | model training | P1-3.2 | model-training | model-training | machine learning training context | Procedure that adjusts a model's internal values using examples and a loss signal |
 | overfitting | overfitting | overfitting | P4-5.1 | overfitting | overfitting | machine learning generalization context | Condition where a model fits training data too closely and performs worse on new data |
 | reward | reward | reward | P1-8.3 | reward | reward | reinforcement learning context | Feedback signal returned after an action to show how much the result helped the goal |

@@ -4,6 +4,6 @@
 
 - 含义：prompt 是为了生成当前回答而交给模型的完整输入。它不只是单行问题，也包括指令、上下文、示例、约束和输出格式，最好理解为当前任务条件的输入设计包。
 - 为什么重要：用户不用重新训练模型，也可以通过 prompt 调整当前回答条件。这个概念能帮助读者区分改变模型本身与改变一次回答的输入条件，也能解释为什么同一个模型会因为上下文、示例和要求的格式不同而给出不同方向的回答。
-- 相关概念：`instruction`，`context`，`in-context learning`，`output format`
+- 相关概念：`instruction`，`input context`，`in-context learning`，`output format`
 - 核心 Section：`P1-12.1`
 - 出现 Section：`P1-12.1`，`P6-2.4`，`P6-9.1`，`P6-9.3`

@@ -11,6 +11,10 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/source-data.en.md"
 
+--8<-- "reference/concept-glossary-terms/supervised-learning-label.en.md"
+
+--8<-- "reference/concept-glossary-terms/supporting-evidence.en.md"
+
 
 --8<-- "reference/concept-glossary-terms/sample-unit.en.md"
 

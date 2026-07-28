@@ -7,8 +7,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/context.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/context-dependency.ko.md"
 
@@ -28,6 +26,10 @@
 --8<-- "reference/concept-glossary-terms/model-context-protocol-mcp.ko.md"
 
 --8<-- "reference/concept-glossary-terms/model.ko.md"
+
+--8<-- "reference/concept-glossary-terms/model-input.ko.md"
+
+--8<-- "reference/concept-glossary-terms/model-output.ko.md"
 
 --8<-- "reference/concept-glossary-terms/model-training.ko.md"
 

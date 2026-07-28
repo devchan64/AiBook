@@ -30,6 +30,10 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/model-context-protocol-mcp.en.md"
 
+--8<-- "reference/concept-glossary-terms/model-input.en.md"
+
+--8<-- "reference/concept-glossary-terms/model-output.en.md"
+
 --8<-- "reference/concept-glossary-terms/model-selection.en.md"
 
 --8<-- "reference/concept-glossary-terms/model-training.en.md"

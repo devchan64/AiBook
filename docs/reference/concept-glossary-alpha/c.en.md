@@ -51,8 +51,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/confusion-matrix.en.md"
 
 
---8<-- "reference/concept-glossary-terms/context.en.md"
-
 --8<-- "reference/concept-glossary-terms/context-window.en.md"
 
 --8<-- "reference/concept-glossary-terms/contextual-representation.en.md"

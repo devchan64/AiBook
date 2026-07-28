@@ -31,6 +31,4 @@
 
 --8<-- "reference/concept-glossary-terms/recommendation.ko.md"
 
---8<-- "reference/concept-glossary-terms/output.ko.md"
-
 --8<-- "reference/concept-glossary-terms/provenance.ko.md"

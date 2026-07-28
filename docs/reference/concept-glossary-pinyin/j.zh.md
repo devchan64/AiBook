@@ -14,6 +14,8 @@
 
 --8<-- "reference/concept-glossary-terms/supervised-learning.zh.md"
 
+--8<-- "reference/concept-glossary-terms/supervised-learning-label.zh.md"
+
 --8<-- "reference/concept-glossary-terms/reward.zh.md"
 
 --8<-- "reference/concept-glossary-terms/reward-design.zh.md"

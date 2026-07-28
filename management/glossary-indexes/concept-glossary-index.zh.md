@@ -36,6 +36,7 @@
 | 奖励 | 奖励 | reward | P1-8.3 | reward | reward | P1-8.3 source context | 强化学习中行动之后由环境返回的反馈信号 |
 | 学习型方法 | 学习型方法 | learning-based approach | P4-1.2 | learning-based-approach | learning-based-approach | P4-1.2 source context | 从案例数据中拟合输入和输出关系来形成模型判断标准的方法 |
 | 干预反馈 | 干预反馈 | intervention feedback | P3-8.7 | intervention-feedback | intervention-feedback | P3-8.7 source context | 复核规则或运营处置改变后续数据和标签的反馈结构 |
+| 输入上下文 | 输入上下文 | input context | P1-12.1 | input-context | input-context | prompt engineering context | 放入模型输入中用于解释任务或响应的背景信息、文档材料和情境 |
 | 解释边界 | 解释边界 | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | 数据结果或比较结论能够说到哪里的边界 |
 | 缺失值 | 缺失值 | missing value | P3-5.5 | missing-value | missing-value | P3-5.5 source context | 本应有观测值的位置为空，可能需要填补、标记或撤回样本 |
 | 输出结构 | 输出结构 | output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | 比较报告、复核队列或目标候选等结果框架 |
@@ -59,6 +60,8 @@
 | 验证数据 | 验证数据 | validation data | P2-6.2 | validation-data | validation-data | P2-6.2 source context | 在模型开发过程中用来检查和调整模型设置的数据 |
 | 原始数据 | 原始数据 | source data | P3-1.1 | source-data | source-data | P3-1.1 source context | 重新设计为分析或学习问题之前的起始记录 |
 | 状态 | 状态 | state | P1-7.1 | state | state | P1-14.3 source context | 选择下一步行动时使用的当前信息和条件 |
+| 支持证据 | 支持证据 | supporting evidence | P1-12.3 | supporting-evidence | supporting-evidence | P1-12.3 source context | 支持或削弱当前主张或判断的信息 |
+| 监督学习标签 | 监督学习标签 | supervised learning label | P1-4.2 | supervised-learning-label | supervised-learning-label | supervised learning label context | 监督学习中附在数据案例上的目标答案 |
 | 目标 | 目标 | target | P1-8.1 | target | target | P2-12.3 source context | 模型需要预测的答案列或目标值 |
 | token | token | token | P6-2.1 | token | token | P6-2.1 source context | 模型处理文本时切分出来的基本计算单位 |
 | token 化 | token 化 | tokenization | P6-2.2 | tokenization | tokenization | P3-6.2 source context | 把原始文本或区段结构转换成 token 序列 |
@@ -111,6 +114,8 @@
 | 超参数 | 超参数 | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | 训练前由人设定、控制模型结构或训练行为的设置 |
 | 推断 | 推断 | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | 根据语境表示从知识推出结论或把训练好的模型用于新输入 |
 | 模型 | 模型 | model | P1-4.1 | model | model | AI model context | 为目的构造的简化计算形式或学习到的输入输出结构 |
+| 模型输入 | 模型输入 | model input | P1-4.2 | model-input | model-input | model input context | 模型在一次计算中实际接收的值或信息组合 |
+| 模型输出 | 模型输出 | model output | P1-4.2 | model-output | model-output | model output context | 当前问题中模型应该产生的结果形式 |
 | 模型训练 | 模型训练 | model training | P1-3.2 | model-training | model-training | machine learning training context | 使用案例和损失信号调整模型内部值的过程 |
 | 模型验证 | 模型验证 | model validation | P4-4.2 | model-validation | model-validation | P2-12.3 source context | 用来比较设置和模型选择的中间评估数据或流程 |
 | 计算限制 | 计算限制 | computational limit | P1-7.1 | computational-limit | computational-limit | search and computational complexity context | 候选空间过大，无法在现实资源内全部检查的状态 |

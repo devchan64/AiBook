@@ -1,0 +1,10 @@
+<a id="supervised-learning-label"></a>
+<a id="glossary-supervised-learning-label"></a>
+
+### 监督学习标签(supervised learning label)
+
+- 含义：监督学习标签是为当前任务附加到数据案例上的目标答案或目标输出。它定义模型应当预测什么，例如类别名或数值目标。
+- 为什么重要：监督学习标签定义监督学习目标，因此标签定义改变时，任务和评估也会改变。模糊或不一致的标签会在训练前就限制模型质量。
+- 相关概念：`示例(example)`，`数据(data)`，`模型输出(model output)`，`监督学习(supervised learning)`，`目标(target)`，`任务定义(task definition)`
+- 中心 Section：`P1-4.2`
+- 出现 Section: `P1-2.1`, `P4-index`, `P1-3.2`, `P1-8.1`, `P2-12.1`, `P2-12.2`, `P2-15.2`, `P3-3.1`, `P3-4.1`, `P3-4.2`, `P3-5.7`, `P3-8.6`, `P3-9.9`, `P3-9.10`, `P4-1.2`, `P4-2.1`, `P4-2.2`, `P4-2.3`, `P4-6.2`, `P4-6.4`, `P4-7.1`, `P4-12.1`

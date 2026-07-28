@@ -86,7 +86,7 @@
 --8<-- "reference/concept-glossary-terms/orchestration.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/risk.ko.md"
+--8<-- "reference/concept-glossary-terms/ai-risk.ko.md"
 
 --8<-- "reference/concept-glossary-terms/service-operation.ko.md"
 
@@ -130,6 +130,3 @@
 --8<-- "reference/concept-glossary-terms/error-cost.ko.md"
 
 --8<-- "reference/concept-glossary-terms/embedding.ko.md"
-
-
---8<-- "reference/concept-glossary-terms/input.ko.md"

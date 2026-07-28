@@ -61,6 +61,8 @@
 
 --8<-- "reference/concept-glossary-terms/supervised-learning.ko.md"
 
+--8<-- "reference/concept-glossary-terms/supervised-learning-label.ko.md"
+
 --8<-- "reference/concept-glossary-terms/instruction-tuning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-base.ko.md"
