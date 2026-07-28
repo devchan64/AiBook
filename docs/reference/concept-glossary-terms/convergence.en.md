@@ -1,5 +1,4 @@
 <a id="convergence"></a>
-<a id="glossary-numerical-stability"></a>
 
 ## convergence
 

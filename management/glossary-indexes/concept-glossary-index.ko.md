@@ -286,3 +286,32 @@
 | 모델 | 모델 | model | P1-4.1 | model | model | AI model context | 목적에 맞게 줄여 만든 계산용 모형 또는 학습된 입력-출력 구조 |
 | 과적합 | 과적합 | overfitting | P4-5.1 | overfitting | overfitting | machine learning generalization context | 학습 데이터에 지나치게 맞춰져 새 데이터 성능이 떨어지는 상태 |
 | 보상 | 보상 | reward | P1-8.3 | reward | reward | reinforcement learning context | 행동 결과가 목표에 얼마나 도움이 되었는지를 돌려주는 피드백 신호 |
+| 계산 한계 | 계산 한계 | computational limit | P1-7.1 | computational-limit | computational-limit | search and computational complexity context | 탐색 후보가 현실적인 시간과 자원 안에서 모두 확인하기 어려울 만큼 커지는 상태 |
+| 문맥적 표현 | 문맥적 표현 | contextual representation | P1-11.3 | contextual-representation | contextual-representation | contextual embedding context | 같은 토큰도 주변 문맥에 따라 달라지는 내부 벡터 표현 |
+| 수렴 | 수렴 | convergence | P2-2.3 | convergence | convergence | iterative computation context | 반복할수록 값이나 상태가 특정 지점 가까이 안정되어 가는 현상 |
+| 합성곱 | 합성곱 | convolution | P5-11.2 | convolution | convolution | CNN convolution context | 작은 필터를 입력 위로 움직이며 위치별 지역 패턴 반응을 계산하는 연산 |
+| 말뭉치 | 말뭉치 | corpus | P1-11.1 | corpus | corpus | language model corpus context | 언어 모델이나 임베딩을 학습·분석하기 위해 모은 텍스트 자료 집합 |
+| 데이터 | 데이터 | data | P1-4.2 | data | data | data role context | 학습·평가·검색·운영에서 서로 다른 역할로 쓰이는 정보 자원 |
+| 결정 경계 | 결정 경계 | decision boundary | P4-11.2 | decision-boundary | decision-boundary | classification boundary context | 분류 모델이 입력 공간을 클래스 영역으로 나누는 기준 |
+| 디코더 | 디코더 | decoder | P1-11.3 | decoder | decoder | sequence model decoder context | 현재 문맥과 내부 표현을 바탕으로 다음 토큰이나 출력 시퀀스를 생성하는 구성요소 |
+| 차원 축소 | 차원 축소 | dimensionality reduction | P4-18.1 | dimensionality-reduction | dimensionality-reduction | unsupervised learning context | 고차원 데이터를 더 적은 축으로 옮겨 중요한 구조를 읽기 쉽게 만드는 방법 |
+| 분산 표현 | 분산 표현 | distributed representation | P1-11.1 | distributed-representation | distributed-representation | representation learning context | 하나의 대상 의미를 여러 수치 차원에 나누어 담는 벡터 표현 방식 |
+| 인코더 | 인코더 | encoder | P1-11.3 | encoder | encoder | sequence model encoder context | 입력을 읽어 문맥이 반영된 내부 표현으로 바꾸는 구성요소 |
+| 인코더-디코더 | 인코더-디코더 | encoder-decoder | P1-11.2 | encoder-decoder | encoder-decoder | sequence-to-sequence context | 입력을 표현으로 읽는 부분과 출력 시퀀스를 생성하는 부분을 나눈 구조 |
+| 전문가 시스템 | 전문가 시스템 | expert system | P1-3.1 | expert-system | expert-system | symbolic AI history context | 전문가 판단을 규칙과 지식 기반으로 표현해 결론이나 조언을 제공하려 한 규칙 기반 AI 계열 |
+| 활용 | 활용 | exploitation | P1-8.3 | exploitation | exploitation | reinforcement learning exploration-exploitation context | 이미 얻은 정보 기준으로 현재 가장 좋아 보이는 행동을 선택하는 방식 |
+| 탐험 | 탐험 | exploration | P1-8.3 | exploration | exploration | reinforcement learning exploration-exploitation context | 아직 충분히 시도하지 않은 행동을 시험해 정보를 늘리는 선택 |
+| 정규화 | 정규화 | regularization | P5-8.1 | regularization | regularization | regularization context | 과적합을 줄이기 위해 학습 과정에 제약이나 추가 비용을 넣는 방법 |
+| 과소적합 | 과소적합 | underfitting | P1-3.2 | underfitting | underfitting | generalization context | 데이터의 기본 관계를 충분히 배우지 못해 훈련·새 데이터 모두에서 약한 상태 |
+| 사전학습 | 사전학습 | pretraining | P1-11.3 | pretraining | pretraining | language model pretraining context | 특정 과업 적응 전에 큰 말뭉치에서 일반 언어 패턴을 먼저 학습하는 단계 |
+| 미세조정 | 미세조정 | fine-tuning | P6-8.1 | fine-tuning | fine-tuning | fine-tuning context | 사전학습된 모델을 특정 과업이나 도메인 데이터에 맞게 추가 조정하는 단계 |
+| 지시 튜닝 | 지시 튜닝 | instruction tuning | P6-9.1 | instruction-tuning | instruction-tuning | instruction tuning context | 사전학습 모델이 자연어 지시와 응답 형식에 더 잘 맞도록 조정하는 단계 |
+| 프롬프트 엔지니어링 | 프롬프트 엔지니어링 | prompt engineering | P6-10.1 | prompt-engineering | prompt-engineering | prompt engineering context | 입력 지시·맥락·예시·형식을 설계해 모델 반응을 조정하는 실천 작업 |
+| 선형회귀 | 선형회귀 | linear regression | P4-10.1 | linear-regression | linear-regression | linear regression context | 입력 특징과 연속 출력의 관계를 선형 형태로 읽는 회귀 모델 |
+| 로지스틱 회귀 | 로지스틱 회귀 | logistic regression | P4-11.1 | logistic-regression | logistic-regression | logistic regression context | 선형 점수를 확률처럼 읽히는 값으로 바꿔 분류를 다루는 모델 |
+| 모델 선택 | 모델 선택 | model selection | P4-8.1 | model-selection | model-selection | model selection context | 문제·데이터·설명 가능성·비용을 보고 비교할 모델 후보를 좁히는 과정 |
+| 기호 기반 AI | 기호 기반 AI | symbolic AI | P1-2.1 | symbolic-ai | symbolic-ai | symbolic AI context | 기호·규칙·논리·명시적 지식 표현으로 문제를 풀려는 AI 접근 |
+| 규칙 기반 시스템 | 규칙 기반 시스템 | rule-based system | P1-3.1 | rule-based-system | rule-based-system | rule-based AI context | 현재 사실과 사람이 작성한 규칙을 대조해 결론이나 행동을 정하는 시스템 |
+| 지식 기반 | 지식 기반 | knowledge base | P1-3.1 | knowledge-base | knowledge-base | knowledge-based system context | 규칙·사실·관계·도메인 정보를 모아 시스템이 참조하는 지식 저장 구조 |
+| 지식 표현 | 지식 표현 | knowledge representation | P1-2.1 | knowledge-representation | knowledge-representation | knowledge representation context | 사실·관계·규칙·제약을 컴퓨터가 다룰 수 있는 형식으로 정리하는 일 |
+| 추론 엔진 | 추론 엔진 | inference engine | P1-3.1 | inference-engine | inference-engine | inference engine context | 현재 사실에 맞는 규칙을 찾아 적용해 결론을 만드는 실행 장치 |

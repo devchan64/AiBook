@@ -111,3 +111,29 @@
 | 超参数 | 超参数 | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | 训练前由人设定、控制模型结构或训练行为的设置 |
 | 推断 | 推断 | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | 根据语境表示从知识推出结论或把训练好的模型用于新输入 |
 | 模型 | 模型 | model | P1-4.1 | model | model | AI model context | 为目的构造的简化计算形式或学习到的输入输出结构 |
+| 计算限制 | 计算限制 | computational limit | P1-7.1 | computational-limit | computational-limit | search and computational complexity context | 候选空间过大，无法在现实资源内全部检查的状态 |
+| 上下文表示 | 上下文表示 | contextual representation | P1-11.3 | contextual-representation | contextual-representation | contextual embedding context | 同一 token 会随周围语境变化的内部向量表示 |
+| 收敛 | 收敛 | convergence | P2-2.3 | convergence | convergence | iterative computation context | 数值或状态在反复步骤中逐渐接近稳定点的过程 |
+| 卷积 | 卷积 | convolution | P5-11.2 | convolution | convolution | CNN convolution context | 小滤波器在输入上滑动并计算局部模式响应的运算 |
+| 语料库 | 语料库 | corpus | P1-11.1 | corpus | corpus | language model corpus context | 为训练、分析或评估语言模型和嵌入而收集的文本集合 |
+| 数据 | 数据 | data | P1-4.2 | data | data | data role context | 在训练、评估、检索和运营中以不同角色使用的信息资源 |
+| 决策边界 | 决策边界 | decision boundary | P4-11.2 | decision-boundary | decision-boundary | classification boundary context | 分类模型在输入空间中分开类别区域的标准 |
+| 解码器 | 解码器 | decoder | P1-11.3 | decoder | decoder | sequence model decoder context | 根据上下文和内部表示生成下一个 token 或输出序列的组件 |
+| 降维 | 降维 | dimensionality reduction | P4-18.1 | dimensionality-reduction | dimensionality-reduction | unsupervised learning context | 把高维数据移到更少轴上并尽量保留重要结构的方法 |
+| 分布式表示 | 分布式表示 | distributed representation | P1-11.1 | distributed-representation | distributed-representation | representation learning context | 把对象含义分散在多个数值维度上的向量表示 |
+| 编码器 | 编码器 | encoder | P1-11.3 | encoder | encoder | sequence model encoder context | 读取输入并生成带上下文信息内部表示的组件 |
+| 编码器-解码器 | 编码器-解码器 | encoder-decoder | P1-11.2 | encoder-decoder | encoder-decoder | sequence-to-sequence context | 把输入编码和输出序列解码分开的结构 |
+| 专家系统 | 专家系统 | expert system | P1-3.1 | expert-system | expert-system | symbolic AI history context | 把领域专家判断写成规则和知识库的规则式 AI 系列 |
+| 利用 | 利用 | exploitation | P1-8.3 | exploitation | exploitation | reinforcement learning exploration-exploitation context | 根据已有信息选择当前看起来最好的行动 |
+| 探索 | 探索 | exploration | P1-8.3 | exploration | exploration | reinforcement learning exploration-exploitation context | 尝试尚未充分测试的行动以获得更多信息 |
+| 正则化 | 正则化 | regularization | P5-8.1 | regularization | regularization | regularization context | 在学习过程中加入约束或额外成本以减少过拟合 |
+| 微调 | 微调 | fine-tuning | P6-8.1 | fine-tuning | fine-tuning | fine-tuning context | 在预训练模型上继续用任务或领域数据训练的适应阶段 |
+| 指令微调 | 指令微调 | instruction tuning | P6-9.1 | instruction-tuning | instruction-tuning | instruction tuning context | 让预训练模型更好回应自然语言指令和答案格式的适应阶段 |
+| 线性回归 | 线性回归 | linear regression | P4-10.1 | linear-regression | linear-regression | linear regression context | 用线性形式描述输入特征和连续输出关系的回归模型 |
+| 逻辑回归 | 逻辑回归 | logistic regression | P4-11.1 | logistic-regression | logistic-regression | logistic regression context | 把线性分数转换为类似概率值来做分类的线性模型 |
+| 模型选择 | 模型选择 | model selection | P4-8.1 | model-selection | model-selection | model selection context | 根据问题、数据、可解释性和成本缩小候选模型范围的过程 |
+| 符号式 AI | 符号式 AI | symbolic AI | P1-2.1 | symbolic-ai | symbolic-ai | symbolic AI context | 以符号、规则、逻辑和显式知识表示为中心的 AI 方法 |
+| 规则式系统 | 规则式系统 | rule-based system | P1-3.1 | rule-based-system | rule-based-system | rule-based AI context | 把当前事实和人工规则相对照并决定结论或行动的系统 |
+| 知识库 | 知识库 | knowledge base | P1-3.1 | knowledge-base | knowledge-base | knowledge-based system context | 存放规则、事实、关系和领域信息的结构化知识存储 |
+| 知识表示 | 知识表示 | knowledge representation | P1-2.1 | knowledge-representation | knowledge-representation | knowledge representation context | 把事实、关系、规则和约束整理成计算机可处理的形式 |
+| 推理引擎 | 推理引擎 | inference engine | P1-3.1 | inference-engine | inference-engine | inference engine context | 查找并应用与当前事实匹配规则的组件 |

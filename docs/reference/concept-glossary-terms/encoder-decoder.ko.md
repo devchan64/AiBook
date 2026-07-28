@@ -1,5 +1,4 @@
 <a id="encoder-decoder"></a>
-<a id="-encoder-decoder"></a>
 
 ### 인코더-디코더(Encoder-Decoder)
 
