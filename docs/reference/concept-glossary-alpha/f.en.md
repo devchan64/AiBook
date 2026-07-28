@@ -20,19 +20,9 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/fine-tuning.en.md"
 
---8<-- "reference/concept-glossary-terms/expert-system.en.md"
-
-
---8<-- "reference/concept-glossary-terms/excessive-agency.en.md"
-
 
 
 
 --8<-- "reference/concept-glossary-terms/function-approximation.en.md"
 
---8<-- "reference/concept-glossary-terms/derivative.en.md"
-
 --8<-- "reference/concept-glossary-terms/function.en.md"
-
---8<-- "reference/concept-glossary-terms/cnn-convolutional-neural-network.en.md"
---8<-- "reference/concept-glossary-terms/convolution.en.md"

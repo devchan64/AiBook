@@ -271,3 +271,18 @@
 | 수치 안정성 | 수치 안정성 | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | 반복 계산에서 값과 그래디언트가 기계가 감당할 수 있는 범위 안에 머무는 성질 |
 | 텐서 | 텐서 | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | 입력·중간 표현·출력을 담는 다차원 숫자 배열의 일반 이름 |
 | 가중치 | 가중치 | weight | P1-4.3 | weight | weight | machine learning parameter context | 입력이나 중간값이 출력 계산에 반영되는 강도를 정하는 모델 파라미터 |
+| 정렬 | 정렬 | alignment | P6-9.2 | alignment | alignment | alignment context | 모델 행동이 사람의 의도·안전 기준·정책 제약과 맞도록 조정하는 설계 문제 |
+| 보정 | 보정 | calibration | P1-6.2 | calibration | calibration | probability calibration context | 모델 확률 점수가 실제 빈도와 얼마나 맞는지 확인하고 맞추는 일 |
+| 인과 추론 | 인과 추론 | causal inference | P4-15.2 | causal-inference | causal-inference | causal inference context | 관찰된 상관관계와 실제 원인 효과를 구분하려는 분석 관점 |
+| 군집화 | 군집화 | clustering | P4-17.1 | clustering | clustering | unsupervised learning context | 라벨 없이 비슷한 항목끼리 묶음을 찾는 비지도학습 문제 유형 |
+| 결정트리 | 결정트리 | decision tree | P4-14.1 | decision-tree | decision-tree | decision tree context | 조건 질문을 따라 가지를 내려가며 예측하는 트리 기반 모델 계열 |
+| 앙상블 | 앙상블 | ensemble | P4-15.1 | ensemble | ensemble | ensemble learning context | 여러 모델의 예측을 결합해 하나의 최종 판단을 만드는 방법 |
+| 특징 | 특징 | feature | P1-4.3 | feature | feature | machine learning feature context | 모델이 입력으로 사용하는 값이나 판단 단서 |
+| 일반화 | 일반화 | generalization | P1-3.2 | generalization | generalization | machine learning generalization context | 학습하지 않은 새 데이터에도 관계가 이어지는 성질 |
+| 생성 | 생성 | generation | P1-10.1 | generation | generation | generative AI context | 지시·조건·맥락을 바탕으로 새 결과를 만들어 내는 문제 유형 |
+| 환각 | 환각 | hallucination | P1-10.3 | hallucination | hallucination | generative AI hallucination context | 근거 없거나 틀린 내용을 유창하고 자신 있게 생성하는 오류 |
+| 하이퍼파라미터 | 하이퍼파라미터 | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | 학습 전에 사람이 정해 모델 학습 조건을 제어하는 설정값 |
+| 추론 | 추론 | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | 지식에서 결론을 이끌거나 학습된 모델을 새 입력에 실행하는 과정 |
+| 모델 | 모델 | model | P1-4.1 | model | model | AI model context | 목적에 맞게 줄여 만든 계산용 모형 또는 학습된 입력-출력 구조 |
+| 과적합 | 과적합 | overfitting | P4-5.1 | overfitting | overfitting | machine learning generalization context | 학습 데이터에 지나치게 맞춰져 새 데이터 성능이 떨어지는 상태 |
+| 보상 | 보상 | reward | P1-8.3 | reward | reward | reinforcement learning context | 행동 결과가 목표에 얼마나 도움이 되었는지를 돌려주는 피드백 신호 |

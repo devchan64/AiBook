@@ -27,6 +27,8 @@
 
 --8<-- "reference/concept-glossary-terms/cross-entropy.zh.md"
 
+--8<-- "reference/concept-glossary-terms/convolution.zh.md"
+
 --8<-- "reference/concept-glossary-terms/decision-boundary.zh.md"
 
 --8<-- "reference/concept-glossary-terms/weighted-sum.zh.md"

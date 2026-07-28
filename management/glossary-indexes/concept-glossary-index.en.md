@@ -95,3 +95,18 @@
 | numerical stability | numerical stability | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | Property that repeated computation keeps values and gradients within machine-manageable ranges |
 | tensor | tensor | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | Multidimensional numeric array used to hold inputs, intermediate representations, and outputs |
 | weight | weight | weight | P1-4.3 | weight | weight | machine learning parameter context | Model parameter that controls how strongly an input or intermediate value affects output calculation |
+| alignment | alignment | alignment | P6-9.2 | alignment | alignment | alignment context | Design problem of making model behavior fit human intent, safety rules, and policy constraints |
+| calibration | calibration | calibration | P1-6.2 | calibration | calibration | probability calibration context | Checking and adjusting whether model probability scores match observed frequency |
+| causal inference | causal inference | causal inference | P4-15.2 | causal-inference | causal-inference | causal inference context | Analysis perspective that separates observed association from real causal effect |
+| clustering | clustering | clustering | P4-17.1 | clustering | clustering | unsupervised learning context | Unsupervised problem type that finds groups of similar items without predefined labels |
+| decision tree | decision tree | decision tree | P4-14.1 | decision-tree | decision-tree | decision tree context | Tree-based model that reaches predictions through sequential condition questions |
+| ensemble | ensemble | ensemble | P4-15.1 | ensemble | ensemble | ensemble learning context | Method that combines predictions from multiple models into one final judgment |
+| feature | feature | feature | P1-4.3 | feature | feature | machine learning feature context | Input signal or value used by a model |
+| generalization | generalization | generalization | P1-3.2 | generalization | generalization | machine learning generalization context | State where learned relationships still work on unseen data |
+| generation | generation | generation | P1-10.1 | generation | generation | generative AI context | Task type that creates new output from instructions, conditions, examples, or context |
+| hallucination | hallucination | hallucination | P1-10.3 | hallucination | hallucination | generative AI hallucination context | Error where unsupported or false content is generated fluently and confidently |
+| hyperparameter | hyperparameter | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | Setting chosen before training to control model shape or training behavior |
+| inference | inference | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | Deriving conclusions from knowledge or running a trained model on new input, depending on context |
+| model | model | model | P1-4.1 | model | model | AI model context | Purpose-built computational form or learned input-output structure |
+| overfitting | overfitting | overfitting | P4-5.1 | overfitting | overfitting | machine learning generalization context | Condition where a model fits training data too closely and performs worse on new data |
+| reward | reward | reward | P1-8.3 | reward | reward | reinforcement learning context | Feedback signal returned after an action to show how much the result helped the goal |

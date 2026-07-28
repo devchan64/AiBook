@@ -31,10 +31,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/evidence.en.md"
 
---8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.en.md"
-
-
-
 
 --8<-- "reference/concept-glossary-terms/excessive-agency.en.md"
 

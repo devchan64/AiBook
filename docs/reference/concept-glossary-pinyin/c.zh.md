@@ -47,8 +47,6 @@
 
 --8<-- "reference/concept-glossary-terms/confidential-information.zh.md"
 
---8<-- "reference/concept-glossary-terms/generalization.zh.md"
-
 
 --8<-- "reference/concept-glossary-terms/context.zh.md"
 
@@ -60,8 +58,6 @@
 --8<-- "reference/concept-glossary-terms/convergence.zh.md"
 
 --8<-- "reference/concept-glossary-terms/conversational-llm.zh.md"
-
---8<-- "reference/concept-glossary-terms/convolution.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/copyright.zh.md"

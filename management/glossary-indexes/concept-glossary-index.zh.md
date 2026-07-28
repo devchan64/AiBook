@@ -98,3 +98,16 @@
 | 数值稳定性 | 数值稳定性 | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | 反复计算时值和梯度仍保持在机器可处理范围内的性质 |
 | 张量 | 张量 | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | 用来存放输入、中间表示和输出的多维数字数组 |
 | 权重 | 权重 | weight | P1-4.3 | weight | weight | machine learning parameter context | 控制输入或中间值对输出计算影响强度的模型参数 |
+| 对齐 | 对齐 | alignment | P6-9.2 | alignment | alignment | alignment context | 让模型行为符合人的意图、安全规则和政策约束的设计问题 |
+| 校准 | 校准 | calibration | P1-6.2 | calibration | calibration | probability calibration context | 检查并调整模型概率分数是否符合真实发生频率 |
+| 因果推断 | 因果推断 | causal inference | P4-15.2 | causal-inference | causal-inference | causal inference context | 区分观察到的相关关系和真正因果效果的分析视角 |
+| 聚类 | 聚类 | clustering | P4-17.1 | clustering | clustering | unsupervised learning context | 在没有预设标签的数据中寻找相似项目分组的无监督问题 |
+| 决策树 | 决策树 | decision tree | P4-14.1 | decision-tree | decision-tree | decision tree context | 通过连续条件问题沿分支到达预测的树模型 |
+| 集成 | 集成 | ensemble | P4-15.1 | ensemble | ensemble | ensemble learning context | 把多个模型的预测合成为一个最终判断的方法 |
+| 特征 | 特征 | feature | P1-4.3 | feature | feature | machine learning feature context | 模型用作输入信号或判断依据的值 |
+| 泛化 | 泛化 | generalization | P1-3.2 | generalization | generalization | machine learning generalization context | 学到的关系在未见过的新数据上仍然有效的性质 |
+| 生成 | 生成 | generation | P1-10.1 | generation | generation | generative AI context | 根据指令、条件、示例或上下文产生新输出的任务类型 |
+| 幻觉 | 幻觉 | hallucination | P1-10.3 | hallucination | hallucination | generative AI hallucination context | 在缺少依据或内容错误时仍流畅自信生成的错误 |
+| 超参数 | 超参数 | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | 训练前由人设定、控制模型结构或训练行为的设置 |
+| 推断 | 推断 | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | 根据语境表示从知识推出结论或把训练好的模型用于新输入 |
+| 模型 | 模型 | model | P1-4.1 | model | model | AI model context | 为目的构造的简化计算形式或学习到的输入输出结构 |

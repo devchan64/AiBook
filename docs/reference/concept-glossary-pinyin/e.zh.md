@@ -25,19 +25,6 @@
 
 --8<-- "reference/concept-glossary-terms/evidence.zh.md"
 
---8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.zh.md"
-
-
-
-
---8<-- "reference/concept-glossary-terms/excessive-agency.zh.md"
-
-
-
-
-
---8<-- "reference/concept-glossary-terms/expert-system.zh.md"
-
 
 --8<-- "reference/concept-glossary-terms/exploitation.zh.md"
 
