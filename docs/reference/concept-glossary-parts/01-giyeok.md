@@ -119,7 +119,6 @@
 
 --8<-- "reference/concept-glossary-terms/graph.ko.md"
 
---8<-- "reference/concept-glossary-terms/plot.ko.md"
 
 --8<-- "reference/concept-glossary-terms/guardrail.ko.md"
 

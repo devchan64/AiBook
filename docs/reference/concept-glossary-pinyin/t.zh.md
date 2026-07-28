@@ -4,7 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/recommendation.zh.md"
 
---8<-- "reference/concept-glossary-terms/plot.zh.md"
 
 
 

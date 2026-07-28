@@ -16,6 +16,5 @@
 
 --8<-- "reference/concept-glossary-terms/nondeterministic.zh.md"
 
---8<-- "reference/concept-glossary-terms/notebook.zh.md"
 
 --8<-- "reference/concept-glossary-terms/numerical-stability.zh.md"

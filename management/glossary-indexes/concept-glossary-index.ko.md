@@ -224,7 +224,6 @@
 | 배열 | 배열 | array | P2-9.2 | array | array | P2-9.2 source context | 위치와 축을 기준으로 값을 읽는 구조 |
 | 트리 | 트리 | tree | P2-9.2 | tree | tree | P2-9.2 source context | 부모와 자식의 계층 관계로 항목을 조직하는 구조 |
 | 그래프 | 그래프 | graph | P2-9.3 | graph | graph | P2-9.3 source context | 대상을 노드로 두고 관계를 엣지로 연결한 구조 |
-| 노트북, 계산 문서 | 노트북 | notebook | P2-10.1 | notebook | notebook | Jupyter docs, P2-10.1 source context | 코드, 설명, 출력이 함께 들어 있는 계산 문서 |
 | 출력 | 출력 | output | P1-4.2 | output | output | 단어별 원고 기준 | 모델링에서 문제를 어떤 결과 형태로 풀지 드러내는 결과 설계 |
 | 숨은 상태 | 숨은 상태 | hidden state | P1-11.2 | hidden-state | hidden-state | P1-11.2 source context | 순환 신경망에서 앞 입력 정보를 누적해 다음 계산으로 넘기는 내부 상태 |
 | 브로드캐스팅 | 브로드캐스팅 | broadcasting | P2-11.3 | broadcasting | broadcasting | P2-11.3 source context | 작은 값이나 배열을 큰 배열의 shape에 맞춰 적용하는 계산 규칙 |
@@ -246,7 +245,6 @@
 | 데이터 누수 | 데이터 누수 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 예측 시점에 알 수 없는 정보가 학습 과정에 미리 섞이는 문제 |
 | 비교 가능성 | 비교 가능성 | comparability | P3-2.3 | comparability | comparability | P3-2.3 source context | 둘 이상의 값이나 샘플을 같은 기준 위에서 해석해도 되는 정도 |
 | 전처리 | 전처리 | preprocessing | P4-7.2 | preprocessing | preprocessing | P2-12.3 source context | 모델에 넣기 전에 입력 표현을 계산 가능한 형태로 준비하는 과정 |
-| 그래프(plot) | 그래프 | plot | P2-13.1 | plot | plot | P2-13.1 source context | 숫자나 표 데이터를 시각적 모양으로 바꾸어 보여 주는 그림 |
 | 시각화 | 시각화 | visualization | P2-13.1 | visualization | visualization | P2-13.1 source context | 숫자나 표 데이터를 눈으로 비교 가능한 모양으로 바꾸어 확인하는 과정 |
 | 손실 곡선 | 손실 곡선 | loss curve | P2-13.2 | loss-curve | loss-curve | P2-13.2 source context | 학습 반복에 따라 손실이 어떻게 변하는지 보여 주는 선 그래프 |
 | 정확도 | 정확도 | accuracy | P2-13.3 | accuracy | accuracy | P2-13.3 source context | 전체 예측 중 맞춘 비율을 나타내는 성능 지표 |

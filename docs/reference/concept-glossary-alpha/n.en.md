@@ -16,6 +16,5 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/nondeterministic.en.md"
 
---8<-- "reference/concept-glossary-terms/notebook.en.md"
 
 --8<-- "reference/concept-glossary-terms/numerical-stability.en.md"

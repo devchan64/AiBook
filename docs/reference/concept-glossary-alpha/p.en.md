@@ -16,7 +16,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/permission.en.md"
 
 
---8<-- "reference/concept-glossary-terms/plot.en.md"
 
 
 --8<-- "reference/concept-glossary-terms/policy.en.md"
