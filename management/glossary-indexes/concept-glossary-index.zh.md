@@ -111,12 +111,14 @@
 | 超参数 | 超参数 | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | 训练前由人设定、控制模型结构或训练行为的设置 |
 | 推断 | 推断 | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | 根据语境表示从知识推出结论或把训练好的模型用于新输入 |
 | 模型 | 模型 | model | P1-4.1 | model | model | AI model context | 为目的构造的简化计算形式或学习到的输入输出结构 |
+| 模型训练 | 模型训练 | model training | P1-3.2 | model-training | model-training | machine learning training context | 使用案例和损失信号调整模型内部值的过程 |
 | 计算限制 | 计算限制 | computational limit | P1-7.1 | computational-limit | computational-limit | search and computational complexity context | 候选空间过大，无法在现实资源内全部检查的状态 |
 | 上下文表示 | 上下文表示 | contextual representation | P1-11.3 | contextual-representation | contextual-representation | contextual embedding context | 同一 token 会随周围语境变化的内部向量表示 |
 | 收敛 | 收敛 | convergence | P2-2.3 | convergence | convergence | iterative computation context | 数值或状态在反复步骤中逐渐接近稳定点的过程 |
 | 卷积 | 卷积 | convolution | P5-11.2 | convolution | convolution | CNN convolution context | 小滤波器在输入上滑动并计算局部模式响应的运算 |
 | 语料库 | 语料库 | corpus | P1-11.1 | corpus | corpus | language model corpus context | 为训练、分析或评估语言模型和嵌入而收集的文本集合 |
 | 数据 | 数据 | data | P1-4.2 | data | data | data role context | 在训练、评估、检索和运营中以不同角色使用的信息资源 |
+| 样本单位 | 样本单位 | sample unit | P3-4.1 | sample-unit | sample-unit | data modeling context | 在当前建模或分析问题中被当作一个案例读取的数据单位 |
 | 决策边界 | 决策边界 | decision boundary | P4-11.2 | decision-boundary | decision-boundary | classification boundary context | 分类模型在输入空间中分开类别区域的标准 |
 | 解码器 | 解码器 | decoder | P1-11.3 | decoder | decoder | sequence model decoder context | 根据上下文和内部表示生成下一个 token 或输出序列的组件 |
 | 降维 | 降维 | dimensionality reduction | P4-18.1 | dimensionality-reduction | dimensionality-reduction | unsupervised learning context | 把高维数据移到更少轴上并尽量保留重要结构的方法 |

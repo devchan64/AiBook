@@ -143,6 +143,7 @@
 | 과도한 권한 | 과도한 권한 | excessive agency | P1-15.3 | excessive-agency | excessive-agency | OWASP LLM agentic risk context | 현재 작업 목적보다 실행 권한과 자율성이 너무 넓은 상태 |
 | 해석 경계 | 해석 경계 | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | 데이터나 비교 결과를 어디까지 말할 수 있는지 정하는 설명의 한계선 |
 | 표본 | 표본 | sample | P2-5.3 | statistical-sample | statistical-sample | P2-5.3 source context | 모집단에서 실제로 관측한 일부 데이터 |
+| 샘플 단위 | 샘플 단위 | sample unit | P3-4.1 | sample-unit | sample-unit | data modeling context | 현재 질문에서 한 건으로 묶어 읽는 분석·모델링 사례 단위 |
 | 사실 주장 | 사실 주장 | factual claim | P1-17.3 | factual-claim | factual-claim | source verification context | 외부 자료와 근거로 확인되어야 하는 문장 |
 | 예측 | 예측 | prediction | P1-10.1 | prediction | prediction | ML prediction/forecast distinction | 입력이나 현재 정보에서 다음 값·상태·사건을 추정하는 일 |
 | 계산 언어 | 계산 언어 | calculation language | P2-1.1 | calculation-language | calculation-language | P2-1.1 source context | 데이터와 모델 계산 구조를 읽기 위한 수학적 표현 체계 |
@@ -284,6 +285,7 @@
 | 하이퍼파라미터 | 하이퍼파라미터 | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | 학습 전에 사람이 정해 모델 학습 조건을 제어하는 설정값 |
 | 추론 | 추론 | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | 지식에서 결론을 이끌거나 학습된 모델을 새 입력에 실행하는 과정 |
 | 모델 | 모델 | model | P1-4.1 | model | model | AI model context | 목적에 맞게 줄여 만든 계산용 모형 또는 학습된 입력-출력 구조 |
+| 모델 훈련 | 모델 훈련 | model training | P1-3.2 | model-training | model-training | machine learning training context | 과거 사례와 손실 신호로 모델 내부 값을 조정하는 실행 절차 |
 | 과적합 | 과적합 | overfitting | P4-5.1 | overfitting | overfitting | machine learning generalization context | 학습 데이터에 지나치게 맞춰져 새 데이터 성능이 떨어지는 상태 |
 | 보상 | 보상 | reward | P1-8.3 | reward | reward | reinforcement learning context | 행동 결과가 목표에 얼마나 도움이 되었는지를 돌려주는 피드백 신호 |
 | 작화 | 작화 | confabulation | P1-10.3 | confabulation | confabulation | generative AI hallucination context | 환각과 함께 다루되 근거 없는 내용을 그럴듯하게 구성하는 생성 오류 |

@@ -108,6 +108,7 @@
 | hyperparameter | hyperparameter | hyperparameter | P4-9.1 | hyperparameter | hyperparameter | hyperparameter tuning context | Setting chosen before training to control model shape or training behavior |
 | inference | inference | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | Deriving conclusions from knowledge or running a trained model on new input, depending on context |
 | model | model | model | P1-4.1 | model | model | AI model context | Purpose-built computational form or learned input-output structure |
+| model training | model training | model training | P1-3.2 | model-training | model-training | machine learning training context | Procedure that adjusts a model's internal values using examples and a loss signal |
 | overfitting | overfitting | overfitting | P4-5.1 | overfitting | overfitting | machine learning generalization context | Condition where a model fits training data too closely and performs worse on new data |
 | reward | reward | reward | P1-8.3 | reward | reward | reinforcement learning context | Feedback signal returned after an action to show how much the result helped the goal |
 | computational limit | computational limit | computational limit | P1-7.1 | computational-limit | computational-limit | search and computational complexity context | State where the candidate space becomes too large to inspect fully within realistic resources |
@@ -116,6 +117,7 @@
 | convolution | convolution | convolution | P5-11.2 | convolution | convolution | CNN convolution context | Operation that moves a small filter across an input and computes local pattern responses |
 | corpus | corpus | corpus | P1-11.1 | corpus | corpus | language model corpus context | Text collection gathered for training, analyzing, or evaluating language models and embeddings |
 | data | data | data | P1-4.2 | data | data | data role context | Information resource used in different roles across training, evaluation, retrieval, and operation |
+| sample unit | sample unit | sample unit | P3-4.1 | sample-unit | sample-unit | data modeling context | Unit treated as one case for the current modeling or analysis question |
 | decision boundary | decision boundary | decision boundary | P4-11.2 | decision-boundary | decision-boundary | classification boundary context | Criterion that separates class regions in the input space |
 | decoder | decoder | decoder | P1-11.3 | decoder | decoder | sequence model decoder context | Component that generates next tokens or output sequences from context and internal representations |
 | dimensionality reduction | dimensionality reduction | dimensionality reduction | P4-18.1 | dimensionality-reduction | dimensionality-reduction | unsupervised learning context | Method that moves high-dimensional data into fewer axes while preserving important structure |

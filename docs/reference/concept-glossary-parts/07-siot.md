@@ -23,7 +23,7 @@
 
 --8<-- "reference/concept-glossary-terms/time-split.ko.md"
 
---8<-- "reference/concept-glossary-terms/sample.ko.md"
+--8<-- "reference/concept-glossary-terms/sample-unit.ko.md"
 
 --8<-- "reference/concept-glossary-terms/sampling.ko.md"
 

@@ -11,8 +11,6 @@
 
 --8<-- "reference/concept-glossary-terms/learning-based-approach.ko.md"
 
---8<-- "reference/concept-glossary-terms/training.ko.md"
-
 --8<-- "reference/concept-glossary-terms/training-data.ko.md"
 
 --8<-- "reference/concept-glossary-terms/learned-representation.ko.md"

@@ -5,7 +5,7 @@
 
 --8<-- "reference/concept-glossary-terms/causal-inference.zh.md"
 
---8<-- "reference/concept-glossary-terms/sample.zh.md"
+--8<-- "reference/concept-glossary-terms/sample-unit.zh.md"
 
 --8<-- "reference/concept-glossary-terms/sampling-bias.zh.md"
 

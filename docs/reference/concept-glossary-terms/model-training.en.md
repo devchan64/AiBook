@@ -1,6 +1,8 @@
-## training
+<a id="model-training"></a>
 
-- Meaning: Training is the process of using past examples to adjust a model's internal values or decision rules.
+## model training
+
+- Meaning: Model training is the process of using past examples and a loss signal to adjust a model's internal values or decision rules.
 - Why it matters: Everyday wording often blurs `learning` and `training`, so the broader idea of improvement through experience should be separated from the narrower update procedure that adjusts a model.
 - Related concepts: `parameter`, `model`, `generalization`, `inference`
 - Core Section: `P1-3.2`

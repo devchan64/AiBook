@@ -36,8 +36,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 
 
---8<-- "reference/concept-glossary-terms/training.en.md"
-
 --8<-- "reference/concept-glossary-terms/training-data.en.md"
 
 

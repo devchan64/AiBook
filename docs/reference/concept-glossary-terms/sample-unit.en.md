@@ -1,8 +1,8 @@
-<a id="glossary-sample"></a>
+<a id="sample-unit"></a>
 
-### sample
+### sample unit
 
-- Meaning: A sample is the unit treated as one case for the current question, such as one row, one document, one event, or one model input.
+- Meaning: A sample unit is the unit treated as one case for the current question, such as one row, one document, one event, or one model input.
 - Why it matters: The sample boundary determines dataset size, label meaning, feature interpretation, and how results are compared.
 - Related concepts: `statistical sample`, `row`, `dataset`, `example`
 - Core Section: `P3-4.1`
