@@ -20,6 +20,7 @@
 | 군집 | 군집 | cluster | P1-8.2 | cluster | cluster | P1-8.2 source context | 알고리즘이 찾은 묶음이며 지도학습 라벨과 구분 |
 | 강화학습 환경 | 강화학습 환경 | reinforcement learning environment | P1-8.3 | reinforcement-learning-environment | reinforcement-learning-environment | 단어별 원고 기준 | 강화학습 에이전트가 행동하고 상태 변화와 보상을 돌려받는 상호작용 대상 |
 | 근사 최근접 이웃 | 근사 최근접 이웃 | approximate nearest neighbor, ANN | P1-13.4 | ann-approximate-nearest-neighbor | ann-approximate-nearest-neighbor | vector search context | 정확한 최근접보다 빠른 후보 탐색을 우선하는 방식 |
+| 최근접 이웃 | 최근접 이웃 | nearest neighbor | P1-13.2 | nearest-neighbor | nearest-neighbor | P1-13.2 source context | 거리나 유사도 기준에서 질문 벡터와 가장 가까운 후보 |
 | 규칙 기반 접근 | 규칙 기반 접근 | rule-based approach | P1-2.1 | rule-based-approach | rule-based-approach | SEP logic and AI, AIMA | 규칙 기반 시스템보다 넓은 접근 층위 |
 | 궤적 | 궤적 | trajectory | P1-7.4 | trajectory | trajectory | motion planning survey | 시간·속도까지 포함한 실행 직전 움직임 계획 |
 | 딥 강화학습 | 딥 강화학습 | deep reinforcement learning | P1-8.3 | deep-reinforcement-learning | deep-reinforcement-learning | P1-8.3 source context | 딥러닝을 함수 근사 도구로 쓰는 강화학습 접근 |

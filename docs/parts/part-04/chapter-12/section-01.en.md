@@ -7,7 +7,7 @@ P4-11.2 showed [logistic regression](/AiBook/en/reference/concept-glossary-alpha
 
 Can we make a judgment without drawing a line first, by looking instead at nearby similar examples?
 
-That question is the starting point of [k-NN (k-nearest neighbors)](/AiBook/en/reference/concept-glossary-alpha/k/#k-nnk-nearest-neighbors). It is more accurate to read k-NN not as `a model that first builds a formula`, but as `a model that first looks for similar cases around a new input`.
+That question is the starting point of k-NN (k-nearest neighbors). It is more accurate to read k-NN not as `a model that first builds a formula`, but as `a model that first looks for similar cases around a new input`.
 
 ## Questions Closed By k-NN Intuition
 

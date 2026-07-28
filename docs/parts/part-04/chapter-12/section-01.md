@@ -7,7 +7,7 @@ P4-11.2에서는 [로지스틱 회귀(logistic regression)](../../../reference/c
 
 직선을 먼저 만들지 않고, 주변의 비슷한 사례를 보고 판단할 수는 없을까?
 
-이 질문이 [k-NN(k-nearest neighbors)](../../../reference/concept-glossary-parts/10-kieuk.md#k-nnk-nearest-neighbors)의 출발점입니다. k-NN은 `식을 먼저 세우는 모델`이라기보다 `새 입력 주변의 비슷한 사례를 먼저 찾는 모델`로 읽는 편이 더 정확합니다.
+이 질문이 k-NN(k-nearest neighbors)의 출발점입니다. k-NN은 `식을 먼저 세우는 모델`이라기보다 `새 입력 주변의 비슷한 사례를 먼저 찾는 모델`로 읽는 편이 더 정확합니다.
 
 ## k-NN의 직관에서 닫을 질문
 

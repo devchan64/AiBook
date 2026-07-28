@@ -3,7 +3,7 @@
 > Section ID: `P4-12.3`
 > Version: `v2026.07.26`
 
-P4-12.1 introduced the intuition of [k-NN](/AiBook/en/reference/concept-glossary-alpha/k/#k-nnk-nearest-neighbors), and P4-12.2 showed why [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) and [feature scale](/AiBook/en/reference/concept-glossary-alpha/f/#feature-scale) can change the result. The remaining question is the following.
+P4-12.1 introduced the intuition of k-NN, and P4-12.2 showed why [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) and [feature scale](/AiBook/en/reference/concept-glossary-alpha/f/#feature-scale) can change the result. The remaining question is the following.
 
 When the judgment of k-NN shakes, what should be checked first?
 

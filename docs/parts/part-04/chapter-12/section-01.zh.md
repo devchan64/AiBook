@@ -7,7 +7,7 @@
 
 如果不先画一条直线，而是先看周围相似的案例，能不能做出判断？
 
-这正是 [k-NN(k-nearest neighbors)](/AiBook/zh/reference/concept-glossary-pinyin/k/#k-nnk-nearest-neighbors) 的出发点。更准确地说，k-NN 不太像 `先写出一个公式的模型`，而更像 `先去寻找新输入周围相似案例的模型`。
+这正是 k-NN(k-nearest neighbors) 的出发点。更准确地说，k-NN 不太像 `先写出一个公式的模型`，而更像 `先去寻找新输入周围相似案例的模型`。
 
 ## k-NN 直觉先收束的问题
 

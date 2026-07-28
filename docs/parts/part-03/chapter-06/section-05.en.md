@@ -118,7 +118,7 @@ So Part 3's responsibility reaches this far.
 Because the numbers in a feature table do not all describe the same kind of magnitude, we should first write down the unit and role, and then read them through the baseline-relative change of the same column. This section can be read not as an introduction to scaling formulas, but as the problem of role-aware reading across different measurement scales inside one working table.
 
 
-The same issue appears in model input. The next example uses the same [k-NN model](/AiBook/en/reference/concept-glossary-alpha/k/#glossary-k-nn), but compares reading the features without scaling and reading them after `StandardScaler` puts each column onto a comparable scale.
+The same issue appears in model input. The next example uses the same k-NN model, but compares reading the features without scaling and reading them after `StandardScaler` puts each column onto a comparable scale.
 
 Problem situation: We want to confirm that if features with different units and ranges are passed directly into k-NN, the column with the large numeric range can pull the neighbor decision more strongly.
 

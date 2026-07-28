@@ -3,7 +3,7 @@
 > Section ID: `P4-12.2`
 > Version: `v2026.07.26`
 
-P4-12.1에서 [k-NN(k-nearest neighbors)](../../../reference/concept-glossary-parts/10-kieuk.md#k-nnk-nearest-neighbors)은 `가까운 사례를 보고 판단하는 모델`이라고 했습니다. 그런데 여기서 가장 중요한 단어는 사실 `가깝다`입니다.
+P4-12.1에서 k-NN(k-nearest neighbors)은 `가까운 사례를 보고 판단하는 모델`이라고 했습니다. 그런데 여기서 가장 중요한 단어는 사실 `가깝다`입니다.
 
 가까움은 정확히 무엇을 뜻하는가?
 

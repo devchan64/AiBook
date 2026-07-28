@@ -3,7 +3,7 @@
 > Section ID: `P4-12.2`
 > Version: `v2026.07.26`
 
-P4-12.1 里说过，[k-NN](/AiBook/zh/reference/concept-glossary-pinyin/k/#k-nnk-nearest-neighbors) 是 `通过看附近案例来做判断的模型`。但在这里，真正最重要的词其实是 `近`。
+P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但在这里，真正最重要的词其实是 `近`。
 
 到底什么才算近？
 

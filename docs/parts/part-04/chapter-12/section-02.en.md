@@ -3,7 +3,7 @@
 > Section ID: `P4-12.2`
 > Version: `v2026.07.26`
 
-P4-12.1 explained [k-NN](/AiBook/en/reference/concept-glossary-alpha/k/#k-nnk-nearest-neighbors) as `a model that judges by looking at nearby cases`. But the most important word there is really `near`.
+P4-12.1 explained k-NN as `a model that judges by looking at nearby cases`. But the most important word there is really `near`.
 
 What exactly does near mean?
 
