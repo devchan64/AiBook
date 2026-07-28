@@ -73,7 +73,7 @@
 --8<-- "reference/concept-glossary-terms/broadcasting.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/nondeterministic.ko.md"
+--8<-- "reference/concept-glossary-terms/nondeterminism.ko.md"
 
 --8<-- "reference/concept-glossary-terms/confidential-information.ko.md"
 

@@ -73,7 +73,7 @@
 
 --8<-- "reference/concept-glossary-terms/decision-tree.ko.md"
 
---8<-- "reference/concept-glossary-terms/deterministic.ko.md"
+--8<-- "reference/concept-glossary-terms/determinism.ko.md"
 
 --8<-- "reference/concept-glossary-terms/route.ko.md"
 

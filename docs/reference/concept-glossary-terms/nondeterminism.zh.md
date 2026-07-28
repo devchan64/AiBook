@@ -1,4 +1,4 @@
-<a id="nondeterministic"></a>
+<a id="nondeterminism"></a>
 
 ## 非确定性
 

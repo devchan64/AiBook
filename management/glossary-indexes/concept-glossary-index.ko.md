@@ -8,7 +8,7 @@
 
 | 인덱스 표기 | 대표 표제어 | 영어 기준 용어 | 중심 Section | 파일 slug | 앵커 | 검증 레퍼런스 | 비고 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 결정적 | 결정적 | deterministic | P1-3.1 | deterministic | deterministic | AIMA, SEP AI | 같은 조건에서 결과가 하나로 닫히는 성질 |
+| 결정성 | 결정성 | determinism | P1-3.1 | determinism | determinism | AIMA, SEP AI | 같은 조건에서 결과가 하나로 닫히는 성질 |
 | 경로 | 경로 | route, path | P1-7.1 | route | route | Poole & Mackworth search as path | PATH 환경 변수와 구분되는 탐색·계획의 이동 흐름 |
 | 계획 | 계획 | planning | P1-7.4 | planning | planning | Poole & Mackworth search, motion planning survey | 목표에 도달하기 위한 행동·경로 선택 과정 |
 | 검색 | 검색 | retrieval | P1-13.3 | retrieval | retrieval | RAG paper | RAG에서 생성 입력에 넣을 외부 문서 후보를 찾아오는 단계 |
@@ -299,7 +299,7 @@
 | 최대우도추정 | 최대우도추정 | maximum likelihood estimation, MLE | P4-11.3 | maximum-likelihood-estimation-mle | maximum-likelihood-estimation-mle | maximum likelihood context | 관찰 데이터가 가장 그럴듯하게 나오도록 파라미터를 찾는 추정 방식 |
 | 다층 신경망 | 다층 신경망 | multilayer neural network | P5-2.1 | multilayer-neural-network | multilayer-neural-network | neural network context | 여러 층의 계산 단위를 쌓아 중간 표현을 단계적으로 만드는 신경망 구조 |
 | 잡음 | 잡음 | noise | P1-6.1 | noise | noise | signal and noise context | 관측 데이터에서 현재 질문과 무관하거나 해석을 흐리는 변동 |
-| 비결정적 | 비결정적 | nondeterministic | P1-6.2 | nondeterministic | nondeterministic | nondeterminism context | 같은 입력이나 상태에서도 결과가 하나로 고정되지 않을 수 있는 성질 |
+| 비결정성 | 비결정성 | nondeterminism | P1-6.2 | nondeterminism | nondeterminism | nondeterminism context | 같은 입력이나 상태에서도 결과가 하나로 고정되지 않을 수 있는 성질 |
 | 부분 관측 | 부분 관측 | partial observability | P1-6.1 | partial-observability | partial-observability | AI agent and RL context | 전체 상태 중 현재 보이는 일부 정보만으로 판단해야 하는 조건 |
 | 정책 기반 강화학습 | 정책 기반 강화학습 | policy-based reinforcement learning | P4-19.2 | policy-based-reinforcement-learning | policy-based-reinforcement-learning | reinforcement learning context | 정책 자체를 직접 조정해 행동 선택 기준을 배우는 강화학습 접근 |
 | 확률 모델 | 확률 모델 | probabilistic model | P1-7.3 | probabilistic-model | probabilistic-model | probabilistic AI context | 불확실성을 확률 구조로 표현해 후보나 판단을 다루는 모델 |

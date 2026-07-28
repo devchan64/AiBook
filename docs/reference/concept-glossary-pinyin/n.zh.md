@@ -14,7 +14,7 @@
 --8<-- "reference/concept-glossary-terms/noise.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/nondeterministic.zh.md"
+--8<-- "reference/concept-glossary-terms/nondeterminism.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/numerical-stability.zh.md"
