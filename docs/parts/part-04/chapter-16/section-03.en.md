@@ -3,7 +3,7 @@
 > Section ID: `P4-16.3`
 > Version: `v2026.07.26`
 
-In P4-16.1 and P4-16.2, we saw the sequential-correction structure of [gradient boosting](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-boosting) and the combined story of performance and overfitting risk. The next natural question is why, even inside the same boosting family, [XGBoost](/AiBook/en/reference/concept-glossary-alpha/x/#xgboost), [LightGBM](/AiBook/en/reference/concept-glossary-alpha/l/#lightgbm), and [CatBoost](/AiBook/en/reference/concept-glossary-alpha/c/#catboost) feel different in name and in usage.
+In P4-16.1 and P4-16.2, we saw the sequential-correction structure of gradient boosting and the combined story of performance and overfitting risk. The next natural question is why, even inside the same boosting family, XGBoost, LightGBM, and CatBoost feel different in name and in usage.
 
 This Section groups that difference not as `memorizing new algorithm names`, but as `what are they trying to make faster, and what are they trying to make safer to handle?`
 

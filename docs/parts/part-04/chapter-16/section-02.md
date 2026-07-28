@@ -3,7 +3,7 @@
 > Section ID: `P4-16.2`
 > Version: `v2026.07.26`
 
-P4-16.1에서는 [그래디언트 부스팅(gradient boosting)](../../../reference/concept-glossary-parts/01-giyeok.md#gradient-boosting)이 앞선 단계의 오차를 다음 단계가 순차적으로 보정하는 방식이라는 점을 보았습니다. 바로 여기서 부스팅의 강점과 위험이 동시에 나옵니다.
+P4-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계의 오차를 다음 단계가 순차적으로 보정하는 방식이라는 점을 보았습니다. 바로 여기서 부스팅의 강점과 위험이 동시에 나옵니다.
 
 같은 질문을 더 정확히 바꾸면 다음과 같습니다.
 
@@ -20,7 +20,7 @@ P4-16.1에서는 [그래디언트 부스팅(gradient boosting)](../../../referen
 이 절은 다음 질문에 답합니다.
 
 - 왜 그래디언트 부스팅은 표 형식 데이터(tabular data)에서 강한 후보로 자주 언급되는가?
-- 왜 [학습률(learning rate)](../../../reference/concept-glossary-parts/14-hieut.md#learning-rate), tree size, [`n_estimators`](../../../reference/concept-glossary-parts/02-nieun.md#n-estimators)가 민감한 조합이 되는가?
+- 왜 학습률(learning rate), tree size, `n_estimators`가 민감한 조합이 되는가?
 - 과적합은 어떤 모습으로 드러날 수 있는가?
 - [수축(shrinkage)](../../../reference/concept-glossary-parts/07-siot.md#shrinkage), [부분표본추출(subsampling)](../../../reference/concept-glossary-parts/06-bieup.md#subsampling), [조기 중단(early stopping)](../../../reference/concept-glossary-parts/09-jieut.md#early-stopping)은 어떤 위험을 줄이려는가?
 - 랜덤포레스트와 비교할 때 어떤 상황에서 더 강하게 느껴지고, 어떤 상황에서 더 조심해야 하는가?

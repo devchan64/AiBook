@@ -10,6 +10,7 @@
 | 实际目标 | 实际目标 | actual target | P3-9.9 | actual-target | actual-target | P3-9.9 source context | 真正想知道、想减少或想预测的结果 |
 | 基准模型 | 基准模型 | baseline model | P4-8.2 | baseline-model | baseline-model | P4-8.2 source context | 候选模型需要超过的最简单比较模型或分数标准 |
 | 基准线 | 基准线 | baseline | P3-7.3 | baseline | baseline | BLS base period, NCI baseline context | 让当前数值或模型分数不被孤立解读的参照标准 |
+| 对话式 LLM | 对话式 LLM | conversational LLM | P6-5.2 | conversational-llm | conversational-llm | P6-5.2 source context | 在 LLM 之上加入指令遵循、对话格式、安全调校和界面行为后的用户体验层 |
 | 标签一致性 | 标签一致性 | label consistency | P3-9.6 | label-consistency | label-consistency | P3-9.6 source context | 同一事件或相似条件下是否会反复获得相同含义标签的程度 |
 | 标签预测 | 标签预测 | label prediction | P3-9.1 | label-prediction | label-prediction | P3-9.1 source context | 用输入案例去预测稳定目标标签的更强问题设定 |
 | 可比性 | 可比性 | comparability | P3-2.3 | comparability | comparability | P3-2.3 source context | 能否把值、样本、模型或条件放在同一标准上解释 |
@@ -17,10 +18,12 @@
 | 数据建模 | 数据建模 | data modeling | P3-1.1 | data-modeling | data-modeling | P3-1.1 source context | 把原始记录重新设计成样本、特征、比较和输出结构 |
 | 数据科学 | 数据科学 | data science | P3-1.1 | data-science | data-science | P3-1.1 source context | 收集、清理、表示、建模和解释数据的宽泛流程 |
 | 数据泄漏 | 数据泄漏 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 预测时本不该知道的信息进入训练或评估的问题 |
+| 扩散模型 | 扩散模型 | diffusion model | P1-10.2 | diffusion-model | diffusion-model | P1-10.2 source context | 从噪声状态开始，逐步去噪生成有意义图像或表示的生成模型系列 |
 | 过拟合 | 过拟合 | overfitting | P4-5.1 | overfitting | overfitting | P4-5.1 source context | 训练数据表现很好但新数据表现变差的状态 |
 | 错误成本 | 错误成本 | error cost | P3-9.12 | error-cost | error-cost | Google ML Glossary thresholding, P3-9.12 source context | 按错误类型分别记录真实负担，用来解释阈值和判断方向的标准 |
 | 交叉验证 | 交叉验证 | cross-validation | P4-4.2 | cross-validation | cross-validation | scikit-learn Cross-validation, P4-4.2 source context | 在已有数据中多次拆分，并在不同验证部分上反复评估模型或设置的方法 |
 | 生成式 AI | 生成式 AI | generative AI | P1-10.1 | generative-ai | generative-ai | IBM generative AI, P1-10.1 source context | 生成文本、图像、语音、代码等新内容的模型和服务类别 |
+| 生成模型 | 生成模型 | generative model | P5-15.2 | generative-model | generative-model | P5-15.2 source context | 学习候选分布并生成新样本或下一输出的模型系列 |
 | 函数近似 | 函数近似 | function approximation | P4-19.5 | function-approximation | function-approximation | P4-19.5 source context | 不把所有值存进表里，而是用函数或模型根据输入估计价值 |
 | 假阴性 | 假阴性 | false negative | P3-9.12 | false-negative | false-negative | Google ML Glossary false negative, P3-9.12 source context | 实际为正例，却被模型或规则判成负例而漏掉的案例 |
 | 假阳性 | 假阳性 | false positive | P3-9.12 | false-positive | false-positive | Google ML Glossary false positive, P3-9.12 source context | 实际为负例，却被模型或规则判成正例而误报的案例 |

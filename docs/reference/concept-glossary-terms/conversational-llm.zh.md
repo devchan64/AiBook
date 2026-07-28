@@ -1,6 +1,4 @@
 <a id="conversational-llm"></a>
-<a id="llmconversational-llm"></a>
-
 ## 对话式 LLM
 
 - 含义: 对话式 LLM 是在 LLM 之上加入指令遵循、对话格式、安全调校和界面层后形成的用户体验。

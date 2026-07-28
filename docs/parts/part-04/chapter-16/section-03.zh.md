@@ -3,7 +3,7 @@
 > Section ID: `P4-16.3`
 > Version: `v2026.07.26`
 
-在 P4-16.1 与 P4-16.2 里， 我们已经看过[梯度提升(gradient boosting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient-boosting)的顺序修正结构， 以及它的性能与过拟合风险为什么会一起出现。 接下来很自然会冒出的问题是： 为什么同样属于 boosting 家族， [XGBoost](/AiBook/zh/reference/concept-glossary-pinyin/x/#xgboost)、[LightGBM](/AiBook/zh/reference/concept-glossary-pinyin/l/#lightgbm)、[CatBoost](/AiBook/zh/reference/concept-glossary-pinyin/c/#catboost) 却会给人不同的名字与不同的使用感觉？
+在 P4-16.1 与 P4-16.2 里， 我们已经看过梯度提升(gradient boosting)的顺序修正结构， 以及它的性能与过拟合风险为什么会一起出现。 接下来很自然会冒出的问题是： 为什么同样属于 boosting 家族， XGBoost、LightGBM、CatBoost 却会给人不同的名字与不同的使用感觉？
 
 这一节不会把它们当成 `又多了几个算法名字要背`， 而是把它们放进下面这个问题里： `它们分别想让什么更快，又想让什么更安全？`
 

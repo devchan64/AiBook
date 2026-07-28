@@ -3,7 +3,7 @@
 > Section ID: `P4-16.3`
 > Version: `v2026.07.26`
 
-P4-16.1과 P4-16.2에서 [그래디언트 부스팅(gradient boosting)](../../../reference/concept-glossary-parts/01-giyeok.md#gradient-boosting)의 순차 보정 구조와 성능·과적합 위험을 보았습니다. 그다음에는 비슷한 부스팅 계열이라도 왜 [XGBoost](../../../reference/concept-glossary-parts/08-ieung.md#xgboost), [LightGBM](../../../reference/concept-glossary-parts/04-rieul.md#lightgbm), [CatBoost](../../../reference/concept-glossary-parts/10-kieuk.md#catboost)가 서로 다른 이름과 사용 감각으로 읽히는지 궁금해집니다.
+P4-16.1과 P4-16.2에서 그래디언트 부스팅(gradient boosting)의 순차 보정 구조와 성능·과적합 위험을 보았습니다. 그다음에는 비슷한 부스팅 계열이라도 왜 XGBoost, LightGBM, CatBoost가 서로 다른 이름과 사용 감각으로 읽히는지 궁금해집니다.
 
 이 절은 그 차이를 `새 알고리즘 이름 암기`가 아니라 `어디를 더 빠르게 만들고, 어디를 더 안전하게 다루려 하는가`라는 관점으로 묶는 보충학습입니다.
 

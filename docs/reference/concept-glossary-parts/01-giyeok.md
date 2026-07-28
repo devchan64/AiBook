@@ -1,6 +1,5 @@
 ## ㄱ
 
---8<-- "reference/concept-glossary-terms/additive-model.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/validation-data.ko.md"

@@ -3,7 +3,7 @@
 > Section ID: `P4-16.1`
 > Version: `v2026.07.26`
 
-The [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) in P4-15 was an ensemble that built many trees `in parallel` and reduced instability by gathering their results.
+The random forest in P4-15 was an ensemble that built many trees `in parallel` and reduced instability by gathering their results.
 
 At this point, a different question appears with gradient boosting: instead of stopping at gathering many trees, can the next tree directly correct the error left by the previous stage?
 
@@ -11,16 +11,16 @@ Gradient boosting is an ensemble method that stacks small trees so that the next
 
 If random forest is closer to `gathering many opinions in parallel`, gradient boosting is closer to `having the next stage fix the previous stage's error`.
 
-This Section explains the basic meanings of [gradient boosting](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-boosting), [residual](/AiBook/en/reference/concept-glossary-alpha/r/#residual), [weak learner](/AiBook/en/reference/concept-glossary-alpha/w/#weak-learner), and [additive model](/AiBook/en/reference/concept-glossary-alpha/a/#additive-model). The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the concept glossary.
+This Section explains how gradient boosting sequentially corrects residual error with small models. The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the concept glossary.
 
 ## Questions Closed By Gradient Boosting
 
 This Section answers the following questions.
 
 - Why is gradient boosting called `sequential`?
-- What do `weak learner`, `residual`, and `additive model` mean?
+- What do `weak learner` and `residual` mean?
 - How is the mindset of gradient boosting different from that of random forest?
-- Why should [`n_estimators`](/AiBook/en/reference/concept-glossary-alpha/n/#n-estimators) and [learning rate](/AiBook/en/reference/concept-glossary-alpha/l/#learning-rate) be read together?
+- Why should `n_estimators` and learning rate be read together?
 
 This Section focuses on understanding `what kind of approach boosting is`. Performance and risk, and the roles of early stopping and shrinkage, continue in P4-16.2. The wider view of hyperparameters and validation cost reconnects in P4-9.1 and P4-9.2. Implementation differences among XGBoost, LightGBM, and CatBoost also continue in P4-16.2 at the level of `what they try to make faster and what they try to make safer to handle`, and if a wider implementation comparison becomes necessary, it can be recovered separately as supplementary learning for this chapter.
 
@@ -100,9 +100,9 @@ The same idea can be compressed again into a short table.
 
 So residual is not only a mark that says `the model was wrong`. It is also a signal that tells the next stage `where to enter to correct`.
 
-## What Does Additive Model Mean?
+## A Structure That Adds Stages
 
-The scikit-learn documentation explains the gradient boosting regressor as an additive model. That means the final prediction is made by adding the outputs of stage models together.
+The scikit-learn documentation explains the gradient boosting regressor as a method that adds the outputs of stage models together. That means the final prediction is not made in one shot, but accumulates stage-by-stage corrections.
 
 1. Start from a very simple base prediction.
 2. Let the next tree create a small correction.
@@ -125,7 +125,7 @@ A tiny number table makes this clearer.
 
 In this table, stage 2 does not create a brand-new answer from scratch. It corrects the existing 104 by adding `-2`. Stage 3 does the same by moving from 102 to 103 through `+1`.
 
-So additive model can be read like this.
+So the stage-adding structure of boosting can be read like this.
 
 - the first stage catches the rough direction
 - later stages keep correcting that answer little by little
@@ -140,7 +140,7 @@ This feel matters especially when we compare it with random forest.
 
 So if random forest is read as `an aggregation of many opinions`, gradient boosting is read more accurately as `an accumulation of many corrections`.
 
-In a practical scene, additive model is closer to building a churn score not by fixing it in one shot, but by starting from `a base risk score` and then letting signals such as `failed payment`, `recent usage drop`, and `more inquiries` raise or lower the score in later stages. The key question for the reader is `what new signal did each stage reflect?`
+In a practical scene, boosting is closer to building a churn score not by fixing it in one shot, but by starting from `a base risk score` and then letting signals such as `failed payment`, `recent usage drop`, and `more inquiries` raise or lower the score in later stages. The key question for the reader is `what new signal did each stage reflect?`
 
 ## Why Is Weak Learner Explained Through Small Trees?
 
@@ -308,7 +308,7 @@ In practice, gradient boosting comes to mind first in scenes where `a single tre
 | --- | --- | --- |
 | a stronger performance candidate is needed on tabular data | because small patterns can be accumulated through sequential correction | whether there is a plan for overfitting control |
 | the residual error left by a single tree or random forest is still clear | because the next stage can target residuals directly | what error scenes keep remaining |
-| a structure of adding many weak rules feels natural | because the improvement flow is easy to read through the additive-model view | whether stage-wise correction becomes too strong |
+| a structure of adding many weak rules feels natural | because the improvement flow is easy to read as sequential correction | whether stage-wise correction becomes too strong |
 | readers can accept more tuning for higher base performance | because `learning_rate`, stage count, and tree size can be tuned finely | whether validation procedure and early stopping are ready |
 | readers want to reduce bias more aggressively than in random forest | because the method prioritizes error correction over average stability | the risk of following data noise too far |
 

@@ -25,9 +25,11 @@
 | 궤적 | 궤적 | trajectory | P1-7.4 | trajectory | trajectory | motion planning survey | 시간·속도까지 포함한 실행 직전 움직임 계획 |
 | 문제 정의 | 문제 정의 | task definition | P1-4.4 | task-definition | task-definition | P1-4.4 source context | 현실 목표를 입력·출력·데이터·평가 기준의 계산 가능한 과제로 좁히는 단계 |
 | 딥 강화학습 | 딥 강화학습 | deep reinforcement learning | P1-8.3 | deep-reinforcement-learning | deep-reinforcement-learning | P1-8.3 source context | 딥러닝을 함수 근사 도구로 쓰는 강화학습 접근 |
+| 디퓨전 모델 | 디퓨전 모델 | diffusion model | P1-10.2 | diffusion-model | diffusion-model | P1-10.2 source context | 노이즈 상태에서 시작해 여러 단계로 의미 있는 이미지나 표현을 복원하는 생성 모델 계열 |
 | 라벨이 있는 예시 | 라벨이 있는 예시 | labeled example | P1-8.1 | labeled-example | labeled-example | P1-8.1 source context | 입력과 정답 라벨이 함께 묶인 지도학습 사례 |
 | 라벨 일관성 | 라벨 일관성 | label consistency | P3-9.6 | label-consistency | label-consistency | P3-9.6 source context | 같은 사건이나 비슷한 조건에 같은 의미의 라벨이 반복해서 붙는 정도 |
 | 라벨 예측 | 라벨 예측 | label prediction | P3-9.1 | label-prediction | label-prediction | P3-9.1 source context | 안정된 목표 라벨을 맞히도록 문제를 올리는 더 강한 문제 설정 |
+| 대화형 LLM | 대화형 LLM | conversational LLM | P6-5.2 | conversational-llm | conversational-llm | P6-5.2 source context | LLM 위에 지시 따르기·대화 형식·안전 조정·인터페이스가 더해진 사용자 경험 |
 | 밀도 | 밀도 | density | P1-8.2 | density | density | P1-8.2 source context | 데이터 공간에서 사례들이 촘촘히 모인 정도 |
 | 문맥 의존성 | 문맥 의존성 | context dependency | P1-10.2 | context-dependency | context-dependency | P1-10.2 source context | 현재 출력 후보가 앞선 입력과 생성 내용에 따라 달라지는 성질 |
 | 메타데이터 | 메타데이터 | metadata | P1-13.4 | metadata | metadata | 단어별 원고 기준 | 문서·검색 맥락의 부가 정보로 관리; 일반 사전 의미와 구분 |
@@ -38,6 +40,7 @@
 | 휴리스틱 | 휴리스틱 | heuristic | P1-7.2 | heuristic | heuristic | AIMA, Poole & Mackworth heuristic search | 제한된 시간과 정보 안에서 유망한 후보를 먼저 보게 하는 경험적 기준 |
 | 순차 모델링 | 순차 모델링 | sequence modeling | P1-9.3 | sequence-modeling | sequence-modeling | Seq2Seq, Attention, Transformer papers | 순서 있는 데이터의 관계와 생성을 다루는 문제 설정 |
 | 생성형 AI | 생성형 AI | generative AI | P1-10.1 | generative-ai | generative-ai | IBM generative AI, P1-10.1 source context | 텍스트·이미지·음성·코드처럼 새 콘텐츠를 만드는 모델과 서비스 범주 |
+| 생성 모델 | 생성 모델 | generative model | P5-15.2 | generative-model | generative-model | P5-15.2 source context | 후보 분포를 학습해 새 샘플이나 다음 출력을 만들어 내는 모델 계열 |
 | 손실 | 손실 | loss | P1-5.1 | loss | loss | Google ML Glossary loss | 학습 목표와 현재 출력의 차이를 나타내는 신호 |
 | 업무 성과 | 업무 성과 | business outcome | P1-4.4 | business-outcome | business-outcome | scikit-learn model evaluation context | 모델 점수 바깥의 실제 업무 결과 |
 | 엔드투엔드 학습 | 엔드투엔드 학습 | end-to-end learning | P1-9.2 | end-to-end-learning | end-to-end-learning | object detection context | 입력에서 최종 출력까지 연결된 구조를 함께 학습하는 접근 |

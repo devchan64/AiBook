@@ -3,7 +3,7 @@
 > Section ID: `P4-16.2`
 > Version: `v2026.07.26`
 
-在 P4-16.1 里，我们看过[梯度提升(gradient boosting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient-boosting)是怎样让下一阶段顺序修正前一阶段误差的。 正是在这里，boosting 的强项与风险会一起出现。
+在 P4-16.1 里，我们看过梯度提升(gradient boosting)是怎样让下一阶段顺序修正前一阶段误差的。 正是在这里，boosting 的强项与风险会一起出现。
 
 如果把同一个问题说得更准确一点，可以变成：
 
@@ -20,7 +20,7 @@ Boosting 可以通过堆很多小修正来做出很强的性能， 但也正因�
 本节回答以下问题。
 
 - 为什么梯度提升常被说成是表格型数据(tabular data)上的强候选？
-- 为什么 [学习率(learning rate)](/AiBook/zh/reference/concept-glossary-pinyin/l/#learning-rate)、tree size、[`n_estimators`](/AiBook/zh/reference/concept-glossary-pinyin/n/#n-estimators) 会变成一个很敏感的组合？
+- 为什么学习率(learning rate)、tree size、`n_estimators` 会变成一个很敏感的组合？
 - 过拟合会以什么样子出现？
 - [收缩(shrinkage)](/AiBook/zh/reference/concept-glossary-pinyin/s/#shrinkage)、[子采样(subsampling)](/AiBook/zh/reference/concept-glossary-pinyin/z/#subsampling)、[早停(early stopping)](/AiBook/zh/reference/concept-glossary-pinyin/z/#early-stopping) 分别在试图降低什么风险？
 - 和随机森林相比，什么场景下 boosting 会显得更强，什么场景下又需要更谨慎？

@@ -1,6 +1,4 @@
 <a id="conversational-llm"></a>
-<a id="llmconversational-llm"></a>
-
 ## conversational LLM
 
 - Meaning: A conversational LLM is the user-facing form created when instruction following, dialogue formatting, safety tuning, and interface layers are added on top of an LLM. It is a model-plus-product layer, not only the base model.

@@ -3,7 +3,7 @@
 > Section ID: `P4-16.1`
 > Version: `v2026.07.26`
 
-我们在 P4-15 里看到的[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)， 是一种把很多树 `并行地` 建起来， 再把结果聚在一起以减少摇摆的集成方法。
+我们在 P4-15 里看到的随机森林(random forest)， 是一种把很多树 `并行地` 建起来， 再把结果聚在一起以减少摇摆的集成方法。
 
 到了这里， 围绕梯度提升(gradient boosting)会冒出另一个问题： 既然已经能聚很多棵树， 能不能让下一棵树直接去修正前一阶段留下来的错误？
 
@@ -11,16 +11,16 @@
 
 如果随机森林更接近 `并行地收集很多意见`， 那么梯度提升更接近 `让下一阶段修正前一阶段的错误`。
 
-这一节解释 [梯度提升(gradient boosting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient-boosting)、[残差(residual)](/AiBook/zh/reference/concept-glossary-pinyin/c/#residual)、[弱学习器(weak learner)](/AiBook/zh/reference/concept-glossary-pinyin/r/#weak-learner)、[加性模型(additive model)](/AiBook/zh/reference/concept-glossary-pinyin/j/#additive-model) 这些基本含义。 后面的 Section 会沿着这些抓手继续推进， 而顺序修正误差的基础感觉， 也会通过这一节和概念词典重新连接。
+这一节解释梯度提升(gradient boosting)怎样用小模型顺序修正残差(residual)。 后面的 Section 会沿着这些抓手继续推进， 而顺序修正误差的基础感觉， 也会通过这一节和概念词典重新连接。
 
 ## 梯度提升先收束的问题
 
 本节回答以下问题。
 
 - 为什么梯度提升会被叫作 `顺序的(sequential)`？
-- `weak learner`、`residual`、`additive model` 分别是什么意思？
+- `weak learner` 和 `residual` 分别是什么意思？
 - 梯度提升和随机森林的思考方式到底哪里不同？
-- 为什么 [`n_estimators`](/AiBook/zh/reference/concept-glossary-pinyin/n/#n-estimators) 和 [学习率(learning_rate)](/AiBook/zh/reference/concept-glossary-pinyin/l/#learning-rate) 要一起读？
+- 为什么 `n_estimators` 和学习率(learning_rate)要一起读？
 
 这一节聚焦的是： `boosting 到底是一种怎样的方式`。 性能与风险、以及 early stopping 和 shrinkage 的角色， 会在 P4-16.2 继续。 更宽一点的超参数与验证成本视角，会在 P4-9.1 和 P4-9.2 再接回来。XGBoost、LightGBM、CatBoost 的实现差异也会在 P4-16.2 继续，主要从 `它们想让什么更快，想让什么更安全` 的角度来读；如果后面需要更宽的实现比较，再把它分出去作为本章的补充学习回收。
 
@@ -100,9 +100,9 @@ scikit-learn 文档说明， gradient-boosted trees 是一种顺序堆叠树的�
 
 所以 residual 不只是一个 `模型错了` 的标记。 它同时也是一个告诉下一阶段 `应该从哪里进去修` 的信号。
 
-## additive model 是什么意思
+## 把多个阶段加起来的结构
 
-scikit-learn 文档把 gradient boosting regressor 解释成 additive model。 这表示最终预测， 是通过把各阶段模型的输出不断加起来形成的。
+scikit-learn 文档把 gradient boosting regressor 解释成把各阶段模型输出不断加起来的方式。 这表示最终预测不是一次性形成的，而是由一阶段一阶段的修正累积出来的。
 
 1. 先放一个很简单的基础预测。
 2. 让下一棵树做出一个小修正。
@@ -125,7 +125,7 @@ scikit-learn 文档把 gradient boosting regressor 解释成 additive model。 �
 
 在这个表里， stage 2 并不是重新给出一个全新的答案。 它是在已有的 104 上加 `-2`，把它修成 102。 stage 3 也是同样的逻辑。
 
-因此 additive model 可以这样去读。
+因此，提升方法中这种逐步累加的结构可以这样读。
 
 - 第一阶段先抓住大致方向
 - 后面阶段再一点点修这个答案
@@ -309,7 +309,7 @@ scikit-learn 用户指南经常把 gradient-boosted trees 和 histogram-based gr
 | --- | --- | --- |
 | 在表格型数据上需要更强的性能候选 | 因为小模式可以通过顺序修正不断累积 | 是否有过拟合管理计划 |
 | 单棵树或随机森林留下的 residual error 仍然明显 | 因为下一阶段可以直接瞄准 residual | 哪些错误场景一直没消失 |
-| 用很多弱规则累加来解释问题很自然 | 因为 additive model 视角更容易看清改善过程 | 阶段修正会不会太强 |
+| 用很多弱规则累加来解释问题很自然 | 因为顺序修正的视角更容易看清改善过程 | 阶段修正会不会太强 |
 | 愿意为了更高性能接受更多调参 | 因为 `learning_rate`、阶段数、tree size 都可以细调 | validation 流程和 early stopping 是否准备好了 |
 | 比起随机森林，更想积极地压低 bias | 因为这种方法更偏向误差修正而不是平均稳定性 | 是否会开始去追数据噪声 |
 

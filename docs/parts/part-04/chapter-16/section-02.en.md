@@ -3,7 +3,7 @@
 > Section ID: `P4-16.2`
 > Version: `v2026.07.26`
 
-In P4-16.1, we saw that [gradient boosting](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-boosting) corrects the error of the previous stage sequentially. Exactly there, the strength and the risk of boosting appear at the same time.
+In P4-16.1, we saw that gradient boosting corrects the error of the previous stage sequentially. Exactly there, the strength and the risk of boosting appear at the same time.
 
 The same question can be rewritten more precisely like this:
 
@@ -20,7 +20,7 @@ This Section does not repeat the base definition of gradient boosting at length.
 This Section answers the following questions.
 
 - Why is gradient boosting often mentioned as a strong candidate on tabular data?
-- Why do [learning rate](/AiBook/en/reference/concept-glossary-alpha/l/#learning-rate), tree size, and [`n_estimators`](/AiBook/en/reference/concept-glossary-alpha/n/#n-estimators) become a sensitive combination?
+- Why do learning rate, tree size, and `n_estimators` become a sensitive combination?
 - In what shape can overfitting appear?
 - What risks are [shrinkage](/AiBook/en/reference/concept-glossary-alpha/s/#shrinkage), [subsampling](/AiBook/en/reference/concept-glossary-alpha/s/#subsampling), and [early stopping](/AiBook/en/reference/concept-glossary-alpha/e/#early-stopping) trying to reduce?
 - Compared with random forest, in what situations does boosting feel stronger, and in what situations should readers be more careful?
