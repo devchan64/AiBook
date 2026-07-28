@@ -34,8 +34,9 @@
 | label prediction | label prediction | label prediction | P3-9.1 | label-prediction | label-prediction | P3-9.1 source context | Stronger problem setup where an input case is used to predict a stable target label |
 | learning-based approach | learning-based approach | learning-based approach | P4-1.2 | learning-based-approach | learning-based-approach | P4-1.2 source context | Approach that fits a model's judgment criterion from input-output examples |
 | missing value | missing value | missing value | P3-5.5 | missing-value | missing-value | P3-5.5 source context | Empty value or record position that may require filling, flagging, or pulling a sample back from comparison |
+| model validation | model validation | model validation | P4-4.2 | model-validation | model-validation | P2-12.3 source context | Intermediate evaluation data or procedure used to compare settings and model choices |
 | output structure | output structure | output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | Designed result frame for comparison reports, review queues, or target candidates |
-| policy | policy | policy | P1-8.3 | policy | policy | P1-14.3 source context | Criterion or function for choosing an action from the current state or observation |
+| reinforcement learning policy | reinforcement learning policy | reinforcement learning policy | P1-8.3 | reinforcement-learning-policy | reinforcement-learning-policy | P1-14.3 source context | Criterion or function for choosing an action from the current state or observation |
 | precision | precision | precision | P1-13.4 | precision | precision | P4-6.1 source context | Share of predicted positive cases that are actually positive |
 | prediction contract | prediction contract | prediction contract | P3-9.7 | prediction-contract | prediction-contract | P3-9.7 source context | Prediction-problem agreement that closes input definition, result definition, time-point availability, and reproducibility together |
 | prompt | prompt | prompt | P1-12.1 | prompt | prompt | OpenAI prompt engineering, GPT-3 paper | Full input bundle that sets the current response conditions |
@@ -95,8 +96,8 @@
 | numerical stability | numerical stability | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | Property that repeated computation keeps values and gradients within machine-manageable ranges |
 | tensor | tensor | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | Multidimensional numeric array used to hold inputs, intermediate representations, and outputs |
 | weight | weight | weight | P1-4.3 | weight | weight | machine learning parameter context | Model parameter that controls how strongly an input or intermediate value affects output calculation |
-| alignment | alignment | alignment | P6-9.2 | alignment | alignment | alignment context | Design problem of making model behavior fit human intent, safety rules, and policy constraints |
-| calibration | calibration | calibration | P1-6.2 | calibration | calibration | probability calibration context | Checking and adjusting whether model probability scores match observed frequency |
+| AI alignment | AI alignment | AI alignment | P6-9.2 | ai-alignment | ai-alignment | alignment context | Design problem of making model behavior fit human intent, safety rules, and policy constraints |
+| probability calibration | probability calibration | probability calibration | P1-6.2 | probability-calibration | probability-calibration | probability calibration context | Checking and adjusting whether model probability scores match observed frequency |
 | causal inference | causal inference | causal inference | P4-15.2 | causal-inference | causal-inference | causal inference context | Analysis perspective that separates observed association from real causal effect |
 | clustering | clustering | clustering | P4-17.1 | clustering | clustering | unsupervised learning context | Unsupervised problem type that finds groups of similar items without predefined labels |
 | decision tree | decision tree | decision tree | P4-14.1 | decision-tree | decision-tree | decision tree context | Tree-based model that reaches predictions through sequential condition questions |

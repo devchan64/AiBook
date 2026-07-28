@@ -24,6 +24,8 @@
 
 --8<-- "reference/concept-glossary-terms/probability-estimate.zh.md"
 
+--8<-- "reference/concept-glossary-terms/probability-calibration.zh.md"
+
 
 
 

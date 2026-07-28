@@ -17,7 +17,7 @@
 
 
 
---8<-- "reference/concept-glossary-terms/alignment.zh.md"
+--8<-- "reference/concept-glossary-terms/ai-alignment.zh.md"
 
 --8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.zh.md"
 

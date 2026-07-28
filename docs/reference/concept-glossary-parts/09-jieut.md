@@ -41,15 +41,11 @@
 
 
 --8<-- "reference/concept-glossary-terms/automatic-differentiation.ko.md"
-
---8<-- "reference/concept-glossary-terms/alignment.ko.md"
 --8<-- "reference/concept-glossary-terms/information-retrieval.ko.md"
 
 --8<-- "reference/concept-glossary-terms/information-integrity.ko.md"
 
 --8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.ko.md"
-
---8<-- "reference/concept-glossary-terms/policy.ko.md"
 
 
 

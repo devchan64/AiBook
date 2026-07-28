@@ -26,7 +26,7 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 
 
---8<-- "reference/concept-glossary-terms/alignment.en.md"
+--8<-- "reference/concept-glossary-terms/ai-alignment.en.md"
 
 --8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.en.md"
 

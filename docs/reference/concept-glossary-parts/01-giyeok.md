@@ -29,6 +29,8 @@
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-agent.ko.md"
 
+--8<-- "reference/concept-glossary-terms/reinforcement-learning-policy.ko.md"
+
 --8<-- "reference/concept-glossary-terms/reinforcement-learning.ko.md"
 
 
@@ -47,8 +49,6 @@
 --8<-- "reference/concept-glossary-terms/retrieval-augmented-generation-rag.ko.md"
 
 --8<-- "reference/concept-glossary-terms/retrieval.ko.md"
-
---8<-- "reference/concept-glossary-terms/validation.ko.md"
 
 --8<-- "reference/concept-glossary-terms/false-negative.ko.md"
 

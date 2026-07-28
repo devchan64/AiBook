@@ -32,5 +32,7 @@
 
 --8<-- "reference/concept-glossary-terms/model-training.zh.md"
 
+--8<-- "reference/concept-glossary-terms/model-validation.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/multilayer-neural-network.zh.md"

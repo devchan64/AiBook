@@ -6,8 +6,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 
 
---8<-- "reference/concept-glossary-terms/calibration.en.md"
-
 
 
 

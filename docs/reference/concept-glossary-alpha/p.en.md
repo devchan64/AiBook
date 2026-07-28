@@ -18,8 +18,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 
 
---8<-- "reference/concept-glossary-terms/policy.en.md"
-
 
 --8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.en.md"
 
@@ -46,6 +44,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/probabilistic-reasoning.en.md"
 
 --8<-- "reference/concept-glossary-terms/probability.en.md"
+
+--8<-- "reference/concept-glossary-terms/probability-calibration.en.md"
 
 --8<-- "reference/concept-glossary-terms/probability-estimate.en.md"
 

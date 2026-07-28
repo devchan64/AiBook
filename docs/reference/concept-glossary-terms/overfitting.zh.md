@@ -4,6 +4,6 @@
 
 - 含义: 过拟合是模型过度贴合训练数据中的细节或噪声，导致训练分数很好但新数据表现变差的状态。
 - 为什么重要: 过拟合会让模型看起来已经学会了问题，但实际只是记住了训练数据里的偶然模式。理解它是阅读验证分数、测试分数和泛化能力的基础。
-- 相关概念: `generalization`, `validation`, `test data`, `underfitting`
+- 相关概念: `generalization`, `model validation`, `test data`, `underfitting`
 - 首次说明于: `P4-5.1`
 - 出现 Section: `P1-3.2`, `P4-index`, `P4-3.2`, `P4-4.1`, `P4-5.2`, `P4-6.1`, `P4-9.1`, `P4-9.2`, `P4-14.2`, `P4-16.2`, `P5-8.1`, `P5-8.2`

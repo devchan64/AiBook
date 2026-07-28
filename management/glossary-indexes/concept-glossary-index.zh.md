@@ -39,7 +39,7 @@
 | 解释边界 | 解释边界 | interpretation boundary | P3-8.2 | interpretation-boundary | interpretation-boundary | P3-1.2 source context | 数据结果或比较结论能够说到哪里的边界 |
 | 缺失值 | 缺失值 | missing value | P3-5.5 | missing-value | missing-value | P3-5.5 source context | 本应有观测值的位置为空，可能需要填补、标记或撤回样本 |
 | 输出结构 | 输出结构 | output structure | P3-2.2 | output-structure | output-structure | P3-1.1 source context | 比较报告、复核队列或目标候选等结果框架 |
-| 策略 | 策略 | policy | P1-8.3 | policy | policy | P1-14.3 source context | 在当前状态或观测下决定选择哪个行动的标准或函数 |
+| 强化学习策略 | 强化学习策略 | reinforcement learning policy | P1-8.3 | reinforcement-learning-policy | reinforcement-learning-policy | P1-14.3 source context | 在当前状态或观测下决定选择哪个行动的标准或函数 |
 | 预测契约 | 预测契约 | prediction contract | P3-9.7 | prediction-contract | prediction-contract | P3-9.7 source context | 同时关闭输入定义、结果定义、时点可用性和可复现性的预测问题约定 |
 | 概率估计 | 概率估计 | probability estimate | P1-7.3 | probability-estimate | probability-estimate | P1-7.3 source context | 需要单独判断是否校准、是否能按概率解释的模型数值输出 |
 | 无监督学习 | 无监督学习 | unsupervised learning | P1-8.2 | unsupervised-learning | unsupervised-learning | P1-8.2 source context | 在没有人工标签的数据中寻找结构、相似性或表示的机器学习问题 |
@@ -98,8 +98,8 @@
 | 数值稳定性 | 数值稳定性 | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | 反复计算时值和梯度仍保持在机器可处理范围内的性质 |
 | 张量 | 张量 | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | 用来存放输入、中间表示和输出的多维数字数组 |
 | 权重 | 权重 | weight | P1-4.3 | weight | weight | machine learning parameter context | 控制输入或中间值对输出计算影响强度的模型参数 |
-| 对齐 | 对齐 | alignment | P6-9.2 | alignment | alignment | alignment context | 让模型行为符合人的意图、安全规则和政策约束的设计问题 |
-| 校准 | 校准 | calibration | P1-6.2 | calibration | calibration | probability calibration context | 检查并调整模型概率分数是否符合真实发生频率 |
+| AI 对齐 | AI 对齐 | AI alignment | P6-9.2 | ai-alignment | ai-alignment | alignment context | 让模型行为符合人的意图、安全规则和政策约束的设计问题 |
+| 概率校准 | 概率校准 | probability calibration | P1-6.2 | probability-calibration | probability-calibration | probability calibration context | 检查并调整模型概率分数是否符合真实发生频率 |
 | 因果推断 | 因果推断 | causal inference | P4-15.2 | causal-inference | causal-inference | causal inference context | 区分观察到的相关关系和真正因果效果的分析视角 |
 | 聚类 | 聚类 | clustering | P4-17.1 | clustering | clustering | unsupervised learning context | 在没有预设标签的数据中寻找相似项目分组的无监督问题 |
 | 决策树 | 决策树 | decision tree | P4-14.1 | decision-tree | decision-tree | decision tree context | 通过连续条件问题沿分支到达预测的树模型 |
@@ -112,6 +112,7 @@
 | 推断 | 推断 | inference | P1-5.3 | inference | inference | symbolic AI and model inference context | 根据语境表示从知识推出结论或把训练好的模型用于新输入 |
 | 模型 | 模型 | model | P1-4.1 | model | model | AI model context | 为目的构造的简化计算形式或学习到的输入输出结构 |
 | 模型训练 | 模型训练 | model training | P1-3.2 | model-training | model-training | machine learning training context | 使用案例和损失信号调整模型内部值的过程 |
+| 模型验证 | 模型验证 | model validation | P4-4.2 | model-validation | model-validation | P2-12.3 source context | 用来比较设置和模型选择的中间评估数据或流程 |
 | 计算限制 | 计算限制 | computational limit | P1-7.1 | computational-limit | computational-limit | search and computational complexity context | 候选空间过大，无法在现实资源内全部检查的状态 |
 | 上下文表示 | 上下文表示 | contextual representation | P1-11.3 | contextual-representation | contextual-representation | contextual embedding context | 同一 token 会随周围语境变化的内部向量表示 |
 | 收敛 | 收敛 | convergence | P2-2.3 | convergence | convergence | iterative computation context | 数值或状态在反复步骤中逐渐接近稳定点的过程 |

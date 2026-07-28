@@ -9,8 +9,6 @@
 
 --8<-- "reference/concept-glossary-terms/sampling-bias.zh.md"
 
---8<-- "reference/concept-glossary-terms/validation.zh.md"
-
 --8<-- "reference/concept-glossary-terms/validation-data.zh.md"
 
 --8<-- "reference/concept-glossary-terms/optimization.zh.md"

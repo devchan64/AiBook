@@ -31,6 +31,8 @@
 
 --8<-- "reference/concept-glossary-terms/model-training.ko.md"
 
+--8<-- "reference/concept-glossary-terms/model-validation.ko.md"
+
 --8<-- "reference/concept-glossary-terms/model-score.ko.md"
 
 --8<-- "reference/concept-glossary-terms/modeling-task.ko.md"

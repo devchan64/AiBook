@@ -154,7 +154,7 @@
 | 식 | 식 | expression | P2-2.1 | expression | expression | P2-2.1 source context | 값, 변수, 연산, 함수 호출을 조합한 계산 조각 |
 | 극한 | 극한 | limit | P2-2.3 | limit | limit | P2-2.3 source context | 입력이 어떤 값에 가까워질 때 함수값의 경향을 보는 표기 |
 | 변화율 | 변화율 | rate of change | P2-4.2 | rate-of-change | rate-of-change | P2-2.3 source context | 입력 변화량에 비해 출력이 얼마나 변하는지 보는 비율 |
-| 로그 | 수학 로그 | logarithm | P2-2.4 | logarithm | logarithm | P2-2.4 source context | 지수 함수를 거꾸로 읽고 곱셈 관계를 더하기 관계로 바꾸는 함수 |
+| 수학 로그 | 수학 로그 | logarithm | P2-2.4 | logarithm | logarithm | P2-2.4 source context | 지수 함수를 거꾸로 읽고 곱셈 관계를 더하기 관계로 바꾸는 함수 |
 | 지수 함수 | 지수 함수 | exponential function | P2-2.4 | exponential-function | exponential-function | P2-2.4 source context | 입력이 지수 자리에 들어가 같은 비율의 변화를 표현하는 함수 |
 | 로그 손실 | 로그 손실 | log loss | P2-2.4 | log-loss | log-loss | P2-2.4 source context | 정답 확률이 낮을수록 더 큰 벌점을 주는 손실 |
 | 시그모이드 | 시그모이드 | sigmoid | P2-2.4 | sigmoid | sigmoid | P2-2.4 source context | 실수 점수를 0과 1 사이 값으로 바꾸는 S자 함수 |
@@ -240,8 +240,8 @@
 | 대리 타깃 | 대리 타깃 | proxy target | P3-9.9 | proxy-target | proxy-target | Google ML Glossary proxy labels, P3-9.9 source context | 실제 목표를 바로 볼 수 없을 때 임시 목표처럼 사용하는 대체 열 |
 | 확률 추정값 | 확률 추정값 | probability estimate | P1-7.3 | probability-estimate | probability-estimate | P1-7.3 source context | 확률처럼 읽고 싶은 모델 수치 출력이며 보정 여부를 따로 확인해야 하는 값 |
 | 임계값 | 임계값 | threshold | P1-7.3 | threshold | threshold | P3-2.2 source context | 출력 숫자나 비교값을 실제 행동으로 바꿀 때 쓰는 절단 기준 |
-| 정책 | 정책 | policy | P1-8.3 | policy | policy | P1-14.3 source context | 현재 상태나 관측에서 어떤 행동을 고를지 정하는 기준 또는 함수 |
-| 검증 | 검증 | validation | P4-4.2 | validation | validation | P2-12.3 source context | 설정과 선택을 비교 점검하기 위한 중간 평가 데이터 또는 절차 |
+| 강화학습 정책 | 강화학습 정책 | reinforcement learning policy | P1-8.3 | reinforcement-learning-policy | reinforcement-learning-policy | P1-14.3 source context | 현재 상태나 관측에서 어떤 행동을 고를지 정하는 기준 또는 함수 |
+| 모델 검증 | 모델 검증 | model validation | P4-4.2 | model-validation | model-validation | P2-12.3 source context | 설정과 선택을 비교 점검하기 위한 중간 평가 데이터 또는 절차 |
 | 데이터 누수 | 데이터 누수 | data leakage | P2-12.3 | data-leakage | data-leakage | P2-12.3 source context | 예측 시점에 알 수 없는 정보가 학습 과정에 미리 섞이는 문제 |
 | 비교 가능성 | 비교 가능성 | comparability | P3-2.3 | comparability | comparability | P3-2.3 source context | 둘 이상의 값이나 샘플을 같은 기준 위에서 해석해도 되는 정도 |
 | 전처리 | 전처리 | preprocessing | P4-7.2 | preprocessing | preprocessing | P2-12.3 source context | 모델에 넣기 전에 입력 표현을 계산 가능한 형태로 준비하는 과정 |
@@ -270,8 +270,8 @@
 | 수치 안정성 | 수치 안정성 | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | 반복 계산에서 값과 그래디언트가 기계가 감당할 수 있는 범위 안에 머무는 성질 |
 | 텐서 | 텐서 | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | 입력·중간 표현·출력을 담는 다차원 숫자 배열의 일반 이름 |
 | 가중치 | 가중치 | weight | P1-4.3 | weight | weight | machine learning parameter context | 입력이나 중간값이 출력 계산에 반영되는 강도를 정하는 모델 파라미터 |
-| 정렬 | 정렬 | alignment | P6-9.2 | alignment | alignment | alignment context | 모델 행동이 사람의 의도·안전 기준·정책 제약과 맞도록 조정하는 설계 문제 |
-| 보정 | 보정 | calibration | P1-6.2 | calibration | calibration | probability calibration context | 모델 확률 점수가 실제 빈도와 얼마나 맞는지 확인하고 맞추는 일 |
+| AI 정렬 | AI 정렬 | AI alignment | P6-9.2 | ai-alignment | ai-alignment | alignment context | 모델 행동이 사람의 의도·안전 기준·정책 제약과 맞도록 조정하는 설계 문제 |
+| 확률 보정 | 확률 보정 | probability calibration | P1-6.2 | probability-calibration | probability-calibration | probability calibration context | 모델 확률 점수가 실제 빈도와 얼마나 맞는지 확인하고 맞추는 일 |
 | 인과 추론 | 인과 추론 | causal inference | P4-15.2 | causal-inference | causal-inference | causal inference context | 관찰된 상관관계와 실제 원인 효과를 구분하려는 분석 관점 |
 | 군집화 | 군집화 | clustering | P4-17.1 | clustering | clustering | unsupervised learning context | 라벨 없이 비슷한 항목끼리 묶음을 찾는 비지도학습 문제 유형 |
 | 결정트리 | 결정트리 | decision tree | P4-14.1 | decision-tree | decision-tree | decision tree context | 조건 질문을 따라 가지를 내려가며 예측하는 트리 기반 모델 계열 |

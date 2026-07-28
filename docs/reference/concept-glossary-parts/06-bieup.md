@@ -47,8 +47,6 @@
 
 --8<-- "reference/concept-glossary-terms/security.ko.md"
 
---8<-- "reference/concept-glossary-terms/calibration.ko.md"
-
 
 --8<-- "reference/concept-glossary-terms/partial-observability.ko.md"
 

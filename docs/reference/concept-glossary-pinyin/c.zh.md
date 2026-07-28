@@ -4,8 +4,6 @@
 
 --8<-- "reference/concept-glossary-terms/policy-based-reinforcement-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/calibration.zh.md"
-
 
 
 
@@ -39,8 +37,6 @@
 
 --8<-- "reference/concept-glossary-terms/output.zh.md"
 
-
---8<-- "reference/concept-glossary-terms/policy.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/confabulation.zh.md"

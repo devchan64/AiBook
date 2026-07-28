@@ -42,6 +42,8 @@
 
 --8<-- "reference/concept-glossary-terms/probability.ko.md"
 
+--8<-- "reference/concept-glossary-terms/probability-calibration.ko.md"
+
 --8<-- "reference/concept-glossary-terms/probability-distribution.ko.md"
 
 --8<-- "reference/concept-glossary-terms/probabilistic-choice.ko.md"
