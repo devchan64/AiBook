@@ -1,4 +1,3 @@
-<a id="glossary-target-candidate"></a>
 <a id="model"></a>
 
 ## model

@@ -1,4 +1,3 @@
-<a id="glossary-target-candidate"></a>
 <a id="model"></a>
 
 ### 모델(model, 모형)
@@ -8,5 +7,3 @@
 - 함께 볼 개념: `모델 입력(model input)`, `모델 출력(model output)`, `외부 시스템(external system)`, `AI 앱(AI application)`, `오케스트레이션(orchestration)`, `파라미터(parameter)`
 - 중심 Section: `P1-4.1`
 - 등장 Section: `P1-14.1`, `P4-1.1`, `P4-1.2`, `P4-3.1`
-
-<a id="glossary-target-candidate"></a>

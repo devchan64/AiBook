@@ -1,10 +1,9 @@
-<a id="glossary-target-candidate"></a>
 <a id="model"></a>
 
 ## 模型
 
 - 含义：模型是为某个目的构造的简化计算形式。在 AI 中，它常指把输入映射为输出的学习结构，但不是整个应用或系统。
 - 为什么重要：这个区分避免把模型行为和系统设计、输入设计、评审流程或产品质量混在一起。
-- 相关概念：`输入`，`输出`，`系统`，`应用`，`编排`，`参数`
+- 相关概念：`模型输入(model input)`，`模型输出(model output)`，`系统(system)`，`AI 应用(AI application)`，`编排(orchestration)`，`参数(parameter)`
 - 中心 Section：`P1-4.1`
 - 出现 Section：`P1-14.1`，`P4-1.1`, `P4-1.2`, `P4-3.1`
