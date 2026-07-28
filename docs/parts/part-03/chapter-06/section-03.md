@@ -75,7 +75,7 @@
 4. 이렇게 만든 표와 시퀀스는 이후 학습 단계에서 모델이 읽을 입력이 됩니다.
 5. 그다음 모델은 그 입력 안에서 더 긴 의존성이나 더 복잡한 조합을 학습할 수 있습니다.
 
-이 순서를 보면 특징 설계는 딥러닝 이전의 낡은 준비 단계가 아니라, 어떤 학습 방법을 쓰더라도 먼저 필요한 입력 정의 단계라는 점이 분명해집니다. 따라서 이 절의 결론도 `사람이 만든 특징 vs 딥러닝`의 대립이 아니라, [입력 명세(input specification)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-input-specification)와 [표현 학습(representation learning)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-representation-learning)이 어디서 갈리는가에 있습니다. 특징 설계는 낡은 수작업이 아니라, 학습 단계가 기대는 입력 구조를 먼저 명세하는 일로 읽어야 합니다.
+이 순서를 보면 특징 설계는 딥러닝 이전의 낡은 준비 단계가 아니라, 어떤 학습 방법을 쓰더라도 먼저 필요한 입력 정의 단계라는 점이 분명해집니다. 따라서 이 절의 결론도 `사람이 만든 특징 vs 딥러닝`의 대립이 아니라, [입력 명세(input specification)](../../../reference/concept-glossary-parts/05-mieum.md#model-input-specification)와 [표현 학습(representation learning)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-representation-learning)이 어디서 갈리는가에 있습니다. 특징 설계는 낡은 수작업이 아니라, 학습 단계가 기대는 입력 구조를 먼저 명세하는 일로 읽어야 합니다.
 
 ## 작은 도식으로 보기
 

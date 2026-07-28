@@ -9,7 +9,7 @@ This section closes four things first: the split between inputs and results, lea
 
 | What should be closed first | If turned into a question |
 | --- | --- |
-| Split between inputs and results | Which columns are [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and which are [target candidates](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate)? |
+| Split between inputs and results | Which columns are [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and which are target candidates? |
 | Preventing future-information leakage | Is there no [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage) from values still unknown at prediction time? |
 | Reproducibility at the operating time point | Can the inputs built during training be rebuilt in operations by the same rule? |
 | Cutoff / horizon | Up to what information do you look, and what later result are you trying to predict? |

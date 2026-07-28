@@ -5,7 +5,7 @@
 
 _보조제목: target 후보가 여러 개이거나 기준이 바뀔 때 무엇을 먼저 고정해야 하는가_
 
-현실 데이터에서는 [목표 라벨 후보(target candidate)](/AiBook/reference/concept-glossary-parts/05-mieum/#glossary-target-candidate)가 하나만 보이지 않을 수 있습니다. `review_needed`, `final_status`, `status_type`, `priority_bucket`처럼 여러 후보가 함께 보이기도 하고, 같은 이름의 [타깃(target)](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-target)이라도 시기마다 판정 기준이 달라지기도 합니다. 이 상태에서는 무엇을 대표 문제로 먼저 세울지와 지금 쓰는 정의가 어느 버전인지부터 고정해야 문제 자체가 흔들리지 않습니다. target 후보가 여러 개이거나 기준이 바뀌면, 무엇을 [대표 타깃(representative target)](/AiBook/reference/concept-glossary-parts/03-digeut/#glossary-representative-target)으로 세우는지와 현재 [타깃 정의 버전(target definition version)](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-target-definition-version)을 먼저 적어야 합니다.
+현실 데이터에서는 목표 라벨 후보(target candidate)가 하나만 보이지 않을 수 있습니다. `review_needed`, `final_status`, `status_type`, `priority_bucket`처럼 여러 후보가 함께 보이기도 하고, 같은 이름의 [타깃(target)](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-target)이라도 시기마다 판정 기준이 달라지기도 합니다. 이 상태에서는 무엇을 대표 문제로 먼저 세울지와 지금 쓰는 정의가 어느 버전인지부터 고정해야 문제 자체가 흔들리지 않습니다. target 후보가 여러 개이거나 기준이 바뀌면, 무엇을 [대표 타깃(representative target)](/AiBook/reference/concept-glossary-parts/03-digeut/#glossary-representative-target)으로 세우는지와 현재 [타깃 정의 버전(target definition version)](/AiBook/reference/concept-glossary-parts/12-tieut/#glossary-target-definition-version)을 먼저 적어야 합니다.
 
 | 먼저 고정할 것 | 왜 필요한가 |
 | --- | --- |

@@ -10,7 +10,7 @@
 | [实际目标(actual target)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-actual-target) | 你真正想知道、最终也真正想减少的结果 |
 | [代理目标(proxy target)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-proxy-target) | 因为实际目标看不到，或出现得太晚，所以临时拿来替代的一列 |
 
-例如，如果无法直接看到`实际状态确认`，那就可能先把`需要复核`拿来做[目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)。但两者不是同一个意思。代理目标可以成为起点，但它不会自动等同于实际目标。
+例如，如果无法直接看到`实际状态确认`，那就可能先把`需要复核`拿来做目标标签候选(target candidate)。但两者不是同一个意思。代理目标可以成为起点，但它不会自动等同于实际目标。
 
 | 先写下的备注 | 为什么需要 |
 | --- | --- |

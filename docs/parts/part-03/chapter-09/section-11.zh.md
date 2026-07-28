@@ -5,7 +5,7 @@
 
 _副标题: 当 target 候选有多个或标准在变化时，应该先固定什么？_
 
-在现实数据里，[目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)未必只会出现一个。像 `review_needed`、`final_status`、`status_type`、`priority_bucket` 这样的多个候选可能会一起出现；即使名字相同的[目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target)，在不同时间里判定标准也可能不同。如果不先固定：哪一个是代表问题，以及当前使用的是哪个定义版本，那么问题本身就会变得摇晃。也就是说，当 target 候选有多个，或者标准在变化时，必须先写清楚：哪一个是[代表目标(representative target)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-representative-target)，当前[目标定义版本(target definition version)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-definition-version)又是什么。
+在现实数据里，目标标签候选(target candidate)未必只会出现一个。像 `review_needed`、`final_status`、`status_type`、`priority_bucket` 这样的多个候选可能会一起出现；即使名字相同的[目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target)，在不同时间里判定标准也可能不同。如果不先固定：哪一个是代表问题，以及当前使用的是哪个定义版本，那么问题本身就会变得摇晃。也就是说，当 target 候选有多个，或者标准在变化时，必须先写清楚：哪一个是[代表目标(representative target)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-representative-target)，当前[目标定义版本(target definition version)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-definition-version)又是什么。
 
 | 先要固定的东西 | 为什么需要 |
 | --- | --- |

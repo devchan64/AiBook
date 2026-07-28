@@ -5,7 +5,7 @@
 
 P4-1.1 distinguished the positions of AI, [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning), deep learning, generative AI, and LLM. Now we look at machine learning more closely.
 
-Part 3 did not try to cover all of [data science](/AiBook/en/reference/concept-glossary-alpha/d/#data-science). Instead, it focused on the front-stage design that turns [source data](/AiBook/en/reference/concept-glossary-alpha/s/#source-data) into a problem structure ready for learning and analysis. That was the stage of deciding what counts as one case, which columns remain as [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature), what should be a [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#target-candidate), and what should be kept separate for identification and interpretation.
+Part 3 did not try to cover all of [data science](/AiBook/en/reference/concept-glossary-alpha/d/#data-science). Instead, it focused on the front-stage design that turns [source data](/AiBook/en/reference/concept-glossary-alpha/s/#source-data) into a problem structure ready for learning and analysis. That was the stage of deciding what counts as one case, which columns remain as [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature), what should be a target candidate, and what should be kept separate for identification and interpretation.
 
 One phrase that appears often when people explain machine learning is `it learns rules from data`. That phrase is easy to misunderstand as meaning that the model finds human-readable `if-then` rules directly. Machine learning is an approach that estimates the relation between inputs and outputs from data examples, then applies that relation to new data.
 

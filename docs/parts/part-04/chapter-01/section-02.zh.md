@@ -5,7 +5,7 @@
 
 在 P4-1.1 中，我们区分了 AI、[machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning)、deep learning、generative AI、LLM 的位置。现在要把 machine learning 再拉近一点来看。
 
-Part 3 并不是想覆盖整个 [data science](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-science)，而是把重点放在把 [source data](/AiBook/zh/reference/concept-glossary-pinyin/y/#source-data) 变成能进入学习与分析的问题结构的前段设计上。也就是先决定什么算一条案例、哪些列留下来当作 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)、哪些值可以当作 [target 候选](/AiBook/zh/reference/concept-glossary-pinyin/m/#target-candidate)、哪些东西则要为了识别和解释而分开保存。
+Part 3 并不是想覆盖整个 [data science](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-science)，而是把重点放在把 [source data](/AiBook/zh/reference/concept-glossary-pinyin/y/#source-data) 变成能进入学习与分析的问题结构的前段设计上。也就是先决定什么算一条案例、哪些列留下来当作 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)、哪些值可以当作 target 候选、哪些东西则要为了识别和解释而分开保存。
 
 在解释 machine learning 时，人们经常会说 `从数据中学习规则`。这句话很容易让人误解成：模型会直接找出人类能读懂的 `if-then` 规则。其实，machine learning 更准确地说，是从数据案例中估计输入和输出之间的关系，并把这种关系用到新数据上。
 

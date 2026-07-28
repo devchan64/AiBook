@@ -10,7 +10,7 @@ In real data, the result you truly want to predict is often not directly visible
 | [Actual target](/AiBook/en/reference/concept-glossary-alpha/a/#glossary-actual-target) | The result you truly want to know and ultimately want to reduce |
 | [Proxy target](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-proxy-target) | A substitute column used because the actual target cannot be seen directly or is seen too late |
 
-For example, if `actual state confirmation` cannot be observed directly, `review needed` may be used first as a [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate). But the two do not mean the same thing. A proxy target can become a starting point, but it does not automatically become the same thing as the actual target.
+For example, if `actual state confirmation` cannot be observed directly, `review needed` may be used first as a target candidate. But the two do not mean the same thing. A proxy target can become a starting point, but it does not automatically become the same thing as the actual target.
 
 | Note to write first | Why it is needed |
 | --- | --- |

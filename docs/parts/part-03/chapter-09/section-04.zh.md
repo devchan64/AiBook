@@ -3,7 +3,7 @@
 > Section ID: `P3-9.4`
 > Version: `v2026.07.25`
 
-即使[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)和[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report)先出现，[目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)通常也不会被立即给出。最开始留下来的，往往不是整洁的`正确标签`，而是各种各样的复核结果和复核备注。因此，把目标标签候选读成`一开始就给定的答案`并不准确，更准确的读法是：它是把复核过程中反复留下来的判断，转成更稳定列之后得到的结果。
+即使[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)和[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report)先出现，目标标签候选(target candidate)通常也不会被立即给出。最开始留下来的，往往不是整洁的`正确标签`，而是各种各样的复核结果和复核备注。因此，把目标标签候选读成`一开始就给定的答案`并不准确，更准确的读法是：它是把复核过程中反复留下来的判断，转成更稳定列之后得到的结果。
 
 ## 为什么一开始只会留下备注
 

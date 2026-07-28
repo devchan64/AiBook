@@ -9,7 +9,7 @@
 
 | 먼저 닫아 둘 것 | 질문으로 바꾸면 |
 | --- | --- |
-| 입력과 결과 구분 | 어떤 열이 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)이고 어떤 열이 [목표 후보(target candidate)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-target-candidate)인가 |
+| 입력과 결과 구분 | 어떤 열이 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)이고 어떤 열이 목표 후보(target candidate)인가 |
 | 미래 정보 누수 방지 | 예측 시점에 아직 모르는 값이 섞이는 [데이터 누수(data leakage)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-leakage)가 없는가 |
 | 운영 시점 재현성 | 학습 때 만든 입력을 운영에서도 같은 규칙으로 다시 만들 수 있는가 |
 | cutoff / horizon | 어디까지의 정보를 보고 언제의 결과를 맞히는가 |

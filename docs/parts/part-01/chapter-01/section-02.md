@@ -7,7 +7,7 @@
 
 AI를 기술 이름으로만 보면 규칙 기반 AI, 머신러닝, 딥러닝, 생성형 AI가 서로 다른 세계처럼 보입니다. 하지만 문제의 형태로 보면 공통점이 보입니다. 대부분의 AI 시스템은 어떤 입력(input)을 받아, 목표(objective)에 맞는 출력(output)을 만들고, 그 결과가 사람의 판단이나 환경에 영향을 줍니다.
 
-Part 1에서 분류, 예측, 추천, 생성 같은 문제 유형의 기본 구분은 이 절에서 잡습니다. 뒤 절에서 같은 말이 다시 나오더라도 그 절의 중심 질문에 필요한 만큼만 연결하고, 문제 유형 자체를 다시 나눠 봐야 할 때는 이 절과 개념사전의 [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification), [예측](../../../reference/concept-glossary-parts/08-ieung.md#prediction), [추천](../../../reference/concept-glossary-parts/11-chieut.md#recommendation), [생성](../../../reference/concept-glossary-parts/07-siot.md#generation) 항목으로 돌아옵니다.
+Part 1에서 분류, 예측, 추천, 생성 같은 문제 유형의 기본 구분은 이 절에서 잡습니다. 뒤 절에서 같은 말이 다시 나오더라도 그 절의 중심 질문에 필요한 만큼만 연결하고, 문제 유형 자체를 다시 나눠 봐야 할 때는 이 절과 개념사전의 [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification), [예측](../../../reference/concept-glossary-parts/08-ieung.md#prediction), [추천 과제](../../../reference/concept-glossary-parts/11-chieut.md#recommendation-task), [생성](../../../reference/concept-glossary-parts/07-siot.md#generation) 항목으로 돌아옵니다.
 
 ## 입력과 출력으로 AI 문제 나누기
 

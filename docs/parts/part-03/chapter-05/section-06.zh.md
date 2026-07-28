@@ -5,7 +5,7 @@
 
 _副标题: 把同一事件切成多个窗口时，为什么样本数会看起来比实际更大？_
 
-一旦[输入窗口(input window)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-input-window)定下来，就可以从同一条[源时间序列(source time series)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)里切出多个窗口。这时很容易忽略一个问题：`窗口变多了，所以样本也变多了。` 但当窗口之间大量重叠时，这往往意味着 `同一个事件被切着看了很多次`，并不等于独立事件数也按同样倍数增加。
+一旦[输入窗口(input window)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input-window)定下来，就可以从同一条[源时间序列(source time series)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)里切出多个窗口。这时很容易忽略一个问题：`窗口变多了，所以样本也变多了。` 但当窗口之间大量重叠时，这往往意味着 `同一个事件被切着看了很多次`，并不等于独立事件数也按同样倍数增加。
 
 输入窗口数和[源事件(source event)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-event)数，不一定是同一个数字。
 

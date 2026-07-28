@@ -5,7 +5,7 @@
 
 _Subtitle: What should be written with the interpretation when confirmed labels exist only for reviewed cases?_
 
-At the interpretation stage, it can matter not only `how the numbers differ` but also who received a confirmed [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/l/#glossary-label). In real operations, not every event gets reviewed with the same depth. A person may revisit only some cases that looked abnormal, and only those cases may receive confirmed labels. If this [selective labels](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-selective-labels) structure is hidden, readers can easily read `the set of cases with labels` as if it were `the set of all events`.
+At the interpretation stage, it can matter not only `how the numbers differ` but also who received a confirmed [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label). In real operations, not every event gets reviewed with the same depth. A person may revisit only some cases that looked abnormal, and only those cases may receive confirmed labels. If this [selective labels](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-selective-labels) structure is hidden, readers can easily read `the set of cases with labels` as if it were `the set of all events`.
 
 If confirmed labels remain only on reviewed cases, those labels should not immediately be read as representing the whole.
 

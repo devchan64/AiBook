@@ -9,7 +9,7 @@
 
 | 先要关上的东西 | 如果改写成问题 |
 | --- | --- |
-| 输入和结果的区分 | 哪些列是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)，哪些列是[目标候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)？ |
+| 输入和结果的区分 | 哪些列是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)，哪些列是目标候选(target candidate)？ |
 | 防止未来信息泄漏 | 有没有预测时点还不知道的值混进来，形成[数据泄漏(data leakage)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-data-leakage)？ |
 | 运营时点可复现性 | 训练时做出的输入，能不能在运营里按同样规则重新做出来？ |
 | cutoff / horizon | 看到哪一段信息，又要去预测哪个后续结果？ |

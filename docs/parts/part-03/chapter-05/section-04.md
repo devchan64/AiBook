@@ -3,7 +3,7 @@
 > Section ID: `P3-5.4`
 > Version: `v2026.07.25`
 
-[원천 시계열(source time series)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)이 바로 학습 [모델 입력(model input)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-input)이 아니라면, 곧 더 구체적인 질문이 남습니다. `그렇다면 실제 입력은 어디서 시작하고 끝나야 하는가?`, `길이가 제각각인 동작은 어떻게 같은 입력처럼 다룰 수 있는가?` [입력 창(input window)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-input-window)은 바로 이 질문에 답하는 데이터 모델링 결정입니다.
+[원천 시계열(source time series)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)이 바로 학습 [모델 입력(model input)](../../../reference/concept-glossary-parts/05-mieum.md#model-input)이 아니라면, 곧 더 구체적인 질문이 남습니다. `그렇다면 실제 입력은 어디서 시작하고 끝나야 하는가?`, `길이가 제각각인 동작은 어떻게 같은 입력처럼 다룰 수 있는가?` [입력 창(input window)](../../../reference/concept-glossary-parts/05-mieum.md#model-input-window)은 바로 이 질문에 답하는 데이터 모델링 결정입니다.
 
 입력 창은 `모델에 넣기 좋은 길이`부터 고르는 것이 아니라, `지금 문제에서 무엇을 한 입력으로 보아야 하는가`부터 정한 뒤에 잘라야 합니다.
 

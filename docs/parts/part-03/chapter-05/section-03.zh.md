@@ -3,7 +3,7 @@
 > Section ID: `P3-5.3`
 > Version: `v2026.07.25`
 
-看到原始时间序列时，很多读者会立刻这样想：`数值也很多，顺序也在，那直接把它送进学习输入不就行了吗？` 但这里应该先停一下。因为仅仅“有一条原始时间序列”这件事，并不能立刻说明可以直接用于学习的[输入(input)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-input)已经准备好了。
+看到原始时间序列时，很多读者会立刻这样想：`数值也很多，顺序也在，那直接把它送进学习输入不就行了吗？` 但这里应该先停一下。因为仅仅“有一条原始时间序列”这件事，并不能立刻说明可以直接用于学习的[输入(input)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)已经准备好了。
 
 原始时间序列虽然信息很多，但什么算一条[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、`多长的一段应被看成一个输入`、`我们究竟想预测什么`，这些都可能还没有定下来。学习输入不是原始数据的另一个名字，而是一个按照问题边界整理出来的输入结构。所以，这一节最先要抓住的区分是：`有原始时间序列` 和 `学习输入已经准备好`，不是同一句话。
 
@@ -42,7 +42,7 @@
 | 样本边界 | 必须先知道一个输入从哪里开始、到哪里结束 |
 | 区间切分方式 | 必须先有像前段/中段/后段这样的比较标准 |
 | 长度对齐方式 | 如果输入长度各不相同，就很难直接比较 |
-| [目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate) | 必须先知道想预测什么 |
+| 目标标签候选(target candidate) | 必须先知道想预测什么 |
 
 例如，同一条原始时间序列，就可以被改造成完全不同的输入结构。
 

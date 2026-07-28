@@ -3,7 +3,7 @@
 > Section ID: `P3-4.1`
 > Version: `v2026.07.25`
 
-读数据时最先要确认的，不是数值大小，而是一[行(row)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-row)到底表示什么。如果这个问题没有先定下来，那么后面做[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、贴[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#glossary-label)、读[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/e/#glossary-evaluation)结果时，标准都会一起晃动。归根到底，这个问题会继续追到什么应该算一条可比较[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)。
+读数据时最先要确认的，不是数值大小，而是一[行(row)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-row)到底表示什么。如果这个问题没有先定下来，那么后面做[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、贴[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)、读[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/e/#glossary-evaluation)结果时，标准都会一起晃动。归根到底，这个问题会继续追到什么应该算一条可比较[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)。
 
 假设在一次自动执行动作里，同时留下了控制参数时间序列和传感器时间序列。在某张表里，一行可能表示 `第 1 秒时刻的压力和流量测量值`。在另一张表里，一行可能表示 `一次完整动作的摘要`。再换一张表，一行又可能表示 `最近 30 分钟内若干次动作的聚合结果`。这三种都来自同一份[源数据(source data)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)，但一行所代表的对象完全不同。
 

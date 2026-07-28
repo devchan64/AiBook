@@ -3,7 +3,7 @@
 > Section ID: `P3-5.4`
 > Version: `v2026.07.25`
 
-If a [source time series](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) is not yet a learning [model input](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-input) by itself, one more concrete question immediately remains. `Then where should the real input begin and end?` `If actions have different lengths, how can we treat them like the same kind of input?` The [input window](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-input-window) is the data-modeling decision that answers exactly these questions.
+If a [source time series](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) is not yet a learning [model input](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) by itself, one more concrete question immediately remains. `Then where should the real input begin and end?` `If actions have different lengths, how can we treat them like the same kind of input?` The [input window](/AiBook/en/reference/concept-glossary-alpha/m/#model-input-window) is the data-modeling decision that answers exactly these questions.
 
 An input window should not be cut by first choosing `a length that is convenient for the model`. It should be cut only after deciding `what should count as one input in this problem`.
 

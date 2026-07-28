@@ -31,7 +31,7 @@
 - 一条样本是什么？
 - 哪些值原样保留，哪些值要做摘要？
 - 为了比较，需不需要[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)列？
-- [输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)是警告、复核候选，还是预测[目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)？
+- [输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)是警告、复核候选，还是预测目标标签候选(target candidate)？
 
 如果在这些判断都还没做的时候就说 `已经有数据集了`，很多情况下其实手里还只是原始记录。尤其在时间序列数据里，这一点特别容易被误判。行很多、列也很多时，看起来像已经有了一份很丰富的数据集；但如果分析单位还没定下来，那张表其实还没有把问题表达清楚。
 

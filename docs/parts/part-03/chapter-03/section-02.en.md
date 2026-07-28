@@ -31,7 +31,7 @@ So when we say a dataset is being built, at least the following judgments are in
 - What is one sample?
 - Which values stay as they are, and which values are summarized?
 - Is a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) column needed for comparison?
-- Is the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) a warning, a review candidate, or a prediction [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate)?
+- Is the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) a warning, a review candidate, or a prediction target candidate?
 
 If someone says `there is already a dataset` without these judgments, in many cases they are still only holding source records. This is especially easy to miss with time-series data. When there are many rows and many columns, it looks like a rich dataset already exists. But if the analysis unit is still unfixed, that table still does not express the problem properly.
 

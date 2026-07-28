@@ -10,7 +10,7 @@
 | [실제 목표(actual target)](/AiBook/reference/concept-glossary-parts/07-siot/#glossary-actual-target) | 정말 알고 싶고 최종적으로 줄이고 싶은 결과 |
 | [대리 타깃(proxy target)](/AiBook/reference/concept-glossary-parts/03-digeut/#glossary-proxy-target) | 실제 목표를 바로 못 보거나 너무 늦게 봐서 대신 쓰는 열 |
 
-예를 들어 `실제 상태 확정`을 바로 못 보면 `검토 필요`를 먼저 [목표 라벨 후보(target candidate)](/AiBook/reference/concept-glossary-parts/05-mieum/#glossary-target-candidate)로 쓸 수 있습니다. 하지만 이 둘은 같은 뜻이 아닙니다. 대리 타깃은 출발점이 될 수는 있어도, 실제 목표와 자동으로 같아지지는 않습니다.
+예를 들어 `실제 상태 확정`을 바로 못 보면 `검토 필요`를 먼저 목표 라벨 후보(target candidate)로 쓸 수 있습니다. 하지만 이 둘은 같은 뜻이 아닙니다. 대리 타깃은 출발점이 될 수는 있어도, 실제 목표와 자동으로 같아지지는 않습니다.
 
 | 먼저 적을 메모 | 왜 필요한가 |
 | --- | --- |

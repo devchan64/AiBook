@@ -3,7 +3,7 @@
 > Section ID: `P3-9.4`
 > Version: `v2026.07.25`
 
-[검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)와 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report)는 먼저 생겨도, [목표 라벨 후보(target candidate)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-target-candidate)는 대개 바로 주어지지 않습니다. 처음 남는 것은 깔끔한 `정답 라벨`보다 제각각의 검토 결과와 검토 메모인 경우가 많기 때문입니다. 그래서 목표 라벨 후보는 `처음부터 주어진 정답`이라기보다, `검토 과정에서 반복적으로 남은 판단을 더 안정된 열로 바꾼 결과`로 읽는 편이 정확합니다.
+[검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)와 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report)는 먼저 생겨도, 목표 라벨 후보(target candidate)는 대개 바로 주어지지 않습니다. 처음 남는 것은 깔끔한 `정답 라벨`보다 제각각의 검토 결과와 검토 메모인 경우가 많기 때문입니다. 그래서 목표 라벨 후보는 `처음부터 주어진 정답`이라기보다, `검토 과정에서 반복적으로 남은 판단을 더 안정된 열로 바꾼 결과`로 읽는 편이 정확합니다.
 
 ## 처음에는 왜 메모만 남는가
 

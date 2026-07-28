@@ -5,7 +5,7 @@
 
 _副标题: 延迟确认的标签与尚未闭合的 0 标签应该如何区分？_
 
-在选择[目标标签候选(target candidate)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target-candidate)时，必须区分`结果什么时候才算确认`，以及`是否已经观察得足够久，以至于可以贴 0 标签`。如果把这两件事混在一起，最近事件就会过早地看起来像 0，或者还处于临时状态的值会被误读成确认[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#glossary-label)。[标签确认延迟(delayed label confirmation)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-delayed-label-confirmation)和[观察未完成的负例(incomplete negative)](/AiBook/zh/reference/concept-glossary-pinyin/g/#glossary-incomplete-negative)，是两种不同问题，所以必须先分开。
+在选择目标标签候选(target candidate)时，必须区分`结果什么时候才算确认`，以及`是否已经观察得足够久，以至于可以贴 0 标签`。如果把这两件事混在一起，最近事件就会过早地看起来像 0，或者还处于临时状态的值会被误读成确认[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)。[标签确认延迟(delayed label confirmation)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-delayed-label-confirmation)和[观察未完成的负例(incomplete negative)](/AiBook/zh/reference/concept-glossary-pinyin/g/#glossary-incomplete-negative)，是两种不同问题，所以必须先分开。
 
 | 区分 | 中心问题 |
 | --- | --- |

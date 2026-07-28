@@ -19,7 +19,7 @@ Condensed into a table, those four groups are the following.
 | Sample-identification columns | Because the table has to reveal what counts as one case |
 | Candidate feature columns | Because values are needed to describe the state of the sample |
 | Comparison columns | Because a difference structure is needed for change relative to the usual state to become visible |
-| Result columns | Because the direction has to be visible: review candidate or [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate) |
+| Result columns | Because the direction has to be visible: review candidate or target candidate |
 
 So the first table draft is not `copying over every source column`, but `placing the column groups by role that this problem needs first`.
 

@@ -5,7 +5,7 @@
 
 _副标题: 当确认标签只存在于被复核案例上时，解读里还要一起写什么？_
 
-在解读阶段，有时不仅要看`数字差异如何`，还要看谁获得了确认[监督学习标签](/AiBook/zh/reference/concept-glossary-pinyin/l/#glossary-label)。在真实运营里，并不是每个事件都会接受同样深度的复核。往往只是那些看起来异常的部分案例，才会被人工再看一遍，并且只有这些案例上才会留下确认标签。如果把这种[选择性标签（selective labels）](/AiBook/zh/reference/concept-glossary-pinyin/x/#glossary-selective-labels)结构隐藏起来，读者就很容易把`有标签的案例集合`读成`全部事件集合`。
+在解读阶段，有时不仅要看`数字差异如何`，还要看谁获得了确认[监督学习标签](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)。在真实运营里，并不是每个事件都会接受同样深度的复核。往往只是那些看起来异常的部分案例，才会被人工再看一遍，并且只有这些案例上才会留下确认标签。如果把这种[选择性标签（selective labels）](/AiBook/zh/reference/concept-glossary-pinyin/x/#glossary-selective-labels)结构隐藏起来，读者就很容易把`有标签的案例集合`读成`全部事件集合`。
 
 如果确认标签只留在被复核的案例上，就不能立刻把这些标签读成对整体的代表。
 

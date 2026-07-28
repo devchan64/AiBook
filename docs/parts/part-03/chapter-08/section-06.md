@@ -5,7 +5,7 @@
 
 _보조제목: 확정 라벨이 검토된 사례에만 있을 때 해석에 무엇을 함께 적어야 하는가_
 
-해석 단계에서는 숫자 차이뿐 아니라 누가 확정 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/04-rieul.md#glossary-label)을 얻었는가도 함께 봐야 할 때가 있습니다. 현실 운영에서는 모든 사건에 같은 깊이의 검토가 들어가지 않습니다. 이상해 보인 일부 사례만 사람이 다시 보고, 그 사례에만 확정 라벨이 남을 수 있습니다. 이 [선택적 라벨(selective labels)](../../../reference/concept-glossary-parts/07-siot.md#glossary-selective-labels) 상태를 숨기면 독자는 `라벨이 있는 사례 집합`을 `전체 사건 집합`처럼 읽기 쉽습니다.
+해석 단계에서는 숫자 차이뿐 아니라 누가 확정 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)을 얻었는가도 함께 봐야 할 때가 있습니다. 현실 운영에서는 모든 사건에 같은 깊이의 검토가 들어가지 않습니다. 이상해 보인 일부 사례만 사람이 다시 보고, 그 사례에만 확정 라벨이 남을 수 있습니다. 이 [선택적 라벨(selective labels)](../../../reference/concept-glossary-parts/07-siot.md#glossary-selective-labels) 상태를 숨기면 독자는 `라벨이 있는 사례 집합`을 `전체 사건 집합`처럼 읽기 쉽습니다.
 
 확정 라벨이 검토된 사례에만 남아 있다면, 그 라벨은 전체를 대표한다고 바로 읽으면 안 됩니다.
 

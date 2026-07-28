@@ -7,7 +7,7 @@
 
 如果只把 AI 当成技术名字来读，规则式 AI、机器学习、深度学习、生成式 AI 彼此会像几个完全不同的世界。但如果改从问题形态来读，就会开始看见共同结构。大多数 AI 系统都会接收某种输入(input)，产生符合目标(objective)的输出(output)，并进一步影响人的判断或环境。
 
-在 Part 1 中，分类、预测、推荐、生成等问题类型的基准区分，就固定在这一节。后面再出现这些词时，只会保留当前问题所需的最小连接；如果需要重新拆分问题类型本身，就回到这一节，以及 [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)、[prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction)、[recommendation](/AiBook/zh/reference/concept-glossary-pinyin/t/#recommendation)、[generation](/AiBook/zh/reference/concept-glossary-pinyin/g/#generation) 等词条。
+在 Part 1 中，分类、预测、推荐、生成等问题类型的基准区分，就固定在这一节。后面再出现这些词时，只会保留当前问题所需的最小连接；如果需要重新拆分问题类型本身，就回到这一节，以及 [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)、[prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction)、[recommendation task](/AiBook/zh/reference/concept-glossary-pinyin/t/#recommendation-task)、[generation](/AiBook/zh/reference/concept-glossary-pinyin/g/#generation) 等词条。
 
 ## 通过输入和输出划分 AI 问题
 
