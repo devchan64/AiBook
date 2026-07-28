@@ -17,7 +17,7 @@
 > 强化学习不是在匹配一张答案表，  
 > 而是在动作之后收到奖励信号，并据此调整行为方式。
 
-这一节会把 `reinforcement learning`、`reinforcement learning agent`、`environment`、`state`、`action`、`reward`、`policy`、`exploration` 和 `exploitation` 用“动作结果带来的奖励信号”这一条线串起来。`state` 和 `action` 的基本直觉已经在 7.1 出现，label、监督学习和无监督学习的区分则已经在 8.1 和 8.2 出现。
+这一节会把 `reinforcement learning`、`reinforcement learning agent`、`reinforcement learning environment`、`state`、`action`、`reward`、`policy`、`exploration` 和 `exploitation` 用“动作结果带来的奖励信号”这一条线串起来。`state` 和 `action` 的基本直觉已经在 7.1 出现，label、监督学习和无监督学习的区分则已经在 8.1 和 8.2 出现。
 
 这一节不会计算强化学习算法。MDP、Bellman equation、Q-learning、policy gradient、actor-critic 和 deep reinforcement learning 都只会以名称与位置的形式出现。
 
@@ -32,7 +32,7 @@
 ## 用动作与奖励确定学习方向的方式
 
 - 用动作与奖励的语言解释 reinforcement learning。
-- 在入门层面区分强化学习智能体、environment、state、action、reward 和 policy。
+- 在入门层面区分强化学习智能体、强化学习环境、state、action、reward 和 policy。
 - 避免把 reward 和监督学习里的 label 混为一谈。
 - 理解 delayed reward 的直觉。
 - 理解 exploration 与 exploitation 之间的张力。
@@ -52,7 +52,7 @@
 | --- | --- | --- |
 | reinforcement learning | 通过动作结果的奖励来调整 policy 的学习方式 | Chapter 8 的第三个基准点 |
 | reinforcement learning agent | 选择动作的行动主体 | 核心决策者 |
-| environment | 强化学习智能体与之交互的外部世界 | 结果返回的地方 |
+| 强化学习环境 | 强化学习智能体与之交互的外部世界 | 结果返回的地方 |
 | state | 当前情境的信息 | 选择动作的依据 |
 | action | 强化学习智能体实际做出的选择 | 直接影响奖励与下一状态的原因 |
 | reward | 动作之后回来的数值反馈 | 必须和 label 区分开的学习信号 |
@@ -62,7 +62,7 @@
 
 ## 强化学习是在动作后果中学习
 
-在强化学习里，最中心的词是 `action`。一个 `reinforcement learning agent` 在 `environment` 里观察当前 `state` 或 `observation`，然后选一个 `action`。环境随后发生变化，并把 `reward` 反馈回来。
+在强化学习里，最中心的词是 `action`。一个 `reinforcement learning agent` 在 `reinforcement learning environment` 里观察当前 `state` 或 `observation`，然后选一个 `action`。强化学习环境随后发生变化，并把 `reward` 反馈回来。
 
 OpenAI 的 Spinning Up 把强化学习说明成：强化学习智能体通过与环境交互，并在 trial and error 中学习。Google 的术语表也说明，强化学习智能体会根据 policy 选择 action，并观察环境的 state。
 
@@ -70,7 +70,7 @@ OpenAI 的 Spinning Up 把强化学习说明成：强化学习智能体通过与
 
 > 先观察 state。  
 > 然后选择 action。  
-> environment 发生变化。  
+> 强化学习环境发生变化。
 > 收到 reward。  
 > 再调整未来怎样行动。
 
@@ -79,7 +79,7 @@ OpenAI 的 Spinning Up 把强化学习说明成：强化学习智能体通过与
 | 元素 | 仓库机器人例子 |
 | --- | --- |
 | reinforcement learning agent | 负责搬运货物的机器人 |
-| environment | 仓库、货架、通道与障碍物 |
+| 强化学习环境 | 仓库、货架、通道与障碍物 |
 | state 或 observation | 机器人位置、目标位置、周围障碍 |
 | action | 前进、转向、停止、抓取货物 |
 | reward | 安全搬到目标得到正奖励，碰撞得到负奖励 |
@@ -214,7 +214,7 @@ Google 的术语表也用 `epsilon-greedy policy` 来解释这种平衡。入门
 ## 检查清单
 
 - 能把 reinforcement learning 说明成由 state、action 和 reward 串起来的学习流程。
-- 能在入门层面区分强化学习智能体、environment 和 policy。
+- 能在入门层面区分强化学习智能体、强化学习环境和 policy。
 - 能说明 reward 并不等于监督学习里的 label。
 - 能说明 delayed reward 为什么会让强化学习更难。
 - 能说明 exploration 和 exploitation 的差别。

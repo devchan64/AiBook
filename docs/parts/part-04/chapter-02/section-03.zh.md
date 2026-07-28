@@ -11,10 +11,10 @@
 
 ## 本节范围
 
-这一节解释强化学习的基本结构。像 Q-learning、SARSA、policy gradient、actor-critic 这样的具体算法公式和实现，这里不会展开。Q-learning 和 SARSA 会在 P4-19.1 的 value-based reinforcement learning 中再次出现，policy gradient 和 actor-critic 会在 P4-19.2 的 policy-based reinforcement learning 中再次出现。现在最重要的是先把 [强化学习智能体](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning-agent)、[environment](/AiBook/zh/reference/concept-glossary-pinyin/e/#environment)、state、action、reward、policy 之间的关系立清楚。
+这一节解释强化学习的基本结构。像 Q-learning、SARSA、policy gradient、actor-critic 这样的具体算法公式和实现，这里不会展开。Q-learning 和 SARSA 会在 P4-19.1 的 value-based reinforcement learning 中再次出现，policy gradient 和 actor-critic 会在 P4-19.2 的 policy-based reinforcement learning 中再次出现。现在最重要的是先把 [强化学习智能体](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning-agent)、[强化学习环境](/AiBook/zh/reference/concept-glossary-pinyin/e/#reinforcement-learning-environment)、state、action、reward、policy 之间的关系立清楚。
 
 - reinforcement learning 和 supervised learning、unsupervised learning 有什么不同？
-- 强化学习智能体和 environment 分别是什么？
+- 强化学习智能体和强化学习环境分别是什么？
 - state、action、reward、policy 是怎样连起来的？
 - 为什么延迟奖励会让问题变难？
 - 为什么 [exploration](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploration) 和 [exploitation](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploitation) 必须同时存在？
@@ -22,7 +22,7 @@
 ## 用强化学习留下的判断标准
 
 - 能把强化学习说明成 `通过动作和奖励来学习 policy 的方法`。
-- 能区分强化学习智能体、environment、state、action、reward、policy 的角色。
+- 能区分强化学习智能体、强化学习环境、state、action、reward、policy 的角色。
 - 能理解强化学习比起一次性的 prediction，更接近 sequential decision making。
 - 能说明 immediate reward 和 long-term reward 可能不一样。
 - 能用例子说明为什么 exploration 和 exploitation 之间需要平衡。
@@ -34,7 +34,7 @@
 | 元素 | 简单说明 | 游戏例子 |
 | --- | --- | --- |
 | 强化学习智能体 | 选择动作的主体 | 角色 |
-| environment | 强化学习智能体行动的世界 | 格子地图和规则 |
+| 强化学习环境 | 强化学习智能体行动的世界 | 格子地图和规则 |
 | state | 表示当前情况的信息 | 角色当前位置 |
 | action | 可以选择的动作 | 上、下、左、右 |
 | reward | 动作结果返回的数字信号 | 到达目标 `+10`，撞墙 `-1` |
@@ -44,13 +44,13 @@
 
 ## 强化学习的基本流程
 
-强化学习最基本的结构，是 强化学习智能体和 environment 之间不断重复的交互。
+强化学习最基本的结构，是强化学习智能体和强化学习环境之间不断重复的交互。
 
 ```mermaid
 --8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-01-zh.mmd"
 ```
 
-这张图里最重要的是循环。强化学习不是看一次输入、给一次输出的单步问题，而是 `强化学习智能体动作`、`environment 改变`、`reward 返回`，再把这次经验用于下一轮 policy 调整的重复过程。
+这张图里最重要的是循环。强化学习不是看一次输入、给一次输出的单步问题，而是 `强化学习智能体动作`、`强化学习环境改变`、`reward 返回`，再把这次经验用于下一轮 policy 调整的重复过程。
 
 MIT Press 的 Sutton 和 Barto 教材，也把强化学习说明成：强化学习智能体在复杂且不确定的环境中交互，并试图最大化累计 reward 的一种计算方法。这里会把它改写成读者更容易读懂的形式：`先行动、再看结果、然后调整下一次的选择方式。`
 
@@ -161,7 +161,7 @@ exploration 指的是去尝试还不熟悉的动作；exploitation 指的是优�
 - 能不能说明在什么状态下，问题应该按强化学习而不是监督学习来读？
 - 能不能说明为什么 reward 不像 label 那样立刻告诉你正确答案？
 - 能不能说明为什么不能把强化学习里的强化学习智能体 和 LLM 服务里的 agent 当成同一个意思？
-- 能不能说明强化学习是 强化学习智能体在 environment 中交互，并根据 reward 改进 policy 的学习？
+- 能不能说明强化学习是强化学习智能体在强化学习环境中交互，并根据 reward 改进 policy 的学习？
 - 能不能说明为什么 state、action、reward、policy 是阅读强化学习时最基本的词？
 - 能不能说明如果没有 exploration 和 exploitation 的平衡，就很难同时做到 `找到更好动作` 和 `稳定拿到 reward`？
 

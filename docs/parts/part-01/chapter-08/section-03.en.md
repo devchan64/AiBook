@@ -16,7 +16,7 @@ The central question is:
 
 > reinforcement learning is not the matching of an answer sheet; it is the adjustment of behavior through reward signals that arrive after action
 
-This section organizes `reinforcement learning`, `reinforcement learning agent`, `environment`, `state`, `action`, `reward`, `policy`, `exploration`, and `exploitation` through one axis: reward signals from the consequences of action. The intuitive sense of `state` and `action` was already introduced in 7.1, and the distinction among labels, supervised learning, and unsupervised learning was handled in 8.1 and 8.2.
+This section organizes `reinforcement learning`, `reinforcement learning agent`, `reinforcement learning environment`, `state`, `action`, `reward`, `policy`, `exploration`, and `exploitation` through one axis: reward signals from the consequences of action. The intuitive sense of `state` and `action` was already introduced in 7.1, and the distinction among labels, supervised learning, and unsupervised learning was handled in 8.1 and 8.2.
 
 This section does not calculate reinforcement-learning algorithms. Markov decision processes, Bellman equations, Q-learning, policy gradients, actor-critic methods, and deep reinforcement learning appear only as names and positions.
 
@@ -31,7 +31,7 @@ The working definition here is:
 ## Steering Learning with Actions and Rewards
 
 - Explain reinforcement learning in terms of actions and rewards.
-- Distinguish reinforcement learning agent, environment, state, action, reward, and policy at an introductory level.
+- Distinguish reinforcement learning agent, reinforcement learning environment, state, action, reward, and policy at an introductory level.
 - Avoid confusing reward with the label used in supervised learning.
 - Understand the intuition of delayed reward.
 - Understand the tension between exploration and exploitation.
@@ -51,7 +51,7 @@ A short role split is useful:
 | --- | --- | --- |
 | reinforcement learning | learning that adjusts policy through rewards from action outcomes | the third baseline of Chapter 8 |
 | reinforcement learning agent | the actor that chooses actions | the main decision-making entity |
-| environment | the outside world the reinforcement learning agent interacts with | the place where consequences come back |
+| reinforcement learning environment | the outside world the reinforcement learning agent interacts with | the place where consequences come back |
 | state | information about the current situation | the basis for action choice |
 | action | what the reinforcement learning agent actually chooses to do | the direct cause that changes reward and next state |
 | reward | numeric feedback after action | the learning signal that must be kept separate from labels |
@@ -61,15 +61,15 @@ A short role split is useful:
 
 ## Reinforcement Learning Learns from Consequences of Action
 
-At the center of reinforcement learning is `action`. An `reinforcement learning agent` observes a `state` or `observation` inside an `environment`, chooses an `action`, and then the environment changes and returns a `reward`.
+At the center of reinforcement learning is `action`. A `reinforcement learning agent` observes a `state` or `observation` inside a `reinforcement learning environment`, chooses an `action`, and then the reinforcement learning environment changes and returns a `reward`.
 
-OpenAI’s Spinning Up materials describe reinforcement learning as the field where a reinforcement learning agent learns by trial and error through interaction with an environment. Google’s glossary likewise explains that a reinforcement learning agent uses a policy to choose actions and observes states of the environment.
+OpenAI’s Spinning Up materials describe reinforcement learning as the field where a reinforcement learning agent learns by trial and error through interaction with a reinforcement learning environment. Google’s glossary likewise explains that a reinforcement learning agent uses a policy to choose actions and observes states of the reinforcement learning environment.
 
 At the introductory level, the baseline flow is:
 
 > observe a state  
 > choose an action  
-> the environment changes  
+> the reinforcement learning environment changes
 > receive a reward  
 > adjust the future way of acting
 
@@ -78,7 +78,7 @@ Consider a warehouse robot:
 | Element | Warehouse-robot example |
 | --- | --- |
 | reinforcement learning agent | the robot that moves goods |
-| environment | the warehouse, shelves, paths, and obstacles |
+| reinforcement learning environment | the warehouse, shelves, paths, and obstacles |
 | state or observation | robot position, target position, nearby obstacles |
 | action | move forward, turn, stop, pick up an item |
 | reward | positive reward for moving the right item safely, negative reward for collision |
@@ -213,7 +213,7 @@ Chapter 8 separates three basic learning types. Summarized again:
 ## Checklist
 
 - I can explain reinforcement learning through the flow of state, action, and reward.
-- I can distinguish  reinforcement learning agent, environment, and policy at an introductory level.
+- I can distinguish reinforcement learning agent, reinforcement learning environment, and policy at an introductory level.
 - I can explain why reward is not the same thing as a supervised-learning label.
 - I can explain why delayed reward makes reinforcement learning harder.
 - I can explain the difference between exploration and exploitation.

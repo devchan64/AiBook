@@ -11,10 +11,10 @@ This Section explains the basic distinction among reinforcement learning, [state
 
 ## Scope Of This Section
 
-This Section explains the basic structure of reinforcement learning. It does not cover the formulas or implementation of individual algorithms such as Q-learning, SARSA, policy gradient, or actor-critic here. Q-learning and SARSA return in P4-19.1 on value-based reinforcement learning, while policy gradient and actor-critic return in P4-19.2 on policy-based reinforcement learning. The key is to fix clearly first the relation among [reinforcement learning agent](/AiBook/en/reference/concept-glossary-alpha/r/#reinforcement-learning-agent), [environment](/AiBook/en/reference/concept-glossary-alpha/e/#environment), state, action, reward, and policy.
+This Section explains the basic structure of reinforcement learning. It does not cover the formulas or implementation of individual algorithms such as Q-learning, SARSA, policy gradient, or actor-critic here. Q-learning and SARSA return in P4-19.1 on value-based reinforcement learning, while policy gradient and actor-critic return in P4-19.2 on policy-based reinforcement learning. The key is to fix clearly first the relation among [reinforcement learning agent](/AiBook/en/reference/concept-glossary-alpha/r/#reinforcement-learning-agent), [reinforcement learning environment](/AiBook/en/reference/concept-glossary-alpha/e/#reinforcement-learning-environment), state, action, reward, and policy.
 
 - How is reinforcement learning different from supervised and unsupervised learning?
-- What are the reinforcement learning agent and the environment?
+- What are the reinforcement learning agent and the reinforcement learning environment?
 - How do state, action, reward, and policy connect?
 - Why is delayed reward difficult?
 - Why are both [exploration](/AiBook/en/reference/concept-glossary-alpha/e/#exploration) and [exploitation](/AiBook/en/reference/concept-glossary-alpha/e/#exploitation) necessary?
@@ -22,7 +22,7 @@ This Section explains the basic structure of reinforcement learning. It does not
 ## Goals Of This Section
 
 - You can explain reinforcement learning as an approach that learns a policy through actions and rewards.
-- You can distinguish the roles of reinforcement learning agent, environment, state, action, reward, and policy.
+- You can distinguish the roles of reinforcement learning agent, reinforcement learning environment, state, action, reward, and policy.
 - You can understand that reinforcement learning is closer to sequential decision making than to one-time prediction.
 - You can explain that immediate reward and long-term reward can differ.
 - You can explain with examples why balance between exploration and exploitation is necessary.
@@ -34,7 +34,7 @@ Think of a small game. A character moves on a grid, and earns points when it rea
 | Element | Simple explanation | Game example |
 | --- | --- | --- |
 | reinforcement learning agent | The subject that chooses the action | character |
-| environment | The world where the reinforcement learning agent acts | grid and rules |
+| reinforcement learning environment | The world where the reinforcement learning agent acts | grid and rules |
 | state | Information that represents the current situation | character position |
 | action | A move that can be chosen | up, down, left, right |
 | reward | A numeric signal received from the result of the action | goal reached `+10`, wall collision `-1` |
@@ -44,15 +44,15 @@ In supervised learning, there could already be labels such as `from this positio
 
 ## The Basic Flow Of Reinforcement Learning
 
-The most basic flow in reinforcement learning is repeated interaction between the reinforcement learning agent and the environment.
+The most basic flow in reinforcement learning is repeated interaction between the reinforcement learning agent and the reinforcement learning environment.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-01-en.mmd"
 ```
 
-The important point in this diagram is the loop. Reinforcement learning is not a one-shot problem where one input is observed and one output is matched. The reinforcement learning agent acts, the environment changes, a reward returns, and that experience affects the next action policy.
+The important point in this diagram is the loop. Reinforcement learning is not a one-shot problem where one input is observed and one output is matched. The reinforcement learning agent acts, the reinforcement learning environment changes, a reward returns, and that experience affects the next action policy.
 
-The Sutton and Barto textbook from MIT Press also explains reinforcement learning as a computational approach where a reinforcement learning agent interacts with a complex, uncertain environment while trying to maximize the total reward it receives. Here that definition is rewritten so the reader can follow it as `learning by trying an action, seeing the result, and adjusting the next way of choosing`.
+The Sutton and Barto textbook from MIT Press also explains reinforcement learning as a computational approach where a reinforcement learning agent interacts with a complex, uncertain reinforcement learning environment while trying to maximize the total reward it receives. Here that definition is rewritten so the reader can follow it as `learning by trying an action, seeing the result, and adjusting the next way of choosing`.
 
 ## Comparing Supervised, Unsupervised, And Reinforcement Learning
 
@@ -119,12 +119,12 @@ The restaurant analogy makes this clearer. If you go to a restaurant you already
 Reinforcement learning appears often when explaining problems where action and result are connected, such as games, robots, and autonomous-driving simulations. But applying it directly to reality is not easy.
 
 - If reward is designed poorly, the system can learn unwanted behavior.
-- If exploration is done recklessly in the real environment, cost or risk can become large.
+- If exploration is done recklessly in the real reinforcement learning environment, cost or risk can become large.
 - If the result appears late, it becomes hard to know which action created the good outcome.
 - A policy that works well in simulation cannot automatically be assumed to work equally well in reality.
 - The term reinforcement learning agent here is not always the same as the term AI agent used for LLM services.
 
-The last point matters especially. In reinforcement learning, the reinforcement learning agent is the learning subject that sees a state, chooses an action inside an environment, and receives a reward. In LLM services, the term AI agent often refers to an execution structure that breaks a goal into tasks and calls tools. The two usages can connect, but if they are mixed as if they were the same word, confusion appears.
+The last point matters especially. In reinforcement learning, the reinforcement learning agent is the learning subject that sees a state, chooses an action inside a reinforcement learning environment, and receives a reward. In LLM services, the term AI agent often refers to an execution structure that breaks a goal into tasks and calls tools. The two usages can connect, but if they are mixed as if they were the same word, confusion appears.
 
 ## Where It Meets LLM Again
 
@@ -161,7 +161,7 @@ The checkable result appears when policies are compared. If the policy with the 
 - Can you explain in what state a problem should be read as reinforcement learning rather than supervised learning?
 - Can you explain why reward is not a signal that tells the immediate correct answer the way a label does?
 - Can you explain why the reinforcement-learning agent and the LLM-service agent should not be used as if they were the same meaning?
-- Can you explain that reinforcement learning is learning in which a reinforcement learning agent improves a policy using rewards while interacting with an environment?
+- Can you explain that reinforcement learning is learning in which a reinforcement learning agent improves a policy using rewards while interacting with a reinforcement learning environment?
 - Can you explain why state, action, reward, and policy are the basic words for reading reinforcement learning?
 - Can you explain that without balance between exploration and exploitation, it becomes hard both to find better actions and to gain reward stably?
 

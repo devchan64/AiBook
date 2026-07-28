@@ -13,7 +13,7 @@
 
 > 강화학습은 정답표를 맞히는 방식이 아니라, 행동 뒤에 돌아오는 보상 신호를 통해 행동 방식을 조정하는 방식이다.
 
-이 절에서는 `강화학습(reinforcement learning)`, `강화학습 에이전트(reinforcement learning agent)`, `환경(environment)`, `상태(state)`, `행동(action)`, `보상(reward)`, `정책(policy)`, `탐험(exploration)`, `활용(exploitation)`을 `행동 결과의 보상 신호`라는 축으로 정리합니다. `상태(state)`와 `행동(action)`의 감각은 7.1에서, `라벨(label)`과 `지도학습/비지도학습`의 구분은 8.1과 8.2에서 먼저 다뤘습니다.
+이 절에서는 `강화학습(reinforcement learning)`, `강화학습 에이전트(reinforcement learning agent)`, `강화학습 환경(reinforcement learning environment)`, `상태(state)`, `행동(action)`, `보상(reward)`, `정책(policy)`, `탐험(exploration)`, `활용(exploitation)`을 `행동 결과의 보상 신호`라는 축으로 정리합니다. `상태(state)`와 `행동(action)`의 감각은 7.1에서, `라벨(label)`과 `지도학습/비지도학습`의 구분은 8.1과 8.2에서 먼저 다뤘습니다.
 
 `강화학습 에이전트`, `환경`, `상태`, `행동`, `보상`, `정책`, `탐험`, `활용`은 초반에 모두 비슷한 시스템 구성 요소처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
@@ -21,7 +21,7 @@
 | --- | --- | --- |
 | 강화학습 | 행동 결과의 보상으로 정책을 조정하는 학습 | Chapter 8의 세 번째 기준점 |
 | 강화학습 에이전트 | 행동을 선택하는 주체 | 학습의 중심 행위자 |
-| 환경 | 강화학습 에이전트가 상호작용하는 바깥 세계 | 행동 결과가 돌아오는 장소 |
+| 강화학습 환경 | 강화학습 에이전트가 상호작용하는 바깥 세계 | 행동 결과가 돌아오는 장소 |
 | 상태 | 현재 상황을 나타내는 정보 | 행동 선택의 기준 |
 | 행동 | 강화학습 에이전트가 실제로 하는 선택 | 보상을 바꾸는 직접 원인 |
 | 보상 | 행동 결과에 대한 수치 피드백 | 라벨과 구분해야 할 학습 신호 |
@@ -46,7 +46,7 @@
 ## 행동과 보상으로 학습 방향을 잡는 방식
 
 - 강화학습(reinforcement learning)을 행동(action)과 보상(reward)의 관점에서 설명합니다.
-- 강화학습 에이전트(reinforcement learning agent), 환경(environment), 상태(state), 행동(action), 보상(reward), 정책(policy)을 입문 수준에서 구분합니다.
+- 강화학습 에이전트(reinforcement learning agent), 강화학습 환경(reinforcement learning environment), 상태(state), 행동(action), 보상(reward), 정책(policy)을 입문 수준에서 구분합니다.
 - 보상(reward)을 지도학습의 라벨(label)과 혼동하지 않습니다.
 - 보상이 즉시 돌아오지 않을 수 있다는 지연 보상(delayed reward)의 직관을 이해합니다.
 - 탐험(exploration)과 활용(exploitation)의 긴장을 이해합니다.
@@ -64,15 +64,15 @@
 
 ## 강화학습은 행동의 결과에서 배운다
 
-강화학습에서 중심에 있는 것은 행동입니다. 강화학습 에이전트(reinforcement learning agent)는 어떤 환경(environment) 안에서 현재 상태(state)나 관측(observation)을 보고 행동(action)을 선택합니다. 환경은 그 행동의 결과로 바뀌고, 강화학습 에이전트는 보상(reward)을 받습니다.
+강화학습에서 중심에 있는 것은 행동입니다. 강화학습 에이전트(reinforcement learning agent)는 어떤 강화학습 환경(reinforcement learning environment) 안에서 현재 상태(state)나 관측(observation)을 보고 행동(action)을 선택합니다. 강화학습 환경은 그 행동의 결과로 바뀌고, 강화학습 에이전트는 보상(reward)을 받습니다.
 
-OpenAI의 Spinning Up 문서는 강화학습을 강화학습 에이전트가 시행착오(trial and error)를 통해 배우는 분야로 소개하고, 강화학습 에이전트가 환경과 상호작용하며 행동을 선택하고 보상 신호를 받는다고 설명합니다. Google의 Machine Learning Glossary도 강화학습에서 강화학습 에이전트가 정책(policy)을 사용해 행동을 선택하고, 환경(environment)의 상태(state)를 관찰한다고 설명합니다.
+OpenAI의 Spinning Up 문서는 강화학습을 강화학습 에이전트가 시행착오(trial and error)를 통해 배우는 분야로 소개하고, 강화학습 에이전트가 강화학습 환경과 상호작용하며 행동을 선택하고 보상 신호를 받는다고 설명합니다. Google의 Machine Learning Glossary도 강화학습에서 강화학습 에이전트가 정책(policy)을 사용해 행동을 선택하고, 강화학습 환경(reinforcement learning environment)의 상태(state)를 관찰한다고 설명합니다.
 
 입문 단계의 기준선은 다음 흐름입니다.
 
 > 상태(state)를 본다.
 > 행동(action)을 선택한다.
-> 환경(environment)이 바뀐다.
+> 강화학습 환경(reinforcement learning environment)이 바뀐다.
 > 보상(reward)을 받는다.
 > 다음 행동 방식을 조정한다.
 
@@ -81,7 +81,7 @@ OpenAI의 Spinning Up 문서는 강화학습을 강화학습 에이전트가 시
 | 요소 | 창고 로봇 예시 |
 | --- | --- |
 | 강화학습 에이전트(reinforcement learning agent) | 물건을 옮기는 로봇 |
-| 환경(environment) | 창고, 선반, 이동 경로, 장애물 |
+| 강화학습 환경(reinforcement learning environment) | 창고, 선반, 이동 경로, 장애물 |
 | 상태(state) 또는 관측(observation) | 로봇 위치, 목표 위치, 주변 장애물 |
 | 행동(action) | 앞으로 이동, 회전, 멈춤, 물건 집기 |
 | 보상(reward) | 목표 물건을 안전하게 옮기면 양의 보상, 충돌하면 음의 보상 |
@@ -219,7 +219,7 @@ RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것�
 ## 체크리스트
 
 - 강화학습(reinforcement learning)을 상태(state), 행동(action), 보상(reward)의 흐름으로 설명할 수 있다.
-- 강화학습 에이전트(reinforcement learning agent), 환경(environment), 정책(policy)을 입문 수준에서 구분할 수 있다.
+- 강화학습 에이전트(reinforcement learning agent), 강화학습 환경(reinforcement learning environment), 정책(policy)을 입문 수준에서 구분할 수 있다.
 - 보상(reward)이 지도학습의 라벨(label)과 같은 말이 아님을 설명할 수 있다.
 - 지연 보상(delayed reward)이 강화학습을 어렵게 만드는 이유를 설명할 수 있다.
 - 탐험(exploration)과 활용(exploitation)의 차이를 설명할 수 있다.

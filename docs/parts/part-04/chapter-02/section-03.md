@@ -11,10 +11,10 @@ P4-2.1에서는 [라벨(label)](../../../reference/concept-glossary-parts/04-rie
 
 ## 강화학습(reinforcement learning)에서 닫을 질문
 
-이 절은 강화학습의 기본 구조를 설명합니다. Q-learning, SARSA, policy gradient, actor-critic 같은 개별 알고리즘의 수식과 구현은 여기서 다루지 않습니다. Q-learning과 SARSA는 P4-19.1 가치 기반 강화학습에서, policy gradient와 actor-critic은 P4-19.2 정책 기반 강화학습에서 다시 다룹니다. 핵심은 [강화학습 에이전트(reinforcement learning agent)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning-agent), [환경(environment)](../../../reference/concept-glossary-parts/14-hieut.md#environment), 상태(state), 행동(action), 보상(reward), 정책(policy)의 관계를 먼저 분명히 잡는 일입니다.
+이 절은 강화학습의 기본 구조를 설명합니다. Q-learning, SARSA, policy gradient, actor-critic 같은 개별 알고리즘의 수식과 구현은 여기서 다루지 않습니다. Q-learning과 SARSA는 P4-19.1 가치 기반 강화학습에서, policy gradient와 actor-critic은 P4-19.2 정책 기반 강화학습에서 다시 다룹니다. 핵심은 [강화학습 에이전트(reinforcement learning agent)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning-agent), [강화학습 환경(reinforcement learning environment)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning-environment), 상태(state), 행동(action), 보상(reward), 정책(policy)의 관계를 먼저 분명히 잡는 일입니다.
 
 - 강화학습은 지도학습, 비지도학습과 무엇이 다른가?
-- 강화학습 에이전트(reinforcement learning agent)와 환경(environment)은 무엇인가?
+- 강화학습 에이전트(reinforcement learning agent)와 강화학습 환경(reinforcement learning environment)은 무엇인가?
 - 상태(state), 행동(action), 보상(reward), 정책(policy)은 어떻게 이어지는가?
 - 보상이 늦게 오는 문제는 왜 어려운가?
 - [탐험(exploration)](../../../reference/concept-glossary-parts/12-tieut.md#exploration)과 [활용(exploitation)](../../../reference/concept-glossary-parts/14-hieut.md#exploitation)은 왜 함께 필요한가?
@@ -22,7 +22,7 @@ P4-2.1에서는 [라벨(label)](../../../reference/concept-glossary-parts/04-rie
 ## 강화학습(reinforcement learning)에서 남길 판단 기준
 
 - 강화학습을 행동과 보상을 통해 정책을 배우는 접근으로 설명할 수 있습니다.
-- 강화학습 에이전트, 환경, 상태, 행동, 보상, 정책의 역할을 구분할 수 있습니다.
+- 강화학습 에이전트, 강화학습 환경, 상태, 행동, 보상, 정책의 역할을 구분할 수 있습니다.
 - 강화학습이 한 번의 예측보다 순차적 의사결정(sequential decision making)에 가깝다는 점을 이해할 수 있습니다.
 - 즉시 보상과 장기 보상이 다를 수 있음을 설명할 수 있습니다.
 - 탐험과 활용의 균형이 왜 필요한지 예시로 말할 수 있습니다.
@@ -34,7 +34,7 @@ P4-2.1에서는 [라벨(label)](../../../reference/concept-glossary-parts/04-rie
 | 요소 | 쉬운 설명 | 게임 예시 |
 | --- | --- | --- |
 | 강화학습 에이전트(reinforcement learning agent) | 행동을 선택하는 주체 | 캐릭터 |
-| 환경(environment) | 강화학습 강화학습 에이전트가 행동하는 세계 | 격자판과 규칙 |
+| 강화학습 환경(reinforcement learning environment) | 강화학습 에이전트가 행동하는 세계 | 격자판과 규칙 |
 | 상태(state) | 현재 상황을 나타내는 정보 | 캐릭터의 위치 |
 | 행동(action) | 선택할 수 있는 움직임 | 위, 아래, 왼쪽, 오른쪽 |
 | 보상(reward) | 행동 결과로 받는 숫자 신호 | 목표 도착 `+10`, 벽 충돌 `-1` |
