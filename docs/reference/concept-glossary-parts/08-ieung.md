@@ -25,8 +25,6 @@
 
 --8<-- "reference/concept-glossary-terms/vocabulary.ko.md"
 
---8<-- "reference/concept-glossary-terms/ai-safety.ko.md"
-
 --8<-- "reference/concept-glossary-terms/ai-application.ko.md"
 
 
