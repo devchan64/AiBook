@@ -1,3 +1,5 @@
+<a id="tensor"></a>
+
 ## tensor
 
 - Meaning: A tensor is a general name for a multidimensional numeric array used to hold inputs, intermediate representations, and outputs in deep learning. It includes scalars, vectors, and matrices as simpler cases.

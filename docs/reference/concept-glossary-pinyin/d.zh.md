@@ -22,9 +22,6 @@
 
 --8<-- "reference/concept-glossary-terms/decision-tree.zh.md"
 
---8<-- "reference/concept-glossary-terms/computation-graph.zh.md"
---8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
-
 --8<-- "reference/concept-glossary-terms/decoder.zh.md"
 
 --8<-- "reference/concept-glossary-terms/deep-learning.zh.md"
@@ -40,10 +37,6 @@
 --8<-- "reference/concept-glossary-terms/dimension.zh.md"
 
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.zh.md"
-
-
---8<-- "reference/concept-glossary-terms/array.zh.md"
-
 
 --8<-- "reference/concept-glossary-terms/distance.zh.md"
 

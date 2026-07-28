@@ -2,11 +2,6 @@
 
 This page lists English glossary entries for this letter. Entry bodies are assembled from term source files.
 
-
-
-
---8<-- "reference/concept-glossary-terms/backpropagation.en.md"
-
 --8<-- "reference/concept-glossary-terms/embedding.en.md"
 
 --8<-- "reference/concept-glossary-terms/encoder.en.md"
@@ -16,9 +11,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/ensemble.en.md"
 
 --8<-- "reference/concept-glossary-terms/reinforcement-learning-environment.en.md"
-
---8<-- "reference/concept-glossary-terms/activation-function.en.md"
-
 
 --8<-- "reference/concept-glossary-terms/error.en.md"
 

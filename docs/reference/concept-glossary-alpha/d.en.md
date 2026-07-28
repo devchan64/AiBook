@@ -25,9 +25,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/decision-tree.en.md"
 
 
---8<-- "reference/concept-glossary-terms/computation-graph.en.md"
---8<-- "reference/concept-glossary-terms/computational-limit.en.md"
-
 --8<-- "reference/concept-glossary-terms/decoder.en.md"
 
 --8<-- "reference/concept-glossary-terms/deep-learning.en.md"
@@ -43,10 +40,6 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/dimension.en.md"
 
 --8<-- "reference/concept-glossary-terms/dimensionality-reduction.en.md"
-
-
---8<-- "reference/concept-glossary-terms/array.en.md"
-
 
 --8<-- "reference/concept-glossary-terms/distance.en.md"
 

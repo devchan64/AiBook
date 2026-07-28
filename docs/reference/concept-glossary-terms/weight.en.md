@@ -1,7 +1,9 @@
+<a id="weight"></a>
+
 ## weight
 
-- Meaning: 모델 안에서 어떤 입력 값이나 중간 값이 출력 계산에 얼마나 크게 반영될지를 정하는 파라미터입니다. 같은 입력이라도 어떤 신호는 더 크게, 어떤 신호는 더 약하게 통과시키도록 정하는 `중요도 조절값`에 가깝습니다. 즉 가중치는 입력과 출력 사이 연결 강도를 수치로 정한 조정 손잡이라고 볼 수 있습니다.
-- Why it matters: 딥러닝과 머신러닝에서 학습은 결국 이런 가중치를 조정해 입력-출력 관계를 바꾸는 과정이므로, 모델이 무엇을 얼마나 반영하는지 읽는 가장 기본적인 손잡이가 되기 때문입니다. 이 개념이 있어야 `모델이 배운다`는 말을 막연한 지능 증가가 아니라, 계산 연결마다 반영 비율이 바뀌는 과정으로 더 구체적으로 이해할 수 있습니다. 또한 가중치를 이해해야 모델 변화가 `어떤 연결이 더 중요해졌는가`의 누적으로 일어난다는 점도 더 분명히 읽게 됩니다.
-- Related concepts: `parameter`, `activation`, `training`
+- Meaning: A weight is a parameter that controls how strongly an input value or intermediate value affects a model's output calculation. It is a numerical handle for connection strength or influence.
+- Why it matters: In many machine-learning and deep-learning models, training can be read as adjusting weights so the input-output relationship fits the task better. The concept makes "the model learns" concrete as changing numerical parameters in the calculation.
+- Related concepts: `parameter`, `representation`, `training`
 - Core Section: `P1-4.3`
-- Appears in: `P1-5.1`
+- Appears in: `P1-5.1`, `P1-12.1`, `P2-11.1`

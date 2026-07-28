@@ -252,3 +252,22 @@
 | 버전 관리 | 버전 관리 | version control | P2-14.1 | version-control | version-control | P2-14.1 source context | 시간에 따라 바뀐 파일 상태와 이유를 다시 찾게 해 주는 기록 방식 |
 | 문서 재현성 | 문서 재현성 | document reproducibility | P2-14.2 | document-reproducibility | document-reproducibility | P2-14.2 source context | 원고, 코드, 이미지, 설정을 맞춰 같은 문서 결과를 다시 만들 수 있는 성질 |
 | 대조 학습 | 대조 학습 | contrastive learning | P6-3.3 | contrastive-learning | contrastive-learning | SimCLR, SBERT context | 가까워져야 할 쌍과 멀어져야 할 쌍으로 표현 공간 배치를 배우는 접근 |
+| AI | AI | artificial intelligence | P1-1.1 | ai-artificial-intelligence | ai-artificial-intelligence | P1-1.1 source context | 인간 지능 관련 기능을 컴퓨터 시스템으로 구현하려는 넓은 분야와 시스템 범주 |
+| 머신러닝 | 머신러닝 | machine learning | P1-3.2 | machine-learning | machine-learning | P1-3.2 source context | 데이터나 경험을 사용해 모델의 성능을 개선하는 학습 기반 접근 |
+| 딥러닝 | 딥러닝 | deep learning | P1-2.3 | deep-learning | deep-learning | P1-2.3 source context | 여러 층의 신경망으로 표현과 예측 기준을 함께 학습하는 머신러닝 접근 |
+| LLM | LLM | large language model | P1-1.3 | llm | llm | P1-1.3 source context | 대규모 텍스트 학습으로 토큰 시퀀스를 예측·생성하는 언어 모델 계열 |
+| 언어 모델 | 언어 모델 | language model | P1-11.1 | language-model | language-model | P1-11.1 source context | 토큰·단어열의 가능성을 계산하거나 다음 표현을 예측하는 모델 계열 |
+| 임베딩 | 임베딩 | embedding | P1-11.1 | embedding | embedding | P1-11.1 source context | 텍스트·문서 등을 비교 가능한 벡터 표현으로 바꾸는 표현층 |
+| 어텐션 | 어텐션 | attention | P1-11.2 | attention | attention | Attention Is All You Need, P1-11.2 source context | 입력 시퀀스의 관련 위치를 가중해 참고하는 선택적 참조 구조 |
+| 지도학습 | 지도학습 | supervised learning | P1-8.1 | supervised-learning | supervised-learning | P1-8.1 source context | 입력 예시와 정답 라벨을 함께 사용해 입력-출력 관계를 학습하는 방식 |
+| 비지도학습 | 비지도학습 | unsupervised learning | P1-8.2 | unsupervised-learning | unsupervised-learning | P1-8.2 source context | 정답 라벨 없이 데이터 안의 구조·묶음·표현을 찾는 학습 방식 |
+| 강화학습 | 강화학습 | reinforcement learning | P1-8.3 | reinforcement-learning | reinforcement-learning | P1-8.3 source context | 상태에서 행동을 선택하고 보상으로 정책을 조정하는 학습 방식 |
+| 분류 | 분류 | classification | P1-8.1 | classification | classification | P1-8.1 source context | 입력 사례를 미리 정한 범주나 라벨 중 하나로 나누는 문제 유형 |
+| 활성화 함수 | 활성화 함수 | activation function | P5-1.2 | activation-function | activation-function | neural network activation context | 선형 결합 점수를 비선형 반응으로 바꾸어 깊은 신경망의 표현력을 만드는 함수 |
+| 자동미분 | 자동미분 | automatic differentiation | P5-5.2 | automatic-differentiation | automatic-differentiation | deep learning framework autodiff context | 실행된 계산 경로를 따라 필요한 미분값을 자동으로 계산하는 방법 |
+| 역전파 | 역전파 | backpropagation | P5-5.1 | backpropagation | backpropagation | backpropagation/chain rule context | 손실에서 출발해 각 파라미터의 그래디언트를 뒤 방향으로 계산하는 절차 |
+| 계산 그래프 | 계산 그래프 | computation graph | P5-5.2 | computation-graph | computation-graph | automatic differentiation context | 연산과 값 의존 관계를 그래프처럼 펼쳐 앞 방향 계산과 뒤 방향 그래디언트 흐름을 읽게 하는 표현 |
+| 교차 엔트로피 | 교차 엔트로피 | cross-entropy | P5-4.2 | cross-entropy | cross-entropy | classification and language-model loss context | 정답 후보에 낮은 확률을 줄수록 손실을 크게 만드는 확률 기반 손실 |
+| 수치 안정성 | 수치 안정성 | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | 반복 계산에서 값과 그래디언트가 기계가 감당할 수 있는 범위 안에 머무는 성질 |
+| 텐서 | 텐서 | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | 입력·중간 표현·출력을 담는 다차원 숫자 배열의 일반 이름 |
+| 가중치 | 가중치 | weight | P1-4.3 | weight | weight | machine learning parameter context | 입력이나 중간값이 출력 계산에 반영되는 강도를 정하는 모델 파라미터 |

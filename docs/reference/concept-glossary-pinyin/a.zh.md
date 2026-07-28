@@ -10,10 +10,6 @@
 --8<-- "reference/concept-glossary-terms/action.zh.md"
 
 
-
---8<-- "reference/concept-glossary-terms/activation-function.zh.md"
-
-
 --8<-- "reference/concept-glossary-terms/ai-agent.zh.md"
 
 

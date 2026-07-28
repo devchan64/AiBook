@@ -1,3 +1,5 @@
+<a id="cross-entropy"></a>
+
 ## cross-entropy
 
 - Meaning: Cross-entropy is a probability-based loss that becomes larger when the model assigns a low probability to the correct answer. It is often used in classification and next-token prediction.

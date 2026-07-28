@@ -10,6 +10,8 @@
 
 --8<-- "reference/concept-glossary-terms/false-positive.zh.md"
 
+--8<-- "reference/concept-glossary-terms/activation-function.zh.md"
+
 --8<-- "reference/concept-glossary-terms/supervised-learning.zh.md"
 
 --8<-- "reference/concept-glossary-terms/reward.zh.md"

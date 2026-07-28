@@ -82,3 +82,19 @@
 | self-attention | self-attention | self-attention | P5-13.2 | self-attention | self-attention | Transformer context | 同一序列中每个 token 根据其他 token 更新自己表示的 attention 机制 |
 | 下一 token 预测 | 下一 token 预测 | next-token prediction | P1-10.2 | next-token-prediction | next-token-prediction | LLM generation context | 根据当前上下文计算下一个 token 候选并逐 token 继续生成 |
 | softmax | softmax | softmax | P2-2.4 | softmax | softmax | P2-2.4 source context | 把多个 score 归一化为总和为 1 的可比较值的函数 |
+| 人工智能 | 人工智能 | artificial intelligence | P1-1.1 | ai-artificial-intelligence | ai-artificial-intelligence | P1-1.1 source context | 让计算机系统执行与人类智能相关功能的宽泛领域和系统类别 |
+| 机器学习 | 机器学习 | machine learning | P1-3.2 | machine-learning | machine-learning | P1-3.2 source context | 使用数据或经验改进模型表现，而不是手写每一条规则 |
+| 深度学习 | 深度学习 | deep learning | P1-2.3 | deep-learning | deep-learning | P1-2.3 source context | 使用多层神经网络共同学习表示和预测规则的机器学习方法 |
+| 大语言模型 | 大语言模型 | large language model | P1-1.3 | llm | llm | P1-1.3 source context | 在大规模文本上训练、用于预测和生成 token 序列的语言模型 |
+| 语言模型 | 语言模型 | language model | P1-11.1 | language-model | language-model | P1-11.1 source context | 估计词或 token 序列可能性并从上下文预测后续内容的模型 |
+| 嵌入 | 嵌入 | embedding | P1-11.1 | embedding | embedding | P1-11.1 source context | 把文本、token、句子或文档转换成可比较向量的表示层 |
+| 注意力 | 注意力 | attention | P1-11.2 | attention | attention | Attention Is All You Need, P1-11.2 source context | 产生输出时对输入序列中相关位置赋予不同权重的结构 |
+| 分类 | 分类 | classification | P1-8.1 | classification | classification | P1-8.1 source context | 把输入样本归入预先定义类别或标签之一的问题类型 |
+| 激活函数 | 激活函数 | activation function | P5-1.2 | activation-function | activation-function | neural network activation context | 把加权和变成非线性反应，使深层网络能够形成更复杂表示的函数 |
+| 自动微分 | 自动微分 | automatic differentiation | P5-5.2 | automatic-differentiation | automatic-differentiation | deep learning framework autodiff context | 沿记录下来的计算路径自动计算导数的方法 |
+| 反向传播 | 反向传播 | backpropagation | P5-5.1 | backpropagation | backpropagation | backpropagation/chain rule context | 从损失出发沿网络反向计算各参数梯度的过程 |
+| 计算图 | 计算图 | computation graph | P5-5.2 | computation-graph | computation-graph | automatic differentiation context | 表示运算和数值依赖关系，用来阅读前向计算和反向梯度流的结构 |
+| 交叉熵 | 交叉熵 | cross-entropy | P5-4.2 | cross-entropy | cross-entropy | classification and language-model loss context | 正确候选概率越低损失越大的概率型损失 |
+| 数值稳定性 | 数值稳定性 | numerical stability | P5-8.3 | numerical-stability | numerical-stability | numerical computing context | 反复计算时值和梯度仍保持在机器可处理范围内的性质 |
+| 张量 | 张量 | tensor | P5-9.2 | tensor | tensor | deep learning tensor context | 用来存放输入、中间表示和输出的多维数字数组 |
+| 权重 | 权重 | weight | P1-4.3 | weight | weight | machine learning parameter context | 控制输入或中间值对输出计算影响强度的模型参数 |

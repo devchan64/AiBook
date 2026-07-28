@@ -7,6 +7,8 @@
 
 --8<-- "reference/concept-glossary-terms/factuality.zh.md"
 
+--8<-- "reference/concept-glossary-terms/backpropagation.zh.md"
+
 
 
 --8<-- "reference/concept-glossary-terms/feature.zh.md"
