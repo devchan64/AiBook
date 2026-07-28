@@ -13,7 +13,7 @@ Clustering is an unsupervised learning problem that tries to find what groups of
 
 In other words, clustering is closer to `discovering structure` than to `solving a problem by getting the answer right`.
 
-This Section explains [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering), [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and the difference between [answer labels](/AiBook/en/reference/concept-glossary-alpha/l/#label) and clusters. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), [similarity](/AiBook/en/reference/concept-glossary-alpha/s/#similarity), and [cluster label](/AiBook/en/reference/concept-glossary-alpha/c/#cluster-label).
+This Section explains [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering), [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and the difference between [answer labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) and clusters. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), [similarity](/AiBook/en/reference/concept-glossary-alpha/s/#similarity), and [cluster label](/AiBook/en/reference/concept-glossary-alpha/c/#cluster-label).
 
 ## Questions Closed By Clustering
 

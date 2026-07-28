@@ -19,7 +19,7 @@ Consider a situation where, for each automatically executed action, a control-pa
 - Since action results differ slightly, it could be turned into a classification problem.
 - If the time series is long, maybe it can be sent directly into a time-series prediction problem.
 
-These thoughts are not themselves wrong. The problem is that the learning-problem frame appears first while `what counts as one case`, `what we are trying to predict`, and whether a [label](/AiBook/en/reference/concept-glossary-alpha/l/#glossary-label) actually exists have not yet been fixed. In that state, the data problem has not been defined yet. The learning-problem frame has merely been imagined before the data itself.
+These thoughts are not themselves wrong. The problem is that the learning-problem frame appears first while `what counts as one case`, `what we are trying to predict`, and whether a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/l/#glossary-label) actually exists have not yet been fixed. In that state, the data problem has not been defined yet. The learning-problem frame has merely been imagined before the data itself.
 
 The reason this happens so often is clear. First, when a table is visible, people often accept it immediately as `already organized data`. Second, if prior AI-learning experience has been remembered mostly through learning-problem types, prediction style appears before problem representation. Third, the longer and more complex the raw time series is, the more likely the expectation comes first that `maybe this can be passed directly into a learning problem as it is`.
 

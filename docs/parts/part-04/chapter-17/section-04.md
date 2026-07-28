@@ -5,7 +5,7 @@
 
 P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
-[군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster)이 [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label) 가설을 제안할 수 있다면, 적은 라벨과 많은 비라벨 데이터를 함께 쓰는 [반지도학습(semi-supervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#semi-supervised-learning)과는 어떻게 이어질까?
+[군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster)이 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 가설을 제안할 수 있다면, 적은 라벨과 많은 비라벨 데이터를 함께 쓰는 [반지도학습(semi-supervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#semi-supervised-learning)과는 어떻게 이어질까?
 
 이 절은 반지도학습의 전체 알고리즘 분류를 길게 나열하기보다, `군집은 어디까지 보조 신호가 될 수 있고 어디서부터 사람 검토와 추가 학습이 필요한가`를 처음 구분하는 보충학습입니다.
 

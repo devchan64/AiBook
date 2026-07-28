@@ -3,7 +3,7 @@
 > Section ID: `P4-2.2`
 > Version: `v2026.07.25`
 
-P4-2.1 looked at [supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning), where a model is trained using examples that already have [labels](/AiBook/en/reference/concept-glossary-alpha/l/#label). This time we look at [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), which looks for structure in data without labels.
+P4-2.1 looked at [supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning), where a model is trained using examples that already have [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label). This time we look at [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), which looks for structure in data without labels.
 
 Unsupervised learning does not mean `it learns freely without answers` in some vague way. It means an approach that looks for similarity, grouping, axes, density, or unusual points inside data without labels attached beforehand by people. In many cases, the model is not trying to match an answer. It is building structure candidates so that people can understand the data better or prepare the next task.
 

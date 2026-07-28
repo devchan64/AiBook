@@ -13,7 +13,7 @@
 
 也就是说，聚类与其说是`把答案猜对的问题`，不如说更接近`先去发现结构的问题`。
 
-这一节说明 [clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)、[cluster](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)，以及[正确答案标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)和聚类的差别。下一节会在这个把手的基础上继续当前语境里的判断，而把分组提议读成结构探索的基本感觉，会再次通过[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[相似度(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)、[聚类标签(cluster label)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster-label)连起来。
+这一节说明 [clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)、[cluster](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)，以及[正确答案标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)和聚类的差别。下一节会在这个把手的基础上继续当前语境里的判断，而把分组提议读成结构探索的基本感觉，会再次通过[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[相似度(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)、[聚类标签(cluster label)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster-label)连起来。
 
 ## 聚类先收束的问题
 

@@ -31,7 +31,7 @@ This Section first closes `what basic idea k-NN uses to judge from nearby cases`
 
 ### How Does k-NN Make A Judgment?
 
-k-NN first looks at a new input, called the [query](/AiBook/en/reference/concept-glossary-alpha/q/#query). Then it finds cases in the [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) whose [labels](/AiBook/en/reference/concept-glossary-alpha/l/#label) are already known and are close to that query. Finally, it gathers the labels of those [neighbors](/AiBook/en/reference/concept-glossary-alpha/n/#nearest-neighbor) and creates a result by majority vote or average.
+k-NN first looks at a new input, called the [query](/AiBook/en/reference/concept-glossary-alpha/q/#query). Then it finds cases in the [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) whose [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) are already known and are close to that query. Finally, it gathers the labels of those [neighbors](/AiBook/en/reference/concept-glossary-alpha/n/#nearest-neighbor) and creates a result by majority vote or average.
 
 In short, the order is the following.
 

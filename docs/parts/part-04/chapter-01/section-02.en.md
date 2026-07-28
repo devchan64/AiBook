@@ -18,7 +18,7 @@ This Section explains the difference between a [rule-based approach](/AiBook/en/
 - What does it mean for a person to write rules?
 - What does it mean to learn rules from data?
 - Does the model really find rules that people can understand?
-- How are [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data), [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature), [labels](/AiBook/en/reference/concept-glossary-alpha/l/#label), and [models](/AiBook/en/reference/concept-glossary-alpha/m/#model) connected?
+- How are [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data), [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature), [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label), and [models](/AiBook/en/reference/concept-glossary-alpha/m/#model) connected?
 - Why must a trained model always be evaluated?
 
 ## Goals Of This Section

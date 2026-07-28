@@ -3,7 +3,7 @@
 > Section ID: `P4-2.2`
 > Version: `v2026.07.25`
 
-在 P4-2.1 里，我们看的是用带 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label) 的案例训练 model 的 [监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)。这一次要看的是：在没有 label 的数据里寻找结构的 [无监督学习](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)。
+在 P4-2.1 里，我们看的是用带 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 的案例训练 model 的 [监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)。这一次要看的是：在没有 label 的数据里寻找结构的 [无监督学习](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)。
 
 无监督学习并不是 `没有答案就随便学`。它更准确地说，是在没有人工预先贴好 label 的情况下，去寻找数据中的相似性、分组、坐标轴、密度或异常点的方法。这里 model 常常不是在匹配某个答案，而是在做出结构候选，好让人更好地理解数据，或为下一步工作做准备。
 

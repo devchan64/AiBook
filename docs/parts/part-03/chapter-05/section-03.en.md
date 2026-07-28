@@ -3,7 +3,7 @@
 > Section ID: `P3-5.3`
 > Version: `v2026.07.25`
 
-When readers see a raw time series, many of them think like this: `There are many values and they are ordered, so can't we just pass this straight in as the learning input?` But we should pause here once. The mere fact that a raw time series exists does not yet mean we can say a ready-to-use learning [input](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-input) has been prepared.
+When readers see a raw time series, many of them think like this: `There are many values and they are ordered, so can't we just pass this straight in as the learning input?` But we should pause here once. The mere fact that a raw time series exists does not yet mean we can say a ready-to-use learning [model input](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-input) has been prepared.
 
 The raw time series may contain a lot of information, but what should count as one [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), `how much length should be grouped into one input`, and `what we want to predict` may still be undecided. A learning input is not another name for raw data. It is an input structure whose boundaries are fixed to fit a problem. So the first distinction to hold onto in this section is that `a raw time series exists` and `a learning input is ready` are not the same sentence.
 

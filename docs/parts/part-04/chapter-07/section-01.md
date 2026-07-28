@@ -240,7 +240,7 @@ print(comparison.round(2))
 
 #### 1. 신호(signal)가 있는가
 
-그 특징이 정답 [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label)과 어느 정도 관련된 패턴을 담고 있어야 합니다.
+그 특징이 정답 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)과 어느 정도 관련된 패턴을 담고 있어야 합니다.
 
 예를 들어 고객 이탈 문제에서 최근 방문 횟수는 이탈과 관련 있을 가능성이 있습니다. 반면 완전히 임의로 붙인 내부 일련번호는 보통 문제의 원인이나 경향을 설명하지 못합니다.
 

@@ -234,7 +234,7 @@ def simulate_updates(rows):
 rows = load_rows(DATA_PATH)
 simulated = simulate_updates(rows)
 
-print("[input]")
+print("[model input]")
 print("rows =", len(rows))
 print("parameters =", ", ".join(PARAMETER_ORDER))
 
@@ -265,7 +265,7 @@ for parameter_name in PARAMETER_ORDER:
 In the output, first compare how the step-by-step updates of the simple direct update and the Adam-like method differ even under the same CSV input.
 
 ```text
-[input]
+[model input]
 rows = 36
 parameters = risk_weight, recovery_weight, noise_weight
 

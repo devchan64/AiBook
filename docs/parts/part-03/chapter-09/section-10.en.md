@@ -5,7 +5,7 @@
 
 _Subtitle: How should delayed labels be distinguished from 0 labels that have not yet closed?_
 
-When choosing a [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate), you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed [labels](/AiBook/en/reference/concept-glossary-alpha/l/#glossary-label). [Delayed label confirmation](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-delayed-label-confirmation) and [incomplete negatives](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-incomplete-negative) are different problems, so they need to be separated first.
+When choosing a [target candidate](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-candidate), you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/l/#glossary-label). [Delayed label confirmation](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-delayed-label-confirmation) and [incomplete negatives](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-incomplete-negative) are different problems, so they need to be separated first.
 
 | Category | Central question |
 | --- | --- |

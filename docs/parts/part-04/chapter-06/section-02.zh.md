@@ -5,7 +5,7 @@
 
 在 P4-6.1 里，我们看过[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)不只是记分牌，而是会暴露出我们把什么看得更重要的标准。接下来就要进入下一个问题。`为什么问题一变，先看的指标也会跟着变？`
 
-答案很简单。因为 model 产出的 [output](/AiBook/zh/reference/concept-glossary-pinyin/c/#output) 不同，而这个 output 接到的判断也不同。[classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) 是挑选类别的问题，[regression](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression) 是预测数字的问题，[clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering) 是把相似东西分组的问题。因此，`做得好` 的意思也不可能完全一样。
+答案很简单。因为 model 产出的 [model output](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output) 不同，而这个 output 接到的判断也不同。[classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) 是挑选类别的问题，[regression](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression) 是预测数字的问题，[clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering) 是把相似东西分组的问题。因此，`做得好` 的意思也不可能完全一样。
 
 ## 本节范围
 
@@ -25,7 +25,7 @@
 
 - 能说明：评价问题会随着问题类型而改变。
 - 能说明：为什么 classification 的代表指标和 regression 的代表指标不同。
-- 能说明：clustering 往往因为没有 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label) 而必须更谨慎地评价。
+- 能说明：clustering 往往因为没有 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 而必须更谨慎地评价。
 - 能为后面学习 linear regression、logistic regression、k-NN、decision tree 等算法时会跟上的评价问题做好准备。
 
 ## 学习背景

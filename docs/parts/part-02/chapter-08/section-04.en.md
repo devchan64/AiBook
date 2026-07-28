@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[label] = label_counts.get(label, 0) + 1
+    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```

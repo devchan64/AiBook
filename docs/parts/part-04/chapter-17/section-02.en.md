@@ -17,7 +17,7 @@ This Section does not repeat the basic definition of [clustering](/AiBook/en/ref
 
 This Section answers the following questions.
 
-- Why should a clustering result not be read immediately like a correct [label](/AiBook/en/reference/concept-glossary-alpha/l/#label)?
+- Why should a clustering result not be read immediately like a correct [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label)?
 - Why can the same data produce different clusters depending on representation and parameters?
 - Why do cluster numbers carry no meaning?
 - Why is it risky to connect clustering results directly to business policy or human evaluation?
@@ -70,7 +70,7 @@ This diagram shows the dangerous interpretation path in which a clustering resul
 
 ## A Cluster Is Not A Correct Label
 
-As seen in P4-17.1, a [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster) is a grouping the algorithm found in the data. By contrast, a [label](/AiBook/en/reference/concept-glossary-alpha/l/#label) is a category predefined by people according to the problem definition.
+As seen in P4-17.1, a [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster) is a grouping the algorithm found in the data. By contrast, a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) is a category predefined by people according to the problem definition.
 
 The two can look similar on the surface, but their roles are different.
 

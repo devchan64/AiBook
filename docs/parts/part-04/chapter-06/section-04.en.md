@@ -230,7 +230,7 @@ By contrast, even if calibration looks good, that is not the end. Score interpre
 
 ## Silhouette Is An Internal Criterion For Reading Cluster Structure Without Answers
 
-P4-6.2 explained that in clustering there may be no answer [labels](/AiBook/en/reference/concept-glossary-alpha/l/#label). Silhouette score is an internal evaluation criterion that appears often in that kind of scene.
+P4-6.2 explained that in clustering there may be no answer [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label). Silhouette score is an internal evaluation criterion that appears often in that kind of scene.
 
 Silhouette score is a criterion that reads the grouping as better when points are closer within the same cluster and farther from other clusters.
 

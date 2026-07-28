@@ -210,7 +210,7 @@ for label, (ranked, candidate_count) in fast_results.items():
     missed = [name for name in full_top5 if name not in top5]
     print(
         label,
-        "window =", settings[label],
+        "window =", settings[supervised learning label],
         "candidates =", candidate_count,
         "recall@5 =", recall,
     )

@@ -3,7 +3,7 @@
 > Section ID: `P4-2.2`
 > Version: `v2026.07.25`
 
-P4-2.1에서는 [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label)이 있는 사례로 모델을 학습하는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤습니다. 이번에는 라벨이 없는 데이터에서 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봅니다.
+P4-2.1에서는 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 있는 사례로 모델을 학습하는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤습니다. 이번에는 라벨이 없는 데이터에서 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봅니다.
 
 비지도학습은 “정답 없이 제멋대로 학습한다”는 뜻이 아닙니다. 비지도학습은 사람이 미리 붙인 라벨 없이 데이터 안의 비슷함, 묶음, 축, 밀도, 이상한 점을 찾아보는 접근입니다. 모델이 정답을 맞히는 것이 아니라, 사람이 데이터를 더 잘 이해하거나 다음 작업을 하기 위해 구조 후보를 만드는 경우가 많습니다.
 

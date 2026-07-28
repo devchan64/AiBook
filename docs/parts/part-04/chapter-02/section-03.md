@@ -3,7 +3,7 @@
 > Section ID: `P4-2.3`
 > Version: `v2026.07.25`
 
-P4-2.1에서는 [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label)이 있는 데이터로 배우는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봤습니다. 이번에는 모델이 [행동(action)](../../../reference/concept-glossary-parts/14-hieut.md#action)을 하고, 그 결과로 [보상(reward)](../../../reference/concept-glossary-parts/06-bieup.md#reward)을 받으며, 다음 행동 방식을 조정하는 [강화학습(reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning)을 봅니다.
+P4-2.1에서는 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 있는 데이터로 배우는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봤습니다. 이번에는 모델이 [행동(action)](../../../reference/concept-glossary-parts/14-hieut.md#action)을 하고, 그 결과로 [보상(reward)](../../../reference/concept-glossary-parts/06-bieup.md#reward)을 받으며, 다음 행동 방식을 조정하는 [강화학습(reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning)을 봅니다.
 
 강화학습은 “정답 라벨을 보고 맞히는 학습”과 다릅니다. 어떤 행동이 즉시 좋은지 항상 알려 주는 것이 아니라, 행동을 해 본 뒤 돌아오는 보상과 다음 상태를 보고 더 나은 행동 방식을 찾아갑니다. 그래서 강화학습은 한 번의 입력과 출력보다, 시간에 따라 이어지는 선택의 흐름을 다루는 학습입니다.
 

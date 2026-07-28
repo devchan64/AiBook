@@ -3,7 +3,7 @@
 > Section ID: `P4-2.3`
 > Version: `v2026.07.25`
 
-在 P4-2.1 里，我们看的是通过带 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label) 的数据来学习的 [监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)；在 P4-2.2 里，我们看的是在没有 label 的数据里寻找结构的 [无监督学习](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)。这一次要看的是：[强化学习](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning)，也就是 model 通过 [action](/AiBook/zh/reference/concept-glossary-pinyin/a/#action)、得到 [reward](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward)，并据此调整下一步行动方式的学习。
+在 P4-2.1 里，我们看的是通过带 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 的数据来学习的 [监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)；在 P4-2.2 里，我们看的是在没有 label 的数据里寻找结构的 [无监督学习](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)。这一次要看的是：[强化学习](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning)，也就是 model 通过 [action](/AiBook/zh/reference/concept-glossary-pinyin/a/#action)、得到 [reward](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward)，并据此调整下一步行动方式的学习。
 
 强化学习不同于 `看着正确 label 来匹配答案` 的学习。它并不会总是立刻告诉你哪个动作最好，而是让系统在执行动作之后，根据返回的 reward 和下一状态，逐渐找到更好的行动方式。所以强化学习处理的不是单次输入输出，而是随着时间连续展开的一串选择。
 

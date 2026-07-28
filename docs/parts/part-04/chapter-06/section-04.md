@@ -230,7 +230,7 @@ calibration이 좋다고 해서 분류 성능이 자동으로 좋은 것은 아�
 
 ## silhouette는 정답 없이 군집 구조를 읽는 내부 기준이다
 
-군집화에서는 정답 [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label)이 없을 수 있다고 P4-6.2에서 봤습니다. silhouette score는 이런 장면에서 자주 등장하는 내부 평가 기준입니다.
+군집화에서는 정답 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 없을 수 있다고 P4-6.2에서 봤습니다. silhouette score는 이런 장면에서 자주 등장하는 내부 평가 기준입니다.
 
 silhouette score는 같은 군집 안에서는 가깝고, 다른 군집과는 멀수록 더 좋은 묶음처럼 읽는 기준입니다.
 

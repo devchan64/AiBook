@@ -5,7 +5,7 @@
 
 After reading through P4-17.2, this question naturally remains.
 
-If [clusters](/AiBook/en/reference/concept-glossary-alpha/c/#cluster) can suggest [label](/AiBook/en/reference/concept-glossary-alpha/l/#label) hypotheses, how does that connect to [semi-supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#semi-supervised-learning), where we use a small amount of labeled data together with a large amount of unlabeled data?
+If [clusters](/AiBook/en/reference/concept-glossary-alpha/c/#cluster) can suggest [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) hypotheses, how does that connect to [semi-supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#semi-supervised-learning), where we use a small amount of labeled data together with a large amount of unlabeled data?
 
 Rather than listing the full taxonomy of semi-supervised learning algorithms, this supplementary Section distinguishes `how far clustering can serve as an auxiliary signal and where human review and additional learning become necessary`.
 

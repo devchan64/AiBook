@@ -5,7 +5,7 @@
 
 在 P4-1.2 里，我们把 [machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning) 看成 `从数据中估计输入和输出关系的方法`。现在要看其中最先会遇到的一种形式：[监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)。
 
-监督学习，是用已经带有 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label) 或 [target](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) value 的案例来训练 model 的方式。这里的 label 不只是名字标签，而是 model 想匹配的输出。因为案例会告诉它 `给定这种输入时，应该出现什么结果`，所以才会用 `supervised` 这个词。
+监督学习，是用已经带有 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 或 [target](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) value 的案例来训练 model 的方式。这里的 label 不只是名字标签，而是 model 想匹配的输出。因为案例会告诉它 `给定这种输入时，应该出现什么结果`，所以才会用 `supervised` 这个词。
 
 监督学习可以先读成 `看着同时带有例子和答案的案例，再去猜新案例输出` 的方式。但 model 并不是在理解人写的解释，它是在大量案例中不断调整自己的内部标准，让输入和输出之间的关系尽量匹配。
 

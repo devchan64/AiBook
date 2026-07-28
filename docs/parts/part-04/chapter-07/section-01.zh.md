@@ -240,7 +240,7 @@ print(comparison.round(2))
 
 #### 1. 有没有 signal
 
-这个特征应该多少装着一些和目标 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label) 有关的模式。
+这个特征应该多少装着一些和目标 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 有关的模式。
 
 例如，在客户流失问题里，最近访问次数就可能和流失有关。相反，一个完全任意的内部流水号，通常无法解释问题的原因或倾向。
 

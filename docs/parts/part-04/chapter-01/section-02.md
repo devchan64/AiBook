@@ -18,7 +18,7 @@ Part 3에서는 [데이터과학(data science)](../../../reference/concept-gloss
 - 사람이 규칙을 쓴다는 것은 무엇인가?
 - 데이터에서 규칙을 배운다는 말은 무엇을 뜻하는가?
 - 모델은 정말 사람이 이해하는 규칙을 찾는가?
-- [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature), [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label), [모델(model)](../../../reference/concept-glossary-parts/05-mieum.md#model)은 어떻게 연결되는가?
+- [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature), [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label), [모델(model)](../../../reference/concept-glossary-parts/05-mieum.md#model)은 어떻게 연결되는가?
 - 학습된 모델을 왜 반드시 평가해야 하는가?
 
 ## 데이터에서 규칙을 배운다는 말에서 남길 판단 기준

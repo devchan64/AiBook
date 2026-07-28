@@ -230,7 +230,7 @@ calibration 好，并不自动代表分类性能就好。反过来，分类性�
 
 ## silhouette 是在没有标准答案时读取 cluster 结构的内部标准
 
-我们在 P4-6.2 里已经看过，在 clustering 里可能根本没有答案 [label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)。silhouette score 就是这种场景下经常出现的内部评价标准。
+我们在 P4-6.2 里已经看过，在 clustering 里可能根本没有答案 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)。silhouette score 就是这种场景下经常出现的内部评价标准。
 
 silhouette score 是一种标准：同一个 cluster 里面越近、和别的 cluster 越远，就越像是更好的分组。
 

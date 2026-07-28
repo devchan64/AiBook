@@ -35,7 +35,7 @@
 | 同样的数据，只要 `问题` 一变，就会变成另一种问题 | 这样才看得见分类、预测、推荐、生成为什么会分开。 | 能区分：一份客户数据也能支撑好几类问题。 |
 | 输出会对人或服务产生 `impact` | 这样 AI 就不再只是抽象计算，而是现实判断结构。 | 能用一句话把输出和它被使用的地方连起来。 |
 
-`input`、`output`、`goal`、`impact` 在上一节已经出现过，作为阅读 AI 系统的基本语言。这里则把它们重新接到问题类型上。输入是系统接收的信息，输出是系统产生的结果，目标是界定“什么样的结果算好”的标准，而 `impact` 则表示这个结果最后会碰到人的判断或环境变化的哪个位置。如果这些词再次不稳定，就回到上一节和 [input](/AiBook/zh/reference/concept-glossary-pinyin/i/#input)、[output](/AiBook/zh/reference/concept-glossary-pinyin/c/#output)、[goal](/AiBook/zh/reference/concept-glossary-pinyin/g/#goal)、[impact](/AiBook/zh/reference/concept-glossary-pinyin/y/#impact) 等代表词条；在这一节里，它们主要是帮助我们把问题读成“放进去什么、拿出来什么”的结构。
+`input`、`output`、`goal`、`impact` 在上一节已经出现过，作为阅读 AI 系统的基本语言。这里则把它们重新接到问题类型上。输入是系统接收的信息，输出是系统产生的结果，目标是界定“什么样的结果算好”的标准，而 `impact` 则表示这个结果最后会碰到人的判断或环境变化的哪个位置。如果这些词再次不稳定，就回到上一节和 [model input](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)、[model output](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[goal](/AiBook/zh/reference/concept-glossary-pinyin/g/#goal)、[impact](/AiBook/zh/reference/concept-glossary-pinyin/y/#impact) 等代表词条；在这一节里，它们主要是帮助我们把问题读成“放进去什么、拿出来什么”的结构。
 
 ## 细化学习
 

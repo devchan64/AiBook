@@ -13,7 +13,7 @@ P4-16에서는 그래디언트 부스팅(gradient boosting)까지 보면서, 정
 
 즉, 클러스터링은 `정답을 맞히는 문제`라기보다 `구조를 발견해 보는 문제`에 가깝습니다.
 
-이 절은 [클러스터링(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering), [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster), [정답 라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label)과 군집의 차이를 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 묶음 제안을 구조 탐색으로 읽는 기본 감각은 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [유사도(similarity)](../../../reference/concept-glossary-parts/08-ieung.md#similarity), [클러스터 라벨(cluster label)](../../../reference/concept-glossary-parts/10-kieuk.md#cluster-label)을 기준으로 다시 연결합니다.
+이 절은 [클러스터링(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering), [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster), [정답 라벨(label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)과 군집의 차이를 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 묶음 제안을 구조 탐색으로 읽는 기본 감각은 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [유사도(similarity)](../../../reference/concept-glossary-parts/08-ieung.md#similarity), [클러스터 라벨(cluster label)](../../../reference/concept-glossary-parts/10-kieuk.md#cluster-label)을 기준으로 다시 연결합니다.
 
 ## 클러스터링(clustering)의 직관에서 닫을 질문
 

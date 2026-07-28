@@ -5,7 +5,7 @@
 
 读到 P4-17.2 之后，很自然会剩下这样一个问题。
 
-如果[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)能够提出[标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)假设，那么它和[半监督学习(semi-supervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#semi-supervised-learning)这种`把少量有标签数据和大量无标签数据一起使用`的设定，究竟是怎样连起来的？
+如果[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)能够提出[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)假设，那么它和[半监督学习(semi-supervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#semi-supervised-learning)这种`把少量有标签数据和大量无标签数据一起使用`的设定，究竟是怎样连起来的？
 
 这一节不是长篇列举半监督学习算法的全部分类，而是先区分`聚类可以在多大范围内充当辅助信号，以及从哪里开始必须引入人工审查和后续学习`。
 

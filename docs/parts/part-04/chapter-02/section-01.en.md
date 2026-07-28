@@ -5,7 +5,7 @@
 
 P4-1.2 treated [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) as `an approach that estimates the relation between input and output from data`. Now we look at the first form people usually meet inside it: [supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning).
 
-Supervised learning is a way of training a model on examples that already have a [label](/AiBook/en/reference/concept-glossary-alpha/l/#label) or [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) value. Here a label is not just a name tag. It is the output the model is supposed to match. Because the examples show what result should come out when a given input is provided, the word `supervised` is used.
+Supervised learning is a way of training a model on examples that already have a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) or [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) value. Here a label is not just a name tag. It is the output the model is supposed to match. Because the examples show what result should come out when a given input is provided, the word `supervised` is used.
 
 Supervised learning can be read as `a way of looking at examples that contain both an example and its answer, then trying to match the output of a new case`. But the model does not understand an explanation. It adjusts internal criteria so that the relation between input and output is matched across many examples.
 

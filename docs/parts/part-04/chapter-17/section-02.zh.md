@@ -17,7 +17,7 @@
 
 这一节回答下面这些问题。
 
-- 为什么不能把聚类结果立刻当成正确[标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)来读？
+- 为什么不能把聚类结果立刻当成正确[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)来读？
 - 为什么同样的数据，会因为表达方式和参数不同而得到不同聚类？
 - 为什么聚类编号本身没有意义？
 - 为什么把聚类结果直接连到业务策略或人工评价会有风险？
@@ -70,7 +70,7 @@
 
 ## 聚类不是正确答案标签
 
-正如在 P4-17.1 里看到的，[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)是算法在数据里找到的分组。相对地，[标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)是人按照问题定义预先设定好的类别。
+正如在 P4-17.1 里看到的，[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)是算法在数据里找到的分组。相对地，[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)是人按照问题定义预先设定好的类别。
 
 这两者表面看起来可能相似，但角色不同。
 

@@ -5,7 +5,7 @@
 
 P4-6.1 explained that an [evaluation metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric) is not just a scoreboard. It is a criterion that reveals what we choose to treat as important. Now the next question follows. `If the problem changes, why do the metrics we inspect also change?`
 
-The answer is simple. The model's [output](/AiBook/en/reference/concept-glossary-alpha/o/#output) changes, and the judgment connected to that output changes as well. [Classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) is the problem of choosing a category, [regression](/AiBook/en/reference/concept-glossary-alpha/r/#regression) is the problem of predicting a number, and [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) is the problem of grouping similar things together. So the meaning of `did well` cannot stay the same.
+The answer is simple. The model's [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output) changes, and the judgment connected to that output changes as well. [Classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) is the problem of choosing a category, [regression](/AiBook/en/reference/concept-glossary-alpha/r/#regression) is the problem of predicting a number, and [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) is the problem of grouping similar things together. So the meaning of `did well` cannot stay the same.
 
 ## Scope Of This Section
 
@@ -25,7 +25,7 @@ This Section answers the following questions.
 
 - You can explain that the evaluation question changes by problem type.
 - You can explain why representative metrics for classification and regression are different.
-- You can explain that clustering often becomes more delicate because there is frequently no answer [label](/AiBook/en/reference/concept-glossary-alpha/l/#label).
+- You can explain that clustering often becomes more delicate because there is frequently no answer [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label).
 - You can prepare for what evaluation questions follow later when learning algorithms such as linear regression, logistic regression, k-NN, and decision trees.
 
 ## Learning Background

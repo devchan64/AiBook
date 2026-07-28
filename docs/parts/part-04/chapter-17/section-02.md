@@ -17,7 +17,7 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 
 이 절은 다음 질문에 답합니다.
 
-- 왜 군집 결과를 곧바로 [정답 라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label)처럼 읽으면 안 되는가?
+- 왜 군집 결과를 곧바로 [정답 라벨(label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)처럼 읽으면 안 되는가?
 - 왜 같은 데이터도 표현 방식과 파라미터에 따라 다른 군집이 나올 수 있는가?
 - 군집 번호는 왜 의미가 없는가?
 - 군집 결과를 업무 정책이나 사람 평가로 바로 연결하면 왜 위험한가?
@@ -70,7 +70,7 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 
 ## 군집은 정답 라벨이 아니다
 
-17.1에서 본 것처럼, [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster)은 알고리즘이 데이터 안에서 찾은 묶음입니다. 반면 [정답 라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label)은 사람이 문제 정의에 따라 미리 정한 범주입니다.
+17.1에서 본 것처럼, [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster)은 알고리즘이 데이터 안에서 찾은 묶음입니다. 반면 [정답 라벨(label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)은 사람이 문제 정의에 따라 미리 정한 범주입니다.
 
 이 둘은 겉보기에는 비슷할 수 있지만 역할이 다릅니다.
 

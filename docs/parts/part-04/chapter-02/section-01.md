@@ -5,7 +5,7 @@
 
 P4-1.2에서는 [머신러닝(machine learning)](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning)을 “데이터에서 입력과 출력의 관계를 추정하는 접근”으로 보았습니다. 이제 그중 가장 먼저 만나는 형태인 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봅니다.
 
-지도학습은 [라벨(label)](../../../reference/concept-glossary-parts/04-rieul.md#label) 또는 [목표값(target)](../../../reference/concept-glossary-parts/12-tieut.md#target)이 있는 사례로 모델을 학습하는 방식입니다. 여기서 라벨은 단순한 이름표가 아니라, 모델이 맞추려는 출력입니다. 입력이 주어졌을 때 어떤 결과를 내야 하는지 사례로 보여 주기 때문에 “지도”라는 표현이 붙습니다.
+지도학습은 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 또는 [목표값(target)](../../../reference/concept-glossary-parts/12-tieut.md#target)이 있는 사례로 모델을 학습하는 방식입니다. 여기서 라벨은 단순한 이름표가 아니라, 모델이 맞추려는 출력입니다. 입력이 주어졌을 때 어떤 결과를 내야 하는지 사례로 보여 주기 때문에 “지도”라는 표현이 붙습니다.
 
 지도학습은 “예시와 답이 함께 있는 사례를 보고, 새 사례의 출력을 맞춰 보는 방식”으로 읽을 수 있습니다. 다만 모델이 해설을 이해하는 것은 아닙니다. 모델은 많은 사례에서 입력과 출력의 관계를 맞추도록 내부 기준을 조정합니다.
 

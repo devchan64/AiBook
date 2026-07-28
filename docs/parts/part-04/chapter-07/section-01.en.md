@@ -240,7 +240,7 @@ Theoretically, the following five perspectives matter.
 
 #### 1. Does It Contain Signal?
 
-That feature should contain some pattern related to the target [label](/AiBook/en/reference/concept-glossary-alpha/l/#label).
+That feature should contain some pattern related to the target [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label).
 
 For example, in a churn problem, recent visit count may plausibly relate to churn. By contrast, a completely arbitrary internal serial number usually does not explain the cause or tendency of the problem.
 

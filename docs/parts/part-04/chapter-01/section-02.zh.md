@@ -18,7 +18,7 @@ Part 3 并不是想覆盖整个 [data science](/AiBook/zh/reference/concept-glos
 - 人写规则，到底是什么意思？
 - 从数据中学习规则，到底是什么意思？
 - 模型真的会找到人能理解的规则吗？
-- [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)、[label](/AiBook/zh/reference/concept-glossary-pinyin/l/#label)、[model](/AiBook/zh/reference/concept-glossary-pinyin/m/#model) 是怎样连起来的？
+- [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)、[supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)、[model](/AiBook/zh/reference/concept-glossary-pinyin/m/#model) 是怎样连起来的？
 - 为什么学出来的 model 一定还要评估？
 
 ## 用从数据中学习规则这句话是什么意思留下的判断标准
