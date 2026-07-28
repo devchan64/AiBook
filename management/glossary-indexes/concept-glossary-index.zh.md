@@ -55,6 +55,7 @@
 | 回归 | 回归 | regression | P1-8.1 | regression | regression | P1-8.1 source context | 根据输入预测连续数值或分数的建模任务 |
 | 提示词 | 提示词 | prompt | P1-12.1 | prompt | prompt | OpenAI prompt engineering, GPT-3 paper | 设置当前回答条件的完整输入 |
 | 时间顺序切分 | 时间顺序切分 | time split | P3-9.13 | time-split | time-split | FPP3 time series cross-validation, P3-9.13 source context | 在时间顺序数据中只用较早信息评价较晚案例的切分方式 |
+| 推荐任务 | 推荐任务 | recommendation task | P1-1.2 | recommendation-task | recommendation-task | recommendation context | 根据用户、项目和上下文信息选择或排序要展示候选的建模任务 |
 | 样本偏差 | 样本偏差 | sampling bias | P2-5.3 | sampling-bias | sampling-bias | P2-5.3 source context | 观测样本不能很好代表总体并向某个方向倾斜的状态 |
 | 选择性标签 | 选择性标签 | selective labels | P3-8.6 | selective-labels | selective-labels | KDD 2017 selective labels problem | 只在经过既有复核或决策路径的部分案例上留下的结果标签 |
 | 验证数据 | 验证数据 | validation data | P2-6.2 | validation-data | validation-data | P2-6.2 source context | 在模型开发过程中用来检查和调整模型设置的数据 |

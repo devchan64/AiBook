@@ -46,6 +46,7 @@
 | representation learning | representation learning | representation learning | P1-3.3 | representation-learning | representation-learning | representation learning review | Learning useful internal representations from data rather than predefining all features |
 | ranking | ranking | ranking | P1-13.2 | ranking | ranking | P1-13.2 source context | Ordering candidates by score or priority rather than only choosing one correct label |
 | recall | recall | recall | P1-13.4 | recall | recall | P4-6.1 source context | Share of actual positive cases that the model successfully catches |
+| recommendation task | recommendation task | recommendation task | P1-1.2 | recommendation-task | recommendation-task | recommendation context | Modeling task that chooses or orders candidates to show using user, item, and context information |
 | regression | regression | regression | P1-8.1 | regression | regression | P1-8.1 source context | Modeling task that predicts a continuous numeric value or score |
 | sampling bias | sampling bias | sampling bias | P2-5.3 | sampling-bias | sampling-bias | P2-5.3 source context | State where the observed sample does not represent the population well and is skewed in a particular direction |
 | selective labels | selective labels | selective labels | P3-8.6 | selective-labels | selective-labels | KDD 2017 selective labels problem | Labels observed only for cases that passed through prior review or decision paths |
