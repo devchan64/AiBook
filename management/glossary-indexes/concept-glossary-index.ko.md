@@ -286,6 +286,32 @@
 | 모델 | 모델 | model | P1-4.1 | model | model | AI model context | 목적에 맞게 줄여 만든 계산용 모형 또는 학습된 입력-출력 구조 |
 | 과적합 | 과적합 | overfitting | P4-5.1 | overfitting | overfitting | machine learning generalization context | 학습 데이터에 지나치게 맞춰져 새 데이터 성능이 떨어지는 상태 |
 | 보상 | 보상 | reward | P1-8.3 | reward | reward | reinforcement learning context | 행동 결과가 목표에 얼마나 도움이 되었는지를 돌려주는 피드백 신호 |
+| 작화 | 작화 | confabulation | P1-10.3 | confabulation | confabulation | generative AI hallucination context | 환각과 함께 다루되 근거 없는 내용을 그럴듯하게 구성하는 생성 오류 |
+| 특징 선택 | 특징 선택 | feature selection | P4-7.1 | feature-selection | feature-selection | feature selection context | 입력 후보 중 현재 문제에 남길 특징을 고르는 표준 모델링 과정 |
+| GPT | GPT | Generative Pre-trained Transformer | P6-5.1 | gpt | gpt | GPT model family context | Transformer decoder 기반의 대표 생성형 언어 모델 계열 |
+| 불완전한 정보 | 불완전한 정보 | incomplete information | P1-6.1 | incomplete-information | incomplete-information | AI problem condition context | 판단에 필요한 정보 일부가 처음부터 주어지지 않은 문제 조건 |
+| 커널 | 커널 | kernel | P4-13.2 | kernel | kernel | kernel method context | 새 표현 공간의 비교 효과를 함수 계산으로 다루는 분류·표현 방법 개념 |
+| 장기 의존성 | 장기 의존성 | long-term dependency | P1-11.2 | long-term-dependency | long-term-dependency | sequence model context | 오래전 정보가 뒤 판단에 중요하지만 전달되기 어려운 순차 모델 문제 |
+| 마진 | 마진 | margin | P4-13.1 | margin | margin | margin classifier context | 분류 경계와 가까운 사례 사이의 여유 폭 |
+| 최대우도추정 | 최대우도추정 | maximum likelihood estimation, MLE | P4-11.3 | maximum-likelihood-estimation-mle | maximum-likelihood-estimation-mle | maximum likelihood context | 관찰 데이터가 가장 그럴듯하게 나오도록 파라미터를 찾는 추정 방식 |
+| 다층 신경망 | 다층 신경망 | multilayer neural network | P5-2.1 | multilayer-neural-network | multilayer-neural-network | neural network context | 여러 층의 계산 단위를 쌓아 중간 표현을 단계적으로 만드는 신경망 구조 |
+| 부분 관측 | 부분 관측 | partial observability | P1-6.1 | partial-observability | partial-observability | AI agent and RL context | 전체 상태 중 현재 보이는 일부 정보만으로 판단해야 하는 조건 |
+| 정책 기반 강화학습 | 정책 기반 강화학습 | policy-based reinforcement learning | P4-19.2 | policy-based-reinforcement-learning | policy-based-reinforcement-learning | reinforcement learning context | 정책 자체를 직접 조정해 행동 선택 기준을 배우는 강화학습 접근 |
+| 확률 모델 | 확률 모델 | probabilistic model | P1-7.3 | probabilistic-model | probabilistic-model | probabilistic AI context | 불확실성을 확률 구조로 표현해 후보나 판단을 다루는 모델 |
+| 확률 추론 | 확률 추론 | probabilistic reasoning | P1-2.2 | probabilistic-reasoning | probabilistic-reasoning | probabilistic AI context | 불완전한 정보와 불확실성 아래에서 가능성을 갱신하며 판단하는 추론 |
+| 순환 신경망 | 순환 신경망 | recurrent neural network, RNN | P1-11.2 | recurrent-neural-network | recurrent-neural-network | sequence model context | 이전 숨은 상태를 다음 계산으로 넘기며 순서 데이터를 처리하는 신경망 구조 |
+| 강화학습 에이전트 | 강화학습 에이전트 | reinforcement learning agent | P1-8.3 | reinforcement-learning-agent | reinforcement-learning-agent | reinforcement learning context | 환경과 상호작용하며 행동, 보상, 정책 갱신을 수행하는 학습 주체 |
+| 표현 | 표현 | representation | P1-3.3 | representation | representation | representation learning context | 입력을 현재 과제에 유용한 계산용 내부 형태로 재구성한 모습 |
+| 보상 설계 | 보상 설계 | reward design | P4-19.3 | reward-design | reward-design | reinforcement learning reward context | 에이전트가 무엇을 잘했다고 볼지 보상 함수와 제약으로 정하는 목표 설계 |
+| 보상 해킹 | 보상 해킹 | reward hacking | P4-19.3 | reward-hacking | reward-hacking | reinforcement learning alignment context | 사람이 의도한 목표 대신 보상 숫자만 올리도록 최적화되는 현상 |
+| 탐색 | 탐색 | search | P1-7.1 | search | search | AI search context | 상태와 행동 후보를 따라가며 목표 경로나 해답을 찾는 문제 해결 방식 |
+| 탐색 공간 | 탐색 공간 | search space | P1-7.1 | search-space | search-space | AI search context | 문제 해결 때 고려할 상태, 선택지, 경로 후보의 전체 구조 |
+| 반지도학습 | 반지도학습 | semi-supervised learning | P4-17.2 | semi-supervised-learning | semi-supervised-learning | semi-supervised learning context | 적은 라벨 데이터와 많은 비라벨 데이터를 함께 쓰는 학습 문제 설정 |
+| 시뮬레이션-현실 간극 | 시뮬레이션-현실 간극 | sim-to-real gap | P4-19.3 | sim-to-real-gap | sim-to-real-gap | reinforcement learning deployment context | 시뮬레이션에서 확인한 정책이 현실로 옮겨질 때 생기는 조건 차이 |
+| 표준화 | 표준화 | standardization | P4-12.2 | standardization | standardization | preprocessing context | 특징의 평균과 표준편차를 맞춰 거리나 모델 계산에서 비교 가능하게 만드는 변환 |
+| 확률적 과정 | 확률적 과정 | stochastic process | P1-6.2 | stochastic-process | stochastic-process | stochastic process context | 시간에 따라 확률적으로 흔들리며 전개되는 변화 구조 |
+| 진짜 목표 | 진짜 목표 | true objective | P4-19.3 | true-objective | true-objective | reward design context | 보상이나 지표가 대신 표현하려는 실제 목표 |
+| 가치 기반 강화학습 | 가치 기반 강화학습 | value-based reinforcement learning | P4-19.1 | value-based-reinforcement-learning | value-based-reinforcement-learning | reinforcement learning context | 상태나 상태-행동 쌍의 장기 보상 값을 배워 행동을 고르는 강화학습 접근 |
 | 계산 한계 | 계산 한계 | computational limit | P1-7.1 | computational-limit | computational-limit | search and computational complexity context | 탐색 후보가 현실적인 시간과 자원 안에서 모두 확인하기 어려울 만큼 커지는 상태 |
 | 문맥적 표현 | 문맥적 표현 | contextual representation | P1-11.3 | contextual-representation | contextual-representation | contextual embedding context | 같은 토큰도 주변 문맥에 따라 달라지는 내부 벡터 표현 |
 | 수렴 | 수렴 | convergence | P2-2.3 | convergence | convergence | iterative computation context | 반복할수록 값이나 상태가 특정 지점 가까이 안정되어 가는 현상 |
