@@ -101,9 +101,6 @@
 
 --8<-- "reference/concept-glossary-terms/observation.ko.md"
 
---8<-- "reference/concept-glossary-terms/structural-hypothesis.ko.md"
-
-
 --8<-- "reference/concept-glossary-terms/cluster.ko.md"
 
 --8<-- "reference/concept-glossary-terms/clustering.ko.md"

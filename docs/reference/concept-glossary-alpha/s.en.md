@@ -84,11 +84,6 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/stochastic-process.en.md"
 
 
---8<-- "reference/concept-glossary-terms/structural-hypothesis.en.md"
-
-
-
-
 --8<-- "reference/concept-glossary-terms/semi-supervised-learning.en.md"
 
 --8<-- "reference/concept-glossary-terms/supervised-learning.en.md"
