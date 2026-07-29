@@ -5,12 +5,12 @@
 
 _보조제목: 늦게 확정되는 라벨과 아직 닫히지 않은 0 라벨은 어떻게 구분하는가_
 
-목표 라벨 후보(target candidate)를 정할 때는 `언제 결과가 확정되는가`와 `0 라벨을 붙일 만큼 충분히 관측했는가`를 구분해야 합니다. 이 둘을 섞으면 최근 사건이 과하게 0으로 보이거나, 아직 임시 상태인 값을 확정 [지도학습 라벨(supervised learning label)](/AiBook/reference/concept-glossary-parts/09-jieut/#supervised-learning-label)처럼 읽기 쉽습니다. [라벨 확정 지연(delayed label confirmation)](/AiBook/reference/concept-glossary-parts/04-rieul/#glossary-delayed-label-confirmation)과 [관측 미완료 음성(incomplete negative)](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-incomplete-negative)은 다른 문제이므로, 이 둘을 먼저 분리해 두어야 합니다.
+목표 라벨 후보(target candidate)를 정할 때는 `언제 결과가 확정되는가`와 `0 라벨을 붙일 만큼 충분히 관측했는가`를 구분해야 합니다. 이 둘을 섞으면 최근 사건이 과하게 0으로 보이거나, 아직 임시 상태인 값을 확정 [지도학습 라벨(supervised learning label)](/AiBook/reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)처럼 읽기 쉽습니다. [라벨 확정 지연(delayed label confirmation)](/AiBook/reference/concept-glossary-parts/04-rieul.md#glossary-delayed-label-confirmation)과 [관측 미완료 음성(incomplete negative)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-incomplete-negative)은 다른 문제이므로, 이 둘을 먼저 분리해 두어야 합니다.
 
 | 구분 | 중심 질문 |
 | --- | --- |
-| [라벨 확정 지연(delayed label confirmation)](/AiBook/reference/concept-glossary-parts/04-rieul/#glossary-delayed-label-confirmation) | 결과는 있었지만 언제 정답으로 닫히는가 |
-| [관측 미완료 음성(incomplete negative)](/AiBook/reference/concept-glossary-parts/01-giyeok/#glossary-incomplete-negative) | 결과가 없다고 말할 만큼 충분히 봤는가 |
+| [라벨 확정 지연(delayed label confirmation)](/AiBook/reference/concept-glossary-parts/04-rieul.md#glossary-delayed-label-confirmation) | 결과는 있었지만 언제 정답으로 닫히는가 |
+| [관측 미완료 음성(incomplete negative)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-incomplete-negative) | 결과가 없다고 말할 만큼 충분히 봤는가 |
 
 예를 들어 `다음 7일 안 failure`를 target으로 둘 때는 아래 두 줄을 같이 적어야 합니다.
 

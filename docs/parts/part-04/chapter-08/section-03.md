@@ -11,7 +11,7 @@ P4-8.2에서 [baseline이 왜 필요한지](../../../reference/concept-glossary-
 
 ## baseline을 세울 때 갈라지는 문제 유형
 
-이 절은 [분류](../../../reference/concept-glossary-parts/07-sieut.md#classification), [회귀](../../../reference/concept-glossary-parts/14-hieut.md#regression), 시계열 문제에서 대표적인 baseline을 처음 세우는 법을 다룹니다.
+이 절은 [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification), [회귀](../../../reference/concept-glossary-parts/14-hieut.md#regression), 시계열 문제에서 대표적인 baseline을 처음 세우는 법을 다룹니다.
 
 - baseline을 세우기 전에 무엇을 먼저 고정해야 하는가?
 - 문제 유형에 따라 어떤 baseline을 먼저 떠올릴 수 있는가?
