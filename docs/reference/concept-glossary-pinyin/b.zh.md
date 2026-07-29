@@ -9,6 +9,8 @@
 
 --8<-- "reference/concept-glossary-terms/baseline-model.zh.md"
 
+--8<-- "reference/concept-glossary-terms/bootstrap.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/standardization.zh.md"
 
@@ -42,3 +44,13 @@
 
 
 --8<-- "reference/concept-glossary-terms/broadcasting.zh.md"
+
+--8<-- "reference/concept-glossary-terms/standard-deviation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/rate-of-change.zh.md"
+
+--8<-- "reference/concept-glossary-terms/uncertainty.zh.md"
+
+--8<-- "reference/concept-glossary-terms/bayes-rule.zh.md"
+
+--8<-- "reference/concept-glossary-terms/partial-observability.zh.md"

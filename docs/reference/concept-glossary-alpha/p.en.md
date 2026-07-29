@@ -60,3 +60,15 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/prompt-structuring.en.md"
 
 --8<-- "reference/concept-glossary-terms/provenance.en.md"
+
+--8<-- "reference/concept-glossary-terms/proxy-label.en.md"
+
+--8<-- "reference/concept-glossary-terms/protected-expression.en.md"
+
+--8<-- "reference/concept-glossary-terms/probabilistic-choice.en.md"
+
+--8<-- "reference/concept-glossary-terms/point-prediction.en.md"
+
+--8<-- "reference/concept-glossary-terms/probabilistic-prediction.en.md"
+
+--8<-- "reference/concept-glossary-terms/probability-distribution.en.md"

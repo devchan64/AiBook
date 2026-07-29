@@ -5,7 +5,7 @@
 
 _Subtitle: How do comparison reports, review-candidate queues, and target-candidate tables organize the same events differently?_
 
-Even the same event list changes into a [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report), a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue), or a target candidate table depending on the purpose. Some tables foreground comparison sentences and difference values, others foreground review priority, and others foreground the split between input columns and result-candidate columns. Here, a target candidate should be read as a preparatory result column inside a problem structure that separates input columns from result columns, even if it has not yet hardened into a confirmed answer.
+Even the same event list changes into a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), or a target candidate table depending on the purpose. Some tables foreground comparison sentences and difference values, others foreground review priority, and others foreground the split between input columns and result-candidate columns. Here, a target candidate should be read as a preparatory result column inside a problem structure that separates input columns from result columns, even if it has not yet hardened into a confirmed answer.
 
 The key difference is not `what is being calculated` but `how the same event list is reorganized for different questions`.
 

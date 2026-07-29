@@ -30,3 +30,5 @@
 --8<-- "reference/concept-glossary-terms/group-split.zh.md"
 
 --8<-- "reference/concept-glossary-terms/function.zh.md"
+
+--8<-- "reference/concept-glossary-terms/composite-function.zh.md"

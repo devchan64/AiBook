@@ -38,3 +38,20 @@
 
 --8<-- "reference/concept-glossary-terms/gradient-descent.zh.md"
 
+--8<-- "reference/concept-glossary-terms/probabilistic-choice.zh.md"
+
+--8<-- "reference/concept-glossary-terms/probabilistic-model.zh.md"
+
+--8<-- "reference/concept-glossary-terms/permission.zh.md"
+
+--8<-- "reference/concept-glossary-terms/keyword-search.zh.md"
+
+--8<-- "reference/concept-glossary-terms/trajectory.zh.md"
+
+--8<-- "reference/concept-glossary-terms/probabilistic-prediction.zh.md"
+
+--8<-- "reference/concept-glossary-terms/probability-distribution.zh.md"
+
+--8<-- "reference/concept-glossary-terms/probability.zh.md"
+
+--8<-- "reference/concept-glossary-terms/observation.zh.md"

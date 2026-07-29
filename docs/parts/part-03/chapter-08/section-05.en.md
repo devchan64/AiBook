@@ -5,11 +5,11 @@
 
 Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` From the viewpoint of [column-role separation](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column-role-separation), as the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
 
-The priority of a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue) is not determined by taking one difference value as it is. It is decided after first grouping multiple comparison columns into a few judgment axes such as `change magnitude`, `repeatability`, `interpretation confidence`, and `operational importance`.
+The priority of a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) is not determined by taking one difference value as it is. It is decided after first grouping multiple comparison columns into a few judgment axes such as `change magnitude`, `repeatability`, `interpretation confidence`, and `operational importance`.
 
 ## Why You Should Not Jump Straight to One Number
 
-[Comparison tables](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table) often contain columns like these.
+[Comparison tables](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) often contain columns like these.
 
 | Example comparison column | Meaning visible at first glance |
 | --- | --- |

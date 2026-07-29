@@ -60,7 +60,7 @@ A common misunderstanding here is the thought that `if we are going to look at t
 
 | Structure built first in Part 3 | Why this structure is needed first |
 | --- | --- |
-| [Summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table) | It lets us establish the basic comparison unit and [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison first |
+| [Summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) | It lets us establish the basic comparison unit and [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison first |
 | [Segment representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation) | It lets people read order and structure first |
 | Aggregate table | It lets us interpret recent state and usual state operationally |
 

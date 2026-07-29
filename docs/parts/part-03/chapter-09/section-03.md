@@ -5,7 +5,7 @@
 
 _보조제목: 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표는 같은 사건을 어떻게 다르게 조직하는가_
 
-같은 사건 목록도 목적에 따라 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue), 목표 라벨 후보(target candidate) 표로 달라집니다. 어떤 표는 비교 문장과 차이값을 앞세우고, 어떤 표는 검토 우선순위를 앞세우며, 어떤 표는 입력 열과 결과 후보 열 구분을 앞세웁니다. 여기서 목표 라벨 후보는 아직 확정 정답으로 굳지 않았더라도, 입력 열과 결과 열을 가르는 문제 구조 안에서 결과 후보로 세워 보는 열로 읽습니다.
+같은 사건 목록도 목적에 따라 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), 목표 라벨 후보(target candidate) 표로 달라집니다. 어떤 표는 비교 문장과 차이값을 앞세우고, 어떤 표는 검토 우선순위를 앞세우며, 어떤 표는 입력 열과 결과 후보 열 구분을 앞세웁니다. 여기서 목표 라벨 후보는 아직 확정 정답으로 굳지 않았더라도, 입력 열과 결과 열을 가르는 문제 구조 안에서 결과 후보로 세워 보는 열로 읽습니다.
 
 핵심은 `무엇을 계산하느냐`보다 `같은 사건 목록을 어떤 질문에 맞춰 다시 조직하느냐`가 다르다는 점입니다.
 

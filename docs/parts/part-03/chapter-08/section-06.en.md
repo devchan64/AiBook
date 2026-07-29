@@ -34,7 +34,7 @@ At the interpretation stage, notes like the following are enough.
 | The meaning of a missing label | To avoid mixing normal with unchecked |
 | Range bias in the set with labels | To avoid overstating interpretation strength |
 
-The important point here is that `a selectively attached confirmed label can serve as interpretation evidence, but before reading it as a full answer set that represents all events, you should first write the review path and possible bias`. A confirmed-label table should therefore first be read not as `the answer table for all events`, but as a confirmation result for some events that passed through a review path such as a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue).
+The important point here is that `a selectively attached confirmed label can serve as interpretation evidence, but before reading it as a full answer set that represents all events, you should first write the review path and possible bias`. A confirmed-label table should therefore first be read not as `the answer table for all events`, but as a confirmation result for some events that passed through a review path such as a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure).
 
 The next example reduces this problem into a small model evaluation. In real operations, the final result of unreviewed events may be unknown. So `actual_failure_for_demo` in the code is a hidden outcome used only for learning. The goal is not to use this value as an answer table, but to check what kind of illusion can appear when a model is evaluated only with labels left on reviewed cases.
 

@@ -31,3 +31,13 @@
 
 
 --8<-- "reference/concept-glossary-terms/attention.zh.md"
+
+--8<-- "reference/concept-glossary-terms/guardrail.zh.md"
+
+--8<-- "reference/concept-glossary-terms/security.zh.md"
+
+--8<-- "reference/concept-glossary-terms/ai-risk.zh.md"
+
+--8<-- "reference/concept-glossary-terms/safety.zh.md"
+
+--8<-- "reference/concept-glossary-terms/ai-ethics.zh.md"

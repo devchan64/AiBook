@@ -97,3 +97,9 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 
 --8<-- "reference/concept-glossary-terms/symbolic-ai.en.md"
+
+--8<-- "reference/concept-glossary-terms/sequence-modeling.en.md"
+
+--8<-- "reference/concept-glossary-terms/statistical-inference.en.md"
+
+--8<-- "reference/concept-glossary-terms/statistical-sample.en.md"

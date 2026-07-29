@@ -26,7 +26,7 @@
 
 从这张表能看出，比较结构通常直接支持到的层级，大多是`变化信号`、`告警候选`、`需要复核`。而`原因确认`则需要更多证据。可能要重新检查原始日志、补充运营上下文、追加传感器、结合后续结果，甚至还要引入人的判断。
 
-因此，说[比较表](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-table)是强有力的工具，不等于说它单独就能说明一切。它擅长快速揭示`哪里看起来和平时不同`，但并不是一个可以独立判定`为什么不同`的工具。只有把这条边界守住，才不会把告警和诊断、[复核候选队列](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)和自动分类混在一起。
+因此，说[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)是强有力的工具，不等于说它单独就能说明一切。它擅长快速揭示`哪里看起来和平时不同`，但并不是一个可以独立判定`为什么不同`的工具。只有把这条边界守住，才不会把告警和诊断、[复核候选队列](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)和自动分类混在一起。
 
 统计上的保守性，正是在这里需要出现。如果样本量小，或者重复性弱，那么即便差异已经可见，表达强度也应该降低。因此，在这里最基本的姿态就是`变化被观测到了，但原因尚未确认`。
 

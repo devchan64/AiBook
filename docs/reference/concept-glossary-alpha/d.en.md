@@ -48,4 +48,12 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/distribution.en.md"
 
+--8<-- "reference/concept-glossary-terms/data-distribution.en.md"
 
+--8<-- "reference/concept-glossary-terms/determinism.en.md"
+
+--8<-- "reference/concept-glossary-terms/dense-vector.en.md"
+
+--8<-- "reference/concept-glossary-terms/deep-reinforcement-learning.en.md"
+
+--8<-- "reference/concept-glossary-terms/delayed-reward.en.md"

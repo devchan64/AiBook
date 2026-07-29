@@ -40,3 +40,11 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/attention.en.md"
 
 --8<-- "reference/concept-glossary-terms/automatic-differentiation.en.md"
+
+--8<-- "reference/concept-glossary-terms/ai-risk.en.md"
+
+--8<-- "reference/concept-glossary-terms/attribution.en.md"
+
+--8<-- "reference/concept-glossary-terms/ai-ethics.en.md"
+
+--8<-- "reference/concept-glossary-terms/autoregressive-model.en.md"

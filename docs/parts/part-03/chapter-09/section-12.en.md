@@ -20,7 +20,7 @@ Even under the same [target](/AiBook/en/reference/concept-glossary-alpha/t/#glos
 
 ## Why Error Cost Changes the Interpretation of the Target
 
-Even with the same `review_needed` target, not every prediction score is read in the same way. In some problems, false negatives hurt more, so it is better to miss fewer risky cases even if that means sending somewhat more items into the [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue). In other problems, false positives hurt more, so it is better to keep the review queue narrower. What changes here is not just a single [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-threshold) number, but `the judgment structure through which this target is interpreted`.
+Even with the same `review_needed` target, not every prediction score is read in the same way. In some problems, false negatives hurt more, so it is better to miss fewer risky cases even if that means sending somewhat more items into the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure). In other problems, false positives hurt more, so it is better to keep the review queue narrower. What changes here is not just a single [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-threshold) number, but `the judgment structure through which this target is interpreted`.
 
 Suppose the model scores look like this.
 

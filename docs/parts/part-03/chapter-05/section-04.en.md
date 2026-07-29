@@ -32,7 +32,7 @@ When deciding the input window, at least the following four things should be clo
 | Length criterion | By what common rule will samples with different lengths be aligned? |
 | Alignment criterion | Will they be aligned by time itself, or by progress? |
 
-These four things are not needed only for sequence models. The same judgment is already hidden even when we build a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table). Dividing into early, middle, and late ranges also means that we already decided the input window and the alignment criterion first.
+These four things are not needed only for sequence models. The same judgment is already hidden even when we build a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling). Dividing into early, middle, and late ranges also means that we already decided the input window and the alignment criterion first.
 
 ## Several Possible Window Designs from the Same Source Data
 

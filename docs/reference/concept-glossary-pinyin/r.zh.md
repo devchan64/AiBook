@@ -13,3 +13,7 @@
 
 | 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
 | --- | --- | --- | --- | --- |
+
+--8<-- "reference/concept-glossary-terms/task-definition.zh.md"
+
+--8<-- "reference/concept-glossary-terms/rlhf-reinforcement-learning-from-human-feedback.zh.md"

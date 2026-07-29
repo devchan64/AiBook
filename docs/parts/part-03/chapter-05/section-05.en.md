@@ -3,7 +3,7 @@
 > Section ID: `P3-5.5`
 > Version: `v2026.07.25`
 
-By the time we reach the stage of turning source logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table), questions such as `what if the action existed but some sensor values are empty?` and `if the middle segment is missing, should we discard this sample or use part of it?` appear immediately. At that point, what we should look at first is not how to fill the values, but how much the [missing values](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-missing-value) disturb the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) boundary and the meaning of the [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature).
+By the time we reach the stage of turning source logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), questions such as `what if the action existed but some sensor values are empty?` and `if the middle segment is missing, should we discard this sample or use part of it?` appear immediately. At that point, what we should look at first is not how to fill the values, but how much the [missing values](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-missing-value) disturb the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) boundary and the meaning of the [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature).
 
 The fact that values are missing is not just a cleaning problem. It is a data-modeling signal that asks again `can this sample still be treated as the same kind of case?`
 

@@ -14,3 +14,7 @@
 --8<-- "reference/concept-glossary-terms/missing-value.zh.md"
 
 --8<-- "reference/concept-glossary-terms/weight.zh.md"
+
+--8<-- "reference/concept-glossary-terms/determinism.zh.md"
+
+--8<-- "reference/concept-glossary-terms/rightsholder.zh.md"

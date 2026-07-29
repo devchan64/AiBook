@@ -20,7 +20,7 @@ _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一
 
 ## 为什么错误成本会改变 target 的解释方式
 
-即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，漏判（false negative）更痛，所以即使要让更多项目进入[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)，也宁可少漏掉风险案例；而在另一些问题里，过检（false positive）更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 [阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold) 数字，而是`应该用什么判断结构去解释这个 target`。
+即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，漏判（false negative）更痛，所以即使要让更多项目进入[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)，也宁可少漏掉风险案例；而在另一些问题里，过检（false positive）更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 [阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold) 数字，而是`应该用什么判断结构去解释这个 target`。
 
 例如，假设模型分数如下。
 

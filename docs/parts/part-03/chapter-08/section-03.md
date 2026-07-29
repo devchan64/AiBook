@@ -3,7 +3,7 @@
 > Section ID: `P3-8.3`
 > Version: `v2026.07.25`
 
-보수적 해석 문장은 `무엇이 달라졌는가`, `얼마나 강하게 말할 수 있는가`, `사람이 다음에 무엇을 해야 하는가`를 한 문장 안에서 분리해 적어야 합니다. [비교표(comparison table)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-table)를 읽고 난 뒤 어떤 순서와 어휘로 문장을 남겨야 과장도 피하고, 너무 약해서 아무 정보도 남기지 않는 상태도 피할 수 있는지가 여기서의 핵심입니다. 경계를 새로 정하는 것보다, 이미 확인한 [비교 결과(comparison result)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-result)와 [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-evidence-strength)를 어떤 순서로 문장 안에 배치할지가 더 중요합니다.
+보수적 해석 문장은 `무엇이 달라졌는가`, `얼마나 강하게 말할 수 있는가`, `사람이 다음에 무엇을 해야 하는가`를 한 문장 안에서 분리해 적어야 합니다. [비교표(comparison table)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)를 읽고 난 뒤 어떤 순서와 어휘로 문장을 남겨야 과장도 피하고, 너무 약해서 아무 정보도 남기지 않는 상태도 피할 수 있는지가 여기서의 핵심입니다. 경계를 새로 정하는 것보다, 이미 확인한 [비교 결과(comparison result)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-result)와 [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-evidence-strength)를 어떤 순서로 문장 안에 배치할지가 더 중요합니다.
 
 가장 안전한 기본 순서는 다음과 같습니다.
 

@@ -5,6 +5,8 @@
 
 --8<-- "reference/concept-glossary-terms/sampling.zh.md"
 
+--8<-- "reference/concept-glossary-terms/random-forest.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/search.zh.md"
 
@@ -40,3 +42,20 @@
 
 --8<-- "reference/concept-glossary-terms/sim-to-real-gap.zh.md"
 
+--8<-- "reference/concept-glossary-terms/logarithm.zh.md"
+
+--8<-- "reference/concept-glossary-terms/sparsity.zh.md"
+
+--8<-- "reference/concept-glossary-terms/search-index.zh.md"
+
+--8<-- "reference/concept-glossary-terms/search-space.zh.md"
+
+--8<-- "reference/concept-glossary-terms/market-substitution.zh.md"
+
+--8<-- "reference/concept-glossary-terms/data-distribution.zh.md"
+
+--8<-- "reference/concept-glossary-terms/protected-expression.zh.md"
+
+--8<-- "reference/concept-glossary-terms/loss.zh.md"
+
+--8<-- "reference/concept-glossary-terms/stochastic-process.zh.md"

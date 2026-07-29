@@ -47,3 +47,15 @@
 
 
 --8<-- "reference/concept-glossary-terms/contrastive-learning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/proxy-label.zh.md"
+
+--8<-- "reference/concept-glossary-terms/point-prediction.zh.md"
+
+--8<-- "reference/concept-glossary-terms/deep-reinforcement-learning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/labeled-example.zh.md"
+
+--8<-- "reference/concept-glossary-terms/one-hot-representation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/end-to-end-learning.zh.md"

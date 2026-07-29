@@ -35,7 +35,7 @@ rolling origin 本来属于预测评估语境，所以这里不会把它直接�
 - 样本数标准在任何领域都应该用同一个数字
 - 固定基准线永远比最近平时基准线更可靠
 
-如果基准线的维护方式选得不好，那么 [比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report) 和当前比较句子的意义就会一起晃动。即使是同一种变化，只要“拿什么去比”这件事本身变了，那么像 `需要复核`、`注意`、`正常/异常候选` 这样的当前判断权重也会跟着改变。如果把这一节重新读成 [参考维护策略(reference maintenance strategy)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-reference-maintenance-strategy) 的问题，而不是“固定基准线”和“最近平时基准线”之间的偏好之争，那么会更清楚：基准线维护不是一场“唯一正确答案”的竞争，而是在为比较问题选择最合适的参考维护方式。
+如果基准线的维护方式选得不好，那么 [比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 和当前比较句子的意义就会一起晃动。即使是同一种变化，只要“拿什么去比”这件事本身变了，那么像 `需要复核`、`注意`、`正常/异常候选` 这样的当前判断权重也会跟着改变。如果把这一节重新读成 [参考维护策略(reference maintenance strategy)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-reference-maintenance-strategy) 的问题，而不是“固定基准线”和“最近平时基准线”之间的偏好之争，那么会更清楚：基准线维护不是一场“唯一正确答案”的竞争，而是在为比较问题选择最合适的参考维护方式。
 
 ## 用一个小图来看
 

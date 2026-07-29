@@ -40,3 +40,9 @@
 
 
 --8<-- "reference/concept-glossary-terms/multilayer-neural-network.zh.md"
+
+--8<-- "reference/concept-glossary-terms/sensitive-information.zh.md"
+
+--8<-- "reference/concept-glossary-terms/objective-function.zh.md"
+
+--8<-- "reference/concept-glossary-terms/object-detection.zh.md"

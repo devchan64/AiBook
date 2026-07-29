@@ -60,7 +60,7 @@
 
 | Part 3에서 먼저 만드는 구조 | 이 구조가 먼저 필요한 이유 |
 | --- | --- |
-| [요약 표(summary table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-summary-table) | 기본 비교 단위와 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교를 먼저 세울 수 있다 |
+| [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling) | 기본 비교 단위와 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교를 먼저 세울 수 있다 |
 | [세그먼트 표현](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation) | 순서와 구조를 사람이 먼저 읽을 수 있다 |
 | 집계 표 | 최근 상태와 평소 상태를 운영적으로 해석할 수 있다 |
 

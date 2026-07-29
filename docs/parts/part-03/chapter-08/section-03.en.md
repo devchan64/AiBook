@@ -3,7 +3,7 @@
 > Section ID: `P3-8.3`
 > Version: `v2026.07.25`
 
-A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a [comparison table](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table) so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed [comparison results](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-result) and [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) in the sentence.
+A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed [comparison results](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-result) and [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) in the sentence.
 
 The safest default order is as follows.
 

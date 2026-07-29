@@ -27,7 +27,7 @@ Part 4 不是先把算法名字排出来，而是先立住阅读机器学习说�
 
 - 什么样的问题会分成 [supervised learning](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)、[unsupervised learning](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning)？
 - [model input](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)、[model output](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)、[reward](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward) 各自是什么意思，又是在什么位置分开的？
-- 为什么 [training](/AiBook/zh/reference/concept-glossary-pinyin/x/#training)、[validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation)、[test](/AiBook/zh/reference/concept-glossary-pinyin/c/#test) 要分开，[generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 又是怎么确认的？
+- 为什么 [training](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)、[validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation)、[test](/AiBook/zh/reference/concept-glossary-pinyin/c/#test) 要分开，[generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 又是怎么确认的？
 - [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会揭示什么错误，又可能遮住什么错误？
 - 为什么 [feature selection](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature-selection)、[preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing)、[基准模型](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)、tuning 要比模型名字更先检查？
 - 代表性的传统模型能带来什么问题感，它们的强项到哪里、局限又从哪里开始？

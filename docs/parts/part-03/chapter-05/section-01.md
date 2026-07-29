@@ -3,7 +3,7 @@
 > Section ID: `P3-5.1`
 > Version: `v2026.07.25`
 
-원시 로그를 처음 보면 데이터가 매우 풍부해 보입니다. 시간 순서대로 값이 많이 쌓여 있고, 센서도 여럿이고, 제어 파라미터도 함께 보일 수 있기 때문입니다. 하지만 이런 풍부함이 곧바로 비교 가능한 데이터셋을 뜻하지는 않습니다. [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위를 정한 뒤에는 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-summary-table)와 집계 표로 바꾸는 절차가 필요합니다. 원시 로그와 요약 표, 집계 표는 서로 다른 역할을 맡고 있으며, [한 행(row)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-row)이 뜻하는 대상도 다릅니다.
+원시 로그를 처음 보면 데이터가 매우 풍부해 보입니다. 시간 순서대로 값이 많이 쌓여 있고, 센서도 여럿이고, 제어 파라미터도 함께 보일 수 있기 때문입니다. 하지만 이런 풍부함이 곧바로 비교 가능한 데이터셋을 뜻하지는 않습니다. [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위를 정한 뒤에는 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)와 집계 표로 바꾸는 절차가 필요합니다. 원시 로그와 요약 표, 집계 표는 서로 다른 역할을 맡고 있으며, [한 행(row)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-row)이 뜻하는 대상도 다릅니다.
 
 `원시 로그 -> 요약 표 -> 집계 표`는 같은 시계열을 서로 다른 질문에 맞는 표로 다시 표현하는 순서입니다. 이 순서가 보여야 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교와 [중간 표현(intermediate representation)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation) 설계도 어느 층위에서 붙는지 분명해집니다.
 

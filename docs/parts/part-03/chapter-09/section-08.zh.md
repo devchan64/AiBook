@@ -3,7 +3,7 @@
 > Section ID: `P3-9.8`
 > Version: `v2026.07.25`
 
-即使已经定义了输入和结果，预测问题也仍然只关了一半。即便同样是在预测 `review_needed`，它也可能表示把单次运行放进[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)，也可能表示调整整个最近区间的告警强度。此外，模型输出的[分数(score)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-score)，和把这个分数转成真实行动的[策略规则(policy rule)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-policy-rule)，也不是同一回事。
+即使已经定义了输入和结果，预测问题也仍然只关了一半。即便同样是在预测 `review_needed`，它也可能表示把单次运行放进[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)，也可能表示调整整个最近区间的告警强度。此外，模型输出的[分数(score)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-score)，和把这个分数转成真实行动的[策略规则(policy rule)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-policy-rule)，也不是同一回事。
 
 一个预测值必须连同它对应的行动单位一起写出来，而模型分数和运营策略也必须分开来看。
 

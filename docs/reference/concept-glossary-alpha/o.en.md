@@ -10,6 +10,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/objective-function.en.md"
 
+--8<-- "reference/concept-glossary-terms/oob-score.en.md"
+
 
 
 --8<-- "reference/concept-glossary-terms/observation.en.md"
@@ -18,6 +20,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 <a id="optimization"></a>
 
 --8<-- "reference/concept-glossary-terms/optimization.en.md"
+
+--8<-- "reference/concept-glossary-terms/optimizer.en.md"
 
 
 
@@ -31,3 +35,5 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/output-structure.en.md"
 
 --8<-- "reference/concept-glossary-terms/overfitting.en.md"
+
+--8<-- "reference/concept-glossary-terms/one-hot-representation.en.md"

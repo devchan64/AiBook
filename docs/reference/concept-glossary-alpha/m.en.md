@@ -43,3 +43,11 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/model-validation.en.md"
 
 --8<-- "reference/concept-glossary-terms/multilayer-neural-network.en.md"
+
+--8<-- "reference/concept-glossary-terms/modeling-task.en.md"
+
+--8<-- "reference/concept-glossary-terms/market-substitution.en.md"
+
+--8<-- "reference/concept-glossary-terms/manifold.en.md"
+
+--8<-- "reference/concept-glossary-terms/motion-planning.en.md"

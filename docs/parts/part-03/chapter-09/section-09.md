@@ -20,13 +20,13 @@
 
 ## 왜 이 구분이 문제 유형 자체를 바꾸는가
 
-actual target과 proxy target의 차이는 이름 차이로 끝나지 않습니다. 무엇을 실제로 맞히고 있는지가 달라지면, 지금 이 문제를 [비교 리포트(comparison report)](/AiBook/reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report)로 둘지, [검토 후보(review candidate)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-review-candidate)를 고르는 문제로 둘지, [예측(prediction)](/AiBook/reference/concept-glossary-parts/08-ieung.md#prediction) 문제로 올릴지도 함께 달라지기 때문입니다.
+actual target과 proxy target의 차이는 이름 차이로 끝나지 않습니다. 무엇을 실제로 맞히고 있는지가 달라지면, 지금 이 문제를 [비교 리포트(comparison report)](/AiBook/reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)로 둘지, [검토 후보(review candidate)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-review-candidate)를 고르는 문제로 둘지, [예측(prediction)](/AiBook/reference/concept-glossary-parts/08-ieung.md#prediction) 문제로 올릴지도 함께 달라지기 때문입니다.
 
 | 지금 실제로 볼 수 있는 것 | 더 자연스러운 문제 유형 | 이유 |
 | --- | --- | --- |
 | 실제 목표가 바로 보인다 | 실제 목표 예측 | 입력과 결과를 같은 질문으로 직접 묶을 수 있기 때문 |
 | 실제 목표는 늦게 보이고 대리 열만 먼저 보인다 | 대리 target 예측 또는 검토 후보 문제 | 지금 맞히는 값과 정말 알고 싶은 값이 다르기 때문 |
-| 실제 목표도 약하고 대리 열도 불안정하다 | 비교 리포트 또는 [검토 후보 큐(review queue)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue) | 아직 어떤 값을 결과 열로 둘지 자체가 덜 닫혀 있기 때문 |
+| 실제 목표도 약하고 대리 열도 불안정하다 | 비교 리포트 또는 [검토 후보 큐(review queue)](/AiBook/reference/concept-glossary-parts/05-mieum.md#glossary-output-structure) | 아직 어떤 값을 결과 열로 둘지 자체가 덜 닫혀 있기 때문 |
 
 즉 proxy target을 쓰는 순간, `문제를 풀 수 있다`와 `원래 목표를 직접 풀고 있다`는 말을 구분해야 합니다. 같은 예측 문제처럼 보여도 실제로는 `실제 목표 예측`이 아니라 `대리 판단 예측`일 수 있고, 이 차이를 적지 않으면 뒤에서 점수를 읽을 때도 무엇을 잘 맞힌 것인지 혼동하게 됩니다.
 

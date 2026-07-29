@@ -9,7 +9,7 @@
 
 深度学习学习循环的核心四个阶段是 `forward -> loss -> backward -> optimizer step`。先把这四个阶段当成一次共同重复去抓住，会更安全。
 
-如果在学习循环里又开始把损失、反向传播、更新和模式切换混在一起，更适合回到概念词汇表里的[训练（training）](/AiBook/zh/reference/concept-glossary-pinyin/x/#training)、[反向传播（backpropagation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#backpropagation)、[优化器（optimizer）](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimizer)条目，先重新拆开各自的计算角色。
+如果在学习循环里又开始把损失、反向传播、更新和模式切换混在一起，更适合回到概念词汇表里的[训练（training）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)、[反向传播（backpropagation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#backpropagation)、[优化器（optimizer）](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimizer)条目，先重新拆开各自的计算角色。
 
 ## 学习循环转一圈的问题
 

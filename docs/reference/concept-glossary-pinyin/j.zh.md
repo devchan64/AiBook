@@ -44,3 +44,7 @@
 --8<-- "reference/concept-glossary-terms/interpretation-boundary.zh.md"
 
 --8<-- "reference/concept-glossary-terms/retrieval-augmented-generation-rag.zh.md"
+
+--8<-- "reference/concept-glossary-terms/modeling-task.zh.md"
+
+--8<-- "reference/concept-glossary-terms/hypothesis-testing.zh.md"

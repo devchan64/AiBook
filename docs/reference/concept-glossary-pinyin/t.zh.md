@@ -17,3 +17,17 @@
 
 
 --8<-- "reference/concept-glossary-terms/transformer.zh.md"
+
+--8<-- "reference/concept-glossary-terms/transparency.zh.md"
+
+--8<-- "reference/concept-glossary-terms/prompt-structuring.zh.md"
+
+--8<-- "reference/concept-glossary-terms/prompt-engineering.zh.md"
+
+--8<-- "reference/concept-glossary-terms/statistical-language-model.zh.md"
+
+--8<-- "reference/concept-glossary-terms/statistical-inference.zh.md"
+
+--8<-- "reference/concept-glossary-terms/statistical-sample.zh.md"
+
+--8<-- "reference/concept-glossary-terms/prompt-injection.zh.md"
