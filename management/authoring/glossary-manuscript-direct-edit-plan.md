@@ -160,7 +160,7 @@ Part 1~7 원고에서 반복되더라도 현재 기준으로는 새 표제를 �
 | Part 5 세부 함수·상태 링크 | `#relu`, `#tanh`, `#dropout`, `#training-mode`, `#evaluation-mode`, `#batch`, `#batch-normalization`, `#initialization` | `activation-function`, `regularization`, `model-training`, `model-validation`, `numerical-stability`, `tensor` 기준으로 흡수 완료 | 개별 세부 표제가 계속 필요해 보이면 신규 표제 검토 큐에서 독립성 재판정 |
 | Part 5 딥러닝 하위 구성요소 링크 | `#perceptron`, `#gpugraphics-processing-unit`, `#parallel-processing`, `#linear-combination`, `#squared-error`, `#query-key-value-qkv`, `#multi-head-attention`, `#lstm-long-short-term-memory`, `#gru-gated-recurrent-unit`, `#layer-normalization`, `#residual-connection`, `#feed-forward-network`, `#output-layer`, `#vit-vision-transformer`, `#pooling`, `#learning-rate`, `#hidden-layer` | `multilayer-neural-network`, `weighted-sum`, `evaluation-design`, `loss-function`, `self-attention`, `recurrent-neural-network`, `transformer`, `model-output`, `cnn-convolutional-neural-network`, `hyperparameter` 기준으로 흡수하거나 본문 설명으로 전환 완료 | 세부 구성요소 표제는 현재 본문 설명을 우선하고, 반복 기준점이 필요해질 때 신규 표제 검토 큐에서 재판정 |
 | Part 7 프로젝트 일반어 링크 | `#token-coverage`, `#static-deployment`, `#retrospective`, `#review`, `#evaluation`, `#deployment` | `tokenization`, `evaluation-design`으로 좁히거나 본문 설명으로 전환 완료 | 회고·검토·배포는 일반 작업 단계로 보고 단독 표제 제외 원칙 유지 |
-| E | 본문 개념사전 링크 앵커 경고 후보 | 진행 중 | 남은 앵커 경고는 빈도순으로 1차 판정 후 흡수·추가·보류 결정 |
+| E | 본문 개념사전 링크 앵커 경고 후보 | 완료 | 새 앵커 경고가 생기면 빈도순으로 1차 판정 후 흡수·추가·보류 결정 |
 
 대표 처리 내역:
 
@@ -286,16 +286,16 @@ Part 1~7 원고에서 반복되더라도 현재 기준으로는 새 표제를 �
 6. 영어 기준 용어와 slug가 같은 범위를 안정적으로 가리키는지 확인한다.
 7. 등재 조건을 모두 통과한 후보만 개념사전 단어별 원고 생성 대상으로 넘긴다.
 
-## 남은 작업
+## 완료 감사
 
-1. 다음 저빈도 다국어 앵커 후보를 이 문서의 우선순위대로 계속 처리한다.
-2. 기존 표제가 있는 항목은 먼저 언어별 색인 경로 오류인지 확인한다.
-3. 파일이 없는 후보는 `표준 개념`, `문맥 한정 개념`, `하위 설명`, `작업·형식 이름`, `구현·도구·사례`, `임시 표현` 중 하나로 1차 판정한다.
-4. 작업·형식 이름과 하위 설명은 새 표제를 만들지 않고 기존 상위 표제로 흡수한다.
-5. 표준 개념은 기존 단어별 원고가 있는지 먼저 확인하고, 없을 때만 한·영·중 항목과 공개 색인 include 추가를 검토한다.
-6. D그룹은 검색 기준 정리 뒤에도 제목과 본문이 각 언어 독자에게 자연스러운지 별도 읽기 검토로 확인한다.
-7. 변경 뒤에는 `management/concept-glossary-integrated-index.md`를 다시 맞추고, 배포 전 빌드에서 새 앵커 문제가 생겼는지 확인한다.
-8. 2026-07-29 정적 링크 후보 추출 기준으로 `docs/parts/`의 개념사전 링크 앵커 불일치는 0건까지 정리했다. 배포 지시 전에는 빌드를 실행하지 않는다.
+1. 우선순위 표의 후보는 `흡수`, `기존 표제 연결`, `신규 표제 보류`, `신규 표제 생성` 중 하나로 처리 결과를 남겼다.
+2. 기존 표제가 있는 항목은 언어별 색인 경로 오류를 먼저 확인하고, 같은 언어의 실제 include 위치로 보정했다.
+3. 파일이 없는 후보는 `표준 개념`, `문맥 한정 개념`, `하위 설명`, `작업·형식 이름`, `구현·도구·사례`, `임시 표현` 중 하나로 1차 판정했다.
+4. 작업·형식 이름과 하위 설명은 새 표제를 만들지 않고 기존 상위 표제로 흡수했다.
+5. 표준 개념으로 독립성이 확인된 `support-vector-machine`, `k-means`, `dbscan`은 한·영·중 항목과 공개 색인 include를 맞췄다.
+6. `topology`는 표준 수학 용어 표제를 유지하되, 위치나 거리의 동의어가 아니라 공간의 연결성·연속성 같은 구조를 가리키는 제한된 맥락으로 정리했다.
+7. 2026-07-29 정적 링크 후보 추출 기준으로 `docs/parts/`의 개념사전 링크 앵커 불일치는 0건까지 정리했다.
+8. 배포 지시 전에는 빌드를 실행하지 않는다. 배포 준비 또는 배포 지시가 있을 때만 `.venv/bin/python -m mkdocs build`로 최종 확인한다.
 
 ## 운영 원칙
 
