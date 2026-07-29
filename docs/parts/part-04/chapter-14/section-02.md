@@ -1,19 +1,19 @@
 # P4-14.2 트리의 과적합
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-14.1에서는 결정트리(decision tree)를 `질문을 나누어 예측하는 모델`로 보았습니다. 그 절의 장점은 분명했습니다.
+P4-14.1에서는 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)를 `질문을 나누어 예측하는 모델`로 보았습니다. 그 절의 장점은 분명했습니다.
 
 - 질문 흐름으로 읽기 쉽다.
 - 조건문처럼 설명하기 쉽다.
 - 표 형식 데이터(tabular data)에서 직관적으로 느껴진다.
 
-하지만 같은 성질이 바로 위험으로도 이어집니다. 질문을 계속 더 만들 수 있다면, 트리는 훈련 데이터를 거의 외워 버릴 수도 있습니다. 이 지점이 바로 트리의 과적합(overfitting) 문제입니다.
+하지만 같은 성질이 바로 위험으로도 이어집니다. 질문을 계속 더 만들 수 있다면, 트리는 훈련 데이터를 거의 외워 버릴 수도 있습니다. 이 지점이 바로 트리의 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting) 문제입니다.
 
 P4-14.1이 `좋은 첫 질문과 다음 질문을 어떻게 읽을 것인가`를 다루는 절이었다면, 이 절은 그 질문 흐름이 어디서부터 패턴 설명이 아니라 예외 암기로 바뀌는지를 읽는 절입니다. 그래서 여기서는 트리를 더 깊게 만드는 일이 언제 도움이 되고 언제 구조를 흔드는지까지 같이 봐야 합니다.
 
-이 절은 결정트리의 기본 정의를 다시 길게 반복하지 않습니다. `질문을 나누어 예측한다`는 핵심 직관은 P4-14.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 과적합 자체의 일반 손잡이는 P4-5.1을 함께 다시 떠올려야 합니다.
+이 절은 결정트리의 기본 정의를 다시 길게 반복하지 않습니다. `질문을 나누어 예측한다`는 핵심 직관은 P4-14.1과 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree) 항목을 기준으로 다시 연결하고, 과적합 자체의 일반 손잡이는 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting) 항목과 P4-5.1을 함께 다시 떠올려야 합니다.
 
 ## 트리의 과적합에서 닫을 질문
 
@@ -21,7 +21,7 @@ P4-14.1이 `좋은 첫 질문과 다음 질문을 어떻게 읽을 것인가`를
 
 - 결정트리는 왜 다른 모델보다 과적합이 쉽게 눈에 띄는가?
 - 트리가 깊어질수록 무슨 일이 생기는가?
-- `max_depth`, `min_samples_leaf`, `ccp_alpha`는 어떤 역할을 하는가?
+- [최대 깊이(max_depth)](../../../reference/concept-glossary-parts/11-chieut.md#max-depth), [최소 leaf 크기(min_samples_leaf)](../../../reference/concept-glossary-parts/11-chieut.md#min-samples-leaf), [ccp_alpha](../../../reference/concept-glossary-parts/10-kieuk.md#ccp-alpha)는 어떤 역할을 하는가?
 - train 성능과 test 성능이 왜 다르게 움직일 수 있는가?
 
 이 내용은 P4-15, P4-16, 그리고 P4-9의 튜닝 문맥과 다시 연결합니다. 즉, 이번 절은 트리의 질문 흐름이 어디서부터 패턴 설명이 아니라 예외 암기로 바뀌는지를 먼저 붙잡는 자리입니다.
@@ -29,7 +29,7 @@ P4-14.1이 `좋은 첫 질문과 다음 질문을 어떻게 읽을 것인가`를
 ## 트리의 과적합에서 남길 판단 기준
 
 - 트리의 과적합을 `너무 세밀한 질문이 훈련 데이터를 외우는 현상`으로 설명할 수 있습니다.
-- 깊이(depth), leaf 크기, pruning이 트리 복잡도를 제어하는 장치라는 점을 말할 수 있습니다.
+- 깊이(depth), leaf 크기, [가지치기(pruning)](../../../reference/concept-glossary-parts/01-giyeok.md#pruning)가 트리 복잡도를 제어하는 장치라는 점을 말할 수 있습니다.
 - train 성능 상승이 test 성능 상승을 보장하지 않는다는 점을 다시 확인할 수 있습니다.
 - 결정트리의 장점과 과적합 위험을 함께 읽는 기준을 갖게 됩니다.
 
@@ -433,6 +433,12 @@ scikit-learn은 `Minimal Cost-Complexity Pruning`을 지원하며, API 문서에
 | test accuracy | 새 데이터 일반화 정도를 보기 위해서입니다. |
 | `train - test` 차이 | 외우기와 일반화 차이가 얼마나 벌어지는지 보기 위해서입니다. |
 
+조작해 볼 값:
+
+- `max_depth`: 1, 2, 3, 5, `None` 순서를 바꾸거나 중간값 4를 추가해 봅니다.
+- `random_state`: train/test 분리와 트리 선택이 바뀔 때 gap이 얼마나 흔들리는지 봅니다.
+- `test_size`: test 비율을 바꾸면 점수 해석이 얼마나 민감해지는지 봅니다.
+
 ```python
 # max_depth를 바꾸며 트리 깊이와 train-test gap이 과적합 신호로 어떻게 보이는지 확인하는 예제입니다.
 from sklearn.datasets import load_iris
@@ -536,6 +542,12 @@ max_depth=None
   - 깊이가 같아 보여도 leaf가 더 커지면 train/test 해석이 달라질 수 있습니다.
   - 과적합 점검은 `깊이 하나`가 아니라 `깊이 + leaf 크기 + gap`을 함께 읽는 편이 안전합니다.
 
+조작해 볼 값:
+
+- `min_samples_leaf`: 1, 2, 5, 10처럼 leaf가 작을 때와 커질 때를 비교합니다.
+- `max_depth`: 3과 5를 번갈아 넣어 depth 제한과 leaf 제한이 함께 작동하는지 봅니다.
+- 출력 항목: `get_depth()`, `get_n_leaves()`, `train-test gap` 중 무엇이 먼저 변하는지 기록합니다.
+
 ```python
 # 같은 깊이 제한에서 min_samples_leaf까지 함께 바꾸어 leaf 크기와 gap을 같이 읽는 예제입니다.
 for leaf_size in [1, 2, 5]:
@@ -601,6 +613,12 @@ min_samples_leaf=5
   - `ccp_alpha`가 커질수록 작은 가지를 더 적극적으로 줄이기 쉽다.
   - train 점수는 조금 내려가도 test 쪽이 더 안정될 수 있다.
   - pruning은 `트리를 망가뜨리는 것`이 아니라 `남길 큰 구조를 다시 고르는 것`에 가깝다.
+
+조작해 볼 값:
+
+- `ccp_alpha`: 0.0, 0.005, 0.02 사이에 0.01을 넣어 변화가 어느 지점에서 커지는지 봅니다.
+- `max_depth`: 제한을 두지 않은 상태와 제한을 둔 상태에서 pruning 효과가 어떻게 달라지는지 비교합니다.
+- `min_samples_leaf`: pruning과 leaf 크기 제한을 동시에 쓰면 어떤 설정이 과하게 단순해지는지 봅니다.
 
 ```python
 # ccp_alpha를 바꾸며 pruning이 깊이, leaf 수, train/test gap을 어떻게 바꾸는지 확인하는 예제입니다.
@@ -694,6 +712,6 @@ ccp_alpha=0.02
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984. 확인 날짜: 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984. 확인 날짜: 2026-07-26. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

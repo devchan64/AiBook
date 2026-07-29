@@ -1,7 +1,7 @@
 # P4-17.2 군집 결과를 해석할 때의 주의점
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning) 문제로 보았습니다. 이제 더 중요한 단계는 해석입니다.
 
@@ -11,13 +11,13 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 
 클러스터링의 위험은 보통 알고리즘 계산 자체보다 `사람이 결과를 과하게 해석하는 일`에서 더 자주 생깁니다.
 
-이 절은 클러스터링의 기본 정의를 다시 길게 반복하지 않습니다. `라벨 없는 구조 탐색`이라는 핵심 직관은 P4-17.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 그 결과를 어떻게 과신하지 않고 읽을지에만 집중합니다.
+이 절은 [클러스터링(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)의 기본 정의를 다시 길게 반복하지 않습니다. `라벨 없는 구조 탐색`이라는 핵심 직관은 P4-17.1과 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster), [클러스터 라벨(cluster label)](../../../reference/concept-glossary-parts/10-kieuk.md#cluster-label)을 기준으로 다시 연결하고, 여기서는 그 결과를 어떻게 과신하지 않고 읽을지에만 집중합니다.
 
 ## 군집 결과를 해석할 때의 주의점에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
-- 왜 군집 결과를 곧바로 정답(label)처럼 읽으면 안 되는가?
+- 왜 군집 결과를 곧바로 [정답 라벨(label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)처럼 읽으면 안 되는가?
 - 왜 같은 데이터도 표현 방식과 파라미터에 따라 다른 군집이 나올 수 있는가?
 - 군집 번호는 왜 의미가 없는가?
 - 군집 결과를 업무 정책이나 사람 평가로 바로 연결하면 왜 위험한가?
@@ -70,7 +70,7 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 
 ## 군집은 정답 라벨이 아니다
 
-17.1에서 본 것처럼, 군집(cluster)은 알고리즘이 데이터 안에서 찾은 묶음입니다. 반면 정답 라벨(label)은 사람이 문제 정의에 따라 미리 정한 범주입니다.
+17.1에서 본 것처럼, [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster)은 알고리즘이 데이터 안에서 찾은 묶음입니다. 반면 [정답 라벨(label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)은 사람이 문제 정의에 따라 미리 정한 범주입니다.
 
 이 둘은 겉보기에는 비슷할 수 있지만 역할이 다릅니다.
 
@@ -114,9 +114,9 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 
 17.1에서 보았듯, 클러스터링은 `무엇을 비슷하다고 볼 것인가`에 크게 의존합니다. 따라서 같은 원본 데이터라도 다음이 달라지면 결과가 달라질 수 있습니다.
 
-- 어떤 특징(feature)을 넣었는가
-- 스케일(scale)을 맞췄는가
-- 거리(distance)를 어떻게 봤는가
+- 어떤 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)을 넣었는가
+- [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/12-tieut.md#feature-scale)을 맞췄는가
+- [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)를 어떻게 봤는가
 - 군집 수(k)를 몇으로 두었는가
 - DBSCAN의 `eps`, `min_samples`를 어떻게 두었는가
 
@@ -178,7 +178,7 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 
 그 비슷함이 왜 생겼는지, 어떤 원인이 있는지, 어떤 정책을 적용해야 하는지는 별도의 분석이 필요합니다.
 
-군집은 상관된 패턴을 제안할 수는 있어도 인과관계(causality)를 자동으로 주지는 않습니다.
+군집은 상관된 패턴을 제안할 수는 있어도 [인과관계(causality)](../../../reference/concept-glossary-parts/08-ieung.md#causal-inference)를 자동으로 주지는 않습니다.
 
 ## 반지도학습과는 어떻게 이어지나
 
@@ -186,7 +186,7 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 
 `라벨이 조금만 있는 상황이라면, 군집을 먼저 만든 뒤 그 묶음을 라벨 학습에 보조로 쓸 수 있지 않을까?`
 
-이 질문은 반지도학습(semi-supervised learning)으로 이어집니다. 반지도학습은 보통 `적은 라벨 데이터`와 `많은 비라벨 데이터`를 함께 활용하려는 문제 설정입니다.
+이 질문은 [반지도학습(semi-supervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#semi-supervised-learning)으로 이어집니다. 반지도학습은 보통 `적은 라벨 데이터`와 `많은 비라벨 데이터`를 함께 활용하려는 문제 설정입니다.
 
 여기서 클러스터링은 다음처럼 연결될 수 있습니다.
 
@@ -311,6 +311,11 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 ### 라이브러리로 확인하기: 스케일을 바꾸면 군집도 바뀔 수 있다
 
 이번 예제는 같은 고객 데이터를 `AgglomerativeClustering`으로 두 군집으로 나누되, 원본 특징을 그대로 쓸 때와 표준화한 뒤 쓸 때 군집 구성이 어떻게 달라지는지 확인합니다.
+
+- 실행 전에 바꿔 볼 값:
+  - `n_clusters`를 2가 아니라 3으로 바꾸면 어떤 고객이 따로 떨어지는가?
+  - `spend` 값을 더 크게 키우거나 줄이면 원본 특징 결과가 얼마나 달라지는가?
+  - `StandardScaler`를 제거하거나 다시 넣을 때 군집별 평균 요약이 어떻게 바뀌는가?
 
 ```python
 import pandas as pd
@@ -500,5 +505,5 @@ Part 4의 목표는 모델 결과를 사실처럼 소비하는 대신, 결과가
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Common pitfalls and recommended practices`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

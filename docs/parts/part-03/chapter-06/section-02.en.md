@@ -1,13 +1,13 @@
 # P3-6.2 What Intermediate Representations Can We Add When Features Alone Are Not Enough
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-Features such as averages, slopes, and variability are good starting points. But in some cases, a few numbers alone are not enough to describe the segment-level structure fully. Suppose there is a pattern that rises slowly in the early phase, stays flat in the middle phase, and then drops quickly in the late phase. If that structure is left as only two or three numbers, it can feel insufficient both when a person reads it again and when a model compares it. So in Part 3, [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-intermediate-representation) is read together as a human-led input re-expression that remains between raw logs and summary features so the structure can stay more visible.
+Features such as averages, slopes, and variability are good starting points. But in some cases, a few numbers alone are not enough to describe the segment-level structure fully. Suppose there is a pattern that rises slowly in the early phase, stays flat in the middle phase, and then drops quickly in the late phase. If that structure is left as only two or three numbers, it can feel insufficient both when a person reads it again and when a model compares it. So in Part 3, [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation) is read together as a human-led input re-expression that remains between raw logs and summary features so the structure can stay more visible.
 
 This section does not repeat feature design itself again. Instead, it focuses on how far we can go in adding intermediate representations such as segment expressions and tokenization when numerical features from the previous section alone do not preserve enough structure.
 
-This is where segment expressions and tokenized expressions appear. The core idea is simple. Instead of staring at the long raw curve as it is, we divide the whole thing into a few ranges and convert the direction and strength of each range into short symbols or short summary values.
+This is where segment expressions and [tokenized](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-tokenization) expressions appear. The core idea is simple. Instead of staring at the long raw curve as it is, we divide the whole thing into a few ranges and convert the direction and strength of each range into short symbols or short summary values.
 
 | Segment | Numerical summary | Example of symbolic summary |
 | --- | --- | --- |
@@ -156,7 +156,7 @@ token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
 
 The key point to watch in this output is not only the moment when continuous numbers turn into a short symbol sequence, but also which actions actually change interpretation when the boundaries change. The values to manipulate here are `strong_threshold` and `weak_threshold` inside `token_settings`. In the conservative setting, more small changes remain `FLAT`, and the token sequences change for actions near the boundary, such as `B`, `D`, `E`, `F`, and `H`. By contrast, an action like `A`, where the strong rise and strong fall are clear, keeps its main structure even when the setting changes.
 
-When several actions are viewed together, it becomes clearer that a token rule is not a simple label but a design judgment. People can now read the structure quickly as `rise, gentle rise, almost flat, decline, large decline`, but they can also re-check which threshold folded which segment into `FLAT`.
+When several actions are viewed together, it becomes clearer that a token rule is not a simple label but a design judgment. People can now read the structure quickly as `rise, gentle rise, almost flat, decline, large decline`, but they can also re-check which [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-threshold) folded which segment into `FLAT`.
 
 If this example is checked in the following order, the role of tokenization becomes clearer.
 
@@ -168,7 +168,7 @@ For example, `['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']` can be summarized as `th
 
 It is also important that the token sequence can differ even when the average is the same. For example, even if the average flow of two actions is 2.5 in both cases, one may be `UP, FLAT, DOWN` while the other is `FLAT, FLAT, FLAT`. They look similar if we inspect only the average, but the token sequence reveals that one had structural change while the other remained stable. Because of this, tokenization is not mere decoration. It is a representation that complements structure missed by average-based summaries.
 
-We can also check this difference with a small vectorization example. The code below compares a ranking based only on the numerical average with a ranking that vectorizes the token sequence using `TfidfVectorizer` and sorts candidates by similarity to a query.
+We can also check this difference with a small [vectorization](/AiBook/en/reference/concept-glossary-alpha/v/#glossary-vectorization) example. The code below compares a ranking based only on the numerical average with a ranking that vectorizes the token sequence using `TfidfVectorizer` and sorts candidates by similarity to a query.
 
 ```python
 import pandas as pd

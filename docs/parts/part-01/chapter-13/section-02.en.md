@@ -1,7 +1,7 @@
-# P1-13.2 The Intuition of Similarity Search
+# P1-13.2 Similarity Search Intuition
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section P1-13.1 explained what it means to represent text as `vectors`. Once text is turned into vectors, sentences, paragraphs, and documents can be placed as computable positions.
 

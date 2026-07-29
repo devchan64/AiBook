@@ -1,13 +1,13 @@
 # P5-3.2 sigmoid
 
 > Section ID: `P5-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-3.1 里，我们已经看到：激活函数（activation function）会把加权和分数 \(z\) 改写成传给下一层的值 \(a\)。现在开始按代表性函数逐个来看，确认为什么同样的分数，会变成完全不同类型的信号。
 
 sigmoid 是一种把输入分数 \(z\) 压到 0 与 1 之间的激活函数。很大的负数会被压到接近 0，很大的正数会被压到接近 1，而在 0 附近，它的变化会相对更快。
 
-如果后面又需要重新固定代表性激活函数的基线，可以回到[英文概念词汇表里的 activation function 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function)。
+如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)与[sigmoid](/AiBook/zh/reference/concept-glossary-pinyin/s/#sigmoid)条目。
 
 ## sigmoid 如何压缩数值的问题
 

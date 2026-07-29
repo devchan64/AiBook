@@ -1,11 +1,11 @@
 # Part 1 Summary. Reviewing AI Introduction and the Landscape
 
 > Section ID: `P1-summary`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 1 was the section for fixing the overall landscape before studying AI again. Rather than implementing detailed algorithms or proving formulas in depth, it first organized the terms and perspectives that keep returning in later learning.
 
-This summary is not a document that repeats every concept from Part 1 at length. It is a closing page that helps you recall where the baseline for each idea was first fixed. If the terms become confusing again, return to the [Concept Glossary](/AiBook/reference/concept-glossary/) and the representative Sections listed there.
+This summary is not a document that repeats every concept from Part 1 at length. It is a closing page that helps you recall where the baseline for each idea was first fixed. If the terms become confusing again, return to representative glossary entries such as [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence), [system](/AiBook/en/reference/concept-glossary-alpha/s/#system), and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), then check the representative Sections listed there.
 
 The most important goal here is not to see AI as one buzzword or one product name. AI is a broad field where rule-based approaches, search, heuristics, probabilistic judgment, data-driven learning, deep learning, generative AI, LLMs, agents, service operation, and social responsibility overlap.
 
@@ -27,7 +27,7 @@ The shortest way to hold that map again is the following five lines.
 
 After finishing Part 1, you should be able to stop mixing AI terms and service experience as if they belonged to one flat conceptual layer, and read them again inside a larger map.
 
-## The Flow from Rules to Service Responsibility
+## Rules-to-Service Responsibility Flow
 
 The flow of Part 1 can be organized as follows.
 
@@ -69,7 +69,7 @@ The scope of the word AI should also be held that way. In the current edition, t
 | Learning and model execution | Learning changes internal model values, and model execution uses the trained model. |
 | Expressions around `inference` | Read `inference` first as model execution, `reasoning` as a thinking process, `prediction` as model output, and `generation` as generated result. |
 | Prompt and model | A prompt is an input that specifies model behavior. It is not a device that completely controls the model's internal knowledge or behavior. |
-| RAG and agent | RAG is a structure that retrieves external information and adds it to the input, and an agent is a structure that carries a goal through multiple task flows. |
+| RAG and AI agent | RAG is a structure that retrieves external information and adds it to the input, and an AI agent is a structure that carries a goal through multiple task flows. |
 | Model and service | A real AI service is not one model alone. It is a structure where apps, data, tools, permissions, logs, evaluation, and operational constraints work together. |
 
 Once these distinctions are fixed, later Parts on math, code, models, data, and service structure become easier to place on the larger map.
@@ -87,14 +87,14 @@ The misunderstandings to be especially careful about in Part 1 are the following
 - Do not understand a label only as the answer.
 - Do not mistake an embedding for a semantic definition that humans can directly read.
 - Do not mistake a prompt for a command that fully controls the model.
-- Do not define an agent as a system of unlimited autonomous execution.
+- Do not define an AI agent as a system of unlimited autonomous execution.
 - Do not write AI forecasts from personal speculation or AI-generated text alone.
 
 This book reduces such misunderstandings by checking Korean expressions together with the English originals. In particular, words such as `inference`, `model`, `parameter`, `generation`, and `level` need to stay distinguished because their meaning changes by context.
 
 Among them, `inference` is the word that most often needs to be checked again. In Part 1, `inference` is first separated into model execution, `reasoning` into logical reasoning, `prediction` into model output, and `generation` into generated content. That distinction becomes necessary again in Part 6 when reading next-token prediction, responses that look like reasoning, and evaluation contexts that refer to model results.
 
-## The Landscape Part 1 Closes and the Detailed Calculations It Leaves for Later
+## Part 1 Closed Landscape and Deferred Detailed Calculations
 
 Part 1 focused on explaining the overall terrain of AI and the shared vocabulary around it. So it does not finish detailed algorithmic formulas, internal deep-learning computation, or implementation details of LLM services here, and leaves them to later Parts.
 
@@ -116,7 +116,7 @@ Before moving into Part 2, check whether you can answer the following questions.
 - Can you explain the difference between a rule-based approach and a learning-based approach?
 - Can you roughly explain the relationship among data, feature, representation, model, parameter, learning, and model execution?
 - Can you explain that uncertainty, probability, and stochastic process are not the same thing?
-- Can you explain that prompt, embedding, vector search, RAG, and agent have different roles?
+- Can you explain that prompt, embedding, vector search, RAG, and AI agent have different roles?
 - Can you explain that an AI service is not built from one model alone?
 - Can you distinguish between a personal working hypothesis and a factual claim with external evidence?
 
@@ -126,7 +126,7 @@ There are also things it is normal not to know yet after reading Part 1.
 
 - It is fine if you still cannot explain loss functions and gradients with formulas.
 - It is fine if you do not yet know the internal computation of the Transformer and attention in detail.
-- It is fine if you cannot yet write implementation code for RAG, tool use, and agents yourself.
+- It is fine if you cannot yet write implementation code for RAG, tool use, and AI agents yourself.
 - What matters is being able to explain the big picture of `how the problem is divided`, `what the model is responsible for`, and `what the service still has to add`.
 
 ## Closing Part 1

@@ -1,9 +1,9 @@
 # P4-5.2 Generalization
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-P4-5.1 separated `overfitting` from `underfitting`. Now we need to move one step higher. Why do we care so much about that distinction? In the end, the goal of machine learning is not `raising the score on training data`, but `working usefully even on data the model has not seen yet`. The word that organizes that question is `generalization`.
+P4-5.1 separated [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) from [underfitting](/AiBook/en/reference/concept-glossary-alpha/u/#underfitting). Now we need to move one step higher. Why do we care so much about that distinction? In the end, the goal of machine learning is not `raising the score on training data`, but `working usefully even on data the model has not seen yet`. The word that organizes that question is [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization).
 
 Generalization may sound difficult, but the starting point is simple. It asks whether a model stops at matching examples it has already seen, or whether it also responds properly to new examples with similar structure.
 
@@ -11,7 +11,7 @@ Generalization may sound difficult, but the starting point is simple. It asks wh
 
 This Section explains the meaning of generalization. It does not yet cover the formula of generalization error or theoretical bounds. The focus here is to connect `why new data matter`, `why validation and test are needed`, and `why training score alone is not enough`.
 
-The detailed calculation of metrics is handled in P4-6, and the practical use of cross-validation returns in P4-8.1 and P4-9.2. This Section fixes generalization first not as a mathematical theory, but as a goal sentence that runs through machine learning as a whole.
+The detailed calculation of [metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric) is handled in P4-6, and the practical use of [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) returns in P4-8.1 and P4-9.2. This Section fixes generalization first not as a mathematical theory, but as a goal sentence that runs through machine learning as a whole.
 
 - What is generalization?
 - Why is the goal of machine learning described as generalization rather than training score?
@@ -31,13 +31,13 @@ The detailed calculation of metrics is handled in P4-6, and the practical use of
 
 ### What Does Generalization Ask?
 
-Google's machine-learning glossary effectively explains generalization as the question `can the model make good predictions on examples that are not in the training set?` The meaning to hold onto is the following.
+Google's machine-learning glossary effectively explains generalization as the question `can the model make good predictions on examples that are not in the training set?` Here, prediction means [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) in the general machine-learning sense. The meaning to hold onto is the following.
 
 `Generalization is the property that lets a model make usable judgments even on data it has not seen yet.`
 
 The important part here is `even though the data are not the same as before`.
 
-We also need to ask why such a word is used separately. Because machine learning learns rules from data, it is easy to leave only the sentence `the score is high` on the surface. But `high only on the data it has seen` and `maintained even on the data it has not seen` are entirely different questions. We use the word `generalization` to separate those two.
+We also need to ask why such a word is used separately. Because machine learning learns rules from data, it is easy to leave only the sentence `the score is high` on the surface. But high only on [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) and maintained even on data it has not seen are entirely different questions. We use the word `generalization` to separate those two.
 
 | Question | Meaning from the perspective of generalization |
 | --- | --- |
@@ -103,7 +103,7 @@ For example, in customer-churn prediction, it can be organized like this.
 | test data | some records kept aside for the final check |
 | real service input | new customer records accumulated next month |
 
-All four belong to the same domain, but from the model's perspective, there is a boundary between `what it has seen` and `what it has not seen yet`. Generalization is a story that happens exactly at that boundary.
+All four belong to the same domain, but from the model's perspective, there is a boundary between `what it has seen` and `what it has not seen yet`. Generalization is a story that happens exactly at this [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#dataset) boundary.
 
 To make that boundary clearer, it can be divided like this.
 
@@ -160,8 +160,8 @@ So overfitting can be read as `a direction that harms generalization`. But gener
 
 The reason validation and test were separated in P4-4.2 was also generalization in the end.
 
-- validation data: a tool for comparing which candidate is more likely to hold up on new data
-- test data: a tool for checking one last time whether the final choice really holds up on new data
+- [validation data](/AiBook/en/reference/concept-glossary-alpha/v/#validation-data): a tool for comparing which candidate is more likely to hold up on new data
+- [test data](/AiBook/en/reference/concept-glossary-alpha/t/#test-data): a tool for checking one last time whether the final choice really holds up on new data
 
 ```mermaid
 --8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-02-en.mmd"
@@ -384,7 +384,7 @@ And the phrase `hold up` is important here. When new data enter, some difference
 
 ## Sources And References
 
-- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, accessed 2026-07-19. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, accessed 2026-07-26. [https://is.mpg.de/publications/5955](https://is.mpg.de/publications/5955){: target="_blank" rel="noopener noreferrer" }

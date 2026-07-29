@@ -1,7 +1,7 @@
 # P2-12.2 선택, 필터링, 집계
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P2-12.1에서는 Pandas `DataFrame`을 행(row), 열(column), 인덱스(index)가 있는 표 형식 데이터 구조로 봤습니다. 이제 질문이 하나 더 생깁니다.
 
@@ -15,7 +15,7 @@ P2-12.1에서는 Pandas `DataFrame`을 행(row), 열(column), 인덱스(index)�
 
 Pandas에서 선택(select), 필터링(filtering), 집계(aggregation)는 바로 이 흐름을 다룹니다.
 
-여기서는 `Series`, `필터링(filtering)`, `집계(aggregation)`, `groupby`, `loc`, `iloc`의 기본 구분을 설명합니다. `DataFrame` 자체의 대표 설명은 P2-12.1과 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 표에서 무엇을 읽고 무엇을 남기고 무엇을 요약할지 설명합니다.
+여기서는 `Series`, `필터링(filtering)`, `집계(aggregation)`, `groupby`, `loc`, `iloc`의 기본 구분을 설명합니다. `DataFrame` 자체의 대표 설명은 P2-12.1과 [개념사전의 DataFrame 항목](../../../reference/concept-glossary-parts/03-digeut.md#dataframe)에 두고, 여기서는 그 표에서 무엇을 읽고 무엇을 남기고 무엇을 요약할지 설명합니다.
 
 ## 핵심 기준: 선택, 필터링, 집계
 

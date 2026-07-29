@@ -1,7 +1,7 @@
 # P6-13.2 Function Calling That Splits Natural-Language Requests into Names and Arguments
 
 > Section ID: `P6-13.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-13.1, we saw that tool use connects the model with external functions. That leads to a more specific question.
 
@@ -21,7 +21,7 @@ The first issue to close is reading function calling as `a structured execution 
 
 An execution structure that continues repeated work is a problem of tying several structured calls into multiple steps. Function calling first focuses on making one execution request verifiable.
 
-Here we read function calling not as a product feature name, but as `a structuring method for connecting tool use reliably`. If tool use asked `what should be executed`, function calling asks how that execution judgment should become a name-and-argument structure so the system can validate and continue processing it. The question of how to chain several calls continues in P6-14's agent structure.
+Here we read function calling not as a product feature name, but as `a structuring method for connecting tool use reliably`. If tool use asked `what should be executed`, function calling asks how that execution judgment should become a name-and-argument structure so the system can validate and continue processing it. The question of how to chain several calls continues in P6-14's AI agent structure.
 
 The core change is from `what should be executed` to `how do we turn that execution request into a verifiable structure`. This difference lets us read function calling not as a simple product feature, but as an intermediate layer that stabilizes execution connection.
 
@@ -141,9 +141,9 @@ In natural language, `Schedule a meeting tomorrow at 3 PM` can feel specific eno
 
 The standard changes from asking whether `the sentence is specific enough` to asking whether `all fields required by the API are actually filled`. Function-calling structure turns implicit information into an explicit argument bundle. The result to check is whether time, date, title, and attendees are all structured before calendar creation, and whether missing fields become visible before execution.
 
-### Case 3. Code agent
+### Case 3. Code AI agent
 
-Imagine a code agent alternating among reading files, running tests, and applying patches. If only a natural-language explanation is left, it is hard to trace which work ran with which arguments. A sentence like `I read the file and ran tests` may feel descriptive enough, but in operation we need to know which file was read and which test command ran. The same sentence `ran tests` can mean very different things depending on directory, flags, and target.
+Imagine a code AI agent alternating among reading files, running tests, and applying patches. If only a natural-language explanation is left, it is hard to trace which work ran with which arguments. A sentence like `I read the file and ran tests` may feel descriptive enough, but in operation we need to know which file was read and which test command ran. The same sentence `ran tests` can mean very different things depending on directory, flags, and target.
 
 If the process is recorded as function calls, steps such as `read_file`, `run_tests`, and `apply_patch` are explicit and the execution flow is easier to replay. The standard changes from recording only `what work was done` to checking whether `which function ran with which arguments` can be traced. Without this record, when the same failure appears again it is hard to tell which stage input changed. Function calling is therefore directly connected not only to execution success, but also to logs and reproducibility. The result to check is whether we can trace which function was called with which arguments, and reconstruct which stage stopped because of missing arguments.
 
@@ -153,7 +153,7 @@ The three cases can be grouped again from the structuring view.
 | --- | --- | --- |
 | Exchange-rate lookup | Which value to look up under which standard | Currency pair, date, region arguments |
 | Calendar creation | Execution standard for expressions such as `tomorrow` and `afternoon` | Date, time, timezone, attendee fields |
-| Code agent | What ran in what order | Function name, arguments, execution log |
+| Code AI agent | What ran in what order | Function name, arguments, execution log |
 
 The same content can be reread as a structured execution-request flow.
 
@@ -352,7 +352,7 @@ One step further, we should separate what function calling solves from what rema
 | Results need to be passed to a later step. | Makes it easier to return results in a consistent structure. | Planning the order of several calls |
 | Failure needs to be reproduced and logged. | Traces which function was called with which arguments. | Retry, alternative path, and stopping criteria in the operational loop |
 
-This table matters because it prevents us from collapsing `function calling = agent`. Function calling structures one request immediately before execution, while planning and retrying several calls belongs to the agent layer.
+This table matters because it prevents us from collapsing `function calling = agent`. Function calling structures one request immediately before execution, while planning and retrying several calls belongs to the AI agent layer.
 
 ## Validation standards that split inside structured execution requests
 

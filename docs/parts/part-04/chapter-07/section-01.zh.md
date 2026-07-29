@@ -1,29 +1,29 @@
 # P4-7.1 特征选择(feature selection)
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-6 里，我们看过 `该用什么标准来评价`。现在把问题再往前推一步。在更换评价指标之前，必须先检查：到底要给 model 什么输入。特征选择(feature selection)正是这个输入设计的起点。
+在 P4-6 里，我们看过 `该用什么标准来评价`。现在把问题再往前推一步。在更换评价指标之前，必须先检查：到底要给 model 什么输入。[特征选择(feature selection)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature-selection)正是这个输入设计的起点。
 
 这一节处理的是 `该怎样挑出好特征`。它的目的不是深讲复杂选择算法，而是先固定在实际工作里应该优先检查的判断标准。
 
-这一节会说明 `特征选择(feature selection)` 和 `特征空间(feature space)` 的含义。下一节会沿着这个抓手继续当前语境，而 `到底用什么去填输入格子` 的基本标准，会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
+这一节会说明 `特征选择(feature selection)` 和 `特征空间(feature space)` 的含义。下一节会沿着这个抓手继续当前语境，而 `到底用什么去填输入格子` 的基本标准，会通过这一节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
 这一节回答下面这些问题。
 
-- 什么是特征(feature)，为什么输入设计很重要？
+- 什么是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)，为什么输入设计很重要？
 - 为什么不能因为可用数据多，就把它们全部塞进去？
 - 读者最先该检查的特征选择标准是什么？
-- 特征选择和预处理(preprocessing)有什么不同？
+- 特征选择和[预处理(preprocessing)](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing)有什么不同？
 
 这一节先收束 `该怎样选择好特征`，以及 `为什么特征选择是输入设计问题`。按输入问题来分预处理类型的感觉，会在补充学习 P4-7.3 再次抓住；基于统计检验的选择和递归特征消除的比较视角，会在补充学习 P4-7.4 再整理一次。降维的大图景会在 P4-18.1、P4-18.2 继续展开。
 
 ## 用特征选择(feature selection)留下的判断标准
 
 - 能把特征(feature)解释成 `现实信息被变成 model 输入后的形式`。
-- 能说明特征选择不只和性能数字有关，也会连到 leakage、成本、稳定性和可解释性。
+- 能说明特征选择不只和性能数字有关，也会连到 [leakage](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-leakage)、[成本(cost)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cost)、稳定性和可解释性。
 - 能使用基本问题去区分哪些特征该先丢掉，哪些特征该先留下。
 - 能说明：如果 preprocessing 是 `把选出来的特征再加工`，那么 feature selection 就是 `决定一开始到底要采用哪些特征`。
 
@@ -240,7 +240,7 @@ print(comparison.round(2))
 
 #### 1. 有没有 signal
 
-这个特征应该多少装着一些和目标(label)有关的模式。
+这个特征应该多少装着一些和目标 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 有关的模式。
 
 例如，在客户流失问题里，最近访问次数就可能和流失有关。相反，一个完全任意的内部流水号，通常无法解释问题的原因或倾向。
 
@@ -254,7 +254,7 @@ print(comparison.round(2))
 - 是不是人工随手输入，所以波动很大？
 - 它的意义会不会经常随场景改变？
 
-这种特征里，noise 可能比 signal 还大。那 model 就更容易学到偶然波动，而不是稳定规则。
+这种特征里，[noise](/AiBook/zh/reference/concept-glossary-pinyin/n/#noise) 可能比 signal 还大。那 model 就更容易学到偶然波动，而不是稳定规则。
 
 #### 3. 在预测时点到底能不能用
 
@@ -395,7 +395,7 @@ scikit-learn 文档提供了减少 low variance 特征、通过 univariate stati
 - 收集延迟是否经常发生？
 - 会不会因为需要人工输入而让质量大幅波动？
 - 会不会因为隐私或成本问题而很难在运营里使用？
-- 如果每次推理都要拉一次，会不会把 latency 拉高？
+- 如果每次推理都要拉一次，会不会把 [latency](/AiBook/zh/reference/concept-glossary-pinyin/l/#latency) 拉高？
 
 最终，feature selection 不只是数据科学问题，它也是 service 设计问题。
 
@@ -749,6 +749,11 @@ Guyon 和 Elisseeff 的经典综述把 `raw input variables` 和 `constructed fe
 - feature selection 的第一步，是在 model 学习之前，先按危险信号去检查候选列
 - 把标识符、label、结果之后的值先读成排除候选，会更安全
 
+可以改动的值：
+
+- 如果把 `rows` 里的 `membership_tier` 或 `country` 改成彼此不同的值，原本因为常数列被排除的候选会进入初筛候选列表。
+- 如果加入像 `contract_cancelled_at` 这样名称以 `_at` 结尾的事后时点列，它会被时点风险规则抓住。
+
 ```python
 # 这个例子比较原始特征候选和已选择的特征组合，用来设计模型输入空间。
 rows = [
@@ -859,5 +864,6 @@ rejected candidates:
 
 ## 出处与参考资料
 
-- scikit-learn, `1.13. Feature selection`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/feature_selection.html](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12.2. Data leakage during pre-processing`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.13. Feature selection`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/feature_selection.html](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `12.2. Data leakage during pre-processing`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- Isabelle Guyon and André Elisseeff, `An Introduction to Variable and Feature Selection`, Journal of Machine Learning Research 3(Mar):1157-1182, 2003, 确认日期: 2026-07-26. [https://www.jmlr.org/papers/v3/guyon03a.html](https://www.jmlr.org/papers/v3/guyon03a.html){: target="_blank" rel="noopener noreferrer" }

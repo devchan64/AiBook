@@ -4,15 +4,18 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/machine-learning.en.md"
 
---8<-- "reference/concept-glossary-terms/mapping.en.md"
 
---8<-- "reference/concept-glossary-terms/markdown-cell.en.md"
-
---8<-- "reference/concept-glossary-terms/masking.en.md"
+--8<-- "reference/concept-glossary-terms/margin.en.md"
 
 --8<-- "reference/concept-glossary-terms/matrix.en.md"
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.en.md"
+
+--8<-- "reference/concept-glossary-terms/license.en.md"
+
+
+
+--8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.en.md"
 
 --8<-- "reference/concept-glossary-terms/mean.en.md"
 
@@ -20,16 +23,23 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/metadata.en.md"
 
---8<-- "reference/concept-glossary-terms/method.en.md"
-
 --8<-- "reference/concept-glossary-terms/metric.en.md"
+
+--8<-- "reference/concept-glossary-terms/missing-value.en.md"
+
 
 --8<-- "reference/concept-glossary-terms/model.en.md"
 
 --8<-- "reference/concept-glossary-terms/model-context-protocol-mcp.en.md"
 
+--8<-- "reference/concept-glossary-terms/model-input.en.md"
+
+--8<-- "reference/concept-glossary-terms/model-output.en.md"
+
 --8<-- "reference/concept-glossary-terms/model-selection.en.md"
 
---8<-- "reference/concept-glossary-terms/multi-head-attention.en.md"
+--8<-- "reference/concept-glossary-terms/model-training.en.md"
+
+--8<-- "reference/concept-glossary-terms/model-validation.en.md"
 
 --8<-- "reference/concept-glossary-terms/multilayer-neural-network.en.md"

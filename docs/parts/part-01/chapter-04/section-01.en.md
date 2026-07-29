@@ -1,7 +1,7 @@
 # P1-4.1 Becoming Comfortable with the Word Model
 
 > Section ID: `P1-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 3 showed the flow from rule-based approaches to learning-based approaches. Chapter 4 turns that flow into a more practical question. What must we do to turn a real-world problem into a form AI can compute?
 
@@ -24,17 +24,6 @@ The relationship among input, output, and data is revisited immediately in 4.2. 
 - Learn to check a model together with its `target`, `purpose`, `simplification`, and `limits`.
 - Distinguish an AI model from the idea that it understands all of reality like a person; it takes defined inputs and computes defined outputs.
 - Understand at an introductory level what it means to say that a model appears after training.
-
-## Concepts to Connect First
-
-This section is the main place in Part 1 where the basic distinction between `model` and `system` is fixed for the first time. The concepts below first separate their roles here. When a more detailed definition is needed, move directly to each glossary entry and check again.
-
-| Concept | Meaning fixed here first | Why it matters now |
-| --- | --- | --- |
-| [model](/AiBook/en/reference/concept-glossary-alpha/m/#model) | the core computational component that takes input and computes output | to distinguish the AI meaning of `model` from the whole of reality |
-| [system](/AiBook/en/reference/concept-glossary-alpha/s/#system) | the overall structure that includes the model, rules, and human review | to avoid mistaking a whole service for a single model |
-| [input](/AiBook/en/reference/concept-glossary-alpha/i/#input) | the information the system receives | to see what the model takes as computational material |
-| [output](/AiBook/en/reference/concept-glossary-alpha/o/#output) | the result the system produces | to see what the model computes |
 
 ## Three Standards
 

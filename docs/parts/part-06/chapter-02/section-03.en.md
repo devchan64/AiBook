@@ -1,7 +1,7 @@
-# P6-2.3 Tokenization That Changes Length, Cost, And Chunks
+# P6-2.3 Tokenization Changing Length, Cost, and Chunks
 
 > Section ID: `P6-2.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-2.2, we separated token pieces, token count, token IDs, and the token-ID sequence in tokenizer output. Now we move one step beyond `how to read it` and look at how tokenization results change actual judgments.
 
@@ -57,7 +57,7 @@ The same procedure becomes clearer in a small example. The values below are not 
 
 What this table asks us to check is not the numbers themselves. During the change from `source -> token pieces -> token IDs`, the word boundaries a person felt are reset as computational boundaries made by the tokenizer.
 
-## Drawing The Tokenization Procedure In One Line
+## Drawing the Tokenization Procedure in One Line
 
 ```mermaid
 --8<-- "assets/part-06/chapter-02/p6-c02-s03-tokenization-flow-en.mmd"
@@ -65,9 +65,9 @@ What this table asks us to check is not the numbers themselves. During the chang
 
 In this flow, tokenization is the stage that changes `a string into a token sequence and token IDs`. Only after that are IDs looked up as vector representations and connected to computation.
 
-## Tokenization-Procedure Cases And Examples
+## Tokenization-Procedure Cases and Examples
 
-### Case 1. When We Trust Something That Looks Like A Word As-Is
+### Case 1. When We Trust a Word-Looking Unit as Is
 
 Suppose the expression `refundpolicy` repeats in a customer-support document. A person quickly reads this as one meaningful word. So it is easy to think the tokenizer will also pass this string as one piece.
 
@@ -82,7 +82,7 @@ The result to check in this case is not `Does it look like a word?`, but `At wha
 
 So the safer judgment is not guessing token count or IDs immediately from the source, but checking the boundary, vocabulary pieces, and ID sequence made by the tokenizer in order.
 
-### Case 2. When We Think Spaces Mean The Units Are The Same
+### Case 2. When Spaces Seem to Mean Same Units
 
 When people see a sentence such as `The meeting starts tomorrow at 10 AM`, they first think of words separated by spaces. So it is easy to feel that the number of whitespace-separated words will be similar to the token count.
 
@@ -97,7 +97,7 @@ The result to check in this case is that tokenization is not `whitespace splitti
 
 So the safer judgment is not converting whitespace word count into token count, but looking at the piece boundaries actually made by the tokenizer and the ID sequence corresponding to those boundaries.
 
-### Case 3. When It Feels Like The Sentence Is Computed Directly
+### Case 3. When the Sentence Seems Computed Directly
 
 When a user enters `Summarize the refund policy`, it is easy to imagine that the model reads the whole sentence and immediately grasps the meaning. But from the tokenization view, the string is first split into pieces, each piece connects to a vocabulary item, and then it changes into a token-ID sequence.
 
@@ -112,7 +112,7 @@ The result to check in this case is that tokenization is not an auxiliary task, 
 | Vocabulary connection | Piece candidates appear | It matches token pieces such as `["Summ", "arize", " the", " refund", " policy"]` | Computational units are made. |
 | ID conversion | A piece list appears | It changes them into an ID sequence such as `[4012, 8830, 812, 6200, 930]` | A number sequence to pass as model input appears. |
 
-## How Far The Procedure Explanation Needs To Go
+## How Far the Procedure Explanation Needs to Go
 
 When first reading tokenization, it is enough to separate `the unit people see` and `the unit the model passes into computation` as follows.
 
@@ -132,7 +132,7 @@ When looking at actual tokenizer output or logs, read not only the procedure its
 | `ids: [4012, 8830]` | What number did each piece become? | How many computational pieces does the input pass as? |
 | The number of `tokens` and `ids` is the same | In what order do pieces and numbers correspond? | How should this count be used later for cost, chunks, and output judgments? |
 
-## What Must Be Distinguished From What?
+## What Must Be Distinguished from What?
 
 When understanding tokenization, it is safer to separate the following three levels.
 
@@ -154,7 +154,7 @@ Once we know what tokenization is, we need to see what its result actually chang
 
 The value to see before tokenization rules themselves is the observed value that appears after tokenization. Even for the same source, token count can change, the position where context splits can change, and the room left for output can change. So after seeing `how it is split`, we should immediately ask `what judgment must change because of that result?`
 
-## Why The Same Sentence Can Differ
+## Why the Same Sentence Can Differ
 
 Even with the same meaning, token boundaries and token counts can change when notation changes.
 
@@ -175,7 +175,7 @@ If we unpack very small where the difference appears even with the same meaning,
 
 The numbers are not actual tokenizer results, but explanatory values for showing the judgment flow. The key is not comparing sentence meaning, but first seeing `which notation elements can increase computational pieces`. If this step is missing, it is easy to move too quickly into the intuition that `the sentences are similar, so the cost should be similar too`.
 
-## When Token Boundaries Lead To Operation Judgments
+## When Token Boundaries Lead to Operation Judgments
 
 ```mermaid
 --8<-- "assets/part-06/chapter-02/p6-c02-s03-tokenization-impact-en.mmd"
@@ -187,7 +187,7 @@ There is one result to check in this diagram. When token boundaries change, late
 
 Even a sentence that looks short can make the actual token count grow quickly when numbers, symbols, emails, or URLs are mixed in. So the intuition that `it is a short inquiry, so the cost should also be small` often fails.
 
-## What Actually Changes 2. Context Length And Chunks
+## What Actually Changes 2. Context Length and Chunks
 
 When splitting documents, people first look at paragraph count or rough visual length. But by the tokenization standard, `principle` and `exception`, or `question` and `condition`, can split into different pieces. Then retrieval may bring back only the principle and miss an important exception.
 
@@ -205,7 +205,7 @@ Tokenization can look like a preprocessing detail, but it directly shifts operat
 
 In other words, tokenization differences do not end at `how a string is split`. They lead to operation choices about `what to preserve and what to give up`.
 
-## Operation-Judgment Cases And Examples
+## Operation-Judgment Cases and Examples
 
 The diagram below first groups the three scenes we repeatedly see. The reading flow is `why it looks fine on the surface -> what changes from the tokenization view -> where operation judgment changes`.
 
@@ -298,11 +298,11 @@ Written again so readers can apply the same judgment by hand, it looks like this
 
 Without this middle application table, tokenization explanation easily stops at `how strings are split`. But the goal of this Section is not memorizing cutting rules. It is changing input budget, chunk boundary, and output-preservation judgments after seeing the cutting result.
 
-## Exercises And Examples
+## Exercises and Examples
 
 The exercise below is not a problem of guessing token count exactly. First, use an actual tokenizer SDK to check how many tokens the input becomes, and then move that value into cost, chunk, and output-preservation judgments. For each question, first answer for yourself, then compare with the explanation immediately below.
 
-### Example. Checking Input Budget And Output Room With `tiktoken`
+### Example. Checking Input Budget and Output Room with `tiktoken`
 
 This example directly counts input tokens with OpenAI's `tiktoken` library under the same encoding. It is not an example for memorizing the latest context length of a particular model, but for seeing how operation judgment changes when input tokens and expected output tokens are added together. Here we use the `o200k_base` encoding.
 
@@ -386,7 +386,7 @@ If we see the number movement as a figure, it becomes visible that `expected out
 
 The purpose of this example is not memorizing the tokenizer's internal rules. It is to check actual token count and then change human standards such as `does it look short`, `are the paragraphs natural`, and `is the output friendly` into input budget, chunk room, and output-preservation standards.
 
-### Exercise 1. Choosing The Judgment Value For A Short Notice
+### Exercise 1. Choosing the Judgment Value for a Short Notice
 
 Observed values:
 
@@ -406,7 +406,7 @@ First answer for yourself.
 
 Explanation: The values to recheck first are input token count and the resulting cost. The input is `12 + 31 = 43 tokens`, and with 50 expected output tokens, the total judgment value is 93 tokens. Even if it is one paragraph on screen, URL, coupon codes, and date notation can quickly increase token pieces. So this scene should first check `how many tokens a short-looking input actually became`, before chunks or output.
 
-### Exercise 2. Finding Why Exceptions Disappear From Search Results
+### Exercise 2. Finding Why Exceptions Disappear from Search Results
 
 Observed values:
 
@@ -426,7 +426,7 @@ First answer for yourself.
 
 Explanation: The values to recheck first are chunk size and overlap. Principle 42 tokens and exception 18 tokens require at least 60 tokens together. Current chunk size is 50 and overlap is also 0, so they split easily. Even if the retriever found the principle sentence, the answer can miss an important condition if the exception sentence is not in the same token bundle. So this scene should first check `whether context that must stay together remains in the same chunk`, before cost.
 
-### Exercise 3. Finding Why The Final Conclusion Is Cut Off
+### Exercise 3. Finding Why the Final Conclusion Is Cut Off
 
 Observed values:
 
@@ -456,7 +456,7 @@ After the three exercises, you should be able to summarize the point in one sent
 - Can you explain that tokenization shakes cost, chunk design, and output length limits together?
 - Do you understand that tokenization changes do not stop at `string splitting` but continue into operation judgment?
 
-## Sources And References
+## Sources and References
 
 - OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19. Used to confirm that input and output token counts connect to usage, cost, and request-length judgment.
 - OpenAI Help Center, [Controlling the length of OpenAI model responses](https://help.openai.com/en/articles/5072518-controlling-the-length-of-openai-model-responses){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19. Used to confirm that response length is controlled with output-token limits such as `max_output_tokens` or `max_completion_tokens`.

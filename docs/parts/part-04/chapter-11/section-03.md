@@ -1,27 +1,27 @@
 # P4-11.3 보충학습: log-odds와 MLE를 처음 읽는 법
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 분류 모델`로 보았고, P4-11.2에서는 그 점수가 입력 공간을 어떻게 가르는지 결정 경계(decision boundary) 관점으로 읽었습니다. 여기까지 오면 자연스럽게 다음 질문이 남습니다.
+P4-11.1에서는 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)를 `확률처럼 읽히는 점수를 만드는 선형 분류 모델`로 보았고, P4-11.2에서는 그 점수가 입력 공간을 어떻게 가르는지 [결정 경계(decision boundary)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-boundary) 관점으로 읽었습니다. 여기까지 오면 자연스럽게 다음 질문이 남습니다.
 
-왜 확률을 그대로 선형식으로 다루지 않고, 왜 log-odds와 최대우도추정(maximum likelihood estimation, MLE) 같은 말이 따라붙는가?
+왜 확률을 그대로 선형식으로 다루지 않고, 왜 [log-odds](../../../reference/concept-glossary-parts/04-rieul.md#log-odds)와 [최대우도추정(maximum likelihood estimation, MLE)](../../../reference/concept-glossary-parts/11-chieut.md#maximum-likelihood-estimation-mle) 같은 말이 따라붙는가?
 
 이 절은 그 질문을 회수하는 보충학습입니다. 중심은 `로지스틱 회귀의 확률 해석`과 `학습 목적`입니다. 다중 클래스(multinomial) 확장과 solver, regularization은 뒤의 P4-11.4와 P4-11.5에서 나누어 다룹니다.
 
-## 보충학습: log-odds와 MLE를 처음 읽는 법에서 닫을 질문
+## log-odds와 MLE를 처음 읽을 때 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
 - log-odds는 왜 등장하는가?
 - 로지스틱 회귀는 왜 최대우도추정(MLE)으로 학습한다고 말하는가?
-- log loss는 MLE와 어떻게 연결되는가?
+- [log loss](../../../reference/concept-glossary-parts/04-rieul.md#log-loss)는 MLE와 어떻게 연결되는가?
 
 이 절은 log-odds와 MLE를 `확률 해석`과 `학습 목적`을 잇는 기준으로 먼저 닫고, 같은 모델을 왜 이런 수학 언어로 다시 읽는지 붙잡는 데 집중합니다.
 
 대신 이번 절에서 바로 더 넓혀 볼 질문도 분명합니다. 다중 클래스(multinomial) 확장은 P4-11.4에서, solver와 regularization은 P4-11.5에서 이어서 다룹니다.
 
-## 보충학습: log-odds와 MLE를 처음 읽는 법에서 남길 판단 기준
+## log-odds와 MLE에서 남길 판단 기준
 
 - 확률, odds, log-odds의 관계를 입문 수준에서 설명할 수 있습니다.
 - `z = 0`, `확률 0.5`, `odds 1`이 같은 자리를 가리킨다는 점을 설명할 수 있습니다.
@@ -217,6 +217,11 @@ L(w, b) = \prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}
 | `true_binary` | 이진 분류의 실제 정답 |
 | `proba_model_a`, `proba_model_b` | 같은 정답에 대해 확신 정도가 다른 두 확률 예시 |
 
+조작해 볼 값:
+
+- `proba_model_a`를 `0.51`, `0.49`처럼 더 경계에 가깝게 바꾸면 accuracy가 같아도 log loss가 커지는지 볼 수 있습니다.
+- `proba_model_b`에 정답과 반대인 높은 확률을 하나 넣으면, 자신 있게 틀린 예측이 log loss를 얼마나 키우는지 확인할 수 있습니다.
+
 ```python
 # log-odds, likelihood, MLE가 로지스틱 회귀 학습과 어떻게 연결되는지 계산하는 예제입니다.
 import numpy as np
@@ -252,6 +257,6 @@ log loss B        : 0.1446
 
 ## 출처와 참고 자료
 
-- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 확인 날짜: 2026-07-26. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26

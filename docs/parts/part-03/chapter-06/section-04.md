@@ -1,9 +1,9 @@
 # P3-6.4 요약 표의 모든 열이 왜 특징은 아닌가
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-요약 표에 열이 들어 있다는 사실과 그것이 특징(feature)이라는 판단은 같은 말이 아닙니다. 요약 표에는 샘플 구조를 설명하는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있습니다. 그래서 이 절에서 먼저 붙잡아야 할 구분은 `요약 표의 열`과 `모델 입력으로 읽을 특징`이 자동으로 일치하지는 않는다는 점입니다.
+[요약 표(summary table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-summary-table)에 열이 들어 있다는 사실과 그것이 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)이라는 판단은 같은 말이 아닙니다. 요약 표에는 샘플 구조를 설명하는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있습니다. 그래서 이 절에서 먼저 붙잡아야 할 구분은 `요약 표의 열`과 `모델 입력으로 읽을 특징`이 자동으로 일치하지는 않는다는 점입니다.
 
 ## 왜 이 구분이 필요한가
 
@@ -86,7 +86,7 @@
 
 이 구분을 특징 설계 바로 뒤에서 한 번 짚어 두어야 `어차피 다 feature 아닌가`라는 착각이 줄어듭니다. 요약 표는 feature만 모아 둔 표가 아니라, feature 후보, 비교 열, 결과 후보, 식별·문맥 열이 함께 잠시 놓일 수 있는 작업 표입니다. 이렇게 읽어 두면 뒤에서 기준선 비교 열과 target 후보 열을 다시 만날 때도 각 열의 역할이 덜 갑자기 바뀌어 보입니다.
 
-이 절은 `어떤 숫자 열이 feature인가`만 따지는 문제가 아니라, `작업 표 안의 열 역할을 어떻게 분리할 것인가(column-role separation in a working table)`의 문제로 다시 볼 수 있습니다.
+이 절은 `어떤 숫자 열이 feature인가`만 따지는 문제가 아니라, [작업 표 안의 열 역할 분리(column-role separation in a working table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-column-role-separation)의 문제로 다시 볼 수 있습니다.
 
 
 따라서 `숫자 열이면 다 feature`라는 오해 대신, 각 열이 샘플을 설명하는지, 비교 기준을 담는지, 결과를 적어 둔 것인지, 맥락만 남기는지부터 따져야 합니다.

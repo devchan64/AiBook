@@ -1,33 +1,33 @@
 # P4-15.1 Random Forest
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-14, we saw why a decision tree can feel intuitive while also falling into overfitting rather easily. In particular, we confirmed that even after changing `max_depth`, `min_samples_leaf`, and `ccp_alpha`, the structural instability of a single tree may not disappear completely. That leads to the next question.
+In P4-14, we saw why a [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) can feel intuitive while also falling into [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) rather easily. In particular, we confirmed that even after changing `max_depth`, `min_samples_leaf`, and `ccp_alpha`, the structural instability of a single tree may not disappear completely. That leads to the next question.
 
 How can we keep the strengths of trees while reducing the excessive instability of a single tree?
 
-That question is the starting point of the random forest.
+That question is the starting point of the [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest).
 
 Random forest is a model that gathers predictions from many decision trees trained a little differently and tries to produce a more stable judgment than a single tree.
 
 In other words, random forest is not `a model that throws trees away`, but `a model that gathers many trees and reduces their weaknesses`.
 
-This Section explains the basic meanings of `random forest`, `ensemble`, `bootstrap`, and `random feature selection`. The later Sections continue the judgment handles built here, and the basic sense of reducing instability through agreement among many trees reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meanings of [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest), [ensemble](/AiBook/en/reference/concept-glossary-alpha/e/#ensemble), [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap), and random feature selection. The later Sections continue the judgment handles built here, and the basic sense of reducing instability through agreement among many trees reconnects through this Section and the matching glossary entries.
 
-## Scope Of This Section
+## Questions Closed By Random Forest
 
 This Section answers the following questions.
 
 - Why does random forest use many trees?
-- What roles do `bootstrap`, `max_features`, and `averaging` play?
+- What roles do [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap), [max_features](/AiBook/en/reference/concept-glossary-alpha/m/#max-features), and `averaging` play?
 - Why can it look more stable than a single tree?
 - How does random forest combine predictions in classification and regression?
-- What do `n_estimators`, `max_features`, `bootstrap`, and `oob_score` mean?
+- What do [n_estimators](/AiBook/en/reference/concept-glossary-alpha/n/#n-estimators), [max_features](/AiBook/en/reference/concept-glossary-alpha/m/#max-features), [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap), and [oob_score](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) mean?
 
 This Section first closes the question `why gathering many trees tries to make a more stable judgment than one tree`. Feature importance continues in P4-15.2, the evaluation reading of the OOB(out-of-bag) score continues in P4-15.3, the Extra Trees comparison continues in the supplementary Section P4-15.4, and the contrast with gradient boosting continues in P4-16.1 and P4-16.2.
 
-## Goals Of This Section
+## Judgments To Keep From Random Forest
 
 - You can explain random forest as `an average / aggregation model of many randomized trees`.
 - You can explain why bootstrap sampling and random feature selection are needed.
@@ -338,6 +338,12 @@ This example is a small exercise that compares one decision tree and a random fo
   - test performance and stability can change even on the same data
   - `n_estimators` is connected to the size of the forest
 
+Values to change:
+
+- `n_estimators`: compare forest sizes such as 10, 50, and 100 while watching score and runtime together.
+- `random_state`: see how differently a single tree and a forest react to the same seed changes.
+- `max_features`: compare the default value with `None` to see what changes when tree diversity shrinks.
+
 ```python
 # This example compares a single decision tree and a random forest side by side on iris classification.
 from sklearn.datasets import load_iris
@@ -398,8 +404,7 @@ This example repeats the same data split across several random seeds and checks 
 
 Problem situation:
 
-- when comparing models, it matters to inspect not only the best score
-but also how much the performance shakes across several splits
+- when comparing models, it matters to inspect not only the best score, but also how much the performance shakes across several splits
 
 Input:
 
@@ -415,9 +420,14 @@ Expected output:
 
 Concepts to check:
 
-- the strength of random forest can appear more clearly in `reduced instability`
-than in the single best score
+- the strength of random forest can appear more clearly in `reduced instability` than in the single best score
 - comparing several seeds is the simplest way to read stability
+
+Values to change:
+
+- `range(10)`: change the number of repeated seeds to 5 or 20 and see how stable the average becomes.
+- `n_estimators`: compare 10 and 100 to see how the number of trees affects instability.
+- `max_depth`: limit both the single tree and the individual trees inside the forest to see how the average score changes.
 
 ```python
 # This example compares test-score variation across random_state values for a single tree and a random forest.
@@ -478,6 +488,6 @@ but from `averaging unstable trees`.
 
 ## Sources And References
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001, accessed 2026-07-19. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001, accessed 2026-07-26. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }

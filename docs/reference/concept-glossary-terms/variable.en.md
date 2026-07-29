@@ -1,7 +1,7 @@
 ## variable
 
-- Meaning: 값을 가리키기 위해 붙인 이름입니다. 변수 자체가 값 그 자체라기보다, 현재 어떤 값을 참조하거나 담고 있는 이름표에 가깝습니다. 즉 변수는 데이터를 새로 만드는 것이 아니라, 계산 과정에서 값을 다시 부르고 넘기기 쉽게 붙여 두는 표식입니다.
-- Why it matters: `x`, `loss`, `prediction` 같은 이름이 무엇을 가리키는지 놓치면 수식과 코드를 함께 읽기 어렵습니다. 변수 감각이 있어야 같은 값이 어디서 만들어지고 어디로 전달되는지 추적할 수 있습니다. 이 개념이 있어야 이름표와 실제 데이터를 분리해 읽게 되고, 변수 재할당이나 중간 계산 저장이 왜 필요한지도 더 자연스럽게 이해하게 됩니다. 또한 변수를 이해해야 코드가 길어질수록 `지금 이 이름이 무엇을 가리키는가`를 놓치지 않고 따라갈 수 있습니다. 초심자에게는 `이름이 바뀌었다`와 `값이 바뀌었다`를 구분하는 출발점이기도 합니다.
-- Related concepts: `function`, `expression`, `input`
+- Meaning: A variable is a name used to refer to a value. The variable is not the value itself; it is a label that lets a calculation or program refer to the value again.
+- Why it matters: Readers need variables to follow formulas and code. The concept separates a name from the data it currently refers to, which helps with assignment, updates, function inputs, and intermediate calculations.
+- Related concepts: `function`, `model input`, `feature`
 - Core Section: `P2-2.1`
 - Appears in: `P2-8.5`, `P2-10.3`

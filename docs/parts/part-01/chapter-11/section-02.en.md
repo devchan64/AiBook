@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, and Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 11.1 introduced `language models` and `embeddings`. This section asks how neural networks tried to handle the `order` and `context` of those vectorized tokens.
 

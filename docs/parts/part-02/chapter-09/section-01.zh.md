@@ -1,7 +1,7 @@
 # P2-9.1 为什么需要数据结构
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P2-8 中，我们已经看过 Python 的值、列表、字典、循环、函数和类。现在我们后退一步，把问题换掉。
 
@@ -9,7 +9,7 @@
 
 这个问题就是数据结构的出发点。数据结构不只是语法名称。数据如何组织、哪些操作会被频繁执行，会一起改变代码的形状和计算的方式。
 
-这里说明 `data structure`、`abstract data type`、`linear structure`、`non-linear structure` 这几个基本区分。即使后面的章节会再把数组、表、树、图分开来看，为什么要先把数据结构读成一个问题，仍然要回到本节的标准。后面这些结构名称再次出现时，也可以一起查看[概念词汇表](/AiBook/reference/concept-glossary/)。
+这里说明 `data structure`、`abstract data type`、`linear structure`、`non-linear structure` 这几个基本区分。即使后面的章节会再把数组、表、树、图分开来看，为什么要先把数据结构读成一个问题，仍然要回到本节的标准。后面这些结构名称再次出现时，也可以一起查看[数据结构词条](/AiBook/zh/reference/concept-glossary-pinyin/d.zh/#data-structure)。
 
 本节不是增加新的 Python 语法，而是从“数据组织”的视角，把前面学过的语法重新绑在一起。如果说 Chapter 8 是学习值、成组、重复、函数这些可执行语句的阶段，那么这里就是重新看这些语句默认依赖了什么样的数据形状。这样读，更容易把列表和字典理解成不同的数据结构选择，而不是单纯的语法项目。
 

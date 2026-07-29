@@ -1,7 +1,7 @@
 # P6-5.2 Instruction Following and Conversational Interfaces Added on Top of Generation Structures
 
 > Section ID: `P6-5.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-5.1, we explained the GPT family as a decoder-centered flow that generates the next token based on previous tokens. But the chatbots, copilots, and conversational assistants we actually meet do not feel like simple continuation writing.
 
@@ -17,7 +17,7 @@ The conversational transition begins with the following questions.
 - Why did users come to feel an LLM as an `answering system`?
 - What else was needed outside the structure to create the conversational experience?
 
-If we first grasp the broad flow of the conversational transition, later topics such as instruction tuning, alignment, prompt design, tool use, and agent loops can also be read by separating the `model itself` from the `adjustment layers that create user experience`.
+If we first grasp the broad flow of the conversational transition, later topics such as instruction tuning, alignment, prompt design, tool use, and AI agent loops can also be read by separating the `model itself` from the `adjustment layers that create user experience`.
 
 The change in user experience did not arise simply from an increase in model parameters. If P6-5.1's GPT explanation dealt with `what generation structure appends the next token`, here we read what adjustments and interfaces are added on top of that generation structure so users feel it as a `system that answers questions`.
 
@@ -56,7 +56,7 @@ Autocomplete and conversational LLMs both sit on top of generation structures, b
 | Interface role | It looks like part of the input box | It looks like an assistant bundled with conversation history and system roles |
 | Follow-up question | Why does it continue naturally? | What adjustment layer created the answering experience? |
 
-## What It Means to Change From Autocomplete to Conversation
+## Changing from Autocomplete to Conversation
 
 Early generative model user experience was generally like this.
 

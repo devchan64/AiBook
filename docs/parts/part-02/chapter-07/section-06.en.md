@@ -1,7 +1,7 @@
 # P2-7.6 Supplemental Learning: Opening Terminals by Operating System
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: Where do you enter commands and how do you check the current location on Windows, macOS, and Linux?_
 
@@ -37,7 +37,7 @@ This supplement organizes the procedure for opening a terminal, checking the cur
 | Even so, what you look at first in common is the current location and the file list | Even across operating systems, the order of checks before practice does not differ much | Keep the criterion that location checking comes first |
 | Terminal shortcuts can behave differently from general apps | If you confuse copy-paste with interrupting execution, your work can stop unexpectedly | Remember that `Ctrl+C`-type behavior must be handled carefully by environment |
 
-## The Terminal App and the Shell Can Differ by Operating System
+## Terminal App and the Shell Can Differ by Operating System
 
 The first confusion in terminal usage is usually that the “terminal app” and the “shell running inside it” get mixed together.
 
@@ -348,7 +348,7 @@ When you encounter a terminal error, do not immediately decide `I am bad at Pyth
 
 In early practice, the most common problems are not deep code errors. They are problems such as being in the wrong current folder, having the package installed in a different environment, or mistaking Colab and the local PC for the same environment.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. When the Same Command Is Copied but Looks Different on Windows and macOS
 

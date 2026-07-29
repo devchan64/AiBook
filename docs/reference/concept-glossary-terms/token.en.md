@@ -1,7 +1,9 @@
+<a id="token"></a>
+
 ## token
 
-- Meaning: 모델이 텍스트를 처리하기 위해 나눈 기본 계산 단위입니다. 이 단위는 항상 `단어`와 같지 않아서, 한 단어가 여러 토큰으로 쪼개지거나 반대로 짧은 표현 몇 개가 하나처럼 다뤄질 수 있습니다. 즉 사람 눈에는 한 문장처럼 보여도, 모델 내부에서는 토큰들의 순서열로 바뀌어 계산됩니다.
-- Why it matters: 사람이 읽는 단어와 모델이 실제로 다루는 단위가 다를 수 있다는 점을 이해해야 다음 토큰 예측과 LLM 생성 과정을 올바르게 읽을 수 있기 때문입니다. 비용, 문맥 창 길이, 토큰 커버리지 문제도 모두 이 계산 단위에서 시작됩니다. 또한 토큰을 이해해야 `글자 수가 비슷한데 왜 비용이 다르지` 같은 질문을 더 정확히 해석하게 되고, 프롬프트 설계나 문맥 길이 제한을 문자 수가 아니라 실제 토큰 수 기준으로 보는 이유도 자연스럽게 이어집니다. 결국 토큰은 `사람이 읽는 문장`과 `모델이 계산하는 입력` 사이를 이어 주는 실제 계산 단위입니다.
+- Meaning: A token is the basic computational unit into which a model splits text for processing. It is not always the same as a word: one word can split into several tokens, and several short expressions can sometimes be handled as one piece. A sentence that looks continuous to a person becomes a sequence of tokens inside the model.
+- Why it matters: Readers need this distinction because the units people read and the units a model computes over can differ. Cost, context-window limits, and token coverage all begin from this computational unit. Understanding tokens also explains why prompt design and context limits must be judged by token count rather than by character count alone.
 - Related concepts: `next-token prediction`, `language modeling`, `embedding`, `tokenization`, `context window`
 - Core Section: `P6-2.1`
-- Appears in: `P1-10.2`, `P5-13.1`, `P5-13.2`, `P6-2.2`, `P6-2.2`, `P7-4.1`, `P7-4.2`
+- Appears in: `P1-10.2`, `P5-13.1`, `P5-13.2`, `P6-2.1`, `P6-2.2`, `P6-2.3`, `P6-2.4`, `P6-2.5`, `P7-4.1`, `P7-4.2`

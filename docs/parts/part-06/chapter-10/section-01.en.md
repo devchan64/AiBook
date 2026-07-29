@@ -1,7 +1,7 @@
 # P6-10.1 Prompt Engineering That Adjusts Input Instructions, Context, and Examples
 
 > Section ID: `P6-10.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-9.2, we saw that alignment is not simply a problem of making friendly answers. It is a design problem involving helpfulness, safety, factuality, and service policy together. Now we need to look at the tool that users touch first.
 
@@ -13,7 +13,7 @@ Put more simply:
 
 A prompt is the first adjustment point that tells the model what to answer and how to answer.
 
-## The Work Handled by Input Design
+## Work Handled by Input Design
 
 - What does prompt engineering adjust?
 - Why did prompts become the first tool in the LLM user experience?
@@ -23,7 +23,7 @@ The core point is that a prompt is `input design for observing and adjusting the
 
 A prompt is not a `magic spell`. It is safer to read it as an input-design tool for observing and adjusting model behavior.
 
-The prompt chapter is a transition section. After pretraining, fine-tuning, and alignment, it reads `input design that users can adjust right now`, checks its limits, and then moves to RAG and tool use. The question at this stage is how far the current model response can be changed through input design. Model weight adjustment remains in the fine-tuning layer, and latest-evidence connection and real-execution connection are handled again in RAG, tool use, and agent structures.
+The prompt chapter is a transition section. After pretraining, fine-tuning, and alignment, it reads `input design that users can adjust right now`, checks its limits, and then moves to RAG and tool use. The question at this stage is how far the current model response can be changed through input design. Model weight adjustment remains in the fine-tuning layer, and latest-evidence connection and real-execution connection are handled again in RAG, tool use, and AI agent structures.
 
 The first impression that should change here is not `tips for writing good sentences`, but the understanding that this is `input design for observing and adjusting current model responses`.
 
@@ -34,12 +34,12 @@ The first impression that should change here is not `tips for writing good sente
 - You can say why prompts became the starting point for fast experiments and behavior observation.
 - You can read prompt limits as `problems that do not close with input design alone`.
 
-Many users who started using generative AI tools first felt through prompts that `the same model can move differently depending on input design`. So prompts are best read as the most direct control device that users meet before RAG, tool use, and agents.
+Many users who started using generative AI tools first felt through prompts that `the same model can move differently depending on input design`. So prompts are best read as the most direct control device that users meet before RAG, tool use, and AI agents.
 
 This perspective matters for the following reasons.
 
 - It lets us start observing behavior without knowing the full model structure.
-- It connects to why input design remains important later in RAG, tool use, and agents.
+- It connects to why input design remains important later in RAG, tool use, and AI agents.
 - It also lets P6-10.2 separate the limits that prompts alone cannot solve.
 
 The scenes to separate first are cases where an answer appears but length and format drift, cases where the same task keeps missing the reader level or tone, and cases where the answer is plausible but freshness or evidence feels unstable. In the first two cases, we can first ask what is missing among instruction, context, and example. By contrast, if the problem is latest documents, real evidence, or successful calculation, lookup, and execution, writing a more refined input sentence alone may not close it.
@@ -175,7 +175,7 @@ This matters because even when RAG or tool use is attached, the user still first
 
 Prompts should be read in the main flow of Part 6 as the first practical control point users touch, and then connected to what structure is needed next.
 
-The shortest structure to hold is `prompt input adjustment -> RAG evidence connection -> tool use/agent execution structure`. In prompt input adjustment, we ask what input draws out the desired format and scope better. In RAG, we ask what evidence should be attached when prompts alone are insufficient. In tool use and agent structures, we ask what performs execution that documents alone cannot handle and in what order. The prompt is responsible for `input adjustment` in this flow, and when its limits appear, evidence connection and execution structure need to be attached separately.
+The shortest structure to hold is `prompt input adjustment -> RAG evidence connection -> tool use/AI agent execution structure`. In prompt input adjustment, we ask what input draws out the desired format and scope better. In RAG, we ask what evidence should be attached when prompts alone are insufficient. In tool use and AI agent structures, we ask what performs execution that documents alone cannot handle and in what order. The prompt is responsible for `input adjustment` in this flow, and when its limits appear, evidence connection and execution structure need to be attached separately.
 
 What should be kept first is an experiment memo and format-check statistics that show which input design was tried, which items were often missing from the answer, and where the format drifted. This record is needed so that P6-10.2 can recheck prompt limits, and so that the move to P6-11.1 evidence-connection judgment or P6-13.1 execution-need judgment does not become shaky. Later, this record is read again as evaluation standards in P6-16 and as review memos, execution logs, and improvement plans for Part 6.
 

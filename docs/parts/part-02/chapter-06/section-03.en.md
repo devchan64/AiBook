@@ -1,7 +1,7 @@
-# P2-6.3 The Intuition of Gradient Descent
+# P2-6.3 Intuition of Gradient Descent
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-6.1, we looked at optimization as the problem of finding a better value, and in P2-6.2, we looked at how model wrongness is turned into a number called `loss`. Now the question becomes more concrete.
 
@@ -44,7 +44,7 @@ If we read this movement as a learning loop, it looks like this.
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-en.mmd"
 ```
 
-## Core Criteria: The Intuition of Gradient Descent
+## Core Criteria: the Intuition of Gradient Descent
 
 - You can explain `gradient descent` as a repeated movement method for lowering loss.
 - You can explain that the `gradient` is the direction information at the current position.
@@ -60,7 +60,7 @@ If we read this movement as a learning loop, it looks like this.
 | We must move in the direction opposite the gradient | Since the gradient is the direction in which loss grows, we must read it opposite to our goal. | It is enough if you can explain why it becomes `descent`. |
 | Learning rate determines the width of one movement | Even if the direction is correct, if the stride is wrong, learning can wobble or become slow. | Secure the feel of reading learning rate as the size of one step. |
 
-## The Mountain-Descending Metaphor Is Useful, but Not Complete
+## Mountain-Descending Metaphor Is Useful, but Not Complete
 
 Gradient descent is often explained with the metaphor of walking down a mountain. You stand on a high place, look at the surrounding slope, and then go little by little in the direction that becomes lower.
 
@@ -72,7 +72,7 @@ So gradient descent is not a method that jumps to the answer at once. It is a re
 
 The same is true in the study-time and score example. If the current line predicts students C and D generally too low, then instead of pointing to the perfect line at once, we repeatedly check `does the loss go down if we increase slope a a little?` and `does it get better if we adjust intercept b a little?`
 
-## The Gradient Tells Us the Uphill Direction
+## Gradient Tells Us the Uphill Direction
 
 The `gradient` is connected to the direction in which the function value increases fastest at the current position. If we think about the loss function, the gradient direction is the direction in which loss becomes larger.
 
@@ -92,7 +92,7 @@ Here we understand the learning rate as `the size of one step`. Even if we know 
 
 For example, if we raise slope `a` too much at once, the error around student D may shrink, but around students A and B it may overshoot instead. Conversely, if we change it only a tiny amount, improvement becomes very slow even when we know the direction of reducing loss. The learning rate determines this stride.
 
-## In Work, What Is Changed Little by Little?
+## in Work, What Is Changed Little by Little?
 
 If you think of gradient descent only as `a method for changing numbers inside an AI model`, it feels distant. From a work perspective, it means: there is a goal, we produce a result with the current setting, see numerically how bad that result is, change the setting a little in the direction where that number goes down, and then check again.
 
@@ -110,7 +110,7 @@ What matters here is that the person does not complete and insert every work rul
 
 This example does not mean that gradient descent automatically solves every work problem. In work, conditions such as data quality, goal setting, cost, safety, and explainability are also needed together. Gradient descent is the calculation method that answers `how should we change values in order to reduce the given loss?`
 
-## The Update Formula Is a Compressed Expression of the Movement Structure
+## Update Formula Is a Compressed Expression of the Movement Structure
 
 Gradient descent is usually expressed by a formula like the following.
 

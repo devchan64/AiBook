@@ -1,7 +1,7 @@
 # P4-10.3 补充学习：第一次该怎样读回归诊断(regression diagnostics)
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 读到 P4-10.2 为止，linear regression 的基本评价已经具备了。但在真实文档或课程里，读者很快还会碰到下面这些表达。
 
@@ -12,9 +12,9 @@
 
 本节的目的，不是去学习这些概念的全部证明，而是整理 `这些词到底在担心什么`，让读者在看到 regression result 表时不要停住。
 
-这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [概念词汇表](/AiBook/reference/concept-glossary/) 里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
+这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [linear regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#linear-regression) 条目里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
 
-## 本补充学习的范围
+## 第一次读 regression diagnostics 时要分清的边界
 
 这一节回答下面这些问题。
 
@@ -27,7 +27,7 @@
 
 各类检验统计量的公式推导、围绕 p-value 解读的完整历史争论、VIF 练习与高级 regression package 的使用方法，超出了当前这份补充学习的直接范围，所以这里不会详细处理。
 
-## 用补充学习：第一次该怎样读回归诊断(regression diagnostics)恢复的概念连接
+## 第一次读 regression diagnostics 时要恢复的概念连接
 
 - 能把 regression diagnostics 解释成 `为了避免过度相信 linear regression 结果而做的检查`。
 - 能区分 significance、normality、homoscedasticity、multicollinearity 分别在担心什么。
@@ -64,9 +64,14 @@ linear regression 是一个去拟合直线的 model，但画出一条直线，�
 在做 prediction 时，读者并不需要把 normality 感成绝对条件。但在 coefficient 解释或某些统计检验语境里，如果 residual 的形状严重向一边挤压，解释就可能变得不稳。
 
 - 如果 residual 很长地拖向一边，解释要更谨慎
-- 一个大的 outlier 就可能把 residual 形状强烈摇动
+- 一个大的 [outlier](/AiBook/zh/reference/concept-glossary-pinyin/y/#outlier) 就可能把 residual 形状强烈摇动
 
 用一个很小的比较练习来看，可以读成下面这样。
+
+可以改动的值：
+
+- 把 `skewed_residuals` 的最后一个值改成 `8`、`12` 或 `20`，可以观察一侧尾巴越长，range 会怎样变大。
+- 给 `balanced_residuals` 同时加入 `-8` 和 `8`，可以比较两侧都有大值与只有一侧突然变大的差异。
 
 ```python
 # 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
@@ -159,6 +164,11 @@ multicollinearity 出现在输入 feature 之间携带了太多重叠信息的�
   - 强烈重叠的 feature 一起进入时，coefficient 的角色会像被分摊
   - prediction 维持住了，不等于 coefficient interpretation 也稳住了
 
+可以改动的值：
+
+- 让 `yearly_spend_proxy` 更接近 `monthly_spend * 12`，可以观察两个 feature 更重叠时 coefficient 分配会怎样变化。
+- 同时改变 `query_two` 里的两个值，可以比较 prediction 怎样移动，以及为什么 coefficient interpretation 仍然要谨慎。
+
 ```python
 # 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
 import numpy as np
@@ -204,6 +214,11 @@ one-feature prediction   : 47.5
 ### 如果只摇动重叠特征里的一个点，什么保持不变，什么发生变化
 
 这次只把 `yearly_spend_proxy` 的最后一个值从 `239` 改成 `233`，再重新训练一次。
+
+可以改动的值：
+
+- 把 `yearly_spend_shifted` 的最后一个值改成 `229`、`233` 或 `239`，可以比较 prediction 变化和 coefficient 变化的大小。
+- 也可以把 `monthly_spend` 的最后一个值轻微改动，观察两个重叠 feature 里哪一个 coefficient 更容易移动。
 
 ```python
 # 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
@@ -257,6 +272,11 @@ shifted prediction    : 47.479
 
 不要只停在 multicollinearity 上，再看一个误差 spread 会随区间变化的小场景。
 
+可以改动的值：
+
+- 把 `high_range_residuals` 缩小成 `[-5, 4, 6]` 这样的值，可以观察区间间 spread 差距变小时解释会怎样变化。
+- 也可以在 `low_range_residuals` 里加入一个大值，让读者更清楚为什么要把区间级 error spread 和平均性能分开检查。
+
 ```python
 # 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
 low_range_residuals = [-2, 1, 0]
@@ -294,5 +314,5 @@ high-range spread : 33
 
 ## 出处与参考资料
 
-- statsmodels developers, [Regression diagnostics](https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-01.
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, [An Introduction to Statistical Learning](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-01.
+- statsmodels developers, `Regression diagnostics`, statsmodels 0.14.6, 确认日期: 2026-07-26. [https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html](https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, `An Introduction to Statistical Learning`, 确认日期: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

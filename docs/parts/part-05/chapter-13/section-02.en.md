@@ -1,7 +1,7 @@
-# P5-13.2 The Flow That Leads To Self-Attention
+# P5-13.2 The Flow That Leads to Self-Attention
 
 > Section ID: `P5-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-13.1, we explained attention as `a method that refers more strongly to positions important for the current computation`. The next question follows immediately.
 
@@ -13,7 +13,7 @@ Self-attention is a method in which each token inside a sequence refers to other
 
 When you need to briefly confirm again the core mechanism right before the Transformer, return to the glossary entry on [self-attention](/AiBook/en/reference/concept-glossary-alpha/s/#self-attention).
 
-## The Question Of How Self-Attention Rereads The Same Sequence
+## The Question of How Self-Attention Rereads the Same Sequence
 
 - How is self-attention different from attention?
 - Why is the idea `tokens refer to one another inside their own sequence` important?
@@ -26,14 +26,14 @@ The full Transformer structure is continued from P5-14.1 through P5-14.6, and an
 
 There is one explanation that must be closed here. Rather than `does the token receive sequential state`, this section needs to make the reader understand the shift in computational feel toward `do the tokens reread one another and update their own representations`.
 
-## Standards For Token Relations And Representation Updates
+## Standards for Token Relations and Representation Updates
 
 - You can explain self-attention as `mutual reference among tokens inside a sequence`.
 - You can say that self-attention gives a computational feel different from RNN-style sequential transfer.
 - You can say what advantages self-attention gives for parallel processing and long-context problems.
 - Through an executable Python example, you can confirm the intuition of token-to-token importance reference.
 
-## What Is Different Between Attention And Self-Attention
+## What Is Different Between Attention and Self-Attention
 
 Broadly speaking, attention is `a method that decides which positions the current computation should refer to more strongly`. In self-attention, the key difference is that those reference targets are inside the same sequence.
 
@@ -109,7 +109,7 @@ The battery pack was placed on the workbench, and the insulating cap was on the 
 
 When reading `it` here, looking only at the immediately preceding word is not enough to judge stably whether it refers to `the tray` or `the insulating cap`. From the self-attention viewpoint, the position of `it` rereads other words in the sentence again and can place larger weight on the candidate that fits the current context better. That is, the core feel is `to understand one current token, the sentence is mixed and reread again as a whole`.
 
-## Why Did It Become The Core Of The Transformer
+## Why Did It Become the Core of the Transformer
 
 Self-attention matters not simply because it `looks smarter`. It changes the computational structure itself.
 
@@ -160,7 +160,7 @@ RNNs pass state in temporal order, so the computational flow feels strongly sequ
 
 This point also connects naturally to the Part 5 discussion of GPU, batch, and tensor computation.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. Interpreting A Referring Expression Inside A Sentence
 
@@ -184,7 +184,7 @@ The same viewpoint extends directly to interpreting condition scope inside one s
 
 If we place the three cases together, the core of self-attention is not `the whole sentence is seen once`, but `what must be reread changes for each current token, and the new representation also changes accordingly`.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm directly, in a safety-inspection memo, which candidates inside the sentence the current token rereads more strongly, and how the current representation changes as a result. This time, instead of putting the tokens and scores only inside the code, we separate candidate tokens from several safety memos into a CSV file and read them from there.
 
@@ -239,21 +239,21 @@ import math
 
 DATA_PATH = Path("docs/assets/part-05/chapter-13/self-attention-safety-memo-candidates.csv")
 FOCUS_DOCUMENT_ID = "memo_cap_missing"
-TARGET_TOKENS = ["그것", "씌우지"]
+TARGET_TOKENS = ["it", "not_put_on"]
 VECTOR_COLUMNS = ["evidence_pack", "evidence_cap", "evidence_action"]
 
 DISPLAY_TOKEN = {
-    "배터리팩": "battery_pack",
-    "분리": "separated",
-    "절연캡": "insulating_cap",
-    "씌우지": "not_put_on",
-    "그것": "it",
-    "위험": "risk",
+    "battery_pack": "battery_pack",
+    "separated": "separated",
+    "insulating_cap": "insulating_cap",
+    "not_put_on": "not_put_on",
+    "it": "it",
+    "risk": "risk",
 }
 
 DISPLAY_TARGET = {
-    "그것": "it",
-    "씌우지": "not_put_on",
+    "it": "it",
+    "not_put_on": "not_put_on",
 }
 
 with DATA_PATH.open(encoding="utf-8", newline="") as f:
@@ -296,7 +296,7 @@ def run_self_attention(target_token):
     cap_weight = sum(
         weight
         for row, weight in zip(target_rows, weights)
-        if row["candidate_token"] in {"절연캡", "씌우지"}
+        if row["candidate_token"] in {"insulating_cap", "not_put_on"}
     )
 
     print("target_token =", DISPLAY_TARGET[target_token])
@@ -387,7 +387,7 @@ Rather than reading the result once and moving on, it is better to continue by c
 
 That is, self-attention is `a method that sees context and then recalculates the representation again`.
 
-## If We Reread This Example From The Viewpoint Of Reinterpreting The Current Token
+## If We Reread This Example from the Viewpoint of Reinterpreting the Current Token
 
 The numbers above do not implement all of large-scale self-attention, but the comparison standard is clear.
 
@@ -409,7 +409,7 @@ The transition to confirm in self-attention is that attention did not remain onl
 - When recalculating the relationships among tokens seems more important than sequential transfer, can you recall the self-attention viewpoint first?
 - When reading the next chapter on the Transformer, are you ready first to ask `why did self-attention become block-centered computation`?
 
-## Sources And References
+## Sources and References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, checked on 2026-07-19. [https://arxiv.org/abs/1409.0473](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }

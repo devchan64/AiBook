@@ -1,21 +1,21 @@
 # P6-14.1 Agents That Change the Next Task Based on Intermediate Results
 
 > Section ID: `P6-14.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-13.2, we saw that function calling represents tool use in a structured format. The question now grows larger. What should we call a workflow when tool calls do not end with one call, but must continue across several steps?
 
-An agent is a work structure that receives a goal, continues the necessary subtasks, and creates a result by repeating tool use and observation.
+An AI agent is a work structure that receives a goal, continues the necessary subtasks, and creates a result by repeating tool use and observation.
 
-## The difference between a single call and a goal flow
+## Single Call and Goal Flow Difference
 
-The issue to close when understanding agents is distinguishing `an execution structure that carries a goal across several steps` from a single tool call. If the previous chapter's tool use asked `what should we look up or execute once`, an agent asks how to connect several tool calls and document-reading results in order, and when to stop or try again.
+The issue to close when understanding agents is distinguishing `an execution structure that carries a goal across several steps` from a single tool call. If the previous chapter's tool use asked `what should we look up or execute once`, an AI agent asks how to connect several tool calls and document-reading results in order, and when to stop or try again.
 
-So it is safer to read an agent not as a broad product name, but as `a goal flow whose next action changes after seeing intermediate results`. If P6-13.2's function calling was about passing one execution request in a verifiable structure, an agent is about the order of several calls and reads, and about state management. P6-14.2 looks more closely at how the loop actually moves through planning, action, and observation.
+So it is safer to read an agent not as a broad product name, but as `a goal flow whose next action changes after seeing intermediate results`. If P6-13.2's function calling was about passing one execution request in a verifiable structure, an AI agent is about the order of several calls and reads, and about state management. P6-14.2 looks more closely at how the loop actually moves through planning, action, and observation.
 
 The records to keep here are the step plan, intermediate observation notes, and next step. These records let us later reread why the next action changed and where a flow-level failure occurred. The next P6-14.2 section looks more concretely at where to stop and hand work over for human review.
 
-## Scenes that should be read as agent workflows
+## Scenes that should be read as AI agent workflows
 
 The distinction to fix here is not memorizing agent as the name of a new product, but separating scenes where `several tools were used` from scenes where `the next action changes after seeing an intermediate result`. A long answer does not automatically become an agent. Conversely, even if the output is short, the structure becomes closer to an agent if the system checks search results and searches again, reads a tool result and chooses a different tool, or stops and hands off to a person after failure.
 
@@ -25,13 +25,13 @@ The distinction to fix here is not memorizing agent as the name of a new product
 | Search terms, tools, or next steps change after intermediate results | Yes | Choosing the next action itself becomes the problem. |
 | Retry, stop, and handoff criteria must be decided after failure | Yes | Goal flow and state management become more important than one answer. |
 
-If we keep this table in mind while reading the agent description, state, and examples below, it becomes easier to hold an agent as `a goal flow in which the next-step choice keeps changing`, not merely `a system that uses many tools`.
+If we keep this table in mind while reading the agent description, state, and examples below, it becomes easier to hold an AI agent as `a goal flow in which the next-step choice keeps changing`, not merely `a system that uses many tools`.
 
 ## A structure that ties reading and execution into goal order
 
 A prompt designs the input. RAG finds external documents and attaches them as answer evidence. Tool use calls an external function. Function calling organizes that call into a name and argument structure.
 
-What becomes newly important in an agent is placing these elements inside a `goal flow`. Unlike one tool call, the next action changes after intermediate results, and the center shifts from one answer to a goal-centered workflow. So when reading an agent, we should first ask `what did the system choose to do next after seeing the current state`, rather than `what did it execute once`.
+What becomes newly important in an AI agent is placing these elements inside a `goal flow`. Unlike one tool call, the next action changes after intermediate results, and the center shifts from one answer to a goal-centered workflow. So when reading an agent, we should first ask `what did the system choose to do next after seeing the current state`, rather than `what did it execute once`.
 
 For example, if a goal continues through a flow such as:
 
@@ -42,17 +42,17 @@ For example, if a goal continues through a flow such as:
 - retrying after failure
 - summarizing the final result
 
-then it is closer to an agent structure than to a simple one-shot request.
+then it is closer to an AI agent structure than to a simple one-shot request.
 
 In other words, an agent centers on `a workflow toward a goal` more than on `one response`.
 
-## The difference between a chat interface and a work-coordination structure
+## Chat Interface and Work-Coordination Structure Difference
 
 Agents are often understood roughly as `smarter chatbots`. But a safer explanation is this.
 
 `An agent may have a conversational interface, but its core is not the conversation itself. Its core is an execution structure that carries work steps forward for a goal.`
 
-For example, an agent can:
+For example, an AI agent can:
 
 - break a question down again
 - search documents
@@ -62,7 +62,7 @@ For example, an agent can:
 
 This kind of flow is closer to a `work-coordination structure` than to a simple one-time answer.
 
-## The levels of prompt, RAG, tool use, and agent
+## Prompt, RAG, Tool Use, and Agent Levels
 
 | Structure | What it handles first | Immediate judgment needed | How the result closes |
 | --- | --- | --- | --- |
@@ -72,7 +72,7 @@ This kind of flow is closer to a `work-coordination structure` than to a simple 
 | Function calling | Tool-call format | Which name and arguments should be passed? | A verifiable call request |
 | Agent | Multistep state | What should happen next, and when should it stop? | A workflow that continues toward a goal |
 
-The point of this table is that an agent is not simply a version with more tools attached. It changes `choosing the next step` into the central problem. So explaining agents is not a matter of listing more functions, but of regrouping the previous reading and execution pieces into `goal-based ordering`.
+The point of this table is that an AI agent is not simply a version with more tools attached. It changes `choosing the next step` into the central problem. So explaining agents is not a matter of listing more functions, but of regrouping the previous reading and execution pieces into `goal-based ordering`.
 
 The minimum difference across Chapters 12 to 14 can be fixed again like this.
 
@@ -96,7 +96,7 @@ For example:
 
 Without this information, the agent can lose context at every step and repeat the same mistake.
 
-So an agent is closer to `execution with state` than to simple output generation.
+So an AI agent is closer to `execution with state` than to simple output generation.
 
 Because of this, an agent explanation must answer `why?` by looking at the current step, previous result, and remaining goal together.
 
@@ -110,7 +110,7 @@ The point to distinguish is that `returning one explanation` and `carrying sever
 - reorganizing results
 - carrying the work through to the end
 
-In other words, when a request does not close with one answer and begins to continue through `read -> execute -> check -> choose the next action`, it is more accurate to read the scene as an agent structure than as a single response.
+In other words, when a request does not close with one answer and begins to continue through `read -> execute -> check -> choose the next action`, it is more accurate to read the scene as an AI agent structure than as a single response.
 
 Examples include:
 
@@ -119,7 +119,7 @@ Examples include:
 - document-processing automation
 - customer-support workflows
 
-These are places where agent structures stand out.
+These are places where AI agent structures stand out.
 
 ## Operational complexity added by goal flows
 
@@ -143,13 +143,13 @@ As steps increase:
 
 In other words, an agent expands capability while also greatly increasing operational complexity.
 
-## The basic flow from goal to observation
+## Basic Flow from Goal to Observation
 
 ```mermaid
 --8<-- "assets/part-06/chapter-14/p6-c14-s01-agent-flow-en.mmd"
 ```
 
-The key point of this diagram is that an agent is not a structure that ends once with `question -> answer`, but a repeated structure of `goal -> step choice -> action -> observation`.
+The key point of this diagram is that an AI agent is not a structure that ends once with `question -> answer`, but a repeated structure of `goal -> step choice -> action -> observation`.
 
 ## Cases where intermediate observation changes behavior
 
@@ -169,7 +169,7 @@ The criterion changes from `did it produce one fix` to `does it change the next 
 
 ### Case 2. Document-research agent
 
-If a user asks, `summarize the latest refund policy with evidence`, it can feel as though one search will immediately close the answer. But a document-research agent finds related notices and policy documents, checks document dates and evidence level as a person would during manual research, and if the evidence is not enough, changes the search terms or reads other sources.
+If a user asks, `summarize the latest refund policy with evidence`, it can feel as though one search will immediately close the answer. But a document-research AI agent finds related notices and policy documents, checks document dates and evidence level as a person would during manual research, and if the evidence is not enough, changes the search terms or reads other sources.
 
 If the first search result is last year's notice, the agent should not summarize it immediately. It should search again for the latest revised document. Conversely, if the latest notice is found but detailed conditions are in a separate policy PDF, the agent may need to open that PDF as well and reinforce the evidence. Otherwise, an answer can look cited while actually attaching outdated evidence or missing key conditions.
 
@@ -279,7 +279,7 @@ def guard_next_action(state):
 def build_prompt(observation):
     labels = "\n".join(f"- {label}: {description}" for label, description in ACTION_GUIDE.items())
     return f"""
-You are choosing the next action for a small LLM agent workflow.
+You are choosing the next action for a small LLM AI agent workflow.
 Return exactly one label and no explanation.
 
 Allowed labels:
@@ -435,7 +435,7 @@ So the conclusion to read from this chart is not simply that the model was wrong
 There are two results to check in this example.
 
 - The model reads the observation sentence and proposes a next action, but that proposal must be checked again together with state signals.
-- The core of an agent is not using many tools, but recording `a goal flow that chooses the next action again from the current state`.
+- The core of an AI agent is not using many tools, but recording `a goal flow that chooses the next action again from the current state`.
 
 Readers can try these adjustments in the example.
 
@@ -459,9 +459,9 @@ The core points to read from this example are these.
 
 ## Why several calls should be read as a goal flow
 
-The core of an agent is not using many tools. It is making an execution flow that splits a goal into several steps and keeps choosing the next action again while looking at the current state.
+The core of an AI agent is not using many tools. It is making an execution flow that splits a goal into several steps and keeps choosing the next action again while looking at the current state.
 
-The more important point is that `answering well once` and `continuing work while seeing intermediate results` are not the same problem. So an agent is better read not as a version with more tools attached, but as an execution flow that chooses the next action again while seeing multistep state.
+The more important point is that `answering well once` and `continuing work while seeing intermediate results` are not the same problem. So an AI agent is better read not as a version with more tools attached, but as an execution flow that chooses the next action again while seeing multistep state.
 
 This execution flow matters because it:
 
@@ -472,7 +472,7 @@ This execution flow matters because it:
 ## Checklist
 
 - You should be able to explain an agent not as `a smarter chatbot`, but as `a work structure that connects several reads and executions into a goal flow`.
-- If RAG, tool use, and function calling are reading, execution, and structuring respectively, you should be able to say that an agent is a higher-level flow centered on `choosing the next step`.
+- If RAG, tool use, and function calling are reading, execution, and structuring respectively, you should be able to say that an AI agent is a higher-level flow centered on `choosing the next step`.
 - You should know that an agent flow becomes more concrete as a repeated loop of planning, action, and observation.
 
 ## Sources and Further Reading

@@ -1,7 +1,7 @@
 # P6-3.4 补充学习：ANN 检索的速度与候选遗漏折中
 
 > Section ID: `P6-3.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P6-3.2 中，我们抓住了`寻找邻近候选`这个比较标准；在 P6-3.3 中，我们看了怎样学习表达空间，才能让这种比较成立。现在还剩一个问题。
 
@@ -210,7 +210,7 @@ for label, (ranked, candidate_count) in fast_results.items():
     missed = [name for name in full_top5 if name not in top5]
     print(
         label,
-        "window =", settings[label],
+        "window =", settings[supervised learning label],
         "candidates =", candidate_count,
         "recall@5 =", recall,
     )

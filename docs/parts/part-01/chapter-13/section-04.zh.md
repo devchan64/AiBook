@@ -1,7 +1,7 @@
 # P1-13.4 向量搜索(vector search)实现的直觉
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P1-13.1 中，我们看了如何通过嵌入(embedding)把文本(text)表示成向量(vector)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到接近的向量。在 P1-13.3 中，我们又看了怎样把这些检索候选接进 LLM 的输入上下文(context)中，形成 RAG(retrieval-augmented generation)。
 

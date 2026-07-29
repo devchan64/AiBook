@@ -1,27 +1,27 @@
 # P4-11.3 Supplementary Learning: How To Read Log-Odds And MLE For The First Time
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.1 introduced logistic regression as `a linear classification model that creates scores that can be read like probabilities`, and P4-11.2 reread those scores as a decision boundary inside the input space. At that point a natural next question remains.
+P4-11.1 introduced [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) as `a linear classification model that creates scores that can be read like probabilities`, and P4-11.2 reread those scores as a [decision boundary](/AiBook/en/reference/concept-glossary-alpha/d/#decision-boundary) inside the input space. At that point a natural next question remains.
 
-Why is probability not handled directly as a linear formula, and why do terms such as log-odds and maximum likelihood estimation (MLE) appear?
+Why is probability not handled directly as a linear formula, and why do terms such as [log-odds](/AiBook/en/reference/concept-glossary-alpha/l/#log-odds) and [maximum likelihood estimation (MLE)](/AiBook/en/reference/concept-glossary-alpha/m/#maximum-likelihood-estimation-mle) appear?
 
 This Section is a supplementary learning path that closes that question. Its center is `the probability interpretation of logistic regression` and `the learning objective`. Multinomial expansion and solver or regularization settings are separated into P4-11.4 and P4-11.5.
 
-## Scope Of This Section
+## Questions Closed By Log-Odds And MLE
 
 This Section answers the following questions.
 
 - Why does log-odds appear?
 - Why is logistic regression said to learn by maximum likelihood estimation (MLE)?
-- How does log loss connect to MLE?
+- How does [log loss](/AiBook/en/reference/concept-glossary-alpha/l/#log-loss) connect to MLE?
 
 This Section first closes log-odds and MLE as the criteria that connect `probability interpretation` and `learning objective`, and focuses on holding onto why the same model is reread in this mathematical language.
 
 At the same time, the broader questions that should be revisited later are also clear. Multinomial expansion continues in P4-11.4, and solver and regularization continue in P4-11.5.
 
-## Goals Of This Section
+## Judgments To Keep From Log-Odds And MLE
 
 - You can explain the relationship among probability, odds, and log-odds at an introductory level.
 - You can explain that `z = 0`, `probability 0.5`, and `odds 1` point to the same place.
@@ -217,6 +217,11 @@ The example below shows that even when the same correct answers are obtained, lo
 | `true_binary` | true labels of binary classification |
 | `proba_model_a`, `proba_model_b` | two probability examples with different confidence levels for the same labels |
 
+Values to change:
+
+- Change `proba_model_a` closer to the boundary, such as `0.51` and `0.49`, to see whether log loss grows even when accuracy stays the same.
+- Put one confidently wrong probability into `proba_model_b` to see how strongly log loss penalizes confident mistakes.
+
 ```python
 # This example calculates how log-odds, likelihood, and MLE connect to logistic regression training.
 import numpy as np
@@ -252,6 +257,6 @@ This output can be read as follows.
 
 ## Sources And References
 
-- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. Checked on 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. Checked on 2026-07-26. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26

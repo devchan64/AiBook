@@ -1,13 +1,15 @@
 # P5-3.3 Tanh
 
 > Section ID: `P5-3.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-3.2, we saw how the sigmoid compresses scores into the range between 0 and 1. Tanh also makes an S-shaped compression, but differs in that its output range is from \(-1\) to \(1\).
 
 Tanh becomes an important comparison point when you want to keep both negative and positive values while building a representation centered on 0.
 
-## The Question Of Tanh's Zero-Centered Transformation
+If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) and [tanh](/AiBook/en/reference/concept-glossary-alpha/t/#tanh) entries in the concept glossary.
+
+## The Question of Tanh's Zero-Centered Transformation
 
 - What formula and output range does tanh have?
 - Why is it called zero-centered, unlike the sigmoid?
@@ -16,14 +18,14 @@ Tanh becomes an important comparison point when you want to keep both negative a
 
 The formula comparison that also includes the sigmoid and ReLU is organized together in P5-3.5. The problem of output-layer choice is handled separately in P5-3.6.
 
-## Standards For Keeping Negative And Positive Signals
+## Standards for Keeping Negative and Positive Signals
 
 - You can explain tanh as `a zero-centered function that compresses values between -1 and 1`.
 - You can understand that tanh keeps negative and positive signs more directly than the sigmoid.
 - You can say that saturation appears at large positive and large negative values.
 - You can explain what kind of feel tanh gives in hidden-layer representation.
 
-## The Formula Of Tanh
+## The Formula of Tanh
 
 Tanh is written as follows.
 
@@ -53,7 +55,7 @@ Tanh is called zero-centered because when \(z=0\), the output is also 0, negativ
 
 This property is intuitive in hidden layers when you want to leave behind `which direction the signal points`. The values do not all gather only on the positive side, but can extend in both directions around 0.
 
-## Cases And Examples
+## Cases and Examples
 
 Suppose that while reading equipment state, one hidden node expresses both `a signal toward stability` and `a signal toward warning`. Let us say that negative values are read as the stable side, positive values as the warning side, and that as the absolute value becomes larger, the direction becomes stronger. If the output remained only at 0 or above, then both the stable side and the warning side would tend to look only like `weak/strong`, making the direction difference harder to catch at a glance.
 
@@ -73,7 +75,7 @@ The other important point is saturation. If \(z=2\) is already close to 1, then 
 
 The result to confirm in this case is that tanh is not merely a function that shrinks values, but a function that creates `an internal representation with direction centered on 0`, while also saturating toward both ends at large positive and large negative values.
 
-## Practice And Exercise
+## Practice and Exercise
 
 Suppose the following values are passed into tanh.
 
@@ -101,7 +103,7 @@ The direction of the answer is clear. Near 0, tanh still leaves even small chang
 - Can you say that saturation appears at large positive and large negative values?
 - Can you anticipate by what standard tanh will be compared in the formula comparison of P5-3.5?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

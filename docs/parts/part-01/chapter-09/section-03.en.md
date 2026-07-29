@@ -1,7 +1,7 @@
 # P1-9.3 Direct Lineage and Surrounding Evidence for LLMs
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How do direct lineage and surrounding evidence differ in LLM history?_
 

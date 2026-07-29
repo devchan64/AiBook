@@ -1,15 +1,15 @@
 # P4-6.3 Supplementary Learning: How To Read Metrics In Site Reliability Engineering
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-6.1 and P4-6.2 looked at model evaluation metrics. Now the gaze moves a little outward. A model fitting well and a service operating well do not mean the same thing. To understand that difference, it helps to see how the word `metric` is used in SRE, or site reliability engineering.
+P4-6.1 and P4-6.2 looked at model [evaluation metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric). Now the gaze moves a little outward. A model fitting well and a service operating well do not mean the same thing. To understand that difference, it helps to see how the word `metric` is used in SRE, or site reliability engineering.
 
 This Section does not replace an introductory SRE book. It has one purpose. It organizes as supplementary learning where `the numbers used to read model quality` and `the numbers used to read service state` resemble each other and where they split apart.
 
 ## Scope Of This Supplementary Learning
 
-This Section is a supplementary learning Section that separates machine-learning evaluation metrics from operational metrics. It connects SLI, SLO, SLA, error budget, and the operational signals often read as latency, traffic, errors, and saturation at an introductory level.
+This Section is a supplementary learning Section that separates machine-learning evaluation metrics from operational metrics. It connects SLI, SLO, SLA, error budget, and the operational signals often read as [latency](/AiBook/en/reference/concept-glossary-alpha/l/#latency), traffic, errors, and saturation at an introductory level.
 
 This Section answers the following questions.
 
@@ -154,9 +154,9 @@ So error budget is not only a number for the operations team. It is also `a sign
 
 ### Why Do Operations Look At Distribution And Percentiles More Than A Mean?
 
-The Google SRE Book explains that in operations, a simple mean can hide important facts. In particular, for latency, looking only at the mean can hide the tail.
+The Google SRE Book explains that in operations, a simple [mean](/AiBook/en/reference/concept-glossary-alpha/m/#mean) can hide important facts. In particular, for latency, looking only at the mean can hide the tail.
 
-For example, even if the average response time is 100ms, users may still feel the service is slow if some requests take 5 seconds. That is why operations often inspect percentiles such as p95 and p99.
+For example, even if the average response time is 100ms, users may still feel the service is slow if some requests take 5 seconds. That is why operations often inspect percentiles such as p95 and p99. A percentile helps reveal the tail of the whole [distribution](/AiBook/en/reference/concept-glossary-alpha/d/#distribution).
 
 It can be organized like this.
 
@@ -528,5 +528,5 @@ The key of this example is that the two cases are not compressed into one score.
 
 ## Sources And References
 
-- Google SRE, `Service Level Objectives`, Site Reliability Engineering Book, accessed 2026-06-26. [https://sre.google/sre-book/service-level-objectives/](https://sre.google/sre-book/service-level-objectives/){: target="_blank" rel="noopener noreferrer" }
-- Google SRE, `Monitoring Distributed Systems`, Site Reliability Engineering Book, accessed 2026-06-26. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }
+- Google SRE, `Service Level Objectives`, Site Reliability Engineering Book, accessed 2026-07-26. [https://sre.google/sre-book/service-level-objectives/](https://sre.google/sre-book/service-level-objectives/){: target="_blank" rel="noopener noreferrer" }
+- Google SRE, `Monitoring Distributed Systems`, Site Reliability Engineering Book, accessed 2026-07-26. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }

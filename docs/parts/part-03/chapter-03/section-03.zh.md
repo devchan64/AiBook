@@ -1,15 +1,15 @@
 # P3-3.3 要把问题搬到第一张表草案里，应该先草拟哪些列
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-拿到问题之后，真正立刻需要的，不是一次把完成表写出来，而是先在第一张表草案里分清：哪些列负责识别样本，哪些列负责状态、比较和结果。问题句一变，表草案的列结构也会跟着变，所以如果要把已存记录搬到问题表达结构里，这第一张草图就必须清楚。第一张表草案真正重要的，不是完整列名清单，而是这种角色划分。
+拿到问题之后，真正立刻需要的，不是一次把完成表写出来，而是先在第一张表草案里分清：哪些[列(column)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-column)负责识别[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)，哪些列负责状态、比较和结果。问题句一变，表草案的列结构也会跟着变，所以如果要把已存记录搬到[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/w/#glossary-problem-representation-structure)里，这第一张草图就必须清楚。第一张表草案真正重要的，不是完整列名清单，而是这种角色划分。
 
 画第一张表草案时，最好不要一开始就试图把所有列都写出来，而是先写下下面四组。
 
 1. 用来识别样本的列
-2. 描述样本的候选特征列
-3. 为比较而需要的基准线列或差值列
+2. 描述样本的候选[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)列
+3. 为比较而需要的[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)列或差值列
 4. 人要读、或以后可能要拿来预测的结果列
 
 把这四组压成表，就是下面这样。
@@ -19,7 +19,7 @@
 | 样本识别列 | 因为表里必须先显露什么算一条案例 |
 | 候选特征列 | 因为需要有值来描述样本状态 |
 | 比较列 | 因为只有有了差值结构，和平常状态的变化才看得见 |
-| 结果列 | 因为必须先看出方向是复核候选，还是目标标签候选 |
+| 结果列 | 因为必须先看出方向是复核候选，还是目标标签候选(target candidate) |
 
 也就是说，第一张表草案并不是 `把所有原始列都抄过来`，而是 `先摆好这个问题所需要的按角色分组的列`。
 

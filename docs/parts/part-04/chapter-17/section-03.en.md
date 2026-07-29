@@ -1,17 +1,17 @@
 # P4-17.3 Supplementary Learning: Hierarchical and Spectral Clustering
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-After looking at k-means and DBSCAN in P4-17.1, this question naturally remains.
+After looking at [k-means](/AiBook/en/reference/concept-glossary-alpha/k/#k-means) and [DBSCAN](/AiBook/en/reference/concept-glossary-alpha/d/#dbscan) in P4-17.1, this question naturally remains.
 
 Why are there so many clustering algorithm names, and how are they different from one another?
 
-Two names that come up repeatedly when organizing that question for the first time are hierarchical clustering and spectral clustering.
+Two names that come up repeatedly when organizing that question for the first time are [hierarchical clustering](/AiBook/en/reference/concept-glossary-alpha/h/#hierarchical-clustering) and [spectral clustering](/AiBook/en/reference/concept-glossary-alpha/s/#spectral-clustering).
 
 Rather than going long on implementation details, this supplementary Section distinguishes the two methods from the perspective of `what criterion they use to form groups`.
 
-## Scope Of This Section
+## Questions Closed By Hierarchical And Spectral Clustering
 
 This Section answers the following questions.
 
@@ -22,7 +22,7 @@ This Section answers the following questions.
 
 This Section focuses on distinguishing `the perspective of merging like a tree` from `the perspective of cutting and grouping a graph`.
 
-## Goals Of This Section
+## Judgments To Keep From This Supplement
 
 - You can explain hierarchical clustering as `clustering that shows the order in which things merge`.
 - You can explain spectral clustering as `clustering that regroupes data by rereading connectivity structure`.
@@ -74,7 +74,7 @@ So hierarchical clustering is closer to `first looking at how groups grow, then 
 
 ## What Is Spectral Clustering Trying To See?
 
-Spectral clustering does not try to read points only through coordinate distance. It tries to reread them through a graph structure that asks `who is connected to whom`.
+Spectral clustering does not try to read points only through coordinate distance. It tries to reread them through a graph and [connectivity](/AiBook/en/reference/concept-glossary-alpha/c/#connectivity) structure that asks `who is connected to whom`.
 
 For an introduction, the following is enough.
 
@@ -106,8 +106,8 @@ If we place the representative intuitions from Chapter 17 into one table, they o
 | --- | --- | --- | --- |
 | k-means | center | When you want to quickly see round and relatively even groups | It is sensitive to the assumed number and shape of clusters |
 | DBSCAN | density | When you want to separate noise and inspect irregular groups | It is sensitive to `eps` and `min_samples` |
-| Hierarchical clustering | merge order | When you want to see how groups grow step by step | You still need to interpret where to cut |
-| Spectral clustering | connectivity | When the shape is complex but the connectivity structure is clear | It is sensitive to how the similarity graph is built |
+| [Hierarchical clustering](/AiBook/en/reference/concept-glossary-alpha/h/#hierarchical-clustering) | merge order | When you want to see how groups grow step by step | You still need to interpret where to cut |
+| [Spectral clustering](/AiBook/en/reference/concept-glossary-alpha/s/#spectral-clustering) | [connectivity](/AiBook/en/reference/concept-glossary-alpha/c/#connectivity) | When the shape is complex but the connectivity structure is clear | It is sensitive to how the similarity graph is built |
 
 The purpose of this table is not ranking the methods. The first thing is to hold on to the fact that `they read clusters through different handles`.
 
@@ -204,5 +204,5 @@ If you record these questions first, you will read more easily `what clustering 
 
 ## Sources And References
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. Consulted for the basic descriptions and comparison axes of hierarchical clustering, spectral clustering, k-means, and DBSCAN. Accessed 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. Consulted for the background connecting spectral clustering to graph Laplacians and connectivity structure. Accessed 2026-07-19. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. Consulted for the basic descriptions and comparison axes of hierarchical clustering, spectral clustering, k-means, and DBSCAN. Accessed 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. Consulted for the background connecting spectral clustering to graph Laplacians and connectivity structure. Accessed 2026-07-26. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }

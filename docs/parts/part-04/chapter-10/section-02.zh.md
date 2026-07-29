@@ -1,7 +1,7 @@
 # P4-10.2 线性回归(linear regression)的评价与局限
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`。现在要进入下一个问题。
 
@@ -9,17 +9,17 @@ P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`�
 
 这正是 evaluation 与 limit 的出发点。
 
-学完 linear regression 之后，读者常常停在 `系数看起来挺合理`、`预测值看起来差不多` 这样的层次。但在算法章节里，必须再往前走一步。要一起看 prediction 与 reality 的差该怎样读、该用什么 metric 来总结、以及直线假设会在什么时候变得吃力。
+学完 linear regression 之后，读者常常停在 `系数看起来挺合理`、`预测值看起来差不多` 这样的层次。但在算法章节里，必须再往前走一步。要一起看 prediction 与 reality 的差该怎样读、该用什么 [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 来总结、以及直线假设会在什么时候变得吃力。
 
 所以，这一节不是停在 `画出了一条直线`，而是进入 `那条直线到底解释了多少数据`。
 
-本节不会长篇重复 linear regression 的基本定义。`用直线读取关系的模型` 这个核心直觉，继续通过 P4-10.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 接回来；这里则把焦点放在评价与局限上。
+本节不会长篇重复 linear regression 的基本定义。`用直线读取关系的模型` 这个核心直觉，继续通过 P4-10.1 和 [linear regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#linear-regression) 条目接回来；这里则把焦点放在评价与局限上。
 
-## 本节范围
+## 线性回归评价与局限先收束的问题
 
 这一节回答下面这些问题。
 
-- residual 和 error 应该怎样理解？
+- residual 和 [error](/AiBook/zh/reference/concept-glossary-pinyin/e/#error) 应该怎样理解？
 - 说 linear regression 的 prediction `拟合得好`，到底是什么意思？
 - 在入门层面，MAE、MSE、RMSE、R² 应该怎样区分？
 - 当直线假设失效时，会出现什么局限？
@@ -31,7 +31,7 @@ P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`�
 
 statistical significance test、residual normality 与 homoscedasticity 的严格检验、multicollinearity 诊断、更深入的 regularization 与 feature engineering，超出了当前这一节的直接范围，所以这里不会详细处理。
 
-## 用线性回归(linear regression)的评价与局限留下的判断标准
+## 线性回归评价与局限要留下的判断标准
 
 - 能把 residual 解释成 `真实值和预测值之间的差`。
 - 能说明 MAE、MSE、RMSE、R² 分别是从什么角度看 model。
@@ -144,7 +144,7 @@ MAE 是把 residual 的绝对值取平均。
 
 所以，MAE 最朴素地展示的是 `平均错了多少`。
 
-#### MSE
+#### [MSE](/AiBook/zh/reference/concept-glossary-pinyin/m/#mean-squared-error-mse)
 
 MSE 是把 residual 平方之后再平均。
 
@@ -278,7 +278,7 @@ linear regression 的局限，大多会在 `一条直线根本不够，但还是
 
 例如，房价预测只放面积而不放位置，model 看起来像是在读面积和价格的关系，实际上却漏掉了关键结构。
 
-#### 4. outlier 很强的时候
+#### 4. [outlier](/AiBook/zh/reference/concept-glossary-pinyin/y/#outlier) 很强的时候
 
 linear regression 无法直接无视大误差。如果少数数据点离得特别远，整条线就可能被它们拉走，导致整体解释都摇晃起来。
 
@@ -424,6 +424,11 @@ linear regression 的优点之一是解释性高，但正因为如此，草率�
   - MAE 和 RMSE 用来总结 error
   - R² 展示的是：比平均预测多解释了多少
 
+可以改动的值：
+
+- 把 `exam_score` 的最后一个值改成 `80` 或 `90`，可以观察 residual 数组和 RMSE 会怎样变化。
+- 给 `study_hours` 和 `exam_score` 各加一个新点，可以确认小数据集里的 R² 多容易晃动。
+
 ```python
 # 这个例子计算线性回归预测的残差以及 MAE、MSE、RMSE 等评价指标。
 import numpy as np
@@ -495,6 +500,11 @@ R2          : 0.992
 - MAE 展示平均偏差
 - RMSE 会对单个大失败更敏感
 
+可以改动的值：
+
+- 把 `pred_outlier` 的最后一个值改成 `80`、`90` 或 `100`，可以比较 MAE 和 RMSE 增长的速度。
+- 把 `pred_good` 的所有值都改成比 actual 大 `+2`，可以观察没有大失败时两个 metric 会多接近。
+
 ```python
 # 这个例子计算线性回归预测的残差以及 MAE、MSE、RMSE 等评价指标。
 import numpy as np
@@ -530,6 +540,11 @@ outlier RMSE: 7.431
 
 这次不再只让最后一个点明显失败，而是把最后两个点都改成大失败。
 
+可以改动的值：
+
+- 把 `pred_two_outliers` 的第五个值改成 `76`、`84` 或 `92`，可以比较单点失败和重复失败的差异。
+- 也可以让前四个点中的某一个明显失败，然后记录大误差是集中在一个区间还是分散出现。
+
 ```python
 # 这个例子计算线性回归预测的残差以及 MAE、MSE、RMSE 等评价指标。
 import numpy as np
@@ -560,15 +575,21 @@ two-outlier RMSE: 8.91
 - 发生变化的点：当大失败从一个点扩大到两个点时，MAE 也开始更快变大。这意味着 `现在平均上也错得很多` 的信号变强了。
 - 最先应留下的判断：同样都是误差上升，但如果是单点事故，和如果是跨多个点重复失败，会导向完全不同的运营问题。
 
-### 这个练习怎样回收回归评估的判断标准
-
-这个练习把 regression evaluation 从 `读数字` 重新拉回到 `读失败结构`。真正的问题，不只是误差有没有变大，而是 `在哪里`、`在几个点上`、`朝哪个方向` 变大了。回归评估的判断标准不是围观 model score，而是把 evaluation result 交给下一步判断，所以比起只背 MAE 和 RMSE 的差别，更重要的是训练自己区分 `一个大失败` 和 `反复出现的失败区间`。
+这个练习把 regression evaluation 从 `读数字` 重新拉回到 `读失败结构`。真正的问题，不只是误差有没有变大，而是 `在哪里`、`在几个点上`、`朝哪个方向` 变大了。比起只背 MAE 和 RMSE 的差别，更重要的是训练自己区分 `一个大失败` 和 `反复出现的失败区间`。
 
 | 共通记录语言 | 这次练习里应该立刻留下的内容 |
 | --- | --- |
 | 显示出来的结构 | 单点大失败和扩散到多个点的大失败，会让 MAE 和 RMSE 以不同速度上升 |
 | 解释边界 | 仅凭 RMSE 明显跳高，还不能立刻断定原因到底是一个 outlier 还是结构性缺漏 |
 | 下一步问题 | 是否应该先回头检查大误差是否集中在某个区间，或缺失 feature / nonlinear pattern 是否在重复出现 |
+
+这一节的核心不是继续背更多 regression metric 名称，而是固定 regression evaluation 到底要一起看到哪里。
+
+| 应该一起看的内容 | 这一节先读取的问题 | 后面会再连接到哪里 |
+| --- | --- | --- |
+| baseline error | 直线 model 是否真的比简单平均预测更好 | P4-8 baseline 比较 |
+| 平均误差与大失败区间 | 整体上错多少，哪里错得特别大 | P4-6 regression metric |
+| 代表性错误案例 | 在什么输入条件下会反复用同一种方式失败 | P4-18 feature engineering，后续 regression model 比较 |
 
 ## 检查清单
 
@@ -586,8 +607,11 @@ two-outlier RMSE: 8.91
 
 ## 出处与参考资料
 
-- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `3.4. Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `mean_absolute_error`, scikit-learn API Reference, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `mean_squared_error`, scikit-learn API Reference, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `r2_score`, scikit-learn API Reference, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.4. Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `mean_absolute_error`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `mean_squared_error`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `r2_score`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html){: target="_blank" rel="noopener noreferrer" }
+- NIST/SEMATECH, `4.1.4.1. Linear Least Squares Regression`, Engineering Statistics Handbook, 确认日期: 2026-07-26. [https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm](https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm){: target="_blank" rel="noopener noreferrer" }
+- J. M. Bland, D. G. Altman, `Statistic Notes: Regression towards the mean`, BMJ 1994;308:1499, 确认日期: 2026-07-26. [https://www.bmj.com/content/308/6942/1499](https://www.bmj.com/content/308/6942/1499){: target="_blank" rel="noopener noreferrer" }
+- National Human Genome Research Institute, `Eugenics and Scientific Racism`, 确认日期: 2026-07-26. [https://www.genome.gov/about-genomics/fact-sheets/Eugenics-and-Scientific-Racism](https://www.genome.gov/about-genomics/fact-sheets/Eugenics-and-Scientific-Racism){: target="_blank" rel="noopener noreferrer" }

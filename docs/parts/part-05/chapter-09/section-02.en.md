@@ -1,7 +1,7 @@
-# P5-9.2 Batch And Tensor Computation
+# P5-9.2 Batch and Tensor Computation
 
 > Section ID: `P5-9.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-9.1, we saw why deep learning fits GPUs and parallel processing so well. The next question appears immediately.
 
@@ -13,7 +13,7 @@ A batch is a grouping for calculating multiple samples at once, and a tensor is 
 
 When you need to review shape and computation units again in a short form, return to the glossary entries on [batch](/AiBook/en/reference/concept-glossary-alpha/b/#batch) and [tensor](/AiBook/en/reference/concept-glossary-alpha/t/#tensor).
 
-## The Question Of How Batches And Tensors Group Computation
+## The Question of How Batches and Tensors Group Computation
 
 - Why is a batch needed?
 - How does a tensor extend from vectors and matrices?
@@ -24,14 +24,14 @@ This section focuses on grasping what kinds of batch groupings and tensor shapes
 
 At the same time, it is also clear what we will not widen immediately in this section. The intuition of `why shape matters` and `how large matrix computation continues` is revisited later in P5-13.2 on attention and in P5-14.3 and P5-14.4 on Transformer computation structure.
 
-## Standards For Parallel Units And Shape
+## Standards for Parallel Units and Shape
 
 - You can explain a batch as `a computation unit that processes multiple samples at once`.
 - You can explain a tensor as `a multidimensional array that includes vectors and matrices`.
 - You can state why the habit of reading shapes is important in deep-learning practice.
 - You can confirm the intuition of batch and tensor shapes through an executable Python example.
 
-## Why Is A Batch Needed
+## Why Is a Batch Needed
 
 In deep learning, the same model is applied repeatedly to many samples. We can process samples one by one in sequence, but then it becomes hard to make full use of the advantages of parallel processing.
 
@@ -57,7 +57,7 @@ The reason for using batches is not only convenience.
 
 Of course, if a batch becomes too large, it can use a lot of memory or change the learning dynamics. But at the introductory stage, it is enough to understand it first as `the basic unit of parallel computation`.
 
-## What Is A Tensor
+## What Is a Tensor
 
 In Part 2, we saw scalars, vectors, and matrices. A tensor is the natural extension of that flow.
 
@@ -74,7 +74,7 @@ That is, a tensor is not some magical special concept. It is the broad name for 
 
 `In deep learning, it is enough to think that inputs, intermediate representations, and outputs all flow as tensors.`
 
-## What Tensors Do Images, Sentences, And Tabular Data Look Like
+## What Tensors Do Images, Sentences, and Tabular Data Look Like
 
 In deep learning, even though the data types differ, in the end they are all organized into tensor shapes.
 
@@ -87,7 +87,7 @@ For example:
 
 So tensors work as a common computational language across data domains.
 
-## Why Is The Intuition Of Reading Shape Important
+## Why Is the Intuition of Reading Shape Important
 
 One of the most common errors in practice is misreading a shape and getting confused about `which axis is the batch`, and `which axis is the length, channel, or feature dimension`.
 
@@ -104,7 +104,7 @@ The following habit matters.
 
 `In deep-learning practice, do not look only at the values. Always look at the shape together.`
 
-## The Connection Between Batch Computation And Parallel Processing
+## The Connection Between Batch Computation and Parallel Processing
 
 In P5-9.1, we saw that the strength of the GPU lies in processing many similar operations at the same time. A batch is exactly the way this structure is provided in a form suited to deep-learning computation.
 
@@ -122,7 +122,7 @@ If we draw it in a very simple form, it looks like this.
 --8<-- "assets/part-05/chapter-09/batch-tensor-flow-en.mmd"
 ```
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Reading The Same Batch Axis Across Tables, Images, And Sentences
 
@@ -156,7 +156,7 @@ The points to fix first in this comparison diagram are the following.
 - What changes is the structure attached after that first axis: tabular data keeps a feature axis, images keep channel and spatial axes, and sentences keep token and embedding axes.
 - So when reading a shape, we must distinguish first not how many numbers it has, but `what remains after the first axis`, if we want to reduce practice errors.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm directly that the same `first axis` is read as `the batch axis` across production-batch tabular data, inspection-image tensors, and maintenance-log embeddings.
 
@@ -332,7 +332,7 @@ If we pause here once and briefly fix `when should we read first from the shape 
 - When reading a shape, can you first check whether the current axis is the batch, length, or channel, and whether the input and output match the expected structure?
 - Can you explain tabular data, images, and sentence data again through the common computational language of tensors and shapes rather than only through separate intuitions?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Aurelien Geron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, checked on 2026-06-29.

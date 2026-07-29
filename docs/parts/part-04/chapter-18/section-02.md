@@ -1,13 +1,13 @@
 # P4-18.2 시각화와 정보 손실
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-P4-18.1에서는 차원 축소(dimensionality reduction)가 많은 특징을 더 적은 축으로 다시 표현하는 일이라는 점을 보았습니다. 이제 다음 질문으로 넘어갑니다.
+P4-18.1에서는 [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction)가 많은 특징을 더 적은 축으로 다시 표현하는 일이라는 점을 보았습니다. 이제 다음 질문으로 넘어갑니다.
 
 차원을 줄여서 그림은 훨씬 보기 쉬워졌는데, 그 그림을 어디까지 믿어도 될까?
 
-차원 축소 그림은 구조를 탐색하는 데 매우 유용하지만, 원래 고차원 데이터의 관계를 완전하게 복사하지는 않습니다. 그래서 이 절의 핵심은 `그림을 예쁘게 읽는 법`이 아니라 `그림을 과신하지 않는 법`입니다.
+차원 축소 그림은 구조를 탐색하는 데 매우 유용하지만, 원래 고차원 데이터의 관계를 완전하게 복사하지는 않습니다. 그래서 이 절의 핵심은 `그림을 예쁘게 읽는 법`이 아니라 정보 손실(information loss)을 전제로 `그림을 과신하지 않는 법`입니다.
 
 ## 시각화와 정보 손실에서 닫을 질문
 
@@ -16,8 +16,8 @@ P4-18.1에서는 차원 축소(dimensionality reduction)가 많은 특징을 더
 - 왜 차원 축소 결과는 보기 쉽지만 완전한 복사본은 아닌가?
 - 어떤 정보가 비교적 잘 남고, 어떤 정보가 약해질 수 있는가?
 - 2D 그림에서 가까워 보인다고 해서 원래도 반드시 가깝다고 할 수 없는 이유는 무엇인가?
-- PCA, t-SNE, UMAP은 각각 무엇을 더 남기려 하는가?
-- reconstruction error와 trustworthiness는 어떤 서로 다른 질문을 점검하는가?
+- [PCA](../../../reference/concept-glossary-parts/09-jieut.md#principal-component-analysis-pca), [t-SNE](../../../reference/concept-glossary-parts/12-tieut.md#t-sne), [UMAP](../../../reference/concept-glossary-parts/08-ieung.md#umap)은 각각 무엇을 더 남기려 하는가?
+- [reconstruction error](../../../reference/concept-glossary-parts/06-bieup.md#reconstruction-error)와 [trustworthiness](../../../reference/concept-glossary-parts/12-tieut.md#trustworthiness)는 어떤 서로 다른 질문을 점검하는가?
 
 이 절은 `차원 축소 그림을 어디까지 믿을 것인가`를 붙잡는 데 초점을 둡니다. 구현 최적화, 세부 튜닝, 여러 품질 지표의 확장 비교는 여기서 길게 다루지 않습니다.
 
@@ -403,5 +403,8 @@ Q 2d= [-0.19, 2.32]
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `PCA`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `PCA`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `TSNE`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `trustworthiness`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.manifold.trustworthiness.html](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.trustworthiness.html){: target="_blank" rel="noopener noreferrer" }
+- UMAP Project, `How UMAP Works`, UMAP documentation, 확인 날짜: 2026-07-26. [https://umap-learn.readthedocs.io/en/latest/how_umap_works.html](https://umap-learn.readthedocs.io/en/latest/how_umap_works.html){: target="_blank" rel="noopener noreferrer" }

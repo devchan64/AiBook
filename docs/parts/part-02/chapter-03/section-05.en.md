@@ -1,7 +1,7 @@
 # P2-3.5 Python Runtime Environments: Colab and Local PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 From P2-3.1 through P2-3.4, we looked at linear algebra mainly through formulas and comparison standards. In the next section, we will directly check vectors, matrices, and matrix multiplication with NumPy. Before that, we first need to separate where Python code is being run.
 
@@ -14,7 +14,7 @@ So here, rather than studying Colab itself deeply or covering the local installa
 
 Here we reorganize `Colab`, `local PC`, `code cell`, `terminal`, and the difference between `import` and installation commands. If 3.1 through 3.4 were about reading formulas and linear-algebra structure, now we first organize the execution place that will carry those structures into real code.
 
-How to install Python on your own PC and manage virtual environments returns in `P2-7.1`, `P2-7.6`, `P2-7.7`, and `P2-7.8`. Here we first fix the difference in execution location between Colab and a local PC. When you want to recheck the terms quickly, also refer to the [concept glossary](../../../reference/concept-glossary.md).
+How to install Python on your own PC and manage virtual environments returns in `P2-7.1`, `P2-7.6`, `P2-7.7`, and `P2-7.8`. Here we first fix the difference in execution location between Colab and a local PC. When you want to recheck the terms quickly, also refer to the [notebook glossary entry](/AiBook/en/reference/concept-glossary-alpha/n.en/#notebook).
 
 This document was written based on the official Google Colab guide and FAQ, the IPython `%pip` documentation, and the pip user guide checked on July 19, 2026. Colab is an external service, so its UI, usage conditions, free tier, runtime policy, or even service availability may change later. If, when you read this section, Colab is unavailable or looks different from this guide, you should separately check the current Google Colab documentation and service status.
 
@@ -118,7 +118,7 @@ hello, colab
 
 Here, `print(...)` is Python code. By contrast, a package-installation command is slightly different in character from ordinary Python code.
 
-## In Colab, You Can Use `%pip`
+## in Colab, You Can Use `%pip`
 
 In many cases, NumPy is already available in the Colab environment. But because the environment can change, if needed we run the following command in a code cell.
 
@@ -132,7 +132,7 @@ Here, `%pip` is not ordinary Python syntax. It is a magic command used in Jupyte
 In Colab or Jupyter documentation, you may also see examples that use an exclamation mark (`!`) to run shell commands, like this:
 
 ```python
-# The exclamation-mark form calls a terminal command from a code cell.
+# exclamation-mark form calls a terminal command from a code cell.
 !pip install numpy
 ```
 

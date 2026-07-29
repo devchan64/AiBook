@@ -4,23 +4,23 @@
 
 --8<-- "reference/concept-glossary-terms/machine-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/mapping.zh.md"
 
---8<-- "reference/concept-glossary-terms/markdown-cell.zh.md"
+--8<-- "reference/concept-glossary-terms/target.zh.md"
 
---8<-- "reference/concept-glossary-terms/masking.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/matrix.zh.md"
 
 --8<-- "reference/concept-glossary-terms/matrix-multiplication.zh.md"
 
+
 --8<-- "reference/concept-glossary-terms/mean.zh.md"
 
 --8<-- "reference/concept-glossary-terms/mean-squared-error-mse.zh.md"
 
---8<-- "reference/concept-glossary-terms/metadata.zh.md"
+--8<-- "reference/concept-glossary-terms/density.zh.md"
 
---8<-- "reference/concept-glossary-terms/method.zh.md"
+--8<-- "reference/concept-glossary-terms/metadata.zh.md"
 
 --8<-- "reference/concept-glossary-terms/metric.zh.md"
 
@@ -28,8 +28,15 @@
 
 --8<-- "reference/concept-glossary-terms/model-context-protocol-mcp.zh.md"
 
+--8<-- "reference/concept-glossary-terms/model-input.zh.md"
+
+--8<-- "reference/concept-glossary-terms/model-output.zh.md"
+
 --8<-- "reference/concept-glossary-terms/model-selection.zh.md"
 
---8<-- "reference/concept-glossary-terms/multi-head-attention.zh.md"
+--8<-- "reference/concept-glossary-terms/model-training.zh.md"
+
+--8<-- "reference/concept-glossary-terms/model-validation.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/multilayer-neural-network.zh.md"

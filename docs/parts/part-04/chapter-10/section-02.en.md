@@ -1,7 +1,7 @@
 # P4-10.2 Evaluation And Limits Of Linear Regression
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-10.1 introduced linear regression as `a model that first reads a relationship with a line`. Now the discussion moves to the next question.
 
@@ -9,17 +9,17 @@ How well did that line actually fit, and from what point does it begin to fail e
 
 That question is exactly the starting point of evaluation and limits.
 
-After learning linear regression, readers often stop at statements such as `the coefficient looks plausible` or `the predictions seem close enough`. In an algorithm chapter, however, the reader has to go one step further. The reader must inspect how to read the gap between prediction and reality, how to summarize it through metrics, and when the line assumption becomes too weak.
+After learning linear regression, readers often stop at statements such as `the coefficient looks plausible` or `the predictions seem close enough`. In an algorithm chapter, however, the reader has to go one step further. The reader must inspect how to read the gap between prediction and reality, how to summarize it through [metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric), and when the line assumption becomes too weak.
 
 So this Section does not stop at `a line was drawn`. It reads `how much that line explains the data`.
 
-This Section does not repeat the basic definition of linear regression at length. The core intuition of `a model that reads a relationship with a line` reconnects through P4-10.1 and the [concept glossary](/AiBook/reference/concept-glossary/), while this Section focuses only on evaluation and limits.
+This Section does not repeat the basic definition of linear regression at length. The core intuition of `a model that reads a relationship with a line` reconnects through P4-10.1 and the [linear regression](/AiBook/en/reference/concept-glossary-alpha/l/#linear-regression) entry, while this Section focuses only on evaluation and limits.
 
-## Scope Of This Section
+## Questions Closed By Linear Regression Evaluation And Limits
 
 This Section answers the following questions.
 
-- How should residual and error be understood?
+- How should residual and [error](/AiBook/en/reference/concept-glossary-alpha/e/#error) be understood?
 - What does it mean to say that a linear-regression prediction fits well?
 - At an introductory level, how can MAE, MSE, RMSE, and R² be distinguished?
 - What kinds of limits appear when the line assumption breaks down?
@@ -31,7 +31,7 @@ The questions that will not be widened immediately in this Section are also clea
 
 Statistical significance testing, rigorous tests of residual normality and homoscedasticity, multicollinearity diagnosis, and advanced regularization and feature engineering go beyond the direct scope of this Section, so they are not treated in detail here.
 
-## Goals Of This Section
+## Judgments To Keep From Linear Regression Evaluation And Limits
 
 - You can explain a residual as `the difference between the actual value and the prediction`.
 - You can say from what angle MAE, MSE, RMSE, and R² each summarize a model.
@@ -144,7 +144,7 @@ MAE averages the absolute values of residuals.
 
 So MAE is the metric that shows most plainly `how much the model misses on average`.
 
-#### MSE
+#### [MSE](/AiBook/en/reference/concept-glossary-alpha/m/#mean-squared-error-mse)
 
 MSE squares the residuals and then averages them.
 
@@ -278,7 +278,7 @@ Sometimes the problem is not the line itself, but the fact that a feature needed
 
 For example, if house-price prediction uses size but leaves out location, the model may appear to read the relation between size and price while actually missing an important structure.
 
-#### 4. When Outliers Are Strong
+#### 4. When [Outliers](/AiBook/en/reference/concept-glossary-alpha/o/#outlier) Are Strong
 
 Linear regression cannot simply ignore large errors. If a few data points lie unusually far away, the line can be pulled toward them and the overall interpretation can become unstable.
 
@@ -425,6 +425,11 @@ The example below reuses the study-time data from 10.1 and checks prediction, re
   - MAE and RMSE summarize error
   - R² shows how much more the model explains than an average prediction
 
+Values to change:
+
+- Change the last value of `exam_score` to `80` or `90` and observe how the residual array and RMSE change.
+- Add one new point to `study_hours` and `exam_score` to see how easily R² can move in a small dataset.
+
 ```python
 # This example calculates residuals and evaluation metrics such as MAE, MSE, and RMSE for linear regression predictions.
 import numpy as np
@@ -496,6 +501,11 @@ Concepts to check:
 - MAE shows the average miss
 - RMSE reacts more strongly to one large failure
 
+Values to change:
+
+- Change the last value of `pred_outlier` to `80`, `90`, or `100` and compare how fast MAE and RMSE grow.
+- Make every value in `pred_good` larger than the actual value by `+2` to see how close the two metrics stay when there is no large failure.
+
 ```python
 # This example calculates residuals and evaluation metrics such as MAE, MSE, and RMSE for linear regression predictions.
 import numpy as np
@@ -531,6 +541,11 @@ Seen empirically, RMSE really is `the metric that dislikes large failures more`.
 
 This time, instead of only the last point failing badly, change the scene so that the last two points both fail badly.
 
+Values to change:
+
+- Change the fifth value of `pred_two_outliers` to `76`, `84`, or `92` and compare one-point failure with repeated failure.
+- Make one of the first four points fail badly too, then record whether large errors are clustered in one region or scattered.
+
 ```python
 # This example calculates residuals and evaluation metrics such as MAE, MSE, and RMSE for linear regression predictions.
 import numpy as np
@@ -554,12 +569,6 @@ one-outlier RMSE: 7.431
 two-outlier MAE : 6.5
 two-outlier RMSE: 8.91
 ```
-
-### What Stayed The Same And What Changed?
-
-- What stayed the same: in both cases, RMSE still reacts more strongly than MAE. The interpretation `it is more sensitive to large failures` stays valid.
-- What changed: once large failure spread from one point to two points, MAE also rose much faster. That means the signal `the model is now also missing a lot on average` becomes stronger.
-- Judgment to leave first: the same rise in error leads to very different operational questions depending on whether it is a one-point accident or a repeated failure over several points.
 
 ### What Stayed The Same And What Changed?
 
@@ -599,8 +608,11 @@ The core of this Section is not memorizing more regression metric names. It is f
 
 ## Sources And References
 
-- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `3.4. Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `mean_absolute_error`, scikit-learn API Reference, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `mean_squared_error`, scikit-learn API Reference, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `r2_score`, scikit-learn API Reference, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.4. Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `mean_absolute_error`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `mean_squared_error`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `r2_score`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html){: target="_blank" rel="noopener noreferrer" }
+- NIST/SEMATECH, `4.1.4.1. Linear Least Squares Regression`, Engineering Statistics Handbook, accessed 2026-07-26. [https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm](https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm){: target="_blank" rel="noopener noreferrer" }
+- J. M. Bland, D. G. Altman, `Statistic Notes: Regression towards the mean`, BMJ 1994;308:1499, accessed 2026-07-26. [https://www.bmj.com/content/308/6942/1499](https://www.bmj.com/content/308/6942/1499){: target="_blank" rel="noopener noreferrer" }
+- National Human Genome Research Institute, `Eugenics and Scientific Racism`, accessed 2026-07-26. [https://www.genome.gov/about-genomics/fact-sheets/Eugenics-and-Scientific-Racism](https://www.genome.gov/about-genomics/fact-sheets/Eugenics-and-Scientific-Racism){: target="_blank" rel="noopener noreferrer" }

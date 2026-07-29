@@ -1,7 +1,7 @@
 # P5-14.2 Transformer 블록의 네 부품은 각각 무엇을 맡는가
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-14.1에서는 Transformer를 self-attention 하나로만 설명하면 부족하다는 점을 보았습니다. 이제 블록 안의 역할 분담을 더 직접 나누어야 합니다.
 

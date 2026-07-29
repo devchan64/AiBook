@@ -1,15 +1,15 @@
 # P4-11.5 Supplementary Learning: How To Read Solver And Regularization For The First Time
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-Once logistic regression is used through a library, the reader quickly meets arguments such as solver, penalty, and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
+Once logistic regression is used through a library, the reader quickly meets arguments such as [solver](/AiBook/en/reference/concept-glossary-alpha/s/#solver), [penalty](/AiBook/en/reference/concept-glossary-alpha/p/#penalty), and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
 
 The central question of this Section is the following.
 
 Why do solver and regularization settings need to be recorded and compared even when the model is still called logistic regression?
 
-## Scope Of This Section
+## Questions Closed By Solver And Regularization
 
 This Section answers the following questions.
 
@@ -19,7 +19,7 @@ This Section answers the following questions.
 
 This Section first closes solver and regularization as `comparison conditions that change result interpretation even under the same model name`, and focuses on reading the calculation procedure and the direction of regularization rather than memorizing library options.
 
-## Goals Of This Section
+## Judgments To Keep From Solver And Regularization
 
 - You can explain a solver as `the calculation procedure that actually finds the parameters`.
 - You can explain regularization as `a device that keeps the model from fitting the training data too tightly`.
@@ -30,7 +30,7 @@ This Section first closes solver and regularization as `comparison conditions th
 
 Logistic regression is usually implemented not by writing one closed-form solution directly, but by finding good parameters through repeated calculation. So the setting choice matters depending on data size, whether the matrix is sparse, and what kind of penalty is used.
 
-Regularization can first be read as `a device that keeps the model from fitting the training data too tightly`. Even with the same logistic regression, if there are few data points or too many features, coefficients can become unstable or lean too heavily on certain features. Regularization helps the model keep those coefficients more conservative.
+[Regularization](/AiBook/en/reference/concept-glossary-alpha/r/#regularization) can first be read as `a device that keeps the model from fitting the training data too tightly`. Even with the same logistic regression, if there are few data points or too many features, coefficients can become unstable or lean too heavily on certain features. Regularization helps the model keep those coefficients more conservative.
 
 ## Main Learning Content
 
@@ -48,7 +48,7 @@ The following table is enough as a first reading.
 
 So solver is not `a trivial library option`. It is the handle that implements in actual computation the training objective expressed through MLE or log loss.
 
-The following table summarizes the implementation explanation of the scikit-learn stable documentation checked on `2026-07-09`. Supported ranges and defaults can change by library version, so a real project should confirm the documentation for the version being used.
+The following table summarizes the implementation explanation of the scikit-learn stable documentation checked on `2026-07-26`. Supported ranges and defaults can change by library version, so a real project should confirm the documentation for the version being used.
 
 | solver | multinomial support | penalty / regularization | First trait to read |
 | --- | --- | --- | --- |
@@ -120,6 +120,11 @@ Suppose experiment A and experiment B are both logistic regression, but one uses
 
 The code below is a toy example that shows not the actual learning result, but `how comparison records should be left`.
 
+Values to change:
+
+- Change `C` to `0.1`, `1.0`, and `10.0` to record the direction of regularization strength.
+- When changing `penalty` to `l1`, also check whether the `solver` is a supported combination such as `saga`.
+
 ```python
 # This example checks how solver and regularization settings change logistic regression training conditions.
 from sklearn.linear_model import LogisticRegression
@@ -168,5 +173,5 @@ sparse_candidate -> LogisticRegression(C=0.5, l1_ratio=0.5, max_iter=1000,
 
 ## Sources And References
 
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
-- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26
+- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26

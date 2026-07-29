@@ -1,7 +1,7 @@
 # P6-11.1 RAG That Attaches External Evidence Instead of Model Memory
 
 > Section ID: `P6-11.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-10.2, we saw that prompts alone have difficulty solving problems such as freshness, evidence guarantees, and executability. Then what matters is not only the answer sentence itself, but how to first change the materials that enter the answer.
 

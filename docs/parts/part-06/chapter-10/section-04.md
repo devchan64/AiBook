@@ -1,7 +1,7 @@
 # P6-10.4 보충학습: 프롬프트 후보 반복 개선
 
 > Section ID: `P6-10.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _보조제목: automatic prompt optimization은 프롬프트 실험을 어떻게 평가하고 다음 후보로 넘기는가_
 

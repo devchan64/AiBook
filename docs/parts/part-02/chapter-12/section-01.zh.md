@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame 表达什么
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 Part 2 Chapter 11 里，我们用 NumPy array 处理了 vector、matrix、axis 与 broadcasting。那条路径很适合数值计算，但当我们开始读取长得像表格的数据集时，问题会发生变化。
 
@@ -15,7 +15,7 @@
 
 看到这张表时，我们通常先读的是 `谁`、`哪一列`、`哪个值`，而不是位置。Pandas 的 DataFrame 正是这种表格式数据的核心结构。
 
-本节说明 `DataFrame`、`row`、`column`、`index` 的基本区分。前一章的 NumPy 更强调这些值怎样以 vector 与 matrix 的形状进入计算；这里则转向它们该怎样被读成“案例与变量组成的表”。下一章会再从这张表走向图表，去看表里不容易直接看到的变化与关系。后续继续进入选择、聚合与数据集准备时，也可以配合 [概念词汇表](/AiBook/reference/concept-glossary/) 一起作为回返点。
+本节说明 `DataFrame`、`row`、`column`、`index` 的基本区分。前一章的 NumPy 更强调这些值怎样以 vector 与 matrix 的形状进入计算；这里则转向它们该怎样被读成“案例与变量组成的表”。下一章会再从这张表走向图表，去看表里不容易直接看到的变化与关系。后续继续进入选择、聚合与数据集准备时，也可以配合 [DataFrame 词条](/AiBook/zh/reference/concept-glossary-pinyin/d.zh/#dataframe) 一起作为回返点。
 
 ## 核心判断标准：Pandas DataFrame 表达什么
 

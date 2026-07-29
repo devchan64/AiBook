@@ -7,4 +7,3 @@
 - 함께 볼 개념: `인용(quotation)`, `라이선스(license)`, `학습 데이터(training data)`
 - 중심 Section: `P1-15.2`
 - 등장 Section: `P1-10.3`
-

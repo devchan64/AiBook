@@ -1,7 +1,7 @@
-# P5-14.5 How Do Sequential State And Direct Re-Reference Split In Long Context?
+# P5-14.5 How Do Sequential State and Direct Re-Reference Split in Long Context?
 
 > Section ID: `P5-14.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-14.4, we saw how RNN sequential state passing and Transformer relation computation differ from the viewpoint of parallel processing. The observation point in P5-14.5 is not GPU efficiency, but how the final judgment in a long context attaches earlier cues again as evidence.
 
@@ -9,13 +9,13 @@ In long context, is the important thing remembering for a long time, or referrin
 
 The comparison target is not the full Transformer implementation. It is the difference between `compressing an earlier rule into one state and carrying it forward` and `letting the current question find the earlier sentence it needs again`. We closed the computational efficiency of parallel processing in P5-14.4, and here we look only at the path by which a distant cue is attached again to the final judgment.
 
-## Questions Handled By Long-Context Re-Reference And The Experiment
+## Questions Handled by Long-Context Re-Reference and the Experiment
 
 - Why can sequential state passing weaken in long context?
 - Why does self-attention give the feeling that it can refer more directly to a faraway earlier position?
 - How can sequential state and direct re-reference make different final judgments even in the same long context?
 
-## Comparing Sequential Passing And Direct Re-Reference
+## Comparing Sequential Passing and Direct Re-Reference
 
 In an RNN, distant information has to pass through several steps of state before reaching the current point. In self-attention, by contrast, the earlier cue does not only have to be compressed into one state and carried forward. The current position can compute relation scores with earlier positions again. That is why even a faraway cue is read as being referred to more directly from the current judgment position.
 
@@ -43,7 +43,7 @@ Now, if we split the same request only into the two computation paths, it can be
 
 If we read the long-context problem only as `memory`, we only ask whether the model keeps holding earlier content for a long time. But the more important feeling in the Transformer structure is whether the current position can refer again to the earlier position it needs.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Restart Request While Pressure Has Not Returned
 
@@ -70,9 +70,9 @@ The judgment sentence in this case should close as follows.
 | only weak sequential state remains | the earlier blocking rule may not remain strongly enough until the final request, so the judgment can become uncertain |
 | direct re-reference found the needed cues | the final request attaches the blocking rule and current pressure state again as evidence, so it judges toward blocking the restart |
 
-## Practice And Example
+## Practice and Example
 
-### Practice. Separate Needed Earlier Cues And Distracting Cues
+### Practice. Separate Needed Earlier Cues and Distracting Cues
 
 Classify each candidate cue below as `needed`, `weak`, or `close to distracting`.
 
@@ -85,7 +85,7 @@ Classify each candidate cue below as `needed`, `weak`, or `close to distracting`
 
 Explanation: The learning point in a long-context problem is not `it read a lot`, but `it attached the evidence needed for the final judgment again`. We must not only choose the needed cues, but also push cues with weak direct relation away from the judgment center.
 
-### Example. Comparing A Sequential Reader And A Direct Reference Reader
+### Example. Comparing a Sequential Reader and a Direct Reference Reader
 
 This example is not a Transformer implementation. It is an experiment comparing what observations two reference methods leave in long-context judgment. `direct_reference_reader` is not actual attention computation; it is a compressed model that uses keyword scores to reorder earlier lines. What we check here is not whether the code reaches a predetermined answer, but the output difference between `a cue weakening inside state` and `a cue rising again from the current request`.
 
@@ -170,7 +170,7 @@ The second output shows which lines the direct re-reference method brings back a
 
 ![Direct re-reference scores](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-en.png)
 
-### Practice. Change Values And Check The Difference
+### Practice. Change Values and Check the Difference
 
 | Value to Change | Expected Output Change | Explanation |
 | --- | --- | --- |
@@ -187,7 +187,7 @@ Explanation: This practice is not saying that direct re-reference always guarant
 - Can you explain the difference between `sequential_support` and the top matched lines?
 - Can you say that in long context, final judgment can change depending on how evidence is called?
 
-## Sources And References
+## Sources and References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

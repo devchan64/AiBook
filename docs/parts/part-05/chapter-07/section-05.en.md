@@ -1,7 +1,7 @@
 # P5-7.5 Supplementary Reading: Major Optimizer Families
 
 > Section ID: `P5-7.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P5-7.3, we looked at the intuition of adaptive update using Adam (Adaptive Moment Estimation) as an example. If we go one step further from there, the reader meets many optimizer families such as momentum, AdaGrad, RMSProp, and Adam. If these names start to be memorized like different brands, the real core becomes blurry instead.
 The distinction standard in this section helps the reader, even when different optimizer names appear again later, to organize them with the same question every time rather than memorizing them as entirely new algorithms.
@@ -10,7 +10,7 @@ The question we have to hold first in this section is not `which optimizer is mo
 
 The reason this section feels unfamiliar to beginners is not that there are many names, but that the comparison standard is not visible at once. So instead of trying to memorize the four algorithms separately, it is better to read the explanation below in a way that makes us repeat the same question four times.
 
-## The Question Of Comparing Optimizer Names
+## The Question of Comparing Optimizer Names
 
 - What is momentum trying to preserve beyond the current gradient?
 - In what intuition should we read the coordinate-wise adjustment of AdaGrad and RMSProp?
@@ -19,14 +19,14 @@ The reason this section feels unfamiliar to beginners is not that there are many
 
 This section focuses on explaining the structure of optimizer families. The goal here is not to memorize the full formulas of each algorithm, but to understand the family differences through three questions: `what does it remember more`, `what does it adjust more`, and `what problem was it trying to solve?`
 
-## Standards For Momentum And Adaptive Axes
+## Standards for Momentum and Adaptive Axes
 
 - You can compare momentum, AdaGrad, RMSProp, and Adam at the same level.
 - You can explain in which optimizer `time-axis accumulation` and `coordinate-axis adjustment` are more central.
 - You can see Adam as `a representative example of adaptive optimizers`, while still saying on top of what earlier families it is connected.
 - You can explain in what order of questions optimizer families should be distinguished.
 
-## The Axes We Have To Look At Before The Names
+## The Axes We Have to Look at Before the Names
 
 The reason optimizer names look numerous is that, while they are all `rules that turn gradients into actual updates`, they differ in the kinds of additional memory and adjustment they add to that rule. In this section, it is enough to read them through the following three axes.
 
@@ -66,7 +66,7 @@ flowchart TD
     D --> E
 ```
 
-## Why Is Momentum Given A Separate Name
+## Why Is Momentum Given a Separate Name
 
 Momentum adds the idea of preserving `the previous movement direction` a little on top of the simplest direct update. Instead of looking only at the current gradient and taking one step, it also partly reflects in what direction the model had been moving over recent steps.
 
@@ -94,7 +94,7 @@ The numbers below are not a full optimizer implementation. They are only a small
 
 The important thing in this table is not the exact formula value, but the reading intuition. Direct update translates `the current gradient` immediately, so if the direction changes often, the movement also wobbles immediately. Momentum, by contrast, keeps some memory of `which way it had been going just before`, so it reads the same number flow as something less jagged.
 
-## What Are AdaGrad And RMSProp Trying To Change
+## What Are AdaGrad and RMSProp Trying to Change
 
 AdaGrad looks separately at how much gradient has accumulated for each coordinate. Some coordinates receive large gradients frequently, while others react only rarely and weakly. AdaGrad tries to adjust the update size differently for each coordinate by looking at this difference.
 
@@ -129,7 +129,7 @@ Suppose the gradient magnitude of one coordinate keeps entering as `4.0 -> 4.0 -
 
 This table is not trying to replace the exact computation of the two optimizers. For an introductory reader, it is enough that `AdaGrad is the side that keeps accumulating`, while `RMSProp is the side that adjusts around a recent average`.
 
-## Why Is Adam Described As Bringing Two Axes Together
+## Why Is Adam Described as Bringing Two Axes Together
 
 Adam often appears at the end of optimizer-family comparisons. The reason is not simply that it is a newer name, but that the two axes we saw earlier come together inside it.
 
@@ -162,7 +162,7 @@ In this second graph, even when receiving the same input gradient, the direct up
 
 The third graph shows how that difference accumulates in the actual parameter path. The direct update moves more quickly as `1.4 -> 1.6 -> 1.7`, while the Adam-like method moves more gently as `1.04 -> 1.10 -> 1.16`. What the reader has to hold here is not `which one is absolutely better`, but that the optimizer rule turns the same gradient history into different parameter paths.
 
-## A Table Of Standards For Distinguishing Optimizer Families
+## A Table of Standards for Distinguishing Optimizer Families
 
 | optimizer | what it remembers more | what it adjusts more | what it first tried to alleviate |
 | --- | --- | --- | --- |
@@ -174,7 +174,7 @@ The third graph shows how that difference accumulates in the actual parameter pa
 
 This table does not tell a performance ranking. Its purpose is to make the reader immediately ask, when reading an optimizer name, `what does it remember more and what does it adjust more?`
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. Even When Optimizer Names Appear In A Row, Three Questions Are Enough
 
@@ -201,7 +201,7 @@ If we unpack this case a little more, the confusion a beginner feels when seeing
 
 For example, when we see momentum, we first ask `does it keep the previous direction?` When we see AdaGrad, we ask `does it separately look at the coordinate-wise accumulated magnitude?` When we see Adam, we ask `do the two come together here?` In other words, if the places of the questions are fixed instead of memorizing the names, the burden of reading tables and sentences becomes much smaller.
 
-## Practice And Example
+## Practice and Example
 
 Read the following sentences and attach which optimizer-family question is needed first.
 
@@ -222,7 +222,7 @@ The purpose of this exercise is not name-matching, but practicing what question 
 - Can you read optimizer-family comparison not as a `ranking table`, but as a comparison of `memory style and adjustment style`?
 - When looking at optimizer families, can you first ask `what does it remember more`, `what does it adjust more`, and `what problem was it trying to solve`?
 
-## Sources And References
+## Sources and References
 
 - PyTorch, `torch.optim`, PyTorch documentation. Referenced to confirm that PyTorch provides optimizers such as SGD, Adagrad, RMSprop, and Adam, and that optimizers perform updates while carrying parameters and state. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
 - Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014. Referenced to confirm the original paper's description of Adam as an adaptive optimizer based on first-moment and second-moment estimates. Checked: 2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }

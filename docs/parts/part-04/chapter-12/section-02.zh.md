@@ -1,7 +1,7 @@
 # P4-12.2 距离(distance)与尺度(scale)
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但在这里，真正最重要的词其实是 `近`。
 
@@ -9,7 +9,7 @@ P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但�
 
 如果跳过这个问题，读者其实只是看到了结果，而没有真的理解模型。因为在 k-NN 里，`用什么规则来计算近远` 本身就是模型的一部分。
 
-## 本节范围
+## distance 与 feature scale 先收束的问题
 
 这一节回答下面这些问题。
 
@@ -18,9 +18,9 @@ P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但�
 - 为什么 scale 会扭曲 distance 计算？
 - standardization 会怎样改变 k-NN 的解释？
 
-这一节先收束 `为什么在 k-NN 里，distance 和 scale 会改变 neighbor 与 prediction`。preprocessing 的目的和类型，仍然以 `P4-7.2 Preprocessing` 作为基准说明位置；这里专注的是 distance 和 scale 改变判断的场景。
+这一节先收束 `为什么在 k-NN 里，distance 和 scale 会改变 neighbor 与 prediction`。preprocessing 的目的和类型，仍然以 [P4-7.2 Preprocessing](../chapter-07/section-02.zh.md) 作为基准说明位置；这里专注的是 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance) 和 [feature scale](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-scale) 改变判断的场景。
 
-## 用距离(distance)与尺度(scale)留下的判断标准
+## distance 与 feature scale 要留下的判断标准
 
 - 能说明 distance function 不是 `模型外部的设置`，而是 `判断规则的一部分`
 - 能说明 distance function 一旦改变，neighbor 顺序和 prediction 也可能改变
@@ -31,7 +31,7 @@ P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但�
 
 ### distance 是模型判断规则的一部分
 
-k-NN 会先计算新输入与已有数据之间的距离，然后再找出最近的 neighbor。所以 distance function 不是单纯的计算工具，而是决定 `谁会被选成 neighbor` 的规则。
+k-NN 会先计算新输入与已有数据之间的 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)，然后再找出最近的 neighbor。所以 distance function 不是单纯的计算工具，而是决定 `谁会被选成 neighbor` 的规则。
 
 - Euclidean distance：把距离读成直线长度的方式
 - Manhattan distance：把沿轴移动的量加起来的方式
@@ -96,7 +96,7 @@ k-NN 会先计算新输入与已有数据之间的距离，然后再找出最近
 
 ### standardization 改变了什么
 
-standardization 不是为了让数字变得更漂亮。更准确地说，它是在 `重新平衡每个 feature 在 distance 计算里施加的影响`。
+[standardization](/AiBook/zh/reference/concept-glossary-pinyin/b/#standardization) 不是为了让数字变得更漂亮。更准确地说，它是在 `重新平衡每个 feature 在 distance 计算里施加的影响`。
 
 入门层面，按下面这个顺序来理解就足够了。
 
@@ -137,6 +137,11 @@ standardization 不是为了让数字变得更漂亮。更准确地说，它是�
   - 在原始数字下，收入这一大单位轴可能会支配 distance
   - standardization 后，小轴的信息可能会重新进入比较
   - 因此，即使 query 相同，最近邻顺序也可能改变
+
+可以改动的值：
+
+- 把 `query` 的 income 改成 `5000000` 或 `7000000`，观察原始距离里哪一个轴更支配比较。
+- 把 `k=3` 的检查改成 `raw_ranked[:2]`、`scaled_ranked[:2]` 这样的切片，先看 prediction 之前的 neighbor 组成。
 
 可以按下面这个顺序来读。
 
@@ -253,6 +258,11 @@ k=3 prediction after scaling = safe
 
 现在保持同一个 standardization 方式，只把 query 的 late-payment count 从 `0` 改成 `2`。
 
+可以改动的值：
+
+- 把 `scaled_query_2` 的第二个值改成 `1`、`3`、`5`，观察 neighbor 顺序什么时候再次混合。
+- 把 `ranked_0[:2]` 改成 `ranked_0[:3]`，检查 neighbor 替换是否继续影响多数表决。
+
 ```python
 # 这个例子检查特征尺度差异如何改变距离计算和 k-NN 邻居选择。
 from math import sqrt
@@ -331,5 +341,5 @@ top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
 
 ## 出处与参考资料
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, 确认日期: 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, 确认日期: 2026-07-26. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }

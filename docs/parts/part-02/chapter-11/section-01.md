@@ -1,13 +1,13 @@
 # P2-11.1 NumPy 배열(array)로 벡터와 행렬 만들기
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 수학 기호와 작은 코드로 확인했습니다. Part 2 Chapter 8에서는 Python의 리스트(list)와 딕셔너리(dictionary)를 봤고, Part 2 Chapter 9에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 구조 관점으로 구분했습니다. Part 2 Chapter 10에서는 노트북(notebook)을 실행 가능한 학습 기록으로 정리하는 방법을 봤습니다.
 
 이제 NumPy를 다시 봅니다. NumPy는 Numerical Python에서 온 이름입니다. Python에서 숫자 배열(array)을 만들고, 벡터와 행렬 계산을 빠르고 일관된 문법으로 실행하기 위해 널리 쓰이는 오픈소스 라이브러리입니다.
 
-여기서는 `넘파이(NumPy)`, `shape`, `ndim`, `dtype`의 기본 구분을 설명합니다. 이번 장은 NumPy 문법을 많이 외우는 장이 아니라, AI 실습에서 벡터, 행렬, 데이터 묶음이 코드에서 어떤 모양으로 나타나는지 읽기 위한 장입니다. 이후 배열, 축, 브로드캐스팅을 다시 만날 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 확인합니다.
+여기서는 `넘파이(NumPy)`, `shape`, `ndim`, `dtype`의 기본 구분을 설명합니다. 이번 장은 NumPy 문법을 많이 외우는 장이 아니라, AI 실습에서 벡터, 행렬, 데이터 묶음이 코드에서 어떤 모양으로 나타나는지 읽기 위한 장입니다. 이후 배열, 축, 브로드캐스팅을 다시 만날 때도 이 장의 기준으로 연결합니다.
 
 AI를 공부하다 보면 데이터가 금방 숫자 배열로 바뀝니다. 문장은 토큰 ID(token ID)의 배열이 되고, 이미지는 픽셀(pixel) 배열이 되며, 표 데이터는 특징(feature) 행렬이 되고, 임베딩(embedding)은 벡터가 됩니다. 이 숫자 묶음을 Python 리스트만으로 다룰 수도 있지만, 여러 값을 같은 방식으로 더하고 곱하고 평균을 내고 행렬 곱을 하려면 NumPy 배열이 훨씬 자연스럽습니다.
 

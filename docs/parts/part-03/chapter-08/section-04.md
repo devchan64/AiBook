@@ -1,15 +1,15 @@
 # P3-8.4 보수적 해석과 운영 열
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _보조제목: 해석 문장은 어떻게 warning 열과 review queue 기준으로 바뀌는가_
 
-비교표를 읽은 뒤에는 `최근 구간은 기준선 대비 후반 하강이 커졌고 검토 우선순위를 높인다` 같은 보수적 해석 문장이 남습니다. 여기서 필요한 다음 판단은 이 문장을 어떻게 `warning_level`, `review_needed`, `priority_score` 같은 구조화된 운영 열로 바꿀 것인가입니다. 보수적 해석 문장은 끝이 아니라, [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)와 같은 `구조화된 운영 출력`으로 바뀌기 전 마지막 사람 해석 단계입니다. 비교표를 곧바로 구조화된 운영 출력으로 바꾸면 중간의 판단 이유가 빠질 수 있고, 반대로 문장만 남기면 운영 우선순위를 정하거나 같은 기준으로 다시 정렬하기 어렵습니다.
+[비교표(comparison table)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-table)를 읽은 뒤에는 `최근 구간은 기준선 대비 후반 하강이 커졌고 검토 우선순위를 높인다` 같은 보수적 해석 문장이 남습니다. 여기서 필요한 다음 판단은 이 문장을 어떻게 `warning_level`, `review_needed`, `priority_score` 같은 구조화된 운영 열로 바꿀 것인가입니다. 보수적 해석 문장은 끝이 아니라, [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)와 같은 [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)로 바뀌기 전 마지막 사람 해석 단계입니다. 비교표를 곧바로 구조화된 운영 출력으로 바꾸면 중간의 판단 이유가 빠질 수 있고, 반대로 문장만 남기면 운영 우선순위를 정하거나 같은 기준으로 다시 정렬하기 어렵습니다.
 
 | 층위 | 주된 형태 | 역할 |
 | --- | --- | --- |
-| 비교 결과 | 차이값, 기준선, 반복성 | 무엇이 달라졌는지 보여 줌 |
+| [비교 결과(comparison result)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-result) | 차이값, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), 반복성 | 무엇이 달라졌는지 보여 줌 |
 | 보수적 해석 문장 | `추가 관찰 필요`, `검토 우선순위 상승` | 사람이 읽을 판단 강도 정리 |
 | 구조화된 운영 출력 | `warning_level`, `review_needed`, `priority_score` | 운영에서 다시 정렬·검색·후속 처리 가능 |
 
@@ -23,7 +23,7 @@ _보조제목: 해석 문장은 어떻게 warning 열과 review queue 기준으�
 - 어떤 차이를 `검토 후보`로 올릴지
 - 어떤 차이를 `강한 경고`로 둘지
 
-이 판단은 보통 숫자 하나가 아니라 표본 수, 반복성, 비교 조건을 함께 읽은 뒤에야 정해지기 때문입니다. 즉 문장은 장식이 아니라, 숫자를 운영 판단으로 번역하는 중간 단계입니다.
+이 판단은 보통 숫자 하나가 아니라 표본 수, 반복성, 비교 조건이 만드는 [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-evidence-strength)를 함께 읽은 뒤에야 정해지기 때문입니다. 즉 문장은 장식이 아니라, 숫자를 운영 판단으로 번역하는 중간 단계입니다.
 
 ## 한 장면을 세 단계로 다시 보기
 

@@ -1,9 +1,9 @@
 # P6-15.1 MCP Connecting Tools and Resources in a Shared Format
 
 > Section ID: `P6-15.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-In P6-14.2, we saw that an agent has a repeated structure of plan, action, and observation. Now we need to see what is needed to connect these tools and states more consistently across several systems.
+In P6-14.2, we saw that an AI agent has a repeated structure of plan, action, and observation. Now we need to see what is needed to connect these tools and states more consistently across several systems.
 
 MCP, or Model Context Protocol, is an interface viewpoint that helps models, agents, and applications connect more consistently to external tools and data. In other words, it is closer to an agreement to connect several tools and data sources in a more regular way instead of attaching each one separately.
 
@@ -13,7 +13,7 @@ The first issue to close is `what shared format should connect tools and resourc
 
 Here, we read MCP as `a standardization viewpoint that tries to make tool connections less ad hoc`.
 
-If the agent loop asked `through what repeated structure should several reads and executions continue`, the MCP viewpoint asks how the tools and resources used by that loop should be exposed in a shared format so that later execution and records shake less. Here, we hold the standard for reading `Model Context Protocol (MCP)` as a shared connection interface that keeps `model capability` separate from `tool connection format`. Execution records and reproduction environments are covered separately in the P6-15.2 harness section.
+If the AI agent loop asked `through what repeated structure should several reads and executions continue`, the MCP viewpoint asks how the tools and resources used by that loop should be exposed in a shared format so that later execution and records shake less. Here, we hold the standard for reading `Model Context Protocol (MCP)` as a shared connection interface that keeps `model capability` separate from `tool connection format`. Execution records and reproduction environments are covered separately in the P6-15.2 harness section.
 
 The first thing to fix here is exposing which tools and resources in what shared format, and making the connection interface regular.
 
@@ -44,13 +44,13 @@ The same scene can be shortened like this.
 
 ## Separating model capability from tool-connection rules
 
-When there are only one or two tools, each connection can be built directly. But as an agent structure grows, the number of tools increases and connection methods easily become inconsistent. A connection viewpoint such as MCP is an attempt to make tool descriptions, request formats, and response formats more regular so that the surrounding connection environment becomes less confusing than the model itself.
+When there are only one or two tools, each connection can be built directly. But as an AI agent structure grows, the number of tools increases and connection methods easily become inconsistent. A connection viewpoint such as MCP is an attempt to make tool descriptions, request formats, and response formats more regular so that the surrounding connection environment becomes less confusing than the model itself.
 
 From a service-structure viewpoint, tool use is close to `calling a tool`, while MCP handles the stage of `how should those tools be exposed in a shared format`. The model's ability to understand and generate text and the external tool's exposed name, input format, and return format are different levels. We need this distinction first so we can separate whether the cause is a model limitation or a tool-exposure and connection-design problem.
 
 The model centers on reading the given input and choosing the next needed word or action candidate. A connection viewpoint such as MCP, on the other hand, centers on how to access external tools and data outside the model, such as files, search, databases, and APIs. So MCP is closer to the problem of how to connect the execution environment around the model, rather than an `internal model capability`.
 
-For example, when an agent structure grows, several kinds of tools become necessary inside one task.
+For example, when an AI agent structure grows, several kinds of tools become necessary inside one task.
 
 - One tool reads files.
 - One tool searches.
@@ -99,7 +99,7 @@ The same content can be compared again from the viewpoint of connection congesti
 | When a shared connection viewpoint such as MCP is weak | Different names, argument formats, and return formats for each tool | Format mismatch, more exception handling, higher cost to add new tools |
 | When a shared connection viewpoint such as MCP exists | Tool list and resource information exposed in a shared way | It becomes easier to separate permission, quality, and evaluation problems from the connection itself. |
 
-MCP does not automatically solve tool quality, permission problems, wrong calls, or evaluation. Organizing the connection format and improving real operational quality are different problems. So MCP is better read not as a `new capability generator`, but as a connection-organizing viewpoint that helps prompts, RAG, tool use, and agent flows handle their growing connections in a more regular format.
+MCP does not automatically solve tool quality, permission problems, wrong calls, or evaluation. Organizing the connection format and improving real operational quality are different problems. So MCP is better read not as a `new capability generator`, but as a connection-organizing viewpoint that helps prompts, RAG, tool use, and AI agent flows handle their growing connections in a more regular format.
 
 ## Cases and examples
 

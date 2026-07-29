@@ -1,19 +1,19 @@
 # P4-4.1 Training Data And Evaluation Data
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Chapter P4-3 showed how heuristics can narrow the model candidates to try first. That immediately raises an important question. How can you check whether that choice is actually acceptable?
+Chapter P4-3 showed how [heuristics](/AiBook/en/reference/concept-glossary-alpha/h/#heuristic) can narrow the model candidates to try first. That immediately raises an important question. How can you check whether that choice is actually acceptable?
 
 In machine learning, it is not enough for a model to fit the data it has already seen. What we want is a model that makes usable judgments even on new data that will arrive later. So not all data are used only for learning. Some are left aside separately for evaluation.
 
-Training data are the data used for learning. Evaluation data are the data used to check what the model learned. The most important first perspective is simple. `If you take a test using only the worksheet you already studied, you can easily mistake your level of skill.`
+[Training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) are the data used for learning. [Evaluation data](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-data) are the data used to check what the model learned. The most important first perspective is simple. `If you take a test using only the worksheet you already studied, you can easily mistake your level of skill.`
 
 ## Scope Of This Section
 
-This Section explains why data are split. The detailed distinction between validation data and test data is handled in P4-4.2. Here the goal is first to fix the difference between the data used for learning and the data left aside for evaluation.
+This Section explains why data are split. The detailed distinction between [validation data](/AiBook/en/reference/concept-glossary-alpha/v/#validation-data) and [test data](/AiBook/en/reference/concept-glossary-alpha/t/#test-data) is handled in P4-4.2. Here the goal is first to fix the difference between the data used for learning and the data left aside for evaluation.
 
-Overfitting and generalization are treated in detail in P4-5. Metrics such as accuracy, precision, and recall are handled in P4-6. The focus here is the reason `you must separate them before checking`.
+[Overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) and [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization) are treated in detail in P4-5. [Metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric) such as accuracy, precision, and recall are handled in P4-6. The focus here is the reason `you must separate them before checking`.
 
 - Why should all data not be used only for training?
 - What roles do training data and evaluation data play?
@@ -26,7 +26,7 @@ Overfitting and generalization are treated in detail in P4-5. Metrics such as ac
 - You can distinguish the roles of training data and evaluation data.
 - You can explain that training and evaluating on the same data can overestimate performance.
 - You can understand that evaluation data are `a proxy scene for estimating how the model may act on new data`.
-- You can explain why data splitting leads into model selection, overfitting, and generalization.
+- You can explain why data splitting leads into [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection), overfitting, and generalization.
 - You can keep a clear boundary that the detailed distinction between validation and test is handled in the next Section.
 
 ## Learning Background
@@ -200,7 +200,7 @@ The phrase `split the data` does not always mean a random half-and-half split in
 | Situation | Split method to think of first | Why |
 | --- | --- | --- |
 | Tabular data such as churn prediction or score prediction | random split | Often the goal is to keep training and evaluation close in distribution. |
-| Data where time order matters, such as monthly sales, sensor logs, or stock prices | time-based split | If future information is mixed into past learning, the real deployment situation can be distorted. |
+| Data where time order matters, such as monthly sales, sensor logs, or stock prices | [time-based split](/AiBook/en/reference/concept-glossary-alpha/t/#time-split) | If future information is mixed into past learning, the real deployment situation can be distorted. |
 | Data with very rare labels, such as defect detection or rare disease | stratified split | If the rare label gathers only on one side, the evaluation can become unstable. |
 
 For example, suppose shopping-mall data were collected from January to June.
@@ -256,7 +256,7 @@ The score on training data and the score on evaluation data do not mean the same
 
 If the training score is high and the evaluation score is also high, that can be a relatively good signal. If the training score is high but the evaluation score is low, the model may have fit the training data too strongly. That problem is called overfitting and is treated in detail in P4-5.
 
-By contrast, if both the training score and the evaluation score are low, the model may not have learned enough. That connects to underfitting, which is also handled in P4-5.
+By contrast, if both the training score and the evaluation score are low, the model may not have learned enough. That connects to [underfitting](/AiBook/en/reference/concept-glossary-alpha/u/#underfitting), which is also handled in P4-5.
 
 A short practical-style example can be read like the following.
 
@@ -274,7 +274,7 @@ Evaluation data are a device for imitating data the model has not seen yet. But 
 
 For example, suppose shopping-mall data were collected from January to June, and part of them was left aside as evaluation data. That evaluation set shows customer behavior from the same broad period. But it may not perfectly represent a November discount season or customer behavior in the following year.
 
-So data splitting is a necessary starting point, but not the whole story. Time change, sampling bias, the data-collection method, and service-policy changes must also be considered. The basic sense of sample and bias was already seen in the earlier probability-and-statistics recovery part, and in machine learning it reconnects again in P4-5 and P4-6.
+So data splitting is a necessary starting point, but not the whole story. Time change, [sampling bias](/AiBook/en/reference/concept-glossary-alpha/s/#sampling-bias), the data-collection method, and service-policy changes must also be considered. The basic sense of sample and bias was already seen in the earlier probability-and-statistics recovery part, and in machine learning it reconnects again in P4-5 and P4-6.
 
 ### Be More Careful When The Dataset Is Small
 
@@ -486,6 +486,6 @@ In this exercise, one side can end up with almost no `churn`, or even none at al
 
 ## Sources And References
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

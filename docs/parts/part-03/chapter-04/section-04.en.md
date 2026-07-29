@@ -1,7 +1,7 @@
 # P3-4.4 What Signals Show That the Sample Unit Was Chosen Wrong
 
 > Section ID: `P3-4.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 If the sample unit is chosen incorrectly, the problem usually reappears later in strange forms. That is why the question `how can I notice that I am currently using the wrong sample unit?` matters. In many cases, people keep building features, labels, and comparison tables on top of the wrong sample unit, and only much later realize that the whole structure has become unstable. So this section gathers in one place the representative warning signs that should make us suspect a wrong decision about the sample unit.
 

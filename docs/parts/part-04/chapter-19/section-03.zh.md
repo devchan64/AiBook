@@ -1,7 +1,7 @@
 # P4-19.3 应用强化学习时的注意点
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P4-19.1 里，我们看了价值型强化学习(value-based reinforcement learning)；在 P4-19.2 里，我们看了策略型强化学习(policy-based reinforcement learning)。走到这里，下一个问题会自然出现。
 
@@ -11,9 +11,9 @@
 
 强化学习是通过试行动来学习的，所以必须把 reward 该怎么给、实验能在哪里做、simulation 里学到的东西能不能原样用到现实里，这几件事始终一起检查。
 
-这一节不会再长篇重复价值型与策略型强化学习的基本定义。主要把手仍然放在 P4-19.1、P4-19.2 和 [概念词汇表](/AiBook/reference/concept-glossary/) 里，这里只把焦点放在把这些算法接到现实问题时出现的应用风险上。
+这一节不会再长篇重复价值型与策略型强化学习的基本定义。主要把手仍然放在 P4-19.1 的 [价值型强化学习(value-based reinforcement learning)](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)、P4-19.2 的 [策略型强化学习(policy-based reinforcement learning)](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)，以及相关概念词汇表条目里，这里只把焦点放在把这些算法接到现实问题时出现的应用风险上。
 
-## 本节范围
+## 应用强化学习时先收束的问题
 
 这一节回答下面这些问题。
 
@@ -24,16 +24,16 @@
 
 这一节先收住`把强化学习接到真实问题时，必须一起检查哪些应用风险`这个问题。safe RL、offline RL、sim-to-real 强化策略、RLHF 与 preference optimization 的大图，会在补充学习 P4-19.4 重新收回来；而 LLM 对齐语境里的 RLHF，则会在 Part 5 的 P5-6、P5-8、P5-10 再次连接。
 
-## 用应用强化学习时的注意点留下的判断标准
+## 应用强化学习时要留下的判断标准
 
-- 能说明 reward 不一定就是 true objective。
-- 能说出 exploration 在游戏里看起来容易，但在现实里会制造成本和风险。
-- 能解释为什么 sim-to-real gap 很重要。
+- 能说明 reward 不一定就是 [true objective](/AiBook/zh/reference/concept-glossary-pinyin/z/#true-objective)。
+- 能说出 exploration 在游戏里看起来容易，但在现实里会制造 [exploration cost](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploration-cost) 和风险。
+- 能解释为什么 [sim-to-real gap](/AiBook/zh/reference/concept-glossary-pinyin/s/#sim-to-real-gap) 很重要。
 - 能在应用强化学习前自己列出检查问题。
 
-## 阅读这一节的顺序
+## 应用强化学习时的判断顺序
 
-这一节里 `reward design`、`exploration cost`、`sim-to-real gap`、`部署前检查` 会连续出现，所以速度很容易过快。第一次读时，最好按顺序只抓下面四个问题。
+这一节里 [reward design](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward-design)、exploration cost、sim-to-real gap、`部署前检查` 会连续出现，所以速度很容易过快。第一次读时，最好按顺序只抓下面四个问题。
 
 1. 强化学习在现实里马上变难的第一个原因是什么？
 2. 现在给的 reward，到底多粗糙地代替了真实目标？
@@ -114,7 +114,7 @@
 
 ## reward hacking 为什么会出现
 
-AI 安全文献把这类问题称作 reward hacking。意思是：
+AI 安全文献把这类问题称作 [reward hacking](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward-hacking)。意思是：
 
 `模型把 reward function 按字面优化得很好，却错过了人真正想要的意义，只是把数字抬高了`
 
@@ -167,7 +167,7 @@ reward 设计不是一个小实现细节，而是系统会被引导去相信`自
 
 | exploration 场景 | 能得到什么 | 必须一起计算什么 |
 | --- | --- | --- |
-| 游戏 agent 尝试新路线 | 发现更高分策略 | 主要是时间损失 |
+| 游戏中的强化学习智能体 尝试新路线 | 发现更高分策略 | 主要是时间损失 |
 | 机器人手臂尝试新抓取角度 | 发现更稳定控制组合 | 碰撞、磨损、设备损坏 |
 | 推荐 policy 尝试新曝光比例 | 发现更好转化模式 | 用户疲劳、流失、投诉增加 |
 
@@ -175,7 +175,7 @@ reward 设计不是一个小实现细节，而是系统会被引导去相信`自
 
 ## 为什么 safe exploration 会变成单独主题
 
-AI 安全文献把 safe exploration 当成单独问题。原因很简单。
+AI 安全文献把 [safe exploration](/AiBook/zh/reference/concept-glossary-pinyin/s/#safe-exploration) 当成单独问题。原因很简单。
 
 `强化学习要靠尝试来学，但在现实里，尝试本身就可能危险。`
 
@@ -546,7 +546,5 @@ policy_B
 ## 来源与参考资料
 
 - Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018, 确认日期：2026-06-28. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
-- Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, 确认日期：2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
-- Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, 确认日期：2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }
 - Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, 确认日期：2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
 - Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, 确认日期：2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }

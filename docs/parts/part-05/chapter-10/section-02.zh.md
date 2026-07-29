@@ -1,7 +1,7 @@
 # P5-10.2 深层中的表征
 
 > Section ID: `P5-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-10.1 里，我们已经把 representation learning 解释成`模型自己学出有用内部 feature 的过程`。顺着这个解释，接下来的问题就会自然出现。
 
@@ -9,7 +9,7 @@
 
 通常的说法是：层越深，表征会从更局部、更简单的 pattern，逐渐移动到更抽象、也更靠近任务（task）的 pattern。
 
-如果之后又想重新确认：`层变深时，表征究竟该怎样读`，更适合回到[英文概念词汇表里的 representation 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation)。
+如果之后又想重新确认：`层变深时，表征究竟该怎样读`，更适合回到概念词汇表里的[表征（representation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation)。
 
 ## 深层怎样改变表征的问题
 

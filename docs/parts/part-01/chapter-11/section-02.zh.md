@@ -1,7 +1,7 @@
 # P1-11.2 RNN、Seq2Seq 与 Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)。语言模型会以概率方式处理单词和 token 的顺序，而嵌入会把单词和 token 变成可计算的向量表示(vector representation)。
 

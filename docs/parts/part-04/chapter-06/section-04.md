@@ -1,7 +1,7 @@
 # P4-6.4 보충학습: 평가 지표 질문 지도
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
 _보조제목: ROC, PR, log loss, calibration, silhouette는 각각 어떤 평가 질문에 답하는가_
 
@@ -17,10 +17,10 @@ P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 
 
 ## 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법에서 구분할 경계
 
-이 절은 분류와 군집화에서 자주 등장하는 ROC, PR, log loss, calibration, silhouette를 처음 읽는 보충학습입니다. 세부 증명보다 `언제 왜 보게 되는가`에 집중합니다.
+이 절은 [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification)와 [군집화](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)에서 자주 등장하는 ROC, PR, log loss, calibration, silhouette를 처음 읽는 보충학습입니다. 세부 증명보다 `언제 왜 보게 되는가`에 집중합니다.
 
-- ROC와 PR 곡선은 왜 점수(score)와 임계값(threshold) 문제로 이어지는가?
-- log loss는 왜 `맞고 틀림`보다 확률 출력까지 함께 보게 하는가?
+- ROC와 PR 곡선은 왜 [점수(score)](../../../reference/concept-glossary-parts/09-jieut.md#score)와 [임계값(threshold)](../../../reference/concept-glossary-parts/08-ieung.md#threshold) 문제로 이어지는가?
+- log loss는 왜 `맞고 틀림`보다 [확률 추정값(probability estimate)](../../../reference/concept-glossary-parts/14-hieut.md#probability-estimate)까지 함께 보게 하는가?
 - calibration은 왜 `확률처럼 보이는 점수`를 다시 의심하게 하는가?
 - silhouette는 왜 군집화에서 정답 라벨 없이도 구조를 읽게 하는가?
 
@@ -45,7 +45,7 @@ P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 
 | calibration | `0.8` 같은 점수가 실제로도 80% 정도의 빈도를 뜻하는가? |
 | silhouette | 정답 라벨 없이도 묶음이 조밀하고 분리되어 있는가? |
 
-즉, 이 지표들은 `정확도 하나로 부족할 때` 등장합니다.
+즉, 이 지표들은 [정확도](../../../reference/concept-glossary-parts/09-jieut.md#accuracy) 하나로 부족할 때 등장합니다.
 
 이 절의 역할을 더 짧게 잡으면, `본편 평가 질문을 읽다가 더 세밀한 점수 읽기 기준이 필요할 때 잠깐 들르는 곳`입니다.
 
@@ -83,7 +83,7 @@ P4-6.2에서 분류는 단순히 범주를 맞히는 일이 아니라, 점수를
 
 ROC와 PR 곡선은 모델이 낸 점수를 어느 값부터 양성으로 볼지 바꿀 때, 오탐과 놓침의 균형도 함께 달라진다는 사실을 보여 줍니다.
 
-ROC curve는 이 균형을 거짓 양성률(false positive rate)과 진짜 양성률(true positive rate) 관점에서 보여 줍니다. PR curve는 정밀도(precision)와 재현율(recall) 관점에서 보여 줍니다.
+ROC curve는 이 균형을 [거짓 양성률(false positive rate)](../../../reference/concept-glossary-parts/01-giyeok.md#false-positive)과 진짜 양성률(true positive rate) 관점에서 보여 줍니다. PR curve는 [정밀도(precision)](../../../reference/concept-glossary-parts/09-jieut.md#precision)와 [재현율(recall)](../../../reference/concept-glossary-parts/09-jieut.md#recall) 관점에서 보여 줍니다.
 
 둘을 굳이 나눠 읽는 이유는 다음과 같습니다.
 
@@ -198,7 +198,7 @@ calibration은 비슷한 점수를 받은 사례들을 모아 봤을 때, 그 �
 
 P4-15.3에서 threshold 조정과 calibration 이야기가 다시 나오므로, 이 절은 `확률처럼 보이는 점수도 다시 검토해야 한다`는 관점을 먼저 연결해 둡니다.
 
-초심자가 특히 헷갈리는 부분은 `분류를 잘하는 것`과 `확률을 잘 말하는 것`이 같은 능력이 아니라는 점입니다. 어떤 모델은 양성과 음성을 잘 순서대로 세울 수는 있지만, 점수 값 자체는 실제 빈도와 어긋날 수 있습니다. 즉, ranking은 괜찮아도 probability interpretation은 나쁠 수 있습니다.
+초심자가 특히 헷갈리는 부분은 `분류를 잘하는 것`과 `확률을 잘 말하는 것`이 같은 능력이 아니라는 점입니다. 어떤 모델은 양성과 음성을 잘 순서대로 세울 수는 있지만, 점수 값 자체는 실제 빈도와 어긋날 수 있습니다. 즉, [ranking](../../../reference/concept-glossary-parts/07-siot.md#ranking)은 괜찮아도 probability interpretation은 나쁠 수 있습니다.
 
 다음처럼 구분하면 더 명확합니다.
 
@@ -230,11 +230,11 @@ calibration이 좋다고 해서 분류 성능이 자동으로 좋은 것은 아�
 
 ## silhouette는 정답 없이 군집 구조를 읽는 내부 기준이다
 
-군집화에서는 정답 라벨이 없을 수 있다고 P4-6.2에서 봤습니다. silhouette score는 이런 장면에서 자주 등장하는 내부 평가 기준입니다.
+군집화에서는 정답 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 없을 수 있다고 P4-6.2에서 봤습니다. silhouette score는 이런 장면에서 자주 등장하는 내부 평가 기준입니다.
 
 silhouette score는 같은 군집 안에서는 가깝고, 다른 군집과는 멀수록 더 좋은 묶음처럼 읽는 기준입니다.
 
-silhouette는 `내 군집과의 가까움`과 `가장 가까운 다른 군집과의 거리`를 함께 비교하는 감각으로 읽을 수 있습니다.
+silhouette는 `내 군집과의 가까움`과 가장 가까운 다른 군집과의 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)를 함께 비교하는 감각으로 읽을 수 있습니다.
 
 즉, silhouette는 다음 질문을 돕습니다.
 
@@ -384,6 +384,6 @@ silhouette= 0.928
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.

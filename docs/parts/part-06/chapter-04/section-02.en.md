@@ -1,7 +1,7 @@
-# P6-4.2 The Reference Range of Attention
+# P6-4.2 Attention Reference Range
 
 > Section ID: `P6-4.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _Subtitle: What can attention look back at only inside the context window?_
 
@@ -9,7 +9,7 @@ In P6-4.1, we reread the Transformer by LLM standards and saw the flow where tok
 
 If a Transformer can refer to previous tokens, how far can it actually refer? A context window is the token range a model can refer to within one computation, and attention is the structure that computes which tokens are more important inside that range.
 
-## The Input Range Attention Can Read
+## Input Range Attention Can Read
 
 When reading the input-range constraint, first separate attention from the context window. Attention computes how related tokens inside the input are to one another, but the computation target is limited to tokens inside the context window. So the core is not `attention sees everything`, but `the input range is limited first, and attention works only inside it`.
 
@@ -82,9 +82,9 @@ If we tie what we have seen so far into one sentence, the actual design question
 - What should remain as-is, and what should be summarized?
 - What is directly connected to the current question?
 
-In other words, the context window problem is not a length competition, but also a problem of setting `standards for input selection and compression`. This view must be held so later explanations of RAG, conversation summarization, and agent context management can be read naturally as similar design problems.
+In other words, the context window problem is not a length competition, but also a problem of setting `standards for input selection and compression`. This view must be held so later explanations of RAG, conversation summarization, and AI agent context management can be read naturally as similar design problems.
 
-## The Input-Selection Problem That Leads to RAG
+## Input-Selection Problem Leading to RAG
 
 RAG(retrieval-augmented generation) is not the target of detailed explanation in this section, but it is a representative scene showing where context-window constraints lead. The reason we search related document pieces and insert only needed parts instead of inserting the whole long document is to use evidence more efficiently inside the limited context window. The core to read here is not `attention is powerful, so we can insert the whole document`, but the sequence `first choose the evidence to keep in the window, then attention works inside it`.
 

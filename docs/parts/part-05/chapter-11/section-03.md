@@ -1,7 +1,7 @@
 # P5-11.3 보충학습: CNN과 Vision Transformer 비교
 
 > Section ID: `P5-11.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P5-11.1과 P5-11.2에서는 합성곱 신경망(CNN)이 왜 이미지와 잘 맞는지, 그리고 convolution과 pooling이 어떤 역할을 하는지를 먼저 보았습니다. 여기서 자연스럽게 다음 질문이 생깁니다.
 

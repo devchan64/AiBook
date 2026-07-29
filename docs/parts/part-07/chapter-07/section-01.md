@@ -1,7 +1,7 @@
 # P7-7.1 배포 확인과 상태 점검
 
 Section ID: `P7-7.1`
-Version: `v2026.07.22`
+Version: `v2026.07.26`
 
 Part 7의 마지막 프로젝트는 `코드를 만들었다`에서 끝나지 않습니다. 이 책 저장소처럼 정적 웹 문서를 배포하는 프로젝트도, 독자에게 실제로 보이기 시작하는 순간부터는 운영 질문이 생깁니다.
 
@@ -19,7 +19,7 @@ Part 7의 마지막 프로젝트는 `코드를 만들었다`에서 끝나지 않
 
 배포 프로젝트는 여기서 `빌드`, `배포 반영`, `공개 페이지 확인`을 나눠 보는 운영 기록으로 바뀝니다. 빌드 성공과 공개 상태 확인을 분리해 기록하는 기준을 세웁니다.
 
-Part 7에서 `배포(deployment)`와 `정적 배포(static deployment)`를 같은 말처럼 읽게 되면 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아와 구분을 다시 잡는 편이 좋습니다.
+Part 7에서 `배포(deployment)`와 `정적 배포(static deployment)`를 같은 말처럼 읽게 되면 이 절과 개념사전의 [배포(deployment)](../../../reference/concept-glossary-parts/06-bieup.md#deployment), [정적 배포(static deployment)](../../../reference/concept-glossary-parts/09-jieut.md#static-deployment) 항목으로 돌아와 구분을 다시 잡는 편이 좋습니다.
 
 ## 판단 기준
 

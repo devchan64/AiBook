@@ -1,11 +1,11 @@
 # P4-6.2 문제 유형별 평가 기준
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-6.1에서는 평가 지표(metric)가 단순 점수판이 아니라, 무엇을 중요하게 보는지 드러내는 기준이라는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다. `문제가 달라지면 왜 보는 지표도 달라질까요?`
+P4-6.1에서는 [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)가 단순 점수판이 아니라, 무엇을 중요하게 보는지 드러내는 기준이라는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다. `문제가 달라지면 왜 보는 지표도 달라질까요?`
 
-답은 단순합니다. 모델이 내놓는 출력(output)이 다르고, 그 출력이 연결되는 판단도 다르기 때문입니다. 분류(classification)는 범주를 고르는 문제이고, 회귀(regression)는 숫자를 맞추는 문제이며, 군집화(clustering)는 비슷한 것끼리 묶는 문제입니다. 따라서 `잘했다`는 뜻도 같을 수 없습니다.
+답은 단순합니다. 모델이 내놓는 [모델 출력 정의(model output)](../../../reference/concept-glossary-parts/05-mieum.md#model-output)이 다르고, 그 출력이 연결되는 판단도 다르기 때문입니다. [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification)는 범주를 고르는 문제이고, [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression)는 숫자를 맞추는 문제이며, [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)는 비슷한 것끼리 묶는 문제입니다. 따라서 `잘했다`는 뜻도 같을 수 없습니다.
 
 ## 문제 유형별 평가 기준에서 닫을 질문
 
@@ -25,7 +25,7 @@ P4-6.1에서는 평가 지표(metric)가 단순 점수판이 아니라, 무엇�
 
 - 문제 유형에 따라 평가 질문이 달라진다는 점을 설명할 수 있습니다.
 - 분류(classification)의 대표 지표와 회귀(regression)의 대표 지표가 왜 다른지 말할 수 있습니다.
-- 군집화(clustering)는 정답 라벨(label)이 없는 경우가 많아서 평가가 더 조심스러워진다는 점을 설명할 수 있습니다.
+- 군집화(clustering)는 정답 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 없는 경우가 많아서 평가가 더 조심스러워진다는 점을 설명할 수 있습니다.
 - 이후 장에서 선형회귀, 로지스틱 회귀, k-NN, 결정트리 같은 알고리즘을 배울 때 어떤 평가 질문이 따라붙는지 준비할 수 있습니다.
 
 ## 학습 배경
@@ -54,7 +54,7 @@ scikit-learn 문서는 평가 함수를 문제 목적별로 나누어 설명합�
 
 | 문제 유형 | 먼저 볼 것 | 바로 다음에 붙는 질문 | baseline과 연결되는 지점 |
 | --- | --- | --- | --- |
-| 분류 | 혼동 행렬(confusion matrix)과 대표 오류 사례 | 어떤 FP/FN이 더 아픈가, precision/recall 중 무엇을 먼저 볼까 | P4-8.2에서 이 오류 구조 개선이 정말 의미 있는지 baseline과 비교합니다. |
+| 분류 | [혼동 행렬(confusion matrix)](../../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 대표 오류 사례 | 어떤 FP/FN이 더 아픈가, precision/recall 중 무엇을 먼저 볼까 | P4-8.2에서 이 오류 구조 개선이 정말 의미 있는지 [baseline](../../../reference/concept-glossary-parts/01-giyeok.md#baseline)과 비교합니다. |
 | 회귀 | 대표 오차 크기와 큰 오차 구간 | 평균적으로 얼마나 벗어났고, 큰 실패가 어디에 몰렸는가 | 평균만 예측한 단순 baseline보다 실제로 나아졌는지 비교합니다. |
 | 군집화 | 군집 안 조밀함과 군집 사이 분리 | 이 묶음이 정말 구조를 보여 주는가, 사람이 붙일 해석이 있는가 | 사람의 기준 라벨이나 단순 분할과 비교할 수 있는지 뒤 절에서 다시 확인합니다. |
 
@@ -332,7 +332,7 @@ scikit-learn 문서는 군집화 성능 평가를 설명하면서, 이것이 지
 
 ### Python 예제로 분류를 실험해 보기
 
-분류는 임계값(threshold)을 조금만 바꿔도 정밀도와 재현율이 달라질 수 있습니다. 다음 예제는 같은 점수(score)라도 `몇 점부터 양성으로 볼 것인가`에 따라 결과가 달라진다는 점을 보여 줍니다.
+분류는 [임계값(threshold)](../../../reference/concept-glossary-parts/08-ieung.md#threshold)을 조금만 바꿔도 정밀도와 재현율이 달라질 수 있습니다. 다음 예제는 같은 [점수(score)](../../../reference/concept-glossary-parts/09-jieut.md#score)라도 `몇 점부터 양성으로 볼 것인가`에 따라 결과가 달라진다는 점을 보여 줍니다.
 
 아래 예제는 실제 라벨 `y_true`, 예측 점수 `scores`, 여러 `threshold` 값을 사용합니다. 결과에서는 임계값별 예측 결과, TP/TN/FP/FN, accuracy, precision, recall을 함께 확인합니다.
 
@@ -571,5 +571,5 @@ gap = 1.5
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P1-7.2 What Does a Heuristic Reduce?
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 7.1 showed that when the search space grows, methods that inspect every candidate quickly hit computational limits. Now we move to the next question:
 
@@ -23,7 +23,7 @@ So it is safer to read heuristic not as `a trick that already knows the answer`,
 
 This fits naturally with the idea of search from 7.1. When the search space is too wide, heuristics direct attention toward places that look more promising.
 
-## The Idea: People Do Not Inspect Every Case
+## Idea: People Do Not Inspect Every Case
 
 One historical reason heuristics became central in AI is the question, `How do people actually solve problems?`
 

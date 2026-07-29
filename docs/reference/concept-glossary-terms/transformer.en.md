@@ -1,7 +1,7 @@
 ## Transformer
 
-- Meaning: recurrence 없이 attention을 중심으로 시퀀스 안의 여러 위치가 서로를 참고하게 만드는 신경망 구조 계열입니다. 앞에서부터 하나씩만 넘겨 읽는 대신, 문장 안의 여러 위치 관계를 병렬적으로 비교하며 표현을 만드는 구조라고 볼 수 있습니다. 즉 트랜스포머는 `현재 단어를 이해하려면 문장 전체의 다른 위치를 함께 참고하자`는 발상을 구조적으로 밀어붙인 계열입니다.
-- Why it matters: 현대 LLM의 핵심 구조적 기반이지만, 사전학습과 스케일링 같은 다른 요소와 함께 읽어야 전체 역사를 올바르게 이해할 수 있기 때문입니다. 이 개념이 있어야 `LLM의 핵심은 단순히 큰 모델`이 아니라, attention 기반 구조와 대규모 학습 전략이 결합된 결과라는 점을 더 정확히 붙잡을 수 있습니다. 또한 트랜스포머를 이해해야 RNN 계열과 달리 긴 문맥 관계를 병렬적으로 다루는 방향으로 왜 구조적 전환이 일어났는지도 읽게 됩니다.
+- Meaning: A Transformer is a family of neural network architectures that uses attention so multiple positions in a sequence can refer to one another without recurrence. Instead of passing information only step by step from front to back, it compares relationships among positions in parallel and builds contextual representations. Because token meaning alone does not encode order, Transformers also supply position information separately.
+- Why it matters: Transformers are a core structural basis of modern LLMs, but they need to be read together with pretraining, scaling, and deployment choices. This concept helps explain that an LLM is not merely a large model; it is the result of combining attention-based architecture with large-scale learning strategies. It also clarifies why language modeling shifted away from RNN-style sequential processing toward architectures that can compare long-range context more directly.
 - Related concepts: `Attention`, `language modeling`, `direct lineage`
 - Core Section: `P1-11.3`
 - Appears in: `P1-9.3`, `P5-13.2`, `P5-14.1`, `P5-14.2`, `P5-15.1`, `P6-4.1`, `P6-4.2`, `P6-4.3`

@@ -1,7 +1,7 @@
 # Part 3. 데이터 모델링
 
 > Section ID: `P3-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 Part 2에서 우리는 수학, Python, 배열, 표, 그래프를 다시 읽는 기초를 복구했습니다. 그러나 계산 도구를 다시 읽을 수 있게 되었다고 해서 곧바로 AI 문제를 제대로 만들 수 있는 것은 아닙니다. 실제 원천데이터를 만나면 먼저 부딪히는 질문은 `어떤 모델을 쓸까`보다 `무엇을 한 건의 데이터로 볼까`에 가깝습니다. 이 책의 전체 구조에서는 Part 2와 Part 3이 함께 기본기 점검 구간을 이루며, Part 3은 그중 `데이터과학 문제 구조 복구`를 맡습니다.
 
@@ -28,7 +28,7 @@ Part 3은 데이터과학 커리큘럼에서 따로따로 보이는 데이터 �
 | 특징과 기준선을 세우는 구간 | feature engineering, labeled example, base period | Google ML Glossary, BLS |
 | 해석 강도와 산출물 경계를 닫는 구간 | problem framing, conservative interpretation, output structure | Google ML Glossary, NASEM |
 
-Part 3 안에서는 `데이터 모델링` 자체의 큰 정의를 3.1에서 먼저 잡고, 3.2에서 진행 순서를 고정합니다. 이후 Section에서는 같은 용어의 상세 정의를 반복하기보다 현재 질문에 필요한 최소 연결만 남깁니다. [샘플(sample)](../../reference/concept-glossary-parts/12-tieut.md#glossary-sample), [특징(feature)](../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [비교 리포트(comparison report)](../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report), [타깃(target)](../../reference/concept-glossary-parts/12-tieut.md#glossary-target)은 필요할 때 개념사전에서 다시 확인할 수 있습니다.
+Part 3 안에서는 `데이터 모델링` 자체의 큰 정의를 3.1에서 먼저 잡고, 3.2에서 진행 순서를 고정합니다. 이후 Section에서는 같은 용어의 상세 정의를 반복하기보다 현재 질문에 필요한 최소 연결만 남깁니다. [샘플(sample)](../../reference/concept-glossary-parts/07-siot.md#glossary-sample), [특징(feature)](../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [비교 리포트(comparison report)](../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report), [타깃(target)](../../reference/concept-glossary-parts/12-tieut.md#glossary-target)은 필요할 때 개념사전에서 다시 확인할 수 있습니다.
 
 Part 3에서는 먼저 데이터 모델링이 무엇을 달성하려는지와 어떤 순서로 진행되는지부터 고정합니다. 그 다음 저장된 기록을 왜 곧바로 데이터셋처럼 읽으면 안 되는지 확인하고, 한 행과 한 샘플의 뜻을 정한 뒤, 원시 로그를 비교 가능한 표로 다시 묶습니다. 이어서 특징과 중간 표현을 설계하고, 어떤 열이 식별용인지, 비교용인지, 목표 후보용인지 역할을 나눕니다. 그 다음 최근 구간과 기준선을 비교하는 구조를 세우고, 적은 표본과 흔들리는 반복성 앞에서 어디까지 해석할 수 있는지 경계를 둡니다. 마지막에는 비교 리포트로 남길 문제와 예측 문제로 올릴 문제를 구분하고, 입력/결과 경계와 시간 경계를 닫습니다.
 

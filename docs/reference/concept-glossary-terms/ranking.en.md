@@ -1,7 +1,10 @@
-## ranking
+<a id="ranking"></a>
+<a id="glossary-ranking"></a>
 
-- Meaning: 여러 후보를 점수나 우선순위 기준으로 줄 세우는 문제 유형입니다. 정답 하나를 바로 고르기보다, 후보들을 `무엇을 먼저 보여 줄 것인가`의 순서로 재배치하는 문제라고 이해하면 됩니다. 즉 순위화의 핵심은 개별 후보의 절대 점수보다, 후보들 사이의 상대적 앞뒤 관계를 잘 정하는 데 있습니다.
-- Why it matters: 검색 결과, 추천 목록, 문서 후보처럼 무엇을 먼저 보여 줄지 정하는 문제는 단순 분류와 다른 구조를 가진다는 점을 보여 주기 때문입니다. 이 개념이 있어야 `정답 하나를 맞히는가`보다 `상위 몇 개를 어떤 순서로 보여 주는가`가 더 중요한 문제를 따로 읽게 되고, 검색과 추천에서 정확도만이 아니라 상위 노출 품질이 왜 핵심 지표가 되는지도 이해하게 됩니다. 특히 사용자는 보통 첫 페이지나 상위 몇 개만 보기 때문에, 순위화는 `맞혔는가`보다 `먼저 보여 준 것이 충분히 유용한가`를 평가하는 관점으로 이어집니다.
-- Related concepts: `recommendation`, `search`, `generation`
+### ranking
+
+- Meaning: Ranking is a problem type that orders multiple candidates by score or priority. Instead of immediately choosing one correct answer, it rearranges candidates by what should be shown or checked first.
+- Why it matters: Search results, recommendation lists, document candidates, and review queues often care more about whether the top few candidates are useful than about each candidate's absolute score. Ranking separates `how large is the score?` from `which candidate should come first?`
+- Related concepts: `recommendation task`, `search`, `generation`
 - Core Section: `P1-13.2`
-- Appears in: `P1-1.2`
+- Appears in: `P1-1.2`, `P3-9.8`, `P3-9.13`, `P4-6.4`

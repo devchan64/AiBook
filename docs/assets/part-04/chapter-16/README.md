@@ -9,11 +9,18 @@
   - `p4-16-1-mermaid-01-en.mmd`
   - `p4-16-1-mermaid-02-en.mmd`
   - `p4-16-1-mermaid-03-en.mmd`
+  - `p4-16-1-mermaid-01-zh.mmd`
+  - `p4-16-1-mermaid-02-zh.mmd`
+  - `p4-16-1-mermaid-03-zh.mmd`
   - `p4-16-2-mermaid-01-ko.mmd`
   - `p4-16-2-mermaid-02-ko.mmd`
   - `p4-16-2-mermaid-03-ko.mmd`
   - `p4-16-2-mermaid-01-en.mmd`
   - `p4-16-2-mermaid-02-en.mmd`
   - `p4-16-2-mermaid-03-en.mmd`
+  - `p4-16-2-mermaid-01-zh.mmd`
+  - `p4-16-2-mermaid-02-zh.mmd`
+  - `p4-16-2-mermaid-03-zh.mmd`
   - `p4-16-3-mermaid-01-ko.mmd`
   - `p4-16-3-mermaid-01-en.mmd`
+  - `p4-16-3-mermaid-01-zh.mmd`

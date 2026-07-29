@@ -1,7 +1,7 @@
 # P4-17.1 聚类(clustering)的直觉
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P4-16 里，我们一路看到梯度提升(gradient boosting)，跟着理解了在有正确答案标签(label)的问题里，模型怎样提高预测性能。到了这里，如果把视角稍微转一下，下一个问题就会出现。
 
@@ -13,21 +13,21 @@
 
 也就是说，聚类与其说是`把答案猜对的问题`，不如说更接近`先去发现结构的问题`。
 
-这一节说明 `clustering`、`cluster`，以及`正确答案标签和聚类的差别`。下一节会在这个把手的基础上继续当前语境里的判断，而把分组提议读成结构探索的基本感觉，会再次通过这一节和[概念词汇表](/AiBook/reference/concept-glossary/)连起来。
+这一节说明 [clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)、[cluster](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)，以及[正确答案标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)和聚类的差别。下一节会在这个把手的基础上继续当前语境里的判断，而把分组提议读成结构探索的基本感觉，会再次通过[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[相似度(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)、[聚类标签(cluster label)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster-label)连起来。
 
-## 本节范围
+## 聚类先收束的问题
 
 这一节回答下面这些问题。
 
 - 聚类和监督学习(supervised learning)有什么不同？
 - 为什么`相似(similar)`这个说法这么重要？
 - 为什么聚类(cluster)和正确类别(class)不一样？
-- k-means 和 DBSCAN 分别展示了什么不同的直觉？
+- [k-means](/AiBook/zh/reference/concept-glossary-pinyin/k/#k-means) 和 [DBSCAN](/AiBook/zh/reference/concept-glossary-pinyin/d/#dbscan) 分别展示了什么不同的直觉？
 - 应该用什么态度来读聚类结果？
 
 这一节会先收束 `聚类在没有标签的结构探索里回答什么问题`。结果解释时的注意点会在 P4-17.2 继续处理，层次聚类(hierarchical clustering)和谱聚类(spectral clustering)会在 P4-17.3 补充学习中继续，silhouette score 等聚类质量指标会在 P4-6.4 补充学习里继续，而和降维一起阅读结构时的注意点会在 P4-18.1、P4-18.2 继续。
 
-## 用聚类(clustering)的直觉留下的判断标准
+## 聚类要留下的判断标准
 
 - 能把聚类解释成`在没有标签时寻找结构`。
 - 能说明聚类不是人事先贴好的正确答案，而是从数据里找到的分组。
@@ -69,7 +69,7 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 
 `看着没有标签的点，把彼此接近或模式相似的点先试着归成一组。`
 
-这里重要的是`相似性(similarity)`。聚类最终都会连到一个问题：`什么才算相似？`
+这里重要的是[相似性(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)。聚类最终都会连到一个问题：`什么才算相似？`
 
 ## 它和监督学习有什么不同
 
@@ -106,7 +106,7 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 
 ## 为什么“相似”这个词这么重要
 
-聚类最终都会建立在点之间的距离(distance)、密度(density)、连接(connectivity)、中心(center)等概念上。
+聚类最终都会建立在点之间的[距离(distance)](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)、[密度(density)](/AiBook/zh/reference/concept-glossary-pinyin/m/#density)、连接(connectivity)、中心(center)等概念上。
 
 这意味着，聚类不是凭空出现的，而是会随着`你用什么标准来定义相似`而改变。
 
@@ -116,11 +116,11 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 - 平均购买金额
 - 距离最近一次登录过去了多少天
 
-如果用这三个特征(feature)来看客户，那么“相似”就可能意味着：在这三个坐标轴上的位置比较接近。
+如果用这三个[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)来看客户，那么“相似”就可能意味着：在这三个坐标轴上的位置比较接近。
 
 但如果是文本文件，相似就可能变成词分布上的接近，或嵌入(embedding)空间里的接近。
 
-所以，在聚类里，“相似”不是一种感性表达，而是`在特征空间(feature space)里如何定义关系`。
+所以，在聚类里，“相似”不是一种感性表达，而是[在特征空间(feature space)里如何定义关系](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-space)。
 
 如果把它压缩成数据流，会像下面这样。
 
@@ -157,7 +157,7 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 
 ## k-means 展示了什么直觉
 
-scikit-learn 用户指南把 K-means 描述为：把样本切分成 `n groups of equal variance`，并试图减少 inertia，也就是簇内平方和。同时它也说明了：算法会根据中心点(centroid)把样本分配到最近的聚类里。
+scikit-learn 用户指南把 K-means 描述为：把样本切分成 `n groups of equal variance`，并试图减少 inertia，也就是簇内平方和。同时它也说明了：算法会根据[中心点(centroid)](/AiBook/zh/reference/concept-glossary-pinyin/z/#centroid)把样本分配到最近的聚类里。
 
 k-means 是通过放置几个中心点，再把每个点贴到最近的中心上，来形成聚类的。
 
@@ -320,6 +320,10 @@ scikit-learn 的 clustering 概览表把 DBSCAN 描述成适用于 `non-flat geo
 - 要确认的概念：
   - `k-means` 会把每个点都分配进预先决定的聚类数里
   - `DBSCAN` 可以把低密度点留在聚类外面
+- 运行前可以改的值：
+  - 把 `n_clusters` 从 2 改成 3，看看 G 是否像一个单独聚类
+  - 把 `eps` 调得小于或大于 0.6，看看 DBSCAN 的噪声判断怎样改变
+  - 把 G 从 `[8.5, 1.0]` 移到 `[6.0, 4.0]`，看看两个算法的差异是否变小
 
 ```python
 # 这个例子比较 k-means 和 DBSCAN 在同一组点上如何不同地处理像离群点的 G。
@@ -407,6 +411,6 @@ Part 4 要留下的判断标准不是罗列模型名字，而是说明“问题�
 
 ## 出处与参考资料
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `KMeans`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DBSCAN`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `KMeans`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DBSCAN`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html){: target="_blank" rel="noopener noreferrer" }

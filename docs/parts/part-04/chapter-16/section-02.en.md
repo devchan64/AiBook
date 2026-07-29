@@ -1,33 +1,33 @@
 # P4-16.2 Performance And Risk In Boosting
 
 > Section ID: `P4-16.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P4-16.1, we saw that gradient boosting corrects the error of the previous stage sequentially. Exactly there, the strength and the risk of boosting appear at the same time.
 
 The same question can be rewritten more precisely like this:
 
-If the structure keeps reducing error, why can it look so strong in performance while also becoming sensitive to overfitting?
+If the structure keeps reducing error, why can it look so strong in performance while also becoming sensitive to [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting)?
 
 Boosting can create strong performance by stacking many small corrections, but that also increases the risk of following the accidental fluctuations of the data.
 
 So the advantage of boosting is `precise correction`, while the risk is `correction that becomes too precise`.
 
-This Section does not repeat the base definition of gradient boosting at length. The core intuition `it corrects error sequentially` reconnects through P4-16.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here we focus only on why that structure creates both strength and risk.
+This Section does not repeat the base definition of gradient boosting at length. The core intuition `it corrects error sequentially` reconnects through P4-16.1 and the concept glossary. Here we focus only on why that structure creates both strength and risk.
 
-## Scope Of This Section
+## Questions Closed By Boosting Risk
 
 This Section answers the following questions.
 
 - Why is gradient boosting often mentioned as a strong candidate on tabular data?
 - Why do learning rate, tree size, and `n_estimators` become a sensitive combination?
 - In what shape can overfitting appear?
-- What risks are shrinkage, subsampling, and early stopping trying to reduce?
+- What risks are [shrinkage](/AiBook/en/reference/concept-glossary-alpha/s/#shrinkage), [subsampling](/AiBook/en/reference/concept-glossary-alpha/s/#subsampling), and [early stopping](/AiBook/en/reference/concept-glossary-alpha/e/#early-stopping) trying to reduce?
 - Compared with random forest, in what situations does boosting feel stronger, and in what situations should readers be more careful?
 
 This Section reads boosting around the question `why is it strong and why is it risky at the same time`. The implementation feel and computation-structure side continue in the supplementary Section P4-16.3.
 
-## Goals Of This Section
+## Judgments To Keep From Boosting Risk
 
 - You can explain both the high performance potential and the high tuning sensitivity of boosting.
 - You can explain that `learning_rate`, `n_estimators`, and tree size are connected to one another.
@@ -308,7 +308,11 @@ This example is a toy exercise showing how correction can become too strong when
 - input: actual values, current predictions, and correction values
 - expected output: the difference between a small learning rate and a large learning rate
 - concepts to check:
-- what matters is not the correction alone, but how strongly it is reflected - a large learning rate can create overshoot
+  - what matters is not the correction alone, but how strongly it is reflected
+  - a large learning rate can create overshoot
+- values to change:
+  - change the `lr` list to values such as `[0.1, 0.3, 0.8]` and compare residual changes by correction strength
+  - increase the size of `correction` and check whether instability grows faster with a large learning rate
 
 ```python
 # This example compares how small and large learning rates apply the same correction differently.
@@ -346,6 +350,10 @@ So a large learning rate can show fast early improvement, but it can also move f
 ### Change One Value: If We Add One More Correction Stage, How Does The Residual Shrink?
 
 Now keep `learning_rate = 0.1` and add one more correction stage.
+
+- values to change:
+  - make `tree2_correction` smaller or larger and compare how the second stage remains in the residual
+  - keep `learning_rate` fixed so the effect of adding a stage is separated
 
 ```python
 # This example keeps a small learning rate and adds a second correction stage to see how residuals shrink.
@@ -425,6 +433,6 @@ Here too, the important record structure is not the score alone, but `where shou
 
 ## Sources And References
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, accessed 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, accessed 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, accessed 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, accessed 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

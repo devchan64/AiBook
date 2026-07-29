@@ -1,13 +1,13 @@
 # P4-9.1 超参数(hyperparameter)
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-8 里，我们选好了 model 候选，也用 baseline 立好了比较的出发点。现在要进入下一个问题。
+在 P4-8 里，我们选好了 model 候选，也用 [baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model) 立好了比较的出发点。现在要进入下一个问题。
 
 即使是同一个 model 家族，也应该用什么配置值来训练？
 
-这个问题，正是 hyperparameter 的出发点。
+这个问题，正是 [hyperparameter](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter) 的出发点。
 
 人们常常把 hyperparameter 理解成 `复杂的高级选项`。但实际上，它是一个更基础得多的概念。hyperparameter 是人在模型开始学习之前，先从外部设好的配置值。也就是说，它不是 model 从数据里自己学出来的值，而是从外部决定“它要怎样学”的值。
 
@@ -15,7 +15,7 @@ scikit-learn 文档把 hyperparameter 解释成 `不会在 estimator 内部直�
 
 hyperparameter 不是 model 会学到的规则本身，而是预先决定这个 model 要以什么形状、什么强度去学习的值。
 
-这一节会说明 `超参数(hyperparameter)`、`学出来的值和预先固定的值之间的区分`、以及 `配置值会怎样影响比较实验`。后面的章节会沿着这个抓手继续当前语境，而从 model 外部先固定的配置值到底是什么意思，也会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
+这一节会说明超参数(hyperparameter)、`学出来的值和预先固定的值之间的区分`、以及 `配置值会怎样影响比较实验`。后面的章节会沿着这个抓手继续当前语境，而从 model 外部先固定的配置值到底是什么意思，也会通过这一节和概念词汇表再接回来。
 
 最先要分清的标准是下面这个。
 
@@ -25,7 +25,7 @@ hyperparameter 不是 model 会学到的规则本身，而是预先决定这个 
 | `max_depth`, `n_neighbors`, `C` | `这个值是在训练前由人先定下来的吗？` |
 | `random_state` | `这个值更偏向实验复现，而不是直接追求性能吗？` |
 
-## 本节范围
+## 超参数先收束的问题
 
 这一节回答下面这些问题。
 
@@ -34,9 +34,9 @@ hyperparameter 不是 model 会学到的规则本身，而是预先决定这个 
 - 为什么即使是同一个算法，也会因为 hyperparameter 而看起来完全不同？
 - 读者第一次应该先分清哪些代表性 hyperparameter？
 
-这一节先收束 `怎样区分学习中得到的值和由人先固定的配置值`。GridSearchCV 和 RandomizedSearchCV 的基本比较，以及验证成本，会在下一节 P4-9.2 直接接着讲；高级 search space 设计和分布式实验管理，则会在 P4-9.3 补充学习里再整理。
+这一节先收束 `怎样区分学习中得到的值和由人先固定的配置值`。GridSearchCV 和 RandomizedSearchCV 的基本比较，以及验证成本，会在下一节 P4-9.2 直接接着讲；高级 search space 设计和分布式实验管理，则会在 P4-9.3 再整理。
 
-## 用超参数(hyperparameter)留下的判断标准
+## 超参数要留下的判断标准
 
 - 能把 hyperparameter 解释成 `学习开始前先固定的配置值`。
 - 能区分 model parameter 和 hyperparameter。
@@ -81,7 +81,7 @@ hyperparameter 不是 model 会学到的规则本身，而是预先决定这个 
 
 | 区分 | 谁来决定 | 例子 |
 | --- | --- | --- |
-| model parameter | 在学习过程中由数据决定 | 线性回归的权重(weight)、截距(intercept) |
+| [model parameter](/AiBook/zh/reference/concept-glossary-pinyin/c/#parameter) | 在学习过程中由数据决定 | 线性回归的权重(weight)、截距(intercept) |
 | hyperparameter | 在训练前由人决定 | `max_depth`, `n_neighbors`, `C` |
 
 这个区分会在整个机器学习里反复出现。
@@ -120,7 +120,7 @@ hyperparameter 不只是一个选项名字，它可以改变 model 看待数据�
 | hyperparameter 变化 | 经常跟着变化的东西 |
 | --- | --- |
 | model 复杂度(complexity) | 它会拟合得多细 |
-| 泛化(generalization) | 它在新数据上能不能撑住 |
+| [泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) | 它在新数据上能不能撑住 |
 | 计算成本(computational cost) | 训练和预测要花多少时间 |
 | 结果可解释性(interpretability) | 人是否容易读懂 |
 
@@ -152,7 +152,7 @@ hyperparameter 不只是一个选项名字，它可以改变 model 看待数据�
 
 | 当前看到的设置 | 先读的轴 | 为什么先看它 |
 | --- | --- | --- |
-| `max_depth`, `min_samples_leaf` | model 复杂度 | 因为它们会立刻摇动过拟合和规则深度 |
+| `max_depth`, `min_samples_leaf` | model 复杂度 | 因为它们会立刻摇动[过拟合](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)和规则深度 |
 | `n_neighbors` | 局部性 / 平滑性 | 因为它会改变是看窄一些还是宽一些的邻域 |
 | `C`, `alpha` | regularization 强度 | 因为它们会直接调节“过度贴合”和“泛化” |
 | `n_estimators` | 计算量和稳定性 | 因为性能可能上升，但时间和资源成本也会一起增加 |
@@ -250,7 +250,7 @@ Bergstra 和 Bengio 2012 年的 JMLR 论文说明，在 hyperparameter 空间里
 
 ### 为什么 hyperparameter 必须由人来直接决定
 
-scikit-learn 的 hyperparameter tuning 文档说明，因为这些值不会在 estimator 内部直接学出来，所以可以也应该基于交叉验证(cross-validation)分数来搜索这些值。这个说明可以直接压缩成下面这句话。
+scikit-learn 的 hyperparameter tuning 文档说明，因为这些值不会在 estimator 内部直接学出来，所以可以也应该基于[交叉验证(cross-validation)](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation)分数来搜索这些值。这个说明可以直接压缩成下面这句话。
 
 `因为数据不会自己告诉你 hyperparameter，所以只能试多个值，再通过验证分数比较。`
 
@@ -306,10 +306,15 @@ scikit-learn 的 common pitfalls 文档说明，如果 test data 被卷入 model
 
 下面这个例子只改变同一个决策树算法里的 `max_depth`，用来观察训练结果会怎样变化。
 
-- 问题场景: 把花数据(iris)当成品种分类(classification)问题。
-- 输入(input): 萼片长度、宽度、花瓣长度、宽度四个特征(feature)。
+- 问题场景: 把花数据(iris)当成品种[分类(classification)](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)问题。
+- 输入(input): 萼片长度、宽度、花瓣长度、宽度四个[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)。
 - 正答(label): 三个品种(class)。
 - 要确认的概念: 即使是同一个算法，只要 hyperparameter 改了，train 分数和 test 分数就可能改变。
+
+可以改动的值:
+
+- 在 `for depth in [1, 3, None]` 里加入 `2` 或 `5`，可以看到深度逐步增加时 train 分数和 test 分数怎样分开。
+- 把 `test_size=0.3` 改成 `0.2` 或 `0.4`，可以看到即使 hyperparameter 相同，评估数据大小也会改变分数波动。
 
 ```python
 # 这个例子用 Iris 数据比较超参数设置如何改变模型性能和性质。
@@ -398,9 +403,9 @@ scikit-learn 文档说明，有些 estimator 和交叉验证切分器天生包�
 
 ## 出处与参考资料
 
-- scikit-learn, `Glossary of Common Terms and API Elements`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- Marc Claesen, Bart De Moor, `Hyperparameter Search in Machine Learning`, arXiv, 2015, 确认日期: 2026-06-26. [https://arxiv.org/abs/1502.02127](https://arxiv.org/abs/1502.02127){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Daniel Yamins, David D. Cox, `Making a Science of Model Search`, arXiv, 2012, 确认日期: 2026-06-26. [https://arxiv.org/abs/1209.5111](https://arxiv.org/abs/1209.5111){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 确认日期: 2026-06-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `Glossary of Common Terms and API Elements`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- Marc Claesen, Bart De Moor, `Hyperparameter Search in Machine Learning`, arXiv, 2015, 确认日期: 2026-07-26. [https://arxiv.org/abs/1502.02127](https://arxiv.org/abs/1502.02127){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Daniel Yamins, David D. Cox, `Making a Science of Model Search`, arXiv, 2012, 确认日期: 2026-07-26. [https://arxiv.org/abs/1209.5111](https://arxiv.org/abs/1209.5111){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 确认日期: 2026-07-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }

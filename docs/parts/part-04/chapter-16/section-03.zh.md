@@ -1,25 +1,25 @@
 # P4-16.3 补充学习：提升库与运营感
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P4-16.1 与 P4-16.2 里， 我们已经看过梯度提升(gradient boosting)的顺序修正结构， 以及它的性能与过拟合风险为什么会一起出现。 接下来很自然会冒出的问题是： 为什么同样属于 boosting 家族， XGBoost、LightGBM、CatBoost 却会给人不同的名字与不同的使用感觉？
 
 这一节不会把它们当成 `又多了几个算法名字要背`， 而是把它们放进下面这个问题里： `它们分别想让什么更快，又想让什么更安全？`
 
-## 本节范围
+## 提升库先收束的问题
 
 本节回答以下问题。
 
 - 为什么 XGBoost、LightGBM、CatBoost 明明都属于 boosting，却在实现感觉上不同？
-- histogram binning 到底改变了什么，为什么它总和速度、内存一起出现？
-- 为什么 GPU 与 distributed training 会在 boosting 实务中反复被提起？
+- [直方图分箱(histogram binning)](/AiBook/zh/reference/concept-glossary-pinyin/z/#histogram-binning) 到底改变了什么，为什么它总和速度、内存一起出现？
+- 为什么 [GPU](/AiBook/zh/reference/concept-glossary-pinyin/g/#gpugraphics-processing-unit) 与 [分布式训练(distributed training)](/AiBook/zh/reference/concept-glossary-pinyin/f/#distributed-training) 会在 boosting 实务中反复被提起？
 - 交叉验证自动化是怎样连到 early stopping 与 stage 选择的？
-- 为什么在比较实现时，gradient 和 hessian 会经常一起出现？
+- 为什么在比较实现时，gradient 和 [海森矩阵(hessian)](/AiBook/zh/reference/concept-glossary-pinyin/h/#hessian) 会经常一起出现？
 
 这一节的中心问题是： `为什么同样是 boosting，实现选择与运营感觉却会分叉。`
 
-## 用补充学习：提升库与运营感留下的判断标准
+## 提升库要留下的判断标准
 
 - 你可以把 XGBoost、LightGBM、CatBoost 解释成 `同一家 boosting 家族里的不同实现选择`。
 - 你可以说明 histogram binning 与 `速度 / 内存折中` 直接相连。
@@ -306,6 +306,6 @@ GPU 与 distributed training 首先不是在讲 `让模型更聪明`， 而是�
 
 ## 出处与参考资料
 
-- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016. 用于确认 XGBoost 的 sparse-aware 处理、approximate tree learning，以及基于 cache/data compression/sharding 的扩展性说明。确认日期: 2026-07-19. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785){: target="_blank" rel="noopener noreferrer" }
-- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017. 用于确认 LightGBM 的 GOSS、EFB 与大规模 GBDT 效率化方向。确认日期: 2026-07-19. [https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html](https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
-- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018. 用于确认 CatBoost 的 ordered boosting、categorical feature 处理与 target leakage 缓和视角。确认日期: 2026-07-19. [https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html](https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016. 用于确认 XGBoost 的 sparse-aware 处理、approximate tree learning，以及基于 cache/data compression/sharding 的扩展性说明。确认日期: 2026-07-26. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785){: target="_blank" rel="noopener noreferrer" }
+- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017. 用于确认 LightGBM 的 GOSS、EFB 与大规模 GBDT 效率化方向。确认日期: 2026-07-26. [https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html](https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018. 用于确认 CatBoost 的 ordered boosting、categorical feature 处理与 target leakage 缓和视角。确认日期: 2026-07-26. [https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html](https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html){: target="_blank" rel="noopener noreferrer" }

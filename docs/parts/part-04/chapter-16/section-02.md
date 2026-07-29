@@ -1,28 +1,28 @@
 # P4-16.2 부스팅의 성능과 위험
 
 > Section ID: `P4-16.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계의 오차를 다음 단계가 순차적으로 보정하는 방식이라는 점을 보았습니다. 바로 여기서 부스팅의 강점과 위험이 동시에 나옵니다.
 
 같은 질문을 더 정확히 바꾸면 다음과 같습니다.
 
-오차를 계속 줄여 나가는 구조라면, 왜 성능이 강해 보이면서도 동시에 과적합(overfitting)에 민감할 수 있을까?
+오차를 계속 줄여 나가는 구조라면, 왜 성능이 강해 보이면서도 동시에 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)에 민감할 수 있을까?
 
 부스팅은 작은 보정을 많이 쌓아 강한 성능을 만들 수 있지만, 그만큼 데이터의 우연한 흔들림까지 따라가 버릴 위험도 함께 커진다.
 
 즉, 부스팅의 장점은 `정교한 보정`이고, 위험은 `너무 정교한 보정`입니다.
 
-이 절은 그래디언트 부스팅의 기본 정의를 다시 길게 반복하지 않습니다. `오차를 순차적으로 보정한다`는 핵심 직관은 P4-16.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 왜 그 구조가 강점과 위험을 동시에 만드는지에만 집중합니다.
+이 절은 그래디언트 부스팅의 기본 정의를 다시 길게 반복하지 않습니다. `오차를 순차적으로 보정한다`는 핵심 직관은 P4-16.1과 개념사전을 기준으로 다시 연결하고, 여기서는 왜 그 구조가 강점과 위험을 동시에 만드는지에만 집중합니다.
 
 ## 부스팅의 성능과 위험에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
 - 왜 그래디언트 부스팅은 표 형식 데이터(tabular data)에서 강한 후보로 자주 언급되는가?
-- 왜 learning rate, tree size, n_estimators가 민감한 조합이 되는가?
+- 왜 학습률(learning rate), tree size, `n_estimators`가 민감한 조합이 되는가?
 - 과적합은 어떤 모습으로 드러날 수 있는가?
-- shrinkage, subsampling, early stopping은 어떤 위험을 줄이려는가?
+- [수축(shrinkage)](../../../reference/concept-glossary-parts/07-siot.md#shrinkage), [부분표본추출(subsampling)](../../../reference/concept-glossary-parts/06-bieup.md#subsampling), [조기 중단(early stopping)](../../../reference/concept-glossary-parts/09-jieut.md#early-stopping)은 어떤 위험을 줄이려는가?
 - 랜덤포레스트와 비교할 때 어떤 상황에서 더 강하게 느껴지고, 어떤 상황에서 더 조심해야 하는가?
 
 이 절은 `왜 부스팅이 강하고 왜 동시에 위험한가`를 중심으로 읽습니다. 구현 감각 차이와 계산 구조 쪽 보충 설명은 P4-16.3 보충학습에서 이어집니다.
@@ -302,6 +302,9 @@ Part 4 Module 5를 한 묶음으로 읽으려면, 같은 표 데이터 문제를
 - 확인할 개념:
   - correction 자체보다 `얼마나 반영하는가`가 중요하다
   - 큰 learning rate는 overshoot를 만들 수 있다
+- 조작해 볼 값:
+  - `lr` 목록을 `[0.1, 0.3, 0.8]`처럼 바꾸어 보정 강도별 residual 변화를 비교한다
+  - `correction`의 크기를 키워 큰 learning rate에서 흔들림이 더 빨리 커지는지 확인한다
 
 ```python
 # 작은 learning rate와 큰 learning rate가 같은 correction을 얼마나 다르게 반영하는지 비교하는 예제입니다.
@@ -339,6 +342,10 @@ learning_rate=0.8
 ### 값 하나 바꿔 보기: 보정 단계를 한 번 더 쌓으면 residual은 어떻게 줄어드는가
 
 이번에는 `learning_rate = 0.1`을 유지한 채, 두 번째 correction 단계를 하나 더 쌓아 봅니다.
+
+- 조작해 볼 값:
+  - `tree2_correction`을 더 작게 또는 더 크게 바꾸어 두 번째 단계의 영향이 residual에 어떻게 남는지 비교한다
+  - `learning_rate`를 그대로 두어 단계 수가 늘어난 효과만 분리해서 본다
 
 ```python
 # 작은 learning rate를 유지하며 두 번째 보정 단계를 더했을 때 residual이 어떻게 줄어드는지 보는 예제입니다.
@@ -416,6 +423,6 @@ stage3 residual  : [17.5, 8.2, -8.2, -17.5]
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001. 확인 날짜: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002. 확인 날짜: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001. 확인 날짜: 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002. 확인 날짜: 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

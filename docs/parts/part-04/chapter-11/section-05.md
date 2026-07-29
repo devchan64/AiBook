@@ -1,15 +1,15 @@
 # P4-11.5 보충학습: solver와 regularization을 처음 읽는 법
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-로지스틱 회귀를 라이브러리로 써 보면 곧 solver, penalty, `C` 같은 인자를 만나게 됩니다. 초심자는 이 지점에서 `갑자기 구현 세부로 넘어갔다`고 느끼기 쉽습니다. 하지만 이 설정들은 이론과 완전히 분리된 잡음이 아닙니다.
+로지스틱 회귀를 라이브러리로 써 보면 곧 [solver](../../../reference/concept-glossary-parts/07-siot.md#solver), [penalty](../../../reference/concept-glossary-parts/06-bieup.md#penalty), `C` 같은 인자를 만나게 됩니다. 초심자는 이 지점에서 `갑자기 구현 세부로 넘어갔다`고 느끼기 쉽습니다. 하지만 이 설정들은 이론과 완전히 분리된 잡음이 아닙니다.
 
 이 절의 중심 질문은 다음입니다.
 
 왜 같은 로지스틱 회귀라도 solver와 regularization 설정을 함께 기록하고 비교해야 하는가?
 
-## 보충학습: solver와 regularization을 처음 읽는 법에서 닫을 질문
+## solver와 regularization을 처음 읽을 때 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -19,7 +19,7 @@
 
 이 절은 solver와 regularization을 `같은 모델명 안에서도 결과 해석을 바꾸는 비교 조건`으로 먼저 닫고, 라이브러리 옵션 암기보다 계산 절차와 규제 방향을 읽는 데 집중합니다.
 
-## 보충학습: solver와 regularization을 처음 읽는 법에서 남길 판단 기준
+## solver와 regularization에서 남길 판단 기준
 
 - solver를 `파라미터를 실제로 찾는 계산 절차`로 설명할 수 있습니다.
 - regularization을 `학습 데이터에 너무 바짝 맞추지 않게 조절하는 장치`로 설명할 수 있습니다.
@@ -30,7 +30,7 @@
 
 로지스틱 회귀는 보통 닫힌 해(closed-form solution)를 바로 적기보다, 반복 계산을 통해 좋은 파라미터를 찾는 쪽으로 구현됩니다. 그래서 어떤 데이터 크기인지, 희소 행렬(sparse matrix)인지, 어떤 규제항을 쓰는지에 따라 설정 선택이 중요해집니다.
 
-regularization은 `학습 데이터에 너무 바짝 맞추지 않게 조절하는 장치`로 먼저 읽으면 됩니다. 같은 로지스틱 회귀라도 데이터가 적거나 특징이 많으면, 계수가 불안정하게 커지거나 특정 특징에 과하게 기대는 문제가 생길 수 있습니다. 이때 regularization이 계수를 더 보수적으로 잡게 도와줍니다.
+[regularization](../../../reference/concept-glossary-parts/09-jieut.md#regularization)은 `학습 데이터에 너무 바짝 맞추지 않게 조절하는 장치`로 먼저 읽으면 됩니다. 같은 로지스틱 회귀라도 데이터가 적거나 특징이 많으면, 계수가 불안정하게 커지거나 특정 특징에 과하게 기대는 문제가 생길 수 있습니다. 이때 regularization이 계수를 더 보수적으로 잡게 도와줍니다.
 
 ## 주요 학습내용
 
@@ -48,7 +48,7 @@ regularization은 `학습 데이터에 너무 바짝 맞추지 않게 조절하�
 
 즉, solver는 `라이브러리의 사소한 옵션`이 아니라, MLE나 log loss로 세운 학습 목적을 실제 계산으로 구현하는 손잡이입니다.
 
-아래 표는 `2026-07-09`에 확인한 scikit-learn stable 문서 기준의 구현 설명입니다. solver 지원 범위와 기본값은 라이브러리 버전에 따라 달라질 수 있으므로, 실제 실습이나 프로젝트에서는 사용 중인 버전 문서를 다시 확인해야 합니다.
+아래 표는 `2026-07-26`에 확인한 scikit-learn stable 문서 기준의 구현 설명입니다. solver 지원 범위와 기본값은 라이브러리 버전에 따라 달라질 수 있으므로, 실제 실습이나 프로젝트에서는 사용 중인 버전 문서를 다시 확인해야 합니다.
 
 | solver | 다중 클래스(multinomial) | penalty / regularization | 먼저 읽을 특징 |
 | --- | --- | --- | --- |
@@ -120,6 +120,11 @@ P4-8에서 baseline을 비교할 때 `같은 분할, 같은 지표, 같은 실�
 
 아래 예제는 실제 학습보다 `비교 기록을 어떻게 남겨야 하는가`를 보여 주는 장난감 코드입니다.
 
+조작해 볼 값:
+
+- `C`를 `0.1`, `1.0`, `10.0`으로 바꾸며 regularization 강도 방향을 기록할 수 있습니다.
+- `penalty`를 `l1`로 바꿀 때는 `solver`도 `saga`처럼 지원되는 조합인지 함께 확인해야 합니다.
+
 ```python
 # solver와 regularization 설정이 로지스틱 회귀 학습 조건을 어떻게 바꾸는지 확인하는 예제입니다.
 from sklearn.linear_model import LogisticRegression
@@ -168,5 +173,5 @@ sparse_candidate -> LogisticRegression(C=0.5, l1_ratio=0.5, max_iter=1000,
 
 ## 출처와 참고 자료
 
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09
-- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26
+- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26

@@ -1,9 +1,9 @@
 # P4-5.2 일반화(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-P4-5.1에서는 과적합(overfitting)과 과소적합(underfitting)을 구분했습니다. 이제 한 단계 더 올라가야 합니다. 왜 우리는 그 구분을 중요하게 여길까요? 결국 머신러닝의 목적이 `학습 데이터 점수 높이기`가 아니라, `아직 보지 못한 데이터에서도 쓸 만하게 작동하기` 때문입니다. 이 질문을 정리하는 말이 `일반화(generalization)`입니다.
+P4-5.1에서는 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)과 [과소적합(underfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#underfitting)을 구분했습니다. 이제 한 단계 더 올라가야 합니다. 왜 우리는 그 구분을 중요하게 여길까요? 결국 머신러닝의 목적이 `학습 데이터 점수 높이기`가 아니라, `아직 보지 못한 데이터에서도 쓸 만하게 작동하기` 때문입니다. 이 질문을 정리하는 말이 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)입니다.
 
 일반화는 어렵게 들릴 수 있지만, 출발점은 단순합니다. 모델이 이미 본 예시를 다시 맞히는 데서 멈추지 않고, 비슷한 구조를 가진 새 예시에도 적절히 반응하는가를 묻는 것입니다.
 
@@ -11,7 +11,7 @@ P4-5.1에서는 과적합(overfitting)과 과소적합(underfitting)을 구분�
 
 이 절은 일반화의 의미를 설명합니다. 아직 일반화 오차(generalization error)의 수식이나 이론적 경계는 다루지 않습니다. 이 절의 초점은 `왜 새 데이터가 중요한가`, `왜 검증과 테스트가 필요한가`, `왜 학습 점수만으로는 부족한가`를 연결하는 데 있습니다.
 
-평가 지표(metric)의 자세한 계산은 P4-6에서 다루고, 교차검증(cross-validation)의 실무적 사용은 P4-8.1과 P4-9.2에서 다시 연결합니다. 이 절은 일반화를 하나의 수학 이론보다, 머신러닝 전체를 관통하는 목표 문장으로 먼저 고정합니다.
+[평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)의 자세한 계산은 P4-6에서 다루고, [교차검증(cross-validation)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation)의 실무적 사용은 P4-8.1과 P4-9.2에서 다시 연결합니다. 이 절은 일반화를 하나의 수학 이론보다, 머신러닝 전체를 관통하는 목표 문장으로 먼저 고정합니다.
 
 - 일반화란 무엇인가?
 - 왜 머신러닝의 목표를 학습 점수가 아니라 일반화로 말하는가?
@@ -31,13 +31,13 @@ P4-5.1에서는 과적합(overfitting)과 과소적합(underfitting)을 구분�
 
 ### 일반화는 무엇을 묻는 말인가
 
-Google의 머신러닝 용어집은 일반화를 사실상 `훈련 세트(training set)에 없는 예시에서도 좋은 예측을 할 수 있는가`라는 질문으로 설명합니다. 여기서 붙잡아야 할 뜻은 다음과 같습니다.
+Google의 머신러닝 용어집은 일반화를 사실상 `훈련 세트(training set)에 없는 예시에서도 좋은 예측을 할 수 있는가`라는 질문으로 설명합니다. 여기서 예측은 [예측(prediction)](../../../reference/concept-glossary-parts/08-ieung.md#prediction)의 일반적 의미입니다. 여기서 붙잡아야 할 뜻은 다음과 같습니다.
 
 `일반화(generalization)는 모델이 아직 보지 못한 데이터에서도 쓸 만한 판단을 하는 성질이다.`
 
 여기서 중요한 것은 `똑같은 데이터가 아닌데도`라는 부분입니다.
 
-왜 굳이 이런 말을 따로 쓰는지도 짚고 넘어가야 합니다. 머신러닝은 데이터를 보고 규칙을 배우는 방식이기 때문에, 겉으로는 “점수가 높다”는 말만 남기 쉽습니다. 하지만 그 점수가 `본 데이터에서만 높은지`, `안 본 데이터에서도 유지되는지`는 전혀 다른 문제입니다. 이 둘을 구분하기 위해 `일반화`라는 말을 씁니다.
+왜 굳이 이런 말을 따로 쓰는지도 짚고 넘어가야 합니다. 머신러닝은 데이터를 보고 규칙을 배우는 방식이기 때문에, 겉으로는 “점수가 높다”는 말만 남기 쉽습니다. 하지만 그 점수가 [학습 데이터](../../../reference/concept-glossary-parts/14-hieut.md#training-data)에서만 높은지, 안 본 데이터에서도 유지되는지는 전혀 다른 문제입니다. 이 둘을 구분하기 위해 `일반화`라는 말을 씁니다.
 
 | 질문 | 일반화 관점에서의 의미 |
 | --- | --- |
@@ -103,7 +103,7 @@ Google의 머신러닝 용어집은 일반화를 사실상 `훈련 세트(traini
 | 테스트 데이터 | 마지막 확인용으로 따로 남겨 둔 일부 |
 | 실제 서비스 입력 | 다음 달 새로 쌓이는 고객 기록 |
 
-이 네 가지는 모두 같은 문제 도메인(domain)에 속하지만, 모델 입장에서는 `본 것`과 `아직 안 본 것`이 나뉩니다. 일반화는 바로 이 경계에서 생기는 이야기입니다.
+이 네 가지는 모두 같은 문제 도메인(domain)에 속하지만, 모델 입장에서는 `본 것`과 `아직 안 본 것`이 나뉩니다. 일반화는 바로 이 [데이터셋(dataset)](../../../reference/concept-glossary-parts/03-digeut.md#dataset) 경계에서 생기는 이야기입니다.
 
 이 경계를 더 분명히 하기 위해 다음처럼 구분할 수 있습니다.
 
@@ -160,8 +160,8 @@ P4-5.1에서 본 과적합은 일반화가 약해지는 대표 장면입니다.
 
 P4-4.2에서 검증(validation)과 테스트(test)를 나눈 이유도 결국 일반화 때문입니다.
 
-- 검증 데이터: 여러 후보 중 무엇이 새 데이터에서 더 잘 버틸지 비교하는 장치
-- 테스트 데이터: 최종 선택이 정말 새 데이터에서도 버티는지 마지막으로 확인하는 장치
+- [검증 데이터](../../../reference/concept-glossary-parts/01-giyeok.md#validation-data): 여러 후보 중 무엇이 새 데이터에서 더 잘 버틸지 비교하는 장치
+- [테스트 데이터](../../../reference/concept-glossary-parts/12-tieut.md#test-data): 최종 선택이 정말 새 데이터에서도 버티는지 마지막으로 확인하는 장치
 
 ```mermaid
 --8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-02-ko.mmd"
@@ -385,7 +385,7 @@ test mean= 0.736 test std= 0.057
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 확인 날짜: 2026-07-19. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 확인 날짜: 2026-07-26. [https://is.mpg.de/publications/5955](https://is.mpg.de/publications/5955){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P2-13.1 What Does a Plot Reveal?
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In Part 2 Chapter 11, we checked calculations with NumPy arrays. In Part 2 Chapter 12, we read tabular data with a Pandas `DataFrame`. Now we look at the same numbers as pictures.
 
@@ -15,7 +15,7 @@ Tables are good for exact values. But once the number of values grows, it become
 
 A plot is not decoration that makes numbers look pretty. It is a tool for checking shape, trend, relationship, and distribution that do not appear immediately in a table. You need this tool first so that, in Part 3, you can read learning curves, error distributions, and relationships between variables not as a `list of numbers` but as `interpretable shapes`.
 
-This section explains the basic distinctions among `plot`, `Figure`, `Axes`, `distribution`, and `outlier`. If the previous chapter asked how a bundle of numbers should be read as a table of cases and variables, this section asks what kind of shapes should be used to inspect changes and relationships that do not stand out directly in the table. Plotting is not the stage where you decorate results. It is the stage where you first check patterns that are easy to miss in a table, such as loss changes, skewed distributions, and relationships between variables. In Chapter 14, we will look at how to leave a record of what changed and what differed from expectation after seeing these plots. When you continue to chart choice and saving results, also check the [Concept Glossary](/AiBook/reference/concept-glossary/).
+This section explains the basic distinctions among `plot`, `Figure`, `Axes`, `distribution`, and `outlier`. If the previous chapter asked how a bundle of numbers should be read as a table of cases and variables, this section asks what kind of shapes should be used to inspect changes and relationships that do not stand out directly in the table. Plotting is not the stage where you decorate results. It is the stage where you first check patterns that are easy to miss in a table, such as loss changes, skewed distributions, and relationships between variables. In Chapter 14, we will look at how to leave a record of what changed and what differed from expectation after seeing these plots. When you continue to chart choice and saving results, also check the [plot glossary entry](/AiBook/en/reference/concept-glossary-alpha/p.en/#plot).
 
 ## Core Criteria: What Does a Plot Reveal?
 
@@ -156,7 +156,7 @@ These four questions keep returning later.
 
 So the goal is not "I know how to draw a picture." The goal is "I ask what shape the numbers are making."
 
-## The Same Numbers Can Look Different Depending on the Question
+## Same Numbers Can Look Different Depending on the Question
 
 For example, look again at the data of four students.
 
@@ -201,7 +201,7 @@ This distinction matters.
 - But looking like a relationship does not prove a cause.
 - A plot is the starting point of judgment, not the end of judgment.
 
-## In Matplotlib, Distinguish Figure and Axes First
+## in Matplotlib, Distinguish Figure and Axes First
 
 The Matplotlib documentation explains that data are drawn as plots on a `Figure`. A `Figure` is the whole picture, and it can contain one or more `Axes`. An `Axes` is the coordinate area where the actual data are drawn.
 
@@ -231,7 +231,7 @@ plt.show()
 
 You often see shorter examples such as `plt.plot(...)`. But if you get used to the `fig, ax = plt.subplots()` form, it is easier later to understand the flow when you place multiple plots on one screen or adjust the title, axis labels, and legend.
 
-## The Question Comes First, and the Chart Type Comes Later
+## Question Comes First, and the Chart Type Comes Later
 
 The Matplotlib documentation provides many plot types. Basic forms such as line plots (`plot`), scatter plots (`scatter`), bar charts (`bar`), and histograms (`hist`) are representative.
 

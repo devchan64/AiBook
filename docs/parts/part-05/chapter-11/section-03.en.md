@@ -1,7 +1,7 @@
 # P5-11.3 Supplementary Reading: Comparing CNNs and Vision Transformers
 
 > Section ID: `P5-11.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P5-11.1 and P5-11.2, we first saw why convolutional neural networks (CNNs) fit images well, and what roles convolution and pooling play. From there the next question appears naturally.
 
@@ -19,20 +19,20 @@ This supplementary reading compares CNNs and ViTs through the question `with wha
 
 The self-attention inside ViT reconnects later in P5-13.2 and P5-14.1. Here we organize only the initial difference between `do we first read local patterns` and `do we first read patch relations` from the image viewpoint, and why that difference is useful when moving toward generative AI.
 
-## Distinguishing Local Patterns From Patch Relations
+## Distinguishing Local Patterns from Patch Relations
 
 - You can compare the starting unit with which CNNs and ViTs read images.
 - You can distinguish the CNN style of local-pattern-centered reading from the ViT style of patch-relation-centered reading.
 - You can say what intuition patch tokens and self-attention give in image interpretation.
 - You can connect why the viewpoint `treat the input like tokens` keeps returning in later sections on attention, Transformers, and generative AI.
 
-## From The CNN Intuition To The ViT Intuition
+## From the CNN Intuition to the ViT Intuition
 
 1. First recall the starting point already familiar from CNNs: `read local patterns`.
 2. Then compare how ViT splits an image into patch tokens and reads relations through attention.
 3. Finally organize why this comparison prepares us for later Transformer-family models and generative-AI input interpretation.
 
-## If We Compare In One Line First
+## If We Compare in One Line First
 
 | Structure | The first intuition for reading an image |
 | --- | --- |
@@ -41,7 +41,7 @@ The self-attention inside ViT reconnects later in P5-13.2 and P5-14.1. Here we o
 
 This one line becomes the standard to return to later when the question `can images also be treated like tokens?` appears.
 
-## What Feels Natural In CNNs
+## What Feels Natural in CNNs
 
 CNNs directly reflect into the structure the fact that nearby pixels in an image create meaning together.
 
@@ -51,7 +51,7 @@ CNNs directly reflect into the structure the fact that nearby pixels in an image
 
 So CNNs fit well with the intuition that `local patterns matter in images`.
 
-## What Feels Different In ViTs
+## What Feels Different in ViTs
 
 ViTs split the image into small patch pieces, then treat each patch like a token. They then read, through attention, what relation each patch has with other patches.
 
@@ -95,7 +95,7 @@ If the CNN feels like `starting nearby and then rising to larger structure`, ViT
 
 `CNNs stack local patterns upward, while ViTs try to read relations among patch tokens directly.`
 
-## Why Is It Important That The Image Is Cut Into Patches
+## Why Is It Important That the Image Is Cut into Patches
 
 When first reading a ViT, the most confusing point is often `why do we have to split the image into pieces at all?`
 
@@ -123,7 +123,7 @@ That is, if the first question of a CNN is closer to `is there an edge or textur
 
 This difference continues exactly when reading later generative AI. In generative AI, text is split into tokens, images are also converted into units such as patches or latent tokens, and structures that compute relations among those units appear repeatedly. So if we first hold onto here `with what unit is the image split and read`, then even if model names change later, the basic viewpoint for interpreting the input shakes less.
 
-## If We Place The Starting Units Of CNN And ViT Side By Side
+## If We Place the Starting Units of CNN and ViT Side by Side
 
 | Question | CNN | ViT |
 | --- | --- | --- |
@@ -157,7 +157,7 @@ If we place this viewpoint side by side with text and image inputs, it can be re
 
 The purpose of this table is not to force text and images to be called the same thing. Rather, it is to show the shared frame that even for different inputs, we `split the input into basic units and compute the relations among those units`. Once that frame is fixed first, when expressions such as `text token`, `image token`, `patch embedding`, `vision encoder`, and `multimodal token` appear later, they can be organized again under the same question instead of being memorized separately.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. How Valves And Main Bodies Are Read In A Pipe Photo
 
@@ -182,7 +182,7 @@ What matters in this comparison is not to split them too simply into `CNN looks 
 
 This difference also matters immediately when connecting to generative AI. Later, when we encounter structures that split images like tokens, read the relations among many tokens with attention, and handle them together with text tokens, we are prepared here in advance for `why images can also be represented this way`.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to compare on the same inspection frame how `local defect candidates` and `relations among distant regions` are read differently when we divide it through a CNN-like reading and a ViT-like reading. It does not implement a full CNN or ViT model, but it lets us directly see into what computation units the same frame is changed in the two structures.
 
@@ -316,7 +316,7 @@ That is, the core of this comparison is that a CNN starts from overlapping movin
 
 In this example, we can enlarge the `inspection_frame` or change `patch_size` and `stride`. Then, instead of only memorizing the sentence `CNN is partial, ViT is patch-based`, readers can directly compare into how many `local defect candidates` and how many `region-token relations` the same input is changed. This intuition also continues later when reading image token count, patch size, and multimodal input units in generative AI.
 
-## How Does It Connect To Self-Attention
+## How Does It Connect to Self-Attention
 
 To understand ViT as an image Transformer, the connection `it treats patches like tokens, so self-attention can be used` must be visible after the phrase `patches like tokens`.
 
@@ -330,7 +330,7 @@ This connection matters especially when reading generative AI. Later, in text-ge
 
 However, we do not first deal here with the self-attention equation itself and the Q, K, V expansion. That core structure is organized again in P5-13.2, and the whole Transformer flow is revisited in P5-14.1.
 
-## What Should We Remember For Generative AI
+## What Should We Remember for Generative AI
 
 It is enough to remember a table like the following.
 
@@ -348,7 +348,7 @@ Once it is organized to this level, the preparatory sentences we can take direct
 3. The ViT viewpoint lets us read image input in the frame of tokens and relation computation.
 4. So later, when we meet terms such as image token, multimodal token, and vision encoder, they do not feel like a completely new language.
 
-## Why Is This Important In The Flow Of Part 5
+## Why Is This Important in the Flow of Part 5
 
 This supplementary reading is needed because in the later part of Part 5 we learn about attention and Transformers, and after that terms such as `token`, `relation`, and `multimodal input` keep returning in generative AI.
 
@@ -377,7 +377,7 @@ If we pause here once and briefly fix `when is the CNN explanation alone not eno
 - When trying to read CNNs and ViTs only as an old-vs-new comparison, can you bring back again the starting difference between local-pattern-centered and patch-relation-centered reading?
 - When reading the later attention section, are you ready to think first `can image pieces also form relations like tokens`?
 
-## Sources And References
+## Sources and References
 
 - Alexey Dosovitskiy et al., `An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale`, ICLR 2021, URL: [https://openreview.net/forum?id=YicbFdNTTy](https://openreview.net/forum?id=YicbFdNTTy){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-30.
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, URL: [https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-30.

@@ -1,7 +1,7 @@
-# P1-10.2 The Intuition of Next-Output Generation
+# P1-10.2 Next-Output Generation Intuition
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 10.1 separated `classification`, `prediction`, and `generation`. Classification chooses a category, prediction estimates a value or state, and generation creates a new artifact that fits a condition.
 
@@ -122,7 +122,7 @@ By repeating this process, the sentence forms:
 
 The GPT-3 paper describes GPT-3 as a 175B-parameter autoregressive language model. The word `autoregressive` connects directly to the intuition here: previous outputs and context become the condition for the next output.
 
-## The Next Token Is Not a Single Fixed Correct Answer
+## Next Token Is Not a Single Fixed Correct Answer
 
 If next-token prediction is understood only as `finding the one correct answer`, we miss an important feature of generative AI. Even in the same context, multiple next-token candidates may be possible.
 
@@ -198,7 +198,7 @@ So image generation is safer to phrase this way:
 
 There is still a common point. Both build an artifact progressively from conditions. But their generation units and computational methods differ.
 
-## The Same Prompt Is Processed Differently Depending on the Generation Method
+## Same Prompt, Different Processing by Generation Method
 
 Suppose the user asks:
 

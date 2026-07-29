@@ -1,7 +1,7 @@
 # P1-16.3 How to Validate with a Project
 
 > Section ID: `P1-16.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-16.2 looked at work automation and search from the viewpoint of workflow. This section organizes how to validate learning and practical use through a small `project`.
 

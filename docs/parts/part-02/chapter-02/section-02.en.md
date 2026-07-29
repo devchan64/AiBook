@@ -1,7 +1,7 @@
 # P2-2.2 Sigma and Repeated Computation
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-2.1, we reread variables, functions, and expressions. Now we move to the notation for repeated computation that appears very often in formulas.
 
@@ -145,7 +145,7 @@ x_1 + x_2 + x_3 + x_4
 
 When you see sigma, the first thing to look at is not the shape of the symbol, but the repeated structure. First look at what is being added, where it starts, where it ends, and what name marks the repeated position.
 
-## The Index Marks the Repeated Position
+## Index Marks the Repeated Position
 
 In sigma, `i` is the index. The index is the name that tells you which position you are looking at now.
 
@@ -368,7 +368,7 @@ Example execution result:
 
 The loop is not visible, but the repeated computation has not disappeared. The array computation has only changed the expression so that many values are handled at once.
 
-## The Order for Reading Sigma
+## Order for Reading Sigma
 
 When sigma appears, read it in the following order.
 

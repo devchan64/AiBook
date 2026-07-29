@@ -45,7 +45,7 @@ The book is organized into seven Parts.
 - **Part 3. Data Modeling**: reorganizes raw data into learnable inputs and comparable output structures.
 - **Part 4. Machine Learning**: reads problem setup, data splitting, learning, evaluation, and representative algorithms as one common structure.
 - **Part 5. Deep Learning**: covers neural-network computation, backpropagation, CNNs, RNNs, attention, and the structure leading to Transformers.
-- **Part 6. LLMs and Generative AI**: connects tokens, prompts, generation settings, embeddings, retrieval, RAG, agents, and evaluation.
+- **Part 6. LLMs and Generative AI**: connects tokens, prompts, generation settings, embeddings, retrieval, RAG, AI agents, and evaluation.
 - **Part 7. Projects**: turns the concepts from earlier Parts into small outputs, then validates them through execution logs and evaluation criteria.
 
 Conversely, this book does not begin by pushing detailed framework APIs, large-scale operations optimization, or full research-level mathematical derivations. Even when those details become necessary, the book first asks `why this is needed`, `what the problem, input, and output are`, `what the core principle is`, and `how it can be checked simply`, then moves into implementation details.

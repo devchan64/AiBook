@@ -1,7 +1,7 @@
 # P6-20.1 읽기 중심 Transformer 비교축으로 보는 BERT 계열
 
 > Section ID: `P6-20.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 같은 Transformer 계열 안에서도 입력 전체를 읽는 데 강한 흐름과, 다음 토큰을 생성하는 데 강한 흐름은 갈라집니다.
 

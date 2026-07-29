@@ -1,7 +1,7 @@
 # P4-17.2 Cautions When Interpreting Clustering Results
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P4-17.1, clustering was introduced as an unsupervised learning problem that finds structure in unlabeled data. The more important stage now is interpretation.
 
@@ -11,13 +11,13 @@ A clustering result is a proposal about data structure, not an automatically fin
 
 The risk of clustering usually arises less from the calculation itself than from `humans overinterpreting the result`.
 
-This Section does not repeat the basic definition of clustering at length. The core intuition `exploring structure without labels` reconnects through P4-17.1 and the [concept glossary](/AiBook/reference/concept-glossary/), and here the focus is only on how to read the result without overtrusting it.
+This Section does not repeat the basic definition of [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) at length. The core intuition `exploring structure without labels` reconnects through P4-17.1, [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and [cluster label](/AiBook/en/reference/concept-glossary-alpha/c/#cluster-label), and here the focus is only on how to read the result without overtrusting it.
 
-## Scope Of This Section
+## Questions Closed By Cluster Interpretation
 
 This Section answers the following questions.
 
-- Why should a clustering result not be read immediately like a correct label?
+- Why should a clustering result not be read immediately like a correct [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label)?
 - Why can the same data produce different clusters depending on representation and parameters?
 - Why do cluster numbers carry no meaning?
 - Why is it risky to connect clustering results directly to business policy or human evaluation?
@@ -25,7 +25,7 @@ This Section answers the following questions.
 
 This Section first closes the question `why clustering results should not be read immediately as correct answers or causal explanations`. Cluster evaluation metrics continue in P4-6.4, visualization and embedding-space distortion continue in P4-18.2, and the connection to semi-supervised learning continues in P4-17.4 supplementary learning.
 
-## Goals Of This Section
+## Judgments To Keep From Cluster Interpretation
 
 - You can explain that a clustering result differs from a correct class label.
 - You can describe that the same data can yield different clusters depending on feature choice and parameter settings.
@@ -70,7 +70,7 @@ This diagram shows the dangerous interpretation path in which a clustering resul
 
 ## A Cluster Is Not A Correct Label
 
-As seen in P4-17.1, a cluster is a grouping the algorithm found in the data. By contrast, a label is a category predefined by people according to the problem definition.
+As seen in P4-17.1, a [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster) is a grouping the algorithm found in the data. By contrast, a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) is a category predefined by people according to the problem definition.
 
 The two can look similar on the surface, but their roles are different.
 
@@ -114,9 +114,9 @@ This diagram visually fixes the point that cluster numbers do not indicate ranks
 
 As seen in P4-17.1, clustering depends heavily on `what counts as similar`. So even with the same raw data, the result can change when the following change.
 
-- What features were included
-- Whether scaling was applied
-- How distance was measured
+- What [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) were included
+- Whether [feature scale](/AiBook/en/reference/concept-glossary-alpha/f/#feature-scale) was adjusted
+- How [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) was measured
 - What value was chosen for the number of clusters `k`
 - How DBSCAN's `eps` and `min_samples` were set
 
@@ -178,7 +178,7 @@ That is because clustering usually tells us only this much.
 
 Why that similarity appears, what cause lies behind it, and what policy should be applied are all questions that require separate analysis.
 
-Clusters may suggest correlated patterns, but they do not automatically provide causality.
+Clusters may suggest correlated patterns, but they do not automatically provide [causality](/AiBook/en/reference/concept-glossary-alpha/c/#causal-inference).
 
 ## How Does This Connect To Semi-Supervised Learning?
 
@@ -186,7 +186,7 @@ After learning clustering, a natural thought appears.
 
 `If only a small amount of labels exist, could we build clusters first and use those groups as support for label learning?`
 
-That question continues into semi-supervised learning. Semi-supervised learning is usually a problem setting that tries to use `a small amount of labeled data` together with `a large amount of unlabeled data`.
+That question continues into [semi-supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#semi-supervised-learning). Semi-supervised learning is usually a problem setting that tries to use `a small amount of labeled data` together with `a large amount of unlabeled data`.
 
 In that context, clustering can connect in the following way.
 
@@ -311,6 +311,11 @@ In other words, a cluster can become `a tool that helps review label hypotheses 
 ### Check With A Library: Clusters Can Change When Scale Changes
 
 This example clusters the same customer data into two groups with `AgglomerativeClustering`, then compares the result before and after standardization.
+
+- Values to change before running:
+  - Change `n_clusters` from 2 to 3 and check which customer separates
+  - Increase or decrease the `spend` values and check how much the raw-feature result changes
+  - Remove and restore `StandardScaler` and compare the mean summary for each cluster
 
 ```python
 import pandas as pd
@@ -500,5 +505,5 @@ Both Sections must be understood together to use clustering safely in practice.
 
 ## Sources And References
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

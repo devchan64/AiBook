@@ -1,7 +1,7 @@
 # P2-10.1 노트북(notebook)은 왜 학습에 유용한가
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2 Chapter 7에서는 Python을 어디에서 실행하는지, 터미널(terminal), 셸(shell), 인터프리터(interpreter), 스크립트(script), 가상환경(virtual environment)을 나누어 봤습니다. Part 2 Chapter 8과 Chapter 9에서는 Python 문법과 자료구조를 작은 예제로 복구했습니다.
 
@@ -9,7 +9,7 @@ Part 2 Chapter 7에서는 Python을 어디에서 실행하는지, 터미널(term
 
 노트북은 AI 학습에서 특히 자주 등장합니다. 수식을 코드로 바꾸어 확인하고, 데이터 표를 출력하고, 차트를 그려 보고, 그 옆에 해석을 적을 수 있기 때문입니다.
 
-여기서는 `노트북(notebook)`, `코드 셀(code cell)`, `마크다운 셀(markdown cell)`, `출력(output)`의 기본 구분을 설명합니다. Chapter 7이 어디서 실행하는지를, Chapter 8~9가 무엇을 어떤 문장으로 적는지를 다뤘다면, 여기서는 그 실행과 계산을 어떻게 한 문서 안에 남기고 다시 읽을 것인가를 다룹니다. 노트북은 새 실행 환경 이름이라기보다, 이미 실행한 코드와 출력을 학습 기록으로 묶는 형식으로 읽는 편이 정확합니다. 뒤 절에서 이 개념들이 다시 나올 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 기준점으로 삼습니다.
+여기서는 `노트북(notebook)`, `코드 셀(code cell)`, `마크다운 셀(markdown cell)`, `출력(output)`의 기본 구분을 설명합니다. Chapter 7이 어디서 실행하는지를, Chapter 8~9가 무엇을 어떤 문장으로 적는지를 다뤘다면, 여기서는 그 실행과 계산을 어떻게 한 문서 안에 남기고 다시 읽을 것인가를 다룹니다. 노트북은 새 실행 환경 이름이라기보다, 이미 실행한 코드와 출력을 학습 기록으로 묶는 형식으로 읽는 편이 정확합니다. 뒤 절에서 이 개념들이 다시 나올 때는 [개념사전의 노트북 항목](../../../reference/concept-glossary-parts/02-nieun.md#notebook)도 함께 기준점으로 삼습니다.
 
 Part 2 흐름에서 지금 장을 읽을 때는 다음 최소선을 먼저 잡습니다.
 

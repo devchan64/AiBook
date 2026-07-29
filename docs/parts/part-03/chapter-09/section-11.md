@@ -1,16 +1,16 @@
 # P3-9.11 target 후보와 변하는 기준
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _보조제목: target 후보가 여러 개이거나 기준이 바뀔 때 무엇을 먼저 고정해야 하는가_
 
-현실 데이터에서는 target 후보가 하나만 보이지 않을 수 있습니다. `review_needed`, `final_status`, `status_type`, `priority_bucket`처럼 여러 후보가 함께 보이기도 하고, 같은 이름의 target이라도 시기마다 판정 기준이 달라지기도 합니다. 이 상태에서는 무엇을 대표 문제로 먼저 세울지와 지금 쓰는 정의가 어느 버전인지부터 고정해야 문제 자체가 흔들리지 않습니다. target 후보가 여러 개이거나 기준이 바뀌면, 무엇을 대표 target으로 세우는지와 현재 정의 버전을 먼저 적어야 합니다.
+현실 데이터에서는 목표 라벨 후보(target candidate)가 하나만 보이지 않을 수 있습니다. `review_needed`, `final_status`, `status_type`, `priority_bucket`처럼 여러 후보가 함께 보이기도 하고, 같은 이름의 [타깃(target)](/AiBook/reference/concept-glossary-parts/12-tieut.md#glossary-target)이라도 시기마다 판정 기준이 달라지기도 합니다. 이 상태에서는 무엇을 대표 문제로 먼저 세울지와 지금 쓰는 정의가 어느 버전인지부터 고정해야 문제 자체가 흔들리지 않습니다. target 후보가 여러 개이거나 기준이 바뀌면, 무엇을 [대표 타깃(representative target)](/AiBook/reference/concept-glossary-parts/03-digeut.md#glossary-representative-target)으로 세우는지와 현재 [타깃 정의 버전(target definition version)](/AiBook/reference/concept-glossary-parts/12-tieut.md#glossary-target-definition-version)을 먼저 적어야 합니다.
 
 | 먼저 고정할 것 | 왜 필요한가 |
 | --- | --- |
-| 대표 target | 지금 어떤 문제를 먼저 풀려는지 분명히 하기 위해 |
-| target 정의 버전 | 같은 이름이라도 다른 기준을 섞지 않기 위해 |
+| [대표 타깃(representative target)](/AiBook/reference/concept-glossary-parts/03-digeut.md#glossary-representative-target) | 지금 어떤 문제를 먼저 풀려는지 분명히 하기 위해 |
+| [타깃 정의 버전(target definition version)](/AiBook/reference/concept-glossary-parts/12-tieut.md#glossary-target-definition-version) | 같은 이름이라도 다른 기준을 섞지 않기 위해 |
 | 함께 관리할 다른 target 후보 | 같은 데이터에서 어떤 결과 후보들이 병존하는지 남기기 위해 |
 
 | 흔한 장면 | 필요한 메모 |
@@ -21,7 +21,7 @@ _보조제목: target 후보가 여러 개이거나 기준이 바뀔 때 무엇�
 
 ## 왜 대표 target을 먼저 고정해야 하는가
 
-여러 target 후보가 함께 있을 때 가장 흔한 혼동은 `어차피 다 같은 사건에서 나온 값이니 나중에 하나 고르면 된다`는 생각입니다. 하지만 대표 target을 먼저 고정하지 않으면, 지금 어떤 문제를 풀고 있는지 설명 자체가 흔들립니다.
+여러 target 후보가 함께 있을 때 가장 흔한 혼동은 `어차피 다 같은 사건에서 나온 값이니 나중에 하나 고르면 된다`는 생각입니다. 하지만 대표 타깃을 먼저 고정하지 않으면, 지금 어떤 문제를 풀고 있는지 설명 자체가 흔들립니다.
 
 예를 들어 `review_needed`를 대표 target으로 두면 질문은 `무엇을 먼저 다시 봐야 하는가`가 됩니다. 반면 `final_status`를 대표 target으로 두면 질문은 `결국 어떤 상태로 닫히는가`가 됩니다. 같은 사건 표를 써도 두 문제는 목표, 평가, 오류 해석이 달라집니다. 따라서 대표 target을 고정하지 않은 상태는 `데이터가 많은 상태`가 아니라 `문제가 아직 하나로 닫히지 않은 상태`에 가깝습니다.
 
@@ -43,7 +43,7 @@ _보조제목: target 후보가 여러 개이거나 기준이 바뀔 때 무엇�
 --8<-- "assets/part-03/chapter-09/p3-9-11-mermaid-01-ko.mmd"
 ```
 
-이 장면이 보여 주는 핵심은 `대표 target 선택`이 나중에 붙이는 관리 메모가 아니라는 점입니다. 이것은 현재 문제의 중심 질문을 정하는 일이고, 정의 버전은 그 질문을 어떤 기준으로 읽었는지 고정하는 일입니다.
+이 장면이 보여 주는 핵심은 대표 타깃 선택이 나중에 붙이는 관리 메모가 아니라는 점입니다. 이것은 현재 문제의 중심 질문을 정하는 일이고, 타깃 정의 버전은 그 질문을 어떤 기준으로 읽었는지 고정하는 일입니다.
 
 즉 target 후보가 많을 때의 어려움은 `이름 충돌`보다 `대표 결과와 정의 버전을 함께 고정하지 않으면 문제 자체가 흔들린다`는 점에 있습니다. 여기서는 `대표 결과 정의`, `정의 버전 관리`, `확장 후보 관리`를 함께 잡아, 같은 데이터에서 여러 목표 후보가 생길 때 중심 문제를 고정합니다.
 

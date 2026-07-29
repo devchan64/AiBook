@@ -1,33 +1,33 @@
 # P4-15.1 随机森林(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-14 里，我们看过决策树(decision tree)为什么既直观， 又容易掉进过拟合(overfitting)。 尤其是我们确认过： 即使调整 `max_depth`、`min_samples_leaf`、`ccp_alpha`， 单棵树的结构摇摆也不一定会完全消失。 于是下一个问题自然出现。
+在 P4-14 里，我们看过[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)为什么既直观， 又容易掉进[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)。 尤其是我们确认过： 即使调整 `max_depth`、`min_samples_leaf`、`ccp_alpha`， 单棵树的结构摇摆也不一定会完全消失。 于是下一个问题自然出现。
 
 有没有办法既保留树的优点， 又减少单棵树过度摇摆的问题？
 
-这个问题就是随机森林的出发点。
+这个问题就是[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)的出发点。
 
 随机森林是把许多训练得略有不同的决策树的预测汇集起来， 尝试得到比单棵树更稳定判断的模型。
 
 也就是说，随机森林不是 `把树丢掉的模型`， 而是 `把很多树聚在一起并减少其弱点的模型`。
 
-这一节说明 `随机森林(random forest)`、`集成(ensemble)`、`bootstrap`、 `特征随机选择` 的基本含义。 后面的 Section 会沿着这些抓手继续往前推进， 而通过多棵树的合意来降低摇摆的基础直觉， 也会通过这一节和[概念词典](/AiBook/reference/concept-glossary/)重新连接。
+这一节说明[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)、[集成(ensemble)](/AiBook/zh/reference/concept-glossary-pinyin/j/#ensemble)、[bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap)、`特征随机选择` 的基本含义。 后面的 Section 会沿着这些抓手继续往前推进， 而通过多棵树的合意来降低摇摆的基础直觉， 也会通过这一节和对应的概念词条重新连接。
 
-## 本节范围
+## 随机森林先收束的问题
 
 本节回答以下问题。
 
 - 为什么随机森林要使用多棵树？
-- `bootstrap`、`max_features`、`averaging` 分别起什么作用？
+- [bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap)、[max_features](/AiBook/zh/reference/concept-glossary-pinyin/m/#max-features)、`averaging` 分别起什么作用？
 - 为什么它会比单棵树看起来更稳定？
 - 在分类与回归里，随机森林是怎样合并输出的？
-- `n_estimators`、`max_features`、`bootstrap`、`oob_score` 各自是什么意思？
+- [n_estimators](/AiBook/zh/reference/concept-glossary-pinyin/n/#n-estimators)、[max_features](/AiBook/zh/reference/concept-glossary-pinyin/m/#max-features)、[bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap)、[oob_score](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 各自是什么意思？
 
 这一节会先收束 `为什么把多棵树聚合起来，会试图做出比单棵树更稳定的判断` 这个问题。 特征重要度会在 P4-15.2 继续，OOB(out-of-bag) 分数的评价解读会在 P4-15.3 继续，Extra Trees 比较会在补充学习 P4-15.4 继续，与梯度提升(gradient boosting)的对比会在 P4-16.1、P4-16.2 继续。
 
-## 用随机森林(random forest)留下的判断标准
+## 随机森林要留下的判断标准
 
 - 你可以把随机森林解释成 `多棵随机化树的平均 / 聚合模型`。
 - 你可以说明为什么需要 bootstrap 抽样与特征随机选择。
@@ -338,6 +338,12 @@ scikit-learn 文档说明， 在分类森林里， 树的概率预测会被做�
   - 即使是同一份数据，test 性能与稳定性也可能不同
   - `n_estimators` 与森林大小直接相关
 
+可以改动的值：
+
+- `n_estimators`：比较 10、50、100 等森林大小，同时观察分数和计算时间。
+- `random_state`：观察单棵树和森林面对同样 seed 变化时，摇摆程度有何不同。
+- `max_features`：比较默认值和 `None`，看看树的多样性减少时会发生什么。
+
 ```python
 # 这个例子在 iris 分类中并排比较单棵决策树和随机森林的分数与结构。
 from sklearn.datasets import load_iris
@@ -398,8 +404,7 @@ random forest
 
 问题场景：
 
-- 做模型比较时，不只要看最高分，
-还要一起看在多次切分下分数会不会摇晃
+- 做模型比较时，不只要看最高分，还要一起看在多次切分下分数会不会摇晃
 
 输入(input)：
 
@@ -415,10 +420,14 @@ random forest
 
 要确认的概念：
 
-- 随机森林的优势，
-往往比起最高分， 更容易在 `摇摆减少` 上看出来
-- 比较多个 seed，
-是阅读稳定性最简单的方法
+- 随机森林的优势，往往比起最高分，更容易在 `摇摆减少` 上看出来
+- 比较多个 seed，是阅读稳定性最简单的方法
+
+可以改动的值：
+
+- `range(10)`：把重复 seed 数改成 5 或 20，观察平均值是否更稳定。
+- `n_estimators`：比较 10 和 100，看看树的数量怎样影响摇摆。
+- `max_depth`：同时限制单棵树和森林内部树的深度，观察平均分数怎样变化。
 
 ```python
 # 这个例子比较多个 random_state 下单棵树和随机森林的 test 分数波动。
@@ -479,6 +488,6 @@ forest avg              : 0.944
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001, 确认日期: 2026-07-19. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001, 确认日期: 2026-07-26. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }

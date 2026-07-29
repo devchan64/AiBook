@@ -1,7 +1,7 @@
 # P2-7.3 Python Interpreter and Script
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-7.2, we looked at terminal, shell, and working directory. Now we look at how Python code is actually executed in that terminal.
 
@@ -66,7 +66,7 @@ So in Python, two usage styles naturally appear together.
 
 The reason Python is often met in AI learning is also connected to this point. It is easy to immediately check formulas with small code, and if the experiment becomes a little longer, it is easy to leave it in a file or notebook. Here, however, we do not go deeply into Python language history, but keep only the feel for why the execution styles of interpreter and script are used together.
 
-## The Interpreter Is the Program That Reads and Executes Code
+## Interpreter Is the Program That Reads and Executes Code
 
 The `Python interpreter` is the program that reads and executes Python code. The official Python documentation explains that the interpreter can be invoked from the command line, and if it is started without a file name or standard input, it enters `interactive mode`.
 
@@ -183,7 +183,7 @@ Expected output: if executed as Python code, `hello` is printed.
 Concept to check: terminal commands and Python code should be distinguished not by how the sentence looks, but by where it is entered.
 
 ```python
-# The same Python statement can also run inside a code cell.
+# same Python statement can also run inside a code cell.
 print("hello")
 ```
 
@@ -205,7 +205,7 @@ Expected output: `hello` is printed as the cell execution result.
 Concept to check: a code cell shows immediate results like interactive execution while also leaving a record in the notebook.
 
 ```python
-# The output-checking code is the same whether it runs from a terminal or a code cell.
+# output-checking code is the same whether it runs from a terminal or a code cell.
 print("hello")
 ```
 

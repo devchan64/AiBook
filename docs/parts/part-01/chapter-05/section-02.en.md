@@ -1,7 +1,7 @@
 # P1-5.2 What Does Model Execution Run?
 
 > Section ID: `P1-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 5.1 distinguished `learning` from `training`. Training is the procedure that uses data to adjust internal model values, while learning is the broader idea that performance on a task improves as a result.
 
@@ -105,7 +105,7 @@ There are exceptions such as online learning, continual learning, or systems tha
 > producing output during use = inference  
 > gathering data and adjusting the model again = training or retraining
 
-## The Basic Flow of Inference
+## Basic Inference Flow
 
 The internal computation differs by model type, but the basic flow can still be read like this:
 

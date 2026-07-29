@@ -1,7 +1,7 @@
-# P5-14.2 What Does Each Of The Four Transformer Block Components Do?
+# P5-14.2 What Does Each of the Four Transformer Block Components Do?
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-14.1, we saw that explaining the Transformer only with self-attention is not enough. Now we need to separate the roles inside the block more directly.
 
@@ -9,7 +9,7 @@ Inside a Transformer block, what does each of self-attention, feed-forward netwo
 
 The core is not memorizing component names, but dividing roles. To read the path that the same token representation follows inside the block, we need to distinguish `relationship reading`, `position-wise processing`, `preserving original information`, and `stabilizing the value range`.
 
-## Questions Handled By Block Role Division
+## Questions Handled by Block Role Division
 
 - What does self-attention handle?
 - How is the feed-forward network different from attention?
@@ -28,7 +28,7 @@ As we saw in Chapter 13, self-attention is a method in which each token refers t
 
 The core is `relationship reading`. It makes the current token bring in the context it needs from other positions in the sentence.
 
-## Feed-Forward Network Processes The Current Position Representation
+## Feed-Forward Network Processes the Current Position Representation
 
 Self-attention mixes token relationships, but that result is not automatically a sufficiently good representation. The feed-forward network reprocesses the current position representation, after context has been mixed in, in a nonlinear way.
 
@@ -55,7 +55,7 @@ So the feed-forward network should not be read as simple post-processing. If att
 
 Why a feed-forward network can apply the same weights to several positions while still producing different representations at each position is separated into [P5-14.6 Supplementary Reading: Why Does The Feed-Forward Network Handle Position-Wise Representation Processing?](section-06.md).
 
-## Residual Connection Leaves The Original Information Flow
+## Residual Connection Leaves the Original Information Flow
 
 In a deep neural network, repeated new computations can overwrite the original information too strongly or make learning unstable. A residual connection passes the previous representation together with the new computation result, preserving the original information flow.
 
@@ -81,7 +81,7 @@ This distinction prevents residual connection from being reduced to mere additio
 
 Why residual connection is not just a skip, but a path that passes original representation and new computation together, is separated into [P5-14.7 Supplementary Reading: Why Does Residual Connection Leave A Path For The Original Representation?](section-07.md).
 
-## Layer Normalization Organizes The Value Range
+## Layer Normalization Organizes the Value Range
 
 When many layers and large matrix operations repeat, the size and distribution of representation values can shake. Layer normalization organizes each position representation into a range that is easier to handle, helping the next computation shake less.
 
@@ -124,9 +124,9 @@ If we bundle the four components at once, the questions asked about the same tok
 
 This diagram compresses one Transformer block at an introductory level. Read the flow as `relationship reading -> add and organize the original representation -> process the current position representation -> pass it onward stably again`.
 
-## Cases And Examples
+## Cases and Examples
 
-### Case. Reading The `Restart` Position Representation Through The Four Components
+### Case. Reading the `Restart` Position Representation Through the Four Components
 
 Consider the work-permit sentence `Restart is held while the pressure remains unreleased.` The current position of interest is `restart`. If a person reads only the word quickly, it is easy to read `restart` as a simple execution action. But the sentence also contains the condition `pressure unreleased` and the judgment `held`.
 
@@ -183,9 +183,9 @@ If we close the same case from the output viewpoint, it becomes the following.
 
 The result to confirm in this case is that the `restart` representation does not change all at once as if by magic. Self-attention reads relationships, feed-forward processes the current position representation, residual connection leaves the original information flow, and layer normalization aligns the value baseline for the next computation. Only when these four questions are separated can the Transformer block be read not as attention alone, but as a repeating unit with divided roles.
 
-## Practice And Example
+## Practice and Example
 
-### Example. Following The Representation Movement Of An Action Token With Numbers
+### Example. Following the Representation Movement of an Action Token with Numbers
 
 If we shrink the same role distinction into another operations-log scene, we can directly see that the same action token moves in a different direction when its attention row changes. Here we follow only `input -> after attention -> after feed-forward -> after residual`, without calculating layer normalization. Value-range organization is handled separately in the next stabilization section.
 
@@ -271,7 +271,7 @@ To check it yourself, change the action-token row of `rollback_not_confirmed` fr
 
 ![Stage-by-stage representation movement of the action token](/AiBook/assets/part-05/chapter-14/transformer-block-action-stage-trace-en.png)
 
-### Practice. Naming The Role
+### Practice. Naming the Role
 
 Judge which component the description below is most directly connected to.
 
@@ -307,7 +307,7 @@ Explanation: The reason for correcting these sentences is to create a sense of b
 - Can you explain layer normalization as a stabilization device for deep block repetition?
 - Can you explain what kind of representation movement `after attention`, `after feed-forward`, and `after residual` show in the action-token stage trace?
 
-## Sources And References
+## Sources and References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

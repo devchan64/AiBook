@@ -1,21 +1,17 @@
 # P4-18.1 Dimensionality Reduction
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-17, we looked at the viewpoint of finding data structure without labels through clustering. Within the same unsupervised-learning flow, another question appears here.
+In P4-17, [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) asked `what hidden groups are present?` Here, we hold a different question.
 
-When there are too many features, can we reduce that information into fewer axes and still look at it?
+If there are too many [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) to read the structure easily, can we rebuild the representation itself with fewer axes?
 
-That question is the starting point of dimensionality reduction.
+That question is the starting point of [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction). Dimensionality reduction is not just a technique for discarding many features. It is closer to `reexpressing the original representation through axes that are easier to read when the original representation has become too complex`.
 
-Dimensionality reduction is a method that changes many features into a smaller number of axes or components so that the structure becomes simpler to inspect and the computation becomes easier to handle.
+This Section explains [dimension](/AiBook/en/reference/concept-glossary-alpha/d/#dimension), [PCA](/AiBook/en/reference/concept-glossary-alpha/p/#principal-component-analysis-pca) (principal component analysis), and `why [eigenvalues](/AiBook/en/reference/concept-glossary-alpha/e/#eigenvalue) and [eigenvectors](/AiBook/en/reference/concept-glossary-alpha/e/#eigenvector) appear here` through the same toy-data scene. In the next Section, P4-18.2, we continue by asking how far we should trust the resulting picture and how to read information loss.
 
-Dimensionality reduction is both `removing some information` and `making structure easier to see`.
-
-This Section explains the basic meaning of `dimensionality reduction`, `dimension`, and `PCA (principal component analysis)`. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reexpressing many features through fewer axes reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
-
-## Scope Of This Section
+## Questions Closed By Dimensionality Reduction
 
 This Section answers the following questions.
 
@@ -23,18 +19,17 @@ This Section answers the following questions.
 - Why can learning and interpretation become harder when the number of features grows?
 - What problems is dimensionality reduction trying to ease?
 - What representative intuition does PCA show?
-- What does dimensionality reduction preserve, and what does it discard?
-- Why do eigenvalue and eigenvector appear in PCA?
-- How are kernel PCA and Truncated SVD different from PCA?
+- Why do [variance](/AiBook/en/reference/concept-glossary-alpha/v/#variance), [orthogonal](/AiBook/en/reference/concept-glossary-alpha/o/#orthogonal), eigenvalue, and eigenvector appear together in PCA explanations?
+- How should we distinguish [kernel PCA](/AiBook/en/reference/concept-glossary-alpha/k/#kernel-pca) and [Truncated SVD](/AiBook/en/reference/concept-glossary-alpha/t/#truncated-svd) from PCA at the level of intuition?
 
-This Section focuses on grasping, at an introductory level, `why we want to reduce dimensions` and `how to read PCA first through intuition and a minimum amount of mathematics`. So this Section directly covers why PCA's new axes are read as eigenvectors and how PCA, kernel PCA, and Truncated SVD split into different branches. By contrast, visualization-oriented methods and interpretation of reconstruction error are closed in the next Section, P4-18.2.
+This Section focuses on grasping, at an introductory level, `why we want to reduce dimensions` and `what kind of calculation PCA performs`. How to interpret visualization results, t-SNE and UMAP, [reconstruction error](/AiBook/en/reference/concept-glossary-alpha/r/#reconstruction-error), and trustworthiness continue in the next Section, P4-18.2.
 
-## Goals Of This Section
+## Judgments To Keep From Dimensionality Reduction
 
 - You can explain dimensionality reduction as `reexpressing feature space through fewer axes`.
-- You can describe why interpretation and computation become harder when there are many features.
-- You can explain PCA at an introductory level as `a method for finding orthogonal axes that explain a large amount of variance`.
-- You can understand that dimensionality reduction brings both convenience and information loss.
+- You can explain PCA as `a method that resets new axes in the directions where data vary strongly`.
+- You can explain why the first component and second component should be orthogonal to one another.
+- You can read eigenvectors as directions of new axes and eigenvalues as the amount of variation explained by those axes.
 
 ## Why This Section Is Needed
 
@@ -49,43 +44,40 @@ At that point, readers easily feel the following.
 - If there are more features, shouldn't the description become more detailed?
 - Then why does understanding become harder instead?
 
-That is exactly where dimensionality reduction becomes necessary.
+That is exactly where dimensionality reduction becomes necessary. As the number of features grows, there may be more information, but humans find it harder to hold the structure at once. So dimensionality reduction first checks `is this representation too complex right now?`, then creates axes for reading the large flow again.
 
-So P4-18.1 is the Section for learning `why simplification becomes necessary again as information increases`.
+## Looking At One Scene
 
-If we place it beside the clustering from the previous Chapter, the first thing that should appear is that even inside unsupervised learning, the central questions differ.
+This Section keeps returning to a small dataset where two features move almost together.
 
-| Question | Clustering | Dimensionality reduction |
-| --- | --- | --- |
-| What is asked first | What groups are hidden? | Through what axes can this be reexpressed more clearly? |
-| What is wanted immediately | Cluster structure, outlier candidates | Fewer components, a more readable representation |
-| What is often done next | Interpret cluster meaning, review segments | Visualization, noise reduction, cleanup for downstream model input |
+| Sample | Monthly visits `x1` | Average purchase amount `x2` |
+| --- | ---: | ---: |
+| A | 2.0 | 2.1 |
+| B | 3.0 | 3.2 |
+| C | 4.0 | 3.9 |
+| D | 5.0 | 5.1 |
 
-If clustering is closer to `finding groups`, dimensionality reduction is closer to `rebuilding the representation`. That distinction matters first, so that PCA is read not as just another algorithm name, but as a representative answer to the question `how can high-dimensional representation be changed into easier axes for reading?`
+This table has a flow where `customers with more visits also tend to have higher average purchase amounts`. There are only two axes, so we can still read it by eye, but the core reason PCA becomes useful already appears here.
+
+1. The two features move almost in the same direction.
+2. Then a single new axis may be enough to summarize the large flow.
+3. But small differences where the two axes do not perfectly match may become weaker.
+
+In other words, dimensionality reduction is not `squeezing a complicated table into a few axes`. It is `deciding what to treat as the large flow and what to leave as fine detail`.
 
 ## What Does Dimension Mean?
 
 In machine learning, dimension usually connects to the number of axes used to describe one data sample, in other words, the number of features.
 
-For example, if one customer is expressed through the following three numbers:
+In the table above, one customer is represented with two values, `monthly visit count` and `average purchase amount`, so the data are two-dimensional. If we add `days since last login`, it becomes three-dimensional. If we add `return rate`, it becomes four-dimensional.
 
-- Monthly visit count
-- Average purchase amount
-- Days since last login
-
-that customer can be viewed as one point in a three-dimensional feature space.
-
-Dimension is both an abstract mathematical concept and something that can be understood as `the number of coordinate axes used to describe the data`.
-
-Whenever one feature is added, one more axis for viewing the data is added.
-
-If this is drawn in a very simple way, it looks like the following.
+If we draw this very simply, it looks like this.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-01-en.mmd"
 ```
 
-This diagram shows that as dimensions increase, it becomes harder to picture the data directly as if it were a simple drawing. Once the reader grasps the sense that one feature creates one axis, it becomes easier to understand why summary axes are needed again for high-dimensional data.
+For now, it is enough to hold dimension less as a mathematical symbol and more as `the number of coordinate axes through which the data are viewed`. Whenever one feature is added, one more axis for describing the data is added.
 
 ## Why Does It Become Harder When Features Increase?
 
@@ -95,22 +87,20 @@ Having many features can increase expressive power, but at the same time it crea
 2. Computational cost can increase.
 3. There may be a lot of unnecessary or overlapping information.
 
-For example, a two-dimensional point can be seen directly in a picture. But 50-dimensional, 500-dimensional, or 5000-dimensional data cannot be viewed directly. In the end, they need to be summarized in some other way.
-
-Also, when there are many features, they often store similar information repeatedly. For example:
+For example, the following values may not be fully independent.
 
 - Monthly purchase amount
 - Yearly purchase amount
 - Number of purchases
 - Average order amount
 
-These values may not be fully independent of one another.
+Here, the problem is less `there are many features` and more `how much genuinely new information is present?` If many features move almost in the same direction, the original table may be long while the main flows to read are few.
 
-Dimensionality reduction often becomes a process of asking again `how much genuinely new information is really present?`
+So dimensionality reduction becomes a step that asks again `has the current representation become unnecessarily bulky?`
 
 ## What Is Dimensionality Reduction Trying To Ease?
 
-The scikit-learn user guide explains PCA as a method that decomposes a multivariate dataset into successive orthogonal components and finds directions that explain the largest amount of variance.
+The scikit-learn user guide explains PCA as a method that decomposes a multivariate dataset into successive orthogonal [components](/AiBook/en/reference/concept-glossary-alpha/c/#component) and finds directions that explain the largest amount of variance.
 
 At an introductory level, dimensionality reduction can be read as an attempt to ease the following problems.
 
@@ -123,15 +113,13 @@ At an introductory level, dimensionality reduction can be read as an attempt to 
 
 So dimensionality reduction is better understood as `a tool for building a more readable representation` than as `something that completely replaces the original data`.
 
-## Looking At One Scene
+## How Does PCA Reexpress This Scene?
 
 ```mermaid
 --8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-02-en.mmd"
 ```
 
-The core of this diagram is that dimensionality reduction is not simple deletion, but `reexpression through newly built axes`. When there are too many features to inspect directly and overlapping information may exist, fewer axes are created to reinterpret the structure or pass it into downstream models.
-
-The key point of this figure is that dimensionality reduction is not a matter of blindly throwing away original features. It is `a matter of looking again through new axes`.
+PCA tries to reset new axes in `the directions where the data are actually spread out a lot`. In the toy data above, `x1` and `x2` grow almost together, so one diagonal direction looks more important than reading the two axes separately.
 
 ## What Representative Intuition Does PCA Show?
 
@@ -139,7 +127,7 @@ The scikit-learn documentation explains PCA as a method for finding `successive 
 
 `Take the direction in which the data spread the most as the first axis, then among the directions orthogonal to it, take the next direction with a large spread as the second axis.`
 
-PCA is closer to the sense of not using the original axes such as x, y, and z 그대로, but instead rotating the axes again toward the directions in which the data actually vary a lot.
+PCA is closer to the sense of not using the original axes such as x, y, and z as they are, but instead rotating the axes again toward the directions in which the data actually vary a lot.
 
 ## A Simpler Analogy For PCA
 
@@ -184,7 +172,7 @@ So PCA creates new axes while trying to separate information across different di
 
 ## Why Do Eigenvalue And Eigenvector Appear In PCA?
 
-The moment you look just a little deeper into PCA, the words eigenvalue and eigenvector of the covariance matrix appear immediately. The reason is simple.
+The moment you look just a little deeper into PCA, the words eigenvalue and eigenvector of the [covariance matrix](/AiBook/en/reference/concept-glossary-alpha/c/#covariance-matrix) appear immediately. The reason is simple.
 
 `To find the directions in which the data spread most strongly in formulas, you need to find the direction vectors that best explain that spread.`
 
@@ -242,7 +230,6 @@ Mathematically, they also look at slightly different objects.
 | Comparison item | PCA | kernel PCA | Truncated SVD |
 | --- | --- | --- | --- |
 | Basic starting point | Covariance structure | Similarity structure built by kernels | Factorization of the original data matrix itself |
-
 | What it fits well | Linear reexpression | Nonlinear reexpression | Low-rank approximation of a large matrix |
 | The difference a beginner should remember first | `Rotate axes and capture large variance` | `View structure that is hard to see with straight axes inside another space` | `Compress a matrix into a few components` |
 
@@ -404,5 +391,5 @@ This time, D has the largest `row_error`. In other words, one principal componen
 
 ## Sources And References
 
-- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `PCA`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `PCA`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }

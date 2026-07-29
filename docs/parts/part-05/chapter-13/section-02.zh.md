@@ -1,7 +1,7 @@
 # P5-13.2 通向 self-attention 的流程
 
 > Section ID: `P5-13.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-13.1 里，我们把 attention 解释成了`更强地参考当前计算里重要位置的方式`。接下来立刻会跟出下一个问题。
 
@@ -11,7 +11,7 @@
 
 self-attention 是一种方式：序列里的每个 token 会参考同一序列里的其他 token，并重新计算自己的当前表示。
 
-当需要在 Transformer 之前再次简短确认这个核心机制时，可以回到概念词汇表里的 [self-attention](/AiBook/reference/concept-glossary-parts/07-siot/#self-attention) 条目重新对齐。
+当需要在 Transformer 之前再次简短确认这个核心机制时，可以回到概念词汇表里的[self-attention](/AiBook/zh/reference/concept-glossary-pinyin/z/#self-attention)重新对齐。
 
 ## Self-attention 怎样重读同一序列的问题
 
@@ -242,21 +242,21 @@ import math
 
 DATA_PATH = Path("docs/assets/part-05/chapter-13/self-attention-safety-memo-candidates.csv")
 FOCUS_DOCUMENT_ID = "memo_cap_missing"
-TARGET_TOKENS = ["그것", "씌우지"]
+TARGET_TOKENS = ["它", "未套上"]
 VECTOR_COLUMNS = ["evidence_pack", "evidence_cap", "evidence_action"]
 
 DISPLAY_TOKEN = {
-    "배터리팩": "电池包",
-    "분리": "分离",
-    "절연캡": "绝缘帽",
-    "씌우지": "未套上",
-    "그것": "它",
-    "위험": "风险",
+    "电池包": "电池包",
+    "分离": "分离",
+    "绝缘帽": "绝缘帽",
+    "未套上": "未套上",
+    "它": "它",
+    "风险": "风险",
 }
 
 DISPLAY_TARGET = {
-    "그것": "它",
-    "씌우지": "未套上",
+    "它": "它",
+    "未套上": "未套上",
 }
 
 with DATA_PATH.open(encoding="utf-8", newline="") as f:
@@ -299,7 +299,7 @@ def run_self_attention(target_token):
     cap_weight = sum(
         weight
         for row, weight in zip(target_rows, weights)
-        if row["candidate_token"] in {"절연캡", "씌우지"}
+        if row["candidate_token"] in {"绝缘帽", "未套上"}
     )
 
     print("target_token =", DISPLAY_TARGET[target_token])

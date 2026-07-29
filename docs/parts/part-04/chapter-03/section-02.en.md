@@ -1,25 +1,25 @@
 # P4-3.2 Heuristics And Model Selection
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-3.1 treated a heuristic as a judgment criterion for reducing candidates under limited time and limited information. This Section applies that perspective to model selection.
+P4-3.1 treated a [heuristic](/AiBook/en/reference/concept-glossary-alpha/h/#heuristic) as a judgment criterion for reducing candidates under limited time and limited information. This Section applies that perspective to [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection).
 
 When studying machine learning, the question `which model should be used?` often feels very large. But model selection is not simply the act of picking the name of a famous algorithm. It is the work of looking at the problem form, the state of the data, interpretability, computation cost, and evaluation criteria together, then narrowing the candidate set that should be tried first.
 
-Here the heuristic is not the final conclusion but the starting point. You decide something like `for this problem, let's try these models first`, then validate whether that choice is acceptable on real data.
+Here the heuristic is not the final conclusion but the starting point. You decide something like `for this problem, let's try these models first`, then [validate](/AiBook/en/reference/concept-glossary-alpha/v/#validation) whether that choice is acceptable on real data.
 
-This Section does not define heuristics again at length. The basic meaning of judgment for reducing candidates is connected again through P4-3.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus is only on how that judgment operates in the stage of model selection.
+This Section does not define heuristics again at length. The basic meaning of judgment for reducing candidates is connected again through P4-3.1 and the [concept glossary](/AiBook/en/reference/concept-glossary/). Here the focus is only on how that judgment operates in the stage of model selection.
 
 ## Scope Of This Section
 
-This Section first closes `what heuristics reduce in model selection and what comparison starting point they create`. Data splitting and validation continue in P4-4, overfitting and generalization in P4-5, metrics in P4-6, preprocessing and features in P4-7, model-selection procedures in P4-8, and hyperparameter tuning in P4-9. Specific models return by problem type from P4-10 through P4-19.
+This Section first closes what heuristics reduce in model selection and what comparison starting point they create. Data splitting and validation continue in P4-4, [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) and [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization) in P4-5, [metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric) in P4-6, [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing) and [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) in P4-7, model-selection procedures in P4-8, and [hyperparameter tuning](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter) in P4-9. Specific models return by problem type from P4-10 through P4-19.
 
 This Section answers the following questions.
 
 - In model selection, what does a heuristic actually reduce?
 - How does problem type narrow the model candidates?
-- Why is a baseline model needed?
+- Why is a [baseline model](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model) needed?
 - How do performance, interpretability, and cost conflict?
 - What must be written down to keep heuristics as a verifiable record?
 
@@ -39,10 +39,10 @@ In this situation, many models are possible. But trying every model from the beg
 
 | Candidate | Why it comes to mind first | What to be careful about | Where it returns later |
 | --- | --- | --- | --- |
-| Logistic regression | It becomes a simple baseline when predicting two categories such as churn or stay. | A purely linear relation may be insufficient. | P4-11 |
-| Decision tree | It is easy to explain `under what conditions churn increases`. | If it grows deep, it can fit the training data too much. | P4-14 |
-| Random forest | It can offer more stable performance by combining many trees. | It can become harder to explain than a single tree. | P4-15 |
-| Gradient boosting | It often shows strong performance on tabular data. | Tuning and validation must be done more carefully. | P4-16 |
+| [Logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) | It becomes a simple baseline when predicting two categories such as churn or stay. | A purely linear relation may be insufficient. | P4-11 |
+| [Decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) | It is easy to explain `under what conditions churn increases`. | If it grows deep, it can fit the training data too much. | P4-14 |
+| [Random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) | It can offer more stable performance by combining many trees. | It can become harder to explain than a single tree. | P4-15 |
+| [Gradient boosting](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-boosting) | It often shows strong performance on tabular data. | Tuning and validation must be done more carefully. | P4-16 |
 
 Here the heuristic does not say `logistic regression is the answer`. Instead, it creates an experimental order such as `set a simple baseline first, then compare explainability and performance after that`.
 
@@ -68,11 +68,11 @@ The first thing to inspect is the problem type. The candidate set changes depend
 
 | Question | Problem type | Candidate to recall first | Where it returns later |
 | --- | --- | --- | --- |
-| Are you predicting a number such as house price, sales, or temperature? | regression | linear regression, tree-based regression | P4-10, P4-14 |
-| Are you predicting a category such as pass/fail or churn/stay? | classification | logistic regression, decision tree | P4-11, P4-14 |
-| Are you looking for similar groups without labels? | clustering | k-means, DBSCAN | P4-17 |
-| Do you want to reduce many features into a smaller set of axes? | dimensionality reduction | PCA, t-SNE | P4-18 |
-| Are actions chosen and rewards returned? | reinforcement learning | Q-learning, policy gradient | P4-19 |
+| Are you predicting a number such as house price, sales, or temperature? | [regression](/AiBook/en/reference/concept-glossary-alpha/r/#regression) | linear regression, tree-based regression | P4-10, P4-14 |
+| Are you predicting a category such as pass/fail or churn/stay? | [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification) | logistic regression, decision tree | P4-11, P4-14 |
+| Are you looking for similar groups without labels? | [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) | k-means, DBSCAN | P4-17 |
+| Do you want to reduce many features into a smaller set of axes? | [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction) | PCA, t-SNE | P4-18 |
+| Are actions chosen and rewards returned? | [reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/r/#reinforcement-learning) | Q-learning, policy gradient | P4-19 |
 
 This table is not an answer key. It is a map for narrowing the candidates. The actual choice still has to be checked again through data and evaluation results.
 
@@ -142,7 +142,7 @@ If heuristics remain only as intuition in someone's head, they are hard to valid
 | Evaluation criterion | Look at both recall and precision, which are discussed in P4-6. |
 | Next action | If neither is sufficiently better than the baseline, revisit the data and features. |
 
-When written like this, the heuristic no longer means `we picked it by gut feeling`. It becomes `we started with a verifiable working hypothesis`.
+When written like this, the heuristic no longer means `we picked it by gut feeling`. It becomes a verifiable [working hypothesis](/AiBook/en/reference/concept-glossary-alpha/w/#working-hypothesis).
 
 ## Misunderstandings To Be Careful About In This Section
 
@@ -179,6 +179,6 @@ The checkable result is clear as well. By comparing the error types of the basel
 
 ## Sources And References
 
-- scikit-learn developers, `Choosing the right estimator`, scikit-learn User Guide, accessed 2026-06-25. [https://scikit-learn.org/stable/machine_learning_map.html](https://scikit-learn.org/stable/machine_learning_map.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Choosing the right estimator`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/machine_learning_map.html](https://scikit-learn.org/stable/machine_learning_map.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

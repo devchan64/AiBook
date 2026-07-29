@@ -1,7 +1,7 @@
 # P5-4.2 Loss By Problem Type
 
 > Section ID: `P5-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-4.1, we looked at the loss function as `the standard that turns how far the model's current output differs from the target into a number`. The next question then appears naturally.
 
@@ -11,9 +11,9 @@ The answer is no.
 
 The loss function changes by problem type, because regression, classification, and generation each have a different shape of wrongness.
 
-When the standards for reading loss differently by problem type start to get mixed together again, return to the [loss function](/AiBook/en/reference/concept-glossary-alpha/l/#loss-function) entry in the concept glossary.
+When the standards for reading loss differently by problem type start to get mixed together again, return to the [loss function](/AiBook/en/reference/concept-glossary-alpha/l/#loss-function), [mean squared error, MSE](/AiBook/en/reference/concept-glossary-alpha/m/#mean-squared-error-mse), and [cross-entropy](/AiBook/en/reference/concept-glossary-alpha/c/#cross-entropy) entries in the concept glossary.
 
-## The Question Where Problem Type Changes The Loss
+## The Question Where Problem Type Changes the Loss
 
 - Why do regression and classification use different loss standards?
 - How should a problem of matching numbers be read differently from a problem of matching probabilities?
@@ -22,14 +22,14 @@ When the standards for reading loss differently by problem type start to get mix
 
 This section explains `why the loss changes by problem`, rather than showing many formulas. The derivatives of loss and the flow of learning updates reconnect in P5-5.1 and P5-5.2. In other words, this section first closes why `what counts as wrong` changes depending on the problem type.
 
-## Standards For Output Interpretation And Loss Choice
+## Standards for Output Interpretation and Loss Choice
 
 - You can distinguish the viewpoint of loss in regression, classification, and generation problems.
 - You can explain that regression centers on the size of numeric error, classification on confidence in the correct class, and generation on the probability of the next token.
 - You can understand that the loss function must be designed to match the shape of wrongness in the problem.
 - You can explain which predictions should be corrected more strongly first by problem type.
 
-## Why Does The Loss Change By Problem
+## Why Does the Loss Change by Problem
 
 If the problem type changes, then the meaning of the phrase `it is wrong` also changes.
 
@@ -57,7 +57,7 @@ If the same flow is divided again through the standard `what is being read as wr
 
 The result to confirm first in this diagram is that when the problem type changes, what branches first is not the name of the loss formula, but `what kind of wrongness is being turned into a number`.
 
-## What Matters In Regression
+## What Matters in Regression
 
 Regression is usually the problem of predicting a continuous number.
 
@@ -77,7 +77,7 @@ It is enough to understand it as follows.
 
 Representative examples are viewpoints such as mean squared error (MSE) or mean absolute error (MAE).
 
-## What Matters In Classification
+## What Matters in Classification
 
 Classification is a problem where the correct class is fixed.
 
@@ -98,7 +98,7 @@ In other words, classification loss is designed in the direction of reading more
 
 That is why cross-entropy appears so often as a representative loss.
 
-## What Matters In Generation
+## What Matters in Generation
 
 A generation problem resembles classification but is still different. Especially in the context of LLMs, the model usually does not learn by matching the whole sentence at once, but by predicting `the next token` repeatedly.
 
@@ -114,7 +114,7 @@ It is enough to understand it like this.
 
 `The loss of a generative model is not the loss of memorizing a whole sentence at once. It is the loss built by accumulating how well the next token was predicted at each position.`
 
-## Comparing Regression And Classification
+## Comparing Regression and Classification
 
 Even though the same word `wrong` is used, regression and classification are read in completely different ways.
 
@@ -146,7 +146,7 @@ This becomes easier if you think that even the horizontal axis of the graph chan
 
 So rather than immediately comparing the sizes of loss numbers across types, you first have to read which prediction is worse inside the same problem type. As these three graphs show, when the problem type changes, the axis that the loss reads changes with it.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. Regression
 
@@ -239,7 +239,7 @@ In other words, the internal structure of a neural network and the loss function
 
 This flow becomes especially important later when looking at LLMs. You need to understand that the learning loss of an LLM does not directly measure `whole sentence quality`, but is built by accumulating next-token prediction loss across many positions. This explanation also connects immediately to expressions frequently seen in outside literature, such as `next-token cross-entropy`, `token-level NLL`, and `sequence loss`.
 
-## Practice And Exercise
+## Practice and Exercise
 
 The goal of this exercise is to confirm with very small numbers how the viewpoint for reading loss differs between regression and classification. This time, instead of looking at only one value, we first fix the comparison standards: `error distance` in regression and `probability of the correct class` in classification.
 
@@ -432,7 +432,7 @@ One more point needs special care here: the goal is not to compare the absolute 
 | Classification | Only see that `scratch_prob=0.35` is worse | Read a probability-based loss number as if it had the same unit as a regression-error number | Look at how much the probability of the correct class is lacking |
 | Generation | Only see that `confirm_token_prob=0.30` is worse | Conclude the quality of the whole sentence from one generation-loss number alone | See that the position-wise probability gap accumulates repeatedly |
 
-## What Becomes Visible When It Connects All The Way To Generative Models
+## What Becomes Visible When It Connects All the Way to Generative Models
 
 In a generative model, a classification-like loss is repeated across a long sequence. So an LLM can structurally be read like a very large classification problem repeated once for each next token.
 
@@ -440,7 +440,7 @@ If readers know this connection, then later in Part 5, when words such as token,
 
 In other words, the explanation of the loss function in Part 5 is also preparation for understanding LLM training in the next Part.
 
-## When Should Loss Be Read By Problem Type
+## When Should Loss Be Read by Problem Type
 
 After understanding the general role of the loss function, the loss has to be separated out according to `what counts as wrong in this problem`.
 
@@ -462,7 +462,7 @@ After understanding the general role of the loss function, the loss has to be se
 - Can you explain why next-token prediction connects directly to loss structure by reading generation loss through the viewpoint of repeated classification?
 - Do you understand the flow that after this section comes the chapter on backpropagation, where we examine how the loss is passed to earlier layers?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

@@ -1,15 +1,15 @@
 # P4-2.1 지도학습(supervised learning)
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-1.2에서는 머신러닝을 “데이터에서 입력과 출력의 관계를 추정하는 접근”으로 보았습니다. 이제 그중 가장 먼저 만나는 형태인 지도학습(supervised learning)을 봅니다.
+P4-1.2에서는 [머신러닝(machine learning)](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning)을 “데이터에서 입력과 출력의 관계를 추정하는 접근”으로 보았습니다. 이제 그중 가장 먼저 만나는 형태인 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봅니다.
 
-지도학습은 라벨(label) 또는 목표값(target)이 있는 사례로 모델을 학습하는 방식입니다. 여기서 라벨은 단순한 이름표가 아니라, 모델이 맞추려는 출력입니다. 입력이 주어졌을 때 어떤 결과를 내야 하는지 사례로 보여 주기 때문에 “지도”라는 표현이 붙습니다.
+지도학습은 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 또는 [목표값(target)](../../../reference/concept-glossary-parts/12-tieut.md#target)이 있는 사례로 모델을 학습하는 방식입니다. 여기서 라벨은 단순한 이름표가 아니라, 모델이 맞추려는 출력입니다. 입력이 주어졌을 때 어떤 결과를 내야 하는지 사례로 보여 주기 때문에 “지도”라는 표현이 붙습니다.
 
 지도학습은 “예시와 답이 함께 있는 사례를 보고, 새 사례의 출력을 맞춰 보는 방식”으로 읽을 수 있습니다. 다만 모델이 해설을 이해하는 것은 아닙니다. 모델은 많은 사례에서 입력과 출력의 관계를 맞추도록 내부 기준을 조정합니다.
 
-이 절은 `지도학습(supervised learning)`, `입력 X와 목표값 y`, `분류(classification)`와 `회귀(regression)`의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 라벨 기반 학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 `지도학습(supervised learning)`, `입력 X와 목표값 y`, [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification)와 [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression)의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 라벨 기반 학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 지도학습(supervised learning)에서 닫을 질문
 
@@ -17,7 +17,7 @@ P4-1.2에서는 머신러닝을 “데이터에서 입력과 출력의 관계를
 
 - 지도학습에서 입력과 라벨은 무엇인가?
 - 분류(classification)와 회귀(regression)는 어떻게 다른가?
-- 학습(training), 평가(evaluation), 예측(prediction)은 어떻게 이어지는가?
+- [학습(training)](../../../reference/concept-glossary-parts/14-hieut.md#training), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation), [예측(prediction)](../../../reference/concept-glossary-parts/08-ieung.md#prediction)은 어떻게 이어지는가?
 - 라벨이 있다고 해서 모델이 정답을 안다는 뜻인가?
 - 지도학습에서 가장 먼저 조심해야 할 오해는 무엇인가?
 
@@ -218,5 +218,6 @@ Part 3의 데이터 정리 흐름을 가져오면, 지도학습으로 넘어가�
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Supervised Learning`, Machine Learning, 확인 날짜: 2026-06-25. [https://developers.google.com/machine-learning/intro-to-ml/supervised](https://developers.google.com/machine-learning/intro-to-ml/supervised){: target="_blank" rel="noopener noreferrer" }
+- Google, `Machine Learning Glossary`, `supervised learning`, `label`, `classification`, `regression` 등 항목, 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Supervised Learning`, Machine Learning, 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/intro-to-ml/supervised](https://developers.google.com/machine-learning/intro-to-ml/supervised){: target="_blank" rel="noopener noreferrer" }

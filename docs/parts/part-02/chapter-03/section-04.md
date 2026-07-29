@@ -1,11 +1,11 @@
 # P2-3.4 내적(dot product), 길이(norm), 거리(distance), 유사도(similarity)
 
 > Section ID: `P2-3.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)까지 읽고 나면 다음 질문이 남습니다. `두 벡터가 얼마나 비슷한가`, `얼마나 떨어져 있는가`, `길이가 큰 벡터와 방향이 비슷한 벡터를 어떻게 구분하는가`입니다. 이 질문이 바로 내적(dot product), 길이(norm), 거리(distance), 유사도(similarity)로 이어집니다.
 
-행렬 곱이 `벡터를 결합해 새 값을 만드는 계산`이라면, 내적과 거리와 유사도는 `벡터를 비교하는 계산`입니다. 그래서 벡터를 만든 다음에는, 그 벡터를 어떤 기준으로 읽을지까지 함께 붙잡아야 합니다. 용어를 다시 빠르게 확인할 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 봅니다.
+행렬 곱이 `벡터를 결합해 새 값을 만드는 계산`이라면, 내적과 거리와 유사도는 `벡터를 비교하는 계산`입니다. 그래서 벡터를 만든 다음에는, 그 벡터를 어떤 기준으로 읽을지까지 함께 붙잡아야 합니다. 용어를 다시 빠르게 확인할 때는 [개념사전의 유사도 항목](../../../reference/concept-glossary-parts/08-ieung.md#similarity)도 함께 봅니다.
 
 ## 핵심 기준: 내적(dot product), 길이(norm), 거리(distance), 유사도(similarity)
 

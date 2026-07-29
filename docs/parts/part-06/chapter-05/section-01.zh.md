@@ -1,7 +1,7 @@
 # P6-5.1 从 decoder 基础的累积生成结构看 GPT 系列
 
 > Section ID: `P6-5.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 到这里为止，我们已经从 LLM 视角重新阅读了 Transformer，并确认了 context window 和 attention 的约束。现在，即使在同一个 Transformer 系列内部，也需要区分 `读取输入的流程` 和 `持续接着生成的流程`。
 

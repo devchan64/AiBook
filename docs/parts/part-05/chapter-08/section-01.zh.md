@@ -1,7 +1,7 @@
 # P5-8.1 如何给目标函数加约束：正则化（regularization）
 
 > Section ID: `P5-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-7 章里，我们已经看到 optimizer 是把 gradient 变成实际 update 的规则。但即使训练循环运转顺畅，也不意味着模型立刻就能在新数据上同样站得住。接下来的问题会马上出现。
 
@@ -11,7 +11,7 @@
 
 正则化，是在学习过程中加入约束或额外代价，好让模型不要只对训练数据过度贴合的想法。
 
-如果之后又把过拟合抑制和 normalization 混在一起，更适合回到概念词汇表里的 [regularization](/AiBook/reference/concept-glossary-parts/09-jieut/#regularization) 条目，重新对齐边界。
+如果之后又把过拟合抑制和 normalization 混在一起，更适合回到概念词汇表里的[正则化（regularization）](/AiBook/zh/reference/concept-glossary-pinyin/z/#regularization)，重新对齐边界。
 
 ## regularization 给目标函数加上的问题
 

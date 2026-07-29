@@ -1,13 +1,13 @@
 # P2-13.2 Basic Charts and Checking the Shape of Formulas
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-13.1, we treated a plot as a tool for checking the shape of numbers. Now we connect a few basic chart types directly.
 
 The core of this section is not "memorizing Matplotlib function names." It is building the sense of setting the question first and then choosing the chart that fits that question.
 
-This section explains the basic distinctions among the `line plot`, `scatter plot`, `histogram`, and `loss curve`. The representative explanation of the role of a `plot` itself and of `Figure` and `Axes` stays in P2-13.1 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here, we focus on which basic chart to choose first for which question.
+This section explains the basic distinctions among the `line plot`, `scatter plot`, `histogram`, and `loss curve`. The representative explanation of the role of a `plot` itself and of `Figure` and `Axes` stays in P2-13.1 and the [line plot glossary entry](/AiBook/en/reference/concept-glossary-alpha/l.en/#line-plot). Here, we focus on which basic chart to choose first for which question.
 
 ## Reading the Same Learning Scene with Different Questions
 

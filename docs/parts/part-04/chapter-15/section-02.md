@@ -1,31 +1,31 @@
 # P4-15.2 특징 중요도(feature importance)
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. 그러면 바로 다음 질문이 생깁니다.
+P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. 그러면 바로 다음 질문이 생깁니다.
 
 이 숲은 무엇을 중요하게 보고 판단했는가?
 
-이 질문이 특징 중요도(feature importance)의 출발점입니다.
+이 질문이 [특징 중요도(feature importance)](../../../reference/concept-glossary-parts/11-chieut.md#feature-importance)의 출발점입니다.
 
 특징 중요도는 모델이 어떤 특징을 더 자주, 더 크게 활용했는지 요약한 숫자이지만, 그 숫자를 곧바로 원인이나 진실의 순위라고 읽으면 위험하다.
 
 특징 중요도는 유용한 요약이지만, 해석의 함정도 함께 가진 도구입니다.
 
-이 절은 랜덤포레스트의 기본 정의를 다시 길게 반복하지 않습니다. `여러 트리의 합의로 흔들림을 줄인다`는 핵심 직관은 P4-15.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 그 숲이 무엇을 중요하게 보았는지 해석하는 문제에만 집중합니다.
+이 절은 랜덤포레스트의 기본 정의를 다시 길게 반복하지 않습니다. `여러 트리의 합의로 흔들림을 줄인다`는 핵심 직관은 P4-15.1과 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest) 항목을 기준으로 다시 연결하고, 여기서는 그 숲이 무엇을 중요하게 보았는지 해석하는 문제에만 집중합니다.
 
 ## 특징 중요도(feature importance)에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
 - 랜덤포레스트에서 특징 중요도는 어떻게 만들어지는가?
-- `feature_importances_`는 무엇을 뜻하는가?
-- impurity-based importance와 permutation importance는 어떻게 다른가?
+- [`feature_importances_`](../../../reference/concept-glossary-parts/11-chieut.md#feature-importance)는 무엇을 뜻하는가?
+- impurity-based importance와 [permutation importance](../../../reference/concept-glossary-parts/07-siot.md#permutation-importance)는 어떻게 다른가?
 - 왜 중요한 숫자처럼 보여도 오해를 만들 수 있는가?
-- PDP(partial dependence plot), SHAP는 중요도와 무엇이 다른 해석 질문을 던지는가?
-- 왜 중요도 해석을 바로 인과 추론(causal inference)으로 넘기면 안 되는가?
-- 상관 특성이 매우 강한 실제 데이터에서는 어떤 보수적 해석 전략이 필요한가?
+- [PDP(partial dependence plot)](../../../reference/concept-glossary-parts/06-bieup.md#partial-dependence-plot-pdp), [SHAP](../../../reference/concept-glossary-parts/07-siot.md#shap)는 중요도와 무엇이 다른 해석 질문을 던지는가?
+- 왜 중요도 해석을 바로 [인과 추론(causal inference)](../../../reference/concept-glossary-parts/08-ieung.md#causal-inference)으로 넘기면 안 되는가?
+- [상관 특성(correlated features)](../../../reference/concept-glossary-parts/07-siot.md#correlated-features)이 매우 강한 실제 데이터에서는 어떤 보수적 해석 전략이 필요한가?
 
 이 절은 중요도 해석의 바깥 경계만 남기는 데서 끝내지 않고, `숫자 요약만으로 부족할 때 무엇을 더 봐야 하는가`, `왜 원인 해석과 구분해야 하는가`, `상관이 강할 때 어떻게 더 보수적으로 읽어야 하는가`까지는 현재 절 안에서 함께 잡아 둡니다.
 
@@ -40,9 +40,9 @@ P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모�
 ## 특징 중요도(feature importance)에서 남길 판단 기준
 
 - 특징 중요도를 `모델 내부 사용량의 요약`으로 설명할 수 있습니다.
-- impurity-based importance(MDI)와 permutation importance를 구분할 수 있습니다.
+- [impurity-based importance(MDI)](../../../reference/concept-glossary-parts/13-pieup.md#mean-decrease-in-impurity-mdi)와 [permutation importance](../../../reference/concept-glossary-parts/07-siot.md#permutation-importance)를 구분할 수 있습니다.
 - 특징 중요도가 곧 인과관계(causality)나 진짜 원인 순위를 뜻하지 않는다는 점을 설명할 수 있습니다.
-- 상관 특성(multicollinear or correlated features)과 high-cardinality feature가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
+- [상관 특성(multicollinear or correlated features)](../../../reference/concept-glossary-parts/07-siot.md#correlated-features)과 [high-cardinality feature](../../../reference/concept-glossary-parts/01-giyeok.md#high-cardinality-feature)가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
 
 ## 학습 배경
 
@@ -408,6 +408,9 @@ importance 숫자는 크고 작음이 분명해서, 독자가 곧바로 행동 �
 - 확인할 개념:
   - 중요도는 상대 비중이다
   - 값의 합은 1에 가깝다
+- 조작해 볼 값:
+  - `n_estimators`를 50, 200, 500으로 바꿔 중요도 순위가 얼마나 흔들리는지 본다.
+  - `random_state`를 바꿔도 큰 흐름이 유지되는지 본다.
 
 ```python
 # 랜덤포레스트의 feature_importances_로 MDI 기반 특징 중요도를 읽는 예제입니다.
@@ -475,6 +478,11 @@ sum: 1.0
 
 - MDI와 permutation importance는 같은 값을 내놓지 않는다
 - 두 숫자가 다르면 계산 방식이 다른 것임을 먼저 떠올려야 한다
+
+조작해 볼 값:
+
+- `n_repeats`를 5, 20, 50으로 바꿔 permutation 결과의 흔들림을 본다.
+- `test_size`를 바꿔 평가 데이터 구성에 따라 permutation importance가 얼마나 달라지는지 본다.
 
 ```python
 # 같은 모델에서 MDI와 permutation importance를 나란히 비교하는 예제입니다.
@@ -587,7 +595,7 @@ petal width (cm)        0.430        0.189
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Permutation feature importance`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/permutation_importance.html](https://scikit-learn.org/stable/modules/permutation_importance.html){: target="_blank" rel="noopener noreferrer" }
-- Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, PhD Thesis, University of Liege, 2014. [https://arxiv.org/abs/1407.7502](https://arxiv.org/abs/1407.7502){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Permutation feature importance`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/permutation_importance.html](https://scikit-learn.org/stable/modules/permutation_importance.html){: target="_blank" rel="noopener noreferrer" }
+- Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, PhD Thesis, University of Liege, 2014, 확인 날짜: 2026-07-26. [https://arxiv.org/abs/1407.7502](https://arxiv.org/abs/1407.7502){: target="_blank" rel="noopener noreferrer" }

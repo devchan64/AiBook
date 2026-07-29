@@ -1,13 +1,13 @@
 # P2-8.4 循环（loop）：逐个处理 iterable
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P2-8.2 中，我们看过列表（list）；在 P2-8.3 中，我们看过字典（dictionary）。现在把“把这些集合一个个处理掉”的循环（loop）单独拿出来看。
 
 与其把 Python 的循环读成“重复多少次”，不如读成“从什么里面一个一个拿出什么”。这样结构会更清楚。本节会把 iterable、iterator、循环模式整理到基础概念的层面。
 
-这里会说明 `循环（loop）`、`iterable`、`iterator` 的基本区分。`列表（list）` 和 `字典（dictionary）` 的代表性说明放在 P2-8.2、P2-8.3 和 [概念词典](/AiBook/reference/concept-glossary/)，而这里集中处理的是：如何从这些集合里把值一个个拿出来，转成处理流程。
+这里会说明 `循环（loop）`、`iterable`、`iterator` 的基本区分。`列表（list）` 和 `字典（dictionary）` 的代表性说明放在 P2-8.2、P2-8.3 和 [循环词条](/AiBook/zh/reference/concept-glossary-pinyin/l.zh/#loop)，而这里集中处理的是：如何从这些集合里把值一个个拿出来，转成处理流程。
 
 循环并不是只有 Python 才有的语法。在数据处理、统计计算、模型评估中，几乎总是要把多个项目按同一个标准逐个处理。Python 的 `for` 只是把这种一般流程表现成一种容易读懂的形式。
 
@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[label] = label_counts.get(label, 0) + 1
+    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```

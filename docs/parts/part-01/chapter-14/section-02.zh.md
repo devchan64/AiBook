@@ -1,7 +1,7 @@
 # P1-14.2 RAG 与工具使用的位置
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P1-14.1 中，我们把 AI 服务看成 `模型(model)`、`应用(application)`、`数据(data)`、`工具(tool)`、`编排(orchestration)` 的组合。接下来要区分其中两个最容易混淆的部分。
 

@@ -1,29 +1,29 @@
 # P4-15.3 OOB(out-of-bag)와 랜덤포레스트 점검
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. P4-15.2에서는 그 숲이 무엇을 중요하게 보았는지, 즉 특징 중요도(feature importance)를 조심해서 읽는 법을 보았습니다.
+P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. P4-15.2에서는 그 숲이 무엇을 중요하게 보았는지, 즉 [특징 중요도(feature importance)](../../../reference/concept-glossary-parts/11-chieut.md#feature-importance)를 조심해서 읽는 법을 보았습니다.
 
 그러면 이제 남는 질문은 이것입니다.
 
 이 숲이 정말 괜찮게 학습되고 있는지는 어떻게 점검할 수 있을까?
 
-랜덤포레스트에서는 이 질문에 대해 먼저 만나는 손잡이 중 하나가 OOB(out-of-bag)입니다.
+랜덤포레스트에서는 이 질문에 대해 먼저 만나는 손잡이 중 하나가 [OOB(out-of-bag)](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)입니다.
 
-OOB는 bootstrap에 뽑히지 않은 샘플을 이용해, 랜덤포레스트가 학습 중에 스스로를 거칠게 점검하는 내부 검증 방식이다.
+OOB는 [bootstrap](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap)에 뽑히지 않은 샘플을 이용해, 랜덤포레스트가 학습 중에 스스로를 거칠게 점검하는 내부 검증 방식이다.
 
 즉, OOB는 `새로운 모델`이 아니라, 랜덤포레스트를 읽고 점검하는 방법입니다.
 
-이 절도 랜덤포레스트의 기본 구조를 다시 길게 설명하지 않습니다. 핵심 직관은 P4-15.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 bootstrap과 OOB가 점검 장치로 어떻게 이어지는지에만 집중합니다.
+이 절도 랜덤포레스트의 기본 구조를 다시 길게 설명하지 않습니다. 핵심 직관은 P4-15.1과 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest) 항목을 기준으로 다시 연결하고, 여기서는 bootstrap과 OOB가 점검 장치로 어떻게 이어지는지에만 집중합니다.
 
 ## OOB(out-of-bag)와 랜덤포레스트 점검에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
-- OOB(out-of-bag)는 왜 생기는가?
-- bootstrap과 OOB는 어떤 관계인가?
-- `oob_score=True`는 무엇을 뜻하는가?
+- [OOB(out-of-bag)](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)는 왜 생기는가?
+- [bootstrap](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap)과 OOB는 어떤 관계인가?
+- [`oob_score=True`](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)는 무엇을 뜻하는가?
 - OOB 점수는 train accuracy, validation score, test score와 어떻게 다른가?
 - OOB를 어디까지 믿고, 어디서 멈춰야 하는가?
 
@@ -31,8 +31,8 @@ OOB의 바깥 경계는 아래 정도만 잡아 두면 충분합니다.
 
 | 항목 | 현재 본편에서의 회수 상태 |
 | --- | --- |
-| 교차검증(cross-validation)의 모든 변형 | 교차검증의 기본 역할은 P4-9.1, P4-9.3에서 다시 연결하지만, 모든 변형을 이 절에서 대신 설명하지는 않습니다. |
-| 확률 보정(calibration)과 threshold 조정 | threshold와 calibration의 기본 감각은 P4-6.4, threshold 정책은 P4-11.1에서 다시 이어지지만, OOB 절에서 그 세부를 함께 전개하지는 않습니다. |
+| [교차검증(cross-validation)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation)의 모든 변형 | 교차검증의 기본 역할은 P4-9.1, P4-9.3에서 다시 연결하지만, 모든 변형을 이 절에서 대신 설명하지는 않습니다. |
+| [확률 보정(calibration)](../../../reference/concept-glossary-parts/06-bieup.md#calibration)과 [threshold](../../../reference/concept-glossary-parts/08-ieung.md#threshold) 조정 | threshold와 calibration의 기본 감각은 P4-6.4, threshold 정책은 P4-11.1에서 다시 이어지지만, OOB 절에서 그 세부를 함께 전개하지는 않습니다. |
 | 그래디언트 부스팅의 OOB 성격 차이 | 부스팅의 점검 감각은 P4-16.1, P4-16.2에서 validation과 early stopping 쪽으로 다시 이어지지만, OOB와의 세부 대비를 이 절에서 길게 다루지는 않습니다. |
 
 즉, 이 절은 OOB를 `랜덤포레스트의 내부 점검판`으로 고정하는 데 집중하고, 더 넓은 평가 절차와 점수 운영 정책은 후속 절에서 질문별로 나누어 다시 읽는 편이 가장 자연스럽습니다.
@@ -130,7 +130,7 @@ scikit-learn 문서와 예제 설명은 OOB error가 random forest를 학습시�
 
 - 작은 실험을 빠르게 반복할 수 있습니다.
 - train score만 보는 실수를 줄일 수 있습니다.
-- 트리 수(`n_estimators`)를 늘릴 때 상태가 어떻게 바뀌는지 빨리 점검할 수 있습니다.
+- 트리 수([`n_estimators`](../../../reference/concept-glossary-parts/02-nieun.md#n-estimators))를 늘릴 때 상태가 어떻게 바뀌는지 빨리 점검할 수 있습니다.
 
 즉, OOB는 `정식 평가의 종착점`이라기보다 `빠른 내부 점검판`에 가깝습니다.
 
@@ -179,7 +179,7 @@ OOB는 모든 평가를 대체하지는 않지만, 랜덤포레스트 실험 초
 
 예를 들어:
 
-- train은 매우 높고 OOB와 test가 많이 낮으면: 과적합(overfitting)을 의심할 수 있습니다.
+- train은 매우 높고 OOB와 test가 많이 낮으면: [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)을 의심할 수 있습니다.
 - train, OOB, test가 모두 비슷하게 낮으면: 표현력 부족이나 데이터 한계를 의심할 수 있습니다.
 - train은 높고 OOB와 test가 비슷하게 따라오면: 비교적 안정적인 상태로 읽을 수 있습니다.
 
@@ -196,6 +196,9 @@ OOB는 모든 평가를 대체하지는 않지만, 랜덤포레스트 실험 초
   - OOB는 `oob_score_`로 읽는다
   - OOB는 train과 test 사이에서 내부 점검 역할을 한다
   - 세 점수의 간격을 같이 본다
+- 조작해 볼 값:
+  - `n_estimators`를 100, 300, 600으로 바꿔 OOB와 test 간격이 안정되는지 본다.
+  - `random_state`를 바꿔도 train/OOB/test 패턴이 유지되는지 본다.
 
 ```python
 # 유방암 분류에서 train, OOB, test 점수를 함께 출력해 간격을 읽는 예제입니다.
@@ -262,6 +265,11 @@ n_estimators  : 300
 
 - 트리 수가 늘면 보통 OOB가 어느 정도 안정되는 방향을 볼 수 있다
 - 무조건 트리를 많이 늘린다고 모든 문제가 해결되지는 않는다
+
+조작해 볼 값:
+
+- `[10, 50, 100, 300]` 목록에 600을 추가해 개선 폭과 계산 비용을 같이 본다.
+- `max_depth`를 제한한 경우와 제한하지 않은 경우의 train/OOB/test 간격을 비교한다.
 
 ```python
 # n_estimators를 바꾸며 OOB 점수와 test 점수가 어떻게 움직이는지 비교하는 예제입니다.
@@ -430,5 +438,5 @@ OOB는 숫자 하나만 적고 지나가면 금방 의미가 흐려집니다. �
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }

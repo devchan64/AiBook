@@ -1,15 +1,15 @@
 # P4-2.1 Supervised Learning
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-1.2 treated machine learning as `an approach that estimates the relation between input and output from data`. Now we look at the first form people usually meet inside it: supervised learning.
+P4-1.2 treated [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) as `an approach that estimates the relation between input and output from data`. Now we look at the first form people usually meet inside it: [supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning).
 
-Supervised learning is a way of training a model on examples that already have a label or target value. Here a label is not just a name tag. It is the output the model is supposed to match. Because the examples show what result should come out when a given input is provided, the word `supervised` is used.
+Supervised learning is a way of training a model on examples that already have a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) or [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) value. Here a label is not just a name tag. It is the output the model is supposed to match. Because the examples show what result should come out when a given input is provided, the word `supervised` is used.
 
 Supervised learning can be read as `a way of looking at examples that contain both an example and its answer, then trying to match the output of a new case`. But the model does not understand an explanation. It adjusts internal criteria so that the relation between input and output is matched across many examples.
 
-This Section explains the basic distinction among `supervised learning`, `input X and target y`, `classification`, and `regression`. Later Sections continue the current context using this handle, and the base meaning of label-based learning is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic distinction among `supervised learning`, `input X and target y`, [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification), and [regression](/AiBook/en/reference/concept-glossary-alpha/r/#regression). Later Sections continue the current context using this handle, and the base meaning of label-based learning is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
@@ -17,7 +17,7 @@ This Section explains the basic structure of supervised learning. Individual alg
 
 - What are the input and label in supervised learning?
 - How are classification and regression different?
-- How do training, evaluation, and prediction connect?
+- How do [training](/AiBook/en/reference/concept-glossary-alpha/t/#training), [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation), and [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) connect?
 - Does having labels mean the model already knows the right answer?
 - What is the first misunderstanding to avoid in supervised learning?
 
@@ -218,5 +218,6 @@ The checkable result appears in evaluation on inquiries not used for learning. I
 
 ## Sources And References
 
-- Google, `Machine Learning Glossary`, entries including `supervised learning`, `label`, `classification`, and `regression`, accessed 2026-07-10. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, accessed 2026-07-10. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
+- Google, `Machine Learning Glossary`, entries including `supervised learning`, `label`, `classification`, and `regression`, accessed 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Supervised Learning`, Machine Learning, accessed 2026-07-26. [https://developers.google.com/machine-learning/intro-to-ml/supervised](https://developers.google.com/machine-learning/intro-to-ml/supervised){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }

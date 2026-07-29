@@ -1,11 +1,11 @@
-# P6-1.3 Generation Is Repeated Candidate Distributions And Selection
+# P6-1.3 Generation Is Repeated Candidate Distributions and Selection
 
 > Section ID: `P6-1.3`
-> Version: `v2026.07.22`
+> Version: `v2026.07.26`
 
 The core sense of generative models covered in Part 5 was the flow of `creating candidates and choosing one of them`. An LLM also does not pull out a finished sentence all at once. It creates the next candidates from the current context, appends the selected piece back to the context, and then creates the next candidates again.
 
-## Look At The Next Candidate Before The Finished Sentence
+## Look at the Next Candidate Before the Finished Sentence
 
 Users usually see the completed answer. That makes it easy to feel as if the LLM retrieved a sentence stored somewhere. But to understand generation, we must put the finished answer aside for a moment and first ask, `What can come next in the current context?`
 
@@ -38,7 +38,7 @@ Even with the same starting sentence, once one selection differs, the direction 
 --8<-- "assets/part-06/chapter-01/p6-c01-s03-generation-loop-en.mmd"
 ```
 
-## Cases And Examples
+## Cases and Examples
 
 Even a small change in the user request changes the candidate distribution.
 
@@ -61,7 +61,7 @@ Compare the following two starting sentences.
 
 Both contexts talk about a shipping delay, but the role of what is needed next differs. The first context leads into an explanation of the cause, and the second leads into a customer-response action. When context changes like this, the candidate distribution changes, and when the candidate distribution changes, the actual generated result also changes.
 
-## Exercises And Examples
+## Exercises and Examples
 
 Compare how the next candidates may differ in the following two contexts.
 

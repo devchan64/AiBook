@@ -1,7 +1,7 @@
 # P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
 Once the sample unit has been fixed as something like one full action or one recent segment, one more question remains that is easy to miss. `How well does the sample set we collected represent the overall operating situation?` Even if the table itself is well organized, if the cases in it were gathered only from a specific process mode, a specific time period, or a specific equipment state, then the table may fail to describe the overall operating scene evenly. Choosing the sample unit correctly and having a sample bundle that evenly represents the whole situation are not the same thing.
 

@@ -1,11 +1,11 @@
 # P3-6.6 Same Column Name, Different Feature
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _Subtitle: Why can a column with the same name become a different feature when its measurement rule or unit changes?_
 
-There is one more trap that is easy to miss while designing features. It appears the moment we think `if the column name is the same, it must be the same feature`. But in real data, even under the same name `flow_mean`, the sensor version may have changed, the unit may have changed, or the calculation rule may have changed. Once such changes happen, the numbers may still exist, yet it becomes difficult to say that it is still the same feature.
+There is one more trap that is easy to miss while designing [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature). It appears the moment we think `if the column name is the same, it must be the same feature`. But in real data, even under the same name `flow_mean`, the sensor version may have changed, the unit may have changed, or the calculation rule may have changed. Once such changes happen, the numbers may still exist, yet it becomes difficult to say that it is still the same feature.
 
 A feature should be judged as the same feature not by column name alone, but by including `what quantity was measured under what rule and in what unit`.
 
@@ -79,7 +79,7 @@ Once it is no longer the same feature, the baseline comparison in Chapter 7 also
 | The difference stayed large after maintenance | The baseline group and the measurement definition may have changed |
 | Variability grew from a certain point onward | The segment-calculation rule may have changed |
 
-So a baseline is not only a same-group comparison. It should also be a `same feature-definition` comparison. Leaving this note behind lets us check first `did different feature definitions get mixed together?` before jumping to the conclusion that `the model is strange`.
+So a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is not only a same-group comparison. It should also be a `same feature-definition` comparison. Leaving this note behind lets us check first `did different feature definitions get mixed together?` before jumping to the conclusion that `the model is strange`.
 
 ## Small Code Example
 
@@ -219,7 +219,7 @@ The purpose of this example is not to calculate a new feature. It is to check fi
 
 The last three things to check here are the following. Are the unit and calculation rule written down? Did we distinguish version changes or sensor changes? Did we mark definition differences that must not be mixed into the same baseline and partition? Only when these three conditions stand together does a feature table remain not as a simple bundle of numbers, but as a structure with comparable definitions attached. Checking whether the current feature table compares only columns that still mean the same thing is exactly the center of this section.
 
-If the measurement unit, sensor version, or calculation rule changes, then the same column name may no longer mean the same feature, so Part 3 should check feature-definition sameness before looking at the numbers. This section can be read not as a trick for managing column names, but as the problem of `feature-definition identity`.
+If the measurement unit, sensor version, or calculation rule changes, then the same column name may no longer mean the same feature, so Part 3 should check feature-definition sameness before looking at the numbers. This section can be read not as a trick for managing column names, but as the problem of [feature-definition identity](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature-definition-identity).
 
 
 So feature identity should be read not as one line of column name, but as a definition bundle that includes what was built under what rule and version.

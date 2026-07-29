@@ -1,7 +1,7 @@
 # P5-11.1 卷积神经网络（CNN）的直觉
 
 > Section ID: `P5-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-10 章里，我们已经看到：深层神经网络会随着层数增加，学到更有用的表征（representation）。现在如果把这个视角进一步收缩到图像，就会自然出现下一个问题。
 
@@ -11,7 +11,7 @@
 
 卷积神经网络不是把整张图像一次性用同一种方式看完，而是反复观察小的局部模式（local pattern），并从中学出更大的视觉结构的神经网络。
 
-当需要重新确认如何理解图像结构的基本定义时，可以回到概念词汇表里的[卷积神经网络（CNN, convolutional neural network）](/AiBook/reference/concept-glossary-parts/14-hieut/#cnn-convolutional-neural-network)条目重新对齐。
+当需要重新确认如何理解图像结构的基本定义时，可以回到概念词汇表里的[卷积神经网络（CNN, convolutional neural network）](/AiBook/zh/reference/concept-glossary-pinyin/c/#cnn-convolutional-neural-network)重新对齐。
 
 ## CNN 为什么适合图像的问题
 

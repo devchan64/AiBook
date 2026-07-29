@@ -1,7 +1,7 @@
 # P2-7.4 Virtual Environments and Packages
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-7.3, we looked at ways to run Python code. Now we move to a slightly more realistic problem.
 
@@ -95,7 +95,7 @@ So people usually separate things like this.
 
 Rather than sharing the virtual environment itself, it is safer to record which packages are needed and make them installable again. That problem continues in P2-7.5, which covers dependency and reproducibility.
 
-## A Package Is a Bundle of Code You Bring In and Use
+## A Package Is a Bundle of Code You Bring in and Use
 
 A package is a bundle of code distributed so that you can bring it into Python and use it. Tools such as NumPy, Pandas, and Matplotlib belong here.
 
@@ -143,7 +143,7 @@ Here, we distinguish them like this.
 - `install`: prepare the package in my execution environment
 - `import`: use that package in the current Python code
 
-## The Place Where You Installed It and the Place Where You Run It Must Match
+## Place Where You Installed It and the Place Where You Run It Must Match
 
 There is an error you encounter often.
 

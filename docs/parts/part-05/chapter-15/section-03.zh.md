@@ -1,7 +1,7 @@
 # P5-15.3 采样（sampling）怎样从候选分布中取出实际输出
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P5-15.2 中，我们已经看到：生成模型（generative model）不是背下一个正确答案再取出来，而是把可能输出候选的相对可信度保留成候选分布。接下来就会自然出现一个问题。
 
@@ -9,7 +9,7 @@
 
 sampling 是模型从多个它认为可信的候选里，一次取出一个实际输出的过程，而这种方式会直接影响结果的多样性与稳定性。
 
-当你需要重新区分“模型分数”和“实际输出选择”时，可以回到概念词汇表里的 [sampling](/AiBook/reference/concept-glossary-parts/07-siot/#sampling) 条目。
+当你需要重新区分“模型分数”和“实际输出选择”时，可以回到概念词汇表里的[采样（sampling）](/AiBook/zh/reference/concept-glossary-pinyin/s/#sampling)。
 
 ## 候选分布和实际输出选择不同
 

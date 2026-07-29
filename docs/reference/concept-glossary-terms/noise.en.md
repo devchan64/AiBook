@@ -6,3 +6,4 @@
 - Why it matters: It keeps readers from treating every observed value as useful signal and supports input-quality diagnosis.
 - Related concepts: `uncertainty`, `partial observability`, `error`
 - Core Section: `P1-6.1`
+- Appears in: `P4-5.1`, `P4-7.1`

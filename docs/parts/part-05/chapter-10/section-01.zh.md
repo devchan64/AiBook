@@ -1,7 +1,7 @@
 # P5-10.1 表征学习（representation learning）
 
 > Section ID: `P5-10.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 走到 P5-9 章时，我们已经看到：深度学习会按 batch 重复大规模 tensor 计算，并且依靠 GPU 和并行处理，才扩散到真正实用的规模。现在如果把问题重新转回模型内部，就会自然冒出下一个提问。
 
@@ -11,7 +11,7 @@
 
 表征学习，指的是：不再由人逐项设计 feature，而是由模型自己从数据里学出有用的内部表征。
 
-如果后面在结构章节里又把`表征`和`表征学习`混在一起，更适合一起回到[英文概念词汇表里的 representation 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation)和[representation learning 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#representation-learning)重新对齐。
+如果后面在结构章节里又把`表征`和`表征学习`混在一起，更适合一起回到概念词汇表里的[表征（representation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation)和[表征学习（representation learning）](/AiBook/zh/reference/concept-glossary-pinyin/b/#representation-learning)重新对齐。
 
 ## representation learning 怎样改变特征的问题
 

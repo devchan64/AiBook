@@ -1,13 +1,13 @@
 # P3-5.7 여러 후속 사건을 접는 규칙
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나의 표 구조에 접어야 하는가_
 
-샘플 단위와 입력 창을 정한 뒤에도 표 구조에서 한 번 더 막히는 지점이 있습니다. 같은 샘플 뒤에 후속 사건이 여러 개 붙는 경우입니다. 예를 들어 동작 1회 뒤에 `재점검`, `경고`, `실패`, `재방문`이 차례로 남을 수 있습니다. 이때 이를 하나의 결과 열로 어떻게 접을지 정하지 않으면, 같은 샘플이 표마다 다른 뜻으로 바뀌기 쉽습니다.
+[샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위와 입력 창을 정한 뒤에도 표 구조에서 한 번 더 막히는 지점이 있습니다. 같은 샘플 뒤에 후속 사건이 여러 개 붙는 경우입니다. 예를 들어 동작 1회 뒤에 `재점검`, `경고`, `실패`, `재방문`이 차례로 남을 수 있습니다. 이때 이를 하나의 결과 열로 어떻게 접을지 정하지 않으면, 같은 샘플이 표마다 다른 뜻으로 바뀌기 쉽습니다.
 
-후속 사건이 여러 개라면 어떤 규칙으로 하나의 표 구조에 접었는지 먼저 적어야 합니다.
+후속 사건이 여러 개라면 어떤 [접기 규칙(folding rule)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-folding-rule)으로 하나의 표 구조에 접었는지 먼저 적어야 합니다.
 
 보통 아래 같은 접기 규칙이 생깁니다.
 
@@ -34,7 +34,7 @@ _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나�
 | B | 0 | review | 1 |
 | C | 0 | none | 0 |
 
-즉 같은 원천 사건을 보고 있어도 `무엇을 대표 결과로 둘 것인가`에 따라 표 구조가 달라집니다. 이 문제는 대표 결과를 어떤 규칙으로 접어 표에 남길지 먼저 정해야 하는 데이터 모델링 문제입니다.
+즉 같은 [원천 사건(source event)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-event)을 보고 있어도 `무엇을 대표 결과로 둘 것인가`에 따라 표 구조가 달라집니다. 이 문제는 대표 결과를 어떤 규칙으로 접어 표에 남길지 먼저 정해야 하는 데이터 모델링 문제입니다.
 
 아래 메모를 먼저 남겨 두면 이후 혼동이 줄어듭니다.
 
@@ -42,7 +42,7 @@ _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나�
 | --- | --- |
 | 어떤 후속 사건들을 한 묶음으로 보는가 | 표가 다루는 결과 범위를 고정하기 위해 |
 | `any`, `first`, `worst`, `count` 중 무엇으로 접었는가 | 결과 열의 뜻을 다시 설명하기 위해 |
-| 접은 결과가 보고용인지 예측 후보용인지 | 비교 리포트와 target 후보를 섞지 않기 위해 |
+| 접은 결과가 보고용인지 예측 후보용인지 | 비교 리포트와 목표 라벨 후보(target candidate)를 섞지 않기 위해 |
 
 작은 예시:
 
@@ -54,7 +54,7 @@ _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나�
 
 기대 출력(output): 같은 원천 사건에서도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 다르게 만들어지는 출력. `failure_severity_cutoffs`를 바꾸면 실패 후보 샘플 수와 샘플 목록이 달라진다.
 
-확인할 개념: 후속 사건 여러 개를 하나의 결과 열로 접을 때는 어떤 규칙과 기준으로 접었는지 먼저 명세해야 표 구조 뜻이 흔들리지 않는다
+확인할 개념: 후속 사건 여러 개를 하나의 결과 열로 접을 때는 어떤 접기 규칙과 [임계값(threshold)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-threshold) 기준으로 접었는지 먼저 명세해야 표 구조 뜻이 흔들리지 않는다
 
 ```python
 # 같은 샘플 뒤의 여러 후속 사건을 표 구조에 맞게 접고 대표 라벨을 정하는 예제입니다.
@@ -226,7 +226,7 @@ sample_id      first_event      worst_event  worst_severity  event_count        
                        2                    21 S01,S02,S04,S05,S07,S08,S10,S11,S12,S13,S16,S17,S18,S19,S21,S22,S24,S25,S26,S28,S29
 ```
 
-이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 서로 다른 결과 열로 만들어질 수 있다는 점입니다. S01은 첫 후속 사건이 `review`이지만 가장 심한 사건은 `failure`이고, S02는 첫 사건이 `review`이지만 가장 심한 사건은 `warning`입니다. S30처럼 후속 사건이 없는 샘플도 샘플 명단에는 있으므로 `none`과 0으로 접혀 최종 표에 남습니다. 여기서 조작할 값은 `selected_failure_severity_cutoff`와 `failure_severity_cutoffs`입니다. 기준을 4로 두면 `failure`가 있는 S01, S07, S13, S19, S25만 실패 후보가 되지만, 3으로 낮추면 `warning`이 가장 심한 샘플들도 실패 후보에 들어갑니다. 2로 낮추면 `review`나 `inspection`이 가장 심한 샘플까지 포함됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 후속 사건 로그도 표마다 다른 뜻으로 읽히게 됩니다.
+이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 서로 다른 결과 열로 만들어질 수 있다는 점입니다. S01은 첫 후속 사건이 `review`이지만 가장 심한 사건은 `failure`이고, S02는 첫 사건이 `review`이지만 가장 심한 사건은 `warning`입니다. S30처럼 후속 사건이 없는 샘플도 샘플 명단에는 있으므로 `none`과 0으로 접혀 최종 표에 남습니다. 여기서 조작할 값은 `selected_failure_severity_cutoff`와 `failure_severity_cutoffs`입니다. 기준을 4로 두면 `failure`가 있는 S01, S07, S13, S19, S25만 실패 후보가 되지만, 3으로 낮추면 `warning`이 가장 심한 샘플들도 실패 후보에 들어갑니다. 2로 낮추면 `review`나 `inspection`이 가장 심한 샘플까지 포함됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 후속 사건 로그도 표마다 다른 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 뜻으로 읽히게 됩니다.
 
 ## 작은 도식으로 보기
 

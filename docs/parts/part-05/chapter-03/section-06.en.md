@@ -1,7 +1,7 @@
-# P5-3.6 Choosing Output Layers And Activation
+# P5-3.6 Choosing Output Layers and Activation
 
 > Section ID: `P5-3.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-3.1, we saw why activation functions are needed, and from P5-3.2 through P5-3.5 we looked separately at the sigmoid, tanh, ReLU, and the formula comparison of representative functions. Once you reach this point, the next question appears naturally.
 
@@ -11,9 +11,9 @@ This question connects directly to the loss function. So this section is both th
 
 The activation in the output layer changes depending on what the model is trying to predict, and it is chosen to match what meaning the output value should have.
 
-If the criteria for output interpretation and activation choice become blurry again, reread together the [output](/AiBook/en/reference/concept-glossary-alpha/o/#output) and [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entries in the concept glossary.
+If the criteria for output interpretation and activation choice become blurry again, reread together the [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output), [output layer](/AiBook/en/reference/concept-glossary-alpha/m/#model-output-layer), [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function), and [softmax](/AiBook/en/reference/concept-glossary-alpha/s/#softmax) entries in the concept glossary.
 
-## The Question Of Choosing Output-Layer Activation
+## The Question of Choosing Output-Layer Activation
 
 - Why should hidden-layer activation and output-layer activation not be treated as the same problem?
 - How should the output layer be read in regression, binary classification, and multiclass classification?
@@ -22,14 +22,14 @@ If the criteria for output interpretation and activation choice become blurry ag
 
 The design of loss functions themselves continues in P5-4.1 and P5-4.2, while the basic reading of calibration and probability-like outputs reconnects in P4-6.4. In other words, this section is the place to first close `what unit the final number should be read in` for the output-layer activation.
 
-## Standards For Prediction Targets And Loss Connections
+## Standards for Prediction Targets and Loss Connections
 
 - You can explain that choosing the output-layer activation connects to `what the model is predicting`.
 - You can read the output layer differently in regression, binary classification, and multiclass classification.
 - You can understand that output-layer activation and the loss function do not float separately.
 - You can distinguish what unit the final number should be read in depending on the output form.
 
-## Why Must Hidden Layers And Output Layers Be Read Differently
+## Why Must Hidden Layers and Output Layers Be Read Differently
 
 Activation in a hidden layer is mainly related to `the nonlinearity that makes representation richer`. By contrast, activation in the output layer connects more directly to `what meaning the final value must carry`.
 
@@ -44,7 +44,7 @@ Here it is enough to understand it through the following distinction.
 
 This distinction matters because the roles can easily get mixed under the same name, activation function. In the hidden layer, the central question is `can it create a more complex representation?` In the output layer, the central question is `how should this number be read as a candidate answer?` So the choice of output layer is tied more directly to the meaning of the prediction target and the interpretation of the loss than to the convenience of internal computation.
 
-## The Output Layer Is Chosen To Match The Prediction Target
+## The Output Layer Is Chosen to Match the Prediction Target
 
 If the target that the model is trying to predict changes, then the required form of the final output also changes.
 
@@ -56,7 +56,7 @@ For example:
 
 In other words, the output layer is not just `the last node`. It is `the place where the problem definition decides the shape of the output value`.
 
-## How Should It Be Read In Regression
+## How Should It Be Read in Regression
 
 In regression problems, the prediction is a continuous numerical value. For example, the model may predict:
 
@@ -68,7 +68,7 @@ In this case, it is common to leave the output layer as a linear output rather t
 
 `If a continuous value has to be predicted directly, it is more natural for the output to remain as unchanged as possible.`
 
-## How Should It Be Read In Binary Classification
+## How Should It Be Read in Binary Classification
 
 Binary classification is the problem of choosing one of two options.
 
@@ -90,7 +90,7 @@ In practice, a threshold policy follows behind it. For example:
 
 So the number in the output layer and the final service decision must be distinguished.
 
-## How Should It Be Read In Multiclass Classification
+## How Should It Be Read in Multiclass Classification
 
 Multiclass classification is the problem where there are three or more candidates.
 
@@ -115,7 +115,7 @@ If this is drawn very simply, it becomes the following.
 
 This diagram helps the reader read the multiclass output layer as `a structure that creates scores and then compares them`. Softmax is not just making the numbers look neat. It is the stage that reveals which class is relatively stronger among the candidates.
 
-## Are Score, Logit, And A Probability-Like Value The Same
+## Are Score, Logit, and a Probability-Like Value the Same
 
 There are three expressions that often confuse readers here.
 
@@ -135,7 +135,7 @@ This distinction matters because it connects directly to the next chapter on los
 
 Here it is enough to fix first that `a logit is still a score before interpretation`, while `the value after activation is in a form that is easier for a person to read`. Without this distinction, even the same number can easily be confused between a value for internal comparison inside the model and a value that may be read like a probability.
 
-## Why Must Output-Layer Activation And Loss Functions Be Read Together
+## Why Must Output-Layer Activation and Loss Functions Be Read Together
 
 If output-layer activation is chosen alone, the explanation stays only half full. That is because the loss function is the device that reads `how far the output differs from the correct answer`.
 
@@ -149,7 +149,7 @@ For example:
 
 In other words, it is safer to see the output layer and the loss function not as things to memorize separately, but as `a paired design`.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case 1. Price Prediction
 
@@ -212,7 +212,7 @@ So what should be read first in these graphs is not the decoration of the curves
 
 What the reader should hold first in this table is that choosing output-layer activation is not choosing a function name, but fixing first `the meaning of the final output that will be compared with the correct answer`.
 
-## Practice And Exercise
+## Practice and Exercise
 
 Even when the values look like similar numbers, the output layer has to be read differently depending on the problem type. If the following three scenes are placed together, the difference becomes clearer.
 
@@ -275,7 +275,7 @@ The point that especially needs care in this flow is the case where service poli
 - When you find yourself explaining hidden layers and output layers the same way just because they both use activation functions, can you separate out the problem of output interpretation first?
 - When it is easy to mistake sigmoid or softmax output for the service policy itself, can you bring out the view that separates model score from operational decision?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

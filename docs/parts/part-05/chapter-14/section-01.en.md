@@ -1,7 +1,7 @@
 # P5-14.1 Why Attention Alone Does Not Close the Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: Why should the Transformer be read as a block structure, not just as self-attention?_
 
@@ -11,7 +11,7 @@ Is it enough to say that the Transformer is a model that uses self-attention?
 
 It is not enough. The Transformer is a block structure that reads relationships through self-attention, reprocesses each position representation through a feed-forward network, and stabilizes deep repeated computation through residual connections and layer normalization. We need to hold this difference so that, later, when reading about parallel processing, long context, and LLM structure, we do not end the explanation with only `it has attention`.
 
-## Question Handled By The Basic Transformer Problem
+## Question Handled by the Basic Transformer Problem
 
 - If self-attention is central to the Transformer, why does the explanation not end there?
 - As what bundle of roles should a Transformer block be read?
@@ -24,7 +24,7 @@ The question to close first here is not `what parts does the Transformer have`, 
 | the standard for reading the Transformer as a block structure, not as self-attention alone | the detailed role of each component and the representation update process |
 | the feel that relationship reading, position-wise processing, and stable transfer are all needed together | parallel processing, direct rereference in long context, and the connection to generative models |
 
-## What Is Missing With Self-Attention Alone?
+## What Is Missing with Self-Attention Alone?
 
 Self-attention is strong at deciding which other tokens the current token should refer to more. But once the model becomes deep, the next questions immediately follow.
 
@@ -36,7 +36,7 @@ If these questions are left open, the Transformer is understood only as `a model
 
 `The Transformer is a structure that bundles self-attention's relationship reading, feed-forward's position-wise representation processing, and stable transfer into one repeatable block.`
 
-## First Seeing The Basic Block As A Big Picture
+## First Seeing the Basic Block as a Big Picture
 
 At an introductory level, it is enough to distinguish four elements first.
 
@@ -55,7 +55,7 @@ These four are not a scattered list of parts. They are usually bundled as a repe
 
 What matters in this diagram is not one attention computation, but the fact that the same bundle repeats again in the next block. So in P5-14.1, before the detailed calculation, we first hold the standard that `relationship reading`, `representation processing`, and `stable transfer` are bundled into one repeating unit.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. When Attention Alone Cannot Close An Action Judgment
 
@@ -84,7 +84,7 @@ The result of this case closes as follows.
 
 The result to confirm in this case is not `attention is important`. A more precise result is: `attention is central for reading relationships, but a Transformer explanation closes only when it also includes the structure in which that relationship changes the current representation and moves stably to the next block`.
 
-## Practice And Example
+## Practice and Example
 
 ### Practice. Rewrite An Attention-Only Explanation As A Block Explanation
 
@@ -117,7 +117,7 @@ Explanation: A good answer is not a sentence that memorizes many component names
 - Can you explain that self-attention's relationship reading and feed-forward's position-wise processing are both needed inside a repeated block?
 - Are you ready to read the next section as a closer look at how each component divides roles?
 
-## Sources And References
+## Sources and References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Jay Alammar, `The Illustrated Transformer`, checked on 2026-06-29. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }

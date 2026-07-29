@@ -1,15 +1,15 @@
 # P4-6.3 补充学习：在站点可靠性工程里如何读指标(metrics)
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-6.1 和 P4-6.2 里，我们看过 model evaluation metric。现在把视线稍微往外移一点。model 拟合得好，和服务运营得好，并不是同一句话。要理解这个差别，就有必要看一看在 SRE(site reliability engineering) 里，`metric` 这个词到底是怎么被使用的。
+在 P4-6.1 和 P4-6.2 里，我们看过 model [evaluation metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。现在把视线稍微往外移一点。model 拟合得好，和服务运营得好，并不是同一句话。要理解这个差别，就有必要看一看在 SRE(site reliability engineering) 里，`metric` 这个词到底是怎么被使用的。
 
 这一节不会代替 SRE 入门书。目的只有一个：把 `读取 model 质量的数字` 和 `读取服务状态的数字` 到底在哪里相似、又在哪里分开，作为补充学习整理出来。
 
 ## 本补充学习的范围
 
-这一节是把 machine-learning evaluation metric 和运营 metric 区分开的补充学习节。它会把 SLI(service level indicator)、SLO(service level objective)、SLA(service level agreement)、error budget，以及运营里常看的 latency、traffic、errors、saturation，用入门层次接起来。
+这一节是把 machine-learning evaluation metric 和运营 metric 区分开的补充学习节。它会把 SLI(service level indicator)、SLO(service level objective)、SLA(service level agreement)、error budget，以及运营里常看的 [latency](/AiBook/zh/reference/concept-glossary-pinyin/l/#latency)、traffic、errors、saturation，用入门层次接起来。
 
 这一节回答下面这些问题。
 
@@ -154,9 +154,9 @@ error budget 听起来很抽象。但实际上，它可以被读成一种标准�
 
 ### 为什么运营里会比平均值更看分布和百分位
 
-Google SRE Book 说明，在运营里，简单的 mean 很可能会把重要事实盖住。特别是 latency，只看平均值，很容易把长尾区间藏起来。
+Google SRE Book 说明，在运营里，简单的 [mean](/AiBook/zh/reference/concept-glossary-pinyin/m/#mean) 很可能会把重要事实盖住。特别是 latency，只看平均值，很容易把长尾区间藏起来。
 
-例如，平均响应时间即使是 100ms，只要有一部分请求会拖到 5 秒，用户仍然会觉得服务很慢。所以在运营里，经常会看 p95、p99 这样的 percentile。
+例如，平均响应时间即使是 100ms，只要有一部分请求会拖到 5 秒，用户仍然会觉得服务很慢。所以在运营里，经常会看 p95、p99 这样的 percentile。percentile 可以帮助读出整体 [distribution](/AiBook/zh/reference/concept-glossary-pinyin/d/#distribution) 里的尾部体验。
 
 可以先整理成下面这样。
 
@@ -528,5 +528,5 @@ case_B
 
 ## 出处与参考资料
 
-- Google SRE, `Service Level Objectives`, Site Reliability Engineering Book, 确认日期: 2026-06-26. [https://sre.google/sre-book/service-level-objectives/](https://sre.google/sre-book/service-level-objectives/){: target="_blank" rel="noopener noreferrer" }
-- Google SRE, `Monitoring Distributed Systems`, Site Reliability Engineering Book, 确认日期: 2026-06-26. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }
+- Google SRE, `Service Level Objectives`, Site Reliability Engineering Book, 确认日期: 2026-07-26. [https://sre.google/sre-book/service-level-objectives/](https://sre.google/sre-book/service-level-objectives/){: target="_blank" rel="noopener noreferrer" }
+- Google SRE, `Monitoring Distributed Systems`, Site Reliability Engineering Book, 确认日期: 2026-07-26. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }

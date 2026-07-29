@@ -1,13 +1,13 @@
 # P1-1.2 AI 处理的问题
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 1.1 中，我们先整理了 AI 这个词的范围。这一节要继续往前走，看 AI 在这样一个宽广范围里，实际反复处理的是哪些类型的问题。
 
 如果只把 AI 当成技术名字来读，规则式 AI、机器学习、深度学习、生成式 AI 彼此会像几个完全不同的世界。但如果改从问题形态来读，就会开始看见共同结构。大多数 AI 系统都会接收某种输入(input)，产生符合目标(objective)的输出(output)，并进一步影响人的判断或环境。
 
-在 Part 1 中，分类、预测、推荐、生成等问题类型的基准区分，就固定在这一节。后面再出现这些词时，只会保留当前问题所需的最小连接；如果需要重新拆分问题类型本身，就回到这一节，以及 [Concept Glossary (English)](/AiBook/reference/concept-glossary/)。
+在 Part 1 中，分类、预测、推荐、生成等问题类型的基准区分，就固定在这一节。后面再出现这些词时，只会保留当前问题所需的最小连接；如果需要重新拆分问题类型本身，就回到这一节，以及 [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)、[prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction)、[recommendation task](/AiBook/zh/reference/concept-glossary-pinyin/t/#recommendation-task)、[generation](/AiBook/zh/reference/concept-glossary-pinyin/g/#generation) 等词条。
 
 ## 通过输入和输出划分 AI 问题
 
@@ -25,21 +25,6 @@
 - 区分识别、搜索、预测、推荐、生成、控制等问题类型。
 - 理解同一个现实场景，会因问题定义不同而变成不同 AI 问题。
 
-## 先连起来的概念
-
-这一节也是和问题类型相关的术语第一次被系统放在一起的代表说明位置。下面这些概念先固定最短含义，之后再通过词汇表重新核对更完整定义。
-
-| 概念 | 这里先固定的意思 | 为什么现在需要 |
-| --- | --- | --- |
-| [recognition](/AiBook/reference/concept-glossary-parts/08-ieung/#recognition) | 从输入中读出对象或状态的问题 | 为了先区分比分类更宽的“读取”问题 |
-| [classification](/AiBook/reference/concept-glossary-parts/06-bieup/#classification) | 从预先给定的类别中选出一个的问题 | 为了固定一个“猜什么”很清楚的代表问题 |
-| [prediction](/AiBook/reference/concept-glossary-parts/08-ieung/#prediction) | 根据当前信息估计未来值或结果的问题 | 为了区分“输出值或可能性”的问题与分类 |
-| [recommendation](/AiBook/reference/concept-glossary-parts/11-chieut/#recommendation) | 从多个候选中挑出接下来值得看的内容 | 为了看出 AI 不只是在生成答案 |
-| [generation](/AiBook/reference/concept-glossary-parts/07-siot/#generation) | 生成新文本、图像、音频、代码的问题 | 为了固定为什么输出性质不同 |
-| [input](/AiBook/reference/concept-glossary-parts/08-ieung/#input) | 系统接收的信息 | 为了从“放进去什么”开始阅读问题定义 |
-| [output](/AiBook/reference/concept-glossary-parts/11-chieut/#output) | 系统产生的结果 | 为了按“出来什么”区分问题类型 |
-| [goal](/AiBook/reference/concept-glossary-parts/05-mieum/#goal) | 判断什么样的输出算好的标准 | 为了看到同样数据会因问题变化而变成别的问题 |
-
 ## 主要学习点
 
 这一节先看问题的形状，再看算法名字。下面三条就是划分问题类型的基础地图。
@@ -50,7 +35,7 @@
 | 同样的数据，只要 `问题` 一变，就会变成另一种问题 | 这样才看得见分类、预测、推荐、生成为什么会分开。 | 能区分：一份客户数据也能支撑好几类问题。 |
 | 输出会对人或服务产生 `impact` | 这样 AI 就不再只是抽象计算，而是现实判断结构。 | 能用一句话把输出和它被使用的地方连起来。 |
 
-`input`、`output`、`goal`、`impact` 在上一节已经出现过，作为阅读 AI 系统的基本语言。这里则把它们重新接到问题类型上。输入是系统接收的信息，输出是系统产生的结果，目标是界定“什么样的结果算好”的标准，而 `impact` 则表示这个结果最后会碰到人的判断或环境变化的哪个位置。如果这些词再次不稳定，就回到上一节和 [Concept Glossary (English)](/AiBook/reference/concept-glossary/)；在这一节里，它们主要是帮助我们把问题读成“放进去什么、拿出来什么”的结构。
+`input`、`output`、`goal`、`impact` 在上一节已经出现过，作为阅读 AI 系统的基本语言。这里则把它们重新接到问题类型上。输入是系统接收的信息，输出是系统产生的结果，目标是界定“什么样的结果算好”的标准，而 `impact` 则表示这个结果最后会碰到人的判断或环境变化的哪个位置。如果这些词再次不稳定，就回到上一节和 [model input](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)、[model output](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[goal](/AiBook/zh/reference/concept-glossary-pinyin/g/#goal)、[impact](/AiBook/zh/reference/concept-glossary-pinyin/y/#impact) 等代表词条；在这一节里，它们主要是帮助我们把问题读成“放进去什么、拿出来什么”的结构。
 
 ## 细化学习
 

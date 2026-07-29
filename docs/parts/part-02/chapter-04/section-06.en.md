@@ -1,11 +1,11 @@
 # P2-4.6 Composite Functions and the Chain Rule
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 After reading derivatives, gradients, and gradient descent, one sentence still remains: `backpropagation uses the chain rule`. If we do not know the chain rule here, backpropagation easily looks like a memorized sentence rather than a calculation structure.
 
-The core intuition is that `when a function is connected through several stages, a change in an earlier stage is passed through later stages until it affects the final result`. Without that intuition, it is hard to read how loss is connected to each layer and parameter. When you want to recheck the terms quickly, also refer to the [concept glossary](../../../reference/concept-glossary.md).
+The core intuition is that `when a function is connected through several stages, a change in an earlier stage is passed through later stages until it affects the final result`. Without that intuition, it is hard to read how loss is connected to each layer and parameter. When you want to recheck the terms quickly, also refer to the [gradient glossary entry](/AiBook/en/reference/concept-glossary-alpha/g.en/#gradient).
 
 ## Core Criteria: Composite Functions and the Chain Rule
 
@@ -66,7 +66,7 @@ x \rightarrow 2x + 1 \rightarrow (2x + 1)^2
 
 First we make an intermediate score `2x + 1`, and then we square that value to make the final result. Once calculation stages are connected like this, a small change in the earlier stage changes the intermediate score, and that change is then delivered again to the final result.
 
-## The Chain Rule Is the Rule That Sends an Earlier Change Forward
+## Chain Rule Is the Rule That Sends an Earlier Change Forward
 
 In a composite function, when the earlier stage changes a little, that change affects the final output through the middle stages. The chain rule is the way to read that transfer rule.
 

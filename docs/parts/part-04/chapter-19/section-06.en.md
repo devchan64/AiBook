@@ -1,28 +1,28 @@
 # P4-19.6 Supplementary Learning: First Reading of Policy Gradient
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _Subtitle: How does the likelihood ratio trick connect changes in policy probability to expected reward?_
 
 Once readers study policy-based reinforcement learning in P4-19.2, the following names quickly appear.
 
-- policy gradient theorem
-- likelihood ratio trick
+- [policy gradient theorem](/AiBook/en/reference/concept-glossary-alpha/p/#policy-gradient-theorem)
+- [likelihood ratio trick](/AiBook/en/reference/concept-glossary-alpha/l/#likelihood-ratio-trick)
 
-Rather than following the full rigorous proof all the way to the end, this supplementary Section first reads `why a change in policy parameters connects to a change in expected reward` and `why the form of log-probability appears so often`.
+Rather than following the full rigorous proof all the way to the end, this supplementary Section first reads why a change in policy parameters connects to a change in [expected reward](/AiBook/en/reference/concept-glossary-alpha/e/#expected-reward) and why the form of [log-probability](/AiBook/en/reference/concept-glossary-alpha/l/#log-probability) appears so often.
 
-## Scope Of This Section
+## Questions Closed By First Reading Of Policy Gradient
 
 This Section answers the following questions.
 
-- Why is policy gradient read as directly adjusting policy probabilities?
+- Why is [policy gradient](/AiBook/en/reference/concept-glossary-alpha/p/#policy-gradient) read as directly adjusting policy probabilities?
 - Why does the likelihood ratio trick connect log-probability and expected-value calculation?
-- How does this sense of formulas continue into the interpretation of REINFORCE and actor-critic?
+- How does this sense of formulas continue into the interpretation of [REINFORCE](/AiBook/en/reference/concept-glossary-alpha/r/#reinforce) and [actor-critic](/AiBook/en/reference/concept-glossary-alpha/a/#actor-critic)?
 
 This Section focuses on building an introductory feeling for policy-based formulas through three handles: `policy probability`, `expected reward`, and `log-probability gradient`.
 
-## Goals Of This Section
+## Judgments To Keep From Policy-Gradient Formulas
 
 - You can explain policy gradient as `a gradient that adjusts policy probabilities in the direction that increases expected reward`.
 - You can explain the likelihood ratio trick as `a device that turns differentiation inside a probability distribution into a log-probability gradient so the calculation becomes easier to read`.

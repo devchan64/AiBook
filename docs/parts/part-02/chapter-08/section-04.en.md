@@ -1,13 +1,13 @@
 # P2-8.4 Loops: Processing Iterables One by One
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we separate out the loop that processes these groups one by one.
 
 Python loops become structurally clearer when read not as `how many times is it repeated?` but as `from what is what taken out one by one?` In this section, we organize iterable, iterator, and loop patterns at the level of basic concepts.
 
-Here, we explain the basic distinction among `loop`, `iterable`, and `iterator`. The representative explanation of `list` and `dictionary` is left in P2-8.2, P2-8.3, and in the [Concept Glossary](../../../reference/concept-glossary.md), and here we focus on turning values from those groups into a processing flow by taking them out one by one.
+Here, we explain the basic distinction among `loop`, `iterable`, and `iterator`. The representative explanation of `list` and `dictionary` is left in P2-8.2, P2-8.3, and in the [loop glossary entry](/AiBook/en/reference/concept-glossary-alpha/l.en/#loop), and here we focus on turning values from those groups into a processing flow by taking them out one by one.
 
 Loops are not syntax that exists only in Python. In data processing, statistical calculation, and model evaluation, several items are almost always processed one after another by the same criterion. Python's `for` is an example that shows that general flow in an easy-to-read form.
 
@@ -168,7 +168,7 @@ This perspective is important. When seeing `for item in items`, you must not ass
 
 Can this target send out values one by one?
 
-### The Feeling of Iterable and Iterator
+### Feeling of Iterable and Iterator
 
 When reading Python code, you encounter various loop patterns. The example below compares looping over only items, looping over positions and values together, and looping over dictionary keys and values together.
 
@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[label] = label_counts.get(label, 0) + 1
+    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```
@@ -653,7 +653,7 @@ This example is small, but it resembles the basic structure of AI practice.
 - The loop checks samples one by one.
 - The conditional chooses needed samples or changes the processing method.
 
-### Be Careful About Changing the Original During a Loop
+### Be Careful about Changing the Original During a Loop
 
 If the same list or dictionary is directly changed while looping over it, results different from what was expected can appear.
 

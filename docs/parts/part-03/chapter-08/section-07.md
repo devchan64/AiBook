@@ -1,13 +1,13 @@
 # P3-8.7 운영 개입이 바꾸는 데이터 해석
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _보조제목: 검토 규칙과 조치가 후속 데이터를 바꿀 때 왜 자연 경과처럼 읽으면 안 되는가_
 
-해석 경계에서 마지막으로 주의할 점은 현재의 운영 개입입니다. `review_needed=1`이 뜬 사례를 사람이 빨리 조치했다면, 그 뒤에 남은 데이터는 원래 자연 경과와 다를 수 있습니다. 이 점을 숨기면 `나중 데이터가 더 안전해 보인다`는 문장을 너무 쉽게 써 버리게 됩니다.
+[해석 경계(interpretation boundary)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-interpretation-boundary)에서 마지막으로 주의할 점은 현재의 [개입 피드백(intervention feedback)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-intervention-feedback)입니다. `review_needed=1`이 뜬 사례를 사람이 빨리 조치했다면, 그 뒤에 남은 데이터는 원래 자연 경과와 다를 수 있습니다. 이 점을 숨기면 `나중 데이터가 더 안전해 보인다`는 문장을 너무 쉽게 써 버리게 됩니다.
 
-현재의 검토 규칙이나 조치가 후속 데이터와 라벨을 바꿀 수 있다면, 그 뒤 데이터는 개입 전 자연 경과와 같은 뜻으로 읽으면 안 됩니다.
+현재의 검토 규칙이나 조치가 후속 데이터와 [선택적 라벨(selective labels)](../../../reference/concept-glossary-parts/07-siot.md#glossary-selective-labels)을 바꿀 수 있다면, 그 뒤 데이터는 개입 전 자연 경과와 같은 뜻으로 읽으면 안 됩니다.
 
 | 현재 규칙이나 조치 | 나중 데이터에서 달라질 수 있는 것 |
 | --- | --- |

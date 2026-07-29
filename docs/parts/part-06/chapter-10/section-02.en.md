@@ -1,7 +1,7 @@
 # P6-10.2 Limits That Move Freshness, Grounding, and Execution Outside Prompts
 
 > Section ID: `P6-10.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-10.1, we saw that prompt engineering is the first practical tool for observing and adjusting model behavior through input design. Now we need to look more directly at what remains even when prompts are written well.
 
@@ -113,7 +113,7 @@ A prompt is basically text input. Therefore, actions such as:
 - file modification
 - saving calculation results
 
-do not happen with prompts alone. These stages require tool use, function calling, and agent structures.
+do not happen with prompts alone. These stages require tool use, function calling, and AI agent structures.
 
 In short, a prompt can express an `action request`, but it is not the action-execution structure itself.
 

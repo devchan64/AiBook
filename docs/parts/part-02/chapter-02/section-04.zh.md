@@ -1,11 +1,11 @@
 # P2-2.4 为什么 log 与 exp 会反复出现
 
 > Section ID: `P2-2.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 把极限重新接上之后，在后面的机器学习与深度学习说明里，仍然还有一些经常卡住读者的记号。像 `log`、`exp`、`e^x` 这样的表达就是代表。它们不是额外的高级数学装饰，而是在说明 `数值增长或缩小得有多快`、`怎样把乘法关系重新读成加法关系`、`怎样处理像概率一样的分数` 时反复会出现的语言。
 
-这里要把对数(logarithm)和指数(exponential)重新接成阅读 `逻辑回归(logistic regression)`、`对数损失(log loss)`、`softmax` 所需的最小计算语言。需要快速回看术语时，也可以一起查看[概念词汇表](/AiBook/reference/concept-glossary/)。
+这里要把对数(logarithm)和指数(exponential)重新接成阅读 `逻辑回归(logistic regression)`、`对数损失(log loss)`、`softmax` 所需的最小计算语言。需要快速回看术语时，也可以一起查看[log loss 词条](/AiBook/zh/reference/concept-glossary-pinyin/l.zh/#log-loss)。
 
 ## 核心判断标准：为什么 log 与 exp 会反复出现
 

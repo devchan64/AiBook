@@ -1,7 +1,7 @@
 # P5-14.3 稳定深层重复的两个装置
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: residual 与 normalization 如何分别稳定信息流和值的范围？_
 

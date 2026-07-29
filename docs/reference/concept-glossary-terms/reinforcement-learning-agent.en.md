@@ -1,7 +1,7 @@
 ## reinforcement learning agent
 
-- Meaning: 강화학습에서 현재 상태나 관측을 바탕으로 행동을 선택하고, 보상을 받으며 정책을 바꿔 가는 주체입니다. 여기서 에이전트는 단순 실행자라기보다, 환경과 상호작용하며 경험을 쌓고 그 경험으로 다음 행동 기준을 바꾸는 학습 주체입니다. 즉 답을 한 번 출력하고 끝나는 존재가 아니라, 행동-관찰-보상-갱신의 순환 안에서 계속 바뀌는 행위자라고 볼 수 있습니다.
-- Why it matters: 도구 호출과 작업 흐름을 잇는 서비스형 에이전트와 달리, 강화학습에서는 환경 안에서 행동 결과를 통해 학습이 진행된다는 점을 분명히 구분하게 해 주기 때문입니다. 이 개념이 있어야 같은 `agent`라는 단어가 제품형 AI 에이전트와 학습 이론 속 에이전트에서 전혀 다른 층위로 쓰인다는 점을 놓치지 않게 됩니다. 예를 들어 체스 프로그램의 다음 수 선택 주체와, 문서 검색 후 요약을 이어 가는 서비스형 에이전트는 둘 다 `agent`라고 부를 수 있지만 작동 층위와 학습 방식은 크게 다릅니다.
+- Meaning: In reinforcement learning, a reinforcement learning agent is the learning subject that chooses actions from the current state or observation, receives rewards, and updates its policy. It is not just an executor. It interacts with an environment, accumulates experience, and changes the basis for later action.
+- Why it matters: This term separates learning through action outcomes inside an environment from service AI agents that connect tool calls and task workflows. The same general word `agent` can appear in both contexts, but the learning role, operating layer, and failure modes are different.
 - Related concepts: `reinforcement learning`, `action`, `reward`
 - Core Section: `P1-8.3`
 - Appears in: `P1-7.1`

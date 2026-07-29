@@ -1,11 +1,11 @@
 # P4-15.4 보충학습: Extra Trees와 랜덤포레스트 비교
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-P4-15.1에서 랜덤포레스트(random forest)를 배우면 비슷한 이름의 Extra Trees(Extremely Randomized Trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
+P4-15.1에서 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)를 배우면 비슷한 이름의 [Extra Trees(Extremely Randomized Trees)](../../../reference/concept-glossary-parts/08-ieung.md#extra-trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
 
-하지만 이 둘은 `어디까지 무작위성을 넣는가`, `분기 기준을 어떻게 고르는가`, `bootstrap과 OOB를 기본으로 쓰는가`에서 분명한 차이가 있습니다.
+하지만 이 둘은 `어디까지 무작위성을 넣는가`, `분기 기준을 어떻게 고르는가`, [bootstrap](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap)과 [OOB](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)를 기본으로 쓰는가에서 분명한 차이가 있습니다.
 
 이 절은 랜덤포레스트의 본편 설명을 다시 반복하지 않고, Extra Trees를 처음 비교할 때 독자가 헷갈리는 지점을 보충학습으로 정리합니다.
 
@@ -13,11 +13,11 @@ P4-15.1에서 랜덤포레스트(random forest)를 배우면 비슷한 이름의
 
 이 절은 다음 질문에 답합니다.
 
-- Extra Trees는 랜덤포레스트와 같은 계열인가?
+- [Extra Trees](../../../reference/concept-glossary-parts/08-ieung.md#extra-trees)는 랜덤포레스트와 같은 계열인가?
 - 둘 다 여러 트리를 평균내는데, 무엇이 실제로 다른가?
-- `best split`과 `random threshold`의 차이는 무엇인가?
+- [`best split`](../../../reference/concept-glossary-parts/06-bieup.md#best-split)과 [random threshold](../../../reference/concept-glossary-parts/05-mieum.md#random-threshold)의 차이는 무엇인가?
 - 왜 Extra Trees는 더 무작위적이라고 설명되는가?
-- OOB(out-of-bag)는 랜덤포레스트와 Extra Trees에서 어떻게 다르게 읽어야 하는가?
+- [OOB(out-of-bag)](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)는 랜덤포레스트와 Extra Trees에서 어떻게 다르게 읽어야 하는가?
 
 이 절은 먼저 `랜덤포레스트와 Extra Trees를 어디서 같게 보고 어디서 다르게 읽어야 하는가`를 닫습니다. Extra Trees와 그래디언트 부스팅의 철학 차이는 P4-16.1, P4-16.2에서 다시 이어집니다.
 
@@ -25,7 +25,7 @@ P4-15.1에서 랜덤포레스트(random forest)를 배우면 비슷한 이름의
 
 - Extra Trees를 `더 강한 무작위성을 넣은 트리 앙상블`로 설명할 수 있습니다.
 - 랜덤포레스트와 Extra Trees의 차이를 `샘플 추출`, `분기 임계값 선택`, `OOB 가능 조건` 기준으로 비교할 수 있습니다.
-- Extra Trees가 보통 분산(variance)을 더 줄이는 대신 편향(bias)을 조금 더 늘릴 수 있다는 뜻을 입문 수준에서 설명할 수 있습니다.
+- Extra Trees가 보통 [분산(variance)](../../../reference/concept-glossary-parts/06-bieup.md#variance)을 더 줄이는 대신 [편향(bias)](../../../reference/concept-glossary-parts/13-pieup.md#bias)을 조금 더 늘릴 수 있다는 뜻을 입문 수준에서 설명할 수 있습니다.
 - 언제 랜덤포레스트와 Extra Trees를 함께 비교 후보로 올리면 좋은지 말할 수 있습니다.
 
 ## 왜 이 절이 필요한가
@@ -223,6 +223,10 @@ Extra Trees는 랜덤포레스트와 같은 후보군 안에서 `조금 더 빠�
   - 랜덤포레스트 기본값은 `bootstrap=True` 흐름과 잘 맞는다
   - Extra Trees 기본값은 `bootstrap=False`라 OOB가 자동으로 따라오지 않는다
   - 두 모델은 test 점수뿐 아니라 train/test 간격, 계산 시간까지 같이 비교해야 한다
+- 조작해 볼 값:
+  - `et`에도 `bootstrap=True, oob_score=True`를 넣어 OOB가 어떤 조건에서 생기는지 확인한다.
+  - 두 모델의 `n_estimators`를 100, 300, 600으로 바꿔 test 점수와 계산 시간 변화를 함께 본다.
+  - `max_features`를 바꿔 두 숲의 무작위성 차이가 점수와 중요도에 어떻게 나타나는지 본다.
 
 ```python
 # 같은 유방암 데이터에서 Random Forest와 Extra Trees의 기본 차이와 점수를 비교하는 예제입니다.
@@ -299,7 +303,7 @@ print("  test accuracy :", round(et.score(X_test, y_test), 3))
 
 ## 출처와 참고 자료
 
-- scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-09)
-- scikit-learn, "ExtraTreesClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-09)
-- scikit-learn, "RandomForestClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-09)
-- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006. 확인 날짜: 2026-07-19. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "ExtraTreesClassifier", API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "RandomForestClassifier", API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006, 확인 날짜: 2026-07-26. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }

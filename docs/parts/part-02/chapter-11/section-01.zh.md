@@ -1,13 +1,13 @@
 # P2-11.1 用 NumPy 数组构建向量与矩阵
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 Part 2 Chapter 3 中，我们用数学符号和小段代码确认了 scalar、vector、matrix。Part 2 Chapter 8 看过 Python 的 list 与 dictionary，Part 2 Chapter 9 从不同数据结构视角区分了 array、table、tree、graph，Part 2 Chapter 10 又说明了如何把 notebook 整理成可重新执行的学习记录。
 
 现在我们重新回到 NumPy。NumPy 这个名字来自 "Numerical Python"。它是 Python 里广泛使用的开源库，用来创建数值数组，并以快速且一致的语法执行向量与矩阵计算。
 
-本节说明 `NumPy`、`shape`、`ndim`、`dtype` 的基本区分。这一章的重点不是背很多 NumPy 语法，而是学会在 AI 实践里把 vector、matrix、数据成组的形状读出来。以后再次遇到 array、axis、broadcasting 时，也可以把 [概念词汇表](/AiBook/reference/concept-glossary/) 当作回返点。
+本节说明 `NumPy`、`shape`、`ndim`、`dtype` 的基本区分。这一章的重点不是背很多 NumPy 语法，而是学会在 AI 实践里把 vector、matrix、数据成组的形状读出来。以后再次遇到 array、axis、broadcasting 时，也回到本章的基准来连接。
 
 学习 AI 时，数据很快就会变成数值数组。句子会变成 token ID 的数组，图像会变成 pixel 数组，表格数据会变成 feature matrix，embedding 会变成 vector。你当然也可以只用 Python list 处理这些数值集合，但当你需要对许多值按同一种方式加、乘、求平均、做矩阵乘法时，NumPy 数组会自然得多。
 

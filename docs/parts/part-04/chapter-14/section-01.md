@@ -1,15 +1,15 @@
 # P4-14.1 결정트리(decision tree)
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-11에서는 경계(boundary)를 직선처럼 그어 보는 관점을 보았고, P4-12에서는 가까운 이웃을 보는 방식을 보았으며, P4-13에서는 더 좋은 경계의 기준으로 margin을 보았습니다. 이제 같은 지도학습(supervised learning) 문제를 전혀 다른 방식으로 다시 읽습니다.
 
 P4-13.2에서 같은 데이터를 다른 표현 공간(feature space)에서 다시 볼 수 있다는 점을 붙잡았다면, 여기서는 같은 표 형식 데이터를 `어떤 질문 순서로 나누어 읽을 것인가`라는 관점으로 다시 정리합니다. 즉, 지금 바꾸는 것은 문제 자체가 아니라 같은 문제를 요약하는 단위입니다.
 
-직선 하나를 그리는 대신 질문을 차례로 나누어 가면 어떨지 생각해 보면, 결정트리(decision tree)의 출발점이 더 잘 보입니다. 결정트리는 데이터를 한 번에 설명하려 하지 않고, yes/no 질문을 반복해 점점 더 비슷한 사례끼리 나누어 예측합니다. 즉, 결정트리는 `경계선 하나`보다 `질문 흐름`에 더 가깝습니다.
+직선 하나를 그리는 대신 질문을 차례로 나누어 가면 어떨지 생각해 보면, [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)의 출발점이 더 잘 보입니다. 결정트리는 데이터를 한 번에 설명하려 하지 않고, yes/no 질문을 반복해 점점 더 비슷한 사례끼리 나누어 예측합니다. 즉, 결정트리는 `경계선 하나`보다 `질문 흐름`에 더 가깝습니다.
 
-이 절은 `결정트리(decision tree)`, `분기(split)`, `노드(node)`, `잎(leaf)`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 질문을 이어 붙여 예측하는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree), [분기(split)](../../../reference/concept-glossary-parts/06-bieup.md#split), [노드(node)](../../../reference/concept-glossary-parts/02-nieun.md#node), [잎(leaf)](../../../reference/concept-glossary-parts/08-ieung.md#leaf)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 질문을 이어 붙여 예측하는 기본 감각은 이 절의 판단 기준으로 다시 연결합니다.
 
 ## 결정트리(decision tree)에서 닫을 질문
 
@@ -267,6 +267,11 @@ scikit-learn 사용자 가이드는 결정트리(decision tree)를 분류와 회
   - 더 잘 정리되는 질문이 더 좋은 첫 질문이 될 수 있다.
   - 결정트리는 결국 이런 질문 선택을 반복한다.
 
+조작해 볼 값:
+
+- `candidates`에 `("visits", 2.5)`를 추가하면 threshold 후보가 조금만 달라져도 weighted gini가 어떻게 바뀌는지 볼 수 있습니다.
+- `rows`에 고객을 하나 더 추가하면 첫 split이 데이터 구성에 기대어 선택된다는 점을 확인할 수 있습니다.
+
 ```python
 # 결정트리가 고객 이탈 예제에서 좋은 첫 split을 고르는 과정을 직접 계산하는 예제입니다.
 rows = [
@@ -363,7 +368,7 @@ best first split
 
 같은 예제를 그대로 두고 값 하나만 바꾸면 `첫 질문이 얼마나 민감하게 달라지는가`를 확인할 수 있습니다.
 
-- 바꿔 볼 값: 고객 `F`의 `label`
+- 조작해 볼 값: 고객 `F`의 `label`
 - 바꾸는 이유: `late_payment`가 더 강한 신호처럼 보이는 상황을 일부러 만든다
 - 확인할 개념:
   - split 점수는 데이터 구성이 바뀌면 함께 바뀐다.
@@ -460,6 +465,11 @@ else:
 - 결정트리는 if-else 형태의 분기 규칙으로 읽을 수 있다
 - 설명 가능성이 높다는 말은 이런 분기 과정을 사람이 따라갈 수 있다는 뜻에 가깝다
 
+조작해 볼 값:
+
+- `examples`에 `{"customer": "J", "visits": 3, "late_payment": 0}`을 추가하면 threshold 경계에 놓인 사례가 어느 leaf로 가는지 확인할 수 있습니다.
+- `predict`에서 첫 조건을 `visits <= 2`로 바꾸면 손으로 적은 규칙 하나가 예측 경로를 어떻게 바꾸는지 볼 수 있습니다.
+
 ```python
 # 학습된 결정트리 규칙을 if-else 예측 함수처럼 읽어 보는 예제입니다.
 def predict(tree_input):
@@ -535,6 +545,6 @@ I -> stay
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984. 확인 날짜: 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984. 확인 날짜: 2026-07-26. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

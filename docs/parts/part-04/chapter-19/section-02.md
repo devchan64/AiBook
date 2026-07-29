@@ -1,17 +1,17 @@
 # P4-19.2 정책 기반 강화학습(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 여기서 질문을 한 단계 바꾸면 다음과 같습니다.
+P4-19.1에서는 [가치 기반 강화학습(value-based reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 여기서 질문을 한 단계 바꾸면 다음과 같습니다.
 
 값을 거쳐서 행동을 고르는 대신, 행동 방식(policy) 자체를 직접 조정할 수는 없을까?
 
-이 질문에서 출발하는 것이 정책 기반 강화학습(policy-based reinforcement learning)입니다.
+이 질문에서 출발하는 것이 [정책 기반 강화학습(policy-based reinforcement learning)](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)입니다.
 
 정책 기반 강화학습은 행동의 점수표를 먼저 만드는 대신, 어떤 행동을 선택할 확률과 방식을 직접 조정하면서 더 큰 보상을 얻도록 배우는 접근이다.
 
-이 절은 `정책 기반 강화학습(policy-based reinforcement learning)`, `policy gradient`, `actor-critic`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동 방식을 직접 조정하는 강화학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [정책 기반 강화학습(policy-based reinforcement learning)](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), [정책 기울기(policy gradient)](../../../reference/concept-glossary-parts/09-jieut.md#policy-gradient), [액터-크리틱(actor-critic)](../../../reference/concept-glossary-parts/08-ieung.md#actor-critic)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동 방식을 직접 조정하는 강화학습의 기본 뜻은 이 절과 관련 개념사전 항목을 기준으로 다시 연결합니다.
 
 ## 정책 기반 강화학습(policy-based reinforcement learning)에서 닫을 질문
 
@@ -150,7 +150,7 @@ policy gradient는 정책 파라미터(parameter)를 직접 조정해 기대 보
 
 이 그림의 핵심은 정책이 `출력 규칙`이 아니라 `조정 가능한 행동 성향`으로 읽힌다는 점입니다.
 
-REINFORCE는 바로 앞 policy gradient 흐름을 가장 직접적으로 보여 주는 예라고 보면 됩니다. 한 에피소드의 행동과 보상을 모아 보고, 결과적으로 도움이 되었던 선택의 확률을 다음 정책에서 더 높이는 쪽으로 조정합니다.
+[REINFORCE](../../../reference/concept-glossary-parts/04-rieul.md#reinforce)는 바로 앞 policy gradient 흐름을 가장 직접적으로 보여 주는 예라고 보면 됩니다. 한 에피소드의 행동과 보상을 모아 보고, 결과적으로 도움이 되었던 선택의 확률을 다음 정책에서 더 높이는 쪽으로 조정합니다.
 
 작은 예시로 보면:
 

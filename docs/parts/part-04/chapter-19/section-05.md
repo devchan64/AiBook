@@ -1,13 +1,13 @@
 # P4-19.5 보충학습: 강화학습 수식 이름 첫 읽기
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P4-19.1에서 가치 기반 강화학습을 읽다 보면 곧 다음 이름들이 따라붙습니다.
 
-- 벨만 방정식(Bellman equation)
-- 수렴(convergence)
-- 함수 근사(function approximation)
+- [벨만 방정식(Bellman equation)](../../../reference/concept-glossary-parts/06-bieup.md#bellman-equation)
+- [수렴(convergence)](../../../reference/concept-glossary-parts/07-siot.md#convergence)
+- [함수 근사(function approximation)](../../../reference/concept-glossary-parts/14-hieut.md#function-approximation)
 
 이 절은 이 이름들을 엄밀한 증명 순서로 길게 전개하기보다, `가치 기반 강화학습의 점수표가 왜 재귀적으로 쓰이고`, `왜 반복 갱신이 안정되는지를 따져 보며`, `왜 큰 문제에서는 표를 함수로 바꾸게 되는가`를 처음 연결하는 보충학습입니다.
 
@@ -17,8 +17,8 @@ P4-19.1에서 가치 기반 강화학습을 읽다 보면 곧 다음 이름들�
 
 - 벨만 방정식은 왜 `지금 보상 + 다음 상태의 가치`처럼 읽히는가?
 - 수렴을 본다는 말은 무엇이 더 이상 크게 흔들리지 않는다는 뜻인가?
-- 함수 근사는 왜 Q-table 대신 등장하는가?
-- DQN은 가치 기반 강화학습의 어떤 확장으로 읽어야 하는가?
+- 함수 근사는 왜 [Q-table](../../../reference/concept-glossary-parts/10-kieuk.md#q-table) 대신 등장하는가?
+- [DQN](../../../reference/concept-glossary-parts/03-digeut.md#dqn)은 가치 기반 강화학습의 어떤 확장으로 읽어야 하는가?
 
 이 절은 `재귀적 가치 읽기`, `반복 갱신의 안정화`, `표에서 함수로의 이동`이라는 세 손잡이로 강화학습의 확장 배경을 읽는 데 집중합니다.
 

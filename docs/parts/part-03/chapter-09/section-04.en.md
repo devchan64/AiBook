@@ -1,9 +1,9 @@
 # P3-9.4 How Do Review Results Turn from Review Notes into Target Candidates
 
 > Section ID: `P3-9.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Even when the [review queue](/AiBook/en/reference/concept-glossary-alpha/v/#glossary-review-queue) and [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report) appear first, a [target candidate](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-target-candidate) is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
+Even when the [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue) and [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report) appear first, a target candidate is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
 
 ## Why Do Only Notes Remain at First
 

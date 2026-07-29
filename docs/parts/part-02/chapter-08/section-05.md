@@ -1,7 +1,7 @@
 # P2-8.5 함수(function)와 작은 재사용
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P2-8.1에서는 값(value), 변수(variable), 타입(type)을 봤습니다. P2-8.2부터 P2-8.4까지는 리스트(list), 딕셔너리(dictionary), 반복(loop)으로 여러 값을 처리하는 방법을 봤습니다.
 
@@ -11,7 +11,7 @@ P2-8.1에서는 값(value), 변수(variable), 타입(type)을 봤습니다. P2-8
 
 Python에서는 함수(function)를 사용합니다. 함수는 반복되는 처리에 이름을 붙이고, 필요한 값을 받아 계산한 뒤, 결과를 돌려주는 구조입니다.
 
-여기서는 `함수(function)`, `매개변수(parameter)`, `인자(argument)`, `반환값(return value)`의 기본 구분을 설명합니다. `값(value)`, `변수(variable)`, `반복(loop)`의 대표 설명은 P2-8.1, P2-8.4와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 입력-처리-출력 계약을 작은 재사용 단위로 읽는 데 집중합니다.
+여기서는 `함수(function)`, `매개변수(parameter)`, `인자(argument)`, `반환값(return value)`의 기본 구분을 설명합니다. `값(value)`, `변수(variable)`, `반복(loop)`의 대표 설명은 P2-8.1, P2-8.4와 [개념사전의 함수 항목](../../../reference/concept-glossary-parts/14-hieut.md#function)에 두고, 여기서는 입력-처리-출력 계약을 작은 재사용 단위로 읽는 데 집중합니다.
 
 이 절에서는 함수 문법을 모두 외우기보다, 수식의 함수와 Python 함수가 어떻게 닮고 다른지 보고 작은 데이터 처리 코드를 재사용 가능한 단위로 나누는 감각을 만듭니다.
 

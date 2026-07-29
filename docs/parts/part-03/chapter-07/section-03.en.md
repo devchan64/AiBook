@@ -1,9 +1,9 @@
 # P3-7.3 What Is a Baseline the Reference For
 
 > Section ID: `P3-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-A baseline is the reference that decides `what should the current state be compared against`. The reason a baseline is needed in Part 3 is that the state of a recent range, a particular action, or a particular entity should not be read only as an absolute value. It has to be read side by side with the usual structure.
+A [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) is the reference that decides `what should the current state be compared against`. The reason a baseline is needed in Part 3 is that the state of a recent range, a particular action, or a particular entity should not be read only as an absolute value. It has to be read side by side with the usual structure.
 
 For example, even if the average flow of the most recent 20 cases is 2.1, that value alone is not enough. We also need to see whether the average of the usual range was 2.45, whether recent variability has grown compared with usual, and whether the late-stage decline pattern has become stronger than usual. Only then can we finally say `what changed`. So a baseline is not `a model-evaluation reference`, but `a state-comparison reference`.
 
@@ -11,7 +11,7 @@ For example, even if the average flow of the most recent 20 cases is 2.1, that v
 
 Part 3 is not yet evaluating models. What is first needed here is to compare the recent range and the usual range in the same unit, and read whether change exists or not. That is why the baseline appears as the comparison premise for building columns such as recent average, variability, pattern, and segment difference.
 
-For example, if the average flow of the recent 20 cases is 2.1 and the baseline-range average is 2.45, then what we first read is `a difference of -0.35`. This difference is not yet model performance. It is the result of state comparison.
+For example, if the average flow of the recent 20 cases is 2.1 and the [baseline window](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline-window) average is 2.45, then what we first read is `a difference of -0.35`. This difference is not yet model performance. It is the result of state comparison.
 
 | What becomes readable when a baseline exists | What becomes blurred without a baseline |
 | --- | --- |
@@ -19,7 +19,7 @@ For example, if the average flow of the recent 20 cases is 2.1 and the baseline-
 | Difference values, variability differences, pattern differences | It becomes hard to explain what is different from usual |
 | Signals that need review | The reason for raising a warning candidate becomes weak |
 
-Only after passing through this stage can we decide `what can become a prediction problem` and `what should remain a comparison report`. The meaning of baseline that Part 3 should hold on to also reaches only this far. In other words, the baseline of the current section is `the reference that lets us read the difference of the current state side by side with the usual structure`.
+Only after passing through this stage can we decide `what can become a prediction problem` and what should remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report). The meaning of baseline that Part 3 should hold on to also reaches only this far. In other words, the baseline of the current section is `the reference that lets us read the difference of the current state side by side with the usual structure`.
 
 ## Two Common Misunderstandings
 

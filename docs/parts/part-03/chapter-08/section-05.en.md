@@ -1,15 +1,15 @@
 # P3-8.5 How Are Multiple Comparison Columns Grouped into One Review-Priority Candidate
 
 > Section ID: `P3-8.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` As the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
+Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` From the viewpoint of [column-role separation](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column-role-separation), as the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
 
-Review priority is not determined by taking one difference value as it is. It is decided after first grouping multiple comparison columns into a few judgment axes such as `change magnitude`, `repeatability`, `interpretation confidence`, and `operational importance`.
+The priority of a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue) is not determined by taking one difference value as it is. It is decided after first grouping multiple comparison columns into a few judgment axes such as `change magnitude`, `repeatability`, `interpretation confidence`, and `operational importance`.
 
 ## Why You Should Not Jump Straight to One Number
 
-Comparison tables often contain columns like these.
+[Comparison tables](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table) often contain columns like these.
 
 | Example comparison column | Meaning visible at first glance |
 | --- | --- |
@@ -29,7 +29,7 @@ Multiple comparison columns can first be reduced into the following four axes.
 | --- | --- | --- |
 | Change magnitude | Mean difference, ratio difference, window difference | How different is it from the usual state right now? |
 | Repeatability | Repeated direction, repeated signals across windows | Is this change continuing rather than happening once? |
-| Interpretation confidence | Recent count, baseline sample size | With what strength can this difference be stated? |
+| Interpretation confidence | Recent count, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) sample size | With what strength can this difference be stated? |
 | Operational importance | Specific process condition, near-end window, safety-related columns | Is there an operational reason to let a person look first? |
 
 Seen through these four axes, the feeling that `there are too many columns, so it is complicated` becomes smaller. You can see that each column answers a different question.
@@ -43,7 +43,7 @@ Suppose two cases share the same mean difference value of `-0.35`. Even then, re
 | A | High | High | High | High |
 | B | High | Low | Low | Medium |
 
-So if you look only at `diff`, both cases appear similar. In practice, however, A may need review earlier than B. Review priority asks not only `how different is it` but also `how much can that difference be trusted` and `does practice require this to be seen first`.
+So if you look only at `diff`, both cases appear similar. In practice, however, A may need review earlier than B. Review priority asks not only `how different is it` but also the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) and `does practice require this to be seen first`.
 
 ## How Human Review Sentences Connect to Priority Candidates
 

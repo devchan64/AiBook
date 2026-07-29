@@ -1,7 +1,7 @@
 # Part 3. Data Modeling
 
 > Section ID: `P3-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 In Part 2, we rebuilt the foundations for reading math, Python, arrays, tables, and graphs. But being able to read computational tools again does not immediately mean you can build an AI problem well. When you first face real source data, the first question is usually closer to `what should count as one item of data?` than to `which model should we use?` In the overall structure of this book, Part 2 and Part 3 together form the basic-skills recovery range, and Part 3 is responsible for `rebuilding data-science problem structure`.
 
@@ -28,7 +28,7 @@ The table below shows more briefly that the spine of Part 3 is not an arbitrary 
 | Building features and baselines | feature engineering, labeled example, base period | Google ML Glossary, BLS |
 | Closing interpretation strength and output boundaries | problem framing, conservative interpretation, output structure | Google ML Glossary, NASEM |
 
-Within Part 3, the larger definition of `data modeling` itself is first fixed in 3.1, and the working sequence is fixed in 3.2. Later sections keep only the minimum connection needed for the current question rather than repeating long definitions of the same term. [Sample](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target) can be checked again in the glossary when needed.
+Within Part 3, the larger definition of `data modeling` itself is first fixed in 3.1, and the working sequence is fixed in 3.2. Later sections keep only the minimum connection needed for the current question rather than repeating long definitions of the same term. [Sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target) can be checked again in the glossary when needed.
 
 Part 3 first fixes what data modeling is trying to achieve and in what order it proceeds. It then checks why stored records should not be read immediately as a dataset, decides the meaning of one row and one sample, and regroups raw logs into comparable tables. After that, it designs features and intermediate representations, and separates which columns are for identification, comparison, and target candidates. It then builds the structure that compares recent segments with a baseline, places boundaries on how far interpretation can go in front of small samples and unstable repeatability, and finally separates problems that should remain comparison reports from problems that should be raised into prediction problems while closing input/output boundaries and time boundaries.
 

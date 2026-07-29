@@ -1,7 +1,7 @@
 # P1-15.1 Bias, Safety, and Accountability
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14 followed the flow of the AI service through the model, data, tools, agent, harness, and service constraints. The next question moves from technical structure to social impact.
 

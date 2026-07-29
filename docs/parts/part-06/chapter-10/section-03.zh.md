@@ -1,7 +1,7 @@
 # P6-10.3 补充学习：观察和比较回答路径
 
 > Section ID: `P6-10.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _副标题：CoT 和 self-consistency 如何让我们不同地看待一条路径和多条路径_
 

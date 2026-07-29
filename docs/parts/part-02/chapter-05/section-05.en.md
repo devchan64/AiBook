@@ -1,7 +1,7 @@
 # P2-5.5 Supplemental Learning: How to First Read Standard Deviation, Correlation, and Confidence Intervals
 
 > Section ID: `P2-5.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 If you read from P2-5.1 through P2-5.4, you can build the basic feel for probability, mean, variance, sample, estimation, and error. But once you start reading real statistics documents or machine-learning books, more unfamiliar names quickly follow.
 
@@ -105,7 +105,7 @@ Here we first look at the following distinction.
 
 For now, the sense of `joint movement of two variables` matters more than the formula.
 
-## The Correlation Coefficient Makes Joint Movement Easier to Compare
+## Correlation Coefficient Makes Joint Movement Easier to Compare
 
 Covariance is useful, but because of the effects of unit and scale, it may be hard to compare directly across different pairs of data. That is why the `correlation coefficient` appears often.
 

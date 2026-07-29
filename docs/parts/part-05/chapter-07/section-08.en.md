@@ -1,7 +1,7 @@
-# P5-7.8 Supplementary Reading: Gradient Clipping And Unstable Updates
+# P5-7.8 Supplementary Reading: Gradient Clipping and Unstable Updates
 
 > Section ID: `P5-7.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Once we understand the structure in which the optimizer turns gradients into updates, another question appears in actual training logs. We know the direction, but in some steps the update seems to jump too aggressively. At that point, should we read the problem as a learning-rate issue, as a gradient-scale issue, or as a case where another safety device is needed?
 
@@ -17,7 +17,7 @@ The diagnostic standard of this section can be reused as it is later too when we
 
 This section does not widen into advanced distributed learning or mixed precision. It focuses on `how do we make unstable movement smaller by imposing a limit`.
 
-## Standards For Exploding Updates And Step-Size Problems
+## Standards for Exploding Updates and Step-Size Problems
 
 - You can explain gradient clipping as `a safety device that limits overly large movement`.
 - You can distinguish a learning-rate problem from a gradient-scale problem.
@@ -36,7 +36,7 @@ If we unpack this explanation more, clipping is closer to deciding not `where sh
 
 If we turn it into a small scene, it becomes clearer. Imagine a driver who already knows which direction to go, but the road suddenly becomes slippery so that the steering wheel might turn too sharply at once. What is needed then is not to decide the destination again, but a device that keeps one action from becoming too violent. Clipping plays exactly this role for the optimizer.
 
-## Why Are A Learning-Rate Problem And A Gradient Problem Different
+## Why Are a Learning-Rate Problem and a Gradient Problem Different
 
 Both can look similar because in the end the update can appear overly aggressive. But the causes can be different.
 
@@ -75,7 +75,7 @@ flowchart TD
     C --> H["Recheck warmup / decay / base lr"]
 ```
 
-## How Are Norm Clipping And Value Clipping Different
+## How Are Norm Clipping and Value Clipping Different
 
 At the introductory stage, it is enough to distinguish only the intuition of the two methods.
 
@@ -90,7 +90,7 @@ The reason we distinguish these two at the early stage is also here. More than m
 
 Said very briefly again, norm clipping is closer to `slowing down the whole team together`, while value clipping is closer to `cutting down the speed of a few members who spike too much`. Even this one analogy makes the difference between the two far less abstract.
 
-## On What Different Layer Is Clipping Compared With The Optimizer
+## On What Different Layer Is Clipping Compared With the Optimizer
 
 The optimizer receives the gradient and applies the update rule. Clipping is the device that checks before that `is this gradient too large to use as it is right now?`
 
@@ -126,7 +126,7 @@ If we look at it through a graph, it becomes more direct why clipping is called 
 
 In this graph, only the 3rd step receives an aggressive input, so without clipping the update size jumps up to `1.2`, whereas once clipping is applied it is pressed near `0.5`. The important point is not that every step is made equally small, but that only the spiking moment is made less aggressive. So it is more accurate to read clipping not as `a device that slows down the whole learning process`, but as `the safety device that stops a particular spike from shaking learning`.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. When The Loss Jumps Greatly Only Occasionally, What Should We Distinguish First
 
@@ -144,7 +144,7 @@ The core shown by this case is one thing. Do not conclude one single cause only 
 
 If we say this more realistically, what the reader has to do while reading the training log is not `pick one fix immediately`, but `separate the layers of the problem first`. Does the whole interval keep being unstable, do only some steps spike, or is only a particular coordinate unusually sensitive? Once these are separated, the answer about whether to look at the learning rate, clipping, or optimizer state changes. This section exists exactly to build that habit of separation.
 
-## Practice And Example
+## Practice and Example
 
 Read the following sentences and choose the question to check first.
 
@@ -165,7 +165,7 @@ The purpose of this exercise is not to memorize clipping as a universal device, 
 - Can you say that clipping does not replace the optimizer itself, but is a safety device attached before the update?
 - Can you explain that when an update is unstable, the learning rate, gradient scale, and optimizer state have to be checked separately?
 
-## Sources And References
+## Sources and References
 
 - PyTorch, `torch.nn.utils.clip_grad_norm_`, PyTorch API Reference. Referenced to confirm gradient clipping behavior that limits the total gradient norm. Accessed: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html){: target="_blank" rel="noopener noreferrer" }
 - PyTorch, `torch.nn.utils.clip_grad_value_`, PyTorch API Reference. Referenced to confirm value clipping behavior that clips gradient values into a specified range. Accessed: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html){: target="_blank" rel="noopener noreferrer" }

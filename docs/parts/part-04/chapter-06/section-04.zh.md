@@ -1,7 +1,7 @@
 # P4-6.4 补充学习：评估指标的问题地图
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
 _副标题: ROC、PR、log loss、calibration、silhouette 分别回答什么评估问题？_
 
@@ -17,10 +17,10 @@ _副标题: ROC、PR、log loss、calibration、silhouette 分别回答什么评
 
 ## 本补充学习的范围
 
-这一节是第一次读 ROC、PR、log loss、calibration、silhouette 的补充学习，它们经常出现在分类和聚类里。这里比起细节证明，更专注 `什么时候会看到它们，为什么会看到它们`。
+这一节是第一次读 ROC、PR、log loss、calibration、silhouette 的补充学习，它们经常出现在[分类](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)和[聚类](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)里。这里比起细节证明，更专注 `什么时候会看到它们，为什么会看到它们`。
 
-- 为什么 ROC 和 PR 曲线会接到 score 与 threshold 的问题上？
-- 为什么 log loss 会让人不只看对错，还要一起看概率输出？
+- 为什么 ROC 和 PR 曲线会接到 [score](/AiBook/zh/reference/concept-glossary-pinyin/f/#score) 与 [threshold](/AiBook/zh/reference/concept-glossary-pinyin/y/#threshold) 的问题上？
+- 为什么 log loss 会让人不只看对错，还要一起看[概率估计值](/AiBook/zh/reference/concept-glossary-pinyin/g/#probability-estimate)？
 - 为什么 calibration 会让人重新怀疑 `看起来像概率的分数`？
 - 为什么 silhouette 会让人在 clustering 里即使没有标准答案，也还能去读结构？
 
@@ -45,7 +45,7 @@ _副标题: ROC、PR、log loss、calibration、silhouette 分别回答什么评
 | calibration | 像 `0.8` 这样的分数，现实里真的大约意味着 80% 频率吗？ |
 | silhouette | 即使没有答案 label，分组是不是仍然紧密且分离？ |
 
-也就是说，这些指标会在 `accuracy 一个指标不够用的时候` 出场。
+也就是说，这些指标会在 [accuracy](/AiBook/zh/reference/concept-glossary-pinyin/a/#accuracy) 一个指标不够用的时候出场。
 
 如果把这一节的角色再压缩一点，它就是 `在读正文评价问题时，暂时需要更细分的读分数标准时，绕进来一下的地方`。
 
@@ -83,7 +83,7 @@ _副标题: ROC、PR、log loss、calibration、silhouette 分别回答什么评
 
 ROC 和 PR 曲线会显示：只要把 model 给出的分数，从哪个值开始当正类这件事改掉，误报与漏报的平衡也会一起变。
 
-ROC curve 会用 false positive rate 和 true positive rate 来显示这个平衡。PR curve 则用 precision 和 recall 来显示。
+ROC curve 会用 [false positive rate](/AiBook/zh/reference/concept-glossary-pinyin/j/#false-positive) 和 true positive rate 来显示这个平衡。PR curve 则用 [precision](/AiBook/zh/reference/concept-glossary-pinyin/j/#precision) 和 [recall](/AiBook/zh/reference/concept-glossary-pinyin/z/#recall) 来显示。
 
 之所以要把两者分开读，原因如下。
 
@@ -198,7 +198,7 @@ calibration 这个视角会问：把相近分数的案例聚在一起之后，�
 
 因为 P4-15.3 还会再回到 threshold 调整和 calibration，所以这一节先把 `看起来像概率的分数，也必须重新检查` 这个视角接上。
 
-初学者尤其容易混淆的是：`分类做得好` 和 `概率说得好` 并不是同一种能力。有些 model 也许能把正负类排得比较有顺序，但分数值本身仍可能和实际频率不符。也就是说，ranking 可能还行，但 probability interpretation 可能很差。
+初学者尤其容易混淆的是：`分类做得好` 和 `概率说得好` 并不是同一种能力。有些 model 也许能把正负类排得比较有顺序，但分数值本身仍可能和实际频率不符。也就是说，[ranking](/AiBook/zh/reference/concept-glossary-pinyin/p/#ranking) 可能还行，但 probability interpretation 可能很差。
 
 像下面这样区分，会更清楚。
 
@@ -230,11 +230,11 @@ calibration 好，并不自动代表分类性能就好。反过来，分类性�
 
 ## silhouette 是在没有标准答案时读取 cluster 结构的内部标准
 
-我们在 P4-6.2 里已经看过，在 clustering 里可能根本没有答案 label。silhouette score 就是这种场景下经常出现的内部评价标准。
+我们在 P4-6.2 里已经看过，在 clustering 里可能根本没有答案 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)。silhouette score 就是这种场景下经常出现的内部评价标准。
 
 silhouette score 是一种标准：同一个 cluster 里面越近、和别的 cluster 越远，就越像是更好的分组。
 
-silhouette 可以理解成：同时比较 `和自己 cluster 的接近程度` 与 `和最近其他 cluster 的距离`。
+silhouette 可以理解成：同时比较 `和自己 cluster 的接近程度` 与和最近其他 cluster 的[距离](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)。
 
 所以，silhouette 有助于下面这些问题。
 
@@ -384,6 +384,6 @@ silhouette= 0.928
 
 ## 出处与参考资料
 
-- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-29.
-- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-29.
-- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-29.
+- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.

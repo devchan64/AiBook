@@ -1,7 +1,7 @@
 # P6-6.1 Next-Token Prediction as the Starting Point of Long Generation
 
 > Section ID: `P6-6.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-5.2, we saw how a GPT-based generation structure led to the conversational LLM experience. Now it is time to narrow the question further.
 
@@ -13,7 +13,7 @@ This sentence is correct, but if it is too short, it causes misunderstandings. M
 
 When understanding generative LLMs, the first criterion is `what the model is repeatedly trained to get right`. Search and tool connections are devices that reinforce generated results, and alignment is a stage that adjusts response habits. Before those, the sense we need to hold is that `calculating the next-token distribution in the current context` is the starting point of long generation.
 
-## The Basic Goal Called Next-Token Prediction
+## Basic Goal Called Next-Token Prediction
 
 The basic training goal begins with the following questions.
 
@@ -29,7 +29,7 @@ The goal is to establish criteria to the point where you can explain for yoursel
 
 We need to reread the impression of `a model that pulls out a sentence all at once` as `a structure that calculates the next-token distribution in the current context and accumulates that choice`.
 
-## Distinguishing the Next-Token Objective From Long Generation
+## Distinguishing Next-Token Objective from Long Generation
 
 - You can explain next-token prediction at the token level.
 - You can explain that sentence generation is not completed all at once, but continues sequentially.

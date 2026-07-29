@@ -1,16 +1,16 @@
 # P3-9.10 Delayed Label Confirmation and Incomplete Negatives
 
 > Section ID: `P3-9.10`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _Subtitle: How should delayed labels be distinguished from 0 labels that have not yet closed?_
 
-When choosing a [target candidate](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-target-candidate), you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed labels. Delayed label confirmation and incompletely observed negatives are different problems, so they need to be separated first.
+When choosing a target candidate, you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label). [Delayed label confirmation](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-delayed-label-confirmation) and [incomplete negatives](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-incomplete-negative) are different problems, so they need to be separated first.
 
 | Category | Central question |
 | --- | --- |
-| Delayed label confirmation | The result existed, but when does it close as the final answer? |
-| Incompletely observed negative | Has it been observed long enough to say that no result occurred? |
+| [Delayed label confirmation](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-delayed-label-confirmation) | The result existed, but when does it close as the final answer? |
+| [Incomplete negative](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-incomplete-negative) | Has it been observed long enough to say that no result occurred? |
 
 For example, if the target is `failure within the next 7 days`, then the following two lines need to be written together.
 

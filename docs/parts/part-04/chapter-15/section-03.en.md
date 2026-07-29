@@ -1,29 +1,29 @@
 # P4-15.3 OOB(Out-Of-Bag) And Checking Random Forest
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-15.1, we saw why random forest can create more stable predictions by gathering many trees. In P4-15.2, we saw how to read carefully what that forest considered important, namely feature importance.
+In P4-15.1, we saw why [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) can create more stable predictions by gathering many trees. In P4-15.2, we saw how to read carefully what that forest considered important, namely [feature importance](/AiBook/en/reference/concept-glossary-alpha/f/#feature-importance).
 
 Then the next remaining question is this:
 
 How can we check whether this forest is actually learning in a reasonable way?
 
-In random forest, one of the first handles that appears for that question is OOB(out-of-bag).
+In random forest, one of the first handles that appears for that question is [OOB(out-of-bag)](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score).
 
-OOB is an internal validation-like method in which random forest uses samples that were not drawn into a bootstrap sample and performs a rough self-check while training.
+OOB is an internal validation-like method in which random forest uses samples that were not drawn into a [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap) sample and performs a rough self-check while training.
 
 So OOB is not `a new model`. It is a way to read and inspect a random forest.
 
-This Section also does not repeat the basic structure of random forest at length. The core intuition reconnects through P4-15.1 and the [concept glossary](/AiBook/reference/concept-glossary/), and here we focus only on how bootstrap and OOB connect as an inspection device.
+This Section also does not repeat the basic structure of random forest at length. The core intuition reconnects through P4-15.1 and the [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) entry, and here we focus only on how bootstrap and OOB connect as an inspection device.
 
-## Scope Of This Section
+## Questions Closed By OOB And Random-Forest Checking
 
 This Section answers the following questions.
 
-- Why does OOB(out-of-bag) appear?
-- What is the relationship between bootstrap and OOB?
-- What does `oob_score=True` mean?
+- Why does [OOB(out-of-bag)](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) appear?
+- What is the relationship between [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap) and OOB?
+- What does [`oob_score=True`](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) mean?
 - How is an OOB score different from train accuracy, validation score, and test score?
 - How far should OOB be trusted, and where should we stop?
 
@@ -31,13 +31,13 @@ The outer boundary of OOB only needs to be fixed to about the following.
 
 | Item | Recovery state in the current main text |
 | --- | --- |
-| every variant of cross-validation | the basic role of cross-validation reconnects in P4-9.1 and P4-9.3, but this Section does not replace a full explanation of every variant |
-| calibration and threshold adjustment | the basic feel for threshold and calibration reconnects in P4-6.4 and P4-11.1, but this Section does not unfold those details together with OOB |
+| every variant of [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) | the basic role of cross-validation reconnects in P4-9.1 and P4-9.3, but this Section does not replace a full explanation of every variant |
+| [calibration](/AiBook/en/reference/concept-glossary-alpha/c/#calibration) and [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#threshold) adjustment | the basic feel for threshold and calibration reconnects in P4-6.4 and P4-11.1, but this Section does not unfold those details together with OOB |
 | the OOB character of gradient boosting | the checking feel of boosting reconnects in P4-16.1 and P4-16.2 through validation and early stopping, but this Section does not treat the detailed contrast at length |
 
 In other words, this Section focuses on fixing OOB in place as `the internal inspection board of random forest`, while broader evaluation procedures and score-operating policy are better reread later by question.
 
-## Goals Of This Section
+## Judgments To Keep From OOB And Random-Forest Checking
 
 - You can explain OOB as `an internal generalization estimate using samples left out by bootstrap`.
 - You can explain why OOB is possible only when `bootstrap=True`.
@@ -130,7 +130,7 @@ That is very practical in early-stage experimentation.
 
 - small experiments can be repeated quickly
 - it reduces the mistake of looking only at the train score
-- it helps check quickly how the state changes when the number of trees(`n_estimators`) increases
+- it helps check quickly how the state changes when the number of trees([`n_estimators`](/AiBook/en/reference/concept-glossary-alpha/n/#n-estimators)) increases
 
 So OOB is closer to `a quick internal inspection board` than to `the final destination of evaluation`.
 
@@ -179,7 +179,7 @@ In random-forest inspection, it is important to place those three numbers side b
 
 For example:
 
-- if train is very high but OOB and test are much lower, overfitting can be suspected
+- if train is very high but OOB and test are much lower, [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) can be suspected
 - if train, OOB, and test are all similarly low, weak representation or data limits can be suspected
 - if train is high and OOB/test follow at similar levels, the forest can be read as comparatively stable
 
@@ -193,7 +193,12 @@ This example is a small exercise that prints train / OOB / test together on the 
 - input: 30 continuous features
 - label: malignant / benign class
 - concepts to check:
-- OOB is read through `oob_score_` - OOB plays an internal inspection role between train and test - the gaps among the three scores should be read together
+  - OOB is read through `oob_score_`
+  - OOB plays an internal inspection role between train and test
+  - the gaps among the three scores should be read together
+- values to change:
+  - change `n_estimators` to 100, 300, and 600, then inspect whether the OOB/test gap stabilizes
+  - change `random_state` and check whether the train/OOB/test pattern remains
 
 ```python
 # This example prints train, OOB, and test scores together on breast-cancer classification to read their gaps.
@@ -260,6 +265,11 @@ Concepts to check:
 
 - as the number of trees grows, OOB often moves toward a more stable level
 - simply increasing the number of trees does not solve every problem
+
+Values to change:
+
+- add 600 to the `[10, 50, 100, 300]` list, then read improvement size together with computation cost
+- compare the train/OOB/test gap with and without a `max_depth` limit
 
 ```python
 # This example changes n_estimators to compare how OOB and test scores move.
@@ -428,5 +438,5 @@ The next scene after this Section is gradient boosting. If random forest was `a 
 
 ## Sources And References
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }

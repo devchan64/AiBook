@@ -1,13 +1,13 @@
 # P1-2.2 탐색, 지식 표현, 확률 추론
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 2.1에서는 기호 기반 AI와 규칙 기반 접근을 봤습니다. 이번 절에서는 그 다음 질문을 다룹니다. 규칙을 적는 것만으로는 충분하지 않을 때, AI는 가능한 후보를 탐색(search)하고, 필요한 지식을 표현(knowledge representation)하며, 불확실한 정보에서 그럴듯한 결론을 추론(probabilistic reasoning)하려 했습니다.
 
 여기서 필요한 일은 알고리즘을 자세히 배우는 것이 아니라, 탐색, 지식 표현, 확률 추론이 왜 AI 개론에서 반복해서 등장하는지와 이 흐름이 나중의 머신러닝, 딥러닝 설명에 어떤 배경이 되는지를 먼저 잡는 것입니다.
 
-Part 1에서 `탐색(search)`과 `확률 추론(probabilistic reasoning)`의 기본 구분은 이 절에서 잡습니다. `지식 표현(knowledge representation)`은 2.1에서 기본 뜻을 먼저 소개했고, 여기서는 탐색과 확률 추론 사이에서 어떤 역할을 하는지 비교하는 데 필요한 만큼만 다시 연결합니다. 뒤 절에서 용어 구분이 다시 헷갈리면 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아오면 됩니다.
+Part 1에서 `탐색(search)`과 `확률 추론(probabilistic reasoning)`의 기본 구분은 이 절에서 잡습니다. `지식 표현(knowledge representation)`은 2.1에서 기본 뜻을 먼저 소개했고, 여기서는 탐색과 확률 추론 사이에서 어떤 역할을 하는지 비교하는 데 필요한 만큼만 다시 연결합니다. 뒤 절에서 용어 구분이 다시 헷갈리면 이 절과 개념사전의 [탐색(search)](../../../reference/concept-glossary-parts/12-tieut.md#search), [확률 추론(probabilistic reasoning)](../../../reference/concept-glossary-parts/14-hieut.md#probabilistic-reasoning), [지식 표현(knowledge representation)](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) 항목으로 돌아오면 됩니다.
 
 이 절에서는 다음 질문을 정리합니다.
 
@@ -23,17 +23,6 @@ Part 1에서 `탐색(search)`과 `확률 추론(probabilistic reasoning)`의 기
 - 지식 표현이 규칙 기반 접근과 어떻게 연결되는지 봅니다.
 - 확률 추론이 불완전한 정보와 불확실성을 다루는 방법임을 이해합니다.
 - 탐색, 지식 표현, 확률 추론을 머신러닝 이전 AI의 중요한 축으로 구분합니다.
-
-## 먼저 연결할 개념
-
-이 절은 Chapter 2 안에서 `탐색`, `지식 표현`, `확률 추론`의 역할 차이를 처음 본격적으로 나누는 대표 설명 위치입니다. 아래 개념은 지금 역할을 먼저 잡아 두고, 더 자세한 정의가 필요할 때는 각 표제어 항목으로 바로 이동해 다시 확인합니다.
-
-| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
-| --- | --- | --- |
-| [탐색](../../../reference/concept-glossary-parts/01-giyeok.md#search) | 가능한 상태와 행동을 따라 목표를 찾는 접근 | 후보가 많을 때 왜 순서 문제가 생기는지 보기 위해 |
-| [지식 표현](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) | 사실과 관계와 제약을 적는 형식 | 무엇을 알고 있다고 볼지 정하는 문제를 분리하기 위해 |
-| [확률 추론](../../../reference/concept-glossary-parts/14-hieut.md#probabilistic-reasoning) | 불완전한 정보에서 그럴듯함을 다루는 방식 | 참/거짓만으로 닫히지 않는 판단을 읽기 위해 |
-| [목표](../../../reference/concept-glossary-parts/05-mieum.md#goal) | 도달하려는 조건 | 탐색이 어디서 멈추는지 정하는 기준을 보기 위해 |
 
 ## 주요 학습내용
 

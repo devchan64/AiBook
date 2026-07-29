@@ -1,13 +1,13 @@
 # P2-8.4 반복(loop): 이터러블(iterable)을 하나씩 처리하기
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P2-8.2에서는 리스트(list)를, P2-8.3에서는 딕셔너리(dictionary)를 봤습니다. 이제 이런 묶음을 하나씩 처리하는 반복(loop)을 분리해서 봅니다.
 
 Python의 반복은 “몇 번 반복한다”보다 “무엇에서 무엇을 하나씩 꺼내는가”로 읽을 때 구조가 분명해집니다. 이 절에서는 이터러블(iterable), 이터레이터(iterator), 반복 패턴을 기본 개념 수준에서 정리합니다.
 
-여기서는 `반복(loop)`, `이터러블(iterable)`, `이터레이터(iterator)`의 기본 구분을 설명합니다. `리스트(list)`와 `딕셔너리(dictionary)`의 대표 설명은 P2-8.2, P2-8.3과 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 묶음에서 값을 하나씩 꺼내 처리 흐름으로 바꾸는 데 집중합니다.
+여기서는 `반복(loop)`, `이터러블(iterable)`, `이터레이터(iterator)`의 기본 구분을 설명합니다. `리스트(list)`와 `딕셔너리(dictionary)`의 대표 설명은 P2-8.2, P2-8.3과 [개념사전의 반복 항목](../../../reference/concept-glossary-parts/06-bieup.md#loop)에 두고, 여기서는 그 묶음에서 값을 하나씩 꺼내 처리 흐름으로 바꾸는 데 집중합니다.
 
 반복은 Python에만 있는 문법이 아닙니다. 데이터 처리, 통계 계산, 모델 평가에서는 거의 항상 여러 항목을 같은 기준으로 차례대로 처리합니다. Python의 `for`는 그 일반 흐름을 읽기 쉬운 형태로 보여 주는 예시입니다.
 
@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[label] = label_counts.get(label, 0) + 1
+    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```

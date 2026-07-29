@@ -1,7 +1,7 @@
-# P1-13.4 The Intuition of Vector Search Implementation
+# P1-13.4 Vector Search Implementation Intuition
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-13.1 introduced embeddings, P1-13.2 introduced similarity search, and P1-13.3 introduced RAG. One practical question remains:
 

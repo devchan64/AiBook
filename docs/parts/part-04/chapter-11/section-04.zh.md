@@ -1,27 +1,27 @@
 # P4-11.4 补充学习：如何读取多类别(multinomial)逻辑回归
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.3 里介绍的 log-odds 和 MLE，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
+P4-11.3 里介绍的 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#log-odds) 和 [MLE](/AiBook/zh/reference/concept-glossary-pinyin/z/#maximum-likelihood-estimation-mle)，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
 
 本节的中心问题如下。
 
 在二元分类里学会的 `score -> probability -> class 选择` 这个感觉，在多类别问题里会怎样继续下去？
 
-## 本节范围
+## multinomial logistic regression 先收束的问题
 
 这一节回答下面这些问题。
 
 - 在 multinomial 问题里，什么保持不变？
-- 为什么会出现 softmax？
-- one-vs-rest 和 multinomial 应该怎样区分？
+- 为什么会出现 [softmax](/AiBook/zh/reference/concept-glossary-pinyin/s/#softmax)？
+- [one-vs-rest](/AiBook/zh/reference/concept-glossary-pinyin/o/#one-vs-rest) 和 [multinomial logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/d/#multinomial-logistic-regression) 应该怎样区分？
 
-这一节先把 multinomial logistic regression 收束为 `score -> probability distribution -> class 选择` 结构在多个 class 上继续扩展，并专注抓住 threshold 感觉怎样转移到 argmax 感觉上。
+这一节先把 [multinomial logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/d/#multinomial-logistic-regression) 收束为 `score -> probability distribution -> class 选择` 结构在多个 class 上继续扩展，并专注抓住 threshold 感觉怎样转移到 [argmax](/AiBook/zh/reference/concept-glossary-pinyin/a/#argmax) 感觉上。
 
 同时，下一步还要继续缩小来看清的问题也很明确。solver 与 regularization 的实现视角，会在 P4-11.5 继续。
 
-## 用补充学习：如何读取多类别(multinomial)逻辑回归留下的判断标准
+## multinomial logistic regression 要留下的判断标准
 
 - 能说明在 multiclass 里，`input -> score -> probability 比较 -> class 选择` 这个结构仍然保持不变。
 - 能把 softmax 读成 `把每个 class 的 score 变成 probability distribution 的函数`。
@@ -132,6 +132,11 @@ likelihood 的形式，也是在和二元分类同样的思路上扩展。假设
 | `class_names` | class 名称列表 |
 | `multi_proba` | 每个 class 的 probability distribution 例子 |
 
+可以改动的值：
+
+- 把第一行改成更接近的 `[0.34, 0.33, 0.33]`，可以看到 argmax 仍会选出一个 class，但判断会明显更模糊。
+- 把最后一行改成 `[0.22, 0.28, 0.49]`，可以确认即使没有任何值超过 0.5，也仍会选择最大的 class。
+
 ```python
 # 这个例子比较多类别逻辑回归中的各类别分数和 softmax 概率。
 import numpy as np
@@ -171,6 +176,6 @@ multiclass predictions
 
 ## 出处与参考资料
 
-- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 确认日期: 2026-07-26. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26

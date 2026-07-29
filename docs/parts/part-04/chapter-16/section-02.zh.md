@@ -1,33 +1,33 @@
 # P4-16.2 提升模型的性能与风险
 
 > Section ID: `P4-16.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P4-16.1 里，我们看过梯度提升(gradient boosting)是怎样让下一阶段顺序修正前一阶段误差的。 正是在这里，boosting 的强项与风险会一起出现。
 
 如果把同一个问题说得更准确一点，可以变成：
 
-既然它会不断减少误差， 为什么它一方面看起来性能很强， 另一方面又会对过拟合(overfitting)这么敏感？
+既然它会不断减少误差， 为什么它一方面看起来性能很强， 另一方面又会对[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)这么敏感？
 
 Boosting 可以通过堆很多小修正来做出很强的性能， 但也正因为如此，它会更容易把数据里的偶然波动一起追进去。
 
 所以 boosting 的优点是 `精细修正`， 而风险则是 `修正变得过于精细`。
 
-这一节不会长篇重复梯度提升的基本定义。 `顺序修正误差` 的核心直觉会通过 P4-16.1 和[概念词典](/AiBook/reference/concept-glossary/)重新连接， 这里聚焦的是：为什么这个结构会同时带来强项和风险。
+这一节不会长篇重复梯度提升的基本定义。 `顺序修正误差` 的核心直觉会通过 P4-16.1 和概念词典重新连接， 这里聚焦的是：为什么这个结构会同时带来强项和风险。
 
-## 本节范围
+## 提升风险先收束的问题
 
 本节回答以下问题。
 
 - 为什么梯度提升常被说成是表格型数据(tabular data)上的强候选？
-- 为什么 learning rate、tree size、`n_estimators` 会变成一个很敏感的组合？
+- 为什么学习率(learning rate)、tree size、`n_estimators` 会变成一个很敏感的组合？
 - 过拟合会以什么样子出现？
-- shrinkage、subsampling、early stopping 分别在试图降低什么风险？
+- [收缩(shrinkage)](/AiBook/zh/reference/concept-glossary-pinyin/s/#shrinkage)、[子采样(subsampling)](/AiBook/zh/reference/concept-glossary-pinyin/z/#subsampling)、[早停(early stopping)](/AiBook/zh/reference/concept-glossary-pinyin/z/#early-stopping) 分别在试图降低什么风险？
 - 和随机森林相比，什么场景下 boosting 会显得更强，什么场景下又需要更谨慎？
 
 这一节围绕的问题是： `为什么 boosting 强，同时又为什么危险。` 实现感和计算结构一侧，会在补充学习 P4-16.3 继续。
 
-## 用提升模型的性能与风险留下的判断标准
+## 提升风险要留下的判断标准
 
 - 你可以同时说明 boosting 的高性能可能性与高调参敏感性。
 - 你可以说明 `learning_rate`、`n_estimators`、tree size 是彼此连在一起的。
@@ -308,7 +308,11 @@ scikit-learn 文档说明， 读者可以通过 staged prediction、validation �
 - 输入(input)：真实值、当前预测、correction 值
 - 期望输出(output)：小 learning rate 和大 learning rate 的差别
 - 要确认的概念：
-- 真正重要的不是 correction 本身，而是它被反映得有多强 - 大 learning rate 容易造成 overshoot
+  - 真正重要的不是 correction 本身，而是它被反映得有多强
+  - 大 learning rate 容易造成 overshoot
+- 可以改动的值：
+  - 把 `lr` 列表改成 `[0.1, 0.3, 0.8]` 这样的值，比较不同修正强度下的 residual 变化
+  - 把 `correction` 的大小调大，确认大 learning rate 下摇晃是否更快变大
 
 ```python
 # 这个例子比较小 learning rate 和大 learning rate 如何不同地反映同一个 correction。
@@ -346,6 +350,10 @@ learning_rate=0.8
 ### 改一个值看看：再加一个 correction stage，residual 会怎样下降？
 
 这次保留 `learning_rate = 0.1`， 再加一个 correction stage。
+
+- 可以改动的值：
+  - 把 `tree2_correction` 调小或调大，比较第二阶段的影响会怎样留在 residual 里
+  - 保持 `learning_rate` 不变，单独观察阶段数增加的效果
 
 ```python
 # 这个例子保持较小 learning rate，再加入第二个修正阶段，观察 residual 如何继续下降。
@@ -425,6 +433,6 @@ stage3 residual  : [17.5, 8.2, -8.2, -17.5]
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, 确认日期: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, 确认日期: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, 确认日期: 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, 确认日期: 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P1-15.1 偏见(bias)、安全性(safety)、责任(accountability)
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P1-14 中，我们已经沿着模型、数据、工具、agent、harness、服务约束(service constraints)的脉络看过 AI 服务结构。现在问题会从技术结构转向社会影响。
 

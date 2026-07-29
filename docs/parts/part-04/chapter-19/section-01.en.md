@@ -1,7 +1,7 @@
 # P4-19.1 Value-Based Reinforcement Learning
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P4-2.3, reinforcement learning was framed as `learning that adjusts a policy through actions and rewards`. If we go one step deeper, the following question appears.
 
@@ -9,13 +9,13 @@ When readers first meet reinforcement-learning algorithms, questions immediately
 
 - On what basis does the model learn which action is good in which state?
 - Is `good` written like a rule, or like a number?
-- If both Q-learning and SARSA are reinforcement learning, what is different between them?
+- If both [Q-learning](/AiBook/en/reference/concept-glossary-alpha/q/#q-learning) and [SARSA](/AiBook/en/reference/concept-glossary-alpha/s/#sarsa) are reinforcement learning, what is different between them?
 
 Value-based reinforcement learning is an approach that learns by attaching values to how good each action is in the long run from each state.
 
-This Section explains the basic meaning of `value-based reinforcement learning`, `state value`, `action value`, and `Q-value`. Later Sections continue the judgment in the current context from this handle, and the basic sense of reading the long-term goodness of actions as a score reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meaning of [value-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning), [state value](/AiBook/en/reference/concept-glossary-alpha/s/#state-value), [action value](/AiBook/en/reference/concept-glossary-alpha/a/#action-value), and [Q-value](/AiBook/en/reference/concept-glossary-alpha/q/#q-value). Later Sections continue the judgment in the current context from this handle, and the basic sense of reading the long-term goodness of actions as a score reconnects through this Section and the relevant glossary entries.
 
-## Scope Of This Section
+## Questions Closed By Value-Based Reinforcement Learning
 
 This Section answers the following questions.
 
@@ -27,7 +27,7 @@ This Section answers the following questions.
 
 This Section first closes the question of `what structure reinforcement learning has when it attaches value to actions and learns their long-term goodness`. Policy-based reinforcement learning continues in P4-19.2, reward design and cautions in real-world application continue in P4-19.3, the larger flow of DQN and policy-family methods continues in supplementary learning P4-19.4, and the minimum bridge to the Bellman equation and function approximation continues in supplementary learning P4-19.5.
 
-## Goals Of This Section
+## Judgments To Keep From Value-Based Reinforcement Learning
 
 - You can explain value-based reinforcement learning as `an approach that learns the long-term goodness of actions as numbers`.
 - You can distinguish state value from action value.
@@ -37,7 +37,7 @@ This Section first closes the question of `what structure reinforcement learning
 
 ## Why Learn Value?
 
-In reinforcement-learning problems, a correct label is not given every time. Instead, an agent tries an action, receives a reward, and experiences the next state.
+In reinforcement-learning problems, a correct label is not given every time. Instead, a reinforcement learning agent tries an action, receives a reward, and experiences the next state.
 
 At that point, instead of writing the policy first, there are several advantages in first writing down a number for `how acceptable was this action?`
 
@@ -137,10 +137,10 @@ Because of this point, Q-learning is usually introduced as an `off-policy` algor
 
 In a small maze example:
 
-- Even if the agent moved downward because of exploration
+- Even if the reinforcement learning agent moved downward because of exploration
 - The update can still revise the current value by using `the truly best action in the next state was right`
 
-So Q-learning reflects a somewhat optimistic path that assumes `how well the agent could do in the future`.
+So Q-learning reflects a somewhat optimistic path that assumes `how well the reinforcement learning agent could do in the future`.
 
 ## What Does SARSA Learn?
 
@@ -195,8 +195,8 @@ This difference creates a difference in interpretation especially in environment
 
 Imagine a cliff next to the maze with a large penalty.
 
-- Q-learning tends to increase values in the direction of `it is fine if the agent always moves optimally`.
-- SARSA can reflect more of the fact that `during exploration, the agent may actually make mistakes`.
+- Q-learning tends to increase values in the direction of `it is fine if the reinforcement learning agent always moves optimally`.
+- SARSA can reflect more of the fact that `during exploration, the reinforcement learning agent may actually make mistakes`.
 
 So if the current action policy is not careful, SARSA learns that lack of care together with it. For that reason, introductory texts often say that SARSA can look more conservative.
 
@@ -273,7 +273,7 @@ The observable result of this case appears when comparing whether `straight look
 
 ### Case 2. When A Fast Path And A Safe Path Split Beside A Cliff
 
-Suppose an agent has two paths toward the goal. The standard that is easiest for a person to use first is usually `the shortest path to arrival` or `the path where reward rises quickly right now`. So a cliff-side corridor with a fast route and a large nearby penalty can look better at first. But in reinforcement learning, `long-term reward including the chance of mistakes` must be read together. Here, Q-learning can keep the value of the fast path relatively high because it reflects more strongly `if the agent can move optimally in the next state`. By contrast, SARSA reflects more directly the route where cliff-side mistakes are mixed in during exploration, so it may read the safer detour route as better.
+Suppose a reinforcement learning agent has two paths toward the goal. The standard that is easiest for a person to use first is usually `the shortest path to arrival` or `the path where reward rises quickly right now`. So a cliff-side corridor with a fast route and a large nearby penalty can look better at first. But in reinforcement learning, `long-term reward including the chance of mistakes` must be read together. Here, Q-learning can keep the value of the fast path relatively high because it reflects more strongly `if the agent can move optimally in the next state`. By contrast, SARSA reflects more directly the route where cliff-side mistakes are mixed in during exploration, so it may read the safer detour route as better.
 
 | Same route-choice problem | Interpretation that may appear first in Q-learning | Interpretation that may appear first in SARSA |
 | --- | --- | --- |

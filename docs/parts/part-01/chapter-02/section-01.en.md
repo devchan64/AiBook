@@ -1,13 +1,13 @@
 # P1-2.1 Symbolic AI and Rule-Based Approaches
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-1 organized the scope of the word AI and the relationship among the major terms. P1-2 turns to the historical paradigms through which AI tried to solve problems. The center of this section is `symbolic AI` and the `rule-based approach`.
 
 Symbolic AI is an approach that tries to represent human knowledge through symbols, rules, logic, and explicit representation, then manipulate that representation to obtain a conclusion or action. In simpler words, it begins from the idea that we can write human knowledge in a form a computer can handle, then make the computer reason over that form.
 
-In Part 1, the baseline meaning of `symbolic AI`, `rule-based approach`, and `knowledge representation` is fixed here. Even when these terms appear again in later sections, only the amount needed for the local question should be reconnected. When the fuller definition needs to be checked again, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
+In Part 1, the baseline meaning of `symbolic AI`, `rule-based approach`, and `knowledge representation` is fixed here. Even when these terms appear again in later sections, only the amount needed for the local question should be reconnected. When the fuller definition needs to be checked again, return to this section and to the glossary entries for [symbolic AI](/AiBook/en/reference/concept-glossary-alpha/s/#symbolic-ai), [rule-based approach](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-approach), and [knowledge representation](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-representation).
 
 ## Writing Knowledge as Symbols and Rules
 
@@ -25,18 +25,6 @@ This section first closes `how symbolic AI tried to write and handle knowledge a
 - See how rules, knowledge representation, inference, and search connect.
 - Distinguish the strengths and limits of rule-based approaches.
 - Understand why this approach is still useful in some systems today.
-
-## Concepts to Connect First
-
-This section is the representative place where the baseline for the core Chapter 2 terms is fixed. The concepts below are introduced here only to establish their role. When a fuller definition is needed, return to the corresponding glossary entry.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [symbolic AI](/AiBook/en/reference/concept-glossary-alpha/s/#aisymbolic-ai) | an AI approach centered on symbols, rules, and explicit knowledge representation | to establish the starting point that later learning-based approaches are contrasted against |
-| [rule-based system](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-system) | a system that compares current facts with rules to decide a conclusion or action | to see a concrete implementation shape of symbolic AI |
-| [knowledge representation](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-representation) | a format for writing facts, relations, and rules | to define what it means for a system to be treated as knowing something |
-| [fact](/AiBook/en/reference/concept-glossary-alpha/f/#fact) | information treated as true in the current state | to separate the input material to which rules are applied |
-| [inference engine](/AiBook/en/reference/concept-glossary-alpha/i/#inference-engine) | a mechanism that finds and applies rules matching the current facts | to see the execution structure between rules and conclusions |
 
 ## Main Learning Points
 
@@ -89,7 +77,7 @@ Because several related expressions can appear together, it helps to read them w
 
 If this is your first encounter with symbolic AI, the simplest first picture is: give the computer human-readable labels and rules, then let it manipulate them to reach a conclusion.
 
-### The Attempt to Represent the World Through Symbols
+### Representing the World Through Symbols
 
 The starting point of symbolic AI is the belief that knowledge can be represented explicitly. People can express world knowledge in sentences, rules, symbols, and relations: “If it rains, roads become wet,” “a certain combination of symptoms suggests a disease,” or “this move changes the chess position in this way.”
 
@@ -115,7 +103,7 @@ A common confusion for beginners is that `rule`, `inference`, and `search` can a
 
 So a rule is closer to a `judgment standard`, inference is closer to `applying the current standard`, and search is closer to `finding a path among possibilities`. In real systems the three often appear together. A game AI may express how pieces can move through rules, search through available moves on the current board, and use inference to judge which move is better.
 
-### The Basic Shape of a Rule-Based Approach
+### Basic Shape of a Rule-Based Approach
 
 A rule-based approach shows symbolic AI in one of its easiest-to-understand forms. The core idea is to compare current facts or situations against explicit rules and then determine a conclusion, classification, action, or processing procedure.
 

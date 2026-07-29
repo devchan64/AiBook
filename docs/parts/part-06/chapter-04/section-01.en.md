@@ -1,7 +1,7 @@
 # P6-4.1 Transformer Computation Flow Inside an LLM
 
 > Section ID: `P6-4.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How does a Transformer carry token representations into next-candidate scores?_
 
@@ -62,7 +62,7 @@ So when moving directly from Part 5, first fill the following blanks.
 
 The result to check in this table is not `can you explain P5-14 again`. Use the block explanation of P5-14 as a stepping stone, but now you must be able to explain `how representations reflecting context become a next-token candidate distribution`. Without this bridge, the cases and examples in P6-4.1 read as if they suddenly jump to a `next-token score table`.
 
-## In an LLM, Tokens Are the Starting Point
+## LLM Tokens as Starting Point
 
 An LLM does not compute a sentence whole. It first reads it as a token sequence.
 

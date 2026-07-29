@@ -1,7 +1,7 @@
 # P5-6.2 学习 step、batch、epoch
 
 > Section ID: `P5-6.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-6.1 里，我们先把 `forward -> loss -> backward -> optimizer step` 这一条最小学习循环绑在一起。走到这里以后，下一个问题会马上出现。
 
@@ -17,7 +17,7 @@ step 是一次 update 发生的单位。batch 是这个 step 里一起处理的�
 
 如果打个比方，batch 像一次放到工作台上的一束材料，step 像把这束材料处理完并把结果记入一次的次数，而 epoch 则更接近于把仓库里的整批材料完整看过一轮的次数。比喻本身不能替代概念，但它确实有助于先抓住：这三个词所数的`一次`并不是同一种一次。
 
-如果这几个单位后来又混在一起，更适合回到[英文概念词汇表里的 batch 条目](/AiBook/reference/concept-glossary-parts/06-bieup/#batch)、[training 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#training)、[epoch 条目](/AiBook/reference/concept-glossary-parts/08-ieung/#epoch)，先把它们重新拆开。
+如果这几个单位后来又混在一起，更适合回到概念词汇表里的[批次（batch）](/AiBook/zh/reference/concept-glossary-pinyin/b/#batch)、[训练（training）](/AiBook/zh/reference/concept-glossary-pinyin/x/#training)、[轮次（epoch）](/AiBook/zh/reference/concept-glossary-pinyin/e/#epoch)条目，先把它们重新拆开。
 
 ## step、batch、epoch 分开的问题
 

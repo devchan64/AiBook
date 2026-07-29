@@ -1,7 +1,7 @@
 # P4-19.1 가치 기반 강화학습(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보상(reward)을 통해 정책(policy)을 조정하는 학습`으로 잡았습니다. 여기서 한 단계 더 들어가면 다음 질문이 나옵니다.
 
@@ -9,11 +9,11 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 
 - 어떤 상태(state)에서 어떤 행동이 좋은지, 모델은 무엇을 기준으로 배우는가?
 - `좋다`는 것을 규칙처럼 적는가, 숫자로 적는가?
-- Q-learning과 SARSA는 둘 다 강화학습이라는데 무엇이 다른가?
+- [Q-learning](../../../reference/concept-glossary-parts/10-kieuk.md#q-learning)과 [SARSA](../../../reference/concept-glossary-parts/07-siot.md#sarsa)는 둘 다 강화학습이라는데 무엇이 다른가?
 
 가치 기반 강화학습은 어떤 상태에서 어떤 행동이 장기적으로 얼마나 좋은지 값을 붙여 가며 배우는 접근이다.
 
-이 절은 `가치 기반 강화학습(value-based reinforcement learning)`, `상태 가치(state value)`, `행동 가치(action value)`, `Q-value`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동의 장기적 좋음을 점수로 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [가치 기반 강화학습(value-based reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning), [상태 가치(state value)](../../../reference/concept-glossary-parts/07-siot.md#state-value), [행동 가치(action value)](../../../reference/concept-glossary-parts/14-hieut.md#action-value), [Q-value](../../../reference/concept-glossary-parts/10-kieuk.md#q-value)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동의 장기적 좋음을 점수로 읽는 기본 감각은 이 절과 관련 개념사전 항목을 기준으로 다시 연결합니다.
 
 ## 가치 기반 강화학습(value-based reinforcement learning)에서 닫을 질문
 
@@ -37,7 +37,7 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 
 ## 왜 가치(value)를 배우려 하는가
 
-강화학습 문제에서는 매번 정답 라벨이 주어지지 않습니다. 대신 에이전트(agent)는 행동을 해 보고, 보상(reward)을 받고, 다음 상태(next state)를 경험합니다.
+강화학습 문제에서는 매번 정답 라벨이 주어지지 않습니다. 대신 강화학습 에이전트(reinforcement learning agent)는 행동을 해 보고, 보상(reward)을 받고, 다음 상태(next state)를 경험합니다.
 
 이때 직접 정책(policy)부터 쓰는 대신, 먼저 `이 행동이 얼마나 괜찮았는가`를 숫자로 적어 두면 여러 장점이 생깁니다.
 
@@ -273,7 +273,7 @@ SARSA의 핵심 생각은 Q-learning과 비슷하지만 기준이 다릅니다.
 
 ### 사례 2. 낭떠러지 옆 통로에서 빠른 길과 안전한 길이 갈릴 때
 
-에이전트가 목표 지점으로 가는 두 경로를 가진다고 해 보겠습니다. 사람이 먼저 쓰기 쉬운 기준은 보통 `도착까지 가장 짧은 길`, `지금 보상이 빨리 커지는 길`입니다. 그래서 빠르지만 옆에 큰 벌점이 있는 낭떠러지 통로가 처음에는 더 좋아 보일 수 있습니다. 하지만 강화학습에서는 `실수 가능성까지 합친 장기 보상`을 같이 읽어야 합니다. 이때 Q-learning은 `다음 상태에서 가장 잘 움직일 수 있다면`을 더 강하게 반영해 빠른 길의 값을 비교적 높게 유지할 수 있습니다. 반면 SARSA는 탐험 중 실제로 낭떠러지 쪽 실수가 섞이는 경로를 더 직접 반영하므로, 안전한 우회 경로를 더 높게 읽을 수 있습니다.
+강화학습 에이전트가 목표 지점으로 가는 두 경로를 가진다고 해 보겠습니다. 사람이 먼저 쓰기 쉬운 기준은 보통 `도착까지 가장 짧은 길`, `지금 보상이 빨리 커지는 길`입니다. 그래서 빠르지만 옆에 큰 벌점이 있는 낭떠러지 통로가 처음에는 더 좋아 보일 수 있습니다. 하지만 강화학습에서는 `실수 가능성까지 합친 장기 보상`을 같이 읽어야 합니다. 이때 Q-learning은 `다음 상태에서 가장 잘 움직일 수 있다면`을 더 강하게 반영해 빠른 길의 값을 비교적 높게 유지할 수 있습니다. 반면 SARSA는 탐험 중 실제로 낭떠러지 쪽 실수가 섞이는 경로를 더 직접 반영하므로, 안전한 우회 경로를 더 높게 읽을 수 있습니다.
 
 | 같은 경로 선택 문제 | Q-learning에서 더 먼저 보일 수 있는 해석 | SARSA에서 더 먼저 보일 수 있는 해석 |
 | --- | --- | --- |

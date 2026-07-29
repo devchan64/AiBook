@@ -1,11 +1,11 @@
 # P3-4.3 一行、一个样本、一个近期区段有什么不同
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-`一行`、`一个样本`、`一个近期区段` 都会在看数据表时浮现出来，但它们并不属于同一个层级。在原始数据表里，先看见的是行；在比较一次完整动作时，中心会变成样本；到了基准线比较时，近期区段又会作为另一个比较单位出现。
+[一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-row)、一个[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、`一个近期区段` 都会在看数据表时浮现出来，但它们并不属于同一个层级。在[源数据(source data)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)表里，先看见的是行；在比较一次完整动作时，中心会变成样本；到了[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较时，近期区段又会作为另一个比较单位出现。
 
-必须一次把这三个单位区分开的原因，是特征、基准线比较和复核语句分别贴在不同层级上。一旦把一行误当成样本，或者把区段读成一条样本，后面搭出来的表结构和比较结构也会一起开始摇摆。
+必须一次把这三个单位区分开的原因，是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、基准线比较和复核语句分别贴在不同层级上。一旦把一行误当成样本，或者把区段读成一条样本，后面搭出来的表结构和比较结构也会一起开始摇摆。
 
 把这三个层级重新分开，可以写成下面这样。
 
@@ -69,7 +69,7 @@
 | 基准线比较 | 区段，或样本对区段 | 因为必须拿近期状态和平常状态作比较 |
 | 复核语句 | 区段或样本 | 因为它是给人读取的判断单位 |
 
-例如，像 `late_drop_rate` 这样的特征，并不会直接贴在单个时点行上。它只能在先把一次完整动作构造成样本之后才能算出来。反过来，像 `recent_count=20` 这样的值就不是单条样本特征，而更像近期区段聚合。所以，只要把这些层级混着读，特征、基准线和输出结构就都会变得抽象。
+例如，像 `late_drop_rate` 这样的特征，并不会直接贴在单个时点行上。它只能在先把一次完整动作构造成样本之后才能算出来。反过来，像 `recent_count=20` 这样的值就不是单条样本特征，而更像近期区段聚合。所以，只要把这些层级混着读，特征、基准线和[输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)就都会变得抽象。
 
 ## 一眼看懂的代码小例子
 

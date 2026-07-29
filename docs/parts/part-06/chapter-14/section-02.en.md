@@ -1,15 +1,15 @@
 # P6-14.2 Agent Loops That Split into Continue, Stop, and Human Review
 
 > Section ID: `P6-14.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-In P6-14.1, we read an agent as an execution structure that changes the next task based on intermediate results. Now we need to look more concretely at what criteria make that flow continue, where it stops, and when it moves to human review.
+In P6-14.1, we read an AI agent as an execution structure that changes the next task based on intermediate results. Now we need to look more concretely at what criteria make that flow continue, where it stops, and when it moves to human review.
 
-An agent has a repeated structure: it plans the next step based on a goal, performs an actual action, observes the result, and then chooses the next decision. What matters here is not the mere fact that the loop runs, but which direction the observation result branches into: `continue`, `stop`, or `human review`.
+An AI agent has a repeated structure: it plans the next step based on a goal, performs an actual action, observes the result, and then chooses the next decision. What matters here is not the mere fact that the loop runs, but which direction the observation result branches into: `continue`, `stop`, or `human review`.
 
 ## What the repeated loop is responsible for
 
-The issue to close in this scene is reading the basic structure of a single agent loop as `plan-action-observation repetition`, and distinguishing where it should continue and where it should stop.
+The issue to close in this scene is reading the basic structure of a single AI agent loop as `plan-action-observation repetition`, and distinguishing where it should continue and where it should stop.
 
 Tool connection rules and execution environments are about which tools and resources the loop uses, and what recording environment keeps the execution. The plan-action-observation loop first focuses on how observation results change the next branch and stop decision.
 
@@ -29,7 +29,7 @@ The reason to separate plan, action, observation, and stop condition is not memo
 | Evidence is sufficient and conflict is small | Stop | More iterations may add cost and time more than quality. |
 | Document conflict, lack of permission, or high state uncertainty | Move to human review or handoff | Risky scenes must be left as a separate boundary instead of being closed automatically. |
 
-If we hold this table first and then read `plan`, `action`, `observation`, and `stop condition` below, it becomes easier to understand an agent loop not as `a structure that keeps spinning`, but as `a structure whose next action changes according to observation`. The definitions that follow are the minimum pieces needed to read this branch table.
+If we hold this table first and then read `plan`, `action`, `observation`, and `stop condition` below, it becomes easier to understand an AI agent loop not as `a structure that keeps spinning`, but as `a structure whose next action changes according to observation`. The definitions that follow are the minimum pieces needed to read this branch table.
 
 ## What is a plan?
 
@@ -89,7 +89,7 @@ So the plan/action/observation split is not just a theoretical distinction. It i
 
 ## Stop conditions that end repetition
 
-Because an agent is a repeated structure, the system must decide in advance when it has enough evidence to stop and when it should move to human review.
+Because an AI agent is a repeated structure, the system must decide in advance when it has enough evidence to stop and when it should move to human review.
 
 Without a stopping criterion:
 
@@ -123,7 +123,7 @@ So agent design usually brings `more freedom` together with `more need for contr
 --8<-- "assets/part-06/chapter-14/p6-c14-s02-plan-action-loop-en.mmd"
 ```
 
-The key point of this diagram is that an agent is not a straight-line pipeline. It is a loop that can return to the next plan after observation, stop when enough evidence exists, or hand work to human review.
+The key point of this diagram is that an AI agent is not a straight-line pipeline. It is a loop that can return to the next plan after observation, stop when enough evidence exists, or hand work to human review.
 
 ## Cases and examples
 
@@ -163,7 +163,7 @@ The easiest thing to miss when first reading a plan-action-observation loop is r
 | Evidence is sufficient, but search or execution keeps going | Is the stop condition clearly set? | Without a stopping criterion, cost and time grow while quality can become blurrier. |
 | Evidence conflicts or permission trouble appears, but the system forces an answer | Are human-review or handoff criteria visible? | Not every loop should close automatically, so safe stop conditions are needed. |
 
-The criterion to learn first is simple. An agent loop is not merely `a structure that keeps running`. It should include the branching structure that `changes the next plan based on observation`, `stops when enough`, and `hands off to a person when risky`.
+The criterion to learn first is simple. An AI agent loop is not merely `a structure that keeps running`. It should include the branching structure that `changes the next plan based on observation`, `stops when enough`, and `hands off to a person when risky`.
 
 Seen again as a loop-branching structure, the same idea can be read like this.
 
@@ -227,7 +227,7 @@ def plan_to_decision(plan):
 def build_prompt(row):
     labels = "\n".join(f"- {label}" for label in NEXT_PLANS)
     return f"""
-You are proposing the next plan for a small LLM agent loop.
+You are proposing the next plan for a small LLM AI agent loop.
 Return exactly one label and no explanation.
 
 Allowed labels:
@@ -380,13 +380,13 @@ The example output can be read like this.
 
 The first thing to notice is that although model proposals appeared for all 36 observation logs, the guard did not use those proposals as the final decision in 15 cases. In other words, the core of P6-14.2 is not the fact that a model can speak a next-plan candidate. It is that multiround observation signals and stop conditions branch that candidate again into `continue_refine`, `stop_ready`, and `human_review`. For example, in round 2 of `policy-01`, the model proposed `summarize_and_stop`, but because `evidence_sufficient` is still `false` in the CSV, the guard keeps the decision at `continue_refine`. Conversely, in round 2 of `policy-02`, even if the model suggests continued exploration, `conflict_found` is `true`, so the guard moves the case to `human_review`.
 
-The next thing to see is that final decisions are not evenly balanced. Among 16 goals, 6 close as `stop_ready` after enough evidence is collected, 9 move to `human_review` because of conflict, approval, or retry limits, and 1 remains in continued exploration. Real agent loops also do not always divide neatly into three directions. What matters is whether the record lets us follow which observation signal separated the model proposal from the guard's final decision.
+The next thing to see is that final decisions are not evenly balanced. Among 16 goals, 6 close as `stop_ready` after enough evidence is collected, 9 move to `human_review` because of conflict, approval, or retry limits, and 1 remains in continued exploration. Real AI agent loops also do not always divide neatly into three directions. What matters is whether the record lets us follow which observation signal separated the model proposal from the guard's final decision.
 
-![agent loop decision branching](/AiBook/assets/part-06/chapter-14/agent-loop-decision-split-en.png)
+![AI agent loop decision branching](/AiBook/assets/part-06/chapter-14/agent-loop-decision-split-en.png)
 
 This chart shows how decisions move as rounds progress. In round 1, most cases are `continue_refine`. But in rounds 2 and 3, some stop after gaining enough evidence, while others move to human review because of conflicts or approval boundaries. So the chart is not about balanced decision counts. It shows that as observation logs accumulate, the loop does not leave only continued progress; stopping and human review actually split out.
 
-The result to check in this example is whether we can avoid treating an agent loop as magic and instead separately record `what it planned`, `what it did`, `what it observed`, `what it will do next`, and `where it stops or hands work to a person`.
+The result to check in this example is whether we can avoid treating an AI agent loop as magic and instead separately record `what it planned`, `what it did`, `what it observed`, `what it will do next`, and `where it stops or hands work to a person`.
 
 The output is created from the following conditions. These columns are also the values readers can edit directly in the CSV.
 
@@ -410,7 +410,7 @@ The key point of this table is that the loop is the level that handles `the stru
 
 ## Where observation logs change the next decision
 
-This example shows that an agent is not an automatic executor that always goes all the way to the end. It is a branching structure that must separate `continue`, `stop`, and `human review` based on observation results. A good agent loop is therefore not a loop that moves a lot, but a loop whose next decision changes when the observation signal changes.
+This example shows that an AI agent is not an automatic executor that always goes all the way to the end. It is a branching structure that must separate `continue`, `stop`, and `human review` based on observation results. A good AI agent loop is therefore not a loop that moves a lot, but a loop whose next decision changes when the observation signal changes.
 
 Readers can try these adjustments in the example.
 

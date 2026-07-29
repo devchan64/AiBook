@@ -1,7 +1,7 @@
 # P1-13.3 RAG(retrieval-augmented generation)로 이어지는 흐름
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 질문 벡터(query vector)와 가까운 문서 벡터(document vector)를 찾는 유사도 검색(similarity search)을 봤습니다.
 
@@ -29,7 +29,7 @@ Part 1에서 `RAG(retrieval-augmented generation)`, `검색(retrieval)`, `보강
 
 여기서는 `RAG는 검색+생성 연결`, `외부 문서는 모델 밖 근거`, `출처 추적은 별도 확인 요소`라는 구분을 기준선으로 둡니다.
 
-P1-14에서는 RAG가 실제 서비스 아키텍처와 도구 사용(tool use), 에이전트(agent) 구조 안에서 어디에 놓이는지 봅니다. P1-13.3에서는 검색 결과가 LLM 입력으로 들어가는 연결 흐름에 집중합니다.
+P1-14에서는 RAG가 실제 서비스 아키텍처와 에이전트 도구 사용(tool use), AI 에이전트(AI agent) 구조 안에서 어디에 놓이는지 봅니다. P1-13.3에서는 검색 결과가 LLM 입력으로 들어가는 연결 흐름에 집중합니다.
 
 또한 여기서는 RAG를 `환각 제거 장치`로 소개하지 않습니다. RAG가 `근거 후보를 붙이는 구조`라는 점을 분명히 하고, 검증 책임은 여전히 남는다는 점에 집중합니다.
 

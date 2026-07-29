@@ -33,7 +33,7 @@ AiBook 是一本用于重新学习 AI 的静态网页书。它面向第一次学
 - 把原始数据转成样本(sample)、特征(feature)、基准线(baseline)和比较结构，是什么意思？
 - 学习(learning)改变了什么，模型执行(inference)又在执行什么？
 - 深度学习中的权重(weight)、表示(representation)、反向传播(backpropagation)形成了怎样的计算流程？
-- Transformer、LLM、提示词(prompt)、嵌入(embedding)、RAG(retrieval-augmented generation)、智能体(agent)如何在 AI 服务中连接起来？
+- Transformer、LLM、提示词(prompt)、嵌入(embedding)、RAG(retrieval-augmented generation)、AI 智能体(AI agent)如何在 AI 服务中连接起来？
 - 如何用小项目验证并记录已经理解的内容？
 
 ## 本书结构
@@ -45,7 +45,7 @@ AiBook 是一本用于重新学习 AI 的静态网页书。它面向第一次学
 - **Part 3. 数据建模**：把原始数据整理成可学习的输入和可比较的输出结构。
 - **Part 4. 机器学习**：把问题定义、数据划分、学习、评估和代表性算法作为一个共同结构来阅读。
 - **Part 5. 深度学习**：讲神经网络计算、反向传播、CNN、RNN、attention，以及通向 Transformer 的结构。
-- **Part 6. LLM 与生成式 AI**：连接 token、提示词、生成设置、嵌入、检索、RAG、智能体和评估。
+- **Part 6. LLM 与生成式 AI**：连接 token、提示词、生成设置、嵌入、检索、RAG、AI 智能体和评估。
 - **Part 7. 项目实践**：把前面学到的概念做成小型产出物，并用执行日志和评估标准进行验证。
 
 相反，这本书不会一开始就快速塞入特定框架的细节 API、大规模运行优化，或研究级公式推导的全部内容。即使需要这些细节，也会先整理 `为什么需要它`、`问题和输入输出是什么`、`核心原理是什么`、`怎样简单确认`，再进入具体实现。

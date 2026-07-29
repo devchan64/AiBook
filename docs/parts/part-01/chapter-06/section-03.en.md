@@ -1,7 +1,7 @@
 # P1-6.3 Where Probabilistic Judgment Is Used in AI
 
 > Section ID: `P1-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 6.2 distinguished `uncertainty`, `probability`, and `stochastic`. This section turns that distinction into a more practical question: where in actual AI systems is probability used, and how should those numbers be read carefully?
 
@@ -126,7 +126,7 @@ Suppose we continue this sentence:
 
 Several next expressions are possible:
 
-| Candidate | 느낌 |
+| Candidate | Feel |
 | --- | --- |
 | it uses probability | more explanatory |
 | it waits for more evidence | focused on the judgment process |
@@ -163,7 +163,7 @@ So probabilistic output should be read with questions like:
 > where is human review needed?  
 > who sets the threshold, and under what responsibility?
 
-## The Same Number Means Different Things in Different Contexts
+## Same Number, Different Context Meanings
 
 Even a number like `0.70` changes meaning with context:
 

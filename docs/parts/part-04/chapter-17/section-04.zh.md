@@ -1,15 +1,15 @@
 # P4-17.4 补充学习：如何第一次把聚类和半监督学习连接起来
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 读到 P4-17.2 之后，很自然会剩下这样一个问题。
 
-如果聚类能够提出标签假设，那么它和半监督学习(semi-supervised learning)这种`把少量有标签数据和大量无标签数据一起使用`的设定，究竟是怎样连起来的？
+如果[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)能够提出[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)假设，那么它和[半监督学习(semi-supervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#semi-supervised-learning)这种`把少量有标签数据和大量无标签数据一起使用`的设定，究竟是怎样连起来的？
 
 这一节不是长篇列举半监督学习算法的全部分类，而是先区分`聚类可以在多大范围内充当辅助信号，以及从哪里开始必须引入人工审查和后续学习`。
 
-## 本节范围
+## 这种连接先收束的问题
 
 这一节回答下面这些问题。
 
@@ -20,7 +20,7 @@
 
 这一节集中用 `标签很少`、`无标签很多`、`假设`、`审查` 这四个把手来理解半监督学习的起点。
 
-## 用补充学习：如何第一次把聚类和半监督学习连接起来留下的判断标准
+## 本节补充学习要留下的判断标准
 
 - 能把半监督学习解释为`同时使用少量有标签数据与大量无标签数据的问题设定`。
 - 能说明聚类可以成为标签假设的辅助信号，但不能自动替代真实标签。
@@ -63,7 +63,7 @@
 
 ## 为什么聚类可以成为辅助信号
 
-聚类之所以有用，是因为它能先提出`相似样本会聚在一起`这种场景。
+聚类之所以有用，是因为它能先提出[相似样本(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)会聚在一起这种场景。
 
 于是人就可以顺着下面这样的思路来想。
 
@@ -90,7 +90,7 @@
 
 ## 为什么把聚类直接读成自动标签生成器会有风险
 
-聚类首先反映的是相似度结构，而不是真实答案结构。所以在同一个聚类里，完全可能混进看起来相似、但真实标签不同的样本。
+聚类首先反映的是[相似度(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)结构，而不是真实答案结构。所以在同一个聚类里，完全可能混进看起来相似、但真实标签不同的样本。
 
 例如，在同一个文章聚类里，可能同时出现下面这些内容。
 
@@ -195,5 +195,5 @@
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. 用于确认同时使用少量有标签数据与大量无标签数据的问题设定，以及 label propagation/self-training 的基本前提。确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 用于确认聚类是在无标签数据中探索结构这一基本背景。确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. 用于确认同时使用少量有标签数据与大量无标签数据的问题设定，以及 label propagation/self-training 的基本前提。确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 用于确认聚类是在无标签数据中探索结构这一基本背景。确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P5-14.6 Supplementary Learning: Position-Wise Representation Processing
 
 > Section ID: `P5-14.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How does the feed-forward network process each position representation again after attention?_
 
@@ -24,7 +24,7 @@ In short, the division is as follows.
 | Which other position should the current position refer to? | self-attention | because it reads relationships among tokens |
 | How should the current representation, now mixed with referenced context, change? | feed-forward network | because it nonlinearly reprocesses the representation inside the same position |
 
-## What It Means To Apply The Same FFN To Several Positions
+## What It Means to Apply the Same FFN to Several Positions
 
 The feed-forward network in a Transformer usually applies the same weights to each position. Here, `same` does not mean every position becomes the same output. If the input representation differs by position, the output differs even after passing through the same transformation.
 
@@ -48,9 +48,9 @@ If we read the feed-forward network as simple numeric post-processing, half of t
 
 Here, the word `nonlinear` does not mean memorizing formulas immediately. At the introductory level, it is enough to read it as `a process that changes a merely added or averaged representation into a more separated representation that the next block can use`. In the example below, `relu` should be read only with this feel. When axes below 0 are folded to 0 after a linear computation, the output direction can bend differently from simple addition.
 
-## Cases And Examples
+## Cases and Examples
 
-### Case. Processing An Action Representation In A Work-Permit Sentence
+### Case. Processing an Action Representation in a Work-Permit Sentence
 
 If a person sees only the word `restart` in a work-permit sentence, the first thought is usually the action `turn the line on again`. But if `pressure unreleased` and `hold` are also in the sentence, the representation at the current position should change from a simple action name toward `an action that must be blocked because a condition is attached`.
 
@@ -64,9 +64,9 @@ Self-attention makes `restart` look together at `pressure unreleased` and `hold`
 
 The result to confirm in this case is that the feed-forward network does not find a new evidence position. It processes evidence that already entered through attention into a more separated meaning inside the current position representation.
 
-## Practice And Example
+## Practice and Example
 
-### Example. Check Whether Outputs Differ By Position Even Through The Same FFN
+### Example. Check Whether Outputs Differ by Position Even Through the Same FFN
 
 This example is not an implementation of an actual Transformer. It is a small experiment for checking the position-wise processing feel of a feed-forward network. Assume that three position representations already have context mixed after attention, and that the same FFN weights are applied identically to each position.
 
@@ -146,7 +146,7 @@ The first output shows that even when the same FFN is applied, hidden and output
 
 Explanation: The result to read in this example is that the feed-forward network is not a device for choosing a new token. Referring to other positions already happened at the attention stage, and the FFN passes each position's incoming representation through the same processing criterion. That is why outputs can differ by position even when the same FFN is shared.
 
-### Practice. Turn The Current Position Representation Into Words
+### Practice. Turn the Current Position Representation into Words
 
 Assume that context has been mixed after attention in the scenes below. Write in words which direction the current position representation should be processed toward after feed-forward.
 
@@ -168,6 +168,6 @@ Writing it this way prevents `feed-forward output` in the representation-movemen
 - Can you explain that even when the same FFN is applied to several positions, different input representations produce different output representations?
 - Can you distinguish self-attention's `relationship reading` from the feed-forward network's `within-position transformation`?
 
-## Sources And References
+## Sources and References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }

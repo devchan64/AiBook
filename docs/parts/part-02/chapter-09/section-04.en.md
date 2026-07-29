@@ -1,7 +1,7 @@
 # P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-9.1, we viewed a data structure as the shape that holds data and the way that data is handled. But once you start studying data structures, many unfamiliar names suddenly appear.
 
@@ -47,7 +47,7 @@ This Section places required review and extended background in one place. On a f
 - You can explain that Python lists and dictionaries are not exactly the same thing as traditional data-structure explanations, but can still be understood by borrowing that intuition.
 - You can explain that in AI practice, structures such as datasets, token lists, label maps, document relationships, and search indices require different data-structure intuitions.
 
-## The Standard to Hold First
+## Standard to Hold First
 
 The first standard to hold in this supplement is that `a data-structure name is a label attached to a representative question`.
 
@@ -447,7 +447,7 @@ while node is not None:
 
 This example really follows the flow `Kim -> Lee -> Park -> None`. The key point is not whether the values sit in consecutive slots, but that there is a connection that lets you move to the next item.
 
-### Stack intuition: The last inserted item comes out first
+### Stack intuition: the last inserted item comes out first
 
 The intuition of a stack can be confirmed through `append()` and `pop()` on a Python list.
 
@@ -471,7 +471,7 @@ print(stack)
 
 The last inserted `"C"` comes out first. That is the LIFO intuition.
 
-### Queue intuition: The first inserted item is handled first
+### Queue intuition: the first inserted item is handled first
 
 A queue has the flow of taking out from the front and putting in at the back. In Python, this intuition can be checked simply through `collections.deque`.
 

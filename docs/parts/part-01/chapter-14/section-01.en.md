@@ -1,7 +1,7 @@
 # P1-14.1 Model, Application, Data, and Tool
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 13 covered embeddings, similarity search, RAG, and the intuition behind vector search implementation. That flow creates an important shift:
 
@@ -58,7 +58,7 @@ This section loosens the intuition that `AI service = model`. The following thre
 | the model, application, data, and tool each have different roles | This becomes the basic map for later discussions of RAG, agents, and MCP. | It is enough to distinguish generation, flow management, evidence, and external action. |
 | service quality depends not only on model capability, but on the way the whole system is connected | This introduces the first architecture view. | It is enough to understand that permissions, retrieval, and post-processing matter too. |
 
-## The Model Is the Core Component That Produces Answers
+## Model as Core Answer-Producing Component
 
 A `model` is the core computation component in an AI service. It can read user input and output text, code, image descriptions, structured data, and other forms.
 
@@ -87,7 +87,7 @@ So if we read `AI service` as if it were just `the model itself`, we overlook th
 | the model knows all the data | the model answers using the input context and learned representations it is given |
 | the model directly executes actions | real actions are carried out by the application, server, and tool-calling code |
 
-## The Application Handles the User's Request and Result Flow
+## Application Handles User Request and Result Flow
 
 The `application` is the layer the user actually touches. A web page, mobile app, chat interface, IDE extension, or dashboard can all be applications.
 

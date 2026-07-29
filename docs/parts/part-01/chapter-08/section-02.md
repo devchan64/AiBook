@@ -1,7 +1,7 @@
 # P1-8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 8.1에서는 라벨(label)을 데이터에 붙인 구분 표식으로 설명했습니다. 지도학습(supervised learning)은 입력(input)과 라벨(label)이 함께 있는 예시에서 입력과 출력의 관계를 맞추려 합니다.
 

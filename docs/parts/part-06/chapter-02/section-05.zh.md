@@ -1,7 +1,7 @@
 # P6-2.5 补充学习：从运营观察值看见 tokenizer 家族差异
 
 > Section ID: `P6-2.5`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 BPE、WordPiece、SentencePiece 不是需要背下来的名称清单。即使是同一个字符串，使用的 tokenizer 不同，片段边界、token 数、空白处理、稀有表达处理也会不同。这个差异会直接连接到成本预测、检索 chunk、长文档输入，以及混合标记文档的长度感觉。
 

@@ -1,7 +1,7 @@
 # P2-12.1 What Does a Pandas DataFrame Represent?
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Part 2 Chapter 11 worked with NumPy arrays for vectors, matrices, axes, and broadcasting. That workflow is strong for numeric computation, but the question changes when we start reading a dataset that looks like a table.
 
@@ -15,7 +15,7 @@ Real data often arrives in a shape like this.
 
 When we look at this table, we usually read `who`, `which column`, and `which value` before we read position. A Pandas DataFrame is the central structure for exactly this kind of tabular data.
 
-This Section introduces the basic distinction among `DataFrame`, `row`, `column`, and `index`. If the previous NumPy chapter focused on how values appear as vectors and matrices for actual computation, this chapter asks how the same bundle of values should be read as a table of cases and variables. The next chapter will move from this table to plots that reveal patterns not immediately visible in the table. As we continue into selection, aggregation, and dataset preparation, the [concept glossary](/AiBook/reference/concept-glossary/) remains a useful anchor.
+This Section introduces the basic distinction among `DataFrame`, `row`, `column`, and `index`. If the previous NumPy chapter focused on how values appear as vectors and matrices for actual computation, this chapter asks how the same bundle of values should be read as a table of cases and variables. The next chapter will move from this table to plots that reveal patterns not immediately visible in the table. As we continue into selection, aggregation, and dataset preparation, the [DataFrame glossary entry](/AiBook/en/reference/concept-glossary-alpha/d.en/#dataframe) remains a useful anchor.
 
 ## Core Criteria: What Does a Pandas DataFrame Represent?
 
@@ -233,7 +233,7 @@ The diagram makes that more explicit.
 
 The key point is that the index is not itself a data value. It is the rule for pointing at rows.
 
-## The Index May Be a Simple Number or a Meaningful Label
+## Index May Be a Simple Number or a Meaningful Label
 
 The Pandas documentation explains that, unless we provide an index separately, a `RangeIndex` is used by default. That is why we often see `0, 1, 2, ...` when a DataFrame is first created.
 

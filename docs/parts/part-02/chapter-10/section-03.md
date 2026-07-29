@@ -1,13 +1,13 @@
 # P2-10.3 노트북을 재실행 가능한 기록으로 정리하기
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 P2-10.1에서는 노트북(notebook)을 코드, 설명, 출력이 함께 있는 계산 문서로 봤습니다. P2-10.2에서는 Jupyter, Colab, 로컬 실행의 차이를 실행 위치와 파일 접근 관점에서 구분했습니다.
 
 이제 한 단계 더 들어갑니다. 노트북은 학습 기록으로 유용하지만, 셀을 여러 번 실행하다 보면 문서에 보이는 순서와 실제 실행 상태가 달라질 수 있습니다. 그래서 노트북은 “읽기 좋은 문서”이면서 동시에 “다시 실행 가능한 기록(reproducible record)”으로 정리해야 합니다.
 
-여기서는 `재실행 가능한 기록(reproducible record)`, `실행 순서(execution order)`, `숨은 상태(hidden state)`, `런타임 상태(runtime state)`의 기본 구분을 설명합니다. `노트북(notebook)`과 셀 구조의 대표 설명은 P2-10.1에, 실행 위치 차이는 P2-10.2에, `재현성(reproducibility)`의 대표 설명은 P2-7.5와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 기록을 다시 믿을 수 있게 정리하는 기준에 집중합니다.
+여기서는 `재실행 가능한 기록(reproducible record)`, `실행 순서(execution order)`, `숨은 상태(hidden state)`, `런타임 상태(runtime state)`의 기본 구분을 설명합니다. `노트북(notebook)`과 셀 구조의 대표 설명은 P2-10.1에, 실행 위치 차이는 P2-10.2에, `재현성(reproducibility)`의 대표 설명은 P2-7.5와 [개념사전의 재현성 항목](../../../reference/concept-glossary-parts/09-jieut.md#reproducibility)에 두고, 여기서는 그 기록을 다시 믿을 수 있게 정리하는 기준에 집중합니다.
 
 Part 2 흐름에서 보면 Chapter 7은 `어디서 실행하나`, Chapter 8~9는 `무엇을 어떤 문장으로 적나`, Chapter 10은 `그 실행과 출력을 어떻게 다시 읽을 수 있게 남기나`를 다룹니다. 이 기준이 서야 바로 뒤 Chapter 11~14도 새 도구 이름 목록이 아니라 `노트북 안에서 배열을 계산하고, 표를 읽고, 그래프로 확인하고, Git으로 기록을 남기는 준비 흐름`으로 읽힙니다.
 

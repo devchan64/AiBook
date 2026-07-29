@@ -1,9 +1,9 @@
 # P4-18.2 可视化与信息损失
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-在 P4-18.1 里，我们看到了降维(dimensionality reduction)是在把大量特征重新表达成更少的轴。接下来要问的是：这个图到底能信到什么程度。
+在 P4-18.1 里，我们看到了[降维(dimensionality reduction)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction)是在把大量[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)重新表达成更少的轴。接下来要问的是：这个图到底能信到什么程度。
 
 如果通过降维，图已经变得容易看了，那么这个图到底可以信到哪里？
 
@@ -11,9 +11,9 @@
 
 可视化是非常强的工具，但它也可能制造非常强的错觉。
 
-这一节不会长篇重复降维的基本定义。`把很多特征重新表达成更少的轴`这一核心直觉，会通过 P4-18.1 和[概念词汇表](/AiBook/reference/concept-glossary/)重新连回来；这里则只集中处理：这种图会带来哪些信息损失，以及哪些解释风险。
+这一节不会长篇重复降维的基本定义。`把很多特征重新表达成更少的轴`这一核心直觉，会通过 P4-18.1 重新连回来；这里则集中处理：这种图会带来哪些信息损失(information loss)，以及哪些解释风险。
 
-## 本节范围
+## 可视化与信息损失先收束的问题
 
 这一节回答下面这些问题。
 
@@ -21,23 +21,23 @@
 - 什么信息相对保留得较好，什么信息可能会消失？
 - 为什么二维图里看起来接近的点，并不一定在原空间里也接近？
 - 在探索性分析(exploratory analysis)里，应该怎样更安全地使用降维结果？
-- 在解释 t-SNE、UMAP、reconstruction error、trustworthiness 时，最少要理解什么？
+- 在解释 [t-SNE](/AiBook/zh/reference/concept-glossary-pinyin/t/#t-sne)、[UMAP](/AiBook/zh/reference/concept-glossary-pinyin/u/#umap)、[reconstruction error](/AiBook/zh/reference/concept-glossary-pinyin/r/#reconstruction-error)、[trustworthiness](/AiBook/zh/reference/concept-glossary-pinyin/t/#trustworthiness) 时，最少要理解什么？
 
 这一节集中在入门层面抓住`这个图到底能信到哪里`和`该怎样读信息损失`。因此，这一节会直接处理 t-SNE 和 UMAP 更想保留什么结构，以及 reconstruction error 和 trustworthiness 应该怎样作为最低限度的检查标准来读。相对地，实现优化、细致调参以及更扩展的指标比较，这里不会长篇展开。
 
-## 用可视化与信息损失留下的判断标准
+## 可视化与信息损失要留下的判断标准
 
-- 能说明降维可视化是一种结构探索工具。
+- 能说明降维[可视化(visualization)](/AiBook/zh/reference/concept-glossary-pinyin/k/#visualization)是一种结构探索工具。
 - 能说明只要降维，就会伴随某些信息损失。
 - 能理解二维图上的距离和原始高维空间里的距离可能不同。
 - 能保持一种态度：把可视化结果当成后续审查的起点，而不是最终结论。
 
-## 阅读这一节的顺序
+## 可视化与信息损失的判断顺序
 
 这一节里，可视化解释、方法比较、质量指标会一起出现，所以第一次读时，最好只按下面四个问题的顺序来抓。
 
 1. 为什么降维图虽然容易看，但不是完整副本？
-2. PCA、t-SNE、UMAP 分别更想保留什么？
+2. [PCA](/AiBook/zh/reference/concept-glossary-pinyin/p/#principal-component-analysis-pca)、t-SNE、UMAP 分别更想保留什么？
 3. `看起来很近的点`和`看起来分开的团块`到底能信到哪里？
 4. reconstruction error 和 trustworthiness 又是从什么方向去重新检查这些风险？
 
@@ -93,7 +93,7 @@
 
 ## “容易看”不等于“原始结构被完整保留”
 
-二维散点图(scatter plot)看起来很整洁，但这并不表示原始高维结构就被完整地搬到了二维平面上。
+二维[散点图(scatter plot)](/AiBook/zh/reference/concept-glossary-pinyin/s/#scatter-plot)看起来很整洁，但这并不表示原始高维结构就被完整地搬到了二维平面上。
 
 这里的重要区分是：
 
@@ -404,5 +404,8 @@ Q 2d= [-0.19, 2.32]
 
 ## 出处与参考资料
 
-- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `PCA`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `PCA`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `TSNE`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `trustworthiness`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.manifold.trustworthiness.html](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.trustworthiness.html){: target="_blank" rel="noopener noreferrer" }
+- UMAP Project, `How UMAP Works`, UMAP documentation, 确认日期: 2026-07-26. [https://umap-learn.readthedocs.io/en/latest/how_umap_works.html](https://umap-learn.readthedocs.io/en/latest/how_umap_works.html){: target="_blank" rel="noopener noreferrer" }

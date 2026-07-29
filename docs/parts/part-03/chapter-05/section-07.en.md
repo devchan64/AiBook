@@ -1,13 +1,13 @@
 # P3-5.7 Rules for Folding Multiple Follow-Up Events
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.25`
 
 _Subtitle: By what rule should multiple events after the same sample be folded into one table structure?_
 
-Even after the sample unit and the input window are fixed, one more point often blocks the table structure. It is the case where several follow-up events attach after the same sample. For example, after one action, we may record `review`, `warning`, `failure`, and `revisit` in sequence. If we do not decide how to fold them into one result column, the same sample can easily change meaning from table to table.
+Even after the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit and the input window are fixed, one more point often blocks the table structure. It is the case where several follow-up events attach after the same sample. For example, after one action, we may record `review`, `warning`, `failure`, and `revisit` in sequence. If we do not decide how to fold them into one result column, the same sample can easily change meaning from table to table.
 
-If there are several follow-up events, we should first write down by what rule they were folded into one table structure.
+If there are several follow-up events, we should first write down by what [folding rule](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-folding-rule) they were folded into one table structure.
 
 Common folding rules look like this.
 
@@ -34,7 +34,7 @@ Depending on how we fold this into a table, the meaning of the result column cha
 | B | 0 | review | 1 |
 | C | 0 | none | 0 |
 
-So even when we are looking at the same source event, the table structure changes according to `what we choose as the representative result`. This is a data-modeling problem in which we must first decide by what rule the representative result will be folded and left in the table.
+So even when we are looking at the same [source event](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-event), the table structure changes according to `what we choose as the representative result`. This is a data-modeling problem in which we must first decide by what rule the representative result will be folded and left in the table.
 
 Leaving the notes below first reduces later confusion.
 
@@ -54,7 +54,7 @@ The first CSV has one row for each sample that must remain in the final result t
 
 Expected output: output showing that even for the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, and `any_failure` are created differently. If `failure_severity_cutoffs` changes, the number and list of failure-candidate samples also change.
 
-Concept to check: when folding several follow-up events into one result column, we should first specify by what rule they were folded, so the meaning of the table structure does not drift
+Concept to check: when folding several follow-up events into one result column, we should first specify by what folding rule and [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-threshold) they were folded, so the meaning of the table structure does not drift
 
 ```python
 # This example folds multiple follow-up events after the same sample into a table structure and chooses a representative label.
@@ -226,7 +226,7 @@ sample_id      first_event      worst_event  worst_severity  event_count        
                        2                    21 S01,S02,S04,S05,S07,S08,S10,S11,S12,S13,S16,S17,S18,S19,S21,S22,S24,S25,S26,S28,S29
 ```
 
-The key point in this example is that even while looking at the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, and `any_failure` can become different result columns. For S01, the first follow-up event is `review`, but the most severe event is `failure`. For S02, the first event is `review`, but the most severe event is `warning`. Samples like S30 have no follow-up events, but they still exist in the sample roster, so they are folded as `none` and 0 and remain in the final table. The values to manipulate here are `selected_failure_severity_cutoff` and `failure_severity_cutoffs`. With the threshold at 4, only S01, S07, S13, S19, and S25, which have `failure`, become failure candidates. If the threshold is lowered to 3, samples whose worst event is `warning` also enter the failure-candidate set. If it is lowered to 2, samples whose worst event is `review` or `inspection` are included too. In other words, unless the folding rule and threshold are written down, the same follow-up event log can be read with different meanings from table to table.
+The key point in this example is that even while looking at the same source event, `first_event`, `worst_event`, `event_count`, `event_sequence`, and `any_failure` can become different result columns. For S01, the first follow-up event is `review`, but the most severe event is `failure`. For S02, the first event is `review`, but the most severe event is `warning`. Samples like S30 have no follow-up events, but they still exist in the sample roster, so they are folded as `none` and 0 and remain in the final table. The values to manipulate here are `selected_failure_severity_cutoff` and `failure_severity_cutoffs`. With the threshold at 4, only S01, S07, S13, S19, and S25, which have `failure`, become failure candidates. If the threshold is lowered to 3, samples whose worst event is `warning` also enter the failure-candidate set. If it is lowered to 2, samples whose worst event is `review` or `inspection` are included too. In other words, unless the folding rule and threshold are written down, the same follow-up event log can be read with different [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) meanings from table to table.
 
 ## A Small Diagram
 

@@ -1,7 +1,7 @@
 # P5-8.3 Supplementary Learning: Stabilizing Deep Computation
 
 > Section ID: `P5-8.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How do initialization, numerical stability, and batch normalization stabilize deep networks at different points?_
 
@@ -15,7 +15,7 @@ Initialization sets the starting point where learning begins, numerical stabilit
 
 When this axis becomes blurry again, it helps to reread together the glossary entries for [training mode](/AiBook/en/reference/concept-glossary-alpha/t/#training-mode), [batch normalization](/AiBook/en/reference/concept-glossary-alpha/b/#batch-normalization), [initialization](/AiBook/en/reference/concept-glossary-alpha/i/#initialization), and [numerical stability](/AiBook/en/reference/concept-glossary-alpha/n/#numerical-stability).
 
-## The Question Of Why Deep Computation Shakes
+## The Question of Why Deep Computation Shakes
 
 - Why do deep networks not learn well immediately just because we add more layers?
 - What does initialization determine?
@@ -27,7 +27,7 @@ The larger flow of ReLU-type activations and the spread of deep learning reconne
 
 The role of this section is to gather in one place `the conditions that let deep computation survive both the forward pass and the backward pass`.
 
-## Standards For Initialization, Numerical Stability, And Batch Normalization
+## Standards for Initialization, Numerical Stability, and Batch Normalization
 
 - You can explain initialization as `the placement of values at the start of learning`.
 - You can explain numerical stability as `the problem of keeping values and gradients within a manageable range during computation`.
@@ -73,7 +73,7 @@ For example, if all weights start from exactly the same value, especially 0, the
 
 So the first responsibility of initialization is closer to `not letting every neuron start in exactly the same way` than to `not starting arbitrarily`.
 
-## Why Should The Starting Point Not Be Identical
+## Why Should the Starting Point Not Be Identical
 
 With a single perceptron, an awkward starting value may not look like a large problem. But in a multilayer structure, multiple neurons in the same layer need to learn different combinations.
 
@@ -142,7 +142,7 @@ The mode difference we saw in P5-6.4 reconnects here as well.
 
 So batch normalization is not just `one normalization name`, but a representative case that makes us read learning stabilization and mode switching together.
 
-## What Is Different From Regularization
+## What Is Different from Regularization
 
 Beginners can easily look at batch normalization, dropout, and weight decay as one bundle of `options that help learning`. But the questions are different.
 
@@ -156,7 +156,7 @@ Beginners can easily look at batch normalization, dropout, and weight decay as o
 
 If we fix this table first, then even when new techniques appear later, it becomes easier to separate whether they are closer to `starting point`, `computational stability`, `update`, or `generalization`.
 
-## Cases And Examples
+## Cases and Examples
 
 To read through the earlier phrase `why deep networks became able to shake less in practice` as a concrete case, it is better not to memorize the three terms separately, but to see together `where one deep computation scene shakes, and what reduces that shaking`. The two cases below split the same deep network into `a scene that starts unstably` and `a scene that has been reorganized to shake less`.
 
@@ -219,7 +219,7 @@ In other words, even if the two cases look like `one problem case` and `one solu
 
 The final result to confirm in these cases is clear. The core of deep-network stabilization is not `memorizing many technique names`, but understanding that initialization handles the starting point, numerical stability handles the range of repeated computation, and batch normalization handles the intermediate distribution, and that the three together make learning shake less.
 
-## Practice And Example
+## Practice and Example
 
 If you can answer the following questions, the role of this section is sufficiently closed.
 
@@ -240,7 +240,7 @@ Because this section closes the concept map first, we do not repeat executable c
 - Can you explain that batch normalization is a learning-stabilization device that organizes activation distributions into a range that is easier to handle?
 - Can you distinguish that the optimizer, regularization, and batch normalization answer different questions?
 
-## Sources And References
+## Sources and References
 
 - Aston Zhang, Zachary C. Lipton, Mu Li, Alexander J. Smola, `Dive into Deep Learning`, `5.4 Numerical Stability and Initialization`, `8.5 Batch Normalization`, `12 Optimization Algorithms`, checked on 2026-07-11. [https://d2l.ai/](https://d2l.ai/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, Part II `Modern Practical Deep Networks`, checked on 2026-07-11. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

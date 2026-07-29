@@ -1,7 +1,7 @@
 # P5-5.2 计算图(computation graph)
 
 > Section ID: `P5-5.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P5-5.1 里，我们已经说明：损失（loss）本身并不是更新，它必须先被重新拆成按参数分开的梯度（gradient）信号。理解到这里之后，接下来还会留下一个问题：
 
@@ -11,7 +11,7 @@
 
 计算图，是把模型里的运算展开成节点（node）与连接（edge）的表示方式。这样我们就能看见：顺向传播里值是在哪里生成的，而自动微分又会在反向阶段沿着哪条路径把梯度送回来。
 
-如果之后需要把这种运算关系再拆小来读，更适合回到[英文概念词汇表里的 computation graph 条目](/AiBook/reference/concept-glossary-parts/01-giyeok/#computation-graph)。
+如果之后需要把这种运算关系再拆小来读，更适合回到概念词汇表里的[计算图（computation graph）](/AiBook/zh/reference/concept-glossary-pinyin/c/#computation-graph)、[自动微分（automatic differentiation）](/AiBook/zh/reference/concept-glossary-pinyin/z/#automatic-differentiation)、[链式法则（chain rule）](/AiBook/zh/reference/concept-glossary-pinyin/l/#chain-rule)条目。
 
 ## 计算图怎样记住微分的问题
 

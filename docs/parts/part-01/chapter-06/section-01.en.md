@@ -1,7 +1,7 @@
 # P1-6.1 Problems with Incomplete Information and Many Exceptions
 
 > Section ID: `P1-6.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 5 distinguished `learning` from `inference`. Now we turn to the next question: why did AI end up using rules, search, probability, and learning together?
 

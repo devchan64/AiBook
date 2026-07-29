@@ -1,9 +1,9 @@
 # Part 3 总结
 
 > Section ID: `P3-summary`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在这一 Part 里，我们把数据建模读成问题表达结构的设计，而不是存储结构的说明。核心点在于：源数据并不会自动成为数据集。Part 2 和 Part 3 一起构成基础恢复区段，而 Part 3 负责的是 `数据科学问题结构的恢复`。只有先固定数据建模的目标与范围，把存储好的记录重新读成数据集候选，决定样本和表结构，设计特征和基准线，并划出解释边界，后面的机器学习说明才会真正读得稳。
+在这一 Part 里，我们把[数据建模(data modeling)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)读成问题表达结构的设计，而不是存储结构的说明。核心点在于：[原始数据(source data)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)并不会自动成为[数据集(dataset)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-dataset)。Part 2 和 Part 3 一起构成基础恢复区段，而 Part 3 负责的是 `数据科学问题结构的恢复`。只有先固定数据建模的目标与范围，把存储好的记录重新读成数据集候选，决定样本和表结构，设计[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)和[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)，并划出解释边界，后面的机器学习说明才会真正读得稳。
 
 代表案例是这样一种结构：有一次自动执行的动作，这个动作里留下了控制参数时间序列和传感器时间序列，之后又把多次动作重新聚成近期区段，与基准线做比较。Part 3 解释的，就是如何把这个结构改写成人能读、模型也能接得住的表结构。
 
@@ -13,7 +13,7 @@ Part 3 的流程，比起按 Chapter 编号记住，更重要的是按下面三�
 | --- | --- | --- |
 | 固定职责与顺序 | 数据建模负责什么，又按什么顺序判断？ | 问题结构设计的位置、工作顺序地图 |
 | 重建比较结构 | 存储好的记录应重新读成什么样本、表、特征和基准线结构？ | 数据集候选、摘要表、特征、基准线比较表 |
-| 收口解释与问题 | 可以说到哪里，什么还应该保留为报告？ | 保守表述、运营输出、输入/结果边界、时间边界 |
+| 收口解释与问题 | 可以说到哪里，什么还应该保留为[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report)？ | 保守表述、运营输出、输入/结果边界、时间边界 |
 
 只要这三行还在，Part 3 就仍然可以被重新读成 `把问题改写成可表达结构的一连串判断`。
 

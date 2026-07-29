@@ -1,18 +1,18 @@
 # P3-4.1 How Do We Decide One Comparable Sample
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-The first thing to confirm when reading data is not the size of the values, but `what does one row mean?` If this question is not settled first, then the criteria drift later when features are built, when labels are attached, and even when evaluation results are read. In the end, this question leads to `what should count as one comparable sample?`
+The first thing to confirm when reading data is not the size of the values, but what one [row](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-row) means. If this question is not settled first, then the criteria drift later when [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) are built, when [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) are attached, and even when [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evaluation) results are read. In the end, this question leads to what should count as one comparable [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample).
 
-Suppose that in an automatically executed action, both control-parameter time series and sensor time series remain recorded. In one table, one row may mean `the pressure and flow measurement at the 1-second time point`. In another table, one row may mean `the summary of one full action`. In yet another table, one row may mean `the aggregate result of several actions executed during the most recent 30 minutes`. All three come from the same source data, but the object that one row means is completely different.
+Suppose that in an automatically executed action, both control-parameter time series and sensor time series remain recorded. In one table, one row may mean `the pressure and flow measurement at the 1-second time point`. In another table, one row may mean `the summary of one full action`. In yet another table, one row may mean `the aggregate result of several actions executed during the most recent 30 minutes`. All three come from the same [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data), but the object that one row means is completely different.
 
 | Category | What one row means | The question it mainly answers |
 | --- | --- | --- |
 | Measurement table | one sensor or control value at one time point during the action | What is the value at this time point? |
 | Action-level table | one full automatically executed action | What was the overall structure of this action? |
 | Recent-segment table | a recent aggregate formed by grouping several actions | Is the recent change repeating? |
-| Baseline table | a comparison aggregate that represents the usual state | How different is the current state from the usual one? |
+| [Baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) table | a comparison aggregate that represents the usual state | How different is the current state from the usual one? |
 
 This table shows that even with the same data, `the meaning of one row` changes according to what question we are trying to answer. A measurement table is strong for reading the current state, but it cannot immediately show the structure of the full action. By contrast, an action-level table is useful for comparing one action, but it does not preserve moment-by-moment changes as they were. A recent-segment table and a baseline table go one step further and mean not `one case`, but `a comparison structure made by grouping several cases`. So the fact that rows are visible in front of us does not mean we can treat that row as one sample. If what the model must learn is `the pattern of the full action`, then several time-point measurement rows must be regrouped into a new sample called `one action`.
 

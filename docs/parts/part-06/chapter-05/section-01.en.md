@@ -1,7 +1,7 @@
-# P6-5.1 The GPT Family Through Decoder-Based Cumulative Generation
+# P6-5.1 GPT Family Through Decoder-Based Cumulative Generation
 
 > Section ID: `P6-5.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 So far, we have reread the Transformer from an LLM perspective and checked context window and attention constraints. Now, even within the same Transformer family, we need to distinguish `the flow that reads input` from `the flow that keeps generating onward`.
 
@@ -52,7 +52,7 @@ To read GPT not as a product name but as a sequential generation structure, we n
 | Comparison criterion | Can the difference from BERT be distinguished as reading the whole input versus continuing the output? |
 | Concrete scene | Can we check in examples whether early choices keep pushing the later generation path? |
 
-## What Does GPT Stand For?
+## GPT Name and Meaning
 
 GPT stands for `Generative Pre-Trained Transformer`. The name already contains three key points.
 
@@ -102,7 +102,7 @@ We can understand it as follows.
 
 `GPT is less a model that reads the whole sentence at once and makes a judgment, and more a model that keeps writing the back part based on what has been written in front.`
 
-## What Is Different Compared With BERT?
+## Difference Compared with BERT
 
 To summarize again:
 

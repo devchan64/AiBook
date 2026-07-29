@@ -1,24 +1,24 @@
 # P4-19.4 Supplementary Learning: A Map of Later Reinforcement-Learning Branches
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _Subtitle: What problem concerns split DQN, PPO, and RLHF into later reinforcement-learning branches?_
 
 After reading P4-19.1 through P4-19.3, readers quickly encounter many more names when they study reinforcement learning further.
 
-- DQN
-- PPO, TRPO, A2C, A3C
-- safe reinforcement learning
-- offline reinforcement learning
-- domain randomization
-- RLHF, preference optimization
+- [DQN](/AiBook/en/reference/concept-glossary-alpha/d/#dqn)
+- [PPO](/AiBook/en/reference/concept-glossary-alpha/p/#ppo), [TRPO](/AiBook/en/reference/concept-glossary-alpha/t/#trpo), [A2C](/AiBook/en/reference/concept-glossary-alpha/a/#a2c), [A3C](/AiBook/en/reference/concept-glossary-alpha/a/#a3c)
+- [safe reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/s/#safe-reinforcement-learning)
+- [offline reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/o/#offline-reinforcement-learning)
+- [domain randomization](/AiBook/en/reference/concept-glossary-alpha/d/#domain-randomization)
+- [RLHF](/AiBook/en/reference/concept-glossary-alpha/r/#rlhf), [preference optimization](/AiBook/en/reference/concept-glossary-alpha/p/#preference-optimization)
 
 These names came from different periods and different bottlenecks, but they often rush in all at once. This Section focuses not on learning each implementation, but on organizing the larger flow of `why did these names branch out?`
 
-This supplementary learning Section does not explain the basic definition of reinforcement learning from the beginning again. The handle for value-based reinforcement learning remains in P4-19.1, the handle for policy-based reinforcement learning remains in P4-19.2, and the handle for application risk remains in P4-19.3 and the [concept glossary](/AiBook/reference/concept-glossary/). Here, only the later names are arranged as a genealogy.
+This supplementary learning Section does not explain the basic definition of reinforcement learning from the beginning again. The handle for value-based reinforcement learning remains in P4-19.1's [value-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning), the handle for policy-based reinforcement learning remains in P4-19.2's [policy-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning), and the handle for application risk remains in P4-19.3's [reward design](/AiBook/en/reference/concept-glossary-alpha/r/#reward-design) and [sim-to-real gap](/AiBook/en/reference/concept-glossary-alpha/s/#sim-to-real-gap). Here, only the later names are arranged as a genealogy.
 
-## Scope Of This Supplementary Section
+## Branch Boundaries For Later Reinforcement-Learning Names
 
 This Section answers the following questions.
 
@@ -30,7 +30,7 @@ This Section answers the following questions.
 
 The detailed training pipeline of RLHF and alignment practice returns in Part 5.
 
-## Goals Of This Supplementary Section
+## Connections To Recover From Later Reinforcement-Learning Branches
 
 - You can organize the later names of reinforcement learning into four branches: value-based expansion, policy-based stabilization, real-world reinforcement, and LLM-alignment connection.
 - You can explain on what tradition DQN and PPO each stand.

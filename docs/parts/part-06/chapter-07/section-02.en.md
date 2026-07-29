@@ -1,7 +1,7 @@
 # P6-7.2 Scale That Grows Capability and Operational Burden Together
 
 > Section ID: `P6-7.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-7.1, we explained pretraining as the `stage that first creates a broad language base`. Then the next question follows. `Why do large datasets, large models, and large amounts of computation always come along when making that base?`
 

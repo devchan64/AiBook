@@ -1,11 +1,11 @@
 # P2-2.4 로그(log)와 지수(exp)는 왜 반복해서 등장하는가
 
 > Section ID: `P2-2.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 극한(limit)까지 다시 읽고 나면, 뒤의 머신러닝과 딥러닝 설명에서 또 자주 막히는 표기가 남습니다. `log`, `exp`, `e^x` 같은 표현입니다. 이 표기들은 별도의 고급 수학 장식이 아니라, `값이 얼마나 빠르게 커지거나 줄어드는가`, `곱셈 관계를 어떻게 더하기 관계로 바꿔 읽는가`, `확률처럼 읽히는 점수를 어떻게 다루는가`를 설명할 때 반복해서 등장합니다.
 
-여기서는 로그(logarithm)와 지수(exponential)를 `로지스틱 회귀(logistic regression)`, `로그 손실(log loss)`, `소프트맥스(softmax)`를 읽기 위한 최소 계산 언어로 다시 붙잡습니다. 용어를 다시 빠르게 확인할 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 봅니다.
+여기서는 로그(logarithm)와 지수(exponential)를 `로지스틱 회귀(logistic regression)`, `로그 손실(log loss)`, `소프트맥스(softmax)`를 읽기 위한 최소 계산 언어로 다시 붙잡습니다. 용어를 다시 빠르게 확인할 때는 [개념사전의 로그 손실 항목](../../../reference/concept-glossary-parts/04-rieul.md#log-loss)도 함께 봅니다.
 
 ## 핵심 기준: 로그(log)와 지수(exp)는 왜 반복해서 등장하는가
 

@@ -1,7 +1,7 @@
 # P4-19.1 价值型强化学习
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P4-2.3 里，我们把强化学习(reinforcement learning)先抓成了`通过行动(action)与奖励(reward)来调整策略(policy)的学习`。再往里走一步，就会出现下面的问题。
 
@@ -9,13 +9,13 @@
 
 - 在什么状态(state)下什么行动是好的，模型到底按什么标准学习？
 - `好`这件事，是像规则一样写，还是像数字一样写？
-- Q-learning 和 SARSA 都叫强化学习，它们到底差在哪里？
+- [Q-learning](/AiBook/zh/reference/concept-glossary-pinyin/q/#q-learning) 和 [SARSA](/AiBook/zh/reference/concept-glossary-pinyin/s/#sarsa) 都叫强化学习，它们到底差在哪里？
 
 价值型强化学习，是一种通过给每个状态里的行动附上长期好坏的数值来学习的做法。
 
-这一节解释 `value-based reinforcement learning`、`state value`、`action value`、`Q-value` 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“把行动的长期好坏读成分数”这一基本感觉，会再次通过这一节和[概念词汇表](/AiBook/reference/concept-glossary/)连回来。
+这一节解释 [value-based reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)、[state value](/AiBook/zh/reference/concept-glossary-pinyin/z/#state-value)、[action value](/AiBook/zh/reference/concept-glossary-pinyin/x/#action-value)、[Q-value](/AiBook/zh/reference/concept-glossary-pinyin/q/#q-value) 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“把行动的长期好坏读成分数”这一基本感觉，会再次通过这一节和相关概念词汇表条目连回来。
 
-## 本节范围
+## 价值型强化学习先收束的问题
 
 这一节回答下面这些问题。
 
@@ -27,7 +27,7 @@
 
 这一节先收住`给行动附上价值(value)，并学习行动长期好坏的强化学习具有什么结构`这个问题。policy-based reinforcement learning 会在 P4-19.2 继续，reward 设计与现实应用注意点会在 P4-19.3 继续，DQN 与策略系方法的大流程会在补充学习 P4-19.4 继续，Bellman equation 与 function approximation 的最小连接会在补充学习 P4-19.5 继续。
 
-## 用价值型强化学习(value-based reinforcement learning)留下的判断标准
+## 价值型强化学习要留下的判断标准
 
 - 能把价值型强化学习解释成`把行动的长期好坏学成数字的做法`。
 - 能区分 state value 和 action value。
@@ -37,7 +37,7 @@
 
 ## 为什么要学习 value
 
-在强化学习问题里，并不会每一步都给出正确标签。相反，agent 会先做行动，再收到奖励，然后经历下一个状态。
+在强化学习问题里，并不会每一步都给出正确标签。相反，强化学习智能体会先做行动，再收到奖励，然后经历下一个状态。
 
 这时，不是先把 policy 直接写死，而是先给`这个行动到底有多合适`记一个数字，会带来几个好处。
 
@@ -273,7 +273,7 @@ SARSA 的核心想法和 Q-learning 相似，但标准不同。
 
 ### 案例 2. 悬崖旁通道上，快路和安全路分开时
 
-假设 agent 到目标点有两条路。人最容易先抓的标准通常是`到达最快的路`，或`当前奖励涨得快的路`。所以，旁边有大惩罚的悬崖捷径，起初可能显得更好。但在强化学习里，必须把`连同失误可能性一起的长期回报`一起读进去。此时，Q-learning 会更强地反映`如果下一个状态里总能最优行动`这一点，所以可能让快路保持相对较高的值。相反，SARSA 更直接反映 exploration 中真的会混入悬崖失误的路径，因此可能把安全绕路读得更高。
+假设 强化学习智能体到目标点有两条路。人最容易先抓的标准通常是`到达最快的路`，或`当前奖励涨得快的路`。所以，旁边有大惩罚的悬崖捷径，起初可能显得更好。但在强化学习里，必须把`连同失误可能性一起的长期回报`一起读进去。此时，Q-learning 会更强地反映`如果下一个状态里总能最优行动`这一点，所以可能让快路保持相对较高的值。相反，SARSA 更直接反映 exploration 中真的会混入悬崖失误的路径，因此可能把安全绕路读得更高。
 
 | 同样的路径选择问题 | Q-learning 更先出现的解释 | SARSA 更先出现的解释 |
 | --- | --- | --- |

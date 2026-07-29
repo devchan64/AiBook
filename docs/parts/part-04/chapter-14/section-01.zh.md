@@ -1,17 +1,17 @@
 # P4-14.1 决策树(decision tree)
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-11 通过画边界(boundary)来理解分类。 P4-12 通过最近邻来理解分类。 P4-13 又把 margin 当作更好边界的标准来阅读同一个问题。 现在，我们要用完全不同的方式重新阅读同一个监督学习(supervised learning)问题。
 
 如果说 P4-13.2 抓住了 `同一份数据可以放到不同的表征空间(feature space)里重新看` 这一点，那么这一节要做的事是把同样的表格型数据换成另一个问题来整理： `应该按什么提问顺序把它分开来读？` 改变的不是问题本身。 改变的是概括同一个问题的单位。
 
-与其一次画出一条直线，不如想象把案例按问题一步一步拆开。 这样更容易看清决策树(decision tree)的出发点。 决策树不会试图一次把数据全部解释完。 它会重复 yes/no 问题，把更相似的案例逐渐分到一起，再给出预测。 所以决策树更接近 `问题流(question flow)`，而不是 `单一边界线`。
+与其一次画出一条直线，不如想象把案例按问题一步一步拆开。 这样更容易看清[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)的出发点。 决策树不会试图一次把数据全部解释完。 它会重复 yes/no 问题，把更相似的案例逐渐分到一起，再给出预测。 所以决策树更接近 `问题流(question flow)`，而不是 `单一边界线`。
 
-这一节解释 `决策树(decision tree)`、`分裂(split)`、`节点(node)`、`叶(leaf)` 的基本含义。 后续小节会以这些抓手继续推进当前语境中的判断，而 `把问题串起来再给出预测` 的基础直觉，也会通过这一节和[概念词典](/AiBook/reference/concept-glossary/)重新连接起来。
+这一节解释[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)、[分裂(split)](/AiBook/zh/reference/concept-glossary-pinyin/f/#split)、[节点(node)](/AiBook/zh/reference/concept-glossary-pinyin/n/#node)、[叶(leaf)](/AiBook/zh/reference/concept-glossary-pinyin/y/#leaf)的基本含义。 后续小节会以这些抓手继续推进当前语境中的判断，而 `把问题串起来再给出预测` 的基础直觉，也会通过这一节的判断标准重新连接起来。
 
-## 本节范围
+## 决策树先收束的问题
 
 本节回答以下问题。
 
@@ -23,7 +23,7 @@ P4-11 通过画边界(boundary)来理解分类。 P4-12 通过最近邻来理解
 
 这些内容会在 P4-14.2、P4-15、P4-16 继续展开。也就是说，这一节先把决策树读成 `通过拆分问题来做预测的模型`，并把复杂度和 ensemble 问题留到后续小节。
 
-## 用决策树(decision tree)留下的判断标准
+## 决策树要留下的判断标准
 
 - 你可以把决策树解释成 `通过拆分问题来做预测的模型`。
 - 你可以说明 split、node、leaf、threshold 的含义。
@@ -263,7 +263,14 @@ scikit-learn 用户指南把决策树介绍为用于分类和回归的非参数(
 - 输入(input)：`visits`、`late_payment`
 - 标签(label)：`stay`、`churn`
 - 要确认的概念：
-- feature 和 threshold 一变，split 分数也会变 - 更能整理 label 的问题，有机会成为更好的第一处分裂 - 树训练就是在不断重复这种选择
+  - feature 和 threshold 一变，split 分数也会变
+  - 更能整理 label 的问题，有机会成为更好的第一处分裂
+  - 树训练就是在不断重复这种选择
+
+可以改动的值：
+
+- 在 `candidates` 中加入 `("visits", 2.5)`，可以观察 threshold 候选稍微变化时 weighted gini 怎样变化。
+- 在 `rows` 中再加入一个客户，可以确认第一处分裂依赖当前数据组成。
 
 ```python
 # 这个例子手动计算决策树在客户流失场景中如何选择好的第一个 split。
@@ -364,7 +371,9 @@ best first split
 - 要改的值：客户 `F` 的 `label`
 - 改动原因：故意制造一个让 `late_payment` 看起来更强的场景
 - 要确认的概念：
-- 数据组成一变，split 分数也会跟着变 - 决策树会沿着“更能整理当前数据”的方向改变问题流 - 读第一处分裂时，除了分数，也要一起读改变标准的案例是谁
+  - 数据组成一变，split 分数也会跟着变
+  - 决策树会沿着“更能整理当前数据”的方向改变问题流
+  - 读第一处分裂时，除了分数，也要一起读改变标准的案例是谁
 
 ```python
 # 这个例子比较客户 F 的一个 label 改变后，第一个 split 候选如何摇动。
@@ -456,6 +465,11 @@ else:
 - 决策树可以被读成 if-else 形式的分支规则
 - 所谓更高的可解释性，接近于说人能够跟着这条分支路径走下去
 
+可以改动的值：
+
+- 在 `examples` 中加入 `{"customer": "J", "visits": 3, "late_payment": 0}`，可以确认位于 threshold 边界的案例会到哪个 leaf。
+- 把 `predict` 里的第一个条件改成 `visits <= 2`，可以观察一个手写规则怎样改变预测路径。
+
 ```python
 # 这个例子把学到的决策树规则读成 if-else 预测函数。
 def predict(tree_input):
@@ -531,6 +545,6 @@ I -> stay
 
 ## 出处与参考资料
 
-- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, 确认日期: 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, 确认日期: 2026-07-26. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

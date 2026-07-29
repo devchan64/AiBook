@@ -1,28 +1,28 @@
 # P4-2.3 强化学习
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-2.1 里，我们看的是通过带 label 的数据来学习的监督学习；在 P4-2.2 里，我们看的是在没有 label 的数据里寻找结构的无监督学习。这一次要看的是：model 通过动作、得到 reward，并据此调整下一步行动方式的强化学习。
+在 P4-2.1 里，我们看的是通过带 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 的数据来学习的 [监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)；在 P4-2.2 里，我们看的是在没有 label 的数据里寻找结构的 [无监督学习](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)。这一次要看的是：[强化学习](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning)，也就是 model 通过 [action](/AiBook/zh/reference/concept-glossary-pinyin/a/#action)、得到 [reward](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward)，并据此调整下一步行动方式的学习。
 
 强化学习不同于 `看着正确 label 来匹配答案` 的学习。它并不会总是立刻告诉你哪个动作最好，而是让系统在执行动作之后，根据返回的 reward 和下一状态，逐渐找到更好的行动方式。所以强化学习处理的不是单次输入输出，而是随着时间连续展开的一串选择。
 
-这一节会说明 `reinforcement learning`、`state`、`action`、`reward`、`policy` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于长期奖励的学习到底是什么意思` 这个基础含义，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
+这一节会说明 reinforcement learning、[state](/AiBook/zh/reference/concept-glossary-pinyin/z/#state)、action、reward、[policy](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy) 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而基于长期奖励的学习到底是什么意思这个基础含义，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
-这一节解释强化学习的基本结构。像 Q-learning、SARSA、policy gradient、actor-critic 这样的具体算法公式和实现，这里不会展开。Q-learning 和 SARSA 会在 P4-19.1 的 value-based reinforcement learning 中再次出现，policy gradient 和 actor-critic 会在 P4-19.2 的 policy-based reinforcement learning 中再次出现。现在最重要的是先把 agent、environment、state、action、reward、policy 之间的关系立清楚。
+这一节解释强化学习的基本结构。像 Q-learning、SARSA、policy gradient、actor-critic 这样的具体算法公式和实现，这里不会展开。Q-learning 和 SARSA 会在 P4-19.1 的 value-based reinforcement learning 中再次出现，policy gradient 和 actor-critic 会在 P4-19.2 的 policy-based reinforcement learning 中再次出现。现在最重要的是先把 [强化学习智能体](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning-agent)、[强化学习环境](/AiBook/zh/reference/concept-glossary-pinyin/e/#reinforcement-learning-environment)、state、action、reward、policy 之间的关系立清楚。
 
 - reinforcement learning 和 supervised learning、unsupervised learning 有什么不同？
-- agent 和 environment 分别是什么？
+- 强化学习智能体和强化学习环境分别是什么？
 - state、action、reward、policy 是怎样连起来的？
 - 为什么延迟奖励会让问题变难？
-- 为什么 exploration 和 exploitation 必须同时存在？
+- 为什么 [exploration](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploration) 和 [exploitation](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploitation) 必须同时存在？
 
 ## 用强化学习留下的判断标准
 
 - 能把强化学习说明成 `通过动作和奖励来学习 policy 的方法`。
-- 能区分 agent、environment、state、action、reward、policy 的角色。
+- 能区分强化学习智能体、强化学习环境、state、action、reward、policy 的角色。
 - 能理解强化学习比起一次性的 prediction，更接近 sequential decision making。
 - 能说明 immediate reward 和 long-term reward 可能不一样。
 - 能用例子说明为什么 exploration 和 exploitation 之间需要平衡。
@@ -33,26 +33,26 @@
 
 | 元素 | 简单说明 | 游戏例子 |
 | --- | --- | --- |
-| agent | 选择动作的主体 | 角色 |
-| environment | agent 行动的世界 | 格子地图和规则 |
+| 强化学习智能体 | 选择动作的主体 | 角色 |
+| 强化学习环境 | 强化学习智能体行动的世界 | 格子地图和规则 |
 | state | 表示当前情况的信息 | 角色当前位置 |
 | action | 可以选择的动作 | 上、下、左、右 |
 | reward | 动作结果返回的数字信号 | 到达目标 `+10`，撞墙 `-1` |
 | policy | 在某种 state 下决定做什么 action 的方式 | `朝着更接近目标的方向移动` |
 
-如果是监督学习，可能会已经存在像 `在这个位置往右才是正确答案` 这样的 label。强化学习通常不是这样，而是 agent 先去尝试动作，再根据得到的 reward 来调整下一次怎么行动。
+如果是监督学习，可能会已经存在像 `在这个位置往右才是正确答案` 这样的 label。强化学习通常不是这样，而是 强化学习智能体先去尝试动作，再根据得到的 reward 来调整下一次怎么行动。
 
 ## 强化学习的基本流程
 
-强化学习最基本的结构，是 agent 和 environment 之间不断重复的交互。
+强化学习最基本的结构，是强化学习智能体和强化学习环境之间不断重复的交互。
 
 ```mermaid
 --8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-01-zh.mmd"
 ```
 
-这张图里最重要的是循环。强化学习不是看一次输入、给一次输出的单步问题，而是 `agent 动作`、`environment 改变`、`reward 返回`，再把这次经验用于下一轮 policy 调整的重复过程。
+这张图里最重要的是循环。强化学习不是看一次输入、给一次输出的单步问题，而是 `强化学习智能体动作`、`强化学习环境改变`、`reward 返回`，再把这次经验用于下一轮 policy 调整的重复过程。
 
-MIT Press 的 Sutton 和 Barto 教材，也把强化学习说明成：agent 在复杂且不确定的环境中交互，并试图最大化累计 reward 的一种计算方法。这里会把它改写成读者更容易读懂的形式：`先行动、再看结果、然后调整下一次的选择方式。`
+MIT Press 的 Sutton 和 Barto 教材，也把强化学习说明成：强化学习智能体在复杂且不确定的环境中交互，并试图最大化累计 reward 的一种计算方法。这里会把它改写成读者更容易读懂的形式：`先行动、再看结果、然后调整下一次的选择方式。`
 
 ## 监督学习、无监督学习、强化学习的比较
 
@@ -78,7 +78,7 @@ policy 是强化学习里非常重要的词。它表示：在某个 state 下，
 | 正前方有墙 | 上、下、左、右 | 下 |
 | 离目标还很远 | 多个方向都可能 | 先试一试尚未充分探索的方向 |
 
-policy 一开始不一定就是好规则。强化学习里，agent 会在不断尝试动作的过程中去改进 policy。这个 policy 可以是人写的规则，也可以是训练过程中不断调整的函数。
+policy 一开始不一定就是好规则。强化学习里，强化学习智能体会在不断尝试动作的过程中去改进 policy。这个 policy 可以是人写的规则，也可以是训练过程中不断调整的函数。
 
 ## reward 不是立刻告诉你的答案
 
@@ -122,9 +122,9 @@ exploration 指的是去尝试还不熟悉的动作；exploitation 指的是优�
 - 如果在真实环境里盲目 exploration，成本和风险会很高。
 - 如果结果来得很晚，就很难知道到底是哪一个动作带来了好结果。
 - 在模拟环境里表现好的 policy，不能自动假设在现实里也同样好用。
-- 这里的 agent 和 LLM 服务语境里的 agent，不一定是同一个意思。
+- 这里的强化学习智能体 和 LLM 服务语境里的 AI agent，不一定是同一个意思。
 
-最后这一点尤其重要。强化学习里的 agent，是在环境中观察 state、选择 action、接收 reward 的学习主体；而 LLM 服务里说的 agent，常常指的是 `把目标拆成工作流并调用工具的执行结构`。它们可以有关联，但如果把这两个词混着当成同义词，就会很容易混乱。
+最后这一点尤其重要。强化学习里的强化学习智能体，是在环境中观察 state、选择 action、接收 reward 的学习主体；而 LLM 服务里说的 AI agent，常常指的是 `把目标拆成工作流并调用工具的执行结构`。它们可以有关联，但如果把这两个词混着当成同义词，就会很容易混乱。
 
 ## 它会在哪里再次和 LLM 相遇
 
@@ -160,12 +160,12 @@ exploration 指的是去尝试还不熟悉的动作；exploitation 指的是优�
 
 - 能不能说明在什么状态下，问题应该按强化学习而不是监督学习来读？
 - 能不能说明为什么 reward 不像 label 那样立刻告诉你正确答案？
-- 能不能说明为什么不能把强化学习里的 agent 和 LLM 服务里的 agent 当成同一个意思？
-- 能不能说明强化学习是 agent 在 environment 中交互，并根据 reward 改进 policy 的学习？
+- 能不能说明为什么不能把强化学习里的强化学习智能体 和 LLM 服务里的 agent 当成同一个意思？
+- 能不能说明强化学习是强化学习智能体在强化学习环境中交互，并根据 reward 改进 policy 的学习？
 - 能不能说明为什么 state、action、reward、policy 是阅读强化学习时最基本的词？
 - 能不能说明如果没有 exploration 和 exploitation 的平衡，就很难同时做到 `找到更好动作` 和 `稳定拿到 reward`？
 
 ## 来源与参考资料
 
-- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 第 2 版，MIT Press，2018，确认日期：2026-06-25. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
-- Olivier Buffet, Olivier Pietquin, Paul Weng, `Reinforcement Learning`, arXiv, 2020，确认日期：2026-06-25. [https://arxiv.org/abs/2005.14419](https://arxiv.org/abs/2005.14419){: target="_blank" rel="noopener noreferrer" }
+- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 第 2 版，MIT Press，2018，确认日期：2026-07-26. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Olivier Buffet, Olivier Pietquin, Paul Weng, `Reinforcement Learning`, arXiv, 2020，确认日期：2026-07-26. [https://arxiv.org/abs/2005.14419](https://arxiv.org/abs/2005.14419){: target="_blank" rel="noopener noreferrer" }

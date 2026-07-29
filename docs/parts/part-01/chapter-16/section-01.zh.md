@@ -1,7 +1,7 @@
 # P1-16.1 个人学习(personal learning)与文档化(documentation)
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P1-15 中，我们已经看过 AI 如何连接到社会风险、版权与安全问题。P1-16 则转向应用案例。第一个案例，是一个用 AI 帮助自己重新学习 AI 的文档化项目。
 

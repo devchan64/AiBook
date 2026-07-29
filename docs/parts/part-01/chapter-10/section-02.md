@@ -1,7 +1,7 @@
 # P1-10.2 다음 출력 생성(next-output generation)의 직관
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)을 구분했습니다. 분류는 범주를 고르고, 예측은 값이나 상태를 추정하고, 생성은 조건에 맞는 새 산출물을 만듭니다.
 

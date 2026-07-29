@@ -1,13 +1,13 @@
 # P4-2.2 无监督学习
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-2.1 里，我们看的是用带 label 的案例训练 model 的监督学习。这一次要看的是：在没有 label 的数据里寻找结构的无监督学习。
+在 P4-2.1 里，我们看的是用带 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 的案例训练 model 的 [监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)。这一次要看的是：在没有 label 的数据里寻找结构的 [无监督学习](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)。
 
 无监督学习并不是 `没有答案就随便学`。它更准确地说，是在没有人工预先贴好 label 的情况下，去寻找数据中的相似性、分组、坐标轴、密度或异常点的方法。这里 model 常常不是在匹配某个答案，而是在做出结构候选，好让人更好地理解数据，或为下一步工作做准备。
 
-这一节会说明 `unsupervised learning`、`在没有标签时阅读结构`、`clustering` 和 `dimensionality reduction` 之间的大体区分。后面的章节会带着这个抓手继续判断当前语境，而 `结构探索到底是什么意思` 这个基础含义，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
+这一节会说明 unsupervised learning、在没有标签时阅读结构、[clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering) 和 [dimensionality reduction](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction) 之间的大体区分。后面的章节会带着这个抓手继续判断当前语境，而结构探索到底是什么意思这个基础含义，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
@@ -15,7 +15,7 @@
 
 - 没有 label，到底是什么意思？
 - 无监督学习在学什么？
-- clustering、dimensionality reduction、outlier detection 分别是什么问题？
+- clustering、dimensionality reduction、[outlier detection](/AiBook/zh/reference/concept-glossary-pinyin/y/#outlier) 分别是什么问题？
 - 为什么无监督学习的结果必须谨慎解释？
 - 在真实工作里，监督学习和无监督学习会怎样接起来？
 
@@ -189,5 +189,6 @@ outlier detection 是用来寻找那些看起来和大多数案例不一样的�
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Unsupervised learning`, scikit-learn User Guide, 确认日期：2026-06-25. [https://scikit-learn.org/stable/unsupervised_learning.html](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `What is clustering?`, Machine Learning, 确认日期：2026-06-25. [https://developers.google.com/machine-learning/clustering/overview](https://developers.google.com/machine-learning/clustering/overview){: target="_blank" rel="noopener noreferrer" }
+- Google, `Machine Learning Glossary`, 包含 `unsupervised learning`、`clustering`、`dimensionality reduction` 等条目，确认日期：2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Unsupervised learning`, scikit-learn User Guide, 确认日期：2026-07-26. [https://scikit-learn.org/stable/unsupervised_learning.html](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `What is clustering?`, Machine Learning, 确认日期：2026-07-26. [https://developers.google.com/machine-learning/clustering/overview](https://developers.google.com/machine-learning/clustering/overview){: target="_blank" rel="noopener noreferrer" }

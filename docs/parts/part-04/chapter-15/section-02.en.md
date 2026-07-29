@@ -1,31 +1,31 @@
 # P4-15.2 Feature Importance
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-In P4-15.1, we saw why random forest can create more stable predictions by gathering many trees. That immediately raises the next question.
+In P4-15.1, we saw why [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) can create more stable predictions by gathering many trees. That immediately raises the next question.
 
 What did this forest consider important when it made its judgment?
 
-That question is the starting point of feature importance.
+That question is the starting point of [feature importance](/AiBook/en/reference/concept-glossary-alpha/f/#feature-importance).
 
 Feature importance is a number that summarizes which features the model used more often or more strongly, but it becomes dangerous if we read that number directly as a ranking of causes or truths.
 
 Feature importance is a useful summary, but it is also a tool that comes with interpretation traps.
 
-This Section does not repeat the basic definition of random forest at length. The core intuition `reduce instability through the agreement of many trees` reconnects through P4-15.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here we focus only on the problem of interpreting what the forest treated as important.
+This Section does not repeat the basic definition of random forest at length. The core intuition `reduce instability through the agreement of many trees` reconnects through P4-15.1 and the [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) entry. Here we focus only on the problem of interpreting what the forest treated as important.
 
-## Scope Of This Section
+## Questions Closed By Feature Importance
 
 This Section answers the following questions.
 
 - How is feature importance created in random forest?
-- What does `feature_importances_` mean?
-- How are impurity-based importance and permutation importance different?
+- What does [`feature_importances_`](/AiBook/en/reference/concept-glossary-alpha/f/#feature-importance) mean?
+- How are impurity-based importance and [permutation importance](/AiBook/en/reference/concept-glossary-alpha/p/#permutation-importance) different?
 - Why can an important-looking number still create misunderstanding?
-- What different interpretation questions do PDP(partial dependence plot) and SHAP ask compared with importance?
-- Why should importance interpretation not be jumped directly into causal inference?
-- What conservative interpretation strategy is needed when real data have very strong correlated features?
+- What different interpretation questions do [PDP(partial dependence plot)](/AiBook/en/reference/concept-glossary-alpha/p/#partial-dependence-plot-pdp) and [SHAP](/AiBook/en/reference/concept-glossary-alpha/s/#shap) ask compared with importance?
+- Why should importance interpretation not be jumped directly into [causal inference](/AiBook/en/reference/concept-glossary-alpha/c/#causal-inference)?
+- What conservative interpretation strategy is needed when real data have very strong [correlated features](/AiBook/en/reference/concept-glossary-alpha/c/#correlated-features)?
 
 This Section does not stop after drawing only the outer boundary of importance interpretation. It also recovers the following inside the current Section: `what should be inspected when a number summary is not enough`, `why cause interpretation must be separated`, and `how to read more conservatively when correlation is strong`.
 
@@ -37,12 +37,12 @@ This Section does not stop after drawing only the outer boundary of importance i
 
 This Section focuses on establishing `an attitude for reading the number`.
 
-## Goals Of This Section
+## Judgments To Keep From Feature Importance
 
 - You can explain feature importance as `a summary of internal model usage`.
-- You can distinguish impurity-based importance(MDI) from permutation importance.
+- You can distinguish [impurity-based importance(MDI)](/AiBook/en/reference/concept-glossary-alpha/m/#mean-decrease-in-impurity-mdi) from [permutation importance](/AiBook/en/reference/concept-glossary-alpha/p/#permutation-importance).
 - You can explain that feature importance does not directly mean causality or the true ranking of causes.
-- You can explain why correlated features and high-cardinality features can distort interpretation.
+- You can explain why [correlated features](/AiBook/en/reference/concept-glossary-alpha/c/#correlated-features) and [high-cardinality features](/AiBook/en/reference/concept-glossary-alpha/h/#high-cardinality-feature) can distort interpretation.
 
 ## Learning Background
 
@@ -409,6 +409,9 @@ This example is the smallest exercise that reads `feature_importances_` directly
 - concepts to check:
   - importance is a relative share
   - the sum of the values is close to 1
+- values to change:
+  - change `n_estimators` to 50, 200, and 500, then inspect how much the importance ranking moves
+  - change `random_state` and check whether the broad pattern remains
 
 ```python
 # This example reads MDI-based feature importance through feature_importances_ in a random forest.
@@ -452,8 +455,7 @@ What should be read here is:
 
 1. importance appears as a relative share
 2. petal length and petal width were used more in this model
-3. this is `a branching-usage trace of this model`,
-not an immediate causal explanation
+3. this is `a branching-usage trace of this model`, not an immediate causal explanation
 
 ### Python Example: Read It Next To Permutation Importance
 
@@ -478,6 +480,11 @@ Concepts to check:
 
 - MDI and permutation importance do not necessarily return the same values
 - when the two numbers differ, first recall that they answer different questions
+
+Values to change:
+
+- change `n_repeats` to 5, 20, and 50, then inspect the variation in permutation results
+- change `test_size` and inspect how much permutation importance changes with the evaluation split
 
 ```python
 # This example compares MDI and permutation importance side by side on the same model.
@@ -529,8 +536,7 @@ petal width (cm)        0.430        0.189
 This result means the following.
 
 - the two methods may have similar rankings, or they may differ
-- even for the same feature, `was it used a lot in branching?`
-and `how much does performance fall when it is shuffled?` are different questions
+- even for the same feature, `was it used a lot in branching?` and `how much does performance fall when it is shuffled?` are different questions
 - therefore it is dangerous to finish the interpretation from only one importance number
 
 ### Try Interpreting It Yourself
@@ -589,7 +595,7 @@ That is why importance interpretation should always travel with the following qu
 
 ## Sources And References
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Permutation feature importance`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/permutation_importance.html](https://scikit-learn.org/stable/modules/permutation_importance.html){: target="_blank" rel="noopener noreferrer" }
-- Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, PhD Thesis, University of Liege, 2014. [https://arxiv.org/abs/1407.7502](https://arxiv.org/abs/1407.7502){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Permutation feature importance`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/permutation_importance.html](https://scikit-learn.org/stable/modules/permutation_importance.html){: target="_blank" rel="noopener noreferrer" }
+- Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, PhD Thesis, University of Liege, 2014, accessed 2026-07-26. [https://arxiv.org/abs/1407.7502](https://arxiv.org/abs/1407.7502){: target="_blank" rel="noopener noreferrer" }

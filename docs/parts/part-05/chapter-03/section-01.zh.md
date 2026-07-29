@@ -1,7 +1,7 @@
 # P5-3.1 激活函数（activation function）
 
 > Section ID: `P5-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-2.2 里，我们已经看到：隐藏层（hidden layer）能够把输入改写成更有用的内部表征（representation）。接下来就会立刻出现一个问题。
 
@@ -25,7 +25,7 @@ a = f(z)
 
 一旦这条变换规则不再只是简单的比例关系，非线性（nonlinearity）就出现了，神经网络也才能表达更复杂的模式。
 
-如果后面需要重新快速固定激活与非线性的基线，可以回到[英文概念词汇表里的 activation function 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#activation-function)。
+如果后面需要重新快速固定激活与非线性的基线，可以回到[概念词汇表里的激活函数（activation function）条目](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)。
 
 ## 需要激活函数的问题
 

@@ -1,16 +1,16 @@
 # P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-Once you decide to raise the problem into a prediction problem, you now need to close whether its structure satisfies actual prediction conditions. What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
+Once you decide to raise the problem into a prediction problem, you now need to close whether its structure satisfies an actual [prediction contract](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-prediction-contract). What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
 
 This section closes four things first: the split between inputs and results, leakage prevention, reproducibility at the operating time point, and the time boundary.
 
 | What should be closed first | If turned into a question |
 | --- | --- |
-| Split between inputs and results | Which columns are features and which are target candidates? |
-| Preventing future-information leakage | Has any value been mixed in that would still be unknown at prediction time? |
+| Split between inputs and results | Which columns are [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and which are target candidates? |
+| Preventing future-information leakage | Is there no [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage) from values still unknown at prediction time? |
 | Reproducibility at the operating time point | Can the inputs built during training be rebuilt in operations by the same rule? |
 | Cutoff / horizon | Up to what information do you look, and what later result are you trying to predict? |
 

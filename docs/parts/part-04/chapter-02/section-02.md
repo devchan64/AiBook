@@ -1,13 +1,13 @@
 # P4-2.2 비지도학습(unsupervised learning)
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-2.1에서는 라벨(label)이 있는 사례로 모델을 학습하는 지도학습(supervised learning)을 봤습니다. 이번에는 라벨이 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning)을 봅니다.
+P4-2.1에서는 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 있는 사례로 모델을 학습하는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤습니다. 이번에는 라벨이 없는 데이터에서 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봅니다.
 
 비지도학습은 “정답 없이 제멋대로 학습한다”는 뜻이 아닙니다. 비지도학습은 사람이 미리 붙인 라벨 없이 데이터 안의 비슷함, 묶음, 축, 밀도, 이상한 점을 찾아보는 접근입니다. 모델이 정답을 맞히는 것이 아니라, 사람이 데이터를 더 잘 이해하거나 다음 작업을 하기 위해 구조 후보를 만드는 경우가 많습니다.
 
-이 절은 `비지도학습(unsupervised learning)`, `라벨 없는 구조 읽기`, `군집화(clustering)`와 `차원 축소(dimensionality reduction)`의 큰 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 구조 탐색의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 비지도학습(unsupervised learning), 라벨 없는 구조 읽기, [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)와 [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction)의 큰 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 구조 탐색의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 비지도학습(unsupervised learning)에서 닫을 질문
 
@@ -15,7 +15,7 @@ P4-2.1에서는 라벨(label)이 있는 사례로 모델을 학습하는 지도�
 
 - 라벨이 없다는 것은 무엇인가?
 - 비지도학습은 무엇을 배우는가?
-- 군집화(clustering), 차원 축소(dimensionality reduction), 이상치 탐지(outlier detection)는 어떤 문제인가?
+- 군집화(clustering), 차원 축소(dimensionality reduction), [이상치 탐지(outlier detection)](../../../reference/concept-glossary-parts/08-ieung.md#outlier)는 어떤 문제인가?
 - 비지도학습 결과를 왜 조심해서 해석해야 하는가?
 - 지도학습과 비지도학습은 실제 작업에서 어떻게 이어질 수 있는가?
 
@@ -189,5 +189,6 @@ Google의 클러스터링 설명도 라벨 없는 예시를 유사도(similarity
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Unsupervised learning`, scikit-learn User Guide, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/unsupervised_learning.html](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `What is clustering?`, Machine Learning, 확인 날짜: 2026-06-25. [https://developers.google.com/machine-learning/clustering/overview](https://developers.google.com/machine-learning/clustering/overview){: target="_blank" rel="noopener noreferrer" }
+- Google, `Machine Learning Glossary`, `unsupervised learning`, `clustering`, `dimensionality reduction` 등 항목, 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Unsupervised learning`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/unsupervised_learning.html](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `What is clustering?`, Machine Learning, 확인 날짜: 2026-07-26. [https://developers.google.com/machine-learning/clustering/overview](https://developers.google.com/machine-learning/clustering/overview){: target="_blank" rel="noopener noreferrer" }

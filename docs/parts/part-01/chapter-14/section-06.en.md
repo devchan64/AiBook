@@ -1,7 +1,7 @@
-# P1-14.6 The Constraints AI Services Meet in the Real World
+# P1-14.6 Constraints AI Services Meet in Real World
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14.5 described a `harness` as an execution environment that wraps model and tool runs and makes tracing, logging, and evaluation possible. The next question moves in a more practical direction:
 
@@ -209,7 +209,7 @@ For a document-based Q&A feature, a first draft of standards might look like:
 
 These are not universal correct values. They depend on the service's purpose, users, budget, and risk.
 
-## The Full Flow One Request Actually Goes Through
+## Full Flow One Request Goes Through
 
 The elements introduced in Chapter 14 become intertwined inside one real request. In a document-based work assistant, the user may ask one question, but many steps can happen underneath.
 
@@ -245,7 +245,7 @@ The key point of this integrated example is that:
 
 Real service structure moves `reading`, `judging`, `executing`, `reviewing`, `recording`, and `constraint management` together inside one request.
 
-## The View to Keep from This Section
+## View to Keep from This Section
 
 An AI service is not sustained by model quality alone.
 

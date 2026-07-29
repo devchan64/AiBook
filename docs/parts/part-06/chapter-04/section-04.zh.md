@@ -1,7 +1,7 @@
 # P6-4.4 补充学习：KV cache 与重复生成
 
 > Section ID: `P6-4.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题：KV cache 在重复生成中复用哪些 attention 计算？_
 

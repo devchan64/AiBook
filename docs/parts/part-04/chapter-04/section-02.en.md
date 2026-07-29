@@ -1,25 +1,25 @@
 # P4-4.2 Validation And Test
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-4.1 explained why data are divided into training data and evaluation data. Now the discussion moves one step further. The data used while choosing a model and the data used for the final one-time check do not play the same role.
+P4-4.1 explained why data are divided into [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) and [evaluation data](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-data). Now the discussion moves one step further. The data used while choosing a model and the data used for the final one-time check do not play the same role.
 
-If this difference is not separated, people start looking at test results repeatedly while choosing the model, and at that moment the test data can no longer play the role of `data seen for the first time`. That is why in practice evaluation data are often split again into `validation data` and `test data`.
+If this difference is not separated, people start looking at test results repeatedly while choosing the model, and at that moment the test data can no longer play the role of `data seen for the first time`. That is why in practice evaluation data are often split again into [validation data](/AiBook/en/reference/concept-glossary-alpha/v/#validation-data) and [test data](/AiBook/en/reference/concept-glossary-alpha/t/#test-data).
 
-This Section explains `validation`, `test`, and `the difference between mid-process model-choice checks and the final check`. Later Sections continue the current context through this handle, and the evaluation procedure after data splitting is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains `validation`, `test`, and `the difference between mid-process model-choice checks and the final check`. Later Sections continue the current context through this handle, and the evaluation procedure after data splitting is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
-This Section explains the difference in role between validation and test. The calculation of metrics themselves is not covered in detail here. Metrics such as accuracy, precision, and recall are handled in P4-6.
+This Section explains the difference in role between validation and test. The calculation of [metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric) themselves is not covered in detail here. Metrics such as [accuracy](/AiBook/en/reference/concept-glossary-alpha/a/#accuracy), precision, and recall are handled in P4-6.
 
-This Section also explains the flow `what should be looked at while choosing a model`, but the full procedure of model selection and the discussion of baseline models return in P4-8. The ideas of overfitting and generalization are treated in more detail in P4-5.
+This Section also explains the flow `what should be looked at while choosing a model`, but the full procedure of [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection) and the discussion of [baseline models](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model) return in P4-8. The ideas of [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) and [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization) are treated in more detail in P4-5.
 
 - Why should validation data and test data be kept separate?
 - When should each of them be used?
 - Why is it a problem if you keep looking at test data in the middle?
 - When the dataset is small, how should this distinction be read carefully?
-- How does cross-validation connect to this structure?
+- How does [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) connect to this structure?
 
 ## Goals Of This Section
 
@@ -55,10 +55,10 @@ The biggest difference between validation data and test data is `how often they 
 
 Validation data are used while choosing the model. For example, they are used for choices like the following.
 
-- which to try first between logistic regression and decision tree
+- which to try first between [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) and [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree)
 - whether tree depth should be 3 or 5
-- whether changing preprocessing improved the result
-- whether adding a feature actually helped
+- whether changing [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing) improved the result
+- whether adding a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#feature) actually helped
 
 In other words, validation data are used in the middle of experiments to compare `is this choice better than the previous one?`
 
@@ -334,6 +334,6 @@ The important point in this Section is not `what ratio must be correct`, but rat
 
 ## Sources And References
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

@@ -1,4 +1,5 @@
 <a id="intermediate-representation"></a>
+<a id="glossary-intermediate-representation"></a>
 
 ## 中间表示
 

@@ -1,13 +1,13 @@
 # P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the kinds of problems AI deals with. This section organizes the relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM`, all of which will keep returning later.
 
 What matters here is not memorizing perfect inclusion relations. What matters is fixing a baseline so that terms from different conceptual levels are not mixed as if they meant the same thing.
 
-In Part 1, the baseline relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` is fixed in this section. Even when the terms reappear later, only the minimum connection needed for the current question is carried forward there. When the relationship among the terms themselves needs to be reorganized again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
+In Part 1, the baseline relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` is fixed in this section. Even when the terms reappear later, only the minimum connection needed for the current question is carried forward there. When the relationship among the terms themselves needs to be reorganized again, return to this section and to the glossary entries for [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence), [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning), [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning), [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#generative-ai), and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm).
 
 ## Separating the Levels of AI, Machine Learning, and LLMs
 
@@ -25,18 +25,6 @@ This section first closes the point that `AI, machine learning, deep learning, g
 - Avoid understanding all of AI too narrowly from recent service experience alone.
 - Understand that even if a broad inclusion relation is roughly useful, real services still mix several technologies together.
 
-## Concepts to Connect First
-
-This section is the baseline for the term relationship that Part 1 will keep reusing. The concepts below should be fixed only by position first, and checked again through their glossary entries when fuller definitions are needed.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence) | the broadest field and system category | to see where all other terms sit |
-| [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) | a learning approach that improves performance from data | to separate rule-based and learning-based approaches |
-| [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning) | an approach that strongly uses neural networks and representation learning | to fix a major expansion path inside machine learning |
-| [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai) | an output category that produces new content | to keep learning method and output character from collapsing into one |
-| [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm) | a family of large language models | to avoid reading generative AI and AI as a whole too narrowly as the same thing |
-
 ## Main Learning Points
 
 What should remain first from this section is that the five terms are not all the same kind of name. The three standards below form the overall map.
@@ -51,7 +39,7 @@ What should remain first from this section is that the five terms are not all th
 
 ## Detailed Learning
 
-### Start With the Big Picture
+### Start with Big Picture
 
 The widest term is AI. AI is the broad field and system category that aims to perform some functions associated with human intelligence through computer systems, machines, and algorithms. Inside it sit different approaches such as rule-based methods, search, planning, probabilistic reasoning, and machine learning.
 
@@ -136,7 +124,7 @@ But for learning, they still need to be separated. An LLM is a model family cent
 
 From that viewpoint, LLMs are an important case of generative AI, but they cannot explain all of generative AI by themselves. The reverse is also true: building a generative-AI service does not end with one LLM. Real services still need prompt handling, retrieval, permissions, logs, safety filters, user interfaces, and cost control.
 
-### The Standard This Book Will Use
+### Standard This Book Will Use
 
 From here on, the book uses the following standards.
 

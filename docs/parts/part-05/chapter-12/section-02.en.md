@@ -1,7 +1,7 @@
 # P5-12.2 Long-Term Dependency
 
 > Section ID: `P5-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-12.1, we explained that RNNs, LSTMs, and GRUs are structures that appeared to handle sequence data. The very next question appears here.
 
@@ -13,7 +13,7 @@ Long-term dependency means a problem where information from far earlier matters 
 
 When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](/AiBook/en/reference/concept-glossary-alpha/l/#long-term-dependency).
 
-## The Question Of How Long-Term Dependencies Shape Current Decisions
+## The Question of How Long-Term Dependencies Shape Current Decisions
 
 - What does long-term dependency mean?
 - Why does old information tend to weaken in a basic RNN?
@@ -22,7 +22,7 @@ When reading the later attention chapters and needing to confirm again the start
 
 The core point that this section needs to close first is that `a structure that passes sequential state forward is still not enough to bring a distant earlier cue stably into the current judgment`. In other words, here we first close `why an earlier cue disappears`, `why that shakes the current judgment`, and `to what extent LSTM/GRU tried to relieve it`. Attention itself is continued in the next chapter, P5-13.1.
 
-## Standards For Distant Clues And State Preservation
+## Standards for Distant Clues and State Preservation
 
 - You can explain long-term dependency as `the problem where earlier information is needed but is not maintained well enough`.
 - You can explain at an introductory level why a basic RNN struggles with long context.
@@ -41,7 +41,7 @@ The key point is that the current judgment is not satisfied by only nearby infor
 
 Long-term dependency is not merely the problem `it would be nice if earlier information remained`. It asks, `if the earlier information is missing, does the current judgment itself become unstable?` When nearby cues alone do not close the answer, that is when long-term dependency appears as a real problem.
 
-## Why Does A Basic RNN Easily Lose Old Information
+## Why Does a Basic RNN Easily Lose Old Information
 
 An RNN carries the previous state at each step, but that state is updated every time by mixing it with the new input. The problem is that this update does not happen once or twice, but repeatedly. As the state goes through many steps, earlier cues can be overwritten, diluted, and mixed with other signals until their form becomes blurred.
 
@@ -49,7 +49,7 @@ It becomes easier if we imagine a small memo board on which new sentences keep b
 
 What matters in this section is not memorizing formulas first, but holding onto the feel that `as the state keeps being updated, information from far earlier can become fainter as it moves farther back`.
 
-## Why Is This Not Just A Simple Performance Problem
+## Why Is This Not Just a Simple Performance Problem
 
 Long-term dependency is not merely a problem of being `a little less accurate`. It changes the very way a sequential structure is interpreted. Some problems can be answered with only nearby information, but in other problems, the moment the older information drops out, the whole current judgment becomes distorted.
 
@@ -62,7 +62,7 @@ That is, the long-term dependency problem is a question about `how far the model
 
 Long-term dependency mainly appears when the second type matters.
 
-## So What Were LSTM And GRU Trying To Do
+## So What Were LSTM and GRU Trying to Do
 
 As we saw in P5-12.1, LSTM and GRU are structures that try to manage memory better than a basic RNN.
 
@@ -78,13 +78,13 @@ That is, LSTM and GRU can be seen as `structures that try to let information we 
 
 This explanation also connects directly to the previous section. If we viewed the RNN in P5-12.1 as `a structure that passes state forward`, here we can read LSTM and GRU as `structures that made that state easier to preserve`.
 
-## So The Next Chapter Question Appears
+## So the Next Chapter Question Appears
 
 LSTM and GRU relieved the long-term dependency problem, but the burden of still having to pass state in sequence remained. So the next chapter changes the question slightly. It moves beyond `can we preserve a distant cue all the way inside the state` to `can we directly look again at the earlier position we need right now`.
 
 In the present section, we do not spread this transition out at length. It is enough to hold only the point that `with state preservation alone, it is difficult to bring a distant cue stably all the way to the end`.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. Interpreting A Long Work Instruction
 
@@ -116,7 +116,7 @@ The result that ultimately needs to be confirmed across these cases is clear. Th
 
 The result to confirm in this diagram is that as the important cue from an earlier input passes through repeated state updates and approaches the current decision stage, it can gradually weaken.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm directly how quickly a sequential state loses an earlier cue as the gap between `the early rule` and `the final question` grows longer. We place the input in a CSV file where lines from several documents are mixed together. Python restores the line order for each `document_id`, then compares state weakening by gap length. Direct reference is not code that implements attention. It is only a comparison baseline for contrasting `a baseline that can look again at a far earlier position` with a state-preservation method.
 
@@ -274,7 +274,7 @@ If we reread the output as an operational judgment, it becomes clearer that the 
 | `gap=3` | as the middle explanation grows, the prohibition evidence becomes blurred and the no-restart judgment starts to shake | if we look up the earlier rule line again, the no-restart judgment can still be maintained |
 | `gap=6` | if we look only at the information near the final question, the prohibition evidence is almost lost | even when the gap is long, if we refer again to the core rule position, the safety condition is not missed |
 
-## Conclusion To Hold From This Example
+## Conclusion to Hold from This Example
 
 This simple comparison code does not implement attention itself. But the connection we need to read is clear. On the sequential-state side, the core question is `can the earlier cue remain inside the state`, and the fact that this state can shake as the gap grows longer is the core point of the present section.
 
@@ -290,7 +290,7 @@ If we just saw in P5-12.1 `a structure that carries sequential state forward`, h
 - Can you talk about state preservation and direct reference as two different ideas?
 - When reading the next chapter on attention, are you ready first to ask `which earlier position needs to be looked at again`?
 
-## Sources And References
+## Sources and References
 
 - Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, checked on 2026-07-19. [https://doi.org/10.1162/neco.1997.9.8.1735](https://doi.org/10.1162/neco.1997.9.8.1735){: target="_blank" rel="noopener noreferrer" }
 - Yoshua Bengio, Patrice Simard, Paolo Frasconi, `Learning Long-Term Dependencies with Gradient Descent is Difficult`, IEEE Transactions on Neural Networks, 1994, checked on 2026-07-19. [https://doi.org/10.1109/72.279181](https://doi.org/10.1109/72.279181){: target="_blank" rel="noopener noreferrer" }

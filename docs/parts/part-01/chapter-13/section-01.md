@@ -1,7 +1,7 @@
 # P1-13.1 텍스트(text)를 벡터(vector)로 표현한다는 것
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 12장에서는 프롬프트(prompt)를 통해 LLM에 작업 조건을 주는 방법과 그 한계를 봤습니다. 프롬프트만으로는 사실성(factuality), 근거성(evidence), 최신성(recency)을 보장하기 어렵습니다.
 

@@ -1,7 +1,7 @@
 # P1-5.1 What Does Learning Change?
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 4 organized real-world problems in terms of `input`, `output`, `feature`, `representation`, and `parameter` so that a model could handle them. Now we move one step further and ask: when we say a model learns, what inside the model actually changes?
 
@@ -244,7 +244,7 @@ Training usually does not end with one example. The model looks at many examples
 
 If loss decreases, we can say the model is fitting the training data better. But fitting training data too well is not always good, because overfitting may make the model weak on new data. That broader issue returns later in Part 4. Here the point is only that internal values are adjusted repeatedly during learning.
 
-## In Deep Learning, Representations May Change Too
+## Representations May Change Too in Deep Learning
 
 Section 4.3 described `representation` as the transformed form that makes original data easier to compute over. In more classical machine learning, people often design features and the model learns parameters on top of them.
 
@@ -277,7 +277,7 @@ In this section, we separate the terms like this.
 
 In practical code, training is often triggered through APIs like `model.fit(X, y)`. In this book's conceptual explanations, `learning` is used as the broader term, while `training` is used for the procedure that adjusts internal values.
 
-## The Word Parameter Still Has Multiple Levels
+## Parameter Still Has Multiple Levels
 
 As noted in 4.3, the word `parameter` changes meaning with context. Google’s glossary uses it for weights and biases learned by the model. By contrast, the scikit-learn glossary also uses `parameter` for configuration values passed to an estimator constructor.
 

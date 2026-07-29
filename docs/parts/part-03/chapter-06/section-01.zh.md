@@ -1,11 +1,11 @@
 # P3-6.1 应该用什么特征把可比较的结构留下来
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-第一次学习特征时，人们常常会把它理解成 `列越多越好吗？` 但特征(feature)并不是简单地往里塞更多数值。特征是把样本所具有的结构，重新表达成可以用于比较和预测的值。所以，好的特征与其说是“更多”，不如说应该先让 `它到底想展示什么` 变得清楚。如果前一节已经把原始日志变成了汇总表，那么现在就要决定：这张汇总表里到底该留下什么结构。
+第一次学习[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)时，人们常常会把它理解成 `列越多越好吗？` 但特征并不是简单地往里塞更多数值。特征是把样本所具有的结构，重新表达成可以用于比较和预测的值。所以，好的特征与其说是“更多”，不如说应该先让 `它到底想展示什么` 变得清楚。如果前一节已经把原始日志变成了[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-summary-table)，那么现在就要决定：这张汇总表里到底该留下什么结构。
 
-所谓“设计特征”，不是把汇总表里的数字原样照用，而是重新选择：要用什么数字表达，来保留我们想比较的结构。所以，只有先决定想保留什么结构，平均值、斜率、波动性这样的特征候选才会真正有意义。这里还会再分出一个判断。把同一个结构转换成平均值、差值、斜率、token、比率这样的不同表达，是变量变换(variable transformation)；而从这些已经变换出来的表达里，再决定究竟保留哪些项目，则是特征选择(feature selection)。
+所谓“设计特征”，不是把汇总表里的数字原样照用，而是重新选择：要用什么数字表达，来保留我们想比较的结构。所以，只有先决定想保留什么结构，平均值、斜率、波动性这样的特征候选才会真正有意义。这里还会再分出一个判断。把同一个结构转换成平均值、差值、斜率、token、比率这样的不同表达，是[变量变换(variable transformation)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-variable-transformation)；而从这些已经变换出来的表达里，再决定究竟保留哪些项目，则是[特征选择(feature selection)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature-selection)。
 
 | 视角 | 现在问的问题 | 代表例子 |
 | --- | --- | --- |
@@ -210,7 +210,7 @@ structure_features predictions: [('G', 1, 1), ('H', 0, 0)]
 | 变化特征 | 区间差值、斜率 | 方向与速度 |
 | 稳定性特征 | 标准差、波动性 | 摆动程度 |
 
-这张表会再次提醒前面说过的两条分岔。把结构转成平均值、差值、斜率、波动性这一阶段，是变量变换；从里面决定当前问题真正要留下哪些值，这一阶段是特征选择。数值特征是概括结构的第一步，而 token 化表达，则是把这种结构进一步转换成人更容易读的中间表示的下一步。
+这张表会再次提醒前面说过的两条分岔。把结构转成平均值、差值、斜率、波动性这一阶段，是变量变换；从里面决定当前问题真正要留下哪些值，这一阶段是特征选择。数值特征是概括结构的第一步，而 token 化表达，则是把这种结构进一步转换成人更容易读的[中间表示(intermediate representation)](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation)的下一步。
 
 设计特征时，应该持续检查下面这些问题。
 

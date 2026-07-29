@@ -1,7 +1,7 @@
 # P1-10.2 生成下一个输出(next-output generation)的直觉
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 10.1 中，我们区分了分类(classification)、预测(prediction)和生成(generation)。分类是选择类别，预测是估计值或状态，生成是创建符合条件的新内容。
 

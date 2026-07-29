@@ -1,7 +1,7 @@
 # P1-7.2 휴리스틱(heuristic)은 무엇을 줄이는가
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 7.1에서는 탐색 공간(search space)이 커질 때 모든 후보를 살펴보는 방식이 계산 한계(computational limit)에 부딪힌다는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다.
 

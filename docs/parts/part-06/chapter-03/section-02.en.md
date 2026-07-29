@@ -1,7 +1,7 @@
 # P6-3.2 Nearby Vectors That Make Candidates, Not Answers
 
 > Section ID: `P6-3.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-3.1, we explained an embedding as a representation method that turns tokens or sentences into vectors. Once vectors have been made, the next problem is how to read them.
 

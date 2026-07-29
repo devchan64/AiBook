@@ -1,19 +1,19 @@
 # P4-5.1 过拟合(overfitting)与欠拟合(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-在 P4-4 章里，我们看过为什么要把数据分成 training、validation、test。接下来会自然冒出一个问题。把数据拆开之后，为什么有些 model 在 training data 上表现很好，但一到新数据就变弱？反过来，为什么有些 model 连 training data 都解释得不够好？
+在 P4-4 章里，我们看过为什么要把数据分成 [training](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data)、[validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation-data)、[test](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data)。接下来会自然冒出一个问题。把数据拆开之后，为什么有些 model 在 training data 上表现很好，但一到新数据就变弱？反过来，为什么有些 model 连 training data 都解释得不够好？
 
-这一节把这两种状态分开来看。`过拟合(overfitting)` 指的是过度贴合 training data 的状态，`欠拟合(underfitting)` 指的是还没有把重要模式学够的状态。在 machine learning 里，只有先分清这两种状态，后面的选择才有依据。
+这一节把这两种状态分开来看。[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 指的是过度贴合 training data 的状态，[欠拟合(underfitting)](/AiBook/zh/reference/concept-glossary-pinyin/q/#underfitting) 指的是还没有把重要模式学够的状态。在 machine learning 里，只有先分清这两种状态，后面的选择才有依据。
 
-这一节说明 `过拟合` 和 `欠拟合` 的基本区分。下一节会沿着这个抓手继续判断当前语境，而 `模型能不能在新数据上站得住` 这个基本区分，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
+这一节说明 `过拟合` 和 `欠拟合` 的基本区分。下一节会沿着这个抓手继续判断当前语境，而 `模型能不能在新数据上站得住` 这个基本区分，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
-这一节解释过拟合与欠拟合的基本区分。像 regularization、dropout、early stopping 这样的具体缓解方法，这里还不会展开。这些应对方法会在 Part 4 的 deep learning 部分和后面的模型章节里再回来。
+这一节解释过拟合与欠拟合的基本区分。像 regularization、[dropout](/AiBook/zh/reference/concept-glossary-pinyin/d/#dropout)、early stopping 这样的具体缓解方法，这里还不会展开。这些应对方法会在 Part 4 的 deep learning 部分和后面的模型章节里再回来。
 
-同时，这一节也不会把 `为什么 model 能在新数据上工作` 这个更大的问题一次讲完。这个问题会在 P4-5.2 的 `generalization` 里继续。这里的焦点是先用眼睛分清 `贴得太过` 的状态和 `还没学够` 的状态。
+同时，这一节也不会把 `为什么 model 能在新数据上工作` 这个更大的问题一次讲完。这个问题会在 P4-5.2 的 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 里继续。这里的焦点是先用眼睛分清 `贴得太过` 的状态和 `还没学够` 的状态。
 
 - 过拟合和欠拟合各自是什么状态？
 - 为什么不能只看 training score 就相信 model？
@@ -60,7 +60,7 @@
 
 ### 欠拟合是还没学够的状态
 
-欠拟合是指 model 还没有把问题里重要的结构抓到位。它常常出现在规则过于简单、训练还不够、或者 model 只看到了很少一部分必要 feature 的时候。
+欠拟合是指 model 还没有把问题里重要的结构抓到位。它常常出现在规则过于简单、训练还不够、或者 model 只看到了很少一部分必要 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) 的时候。
 
 再严一点说，欠拟合可以理解成 `model 能表达的解释范围太窄`，或者 `这个范围还没有被充分用起来`。所以就连在 training data 里，也会反复漏掉一些部分。
 
@@ -109,7 +109,7 @@
 
 过拟合是指 model 对 training data 贴得太紧。它不只是抓住了重要模式，还把这个数据里偶然出现的波动、特殊排列也一起跟上了。
 
-这里的关键词是 `偶然波动`。任何数据里都会同时有真正重要的结构，也就是 signal，以及偶然混进去的变化，也就是 noise。过拟合可以理解成：model 没有把这两者分开，结果连 noise 也当成了该学的规则。
+这里的关键词是 `偶然波动`。任何数据里都会同时有真正重要的结构，也就是 signal，以及偶然混进去的变化，也就是 [noise](/AiBook/zh/reference/concept-glossary-pinyin/n/#noise)。过拟合可以理解成：model 没有把这两者分开，结果连 noise 也当成了该学的规则。
 
 再严一点读，过拟合也可以换成下面这个问题。
 
@@ -152,7 +152,7 @@
 
 过拟合和欠拟合通常都是通过把 `training score` 和 `validation score` 放在一起读来判断的。
 
-| 候选 | training accuracy | validation accuracy | 读法 |
+| 候选 | training [accuracy](/AiBook/zh/reference/concept-glossary-pinyin/a/#accuracy) | validation accuracy | 读法 |
 | --- | --- | --- | --- |
 | Model A | 0.62 | 0.60 | 两边都低，可能是欠拟合 |
 | Model B | 0.84 | 0.82 | 两边相近，而且都还不错 |
@@ -236,7 +236,7 @@ scikit-learn 的官方例子也说明了这一点。它指出：过于简单的�
 这两个问题在后面的章节里也会持续有用。
 
 - 看线性回归时
-- 看决策树时
+- 看[决策树](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)时
 - 看神经网络时
 
 最先抛出的判断问题都很像：`这个 model 是还没学够，还是背得太狠？`
@@ -365,7 +365,7 @@ very_complex_model -> 可能对 training data 贴得太紧
 
 这里读者要记住的一句核心话是：
 
-`model selection 不是挑 training score 最高的候选，而是挑在 validation 标准下更稳定的候选。`
+`model selection 不是挑 training score 最高的候选，而是挑在 validation 标准下更稳定的候选。` 这句话会接到后面要讨论的 [model selection](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection)。
 
 而这个稳定判断的中心，最终还是这一个问题。
 
@@ -382,6 +382,6 @@ very_complex_model -> 可能对 training data 贴得太紧
 
 ## 出处与参考资料
 
-- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

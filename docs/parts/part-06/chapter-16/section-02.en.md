@@ -1,7 +1,7 @@
 # P6-16.2 Division of Work Between Automatic Evaluation and Human Evaluation
 
 > Section ID: `P6-16.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _Subtitle: How are repeated checks and contextual judgment divided between automatic evaluation and human evaluation?_
 
@@ -178,9 +178,9 @@ This matters in real operations because passing automatic checks can create too 
 
 The misunderstanding this table corrects is expecting that if a source link exists, the interpretation is also mostly correct.
 
-### Case 2. Evaluating agent execution records
+### Case 2. Evaluating AI agent execution records
 
-Even if an agent produced a final answer, the execution record may contain signals such as repeated search, failed tool calls, or repeated reads of the same document. Automatic evaluation can quickly mark whether these signals exist. But whether the signal is actually a problem or a necessary confirmation step requires a person to read the record together.
+Even if an AI agent produced a final answer, the execution record may contain signals such as repeated search, failed tool calls, or repeated reads of the same document. Automatic evaluation can quickly mark whether these signals exist. But whether the signal is actually a problem or a necessary confirmation step requires a person to read the record together.
 
 For example, if similar searches are repeated several times even after enough documents were found in the first search, automatic evaluation can leave a `repeated call` signal. But whether that repetition was an unnecessary detour or a needed recheck of ambiguous evidence depends on the execution flow. The criterion changes from `did a final answer appear` to `does the automatic signal become a human-review question`.
 

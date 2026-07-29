@@ -1,7 +1,7 @@
 # P2-8.5 函数(function)与小规模复用
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P2-8.1 里，我们看了值(value)、变量(variable)、类型(type)。从 P2-8.2 到 P2-8.4，我们看了如何通过列表(list)、字典(dictionary)、循环(loop)来处理多个值。
 
@@ -11,7 +11,7 @@
 
 在 Python 里，我们使用函数(function)。函数是一种结构：它给重复处理起名字，接收需要的值，完成计算，然后把结果返回出去。
 
-这里解释 `函数(function)`、`参数(parameter)`、`实参(argument)`、`返回值(return value)` 之间的基本区分。`值(value)`、`变量(variable)`、`循环(loop)` 的代表性说明仍然放在 P2-8.1、P2-8.4 和[概念词汇表](/AiBook/reference/concept-glossary/)里，而这里集中在把输入-处理-输出契约读成一个可复用的小单元。
+这里解释 `函数(function)`、`参数(parameter)`、`实参(argument)`、`返回值(return value)` 之间的基本区分。`值(value)`、`变量(variable)`、`循环(loop)` 的代表性说明仍然放在 P2-8.1、P2-8.4 和[函数词条](/AiBook/zh/reference/concept-glossary-pinyin/f.zh/#function)里，而这里集中在把输入-处理-输出契约读成一个可复用的小单元。
 
 这一节不会要求把函数语法全部背下来，而是建立这样一种感觉：数学里的函数和 Python 函数怎样相似、又怎样不同；以及怎样把一小段数据处理代码切分成可以复用的单位。
 

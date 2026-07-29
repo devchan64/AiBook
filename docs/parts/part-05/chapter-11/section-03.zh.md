@@ -1,13 +1,13 @@
 # P5-11.3 补充学习：比较 CNN 与 Vision Transformer
 
 > Section ID: `P5-11.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P5-11.1 与 P5-11.2 里，我们已经先看过：为什么卷积神经网络（CNN）特别适合图像，以及 convolution 和 pooling 分别承担什么角色。顺着这里，自然会出现下一个问题。
 
 在 CNN 之后经常一起被提到的视觉 Transformer（ViT, Vision Transformer）到底有什么不同？为什么在理解后面的生成式 AI 与多模态模型之前，先知道这种差异会有帮助？
 
-当需要再次简短确认 Vision Transformer 的不同起始单位时，可以回到英文概念词汇表里的[ViT（Vision Transformer）](/AiBook/reference/concept-glossary-parts/06-bieup/#vit-vision-transformer)条目重新对齐。
+当需要再次简短确认 Vision Transformer 的不同起始单位时，可以回到概念词汇表里的[ViT（Vision Transformer）](/AiBook/zh/reference/concept-glossary-pinyin/v/#vit-vision-transformer)重新对齐。
 
 ## 区分 CNN 与 ViT 的输入单位
 

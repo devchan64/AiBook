@@ -1,17 +1,17 @@
 # P4-7.4 보충학습: 특징 선택 방식 구분
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-P4-7.1부터 P4-7.3까지에서는 특징을 고르고, 입력 표현 문제를 나누고, 전처리 기본 판단을 잡았습니다. 그런데 실제로는 독자가 곧 이런 이름을 만나게 됩니다.
+P4-7.1부터 P4-7.3까지에서는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)을 고르고, 입력 표현 문제를 나누고, 전처리 기본 판단을 잡았습니다. 그런데 실제로는 독자가 곧 이런 이름을 만나게 됩니다.
 
 - 통계 검정 기반 특징 선택
 - 재귀적 특징 제거(recursive feature elimination, RFE)
-- 차원 축소(dimensionality reduction)
+- [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction)
 
 이 이름들은 모두 `입력을 줄이거나 다시 표현한다`는 점에서 비슷해 보여도, 무엇을 기준으로 줄이는지와 무엇을 남기는지가 다릅니다.
 
-## 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법에서 구분할 경계
+## 축소 방식이 서로 갈리는 기준
 
 이 절은 다음 질문에 답합니다.
 
@@ -22,9 +22,9 @@ P4-7.1부터 P4-7.3까지에서는 특징을 고르고, 입력 표현 문제를 
 
 이 절은 먼저 `입력을 줄이거나 다시 표현하는 이름들을 어떻게 구분할 것인가`를 닫습니다. 개별 차원 축소 알고리즘의 직관과 한계는 P4-18.1, P4-18.2에서 이어집니다.
 
-## 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법에서 복구할 연결
+## 방법 이름을 구분할 때 남길 판단
 
-- 특징 선택과 차원 축소를 같은 작업으로 섞지 않고 구분할 수 있습니다.
+- [특징 선택(feature selection)](../../../reference/concept-glossary-parts/12-tieut.md#feature-selection)과 차원 축소를 같은 작업으로 섞지 않고 구분할 수 있습니다.
 - 필터, 래퍼, 임베디드 접근이 무엇을 기준으로 특징을 줄이는지 설명할 수 있습니다.
 - RFE가 `모델을 반복해서 돌리며 덜 중요한 특징을 줄여 가는 방식`이라는 점을 말할 수 있습니다.
 
@@ -128,6 +128,11 @@ RFE는 래퍼(wrapper) 접근의 대표 예로 보면 됩니다. 아주 단순�
   - PCA는 원래 특징 이름을 유지하지 않고 새 축으로 다시 표현한다
   - 점수가 비슷해 보여도 해석 가능성은 서로 다르다
 
+조작해 볼 값:
+
+- `SelectKBest(..., k=3)`, `RFE(..., n_features_to_select=3)`, `PCA(n_components=3)`의 `3`을 `2`나 `4`로 바꾸면 남는 특징 수, 새 축 수, 점수가 함께 달라집니다.
+- `class_sep=1.1`이나 `random_state=7`을 바꾸면 선택된 특징 목록과 점수 차이가 달라질 수 있습니다.
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.decomposition import PCA
@@ -216,6 +221,6 @@ pca_reduced cv= 0.617 shape= (180, 3)
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, [Feature selection](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
-- scikit-learn developers, [Unsupervised dimensionality reduction](https://scikit-learn.org/stable/modules/unsupervised_reduction.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- scikit-learn developers, [Feature selection](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [Unsupervised dimensionality reduction](https://scikit-learn.org/stable/modules/unsupervised_reduction.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.

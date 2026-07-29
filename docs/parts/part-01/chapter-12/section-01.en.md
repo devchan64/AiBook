@@ -1,7 +1,7 @@
 # P1-12.1 What Does a Prompt Specify?
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Chapter 11 explained where `LLMs` came from. Language models began from the problem of next-token probability, and Transformers and pretraining became key foundations of modern LLMs.
 
@@ -13,7 +13,7 @@ The central question is:
 
 The key perspective is:
 
-> a prompt is not training data that retrains the model;  
+> a prompt is not training data that retrains the model;
 > it is a way of placing instructions, context, examples, constraints, and output format inside the current input so the model can use them while generating the response
 
 Part 1 introduces the basic distinctions among `prompts`, `instructions`, `context`, `examples`, `constraints`, `output format`, and `prompting versus fine-tuning` here. Section 11.3 already distinguished `in-context learning` from `pretraining`. This section continues from there and organizes the question:
@@ -94,9 +94,9 @@ This prompt already specifies at least three things:
 
 If the prompt becomes more explicit:
 
-> explain the history of AI to a first-time reader  
-> distinguish the flow of rule-based AI, machine learning, deep learning, and LLMs  
-> keep each stage within three sentences  
+> explain the history of AI to a first-time reader
+> distinguish the flow of rule-based AI, machine learning, deep learning, and LLMs
+> keep each stage within three sentences
 > avoid exaggerated phrasing
 
 Now the prompt specifies not only the topic, but also scope, structure, length, and tone. The model uses these as part of the input when generating the response.
@@ -105,20 +105,20 @@ Now the prompt specifies not only the topic, but also scope, structure, length, 
 
 Giving a prompt does not mean the model has learned something new. As Section 11.3 explained, `in-context learning` is safer to understand as a change in current output behavior caused by instructions and examples inside the input context, without updating model weights.
 
-> fine-tuning:  
+> fine-tuning:
 > update model weights using training data
 >
-> prompting:  
+> prompting:
 > place task conditions inside the current input to guide the output
 
 The GPT-3 paper by Brown and colleagues explains zero-shot, one-shot, and few-shot settings while keeping the model fixed and providing task and demonstration through textual interaction rather than gradient updates or fine-tuning.
 
 So the safer distinction is:
 
-> changing the model itself:  
+> changing the model itself:
 > pretraining, training, fine-tuning
 >
-> changing the conditions of the current response:  
+> changing the conditions of the current response:
 > prompts, examples, dialogue history, provided documents
 
 If this distinction is lost, people can misunderstand prompts as if they make the model `learn the fact permanently`, or as if something told once will always remain inside the model afterward.
@@ -127,32 +127,32 @@ If this distinction is lost, people can misunderstand prompts as if they make th
 
 Prompts usually contain both `instruction` and `context`.
 
-> instruction:  
+> instruction:
 > what is the model being asked to do?
 >
-> context:  
+> context:
 > what information should the model refer to while doing it?
 
 For example:
 
 > rewrite the following sentence as an introductory explanation
 >
-> sentence:  
+> sentence:
 > Transformers compute sequence representations using self-attention.
 
 Here, `rewrite the following sentence as an introductory explanation` is the instruction. `Transformers compute...` is the target text and also the local context.
 
 As prompts become longer, instruction and context can easily blur together. That is why it is often safer to separate them explicitly:
 
-> task:  
+> task:
 > rewrite the following sentence for an introductory reader
 >
-> original sentence:  
+> original sentence:
 > Transformers compute sequence representations using self-attention.
 >
-> conditions:  
-> - keep it within three sentences  
-> - use only one analogy  
+> conditions:
+> - keep it within three sentences
+> - use only one analogy
 > - avoid phrases like “understands like a person”
 
 That makes it more likely that the model can distinguish the roles played by different parts of the input. But even this is not a guarantee. A prompt is a way to express conditions clearly, not a device that guarantees correctness automatically.
@@ -161,13 +161,13 @@ That makes it more likely that the model can distinguish the roles played by dif
 
 An `example` is input that shows the model the pattern you want.
 
-> input: AI  
+> input: AI
 > output: artificial intelligence
 >
-> input: ML  
+> input: ML
 > output: machine learning
 >
-> input: LLM  
+> input: LLM
 > output:
 
 Given these examples, the model becomes more likely to continue with `large language model`.
@@ -176,13 +176,13 @@ This is the basic intuition of `few-shot prompting`: place several input-output 
 
 Examples can be powerful, but they also carry risks.
 
-> bad example:  
+> bad example:
 > can reinforce the wrong pattern
 >
-> biased example:  
+> biased example:
 > can narrow the direction of output too much
 >
-> overly long example:  
+> overly long example:
 > can push important instructions out of the effective context window
 
 Examples are not permanent training data. They are current patterns to be referenced inside the input. That is why the quality of examples can directly affect the quality of outputs.
@@ -191,23 +191,23 @@ Examples are not permanent training data. They are current patterns to be refere
 
 Prompts can also give `constraints` that narrow the allowed range of outputs.
 
-> explain it in under 200 characters  
-> organize it as a table  
-> if there is no verifiable evidence, mark it as `needs verification`  
-> do not use difficult equations for first-time readers  
+> explain it in under 200 characters
+> organize it as a table
+> if there is no verifiable evidence, mark it as `needs verification`
+> do not use difficult equations for first-time readers
 > write Korean terms with the English original in parentheses
 
 Constraints tell the model the boundaries of the task. In writing this book, constraints matter a great deal.
 
 For example, these two prompts are likely to produce different results:
 
-> prompt A:  
+> prompt A:
 > explain LLMs
 >
-> prompt B:  
-> explain LLMs to a reader revisiting an introductory AI course  
-> cover only the relation among Transformers, pretraining, and prompts  
-> leave RAG and agents to the next chapter  
+> prompt B:
+> explain LLMs to a reader revisiting an introductory AI course
+> cover only the relation among Transformers, pretraining, and prompts
+> leave RAG and AI agents to the next chapter
 > do not include unsupported forecasts
 
 Prompt B specifies the task, reader, scope, excluded material, and verification standard together. The reason it is more useful is not that it is longer, but that the necessary conditions are clearer.
@@ -222,8 +222,8 @@ For example, this is dangerous:
 
 That kind of prompt can encourage unsupported statements to appear persuasive. In this book, the preference is the opposite:
 
-> write only verified content as factual  
-> if the evidence is weak, label it as `needs verification`  
+> write only verified content as factual
+> if the evidence is weak, label it as `needs verification`
 > separate personal interpretation from standard explanation
 
 Prompts can guide output, but they do not replace verification responsibility. In a learning-oriented book, evidence review matters more than prompt wording.

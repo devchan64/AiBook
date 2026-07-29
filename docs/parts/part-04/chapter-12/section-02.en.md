@@ -1,7 +1,7 @@
 # P4-12.2 Distance And Scale
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-12.1 explained k-NN as `a model that judges by looking at nearby cases`. But the most important word there is really `near`.
 
@@ -9,7 +9,7 @@ What exactly does near mean?
 
 If this question is skipped, the reader has not really understood the model, only the result. In k-NN, `what rule is used to compute nearness` is part of the model itself.
 
-## Scope Of This Section
+## Questions Closed By Distance And Feature Scale
 
 This Section answers the following questions.
 
@@ -18,9 +18,9 @@ This Section answers the following questions.
 - Why can scale distort distance calculation?
 - What does standardization change in the interpretation of k-NN?
 
-This Section first closes `why distance and scale change neighbors and predictions in k-NN`. The purpose and types of preprocessing stay centered in `P4-7.2 Preprocessing`; here the focus stays on the scenes where distance and scale change the judgment.
+This Section first closes `why distance and scale change neighbors and predictions in k-NN`. The purpose and types of preprocessing stay centered in [P4-7.2 Preprocessing](../chapter-07/section-02.en.md); here the focus stays on the scenes where [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) and [feature scale](/AiBook/en/reference/concept-glossary-alpha/f/#feature-scale) change the judgment.
 
-## Goals Of This Section
+## Judgments To Keep From Distance And Feature Scale
 
 - You can explain that a distance function is not `an outside setting`, but `part of the judgment rule`.
 - You can explain that when the distance function changes, the neighbor order and prediction can change too.
@@ -31,7 +31,7 @@ This Section first closes `why distance and scale change neighbors and predictio
 
 ### Distance Is Part Of The Judgment Rule
 
-k-NN computes distances between a new input and the existing data, then finds the nearest neighbors. So the distance function is not just a calculation tool. It is the rule that decides `who gets selected as a neighbor`.
+k-NN computes [distances](/AiBook/en/reference/concept-glossary-alpha/d/#distance) between a new input and the existing data, then finds the nearest neighbors. So the distance function is not just a calculation tool. It is the rule that decides `who gets selected as a neighbor`.
 
 - Euclidean distance: a way of reading closeness like straight-line distance
 - Manhattan distance: a way of summing movement along axes
@@ -96,7 +96,7 @@ Both can ultimately lead to a similar problem: `a large axis dominates the dista
 
 ### What Does Standardization Change?
 
-Standardization is not decoration that makes numbers prettier. More accurately, it is `the act of rebalancing how much influence each feature has inside the distance calculation`.
+[Standardization](/AiBook/en/reference/concept-glossary-alpha/s/#standardization) is not decoration that makes numbers prettier. More accurately, it is `the act of rebalancing how much influence each feature has inside the distance calculation`.
 
 At an introductory level, the following order is enough.
 
@@ -137,6 +137,11 @@ This case shows the following key points.
   - under raw numbers, the large-unit income axis can dominate the distance
   - after standardization, information from the smaller axis can come back into the comparison
   - so the order of the nearest neighbors can change even for the same query
+
+Values to change:
+
+- Change the income value in `query` to `5000000` or `7000000` to see which axis dominates raw distance.
+- Change `k=3` checks to slices such as `raw_ranked[:2]` and `scaled_ranked[:2]` to inspect neighbor composition before prediction.
 
 The reading order can be kept as follows.
 
@@ -253,6 +258,11 @@ Under raw distance, the `risky` group appears first. After standardization, the 
 
 Now keep the same standardization scheme, but change only the query's late-payment count from `0` to `2`.
 
+Values to change:
+
+- Change the second value of `scaled_query_2` through `1`, `3`, and `5` to see when the neighbor order mixes again.
+- Change `ranked_0[:2]` to `ranked_0[:3]` to check whether neighbor replacement reaches the majority vote.
+
 ```python
 # This example checks how feature scale differences change distance calculations and k-NN neighbor selection.
 from math import sqrt
@@ -331,5 +341,5 @@ This comparison makes k-NN readable not as `a model that simply retrieves nearby
 
 ## Sources And References
 
-- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, checked on 2026-06-27. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, checked on 2026-06-27. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Nearest Neighbors*, scikit-learn User Guide, checked on 2026-07-26. <https://scikit-learn.org/stable/modules/neighbors.html>{: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Importance of Feature Scaling*, scikit-learn Examples, checked on 2026-07-26. <https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html>{: target="_blank" rel="noopener noreferrer" }

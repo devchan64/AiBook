@@ -6,29 +6,43 @@
 - Current language sets:
   - `p4-18-1-mermaid-01-ko.mmd`
   - `p4-18-1-mermaid-01-en.mmd`
+  - `p4-18-1-mermaid-01-zh.mmd`
   - `p4-18-1-mermaid-02-ko.mmd`
   - `p4-18-1-mermaid-02-en.mmd`
+  - `p4-18-1-mermaid-02-zh.mmd`
   - `p4-18-1-mermaid-03-ko.mmd`
   - `p4-18-1-mermaid-03-en.mmd`
+  - `p4-18-1-mermaid-03-zh.mmd`
   - `p4-18-1-mermaid-04-ko.mmd`
   - `p4-18-1-mermaid-04-en.mmd`
+  - `p4-18-1-mermaid-04-zh.mmd`
   - `p4-18-1-mermaid-05-ko.mmd`
   - `p4-18-1-mermaid-05-en.mmd`
+  - `p4-18-1-mermaid-05-zh.mmd`
   - `p4-18-1-mermaid-06-ko.mmd`
   - `p4-18-1-mermaid-06-en.mmd`
+  - `p4-18-1-mermaid-06-zh.mmd`
   - `p4-18-1-mermaid-07-ko.mmd`
   - `p4-18-1-mermaid-07-en.mmd`
+  - `p4-18-1-mermaid-07-zh.mmd`
   - `p4-18-2-mermaid-01-ko.mmd`
   - `p4-18-2-mermaid-01-en.mmd`
+  - `p4-18-2-mermaid-01-zh.mmd`
   - `p4-18-2-mermaid-02-ko.mmd`
   - `p4-18-2-mermaid-02-en.mmd`
+  - `p4-18-2-mermaid-02-zh.mmd`
   - `p4-18-2-mermaid-03-ko.mmd`
   - `p4-18-2-mermaid-03-en.mmd`
+  - `p4-18-2-mermaid-03-zh.mmd`
   - `p4-18-2-mermaid-04-ko.mmd`
   - `p4-18-2-mermaid-04-en.mmd`
+  - `p4-18-2-mermaid-04-zh.mmd`
   - `p4-18-2-mermaid-05-ko.mmd`
   - `p4-18-2-mermaid-05-en.mmd`
+  - `p4-18-2-mermaid-05-zh.mmd`
   - `p4-18-2-mermaid-06-ko.mmd`
   - `p4-18-2-mermaid-06-en.mmd`
+  - `p4-18-2-mermaid-06-zh.mmd`
   - `p4-18-2-mermaid-07-ko.mmd`
   - `p4-18-2-mermaid-07-en.mmd`
+  - `p4-18-2-mermaid-07-zh.mmd`

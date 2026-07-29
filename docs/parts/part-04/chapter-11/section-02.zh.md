@@ -1,16 +1,16 @@
 # P4-11.2 决策边界(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-在 P4-11.1 里，我们把 logistic regression 看成 `生成可按 probability 来读的 score 的线性模型`。
+在 P4-11.1 里，我们把 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 看成 `生成可按 probability 来读的 score 的线性模型`。
 现在要把问题再换一步。
 
 为什么这个 score 会把某些输入读成 class 0，把另一些输入读成 class 1？
 
 要回答这个问题，只问 `probability 是多少` 还不够。
 还必须看见 `到哪里为止按 class 0 来读，从哪里开始按 class 1 来读`。
-把这个标准放回 input space 里来读的视角，就是 decision boundary。
+把这个标准放回 input space 里来读的视角，就是 [decision boundary](/AiBook/zh/reference/concept-glossary-pinyin/j/#decision-boundary)。
 
 所以，`模型在输入空间里把线画在哪里` 这个说法更接近结果，而不是最根本的意思。
 更本质的问题是：
@@ -19,15 +19,14 @@
 
 如果说 P4-11.1 是从 output 角度来读，那么 P4-11.2 就是回头看 input 的 Section。
 
-`decision boundary 是把 class 0 和 class 1 分开的标准线或标准面。
-`
+`decision boundary 是把 class 0 和 class 1 分开的标准线或标准面。`
 
 这一节不会重新长篇重复 logistic regression 的基本定义。
-`会生成可按 probability 来读的 score 的线性分类器` 这个核心直觉，会通过 P4-11.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
+`会生成可按 probability 来读的 score 的线性分类器` 这个核心直觉，会通过 P4-11.1 以及概念词汇表里的 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression)、[decision boundary](/AiBook/zh/reference/concept-glossary-pinyin/j/#decision-boundary) 条目再接回来。
 这里专注的是：
 那个 score 怎样切开 input space。
 
-## 本节范围
+## decision boundary 先收束的问题
 
 这一节回答下面这些问题。
 
@@ -119,8 +118,7 @@ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 而 sigmoid 输出 0.5，又对应 linear score \(z = 0\)。
 所以 logistic regression 的 decision boundary 通常可以理解成 `linear score 等于 0 的地方`。
 
-`decision boundary 既是 probability 最模糊的位置，也是 class 开始分开的地方。
-`
+`decision boundary 既是 probability 最模糊的位置，也是 class 开始分开的地方。`
 
 ### 一维输入时，boundary 会像一个点
 
@@ -174,8 +172,7 @@ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 logistic regression 的 decision boundary 可以被读成 `把 score z 和 0 作比较` 这一条规则，在输入空间里留下的痕迹。
 重点不是先有一条线，而是因为 linear score 在平面两侧的符号变了，class 也跟着变了。
 
-`输入维度多一个，boundary 就会从一个点变成一条线。
-`
+`输入维度多一个，boundary 就会从一个点变成一条线。`
 
 这里重要的不是 `先有线，再有 class`，而是 `因为规则在比较 z 和 0，所以结果上平面里出现了 boundary line`。
 
@@ -213,8 +210,7 @@ threshold 为 0.5 时的 boundary，与 threshold 为 0.7 时的 boundary，不�
 
 所以，当 threshold 提高时，被分到 class 1 的区域会缩小，boundary 也会向更保守的方向移动。
 
-`模型的 coefficient 决定 boundary 的方向，而 threshold 可以进一步调整 boundary 具体落在哪里。
-`
+`模型的 coefficient 决定 boundary 的方向，而 threshold 可以进一步调整 boundary 具体落在哪里。`
 
 把同一组 score 只改 threshold 时，score 轴上的 cutoff 移动会怎样在输入空间里变成 `class 1 区域缩小`，放到坐标型比较里可以像下面这样看。
 
@@ -262,11 +258,9 @@ decision boundary 不是只有在画图时才重要。
 
 在现代机器学习里，decision boundary 视角之所以重要，也很明显。
 后面会出现的 SVM、decision tree、neural network，最终都可以再读回同一个问题：
-`model 到底怎样切开 input space？
-`
+`model 到底怎样切开 input space？`
 
-`classification 既是一个算 score 的问题，同时也是一个怎样切开 input space 的问题。
-`
+`classification 既是一个算 score 的问题，同时也是一个怎样切开 input space 的问题。`
 
 ## 案例与示例
 
@@ -296,9 +290,7 @@ decision boundary 不是只有在画图时才重要。
 | C | 45 | 44 | 两科都低，更可能留在不及格一侧 |
 
 这张表的关键是，像 `数学是否超过 90 分` 这样的单一规则，并不足以解释 A 和 B 的差别。
-decision boundary 视角会迫使读者去看：
-`两个分数的组合到底落在哪一边。
-`
+decision boundary 视角会迫使读者去看：`两个分数的组合到底落在哪一边。`
 
 ### 案例 2. 客户流失预测
 
@@ -351,11 +343,24 @@ decision boundary 视角会迫使读者去看：
 这个例子是一个很小的二元分类练习：
 用两门考试分数 `exam_1`、`exam_2` 去分类学生是否 `passed`。
 
+- 问题场景：假设两门分数一起越高，通过可能性越高
+- 输入(input)：两门科目的分数
+- 标签(label)：通过(1) / 未通过(0)
+- 要检查的概念：
+  - logistic regression 会把两个 feature 一起用于计算一个 score
+  - 两个 coefficient 和一个 intercept 会参与 decision boundary 的位置与方向
+  - 在同一个 input space 中，boundary 两侧的 class 会被分开
+
 | 输入组 | 含义 |
 | --- | --- |
 | `X` | 由两门分数组成的二维输入 |
 | `y` | 通过 / 未通过标签 |
 | `samples` | 用来观察边界下方、边界附近、边界上方的样本 |
+
+可以改动的值：
+
+- 把 `samples` 改成更密一些的 `[48, 49]`、`[50, 50]`、`[52, 51]`，可以观察 boundary 附近的 score 移动。
+- 移动 `X` 里的一个或两个点，可以看 coefficient、intercept 与 boundary 解释是否一起变化。
 
 ```python
 # 这个例子检查逻辑回归的决策边界如何在输入空间中划分类别。
@@ -416,6 +421,29 @@ prediction      : [0 1 1]
 
 ### Python 例子：同一组 score，在两个 threshold 下分别怎么读
 
+问题场景：
+
+- 同一个 probability score，也会因为 threshold 放在哪里而得到不同的最终 class 判断
+
+输入(input)：
+
+- 三个样本的 class 1 score `proba_class_1`
+
+期待输出(output)：
+
+- threshold 0.5 下的分类结果
+- threshold 0.7 下的分类结果
+
+要检查的概念：
+
+- threshold 改变会改变 class 区域大小
+- boundary 不只是数学公式，也会连接到运营规则
+
+可以改动的值：
+
+- 在 `proba_class_1` 中加入 `0.49`、`0.50`、`0.51`，可以看到 0.5 boundary 上 class 怎样分开。
+- 把 `pred_07` 的 cutoff 改成 `0.6` 或 `0.8`，可以在同一个 score 数组上比较 class 1 区域变化。
+
 ```python
 # 这个例子检查逻辑回归的决策边界如何在输入空间中划分类别。
 import numpy as np
@@ -445,6 +473,11 @@ threshold 0.7   : [0 0 1]
 
 现在保持同样的 score 数组，把 threshold 再提高到 `0.9`。
 
+可以改动的值：
+
+- 把 `0.81` 改成 `0.91`，可以看到高 threshold 下仍然自动留在 class 1 的案例是什么。
+- 把 `pred_09` 改成 `0.85` cutoff，可以比较运营标准稍微降低后 review 候选怎样变化。
+
 ```python
 # 这个例子检查逻辑回归的决策边界如何在输入空间中划分类别。
 import numpy as np
@@ -472,6 +505,14 @@ threshold 0.9   : [0 0 0]
 - 保持不变的点：score 的相对顺序没有变。`0.81` 仍然最接近 class 1，`0.48` 仍然最远。
 - 发生变化的点：threshold 再提高以后，原本看起来已经比较确定的 `0.81` 也不再自动进入 class 1。
 - 首先要留下的判断：score 本身和最终行为不是同一个阶段。并不只是边界附近案例会受影响，原本看起来比较确定的案例，也可能因为 operating criterion 的改变重新回到 review 对象里。
+
+通过这个比较，分类模型不只是 `probability calculator`，还会被读成 `运营边界调整装置`。重要的不是单纯把某个 score 做得更高，而是 threshold 改变后，哪些案例会从自动处理回到 review，哪些错误成本也会随之改变。保留同一组 score、只改变 boundary 的重复练习，可以训练我们把 `model output` 和 `applied judgment` 分开看。
+
+| 通用记录语言 | 这次练习里应立刻留下的内容 |
+| --- | --- |
+| 看见的结构 | 同样的 score 下，threshold 一提高，class 1 区域缩小，自动确认案例回到了 review 候选 |
+| 解释边界 | 更保守的 threshold 不一定等于更好的服务 policy，仍然要一起看 FN 增加成本 |
+| 下一个问题 | 是否应该先比较减少的 FP 是否真的比增加的 FN 与 review 负担更重要 |
 
 ## 细部学习内容补充
 
@@ -537,7 +578,7 @@ decision boundary 不是现实世界里的墙，而是 `model 为了方便而画
 
 ## 出处与参考资料
 
-- Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-29.
-- Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-29.
-- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }
+- Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }

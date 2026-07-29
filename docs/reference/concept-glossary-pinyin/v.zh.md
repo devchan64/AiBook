@@ -2,5 +2,8 @@
 
 本页用于整理拼音首字母为 `V` 的中文概念索引。具体词条内容将在后续补充。
 
+--8<-- "reference/concept-glossary-terms/variance.zh.md"
+
+
 | 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
 | --- | --- | --- | --- | --- |

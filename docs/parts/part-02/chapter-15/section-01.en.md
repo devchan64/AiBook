@@ -1,7 +1,7 @@
 # P2-15.1 A Small Procedure for Translating Formulas into Code
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In Part 2, we looked at formulas, Python, NumPy, Pandas, and Matplotlib separately. Now we bind that flow into one procedure. The goal is not to prove difficult formulas, but to have a procedure for translating a simple formula into code and checking the result.
 
@@ -29,7 +29,7 @@ So the core of this section is not `memorizing a new formula`, but `connecting t
 - You can explain the flow of checking the code result with numbers, a table, and a plot.
 - You can obtain a minimum procedure for reading machine-learning formulas in Part 3.
 
-## The First Connections to Hold in This Section
+## First Connections to Hold in This Section
 
 - Turn the symbols of the formula into code variables.
 - First look at the repeated computation per sample.
@@ -44,7 +44,7 @@ So the core of this section is not `memorizing a new formula`, but `connecting t
 | Why look at both loops and NumPy? | It lets you distinguish understanding the procedure from understanding a condensed expression. | Understand that the same calculation may look different only in expression. |
 | Why check the result in several ways? | It supplements the intermediate meaning that one final number can miss. | Understand that one number alone can hide intermediate process and tendency. |
 
-## The Basic Order for Translating a Formula into Code
+## Basic Order for Translating a Formula into Code
 
 When turning a formula into code, do not write code immediately. Read it in the following order first.
 

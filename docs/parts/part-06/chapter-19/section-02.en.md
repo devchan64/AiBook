@@ -1,13 +1,13 @@
 # P6-19.2 A Criterion for Separating Direct Lineage from Surrounding Evidence
 
 > Section ID: `P6-19.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 If P6-19.1 held the large development flow, this section needs a sharper criterion for separating direct structural lineage from surrounding evidence of spread. Not every event in deep learning history is immediately part of the direct lineage of LLMs.
 
 Direct lineage is the flow that leads directly to the structure and learning methods of current LLMs. Surrounding evidence explains the spread of deep learning and shifts in computational paradigms, but it is harder to assert as an ancestor of the LLM structure itself.
 
-## The Criterion for Direct Lineage
+## Direct Lineage Criterion
 
 The first questions to split are:
 
@@ -106,7 +106,7 @@ Surrounding evidence answers questions such as:
 
 So surrounding evidence is not a `structural ancestor`, but it explains the `historical atmosphere and infrastructure conditions`.
 
-## The Boundary Between Direct Lineage and Surrounding Evidence
+## Boundary Between Direct Lineage and Surrounding Evidence
 
 The distinction to keep first is simple. Once direct lineage and surrounding evidence are separated clearly, BERT, GPT, and RAG explanations are less likely to mix structural explanation and background explanation.
 

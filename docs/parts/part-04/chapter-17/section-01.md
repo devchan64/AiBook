@@ -1,7 +1,7 @@
 # P4-17.1 클러스터링(clustering)의 직관
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-16에서는 그래디언트 부스팅(gradient boosting)까지 보면서, 정답(label)이 있는 문제에서 모델이 어떻게 예측 성능을 올리는지를 따라왔습니다. 여기서 시선을 조금 바꾸면 다음 질문이 나옵니다.
 
@@ -13,7 +13,7 @@ P4-16에서는 그래디언트 부스팅(gradient boosting)까지 보면서, 정
 
 즉, 클러스터링은 `정답을 맞히는 문제`라기보다 `구조를 발견해 보는 문제`에 가깝습니다.
 
-이 절은 `클러스터링(clustering)`, `군집(cluster)`, `정답 라벨과 군집의 차이`를 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 묶음 제안을 구조 탐색으로 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 [클러스터링(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering), [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster), [정답 라벨(label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)과 군집의 차이를 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 묶음 제안을 구조 탐색으로 읽는 기본 감각은 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [유사도(similarity)](../../../reference/concept-glossary-parts/08-ieung.md#similarity), [클러스터 라벨(cluster label)](../../../reference/concept-glossary-parts/10-kieuk.md#cluster-label)을 기준으로 다시 연결합니다.
 
 ## 클러스터링(clustering)의 직관에서 닫을 질문
 
@@ -22,7 +22,7 @@ P4-16에서는 그래디언트 부스팅(gradient boosting)까지 보면서, 정
 - 클러스터링은 지도학습(supervised learning)과 무엇이 다른가?
 - `비슷하다(similar)`는 말은 왜 중요한가?
 - 군집(cluster)은 정답 클래스(class)와 왜 다른가?
-- k-means와 DBSCAN은 어떤 다른 직관을 보여 주는가?
+- [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-means)와 [DBSCAN](../../../reference/concept-glossary-parts/03-digeut.md#dbscan)은 어떤 다른 직관을 보여 주는가?
 - 클러스터링 결과를 어떤 태도로 읽어야 하는가?
 
 이 절은 먼저 `클러스터링이 라벨 없는 구조 탐색에서 어떤 질문에 답하는가`를 닫습니다. 결과 해석의 주의점은 P4-17.2에서, 계층적 군집화와 스펙트럴 클러스터링은 P4-17.3 보충학습에서, 군집 품질 지표는 P4-6.4 보충학습에서, 차원 축소와 함께 구조를 읽는 주의점은 P4-18.1, P4-18.2에서 이어집니다.
@@ -69,7 +69,7 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 
 `라벨이 없는 점들을 보고, 서로 가까운 것끼리 혹은 비슷한 패턴을 가진 것끼리 묶어 보자.`
 
-이때 중요한 것은 `비슷함(similarity)`입니다. 클러스터링은 결국 `무엇을 비슷하다고 볼 것인가`의 문제와 연결됩니다.
+이때 중요한 것은 [비슷함(similarity)](../../../reference/concept-glossary-parts/08-ieung.md#similarity)입니다. 클러스터링은 결국 `무엇을 비슷하다고 볼 것인가`의 문제와 연결됩니다.
 
 ## 지도학습과 무엇이 다른가
 
@@ -106,7 +106,7 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 
 ## `비슷하다`는 말이 왜 중요한가
 
-클러스터링은 결국 데이터 사이의 거리(distance), 밀도(density), 연결(connectivity), 중심(center) 같은 개념 위에서 작동합니다.
+클러스터링은 결국 데이터 사이의 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance), [밀도(density)](../../../reference/concept-glossary-parts/05-mieum.md#density), 연결(connectivity), [중심(center)](../../../reference/concept-glossary-parts/09-jieut.md#center) 같은 개념 위에서 작동합니다.
 
 즉, 군집은 그냥 생기는 것이 아니라, `어떤 기준으로 비슷함을 정의했는가`에 따라 달라집니다.
 
@@ -116,11 +116,11 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 - 평균 구매 금액
 - 최근 로그인 일수
 
-이 세 특징(feature)을 가지고 고객을 본다면, 비슷함은 이 세 축에서의 위치가 가깝다는 뜻이 될 수 있습니다.
+이 세 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)을 가지고 고객을 본다면, 비슷함은 이 세 축에서의 위치가 가깝다는 뜻이 될 수 있습니다.
 
 하지만 텍스트 문서라면 비슷함은 단어 분포나 임베딩(embedding) 공간에서의 가까움으로 바뀔 수 있습니다.
 
-즉, 클러스터링에서 “비슷하다”는 말은 감정적 표현이 아니라 `특징 공간(feature space)에서의 관계 정의`입니다.
+즉, 클러스터링에서 “비슷하다”는 말은 감정적 표현이 아니라 [특징 공간(feature space)](../../../reference/concept-glossary-parts/11-chieut.md#feature-space)에서의 관계 정의입니다.
 
 이를 데이터 흐름처럼 줄이면 다음과 같습니다.
 
@@ -157,7 +157,7 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 
 ## k-means는 어떤 직관을 보여 주는가
 
-scikit-learn 사용자 가이드는 K-means를 샘플을 `n groups of equal variance`로 나누고, inertia(within-cluster sum-of-squares)를 줄이려는 알고리즘으로 설명합니다. 또한 중심점(centroid)을 기준으로 각 샘플을 가장 가까운 군집에 배정하는 흐름을 설명합니다.
+scikit-learn 사용자 가이드는 K-means를 샘플을 `n groups of equal variance`로 나누고, inertia(within-cluster sum-of-squares)를 줄이려는 알고리즘으로 설명합니다. 또한 [중심점(centroid)](../../../reference/concept-glossary-parts/09-jieut.md#centroid)을 기준으로 각 샘플을 가장 가까운 군집에 배정하는 흐름을 설명합니다.
 
 k-means는 몇 개의 중심점을 놓고, 각 점을 가장 가까운 중심에 붙이는 방식으로 군집을 만듭니다.
 
@@ -320,6 +320,10 @@ scikit-learn clustering 개요 표는 DBSCAN을 `non-flat geometry`, `uneven clu
 - 확인할 개념:
   - `k-means`는 미리 정한 군집 수 안에서 모든 점을 배정한다
   - `DBSCAN`은 밀도가 낮은 점을 군집 밖에 둘 수 있다
+- 실행 전에 바꿔 볼 값:
+  - `n_clusters`를 2가 아니라 3으로 바꾸면 외곽점 G가 별도 군집처럼 보이는가?
+  - `eps`를 0.6보다 작게 또는 크게 바꾸면 DBSCAN의 노이즈 판정이 어떻게 달라지는가?
+  - 외곽점 G의 좌표를 `[8.5, 1.0]`에서 `[6.0, 4.0]`으로 옮기면 두 알고리즘의 해석 차이가 줄어드는가?
 
 ```python
 # 같은 점 집합에서 k-means와 DBSCAN이 외곽점 G를 어떻게 다르게 배정하는지 비교하는 예제입니다.
@@ -407,6 +411,6 @@ Part 4의 목표는 모델 이름을 나열하는 것이 아니라, 문제를 �
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `KMeans`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DBSCAN`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `KMeans`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DBSCAN`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html){: target="_blank" rel="noopener noreferrer" }

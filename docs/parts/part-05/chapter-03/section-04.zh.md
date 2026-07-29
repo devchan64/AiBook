@@ -1,11 +1,13 @@
 # P5-3.4 ReLU
 
 > Section ID: `P5-3.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-3.2 与 P5-3.3 里，我们已经看过像 sigmoid 与 tanh 这样会把值压进固定范围里的函数。ReLU（rectified linear unit）要简单得多。它会把负值直接变成 0，而把正值几乎原样放过去。
 
 也正因为这种简单性，ReLU 在现代深度学习里非常常见。
+
+如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)与[ReLU](/AiBook/zh/reference/concept-glossary-pinyin/j/#relu)条目。
 
 ## ReLU 如何截断负值的问题
 

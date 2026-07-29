@@ -1,7 +1,7 @@
 # P1-15.2 版权(copyright)与训练数据(training data)
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P1-15.1 中，我们看过当 AI 结果影响人和社会时，应如何理解偏见(bias)、安全性(safety)、责任(accountability)。接下来问题会更具体：
 

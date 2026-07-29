@@ -1,7 +1,7 @@
 # P1-4.2 Input, Output, and Data
 
 > Section ID: `P1-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 4.1 described a model as a computable representation reduced for a purpose rather than the whole real-world problem. Now we move to the first three elements that should be separated when we describe that model: what we put in, what we want to get out, and what kinds of cases we need to gather.
 

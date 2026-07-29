@@ -1,7 +1,7 @@
-# P5-11.1 The Intuition Of Convolutional Neural Networks (CNNs)
+# P5-11.1 The Intuition of Convolutional Neural Networks (CNNs)
 
 > Section ID: `P5-11.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Chapter P5-10, we saw that deep neural networks can learn more useful representations as they pass through layers. If we now narrow that viewpoint to images, the next question appears.
 
@@ -13,7 +13,7 @@ A convolutional neural network is a neural network that does not look at the who
 
 When you need to reset the basic definition for reading image structure, return to the glossary entry on [CNN (convolutional neural network)](/AiBook/en/reference/concept-glossary-alpha/c/#cnn-convolutional-neural-network).
 
-## The Question Of Why CNNs Fit Images
+## The Question of Why CNNs Fit Images
 
 - Why does a CNN fit images well?
 - What does it mean to look at local patterns?
@@ -33,14 +33,14 @@ What we read first here is not a learning procedure such as the optimizer or reg
 
 The concrete operations of convolution and pooling are handled next in P5-11.2, and the larger flow of representation learning in the image domain was already fixed in P5-10.1 and P5-10.2. In this section, we reread that larger flow on top of image scenes. A broader comparison of vision structures after CNNs continues in supplementary reading P5-11.3 at the level of `by what viewpoint should we compare CNNs and Vision Transformers (ViT)`.
 
-## Standards For Local Patterns And Shared Filters
+## Standards for Local Patterns and Shared Filters
 
 - You can explain a CNN as `a neural network that repeatedly reads the local structure of images`.
 - You can say why position and nearby patterns matter in images.
 - You can compare fully connected layers and CNNs at the introductory level.
 - Through an executable Python example, you can confirm the intuition of reading local patterns.
 
-## Why Is Spatial Structure Important In Images
+## Why Is Spatial Structure Important in Images
 
 An image is not just a list of numbers. Each pixel creates meaning together with the surrounding pixels.
 
@@ -56,7 +56,7 @@ The core point is that an image is data where not only the values themselves, bu
 
 `In images, it is not only important that a value exists, but also where that value is and how it connects to its surroundings.`
 
-## Why Is It Awkward To Use Only Fully Connected Layers
+## Why Is It Awkward to Use Only Fully Connected Layers
 
 In theory, we can flatten an image into a long vector and feed it into fully connected layers. But this way does not preserve the spatial structure of the image in an intuitive way for the reader.
 
@@ -85,7 +85,7 @@ If we split the same image scene across the two structures, the difference becom
 | equipment photo | the overall color and shape impression of the whole photo | repeated partial structures such as valves, warning lights, and tank boundaries |
 | surface-inspection image | the whole product silhouette and average brightness | local anomalies such as small scratches, cracks, and stains |
 
-## What Does A CNN Do Differently
+## What Does a CNN Do Differently
 
 A CNN does not look at the whole image all at once. Instead, it moves a small window or filter and repeatedly finds local patterns.
 
@@ -170,7 +170,7 @@ Object detection can also be read as a flow in which local clues gather into loc
 
 The result to confirm in this diagram is that object detection also is not a matter of memorizing the whole scene at once, but rather of first reading partial clues such as the valve or warning light seen in the earlier scene table, letting them gather into an `equipment-like region`, and then moving on to the final location and label judgment.
 
-## It Goes From Local Patterns To Larger Structure
+## It Goes from Local Patterns to Larger Structure
 
 The intuition of a CNN also naturally connects to the hierarchical representation learning that we already saw in Part 5.
 
@@ -180,7 +180,7 @@ The intuition of a CNN also naturally connects to the hierarchical representatio
 
 That is, a CNN does not connect the pixels themselves directly to the answer. It creates a hierarchical structure that rises from small local patterns toward larger visual clues, like `edge -> partial structure -> object clue`. So a CNN is better read not as a mere image-specific operation, but as `a structure that stacks local patterns into larger visual representations`.
 
-## Why Did A CNN Look Like A Turning Point
+## Why Did a CNN Look Like a Turning Point
 
 The reason CNNs drew so much attention in deep-learning history is that they showed cases in image recognition where the model learned stronger hierarchical representations than features people had built directly.
 
@@ -192,7 +192,7 @@ In particular, after AlexNet, CNNs showed all of the following together.
 
 That is, CNNs are one of the structures that showed the viewpoint of deep-learning representation learning most impressively in the image domain.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. Reading A Pressure-Gauge Dial
 
@@ -216,7 +216,7 @@ If we place the three cases together, it becomes clearer why CNNs should be read
 | reidentifying an equipment scene | if the whole impression of the equipment looks similar, it feels like the same scene | local structure around valves, pipes, and warning lights can be a more stable clue than lighting and background | check whether judgment of the same equipment scene remains more stable when local clues are preserved |
 | industrial vision | if the overall product shape looks similar, the state looks similar | small scratches, cracks, and stain locations must split defect candidates before the overall impression | check which patch remains as the higher reinspection candidate |
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm, not by looking at the whole image at once, but by looking at small regions, `which position becomes the candidate to inspect again in operation`. It does not stop at extracting a few patches. It also compares a normal panel and a scratched panel side by side to show how `the local response` differs.
 
@@ -395,7 +395,7 @@ If we pause here once and briefly fix `when should we read an image-classificati
 - When you are explaining an image problem only through the whole impression, can you think first of the viewpoint of local patterns?
 - When reading convolution in the next section, are you ready to think first of `how strongly does it respond to which local pattern`?
 
-## Sources And References
+## Sources and References
 
 - Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, checked on 2026-07-19. [https://doi.org/10.1109/5.726791](https://doi.org/10.1109/5.726791){: target="_blank" rel="noopener noreferrer" }
 - Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, checked on 2026-07-19. [https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }

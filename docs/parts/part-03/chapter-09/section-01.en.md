@@ -1,11 +1,11 @@
 # P3-9.1 How Far Should the Current Problem Be Raised
 
 > Section ID: `P3-9.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-When looking at real records, the first reaction is often `we have event records and at least some result notes, so shouldn't we raise this straight to a classification problem?` But with real records, that move is often too fast. Some problems can truly become prediction problems, but others are more honestly left as `problems of choosing review candidates well`, and that also fits the current data state better. Once interpretation boundaries are set, the next step is to decide how far the current problem should be raised among alert, review candidate, and label prediction.
+When looking at real records, the first reaction is often "we have event records and at least some result notes, so shouldn't we raise this straight to a [classification](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-classification) problem?" But with real records, that move is often too fast. Some problems can truly become prediction problems, but others are more honestly left as `problems of choosing review candidates well`, and that also fits the current data state better. Once [interpretation boundaries](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-interpretation-boundary) are set, the next step is to decide how far the current problem should be raised among [alert](/AiBook/en/reference/concept-glossary-alpha/a/#glossary-alert), [review candidate](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-candidate), and [label prediction](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label-prediction).
 
-The first judgment to hold is `how far does the current data honestly support`. An alert can begin with comparison structure and difference values alone. A review candidate needs additional priority criteria. Label prediction requires a relatively stable target label and an evaluation setup as well.
+The first judgment to hold is `how far does the current data honestly support`. An alert can begin with comparison structure and difference values alone. A review candidate needs additional priority criteria. Label prediction requires a relatively stable [target label](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target) and an evaluation setup as well.
 
 | Category | Meaning at this stage | Required evidence level |
 | --- | --- | --- |

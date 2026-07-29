@@ -1,7 +1,7 @@
-# P6-1.1 Viewing Generative-AI Output As An Artifact To Review
+# P6-1.1 Viewing Generative-AI Output as an Artifact to Review
 
 > Section ID: `P6-1.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In Part 5, we held onto the sense that a generative model creates a candidate distribution and selects an actual output through sampling. Part 6 moves that sense into the experience of using real generative-AI services.
 
@@ -24,13 +24,13 @@ For example, suppose a reply says, `We are sorry for the shipping delay. We will
 | Check item | Check question | Problem if sent as-is |
 | --- | --- | --- |
 | Fact | Can it actually be resent today? | Customer dissatisfaction grows if the promise cannot be kept. |
-| Authority | Does the support agent have authority to confirm reshipment? | It becomes a compensation promise made without internal approval. |
+| Authority | Does the support AI agent have authority to confirm reshipment? | It becomes a compensation promise made without internal approval. |
 | Omission | Are order number, carrier, or expected arrival date needed? | The customer lacks information for deciding the next action. |
 | Tone | Does it match the company's response standard? | It may sound too definitive, or the apology may cover too broad a responsibility. |
 
 So a generative-AI artifact is not sufficient just because it is `a readable sentence`. Apart from the artifact's naturalness, the user must check facts, authority, omissions, and risky expressions. This is also why Part 6 later discusses prompts, RAG, tool use, evaluation, and operation records. To use generated results well, we must read not only generation itself but also review and reinforcement structures.
 
-## Cases And Examples
+## Cases and Examples
 
 The difference becomes clearer if the same customer request is turned into three model outputs.
 
@@ -58,7 +58,7 @@ Mark the following draft reply by separating it into three review standards.
 
 Even this small classification shows why generated results are hard to use as-is. The more sentence-like the output is, the broader the review standards become.
 
-## Exercises And Examples
+## Exercises and Examples
 
 When you see the following three outputs, first think of what the user must additionally check. The right column gives the checking explanation.
 

@@ -1,7 +1,7 @@
 # P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-14.2 distinguished `RAG` from `tool use`.
 
@@ -21,7 +21,7 @@ This section explains an `agent` as a structure that carries a goal through a wo
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
-| agent | an execution structure that carries a goal through multiple steps | the central idea of this section |
+| AI agent | an execution structure that carries a goal through multiple steps | the central idea of this section |
 | goal | the task to be solved | the starting point of the loop |
 | state | what has been read and executed so far | the material for deciding the next step |
 | action | the next task to perform | a real step such as retrieval, editing, or calling a tool |
@@ -46,7 +46,7 @@ The baseline distinction here is:
 ## Carrying a Goal Through a Workflow
 
 - Understand an `agent` as an execution structure rather than as just a smarter chatbot or another model name.
-- Distinguish prompts, RAG, tool use, and agents.
+- Distinguish prompts, RAG, tool use, and AI agents.
 - Understand that agents can carry multi-step work, but that does not mean unlimited autonomy.
 - Understand that the application, server, and runtime still manage permissions, approvals, and state.
 - Prepare to interpret coding-agent tools such as Codex in service-architecture terms.
@@ -94,7 +94,7 @@ That request does not end with one generated paragraph.
 | verify | run a build or review procedure to confirm the result is reflected correctly |
 | report | tell the user what files changed and what was verified |
 
-## The Agent Loop: Goal, State, Action, Observation
+## Agent Loop: Goal, State, Action, Observation
 
 The `loop` view is useful for understanding agents.
 
@@ -120,7 +120,7 @@ The ReAct paper is a useful reference point here because it studies a flow in wh
 
 ## RAG and Tool Use Can Become Building Blocks of an Agent
 
-An agent is not a replacement word for RAG or tool use. Instead, those can be placed inside an agent workflow.
+An AI agent is not a replacement word for RAG or tool use. Instead, those can be placed inside an AI agent workflow.
 
 | Component | Role inside the agent flow |
 | --- | --- |
@@ -201,11 +201,11 @@ These questions then lead naturally to the next section on harnesses, logs, and 
 
 ## Checklist
 
-- You can explain an agent as an execution structure by separating `goal`, `state`, `action`, `observation`, and `stop condition`.
-- You can distinguish prompts, RAG, tool use, and agents instead of mixing them together.
+- You can explain an AI agent as an execution structure by separating `goal`, `state`, `action`, `observation`, and `stop condition`.
+- You can distinguish prompts, RAG, tool use, and AI agents instead of mixing them together.
 - You can explain that an agent can continue a multi-step task without implying unlimited autonomy.
 - You can explain that the application and server still manage permissions, approvals, state, and scope.
-- You can describe a coding-agent workflow as a chain of reading, editing, verifying, and reporting.
+- You can describe a coding-AI agent workflow as a chain of reading, editing, verifying, and reporting.
 - You can explain how the `goal`, `state`, `action`, `observation`, and `stop condition` frame keeps the agent distinct from a single model ability.
 
 ## Sources and Further Reading

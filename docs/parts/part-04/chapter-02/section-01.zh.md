@@ -1,15 +1,15 @@
 # P4-2.1 监督学习
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-1.2 里，我们把 machine learning 看成 `从数据中估计输入和输出关系的方法`。现在要看其中最先会遇到的一种形式：监督学习。
+在 P4-1.2 里，我们把 [machine learning](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning) 看成 `从数据中估计输入和输出关系的方法`。现在要看其中最先会遇到的一种形式：[监督学习](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)。
 
-监督学习，是用已经带有 label 或 target value 的案例来训练 model 的方式。这里的 label 不只是名字标签，而是 model 想匹配的输出。因为案例会告诉它 `给定这种输入时，应该出现什么结果`，所以才会用 `supervised` 这个词。
+监督学习，是用已经带有 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 或 [target](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) value 的案例来训练 model 的方式。这里的 label 不只是名字标签，而是 model 想匹配的输出。因为案例会告诉它 `给定这种输入时，应该出现什么结果`，所以才会用 `supervised` 这个词。
 
 监督学习可以先读成 `看着同时带有例子和答案的案例，再去猜新案例输出` 的方式。但 model 并不是在理解人写的解释，它是在大量案例中不断调整自己的内部标准，让输入和输出之间的关系尽量匹配。
 
-这一节会说明 `supervised learning`、`输入 X 与目标 y`、`classification` 和 `regression` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于标签的学习到底是什么意思` 这个基础含义，会以本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 为基准再次接回。
+这一节会说明 `supervised learning`、`输入 X 与目标 y`、[classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) 和 [regression](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression) 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而基于标签的学习到底是什么意思这个基础含义，会以本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 为基准再次接回。
 
 ## 本节范围
 
@@ -17,7 +17,7 @@
 
 - 在监督学习里，输入和 label 各自是什么？
 - classification 和 regression 有什么不同？
-- training、evaluation、prediction 是怎样连起来的？
+- [training](/AiBook/zh/reference/concept-glossary-pinyin/x/#training)、[evaluation](/AiBook/zh/reference/concept-glossary-pinyin/e/#evaluation)、[prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction) 是怎样连起来的？
 - 有了 label，就表示 model 已经知道正确答案了吗？
 - 在监督学习里，一开始最先该小心的误解是什么？
 
@@ -218,5 +218,6 @@ model 在 training data 上表现好，并不够。我们真正想要的是：�
 
 ## 来源与参考资料
 
-- Google, `Machine Learning Glossary`, 包含 `supervised learning`、`label`、`classification`、`regression` 等条目，确认日期：2026-07-10. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 确认日期：2026-07-10. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
+- Google, `Machine Learning Glossary`, 包含 `supervised learning`、`label`、`classification`、`regression` 等条目，确认日期：2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Supervised Learning`, Machine Learning, 确认日期：2026-07-26. [https://developers.google.com/machine-learning/intro-to-ml/supervised](https://developers.google.com/machine-learning/intro-to-ml/supervised){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 确认日期：2026-07-26. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }

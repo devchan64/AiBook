@@ -1,13 +1,13 @@
 # P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 2.1 covered symbolic AI and rule-based approaches. This section takes the next question. When writing rules alone is not enough, AI had to search through possible candidates, represent the knowledge it needed, and reason about plausible conclusions under incomplete information.
 
 The task here is not to study algorithms in detail. The task is to fix why `search`, `knowledge representation`, and `probabilistic reasoning` keep returning in introductory AI, and how this flow becomes part of the background for later explanations of machine learning and deep learning.
 
-In Part 1, the baseline distinction between `search` and `probabilistic reasoning` is fixed here. `Knowledge representation` was introduced in 2.1, and is reconnected here only as much as needed to compare its role between search and probabilistic reasoning. If the term boundaries become blurry again later, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
+In Part 1, the baseline distinction between `search` and `probabilistic reasoning` is fixed here. `Knowledge representation` was introduced in 2.1, and is reconnected here only as much as needed to compare its role between search and probabilistic reasoning. If the term boundaries become blurry again later, return to this section and to the glossary entries for [search](/AiBook/en/reference/concept-glossary-alpha/s/#search), [probabilistic reasoning](/AiBook/en/reference/concept-glossary-alpha/p/#probabilistic-reasoning), and [knowledge representation](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-representation).
 
 This section organizes the following questions.
 
@@ -23,17 +23,6 @@ The focus here is on organizing the `difference in role` among the three flows. 
 - See how knowledge representation connects to rule-based approaches.
 - Understand that probabilistic reasoning is a way to deal with incomplete information and uncertainty.
 - Distinguish search, knowledge representation, and probabilistic reasoning as major axes of pre-machine-learning AI.
-
-## Concepts to Connect First
-
-This section is the representative place in Chapter 2 where the role difference among `search`, `knowledge representation`, and `probabilistic reasoning` is first separated in earnest. The concepts below are introduced first by role; when a fuller definition is needed, return to each glossary entry.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [search](/AiBook/en/reference/concept-glossary-alpha/s/#search) | an approach that follows possible states and actions to find a goal | to see why candidate order becomes a problem when there are too many options |
-| [knowledge representation](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-representation) | a format for writing facts, relations, and constraints | to separate the question of what the system should count as knowledge |
-| [probabilistic reasoning](/AiBook/en/reference/concept-glossary-alpha/p/#probabilistic-reasoning) | a way to handle plausibility under incomplete information | to read judgments that do not close into simple true or false form |
-| [goal](/AiBook/en/reference/concept-glossary-alpha/g/#goal) | the condition to be reached | to see what tells search where to stop |
 
 ## Main Learning Points
 
@@ -59,7 +48,7 @@ The first distinction that should remain is this: `search handles state, action,
 
 ## Detailed Learning
 
-### The Three Questions That Appear After Rules
+### Three Questions After Rules
 
 Rule-based approaches explicitly express what conclusion or action should follow under a condition. But real problems often do not end with a single rule.
 

@@ -1,9 +1,9 @@
 # P3-6.3 How Should We Distinguish Human-Made Features from Representations Learned by the Model
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Once we place features together with [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-intermediate-representation), it becomes important to read clearly where `the human act of deciding the input structure` separates from `the model's act of learning a representation inside that input`. If this distinction becomes blurred, Part 3's feature design can look like outdated preprocessing, or the opposite misunderstanding can arise that the model will decide the structure of the problem for us. The key point is that the two are not in competition. The features and intermediate representations that people make in Part 3 are the act of first deciding `in what input structure the problem will be read`. The representation learned by the model is the act of learning `what patterns inside that input structure better separate useful cases`.
+Once we place [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) together with [intermediate representation](/AiBook/en/reference/concept-glossary-alpha/i/#glossary-intermediate-representation), it becomes important to read clearly where `the human act of deciding the input structure` separates from `the model's act of learning a representation inside that input`. If this distinction becomes blurred, Part 3's feature design can look like outdated preprocessing, or the opposite misunderstanding can arise that the model will decide the structure of the problem for us. The key point is that the two are not in competition. The features and intermediate representations that people make in Part 3 are the act of first deciding `in what input structure the problem will be read`. The representation learned by the model is the act of learning `what patterns inside that input structure better separate useful cases`.
 
 The distinction the reader should hold first is simple. People build the input, and the model learns a representation inside that input. Split as briefly as possible, it looks like this.
 
@@ -75,7 +75,7 @@ Suppose we have the raw log for one full action.
 4. The tables and sequences built this way become the inputs that the model will read in the later learning stage.
 5. After that, the model can learn longer dependencies or more complex combinations inside that input.
 
-Looking at this order makes it clear that feature design is not an outdated preparation step from before deep learning. It is the input-definition stage that is needed first no matter what learning method is used. So the conclusion of this section is not the opposition of `human-made features vs deep learning`, but the question of where `input specification` and `representation learning` separate. Feature design should be read not as obsolete manual labor but as the act of first specifying the input structure on which the later learning stage depends.
+Looking at this order makes it clear that feature design is not an outdated preparation step from before deep learning. It is the input-definition stage that is needed first no matter what learning method is used. So the conclusion of this section is not the opposition of `human-made features vs deep learning`, but the question of where [input specification](/AiBook/en/reference/concept-glossary-alpha/m/#model-input-specification) and [representation learning](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representation-learning) separate. Feature design should be read not as obsolete manual labor but as the act of first specifying the input structure on which the later learning stage depends.
 
 ## A Small Diagram
 

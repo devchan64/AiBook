@@ -1,7 +1,7 @@
 # P6-3.3 补充学习：学习近表达与远表达的 embedding 学习
 
 > Section ID: `P6-3.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P6-3.1 中，我们抓住了 embedding 是把 token 和句子转换成向量(vector)的表达方式；在 P6-3.2 中，我们抓住了用距离(distance)和相似度(similarity)阅读这些向量的标准。这里再往前一步，从大图上整理这个向量空间最初是怎样生成的。
 

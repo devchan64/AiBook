@@ -1,11 +1,11 @@
 # P4-10.1 Intuition For Linear Regression
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P4-9.2, the discussion used tuning and validation cost to ask `how should promising settings be compared?` Now it is time to connect that comparison procedure to one actual algorithm.
 
-The reason this Part begins with linear regression is straightforward. Linear regression is both the most basic starting point for a regression problem and the model that shows the relationship between input and output most transparently through a `slope` and an `intercept`.
+The reason this Part begins with [linear regression](/AiBook/en/reference/concept-glossary-alpha/l/#linear-regression) is straightforward. Linear regression is both the most basic starting point for a [regression](/AiBook/en/reference/concept-glossary-alpha/r/#regression) problem and the model that shows the relationship between input and output most transparently through a `slope` and an `intercept`.
 
 The central question of this Section is the following.
 
@@ -13,15 +13,15 @@ How can a model express the relationship that output tends to increase or decrea
 
 Linear regression answers this question first with a `line`.
 
-This Section explains the basic meanings of `regression`, `linear regression`, `coefficient`, and `intercept`. Later Sections continue the surrounding judgment from this handle, and the basic sense of reading a continuous prediction with a line reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meanings of `regression`, `linear regression`, `coefficient`, and `intercept`. Later Sections continue the surrounding judgment from this handle, and the basic sense of reading a continuous prediction with a line reconnects through this Section and the related concept-glossary entries.
 
-## Scope Of This Section
+## Questions Closed By Linear Regression Intuition
 
 This Section answers the following questions.
 
 - What kind of problem does regression handle?
 - Why is linear regression described as expressing a relationship with a `line`?
-- How can direction and size between an input feature and an output target be read?
+- How can direction and size between an input [feature](/AiBook/en/reference/concept-glossary-alpha/f/#feature) and an output [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) be read?
 - Why is linear regression the first algorithm studied in Part 4?
 
 This Section first closes linear regression as `the most basic regression model that first explains the relationship between input and output with a line`, and focuses on holding the basic handle for reading coefficients and intercepts.
@@ -30,7 +30,7 @@ The questions that will not be widened immediately in this Section are also clea
 
 The statistical properties of residuals, a rigorous derivation of ordinary least squares, and detailed comparison among evaluation metrics such as R², MAE, and RMSE go beyond the direct scope of this Section, so they are not treated in detail here.
 
-## Goals Of This Section
+## Judgments To Keep From Linear Regression
 
 - You can explain regression as `a problem that predicts a continuous value`.
 - You can describe linear regression as `a model that first approximates the relationship between input and output with a line`.
@@ -85,7 +85,7 @@ y = wx + b
 \]
 
 - `x`: input
-- `y`: prediction
+- `y`: [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction)
 - `w`: coefficient
 - `b`: intercept
 
@@ -298,51 +298,6 @@ This comparison also connects to later algorithm chapters.
 - In P4-14 decision trees, the relationship will be read through branching rules instead of a line.
 - In P4-15 random forests, several trees will be combined to handle nonlinear relationships.
 
-## Cases And Examples
-
-### Case 1. How Can The Claim That Sales Rise When Ad Spending Rises Be Expressed In The Simplest Way?
-
-A small online-shopping team wants first to read the relationship between monthly advertising spend and sales. The criteria people first used were questions such as `in months when ad spending rises, does the number of orders also rise?` and `does a similar flow still appear in ordinary months without special events?`
-
-At that point, the team tries the simplest linear regression before a complex model. This is because a single line can first summarize how much sales move on average as ad spending rises, letting the reader immediately read whether the direction is positive or negative and how large the change roughly is. Reality may not be a perfect line, but as a first reference point for `what change is made on average by one unit of increase`, the model is already useful enough.
-
-In this scene, linear regression is not a model that declares `reality is a line`. It is a model that asks `can the relationship first be explained by a line?` If ad spending and sales move mostly in the same direction, the coefficient and intercept become the first explanation that shows that relationship most transparently.
-
-The confirmable result appears in the learned line and the interpretation of the coefficients. If the coefficient is positive, the reader can read the tendency that ad spending and sales increase together. If the difference between prediction and actual value is also inspected, the reader can immediately see how rough it is to explain the whole situation with one line.
-
-```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-04-en.mmd"
-```
-
-## Cases And Examples
-
-### Reading One-Variable Linear Regression In The Simplest Way
-
-Consider an example of study time and exam score.
-
-| study_hours | exam_score |
-| --- | --- |
-| 1 | 52 |
-| 2 | 55 |
-| 3 | 61 |
-| 4 | 64 |
-| 5 | 68 |
-| 6 | 72 |
-
-Looking at this data, the score does not rise by a perfectly fixed amount every time, but in general the score rises as time increases. Linear regression looks at this scene and tries to find one line such as the following.
-
-`A line in which exam scores rise on average as study time rises`
-
-What matters here is not `a line that passes through every point exactly`, but `a line that explains the overall direction most reasonably`. As discussed just above, linear regression chooses a better line under a criterion that reduces the difference between prediction and reality, and then uses that result again for predicting new inputs.
-
-If this expression is rewritten a little more theoretically, it becomes the following.
-
-- Some error may remain for each individual data point.
-- But across the whole dataset, some lines leave smaller error and some lines leave larger error.
-- Linear regression chooses `the line that reduces overall error better`.
-
-In other words, linear regression is not a model that matches each individual point perfectly. It is a model that `summarizes the overall tendency most economically`.
-
 ### How Should The Coefficient And Intercept Be Read?
 
 When first learning linear regression, many readers see the formula but miss the meaning. This Section fixes interpretation before calculation.
@@ -374,6 +329,49 @@ So the intercept should be read as follows.
 
 `It is the mathematical starting point of the model, but the direct interpretability depends on the domain.`
 
+## Cases And Examples
+
+### Case 1. How Can The Claim That Sales Rise When Ad Spending Rises Be Expressed In The Simplest Way?
+
+A small online-shopping team wants first to read the relationship between monthly advertising spend and sales. The criteria people first used were questions such as `in months when ad spending rises, does the number of orders also rise?` and `does a similar flow still appear in ordinary months without special events?`
+
+At that point, the team tries the simplest linear regression before a complex model. This is because a single line can first summarize how much sales move on average as ad spending rises, letting the reader immediately read whether the direction is positive or negative and how large the change roughly is. Reality may not be a perfect line, but as a first reference point for `what change is made on average by one unit of increase`, the model is already useful enough.
+
+In this scene, linear regression is not a model that declares `reality is a line`. It is a model that asks `can the relationship first be explained by a line?` If ad spending and sales move mostly in the same direction, the coefficient and intercept become the first explanation that shows that relationship most transparently.
+
+The confirmable result appears in the learned line and the interpretation of the coefficients. If the coefficient is positive, the reader can read the tendency that ad spending and sales increase together. If the difference between prediction and actual value is also inspected, the reader can immediately see how rough it is to explain the whole situation with one line.
+
+```mermaid
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-04-en.mmd"
+```
+
+### Reading One-Variable Linear Regression In The Simplest Way
+
+Consider an example of study time and exam score.
+
+| study_hours | exam_score |
+| --- | --- |
+| 1 | 52 |
+| 2 | 55 |
+| 3 | 61 |
+| 4 | 64 |
+| 5 | 68 |
+| 6 | 72 |
+
+Looking at this data, the score does not rise by a perfectly fixed amount every time, but in general the score rises as time increases. Linear regression looks at this scene and tries to find one line such as the following.
+
+`A line in which exam scores rise on average as study time rises`
+
+What matters here is not `a line that passes through every point exactly`, but `a line that explains the overall direction most reasonably`. As discussed just above, linear regression chooses a better line under a criterion that reduces the difference between prediction and reality, and then uses that result again for predicting new inputs.
+
+If this expression is rewritten a little more theoretically, it becomes the following.
+
+- Some error may remain for each individual data point.
+- But across the whole dataset, some lines leave smaller error and some lines leave larger error.
+- Linear regression chooses `the line that reduces overall error better`.
+
+In other words, linear regression is not a model that matches each individual point perfectly. It is a model that `summarizes the overall tendency most economically`.
+
 ## Practice And Example
 
 ### A Small Linear Regression Example In Python
@@ -387,6 +385,11 @@ The example below is a very small linear-regression practice that predicts exam 
   - linear regression learns one line
   - `coef_` is the coefficient and `intercept_` is the starting point
   - the model can create a continuous-value prediction for a new input
+
+Values to change:
+
+- Add `7` or `8` to `study_hours` with a matching score and observe how the coefficient and intercept change.
+- Change the input in `pred_7 = model.predict([[7]])[0]` to `[[0]]` or `[[10]]` to compare predictions inside and outside the training range.
 
 ```python
 # This example checks linear regression slope, intercept, predictions, and residuals with NumPy calculations.
@@ -447,6 +450,11 @@ A one-variable example is good for learning the intuition of a line, but real wo
   - the sign of each coefficient helps read direction
   - the size of each coefficient must be read carefully together with units
 
+Values to change:
+
+- Change several values in the `assignment_score` column by a larger amount and see how that coefficient and the other coefficients move together.
+- Change only one of the three values in `new_student` at a time to compare which feature movement pushes the prediction in which direction.
+
 ```python
 # This example checks linear regression slope, intercept, predictions, and residuals with NumPy calculations.
 import numpy as np
@@ -503,6 +511,11 @@ This multivariable example shows linear regression again as the following.
 ### Change One More Value: What Stays The Same And What Changes When One Input Goes Up?
 
 Now keep `attendance` and `assignment_score` fixed for the same student and raise only `study_hours` from `5` to `7`.
+
+Values to change:
+
+- Change the first value of `student_more_hours` to `6` or `8` and check whether the prediction difference moves almost in proportion to the coefficient.
+- Change the fixed `attendance` or `assignment_score` one at a time as well to explain more clearly what was held fixed and what was changed.
 
 ```python
 # This example checks linear regression slope, intercept, predictions, and residuals with NumPy calculations.
@@ -581,5 +594,5 @@ The key point is that there is `an order for reading numbers`. Linear regression
 
 ## Sources And References
 
-- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LinearRegression`, scikit-learn API Reference, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LinearRegression`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }

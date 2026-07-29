@@ -1,15 +1,15 @@
 # P4-7.3 보충학습: 전처리 입력 문제 구분
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: 결측치, 스케일, 인코딩은 각각 어떤 입력 문제에서 출발하는가_
 
-P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산할 수 있는 표현으로 바꾸는 일`이라는 큰 뜻을 잡았습니다. 그런데 전처리를 처음 배우면 바로 이런 혼란이 생깁니다. 어떤 칼럼은 비어 있고, 어떤 칼럼은 숫자 크기가 제각각이고, 어떤 칼럼은 문자열인데, 이 셋을 왜 같은 전처리라는 한 단어 아래에서 다루는지 잘 감이 오지 않습니다.
+P4-7.2에서는 [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing)가 `원시 입력을 모델이 계산할 수 있는 표현으로 바꾸는 일`이라는 큰 뜻을 잡았습니다. 그런데 전처리를 처음 배우면 바로 이런 혼란이 생깁니다. 어떤 칼럼은 비어 있고, 어떤 칼럼은 숫자 크기가 제각각이고, 어떤 칼럼은 문자열인데, 이 셋을 왜 같은 전처리라는 한 단어 아래에서 다루는지 잘 감이 오지 않습니다.
 
 이 보충학습의 목적은 전처리 기술 이름을 더 많이 늘리는 데 있지 않습니다. 오히려 `지금 입력에 생긴 문제가 무엇인가`를 먼저 보고, 그 문제에 맞는 전처리 종류를 나눠 떠올리는 기준을 만드는 데 있습니다.
 
-## 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가에서 구분할 경계
+## 결측치, 스케일, 인코딩을 나누는 기준
 
 이 절은 다음 질문에 답합니다.
 
@@ -18,9 +18,9 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 - 같은 칼럼에 전처리 규칙이 하나만 필요한가, 여러 규칙이 함께 붙을 수 있는가?
 - 전처리 종류를 구분한 뒤에도 왜 train에서 배운 규칙을 다시 써야 하는가?
 
-이 절은 먼저 `결측치 처리, 스케일 조정, 인코딩을 어떤 입력 문제로 구분할 것인가`를 닫습니다. 필터, 래퍼, 임베디드, 차원 축소 구분은 다음 절 P4-7.4에서 이어집니다.
+이 절은 먼저 `결측치 처리, 스케일 조정, 인코딩을 어떤 입력 문제로 구분할 것인가`를 닫습니다. 필터, 래퍼, 임베디드, [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction) 구분은 다음 절 P4-7.4에서 이어집니다.
 
-## 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가에서 복구할 연결
+## 입력 문제를 보고 남길 판단
 
 - 전처리 종류를 `기술 이름`이 아니라 `입력 문제의 종류`로 구분할 수 있습니다.
 - 한 칼럼을 보고 `비어 있는가`, `크기 축이 흔들리는가`, `계산 불가능한 표현인가`를 먼저 점검할 수 있습니다.
@@ -33,7 +33,7 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 
 | 입력에서 먼저 보이는 문제 | 먼저 떠올릴 전처리 | 핵심 질문 |
 | --- | --- | --- |
-| 값이 비어 있다 | 결측치 처리(imputation) | 이 빈칸을 어떤 규칙으로 다룰까 |
+| 값이 비어 있다 | [결측치 처리(imputation)](../../../reference/concept-glossary-parts/01-giyeok.md#missing-value) | 이 빈칸을 어떤 규칙으로 다룰까 |
 | 숫자 크기 축이 너무 다르다 | 스케일 조정(scaling) | 이 숫자들을 어떻게 공정하게 비교할까 |
 | 문자열, 범주, 등급이 섞여 있다 | 인코딩(encoding) | 이 값을 어떻게 계산 가능한 표현으로 바꿀까 |
 
@@ -125,7 +125,7 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 - 문자열 범주가 있으면 인코딩을 먼저 본다.
 - 숫자 축 차이가 크면 스케일 조정을 검토한다.
 
-그다음에야 `어떤 모델은 이 문제에 더 민감한가`를 붙이는 편이 안정적입니다. 예를 들어 거리(distance) 기반 모델이나 경사 기반 최적화는 스케일의 영향을 더 직접적으로 받을 수 있지만, 그 전에 이미 `스케일이 다른 숫자축이 문제인가`를 먼저 알아야 합니다.
+그다음에야 어떤 모델은 이 문제에 더 민감한가를 붙이는 편이 안정적입니다. 예를 들어 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance) 기반 모델이나 경사 기반 [최적화(optimization)](../../../reference/concept-glossary-parts/11-chieut.md#optimization)는 스케일의 영향을 더 직접적으로 받을 수 있지만, 그 전에 이미 스케일이 다른 숫자축이 문제인가를 먼저 알아야 합니다.
 
 즉, 전처리의 첫 순서는 `모델 이름 -> 기술 선택`이 아니라 `입력 문제 -> 전처리 종류 -> 모델 민감도 확인`입니다.
 
@@ -135,7 +135,7 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 
 예를 들어:
 
-- 결측치 중앙값을 train이 아니라 test까지 합쳐 계산하면 평가가 새어 나갑니다.
+- 결측치 중앙값을 [훈련 데이터(train data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data)가 아니라 [테스트 데이터(test data)](../../../reference/concept-glossary-parts/12-tieut.md#test-data)까지 합쳐 계산하면 평가가 새어 나갑니다.
 - 인코딩 범주 목록을 전체 데이터로 먼저 만들면 실제 배포 장면보다 유리한 정보를 미리 본 셈이 됩니다.
 - 스케일 기준을 전체 데이터 평균과 분산으로 잡으면 비교가 공정하지 않게 됩니다.
 
@@ -146,7 +146,7 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 | 어떤 전처리 종류가 필요한가 | 입력 문제를 읽는 현재 절 |
 | 그 규칙을 어디서 배워야 하는가 | P4-7.2의 train 기준 재사용 원칙 |
 
-이렇게 나누면 `무슨 규칙이 필요한가`와 `그 규칙을 어디서 배웠는가`를 섞지 않게 됩니다.
+이렇게 나누면 `무슨 규칙이 필요한가`와 `그 규칙을 어디서 배웠는가`를 섞지 않게 됩니다. 이 경계를 놓치면 전처리 종류를 올바르게 골라도 [데이터 누수(data leakage)](../../../reference/concept-glossary-parts/03-digeut.md#data-leakage) 때문에 평가가 흔들릴 수 있습니다.
 
 ## 사례 및 예시
 
@@ -183,6 +183,6 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-08.
-- scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-08.
-- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, 확인 날짜: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, 확인 날짜: 2026-07-26. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

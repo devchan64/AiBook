@@ -1,15 +1,15 @@
 # P5-13.3 Supplementary Reading: QKV and Multi-Head Attention
 
 > Section ID: `P5-13.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P5-13.1 and P5-13.2, we first fixed the intuition of attention and self-attention. Once we have read this far, the next question appears naturally.
 
 Then why, in the actual computation, is attention explained through query, key, and value, and why does multi-head attention get its own name?
 
-When the terms start to scatter again, reread together the glossary entries on [query-key-value (QKV)](/AiBook/en/reference/concept-glossary-alpha/q/#-query-key-value-qkv) and [multi-head attention](/AiBook/en/reference/concept-glossary-alpha/m/#multi-head-attention).
+When the terms start to scatter again, reread together the glossary entries on [query-key-value (QKV)](/AiBook/en/reference/concept-glossary-alpha/q/#query-key-value-qkv) and [multi-head attention](/AiBook/en/reference/concept-glossary-alpha/m/#multi-head-attention).
 
-## Questions That Need QKV And Multi-Head Attention
+## Questions That Need QKV and Multi-Head Attention
 
 - What do query, key, and value mean?
 - Why is self-attention explained by dividing the computation into these three names?
@@ -18,14 +18,14 @@ When the terms start to scatter again, reread together the glossary entries on [
 
 This supplementary reading focuses on `why are these names used` and `how should we read intuitively the difference between one head and several heads`. The core here is not `do we memorize more formulas`, but `can we reread the intuition of attention we already hold through the repeated names QKV and multi-head`.
 
-## Distinguishing Role Names From Multiple Viewpoints
+## Distinguishing Role Names from Multiple Viewpoints
 
 - You can explain query, key, and value at an introductory level.
 - You can read self-attention as `a computation that asks a question, finds the matching position, and brings back the information`.
 - You can explain multi-head attention as meaning `relationships are not seen from only one type, but split into several viewpoints`.
 - When rereading the Transformer section, you can recall where QKV and multi-head belong.
 
-## If We First Look Through A Very Short Analogy
+## If We First Look Through a Very Short Analogy
 
 Query, key, and value can be compared as follows.
 
@@ -76,7 +76,7 @@ This diagram compresses the following sequence of computation.
 3. It gives larger weights to the better-matching positions.
 4. It mixes in more of the actual content (value) from those positions and forms a new representation.
 
-## Why Separate Key And Value At All
+## Why Separate Key and Value at All
 
 At the introductory level, the natural question here is, `it is one token anyway, so why call key and value separately?`
 
@@ -93,7 +93,7 @@ If we reduce this distinction to one sentence, it becomes the following.
 
 `The key is closer to deciding where to look, and the value is closer to deciding what to actually bring back.`
 
-## If We Look Again Through A Small Sentence
+## If We Look Again Through a Small Sentence
 
 ```text
 Release of shutdown was requested. However, pressure recovery has not yet been completed.
@@ -103,7 +103,7 @@ If the current token is trying to understand the context after `however`, the qu
 
 That is, in self-attention, one token works by `scanning the whole sentence again and selecting and mixing the cues needed for my interpretation right now`.
 
-## What Does Multi-Head Attention Mean By Looking Several Times
+## What Does Multi-Head Attention Mean by Looking Several Times
 
 Now the next question appears.
 
@@ -129,7 +129,7 @@ The table below compares directly the difference in relationship information lef
 | shift-handoff summary | one line of conclusion may remain, but the basis or the condition can weaken together | conclusion, basis, and condition are easier to preserve by splitting them into different relatedness patterns |
 | maintenance-code understanding | it can become biased toward one kind of signal such as repeated variable names | definition-use, condition-result, and call flow are easier to read together from different viewpoints |
 
-## If We Look Through A Diagram
+## If We Look Through a Diagram
 
 ```mermaid
 --8<-- "assets/part-05/chapter-13/multihead-flow-en.mmd"
@@ -149,7 +149,7 @@ The first points to hold from this comparison diagram are the following.
 - multi-head can leave the same input split into different relatedness patterns such as `decision-side relationship` and `condition-side relationship`
 - only when this feel is fixed can multi-head be read not as `attention repeated several times`, but as `a structure that preserves different kinds of relationships separately`
 
-## Cases And Examples
+## Cases and Examples
 
 In the cases of this section, what must be read first is not only `looking again at a distant position`, but `what kinds of relationships have to be carried separately`. That is, even when reading the same sentence, we need to distinguish whether `decision`, `basis`, `condition`, and `definition-use` are folded into one average context, or carried separately across different viewpoints.
 
@@ -176,7 +176,7 @@ Across the three cases, the common result to confirm is that relationships are n
 
 The final result to confirm across these cases is also clear. The difference of multi-head lies not in `attention runs several times`, but in the fact that different relationships that would easily be folded into one context in a single head are divided across different heads and preserved for longer.
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to experiment directly, even with the same token sequence, how different heads read different relationships and how that difference grows or shrinks depending on changes in head weights.
 
@@ -212,12 +212,12 @@ First look at part of the CSV.
 
 | report_id | scenario | token | relation_role | decision_axis | evidence_axis | condition_axis | single_weight | head1_weight | head2_weight |
 | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| ops_pressure_return | balanced_heads | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.45 | 0.30 |
-| ops_pressure_return | balanced_heads | 압력이상 | evidence | 0.0 | 2.0 | 0.0 | 0.3 | 0.30 | 0.30 |
-| ops_pressure_return | balanced_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.25 | 0.40 |
-| ops_pressure_return | decision_vs_condition_split | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.70 | 0.10 |
-| ops_pressure_return | decision_vs_condition_split | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.10 | 0.60 |
-| ops_pressure_return | condition_heavy_both_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.55 | 0.65 |
+| ops_pressure_return | balanced_heads | stop_decision | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.45 | 0.30 |
+| ops_pressure_return | balanced_heads | pressure_anomaly | evidence | 0.0 | 2.0 | 0.0 | 0.3 | 0.30 | 0.30 |
+| ops_pressure_return | balanced_heads | return_condition | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.25 | 0.40 |
+| ops_pressure_return | decision_vs_condition_split | stop_decision | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.70 | 0.10 |
+| ops_pressure_return | decision_vs_condition_split | return_condition | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.10 | 0.60 |
+| ops_pressure_return | condition_heavy_both_heads | return_condition | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.55 | 0.65 |
 
 Input:
 
@@ -311,7 +311,7 @@ focus_report_rows = 9
 context_axes = ['decision_axis', 'evidence_condition_axis']
 
 [balanced_heads]
-tokens = ['정지결정', '압력이상', '복귀조건']
+tokens = ['stop_decision', 'pressure_anomaly', 'return_condition']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.2, 0.85]
 head2_context       = [1.5, 1.0]
@@ -319,7 +319,7 @@ difference_from_single = [-0.1, -0.05, 0.2, 0.1]
 head_separation = 0.335
 
 [decision_vs_condition_split]
-tokens = ['정지결정', '압력이상', '복귀조건']
+tokens = ['stop_decision', 'pressure_anomaly', 'return_condition']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.0, 0.5]
 head2_context       = [1.9, 1.2]
@@ -327,7 +327,7 @@ difference_from_single = [-0.3, -0.4, 0.6, 0.3]
 head_separation = 1.14
 
 [condition_heavy_both_heads]
-tokens = ['정지결정', '압력이상', '복귀조건']
+tokens = ['stop_decision', 'pressure_anomaly', 'return_condition']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.85, 1.05]
 head2_context       = [2.1, 1.05]
@@ -367,13 +367,13 @@ This example is better treated not as something to run once and stop, but as som
 | --- | --- | --- |
 | make the CSV `head1_weight` and `head2_weight` more similar | `head_separation` | if different heads end up reading almost the same relationship, how much does the advantage of multi-head decrease? |
 | tilt the CSV `single_weight` more toward `head1_weight` or toward `head2_weight` | `difference_from_single` | if single-head already reflects one specific relationship strongly, how much does the difference from multi-head shrink? |
-| make `condition_axis` larger or smaller in the CSV row for `복귀조건` | `head2_context`, `head_separation` | if the strength of the token's own meaning changes, which head pulls that change in more sensitively? |
+| make `condition_axis` larger or smaller in the CSV row for `return_condition` | `head2_context`, `head_separation` | if the strength of the token's own meaning changes, which head pulls that change in more sensitively? |
 
 The numbers above do not implement all of real large-scale multi-head attention, but they clearly show the comparison standard that single-head tends to average several relationships at once into one compromised context, while multi-head keeps the results of different relationship readings side by side and then uses them together, and the experimental standard that head design can magnify or reduce this difference. That is, multi-head attention is not simply `attention repeated several times`, but is closer to `a structure that divides heads so that different patterns of relatedness can be carried simultaneously without being lost`.
 
 What the reader should finally hold in this section is the same. QKV is a set of names that helps us read separately `what is being searched for`, `what label matches it`, and `what is actually brought back`, and multi-head is a structure that, instead of averaging those found relationships at once, keeps different viewpoints such as `decision`, `basis`, and `condition` alive for longer.
 
-## Why Is This Important In The Flow Of Part 5
+## Why Is This Important in the Flow of Part 5
 
 This supplementary reading is not a detailed implementation memo squeezed in between the attention section and the Transformer section. Rather, it is the place where the intuition already fixed in the main text is connected to `why do these names and structures appear`. The core intuition of attention and self-attention has already been closed in the main text, but because the names QKV and multi-head are repeatedly used in the Transformer chapter, this section is better kept not as a formula memo, but as `an introductory recovery point that rereads the names`. In the next chapter, P5-14.1, we explain where these names sit inside the Transformer block.
 
@@ -388,7 +388,7 @@ This supplementary reading is not a detailed implementation memo squeezed in bet
 - When you need to explain why there are several heads, can you return to the difference between single-head compromise and multi-head multi-view preservation?
 - When reading the next Transformer section, are you ready first to ask `why do these names keep repeating as key parts inside the block`?
 
-## Sources And References
+## Sources and References
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Jay Alammar, `The Illustrated Transformer`, checked on 2026-06-30. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }

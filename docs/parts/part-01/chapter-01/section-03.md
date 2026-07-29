@@ -1,13 +1,13 @@
 # P1-1.3 AI, 머신러닝, 딥러닝, 생성형 AI의 관계
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 1.1에서는 AI라는 말의 범위를, 1.2에서는 AI가 다루는 문제 유형을 봤습니다. 이번 절에서는 앞으로 반복해서 나올 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계를 정리합니다.
 
 여기서 필요한 일은 용어를 완벽한 포함 관계로 외우는 것이 아니라, 서로 다른 층위(level)의 말을 같은 뜻처럼 섞어 쓰지 않도록 기준선을 세우는 것입니다.
 
-Part 1에서 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계는 이 절에서 기준선을 잡습니다. 뒤 절에서 이 용어들이 다시 나오더라도 현재 질문에 필요한 최소 연결만 남기고, 용어 관계 자체를 다시 정리해야 할 때는 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아옵니다.
+Part 1에서 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계는 이 절에서 기준선을 잡습니다. 뒤 절에서 이 용어들이 다시 나오더라도 현재 질문에 필요한 최소 연결만 남기고, 용어 관계 자체를 다시 정리해야 할 때는 이 절과 개념사전의 [AI](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence), [머신러닝](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning), [딥러닝](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning), [생성형 AI](../../../reference/concept-glossary-parts/07-siot.md#generative-ai), [LLM](../../../reference/concept-glossary-parts/08-ieung.md#llm) 항목으로 돌아옵니다.
 
 ## AI, 머신러닝, LLM의 층위 구분
 
@@ -24,18 +24,6 @@ Part 1에서 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계�
 - AI, 머신러닝, 딥러닝, 생성형 AI, LLM의 기본 관계를 구분합니다.
 - “AI = LLM”처럼 최신 서비스 경험만으로 AI 전체를 좁게 이해하지 않습니다.
 - 포함 관계가 대체로 맞더라도 실제 서비스에서는 여러 기술이 섞인다는 점을 이해합니다.
-
-## 먼저 연결할 개념
-
-이 절은 Part 1 전체에서 반복해서 다시 참조할 용어 관계의 기준선입니다. 아래 개념은 지금 자리만 먼저 잡아 두고, 더 자세한 정의가 필요할 때는 각 표제어 항목으로 바로 이동해 다시 확인합니다.
-
-| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
-| --- | --- | --- |
-| [AI](../../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence) | 가장 넓은 분야와 시스템 범주 | 나머지 용어가 어디에 놓이는지 보기 위해 |
-| [머신러닝](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning) | 데이터로 성능을 개선하는 학습 접근 | 규칙 기반 방식과 학습 기반 방식을 구분하기 위해 |
-| [딥러닝](../../../reference/concept-glossary-parts/03-digeut.md#deep-learning) | 신경망과 표현 학습을 강하게 쓰는 접근 | 머신러닝 안의 중요한 확장 방향을 잡기 위해 |
-| [생성형 AI](../../../reference/concept-glossary-parts/07-siot.md#aigenerative-ai) | 새 콘텐츠를 만들어 내는 출력 범주 | 학습 방법과 출력 성격을 섞지 않기 위해 |
-| [LLM](../../../reference/concept-glossary-parts/08-ieung.md#llm) | 언어를 다루는 대규모 언어 모델 계열 | 생성형 AI와 AI 전체를 좁게 같은 말로 읽지 않기 위해 |
 
 ## 주요 학습내용
 

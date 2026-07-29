@@ -1,16 +1,16 @@
 # P3-9.9 实际目标与代理 target 应该如何区分
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在现实数据里，真正想预测的结果往往无法被直接看见。所以就会很想拿一个运营中间判断，或者一个替代列，先当成临时 target 来用。这里需要区分的是`实际目标（actual target）`和`代理 target（proxy target）`。必须先写清楚：当前使用的 target，到底就是你真正想知道的结果，还是用来替代它的一列。
+在现实数据里，真正想预测的结果往往无法被直接看见。所以就会很想拿一个运营中间判断，或者一个替代列，先当成临时[目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target)来用。这里需要区分的是[实际目标(actual target)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-actual-target)和[代理目标(proxy target)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-proxy-target)。必须先写清楚：当前使用的 target，到底就是你真正想知道的结果，还是用来替代它的一列。
 
 | target 类型 | 含义 |
 | --- | --- |
-| 实际目标 | 你真正想知道、最终也真正想减少的结果 |
-| 代理 target | 因为实际目标看不到，或出现得太晚，所以临时拿来替代的一列 |
+| [实际目标(actual target)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-actual-target) | 你真正想知道、最终也真正想减少的结果 |
+| [代理目标(proxy target)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-proxy-target) | 因为实际目标看不到，或出现得太晚，所以临时拿来替代的一列 |
 
-例如，如果无法直接看到`实际状态确认`，那就可能先把`需要复核`拿来做 target 候选。但两者不是同一个意思。代理 target 可以成为起点，但它不会自动等同于实际目标。
+例如，如果无法直接看到`实际状态确认`，那就可能先把`需要复核`拿来做目标标签候选(target candidate)。但两者不是同一个意思。代理目标可以成为起点，但它不会自动等同于实际目标。
 
 | 先写下的备注 | 为什么需要 |
 | --- | --- |
@@ -20,13 +20,13 @@
 
 ## 为什么这个区分会改变问题类型本身
 
-actual target 和 proxy target 的差别，并不只是名称不同。只要你真正要预测的对象变了，当前这个问题应该被放成`比较报告`、`复核候选筛选问题`，还是要提升成`预测问题`，也会一起改变。
+actual target 和 proxy target 的差别，并不只是名称不同。只要你真正要预测的对象变了，当前这个问题应该被放成[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report)、[复核候选(review candidate)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-candidate)筛选问题，还是要提升成[预测(prediction)](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction)问题，也会一起改变。
 
 | 当前真正能看到的东西 | 更自然的问题类型 | 原因 |
 | --- | --- | --- |
 | 实际目标可以直接看到 | 预测实际目标 | 因为输入与结果可以直接绑定到同一个问题上 |
 | 实际目标出现得晚，只能先看到代理列 | 预测代理 target，或把它当成复核候选问题 | 因为现在预测的值与真正想知道的值并不相同 |
-| 实际目标很弱，代理列也不稳定 | 保持为比较报告或复核队列 | 因为连“哪一列该当结果列”本身都还没有足够关上 |
+| 实际目标很弱，代理列也不稳定 | 保持为比较报告或[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue) | 因为连“哪一列该当结果列”本身都还没有足够关上 |
 
 换句话说，一旦使用 proxy target，就必须区分`这个问题可以先做`和`这个问题正在直接解决原始目标`。表面上看像是同一个预测问题，实际上可能预测的是`代理判断`，而不是`实际目标`。如果这层差别没有写出来，后面再去解释分数时，就会混淆到底是把什么预测对了。
 

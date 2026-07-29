@@ -1,7 +1,7 @@
 # P5-15.2 Candidate Distributions in Generative Models
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: Why do generative models keep candidate distributions instead of one answer?_
 
@@ -11,7 +11,7 @@ Then how should we understand what a generative model prepares for that output?
 
 The core point is that a generative model does not memorize and return one correct answer. It keeps the relative plausibility of possible output candidates. This sense is needed before P5-15.3 can read sampling not as random picking, but as the procedure that pulls an actual output from a candidate distribution.
 
-## A Candidate Distribution Is The Possibility After The Current Input
+## A Candidate Distribution Is the Possibility After the Current Input
 
 A classification model usually asks `what class is this input?` A generative model is closer to `what outputs could naturally continue after this input?`
 
@@ -23,7 +23,7 @@ A classification model usually asks `what class is this input?` A generative mod
 
 A candidate distribution is a side-by-side view of how plausible each possible continuation is after the current input. For example, if three sentences can all follow `batch inspection result`, the generative model does not store only one of them as the answer. It prepares a form that can compare how natural each candidate is relative to the others.
 
-## How Data Distribution And Candidate Distribution Connect
+## How Data Distribution and Candidate Distribution Connect
 
 The word `distribution` can feel difficult at first. Here, read it as a statistical sense of patterns and combinations that often appear together.
 
@@ -39,7 +39,7 @@ Two levels need to be separated here. The data distribution is the broad pattern
 | equipment images | colors, outlines, and layouts that appear together | whether composition and form remain natural |
 | field-support responses | answer lengths and structures used by request type | whether order and warning placement fit the situation |
 
-## most_likely And probabilities Are Different
+## most_likely and probabilities Are Different
 
 In generation, the explanation does not end by finding one most plausible candidate. Several continuations can be natural after the same prefix.
 
@@ -59,7 +59,7 @@ If we look only at `most_likely`, the generative model can start to look like a 
 
 The important point in this diagram is where the interpretation splits after we see the `candidate distribution`. If we read only `most_likely`, one highest candidate remains. If we read `probabilities` together, the candidate space behind the current input remains visible. Sampling in the next section continues from this candidate space into the actual output.
 
-## Cases And Examples
+## Cases and Examples
 
 Suppose operation records contain two alert types and follow-up action phrases. In this section, the important task is not the calculation procedure itself, but the sense of reading the distribution, so we first place record counts and distribution interpretation side by side.
 
@@ -81,7 +81,7 @@ The first thing to read is not only the largest number. In the temperature alert
 
 A generative model does not memorize `what comes next` as one sentence. It organizes `what followed how often in this context` as a distribution. This is the difference that lets us read generation as learning a candidate distribution rather than choosing one correct label.
 
-## Practice And Example
+## Practice and Example
 
 Read the candidate weights below and make the distinction yourself. First mark the `most_likely` candidate. Then explain why the other two candidates have not disappeared completely.
 
@@ -105,6 +105,6 @@ The goal is not to say more candidates are always better. The goal is to separat
 - Can you describe a generative model as a model that learns a candidate distribution of natural outputs, not just as a model that makes something?
 - Are you ready to separate `what has been learned` from `what is actually sampled` in the next section?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 20 `Deep Generative Models`, checked on 2026-07-21. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P6-4.4 보충학습: KV cache와 반복 생성
 
 > Section ID: `P6-4.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: KV cache는 반복 생성에서 어떤 attention 계산을 다시 쓰는가_
 

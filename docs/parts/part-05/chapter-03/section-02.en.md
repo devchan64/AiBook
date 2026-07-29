@@ -1,15 +1,15 @@
 # P5-3.2 Sigmoid
 
 > Section ID: `P5-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-3.1, we saw that an activation function changes the weighted-sum score \(z\) into the value \(a\) passed to the next layer. Now we look at one representative function at a time and check how the same score can turn into a different kind of signal.
 
 The sigmoid is an activation function that compresses the input score \(z\) into a value between 0 and 1. Large negative values move close to 0, large positive values move close to 1, and values near 0 change relatively quickly.
 
-If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entry in the concept glossary.
+If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) and [sigmoid](/AiBook/en/reference/concept-glossary-alpha/s/#sigmoid) entries in the concept glossary.
 
-## The Question Of How Sigmoid Compresses Values
+## The Question of How Sigmoid Compresses Values
 
 - What formula and output range does the sigmoid have?
 - Why is it read as a value between 0 and 1?
@@ -18,14 +18,14 @@ If the baseline for representative activation functions is needed again, return 
 
 This section does not spend a long time comparing the formulas of the sigmoid and the other representative functions. Tanh is handled separately in P5-3.3, ReLU in P5-3.4, and the formula comparison of all three functions is organized in P5-3.5. The interpretation of the sigmoid in the output layer reconnects in P5-3.6 and P5-4.2.
 
-## Standards For The S-Curve And Saturation
+## Standards for the S-Curve and Saturation
 
 - You can explain the sigmoid as `a function that compresses values into the range between 0 and 1`.
 - You can explain intuitively why the output approaches 1 as the input \(z\) grows larger.
 - You can explain saturation, where changes become dull at large positive and large negative values.
 - You can distinguish sigmoid output from an operational policy threshold.
 
-## The Formula Of The Sigmoid
+## The Formula of the Sigmoid
 
 The sigmoid is usually written with the following formula.
 
@@ -41,7 +41,7 @@ Here, \(e^{-z}\) makes the denominator larger or smaller depending on the sign a
 
 In other words, the sigmoid places every input between 0 and 1.
 
-## How Should The Graph Be Read
+## How Should the Graph Be Read
 
 The sigmoid graph has an S-shape. What matters is not the name of the shape, but how it reacts by range.
 
@@ -57,7 +57,7 @@ Because of this property, the sigmoid often appears in binary-classification out
 
 However, a sigmoid output does not automatically guarantee a well-calibrated probability. If the output value is used for operational decisions, the threshold, the data distribution, and the evaluation criterion must be examined together.
 
-## Cases And Examples
+## Cases and Examples
 
 Suppose an equipment-alarm model created the score \(z\) for `a signal leaning toward immediate shutdown` on some frame. The operational policy says that `if the sigmoid output is 0.7 or higher, raise it as a shutdown candidate`.
 
@@ -74,7 +74,7 @@ The other important point is saturation. People can easily expect that because `
 
 The result to confirm in this case is that the sigmoid changes the score into `an easy-to-read value between 0 and 1`, the threshold rereads that value as `an action standard`, and the change becomes dull at large positive and large negative values.
 
-## Practice And Exercise
+## Practice and Exercise
 
 Suppose the following scores are passed through the sigmoid. Keep the operational policy as `0.7 or higher means shutdown candidate`.
 
@@ -101,7 +101,7 @@ The direction of the answer is clear. Around \(z=1\), the sigmoid still changes 
 - Can you distinguish sigmoid output from an actual operational threshold?
 - Do you understand that the sigmoid connects to the formula comparison in P5-3.5 and to output-layer interpretation in P5-3.6?
 
-## Sources And References
+## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

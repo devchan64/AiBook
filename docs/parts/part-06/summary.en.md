@@ -1,13 +1,13 @@
 # Part 6 Wrap-up
 
 > Section ID: `P6-summary`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 Part 6 read generative AI through LLMs as the central case. The point was not to equate LLMs with all of generative AI, but to use them as a representative path for seeing generative-AI artifacts, input representations, candidate generation, evidence reinforcement, tool execution, evaluation, and operation records in one flow.
 
 This Part did not begin with `whether the model answers well`. It first treated the artifact a person receives as something to review, then followed how that artifact is produced from computable input through tokens and embeddings and accumulates through next-candidate selection inside Transformer and GPT-family structures. After that, prompts, RAG, vector databases, tool use, agents, MCP, harnesses, evaluation, and operation constraints showed why these are not separate topics, but devices that make generative-AI use more reviewable.
 
-## The Sense That Must Remain
+## Core Sense to Keep
 
 - Generative-AI output is an artifact that must be reviewed.
 - LLM generation is not retrieving a finished answer at once, but repeatedly selecting from candidate distributions.
@@ -30,9 +30,9 @@ This Part did not begin with `whether the model answers well`. It first treated 
 | A nearby vector is the answer. | A nearby vector is a signal for narrowing candidates. The final answer still requires checking original text, metadata, freshness, and work conditions. |
 | A better prompt solves most things. | Fresh document lookup, outside retrieval, calculation execution, permission approval, and failure records require structures outside the prompt. |
 | A natural answer is ready for service. | A serviceable answer must also pass quality standards, automatic evaluation, human review, cost, latency, failure response, and execution records. |
-| An agent is an automatic executor that handles everything to the end. | An agent must be read with planning, action, observation, stopping conditions, and human-review standards. |
+| An AI agent is an automatic executor that handles everything to the end. | An agent must be read with planning, action, observation, stopping conditions, and human-review standards. |
 
-## Flows Closed In Part 6
+## Part 6 Closed Flows
 
 | Flow | Standard closed |
 | --- | --- |
@@ -40,12 +40,12 @@ This Part did not begin with `whether the model answers well`. It first treated 
 | Moving down into input representation | A sentence written by a person becomes tokens, token IDs, and embeddings, and these distinctions change cost, context length, retrieval, and candidate comparison. |
 | Reading generation structure | A long GPT-family answer is the result of repeated next-token candidate selection, and output settings change the balance between stability and diversity. |
 | Distinguishing response habits | Pretraining builds a broad language base, while fine-tuning, instruction tuning, and alignment adjust response habits for goals and allowed standards. |
-| Attaching evidence and execution | Once prompt limits are crossed, RAG, vector databases, tool use, and agent structures become necessary. |
+| Attaching evidence and execution | Once prompt limits are crossed, RAG, vector databases, tool use, and AI agent structures become necessary. |
 | Leaving connections and records | MCP helps connect tools and resources in a consistent format, and a harness wraps runs so causes and results can be inspected again. |
 | Reviewing service state | LLM evaluation does not look only at answer sentences. It also includes automatic evaluation, human evaluation, operation constraints, and failure response. |
 | Balancing with background and comparison | Development history and the BERT family provide comparison axes that prevent GPT-centered explanations from covering every language-model explanation. |
 
-## Question Handed To The Next Part
+## Question for the Next Part
 
 Part 7 confirms this flow through actual project artifacts. The important question is not first `what generative-AI feature should be built`, but `how requests, inputs, evidence, outputs, evaluation, failure response, and records should be left behind`.
 

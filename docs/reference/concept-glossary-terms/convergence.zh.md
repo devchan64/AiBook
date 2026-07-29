@@ -1,5 +1,4 @@
 <a id="convergence"></a>
-<a id="glossary-numerical-stability"></a>
 
 ## 收敛
 
@@ -7,5 +6,4 @@
 - 为什么重要: 收敛帮助解释迭代计算和训练曲线，区分趋于稳定、发散、振荡和不稳定学习。
 - 相关概念: `极限`, `变化率`, `优化`
 - 核心 Section: `P2-2.3`
-- 出现 Section: `P2-6.3`
-
+- 出现 Section: `P2-6.3`, `P4-19.5`

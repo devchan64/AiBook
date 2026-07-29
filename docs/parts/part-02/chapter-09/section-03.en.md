@@ -1,13 +1,13 @@
 # P2-9.3 How Does a Graph Represent Relationships?
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-9.2, we compared arrays, tables, trees, and graphs as different views of data. Among them, graphs can feel especially unfamiliar.
 
 A graph does not mean only a chart or a statistical graph. In the context of data structures and mathematics, a graph is a structure that expresses relationships between objects.
 
-This Section explains the basic distinctions among `graph`, `node`, `edge`, `direction`, and `weight`. The representative explanation that reads `data structure` as a question is placed in P2-9.1, and the comparison among the four structures is placed in P2-9.2 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here the focus is on what question lets us read relational data.
+This Section explains the basic distinctions among `graph`, `node`, `edge`, `direction`, and `weight`. The representative explanation that reads `data structure` as a question is placed in P2-9.1, and the comparison among the four structures is placed in P2-9.2 and the [data structure glossary entry](/AiBook/en/reference/concept-glossary-alpha/d.en/#data-structure). Here the focus is on what question lets us read relational data.
 
 This Section reads graphs through the minimum concepts of node and edge.
 

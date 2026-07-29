@@ -1,11 +1,11 @@
 # P3-5.2 How Does a Summary Table Preserve Patterns Beyond the Average
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-Two actions with the same average do not always have the same structure. An average is useful for summarizing the overall level at a glance, but it does not show everything about how the values moved over time. So when turning raw logs into a summary table, we should not relax just because `the average is the same`. We also have to think about how to preserve differences in patterns beyond the average.
+Two actions with the same [mean](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-mean) do not always have the same structure. A mean is useful for summarizing the overall level at a glance, but it does not show everything about how the values moved over time. So when turning raw logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table), we should not relax just because `the average is the same`. We also have to think about how to preserve differences in patterns beyond the average.
 
-This section does not explain the summary-table conversion procedure itself again. Instead, it focuses on the point that the summary table built in the previous section should not be a table that leaves only the average. It should also preserve pattern differences that lead into later feature design and baseline comparison.
+This section does not explain the summary-table conversion procedure itself again. Instead, it focuses on the point that the summary table built in the previous section should not be a table that leaves only the average. It should also preserve pattern differences that lead into later [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) design and [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison.
 
 For example, suppose two automatic actions both recorded an average flow of 2.4. One may have risen quickly in the early phase, stayed stable in the middle phase, and then slowly declined in the late phase. The other may have barely moved at first, then risen sharply in the late phase and dropped right away. If we look only at a single average, the two may appear similar, but their operational meaning can be completely different.
 
@@ -42,7 +42,7 @@ At this point it helps to write down separately `what is missed if we only look 
 | When the peak occurred | Time point of the maximum value |
 | Whether the action stayed stable or fluctuated sharply | Variability, time decline starts |
 
-One more thing should be added here. The average also easily hides the effect of outliers and skewness. For example, if most actions stay in a similar range but only a few cases spike to very large values, the average rises, yet `what level most actions actually were at` becomes blurred. Conversely, if most values pile up on one side and only a few cases stretch far in the other direction, the average does not show that asymmetric structure well.
+One more thing should be added here. The average also easily hides the effect of [outliers](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-outlier) and [skewness](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-skewness). For example, if most actions stay in a similar range but only a few cases spike to very large values, the average rises, yet `what level most actions actually were at` becomes blurred. Conversely, if most values pile up on one side and only a few cases stretch far in the other direction, the average does not show that asymmetric structure well.
 
 | What the average alone does not show well | Why it is easy to miss | What should remain together |
 | --- | --- | --- |

@@ -1,9 +1,9 @@
 # P4-5.2 泛化(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
-在 P4-5.1 里，我们区分了 `过拟合` 和 `欠拟合`。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 `泛化(generalization)`。
+在 P4-5.1 里，我们区分了 [过拟合](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [欠拟合](/AiBook/zh/reference/concept-glossary-pinyin/q/#underfitting)。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 [泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization)。
 
 泛化听起来可能有点抽象，但起点很简单。它问的是：model 会不会只停留在重新答对已经见过的例子，还是也能对结构相近的新例子做出合适反应。
 
@@ -11,7 +11,7 @@
 
 这一节解释 generalization 的意义。像 generalization error 的公式和理论边界，这里还不会展开。这里的焦点，是把 `为什么新数据重要`、`为什么需要 validation 和 test`、`为什么不能只靠 training score` 这几件事连起来。
 
-metric 的细致计算会在 P4-6 处理，cross-validation 的实务用法会在 P4-8.1 与 P4-9.2 再接回来。这一节先把 generalization 固定成一句贯穿整个 machine learning 的目标句，而不是先把它当成纯理论。
+[metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 的细致计算会在 P4-6 处理，[cross-validation](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation) 的实务用法会在 P4-8.1 与 P4-9.2 再接回来。这一节先把 generalization 固定成一句贯穿整个 machine learning 的目标句，而不是先把它当成纯理论。
 
 - 什么是 generalization？
 - 为什么 machine learning 的目标要用 generalization 来说，而不是用 training score？
@@ -31,13 +31,13 @@ metric 的细致计算会在 P4-6 处理，cross-validation 的实务用法会�
 
 ### generalization 到底在问什么
 
-Google 的 machine-learning glossary 基本上是把 generalization 解释成这样一个问题：`model 能不能在 training set 之外的例子上也做出好的 prediction？` 这里最该抓住的意思是下面这句。
+Google 的 machine-learning glossary 基本上是把 generalization 解释成这样一个问题：`model 能不能在 training set 之外的例子上也做出好的 prediction？` 这里的 prediction 使用的是 [prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction) 的一般 machine-learning 意义。这里最该抓住的意思是下面这句。
 
 `generalization 是指：model 即使面对还没见过的数据，也能做出可用判断的性质。`
 
 这里重要的是 `即使不是同一份数据` 这一点。
 
-也需要顺带问一句：为什么要专门用这个词？因为 machine learning 是靠看数据来学习规则的，所以表面上很容易只剩下一句 `分数很高`。但 `只是在见过的数据上高` 和 `在没见过的数据上也能维持` 是完全不同的问题。为了把这两者分开，才需要 `generalization` 这个词。
+也需要顺带问一句：为什么要专门用这个词？因为 machine learning 是靠看数据来学习规则的，所以表面上很容易只剩下一句 `分数很高`。但只是在 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 上高，和在没见过的数据上也能维持，是完全不同的问题。为了把这两者分开，才需要 `generalization` 这个词。
 
 | 问题 | 从 generalization 角度的含义 |
 | --- | --- |
@@ -103,7 +103,7 @@ machine learning 几乎总是为了 `接下来会进来的数据` 而建立 mode
 | test data | 作为最后确认而另外留出的部分 |
 | 实际服务输入 | 下个月新累积的客户记录 |
 
-这四类数据都属于同一个 domain，但对 model 来说，会分成 `见过的` 和 `还没见过的`。generalization 讲的，正是这个边界上的问题。
+这四类数据都属于同一个 domain，但对 model 来说，会分成 `见过的` 和 `还没见过的`。generalization 讲的，正是这个 [dataset](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset) 边界上的问题。
 
 为了把这个边界看得更清楚，也可以像下面这样区分。
 
@@ -160,8 +160,8 @@ P4-5.1 里看到的过拟合，就是 generalization 变弱的代表场景。
 
 P4-4.2 里为什么要把 validation 和 test 分开，说到底也是因为 generalization。
 
-- validation data：比较多个候选里，谁更可能在新数据上撑得住
-- test data：最后再确认一次，最终选择是否真的在新数据上撑得住
+- [validation data](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation-data)：比较多个候选里，谁更可能在新数据上撑得住
+- [test data](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data)：最后再确认一次，最终选择是否真的在新数据上撑得住
 
 ```mermaid
 --8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-02-zh.mmd"
@@ -384,7 +384,7 @@ test mean= 0.736 test std= 0.057
 
 ## 出处与参考资料
 
-- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 确认日期: 2026-07-19. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 确认日期: 2026-07-26. [https://is.mpg.de/publications/5955](https://is.mpg.de/publications/5955){: target="_blank" rel="noopener noreferrer" }

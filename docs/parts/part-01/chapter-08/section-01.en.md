@@ -1,7 +1,7 @@
 # P1-8.1 Supervised Learning: Input and Label
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Chapter 7 dealt with search spaces, computational limits, and heuristics. Now we move into learning types. The first baseline is `supervised learning`.
 
@@ -130,7 +130,7 @@ So a label is not an absolute truth floating outside context. It is a marker att
 > in supervised learning, that marker is used as the target output  
 > if the problem definition changes, the label for the same input may also change
 
-## The Basic Flow of Supervised Learning
+## Basic Supervised Learning Flow
 
 The basic flow can be summarized like this:
 
@@ -197,7 +197,7 @@ The introductory summary is:
 > classification chooses a name tag  
 > regression predicts a number
 
-## In Supervised Learning, Label Standards Matter
+## Label Standards Matter in Supervised Learning
 
 In supervised learning, labels are the learning signal. So if the label standard is unstable, the model also becomes unstable.
 
@@ -250,7 +250,7 @@ So the important attitude in supervised learning is this:
 > the existence of a label does not mean truth is automatically settled  
 > first check what standard created the label
 
-## The Boundary Between Supervised Learning and Other Learning Types
+## Boundary Between Supervised Learning and Other Learning Types
 
 Section 8.1 covers only supervised learning. It helps to fix the boundary to the next sections in advance.
 

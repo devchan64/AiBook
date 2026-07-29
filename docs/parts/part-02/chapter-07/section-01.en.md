@@ -1,7 +1,7 @@
 # P2-7.1 Local Environment and Runtime
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-3.5, we first separated Colab and a local PC. At that time, the purpose was a preliminary guide so the reader could immediately follow the NumPy practice. Now we step down one layer more basic.
 
@@ -155,7 +155,7 @@ The reason Python appears often in AI is connected to this same flow.
 
 Of course, that does not mean Python is the only language. Inside real services, languages such as C++, Java, JavaScript, Go, and Rust are also used together. But at the entrance to AI learning and experimentation, there is a high chance of meeting Python. So in this Chapter, before installation, we first secure `where and how Python code is executed`.
 
-## First Think About the Place Where Code Runs
+## First Think about the Place Where Code Runs
 
 When someone first begins programming, the phrase `write code` appears first. But code does not move by text alone. A program that reads and executes the code, and a place where it is executed, are needed.
 
@@ -173,13 +173,13 @@ Expected output: if the Python interpreter reads it, `hello` is printed.
 Concept to check: Python code becomes actual action only when there is a runtime and an interpreter.
 
 ```python
-# The same print code can run in a different place depending on the runtime environment.
+# same print code can run in a different place depending on the runtime environment.
 print("hello")
 ```
 
 But if we only write this sentence in a text editor, nothing happens. The `Python interpreter` must read and execute this sentence.
 
-## The Python Interpreter Is the Program That Reads and Executes Code
+## Python Interpreter Is the Program That Reads and Executes Code
 
 The `Python interpreter` is the program that reads and executes Python code. The official Python documentation explains that the Python interpreter can be invoked from the command line, and that in `interactive mode` commands can be entered at the `>>>` prompt.
 
@@ -200,7 +200,7 @@ These three can look mixed. What matters is that they all share the same point: 
 
 Python interpreter and script execution are revisited again in P2-7.3. Here, remember only the big picture that `Python code is executed by the Python interpreter`.
 
-## The Terminal Is the Window for Sending Commands to the Computer
+## Terminal Is the Window for Sending Commands to the Computer
 
 The `terminal` is the window where we enter commands to the computer. Programs such as Terminal on macOS, Windows Terminal, PowerShell, and a Linux shell belong here.
 
@@ -220,7 +220,7 @@ Expected output: if run as Python code, `hello` is printed.
 Concept to check: even if they look like similar sentences, terminal commands and Python code belong to different input places.
 
 ```python
-# The Python statement stays the same even when the runtime changes.
+# Python statement stays the same even when the runtime changes.
 print("hello")
 ```
 
@@ -245,7 +245,7 @@ There is a reason we check again here the distinction we saw in P2-3.5. If we do
 
 Terminal, shell, and working directory are handled separately in P2-7.2. Here, secure only the point that terminal commands and Python code are not the same sentence.
 
-## The Local Environment Is the Execution Condition on My Computer
+## Local Environment Is the Execution Condition on My Computer
 
 The `local environment` means the conditions under which code runs inside my computer. This can include the operating system, Python installation location, package installation state, current working folder, and environment variables.
 
@@ -261,7 +261,7 @@ For example, conditions can differ between computers in the following way.
 
 That is why in practice documents, `where is it executed?` matters as much as the code itself.
 
-## The Runtime Is the Place Where Code Actually Runs
+## Runtime Is the Place Where Code Actually Runs
 
 The `runtime` is the place where code actually runs. If you run on a local PC, your computer becomes the runtime. If you run on Colab, the notebook runtime provided by Google becomes the runtime.
 
@@ -280,7 +280,7 @@ In summary, it is as follows.
 - Colab: easy to start with, and the runtime is managed by an external service.
 - local PC: requires initial setup, but I manage the runtime.
 
-## The Virtual Environment Is a Project-by-Project Execution Space
+## Virtual Environment Is a Project-by-Project Execution Space
 
 A `virtual environment` is a device that creates a separate execution space for each Python project. The official Python documentation explains that `venv` creates lightweight virtual environments and that each virtual environment can have an independent set of Python packages.
 
@@ -351,7 +351,7 @@ This distinction is not itself a concept of machine learning. But in the process
 
 ## View It Through a Case
 
-### Case 1. The Same Example File Works in Colab but Not on My Computer
+### Case 1. Same Example File Works in Colab but Not on My Computer
 
 Suppose a learner ran a book example in Colab and it worked well, but after downloading the same file and running it on a local PC, an error appeared. People often first suspect `is the code wrong?` or `was the download wrong?`
 

@@ -1,6 +1,19 @@
 # 概念词汇表：T
 
-本页用于整理拼音首字母为 `T` 的中文概念索引。具体词条内容将在后续补充。
+本页整理拼音首字母为 `T` 的中文概念词条。词条正文由单词源文件 include 生成。
 
-| 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
-| --- | --- | --- | --- | --- |
+--8<-- "reference/concept-glossary-terms/recommendation-task.zh.md"
+
+
+
+
+--8<-- "reference/concept-glossary-terms/prompt.zh.md"
+
+--8<-- "reference/concept-glossary-terms/token.zh.md"
+
+
+--8<-- "reference/concept-glossary-terms/tokenization.zh.md"
+
+
+
+--8<-- "reference/concept-glossary-terms/transformer.zh.md"

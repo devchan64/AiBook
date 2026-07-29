@@ -1,7 +1,7 @@
 # Part 5. 딥러닝
 
 Section ID: `P5-index`
-Version: `v2026.07.20`
+Version: `v2026.07.26`
 
 Part 5는 신경망과 딥러닝을 본격적으로 설명하는 파트입니다. Part 1, Part 2, Part 4에서는 퍼셉트론, 표현 학습, 역전파, 옵티마이저, 합성곱 신경망(CNN), 순환 신경망(RNN), 어텐션(Attention), 트랜스포머(Transformer) 같은 주제를 여러 번 예고했지만, 그때의 역할은 지형도를 잡고 기초를 복구하는 데 있었습니다. Part 5에서는 더 이상 그 설명을 뒤로 미루지 않습니다. 여기서부터는 `왜 이런 구조가 필요한가`, `어떻게 학습되는가`, `어떤 차이 때문에 모델 구조가 갈라지는가`를 본격적으로 회수해야 합니다.
 
@@ -28,13 +28,13 @@ Part 5는 신경망과 딥러닝을 본격적으로 설명하는 파트입니다
 
 Part 5는 `딥러닝 예고편`으로 읽혀서는 안 됩니다. 따라서 합성곱 신경망(CNN), 순환 신경망(RNN), 어텐션(Attention), 트랜스포머(Transformer)는 각각 `왜 이런 데이터 구조 문제에서 이런 설계가 나왔는가`를 이 Part 안에서 먼저 닫고, Part 6으로의 연결은 짧은 다음 단계 안내로만 남기는 것을 기본 원칙으로 둡니다.
 
-이 Part를 읽다가 핵심 용어의 기준선이 다시 흐려지면 [개념사전](../../reference/concept-glossary.md)에서 각 표제어의 `중심 Section`과 `등장 Section`을 함께 확인하며 복습하는 경로를 기본 참조점으로 삼습니다.
+이 Part를 읽다가 핵심 용어의 기준선이 다시 흐려지면 개념사전의 [퍼셉트론(perceptron)](../../reference/concept-glossary-parts/13-pieup.md#perceptron), [활성화 함수(activation function)](../../reference/concept-glossary-parts/14-hieut.md#activation-function), [옵티마이저(optimizer)](../../reference/concept-glossary-parts/08-ieung.md#optimizer), [어텐션(Attention)](../../reference/concept-glossary-parts/08-ieung.md#attention), [트랜스포머(Transformer)](../../reference/concept-glossary-parts/12-tieut.md#transformer) 항목의 `중심 Section`과 `등장 Section`을 함께 확인하며 복습하는 경로를 기본 참조점으로 삼습니다.
 
 이 기준을 현재 Part 5 목차에 맞춰 다시 한 줄로 묶으면 다음과 같습니다.
 
 | 현재 Part 5에서 먼저 닫는 것 | Part 6으로 넘기는 것 |
 | --- | --- |
-| 퍼셉트론, 손실, 역전파, 옵티마이저(optimizer), 정규화(regularization), 합성곱 신경망(CNN), 순환 신경망(RNN), 어텐션(Attention), 트랜스포머(Transformer), 생성과 샘플링의 기본 구조와 역할 | 토큰화, 사전학습, 지시 튜닝(instruction tuning), 검색 증강 생성(RAG), 도구 사용(tool use), 에이전트(agent), 서비스 운영 |
+| 퍼셉트론, 손실, 역전파, 옵티마이저(optimizer), 정규화(regularization), 합성곱 신경망(CNN), 순환 신경망(RNN), 어텐션(Attention), 트랜스포머(Transformer), 생성과 샘플링의 기본 구조와 역할 | 토큰화, 사전학습, 지시 튜닝(instruction tuning), 검색 증강 생성(RAG), 에이전트 도구 사용(tool use), AI 에이전트(AI agent), 서비스 운영 |
 
 이 파트는 Part 6과 그 뒤 Part에서 다시 마주칠 해석 대상도 미리 준비합니다.
 

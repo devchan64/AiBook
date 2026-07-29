@@ -1,13 +1,13 @@
 # P6-19.1 Reading LLM History as a Flow of Limits and Structural Shifts
 
 > Section ID: `P6-19.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 A common misunderstanding when trying to understand today's LLMs(large language models) is to see them only as `huge models that suddenly appeared`. In reality, today's generative experience was made by the overlap of language models, embeddings, sequence models, attention, Transformers, and large-scale pretraining.
 
 This section reconnects that flow not as a list of event names, but through the criterion `which limitation led to the next structure?` Here, more important than explaining the chapter's location is learning first why embeddings followed n-grams and why attention and Transformers followed RNNs.
 
-## The Flow from Limits to Structural Shifts
+## Limits-to-Structural-Shifts Flow
 
 The core questions are:
 
@@ -236,7 +236,7 @@ After classifying the four scenes first, compare with the explanation below.
 
 In this exercise, the reason matters more than the answer. If you can explain a feature through the reason for a structural shift, such as `search is a representation problem`, `summary is a long-context and relevant-position problem`, and `chat interface is a post-pretraining usage problem`, this section's goal is met.
 
-## The Criterion Connecting Limits to the Next Structure
+## Criterion Connecting Limits to the Next Structure
 
 After seeing the whole flow, it also becomes clearer that you do not need to remember every implementation detail of each stage. For now, the following is enough.
 

@@ -1,7 +1,7 @@
 # P5-6.3 학습(learning)과 모델 실행(inference)
 
 > Section ID: `P5-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-6.2에서는 학습 루프가 step, batch, epoch 단위로 어떻게 반복되는지 먼저 묶었습니다. 여기까지 오면 다음 질문이 생깁니다.
 

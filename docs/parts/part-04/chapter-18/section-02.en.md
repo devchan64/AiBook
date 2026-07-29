@@ -1,9 +1,9 @@
 # P4-18.2 Visualization And Information Loss
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-In P4-18.1, we saw that dimensionality reduction reexpresses many features through fewer axes. The next step is to ask how far the resulting picture should be trusted.
+In P4-18.1, we saw that [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction) reexpresses many [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) through fewer axes. The next step is to ask how far the resulting picture should be trusted.
 
 If reducing dimensions makes the data easier to view as a picture, how far can that picture be trusted?
 
@@ -11,9 +11,9 @@ A two-dimensional or three-dimensional plot built through dimensionality reducti
 
 Visualization is a very strong tool, but it can also create very strong illusions.
 
-This Section does not repeat the basic definition of dimensionality reduction at length. The core intuition `many features are reexpressed through fewer axes` reconnects through P4-18.1 and the [concept glossary](/AiBook/reference/concept-glossary/), and here the focus is only on what kinds of information loss and interpretation risk that picture creates.
+This Section does not repeat the basic definition of dimensionality reduction at length. The core intuition `many features are reexpressed through fewer axes` reconnects through P4-18.1, and here the focus is on what kinds of information loss and interpretation risk that picture creates.
 
-## Scope Of This Section
+## Questions Closed By Visualization And Information Loss
 
 This Section answers the following questions.
 
@@ -21,23 +21,23 @@ This Section answers the following questions.
 - What kinds of information are relatively well preserved, and what kinds may disappear?
 - Why can two points that look close in 2D fail to be close in the original space?
 - How should dimensionality-reduction results be used safely in exploratory analysis?
-- When interpreting t-SNE, UMAP, reconstruction error, and trustworthiness, what minimum ideas should be understood?
+- When interpreting [t-SNE](/AiBook/en/reference/concept-glossary-alpha/t/#t-sne), [UMAP](/AiBook/en/reference/concept-glossary-alpha/u/#umap), [reconstruction error](/AiBook/en/reference/concept-glossary-alpha/r/#reconstruction-error), and [trustworthiness](/AiBook/en/reference/concept-glossary-alpha/t/#trustworthiness), what minimum ideas should be understood?
 
 This Section focuses at an introductory level on `how far the reduced picture can be trusted` and `how information loss should be read`. So this Section directly covers what kinds of structure t-SNE and UMAP try to preserve more strongly, and how reconstruction error and trustworthiness should be read as minimum criteria. By contrast, implementation optimization, detailed tuning, and extended metric comparisons are not developed here at length.
 
-## Goals Of This Section
+## Judgments To Keep From Visualization And Information Loss
 
-- You can explain that dimensionality-reduction visualization is a tool for structure exploration.
+- You can explain that dimensionality-reduction [visualization](/AiBook/en/reference/concept-glossary-alpha/v/#visualization) is a tool for structure exploration.
 - You can describe that reducing dimensions creates some information loss.
 - You can understand that distances in a 2D picture can differ from distances in the original high-dimensional space.
 - You can hold the attitude that visualization results should be read as the starting point of follow-up review rather than as a final conclusion.
 
-## Judgment Flow for Visualization And Information Loss For This Section
+## Judgment Flow For Visualization And Information Loss
 
 This Section moves quickly because visualization interpretation, method comparison, and quality metrics appear together. On a first read, it helps to hold only the following four questions in order.
 
 1. Why is a dimensionality-reduced picture easy to view but not a complete copy?
-2. What do PCA, t-SNE, and UMAP each try to preserve more strongly?
+2. What do [PCA](/AiBook/en/reference/concept-glossary-alpha/p/#principal-component-analysis-pca), t-SNE, and UMAP each try to preserve more strongly?
 3. How far should `points that look close` and `lumps that seem separate` be trusted?
 4. In what direction do reconstruction error and trustworthiness recheck those risks?
 
@@ -93,7 +93,7 @@ If this point is read a little more practically, it looks like this.
 
 ## Easy To See Is Not The Same As Preserving The Original Structure
 
-A 2D scatter plot can look neat, but that does not mean the original high-dimensional structure was copied directly onto a 2D plane.
+A 2D [scatter plot](/AiBook/en/reference/concept-glossary-alpha/s/#scatter-plot) can look neat, but that does not mean the original high-dimensional structure was copied directly onto a 2D plane.
 
 The important distinction is the following.
 
@@ -404,5 +404,8 @@ The visualization-review memo for this scene can be written as follows.
 
 ## Sources And References
 
-- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `PCA`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.5. Decomposing signals in components (matrix factorization problems)`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/decomposition.html](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `PCA`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `TSNE`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `trustworthiness`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.manifold.trustworthiness.html](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.trustworthiness.html){: target="_blank" rel="noopener noreferrer" }
+- UMAP Project, `How UMAP Works`, UMAP documentation, accessed 2026-07-26. [https://umap-learn.readthedocs.io/en/latest/how_umap_works.html](https://umap-learn.readthedocs.io/en/latest/how_umap_works.html){: target="_blank" rel="noopener noreferrer" }

@@ -1,13 +1,13 @@
 # P4-8.1 模型选择(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P4-7 里，我们看过要保留什么输入，以及要把这些输入改造成什么表达。现在要进入下一个问题。
 
 这些输入到底应该交给哪一类 model？
 
-这个问题，正是模型选择(model selection)的出发点。
+这个问题，正是[模型选择(model selection)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection)的出发点。
 
 人们常常把模型选择理解成 `挑一个最有名的算法`。但实际情况更接近相反。模型选择是在同时看问题形态、数据性质、可解释性、计算成本、运营条件之后，再把候选范围缩小的工作。
 
@@ -15,19 +15,19 @@
 
 模型选择就是为了解决问题而建立一组待测试的候选模型，并把这组候选缩减成可比较形式的工作。
 
-这一节会说明 `模型选择(model selection)`、`候选模型(model candidate)`、以及 `根据问题形态和约束来缩小候选的判断`。后面的章节会沿着这个抓手继续当前语境，而到底应该先打开哪一个“模型抽屉”的标准，也会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
+这一节会说明 `模型选择(model selection)`、`候选模型(model candidate)`、以及 `根据问题形态和约束来缩小候选的判断`。后面的章节会沿着这个抓手继续当前语境，而到底应该先打开哪一个“模型抽屉”的标准，也会通过这一节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再接回来。
 
 最快的出发点是下面这张表。
 
 | 当前看到的问题 | 给读者的第一个问题 | 最先想到的候选家族 |
 | --- | --- | --- |
-| 分类 | `是在区分两个以上的 class 吗？` | 逻辑回归、决策树、k-NN |
-| 回归 | `是在预测连续值吗？` | 线性回归、树回归 |
-| 聚类 | `是在没有标签的情况下找分组吗？` | k-means、DBSCAN |
+| [分类(classification)](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) | `是在区分两个以上的 class 吗？` | 逻辑回归、决策树、k-NN |
+| [回归(regression)](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression) | `是在预测连续值吗？` | 线性回归、树回归 |
+| [聚类(clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering) | `是在没有标签的情况下找分组吗？` | k-means、DBSCAN |
 
 这张表的目的不是直接猜答案，而是让读者看到问题后知道 `应该先打开哪个抽屉`。
 
-## 本节范围
+## 建立候选家族前先要收束的问题
 
 这一节回答下面这些问题。
 
@@ -36,14 +36,15 @@
 - 根据问题类型和数据条件，可以先想到哪些 model 家族？
 - 除了性能之外，还有哪些标准会进入模型选择？
 
-这一节先收束 `根据问题和约束应该建立什么样的 model 候选群`。交叉验证的基本作用，会在 P4-4.2 和 P4-9.2 再接回来；信息准则、AutoML、大规模搜索系统，则会在 P4-9.3 补充学习里，以 `高级模型选择与自动化` 的视角继续展开。
+这一节先收束 `根据问题和约束应该建立什么样的 model 候选群`。
+[交叉验证(cross-validation)](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation)的基本作用，会在 P4-4.2 和 P4-9.2 再接回来；信息准则、AutoML、大规模搜索系统，则会在 P4-9.3 补充学习里，以 `高级模型选择与自动化` 的视角继续展开。
 
-## 用模型选择(model selection)留下的判断标准
+## 模型选择留下的判断标准
 
 - 能把模型选择解释成 `在候选模型集合里，逐步缩小适合问题的选项` 这件事。
 - 能说明问题类型、数据大小、特征表达、可解释性、速度要求都会影响模型选择。
 - 能使用 `建立合理候选集合(candidate set)` 的思考方式，而不是执着于找一个唯一正确模型。
-- 能说明这一节怎样与后面的 baseline model、超参数(hyperparameter)、算法入门连接起来。
+- 能说明这一节怎样与后面的 [baseline model](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)、[超参数(hyperparameter)](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、算法入门连接起来。
 
 ## 学习背景
 
@@ -468,6 +469,11 @@ Part 4 到目前为止经过了下面这个流程。
 
 如果把同一份候选家族备忘缩小成实际比较流程，可以像下面这样看。下面的代码会在同一个分类数据上放上逻辑回归、k-NN、决策树、随机森林，然后用 5-fold cross-validation 比较 train score、CV score，以及 CV score 的摇晃程度。
 
+可以改动的值:
+
+- 改动 `class_sep=0.9` 和 `flip_y=0.06`，数据会变得更容易分开或更混杂，各候选的 CV score 和摇晃程度也会随之变化。
+- 改动 `n_neighbors=7`、`max_depth=4`、`n_estimators=80`，各候选 model 的复杂度以及 train/CV score 差距会变化。
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
@@ -529,8 +535,8 @@ random_forest train= 0.984 cv= 0.796 spread= 0.048
 
 | 场景 | 解说示例 |
 | --- | --- |
-| 高风险患者分类 | 因为要先减少漏掉真实高风险患者的 false negative，所以记成先看 recall 和漏掉的案例更合适。 |
-| 广告推荐分类 | 因为要先减少把没兴趣的人错判成正类的 false positive，所以记成先看 precision 一侧的错误和过度曝光案例更合适。 |
+| 高风险患者分类 | 因为要先减少漏掉真实高风险患者的 [false negative](/AiBook/zh/reference/concept-glossary-pinyin/j/#false-negative)，所以记成先看 [recall](/AiBook/zh/reference/concept-glossary-pinyin/z/#recall) 和漏掉的案例更合适。 |
+| 广告推荐分类 | 因为要先减少把没兴趣的人错判成正类的 [false positive](/AiBook/zh/reference/concept-glossary-pinyin/j/#false-positive)，所以记成先看 [precision](/AiBook/zh/reference/concept-glossary-pinyin/j/#precision) 一侧的错误和过度曝光案例更合适。 |
 
 这个练习要抓住的是，`写完候选家族还没有结束`。即使候选家族相同，想优先减少什么失败不同，比较备忘也会随之改变。
 
@@ -549,5 +555,5 @@ random_forest train= 0.984 cv= 0.796 spread= 0.048
 
 ## 出处与参考资料
 
-- Jie Ding, Vahid Tarokh, Yuhong Yang, `Model Selection Techniques -- An Overview`, arXiv, 2018, 确认日期: 2026-06-26. [https://arxiv.org/abs/1810.09583](https://arxiv.org/abs/1810.09583){: target="_blank" rel="noopener noreferrer" }
-- Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`, arXiv, 2018, 确认日期: 2026-06-26. [https://arxiv.org/abs/1811.12808](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }
+- Jie Ding, Vahid Tarokh, Yuhong Yang, `Model Selection Techniques -- An Overview`, arXiv, 2018, 确认日期: 2026-07-26. [https://arxiv.org/abs/1810.09583](https://arxiv.org/abs/1810.09583){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`, arXiv, 2018, 确认日期: 2026-07-26. [https://arxiv.org/abs/1811.12808](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }

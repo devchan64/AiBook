@@ -1,7 +1,7 @@
 # P4-16.1 Gradient Boosting
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 The random forest in P4-15 was an ensemble that built many trees `in parallel` and reduced instability by gathering their results.
 
@@ -11,20 +11,20 @@ Gradient boosting is an ensemble method that stacks small trees so that the next
 
 If random forest is closer to `gathering many opinions in parallel`, gradient boosting is closer to `having the next stage fix the previous stage's error`.
 
-This Section explains the basic meanings of `gradient boosting`, `residual`, `weak learner`, and `additive model`. The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains how gradient boosting sequentially corrects residual error with small models. The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the concept glossary.
 
-## Scope Of This Section
+## Questions Closed By Gradient Boosting
 
 This Section answers the following questions.
 
 - Why is gradient boosting called `sequential`?
-- What do `weak learner`, `residual`, and `additive model` mean?
+- What do `weak learner` and `residual` mean?
 - How is the mindset of gradient boosting different from that of random forest?
-- Why should `n_estimators` and `learning_rate` be read together?
+- Why should `n_estimators` and learning rate be read together?
 
 This Section focuses on understanding `what kind of approach boosting is`. Performance and risk, and the roles of early stopping and shrinkage, continue in P4-16.2. The wider view of hyperparameters and validation cost reconnects in P4-9.1 and P4-9.2. Implementation differences among XGBoost, LightGBM, and CatBoost also continue in P4-16.2 at the level of `what they try to make faster and what they try to make safer to handle`, and if a wider implementation comparison becomes necessary, it can be recovered separately as supplementary learning for this chapter.
 
-## Goals Of This Section
+## Judgments To Keep From Gradient Boosting
 
 - You can explain gradient boosting as `an ensemble that reduces error sequentially`.
 - You can explain why weak learners are usually described through small trees.
@@ -100,9 +100,9 @@ The same idea can be compressed again into a short table.
 
 So residual is not only a mark that says `the model was wrong`. It is also a signal that tells the next stage `where to enter to correct`.
 
-## What Does Additive Model Mean?
+## A Structure That Adds Stages
 
-The scikit-learn documentation explains the gradient boosting regressor as an additive model. That means the final prediction is made by adding the outputs of stage models together.
+The scikit-learn documentation explains the gradient boosting regressor as a method that adds the outputs of stage models together. That means the final prediction is not made in one shot, but accumulates stage-by-stage corrections.
 
 1. Start from a very simple base prediction.
 2. Let the next tree create a small correction.
@@ -125,9 +125,9 @@ A tiny number table makes this clearer.
 
 In this table, stage 2 does not create a brand-new answer from scratch. It corrects the existing 104 by adding `-2`. Stage 3 does the same by moving from 102 to 103 through `+1`.
 
-So additive model can be read like this.
+So the stage-adding structure of boosting can be read like this.
 
-- the first stage 잡s the rough direction
+- the first stage catches the rough direction
 - later stages keep correcting that answer little by little
 - the final answer is built not by `one big jump`, but by `the sum of many small moves`
 
@@ -140,7 +140,7 @@ This feel matters especially when we compare it with random forest.
 
 So if random forest is read as `an aggregation of many opinions`, gradient boosting is read more accurately as `an accumulation of many corrections`.
 
-In a practical scene, additive model is closer to building a churn score not by fixing it in one shot, but by starting from `a base risk score` and then letting signals such as `failed payment`, `recent usage drop`, and `more inquiries` raise or lower the score in later stages. The key question for the reader is `what new signal did each stage reflect?`
+In a practical scene, boosting is closer to building a churn score not by fixing it in one shot, but by starting from `a base risk score` and then letting signals such as `failed payment`, `recent usage drop`, and `more inquiries` raise or lower the score in later stages. The key question for the reader is `what new signal did each stage reflect?`
 
 ## Why Is Weak Learner Explained Through Small Trees?
 
@@ -308,7 +308,7 @@ In practice, gradient boosting comes to mind first in scenes where `a single tre
 | --- | --- | --- |
 | a stronger performance candidate is needed on tabular data | because small patterns can be accumulated through sequential correction | whether there is a plan for overfitting control |
 | the residual error left by a single tree or random forest is still clear | because the next stage can target residuals directly | what error scenes keep remaining |
-| a structure of adding many weak rules feels natural | because the improvement flow is easy to read through the additive-model view | whether stage-wise correction becomes too strong |
+| a structure of adding many weak rules feels natural | because the improvement flow is easy to read as sequential correction | whether stage-wise correction becomes too strong |
 | readers can accept more tuning for higher base performance | because `learning_rate`, stage count, and tree size can be tuned finely | whether validation procedure and early stopping are ready |
 | readers want to reduce bias more aggressively than in random forest | because the method prioritizes error correction over average stability | the risk of following data noise too far |
 
@@ -386,7 +386,12 @@ This example is a toy exercise used only to build the feel that `corrections acc
 - input: current predictions and actual values
 - expected output: stage-wise residuals and updated predictions
 - concepts to check:
-- residual is the remaining error - the next stage moves in the direction that reduces the residual - learning rate decides how much to correct at one time
+  - residual is the remaining error
+  - the next stage moves in the direction that reduces the residual
+  - learning rate decides how much to correct at one time
+- values to change:
+  - change `learning_rate` to `0.1`, `0.3`, and `0.5` and compare how quickly residuals shrink
+  - change the sign or size of `tree1_correction` and check how correction direction accumulates into predictions
 
 ```python
 # This toy example shows how residual-direction corrections accumulate into predictions in gradient boosting.
@@ -435,6 +440,10 @@ So gradient boosting is closer to `many small corrections` than to `one large co
 ### Change One Value: If `learning_rate` Grows, How Is The Same Correction Reflected Differently?
 
 This time, keep the same correction and change only `learning_rate` to `0.5`.
+
+- values to change:
+  - change `learning_rate` between `0.1` and `0.5` and compare the strength of one correction stage
+  - keep `tree1_correction` fixed so the learning-rate effect is separated
 
 ```python
 # This example compares how a larger learning_rate changes residual reduction for the same correction.
@@ -492,6 +501,6 @@ What matters here is not only `how much the value changed`. More important is re
 
 ## Sources And References
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, accessed 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, accessed 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, accessed 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, accessed 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

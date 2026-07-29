@@ -1,7 +1,7 @@
-# P2-10.2 The Difference Among Jupyter, Colab, and Local Execution
+# P2-10.2 Difference Among Jupyter, Colab, and Local Execution
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. Now we separate the three execution styles that are encountered most often in practice.
 
@@ -13,7 +13,7 @@ This Section explains the relation among `Jupyter`, `Colab`, `local execution`, 
 This distinction matters before anything else.
 If the execution place changes, the meaning of the same notebook also changes.
 
-## Core Criteria: The Difference Among Jupyter, Colab, and Local Execution
+## Core Criteria: the Difference Among Jupyter, Colab, and Local Execution
 
 - You can explain Jupyter as an open-source notebook ecosystem, and Colab as a hosted service based on Jupyter.
 - You can explain local execution as a style of running in your own computer's Python, file, terminal, and package environment.

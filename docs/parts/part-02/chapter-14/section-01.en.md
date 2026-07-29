@@ -1,13 +1,13 @@
 # P2-14.1 Git as a Tool for Managing Change History
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In Part 2 Chapter 13, we created plots with Matplotlib and linked the output images into documents. A problem appears immediately at that point. If documents, code, images, and research notes all change together, it becomes hard later to remember "what changed, and why."
 
 Git is a tool for recording that kind of change. It is not just a tool for saving code. It is better read as a device for tracking how documents and example code change across a learning process. You need this sense early so that, in Part 3, even in scenes where experiment conditions change often, such as baseline comparisons, preprocessing edits, and metric interpretation, you can still explain again `what was changed, and why`.
 
-This section explains the basic distinctions among `Git`, `version control`, `commit`, `staging area`, and `repository`. If Chapters 11 through 13 were the stage of reading and checking data through arrays, tables, and plots, then the question here changes into how to leave those calculations and checks behind as bundles of changes. Git should not be read as a tool that suddenly appeared out of nowhere. It should be read as the record tool that lets you explain again the baseline comparisons, preprocessing edits, and metric interpretations in Part 3. When the later section continues into branches and deployment, also keep the [Concept Glossary](/AiBook/reference/concept-glossary/) as a reference point.
+This section explains the basic distinctions among `Git`, `version control`, `commit`, `staging area`, and `repository`. If Chapters 11 through 13 were the stage of reading and checking data through arrays, tables, and plots, then the question here changes into how to leave those calculations and checks behind as bundles of changes. Git should not be read as a tool that suddenly appeared out of nowhere. It should be read as the record tool that lets you explain again the baseline comparisons, preprocessing edits, and metric interpretations in Part 3. When the later section continues into branches and deployment, keep this standard in place.
 
 ## Core Criteria: Git as a Tool for Managing Change History
 
@@ -62,7 +62,7 @@ Version control is a device for answering the following questions after time has
 
 The official Git book explains version control as a system that records file changes over time and lets you bring back specific versions later. Here, we apply that view to document writing and learning records.
 
-## The Basic Flow of Git
+## Basic Flow of Git
 
 Here, we divide the Git flow into the following three spaces.
 
@@ -74,7 +74,7 @@ The important point in this flow is that `saving` and `committing` are different
 
 Saving a file means writing the current file contents to disk in the editor. Committing means recording, in repository history, a meaningful bundle chosen from those saved changes.
 
-## `git status` Asks About the Current State
+## `git status` Asks about the Current State
 
 The command you usually check first when doing Git work is `git status`.
 
@@ -168,7 +168,7 @@ Git lets you leave behind the following relationships.
 
 From this perspective, Git is not a tool only for developers. As documents grow, evidence increases, and practice code accumulates, Git becomes the tool that manages `the history of learning changes`.
 
-## The Minimum Habits to Use with Git
+## Minimum Habits to Use with Git
 
 You do not need to know every Git command from the beginning. In a project that handles documents and practice examples together, even the following habits help a lot.
 

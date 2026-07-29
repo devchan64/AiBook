@@ -1,7 +1,7 @@
 # P5-8.3 补充学习：深层计算的稳定条件
 
 > Section ID: `P5-8.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: 初始化、数值稳定性与批归一化分别在什么位置让深层网络更稳定？_
 
@@ -9,11 +9,11 @@ _副标题: 初始化、数值稳定性与批归一化分别在什么位置让�
 
 为什么层数堆得更深，并不意味着模型立刻就能学得很好？
 
-要回答这个问题，与其把 initialization、numerical stability、batch normalization 分开死记，不如把它们一起放到一条轴上来读：`深层网络为什么在实践里能变得没那么容易摇晃。` 从第 8 章整体的 흐름来看，前两节处理的是`应该让什么变得不那么受偏好`和`应该减少什么样的路径依赖`，而这一节要收拢的是：`让计算本身能够撑住的条件。`
+要回答这个问题，与其把 initialization、numerical stability、batch normalization 分开死记，不如把它们一起放到一条轴上来读：`深层网络为什么在实践里能变得没那么容易摇晃。` 从第 8 章整体的 流程来看，前两节处理的是`应该让什么变得不那么受偏好`和`应该减少什么样的路径依赖`，而这一节要收拢的是：`让计算本身能够撑住的条件。`
 
 初始化负责决定学习开始时的出发点，数值稳定性负责检查数值和 gradient 在计算过程中会不会过大或过小，而 batch normalization 则是把学习中的 activation distribution 重新整理到更容易处理的范围里的装置。
 
-如果之后这条轴又变模糊了，更适合一起回到[英文概念词汇表里的 training mode 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#training-mode)、[batch normalization 条目](/AiBook/reference/concept-glossary-parts/06-bieup/#batch-normalization)、[initialization 条目](/AiBook/reference/concept-glossary-parts/11-chieut/#initialization)、[numerical stability 条目](/AiBook/reference/concept-glossary-parts/07-siot/#numerical-stability)，重新把这几个概念并排对齐。
+如果之后这条轴又变模糊了，更适合一起回到概念词汇表里的[训练模式（training mode）](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-mode)、[批归一化（batch normalization）](/AiBook/zh/reference/concept-glossary-pinyin/b/#batch-normalization)、[初始化（initialization）](/AiBook/zh/reference/concept-glossary-pinyin/i/#initialization)、[数值稳定性（numerical stability）](/AiBook/zh/reference/concept-glossary-pinyin/n/#numerical-stability)，重新把这几个概念并排对齐。
 
 ## 深层计算为什么会摇晃的问题
 
@@ -23,7 +23,7 @@ _副标题: 初始化、数值稳定性与批归一化分别在什么位置让�
 - 为什么 batch normalization 常常会被和学习稳定化一起提起？
 - 这三个概念和 optimizer、regularization 回答的是怎样不同的问题？
 
-ReLU 系列和深度学习扩展开来的大 흐름，会在 P5-3.4 再次接回；batch normalization 为什么对 train/eval mode 的差异敏感，则是在 P5-6.4 已经建立的基准上继续重读。regularization 和 normalization 的大视角承接自 P5-8.1，而 optimizer 的 update 本身会再连回 P5-7.1、P5-7.2。
+ReLU 系列和深度学习扩展开来的大 流程，会在 P5-3.4 再次接回；batch normalization 为什么对 train/eval mode 的差异敏感，则是在 P5-6.4 已经建立的基准上继续重读。regularization 和 normalization 的大视角承接自 P5-8.1，而 optimizer 的 update 本身会再连回 P5-7.1、P5-7.2。
 
 这一节的角色，是把`让深层计算同时撑住 forward 与 backward 的条件`集中放在同一个位置里。
 
@@ -46,7 +46,7 @@ ReLU 系列和深度学习扩展开来的大 흐름，会在 P5-3.4 再次接回
 
 但实际情况是：学习开始时的出发点、中间计算里数值怎样变大或缩小、每一层把什么规模的值交给下一层，这些因素会一起互相咬合。
 
-把这个 흐름压成很短的一张图，就是下面这样。
+把这个 流程压成很短的一张图，就是下面这样。
 
 ```mermaid
 --8<-- "assets/part-05/chapter-08/stabilization-bridge-flow-zh.mmd"
@@ -133,12 +133,12 @@ batch normalization 会参考一个 batch 里的 mean 和 variance，把 activat
 - 下一层就必须在一个不断摇晃的 distribution 上学习
 - 结果会同时影响学习速度和稳定性
 
-因此，batch normalization 更适合读成：`以当前 batch 为 기준，再把数值整理成更容易处理的范围，然后再交给下一层的装置。`
+因此，batch normalization 更适合读成：`以当前 batch 为 基准，再把数值整理成更容易处理的范围，然后再交给下一层的装置。`
 
 P5-6.4 里看到的 mode 差异，也会在这里重新接回。
 
 - 训练中，它参考的是当前 batch 的统计量
-- 评估中，它更多会依赖训练期间累计下来的 기준
+- 评估中，它更多会依赖训练期间累计下来的 基准
 
 所以 batch normalization 并不只是`另一个 normalization 名字`，而是一个典型案例，让读者必须把学习稳定化和 mode 切换一起读。
 
@@ -174,7 +174,7 @@ P5-6.4 里看到的 mode 差异，也会在这里重新接回。
 
 现在重新看同样的结构，但改变起始条件。假设第一层的两个 neuron 不再从完全相同的权重开始，而是一个稍小、一个稍微不同。这样一来，它们从一开始就不会无限重复同样的反应，而是有机会对不同输入组合走出略微不同的路径。这里初始化的角色，首先不是`找到好数字`，而是`提供一个不会复制同一路径的起点`。
 
-接着，如果各层权重尺度没有被设得过大，那么数值范围就可能像 `0.6 -> 0.9 -> 1.1` 那样更缓慢地移动。当然，真实模型比这复杂得多，但对入门读者来说，这个场景已经足够。深层网络想没那么容易摇晃，就必须即使层数很多，也能让计算不至于一下子爆掉或消失。此时 numerical stability 就是在读：`什么样的起始尺度和计算 흐름，能让深层重复计算撑得住。`
+接着，如果各层权重尺度没有被设得过大，那么数值范围就可能像 `0.6 -> 0.9 -> 1.1` 那样更缓慢地移动。当然，真实模型比这复杂得多，但对入门读者来说，这个场景已经足够。深层网络想没那么容易摇晃，就必须即使层数很多，也能让计算不至于一下子爆掉或消失。此时 numerical stability 就是在读：`什么样的起始尺度和计算 流程，能让深层重复计算撑得住。`
 
 最后，即使层间传递的 activation distribution 在不同 batch 之间并不完全相同，只要把 batch normalization 插进去，下一层收到的就不会再是`每次规模都完全不同`的输入，而会是`被重新整理回可比较范围的输入`。因此，batch normalization 的第一角色不是背名字，而是负责把已经开始摇晃的中间 distribution 整理好，让下一层还能继续撑住。
 
@@ -186,7 +186,7 @@ P5-6.4 里看到的 mode 差异，也会在这里重新接回。
 --8<-- "assets/part-05/chapter-08/stabilization-case-reading-flow-zh.mmd"
 ```
 
-这张 흐름图里首先要抓住的点只有一个。深层网络稳定化并不是`技术名称清单`，而是一个判断顺序：`起点有没有分开 -> 重复计算范围撑不撑得住 -> 层间 distribution 会不会继续摇晃下一层。`
+这张 流程图里首先要抓住的点只有一个。深层网络稳定化并不是`技术名称清单`，而是一个判断顺序：`起点有没有分开 -> 重复计算范围撑不撑得住 -> 层间 distribution 会不会继续摇晃下一层。`
 
 ![不稳定场景与稳定化场景里的 neuron 路径比较](/AiBook/assets/part-05/chapter-08/stabilization-neuron-paths-zh.png)
 
@@ -200,7 +200,7 @@ P5-6.4 里看到的 mode 差异，也会在这里重新接回。
 
 这张图说明：在不稳定场景里，不同 batch 的中间 distribution 差异更大；而在稳定化场景里，下一层更容易收到规模可比较的数值。
 
-把这两个案例再折回成一条 흐름，这一节要一起读的稳定化轴可以整理成下面这样。
+把这两个案例再折回成一条 流程，这一节要一起读的稳定化轴可以整理成下面这样。
 
 | 阶段 | 最先开始摇晃的东西 | 最先该抓住的装置 |
 | --- | --- | --- |
@@ -227,7 +227,7 @@ P5-6.4 里看到的 mode 差异，也会在这里重新接回。
 | --- | --- |
 | initialization 在决定什么？ | 它给多个 neuron 留下从不同出发点开始分工的可能性。 |
 | numerical stability 在担心什么？ | 它检查深层重复计算里，数值与 gradient 是否留在可承受范围。 |
-| batch normalization 会介入哪里？ | 它把中间 activation distribution 重新整理成下一层更容易处理的 기준。 |
+| batch normalization 会介入哪里？ | 它把中间 activation distribution 重新整理成下一层更容易处理的 基准。 |
 
 这一节先关住的是概念地图，因此这里不马上重复可执行代码。下一节 [P5-8.4](section-04.zh.md) 会再单独用 Python 例子和图表确认：较大的 initialization scale 会怎样在深层中放大数值，以及一旦插入 batch normalization，什么又会跟着改变。
 

@@ -1,15 +1,15 @@
 # Part 4. 机器学习
 
 > Section ID: `P4-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2 重新补回了阅读公式、Python、数组、表格、图表和运行环境的基础。现在在 Part 4，我们要整理这些工具究竟是为了什么而使用，也就是 `从数据中学习规则` 这句话到底是什么意思。
 
 很多读者已经用过 AI 服务，但这里更重要的是把这些经验重新整理成标准概念。与其背模型名字，不如先弄清楚什么算机器学习问题、需要收集什么数据、模型学到的是什么、什么叫学习得好、以及为什么有些模型看起来很准却依然可能在实际中有风险。
 
-Part 4 的核心目标，是把机器学习读成 `问题 - 数据 - 学习 - 评估 - 应用` 的流程，而不是模型目录。线性回归、逻辑回归、决策树、随机森林、Boosting、聚类、降维、强化学习都不是需要分开背诵的项目。它们是在 `要解决什么问题、输入和输出是什么、用什么标准判断好坏` 的前提下出现的选择。
+Part 4 的核心目标，是把[机器学习](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning)读成 `问题 - 数据 - 学习 - 评估 - 应用` 的流程，而不是模型目录。[线性回归](/AiBook/zh/reference/concept-glossary-pinyin/l/#linear-regression)、[逻辑回归](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression)、[决策树](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)、[随机森林](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)、Boosting、[聚类](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)、[降维](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction)、[强化学习](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning)都不是需要分开背诵的项目。它们是在要解决什么问题、[模型输入](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)和[模型输出](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)是什么、用什么标准判断好坏的前提下出现的选择。
 
-Part 4 也遵守同样的原则：在同一个 Part 内，核心概念尽量先在一个代表性 Section 里集中说明，后续 Section 只保留当前语境所需的最小解释。所以 `supervised learning` 先以 `P4-2.1` 为代表说明位置，`unsupervised learning` 先以 `P4-2.2` 为代表说明位置，`reinforcement learning` 先以 `P4-2.3` 为代表说明位置，`validation` 与 `test` 的角色区分放在 `P4-4.2`，`overfitting` 与 `underfitting` 放在 `P4-5.1`，`metric` 放在 `P4-6.1`，`feature selection` 放在 `P4-7.1`，`preprocessing` 放在 `P4-7.2`，`baseline` 放在 `P4-8.2`，`linear regression` 放在 `P4-10.1`，`logistic regression` 放在 `P4-11.1`，`k-NN` 放在 `P4-12.1`，`SVM` 放在 `P4-13.1`，`decision tree` 放在 `P4-14.1`，`random forest` 放在 `P4-15.1`，`gradient boosting` 放在 `P4-16.1`，`clustering` 放在 `P4-17.1`，`dimensionality reduction` 放在 `P4-18.1`。再次出现时，要和 [概念词汇表](/AiBook/reference/concept-glossary/) 以及当前语境一起读。
+Part 4 也遵守同样的原则：在同一个 Part 内，核心概念尽量先在一个代表性 Section 里集中说明，后续 Section 只保留当前语境所需的最小解释。所以 `supervised learning` 先以 `P4-2.1` 为代表说明位置，`unsupervised learning` 先以 `P4-2.2` 为代表说明位置，`reinforcement learning` 先以 `P4-2.3` 为代表说明位置，`validation` 与 `test` 的角色区分放在 `P4-4.2`，`overfitting` 与 `underfitting` 放在 `P4-5.1`，`metric` 放在 `P4-6.1`，`feature selection` 放在 `P4-7.1`，`preprocessing` 放在 `P4-7.2`，`baseline` 放在 `P4-8.2`，`linear regression` 放在 `P4-10.1`，`logistic regression` 放在 `P4-11.1`，`k-NN` 放在 `P4-12.1`，`SVM` 放在 `P4-13.1`，`decision tree` 放在 `P4-14.1`，`random forest` 放在 `P4-15.1`，`gradient boosting` 放在 `P4-16.1`，`clustering` 放在 `P4-17.1`，`dimensionality reduction` 放在 `P4-18.1`。再次出现时，要和 [机器学习](/AiBook/zh/reference/concept-glossary-pinyin/m/#machine-learning)、[降维](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction) 这样的相关概念词汇表条目以及当前语境一起读。
 
 所以，Part 4 会按下面这个顺序把机器学习的地形图重新连起来。
 
@@ -25,11 +25,11 @@ Part 4 也遵守同样的原则：在同一个 Part 内，核心概念尽量先�
 
 Part 4 不是先把算法名字排出来，而是先立住阅读机器学习说明时反复要抓住的问题。
 
-- 什么样的问题会分成 supervised learning、unsupervised learning、reinforcement learning？
-- input、output、label、reward 各自是什么意思，又是在什么位置分开的？
-- 为什么 training、validation、test 要分开，generalization 又是怎么确认的？
-- metric 会揭示什么错误，又可能遮住什么错误？
-- 为什么 feature selection、preprocessing、基准模型、tuning 要比模型名字更先检查？
+- 什么样的问题会分成 [supervised learning](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)、[unsupervised learning](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning)？
+- [model input](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)、[model output](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)、[reward](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward) 各自是什么意思，又是在什么位置分开的？
+- 为什么 [training](/AiBook/zh/reference/concept-glossary-pinyin/x/#training)、[validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation)、[test](/AiBook/zh/reference/concept-glossary-pinyin/c/#test) 要分开，[generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 又是怎么确认的？
+- [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会揭示什么错误，又可能遮住什么错误？
+- 为什么 [feature selection](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature-selection)、[preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing)、[基准模型](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)、tuning 要比模型名字更先检查？
 - 代表性的传统模型能带来什么问题感，它们的强项到哪里、局限又从哪里开始？
 
 ## 把机器学习读成共同问题与判断标准
@@ -85,7 +85,7 @@ Part 4 大致由四条流程组成。
 
 评估指标的范围也会在这条流程里明确下来。Part 4 正文里优先处理的是那些能够先抓住 `面对这种问题应该先问什么` 的指标，比如 accuracy、precision、recall、F1、MAE、RMSE、R2。像 ROC、PR、log loss、calibration、reliability、silhouette 这类会让分数解释更细致的项目，会放到 P4-6.4 的补充学习里做入门说明，而 threshold 与 calibration 会在 P4-15.3 再次回收。
 
-这里读者还要同时抓住两个比较装置。confusion matrix 和 error case 让你读出 `模型错在了哪里、怎么错的`，baseline 则要求你追问 `这个分数到底算不算有意义的提升`。Part 4 更看重的是培养把错误结构和基线一起阅读的习惯，而不是把分数当作独立数字背下来。
+这里读者还要同时抓住两个比较装置。[confusion matrix](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix) 和 [error case](/AiBook/zh/reference/concept-glossary-pinyin/e/#error-case) 让你读出 `模型错在了哪里、怎么错的`，[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline) 则要求你追问 `这个分数到底算不算有意义的提升`。Part 4 更看重的是培养把错误结构和基线一起阅读的习惯，而不是把分数当作独立数字背下来。
 
 这条流程按下面顺序来读。
 

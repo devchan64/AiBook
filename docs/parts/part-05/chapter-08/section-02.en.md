@@ -1,7 +1,7 @@
-# P5-8.2 How To Reduce Path Dependence: Dropout
+# P5-8.2 How to Reduce Path Dependence: Dropout
 
 > Section ID: `P5-8.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P5-8.1, we saw how to adjust the goal of the learning loop itself by placing a regularization term beside the objective function. Now we move one step further along the same chapter flow and ask whether control is also possible not through a penalty beside the loss, but by shaking internal paths inside the neural network. The next question follows naturally.
 
@@ -13,7 +13,7 @@ Dropout is a regularization technique that randomly turns off some node outputs 
 
 When you need to check again the intuition that dropout is an example of regularization that shakes the structure, reread the glossary entry on [dropout](/AiBook/en/reference/concept-glossary-alpha/d/#dropout).
 
-## The Question Of How Dropout Reduces Path Dependence
+## The Question of How Dropout Reduces Path Dependence
 
 - Why is dropout connected to overfitting control?
 - What does it mean to cut some connections during training?
@@ -22,7 +22,7 @@ When you need to check again the intuition that dropout is an example of regular
 
 The difference between training mode and evaluation mode reconnects in P5-6.4, and the larger viewpoint of regularization is read in P5-8.1 above. Here, rather than memorizing formulas, we first explain `why randomly removing paths helps generalization, and why this technique has to be read together with training mode`.
 
-## Standards For Dropped Connections And Ensemble Intuition
+## Standards for Dropped Connections and Ensemble Intuition
 
 - You can explain dropout as `a regularization technique that reduces dependence on specific paths`.
 - You can state why dropout behaves differently during training and evaluation.
@@ -44,7 +44,7 @@ It is enough to remember it like this.
 
 `Dropout temporarily leaves part of the network empty during learning, so the model does not rely on only one particular connection.`
 
-## What Does It Mean To Cut Some Connections
+## What Does It Mean to Cut Some Connections
 
 When people first hear dropout, a natural question is: `does it literally delete the network structure?` Usually, no.
 
@@ -79,7 +79,7 @@ For example:
 
 So the model is pressured to learn a representation that can survive across multiple paths rather than depending on `one easy shortcut`.
 
-## An Intuition Similar To An Ensemble
+## An Intuition Similar to an Ensemble
 
 In introductory explanations, dropout is often described as `feeling like training many partial networks in turn`. Strictly speaking it is not exactly the same thing, but the intuition is useful.
 
@@ -93,7 +93,7 @@ This level of summary is enough.
 
 `Dropout gives the feeling of training one network while shaking it as if it were many partial networks.`
 
-## Why Is Dropout Turned Off In Evaluation Mode
+## Why Is Dropout Turned Off in Evaluation Mode
 
 As we already saw in P5-6.4, dropout behaves differently in training mode and evaluation mode. The reason is simple.
 
@@ -113,7 +113,7 @@ It becomes easier to read how the same input is treated differently in training 
 
 The one point to hold onto first in this diagram is simple. Train mode is the place where some paths are allowed to rest so that `dependence on a specific path` is shaken, while eval mode is the place where we measure how stably the remaining model actually holds up.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Case. When A Review-Classification Model Depends On An Easy Shortcut
 
@@ -131,7 +131,7 @@ Once dropout is applied, some hidden outputs are temporarily turned off at each 
 | If the training score rises quickly, learning can look good. | We must also see whether the validation gap is shrinking. |
 | It can seem safer if important nodes are always on. | A representation that still survives while some nodes rest can be more robust. |
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm directly that during training dropout makes different path combinations rest at each step. We will also use the same input log to see why training mode and evaluation mode have to be read differently.
 
@@ -354,7 +354,7 @@ Dropout reconnects several concepts from earlier in Part 5 at the same time.
 - it introduces the idea of intentionally injecting noise during learning to help generalization
 - it confirms again why the difference between training mode and evaluation mode from P5-6.4 is practically necessary
 
-## Where Should We Place Dropout In The Learning Loop
+## Where Should We Place Dropout in the Learning Loop
 
 Once the general viewpoint of regularization is fixed, it is natural to bring in dropout when asking `is a form of overfitting control needed that cannot be explained only by a penalty`. Dropout should not be read as an extra feature attached after the optimizer. It should be read as a device that temporarily lets some paths rest during the forward computation so that learning cannot depend only on a specific shortcut.
 
@@ -374,7 +374,7 @@ Once the general viewpoint of regularization is fixed, it is natural to bring in
 - When you need an intuitive case that shows the training/eval mode difference again, can you bring back random path removal and the evaluation-mode difference?
 - Do you understand that this section plays the role of `structure-level control` in Chapter 8, and that the next section moves on to `the conditions that let deep computation actually hold up`?
 
-## Sources And References
+## Sources and References
 
 - Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, checked on 2026-07-19. [https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

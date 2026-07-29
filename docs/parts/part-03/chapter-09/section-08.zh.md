@@ -1,9 +1,9 @@
 # P3-9.8 一次预测到底决定什么，为什么分数和策略不是同一件事
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-即使已经定义了输入和结果，预测问题也仍然只关了一半。即便同样是在预测 `review_needed`，它也可能表示把单次运行放进复核队列，也可能表示调整整个最近区间的告警强度。此外，模型输出的分数，和把这个分数转成真实行动的策略，也不是同一回事。
+即使已经定义了输入和结果，预测问题也仍然只关了一半。即便同样是在预测 `review_needed`，它也可能表示把单次运行放进[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)，也可能表示调整整个最近区间的告警强度。此外，模型输出的[分数(score)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-score)，和把这个分数转成真实行动的[策略规则(policy rule)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-policy-rule)，也不是同一回事。
 
 一个预测值必须连同它对应的行动单位一起写出来，而模型分数和运营策略也必须分开来看。
 
@@ -11,16 +11,16 @@
 | --- | --- |
 | 一次预测针对的单位 | 这个值指的是一次运行、一个最近区间，还是下一条单独案例？ |
 | 模型输出 | 模型输出的是分数、0/1，还是排序？ |
-| 策略规则 | 这个输出会按什么规则被转成行动？ |
-| 真实行动 | 是进入复核队列、暂缓，还是触发自动处置？ |
+| [策略规则(policy rule)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-policy-rule) | 这个输出会按什么规则被转成行动？ |
+| [真实行动(action)](/AiBook/zh/reference/concept-glossary-pinyin/a/#action) | 是进入复核队列、暂缓，还是触发自动处置？ |
 
 | 层级 | 例子 |
 | --- | --- |
 | 模型输出 | `0.82`、`warning_score` |
-| 策略规则 | `0.8 以上就复核`、`只看前 10%` |
+| [策略规则(policy rule)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-policy-rule) | `0.8 以上就复核`、`只看前 10%` |
 | 真实行动 | 加入复核队列、调整优先级 |
 
-即使分数一样，只要策略不同，行动也可能不同。而且有些问题只把分数拿来`做排序`，有些问题则希望把这个数字`近似当成概率来读`。这种差别也要先写清楚。因此，一次预测的意义并不只是`吐出一个数字`，而是这个数字会经过什么规则，再导向什么行动的整套决策结构。从更大的角度看，这一节是在把`模型输出`、`判定规则`、`真实行动`拆成不同层级，让一次预测值被放进运营决策结构里来读。
+即使分数一样，只要策略不同，行动也可能不同。而且有些问题只把分数拿来[排序(ranking)](/AiBook/zh/reference/concept-glossary-pinyin/p/#glossary-ranking)，有些问题则希望把这个数字近似当成[概率估计(probability estimate)](/AiBook/zh/reference/concept-glossary-pinyin/g/#probability-estimate)来读。这种差别也要先写清楚。因此，一次预测的意义并不只是`吐出一个数字`，而是这个数字会经过什么规则，再导向什么行动的整套决策结构。从更大的角度看，这一节是在把`模型输出`、`判定规则`、`真实行动`拆成不同层级，让一次预测值被放进运营决策结构里来读。
 
 ## 用一个小图来看
 

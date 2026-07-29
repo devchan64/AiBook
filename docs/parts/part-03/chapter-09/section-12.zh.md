@@ -1,16 +1,16 @@
 # P3-9.12 target 名称与错误成本
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.24`
+> Version: `v2026.07.25`
 
 _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一种更痛？_
 
-即使 target 名称相同，不同问题里更痛的错误也可能不一样。哪怕都是在预测 `review_needed`，漏掉风险案例更危险，还是把本来不需要的人也送去复核更有负担，都会随着运营语境不同而改变。也就是说，即使 target 相同，漏判和误报的成本也可能不同，所以必须先把这种差别写下来，才能明确当前更想减少的是哪一种判断错误。
+即使 [目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target) 名称相同，不同问题里更痛的错误也可能不一样。哪怕都是在预测 `review_needed`，漏掉风险案例更危险，还是把本来不需要的人也送去复核更有负担，都会随着运营语境不同而改变。也就是说，即使 target 相同，漏判和误报的成本也可能不同，所以必须先把这种 [错误成本(error cost)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-error-cost) 差别写下来，才能明确当前更想减少的是哪一种判断错误。
 
 | 错误类型 | 在运营里可能发生的事情 |
 | --- | --- |
-| false negative | 漏掉风险案例，可能扩散成更大的异常 |
-| false positive | 人会白白花时间，增加复核负担 |
+| [假阴性(false negative)](/AiBook/zh/reference/concept-glossary-pinyin/j/#glossary-false-negative) | 漏掉风险案例，可能扩散成更大的异常 |
+| [假阳性(false positive)](/AiBook/zh/reference/concept-glossary-pinyin/j/#glossary-false-positive) | 人会白白花时间，增加复核负担 |
 
 | 先写下的备注 | 为什么需要 |
 | --- | --- |
@@ -20,7 +20,7 @@ _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一
 
 ## 为什么错误成本会改变 target 的解释方式
 
-即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，`漏判（false negative）`更痛，所以即使要让更多项目进入复核队列，也宁可少漏掉风险案例；而在另一些问题里，`过检（false positive）`更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 threshold 数字，而是`应该用什么判断结构去解释这个 target`。
+即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，漏判（false negative）更痛，所以即使要让更多项目进入[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)，也宁可少漏掉风险案例；而在另一些问题里，过检（false positive）更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 [阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold) 数字，而是`应该用什么判断结构去解释这个 target`。
 
 例如，假设模型分数如下。
 
@@ -30,7 +30,7 @@ _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一
 | B | 0.64 | 纳入复核队列 | 先保留 |
 | C | 0.41 | 作为辅助复核候选保留 | 排除 |
 
-如果漏判成本高，那么把 `B` 也放进复核队列会更自然。相反，如果过检成本高，那么更自然的做法可能是先保留 `B`，只看 `A`。也就是说，即使分数相同、target 名称相同，只要错误成本结构不同，复核队列优先级和 threshold 解读也会一起改变。
+如果漏判成本高，那么把 `B` 也放进复核队列会更自然。相反，如果过检成本高，那么更自然的做法可能是先保留 `B`，只看 `A`。也就是说，即使[分数(score)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-score)相同、target 名称相同，只要错误成本结构不同，复核队列优先级和 threshold 解读也会一起改变。
 
 下面的例子把多个 threshold 应用到同一组分数上，并分别计算 false negative 和 false positive 的成本。这里把漏判成本设为 10，把误报成本设为 2。
 

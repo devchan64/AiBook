@@ -1,21 +1,21 @@
 # P4-13.1 Intuition For SVM
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-11.2 read classification as `drawing a boundary and dividing the space`. P4-12 then showed a method that judges by looking at nearby neighbors. Now the same classification problem is reread through a different question.
 
 If we can draw a boundary, which boundary is the better one?
 
-That question is the starting point of the SVM (support vector machine).
+That question is the starting point of [SVM (support vector machine)](/AiBook/en/reference/concept-glossary-alpha/s/#support-vector-machine).
 
 `An SVM is a model that finds a line separating classes while trying to keep that line as far as possible from the data on both sides.`
 
 So SVM does not stop at `finding one separating line`. It tries to find `the separator that looks most stable`.
 
-This Section explains the basic meanings of `SVM`, `margin`, and `support vector`. Later Sections continue the current judgment from that handle, and the basic sense of reading the stability of a boundary reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meanings of [SVM (support vector machine)](/AiBook/en/reference/concept-glossary-alpha/s/#support-vector-machine), [margin](/AiBook/en/reference/concept-glossary-alpha/m/#margin), and [support vector](/AiBook/en/reference/concept-glossary-alpha/s/#support-vector). Later Sections continue the current judgment from that handle, and the basic sense of reading boundary stability reconnects through this Section's judgment criteria.
 
-## Scope Of This Section
+## Questions Closed By SVM Intuition
 
 This Section is the place where the question `what is a good boundary?` is first held through SVM. Here the reader focuses on margin, support vectors, and the intuition of soft margin, and reads not only `can the data be separated?` but `what criterion separates them more stably?`
 
@@ -29,7 +29,7 @@ This Section answers the following questions.
 
 The kernel idea and the big picture of nonlinear boundaries continue immediately in P4-13.2. Criteria for reading hyperparameters such as `C` and `gamma`, and the cost of validation, reconnect again in P4-9.1 and P4-9.2. In other words, this Section is the place to first hold `what is a good boundary?` through margin and support vectors.
 
-## Goals Of This Section
+## Judgments To Keep From SVM Intuition
 
 - You can explain SVM with the intuition `a classifier that maximizes the margin`.
 - You can explain why, among several boundaries that all separate the same data, some can still be read as better than others.
@@ -137,6 +137,11 @@ This example does not directly implement an SVM learner. Instead, it places seve
   - there can be several candidates that all separate the classes
   - the focus of SVM is to find the boundary whose `minimum gap` is largest
   - the points closest to the boundary behave like support vectors
+
+Values to change:
+
+- Add `3.8` or `4.2` to `candidates` to inspect margin changes more finely as the boundary moves.
+- Move `(3.0, 2.5)` in `negative` or `(5.0, 2.2)` in `positive` closer to the boundary to see why support-like points matter.
 
 ```python
 # This example compares margins across SVM boundary candidates and the nearby points that act like support vectors.
@@ -329,6 +334,11 @@ This time, add one ambiguous negative point near the boundary to the previous ex
   - some boundaries may no longer separate perfectly
   - once perfect separation becomes difficult, the reader must think not only about `is the margin large?` but also `how much intrusion should be tolerated?`
 
+Values to change:
+
+- Change the last point in `negative` to `(4.6, 2.4)` or `(4.9, 2.4)` to see how easily perfect separation can break.
+- Add `4.6` or `5.0` to the boundary candidates `[4.0, 4.8, 5.2]` to compare where small margins and separation failures appear together.
+
 ```python
 # This example compares margins across SVM boundary candidates and the nearby points that act like support vectors.
 negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.7, 2.4)]
@@ -389,6 +399,11 @@ In this Section, the historical note is used only as supporting context for why 
 ### Change One More Value: If The Exceptional Point Moves Closer To The Boundary, What Stays The Same And What Changes?
 
 Now move the ambiguous negative point farther to the right, from `(4.7, 2.4)` to `(4.9, 2.4)`.
+
+Values to change:
+
+- Change the boundary candidates to `[4.85, 4.9, 4.95]` to inspect more closely where the margin becomes very narrow.
+- Move the last negative point to x-values such as `4.8` or `4.95` to see how strongly one exceptional point can affect boundary quality.
 
 ```python
 # This example compares margins across SVM boundary candidates and the nearby points that act like support vectors.
@@ -464,5 +479,5 @@ If the whole flow is grouped once more, it becomes the following.
 
 ## Sources And References
 
-- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, checked on 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, checked on 2026-07-19. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Support Vector Machines*, scikit-learn User Guide, checked on 2026-07-26. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
+- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, checked on 2026-07-26. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }

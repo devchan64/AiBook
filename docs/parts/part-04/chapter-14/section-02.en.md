@@ -1,35 +1,35 @@
 # P4-14.2 Overfitting In Trees
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-14.1 read a decision tree as `a model that predicts by splitting with questions`. That Section had clear strengths.
+P4-14.1 read a [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) as `a model that predicts by splitting with questions`. That Section had clear strengths.
 
 - it is easy to read as a question flow
 - it is easy to explain like a chain of conditions
 - it often feels intuitive on tabular data
 
-But the same property also leads directly to risk. If the model can keep adding questions, the tree may end up almost memorizing the training data. That is exactly where tree overfitting appears.
+But the same property also leads directly to risk. If the model can keep adding questions, the tree may end up almost memorizing the training data. That is exactly where tree [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) appears.
 
 If P4-14.1 asked `how should a good first question and the next question be read?`, this Section asks `where does that question flow stop describing a pattern and start memorizing exceptions?` So here the reader must see not only when making the tree deeper helps, but also when that deeper structure begins to shake the model.
 
-This Section does not repeat the base definition of a decision tree at length. The core intuition `it predicts by splitting with questions` reconnects through P4-14.1 and the [concept glossary](/AiBook/reference/concept-glossary/), while the general handle for overfitting itself should be recalled again with P4-5.1.
+This Section does not repeat the base definition of a decision tree at length. The core intuition `it predicts by splitting with questions` reconnects through P4-14.1 and the [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) entry, while the general handle for overfitting itself should be recalled again through [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) and P4-5.1.
 
-## Scope Of This Section
+## Questions Closed By Tree Overfitting
 
 This Section answers the following questions.
 
 - Why does overfitting stand out so easily in decision trees?
 - What happens as the tree grows deeper?
-- What roles do `max_depth`, `min_samples_leaf`, and `ccp_alpha` play?
+- What roles do [max_depth](/AiBook/en/reference/concept-glossary-alpha/m/#max-depth), [min_samples_leaf](/AiBook/en/reference/concept-glossary-alpha/m/#min-samples-leaf), and [ccp_alpha](/AiBook/en/reference/concept-glossary-alpha/c/#ccp-alpha) play?
 - Why can train performance and test performance move differently?
 
 This content reconnects with P4-15, P4-16, and the tuning context of P4-9. In other words, this Section first holds onto the point where a tree's question flow stops explaining patterns and starts memorizing exceptions.
 
-## Goals Of This Section
+## Judgments To Keep From Tree Overfitting
 
 - You can explain tree overfitting as `the phenomenon where overly detailed questions memorize the training data`.
-- You can explain that depth, leaf size, and pruning are tools for controlling tree complexity.
+- You can explain that depth, leaf size, and [pruning](/AiBook/en/reference/concept-glossary-alpha/p/#pruning) are tools for controlling tree complexity.
 - You can recheck that higher train performance does not guarantee higher test performance.
 - You can gain a criterion for reading both the strengths of trees and the risk of overfitting together.
 
@@ -412,7 +412,9 @@ This exercise uses the same decision-tree classifier while changing only depth, 
 - input: sepal and petal lengths and widths
 - label: three species
 - concepts to check:
-- as depth grows, train performance can rise easily - test performance may plateau or fall after a point - tree depth is one of the main complexity handles
+  - as depth grows, train performance can rise easily
+  - test performance may plateau or fall after a point
+  - tree depth is one of the main complexity handles
 
 It helps to define what to compare first.
 
@@ -423,6 +425,12 @@ It helps to define what to compare first.
 | train accuracy | to see fit on the training data |
 | test accuracy | to see generalization on new data |
 | `train - test` gap | to see how far memorization and generalization separate |
+
+Values to change:
+
+- `max_depth`: try 1, 2, 3, 5, `None`, or add 4 between 3 and 5.
+- `random_state`: see how much the gap moves when the split and tree choices change.
+- `test_size`: see how sensitive the interpretation becomes when the test share changes.
 
 ```python
 # This example changes max_depth to read tree depth and the train-test gap as overfitting signals.
@@ -509,7 +517,15 @@ This time, check how the judgment changes when leaf size is read together with d
 - value to change: `min_samples_leaf`
 - reason: to see whether blocking tiny leaves reduces exception memorization even under the same depth limit
 - concepts to check:
-- `max_depth` and `min_samples_leaf` control the same complexity problem at different points - even when depth looks similar, larger leaves can change the train/test interpretation - overfitting diagnosis is safer when read as `depth + leaf size + gap`, not only one depth value
+  - `max_depth` and `min_samples_leaf` control the same complexity problem at different points
+  - even when depth looks similar, larger leaves can change the train/test interpretation
+  - overfitting diagnosis is safer when read as `depth + leaf size + gap`, not only one depth value
+
+Values to change:
+
+- `min_samples_leaf`: compare small and large leaves with values such as 1, 2, 5, and 10.
+- `max_depth`: alternate between 3 and 5 to see how depth limits and leaf limits work together.
+- output fields: record which of `get_depth()`, `get_n_leaves()`, and `train-test gap` changes first.
 
 ```python
 # This example changes min_samples_leaf under the same depth limit to read leaf size and the gap together.
@@ -573,7 +589,15 @@ Now shake the tree once more by changing how much of an already grown tree shoul
 - value to change: `ccp_alpha`
 - reason: depth and leaf-size tuning prevented growth from the start, but pruning simplifies after the tree has already grown
 - concepts to check:
-- as `ccp_alpha` grows, small branches are more easily removed - train score may fall a little while the test side becomes more stable - pruning is closer to `reselecting the main structure that should remain` than to `damaging the tree`
+  - as `ccp_alpha` grows, small branches are more easily removed
+  - train score may fall a little while the test side becomes more stable
+  - pruning is closer to `reselecting the main structure that should remain` than to `damaging the tree`
+
+Values to change:
+
+- `ccp_alpha`: add 0.01 between 0.005 and 0.02 to see where the change becomes large.
+- `max_depth`: compare pruning with and without an explicit depth limit.
+- `min_samples_leaf`: see which combinations become too simple when pruning and leaf-size limits are used together.
 
 ```python
 # This example changes ccp_alpha to see how pruning changes depth, leaf count, and the train/test gap.
@@ -667,6 +691,6 @@ For example, a note might read like this.
 
 ## Sources And References
 
-- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, accessed 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, accessed 2026-07-26. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

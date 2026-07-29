@@ -1,9 +1,9 @@
 # P3-6.3 사람이 만든 특징과 모델이 학습하는 표현은 어떻게 구분되는가
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-특징(feature)과 [중간 표현(intermediate representation)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation)을 함께 두면, `사람이 입력 구조를 정하는 일`과 `모델이 그 입력 안에서 표현을 학습하는 일`을 어디서 갈라 읽어야 하는지가 중요해집니다. 이 차이가 흐려지면 Part 3의 특징 설계가 낡은 전처리처럼 보이거나, 반대로 모델이 문제 구조를 대신 정해 줄 것처럼 오해하기 쉽습니다. 핵심은 둘이 경쟁 관계가 아니라는 점입니다. Part 3에서 사람이 만드는 특징과 중간 표현은 `문제를 어떤 입력 구조로 읽을 것인가`를 먼저 정하는 일이고, 모델이 학습하는 표현은 `그 입력 구조 안에서 어떤 패턴을 더 잘 구분할 것인가`를 배우는 일입니다.
+[특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)과 [중간 표현(intermediate representation)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-intermediate-representation)을 함께 두면, `사람이 입력 구조를 정하는 일`과 `모델이 그 입력 안에서 표현을 학습하는 일`을 어디서 갈라 읽어야 하는지가 중요해집니다. 이 차이가 흐려지면 Part 3의 특징 설계가 낡은 전처리처럼 보이거나, 반대로 모델이 문제 구조를 대신 정해 줄 것처럼 오해하기 쉽습니다. 핵심은 둘이 경쟁 관계가 아니라는 점입니다. Part 3에서 사람이 만드는 특징과 중간 표현은 `문제를 어떤 입력 구조로 읽을 것인가`를 먼저 정하는 일이고, 모델이 학습하는 표현은 `그 입력 구조 안에서 어떤 패턴을 더 잘 구분할 것인가`를 배우는 일입니다.
 
 독자가 먼저 붙잡아야 할 구분은 단순합니다. 사람은 입력을 만들고, 모델은 그 입력 안에서 표현을 학습합니다. 먼저 가장 짧게 나누면 다음과 같습니다.
 
@@ -75,7 +75,7 @@
 4. 이렇게 만든 표와 시퀀스는 이후 학습 단계에서 모델이 읽을 입력이 됩니다.
 5. 그다음 모델은 그 입력 안에서 더 긴 의존성이나 더 복잡한 조합을 학습할 수 있습니다.
 
-이 순서를 보면 특징 설계는 딥러닝 이전의 낡은 준비 단계가 아니라, 어떤 학습 방법을 쓰더라도 먼저 필요한 입력 정의 단계라는 점이 분명해집니다. 따라서 이 절의 결론도 `사람이 만든 특징 vs 딥러닝`의 대립이 아니라, `입력 명세(input specification)`와 `표현 학습(representation learning)`이 어디서 갈리는가에 있습니다. 특징 설계는 낡은 수작업이 아니라, 학습 단계가 기대는 입력 구조를 먼저 명세하는 일로 읽어야 합니다.
+이 순서를 보면 특징 설계는 딥러닝 이전의 낡은 준비 단계가 아니라, 어떤 학습 방법을 쓰더라도 먼저 필요한 입력 정의 단계라는 점이 분명해집니다. 따라서 이 절의 결론도 `사람이 만든 특징 vs 딥러닝`의 대립이 아니라, [입력 명세(input specification)](../../../reference/concept-glossary-parts/05-mieum.md#model-input-specification)와 [표현 학습(representation learning)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-representation-learning)이 어디서 갈리는가에 있습니다. 특징 설계는 낡은 수작업이 아니라, 학습 단계가 기대는 입력 구조를 먼저 명세하는 일로 읽어야 합니다.
 
 ## 작은 도식으로 보기
 

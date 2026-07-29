@@ -1,13 +1,13 @@
 # P1-2.1 기호 기반 AI와 규칙 기반 접근
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-1에서는 AI라는 말의 범위와 용어 관계를 정리했습니다. P1-2에서는 AI가 어떤 방식으로 문제를 풀려고 해 왔는지 역사적 패러다임을 봅니다. 이번 절의 중심은 기호 기반 AI(symbolic AI)와 규칙 기반 접근(rule-based approach)입니다.
 
 기호 기반 AI는 인간의 지식을 기호(symbol), 규칙(rule), 논리(logic), 명시적 표현(representation)으로 나타내고, 그 표현을 조작해 결론이나 행동을 얻으려는 접근입니다. 쉽게 말하면 “사람이 정리한 지식을 컴퓨터가 다룰 수 있는 형식으로 적고, 그 형식 위에서 추론하게 만들자”는 생각입니다.
 
-Part 1에서 `기호 기반 AI`, `규칙 기반 접근`, `지식 표현`의 기본 뜻은 이 절에서 잡습니다. 뒤 절에서 이 용어들이 다시 나오더라도 그 절의 중심 질문에 필요한 만큼만 연결하고, 상세 정의를 다시 확인해야 할 때는 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아옵니다.
+Part 1에서 `기호 기반 AI`, `규칙 기반 접근`, `지식 표현`의 기본 뜻은 이 절에서 잡습니다. 뒤 절에서 이 용어들이 다시 나오더라도 그 절의 중심 질문에 필요한 만큼만 연결하고, 상세 정의를 다시 확인해야 할 때는 이 절과 개념사전의 [기호 기반 AI](../../../reference/concept-glossary-parts/01-giyeok.md#symbolic-ai), [규칙 기반 접근](../../../reference/concept-glossary-parts/01-giyeok.md#rule-based-approach), [지식 표현](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) 항목으로 돌아옵니다.
 
 ## 기호와 규칙으로 지식을 적는 방식
 
@@ -25,18 +25,6 @@ Part 1에서 `기호 기반 AI`, `규칙 기반 접근`, `지식 표현`의 기�
 - 규칙, 지식 표현, 추론, 탐색이 어떻게 연결되는지 봅니다.
 - 규칙 기반 접근의 강점과 한계를 구분합니다.
 - 이 접근이 왜 여전히 일부 시스템에서 유용한지 이해합니다.
-
-## 먼저 연결할 개념
-
-이 절은 Chapter 2에서 처음 등장하는 핵심 용어의 기준선을 세우는 대표 설명 위치입니다. 아래 개념은 지금 짧게 역할만 잡아 두고, 더 자세한 정의가 필요할 때는 각 표제어 항목으로 바로 이동해 다시 확인합니다.
-
-| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
-| --- | --- | --- |
-| [기호 기반 AI](../../../reference/concept-glossary-parts/01-giyeok.md#aisymbolic-ai) | 기호, 규칙, 명시적 지식 표현을 중심으로 한 AI 접근 | 뒤의 학습 기반 접근과 대비되는 출발점을 잡기 위해 |
-| [규칙 기반 시스템](../../../reference/concept-glossary-parts/01-giyeok.md#rule-based-system) | 현재 사실과 규칙을 대조해 결론이나 행동을 정하는 시스템 | 기호 기반 접근의 구현 모습을 구체적으로 보기 위해 |
-| [지식 표현](../../../reference/concept-glossary-parts/09-jieut.md#knowledge-representation) | 사실, 관계, 규칙을 적는 형식 | 시스템이 무엇을 알고 있다고 볼지 정하기 위해 |
-| [사실](../../../reference/concept-glossary-parts/07-siot.md#fact) | 현재 참이라고 두는 정보 | 규칙 적용의 입력 재료를 분리하기 위해 |
-| [추론 엔진](../../../reference/concept-glossary-parts/11-chieut.md#inference-engine) | 현재 사실에 맞는 규칙을 찾아 적용하는 장치 | 규칙과 결론 사이의 실행 구조를 보기 위해 |
 
 ## 주요 학습내용
 

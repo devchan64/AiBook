@@ -1,17 +1,17 @@
 # P4-14.1 Decision Tree
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-11 read classification through drawing a boundary. P4-12 read it through nearby neighbors. P4-13 read it through margin as a criterion for a better boundary. Now the same supervised learning problem is read again in a very different way.
 
 If P4-13.2 held onto the idea that the same data can be reread in a different feature space, this Section reorganizes the same tabular data through a new question: `in what order should we split it with questions?` What changes here is not the problem itself. What changes is the unit used to summarize the same problem.
 
-Instead of drawing one line at once, imagine splitting cases step by step with questions. That makes the starting point of a decision tree easier to see. A decision tree does not try to explain the data all at once. It repeats yes/no questions, groups more similar cases together, and then predicts. So a decision tree is closer to `a question flow` than to `a single boundary line`.
+Instead of drawing one line at once, imagine splitting cases step by step with questions. That makes the starting point of a [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) easier to see. A decision tree does not try to explain the data all at once. It repeats yes/no questions, groups more similar cases together, and then predicts. So a decision tree is closer to `a question flow` than to `a single boundary line`.
 
-This Section explains the basic meanings of `decision tree`, `split`, `node`, and `leaf`. Later Sections continue the current line of judgment from those handles, and the basic sense of predicting by chaining questions reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
+This Section explains the basic meanings of [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree), [split](/AiBook/en/reference/concept-glossary-alpha/s/#split), [node](/AiBook/en/reference/concept-glossary-alpha/n/#node), and [leaf](/AiBook/en/reference/concept-glossary-alpha/l/#leaf). Later Sections continue the current line of judgment from those handles, and the basic sense of predicting by chaining questions reconnects through this Section's judgment criteria.
 
-## Scope Of This Section
+## Questions Closed By Decision Trees
 
 This Section answers the following questions.
 
@@ -23,7 +23,7 @@ This Section answers the following questions.
 
 Those topics continue in P4-14.2, P4-15, and P4-16. In other words, this Section first reads a decision tree as `a model that predicts by splitting with questions`, and leaves complexity and ensemble issues for later Sections.
 
-## Goals Of This Section
+## Judgments To Keep From Decision Trees
 
 - You can explain a decision tree as `a model that predicts by splitting with questions`.
 - You can explain the meanings of split, node, leaf, and threshold.
@@ -263,7 +263,14 @@ This practice does not start by calling a scikit-learn learner directly. Instead
 - input: `visits`, `late_payment`
 - label: `stay`, `churn`
 - concepts to check:
-- the split score changes when the feature or threshold changes - a question that organizes the labels better can become a better first split - tree training is a repetition of this kind of question selection
+  - the split score changes when the feature or threshold changes
+  - a question that organizes the labels better can become a better first split
+  - tree training is a repetition of this kind of question selection
+
+Values to change:
+
+- Add `("visits", 2.5)` to `candidates` to see how weighted gini changes when a threshold candidate shifts slightly.
+- Add one more customer to `rows` to check that the first split depends on the current data composition.
 
 ```python
 # This example manually computes how a decision tree chooses a good first split in a customer churn scenario.
@@ -364,7 +371,9 @@ Keep the same example and change only one value. Then it becomes easier to see `
 - value to change: the `label` of customer `F`
 - reason for the change: intentionally create a setting where `late_payment` looks like a stronger signal
 - concepts to check:
-- split scores change when the data composition changes - a decision tree changes its question flow according to the direction that organizes the current data better - when reading the first split, it helps to read both the score and the cases that changed the criterion
+  - split scores change when the data composition changes
+  - a decision tree changes its question flow according to the direction that organizes the current data better
+  - when reading the first split, it helps to read both the score and the cases that changed the criterion
 
 ```python
 # This example compares how the first split candidate changes when customer F has one label change.
@@ -456,6 +465,11 @@ Concepts to check:
 - a decision tree can be read as an if-else branching rule
 - what people mean by higher explainability is close to saying that a person can follow this branching process
 
+Values to change:
+
+- Add `{"customer": "J", "visits": 3, "late_payment": 0}` to `examples` to see which leaf a threshold-edge case reaches.
+- Change the first condition in `predict` to `visits <= 2` to see how one handwritten rule changes the prediction path.
+
 ```python
 # This example reads a learned decision-tree rule as an if-else prediction function.
 def predict(tree_input):
@@ -531,6 +545,6 @@ At first, even a shorter note like the following is enough.
 
 ## Sources And References
 
-- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, accessed 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, accessed 2026-07-26. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

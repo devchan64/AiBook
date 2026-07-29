@@ -1,7 +1,7 @@
-# P5-11.2 Convolution And Pooling
+# P5-11.2 Convolution and Pooling
 
 > Section ID: `P5-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-11.1, we explained a CNN as `a neural network that repeatedly reads local patterns in images`. The next question remains.
 
@@ -11,7 +11,7 @@ Convolution is the operation that computes local-pattern scores with a small fil
 
 When the operation names become mixed up again, it is useful to reread together the glossary entries on [convolution](/AiBook/en/reference/concept-glossary-alpha/c/#convolution) and [pooling](/AiBook/en/reference/concept-glossary-alpha/p/#pooling).
 
-## Questions Closed By Convolution And Pooling
+## Questions Closed by Convolution and Pooling
 
 - What does convolution compute?
 - What do filter and feature map mean?
@@ -22,14 +22,14 @@ This section focuses not on proving the convolution formula rigorously, but on f
 
 At the same time, it is clear what we will not widen immediately in this section. A broader comparison of vision structures after CNNs is revisited in supplementary reading P5-11.3 around `CNN and Vision Transformer (ViT)`. Padding, stride, and dilation are handled only as much as needed here to understand `how the filter reads the input`.
 
-## Standards For Reading Local Responses And Summaries
+## Standards for Reading Local Responses and Summaries
 
 - You can explain convolution as `the operation where a small filter computes local-pattern scores`.
 - You can explain a feature map as `the spatial record of filter responses`.
 - You can say why pooling is used to reduce spatial size and summarize important responses.
 - Through an executable Python example, you can confirm the intuition of convolution and max pooling.
 
-## From Filter Responses To Pooling Summaries
+## From Filter Responses to Pooling Summaries
 
 1. First look at how convolution computes local-pattern scores.
 2. Then look at how the result remains as a response map called a feature map.
@@ -49,7 +49,7 @@ The core point is that the filter carries the small pattern it wants to find and
 
 That is, convolution does not judge the whole image at once. It is a way of repeatedly applying `a small pattern detector` to the full set of positions.
 
-## What Does A Filter Mean
+## What Does a Filter Mean
 
 A filter is usually a small array of numbers. For example, a 3x3 filter can look at a 3x3 local patch.
 
@@ -57,7 +57,7 @@ A filter is usually a small array of numbers. For example, a 3x3 filter can look
 
 As a CNN is trained, these filter values also change to fit the data. That is, a person does not directly design every filter. The model also learns which filters are useful.
 
-## What Is A Feature Map
+## What Is a Feature Map
 
 If one filter is applied across the whole image, the result is a new 2D array that stores how strongly that filter reacted at each position. This is called a feature map.
 
@@ -116,7 +116,7 @@ If we split the same image scene into those two stages, the difference becomes m
 | near upper pipes of a mixing tank | first reacts to small structures such as valve outlines, pipe boundaries, and warning-light reflections | compresses the strong responses so the next layer can read larger equipment parts more easily |
 | a surface-defect image | raises the response at positions with small scratches or cracks | summarizes defect-candidate signals so they are easier to keep for defect judgment |
 
-## How Should We Read Convolution And Pooling Together
+## How Should We Read Convolution and Pooling Together
 
 If we connect them in a very simple form, it looks like this.
 
@@ -196,7 +196,7 @@ The points to hold onto first in this baseline diagram are the following.
 
 If we read CNN only as a past structure that existed before Part 5 or before Transformers, it is easy for it to look like `an old model name for images`. But in Part 5, the responsibility of the CNN is already closed here. That is, the CNN is a structure that has its own answer to `how should we detect and summarize local patterns in images`, and the later parts only need to continue by handling different data-structure problems, not by replacing this answer.
 
-## What Do Padding, Stride, And Dilation Mean
+## What Do Padding, Stride, and Dilation Mean
 
 Although convolution and pooling are the center of this section, it is still better to fix at least the minimum meaning of `padding`, `stride`, and `dilation`, whose names already appeared above.
 
@@ -504,7 +504,7 @@ The first points to read from this result are the following.
 
 That is, all three terms do not turn convolution into a `different operation`, but are choices that change `what range and what interval the same convolution uses to read the input`.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. The Intuition Of Edge Detection
 
@@ -530,7 +530,7 @@ If we regroup the three cases into one line, it becomes the following.
 | pooling feels like a stage that merely throws information away | the key is that instead of keeping every value, it lets strong responses survive into the next-stage judgment |
 | it is easy to memorize the names filter, feature map, and pooling separately | in reality `where the response is made`, `where it is recorded`, and `what is left behind` have to connect as one flow |
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to confirm, in an automatic inspection scene of packaging seals, how convolution first scores `where the abnormal boundary appeared` and how pooling shows `whether that abnormal signal survives into the next stage`.
 
@@ -696,7 +696,7 @@ It is useful to pause here once and briefly fix `when should we first read how t
 - When you know the operation names but it is unclear how the model sweeps across the image and what it leaves behind, can you recall the convolution/pooling viewpoint first?
 - Can you say that padding, stride, and dilation are all choices that change `how the filter will sweep`?
 
-## Sources And References
+## Sources and References
 
 - Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, checked on 2026-07-19. [https://doi.org/10.1109/5.726791](https://doi.org/10.1109/5.726791){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P6-17.2 Handling Operational Failures by Splitting Errors into Recovery Routes
 
 > Section ID: `P6-17.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 After setting service operating limits, you also need to decide where an actual failure should go. Failure handling is not just about fixing the final answer sentence. It means looking at retrieval, tool calls, permissions, latency, and logs together, then choosing which route is safest among `retry`, `fallback`, `stop`, and `approval`. In other words, it is closer to retracing the whole process that produced the answer than to looking at one answer line.
 
@@ -150,7 +150,7 @@ In one sentence, the back half of Part 6 can be reduced to the following service
 
 ## Why Approval and Permission Matter
 
-Especially in agent structures, automatically executing every action can be risky.
+Especially in AI agent structures, automatically executing every action can be risky.
 
 For example:
 
@@ -193,7 +193,7 @@ If these two are not separated, repeated failures cannot tell you whether retrie
 
 ### Case 2. Agent Tool-Call Failure
 
-Suppose an agent calls a file-reading tool and receives a permission error. When working manually, people usually stop there and look for another path. But in an automated structure, if the system pretends not to know the failure and continues to the next step, it may produce an answer as if it saw content it never saw. For example, if it could not read a configuration file but proposes a patch based on the premise that it checked the configuration, one error immediately becomes a false work record.
+Suppose an AI agent calls a file-reading tool and receives a permission error. When working manually, people usually stop there and look for another path. But in an automated structure, if the system pretends not to know the failure and continues to the next step, it may produce an answer as if it saw content it never saw. For example, if it could not read a configuration file but proposes a patch based on the premise that it checked the configuration, one error immediately becomes a false work record.
 
 If the system then proceeds to actual modification, it may damage the repository further based on a wrong premise. In this case, the problem is not merely the tool error. It is the execution policy that continued after failure. The shift here is from seeing only `an error happened` to checking whether the path actually changes after the error into stop, retry, or approval-wait. A failure-handling structure defines in advance where to stop, how many times to retry, and when to request human approval. Therefore, the result to confirm in this case is whether the path changes to stop, retry, or human approval after the permission error, instead of continuing into a false success flow.
 

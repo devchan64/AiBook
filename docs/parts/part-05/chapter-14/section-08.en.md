@@ -1,7 +1,7 @@
 # P5-14.8 Supplementary Learning: Normalization That Aligns the Value Baseline
 
 > Section ID: `P5-14.8`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How does layer normalization realign the mean and spread inside one position representation?_
 

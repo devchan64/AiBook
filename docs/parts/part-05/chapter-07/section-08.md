@@ -1,7 +1,7 @@
 # P5-7.8 보충학습: gradient clipping과 불안정한 update
 
 > Section ID: `P5-7.8`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 optimizer가 gradient를 update로 바꾸는 구조를 이해하고 나면, 실제 학습 로그에서 또 다른 질문이 생깁니다. 방향은 알겠는데, 어떤 step에서는 update가 너무 과격하게 튀는 것처럼 보일 때가 있습니다. 이때 문제를 learning rate로 읽어야 하는가, gradient scale로 읽어야 하는가, 아니면 다른 안전장치가 필요한가?
 

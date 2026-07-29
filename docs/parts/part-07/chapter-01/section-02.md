@@ -1,7 +1,7 @@
 # P7-1.2 baseline과 첫 비교
 
 Section ID: `P7-1.2`
-Version: `v2026.07.22`
+Version: `v2026.07.26`
 
 운영 로그를 읽고 평균, 최대값, 비율을 계산했다고 해서 바로 `좋다`, `나쁘다`를 말할 수는 없습니다. baseline과 첫 비교는 숫자를 다시 적는 절이 아니라, `무엇이 기준선보다 실제로 달라졌는가`, `그 차이 가운데 무엇이 먼저 볼 만한가`를 가르는 자리입니다.
 
@@ -15,7 +15,7 @@ Version: `v2026.07.22`
 
 Part 7의 공통 비교 기록 형식은 이 절에서 처음 고정됩니다. 이후 프로젝트의 실패 기록과 개선 계획도 모두 여기서 세운 `사실, 해석, 다음 질문` 구조를 다시 사용하지만, 그 앞에는 언제나 `무엇을 기준선으로 두었는가`가 먼저 와야 합니다.
 
-Part 7에서 `회고(retrospective)`와 `검토(review)`의 구분이 다시 흔들리면, 먼저 `회고는 다음 반복을 준비하는 정리`, `검토는 아직 확정하지 않은 항목을 다시 보는 확인`으로 읽고 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아오면 됩니다.
+Part 7에서 `회고(retrospective)`와 `검토(review)`의 구분이 다시 흔들리면, 먼저 `회고는 다음 반복을 준비하는 정리`, `검토는 아직 확정하지 않은 항목을 다시 보는 확인`으로 읽고 이 절과 개념사전의 [회고(retrospective)](../../../reference/concept-glossary-parts/14-hieut.md#retrospective), [검토(review)](../../../reference/concept-glossary-parts/01-giyeok.md#review) 항목으로 돌아오면 됩니다.
 
 ## 판단 기준
 

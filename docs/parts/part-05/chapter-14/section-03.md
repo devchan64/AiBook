@@ -1,7 +1,7 @@
 # P5-14.3 깊은 반복을 안정화하는 두 장치
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: residual과 normalization은 정보 흐름과 값 범위를 어떻게 나누어 안정화하는가_
 

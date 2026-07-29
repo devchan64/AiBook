@@ -1,7 +1,7 @@
 # P1-3.1 Strengths and Limits of Rule-Based Systems
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 2.1 located symbolic AI and rule-based approaches historically. Section 2.3 showed that even inside the same workflow, there is a split between `parts that are easy to write as explicit policy conditions` and `parts that need to learn relations from data, such as intent classification`. This section narrows the question one step further and organizes what practical strengths rule-based systems had and where they began to show their limits.
 
@@ -24,18 +24,6 @@ This section first closes `where rule-based systems are strong and where they be
 - Distinguish the possibility and limit shown by expert-system history.
 - Understand why rule writing, knowledge acquisition, and exception management become difficult.
 - Fix a simple picture of where rules and models are used together in modern systems.
-
-## Concepts to Connect First
-
-This section is the representative place where a rule-based system is read as an actual operational structure. The concepts below are first fixed by role, and when a fuller definition is needed, you should move directly to each glossary entry.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [rule-based system](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-system) | a system that compares current facts against rules to determine a conclusion or action | to make the evaluation target itself explicit |
-| [fact](/AiBook/en/reference/concept-glossary-alpha/f/#fact) | state information treated as true in the current situation | to see what the rules are applied to |
-| [knowledge base](/AiBook/en/reference/concept-glossary-alpha/k/#knowledge-base) | the structure that collects facts, rules, and domain knowledge | to see where the rule set is stored |
-| [inference engine](/AiBook/en/reference/concept-glossary-alpha/i/#inference-engine) | the mechanism that finds and applies rules matching the current facts | to see how a conclusion is actually produced |
-| [explanation facility](/AiBook/en/reference/concept-glossary-alpha/e/#explanation-facility) | the function that shows which rules caused the result | to fix explainability, one of the main strengths of rule-based systems |
 
 ## Three Standards
 

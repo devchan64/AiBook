@@ -1,7 +1,7 @@
 # P6-4.5 补充学习：长上下文与稀疏 attention
 
 > Section ID: `P6-4.5`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题：sparse attention 与 long-context 如何区分计算负担和线索保留_
 

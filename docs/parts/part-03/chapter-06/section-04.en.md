@@ -1,9 +1,9 @@
 # P3-6.4 Why Not Every Column in a Summary Table Is a Feature
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-The fact that a column appears in a summary table and the judgment that it is a feature are not the same statement. A summary table can contain features that describe sample structure, but it can also contain columns for comparison, candidate result columns, and columns for identification and context. So the distinction to hold first in this section is that `a column in the summary table` and `a feature to be read as model input` do not automatically match.
+The fact that a column appears in a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table) and the judgment that it is a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) are not the same statement. A summary table can contain features that describe sample structure, but it can also contain columns for comparison, candidate result columns, and columns for identification and context. So the distinction to hold first in this section is that `a column in the summary table` and `a feature to be read as model input` do not automatically match.
 
 ## Why Is This Distinction Needed
 
@@ -84,7 +84,7 @@ What this table shows is not a grand classification rule. The core point is that
 
 If we touch this distinction once right after feature design, the illusion `aren't they all features anyway?` becomes weaker. A summary table is not a table that stores only features. It is a working table where feature candidates, comparison columns, candidate results, and identification/context columns can temporarily sit together. Once we read it this way, the roles of baseline-comparison columns and target-candidate columns also feel less abrupt when they reappear later.
 
-This section can be read not only as the question `which numerical column is a feature?`, but as the problem of `column-role separation in a working table`.
+This section can be read not only as the question `which numerical column is a feature?`, but as the problem of [column-role separation in a working table](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column-role-separation).
 
 
 So instead of the misunderstanding `if it is a numerical column, it must be a feature`, we should first ask whether each column describes the sample, holds a comparison reference, records a result, or merely keeps context.

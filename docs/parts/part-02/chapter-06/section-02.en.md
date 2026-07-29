@@ -1,7 +1,7 @@
 # P2-6.2 Loss Functions and Objective Functions
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P2-6.1, we looked at optimization as `placing candidates, comparing them by a criterion, and finding a better value within constraints`. Now we look at what name that criterion takes inside model learning.
 
@@ -131,7 +131,7 @@ Written a little more generally, it becomes the following.
 
 Here the sigma means, as we saw in P2-2.2, that we repeat the same calculation across several samples and add the results. When the loss function meets sigma, it becomes a number that means `how wrong it is across the whole dataset`.
 
-## The Objective Function Is the Criterion Learning Actually Moves By
+## Objective Function Is the Criterion Learning Actually Moves by
 
 `Loss function` and `objective function` are often used together. Here we distinguish them as follows: the loss function is the function that calculates how wrong a prediction is, while the objective function is the overall criterion training actually tries to reduce or increase.
 

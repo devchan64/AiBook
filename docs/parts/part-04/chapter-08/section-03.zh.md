@@ -1,17 +1,17 @@
 # P4-8.3 补充学习: 按问题类型第一次建立 baseline 的方法
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-如果在 P4-8.2 里已经看过为什么 baseline 必须存在，那么接下来马上会出现一个问题。
+如果在 P4-8.2 里已经看过为什么 [baseline 必须存在](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)，那么接下来马上会出现一个问题。
 
 那么 baseline 到底该怎么实际建立？
 
 这个补充学习就是在回答这个问题。目标不是去背很多 baseline 名字，而是让读者能看着问题类型，自己选出 `最简单但又有比较意义的标准`。
 
-## 本补充学习的范围
+## baseline 选择会随问题类型分开
 
-这一节处理的是：在分类、回归、时序问题里，第一次建立代表性 baseline 的方法。
+这一节处理的是：在[分类](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)、[回归](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression)、时序问题里，第一次建立代表性 baseline 的方法。
 
 - 在建立 baseline 之前，必须先固定什么？
 - 按问题类型，可以先想到哪些 baseline？
@@ -20,7 +20,7 @@
 
 这一节先收束 `怎样按问题类型建立最简单但仍有比较意义的 baseline`。交叉验证、模型比较流程、更复杂的调优方法，会在 P4-9 之后继续展开。
 
-## 用补充学习: 按问题类型第一次建立 baseline 的方法恢复的概念连接
+## 按问题类型设置基准线时要留下的判断
 
 - 能区分分类、回归、时序里的代表性 baseline 候选。
 - 能按 `固定问题类型 -> 选择最简单规则 -> 用同样指标测量 -> 检查错误 -> 决定下一步比较` 的顺序说明 baseline 建立流程。
@@ -45,7 +45,7 @@ baseline 不是靠感觉定下来的临时规则，更安全的做法是把它�
 | --- | --- | --- |
 | 1. 固定问题类型 | 是分类、回归，还是时序？ | 因为 baseline 的形式本身会在这里改变。 |
 | 2. 选择最简单规则 | 是多数类、平均值/中位数，还是前一个值？ | 因为必须先立起几乎不使用特征的最低标准。 |
-| 3. 用同样指标测量 | 要看 accuracy、recall、MAE，还是 MAPE？ | 因为 baseline 和候选 model 必须用同一个尺子比较。 |
+| 3. 用同样指标测量 | 要看 accuracy、recall、MAE，还是 MAPE？ | 因为 baseline 和候选 model 必须用同一个[评估指标](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)比较。 |
 | 4. 检查错误场景 | 它特别遗漏了什么，或者在哪些地方错得很大？ | 因为只看分数差，很难读出改进方向。 |
 | 5. 解释后决定下一步 | 是继续调优、换候选，还是回头再看特征？ | 因为不能把连 baseline 都过不了的候选拖太久。 |
 
@@ -91,7 +91,7 @@ baseline 不是靠感觉定下来的临时规则，更安全的做法是把它�
 | 问题 | 预测客户下个月是否流失 |
 | 类别分布 | 非流失 90%，流失 10% |
 | baseline | 永远预测 `非流失` |
-| 先看的指标 | accuracy、recall、F1 |
+| 先看的指标 | accuracy、[recall](/AiBook/zh/reference/concept-glossary-pinyin/z/#recall)、F1 |
 | 马上检查的错误 | 漏掉真实流失客户的案例 |
 
 ```mermaid
@@ -213,6 +213,11 @@ baseline 不是靠感觉定下来的临时规则，更安全的做法是把它�
 - baseline 是复杂 model 至少必须赢过的比较标准
 - 对于不平衡数据，不能只看 accuracy，还要一起看 recall 和 F1
 
+可以改动的值:
+
+- 把 `weights=[0.9, 0.1]` 里的正类比例改成 `0.2` 或 `0.05`，baseline accuracy、recall、F1 的解释会改变。
+- 把 `DummyClassifier(strategy="most_frequent")` 改成 `DummyClassifier(strategy="stratified")`，可以比较“只预测多数类”的标准和“按类别分布随机预测”的标准有什么不同。
+
 ```python
 # 这个例子按问题类型建立 baseline，并把候选模型性能与它们进行比较。
 from sklearn.datasets import make_classification
@@ -290,6 +295,11 @@ model f1          : 0.632
 
 - 即使是 baseline，随着真实数据场景不同，更自然的出发点也可能不同
 
+可以改动的值:
+
+- 把 `y_train` 里的大值 `120` 改成 `60` 或 `200`，平均值 baseline 会大幅移动，而中位数 baseline 移动较少。
+- 在 `y_test` 里再加入一个很大的延迟值，可以重新比较哪个 baseline 的 MAE 更稳定。
+
 ```python
 # 这个例子按问题类型建立 baseline，并把候选模型性能与它们进行比较。
 y_train = [32, 35, 31, 120, 33]
@@ -339,9 +349,9 @@ median baseline
 
 ## 出处与参考资料
 
-- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-09.
-- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-09.
-- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-09.
-- Rob J Hyndman, George Athanasopoulos, [`Forecasting: Principles and Practice (3rd ed), 5.2 Some simple forecasting methods`](https://otexts.com/fpp3/simple-methods.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09.
-- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期: 2026-07-09.
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-26.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-26.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-26.
+- Rob J Hyndman, George Athanasopoulos, [`Forecasting: Principles and Practice (3rd ed), 5.2 Some simple forecasting methods`](https://otexts.com/fpp3/simple-methods.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期: 2026-07-26.

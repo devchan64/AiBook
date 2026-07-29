@@ -1,7 +1,7 @@
 # Part 7 Wrap-up. Project Review
 
 > Section ID: `P7-summary`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but tying question setting, comparison, structure interpretation, execution records, and operational judgment together inside one project and becoming able to explain `why this result appeared`.
 
@@ -12,7 +12,7 @@ This project Part especially makes two things be checked together.
 
 In other words, this Part changes the feeling of `I know it` into the state of `I ran it myself, compared it, and also read the failures`.
 
-## Binding The Work Into A Repeatable Project Record
+## Repeatable Project Record
 
 The purpose of Part 7 is to bind the concepts learned across the whole book into actual project execution and review results so that the next stage of learning becomes repeatable by the learner alone.
 
@@ -20,11 +20,11 @@ The purpose of Part 7 is to bind the concepts learned across the whole book into
 - Input structure, learning-result interpretation, evidence checking, and execution logs should connect as one chain of judgment.
 - Deployment and operational judgment should also remain as project records rather than being treated as an appendix at the end.
 
-## The Explanation Ability That Should Remain
+## Explanation Ability to Keep
 
 After finishing this Part, you should be able to explain the flow of leaving a problem definition, a baseline, a result, a failure record, and the next improvement plan behind as actual execution and comparison results.
 
-## The Core Structure Covered In This Part
+## Core Structure Covered in This Part
 
 The overall structure of Part 7 is organized around `which judgment elements must remain together inside one project`.
 
@@ -32,7 +32,7 @@ The overall structure of Part 7 is organized around `which judgment elements mus
 | --- | --- |
 | Question, sample unit, baseline, and comparison experiments | Because what was compared and why it counts as improvement must close in one place. |
 | Input structure, learning curves, and error cases | Because the reason for a structural choice and the reason for failure belong to the same interpretation bundle. |
-| Retrieval evidence, execution logs, and approval policy | Because RAG and agent quality appears only when the answer, evidence, and execution path are read together. |
+| Retrieval evidence, execution logs, and approval policy | Because RAG and AI agent quality appears only when the answer, evidence, and execution path are read together. |
 | Deployment, logs, failure response, and retrospective documents | Because operational records are not an appendix outside the project interpretation but part of its judgment standard. |
 
 If this flow is regrouped by the standard of `execution and review`, it becomes the following.
@@ -86,12 +86,12 @@ If this perspective is turned one step more practical, there are many times when
 - In a baseline-comparison project, not only `accuracy` but also `what samples were wrong` must remain. That is, records such as a wrong-case list are needed so that the next comparison stays alive.
 - In a text project, not only `correct` or `incorrect` but also token lists, token coverage, and out-of-vocabulary tokens must remain. You must see what input was split and what word was missed to find preprocessing problems again.
 - In a RAG project, not only the `answer` but also retrieval candidates, answer state, and selected evidence documents must remain. The starting point of quality review is not the answer itself but the evidence-selection process.
-- In an agent project, not only `success` or `failure` but also permissions, approval state, and next actions must remain. You must know what approvals and blocks existed to redesign the execution path.
+- In an AI agent project, not only `success` or `failure` but also permissions, approval state, and next actions must remain. You must know what approvals and blocks existed to redesign the execution path.
 - In a deployment project, not only `deployment completed` but also incident records, priority, and next actions must remain. In operational records, the next-action order matters more than the declaration of completion.
 
 These example axes are already sufficiently recovered across Part 7 itself. What matters more is that the main-text examples of each section directly show the flow `question -> execution -> comparison -> interpretation -> retrospective`.
 
-## Points That Are Easy To Misunderstand
+## Easy Misunderstanding Points
 
 The misunderstandings that need special caution in this Part are the following.
 
@@ -104,7 +104,7 @@ The misunderstandings that need special caution in this Part are the following.
 
 In other words, a project should not be a document that proves only `it worked once`, but a document that proves `the next iteration is possible`.
 
-## Execution Boundaries To Recheck In The Project Review
+## Project Review Execution Boundaries
 
 Part 7 focused on explaining the entry-level structure of projects. Therefore, it covers goal setting, implementation, evaluation, retrospective, and operational records, but it does not finish the entire structure of large-scale infrastructure and long-term operation here.
 
@@ -126,7 +126,7 @@ These questions were already previewed in small form inside Part 7 itself.
 - Agent records about operational deferral and approval-required tools can expand into real operational policy documents.
 - Deployment failure records become the seeds of team-level incident-retrospective documents.
 
-## Questions To Check Before Moving To The Next Stage Of Learning
+## Questions Before the Next Learning Stage
 
 - Can you explain the problem definition and the output standard of each project in one sentence?
 - Did you separate and record the baseline and the improvement?
@@ -149,10 +149,10 @@ Read more briefly again, this check becomes the following.
 | Does the question remain? | To recover what the project was trying to verify |
 | Does the baseline remain? | To recover the floor line for interpreting improvement |
 | Do errors or failures remain? | To create the starting point of the next iteration |
-| Do evidence and execution path remain? | To verify RAG and agent results again |
+| Do evidence and execution path remain? | To verify RAG and AI agent results again |
 | Does the next action remain? | To prevent the retrospective from ending as a memo |
 
-## The Minimum Procedure That Remains In Project Documents
+## Minimum Procedure in Project Documents
 
 The practice repeated in Part 7 tends to reappear in nearly the same minimum procedure in the next real project as well.
 
@@ -186,7 +186,7 @@ After this Part, the reader should be able to design the next step independently
 - Expand to a larger dataset
 - Attach more appropriate evaluation metrics
 - Run comparison experiments on RAG quality
-- Refine agent permissions and log policies more precisely
+- Refine AI agent permissions and log policies more precisely
 - Separate operational cost and failure response into independent documents
 
 In other words, Part 7 is not the end, but the starting point of `now building projects yourself and learning again through them`.
@@ -195,12 +195,12 @@ At the shortest level, the conclusion of Part 7 can be grouped into the followin
 
 `A good project document leaves behind comparison and records that make it possible to reread why the result happened before it leaves behind code that merely ran once.`
 
-## The Recheck Standards That Remain In This Summary
+## Recheck Standards in This Summary
 
 When one project has finished and you start to lose track of what should have remained, it is enough to look again at whether the following standards remain as actual records.
 
 - Implementation happened, but you are no longer sure whether the question, baseline, and failure records remained together
-- You want to regroup again the shared record elements across RAG, agent, and deployment projects
+- You want to regroup again the shared record elements across RAG, AI agent, and deployment projects
 - Before moving to the next real project, you want to organize what kind of retrospective sentence should remain
 
 At that point, before scattering again into detailed sections, first confirm `what was being solved`, `what was recorded`, and `what will be changed next`.
@@ -215,9 +215,9 @@ Reduced to three lines, the first standards to confirm in this summary are the f
 
 - Can you rewrite in one line the records that should remain first in each project axis?
 - Can you explain why the baseline, comparison table, and failure record are shared standards across all of Part 7?
-- Can you say again why operational-perspective records are needed in RAG, agent, and deployment work?
+- Can you say again why operational-perspective records are needed in RAG, AI agent, and deployment work?
 - Can you organize the retrospective format that will be carried directly into the next real project?
 
-## Sources And References
+## Sources and References
 
 This document is an internal summary of all of Part 7. It does not directly cite external sources.

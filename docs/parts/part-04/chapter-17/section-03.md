@@ -1,13 +1,13 @@
 # P4-17.3 보충학습: 계층적 군집화와 스펙트럴 군집화
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니다.
+P4-17.1에서 [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-means)와 [DBSCAN](../../../reference/concept-glossary-parts/03-digeut.md#dbscan)을 보았다면, 곧 이런 질문이 남습니다.
 
 군집 알고리즘은 왜 이렇게 이름이 많고, 서로 무엇이 다른가?
 
-이 질문을 처음 정리할 때 자주 다시 만나는 이름이 계층적 군집화(hierarchical clustering)와 스펙트럴 클러스터링(spectral clustering)입니다.
+이 질문을 처음 정리할 때 자주 다시 만나는 이름이 [계층적 군집화(hierarchical clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#hierarchical-clustering)와 [스펙트럴 클러스터링(spectral clustering)](../../../reference/concept-glossary-parts/07-siot.md#spectral-clustering)입니다.
 
 이 절은 두 방법의 구현 세부를 길게 전개하기보다, `무엇을 기준으로 묶음을 만들려 하는가`라는 관점에서 처음 구분하는 보충학습입니다.
 
@@ -74,7 +74,7 @@ P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니�
 
 ## 스펙트럴 클러스터링은 무엇을 보려 하는가
 
-스펙트럴 클러스터링은 점들을 단순히 좌표 거리로만 읽기보다, `누가 누구와 연결되어 있는가`라는 그래프(graph) 구조로 다시 읽으려는 방식입니다.
+스펙트럴 클러스터링은 점들을 단순히 좌표 거리로만 읽기보다, `누가 누구와 연결되어 있는가`라는 그래프(graph)와 [연결 구조(connectivity)](../../../reference/concept-glossary-parts/08-ieung.md#connectivity)로 다시 읽으려는 방식입니다.
 
 입문적으로는 다음처럼 잡으면 충분합니다.
 
@@ -106,8 +106,8 @@ P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니�
 | --- | --- | --- | --- |
 | k-means | 중심(center) | 둥글고 비교적 고른 묶음을 빠르게 보고 싶을 때 | 군집 수와 모양 가정에 민감하다 |
 | DBSCAN | 밀도(density) | 노이즈를 따로 두고 비정형 묶음을 보고 싶을 때 | `eps`, `min_samples`에 민감하다 |
-| 계층적 군집화 | 합쳐지는 순서 | 묶음이 자라는 구조를 단계적으로 보고 싶을 때 | 어디에서 자를지 해석이 필요하다 |
-| 스펙트럴 클러스터링 | 연결(connectivity) | 복잡한 모양이지만 연결 구조가 분명할 때 | 유사도 그래프를 어떻게 만들지에 민감하다 |
+| [계층적 군집화](../../../reference/concept-glossary-parts/01-giyeok.md#hierarchical-clustering) | 합쳐지는 순서 | 묶음이 자라는 구조를 단계적으로 보고 싶을 때 | 어디에서 자를지 해석이 필요하다 |
+| [스펙트럴 클러스터링](../../../reference/concept-glossary-parts/07-siot.md#spectral-clustering) | [연결(connectivity)](../../../reference/concept-glossary-parts/08-ieung.md#connectivity) | 복잡한 모양이지만 연결 구조가 분명할 때 | 유사도 그래프를 어떻게 만들지에 민감하다 |
 
 이 표의 목적은 우열 비교가 아닙니다. `군집을 무엇으로 읽는가`가 다르다는 점을 붙잡는 것이 먼저입니다.
 
@@ -204,5 +204,5 @@ P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니�
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. hierarchical clustering, spectral clustering, k-means, DBSCAN의 기본 설명과 비교축을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. 스펙트럴 클러스터링을 그래프 라플라시안과 연결 구조 관점으로 설명하는 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. hierarchical clustering, spectral clustering, k-means, DBSCAN의 기본 설명과 비교축을 확인할 때 참고했다. 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. 스펙트럴 클러스터링을 그래프 라플라시안과 연결 구조 관점으로 설명하는 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-26. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }

@@ -1,27 +1,27 @@
 # P4-11.4 Supplementary Learning: How To Read Multinomial Logistic Regression
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.3 explained log-odds and MLE mainly on the basis of `binary classification`, where the model chooses one of two classes. But many real classification problems ask the model to choose one out of three or more classes.
+P4-11.3 explained [log-odds](/AiBook/en/reference/concept-glossary-alpha/l/#log-odds) and [MLE](/AiBook/en/reference/concept-glossary-alpha/m/#maximum-likelihood-estimation-mle) mainly on the basis of `binary classification`, where the model chooses one of two classes. But many real classification problems ask the model to choose one out of three or more classes.
 
 The central question of this Section is the following.
 
 How does the intuition of `score -> probability -> class selection` learned in binary classification continue in a multiple-class problem?
 
-## Scope Of This Section
+## Questions Closed By Multinomial Logistic Regression
 
 This Section answers the following questions.
 
 - What stays the same in a multinomial problem?
-- Why does softmax appear?
-- How should one-vs-rest and multinomial be distinguished?
+- Why does [softmax](/AiBook/en/reference/concept-glossary-alpha/s/#softmax) appear?
+- How should [one-vs-rest](/AiBook/en/reference/concept-glossary-alpha/o/#one-vs-rest) and [multinomial logistic regression](/AiBook/en/reference/concept-glossary-alpha/m/#multinomial-logistic-regression) be distinguished?
 
-This Section first closes multinomial logistic regression as an extension where the structure `score -> probability distribution -> class selection` continues across multiple classes, and focuses on holding onto how the threshold intuition moves into an argmax intuition.
+This Section first closes [multinomial logistic regression](/AiBook/en/reference/concept-glossary-alpha/m/#multinomial-logistic-regression) as an extension where the structure `score -> probability distribution -> class selection` continues across multiple classes, and focuses on holding onto how the threshold intuition moves into an [argmax](/AiBook/en/reference/concept-glossary-alpha/a/#argmax) intuition.
 
 At the same time, the narrower question that should be revisited next is also clear. The implementation perspective on solver and regularization continues in P4-11.5.
 
-## Goals Of This Section
+## Judgments To Keep From Multinomial Logistic Regression
 
 - You can explain that the structure `input -> score -> probability comparison -> class selection` remains in multiclass settings too.
 - You can read softmax as `the function that turns class-specific scores into a probability distribution`.
@@ -132,6 +132,11 @@ The example below shows the basic intuition that, in multiclass classification, 
 | `class_names` | list of class names |
 | `multi_proba` | example probability distributions across classes |
 
+Values to change:
+
+- Change the first row to something closer such as `[0.34, 0.33, 0.33]` to see that argmax still chooses one class even when the judgment is much more ambiguous.
+- Change the last row to `[0.22, 0.28, 0.49]` to check that the largest class can still be selected even when no value exceeds 0.5.
+
 ```python
 # This example compares class-wise scores and softmax probabilities in multinomial logistic regression.
 import numpy as np
@@ -171,6 +176,6 @@ This output can be read as follows.
 
 ## Sources And References
 
-- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. Checked on 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
-- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. Checked on 2026-07-26. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-26

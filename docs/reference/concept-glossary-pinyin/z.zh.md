@@ -1,6 +1,30 @@
 # 概念词汇表：Z
 
-本页用于整理拼音首字母为 `Z` 的中文概念索引。具体词条内容将在后续补充。
+本页整理拼音首字母为 `Z` 的中文概念词条。词条正文由单词源文件 include 生成。
 
-| 中文索引词 | 韩文代表词条 | English Base Term | Core Section | Link |
-| --- | --- | --- | --- | --- |
+--8<-- "reference/concept-glossary-terms/centroid.zh.md"
+
+--8<-- "reference/concept-glossary-terms/license.zh.md"
+
+--8<-- "reference/concept-glossary-terms/expert-system.zh.md"
+
+
+
+
+--8<-- "reference/concept-glossary-terms/maximum-likelihood-estimation-mle.zh.md"
+
+--8<-- "reference/concept-glossary-terms/state.zh.md"
+
+--8<-- "reference/concept-glossary-terms/supporting-evidence.zh.md"
+
+--8<-- "reference/concept-glossary-terms/true-objective.zh.md"
+
+--8<-- "reference/concept-glossary-terms/tensor.zh.md"
+
+--8<-- "reference/concept-glossary-terms/self-attention.zh.md"
+
+--8<-- "reference/concept-glossary-terms/automatic-differentiation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/recall.zh.md"
+
+--8<-- "reference/concept-glossary-terms/regularization.zh.md"

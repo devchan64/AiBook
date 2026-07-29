@@ -1,9 +1,9 @@
 # P4-9.2 调优(tuning)与验证成本
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
-在 P4-9.1 里，我们看过什么是 hyperparameter，以及为什么它很早以前就被当成一个单独问题来处理。现在要进入下一个问题。
+在 P4-9.1 里，我们看过什么是 [hyperparameter](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)，以及为什么它很早以前就被当成一个单独问题来处理。现在要进入下一个问题。
 
 那些看起来不错的设置值，到底该怎样实际选出来？
 
@@ -13,9 +13,9 @@
 
 也就是说，tuning 当然是在 `找更好的值`，但同时它也是 `不破坏比较本身的实验设计`。
 
-这一节不会再长篇重复 hyperparameter 本身的定义。`学出来的值` 和 `预先定好的值` 之间的基本区分，会继续通过 P4-9.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 接回；这里则只集中在：这些设置值到底该如何比较、如何管理。
+这一节不会再长篇重复 hyperparameter 本身的定义。`学出来的值` 和 `预先定好的值` 之间的基本区分，会继续通过 P4-9.1 和概念词汇表接回；这里则只集中在：这些设置值到底该如何比较、如何管理。
 
-## 本节范围
+## 调优与验证成本先收束的问题
 
 这一节回答下面这些问题。
 
@@ -25,9 +25,9 @@
 - 为什么 test data 必须只在最后使用？
 - grid search 和 random search，入门层面应该怎样理解？
 
-这一节先收束 `应该在什么验证流程里比较设置值候选`。Bayesian optimization、Hyperband、nested cross-validation、实验追踪和分布式调优的大图景，会在 P4-9.3 补充学习里再整理。
+这一节先收束 `应该在什么验证流程里比较设置值候选`。Bayesian optimization、Hyperband、nested cross-validation、实验追踪和分布式调优的大图景，会在 P4-9.3 再整理。
 
-## 用调优(tuning)与验证成本留下的判断标准
+## 调优与验证成本要留下的判断标准
 
 - 能把 tuning 解释成 `在 validation 流程里比较设置值` 这件事。
 - 能区分计算成本(computational cost)和验证成本(validation cost)。
@@ -72,7 +72,7 @@ tuning 的比较顺序，可以先固定成下面这样。
 
 ### tuning 到底在做什么
 
-scikit-learn 的 hyperparameter tuning 文档说明了一种流程：先把 estimator 的设置值整理成候选集合，再用 cross-validation 分数来比较。
+scikit-learn 的 hyperparameter tuning 文档说明了一种流程：先把 estimator 的设置值整理成候选集合，再用 [cross-validation](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation) 分数来比较。
 
 `tuning 是先固定一组 hyperparameter 候选，然后用验证分数比较，选出更适合当前数据和目标的设置。`
 
@@ -98,7 +98,7 @@ scikit-learn 的 hyperparameter tuning 文档说明了一种流程：先把 esti
 | 成本类型 | 含义 |
 | --- | --- |
 | 计算成本(computational cost) | 反复训练 model、打分所花的时间、内存、GPU/CPU 资源 |
-| 验证成本(validation cost) | 在反复看 validation 数据挑设置时产生的过拟合风险 |
+| 验证成本(validation cost) | 在反复看 validation 数据挑设置时产生的[过拟合](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)风险 |
 
 计算成本相对更容易看见。
 
@@ -353,12 +353,17 @@ Bergstra 和 Bengio 的论文说明，在 hyperparameter 空间里，真正强�
 
 下面这个例子是一个很小的练习：为同一个决策树 model 准备 `max_depth` 和 `min_samples_split` 候选，再用 `GridSearchCV` 做比较。
 
-- 问题场景: 把花数据(iris)当成品种分类问题。
-- 输入(input): 四个数值特征。
+- 问题场景: 把花数据(iris)当成品种[分类](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)问题。
+- 输入(input): 四个数值[特征](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)。
 - 正答(label): 三种品种。
 - 要确认的概念:
   - 可以在 validation 流程里比较多个 hyperparameter 组合
   - 必须把 `best_params_`, `best_score_`, `test score` 分开来读
+
+可以改动的值:
+
+- 在 `param_grid` 的 `"max_depth"` 候选里加入 `4` 或 `5`，可以看到候选组合数和 `total model fits` 一起增加。
+- 把 `cv=5` 改成 `3` 或 `10`，可以确认同一张候选表下，交叉验证 fold 数怎样改变计算成本。
 
 ```python
 # 这个例子用验证数据反复评估多个超参数候选，以确认调优成本。
@@ -440,6 +445,6 @@ test score            : 0.978
 
 ## 出处与参考资料
 
-- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
-- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 确认日期: 2026-06-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.2. Tuning the hyper-parameters of an estimator`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/grid_search.html](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- James Bergstra, Yoshua Bengio, `Random Search for Hyper-Parameter Optimization`, Journal of Machine Learning Research, 2012, 确认日期: 2026-07-26. [https://jmlr.org/beta/papers/v13/bergstra12a.html](https://jmlr.org/beta/papers/v13/bergstra12a.html){: target="_blank" rel="noopener noreferrer" }

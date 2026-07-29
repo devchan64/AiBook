@@ -1,14 +1,14 @@
 # P3-9.9 How Should the Actual Target and a Proxy Target Be Distinguished
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-In real data, the result you truly want to predict is often not directly visible. So it becomes tempting to use an intermediate operational judgment or a substitute column as a temporary target. The distinction needed here is between `actual target` and `proxy target`. You should first write whether the target currently in use is the result you truly want to know, or a substitute column used in its place.
+In real data, the result you truly want to predict is often not directly visible. So it becomes tempting to use an intermediate operational judgment or a substitute column as a temporary [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target). The distinction needed here is between an [actual target](/AiBook/en/reference/concept-glossary-alpha/a/#glossary-actual-target) and a [proxy target](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-proxy-target). You should first write whether the target currently in use is the result you truly want to know, or a substitute column used in its place.
 
 | Target type | Meaning |
 | --- | --- |
-| Actual target | The result you truly want to know and ultimately want to reduce |
-| Proxy target | A substitute column used because the actual target cannot be seen directly or is seen too late |
+| [Actual target](/AiBook/en/reference/concept-glossary-alpha/a/#glossary-actual-target) | The result you truly want to know and ultimately want to reduce |
+| [Proxy target](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-proxy-target) | A substitute column used because the actual target cannot be seen directly or is seen too late |
 
 For example, if `actual state confirmation` cannot be observed directly, `review needed` may be used first as a target candidate. But the two do not mean the same thing. A proxy target can become a starting point, but it does not automatically become the same thing as the actual target.
 
@@ -20,13 +20,13 @@ For example, if `actual state confirmation` cannot be observed directly, `review
 
 ## Why This Distinction Changes the Problem Type Itself
 
-The difference between an actual target and a proxy target does not end as a naming difference. Once what you are really predicting changes, the decision about whether the current problem should remain `a comparison report`, become `a review-candidate selection problem`, or be raised into `a prediction problem` also changes with it.
+The difference between an actual target and a proxy target does not end as a naming difference. Once what you are really predicting changes, the decision about whether the current problem should remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report), become a [review-candidate](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-candidate) selection problem, or be raised into a [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) problem also changes with it.
 
 | What can actually be seen now | More natural problem type | Why |
 | --- | --- | --- |
 | The actual target is directly visible | Predict the actual target | Because inputs and results can be tied directly to the same question |
 | The actual target appears late and only a proxy column is visible first | Predict the proxy target or treat it as a review-candidate problem | Because the value being predicted now is different from the value you truly want to know |
-| Both the actual target and the proxy column are weak | Keep it as a comparison report or a review queue | Because even the choice of which result column to use is not yet sufficiently closed |
+| Both the actual target and the proxy column are weak | Keep it as a comparison report or a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue) | Because even the choice of which result column to use is not yet sufficiently closed |
 
 In other words, the moment you use a proxy target, you must distinguish between `this problem is solvable` and `this problem is directly solving the original goal`. Even if it looks like a prediction problem, it may actually be predicting `a proxy judgment` rather than `the actual target`. If that difference is not written down, it becomes unclear later what the score is really measuring.
 

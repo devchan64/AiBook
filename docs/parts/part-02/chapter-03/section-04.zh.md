@@ -1,11 +1,11 @@
 # P2-3.4 内积(dot product)、长度(norm)、距离(distance)、相似度(similarity)
 
 > Section ID: `P2-3.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 读完向量(vector)、矩阵(matrix)、矩阵乘法(matrix multiplication)之后，下一道问题自然会留下来：`两个向量到底有多像`、`它们相隔多远`、`怎样区分一个很大的向量和一个只是方向相似的向量`？这正是点积(dot product)、长度(norm)、距离(distance)、相似度(similarity)要回答的问题。
 
-如果说矩阵乘法是 `把向量组合起来生成新值的计算`，那么点积、距离、相似度就是 `拿向量彼此比较的计算`。因此，在做出向量之后，还要一起抓住“该用什么标准去读这些向量”。需要快速回看术语时，也可以一起查看[概念词汇表](/AiBook/reference/concept-glossary/)。
+如果说矩阵乘法是 `把向量组合起来生成新值的计算`，那么点积、距离、相似度就是 `拿向量彼此比较的计算`。因此，在做出向量之后，还要一起抓住“该用什么标准去读这些向量”。需要快速回看术语时，也可以一起查看[相似度词条](/AiBook/zh/reference/concept-glossary-pinyin/x.zh/#similarity)。
 
 ## 核心判断标准：点积(dot product)、长度(norm)、距离(distance)、相似度(similarity)
 

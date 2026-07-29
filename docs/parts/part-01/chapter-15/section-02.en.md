@@ -1,7 +1,7 @@
 # P1-15.2 Copyright and Training Data
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-15.1 examined how to think about `bias`, `safety`, and `accountability` when AI results affect people and society. The next question is more specific.
 
@@ -96,7 +96,7 @@ It also has to ask:
 
 > what was used, for what purpose, in what amount, and in what way?
 
-## The Core of the Training-Data Debate
+## Core Training-Data Debate
 
 In generative AI, `training data` is the material from which the model learns patterns. Debate begins when that material includes copyrighted sources such as public webpages, books, articles, images, or code.
 

@@ -1,7 +1,7 @@
 # P6-10.4 Supplement: Iterative Improvement of Prompt Candidates
 
 > Section ID: `P6-10.4`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _Subtitle: How automatic prompt optimization evaluates prompt experiments and passes them to the next candidate_
 
@@ -13,7 +13,7 @@ The question to close in this Section is the following.
 
 `What does it mean to improve prompts well by repeatedly comparing them against a standard?`
 
-## The Problem of Choosing Prompt Candidates
+## Problem of Choosing Prompt Candidates
 
 Writing a prompt once and stopping when it feels good is fast, but it easily drifts in repeated work. A prompt can work well on one input while omitting key items or breaking format on another input. So when there are several prompt candidates, we should not ask `which sentence looks more plausible?` We should ask `which candidate passes the standards more stably across several inputs?`
 

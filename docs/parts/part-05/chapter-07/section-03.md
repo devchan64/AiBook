@@ -1,7 +1,7 @@
 # P5-7.3 적응형 업데이트의 직관: Adam을 예로
 
 > Section ID: `P5-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보폭이 어떻게 달라지는지 보았습니다. 여기서 바로 다음 질문이 생깁니다. 그 보폭을 모든 파라미터에 언제나 같은 방식으로 적용해도 충분한가?
 
@@ -233,7 +233,7 @@ def simulate_updates(rows):
 rows = load_rows(DATA_PATH)
 simulated = simulate_updates(rows)
 
-print("[input]")
+print("[model input]")
 print("rows =", len(rows))
 print("parameters =", ", ".join(PARAMETER_ORDER))
 
@@ -264,7 +264,7 @@ for parameter_name in PARAMETER_ORDER:
 출력에서는 같은 CSV 입력에서도 단순 직접 업데이트와 Adam-like의 step별 update가 어떻게 달라지는지부터 비교하면 됩니다.
 
 ```text
-[input]
+[model input]
 rows = 36
 parameters = risk_weight, recovery_weight, noise_weight
 

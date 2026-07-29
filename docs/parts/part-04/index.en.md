@@ -1,15 +1,15 @@
 # Part 4. Machine Learning
 
 > Section ID: `P4-index`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Part 2 restored the basics for reading formulas, Python, arrays, tables, graphs, and runtime environments. Now in Part 4, we organize what those tools are actually used for, namely what it means to `learn rules from data`.
 
 Many readers have already used AI services, but here it matters more to regroup that experience into standard concepts. Rather than memorizing model names, first make clear what counts as a machine-learning problem, what data must be collected, what a model learns, what it means for learning to have gone well, and why some models can look accurate while still be risky in practice.
 
-The core purpose of Part 4 is to read machine learning not as a list of models, but as a flow of problem, data, learning, evaluation, and application. Linear regression, logistic regression, decision tree, random forest, boosting, clustering, dimensionality reduction, and reinforcement learning are not separate items to memorize. They are options that appear depending on what problem is being solved, what the input and output are, and what criteria define good or bad performance.
+The core purpose of Part 4 is to read [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) not as a list of models, but as a flow of problem, data, learning, evaluation, and application. [Linear regression](/AiBook/en/reference/concept-glossary-alpha/l/#linear-regression), [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression), [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree), [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest), boosting, [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering), [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction), and [reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/r/#reinforcement-learning) are not separate items to memorize. They are options that appear depending on what problem is being solved, what the [model input](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) and [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output) are, and what criteria define good or bad performance.
 
-Part 4 follows the same rule as the other Parts: within the same Part, a major concept should receive its detailed explanation in one main Section first, and later Sections should keep only the minimum needed for the current context. So `supervised learning` is anchored first in `P4-2.1`, `unsupervised learning` in `P4-2.2`, `reinforcement learning` in `P4-2.3`, the role distinction between `validation` and `test` in `P4-4.2`, `overfitting` and `underfitting` in `P4-5.1`, `metric` in `P4-6.1`, `feature selection` in `P4-7.1`, `preprocessing` in `P4-7.2`, `baseline` in `P4-8.2`, `linear regression` in `P4-10.1`, `logistic regression` in `P4-11.1`, `k-NN` in `P4-12.1`, `SVM` in `P4-13.1`, `decision tree` in `P4-14.1`, `random forest` in `P4-15.1`, `gradient boosting` in `P4-16.1`, `clustering` in `P4-17.1`, and `dimensionality reduction` in `P4-18.1`. When they reappear, read them together with the [Concept Glossary](/AiBook/reference/concept-glossary/) and the current context.
+Part 4 follows the same rule as the other Parts: within the same Part, a major concept should receive its detailed explanation in one main Section first, and later Sections should keep only the minimum needed for the current context. So `supervised learning` is anchored first in `P4-2.1`, `unsupervised learning` in `P4-2.2`, `reinforcement learning` in `P4-2.3`, the role distinction between `validation` and `test` in `P4-4.2`, `overfitting` and `underfitting` in `P4-5.1`, `metric` in `P4-6.1`, `feature selection` in `P4-7.1`, `preprocessing` in `P4-7.2`, `baseline` in `P4-8.2`, `linear regression` in `P4-10.1`, `logistic regression` in `P4-11.1`, `k-NN` in `P4-12.1`, `SVM` in `P4-13.1`, `decision tree` in `P4-14.1`, `random forest` in `P4-15.1`, `gradient boosting` in `P4-16.1`, `clustering` in `P4-17.1`, and `dimensionality reduction` in `P4-18.1`. When they reappear, read them together with relevant glossary entries such as [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) and [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction), plus the current context.
 
 So Part 4 reconnects the map of machine learning in the following order.
 
@@ -25,11 +25,11 @@ So Part 4 reconnects the map of machine learning in the following order.
 
 Part 4 does not begin by listing algorithm names. It first establishes the questions that must be held repeatedly when reading machine-learning explanations.
 
-- What makes a problem supervised learning, unsupervised learning, or reinforcement learning?
-- What do input, output, label, and reward each mean, and where are they separated?
-- Why are training, validation, and test split apart, and how is generalization checked?
-- What kinds of errors do metrics reveal, and what kinds can they hide?
-- Why should feature selection, preprocessing, baseline models, and tuning be checked before model names?
+- What makes a problem [supervised learning](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning), [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), or [reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/r/#reinforcement-learning)?
+- What do [model input](/AiBook/en/reference/concept-glossary-alpha/m/#model-input), [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output), [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label), and [reward](/AiBook/en/reference/concept-glossary-alpha/r/#reward) each mean, and where are they separated?
+- Why are [training](/AiBook/en/reference/concept-glossary-alpha/t/#training), [validation](/AiBook/en/reference/concept-glossary-alpha/v/#validation), and [test](/AiBook/en/reference/concept-glossary-alpha/t/#test) split apart, and how is [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization) checked?
+- What kinds of errors do [metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric) reveal, and what kinds can they hide?
+- Why should [feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#feature-selection), [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing), [baseline models](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model), and tuning be checked before model names?
 - What problem sense do representative classical models provide, and where do their strengths end and their limits begin?
 
 ## Reading Machine Learning as Shared Questions and Judgment Standards
@@ -85,7 +85,7 @@ Next it covers the shared base for reading learning. This includes data splittin
 
 The scope of evaluation metrics is also set clearly inside this flow. In the main text of Part 4, the priority is on metrics that hold the question `what should be asked first for this problem type`, such as accuracy, precision, recall, F1, MAE, RMSE, and R2. Items that make score interpretation more delicate, such as ROC, PR, log loss, calibration, reliability, and silhouette, are collected as introductory support in P4-6.4 supplementary learning, and threshold and calibration reappear again in P4-15.3.
 
-At this point, the reader should hold two comparison devices together. The confusion matrix and error cases let you read `where and how the model was wrong`, and the baseline asks `whether the score is actually a meaningful improvement`. Rather than making readers memorize scores as isolated numbers, Part 4 puts more weight on building the habit of reading the error structure and the baseline together.
+At this point, the reader should hold two comparison devices together. The [confusion matrix](/AiBook/en/reference/concept-glossary-alpha/c/#confusion-matrix) and [error cases](/AiBook/en/reference/concept-glossary-alpha/e/#error-case) let you read `where and how the model was wrong`, and the [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#baseline) asks `whether the score is actually a meaningful improvement`. Rather than making readers memorize scores as isolated numbers, Part 4 puts more weight on building the habit of reading the error structure and the baseline together.
 
 This flow is read in the following order.
 

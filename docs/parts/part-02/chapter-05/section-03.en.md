@@ -1,7 +1,7 @@
 # P2-5.3 Sample, Estimation, and Error
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-5.2, we looked at the shape of a data bundle as a distribution, its center as the mean, and its spread as the variance. Now we shift the question one step.
 
@@ -77,7 +77,7 @@ The most important question when looking at a sample is, "Does this sample repre
 
 If the sample does not represent the whole well, the estimate calculated from that sample can become unstable or skewed to one side.
 
-## Estimation Means Speaking About the Whole from the Part
+## Estimation Means Speaking about the Whole from the Part
 
 Estimation is the act of using a sample to calculate a value about the population.
 
@@ -109,7 +109,7 @@ It is a mistake to understand error only as "failure." In statistics, error is t
 
 The prediction error of an AI model can be viewed from a similar perspective. If the model's prediction and the actual value differ, error appears. In training, we transform this error into loss and try to reduce it.
 
-## The Estimate Also Changes When the Sample Changes
+## Estimate Also Changes When the Sample Changes
 
 If we draw samples from the same population multiple times, we may not get the same sample every time. Then the sample mean can also change a little each time.
 
@@ -174,7 +174,7 @@ This perspective becomes the basis for understanding later topics such as train/
 
 ## View It Through a Case
 
-### Case 1. Can You Speak About All Users from Logs of 10,000 App Users?
+### Case 1. Can You Speak about All Users from Logs of 10,000 App Users?
 
 Suppose a service team wants to understand the behavior of all users, but in reality it has only logs from 10,000 recent users. Even if 10,000 logs feel like a lot, you still cannot simply conclude that all user behavior is the same.
 

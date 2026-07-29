@@ -1,7 +1,7 @@
 # P1-8.1 监督学习：输入与标签
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 第 7 章处理了 `search space`、`computational limit` 和 `heuristic`。现在要转入学习类型。第一个基准点是 `supervised learning`。
 

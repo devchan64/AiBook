@@ -1,7 +1,7 @@
 # P6-9.1 Instruction Tuning That Builds Response Habits Matching Request Formats
 
 > Section ID: `P6-9.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 In P6-8.2, we saw why efficient adjustment methods such as LoRA matter in practice. But being able to adjust a model a little more cheaply does not immediately create answers that follow human instructions well.
 
@@ -13,7 +13,7 @@ If we say the same thing more simply, it is as follows.
 
 Instruction tuning is the stage that strengthens the habit of answering according to the way people make requests, beyond simply continuing text.
 
-## The Layer That Adjusts Response Habits
+## Layer Adjusting Response Habits
 
 Response-habit adjustment begins with the following questions.
 
@@ -78,7 +78,7 @@ These expectations are not sufficiently guaranteed only by predicting the next t
 
 In other words, the core of this section is separating `the ability to continue words` from `the ability to answer according to a request`.
 
-## How Is It Different From Pretraining?
+## Difference from Pretraining
 
 It is good to separate this difference again.
 
@@ -113,7 +113,7 @@ This experience is closer to `a conversational assistant-like response` than to 
 
 Readers feel this point most strongly. Even within the same model family, some models feel like they `continue plausible sentences`, while others feel like they `structurally follow my request`. Instruction tuning is needed to explain this difference.
 
-## Instruction Tuning Is Not万能
+## Instruction Tuning Is Not Universal
 
 But instruction tuning should not be exaggerated either.
 

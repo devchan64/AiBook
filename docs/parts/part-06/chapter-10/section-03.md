@@ -1,7 +1,7 @@
 # P6-10.3 보충학습: 답변 경로 관찰과 비교
 
 > Section ID: `P6-10.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 _보조제목: CoT와 self-consistency는 한 경로와 여러 경로를 어떻게 다르게 보게 하는가_
 

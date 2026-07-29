@@ -1,7 +1,7 @@
 # P5-7.6 补充学习：学习率调节策略
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P5-7.2 里，我们把 learning rate 读成了`一次 update 的步幅`。但一旦去看真实训练设置，就会遇到 learning rate 不是从头到尾固定不变，而是以 warmup、decay、cosine schedule 等名字不断变化的场景。
 

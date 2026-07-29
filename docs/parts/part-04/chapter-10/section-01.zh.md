@@ -1,11 +1,11 @@
 # P4-10.1 线性回归(linear regression)的直觉
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P4-9.2 里，我们通过 tuning 和 validation cost 讨论了 `应该怎样比较看起来不错的设置`。现在轮到把这个比较流程真正接到一个具体算法上。
 
-把 linear regression 作为 Part 4 第一个算法来看的理由很明确。它既是 regression 问题最基础的出发点，也是最能用 `斜率` 与 `截距` 透明地展示输入和输出关系的模型。
+把 [linear regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#linear-regression) 作为 Part 4 第一个算法来看的理由很明确。它既是 [regression](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression) 问题最基础的出发点，也是最能用 `斜率` 与 `截距` 透明地展示输入和输出关系的模型。
 
 本节的中心问题如下。
 
@@ -13,15 +13,15 @@
 
 linear regression 对这个问题，首先用一条 `直线(line)` 来回答。
 
-这一节会说明 `回归(regression)`、`线性回归(linear regression)`、`系数(coefficient)`、`截距(intercept)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把连续值预测先读成一条直线的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
+这一节会说明 `回归(regression)`、`线性回归(linear regression)`、`系数(coefficient)`、`截距(intercept)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把连续值预测先读成一条直线的基础感觉，也会通过这一节和相关概念词汇表条目再接回来。
 
-## 本节范围
+## 线性回归直觉先收束的问题
 
 这一节回答下面这些问题。
 
 - regression 处理的是哪一类问题？
 - 为什么 linear regression 会被说成是用 `直线` 来表达关系？
-- 应该怎样读取输入 feature 和输出 target 之间的方向与大小？
+- 应该怎样读取输入 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) 和输出 [target](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) 之间的方向与大小？
 - 为什么 linear regression 会作为 Part 4 的第一个算法出现？
 
 这一节先把 linear regression 收束为 `先用直线说明输入和输出关系的最基础 regression model`，并集中抓住读取系数和截距的基本抓手。
@@ -30,7 +30,7 @@ linear regression 对这个问题，首先用一条 `直线(line)` 来回答。
 
 residual 的统计性质、ordinary least squares 的严格推导、R²、MAE、RMSE 等评价指标的详细比较，超出了当前这一节的直接范围，所以这里不会详细处理。
 
-## 用线性回归(linear regression)的直觉留下的判断标准
+## 线性回归要留下的判断标准
 
 - 能把 regression 解释成 `预测连续值的问题`。
 - 能把 linear regression 说明成 `先用一条直线近似输入与输出关系的模型`。
@@ -85,7 +85,7 @@ y = wx + b
 \]
 
 - `x`: 输入(input)
-- `y`: 预测值(prediction)
+- `y`: 预测值([prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction))
 - `w`: 系数(coefficient)
 - `b`: 截距(intercept)
 
@@ -298,51 +298,6 @@ linear regression 对解释训练尤其有用。更复杂的 model 也许能把�
 - 在 P4-14 的 decision tree 里，关系会改用 branching rule 来读取，而不是直线。
 - 在 P4-15 的 random forest 里，会把多棵树合起来处理 nonlinear relationship。
 
-## 案例及示例
-
-### 案例 1. `广告费增加时销售额也增加` 这句话，最简单能怎样表达
-
-一个小型线上商店团队想先读懂 monthly ad spend 与 sales 之间的关系。人们最初看的标准，是诸如 `广告费增加的月份，订单数是否也一起增加`、`没有特殊活动的普通月份里，是否也能看到类似趋势` 这样的问题。
-
-于是团队没有先上复杂 model，而是先试最简单的 linear regression。因为只要先用一条直线总结 `广告费增加时，销售额平均会一起变化多少`，就能马上读出关系方向到底是正还是负、变化幅度大致有多大。现实当然不一定是一条完美直线，但作为 `每增加一个单位，大致会带来什么变化` 的第一个参考点，它已经很有用。
-
-在这个场景里，linear regression 不是在断言 `现实就是直线`，而是在问 `能不能先用直线来解释这个关系`。如果 ad spend 与 sales 大体上朝着同一个方向变动，那么 coefficient 和 intercept 就会成为这段关系最透明的第一层说明。
-
-可确认的结果会在学出来的直线与 coefficient 解读里出现。如果 coefficient 为正，读者就可以读出广告费增加与销售额增加一起出现的趋势；再把 prediction 和 actual 的差拿来一起看，也能马上判断只用一条直线来解释这个场景到底有多粗糙。
-
-```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-04-zh.mmd"
-```
-
-## 案例及示例
-
-### 先用最简单的方式读取单变量 linear regression
-
-先看一个学习时间和考试成绩的例子。
-
-| study_hours | exam_score |
-| --- | --- |
-| 1 | 52 |
-| 2 | 55 |
-| 3 | 61 |
-| 4 | 64 |
-| 5 | 68 |
-| 6 | 72 |
-
-看这组数据时，成绩不会每次都以完全固定的幅度上涨，但整体上仍然是时间越多，成绩越高。linear regression 会看着这个场景，试着找出像下面这样的一条线。
-
-`随着学习时间增加，分数平均也会上升的一条直线`
-
-这里最重要的不是 `精确穿过所有点的直线`，而是 `最能稳妥说明整体方向的直线`。正如前面所说，linear regression 会依据减少 prediction 与 actual 差异的标准，选出一条更好的线，并把这个结果继续用在新输入的预测上。
-
-如果把这个表达再稍微换成更理论一点的话，可以改写成下面这样。
-
-- 每个单独数据点都可能留下 error。
-- 但从整个数据集来看，有些线留下的整体 error 更小，有些线更大。
-- linear regression 会选择 `整体上更能减少 error 的那条线`。
-
-也就是说，linear regression 不是一个把每个点都对得严丝合缝的 model，而是一个 `以最经济的方式总结整体趋势的 model`。
-
 ### coefficient 和 intercept 应该怎样读
 
 第一次学习 linear regression 时，很多读者会看到公式，却没有真正抓住意思。本节先固定解释，再谈计算。
@@ -374,6 +329,49 @@ intercept 是当输入为 0 时，model 放下的起点。不过，intercept 并
 
 `它是模型的数学出发点，但能不能直接解释，要看 domain。`
 
+## 案例及示例
+
+### 案例 1. `广告费增加时销售额也增加` 这句话，最简单能怎样表达
+
+一个小型线上商店团队想先读懂 monthly ad spend 与 sales 之间的关系。人们最初看的标准，是诸如 `广告费增加的月份，订单数是否也一起增加`、`没有特殊活动的普通月份里，是否也能看到类似趋势` 这样的问题。
+
+于是团队没有先上复杂 model，而是先试最简单的 linear regression。因为只要先用一条直线总结 `广告费增加时，销售额平均会一起变化多少`，就能马上读出关系方向到底是正还是负、变化幅度大致有多大。现实当然不一定是一条完美直线，但作为 `每增加一个单位，大致会带来什么变化` 的第一个参考点，它已经很有用。
+
+在这个场景里，linear regression 不是在断言 `现实就是直线`，而是在问 `能不能先用直线来解释这个关系`。如果 ad spend 与 sales 大体上朝着同一个方向变动，那么 coefficient 和 intercept 就会成为这段关系最透明的第一层说明。
+
+可确认的结果会在学出来的直线与 coefficient 解读里出现。如果 coefficient 为正，读者就可以读出广告费增加与销售额增加一起出现的趋势；再把 prediction 和 actual 的差拿来一起看，也能马上判断只用一条直线来解释这个场景到底有多粗糙。
+
+```mermaid
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-04-zh.mmd"
+```
+
+### 先用最简单的方式读取单变量 linear regression
+
+先看一个学习时间和考试成绩的例子。
+
+| study_hours | exam_score |
+| --- | --- |
+| 1 | 52 |
+| 2 | 55 |
+| 3 | 61 |
+| 4 | 64 |
+| 5 | 68 |
+| 6 | 72 |
+
+看这组数据时，成绩不会每次都以完全固定的幅度上涨，但整体上仍然是时间越多，成绩越高。linear regression 会看着这个场景，试着找出像下面这样的一条线。
+
+`随着学习时间增加，分数平均也会上升的一条直线`
+
+这里最重要的不是 `精确穿过所有点的直线`，而是 `最能稳妥说明整体方向的直线`。正如前面所说，linear regression 会依据减少 prediction 与 actual 差异的标准，选出一条更好的线，并把这个结果继续用在新输入的预测上。
+
+如果把这个表达再稍微换成更理论一点的话，可以改写成下面这样。
+
+- 每个单独数据点都可能留下 error。
+- 但从整个数据集来看，有些线留下的整体 error 更小，有些线更大。
+- linear regression 会选择 `整体上更能减少 error 的那条线`。
+
+也就是说，linear regression 不是一个把每个点都对得严丝合缝的 model，而是一个 `以最经济的方式总结整体趋势的 model`。
+
 ## 练习与示例
 
 ### 用 Python 看一个很小的 linear regression
@@ -387,6 +385,11 @@ intercept 是当输入为 0 时，model 放下的起点。不过，intercept 并
   - linear regression 会学出一条直线
   - `coef_` 是 coefficient，`intercept_` 是起点
   - model 可以对新输入做连续值预测
+
+可以改动的值：
+
+- 给 `study_hours` 增加 `7` 或 `8`，并填入对应分数，可以观察 coefficient 和 intercept 会怎样变化。
+- 把 `pred_7 = model.predict([[7]])[0]` 里的输入改成 `[[0]]` 或 `[[10]]`，可以比较训练范围内外的 prediction。
 
 ```python
 # 这个例子用 NumPy 计算确认线性回归的斜率、截距、预测值和残差。
@@ -447,6 +450,11 @@ prediction at x=7 : 76.4
   - coefficient 的符号可以用来读方向
   - coefficient 的大小必须连同单位一起谨慎地读
 
+可以改动的值：
+
+- 把 `assignment_score` 列里的几个值明显调大，可以观察这个 coefficient 和其他 coefficient 是否一起晃动。
+- 一次只改 `new_student` 里的一个值，可以比较哪一个 feature 的变化会把 prediction 推向哪个方向。
+
 ```python
 # 这个例子用 NumPy 计算确认线性回归的斜率、截距、预测值和残差。
 import numpy as np
@@ -503,6 +511,11 @@ prediction new    : 73.12
 ### 再改一个值试试：只提高一个输入时，什么保持不变，什么发生变化
 
 这次保持同一个学生的 `attendance` 和 `assignment_score` 不变，只把 `study_hours` 从 `5` 提高到 `7`。
+
+可以改动的值：
+
+- 把 `student_more_hours` 的第一个值改成 `6` 或 `8`，可以观察 prediction 差值是否几乎按 coefficient 成比例移动。
+- 也可以一次只改固定住的 `attendance` 或 `assignment_score`，这样更容易说明 `什么被固定，什么被改变`。
 
 ```python
 # 这个例子用 NumPy 计算确认线性回归的斜率、截距、预测值和残差。
@@ -581,5 +594,5 @@ difference              : 4.348
 
 ## 出处与参考资料
 
-- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LinearRegression`, scikit-learn API Reference, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LinearRegression`, scikit-learn API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }

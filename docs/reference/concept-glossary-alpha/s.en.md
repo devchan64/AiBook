@@ -2,31 +2,41 @@
 
 This page lists English glossary entries for this letter. Entry bodies are generated from per-term source files with includes.
 
+
 <a id="safety"></a>
 
 --8<-- "reference/concept-glossary-terms/safety.en.md"
 
---8<-- "reference/concept-glossary-terms/sample.en.md"
+--8<-- "reference/concept-glossary-terms/sim-to-real-gap.en.md"
+
+--8<-- "reference/concept-glossary-terms/software-regression.en.md"
+
+--8<-- "reference/concept-glossary-terms/source-data.en.md"
+
+--8<-- "reference/concept-glossary-terms/supervised-learning-label.en.md"
+
+--8<-- "reference/concept-glossary-terms/supporting-evidence.en.md"
+
+
+--8<-- "reference/concept-glossary-terms/sample-unit.en.md"
 
 --8<-- "reference/concept-glossary-terms/sample-space.en.md"
 
---8<-- "reference/concept-glossary-terms/sample-by-sample-comparison-table.en.md"
+--8<-- "reference/concept-glossary-terms/sampling-bias.en.md"
+
 
 --8<-- "reference/concept-glossary-terms/sampling.en.md"
 
---8<-- "reference/concept-glossary-terms/savefig.en.md"
 
 --8<-- "reference/concept-glossary-terms/scalar.en.md"
 
---8<-- "reference/concept-glossary-terms/scale.en.md"
 
---8<-- "reference/concept-glossary-terms/scatter-plot.en.md"
+--8<-- "reference/concept-glossary-terms/sigmoid.en.md"
 
---8<-- "reference/concept-glossary-terms/scenario.en.md"
 
---8<-- "reference/concept-glossary-terms/scope.en.md"
 
---8<-- "reference/concept-glossary-terms/script.en.md"
+
+--8<-- "reference/concept-glossary-terms/model-score.en.md"
 
 --8<-- "reference/concept-glossary-terms/search.en.md"
 
@@ -34,84 +44,56 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/search-space.en.md"
 
---8<-- "reference/concept-glossary-terms/secret.en.md"
 
 --8<-- "reference/concept-glossary-terms/security.en.md"
 
+--8<-- "reference/concept-glossary-terms/selective-labels.en.md"
+
 --8<-- "reference/concept-glossary-terms/self-attention.en.md"
 
---8<-- "reference/concept-glossary-terms/self-consistency.en.md"
 
 --8<-- "reference/concept-glossary-terms/sensitive-information.en.md"
 
---8<-- "reference/concept-glossary-terms/sentence-paragraph-and-document-embedding.en.md"
 
---8<-- "reference/concept-glossary-terms/sentencepiece.en.md"
 
---8<-- "reference/concept-glossary-terms/seq2seq.en.md"
 
---8<-- "reference/concept-glossary-terms/series.en.md"
 
---8<-- "reference/concept-glossary-terms/server.en.md"
 
---8<-- "reference/concept-glossary-terms/shallow-copy.en.md"
 
---8<-- "reference/concept-glossary-terms/shape.en.md"
 
---8<-- "reference/concept-glossary-terms/shared-view.en.md"
-
---8<-- "reference/concept-glossary-terms/shell.en.md"
-
---8<-- "reference/concept-glossary-terms/shell-script.en.md"
-
---8<-- "reference/concept-glossary-terms/sigma.en.md"
 
 --8<-- "reference/concept-glossary-terms/similarity.en.md"
 
 --8<-- "reference/concept-glossary-terms/similarity-search.en.md"
 
---8<-- "reference/concept-glossary-terms/slicing.en.md"
+--8<-- "reference/concept-glossary-terms/softmax.en.md"
 
---8<-- "reference/concept-glossary-terms/slope.en.md"
 
---8<-- "reference/concept-glossary-terms/sparse-attention.en.md"
+
+
 
 --8<-- "reference/concept-glossary-terms/sparsity.en.md"
 
 --8<-- "reference/concept-glossary-terms/speech-generation.en.md"
 
---8<-- "reference/concept-glossary-terms/stack.en.md"
-
---8<-- "reference/concept-glossary-terms/staging-area.en.md"
 
 --8<-- "reference/concept-glossary-terms/standard-deviation.en.md"
 
---8<-- "reference/concept-glossary-terms/standard-error.en.md"
+
+--8<-- "reference/concept-glossary-terms/standardization.en.md"
 
 --8<-- "reference/concept-glossary-terms/state.en.md"
 
---8<-- "reference/concept-glossary-terms/static-deployment.en.md"
-
 --8<-- "reference/concept-glossary-terms/statistical-language-model.en.md"
 
---8<-- "reference/concept-glossary-terms/status-inspection.en.md"
 
 --8<-- "reference/concept-glossary-terms/stochastic-process.en.md"
 
---8<-- "reference/concept-glossary-terms/stop-condition.en.md"
 
---8<-- "reference/concept-glossary-terms/structural-hypothesis.en.md"
-
---8<-- "reference/concept-glossary-terms/structure.en.md"
-
---8<-- "reference/concept-glossary-terms/summary-table.en.md"
+--8<-- "reference/concept-glossary-terms/semi-supervised-learning.en.md"
 
 --8<-- "reference/concept-glossary-terms/supervised-learning.en.md"
 
---8<-- "reference/concept-glossary-terms/surrounding-evidence.en.md"
 
---8<-- "reference/concept-glossary-terms/support-vector-machine.en.md"
 
 --8<-- "reference/concept-glossary-terms/symbolic-ai.en.md"
-
---8<-- "reference/concept-glossary-terms/system.en.md"

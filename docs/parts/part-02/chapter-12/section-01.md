@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
@@ -15,7 +15,7 @@ Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix)
 
 이 표를 보면 우리는 위치(position)보다 `누가`, `어떤 열(column)`, `어떤 값(value)`인가를 먼저 읽습니다. Pandas의 DataFrame은 바로 이런 표 형식 데이터를 다루기 위한 중심 구조입니다.
 
-여기서는 `DataFrame`, `행(row)`, `열(column)`, `인덱스(index)`의 기본 구분을 설명합니다. 앞 장의 NumPy가 그 값을 실제 계산에 쓸 수 있는 벡터와 행렬 모양으로 어떻게 다룰지를 다뤘다면, 여기서는 그 숫자 묶음이 어떤 사례와 변수의 표로 읽혀야 하는지 살핍니다. 다음 장에서는 이 표에서 바로 안 보이는 변화와 관계를 그래프로 확인합니다. 이후 표 선택, 집계, 데이터셋 준비로 이어질 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 기준점으로 삼습니다.
+여기서는 `DataFrame`, `행(row)`, `열(column)`, `인덱스(index)`의 기본 구분을 설명합니다. 앞 장의 NumPy가 그 값을 실제 계산에 쓸 수 있는 벡터와 행렬 모양으로 어떻게 다룰지를 다뤘다면, 여기서는 그 숫자 묶음이 어떤 사례와 변수의 표로 읽혀야 하는지 살핍니다. 다음 장에서는 이 표에서 바로 안 보이는 변화와 관계를 그래프로 확인합니다. 이후 표 선택, 집계, 데이터셋 준비로 이어질 때는 [개념사전의 DataFrame 항목](../../../reference/concept-glossary-parts/03-digeut.md#dataframe)도 함께 기준점으로 삼습니다.
 
 ## 핵심 기준: Pandas DataFrame은 무엇을 표현하는가
 

@@ -1,31 +1,31 @@
 # P4-15.4 Supplementary Learning: Comparing Extra Trees and Random Forest
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-Once readers learn random forest in P4-15.1, they soon encounter a similarly named model, Extra Trees(Extremely Randomized Trees). Because both look like `forests that gather many trees and average them`, it is easy at first to pass over them as if they were essentially the same model.
+Once readers learn [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) in P4-15.1, they soon encounter a similarly named model, [Extra Trees(Extremely Randomized Trees)](/AiBook/en/reference/concept-glossary-alpha/e/#extra-trees). Because both look like `forests that gather many trees and average them`, it is easy at first to pass over them as if they were essentially the same model.
 
-But the two differ clearly in `how far the randomness is injected`, `how the split criterion is chosen`, and `whether bootstrap and OOB are used as the default flow`.
+But the two differ clearly in `how far the randomness is injected`, `how the split criterion is chosen`, and whether [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap) and [OOB](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) are used as the default flow.
 
 This Section does not repeat the main explanation of random forest. Instead, it organizes the confusing points that appear when readers compare Extra Trees for the first time.
 
-## Scope Of This Section
+## Questions Closed By Comparing Extra Trees And Random Forest
 
 This Section answers the following questions.
 
-- Is Extra Trees in the same family as random forest?
+- Is [Extra Trees](/AiBook/en/reference/concept-glossary-alpha/e/#extra-trees) in the same family as random forest?
 - If both average many trees, what is actually different?
-- What is the difference between `best split` and `random threshold`?
+- What is the difference between [`best split`](/AiBook/en/reference/concept-glossary-alpha/b/#best-split) and [random threshold](/AiBook/en/reference/concept-glossary-alpha/r/#random-threshold)?
 - Why is Extra Trees described as more random?
-- How should OOB(out-of-bag) be read differently in random forest and Extra Trees?
+- How should [OOB(out-of-bag)](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) be read differently in random forest and Extra Trees?
 
 This Section first closes the question `where should random forest and Extra Trees be read as the same, and where should they be read differently?` The philosophical contrast between Extra Trees and gradient boosting reconnects in P4-16.1 and P4-16.2.
 
-## Goals Of This Section
+## Judgments To Keep From Comparing Extra Trees And Random Forest
 
 - You can explain Extra Trees as `a tree ensemble with stronger randomness`.
 - You can compare random forest and Extra Trees by `sample drawing`, `split-threshold selection`, and `the condition under which OOB is possible`.
-- You can explain at an introductory level that Extra Trees often reduces variance a little more while increasing bias a little.
+- You can explain at an introductory level that Extra Trees often reduces [variance](/AiBook/en/reference/concept-glossary-alpha/v/#variance) a little more while increasing [bias](/AiBook/en/reference/concept-glossary-alpha/b/#bias) a little.
 - You can explain when it is worth raising random forest and Extra Trees together as comparison candidates.
 
 ## Why This Section Is Needed
@@ -223,6 +223,10 @@ This example trains `RandomForestClassifier` and `ExtraTreesClassifier` side by 
   - the default random-forest flow matches `bootstrap=True`
   - the default Extra Trees flow has `bootstrap=False`, so OOB does not follow automatically
   - the two models should be compared not only by test score but also by the train/test gap and computation time
+- values to change:
+  - add `bootstrap=True, oob_score=True` to `et` and confirm the condition under which OOB appears
+  - change `n_estimators` in both models to 100, 300, and 600, then inspect test score and computation time together
+  - change `max_features` and inspect how the randomness difference appears in scores and importance
 
 ```python
 # This example compares Random Forest and Extra Trees defaults and scores on the same breast-cancer data.
@@ -299,7 +303,7 @@ So the core of this example is not `who is always better`. It is confirming thro
 
 ## Sources And References
 
-- scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" } (accessed 2026-07-09)
-- scikit-learn, "ExtraTreesClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" } (accessed 2026-07-09)
-- scikit-learn, "RandomForestClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" } (accessed 2026-07-09)
-- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006, accessed 2026-07-19. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "ExtraTreesClassifier", API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "RandomForestClassifier", API Reference, accessed 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006, accessed 2026-07-26. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }

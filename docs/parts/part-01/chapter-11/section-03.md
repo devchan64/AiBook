@@ -1,7 +1,7 @@
 # P1-11.3 Transformer와 사전학습 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤고, 11.2에서는 RNN, Seq2Seq, Attention이 순서와 문맥을 다루는 흐름을 봤습니다.
 

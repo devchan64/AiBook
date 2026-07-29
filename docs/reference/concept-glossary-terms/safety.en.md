@@ -1,6 +1,6 @@
 ## safety
 
-- Meaning: AI 결과나 자동화가 사람, 조직, 절차에 실제 피해를 만들지 않도록 제한하고 검토하는 조건입니다. 단순히 위험한 단어를 막는 수준이 아니라, 잘못된 판단, 과신, 권한 오남용, 개인정보 노출, 검토 없는 자동 실행처럼 디지털 환경에서 생기는 피해 경로 전체를 함께 봅니다. 즉 디지털 안전성은 `무슨 말을 했는가`만이 아니라 `그 말과 행동이 시스템 안에서 어떤 결과를 일으키는가`를 묻는 개념입니다.
-- Why it matters: AI의 오류가 문장 품질 문제로 끝나지 않고 실제 의사결정, 추천, 실행 피해로 이어질 수 있기 때문입니다. 특히 도구 사용과 자동화가 붙는 순간 안전성은 응답 예절이나 유해 표현 차단만의 문제가 아니라, 어떤 행동 권한을 어디까지 위임할지 정하는 실행 통제 문제이기도 합니다. 이 개념이 있어야 `불쾌한 답을 줄이기`와 `실제 피해를 줄이기`를 같은 말로 보지 않게 되고, 잘못된 실행, 과도한 권한, 검토 없는 자동화를 안전 설계의 핵심 위험으로 함께 읽게 됩니다.
+- Meaning: AI system safety means limiting and reviewing AI outputs or automation so they do not create real harm for people, organizations, or procedures.
+- Why it matters: AI errors can move beyond wording problems into decisions, recommendations, tool execution, privacy exposure, or unmanaged automation. Safety keeps harmful execution paths, excessive permission, and missing review in view.
 - Related concepts: `bias`, `accountability`, `human oversight`, `permission`
 - Core Section: `P1-15.1`

@@ -1,7 +1,7 @@
 # P6-18.2 在响应前记录依据、状态和审查的最小实现
 
 > Section ID: `P6-18.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P6-18.1 中，我们把小型生成式 AI 功能绑成了 `request interpretation -> retrieval or tool selection -> response generation -> state judgment -> record` 的流程。这里用一小段代码重新画出这个流程。
 
@@ -302,7 +302,7 @@ Retrieval 不会直接理解自然语言问题。它使用问题 CSV 的 `query_
 | 依据不足或缺失 | Retrieval 和 interpretation 被分开审查 | 更好的搜索基础设施和 tool-call connection |
 | 代码运行了一次 | 请求路径和记录结构分开出现 | 包含成本、延迟、运营限制的服务工作 |
 
-这张表的关键是，最小实现不只是`能运行的例子`。它是`显示下一步该修哪里的基线`。真实 embedding search、tool use、agent loops 和运营控制，之后都加在这个基线上。
+这张表的关键是，最小实现不只是`能运行的例子`。它是`显示下一步该修哪里的基线`。真实 embedding search、tool use、AI agent loops 和运营控制，之后都加在这个基线上。
 
 回顾问题可以这么简单。
 
@@ -310,7 +310,7 @@ Retrieval 不会直接理解自然语言问题。它使用问题 CSV 的 `query_
 | --- | --- | --- |
 | 找到了文档但回答漂移 | 回答是否把依据读到最后？ | Interpretation rule、groundedness check |
 | 没找到文档，请求进入人工审查 | 依据缺失是否被显露而不是隐藏？ | Search expansion、human-review flow |
-| 选择下一个扩展点 | 这是 retrieval 问题，还是缺少 tool？ | Vector search、tool use、agent branch |
+| 选择下一个扩展点 | 这是 retrieval 问题，还是缺少 tool？ | Vector search、tool use、AI agent branch |
 
 ## 这个最小实现仍然不能做什么
 
@@ -340,7 +340,7 @@ Retrieval 不会直接理解自然语言问题。它使用问题 CSV 的 `query_
 
 - 如果需要更好的依据连接，回到 P6-11 的 RAG 流程和 P6-12 的向量数据库结构。
 - 如果需要真实状态查询或计算，移动到 P6-13 的 tool use。
-- 如果需要多步骤判断，移动到 P6-14 的 agent 结构。
+- 如果需要多步骤判断，移动到 P6-14 的 AI agent 结构。
 - 失败记录和安全装置应该通过 P6-16 的 evaluation 视角和 P6-17 的 operation 视角重新读取。
 
 ## 检查清单

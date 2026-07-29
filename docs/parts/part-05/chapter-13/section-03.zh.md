@@ -1,13 +1,13 @@
 # P5-13.3 补充学习：QKV 与 multi-head attention
 
 > Section ID: `P5-13.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P5-13.1 和 P5-13.2 里，我们已经先固定了 attention 与 self-attention 的直觉。读到这里，自然会出现下一个问题。
 
 那么，为什么在实际计算里，attention 会被解释成 query、key、value，而 multi-head attention 又为什么会被单独拿出来命名？
 
-当这些术语又开始散开时，可以一起回到英文概念词汇表里的 [query-key-value (QKV)](/AiBook/reference/concept-glossary-parts/10-kieuk/#-query-key-value-qkv) 和 [multi-head attention](/AiBook/reference/concept-glossary-parts/05-mieum/#multi-head-attention) 条目重新对齐。
+当这些术语又开始散开时，可以一起回到概念词汇表里的[query-key-value（QKV）](/AiBook/zh/reference/concept-glossary-pinyin/q/#query-key-value-qkv)和[multi-head attention](/AiBook/zh/reference/concept-glossary-pinyin/m/#multi-head-attention)重新对齐。
 
 ## QKV 与多头注意力要回答的问题
 
@@ -213,12 +213,12 @@ CSV 的一行表示：`某一条运行报告的某个场景中，一个 token �
 
 | report_id | scenario | token | relation_role | decision_axis | evidence_axis | condition_axis | single_weight | head1_weight | head2_weight |
 | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| ops_pressure_return | balanced_heads | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.45 | 0.30 |
-| ops_pressure_return | balanced_heads | 압력이상 | evidence | 0.0 | 2.0 | 0.0 | 0.3 | 0.30 | 0.30 |
-| ops_pressure_return | balanced_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.25 | 0.40 |
-| ops_pressure_return | decision_vs_condition_split | 정지결정 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.70 | 0.10 |
-| ops_pressure_return | decision_vs_condition_split | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.10 | 0.60 |
-| ops_pressure_return | condition_heavy_both_heads | 복귀조건 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.55 | 0.65 |
+| ops_pressure_return | balanced_heads | 停止决定 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.45 | 0.30 |
+| ops_pressure_return | balanced_heads | 压力异常 | evidence | 0.0 | 2.0 | 0.0 | 0.3 | 0.30 | 0.30 |
+| ops_pressure_return | balanced_heads | 恢复条件 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.25 | 0.40 |
+| ops_pressure_return | decision_vs_condition_split | 停止决定 | decision | 1.0 | 0.0 | 0.0 | 0.4 | 0.70 | 0.10 |
+| ops_pressure_return | decision_vs_condition_split | 恢复条件 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.10 | 0.60 |
+| ops_pressure_return | condition_heavy_both_heads | 恢复条件 | condition | 3.0 | 0.0 | 1.0 | 0.3 | 0.55 | 0.65 |
 
 输入：
 
@@ -312,7 +312,7 @@ focus_report_rows = 9
 context_axes = ['decision_axis', 'evidence_condition_axis']
 
 [balanced_heads]
-tokens = ['정지결정', '압력이상', '복귀조건']
+tokens = ['停止决定', '压力异常', '恢复条件']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.2, 0.85]
 head2_context       = [1.5, 1.0]
@@ -320,7 +320,7 @@ difference_from_single = [-0.1, -0.05, 0.2, 0.1]
 head_separation = 0.335
 
 [decision_vs_condition_split]
-tokens = ['정지결정', '압력이상', '복귀조건']
+tokens = ['停止决定', '压力异常', '恢复条件']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.0, 0.5]
 head2_context       = [1.9, 1.2]
@@ -328,7 +328,7 @@ difference_from_single = [-0.3, -0.4, 0.6, 0.3]
 head_separation = 1.14
 
 [condition_heavy_both_heads]
-tokens = ['정지결정', '압력이상', '복귀조건']
+tokens = ['停止决定', '压力异常', '恢复条件']
 single_head_context = [1.3, 0.9]
 head1_context       = [1.85, 1.05]
 head2_context       = [2.1, 1.05]
@@ -368,7 +368,7 @@ head_separation = 0.25
 | --- | --- | --- |
 | 让 CSV 的 `head1_weight`、`head2_weight` 更相似 | `head_separation` | 如果不同 head 最后读得几乎是同一种关系，multi-head 的优势到底会缩小多少？ |
 | 让 CSV 的 `single_weight` 更偏向 `head1_weight` 或更偏向 `head2_weight` | `difference_from_single` | 如果 single-head 本来就已经强烈反映某一种关系，那么它和 multi-head 的差距会缩小多少？ |
-| 把 CSV 中 `복귀조건` 行的 `condition_axis` 调大或调小 | `head2_context`、`head_separation` | 如果 token 自身语义强度变化了，哪个 head 会对这种变化更敏感？ |
+| 把 CSV 中 `恢复条件` 行的 `condition_axis` 调大或调小 | `head2_context`、`head_separation` | 如果 token 自身语义强度变化了，哪个 head 会对这种变化更敏感？ |
 
 前面的数字并没有实现真实大规模 multi-head attention 的全部，但它已经足够清楚地展示两条比较标准。第一，single-head 倾向于把多种关系一次平均成一个折中上下文，而 multi-head 会把不同关系读取结果并排保留下来再一起使用。第二，head 的设计本身会放大或缩小这种差异。也就是说，multi-head attention 并不只是`attention 重复很多次`，而更像是一种结构：通过把 head 分开，让不同类型的相关性模式可以同时被保留下来而不轻易丢失。
 

@@ -1,7 +1,7 @@
 # P5-6.4 训练模式（training mode）与评估模式（evaluation mode）
 
 > Section ID: `P5-6.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 在 P5-6.3 里，我们已经把学习（learning）和模型执行（inference）区分成：`改变参数的时间`和`不改变参数、只拿来使用的时间`。再往前走一步，就会出现下一个问题。
 
@@ -11,7 +11,7 @@
 
 训练模式（training mode）是为了准备参数更新而使用的计算环境，评估模式（evaluation mode）则是为了稳定测量或稳定使用当前模型而使用的计算环境。
 
-如果后面在 dropout 或 batch normalization 的说明里又把 mode 区分重新混在一起，更适合回到[英文概念词汇表里的 training mode 条目](/AiBook/reference/concept-glossary-parts/14-hieut/#training-mode)和[evaluation mode 条目](/AiBook/reference/concept-glossary-parts/13-pieup/#evaluation-mode)，先重新确认这两个状态分别在管什么。
+如果后面在 dropout 或 batch normalization 的说明里又把 mode 区分重新混在一起，更适合回到概念词汇表里的[训练模式（training mode）](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-mode)和[评估模式（evaluation mode）](/AiBook/zh/reference/concept-glossary-pinyin/e/#evaluation-mode)条目，先重新确认这两个状态分别在管什么。
 
 ## 需要训练模式与评估模式的问题
 

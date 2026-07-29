@@ -1,19 +1,19 @@
 # P4-3.1 为什么需要启发式
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
 在 P4-2 章里，我们把 supervised learning、unsupervised learning、reinforcement learning 看成几种大的学习类型。接下来就会自然出现一个问题：真正去解决现实问题时，应该先看哪些数据、先试哪些 model、结果到什么程度才进入下一阶段？
 
-这时就会出现 `heuristic` 这个词。heuristic 不是保证完整证明或最优解的规则，而是在时间和信息都有限的条件下，帮助你快速做出较为可信选择的判断标准。
+这时就会出现 [heuristic](/AiBook/zh/reference/concept-glossary-pinyin/h/#heuristic) 这个词。heuristic 不是保证完整证明或最优解的规则，而是在时间和信息都有限的条件下，帮助你快速做出较为可信选择的判断标准。
 
 heuristic 很容易被误解成 `大概猜一下`。但在机器学习实务中，heuristic 不是随机猜测，而是根据经验、问题结构、计算成本和验证结果来缩小候选集的方法。
 
-这一节会说明 `heuristic`、`不用完全穷举而是先缩小候选的判断`、`可验证的工作假设` 这些概念。后面的章节会带着这个抓手继续判断当前语境，而 `把实务判断读成假设与验证结构` 这一层基础含义，会通过本节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再次接回。
+这一节会说明 heuristic、不是 [穷举搜索](/AiBook/zh/reference/concept-glossary-pinyin/e/#exhaustive-search) 而是先缩小候选的判断、以及可验证的 [工作假设](/AiBook/zh/reference/concept-glossary-pinyin/g/#working-hypothesis)。后面的章节会带着这个抓手继续判断当前语境，而 `把实务判断读成假设与验证结构` 这一层基础含义，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
-这一节解释为什么需要 heuristic。具体的 model selection、feature selection、preprocessing、hyperparameter tuning 会在后面分别展开。模型选择 heuristics 会在 P4-8 再次处理，feature selection 和 preprocessing 会在 P4-7 再次处理，hyperparameter tuning 会在 P4-9 再次处理。
+这一节解释为什么需要 heuristic。具体的 [model selection](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection)、[feature selection](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature-selection)、[preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing)、[hyperparameter tuning](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter) 会在后面分别展开。模型选择 heuristics 会在 P4-8 再次处理，feature selection 和 preprocessing 会在 P4-7 再次处理，hyperparameter tuning 会在 P4-9 再次处理。
 
 这一节回答下面这些问题。
 
@@ -28,7 +28,7 @@ heuristic 很容易被误解成 `大概猜一下`。但在机器学习实务中�
 - 能把 heuristic 解释成在受限条件下用于缩小候选集的实用判断标准。
 - 能理解 heuristic 并不保证最优解。
 - 能用例子说明为什么在时间、数据、计算量和成本限制下，heuristic 会变得必要。
-- 能说明为什么 heuristic 必须和 validation 一起使用。
+- 能说明为什么 heuristic 必须和 [validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation) 一起使用。
 - 能把 heuristic 看成可验证的 working hypothesis，而不是个人直觉。
 
 ## 先用一个场景来理解
@@ -37,12 +37,12 @@ heuristic 很容易被误解成 `大概猜一下`。但在机器学习实务中�
 
 | 需要决定的东西 | 可能的选择 | 为什么很难全部都试一遍 |
 | --- | --- | --- |
-| 要使用的 feature | 访问次数、购买金额、登录间隔、咨询记录 | feature 组合会越来越多。 |
-| 要使用的 model | logistic regression、decision tree、random forest、boosting | 每种 model 都需要训练和调参时间。 |
-| 评估标准 | accuracy、precision、recall、F1 | 哪个更重要会随着业务目标而变化。 |
+| 要使用的 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) | 访问次数、购买金额、登录间隔、咨询记录 | feature 组合会越来越多。 |
+| 要使用的 [model](/AiBook/zh/reference/concept-glossary-pinyin/m/#model) | logistic regression、decision tree、random forest、boosting | 每种 model 都需要训练和调参时间。 |
+| 评估 [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) | accuracy、precision、recall、F1 | 哪个更重要会随着业务目标而变化。 |
 | 调参范围 | 树深、学习率、迭代次数 | 如果每种组合都试，成本会变得很高。 |
 
-在这种情况下，`把所有可能组合都试到底，再挑出最好的` 这个想法在理论上听起来不错，但在现实里往往做不到。所以才需要 heuristic，例如先立一个简单 baseline、先去掉明显没必要的 feature、先选择符合业务目标的 metric。
+在这种情况下，`把所有可能组合都试到底，再挑出最好的` 这个想法在理论上听起来不错，但在现实里往往做不到。所以才需要 heuristic，例如先立一个简单 [baseline model](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)、先去掉明显没必要的 feature、先选择符合业务目标的 metric。
 
 ## heuristic 是缩小候选集的方法
 
@@ -72,13 +72,13 @@ heuristic 会减少为了解决问题而必须先看的候选。它不是把所�
 
 ## heuristic 和 algorithm 的差别
 
-algorithm 是按固定步骤解题的方法。heuristic 则是用来决定：在这些步骤内外，先看哪些候选、算到什么程度、优先做哪些选择。
+[algorithm](/AiBook/zh/reference/concept-glossary-pinyin/s/#algorithm) 是按固定步骤解题的方法。heuristic 则是用来决定：在这些步骤内外，先看哪些候选、算到什么程度、优先做哪些选择。
 
 | 区分 | 先联想到的话 | 例子 |
 | --- | --- | --- |
 | algorithm | 固定步骤 | 用给定数据训练 decision tree。 |
 | heuristic | 缩小候选的判断标准 | 先试可解释的 model。 |
-| optimization | 寻找能让目标函数更好的值 | 找到能减少 loss 的参数值。 |
+| [optimization](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimization) | 寻找能让目标函数更好的值 | 找到能减少 loss 的参数值。 |
 | validation | 检查这个选择是否真的可接受 | 在 validation data 上确认性能。 |
 
 heuristic 并不会替代 algorithm。相反，它是用来决定先试哪个 algorithm、先看哪一组设置、以及结果到什么程度就该进入下一阶段。
@@ -87,7 +87,7 @@ heuristic 并不会替代 algorithm。相反，它是用来决定先试哪个 al
 
 理解 heuristic 时，Herbert A. Simon 的 `bounded rationality` 视角很有帮助。Stanford Encyclopedia of Philosophy 把 bounded rationality 解释成：离开完全理性假设，转而研究在信息获取能力和计算能力都受限的主体身上，什么样的理性才是合适的。
 
-这个视角同样很适合机器学习实务。我们并没有完整信息、无限计算时间，也没有完美评估环境。所以，比起 `理论上可能存在的最优解`，更重要的是 `在当前条件下可验证、足够好的选择`。
+这个视角同样很适合机器学习实务。我们并没有完整信息、无限计算时间，也没有完美评估环境。所以，比起 `理论上可能存在的最优解`，更重要的是当前条件下可验证的 [足够好的解](/AiBook/zh/reference/concept-glossary-pinyin/g/#good-enough-solution)。
 
 这并不意味着放弃准确性。相反，它意味着承认限制，并在这些限制之内以更合理的方式作出更好的选择。
 
@@ -167,6 +167,6 @@ heuristic 可能很有用，但它不总是对的。一个好的 heuristic，既
 
 ## 来源与参考资料
 
-- Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, 确认日期：2026-06-25. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
-- Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 第 4 版，Pearson，2020，确认日期：2026-06-25. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
-- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984，确认日期：2026-07-19. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }
+- Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, 确认日期：2026-07-26. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
+- Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 第 4 版，Pearson，2020，确认日期：2026-07-26. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
+- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984，确认日期：2026-07-26. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }

@@ -1,27 +1,27 @@
 # P4-15.4 补充学习：比较 Extra Trees 与随机森林
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
-在 P4-15.1 学完随机森林(random forest)之后， 读者很快也会遇到一个名字相近的模型：Extra Trees(Extremely Randomized Trees)。 因为这两者都像是 `把很多树聚起来再取平均的森林`， 所以一开始很容易把它们当成几乎一样的模型。
+在 P4-15.1 学完[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)之后， 读者很快也会遇到一个名字相近的模型：[Extra Trees(Extremely Randomized Trees)](/AiBook/zh/reference/concept-glossary-pinyin/e/#extra-trees)。 因为这两者都像是 `把很多树聚起来再取平均的森林`， 所以一开始很容易把它们当成几乎一样的模型。
 
-但它们在 `随机性到底注入到哪里`、 `分支标准是怎样选的`、 以及 `bootstrap 与 OOB 是否属于默认流程` 这几件事上， 有明确差别。
+但它们在 `随机性到底注入到哪里`、 `分支标准是怎样选的`、 以及 [bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap) 与 [OOB](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 是否属于默认流程这几件事上， 有明确差别。
 
 这一节不会再重复随机森林的正文解释， 而是把读者第一次比较 Extra Trees 时最容易混淆的地方， 整理成一节补充学习。
 
-## 本节范围
+## Extra Trees 与随机森林比较先收束的问题
 
 本节回答以下问题。
 
-- Extra Trees 和随机森林属于同一家族吗？
+- [Extra Trees](/AiBook/zh/reference/concept-glossary-pinyin/e/#extra-trees) 和随机森林属于同一家族吗？
 - 两者都把很多树拿来平均，但真正不同的是什么？
-- `best split` 与 `random threshold` 的差别是什么？
+- [`best split`](/AiBook/zh/reference/concept-glossary-pinyin/b/#best-split) 与 [random threshold](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-threshold) 的差别是什么？
 - 为什么说 Extra Trees 更随机？
-- 在随机森林与 Extra Trees 里，OOB(out-of-bag) 应该怎样不同地理解？
+- 在随机森林与 Extra Trees 里，[OOB(out-of-bag)](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 应该怎样不同地理解？
 
 这一节会先收束 `随机森林与 Extra Trees 应该在哪里看成相同、又应该在哪里读出差异` 这个问题。 Extra Trees 与梯度提升(gradient boosting)的哲学差异，会在 P4-16.1、P4-16.2 重新连接。
 
-## 用补充学习：如何第一次比较 Extra Trees 与随机森林留下的判断标准
+## Extra Trees 与随机森林比较要留下的判断标准
 
 - 你可以把 Extra Trees 解释成 `加入了更强随机性的树集成`。
 - 你可以从 `样本抽取`、`分支阈值选择`、`OOB 成立条件` 这几个标准来比较随机森林与 Extra Trees。
@@ -223,6 +223,10 @@ scikit-learn 用户指南说明， extremely randomized trees 会在 split 计�
   - 随机森林的默认流程天然贴合 `bootstrap=True`
   - Extra Trees 的默认流程是 `bootstrap=False`，所以 OOB 不会自动跟上来
   - 比较两者时，不该只看 test 分数，也要一起看 train/test 间隔与计算时间
+- 可以改动的值：
+  - 给 `et` 也加入 `bootstrap=True, oob_score=True`，确认 OOB 在什么条件下出现。
+  - 把两个模型的 `n_estimators` 改成 100、300、600，把 test 分数和计算时间一起看。
+  - 改变 `max_features`，观察两片森林的随机性差异怎样体现在分数和重要度里。
 
 ```python
 # 这个例子在同一个乳腺癌数据上比较 Random Forest 和 Extra Trees 的默认差异与分数。
@@ -299,7 +303,7 @@ print("  test accuracy :", round(et.score(X_test, y_test), 3))
 
 ## 出处与参考资料
 
-- scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" } (确认日: 2026-07-09)
-- scikit-learn, "ExtraTreesClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" } (确认日: 2026-07-09)
-- scikit-learn, "RandomForestClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" } (确认日: 2026-07-09)
-- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006, 确认日期: 2026-07-19. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "ExtraTreesClassifier", API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, "RandomForestClassifier", API Reference, 确认日期: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006, 确认日期: 2026-07-26. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }

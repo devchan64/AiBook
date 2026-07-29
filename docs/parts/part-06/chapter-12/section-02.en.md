@@ -1,7 +1,7 @@
 # P6-12.2 Indexes That Trade Off Retrieval Speed and Candidate Quality
 
 > Section ID: `P6-12.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 In P6-12.1, we saw that a vector database stores embedding vectors, source text, and metadata together and plays a practical storage role in retrieval. Now the question becomes more specific: why is quickly finding similar vectors difficult, and what do we give up or adjust?
 

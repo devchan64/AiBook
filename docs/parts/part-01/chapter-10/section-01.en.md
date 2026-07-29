@@ -1,7 +1,7 @@
 # P1-10.1 Difference Among Classification, Prediction, and Generation
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Chapter 9 looked at how deep learning spread across many fields. `Image recognition`, `object detection`, `speech generation`, and `language modeling` all belong to the broader flow in which neural networks learn `representations` from data.
 
@@ -157,7 +157,7 @@ The key difference to keep is:
 > generation:  
 > construct a new artifact that fits the condition
 
-## The Same Input Can Become Three Different Tasks
+## Same Input, Three Different Tasks
 
 Even with the same work context, the task changes depending on how the question is defined.
 

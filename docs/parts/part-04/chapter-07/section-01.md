@@ -1,9 +1,9 @@
 # P4-7.1 특징 선택(feature selection)
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-6에서는 `무엇을 기준으로 평가할 것인가`를 봤습니다. 이제 질문을 한 단계 앞으로 옮깁니다. 평가 지표를 바꾸기 전에, 애초에 모델에게 어떤 입력을 줄지부터 점검해야 합니다. 특징 선택(feature selection)은 이 입력 설계의 시작점입니다.
+P4-6에서는 `무엇을 기준으로 평가할 것인가`를 봤습니다. 이제 질문을 한 단계 앞으로 옮깁니다. 평가 지표를 바꾸기 전에, 애초에 모델에게 어떤 입력을 줄지부터 점검해야 합니다. [특징 선택(feature selection)](../../../reference/concept-glossary-parts/12-tieut.md#feature-selection)은 이 입력 설계의 시작점입니다.
 
 이 절은 `좋은 특징을 어떻게 고를 것인가`를 다룹니다. 복잡한 선택 알고리즘을 깊게 설명하기보다, 실제 업무에서 우선 확인할 판단 기준을 잡는 데 목적이 있습니다.
 
@@ -13,17 +13,17 @@ P4-6에서는 `무엇을 기준으로 평가할 것인가`를 봤습니다. 이�
 
 이 절은 다음 질문에 답합니다.
 
-- 특징(feature)은 무엇이며, 왜 입력 설계가 중요한가?
+- [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)은 무엇이며, 왜 입력 설계가 중요한가?
 - 사용할 수 있는 데이터가 많다고 해서 모두 넣으면 안 되는 이유는 무엇인가?
 - 독자가 우선 확인해야 할 특징 선택 기준은 무엇인가?
-- 특징 선택과 전처리(preprocessing)는 어떻게 다른가?
+- 특징 선택과 [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing)는 어떻게 다른가?
 
 이 절은 먼저 `좋은 특징을 어떻게 고를 것인가`와 `특징 선택이 왜 입력 설계 문제인가`를 닫습니다. 전처리 종류를 입력 문제 기준으로 나누는 감각은 P4-7.3 보충학습에서 다시 붙잡고, 통계 검정 기반 선택과 재귀적 특징 제거의 비교 관점은 P4-7.4 보충학습에서 다시 정리합니다. 차원 축소의 큰 그림은 P4-18.1, P4-18.2에서 이어집니다.
 
 ## 특징 선택(feature selection)에서 남길 판단 기준
 
 - 특징(feature)을 `현실의 정보가 모델 입력으로 바뀐 형태`로 설명할 수 있습니다.
-- 특징 선택이 성능 숫자만의 문제가 아니라, 누수(leakage), 비용, 안정성, 해석 가능성과 연결된다는 점을 말할 수 있습니다.
+- 특징 선택이 성능 숫자만의 문제가 아니라, [누수(leakage)](../../../reference/concept-glossary-parts/03-digeut.md#data-leakage), [비용(cost)](../../../reference/concept-glossary-parts/06-bieup.md#cost), 안정성, 해석 가능성과 연결된다는 점을 말할 수 있습니다.
 - 우선 버릴 특징과 우선 남길 특징을 구분하는 기본 질문을 사용할 수 있습니다.
 - 전처리(preprocessing)가 `선택된 특징을 다듬는 일`이라면, 특징 선택은 `어떤 특징을 애초에 채택할지 정하는 일`이라는 차이를 설명할 수 있습니다.
 
@@ -240,7 +240,7 @@ print(comparison.round(2))
 
 #### 1. 신호(signal)가 있는가
 
-그 특징이 정답(label)과 어느 정도 관련된 패턴을 담고 있어야 합니다.
+그 특징이 정답 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)과 어느 정도 관련된 패턴을 담고 있어야 합니다.
 
 예를 들어 고객 이탈 문제에서 최근 방문 횟수는 이탈과 관련 있을 가능성이 있습니다. 반면 완전히 임의로 붙인 내부 일련번호는 보통 문제의 원인이나 경향을 설명하지 못합니다.
 
@@ -254,7 +254,7 @@ print(comparison.round(2))
 - 사람이 임의로 입력해서 흔들림이 큰가?
 - 상황마다 의미가 자주 바뀌는가?
 
-이런 특징은 신호보다 잡음이 더 커질 수 있습니다. 그러면 모델은 안정적인 규칙보다 우연한 흔들림을 배우기 쉬워집니다.
+이런 특징은 신호보다 [잡음(noise)](../../../reference/concept-glossary-parts/09-jieut.md#noise)이 더 커질 수 있습니다. 그러면 모델은 안정적인 규칙보다 우연한 흔들림을 배우기 쉬워집니다.
 
 #### 3. 예측 시점에 실제로 쓸 수 있는가
 
@@ -395,7 +395,7 @@ scikit-learn 문서는 분산이 거의 없는 특징(low variance), 단변량 �
 - 수집 지연이 자주 생기는가?
 - 사람이 손으로 입력해야 해서 품질이 흔들리는가?
 - 개인정보나 비용 문제 때문에 운영에서 쓰기 어려운가?
-- 모델 추론마다 불러오면 지연 시간(latency)이 커지는가?
+- 모델 추론마다 불러오면 [지연 시간(latency)](../../../reference/concept-glossary-parts/09-jieut.md#latency)이 커지는가?
 
 결국 특징 선택은 데이터 과학만의 문제가 아니라 서비스 설계 문제이기도 합니다.
 
@@ -749,6 +749,11 @@ Guyon과 Elisseeff의 고전적인 정리 논문은 `raw input variables`와 `co
 - 특징 선택의 첫 단계는 모델 학습 전 후보 칼럼을 위험 신호별로 점검하는 일이다
 - 식별자, 정답, 결과 이후 값은 먼저 제외 후보로 읽는 편이 안전하다
 
+조작해 볼 값:
+
+- `rows` 안에서 `membership_tier`나 `country` 값을 서로 다르게 바꾸면, 상수 칼럼으로 제외되던 후보가 1차 후보로 이동합니다.
+- `contract_cancelled_at`처럼 이름이 `_at`으로 끝나는 사후 시점 칼럼을 추가하면, 시점 위험 규칙에 걸립니다.
+
 ```python
 # 원시 특징 후보와 선택된 특징 묶음을 비교해 모델 입력 공간을 설계하는 예제입니다.
 rows = [
@@ -859,5 +864,6 @@ rejected candidates:
 
 ## 출처와 참고 자료
 
-- scikit-learn, `1.13. Feature selection`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/feature_selection.html](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `12.2. Data leakage during pre-processing`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.13. Feature selection`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/feature_selection.html](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `12.2. Data leakage during pre-processing`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- Isabelle Guyon and André Elisseeff, `An Introduction to Variable and Feature Selection`, Journal of Machine Learning Research 3(Mar):1157-1182, 2003, 확인 날짜: 2026-07-26. [https://www.jmlr.org/papers/v3/guyon03a.html](https://www.jmlr.org/papers/v3/guyon03a.html){: target="_blank" rel="noopener noreferrer" }

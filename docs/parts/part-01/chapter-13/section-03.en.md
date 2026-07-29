@@ -1,7 +1,7 @@
-# P1-13.3 The Flow That Leads into RAG
+# P1-13.3 Flow Leading into RAG
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds nearby document vectors. The next question is:
 
@@ -144,7 +144,7 @@ Without RAG, a person must gather and paste the reference material manually. Wit
 
 So RAG is not the opposite of prompt engineering. It is a more systematic way of preparing the context that goes into the prompt.
 
-## The Quality of RAG Depends on Several Stages
+## RAG Quality Depends on Several Stages
 
 RAG is not a magical single-step feature. It is closer to a pipeline:
 

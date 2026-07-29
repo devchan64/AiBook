@@ -1,9 +1,9 @@
 # P3-7.5 Should a Baseline Stay Fixed, or Should It Be Updated as a Recent-Usual Reference
 
 > Section ID: `P3-7.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-After baseline candidates are chosen, another question still remains. `Should this reference stay fixed for a while, or should it move together with the recent-usual range?` Even when ranges under the same conditions were selected, the meaning of the comparison sentence changes according to how the baseline is maintained.
+After [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) candidates are chosen, another question still remains. `Should this reference stay fixed for a while, or should it move together with the recent-usual range?` Even when ranges under the same conditions were selected, the meaning of the comparison sentence changes according to how the baseline is maintained.
 
 The baseline-maintenance method is not a problem where one correct answer has to be fixed in advance. The more natural choice changes according to what kind of change we want to see.
 
@@ -35,7 +35,7 @@ The following statements are not asserted in this section.
 - The sample-count criterion is the same number in every domain
 - A fixed baseline is always more trustworthy than a recent-usual baseline
 
-If the baseline-maintenance method is chosen poorly, the meaning of both the comparison report and the current comparison sentence shakes together. Even for the same change, if the reference itself changes, the weight of the current judgment such as `needs review`, `caution`, or `normal/abnormal candidate` also changes. If this section is reread not as a matter of taste between fixed baselines and recent-usual baselines, but as the problem of `reference maintenance strategy`, then it becomes clearer that baseline maintenance is not a contest with one right answer. It is a choice of what reference-maintenance method fits the comparison question.
+If the baseline-maintenance method is chosen poorly, the meaning of both the [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report) and the current comparison sentence shakes together. Even for the same change, if the reference itself changes, the weight of the current judgment such as `needs review`, `caution`, or `normal/abnormal candidate` also changes. If this section is reread not as a matter of taste between fixed baselines and recent-usual baselines, but as the problem of [reference maintenance strategy](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-reference-maintenance-strategy), then it becomes clearer that baseline maintenance is not a contest with one right answer. It is a choice of what reference-maintenance method fits the comparison question.
 
 ## A Small Diagram
 

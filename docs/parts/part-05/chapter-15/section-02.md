@@ -1,7 +1,7 @@
 # P5-15.2 생성 모델(generative model)의 후보 분포(candidate distribution)
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: 왜 정답 하나 대신 후보 분포를 남기는가_
 

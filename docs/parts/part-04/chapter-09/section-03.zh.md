@@ -1,11 +1,11 @@
 # P4-9.3 补充学习：模型选择之后的工具地图
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: 高级模型选择、调优自动化与实验追踪分别划分哪一层问题？_
 
-在 P4-8 和 P4-9 里，我们已经建立了这样一条基本流程：先立 model 候选，再放 baseline，然后在 validation 流程内比较 hyperparameter。接下来，通常会出现下面这些名字。
+在 P4-8 和 P4-9 里，我们已经建立了这样一条基本流程：先立 model 候选，再放 baseline，然后在 validation 流程内比较 [hyperparameter](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)。接下来，通常会出现下面这些名字。
 
 - 信息准则(AIC, BIC)
 - AutoML
@@ -16,9 +16,9 @@ _副标题: 高级模型选择、调优自动化与实验追踪分别划分哪�
 
 这里要留下的标准，不是去熟悉它们各自的实现细节，而是整理 `这些名字为什么会出现，以及它们各自在处理哪一层的问题`。
 
-这份补充学习也不会从头再讲一遍 hyperparameter 和 tuning 的基本定义。基础抓手仍然放在 P4-9.1、P4-9.2 和 [概念词汇表](/AiBook/reference/concept-glossary/)，这里则只按整体脉络整理那些接在后面的高级名字。
+这份补充学习也不会从头再讲一遍 hyperparameter 和 tuning 的基本定义。基础抓手仍然放在 P4-9.1、P4-9.2 和概念词汇表，这里则只按整体脉络整理那些接在后面的高级名字。
 
-## 这份补充学习的范围
+## 工具名称会分开的几个问题层位
 
 这一节回答下面这些问题。
 
@@ -30,7 +30,7 @@ _副标题: 高级模型选择、调优自动化与实验追踪分别划分哪�
 
 这一节先收束 `高级模型选择、调优自动化、实验追踪分别在处理哪些不同问题`。GPU 计算结构会在 Part 5 里重新处理，大规模运维约束会在 Part 6 里重新接回。
 
-## 这份补充学习的目标
+## 高级工具地图要留下的判断标准
 
 - 你可以区分：高级模型选择主题并不都是同一层位的概念。
 - 你可以把 AIC/BIC、AutoML、benchmark、experiment tracking 分别解释成不同问题的解法。
@@ -49,7 +49,7 @@ _副标题: 高级模型选择、调优自动化与实验追踪分别划分哪�
 | benchmark, leaderboard | 多个 model 或系统应该用什么共同标准来比较？ |
 | experiment tracking | 大量实验结果应该怎样不丢失并重新解释？ |
 
-也就是说，这些东西都和 `选出好的 model` 有关，但它们要解决的细部问题并不一样。
+也就是说，这些东西都和[模型选择](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection)有关，但它们要解决的细部问题并不一样。
 
 ## AIC 和 BIC 放在哪里
 
@@ -128,7 +128,7 @@ benchmark 是一种装置，目的是让多个 model 在同一份数据和同一
 | data 版本 | 为了确认是不是同一份数据 |
 | preprocessing 规则 | 为了确认输入是不是相同 |
 | hyperparameter | 为了解释改了什么 |
-| metric | 为了比较什么变好了 |
+| [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) | 为了比较什么变好了 |
 
 ## 什么时候该先想到哪一种高级工具
 
@@ -138,7 +138,7 @@ benchmark 是一种装置，目的是让多个 model 在同一份数据和同一
 | --- | --- | --- |
 | 想把统计模型的拟合度和复杂度放在一起看 | AIC, BIC | 因为它们会把拟合度和复杂度惩罚一起比较 |
 | 搜索空间很宽，grid search 太贵 | Bayesian optimization, Hyperband | 因为它们通过下一候选选择或早停来降低搜索成本 |
-| 想更严格地分开选择和最终评估 | nested cross-validation | 因为它会进一步降低选择过程里的乐观偏差 |
+| 想更严格地分开选择和最终评估 | nested [cross-validation](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation) | 因为它会进一步降低选择过程里的乐观偏差 |
 | 想自动重复候选生成和一部分 tuning | AutoML | 因为它会自动化 preprocessing、候选生成和部分搜索 |
 | 实验太多，开始失去比较依据 | experiment tracking | 因为它能重新追踪 data 版本、规则、分数和设置变更理由 |
 
@@ -173,6 +173,7 @@ benchmark 是一种装置，目的是让多个 model 在同一份数据和同一
 
 ## 出处与参考资料
 
-- scikit-learn developers, [Tuning the hyper-parameters of an estimator](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }，确认日期：2026-07-01。
-- Takuya Akiba et al., [Optuna: A Next-generation Hyperparameter Optimization Framework](https://arxiv.org/abs/1907.10902){: target="_blank" rel="noopener noreferrer" }，确认日期：2026-07-01。
-- MLflow, [Tracking](https://mlflow.org/docs/latest/ml/tracking/){: target="_blank" rel="noopener noreferrer" }，确认日期：2026-07-01。
+- scikit-learn developers, [Tuning the hyper-parameters of an estimator](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }，确认日期：2026-07-26。
+- scikit-learn developers, [Nested versus non-nested cross-validation](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html){: target="_blank" rel="noopener noreferrer" }，确认日期：2026-07-26。
+- Takuya Akiba et al., [Optuna: A Next-generation Hyperparameter Optimization Framework](https://arxiv.org/abs/1907.10902){: target="_blank" rel="noopener noreferrer" }，确认日期：2026-07-26。
+- MLflow, [Tracking](https://mlflow.org/docs/latest/ml/tracking/){: target="_blank" rel="noopener noreferrer" }，确认日期：2026-07-26。

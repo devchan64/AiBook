@@ -1,7 +1,7 @@
 # P2-5.4 Checking Probability and Statistics with Small Data
 
 > Section ID: `P2-5.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-5.1, we looked at probability as a numeric language for dealing with uncertainty. In P2-5.2, we looked at distribution, mean, and variance as tools for reading the shape of a data bundle. In P2-5.3, we looked at sample, estimation, and error as "speaking about the whole from the part."
 
@@ -102,7 +102,7 @@ At this stage, the important questions are what these numbers record, how they w
 
 Code can perform the calculation, but a person has to decide what the data means.
 
-## The Mean Summarizes the Center into One Number
+## Mean Summarizes the Center into One Number
 
 The `mean` summarizes the center of the data into one number.
 
@@ -129,7 +129,7 @@ The mean is convenient, but one mean alone cannot tell you the full shape of the
 
 Also, the mean can be shaken by one extremely large or small value. One representative value you can look at together in that situation is the `median`.
 
-## The Median Is the Middle Value After Sorting
+## Median Is the Middle Value After Sorting
 
 The `median` is the value that sits in the middle after sorting the values in order.
 

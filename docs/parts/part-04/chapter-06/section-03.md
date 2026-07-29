@@ -1,15 +1,15 @@
 # P4-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-6.1과 P4-6.2에서는 모델 평가 지표(metric)를 봤습니다. 이제 시선을 조금 바깥으로 돌립니다. 모델이 잘 맞는 것과 서비스가 잘 운영되는 것은 같은 말이 아닙니다. 이 차이를 이해하려면 SRE(site reliability engineering)에서 `metric`이라는 말을 어떻게 쓰는지 볼 필요가 있습니다.
+P4-6.1과 P4-6.2에서는 모델 [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)를 봤습니다. 이제 시선을 조금 바깥으로 돌립니다. 모델이 잘 맞는 것과 서비스가 잘 운영되는 것은 같은 말이 아닙니다. 이 차이를 이해하려면 SRE(site reliability engineering)에서 `metric`이라는 말을 어떻게 쓰는지 볼 필요가 있습니다.
 
 이 절은 SRE 입문서를 대신하지 않습니다. 목적은 하나입니다. `모델의 품질을 읽는 숫자`와 `서비스의 상태를 읽는 숫자`가 어디서 닮고 어디서 갈라지는지 보충학습으로 정리하는 것입니다.
 
 ## 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법에서 구분할 경계
 
-이 절은 머신러닝 평가 지표와 운영 지표를 구분하는 보충학습 절입니다. SLI(service level indicator), SLO(service level objective), SLA(service level agreement), 에러 버짓(error budget), 그리고 운영에서 자주 보는 지연 시간(latency), 트래픽(traffic), 오류(errors), 포화도(saturation)를 입문 수준으로 연결합니다.
+이 절은 머신러닝 평가 지표와 운영 지표를 구분하는 보충학습 절입니다. SLI(service level indicator), SLO(service level objective), SLA(service level agreement), 에러 버짓(error budget), 그리고 운영에서 자주 보는 [지연 시간(latency)](../../../reference/concept-glossary-parts/09-jieut.md#latency), 트래픽(traffic), 오류(errors), 포화도(saturation)를 입문 수준으로 연결합니다.
 
 이 절은 다음 질문에 답합니다.
 
@@ -154,9 +154,9 @@ SLO를 정하면 자연스럽게 에러 버짓(error budget)이라는 개념이 
 
 ### 운영에서는 왜 평균보다 분포와 백분위수를 더 보게 되는가
 
-Google SRE Book은 운영에서 단순 평균(mean)이 중요한 사실을 가릴 수 있다고 설명합니다. 특히 지연 시간(latency)은 평균만 보면 긴 꼬리 구간(tail)이 숨겨질 수 있습니다.
+Google SRE Book은 운영에서 단순 [평균(mean)](../../../reference/concept-glossary-parts/13-pieup.md#mean)이 중요한 사실을 가릴 수 있다고 설명합니다. 특히 지연 시간(latency)은 평균만 보면 긴 꼬리 구간(tail)이 숨겨질 수 있습니다.
 
-예를 들어 평균 응답 시간이 100ms여도, 일부 요청이 5초씩 걸리면 사용자는 서비스를 느리다고 느낄 수 있습니다. 그래서 운영에서는 p95, p99 같은 백분위수(percentile)를 자주 봅니다.
+예를 들어 평균 응답 시간이 100ms여도, 일부 요청이 5초씩 걸리면 사용자는 서비스를 느리다고 느낄 수 있습니다. 그래서 운영에서는 p95, p99 같은 백분위수(percentile)를 자주 봅니다. 백분위수는 전체 [분포(distribution)](../../../reference/concept-glossary-parts/06-bieup.md#distribution)의 꼬리 쪽 경험을 드러내는 데 쓰입니다.
 
 다음처럼 정리하면 됩니다.
 
@@ -528,5 +528,5 @@ case_B
 
 ## 출처와 참고 자료
 
-- Google SRE, `Service Level Objectives`, Site Reliability Engineering Book, 확인 날짜: 2026-06-26. [https://sre.google/sre-book/service-level-objectives/](https://sre.google/sre-book/service-level-objectives/){: target="_blank" rel="noopener noreferrer" }
-- Google SRE, `Monitoring Distributed Systems`, Site Reliability Engineering Book, 확인 날짜: 2026-06-26. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }
+- Google SRE, `Service Level Objectives`, Site Reliability Engineering Book, 확인 날짜: 2026-07-26. [https://sre.google/sre-book/service-level-objectives/](https://sre.google/sre-book/service-level-objectives/){: target="_blank" rel="noopener noreferrer" }
+- Google SRE, `Monitoring Distributed Systems`, Site Reliability Engineering Book, 확인 날짜: 2026-07-26. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }

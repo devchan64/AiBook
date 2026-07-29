@@ -1,7 +1,7 @@
 # P6-4.3 보충학습: attention head와 위치 표현
 
 > Section ID: `P6-4.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: multi-head attention과 위치 표현은 문맥 관계와 순서 정보를 어떻게 나눠 보강하는가_
 

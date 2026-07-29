@@ -1,7 +1,7 @@
-# P5-8.4 Supplementary Reading: How A Large Initialization Scale Shakes The Computation Range
+# P5-8.4 Supplementary Reading: How a Large Initialization Scale Shakes the Computation Range
 
 > Section ID: `P5-8.4`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P5-8.3, we grouped together the conditions that make deep computation actually shake less: initialization, numerical stability, and batch normalization. Now we confirm that claim with actual numbers.
 
@@ -11,7 +11,7 @@ When the same activations pass through several layers, how much does a large ini
 
 This section does not reproduce full learning. Instead, it assumes that the activation values coming from the previous layer pass through the same linear transform across three layers, and checks how a small scale and a large scale change the output range and variance at each layer. The single scalar multiplied at each layer is enough to read as `a toy experimental value that represents the weight scale of that layer in simplified form`. Then we also check how the output range is reorganized into an easier-to-handle form once batch normalization is applied after each layer.
 
-## The Question Of How Large Initialization Scale Shakes Ranges
+## The Question of How Large Initialization Scale Shakes Ranges
 
 - How does a large initialization scale increase the range and variance of raw activations during deep repeated computation?
 - If batch normalization is applied after each layer, how does the same computational flow change?
@@ -19,7 +19,7 @@ This section does not reproduce full learning. Instead, it assumes that the acti
 
 As the final stage of Chapter 8, this section is the place where we confirm with numbers the `computation-stabilization devices` gathered in the previous section. That is also why we do not discuss optimizer updates, loss reduction, or actual dataset training performance here. Those topics are passed to the learning-loop explanation in P5-6.1 and the optimizer explanations in P5-7.1 and P5-7.2.
 
-## How To Read The Example
+## How to Read the Example
 
 The input in the example below is not an arbitrary table of numbers, but activation values assumed to have come from the previous layer for three samples.
 
@@ -175,7 +175,7 @@ The conclusion this experiment should let us hold onto first is simple. Its role
 - Can you explain that batch normalization is not removing large values, but a device for resetting the standard of the distribution?
 - Can you distinguish that this example is not a full training process, but a small experiment for confirming the intuition of numerical stability?
 
-## Sources And References
+## Sources and References
 
 - Aston Zhang, Zachary C. Lipton, Mu Li, Alexander J. Smola, `Dive into Deep Learning`, `5.4 Numerical Stability and Initialization`, `8.5 Batch Normalization`, checked on 2026-07-14. [https://d2l.ai/](https://d2l.ai/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, Part II `Modern Practical Deep Networks`, checked on 2026-07-14. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

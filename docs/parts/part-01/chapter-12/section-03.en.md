@@ -1,7 +1,7 @@
-# P1-12.3 The Limits and Evaluation of Prompts
+# P1-12.3 Prompt Limits and Evaluation
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 12.1 explained what prompts specify. Section 12.2 separated `instructions`, `context`, and `examples`.
 

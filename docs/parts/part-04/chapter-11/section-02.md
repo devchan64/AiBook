@@ -1,13 +1,13 @@
 # P4-11.2 결정 경계(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 모델`로 보았습니다. 이제 질문을 한 단계 바꿉니다.
+P4-11.1에서는 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)를 `확률처럼 읽히는 점수를 만드는 선형 모델`로 보았습니다. 이제 질문을 한 단계 바꿉니다.
 
 그 점수는 왜 어떤 입력을 class 0으로, 다른 입력을 class 1로 나누는가?
 
-이 질문에 답하려면 단지 `확률이 얼마인가`만 보는 것으로는 부족합니다. `어디까지는 class 0으로 읽고, 어디부터는 class 1로 읽는가`라는 기준이 함께 보여야 합니다. 그 기준을 입력 공간(input space)에서 읽는 관점이 결정 경계(decision boundary)입니다.
+이 질문에 답하려면 단지 `확률이 얼마인가`만 보는 것으로는 부족합니다. `어디까지는 class 0으로 읽고, 어디부터는 class 1로 읽는가`라는 기준이 함께 보여야 합니다. 그 기준을 입력 공간(input space)에서 읽는 관점이 [결정 경계(decision boundary)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-boundary)입니다.
 
 그래서 `입력 공간에서 어디에 선을 긋는가`라는 표현은 본질이 아니라 결과에 가깝습니다. 더 본질적인 질문은 다음입니다.
 
@@ -17,7 +17,7 @@ P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽�
 
 결정 경계는 모델이 class 0과 class 1을 나누는 기준선 또는 기준면이다.
 
-이 절은 로지스틱 회귀의 기본 정의를 다시 길게 반복하지 않습니다. `확률처럼 읽히는 점수를 만드는 선형 분류기`라는 핵심 직관은 P4-11.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 그 점수가 입력 공간을 어떻게 가르는지에 집중합니다.
+이 절은 로지스틱 회귀의 기본 정의를 다시 길게 반복하지 않습니다. `확률처럼 읽히는 점수를 만드는 선형 분류기`라는 핵심 직관은 P4-11.1과 개념사전의 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression), [결정 경계(decision boundary)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-boundary) 항목을 기준으로 다시 연결하고, 여기서는 그 점수가 입력 공간을 어떻게 가르는지에 집중합니다.
 
 결정 경계까지 읽고 나면 `왜 확률을 이런 형태로 바꿔 읽는가`, `왜 학습 설명에 log-odds와 MLE가 따라붙는가`, `이 감각이 여러 클래스와 설정 비교로는 어떻게 넓어지는가`가 다음 질문으로 남습니다. 그 회수는 P4-11.3, P4-11.4, P4-11.5 보충학습에서 이어집니다.
 
@@ -374,6 +374,11 @@ Fisher의 판별 전통, Bayes 분류기, LDA/QDA 같은 설명도 결국 `어�
 | `y` | 합격 / 불합격 정답 |
 | `samples` | 경계 아래, 경계 근처, 경계 위를 확인하기 위한 샘플 |
 
+조작해 볼 값:
+
+- `samples`를 `[48, 49]`, `[50, 50]`, `[52, 51]`처럼 더 촘촘히 바꾸면 경계 근처 점수 이동을 자세히 볼 수 있습니다.
+- `X`의 한두 점을 움직이면 계수와 절편이 달라지면서 경계 해석도 함께 달라지는지 확인할 수 있습니다.
+
 ```python
 # 로지스틱 회귀의 결정 경계가 입력 공간에서 클래스를 어떻게 나누는지 확인하는 예제입니다.
 import numpy as np
@@ -442,12 +447,6 @@ prediction      : [0 1 1]
 - 경계에 매우 가까운 샘플은 검토(review) 대상으로 분리하기 쉽습니다.
 - 따라서 결정 경계는 단순한 시각화가 아니라, `애매한 사례를 찾는 운영 기준`으로도 연결됩니다.
 
-직접 값을 바꿔 보면 더 잘 보이는 지점도 있습니다.
-
-- `samples`를 `[48, 49]`, `[50, 50]`, `[52, 51]`처럼 더 촘촘히 바꾸면 경계 근처 점수 이동을 더 자세히 볼 수 있습니다.
-- `X`의 한두 점을 움직이면 계수와 절편이 달라지면서 경계 해석도 함께 달라집니다.
-- 같은 모델이라도 threshold를 다르게 두면, 경계 근처 샘플의 최종 행동이 바뀐다는 점은 다음 예제와 연결됩니다.
-
 ### threshold 변화도 작은 코드로 확인하기
 
 이번에는 이미 계산된 class 1 점수를 가지고, threshold가 바뀌면 경계 해석도 어떻게 달라지는지 확인해 보겠습니다.
@@ -469,6 +468,11 @@ prediction      : [0 1 1]
 
 - threshold 변화는 class 영역의 크기를 바꾼다
 - 경계는 단지 수학식이 아니라 운영 규칙과도 연결된다
+
+조작해 볼 값:
+
+- `proba_class_1`에 `0.49`, `0.50`, `0.51`을 넣으면 0.5 경계에서 class가 어떻게 갈리는지 볼 수 있습니다.
+- `pred_07`의 기준을 `0.6`이나 `0.8`로 바꾸면 같은 점수 배열에서 class 1 영역이 얼마나 달라지는지 비교할 수 있습니다.
 
 ```python
 # 로지스틱 회귀의 결정 경계가 입력 공간에서 클래스를 어떻게 나누는지 확인하는 예제입니다.
@@ -497,6 +501,11 @@ threshold 0.7   : [0 0 1]
 ### 값 하나 더 바꿔 보기: threshold를 더 올리면 무엇이 유지되고 무엇이 달라지는가
 
 이번에는 같은 점수 배열을 유지한 채 threshold를 `0.9`까지 올려 봅니다.
+
+조작해 볼 값:
+
+- `0.81`을 `0.91`로 바꾸면 높은 threshold에서도 자동 class 1로 남는 사례가 무엇인지 볼 수 있습니다.
+- `pred_09`를 `0.85` 기준으로 바꾸면 운영 기준을 조금만 낮춰도 review 후보가 어떻게 달라지는지 비교할 수 있습니다.
 
 ```python
 # 로지스틱 회귀의 결정 경계가 입력 공간에서 클래스를 어떻게 나누는지 확인하는 예제입니다.
@@ -598,7 +607,7 @@ threshold 0.9   : [0 0 0]
 
 ## 출처와 참고 자료
 
-- Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }
+- Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LogisticRegression`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }

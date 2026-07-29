@@ -1,7 +1,7 @@
 # P2-4.2 Rate of Change and Slope
 
 > Section ID: `P2-4.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-4.1, we brought back memories of learning differentiation. The slope of a tangent line, instantaneous rate of change, distance and speed, and the flow from point to volume all connect to a mathematical way of thinking that tries to understand change and accumulation.
 
@@ -89,7 +89,7 @@ On the graph, this value is the slope. If the slope is large, the output changes
 2. If the slope is 0, it means the output tends not to change even when the input changes.
 3. If the slope is negative, it means the output tends to decrease as the input increases.
 
-## In a Line, the Slope Is Constant
+## in a Line, the Slope Is Constant
 
 In a line, the slope is the same everywhere.
 
@@ -106,7 +106,7 @@ Lines are easy to handle because the rate of change is constant. The slope compu
 
 But many real problems do not move like lines. They may change slowly at first and quickly later, or increase in one interval and decrease in another.
 
-## In a Curve, the Rate of Change Differs by Interval
+## in a Curve, the Rate of Change Differs by Interval
 
 Now let us look at the following function.
 
@@ -239,7 +239,7 @@ For example, if the slope at some point on a loss curve is positive, we can read
 
 ## View It Through a Case
 
-### Case 1. As Advertising Spend Increases, How Much Does the Number of Sign-Ups Change?
+### Case 1. Advertising Spend Increases, How Much Does the Number of Sign-Ups Change?
 
 Suppose a service team runs advertising to increase the number of sign-ups. A practitioner first looks at `this week's ad spend`, `number of visits`, and `number of completed sign-ups`. The numbers can be checked immediately, but these numbers alone make it hard to decide whether to spend more on ads or spend less.
 

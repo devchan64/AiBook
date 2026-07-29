@@ -1,7 +1,7 @@
 # P4-10.2 선형회귀의 평가와 한계
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-10.1에서는 선형회귀(linear regression)를 `관계를 직선으로 먼저 읽어 보는 모델`로 보았습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -9,17 +9,17 @@ P4-10.1에서는 선형회귀(linear regression)를 `관계를 직선으로 먼�
 
 이 질문이 바로 평가(evaluation)와 한계(limit)의 출발점입니다.
 
-종종 선형회귀를 학습한 뒤 `기울기가 그럴듯하다`, `예측값이 비슷해 보인다` 정도에서 멈춥니다. 하지만 알고리즘 장에서는 거기서 한 단계 더 나가야 합니다. 예측과 실제의 차이를 어떻게 읽을지, 어떤 지표(metric)로 요약할지, 그리고 직선 가정이 언제 무리해지는지를 함께 봐야 합니다.
+종종 선형회귀를 학습한 뒤 `기울기가 그럴듯하다`, `예측값이 비슷해 보인다` 정도에서 멈춥니다. 하지만 알고리즘 장에서는 거기서 한 단계 더 나가야 합니다. 예측과 실제의 차이를 어떻게 읽을지, 어떤 [지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)로 요약할지, 그리고 직선 가정이 언제 무리해지는지를 함께 봐야 합니다.
 
 즉, 이 절은 `직선을 그렸다`에서 끝나지 않고, `그 직선이 데이터를 얼마나 설명했는가`를 읽는 절입니다.
 
-이 절은 선형회귀의 기본 정의를 다시 길게 반복하지 않습니다. `직선으로 관계를 읽는 모델`이라는 핵심 직관은 P4-10.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 평가와 한계에만 초점을 둡니다.
+이 절은 선형회귀의 기본 정의를 다시 길게 반복하지 않습니다. `직선으로 관계를 읽는 모델`이라는 핵심 직관은 P4-10.1의 [선형회귀(linear regression)](../../../reference/concept-glossary-parts/07-siot.md#linear-regression) 항목을 기준으로 다시 연결하고, 여기서는 평가와 한계에만 초점을 둡니다.
 
 ## 선형회귀의 평가와 한계에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
-- 잔차(residual)와 오차(error)는 어떻게 이해하면 좋은가?
+- 잔차(residual)와 [오차(error)](../../../reference/concept-glossary-parts/08-ieung.md#error)는 어떻게 이해하면 좋은가?
 - 선형회귀의 예측이 잘 맞는다는 말은 무엇을 뜻하는가?
 - MAE, MSE, RMSE, R²를 입문 수준에서 어떻게 구분할 수 있는가?
 - 직선 가정이 어긋나면 어떤 한계가 생기는가?
@@ -144,7 +144,7 @@ MAE는 잔차의 절댓값을 평균낸 값입니다.
 
 즉, MAE는 `평균적으로 얼마나 틀리는가`를 가장 담백하게 보여 주는 지표입니다.
 
-#### MSE(mean squared error)
+#### [MSE(mean squared error)](../../../reference/concept-glossary-parts/13-pieup.md#mean-squared-error-mse)
 
 MSE는 잔차를 제곱한 뒤 평균냅니다.
 
@@ -278,7 +278,7 @@ R²(score, coefficient of determination)는 선형회귀 입문에서 자주 보
 
 예를 들어 집값 예측에서 크기만 넣고 위치를 빼면, 모델은 크기와 가격의 관계를 읽는 척하지만 실제로는 중요한 구조를 놓치게 됩니다.
 
-#### 4. 이상치(outlier)가 강할 때
+#### 4. [이상치(outlier)](../../../reference/concept-glossary-parts/08-ieung.md#outlier)가 강할 때
 
 선형회귀는 큰 오차를 무시하지 못합니다. 데이터 몇 개가 유난히 멀리 있으면, 직선이 그 점들에 끌려가 전체 해석이 흔들릴 수 있습니다.
 
@@ -419,6 +419,11 @@ R²가 높으면 모델이 데이터를 잘 설명하는 것처럼 보입니다.
   - MAE와 RMSE는 오차를 요약합니다.
   - R²는 평균 예측보다 얼마나 더 설명하는지 보여 줍니다.
 
+조작해 볼 값:
+
+- `exam_score`의 마지막 값을 `80`이나 `90`으로 바꾸면 잔차 배열과 RMSE가 어떻게 달라지는지 볼 수 있습니다.
+- `study_hours`와 `exam_score`에 새 점을 하나 추가하면 작은 데이터셋에서 R²가 얼마나 쉽게 흔들리는지 확인할 수 있습니다.
+
 ```python
 # 선형회귀 예측의 잔차와 MAE, MSE, RMSE 같은 평가 지표를 계산하는 예제입니다.
 import numpy as np
@@ -490,6 +495,11 @@ R2          : 0.992
 - MAE는 평균적인 빗나감을 보여 준다
 - RMSE는 큰 실패 하나에 더 민감하게 반응한다
 
+조작해 볼 값:
+
+- `pred_outlier`의 마지막 값을 `80`, `90`, `100`으로 바꿔 보며 MAE와 RMSE가 커지는 속도를 비교할 수 있습니다.
+- `pred_good`의 모든 값을 실제값보다 `+2`만큼 크게 만들면, 큰 실패가 없을 때 두 지표가 어떻게 가까워지는지 볼 수 있습니다.
+
 ```python
 # 선형회귀 예측의 잔차와 MAE, MSE, RMSE 같은 평가 지표를 계산하는 예제입니다.
 import numpy as np
@@ -524,6 +534,11 @@ outlier RMSE: 7.431
 ### 값 하나 더 바꿔 보기: 큰 실패가 두 점으로 늘어나면 무엇이 유지되고 무엇이 달라지는가
 
 이번에는 마지막 한 점만 크게 틀리는 대신, 마지막 두 점이 함께 크게 틀리는 장면으로 바꿔 봅니다.
+
+조작해 볼 값:
+
+- `pred_two_outliers`의 다섯 번째 값을 `76`, `84`, `92`로 바꿔 보며 한 점짜리 실패와 반복 실패의 차이를 비교할 수 있습니다.
+- 앞쪽 네 점 중 하나도 크게 틀리게 만들면 큰 오차가 특정 구간에 몰렸는지 흩어졌는지를 기록해 볼 수 있습니다.
 
 ```python
 # 선형회귀 예측의 잔차와 MAE, MSE, RMSE 같은 평가 지표를 계산하는 예제입니다.
@@ -587,8 +602,11 @@ two-outlier RMSE: 8.91
 
 ## 출처와 참고 자료
 
-- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `3.4. Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `mean_absolute_error`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `mean_squared_error`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `r2_score`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `3.4. Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `mean_absolute_error`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `mean_squared_error`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `r2_score`, scikit-learn API Reference, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html){: target="_blank" rel="noopener noreferrer" }
+- NIST/SEMATECH, `4.1.4.1. Linear Least Squares Regression`, Engineering Statistics Handbook, 확인 날짜: 2026-07-26. [https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm](https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm){: target="_blank" rel="noopener noreferrer" }
+- J. M. Bland, D. G. Altman, `Statistic Notes: Regression towards the mean`, BMJ 1994;308:1499, 확인 날짜: 2026-07-26. [https://www.bmj.com/content/308/6942/1499](https://www.bmj.com/content/308/6942/1499){: target="_blank" rel="noopener noreferrer" }
+- National Human Genome Research Institute, `Eugenics and Scientific Racism`, 확인 날짜: 2026-07-26. [https://www.genome.gov/about-genomics/fact-sheets/Eugenics-and-Scientific-Racism](https://www.genome.gov/about-genomics/fact-sheets/Eugenics-and-Scientific-Racism){: target="_blank" rel="noopener noreferrer" }

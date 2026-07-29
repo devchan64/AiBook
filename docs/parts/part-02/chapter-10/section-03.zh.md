@@ -1,13 +1,13 @@
 # P2-10.3 把笔记本整理成可重新执行的记录
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 在 P2-10.1 中，我们把 notebook 看成同时包含 code、explanation 和 output 的计算文档。在 P2-10.2 中，我们又从执行位置和文件访问的角度区分了 Jupyter、Colab 和本地执行。
 
 现在再往前走一步。Notebook 作为学习记录很有用，但当 cell 被多次执行后，文档里看到的顺序和实际执行状态可能会分离。所以 notebook 必须同时被整理成 `可读的文档` 和 `可复现的记录`。
 
-这里说明 `reproducible record`、`execution order`、`hidden state`、`runtime state` 的基本区分。关于 `notebook` 与 cell 结构的代表性说明放在 P2-10.1，执行位置差异放在 P2-10.2，而 `reproducibility` 的代表性说明放在 P2-7.5 和[概念词汇表](/AiBook/reference/concept-glossary/)。这里关注的是：如何整理这些记录，让它们以后仍然值得信任。
+这里说明 `reproducible record`、`execution order`、`hidden state`、`runtime state` 的基本区分。关于 `notebook` 与 cell 结构的代表性说明放在 P2-10.1，执行位置差异放在 P2-10.2，而 `reproducibility` 的代表性说明放在 P2-7.5 和[可复现性词条](/AiBook/zh/reference/concept-glossary-pinyin/k.zh/#reproducibility)。这里关注的是：如何整理这些记录，让它们以后仍然值得信任。
 
 放回 Part 2 的流程里看，Chapter 7 处理的是 `在哪里执行`，Chapter 8 到 9 处理的是 `写什么、用什么句子写`，而 Chapter 10 处理的是 `怎样把这些执行和输出保留下来，并且以后还能再读`。只有这个标准立起来，紧接着的 Chapter 11 到 14 才不会读成一串新工具名称，而会读成一种准备流程：在 notebook 里计算数组、读取表格、检查图，再用 Git 留下记录。
 

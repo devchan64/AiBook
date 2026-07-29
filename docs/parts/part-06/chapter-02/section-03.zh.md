@@ -1,7 +1,7 @@
 # P6-2.3 改变长度、成本与 chunk 的 tokenization
 
 > Section ID: `P6-2.3`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P6-2.2 中，我们区分了 tokenizer 输出里的 token 字符串、token 数、token ID、token ID 顺序列。现在要从 `怎样阅读` 再往前走一步，看 tokenization 结果怎样改变实际判断。
 

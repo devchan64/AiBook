@@ -1,7 +1,7 @@
 # P1-5.1 学习(learning)会改变什么
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 第 4 章已经把现实问题整理成模型可处理的 `input`、`output`、`feature`、`representation` 与 `parameter` 关系。
 

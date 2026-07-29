@@ -1,7 +1,7 @@
 # P6-2.4 A Token View That Leads to Prompt Length, RAG Chunks, and Cost
 
 > Section ID: `P6-2.4`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 Once you understand the difference between tokens and tokenization, one question remains. When you see a real failure or operational inconvenience, can you quickly choose `where to apply the token view again`?
 

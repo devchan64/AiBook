@@ -1,9 +1,9 @@
 # P3-5.5 How Do We Handle Samples with Missing Values or Empty Segments
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-By the time we reach the stage of turning raw logs into a summary table, questions such as `what if the action existed but some sensor values are empty?` and `if the middle segment is missing, should we discard this sample or use part of it?` appear immediately. At that point, what we should look at first is not how to fill the values, but how much the missing values disturb the sample boundary and the meaning of the features.
+By the time we reach the stage of turning source logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table), questions such as `what if the action existed but some sensor values are empty?` and `if the middle segment is missing, should we discard this sample or use part of it?` appear immediately. At that point, what we should look at first is not how to fill the values, but how much the [missing values](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-missing-value) disturb the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) boundary and the meaning of the [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature).
 
 The fact that values are missing is not just a cleaning problem. It is a data-modeling signal that asks again `can this sample still be treated as the same kind of case?`
 
@@ -203,7 +203,7 @@ The core of this example is not code that fills values. It is the point that `pa
 
 The last thing to check here is threefold. Is this sample still the same comparison unit? Have we separated the features that should not be built because of the missingness? Have we decided whether the missingness itself should remain as a flag column? Only when these three conditions stand together does a blank become readable not as a simple cleaning target but as a data-modeling item mixed with judgment about sample structure.
 
-The fact that values are missing is not only a preprocessing problem. It is a data-modeling signal that asks again whether the sample is still the same comparison unit and whether the missingness itself should remain as structural information. So to say that we handle missingness means, before filling blanks, redrawing the boundary that says which samples remain comparable and which should be pulled back from comparison.
+The fact that values are missing is not only a [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing) problem. It is a data-modeling signal that asks again whether the sample is still the same comparison unit and whether the missingness itself should remain as structural information. So to say that we handle missingness means, before filling blanks, redrawing the boundary that says which samples remain comparable and which should be pulled back from comparison.
 
 ## Sources and Further Reading
 

@@ -1,13 +1,13 @@
 # P4-8.1 모델 선택(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 P4-7에서는 어떤 입력을 남기고, 그 입력을 어떤 표현으로 바꿀지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
 그 입력을 어떤 종류의 모델에게 맡길 것인가?
 
-이 질문이 바로 모델 선택(model selection)의 출발점입니다.
+이 질문이 바로 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection)의 출발점입니다.
 
 종종 모델 선택을 `가장 유명한 알고리즘을 고르는 일`처럼 이해합니다. 하지만 실제로는 반대에 가깝습니다. 모델 선택은 문제의 형태, 데이터의 성질, 설명 가능성, 계산 비용, 운영 조건을 함께 보고 후보를 좁히는 일입니다.
 
@@ -21,13 +21,13 @@ P4-7에서는 어떤 입력을 남기고, 그 입력을 어떤 표현으로 바�
 
 | 지금 보는 문제 | 독자용 첫 질문 | 처음 떠올릴 후보군 |
 | --- | --- | --- |
-| 분류 | `둘 이상 class를 나누는가?` | 로지스틱 회귀, 결정트리, k-NN |
-| 회귀 | `연속값을 맞히는가?` | 선형회귀, 트리 회귀 |
-| 군집화 | `라벨 없이 묶음을 찾는가?` | k-means, DBSCAN |
+| [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification) | `둘 이상 class를 나누는가?` | 로지스틱 회귀, 결정트리, k-NN |
+| [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression) | `연속값을 맞히는가?` | 선형회귀, 트리 회귀 |
+| [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering) | `라벨 없이 묶음을 찾는가?` | k-means, DBSCAN |
 
 이 표의 목적은 정답을 찍는 것이 아니라, 문제를 보고 `어느 서랍을 먼저 열어야 하는가`를 알게 하는 것입니다.
 
-## 모델 선택(model selection)에서 닫을 질문
+## 후보군을 세울 때 먼저 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -36,14 +36,15 @@ P4-7에서는 어떤 입력을 남기고, 그 입력을 어떤 표현으로 바�
 - 문제 유형과 데이터 조건에 따라 어떤 모델 계열을 먼저 떠올릴 수 있는가?
 - 성능 외에 어떤 기준이 모델 선택에 들어오는가?
 
-이 절은 먼저 `문제와 제약을 보고 어떤 모델 후보군을 세울 것인가`를 닫습니다. 교차검증의 기본 역할은 P4-4.2와 P4-9.2에서 다시 연결하고, 정보 기준, AutoML, 대규모 탐색 시스템은 P4-9.3 보충학습에서 `고급 모델 선택과 자동화` 관점으로 이어집니다.
+이 절은 먼저 `문제와 제약을 보고 어떤 모델 후보군을 세울 것인가`를 닫습니다.
+[교차검증(cross-validation)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation)의 기본 역할은 P4-4.2와 P4-9.2에서 다시 연결하고, 정보 기준, AutoML, 대규모 탐색 시스템은 P4-9.3 보충학습에서 `고급 모델 선택과 자동화` 관점으로 이어집니다.
 
 ## 모델 선택(model selection)에서 남길 판단 기준
 
 - 모델 선택을 `후보 모델 집합에서 문제에 맞는 선택지를 좁히는 일`로 설명할 수 있습니다.
 - 문제 유형, 데이터 크기, 특징 표현, 해석 가능성, 속도 요구가 모델 선택에 영향을 준다는 점을 말할 수 있습니다.
 - 하나의 정답 모델을 찾기보다 `합리적인 후보군(candidate set)`을 세우는 사고를 사용할 수 있습니다.
-- 뒤 절의 기준 모델(baseline), 하이퍼파라미터(hyperparameter), 알고리즘 입문과 어떻게 이어지는지 설명할 수 있습니다.
+- 뒤 절의 [기준 모델(baseline model)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model), [하이퍼파라미터(hyperparameter)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter), 알고리즘 입문과 어떻게 이어지는지 설명할 수 있습니다.
 
 ## 학습 배경
 
@@ -468,6 +469,11 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 
 같은 후보군 메모를 실제 비교 절차로 줄이면 다음처럼 볼 수 있습니다. 아래 코드는 같은 분류 데이터에 로지스틱 회귀(logistic regression), k-NN, 결정트리(decision tree), 랜덤포레스트(random forest)를 올리고, 5-fold cross-validation으로 train score, CV score, CV score의 흔들림을 비교합니다.
 
+조작해 볼 값:
+
+- `class_sep=0.9`와 `flip_y=0.06`을 바꾸면 데이터가 더 잘 나뉘거나 더 많이 섞여서 후보별 CV score와 흔들림이 달라집니다.
+- `n_neighbors=7`, `max_depth=4`, `n_estimators=80`을 바꾸면 각 후보 모델의 복잡도와 train/CV score 차이가 달라집니다.
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
@@ -529,8 +535,8 @@ random_forest train= 0.984 cv= 0.796 spread= 0.048
 
 | 장면 | 해설 예시 |
 | --- | --- |
-| 고위험 환자 분류 | 실제 위험 환자를 놓치는 false negative를 먼저 줄여야 하므로, recall과 놓친 사례를 먼저 본다고 메모하는 편이 맞다. |
-| 광고 추천 분류 | 관심 없는 사람을 잘못 양성으로 판단하는 false positive를 줄여야 하므로, precision 쪽 오류와 과도 노출 사례를 먼저 본다고 적는 편이 맞다. |
+| 고위험 환자 분류 | 실제 위험 환자를 놓치는 [false negative](../../../reference/concept-glossary-parts/01-giyeok.md#false-negative)를 먼저 줄여야 하므로, [recall](../../../reference/concept-glossary-parts/09-jieut.md#recall)과 놓친 사례를 먼저 본다고 메모하는 편이 맞다. |
+| 광고 추천 분류 | 관심 없는 사람을 잘못 양성으로 판단하는 [false positive](../../../reference/concept-glossary-parts/01-giyeok.md#false-positive)를 줄여야 하므로, [precision](../../../reference/concept-glossary-parts/09-jieut.md#precision) 쪽 오류와 과도 노출 사례를 먼저 본다고 적는 편이 맞다. |
 
 이 연습은 `후보군만 적으면 끝`이 아니라, 같은 후보군이라도 어떤 실패를 줄이려는지에 따라 비교 메모가 달라진다는 점을 붙잡게 합니다.
 
@@ -549,5 +555,5 @@ random_forest train= 0.984 cv= 0.796 spread= 0.048
 
 ## 출처와 참고 자료
 
-- Jie Ding, Vahid Tarokh, Yuhong Yang, `Model Selection Techniques -- An Overview`, arXiv, 2018, 확인 날짜: 2026-06-26. [https://arxiv.org/abs/1810.09583](https://arxiv.org/abs/1810.09583){: target="_blank" rel="noopener noreferrer" }
-- Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`, arXiv, 2018, 확인 날짜: 2026-06-26. [https://arxiv.org/abs/1811.12808](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }
+- Jie Ding, Vahid Tarokh, Yuhong Yang, `Model Selection Techniques -- An Overview`, arXiv, 2018, 확인 날짜: 2026-07-26. [https://arxiv.org/abs/1810.09583](https://arxiv.org/abs/1810.09583){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`, arXiv, 2018, 확인 날짜: 2026-07-26. [https://arxiv.org/abs/1811.12808](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P4-16.1 그래디언트 부스팅(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
 
@@ -11,16 +11,16 @@ P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적
 
 랜덤포레스트가 `여러 의견을 병렬로 모으는 방식`에 가깝다면, 그래디언트 부스팅은 `이전 단계의 오차를 다음 단계가 고쳐 가는 방식`에 가깝습니다.
 
-이 절은 `그래디언트 부스팅(gradient boosting)`, `residual`, `weak learner`, `additive model`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 오차를 순차적으로 보정하는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 그래디언트 부스팅(gradient boosting)이 잔차(residual)를 작은 모델로 순차 보정하는 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 오차를 순차적으로 보정하는 기본 감각은 이 절과 개념사전을 기준으로 다시 연결합니다.
 
 ## 그래디언트 부스팅(gradient boosting)에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
 - 그래디언트 부스팅은 왜 `순차적(sequential)`이라고 부르는가?
-- `weak learner`, `residual`, `additive model`은 어떤 뜻으로 쓰이는가?
+- `weak learner`와 `residual`은 어떤 뜻으로 쓰이는가?
 - 랜덤포레스트와 그래디언트 부스팅의 사고방식은 어떻게 다른가?
-- `n_estimators`와 `learning_rate`는 왜 함께 읽어야 하는가?
+- `n_estimators`와 학습률(learning_rate)은 왜 함께 읽어야 하는가?
 
 이 절은 입문적으로 `부스팅이 무엇을 하려는 방식인가`를 이해하는 데 초점을 둡니다. 성능과 위험, early stopping과 shrinkage의 역할은 P4-16.2에서 이어서 다루고, 하이퍼파라미터와 검증 비용의 더 넓은 관점은 P4-9.1, P4-9.2에서 다시 연결합니다. XGBoost, LightGBM, CatBoost 같은 구현 차이도 P4-16.2에서 `무엇을 더 빠르게 하고 무엇을 더 안전하게 다루려는가` 수준으로 이어서 읽고, 더 넓은 구현 비교가 필요해지면 이 장의 보충학습으로 분리해 회수합니다.
 
@@ -100,9 +100,9 @@ scikit-learn 문서는 gradient boosted trees를 순차적으로 트리를 쌓�
 
 즉, residual은 `틀렸다`는 표시를 넘어서 `다음 단계가 어디를 고치러 들어가야 하는가`를 알려 주는 신호입니다.
 
-## additive model은 무엇을 뜻하나
+## 여러 단계를 더해 가는 구조
 
-scikit-learn 문서는 gradient boosting regressor를 additive model로 설명합니다. 이는 최종 예측이 여러 단계 모델의 출력을 더해 가며 만들어진다는 뜻입니다.
+scikit-learn 문서는 gradient boosting regressor를 여러 단계 모델의 출력을 더해 가는 방식으로 설명합니다. 이는 최종 예측이 한 번에 만들어지는 것이 아니라, 단계별 보정이 누적되며 만들어진다는 뜻입니다.
 
 1. 아주 단순한 기본 예측을 둔다.
 2. 다음 단계 트리가 작은 보정값을 만든다.
@@ -125,7 +125,7 @@ scikit-learn 문서는 gradient boosting regressor를 additive model로 설명�
 
 이 표에서 stage 2는 `다시 처음부터 새 답을 내는 단계`가 아닙니다. 이미 있던 104 위에 `-2`를 더해 102로 고치는 단계입니다. stage 3도 마찬가지로 102 위에 `+1`을 더해 103으로 움직입니다.
 
-즉, additive model은 다음처럼 읽으면 됩니다.
+즉, 부스팅의 단계 누적 구조는 다음처럼 읽으면 됩니다.
 
 - 첫 단계가 대강의 방향을 잡는다
 - 뒤 단계가 그 답을 조금씩 고친다
@@ -140,7 +140,7 @@ scikit-learn 문서는 gradient boosting regressor를 additive model로 설명�
 
 그래서 랜덤포레스트를 `여러 의견의 집계`로 읽는다면, 그래디언트 부스팅은 `여러 수정의 누적`으로 읽는 편이 더 정확합니다.
 
-실무 장면으로 바꾸면, additive model은 `고객 이탈 점수를 한 번에 확정한다`기보다 `기본 위험 점수`를 먼저 두고 `결제 실패`, `최근 사용 감소`, `문의 증가` 같은 신호가 뒤 단계에서 점수를 조금씩 올리거나 내리는 구조에 가깝습니다. 이때 독자가 확인해야 할 것은 `어떤 단계가 어떤 신호를 새로 반영했는가`입니다. additive model이라는 말은 결국 `모델이 한 번에 완성되는가`가 아니라 `조금씩 더해지며 완성되는가`를 가리킵니다.
+실무 장면으로 바꾸면, 부스팅은 `고객 이탈 점수를 한 번에 확정한다`기보다 `기본 위험 점수`를 먼저 두고 `결제 실패`, `최근 사용 감소`, `문의 증가` 같은 신호가 뒤 단계에서 점수를 조금씩 올리거나 내리는 구조에 가깝습니다. 이때 독자가 확인해야 할 것은 `어떤 단계가 어떤 신호를 새로 반영했는가`입니다.
 
 ## weak learner는 왜 작은 트리로 설명되나
 
@@ -314,7 +314,7 @@ scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gr
 | --- | --- | --- |
 | 표 형식 데이터에서 더 강한 성능 후보가 필요하다 | 작은 패턴을 순차 보정으로 누적할 수 있기 때문 | 과적합 관리 계획이 있는지 |
 | 단일 트리나 랜덤포레스트가 남긴 잔여 오차가 뚜렷하다 | residual을 다음 단계가 직접 겨냥할 수 있기 때문 | 어떤 오류 장면이 계속 남는지 |
-| 약한 규칙을 여러 번 더해 설명하는 구조가 자연스럽다 | additive model 관점으로 개선 흐름을 읽기 쉽기 때문 | 단계별 보정이 과해지지 않는지 |
+| 약한 규칙을 여러 번 더해 설명하는 구조가 자연스럽다 | 순차 보정 관점으로 개선 흐름을 읽기 쉽기 때문 | 단계별 보정이 과해지지 않는지 |
 | 높은 기본 성능을 위해 더 많은 튜닝을 감수할 수 있다 | learning_rate, stage 수, tree size를 조정해 세밀하게 맞출 수 있기 때문 | validation 절차와 early stopping 준비 여부 |
 | 랜덤포레스트보다 더 공격적으로 bias를 줄이고 싶다 | 평균적 안정성보다 오차 보정을 우선하는 방식이기 때문 | 데이터 노이즈까지 따라갈 위험 |
 
@@ -395,6 +395,9 @@ scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gr
   - residual은 남은 오차다
   - 다음 단계는 residual을 줄이는 방향으로 움직인다
   - learning rate는 한 번에 얼마나 고칠지 정한다
+- 조작해 볼 값:
+  - `learning_rate`를 `0.1`, `0.3`, `0.5`로 바꾸어 residual 감소 속도를 비교한다
+  - `tree1_correction`의 부호나 크기를 바꾸어 보정 방향이 예측에 어떻게 누적되는지 확인한다
 
 ```python
 # 그래디언트 부스팅에서 residual 방향 보정이 예측에 누적되는 과정을 보는 장난감 예제입니다.
@@ -443,6 +446,10 @@ stage2 residual  : [18.5, 9.0, -9.0, -18.5]
 ### 값 하나 바꿔 보기: learning_rate를 키우면 같은 correction도 어떻게 다르게 반영될까
 
 이번에는 같은 correction을 두고 `learning_rate`만 `0.5`로 바꿔 봅니다.
+
+- 조작해 볼 값:
+  - `learning_rate`를 `0.1`과 `0.5` 사이에서 바꾸어 한 단계 보정 강도를 비교한다
+  - `tree1_correction`은 그대로 두어 learning rate만 바뀐 효과를 분리해서 본다
 
 ```python
 # 같은 correction에서 learning_rate를 키우면 residual 감소 속도가 어떻게 달라지는지 비교하는 예제입니다.
@@ -500,6 +507,6 @@ stage2 residual  : [12.5, 5.0, -5.0, -12.5]
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001. 확인 날짜: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002. 확인 날짜: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-07-26. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001. 확인 날짜: 2026-07-26. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002. 확인 날짜: 2026-07-26. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

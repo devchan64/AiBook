@@ -1,28 +1,28 @@
 # P4-2.3 강화학습(reinforcement learning)
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supervised learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 비지도학습(unsupervised learning)을 봤습니다. 이번에는 모델이 행동(action)을 하고, 그 결과로 보상(reward)을 받으며, 다음 행동 방식을 조정하는 강화학습(reinforcement learning)을 봅니다.
+P4-2.1에서는 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 있는 데이터로 배우는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봤습니다. 이번에는 모델이 [행동(action)](../../../reference/concept-glossary-parts/14-hieut.md#action)을 하고, 그 결과로 [보상(reward)](../../../reference/concept-glossary-parts/06-bieup.md#reward)을 받으며, 다음 행동 방식을 조정하는 [강화학습(reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning)을 봅니다.
 
 강화학습은 “정답 라벨을 보고 맞히는 학습”과 다릅니다. 어떤 행동이 즉시 좋은지 항상 알려 주는 것이 아니라, 행동을 해 본 뒤 돌아오는 보상과 다음 상태를 보고 더 나은 행동 방식을 찾아갑니다. 그래서 강화학습은 한 번의 입력과 출력보다, 시간에 따라 이어지는 선택의 흐름을 다루는 학습입니다.
 
-이 절은 `강화학습(reinforcement learning)`, `상태(state)`, `행동(action)`, `보상(reward)`, `정책(policy)`의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 장기 보상 기반 학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 강화학습(reinforcement learning), [상태(state)](../../../reference/concept-glossary-parts/07-siot.md#state), 행동(action), 보상(reward), [정책(policy)](../../../reference/concept-glossary-parts/09-jieut.md#policy)의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 장기 보상 기반 학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 강화학습(reinforcement learning)에서 닫을 질문
 
-이 절은 강화학습의 기본 구조를 설명합니다. Q-learning, SARSA, policy gradient, actor-critic 같은 개별 알고리즘의 수식과 구현은 여기서 다루지 않습니다. Q-learning과 SARSA는 P4-19.1 가치 기반 강화학습에서, policy gradient와 actor-critic은 P4-19.2 정책 기반 강화학습에서 다시 다룹니다. 핵심은 에이전트(agent), 환경(environment), 상태(state), 행동(action), 보상(reward), 정책(policy)의 관계를 먼저 분명히 잡는 일입니다.
+이 절은 강화학습의 기본 구조를 설명합니다. Q-learning, SARSA, policy gradient, actor-critic 같은 개별 알고리즘의 수식과 구현은 여기서 다루지 않습니다. Q-learning과 SARSA는 P4-19.1 가치 기반 강화학습에서, policy gradient와 actor-critic은 P4-19.2 정책 기반 강화학습에서 다시 다룹니다. 핵심은 [강화학습 에이전트(reinforcement learning agent)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning-agent), [강화학습 환경(reinforcement learning environment)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning-environment), 상태(state), 행동(action), 보상(reward), 정책(policy)의 관계를 먼저 분명히 잡는 일입니다.
 
 - 강화학습은 지도학습, 비지도학습과 무엇이 다른가?
-- 에이전트(agent)와 환경(environment)은 무엇인가?
+- 강화학습 에이전트(reinforcement learning agent)와 강화학습 환경(reinforcement learning environment)은 무엇인가?
 - 상태(state), 행동(action), 보상(reward), 정책(policy)은 어떻게 이어지는가?
 - 보상이 늦게 오는 문제는 왜 어려운가?
-- 탐험(exploration)과 활용(exploitation)은 왜 함께 필요한가?
+- [탐험(exploration)](../../../reference/concept-glossary-parts/12-tieut.md#exploration)과 [활용(exploitation)](../../../reference/concept-glossary-parts/14-hieut.md#exploitation)은 왜 함께 필요한가?
 
 ## 강화학습(reinforcement learning)에서 남길 판단 기준
 
 - 강화학습을 행동과 보상을 통해 정책을 배우는 접근으로 설명할 수 있습니다.
-- 에이전트, 환경, 상태, 행동, 보상, 정책의 역할을 구분할 수 있습니다.
+- 강화학습 에이전트, 강화학습 환경, 상태, 행동, 보상, 정책의 역할을 구분할 수 있습니다.
 - 강화학습이 한 번의 예측보다 순차적 의사결정(sequential decision making)에 가깝다는 점을 이해할 수 있습니다.
 - 즉시 보상과 장기 보상이 다를 수 있음을 설명할 수 있습니다.
 - 탐험과 활용의 균형이 왜 필요한지 예시로 말할 수 있습니다.
@@ -33,26 +33,26 @@ P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supe
 
 | 요소 | 쉬운 설명 | 게임 예시 |
 | --- | --- | --- |
-| 에이전트(agent) | 행동을 선택하는 주체 | 캐릭터 |
-| 환경(environment) | 에이전트가 행동하는 세계 | 격자판과 규칙 |
+| 강화학습 에이전트(reinforcement learning agent) | 행동을 선택하는 주체 | 캐릭터 |
+| 강화학습 환경(reinforcement learning environment) | 강화학습 에이전트가 행동하는 세계 | 격자판과 규칙 |
 | 상태(state) | 현재 상황을 나타내는 정보 | 캐릭터의 위치 |
 | 행동(action) | 선택할 수 있는 움직임 | 위, 아래, 왼쪽, 오른쪽 |
 | 보상(reward) | 행동 결과로 받는 숫자 신호 | 목표 도착 `+10`, 벽 충돌 `-1` |
 | 정책(policy) | 어떤 상태에서 어떤 행동을 할지 정하는 방식 | “목표에 가까워지는 방향으로 이동” |
 
-지도학습이라면 “이 위치에서는 오른쪽이 정답” 같은 라벨이 미리 있을 수 있습니다. 강화학습에서는 보통 에이전트가 행동을 해 보고, 그 결과로 받은 보상을 이용해 다음 행동 방식을 조정합니다.
+지도학습이라면 “이 위치에서는 오른쪽이 정답” 같은 라벨이 미리 있을 수 있습니다. 강화학습에서는 보통 강화학습 에이전트가 행동을 해 보고, 그 결과로 받은 보상을 이용해 다음 행동 방식을 조정합니다.
 
 ## 강화학습의 기본 흐름
 
-강화학습의 가장 기본적인 흐름은 에이전트와 환경의 반복적인 상호작용입니다.
+강화학습의 가장 기본적인 흐름은 강화학습 에이전트와 환경의 반복적인 상호작용입니다.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-01-ko.mmd"
 ```
 
-이 도식에서 중요한 점은 순환입니다. 강화학습은 입력 하나를 보고 출력 하나를 맞히는 일회성 문제가 아닙니다. 에이전트가 행동하고, 환경이 바뀌고, 보상이 오고, 그 경험이 다음 행동 방식에 반영됩니다.
+이 도식에서 중요한 점은 순환입니다. 강화학습은 입력 하나를 보고 출력 하나를 맞히는 일회성 문제가 아닙니다. 강화학습 에이전트가 행동하고, 환경이 바뀌고, 보상이 오고, 그 경험이 다음 행동 방식에 반영됩니다.
 
-MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불확실한 환경과 상호작용하면서 에이전트가 받은 보상의 총량을 최대화하려는 계산적 접근으로 설명합니다. 이 절에서는 이 정의를 독자가 읽을 수 있도록 “행동을 해 보고, 결과를 보며, 다음 선택 방식을 조정하는 학습”으로 풀어 씁니다.
+MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불확실한 환경과 상호작용하면서 강화학습 에이전트가 받은 보상의 총량을 최대화하려는 계산적 접근으로 설명합니다. 이 절에서는 이 정의를 독자가 읽을 수 있도록 “행동을 해 보고, 결과를 보며, 다음 선택 방식을 조정하는 학습”으로 풀어 씁니다.
 
 ## 지도학습, 비지도학습, 강화학습 비교
 
@@ -78,7 +78,7 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 | 바로 앞에 벽이 있음 | 위, 아래, 왼쪽, 오른쪽 | 아래쪽 |
 | 목표와 멀리 떨어져 있음 | 여러 방향 | 아직 시도해 보지 않은 방향 |
 
-정책은 처음부터 좋은 규칙일 필요가 없습니다. 강화학습에서는 에이전트가 여러 행동을 시도하면서 정책을 개선해 갑니다. 이때 정책은 사람이 직접 쓴 규칙일 수도 있고, 학습 과정에서 조정되는 함수일 수도 있습니다.
+정책은 처음부터 좋은 규칙일 필요가 없습니다. 강화학습에서는 강화학습 에이전트가 여러 행동을 시도하면서 정책을 개선해 갑니다. 이때 정책은 사람이 직접 쓴 규칙일 수도 있고, 학습 과정에서 조정되는 함수일 수도 있습니다.
 
 ## 보상은 즉시 정답이 아니다
 
@@ -122,9 +122,9 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 - 실제 환경에서 무작정 탐험하면 비용이나 위험이 커질 수 있습니다.
 - 결과가 늦게 나타나면 어떤 행동이 좋은 결과를 만들었는지 알기 어렵습니다.
 - 시뮬레이션에서 잘하던 정책이 현실에서도 그대로 잘 작동한다고 단정할 수 없습니다.
-- 에이전트(agent)라는 말이 LLM 서비스의 에이전트와 같은 뜻으로 쓰이지 않을 수 있습니다.
+- 강화학습 에이전트(reinforcement learning agent)라는 말이 LLM 서비스의 AI 에이전트와 같은 뜻으로 쓰이지 않을 수 있습니다.
 
-여기서 마지막 항목이 중요합니다. 강화학습의 에이전트는 환경 안에서 상태를 보고 행동을 선택해 보상을 받는 학습 주체입니다. LLM 서비스에서 말하는 에이전트는 목표를 작업 흐름으로 나누고 도구를 호출하는 실행 구조를 가리키는 경우가 많습니다. 두 표현은 연결될 수 있지만 같은 말로 섞어 쓰면 혼란이 생깁니다.
+여기서 마지막 항목이 중요합니다. 강화학습 에이전트는 환경 안에서 상태를 보고 행동을 선택해 보상을 받는 학습 주체입니다. LLM 서비스에서 말하는 에이전트는 목표를 작업 흐름으로 나누고 도구를 호출하는 실행 구조를 가리키는 경우가 많습니다. 두 표현은 연결될 수 있지만 같은 말로 섞어 쓰면 혼란이 생깁니다.
 
 ## LLM과는 어디에서 다시 만나는가
 
@@ -144,8 +144,8 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 
 - 어떤 상태에서 문제를 지도학습이 아니라 강화학습으로 읽어야 하는지 설명할 수 있는가
 - 왜 보상은 라벨처럼 즉시 정답을 알려 주는 신호가 아닌지 말할 수 있는가
-- 강화학습의 에이전트와 LLM 서비스의 에이전트를 왜 같은 뜻으로 쓰면 안 되는지 설명할 수 있는가
-- 강화학습이 에이전트가 환경과 상호작용하면서 보상을 바탕으로 정책을 개선하는 학습이라는 점을 설명할 수 있는가
+- 강화학습 에이전트와 LLM 서비스의 AI 에이전트를 왜 같은 뜻으로 쓰면 안 되는지 설명할 수 있는가
+- 강화학습이 강화학습 에이전트가 환경과 상호작용하면서 보상을 바탕으로 정책을 개선하는 학습이라는 점을 설명할 수 있는가
 - 상태, 행동, 보상, 정책이 왜 강화학습을 읽는 기본 단어인지 설명할 수 있는가
 - 탐험과 활용의 균형이 없으면 더 좋은 행동을 찾거나 안정적으로 보상을 얻기 어렵다는 점을 설명할 수 있는가
 
@@ -167,5 +167,5 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 
 ## 출처와 참고 자료
 
-- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018, 확인 날짜: 2026-06-25. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
-- Olivier Buffet, Olivier Pietquin, Paul Weng, `Reinforcement Learning`, arXiv, 2020, 확인 날짜: 2026-06-25. [https://arxiv.org/abs/2005.14419](https://arxiv.org/abs/2005.14419){: target="_blank" rel="noopener noreferrer" }
+- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018, 확인 날짜: 2026-07-26. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Olivier Buffet, Olivier Pietquin, Paul Weng, `Reinforcement Learning`, arXiv, 2020, 확인 날짜: 2026-07-26. [https://arxiv.org/abs/2005.14419](https://arxiv.org/abs/2005.14419){: target="_blank" rel="noopener noreferrer" }

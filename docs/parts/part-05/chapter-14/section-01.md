@@ -1,7 +1,7 @@
 # P5-14.1 attention만으로 닫히지 않는 Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _보조제목: Transformer는 왜 self-attention 하나가 아니라 블록 구조로 읽어야 하는가_
 

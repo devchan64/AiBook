@@ -1,7 +1,7 @@
 # P6-4.3 Supplement: Attention Heads and Positional Representations
 
 > Section ID: `P6-4.3`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _Subtitle: How do multi-head attention and positional representations separately reinforce context relationships and order information?_
 

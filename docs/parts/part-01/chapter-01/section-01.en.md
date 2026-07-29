@@ -1,13 +1,13 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
 The purpose of this section is not to produce one perfect sentence that defines AI once and for all. The purpose is to organize the range of the term so that later sections on rule-based systems, machine learning, deep learning, generative AI, and LLMs can be read on the same map.
 
-In Part 1, `AI` is the widest outer category. Even when the term appears again in later sections, only the amount needed for the current question is carried forward there. When the range itself needs to be separated again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
+In Part 1, `AI` is the widest outer category. Even when the term appears again in later sections, only the amount needed for the current question is carried forward there. When the range itself needs to be separated again, return to this section and to the glossary entry for [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence).
 
 ## Placing AI as the Widest Outer Category
 
@@ -24,25 +24,6 @@ This section first closes the point that `AI is the widest outer category`. The 
 - Explain why the term AI is used broadly.
 - Read AI as a field for handling problems, not as the name of one product or one latest model.
 - Organize the relationship among AI, machine learning, deep learning, and generative AI at a level that can be reused in later chapters.
-
-## Concepts to Connect First
-
-This section is also the entry point where several core terms are introduced together for the first time. The concepts below should be fixed only briefly here. When a fuller definition is needed, follow each link and check the glossary entry again. Because one Korean term can split into different concepts when mapped into English, the glossary headwords are read in both Korean and English together.
-
-| Concept | Meaning to fix first here | Why it is needed now |
-| --- | --- | --- |
-| [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence) | the broadest outer category | to place the many approaches that follow on one map |
-| [machine learning](/AiBook/en/reference/concept-glossary-alpha/m/#machine-learning) | an approach that learns patterns from data | to separate rule-based and learning-based approaches |
-| [deep learning](/AiBook/en/reference/concept-glossary-alpha/d/#deep-learning) | a stream that learns complex representations with neural networks | to fix a major expansion path inside machine learning |
-| [generative AI](/AiBook/en/reference/concept-glossary-alpha/g/#aigenerative-ai) | a stream that produces outputs such as text, images, and audio | to avoid reducing recent AI experience too narrowly |
-| [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm) | a large language model centered on language data | to separate generative AI from AI as a whole |
-| [system](/AiBook/en/reference/concept-glossary-alpha/s/#system) | the real implemented structure that receives input and produces results | to distinguish a field from an implementation |
-| [input](/AiBook/en/reference/concept-glossary-alpha/i/#input) | the information a system receives | to read what the system uses as grounds for judgment |
-| [output](/AiBook/en/reference/concept-glossary-alpha/o/#output) | the result produced by the system | to read differences among classification, recommendation, and generation |
-| [goal](/AiBook/en/reference/concept-glossary-alpha/g/#goal) | the purpose that defines why a certain output should be produced | to see that the same output can serve different purposes |
-| [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) | estimating a result from current information | to keep it from collapsing into generation, recommendation, or classification |
-| [recommendation](/AiBook/en/reference/concept-glossary-alpha/r/#recommendation) | choosing what is worth showing next among many candidates | to see that AI is not only about generating answers |
-| [rule-based system](/AiBook/en/reference/concept-glossary-alpha/r/#rule-based-system) | a system in which people write rules that lead to conclusions | to avoid narrowing AI only to recent learned models |
 
 ## Main Learning Points
 
@@ -65,7 +46,7 @@ Many terms appear in this section, but the structure becomes much clearer once t
 | goal | the purpose that defines why such an output is desirable | approval support, recommendation, search, answer generation |
 | impact | the effect the output has on human judgment or the environment | approval decisions, ranking changes, workflow changes |
 
-The first baseline that should remain from this section is that `AI is a broad field` and that `an AI system is a structure with inputs, goals, and outputs`. `Impact` is included because the same output can play very different roles depending on how it affects real people and real environments. If the terms become unstable again, return to the relevant entries in the [Concept Glossary](/AiBook/reference/concept-glossary/).
+The first baseline that should remain from this section is that `AI is a broad field` and that `an AI system is a structure with inputs, goals, and outputs`. `Impact` is included because the same output can play very different roles depending on how it affects real people and real environments. If the terms become unstable again, return to the relevant glossary entries for [system](/AiBook/en/reference/concept-glossary-alpha/s/#system), [model input](/AiBook/en/reference/concept-glossary-alpha/m/#model-input), [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output), and impact.
 
 For example, consider an online store product recommendation. AI is the broad field that includes such recommendation problems. A `recommendation system` is the actually implemented system. The inputs are click records and purchase records. The output is a ranked list of products. The goal is to choose what the user is likely to look at next. The `impact` is that some products are shown more often and the user’s decision flow changes. Even when later sections introduce different cases, dividing them first into these six slots is often more helpful than trying to memorize the terms directly.
 
@@ -113,7 +94,7 @@ This separation is a safety device that prevents dictionary-style definition fro
 
 The reason `DSS/BI/DW/OLAP` appears here is to show early that data modeling does not suddenly appear later as a separate technique. It grows on top of an older flow that collected data and connected it to decision-making. Memorizing every abbreviation is not the goal. For the present context, it is enough to read `DSS (decision support system)` as a system that supports decisions, `BI (business intelligence)` as a structure for reading data and using it in business judgment, `DW (data warehouse)` as a storage structure that collects data, and `OLAP (online analytical processing)` as a way to analyze collected data by several criteria.
 
-### The Scope of AI Changes by Context
+### AI Scope Changes by Context
 
 The word AI is used differently depending on context.
 
@@ -133,7 +114,7 @@ So this book keeps AI as the widest category first, then separates lower concept
 
 This diagram is a learning map. It places `AI` as the outer category and shows where rule-based approaches, search and planning, probabilistic reasoning, machine learning, deep learning, generative AI, and LLMs sit relative to one another. The important thing is not to memorize every arrow as a strict inclusion relation. The important thing is to read that `LLM` does not mean all of AI and that `rule-based approaches` are not outside AI but one stream inside it.
 
-### The Questions This Book Uses to Read AI
+### Questions This Book Uses to Read AI
 
 The key is not to judge once and for all whether something is or is not AI. The key is to check how the system in front of you answers the following questions.
 

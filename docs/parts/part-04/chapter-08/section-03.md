@@ -1,17 +1,17 @@
 # P4-8.3 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
-P4-8.2에서 baseline이 왜 필요한지 봤다면, 이제 다음 질문이 바로 나옵니다.
+P4-8.2에서 [baseline이 왜 필요한지](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model) 봤다면, 이제 다음 질문이 바로 나옵니다.
 
 그래서 baseline은 실제로 어떻게 세우는가?
 
 이 보충학습은 그 질문에 답합니다. 목표는 baseline 이름을 많이 외우는 것이 아니라, 문제 유형을 보고 `가장 단순하지만 비교 의미가 있는 기준`을 직접 고를 수 있게 만드는 것입니다.
 
-## 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법에서 구분할 경계
+## baseline을 세울 때 갈라지는 문제 유형
 
-이 절은 분류, 회귀, 시계열 문제에서 대표적인 baseline을 처음 세우는 법을 다룹니다.
+이 절은 [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification), [회귀](../../../reference/concept-glossary-parts/14-hieut.md#regression), 시계열 문제에서 대표적인 baseline을 처음 세우는 법을 다룹니다.
 
 - baseline을 세우기 전에 무엇을 먼저 고정해야 하는가?
 - 문제 유형에 따라 어떤 baseline을 먼저 떠올릴 수 있는가?
@@ -20,7 +20,7 @@ P4-8.2에서 baseline이 왜 필요한지 봤다면, 이제 다음 질문이 바
 
 이 절은 먼저 `문제 유형에 따라 가장 단순하지만 비교 의미가 있는 baseline을 어떻게 세울 것인가`를 닫습니다. 교차검증, 모델 비교 절차, 더 복잡한 튜닝 기법은 P4-9 이후에서 이어집니다.
 
-## 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법에서 복구할 연결
+## 문제 유형별 기준선에서 남길 판단
 
 - 분류, 회귀, 시계열에서 대표적인 baseline 후보를 구분할 수 있습니다.
 - baseline 설정 절차를 `문제 유형 고정 -> 가장 단순한 규칙 선택 -> 같은 지표로 측정 -> 오류 확인 -> 다음 비교 결정` 순서로 설명할 수 있습니다.
@@ -45,7 +45,7 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 | --- | --- | --- |
 | 1. 문제 유형 고정 | 분류인가, 회귀인가, 시계열인가 | baseline 형태 자체가 여기서 달라지기 때문입니다. |
 | 2. 가장 단순한 규칙 선택 | 다수 클래스인가, 평균/중앙값인가, 직전값인가 | 특징을 거의 안 쓴 최소 기준을 먼저 세워야 하기 때문입니다. |
-| 3. 같은 지표로 측정 | accuracy, recall, MAE, MAPE 중 무엇으로 볼 것인가 | 후보 모델과 baseline을 같은 잣대로 비교해야 하기 때문입니다. |
+| 3. 같은 지표로 측정 | accuracy, recall, MAE, MAPE 중 무엇으로 볼 것인가 | 후보 모델과 baseline을 같은 [평가 지표](../../../reference/concept-glossary-parts/14-hieut.md#metric)로 비교해야 하기 때문입니다. |
 | 4. 오류 장면 확인 | 무엇을 특히 놓치고 있거나 크게 틀리고 있는가 | 점수 차이만으로는 개선 방향을 읽기 어렵기 때문입니다. |
 | 5. 해석 후 다음 단계 결정 | 튜닝할지, 후보를 바꿀지, 특징을 다시 볼지 | baseline도 못 넘는 후보를 오래 붙잡지 않기 위해서입니다. |
 
@@ -91,7 +91,7 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 | 문제 | 다음 달 고객 이탈 여부 예측 |
 | 클래스 분포 | 비이탈 90%, 이탈 10% |
 | baseline | 항상 `비이탈` 예측 |
-| 먼저 볼 지표 | 정확도, 재현율(recall), F1 |
+| 먼저 볼 지표 | 정확도, [재현율(recall)](../../../reference/concept-glossary-parts/12-tieut.md#recall), F1 |
 | 바로 확인할 오류 | 실제 이탈 고객을 놓친 사례 |
 
 ```mermaid
@@ -213,6 +213,11 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 - baseline은 복잡한 모델이 최소한 넘어야 할 비교 기준이다
 - 불균형 데이터에서는 accuracy만이 아니라 recall과 F1도 함께 봐야 한다
 
+조작해 볼 값:
+
+- `weights=[0.9, 0.1]`에서 양성 클래스 비율을 `0.2`나 `0.05`로 바꾸면 baseline accuracy와 recall, F1 해석이 달라집니다.
+- `DummyClassifier(strategy="most_frequent")`를 `DummyClassifier(strategy="stratified")`로 바꾸면 다수 클래스만 예측하는 기준과 클래스 분포를 따라 무작위 예측하는 기준의 차이를 볼 수 있습니다.
+
 ```python
 # 문제 유형별 baseline과 후보 모델 성능을 비교해 기준선을 세우는 예제입니다.
 from sklearn.datasets import make_classification
@@ -290,6 +295,11 @@ model f1          : 0.632
 
 - baseline도 실제 데이터 장면에 따라 더 자연스러운 출발점이 달라질 수 있다
 
+조작해 볼 값:
+
+- `y_train`의 큰 값 `120`을 `60`이나 `200`으로 바꾸면 평균 baseline은 크게 움직이고 중앙값 baseline은 덜 움직입니다.
+- `y_test`에 큰 지연값을 하나 더 추가하면 어떤 baseline의 MAE가 더 안정적인지 다시 비교할 수 있습니다.
+
 ```python
 # 문제 유형별 baseline과 후보 모델 성능을 비교해 기준선을 세우는 예제입니다.
 y_train = [32, 35, 31, 120, 33]
@@ -339,9 +349,9 @@ median baseline
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-09.
-- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-09.
-- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-09.
-- Rob J Hyndman, George Athanasopoulos, [`Forecasting: Principles and Practice (3rd ed), 5.2 Some simple forecasting methods`](https://otexts.com/fpp3/simple-methods.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09.
-- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-09.
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-26.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-26.
+- Rob J Hyndman, George Athanasopoulos, [`Forecasting: Principles and Practice (3rd ed), 5.2 Some simple forecasting methods`](https://otexts.com/fpp3/simple-methods.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-26.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-26.

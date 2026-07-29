@@ -1,19 +1,19 @@
 # P4-8.2 基准模型(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.24`
+> Version: `v2026.07.26`
 
 在 P4-8.1 里，我们看过应该把哪些 model 家族提上候选。现在，与其立刻按复杂度去抓这些候选，不如先进入另一个问题：先把比较的出发点立起来。
 
 在这个问题里，最先必须赢过的最简单标准到底是什么？
 
-这个问题，正是 baseline 的出发点。
+这个问题，正是 [baseline model](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model) 的出发点。
 
 人们常常把 baseline 理解成 `一个性能较低的临时模型`。但实际上，它比这重要得多。baseline 是比较的地板线(floor)，用来检查复杂 model 到底有没有带来真正有意义的改进。
 
 无论在学术语境还是实务语境里，baseline 更接近的都不是 `一个好模型`，而是 `让比较成为可能的最低标准`。也就是说，如果没有 baseline，即使性能数字看起来很高，也很难分辨这到底是因为问题本来就容易、因为数据有偏、还是因为模型真的起了作用。
 
-这一节会说明 `baseline` 的意义和作用。后面的章节会沿着这个抓手继续当前语境，而复杂 model 的改进到底应该和什么比较，这个标准也会通过这一节和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来。
+这一节会说明 `baseline` 的意义和作用。后面的章节会沿着这个抓手继续当前语境，而复杂 model 的改进到底应该和什么比较，这个标准也会通过这一节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再接回来。
 
 这里必须先固定住的观念可以压缩成一句话。
 
@@ -24,7 +24,7 @@ baseline 的比较顺序，可以先固定成下面这样。
 | 先看什么 | 紧接着问的问题 | 再往后要判断什么 |
 | --- | --- | --- |
 | baseline 分数 | 这个分数是容易产生的幻觉，还是现实的出发点 | 候选 model 在同一指标上到底进步了多少 |
-| 混淆矩阵和代表错误案例 | 哪些失败减少了，哪些失败还留着 | 这种变化在运营上有没有意义 |
+| [混淆矩阵(confusion matrix)](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix)和代表[错误案例(error case)](/AiBook/zh/reference/concept-glossary-pinyin/e/#error-case) | 哪些失败减少了，哪些失败还留着 | 这种变化在运营上有没有意义 |
 | 候选 model 分数 | 除了 accuracy，recall、F1、误差大小到底变了什么 | 能不能决定继续调优，还是该换候选 |
 
 如果要真正建立 baseline，还需要两件事一起存在。
@@ -34,7 +34,7 @@ baseline 的比较顺序，可以先固定成下面这样。
 
 这一节负责其中的 `为什么先需要` 和 `什么必须先固定`，而接下来的 `P4-8.3 补充学习` 会用示例和例子继续讲 `应该设哪些代表性 baseline，以及怎么设`。
 
-## 本节范围
+## 建立基准线前先要收束的问题
 
 这一节回答下面这些问题。
 
@@ -45,7 +45,7 @@ baseline 的比较顺序，可以先固定成下面这样。
 
 这一节先收束 `复杂 model 的改进应该和什么比较`。benchmark 和 leaderboard 的运营视角，以及基于统计检验的模型比较大图景，会在 P4-9.3 补充学习里再整理；实际的超参数比较流程，则会在 P4-9.2 直接接着看。
 
-## 用基准模型(baseline)留下的判断标准
+## 基准模型留下的判断标准
 
 - 能把 baseline 解释成 `在复杂 model 之前先立起来的比较标准`。
 - 能说明没有 baseline 时，为什么会出现 accuracy 幻觉、平均预测幻觉。
@@ -287,6 +287,11 @@ scikit-learn 的 dummy 系列模型，在教学上尤其有用。
 
 下面的例子用实际的 `DummyClassifier` 和 `DecisionTreeClassifier` 来缩小这个错觉。数据被做成类似欺诈交易的分类问题，也就是阳性类别比较少。
 
+可以改动的值:
+
+- 把 `weights=[0.82, 0.18]` 里的阳性类别比例再调低，baseline accuracy 可能看起来更高，而 positive recall 的意义会变得更重要。
+- 改动 `class_sep=0.9` 或 `max_depth=3`，decision tree 能抓住多少阳性案例以及混淆矩阵都会一起变化。
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.dummy import DummyClassifier
@@ -335,7 +340,7 @@ decision_tree
  confusion= {'tn': 75, 'fp': 0, 'fn': 4, 'tp': 12}
 ```
 
-`dummy_most_frequent` 的 accuracy 也有 0.824，看起来并不低。但阳性类别的 recall 是 0.0，实际 16 个阳性全部漏掉了。所以 baseline model 不是为了展示一个失败模型而加上的装饰，而是先暴露“只看 accuracy 会产生的错觉”的比较线。
+`dummy_most_frequent` 的 accuracy 也有 0.824，看起来并不低。但阳性类别的 [recall](/AiBook/zh/reference/concept-glossary-pinyin/z/#recall) 是 0.0，实际 16 个阳性全部漏掉了。所以 baseline model 不是为了展示一个失败模型而加上的装饰，而是先暴露“只看 accuracy 会产生的错觉”的比较线。
 
 ```mermaid
 --8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-zh.mmd"
@@ -353,8 +358,8 @@ decision_tree
 
 ## 出处与参考资料
 
-- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-09.
-- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-09.
-- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-09.
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09.
-- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期: 2026-07-09.
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-26.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-26.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-26.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-26.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期: 2026-07-26.

@@ -1,7 +1,7 @@
-# P1-10.3 The Quality and Risk of Generated Outputs
+# P1-10.3 Quality and Risk of Generated Outputs
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 10.1 examined the difference among classification, prediction, and generation. Section 10.2 introduced the intuition that generative AI builds artifacts progressively from conditions.
 

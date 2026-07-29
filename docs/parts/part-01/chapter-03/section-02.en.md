@@ -1,7 +1,7 @@
 # P1-3.2 What It Means to Learn Patterns from Data
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly. This section moves to the next question. If people find it difficult to write every useful rule, how can a system obtain judgment criteria from data?
 
@@ -172,7 +172,7 @@ Looked at through the customer-inquiry example, it becomes the following. Here, 
 
 The model learns the relation between features and labels by looking at many examples. When training is finished, it can predict which class is more plausible for a new inquiry that does not yet have a label.
 
-For beginners, one more step matters here. In real work, `example`, `feature`, and `label` usually do not arrive already clean and ready. There is often rough data first, such as raw inquiry text, 상담 history, and handling results. Then someone has to decide what counts as one example, what class should be assigned as the label, and what clues inside the sentence should be used as features. So the phrase `learning patterns from data` does not mean pouring raw data directly into a model. It more accurately includes the preparation work that turns real records into a `learnable example structure`.
+For beginners, one more step matters here. In real work, `example`, `feature`, and `label` usually do not arrive already clean and ready. There is often rough data first, such as raw inquiry text, consultation history, and handling results. Then someone has to decide what counts as one example, what class should be assigned as the label, and what clues inside the sentence should be used as features. So the phrase `learning patterns from data` does not mean pouring raw data directly into a model. It more accurately includes the preparation work that turns real records into a `learnable example structure`.
 
 So a whole line like `inquiry 1` or `inquiry 2` is the example, while clues such as `refund`, `delivery`, and `broken` are the input features read from inside that example. The label is the answer attached by people to the entire example, and the model learns the relation between bundles of those features and labels across many examples together.
 
@@ -282,7 +282,7 @@ So in a machine-learning project, the important question is not only `what model
 > How similar are the training data and the real usage data?  
 > Does the performance hold on new data?
 
-## The Point Where It Connects to Representation
+## Connection Point to Representation
 
 Up to this point, the section has looked at the basic structure of training data, labels, models, and generalization. But to recognize whether two sentences are `similar in meaning`, the form in which input is handled also becomes important. The same meaning can be expressed with different words, and the same word can mean different things depending on context.
 

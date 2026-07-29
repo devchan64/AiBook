@@ -1,25 +1,25 @@
 # P4-3.2 启发式与模型选择
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-3.1 里，我们把 heuristic 看成 `在有限时间和有限信息下缩小候选集的判断标准`。这一节要把这个视角应用到 model selection 上。
+在 P4-3.1 里，我们把 [heuristic](/AiBook/zh/reference/concept-glossary-pinyin/h/#heuristic) 看成在有限时间和有限信息下缩小候选集的判断标准。这一节要把这个视角应用到 [model selection](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection) 上。
 
 学习机器学习时，`到底该用哪个 model？` 这个问题常常会显得很大。但 model selection 并不是单纯挑一个有名算法名字，而是把问题形态、数据状态、可解释性、计算成本、评估标准一起摆出来，然后先缩小 `应该先试什么` 的候选集合。
 
-这里 heuristic 不是最终结论，而是出发点。你会先决定 `这个问题先从这些 model 开始试`，然后再去验证这种选择在真实数据上到底是否合适。
+这里 heuristic 不是最终结论，而是出发点。你会先决定 `这个问题先从这些 model 开始试`，然后再用 [validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation) 确认这种选择在真实数据上到底是否合适。
 
-这一节不会再次把 heuristic 本身讲很长。`缩小候选集的判断` 这一基础含义，会通过 P4-3.1 和 [概念词汇表](/AiBook/reference/concept-glossary/) 再接回来；这里专注的是，这种判断在 model selection 阶段到底怎样发挥作用。
+这一节不会再次把 heuristic 本身讲很长。缩小候选集的判断这一基础含义，会通过 P4-3.1 和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再接回来；这里专注的是，这种判断在 model selection 阶段到底怎样发挥作用。
 
 ## 本节范围
 
-这一节先把 `model selection 中 heuristic 缩减的是什么，以及它会建立怎样的比较起点` 关上。数据拆分和 validation 会在 P4-4 继续处理，overfitting 和 generalization 会在 P4-5 继续处理，metric 会在 P4-6 继续处理，preprocessing 和 feature 会在 P4-7 继续处理，model selection 的流程会在 P4-8 继续处理，hyperparameter tuning 会在 P4-9 继续处理。具体 model 会从 P4-10 到 P4-19 按问题类型再次遇到。
+这一节先把 model selection 中 heuristic 缩减的是什么，以及它会建立怎样的比较起点关上。数据拆分和 validation 会在 P4-4 继续处理，[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 会在 P4-5 继续处理，[metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会在 P4-6 继续处理，[preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing) 和 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) 会在 P4-7 继续处理，model selection 的流程会在 P4-8 继续处理，[hyperparameter tuning](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter) 会在 P4-9 继续处理。具体 model 会从 P4-10 到 P4-19 按问题类型再次遇到。
 
 这一节回答下面这些问题。
 
 - 在 model selection 里，heuristic 到底缩减的是什么？
 - 问题类型会怎样缩小 model 候选？
-- 为什么需要 baseline model？
+- 为什么需要 [baseline model](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)？
 - performance、interpretability、cost 会怎样彼此冲突？
 - 如果想把 heuristic 留成可验证的记录，应该写下什么？
 
@@ -39,10 +39,10 @@
 
 | 候选 | 为什么会先想到它 | 要小心什么 | 后面会在哪里再处理 |
 | --- | --- | --- | --- |
-| logistic regression | 在预测流失/留存这类两类输出时，它是很自然的简单 baseline。 | 只靠线性关系可能不够。 | P4-11 |
-| decision tree | 很容易解释 `在什么条件下流失增加`。 | 如果长得太深，可能过度贴合训练数据。 | P4-14 |
-| random forest | 把很多树组合起来，往往能期待更稳定的表现。 | 比单棵树更难解释。 | P4-15 |
-| gradient boosting | 在表格型数据上经常能表现很强。 | 调参与验证要更谨慎。 | P4-16 |
+| [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) | 在预测流失/留存这类两类输出时，它是很自然的简单 baseline。 | 只靠线性关系可能不够。 | P4-11 |
+| [decision tree](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree) | 很容易解释 `在什么条件下流失增加`。 | 如果长得太深，可能过度贴合训练数据。 | P4-14 |
+| [random forest](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) | 把很多树组合起来，往往能期待更稳定的表现。 | 比单棵树更难解释。 | P4-15 |
+| [gradient boosting](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient-boosting) | 在表格型数据上经常能表现很强。 | 调参与验证要更谨慎。 | P4-16 |
 
 这里 heuristic 并不是说 `logistic regression 就是答案`。它更像是在安排实验顺序：`先立一个简单 baseline，再比较解释性和性能是否还需要更强的候选。`
 
@@ -68,11 +68,11 @@ model selection 通常会按下面这样的流程推进。
 
 | 问题 | 问题类型 | 首先想到的候选 | 后面会在哪里再处理 |
 | --- | --- | --- | --- |
-| 要预测像房价、营收、温度这样的数字吗？ | regression | linear regression、tree-based regression | P4-10、P4-14 |
-| 要预测像通过/未通过、流失/留存这样的类别吗？ | classification | logistic regression、decision tree | P4-11、P4-14 |
-| 想在没有标签时寻找相似分组吗？ | clustering | k-means、DBSCAN | P4-17 |
-| 想把很多 feature 压成较少的轴吗？ | dimensionality reduction | PCA、t-SNE | P4-18 |
-| 是在选择动作并接收 reward 吗？ | reinforcement learning | Q-learning、policy gradient | P4-19 |
+| 要预测像房价、营收、温度这样的数字吗？ | [regression](/AiBook/zh/reference/concept-glossary-pinyin/h/#regression) | linear regression、tree-based regression | P4-10、P4-14 |
+| 要预测像通过/未通过、流失/留存这样的类别吗？ | [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) | logistic regression、decision tree | P4-11、P4-14 |
+| 想在没有标签时寻找相似分组吗？ | [clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering) | k-means、DBSCAN | P4-17 |
+| 想把很多 feature 压成较少的轴吗？ | [dimensionality reduction](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction) | PCA、t-SNE | P4-18 |
+| 是在选择动作并接收 reward 吗？ | [reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning) | Q-learning、policy gradient | P4-19 |
 
 这张表不是答案表，而是缩小候选的地图。真正的选择仍然要通过数据和评估结果再次确认。
 
@@ -142,7 +142,7 @@ baseline 会在 P4-8.2 里更详细地处理。这里先只把它当成 model-se
 | 评估标准 | 一起看 P4-6 会处理的 recall 和 precision。 |
 | 下一步动作 | 如果没有明显优于 baseline，就回头重看数据和 feature。 |
 
-像这样写下来，heuristic 就不再是 `凭感觉挑的`，而会变成 `从一个可验证的 working hypothesis 出发`。
+像这样写下来，heuristic 就不再是 `凭感觉挑的`，而会变成从一个可验证的 [working hypothesis](/AiBook/zh/reference/concept-glossary-pinyin/g/#working-hypothesis) 出发。
 
 ## 这一节里要小心的误解
 
@@ -179,6 +179,6 @@ baseline 会在 P4-8.2 里更详细地处理。这里先只把它当成 model-se
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Choosing the right estimator`, scikit-learn User Guide, 确认日期：2026-06-25. [https://scikit-learn.org/stable/machine_learning_map.html](https://scikit-learn.org/stable/machine_learning_map.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Choosing the right estimator`, scikit-learn User Guide, 确认日期：2026-07-26. [https://scikit-learn.org/stable/machine_learning_map.html](https://scikit-learn.org/stable/machine_learning_map.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,10 @@
+<a id="vectorization"></a>
+<a id="glossary-vectorization"></a>
+
 ## vectorization
 
-- Meaning: 반복 계산을 Python `for` 문 대신 배열 연산 하나로 표현하는 방식입니다. 사람 눈에는 `하나씩 반복하지 않았는데 어떻게 전체 계산이 되지?`처럼 보일 수 있지만, 실제로는 같은 계산 규칙을 배열의 각 위치나 각 축에 한꺼번에 적용하도록 계산 단위를 올려 적는 표현입니다.
-- Why it matters: 같은 계산을 배열 단위 문법으로 읽어야 NumPy와 이후 머신러닝 코드의 핵심 흐름을 빠르게 파악할 수 있기 때문입니다. 이 개념이 있어야 `한 원소씩 처리한다`는 사고에서 `배열 전체에 같은 계산을 한 번에 적용한다`는 사고로 넘어가게 되고, 속도 향상뿐 아니라 코드 구조가 더 짧고 명확해지는 이유도 함께 이해하게 됩니다. 예를 들어 모든 점수에 5점을 더하는 일을 반복문으로 하나씩 돌리는 대신 `scores + 5`처럼 적을 수 있다는 감각이 바로 벡터화의 출발점입니다. 결국 벡터화는 단순 최적화 기법이 아니라, 계산 단위를 `원소`에서 `배열`로 올려 읽는 표현 전환입니다.
-- Related concepts: `broadcasting`, `array`, `shape`
+- Meaning: Vectorization is a way to express repeated computation as one array operation instead of writing a Python `for` loop. The repetition has not disappeared; it has been moved into an array-level operation.
+- Why it matters: Readers need this idea to understand NumPy and later machine learning code as whole-array computation. Vectorization changes the reading unit from one element at a time to an entire array or axis at a time.
+- Related concepts: `broadcasting`, `tensor`, `matrix`
 - Core Section: `P2-11.3`
-- Appears in: `P2-12.1`, `P2-15.1`
+- Appears in: `P2-12.1`, `P2-15.1`, `P3-6.2`

@@ -1,19 +1,19 @@
 # P4-4.1 训练数据与评估数据
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.25`
 
-在 P4-3 章里，我们看过怎样利用 heuristic 先缩小要尝试的模型候选。接下来就会出现一个重要问题：怎样确认这个选择在现实里到底合不合理？
+在 P4-3 章里，我们看过怎样利用 [heuristic](/AiBook/zh/reference/concept-glossary-pinyin/h/#heuristic) 先缩小要尝试的模型候选。接下来就会出现一个重要问题：怎样确认这个选择在现实里到底合不合理？
 
 在机器学习里，model 只是在已经看过的数据上拟合得很好，还远远不够。我们真正想要的是：它在以后会进来的新数据上也能做出可用的判断。所以，数据不会全部都只拿去训练，而是会另外留出一部分专门用于评估。
 
-训练数据，是 model 用来学习的数据。评估数据，是用来检查 model 学到了什么的数据。这里最重要的第一个视角其实很简单：`如果只用已经学过的练习题去考试，就很容易高估自己的实力。`
+[训练数据](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data)，是 model 用来学习的数据。[评估数据](/AiBook/zh/reference/concept-glossary-pinyin/e/#evaluation-data)，是用来检查 model 学到了什么的数据。这里最重要的第一个视角其实很简单：`如果只用已经学过的练习题去考试，就很容易高估自己的实力。`
 
 ## 本节范围
 
-这一节解释为什么要拆分数据。validation data 和 test data 的细致区分会在 P4-4.2 处理，这里先把 `用于学习的数据` 和 `专门留出来评估的数据` 的差别固定下来。
+这一节解释为什么要拆分数据。[validation data](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation-data) 和 [test data](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data) 的细致区分会在 P4-4.2 处理，这里先把 `用于学习的数据` 和 `专门留出来评估的数据` 的差别固定下来。
 
-overfitting 和 generalization 会在 P4-5 详细处理。accuracy、precision、recall 这类 metric 会在 P4-6 处理。本节的重点是 `为什么必须先分开再确认`。
+[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 会在 P4-5 详细处理。accuracy、precision、recall 这类 [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会在 P4-6 处理。本节的重点是 `为什么必须先分开再确认`。
 
 - 为什么不能把全部数据都只拿去训练？
 - training data 和 evaluation data 分别承担什么角色？
@@ -26,7 +26,7 @@ overfitting 和 generalization 会在 P4-5 详细处理。accuracy、precision�
 - 能区分 training data 和 evaluation data 的角色。
 - 能说明如果用同一份数据同时训练和评估，就可能高估性能。
 - 能理解 evaluation data 是 `为了估计 model 在新数据上的表现而准备的代理场景`。
-- 能说明为什么数据拆分会继续连接到 model selection、overfitting 和 generalization。
+- 能说明为什么数据拆分会继续连接到 [model selection](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection)、overfitting 和 generalization。
 - 能保持一个边界感：validation 和 test 的细致区分会在下一节展开。
 
 ## 学习背景
@@ -200,7 +200,7 @@ Name: proportion, dtype: float64
 | 情况 | 先想到的拆分方式 | 原因 |
 | --- | --- | --- |
 | 像客户流失、分数预测这样的表格型数据 | random split | 因为很多时候希望 training 和 evaluation 具有相近分布 |
-| 像月度销售、传感器日志、股价这样时间顺序重要的数据 | time-based split | 因为把未来信息混进过去训练，会扭曲真实部署情境 |
+| 像月度销售、传感器日志、股价这样时间顺序重要的数据 | [time-based split](/AiBook/zh/reference/concept-glossary-pinyin/s/#time-split) | 因为把未来信息混进过去训练，会扭曲真实部署情境 |
 | 像缺陷检测、罕见疾病这样稀有 label 很少的数据 | stratified split | 因为如果稀有 label 只集中到一边，评估会变得不稳定 |
 
 例如，假设你收集了某个网店从 1 月到 6 月的数据。
@@ -256,7 +256,7 @@ training data 上的分数和 evaluation data 上的分数，含义并不一样�
 
 如果 training score 高，evaluation score 也高，这通常是比较好的信号。如果 training score 很高，但 evaluation score 很低，就说明 model 可能过度贴合 training data。这个问题就叫 overfitting，会在 P4-5 里详细说明。
 
-反过来，如果 training score 和 evaluation score 都低，就可能是 model 还没学够。这会接到 underfitting，同样会在 P4-5 里一起处理。
+反过来，如果 training score 和 evaluation score 都低，就可能是 model 还没学够。这会接到 [underfitting](/AiBook/zh/reference/concept-glossary-pinyin/q/#underfitting)，同样会在 P4-5 里一起处理。
 
 一个很短的实务型例子，可以这样读。
 
@@ -274,7 +274,7 @@ evaluation data 是一种 `模拟尚未见过数据` 的装置。但它并不保
 
 例如，假设你收集了某个网店从 1 月到 6 月的数据，并把其中一部分留作 evaluation data。这些 evaluation data 展示的是同一大段时期里的客户行为，但它未必能完美代表 11 月大促，或下一年的客户行为。
 
-所以，数据拆分是必要的起点，但不是全部。时间变化、sampling bias、数据收集方式、服务 policy 变化，也都必须一起看。关于样本与偏差的基本感觉，你已经在前面的概率与统计复习段里见过，在机器学习中，它会在 P4-5 和 P4-6 再次接回来。
+所以，数据拆分是必要的起点，但不是全部。时间变化、[sampling bias](/AiBook/zh/reference/concept-glossary-pinyin/y/#sampling-bias)、数据收集方式、服务 policy 变化，也都必须一起看。关于样本与偏差的基本感觉，你已经在前面的概率与统计复习段里见过，在机器学习中，它会在 P4-5 和 P4-6 再次接回来。
 
 ### 数据少时要更加小心
 
@@ -486,6 +486,6 @@ evaluation churn count: 0
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-07-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-07-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-07-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

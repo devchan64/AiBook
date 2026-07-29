@@ -1,7 +1,7 @@
 # P5-10.1 Representation Learning
 
 > Section ID: `P5-10.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 By the time we reach Chapter P5-9, we have seen that deep learning spread at practical scale because it repeats large tensor computations at the batch level, helped by GPUs and parallel processing. If we now turn the question back inward toward the model, the next question appears.
 
@@ -13,7 +13,7 @@ Representation learning means the process in which, instead of a person designin
 
 When the distinction between representation and representation learning becomes blurry again in later structure chapters, reread together the glossary entries on [representation](/AiBook/en/reference/concept-glossary-alpha/r/#representation) and [representation learning](/AiBook/en/reference/concept-glossary-alpha/r/#representation-learning).
 
-## The Question Of How Representation Learning Changes Features
+## The Question of How Representation Learning Changes Features
 
 - What does a representation mean?
 - How is representation learning different from feature engineering?
@@ -24,14 +24,14 @@ This section first closes representation learning as `the process in which the m
 
 At the same time, it is clear what question we will go into next. How representations are read as becoming more abstract in deeper layers is explained in the next section, P5-10.2. Representation in the image domain reconnects in P5-11.1 and P5-11.2, and sequence and attention-based representations reconnect in P5-12.1, P5-12.2, P5-13.1, and P5-13.2.
 
-## Standards For Internal Features And Task Connections
+## Standards for Internal Features and Task Connections
 
 - You can explain representation learning as `the process in which the model forms useful internal features on its own`.
 - You can compare the difference between the way people directly create features and the deep-learning approach.
 - You can describe why deep learning spread so widely together with the success of representation learning.
 - Through an executable Python example, you can compare human-defined features with a simple intuition of representation learning.
 
-## What Is A Representation
+## What Is a Representation
 
 The word representation can sound abstract to readers. In this book, it is enough first to understand it like this.
 
@@ -54,7 +54,7 @@ If we split the same idea into the input, the human-readable explanation, and th
 
 That is, representation learning is not literally learning the interpretation sentences that people attach. It is closer to forming an internal coordinate system inside the model that is useful for prediction.
 
-## What Is Different From Feature Engineering
+## What Is Different from Feature Engineering
 
 In early machine learning and more traditional approaches, it was very important for people to design features directly.
 
@@ -110,7 +110,7 @@ It is enough to remember it like this.
 
 `The strength of deep learning lies not only in being a large model, but in its ability to form features on its own.`
 
-## How Does Representation Learning Look In Images, Speech, And Text
+## How Does Representation Learning Look in Images, Speech, and Text
 
 Representation learning keeps a similar way of thinking even when the data domain changes.
 
@@ -150,7 +150,7 @@ From this point onward in Part 5, we split the same representation learning agai
 
 That is, the later chapters are not a section that simply keeps adding new model names. They are a section where the same idea of `representation learning` is read separately according to what structure solves it in images, sequential data, and long-context relation problems.
 
-## Why Does It Look Like A Turning Point In The History Of Deep Learning
+## Why Does It Look Like a Turning Point in the History of Deep Learning
 
 Deep learning did not gain attention only because the layers became deeper. What mattered was that `deep structures actually began learning useful representations`.
 
@@ -168,7 +168,7 @@ That is, representation learning is one of the core factors that made deep learn
 
 This diagram compresses the viewpoint difference between traditional feature engineering and deep-learning representation learning.
 
-## Cases And Examples
+## Cases and Examples
 
 ### Representative Case. Maintenance-Priority Recommendation
 
@@ -192,7 +192,7 @@ The same viewpoint applies to other data as well. But the key to hold onto in th
 | maintenance-log search | it can seem that counting words should be enough to group similar logs | even with different surface words, the context of the same handling flow can be grouped in a closer representation |
 | automated quality inspection | a few criteria such as crack length and number of spots can seem sufficient | combinations of position, direction, and surrounding brightness change are easy to miss with only two or three hand-crafted numbers |
 
-## Practice And Example
+## Practice and Example
 
 The goal of this example is to compare, in a maintenance-priority recommendation scene, one risk score directly made by a person with a two-dimensional intermediate representation computed from data.
 
@@ -350,7 +350,7 @@ If we pause here once and briefly fix `when should we bring up the representatio
 - When the common axis becomes blurry while many structure names appear, can you think first of the representation-learning viewpoint?
 - When you need to group CNNs, embeddings, and LLMs into one flow, can you bring back again that they are all structures that make useful internal representations better?
 
-## Sources And References
+## Sources and References
 
 - Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, checked on 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

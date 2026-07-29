@@ -4,6 +4,6 @@
 
 - Meaning: A matrix is a two-dimensional arrangement of numbers organized by rows and columns.
 - Why it matters: Matrices are the basic shape behind table data, mini-batches, weights, and many neural-network computations.
-- Related concepts: `vector`, `matrix multiplication`, `shape`
+- Related concepts: `vector`, `matrix multiplication`, `tensor`
 - Core Section: `P2-3.1`
-- Appears in: `P2-3.3`, `P2-11.3`
+- Appears in: `P2-3.3`, `P2-11.3`, `P4-7.2`

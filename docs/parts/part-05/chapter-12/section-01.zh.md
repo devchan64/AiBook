@@ -1,7 +1,7 @@
 # P5-12.1 RNN、LSTM、GRU 的必要性
 
 > Section ID: `P5-12.1`
-> Version: `v2026.07.23`
+> Version: `v2026.07.26`
 
 _副标题: RNN、LSTM、GRU 要处理顺序数据中的什么问题？_
 
@@ -13,7 +13,7 @@ _副标题: RNN、LSTM、GRU 要处理顺序数据中的什么问题？_
 
 循环网络这一类结构，并不只看当前输入，而是想把前面见过的一部分信息继续带下去，用来处理序列数据（sequence data）。
 
-如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的 [RNN（recurrent neural network）](/AiBook/reference/concept-glossary-parts/07-siot/#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](/AiBook/reference/concept-glossary-parts/09-jieut/#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](/AiBook/reference/concept-glossary-parts/01-giyeok/#gru-gated-recurrent-unit) 条目重新对齐。
+如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的[RNN（recurrent neural network）](/AiBook/zh/reference/concept-glossary-pinyin/x/#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](/AiBook/zh/reference/concept-glossary-pinyin/l/#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](/AiBook/zh/reference/concept-glossary-pinyin/g/#gru-gated-recurrent-unit)重新对齐。
 
 ## RNN 怎样记住顺序的问题
 
@@ -244,11 +244,11 @@ SENSOR_ALPHA = 0.6    # 数值越高，过去的传感器状态保留越久。
 SENSOR_THRESHOLD = 68
 
 WORD_SIGNAL = {
-    "누유": -2.2,
-    "차단": -1.5,
-    "재가동": 1.2,
-    "승인": 0.6,
-    "확인": 0.8,
+    "泄漏": -2.2,
+    "阻断": -1.5,
+    "重启": 1.2,
+    "批准": 0.6,
+    "确认": 0.8,
 }
 
 def load_sequences(path):
@@ -298,7 +298,7 @@ sequences = load_sequences(DATA_PATH)
 print(f"操作变量: MEMO_ALPHA={MEMO_ALPHA}, SENSOR_ALPHA={SENSOR_ALPHA}, SENSOR_THRESHOLD={SENSOR_THRESHOLD}")
 print()
 
-print("[memo summary: 同样的最后单词 '확인' 会不会被读成不同意思]")
+print("[memo summary: 同样的最后单词 '确认' 会不会被读成不同意思]")
 print("case                  last_word  baseline_label   final_state  state_label      changed")
 for case_name, rows in sequences.items():
     if rows[0]["kind"] != "memo":
@@ -346,13 +346,13 @@ for step, value, previous_state, new_state, alert in trace_sensor_state(sequence
 ```text
 操作变量: MEMO_ALPHA=0.85, SENSOR_ALPHA=0.6, SENSOR_THRESHOLD=68
 
-[memo summary: 同样的最后单词 '확인' 会不会被读成不同意思]
+[memo summary: 同样的最后单词 '确认' 会不会被读成不同意思]
 case                  last_word  baseline_label   final_state  state_label      changed
-memo_shutdown_confirmed       확인  restart_allowed      -0.12  hold_required   True
-memo_leak_confirmed           확인  restart_allowed      -0.55  hold_required   True
-memo_restart_confirmed        확인  restart_allowed       2.18  restart_allowed False
-memo_blocked_then_approved    확인  restart_allowed       1.26  restart_allowed False
-memo_leak_then_recovered      확인  restart_allowed       0.47  restart_allowed False
+memo_shutdown_confirmed       确认  restart_allowed      -0.12  hold_required   True
+memo_leak_confirmed           确认  restart_allowed      -0.55  hold_required   True
+memo_restart_confirmed        确认  restart_allowed       2.18  restart_allowed False
+memo_blocked_then_approved    确认  restart_allowed       1.26  restart_allowed False
+memo_leak_then_recovered      确认  restart_allowed       0.47  restart_allowed False
 
 [sensor summary: 同样的最后值 80 会不会被读成不同意思]
 case              last_value  baseline_alert  final_state  state_alert  changed
@@ -363,10 +363,10 @@ sensor_stable_high              80            True        74.83         True  Fa
 sensor_recovered_then_rise      80            True        66.91        False  True
 
 [trace: memo_shutdown_confirmed]
-step 1: input=차단, input_signal=-1.5, previous_state= 0.00 -> new_state=-1.50
-step 2: input=점검, input_signal= 0.0, previous_state=-1.50 -> new_state=-1.27
-step 3: input=대기, input_signal= 0.0, previous_state=-1.27 -> new_state=-1.08
-step 4: input=확인, input_signal= 0.8, previous_state=-1.08 -> new_state=-0.12
+step 1: input=阻断, input_signal=-1.5, previous_state= 0.00 -> new_state=-1.50
+step 2: input=检查, input_signal= 0.0, previous_state=-1.50 -> new_state=-1.27
+step 3: input=等待, input_signal= 0.0, previous_state=-1.27 -> new_state=-1.08
+step 4: input=确认, input_signal= 0.8, previous_state=-1.08 -> new_state=-0.12
 
 [trace: sensor_temporary_spike]
 step 1: input=80.0, previous_state= 0.00 -> new_state=32.00, state_alert=False
@@ -381,7 +381,7 @@ step 6: input=80.0, previous_state=57.67 -> new_state=66.60, state_alert=False
 
 | 比较 | 输出里先看到的现象 | 只看最后输入时容易留下的解释 | 连同顺序状态一起看后改变的解释 |
 | --- | --- | --- | --- |
-| `memo_*` sequence | 最后单词都是 `확인`，但 `changed` 不同 | 同样的最后单词似乎就应该得到同样判断 | 如果前面累积的 `차단`、`누유` 这类暂缓信号还留着，即使最后来了 `확인`，最终判断也可能是 `hold_required` |
+| `memo_*` sequence | 最后单词都是 `确认`，但 `changed` 不同 | 同样的最后单词似乎就应该得到同样判断 | 如果前面累积的 `阻断`、`泄漏` 这类暂缓信号还留着，即使最后来了 `确认`，最终判断也可能是 `hold_required` |
 | `sensor_*` sequence | 最后值都是 `80`，但只有一部分是 `changed=True` | 最后值相同，所以似乎都应该报警 | 持续上升会把状态推到警报线以上，但短暂尖峰后又回落的流向，即使最后值相同，状态也可能还没积累到报警程度 |
 | `trace` 里的 `previous_state -> new_state` | 当前输入不会直接变成最终判断，而是和前一状态混合 | 中间输出很容易被看成只是补充说明 | RNN 家族结构的核心在于`怎样更新累积状态`，而不只是当前输入本身 |
 
@@ -393,7 +393,7 @@ step 6: input=80.0, previous_state=57.67 -> new_state=66.60, state_alert=False
 
 上面的结果同时展示了三件事。第一，在运维备忘录例子里，baseline 只看最后单词 `确认`，所以会把所有 memo sequence 都读成 `restart_allowed`；但顺序状态一侧会留下前面的阻断·风险线索有多强，于是把一部分 sequence 分成 `hold_required`。第二，在传感器例子里，baseline 只看最后值 `80`，所以会把所有 sensor sequence 都判断为警报；但状态一侧可以把持续上升和短暂尖峰后回落的流向留下成不同状态。第三，即使最后输入都是 `80`，或者最后单词都是 `确认`，状态值也不会相同，因为当前 step 的判断不是由`现在这一个输入`单独决定，而是还会参考前面 step 累积下来的状态。
 
-运维备忘录一侧也按同样标准读，核心会更清楚。baseline 容易被最后单词的即时信号拉走，但顺序状态一侧会累积 `차단`、`누유`、`재가동`、`확인` 依次留下的痕迹，再形成最后结论。实际的 LSTM 和 GRU，可以理解成正是朝着把这种状态管理得更久、更稳定的方向发展。
+运维备忘录一侧也按同样标准读，核心会更清楚。baseline 容易被最后单词的即时信号拉走，但顺序状态一侧会累积 `阻断`、`泄漏`、`重启`、`确认` 依次留下的痕迹，再形成最后结论。实际的 LSTM 和 GRU，可以理解成正是朝着把这种状态管理得更久、更稳定的方向发展。
 
 这个例子并没有实现真正完整的 RNN。但它真正要读出来的核心更清楚。
 
@@ -406,7 +406,7 @@ step 6: input=80.0, previous_state=57.67 -> new_state=66.60, state_alert=False
 | 先看到的输出信号 | 现在就可以尝试的变化 | 先不要急着下的结论 |
 | --- | --- | --- |
 | 一部分 `sensor_*` sequence 虽然最后值是 80，却没有触发警报 | 改 CSV 的中间 `sensor_value`、`SENSOR_ALPHA`、`SENSOR_THRESHOLD`，比较过去状态会被保留多久 | 不要立刻断定 RNN 家族总是无条件比最后值 baseline 更好 |
-| 即使最后的 `확인` 相同，状态和结论仍然会分开 | 改 CSV 的 `token`、`WORD_SIGNAL`、`MEMO_ALPHA`，观察前面处置流向会留下多久 | 不要断定只靠几个词信号就能解释真实运维语言理解的全部 |
+| 即使最后的 `确认` 相同，状态和结论仍然会分开 | 改 CSV 的 `token`、`WORD_SIGNAL`、`MEMO_ALPHA`，观察前面处置流向会留下多久 | 不要断定只靠几个词信号就能解释真实运维语言理解的全部 |
 | 多个传感器 sequence 最后的 state 不同 | 把中间值再调高或调低，观察`持续趋势`和`短暂尖峰`会从哪里开始分开 | 不要把这一条简单的状态更新公式，当作对 LSTM、GRU 全部门控机制的替代 |
 
 也就是说，RNN 的基本直觉，更接近`把前一状态带进来，再和当前输入一起形成新状态`，而不是`立刻对当前输入做分类`。LSTM 和 GRU，正可以被读成是为了把这个状态里的`哪些该多留一会儿`、`哪些该忘掉`控制得更好而出现的结构。

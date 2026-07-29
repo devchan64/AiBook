@@ -1,7 +1,7 @@
 # P2-2.3 Limits and the Intuition of Change
 
 > Section ID: `P2-2.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.26`
 
 In P2-2.2, we read sigma as compressed notation for repeated addition. Now we move to another unfamiliar-looking notation: the limit.
 
@@ -315,7 +315,7 @@ When a function value changes, you compare the change amount, then look at the r
 
 So a limit is not notation that directly runs an AI model. It is preparation for reading the explanation that learning `changes values little by little while searching for a better direction`.
 
-## The Order for Reading a Limit
+## Order for Reading a Limit
 
 When a limit notation appears, read it in the following order.
 
