@@ -7,7 +7,7 @@
 
 强化学习不同于 `看着正确 label 来匹配答案` 的学习。它并不会总是立刻告诉你哪个动作最好，而是让系统在执行动作之后，根据返回的 reward 和下一状态，逐渐找到更好的行动方式。所以强化学习处理的不是单次输入输出，而是随着时间连续展开的一串选择。
 
-这一节会说明 reinforcement learning、[state](/AiBook/zh/reference/concept-glossary-pinyin/z/#state)、action、reward、[policy](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy) 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而基于长期奖励的学习到底是什么意思这个基础含义，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
+这一节会说明 reinforcement learning、[state](/AiBook/zh/reference/concept-glossary-pinyin/z/#state)、action、reward、[policy](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning-policy) 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而基于长期奖励的学习到底是什么意思这个基础含义，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 

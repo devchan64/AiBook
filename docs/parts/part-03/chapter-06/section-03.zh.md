@@ -75,7 +75,7 @@
 4. 这样整理出来的表和序列，会成为后续学习阶段里模型读取的输入。
 5. 然后，模型才会在这个输入里继续学习更长的依赖关系或更复杂的组合。
 
-看清这个顺序之后，就会明白：特征设计不是深度学习之前过时的准备动作，而是不管用什么学习方法都需要先完成的输入定义阶段。所以，这一节的结论也不是 `人工特征 vs 深度学习` 的对立，而是 [输入说明(input specification)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-input-specification) 和 [表示学习(representation learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-representation-learning) 究竟从哪里分开。特征设计不该被读成过时的手工劳动，而应被读成：它是先把后续学习阶段所依赖的输入结构说明清楚的工作。
+看清这个顺序之后，就会明白：特征设计不是深度学习之前过时的准备动作，而是不管用什么学习方法都需要先完成的输入定义阶段。所以，这一节的结论也不是 `人工特征 vs 深度学习` 的对立，而是 [输入说明(input specification)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input) 和 [表示学习(representation learning)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-representation-learning) 究竟从哪里分开。特征设计不该被读成过时的手工劳动，而应被读成：它是先把后续学习阶段所依赖的输入结构说明清楚的工作。
 
 ## 用一个小图来看
 

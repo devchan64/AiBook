@@ -85,7 +85,7 @@ y = wx + b
 \]
 
 - `x`: 输入(input)
-- `y`: 预测值([prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction))
+- `y`: 预测值(/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction))
 - `w`: 系数(coefficient)
 - `b`: 截距(intercept)
 

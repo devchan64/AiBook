@@ -7,7 +7,7 @@ In P2-12.1, we read a `DataFrame` as a table-shaped data structure. In P2-12.2, 
 
 The important point here is that `handling Pandas well` and `preparing a learning dataset well` are not the same thing. The former is a table-manipulation skill. The latter is the work of deciding what inputs the model receives and what answers it should learn.
 
-This Section explains the basic distinction among dataset, feature, target, validation, and data leakage. The representative explanation of `DataFrame` and table selection stays in P2-12.1, P2-12.2, and the [dataset glossary entry](/AiBook/en/reference/concept-glossary-alpha/d.en/#dataset). Here, the focus is on how to reorganize that table into learning inputs and answers.
+This Section explains the basic distinction among dataset, feature, target, validation, and data leakage. The representative explanation of `DataFrame` and table selection stays in P2-12.1, P2-12.2, and the [dataset glossary entry](/AiBook/en/reference/concept-glossary-alpha/d/#dataset). Here, the focus is on how to reorganize that table into learning inputs and answers.
 
 If Chapter 11 made a computable array shape, Chapter 12 is now the stage where we decide which columns to keep from the table and which to remove. The input and answer candidates organized here lead into the visualizations of Chapter 13 and the record organization of Chapter 14.
 

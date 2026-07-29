@@ -7,7 +7,7 @@ P4-2.1에서는 [지도학습 라벨(supervised learning label)](../../../refere
 
 강화학습은 “정답 라벨을 보고 맞히는 학습”과 다릅니다. 어떤 행동이 즉시 좋은지 항상 알려 주는 것이 아니라, 행동을 해 본 뒤 돌아오는 보상과 다음 상태를 보고 더 나은 행동 방식을 찾아갑니다. 그래서 강화학습은 한 번의 입력과 출력보다, 시간에 따라 이어지는 선택의 흐름을 다루는 학습입니다.
 
-이 절은 강화학습(reinforcement learning), [상태(state)](../../../reference/concept-glossary-parts/07-siot.md#state), 행동(action), 보상(reward), [정책(policy)](../../../reference/concept-glossary-parts/09-jieut.md#policy)의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 장기 보상 기반 학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 강화학습(reinforcement learning), [상태(state)](../../../reference/concept-glossary-parts/07-siot.md#state), 행동(action), 보상(reward), [정책(policy)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning-policy)의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 장기 보상 기반 학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 강화학습(reinforcement learning)에서 닫을 질문
 

@@ -5,7 +5,7 @@
 
 Part 4 把机器学习读成了问题定义、数据划分、泛化、评估与模型选择的流程。现在到了 Part 5，我们先问一个更小的问题：当模型接收数值并生成输出时，最小的神经网络计算单元到底长什么样。这个问题会把我们带到感知机（perceptron）。感知机是最简单的神经网络判断单元：它把多个输入（input）乘上不同的重要度（weight），再把这些结果相加，并依据这个结果给出输出。
 
-如果后面的章节里需要再次快速确认感知机这个术语，可以回到[概念词汇表里的感知机（perceptron）条目](/AiBook/zh/reference/concept-glossary-pinyin/g/#perceptron)作为基准线。
+如果后面的章节里需要再次快速确认感知机这个术语，可以回到[概念词汇表里的感知机（perceptron）条目](/AiBook/zh/reference/concept-glossary-pinyin/m/#multilayer-neural-network)作为基准线。
 
 ## 感知机要收住的第一个问题
 

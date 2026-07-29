@@ -69,7 +69,7 @@
 | 기준선 비교 | 구간 또는 샘플 대 구간 | 최근 상태를 평소와 비교해야 하기 때문 |
 | 검토 문장 | 구간 또는 샘플 | 사람이 읽는 판단 단위이기 때문 |
 
-예를 들어 `late_drop_rate` 같은 특징은 시점 한 줄에 바로 붙지 않고, 동작 1회 샘플을 만든 뒤에야 계산할 수 있습니다. 반면 `recent_count=20` 같은 값은 개별 샘플 특징이 아니라 최근 구간 집계에 더 가깝습니다. 그래서 층위를 섞어 읽으면 특징, 기준선, [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)가 모두 추상적으로 느껴집니다.
+예를 들어 `late_drop_rate` 같은 특징은 시점 한 줄에 바로 붙지 않고, 동작 1회 샘플을 만든 뒤에야 계산할 수 있습니다. 반면 `recent_count=20` 같은 값은 개별 샘플 특징이 아니라 최근 구간 집계에 더 가깝습니다. 그래서 층위를 섞어 읽으면 특징, 기준선, [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)가 모두 추상적으로 느껴집니다.
 
 ## 한눈에 비교하는 작은 코드 예시
 

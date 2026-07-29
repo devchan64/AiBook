@@ -106,7 +106,7 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 
 ## `비슷하다`는 말이 왜 중요한가
 
-클러스터링은 결국 데이터 사이의 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance), [밀도(density)](../../../reference/concept-glossary-parts/05-mieum.md#density), 연결(connectivity), [중심(center)](../../../reference/concept-glossary-parts/09-jieut.md#center) 같은 개념 위에서 작동합니다.
+클러스터링은 결국 데이터 사이의 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance), [밀도(density)](../../../reference/concept-glossary-parts/05-mieum.md#density), 연결(connectivity), [중심(center)](../../../reference/concept-glossary-parts/09-jieut.md#centroid) 같은 개념 위에서 작동합니다.
 
 즉, 군집은 그냥 생기는 것이 아니라, `어떤 기준으로 비슷함을 정의했는가`에 따라 달라집니다.
 

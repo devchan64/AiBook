@@ -86,7 +86,7 @@
 
 이 구분을 특징 설계 바로 뒤에서 한 번 짚어 두어야 `어차피 다 feature 아닌가`라는 착각이 줄어듭니다. 요약 표는 feature만 모아 둔 표가 아니라, feature 후보, 비교 열, 결과 후보, 식별·문맥 열이 함께 잠시 놓일 수 있는 작업 표입니다. 이렇게 읽어 두면 뒤에서 기준선 비교 열과 target 후보 열을 다시 만날 때도 각 열의 역할이 덜 갑자기 바뀌어 보입니다.
 
-이 절은 `어떤 숫자 열이 feature인가`만 따지는 문제가 아니라, [작업 표 안의 열 역할 분리(column-role separation in a working table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-column-role-separation)의 문제로 다시 볼 수 있습니다.
+이 절은 `어떤 숫자 열이 feature인가`만 따지는 문제가 아니라, [작업 표 안의 열 역할 분리(column-role separation in a working table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)의 문제로 다시 볼 수 있습니다.
 
 
 따라서 `숫자 열이면 다 feature`라는 오해 대신, 각 열이 샘플을 설명하는지, 비교 기준을 담는지, 결과를 적어 둔 것인지, 맥락만 남기는지부터 따져야 합니다.

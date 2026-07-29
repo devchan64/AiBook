@@ -13,7 +13,7 @@ _副标题: RNN、LSTM、GRU 要处理顺序数据中的什么问题？_
 
 循环网络这一类结构，并不只看当前输入，而是想把前面见过的一部分信息继续带下去，用来处理序列数据（sequence data）。
 
-如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的[RNN（recurrent neural network）](/AiBook/zh/reference/concept-glossary-pinyin/x/#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](/AiBook/zh/reference/concept-glossary-pinyin/l/#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](/AiBook/zh/reference/concept-glossary-pinyin/g/#gru-gated-recurrent-unit)重新对齐。
+如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的[RNN（recurrent neural network）](/AiBook/zh/reference/concept-glossary-pinyin/x/#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](/AiBook/zh/reference/concept-glossary-pinyin/x/#recurrent-neural-network)、[GRU（gated recurrent unit）](/AiBook/zh/reference/concept-glossary-pinyin/x/#recurrent-neural-network)重新对齐。
 
 ## RNN 怎样记住顺序的问题
 

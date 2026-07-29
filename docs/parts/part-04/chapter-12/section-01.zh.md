@@ -31,7 +31,7 @@
 
 ### k-NN 是怎样做判断的
 
-k-NN 会先看一个新的输入，也就是 [query](/AiBook/zh/reference/concept-glossary-pinyin/c/#query)。接着，它会在已经有 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 的 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 里找出和 query 距离最近的案例。最后，再把这些 [neighbors](/AiBook/zh/reference/concept-glossary-pinyin/n/#nearest-neighbor) 的 label 收集起来，用多数表决或平均做出结果。
+k-NN 会先看一个新的输入，也就是 [query](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)。接着，它会在已经有 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 的 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 里找出和 query 距离最近的案例。最后，再把这些 [neighbors](/AiBook/zh/reference/concept-glossary-pinyin/n/#nearest-neighbor) 的 label 收集起来，用多数表决或平均做出结果。
 
 简单压成下面四步。
 

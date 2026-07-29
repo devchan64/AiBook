@@ -5,7 +5,7 @@
 
 In P5-1.2, we saw that a single perceptron makes a decision through a linear combination of inputs and activation. At the same time, we also saw that one perceptron can create only one linear boundary at a time, so there is a limit to the patterns it can express. The next question naturally becomes `if one perceptron is not enough, what changes if several such computation units are stacked?` That question leads into the multilayer neural network. A multilayer neural network is a structure that stacks several computation units like perceptrons across multiple layers, turns simple input combinations into intermediate representations, and then connects those representations to more complex decisions.
 
-When the distinction between multilayer structure and intermediate layers needs to be fixed again, it helps to reread the [multilayer neural network](/AiBook/en/reference/concept-glossary-alpha/m/#multilayer-neural-network) and [hidden layer](/AiBook/en/reference/concept-glossary-alpha/h/#hidden-layer) entries together in the concept glossary.
+When the distinction between multilayer structure and intermediate layers needs to be fixed again, it helps to reread the [multilayer neural network](/AiBook/en/reference/concept-glossary-alpha/m/#multilayer-neural-network) and [hidden layer](/AiBook/en/reference/concept-glossary-alpha/m/#multilayer-neural-network) entries together in the concept glossary.
 
 ## Questions Raised by Adding Layers
 

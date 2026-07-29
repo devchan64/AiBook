@@ -8,11 +8,11 @@ _副标题: DQN、PPO、RLHF 分别从强化学习的哪些问题意识中分化
 读完 P4-19.1 到 P4-19.3 之后，继续学强化学习时，很快就会遇到更多名字。
 
 - [DQN](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)
-- [PPO](/AiBook/zh/reference/concept-glossary-pinyin/p/#ppo), [TRPO](/AiBook/zh/reference/concept-glossary-pinyin/t/#trpo), [A2C](/AiBook/zh/reference/concept-glossary-pinyin/a/#a2c), [A3C](/AiBook/zh/reference/concept-glossary-pinyin/a/#a3c)
-- [safe reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/a/#safe-reinforcement-learning)
-- [offline reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/l/#offline-reinforcement-learning)
-- [domain randomization](/AiBook/zh/reference/concept-glossary-pinyin/y/#domain-randomization)
-- [RLHF](/AiBook/zh/reference/concept-glossary-pinyin/r/#rlhf), [preference optimization](/AiBook/zh/reference/concept-glossary-pinyin/p/#preference-optimization)
+- [PPO](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning), [TRPO](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning), [A2C](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning), [A3C](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)
+- [safe reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)
+- [offline reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)
+- [domain randomization](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)
+- [RLHF](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning), [preference optimization](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)
 
 这些名字来自不同时代、不同瓶颈，但很容易一起涌进来。这一节不去学每个实现，而是集中整理`为什么这些名字会分叉出来`
 

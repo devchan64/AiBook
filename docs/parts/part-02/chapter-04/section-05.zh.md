@@ -5,7 +5,7 @@
 
 在 P2-4.3 中，我们把微分(derivative)、偏微分(partial derivative)、梯度(gradient)连了起来；在 P2-4.4 中，我们又看了为什么学习(training)里需要微分。
 
-这里提供的是一节补充学习，用来减轻从高中微分记忆跨到梯度时产生的陌生感。`梯度(gradient)` 的代表性说明放在 P2-4.3，`梯度下降(gradient descent)` 的代表性说明放在 P2-6.3，而这一节只更慢地整理填平它们之间间隔所需要的背景。想快速重新确认术语时，也可以一起看[梯度词条](/AiBook/zh/reference/concept-glossary-pinyin/g.zh/#gradient)。
+这里提供的是一节补充学习，用来减轻从高中微分记忆跨到梯度时产生的陌生感。`梯度(gradient)` 的代表性说明放在 P2-4.3，`梯度下降(gradient descent)` 的代表性说明放在 P2-6.3，而这一节只更慢地整理填平它们之间间隔所需要的背景。想快速重新确认术语时，也可以一起看[梯度词条](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient)。
 
 这里主要围绕正文里快速带过的背景概念来读，例如 `补充学习`、`方向导数(directional derivative)`、`向量分析(vector calculus)`。目的不是从一开始就用公式把 `gradient`、`gradient descent`、`backpropagation` 硬压下去，而是先重新抓住它们到底是在看什么。
 重点是让“从记住一个斜率，跳到多方向变化”这一步重新变得可读。

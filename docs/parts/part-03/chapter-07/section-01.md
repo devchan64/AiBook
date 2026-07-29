@@ -63,7 +63,7 @@
 
 이 표의 핵심은 기준선이 `추가 참고 수치`가 아니라, 변화 여부를 말하기 위한 비교 전제라는 점입니다.
 
-따라서 이 절은 기준선 용어 소개가 아니라, [현재 상태를 읽기 위해 어떤 참조 구간을 함께 둘 것인가(reference window for comparison)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline-window)의 문제로 읽는 편이 정확합니다. 기준선은 부가 숫자가 아니라, 현재 구조를 단독 값이 아닌 `비교 가능한 상태`로 바꾸는 참조 구간입니다.
+따라서 이 절은 기준선 용어 소개가 아니라, [현재 상태를 읽기 위해 어떤 참조 구간을 함께 둘 것인가(reference window for comparison)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline)의 문제로 읽는 편이 정확합니다. 기준선은 부가 숫자가 아니라, 현재 구조를 단독 값이 아닌 `비교 가능한 상태`로 바꾸는 참조 구간입니다.
 
 ## 출처와 참고 자료
 

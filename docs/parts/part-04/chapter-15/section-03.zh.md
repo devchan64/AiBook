@@ -32,7 +32,7 @@ OOB 的外围边界先固定到下面这个程度就够了。
 | 项目 | 在当前正文里的回收状态 |
 | --- | --- |
 | [交叉验证(cross-validation)](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation)的全部变体 | 交叉验证的基本作用会在 P4-9.1、P4-9.3 重新连接，但本节不代替对全部变体的说明 |
-| [概率校准(calibration)](/AiBook/zh/reference/concept-glossary-pinyin/c/#calibration)与 [threshold](/AiBook/zh/reference/concept-glossary-pinyin/y/#threshold) 调整 | threshold 和 calibration 的基本感觉会在 P4-6.4、P4-11.1 重新连接，但本节不会把那些细节与 OOB 一起展开 |
+| [概率校准(calibration)](/AiBook/zh/reference/concept-glossary-pinyin/g/#probability-calibration)与 [threshold](/AiBook/zh/reference/concept-glossary-pinyin/y/#threshold) 调整 | threshold 和 calibration 的基本感觉会在 P4-6.4、P4-11.1 重新连接，但本节不会把那些细节与 OOB 一起展开 |
 | 梯度提升中的 OOB 性格差异 | boosting 的检查感会在 P4-16.1、P4-16.2 通过 validation 与 early stopping 再次连接，但本节不展开细致对比 |
 
 换句话说， 本节集中做的事是把 OOB 固定成 `随机森林的内部检查板`， 而更宽的评价流程和分数运用策略， 更适合在后续按问题再分开重读。
@@ -130,7 +130,7 @@ scikit-learn 的文档和例子说明， OOB error 能让读者在训练随机�
 
 - 小实验可以更快重复
 - 它能减少只看 train score 的错误
-- 它能更快检查树数([`n_estimators`](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter))增加时状态怎么变化
+- 它能更快检查树数(/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter))增加时状态怎么变化
 
 所以 OOB 更接近 `快速内部检查板`， 而不是 `评价流程的终点`。
 

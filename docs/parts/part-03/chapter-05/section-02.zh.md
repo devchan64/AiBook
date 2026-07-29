@@ -42,7 +42,7 @@
 | 峰值什么时候出现 | 最大值出现时点 |
 | 是稳定维持，还是剧烈波动 | 波动性、下降开始时点 |
 
-这里还要再补上一点。平均值也很容易掩盖[离群值(outlier)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-outlier)和[分布偏斜(skewness)](/AiBook/zh/reference/concept-glossary-pinyin/p/#glossary-skewness)的影响。例如，大多数动作都在相似范围里，但只有少数案例突然跳到很大值时，平均值会上升，可是 `大多数动作实际上处在什么水平` 反而会变得模糊。反过来，如果大部分值集中在一边，只有少数案例向另一边拉出很长的尾部，那么平均值也很难表现这种不对称结构。
+这里还要再补上一点。平均值也很容易掩盖[离群值(outlier)](/AiBook/zh/reference/concept-glossary-pinyin/y/#outlier)和[分布偏斜(skewness)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-distribution)的影响。例如，大多数动作都在相似范围里，但只有少数案例突然跳到很大值时，平均值会上升，可是 `大多数动作实际上处在什么水平` 反而会变得模糊。反过来，如果大部分值集中在一边，只有少数案例向另一边拉出很长的尾部，那么平均值也很难表现这种不对称结构。
 
 | 仅靠平均值不容易看见什么 | 为什么容易漏掉 | 应该一起留下的值 |
 | --- | --- | --- |

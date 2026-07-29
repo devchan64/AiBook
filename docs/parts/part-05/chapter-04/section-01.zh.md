@@ -13,7 +13,7 @@
 
 不过，在教材或框架文档里，`loss` 与 `objective` 或 `cost` 有时也会被分得更细一些。通常，`loss` 指的是样本级偏差或其平均值，而真正被最小化的整体对象，则会被解释为同时包含 batch 平均值与正则化（regularization）的 `objective/cost`。这一节为了照顾初学者的阅读流程，会先统一用“损失”来讲；但等到后面把梯度（gradient）与优化器（optimizer）连起来时，还会再回头确认：`真正被最小化的到底是什么？`
 
-如果后面又需要快速回看损失的角色，更适合回到概念词汇表里的[损失函数（loss function）](/AiBook/zh/reference/concept-glossary-pinyin/l/#loss-function)、[评估指标（metric）](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)、[平方误差（squared error）](/AiBook/zh/reference/concept-glossary-pinyin/p/#squared-error)、[交叉熵（cross-entropy）](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-entropy)条目。
+如果后面又需要快速回看损失的角色，更适合回到概念词汇表里的[损失函数（loss function）](/AiBook/zh/reference/concept-glossary-pinyin/l/#loss-function)、[评估指标（metric）](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design)、[平方误差（squared error）](/AiBook/zh/reference/concept-glossary-pinyin/l/#loss-function)、[交叉熵（cross-entropy）](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-entropy)条目。
 
 这里先固定下面三句话就够了。
 

@@ -31,7 +31,7 @@
 | 라벨을 무엇으로 둘까 | 지금 라벨이 정말 안정적으로 있는가 |
 | 정확도를 어떻게 올릴까 | 어떤 표로 다시 묶어야 비교가 가능한가 |
 
-이 차이는 단순한 순서 문제가 아닙니다. 원천데이터를 처음 볼 때 필요한 일은 학습 문제 선택이 아니라 `표의 정체를 다시 묻는 일`입니다. 지금 보고 있는 것이 시점별 측정 기록인지, 동작 1회 요약인지, 최근 구간 집계인지에 따라 뒤의 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [목표 라벨(target)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-target) 설명이 모두 달라집니다.
+이 차이는 단순한 순서 문제가 아닙니다. 원천데이터를 처음 볼 때 필요한 일은 학습 문제 선택이 아니라 `표의 정체를 다시 묻는 일`입니다. 지금 보고 있는 것이 시점별 측정 기록인지, 동작 1회 요약인지, 최근 구간 집계인지에 따라 뒤의 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [목표 라벨(target)](../../../reference/concept-glossary-parts/12-tieut.md#target) 설명이 모두 달라집니다.
 
 예를 들어 다음처럼 원천데이터의 일부만 보고도 너무 빨리 학습 문제의 틀이 튀어나올 수 있습니다.
 

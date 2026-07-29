@@ -219,7 +219,7 @@ The purpose of this example is not to calculate a new feature. It is to check fi
 
 The last three things to check here are the following. Are the unit and calculation rule written down? Did we distinguish version changes or sensor changes? Did we mark definition differences that must not be mixed into the same baseline and partition? Only when these three conditions stand together does a feature table remain not as a simple bundle of numbers, but as a structure with comparable definitions attached. Checking whether the current feature table compares only columns that still mean the same thing is exactly the center of this section.
 
-If the measurement unit, sensor version, or calculation rule changes, then the same column name may no longer mean the same feature, so Part 3 should check feature-definition sameness before looking at the numbers. This section can be read not as a trick for managing column names, but as the problem of [feature-definition identity](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature-definition-identity).
+If the measurement unit, sensor version, or calculation rule changes, then the same column name may no longer mean the same feature, so Part 3 should check feature-definition sameness before looking at the numbers. This section can be read not as a trick for managing column names, but as the problem of [feature-definition identity](/AiBook/en/reference/concept-glossary-alpha/f/#feature).
 
 
 So feature identity should be read not as one line of column name, but as a definition bundle that includes what was built under what rule and version.

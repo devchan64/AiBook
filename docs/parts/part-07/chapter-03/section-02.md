@@ -19,7 +19,7 @@ Version: `v2026.07.26`
 
 Part 7의 error analysis는 이 절처럼 샘플 단위로 흔들린 이유를 남기는 방식으로 읽으면 됩니다. 점수보다 `어떤 샘플이 왜 흔들렸는가`를 남기는 프로젝트 회고 기준을 여기서 고정합니다.
 
-Part 7에서 `회고(retrospective)`, `검토(review)`, `평가(evaluation)`의 역할이 다시 섞이면 이 절과 개념사전의 [회고(retrospective)](../../../reference/concept-glossary-parts/14-hieut.md#retrospective), [검토(review)](../../../reference/concept-glossary-parts/01-giyeok.md#review), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation) 항목을 함께 다시 보는 편이 좋습니다.
+Part 7에서 `회고(retrospective)`, `검토(review)`, `평가(evaluation)`의 역할이 다시 섞이면 이 절과 개념사전의 회고(retrospective), 검토(review), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 판단 기준
 

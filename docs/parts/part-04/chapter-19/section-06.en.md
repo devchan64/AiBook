@@ -8,9 +8,9 @@ _Subtitle: How does the likelihood ratio trick connect changes in policy probabi
 Once readers study policy-based reinforcement learning in P4-19.2, the following names quickly appear.
 
 - [policy gradient theorem](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning)
-- [likelihood ratio trick](/AiBook/en/reference/concept-glossary-alpha/l/#likelihood-ratio-trick)
+- likelihood ratio trick
 
-Rather than following the full rigorous proof all the way to the end, this supplementary Section first reads why a change in policy parameters connects to a change in [expected reward](/AiBook/en/reference/concept-glossary-alpha/e/#expected-reward) and why the form of [log-probability](/AiBook/en/reference/concept-glossary-alpha/l/#log-probability) appears so often.
+Rather than following the full rigorous proof all the way to the end, this supplementary Section first reads why a change in policy parameters connects to a change in expected reward and why the form of log-probability appears so often.
 
 ## Questions Closed By First Reading Of Policy Gradient
 

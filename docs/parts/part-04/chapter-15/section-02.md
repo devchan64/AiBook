@@ -23,7 +23,7 @@ P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-
 - [`feature_importances_`](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)는 무엇을 뜻하는가?
 - impurity-based importance와 permutation importance는 어떻게 다른가?
 - 왜 중요한 숫자처럼 보여도 오해를 만들 수 있는가?
-- [PDP(partial dependence plot)](../../../reference/concept-glossary-parts/06-bieup.md#partial-dependence-plot-pdp), [SHAP](../../../reference/concept-glossary-parts/07-siot.md#shap)는 중요도와 무엇이 다른 해석 질문을 던지는가?
+- PDP(partial dependence plot), SHAP는 중요도와 무엇이 다른 해석 질문을 던지는가?
 - 왜 중요도 해석을 바로 [인과 추론(causal inference)](../../../reference/concept-glossary-parts/08-ieung.md#causal-inference)으로 넘기면 안 되는가?
 - 상관 특성(correlated features)이 매우 강한 실제 데이터에서는 어떤 보수적 해석 전략이 필요한가?
 
@@ -40,9 +40,9 @@ P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-
 ## 특징 중요도(feature importance)에서 남길 판단 기준
 
 - 특징 중요도를 `모델 내부 사용량의 요약`으로 설명할 수 있습니다.
-- [impurity-based importance(MDI)](../../../reference/concept-glossary-parts/13-pieup.md#mean-decrease-in-impurity-mdi)와 permutation importance를 구분할 수 있습니다.
+- impurity-based importance(MDI)와 permutation importance를 구분할 수 있습니다.
 - 특징 중요도가 곧 인과관계(causality)나 진짜 원인 순위를 뜻하지 않는다는 점을 설명할 수 있습니다.
-- 상관 특성(multicollinear or correlated features)과 [high-cardinality feature](../../../reference/concept-glossary-parts/01-giyeok.md#high-cardinality-feature)가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
+- 상관 특성(multicollinear or correlated features)과 high-cardinality feature가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
 
 ## 학습 배경
 

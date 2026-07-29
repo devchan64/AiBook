@@ -27,7 +27,7 @@
 ## 应用强化学习时要留下的判断标准
 
 - 能说明 reward 不一定就是 [true objective](/AiBook/zh/reference/concept-glossary-pinyin/z/#true-objective)。
-- 能说出 exploration 在游戏里看起来容易，但在现实里会制造 [exploration cost](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploration-cost) 和风险。
+- 能说出 exploration 在游戏里看起来容易，但在现实里会制造 [exploration cost](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploration) 和风险。
 - 能解释为什么 [sim-to-real gap](/AiBook/zh/reference/concept-glossary-pinyin/s/#sim-to-real-gap) 很重要。
 - 能在应用强化学习前自己列出检查问题。
 
@@ -175,7 +175,7 @@ reward 设计不是一个小实现细节，而是系统会被引导去相信`自
 
 ## 为什么 safe exploration 会变成单独主题
 
-AI 安全文献把 [safe exploration](/AiBook/zh/reference/concept-glossary-pinyin/s/#safe-exploration) 当成单独问题。原因很简单。
+AI 安全文献把 [safe exploration](/AiBook/zh/reference/concept-glossary-pinyin/e/#exploration) 当成单独问题。原因很简单。
 
 `强化学习要靠尝试来学，但在现实里，尝试本身就可能危险。`
 

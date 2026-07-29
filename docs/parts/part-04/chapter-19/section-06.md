@@ -8,9 +8,9 @@ _보조제목: likelihood ratio trick은 정책 확률 변화와 기대 보상�
 P4-19.2에서 정책 기반 강화학습을 읽다 보면 곧 다음 이름이 붙습니다.
 
 - [policy gradient theorem](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)
-- [likelihood ratio trick](../../../reference/concept-glossary-parts/01-giyeok.md#likelihood-ratio-trick)
+- likelihood ratio trick
 
-이 절은 엄밀한 증명 전체를 끝까지 따라가기보다, 왜 정책 파라미터의 변화가 [기대 보상(expected reward)](../../../reference/concept-glossary-parts/01-giyeok.md#expected-reward) 변화와 연결되는가, 왜 [로그 확률(log-probability)](../../../reference/concept-glossary-parts/04-rieul.md#log-probability) 형태가 자주 나오는가를 처음 읽는 보충학습입니다.
+이 절은 엄밀한 증명 전체를 끝까지 따라가기보다, 왜 정책 파라미터의 변화가 기대 보상(expected reward) 변화와 연결되는가, 왜 로그 확률(log-probability) 형태가 자주 나오는가를 처음 읽는 보충학습입니다.
 
 ## 보충학습: policy gradient와 likelihood ratio trick을 처음 읽는 법에서 닫을 질문
 

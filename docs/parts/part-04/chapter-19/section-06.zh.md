@@ -8,9 +8,9 @@ _副标题: likelihood ratio trick 如何把策略概率变化与期望奖励连
 一旦开始读 P4-19.2 里的策略型强化学习(policy-based reinforcement learning)，下面这些名字很快就会跟着出现。
 
 - [policy gradient theorem](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)
-- [likelihood ratio trick](/AiBook/zh/reference/concept-glossary-pinyin/s/#likelihood-ratio-trick)
+- likelihood ratio trick
 
-这一节不是一路把完整严密证明追到底，而是先去读为什么策略参数的变化会连到 [expected reward](/AiBook/zh/reference/concept-glossary-pinyin/q/#expected-reward) 的变化，以及为什么 [log-probability](/AiBook/zh/reference/concept-glossary-pinyin/d/#log-probability) 这种形式会反复出现。
+这一节不是一路把完整严密证明追到底，而是先去读为什么策略参数的变化会连到 expected reward 的变化，以及为什么 log-probability 这种形式会反复出现。
 
 ## 第一次读 policy gradient 时先收束的问题
 

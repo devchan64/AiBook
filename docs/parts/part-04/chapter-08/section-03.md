@@ -45,7 +45,7 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 | --- | --- | --- |
 | 1. 문제 유형 고정 | 분류인가, 회귀인가, 시계열인가 | baseline 형태 자체가 여기서 달라지기 때문입니다. |
 | 2. 가장 단순한 규칙 선택 | 다수 클래스인가, 평균/중앙값인가, 직전값인가 | 특징을 거의 안 쓴 최소 기준을 먼저 세워야 하기 때문입니다. |
-| 3. 같은 지표로 측정 | accuracy, recall, MAE, MAPE 중 무엇으로 볼 것인가 | 후보 모델과 baseline을 같은 [평가 지표](../../../reference/concept-glossary-parts/14-hieut.md#metric)로 비교해야 하기 때문입니다. |
+| 3. 같은 지표로 측정 | accuracy, recall, MAE, MAPE 중 무엇으로 볼 것인가 | 후보 모델과 baseline을 같은 [평가 지표](../../../reference/concept-glossary-parts/05-mieum.md#model-score)로 비교해야 하기 때문입니다. |
 | 4. 오류 장면 확인 | 무엇을 특히 놓치고 있거나 크게 틀리고 있는가 | 점수 차이만으로는 개선 방향을 읽기 어렵기 때문입니다. |
 | 5. 해석 후 다음 단계 결정 | 튜닝할지, 후보를 바꿀지, 특징을 다시 볼지 | baseline도 못 넘는 후보를 오래 붙잡지 않기 위해서입니다. |
 
@@ -91,7 +91,7 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 | 문제 | 다음 달 고객 이탈 여부 예측 |
 | 클래스 분포 | 비이탈 90%, 이탈 10% |
 | baseline | 항상 `비이탈` 예측 |
-| 먼저 볼 지표 | 정확도, [재현율(recall)](../../../reference/concept-glossary-parts/12-tieut.md#recall), F1 |
+| 먼저 볼 지표 | 정확도, [재현율(recall)](../../../reference/concept-glossary-parts/09-jieut.md#recall), F1 |
 | 바로 확인할 오류 | 실제 이탈 고객을 놓친 사례 |
 
 ```mermaid

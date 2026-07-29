@@ -42,7 +42,7 @@ In this situation, many models are possible. But trying every model from the beg
 | [Logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) | It becomes a simple baseline when predicting two categories such as churn or stay. | A purely linear relation may be insufficient. | P4-11 |
 | [Decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) | It is easy to explain `under what conditions churn increases`. | If it grows deep, it can fit the training data too much. | P4-14 |
 | [Random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) | It can offer more stable performance by combining many trees. | It can become harder to explain than a single tree. | P4-15 |
-| [Gradient boosting](/AiBook/en/reference/concept-glossary-alpha/g/#gradient-boosting) | It often shows strong performance on tabular data. | Tuning and validation must be done more carefully. | P4-16 |
+| [Gradient boosting](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) | It often shows strong performance on tabular data. | Tuning and validation must be done more carefully. | P4-16 |
 
 Here the heuristic does not say `logistic regression is the answer`. Instead, it creates an experimental order such as `set a simple baseline first, then compare explainability and performance after that`.
 
@@ -142,7 +142,7 @@ If heuristics remain only as intuition in someone's head, they are hard to valid
 | Evaluation criterion | Look at both recall and precision, which are discussed in P4-6. |
 | Next action | If neither is sufficiently better than the baseline, revisit the data and features. |
 
-When written like this, the heuristic no longer means `we picked it by gut feeling`. It becomes a verifiable [working hypothesis](/AiBook/en/reference/concept-glossary-alpha/w/#working-hypothesis).
+When written like this, the heuristic no longer means `we picked it by gut feeling`. It becomes a verifiable working hypothesis.
 
 ## Misunderstandings To Be Careful About In This Section
 

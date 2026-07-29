@@ -9,7 +9,7 @@ P5-14.2에서는 Transformer 블록 안에서 layer normalization이 값 범위�
 
 Transformer 블록에서 layer normalization은 의미를 새로 고르는 장치가 아니라, 한 위치 표현 안의 값들이 다음 계산으로 넘어가기 쉬운 기준선에 놓이도록 평균과 퍼짐을 다시 맞추는 장치입니다.
 
-용어가 다시 흩어질 때는 개념사전의 [레이어 정규화(layer normalization)](../../../reference/concept-glossary-parts/04-rieul.md#layer-normalization) 항목과 P5-14.2의 네 부품 역할 분담을 함께 다시 보면 좋습니다.
+용어가 다시 흩어질 때는 개념사전의 [레이어 정규화(layer normalization)](../../../reference/concept-glossary-parts/12-tieut.md#transformer) 항목과 P5-14.2의 네 부품 역할 분담을 함께 다시 보면 좋습니다.
 
 ## 값의 기준선이 흔들린다는 뜻
 

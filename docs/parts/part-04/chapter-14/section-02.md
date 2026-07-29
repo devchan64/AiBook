@@ -21,7 +21,7 @@ P4-14.1이 `좋은 첫 질문과 다음 질문을 어떻게 읽을 것인가`를
 
 - 결정트리는 왜 다른 모델보다 과적합이 쉽게 눈에 띄는가?
 - 트리가 깊어질수록 무슨 일이 생기는가?
-- [최대 깊이(max_depth)](../../../reference/concept-glossary-parts/11-chieut.md#max-depth), [최소 leaf 크기(min_samples_leaf)](../../../reference/concept-glossary-parts/11-chieut.md#min-samples-leaf), [ccp_alpha](../../../reference/concept-glossary-parts/10-kieuk.md#ccp-alpha)는 어떤 역할을 하는가?
+- [최대 깊이(max_depth)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter), [최소 leaf 크기(min_samples_leaf)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter), [ccp_alpha](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter)는 어떤 역할을 하는가?
 - train 성능과 test 성능이 왜 다르게 움직일 수 있는가?
 
 이 내용은 P4-15, P4-16, 그리고 P4-9의 튜닝 문맥과 다시 연결합니다. 즉, 이번 절은 트리의 질문 흐름이 어디서부터 패턴 설명이 아니라 예외 암기로 바뀌는지를 먼저 붙잡는 자리입니다.
@@ -29,7 +29,7 @@ P4-14.1이 `좋은 첫 질문과 다음 질문을 어떻게 읽을 것인가`를
 ## 트리의 과적합에서 남길 판단 기준
 
 - 트리의 과적합을 `너무 세밀한 질문이 훈련 데이터를 외우는 현상`으로 설명할 수 있습니다.
-- 깊이(depth), leaf 크기, [가지치기(pruning)](../../../reference/concept-glossary-parts/01-giyeok.md#pruning)가 트리 복잡도를 제어하는 장치라는 점을 말할 수 있습니다.
+- 깊이(depth), leaf 크기, [가지치기(pruning)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)가 트리 복잡도를 제어하는 장치라는 점을 말할 수 있습니다.
 - train 성능 상승이 test 성능 상승을 보장하지 않는다는 점을 다시 확인할 수 있습니다.
 - 결정트리의 장점과 과적합 위험을 함께 읽는 기준을 갖게 됩니다.
 

@@ -5,7 +5,7 @@
 
 Once we have read vectors, matrices, and matrix multiplication, the next question remains: `how similar are two vectors`, `how far apart are they`, and `how do we distinguish a large vector from a vector that only points in a similar direction`? Those questions lead directly to dot product, norm, distance, and similarity.
 
-If matrix multiplication is `a calculation that combines vectors to create new values`, then dot product, distance, and similarity are `calculations that compare vectors`. So after building vectors, we also need to hold on to the standard by which those vectors will be read. When you want to recheck the terms quickly, also refer to the [similarity glossary entry](/AiBook/en/reference/concept-glossary-alpha/s.en/#similarity).
+If matrix multiplication is `a calculation that combines vectors to create new values`, then dot product, distance, and similarity are `calculations that compare vectors`. So after building vectors, we also need to hold on to the standard by which those vectors will be read. When you want to recheck the terms quickly, also refer to the [similarity glossary entry](/AiBook/en/reference/concept-glossary-alpha/s/#similarity).
 
 ## Core Criteria: Dot Product, Norm, Distance, and Similarity
 

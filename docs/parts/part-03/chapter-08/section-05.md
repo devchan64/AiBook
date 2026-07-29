@@ -3,13 +3,13 @@
 > Section ID: `P3-8.5`
 > Version: `v2026.07.25`
 
-평균 차이, 변동성 차이, 반복성, 최근 구간 건수, 패턴 요약이 한 표에 함께 들어오면 곧바로 이런 문제가 생깁니다. `열이 여러 개인데 무엇을 먼저 보고, 어떻게 한 줄 판단으로 줄여야 하는가?` [열 역할 분리(column-role separation)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-column-role-separation) 관점에서 보면, 비교 열이 많아질수록 필요한 것은 더 많은 숫자가 아니라, 서로 다른 신호를 몇 개의 판단 축으로 다시 묶는 방법입니다.
+평균 차이, 변동성 차이, 반복성, 최근 구간 건수, 패턴 요약이 한 표에 함께 들어오면 곧바로 이런 문제가 생깁니다. `열이 여러 개인데 무엇을 먼저 보고, 어떻게 한 줄 판단으로 줄여야 하는가?` [열 역할 분리(column-role separation)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling) 관점에서 보면, 비교 열이 많아질수록 필요한 것은 더 많은 숫자가 아니라, 서로 다른 신호를 몇 개의 판단 축으로 다시 묶는 방법입니다.
 
-[검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)의 우선순위는 차이값 하나를 그대로 쓰는 것이 아니라, 여러 비교 열을 `변화 크기`, `반복성`, `해석 신뢰도`, `운영 중요도` 같은 몇 개의 판단 축으로 먼저 묶은 뒤에 정합니다.
+[검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)의 우선순위는 차이값 하나를 그대로 쓰는 것이 아니라, 여러 비교 열을 `변화 크기`, `반복성`, `해석 신뢰도`, `운영 중요도` 같은 몇 개의 판단 축으로 먼저 묶은 뒤에 정합니다.
 
 ## 왜 바로 한 숫자로 가면 안 되는가
 
-[비교표(comparison table)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)에는 보통 아래 같은 열이 함께 들어옵니다.
+[비교표(comparison table)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)에는 보통 아래 같은 열이 함께 들어옵니다.
 
 | 비교 열 예시 | 바로 보이는 뜻 |
 | --- | --- |

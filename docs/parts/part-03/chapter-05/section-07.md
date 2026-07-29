@@ -7,7 +7,7 @@ _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나�
 
 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위와 입력 창을 정한 뒤에도 표 구조에서 한 번 더 막히는 지점이 있습니다. 같은 샘플 뒤에 후속 사건이 여러 개 붙는 경우입니다. 예를 들어 동작 1회 뒤에 `재점검`, `경고`, `실패`, `재방문`이 차례로 남을 수 있습니다. 이때 이를 하나의 결과 열로 어떻게 접을지 정하지 않으면, 같은 샘플이 표마다 다른 뜻으로 바뀌기 쉽습니다.
 
-후속 사건이 여러 개라면 어떤 [접기 규칙(folding rule)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-folding-rule)으로 하나의 표 구조에 접었는지 먼저 적어야 합니다.
+후속 사건이 여러 개라면 어떤 [접기 규칙(folding rule)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)으로 하나의 표 구조에 접었는지 먼저 적어야 합니다.
 
 보통 아래 같은 접기 규칙이 생깁니다.
 
@@ -34,7 +34,7 @@ _보조제목: 같은 샘플 뒤의 여러 사건은 어떤 규칙으로 하나�
 | B | 0 | review | 1 |
 | C | 0 | none | 0 |
 
-즉 같은 [원천 사건(source event)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-event)을 보고 있어도 `무엇을 대표 결과로 둘 것인가`에 따라 표 구조가 달라집니다. 이 문제는 대표 결과를 어떤 규칙으로 접어 표에 남길지 먼저 정해야 하는 데이터 모델링 문제입니다.
+즉 같은 [원천 사건(source event)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)을 보고 있어도 `무엇을 대표 결과로 둘 것인가`에 따라 표 구조가 달라집니다. 이 문제는 대표 결과를 어떤 규칙으로 접어 표에 남길지 먼저 정해야 하는 데이터 모델링 문제입니다.
 
 아래 메모를 먼저 남겨 두면 이후 혼동이 줄어듭니다.
 

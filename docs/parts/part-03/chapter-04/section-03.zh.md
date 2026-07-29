@@ -69,7 +69,7 @@
 | 基准线比较 | 区段，或样本对区段 | 因为必须拿近期状态和平常状态作比较 |
 | 复核语句 | 区段或样本 | 因为它是给人读取的判断单位 |
 
-例如，像 `late_drop_rate` 这样的特征，并不会直接贴在单个时点行上。它只能在先把一次完整动作构造成样本之后才能算出来。反过来，像 `recent_count=20` 这样的值就不是单条样本特征，而更像近期区段聚合。所以，只要把这些层级混着读，特征、基准线和[输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)就都会变得抽象。
+例如，像 `late_drop_rate` 这样的特征，并不会直接贴在单个时点行上。它只能在先把一次完整动作构造成样本之后才能算出来。反过来，像 `recent_count=20` 这样的值就不是单条样本特征，而更像近期区段聚合。所以，只要把这些层级混着读，特征、基准线和[输出结构(output structure)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)就都会变得抽象。
 
 ## 一眼看懂的代码小例子
 

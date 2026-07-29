@@ -7,7 +7,7 @@ P5-11.1과 P5-11.2에서는 합성곱 신경망(CNN)이 왜 이미지와 잘 맞
 
 합성곱 신경망 이후에 자주 언급되는 비전 트랜스포머(ViT, Vision Transformer)는 무엇이 다르며, 이 차이를 왜 나중의 생성형 AI와 멀티모달 모델을 이해하기 전에 알아두면 좋은가?
 
-비전 트랜스포머의 다른 출발 단위를 짧게 다시 확인해야 할 때는 개념사전의 [비전 트랜스포머(ViT, Vision Transformer)](../../../reference/concept-glossary-parts/06-bieup.md#vit-vision-transformer) 항목을 기준으로 돌아옵니다.
+비전 트랜스포머의 다른 출발 단위를 짧게 다시 확인해야 할 때는 개념사전의 [비전 트랜스포머(ViT, Vision Transformer)](../../../reference/concept-glossary-parts/12-tieut.md#transformer) 항목을 기준으로 돌아옵니다.
 
 ## CNN과 ViT를 가르는 입력 단위
 

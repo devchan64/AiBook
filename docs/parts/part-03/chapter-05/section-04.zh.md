@@ -3,7 +3,7 @@
 > Section ID: `P3-5.4`
 > Version: `v2026.07.25`
 
-如果[源时间序列(source time series)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)本身还不是学习[输入(input)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)，那么立刻就会留下一个更具体的问题。`那真正的输入到底应该从哪里开始、到哪里结束？` `长度各不相同的动作，又该怎样像同一种输入那样对待？` [输入窗口(input window)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input-window)正是回答这些问题的数据建模决定。
+如果[源时间序列(source time series)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)本身还不是学习[输入(input)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)，那么立刻就会留下一个更具体的问题。`那真正的输入到底应该从哪里开始、到哪里结束？` `长度各不相同的动作，又该怎样像同一种输入那样对待？` [输入窗口(input window)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)正是回答这些问题的数据建模决定。
 
 输入窗口不应该从 `选一个模型方便的长度` 开始，而应该先从 `在当前问题里，什么算作一条输入` 定下来之后再切。
 

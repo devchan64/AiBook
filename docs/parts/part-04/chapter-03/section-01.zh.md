@@ -9,7 +9,7 @@
 
 heuristic 很容易被误解成 `大概猜一下`。但在机器学习实务中，heuristic 不是随机猜测，而是根据经验、问题结构、计算成本和验证结果来缩小候选集的方法。
 
-这一节会说明 heuristic、不是 [穷举搜索](/AiBook/zh/reference/concept-glossary-pinyin/e/#exhaustive-search) 而是先缩小候选的判断、以及可验证的 [工作假设](/AiBook/zh/reference/concept-glossary-pinyin/g/#working-hypothesis)。后面的章节会带着这个抓手继续判断当前语境，而 `把实务判断读成假设与验证结构` 这一层基础含义，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
+这一节会说明 heuristic、不是 穷举搜索 而是先缩小候选的判断、以及可验证的 工作假设。后面的章节会带着这个抓手继续判断当前语境，而 `把实务判断读成假设与验证结构` 这一层基础含义，会通过本节和 [概念词汇表](/AiBook/zh/reference/concept-glossary/) 再次接回。
 
 ## 本节范围
 
@@ -87,7 +87,7 @@ heuristic 并不会替代 algorithm。相反，它是用来决定先试哪个 al
 
 理解 heuristic 时，Herbert A. Simon 的 `bounded rationality` 视角很有帮助。Stanford Encyclopedia of Philosophy 把 bounded rationality 解释成：离开完全理性假设，转而研究在信息获取能力和计算能力都受限的主体身上，什么样的理性才是合适的。
 
-这个视角同样很适合机器学习实务。我们并没有完整信息、无限计算时间，也没有完美评估环境。所以，比起 `理论上可能存在的最优解`，更重要的是当前条件下可验证的 [足够好的解](/AiBook/zh/reference/concept-glossary-pinyin/g/#good-enough-solution)。
+这个视角同样很适合机器学习实务。我们并没有完整信息、无限计算时间，也没有完美评估环境。所以，比起 `理论上可能存在的最优解`，更重要的是当前条件下可验证的 足够好的解。
 
 这并不意味着放弃准确性。相反，它意味着承认限制，并在这些限制之内以更合理的方式作出更好的选择。
 

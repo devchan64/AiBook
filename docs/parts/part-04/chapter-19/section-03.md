@@ -27,7 +27,7 @@ P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 ## 강화학습 적용의 주의점에서 남길 판단 기준
 
 - 보상(reward)이 곧 [진짜 목표(true objective)](../../../reference/concept-glossary-parts/09-jieut.md#true-objective)는 아닐 수 있음을 설명할 수 있습니다.
-- 탐험(exploration)이 게임에서는 쉬워 보여도 현실에서는 [탐험 비용(exploration cost)](../../../reference/concept-glossary-parts/12-tieut.md#exploration-cost)과 위험을 만든다는 점을 말할 수 있습니다.
+- 탐험(exploration)이 게임에서는 쉬워 보여도 현실에서는 [탐험 비용(exploration cost)](../../../reference/concept-glossary-parts/12-tieut.md#exploration)과 위험을 만든다는 점을 말할 수 있습니다.
 - 시뮬레이션과 현실의 차이인 [sim-to-real gap](../../../reference/concept-glossary-parts/07-siot.md#sim-to-real-gap)이 왜 중요한지 설명할 수 있습니다.
 - 강화학습 적용 전 점검 질문을 스스로 만들 수 있습니다.
 
@@ -175,7 +175,7 @@ AI 안전 연구 문헌에서는 이런 문제를 [reward hacking](../../../refe
 
 ## safe exploration이 왜 별도 주제가 되는가
 
-AI 안전 문헌에서는 [safe exploration](../../../reference/concept-glossary-parts/08-ieung.md#safe-exploration)을 별도 문제로 다룹니다. 이유는 단순합니다.
+AI 안전 문헌에서는 [safe exploration](../../../reference/concept-glossary-parts/12-tieut.md#exploration)을 별도 문제로 다룹니다. 이유는 단순합니다.
 
 `강화학습은 시도하면서 배우는데, 현실에서는 시도 자체가 위험할 수 있기 때문이다.`
 

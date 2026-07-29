@@ -32,7 +32,7 @@ The outer boundary of OOB only needs to be fixed to about the following.
 | Item | Recovery state in the current main text |
 | --- | --- |
 | every variant of [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) | the basic role of cross-validation reconnects in P4-9.1 and P4-9.3, but this Section does not replace a full explanation of every variant |
-| [calibration](/AiBook/en/reference/concept-glossary-alpha/c/#calibration) and [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#threshold) adjustment | the basic feel for threshold and calibration reconnects in P4-6.4 and P4-11.1, but this Section does not unfold those details together with OOB |
+| [calibration](/AiBook/en/reference/concept-glossary-alpha/p/#probability-calibration) and [threshold](/AiBook/en/reference/concept-glossary-alpha/t/#threshold) adjustment | the basic feel for threshold and calibration reconnects in P4-6.4 and P4-11.1, but this Section does not unfold those details together with OOB |
 | the OOB character of gradient boosting | the checking feel of boosting reconnects in P4-16.1 and P4-16.2 through validation and early stopping, but this Section does not treat the detailed contrast at length |
 
 In other words, this Section focuses on fixing OOB in place as `the internal inspection board of random forest`, while broader evaluation procedures and score-operating policy are better reread later by question.
@@ -130,7 +130,7 @@ That is very practical in early-stage experimentation.
 
 - small experiments can be repeated quickly
 - it reduces the mistake of looking only at the train score
-- it helps check quickly how the state changes when the number of trees([`n_estimators`](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter)) increases
+- it helps check quickly how the state changes when the number of trees(/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter)) increases
 
 So OOB is closer to `a quick internal inspection board` than to `the final destination of evaluation`.
 

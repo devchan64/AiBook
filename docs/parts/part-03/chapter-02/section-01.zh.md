@@ -3,7 +3,7 @@
 > Section ID: `P3-2.1`
 > Version: `v2026.07.25`
 
-很多人一听到数据建模，先想到的是数据库表设计。实际上，`data modeling` 这个词也经常出现在整理[存储结构](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-storage-structure)的语境里。它背后还连着 `DSS/BI/DW/OLAP` 这类把数据汇总起来再接到决策上的数据系统脉络。换句话说，数据建模从一开始并不只是 AI 的语言，它也生长在“把已存的数据重新组织、重新比较，再连接到判断”这一更宽的流程里。但 AI 和数据分析需要的数据建模，会再往前走一步。这里比起 `数据存在哪里`，更重要的是 `应该把已存的记录重新看成什么样的数据集候选，才能回答某个问题`
+很多人一听到数据建模，先想到的是数据库表设计。实际上，`data modeling` 这个词也经常出现在整理[存储结构](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)的语境里。它背后还连着 `DSS/BI/DW/OLAP` 这类把数据汇总起来再接到决策上的数据系统脉络。换句话说，数据建模从一开始并不只是 AI 的语言，它也生长在“把已存的数据重新组织、重新比较，再连接到判断”这一更宽的流程里。但 AI 和数据分析需要的数据建模，会再往前走一步。这里比起 `数据存在哪里`，更重要的是 `应该把已存的记录重新看成什么样的数据集候选，才能回答某个问题`
 
 这一节聚焦的是区分 `已存的记录` 和[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)。可以先把 [dataset](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-dataset) 理解成：为了学习或评估而按同一个问题组织起来的一组样本和变量。后面的章节会把 `sample`、`feature`、`baseline`、`output structure` 一起展开，但这里先不急着长篇定义这些词，而是先固定一件事：为什么只有存储结构，还不能直接进入那个阶段。
 

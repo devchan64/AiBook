@@ -3,9 +3,9 @@
 > Section ID: `P3-9.1`
 > Version: `v2026.07.25`
 
-현실 기록을 보면 "사건 기록이 있고 결과 메모도 조금은 있으니, 바로 [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-classification) 문제로 올리면 되지 않을까?"라는 반응이 먼저 나옵니다. 하지만 현실 기록에서는 이 생각이 너무 빠를 때가 많습니다. 어떤 문제는 정말로 예측 문제로 만들 수 있지만, 어떤 문제는 아직 `검토 후보를 잘 골라 내는 문제`로 남겨 두는 편이 더 정직하며 현재 데이터 상태에도 더 잘 맞습니다. [해석 경계(interpretation boundary)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-interpretation-boundary)를 세웠다면, 이제는 지금 문제를 [경고(alert)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-alert), [검토 후보(review candidate)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-candidate), [라벨 예측(label prediction)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label-prediction) 중 어디까지 올릴지 정해야 합니다.
+현실 기록을 보면 "사건 기록이 있고 결과 메모도 조금은 있으니, 바로 [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-classification) 문제로 올리면 되지 않을까?"라는 반응이 먼저 나옵니다. 하지만 현실 기록에서는 이 생각이 너무 빠를 때가 많습니다. 어떤 문제는 정말로 예측 문제로 만들 수 있지만, 어떤 문제는 아직 `검토 후보를 잘 골라 내는 문제`로 남겨 두는 편이 더 정직하며 현재 데이터 상태에도 더 잘 맞습니다. [해석 경계(interpretation boundary)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-interpretation-boundary)를 세웠다면, 이제는 지금 문제를 [경고(alert)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), [검토 후보(review candidate)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), [라벨 예측(label prediction)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 중 어디까지 올릴지 정해야 합니다.
 
-먼저 붙잡아야 할 판단은 `지금 데이터가 어디까지 정직하게 지지하는가`입니다. 경고는 비교 구조와 차이값만으로도 시작할 수 있지만, 검토 후보는 우선순위 기준이 더 필요하고, 라벨 예측은 비교적 안정된 [목표 라벨(target)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-target)과 평가 구조까지 요구합니다.
+먼저 붙잡아야 할 판단은 `지금 데이터가 어디까지 정직하게 지지하는가`입니다. 경고는 비교 구조와 차이값만으로도 시작할 수 있지만, 검토 후보는 우선순위 기준이 더 필요하고, 라벨 예측은 비교적 안정된 [목표 라벨(target)](../../../reference/concept-glossary-parts/12-tieut.md#target)과 평가 구조까지 요구합니다.
 
 | 구분 | 지금 단계에서 뜻하는 것 | 필요한 근거 수준 |
 | --- | --- | --- |

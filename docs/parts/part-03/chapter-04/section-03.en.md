@@ -69,7 +69,7 @@ This distinction is needed because later concepts attach at different levels.
 | baseline comparison | segment or sample-vs-segment | because the recent state has to be compared with the usual state |
 | review sentence | segment or sample | because it is a judgment unit that a person reads |
 
-For example, a feature such as `late_drop_rate` does not attach directly to one time-point row. It can only be calculated after one full action has been constructed as the sample. By contrast, a value such as `recent_count=20` is closer not to an individual-sample feature, but to a recent-segment aggregate. That is why, once these levels are mixed together, features, baselines, and [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) all begin to feel abstract.
+For example, a feature such as `late_drop_rate` does not attach directly to one time-point row. It can only be calculated after one full action has been constructed as the sample. By contrast, a value such as `recent_count=20` is closer not to an individual-sample feature, but to a recent-segment aggregate. That is why, once these levels are mixed together, features, baselines, and [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) all begin to feel abstract.
 
 ## Small Code Example for Seeing the Comparison at a Glance
 

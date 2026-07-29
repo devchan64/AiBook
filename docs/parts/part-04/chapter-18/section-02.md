@@ -16,8 +16,8 @@ P4-18.1에서는 [차원 축소(dimensionality reduction)](../../../reference/co
 - 왜 차원 축소 결과는 보기 쉽지만 완전한 복사본은 아닌가?
 - 어떤 정보가 비교적 잘 남고, 어떤 정보가 약해질 수 있는가?
 - 2D 그림에서 가까워 보인다고 해서 원래도 반드시 가깝다고 할 수 없는 이유는 무엇인가?
-- [PCA](../../../reference/concept-glossary-parts/09-jieut.md#principal-component-analysis-pca), [t-SNE](../../../reference/concept-glossary-parts/12-tieut.md#t-sne), [UMAP](../../../reference/concept-glossary-parts/08-ieung.md#umap)은 각각 무엇을 더 남기려 하는가?
-- [reconstruction error](../../../reference/concept-glossary-parts/06-bieup.md#reconstruction-error)와 [trustworthiness](../../../reference/concept-glossary-parts/12-tieut.md#trustworthiness)는 어떤 서로 다른 질문을 점검하는가?
+- [PCA](../../../reference/concept-glossary-parts/09-jieut.md#principal-component-analysis-pca), t-SNE, UMAP은 각각 무엇을 더 남기려 하는가?
+- reconstruction error와 trustworthiness는 어떤 서로 다른 질문을 점검하는가?
 
 이 절은 `차원 축소 그림을 어디까지 믿을 것인가`를 붙잡는 데 초점을 둡니다. 구현 최적화, 세부 튜닝, 여러 품질 지표의 확장 비교는 여기서 길게 다루지 않습니다.
 

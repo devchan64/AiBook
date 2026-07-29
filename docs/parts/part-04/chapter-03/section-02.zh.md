@@ -42,7 +42,7 @@
 | [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) | 在预测流失/留存这类两类输出时，它是很自然的简单 baseline。 | 只靠线性关系可能不够。 | P4-11 |
 | [decision tree](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree) | 很容易解释 `在什么条件下流失增加`。 | 如果长得太深，可能过度贴合训练数据。 | P4-14 |
 | [random forest](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) | 把很多树组合起来，往往能期待更稳定的表现。 | 比单棵树更难解释。 | P4-15 |
-| [gradient boosting](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient-boosting) | 在表格型数据上经常能表现很强。 | 调参与验证要更谨慎。 | P4-16 |
+| [gradient boosting](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) | 在表格型数据上经常能表现很强。 | 调参与验证要更谨慎。 | P4-16 |
 
 这里 heuristic 并不是说 `logistic regression 就是答案`。它更像是在安排实验顺序：`先立一个简单 baseline，再比较解释性和性能是否还需要更强的候选。`
 
@@ -142,7 +142,7 @@ baseline 会在 P4-8.2 里更详细地处理。这里先只把它当成 model-se
 | 评估标准 | 一起看 P4-6 会处理的 recall 和 precision。 |
 | 下一步动作 | 如果没有明显优于 baseline，就回头重看数据和 feature。 |
 
-像这样写下来，heuristic 就不再是 `凭感觉挑的`，而会变成从一个可验证的 [working hypothesis](/AiBook/zh/reference/concept-glossary-pinyin/g/#working-hypothesis) 出发。
+像这样写下来，heuristic 就不再是 `凭感觉挑的`，而会变成从一个可验证的 working hypothesis 出发。
 
 ## 这一节里要小心的误解
 

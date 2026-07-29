@@ -63,7 +63,7 @@ The situations where a baseline is especially needed can be summarized more brie
 
 The key point of this table is that the baseline is not `an extra reference number`, but `the premise of comparison needed to speak about whether change exists`.
 
-So this section is more accurately read not as an introduction to the word baseline, but as the problem of [what reference window should be placed alongside the current state in order to read it](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline-window). A baseline is not an extra number. It is a reference window that turns the current structure from a standalone value into `a comparable state`.
+So this section is more accurately read not as an introduction to the word baseline, but as the problem of [what reference window should be placed alongside the current state in order to read it](/AiBook/en/reference/concept-glossary-alpha/b/#baseline). A baseline is not an extra number. It is a reference window that turns the current structure from a standalone value into `a comparable state`.
 
 ## Sources and Further Reading
 

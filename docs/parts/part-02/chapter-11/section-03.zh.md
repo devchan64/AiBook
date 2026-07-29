@@ -30,7 +30,7 @@ print(scores + 10)
 
 代码里没有 `for`。但从结果看，每个值都加上了 10。要理解这种计算，需要把 broadcasting 和 vectorization 一起看。
 
-本节说明 `broadcasting` 与 `vectorization` 的基本区分。`NumPy`、`shape`、`axis` 的代表性说明仍放在 P2-11.1、P2-11.2 和 [广播词条](/AiBook/zh/reference/concept-glossary-pinyin/b.zh/#broadcasting)，这里专注于：计算是怎样扩散到整个数组上的。
+本节说明 `broadcasting` 与 `vectorization` 的基本区分。`NumPy`、`shape`、`axis` 的代表性说明仍放在 P2-11.1、P2-11.2 和 [广播词条](/AiBook/zh/reference/concept-glossary-pinyin/b/#broadcasting)，这里专注于：计算是怎样扩散到整个数组上的。
 
 ## 核心判断标准：广播与向量化
 

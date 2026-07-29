@@ -46,7 +46,7 @@ Here the mismatch of the sample unit becomes clearer if we divide the `misattach
 | Can I attach the label to this row? | Labels usually attach to one action or one recent segment | Does the label attach to one time point or one full action? |
 | Can this row be used as one training case? | Nearby rows from the same action can be mixed into training and evaluation | Is the split target a time-point row, or an action-level sample? |
 
-So the sample unit is not a decision needed only in one section of Part 3. It is the floor structure on which feature engineering, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), and even the interpretation of the prediction input structure all depend.
+So the sample unit is not a decision needed only in one section of Part 3. It is the floor structure on which feature engineering, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and even the interpretation of the prediction input structure all depend.
 
 ## A Small Diagram
 

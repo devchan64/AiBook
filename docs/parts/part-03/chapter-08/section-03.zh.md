@@ -3,13 +3,13 @@
 > Section ID: `P3-8.3`
 > Version: `v2026.07.25`
 
-保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的[比较结果](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-result)和[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)按正确顺序放进句子里。
+保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的[比较结果](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)和[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)按正确顺序放进句子里。
 
 最安全的基本顺序如下。
 
 1. 先说比较结果。
 2. 然后附上会降低或提高解读强度的条件。
-3. 最后写上人接下来要做的[下一步行动](/AiBook/zh/reference/concept-glossary-pinyin/n/#glossary-next-action)。
+3. 最后写上人接下来要做的[下一步行动](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)。
 4. 如果没有额外证据，就不要写原因确认。
 
 把这个顺序再压缩一点，就是`比较结果 -> 确信强度 -> 下一步动作`。

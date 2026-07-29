@@ -11,7 +11,7 @@ P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 �
 
 학습률은 optimizer가 gradient를 실제 update로 바꿀 때, 한 번에 얼마나 크게 움직일지를 정하는 보폭이다. 다시 말해, gradient가 `어느 방향으로 바꿔야 하는가`를 알려 준다면, 학습률은 `그 방향으로 이번 step에서 얼마나 멀리 움직일 것인가`를 정합니다.
 
-학습률, gradient, update의 관계가 다시 섞이면 개념사전의 [학습률(learning rate)](../../../reference/concept-glossary-parts/14-hieut.md#learning-rate)와 [옵티마이저(optimizer)](../../../reference/concept-glossary-parts/08-ieung.md#optimizer) 항목을 함께 다시 보는 편이 좋습니다.
+학습률, gradient, update의 관계가 다시 섞이면 개념사전의 [학습률(learning rate)](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter)와 [옵티마이저(optimizer)](../../../reference/concept-glossary-parts/08-ieung.md#optimizer) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## learning rate가 보폭을 정하는 질문
 

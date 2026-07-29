@@ -31,7 +31,7 @@
 | 标签该放什么？ | 现在真的已经有稳定标签了吗？ |
 | 怎样提高准确率？ | 该重新整理成什么表，比较才会成立？ |
 
-这个差别不只是顺序问题。第一次看原始数据时，更需要做的不是选择学习问题，而是 `重新追问这张表到底是什么`。你现在看到的是按时点记录的测量值、一次动作的摘要，还是某个近期区段的聚合，这会让后面所有关于 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[target](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target) 的说明都发生变化。
+这个差别不只是顺序问题。第一次看原始数据时，更需要做的不是选择学习问题，而是 `重新追问这张表到底是什么`。你现在看到的是按时点记录的测量值、一次动作的摘要，还是某个近期区段的聚合，这会让后面所有关于 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[target](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) 的说明都发生变化。
 
 例如，只看下面这一小段原始数据，学习问题框架就可能过早跳出来。
 

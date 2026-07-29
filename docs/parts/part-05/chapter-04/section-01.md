@@ -13,7 +13,7 @@ P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형
 
 다만 교재나 프레임워크 문서에서는 `loss`와 `objective` 또는 `cost`를 조금 더 나누어 부르기도 합니다. 흔히 `loss`는 샘플별 어긋남이나 그 평균을 가리키고, 실제로 최소화하는 전체 대상은 배치 평균과 정규화(regularization)를 함께 포함한 `objective/cost`로 설명합니다. 이 절에서는 초심자 흐름을 위해 우선 `손실`이라는 이름으로 묶어 설명하되, 뒤 절에서 gradient와 optimizer를 연결할 때는 `실제로 무엇을 최소화하는가`를 다시 짚습니다.
 
-손실의 역할을 뒤 절에서 다시 짧게 확인해야 할 때는 개념사전의 [손실 함수(loss function)](../../../reference/concept-glossary-parts/07-siot.md#loss-function), [평가 지표(metric)](../../../reference/concept-glossary-parts/05-mieum.md#metric), [제곱 오차(squared error)](../../../reference/concept-glossary-parts/09-jieut.md#squared-error), [교차 엔트로피(cross-entropy)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-entropy) 항목으로 돌아옵니다.
+손실의 역할을 뒤 절에서 다시 짧게 확인해야 할 때는 개념사전의 [손실 함수(loss function)](../../../reference/concept-glossary-parts/07-siot.md#loss-function), [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design), [제곱 오차(squared error)](../../../reference/concept-glossary-parts/07-siot.md#loss-function), [교차 엔트로피(cross-entropy)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-entropy) 항목으로 돌아옵니다.
 
 여기서는 다음 세 문장을 먼저 고정하면 됩니다.
 

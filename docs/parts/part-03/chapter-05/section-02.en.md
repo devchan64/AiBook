@@ -42,7 +42,7 @@ At this point it helps to write down separately `what is missed if we only look 
 | When the peak occurred | Time point of the maximum value |
 | Whether the action stayed stable or fluctuated sharply | Variability, time decline starts |
 
-One more thing should be added here. The average also easily hides the effect of [outliers](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-outlier) and [skewness](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-skewness). For example, if most actions stay in a similar range but only a few cases spike to very large values, the average rises, yet `what level most actions actually were at` becomes blurred. Conversely, if most values pile up on one side and only a few cases stretch far in the other direction, the average does not show that asymmetric structure well.
+One more thing should be added here. The average also easily hides the effect of [outliers](/AiBook/en/reference/concept-glossary-alpha/o/#outlier) and [skewness](/AiBook/en/reference/concept-glossary-alpha/d/#data-distribution). For example, if most actions stay in a similar range but only a few cases spike to very large values, the average rises, yet `what level most actions actually were at` becomes blurred. Conversely, if most values pile up on one side and only a few cases stretch far in the other direction, the average does not show that asymmetric structure well.
 
 | What the average alone does not show well | Why it is easy to miss | What should remain together |
 | --- | --- | --- |

@@ -22,7 +22,7 @@ Boosting 可以通过堆很多小修正来做出很强的性能， 但也正因�
 - 为什么梯度提升常被说成是表格型数据(tabular data)上的强候选？
 - 为什么学习率(learning rate)、tree size、`n_estimators` 会变成一个很敏感的组合？
 - 过拟合会以什么样子出现？
-- [收缩(shrinkage)](/AiBook/zh/reference/concept-glossary-pinyin/s/#shrinkage)、[子采样(subsampling)](/AiBook/zh/reference/concept-glossary-pinyin/z/#subsampling)、[早停(early stopping)](/AiBook/zh/reference/concept-glossary-pinyin/z/#early-stopping) 分别在试图降低什么风险？
+- 收缩(shrinkage)、子采样(subsampling)、早停(early stopping) 分别在试图降低什么风险？
 - 和随机森林相比，什么场景下 boosting 会显得更强，什么场景下又需要更谨慎？
 
 这一节围绕的问题是： `为什么 boosting 强，同时又为什么危险。` 实现感和计算结构一侧，会在补充学习 P4-16.3 继续。

@@ -42,7 +42,7 @@ P4-3.1에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-pa
 | [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression) | 이탈 여부처럼 두 범주를 예측할 때 간단한 기준 모델이 됩니다. | 선형적인 관계만으로 부족할 수 있습니다. | P4-11 |
 | [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree) | “어떤 조건에서 이탈이 늘어나는가”를 설명하기 쉽습니다. | 깊어지면 훈련 데이터에 과하게 맞을 수 있습니다. | P4-14 |
 | [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest) | 여러 트리를 묶어 안정적인 성능을 기대할 수 있습니다. | 단일 트리보다 설명이 어려워질 수 있습니다. | P4-15 |
-| [그래디언트 부스팅(gradient boosting)](../../../reference/concept-glossary-parts/01-giyeok.md#gradient-boosting) | 표 형식 데이터에서 강한 성능을 보일 때가 많습니다. | 튜닝과 검증을 더 신중히 해야 합니다. | P4-16 |
+| [그래디언트 부스팅(gradient boosting)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest) | 표 형식 데이터에서 강한 성능을 보일 때가 많습니다. | 튜닝과 검증을 더 신중히 해야 합니다. | P4-16 |
 
 여기서 휴리스틱은 “로지스틱 회귀가 정답이다”라고 말하지 않습니다. 대신 “간단한 기준 모델을 세우고, 그다음 설명 가능성과 성능을 비교해 보자”라는 실험 순서를 만듭니다.
 
@@ -142,7 +142,7 @@ P4-3.1에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-pa
 | 평가 기준 | P4-6에서 다룰 재현율과 정밀도를 함께 본다. |
 | 다음 행동 | 기준 모델보다 충분히 낫지 않으면 데이터와 특징을 다시 본다. |
 
-이렇게 쓰면 휴리스틱은 “감으로 골랐다”가 아니라 “검증 가능한 [작업 가설(working hypothesis)](../../../reference/concept-glossary-parts/09-jieut.md#working-hypothesis)로 시작했다”가 됩니다.
+이렇게 쓰면 휴리스틱은 “감으로 골랐다”가 아니라 “검증 가능한 작업 가설(working hypothesis)로 시작했다”가 됩니다.
 
 ## 이 절에서 조심할 오해
 

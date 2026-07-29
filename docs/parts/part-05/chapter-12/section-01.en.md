@@ -13,7 +13,7 @@ The structures that try to answer this question are recurrent neural networks (R
 
 The recurrent-network family tries to process sequence data by not looking only at the current input, but also by carrying forward some of the information seen earlier.
 
-When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](/AiBook/en/reference/concept-glossary-alpha/r/#rnn-recurrent-neural-network), [LSTM (long short-term memory)](/AiBook/en/reference/concept-glossary-alpha/l/#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](/AiBook/en/reference/concept-glossary-alpha/g/#gru-gated-recurrent-unit).
+When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](/AiBook/en/reference/concept-glossary-alpha/r/#rnn-recurrent-neural-network), [LSTM (long short-term memory)](/AiBook/en/reference/concept-glossary-alpha/r/#recurrent-neural-network), and [GRU (gated recurrent unit)](/AiBook/en/reference/concept-glossary-alpha/r/#recurrent-neural-network).
 
 ## The Question of How RNNs Remember Order
 

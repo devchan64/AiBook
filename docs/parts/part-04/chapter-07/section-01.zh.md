@@ -23,7 +23,7 @@
 ## 用特征选择(feature selection)留下的判断标准
 
 - 能把特征(feature)解释成 `现实信息被变成 model 输入后的形式`。
-- 能说明特征选择不只和性能数字有关，也会连到 [leakage](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-leakage)、[成本(cost)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cost)、稳定性和可解释性。
+- 能说明特征选择不只和性能数字有关，也会连到 [leakage](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-leakage)、成本(cost)、稳定性和可解释性。
 - 能使用基本问题去区分哪些特征该先丢掉，哪些特征该先留下。
 - 能说明：如果 preprocessing 是 `把选出来的特征再加工`，那么 feature selection 就是 `决定一开始到底要采用哪些特征`。
 

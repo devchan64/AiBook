@@ -31,7 +31,7 @@ But if source data is read immediately as if it were already a dataset, importan
 | What should the label be? | Does a stable label truly exist right now? |
 | How should accuracy be improved? | Into what table must this be regrouped so comparison becomes possible? |
 
-This difference is not merely about order. What is needed when source data is first seen is not choosing a learning problem, but `asking again what kind of table this really is`. Depending on whether what we are looking at is time-point measurement records, a summary of one action, or an aggregate of a recent segment, every later explanation of [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target) changes.
+This difference is not merely about order. What is needed when source data is first seen is not choosing a learning problem, but `asking again what kind of table this really is`. Depending on whether what we are looking at is time-point measurement records, a summary of one action, or an aggregate of a recent segment, every later explanation of [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) changes.
 
 For example, even after seeing only part of the source data below, the learning-problem frame may jump out too early.
 

@@ -15,7 +15,7 @@
 
 - Extra Trees 和随机森林属于同一家族吗？
 - 两者都把很多树拿来平均，但真正不同的是什么？
-- [`best split`](/AiBook/zh/reference/concept-glossary-pinyin/b/#best-split) 与 [random threshold](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-threshold) 的差别是什么？
+- [`best split`](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) 与 [random threshold](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) 的差别是什么？
 - 为什么说 Extra Trees 更随机？
 - 在随机森林与 Extra Trees 里，[OOB(out-of-bag)](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 应该怎样不同地理解？
 

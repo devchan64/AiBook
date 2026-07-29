@@ -3,7 +3,7 @@
 > Section ID: `P3-1.1`
 > Version: `v2026.07.25`
 
-一进入 Part 3，读者很快就会遇到 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[output structure](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)、[target](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target) 这些词。它们并不是彼此分开的。真正把 `什么算一条记录`、`哪些值要保留`、`拿什么去比较`、`最终要用什么结果格式收口` 一起决定下来的外层判断，就是 [data modeling](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-data-modeling)。
+一进入 Part 3，读者很快就会遇到 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[output structure](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)、[target](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) 这些词。它们并不是彼此分开的。真正把 `什么算一条记录`、`哪些值要保留`、`拿什么去比较`、`最终要用什么结果格式收口` 一起决定下来的外层判断，就是 [data modeling](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)。
 
 如果只把数据建模理解成整理存储结构，就很容易把它想成“把已经存在的表整理得更好看一点”。但在 AI 和数据分析里，数据建模是更靠前的一层判断。它是在决定：现在这份[原始数据](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)，应该被改造成什么样的问题结构，才能回答某个问题。
 

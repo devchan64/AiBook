@@ -11,7 +11,7 @@
 
 深度学习的扩散，并不是只靠算法想法本身发生的。它也和能把大量相同运算同时处理掉的计算资源发展，紧紧连在一起。
 
-如果之后又觉得计算资源这件事重新变得抽象，更适合一起回到概念词汇表里的[GPU（graphics processing unit）](/AiBook/zh/reference/concept-glossary-pinyin/g/#gpugraphics-processing-unit)和[并行处理（parallel processing）](/AiBook/zh/reference/concept-glossary-pinyin/b/#parallel-processing)，重新对齐这两个概念。
+如果之后又觉得计算资源这件事重新变得抽象，更适合一起回到概念词汇表里的GPU（graphics processing unit）和并行处理（parallel processing），重新对齐这两个概念。
 
 ## GPU 与并行处理相连的问题
 

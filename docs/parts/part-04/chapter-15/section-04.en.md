@@ -15,7 +15,7 @@ This Section answers the following questions.
 
 - Is Extra Trees in the same family as random forest?
 - If both average many trees, what is actually different?
-- What is the difference between [`best split`](/AiBook/en/reference/concept-glossary-alpha/b/#best-split) and [random threshold](/AiBook/en/reference/concept-glossary-alpha/r/#random-threshold)?
+- What is the difference between [`best split`](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) and [random threshold](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest)?
 - Why is Extra Trees described as more random?
 - How should [OOB(out-of-bag)](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) be read differently in random forest and Extra Trees?
 

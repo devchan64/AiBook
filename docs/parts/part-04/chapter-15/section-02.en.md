@@ -23,7 +23,7 @@ This Section answers the following questions.
 - What does [`feature_importances_`](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) mean?
 - How are impurity-based importance and permutation importance different?
 - Why can an important-looking number still create misunderstanding?
-- What different interpretation questions do [PDP(partial dependence plot)](/AiBook/en/reference/concept-glossary-alpha/p/#partial-dependence-plot-pdp) and [SHAP](/AiBook/en/reference/concept-glossary-alpha/s/#shap) ask compared with importance?
+- What different interpretation questions do PDP(partial dependence plot) and SHAP ask compared with importance?
 - Why should importance interpretation not be jumped directly into [causal inference](/AiBook/en/reference/concept-glossary-alpha/c/#causal-inference)?
 - What conservative interpretation strategy is needed when real data have very strong correlated features?
 
@@ -40,9 +40,9 @@ This Section focuses on establishing `an attitude for reading the number`.
 ## Judgments To Keep From Feature Importance
 
 - You can explain feature importance as `a summary of internal model usage`.
-- You can distinguish [impurity-based importance(MDI)](/AiBook/en/reference/concept-glossary-alpha/m/#mean-decrease-in-impurity-mdi) from permutation importance.
+- You can distinguish impurity-based importance(MDI) from permutation importance.
 - You can explain that feature importance does not directly mean causality or the true ranking of causes.
-- You can explain why correlated features and [high-cardinality features](/AiBook/en/reference/concept-glossary-alpha/h/#high-cardinality-feature) can distort interpretation.
+- You can explain why correlated features and high-cardinality features can distort interpretation.
 
 ## Learning Background
 

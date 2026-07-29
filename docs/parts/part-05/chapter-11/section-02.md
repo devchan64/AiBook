@@ -9,7 +9,7 @@ P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신�
 
 합성곱(convolution)은 작은 필터로 지역 패턴 점수를 계산하는 연산이고, 풀링(pooling)은 그 결과를 더 작고 요약된 형태로 정리하는 연산이다.
 
-연산 이름이 다시 섞이면 개념사전의 [합성곱(convolution)](../../../reference/concept-glossary-parts/14-hieut.md#convolution)과 [풀링(pooling)](../../../reference/concept-glossary-parts/13-pieup.md#pooling) 항목을 함께 다시 보는 편이 좋습니다.
+연산 이름이 다시 섞이면 개념사전의 [합성곱(convolution)](../../../reference/concept-glossary-parts/14-hieut.md#convolution)과 [풀링(pooling)](../../../reference/concept-glossary-parts/14-hieut.md#cnn-convolutional-neural-network) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 합성곱과 풀링이 닫아야 할 질문
 

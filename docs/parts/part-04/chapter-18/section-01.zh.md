@@ -9,7 +9,7 @@
 
 这个问题，就是[降维(dimensionality reduction)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimensionality-reduction)的起点。降维不是简单丢掉很多特征的技术，而更接近`当原始表达太复杂时，用更容易阅读的轴重新表达`。
 
-这一节会用同一个玩具数据场景，把[维度(dimension)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimension)、[PCA(principal component analysis)](/AiBook/zh/reference/concept-glossary-pinyin/p/#principal-component-analysis-pca)，以及`为什么这里会出现[特征值(eigenvalue)](/AiBook/zh/reference/concept-glossary-pinyin/e/#eigenvalue)和[特征向量(eigenvector)](/AiBook/zh/reference/concept-glossary-pinyin/e/#eigenvector)`连在一起说明。下一节 P4-18.2 会继续讨论这样得到的图能信到什么程度，以及信息损失该怎么读。
+这一节会用同一个玩具数据场景，把[维度(dimension)](/AiBook/zh/reference/concept-glossary-pinyin/d/#dimension)、[PCA(principal component analysis)](/AiBook/zh/reference/concept-glossary-pinyin/p/#principal-component-analysis-pca)，以及`为什么这里会出现特征值(eigenvalue)和特征向量(eigenvector)`连在一起说明。下一节 P4-18.2 会继续讨论这样得到的图能信到什么程度，以及信息损失该怎么读。
 
 ## 降维先收束的问题
 
@@ -19,10 +19,10 @@
 - 为什么特征数一多，学习和解释都会变难？
 - 降维想缓解什么问题？
 - PCA 展示了什么代表性直觉？
-- 为什么[方差(variance)](/AiBook/zh/reference/concept-glossary-pinyin/v/#variance)、[正交(orthogonal)](/AiBook/zh/reference/concept-glossary-pinyin/o/#orthogonal)、特征值、特征向量会一起出现在 PCA 说明里？
-- [kernel PCA](/AiBook/zh/reference/concept-glossary-pinyin/k/#kernel-pca) 和 [Truncated SVD](/AiBook/zh/reference/concept-glossary-pinyin/t/#truncated-svd) 与 PCA 应该用什么直觉区分？
+- 为什么[方差(variance)](/AiBook/zh/reference/concept-glossary-pinyin/v/#variance)、正交(orthogonal)、特征值、特征向量会一起出现在 PCA 说明里？
+- kernel PCA 和 Truncated SVD 与 PCA 应该用什么直觉区分？
 
-这一节集中在入门层面抓住`为什么要降维`以及`PCA 做的是一种什么计算`。可视化结果解释、t-SNE、UMAP、[重构误差(reconstruction error)](/AiBook/zh/reference/concept-glossary-pinyin/r/#reconstruction-error)、trustworthiness 会在下一节 P4-18.2 里继续处理。
+这一节集中在入门层面抓住`为什么要降维`以及`PCA 做的是一种什么计算`。可视化结果解释、t-SNE、UMAP、重构误差(reconstruction error)、trustworthiness 会在下一节 P4-18.2 里继续处理。
 
 ## 降维要留下的判断标准
 
@@ -100,7 +100,7 @@
 
 ## 降维想缓解什么
 
-scikit-learn 用户指南把 PCA 描述成：把多变量(multivariate)数据集分解成连续的正交[成分(component)](/AiBook/zh/reference/concept-glossary-pinyin/c/#component)，并找出能解释最多方差的方向。
+scikit-learn 用户指南把 PCA 描述成：把多变量(multivariate)数据集分解成连续的正交成分(component)，并找出能解释最多方差的方向。
 
 在入门层面，可以把降维读成一种试图缓解下面问题的做法。
 
@@ -172,7 +172,7 @@ scikit-learn 文档把 PCA 的成分描述成 orthogonal components。这里的 
 
 ## 为什么 PCA 里会出现 eigenvalue 和 eigenvector
 
-只要稍微往深一点看 PCA，马上就会碰到[协方差矩阵(covariance matrix)](/AiBook/zh/reference/concept-glossary-pinyin/c/#covariance-matrix)的 eigenvalue 和 eigenvector。原因其实很简单。
+只要稍微往深一点看 PCA，马上就会碰到协方差矩阵(covariance matrix)的 eigenvalue 和 eigenvector。原因其实很简单。
 
 `如果要用公式找出数据扩散最大的方向，就得找到最能解释这种扩散的方向向量。`
 

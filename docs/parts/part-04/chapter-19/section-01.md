@@ -9,11 +9,11 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 
 - 어떤 상태(state)에서 어떤 행동이 좋은지, 모델은 무엇을 기준으로 배우는가?
 - `좋다`는 것을 규칙처럼 적는가, 숫자로 적는가?
-- [Q-learning](../../../reference/concept-glossary-parts/10-kieuk.md#q-learning)과 [SARSA](../../../reference/concept-glossary-parts/07-siot.md#sarsa)는 둘 다 강화학습이라는데 무엇이 다른가?
+- [Q-learning](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)과 [SARSA](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)는 둘 다 강화학습이라는데 무엇이 다른가?
 
 가치 기반 강화학습은 어떤 상태에서 어떤 행동이 장기적으로 얼마나 좋은지 값을 붙여 가며 배우는 접근이다.
 
-이 절은 [가치 기반 강화학습(value-based reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning), [상태 가치(state value)](../../../reference/concept-glossary-parts/07-siot.md#state-value), [행동 가치(action value)](../../../reference/concept-glossary-parts/14-hieut.md#action-value), [Q-value](../../../reference/concept-glossary-parts/10-kieuk.md#q-value)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동의 장기적 좋음을 점수로 읽는 기본 감각은 이 절과 관련 개념사전 항목을 기준으로 다시 연결합니다.
+이 절은 [가치 기반 강화학습(value-based reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning), [상태 가치(state value)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning), [행동 가치(action value)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning), [Q-value](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동의 장기적 좋음을 점수로 읽는 기본 감각은 이 절과 관련 개념사전 항목을 기준으로 다시 연결합니다.
 
 ## 가치 기반 강화학습(value-based reinforcement learning)에서 닫을 질문
 

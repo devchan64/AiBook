@@ -9,11 +9,11 @@ When readers first meet reinforcement-learning algorithms, questions immediately
 
 - On what basis does the model learn which action is good in which state?
 - Is `good` written like a rule, or like a number?
-- If both [Q-learning](/AiBook/en/reference/concept-glossary-alpha/q/#q-learning) and [SARSA](/AiBook/en/reference/concept-glossary-alpha/s/#sarsa) are reinforcement learning, what is different between them?
+- If both [Q-learning](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning) and [SARSA](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning) are reinforcement learning, what is different between them?
 
 Value-based reinforcement learning is an approach that learns by attaching values to how good each action is in the long run from each state.
 
-This Section explains the basic meaning of [value-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning), [state value](/AiBook/en/reference/concept-glossary-alpha/s/#state-value), [action value](/AiBook/en/reference/concept-glossary-alpha/a/#action-value), and [Q-value](/AiBook/en/reference/concept-glossary-alpha/q/#q-value). Later Sections continue the judgment in the current context from this handle, and the basic sense of reading the long-term goodness of actions as a score reconnects through this Section and the relevant glossary entries.
+This Section explains the basic meaning of [value-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning), [state value](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning), [action value](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning), and [Q-value](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning). Later Sections continue the judgment in the current context from this handle, and the basic sense of reading the long-term goodness of actions as a score reconnects through this Section and the relevant glossary entries.
 
 ## Questions Closed By Value-Based Reinforcement Learning
 

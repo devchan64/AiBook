@@ -84,7 +84,7 @@
 
 如果在特征设计之后，先把这个区分碰一遍，`反正不都是 feature 吗？` 这种错觉就会弱很多。汇总表并不是一个只存放 feature 的表，而是一张工作表：feature 候选、比较列、结果候选、识别/上下文列，都可能暂时一起放在里面。这样读过之后，后面再次碰到基准线比较列和 target 候选列时，它们的角色也不会显得那么突兀地“突然变了”。
 
-这一节与其说只是在问 `哪一个数值列算 feature`，不如说更接近于在讨论：[工作表里的列角色应该怎样分离(column-role separation in a working table)](/AiBook/zh/reference/concept-glossary-pinyin/l/#glossary-column-role-separation)。
+这一节与其说只是在问 `哪一个数值列算 feature`，不如说更接近于在讨论：[工作表里的列角色应该怎样分离(column-role separation in a working table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)。
 
 
 因此，取代 `只要是数字列就是 feature` 这种误解，更应该先问：每一列是在描述样本、保存比较基准、记录结果，还是只是保留上下文。

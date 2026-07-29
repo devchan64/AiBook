@@ -22,7 +22,7 @@ P4-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계�
 - 왜 그래디언트 부스팅은 표 형식 데이터(tabular data)에서 강한 후보로 자주 언급되는가?
 - 왜 학습률(learning rate), tree size, `n_estimators`가 민감한 조합이 되는가?
 - 과적합은 어떤 모습으로 드러날 수 있는가?
-- [수축(shrinkage)](../../../reference/concept-glossary-parts/07-siot.md#shrinkage), [부분표본추출(subsampling)](../../../reference/concept-glossary-parts/06-bieup.md#subsampling), [조기 중단(early stopping)](../../../reference/concept-glossary-parts/09-jieut.md#early-stopping)은 어떤 위험을 줄이려는가?
+- 수축(shrinkage), 부분표본추출(subsampling), 조기 중단(early stopping)은 어떤 위험을 줄이려는가?
 - 랜덤포레스트와 비교할 때 어떤 상황에서 더 강하게 느껴지고, 어떤 상황에서 더 조심해야 하는가?
 
 이 절은 `왜 부스팅이 강하고 왜 동시에 위험한가`를 중심으로 읽습니다. 구현 감각 차이와 계산 구조 쪽 보충 설명은 P4-16.3 보충학습에서 이어집니다.
