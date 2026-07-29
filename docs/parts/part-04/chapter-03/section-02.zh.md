@@ -13,7 +13,7 @@
 
 ## 本节范围
 
-这一节先把 model selection 中 heuristic 缩减的是什么，以及它会建立怎样的比较起点关上。数据拆分和 validation 会在 P4-4 继续处理，[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 会在 P4-5 继续处理，[metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会在 P4-6 继续处理，[preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing) 和 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) 会在 P4-7 继续处理，model selection 的流程会在 P4-8 继续处理，[hyperparameter tuning](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter) 会在 P4-9 继续处理。具体 model 会从 P4-10 到 P4-19 按问题类型再次遇到。
+这一节先把 model selection 中 heuristic 缩减的是什么，以及它会建立怎样的比较起点关上。数据拆分和 validation 会在 P4-4 继续处理，[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization) 会在 P4-5 继续处理，[metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会在 P4-6 继续处理，[preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing) 和 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) 会在 P4-7 继续处理，model selection 的流程会在 P4-8 继续处理，[hyperparameter tuning](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter) 会在 P4-9 继续处理。具体 model 会从 P4-10 到 P4-19 按问题类型再次遇到。
 
 这一节回答下面这些问题。
 

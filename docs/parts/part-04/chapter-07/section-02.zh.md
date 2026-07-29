@@ -40,7 +40,7 @@
 Part 4 前面的章节是按下面这个流程接过来的。
 
 - P4-4: 应该怎样划分数据
-- P4-5: 为什么[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization)很难
+- P4-5: 为什么[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization)很难
 - P4-6: 应该用什么标准评价
 - P4-7.1: 应该保留什么输入
 

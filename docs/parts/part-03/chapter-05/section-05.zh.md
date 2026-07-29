@@ -3,7 +3,7 @@
 > Section ID: `P3-5.5`
 > Version: `v2026.07.25`
 
-当我们已经来到“把源日志变成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-modeling)”的阶段后，像 `动作是有的，但部分传感器值为空怎么办？`、`中间区间记录缺了，这条样本该丢掉，还是部分使用？` 这样的问题就会立刻出现。这时首先要看的，不是怎么填值，而是这些[缺失值(missing value)](/AiBook/zh/reference/concept-glossary-pinyin/q/#glossary-missing-value)会在多大程度上动摇[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)边界和[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)含义。
+当我们已经来到“把源日志变成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)”的阶段后，像 `动作是有的，但部分传感器值为空怎么办？`、`中间区间记录缺了，这条样本该丢掉，还是部分使用？` 这样的问题就会立刻出现。这时首先要看的，不是怎么填值，而是这些[缺失值(missing value)](/AiBook/zh/reference/concept-glossary-pinyin/q/#glossary-missing-value)会在多大程度上动摇[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)边界和[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)含义。
 
 “值缺了”这件事，不只是一个清洗问题，它更像是一个数据建模信号，要求我们重新问一次：`这条样本还能不能被看成同一种案例？`
 

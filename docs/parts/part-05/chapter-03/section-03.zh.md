@@ -7,7 +7,7 @@
 
 当你希望在内部表征里同时保留负值与正值，并且让表征围绕 0 展开时，tanh 就会成为一个很重要的比较基准。
 
-如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)与[tanh](/AiBook/zh/reference/concept-glossary-pinyin/t/#tanh)条目。
+如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/j/#activation-function)与[tanh](/AiBook/zh/reference/concept-glossary-pinyin/t/#tanh)条目。
 
 ## tanh 的 0 中心变换问题
 

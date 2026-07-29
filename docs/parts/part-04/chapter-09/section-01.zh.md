@@ -120,7 +120,7 @@ hyperparameter 不只是一个选项名字，它可以改变 model 看待数据�
 | hyperparameter 变化 | 经常跟着变化的东西 |
 | --- | --- |
 | model 复杂度(complexity) | 它会拟合得多细 |
-| [泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) | 它在新数据上能不能撑住 |
+| [泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization) | 它在新数据上能不能撑住 |
 | 计算成本(computational cost) | 训练和预测要花多少时间 |
 | 结果可解释性(interpretability) | 人是否容易读懂 |
 

@@ -3,7 +3,7 @@
 > Section ID: `P4-6.1`
 > Version: `v2026.07.25`
 
-在 P4-5 章里，我们看过[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)和[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization)。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。
+在 P4-5 章里，我们看过[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)和[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization)。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。
 
 评价指标是把 model 拟合得怎样，用数字显示出来的工具。但更重要的一点是，metric 不只是记分牌，它还是一种 `我们决定把什么当成更重要` 的约定。即使是同一个 model，因为看的 metric 不同，它也可能显得不错，也可能显得有风险。
 

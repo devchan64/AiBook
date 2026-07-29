@@ -3,7 +3,7 @@
 > Section ID: `P3-6.1`
 > Version: `v2026.07.25`
 
-第一次学习[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)时，人们常常会把它理解成 `列越多越好吗？` 但特征并不是简单地往里塞更多数值。特征是把样本所具有的结构，重新表达成可以用于比较和预测的值。所以，好的特征与其说是“更多”，不如说应该先让 `它到底想展示什么` 变得清楚。如果前一节已经把原始日志变成了[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-modeling)，那么现在就要决定：这张汇总表里到底该留下什么结构。
+第一次学习[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)时，人们常常会把它理解成 `列越多越好吗？` 但特征并不是简单地往里塞更多数值。特征是把样本所具有的结构，重新表达成可以用于比较和预测的值。所以，好的特征与其说是“更多”，不如说应该先让 `它到底想展示什么` 变得清楚。如果前一节已经把原始日志变成了[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)，那么现在就要决定：这张汇总表里到底该留下什么结构。
 
 所谓“设计特征”，不是把汇总表里的数字原样照用，而是重新选择：要用什么数字表达，来保留我们想比较的结构。所以，只有先决定想保留什么结构，平均值、斜率、波动性这样的特征候选才会真正有意义。这里还会再分出一个判断。把同一个结构转换成平均值、差值、斜率、token、比率这样的不同表达，是[变量变换(variable transformation)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-variable-transformation)；而从这些已经变换出来的表达里，再决定究竟保留哪些项目，则是[特征选择(feature selection)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature-selection)。
 

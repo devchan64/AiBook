@@ -60,7 +60,7 @@
 
 | Part 3 里先做出的结构 | 为什么这个结构要先出现 |
 | --- | --- |
-| [汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-modeling) | 能先建立基本比较单位和[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较 |
+| [汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling) | 能先建立基本比较单位和[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较 |
 | [区段表示](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) | 能让人先读出顺序和结构 |
 | 聚合表 | 能从运行角度解释近期状态与平时状态 |
 

@@ -32,7 +32,7 @@
 | 长度标准 | 长度不同的样本要按什么共同标准对齐？ |
 | 对齐标准 | 是按绝对时间对齐，还是按进度对齐？ |
 
-这四件事并不只在顺序模型里才需要。即使是在做[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-modeling)时，里面其实已经藏着同样的判断。把动作分成前段、中段、后段，本身就意味着：输入窗口和对齐标准其实早就先被决定过了。
+这四件事并不只在顺序模型里才需要。即使是在做[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)时，里面其实已经藏着同样的判断。把动作分成前段、中段、后段，本身就意味着：输入窗口和对齐标准其实早就先被决定过了。
 
 ## 同一份源数据可以有多种窗口设计
 

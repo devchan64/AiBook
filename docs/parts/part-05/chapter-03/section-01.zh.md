@@ -25,7 +25,7 @@ a = f(z)
 
 一旦这条变换规则不再只是简单的比例关系，非线性（nonlinearity）就出现了，神经网络也才能表达更复杂的模式。
 
-如果后面需要重新快速固定激活与非线性的基线，可以回到[概念词汇表里的激活函数（activation function）条目](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)。
+如果后面需要重新快速固定激活与非线性的基线，可以回到[概念词汇表里的激活函数（activation function）条目](/AiBook/zh/reference/concept-glossary-pinyin/j/#activation-function)。
 
 ## 需要激活函数的问题
 
