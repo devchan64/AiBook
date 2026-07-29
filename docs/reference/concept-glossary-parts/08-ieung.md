@@ -130,3 +130,5 @@
 --8<-- "reference/concept-glossary-terms/error-cost.ko.md"
 
 --8<-- "reference/concept-glossary-terms/embedding.ko.md"
+
+--8<-- "reference/concept-glossary-terms/input-context.ko.md"
