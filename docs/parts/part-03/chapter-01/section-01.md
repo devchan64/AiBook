@@ -3,7 +3,7 @@
 > Section ID: `P3-1.1`
 > Version: `v2026.07.25`
 
-Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary-parts/11-chieut.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-modeling)입니다.
+Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-modeling)입니다.
 
 데이터 모델링을 저장 구조 정리로만 이해하면, 이미 쌓여 있는 표를 보기 좋게 바꾸는 정도로 생각하기 쉽습니다. 하지만 AI와 데이터 분석에서 말하는 데이터 모델링은 그보다 더 앞선 판단입니다. 데이터 모델링은 지금 있는 [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)로 어떤 질문에 답할 수 있게 만들 것인가를 정하는 일입니다.
 

@@ -3,7 +3,7 @@
 > Section ID: `P3-9.8`
 > Version: `v2026.07.25`
 
-입력과 결과를 정한 뒤에도 예측 문제는 아직 반쯤만 닫힌 상태입니다. 같은 `review_needed` 예측이라도 그것이 동작 1건을 [검토 후보 큐(review queue)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)에 올리는 일인지, 최근 구간 전체의 경고 강도를 조정하는 일인지가 다를 수 있기 때문입니다. 또한 모델이 낸 [점수(score)](/AiBook/reference/concept-glossary-parts/09-jieut.md#glossary-score)와 그 점수로 실제 행동을 정하는 [정책 규칙(policy rule)](/AiBook/reference/concept-glossary-parts/09-jieut.md#glossary-policy-rule)도 같은 것이 아닙니다.
+입력과 결과를 정한 뒤에도 예측 문제는 아직 반쯤만 닫힌 상태입니다. 같은 `review_needed` 예측이라도 그것이 동작 1건을 [검토 후보 큐(review queue)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)에 올리는 일인지, 최근 구간 전체의 경고 강도를 조정하는 일인지가 다를 수 있기 때문입니다. 또한 모델이 낸 [점수(score)](/AiBook/reference/concept-glossary-parts/05-mieum.md#glossary-score)와 그 점수로 실제 행동을 정하는 [정책 규칙(policy rule)](/AiBook/reference/concept-glossary-parts/09-jieut.md#glossary-policy-rule)도 같은 것이 아닙니다.
 
 예측값 하나는 어떤 단위의 어떤 행동과 연결되는지 적어야 하고, 모델 점수와 판단 규칙은 분리해서 봐야 합니다.
 

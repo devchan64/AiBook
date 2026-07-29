@@ -18,6 +18,7 @@
 - 2026-07-29: 위 변경 뒤 `management/concept-glossary-integrated-index.md`를 현재 단어별 원고 기준으로 다시 생성했다.
 - 2026-07-29: C그룹 8개 항목의 영어·중국어 단어별 원고를 추가하고, 영어 알파벳 색인과 중국어 병음 색인 include를 갱신했다.
 - 2026-07-29: 위 변경 뒤 `management/concept-glossary-integrated-index.md`를 현재 단어별 원고 기준으로 다시 생성했다.
+- 2026-07-29: 한국어 Part 본문에서 개념사전 자음별 색인 링크와 실제 include 앵커를 대조했다. 즉시 수정 가능한 `sample`, `output-structure`, `score` 링크 호환성을 먼저 보강했다.
 - 남은 작업: D그룹은 제목·본문 전체 번역 품질을 별도 읽기 검토로 이어갈 수 있다. C그룹의 `topology`는 후속 Part 재등장 여부에 따라 흡수 재검토 대상으로 남긴다.
 
 ## 기준 문서
@@ -106,6 +107,32 @@
 | 영어 파일에 한국어 본문이 남음 | `vector-space.en.md`, `probability.en.md` 등 | 영어판 개념사전은 영어 독자 기준으로 작성해야 한다는 규칙과 충돌 | 2026-07-29에 검색 기준 잔존 0건으로 정리. 이후 자연스러운 영문 품질은 별도 읽기 검토 |
 | 중국어 관련 개념에 영어 일반어가 직접 남음 | `retrieval-augmented-generation-rag.zh.md`의 `external resource`, `provenance`, `search index` | 중국어판 관련 개념은 중국어 표제어 우선이라는 규칙과 충돌 | 2026-07-29에 검색 기준 잔존 0건으로 정리. 약어와 모델명은 중국어 설명어를 앞에 두고 영어를 괄호 병기 |
 | Related concepts가 현재 개념사전 표제와 맞지 않음 | `review`, `trace`, `example`, `shape`, `value`, `type`, `client`, `server` 등 | 관련 개념이 표제 관리 제외 대상인지, 아직 미등재 표준 개념인지 불분명 | 2026-07-29에 영어·중국어 관련 개념 필드의 직접 잔존 표현을 유지 표제 중심으로 교체. 남은 표제 적합성은 C그룹과 함께 재판정 |
+
+## E. 본문 개념사전 링크 앵커 경고 후보
+
+한국어 Part 본문에서 `docs/reference/concept-glossary-parts/*.md`로 향하는 링크를 모아, 대상 자음별 색인이 실제로 include하는 단어별 원고의 앵커와 대조했다. 2026-07-29 기준으로 실제 앵커가 없는 한국어 본문 링크 후보는 351개였고, 즉시 수정 가능한 항목을 반영한 뒤 328개가 남았다.
+
+### 2026-07-29에 정리한 항목
+
+| 항목 | 처리 |
+| --- | --- |
+| `#glossary-sample` | Part 3에서는 `sample`이 `샘플 단위(sample unit)` 문맥으로 반복되므로 `sample-unit` 단어별 원고 3개 언어에 호환 앵커를 추가 |
+| `#glossary-output-structure` | 한국어 Part 3 링크가 `11-chieut.md`를 가리키던 경로를 실제 include 위치인 `05-mieum.md`로 수정 |
+| `#glossary-score` | 한국어 Part 3 링크가 `09-jieut.md`를 가리키던 경로를 실제 include 위치인 `05-mieum.md`로 수정 |
+
+### 남은 고빈도 후보
+
+| 후보 | 남은 횟수 | 1차 판정 |
+| --- | ---: | --- |
+| `review-queue` | 14 | 운영 출력 구조 이름이므로 독립 표제보다 `output structure`, `model score`, `decision` 계열 흡수 여부 검토 |
+| `comparison-report` | 10 | 문서 산출물 이름에 가까우므로 독립 표제보다 `comparability`, `baseline`, `output structure` 계열 흡수 여부 검토 |
+| `random-forest` | 9 | 표준 모델 계열이므로 표제 추가 또는 기존 Part 4 설명 위치와 연결 검토 |
+| `summary-table` | 7 | 표 형식 이름이므로 독립 표제보다 `dataset`, `data modeling`, `feature` 계열 흡수 검토 |
+| `comparison-table` | 7 | 표 형식 이름이므로 독립 표제보다 `comparability`, `baseline`, `output structure` 계열 흡수 검토 |
+| `bootstrap` | 6 | 통계·앙상블 문맥의 표준 용어이므로 표제 추가 여부 검토 |
+| `oob-score` | 6 | Random Forest 하위 평가 용어이므로 `random-forest` 표제 신설 여부와 함께 검토 |
+| `training` | 5 | 일반어로 넓게 열리므로 `model training` 또는 `learning`으로 흡수 가능한지 검토 |
+| `optimizer` | 5 | 표준 딥러닝 용어로 후속 Part 기준점이면 표제 추가 검토 |
 
 ## 우선순위
 

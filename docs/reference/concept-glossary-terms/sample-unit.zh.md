@@ -1,4 +1,5 @@
 <a id="sample-unit"></a>
+<a id="glossary-sample"></a>
 
 ### 样本单位
 

@@ -30,7 +30,7 @@ _보조제목: 같은 target이라도 놓침과 과검출 중 무엇이 더 아�
 | B | 0.64 | 검토 큐에 포함 | 일단 보류 |
 | C | 0.41 | 보조 검토 후보로 남김 | 제외 |
 
-놓침 비용이 큰 문제라면 `B`도 검토 큐에 넣는 편이 더 자연스럽습니다. 반대로 과검출 비용이 큰 문제라면 `B`는 아직 보류하고 `A`만 보는 편이 더 자연스러울 수 있습니다. 즉 같은 [점수(score)](/AiBook/reference/concept-glossary-parts/09-jieut.md#glossary-score)와 같은 target 이름이 있어도, 오류 비용 구조가 다르면 review queue 우선순위와 threshold 해석도 함께 달라집니다.
+놓침 비용이 큰 문제라면 `B`도 검토 큐에 넣는 편이 더 자연스럽습니다. 반대로 과검출 비용이 큰 문제라면 `B`는 아직 보류하고 `A`만 보는 편이 더 자연스러울 수 있습니다. 즉 같은 [점수(score)](/AiBook/reference/concept-glossary-parts/05-mieum.md#glossary-score)와 같은 target 이름이 있어도, 오류 비용 구조가 다르면 review queue 우선순위와 threshold 해석도 함께 달라집니다.
 
 아래 예제는 같은 점수에 threshold를 바꾸어 적용하고, false negative와 false positive 비용을 따로 계산합니다. 여기서는 놓침 비용을 10, 과검출 비용을 2로 둡니다.
 
