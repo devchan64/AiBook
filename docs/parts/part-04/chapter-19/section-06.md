@@ -7,7 +7,7 @@ _보조제목: likelihood ratio trick은 정책 확률 변화와 기대 보상�
 
 P4-19.2에서 정책 기반 강화학습을 읽다 보면 곧 다음 이름이 붙습니다.
 
-- [policy gradient theorem](../../../reference/concept-glossary-parts/09-jieut.md#policy-gradient-theorem)
+- [policy gradient theorem](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)
 - [likelihood ratio trick](../../../reference/concept-glossary-parts/01-giyeok.md#likelihood-ratio-trick)
 
 이 절은 엄밀한 증명 전체를 끝까지 따라가기보다, 왜 정책 파라미터의 변화가 [기대 보상(expected reward)](../../../reference/concept-glossary-parts/01-giyeok.md#expected-reward) 변화와 연결되는가, 왜 [로그 확률(log-probability)](../../../reference/concept-glossary-parts/04-rieul.md#log-probability) 형태가 자주 나오는가를 처음 읽는 보충학습입니다.
@@ -16,9 +16,9 @@ P4-19.2에서 정책 기반 강화학습을 읽다 보면 곧 다음 이름이 �
 
 이 절은 다음 질문에 답합니다.
 
-- [policy gradient](../../../reference/concept-glossary-parts/09-jieut.md#policy-gradient)는 왜 정책 확률을 직접 조정하는 식으로 읽히는가?
+- [policy gradient](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)는 왜 정책 확률을 직접 조정하는 식으로 읽히는가?
 - likelihood ratio trick은 왜 로그 확률과 기대값 계산을 연결하는가?
-- 이 수식 감각이 [REINFORCE](../../../reference/concept-glossary-parts/04-rieul.md#reinforce)와 [actor-critic](../../../reference/concept-glossary-parts/08-ieung.md#actor-critic) 해석에 어떻게 이어지는가?
+- 이 수식 감각이 [REINFORCE](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)와 [actor-critic](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning) 해석에 어떻게 이어지는가?
 
 이 절은 `정책 확률`, `기대 보상`, `로그 확률 기울기`라는 세 손잡이로 정책 기반 수식의 입문 감각을 잡는 데 집중합니다.
 

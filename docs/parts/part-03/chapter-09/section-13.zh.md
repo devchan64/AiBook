@@ -12,7 +12,7 @@ _副标题: 在把问题交给预测任务之前，为什么必须一起闭合�
 | [time split](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-time-split) | 时间顺序重要的问题，不能和随机切分一样看 |
 | [group split](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-group-split) | 如果同一个个体混到两边，性能可能会被夸大 |
 | [data leakage](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-data-leakage) | 如果预测时点之后的信息混进来，分数看起来再好也不能用 |
-| [evaluation design](/AiBook/zh/reference/concept-glossary-pinyin/p/#glossary-evaluation-design) | 指标和切分方式是否合适，要和问题结构连起来看 |
+| [evaluation design](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design) | 指标和切分方式是否合适，要和问题结构连起来看 |
 | [ranking](/AiBook/zh/reference/concept-glossary-pinyin/p/#glossary-ranking) | 挑出前几条时，核心可能是顺序问题而不是类别问题 |
 | multiclass / [regression](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-regression) | 结果结构未必只是一个 0/1 标签 |
 

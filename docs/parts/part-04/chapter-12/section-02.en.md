@@ -18,7 +18,7 @@ This Section answers the following questions.
 - Why can scale distort distance calculation?
 - What does standardization change in the interpretation of k-NN?
 
-This Section first closes `why distance and scale change neighbors and predictions in k-NN`. The purpose and types of preprocessing stay centered in [P4-7.2 Preprocessing](../chapter-07/section-02.en.md); here the focus stays on the scenes where [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) and [feature scale](/AiBook/en/reference/concept-glossary-alpha/f/#feature-scale) change the judgment.
+This Section first closes `why distance and scale change neighbors and predictions in k-NN`. The purpose and types of preprocessing stay centered in [P4-7.2 Preprocessing](../chapter-07/section-02.en.md); here the focus stays on the scenes where [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) and [feature scale](/AiBook/en/reference/concept-glossary-alpha/s/#standardization) change the judgment.
 
 ## Judgments To Keep From Distance And Feature Scale
 

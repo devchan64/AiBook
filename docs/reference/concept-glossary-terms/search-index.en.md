@@ -1,3 +1,5 @@
+<a id="search-index"></a>
+
 ## search index
 
 - Meaning: A search index is a structure prepared in advance so relevant vectors or documents can be found faster.

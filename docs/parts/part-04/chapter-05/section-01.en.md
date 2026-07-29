@@ -11,7 +11,7 @@ This Section explains the basic distinction between `overfitting` and `underfitt
 
 ## Scope Of This Section
 
-This Section explains the basic distinction between overfitting and underfitting. It does not yet cover specific mitigation methods such as [regularization](/AiBook/en/reference/concept-glossary-alpha/r/#regularization), [dropout](/AiBook/en/reference/concept-glossary-alpha/d/#dropout), or early stopping. Those responses return in the deep learning parts of Part 4 and later model-specific chapters.
+This Section explains the basic distinction between overfitting and underfitting. It does not yet cover specific mitigation methods such as [regularization](/AiBook/en/reference/concept-glossary-alpha/r/#regularization), [dropout](/AiBook/en/reference/concept-glossary-alpha/r/#regularization), or early stopping. Those responses return in the deep learning parts of Part 4 and later model-specific chapters.
 
 This Section also does not finish the wider question, `why does a model work well on new data?` That question continues in P4-5.2 on [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization). The focus here is to visually distinguish `a state that fit too much` from `a state that did not learn enough`.
 

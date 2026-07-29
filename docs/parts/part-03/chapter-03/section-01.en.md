@@ -3,9 +3,9 @@
 > Section ID: `P3-3.1`
 > Version: `v2026.07.25`
 
-When source data first arrives, many people almost reflexively think, `what can we predict with this?` first. Because there is a table, many values, and records measured over time, it feels as if the data could be turned immediately into some learning problem. But that reaction is usually too fast. The table in front of us is more likely not yet `a training dataset`, but merely [recorded source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data), or at best a [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset-candidate).
+When source data first arrives, many people almost reflexively think, `what can we predict with this?` first. Because there is a table, many values, and records measured over time, it feels as if the data could be turned immediately into some learning problem. But that reaction is usually too fast. The table in front of us is more likely not yet `a training dataset`, but merely [recorded source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data), or at best a [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#dataset).
 
-Here the first point to fix is that [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-problem-representation-structure) comes before `the learning-problem frame`. We have to make clear the warning that this is not yet the stage for choosing a learning-problem frame such as a prediction problem, a classification problem, or an anomaly-detection problem.
+Here the first point to fix is that [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/t/#task-definition) comes before `the learning-problem frame`. We have to make clear the warning that this is not yet the stage for choosing a learning-problem frame such as a prediction problem, a classification problem, or an anomaly-detection problem.
 
 At the entry to this Chapter, the `dataset candidate` viewpoint built in Chapter 2 is narrowed one step further.
 

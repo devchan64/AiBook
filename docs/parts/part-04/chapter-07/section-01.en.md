@@ -395,7 +395,7 @@ Some features look present inside a training dataset but are hard to obtain stab
 - Does collection delay happen often?
 - Does quality fluctuate because a human must type it by hand?
 - Is it difficult to use in operations because of privacy or cost?
-- Does it increase inference-time [latency](/AiBook/en/reference/concept-glossary-alpha/l/#latency) because it has to be fetched at every model call?
+- Does it increase inference-time latency because it has to be fetched at every model call?
 
 In the end, feature selection is not only a data-science problem. It is also a service-design problem.
 

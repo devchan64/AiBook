@@ -3,7 +3,7 @@
 > Section ID: `P3-4.2`
 > Version: `v2026.07.25`
 
-[샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)의 뜻도 흔들리고, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)의 뜻도 흔들리고, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-evaluation)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
+[샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)의 뜻도 흔들리고, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)의 뜻도 흔들리고, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
 
 여기서는 샘플 단위 자체를 새로 정의하지 않습니다. 대신 앞 절에서 고정한 샘플 단위가 왜 뒤의 특징, 라벨, 분할, 평가까지 함께 흔드는지를 따라가는 데 집중합니다.
 

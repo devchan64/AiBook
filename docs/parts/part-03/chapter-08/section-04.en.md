@@ -23,7 +23,7 @@ The reason to go through a sentence stage before creating operational columns is
 - Which difference should become a `review candidate`
 - Which difference should become a `strong warning`
 
-That judgment usually depends not on one number alone, but on the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) created by sample size, repeatability, and comparison conditions read together. The sentence is therefore not decoration. It is an intermediate stage that translates numbers into operational judgment.
+That judgment usually depends not on one number alone, but on the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) created by sample size, repeatability, and comparison conditions read together. The sentence is therefore not decoration. It is an intermediate stage that translates numbers into operational judgment.
 
 ## Looking at One Scene Again in Three Stages
 

@@ -1,3 +1,5 @@
+<a id="parameter"></a>
+
 ## parameter
 
 - Meaning: A parameter is a named input position in a function definition. Before a real value is passed in, the parameter records what kind of value the function is prepared to receive.

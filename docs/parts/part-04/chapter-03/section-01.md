@@ -28,7 +28,7 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 - 휴리스틱을 제한된 조건에서 후보를 줄이는 실용적 판단 기준으로 설명할 수 있습니다.
 - 휴리스틱이 최적해를 보장하지 않음을 이해할 수 있습니다.
 - 시간, 데이터, 계산량, 비용 때문에 휴리스틱이 필요해지는 상황을 예시로 말할 수 있습니다.
-- 휴리스틱과 [검증(validation)](../../../reference/concept-glossary-parts/01-giyeok.md#validation)을 함께 사용해야 하는 이유를 설명할 수 있습니다.
+- 휴리스틱과 [검증(validation)](../../../reference/concept-glossary-parts/05-mieum.md#model-validation)을 함께 사용해야 하는 이유를 설명할 수 있습니다.
 - 휴리스틱을 개인 감각이 아니라 검증 가능한 작업 가설로 다루는 관점을 가질 수 있습니다.
 
 ## 먼저 한 장면으로 이해하기

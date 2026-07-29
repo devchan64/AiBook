@@ -1,3 +1,5 @@
+<a id="probability"></a>
+
 ## probability
 
 - Meaning: Probability expresses uncertainty as a number between 0 and 1. It does not say that an outcome is guaranteed; it describes how plausible an event is among possible outcomes.

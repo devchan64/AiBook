@@ -1,3 +1,5 @@
+<a id="safety"></a>
+
 ## safety
 
 - Meaning: AI system safety means limiting and reviewing AI outputs or automation so they do not create real harm for people, organizations, or procedures.

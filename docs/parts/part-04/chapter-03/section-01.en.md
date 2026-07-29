@@ -28,7 +28,7 @@ This Section answers the following questions.
 - You can explain a heuristic as a practical judgment criterion that reduces candidates under limited conditions.
 - You can understand that a heuristic does not guarantee the optimal solution.
 - You can describe situations where heuristics become necessary because of time, data, computation, or cost constraints.
-- You can explain why heuristics and [validation](/AiBook/en/reference/concept-glossary-alpha/v/#validation) must be used together.
+- You can explain why heuristics and [validation](/AiBook/en/reference/concept-glossary-alpha/m/#model-validation) must be used together.
 - You can treat heuristics not as private intuition, but as verifiable working hypotheses.
 
 ## Understanding It First Through One Scene

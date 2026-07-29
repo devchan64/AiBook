@@ -11,7 +11,7 @@
 
 策略型强化学习，不是先造一个行动记分板，而是直接调整行动选择的概率与方式，让系统学会拿到更大的 reward。
 
-这一节解释 [policy-based reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)、[policy gradient](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-gradient)、[actor-critic](/AiBook/zh/reference/concept-glossary-pinyin/a/#actor-critic) 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“直接调整行动方式”的强化学习基本感觉，会再次通过这一节和相关概念词汇表条目连回来。
+这一节解释 [policy-based reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)、[policy gradient](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)、[actor-critic](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning) 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“直接调整行动方式”的强化学习基本感觉，会再次通过这一节和相关概念词汇表条目连回来。
 
 ## 策略型强化学习先收束的问题
 
@@ -150,7 +150,7 @@ policy gradient 是一类代表性方法，它直接调整 policy parameter，�
 
 这个图的关键点，是把 policy 读成`可调整的行动倾向`，而不是`固定输出规则`。
 
-[REINFORCE](/AiBook/zh/reference/concept-glossary-pinyin/r/#reinforce) 可以看成最直接展示上面 policy-gradient 流程的入门例子。它把一个 episode 里的行动与 reward 收集起来，然后在下一轮 policy 里，提高那些最终有帮助的选择的概率。
+[REINFORCE](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning) 可以看成最直接展示上面 policy-gradient 流程的入门例子。它把一个 episode 里的行动与 reward 收集起来，然后在下一轮 policy 里，提高那些最终有帮助的选择的概率。
 
 放成一个小直觉例子：
 

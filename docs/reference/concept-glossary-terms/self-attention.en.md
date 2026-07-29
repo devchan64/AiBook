@@ -1,3 +1,5 @@
+<a id="self-attention"></a>
+
 ## self-attention
 
 - Meaning: Self-attention is an attention mechanism in which each token in the same sequence calculates relationships with other tokens and updates its own representation. Instead of looking only at the current position, it mixes information from other positions with learned weights.

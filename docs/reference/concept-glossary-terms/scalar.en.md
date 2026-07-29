@@ -1,3 +1,5 @@
+<a id="scalar"></a>
+
 ## scalar
 
 - Meaning: A scalar is a single numerical value. If a vector holds several ordered values, a scalar is one indivisible numeric result, such as a loss value, mean, or probability.

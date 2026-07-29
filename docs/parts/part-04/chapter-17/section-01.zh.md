@@ -13,7 +13,7 @@
 
 也就是说，聚类与其说是`把答案猜对的问题`，不如说更接近`先去发现结构的问题`。
 
-这一节说明 [clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)、[cluster](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)，以及[正确答案标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)和聚类的差别。下一节会在这个把手的基础上继续当前语境里的判断，而把分组提议读成结构探索的基本感觉，会再次通过[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[相似度(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)、[聚类标签(cluster label)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster-label)连起来。
+这一节说明 [clustering](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)、[cluster](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)，以及[正确答案标签(label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)和聚类的差别。下一节会在这个把手的基础上继续当前语境里的判断，而把分组提议读成结构探索的基本感觉，会再次通过[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[相似度(similarity)](/AiBook/zh/reference/concept-glossary-pinyin/x/#similarity)、[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)连起来。
 
 ## 聚类先收束的问题
 
@@ -120,7 +120,7 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 
 但如果是文本文件，相似就可能变成词分布上的接近，或嵌入(embedding)空间里的接近。
 
-所以，在聚类里，“相似”不是一种感性表达，而是[在特征空间(feature space)里如何定义关系](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-space)。
+所以，在聚类里，“相似”不是一种感性表达，而是[向量空间(vector space)](/AiBook/zh/reference/concept-glossary-pinyin/x/#vector-space)里的特征关系定义。
 
 如果把它压缩成数据流，会像下面这样。
 

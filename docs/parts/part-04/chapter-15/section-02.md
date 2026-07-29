@@ -7,7 +7,7 @@ P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-
 
 이 숲은 무엇을 중요하게 보고 판단했는가?
 
-이 질문이 [특징 중요도(feature importance)](../../../reference/concept-glossary-parts/11-chieut.md#feature-importance)의 출발점입니다.
+이 질문이 [특징 중요도(feature importance)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)의 출발점입니다.
 
 특징 중요도는 모델이 어떤 특징을 더 자주, 더 크게 활용했는지 요약한 숫자이지만, 그 숫자를 곧바로 원인이나 진실의 순위라고 읽으면 위험하다.
 
@@ -20,12 +20,12 @@ P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-
 이 절은 다음 질문에 답합니다.
 
 - 랜덤포레스트에서 특징 중요도는 어떻게 만들어지는가?
-- [`feature_importances_`](../../../reference/concept-glossary-parts/11-chieut.md#feature-importance)는 무엇을 뜻하는가?
-- impurity-based importance와 [permutation importance](../../../reference/concept-glossary-parts/07-siot.md#permutation-importance)는 어떻게 다른가?
+- [`feature_importances_`](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)는 무엇을 뜻하는가?
+- impurity-based importance와 permutation importance는 어떻게 다른가?
 - 왜 중요한 숫자처럼 보여도 오해를 만들 수 있는가?
 - [PDP(partial dependence plot)](../../../reference/concept-glossary-parts/06-bieup.md#partial-dependence-plot-pdp), [SHAP](../../../reference/concept-glossary-parts/07-siot.md#shap)는 중요도와 무엇이 다른 해석 질문을 던지는가?
 - 왜 중요도 해석을 바로 [인과 추론(causal inference)](../../../reference/concept-glossary-parts/08-ieung.md#causal-inference)으로 넘기면 안 되는가?
-- [상관 특성(correlated features)](../../../reference/concept-glossary-parts/07-siot.md#correlated-features)이 매우 강한 실제 데이터에서는 어떤 보수적 해석 전략이 필요한가?
+- 상관 특성(correlated features)이 매우 강한 실제 데이터에서는 어떤 보수적 해석 전략이 필요한가?
 
 이 절은 중요도 해석의 바깥 경계만 남기는 데서 끝내지 않고, `숫자 요약만으로 부족할 때 무엇을 더 봐야 하는가`, `왜 원인 해석과 구분해야 하는가`, `상관이 강할 때 어떻게 더 보수적으로 읽어야 하는가`까지는 현재 절 안에서 함께 잡아 둡니다.
 
@@ -40,9 +40,9 @@ P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-
 ## 특징 중요도(feature importance)에서 남길 판단 기준
 
 - 특징 중요도를 `모델 내부 사용량의 요약`으로 설명할 수 있습니다.
-- [impurity-based importance(MDI)](../../../reference/concept-glossary-parts/13-pieup.md#mean-decrease-in-impurity-mdi)와 [permutation importance](../../../reference/concept-glossary-parts/07-siot.md#permutation-importance)를 구분할 수 있습니다.
+- [impurity-based importance(MDI)](../../../reference/concept-glossary-parts/13-pieup.md#mean-decrease-in-impurity-mdi)와 permutation importance를 구분할 수 있습니다.
 - 특징 중요도가 곧 인과관계(causality)나 진짜 원인 순위를 뜻하지 않는다는 점을 설명할 수 있습니다.
-- [상관 특성(multicollinear or correlated features)](../../../reference/concept-glossary-parts/07-siot.md#correlated-features)과 [high-cardinality feature](../../../reference/concept-glossary-parts/01-giyeok.md#high-cardinality-feature)가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
+- 상관 특성(multicollinear or correlated features)과 [high-cardinality feature](../../../reference/concept-glossary-parts/01-giyeok.md#high-cardinality-feature)가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
 
 ## 학습 배경
 

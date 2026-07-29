@@ -43,7 +43,7 @@
 | A | 高 | 高 | 高 | 高 |
 | B | 高 | 低 | 低 | 中 |
 
-也就是说，只看 `diff`，两者看起来很像；但在实际里，A 可能应该比 B 更早进入复核。因为复核优先级问的不只是`差了多少`，还包括[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)以及`在实务上是否值得先看`。
+也就是说，只看 `diff`，两者看起来很像；但在实际里，A 可能应该比 B 更早进入复核。因为复核优先级问的不只是`差了多少`，还包括[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)以及`在实务上是否值得先看`。
 
 ## 人工复核句子如何连接到优先级候选
 

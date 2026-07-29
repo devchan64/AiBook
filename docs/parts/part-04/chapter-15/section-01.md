@@ -20,10 +20,10 @@ P4-14에서는 [결정트리(decision tree)](../../../reference/concept-glossary
 이 절은 다음 질문에 답합니다.
 
 - 랜덤포레스트는 왜 여러 트리를 쓰는가?
-- [부트스트랩(bootstrap)](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap), [max_features](../../../reference/concept-glossary-parts/05-mieum.md#max-features), `averaging`은 어떤 역할을 하는가?
+- [부트스트랩(bootstrap)](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap), [max_features](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter), `averaging`은 어떤 역할을 하는가?
 - 한 그루 트리보다 왜 더 안정적으로 보일 수 있는가?
 - 분류와 회귀에서 랜덤포레스트는 어떻게 동작하는가?
-- [n_estimators](../../../reference/concept-glossary-parts/02-nieun.md#n-estimators), [max_features](../../../reference/concept-glossary-parts/05-mieum.md#max-features), [부트스트랩(bootstrap)](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap), [oob_score](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)는 무엇을 뜻하는가?
+- [n_estimators](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter), [max_features](../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter), [부트스트랩(bootstrap)](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap), [oob_score](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)는 무엇을 뜻하는가?
 
 이 절은 먼저 `여러 트리를 모아 왜 한 그루보다 더 안정적인 판단을 만들려 하는가`를 닫습니다. 특징 중요도는 P4-15.2에서, OOB(out-of-bag) 점수의 평가 해석은 P4-15.3에서, Extra Trees 비교는 P4-15.4 보충학습에서, 그래디언트 부스팅과의 대비는 P4-16.1, P4-16.2에서 이어집니다.
 

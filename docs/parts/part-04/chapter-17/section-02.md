@@ -11,7 +11,7 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 
 클러스터링의 위험은 보통 알고리즘 계산 자체보다 `사람이 결과를 과하게 해석하는 일`에서 더 자주 생깁니다.
 
-이 절은 [클러스터링(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)의 기본 정의를 다시 길게 반복하지 않습니다. `라벨 없는 구조 탐색`이라는 핵심 직관은 P4-17.1과 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster), [클러스터 라벨(cluster label)](../../../reference/concept-glossary-parts/10-kieuk.md#cluster-label)을 기준으로 다시 연결하고, 여기서는 그 결과를 어떻게 과신하지 않고 읽을지에만 집중합니다.
+이 절은 [클러스터링(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)의 기본 정의를 다시 길게 반복하지 않습니다. `라벨 없는 구조 탐색`이라는 핵심 직관은 P4-17.1과 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [군집(cluster)](../../../reference/concept-glossary-parts/01-giyeok.md#cluster)을 기준으로 다시 연결하고, 여기서는 그 결과를 어떻게 과신하지 않고 읽을지에만 집중합니다.
 
 ## 군집 결과를 해석할 때의 주의점에서 닫을 질문
 
@@ -115,7 +115,7 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 17.1에서 보았듯, 클러스터링은 `무엇을 비슷하다고 볼 것인가`에 크게 의존합니다. 따라서 같은 원본 데이터라도 다음이 달라지면 결과가 달라질 수 있습니다.
 
 - 어떤 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)을 넣었는가
-- [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/12-tieut.md#feature-scale)을 맞췄는가
+- [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/13-pieup.md#standardization)을 맞췄는가
 - [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)를 어떻게 봤는가
 - 군집 수(k)를 몇으로 두었는가
 - DBSCAN의 `eps`, `min_samples`를 어떻게 두었는가

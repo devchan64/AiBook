@@ -7,7 +7,7 @@ _Subtitle: What problem concerns split DQN, PPO, and RLHF into later reinforceme
 
 After reading P4-19.1 through P4-19.3, readers quickly encounter many more names when they study reinforcement learning further.
 
-- [DQN](/AiBook/en/reference/concept-glossary-alpha/d/#dqn)
+- [DQN](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning)
 - [PPO](/AiBook/en/reference/concept-glossary-alpha/p/#ppo), [TRPO](/AiBook/en/reference/concept-glossary-alpha/t/#trpo), [A2C](/AiBook/en/reference/concept-glossary-alpha/a/#a2c), [A3C](/AiBook/en/reference/concept-glossary-alpha/a/#a3c)
 - [safe reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/s/#safe-reinforcement-learning)
 - [offline reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/o/#offline-reinforcement-learning)

@@ -1,3 +1,5 @@
+<a id="privacy"></a>
+
 ## privacy
 
 - Meaning: Privacy concerns information that can identify or track a person and the rules for how that information is collected, stored, retrieved, reused, and exposed.

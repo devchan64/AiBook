@@ -1,3 +1,5 @@
+<a id="transformer"></a>
+
 ## Transformer
 
 - Meaning: A Transformer is a family of neural network architectures that uses attention so multiple positions in a sequence can refer to one another without recurrence. Instead of passing information only step by step from front to back, it compares relationships among positions in parallel and builds contextual representations. Because token meaning alone does not encode order, Transformers also supply position information separately.

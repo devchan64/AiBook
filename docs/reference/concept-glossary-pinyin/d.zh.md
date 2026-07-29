@@ -14,6 +14,8 @@
 
 --8<-- "reference/concept-glossary-terms/data-structure.zh.md"
 
+--8<-- "reference/concept-glossary-terms/dbscan.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/dataset.zh.md"
 

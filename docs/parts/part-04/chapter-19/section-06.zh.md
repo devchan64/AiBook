@@ -7,7 +7,7 @@ _副标题: likelihood ratio trick 如何把策略概率变化与期望奖励连
 
 一旦开始读 P4-19.2 里的策略型强化学习(policy-based reinforcement learning)，下面这些名字很快就会跟着出现。
 
-- [policy gradient theorem](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-gradient-theorem)
+- [policy gradient theorem](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning)
 - [likelihood ratio trick](/AiBook/zh/reference/concept-glossary-pinyin/s/#likelihood-ratio-trick)
 
 这一节不是一路把完整严密证明追到底，而是先去读为什么策略参数的变化会连到 [expected reward](/AiBook/zh/reference/concept-glossary-pinyin/q/#expected-reward) 的变化，以及为什么 [log-probability](/AiBook/zh/reference/concept-glossary-pinyin/d/#log-probability) 这种形式会反复出现。
@@ -16,9 +16,9 @@ _副标题: likelihood ratio trick 如何把策略概率变化与期望奖励连
 
 这一节回答下面这些问题。
 
-- 为什么 [policy gradient](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-gradient) 会被读成直接调整策略概率？
+- 为什么 [policy gradient](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning) 会被读成直接调整策略概率？
 - 为什么 likelihood ratio trick 会把 log-probability 和期望值计算连接起来？
-- 这种公式感觉，又是怎样继续连到 [REINFORCE](/AiBook/zh/reference/concept-glossary-pinyin/r/#reinforce) 和 [actor-critic](/AiBook/zh/reference/concept-glossary-pinyin/a/#actor-critic) 的解释上的？
+- 这种公式感觉，又是怎样继续连到 [REINFORCE](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning) 和 [actor-critic](/AiBook/zh/reference/concept-glossary-pinyin/c/#policy-based-reinforcement-learning) 的解释上的？
 
 这一节集中通过 `策略概率`、`期望奖励`、`log-probability gradient` 这三个把手，建立策略型公式的入门感觉。
 

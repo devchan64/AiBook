@@ -7,7 +7,7 @@
 
 在 AI 学习里，往往不会只看一张图就结束。你可能要同时看损失（loss）和准确率（accuracy），或者把训练数据（train data）和验证数据（validation data）的走势并排比较。这时最好更有意识地理解 Matplotlib 的 `Figure` 与 `Axes` 结构。
 
-本节说明比较与保存流程中的基本区分，包括 `savefig`、图例（legend）、准确率（accuracy）。`plot`、`Figure`、`Axes` 的代表性说明放在 P2-13.1，基础图表选择标准放在 P2-13.2 和[图例词条](/AiBook/zh/reference/concept-glossary-pinyin/l.zh/#legend)；这里重点讲“怎样把多个图表一起比较，并把结果留成文件”。
+本节说明比较与保存流程中的基本区分，包括 `savefig`、图例（legend）、准确率（accuracy）。`plot`、`Figure`、`Axes` 的代表性说明放在 P2-13.1，基础图表选择标准放在 P2-13.2 和 P2-13.2；这里重点讲“怎样把多个图表一起比较，并把结果留成文件”。
 
 ## 核心判断标准：比较多个图表并保存
 

@@ -7,7 +7,7 @@ In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we 
 
 Python loops become structurally clearer when read not as `how many times is it repeated?` but as `from what is what taken out one by one?` In this section, we organize iterable, iterator, and loop patterns at the level of basic concepts.
 
-Here, we explain the basic distinction among `loop`, `iterable`, and `iterator`. The representative explanation of `list` and `dictionary` is left in P2-8.2, P2-8.3, and in the [loop glossary entry](/AiBook/en/reference/concept-glossary-alpha/l.en/#loop), and here we focus on turning values from those groups into a processing flow by taking them out one by one.
+Here, we explain the basic distinction among `loop`, `iterable`, and `iterator`. The representative explanation of `list` and `dictionary` is left in P2-8.2, P2-8.3, and in P2-8.4, and here we focus on turning values from those groups into a processing flow by taking them out one by one.
 
 Loops are not syntax that exists only in Python. In data processing, statistical calculation, and model evaluation, several items are almost always processed one after another by the same criterion. Python's `for` is an example that shows that general flow in an easy-to-read form.
 

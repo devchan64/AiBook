@@ -11,7 +11,7 @@ The answer is not always. Some layers can behave differently in the training-tim
 
 Training mode is the computational environment that prepares parameter updates, and evaluation mode is the computational environment that stably measures or uses the current model.
 
-When the distinction between modes starts to blur again with the explanation of dropout or batch normalization, return to the [training mode](/AiBook/en/reference/concept-glossary-alpha/t/#training-mode) and [evaluation mode](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-mode) entries in the concept glossary.
+When the distinction between modes starts to blur again with the explanation of dropout or batch normalization, use the [training](/AiBook/en/reference/concept-glossary-alpha/m/#model-training) and [model validation](/AiBook/en/reference/concept-glossary-alpha/m/#model-validation) entries in the concept glossary as the baseline, then separate the interval that changes parameters from the interval that measures the model stably.
 
 ## The Question That Requires Training and Evaluation Modes
 

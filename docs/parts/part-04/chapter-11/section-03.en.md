@@ -5,7 +5,7 @@
 
 P4-11.1 introduced [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) as `a linear classification model that creates scores that can be read like probabilities`, and P4-11.2 reread those scores as a [decision boundary](/AiBook/en/reference/concept-glossary-alpha/d/#decision-boundary) inside the input space. At that point a natural next question remains.
 
-Why is probability not handled directly as a linear formula, and why do terms such as [log-odds](/AiBook/en/reference/concept-glossary-alpha/l/#log-odds) and [maximum likelihood estimation (MLE)](/AiBook/en/reference/concept-glossary-alpha/m/#maximum-likelihood-estimation-mle) appear?
+Why is probability not handled directly as a linear formula, and why do terms such as [log-odds](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) and [maximum likelihood estimation (MLE)](/AiBook/en/reference/concept-glossary-alpha/m/#maximum-likelihood-estimation-mle) appear?
 
 This Section is a supplementary learning path that closes that question. Its center is `the probability interpretation of logistic regression` and `the learning objective`. Multinomial expansion and solver or regularization settings are separated into P4-11.4 and P4-11.5.
 

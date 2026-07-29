@@ -3,7 +3,7 @@
 > Section ID: `P3-2.2`
 > Version: `v2026.07.25`
 
-正如前一节所看到的，已存的记录还不一定就是数据集。那么下一个问题就会立刻接上来：如果要重新做出一个[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-dataset-candidate)，里面到底应该放进哪些结构？为了回答这个问题，Part 3 会把 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[output structure](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 放在一起看。与其把这些词当成彼此分开的记忆清单，不如把它们读成一个数据集设计结构。只有先决定什么算一条样本，才能做出特征；只有有了特征，才能决定该拿什么和基准线比较；只有这层比较先成立，才能决定最后要做成什么输出结构。
+正如前一节所看到的，已存的记录还不一定就是数据集。那么下一个问题就会立刻接上来：如果要重新做出一个[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)，里面到底应该放进哪些结构？为了回答这个问题，Part 3 会把 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、[feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、[output structure](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 放在一起看。与其把这些词当成彼此分开的记忆清单，不如把它们读成一个数据集设计结构。只有先决定什么算一条样本，才能做出特征；只有有了特征，才能决定该拿什么和基准线比较；只有这层比较先成立，才能决定最后要做成什么输出结构。
 
 这一节尤其重要的一点，是在它还没有直接凝固成 [target](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target) 之前，先把 `输出结构` 读成一种问题设计轴：它负责区分面向复核的结果和面向预测的目标候选。这也是为什么数据集候选不能被读成单一表名，而要读成几种互相连接的结构。只有“什么算样本、保留哪些特征、和什么基准线比较、最后以什么输出结构收口”这些判断一起定下来，数据集候选的含义才会清楚。
 

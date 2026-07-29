@@ -1,3 +1,5 @@
+<a id="rate-of-change"></a>
+
 ## rate of change
 
 - Meaning: Rate of change compares how much an output changes when an input changes. It asks how quickly or sensitively a value moves, not only how large the value is.

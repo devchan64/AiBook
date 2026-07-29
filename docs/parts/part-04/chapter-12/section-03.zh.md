@@ -3,7 +3,7 @@
 > Section ID: `P4-12.3`
 > Version: `v2026.07.26`
 
-P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance) 和 [feature scale](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-scale) 会改变结果。现在剩下的问题是：
+P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance) 和 [feature scale](/AiBook/zh/reference/concept-glossary-pinyin/b/#standardization) 会改变结果。现在剩下的问题是：
 
 当 k-NN 的判断开始摇晃时，应该先重新检查什么？
 

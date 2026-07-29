@@ -7,7 +7,7 @@ P4-3.1에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-pa
 
 머신러닝을 공부하다 보면 “어떤 모델을 써야 하나?”라는 질문이 크게 느껴집니다. 하지만 모델 선택은 단순히 유명한 알고리즘 이름을 고르는 일이 아닙니다. 문제의 형태, 데이터의 상태, 설명 가능성, 계산 비용, 평가 기준을 함께 보고 먼저 시도할 후보를 좁히는 일입니다.
 
-이때 휴리스틱은 최종 결론이 아니라 출발점입니다. “이 문제라면 이 모델부터 시도해 보자”라고 정하고, 그 선택이 실제 데이터에서 괜찮은지 [검증(validation)](../../../reference/concept-glossary-parts/01-giyeok.md#validation)해야 합니다.
+이때 휴리스틱은 최종 결론이 아니라 출발점입니다. “이 문제라면 이 모델부터 시도해 보자”라고 정하고, 그 선택이 실제 데이터에서 괜찮은지 [검증(validation)](../../../reference/concept-glossary-parts/05-mieum.md#model-validation)해야 합니다.
 
 이 절은 휴리스틱 자체를 다시 길게 정의하지 않습니다. 후보를 줄이는 판단의 기본 뜻은 P4-3.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 그 판단이 모델 선택(model selection) 단계에서 어떻게 작동하는지에만 집중합니다.
 
@@ -70,7 +70,7 @@ P4-3.1에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-pa
 | --- | --- | --- | --- |
 | 집값, 매출, 온도처럼 숫자를 예측하는가? | [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression) | 선형 회귀, 트리 기반 회귀 | P4-10, P4-14 |
 | 합격/불합격, 이탈/유지처럼 범주를 예측하는가? | [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification) | 로지스틱 회귀, 결정트리 | P4-11, P4-14 |
-| 라벨 없이 비슷한 묶음을 찾는가? | [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering) | [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-means), DBSCAN | P4-17 |
+| 라벨 없이 비슷한 묶음을 찾는가? | [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering) | [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-means), [DBSCAN](../../../reference/concept-glossary-parts/03-digeut.md#dbscan) | P4-17 |
 | 많은 특징을 적은 축으로 줄여 보고 싶은가? | [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction) | PCA, t-SNE | P4-18 |
 | 행동을 선택하고 보상을 받는가? | [강화학습(reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning) | Q-learning, policy gradient | P4-19 |
 

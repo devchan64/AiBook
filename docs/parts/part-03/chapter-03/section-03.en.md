@@ -3,7 +3,7 @@
 > Section ID: `P3-3.3`
 > Version: `v2026.07.25`
 
-After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which [columns](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column) identify the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-problem-representation-structure), this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
+After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which [columns](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column) identify the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
 
 When drawing the first table draft, it is safer not to try to write every column. Instead, write down the following four groups first.
 

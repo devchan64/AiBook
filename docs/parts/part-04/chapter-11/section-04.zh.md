@@ -3,7 +3,7 @@
 > Section ID: `P4-11.4`
 > Version: `v2026.07.26`
 
-P4-11.3 里介绍的 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#log-odds) 和 [MLE](/AiBook/zh/reference/concept-glossary-pinyin/z/#maximum-likelihood-estimation-mle)，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
+P4-11.3 里介绍的 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 和 [MLE](/AiBook/zh/reference/concept-glossary-pinyin/z/#maximum-likelihood-estimation-mle)，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
 
 本节的中心问题如下。
 
@@ -15,9 +15,9 @@ P4-11.3 里介绍的 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#
 
 - 在 multinomial 问题里，什么保持不变？
 - 为什么会出现 [softmax](/AiBook/zh/reference/concept-glossary-pinyin/s/#softmax)？
-- [one-vs-rest](/AiBook/zh/reference/concept-glossary-pinyin/o/#one-vs-rest) 和 [multinomial logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/d/#multinomial-logistic-regression) 应该怎样区分？
+- one-vs-rest 和 [multinomial logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 应该怎样区分？
 
-这一节先把 [multinomial logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/d/#multinomial-logistic-regression) 收束为 `score -> probability distribution -> class 选择` 结构在多个 class 上继续扩展，并专注抓住 threshold 感觉怎样转移到 [argmax](/AiBook/zh/reference/concept-glossary-pinyin/a/#argmax) 感觉上。
+这一节先把 [multinomial logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 收束为 `score -> probability distribution -> class 选择` 结构在多个 class 上继续扩展，并专注抓住 threshold 感觉怎样转移到 [argmax](/AiBook/zh/reference/concept-glossary-pinyin/s/#softmax) 感觉上。
 
 同时，下一步还要继续缩小来看清的问题也很明确。solver 与 regularization 的实现视角，会在 P4-11.5 继续。
 

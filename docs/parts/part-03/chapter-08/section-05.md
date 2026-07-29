@@ -43,7 +43,7 @@
 | A | 큼 | 높음 | 높음 | 높음 |
 | B | 큼 | 낮음 | 낮음 | 보통 |
 
-즉 `diff` 하나만 보면 둘 다 비슷해 보이지만, 실제로는 A가 더 먼저 검토되어야 할 수 있습니다. 검토 우선순위는 `얼마나 다르냐`만이 아니라 [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-evidence-strength)와 `실무적으로 먼저 봐야 하느냐`를 함께 묻기 때문입니다.
+즉 `diff` 하나만 보면 둘 다 비슷해 보이지만, 실제로는 A가 더 먼저 검토되어야 할 수 있습니다. 검토 우선순위는 `얼마나 다르냐`만이 아니라 [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/14-hieut.md#interpretation-boundary)와 `실무적으로 먼저 봐야 하느냐`를 함께 묻기 때문입니다.
 
 ## 사람 검토 문장과 우선순위 후보는 어떻게 이어지는가
 

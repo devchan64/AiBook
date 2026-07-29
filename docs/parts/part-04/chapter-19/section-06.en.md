@@ -7,7 +7,7 @@ _Subtitle: How does the likelihood ratio trick connect changes in policy probabi
 
 Once readers study policy-based reinforcement learning in P4-19.2, the following names quickly appear.
 
-- [policy gradient theorem](/AiBook/en/reference/concept-glossary-alpha/p/#policy-gradient-theorem)
+- [policy gradient theorem](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning)
 - [likelihood ratio trick](/AiBook/en/reference/concept-glossary-alpha/l/#likelihood-ratio-trick)
 
 Rather than following the full rigorous proof all the way to the end, this supplementary Section first reads why a change in policy parameters connects to a change in [expected reward](/AiBook/en/reference/concept-glossary-alpha/e/#expected-reward) and why the form of [log-probability](/AiBook/en/reference/concept-glossary-alpha/l/#log-probability) appears so often.
@@ -16,9 +16,9 @@ Rather than following the full rigorous proof all the way to the end, this suppl
 
 This Section answers the following questions.
 
-- Why is [policy gradient](/AiBook/en/reference/concept-glossary-alpha/p/#policy-gradient) read as directly adjusting policy probabilities?
+- Why is [policy gradient](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning) read as directly adjusting policy probabilities?
 - Why does the likelihood ratio trick connect log-probability and expected-value calculation?
-- How does this sense of formulas continue into the interpretation of [REINFORCE](/AiBook/en/reference/concept-glossary-alpha/r/#reinforce) and [actor-critic](/AiBook/en/reference/concept-glossary-alpha/a/#actor-critic)?
+- How does this sense of formulas continue into the interpretation of [REINFORCE](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning) and [actor-critic](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning)?
 
 This Section focuses on building an introductory feeling for policy-based formulas through three handles: `policy probability`, `expected reward`, and `log-probability gradient`.
 

@@ -24,7 +24,7 @@ baseline 的比较顺序，可以先固定成下面这样。
 | 先看什么 | 紧接着问的问题 | 再往后要判断什么 |
 | --- | --- | --- |
 | baseline 分数 | 这个分数是容易产生的幻觉，还是现实的出发点 | 候选 model 在同一指标上到底进步了多少 |
-| [混淆矩阵(confusion matrix)](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix)和代表[错误案例(error case)](/AiBook/zh/reference/concept-glossary-pinyin/e/#error-case) | 哪些失败减少了，哪些失败还留着 | 这种变化在运营上有没有意义 |
+| [混淆矩阵(confusion matrix)](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix)和代表[错误案例(error case)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-validation) | 哪些失败减少了，哪些失败还留着 | 这种变化在运营上有没有意义 |
 | 候选 model 分数 | 除了 accuracy，recall、F1、误差大小到底变了什么 | 能不能决定继续调优，还是该换候选 |
 
 如果要真正建立 baseline，还需要两件事一起存在。

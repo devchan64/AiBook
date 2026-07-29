@@ -11,6 +11,8 @@
 
 --8<-- "reference/concept-glossary-terms/comparability.zh.md"
 
+--8<-- "reference/concept-glossary-terms/k-means.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/knowledge-base.zh.md"
 

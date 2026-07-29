@@ -1,3 +1,5 @@
+<a id="supervised-learning"></a>
+
 ## supervised learning
 
 - Meaning: Supervised learning is a learning setup that uses input examples together with human-provided answer labels to learn a relationship from inputs to outputs. The target of prediction is defined before training.

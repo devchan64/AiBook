@@ -15,6 +15,8 @@
 
 --8<-- "reference/concept-glossary-terms/state.zh.md"
 
+--8<-- "reference/concept-glossary-terms/support-vector-machine.zh.md"
+
 --8<-- "reference/concept-glossary-terms/supporting-evidence.zh.md"
 
 --8<-- "reference/concept-glossary-terms/true-objective.zh.md"

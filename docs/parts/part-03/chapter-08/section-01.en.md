@@ -25,7 +25,7 @@ If you restate this table in a more operational way, it leads to sentences like 
 - If the sample size is small but the pattern repeats: send it to human review instead of auto-confirming it.
 - If both sample size and repeatability are sufficient: escalate it to a stronger warning or follow-up analysis.
 
-The point here is to keep a rule for `when not to speak too strongly yet` so that interpretation strength can be adjusted. Readers should be able to see immediately why the same `diff` leads to different operational sentences. That makes the later explanations of warnings, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), and [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evaluation) less unstable.
+The point here is to keep a rule for `when not to speak too strongly yet` so that interpretation strength can be adjusted. Readers should be able to see immediately why the same `diff` leads to different operational sentences. That makes the later explanations of warnings, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), and [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design) less unstable.
 
 | Observation state | Sentence that speaks too strongly too early | Safer sentence |
 | --- | --- | --- |
@@ -67,7 +67,7 @@ The key point of this table is not to stop interpreting. It is that even the sam
 --8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-en.mmd"
 ```
 
-This section can be regrouped not as a matter of intuition from one domain, but as a question of how to read [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength).
+This section can be regrouped not as a matter of intuition from one domain, but as a question of how to read [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary).
 
 You therefore need to decide not only `is there a difference` but also `with what strength can that difference be stated`.
 

@@ -17,7 +17,7 @@ P5-6.1에서는 `forward -> loss -> backward -> optimizer step`으로 이어지�
 
 비유하면 batch는 한 번에 작업대 위에 올려놓는 재료 묶음이고, step은 그 묶음을 한 번 처리해 결과를 반영한 횟수이며, epoch는 창고에 있던 재료를 한 바퀴 다 돌며 본 횟수에 가깝습니다. 비유 자체가 개념을 대신할 수는 없지만, `무엇을 한 번으로 세는가`가 서로 다르다는 감각을 잡는 데는 도움이 됩니다.
 
-이 세 단위의 구분이 다시 흐려지면 개념사전의 [배치(batch)](../../../reference/concept-glossary-parts/06-bieup.md#batch), [학습(training)](../../../reference/concept-glossary-parts/05-mieum.md#model-training), [에폭(epoch)](../../../reference/concept-glossary-parts/08-ieung.md#epoch) 항목을 함께 다시 보는 편이 좋습니다.
+이 세 단위의 구분이 다시 흐려지면 개념사전의 [학습(training)](../../../reference/concept-glossary-parts/05-mieum.md#model-training) 항목을 기준으로 batch, step, epoch가 학습 반복을 서로 다른 단위로 나누는 이름이라는 점을 다시 봅니다.
 
 ## step, batch, epoch가 나누는 질문
 

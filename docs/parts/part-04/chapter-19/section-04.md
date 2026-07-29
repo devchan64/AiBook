@@ -7,7 +7,7 @@ _보조제목: DQN, PPO, RLHF는 강화학습의 어떤 문제의식에서 갈�
 
 P4-19.1부터 P4-19.3까지 읽고 나면 강화학습을 더 공부할 때 곧 여러 이름을 만나게 됩니다.
 
-- [DQN](../../../reference/concept-glossary-parts/03-digeut.md#dqn)
+- [DQN](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)
 - [PPO](../../../reference/concept-glossary-parts/13-pieup.md#ppo), [TRPO](../../../reference/concept-glossary-parts/12-tieut.md#trpo), [A2C](../../../reference/concept-glossary-parts/08-ieung.md#a2c), [A3C](../../../reference/concept-glossary-parts/08-ieung.md#a3c)
 - [safe reinforcement learning](../../../reference/concept-glossary-parts/08-ieung.md#safe-reinforcement-learning)
 - [offline reinforcement learning](../../../reference/concept-glossary-parts/08-ieung.md#offline-reinforcement-learning)

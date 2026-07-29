@@ -1,3 +1,5 @@
+<a id="prompt-injection"></a>
+
 ## prompt injection
 
 - Meaning: Prompt injection is an attack in which hidden instructions in user input or external documents try to override or bypass the original system instructions and cause unintended model or reinforcement learning AI agent behavior. The key risk is that text that appears to be content can act as an instruction that changes behavior.

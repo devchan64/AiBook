@@ -7,7 +7,7 @@ P5-3.2와 P5-3.3에서는 sigmoid와 tanh처럼 값을 일정 범위 안으로 �
 
 이 단순함 때문에 ReLU는 현대 딥러닝에서 매우 자주 등장합니다.
 
-대표 활성화 함수의 기준선이 다시 필요하면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function)와 [ReLU](../../../reference/concept-glossary-parts/05-mieum.md#relu) 항목으로 돌아갑니다.
+대표 활성화 함수의 기준선이 다시 필요하면 개념사전의 [활성화 함수(activation function)](../../../reference/concept-glossary-parts/14-hieut.md#activation-function) 항목을 기준으로 ReLU를 다시 읽습니다.
 
 ## ReLU가 음수를 자르는 질문
 

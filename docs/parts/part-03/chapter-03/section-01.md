@@ -3,9 +3,9 @@
 > Section ID: `P3-3.1`
 > Version: `v2026.07.25`
 
-원천데이터를 처음 받으면 많은 사람이 거의 반사적으로 `이걸로 무엇을 예측할까`부터 떠올립니다. 표가 있고 값이 많고 시간이 흐르며 측정된 기록도 보이니, 곧바로 어떤 학습 문제로 바꿀 수 있을 것처럼 느껴지기 때문입니다. 하지만 이 반응은 대개 너무 빠릅니다. 눈앞의 표는 아직 `학습용 데이터셋`이 아니라 [기록된 원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)이거나, 많아야 [데이터셋 후보(dataset candidate)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-dataset-candidate)일 가능성이 더 크기 때문입니다.
+원천데이터를 처음 받으면 많은 사람이 거의 반사적으로 `이걸로 무엇을 예측할까`부터 떠올립니다. 표가 있고 값이 많고 시간이 흐르며 측정된 기록도 보이니, 곧바로 어떤 학습 문제로 바꿀 수 있을 것처럼 느껴지기 때문입니다. 하지만 이 반응은 대개 너무 빠릅니다. 눈앞의 표는 아직 `학습용 데이터셋`이 아니라 [기록된 원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)이거나, 많아야 [데이터셋 후보(dataset candidate)](../../../reference/concept-glossary-parts/03-digeut.md#dataset)일 가능성이 더 크기 때문입니다.
 
-여기서는 `학습 문제의 틀`보다 [문제 표현 구조(problem-representation structure)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-problem-representation-structure)가 먼저라는 점을 고정합니다. 아직 예측 문제, 분류 문제, 이상 징후 판별 문제처럼 학습 문제의 틀을 고르는 단계가 아니라는 경고를 먼저 분명히 해야 합니다.
+여기서는 `학습 문제의 틀`보다 [문제 표현 구조(problem-representation structure)](../../../reference/concept-glossary-parts/05-mieum.md#task-definition)가 먼저라는 점을 고정합니다. 아직 예측 문제, 분류 문제, 이상 징후 판별 문제처럼 학습 문제의 틀을 고르는 단계가 아니라는 경고를 먼저 분명히 해야 합니다.
 
 이 장으로 들어오면 Chapter 2에서 만든 `데이터셋 후보` 관점이 한 번 더 좁혀집니다.
 

@@ -1,3 +1,5 @@
+<a id="uncertainty"></a>
+
 ## uncertainty
 
 - Meaning: Uncertainty is the condition where the current information does not determine one fixed state or outcome, so multiple possibilities must remain in view.

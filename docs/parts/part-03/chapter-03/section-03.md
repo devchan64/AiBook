@@ -3,7 +3,7 @@
 > Section ID: `P3-3.3`
 > Version: `v2026.07.25`
 
-질문을 받은 뒤 바로 필요한 것은 완성된 표를 한 번에 적는 일이 아니라, 첫 표 초안에서 어떤 [열(column)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-column)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample)을 식별하고 어떤 열이 상태, 비교, 결과를 맡는지 먼저 나누는 일입니다. 질문 문장이 바뀌면 표 초안의 열 구조도 함께 바뀌므로, 저장된 기록을 [문제 표현 구조(problem-representation structure)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-problem-representation-structure)로 옮기려면 이 첫 스케치가 분명해야 합니다. 첫 표 초안에서 중요한 것도 완성된 열 목록이 아니라 이런 역할 구분입니다.
+질문을 받은 뒤 바로 필요한 것은 완성된 표를 한 번에 적는 일이 아니라, 첫 표 초안에서 어떤 [열(column)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-column)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample)을 식별하고 어떤 열이 상태, 비교, 결과를 맡는지 먼저 나누는 일입니다. 질문 문장이 바뀌면 표 초안의 열 구조도 함께 바뀌므로, 저장된 기록을 [문제 표현 구조(problem-representation structure)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 옮기려면 이 첫 스케치가 분명해야 합니다. 첫 표 초안에서 중요한 것도 완성된 열 목록이 아니라 이런 역할 구분입니다.
 
 처음 표 초안을 그릴 때는 모든 열을 다 적으려 하지 말고, 먼저 아래 네 묶음을 적는 편이 안전합니다.
 

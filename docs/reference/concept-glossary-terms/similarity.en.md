@@ -1,3 +1,5 @@
+<a id="similarity"></a>
+
 ## similarity
 
 - Meaning: Similarity is a comparison criterion for how close two samples, vectors, or representations are. It may be based on distance, direction, shared features, or another task-specific rule.

@@ -9,7 +9,7 @@ This Section does not replace an introductory SRE book. It has one purpose. It o
 
 ## Scope Of This Supplementary Learning
 
-This Section is a supplementary learning Section that separates machine-learning evaluation metrics from operational metrics. It connects SLI, SLO, SLA, error budget, and the operational signals often read as [latency](/AiBook/en/reference/concept-glossary-alpha/l/#latency), traffic, errors, and saturation at an introductory level.
+This Section is a supplementary learning Section that separates machine-learning evaluation metrics from operational metrics. It connects SLI, SLO, SLA, error budget, and the operational signals often read as latency, traffic, errors, and saturation at an introductory level.
 
 This Section answers the following questions.
 

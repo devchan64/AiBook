@@ -7,7 +7,7 @@ P4-3.1 treated a [heuristic](/AiBook/en/reference/concept-glossary-alpha/h/#heur
 
 When studying machine learning, the question `which model should be used?` often feels very large. But model selection is not simply the act of picking the name of a famous algorithm. It is the work of looking at the problem form, the state of the data, interpretability, computation cost, and evaluation criteria together, then narrowing the candidate set that should be tried first.
 
-Here the heuristic is not the final conclusion but the starting point. You decide something like `for this problem, let's try these models first`, then [validate](/AiBook/en/reference/concept-glossary-alpha/v/#validation) whether that choice is acceptable on real data.
+Here the heuristic is not the final conclusion but the starting point. You decide something like `for this problem, let's try these models first`, then [validate](/AiBook/en/reference/concept-glossary-alpha/m/#model-validation) whether that choice is acceptable on real data.
 
 This Section does not define heuristics again at length. The basic meaning of judgment for reducing candidates is connected again through P4-3.1 and the [concept glossary](/AiBook/en/reference/concept-glossary/). Here the focus is only on how that judgment operates in the stage of model selection.
 

@@ -3,7 +3,7 @@
 > Section ID: `P3-4.3`
 > Version: `v2026.07.25`
 
-[一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-row)、一个[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、`一个近期区段` 都会在看数据表时浮现出来，但它们并不属于同一个层级。在[源数据(source data)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)表里，先看见的是行；在比较一次完整动作时，中心会变成样本；到了[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较时，近期区段又会作为另一个比较单位出现。
+[一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/y/#sample-unit)、一个[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、`一个近期区段` 都会在看数据表时浮现出来，但它们并不属于同一个层级。在[源数据(source data)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)表里，先看见的是行；在比较一次完整动作时，中心会变成样本；到了[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较时，近期区段又会作为另一个比较单位出现。
 
 必须一次把这三个单位区分开的原因，是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、基准线比较和复核语句分别贴在不同层级上。一旦把一行误当成样本，或者把区段读成一条样本，后面搭出来的表结构和比较结构也会一起开始摇摆。
 

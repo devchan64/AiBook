@@ -5,7 +5,7 @@
 
 P4-11.1 把 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 介绍成 `生成可按 probability 来读的 score 的线性分类模型`，P4-11.2 又把这些 score 放回 input space，读成 [decision boundary](/AiBook/zh/reference/concept-glossary-pinyin/j/#decision-boundary)。走到这里，就会自然留下一个问题。
 
-为什么不直接把 probability 当作线性公式来处理？为什么后面会跟着出现 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#log-odds) 和 [最大似然估计(maximum likelihood estimation, MLE)](/AiBook/zh/reference/concept-glossary-pinyin/z/#maximum-likelihood-estimation-mle) 这样的词？
+为什么不直接把 probability 当作线性公式来处理？为什么后面会跟着出现 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 和 [最大似然估计(maximum likelihood estimation, MLE)](/AiBook/zh/reference/concept-glossary-pinyin/z/#maximum-likelihood-estimation-mle) 这样的词？
 
 这一节就是用来回收这个问题的补充学习。中心是 `logistic regression 的 probability 解释` 和 `学习目标`。multinomial 扩展，以及 solver / regularization，会分到 P4-11.4 与 P4-11.5。
 

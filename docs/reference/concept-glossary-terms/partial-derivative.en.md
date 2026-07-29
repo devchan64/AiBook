@@ -1,3 +1,5 @@
+<a id="partial-derivative"></a>
+
 ## partial derivative
 
 - Meaning: A partial derivative is the rate of change computed by varying one input while holding the other inputs fixed. It lets a multivariable problem be examined one variable or direction at a time.

@@ -18,7 +18,7 @@ P4-19.1에서 가치 기반 강화학습을 읽다 보면 곧 다음 이름들�
 - 벨만 방정식은 왜 `지금 보상 + 다음 상태의 가치`처럼 읽히는가?
 - 수렴을 본다는 말은 무엇이 더 이상 크게 흔들리지 않는다는 뜻인가?
 - 함수 근사는 왜 [Q-table](../../../reference/concept-glossary-parts/10-kieuk.md#q-table) 대신 등장하는가?
-- [DQN](../../../reference/concept-glossary-parts/03-digeut.md#dqn)은 가치 기반 강화학습의 어떤 확장으로 읽어야 하는가?
+- [DQN](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)은 가치 기반 강화학습의 어떤 확장으로 읽어야 하는가?
 
 이 절은 `재귀적 가치 읽기`, `반복 갱신의 안정화`, `표에서 함수로의 이동`이라는 세 손잡이로 강화학습의 확장 배경을 읽는 데 집중합니다.
 

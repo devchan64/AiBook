@@ -18,11 +18,11 @@
 
 ## 현황 요약
 
-- 전체 slug 수: 325
-- 한국어 파일: 325개
-- 영어 파일: 325개
-- 중국어 파일: 325개
-- 3개 언어 모두 있는 slug: 325개
+- 전체 slug 수: 328
+- 한국어 파일: 328개
+- 영어 파일: 328개
+- 중국어 파일: 328개
+- 3개 언어 모두 있는 slug: 328개
 - 한국어만 있는 slug: 0개
 - 한국어 기준으로 영어 누락: 0개
 - 한국어 기준으로 중국어 누락: 0개
@@ -107,6 +107,7 @@
 | `data-science` | 데이터과학(data science) | data science | 数据科学 | 완비 |
 | `data-structure` | 자료구조 선택(data structure) | data structure | 数据结构 | 완비 |
 | `dataset` | 데이터셋(dataset) | dataset | 数据集 | 완비 |
+| `dbscan` | DBSCAN | DBSCAN | DBSCAN | 완비 |
 | `decision` | 업무 의사결정(decision) | business decision | 业务决策(decision) | 완비 |
 | `decision-boundary` | 결정 경계(decision boundary) | decision boundary | 决策边界(decision boundary) | 완비 |
 | `decision-tree` | 결정트리(decision tree) | decision tree | 决策树 | 완비 |
@@ -179,6 +180,7 @@
 | `interpretation-boundary` | 해석 경계(interpretation boundary) | interpretation boundary | 解释边界 | 완비 |
 | `intervention-feedback` | 개입 피드백(intervention feedback) | intervention feedback | 干预反馈(intervention feedback) | 완비 |
 | `kernel` | SVM 커널(kernel) | kernel | 核函数(kernel) | 완비 |
+| `k-means` | k-means | k-means | k-means | 완비 |
 | `keyword-search` | 키워드 검색(keyword search) | keyword search | 关键词搜索(keyword search) | 완비 |
 | `knowledge-base` | 지식 기반(knowledge base) | knowledge base | 知识库 | 완비 |
 | `knowledge-representation` | 지식 표현(knowledge representation) | knowledge representation | 知识表示 | 완비 |
@@ -333,6 +335,7 @@
 | `stochastic-process` | 확률적 과정(stochastic process) | stochastic process | 随机过程(stochastic process) | 완비 |
 | `supervised-learning` | 지도학습(supervised learning) | supervised learning | 监督学习 | 완비 |
 | `supervised-learning-label` | 지도학습 라벨(supervised learning label) | supervised learning label | 监督学习标签(supervised learning label) | 완비 |
+| `support-vector-machine` | SVM(support vector machine) | SVM, support vector machine | 支持向量机(SVM, support vector machine) | 완비 |
 | `supporting-evidence` | 검증 근거(supporting evidence) | supporting evidence | 支持证据 | 완비 |
 | `symbolic-ai` | 기호 기반 AI(symbolic AI) | symbolic AI | 符号式 AI(symbolic AI) | 완비 |
 | `target` | 타깃(target) | target | 目标 | 완비 |

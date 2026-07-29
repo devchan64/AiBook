@@ -7,7 +7,7 @@ _副标题: DQN、PPO、RLHF 分别从强化学习的哪些问题意识中分化
 
 读完 P4-19.1 到 P4-19.3 之后，继续学强化学习时，很快就会遇到更多名字。
 
-- [DQN](/AiBook/zh/reference/concept-glossary-pinyin/d/#dqn)
+- [DQN](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)
 - [PPO](/AiBook/zh/reference/concept-glossary-pinyin/p/#ppo), [TRPO](/AiBook/zh/reference/concept-glossary-pinyin/t/#trpo), [A2C](/AiBook/zh/reference/concept-glossary-pinyin/a/#a2c), [A3C](/AiBook/zh/reference/concept-glossary-pinyin/a/#a3c)
 - [safe reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/a/#safe-reinforcement-learning)
 - [offline reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/l/#offline-reinforcement-learning)

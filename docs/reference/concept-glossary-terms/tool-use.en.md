@@ -1,3 +1,5 @@
+<a id="tool-use"></a>
+
 ## tool use
 
 - Meaning: Tool use is the structure where a model or AI agent calls an external capability for lookup, calculation, storage, modification, or transmission.

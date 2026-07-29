@@ -25,7 +25,7 @@
 - 样本量小但在重复时：不要自动确认，而是放入人工复核候选。
 - 样本量和重复性都足够时：可以转入更强的告警或后续分析。
 
-这里需要同时保留`这时候还不能说得太重`这一规则，才能调节解读强度。读者需要能马上看出，为什么同一个 `diff` 会对应不同的运营句子。这样后面再解释告警、[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 和 [评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/e/#glossary-evaluation) 时，理解才不会变得摇晃。
+这里需要同时保留`这时候还不能说得太重`这一规则，才能调节解读强度。读者需要能马上看出，为什么同一个 `diff` 会对应不同的运营句子。这样后面再解释告警、[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 和 [评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design) 时，理解才不会变得摇晃。
 
 | 观测状态 | 还说得过重的句子 | 更安全的句子 |
 | --- | --- | --- |
@@ -67,7 +67,7 @@
 --8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-zh.mmd"
 ```
 
-这一节可以重新归并为一个更一般的问题，不是某个特定运营领域里的`经验感`，而是如何读取 [证据强度(evidence strength)](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)。
+这一节可以重新归并为一个更一般的问题，不是某个特定运营领域里的`经验感`，而是如何读取 [证据强度(evidence strength)](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)。
 
 因此，不能只看`有没有差异`，还要一起决定`这个差异能够用多大的强度来说`。
 

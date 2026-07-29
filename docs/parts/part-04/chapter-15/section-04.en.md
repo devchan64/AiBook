@@ -3,7 +3,7 @@
 > Section ID: `P4-15.4`
 > Version: `v2026.07.26`
 
-Once readers learn [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) in P4-15.1, they soon encounter a similarly named model, [Extra Trees(Extremely Randomized Trees)](/AiBook/en/reference/concept-glossary-alpha/e/#extra-trees). Because both look like `forests that gather many trees and average them`, it is easy at first to pass over them as if they were essentially the same model.
+Once readers learn [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) in P4-15.1, they soon encounter a similarly named model, Extra Trees(Extremely Randomized Trees). Because both look like `forests that gather many trees and average them`, it is easy at first to pass over them as if they were essentially the same model.
 
 But the two differ clearly in `how far the randomness is injected`, `how the split criterion is chosen`, and whether [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap) and [OOB](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) are used as the default flow.
 
@@ -13,7 +13,7 @@ This Section does not repeat the main explanation of random forest. Instead, it 
 
 This Section answers the following questions.
 
-- Is [Extra Trees](/AiBook/en/reference/concept-glossary-alpha/e/#extra-trees) in the same family as random forest?
+- Is Extra Trees in the same family as random forest?
 - If both average many trees, what is actually different?
 - What is the difference between [`best split`](/AiBook/en/reference/concept-glossary-alpha/b/#best-split) and [random threshold](/AiBook/en/reference/concept-glossary-alpha/r/#random-threshold)?
 - Why is Extra Trees described as more random?

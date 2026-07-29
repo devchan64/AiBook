@@ -7,7 +7,7 @@
 
 也正因为这种简单性，ReLU 在现代深度学习里非常常见。
 
-如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/j/#activation-function)与[ReLU](/AiBook/zh/reference/concept-glossary-pinyin/j/#relu)条目。
+如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/j/#activation-function)条目，再重新读 ReLU。
 
 ## ReLU 如何截断负值的问题
 

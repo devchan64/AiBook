@@ -23,7 +23,7 @@ _副标题: 解读句子如何变成 warning 列和 review queue 标准？_
 - 哪些差异要升成`复核候选`
 - 哪些差异要升成`强告警`
 
-这些判断通常不是单靠一个数字，而是要把样本量、重复性和比较条件形成的[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)一起读完之后才能定下来。因此，句子不是装饰，而是把数字翻译成运营判断的中间阶段。
+这些判断通常不是单靠一个数字，而是要把样本量、重复性和比较条件形成的[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)一起读完之后才能定下来。因此，句子不是装饰，而是把数字翻译成运营判断的中间阶段。
 
 ## 把一个场景重新看成三个阶段
 

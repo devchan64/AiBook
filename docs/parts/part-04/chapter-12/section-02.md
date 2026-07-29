@@ -18,7 +18,7 @@ P4-12.1에서 k-NN(k-nearest neighbors)은 `가까운 사례를 보고 판단하
 - 스케일(scale)은 왜 거리 계산을 왜곡할 수 있는가?
 - 표준화(standardization)는 k-NN 해석에서 무엇을 바꾸는가?
 
-이 절은 먼저 `왜 k-NN에서 거리와 스케일이 이웃과 예측을 바꾸는가`를 닫습니다. 전처리 자체의 목적과 종류는 [P4-7.2 전처리(preprocessing)](../chapter-07/section-02.md)를 기준 설명 위치로 유지하고, 여기서는 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)와 [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/12-tieut.md#feature-scale)이 판단을 바꾸는 장면에 집중합니다.
+이 절은 먼저 `왜 k-NN에서 거리와 스케일이 이웃과 예측을 바꾸는가`를 닫습니다. 전처리 자체의 목적과 종류는 [P4-7.2 전처리(preprocessing)](../chapter-07/section-02.md)를 기준 설명 위치로 유지하고, 여기서는 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)와 [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/13-pieup.md#standardization)이 판단을 바꾸는 장면에 집중합니다.
 
 ## 거리(distance)와 스케일(scale)에서 남길 판단 기준
 

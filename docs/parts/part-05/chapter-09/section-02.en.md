@@ -11,7 +11,7 @@ The expressions that appear repeatedly when answering this question are batch an
 
 A batch is a grouping for calculating multiple samples at once, and a tensor is the general name for the multidimensional numeric arrays that deep learning handles, including such groupings.
 
-When you need to review shape and computation units again in a short form, return to the glossary entries on [batch](/AiBook/en/reference/concept-glossary-alpha/b/#batch) and [tensor](/AiBook/en/reference/concept-glossary-alpha/t/#tensor).
+When you need to review shape and computation units again in a short form, return to the [tensor](/AiBook/en/reference/concept-glossary-alpha/t/#tensor) entry in the concept glossary and reread where the batch axis is attached.
 
 ## The Question of How Batches and Tensors Group Computation
 

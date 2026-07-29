@@ -1,3 +1,5 @@
+<a id="sample-space"></a>
+
 ## sample space
 
 - Meaning: A sample space is the full set of possible outcomes for a probability problem.

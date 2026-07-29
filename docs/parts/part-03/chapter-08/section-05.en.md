@@ -43,7 +43,7 @@ Suppose two cases share the same mean difference value of `-0.35`. Even then, re
 | A | High | High | High | High |
 | B | High | Low | Low | Medium |
 
-So if you look only at `diff`, both cases appear similar. In practice, however, A may need review earlier than B. Review priority asks not only `how different is it` but also the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) and `does practice require this to be seen first`.
+So if you look only at `diff`, both cases appear similar. In practice, however, A may need review earlier than B. Review priority asks not only `how different is it` but also the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) and `does practice require this to be seen first`.
 
 ## How Human Review Sentences Connect to Priority Candidates
 

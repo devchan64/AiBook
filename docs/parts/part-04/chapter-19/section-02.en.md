@@ -11,7 +11,7 @@ That question is the starting point of [policy-based reinforcement learning](/Ai
 
 Policy-based reinforcement learning is an approach that learns to gain larger rewards by directly adjusting the probabilities and style of action choice instead of first building a scoreboard for actions.
 
-This Section explains the basic meaning of [policy-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning), [policy gradient](/AiBook/en/reference/concept-glossary-alpha/p/#policy-gradient), and [actor-critic](/AiBook/en/reference/concept-glossary-alpha/a/#actor-critic). Later Sections continue the judgment in the current context from this handle, and the basic meaning of reinforcement learning that directly adjusts behavior reconnects through this Section and the relevant glossary entries.
+This Section explains the basic meaning of [policy-based reinforcement learning](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning), [policy gradient](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning), and [actor-critic](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning). Later Sections continue the judgment in the current context from this handle, and the basic meaning of reinforcement learning that directly adjusts behavior reconnects through this Section and the relevant glossary entries.
 
 ## Questions Closed By Policy-Based Reinforcement Learning
 
@@ -150,7 +150,7 @@ Compressed into a diagram, it looks like this.
 
 The key point of this picture is that a policy is read not as `an output rule`, but as `an adjustable action tendency`.
 
-[REINFORCE](/AiBook/en/reference/concept-glossary-alpha/r/#reinforce) can be seen as the most direct introductory example of the policy-gradient flow above. It gathers the actions and rewards from one episode, then adjusts the next policy so that the choices that helped in the end receive higher probability.
+[REINFORCE](/AiBook/en/reference/concept-glossary-alpha/p/#policy-based-reinforcement-learning) can be seen as the most direct introductory example of the policy-gradient flow above. It gathers the actions and rewards from one episode, then adjusts the next policy so that the choices that helped in the end receive higher probability.
 
 In a small intuitive example:
 

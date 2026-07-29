@@ -3,9 +3,9 @@
 > Section ID: `P3-3.1`
 > Version: `v2026.07.25`
 
-第一次拿到原始数据时，很多人几乎会反射性地先想到：`能用这个预测什么？` 因为眼前有表、有很多值，还有按时间流动记录下来的测量，所以看起来像是可以立刻改造成某种学习问题。但这种反应通常太快了。眼前这张表更可能还不是 `训练数据集`，而只是[被记录下来的原始数据](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)，最多也只是一个[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-dataset-candidate)。
+第一次拿到原始数据时，很多人几乎会反射性地先想到：`能用这个预测什么？` 因为眼前有表、有很多值，还有按时间流动记录下来的测量，所以看起来像是可以立刻改造成某种学习问题。但这种反应通常太快了。眼前这张表更可能还不是 `训练数据集`，而只是[被记录下来的原始数据](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)，最多也只是一个[数据集候选](/AiBook/zh/reference/concept-glossary-pinyin/d/#dataset)。
 
-这里首先要固定的是：[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/w/#glossary-problem-representation-structure) 比 `学习问题框架` 更早。必须先明确这个警告：现在还不是去挑预测问题、分类问题、异常检测问题这类学习问题框架的时候。
+这里首先要固定的是：[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/r/#task-definition) 比 `学习问题框架` 更早。必须先明确这个警告：现在还不是去挑预测问题、分类问题、异常检测问题这类学习问题框架的时候。
 
 进入这一章时，Chapter 2 里建立起来的 `数据集候选` 视角，会再收窄一步。
 

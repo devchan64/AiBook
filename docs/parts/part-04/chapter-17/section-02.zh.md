@@ -11,7 +11,7 @@
 
 聚类真正更常见的风险，往往不是出在算法计算本身，而是出在`人把结果解释得过头`。
 
-这一节不会再长篇重复[聚类(clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)的基本定义。`在没有标签时探索结构`这个核心直觉，会通过 P4-17.1、[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)、[聚类标签(cluster label)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster-label)重新连回来；这里则只专注于：怎样在不过度相信结果的前提下去读它。
+这一节不会再长篇重复[聚类(clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)的基本定义。`在没有标签时探索结构`这个核心直觉，会通过 P4-17.1、[无监督学习(unsupervised learning)](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[聚类簇(cluster)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cluster)重新连回来；这里则只专注于：怎样在不过度相信结果的前提下去读它。
 
 ## 聚类解释先收束的问题
 
@@ -115,7 +115,7 @@
 正如在 P4-17.1 里看到的，聚类高度依赖`什么才算相似`。因此，即便是同一份原始数据，只要下面这些东西一变，结果也可能跟着变。
 
 - 放进了哪些[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature)
-- 是否调整了[特征尺度(feature scale)](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-scale)
+- 是否调整了[特征尺度(feature scale)](/AiBook/zh/reference/concept-glossary-pinyin/b/#standardization)
 - [距离(distance)](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)是怎样看的
 - 聚类数 `k` 取成多少
 - DBSCAN 的 `eps` 和 `min_samples` 怎样设

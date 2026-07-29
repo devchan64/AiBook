@@ -28,7 +28,7 @@ heuristic 很容易被误解成 `大概猜一下`。但在机器学习实务中�
 - 能把 heuristic 解释成在受限条件下用于缩小候选集的实用判断标准。
 - 能理解 heuristic 并不保证最优解。
 - 能用例子说明为什么在时间、数据、计算量和成本限制下，heuristic 会变得必要。
-- 能说明为什么 heuristic 必须和 [validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation) 一起使用。
+- 能说明为什么 heuristic 必须和 [validation](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-validation) 一起使用。
 - 能把 heuristic 看成可验证的 working hypothesis，而不是个人直觉。
 
 ## 先用一个场景来理解

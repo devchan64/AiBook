@@ -3,7 +3,7 @@
 > Section ID: `P4-15.3`
 > Version: `v2026.07.26`
 
-在 P4-15.1 里，我们看过[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)为什么能通过聚合很多棵树来得到更稳定的预测。 在 P4-15.2 里，我们又看过怎样更小心地阅读这片森林把什么看得重要，也就是[特征重要度(feature importance)](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-importance)。
+在 P4-15.1 里，我们看过[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)为什么能通过聚合很多棵树来得到更稳定的预测。 在 P4-15.2 里，我们又看过怎样更小心地阅读这片森林把什么看得重要，也就是[特征重要度(feature importance)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)。
 
 那么接下来剩下的问题就是：
 
@@ -130,7 +130,7 @@ scikit-learn 的文档和例子说明， OOB error 能让读者在训练随机�
 
 - 小实验可以更快重复
 - 它能减少只看 train score 的错误
-- 它能更快检查树数([`n_estimators`](/AiBook/zh/reference/concept-glossary-pinyin/n/#n-estimators))增加时状态怎么变化
+- 它能更快检查树数([`n_estimators`](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter))增加时状态怎么变化
 
 所以 OOB 更接近 `快速内部检查板`， 而不是 `评价流程的终点`。
 

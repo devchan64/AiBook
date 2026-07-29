@@ -23,7 +23,7 @@ _보조제목: 해석 문장은 어떻게 warning 열과 review queue 기준으�
 - 어떤 차이를 `검토 후보`로 올릴지
 - 어떤 차이를 `강한 경고`로 둘지
 
-이 판단은 보통 숫자 하나가 아니라 표본 수, 반복성, 비교 조건이 만드는 [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-evidence-strength)를 함께 읽은 뒤에야 정해지기 때문입니다. 즉 문장은 장식이 아니라, 숫자를 운영 판단으로 번역하는 중간 단계입니다.
+이 판단은 보통 숫자 하나가 아니라 표본 수, 반복성, 비교 조건이 만드는 [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/14-hieut.md#interpretation-boundary)를 함께 읽은 뒤에야 정해지기 때문입니다. 즉 문장은 장식이 아니라, 숫자를 운영 판단으로 번역하는 중간 단계입니다.
 
 ## 한 장면을 세 단계로 다시 보기
 

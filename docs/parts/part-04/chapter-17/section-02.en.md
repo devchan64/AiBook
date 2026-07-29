@@ -11,7 +11,7 @@ A clustering result is a proposal about data structure, not an automatically fin
 
 The risk of clustering usually arises less from the calculation itself than from `humans overinterpreting the result`.
 
-This Section does not repeat the basic definition of [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) at length. The core intuition `exploring structure without labels` reconnects through P4-17.1, [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and [cluster label](/AiBook/en/reference/concept-glossary-alpha/c/#cluster-label), and here the focus is only on how to read the result without overtrusting it.
+This Section does not repeat the basic definition of [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) at length. The core intuition `exploring structure without labels` reconnects through P4-17.1, [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), and [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and here the focus is only on how to read the result without overtrusting it.
 
 ## Questions Closed By Cluster Interpretation
 
@@ -115,7 +115,7 @@ This diagram visually fixes the point that cluster numbers do not indicate ranks
 As seen in P4-17.1, clustering depends heavily on `what counts as similar`. So even with the same raw data, the result can change when the following change.
 
 - What [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) were included
-- Whether [feature scale](/AiBook/en/reference/concept-glossary-alpha/f/#feature-scale) was adjusted
+- Whether [feature scale](/AiBook/en/reference/concept-glossary-alpha/s/#standardization) was adjusted
 - How [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) was measured
 - What value was chosen for the number of clusters `k`
 - How DBSCAN's `eps` and `min_samples` were set

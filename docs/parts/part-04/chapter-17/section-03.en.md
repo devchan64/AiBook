@@ -7,7 +7,7 @@ After looking at [k-means](/AiBook/en/reference/concept-glossary-alpha/k/#k-mean
 
 Why are there so many clustering algorithm names, and how are they different from one another?
 
-Two names that come up repeatedly when organizing that question for the first time are [hierarchical clustering](/AiBook/en/reference/concept-glossary-alpha/h/#hierarchical-clustering) and [spectral clustering](/AiBook/en/reference/concept-glossary-alpha/s/#spectral-clustering).
+Two names that come up repeatedly when organizing that question for the first time are hierarchical clustering and spectral clustering. Both sit inside the [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering) family and show different standards for making groups.
 
 Rather than going long on implementation details, this supplementary Section distinguishes the two methods from the perspective of `what criterion they use to form groups`.
 
@@ -74,7 +74,7 @@ So hierarchical clustering is closer to `first looking at how groups grow, then 
 
 ## What Is Spectral Clustering Trying To See?
 
-Spectral clustering does not try to read points only through coordinate distance. It tries to reread them through a graph and [connectivity](/AiBook/en/reference/concept-glossary-alpha/c/#connectivity) structure that asks `who is connected to whom`.
+Spectral clustering does not try to read points only through coordinate distance. It tries to reread them through a graph and connectivity structure that asks `who is connected to whom`.
 
 For an introduction, the following is enough.
 
@@ -106,8 +106,8 @@ If we place the representative intuitions from Chapter 17 into one table, they o
 | --- | --- | --- | --- |
 | k-means | center | When you want to quickly see round and relatively even groups | It is sensitive to the assumed number and shape of clusters |
 | DBSCAN | density | When you want to separate noise and inspect irregular groups | It is sensitive to `eps` and `min_samples` |
-| [Hierarchical clustering](/AiBook/en/reference/concept-glossary-alpha/h/#hierarchical-clustering) | merge order | When you want to see how groups grow step by step | You still need to interpret where to cut |
-| [Spectral clustering](/AiBook/en/reference/concept-glossary-alpha/s/#spectral-clustering) | [connectivity](/AiBook/en/reference/concept-glossary-alpha/c/#connectivity) | When the shape is complex but the connectivity structure is clear | It is sensitive to how the similarity graph is built |
+| Hierarchical clustering | merge order | When you want to see how groups grow step by step | You still need to interpret where to cut |
+| Spectral clustering | connectivity | When the shape is complex but the connectivity structure is clear | It is sensitive to how the similarity graph is built |
 
 The purpose of this table is not ranking the methods. The first thing is to hold on to the fact that `they read clusters through different handles`.
 

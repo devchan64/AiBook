@@ -3,7 +3,7 @@
 > Section ID: `P3-4.3`
 > Version: `v2026.07.25`
 
-[One row](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-row), one [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), and `one recent segment` all come to mind while looking at a data table, but they are not the same level. In a [source-data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) table, the row is seen first. In the comparison of one full action, the sample becomes central. In [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the recent segment appears as yet another comparison unit.
+[One row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit), one [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), and `one recent segment` all come to mind while looking at a data table, but they are not the same level. In a [source-data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) table, the row is seen first. In the comparison of one full action, the sample becomes central. In [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the recent segment appears as yet another comparison unit.
 
 The reason all three units must be separated at once is that [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), baseline comparison, and review sentences attach at different levels. The moment a row is mistaken for a sample, or a segment is read as if it were one sample, the later table structure and comparison structure also begin to drift.
 

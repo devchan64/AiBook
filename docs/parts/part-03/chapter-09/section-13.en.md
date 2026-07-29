@@ -12,7 +12,7 @@ If the structure has been organized enough to sort out the current problem type,
 | [time split](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-time-split) | A problem where time order matters must be read differently from a random split |
 | [group split](/AiBook/en/reference/concept-glossary-alpha/g/#glossary-group-split) | Exaggerated performance can appear if the same entity is mixed across both sides |
 | [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage) | If information from after prediction time is mixed in, the score may look good but cannot be used |
-| [evaluation design](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evaluation-design) | Which metric and split fit must be connected to the problem structure |
+| [evaluation design](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design-design) | Which metric and split fit must be connected to the problem structure |
 | [ranking](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-ranking) | Selecting the top few cases can be centered on order rather than class |
 | multiclass / [regression](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-regression) | The result structure may not be only one 0/1 label |
 

@@ -18,7 +18,7 @@ This Section answers the following questions.
 - Why is the Bellman equation read as something like `current reward + value of the next state`?
 - What does it mean to say we are checking convergence, and what is becoming less unstable?
 - Why does function approximation appear instead of a [Q-table](/AiBook/en/reference/concept-glossary-alpha/q/#q-table)?
-- As what kind of extension of value-based reinforcement learning should [DQN](/AiBook/en/reference/concept-glossary-alpha/d/#dqn) be read?
+- As what kind of extension of value-based reinforcement learning should [DQN](/AiBook/en/reference/concept-glossary-alpha/v/#value-based-reinforcement-learning) be read?
 
 This Section focuses on reading the expansion background of reinforcement learning through three handles: `recursive value reading`, `stabilization of repeated updates`, and `moving from a table to a function`.
 

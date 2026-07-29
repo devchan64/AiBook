@@ -1,3 +1,5 @@
+<a id="preprocessing"></a>
+
 ## preprocessing
 
 - Meaning: Preprocessing is the preparation step that makes input representations more stable before they enter a model, such as handling missing values, scaling features, or encoding categories. It turns raw data into a form the current model can compute with.

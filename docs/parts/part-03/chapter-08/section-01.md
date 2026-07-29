@@ -25,7 +25,7 @@
 - 표본 수가 적지만 반복되면: 자동 확정보다 사람 검토 후보로 올린다.
 - 표본 수와 반복성이 모두 충분하면: 더 강한 경고나 후속 분석으로 넘길 수 있다.
 
-여기서는 `이럴 때는 아직 세게 말하지 않는다`는 기준을 함께 두어 해석 강도를 조절합니다. 같은 `diff`라도 운영 문장이 달라지는 이유를 독자가 바로 볼 수 있어야 이후의 경고, [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-evaluation) 설명도 덜 흔들립니다.
+여기서는 `이럴 때는 아직 세게 말하지 않는다`는 기준을 함께 두어 해석 강도를 조절합니다. 같은 `diff`라도 운영 문장이 달라지는 이유를 독자가 바로 볼 수 있어야 이후의 경고, [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 설명도 덜 흔들립니다.
 
 | 관측 상태 | 아직 세게 말하지 않는 문장 | 더 안전한 문장 |
 | --- | --- | --- |
@@ -67,7 +67,7 @@
 --8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-ko.mmd"
 ```
 
-이 절은 특정 운영 도메인의 `감`을 말하는 것이 아니라, [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/09-jieut.md#glossary-evidence-strength)를 어떻게 읽을 것인가의 문제로 다시 묶을 수 있습니다.
+이 절은 특정 운영 도메인의 `감`을 말하는 것이 아니라, [증거 강도(evidence strength)](../../../reference/concept-glossary-parts/14-hieut.md#interpretation-boundary)를 어떻게 읽을 것인가의 문제로 다시 묶을 수 있습니다.
 
 따라서 `차이가 있는가` 하나만 보는 것이 아니라, `그 차이를 어느 강도로 말할 수 있는가`를 함께 정해야 합니다.
 

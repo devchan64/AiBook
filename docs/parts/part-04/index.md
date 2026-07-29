@@ -27,7 +27,7 @@ Part 4는 알고리즘 이름을 늘어놓기보다, 머신러닝 설명을 읽�
 
 - 어떤 문제가 [지도학습(supervised learning)](../../reference/concept-glossary-parts/09-jieut.md#supervised-learning), [비지도학습(unsupervised learning)](../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning), [강화학습(reinforcement learning)](../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning)으로 나뉘는가?
 - [모델 입력 정의(model input)](../../reference/concept-glossary-parts/05-mieum.md#model-input), [모델 출력 정의(model output)](../../reference/concept-glossary-parts/05-mieum.md#model-output), [지도학습 라벨(supervised learning label)](../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label), [보상(reward)](../../reference/concept-glossary-parts/06-bieup.md#reward)은 각각 무엇을 뜻하며 어디서 구분되는가?
-- [학습(training)](../../reference/concept-glossary-parts/05-mieum.md#model-training), [검증(validation)](../../reference/concept-glossary-parts/01-giyeok.md#validation), [테스트(test)](../../reference/concept-glossary-parts/12-tieut.md#test)는 왜 나뉘고, [일반화(generalization)](../../reference/concept-glossary-parts/08-ieung.md#generalization)는 무엇으로 확인하는가?
+- [학습(training)](../../reference/concept-glossary-parts/05-mieum.md#model-training), [검증(validation)](../../reference/concept-glossary-parts/01-giyeok.md#validation-data), [테스트(test)](../../reference/concept-glossary-parts/12-tieut.md#test-data)는 왜 나뉘고, [일반화(generalization)](../../reference/concept-glossary-parts/08-ieung.md#generalization)는 무엇으로 확인하는가?
 - [평가 지표(metric)](../../reference/concept-glossary-parts/13-pieup.md#metric)는 어떤 오류를 보여 주고, 어떤 오류를 가릴 수 있는가?
 - [특징 선택(feature selection)](../../reference/concept-glossary-parts/12-tieut.md#feature-selection), [전처리(preprocessing)](../../reference/concept-glossary-parts/09-jieut.md#preprocessing), [기준 모델(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#baseline-model), 튜닝(tuning)은 왜 모델 이름보다 먼저 점검해야 하는가?
 - 대표 전통 모델은 어떤 문제 감각을 주고, 어디까지를 강점으로 보고 어디서부터 한계를 의심해야 하는가?
@@ -79,7 +79,7 @@ Part 4는 크게 네 흐름으로 구성됩니다.
 
 평가 지표 범위도 이 흐름 안에서 분명히 둡니다. Part 4 본편에서는 정확도(accuracy), 정밀도(precision), 재현율(recall), F1, MAE, RMSE, R²처럼 `문제 유형에 따라 먼저 어떤 질문을 던져야 하는가`를 붙잡는 지표를 우선 다룹니다. ROC, PR, log loss, calibration, reliability, silhouette처럼 점수 해석을 더 섬세하게 만드는 항목은 P4-6.4 보충학습에서 입문 해설로 모으고, threshold와 calibration의 재등장은 P4-15.3에서 다시 회수합니다.
 
-이때 독자가 같이 붙잡아야 할 비교 장치는 두 가지입니다. [혼동 행렬(confusion matrix)](../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 [오류 사례(error case)](../../reference/concept-glossary-parts/08-ieung.md#error-case)는 `어디서 어떻게 틀렸는가`를 읽게 하고, [기준선(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#baseline)은 `그 점수가 정말 의미 있는 개선인가`를 묻게 합니다. Part 4는 점수를 단독 숫자로 외우게 하기보다, 오류 구조와 기준선을 함께 읽는 습관을 만드는 데 더 큰 비중을 둡니다.
+이때 독자가 같이 붙잡아야 할 비교 장치는 두 가지입니다. [혼동 행렬(confusion matrix)](../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 [오류 사례(error case)](../../reference/concept-glossary-parts/05-mieum.md#model-validation)는 `어디서 어떻게 틀렸는가`를 읽게 하고, [기준선(baseline)](../../reference/concept-glossary-parts/01-giyeok.md#baseline)은 `그 점수가 정말 의미 있는 개선인가`를 묻게 합니다. Part 4는 점수를 단독 숫자로 외우게 하기보다, 오류 구조와 기준선을 함께 읽는 습관을 만드는 데 더 큰 비중을 둡니다.
 
 이 흐름은 다음 순서로 읽습니다.
 

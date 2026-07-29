@@ -3,7 +3,7 @@
 > Section ID: `P4-15.3`
 > Version: `v2026.07.26`
 
-In P4-15.1, we saw why [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) can create more stable predictions by gathering many trees. In P4-15.2, we saw how to read carefully what that forest considered important, namely [feature importance](/AiBook/en/reference/concept-glossary-alpha/f/#feature-importance).
+In P4-15.1, we saw why [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) can create more stable predictions by gathering many trees. In P4-15.2, we saw how to read carefully what that forest considered important, namely [feature importance](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest).
 
 Then the next remaining question is this:
 
@@ -130,7 +130,7 @@ That is very practical in early-stage experimentation.
 
 - small experiments can be repeated quickly
 - it reduces the mistake of looking only at the train score
-- it helps check quickly how the state changes when the number of trees([`n_estimators`](/AiBook/en/reference/concept-glossary-alpha/n/#n-estimators)) increases
+- it helps check quickly how the state changes when the number of trees([`n_estimators`](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter)) increases
 
 So OOB is closer to `a quick internal inspection board` than to `the final destination of evaluation`.
 

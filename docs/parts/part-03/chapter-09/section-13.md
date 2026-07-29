@@ -12,7 +12,7 @@ _보조제목: 시간, 개체, 정보, 산출물 형식은 예측 문제로 넘�
 | [time split](/AiBook/reference/concept-glossary-parts/07-siot.md#glossary-time-split) | 시간 순서가 중요한 문제는 무작위 분할과 다르게 봐야 한다 |
 | [group split](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-group-split) | 같은 개체가 양쪽에 섞이면 과장된 성능이 생길 수 있다 |
 | [data leakage](/AiBook/reference/concept-glossary-parts/03-digeut.md#glossary-data-leakage) | 예측 시점 이후 정보가 섞이면 점수가 좋아 보여도 쓸 수 없다 |
-| [evaluation design](/AiBook/reference/concept-glossary-parts/13-pieup.md#glossary-evaluation-design) | 어떤 지표와 분할이 맞는지는 문제 구조와 연결된다 |
+| [evaluation design](/AiBook/reference/concept-glossary-parts/13-pieup.md#evaluation-design) | 어떤 지표와 분할이 맞는지는 문제 구조와 연결된다 |
 | [ranking](/AiBook/reference/concept-glossary-parts/07-siot.md#glossary-ranking) | 상위 몇 건 선별은 순서 문제가 중심일 수 있다 |
 | multiclass / [regression](/AiBook/reference/concept-glossary-parts/14-hieut.md#glossary-regression) | 결과 구조가 0/1 하나가 아닐 수 있다 |
 

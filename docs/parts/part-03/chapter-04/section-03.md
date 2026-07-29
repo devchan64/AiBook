@@ -3,7 +3,7 @@
 > Section ID: `P3-4.3`
 > Version: `v2026.07.25`
 
-[한 행(row)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-row), [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 1건, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
+[한 행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit), [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 1건, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
 
 세 단위를 한 번에 구분해야 하는 이유는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), 기준선 비교, 검토 문장이 서로 다른 층위에 붙기 때문입니다. 행을 샘플로 착각하거나 구간을 샘플 한 건처럼 읽는 순간, 뒤에서 만드는 표와 비교 구조도 함께 흔들리기 시작합니다.
 

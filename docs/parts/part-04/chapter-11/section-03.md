@@ -5,7 +5,7 @@
 
 P4-11.1에서는 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)를 `확률처럼 읽히는 점수를 만드는 선형 분류 모델`로 보았고, P4-11.2에서는 그 점수가 입력 공간을 어떻게 가르는지 [결정 경계(decision boundary)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-boundary) 관점으로 읽었습니다. 여기까지 오면 자연스럽게 다음 질문이 남습니다.
 
-왜 확률을 그대로 선형식으로 다루지 않고, 왜 [log-odds](../../../reference/concept-glossary-parts/04-rieul.md#log-odds)와 [최대우도추정(maximum likelihood estimation, MLE)](../../../reference/concept-glossary-parts/11-chieut.md#maximum-likelihood-estimation-mle) 같은 말이 따라붙는가?
+왜 확률을 그대로 선형식으로 다루지 않고, 왜 [log-odds](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)와 [최대우도추정(maximum likelihood estimation, MLE)](../../../reference/concept-glossary-parts/11-chieut.md#maximum-likelihood-estimation-mle) 같은 말이 따라붙는가?
 
 이 절은 그 질문을 회수하는 보충학습입니다. 중심은 `로지스틱 회귀의 확률 해석`과 `학습 목적`입니다. 다중 클래스(multinomial) 확장과 solver, regularization은 뒤의 P4-11.4와 P4-11.5에서 나누어 다룹니다.
 

@@ -20,10 +20,10 @@ This Section explains the basic meanings of [random forest](/AiBook/en/reference
 This Section answers the following questions.
 
 - Why does random forest use many trees?
-- What roles do [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap), [max_features](/AiBook/en/reference/concept-glossary-alpha/m/#max-features), and `averaging` play?
+- What roles do [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap), [max_features](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), and `averaging` play?
 - Why can it look more stable than a single tree?
 - How does random forest combine predictions in classification and regression?
-- What do [n_estimators](/AiBook/en/reference/concept-glossary-alpha/n/#n-estimators), [max_features](/AiBook/en/reference/concept-glossary-alpha/m/#max-features), [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap), and [oob_score](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) mean?
+- What do [n_estimators](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), [max_features](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), [bootstrap](/AiBook/en/reference/concept-glossary-alpha/b/#bootstrap), and [oob_score](/AiBook/en/reference/concept-glossary-alpha/o/#oob-score) mean?
 
 This Section first closes the question `why gathering many trees tries to make a more stable judgment than one tree`. Feature importance continues in P4-15.2, the evaluation reading of the OOB(out-of-bag) score continues in P4-15.3, the Extra Trees comparison continues in the supplementary Section P4-15.4, and the contrast with gradient boosting continues in P4-16.1 and P4-16.2.
 

@@ -18,7 +18,7 @@ P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但�
 - 为什么 scale 会扭曲 distance 计算？
 - standardization 会怎样改变 k-NN 的解释？
 
-这一节先收束 `为什么在 k-NN 里，distance 和 scale 会改变 neighbor 与 prediction`。preprocessing 的目的和类型，仍然以 [P4-7.2 Preprocessing](../chapter-07/section-02.zh.md) 作为基准说明位置；这里专注的是 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance) 和 [feature scale](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-scale) 改变判断的场景。
+这一节先收束 `为什么在 k-NN 里，distance 和 scale 会改变 neighbor 与 prediction`。preprocessing 的目的和类型，仍然以 [P4-7.2 Preprocessing](../chapter-07/section-02.zh.md) 作为基准说明位置；这里专注的是 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance) 和 [feature scale](/AiBook/zh/reference/concept-glossary-pinyin/b/#standardization) 改变判断的场景。
 
 ## distance 与 feature scale 要留下的判断标准
 

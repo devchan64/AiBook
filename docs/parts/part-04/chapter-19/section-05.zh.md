@@ -18,7 +18,7 @@
 - 为什么贝尔曼方程会被读成`当前奖励 + 下一状态的价值`？
 - 说“看收敛”到底是在看什么，什么正在变得不再大幅摇晃？
 - 为什么函数近似会代替 [Q-table](/AiBook/zh/reference/concept-glossary-pinyin/q/#q-table) 出现？
-- [DQN](/AiBook/zh/reference/concept-glossary-pinyin/d/#dqn) 应该被读成价值型强化学习的哪一种扩展？
+- [DQN](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning) 应该被读成价值型强化学习的哪一种扩展？
 
 这一节集中通过 `递归式价值阅读`、`重复更新的稳定化`、`从表走向函数` 这三个把手来理解强化学习的扩展背景。
 

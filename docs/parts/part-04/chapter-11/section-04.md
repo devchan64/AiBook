@@ -3,7 +3,7 @@
 > Section ID: `P4-11.4`
 > Version: `v2026.07.26`
 
-P4-11.3에서 본 [log-odds](../../../reference/concept-glossary-parts/04-rieul.md#log-odds)와 [MLE](../../../reference/concept-glossary-parts/11-chieut.md#maximum-likelihood-estimation-mle)는 기본적으로 `둘 중 하나를 고르는 이진 분류(binary classification)`를 기준으로 설명했습니다. 하지만 현실의 분류 문제는 셋 이상 중 하나를 고르는 경우도 많습니다.
+P4-11.3에서 본 [log-odds](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)와 [MLE](../../../reference/concept-glossary-parts/11-chieut.md#maximum-likelihood-estimation-mle)는 기본적으로 `둘 중 하나를 고르는 이진 분류(binary classification)`를 기준으로 설명했습니다. 하지만 현실의 분류 문제는 셋 이상 중 하나를 고르는 경우도 많습니다.
 
 이 절의 중심 질문은 다음입니다.
 
@@ -15,9 +15,9 @@ P4-11.3에서 본 [log-odds](../../../reference/concept-glossary-parts/04-rieul.
 
 - 다중 클래스(multinomial) 문제에서는 무엇이 유지되는가?
 - [softmax](../../../reference/concept-glossary-parts/07-siot.md#softmax)는 왜 등장하는가?
-- [one-vs-rest](../../../reference/concept-glossary-parts/08-ieung.md#one-vs-rest)와 [multinomial logistic regression](../../../reference/concept-glossary-parts/03-digeut.md#multinomial-logistic-regression)은 어떤 차이로 읽으면 되는가?
+- one-vs-rest와 [multinomial logistic regression](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)은 어떤 차이로 읽으면 되는가?
 
-이 절은 [다중 클래스 로지스틱 회귀(multinomial logistic regression)](../../../reference/concept-glossary-parts/03-digeut.md#multinomial-logistic-regression)를 `점수 -> 확률 분포 -> class 선택` 구조가 여러 클래스에도 이어지는 확장으로 먼저 닫고, threshold 감각이 [argmax](../../../reference/concept-glossary-parts/11-chieut.md#argmax) 감각으로 어떻게 옮겨가는지를 붙잡는 데 집중합니다.
+이 절은 [다중 클래스 로지스틱 회귀(multinomial logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)를 `점수 -> 확률 분포 -> class 선택` 구조가 여러 클래스에도 이어지는 확장으로 먼저 닫고, threshold 감각이 [argmax](../../../reference/concept-glossary-parts/07-siot.md#softmax) 감각으로 어떻게 옮겨가는지를 붙잡는 데 집중합니다.
 
 대신 이번 절에서 바로 더 좁혀 볼 질문도 분명합니다. solver와 regularization의 구현 관점은 P4-11.5에서 이어서 다룹니다.
 

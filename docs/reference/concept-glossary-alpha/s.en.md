@@ -15,6 +15,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/supervised-learning-label.en.md"
 
+--8<-- "reference/concept-glossary-terms/support-vector-machine.en.md"
+
 --8<-- "reference/concept-glossary-terms/supporting-evidence.en.md"
 
 

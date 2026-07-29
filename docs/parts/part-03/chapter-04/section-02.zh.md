@@ -3,7 +3,7 @@
 > Section ID: `P3-4.2`
 > Version: `v2026.07.25`
 
-[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)单位，是后面几乎所有概念的基准点。所以，如果把测量值和样本混在一起，问题不会只是“某个术语用错了”这么简单。[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)的含义会一起摇摆，[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)的含义会一起摇摆，甚至连[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/e/#glossary-evaluation)到底在评估什么，也会跟着一起摇摆。如果前一节已经定下了什么算一条样本，那么这一节要看的，就是那个决定还会一起固定什么、一起摇晃什么。
+[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)单位，是后面几乎所有概念的基准点。所以，如果把测量值和样本混在一起，问题不会只是“某个术语用错了”这么简单。[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)的含义会一起摇摆，[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)的含义会一起摇摆，甚至连[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design)到底在评估什么，也会跟着一起摇摆。如果前一节已经定下了什么算一条样本，那么这一节要看的，就是那个决定还会一起固定什么、一起摇晃什么。
 
 这一节不会重新定义样本单位本身，而是聚焦于一件事：为什么前一节固定下来的样本单位，会一路牵动后面的特征、标签、分割和评估。
 

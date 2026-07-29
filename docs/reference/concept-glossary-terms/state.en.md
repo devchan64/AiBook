@@ -1,3 +1,5 @@
+<a id="state"></a>
+
 ## agent state
 
 - Meaning: Agent state is a summary of the current situation that the next action can use. In reinforcement learning it describes the environment's current situation, and in AI-agent execution it can include gathered materials, tool results, and intermediate judgments.

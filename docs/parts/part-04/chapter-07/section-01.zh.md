@@ -395,7 +395,7 @@ scikit-learn 文档提供了减少 low variance 特征、通过 univariate stati
 - 收集延迟是否经常发生？
 - 会不会因为需要人工输入而让质量大幅波动？
 - 会不会因为隐私或成本问题而很难在运营里使用？
-- 如果每次推理都要拉一次，会不会把 [latency](/AiBook/zh/reference/concept-glossary-pinyin/l/#latency) 拉高？
+- 如果每次推理都要拉一次，会不会把 latency 拉高？
 
 最终，feature selection 不只是数据科学问题，它也是 service 设计问题。
 

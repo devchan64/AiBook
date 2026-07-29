@@ -1,3 +1,5 @@
+<a id="sigmoid"></a>
+
 ## sigmoid
 
 - Meaning: The sigmoid is an S-shaped function that compresses a real-valued score into a value between 0 and 1. It is often used when a score needs to be read as leaning toward one side of a binary decision.
