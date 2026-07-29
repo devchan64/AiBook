@@ -1,6 +1,6 @@
 ## speech generation
 
-- Meaning: 시간 순서로 이어진 오디오 신호를 새로 만들어 내는 문제 유형입니다. 텍스트처럼 토큰 몇 개를 고르는 일이 아니라, 시간축을 따라 연속적으로 변하는 소리 파형이나 음향 특징을 실제로 구성하는 생성 문제라고 볼 수 있습니다. 즉 음성 생성은 `소리 내용을 고른다`보다 `들릴 수 있는 신호를 만들어 낸다`에 더 가깝습니다.
-- Why it matters: 딥러닝이 이미지 분류를 넘어 순차적 파형 생성 같은 다른 출력 구조로 확장된 흐름을 보여 주는 대표 사례이기 때문입니다. 이 개념이 있어야 생성이 텍스트나 이미지에만 국한된 문제가 아니라, 시간축을 가진 연속 신호를 다루는 문제로도 확장된다는 점을 이해하게 되고, text-to-speech와 일반 음성 생성의 경계도 더 또렷하게 읽게 됩니다. 예를 들어 text-to-speech는 입력 텍스트가 주어진 상태에서 그 문장을 읽는 음성을 만드는 응용이지만, 음성 생성은 더 넓게는 특정 스타일의 음향 신호나 발화 흐름 자체를 만드는 문제까지 포함할 수 있습니다.
+- Meaning: Speech generation is a task that creates audio signals over time. It is not just choosing text tokens; it builds audible waveforms or acoustic features that unfold along a time axis.
+- Why it matters: Speech generation shows that generation is not limited to text or images. It helps readers see how deep learning extends to continuous sequential outputs, including but not limited to text-to-speech.
 - Related concepts: `generation`, `sequence modeling`
 - Core Section: `P1-9.2`

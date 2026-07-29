@@ -12,8 +12,12 @@
 
 --8<-- "reference/concept-glossary-terms/ai-agent.zh.md"
 
+--8<-- "reference/concept-glossary-terms/software-regression.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/ai-artificial-intelligence.zh.md"
+
+--8<-- "reference/concept-glossary-terms/learning.zh.md"
 
 
 

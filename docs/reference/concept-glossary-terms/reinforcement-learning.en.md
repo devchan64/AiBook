@@ -1,7 +1,7 @@
 ## reinforcement learning
 
-- Meaning: 상태에서 행동을 선택하고, 그 행동 결과로 돌아오는 보상을 통해 더 나은 정책을 학습하는 방식입니다. 즉 정답 라벨을 미리 받는 대신, 행동 이후에 돌아온 좋고 나쁨의 신호를 바탕으로 점차 더 나은 선택 습관을 만들어 가는 학습입니다. 한 번의 선택이 바로 끝나지 않고, 지금 행동이 나중 상태와 미래 보상까지 바꾼다는 점이 핵심입니다.
-- Why it matters: 지도학습의 라벨 문제나 비지도학습의 구조 발견 문제와 달리, 행동의 결과를 따라가며 장기 성과를 높이는 문제 설정이 따로 있다는 점을 보여 주기 때문입니다. 이 개념이 있어야 `지금 당장 맞혔는가`보다 `연속된 선택 끝에 얼마나 좋은 결과를 얻었는가`가 중요한 문제를 따로 읽을 수 있습니다. 예를 들어 게임에서 지금 당장 작은 점수를 얻는 행동보다, 몇 번 뒤 더 큰 보상으로 이어지는 행동이 더 좋은 선택일 수 있다는 감각이 강화학습의 출발점입니다.
+- Meaning: Reinforcement learning is a learning setup where an agent chooses actions in states and learns a better policy from rewards returned after those actions.
+- Why it matters: Reinforcement learning separates sequential decision problems from supervised labels and unsupervised structure discovery. It asks not only whether one immediate answer is correct, but how a series of actions affects long-term reward.
 - Related concepts: `reward`, `reinforcement learning policy`, `reinforcement learning agent`
 - Core Section: `P4-2.3`
 - Appears in: `P1-8.3`, `P4-index`, `P4-2.3`, `P4-3.2`, `P4-19.1`, `P4-19.2`, `P4-19.3`, `P4-19.4`

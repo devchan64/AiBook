@@ -19,6 +19,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/test-data.en.md"
 
+--8<-- "reference/concept-glossary-terms/text-and-data-mining.en.md"
+
 
 --8<-- "reference/concept-glossary-terms/threshold.en.md"
 
@@ -42,4 +44,3 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/transformer.en.md"
 
 --8<-- "reference/concept-glossary-terms/transparency.en.md"
-

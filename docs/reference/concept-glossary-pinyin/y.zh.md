@@ -23,5 +23,7 @@
 
 --8<-- "reference/concept-glossary-terms/source-data.zh.md"
 
+--8<-- "reference/concept-glossary-terms/decision.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/threshold.zh.md"

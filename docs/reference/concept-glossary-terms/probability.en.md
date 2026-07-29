@@ -1,7 +1,7 @@
 ## probability
 
-- Meaning: 아직 확실하지 않은 상태를 0과 1 사이의 숫자로 표현하는 방법입니다. 어떤 결과가 반드시 일어난다는 뜻이 아니라, 가능한 결과들 가운데 특정 사건이 어느 정도 그럴듯한지를 수치로 적는 언어라고 볼 수 있습니다. 여러 결과가 있을 때는 각 가능성에 숫자를 나누어 붙여, 무엇이 더 가능해 보이는지 비교하게 해 주는 표현 체계이기도 합니다.
-- Why it matters: 예측, 위험, 분류 결과를 확실한 답이 아니라 가능성으로 읽게 해 주기 때문입니다. 이 감각이 있어야 점수, 빈도, 확률 추정값을 같은 숫자로 착각하지 않고 구분하게 됩니다. 또한 확률은 `일어날지 안 일어날지`를 단정하는 언어가 아니라, 아직 남아 있는 불확실성을 더 정교하게 비교하는 언어라는 점도 함께 이해하게 됩니다. AI에서는 모델 출력이 단순 정답이 아니라 여러 후보에 대한 상대적 가능성일 수 있다는 해석의 출발점이 됩니다.
+- Meaning: Probability expresses uncertainty as a number between 0 and 1. It does not say that an outcome is guaranteed; it describes how plausible an event is among possible outcomes.
+- Why it matters: Prediction, risk, and classification results often need to be read as possibilities rather than certain answers. Probability helps separate scores, frequencies, probability estimates, and calibrated probabilities.
 - Related concepts: `uncertainty`, `event`, `distribution`, `probability estimate`, `estimation`
 - Core Section: `P2-5.1`
 - Appears in: `P1-6.2`, `P2-5.2`, `P2-5.3`, `P2-6.2`

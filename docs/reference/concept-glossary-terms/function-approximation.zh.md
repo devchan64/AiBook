@@ -4,6 +4,6 @@
 
 - 含义: function approximation 不是把每个值都直接存进表里，而是用一个函数或模型根据输入来估计价值。
 - 为什么重要: 当状态空间变大时，把所有值都存成表会很难管理，因此函数近似会把价值型强化学习的直觉搬到更大的问题里。
-- 相关概念: `value-based reinforcement learning`, `function`, `multilayer neural network`
+- 相关概念: `价值型强化学习(value-based reinforcement learning)`, `函数(function)`, `多层神经网络(multilayer neural network)`
 - 核心 Section: `P4-19.5`
 - 出现 Section:

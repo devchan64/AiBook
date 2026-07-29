@@ -23,6 +23,8 @@
 
 --8<-- "reference/concept-glossary-terms/llm.zh.md"
 
+--8<-- "reference/concept-glossary-terms/response-generation.zh.md"
+
 
 --8<-- "reference/concept-glossary-terms/log-loss.zh.md"
 

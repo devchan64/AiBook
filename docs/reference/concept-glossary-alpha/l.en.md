@@ -28,6 +28,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/llm.en.md"
 
+--8<-- "reference/concept-glossary-terms/response-generation.en.md"
+
 
 --8<-- "reference/concept-glossary-terms/log-loss.en.md"
 

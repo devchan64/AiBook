@@ -9,6 +9,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/sim-to-real-gap.en.md"
 
+--8<-- "reference/concept-glossary-terms/software-regression.en.md"
+
 --8<-- "reference/concept-glossary-terms/source-data.en.md"
 
 --8<-- "reference/concept-glossary-terms/supervised-learning-label.en.md"

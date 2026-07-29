@@ -1,9 +1,9 @@
 <a id="output-structure"></a>
 <a id="glossary-output-structure"></a>
 
-### output structure
+### modeling output structure
 
-- Meaning: Output structure is the designed result frame that determines how a computation should be delivered, such as a comparison report, review candidate queue, or target label candidates. It asks not only `what is the answer?`, but also `what container should hold the result, and who will use it next?` Choosing between a single number, a human-readable comparison table, or a candidate set for later training is a choice of output structure.
+- Meaning: Modeling output structure is the designed result frame that determines how a computation should be delivered, such as a comparison report, review candidate queue, or target label candidates. It asks not only `what is the answer?`, but also `what container should hold the result, and who will use it next?` Choosing between a single number, a human-readable comparison table, or a candidate set for later training is a choice of output structure.
 - Why it matters: The same source data leads to different dataset designs depending on whether the result becomes a comparison table, a review workflow, or future training candidates. Output structure must be decided before review procedures and automation steps can be designed. This concept separates `what answer should be produced?` from `what workflow-ready form should carry that answer?`
 - Related concepts: `comparison report`, `target`, `sample unit`, `task definition`
 - Core Section: `P3-2.2`

@@ -19,6 +19,8 @@
 
 --8<-- "reference/concept-glossary-terms/training-data.zh.md"
 
+--8<-- "reference/concept-glossary-terms/text-and-data-mining.zh.md"
+
 --8<-- "reference/concept-glossary-terms/learning-based-approach.zh.md"
 
 --8<-- "reference/concept-glossary-terms/selective-labels.zh.md"

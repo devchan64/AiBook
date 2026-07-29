@@ -2,9 +2,9 @@
 <a id="score"></a>
 <a id="glossary-score"></a>
 
-### model score
+### candidate model score
 
-- Meaning: A model score is a numeric value that a model assigns to a candidate output or decision target. A score can be used for comparison, ranking, or thresholding, but it does not always mean a calibrated probability.
+- Meaning: A candidate model score is a numeric value that a model assigns to a candidate output or decision target. A score can be used for comparison, ranking, or thresholding, but it does not always mean a calibrated probability.
 - Why it matters: Many inference results are not a single label; they include scores for candidates or cases. This concept helps separate model output, probability interpretation, and the final business decision, so a high score is not mistaken for an already finalized action.
 - Related concepts: `probability`, `prediction`, `modeling task`
 - Core Section: `P1-5.2`

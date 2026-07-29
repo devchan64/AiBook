@@ -4,6 +4,8 @@
 
 --8<-- "reference/concept-glossary-terms/centroid.zh.md"
 
+--8<-- "reference/concept-glossary-terms/license.zh.md"
+
 --8<-- "reference/concept-glossary-terms/expert-system.zh.md"
 
 

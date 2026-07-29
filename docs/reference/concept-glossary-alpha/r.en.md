@@ -41,11 +41,15 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/representation-learning.en.md"
 
+--8<-- "reference/concept-glossary-terms/topology.en.md"
+
 
 --8<-- "reference/concept-glossary-terms/reproducibility.en.md"
 
 
 --8<-- "reference/concept-glossary-terms/retrieval-augmented-generation-rag.en.md"
+
+--8<-- "reference/concept-glossary-terms/retrieval.en.md"
 
 
 
@@ -66,5 +70,4 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 
 --8<-- "reference/concept-glossary-terms/rule-based-system.en.md"
-
 

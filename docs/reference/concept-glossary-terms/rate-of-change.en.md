@@ -1,7 +1,7 @@
 ## rate of change
 
-- Meaning: 입력이 얼마나 바뀌었을 때 출력이 얼마나 바뀌는지 비교한 비율입니다. 단순히 값의 크기만 보는 것이 아니라, 입력을 조금 움직였을 때 결과가 얼마나 민감하게 따라 변하는지를 읽는 기준이라고 볼 수 있습니다. 즉 변화율은 `얼마나 크다`보다 `얼마나 빠르게 달라진다`를 묻는 방식입니다.
-- Why it matters: 평균 변화율, 미분, 그래디언트를 같은 변화 질문 안에서 읽게 해 주기 때문입니다. 이 개념이 있어야 `값이 얼마인가`만이 아니라 `값이 얼마나 빠르게 바뀌는가`를 따로 읽게 되고, 손실 감소 속도나 함수의 민감도를 해석할 때도 같은 질문 틀을 유지하게 됩니다. 즉 변화율은 정적인 숫자 읽기에서, 변화하는 관계 읽기로 넘어가는 가장 기본적인 발판이며, 같은 함수값이라도 주변에서 얼마나 급하게 움직이는지까지 함께 해석하게 해 줍니다. 결국 변화율은 `값 자체`보다 `변화하는 방식`을 읽는 수학 언어의 출발점입니다.
+- Meaning: Rate of change compares how much an output changes when an input changes. It asks how quickly or sensitively a value moves, not only how large the value is.
+- Why it matters: Average rate of change, derivatives, and gradients all come from the same change question. This concept prepares readers to interpret loss reduction, function sensitivity, and gradient direction.
 - Related concepts: `derivative`, `gradient`, `limit`
 - Core Section: `P2-4.2`
 - Appears in: `P2-4.3`, `P2-4.4`

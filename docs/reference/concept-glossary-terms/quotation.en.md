@@ -1,6 +1,6 @@
 ## quotation
 
-- Meaning: 필요한 범위 안에서 외부 표현의 일부를 출처와 함께 가져와 설명, 비평, 검토에 사용하는 일입니다. 핵심은 남의 표현을 통째로 대신 쓰는 것이 아니라, 내 설명이 중심인 상태에서 꼭 필요한 부분만 보조 근거로 끌어오는 데 있습니다. 즉 인용은 `자료를 참고했다`는 막연한 말보다 더 좁고 엄격한 사용 방식입니다.
-- Why it matters: 공개 배포 원고에서 자료를 보수적으로 사용하면서도 검증 가능한 근거를 제시하려면 인용의 경계를 구분해야 하기 때문입니다. 이 개념이 있어야 `출처를 달았다`는 사실만으로 모든 재사용이 정당화되는 것은 아니라는 점을 이해하게 되고, 내 설명이 중심인지 외부 표현이 중심인지도 함께 점검하게 됩니다. 예를 들어 개념 차이를 설명하기 위해 논문 한 문장을 짧게 가져오는 것과, 교재의 설명 단락을 길게 옮겨 적는 것은 모두 `출처가 있다`고 해도 같은 성격의 사용이 아닙니다. 결국 인용을 이해해야 근거 제시와 표현 재사용을 같은 말로 섞지 않게 되고, 저작권과 출처 검토를 더 신중하게 연결하게 됩니다.
-- Related concepts: `copyright`, `representation`, `attribution`
+- Meaning: Quotation is the limited use of someone else's expression with source attribution for explanation, criticism, review, education, or research.
+- Why it matters: Citing a source does not make every reuse acceptable. Quotation helps separate using a short supporting excerpt from letting another work's expression replace the author's own explanation.
+- Related concepts: `copyright`, `protected expression`, `attribution`
 - Core Section: `P1-15.2`
