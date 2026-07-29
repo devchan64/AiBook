@@ -9,7 +9,7 @@
 - 개념사전을 만드는 이유는 본문 곳곳에 흩어진 일반화 단어를 정리하고, 이 단어들을 기준으로 문서 전체의 용어 사용과 개념 연결을 정돈하기 위해서다.
 - 개념사전은 개인적 표현과 즉흥적 비유가 본문 전체에 흩어지지 않도록, 검증된 일반화 용어를 고정하는 장치다.
 - 이 문서는 개념사전의 판단 기준과 작업 순서만 다룬다.
-- 언어별 표제어 탐색, 인덱스 필드, 용량 관리는 `management/glossary-indexes/README.md`를 따른다.
+- 언어별 표제어 탐색과 대응 관계 관리는 단어별 원고와 언어별 공개 색인을 기준으로 한다.
 - 원칙 문서인 이 파일은 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 
 ## 파일 위치
@@ -20,9 +20,6 @@
 - 한국어 자음별 색인 원고: `docs/reference/concept-glossary-parts/*.md`
 - 영어 알파벳별 색인 원고: `docs/reference/concept-glossary.en.md`, `docs/reference/concept-glossary-alpha/*.en.md`
 - 중국어 병음별 색인 원고: `docs/reference/concept-glossary.zh.md`, `docs/reference/concept-glossary-pinyin/*.zh.md`
-- 언어별 보조 인덱스:
-  - `management/glossary-indexes/concept-glossary-index.en.md`
-  - `management/glossary-indexes/concept-glossary-index.zh.md`
 
 ## 단어별 원고와 색인 조립 원칙
 
@@ -31,12 +28,12 @@
   - 예: `git.ko.md`, `git.en.md`, `git.zh.md`
   - 예: `gradient-descent.ko.md`, `gradient-descent.en.md`, `gradient-descent.zh.md`
   - 예: `ann-approximate-nearest-neighbor.ko.md`, `ann-approximate-nearest-neighbor.en.md`, `ann-approximate-nearest-neighbor.zh.md`
-- 영어 기준 용어가 바뀌면 파일명 변경이 링크와 검사에 영향을 주므로, 먼저 언어별 보조 인덱스에서 기존 slug와 새 slug의 관계를 확인한다.
+- 영어 기준 용어가 바뀌면 파일명 변경이 링크와 검사에 영향을 주므로, 먼저 단어별 원고와 언어별 공개 색인에서 기존 slug와 새 slug의 관계를 확인한다.
 - 각 언어별 공개 색인 구조는 유지한다. 한국어는 자음별, 영어는 알파벳별, 중국어는 병음별 색인을 유지하되, 색인 파일은 단어별 원고를 `pymdownx.snippets`로 include해 페이지를 만든다.
 - MkDocs snippets 기준 경로는 `docs`이므로 include 경로는 `reference/concept-glossary-terms/<english-slug>.<lang>.md` 형식을 쓴다.
 - 단어별 파일 안의 앵커는 영어 slug를 기준으로 둔다. 언어별 공개 색인에서 같은 단어 파일을 include하더라도 본문 링크와 검사 스크립트가 같은 기준으로 추적할 수 있어야 한다.
 - 단어별 파일은 Section 파일처럼 독립적으로 검사할 수 있어야 한다. 항목 하나의 `Section ID`, `Version`, `Core/중심 Section`, `Appears/등장 Section` 대응을 파일 단위로 확인할 수 있게 유지한다.
-- 한국어 표제가 개념사전 등재 기준이다. 같은 slug의 한국어 단어 파일이 없는 영어·중국어 단어 파일은 독립 표제로 유지하지 않고, 해당 언어 공개 색인 include와 보조 인덱스 행에서도 제거한다.
+- 한국어 표제가 개념사전 등재 기준이다. 같은 slug의 한국어 단어 파일이 없는 영어·중국어 단어 파일은 독립 표제로 유지하지 않고, 해당 언어 공개 색인 include에서도 제거한다.
 - 색인 파일은 정렬, include 순서, 짧은 안내 문구만 맡는다. 뜻, 중요성, 관련 개념 같은 본문 필드는 단어별 파일에만 둔다.
 - 임시 전환 기간에는 기존 자음별, 알파벳별, 병음별 파일에 직접 작성된 항목이 남아 있을 수 있다. 새 항목과 대규모 보강은 단어별 파일 구조를 우선 적용하고, 기존 직접 작성 항목은 이동 대상으로 본다.
 
@@ -138,7 +135,7 @@
 5. 일반어와 전문 문맥이 겹치면 영어 기준 개념, 역할, 사용 층위를 먼저 분리하고 필요한 경우에만 문맥 한정 표제로 좁힌다.
 6. 영어 기준 용어로 slug를 정하고, 언어별 표제어와 색인 include를 만든다.
 7. 대표 설명 위치를 정하고 `중심 Section`을 하나만 적는다.
-8. 관련 언어별 보조 인덱스를 갱신한다. 세부 기준은 `management/glossary-indexes/README.md`를 따른다.
+8. 관련 언어별 공개 색인 include를 갱신한다.
 9. 본문 설명이 부족하면 개념사전만 늘리지 말고 해당 Section 보강을 먼저 검토한다.
 
 ### 기존 항목을 바꿀 때
@@ -147,7 +144,7 @@
 2. 역할 분류표와 제외 조건으로 `삭제`, `상위 표제 흡수`, `대표 표제 통일`, `보류` 중 하나를 먼저 정한다.
 3. 표제어를 합치거나 나눌 때는 한국어 표면형보다 영어 기준 개념과 사용 층위를 먼저 본다.
 4. 표제어·정의·대표 설명 위치 변경이 본문과 충돌하지 않는지 확인한다.
-5. 영어 기준 slug가 달라지는지 확인한다. slug가 바뀌면 단어별 파일명, 언어별 색인 include, 본문 링크, 보조 인덱스를 함께 갱신한다.
+5. 영어 기준 slug가 달라지는지 확인한다. slug가 바뀌면 단어별 파일명, 언어별 색인 include, 본문 링크를 함께 갱신한다.
 6. 표제는 좁혔지만 slug가 단독 일반어로 남는 경우에는 slug 유지 비용과 변경 비용을 비교한다.
 7. 대표 설명 위치를 옮겼다면 관련 본문, 개념사전, 관련 Section 릴리즈노트를 함께 갱신한다.
 8. 개념사전 자체의 전용 릴리즈노트 파일은 만들지 않고 `Version`만 갱신한다.
@@ -219,7 +216,7 @@
 - 표제어는 기본적으로 한글 표제어 기준 가나다순으로 정렬한다.
 - 영어 원어는 표제어 괄호 안에 병기한다.
 - 영문 약어가 더 널리 쓰이는 경우에도 가능한 한 한글 표제어를 먼저 세운다. 다만 책 본문에서 약어가 중심 용어라면 실제 표제어 문자열을 기준으로 정렬한다.
-- 새 항목을 추가하기 전에는 기존 개념사전과 언어별 인덱스에서 같은 뜻의 표제어가 이미 있는지 확인한다.
+- 새 항목을 추가하기 전에는 기존 개념사전 단어별 원고와 언어별 공개 색인에서 같은 뜻의 표제어가 이미 있는지 확인한다.
 
 권장 구조:
 
@@ -249,12 +246,11 @@ docs/reference/
 - 대표 표제어, 영어 병기, 핵심 정의를 바꿀 때는 표준화된 외부 레퍼런스를 확인한다.
 - 서로 다른 레퍼런스가 다른 용어를 쓰면 한쪽을 바로 표준으로 단정하지 않고, 어느 맥락에서 어떤 표현이 쓰이는지 비교한다.
 - 개념사전 항목 본문에는 레퍼런스 목록을 반복해서 붙이지 않는다.
-- 검증 근거는 관련 Section의 `출처와 참고 자료` 또는 언어별 인덱스의 짧은 `검증 레퍼런스`로 추적한다.
+- 검증 근거는 관련 Section의 `출처와 참고 자료` 또는 단어별 원고의 짧은 출처 표기로 추적한다.
 - 외부 레퍼런스가 없는 임시 표현은 `검증 필요`로 두고, 대표 표제어가 아니라 본문 안의 작업 가설이나 보조 설명으로 제한한다.
 
 ## 함께 볼 문서
 
-- `management/glossary-indexes/README.md`: 언어별 인덱스 형식과 용량 관리
 - `management/guidelines/manuscript-writing-workflow.md`: 본문 작성, 후속 Section 축약, Section 경계
 - `management/guidelines/section-metadata-guidelines.md`: `Section ID`, `Version`, 릴리즈노트 예외
 - `management/release-notes/sections/README.md`: 관련 Section 릴리즈노트 형식

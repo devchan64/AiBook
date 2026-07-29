@@ -45,7 +45,7 @@
 - `management/guidelines/README.md`는 이 폴더에 둘 문서와 두지 않을 문서의 경계를 맡는다.
 - `management/guidelines/rules-and-guidelines-summary.md`는 작업 유형별 참조 순서를 빠르게 찾는 문서이며, 원칙 원문이나 세부 규칙을 반복하지 않는다.
 - 개별 가이드라인 문서는 특정 워크플로우를 실제로 수행할 때 필요한 세부 절차, 예외, 검증 기준을 맡는다.
-- `management/glossary-indexes/`는 개념사전의 언어별 표제어 탐색과 용어 대응을 맡는 보조 관리 폴더이며, 최종 정의 원고는 `docs/reference/concept-glossary-terms/`의 단어별 파일에 둔다. 한국어 자음별, 영어 알파벳별, 중국어 병음별 페이지는 각 언어의 색인 구조를 유지하되 단어별 원고를 include해 공개 페이지를 조립한다.
+- 개념사전의 최종 정의 원고는 `docs/reference/concept-glossary-terms/`의 단어별 파일에 둔다. 한국어 자음별, 영어 알파벳별, 중국어 병음별 페이지는 각 언어의 색인 구조를 유지하되 단어별 원고를 include해 공개 페이지를 조립한다.
 - `management/release-notes/sections/`는 Section 단위 릴리즈노트 파일과 그 안의 변경 이력·다국어 동기화 메모를 맡는다.
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 - 새 워크플로우 문서는 가능하면 `목적 -> 언제 보는가 -> 작업 전 확인 -> 작업 순서 -> 예외 -> 작업 후 검증 -> 함께 볼 문서` 순서를 따른다.

@@ -51,7 +51,6 @@ AI 도구는 커리큘럼 구성, 자료 조사, 초안 작성, 비교 정리, �
 - `docs/stylesheets/`, `docs/javascripts/`: 사이트 보조 스타일과 스크립트
 - `management/`: 집필 기준, 조사 자료, 근거 분석, 릴리즈노트
 - `management/guidelines/`: 원고 작성, 메타데이터, 차트, 예제, 번역, 개념사전 가이드
-- `management/glossary-indexes/`: 개념사전의 한글, 영문, 중국어 보조 인덱스
 - `management/release-notes/sections/`: Section 단위 개정 이력
 - `management/tools/`: 집필, 근거 수집, 번역 검수를 돕는 관리 스크립트
 - `.tmp/`: 외부 자료 확인용 임시 작업공간. 커밋하지 않습니다.

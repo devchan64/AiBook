@@ -24,7 +24,6 @@
 | --- | --- | --- |
 | `management/guidelines/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, 초심자 보강, 사례 작성 전 |
 | `management/guidelines/concept-glossary-guidelines.md` | 개념사전 작성 기준 | 개념사전 항목 추가·수정, 중심 Section과 등장 Section 정리 전 |
-| `management/glossary-indexes/` | 개념사전 언어별 보조 인덱스 | 표제어·번역어·영어 기준 용어를 빠르게 대조할 때 |
 | `management/guidelines/section-metadata-guidelines.md` | Section 메타데이터 관리 기준 | Section ID, 제목 앞 인덱스, Version, 릴리즈노트 연결 확인 전 |
 | `management/guidelines/python-example-guidelines.md` | Python 예제 작성 기준 | Python 예제 추가·수정, 코드 블록 유지 여부 판단 전 |
 | `management/guidelines/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
@@ -95,8 +94,8 @@
 - Section ID, 제목 앞 인덱스, Version, 본문 메타데이터 관리는 `section-metadata-guidelines.md`를 기준으로 봅니다.
 - `이 절의 범위`, `이 절의 목표`, `이 절을 읽는 순서` 같은 진행 메타 제목은 쓰지 않고, 구체 개념·오해·비교 대상·판단 기준이 드러나는 소제목으로 바꾸는지를 `manuscript-writing-workflow.md`에서 먼저 확인합니다.
 - 개념사전 항목 구조, `중심 Section`·`등장 Section`, 표제어 분리 기준은 `concept-glossary-guidelines.md`를 기준으로 봅니다.
-- 표제어·영어 기준 용어·번역어 대응만 빠르게 확인하면 되는 작업은 `management/glossary-indexes/`의 언어별 인덱스를 먼저 봅니다.
-- 일반 사전적 의미와 원고 안의 의미가 분리되는 한국어 표제를 정리할 때는 `management/glossary-indexes/korean-general-expression-review.md`에서 `표제 관리 제외`와 `표제 통일 관리` 구분을 먼저 확인합니다.
+- 표제어·영어 기준 용어·번역어 대응만 빠르게 확인하면 되는 작업은 언어별 공개 개념사전과 단어별 원고를 먼저 봅니다.
+- 일반 사전적 의미와 원고 안의 의미가 분리되는 한국어 표제를 정리할 때는 `concept-glossary-guidelines.md`의 등재·제외 기준으로 `표제 관리 제외`와 `표제 통일 관리`를 구분합니다.
 - Python 예제 세부 규칙은 `python-example-guidelines.md`, 차트·도식 세부 규칙은 `chart-guidelines.md`를 기준으로 봅니다.
 - 본문 Section을 실제로 수정했다면 `section-metadata-guidelines.md`를 따라 `Version`과 릴리즈노트 연결을 같은 작업 안에서 함께 확인합니다.
 
@@ -105,7 +104,7 @@
 1. 이 작업의 기준 원문이 `AGENTS.md`인지, 작업형 가이드인지 먼저 구분했는가?
 2. Section 본문 수정이라면 `manuscript-writing-workflow.md`와 `section-metadata-guidelines.md`를 함께 열었는가?
 3. 개념 위치, 대표 설명 위치, 개념사전 링크 판단이라면 `concept-glossary-guidelines.md`를 다시 확인했는가?
-4. 표제어·영어 기준 용어·번역어 대응만 빠르게 확인하면 되는 작업이라면 `management/glossary-indexes/`의 언어별 인덱스를 먼저 확인했는가?
+4. 표제어·영어 기준 용어·번역어 대응만 빠르게 확인하면 되는 작업이라면 언어별 공개 개념사전과 단어별 원고를 먼저 확인했는가?
 5. 예제, 차트, 번역처럼 전용 가이드가 있는 작업을 요약 문서만 보고 처리하고 있지는 않은가?
 6. 끝난 판단을 메모 문서에 계속 누적하지 않고 체크리스트나 본문에 흡수했는가?
 
@@ -115,7 +114,6 @@
 - `management/guidelines/manuscript-writing-workflow.md`
 - `management/guidelines/section-metadata-guidelines.md`
 - `management/guidelines/concept-glossary-guidelines.md`
-- `management/glossary-indexes/`
 - `management/guidelines/python-example-guidelines.md`
 - `management/guidelines/chart-guidelines.md`
 - `management/guidelines/english-translation-guidelines.md`

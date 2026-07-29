@@ -40,7 +40,7 @@
 2. 수정 대상의 `Section ID`, `Version`, 대응 릴리즈노트 연결은 `section-metadata-guidelines.md`로 확인한다.
 3. 수정 대상 Section의 중심 질문과 Section 경계를 확인한다.
 4. 필요하면 해당 `management/authoring/section-...-evidence-analysis.md`를 열어 근거, 용어, 후속 회수 지점을 확인한다.
-5. 본문에서 새로 고정하거나 반복 사용할 핵심 용어가 있으면 개념사전의 대표 표제어, `중심 Section`, `등장 Section`, 언어별 보조 인덱스와 연결이 필요한지 확인한다.
+5. 본문에서 새로 고정하거나 반복 사용할 핵심 용어가 있으면 개념사전의 대표 표제어, `중심 Section`, `등장 Section`, 언어별 공개 색인과 연결이 필요한지 확인한다.
 6. 문단 재구성이 크면 이 문서의 문단 구조 점검 메모를 함께 적용한다.
 7. Part 수준 흐름과 중심 주제를 다시 잡아야 하면 해당 `management/authoring/part-XX-open-checklist.md`를 확인한다.
 8. 본문을 실제로 수정했다면 `section-metadata-guidelines.md`에 따라 메타데이터와 릴리즈노트 연결을 함께 갱신한다.
@@ -60,7 +60,7 @@
 - 이 문서는 원고 구조와 표현 판단을 다룬다.
 - `Section ID`, 제목 앞 인덱스, `Version`, 릴리즈노트 연결은 `section-metadata-guidelines.md`를 따른다.
 - 릴리즈노트 파일의 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다.
-- 원고 수정으로 핵심 용어의 대표 설명 위치가 새로 생기거나 바뀌면 `concept-glossary-guidelines.md`에 따라 개념사전 항목, 색인 include, 언어별 보조 인덱스를 함께 확인한다.
+- 원고 수정으로 핵심 용어의 대표 설명 위치가 새로 생기거나 바뀌면 `concept-glossary-guidelines.md`에 따라 개념사전 항목과 색인 include를 함께 확인한다.
 
 ## 개념사전 연계 점검
 
@@ -73,7 +73,7 @@
 - 예를 들어 `agent`는 단독으로 쓰지 않고 `AI 에이전트(AI agent)`, `LLM 에이전트(LLM agent)`, `강화학습 에이전트(reinforcement learning agent)`, `소프트웨어 에이전트(software agent)`처럼 좁혀 쓴다. 같은 문단 안에서 이미 범위가 분명할 때만 반복을 줄여 축약할 수 있다.
 - 본문에서 일반화 용어를 새로 고정했다면 단어별 개념사전 파일의 `중심 Section`과 `등장 Section`에 현재 Section ID가 맞게 반영되는지 확인한다.
 - 후속 Section에서 이미 설명한 개념을 다시 쓰는 경우, 현재 절 이해에 필요한 최소 연결만 남기고 필요하면 개념사전 앵커로 연결한다.
-- 개념사전 항목의 세부 필드, 색인 include, 언어별 보조 인덱스 형식은 이 문서에서 다시 정의하지 않고 `concept-glossary-guidelines.md`와 `management/glossary-indexes/README.md`를 따른다.
+- 개념사전 항목의 세부 필드와 색인 include 형식은 이 문서에서 다시 정의하지 않고 `concept-glossary-guidelines.md`를 따른다.
 
 ## 근거 메모 정리 워크플로우
 
@@ -129,7 +129,7 @@ Part 마무리 페이지는 새로운 핵심 개념을 처음 도입하는 장�
 - 같은 Part 안의 후속 Section에서는 이미 설명한 핵심 개념의 상세 정의나 비교 표를 반복하지 않고, 현재 절 이해에 꼭 필요한 최소 연결만 남기거나 개념사전 링크로 보낸다.
 - 본문에서 같은 개념을 다시 쓸 때는 즉흥적 표현을 새로 늘리기보다 개념사전의 대표 표제어와 일반화 용어를 우선 사용한다.
 - 일반어와 전문 용어가 겹치는 표현은 대표 표제어를 그대로 반복하기보다 현재 문맥의 범위를 함께 쓴다. 예를 들어 `agent` 계열 표현은 설명 대상에 따라 `AI 에이전트`, `LLM 에이전트`, `강화학습 에이전트`, `소프트웨어 에이전트`로 좁혀 쓴다.
-- 대표 표제어나 영어 병기를 새로 고정해야 하면 `concept-glossary-guidelines.md`의 외부 레퍼런스 기준과 `management/glossary-indexes/README.md`의 언어별 인덱스 운영 기준을 먼저 따른다.
+- 대표 표제어나 영어 병기를 새로 고정해야 하면 `concept-glossary-guidelines.md`의 외부 레퍼런스 기준과 언어별 공개 색인 운영 기준을 먼저 따른다.
 - 개념사전 항목 구조, `중심 Section`·`등장 Section`, 표제어 분리 기준 자체는 `concept-glossary-guidelines.md`를 따른다. 현재 문서는 본문 Section에서 그 개념을 어떻게 처음 설명하고 이후 절에서 얼마나 반복할지만 다룬다.
 - 다음 Part에서 같은 개념이 다시 핵심이 되면, 그 Part 안에서 처음 등장하는 Section에서 필요한 범위만 다시 정리한다.
 - 알고리즘 이름, 라이브러리 API, 수식 표기를 먼저 앞세우지 않는다.
