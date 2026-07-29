@@ -13,6 +13,8 @@
 
 --8<-- "reference/concept-glossary-terms/optimization.zh.md"
 
+--8<-- "reference/concept-glossary-terms/optimizer.zh.md"
+
 --8<-- "reference/concept-glossary-terms/outlier.zh.md"
 
 --8<-- "reference/concept-glossary-terms/preprocessing.zh.md"
@@ -27,3 +29,19 @@
 
 
 --8<-- "reference/concept-glossary-terms/threshold.zh.md"
+
+--8<-- "reference/concept-glossary-terms/context-dependency.zh.md"
+
+--8<-- "reference/concept-glossary-terms/quotation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/sample-space.zh.md"
+
+--8<-- "reference/concept-glossary-terms/delayed-reward.zh.md"
+
+--8<-- "reference/concept-glossary-terms/privacy.zh.md"
+
+--8<-- "reference/concept-glossary-terms/speech-generation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/motion-planning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/pretraining.zh.md"

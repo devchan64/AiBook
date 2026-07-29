@@ -11,7 +11,7 @@ This question is very important. Readers often think the model always works in t
 
 Learning is the stage that changes model parameters, and model execution (inference) is the stage that computes results with the current parameters without changing them.
 
-If the distinction between learning and model execution starts to blur again in later sections, it helps to return together to the [training](/AiBook/en/reference/concept-glossary-alpha/t/#training) and [inference](/AiBook/en/reference/concept-glossary-alpha/i/#inference) entries in the concept glossary.
+If the distinction between learning and model execution starts to blur again in later sections, it helps to return together to the [training](/AiBook/en/reference/concept-glossary-alpha/m/#model-training) and [inference](/AiBook/en/reference/concept-glossary-alpha/i/#inference) entries in the concept glossary.
 
 ## The Question That Separates Learning from Execution
 

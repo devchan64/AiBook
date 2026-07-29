@@ -46,7 +46,7 @@
 | 标签能贴在这一行上吗？ | 标签通常贴在一次动作或一个近期区段上 | 标签到底是贴在某个时点，还是贴在一整次动作上？ |
 | 这一行能当一条训练样本吗？ | 同一次动作里相邻的行可能会同时混进训练和评估 | 分割对象是时点行，还是动作级样本？ |
 
-所以，样本单位并不是只在 Part 3 某一节里才需要做的决定。它是 feature engineering、[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较、[review queue](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)，甚至后续预测输入结构解释都一起依赖的底层结构。
+所以，样本单位并不是只在 Part 3 某一节里才需要做的决定。它是 feature engineering、[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较、[review queue](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)，甚至后续预测输入结构解释都一起依赖的底层结构。
 
 ## 用一个小图来看
 

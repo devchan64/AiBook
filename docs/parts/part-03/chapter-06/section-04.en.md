@@ -3,7 +3,7 @@
 > Section ID: `P3-6.4`
 > Version: `v2026.07.25`
 
-The fact that a column appears in a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table) and the judgment that it is a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) are not the same statement. A summary table can contain features that describe sample structure, but it can also contain columns for comparison, candidate result columns, and columns for identification and context. So the distinction to hold first in this section is that `a column in the summary table` and `a feature to be read as model input` do not automatically match.
+The fact that a column appears in a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) and the judgment that it is a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) are not the same statement. A summary table can contain features that describe sample structure, but it can also contain columns for comparison, candidate result columns, and columns for identification and context. So the distinction to hold first in this section is that `a column in the summary table` and `a feature to be read as model input` do not automatically match.
 
 ## Why Is This Distinction Needed
 

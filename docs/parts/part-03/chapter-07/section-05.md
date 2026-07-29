@@ -35,7 +35,7 @@
 - 표본 수 기준은 어느 도메인에서나 같은 숫자로 정해진다
 - 고정 기준선이 최근 평소 기준선보다 항상 더 신뢰할 만하다
 
-기준선 운영 방식이 잘못 잡히면 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report)와 현재 비교 문장의 뜻이 함께 흔들립니다. 같은 변화라도 무엇과 비교했는지가 바뀌면 `검토 필요`, `주의`, `정상/이상 후보` 같은 현재 판단의 무게도 달라질 수 있습니다. 이 절을 고정 기준선과 최근 평소 기준선의 취향 차이가 아니라, [참조 기준을 유지할 것인가 이동시킬 것인가(reference maintenance strategy)](../../../reference/concept-glossary-parts/11-chieut.md#glossary-reference-maintenance-strategy)의 문제로 다시 보면, 기준선 운영 방식은 정답 경쟁이 아니라 비교 질문에 맞는 참조 유지 방식을 고르는 선택이라는 점이 더 분명해집니다.
+기준선 운영 방식이 잘못 잡히면 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)와 현재 비교 문장의 뜻이 함께 흔들립니다. 같은 변화라도 무엇과 비교했는지가 바뀌면 `검토 필요`, `주의`, `정상/이상 후보` 같은 현재 판단의 무게도 달라질 수 있습니다. 이 절을 고정 기준선과 최근 평소 기준선의 취향 차이가 아니라, [참조 기준을 유지할 것인가 이동시킬 것인가(reference maintenance strategy)](../../../reference/concept-glossary-parts/11-chieut.md#glossary-reference-maintenance-strategy)의 문제로 다시 보면, 기준선 운영 방식은 정답 경쟁이 아니라 비교 질문에 맞는 참조 유지 방식을 고르는 선택이라는 점이 더 분명해집니다.
 
 ## 작은 도식으로 보기
 

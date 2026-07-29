@@ -3,7 +3,7 @@
 > Section ID: `P3-5.1`
 > Version: `v2026.07.25`
 
-第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-summary-table)和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且[每一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-row)所代表的对象也不同。
+第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-modeling)和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且[每一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-row)所代表的对象也不同。
 
 `原始日志 -> 汇总表 -> 聚合表`，是把同一条时间序列重新表达成适合不同问题的表结构的顺序。只要这个顺序能被看见，后面的 [baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline) 比较和 [intermediate representation](/AiBook/zh/reference/concept-glossary-pinyin/i/#glossary-intermediate-representation) 设计究竟接在什么层级上，也会更清楚。
 

@@ -11,7 +11,7 @@ gradient까지 계산했다면, 지금 이 모델은 학습 중인가, 아니면
 
 학습(learning)은 모델 파라미터를 바꾸는 단계이고, 모델 실행(inference)은 바꾸지 않고 현재 파라미터로 결과를 계산하는 단계이다.
 
-학습과 모델 실행의 구분이 뒤 절에서 다시 흐려지면 개념사전의 [학습(training)](../../../reference/concept-glossary-parts/14-hieut.md#training)과 [추론(inference)](../../../reference/concept-glossary-parts/11-chieut.md#inference) 항목을 함께 다시 보는 편이 좋습니다.
+학습과 모델 실행의 구분이 뒤 절에서 다시 흐려지면 개념사전의 [학습(training)](../../../reference/concept-glossary-parts/05-mieum.md#model-training)과 [추론(inference)](../../../reference/concept-glossary-parts/11-chieut.md#inference) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 학습과 실행이 갈라지는 질문
 

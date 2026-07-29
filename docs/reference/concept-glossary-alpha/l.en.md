@@ -46,3 +46,13 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/loss-curve.en.md"
 
 --8<-- "reference/concept-glossary-terms/loss-function.en.md"
+
+--8<-- "reference/concept-glossary-terms/logarithm.en.md"
+
+--8<-- "reference/concept-glossary-terms/labeled-example.en.md"
+
+--8<-- "reference/concept-glossary-terms/linear-algebra.en.md"
+
+--8<-- "reference/concept-glossary-terms/linear-transformation.en.md"
+
+--8<-- "reference/concept-glossary-terms/loss.en.md"

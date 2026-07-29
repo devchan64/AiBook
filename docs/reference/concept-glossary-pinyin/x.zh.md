@@ -24,3 +24,23 @@
 --8<-- "reference/concept-glossary-terms/learning-based-approach.zh.md"
 
 --8<-- "reference/concept-glossary-terms/selective-labels.zh.md"
+
+--8<-- "reference/concept-glossary-terms/sequence-modeling.zh.md"
+
+--8<-- "reference/concept-glossary-terms/vector-space.zh.md"
+
+--8<-- "reference/concept-glossary-terms/linear-algebra.zh.md"
+
+--8<-- "reference/concept-glossary-terms/vector-calculus.zh.md"
+
+--8<-- "reference/concept-glossary-terms/linear-transformation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/correlation-coefficient.zh.md"
+
+--8<-- "reference/concept-glossary-terms/covariance.zh.md"
+
+--8<-- "reference/concept-glossary-terms/information-integrity.zh.md"
+
+--8<-- "reference/concept-glossary-terms/vector-search.zh.md"
+
+--8<-- "reference/concept-glossary-terms/trust-boundary.zh.md"

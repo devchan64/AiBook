@@ -20,7 +20,7 @@ _보조제목: 같은 target이라도 놓침과 과검출 중 무엇이 더 아�
 
 ## 왜 오류 비용이 target 해석을 바꾸는가
 
-같은 `review_needed` target이라도 모든 예측값을 같은 방식으로 읽는 것은 아닙니다. 어떤 문제에서는 놓침(false negative)이 더 아파서 조금 더 많이 [검토 후보 큐(review queue)](/AiBook/reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)에 올리더라도 위험 사례를 덜 놓치는 편이 낫고, 어떤 문제에서는 과검출(false positive)이 더 아파서 검토 큐를 더 좁게 유지하는 편이 낫습니다. 이때 바뀌는 것은 단순히 [임계값(threshold)](/AiBook/reference/concept-glossary-parts/08-ieung.md#glossary-threshold) 숫자 하나가 아니라, `이 target을 어떤 판단 구조로 해석할 것인가`입니다.
+같은 `review_needed` target이라도 모든 예측값을 같은 방식으로 읽는 것은 아닙니다. 어떤 문제에서는 놓침(false negative)이 더 아파서 조금 더 많이 [검토 후보 큐(review queue)](/AiBook/reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)에 올리더라도 위험 사례를 덜 놓치는 편이 낫고, 어떤 문제에서는 과검출(false positive)이 더 아파서 검토 큐를 더 좁게 유지하는 편이 낫습니다. 이때 바뀌는 것은 단순히 [임계값(threshold)](/AiBook/reference/concept-glossary-parts/08-ieung.md#glossary-threshold) 숫자 하나가 아니라, `이 target을 어떤 판단 구조로 해석할 것인가`입니다.
 
 예를 들어 모델 점수가 아래처럼 나왔다고 해 봅시다.
 

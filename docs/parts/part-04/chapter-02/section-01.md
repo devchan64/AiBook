@@ -17,7 +17,7 @@ P4-1.2에서는 [머신러닝(machine learning)](../../../reference/concept-glos
 
 - 지도학습에서 입력과 라벨은 무엇인가?
 - 분류(classification)와 회귀(regression)는 어떻게 다른가?
-- [학습(training)](../../../reference/concept-glossary-parts/14-hieut.md#training), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation), [예측(prediction)](../../../reference/concept-glossary-parts/08-ieung.md#prediction)은 어떻게 이어지는가?
+- [학습(training)](../../../reference/concept-glossary-parts/05-mieum.md#model-training), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation), [예측(prediction)](../../../reference/concept-glossary-parts/08-ieung.md#prediction)은 어떻게 이어지는가?
 - 라벨이 있다고 해서 모델이 정답을 안다는 뜻인가?
 - 지도학습에서 가장 먼저 조심해야 할 오해는 무엇인가?
 

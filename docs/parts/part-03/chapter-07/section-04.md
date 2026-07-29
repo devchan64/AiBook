@@ -3,7 +3,7 @@
 > Section ID: `P3-7.4`
 > Version: `v2026.07.25`
 
-[기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)이 필요하다는 말을 이해한 뒤에는 곧바로 다음 질문이 나옵니다. `그러면 무엇을 평소로 잡아야 하는가?` 바로 이 지점에서 다시 막히기 쉽습니다. 최근 구간과 비교할 과거 구간을 아무렇게나 모으면, [비교표(comparison table)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-table)는 만들어져도 해석은 쉽게 흔들립니다. 그래서 여기서는 `비교 질문을 먼저 적고`, `그 질문에 맞는 후보만 남기고`, `남은 후보 중 지금 샘플과 가장 같은 조건의 묶음을 고른다`는 순서를 먼저 붙잡는 편이 좋습니다.
+[기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)이 필요하다는 말을 이해한 뒤에는 곧바로 다음 질문이 나옵니다. `그러면 무엇을 평소로 잡아야 하는가?` 바로 이 지점에서 다시 막히기 쉽습니다. 최근 구간과 비교할 과거 구간을 아무렇게나 모으면, [비교표(comparison table)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)는 만들어져도 해석은 쉽게 흔들립니다. 그래서 여기서는 `비교 질문을 먼저 적고`, `그 질문에 맞는 후보만 남기고`, `남은 후보 중 지금 샘플과 가장 같은 조건의 묶음을 고른다`는 순서를 먼저 붙잡는 편이 좋습니다.
 
 기준선은 `과거 데이터 아무 묶음`이 아니라, `지금 보고 있는 샘플과 같은 종류의 조건에서 만들어진 비교 구간`이어야 합니다. 같은 동작 유형인지, 같은 운전 모드인지, 같은 구간 길이인지, 최소한 비슷한 운영 조건인지가 맞지 않으면 차이값은 생겨도 그 차이가 무엇을 뜻하는지 말하기 어려워집니다.
 

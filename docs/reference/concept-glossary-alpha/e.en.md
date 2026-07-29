@@ -45,4 +45,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/exploration.en.md"
 
+--8<-- "reference/concept-glossary-terms/error-accumulation.en.md"
 
+--8<-- "reference/concept-glossary-terms/end-to-end-learning.en.md"
+
+--8<-- "reference/concept-glossary-terms/exponential-function.en.md"

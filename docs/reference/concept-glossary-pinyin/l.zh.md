@@ -40,3 +40,7 @@
 --8<-- "reference/concept-glossary-terms/loss-curve.zh.md"
 
 --8<-- "reference/concept-glossary-terms/loss-function.zh.md"
+
+--8<-- "reference/concept-glossary-terms/reasoning.zh.md"
+
+--8<-- "reference/concept-glossary-terms/manifold.zh.md"

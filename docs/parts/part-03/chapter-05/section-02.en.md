@@ -3,7 +3,7 @@
 > Section ID: `P3-5.2`
 > Version: `v2026.07.25`
 
-Two actions with the same [mean](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-mean) do not always have the same structure. A mean is useful for summarizing the overall level at a glance, but it does not show everything about how the values moved over time. So when turning raw logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-summary-table), we should not relax just because `the average is the same`. We also have to think about how to preserve differences in patterns beyond the average.
+Two actions with the same [mean](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-mean) do not always have the same structure. A mean is useful for summarizing the overall level at a glance, but it does not show everything about how the values moved over time. So when turning raw logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), we should not relax just because `the average is the same`. We also have to think about how to preserve differences in patterns beyond the average.
 
 This section does not explain the summary-table conversion procedure itself again. Instead, it focuses on the point that the summary table built in the previous section should not be a table that leaves only the average. It should also preserve pattern differences that lead into later [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) design and [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison.
 

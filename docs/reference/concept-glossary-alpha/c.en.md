@@ -75,3 +75,13 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/credential.en.md"
 
 --8<-- "reference/concept-glossary-terms/contrastive-learning.en.md"
+
+--8<-- "reference/concept-glossary-terms/correlation-coefficient.en.md"
+
+--8<-- "reference/concept-glossary-terms/context-dependency.en.md"
+
+--8<-- "reference/concept-glossary-terms/composite-function.en.md"
+
+--8<-- "reference/concept-glossary-terms/confidence-interval.en.md"
+
+--8<-- "reference/concept-glossary-terms/covariance.en.md"

@@ -19,7 +19,8 @@
 - 2026-07-29: C그룹 8개 항목의 영어·중국어 단어별 원고를 추가하고, 영어 알파벳 색인과 중국어 병음 색인 include를 갱신했다.
 - 2026-07-29: 위 변경 뒤 `management/concept-glossary-integrated-index.md`를 현재 단어별 원고 기준으로 다시 생성했다.
 - 2026-07-29: 한국어 Part 본문에서 개념사전 자음별 색인 링크와 실제 include 앵커를 대조했다. 즉시 수정 가능한 `sample`, `output-structure`, `score` 링크 호환성을 먼저 보강했다.
-- 남은 작업: D그룹은 제목·본문 전체 번역 품질을 별도 읽기 검토로 이어갈 수 있다. C그룹의 `topology`는 후속 Part 재등장 여부에 따라 흡수 재검토 대상으로 남긴다.
+- 2026-07-29: 남은 고빈도 후보 9개를 1차 판정 기준으로 처리했다. 표준 모델·학습 용어인 `random-forest`, `bootstrap`, `oob-score`, `optimizer`는 단어별 원고와 한·영·중 색인 include를 추가했고, 운영 산출물·표 형식 이름인 `review-queue`, `comparison-report`, `comparison-table`, `summary-table` 및 단독 `training` 링크는 기존 상위 표제로 흡수했다.
+- 남은 작업: D그룹은 제목·본문 전체 번역 품질을 별도 읽기 검토로 이어갈 수 있다. C그룹의 `topology`는 표준 수학 용어로 표제를 유지하되, 본문에서는 표현 공간 맥락의 짧은 안내로만 사용한다.
 
 ## 기준 문서
 
@@ -93,7 +94,7 @@
 | `learning` | AI 학습(learning) | `learning`과 `training`을 구분하는 상위 기준점으로 유지 | 영어 `AI learning`, 중국어 `AI 学习`으로 추가 |
 | `license` | 자료 라이선스(license) | 저작권·출처 표시·자료 사용 조건을 구분하는 법·운영 기준점으로 유지 | 영어 `material license`, 중국어 `资料许可`로 추가 |
 | `retrieval` | RAG 검색(retrieval) | 일반 검색이 아니라 RAG 입력 근거 후보를 가져오는 단계로 유지 | 영어 `RAG retrieval`, 중국어 `RAG 检索`로 추가 |
-| `topology` | 표현 공간 위상(topology) | 수학 표준 용어이되 이 책에서는 표현 공간 구조 표지로 제한해 유지 | 영어 `representation-space topology`, 중국어 `表征空间拓扑`으로 추가. 후속 Part에서 재등장하지 않으면 흡수 재검토 |
+| `topology` | 위상(topology) | 표준 수학 의미와 동일하게 유지하되 이 책에서는 표현 공간 구조를 읽는 짧은 안내로 제한 | 영어 `topology`, 중국어 `拓扑`으로 정리. 표현 공간은 표제가 아니라 적용 맥락으로만 둠 |
 | `response-generation` | LLM 응답 생성(response generation) | LLM inference의 자연어 출력 생성 문맥으로 제한해 유지 | 영어 `LLM response generation`, 중국어 `LLM 响应生成`으로 추가 |
 | `software-regression` | AI 서비스 소프트웨어 회귀(software regression) | 모델·프롬프트·설정 변경 뒤 기존 품질 저하를 설명하는 검증 기준점으로 유지 | 영어 `AI service software regression`, 중국어 `AI 服务软件回归`으로 추가 |
 | `text-and-data-mining` | 학습 데이터 맥락의 텍스트·데이터 마이닝(text and data mining, TDM) | 학습 데이터와 저작권 논의의 법·정책 전문 용어로 유지 | 영어 `text and data mining in the training-data context`, 중국어 `学习数据语境下的文本与数据挖掘`으로 추가 |
@@ -119,20 +120,19 @@
 | `#glossary-sample` | Part 3에서는 `sample`이 `샘플 단위(sample unit)` 문맥으로 반복되므로 `sample-unit` 단어별 원고 3개 언어에 호환 앵커를 추가 |
 | `#glossary-output-structure` | 한국어 Part 3 링크가 `11-chieut.md`를 가리키던 경로를 실제 include 위치인 `05-mieum.md`로 수정 |
 | `#glossary-score` | 한국어 Part 3 링크가 `09-jieut.md`를 가리키던 경로를 실제 include 위치인 `05-mieum.md`로 수정 |
+| `review-queue` | 운영 출력 구조 이름으로 판정해 새 표제를 만들지 않고 `output-structure` 링크로 흡수 |
+| `comparison-report` | 문서 산출물 이름으로 판정해 새 표제를 만들지 않고 `output-structure` 링크로 흡수 |
+| `comparison-table` | 표 형식 이름으로 판정해 새 표제를 만들지 않고 `output-structure` 링크로 흡수 |
+| `summary-table` | 표 형식 이름으로 판정해 새 표제를 만들지 않고 `data-modeling` 링크로 흡수 |
+| `training` | 일반어로 넓게 열리는 단독 링크를 기존 `model-training` 표제로 흡수 |
+| `random-forest` | 표준 모델 계열로 판정해 한·영·중 단어별 원고와 공개 색인 include 추가 |
+| `bootstrap` | 통계·앙상블 문맥의 표준 용어로 판정해 한·영·중 단어별 원고와 공개 색인 include 추가 |
+| `oob-score` | Random Forest 하위 평가 용어로 판정해 한·영·중 단어별 원고와 공개 색인 include 추가 |
+| `optimizer` | 표준 딥러닝 학습 용어로 판정해 한·영·중 단어별 원고와 공개 색인 include 추가 |
 
 ### 남은 고빈도 후보
 
-| 후보 | 남은 횟수 | 1차 판정 |
-| --- | ---: | --- |
-| `review-queue` | 14 | 운영 출력 구조 이름이므로 독립 표제보다 `output structure`, `model score`, `decision` 계열 흡수 여부 검토 |
-| `comparison-report` | 10 | 문서 산출물 이름에 가까우므로 독립 표제보다 `comparability`, `baseline`, `output structure` 계열 흡수 여부 검토 |
-| `random-forest` | 9 | 표준 모델 계열이므로 표제 추가 또는 기존 Part 4 설명 위치와 연결 검토 |
-| `summary-table` | 7 | 표 형식 이름이므로 독립 표제보다 `dataset`, `data modeling`, `feature` 계열 흡수 검토 |
-| `comparison-table` | 7 | 표 형식 이름이므로 독립 표제보다 `comparability`, `baseline`, `output structure` 계열 흡수 검토 |
-| `bootstrap` | 6 | 통계·앙상블 문맥의 표준 용어이므로 표제 추가 여부 검토 |
-| `oob-score` | 6 | Random Forest 하위 평가 용어이므로 `random-forest` 표제 신설 여부와 함께 검토 |
-| `training` | 5 | 일반어로 넓게 열리므로 `model training` 또는 `learning`으로 흡수 가능한지 검토 |
-| `optimizer` | 5 | 표준 딥러닝 용어로 후속 Part 기준점이면 표제 추가 검토 |
+2026-07-29 처리 뒤 위 9개 고빈도 후보는 본문 링크 기준으로 남기지 않는다. 이후 빌드 경고에서 다시 나타나면 새 표제 생성보다 1차 판정의 흡수 대상과 실제 단어별 원고 include 위치를 먼저 확인한다.
 
 ## 우선순위
 
@@ -143,7 +143,7 @@
 
 ## 후속 작업 체크리스트
 
-1. 후속 Part에서 재등장이 생기지 않는 `topology`는 `매니폴드(manifold)` 또는 `벡터 공간(vector space)` 하위 설명으로 흡수할지 다시 확인한다.
+1. `topology`는 표준 수학 용어로 표제를 유지한다. 다만 원고에서는 위치나 거리의 동의어처럼 쓰지 않고, 표현 공간의 연결성·연속성 같은 구조를 가리키는 제한된 맥락에서만 사용한다.
 2. 바꾼 관련 개념이 실제 단어별 원고로 존재하는지 `management/concept-glossary-integrated-index.md`에서 확인한다.
 3. 영어·중국어 항목을 수정할 때 한국어 원문의 `Section ID`와 `Version`을 임의로 바꾸지 않는다.
 4. 본문 Section을 같이 고치지 않는 한 Section 릴리즈노트는 만들지 않는다.

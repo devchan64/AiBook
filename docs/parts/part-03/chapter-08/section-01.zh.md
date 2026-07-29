@@ -3,7 +3,7 @@
 > Section ID: `P3-8.1`
 > Version: `v2026.07.25`
 
-即使已经有了 [比较表(comparison table)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-table)，也不代表所有差异都应该用同样的强度去解读。尤其在运营数据里，样本量往往较小，而且同样的变化是否重复出现也未必明确。因此在解读阶段，不仅要看`哪里变了`，还要一起看`这个差异可以被多大程度地信任`。
+即使已经有了 [比较表(comparison table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)，也不代表所有差异都应该用同样的强度去解读。尤其在运营数据里，样本量往往较小，而且同样的变化是否重复出现也未必明确。因此在解读阶段，不仅要看`哪里变了`，还要一起看`这个差异可以被多大程度地信任`。
 
 样本量小的时候，均值、波动性、代表性模式之类的数值都更容易晃动。比如最近 2 条数据的均值与基线均值相差 `0.3`，看上去可能很醒目；但最近 20 条数据的均值与基线均值同样相差 `0.3`，分量就不同。哪怕数值差异相同，也要根据这个差异来自多少个观测来调整解读强度。
 
@@ -25,7 +25,7 @@
 - 样本量小但在重复时：不要自动确认，而是放入人工复核候选。
 - 样本量和重复性都足够时：可以转入更强的告警或后续分析。
 
-这里需要同时保留`这时候还不能说得太重`这一规则，才能调节解读强度。读者需要能马上看出，为什么同一个 `diff` 会对应不同的运营句子。这样后面再解释告警、[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue) 和 [评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/e/#glossary-evaluation) 时，理解才不会变得摇晃。
+这里需要同时保留`这时候还不能说得太重`这一规则，才能调节解读强度。读者需要能马上看出，为什么同一个 `diff` 会对应不同的运营句子。这样后面再解释告警、[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 和 [评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/e/#glossary-evaluation) 时，理解才不会变得摇晃。
 
 | 观测状态 | 还说得过重的句子 | 更安全的句子 |
 | --- | --- | --- |

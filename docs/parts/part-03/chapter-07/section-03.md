@@ -19,7 +19,7 @@ Part 3에서는 아직 모델을 평가하지 않습니다. 여기서 먼저 필
 | 차이값, 변동성 차이, 패턴 차이 | 무엇이 평소와 다른지 설명하기 어려움 |
 | 검토 필요 신호 | 경고 후보를 왜 올렸는지 약해짐 |
 
-이 단계를 먼저 거쳐야 `무엇을 예측 문제로 만들 수 있는가`와 무엇은 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report)로 남겨야 하는가를 정할 수 있습니다. Part 3에서 붙잡아야 하는 기준선의 뜻도 여기까지입니다. 즉 현재 Section의 기준선은 `평소 구조를 함께 두고 지금 상태의 차이를 읽는 기준`입니다.
+이 단계를 먼저 거쳐야 `무엇을 예측 문제로 만들 수 있는가`와 무엇은 [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)로 남겨야 하는가를 정할 수 있습니다. Part 3에서 붙잡아야 하는 기준선의 뜻도 여기까지입니다. 즉 현재 Section의 기준선은 `평소 구조를 함께 두고 지금 상태의 차이를 읽는 기준`입니다.
 
 ## 자주 생기는 오해
 

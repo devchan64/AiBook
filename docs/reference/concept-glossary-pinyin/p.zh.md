@@ -8,3 +8,5 @@
 --8<-- "reference/concept-glossary-terms/ranking.zh.md"
 
 --8<-- "reference/concept-glossary-terms/evaluation-design.zh.md"
+
+--8<-- "reference/concept-glossary-terms/partial-derivative.zh.md"

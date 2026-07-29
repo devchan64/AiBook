@@ -3,7 +3,7 @@
 > Section ID: `P3-8.3`
 > Version: `v2026.07.25`
 
-保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-table)之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的[比较结果](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-result)和[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)按正确顺序放进句子里。
+保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的[比较结果](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-result)和[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)按正确顺序放进句子里。
 
 最安全的基本顺序如下。
 

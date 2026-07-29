@@ -20,13 +20,13 @@
 
 ## 为什么这个区分会改变问题类型本身
 
-actual target 和 proxy target 的差别，并不只是名称不同。只要你真正要预测的对象变了，当前这个问题应该被放成[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report)、[复核候选(review candidate)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-candidate)筛选问题，还是要提升成[预测(prediction)](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction)问题，也会一起改变。
+actual target 和 proxy target 的差别，并不只是名称不同。只要你真正要预测的对象变了，当前这个问题应该被放成[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)、[复核候选(review candidate)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-candidate)筛选问题，还是要提升成[预测(prediction)](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction)问题，也会一起改变。
 
 | 当前真正能看到的东西 | 更自然的问题类型 | 原因 |
 | --- | --- | --- |
 | 实际目标可以直接看到 | 预测实际目标 | 因为输入与结果可以直接绑定到同一个问题上 |
 | 实际目标出现得晚，只能先看到代理列 | 预测代理 target，或把它当成复核候选问题 | 因为现在预测的值与真正想知道的值并不相同 |
-| 实际目标很弱，代理列也不稳定 | 保持为比较报告或[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue) | 因为连“哪一列该当结果列”本身都还没有足够关上 |
+| 实际目标很弱，代理列也不稳定 | 保持为比较报告或[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) | 因为连“哪一列该当结果列”本身都还没有足够关上 |
 
 换句话说，一旦使用 proxy target，就必须区分`这个问题可以先做`和`这个问题正在直接解决原始目标`。表面上看像是同一个预测问题，实际上可能预测的是`代理判断`，而不是`实际目标`。如果这层差别没有写出来，后面再去解释分数时，就会混淆到底是把什么预测对了。
 

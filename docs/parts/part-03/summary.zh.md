@@ -13,7 +13,7 @@ Part 3 的流程，比起按 Chapter 编号记住，更重要的是按下面三�
 | --- | --- | --- |
 | 固定职责与顺序 | 数据建模负责什么，又按什么顺序判断？ | 问题结构设计的位置、工作顺序地图 |
 | 重建比较结构 | 存储好的记录应重新读成什么样本、表、特征和基准线结构？ | 数据集候选、摘要表、特征、基准线比较表 |
-| 收口解释与问题 | 可以说到哪里，什么还应该保留为[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report)？ | 保守表述、运营输出、输入/结果边界、时间边界 |
+| 收口解释与问题 | 可以说到哪里，什么还应该保留为[比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)？ | 保守表述、运营输出、输入/结果边界、时间边界 |
 
 只要这三行还在，Part 3 就仍然可以被重新读成 `把问题改写成可表达结构的一连串判断`。
 

@@ -3,7 +3,7 @@
 > Section ID: `P3-8.1`
 > Version: `v2026.07.25`
 
-Having a [comparison table](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table) does not mean every difference should be read with the same strength. In operational data, sample sizes are often small, and it may be unclear whether the same change repeats. At the interpretation stage, you need to ask not only `what changed` but also `how strongly that difference can be trusted`.
+Having a [comparison table](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) does not mean every difference should be read with the same strength. In operational data, sample sizes are often small, and it may be unclear whether the same change repeats. At the interpretation stage, you need to ask not only `what changed` but also `how strongly that difference can be trusted`.
 
 When the sample size is small, values such as the mean, variability, and representative pattern can shift easily. A difference of `0.3` between the recent mean and the baseline mean may look impressive if it comes from only two recent cases. That same difference of `0.3` carries a different weight if it comes from twenty recent cases. Even when the numeric gap is the same, interpretation strength should change depending on how many observations produced it.
 
@@ -25,7 +25,7 @@ If you restate this table in a more operational way, it leads to sentences like 
 - If the sample size is small but the pattern repeats: send it to human review instead of auto-confirming it.
 - If both sample size and repeatability are sufficient: escalate it to a stronger warning or follow-up analysis.
 
-The point here is to keep a rule for `when not to speak too strongly yet` so that interpretation strength can be adjusted. Readers should be able to see immediately why the same `diff` leads to different operational sentences. That makes the later explanations of warnings, the [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue), and [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evaluation) less unstable.
+The point here is to keep a rule for `when not to speak too strongly yet` so that interpretation strength can be adjusted. Readers should be able to see immediately why the same `diff` leads to different operational sentences. That makes the later explanations of warnings, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), and [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evaluation) less unstable.
 
 | Observation state | Sentence that speaks too strongly too early | Safer sentence |
 | --- | --- | --- |

@@ -60,3 +60,11 @@
 --8<-- "reference/concept-glossary-terms/credential.zh.md"
 
 --8<-- "reference/concept-glossary-terms/parameter.zh.md"
+
+--8<-- "reference/concept-glossary-terms/attribution.zh.md"
+
+--8<-- "reference/concept-glossary-terms/error-accumulation.zh.md"
+
+--8<-- "reference/concept-glossary-terms/dense-vector.zh.md"
+
+--8<-- "reference/concept-glossary-terms/provenance.zh.md"

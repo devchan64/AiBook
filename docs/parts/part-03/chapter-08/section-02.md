@@ -26,7 +26,7 @@
 
 이 표에서 보듯이 비교 구조가 직접 뒷받침하는 것은 대체로 `변화 신호`, `경고 후보`, `검토 필요` 수준까지입니다. 반면 `원인 확정`은 더 많은 근거가 필요합니다. 원시 로그 재확인, 운영 맥락, 추가 센서, 후행 결과, 사람의 판단이 모두 필요할 수 있습니다.
 
-즉 [비교표(comparison table)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparison-table)가 강한 도구라는 말과, 비교표만으로 모든 것을 말할 수 있다는 말은 다릅니다. 비교표는 `무엇이 평소와 다르게 보이는가`를 빠르게 드러내는 데 강하지만, `왜 그런가`를 단독으로 판정하는 도구는 아닙니다. 이 경계를 분명히 해야 경고와 진단, [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue)와 자동 분류를 뒤섞지 않게 됩니다.
+즉 [비교표(comparison table)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)가 강한 도구라는 말과, 비교표만으로 모든 것을 말할 수 있다는 말은 다릅니다. 비교표는 `무엇이 평소와 다르게 보이는가`를 빠르게 드러내는 데 강하지만, `왜 그런가`를 단독으로 판정하는 도구는 아닙니다. 이 경계를 분명히 해야 경고와 진단, [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)와 자동 분류를 뒤섞지 않게 됩니다.
 
 통계적 보수성은 바로 여기서 필요합니다. 표본 수가 적거나 반복성이 약하면, 차이가 보여도 표현 강도를 낮춰야 합니다. 따라서 여기서는 `변화는 관찰되지만 원인은 아직 확정되지 않았다`는 문장을 기본 태도로 삼습니다.
 

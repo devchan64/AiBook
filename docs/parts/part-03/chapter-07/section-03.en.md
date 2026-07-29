@@ -19,7 +19,7 @@ For example, if the average flow of the recent 20 cases is 2.1 and the [baseline
 | Difference values, variability differences, pattern differences | It becomes hard to explain what is different from usual |
 | Signals that need review | The reason for raising a warning candidate becomes weak |
 
-Only after passing through this stage can we decide `what can become a prediction problem` and what should remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-report). The meaning of baseline that Part 3 should hold on to also reaches only this far. In other words, the baseline of the current section is `the reference that lets us read the difference of the current state side by side with the usual structure`.
+Only after passing through this stage can we decide `what can become a prediction problem` and what should remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure). The meaning of baseline that Part 3 should hold on to also reaches only this far. In other words, the baseline of the current section is `the reference that lets us read the difference of the current state side by side with the usual structure`.
 
 ## Two Common Misunderstandings
 

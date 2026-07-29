@@ -3,7 +3,7 @@
 > Section ID: `P3-9.8`
 > Version: `v2026.07.25`
 
-Even after inputs and results are defined, a prediction problem is still only half closed. Even the same `review_needed` prediction can mean different things depending on whether it raises one operating event into a [review queue](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue) or adjusts the warning strength of an entire recent window. In addition, the [score](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-score) output by a model and the [policy rule](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-policy-rule) that turns that score into real action are not the same thing.
+Even after inputs and results are defined, a prediction problem is still only half closed. Even the same `review_needed` prediction can mean different things depending on whether it raises one operating event into a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) or adjusts the warning strength of an entire recent window. In addition, the [score](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-score) output by a model and the [policy rule](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-policy-rule) that turns that score into real action are not the same thing.
 
 One predicted value needs to be written together with the unit of action it connects to, and model scores need to be read separately from operating policy.
 

@@ -6,6 +6,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 <a id="random"></a>
 
+--8<-- "reference/concept-glossary-terms/random-forest.en.md"
+
 
 
 --8<-- "reference/concept-glossary-terms/ranking.en.md"
@@ -71,3 +73,8 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/rule-based-system.en.md"
 
+--8<-- "reference/concept-glossary-terms/rightsholder.en.md"
+
+--8<-- "reference/concept-glossary-terms/rlhf-reinforcement-learning-from-human-feedback.en.md"
+
+--8<-- "reference/concept-glossary-terms/reasoning.en.md"

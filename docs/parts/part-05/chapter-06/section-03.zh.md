@@ -11,7 +11,7 @@
 
 学习（learning）是改变模型参数的阶段，而模型执行（inference）是在不改变参数的前提下，用当前参数计算结果的阶段。
 
-如果后面几节里又开始把学习和模型执行混在一起，更适合回到概念词汇表里的[训练（training）](/AiBook/zh/reference/concept-glossary-pinyin/x/#training)和[推断（inference）](/AiBook/zh/reference/concept-glossary-pinyin/i/#inference)条目，先重新确认它们的边界。
+如果后面几节里又开始把学习和模型执行混在一起，更适合回到概念词汇表里的[训练（training）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)和[推断（inference）](/AiBook/zh/reference/concept-glossary-pinyin/i/#inference)条目，先重新确认它们的边界。
 
 ## 区分学习与执行的问题
 

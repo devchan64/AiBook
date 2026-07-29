@@ -9,7 +9,7 @@ If the gradient has been computed, then in what order does the model actually ch
 
 The core four stages of a deep-learning training loop are `forward -> loss -> backward -> optimizer step`. It is safer to hold onto these four stages first as one shared repetition.
 
-If the places of loss, backpropagation, update, and mode switching start to blur together again inside the training loop, go back together to the [training](/AiBook/en/reference/concept-glossary-alpha/t/#training), [backpropagation](/AiBook/en/reference/concept-glossary-alpha/b/#backpropagation), and [optimizer](/AiBook/en/reference/concept-glossary-alpha/o/#optimizer) entries in the concept glossary.
+If the places of loss, backpropagation, update, and mode switching start to blur together again inside the training loop, go back together to the [training](/AiBook/en/reference/concept-glossary-alpha/m/#model-training), [backpropagation](/AiBook/en/reference/concept-glossary-alpha/b/#backpropagation), and [optimizer](/AiBook/en/reference/concept-glossary-alpha/o/#optimizer) entries in the concept glossary.
 
 ## The Question of One Turn Through the Training Loop
 

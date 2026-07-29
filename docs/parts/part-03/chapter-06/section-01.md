@@ -3,7 +3,7 @@
 > Section ID: `P3-6.1`
 > Version: `v2026.07.25`
 
-특징을 처음 배울 때는 `열이 많을수록 좋은 것 아닐까`라고 받아들이곤 합니다. 하지만 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)은 단순히 많은 값을 넣는 일이 아닙니다. 특징은 샘플이 가진 구조를 비교와 예측에 쓸 수 있도록 다시 표현한 값입니다. 그래서 좋은 특징은 많기보다, `무엇을 보여 주려는가`가 분명해야 합니다. 앞 절에서 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-summary-table)로 바꿨다면, 이제 그 요약 표 안에 어떤 구조를 남길지 정해야 합니다.
+특징을 처음 배울 때는 `열이 많을수록 좋은 것 아닐까`라고 받아들이곤 합니다. 하지만 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)은 단순히 많은 값을 넣는 일이 아닙니다. 특징은 샘플이 가진 구조를 비교와 예측에 쓸 수 있도록 다시 표현한 값입니다. 그래서 좋은 특징은 많기보다, `무엇을 보여 주려는가`가 분명해야 합니다. 앞 절에서 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꿨다면, 이제 그 요약 표 안에 어떤 구조를 남길지 정해야 합니다.
 
 특징을 설계한다는 말은 요약 표 안의 숫자를 그대로 쓰는 일이 아니라, 비교하고 싶은 구조를 숫자 표현으로 다시 고르는 일입니다. 그래서 먼저 어떤 구조를 남길지 정한 뒤에야 평균, 기울기, 변동성 같은 특징 후보가 의미를 가집니다. 여기서 한 번 더 갈라지는 판단이 있습니다. 같은 구조를 평균, 차이, 기울기, 토큰, 비율처럼 다른 표현으로 바꾸는 일은 [변수변환(variable transformation)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-variable-transformation)이고, 그렇게 바꾼 표현 중 실제로 남길 항목을 고르는 일은 [특징 선택(feature selection)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature-selection)입니다.
 

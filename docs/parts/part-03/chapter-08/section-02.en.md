@@ -26,7 +26,7 @@ The same judgment applies when reading a figure. A recent line may sit below the
 
 As this table shows, the comparison structure directly supports statements mostly up to the level of `change signal`, `warning candidate`, and `review needed`. By contrast, `cause confirmed` requires more evidence. You may need raw log rechecks, operational context, extra sensors, downstream outcomes, and human judgment.
 
-So saying that [comparison tables](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-comparison-table) are powerful is not the same as saying they can say everything on their own. They are strong at showing `what looks different from the usual state`, but they are not standalone tools for deciding `why`. Keeping this boundary clear prevents warnings and diagnoses, [review queues](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-review-queue) and automatic classification, from being mixed together.
+So saying that [comparison tables](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) are powerful is not the same as saying they can say everything on their own. They are strong at showing `what looks different from the usual state`, but they are not standalone tools for deciding `why`. Keeping this boundary clear prevents warnings and diagnoses, [review queues](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) and automatic classification, from being mixed together.
 
 Statistical conservatism matters exactly here. If the sample size is small or repeatability is weak, the wording should stay softer even when a difference is visible. The default stance is therefore `a change is observed, but the cause is not yet confirmed`.
 

@@ -3,7 +3,7 @@
 > Section ID: `P3-1.3`
 > Version: `v2026.07.25`
 
-좋은 [데이터 질문(data question)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-question)은 `무엇을 한 건으로 볼지`, `무엇을 무엇과 비교할지`, `최종적으로 무엇을 알고 싶은지`가 먼저 드러나야 합니다. 모델 이름이나 기술 이름보다 이런 질문 구조가 먼저 서 있어야, 뒤의 샘플 단위, 표 구조, 특징, 기준선, 출력 구조도 함께 정해집니다. 특히 사람이 먼저 볼 대상을 고르는 질문은 [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue), 나중에 맞힐 결과를 세우는 질문은 목표 라벨 후보(target candidate)로 이어진다는 점이 함께 보여야 합니다. 반대로 나쁜 질문은 모델 이름은 있는데 샘플 단위와 비교 기준이 비어 있습니다.
+좋은 [데이터 질문(data question)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-question)은 `무엇을 한 건으로 볼지`, `무엇을 무엇과 비교할지`, `최종적으로 무엇을 알고 싶은지`가 먼저 드러나야 합니다. 모델 이름이나 기술 이름보다 이런 질문 구조가 먼저 서 있어야, 뒤의 샘플 단위, 표 구조, 특징, 기준선, 출력 구조도 함께 정해집니다. 특히 사람이 먼저 볼 대상을 고르는 질문은 [검토 후보 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), 나중에 맞힐 결과를 세우는 질문은 목표 라벨 후보(target candidate)로 이어진다는 점이 함께 보여야 합니다. 반대로 나쁜 질문은 모델 이름은 있는데 샘플 단위와 비교 기준이 비어 있습니다.
 
 | 아직 너무 빠른 표현 | 더 나은 데이터 질문 |
 | --- | --- |

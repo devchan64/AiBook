@@ -3,7 +3,7 @@
 > Section ID: `P3-6.4`
 > Version: `v2026.07.25`
 
-“[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/h/#glossary-summary-table)里有一列”这件事，和“它就是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)”这个判断，并不是同一句话。汇总表里当然会有用来描述样本结构的特征，但也可能同时包含用于比较的列、结果候选列，以及用于识别和保留上下文的列。所以，这一节最先要抓住的区分是：`汇总表中的列` 和 `应该被当成模型输入来读取的特征`，并不会自动重合。
+“[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-modeling)里有一列”这件事，和“它就是[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)”这个判断，并不是同一句话。汇总表里当然会有用来描述样本结构的特征，但也可能同时包含用于比较的列、结果候选列，以及用于识别和保留上下文的列。所以，这一节最先要抓住的区分是：`汇总表中的列` 和 `应该被当成模型输入来读取的特征`，并不会自动重合。
 
 ## 为什么需要这个区分
 

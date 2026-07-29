@@ -3,7 +3,7 @@
 > Section ID: `P3-6.4`
 > Version: `v2026.07.25`
 
-[요약 표(summary table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-summary-table)에 열이 들어 있다는 사실과 그것이 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)이라는 판단은 같은 말이 아닙니다. 요약 표에는 샘플 구조를 설명하는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있습니다. 그래서 이 절에서 먼저 붙잡아야 할 구분은 `요약 표의 열`과 `모델 입력으로 읽을 특징`이 자동으로 일치하지는 않는다는 점입니다.
+[요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)에 열이 들어 있다는 사실과 그것이 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)이라는 판단은 같은 말이 아닙니다. 요약 표에는 샘플 구조를 설명하는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있습니다. 그래서 이 절에서 먼저 붙잡아야 할 구분은 `요약 표의 열`과 `모델 입력으로 읽을 특징`이 자동으로 일치하지는 않는다는 점입니다.
 
 ## 왜 이 구분이 필요한가
 

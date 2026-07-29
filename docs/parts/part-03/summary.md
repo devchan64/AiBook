@@ -13,7 +13,7 @@ Part 3의 흐름은 Chapter 번호보다 다음 세 묶음으로 기억하는 �
 | --- | --- | --- |
 | 역할과 순서 고정 | 데이터 모델링은 무엇을 맡고 어떤 순서로 판단하는가 | 문제 구조 설계의 위치, 작업 순서 지도 |
 | 비교 구조 재구성 | 저장된 기록을 어떤 샘플, 표, 특징, 기준선 구조로 다시 읽을 것인가 | 데이터셋 후보, 요약 표, 특징(feature), 기준선 비교표 |
-| 해석과 문제 마감 | 어디까지 말하고 무엇을 아직 [비교 리포트(comparison report)](/AiBook/reference/concept-glossary-parts/06-bieup.md#glossary-comparison-report)로 둘 것인가 | 보수적 문장, 운영 산출물, 입력/결과 경계, 시간 경계 |
+| 해석과 문제 마감 | 어디까지 말하고 무엇을 아직 [비교 리포트(comparison report)](/AiBook/reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)로 둘 것인가 | 보수적 문장, 운영 산출물, 입력/결과 경계, 시간 경계 |
 
 이 세 줄만 남겨도 Part 3을 `문제를 표현 가능한 구조로 바꾸는 판단의 연쇄`로 다시 읽을 수 있습니다.
 

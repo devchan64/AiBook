@@ -19,7 +19,7 @@ Part 3 还没有进入模型评估阶段。这里首先需要做的是：用同�
 | 差值、波动性差异、模式差异 | 很难说明什么地方和以往不同 |
 | 需要复核的信号 | 为什么要提出警告候选会变弱 |
 
-只有先经过这一步，才能再去决定 `什么可以变成预测问题`，以及什么应该继续留在 [比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-report) 里。Part 3 在这里要抓住的“基准线”的意思，也就到这里为止。也就是说，这一节里的基准线，就是 `把当前状态和“平时结构”并排放在一起，读出差异的参考`。
+只有先经过这一步，才能再去决定 `什么可以变成预测问题`，以及什么应该继续留在 [比较报告(comparison report)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 里。Part 3 在这里要抓住的“基准线”的意思，也就到这里为止。也就是说，这一节里的基准线，就是 `把当前状态和“平时结构”并排放在一起，读出差异的参考`。
 
 ## 两种常见误解
 

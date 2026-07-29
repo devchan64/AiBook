@@ -3,7 +3,7 @@
 > Section ID: `P3-5.2`
 > Version: `v2026.07.25`
 
-같은 [평균(mean)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-mean)을 가진 두 동작이 항상 같은 구조를 뜻하지는 않습니다. 평균은 전체 수준을 한눈에 요약하는 데는 유용하지만, 시간에 따라 어떻게 움직였는지까지 모두 보여 주지는 못합니다. 그래서 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-summary-table)로 바꾸는 단계에서는 `평균이 같다`는 사실만으로 안심하지 않고, 평균 밖의 패턴 차이를 어떻게 남길지 함께 고민해야 합니다.
+같은 [평균(mean)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-mean)을 가진 두 동작이 항상 같은 구조를 뜻하지는 않습니다. 평균은 전체 수준을 한눈에 요약하는 데는 유용하지만, 시간에 따라 어떻게 움직였는지까지 모두 보여 주지는 못합니다. 그래서 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계에서는 `평균이 같다`는 사실만으로 안심하지 않고, 평균 밖의 패턴 차이를 어떻게 남길지 함께 고민해야 합니다.
 
 여기서는 요약 표 변환 절차 자체를 다시 설명하지 않습니다. 대신 앞 절에서 만든 요약 표가 평균만 남기는 표가 아니라, 뒤의 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 설계와 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교로 이어질 패턴 차이까지 남겨야 한다는 점에 집중합니다.
 

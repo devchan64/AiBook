@@ -46,7 +46,7 @@
 | 이 줄에 라벨을 붙이면 되나 | 라벨이 보통 동작 1회나 최근 구간에 붙기 때문 | 라벨이 붙는 대상은 한 시점인가, 한 동작인가 |
 | 이 줄을 훈련 데이터 한 건으로 쓰면 되나 | 같은 동작의 가까운 줄들이 훈련/평가에 섞일 수 있음 | 분할 대상은 시점 행인가, 동작 단위 샘플인가 |
 
-즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 특징 설계(feature engineering), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교, [검토 큐(review queue)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-review-queue), 예측용 입력 구조 해석까지 모두 기대는 바닥 구조입니다.
+즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 특징 설계(feature engineering), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교, [검토 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), 예측용 입력 구조 해석까지 모두 기대는 바닥 구조입니다.
 
 ## 작은 도식으로 보기
 

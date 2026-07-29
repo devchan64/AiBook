@@ -3,7 +3,7 @@
 > Section ID: `P3-5.5`
 > Version: `v2026.07.25`
 
-원천 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-summary-table)로 바꾸는 단계까지 오면, `동작은 있었는데 일부 센서값이 비어 있으면 어떻게 해야 하는가?` `중간 구간 기록이 빠졌는데 이 샘플을 버려야 하는가, 일부만 써야 하는가?` 같은 질문이 바로 생깁니다. 이때 먼저 봐야 할 것은 값을 어떻게 채울지보다, [결측값(missing value)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-missing-value)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 경계와 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 의미를 얼마나 흔드는가입니다.
+원천 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계까지 오면, `동작은 있었는데 일부 센서값이 비어 있으면 어떻게 해야 하는가?` `중간 구간 기록이 빠졌는데 이 샘플을 버려야 하는가, 일부만 써야 하는가?` 같은 질문이 바로 생깁니다. 이때 먼저 봐야 할 것은 값을 어떻게 채울지보다, [결측값(missing value)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-missing-value)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 경계와 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 의미를 얼마나 흔드는가입니다.
 
 값이 빠졌다는 사실은 단순한 청소 문제가 아니라, `이 샘플을 여전히 같은 종류의 사례로 볼 수 있는가`를 다시 묻게 하는 데이터 모델링 신호입니다.
 

@@ -28,3 +28,15 @@
 --8<-- "reference/concept-glossary-terms/recall.zh.md"
 
 --8<-- "reference/concept-glossary-terms/regularization.zh.md"
+
+--8<-- "reference/concept-glossary-terms/population.zh.md"
+
+--8<-- "reference/concept-glossary-terms/autoregressive-model.zh.md"
+
+--8<-- "reference/concept-glossary-terms/exponential-function.zh.md"
+
+--8<-- "reference/concept-glossary-terms/tool-use.zh.md"
+
+--8<-- "reference/concept-glossary-terms/confidence-interval.zh.md"
+
+--8<-- "reference/concept-glossary-terms/transformative-use.zh.md"

@@ -3,7 +3,7 @@
 > Section ID: `P3-7.4`
 > Version: `v2026.07.25`
 
-一旦理解了 [基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline) 是必要的，接下来立刻就会冒出下一个问题。`那到底什么算平时？` 读者很容易再次卡在这里。如果拿来和最近区间比较的过去区间是随意拼出来的，那么即使 [比较表(comparison table)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-table) 能做出来，解释也会很容易晃动。所以，更好的先后顺序是先抓住：`先写下比较问题`，`只保留适合这个问题的候选`，然后 `再从剩下的候选里选出和当前样本条件最接近的那一组。`
+一旦理解了 [基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline) 是必要的，接下来立刻就会冒出下一个问题。`那到底什么算平时？` 读者很容易再次卡在这里。如果拿来和最近区间比较的过去区间是随意拼出来的，那么即使 [比较表(comparison table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) 能做出来，解释也会很容易晃动。所以，更好的先后顺序是先抓住：`先写下比较问题`，`只保留适合这个问题的候选`，然后 `再从剩下的候选里选出和当前样本条件最接近的那一组。`
 
 基准线不应该是 `随便一堆过去数据的组合`，而应该是 `和当前正在看的样本属于同一类条件下生成的比较区间`。如果动作类型不同、运行模式不同、区间长度不同，或者至少运行条件不相近，那么即使会得到差值，也很难说明这个差值到底意味着什么。
 

@@ -5,7 +5,7 @@
 
 _副标题: 解读句子如何变成 warning 列和 review queue 标准？_
 
-读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-table)之后，往往会留下类似`最近区间相对基线后段下降更大，因此提高复核优先级`这样的保守解读句子。接下来需要做的判断，是如何把这句话转成 `warning_level`、`review_needed`、`priority_score` 这样的结构化运营列。保守解读句子不是终点，而是在转成[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-queue)这类[输出结构](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)之前，最后一层人工解读。如果把比较表直接改写成结构化运营输出，中间的判断理由可能会丢失；但如果只留下句子，又很难按同一标准去排运营优先级、检索、或重新排序。
+读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)之后，往往会留下类似`最近区间相对基线后段下降更大，因此提高复核优先级`这样的保守解读句子。接下来需要做的判断，是如何把这句话转成 `warning_level`、`review_needed`、`priority_score` 这样的结构化运营列。保守解读句子不是终点，而是在转成[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)这类[输出结构](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)之前，最后一层人工解读。如果把比较表直接改写成结构化运营输出，中间的判断理由可能会丢失；但如果只留下句子，又很难按同一标准去排运营优先级、检索、或重新排序。
 
 | 层级 | 主要形式 | 作用 |
 | --- | --- | --- |

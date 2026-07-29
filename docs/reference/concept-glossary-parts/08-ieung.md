@@ -4,6 +4,8 @@
 
 --8<-- "reference/concept-glossary-terms/causal-inference.ko.md"
 
+--8<-- "reference/concept-glossary-terms/oob-score.ko.md"
+
 
 --8<-- "reference/concept-glossary-terms/ensemble.ko.md"
 
@@ -99,6 +101,8 @@
 --8<-- "reference/concept-glossary-terms/outlier.ko.md"
 
 --8<-- "reference/concept-glossary-terms/human-oversight.ko.md"
+
+--8<-- "reference/concept-glossary-terms/optimizer.ko.md"
 
 
 
