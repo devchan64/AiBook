@@ -82,7 +82,7 @@
 
 1. `management/guidelines/concept-glossary-guidelines.md`의 등재·제외 기준과 표제 정리 절차를 먼저 확인한다.
 2. 단어별 원고, 언어별 공개 색인, 통합 인덱스가 같은 slug와 의미 범위를 가리키는지 확인한다.
-3. 완료된 실행 기록이 필요할 때만 `management/authoring/glossary-manuscript-direct-edit-plan.md`를 참고한다.
+3. 완료된 실행 기록을 새 기준처럼 재사용하지 않고, 반복 운영 기준은 가이드라인에 남긴다.
 
 ## 노트 정리 원칙
 
