@@ -6,7 +6,6 @@
 
 --8<-- "reference/concept-glossary-terms/proxy-label.ko.md"
 
---8<-- "reference/concept-glossary-terms/code.ko.md"
 
 
 

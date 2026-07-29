@@ -68,4 +68,3 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/rule-based-system.en.md"
 
 
---8<-- "reference/concept-glossary-terms/runtime.en.md"

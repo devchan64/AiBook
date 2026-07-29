@@ -74,7 +74,7 @@ P4-17.1에서 [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-
 
 ## 스펙트럴 클러스터링은 무엇을 보려 하는가
 
-스펙트럴 클러스터링은 점들을 단순히 좌표 거리로만 읽기보다, `누가 누구와 연결되어 있는가`라는 [그래프(graph)](../../../reference/concept-glossary-parts/01-giyeok.md#graph)와 [연결 구조(connectivity)](../../../reference/concept-glossary-parts/08-ieung.md#connectivity)로 다시 읽으려는 방식입니다.
+스펙트럴 클러스터링은 점들을 단순히 좌표 거리로만 읽기보다, `누가 누구와 연결되어 있는가`라는 그래프(graph)와 [연결 구조(connectivity)](../../../reference/concept-glossary-parts/08-ieung.md#connectivity)로 다시 읽으려는 방식입니다.
 
 입문적으로는 다음처럼 잡으면 충분합니다.
 

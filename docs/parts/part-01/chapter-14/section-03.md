@@ -3,12 +3,12 @@
 > Section ID: `P1-14.3`
 > Version: `v2026.07.26`
 
-P1-14.2에서는 RAG(retrieval-augmented generation)와 도구 사용(tool use)을 구분했습니다.
+P1-14.2에서는 RAG(retrieval-augmented generation)와 에이전트 도구 사용(tool use)을 구분했습니다.
 
 > RAG:
 > 필요한 자료를 찾아 모델 입력 맥락(context)에 붙인다.
 >
-> 도구 사용(tool use):
+> 에이전트 도구 사용(tool use):
 > 외부 시스템의 기능을 호출해 조회하거나 행동한다.
 
 AI 에이전트(AI agent)는 이 둘을 포함할 수 있지만, 같은 말은 아닙니다. 에이전트라는 말이 붙으면 핵심은 `한 번의 답변`보다 긴 흐름으로 이동합니다.
@@ -45,7 +45,7 @@ Part 1에서 `AI 에이전트(AI agent)`, `목표(goal)`, `상태(state)`, `행�
 ## 목표를 작업 흐름으로 이어 가는 기준
 
 - AI 에이전트(AI agent)를 단순한 챗봇이나 모델 이름이 아니라 실행 구조로 이해합니다.
-- 프롬프트(prompt), RAG, 도구 사용(tool use), AI 에이전트(AI agent)의 차이를 구분합니다.
+- 프롬프트(prompt), RAG, 에이전트 도구 사용(tool use), AI 에이전트(AI agent)의 차이를 구분합니다.
 - 에이전트가 여러 단계 작업을 이어 갈 수 있지만, 무제한 자율 실행을 뜻하지는 않음을 이해합니다.
 - 앱(application), 서버(server), 실행 환경(runtime)이 권한(permission), 승인(approval), 상태(state)를 관리해야 함을 이해합니다.
 - Codex 같은 코딩 에이전트형 도구를 AI 서비스 구조 안에서 볼 준비를 합니다.
@@ -68,7 +68,7 @@ Part 1에서 `AI 에이전트(AI agent)`, `목표(goal)`, `상태(state)`, `행�
 > -> 모델(model)
 > -> 출력(output)
 
-프롬프트(prompt)는 이 입력에 지시(instruction), 맥락(context), 예시(example)를 담는 방식입니다. RAG는 여기에 외부 자료를 검색해 붙입니다. 도구 사용(tool use)은 필요할 때 외부 시스템을 호출합니다.
+프롬프트(prompt)는 이 입력에 지시(instruction), 맥락(context), 예시(example)를 담는 방식입니다. RAG는 여기에 외부 자료를 검색해 붙입니다. 에이전트 도구 사용(tool use)은 필요할 때 외부 시스템을 호출합니다.
 
 AI 에이전트(AI agent)는 이 요소들을 한 번만 쓰는 것이 아니라, 작업이 끝날 때까지 이어 붙이는 구조에 가깝습니다.
 
@@ -120,13 +120,13 @@ ReAct 논문은 언어 모델이 추론(reasoning)과 행동(acting)을 번갈�
 
 ## RAG와 도구 사용은 에이전트의 재료가 될 수 있다
 
-AI 에이전트(AI agent)는 RAG나 도구 사용(tool use)을 대체하는 말이 아닙니다. 오히려 둘을 작업 흐름 안에 배치할 수 있습니다.
+AI 에이전트(AI agent)는 RAG나 에이전트 도구 사용(tool use)을 대체하는 말이 아닙니다. 오히려 둘을 작업 흐름 안에 배치할 수 있습니다.
 
 | 구성요소 | 에이전트 흐름 안에서의 역할 |
 | --- | --- |
 | 프롬프트(prompt) | 목표, 지시, 제약, 출력 형식을 전달함 |
 | RAG | 필요한 근거 자료를 찾아 맥락(context)에 넣음 |
-| 도구 사용(tool use) | 외부 시스템 조회, 계산, 파일 처리, API 호출을 수행함 |
+| 에이전트 도구 사용(tool use) | 외부 시스템 조회, 계산, 파일 처리, API 호출을 수행함 |
 | 상태(state) | 중간 결과와 실행 이력을 보존함 |
 | 오케스트레이션(orchestration) | 어떤 순서로 실행할지 조정함 |
 
@@ -206,7 +206,7 @@ Codex 같은 코딩 에이전트형 도구는 에이전트 구조를 이해하�
 ## 체크리스트
 
 - AI 에이전트(AI agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation), 종료 조건(stop condition)의 흐름으로 설명할 수 있다.
-- 프롬프트(prompt), RAG, 도구 사용(tool use), AI 에이전트(AI agent)를 같은 말로 섞지 않고 구분할 수 있다.
+- 프롬프트(prompt), RAG, 에이전트 도구 사용(tool use), AI 에이전트(AI agent)를 같은 말로 섞지 않고 구분할 수 있다.
 - 에이전트가 여러 단계 작업을 이어 갈 수 있지만, 무제한 자율 실행을 뜻하지는 않음을 설명할 수 있다.
 - 앱(application)과 서버(server)가 권한(permission), 승인(approval), 상태(state), 실행 범위(scope)를 관리해야 함을 설명할 수 있다.
 - Codex 같은 코딩 에이전트형 도구를 파일 읽기, 패치, 빌드, 보고가 이어지는 작업 흐름으로 설명할 수 있다.

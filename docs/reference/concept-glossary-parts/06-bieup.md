@@ -10,13 +10,11 @@
 
 
 
---8<-- "reference/concept-glossary-terms/array.ko.md"
 
 
 
 
 
---8<-- "reference/concept-glossary-terms/version-control.ko.md"
 
 --8<-- "reference/concept-glossary-terms/vector-space.ko.md"
 

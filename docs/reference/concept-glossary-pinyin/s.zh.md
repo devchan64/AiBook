@@ -40,4 +40,3 @@
 
 --8<-- "reference/concept-glossary-terms/sim-to-real-gap.zh.md"
 
---8<-- "reference/concept-glossary-terms/tree.zh.md"

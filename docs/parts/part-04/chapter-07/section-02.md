@@ -13,7 +13,7 @@ P4-7.1에서는 `어떤 입력을 남길 것인가`를 봤습니다. 이제 남�
 
 이 절은 특정 알고리즘의 부록이 아니라, `알고리즘이 무엇을 입력으로 받는가`를 정리하는 공통 기초 절입니다.
 
-학술적으로도 전처리는 주변 작업이 아닙니다. 데이터 마이닝(data mining), 패턴 인식(pattern recognition), 머신러닝(machine learning) 교재와 도구 문서에서는 전처리를 보통 `원시 데이터(raw data)`를 `특징 공간(feature space)` 또는 `모델 입력(model input)`으로 옮기는 독립 단계로 다룹니다. 전처리는 모델 앞에 붙는 잡무가 아니라 `학습 가능한 표현을 만드는 단계`입니다.
+학술적으로도 전처리는 주변 작업이 아닙니다. 데이터 마이닝(data mining), 패턴 인식(pattern recognition), 머신러닝(machine learning) 교재와 도구 문서에서는 전처리를 보통 `원시 데이터(raw data)`를 `특징 공간(feature space)` 또는 `모델 입력 정의(model input)`으로 옮기는 독립 단계로 다룹니다. 전처리는 모델 앞에 붙는 잡무가 아니라 `학습 가능한 표현을 만드는 단계`입니다.
 
 이 관점이 중요한 이유는 간단합니다. 모델은 현실 그 자체를 배우지 않고, 전처리를 거쳐 표현된 입력을 배웁니다. 따라서 전처리를 어떻게 했는가는 모델의 경계(boundary), [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance), [최적화(optimization)](../../../reference/concept-glossary-parts/11-chieut.md#optimization), 해석 가능성(interpretability)에 직접 영향을 줍니다.
 

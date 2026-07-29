@@ -7,7 +7,7 @@
 
 现在我们重新回到 NumPy。NumPy 这个名字来自 "Numerical Python"。它是 Python 里广泛使用的开源库，用来创建数值数组，并以快速且一致的语法执行向量与矩阵计算。
 
-本节说明 `NumPy`、`shape`、`ndim`、`dtype` 的基本区分。这一章的重点不是背很多 NumPy 语法，而是学会在 AI 实践里把 vector、matrix、数据成组的形状读出来。以后再次遇到 array、axis、broadcasting 时，也可以把 [数组词条](/AiBook/zh/reference/concept-glossary-pinyin/d.zh/#array) 当作回返点。
+本节说明 `NumPy`、`shape`、`ndim`、`dtype` 的基本区分。这一章的重点不是背很多 NumPy 语法，而是学会在 AI 实践里把 vector、matrix、数据成组的形状读出来。以后再次遇到 array、axis、broadcasting 时，也回到本章的基准来连接。
 
 学习 AI 时，数据很快就会变成数值数组。句子会变成 token ID 的数组，图像会变成 pixel 数组，表格数据会变成 feature matrix，embedding 会变成 vector。你当然也可以只用 Python list 处理这些数值集合，但当你需要对许多值按同一种方式加、乘、求平均、做矩阵乘法时，NumPy 数组会自然得多。
 

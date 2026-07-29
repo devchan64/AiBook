@@ -7,7 +7,7 @@ Part 6은 Part 5에서 본 딥러닝 구조를 생성형 AI 사용 장면으로 
 
 그다음 텍스트가 토큰(token), token ID, 임베딩(embedding)으로 바뀌어 계산 가능한 입력이 되는 과정을 봅니다. Transformer와 GPT 계열 구조는 이 입력을 바탕으로 다음 후보를 만드는 흐름으로 읽습니다. 이후 사전학습(pretraining), 파인튜닝(fine-tuning), 지시 튜닝(instruction tuning), 정렬(alignment)을 통해 응답 습관이 어떻게 만들어지는지 확인합니다.
 
-중반 이후에는 모델 안쪽 설명을 실제 사용 구조로 확장합니다. 프롬프트(prompt), RAG(retrieval-augmented generation), 벡터 데이터베이스(vector database), 도구 사용(tool use), AI 에이전트(AI agent), MCP(Model Context Protocol), 하네스(harness)는 서로 떨어진 유행어가 아니라 생성 결과를 더 검토 가능하게 만들기 위한 보강 구조로 읽습니다. 마지막으로 LLM 평가, 자동 평가와 사람 평가, 서비스 운영 제약, 실패 대응, 작은 생성형 AI 기능의 실행 기록을 통해 자연스러운 답변과 검토 가능한 서비스 결과를 구분합니다. 발전사와 BERT 계열은 본류를 읽은 뒤 GPT 중심 설명을 과장하지 않기 위한 배경 지도와 비교 축으로 둡니다.
+중반 이후에는 모델 안쪽 설명을 실제 사용 구조로 확장합니다. 프롬프트(prompt), RAG(retrieval-augmented generation), 벡터 데이터베이스(vector database), 에이전트 도구 사용(tool use), AI 에이전트(AI agent), MCP(Model Context Protocol), 하네스(harness)는 서로 떨어진 유행어가 아니라 생성 결과를 더 검토 가능하게 만들기 위한 보강 구조로 읽습니다. 마지막으로 LLM 평가, 자동 평가와 사람 평가, 서비스 운영 제약, 실패 대응, 작은 생성형 AI 기능의 실행 기록을 통해 자연스러운 답변과 검토 가능한 서비스 결과를 구분합니다. 발전사와 BERT 계열은 본류를 읽은 뒤 GPT 중심 설명을 과장하지 않기 위한 배경 지도와 비교 축으로 둡니다.
 
 ## 생성형 AI를 이해하기 위한 Part 6의 기준
 

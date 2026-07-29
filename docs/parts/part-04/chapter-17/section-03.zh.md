@@ -74,7 +74,7 @@
 
 ## 谱聚类想看的是什么
 
-谱聚类并不只是按坐标距离来读点，而是试图通过`谁和谁相连`这样的[图(graph)](/AiBook/zh/reference/concept-glossary-pinyin/g/#graph)和[连接结构(connectivity)](/AiBook/zh/reference/concept-glossary-pinyin/l/#connectivity)来重新理解它们。
+谱聚类并不只是按坐标距离来读点，而是试图通过`谁和谁相连`这样的图(graph)和[连接结构(connectivity)](/AiBook/zh/reference/concept-glossary-pinyin/l/#connectivity)来重新理解它们。
 
 入门时，可以先抓住下面这句话。
 

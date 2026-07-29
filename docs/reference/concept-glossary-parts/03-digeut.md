@@ -27,7 +27,6 @@
 
 --8<-- "reference/concept-glossary-terms/tool-use.ko.md"
 
---8<-- "reference/concept-glossary-terms/external-tool.ko.md"
 
 --8<-- "reference/concept-glossary-terms/safety.ko.md"
 

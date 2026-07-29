@@ -74,7 +74,7 @@ So hierarchical clustering is closer to `first looking at how groups grow, then 
 
 ## What Is Spectral Clustering Trying To See?
 
-Spectral clustering does not try to read points only through coordinate distance. It tries to reread them through a [graph](/AiBook/en/reference/concept-glossary-alpha/g/#graph) and [connectivity](/AiBook/en/reference/concept-glossary-alpha/c/#connectivity) structure that asks `who is connected to whom`.
+Spectral clustering does not try to read points only through coordinate distance. It tries to reread them through a graph and [connectivity](/AiBook/en/reference/concept-glossary-alpha/c/#connectivity) structure that asks `who is connected to whom`.
 
 For an introduction, the following is enough.
 

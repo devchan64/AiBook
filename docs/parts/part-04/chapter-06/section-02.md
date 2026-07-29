@@ -5,7 +5,7 @@
 
 P4-6.1에서는 [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)가 단순 점수판이 아니라, 무엇을 중요하게 보는지 드러내는 기준이라는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다. `문제가 달라지면 왜 보는 지표도 달라질까요?`
 
-답은 단순합니다. 모델이 내놓는 [모델 출력(model output)](../../../reference/concept-glossary-parts/05-mieum.md#model-output)이 다르고, 그 출력이 연결되는 판단도 다르기 때문입니다. [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification)는 범주를 고르는 문제이고, [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression)는 숫자를 맞추는 문제이며, [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)는 비슷한 것끼리 묶는 문제입니다. 따라서 `잘했다`는 뜻도 같을 수 없습니다.
+답은 단순합니다. 모델이 내놓는 [모델 출력 정의(model output)](../../../reference/concept-glossary-parts/05-mieum.md#model-output)이 다르고, 그 출력이 연결되는 판단도 다르기 때문입니다. [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#classification)는 범주를 고르는 문제이고, [회귀(regression)](../../../reference/concept-glossary-parts/14-hieut.md#regression)는 숫자를 맞추는 문제이며, [군집화(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)는 비슷한 것끼리 묶는 문제입니다. 따라서 `잘했다`는 뜻도 같을 수 없습니다.
 
 ## 문제 유형별 평가 기준에서 닫을 질문
 

@@ -30,12 +30,10 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/ann-approximate-nearest-neighbor.en.md"
 
---8<-- "reference/concept-glossary-terms/ai-application.en.md"
 
 
 
 
---8<-- "reference/concept-glossary-terms/array.en.md"
 
 --8<-- "reference/concept-glossary-terms/attention.en.md"
 

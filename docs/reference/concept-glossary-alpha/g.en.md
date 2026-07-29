@@ -21,4 +21,3 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/gradient-descent.en.md"
 
---8<-- "reference/concept-glossary-terms/graph.en.md"

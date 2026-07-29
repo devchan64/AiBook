@@ -75,7 +75,6 @@
 
 --8<-- "reference/concept-glossary-terms/determinism.ko.md"
 
---8<-- "reference/concept-glossary-terms/route.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/group-split.ko.md"
@@ -84,10 +83,8 @@
 --8<-- "reference/concept-glossary-terms/computation-graph.ko.md"
 --8<-- "reference/concept-glossary-terms/computational-limit.ko.md"
 
---8<-- "reference/concept-glossary-terms/calculation-language.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/planning.ko.md"
 
 --8<-- "reference/concept-glossary-terms/excessive-agency.ko.md"
 
@@ -117,7 +114,6 @@
 --8<-- "reference/concept-glossary-terms/gradient.ko.md"
 
 
---8<-- "reference/concept-glossary-terms/graph.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/guardrail.ko.md"

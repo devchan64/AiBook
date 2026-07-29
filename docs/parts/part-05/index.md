@@ -34,7 +34,7 @@ Part 5는 `딥러닝 예고편`으로 읽혀서는 안 됩니다. 따라서 합�
 
 | 현재 Part 5에서 먼저 닫는 것 | Part 6으로 넘기는 것 |
 | --- | --- |
-| 퍼셉트론, 손실, 역전파, 옵티마이저(optimizer), 정규화(regularization), 합성곱 신경망(CNN), 순환 신경망(RNN), 어텐션(Attention), 트랜스포머(Transformer), 생성과 샘플링의 기본 구조와 역할 | 토큰화, 사전학습, 지시 튜닝(instruction tuning), 검색 증강 생성(RAG), 도구 사용(tool use), AI 에이전트(AI agent), 서비스 운영 |
+| 퍼셉트론, 손실, 역전파, 옵티마이저(optimizer), 정규화(regularization), 합성곱 신경망(CNN), 순환 신경망(RNN), 어텐션(Attention), 트랜스포머(Transformer), 생성과 샘플링의 기본 구조와 역할 | 토큰화, 사전학습, 지시 튜닝(instruction tuning), 검색 증강 생성(RAG), 에이전트 도구 사용(tool use), AI 에이전트(AI agent), 서비스 운영 |
 
 이 파트는 Part 6과 그 뒤 Part에서 다시 마주칠 해석 대상도 미리 준비합니다.
 

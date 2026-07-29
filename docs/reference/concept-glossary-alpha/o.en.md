@@ -14,13 +14,11 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 
 --8<-- "reference/concept-glossary-terms/observation.en.md"
 
---8<-- "reference/concept-glossary-terms/service-operation.en.md"
 
 <a id="optimization"></a>
 
 --8<-- "reference/concept-glossary-terms/optimization.en.md"
 
---8<-- "reference/concept-glossary-terms/orchestration.en.md"
 
 
 

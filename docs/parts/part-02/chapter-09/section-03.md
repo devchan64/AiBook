@@ -7,7 +7,7 @@ P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서
 
 그래프(graph)는 차트나 통계 그래프만을 뜻하지 않습니다. 자료구조와 수학 문맥에서 그래프는 대상 사이의 관계를 표현하는 구조입니다.
 
-여기서는 `그래프(graph)`, `노드(node)`, `엣지(edge)`, `방향(direction)`, `가중치(weight)`의 기본 구분을 설명합니다. `자료구조(data structure)`를 질문으로 읽는 대표 설명은 P2-9.1에, 네 구조 비교는 P2-9.2와 [개념사전의 자료구조 항목](../../../reference/concept-glossary-parts/09-jieut.md#data-structure)에 두고, 여기서는 관계 데이터를 어떤 질문으로 읽는지에 집중합니다.
+여기서는 `그래프(graph)`, `노드(node)`, `엣지(edge)`, `방향(direction)`, `가중치(weight)`의 기본 구분을 설명합니다. `자료구조 선택(data structure)`를 질문으로 읽는 대표 설명은 P2-9.1에, 네 구조 비교는 P2-9.2와 [개념사전의 자료구조 항목](../../../reference/concept-glossary-parts/09-jieut.md#data-structure)에 두고, 여기서는 관계 데이터를 어떤 질문으로 읽는지에 집중합니다.
 
 이 절에서는 그래프를 노드(node)와 엣지(edge)라는 최소 개념으로 읽습니다.
 

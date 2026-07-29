@@ -26,7 +26,6 @@
 
 --8<-- "reference/concept-glossary-terms/deep-learning.zh.md"
 
---8<-- "reference/concept-glossary-terms/dependency.zh.md"
 
 
 
@@ -45,7 +44,6 @@
 --8<-- "reference/concept-glossary-terms/distribution.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/document-reproducibility.zh.md"
 
 
 --8<-- "reference/concept-glossary-terms/contrastive-learning.zh.md"

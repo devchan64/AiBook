@@ -17,7 +17,6 @@
 
 --8<-- "reference/concept-glossary-terms/ai-ethics.ko.md"
 
---8<-- "reference/concept-glossary-terms/notation.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/llm.ko.md"
@@ -27,7 +26,6 @@
 
 --8<-- "reference/concept-glossary-terms/vocabulary.ko.md"
 
---8<-- "reference/concept-glossary-terms/ai-application.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/attention.ko.md"
@@ -44,9 +42,7 @@
 
 --8<-- "reference/concept-glossary-terms/ai-agent.ko.md"
 
---8<-- "reference/concept-glossary-terms/external-system.ko.md"
 
---8<-- "reference/concept-glossary-terms/external-resource.ko.md"
 
 
 
@@ -61,7 +57,6 @@
 
 
 
---8<-- "reference/concept-glossary-terms/business-outcome.ko.md"
 
 --8<-- "reference/concept-glossary-terms/response-generation.ko.md"
 
@@ -83,12 +78,10 @@
 
 --8<-- "reference/concept-glossary-terms/topology.ko.md"
 
---8<-- "reference/concept-glossary-terms/orchestration.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/ai-risk.ko.md"
 
---8<-- "reference/concept-glossary-terms/service-operation.ko.md"
 
 
 
@@ -99,7 +92,6 @@
 
 --8<-- "reference/concept-glossary-terms/speech-generation.ko.md"
 
---8<-- "reference/concept-glossary-terms/dependency.ko.md"
 
 
 --8<-- "reference/concept-glossary-terms/image-recognition.ko.md"

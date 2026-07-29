@@ -38,4 +38,3 @@
 
 --8<-- "reference/concept-glossary-terms/gradient-descent.zh.md"
 
---8<-- "reference/concept-glossary-terms/graph.zh.md"

@@ -39,13 +39,10 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/expert-system.en.md"
 
 
---8<-- "reference/concept-glossary-terms/external-resource.en.md"
 
---8<-- "reference/concept-glossary-terms/external-tool.en.md"
 
 --8<-- "reference/concept-glossary-terms/exploitation.en.md"
 
 --8<-- "reference/concept-glossary-terms/exploration.en.md"
 
 
---8<-- "reference/concept-glossary-terms/expression.en.md"

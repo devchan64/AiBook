@@ -17,7 +17,6 @@
 --8<-- "reference/concept-glossary-terms/label-prediction.zh.md"
 
 
---8<-- "reference/concept-glossary-terms/version-control.zh.md"
 
 --8<-- "reference/concept-glossary-terms/variable.zh.md"
 

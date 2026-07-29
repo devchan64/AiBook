@@ -35,7 +35,6 @@
 
 --8<-- "reference/concept-glossary-terms/transformer.ko.md"
 
---8<-- "reference/concept-glossary-terms/tree.ko.md"
 
 --8<-- "reference/concept-glossary-terms/feature-selection.ko.md"
 
