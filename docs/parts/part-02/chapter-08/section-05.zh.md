@@ -11,7 +11,7 @@
 
 在 Python 里，我们使用函数(function)。函数是一种结构：它给重复处理起名字，接收需要的值，完成计算，然后把结果返回出去。
 
-这里解释 `函数(function)`、`参数(parameter)`、`实参(argument)`、`返回值(return value)` 之间的基本区分。`值(value)`、`变量(variable)`、`循环(loop)` 的代表性说明仍然放在 P2-8.1、P2-8.4 和[函数词条](/AiBook/zh/reference/concept-glossary-pinyin/f.zh/#function)里，而这里集中在把输入-处理-输出契约读成一个可复用的小单元。
+这里解释 `函数(function)`、`参数(parameter)`、`实参(argument)`、`返回值(return value)` 之间的基本区分。`值(value)`、`变量(variable)`、`循环(loop)` 的代表性说明仍然放在 P2-8.1、P2-8.4 和[函数词条](/AiBook/zh/reference/concept-glossary-pinyin/f/#function)里，而这里集中在把输入-处理-输出契约读成一个可复用的小单元。
 
 这一节不会要求把函数语法全部背下来，而是建立这样一种感觉：数学里的函数和 Python 函数怎样相似、又怎样不同；以及怎样把一小段数据处理代码切分成可以复用的单位。
 

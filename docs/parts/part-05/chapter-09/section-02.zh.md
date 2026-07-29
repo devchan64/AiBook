@@ -11,7 +11,7 @@
 
 batch 是为了把多个样本一起计算而做的分组，而 tensor 则是深度学习处理的多维数字数组的总称，这种分组也包含在里面。
 
-如果之后需要再很短地复习一下 shape 和计算单元，更适合回到概念词汇表里的[批次（batch）](/AiBook/zh/reference/concept-glossary-pinyin/b/#batch)和[张量（tensor）](/AiBook/zh/reference/concept-glossary-pinyin/z/#tensor)。
+如果之后需要再很短地复习一下 shape 和计算单元，更适合回到概念词汇表里的[张量（tensor）](/AiBook/zh/reference/concept-glossary-pinyin/z/#tensor)，再重新看 batch 轴接在什么位置。
 
 ## batch 与 tensor 怎样组织计算的问题
 

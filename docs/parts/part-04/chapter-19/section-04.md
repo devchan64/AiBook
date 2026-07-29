@@ -7,12 +7,12 @@ _보조제목: DQN, PPO, RLHF는 강화학습의 어떤 문제의식에서 갈�
 
 P4-19.1부터 P4-19.3까지 읽고 나면 강화학습을 더 공부할 때 곧 여러 이름을 만나게 됩니다.
 
-- [DQN](../../../reference/concept-glossary-parts/03-digeut.md#dqn)
-- [PPO](../../../reference/concept-glossary-parts/13-pieup.md#ppo), [TRPO](../../../reference/concept-glossary-parts/12-tieut.md#trpo), [A2C](../../../reference/concept-glossary-parts/08-ieung.md#a2c), [A3C](../../../reference/concept-glossary-parts/08-ieung.md#a3c)
-- [safe reinforcement learning](../../../reference/concept-glossary-parts/08-ieung.md#safe-reinforcement-learning)
-- [offline reinforcement learning](../../../reference/concept-glossary-parts/08-ieung.md#offline-reinforcement-learning)
-- [domain randomization](../../../reference/concept-glossary-parts/03-digeut.md#domain-randomization)
-- [RLHF](../../../reference/concept-glossary-parts/08-ieung.md#rlhf-reinforcement-learning-from-human-feedback), [preference optimization](../../../reference/concept-glossary-parts/07-siot.md#preference-optimization)
+- [DQN](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)
+- [PPO](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), [TRPO](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), [A2C](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), [A3C](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)
+- [safe reinforcement learning](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)
+- [offline reinforcement learning](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)
+- [domain randomization](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)
+- [RLHF](../../../reference/concept-glossary-parts/08-ieung.md#rlhf-reinforcement-learning-from-human-feedback), [preference optimization](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)
 
 이 이름들은 서로 다른 시대와 문제의식에서 나왔지만, 한꺼번에 밀려들기 쉽습니다. 이 절은 각 알고리즘 구현을 배우기보다, `왜 이런 이름들이 분기되었는가`를 큰 흐름으로 정리하는 데 집중합니다.
 

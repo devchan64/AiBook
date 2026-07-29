@@ -21,7 +21,7 @@ Part 4의 첫 알고리즘으로 [선형회귀(linear regression)](../../../refe
 
 - 회귀(regression)는 어떤 문제를 다루는가?
 - 선형회귀는 왜 `직선`으로 관계를 표현한다고 말하는가?
-- 입력([feature](../../../reference/concept-glossary-parts/12-tieut.md#feature))과 출력([target](../../../reference/concept-glossary-parts/12-tieut.md#target)) 사이의 방향성과 크기를 어떻게 읽을 수 있는가?
+- 입력(../../../reference/concept-glossary-parts/12-tieut.md#feature))과 출력(../../../reference/concept-glossary-parts/12-tieut.md#target)) 사이의 방향성과 크기를 어떻게 읽을 수 있는가?
 - 선형회귀를 왜 Part 4의 첫 알고리즘으로 배우는가?
 
 이 절에서는 선형회귀를 `입력과 출력의 관계를 직선으로 먼저 설명해 보는 가장 기본적인 회귀 모델`로 먼저 닫고, 기울기와 절편을 읽는 기본 손잡이를 붙잡는 데 집중합니다.
@@ -85,7 +85,7 @@ y = wx + b
 \]
 
 - `x`: 입력(input)
-- `y`: 예측값([prediction](../../../reference/concept-glossary-parts/08-ieung.md#prediction))
+- `y`: 예측값(../../../reference/concept-glossary-parts/08-ieung.md#prediction))
 - `w`: 기울기(coefficient)
 - `b`: 절편(intercept)
 

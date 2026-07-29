@@ -7,7 +7,7 @@
 
 为什么聚类算法会有这么多名字，它们彼此之间到底有什么不同？
 
-第一次整理这个问题时，经常会再次遇到的两个名字，就是[层次聚类(hierarchical clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#hierarchical-clustering)和[谱聚类(spectral clustering)](/AiBook/zh/reference/concept-glossary-pinyin/p/#spectral-clustering)。
+第一次整理这个问题时，经常会再次遇到的两个名字，就是层次聚类(hierarchical clustering)和谱聚类(spectral clustering)。它们都属于[聚类(clustering)](/AiBook/zh/reference/concept-glossary-pinyin/c/#clustering)这一类，只是采用的分组标准不同。
 
 这一节不是展开两种方法的实现细节，而是从`它们打算依据什么来形成分组`这个角度，做一次入门区分。
 
@@ -74,7 +74,7 @@
 
 ## 谱聚类想看的是什么
 
-谱聚类并不只是按坐标距离来读点，而是试图通过`谁和谁相连`这样的图(graph)和[连接结构(connectivity)](/AiBook/zh/reference/concept-glossary-pinyin/l/#connectivity)来重新理解它们。
+谱聚类并不只是按坐标距离来读点，而是试图通过`谁和谁相连`这样的图(graph)和连接结构(connectivity)来重新理解它们。
 
 入门时，可以先抓住下面这句话。
 
@@ -106,8 +106,8 @@
 | --- | --- | --- | --- |
 | k-means | 中心(center) | 想快速看到圆形且相对均匀的分组时 | 对聚类数和形状假设很敏感 |
 | DBSCAN | 密度(density) | 想把噪声单独留下并观察不规则分组时 | 对 `eps` 和 `min_samples` 很敏感 |
-| [层次聚类](/AiBook/zh/reference/concept-glossary-pinyin/c/#hierarchical-clustering) | 合并顺序 | 想分阶段观察分组如何长大时 | 仍然需要解释到底在哪里切开 |
-| [谱聚类](/AiBook/zh/reference/concept-glossary-pinyin/p/#spectral-clustering) | [连接(connectivity)](/AiBook/zh/reference/concept-glossary-pinyin/l/#connectivity) | 形状复杂但连接结构很清楚时 | 对相似度图怎么构造很敏感 |
+| 层次聚类 | 合并顺序 | 想分阶段观察分组如何长大时 | 仍然需要解释到底在哪里切开 |
+| 谱聚类 | 连接(connectivity) | 形状复杂但连接结构很清楚时 | 对相似度图怎么构造很敏感 |
 
 这张表的目的不是比较高下，而是先抓住`它们是用不同把手来读取聚类`这一点。
 

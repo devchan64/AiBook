@@ -15,7 +15,7 @@
 
 在 Pandas 中，选择(selection)、过滤(filtering)、聚合(aggregation)处理的就是这条流程。
 
-本节说明 `Series`、过滤(filtering)、聚合(aggregation)、`groupby`、`loc`、`iloc` 的基本区分。`DataFrame` 本身的代表性说明放在 P2-12.1 与[DataFrame 词条](/AiBook/zh/reference/concept-glossary-pinyin/d.zh/#dataframe)中，这里关注的是：从那张表里读什么、留下什么、概括什么。
+本节说明 `Series`、过滤(filtering)、聚合(aggregation)、`groupby`、`loc`、`iloc` 的基本区分。`DataFrame` 本身的代表性说明放在 P2-12.1 中，这里关注的是：从那张表里读什么、留下什么、概括什么。
 
 ## 核心判断标准：选择、过滤与聚合
 

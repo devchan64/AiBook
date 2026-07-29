@@ -20,10 +20,10 @@
 本节回答以下问题。
 
 - 为什么随机森林要使用多棵树？
-- [bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap)、[max_features](/AiBook/zh/reference/concept-glossary-pinyin/m/#max-features)、`averaging` 分别起什么作用？
+- [bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap)、[max_features](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、`averaging` 分别起什么作用？
 - 为什么它会比单棵树看起来更稳定？
 - 在分类与回归里，随机森林是怎样合并输出的？
-- [n_estimators](/AiBook/zh/reference/concept-glossary-pinyin/n/#n-estimators)、[max_features](/AiBook/zh/reference/concept-glossary-pinyin/m/#max-features)、[bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap)、[oob_score](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 各自是什么意思？
+- [n_estimators](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、[max_features](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、[bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap)、[oob_score](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 各自是什么意思？
 
 这一节会先收束 `为什么把多棵树聚合起来，会试图做出比单棵树更稳定的判断` 这个问题。 特征重要度会在 P4-15.2 继续，OOB(out-of-bag) 分数的评价解读会在 P4-15.3 继续，Extra Trees 比较会在补充学习 P4-15.4 继续，与梯度提升(gradient boosting)的对比会在 P4-16.1、P4-16.2 继续。
 

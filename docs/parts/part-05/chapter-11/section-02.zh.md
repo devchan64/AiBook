@@ -9,7 +9,7 @@
 
 卷积（convolution）是用小滤波器计算局部模式分数的运算，而池化（pooling）则是把这些结果整理成更小、更摘要形式的运算。
 
-如果这些运算名称又开始混在一起，更适合重新回到概念词汇表里的[卷积（convolution）](/AiBook/zh/reference/concept-glossary-pinyin/c/#convolution)和[池化（pooling）](/AiBook/zh/reference/concept-glossary-pinyin/c/#pooling)对齐。
+如果这些运算名称又开始混在一起，更适合重新回到概念词汇表里的[卷积（convolution）](/AiBook/zh/reference/concept-glossary-pinyin/j/#convolution)和[池化（pooling）](/AiBook/zh/reference/concept-glossary-pinyin/c/#cnn-convolutional-neural-network)对齐。
 
 ## 卷积与池化要收住的问题
 

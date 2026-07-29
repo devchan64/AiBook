@@ -7,7 +7,7 @@ In P4-15.1, we saw why [random forest](/AiBook/en/reference/concept-glossary-alp
 
 What did this forest consider important when it made its judgment?
 
-That question is the starting point of [feature importance](/AiBook/en/reference/concept-glossary-alpha/f/#feature-importance).
+That question is the starting point of [feature importance](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest).
 
 Feature importance is a number that summarizes which features the model used more often or more strongly, but it becomes dangerous if we read that number directly as a ranking of causes or truths.
 
@@ -20,12 +20,12 @@ This Section does not repeat the basic definition of random forest at length. Th
 This Section answers the following questions.
 
 - How is feature importance created in random forest?
-- What does [`feature_importances_`](/AiBook/en/reference/concept-glossary-alpha/f/#feature-importance) mean?
-- How are impurity-based importance and [permutation importance](/AiBook/en/reference/concept-glossary-alpha/p/#permutation-importance) different?
+- What does [`feature_importances_`](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) mean?
+- How are impurity-based importance and permutation importance different?
 - Why can an important-looking number still create misunderstanding?
-- What different interpretation questions do [PDP(partial dependence plot)](/AiBook/en/reference/concept-glossary-alpha/p/#partial-dependence-plot-pdp) and [SHAP](/AiBook/en/reference/concept-glossary-alpha/s/#shap) ask compared with importance?
+- What different interpretation questions do PDP(partial dependence plot) and SHAP ask compared with importance?
 - Why should importance interpretation not be jumped directly into [causal inference](/AiBook/en/reference/concept-glossary-alpha/c/#causal-inference)?
-- What conservative interpretation strategy is needed when real data have very strong [correlated features](/AiBook/en/reference/concept-glossary-alpha/c/#correlated-features)?
+- What conservative interpretation strategy is needed when real data have very strong correlated features?
 
 This Section does not stop after drawing only the outer boundary of importance interpretation. It also recovers the following inside the current Section: `what should be inspected when a number summary is not enough`, `why cause interpretation must be separated`, and `how to read more conservatively when correlation is strong`.
 
@@ -40,9 +40,9 @@ This Section focuses on establishing `an attitude for reading the number`.
 ## Judgments To Keep From Feature Importance
 
 - You can explain feature importance as `a summary of internal model usage`.
-- You can distinguish [impurity-based importance(MDI)](/AiBook/en/reference/concept-glossary-alpha/m/#mean-decrease-in-impurity-mdi) from [permutation importance](/AiBook/en/reference/concept-glossary-alpha/p/#permutation-importance).
+- You can distinguish impurity-based importance(MDI) from permutation importance.
 - You can explain that feature importance does not directly mean causality or the true ranking of causes.
-- You can explain why [correlated features](/AiBook/en/reference/concept-glossary-alpha/c/#correlated-features) and [high-cardinality features](/AiBook/en/reference/concept-glossary-alpha/h/#high-cardinality-feature) can distort interpretation.
+- You can explain why correlated features and high-cardinality features can distort interpretation.
 
 ## Learning Background
 

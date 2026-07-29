@@ -11,7 +11,7 @@ P4-4장에서는 데이터를 [학습용](../../../reference/concept-glossary-pa
 
 ## 과적합(overfitting)과 과소적합(underfitting)에서 닫을 질문
 
-이 절은 과적합과 과소적합의 기본 구분을 설명합니다. 아직 [정규화(regularization)](../../../reference/concept-glossary-parts/09-jieut.md#regularization), [드롭아웃(dropout)](../../../reference/concept-glossary-parts/03-digeut.md#dropout), 조기 종료(early stopping) 같은 구체적 완화 기법은 다루지 않습니다. 그런 대응 방법은 Part 4 딥러닝과 이후의 모델별 장에서 다시 다룹니다.
+이 절은 과적합과 과소적합의 기본 구분을 설명합니다. 아직 [정규화(regularization)](../../../reference/concept-glossary-parts/09-jieut.md#regularization), [드롭아웃(dropout)](../../../reference/concept-glossary-parts/09-jieut.md#regularization), 조기 종료(early stopping) 같은 구체적 완화 기법은 다루지 않습니다. 그런 대응 방법은 Part 4 딥러닝과 이후의 모델별 장에서 다시 다룹니다.
 
 또한 이 절은 `왜 새 데이터에서 잘 작동하는가`라는 더 넓은 질문 전체를 끝내지 않습니다. 그 질문은 P4-5.2 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)에서 이어집니다. 이 절의 초점은 “너무 맞춘 상태”와 “충분히 못 배운 상태”를 눈으로 구분하는 일입니다.
 

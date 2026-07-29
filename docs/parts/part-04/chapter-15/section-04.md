@@ -3,7 +3,7 @@
 > Section ID: `P4-15.4`
 > Version: `v2026.07.26`
 
-P4-15.1에서 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)를 배우면 비슷한 이름의 [Extra Trees(Extremely Randomized Trees)](../../../reference/concept-glossary-parts/08-ieung.md#extra-trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
+P4-15.1에서 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)를 배우면 비슷한 이름의 Extra Trees(Extremely Randomized Trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
 
 하지만 이 둘은 `어디까지 무작위성을 넣는가`, `분기 기준을 어떻게 고르는가`, [bootstrap](../../../reference/concept-glossary-parts/06-bieup.md#bootstrap)과 [OOB](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)를 기본으로 쓰는가에서 분명한 차이가 있습니다.
 
@@ -13,9 +13,9 @@ P4-15.1에서 [랜덤포레스트(random forest)](../../../reference/concept-glo
 
 이 절은 다음 질문에 답합니다.
 
-- [Extra Trees](../../../reference/concept-glossary-parts/08-ieung.md#extra-trees)는 랜덤포레스트와 같은 계열인가?
+- Extra Trees는 랜덤포레스트와 같은 계열인가?
 - 둘 다 여러 트리를 평균내는데, 무엇이 실제로 다른가?
-- [`best split`](../../../reference/concept-glossary-parts/06-bieup.md#best-split)과 [random threshold](../../../reference/concept-glossary-parts/05-mieum.md#random-threshold)의 차이는 무엇인가?
+- [`best split`](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)과 [random threshold](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)의 차이는 무엇인가?
 - 왜 Extra Trees는 더 무작위적이라고 설명되는가?
 - [OOB(out-of-bag)](../../../reference/concept-glossary-parts/08-ieung.md#oob-score)는 랜덤포레스트와 Extra Trees에서 어떻게 다르게 읽어야 하는가?
 

@@ -17,7 +17,7 @@ Version: `v2026.07.26`
 
 Part 7의 마지막 회고는 이 절에서 실패 범주와 다음 조치를 함께 남기는 형식으로 닫힙니다. 브랜치 반영 실패, 빌드 실패, Pages 반영 실패, 공개 확인 실패를 같은 말로 묶지 않고 다음 조치까지 남기는 회고 기준을 여기서 고정합니다.
 
-Part 7에서 `회고(retrospective)`, `배포(deployment)`, `검토(review)`의 구분이 다시 흐려지면 이 절과 개념사전의 [회고(retrospective)](../../../reference/concept-glossary-parts/14-hieut.md#retrospective), [배포(deployment)](../../../reference/concept-glossary-parts/06-bieup.md#deployment), [검토(review)](../../../reference/concept-glossary-parts/01-giyeok.md#review) 항목으로 돌아와 기준을 다시 잡는 편이 좋습니다.
+Part 7에서 `회고(retrospective)`, `배포(deployment)`, `검토(review)`의 구분이 다시 흐려지면 이 절과 개념사전의 회고(retrospective), 배포(deployment), 검토(review) 항목으로 돌아와 기준을 다시 잡는 편이 좋습니다.
 
 ## 판단 기준
 

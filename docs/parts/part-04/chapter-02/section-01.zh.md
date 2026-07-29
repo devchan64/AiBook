@@ -17,7 +17,7 @@
 
 - 在监督学习里，输入和 label 各自是什么？
 - classification 和 regression 有什么不同？
-- [training](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)、[evaluation](/AiBook/zh/reference/concept-glossary-pinyin/e/#evaluation)、[prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction) 是怎样连起来的？
+- [training](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)、[evaluation](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design)、[prediction](/AiBook/zh/reference/concept-glossary-pinyin/y/#prediction) 是怎样连起来的？
 - 有了 label，就表示 model 已经知道正确答案了吗？
 - 在监督学习里，一开始最先该小心的误解是什么？
 

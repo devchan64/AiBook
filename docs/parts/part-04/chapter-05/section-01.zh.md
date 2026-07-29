@@ -11,9 +11,9 @@
 
 ## 本节范围
 
-这一节解释过拟合与欠拟合的基本区分。像 regularization、[dropout](/AiBook/zh/reference/concept-glossary-pinyin/d/#dropout)、early stopping 这样的具体缓解方法，这里还不会展开。这些应对方法会在 Part 4 的 deep learning 部分和后面的模型章节里再回来。
+这一节解释过拟合与欠拟合的基本区分。像 regularization、[dropout](/AiBook/zh/reference/concept-glossary-pinyin/z/#regularization)、early stopping 这样的具体缓解方法，这里还不会展开。这些应对方法会在 Part 4 的 deep learning 部分和后面的模型章节里再回来。
 
-同时，这一节也不会把 `为什么 model 能在新数据上工作` 这个更大的问题一次讲完。这个问题会在 P4-5.2 的 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 里继续。这里的焦点是先用眼睛分清 `贴得太过` 的状态和 `还没学够` 的状态。
+同时，这一节也不会把 `为什么 model 能在新数据上工作` 这个更大的问题一次讲完。这个问题会在 P4-5.2 的 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization) 里继续。这里的焦点是先用眼睛分清 `贴得太过` 的状态和 `还没学够` 的状态。
 
 - 过拟合和欠拟合各自是什么状态？
 - 为什么不能只看 training score 就相信 model？

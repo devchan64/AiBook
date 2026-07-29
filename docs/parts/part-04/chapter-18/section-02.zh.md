@@ -21,7 +21,7 @@
 - 什么信息相对保留得较好，什么信息可能会消失？
 - 为什么二维图里看起来接近的点，并不一定在原空间里也接近？
 - 在探索性分析(exploratory analysis)里，应该怎样更安全地使用降维结果？
-- 在解释 [t-SNE](/AiBook/zh/reference/concept-glossary-pinyin/t/#t-sne)、[UMAP](/AiBook/zh/reference/concept-glossary-pinyin/u/#umap)、[reconstruction error](/AiBook/zh/reference/concept-glossary-pinyin/r/#reconstruction-error)、[trustworthiness](/AiBook/zh/reference/concept-glossary-pinyin/t/#trustworthiness) 时，最少要理解什么？
+- 在解释 t-SNE、UMAP、reconstruction error、trustworthiness 时，最少要理解什么？
 
 这一节集中在入门层面抓住`这个图到底能信到哪里`和`该怎样读信息损失`。因此，这一节会直接处理 t-SNE 和 UMAP 更想保留什么结构，以及 reconstruction error 和 trustworthiness 应该怎样作为最低限度的检查标准来读。相对地，实现优化、细致调参以及更扩展的指标比较，这里不会长篇展开。
 
@@ -93,7 +93,7 @@
 
 ## “容易看”不等于“原始结构被完整保留”
 
-二维[散点图(scatter plot)](/AiBook/zh/reference/concept-glossary-pinyin/s/#scatter-plot)看起来很整洁，但这并不表示原始高维结构就被完整地搬到了二维平面上。
+二维[散点图(scatter plot)](/AiBook/zh/reference/concept-glossary-pinyin/k/#visualization)看起来很整洁，但这并不表示原始高维结构就被完整地搬到了二维平面上。
 
 这里的重要区分是：
 

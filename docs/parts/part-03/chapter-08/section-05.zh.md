@@ -3,13 +3,13 @@
 > Section ID: `P3-8.5`
 > Version: `v2026.07.25`
 
-当一张表里同时出现均值差异、波动性差异、重复性、最近区间样本数和模式摘要时，马上就会出现一个问题：`列很多，那应该先看什么，又该如何压缩成一行判断？` 从[列角色分离（column-role separation）](/AiBook/zh/reference/concept-glossary-pinyin/l/#glossary-column-role-separation)的角度看，比较列越多，真正需要的往往不是更多数字，而是把不同信号重新归并成几个判断轴的方法。
+当一张表里同时出现均值差异、波动性差异、重复性、最近区间样本数和模式摘要时，马上就会出现一个问题：`列很多，那应该先看什么，又该如何压缩成一行判断？` 从[列角色分离（column-role separation）](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)的角度看，比较列越多，真正需要的往往不是更多数字，而是把不同信号重新归并成几个判断轴的方法。
 
-[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)的优先级不是把某个差值原封不动拿来用，而是先把多个比较列归并成`变化幅度`、`重复性`、`解读可信度`、`运营重要性`这几个判断轴之后，再决定优先级。
+[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)的优先级不是把某个差值原封不动拿来用，而是先把多个比较列归并成`变化幅度`、`重复性`、`解读可信度`、`运营重要性`这几个判断轴之后，再决定优先级。
 
 ## 为什么不能直接跳成一个数字
 
-[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)里通常会同时出现下面这样的列。
+[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)里通常会同时出现下面这样的列。
 
 | 比较列示例 | 一眼看到的含义 |
 | --- | --- |
@@ -43,7 +43,7 @@
 | A | 高 | 高 | 高 | 高 |
 | B | 高 | 低 | 低 | 中 |
 
-也就是说，只看 `diff`，两者看起来很像；但在实际里，A 可能应该比 B 更早进入复核。因为复核优先级问的不只是`差了多少`，还包括[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)以及`在实务上是否值得先看`。
+也就是说，只看 `diff`，两者看起来很像；但在实际里，A 可能应该比 B 更早进入复核。因为复核优先级问的不只是`差了多少`，还包括[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)以及`在实务上是否值得先看`。
 
 ## 人工复核句子如何连接到优先级候选
 

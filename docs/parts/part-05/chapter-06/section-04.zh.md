@@ -11,7 +11,7 @@
 
 训练模式（training mode）是为了准备参数更新而使用的计算环境，评估模式（evaluation mode）则是为了稳定测量或稳定使用当前模型而使用的计算环境。
 
-如果后面在 dropout 或 batch normalization 的说明里又把 mode 区分重新混在一起，更适合回到概念词汇表里的[训练模式（training mode）](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-mode)和[评估模式（evaluation mode）](/AiBook/zh/reference/concept-glossary-pinyin/e/#evaluation-mode)条目，先重新确认这两个状态分别在管什么。
+如果后面在 dropout 或 batch normalization 的说明里又把 mode 区分重新混在一起，更适合先回到概念词汇表里的[训练（training）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)和[模型验证（model validation）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-validation)条目，再区分“会改变参数的区间”和“稳定测量模型的区间”。
 
 ## 需要训练模式与评估模式的问题
 

@@ -19,7 +19,7 @@ P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 
 
 이 절은 [분류](../../../reference/concept-glossary-parts/06-bieup.md#classification)와 [군집화](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)에서 자주 등장하는 ROC, PR, log loss, calibration, silhouette를 처음 읽는 보충학습입니다. 세부 증명보다 `언제 왜 보게 되는가`에 집중합니다.
 
-- ROC와 PR 곡선은 왜 [점수(score)](../../../reference/concept-glossary-parts/09-jieut.md#score)와 [임계값(threshold)](../../../reference/concept-glossary-parts/08-ieung.md#threshold) 문제로 이어지는가?
+- ROC와 PR 곡선은 왜 [점수(score)](../../../reference/concept-glossary-parts/05-mieum.md#model-score)와 [임계값(threshold)](../../../reference/concept-glossary-parts/08-ieung.md#threshold) 문제로 이어지는가?
 - log loss는 왜 `맞고 틀림`보다 [확률 추정값(probability estimate)](../../../reference/concept-glossary-parts/14-hieut.md#probability-estimate)까지 함께 보게 하는가?
 - calibration은 왜 `확률처럼 보이는 점수`를 다시 의심하게 하는가?
 - silhouette는 왜 군집화에서 정답 라벨 없이도 구조를 읽게 하는가?

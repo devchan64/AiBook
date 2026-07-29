@@ -3,7 +3,7 @@
 > Section ID: `P4-11.5`
 > Version: `v2026.07.26`
 
-로지스틱 회귀를 라이브러리로 써 보면 곧 [solver](../../../reference/concept-glossary-parts/07-siot.md#solver), [penalty](../../../reference/concept-glossary-parts/06-bieup.md#penalty), `C` 같은 인자를 만나게 됩니다. 초심자는 이 지점에서 `갑자기 구현 세부로 넘어갔다`고 느끼기 쉽습니다. 하지만 이 설정들은 이론과 완전히 분리된 잡음이 아닙니다.
+로지스틱 회귀를 라이브러리로 써 보면 곧 solver, penalty, `C` 같은 인자를 만나게 됩니다. 초심자는 이 지점에서 `갑자기 구현 세부로 넘어갔다`고 느끼기 쉽습니다. 하지만 이 설정들은 이론과 완전히 분리된 잡음이 아닙니다.
 
 이 절의 중심 질문은 다음입니다.
 

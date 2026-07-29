@@ -3,7 +3,7 @@
 > Section ID: `P4-6.1`
 > Version: `v2026.07.25`
 
-在 P4-5 章里，我们看过[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)和[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization)。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。
+在 P4-5 章里，我们看过[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)和[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization)。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。
 
 评价指标是把 model 拟合得怎样，用数字显示出来的工具。但更重要的一点是，metric 不只是记分牌，它还是一种 `我们决定把什么当成更重要` 的约定。即使是同一个 model，因为看的 metric 不同，它也可能显得不错，也可能显得有风险。
 
@@ -255,7 +255,7 @@ Google glossary 把 F1 score 解释成：把 precision 和 recall 一起使用�
 | 阅读顺序 | 先确认什么 | 为什么需要这个顺序 |
 | --- | --- | --- |
 | 1 | confusion matrix | 因为要先看哪一类错误更多，才能减少 accuracy 幻觉 |
-| 2 | 代表[错误案例(error case)](/AiBook/zh/reference/concept-glossary-pinyin/e/#error-case) | 因为即使都是 FN、FP，也要看具体漏掉了什么输入，才能发现数据问题和边界案例 |
+| 2 | 代表[错误案例(error case)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-validation) | 因为即使都是 FN、FP，也要看具体漏掉了什么输入，才能发现数据问题和边界案例 |
 | 3 | precision、recall、F1 | 因为先看完错误结构后，才知道哪个数字更能概括那个问题 |
 | 4 | 和 baseline 比较 | 因为后面的 P4-8.2 还要再确认，这种分数变化到底算不算真的改进 |
 

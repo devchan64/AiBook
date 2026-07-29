@@ -23,7 +23,7 @@
 ## 用特征选择(feature selection)留下的判断标准
 
 - 能把特征(feature)解释成 `现实信息被变成 model 输入后的形式`。
-- 能说明特征选择不只和性能数字有关，也会连到 [leakage](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-leakage)、[成本(cost)](/AiBook/zh/reference/concept-glossary-pinyin/c/#cost)、稳定性和可解释性。
+- 能说明特征选择不只和性能数字有关，也会连到 [leakage](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-leakage)、成本(cost)、稳定性和可解释性。
 - 能使用基本问题去区分哪些特征该先丢掉，哪些特征该先留下。
 - 能说明：如果 preprocessing 是 `把选出来的特征再加工`，那么 feature selection 就是 `决定一开始到底要采用哪些特征`。
 
@@ -395,7 +395,7 @@ scikit-learn 文档提供了减少 low variance 特征、通过 univariate stati
 - 收集延迟是否经常发生？
 - 会不会因为需要人工输入而让质量大幅波动？
 - 会不会因为隐私或成本问题而很难在运营里使用？
-- 如果每次推理都要拉一次，会不会把 [latency](/AiBook/zh/reference/concept-glossary-pinyin/l/#latency) 拉高？
+- 如果每次推理都要拉一次，会不会把 latency 拉高？
 
 最终，feature selection 不只是数据科学问题，它也是 service 设计问题。
 

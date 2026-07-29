@@ -11,7 +11,7 @@ Indexing, slicing, and axis.
 
 These three can look similar, but their roles are different. Indexing chooses a position. Slicing chooses a range. Axis decides the direction of a calculation.
 
-This Section explains the basic distinctions among `indexing`, `slicing`, and `axis`. You can revisit `NumPy` and the basic properties of arrays in P2-11.1 and the [indexing glossary entry](/AiBook/en/reference/concept-glossary-alpha/i.en/#indexing). Here the focus is on what to choose from an array and in which direction to read it.
+This Section explains the basic distinctions among `indexing`, `slicing`, and `axis`. You can revisit `NumPy` and the basic properties of arrays in P2-11.1 and P2-11.2. Here the focus is on what to choose from an array and in which direction to read it.
 
 ## Core Criteria: Indexing, Slicing, and Axis
 

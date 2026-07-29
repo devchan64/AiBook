@@ -3,7 +3,7 @@
 > Section ID: `P3-4.2`
 > Version: `v2026.07.25`
 
-The [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit is the reference point for almost every concept that appears later. So if measurements and samples are confused, the problem does not end with using one term incorrectly. The meaning of a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) drifts, the meaning of a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) drifts, and even what [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evaluation) is evaluating drifts along with them. If the previous section decided what should count as one sample, then this section must show what that decision fixes together and what starts to drift together.
+The [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit is the reference point for almost every concept that appears later. So if measurements and samples are confused, the problem does not end with using one term incorrectly. The meaning of a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) drifts, the meaning of a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) drifts, and even what [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design) is evaluating drifts along with them. If the previous section decided what should count as one sample, then this section must show what that decision fixes together and what starts to drift together.
 
 This section does not redefine the sample unit itself. Instead, it focuses on following why the sample unit fixed in the previous section also affects later features, labels, splits, and evaluation.
 
@@ -46,7 +46,7 @@ Here the mismatch of the sample unit becomes clearer if we divide the `misattach
 | Can I attach the label to this row? | Labels usually attach to one action or one recent segment | Does the label attach to one time point or one full action? |
 | Can this row be used as one training case? | Nearby rows from the same action can be mixed into training and evaluation | Is the split target a time-point row, or an action-level sample? |
 
-So the sample unit is not a decision needed only in one section of Part 3. It is the floor structure on which feature engineering, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), and even the interpretation of the prediction input structure all depend.
+So the sample unit is not a decision needed only in one section of Part 3. It is the floor structure on which feature engineering, [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and even the interpretation of the prediction input structure all depend.
 
 ## A Small Diagram
 

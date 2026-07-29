@@ -3,7 +3,7 @@
 > Section ID: `P4-15.3`
 > Version: `v2026.07.26`
 
-P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. P4-15.2에서는 그 숲이 무엇을 중요하게 보았는지, 즉 [특징 중요도(feature importance)](../../../reference/concept-glossary-parts/11-chieut.md#feature-importance)를 조심해서 읽는 법을 보았습니다.
+P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. P4-15.2에서는 그 숲이 무엇을 중요하게 보았는지, 즉 [특징 중요도(feature importance)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)를 조심해서 읽는 법을 보았습니다.
 
 그러면 이제 남는 질문은 이것입니다.
 
@@ -32,7 +32,7 @@ OOB의 바깥 경계는 아래 정도만 잡아 두면 충분합니다.
 | 항목 | 현재 본편에서의 회수 상태 |
 | --- | --- |
 | [교차검증(cross-validation)](../../../reference/concept-glossary-parts/01-giyeok.md#cross-validation)의 모든 변형 | 교차검증의 기본 역할은 P4-9.1, P4-9.3에서 다시 연결하지만, 모든 변형을 이 절에서 대신 설명하지는 않습니다. |
-| [확률 보정(calibration)](../../../reference/concept-glossary-parts/06-bieup.md#calibration)과 [threshold](../../../reference/concept-glossary-parts/08-ieung.md#threshold) 조정 | threshold와 calibration의 기본 감각은 P4-6.4, threshold 정책은 P4-11.1에서 다시 이어지지만, OOB 절에서 그 세부를 함께 전개하지는 않습니다. |
+| [확률 보정(calibration)](../../../reference/concept-glossary-parts/14-hieut.md#probability-calibration)과 [threshold](../../../reference/concept-glossary-parts/08-ieung.md#threshold) 조정 | threshold와 calibration의 기본 감각은 P4-6.4, threshold 정책은 P4-11.1에서 다시 이어지지만, OOB 절에서 그 세부를 함께 전개하지는 않습니다. |
 | 그래디언트 부스팅의 OOB 성격 차이 | 부스팅의 점검 감각은 P4-16.1, P4-16.2에서 validation과 early stopping 쪽으로 다시 이어지지만, OOB와의 세부 대비를 이 절에서 길게 다루지는 않습니다. |
 
 즉, 이 절은 OOB를 `랜덤포레스트의 내부 점검판`으로 고정하는 데 집중하고, 더 넓은 평가 절차와 점수 운영 정책은 후속 절에서 질문별로 나누어 다시 읽는 편이 가장 자연스럽습니다.
@@ -130,7 +130,7 @@ scikit-learn 문서와 예제 설명은 OOB error가 random forest를 학습시�
 
 - 작은 실험을 빠르게 반복할 수 있습니다.
 - train score만 보는 실수를 줄일 수 있습니다.
-- 트리 수([`n_estimators`](../../../reference/concept-glossary-parts/02-nieun.md#n-estimators))를 늘릴 때 상태가 어떻게 바뀌는지 빨리 점검할 수 있습니다.
+- 트리 수(../../../reference/concept-glossary-parts/14-hieut.md#hyperparameter))를 늘릴 때 상태가 어떻게 바뀌는지 빨리 점검할 수 있습니다.
 
 즉, OOB는 `정식 평가의 종착점`이라기보다 `빠른 내부 점검판`에 가깝습니다.
 

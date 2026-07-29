@@ -23,7 +23,7 @@ P4-6에서는 `무엇을 기준으로 평가할 것인가`를 봤습니다. 이�
 ## 특징 선택(feature selection)에서 남길 판단 기준
 
 - 특징(feature)을 `현실의 정보가 모델 입력으로 바뀐 형태`로 설명할 수 있습니다.
-- 특징 선택이 성능 숫자만의 문제가 아니라, [누수(leakage)](../../../reference/concept-glossary-parts/03-digeut.md#data-leakage), [비용(cost)](../../../reference/concept-glossary-parts/06-bieup.md#cost), 안정성, 해석 가능성과 연결된다는 점을 말할 수 있습니다.
+- 특징 선택이 성능 숫자만의 문제가 아니라, [누수(leakage)](../../../reference/concept-glossary-parts/03-digeut.md#data-leakage), 비용(cost), 안정성, 해석 가능성과 연결된다는 점을 말할 수 있습니다.
 - 우선 버릴 특징과 우선 남길 특징을 구분하는 기본 질문을 사용할 수 있습니다.
 - 전처리(preprocessing)가 `선택된 특징을 다듬는 일`이라면, 특징 선택은 `어떤 특징을 애초에 채택할지 정하는 일`이라는 차이를 설명할 수 있습니다.
 
@@ -395,7 +395,7 @@ scikit-learn 문서는 분산이 거의 없는 특징(low variance), 단변량 �
 - 수집 지연이 자주 생기는가?
 - 사람이 손으로 입력해야 해서 품질이 흔들리는가?
 - 개인정보나 비용 문제 때문에 운영에서 쓰기 어려운가?
-- 모델 추론마다 불러오면 [지연 시간(latency)](../../../reference/concept-glossary-parts/09-jieut.md#latency)이 커지는가?
+- 모델 추론마다 불러오면 지연 시간(latency)이 커지는가?
 
 결국 특징 선택은 데이터 과학만의 문제가 아니라 서비스 설계 문제이기도 합니다.
 

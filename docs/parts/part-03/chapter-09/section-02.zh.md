@@ -3,7 +3,7 @@
 > Section ID: `P3-9.2`
 > Version: `v2026.07.25`
 
-把所有现实问题都硬塞进[标签预测(label prediction)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-label-prediction)里，并不是好的数据建模。有些情况下，[比较报告](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)更诚实，也更符合当前数据状态。尤其是在原因标签很弱，或者判断者真正想看的不是`正确分类`，而是`现在先把该看的对象挑出来`时，更是如此。这里也要一起整理这样一种可能：有些问题不往上提升，反而一直保留成比较报告会更正确。
+把所有现实问题都硬塞进[标签预测(label prediction)](/AiBook/zh/reference/concept-glossary-pinyin/b/#label-prediction)里，并不是好的数据建模。有些情况下，[比较报告](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)更诚实，也更符合当前数据状态。尤其是在原因标签很弱，或者判断者真正想看的不是`正确分类`，而是`现在先把该看的对象挑出来`时，更是如此。这里也要一起整理这样一种可能：有些问题不往上提升，反而一直保留成比较报告会更正确。
 
 在这个位置，人们很容易先想到`输入 -> 正确标签 -> 自动判别`这种结构，于是会觉得现实问题也都该放进这个框架里。但在现实数据里，`应该先展示什么`往往比`应该自动判对什么`更重要。如果把这样的事情硬改成分类问题，就很容易在标签质量还很弱时，先做出一种被夸大的自动化。
 
@@ -18,7 +18,7 @@
 
 反过来，如果要进入预测问题，至少需要下面这些条件。
 
-- [目标标签](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target)定义得相对稳定
+- [目标标签](/AiBook/zh/reference/concept-glossary-pinyin/m/#target)定义得相对稳定
 - 样本单位和标签单位是对齐的
 - 样本结构已经整理到足以设计训练/评估切分和评估方式
 
@@ -28,7 +28,7 @@
 | --- | --- | --- |
 | 中心问题 | 应该先复核什么 | 应该自动匹配什么 |
 | 需要的标签 | 即使较弱也能开始 | 必须相对稳定 |
-| 产物 | 优先级表、比较句子、[复核队列](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure) | 目标标签、预测值、评估结果 |
+| 产物 | 优先级表、比较句子、[复核队列](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure) | 目标标签、预测值、评估结果 |
 | 人的角色 | 后续确认的中心 | 评估和例外处理的中心 |
 
 这张表说明，比较报告并不是`因为还做不了预测，所以暂时拿来用的过渡物`。它从一开始就是另一种问题设定。比较报告让人读状态、决定下一步动作；预测问题则是用来自动匹配相对稳定的目标标签。

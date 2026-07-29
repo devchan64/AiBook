@@ -1,3 +1,5 @@
+<a id="prompt-engineering"></a>
+
 ## prompt engineering
 
 - Meaning: Prompt engineering is the practical work of designing instructions, context, examples, and formats, then observing current model behavior and adjusting it more reliably. It is not just writing polished sentences; it is an iterative experiment that changes input conditions based on observed failures.

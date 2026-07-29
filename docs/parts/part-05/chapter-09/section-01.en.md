@@ -11,7 +11,7 @@ When answering this question, it is hard to leave out the GPU (graphics processi
 
 The spread of deep learning did not happen through algorithmic ideas alone. It is strongly connected to the development of computational resources that can process very large amounts of the same operation at the same time.
 
-When the story of computational resources starts to feel abstract again, reread together the glossary entries on [GPU (graphics processing unit)](/AiBook/en/reference/concept-glossary-alpha/g/#gpugraphics-processing-unit) and [parallel processing](/AiBook/en/reference/concept-glossary-alpha/p/#parallel-processing).
+When the story of computational resources starts to feel abstract again, reread together the glossary entries on GPU (graphics processing unit) and parallel processing.
 
 ## The Question That Connects GPUs to Parallel Processing
 

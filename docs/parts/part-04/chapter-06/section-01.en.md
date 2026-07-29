@@ -255,7 +255,7 @@ This Section sees it as more accurate to read classification evaluation through 
 | Reading order | What to inspect first | Why this order is needed |
 | --- | --- | --- |
 | 1 | confusion matrix | because you should first see which kind of mistake is frequent if you want to reduce illusions caused by accuracy |
-| 2 | representative [error cases](/AiBook/en/reference/concept-glossary-alpha/e/#error-case) | because even with the same FN or FP, looking at what kind of input was missed reveals data problems and boundary cases |
+| 2 | representative [error cases](/AiBook/en/reference/concept-glossary-alpha/m/#model-validation) | because even with the same FN or FP, looking at what kind of input was missed reveals data problems and boundary cases |
 | 3 | precision, recall, F1 | because only after seeing the error structure can you judge which number summarizes the problem better |
 | 4 | comparison with a baseline | because later in P4-8.2 you still need to check whether the score change is actually a meaningful improvement |
 

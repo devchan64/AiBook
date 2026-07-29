@@ -13,7 +13,7 @@ The flow of Part 3 matters more as the following three bundles than as chapter n
 | --- | --- | --- |
 | Fixing role and order | What does data modeling take responsibility for, and in what sequence does it decide? | the position of problem-structure design, the map of the working sequence |
 | Rebuilding comparison structure | Into what sample, table, feature, and baseline structure should stored records be read again? | dataset candidates, summary tables, features, baseline comparison tables |
-| Closing interpretation and problems | How far should we speak, and what should still remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure)? | conservative statements, operational outputs, input/output boundaries, time boundaries |
+| Closing interpretation and problems | How far should we speak, and what should still remain a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure)? | conservative statements, operational outputs, input/output boundaries, time boundaries |
 
 Even if only these three lines remain, Part 3 can still be reread as `a chain of decisions that turns a problem into a representable structure`.
 

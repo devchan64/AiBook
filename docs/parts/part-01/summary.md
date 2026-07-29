@@ -5,7 +5,7 @@
 
 Part 1은 AI를 다시 공부하기 전에 전체 지형을 잡기 위한 구간이었습니다. 세부 알고리즘을 구현하거나 수식을 깊게 증명하기보다, 이후 학습에서 반복해서 만나게 될 용어와 관점을 먼저 정리했습니다.
 
-이 요약은 Part 1 안의 모든 개념을 다시 길게 반복하는 문서가 아니라, 어디에서 어떤 개념을 기준선으로 잡았는지 다시 떠올리게 하는 마무리 문서입니다. 용어가 다시 헷갈리면 개념사전의 [AI](../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence), [시스템](../../reference/concept-glossary-parts/07-siot.md#system), [LLM](../../reference/concept-glossary-parts/08-ieung.md#llm) 같은 대표 항목과 각 항목의 대표 Section을 함께 확인합니다.
+이 요약은 Part 1 안의 모든 개념을 다시 길게 반복하는 문서가 아니라, 어디에서 어떤 개념을 기준선으로 잡았는지 다시 떠올리게 하는 마무리 문서입니다. 용어가 다시 헷갈리면 개념사전의 [AI](../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence), 시스템, [LLM](../../reference/concept-glossary-parts/08-ieung.md#llm) 같은 대표 항목과 각 항목의 대표 Section을 함께 확인합니다.
 
 여기서 가장 중요한 목표는 AI를 하나의 유행어나 하나의 제품 이름으로 보지 않는 것입니다. AI는 규칙 기반 접근, 탐색, 휴리스틱, 확률적 판단, 데이터 기반 학습, 딥러닝, 생성형 AI, LLM, AI 에이전트, 서비스 운영, 사회적 책임이 겹쳐 있는 넓은 분야입니다.
 

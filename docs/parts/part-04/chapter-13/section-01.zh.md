@@ -13,7 +13,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 
 所以，SVM 不会停在 `找出一条分割线` 上，而是会继续去找 `看起来更稳定的分割线`。
 
-这一节会说明 [SVM(support vector machine)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine)、[间隔(margin)](/AiBook/zh/reference/concept-glossary-pinyin/j/#margin)、[支持向量(support vector)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector) 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节的判断标准再接回来。
+这一节会说明 [SVM(support vector machine)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine)、[间隔(margin)](/AiBook/zh/reference/concept-glossary-pinyin/j/#margin)、[支持向量(support vector)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine) 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节的判断标准再接回来。
 
 ## SVM 直觉先收束的问题
 

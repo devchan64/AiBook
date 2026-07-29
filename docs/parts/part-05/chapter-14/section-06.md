@@ -9,7 +9,7 @@ P5-14.2에서는 Transformer 블록 안에서 feed-forward network가 self-atten
 
 Transformer 블록에서 feed-forward network는 새로 참고할 토큰을 고르는 장치가 아니라, attention으로 문맥이 섞인 각 위치 표현을 다시 가공하는 장치입니다.
 
-용어가 다시 흩어질 때는 개념사전의 [피드포워드 네트워크(feed-forward network)](../../../reference/concept-glossary-parts/13-pieup.md#feed-forward-network) 항목과 P5-14.2의 네 부품 역할 분담을 함께 다시 보면 좋습니다.
+용어가 다시 흩어질 때는 개념사전의 [피드포워드 네트워크(feed-forward network)](../../../reference/concept-glossary-parts/12-tieut.md#transformer) 항목과 P5-14.2의 네 부품 역할 분담을 함께 다시 보면 좋습니다.
 
 ## attention 뒤에 왜 한 번 더 가공하는가
 

@@ -7,7 +7,7 @@ P4-2.1 looked at [supervised learning](/AiBook/en/reference/concept-glossary-alp
 
 Reinforcement learning differs from `learning by looking at the correct label and matching it`. It does not always tell you immediately which action is good. Instead, it looks at the reward and next state that return after trying an action, and gradually finds a better way to act. So reinforcement learning deals not with one input-output pair, but with a flow of choices connected over time.
 
-This Section explains the basic distinction among reinforcement learning, [state](/AiBook/en/reference/concept-glossary-alpha/s/#state), action, reward, and [policy](/AiBook/en/reference/concept-glossary-alpha/p/#policy). Later Sections continue the current context using this handle, and the basic meaning of learning through long-term reward is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
+This Section explains the basic distinction among reinforcement learning, [state](/AiBook/en/reference/concept-glossary-alpha/s/#state), action, reward, and [policy](/AiBook/en/reference/concept-glossary-alpha/r/#reinforcement-learning-policy). Later Sections continue the current context using this handle, and the basic meaning of learning through long-term reward is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 

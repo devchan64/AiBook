@@ -3,7 +3,7 @@
 > Section ID: `P3-4.3`
 > Version: `v2026.07.25`
 
-[한 행(row)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-row), [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 1건, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
+[한 행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit), [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 1건, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
 
 세 단위를 한 번에 구분해야 하는 이유는 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), 기준선 비교, 검토 문장이 서로 다른 층위에 붙기 때문입니다. 행을 샘플로 착각하거나 구간을 샘플 한 건처럼 읽는 순간, 뒤에서 만드는 표와 비교 구조도 함께 흔들리기 시작합니다.
 
@@ -69,7 +69,7 @@
 | 기준선 비교 | 구간 또는 샘플 대 구간 | 최근 상태를 평소와 비교해야 하기 때문 |
 | 검토 문장 | 구간 또는 샘플 | 사람이 읽는 판단 단위이기 때문 |
 
-예를 들어 `late_drop_rate` 같은 특징은 시점 한 줄에 바로 붙지 않고, 동작 1회 샘플을 만든 뒤에야 계산할 수 있습니다. 반면 `recent_count=20` 같은 값은 개별 샘플 특징이 아니라 최근 구간 집계에 더 가깝습니다. 그래서 층위를 섞어 읽으면 특징, 기준선, [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)가 모두 추상적으로 느껴집니다.
+예를 들어 `late_drop_rate` 같은 특징은 시점 한 줄에 바로 붙지 않고, 동작 1회 샘플을 만든 뒤에야 계산할 수 있습니다. 반면 `recent_count=20` 같은 값은 개별 샘플 특징이 아니라 최근 구간 집계에 더 가깝습니다. 그래서 층위를 섞어 읽으면 특징, 기준선, [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)가 모두 추상적으로 느껴집니다.
 
 ## 한눈에 비교하는 작은 코드 예시
 

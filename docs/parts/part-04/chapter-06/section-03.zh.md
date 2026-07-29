@@ -9,7 +9,7 @@
 
 ## 本补充学习的范围
 
-这一节是把 machine-learning evaluation metric 和运营 metric 区分开的补充学习节。它会把 SLI(service level indicator)、SLO(service level objective)、SLA(service level agreement)、error budget，以及运营里常看的 [latency](/AiBook/zh/reference/concept-glossary-pinyin/l/#latency)、traffic、errors、saturation，用入门层次接起来。
+这一节是把 machine-learning evaluation metric 和运营 metric 区分开的补充学习节。它会把 SLI(service level indicator)、SLO(service level objective)、SLA(service level agreement)、error budget，以及运营里常看的 latency、traffic、errors、saturation，用入门层次接起来。
 
 这一节回答下面这些问题。
 

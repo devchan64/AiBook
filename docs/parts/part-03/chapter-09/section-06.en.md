@@ -5,7 +5,7 @@
 
 _Subtitle: What should be checked first when the same event receives different labels by person or time?_
 
-Just because a label-candidate column exists does not mean you can immediately call it a stable learning problem. In real data, two reviewers can describe the same event differently, and something treated as "caution" last month can be recorded as "normal" this month. So when reading a target candidate, you need to check not only "does a column exist", but also [label consistency](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label-consistency), meaning "does the same meaning repeat for the same event and similar conditions".
+Just because a label-candidate column exists does not mean you can immediately call it a stable learning problem. In real data, two reviewers can describe the same event differently, and something treated as "caution" last month can be recorded as "normal" this month. So when reading a target candidate, you need to check not only "does a column exist", but also [label consistency](/AiBook/en/reference/concept-glossary-alpha/l/#label-consistency), meaning "does the same meaning repeat for the same event and similar conditions".
 
 ## Why Should Label Consistency Be Checked Together
 

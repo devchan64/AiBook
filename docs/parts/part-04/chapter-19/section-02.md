@@ -11,7 +11,7 @@ P4-19.1에서는 [가치 기반 강화학습(value-based reinforcement learning)
 
 정책 기반 강화학습은 행동의 점수표를 먼저 만드는 대신, 어떤 행동을 선택할 확률과 방식을 직접 조정하면서 더 큰 보상을 얻도록 배우는 접근이다.
 
-이 절은 [정책 기반 강화학습(policy-based reinforcement learning)](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), [정책 기울기(policy gradient)](../../../reference/concept-glossary-parts/09-jieut.md#policy-gradient), [액터-크리틱(actor-critic)](../../../reference/concept-glossary-parts/08-ieung.md#actor-critic)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동 방식을 직접 조정하는 강화학습의 기본 뜻은 이 절과 관련 개념사전 항목을 기준으로 다시 연결합니다.
+이 절은 [정책 기반 강화학습(policy-based reinforcement learning)](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), [정책 기울기(policy gradient)](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning), [액터-크리틱(actor-critic)](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동 방식을 직접 조정하는 강화학습의 기본 뜻은 이 절과 관련 개념사전 항목을 기준으로 다시 연결합니다.
 
 ## 정책 기반 강화학습(policy-based reinforcement learning)에서 닫을 질문
 
@@ -150,7 +150,7 @@ policy gradient는 정책 파라미터(parameter)를 직접 조정해 기대 보
 
 이 그림의 핵심은 정책이 `출력 규칙`이 아니라 `조정 가능한 행동 성향`으로 읽힌다는 점입니다.
 
-[REINFORCE](../../../reference/concept-glossary-parts/04-rieul.md#reinforce)는 바로 앞 policy gradient 흐름을 가장 직접적으로 보여 주는 예라고 보면 됩니다. 한 에피소드의 행동과 보상을 모아 보고, 결과적으로 도움이 되었던 선택의 확률을 다음 정책에서 더 높이는 쪽으로 조정합니다.
+[REINFORCE](../../../reference/concept-glossary-parts/09-jieut.md#policy-based-reinforcement-learning)는 바로 앞 policy gradient 흐름을 가장 직접적으로 보여 주는 예라고 보면 됩니다. 한 에피소드의 행동과 보상을 모아 보고, 결과적으로 도움이 되었던 선택의 확률을 다음 정책에서 더 높이는 쪽으로 조정합니다.
 
 작은 예시로 보면:
 

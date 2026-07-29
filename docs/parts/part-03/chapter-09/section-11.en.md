@@ -5,12 +5,12 @@
 
 _Subtitle: What should be fixed first when there are multiple target candidates or the criteria keep changing?_
 
-In real data, only one target candidate may not be visible. Multiple candidates such as `review_needed`, `final_status`, `status_type`, and `priority_bucket` may appear together, and even a [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target) with the same name may follow different judgment criteria at different times. In that state, the problem itself becomes unstable unless you first fix which one is the representative problem and which version of the current definition is in use. If there are multiple target candidates or the criteria change, you should first write which target is the [representative target](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representative-target) and what the current [target definition version](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-definition-version) is.
+In real data, only one target candidate may not be visible. Multiple candidates such as `review_needed`, `final_status`, `status_type`, and `priority_bucket` may appear together, and even a [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) with the same name may follow different judgment criteria at different times. In that state, the problem itself becomes unstable unless you first fix which one is the representative problem and which version of the current definition is in use. If there are multiple target candidates or the criteria change, you should first write which target is the [representative target](/AiBook/en/reference/concept-glossary-alpha/t/#target) and what the current [target definition version](/AiBook/en/reference/concept-glossary-alpha/t/#target) is.
 
 | What should be fixed first | Why it is needed |
 | --- | --- |
-| [Representative target](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-representative-target) | To make clear which problem is being solved first right now |
-| [Target definition version](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target-definition-version) | To avoid mixing different criteria under the same name |
+| [Representative target](/AiBook/en/reference/concept-glossary-alpha/t/#target) | To make clear which problem is being solved first right now |
+| [Target definition version](/AiBook/en/reference/concept-glossary-alpha/t/#target) | To avoid mixing different criteria under the same name |
 | Other target candidates to manage together | To leave a record of which result candidates coexist in the same data |
 
 | Common scene | Note that is needed |

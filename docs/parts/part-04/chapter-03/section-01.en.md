@@ -9,7 +9,7 @@ The word that appears here is [heuristic](/AiBook/en/reference/concept-glossary-
 
 A heuristic is easy to misunderstand as `just taking a rough guess`. But in machine learning practice, a heuristic is not random guessing. It is a way to reduce candidates by using experience, problem structure, computational cost, and validation results.
 
-This Section explains the meaning of heuristic, judging by reducing candidates instead of [exhaustive search](/AiBook/en/reference/concept-glossary-alpha/e/#exhaustive-search), and a verifiable [working hypothesis](/AiBook/en/reference/concept-glossary-alpha/w/#working-hypothesis). Later Sections continue the current context through this handle, and the basic meaning of reading practical judgment as a structure of hypothesis and verification is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
+This Section explains the meaning of heuristic, judging by reducing candidates instead of exhaustive search, and a verifiable working hypothesis. Later Sections continue the current context through this handle, and the basic meaning of reading practical judgment as a structure of hypothesis and verification is connected again through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
 ## Scope Of This Section
 
@@ -28,7 +28,7 @@ This Section answers the following questions.
 - You can explain a heuristic as a practical judgment criterion that reduces candidates under limited conditions.
 - You can understand that a heuristic does not guarantee the optimal solution.
 - You can describe situations where heuristics become necessary because of time, data, computation, or cost constraints.
-- You can explain why heuristics and [validation](/AiBook/en/reference/concept-glossary-alpha/v/#validation) must be used together.
+- You can explain why heuristics and [validation](/AiBook/en/reference/concept-glossary-alpha/m/#model-validation) must be used together.
 - You can treat heuristics not as private intuition, but as verifiable working hypotheses.
 
 ## Understanding It First Through One Scene
@@ -87,7 +87,7 @@ A heuristic does not replace an algorithm. Instead, it is used to decide which a
 
 When understanding heuristics, Herbert A. Simon's perspective of bounded rationality is useful. The Stanford Encyclopedia of Philosophy explains bounded rationality as a view that departs from the assumption of perfect rationality and instead studies rationality appropriate for agents with limits in access to information and computational ability.
 
-That perspective also fits machine learning practice well. We do not have complete information, infinite computation time, or a perfect evaluation environment. So a verifiable [good-enough solution](/AiBook/en/reference/concept-glossary-alpha/g/#good-enough-solution) under current conditions matters more than `theoretically possible optimality`.
+That perspective also fits machine learning practice well. We do not have complete information, infinite computation time, or a perfect evaluation environment. So a verifiable good-enough solution under current conditions matters more than `theoretically possible optimality`.
 
 This does not mean giving up accuracy. It means admitting the limits and working in a way that makes better choices inside them.
 

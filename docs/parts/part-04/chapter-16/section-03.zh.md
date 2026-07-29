@@ -12,10 +12,10 @@
 本节回答以下问题。
 
 - 为什么 XGBoost、LightGBM、CatBoost 明明都属于 boosting，却在实现感觉上不同？
-- [直方图分箱(histogram binning)](/AiBook/zh/reference/concept-glossary-pinyin/z/#histogram-binning) 到底改变了什么，为什么它总和速度、内存一起出现？
-- 为什么 [GPU](/AiBook/zh/reference/concept-glossary-pinyin/g/#gpugraphics-processing-unit) 与 [分布式训练(distributed training)](/AiBook/zh/reference/concept-glossary-pinyin/f/#distributed-training) 会在 boosting 实务中反复被提起？
+- 直方图分箱(histogram binning) 到底改变了什么，为什么它总和速度、内存一起出现？
+- 为什么 GPU 与 分布式训练(distributed training) 会在 boosting 实务中反复被提起？
 - 交叉验证自动化是怎样连到 early stopping 与 stage 选择的？
-- 为什么在比较实现时，gradient 和 [海森矩阵(hessian)](/AiBook/zh/reference/concept-glossary-pinyin/h/#hessian) 会经常一起出现？
+- 为什么在比较实现时，gradient 和 海森矩阵(hessian) 会经常一起出现？
 
 这一节的中心问题是： `为什么同样是 boosting，实现选择与运营感觉却会分叉。`
 

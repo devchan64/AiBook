@@ -3,9 +3,9 @@
 > Section ID: `P3-3.1`
 > Version: `v2026.07.25`
 
-When source data first arrives, many people almost reflexively think, `what can we predict with this?` first. Because there is a table, many values, and records measured over time, it feels as if the data could be turned immediately into some learning problem. But that reaction is usually too fast. The table in front of us is more likely not yet `a training dataset`, but merely [recorded source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data), or at best a [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset-candidate).
+When source data first arrives, many people almost reflexively think, `what can we predict with this?` first. Because there is a table, many values, and records measured over time, it feels as if the data could be turned immediately into some learning problem. But that reaction is usually too fast. The table in front of us is more likely not yet `a training dataset`, but merely [recorded source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data), or at best a [dataset candidate](/AiBook/en/reference/concept-glossary-alpha/d/#dataset).
 
-Here the first point to fix is that [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-problem-representation-structure) comes before `the learning-problem frame`. We have to make clear the warning that this is not yet the stage for choosing a learning-problem frame such as a prediction problem, a classification problem, or an anomaly-detection problem.
+Here the first point to fix is that [problem-representation structure](/AiBook/en/reference/concept-glossary-alpha/t/#task-definition) comes before `the learning-problem frame`. We have to make clear the warning that this is not yet the stage for choosing a learning-problem frame such as a prediction problem, a classification problem, or an anomaly-detection problem.
 
 At the entry to this Chapter, the `dataset candidate` viewpoint built in Chapter 2 is narrowed one step further.
 
@@ -31,7 +31,7 @@ But if source data is read immediately as if it were already a dataset, importan
 | What should the label be? | Does a stable label truly exist right now? |
 | How should accuracy be improved? | Into what table must this be regrouped so comparison becomes possible? |
 
-This difference is not merely about order. What is needed when source data is first seen is not choosing a learning problem, but `asking again what kind of table this really is`. Depending on whether what we are looking at is time-point measurement records, a summary of one action, or an aggregate of a recent segment, every later explanation of [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#glossary-target) changes.
+This difference is not merely about order. What is needed when source data is first seen is not choosing a learning problem, but `asking again what kind of table this really is`. Depending on whether what we are looking at is time-point measurement records, a summary of one action, or an aggregate of a recent segment, every later explanation of [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline), and [target](/AiBook/en/reference/concept-glossary-alpha/t/#target) changes.
 
 For example, even after seeing only part of the source data below, the learning-problem frame may jump out too early.
 

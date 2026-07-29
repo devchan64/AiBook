@@ -3,7 +3,7 @@
 > Section ID: `P4-11.5`
 > Version: `v2026.07.26`
 
-Once logistic regression is used through a library, the reader quickly meets arguments such as [solver](/AiBook/en/reference/concept-glossary-alpha/s/#solver), [penalty](/AiBook/en/reference/concept-glossary-alpha/p/#penalty), and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
+Once logistic regression is used through a library, the reader quickly meets arguments such as solver, penalty, and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
 
 The central question of this Section is the following.
 

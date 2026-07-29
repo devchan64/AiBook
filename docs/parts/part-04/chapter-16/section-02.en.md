@@ -22,7 +22,7 @@ This Section answers the following questions.
 - Why is gradient boosting often mentioned as a strong candidate on tabular data?
 - Why do learning rate, tree size, and `n_estimators` become a sensitive combination?
 - In what shape can overfitting appear?
-- What risks are [shrinkage](/AiBook/en/reference/concept-glossary-alpha/s/#shrinkage), [subsampling](/AiBook/en/reference/concept-glossary-alpha/s/#subsampling), and [early stopping](/AiBook/en/reference/concept-glossary-alpha/e/#early-stopping) trying to reduce?
+- What risks are shrinkage, subsampling, and early stopping trying to reduce?
 - Compared with random forest, in what situations does boosting feel stronger, and in what situations should readers be more careful?
 
 This Section reads boosting around the question `why is it strong and why is it risky at the same time`. The implementation feel and computation-structure side continue in the supplementary Section P4-16.3.

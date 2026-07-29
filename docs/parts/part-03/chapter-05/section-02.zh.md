@@ -3,7 +3,7 @@
 > Section ID: `P3-5.2`
 > Version: `v2026.07.25`
 
-两个[平均值(mean)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-mean)相同的动作，并不一定意味着它们具有相同结构。平均值对于一眼总结整体水平很有用，但它并不能把随时间如何变化的过程全都展示出来。所以，把原始日志转换成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-modeling)时，不能只因为 `平均值一样` 就放心，还要一起思考：平均值之外的模式差异，要怎样保留下来。
+两个[平均值(mean)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-mean)相同的动作，并不一定意味着它们具有相同结构。平均值对于一眼总结整体水平很有用，但它并不能把随时间如何变化的过程全都展示出来。所以，把原始日志转换成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)时，不能只因为 `平均值一样` 就放心，还要一起思考：平均值之外的模式差异，要怎样保留下来。
 
 这一节不会重复解释汇总表转换本身的过程。这里更关注前一节做出来的汇总表，不应该只是“留下平均值的表”，而应该继续保留那些会通向后续[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)设计和[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较的模式差异。
 
@@ -42,7 +42,7 @@
 | 峰值什么时候出现 | 最大值出现时点 |
 | 是稳定维持，还是剧烈波动 | 波动性、下降开始时点 |
 
-这里还要再补上一点。平均值也很容易掩盖[离群值(outlier)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-outlier)和[分布偏斜(skewness)](/AiBook/zh/reference/concept-glossary-pinyin/p/#glossary-skewness)的影响。例如，大多数动作都在相似范围里，但只有少数案例突然跳到很大值时，平均值会上升，可是 `大多数动作实际上处在什么水平` 反而会变得模糊。反过来，如果大部分值集中在一边，只有少数案例向另一边拉出很长的尾部，那么平均值也很难表现这种不对称结构。
+这里还要再补上一点。平均值也很容易掩盖[离群值(outlier)](/AiBook/zh/reference/concept-glossary-pinyin/y/#outlier)和[分布偏斜(skewness)](/AiBook/zh/reference/concept-glossary-pinyin/s/#data-distribution)的影响。例如，大多数动作都在相似范围里，但只有少数案例突然跳到很大值时，平均值会上升，可是 `大多数动作实际上处在什么水平` 反而会变得模糊。反过来，如果大部分值集中在一边，只有少数案例向另一边拉出很长的尾部，那么平均值也很难表现这种不对称结构。
 
 | 仅靠平均值不容易看见什么 | 为什么容易漏掉 | 应该一起留下的值 |
 | --- | --- | --- |

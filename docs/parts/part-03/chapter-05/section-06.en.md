@@ -5,9 +5,9 @@
 
 _Subtitle: Why can sample counts look larger than reality when the same event is cut into multiple windows?_
 
-Once the [input window](/AiBook/en/reference/concept-glossary-alpha/m/#model-input-window) has been fixed, we can create several windows from the same [source time series](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data). At that point, one problem is often missed. It becomes easy to read `there are more windows, so there must also be more samples`. But when many windows overlap, this often means `we are cutting the same event several times`, not that the number of independent events has increased by the same amount.
+Once the [input window](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) has been fixed, we can create several windows from the same [source time series](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data). At that point, one problem is often missed. It becomes easy to read `there are more windows, so there must also be more samples`. But when many windows overlap, this often means `we are cutting the same event several times`, not that the number of independent events has increased by the same amount.
 
-The number of input windows and the number of [source events](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-event) may not be the same.
+The number of input windows and the number of [source events](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) may not be the same.
 
 | Distinction | Meaning |
 | --- | --- |

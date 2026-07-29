@@ -7,7 +7,7 @@ P2-13.2에서는 선 그래프(line plot), 산점도(scatter plot), 히스토그
 
 AI 학습에서는 그래프 하나만 보고 끝나는 일이 많지 않습니다. 손실(loss)과 정확도(accuracy)를 함께 보거나, 학습 데이터(train data)와 검증 데이터(validation data)의 흐름을 나란히 비교해야 합니다. 이때 Matplotlib의 `Figure`와 `Axes` 구조를 조금 더 의식하면 좋습니다.
 
-여기서는 `savefig`, `범례(legend)`, `정확도(accuracy)`를 포함한 비교·저장 흐름의 기본 구분을 설명합니다. `그래프(plot)`, `Figure`, `Axes`의 대표 설명은 P2-13.1에, 기본 차트 선택 기준은 P2-13.2와 [개념사전의 범례 항목](../../../reference/concept-glossary-parts/06-bieup.md#legend)에 두고, 여기서는 여러 그래프를 함께 비교하고 결과를 파일로 남기는 방법을 설명합니다.
+여기서는 `savefig`, `범례(legend)`, `정확도(accuracy)`를 포함한 비교·저장 흐름의 기본 구분을 설명합니다. `그래프(plot)`, `Figure`, `Axes`의 대표 설명은 P2-13.1에, 기본 차트 선택 기준은 P2-13.2에 두고, 여기서는 여러 그래프를 함께 비교하고 결과를 파일로 남기는 방법을 설명합니다.
 
 ## 핵심 기준: 여러 그래프를 비교하고 저장하기
 

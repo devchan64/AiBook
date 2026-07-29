@@ -5,7 +5,7 @@
 
 _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一种更痛？_
 
-即使 [目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target) 名称相同，不同问题里更痛的错误也可能不一样。哪怕都是在预测 `review_needed`，漏掉风险案例更危险，还是把本来不需要的人也送去复核更有负担，都会随着运营语境不同而改变。也就是说，即使 target 相同，漏判和误报的成本也可能不同，所以必须先把这种 [错误成本(error cost)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-error-cost) 差别写下来，才能明确当前更想减少的是哪一种判断错误。
+即使 [目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#target) 名称相同，不同问题里更痛的错误也可能不一样。哪怕都是在预测 `review_needed`，漏掉风险案例更危险，还是把本来不需要的人也送去复核更有负担，都会随着运营语境不同而改变。也就是说，即使 target 相同，漏判和误报的成本也可能不同，所以必须先把这种 [错误成本(error cost)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-error-cost) 差别写下来，才能明确当前更想减少的是哪一种判断错误。
 
 | 错误类型 | 在运营里可能发生的事情 |
 | --- | --- |
@@ -20,7 +20,7 @@ _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一
 
 ## 为什么错误成本会改变 target 的解释方式
 
-即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，漏判（false negative）更痛，所以即使要让更多项目进入[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)，也宁可少漏掉风险案例；而在另一些问题里，过检（false positive）更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 [阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold) 数字，而是`应该用什么判断结构去解释这个 target`。
+即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，漏判（false negative）更痛，所以即使要让更多项目进入[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)，也宁可少漏掉风险案例；而在另一些问题里，过检（false positive）更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 [阈值(threshold)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-threshold) 数字，而是`应该用什么判断结构去解释这个 target`。
 
 例如，假设模型分数如下。
 

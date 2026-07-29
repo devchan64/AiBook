@@ -15,7 +15,7 @@ Receiving a table does not mean the needed information is already visible. In pr
 
 In Pandas, selection, filtering, and aggregation describe exactly that flow.
 
-This Section explains the basic distinction among `Series`, filtering, aggregation, `groupby`, `loc`, and `iloc`. The representative explanation of the `DataFrame` itself stays in P2-12.1 and the [DataFrame glossary entry](/AiBook/en/reference/concept-glossary-alpha/d.en/#dataframe). Here, the focus is on what to read from that table, what to keep, and what to summarize.
+This Section explains the basic distinction among `Series`, filtering, aggregation, `groupby`, `loc`, and `iloc`. The representative explanation of the `DataFrame` itself stays in P2-12.1. Here, the focus is on what to read from that table, what to keep, and what to summarize.
 
 ## Core Criteria: Selection, Filtering, and Aggregation
 

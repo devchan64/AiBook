@@ -17,7 +17,7 @@ Version: `v2026.07.26`
 
 개선이라는 말을 어떤 비교 근거 위에서 써야 하는지 정리하는 자리입니다. `좋아졌다`는 말은 같은 평가 셋, 같은 비교 기준, 같은 사례 묶음 위에서만 써야 한다는 기준을 여기서 세웁니다.
 
-Part 7에서 `기준선(baseline)`과 `평가(evaluation)`라는 말을 다시 섞어 쓰게 되면, 비교 기준을 먼저 고정한 이 절과 개념사전의 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation) 항목으로 돌아오면 됩니다.
+Part 7에서 `기준선(baseline)`과 `평가(evaluation)`라는 말을 다시 섞어 쓰게 되면, 비교 기준을 먼저 고정한 이 절과 개념사전의 [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 항목으로 돌아오면 됩니다.
 
 ## 판단 기준
 

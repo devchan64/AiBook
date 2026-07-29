@@ -7,7 +7,7 @@
 
 那么，为什么在实际计算里，attention 会被解释成 query、key、value，而 multi-head attention 又为什么会被单独拿出来命名？
 
-当这些术语又开始散开时，可以一起回到概念词汇表里的[query-key-value（QKV）](/AiBook/zh/reference/concept-glossary-pinyin/q/#query-key-value-qkv)和[multi-head attention](/AiBook/zh/reference/concept-glossary-pinyin/m/#multi-head-attention)重新对齐。
+当这些术语又开始散开时，可以一起回到概念词汇表里的[query-key-value（QKV）](/AiBook/zh/reference/concept-glossary-pinyin/z/#self-attention)和[multi-head attention](/AiBook/zh/reference/concept-glossary-pinyin/z/#self-attention)重新对齐。
 
 ## QKV 与多头注意力要回答的问题
 

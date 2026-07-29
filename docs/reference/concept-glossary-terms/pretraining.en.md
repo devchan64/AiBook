@@ -1,3 +1,5 @@
+<a id="pretraining"></a>
+
 ## pretraining
 
 - Meaning: Pretraining is the stage in which a model first learns broad language patterns and representations from a large corpus before being adapted to a specific task. It builds a general foundation that can transfer to many tasks, rather than training the model for only one job from the start.

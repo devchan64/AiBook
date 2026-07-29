@@ -5,7 +5,7 @@
 
 From P5-3.2 through P5-3.4, we looked separately at the sigmoid, tanh, and ReLU. Now the three functions are compared in one place. The purpose here is not to memorize names, but to check how the same score \(z\) changes according to different formulas and output ranges.
 
-If the comparison among representative activation functions becomes blurry again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function), [sigmoid](/AiBook/en/reference/concept-glossary-alpha/s/#sigmoid), [tanh](/AiBook/en/reference/concept-glossary-alpha/t/#tanh), and [ReLU](/AiBook/en/reference/concept-glossary-alpha/r/#relu) entries in the concept glossary as the baseline.
+If the comparison among representative activation functions becomes blurry again, use the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) and [sigmoid](/AiBook/en/reference/concept-glossary-alpha/s/#sigmoid) entries as the glossary baseline, and reread tanh and ReLU inside the same activation-function comparison.
 
 ## The Question of Comparing Representative Activations
 

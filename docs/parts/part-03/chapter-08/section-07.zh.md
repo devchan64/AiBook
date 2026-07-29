@@ -5,7 +5,7 @@
 
 _副标题: 当复核规则和处置改变后续数据时，为什么不能把它读成自然过程？_
 
-在[解释边界](/AiBook/zh/reference/concept-glossary-pinyin/j/#glossary-interpretation-boundary)里，最后一个必须注意的点，是当前的[干预反馈(intervention feedback)](/AiBook/zh/reference/concept-glossary-pinyin/g/#glossary-intervention-feedback)。如果 `review_needed=1` 的案例被人工很快处理了，那么之后留下的数据，就可能和原本的自然发展过程不同。如果把这一点隐藏起来，`后续数据看起来更安全`这样的句子就会被写得过于轻易。
+在[解释边界](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)里，最后一个必须注意的点，是当前的[干预反馈(intervention feedback)](/AiBook/zh/reference/concept-glossary-pinyin/g/#glossary-intervention-feedback)。如果 `review_needed=1` 的案例被人工很快处理了，那么之后留下的数据，就可能和原本的自然发展过程不同。如果把这一点隐藏起来，`后续数据看起来更安全`这样的句子就会被写得过于轻易。
 
 如果当前的复核规则或处置会改变后续数据和[选择性标签(selective labels)](/AiBook/zh/reference/concept-glossary-pinyin/x/#glossary-selective-labels)，那么之后的数据就不能再被当作与干预前自然发展过程具有同样含义的数据来读。
 

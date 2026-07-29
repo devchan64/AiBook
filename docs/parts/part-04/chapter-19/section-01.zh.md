@@ -9,11 +9,11 @@
 
 - 在什么状态(state)下什么行动是好的，模型到底按什么标准学习？
 - `好`这件事，是像规则一样写，还是像数字一样写？
-- [Q-learning](/AiBook/zh/reference/concept-glossary-pinyin/q/#q-learning) 和 [SARSA](/AiBook/zh/reference/concept-glossary-pinyin/s/#sarsa) 都叫强化学习，它们到底差在哪里？
+- [Q-learning](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning) 和 [SARSA](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning) 都叫强化学习，它们到底差在哪里？
 
 价值型强化学习，是一种通过给每个状态里的行动附上长期好坏的数值来学习的做法。
 
-这一节解释 [value-based reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)、[state value](/AiBook/zh/reference/concept-glossary-pinyin/z/#state-value)、[action value](/AiBook/zh/reference/concept-glossary-pinyin/x/#action-value)、[Q-value](/AiBook/zh/reference/concept-glossary-pinyin/q/#q-value) 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“把行动的长期好坏读成分数”这一基本感觉，会再次通过这一节和相关概念词汇表条目连回来。
+这一节解释 [value-based reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)、[state value](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)、[action value](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning)、[Q-value](/AiBook/zh/reference/concept-glossary-pinyin/j/#value-based-reinforcement-learning) 的基本含义。后面的 Section 会在这个把手上继续当前语境里的判断，而“把行动的长期好坏读成分数”这一基本感觉，会再次通过这一节和相关概念词汇表条目连回来。
 
 ## 价值型强化学习先收束的问题
 

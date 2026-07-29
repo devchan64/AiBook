@@ -11,7 +11,7 @@ This question connects directly to the loss function. So this section is both th
 
 The activation in the output layer changes depending on what the model is trying to predict, and it is chosen to match what meaning the output value should have.
 
-If the criteria for output interpretation and activation choice become blurry again, reread together the [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output), [output layer](/AiBook/en/reference/concept-glossary-alpha/m/#model-output-layer), [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function), and [softmax](/AiBook/en/reference/concept-glossary-alpha/s/#softmax) entries in the concept glossary.
+If the criteria for output interpretation and activation choice become blurry again, reread together the [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output), [output layer](/AiBook/en/reference/concept-glossary-alpha/m/#model-output), [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function), and [softmax](/AiBook/en/reference/concept-glossary-alpha/s/#softmax) entries in the concept glossary.
 
 ## The Question of Choosing Output-Layer Activation
 

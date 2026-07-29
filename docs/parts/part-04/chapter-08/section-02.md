@@ -24,7 +24,7 @@ baseline 비교 순서는 아래처럼 짧게 고정해 둡니다.
 | 먼저 볼 것 | 바로 다음에 붙는 질문 | 그다음에 판단할 것 |
 | --- | --- | --- |
 | baseline 점수 | 이 점수가 쉬운 착시인지, 실제 출발점인지 | 후보 모델이 같은 지표에서 얼마나 나아졌는가 |
-| [혼동 행렬(confusion matrix)](../../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 대표 [오류 사례(error case)](../../../reference/concept-glossary-parts/08-ieung.md#error-case) | 어떤 실패가 줄었고 어떤 실패가 남았는가 | 이 변화가 운영상 의미 있는가 |
+| [혼동 행렬(confusion matrix)](../../../reference/concept-glossary-parts/14-hieut.md#confusion-matrix)과 대표 [오류 사례(error case)](../../../reference/concept-glossary-parts/05-mieum.md#model-validation) | 어떤 실패가 줄었고 어떤 실패가 남았는가 | 이 변화가 운영상 의미 있는가 |
 | 후보 모델 점수 | 정확도 외에 recall, F1, 오차 크기에서 무엇이 달라졌는가 | 튜닝으로 더 갈지, 후보를 바꿀지 정할 수 있는가 |
 
 baseline을 실제로 세우려면 두 가지가 함께 필요합니다.

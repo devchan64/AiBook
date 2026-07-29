@@ -31,7 +31,7 @@ P4-11.2에서는 [로지스틱 회귀(logistic regression)](../../../reference/c
 
 ### k-NN은 어떤 방식으로 판단하는가
 
-k-NN은 먼저 새 입력인 [query](../../../reference/concept-glossary-parts/09-jieut.md#query)를 봅니다. 그다음 이미 [supervised learning label](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 붙어 있는 [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data)에서 query와 가까운 사례들을 찾습니다. 마지막으로 그 [이웃(neighbors)](../../../reference/concept-glossary-parts/11-chieut.md#nearest-neighbor)의 label을 모아 다수결이나 평균으로 판단을 만듭니다.
+k-NN은 먼저 새 입력인 [query](../../../reference/concept-glossary-parts/05-mieum.md#model-input)를 봅니다. 그다음 이미 [supervised learning label](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 붙어 있는 [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data)에서 query와 가까운 사례들을 찾습니다. 마지막으로 그 [이웃(neighbors)](../../../reference/concept-glossary-parts/11-chieut.md#nearest-neighbor)의 label을 모아 다수결이나 평균으로 판단을 만듭니다.
 
 작게 정리하면 다음 순서입니다.
 

@@ -5,9 +5,9 @@
 
 _보조제목: 같은 사건을 여러 창으로 자르면 왜 샘플 수가 실제보다 커 보일 수 있는가_
 
-[입력 창(input window)](../../../reference/concept-glossary-parts/05-mieum.md#model-input-window)을 정하고 나면 같은 [원천 시계열(source time series)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)에서 여러 창을 만들 수 있습니다. 이때 자주 놓치는 문제가 있습니다. `창이 많아졌으니 샘플도 그만큼 늘었다`고 읽기 쉽다는 점입니다. 하지만 겹치는 창이 많아졌다는 것은 종종 `같은 사건을 여러 번 잘라 본다`는 뜻이지, 독립된 사건 수가 그만큼 늘었다는 뜻은 아닙니다.
+[입력 창(input window)](../../../reference/concept-glossary-parts/05-mieum.md#model-input)을 정하고 나면 같은 [원천 시계열(source time series)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)에서 여러 창을 만들 수 있습니다. 이때 자주 놓치는 문제가 있습니다. `창이 많아졌으니 샘플도 그만큼 늘었다`고 읽기 쉽다는 점입니다. 하지만 겹치는 창이 많아졌다는 것은 종종 `같은 사건을 여러 번 잘라 본다`는 뜻이지, 독립된 사건 수가 그만큼 늘었다는 뜻은 아닙니다.
 
-입력 창 수와 [원천 사건(source event)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-event) 수는 같은 숫자가 아닐 수 있습니다.
+입력 창 수와 [원천 사건(source event)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 수는 같은 숫자가 아닐 수 있습니다.
 
 | 구분 | 뜻 |
 | --- | --- |

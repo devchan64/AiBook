@@ -7,7 +7,7 @@ In P5-13.1 and P5-13.2, we first fixed the intuition of attention and self-atten
 
 Then why, in the actual computation, is attention explained through query, key, and value, and why does multi-head attention get its own name?
 
-When the terms start to scatter again, reread together the glossary entries on [query-key-value (QKV)](/AiBook/en/reference/concept-glossary-alpha/q/#query-key-value-qkv) and [multi-head attention](/AiBook/en/reference/concept-glossary-alpha/m/#multi-head-attention).
+When the terms start to scatter again, reread together the glossary entries on [query-key-value (QKV)](/AiBook/en/reference/concept-glossary-alpha/s/#self-attention) and [multi-head attention](/AiBook/en/reference/concept-glossary-alpha/s/#self-attention).
 
 ## Questions That Need QKV and Multi-Head Attention
 

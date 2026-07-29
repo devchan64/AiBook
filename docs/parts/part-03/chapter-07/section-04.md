@@ -3,7 +3,7 @@
 > Section ID: `P3-7.4`
 > Version: `v2026.07.25`
 
-[기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)이 필요하다는 말을 이해한 뒤에는 곧바로 다음 질문이 나옵니다. `그러면 무엇을 평소로 잡아야 하는가?` 바로 이 지점에서 다시 막히기 쉽습니다. 최근 구간과 비교할 과거 구간을 아무렇게나 모으면, [비교표(comparison table)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure)는 만들어져도 해석은 쉽게 흔들립니다. 그래서 여기서는 `비교 질문을 먼저 적고`, `그 질문에 맞는 후보만 남기고`, `남은 후보 중 지금 샘플과 가장 같은 조건의 묶음을 고른다`는 순서를 먼저 붙잡는 편이 좋습니다.
+[기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline)이 필요하다는 말을 이해한 뒤에는 곧바로 다음 질문이 나옵니다. `그러면 무엇을 평소로 잡아야 하는가?` 바로 이 지점에서 다시 막히기 쉽습니다. 최근 구간과 비교할 과거 구간을 아무렇게나 모으면, [비교표(comparison table)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)는 만들어져도 해석은 쉽게 흔들립니다. 그래서 여기서는 `비교 질문을 먼저 적고`, `그 질문에 맞는 후보만 남기고`, `남은 후보 중 지금 샘플과 가장 같은 조건의 묶음을 고른다`는 순서를 먼저 붙잡는 편이 좋습니다.
 
 기준선은 `과거 데이터 아무 묶음`이 아니라, `지금 보고 있는 샘플과 같은 종류의 조건에서 만들어진 비교 구간`이어야 합니다. 같은 동작 유형인지, 같은 운전 모드인지, 같은 구간 길이인지, 최소한 비슷한 운영 조건인지가 맞지 않으면 차이값은 생겨도 그 차이가 무엇을 뜻하는지 말하기 어려워집니다.
 
@@ -70,7 +70,7 @@ NIST의 관리도 설명은 공정이 통제 상태에 도달했다고 보려면
 
 이 도식은 기준선 선택이 평균값 하나를 고르는 일이 아니라, 비교 조건을 단계별로 거르는 판단이라는 점을 보여 줍니다. 즉 후보 표를 출력하는 것보다 `같은 샘플 단위`, `같은 공정 조건`, `충분한 표본 수`, `같은 운영 상태`를 차례로 맞춰 가는 선택 구조를 붙잡는 데 있습니다.
 
-따라서 이 절은 특정 현장 규칙 모음이 아니라, [비교 가능한 참조 집단을 어떻게 고를 것인가(selecting a comparable reference group)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-comparable-reference-group)의 문제로 읽는 편이 정확합니다. 기준선 선택은 `과거 평균 하나 고르기`가 아니라, 현재 샘플과 비교 가능한 참조 집단을 조건별로 좁혀 가는 과정입니다.
+따라서 이 절은 특정 현장 규칙 모음이 아니라, [비교 가능한 참조 집단을 어떻게 고를 것인가(selecting a comparable reference group)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline)의 문제로 읽는 편이 정확합니다. 기준선 선택은 `과거 평균 하나 고르기`가 아니라, 현재 샘플과 비교 가능한 참조 집단을 조건별로 좁혀 가는 과정입니다.
 
 ## 출처와 참고 자료
 

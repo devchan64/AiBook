@@ -27,7 +27,7 @@ Part 4 不是先把算法名字排出来，而是先立住阅读机器学习说�
 
 - 什么样的问题会分成 [supervised learning](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning)、[unsupervised learning](/AiBook/zh/reference/concept-glossary-pinyin/w/#unsupervised-learning)、[reinforcement learning](/AiBook/zh/reference/concept-glossary-pinyin/q/#reinforcement-learning)？
 - [model input](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)、[model output](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)、[reward](/AiBook/zh/reference/concept-glossary-pinyin/j/#reward) 各自是什么意思，又是在什么位置分开的？
-- 为什么 [training](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)、[validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation)、[test](/AiBook/zh/reference/concept-glossary-pinyin/c/#test) 要分开，[generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 又是怎么确认的？
+- 为什么 [training](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-training)、[validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation-data)、[test](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data) 要分开，[generalization](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization) 又是怎么确认的？
 - [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会揭示什么错误，又可能遮住什么错误？
 - 为什么 [feature selection](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature-selection)、[preprocessing](/AiBook/zh/reference/concept-glossary-pinyin/y/#preprocessing)、[基准模型](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)、tuning 要比模型名字更先检查？
 - 代表性的传统模型能带来什么问题感，它们的强项到哪里、局限又从哪里开始？
@@ -85,7 +85,7 @@ Part 4 大致由四条流程组成。
 
 评估指标的范围也会在这条流程里明确下来。Part 4 正文里优先处理的是那些能够先抓住 `面对这种问题应该先问什么` 的指标，比如 accuracy、precision、recall、F1、MAE、RMSE、R2。像 ROC、PR、log loss、calibration、reliability、silhouette 这类会让分数解释更细致的项目，会放到 P4-6.4 的补充学习里做入门说明，而 threshold 与 calibration 会在 P4-15.3 再次回收。
 
-这里读者还要同时抓住两个比较装置。[confusion matrix](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix) 和 [error case](/AiBook/zh/reference/concept-glossary-pinyin/e/#error-case) 让你读出 `模型错在了哪里、怎么错的`，[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline) 则要求你追问 `这个分数到底算不算有意义的提升`。Part 4 更看重的是培养把错误结构和基线一起阅读的习惯，而不是把分数当作独立数字背下来。
+这里读者还要同时抓住两个比较装置。[confusion matrix](/AiBook/zh/reference/concept-glossary-pinyin/h/#confusion-matrix) 和 [error case](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-validation) 让你读出 `模型错在了哪里、怎么错的`，[baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline) 则要求你追问 `这个分数到底算不算有意义的提升`。Part 4 更看重的是培养把错误结构和基线一起阅读的习惯，而不是把分数当作独立数字背下来。
 
 这条流程按下面顺序来读。
 

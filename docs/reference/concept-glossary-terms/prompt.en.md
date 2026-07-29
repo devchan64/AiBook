@@ -1,3 +1,5 @@
+<a id="prompt"></a>
+
 ## prompt
 
 - Meaning: A prompt is the full input given to a model to produce the current response. It includes not only a one-line question, but also instructions, context, examples, constraints, and output format. It is best understood as a designed bundle of current task conditions.

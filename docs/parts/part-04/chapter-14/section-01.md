@@ -9,7 +9,7 @@ P4-13.2에서 같은 데이터를 다른 표현 공간(feature space)에서 다�
 
 직선 하나를 그리는 대신 질문을 차례로 나누어 가면 어떨지 생각해 보면, [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)의 출발점이 더 잘 보입니다. 결정트리는 데이터를 한 번에 설명하려 하지 않고, yes/no 질문을 반복해 점점 더 비슷한 사례끼리 나누어 예측합니다. 즉, 결정트리는 `경계선 하나`보다 `질문 흐름`에 더 가깝습니다.
 
-이 절은 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree), [분기(split)](../../../reference/concept-glossary-parts/06-bieup.md#split), [노드(node)](../../../reference/concept-glossary-parts/02-nieun.md#node), [잎(leaf)](../../../reference/concept-glossary-parts/08-ieung.md#leaf)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 질문을 이어 붙여 예측하는 기본 감각은 이 절의 판단 기준으로 다시 연결합니다.
+이 절은 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree), [분기(split)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree), [노드(node)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree), [잎(leaf)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 질문을 이어 붙여 예측하는 기본 감각은 이 절의 판단 기준으로 다시 연결합니다.
 
 ## 결정트리(decision tree)에서 닫을 질문
 

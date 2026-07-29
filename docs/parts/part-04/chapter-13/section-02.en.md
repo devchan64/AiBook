@@ -13,7 +13,7 @@ That question is exactly why the [kernel](/AiBook/en/reference/concept-glossary-
 
 So the core of 13.2 is not `a new magic function`, but the perspective that `if the representation changes, even a linear boundary can take on a different meaning`.
 
-This Section does not repeat the basic definition of [SVM (support vector machine)](/AiBook/en/reference/concept-glossary-alpha/s/#support-vector-machine) at length. The core intuition, `finding a large-margin boundary`, reconnects through P4-13.1. Here the focus stays only on why the idea of changing the [feature space](/AiBook/en/reference/concept-glossary-alpha/f/#feature-space) is needed.
+This Section does not repeat the basic definition of [SVM (support vector machine)](/AiBook/en/reference/concept-glossary-alpha/s/#support-vector-machine) at length. The core intuition, `finding a large-margin boundary`, reconnects through P4-13.1. Here the focus stays only on why the idea of changing the [feature space](/AiBook/en/reference/concept-glossary-alpha/v/#vector-space) is needed.
 
 ## Questions Closed By The Kernel Idea
 

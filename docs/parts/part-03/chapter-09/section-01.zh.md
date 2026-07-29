@@ -3,9 +3,9 @@
 > Section ID: `P3-9.1`
 > Version: `v2026.07.25`
 
-看现实记录时，人们常常会先反应成：“既然有事件记录，也多少有一点结果备注，那是不是可以直接提升成[分类](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-classification)问题？”但在现实记录里，这个想法往往太快了。有些问题确实可以做成预测问题，但也有些问题更诚实的做法，是先把它留在`更好地挑出复核候选`这一层，而且这也更符合当前的数据状态。既然[解释边界](/AiBook/zh/reference/concept-glossary-pinyin/j/#glossary-interpretation-boundary)已经立住，下一步就要决定：当前问题应该提升到 [告警(alert)](/AiBook/zh/reference/concept-glossary-pinyin/g/#glossary-alert)、[复核候选(review candidate)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-review-candidate)、[标签预测(label prediction)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-label-prediction) 中的哪一层。
+看现实记录时，人们常常会先反应成：“既然有事件记录，也多少有一点结果备注，那是不是可以直接提升成[分类](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification)问题？”但在现实记录里，这个想法往往太快了。有些问题确实可以做成预测问题，但也有些问题更诚实的做法，是先把它留在`更好地挑出复核候选`这一层，而且这也更符合当前的数据状态。既然[解释边界](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)已经立住，下一步就要决定：当前问题应该提升到 [告警(alert)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)、[复核候选(review candidate)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)、[标签预测(label prediction)](/AiBook/zh/reference/concept-glossary-pinyin/b/#label-prediction) 中的哪一层。
 
-首先要抓住的判断是：`当前数据究竟诚实地支撑到哪里。` alert 仅凭比较结构和差值就可以开始；review candidate 还需要优先级标准；label prediction 则需要相对稳定的[目标标签](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-target)和评估结构。
+首先要抓住的判断是：`当前数据究竟诚实地支撑到哪里。` alert 仅凭比较结构和差值就可以开始；review candidate 还需要优先级标准；label prediction 则需要相对稳定的[目标标签](/AiBook/zh/reference/concept-glossary-pinyin/m/#target)和评估结构。
 
 | 区分 | 在当前阶段的含义 | 所需证据强度 |
 | --- | --- | --- |

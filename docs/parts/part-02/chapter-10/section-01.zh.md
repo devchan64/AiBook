@@ -9,7 +9,7 @@
 
 Notebook 在 AI 学习里尤其常见。因为你可以把公式改写成代码后立刻检查，可以打印数据表，可以画图，也可以把解释写在旁边。
 
-这里说明 `notebook`、`code cell`、`markdown cell`、`output` 的基本区分。如果说 Chapter 7 讨论的是“在哪里执行”，Chapter 8 到 9 讨论的是“用什么句子写什么内容”，那么这里讨论的就是：如何把这些执行和计算结果一起留在一个文档里，并且以后还能重新阅读。Notebook 与其说是一种新的执行环境名称，不如说是一种把已经执行过的代码和输出打包成学习记录的格式。后面这些概念再次出现时，也可以把[notebook 词条](/AiBook/zh/reference/concept-glossary-pinyin/n.zh/#notebook)当作基准点。
+这里说明 `notebook`、`code cell`、`markdown cell`、`output` 的基本区分。如果说 Chapter 7 讨论的是“在哪里执行”，Chapter 8 到 9 讨论的是“用什么句子写什么内容”，那么这里讨论的就是：如何把这些执行和计算结果一起留在一个文档里，并且以后还能重新阅读。Notebook 与其说是一种新的执行环境名称，不如说是一种把已经执行过的代码和输出打包成学习记录的格式。后面这些概念再次出现时，也可以把这一节的 notebook 说明当作基准点。
 
 在 Part 2 的流程里阅读这一章时，先抓住下面的最小线索。
 

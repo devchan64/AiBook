@@ -13,7 +13,7 @@ Clustering is an unsupervised learning problem that tries to find what groups of
 
 In other words, clustering is closer to `discovering structure` than to `solving a problem by getting the answer right`.
 
-This Section explains [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering), [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and the difference between [answer labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) and clusters. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), [similarity](/AiBook/en/reference/concept-glossary-alpha/s/#similarity), and [cluster label](/AiBook/en/reference/concept-glossary-alpha/c/#cluster-label).
+This Section explains [clustering](/AiBook/en/reference/concept-glossary-alpha/c/#clustering), [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster), and the difference between [answer labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) and clusters. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through [unsupervised learning](/AiBook/en/reference/concept-glossary-alpha/u/#unsupervised-learning), [similarity](/AiBook/en/reference/concept-glossary-alpha/s/#similarity), and [cluster](/AiBook/en/reference/concept-glossary-alpha/c/#cluster).
 
 ## Questions Closed By Clustering
 
@@ -120,7 +120,7 @@ If we look at customers through these three [features](/AiBook/en/reference/conc
 
 But for text documents, similarity may change into closeness in word distributions or embedding space.
 
-So in clustering, the word `similar` is not an emotional expression. It is a definition of relationships inside [feature space](/AiBook/en/reference/concept-glossary-alpha/f/#feature-space).
+So in clustering, the word `similar` is not an emotional expression. It is a definition of feature relationships inside a [vector space](/AiBook/en/reference/concept-glossary-alpha/v/#vector-space).
 
 If this is compressed into a data flow, it looks like this.
 

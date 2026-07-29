@@ -5,7 +5,7 @@
 
 Part 1 was the section for fixing the overall landscape before studying AI again. Rather than implementing detailed algorithms or proving formulas in depth, it first organized the terms and perspectives that keep returning in later learning.
 
-This summary is not a document that repeats every concept from Part 1 at length. It is a closing page that helps you recall where the baseline for each idea was first fixed. If the terms become confusing again, return to representative glossary entries such as [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence), [system](/AiBook/en/reference/concept-glossary-alpha/s/#system), and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), then check the representative Sections listed there.
+This summary is not a document that repeats every concept from Part 1 at length. It is a closing page that helps you recall where the baseline for each idea was first fixed. If the terms become confusing again, return to representative glossary entries such as [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence), system, and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), then check the representative Sections listed there.
 
 The most important goal here is not to see AI as one buzzword or one product name. AI is a broad field where rule-based approaches, search, heuristics, probabilistic judgment, data-driven learning, deep learning, generative AI, LLMs, agents, service operation, and social responsibility overlap.
 

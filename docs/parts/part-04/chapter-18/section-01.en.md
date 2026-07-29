@@ -9,7 +9,7 @@ If there are too many [features](/AiBook/en/reference/concept-glossary-alpha/f/#
 
 That question is the starting point of [dimensionality reduction](/AiBook/en/reference/concept-glossary-alpha/d/#dimensionality-reduction). Dimensionality reduction is not just a technique for discarding many features. It is closer to `reexpressing the original representation through axes that are easier to read when the original representation has become too complex`.
 
-This Section explains [dimension](/AiBook/en/reference/concept-glossary-alpha/d/#dimension), [PCA](/AiBook/en/reference/concept-glossary-alpha/p/#principal-component-analysis-pca) (principal component analysis), and `why [eigenvalues](/AiBook/en/reference/concept-glossary-alpha/e/#eigenvalue) and [eigenvectors](/AiBook/en/reference/concept-glossary-alpha/e/#eigenvector) appear here` through the same toy-data scene. In the next Section, P4-18.2, we continue by asking how far we should trust the resulting picture and how to read information loss.
+This Section explains [dimension](/AiBook/en/reference/concept-glossary-alpha/d/#dimension), [PCA](/AiBook/en/reference/concept-glossary-alpha/p/#principal-component-analysis-pca) (principal component analysis), and `why eigenvalues and eigenvectors appear here` through the same toy-data scene. In the next Section, P4-18.2, we continue by asking how far we should trust the resulting picture and how to read information loss.
 
 ## Questions Closed By Dimensionality Reduction
 
@@ -19,10 +19,10 @@ This Section answers the following questions.
 - Why can learning and interpretation become harder when the number of features grows?
 - What problems is dimensionality reduction trying to ease?
 - What representative intuition does PCA show?
-- Why do [variance](/AiBook/en/reference/concept-glossary-alpha/v/#variance), [orthogonal](/AiBook/en/reference/concept-glossary-alpha/o/#orthogonal), eigenvalue, and eigenvector appear together in PCA explanations?
-- How should we distinguish [kernel PCA](/AiBook/en/reference/concept-glossary-alpha/k/#kernel-pca) and [Truncated SVD](/AiBook/en/reference/concept-glossary-alpha/t/#truncated-svd) from PCA at the level of intuition?
+- Why do [variance](/AiBook/en/reference/concept-glossary-alpha/v/#variance), orthogonal, eigenvalue, and eigenvector appear together in PCA explanations?
+- How should we distinguish kernel PCA and Truncated SVD from PCA at the level of intuition?
 
-This Section focuses on grasping, at an introductory level, `why we want to reduce dimensions` and `what kind of calculation PCA performs`. How to interpret visualization results, t-SNE and UMAP, [reconstruction error](/AiBook/en/reference/concept-glossary-alpha/r/#reconstruction-error), and trustworthiness continue in the next Section, P4-18.2.
+This Section focuses on grasping, at an introductory level, `why we want to reduce dimensions` and `what kind of calculation PCA performs`. How to interpret visualization results, t-SNE and UMAP, reconstruction error, and trustworthiness continue in the next Section, P4-18.2.
 
 ## Judgments To Keep From Dimensionality Reduction
 
@@ -100,7 +100,7 @@ So dimensionality reduction becomes a step that asks again `has the current repr
 
 ## What Is Dimensionality Reduction Trying To Ease?
 
-The scikit-learn user guide explains PCA as a method that decomposes a multivariate dataset into successive orthogonal [components](/AiBook/en/reference/concept-glossary-alpha/c/#component) and finds directions that explain the largest amount of variance.
+The scikit-learn user guide explains PCA as a method that decomposes a multivariate dataset into successive orthogonal components and finds directions that explain the largest amount of variance.
 
 At an introductory level, dimensionality reduction can be read as an attempt to ease the following problems.
 
@@ -172,7 +172,7 @@ So PCA creates new axes while trying to separate information across different di
 
 ## Why Do Eigenvalue And Eigenvector Appear In PCA?
 
-The moment you look just a little deeper into PCA, the words eigenvalue and eigenvector of the [covariance matrix](/AiBook/en/reference/concept-glossary-alpha/c/#covariance-matrix) appear immediately. The reason is simple.
+The moment you look just a little deeper into PCA, the words eigenvalue and eigenvector of the covariance matrix appear immediately. The reason is simple.
 
 `To find the directions in which the data spread most strongly in formulas, you need to find the direction vectors that best explain that spread.`
 

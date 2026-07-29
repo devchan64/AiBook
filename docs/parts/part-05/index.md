@@ -28,7 +28,7 @@ Part 5는 신경망과 딥러닝을 본격적으로 설명하는 파트입니다
 
 Part 5는 `딥러닝 예고편`으로 읽혀서는 안 됩니다. 따라서 합성곱 신경망(CNN), 순환 신경망(RNN), 어텐션(Attention), 트랜스포머(Transformer)는 각각 `왜 이런 데이터 구조 문제에서 이런 설계가 나왔는가`를 이 Part 안에서 먼저 닫고, Part 6으로의 연결은 짧은 다음 단계 안내로만 남기는 것을 기본 원칙으로 둡니다.
 
-이 Part를 읽다가 핵심 용어의 기준선이 다시 흐려지면 개념사전의 [퍼셉트론(perceptron)](../../reference/concept-glossary-parts/13-pieup.md#perceptron), [활성화 함수(activation function)](../../reference/concept-glossary-parts/14-hieut.md#activation-function), [옵티마이저(optimizer)](../../reference/concept-glossary-parts/08-ieung.md#optimizer), [어텐션(Attention)](../../reference/concept-glossary-parts/08-ieung.md#attention), [트랜스포머(Transformer)](../../reference/concept-glossary-parts/12-tieut.md#transformer) 항목의 `중심 Section`과 `등장 Section`을 함께 확인하며 복습하는 경로를 기본 참조점으로 삼습니다.
+이 Part를 읽다가 핵심 용어의 기준선이 다시 흐려지면 개념사전의 [퍼셉트론(perceptron)](../../reference/concept-glossary-parts/03-digeut.md#multilayer-neural-network), [활성화 함수(activation function)](../../reference/concept-glossary-parts/14-hieut.md#activation-function), [옵티마이저(optimizer)](../../reference/concept-glossary-parts/08-ieung.md#optimizer), [어텐션(Attention)](../../reference/concept-glossary-parts/08-ieung.md#attention), [트랜스포머(Transformer)](../../reference/concept-glossary-parts/12-tieut.md#transformer) 항목의 `중심 Section`과 `등장 Section`을 함께 확인하며 복습하는 경로를 기본 참조점으로 삼습니다.
 
 이 기준을 현재 Part 5 목차에 맞춰 다시 한 줄로 묶으면 다음과 같습니다.
 

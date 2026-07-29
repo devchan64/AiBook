@@ -1,3 +1,5 @@
+<a id="unsupervised-learning"></a>
+
 ## unsupervised learning
 
 - Meaning: Unsupervised learning is a learning setup that looks for structure, groups, or representations in data without human-provided answer labels. Instead of predicting a predefined target, it first asks how examples resemble or differ from one another.

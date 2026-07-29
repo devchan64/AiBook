@@ -7,7 +7,7 @@ In P5-3.2 and P5-3.3, we looked at functions such as the sigmoid and tanh that c
 
 Because of this simplicity, ReLU appears very often in modern deep learning.
 
-If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) and [ReLU](/AiBook/en/reference/concept-glossary-alpha/r/#relu) entries in the concept glossary.
+If the baseline for representative activation functions is needed again, reread ReLU through the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entry in the concept glossary.
 
 ## The Question of How ReLU Cuts Negative Values
 

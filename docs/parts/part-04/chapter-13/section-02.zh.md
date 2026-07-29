@@ -13,7 +13,7 @@ P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary �
 
 所以，13.2 的核心不是 `一个新的魔法函数`，而是这样一种观点：`只要表示方式变了，即使线性 boundary 也会拥有不同的意义`。
 
-这一节不会重新长篇重复 [SVM(support vector machine)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine) 的基本定义。`寻找大 margin boundary` 这个核心直觉，会通过 P4-13.1 的判断标准再接回来。这里专注的是：为什么要引入改变 [feature space](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-space) 的想法。
+这一节不会重新长篇重复 [SVM(support vector machine)](/AiBook/zh/reference/concept-glossary-pinyin/z/#support-vector-machine) 的基本定义。`寻找大 margin boundary` 这个核心直觉，会通过 P4-13.1 的判断标准再接回来。这里专注的是：为什么要引入改变 [feature space](/AiBook/zh/reference/concept-glossary-pinyin/x/#vector-space) 的想法。
 
 ## kernel 想法先收束的问题
 

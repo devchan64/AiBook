@@ -7,7 +7,7 @@
 
 这片森林在做判断时，到底把什么看得更重要？
 
-这个问题就是[特征重要度(feature importance)](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-importance)的出发点。
+这个问题就是[特征重要度(feature importance)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)的出发点。
 
 特征重要度是一个把模型更常使用、或使用得更重的特征总结成数字的方法， 但如果把这个数字直接读成原因或真相的排序，就会很危险。
 
@@ -20,12 +20,12 @@
 本节回答以下问题。
 
 - 在随机森林里，特征重要度是怎样产生的？
-- [`feature_importances_`](/AiBook/zh/reference/concept-glossary-pinyin/t/#feature-importance) 是什么意思？
-- impurity-based importance 和[置换重要度(permutation importance)](/AiBook/zh/reference/concept-glossary-pinyin/z/#permutation-importance)有什么不同？
+- [`feature_importances_`](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) 是什么意思？
+- impurity-based importance 和置换重要度(permutation importance)有什么不同？
 - 为什么一个看起来很重要的数字仍然可能制造误解？
-- [部分依赖图(PDP, partial dependence plot)](/AiBook/zh/reference/concept-glossary-pinyin/b/#partial-dependence-plot-pdp)、[SHAP](/AiBook/zh/reference/concept-glossary-pinyin/s/#shap)与 importance 相比，到底在问什么不同的问题？
+- 部分依赖图(PDP, partial dependence plot)、SHAP与 importance 相比，到底在问什么不同的问题？
 - 为什么不能把 importance 的解释直接跳成[因果推断(causal inference)](/AiBook/zh/reference/concept-glossary-pinyin/y/#causal-inference)？
-- 当真实数据里[相关特征(correlated features)](/AiBook/zh/reference/concept-glossary-pinyin/x/#correlated-features)非常强时，需要怎样更保守的解释策略？
+- 当真实数据里相关特征(correlated features)非常强时，需要怎样更保守的解释策略？
 
 这一节不会只停在画出 importance 解释的外围边界。 它还会在当前 Section 里直接回收： `当数字总结不够时该再看什么`、 `为什么要与原因解释分开`、 以及 `相关性很强时应该怎样更保守地读`。
 
@@ -40,9 +40,9 @@
 ## 特征重要度要留下的判断标准
 
 - 你可以把特征重要度解释成 `模型内部使用量的总结`。
-- 你可以区分[基于不纯度的重要度(MDI, mean decrease in impurity)](/AiBook/zh/reference/concept-glossary-pinyin/p/#mean-decrease-in-impurity-mdi)与[置换重要度(permutation importance)](/AiBook/zh/reference/concept-glossary-pinyin/z/#permutation-importance)。
+- 你可以区分基于不纯度的重要度(MDI, mean decrease in impurity)与置换重要度(permutation importance)。
 - 你可以说明特征重要度并不直接等于因果关系(causality)或真正的原因排序。
-- 你可以说明为什么[相关特征(correlated features)](/AiBook/zh/reference/concept-glossary-pinyin/x/#correlated-features)与[高基数特征(high-cardinality feature)](/AiBook/zh/reference/concept-glossary-pinyin/g/#high-cardinality-feature)会扭曲解释。
+- 你可以说明为什么相关特征(correlated features)与高基数特征(high-cardinality feature)会扭曲解释。
 
 ## 学习背景
 

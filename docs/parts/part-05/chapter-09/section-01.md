@@ -11,7 +11,7 @@ P5-8장까지는 딥러닝 모델 내부에서 일어나는 학습 계산과 reg
 
 딥러닝 확산은 알고리즘 아이디어만으로 이루어진 것이 아니라, 같은 연산을 매우 많이 동시에 처리할 수 있는 계산 자원의 발전과 강하게 연결되어 있다.
 
-계산 자원 이야기가 다시 추상적으로 느껴질 때는 개념사전의 [GPU(graphics processing unit)](../../../reference/concept-glossary-parts/09-jieut.md#gpugraphics-processing-unit)와 [병렬 처리(parallel processing)](../../../reference/concept-glossary-parts/06-bieup.md#parallel-processing) 항목을 함께 다시 봅니다.
+계산 자원 이야기가 다시 추상적으로 느껴질 때는 개념사전의 GPU(graphics processing unit)와 병렬 처리(parallel processing) 항목을 함께 다시 봅니다.
 
 ## GPU가 병렬 처리를 필요로 하는 질문
 

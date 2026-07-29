@@ -3,7 +3,7 @@
 > Section ID: `P3-3.3`
 > Version: `v2026.07.25`
 
-拿到问题之后，真正立刻需要的，不是一次把完成表写出来，而是先在第一张表草案里分清：哪些[列(column)](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-column)负责识别[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)，哪些列负责状态、比较和结果。问题句一变，表草案的列结构也会跟着变，所以如果要把已存记录搬到[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/w/#glossary-problem-representation-structure)里，这第一张草图就必须清楚。第一张表草案真正重要的，不是完整列名清单，而是这种角色划分。
+拿到问题之后，真正立刻需要的，不是一次把完成表写出来，而是先在第一张表草案里分清：哪些[列(column)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)负责识别[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)，哪些列负责状态、比较和结果。问题句一变，表草案的列结构也会跟着变，所以如果要把已存记录搬到[问题表示结构](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)里，这第一张草图就必须清楚。第一张表草案真正重要的，不是完整列名清单，而是这种角色划分。
 
 画第一张表草案时，最好不要一开始就试图把所有列都写出来，而是先写下下面四组。
 

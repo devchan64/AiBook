@@ -9,7 +9,7 @@
 
 这时真正需要的信号，就是梯度（gradient）。梯度表示的是：损失对某个具体参数到底有多敏感。从损失出发，把这种敏感度从后面的计算一步步往前面的计算重新算出来的过程，就是反向传播（backpropagation）。
 
-如果在后面的章节里又开始把它和计算图或优化器（optimizer）混在一起，更适合回到概念词汇表里的[反向传播（backpropagation）](/AiBook/zh/reference/concept-glossary-pinyin/b/#backpropagation)、[梯度（gradient）](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient)、[链式法则（chain rule）](/AiBook/zh/reference/concept-glossary-pinyin/l/#chain-rule)条目，先重新拆开各自的计算角色。
+如果在后面的章节里又开始把它和计算图或优化器（optimizer）混在一起，更适合回到概念词汇表里的[反向传播（backpropagation）](/AiBook/zh/reference/concept-glossary-pinyin/f/#backpropagation)、[梯度（gradient）](/AiBook/zh/reference/concept-glossary-pinyin/g/#gradient)、[链式法则（chain rule）](/AiBook/zh/reference/concept-glossary-pinyin/l/#chain-rule)条目，先重新拆开各自的计算角色。
 
 这一节先固定下面三句话：
 

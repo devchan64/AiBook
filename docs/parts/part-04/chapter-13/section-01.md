@@ -13,7 +13,7 @@ SVM은 class를 나누는 선을 찾되, 그 선이 양쪽 데이터로부터 �
 
 SVM은 단지 `분류선 하나`를 찾는 데서 멈추지 않고, `가장 안정적으로 보이는 분리선`을 찾으려는 시도입니다.
 
-이 절은 [SVM(support vector machine)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine), [마진(margin)](../../../reference/concept-glossary-parts/05-mieum.md#margin), [서포트 벡터(support vector)](../../../reference/concept-glossary-parts/07-siot.md#support-vector)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 경계의 안정성을 읽는 기본 감각은 이 절의 판단 기준으로 다시 연결합니다.
+이 절은 [SVM(support vector machine)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine), [마진(margin)](../../../reference/concept-glossary-parts/05-mieum.md#margin), [서포트 벡터(support vector)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine)의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 경계의 안정성을 읽는 기본 감각은 이 절의 판단 기준으로 다시 연결합니다.
 
 ## SVM의 직관에서 닫을 질문
 

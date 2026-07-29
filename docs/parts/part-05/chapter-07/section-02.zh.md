@@ -11,7 +11,7 @@
 
 学习率是 optimizer 把 gradient 变成真实 update 时，用来决定一次到底走多大的步幅。换句话说，如果 gradient 告诉你`该朝哪个方向改`，那么 learning rate 就是在决定`这一 step 到底沿着这个方向走多远。`
 
-如果后面又开始把 learning rate、gradient、update 的关系混在一起，更适合回到概念词汇表里的[学习率（learning rate）](/AiBook/zh/reference/concept-glossary-pinyin/l/#learning-rate)和[优化器（optimizer）](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimizer)，重新把它们放回各自的位置。
+如果后面又开始把 learning rate、gradient、update 的关系混在一起，更适合回到概念词汇表里的[学习率（learning rate）](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)和[优化器（optimizer）](/AiBook/zh/reference/concept-glossary-pinyin/y/#optimizer)，重新把它们放回各自的位置。
 
 ## learning rate 怎样决定步幅的问题
 

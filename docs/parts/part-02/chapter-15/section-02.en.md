@@ -5,7 +5,7 @@
 
 Part 2 is the basic recovery zone. It does not mean that all mathematics and Python are finished perfectly. It is the stage where you check whether you now have the minimum reading ability and practice sense needed to move into machine learning.
 
-Rather than completely closing Part 2, this section serves as a revisit checkpoint that organizes to which concepts you should return when you get stuck in Part 3 and need to restore your standards. Here, instead of learning new content, you distinguish `what you carry forward now` from `what you can come back and recheck later`. When you return to a concept, use both the representative section and the [formula glossary entry](/AiBook/en/reference/concept-glossary-alpha/f.en/#formula) as reference points.
+Rather than completely closing Part 2, this section serves as a revisit checkpoint that organizes to which concepts you should return when you get stuck in Part 3 and need to restore your standards. Here, instead of learning new content, you distinguish `what you carry forward now` from `what you can come back and recheck later`. When you return to a concept, use the representative section as the reference point.
 
 If you compress that standard into the shortest form again, it becomes the following.
 

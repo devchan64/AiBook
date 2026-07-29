@@ -9,7 +9,7 @@ P4-11 通过画边界(boundary)来理解分类。 P4-12 通过最近邻来理解
 
 与其一次画出一条直线，不如想象把案例按问题一步一步拆开。 这样更容易看清[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)的出发点。 决策树不会试图一次把数据全部解释完。 它会重复 yes/no 问题，把更相似的案例逐渐分到一起，再给出预测。 所以决策树更接近 `问题流(question flow)`，而不是 `单一边界线`。
 
-这一节解释[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)、[分裂(split)](/AiBook/zh/reference/concept-glossary-pinyin/f/#split)、[节点(node)](/AiBook/zh/reference/concept-glossary-pinyin/n/#node)、[叶(leaf)](/AiBook/zh/reference/concept-glossary-pinyin/y/#leaf)的基本含义。 后续小节会以这些抓手继续推进当前语境中的判断，而 `把问题串起来再给出预测` 的基础直觉，也会通过这一节的判断标准重新连接起来。
+这一节解释[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)、[分裂(split)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)、[节点(node)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)、[叶(leaf)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)的基本含义。 后续小节会以这些抓手继续推进当前语境中的判断，而 `把问题串起来再给出预测` 的基础直觉，也会通过这一节的判断标准重新连接起来。
 
 ## 决策树先收束的问题
 

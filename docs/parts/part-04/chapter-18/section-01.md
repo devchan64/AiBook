@@ -9,7 +9,7 @@ P4-17에서는 [클러스터링(clustering)](../../../reference/concept-glossary
 
 이 질문이 [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction)의 출발점입니다. 차원 축소는 많은 특징을 그냥 버리는 기술이 아니라, `원래 표현이 너무 복잡할 때 더 읽기 쉬운 축으로 다시 표현하는 일`에 가깝습니다.
 
-이 절은 [차원(dimension)](../../../reference/concept-glossary-parts/11-chieut.md#dimension), [PCA(principal component analysis)](../../../reference/concept-glossary-parts/09-jieut.md#principal-component-analysis-pca), 그리고 `왜 [고유값(eigenvalue)](../../../reference/concept-glossary-parts/01-giyeok.md#eigenvalue)과 [고유벡터(eigenvector)](../../../reference/concept-glossary-parts/01-giyeok.md#eigenvector)가 여기서 나오나`를 같은 장난감 데이터 장면으로 묶어 설명합니다. 뒤 절 P4-18.2에서는 이렇게 만든 그림을 어디까지 믿어야 하는지와 정보 손실을 이어서 닫습니다.
+이 절은 [차원(dimension)](../../../reference/concept-glossary-parts/11-chieut.md#dimension), [PCA(principal component analysis)](../../../reference/concept-glossary-parts/09-jieut.md#principal-component-analysis-pca), 그리고 `왜 고유값(eigenvalue)과 고유벡터(eigenvector)가 여기서 나오나`를 같은 장난감 데이터 장면으로 묶어 설명합니다. 뒤 절 P4-18.2에서는 이렇게 만든 그림을 어디까지 믿어야 하는지와 정보 손실을 이어서 닫습니다.
 
 ## 차원 축소(dimensionality reduction)에서 닫을 질문
 
@@ -19,8 +19,8 @@ P4-17에서는 [클러스터링(clustering)](../../../reference/concept-glossary
 - 왜 특징 수가 많으면 학습과 해석이 어려워질 수 있는가?
 - 차원 축소는 어떤 문제를 완화하려고 하는가?
 - PCA는 어떤 대표 직관을 보여 주는가?
-- 왜 [분산(variance)](../../../reference/concept-glossary-parts/06-bieup.md#variance), [직교(orthogonal)](../../../reference/concept-glossary-parts/09-jieut.md#orthogonal), 고유값, 고유벡터가 PCA 설명에 함께 나오는가?
-- [kernel PCA](../../../reference/concept-glossary-parts/10-kieuk.md#kernel-pca)와 [Truncated SVD](../../../reference/concept-glossary-parts/12-tieut.md#truncated-svd)는 PCA와 어떤 감각 차이로 구분하면 좋은가?
+- 왜 [분산(variance)](../../../reference/concept-glossary-parts/06-bieup.md#variance), 직교(orthogonal), 고유값, 고유벡터가 PCA 설명에 함께 나오는가?
+- kernel PCA와 Truncated SVD는 PCA와 어떤 감각 차이로 구분하면 좋은가?
 
 이 절은 입문적으로 `왜 차원을 줄이려 하는가`와 `PCA가 무엇을 하는 계산인가`를 붙잡는 데 초점을 둡니다. 시각화 결과 해석, t-SNE·UMAP, 재구성 오차(reconstruction error), trustworthiness는 다음 절 P4-18.2에서 이어집니다.
 
@@ -100,7 +100,7 @@ P4-17에서는 [클러스터링(clustering)](../../../reference/concept-glossary
 
 ## 차원 축소는 무엇을 완화하려 하나
 
-scikit-learn 사용자 가이드는 PCA를 다변량 데이터셋을 연속적인 직교 [성분(component)](../../../reference/concept-glossary-parts/07-siot.md#component)으로 분해하고, 가장 많은 분산을 설명하는 방향을 찾는 방법으로 설명합니다.
+scikit-learn 사용자 가이드는 PCA를 다변량 데이터셋을 연속적인 직교 성분(component)으로 분해하고, 가장 많은 분산을 설명하는 방향을 찾는 방법으로 설명합니다.
 
 입문적으로는 차원 축소가 다음 문제를 완화하려는 시도로 읽힙니다.
 
@@ -168,7 +168,7 @@ PCA는 `무엇이 더 크게 변하는가`를 먼저 봅니다. 그래서 분산
 
 ## 고유값과 고유벡터는 여기서 왜 나오나
 
-PCA를 수식으로 쓰기 시작하면 [공분산 행렬(covariance matrix)](../../../reference/concept-glossary-parts/01-giyeok.md#covariance-matrix)의 고유벡터와 고유값이 바로 등장합니다. 이유는 단순합니다.
+PCA를 수식으로 쓰기 시작하면 공분산 행렬(covariance matrix)의 고유벡터와 고유값이 바로 등장합니다. 이유는 단순합니다.
 
 `분산이 큰 방향을 계산으로 찾으려면, 어떤 방향 벡터가 그 퍼짐을 가장 잘 설명하는지 찾아야 하기 때문이다.`
 

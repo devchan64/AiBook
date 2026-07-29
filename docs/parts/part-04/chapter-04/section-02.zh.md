@@ -13,7 +13,7 @@
 
 这一节解释 validation 和 test 的角色差异。[metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 的计算本身，这里不会详细展开。[accuracy](/AiBook/zh/reference/concept-glossary-pinyin/a/#accuracy)、precision、recall 等指标会在 P4-6 再处理。
 
-同时，这一节会说明 `在选模型的过程中，到底该看什么` 这条流程，但完整的 [model selection](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection) 程序和 [baseline model](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model) 讨论会在 P4-8 再回来。[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 与 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 的概念，会在 P4-5 里更详细展开。
+同时，这一节会说明 `在选模型的过程中，到底该看什么` 这条流程，但完整的 [model selection](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection) 程序和 [baseline model](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model) 讨论会在 P4-8 再回来。[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 与 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization) 的概念，会在 P4-5 里更详细展开。
 
 - 为什么 validation data 和 test data 要分开？
 - 它们各自应该在什么时候使用？

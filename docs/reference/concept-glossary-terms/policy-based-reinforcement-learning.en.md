@@ -1,3 +1,5 @@
+<a id="policy-based-reinforcement-learning"></a>
+
 ## policy-based reinforcement learning
 
 - Meaning: Policy-based reinforcement learning directly adjusts the policy that chooses actions instead of first building a scoreboard of values for states or actions. It is closer to changing the behavior rule itself than to calculating a value and then choosing from it. Updating policy parameters toward higher average reward is a representative submethod of this approach.

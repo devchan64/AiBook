@@ -24,7 +24,7 @@ The order of baseline comparison is fixed briefly as follows.
 | What to look at first | Question that comes immediately next | What to judge after that |
 | --- | --- | --- |
 | baseline score | is this score an easy illusion, or a real starting point | how much did the candidate model improve on the same metric |
-| [confusion matrix](/AiBook/en/reference/concept-glossary-alpha/c/#confusion-matrix) and representative [error cases](/AiBook/en/reference/concept-glossary-alpha/e/#error-case) | what failures were reduced and what failures remain | is this change operationally meaningful |
+| [confusion matrix](/AiBook/en/reference/concept-glossary-alpha/c/#confusion-matrix) and representative [error cases](/AiBook/en/reference/concept-glossary-alpha/m/#model-validation) | what failures were reduced and what failures remain | is this change operationally meaningful |
 | candidate-model score | besides accuracy, what changed in recall, F1, or error size | can readers decide whether to tune further or change candidates |
 
 To actually set up a baseline, two things are needed together.

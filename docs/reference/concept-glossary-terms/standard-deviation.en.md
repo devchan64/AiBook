@@ -1,3 +1,5 @@
+<a id="standard-deviation"></a>
+
 ## standard deviation
 
 - Meaning: Standard deviation is the square root of variance. It shows how far values typically spread around the mean in units closer to the original data.

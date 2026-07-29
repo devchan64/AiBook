@@ -21,7 +21,7 @@ This Section answers the following questions.
 - What kinds of information are relatively well preserved, and what kinds may disappear?
 - Why can two points that look close in 2D fail to be close in the original space?
 - How should dimensionality-reduction results be used safely in exploratory analysis?
-- When interpreting [t-SNE](/AiBook/en/reference/concept-glossary-alpha/t/#t-sne), [UMAP](/AiBook/en/reference/concept-glossary-alpha/u/#umap), [reconstruction error](/AiBook/en/reference/concept-glossary-alpha/r/#reconstruction-error), and [trustworthiness](/AiBook/en/reference/concept-glossary-alpha/t/#trustworthiness), what minimum ideas should be understood?
+- When interpreting t-SNE, UMAP, reconstruction error, and trustworthiness, what minimum ideas should be understood?
 
 This Section focuses at an introductory level on `how far the reduced picture can be trusted` and `how information loss should be read`. So this Section directly covers what kinds of structure t-SNE and UMAP try to preserve more strongly, and how reconstruction error and trustworthiness should be read as minimum criteria. By contrast, implementation optimization, detailed tuning, and extended metric comparisons are not developed here at length.
 
@@ -93,7 +93,7 @@ If this point is read a little more practically, it looks like this.
 
 ## Easy To See Is Not The Same As Preserving The Original Structure
 
-A 2D [scatter plot](/AiBook/en/reference/concept-glossary-alpha/s/#scatter-plot) can look neat, but that does not mean the original high-dimensional structure was copied directly onto a 2D plane.
+A 2D [scatter plot](/AiBook/en/reference/concept-glossary-alpha/v/#visualization) can look neat, but that does not mean the original high-dimensional structure was copied directly onto a 2D plane.
 
 The important distinction is the following.
 

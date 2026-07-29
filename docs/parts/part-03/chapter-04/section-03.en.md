@@ -3,7 +3,7 @@
 > Section ID: `P3-4.3`
 > Version: `v2026.07.25`
 
-[One row](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-row), one [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), and `one recent segment` all come to mind while looking at a data table, but they are not the same level. In a [source-data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) table, the row is seen first. In the comparison of one full action, the sample becomes central. In [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the recent segment appears as yet another comparison unit.
+[One row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit), one [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), and `one recent segment` all come to mind while looking at a data table, but they are not the same level. In a [source-data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) table, the row is seen first. In the comparison of one full action, the sample becomes central. In [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the recent segment appears as yet another comparison unit.
 
 The reason all three units must be separated at once is that [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature), baseline comparison, and review sentences attach at different levels. The moment a row is mistaken for a sample, or a segment is read as if it were one sample, the later table structure and comparison structure also begin to drift.
 
@@ -69,7 +69,7 @@ This distinction is needed because later concepts attach at different levels.
 | baseline comparison | segment or sample-vs-segment | because the recent state has to be compared with the usual state |
 | review sentence | segment or sample | because it is a judgment unit that a person reads |
 
-For example, a feature such as `late_drop_rate` does not attach directly to one time-point row. It can only be calculated after one full action has been constructed as the sample. By contrast, a value such as `recent_count=20` is closer not to an individual-sample feature, but to a recent-segment aggregate. That is why, once these levels are mixed together, features, baselines, and [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) all begin to feel abstract.
+For example, a feature such as `late_drop_rate` does not attach directly to one time-point row. It can only be calculated after one full action has been constructed as the sample. By contrast, a value such as `recent_count=20` is closer not to an individual-sample feature, but to a recent-segment aggregate. That is why, once these levels are mixed together, features, baselines, and [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) all begin to feel abstract.
 
 ## Small Code Example for Seeing the Comparison at a Glance
 

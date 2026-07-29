@@ -5,7 +5,7 @@
 
 P5-1.2에서는 퍼셉트론(perceptron) 하나가 입력의 선형 결합(linear combination)과 활성화(activation)로 판단을 만든다는 점을 보았습니다. 동시에 퍼셉트론 하나는 한 번에 하나의 선형 경계(linear boundary)만 만들기 때문에, 표현할 수 있는 패턴에 한계가 있다는 점도 보았습니다. 그다음 질문은 자연스럽게 `퍼셉트론 하나가 부족하다면, 이런 계산 단위를 여러 개 쌓으면 무엇이 달라지는가`로 이어집니다. 이 질문에서 다층 신경망(multilayer neural network)으로 들어갑니다. 다층 신경망은 퍼셉트론 같은 계산 단위를 여러 층으로 쌓아, 단순한 입력 조합을 중간 표현으로 바꾸고 그 표현을 다시 더 복잡한 판단으로 연결하는 구조입니다.
 
-다층 구조와 중간층 구분을 다시 잡아야 할 때는 개념사전의 [다층 신경망(multilayer neural network)](../../../reference/concept-glossary-parts/03-digeut.md#multilayer-neural-network)과 [은닉층(hidden layer)](../../../reference/concept-glossary-parts/08-ieung.md#hidden-layer) 항목을 함께 다시 보는 편이 좋습니다.
+다층 구조와 중간층 구분을 다시 잡아야 할 때는 개념사전의 [다층 신경망(multilayer neural network)](../../../reference/concept-glossary-parts/03-digeut.md#multilayer-neural-network)과 [은닉층(hidden layer)](../../../reference/concept-glossary-parts/03-digeut.md#multilayer-neural-network) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 층을 더 쌓을 때 생기는 질문
 

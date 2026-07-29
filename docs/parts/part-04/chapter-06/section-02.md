@@ -332,7 +332,7 @@ scikit-learn 문서는 군집화 성능 평가를 설명하면서, 이것이 지
 
 ### Python 예제로 분류를 실험해 보기
 
-분류는 [임계값(threshold)](../../../reference/concept-glossary-parts/08-ieung.md#threshold)을 조금만 바꿔도 정밀도와 재현율이 달라질 수 있습니다. 다음 예제는 같은 [점수(score)](../../../reference/concept-glossary-parts/09-jieut.md#score)라도 `몇 점부터 양성으로 볼 것인가`에 따라 결과가 달라진다는 점을 보여 줍니다.
+분류는 [임계값(threshold)](../../../reference/concept-glossary-parts/08-ieung.md#threshold)을 조금만 바꿔도 정밀도와 재현율이 달라질 수 있습니다. 다음 예제는 같은 [점수(score)](../../../reference/concept-glossary-parts/05-mieum.md#model-score)라도 `몇 점부터 양성으로 볼 것인가`에 따라 결과가 달라진다는 점을 보여 줍니다.
 
 아래 예제는 실제 라벨 `y_true`, 예측 점수 `scores`, 여러 `threshold` 값을 사용합니다. 결과에서는 임계값별 예측 결과, TP/TN/FP/FN, accuracy, precision, recall을 함께 확인합니다.
 

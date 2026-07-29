@@ -7,7 +7,7 @@ In P5-3.2, we saw how the sigmoid compresses scores into the range between 0 and
 
 Tanh becomes an important comparison point when you want to keep both negative and positive values while building a representation centered on 0.
 
-If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) and [tanh](/AiBook/en/reference/concept-glossary-alpha/t/#tanh) entries in the concept glossary.
+If the baseline for representative activation functions is needed again, reread tanh through the [activation function](/AiBook/en/reference/concept-glossary-alpha/a/#activation-function) entry in the concept glossary.
 
 ## The Question of Tanh's Zero-Centered Transformation
 

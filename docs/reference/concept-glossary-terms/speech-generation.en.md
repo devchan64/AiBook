@@ -1,3 +1,5 @@
+<a id="speech-generation"></a>
+
 ## speech generation
 
 - Meaning: Speech generation is a task that creates audio signals over time. It is not just choosing text tokens; it builds audible waveforms or acoustic features that unfold along a time axis.

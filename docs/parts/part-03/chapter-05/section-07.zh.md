@@ -7,7 +7,7 @@ _副标题: 同一个样本之后的多个事件应该按什么规则折叠进�
 
 即使[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)单位和输入窗口都已经定好了，表结构里仍然常常会再卡住一个地方：同一个样本之后挂着多个后续事件。比如，一次动作之后，可能依次留下 `review`、`warning`、`failure`、`revisit`。如果不先决定要怎样把它们折叠成一个结果列，同一个样本在不同表里就很容易变成不同含义。
 
-如果后续事件有多个，就应该先写清：它们是按什么[折叠规则(folding rule)](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-folding-rule)被折叠进同一个表结构里的。
+如果后续事件有多个，就应该先写清：它们是按什么[折叠规则(folding rule)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)被折叠进同一个表结构里的。
 
 常见的折叠规则有下面这些。
 
@@ -34,7 +34,7 @@ _副标题: 同一个样本之后的多个事件应该按什么规则折叠进�
 | B | 0 | review | 1 |
 | C | 0 | none | 0 |
 
-也就是说，即使面对的是同一个[源事件(source event)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-event)，只要 `代表结果到底选什么` 的规则不同，表结构就会不同。这个问题本质上是一个数据建模问题：要先决定用什么规则把代表结果折叠进表里。
+也就是说，即使面对的是同一个[源事件(source event)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)，只要 `代表结果到底选什么` 的规则不同，表结构就会不同。这个问题本质上是一个数据建模问题：要先决定用什么规则把代表结果折叠进表里。
 
 先留下下面这些备注，后面的混乱会少很多。
 

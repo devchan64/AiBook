@@ -13,7 +13,7 @@
 
 这一节解释为什么要拆分数据。[validation data](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation-data) 和 [test data](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data) 的细致区分会在 P4-4.2 处理，这里先把 `用于学习的数据` 和 `专门留出来评估的数据` 的差别固定下来。
 
-[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization) 会在 P4-5 详细处理。accuracy、precision、recall 这类 [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会在 P4-6 处理。本节的重点是 `为什么必须先分开再确认`。
+[overfitting](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [generalization](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization) 会在 P4-5 详细处理。accuracy、precision、recall 这类 [metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric) 会在 P4-6 处理。本节的重点是 `为什么必须先分开再确认`。
 
 - 为什么不能把全部数据都只拿去训练？
 - training data 和 evaluation data 分别承担什么角色？

@@ -23,7 +23,7 @@ This Section first closes `how to choose good features` and `why feature selecti
 ## Goals Of This Section
 
 - You can explain a feature as `a form in which real-world information has been turned into model input`.
-- You can explain that feature selection is connected not only to performance numbers but also to [leakage](/AiBook/en/reference/concept-glossary-alpha/d/#data-leakage), [cost](/AiBook/en/reference/concept-glossary-alpha/c/#cost), stability, and interpretability.
+- You can explain that feature selection is connected not only to performance numbers but also to [leakage](/AiBook/en/reference/concept-glossary-alpha/d/#data-leakage), cost, stability, and interpretability.
 - You can use basic questions that distinguish features to discard first from features to keep first.
 - You can explain that if preprocessing is `refining the selected features`, then feature selection is `deciding which features should be adopted in the first place`.
 
@@ -395,7 +395,7 @@ Some features look present inside a training dataset but are hard to obtain stab
 - Does collection delay happen often?
 - Does quality fluctuate because a human must type it by hand?
 - Is it difficult to use in operations because of privacy or cost?
-- Does it increase inference-time [latency](/AiBook/en/reference/concept-glossary-alpha/l/#latency) because it has to be fetched at every model call?
+- Does it increase inference-time latency because it has to be fetched at every model call?
 
 In the end, feature selection is not only a data-science problem. It is also a service-design problem.
 

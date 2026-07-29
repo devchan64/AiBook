@@ -1,3 +1,5 @@
+<a id="retrieval-augmented-generation-rag"></a>
+
 ## retrieval-augmented generation, RAG
 
 - Meaning: Retrieval-augmented generation, or RAG, is a structure that first retrieves external material related to a question, attaches that material to the model input context, and then generates an answer. The key point is that retrieval and generation are separate stages, letting the model use both what it learned in its parameters and the evidence just retrieved.

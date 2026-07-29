@@ -9,7 +9,7 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 휴리스틱은 “대충 찍는 것”으로 오해되기 쉽습니다. 하지만 머신러닝 실무에서 휴리스틱은 무작위 추측이 아니라, 경험, 문제 구조, 계산 비용, 검증 결과를 바탕으로 후보를 줄이는 방법입니다.
 
-이 절은 휴리스틱(heuristic), [완전 탐색(exhaustive search)](../../../reference/concept-glossary-parts/08-ieung.md#exhaustive-search) 대신 후보를 줄이는 판단, 검증 가능한 [작업 가설(working hypothesis)](../../../reference/concept-glossary-parts/09-jieut.md#working-hypothesis)의 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 실무 판단을 가설과 검증의 구조로 읽는 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
+이 절은 휴리스틱(heuristic), 완전 탐색(exhaustive search) 대신 후보를 줄이는 판단, 검증 가능한 작업 가설(working hypothesis)의 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 실무 판단을 가설과 검증의 구조로 읽는 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
 ## 휴리스틱(heuristic)이 필요한 이유에서 닫을 질문
 
@@ -28,7 +28,7 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 - 휴리스틱을 제한된 조건에서 후보를 줄이는 실용적 판단 기준으로 설명할 수 있습니다.
 - 휴리스틱이 최적해를 보장하지 않음을 이해할 수 있습니다.
 - 시간, 데이터, 계산량, 비용 때문에 휴리스틱이 필요해지는 상황을 예시로 말할 수 있습니다.
-- 휴리스틱과 [검증(validation)](../../../reference/concept-glossary-parts/01-giyeok.md#validation)을 함께 사용해야 하는 이유를 설명할 수 있습니다.
+- 휴리스틱과 [검증(validation)](../../../reference/concept-glossary-parts/05-mieum.md#model-validation)을 함께 사용해야 하는 이유를 설명할 수 있습니다.
 - 휴리스틱을 개인 감각이 아니라 검증 가능한 작업 가설로 다루는 관점을 가질 수 있습니다.
 
 ## 먼저 한 장면으로 이해하기
@@ -39,7 +39,7 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 | --- | --- | --- |
 | 사용할 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature) | 방문 횟수, 구매 금액, 접속 간격, 문의 내역 | 특징 조합이 많아집니다. |
 | 사용할 [모델(model)](../../../reference/concept-glossary-parts/05-mieum.md#model) | 로지스틱 회귀, 결정트리, 랜덤포레스트, 부스팅 | 모델마다 학습과 튜닝 시간이 듭니다. |
-| 평가 기준([metric](../../../reference/concept-glossary-parts/13-pieup.md#metric)) | 정확도, 정밀도, 재현율, F1 | 업무 목적에 따라 중요도가 다릅니다. |
+| 평가 기준(../../../reference/concept-glossary-parts/13-pieup.md#metric)) | 정확도, 정밀도, 재현율, F1 | 업무 목적에 따라 중요도가 다릅니다. |
 | 튜닝 범위 | 트리 깊이, 학습률, 반복 횟수 | 모든 조합을 시도하면 비용이 커집니다. |
 
 이 상황에서 “가능한 모든 조합을 끝까지 다 시도한 뒤 가장 좋은 것을 고르자”는 말은 이상적으로는 그럴듯하지만 현실적으로는 어렵습니다. 그래서 간단한 [기준 모델(baseline model)](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model)을 세우고, 명백히 불필요한 특징을 제외하고, 업무 목적에 맞는 평가 지표를 고르는 식의 휴리스틱이 필요합니다.
@@ -87,7 +87,7 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 휴리스틱을 이해할 때 Herbert A. Simon의 제한된 합리성(bounded rationality) 관점이 도움이 됩니다. Stanford Encyclopedia of Philosophy는 제한된 합리성을 완전한 합리성의 가정에서 벗어나, 정보 접근과 계산 능력의 제약을 가진 주체에게 맞는 합리성을 다루는 관점으로 설명합니다.
 
-이 관점은 머신러닝 실무에도 잘 맞습니다. 우리는 완전한 정보, 무한한 계산 시간, 완벽한 평가 환경을 갖고 있지 않습니다. 그래서 “이론적으로 가능한 최적해”보다 현재 조건에서 검증 가능한 [충분히 좋은 선택(good-enough solution)](../../../reference/concept-glossary-parts/11-chieut.md#good-enough-solution)이 더 중요합니다.
+이 관점은 머신러닝 실무에도 잘 맞습니다. 우리는 완전한 정보, 무한한 계산 시간, 완벽한 평가 환경을 갖고 있지 않습니다. 그래서 “이론적으로 가능한 최적해”보다 현재 조건에서 검증 가능한 충분히 좋은 선택(good-enough solution)이 더 중요합니다.
 
 이것은 정확성을 포기한다는 뜻이 아닙니다. 오히려 제한을 인정하고, 그 안에서 더 나은 선택을 하기 위한 작업 방식입니다.
 

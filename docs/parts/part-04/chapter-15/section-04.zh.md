@@ -3,7 +3,7 @@
 > Section ID: `P4-15.4`
 > Version: `v2026.07.26`
 
-在 P4-15.1 学完[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)之后， 读者很快也会遇到一个名字相近的模型：[Extra Trees(Extremely Randomized Trees)](/AiBook/zh/reference/concept-glossary-pinyin/e/#extra-trees)。 因为这两者都像是 `把很多树聚起来再取平均的森林`， 所以一开始很容易把它们当成几乎一样的模型。
+在 P4-15.1 学完[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)之后， 读者很快也会遇到一个名字相近的模型：Extra Trees(Extremely Randomized Trees)。 因为这两者都像是 `把很多树聚起来再取平均的森林`， 所以一开始很容易把它们当成几乎一样的模型。
 
 但它们在 `随机性到底注入到哪里`、 `分支标准是怎样选的`、 以及 [bootstrap](/AiBook/zh/reference/concept-glossary-pinyin/b/#bootstrap) 与 [OOB](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 是否属于默认流程这几件事上， 有明确差别。
 
@@ -13,9 +13,9 @@
 
 本节回答以下问题。
 
-- [Extra Trees](/AiBook/zh/reference/concept-glossary-pinyin/e/#extra-trees) 和随机森林属于同一家族吗？
+- Extra Trees 和随机森林属于同一家族吗？
 - 两者都把很多树拿来平均，但真正不同的是什么？
-- [`best split`](/AiBook/zh/reference/concept-glossary-pinyin/b/#best-split) 与 [random threshold](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-threshold) 的差别是什么？
+- [`best split`](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) 与 [random threshold](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest) 的差别是什么？
 - 为什么说 Extra Trees 更随机？
 - 在随机森林与 Extra Trees 里，[OOB(out-of-bag)](/AiBook/zh/reference/concept-glossary-pinyin/o/#oob-score) 应该怎样不同地理解？
 

@@ -15,6 +15,8 @@
 
 --8<-- "reference/concept-glossary-terms/ai-artificial-intelligence.ko.md"
 
+--8<-- "reference/concept-glossary-terms/support-vector-machine.ko.md"
+
 --8<-- "reference/concept-glossary-terms/ai-alignment.ko.md"
 
 --8<-- "reference/concept-glossary-terms/ai-ethics.ko.md"

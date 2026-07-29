@@ -12,10 +12,10 @@ P4-16.1과 P4-16.2에서 그래디언트 부스팅(gradient boosting)의 순차 
 이 절은 다음 질문에 답합니다.
 
 - XGBoost, LightGBM, CatBoost는 왜 모두 부스팅인데 구현 감각이 다른가?
-- [히스토그램 비닝(histogram binning)](../../../reference/concept-glossary-parts/14-hieut.md#histogram-binning)은 무엇을 바꾸고, 왜 속도와 메모리 이야기와 같이 나오는가?
-- [GPU](../../../reference/concept-glossary-parts/09-jieut.md#gpugraphics-processing-unit)와 [분산 학습(distributed training)](../../../reference/concept-glossary-parts/06-bieup.md#distributed-training)은 왜 부스팅 실무에서 반복해서 언급되는가?
+- 히스토그램 비닝(histogram binning)은 무엇을 바꾸고, 왜 속도와 메모리 이야기와 같이 나오는가?
+- GPU와 분산 학습(distributed training)은 왜 부스팅 실무에서 반복해서 언급되는가?
 - 교차검증 자동화는 early stopping과 stage 선택에 어떻게 연결되는가?
-- 손실 함수의 gradient와 [헤시안(hessian)](../../../reference/concept-glossary-parts/14-hieut.md#hessian) 이야기는 왜 구현 비교에서 함께 나오기 쉬운가?
+- 손실 함수의 gradient와 헤시안(hessian) 이야기는 왜 구현 비교에서 함께 나오기 쉬운가?
 
 이 절은 `같은 부스팅 계열 안에서 구현 선택과 운영 감각이 왜 갈리는가`를 중심으로 읽습니다.
 

@@ -7,7 +7,7 @@
 
 sigmoid 是一种把输入分数 \(z\) 压到 0 与 1 之间的激活函数。很大的负数会被压到接近 0，很大的正数会被压到接近 1，而在 0 附近，它的变化会相对更快。
 
-如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)与[sigmoid](/AiBook/zh/reference/concept-glossary-pinyin/s/#sigmoid)条目。
+如果后面又需要重新固定代表性激活函数的基线，可以回到概念词汇表里的[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/j/#activation-function)与[sigmoid](/AiBook/zh/reference/concept-glossary-pinyin/s/#sigmoid)条目。
 
 ## sigmoid 如何压缩数值的问题
 

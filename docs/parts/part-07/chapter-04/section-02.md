@@ -15,7 +15,7 @@ Version: `v2026.07.26`
 
 핵심은 `기준선 비교 -> coverage/OOV -> 반복 패턴` 순서로 실패를 분해하는 데 있습니다. 정확도 숫자를 입력 표현 기록과 함께 읽어야만 지금 고쳐야 할 것이 기준선 한계인지, 표현 불일치인지, 더 큰 구조 문제인지 갈라집니다.
 
-Part 7에서 `토큰화(tokenization)`, `토큰 커버리지(token coverage)`, `평가(evaluation)`의 경계가 흐려지면 이 절과 개념사전의 [토큰화(tokenization)](../../../reference/concept-glossary-parts/12-tieut.md#tokenization), [토큰 커버리지(token coverage)](../../../reference/concept-glossary-parts/12-tieut.md#token-coverage), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation) 항목을 다시 함께 확인해, 입력 표현 기록과 실패 해석이 어디서 이어지는지 분리해 두는 것이 좋습니다.
+Part 7에서 `토큰화(tokenization)`, `토큰 커버리지(token coverage)`, `평가(evaluation)`의 경계가 흐려지면 이 절과 개념사전의 [토큰화(tokenization)](../../../reference/concept-glossary-parts/12-tieut.md#tokenization), [토큰 커버리지(token coverage)](../../../reference/concept-glossary-parts/12-tieut.md#tokenization), [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 항목을 다시 함께 확인해, 입력 표현 기록과 실패 해석이 어디서 이어지는지 분리해 두는 것이 좋습니다.
 
 ## 판단 기준
 

@@ -21,7 +21,7 @@ P4-14.1 把[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-piny
 
 - 为什么在决策树里，过拟合特别容易看出来？
 - 随着树变深，会发生什么？
-- [最大深度(max_depth)](/AiBook/zh/reference/concept-glossary-pinyin/z/#max-depth)、[最小 leaf 样本数(min_samples_leaf)](/AiBook/zh/reference/concept-glossary-pinyin/z/#min-samples-leaf)、[ccp_alpha](/AiBook/zh/reference/concept-glossary-pinyin/c/#ccp-alpha) 各自起什么作用？
+- [最大深度(max_depth)](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、[最小 leaf 样本数(min_samples_leaf)](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、[ccp_alpha](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter) 各自起什么作用？
 - 为什么 train 表现和 test 表现可能朝不同方向变化？
 
 这些内容会在 P4-15、P4-16，以及 P4-9 的调参语境中再次连接。也就是说，这一节先抓住的是：树的问题流从哪里开始不再解释模式，而是在记忆例外。
@@ -29,7 +29,7 @@ P4-14.1 把[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-piny
 ## 树过拟合要留下的判断标准
 
 - 你可以把树的过拟合解释成 `过于细碎的问题开始记忆训练数据` 这一现象。
-- 你可以说明深度(depth)、leaf 大小、[剪枝(pruning)](/AiBook/zh/reference/concept-glossary-pinyin/j/#pruning) 是控制树复杂度的装置。
+- 你可以说明深度(depth)、leaf 大小、[剪枝(pruning)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree) 是控制树复杂度的装置。
 - 你可以再次确认更高的 train 表现并不保证更高的 test 表现。
 - 你可以形成一个同时阅读树的优点与过拟合风险的标准。
 

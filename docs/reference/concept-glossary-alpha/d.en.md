@@ -20,6 +20,8 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 
 --8<-- "reference/concept-glossary-terms/dataset.en.md"
 
+--8<-- "reference/concept-glossary-terms/dbscan.en.md"
+
 --8<-- "reference/concept-glossary-terms/decision-boundary.en.md"
 
 --8<-- "reference/concept-glossary-terms/decision-tree.en.md"

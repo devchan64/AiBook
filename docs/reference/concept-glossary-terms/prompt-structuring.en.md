@@ -1,3 +1,5 @@
+<a id="prompt-structuring"></a>
+
 ## prompt structuring
 
 - Meaning: Prompt structuring is the practice of separating roles inside a prompt, such as task, context, examples, constraints, and output format. Instead of placing everything in one block, it arranges information so the role of each part is visible.

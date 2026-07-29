@@ -1,3 +1,5 @@
+<a id="sensitive-information"></a>
+
 ## sensitive information
 
 - Meaning: Sensitive information is information that can directly harm a person, organization, transaction, or security posture if exposed. It includes personal data, secrets, internal documents, credentials, and other high-risk material.

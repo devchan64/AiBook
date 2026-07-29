@@ -21,7 +21,7 @@ This Section answers the following questions.
 
 - Why does overfitting stand out so easily in decision trees?
 - What happens as the tree grows deeper?
-- What roles do [max_depth](/AiBook/en/reference/concept-glossary-alpha/m/#max-depth), [min_samples_leaf](/AiBook/en/reference/concept-glossary-alpha/m/#min-samples-leaf), and [ccp_alpha](/AiBook/en/reference/concept-glossary-alpha/c/#ccp-alpha) play?
+- What roles do [max_depth](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), [min_samples_leaf](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), and [ccp_alpha](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter) play?
 - Why can train performance and test performance move differently?
 
 This content reconnects with P4-15, P4-16, and the tuning context of P4-9. In other words, this Section first holds onto the point where a tree's question flow stops explaining patterns and starts memorizing exceptions.
@@ -29,7 +29,7 @@ This content reconnects with P4-15, P4-16, and the tuning context of P4-9. In ot
 ## Judgments To Keep From Tree Overfitting
 
 - You can explain tree overfitting as `the phenomenon where overly detailed questions memorize the training data`.
-- You can explain that depth, leaf size, and [pruning](/AiBook/en/reference/concept-glossary-alpha/p/#pruning) are tools for controlling tree complexity.
+- You can explain that depth, leaf size, and [pruning](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) are tools for controlling tree complexity.
 - You can recheck that higher train performance does not guarantee higher test performance.
 - You can gain a criterion for reading both the strengths of trees and the risk of overfitting together.
 

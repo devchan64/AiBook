@@ -13,7 +13,7 @@ P4-13.1에서는 SVM(support vector machine)을 `margin이 큰 경계를 찾는 
 
 즉, 13.2의 핵심은 `새로운 마법 함수`가 아니라, `표현을 바꾸면 선형 경계도 다른 의미를 가질 수 있다`는 관점입니다.
 
-이 절은 [SVM(support vector machine)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine)의 기본 정의를 다시 길게 반복하지 않습니다. `margin이 큰 경계를 찾는다`는 핵심 직관은 P4-13.1의 판단 기준으로 다시 연결하고, 여기서는 왜 [특징 공간(feature space)](../../../reference/concept-glossary-parts/11-chieut.md#feature-space)을 바꾸는 발상이 필요한지에만 집중합니다.
+이 절은 [SVM(support vector machine)](../../../reference/concept-glossary-parts/08-ieung.md#support-vector-machine)의 기본 정의를 다시 길게 반복하지 않습니다. `margin이 큰 경계를 찾는다`는 핵심 직관은 P4-13.1의 판단 기준으로 다시 연결하고, 여기서는 왜 [특징 공간(feature space)](../../../reference/concept-glossary-parts/06-bieup.md#vector-space)을 바꾸는 발상이 필요한지에만 집중합니다.
 
 ## 커널(kernel)의 입문적 의미에서 닫을 질문
 

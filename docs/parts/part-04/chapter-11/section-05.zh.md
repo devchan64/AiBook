@@ -3,7 +3,7 @@
 > Section ID: `P4-11.5`
 > Version: `v2026.07.26`
 
-一旦通过 library 使用 logistic regression，很快就会遇到 [solver](/AiBook/zh/reference/concept-glossary-pinyin/s/#solver)、[penalty](/AiBook/zh/reference/concept-glossary-pinyin/c/#penalty)、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
+一旦通过 library 使用 logistic regression，很快就会遇到 solver、penalty、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
 
 本节的中心问题如下。
 

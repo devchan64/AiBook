@@ -3,7 +3,7 @@
 > Section ID: `P4-12.3`
 > Version: `v2026.07.26`
 
-P4-12.1에서 k-NN의 직관을 보았고, P4-12.2에서 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)와 [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/12-tieut.md#feature-scale)이 왜 결과를 바꾸는지 보았습니다. 이제 남는 질문은 이것입니다.
+P4-12.1에서 k-NN의 직관을 보았고, P4-12.2에서 [거리(distance)](../../../reference/concept-glossary-parts/01-giyeok.md#distance)와 [특징 스케일(feature scale)](../../../reference/concept-glossary-parts/13-pieup.md#standardization)이 왜 결과를 바꾸는지 보았습니다. 이제 남는 질문은 이것입니다.
 
 k-NN의 판단이 흔들릴 때는 무엇을 먼저 다시 봐야 하는가?
 

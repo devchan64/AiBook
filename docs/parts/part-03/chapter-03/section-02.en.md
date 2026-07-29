@@ -3,7 +3,7 @@
 > Section ID: `P3-3.2`
 > Version: `v2026.07.25`
 
-To redesign a dataset means not using an existing file as it is, but reselecting the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit and [column](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column) structure required by the question. In other words, it means deciding again what should count as one [row](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-row), `which columns should remain`, and `what should be compared against what`. That is also why an action-level table, a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure), and a candidate prediction-problem table differ from one another: the difference is born inside this redesign.
+To redesign a dataset means not using an existing file as it is, but reselecting the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit and [column](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) structure required by the question. In other words, it means deciding again what should count as one [row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit), `which columns should remain`, and `what should be compared against what`. That is also why an action-level table, a [comparison report](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure), and a candidate prediction-problem table differ from one another: the difference is born inside this redesign.
 
 Even the same source time series can be rebuilt into different [datasets](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset). For example, if we have [source data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) from automatically executed actions, the following three tables are all possible, but they do different jobs.
 
@@ -31,7 +31,7 @@ So when we say a dataset is being built, at least the following judgments are in
 - What is one sample?
 - Which values stay as they are, and which values are summarized?
 - Is a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) column needed for comparison?
-- Is the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) a warning, a review candidate, or a prediction target candidate?
+- Is the [output structure](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) a warning, a review candidate, or a prediction target candidate?
 
 If someone says `there is already a dataset` without these judgments, in many cases they are still only holding source records. This is especially easy to miss with time-series data. When there are many rows and many columns, it looks like a rich dataset already exists. But if the analysis unit is still unfixed, that table still does not express the problem properly.
 

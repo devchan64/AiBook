@@ -3,7 +3,7 @@
 > Section ID: `P3-4.2`
 > Version: `v2026.07.25`
 
-[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)单位，是后面几乎所有概念的基准点。所以，如果把测量值和样本混在一起，问题不会只是“某个术语用错了”这么简单。[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)的含义会一起摇摆，[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)的含义会一起摇摆，甚至连[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/e/#glossary-evaluation)到底在评估什么，也会跟着一起摇摆。如果前一节已经定下了什么算一条样本，那么这一节要看的，就是那个决定还会一起固定什么、一起摇晃什么。
+[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)单位，是后面几乎所有概念的基准点。所以，如果把测量值和样本混在一起，问题不会只是“某个术语用错了”这么简单。[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)的含义会一起摇摆，[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)的含义会一起摇摆，甚至连[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design)到底在评估什么，也会跟着一起摇摆。如果前一节已经定下了什么算一条样本，那么这一节要看的，就是那个决定还会一起固定什么、一起摇晃什么。
 
 这一节不会重新定义样本单位本身，而是聚焦于一件事：为什么前一节固定下来的样本单位，会一路牵动后面的特征、标签、分割和评估。
 
@@ -46,7 +46,7 @@
 | 标签能贴在这一行上吗？ | 标签通常贴在一次动作或一个近期区段上 | 标签到底是贴在某个时点，还是贴在一整次动作上？ |
 | 这一行能当一条训练样本吗？ | 同一次动作里相邻的行可能会同时混进训练和评估 | 分割对象是时点行，还是动作级样本？ |
 
-所以，样本单位并不是只在 Part 3 某一节里才需要做的决定。它是 feature engineering、[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较、[review queue](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)，甚至后续预测输入结构解释都一起依赖的底层结构。
+所以，样本单位并不是只在 Part 3 某一节里才需要做的决定。它是 feature engineering、[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较、[review queue](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)，甚至后续预测输入结构解释都一起依赖的底层结构。
 
 ## 用一个小图来看
 

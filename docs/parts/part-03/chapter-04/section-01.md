@@ -3,7 +3,7 @@
 > Section ID: `P3-4.1`
 > Version: `v2026.07.25`
 
-데이터를 읽을 때 가장 먼저 확인해야 할 것은 값의 크기보다 [행(row)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-row) 하나가 무엇을 뜻하는가입니다. 이 질문이 먼저 정리되지 않으면, 뒤에서 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)을 만들 때도, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)을 붙일 때도, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-evaluation) 결과를 읽을 때도 기준이 흔들립니다. 결국 이 질문은 비교 가능한 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 한 건을 무엇으로 정할 것인가라는 질문으로 이어집니다.
+데이터를 읽을 때 가장 먼저 확인해야 할 것은 값의 크기보다 [행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit) 하나가 무엇을 뜻하는가입니다. 이 질문이 먼저 정리되지 않으면, 뒤에서 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)을 만들 때도, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)을 붙일 때도, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 결과를 읽을 때도 기준이 흔들립니다. 결국 이 질문은 비교 가능한 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 한 건을 무엇으로 정할 것인가라는 질문으로 이어집니다.
 
 예를 들어 자동으로 실행되는 동작에서 제어 파라미터 시계열과 센서 시계열이 남는다고 하겠습니다. 어떤 표에서는 한 행이 `1초 시점의 압력과 유량 측정값`일 수 있습니다. 다른 표에서는 한 행이 `동작 1회 전체의 요약값`일 수 있습니다. 또 다른 표에서는 한 행이 `최근 30분 동안 수행된 여러 동작의 집계 결과`일 수 있습니다. 셋 다 같은 [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)에서 나왔지만, 한 행이 뜻하는 대상은 완전히 다릅니다.
 

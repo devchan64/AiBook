@@ -17,7 +17,7 @@ This Section explains the basic structure of supervised learning. Individual alg
 
 - What are the input and label in supervised learning?
 - How are classification and regression different?
-- How do [training](/AiBook/en/reference/concept-glossary-alpha/m/#model-training), [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation), and [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) connect?
+- How do [training](/AiBook/en/reference/concept-glossary-alpha/m/#model-training), [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design), and [prediction](/AiBook/en/reference/concept-glossary-alpha/p/#prediction) connect?
 - Does having labels mean the model already knows the right answer?
 - What is the first misunderstanding to avoid in supervised learning?
 

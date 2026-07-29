@@ -3,7 +3,7 @@
 > Section ID: `P4-5.2`
 > Version: `v2026.07.25`
 
-在 P4-5.1 里，我们区分了 [过拟合](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [欠拟合](/AiBook/zh/reference/concept-glossary-pinyin/q/#underfitting)。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 [泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/g/#generalization)。
+在 P4-5.1 里，我们区分了 [过拟合](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [欠拟合](/AiBook/zh/reference/concept-glossary-pinyin/q/#underfitting)。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 [泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization)。
 
 泛化听起来可能有点抽象，但起点很简单。它问的是：model 会不会只停留在重新答对已经见过的例子，还是也能对结构相近的新例子做出合适反应。
 

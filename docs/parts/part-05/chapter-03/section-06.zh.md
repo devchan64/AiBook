@@ -11,7 +11,7 @@
 
 输出层的激活会随着模型到底在预测什么而改变，它必须被选成一种能够匹配“输出值应该具有什么意义”的形式。
 
-如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看概念词汇表里的[输出（output）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[输出层（output layer）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output-layer)、[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/a/#activation-function)与[softmax](/AiBook/zh/reference/concept-glossary-pinyin/s/#softmax)条目。
+如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看概念词汇表里的[输出（output）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[输出层（output layer）](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-output)、[激活函数（activation function）](/AiBook/zh/reference/concept-glossary-pinyin/j/#activation-function)与[softmax](/AiBook/zh/reference/concept-glossary-pinyin/s/#softmax)条目。
 
 ## 选择输出层激活的问题
 

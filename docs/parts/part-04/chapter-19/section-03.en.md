@@ -27,7 +27,7 @@ This Section first closes the question of `what application risks must be checke
 ## Judgments To Keep From Reinforcement-Learning Application Cautions
 
 - You can explain that reward may not be the same thing as the [true objective](/AiBook/en/reference/concept-glossary-alpha/t/#true-objective).
-- You can say that exploration may look easy in games but creates [exploration cost](/AiBook/en/reference/concept-glossary-alpha/e/#exploration-cost) and risk in the real world.
+- You can say that exploration may look easy in games but creates [exploration cost](/AiBook/en/reference/concept-glossary-alpha/e/#exploration) and risk in the real world.
 - You can explain why the [sim-to-real gap](/AiBook/en/reference/concept-glossary-alpha/s/#sim-to-real-gap) matters.
 - You can build your own checklist questions before applying reinforcement learning.
 
@@ -175,7 +175,7 @@ So exploration can be both `a process of getting new information` and `a process
 
 ## Why Does Safe Exploration Become Its Own Topic?
 
-AI safety literature treats [safe exploration](/AiBook/en/reference/concept-glossary-alpha/s/#safe-exploration) as a separate problem. The reason is simple.
+AI safety literature treats [safe exploration](/AiBook/en/reference/concept-glossary-alpha/e/#exploration) as a separate problem. The reason is simple.
 
 `Reinforcement learning learns by trying, but in the real world the trying itself can be dangerous.`
 

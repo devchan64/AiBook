@@ -5,11 +5,11 @@
 
 _副标题: 解读句子如何变成 warning 列和 review queue 标准？_
 
-读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)之后，往往会留下类似`最近区间相对基线后段下降更大，因此提高复核优先级`这样的保守解读句子。接下来需要做的判断，是如何把这句话转成 `warning_level`、`review_needed`、`priority_score` 这样的结构化运营列。保守解读句子不是终点，而是在转成[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)这类[输出结构](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-output-structure)之前，最后一层人工解读。如果把比较表直接改写成结构化运营输出，中间的判断理由可能会丢失；但如果只留下句子，又很难按同一标准去排运营优先级、检索、或重新排序。
+读完[比较表](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)之后，往往会留下类似`最近区间相对基线后段下降更大，因此提高复核优先级`这样的保守解读句子。接下来需要做的判断，是如何把这句话转成 `warning_level`、`review_needed`、`priority_score` 这样的结构化运营列。保守解读句子不是终点，而是在转成[复核候选队列（review queue）](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)这类[输出结构](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)之前，最后一层人工解读。如果把比较表直接改写成结构化运营输出，中间的判断理由可能会丢失；但如果只留下句子，又很难按同一标准去排运营优先级、检索、或重新排序。
 
 | 层级 | 主要形式 | 作用 |
 | --- | --- | --- |
-| [比较结果](/AiBook/zh/reference/concept-glossary-pinyin/c/#glossary-comparison-result) | 差值、[基线（baseline）](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、重复性 | 显示哪里发生了变化 |
+| [比较结果](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure) | 差值、[基线（baseline）](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)、重复性 | 显示哪里发生了变化 |
 | 保守解读句子 | `需要继续观察`、`提高复核优先级` | 整理给人阅读的判断强度 |
 | 结构化运营输出 | `warning_level`、`review_needed`、`priority_score` | 让运营中可再次排序、搜索和后续处理 |
 
@@ -23,7 +23,7 @@ _副标题: 解读句子如何变成 warning 列和 review queue 标准？_
 - 哪些差异要升成`复核候选`
 - 哪些差异要升成`强告警`
 
-这些判断通常不是单靠一个数字，而是要把样本量、重复性和比较条件形成的[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/z/#glossary-evidence-strength)一起读完之后才能定下来。因此，句子不是装饰，而是把数字翻译成运营判断的中间阶段。
+这些判断通常不是单靠一个数字，而是要把样本量、重复性和比较条件形成的[证据强度（evidence strength）](/AiBook/zh/reference/concept-glossary-pinyin/j/#interpretation-boundary)一起读完之后才能定下来。因此，句子不是装饰，而是把数字翻译成运营判断的中间阶段。
 
 ## 把一个场景重新看成三个阶段
 

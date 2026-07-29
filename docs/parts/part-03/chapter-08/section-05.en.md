@@ -3,13 +3,13 @@
 > Section ID: `P3-8.5`
 > Version: `v2026.07.25`
 
-Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` From the viewpoint of [column-role separation](/AiBook/en/reference/concept-glossary-alpha/c/#glossary-column-role-separation), as the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
+Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` From the viewpoint of [column-role separation](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), as the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
 
-The priority of a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) is not determined by taking one difference value as it is. It is decided after first grouping multiple comparison columns into a few judgment axes such as `change magnitude`, `repeatability`, `interpretation confidence`, and `operational importance`.
+The priority of a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) is not determined by taking one difference value as it is. It is decided after first grouping multiple comparison columns into a few judgment axes such as `change magnitude`, `repeatability`, `interpretation confidence`, and `operational importance`.
 
 ## Why You Should Not Jump Straight to One Number
 
-[Comparison tables](/AiBook/en/reference/concept-glossary-alpha/o/#glossary-output-structure) often contain columns like these.
+[Comparison tables](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) often contain columns like these.
 
 | Example comparison column | Meaning visible at first glance |
 | --- | --- |
@@ -43,7 +43,7 @@ Suppose two cases share the same mean difference value of `-0.35`. Even then, re
 | A | High | High | High | High |
 | B | High | Low | Low | Medium |
 
-So if you look only at `diff`, both cases appear similar. In practice, however, A may need review earlier than B. Review priority asks not only `how different is it` but also the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/e/#glossary-evidence-strength) and `does practice require this to be seen first`.
+So if you look only at `diff`, both cases appear similar. In practice, however, A may need review earlier than B. Review priority asks not only `how different is it` but also the [evidence strength](/AiBook/en/reference/concept-glossary-alpha/i/#interpretation-boundary) and `does practice require this to be seen first`.
 
 ## How Human Review Sentences Connect to Priority Candidates
 

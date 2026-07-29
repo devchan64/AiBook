@@ -1,3 +1,5 @@
+<a id="observation"></a>
+
 ## observation
 
 - Meaning: An observation is new information or a result obtained after taking an action. In reinforcement learning it may be the next screen, number, or signal returned by the environment. In a service-style AI agent, it can be a search result, error message, file content, or test output used for the next decision.

@@ -7,7 +7,7 @@ _Subtitle: By what rule should multiple events after the same sample be folded i
 
 Even after the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit and the input window are fixed, one more point often blocks the table structure. It is the case where several follow-up events attach after the same sample. For example, after one action, we may record `review`, `warning`, `failure`, and `revisit` in sequence. If we do not decide how to fold them into one result column, the same sample can easily change meaning from table to table.
 
-If there are several follow-up events, we should first write down by what [folding rule](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-folding-rule) they were folded into one table structure.
+If there are several follow-up events, we should first write down by what [folding rule](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) they were folded into one table structure.
 
 Common folding rules look like this.
 
@@ -34,7 +34,7 @@ Depending on how we fold this into a table, the meaning of the result column cha
 | B | 0 | review | 1 |
 | C | 0 | none | 0 |
 
-So even when we are looking at the same [source event](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-event), the table structure changes according to `what we choose as the representative result`. This is a data-modeling problem in which we must first decide by what rule the representative result will be folded and left in the table.
+So even when we are looking at the same [source event](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data), the table structure changes according to `what we choose as the representative result`. This is a data-modeling problem in which we must first decide by what rule the representative result will be folded and left in the table.
 
 Leaving the notes below first reduces later confusion.
 

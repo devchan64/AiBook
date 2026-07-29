@@ -3,7 +3,7 @@
 > Section ID: `P3-4.2`
 > Version: `v2026.07.25`
 
-[샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)의 뜻도 흔들리고, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)의 뜻도 흔들리고, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-evaluation)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
+[샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)의 뜻도 흔들리고, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)의 뜻도 흔들리고, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
 
 여기서는 샘플 단위 자체를 새로 정의하지 않습니다. 대신 앞 절에서 고정한 샘플 단위가 왜 뒤의 특징, 라벨, 분할, 평가까지 함께 흔드는지를 따라가는 데 집중합니다.
 
@@ -46,7 +46,7 @@
 | 이 줄에 라벨을 붙이면 되나 | 라벨이 보통 동작 1회나 최근 구간에 붙기 때문 | 라벨이 붙는 대상은 한 시점인가, 한 동작인가 |
 | 이 줄을 훈련 데이터 한 건으로 쓰면 되나 | 같은 동작의 가까운 줄들이 훈련/평가에 섞일 수 있음 | 분할 대상은 시점 행인가, 동작 단위 샘플인가 |
 
-즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 특징 설계(feature engineering), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교, [검토 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#glossary-output-structure), 예측용 입력 구조 해석까지 모두 기대는 바닥 구조입니다.
+즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 특징 설계(feature engineering), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교, [검토 큐(review queue)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), 예측용 입력 구조 해석까지 모두 기대는 바닥 구조입니다.
 
 ## 작은 도식으로 보기
 

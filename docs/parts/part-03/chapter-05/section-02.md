@@ -42,7 +42,7 @@
 | 최고점이 언제 나왔는지 | 최대값 시점 |
 | 안정적으로 유지되었는지 급하게 흔들렸는지 | 변동성, 하강 시작 시점 |
 
-여기에 한 가지를 더 붙여야 합니다. 평균은 [이상치(outlier)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-outlier)와 [분포 치우침(skewness)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-skewness)도 쉽게 가립니다. 예를 들어 대부분의 동작은 비슷한 범위에 있는데 일부 사례만 매우 큰 값으로 튀면, 평균은 올라가지만 `대부분의 동작이 실제로 어떤 수준이었는가`는 흐려질 수 있습니다. 반대로 값 대부분이 한쪽에 몰리고 소수 사례만 반대쪽으로 길게 늘어지면, 평균은 그 비대칭 구조를 잘 보여 주지 못합니다.
+여기에 한 가지를 더 붙여야 합니다. 평균은 [이상치(outlier)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-outlier)와 [분포 치우침(skewness)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)도 쉽게 가립니다. 예를 들어 대부분의 동작은 비슷한 범위에 있는데 일부 사례만 매우 큰 값으로 튀면, 평균은 올라가지만 `대부분의 동작이 실제로 어떤 수준이었는가`는 흐려질 수 있습니다. 반대로 값 대부분이 한쪽에 몰리고 소수 사례만 반대쪽으로 길게 늘어지면, 평균은 그 비대칭 구조를 잘 보여 주지 못합니다.
 
 | 평균만으로는 잘 안 보이는 것 | 왜 놓치기 쉬운가 | 함께 남겨야 할 값 |
 | --- | --- | --- |

@@ -12,10 +12,10 @@ This Section groups that difference not as `memorizing new algorithm names`, but
 This Section answers the following questions.
 
 - Why do XGBoost, LightGBM, and CatBoost all belong to boosting but still feel different in implementation?
-- What does [histogram binning](/AiBook/en/reference/concept-glossary-alpha/h/#histogram-binning) change, and why does it keep appearing together with speed and memory?
-- Why are [GPU](/AiBook/en/reference/concept-glossary-alpha/g/#gpugraphics-processing-unit) and [distributed training](/AiBook/en/reference/concept-glossary-alpha/d/#distributed-training) repeatedly mentioned in boosting practice?
+- What does histogram binning change, and why does it keep appearing together with speed and memory?
+- Why are GPU and distributed training repeatedly mentioned in boosting practice?
 - How does cross-validation automation connect to early stopping and stage selection?
-- Why do gradient and [hessian](/AiBook/en/reference/concept-glossary-alpha/h/#hessian) appear together so often in implementation comparisons?
+- Why do gradient and hessian appear together so often in implementation comparisons?
 
 This Section is centered on `why implementation choice and operational feel diverge even inside the same boosting family`.
 

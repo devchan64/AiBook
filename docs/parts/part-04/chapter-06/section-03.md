@@ -9,7 +9,7 @@ P4-6.1과 P4-6.2에서는 모델 [평가 지표(metric)](../../../reference/conc
 
 ## 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법에서 구분할 경계
 
-이 절은 머신러닝 평가 지표와 운영 지표를 구분하는 보충학습 절입니다. SLI(service level indicator), SLO(service level objective), SLA(service level agreement), 에러 버짓(error budget), 그리고 운영에서 자주 보는 [지연 시간(latency)](../../../reference/concept-glossary-parts/09-jieut.md#latency), 트래픽(traffic), 오류(errors), 포화도(saturation)를 입문 수준으로 연결합니다.
+이 절은 머신러닝 평가 지표와 운영 지표를 구분하는 보충학습 절입니다. SLI(service level indicator), SLO(service level objective), SLA(service level agreement), 에러 버짓(error budget), 그리고 운영에서 자주 보는 지연 시간(latency), 트래픽(traffic), 오류(errors), 포화도(saturation)를 입문 수준으로 연결합니다.
 
 이 절은 다음 질문에 답합니다.
 

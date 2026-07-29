@@ -13,7 +13,7 @@ P5-11장에서는 CNN이 이미지처럼 공간 구조가 있는 데이터에서
 
 순환 신경망 계열 구조는 현재 입력만 보지 않고, 앞에서 본 정보를 어느 정도 이어받아 순차 데이터(sequence data)를 처리하려는 신경망입니다.
 
-순차 상태 구조의 기본 이름이 다시 섞이면 개념사전의 [순환 신경망(RNN, recurrent neural network)](../../../reference/concept-glossary-parts/07-siot.md#rnn-recurrent-neural-network), [장단기 메모리(LSTM, long short-term memory)](../../../reference/concept-glossary-parts/09-jieut.md#lstm-long-short-term-memory), [게이트 순환 유닛(GRU, gated recurrent unit)](../../../reference/concept-glossary-parts/01-giyeok.md#gru-gated-recurrent-unit) 항목을 함께 다시 봅니다.
+순차 상태 구조의 기본 이름이 다시 섞이면 개념사전의 [순환 신경망(RNN, recurrent neural network)](../../../reference/concept-glossary-parts/07-siot.md#rnn-recurrent-neural-network), [장단기 메모리(LSTM, long short-term memory)](../../../reference/concept-glossary-parts/07-siot.md#recurrent-neural-network), [게이트 순환 유닛(GRU, gated recurrent unit)](../../../reference/concept-glossary-parts/07-siot.md#recurrent-neural-network) 항목을 함께 다시 봅니다.
 
 ## RNN이 순서를 기억하는 질문
 

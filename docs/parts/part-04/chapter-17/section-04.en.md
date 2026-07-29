@@ -35,7 +35,7 @@ When people first hear about semi-supervised learning, two misunderstandings oft
 
 But in practice, that exact point is usually the most dangerous one.
 
-Clustering can suggest `groups that look similar`, but whether those groups match the true label boundary still requires separate [review](/AiBook/en/reference/concept-glossary-alpha/r/#review).
+Clustering can suggest `groups that look similar`, but whether those groups match the true label boundary still requires separate review.
 
 So the core of this Section is not `cluster -> automatic label`, but first grasping the flow `cluster -> label hypothesis -> human review -> limited adoption`.
 
