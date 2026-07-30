@@ -173,7 +173,7 @@
 ## 함께 볼 문서
 
 - `../README.md`
-- `rules-and-guidelines-summary.md`
+- `README.md`
 - `manuscript-writing-workflow.md`
 - `section-metadata-guidelines.md`
 - `python-example-guidelines.md`

@@ -225,5 +225,5 @@ Part 1과 Part 2에서는 개념 지도와 Python 기초 자체가 중심이므�
 ## 함께 볼 문서
 
 - `../../AGENTS.md`
-- `rules-and-guidelines-summary.md`
+- `README.md`
 - `manuscript-writing-workflow.md`

@@ -45,7 +45,7 @@
 
 ## 가이드라인 인덱스
 
-- 빠른 문서 선택 인덱스: `management/guidelines/rules-and-guidelines-summary.md`
+- 빠른 문서 선택 인덱스: `management/guidelines/README.md`
   - 어떤 기준 문서를 먼저 열어야 하는지 헷갈릴 때 본다.
 - 원고 작성 세부 절차: `management/guidelines/manuscript-writing-workflow.md`
   - Part/Section 초안 작성, 초심자 보강, 사례 작성 전에 먼저 본다.
@@ -70,8 +70,7 @@
 ## 역할 분담 원칙
 
 - `AGENTS.md`는 저장소 전역에 적용되는 핵심 원칙과, 작업 중 놓치기 쉬운 `먼저 확인할 문서`만 남깁니다.
-- `management/guidelines/README.md`는 가이드라인 폴더 안 문서의 범위와 포함·제외 기준을 설명합니다.
-- `management/guidelines/rules-and-guidelines-summary.md`는 원칙 원문을 다시 쓰는 문서가 아니라, 작업 유형별로 어떤 문서를 먼저 열지 정하는 빠른 참조 문서로 유지합니다.
+- `management/guidelines/README.md`는 가이드라인 폴더 안 문서의 범위와 포함·제외 기준, 작업 유형별 참조 순서를 빠르게 찾는 인덱스를 맡습니다.
 - 세부 절차, 예외 규칙, 반복 체크 항목, 유형 분류 기준은 가능한 한 개별 가이드라인 문서에서만 관리합니다.
 - 같은 규칙을 여러 문서에 반복해서 자세히 적지 않습니다.
 - 원고 표현, Python 예제, 차트·도식, 번역, 개념사전처럼 세부 판단이 필요한 항목은 `AGENTS.md`에서 다시 풀어 쓰기보다, 해당 가이드 문서 위치를 먼저 안내하는 인덱스 방식으로 운영합니다.
