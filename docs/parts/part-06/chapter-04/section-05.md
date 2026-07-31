@@ -1,7 +1,7 @@
 # P6-4.5 보충학습: 긴 문맥과 희소 attention
 
 > Section ID: `P6-4.5`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: sparse attention과 long-context는 계산 부담과 단서 보존을 어떻게 나누는가_
 
@@ -108,7 +108,7 @@ long-context는 보통 다음 문제를 한꺼번에 부릅니다.
 --8<-- "assets/part-06/chapter-04/p6-c04-s05-long-context-flow-ko.mmd"
 ```
 
-## 사례 및 예시
+## 보충학습: 긴 문맥과 희소 attention: 확인할 판단 기준
 
 ### 사례 1. sparse attention이 필요한 긴 로그 분석
 

@@ -1,7 +1,7 @@
 # P6-4.2 attention의 참조 범위
 
 > Section ID: `P6-4.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: attention은 context window 안에서만 무엇을 다시 볼 수 있는가_
 
@@ -100,8 +100,7 @@ RAG(retrieval-augmented generation)는 이 절에서 자세히 설명할 대상�
 - 먼저 윈도우 안에 들어온 정보가 있고
 - attention은 그 안에서 계산된다는 점입니다
 
-## 사례 및 예시
-
+## attention의 참조 범위: 확인할 판단 기준
 아래 도식은 이 절의 세 사례를 `얼마나 많이 넣는가`보다 `제한된 창 안에 무엇을 우선 남길 것인가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
