@@ -558,6 +558,7 @@ nav:
               - "P7-4.2 실패한 결과를 다시 분해하기": parts/part-07/chapter-04/section-02.md
               - "P7-4.3 표현 정규화 연습": parts/part-07/chapter-04/section-03.md
               - "P7-4.4 같은 평균, 다른 패턴 비교 연습": parts/part-07/chapter-04/section-04.md
+              - "P7-4.5 Stable Diffusion과 LoRA 조합 실습": parts/part-07/chapter-04/section-05.md
       - "Module 3. 근거와 실행 기록":
           - "Chapter 5. RAG 근거 검증":
               - "P7-5.1 검색, 근거, 답변 흐름 실습": parts/part-07/chapter-05/section-01.md
