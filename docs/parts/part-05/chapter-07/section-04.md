@@ -119,10 +119,7 @@ Adam 원 논문은 stochastic objective를 위한 first-order optimizer로 Adam�
 
 ## adaptive optimization 주장 구분: 확인할 판단 기준
 
-이 사례를 읽을 때는 다음 두 가지를 먼저 확인한다.
-
-- adaptive optimization의 수렴 보장과 경험적 성능 주장을 구분해 읽는 법을 보충하는지 확인한다.
-- 이어지는 사례에서 입력, 비교 기준, 출력, 한계가 제목의 판단 기준과 어떻게 연결되는지 확인한다.
+이 사례에서는 adaptive optimization의 수렴 보장과 경험적 성능 주장을 구분해 읽는 법을 보충하는지 확인한다.
 
 이 절의 사례는 optimizer 선택 사례가 아니라, optimizer를 설명하는 문장을 더 정확하게 구분하는 사례입니다. 모든 사례는 같은 순서로 정리합니다.
 

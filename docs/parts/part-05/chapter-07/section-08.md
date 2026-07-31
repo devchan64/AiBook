@@ -128,10 +128,7 @@ optimizer는 gradient를 받아 update 규칙을 적용합니다. clipping은 �
 
 ## gradient clipping과 불안정한 update: 확인할 판단 기준
 
-이 사례를 읽을 때는 다음 두 가지를 먼저 확인한다.
-
-- gradient clipping이 불안정한 update를 어떻게 제어하는지 보충하는지 확인한다.
-- 이어지는 사례에서 입력, 비교 기준, 출력, 한계가 제목의 판단 기준과 어떻게 연결되는지 확인한다.
+이 사례에서는 gradient clipping이 불안정한 update를 어떻게 제어하는지 보충하는지 확인한다.
 
 ### 사례. loss가 가끔만 크게 튈 때 무엇을 먼저 구분할 것인가
 

@@ -179,10 +179,7 @@ P6-16.2의 자동 평가와 사람 평가, P6-17.1의 운영 제약, 지금 절�
 
 ## 오류를 복구 경로로 나누는 운영 중 실패 대응: 확인할 판단 기준
 
-이 사례를 읽을 때는 다음 두 가지를 먼저 확인한다.
-
-- 실패를 hallucination, timeout, 권한 오류, format mismatch 같은 신호로 나누고 retry, fallback, stop, approval 같은 복구 경로와 연결하는지 확인한다.
-- 이어지는 사례에서 입력, 비교 기준, 출력, 한계가 제목의 판단 기준과 어떻게 연결되는지 확인한다.
+이 사례에서는 실패를 hallucination, timeout, 권한 오류, format mismatch 같은 신호로 나누고 retry, fallback, stop, approval 같은 복구 경로와 연결하는지 확인한다.
 
 이 사례들의 초점은 `실패가 났는가`보다 `실패 뒤에 경로가 어떻게 갈라져야 하는가`입니다.
 

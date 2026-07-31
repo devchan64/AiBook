@@ -103,10 +103,7 @@ P4-19.2에서 본 actor-critic은 정책을 직접 조정하되, critic이 평�
 
 ## policy gradient 첫 읽기: 확인할 판단 기준
 
-이 사례를 읽을 때는 다음 두 가지를 먼저 확인한다.
-
-- policy gradient와 likelihood ratio trick을 처음 읽는 법을 보충하는지 확인한다.
-- 이어지는 사례에서 입력, 비교 기준, 출력, 한계가 제목의 판단 기준과 어떻게 연결되는지 확인한다.
+이 사례에서는 policy gradient와 likelihood ratio trick을 처음 읽는 법을 보충하는지 확인한다.
 
 ### 사례 1. 좋은 광고 노출 비율은 더 자주, 나쁜 비율은 덜 자주 나오게 만들고 싶을 때
 

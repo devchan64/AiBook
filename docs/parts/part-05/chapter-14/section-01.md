@@ -56,10 +56,7 @@ Transformer 블록을 입문 수준에서 읽을 때는 네 요소를 먼저 구
 
 ## attention만으로 닫히지 않는 Transformer: 확인할 판단 기준
 
-이 사례를 읽을 때는 다음 두 가지를 먼저 확인한다.
-
-- Transformer가 self-attention 하나로 닫히지 않고, attention 블록과 feed-forward가 반복되는 기본 구성으로 읽혀야 한다는 문제의식을 세우는지 확인한다.
-- 이어지는 사례에서 입력, 비교 기준, 출력, 한계가 제목의 판단 기준과 어떻게 연결되는지 확인한다.
+이 사례에서는 Transformer가 self-attention 하나로 닫히지 않고, attention 블록과 feed-forward가 반복되는 기본 구성으로 읽혀야 한다는 문제의식을 세우는지 확인한다.
 
 ### 사례. attention만으로는 조치 판단이 닫히지 않는 경우
 
