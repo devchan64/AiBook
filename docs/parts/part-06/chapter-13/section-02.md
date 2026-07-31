@@ -1,7 +1,9 @@
 # P6-13.2 자연어 요청을 이름과 인자로 나누는 함수 호출
 
 > Section ID: `P6-13.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+함수 호출을 볼 때는 `natural_language_request`, `function_name`, `arguments`, `schema_validation`, `execution_result`, `response_use`를 따로 적습니다. 이렇게 해야 자연어 요청이 어떤 이름과 인자로 구조화되었고, 결과가 다시 답변에 어떻게 쓰였는지 추적할 수 있습니다.
 
 P6-13.1에서는 에이전트 도구 사용(tool use)이 모델과 외부 기능을 연결하는 구조라는 점을 보았습니다. 그러면 이제 더 구체적인 질문이 나옵니다.
 

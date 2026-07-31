@@ -1,7 +1,9 @@
 # P6-11.1 모델 기억 대신 외부 근거를 붙이는 RAG
 
 > Section ID: `P6-11.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+RAG 요청을 기록할 때는 `question`, `retrieval_query`, `retrieved_evidence`, `evidence_source`, `answer_claim`, `missing_evidence`를 나누어 봅니다. 이렇게 해야 모델 기억에 맡긴 답과 외부 근거를 붙인 답이 같은 말처럼 보이지 않습니다.
 
 P6-10.2에서는 프롬프트만으로는 최신성, 근거 보장, 실행 가능성 같은 문제를 해결하기 어렵다는 점을 보았습니다. 그러면 답변 문장 자체보다, 답변에 들어갈 재료를 먼저 어떻게 바꿀지가 중요해집니다.
 

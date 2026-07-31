@@ -1,7 +1,9 @@
 # P6-10.2 최신성·근거성·실행을 프롬프트 밖으로 넘기는 한계
 
 > Section ID: `P6-10.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+프롬프트 한계를 기록할 때는 `freshness_need`, `evidence_need`, `execution_need`, `consistency_need`, `outside_structure`를 함께 적습니다. 이 구분이 있어야 최신성, 근거성, 실행 문제가 단순한 문구 수정 문제로 축소되지 않습니다.
 
 P6-10.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설계를 통해 모델 행동을 관찰하고 조정하는 첫 번째 실무 도구라는 점을 보았습니다. 이제는 프롬프트를 잘 써도 여전히 남는 문제가 무엇인지 더 직접 봐야 합니다.
 
