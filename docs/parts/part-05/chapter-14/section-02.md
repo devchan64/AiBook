@@ -125,10 +125,10 @@ layer normalization이 왜 의미 선택이 아니라 한 위치 표현의 값 �
 
 ## Transformer 블록의 네 부품은 각각 무엇을 맡는가: 확인할 판단 기준
 
-이 사례 절은 다음 질문으로 중심축을 확인한다.
+이 사례를 읽을 때는 다음 두 가지를 먼저 확인한다.
 
-- 오픈체크리스트의 중심축 문장인 "self-attention, feed-forward, residual connection, layer normalization의 역할을 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`로 나누어 설명해야 합니다. 통합된 Python 예제는 현재 토큰 표현이 `input -> after attention -> after feed-forward -> after residual`로 이동하는 흐름을 확인하는 데만 쓰고, normalization의 값 범위 정리는 P5-14.3으로 넘겨야 합니다."를 본문 사례에서 어느 대목으로 확인할 수 있는가?
-- 표, 코드, 도식, 체크리스트 중 어떤 장치가 이 판단을 다시 검토하게 만드는가?
+- self-attention, feed-forward, residual connection, layer normalization의 역할을 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`로 나누어 설명해야 합니다. 통합된 Python 예제는 현재 토큰 표현이 `input -> after attention -> after feed-forward -> after residual`로 이동하는 흐름을 확인하는 데만 쓰고, normalization의 값 범위 정리는 P5-14.3으로 넘겨야 하는지 확인한다.
+- 이어지는 사례에서 입력, 비교 기준, 출력, 한계가 제목의 판단 기준과 어떻게 연결되는지 확인한다.
 
 ### 사례. `재기동` 위치 표현을 네 부품으로 나누어 읽기
 

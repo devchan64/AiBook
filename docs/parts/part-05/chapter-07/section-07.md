@@ -136,10 +136,10 @@ parameter-wise update는 모든 파라미터를 하나의 공통 숫자로만 �
 
 ## optimizer state와 개별 update: 확인할 판단 기준
 
-이 사례 절은 다음 질문으로 중심축을 확인한다.
+이 사례를 읽을 때는 다음 두 가지를 먼저 확인한다.
 
-- 오픈체크리스트의 중심축 문장인 "optimizer state와 parameter-wise update를 처음 읽는 법을 보충해야 합니다."를 본문 사례에서 어느 대목으로 확인할 수 있는가?
-- 표, 코드, 도식, 체크리스트 중 어떤 장치가 이 판단을 다시 검토하게 만드는가?
+- optimizer state와 parameter-wise update를 처음 읽는 법을 보충하는지 확인한다.
+- 이어지는 사례에서 입력, 비교 기준, 출력, 한계가 제목의 판단 기준과 어떻게 연결되는지 확인한다.
 
 ### 사례. 같은 gradient인데 update가 다르게 보이는 이유
 
