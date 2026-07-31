@@ -1,7 +1,7 @@
 # P5-4.1 손실 함수(loss function)
 
 > Section ID: `P5-4.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형성(nonlinearity)을 넣어 표현력을 키운다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -134,7 +134,7 @@ Part 4에서 우리는 accuracy, precision, recall, F1, RMSE 같은 평가 지�
 
 이 점은 Part 4의 과적합(overfitting)과 일반화 설명과 그대로 이어집니다. 즉, 손실은 매우 중요하지만, 손실 하나만으로 모델 전체를 판정할 수는 없습니다.
 
-## 사례 및 예시
+## 손실 함수: 확인할 판단 기준
 
 ### 사례 1. 배치 에너지 사용량 예측
 

@@ -1,7 +1,7 @@
 # P5-5.2 계산 그래프(computation graph)와 자동미분(automatic differentiation)
 
 > Section ID: `P5-5.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-5.1에서는 손실(loss)이 바로 업데이트가 아니라, 파라미터별 그래디언트(gradient) 신호로 다시 풀려야 한다고 설명했습니다. 여기까지 이해하면 다음 질문이 남습니다.
 
@@ -175,7 +175,7 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 --8<-- "assets/part-05/chapter-05/forward-loss-backward-flow-ko.mmd"
 ```
 
-## 사례 및 예시
+## 계산 그래프와 자동미분: 확인할 판단 기준
 
 ### 사례 1. 마지막 차단 점수만 보면 계산 경로가 사라진다
 

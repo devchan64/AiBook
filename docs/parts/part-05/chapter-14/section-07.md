@@ -1,7 +1,7 @@
 # P5-14.7 보충학습: 원래 표현을 남기는 경로
 
 > Section ID: `P5-14.7`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: residual connection은 새 계산 결과와 원래 입력 표현을 어떻게 함께 넘기는가_
 
@@ -70,7 +70,7 @@ P5-14.2에서 residual connection과 layer normalization은 함께 등장했습�
 
 residual connection은 `정보가 지나갈 길`을 남깁니다. layer normalization은 그 길을 지나 만들어진 표현의 값 범위를 다음 계산이 다루기 쉽게 맞춥니다. 둘을 한 문장으로 합치면 의미가 흐려집니다.
 
-## 사례 및 예시
+## 원래 표현을 남기는 경로: 확인할 판단 기준
 
 ### 사례. 작업 허가 문장에서 조치 축을 잃지 않는 경우
 

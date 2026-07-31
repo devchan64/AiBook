@@ -1,7 +1,7 @@
 # P5-7.2 학습률(learning rate)과 update 보폭
 
 > Section ID: `P5-7.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 업데이트로 바꾸는 규칙`이라는 점을 보았습니다. 여기까지 오면 바로 다음 질문이 생깁니다.
 
@@ -93,8 +93,7 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 - learning rate는 `얼마나 크게 갈 것인가`를 정합니다.
 - 그래서 같은 gradient라도 learning rate가 다르면 결과가 달라질 수 있습니다.
 
-## 사례 및 예시
-
+## 학습률과 update 보폭: 확인할 판단 기준
 이 절의 사례는 optimizer를 고르는 사례가 아니라, `같은 gradient가 서로 다른 update 보폭으로 바뀌는 장면`을 읽는 사례입니다. 따라서 사례를 볼 때는 항상 다음 순서로 확인합니다. 핵심은 `gradient가 있었는가`를 넘어서 `그 gradient가 실제 이동량으로 바뀐 뒤 무슨 일이 생겼는가`를 읽는 것입니다.
 
 1. gradient 방향은 맞는가

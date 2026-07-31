@@ -1,7 +1,7 @@
 # P5-9.2 배치(batch)와 텐서(tensor) 계산
 
 > Section ID: `P5-9.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-9.1에서는 딥러닝이 왜 GPU와 병렬 처리(parallel processing)에 잘 맞는지 보았습니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -122,7 +122,7 @@ P5-9.1에서 본 GPU의 강점은 비슷한 연산을 많이 동시에 처리하
 --8<-- "assets/part-05/chapter-09/batch-tensor-flow-ko.mmd"
 ```
 
-## 사례 및 예시
+## 배치와 텐서 계산: 확인할 판단 기준
 
 ### 사례. 같은 배치축을 표, 이미지, 문장에 붙여 읽을 때
 
