@@ -182,6 +182,13 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 --8<-- "assets/part-03/chapter-05/p3-5-6-mermaid-01-ko.mmd"
 
+## 체크리스트
+
+- 이 절의 질문인 `겹치는 입력 창과 샘플 수`에 대해 한 문장으로 답할 수 있는가?
+- `겹치는 입력 창이 샘플 수를 부풀려 보이게 만드는 이유를 설명해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 단위를 전제로 하므로, 여러 입력 창이 생겼다고 해서 원천 사건 수 자체가 자동으로 늘어났다고 읽으면 안 된다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

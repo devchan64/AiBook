@@ -236,6 +236,13 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 --8<-- "assets/part-03/chapter-05/p3-5-7-mermaid-01-ko.mmd"
 
+## 체크리스트
+
+- 이 절의 질문인 `여러 후속 사건을 접는 규칙`에 대해 한 문장으로 답할 수 있는가?
+- `한 샘플 뒤의 여러 후속 사건을 표 구조 안에서 어떻게 접어야 하는지 정리해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `label`과 `labeled example`. result information이 어떤 example에 붙는지 먼저 정해져야 하므로, 후속 사건 여러 개를 하나의 결과 열로 접을 때도 `any`, `first`, `worst`, `count` 가운데 어떤 규칙을 썼는지 먼저 명세해야 한다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

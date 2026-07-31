@@ -104,6 +104,13 @@
 
 입력 창(window)은 모델이 요구해서 생기는 형식이 아니라, 무엇을 한 입력으로 비교할 것인지 정한 데이터 모델링 결과입니다. 이렇게 정리해 두면 뒤에서 더 긴 입력 구조를 읽더라도 먼저 `입력 창이 왜 이렇게 잘렸는가`를 보게 됩니다. 요약 특징 역시 이미 어떤 창과 정렬 기준 위에서 만들어진 결과라는 점이 함께 드러납니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `입력 창(window)은 어디서 자르고 길이는 어떻게 맞추는가`에 대해 한 문장으로 답할 수 있는가?
+- `입력 창을 어디서 자르고 길이를 어떻게 맞출지 기준을 세워야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의되는 단위이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 입력의 시작점, 끝점, 길이 기준을 먼저 닫아야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

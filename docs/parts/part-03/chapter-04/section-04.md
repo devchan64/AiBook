@@ -210,6 +210,13 @@ event-level features appear only after regrouping: yes
 
 이 진단 신호를 먼저 모아 두면, 샘플 단위를 다시 묶어야 하는 상황과 그대로 유지해도 되는 상황을 더 일찍 구분할 수 있습니다. 즉 여기서 중요한 것은 다음 단계를 예고하는 일이 아니라, 현재 표에서 이미 보이는 반복 라벨, 설명되지 않는 특징, 어색한 비교 문장을 통해 샘플 단위 오판을 먼저 알아차리는 일입니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `샘플 단위를 잘못 잡았다는 신호는 무엇인가`에 대해 한 문장으로 답할 수 있는가?
+- `샘플 단위를 잘못 잡았다는 신호를 실제 이상 징후와 연결해 설명해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `labeled example`, `label leakage`. label이 어떤 example 단위에 붙는지와 feature/label 역할 혼동의 위험을 설명하므로, 반복 라벨과 설명되지 않는 특징이 보일 때 샘플 단위를 다시 의심해야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

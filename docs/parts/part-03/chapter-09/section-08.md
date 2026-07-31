@@ -32,6 +32,13 @@
 --8<-- "assets/part-03/chapter-09/p3-9-8-mermaid-01-ko.mmd"
 ```
 
+## 체크리스트
+
+- 이 절의 질문인 `예측 1회는 실제로 무엇을 결정하며 점수와 정책은 왜 다른가`에 대해 한 문장으로 답할 수 있는가?
+- `예측 1회가 실제로 무엇을 결정하는지와 점수와 정책의 차이를 구분해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google, *Thresholds and the confusion matrix*. 모델의 원시 숫자 출력을 범주로 바꾸려면 분류 임계값을 선택해야 하고, 임계값이 달라지면 예측 결과가 달라질 수 있다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

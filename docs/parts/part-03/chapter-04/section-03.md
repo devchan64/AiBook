@@ -192,6 +192,13 @@ window count: 2
 
 따라서 `한 행`, `샘플 1건`, `최근 구간 1개`는 이름이 비슷한 세 객체가 아니라, 서로 다른 질문에 답하기 위해 같은 원천데이터를 다른 층위로 다시 표현한 결과로 읽어야 합니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `한 행, 샘플 1건, 최근 구간 1개는 어떻게 다른가`에 대해 한 문장으로 답할 수 있는가?
+- `한 행, 샘플 1건, 최근 구간 1개가 서로 다른 층위라는 점을 구분해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, row-level record, event-level sample, window-level aggregate가 서로 다른 표현 층위라는 점을 구분해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

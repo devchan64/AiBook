@@ -1,7 +1,7 @@
 # P3-9.1 지금 문제를 어디까지 올려야 하는가
 
 > Section ID: `P3-9.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 현실 기록을 보면 "사건 기록이 있고 결과 메모도 조금은 있으니, 바로 [분류(classification)](../../../reference/concept-glossary-parts/06-bieup.md#glossary-classification) 문제로 올리면 되지 않을까?"라는 반응이 먼저 나옵니다. 하지만 현실 기록에서는 이 생각이 너무 빠를 때가 많습니다. 어떤 문제는 정말로 예측 문제로 만들 수 있지만, 어떤 문제는 아직 `검토 후보를 잘 골라 내는 문제`로 남겨 두는 편이 더 정직하며 현재 데이터 상태에도 더 잘 맞습니다. [해석 경계(interpretation boundary)](../../../reference/concept-glossary-parts/14-hieut.md#glossary-interpretation-boundary)를 세웠다면, 이제는 지금 문제를 [경고(alert)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), [검토 후보(review candidate)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), [라벨 예측(label prediction)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label) 중 어디까지 올릴지 정해야 합니다.
 
@@ -58,6 +58,13 @@
 ```
 
 이 도식은 문제를 위로 올리는 판단이 `무조건 한 단계 상승`이 아니라, 현재 근거가 어느 수준까지 있는지를 묻는 분기라는 점을 보여 줍니다. 즉 라벨 목록을 찍는 것이 아니라 `경고에서 멈출지`, `검토 후보까지 갈지`, `라벨 예측으로 올릴지`를 단계별로 가르는 판단 구조입니다. 핵심은 `경고는 변화 신호이고, 검토 후보는 검토 우선순위이며, 라벨 예측은 그보다 더 강한 문제 설정이다`는 점입니다. 지금 문제를 어디까지 올릴지는 `더 고급인가`가 아니라 `현재 데이터가 어디까지 정직하게 지지하는가`로 판단해야 합니다.
+
+## 체크리스트
+
+- 이 절의 질문인 `지금 문제를 어디까지 올려야 하는가`에 대해 한 문장으로 답할 수 있는가?
+- `지금 문제를 어디까지 예측 문제로 올릴지 판단 기준을 세워야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
 
 ## 출처와 참고 자료
 

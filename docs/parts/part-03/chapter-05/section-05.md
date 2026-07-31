@@ -207,6 +207,13 @@ avoid=none: 12
 
 값이 빠졌다는 사실은 단순 [전처리(preprocessing)](../../../reference/concept-glossary-parts/09-jieut.md#preprocessing) 문제가 아니라, 이 샘플이 아직 같은 비교 단위인지와 빠짐 자체를 구조 정보로 남길지 다시 묻게 하는 데이터 모델링 신호입니다. 따라서 결측을 다룬다는 말은 빈칸을 메우는 일보다 먼저, 어떤 샘플은 유지하고 어떤 샘플은 비교에서 물려야 하는지 경계를 다시 그리는 일에 가깝습니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가`에 대해 한 문장으로 답할 수 있는가?
+- `결측과 빈 구간을 샘플 유지 여부 판단과 연결해 다뤄야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 같은 단위를 전제로 하므로, 결측이 샘플 경계를 흔들 때는 값을 채우기 전에 그 샘플이 아직 같은 비교 단위인지 먼저 확인해야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

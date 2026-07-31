@@ -54,6 +54,13 @@ proxy target을 쓰는 순간에는 `지금 관측 가능한 것`과 `정말 알
 
 즉 proxy target은 편의상 붙인 임시 이름이 아니라, 원래 목표와 다른 대상을 대신 측정하고 있다는 사실을 명시하는 장치입니다. 여기서의 핵심은 `실제로 알고 싶은 결과`, `지금 관측 가능한 대리 열`, `둘 사이의 거리 기록`을 함께 남겨 대리 목표의 한계를 구조 안에 보존하는 일입니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `실제 목표와 대리 target은 어떻게 구분하는가`에 대해 한 문장으로 답할 수 있는가?
+- `실제 목표와 대리 target의 차이를 정리해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google, *Machine Learning Glossary*, `label`, `derived label`, `proxy labels`. 지도학습의 라벨이 예시의 답 또는 결과 부분이며, 실제 라벨이 없을 때 proxy label을 신중하게 골라야 한다는 용어 기준을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
