@@ -1,0 +1,4 @@
+run_id,run_date,log_source,index_type,vectorizer,document_count,vector_dimension,nlist,nprobe,top_k,repeat_count,mean_search_ms,exact_top_k_recall,missing_exact_doc_ids,retrieved_doc_ids
+p7-9-4-faiss-ivf-nprobe-1,2026-08-01,actual_cpu_run,IndexIVFFlat,"TfidfVectorizer(ngram_range=(1, 2))",36,719,4,1,5,1000,0.0056,0.6,문서-3|문서-4,문서-29|문서-2|문서-7|문서-17|문서-23
+p7-9-4-faiss-ivf-nprobe-2,2026-08-01,actual_cpu_run,IndexIVFFlat,"TfidfVectorizer(ngram_range=(1, 2))",36,719,4,2,5,1000,0.0065,1.0,,문서-3|문서-29|문서-4|문서-2|문서-7
+p7-9-4-faiss-ivf-nprobe-4,2026-08-01,actual_cpu_run,IndexIVFFlat,"TfidfVectorizer(ngram_range=(1, 2))",36,719,4,4,5,1000,0.0063,1.0,,문서-3|문서-29|문서-4|문서-2|문서-7
