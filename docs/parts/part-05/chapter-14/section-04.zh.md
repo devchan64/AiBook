@@ -1,7 +1,9 @@
 # P5-14.4 RNN 状态传递与 Transformer 并行计算
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+制作比较表时，也不要只把模型名称并排放置；还要一起写 `depends_on_previous_step`、`relation_matrix`、`parallel_unit`、`batch_axis`。这样 RNN 和 Transformer 的差异就不是流行顺序，而是计算依赖和并行化单位的差异。
 
 _副标题: 顺序状态传递与 token 关系计算在并行处理中如何分开？_
 

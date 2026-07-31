@@ -1,7 +1,9 @@
 # P6-17.1 Operational Constraints That Filter Again by Cost, Latency, and Usage
 
 > Section ID: `P6-17.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Record operational constraints together as `quality_result`, `cost_per_request`, `latency_budget`, `usage_limit`, `capacity_risk`, and `deployment_decision`. Then it becomes visible that even when an evaluation score passes, the candidate may still be filtered out at the operation stage.
 
 Even if evaluation selects a good answer candidate, that does not immediately make a service viable. The answer must be provided within a waiting time users can tolerate, at an affordable cost, and repeatedly even when expected request volume arrives. Service operational constraints are a separate pass line that filters candidates that already passed quality evaluation into actual operational candidates.
 
@@ -193,14 +195,14 @@ The focus of these cases is not `does it look good`, but `can it continue to be 
 
 Suppose a customer-support chatbot retrieves all long policy documents every time and always generates a long answer. At first, it is easy to think `if it reads more and answers longer, it will be a better chatbot`. This can make answers look more detailed and accurate. But even for a simple question such as password reset, users must wait several seconds, and the actual experience can remain `smart but slow`.
 
-For a short status-check question such as delivery tracking, attaching a long policy explanation every time may look accurate, but users can feel that the answer is late and excessive. Some users may leave without reading to the end. The first operational problem people see is not only quality, but `can customers tolerate this speed`. The result to check in this case is whether response time harms actual use experience separately from answer-quality improvement, and whether short questions can close without excessive processing.
+For a short status-check question such as delivery tracking, attaching a long policy explanation every time may look accurate, but users can feel that the answer is late and excessive. Some users may leave without reading to the end. The first operational problem people see is not only quality, but `can customers tolerate this speed`. The result to check in this case is whether response time harms actual use experience separately from answer-quality improvement, and whether short questions can settle without excessive processing.
 
 This is a real operational scene because customer-perceived quality is not decided only by accuracy. If a short question takes too long or carries an unnecessary long answer, users feel latency and fatigue before intelligence. Operators should therefore check `is processing depth excessive for the question difficulty`, more than `did it read more and answer longer`.
 
 | Question scene | Easy first judgment | What operations must check again |
 | --- | --- | --- |
 | Simple question such as password reset | More explanation is better | Does a short question trigger excessive retrieval and long answers? |
-| Status-check question such as delivery tracking | Adding policy context is kind | Does the answer close quickly with the needed status value first? |
+| Status-check question such as delivery tracking | Adding policy context is kind | Does the answer settle quickly with the needed status value first? |
 | Policy question with many exceptions | Reading many documents is safer | Is deeper processing selected only for complex questions? |
 
 This table corrects the misunderstanding that `more processing = always better service`.
@@ -334,7 +336,7 @@ The example output can be read like this.
 
 The first thing to notice is the difference between `failed_checks` and `primary_tradeoff`. `failed_checks` shows all limits a candidate failed to pass, while `primary_tradeoff` narrows which axis to adjust first. The judgment order is not simply choosing the largest number. If the candidate does not pass the minimum quality line, it is first treated as a quality problem. If it passes quality but is blocked by operational limits, the bottleneck is narrowed in the order of latency, cost, and throughput because these connect directly to user experience and request-path reduction.
 
-So `rich_deep_rag` fails latency, cost, and throughput together, but the first axis to adjust is latency. This candidate is close to a case where retrieval and generation paths became heavy to improve answer quality, so the next judgment is to first reduce search depth, generation length, or cache opportunities rather than discard the whole structure immediately. By contrast, `accurate_but_capped` can look better than `balanced_support` from single-request quality alone, but it fails as an operational candidate because of request-per-minute capacity. `cost_over_budget_support` passes quality, latency, and throughput but fails cost, and `capacity_shortfall_support` fails because it is just short of the required throughput. `next_adjustment` lets us read not only that it failed, but where to fix first.
+So `rich_deep_rag` fails latency, cost, and throughput together, but the first axis to adjust is latency. This candidate is similar to a case where retrieval and generation paths became heavy to improve answer quality, so the next judgment is to first reduce search depth, generation length, or cache opportunities rather than discard the whole structure immediately. By contrast, `accurate_but_capped` can look better than `balanced_support` from single-request quality alone, but it fails as an operational candidate because of request-per-minute capacity. `cost_over_budget_support` passes quality, latency, and throughput but fails cost, and `capacity_shortfall_support` fails because it is just short of the required throughput. `next_adjustment` lets us read not only that it failed, but where to fix first.
 
 The chart is not meant to make us memorize individual candidate names. It summarizes how 36 candidates are filtered by each constraint axis. Even when many candidates pass quality, latency, cost, or throughput separately, the final `operational candidate` count decreases once all four conditions are combined. The result to check is that a higher quality number can still lose when latency, cost, and throughput constraints are applied together, and a fast cheap design can also fail if it does not pass the minimum quality line.
 

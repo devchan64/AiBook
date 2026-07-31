@@ -1,7 +1,9 @@
 # P6-14.1 Agents That Change the Next Task Based on Intermediate Results
 
 > Section ID: `P6-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Record an AI agent flow by separating `goal`, `current_state`, `next_action`, `tool_result`, `observation`, and `updated_plan`. This record distinguishes single-answer generation from a goal-directed flow that changes the next action based on intermediate results.
 
 In P6-13.2, we saw that function calling represents tool use in a structured format. The question now grows larger. What should we call a workflow when tool calls do not end with one call, but must continue across several steps?
 
@@ -9,7 +11,7 @@ An AI agent is a work structure that receives a goal, continues the necessary su
 
 ## Single Call and Goal Flow Difference
 
-The issue to close when understanding agents is distinguishing `an execution structure that carries a goal across several steps` from a single tool call. If the previous chapter's tool use asked `what should we look up or execute once`, an AI agent asks how to connect several tool calls and document-reading results in order, and when to stop or try again.
+The issue to settle when understanding agents is distinguishing `an execution structure that carries a goal across several steps` from a single tool call. If the previous chapter's tool use asked `what should we look up or execute once`, an AI agent asks how to connect several tool calls and document-reading results in order, and when to stop or try again.
 
 So it is safer to read an agent not as a broad product name, but as `a goal flow whose next action changes after seeing intermediate results`. If P6-13.2's function calling was about passing one execution request in a verifiable structure, an AI agent is about the order of several calls and reads, and about state management. P6-14.2 looks more closely at how the loop actually moves through planning, action, and observation.
 
@@ -17,11 +19,11 @@ The records to keep here are the step plan, intermediate observation notes, and 
 
 ## Scenes that should be read as AI agent workflows
 
-The distinction to fix here is not memorizing agent as the name of a new product, but separating scenes where `several tools were used` from scenes where `the next action changes after seeing an intermediate result`. A long answer does not automatically become an agent. Conversely, even if the output is short, the structure becomes closer to an agent if the system checks search results and searches again, reads a tool result and chooses a different tool, or stops and hands off to a person after failure.
+The distinction to fix here is not memorizing agent as the name of a new product, but separating scenes where `several tools were used` from scenes where `the next action changes after seeing an intermediate result`. A long answer does not automatically become an agent. Conversely, even if the output is short, the structure becomes more similar to an agent if the system checks search results and searches again, reads a tool result and chooses a different tool, or stops and hands off to a person after failure.
 
 | First visible scene | Should it be read as an agent first? | Why this distinction matters |
 | --- | --- | --- |
-| The answer is almost closed by one lookup or execution | Usually no | One tool use or one RAG step may be enough. |
+| The answer is almost settled by one lookup or execution | Usually no | One tool use or one RAG step may be enough. |
 | Search terms, tools, or next steps change after intermediate results | Yes | Choosing the next action itself becomes the problem. |
 | Retry, stop, and handoff criteria must be decided after failure | Yes | Goal flow and state management become more important than one answer. |
 
@@ -42,7 +44,7 @@ For example, if a goal continues through a flow such as:
 - retrying after failure
 - summarizing the final result
 
-then it is closer to an AI agent structure than to a simple one-shot request.
+then it is more similar to an AI agent structure than to a simple one-shot request.
 
 In other words, an agent centers on `a workflow toward a goal` more than on `one response`.
 
@@ -60,11 +62,11 @@ For example, an AI agent can:
 - run tests
 - see the cause of failure and try again
 
-This kind of flow is closer to a `work-coordination structure` than to a simple one-time answer.
+This kind of flow is more similar to a `work-coordination structure` than to a simple one-time answer.
 
 ## Prompt, RAG, Tool Use, and Agent Levels
 
-| Structure | What it handles first | Immediate judgment needed | How the result closes |
+| Structure | What it handles first | Immediate judgment needed | How the result settles |
 | --- | --- | --- | --- |
 | Prompt | User input and instructions | How should we ask? | One model response |
 | RAG | Documents and evidence | Which documents should be attached? | An answer with evidence |
@@ -96,7 +98,7 @@ For example:
 
 Without this information, the agent can lose context at every step and repeat the same mistake.
 
-So an AI agent is closer to `execution with state` than to simple output generation.
+So an AI agent is more similar to `execution with state` than to simple output generation.
 
 Because of this, an agent explanation must answer `why?` by looking at the current step, previous result, and remaining goal together.
 
@@ -110,7 +112,7 @@ The point to distinguish is that `returning one explanation` and `carrying sever
 - reorganizing results
 - carrying the work through to the end
 
-In other words, when a request does not close with one answer and begins to continue through `read -> execute -> check -> choose the next action`, it is more accurate to read the scene as an AI agent structure than as a single response.
+In other words, when a request does not settle with one answer and begins to continue through `read -> execute -> check -> choose the next action`, it is more accurate to read the scene as an AI agent structure than as a single response.
 
 Examples include:
 
@@ -169,11 +171,11 @@ The criterion changes from `did it produce one fix` to `does it change the next 
 
 ### Case 2. Document-research agent
 
-If a user asks, `summarize the latest refund policy with evidence`, it can feel as though one search will immediately close the answer. But a document-research AI agent finds related notices and policy documents, checks document dates and evidence level as a person would during manual research, and if the evidence is not enough, changes the search terms or reads other sources.
+If a user asks, `summarize the latest refund policy with evidence`, it can feel as though one search will immediately settle the answer. But a document-research AI agent finds related notices and policy documents, checks document dates and evidence level as a person would during manual research, and if the evidence is not enough, changes the search terms or reads other sources.
 
 If the first search result is last year's notice, the agent should not summarize it immediately. It should search again for the latest revised document. Conversely, if the latest notice is found but detailed conditions are in a separate policy PDF, the agent may need to open that PDF as well and reinforce the evidence. Otherwise, an answer can look cited while actually attaching outdated evidence or missing key conditions.
 
-The criterion changes from `did one search result appear` to `does it re-explore while checking dates and evidence level`. Search, reading, summarization, source organization, and re-exploration continue under one goal, so the structure is closer to an agent than to a simple search tool. The result to check in this case is whether the agent searches all the way to the latest document while checking dates and evidence level, instead of summarizing the first result immediately.
+The criterion changes from `did one search result appear` to `does it re-explore while checking dates and evidence level`. Search, reading, summarization, source organization, and re-exploration continue under one goal, so the structure is more similar to an agent than to a simple search tool. The result to check in this case is whether the agent searches all the way to the latest document while checking dates and evidence level, instead of summarizing the first result immediately.
 
 | Step | Intermediate observation | What must actually change next |
 | --- | --- | --- |
@@ -422,13 +424,13 @@ research {'search_or_inspect': 1, 'refine_search_or_reload': 2, 'collect_support
 workflow {'search_or_inspect': 1, 'refine_search_or_reload': 1, 'collect_supporting_context': 1, 'retry_with_changed_step': 1, 'compare_evidence': 2, 'handoff_for_review': 2, 'attach_sources': 2, 'finish': 2}
 ```
 
-The first thing to notice is that the model proposed a next action for every observation state. But `guard_changed_model_action_count` is also 10. For example, in `verified_patch_with_notes`, the model proposed `attach_sources`, but the state signal already says `sources_attached`, so the guard closed it as `finish`. In other words, an agent flow needs a structure that records `model proposal`, `current state`, and `final next action` together, rather than only the model proposal itself.
+The first thing to notice is that the model proposed a next action for every observation state. But `guard_changed_model_action_count` is also 10. For example, in `verified_patch_with_notes`, the model proposed `attach_sources`, but the state signal already says `sources_attached`, so the guard marked it as `finish`. In other words, an agent flow needs a structure that records `model proposal`, `current state`, and `final next action` together, rather than only the model proposal itself.
 
 For the same reason, if evidence is not current, as in `old_error_log` or `stale_policy_notice`, the agent must search or read again. If execution itself fails, as in `new_test_failure` or `calendar_api_failed`, it should not push the same sequence forward, but retry with a different step. If a permission or approval boundary appears, as in `security_sensitive_change` or `manager_approval_required`, the agent should not continue alone and should hand the work over for human review.
 
 ![agent next-action branching](/AiBook/assets/part-06/chapter-14/agent-state-progress-en.png)
 
-This chart shows the difference between model proposals and guard final actions. The model proposes `attach_sources` relatively often, but the guard checks state signals again and closes cases where evidence is already attached as `finish`. Conversely, when there are permission, failure, or conflict signals, the guard can fix the final action as human review, retry, or evidence comparison separately from the model proposal.
+This chart shows the difference between model proposals and guard final actions. The model proposes `attach_sources` relatively often, but the guard checks state signals again and settles cases where evidence is already attached as `finish`. Conversely, when there are permission, failure, or conflict signals, the guard can fix the final action as human review, retry, or evidence comparison separately from the model proposal.
 
 So the conclusion to read from this chart is not simply that the model was wrong. The chart shows that in an agent flow, the model proposes a next-action candidate and the application narrows that proposal again using current state and record criteria.
 
@@ -442,7 +444,7 @@ Readers can try these adjustments in the example.
 - Change `current_context` to `false` in the CSV and see how the next action changes when stale evidence appears.
 - Change `action_failed` to `true` and see whether the action becomes retry instead of continuing the same order.
 - Change `approval_needed` to `true` and see whether the agent moves to human review instead of continuing.
-- Change `sources_attached` to `true` and see whether a case that no longer needs more work closes as `finish`.
+- Change `sources_attached` to `true` and see whether a case that no longer needs more work settles as `finish`.
 - Change `AIBOOK_OLLAMA_MODEL` and see how the gap between model proposal and guard correction changes.
 
 One more separation helps here. What the agent tries to solve directly is next-action choice and order adjustment. But how each call is represented, how permission boundaries are recorded, and how execution traces are left remain separate-level problems. Call-format validation was covered in P6-13.2, shared connection rules continue in P6-15.1, and execution records and reproducibility become more concrete in P6-15.2.

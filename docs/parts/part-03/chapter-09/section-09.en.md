@@ -1,7 +1,9 @@
 # P3-9.9 How Should the Actual Target and a Proxy Target Be Distinguished
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+If you decide to use a proxy target, keep notes such as `business_goal`, `proxy_target`, `proxy_reason`, `proxy_gap`, and `review_owner` in the table. These fields keep the target name from hardening into the real goal and help you later separate what you directly predict from what you predict as a substitute when the problem type moves toward prediction.
 
 In real data, the result you truly want to predict is often not directly visible. So it becomes tempting to use an intermediate operational judgment or a substitute column as a temporary [target](/AiBook/en/reference/concept-glossary-alpha/t/#target). The distinction needed here is between an [actual target](/AiBook/en/reference/concept-glossary-alpha/a/#glossary-actual-target) and a [proxy target](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-proxy-target). You should first write whether the target currently in use is the result you truly want to know, or a substitute column used in its place.
 
@@ -26,7 +28,7 @@ The difference between an actual target and a proxy target does not end as a nam
 | --- | --- | --- |
 | The actual target is directly visible | Predict the actual target | Because inputs and results can be tied directly to the same question |
 | The actual target appears late and only a proxy column is visible first | Predict the proxy target or treat it as a review-candidate problem | Because the value being predicted now is different from the value you truly want to know |
-| Both the actual target and the proxy column are weak | Keep it as a comparison report or a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) | Because even the choice of which result column to use is not yet sufficiently closed |
+| Both the actual target and the proxy column are weak | Keep it as a comparison report or a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) | Because even the choice of which result column to use is not yet sufficiently settled |
 
 In other words, the moment you use a proxy target, you must distinguish between `this problem is solvable` and `this problem is directly solving the original goal`. Even if it looks like a prediction problem, it may actually be predicting `a proxy judgment` rather than `the actual target`. If that difference is not written down, it becomes unclear later what the score is really measuring.
 

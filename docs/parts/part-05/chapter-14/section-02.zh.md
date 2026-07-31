@@ -1,7 +1,9 @@
 # P5-14.2 Transformer block 的四个部件分别负责什么？
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+实际阅读时，不要把各个部件分开背。可以给表示经过的中间状态命名，如 `current_token`、`attended_context`、`updated_position`、`residual_base`、`normalized_output`。这样就能看出角色差异：self-attention 混合关系，feed-forward 重新加工当前位置，residual 和 normalization 稳定传给下一个 block 的表示。
 
 在 P5-14.1 里，我们已经看到，只用 self-attention 解释 Transformer 是不够的。现在需要更直接地拆开 block 里面的角色分工。
 
@@ -172,7 +174,7 @@ layer normalization 会在一个位置的表示内部重新调整数值的平均
 
 因此，这个案例的输出不是单纯结论 `restart is held`。更重要的输出是：`关系读取`、`按位置加工`、`保留原始信息`、`稳定数值范围`是不同部件的工作。只要这个区分固定下来，就能把 Transformer block 读成多个角色反复出现的表示更新单元，而不是`attention 给出答案的装置`。
 
-如果从输出角度收住同一个案例，可以这样整理。
+如果从输出角度抓住同一个案例，可以这样整理。
 
 | 部件 | 在这个案例中直接造成的变化 | 不直接负责的事 |
 | --- | --- | --- |

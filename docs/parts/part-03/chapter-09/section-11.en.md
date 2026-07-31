@@ -1,7 +1,9 @@
 # P3-9.11 Target Candidates and Changing Criteria
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+When choosing the representative target, keep `target_name`, `target_definition_version`, `rule_changed_at`, `definition_owner`, and `candidate_targets` together. This memo separates the state of having several candidates from the state of changing the standard, reducing cases where the same target name points to different problem definitions.
 
 _Subtitle: What should be fixed first when there are multiple target candidates or the criteria keep changing?_
 
@@ -23,7 +25,7 @@ In real data, only one target candidate may not be visible. Multiple candidates 
 
 The most common confusion when several target candidates exist together is the thought that `they all come from the same events anyway, so we can choose one later`. But if the representative target is not fixed first, even the explanation of what problem is currently being solved starts to wobble.
 
-For example, if `review_needed` is taken as the representative target, the question becomes `what should be looked at again first`. By contrast, if `final_status` is taken as the representative target, the question becomes `what state will this eventually close into`. Even when the same event table is used, the objective, evaluation, and error interpretation change. So a state without a fixed representative target is not simply `a state with a lot of data`, but closer to `a state in which the problem itself has not yet been closed into one question`.
+For example, if `review_needed` is taken as the representative target, the question becomes `what should be looked at again first`. By contrast, if `final_status` is taken as the representative target, the question becomes `what state will this eventually become`. Even when the same event table is used, the objective, evaluation, and error interpretation change. So a state without a fixed representative target is not simply `a state with a lot of data`, but more similar to `a state in which the problem itself has not yet been organized into one question`.
 
 ## Looking at a Conflicting Scene Once More
 

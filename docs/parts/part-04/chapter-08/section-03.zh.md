@@ -1,7 +1,9 @@
 # P4-8.3 补充学习: 按问题类型第一次建立 baseline 的方法
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+建立第一个 baseline 时，先写下 `problem_type`、`simple_rule`、`metric`、`known_easy_case`、`known_hard_case`。分类、回归、时间序列有不同的 baseline 候选，但共同目的都是在看复杂模型之前，把简单 标准 和代表性失败场景放到同一张表上。
 
 如果在 P4-8.2 里已经看过为什么 [baseline 必须存在](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model)，那么接下来马上会出现一个问题。
 

@@ -1,7 +1,9 @@
 # P2-8.6 Supplemental Learning: First Meeting Classes and Objects
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+In this example, what matters first is not the string-cleaning technique itself, but the call shape of `text.strip()` and `text.lower()`. The same value, `text`, comes first, and the action provided by that value is named after the dot. Later, when you see `model.fit()` or `dataset.map()`, recall this structure first.
 
 In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
 

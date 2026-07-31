@@ -1,7 +1,9 @@
 # Part 4. Machine Learning
 
 > Section ID: `P4-index`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The first plan for this opening page is to read `problem type`, `input and output`, `learning signal`, `evaluation metric`, `baseline`, and `error cases` together. Put model names behind these standards, and in each Section check what comparison evidence remains rather than focusing on a single score.
 
 Part 2 restored the basics for reading formulas, Python, arrays, tables, graphs, and runtime environments. Now in Part 4, we organize what those tools are actually used for, namely what it means to `learn rules from data`.
 
@@ -42,7 +44,7 @@ Part 4 establishes that base. The goal is not to dig deeply into the mathematics
 
 At this point, the three-way distinction established in P1-8 must be brought over directly. Supervised learning is a problem of matching target outputs from examples that contain `inputs and labels` together. Unsupervised learning is a problem of finding structure and representations `without human-attached labels`. Reinforcement learning is a problem of adjusting a policy using `rewards after actions instead of labels`. In particular, the reward in reinforcement learning is not the same signal as the label in supervised learning, and that distinction is maintained throughout Part 4.
 
-## Core Questions To Close In Machine Learning
+## Core Questions To Settle In Machine Learning
 
 After reading Part 4, the target is to have roughly the following level of understanding.
 

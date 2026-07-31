@@ -1,7 +1,9 @@
 # P6-11.1 RAG That Attaches External Evidence Instead of Model Memory
 
 > Section ID: `P6-11.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When recording a RAG request, separate `question`, `retrieval_query`, `retrieved_evidence`, `evidence_source`, `answer_claim`, and `missing_evidence`. This prevents an answer left to model memory and an answer supported by external evidence from looking like the same thing.
 
 In P6-10.2, we saw that prompts alone have difficulty solving problems such as freshness, evidence guarantees, and executability. Then what matters is not only the answer sentence itself, but how to first change the materials that enter the answer.
 
@@ -19,13 +21,13 @@ At first, it is enough to separate only two questions. Summarizing a meeting mem
 
 The impression `a technique for attaching long documents to prompts` should be replaced with `a structure that changes the answer's starting point to external evidence documents`. What should remain first here is a retrieval memo and evidence check record showing which documents were found as evidence candidates, why each document was judged relevant, and whether the final answer actually stood on document evidence.
 
-Documents do not automatically attach themselves before an answer. Usually, document chunks are stored in a searchable form, and when a question arrives, related chunks are retrieved first. This storage structure can mix keyword search, ordinary databases, and vector databases, but LLM services often use vector databases to find semantically close documents. This Section first holds the RAG structure of `retrieve evidence before answering`, and P6-12.1 looks at how that evidence is stored and retrieved with embeddings, original text, and metadata.
+Documents do not automatically attach themselves before an answer. Usually, document chunks are stored in a searchable form, and when a question arrives, related chunks are retrieved first. This storage structure can mix keyword search, ordinary databases, and vector databases, but LLM services often use vector databases to find semantically settle documents. This Section first holds the RAG structure of `retrieve evidence before answering`, and P6-12.1 looks at how that evidence is stored and retrieved with embeddings, original text, and metadata.
 
 | Scene to distinguish first | Judgment to hold first | Why it must be separated first |
 | --- | --- | --- |
 | Only the answer tone, table format, or summary style is unsatisfactory | It is likely a prompt-adjustment problem | The material is often already there and only the expression is drifting. |
 | A policy changed today, the current SDK version, or an internal manual is needed | RAG is likely needed first | Without attaching latest and internal documents before answering, memory-dependent wrong answers are likely. |
-| The document was seen, but calculation, lookup, or real execution matters more | RAG alone may not close it | Reading a document and calculating a value or calling a system are different problems. |
+| The document was seen, but calculation, lookup, or real execution matters more | RAG alone may not settle it | Reading a document and calculating a value or calling a system are different problems. |
 | There are too many candidate documents, making the evidence unclear | Search quality and evidence records must be checked together | Even with RAG, trust is hard to verify if why a document was selected is not recorded. |
 
 ## Why Model Memory Alone Is Not Enough
@@ -109,7 +111,7 @@ Separating one more point makes the flow into P6-11.2 and P6-12 more natural. Ex
 | Pretraining data preparation | Makes the model learn broad language patterns | P6-7.1, P6-7.2 |
 | Retrieval document preparation | Makes documents retrievable again for the current question | P6-11, P6-12 |
 
-So attaching RAG is closer to `prepare documents so they can be searched, then attach those documents before answering` than to `train the model broadly again`.
+So attaching RAG is more similar to `prepare documents so they can be searched, then attach those documents before answering` than to `train the model broadly again`.
 
 When external RAG summaries and practice reports are read together, there is one more axis to separate. RAG is not a technique that starts only after a question arrives. It must be read together with the earlier `content preparation` stage.
 
@@ -225,7 +227,7 @@ The first standard to learn is simple. RAG is not `a trick for writing questions
 
 The goal of the example is not to implement a real vector database or LLM service. It is to check the minimal RAG behavior of `question -> choose related documents with a retrieval model -> answer based on those documents`. Refund policy, product manual, and SDK documentation questions are run together, and we compare what changes between answering without retrieval and answering after attaching documents selected by a retrieval model.
 
-Users can ask about latest policies, current-version product screens, and current SDK usage. Old standards or general knowledge can remain in model memory, and without finding related documents first, natural wrong answers can appear. So this example uses scikit-learn's `TfidfVectorizer` like a very small retrieval model. It is not a real embedding model, but the flow of converting questions and documents into vectors and choosing close documents can be checked by direct execution. In Korean, short sentences are more stable with character n-grams than whitespace words. In English too, this example keeps the same character n-gram setting so that the experiment structure stays aligned with the source.
+Users can ask about latest policies, current-version product screens, and current SDK usage. Old standards or general knowledge can remain in model memory, and without finding related documents first, natural wrong answers can appear. So this example uses scikit-learn's `TfidfVectorizer` like a very small retrieval model. It is not a real embedding model, but the flow of converting questions and documents into vectors and choosing settle documents can be checked by direct execution. In Korean, short sentences are more stable with character n-grams than whitespace words. In English too, this example keeps the same character n-gram setting so that the experiment structure stays aligned with the source.
 
 The example below uses two CSV files as input.
 

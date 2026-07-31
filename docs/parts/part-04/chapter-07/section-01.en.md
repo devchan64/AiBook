@@ -3,6 +3,8 @@
 > Section ID: `P4-7.1`
 > Version: `v2026.07.31`
 
+First imagine one scene. If a customer-churn prediction table contains `recent visit count`, `membership tier`, `recent inquiry count`, `result memo created after staff review`, and `internal temporary ID`, giving all of them to the model is not a good starting point. Before computing performance, this Section first filters out `columns unavailable at prediction time`, `columns weakly related to the problem`, and `columns hard to recreate in operation`.
+
 P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. [Feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#feature-selection) is the starting point of that input design.
 
 This Section deals with `how should good features be chosen?` Rather than explaining complex selection algorithms in depth, the goal is to fix the judgment criteria that should be checked first in actual work.
@@ -18,7 +20,7 @@ This Section answers the following questions.
 - What feature-selection criteria should a reader inspect first?
 - How is feature selection different from [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing)?
 
-This Section first closes `how to choose good features` and `why feature selection is an input-design problem`. The sense of separating preprocessing types by input problem is revisited in the supplementary P4-7.3, and the comparison perspective between statistical-test-based selection and recursive feature elimination is organized again in supplementary P4-7.4. The big picture of dimensionality reduction continues in P4-18.1 and P4-18.2.
+This Section first settles `how to choose good features` and `why feature selection is an input-design problem`. The sense of separating preprocessing types by input problem is revisited in the supplementary P4-7.3, and the comparison perspective between statistical-test-based selection and recursive feature elimination is organized again in supplementary P4-7.4. The big picture of dimensionality reduction continues in P4-18.1 and P4-18.2.
 
 ## Goals Of This Section
 
@@ -426,7 +428,7 @@ Before complex algorithms, feature selection is also the job of making clear `fo
 | --- | --- | --- |
 | it is already available at the prediction moment | inspect first | because it is a reproducible candidate for service input |
 | it appears only after the answer exists | remove | because the risk of leakage is high as post-outcome information |
-| it only distinguishes the entity like an ID | usually remove | because it is closer to individual identification than to a generalized pattern |
+| it only distinguishes the entity like an ID | usually remove | because it is more similar to individual identification than to a generalized pattern |
 | it contains a behavior signal related to the problem | inspect first for keeping | because it may contain a pattern connected to the target |
 | collection delay or manual-entry fluctuation is large | hold or inspect for reinforcement | because it is hard to reproduce stably in operations |
 | it almost repeats the same meaning as another feature | inspect for reduction | because redundancy may grow more than information |
@@ -575,12 +577,12 @@ Choose which of the following two should remain earlier as a first-pass candidat
 
 Order to write:
 
-1. On the surface, both are numbers, but which one is closer to a real behavior signal?
+1. On the surface, both are numbers, but which one is more similar to a real behavior signal?
 2. Why can the other be read as an identifier fragment rather than a generalized pattern?
 
 Explanation:
 
-`failed_logins_14d` should remain first. It can connect to an access problem or usability friction as a behavior signal. `account_number_last_digit` is closer to an identifier fragment, so it is hard to expect a generalized pattern from it.
+`failed_logins_14d` should remain first. It can connect to an access problem or usability friction as a behavior signal. `account_number_last_digit` is more similar to an identifier fragment, so it is hard to expect a generalized pattern from it.
 
 #### 2. Is The Noise Not Too Large?
 
@@ -859,7 +861,7 @@ The goal of this Section is not to memorize those algorithms. It is to first fix
 - Were identifiers and constant columns inspected first?
 - Are only features that can be obtained stably in the real service being kept?
 - Are feature selection and preprocessing not being mixed together as if they were one task?
-- Can you explain that a feature is an expression that turns real-world information into model input, and that feature selection is closer to `choosing input that can be used legitimately` than to `putting in more`?
+- Can you explain that a feature is an expression that turns real-world information into model input, and that feature selection is more similar to `choosing input that can be used legitimately` than to `putting in more`?
 - Can you explain why leakage, relevance, and operational usability should be checked first?
 
 ## Sources And References

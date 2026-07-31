@@ -1,7 +1,9 @@
 # P6-16.2 自动评估和人工评估的分工
 
 > Section ID: `P6-16.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+评估分工要留下 `automatic_check`、`human_review`、`repeatable_rule`、`context_judgment`、`escalation_case`、`review_note`。这个区分能防止擅长重复检查的自动评估和擅长上下文判断的人工评估，看起来像可以互相替代。
 
 _副标题：重复检查和语境判断如何在 automatic evaluation 与 human evaluation 之间分工？_
 

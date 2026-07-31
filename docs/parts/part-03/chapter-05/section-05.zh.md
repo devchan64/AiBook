@@ -1,7 +1,9 @@
 # P3-5.5 数值缺失或区间为空的样本应该怎样处理
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+这个判断也应留在表内。设置 `keep_sample`、`missing_scope`、`avoid_features`、`missing_indicator`、`raw_log_recheck_needed` 等列，就能重新看到空值按什么策略处理。尤其是保留样本但决定不生成某个特征时，要一起留下原因是 `late_segment_missing` 还是 `end_detected=0`，后面才能区分缺失处理只是简单预处理，还是样本边界问题。
 
 当我们已经来到“把源日志变成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)”的阶段后，像 `动作是有的，但部分传感器值为空怎么办？`、`中间区间记录缺了，这条样本该丢掉，还是部分使用？` 这样的问题就会立刻出现。这时首先要看的，不是怎么填值，而是这些[缺失值(missing value)](/AiBook/zh/reference/concept-glossary-pinyin/q/#glossary-missing-value)会在多大程度上动摇[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)边界和[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)含义。
 
@@ -41,7 +43,7 @@
 | 后 20% 区间整段都缺了 | 会动摇结构比较的区间缺失 |
 | 没有 `event_end`，连结束时点都不知道 | 样本边界坍塌 |
 
-第一种情况，可能仍然是在同一条样本结构里丢掉了部分信息。第二种情况则会直接动摇“后段下降率”这类特征的含义。第三种情况则更严重，因为整次动作的开始和结束都没有闭合，样本本身可能都要重新判断。
+第一种情况，可能仍然是在同一条样本结构里丢掉了部分信息。第二种情况则会直接动摇“后段下降率”这类特征的含义。第三种情况则更严重，因为整次动作的开始和结束都没有确认，样本本身可能都要重新判断。
 
 ## 所以，在这个阶段最先要决定什么
 

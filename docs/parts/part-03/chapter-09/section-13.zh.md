@@ -1,9 +1,11 @@
 # P3-9.13 交给 Part 4 之前的问题边界
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
-_副标题: 在把问题交给预测任务之前，为什么必须一起闭合时间、个体、信息和产物形式边界？_
+交给 Part 4 的表中，只需留下 `problem_type_candidate`、`split_risk`、`group_key`、`time_key`、`metric_candidate`、`baseline_note`、`open_questions` 等字段。这里不要长篇说明评估 流程，而是简短写下后面要处理的项目名称和必要理由，让当前问题结构可以等待下一步判断。
+
+_副标题: 在把问题交给预测任务之前，为什么必须一起确认时间、个体、信息和产物形式边界？_
 
 如果结构已经整理到足以梳理当前问题类型，那么最后还需要一起关上的，是一组边界。时间顺序是不是重要？同一个个体能不能混到两边？预测时点之后的信息有没有渗进输入？真实[输出格式(output format)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)更像排序或连续值，而不是简单的 0/1 分类？这里重要的不是把术语名称越列越多，而是确认当前问题结构在这些边界面前是否能不自相矛盾地站住。
 

@@ -1,9 +1,11 @@
 # P6-17.2 Handling Operational Failures by Splitting Errors into Recovery Routes
 
 > Section ID: `P6-17.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
-After setting service operating limits, you also need to decide where an actual failure should go. Failure handling is not just about fixing the final answer sentence. It means looking at retrieval, tool calls, permissions, latency, and logs together, then choosing which route is safest among `retry`, `fallback`, `stop`, and `approval`. In other words, it is closer to retracing the whole process that produced the answer than to looking at one answer line.
+Separate failure-response records into `failure_type`, `trace_step`, `retry_allowed`, `fallback_path`, `approval_required`, and `recovery_result`. These fields let you read model errors, tool errors, and permission problems by recovery path instead of bundling them into the same incident.
+
+After setting service operating limits, you also need to decide where an actual failure should go. Failure handling is not just about fixing the final answer sentence. It means looking at retrieval, tool calls, permissions, latency, and logs together, then choosing which route is safest among `retry`, `fallback`, `stop`, and `approval`. In other words, it is more similar to retracing the whole process that produced the answer than to looking at one answer line.
 
 ## What Failure Routing Decides
 
@@ -205,7 +207,7 @@ If the system then proceeds to actual modification, it may damage the repository
 
 ### Case 3. Slow Response
 
-Suppose the answer is correct, but it takes 20 seconds to arrive. If the content is right, people may initially feel that it succeeded. Technically, however, even a correct answer may arrive after the user has refreshed the page or left the service. For a long document analysis request, waiting may be acceptable. For a simple policy-check question, 20 seconds is already close to failure.
+Suppose the answer is correct, but it takes 20 seconds to arrive. If the content is right, people may initially feel that it succeeded. Technically, however, even a correct answer may arrive after the user has refreshed the page or left the service. For a long document analysis request, waiting may be acceptable. For a simple policy-check question, 20 seconds is already similar to failure.
 
 In operation, the failure a person must watch is not only `content error`, but also `speed that cannot be waited for`. If the response is too slow, even a correct answer can be discarded before being read. The shift here is from asking only `is the content correct?` to also asking `does it arrive within usable time?`. The needed response may not be better prose, but a fallback design such as a timeout threshold, a short answer first, or a detailed answer later. Therefore, the result to confirm in this case is whether the user actually receives a minimum answer within a time they can wait, separate from final correctness.
 
@@ -235,9 +237,9 @@ The goal of this example is to see that failure handling does not end at `an err
 
 The example below uses several failure situations, retry limits, cache availability, human-review availability, and grounding-document availability. Timeout may occur during retrieval, permission error may occur during tool call, and hallucination or format mismatch may appear during answering.
 
-Now add one more layer: the LLM grader viewpoint. The LLM grader reads the failure observation record and suggests only `suggested_family`, `suggested_risk`, and `reason`. But the LLM does not make the final recovery decision directly. Policy code rechecks explicit operational signals such as `trace_saved`, `retry_count`, `cached_summary_available`, `approval_required`, and `grounding_available`, then closes the final `decision`.
+Now add one more layer: the LLM grader viewpoint. The LLM grader reads the failure observation record and suggests only `suggested_family`, `suggested_risk`, and `reason`. But the LLM does not make the final recovery decision directly. Policy code rechecks explicit operational signals such as `trace_saved`, `retry_count`, `cached_summary_available`, `approval_required`, and `grounding_available`, then settles the final `decision`.
 
-In the output, we check the failure family and risk suggested by the LLM grader, the final response decision made by the policy gate, retry and fallback state, human-review routing state, summaries of model-fix tasks and system-recovery tasks, and the next action an operator should take immediately. The key to check in the code is that the LLM can organize failure observations, but operational decisions such as approval, stop, and recovery route must still be closed by explicit policy.
+In the output, we check the failure family and risk suggested by the LLM grader, the final response decision made by the policy gate, retry and fallback state, human-review routing state, summaries of model-fix tasks and system-recovery tasks, and the next action an operator should take immediately. The key to check in the code is that the LLM can organize failure observations, but operational decisions such as approval, stop, and recovery route must still be decided by explicit policy.
 
 The response criteria for this example are:
 

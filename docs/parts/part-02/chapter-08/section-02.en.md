@@ -1,7 +1,9 @@
 # P2-8.2 Lists: Ordered Groups of Values
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+In this example, first notice not whether the scores are high or low, but that the four values are printed as an ordered group under one name, `scores`. The `type(scores)` output below confirms that the group is handled as one list value, not as four scattered numbers.
 
 In P2-8.1, we looked at values, variables, and types. Now we look at the first structure for handling several values at once: the list.
 
@@ -112,7 +114,7 @@ This rule of starting from 0 can feel unfamiliar. But counting from 0 appears of
 
 A person who learned another language first may immediately understand a list as an array. That is because both have order and allow values to be taken out by position.
 
-But in this section, we do not use list and array as the same word. A Python list is closer to a general-purpose container that stores several values and handles them in order. By contrast, an array in AI numerical computation usually means a data structure for placing numbers of the same kind in a fixed structure and computing on them quickly.
+But in this section, we do not use list and array as the same word. A Python list is more similar to a general-purpose container that stores several values and handles them in order. By contrast, an array in AI numerical computation usually means a data structure for placing numbers of the same kind in a fixed structure and computing on them quickly.
 
 The official Python documentation supports this distinction. `list` is described as a mutable sequence, while the `array` module in the standard library separately provides arrays that efficiently store numeric values. An `array` behaves like a list in some ways, but the kinds of values it can store are limited by a type code fixed at creation.
 

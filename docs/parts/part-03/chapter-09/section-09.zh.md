@@ -1,7 +1,9 @@
 # P3-9.9 实际目标与代理 target 应该如何区分
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+如果决定使用代理 target，就要在表中一起留下 `business_goal`、`proxy_target`、`proxy_reason`、`proxy_gap`、`review_owner` 等 备注。这些字段可以防止 target 名称凝固成实际目标，并在以后把问题 类型 提升为预测时，重新分清直接预测的是什么、替代预测的是什么。
 
 在现实数据里，真正想预测的结果往往无法被直接看见。所以就会很想拿一个运营中间判断，或者一个替代列，先当成临时[目标(target)](/AiBook/zh/reference/concept-glossary-pinyin/m/#target)来用。这里需要区分的是[实际目标(actual target)](/AiBook/zh/reference/concept-glossary-pinyin/s/#glossary-actual-target)和[代理目标(proxy target)](/AiBook/zh/reference/concept-glossary-pinyin/d/#glossary-proxy-target)。必须先写清楚：当前使用的 target，到底就是你真正想知道的结果，还是用来替代它的一列。
 

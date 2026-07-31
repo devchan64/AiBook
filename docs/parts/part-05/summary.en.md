@@ -1,7 +1,9 @@
 # Part 5 Wrap-up. Deep Learning Review
 
 > Section ID: `P5-summary`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The review plan for this summary page is to regroup `what representation the input became`, `what signal the error was transmitted as`, `how the structure choice connected to the data form`, and `what starting point leads to generation problems`. This makes Transformer and LLM explanations read as extensions of computation structure rather than name memorization.
 
 Part 5 was the section that actually explained how the larger family of functions called neural networks was built on top of the common questions of machine learning. If Part 4 established the standard for reading models around data splitting, generalization, and evaluation, Part 5 had to recover `the structure that learns deeper representations` and `the procedure that actually trains that structure`, while keeping that same standard.
 
@@ -17,7 +19,7 @@ That core can be regrouped into the following three lines.
 | Move from loss to gradients | The loss number must become a correction signal for each parameter before learning becomes visible. |
 | Look at optimizers and regularization last | This lets you separate whether the performance gap came from structure or learning stabilization. |
 
-At this point, an important principle is not to end Part 5 as a `preview for the next Part`. CNNs, RNNs, Attention, and Transformers all connect to the later explanation of LLMs, but that connection must follow the order `close the current structure first, then expand it into a different problem in the next Part`, not `we will look at it later`.
+At this point, an important principle is not to end Part 5 as a `preview for the next Part`. CNNs, RNNs, Attention, and Transformers all connect to the later explanation of LLMs, but that connection must follow the order `explain the current structure first, then expand it into a different problem in the next Part`, not `we will look at it later`.
 
 When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](/AiBook/en/reference/concept-glossary/) together with its `Core Section`.
 
@@ -27,7 +29,7 @@ This document holds its flow best if read in the following order.
 
 1. First, recover what large flow structured all of Part 5.
 2. Next, organize together the concepts that must be remembered and the points that are easy to misunderstand.
-3. Then, check what questions Part 5 intentionally did not close.
+3. Then, check what questions Part 5 intentionally did not settle.
 4. Finally, connect how those questions reopen in the next Part.
 
 ## Core Flow Covered in This Part
@@ -135,7 +137,7 @@ The misunderstandings that especially require caution in Part 5 are the followin
 - If a generated result looks strange, it is not enough to interpret that only as `the model does not know`. Sampling method, context length, and input structure must also be examined.
 - If Part 5 merely introduces structural names and moves on, the next Part's explanation of LLMs can weaken again into surface-level term introduction.
 
-## Questions This Part Does Not Close
+## Questions This Part Does Not Settle
 
 Part 5 focused on explaining the structures and learning procedures of deep learning. Therefore, the following questions are intentionally passed to the next Part.
 
@@ -143,7 +145,7 @@ Part 5 focused on explaining the structures and learning procedures of deep lear
 - Why does the Transformer lead into user experiences such as long conversation, summarization, and code generation?
 - How are the quality and grounding of generated results supplemented at the service level?
 
-In other words, Part 5 is the Part that closes `the structural foundation`, not the Part that finishes the whole service experience of LLMs here.
+In other words, Part 5 is the Part that settles `the structural foundation`, not the Part that finishes the whole service experience of LLMs here.
 
 In other words, the final question of Part 5 does not stop at `what structures exist`, but must move to `how those structures lead into the actual experience of generative AI services`.
 
@@ -167,7 +169,7 @@ Before moving to Part 6, you should be able to answer the following questions.
 - Can you explain the difference between generative models and classification models?
 - Can you explain that sampling affects quality and diversity in generation?
 
-## Closing Part 5
+## Wrapping Up Part 5
 
 Once you pass through Part 5, you should no longer see deep learning only as `a complicated black box with many weights`. The large flow should begin to appear in which inputs turn into representations, loss is computed, error is sent back again, parallel computation resources support the whole process, and Attention and Transformers open the problems of long context and generation.
 
@@ -187,7 +189,7 @@ One final point must be fixed again here: to say you have finished Part 5 does n
 
 - After Part 5, have you developed the habit of reading `structure` and `learning procedure` separately?
 - Can you explain Transformers not just as a famous structure, but as `a structure that bundles relationship computation into parallel blocks`?
-- Can you explain generation and sampling not as `topics that newly appear in the next Part`, but as `topics whose structural starting point is already closed here`?
+- Can you explain generation and sampling not as `topics that newly appear in the next Part`, but as `topics whose structural starting point is already established here`?
 
 ## Sources and References
 

@@ -1,7 +1,9 @@
 # P3-4.3 一行、一个样本、一个近期区段有什么不同
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+制作下一张表时，要把这种差异直接转成列的角色。行层位可以留下 `second`、`flow` 这类瞬间记录；样本层位放 `event_id`、`flow_mean`、`flow_max` 等说明一次动作的列；区间层位放 `window`、`event_count`、`window_flow_mean` 等显示多个样本再次分组的列。如果三种层位必须放在同一张表中，每个列名都要显示它是在哪个层位计算出来的，避免后面的特征、基准线和 复核句 指向不同单位。
 
 [一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/y/#sample-unit)、一个[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)、`一个近期区段` 都会在看数据表时浮现出来，但它们并不属于同一个层级。在[源数据(source data)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)表里，先看见的是行；在比较一次完整动作时，中心会变成样本；到了[基准线(baseline)](/AiBook/zh/reference/concept-glossary-pinyin/b/#glossary-baseline)比较时，近期区段又会作为另一个比较单位出现。
 

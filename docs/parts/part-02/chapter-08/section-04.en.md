@@ -3,6 +3,8 @@
 > Section ID: `P2-8.4`
 > Version: `v2026.07.31`
 
+Keep the reference source for this example as it is. When reading it, look less at whether all of `scores` is printed at once and more at which value `score` takes inside the loop each time. The output becomes four lines not because the list has been split into four source fragments, but because the same operation, `print(score)`, is applied once to each item.
+
 In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we separate out the loop that processes these groups one by one.
 
 Python loops become structurally clearer when read not as `how many times is it repeated?` but as `from what is what taken out one by one?` In this section, we organize iterable, iterator, and loop patterns at the level of basic concepts.

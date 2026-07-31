@@ -1,7 +1,9 @@
 # P3-9.7 输入和结果满足什么条件，才能被读成预测问题
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+这个区分不要只留在说明句中，也要作为 交接用 数据表的最小字段保留下来。例如同时放入 `feature_available_at`、`target_window_start`、`target_window_end`、`cutoff_at`、`horizon_days`、`leakage_check_note`，就能逐行确认哪个输入在什么时点可用，以及要预测哪个结果 期间。
 
 如果已经决定把问题提升成预测问题，那么现在就要把它的结构是否真的满足[预测契约(prediction contract)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-prediction-contract)这一点关上。重要的不是长篇理论，而是四个检查：哪些列是输入，哪些列是结果候选，预测时点之后的信息有没有混进来，以及你究竟看到哪一段信息、要去预测哪个时点的结果。
 

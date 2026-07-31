@@ -1,7 +1,9 @@
 # Part 7. Projects
 
 > Section ID: `P7-index`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The first plan for this opening page is to leave `question`, `sample unit`, `baseline`, `comparison table`, `error case`, `execution record`, and `next action` in the project document. Prioritize records that let you reread why a result appeared, rather than the fact that implementation was completed.
 
 Part 7 is the part where earlier material is practiced through real inputs, code execution, output comparison, and error interpretation. Instead of adding a long stretch of new theory, this Part executes and interprets already learned judgment standards around question setting, comparison, structure choice, and execution records inside one project.
 
@@ -15,7 +17,7 @@ This Part matters especially for the following readers.
 
 The purpose of Part 7 is not to finish a massive service. It is also not a Part that stops at formal imitation. Instead, it makes the goal of `stabilizing understanding by actually running and rereading examples` explicit.
 
-- Close the question in one sentence and define the input unit clearly
+- Settle the question in one sentence and define the input unit clearly
 - Run a baseline first so there is a floor line for comparison
 - Execute the code and read output tables, predictions, and error cases together
 - Reinterpret results instead of leaving them at `correct` or `incorrect`
@@ -133,7 +135,7 @@ Written as the first question to hold in each axis, the practice can be reduced 
 | Agent | `What tools were used in what order?` | Because the execution path must appear before success or failure is interpreted. |
 | Deployment and operations | `What failure happened and what will be changed next?` | Because the next action matters more than the completion report in operations. |
 
-## Execution Boundaries A Small Project Must Close
+## Execution Boundaries A Small Project Must Settle
 
 This Part covers the following scope.
 
@@ -161,15 +163,15 @@ This distinction is not only a genre label. It is also the standard for deciding
 
 Part 7 keeps these examples inside the main text of each axis instead of separating them away from execution scenes. What matters is that `how to read the actual execution result` remains visible where the record is produced. Practice where the input changes and the output and interpretation change together matters more than examples that end at copying commands.
 
-## Expansion Tasks This Part Does Not Close Directly
+## Expansion Tasks This Part Does Not Settle Directly
 
-Because Part 7 focuses on project entry and integrated practice, it does not close the following tasks directly.
+Because Part 7 focuses on project entry and integrated practice, it does not settle the following tasks directly.
 
 - How should team-level collaboration documents and experiment-tracking systems be designed?
 - By what standards should larger datasets and longer operational logs be managed?
 - To what stage should deployment automation and permission review be documented?
 
-In other words, Part 7 closes `the minimum structure for starting and reviewing a project`, not every practical system in full.
+In other words, Part 7 settles `the minimum structure for starting and reviewing a project`, not every practical system in full.
 
 ## Understanding That Should Remain After This Part
 
@@ -241,7 +243,7 @@ At the shortest level, the completion standard of Part 7 can be grouped into the
 
 ## Judgment Standards to Keep from This Part
 
-If the following standards do not remain as records even after reading Part 7, the practice axis of this Part is not yet closed enough.
+If the following standards do not remain as records even after reading Part 7, the practice axis of this Part is not yet confirmed enough.
 
 - Result numbers remain, but the baseline, error cases, and retrospective notes are missing
 - RAG or AI agent work is being described, but evidence records, execution records, and permission records do not remain together

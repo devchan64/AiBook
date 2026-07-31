@@ -1,7 +1,9 @@
 # P3-9.12 Target Names and Error Costs
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+Do not leave error cost only in an explanatory paragraph; keep policy-related fields such as `false_negative_cost`, `false_positive_cost`, `review_capacity`, `threshold_policy_note`, and `cost_owner`. Then, even with the same target name, the kind of mistake you are trying harder to reduce connects to score interpretation and review-queue design.
 
 _Subtitle: Why must you first write whether missed cases or false alarms hurt more, even for the same target?_
 
@@ -96,7 +98,7 @@ Even with the same score, the review-queue flow changes depending on which kind 
 
 This section is therefore not only a section that defines `false negative` and `false positive`. It is a section that makes you reread the current problem as `what kind of mistake are we trying harder to reduce`. Once the target name has been fixed, the next thing to write is which kind of error hurts more under that target, so that scores, thresholds, and review-queue priority are all read in the same direction.
 
-So rather than closing the problem with accuracy alone, you should first ask why the intention to reduce one kind of error more than the other has to be written down first. This section groups together `miss cost`, `over-detection cost`, and `judgment-rule adjustment`, so that the error-cost structure is fixed first before it changes how the target is interpreted.
+So rather than wrapping up the problem with accuracy alone, you should first ask why the intention to reduce one kind of error more than the other has to be written down first. This section groups together `miss cost`, `over-detection cost`, and `judgment-rule adjustment`, so that the error-cost structure is fixed first before it changes how the target is interpreted.
 
 ## Sources and References
 

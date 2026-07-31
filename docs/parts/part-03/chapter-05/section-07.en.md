@@ -1,7 +1,9 @@
 # P3-5.7 Rules for Folding Multiple Follow-Up Events
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+The final table should also keep the folding rule traceable. For example, if you leave `folding_rule`, `severity_cutoff`, `follow_up_window_days`, `source_event_count`, and `target_candidate_name` in a memo, you can explain again what event range and threshold produced `any_failure=1`. Even from the same follow-up event log, `first_event` and `worst_event` are different columns, so do not freeze one column name as if it were the actual target label.
 
 _Subtitle: By what rule should multiple events after the same sample be folded into one table structure?_
 

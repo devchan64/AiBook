@@ -1,7 +1,9 @@
 # Part 6. LLMs and Generative AI
 
 > Section ID: `P6-index`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The first plan for this opening page is to read `request`, `input representation`, `candidate generation`, `evidence augmentation`, `tool execution`, `evaluation`, and `operation records` separately. Start with a standard for recording the evidence and execution path that produced an answer, not with the naturalness of the answer itself.
 
 Part 6 moves the deep-learning structures covered in Part 5 into the actual experience of using generative AI. The starting point here is not tokens or the implementation details of Transformers. It is the generative-AI artifact that a person actually receives. First, this Part asks what generative AI creates, why an LLM (large language model) is useful as the representative path, and why generation should be read not as pulling out one finished answer but as repeated candidate distributions and selection.
 
@@ -16,7 +18,7 @@ In the middle and later sections, the discussion expands from inside-the-model e
 - Why should LLM generation be read as repeated candidate distributions and selection?
 - In what order do tokens, embeddings, Transformers, GPT, and next-token prediction connect?
 - What differs between tasks that can be handled by prompts alone and tasks that need RAG, vector databases, tool use, or agents?
-- Why are MCP and harnesses closer to questions of connection format, execution records, and reproducibility than to model capability itself?
+- Why are MCP and harnesses more similar to questions of connection format, execution records, and reproducibility than to model capability itself?
 - Why is a natural generated result different from a result that can be evaluated, operated, and recovered from failure?
 
 ## Part Scope

@@ -1,7 +1,9 @@
 # P2-8.5 Functions and Small Reuse
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+This first code is not a function yet. First read how the input value `score` passes through a conditional statement and becomes an output candidate called `result`. The next function example does not split that flow apart; it gives the same input-process-output relationship a name so it can be reused.
 
 In P2-8.1, we looked at values, variables, and types. From P2-8.2 to P2-8.4, we looked at ways of handling multiple values through lists, dictionaries, and loops.
 

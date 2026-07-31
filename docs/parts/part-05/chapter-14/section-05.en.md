@@ -1,13 +1,15 @@
 # P5-14.5 How Do Sequential State and Direct Re-Reference Split in Long Context?
 
 > Section ID: `P5-14.5`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When reading a long-context example, separate `early_rule`, `current_request`, `distractor_context`, `reference_path`, and `final_decision_basis`. These fields reveal which earlier clue the final judgment used as evidence, rather than only whether the model remembered earlier content for a long time.
 
 In P5-14.4, we saw how RNN sequential state passing and Transformer relation computation differ from the viewpoint of parallel processing. The observation point in P5-14.5 is not GPU efficiency, but how the final judgment in a long context attaches earlier cues again as evidence.
 
 In long context, is the important thing remembering for a long time, or referring again to the earlier position that is needed?
 
-The comparison target is not the full Transformer implementation. It is the difference between `compressing an earlier rule into one state and carrying it forward` and `letting the current question find the earlier sentence it needs again`. We closed the computational efficiency of parallel processing in P5-14.4, and here we look only at the path by which a distant cue is attached again to the final judgment.
+The comparison target is not the full Transformer implementation. It is the difference between `compressing an earlier rule into one state and carrying it forward` and `letting the current question find the earlier sentence it needs again`. We covered the computational efficiency of parallel processing in P5-14.4, and here we look only at the path by which a distant cue is attached again to the final judgment.
 
 ## Questions Handled by Long-Context Re-Reference and the Experiment
 
@@ -63,7 +65,7 @@ The sequential-state method tries to compress the earlier rule into one state an
 
 Compressing into one state does not mean the earlier cue disappears. But each new line also mixes sensor calibration, material restocking, shift handoff, and other information into the state. If the blocking rule does not remain clear as separate evidence by the time the final request arrives, the model can be pulled more by recent logs or approval-related words than by `do not restart`.
 
-The judgment sentence in this case should close as follows.
+The judgment sentence in this case should settle as follows.
 
 | Method | Judgment Sentence |
 | --- | --- |
@@ -74,14 +76,14 @@ The judgment sentence in this case should close as follows.
 
 ### Practice. Separate Needed Earlier Cues and Distracting Cues
 
-Classify each candidate cue below as `needed`, `weak`, or `close to distracting`.
+Classify each candidate cue below as `needed`, `weak`, or `similar to distracting`.
 
 | Candidate Cue | Classification | Explanation |
 | --- | --- | --- |
 | `Do not restart line 3 before pressure is relieved` | needed | this rule directly blocks the final restart-approval question |
 | `Current pressure has not yet returned to the safe range` | needed | this checks whether the blocking rule still applies |
 | `Sensor calibration was completed in the morning` | weak | sensor calibration is not the same as pressure returning to the safe range |
-| `Packaging material replenishment was separately approved` | close to distracting | even though it contains the word approved, it has weak direct relation to line-3 restart approval |
+| `Packaging material replenishment was separately approved` | similar to distracting | even though it contains the word approved, it has weak direct relation to line-3 restart approval |
 
 Explanation: The learning point in a long-context problem is not `it read a lot`, but `it attached the evidence needed for the final judgment again`. We must not only choose the needed cues, but also push cues with weak direct relation away from the judgment center.
 

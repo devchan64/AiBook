@@ -1,7 +1,9 @@
 # P3-4.1 How Do We Decide One Comparable Sample
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+When you move this judgment into a draft table, leave it as column names. If one operation is the sample, the first column should identify that operation, such as `event_id`, not a time index; nearby columns should be feature candidates summarizing the whole operation, such as `pressure_mean`, `pressure_rise`, and `flow_mean`. If the table compares recent windows, columns such as `window_name`, `window_start`, `window_end`, and `event_count` should show that several samples were grouped again. This keeps the sample-unit decision from staying in your head and turns it into the row and column structure of the next table.
 
 The first thing to confirm when reading data is not the size of the values, but what one [row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit) means. If this question is not settled first, then the criteria drift later when [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) are built, when [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) are attached, and even when [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design) results are read. In the end, this question leads to what should count as one comparable [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample).
 
@@ -22,7 +24,7 @@ To call something a `comparable sample` here, at least three things must be sati
 2. The same kinds of features must be attachable to all cases in the same way.
 3. The labels or comparison criteria attached later must connect naturally to that unit.
 
-Using those three criteria, a per-time-point measurement row usually satisfies only the first, while the second and third are weak. By contrast, an action-level summary table often satisfies all three. A recent-segment table is strong in the third sense of comparison criteria, but it is closer to an interpretation structure formed by regrouping several samples than to an individual sample comparison. So what this section must decide is which of `one time point`, `one full action`, and `one recent segment` should count as one comparable sample.
+Using those three criteria, a per-time-point measurement row usually satisfies only the first, while the second and third are weak. By contrast, an action-level summary table often satisfies all three. A recent-segment table is strong in the third sense of comparison criteria, but it is more similar to an interpretation structure formed by regrouping several samples than to an individual sample comparison. So what this section must decide is which of `one time point`, `one full action`, and `one recent segment` should count as one comparable sample.
 
 When a table first arrives in front of us, the role distinction becomes clearer if we read it in the following order.
 
@@ -45,7 +47,7 @@ The small table below makes this difference clearer.
 
 In this table, one row is not `one full action`, but `one time point during the action`. So if we want one sample to mean one full action, then several rows with the same `event_id` must be grouped together. And if we look one step more closely here, even with the same source data, choosing whether to read `one time point`, `one full action`, or `one recent segment` as one case changes not only the number of samples, but also which columns make sense only at that unit.
 
-If we reread the same example now with the three criteria above, it becomes clearer why `one full action` is closer to a comparable sample.
+If we reread the same example now with the three criteria above, it becomes clearer why `one full action` is more similar to a comparable sample.
 
 | Candidate unit | Is the boundary clear? | Is it easy to attach the same features? | Is it natural to attach labels / comparison criteria? |
 | --- | --- | --- | --- |
@@ -337,7 +339,7 @@ This example does not merely show how to count sample units.
 
 Seen this way, `deciding one sample` is not just about reducing the row count. It is also about deciding which columns read naturally at the current unit.
 
-When a table first arrives, a very quick diagnosis can also be done as follows. This quick diagnosis also reveals the stage in the data lifecycle. A measurement table is closer to observation and recording, an action-level table is closer to a comparable-sample representation, and a recent-segment table and baseline table are closer to interpretation and decision preparation.
+When a table first arrives, a very quick diagnosis can also be done as follows. This quick diagnosis also reveals the stage in the data lifecycle. A measurement table is more similar to observation and recording, an action-level table is more similar to a comparable-sample representation, and a recent-segment table and baseline table are more similar to interpretation and decision preparation.
 
 | If the current table looks like this | The row meaning to suspect first |
 | --- | --- |

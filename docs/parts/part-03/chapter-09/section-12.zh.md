@@ -1,7 +1,9 @@
 # P3-9.12 target 名称与错误成本
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+错误成本不要只放在说明段落里，也要以 `false_negative_cost`、`false_positive_cost`、`review_capacity`、`threshold_policy_note`、`cost_owner` 等与策略相连的字段留下。这样即使 target 名称相同，也能把更想减少哪种错误连接到分数解释和 复核队列 设计。
 
 _副标题: 即使 target 相同，为什么也要先写清漏掉与误报哪一种更痛？_
 

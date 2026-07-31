@@ -1,7 +1,9 @@
 # P2-8.3 Dictionaries: Structures That Find Values by Key
 
 > Section ID: `P2-8.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+In this example, first notice not simply that `student` contains several values, but that the keys `"name"` and `"score"` are used as the standards for retrieving those values. Even for one data item, you are not counting positions as in a list; you are looking up values by meaningful names, like identifier columns or setting names in a table.
 
 In P2-8.2, we looked at lists, which are ordered groups of values. But not all data is read only through order.
 
@@ -154,7 +156,7 @@ But in this section, we do not immediately call a dictionary only a `hash map`. 
 
 First, the official Python documentation describes a dictionary as the standard mapping type. The first perspective the reader needs to become familiar with is `it connects a key to a value`.
 
-Second, the word hash map is closer to an implementation method. Detailed concepts such as hash, hashability, collision, and table come along with it. The purpose of this section is to understand `why do we find by key rather than by position?` when reading Python code, rather than the internal implementation.
+Second, the word hash map is more similar to an implementation method. Detailed concepts such as hash, hashability, collision, and table come along with it. The purpose of this section is to understand `why do we find by key rather than by position?` when reading Python code, rather than the internal implementation.
 
 Third, a Python dictionary does not correspond exactly to one named container in the C++ STL. If you understand it centered on key sorting like C++ `std::map`, that can be wrong; and if you understand it as a multi-index structure that looks up one piece of data simultaneously through several indexes, that is also too much. The official Python documentation explains that dictionary keys preserve insertion order, but that does not mean keys are sorted.
 

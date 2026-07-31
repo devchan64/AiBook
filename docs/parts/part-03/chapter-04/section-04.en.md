@@ -1,7 +1,9 @@
 # P3-4.4 What Signals Show That the Sample Unit Was Chosen Wrong
 
 > Section ID: `P3-4.4`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+When you see this signal, the next action is not to create more features but to rewind the table once. If a repeated label appears, first write down the identifier of the object receiving the label. If a feature cannot be explained by one row, first write down the grouping rule used to compute it. If the same operation appears in both training and evaluation, attach the split column to the sample unit again, not to rows. This turns the warning signal into table-repair work rather than a mere checklist item.
 
 If the sample unit is chosen incorrectly, the problem usually reappears later in strange forms. That is why the question `how can I notice that I am currently using the wrong sample unit?` matters. In many cases, people keep building features, labels, and comparison tables on top of the wrong sample unit, and only much later realize that the whole structure has become unstable. So this section gathers in one place the representative warning signs that should make us suspect a wrong decision about the sample unit.
 

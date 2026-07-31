@@ -1,13 +1,15 @@
 # P6-10.1 Prompt Engineering That Adjusts Input Instructions, Context, and Examples
 
 > Section ID: `P6-10.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When turning this Section into a practice record, separate `user_goal`, `instruction`, `context`, `example`, `output_format`, `observed_response`, and `remaining_limit`. Then problems that can be adjusted through prompt wording do not mix at the same level with problems that must move to search, tools, or evaluation structure.
 
 In P6-9.2, we saw that alignment is not simply a problem of making friendly answers. It is a design problem involving helpfulness, safety, factuality, and service policy together. Now we need to look at the tool that users touch first.
 
 How do users actually observe and adjust LLM behavior?
 
-Prompt engineering is a practical method of designing inputs, observing model responses, and adjusting them closer to the desired format and conditions.
+Prompt engineering is a practical method of designing inputs, observing model responses, and adjusting them more similar to the desired format and conditions.
 
 Put more simply:
 
@@ -32,7 +34,7 @@ The first impression that should change here is not `tips for writing good sente
 - You can explain prompt engineering at an introductory level.
 - You can distinguish the roles of instruction, context, and example.
 - You can say why prompts became the starting point for fast experiments and behavior observation.
-- You can read prompt limits as `problems that do not close with input design alone`.
+- You can read prompt limits as `problems that do not settle with input design alone`.
 
 Many users who started using generative AI tools first felt through prompts that `the same model can move differently depending on input design`. So prompts are best read as the most direct control device that users meet before RAG, tool use, and AI agents.
 
@@ -42,7 +44,7 @@ This perspective matters for the following reasons.
 - It connects to why input design remains important later in RAG, tool use, and AI agents.
 - It also lets P6-10.2 separate the limits that prompts alone cannot solve.
 
-The scenes to separate first are cases where an answer appears but length and format drift, cases where the same task keeps missing the reader level or tone, and cases where the answer is plausible but freshness or evidence feels unstable. In the first two cases, we can first ask what is missing among instruction, context, and example. By contrast, if the problem is latest documents, real evidence, or successful calculation, lookup, and execution, writing a more refined input sentence alone may not close it.
+The scenes to separate first are cases where an answer appears but length and format drift, cases where the same task keeps missing the reader level or tone, and cases where the answer is plausible but freshness or evidence feels unstable. In the first two cases, we can first ask what is missing among instruction, context, and example. By contrast, if the problem is latest documents, real evidence, or successful calculation, lookup, and execution, writing a more refined input sentence alone may not settle it.
 
 With this distinction, prompt engineering can be read more directly as `the first control point that separates problems to solve first in input design from problems requiring structural change`, rather than as `tips for good wording`.
 
@@ -82,7 +84,7 @@ Prompts are strong at changing `how to draw out the current model response`, but
 
 The same distinction can be summarized briefly as follows.
 
-| Question to try first with a prompt | Question that does not close with prompts alone |
+| Question to try first with a prompt | Question that does not settle with prompts alone |
 | --- | --- |
 | Can the answer become shorter, longer, or more structured? | Can the model actually read the latest document? |
 | Can the same model's format drift be reduced? | Can calculation accuracy and execution success be guaranteed? |
@@ -162,7 +164,7 @@ In other words, an example is less a device for adding more content and more a d
 
 ## Prompt Engineering Is Also Observation Work
 
-We need to hold this expression first so that prompt engineering is not read as simple sentence decoration, but as work that observes how outputs change when inputs change and finds failure patterns. More precisely, it is close to a repeated experiment that:
+We need to hold this expression first so that prompt engineering is not read as simple sentence decoration, but as work that observes how outputs change when inputs change and finds failure patterns. More precisely, it is similar to a repeated experiment that:
 
 - changes the input
 - observes how the output changes
@@ -231,7 +233,7 @@ Suppose a user asks in document-based question answering, `Under this policy, ca
 
 What the human should do first is not ask more verbosely, but provide the relevant policy paragraph and give context: `answer only within this scope`. If a format condition is added, such as `quote the evidence sentence first, then interpret it briefly`, the response structure also becomes more stable. Otherwise, the model can give a plausible general answer that differs from the actual internal policy.
 
-The change here is a move from `writing the question well is enough` to asking whether the document scope and evidence format that should bind the answer are provided together. Then the response is tied more closely to the attached document scope than to general knowledge. The result to check in this case is whether adding the relevant paragraph and evidence format makes the answer stay closer to the actual document scope than general knowledge, and whether the answer avoids unnecessary expansion beyond the evidence sentence.
+The change here is a move from `writing the question well is enough` to asking whether the document scope and evidence format that should bind the answer are provided together. Then the response is tied more closely to the attached document scope than to general knowledge. The result to check in this case is whether adding the relevant paragraph and evidence format makes the answer stay more similar to the actual document scope than general knowledge, and whether the answer avoids unnecessary expansion beyond the evidence sentence.
 
 In document-based question answering, the role of the prompt is less `finding the document itself` and more fixing how the attached document should be read. For example, even with the same policy paragraph, `just answer` may make the model omit evidence and provide only a conclusion, while `write the evidence sentence first and then interpret it` changes the answer structure. So this case does not mean that prompts solve everything. It shows that even when documents already exist, input design still changes the result structure greatly.
 
@@ -585,7 +587,7 @@ The core to read here in this example is as follows.
 - An instruction + context prompt is a state where `task, reader, slots, and check standard` were provided together.
 - An instruction + context + example prompt is a state where `the output pattern to follow` was also shown.
 - An instruction + context + example + check prompt is a state where `conditions to check before output` were also attached.
-- Therefore, prompt engineering is closer to `repeatable input design and check design` than to a competition for beautiful sentences.
+- Therefore, prompt engineering is more similar to `repeatable input design and check design` than to a competition for beautiful sentences.
 
 ## Input Design Changed by Prompts
 
@@ -595,7 +597,7 @@ What matters in this comparison is not how long the sentence is, but which slots
 
 - Can you explain prompts not as `wording tips`, but as `input design and behavior observation experiments`?
 - Can you distinguish what instruction, context, and example each change first?
-- Are you ready to read P6-10.2 as the stage that finds `failures that input adjustment alone cannot close`?
+- Are you ready to read P6-10.2 as the stage that finds `failures that input adjustment alone cannot settle`?
 
 ## Sources and References
 

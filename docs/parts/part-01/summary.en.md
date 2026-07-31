@@ -1,11 +1,13 @@
 # Part 1 Summary. Reviewing AI Introduction and the Landscape
 
 > Section ID: `P1-summary`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The review plan for this summary page is to regroup `the scope of AI`, `training and inference`, `generative AI and LLMs`, and `service responsibility` as different levels. When rereading the explanations, mark how the same concept will reappear in later Parts instead of only asking what to remember.
 
 Part 1 was the section for fixing the overall landscape before studying AI again. Rather than implementing detailed algorithms or proving formulas in depth, it first organized the terms and perspectives that keep returning in later learning.
 
-This summary is not a document that repeats every concept from Part 1 at length. It is a closing page that helps you recall where the baseline for each idea was first fixed. If the terms become confusing again, return to representative glossary entries such as [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence), system, and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), then check the representative Sections listed there.
+This summary is not a document that repeats every concept from Part 1 at length. It is a wrapping up page that helps you recall where the baseline for each idea was first fixed. If the terms become confusing again, return to representative glossary entries such as [AI](/AiBook/en/reference/concept-glossary-alpha/a/#ai-artificial-intelligence), system, and [LLM](/AiBook/en/reference/concept-glossary-alpha/l/#llm), then check the representative Sections listed there.
 
 The most important goal here is not to see AI as one buzzword or one product name. AI is a broad field where rule-based approaches, search, heuristics, probabilistic judgment, data-driven learning, deep learning, generative AI, LLMs, agents, service operation, and social responsibility overlap.
 
@@ -94,7 +96,7 @@ This book reduces such misunderstandings by checking Korean expressions together
 
 Among them, `inference` is the word that most often needs to be checked again. In Part 1, `inference` is first separated into model execution, `reasoning` into logical reasoning, `prediction` into model output, and `generation` into generated content. That distinction becomes necessary again in Part 6 when reading next-token prediction, responses that look like reasoning, and evaluation contexts that refer to model results.
 
-## Part 1 Closed Landscape and Deferred Detailed Calculations
+## Part 1 Mapped Landscape and Deferred Detailed Calculations
 
 Part 1 focused on explaining the overall terrain of AI and the shared vocabulary around it. So it does not finish detailed algorithmic formulas, internal deep-learning computation, or implementation details of LLM services here, and leaves them to later Parts.
 
@@ -129,7 +131,7 @@ There are also things it is normal not to know yet after reading Part 1.
 - It is fine if you cannot yet write implementation code for RAG, tool use, and AI agents yourself.
 - What matters is being able to explain the big picture of `how the problem is divided`, `what the model is responsible for`, and `what the service still has to add`.
 
-## Closing Part 1
+## Wrapping Up Part 1
 
 If you have finished Part 1, you are now ready to see AI not as one word, but as concepts spread across multiple levels.
 

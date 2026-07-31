@@ -1,7 +1,9 @@
 # P3-5.5 How Do We Handle Samples with Missing Values or Empty Segments
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+This judgment should remain inside the table too. Columns such as `keep_sample`, `missing_scope`, `avoid_features`, `missing_indicator`, and `raw_log_recheck_needed` let you see again which policy handled blanks. If you keep the sample but decide not to create a certain feature, also leave whether the reason was `late_segment_missing` or `end_detected=0`; later you can tell whether missing-value handling was simple preprocessing or a sample-boundary problem.
 
 By the time we reach the stage of turning source logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), questions such as `what if the action existed but some sensor values are empty?` and `if the middle segment is missing, should we discard this sample or use part of it?` appear immediately. At that point, what we should look at first is not how to fill the values, but how much the [missing values](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-missing-value) disturb the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) boundary and the meaning of the [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature).
 
@@ -41,7 +43,7 @@ For example, the three situations below all look like `there is no value`, but t
 | The whole last 20% range is missing | Segment missingness that disturbs structural comparison |
 | There is no `event_end`, so the end time itself is unknown | Sample-boundary collapse |
 
-The first case may still be a case where only some information is missing inside the same sample structure. The second directly shakes the meaning of features such as late-phase decline rate. The third may require us to revisit the sample itself, because the start and end of the whole action are not closed at all.
+The first case may still be a case where only some information is missing inside the same sample structure. The second directly shakes the meaning of features such as late-phase decline rate. The third may require us to revisit the sample itself, because the start and end of the whole action are not settled at all.
 
 ## So What Must Be Decided First at This Stage
 
@@ -54,7 +56,7 @@ Before complicated missing-value imputation techniques, it is more important to 
 | Should the missingness itself remain as a flag column? | Because missingness itself can be an operational signal |
 | Does the raw log need to be checked again? | Because this may be not just a blank value but a sample-boundary problem |
 
-So the concern here is closer to `how should we classify the current state of this sample?` than to `how should we fill it?` The usual order of judgment is `whether to keep the sample -> what features must not be built -> whether the missingness itself should remain as a flag column`.
+So the concern here is more similar to `how should we classify the current state of this sample?` than to `how should we fill it?` The usual order of judgment is `whether to keep the sample -> what features must not be built -> whether the missingness itself should remain as a flag column`.
 
 ## Looking Through a Small Diagram
 

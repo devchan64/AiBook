@@ -1,7 +1,9 @@
 # P3-9.11 target 候选与变化的标准
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+确定代表 target 时，要同时留下 `target_name`、`target_definition_version`、`rule_changed_at`、`definition_owner`、`candidate_targets`。这份 备注 会区分候选多个的状态和 标准 已改变的状态，减少同名 target 指向不同问题定义的情况。
 
 _副标题: 当 target 候选有多个或标准在变化时，应该先固定什么？_
 

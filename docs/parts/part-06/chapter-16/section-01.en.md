@@ -1,11 +1,13 @@
 # P6-16.1 LLM Evaluation That Separates Natural Answers from Quality Criteria
 
 > Section ID: `P6-16.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Separate LLM evaluation records into `answer_text`, `task_success`, `evidence_quality`, `format_quality`, `safety_issue`, and `revision_need`. This prevents a natural-looking answer and the actual quality criteria from being covered by a single score.
 
 Even if a harness leaves execution records such as traces, tool-call logs, and replay information, those records alone do not guarantee quality. An LLM-based system needs evaluation criteria that separate `what counts as a pass`, `which axis failed first`, and `what must be fixed before trying again`.
 
-LLM evaluation is not merely checking whether an answer sounds plausible. It checks the answer against criteria such as correctness, helpfulness, safety, groundedness, and format compliance. In other words, it is closer to checking item by item what is good and what is still risky, rather than asking whether the answer looks good.
+LLM evaluation is not merely checking whether an answer sounds plausible. It checks the answer against criteria such as correctness, helpfulness, safety, groundedness, and format compliance. In other words, it is more similar to checking item by item what is good and what is still risky, rather than asking whether the answer looks good.
 
 ## Axes for evaluating LLM answers separately
 
@@ -97,8 +99,8 @@ In a tool-using system, we also need to check:
 
 So:
 
-- Model evaluation is closer to evaluating sentence generation.
-- System evaluation is closer to evaluating the whole flow, including retrieval, tools, execution, and output.
+- Model evaluation is more similar to evaluating sentence generation.
+- System evaluation is more similar to evaluating the whole flow, including retrieval, tools, execution, and output.
 
 This distinction lets us diagnose whether an LLM service problem comes from sentence generation itself or from a system-path issue such as retrieval quality, tool calls, or postprocessing.
 
@@ -130,7 +132,7 @@ Evaluation is not only for academic benchmarks. It is also needed when comparing
 
 In other words, evaluation is not a number for showing off a model. It is a standard for comparing outputs before and after a change by the same criteria.
 
-Pulled closer to service operation, evaluation is less like praising `one good answer` and more like repeatedly checking `what improved and what regressed on the same fixed question set`.
+Pulled more similar to service operation, evaluation is less like praising `one good answer` and more like repeatedly checking `what improved and what regressed on the same fixed question set`.
 
 | Why the same evaluation set is repeated | What operation actually wants to know |
 | --- | --- |
@@ -170,7 +172,7 @@ The focus of these cases is not `does the result look good`, but `which evaluati
 
 Suppose a meeting-note summary is written in smooth sentences. At first glance, it is easy to judge it as good because it is easy to read and neatly formatted. But if key conclusions such as `deployment postponed to August 2`, `legal review required`, and `owner changed to Mina` are missing, the summary cannot be used directly in work. A good-looking sentence and preservation of important information are different evaluation axes.
 
-For example, even if the tone is natural, a report summary is close to failure if it omits the reason for postponement. If that summary is sent upward, the reader may know only that the schedule changed and still need to reopen the original document to learn why. The criterion changes from `is the sentence natural and readable` to `are the core conclusions and decisions preserved`. So evaluation must check `is the key information still there`, separately from naturalness.
+For example, even if the tone is natural, a report summary is similar to failure if it omits the reason for postponement. If that summary is sent upward, the reader may know only that the schedule changed and still need to reopen the original document to learn why. The criterion changes from `is the sentence natural and readable` to `are the core conclusions and decisions preserved`. So evaluation must check `is the key information still there`, separately from naturalness.
 
 This case matters because whether a summary `looks good` and whether it is `usable for work` often differ. Readability does not mean all information needed for decision-making remains. When the sentence is very natural, people may notice omissions even later. So evaluation should not pass an answer only by fluency; it should check the decisions and risk items that must remain from the original.
 
@@ -214,7 +216,7 @@ The three cases can be grouped by evaluation axis like this.
 
 ## Scenes to separate first by evaluation axis
 
-The easiest thing to miss when first reading evaluation is passing an answer immediately just because `it looks good`. Real evaluation is closer to separating `which axis failed first` than to trusting one impression. Practical check questions look like this.
+The easiest thing to miss when first reading evaluation is passing an answer immediately just because `it looks good`. Real evaluation is more similar to separating `which axis failed first` than to trusting one impression. Practical check questions look like this.
 
 | If you suspect this | First question to ask |
 | --- | --- |
@@ -368,7 +370,7 @@ The core points are:
 
 - even if the output sentence is one sentence
 - review questions can be several questions
-- so evaluation is closer to an itemized checklist than to one-line judgment
+- so evaluation is more similar to an itemized checklist than to one-line judgment
 
 In one sentence, LLM evaluation is not `assigning one score`; it is `a comparison standard for deciding which candidate to accept and which axis to fix first`.
 

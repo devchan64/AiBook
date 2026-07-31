@@ -1,7 +1,9 @@
 # Part 1. Introduction to AI and the Landscape
 
 > Section ID: `P1-index`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The first plan for this opening page is to read `term level`, `technical flow`, `service responsibility`, and `links to later Parts` separately. As you read each Section, do not try to memorize more terms; instead, mark what level each term occupies in the overall AI map and leave a standard you can check again in later Parts.
 
 Part 1 is the section where we rebuild the overall landscape before studying AI again in depth. It does not begin by implementing one specific algorithm in detail. Instead, it first clarifies how later work on mathematical recovery, machine learning, deep learning, LLMs, generative AI, service architecture, and project practice fits into one connected map.
 
@@ -113,7 +115,7 @@ It begins by clarifying the scope of AI and the relationship among AI, machine l
 
 In the middle, it deals with what it means to turn a problem into a model, with inputs and outputs, with data, features, representations, parameters, learning, and inference. That language is necessary before later Parts can be read in mathematics, code, and model documentation.
 
-It then reviews uncertainty, probability, stochasticity, search space, heuristics, supervised learning, unsupervised learning, and reinforcement learning. In particular, Chapters 6 and 7 deliberately separate boundaries that are often mixed together. Uncertainty, probability, and stochastic processes are not the same thing. A heuristic is also not the same thing as a probabilistic model. Part 1 closes those distinctions first, and later Parts recover them in statistics, evaluation, and generation. How to read a score like `0.80`, how much to trust calibration and confidence, and how to discuss uncertainty estimation more precisely are only placed on the map here, then recovered in Part 2 on probability and statistics and in Part 4 on evaluation and threshold decisions.
+It then reviews uncertainty, probability, stochasticity, search space, heuristics, supervised learning, unsupervised learning, and reinforcement learning. In particular, Chapters 6 and 7 deliberately separate boundaries that are often mixed together. Uncertainty, probability, and stochastic processes are not the same thing. A heuristic is also not the same thing as a probabilistic model. Part 1 settles those distinctions first, and later Parts recover them in statistics, evaluation, and generation. How to read a score like `0.80`, how much to trust calibration and confidence, and how to discuss uncertainty estimation more precisely are only placed on the map here, then recovered in Part 2 on probability and statistics and in Part 4 on evaluation and threshold decisions.
 
 Later chapters move into the spread of the deep learning paradigm, generative AI, the lineage of LLMs, prompts, embeddings, vector search, RAG, AI service architecture, agents, MCP, harnesses, and operational constraints. One distinction to keep early is that generative AI is the broader category grouped by `what is generated` such as text, image, audio, or code, while LLMs are the representative model family for language data inside that category. That distinction returns in Part 6 when tokens, Transformers, the GPT line, and comparisons with BERT are handled in depth. The final chapters keep ethics, copyright, security, practical use, and future forecasting tied to technical explanation.
 
@@ -127,7 +129,7 @@ The hard part of studying AI again is often not the difficulty of any one concep
 
 For example, `inference` can refer to model execution, reasoning, prediction, or generation depending on context. `model` can mean a mathematical abstraction, a trained machine-learning model, an API-delivered LLM, or even the broader service structure. `parameter` can also refer either to internal model weights, training settings, or generation settings in an LLM service.
 
-Part 1 cuts through that `inference` confusion early. It first separates inference as `the process of running a trained model to produce output`, reasoning as `a thought process that reaches a conclusion by following grounds`, prediction as `the output the model produced`, generation as `the process of making a result such as text or image`, and statistical inference as a separate statistical context. That boundary is first closed in Chapter 5, and Part 6 returns to it again when reading next-token prediction, reasoning-like generated text, and evaluation contexts.
+Part 1 cuts through that `inference` confusion early. It first separates inference as `the process of running a trained model to produce output`, reasoning as `a thought process that reaches a conclusion by following grounds`, prediction as `the output the model produced`, generation as `the process of making a result such as text or image`, and statistical inference as a separate statistical context. That boundary is first checked in Chapter 5, and Part 6 returns to it again when reading next-token prediction, reasoning-like generated text, and evaluation contexts.
 
 Part 1 builds a common language that reduces this kind of confusion. When the terms and distinctions are fixed first, later Parts on mathematics, data modeling, machine learning, deep learning, and LLMs become less scattered. For the same reason, examples such as recommendation, ranking, control, search services, and autonomous driving are only used here as short learning scenes for reading problem types, not expanded into long domain-specific explanations.
 
@@ -140,7 +142,7 @@ Part 1 is not where each technology is completed. It is the starting point that 
 - Part 4 builds on that structure to teach problem formulation, training, and evaluation in machine learning.
 - Part 5 and Part 6 recover the full explanations for deep learning, LLMs, and generative AI.
 
-Inside Part 1, every chapter is not closed as though it were a complete body of knowledge by itself. Instead, the text keeps connecting `what is introduced now` to `where the full explanation returns later`.
+Inside Part 1, every chapter is not settled as though it were a complete body of knowledge by itself. Instead, the text keeps connecting `what is introduced now` to `where the full explanation returns later`.
 
 | What Part 1 fixes first | What level of understanding is fixed here | Where the full explanation returns later |
 | --- | --- | --- |

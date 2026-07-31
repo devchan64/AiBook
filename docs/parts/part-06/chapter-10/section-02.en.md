@@ -1,13 +1,15 @@
 # P6-10.2 Limits That Move Freshness, Grounding, and Execution Outside Prompts
 
 > Section ID: `P6-10.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When recording prompt limits, write `freshness_need`, `evidence_need`, `execution_need`, `consistency_need`, and `outside_structure` together. This distinction keeps freshness, evidence, and execution problems from being reduced to simple wording fixes.
 
 In P6-10.1, we saw that prompt engineering is the first practical tool for observing and adjusting model behavior through input design. Now we need to look more directly at what remains even when prompts are written well.
 
 A prompt is a strong tool for guiding model responses, but it is not a tool that solves freshness, factuality, evidence guarantees, and long-term consistency by itself.
 
-## Problems That Do Not Close with Input Adjustment Alone
+## Problems That Do Not Settle with Input Adjustment Alone
 
 - What problems are difficult to solve with prompts alone?
 - Why can prompts that look good still be insufficient in real services?
@@ -119,7 +121,7 @@ In short, a prompt can express an `action request`, but it is not the action-exe
 
 This transition becomes clearer when connected directly to the next structural choices. If latest information is missing, RAG or latest-document connection is needed. If real actions such as calculation and saving are needed, tool use or function calling is needed. If the same failure must be compared and filtered repeatedly, repeated judgment structures such as evaluation and harness are needed.
 
-So prompt limits do not close only by `writing a stronger prompt`. From the viewpoint of external comparison standards, this is where the work changes from `input adjustment` to choosing which of `evidence connection`, `execution connection`, and `repeated evaluation` should be attached first.
+So prompt limits do not settle only by `writing a stronger prompt`. From the viewpoint of external comparison standards, this is where the work changes from `input adjustment` to choosing which of `evidence connection`, `execution connection`, and `repeated evaluation` should be attached first.
 
 The same transition can be diagnosed more briefly as follows.
 
@@ -229,7 +231,7 @@ The most common reason real failure scenes get stuck is that several causes are 
 | We are not sure the calculation is correct | Can the calculation process be checked again? | Calculation tool, verification log |
 | We do not know whether save, lookup, or send actually finished | Are there execution records, not only words? | tool use, function calling, execution log |
 
-The key of this table is not to treat `write the prompt more strongly` and `attach another structure to the system` as the same improvement. Format drift can be reduced at the prompt layer, but missing latest documents or missing execution records do not close by refining the input sentence.
+The key of this table is not to treat `write the prompt more strongly` and `attach another structure to the system` as the same improvement. Format drift can be reduced at the prompt layer, but missing latest documents or missing execution records do not settle by refining the input sentence.
 
 If we hold this standard and move to P6-11, we will not misunderstand RAG as an `expanded prompt`. The feeling that `making the model speak better` and `binding the answer's starting point to external evidence` are different layers must be fixed here first. Then the retrieval-evidence combination in P6-11 can be read with much less compression.
 

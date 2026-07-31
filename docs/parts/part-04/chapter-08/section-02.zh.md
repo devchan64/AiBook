@@ -1,7 +1,9 @@
 # P4-8.2 基准模型(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+记录 baseline 时，要把 `baseline_rule`、`baseline_score`、`comparison_metric`、`important_error_case`、`candidate_gain`、`next_action` 一起留下。这样是否使用复杂模型，就不只连接到分数提升幅度，也会连接到实际减少了哪种失败。
 
 在 P4-8.1 里，我们看过应该把哪些 model 家族提上候选。现在，与其立刻按复杂度去抓这些候选，不如先进入另一个问题：先把比较的出发点立起来。
 

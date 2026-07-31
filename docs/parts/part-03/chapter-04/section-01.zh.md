@@ -1,7 +1,9 @@
 # P3-4.1 怎样决定一条可比较的样本
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+把这个判断移到表格草案时，要把它留下为列名。如果把一次动作作为样本，第一列就不应是时间点编号，而应是像 `event_id` 这样识别一次动作的值；旁边要放 `pressure_mean`、`pressure_rise`、`flow_mean` 这类概括整次动作的特征候选。如果表格要比较最近区间，就需要 `window_name`、`window_start`、`window_end`、`event_count` 等列，留下多个样本被再次分组的痕迹。这样，样本单位的决定才不会停留在脑中判断，而会连接到下一张表的行列结构。
 
 读数据时最先要确认的，不是数值大小，而是一[行(row)](/AiBook/zh/reference/concept-glossary-pinyin/y/#sample-unit)到底表示什么。如果这个问题没有先定下来，那么后面做[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)、贴[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)、读[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design)结果时，标准都会一起晃动。归根到底，这个问题会继续追到什么应该算一条可比较[样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)。
 

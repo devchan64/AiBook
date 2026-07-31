@@ -1,7 +1,9 @@
 # P3-5.1 如何把原始日志转换成可比较的表
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+转成实际列设计时，原始日志中要用 `event_id`、`timestamp`、`progress_bin`、传感器值等留下记录发生的位置；摘要表中要放 `event_id`、`early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 等用于比较一次动作的列；聚合表中需要 `window`、`event_count`、`baseline_gap` 等显示多个动作被再次分组的列。即使三张表都来自同一源数据，各表的第一列和派生列也必须指向不同 表示层级，后面比较 标准 和特征候选才不会混在一起。
 
 第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且[每一行(row)](/AiBook/zh/reference/concept-glossary-pinyin/y/#sample-unit)所代表的对象也不同。
 

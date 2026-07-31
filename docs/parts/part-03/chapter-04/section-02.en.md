@@ -1,7 +1,9 @@
 # P3-4.2 What Else Starts to Drift When the Sample Unit Drifts
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+Therefore, if you decide to change the sample unit, the table design must change with it. Instead of keeping a time-point table and repeating the label across rows, first create a one-operation summary table, then make the feature columns and label column point to the same `event_id`. The split column should also attach to the one-operation sample, not to time-point rows. Then, when you read scores later, you will not lose track of whether the model matched a time-point row or one operation.
 
 The [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit is the reference point for almost every concept that appears later. So if measurements and samples are confused, the problem does not end with using one term incorrectly. The meaning of a [feature](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) drifts, the meaning of a [supervised learning label](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) drifts, and even what [evaluation](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-design) is evaluating drifts along with them. If the previous section decided what should count as one sample, then this section must show what that decision fixes together and what starts to drift together.
 
@@ -29,7 +31,7 @@ Operators usually want to know not `what was the number at one time point`, but 
 
 When these four problems are seen together, it becomes clearer why the sample unit is not just a vocabulary issue.
 
-A short operating scene makes this even clearer. Suppose an automatic cleaning action on a production line is repeated hundreds of times a day. The question that operators actually ask is usually not `was the flow normal at 12:03:01?`, but something closer to `was the cleaning cycle that just ended more unstable than usual?` or `has the same anomaly repeated during the most recent 30 minutes?` But once one time-point row is taken as the sample, the operational question points to one full action while the [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset) points to second-by-second records. From that moment on, features become sliced too finely, labels are copied repeatedly, and evaluation starts to diverge from the real operational judgment unit.
+A short operating scene makes this even clearer. Suppose an automatic cleaning action on a production line is repeated hundreds of times a day. The question that operators actually ask is usually not `was the flow normal at 12:03:01?`, but something more similar to `was the cleaning cycle that just ended more unstable than usual?` or `has the same anomaly repeated during the most recent 30 minutes?` But once one time-point row is taken as the sample, the operational question points to one full action while the [dataset](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-dataset) points to second-by-second records. From that moment on, features become sliced too finely, labels are copied repeatedly, and evaluation starts to diverge from the real operational judgment unit.
 
 | What drifts | Why it drifts together |
 | --- | --- |
@@ -174,7 +176,7 @@ Input: A small action log with `event_id`, `second`, `flow`, and `review_needed`
 
 Expected output: The `event_id` values that entered both training and evaluation in the row-level split, the row-level evaluation score, and the action-level evaluation score.
 
-Concept to check: If nearby rows from the same action are mixed into training and evaluation, the model may look as if it predicted a new action, while it is closer to matching nearby values from an action it already saw.
+Concept to check: If nearby rows from the same action are mixed into training and evaluation, the model may look as if it predicted a new action, while it is more similar to matching nearby values from an action it already saw.
 
 ```python
 # This example checks how the split unit changes the evaluation score on the same raw log.
@@ -237,7 +239,7 @@ event split accuracy: 0.5
 event split predictions: [('E', 0, 1), ('E', 0, 1), ('E', 0, 1), ('F', 0, 0), ('F', 0, 0), ('F', 0, 0), ('G', 0, 0), ('G', 0, 0), ('G', 0, 0), ('H', 0, 1), ('H', 0, 1), ('H', 0, 1)]
 ```
 
-In the row-level split, every `event_id` enters training and evaluation at the same time. So the score looks good at `1.0`. But that is closer to matching nearby rows from the same action again than to predicting a new action well. This illusion should also be checked through the lens of [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage). In the action-level split, the whole of `E`, `F`, `G`, and `H` is excluded from training, so the score drops to `0.5`. This difference shows through model output that the sample unit must also fix the evaluation unit.
+In the row-level split, every `event_id` enters training and evaluation at the same time. So the score looks good at `1.0`. But that is more similar to matching nearby rows from the same action again than to predicting a new action well. This illusion should also be checked through the lens of [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage). In the action-level split, the whole of `E`, `F`, `G`, and `H` is excluded from training, so the score drops to `0.5`. This difference shows through model output that the sample unit must also fix the evaluation unit.
 
 There are two values worth changing in this code. If we change the `event_id` groups in `event_train` and `event_test`, the action-level evaluation changes. If we add a column such as `second` to the features, the basis used by the model may also change. The important point is not the score itself, but that `what we divided as one sample` changes the meaning of the evaluation result.
 

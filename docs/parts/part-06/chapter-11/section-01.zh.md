@@ -1,7 +1,9 @@
 # P6-11.1 用外部依据代替模型记忆的 RAG
 
 > Section ID: `P6-11.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+记录 RAG 请求时，要分开 `question`、`retrieval_query`、`retrieved_evidence`、`evidence_source`、`answer_claim`、`missing_evidence`。这样，交给模型记忆的回答和附上外部依据的回答就不会看起来像同一件事。
 
 在 P6-10.2 中，我们看到只靠提示很难解决新鲜度、依据保证、可执行性等问题。于是，重要的不只是回答句子本身，而是先怎样改变进入回答的材料。
 

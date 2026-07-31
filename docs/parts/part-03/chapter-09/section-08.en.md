@@ -1,9 +1,11 @@
 # P3-9.8 What Does One Prediction Actually Decide, and Why Are Scores and Policy Different
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
-Even after inputs and results are defined, a prediction problem is still only half closed. Even the same `review_needed` prediction can mean different things depending on whether it raises one operating event into a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) or adjusts the warning strength of an entire recent window. In addition, the [score](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-score) output by a model and the [policy rule](/AiBook/en/reference/concept-glossary-alpha/b/#decision) that turns that score into real action are not the same thing.
+When handing this over as an actual table, separate fields at different levels, such as `prediction_unit`, `score_column`, `decision_threshold`, `policy_version`, and `action_column`. Written this way, the model output, the rule that turns it into an action, and the action that is actually executed do not collapse into the same thing.
+
+Even after inputs and results are defined, a prediction problem is still only half specified. Even the same `review_needed` prediction can mean different things depending on whether it raises one operating event into a [review queue](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) or adjusts the warning strength of an entire recent window. In addition, the [score](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-score) output by a model and the [policy rule](/AiBook/en/reference/concept-glossary-alpha/b/#decision) that turns that score into real action are not the same thing.
 
 One predicted value needs to be written together with the unit of action it connects to, and model scores need to be read separately from operating policy.
 

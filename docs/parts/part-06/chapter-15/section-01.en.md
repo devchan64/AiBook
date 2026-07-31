@@ -1,15 +1,17 @@
 # P6-15.1 MCP Connecting Tools and Resources in a Shared Format
 
 > Section ID: `P6-15.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When reading MCP, separate `resource`, `tool`, `prompt`, `server_boundary`, `permission_scope`, and `client_runtime`. This distinction keeps protocol, tools, runtime environment, and permissions from collapsing into one internal feature.
 
 In P6-14.2, we saw that an AI agent has a repeated structure of plan, action, and observation. Now we need to see what is needed to connect these tools and states more consistently across several systems.
 
-MCP, or Model Context Protocol, is an interface viewpoint that helps models, agents, and applications connect more consistently to external tools and data. In other words, it is closer to an agreement to connect several tools and data sources in a more regular way instead of attaching each one separately.
+MCP, or Model Context Protocol, is an interface viewpoint that helps models, agents, and applications connect more consistently to external tools and data. In other words, it is more similar to an agreement to connect several tools and data sources in a more regular way instead of attaching each one separately.
 
 ## A shared connection format for tools and resources
 
-The first issue to close is `what shared format should connect tools and resources`. Operational devices that wrap execution are about how to record and reproduce executions that use connections, and the point where authentication and permission meet real failure handling remains an operational-control problem.
+The first issue to settle is `what shared format should connect tools and resources`. Operational devices that wrap execution are about how to record and reproduce executions that use connections, and the point where authentication and permission meet real failure handling remains an operational-control problem.
 
 Here, we read MCP as `a standardization viewpoint that tries to make tool connections less ad hoc`.
 
@@ -46,9 +48,9 @@ The same scene can be shortened like this.
 
 When there are only one or two tools, each connection can be built directly. But as an AI agent structure grows, the number of tools increases and connection methods easily become inconsistent. A connection viewpoint such as MCP is an attempt to make tool descriptions, request formats, and response formats more regular so that the surrounding connection environment becomes less confusing than the model itself.
 
-From a service-structure viewpoint, tool use is close to `calling a tool`, while MCP handles the stage of `how should those tools be exposed in a shared format`. The model's ability to understand and generate text and the external tool's exposed name, input format, and return format are different levels. We need this distinction first so we can separate whether the cause is a model limitation or a tool-exposure and connection-design problem.
+From a service-structure viewpoint, tool use is similar to `calling a tool`, while MCP handles the stage of `how should those tools be exposed in a shared format`. The model's ability to understand and generate text and the external tool's exposed name, input format, and return format are different levels. We need this distinction first so we can separate whether the cause is a model limitation or a tool-exposure and connection-design problem.
 
-The model centers on reading the given input and choosing the next needed word or action candidate. A connection viewpoint such as MCP, on the other hand, centers on how to access external tools and data outside the model, such as files, search, databases, and APIs. So MCP is closer to the problem of how to connect the execution environment around the model, rather than an `internal model capability`.
+The model centers on reading the given input and choosing the next needed word or action candidate. A connection viewpoint such as MCP, on the other hand, centers on how to access external tools and data outside the model, such as files, search, databases, and APIs. So MCP is more similar to the problem of how to connect the execution environment around the model, rather than an `internal model capability`.
 
 For example, when an AI agent structure grows, several kinds of tools become necessary inside one task.
 
@@ -59,7 +61,7 @@ For example, when an AI agent structure grows, several kinds of tools become nec
 
 If all these connections are ad hoc, the system becomes harder to handle. As tools increase, failure causes scatter differently across tools unless what the model can use and what format it should use are made regular.
 
-MCP makes three things easier first. It becomes easier to expose the tool list in a regular way, easier to keep request and response structures more consistent, and easier to reuse the connection viewpoint even when several systems change. In other words, MCP is closer to a `connection-organizing tool` than to a `new capability generator`.
+MCP makes three things easier first. It becomes easier to expose the tool list in a regular way, easier to keep request and response structures more consistent, and easier to reuse the connection viewpoint even when several systems change. In other words, MCP is more similar to a `connection-organizing tool` than to a `new capability generator`.
 
 Placed again inside the same request flow, prompts write the request, RAG attaches documents to read, and tool use calls functions to execute. Agents continue several steps, and MCP helps those connections be handled in a more regular format. This order keeps MCP separate from model performance and harness recording environments.
 

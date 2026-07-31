@@ -1,7 +1,9 @@
 # P4-8.1 模型选择(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+因此，写候选模型时不要只写算法名称。把 `problem_type`、`data_shape`、`feature_form`、`error_cost`、`interpretability_need`、`latency_limit`、`baseline_plan` 一起留下，模型选择就会显得是反映问题条件的实验候选组，而不是偏好列表。
 
 在 P4-7 里，我们看过要保留什么输入，以及要把这些输入改造成什么表达。现在要进入下一个问题。
 

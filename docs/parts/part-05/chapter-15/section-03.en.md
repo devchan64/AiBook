@@ -1,7 +1,9 @@
 # P5-15.3 How Sampling Pulls Actual Outputs from Candidate Distributions
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When recording sampling results, separate `candidate_distribution`, `selection_rule`, `temperature_setting`, `top_k_or_top_p`, `selected_output`, and `variation_count`. This distinction lets you naturally connect what the model considered plausible and what was actually drawn to the generation-setting explanations in Part 6.
 
 In P5-15.2, we saw that a generative model does not memorize and return one correct answer, but keeps the relative plausibility of possible output candidates as a candidate distribution. The next question naturally follows.
 
@@ -20,7 +22,7 @@ The core point to hold first in this section is that `the quality of a generativ
 | after the candidate distribution is calculated, by what feel the actual output is chosen | how top-k, top-p, and temperature are handled in more detail as product-setting language |
 | why the choice between diversity and stability changes the result | how generation settings adjust response style, length, and variation width |
 
-The detailed differences of top-k, top-p, and temperature are made concrete again in P6-5.2. Here we close the sense that `the stage of calculating the candidate distribution` and `the stage of selecting the actual output` are different, and that output quality depends on both.
+The detailed differences of top-k, top-p, and temperature are made concrete again in P6-5.2. Here we establish the sense that `the stage of calculating the candidate distribution` and `the stage of selecting the actual output` are different, and that output quality depends on both.
 
 For example, consider the beginning of an operation-notice sentence again.
 
