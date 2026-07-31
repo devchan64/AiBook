@@ -1,7 +1,7 @@
 # P4-8.2 기준 모델(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-8.1에서는 어떤 모델 계열을 후보로 올릴지 봤습니다. 이제 그 후보들을 바로 복잡한 순서대로 붙잡기보다, 먼저 비교의 출발점을 세우는 질문으로 넘어갑니다.
 
@@ -18,6 +18,8 @@ P4-8.1에서는 어떤 모델 계열을 후보로 올릴지 봤습니다. 이제
 여기서 고정해야 할 관점은 다음 한 문장입니다.
 
 baseline은 단순히 이겨야 할 낮은 상대가 아니라, 점수의 의미를 읽기 위한 기준선입니다.
+
+baseline을 기록할 때는 `baseline_rule`, `baseline_score`, `comparison_metric`, `important_error_case`, `candidate_gain`, `next_action`을 함께 남깁니다. 이렇게 해야 복잡한 모델을 쓸지 말지가 점수 상승폭만이 아니라 어떤 실패를 실제로 줄였는지와 연결됩니다.
 
 baseline 비교 순서는 아래처럼 짧게 고정해 둡니다.
 

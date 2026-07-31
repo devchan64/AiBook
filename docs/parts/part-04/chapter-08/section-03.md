@@ -1,13 +1,15 @@
 # P4-8.3 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-8.2에서 [baseline이 왜 필요한지](../../../reference/concept-glossary-parts/01-giyeok.md#baseline-model) 봤다면, 이제 다음 질문이 바로 나옵니다.
 
 그래서 baseline은 실제로 어떻게 세우는가?
 
 이 보충학습은 그 질문에 답합니다. 목표는 baseline 이름을 많이 외우는 것이 아니라, 문제 유형을 보고 `가장 단순하지만 비교 의미가 있는 기준`을 직접 고를 수 있게 만드는 것입니다.
+
+처음 baseline을 세울 때는 `problem_type`, `simple_rule`, `metric`, `known_easy_case`, `known_hard_case`를 먼저 적습니다. 분류, 회귀, 시계열은 서로 다른 baseline 후보를 갖지만, 공통 목적은 복잡한 모델을 보기 전에 쉬운 기준과 대표 실패 장면을 같은 표에 올리는 것입니다.
 
 ## baseline을 세울 때 갈라지는 문제 유형
 
