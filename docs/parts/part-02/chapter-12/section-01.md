@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
@@ -489,7 +489,7 @@ print(df.head(3))
 
 같은 코드는 [`p2_12_1_dataframe_first_check.py`](../../../assets/part-02/chapter-12/p2_12_1_dataframe_first_check.py)로 실행할 수 있습니다. 이 파일은 다음 절의 필터링과 집계로 넘어가기 전에, 표가 몇 행 몇 열인지와 각 열이 어떤 타입으로 읽혔는지 먼저 확인하게 해 줍니다.
 
-## 사례 및 예시
+## Pandas DataFrame은 무엇을 표현하는가: 확인할 판단 기준
 
 ### 사례 1. 출석부 표를 처음 받았을 때 어디부터 읽어야 하는가
 

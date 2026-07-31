@@ -1,7 +1,7 @@
 # P2-7.3 Python 인터프리터(interpreter)와 스크립트(script)
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.20`
+> Version: `v2026.07.31`
 
 P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory)를 봤습니다. 이제 그 터미널에서 Python 코드를 어떻게 실행하는지 봅니다.
 
@@ -252,7 +252,7 @@ python -m pip install numpy
 
 여기서는 오류 해결법을 모두 다루지 않습니다. 중요한 것은 “실행 방식이 다르면 오류의 원인도 다르게 좁혀야 한다”는 관점입니다.
 
-## 사례 및 예시
+## Python 인터프리터와 스크립트: 확인할 판단 기준
 
 ### 사례 1. `print("hello")`를 어디에 입력해야 하는가
 

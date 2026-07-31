@@ -1,7 +1,7 @@
 # P2-4.1 미분을 어떻게 배웠는지 다시 보기
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.20`
+> Version: `v2026.07.31`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 통해 데이터와 모델 계산의 모양을 봤습니다. 이제 Part 2 Chapter 4에서는 미분(differentiation)으로 넘어갑니다.
 
@@ -134,7 +134,7 @@ AI 학습에서도 비슷한 사고가 필요합니다. 손실(loss)이 어떻�
 
 이 질문이 이해되면, 변화율(rate of change), 기울기(slope), 도함수(derivative), 그래디언트(gradient)가 완전히 낯선 단어로만 보이지 않습니다.
 
-## 사례 및 예시
+## 미분을 어떻게 배웠는지 다시 보기: 확인할 판단 기준
 
 ### 사례 1. 배송 시간이 늘어날 때 무엇을 먼저 물어야 하는가
 
