@@ -27,13 +27,14 @@
 
 ## Section 경계 정리
 
-- Part 7 전체 경계는 새 이론을 추가하는 Part가 아니라, Part 4~6에서 배운 개념을 `질문 -> 입력 -> baseline -> 비교 -> 실패 해석 -> 근거/실행 기록 -> 운영 회고 -> 재현 패키지`로 직접 실행하고 기록하는 데 둡니다.
+- Part 7 전체 경계는 새 이론을 추가하는 Part가 아니라, Part 1~6에서 배운 개념을 현재 널리 쓰이는 모델 실습으로 다시 회수하는 데 둡니다. 독자는 Stable Diffusion, 로컬 LLM, 비전 모델, 음성 모델, RAG, agent 같은 실제 모델군을 직접 실행하면서 `질문 -> 입력 -> baseline -> 비교 -> 실패 해석 -> 근거/실행 기록 -> 운영 회고 -> 재현 패키지`를 남겨야 합니다.
+- Part 7의 중심은 `유행 모델 소개`가 아니라 `유행 모델을 실습 재료로 삼아 앞 Part의 개념을 다시 확인하는 것`입니다. 모델명과 저장소 목록은 목적이 아니라 실습 입구이며, 각 실습은 Part 1~6의 어떤 개념을 다시 확인하는지 분명히 연결해야 합니다.
 - 각 Section은 설명 문서가 아니라 실습 단위여야 합니다. 최소한 입력 또는 조건을 바꾸고, 출력 차이를 비교하며, 그 차이를 다음 수정이나 회고 문장으로 연결해야 합니다.
 - P7-1.1~P7-1.3은 프로젝트 질문, 샘플 단위, 기준선 구간을 여는 구간입니다. 데이터셋 소개나 문제 배경 설명으로 길어지지 않고, 무엇을 한 건으로 볼지와 무엇을 baseline으로 둘지가 실험 결론을 어떻게 바꾸는지에 집중합니다.
 - P7-2.1~P7-2.3은 전통 머신러닝 비교 실험을 닫습니다. 점수, 오류 사례, 전처리 효과, 데이터 경계 부족을 한 평가 셋에서 비교하게 하고, 알고리즘 설명이나 Part 4 이론 반복으로 돌아가지 않습니다.
 - P7-3.1~P7-3.3은 입력 구조가 프로젝트를 어떻게 바꾸는지 확인하는 구간입니다. 표, 이미지, 시퀀스, attention 계열 비교는 모델 이름 나열이 아니라 준비 코드, 샘플 확인, 실패 신호, 표현 축소의 손실을 비교하는 실습으로 유지합니다.
 - P7-4.1~P7-4.4는 학습 결과와 표현 문제를 다시 읽는 구간입니다. loss, metric, 오류 샘플, coverage, OOV, 표현 정규화, shape token을 통해 구조 문제, 데이터 문제, baseline 문제를 분리하고, 딥러닝 이론이나 토큰화 일반론으로 확장하지 않습니다.
-- P7-4.5는 Stable Diffusion과 LoRA 조합을 생성형 이미지 프로젝트의 비교 실습으로 다룹니다. base model, LoRA adapter, adapter weight, prompt, seed, output review를 분리해 기록하게 하고, LoRA 학습 전체나 이미지 제작 팁 모음으로 확장하지 않습니다.
+- P7-4.5~P7-4.7은 현 목차에서는 Stable Diffusion과 LoRA 조합을 생성형 이미지 프로젝트의 비교 실습으로 다룹니다. 다만 Part 7 재구성 시에는 이 묶음을 Chapter 4 안에 계속 두기보다 신규 Chapter `생성형 이미지 모델 실습`으로 분리하는 후보로 봅니다. diffusers 코드 실습, ComfyUI workflow 실습, kohya_ss 직접 LoRA 학습 확장을 각각 독립 Section으로 나누되, base model, LoRA adapter, adapter weight, prompt, seed, output review를 분리해 기록하게 하고 이미지 제작 팁 모음으로 확장하지 않습니다. 외부 자료는 스타와 포크가 많은 대표 저장소를 먼저 검토하되, 최종 실습 구성은 초심자가 기록 가능한 산출물을 남길 수 있는지로 판단합니다.
 - P7-5.1~P7-5.3은 RAG의 검색 후보, 선택 근거, 최종 답변, 검색 실패, 근거 부족, 답변 과장 위험을 한 흐름으로 기록하게 합니다. RAG 개념 설명은 Part 6에서 닫았으므로, Part 7에서는 문서 집합과 질문을 바꾸었을 때 상태가 어떻게 갈리는지 실습에 집중합니다.
 - P7-5.4와 P7-5.5는 검색 품질을 더 정밀하게 확인하는 실습입니다. ANN 인덱스 설정, 후보 수, 지연 시간, top-k 포함률, 버전 필터, 검색 평가셋을 다루되, 벡터 DB 제품 사용법이나 대규모 검색 시스템 설계로 확장하지 않습니다.
 - P7-6.1~P7-6.3은 agent 실행을 계획, 도구 호출, 승인 경계, blocked 상태, 권한, 로그, 다음 행동으로 나누어 기록하는 구간입니다. agent를 자동화 만능 도구로 소개하지 않고, 어디서 멈춰야 하는지와 왜 사람 승인으로 넘겨야 하는지를 실습 결과로 남깁니다.
@@ -44,11 +45,46 @@
 - Part 7은 Part 4~6의 재진입 색인 역할도 맡습니다. 비교 실험이 막히면 P7-2.3, 입력 표현 선택이 막히면 P7-3.3, 표현 정보 손실이 막히면 P7-4.4, RAG 검색 품질 점검이 막히면 P7-5.5, 운영 등급 판단이 막히면 P7-7.4, 실행 인수인계가 막히면 P7-7.5로 돌아갈 수 있게 연결을 유지합니다.
 - 다국어 확장 시에도 Section ID를 기준 단위로 유지합니다. baseline, metric, loss, coverage, RAG, ANN, agent, blocked, deployment, incident review, reproducibility는 언어별 표현이 프로젝트 기록의 같은 축을 가리키도록 맞춥니다.
 
+## Part 7 재구성 검토 기준
+
+- Part 7 재구성은 기존 원고를 폐기하는 작업이 아니라, 기존 Chapter의 `기록 방법`, `비교 방법`, `실패 해석 방법`을 현재 널리 쓰이는 모델 실습 흐름에 맞게 다시 배열하는 작업입니다.
+- 기존 Chapter 1과 Chapter 2는 유지 후보입니다. 프로젝트 질문, 입력 단위, baseline, 전통 머신러닝 비교는 뒤쪽 유행 모델 실습을 읽기 위한 기본 기록 형식이기 때문입니다.
+- 기존 Chapter 3과 Chapter 4의 앞부분은 `입력 구조와 학습 결과 해석`의 공통 기반으로 유지하되, Stable Diffusion/LoRA 묶음은 신규 생성형 이미지 Chapter로 분리하는 방향을 우선 검토합니다.
+- 기존 Chapter 5는 RAG 실습 Chapter로 유지하되, RAGAS, DeepEval 같은 평가 도구를 넣을 경우 `RAG 구축`과 `RAG 평가`를 한 Chapter 안에 둘지 별도 Chapter로 분리할지 다시 판단합니다.
+- 기존 Chapter 6과 Chapter 7은 agent 실행, 승인 정책, 운영 관측, 재현 패키지로 이어지는 후반부 흐름으로 묶어 정리합니다. Langfuse, OpenLLMetry 같은 관측성 도구는 Chapter 7 보강 후보로 두되, 도구 사용법 문서로 확장하지 않습니다.
+- 신규 Chapter는 모델군 하나를 소개하는 목적으로 만들지 않습니다. 각 신규 Chapter는 `직접 실행할 모델군`, `바꿀 조건`, `비교할 출력`, `Part 1~6에서 회수할 개념`, `실패를 다음 질문으로 넘기는 기록 양식`을 함께 가져야 합니다.
+
+| 신규 Chapter 후보 | 실습 모델군 | Part 1~6에서 회수할 개념 | 상태 |
+| --- | --- | --- | --- |
+| 로컬 LLM 실행 실습 | `llama.cpp`, Qwen, Gemma 계열 | LLM, token, context length, quantization, inference | 신규 후보 |
+| 비전 모델 실습 | SAM 2, 이미지 분류/세그멘테이션 모델 | 입력 구조, CNN/Transformer, 표현 학습, 오류 샘플 | 신규 후보 |
+| 생성형 이미지 모델 실습 | Stable Diffusion, FLUX, LoRA, ControlNet, IP-Adapter | 생성 모델, diffusion, prompt, seed, 조건 제어 | 기존 P7-4.5~P7-4.7 이동 후보 |
+| 음성·오디오 모델 실습 | Whisper, AudioCraft/MusicGen | 시퀀스, encoder-decoder, 음성 토큰화, 생성 평가 | 신규 후보 |
+| RAG 평가 실습 | FAISS/Chroma/Qdrant, RAGAS, DeepEval | embedding, vector search, 근거, 평가 지표 | 기존 Chapter 5 확장 후보 |
+| agent와 운영 관측 실습 | agent framework, Langfuse, OpenLLMetry | tool use, agent, harness, 로그, 승인, 운영 제약 | 기존 Chapter 6~7 재정리 후보 |
+| 재현 가능한 프로젝트 패키지 | 전체 실습 결과 묶음 | 실행 환경, 결과, 한계, 다음 조치 | 기존 P7-7.5 중심 유지 |
+ 
+## 재구성 후보 목차
+
+이 목차는 즉시 적용된 구조가 아니라, 기존 작성분과 신규 모델 실습을 함께 정리하기 위한 후보입니다. 실제 파일 이동과 Section ID 재번호는 별도 패치에서 `docs/table-of-contents.md`, `mkdocs.yml`, 본문 메타데이터, 릴리즈노트를 함께 맞춰야 합니다.
+
+| 후보 Chapter | 기존 작성분 처리 | 추가 검토 실습 |
+| --- | --- | --- |
+| Chapter 1. 질문과 기준선 | 기존 P7-1.1~P7-1.3 유지 | 공개 데이터셋을 서로 다른 프로젝트 질문으로 바꾸는 실습 |
+| Chapter 2. 전통 ML 비교 실험 | 기존 P7-2.1~P7-2.3 유지 | 실험 run_id, parameter, metric, artifact 기록 보강 |
+| Chapter 3. 로컬 LLM 실행 실습 | 신규 | 작은 LLM, 양자화 모델, context 길이 비교 |
+| Chapter 4. 비전 모델 실습 | 기존 P7-3.x와 P7-4.1~P7-4.4 일부 연결 | SAM 2, 이미지 입력 prompt, segmentation 실패 비교 |
+| Chapter 5. 생성형 이미지 모델 실습 | 기존 P7-4.5~P7-4.7 이동 후보 | Stable Diffusion Web UI X/Y/Z Plot, inpainting, FLUX |
+| Chapter 6. 음성·오디오 모델 실습 | 신규 | Whisper 크기별 전사 비교, MusicGen 조건 비교 |
+| Chapter 7. RAG와 평가 실습 | 기존 P7-5.x 유지 또는 확장 | RAGAS, DeepEval, ANN 설정 비교 |
+| Chapter 8. agent와 운영 관측 실습 | 기존 P7-6.x와 P7-7.1~P7-7.4 재정리 | 승인 로그, trace, 운영 신호 분류 |
+| Chapter 9. 재현 가능한 프로젝트 패키지 | 기존 P7-7.5 중심 유지 | 모든 실습 결과를 재현 패키지로 묶기 |
+
 ## 목차 기준 체크포인트
 
-- `P7-index`: Part 7이 기록 문서 작성 Part가 아니라 Part 4, Part 5, Part 6의 개념을 실제로 실행하고 해석하는 프로젝트 Part라는 점을 분명히 해야 합니다.
-- `P7-index`: `질문과 입력 정의 -> baseline 비교 -> 구조와 실패 해석 -> RAG와 agent 실행 기록 -> 배포와 운영 회고` 흐름이 시작 페이지에서 바로 보여야 합니다.
-- `P7-index`: `Part 4, 5, 6을 어디서 실행하는가`, `실습 기록의 최소 절차`처럼 독자가 현재 막힌 위치를 다시 연결할 기준이 남아 있어야 합니다.
+- `P7-index`: Part 7이 기록 문서 작성 Part가 아니라 Part 1~6의 개념을 현재 널리 쓰이는 모델 실습으로 다시 확인하는 프로젝트 Part라는 점을 분명히 해야 합니다.
+- `P7-index`: `질문과 입력 정의 -> baseline 비교 -> 로컬 LLM/비전/이미지/음성 모델 실행 -> RAG와 agent 실행 기록 -> 운영 회고 -> 재현 패키지` 흐름이 시작 페이지에서 바로 보여야 합니다.
+- `P7-index`: `Part 1~6을 어떤 모델 실습에서 다시 확인하는가`, `실습 기록의 최소 절차`처럼 독자가 현재 막힌 위치를 다시 연결할 기준이 남아 있어야 합니다.
 - Part 흐름: Module 1부터 Module 4까지는 `질문과 입력 정의`, `비교 기준`, `실행`, `실패 해석`, `다음 수정`이 같은 실습 리듬으로 유지되어야 합니다.
 - Part 흐름: Module 1과 Module 2 사이는 `점수 비교 중심 회고`에서 `구조와 입력 차이 해석`으로 중심이 바뀌는 전환이 분명해야 합니다.
 - Part 흐름: Module 3과 Module 4는 `RAG 실패`, `agent 승인 경계`, `운영 로그 판단`, `배포 이후 조치`를 한 운영 기록 흐름으로 묶어야 합니다.
@@ -88,7 +124,9 @@
 - `P7-4.2`: 실패를 구조 문제, 데이터 문제, baseline 문제로 나누는 판단 절차를 설명해야 합니다.
 - `P7-4.3`: 표현 정규화나 토큰화 규칙 변경이 coverage, 예측, 회고 우선순위를 어떻게 바꾸는지 직접 비교하게 해야 합니다.
 - `P7-4.4`: 같은 평균을 가진 동작도 shape token을 붙이면 다른 패턴으로 갈라진다는 점을 직접 비교하게 해야 합니다.
-- `P7-4.5`: Stable Diffusion base 모델에 LoRA adapter를 얹고 adapter weight를 바꾸며, 생성 결과 차이를 재현 가능한 비교 기록으로 남기게 해야 합니다.
+- `P7-4.5`: diffusers로 Stable Diffusion base 모델에 LoRA adapter를 얹고 adapter weight를 바꾸며, 생성 결과 차이를 재현 가능한 코드형 비교 기록으로 남기게 해야 합니다.
+- `P7-4.6`: ComfyUI workflow에서 LoRA, ControlNet, IP-Adapter의 역할을 분리해 보고, 여러 모델의 제어 신호가 충돌하는 지점을 기록하게 해야 합니다. Web UI, ControlNet 원 저장소, Web UI ControlNet 확장은 인기와 생태계 규모를 보는 비교 후보로 두되, 중심 실습은 workflow 기록이 가능한 ComfyUI로 유지합니다.
+- `P7-4.7`: kohya_ss로 직접 LoRA 학습을 확장하되, 이미지셋, caption 규칙, 반복 횟수, sample prompt, 실패 신호를 다음 데이터셋 수정으로 연결하게 해야 합니다.
 - 동작 단위 사례 후보: `P7-4.4`에서 평균, shape token, 정보 손실을 비교하는 독립 연습을 구성할 수 있습니다.
 
 ### Module 3. Part 6 실습: RAG, agent, 실행 기록
