@@ -2,16 +2,18 @@
 
 이 디렉터리는 `AGENTS.md`의 전역 원칙을 실제 작업으로 옮길 때 다시 여는 작업별 가이드라인을 모아 둔다.
 
-저장소 전체 운영 원칙은 `../../AGENTS.md`에 남기고, 이 문서는 어떤 기준 문서를 먼저 열어야 하는지 빠르게 찾는 통합 인덱스로 사용한다. 세부 절차, 예외 규칙, 반복 체크 항목은 개별 가이드라인 문서에서 관리한다.
+저장소 전체의 초기 라우팅은 `../../AGENTS.md`에 남기고, 이 문서는 어떤 기준 문서를 먼저 열어야 하는지 빠르게 찾는 통합 인덱스로 사용한다. 세부 절차, 예외 규칙, 반복 체크 항목은 개별 가이드라인 문서에서 관리한다.
 
 ## 문서 경계
 
-- `../../AGENTS.md`는 저장소의 핵심 원칙, 문서 위치, 브랜치와 배포 기준, 작업 전 확인할 가이드라인 인덱스를 맡는다.
+- `../../AGENTS.md`는 AI 에이전트가 가장 먼저 확인하는 저장소 목적, 기본 관점, 첫 확인 문서, 절대 경계를 맡는다.
 - `../README.md`는 `authoring/`, `guidelines/`, `release-notes/`의 역할 분담을 빠르게 찾는 관리 문서 인덱스를 맡는다.
 - `management/guidelines/README.md`는 이 폴더에 둘 문서와 두지 않을 문서의 경계, 작업 유형별 참조 순서를 맡는다.
+- `repository-management-guidelines.md`는 문서 위치, 다국어 구조, 브랜치, 배포, 편집, 검증 기준을 맡는다.
+- `source-copyright-guidelines.md`는 근거, 출처, 저작권, 예측성 내용 기준을 맡는다.
 - 개별 가이드라인 문서는 특정 워크플로우를 실제로 수행할 때 필요한 세부 절차, 예외, 검증 기준을 맡는다.
 - `../release-notes/sections/README.md`는 Section 단위 릴리즈노트 파일 위치, 파일명, 항목 형식을 맡는다.
-- `../authoring/`은 저자 관점 메모, Part 체크포인트, Section별 근거 분석처럼 특정 집필 판단을 돕는 보조 자료를 맡는다.
+- `../authoring/`은 저자 관점 메모, Section별 중심 학습 산출물 추적, Part 체크포인트, Section별 근거 분석처럼 특정 집필 판단을 돕는 보조 자료를 맡는다.
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 
 ## 포함 기준
@@ -23,11 +25,12 @@
 - Python 예제 작성 기준
 - 개념사전 작성과 표제 관리 기준
 - Section 메타데이터 관리 기준
+- 저장소 문서 위치, 브랜치, 배포, 검증처럼 반복 작업자가 확인해야 하는 운영 기준
 - 특정 작업 흐름별 세부 워크플로우 규칙
 
 다음 성격의 문서는 이 폴더에 두지 않는다.
 
-- 저장소 전체 운영 규칙
+- AI 에이전트가 가장 먼저 확인해야 하는 저장소 목적과 최상위 경계
 - Part별 작업 큐 문서
 - 커리큘럼 조사 문서
 - 개별 챕터 분석 메모
@@ -38,7 +41,9 @@
 
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
-| `../../AGENTS.md` | 저장소 핵심 원칙과 전역 작업 기준 | 모든 작업 시작 전 |
+| `../../AGENTS.md` | 저장소 목적, 기본 관점, 첫 확인 문서, 절대 경계 | 모든 작업 시작 전 |
+| `repository-management-guidelines.md` | 저장소 구조와 운영 기준 | 문서 위치, 브랜치, 배포, 빌드 검증 판단 전 |
+| `source-copyright-guidelines.md` | 출처, 근거, 저작권, 예측성 내용 기준 | 외부 자료 반영, 인용, 전망 문장 작성 전 |
 | `manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, 초심자 보강, 사례 작성 전 |
 | `concept-glossary-guidelines.md` | 개념사전 작성 기준 | 개념사전 항목 추가·수정, 중심 Section과 등장 Section 정리 전 |
 | `section-metadata-guidelines.md` | Section 메타데이터 관리 기준 | Section ID, 제목 앞 인덱스, Version, 릴리즈노트 연결 확인 전 |
@@ -46,6 +51,9 @@
 | `chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `english-translation-guidelines.md` | 영어 번역 운영 기준 | 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
 | `chinese-translation-guidelines.md` | 중국어 간체 번역 운영 기준 | 중국어 간체판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
+| `../authoring/section-learning-focus.md` | Section별 중심 학습 산출물 추적 기준 | Section 중심 질문, 학습 산출물, Part 체크포인트 항목을 맞출 때 |
+| `../authoring/progress-meta-heading-audit.md` | 진행 메타 소제목 감사 목록 | `주요 학습내용`, `세부 학습내용` 계열 제목을 내용형 제목으로 바꿀 때 |
+| `../authoring/progress-meta-heading-proposal.md` | 진행 메타 소제목 변경 제안서 | 변경 대상 소제목과 변경 후 문구 후보를 확인할 때 |
 | `../release-notes/sections/README.md` | 릴리즈노트 파일 관리 기준 | 릴리즈노트 파일 위치와 항목 형식 확인 전 |
 | `../authoring/part-XX-open-checklist.md` | Part별 중심선 체크포인트 노트 | 목차 기준 중심 주제 정리, Part 흐름 점검 전 |
 
@@ -54,9 +62,12 @@
 ### Section 본문을 새로 쓰거나 크게 고칠 때
 
 1. `../../AGENTS.md`로 전역 원칙과 적용 범위를 확인한다.
-2. `section-metadata-guidelines.md`로 `Section ID`, 제목 앞 인덱스, `Version`, 대응 릴리즈노트 파일을 먼저 확인한다.
-3. 실제 작업 순서는 `manuscript-writing-workflow.md`의 `원고 작성·수정 작업 순서`를 따른다.
-4. 릴리즈노트 파일 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다.
+2. 문서 위치, 브랜치, 배포 영향은 `repository-management-guidelines.md`로 확인한다.
+3. `section-metadata-guidelines.md`로 `Section ID`, 제목 앞 인덱스, `Version`, 대응 릴리즈노트 파일을 먼저 확인한다.
+4. 실제 작업 순서는 `manuscript-writing-workflow.md`의 `원고 작성·수정 작업 순서`를 따른다.
+5. 외부 자료, 인용, 전망 문장이 있으면 `source-copyright-guidelines.md`를 함께 확인한다.
+6. Section의 중심 학습 산출물이 바뀌면 `../authoring/section-learning-focus.md`에 따라 Part 체크포인트 노트를 함께 확인한다.
+7. 릴리즈노트 파일 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다.
 
 ### Python 예제를 넣거나 고칠 때
 
@@ -67,14 +78,15 @@
 ### 차트, Mermaid, SVG를 만들 때
 
 1. `chart-guidelines.md`
-2. 필요하면 `manuscript-writing-workflow.md`의 시각 형식 연결 규칙
-3. 다국어 본문이면 Mermaid include 경로와 일반 SVG/파일 링크 경로를 구분해 다시 본다.
+2. 외부 도식이나 자료를 참고하면 `source-copyright-guidelines.md`
+3. 필요하면 `manuscript-writing-workflow.md`의 시각 형식 연결 규칙
+4. 다국어 본문이면 Mermaid include 경로와 일반 SVG/파일 링크 경로를 구분해 다시 본다.
 
 ### 관점 문장, 머리말, 도입 문장을 다듬을 때
 
 1. `../../AGENTS.md`의 기본 관점과 집필 태도
 2. `../authoring/author-notes.md`
-3. 사실 주장이 섞이면 별도 근거 확인
+3. 사실 주장이 섞이면 `source-copyright-guidelines.md`
 
 ### 개념사전 표제와 본문 링크를 정리할 때
 
@@ -88,6 +100,8 @@
 - 이미 본문에 반영된 집필 메모나 끝난 작업 목록은 Section 메모에 계속 누적하지 않는다.
 - Part 수준 메모는 가능한 한 `part-XX-open-checklist.md`에서 목차 기준 중심 주제만 유지하고, 순차 점검 기록은 별도 운영 문서로 누적하지 않는다.
 - 오픈체크리스트는 작업 상태표가 아니라 Part 원고가 유지해야 할 중심선 문서로 관리한다.
+- Section별 중심 학습 산출물은 `section-learning-focus.md`의 기준에 따라 Part별 오픈체크리스트의 `목차 기준 체크포인트` 구간에서 관리한다.
+- `주요 학습내용`, `세부 학습내용` 계열 소제목의 현재 잔여 위치는 `progress-meta-heading-audit.md`에서 확인하고, 변경 후 문구 후보는 `progress-meta-heading-proposal.md`에서 확인한다.
 - 오래된 개편 전 Section ID는 현재 목차 기준 체크포인트 안에 직접 남기지 않는다. 필요한 경우 현재 체크포인트가 아니라 아카이브 회수 메모나 별도 리포트에서만 언급한다.
 - 책 전체 중심 직관은 별도 장문 보관 메모에 계속 의존하지 않고, 원고 점검 기준으로 쓸 내용만 해당 `part-XX-open-checklist.md`의 짧은 중심축 문장으로 흡수한다.
 - `review`, `plan`, `curriculum-review` 문서의 남은 항목을 정리할 때도 Part 체크포인트 노트에는 작업 로그 대신 중심 주제와 구조 판단만 남긴다.
@@ -111,6 +125,11 @@
 - `english-translation-guidelines.md`
 - `manuscript-writing-workflow.md`
 - `python-example-guidelines.md`
+- `repository-management-guidelines.md`
 - `section-metadata-guidelines.md`
+- `source-copyright-guidelines.md`
+- `../authoring/section-learning-focus.md`
+- `../authoring/progress-meta-heading-audit.md`
+- `../authoring/progress-meta-heading-proposal.md`
 - `../release-notes/sections/README.md`
 - `../../AGENTS.md`

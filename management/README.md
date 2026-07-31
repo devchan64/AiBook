@@ -6,7 +6,7 @@
 
 ## 하위 디렉터리 역할
 
-- `authoring/`: 집필 준비 메모, Part별 오픈 체크리스트, 조사 결과, 근거 검토 메모를 둔다.
+- `authoring/`: 집필 준비 메모, Section별 중심 학습 산출물 추적, 진행 메타 소제목 감사 목록과 변경 제안서, Part별 오픈 체크리스트, 조사 결과, 근거 검토 메모를 둔다.
 - `guidelines/`: 책 원고 세부 작성 규칙과 반복 워크플로우 문서를 둔다.
 - `release-notes/`: 책 본문 문서의 릴리즈노트를 모아 두는 최상위 디렉터리다.
 - `release-notes/sections/`: Section별 버전 코드 기준, 수정일 기준 개정 이력, 번역본 동기화 메모를 둔다.
@@ -21,6 +21,8 @@
 ### 2. 반복 작업용 가이드
 
 - `guidelines/README.md`
+- `guidelines/repository-management-guidelines.md`
+- `guidelines/source-copyright-guidelines.md`
 - `guidelines/manuscript-writing-workflow.md`
 - `guidelines/python-example-guidelines.md`
 - `guidelines/english-translation-guidelines.md`
@@ -35,13 +37,17 @@
 
 ### 4. 현재 원고 작업 현황
 
+- `authoring/section-learning-focus.md`
+- `authoring/progress-meta-heading-audit.md`
+- `authoring/progress-meta-heading-proposal.md`
 - `authoring/part-XX-open-checklist.md`
 
 ## 운영 원칙
 
-- 본문 수정 규칙의 기준 원문은 `AGENTS.md`에 둔다.
+- 작업 시작 기준은 `AGENTS.md`에 두고, 저장소 운영과 본문 수정 세부 기준은 `guidelines/` 아래 문서로 나누어 둔다.
 - 반복 절차와 세부 체크 항목은 가능한 한 `guidelines/` 아래 워크플로우 문서로 내린다.
 - Section별 개정 이력은 본문 파일 안에 길게 누적하지 않고 `release-notes/sections/`에서 관리한다.
+- Section별 중심 학습 산출물은 본문 메타데이터나 릴리즈노트에 섞지 않고 `authoring/section-learning-focus.md`와 Part별 체크포인트 노트에서 관리한다.
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 - 번역본이 생겨도 개정 이력의 기준 키는 언어별 파일명이 아니라 `Section ID`로 유지한다.
 - Section을 수정할 때는 가능하면 `본문 메타데이터의 Version 갱신 -> 대응 릴리즈노트 갱신 -> Part 체크리스트 메모 반영` 순서로 정리한다.
