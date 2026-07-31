@@ -3,6 +3,13 @@
 - Section ID: `P5-index`
 - Source File: `docs/parts/part-05/index.md`
 
+### v2026.07.31
+- 본문 반영: Part 시작 페이지 메타데이터를 blockquote 형식으로 통일하고, `Version`을 `v2026.07.31`로 갱신했다. 표현 변환·손실·gradient·학습 안정화·구조 분기·생성 연결을 차례로 읽는 계획 문단을 추가했다.
+- 표현 정리: 구조 설명을 현재 Part에서 확인하고 Part 6 연결은 짧게 남기는 기준으로 범위 표현을 바꿨다.
+- 번역 반영 상태: 한국어 원문만 반영됨.
+- 관련 자산: 없음
+- 원문 기준 버전: `docs/parts/part-05/index.md` `v2026.07.31`
+
 ### v2026.07.26
 - 본문 반영: Part 5 시작 페이지의 한국어, 영어, 중국어 간체판 `Version`을 `v2026.07.26`으로 맞췄다.
 - 링크 정합성: 한국어판 개념사전 복귀 안내를 Part 5 대표 핵심 항목 직접 링크로 바꿨다. 영어판 개념사전 복귀 링크는 영어 공개 진입점 `/AiBook/en/reference/concept-glossary/`로, 중국어 간체판 복귀 링크는 중국어 공개 진입점 `/AiBook/zh/reference/concept-glossary/`로 정리했다.
@@ -65,5 +72,5 @@
 
 ### v2026.07.17
 - 본문 반영: Part 5 시작 페이지의 `설명하는 범위와 설명하지 않을 범위`에서 생략 항목 목록을 걷어내고, 이 Part가 실제로 회수하는 `구조 -> 손실과 gradient -> 학습 안정화 -> 계산 확장 -> 구조 분기 -> 생성과 샘플링` 축이 먼저 보이도록 다시 정리했다.
-- 추가 반영: 시작 페이지 범위 안내가 개별 장과 같은 handoff 원칙을 따르도록, Section들에서 실제로 닫히는 학습 흐름 중심 문장으로 바꿨다.
+- 추가 반영: 시작 페이지 범위 안내가 개별 장과 같은 handoff 원칙을 따르도록, Section들에서 실제로 정리되는 학습 흐름 중심 문장으로 바꿨다.
 - 번역 동기화 메모: Future translations should preserve the Part 5 overview as a map of the actual recovery axes rather than a list of omitted advanced topics.

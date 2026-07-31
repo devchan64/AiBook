@@ -1,9 +1,11 @@
 # Part 1. AI 개론과 지형도
 
 > Section ID: `P1-index`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Part 1은 AI를 다시 공부하기 전에 전체 지형을 잡는 구간입니다. 여기서는 특정 알고리즘을 깊게 구현하지 않습니다. 대신 앞으로 이어질 기초 복구, 머신러닝, 딥러닝, LLM, 생성형 AI, 서비스 아키텍처, 프로젝트 학습이 서로 어떻게 연결되는지 먼저 정리합니다.
+
+이 시작 페이지에서 먼저 세울 계획은 `용어 층위`, `기술 흐름`, `서비스 책임`, `후속 Part 연결`을 나누어 읽는 것입니다. 각 Section을 읽을 때는 새 용어를 많이 외우기보다, 그 용어가 전체 AI 지형에서 어느 수준의 말인지 표시하며 다음 Part에서 다시 확인할 기준을 남깁니다.
 
 같은 Part 안에서 중요한 개념의 상세 설명은 가능한 한 한 Section에만 두고, 이후 Section에서는 현재 질문에 필요한 만큼만 다시 연결합니다. 읽다가 용어가 다시 헷갈리면 개념사전의 [AI](../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence), [머신러닝](../../reference/concept-glossary-parts/05-mieum.md#machine-learning), [LLM](../../reference/concept-glossary-parts/08-ieung.md#llm) 같은 대표 항목에서 `중심 Section`을 먼저 확인하고, `등장 Section`으로 현재 개념이 어디서 다시 쓰이는지 이어서 추적하면 됩니다.
 
@@ -58,7 +60,7 @@ Part 1은 AI 전체 지형을 잡는 파트입니다. 여기서는 다음 흐름
 - 데이터, 모델, 학습, 모델 실행, 서비스 구조의 기본 언어
 - 프롬프트, 임베딩, RAG, AI 에이전트, 운영 제약을 읽기 위한 큰 지도
 
-Part 1은 먼저 `무엇이 어디에 놓이는가`를 닫는 역할을 맡습니다. 개별 알고리즘, 딥러닝 구조, LLM 서비스 설계의 본격 설명은 뒤 Part에서 이어집니다.
+Part 1은 먼저 `무엇이 어디에 놓이는가`를 확인하는 역할을 맡습니다. 개별 알고리즘, 딥러닝 구조, LLM 서비스 설계의 본격 설명은 뒤 Part에서 이어집니다.
 
 ## 작업 가설, 용어, 서비스 책임을 함께 보는 기준
 
@@ -109,7 +111,7 @@ Part 1은 17개 Chapter로 구성됩니다.
 
 그다음 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic), 탐색 공간(search space), 휴리스틱(heuristic), 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)의 기본 구분을 봅니다.
 
-특히 Chapter 6과 7에서는 자주 섞이는 경계를 일부러 분리해 둡니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)도 확률 모델(probabilistic model)과 같은 것이 아니라는 점을 Part 1 안에서 먼저 닫아 두고 뒤 Part의 통계, 평가, 생성 설명으로 넘어갑니다. `0.80` 같은 점수를 어떻게 읽을지, calibration과 confidence를 어디까지 믿을지, uncertainty estimation을 어떻게 더 세밀하게 다룰지는 Part 1에서 자리만 잡고, Part 2의 확률·통계 기초와 Part 4의 평가 지표 보충학습(P4-6.4), threshold·운영 판단 절(P4-15.3)에서 다시 회수합니다.
+특히 Chapter 6과 7에서는 자주 섞이는 경계를 일부러 분리해 둡니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)도 확률 모델(probabilistic model)과 같은 것이 아니라는 점을 Part 1 안에서 먼저 구분하고 뒤 Part의 통계, 평가, 생성 설명으로 넘어갑니다. `0.80` 같은 점수를 어떻게 읽을지, calibration과 confidence를 어디까지 믿을지, uncertainty estimation을 어떻게 더 세밀하게 다룰지는 Part 1에서 자리만 잡고, Part 2의 확률·통계 기초와 Part 4의 평가 지표 보충학습(P4-6.4), threshold·운영 판단 절(P4-15.3)에서 다시 회수합니다.
 
 후반부에서는 딥러닝 패러다임의 확산, 생성형 AI, LLM의 계보, 프롬프트, 임베딩, 벡터 검색, RAG, AI 서비스 아키텍처, AI 에이전트, MCP, 하네스, 운영 제약을 다룹니다. 여기서 먼저 잡아 둘 경계는 생성형 AI가 텍스트, 이미지, 오디오, 코드처럼 `무엇을 생성하는가`를 기준으로 묶는 더 넓은 범주이고, LLM은 그 안에서 언어 데이터를 다루는 대표 모델 계열이라는 점입니다. 이 구분은 Part 6에서 토큰, Transformer, GPT 본류와 BERT 비교, LLM 발전사 배경 축으로 다시 회수합니다. 마지막으로 AI 윤리, 저작권, 보안, 실무 적용, 앞으로의 AI를 다루며 기술 설명이 사회적 영향과 분리될 수 없다는 점을 확인합니다.
 
@@ -123,7 +125,7 @@ AI를 다시 공부할 때 가장 어려운 점은 개념 하나하나가 어려
 
 예를 들어 `추론`은 문맥에 따라 inference, reasoning, prediction, generation을 가리킬 수 있습니다. `모델`은 수학적 모형, 학습된 머신러닝 모델, API로 제공되는 LLM, 또는 전체 서비스 구조를 뜻할 수 있습니다. `파라미터`도 모델 내부 가중치, 학습 설정값, LLM 생성 설정값을 혼동하기 쉽습니다.
 
-Part 1에서는 이 `추론` 혼동도 먼저 잘라 둡니다. inference는 `학습된 모델을 실행해 출력을 만드는 과정`, reasoning은 `근거를 따라 결론에 이르는 사고 과정`, prediction은 `모델이 낸 출력`, generation은 `텍스트나 이미지처럼 결과물을 만들어 내는 과정`으로 우선 구분합니다. 통계 문맥은 statistical inference로 따로 둡니다. 이 경계는 Chapter 5에서 먼저 닫고, Part 6에서는 next-token prediction, reasoning처럼 보이는 생성 텍스트, 평가 문맥에서 다시 이어 읽습니다.
+Part 1에서는 이 `추론` 혼동도 먼저 잘라 둡니다. inference는 `학습된 모델을 실행해 출력을 만드는 과정`, reasoning은 `근거를 따라 결론에 이르는 사고 과정`, prediction은 `모델이 낸 출력`, generation은 `텍스트나 이미지처럼 결과물을 만들어 내는 과정`으로 우선 구분합니다. 통계 문맥은 statistical inference로 따로 둡니다. 이 경계는 Chapter 5에서 먼저 확인하고, Part 6에서는 next-token prediction, reasoning처럼 보이는 생성 텍스트, 평가 문맥에서 다시 이어 읽습니다.
 
 Part 1은 이런 혼동을 줄이기 위한 공통 언어를 만듭니다. 정확한 용어와 구분을 먼저 잡으면, 이후 Part 2의 수학 복구, Part 3의 데이터 모델링, Part 4 이후의 머신러닝·딥러닝·LLM 학습이 덜 흩어집니다. 같은 이유로 추천, 순위화, 제어, 검색 서비스, 자율주행 같은 예시도 현재 판에서는 문제 유형을 읽게 하는 짧은 학습용 사례로만 두고, 개별 도메인 설명으로 길게 확장하지 않습니다.
 
@@ -136,7 +138,7 @@ Part 1은 각 기술을 끝내는 파트가 아니라, 이후 Part의 설명이 
 - Part 4에서는 그 구조를 바탕으로 머신러닝의 문제 설정, 학습, 평가를 배웁니다.
 - Part 5와 Part 6에서는 딥러닝, LLM, 생성형 AI의 본문 설명을 실제로 회수합니다.
 
-Part 1 안에서는 모든 장을 완결된 지식처럼 닫지 않습니다. 대신 아래처럼 `지금 무엇을 소개하고`, `뒤에서 어디서 본문 설명으로 다시 회수하는가`를 연결합니다.
+Part 1 안에서는 모든 장을 완결된 지식처럼 처리하지 않습니다. 대신 아래처럼 `지금 무엇을 소개하고`, `뒤에서 어디서 본문 설명으로 다시 회수하는가`를 연결합니다.
 
 | Part 1에서 먼저 잡는 것 | 여기서 우선 고정하는 이해 범위 | 뒤에서 본격적으로 회수하는 위치 |
 | --- | --- | --- |
