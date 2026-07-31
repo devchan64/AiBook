@@ -3,6 +3,8 @@
 > Section ID: `P7-7.1`
 > Version: `v2026.07.31`
 
+배포 확인 기록은 `deploy_target`, `health_check`, `sample_request`, `public_status`, `rollback_signal`, `verification_owner`를 함께 둡니다. 배포 완료라는 말보다 사용자가 확인할 수 있는 상태 신호가 먼저 남아야 합니다.
+
 Part 7의 마지막 프로젝트는 `코드를 만들었다`에서 끝나지 않습니다. 이 책 저장소처럼 정적 웹 문서를 배포하는 프로젝트도, 독자에게 실제로 보이기 시작하는 순간부터는 운영 질문이 생깁니다.
 
 이 저장소에서는 평소 작업 브랜치가 `dev`이고, `main`에 push되면 GitHub Actions를 통해 GitHub Pages 배포가 실행됩니다. 따라서 `원고를 수정했다`, `로컬에서 빌드가 된다`, `독자에게 실제로 공개되었다`는 서로 다른 상태입니다.

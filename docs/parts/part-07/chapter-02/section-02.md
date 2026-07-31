@@ -3,6 +3,8 @@
 > Section ID: `P7-2.2`
 > Version: `v2026.07.31`
 
+회고는 `fact`, `interpretation`, `remaining_error`, `next_question`, `next_data_need`, `decision_log`로 분리합니다. 이 틀이 있어야 결과 설명이 감상으로 흐르지 않고 다음 실험 질문으로 이어집니다.
+
 기준점(baseline)과 모델을 나란히 두고 비교했다면, 다음으로 필요한 일은 그 차이를 회고와 다음 질문으로 넘기는 것입니다.
 
 개선(improvement)은 무엇을 기준으로 말해야 하는가? 그 질문을 정리합니다. 개선은 점수가 올랐다는 말이 아니라, 같은 기준에서 기준점보다 무엇이 달라졌는지 설명하는 일입니다.

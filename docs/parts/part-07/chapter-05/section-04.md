@@ -3,6 +3,8 @@
 > Section ID: `P7-5.4`
 > Version: `v2026.07.31`
 
+ANN 검색 설정은 `embedding_source`, `metadata_filter`, `candidate_pool`, `exact_baseline`, `missed_candidate`, `setting_change`를 기록합니다. 빠른 검색 설정이 어떤 후보를 놓칠 수 있는지 exact 기준선과 나란히 봅니다.
+
 RAG 프로젝트에서 문서가 늘어나면 모든 문서를 매번 정확히 비교하는 방식은 점점 부담이 됩니다. 그래서 실제 검색 시스템은 벡터 데이터베이스(vector database)나 근사 최근접 이웃(ANN, approximate nearest neighbor) 검색처럼 후보를 빠르게 찾는 구조를 자주 사용합니다.
 
 다만 초심자가 먼저 잡아야 할 것은 특정 제품 이름이나 튜닝 옵션 목록이 아닙니다. 핵심은 `후보를 적게 보면 빠르지만 놓칠 수 있고, 후보를 넓게 보면 더 잘 찾지만 비용이 늘어난다`는 교환 관계입니다. 이 절에서는 ChromaDB에 문서, 임베딩(embedding), 메타데이터(metadata)를 넣고, 검색 대상 bucket 범위를 바꾸며 후보 수와 top-k 포함률이 어떻게 달라지는지 확인합니다.

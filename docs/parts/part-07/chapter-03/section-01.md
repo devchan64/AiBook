@@ -3,6 +3,8 @@
 > Section ID: `P7-3.1`
 > Version: `v2026.07.31`
 
+입력 구조를 바꿀 때는 `input_shape`, `representation_choice`, `model_family`, `prep_code_change`, `comparison_metric`, `review_sample`을 함께 기록합니다. 이렇게 해야 입력 표현 변화가 모델 구조와 결과 비교를 어떻게 바꾸는지 보입니다.
+
 입력이 `표의 행(row)`이 아니라 `이미지 텐서(tensor)`일 때 프로젝트 문서와 준비 코드가 어떻게 바뀌는지 확인합니다.
 
 하지만 여기서도 먼저 분명히 해야 할 점이 있습니다.

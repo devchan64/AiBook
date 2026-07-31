@@ -3,6 +3,8 @@
 > Section ID: `P7-5.1`
 > Version: `v2026.07.31`
 
+RAG 실습 기록은 `question`, `retrieved_candidate`, `selection_reason`, `dropped_candidate`, `answer_with_evidence`, `answer_without_evidence`를 함께 둡니다. 검색 후보, 선택 근거, 답변 상태를 분리해야 검색 실패와 답변 실패가 보입니다.
+
 RAG(retrieval-augmented generation) 프로젝트를 처음 만들면 종종 `답변이 그럴듯한가`만 먼저 보게 됩니다. 하지만 실제로는 답변보다 앞에 `어떤 검색 후보들이 경쟁했는가`, `그중 무엇을 근거로 채택했는가`, `왜 다른 후보는 탈락했는가`가 먼저 남아 있어야 다음 검증이 가능합니다.
 
 RAG를 `질문 -> 검색 후보 비교 -> 선택 근거 -> 답변 구성 -> 출처 기록` 흐름으로 다시 세웁니다. 벡터 데이터베이스나 고급 reranker 구현을 늘어놓기보다, retrieval 감각을 실제 프로젝트 기록으로 바꾸는 데 있습니다.
