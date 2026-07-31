@@ -13,7 +13,7 @@
 - `source-copyright-guidelines.md`는 근거, 출처, 저작권, 예측성 내용 기준을 맡는다.
 - 개별 가이드라인 문서는 특정 워크플로우를 실제로 수행할 때 필요한 세부 절차, 예외, 검증 기준을 맡는다.
 - `../release-notes/sections/README.md`는 Section 단위 릴리즈노트 파일 위치, 파일명, 항목 형식을 맡는다.
-- `../authoring/`은 저자 관점 메모, Section별 중심 학습 산출물 추적, Part 체크포인트, Section별 근거 분석처럼 특정 집필 판단을 돕는 보조 자료를 맡는다.
+- `../authoring/`은 저자 관점 메모, Part 체크포인트, 진행 메타 소제목 감사 목록, Section별 근거 분석처럼 특정 집필 판단을 돕는 보조 자료를 맡는다.
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 
 ## 포함 기준
@@ -25,6 +25,7 @@
 - Python 예제 작성 기준
 - 개념사전 작성과 표제 관리 기준
 - Section 메타데이터 관리 기준
+- Section별 중심 학습 산출물 추적 기준
 - 저장소 문서 위치, 브랜치, 배포, 검증처럼 반복 작업자가 확인해야 하는 운영 기준
 - 특정 작업 흐름별 세부 워크플로우 규칙
 
@@ -51,7 +52,7 @@
 | `chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `english-translation-guidelines.md` | 영어 번역 운영 기준 | 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
 | `chinese-translation-guidelines.md` | 중국어 간체 번역 운영 기준 | 중국어 간체판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
-| `../authoring/section-learning-focus.md` | Section별 중심 학습 산출물 추적 기준 | Section 중심 질문, 학습 산출물, Part 체크포인트 항목을 맞출 때 |
+| `section-learning-focus-guidelines.md` | Section별 중심 학습 산출물 추적 기준 | Section 중심 질문, 학습 산출물, Part 체크포인트 항목을 맞출 때 |
 | `../authoring/progress-meta-heading-audit.md` | 진행 메타 소제목 감사 목록 | `주요 학습내용`, `세부 학습내용` 계열 제목을 내용형 제목으로 바꿀 때 |
 | `../authoring/progress-meta-heading-proposal.md` | 진행 메타 소제목 변경 제안서 | 변경 대상 소제목과 변경 후 문구 후보를 확인할 때 |
 | `../release-notes/sections/README.md` | 릴리즈노트 파일 관리 기준 | 릴리즈노트 파일 위치와 항목 형식 확인 전 |
@@ -66,7 +67,7 @@
 3. `section-metadata-guidelines.md`로 `Section ID`, 제목 앞 인덱스, `Version`, 대응 릴리즈노트 파일을 먼저 확인한다.
 4. 실제 작업 순서는 `manuscript-writing-workflow.md`의 `원고 작성·수정 작업 순서`를 따른다.
 5. 외부 자료, 인용, 전망 문장이 있으면 `source-copyright-guidelines.md`를 함께 확인한다.
-6. Section의 중심 학습 산출물이 바뀌면 `../authoring/section-learning-focus.md`에 따라 Part 체크포인트 노트를 함께 확인한다.
+6. Section의 중심 학습 산출물이 바뀌면 `section-learning-focus-guidelines.md`에 따라 Part 체크포인트 노트를 함께 확인한다.
 7. 릴리즈노트 파일 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다.
 
 ### Python 예제를 넣거나 고칠 때
@@ -100,7 +101,7 @@
 - 이미 본문에 반영된 집필 메모나 끝난 작업 목록은 Section 메모에 계속 누적하지 않는다.
 - Part 수준 메모는 가능한 한 `part-XX-open-checklist.md`에서 목차 기준 중심 주제만 유지하고, 순차 점검 기록은 별도 운영 문서로 누적하지 않는다.
 - 오픈체크리스트는 작업 상태표가 아니라 Part 원고가 유지해야 할 중심선 문서로 관리한다.
-- Section별 중심 학습 산출물은 `section-learning-focus.md`의 기준에 따라 Part별 오픈체크리스트의 `목차 기준 체크포인트` 구간에서 관리한다.
+- Section별 중심 학습 산출물은 `section-learning-focus-guidelines.md`의 기준에 따라 Part별 오픈체크리스트의 `목차 기준 체크포인트` 구간에서 관리한다.
 - `주요 학습내용`, `세부 학습내용` 계열 소제목의 현재 잔여 위치는 `progress-meta-heading-audit.md`에서 확인하고, 변경 후 문구 후보는 `progress-meta-heading-proposal.md`에서 확인한다.
 - 오래된 개편 전 Section ID는 현재 목차 기준 체크포인트 안에 직접 남기지 않는다. 필요한 경우 현재 체크포인트가 아니라 아카이브 회수 메모나 별도 리포트에서만 언급한다.
 - 책 전체 중심 직관은 별도 장문 보관 메모에 계속 의존하지 않고, 원고 점검 기준으로 쓸 내용만 해당 `part-XX-open-checklist.md`의 짧은 중심축 문장으로 흡수한다.
@@ -128,7 +129,7 @@
 - `repository-management-guidelines.md`
 - `section-metadata-guidelines.md`
 - `source-copyright-guidelines.md`
-- `../authoring/section-learning-focus.md`
+- `section-learning-focus-guidelines.md`
 - `../authoring/progress-meta-heading-audit.md`
 - `../authoring/progress-meta-heading-proposal.md`
 - `../release-notes/sections/README.md`
