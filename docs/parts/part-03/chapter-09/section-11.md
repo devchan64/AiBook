@@ -1,7 +1,7 @@
 # P3-9.11 target 후보와 변하는 기준
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 _보조제목: target 후보가 여러 개이거나 기준이 바뀔 때 무엇을 먼저 고정해야 하는가_
 
@@ -18,6 +18,8 @@ _보조제목: target 후보가 여러 개이거나 기준이 바뀔 때 무엇�
 | `review_needed`와 `final_status`가 함께 있다 | 무엇을 먼저 대표 문제로 둘지 |
 | 지난달과 이번 달의 판정 기준이 다르다 | 기준 변경 시점과 버전 |
 | `warning`, `review`, `failure`가 함께 있다 | 어떤 층위를 target으로 둘지 |
+
+대표 target을 정할 때는 `target_name`, `target_definition_version`, `rule_changed_at`, `definition_owner`, `candidate_targets`를 함께 남깁니다. 이 메모는 후보가 여럿인 상태와 기준이 바뀐 상태를 구분해, 같은 이름의 target이 서로 다른 문제 정의를 가리키는 일을 줄입니다.
 
 ## 왜 대표 target을 먼저 고정해야 하는가
 

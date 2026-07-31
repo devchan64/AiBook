@@ -1,7 +1,7 @@
 # P3-9.7 입력과 결과는 어떤 조건이 닫혀야 예측 문제로 읽을 수 있는가
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 문제를 예측 문제로 올리기로 했다면, 이제는 그 구조가 실제 [예측 계약(prediction contract)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-prediction-contract)을 만족하는지 닫아야 합니다. 중요한 것은 긴 이론이 아니라 네 가지 확인입니다. 어떤 열이 입력인지, 어떤 열이 결과 후보인지, 예측 시점 이후 정보가 섞이지 않았는지, 그리고 어디까지의 정보를 보고 언제의 결과를 맞히는지입니다.
 
@@ -13,6 +13,8 @@
 | 미래 정보 누수 방지 | 예측 시점에 아직 모르는 값이 섞이는 [데이터 누수(data leakage)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-data-leakage)가 없는가 |
 | 운영 시점 재현성 | 학습 때 만든 입력을 운영에서도 같은 규칙으로 다시 만들 수 있는가 |
 | cutoff / horizon | 어디까지의 정보를 보고 언제의 결과를 맞히는가 |
+
+이 구분은 표의 설명 문장으로만 남기지 않고, 인계용 데이터 표에도 최소 필드로 남겨야 합니다. 예를 들어 `feature_available_at`, `target_window_start`, `target_window_end`, `cutoff_at`, `horizon_days`, `leakage_check_note`를 함께 두면, 어떤 입력이 어느 시점에 사용 가능했고 어떤 결과 기간을 맞히려는지 한 줄 단위로 다시 확인할 수 있습니다.
 
 ## 한 장면으로 보기
 
