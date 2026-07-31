@@ -1,7 +1,7 @@
 # P3-4.3 한 행, 샘플 1건, 최근 구간 1개는 어떻게 다른가
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 [한 행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit), [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 1건, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. [원천데이터(source data)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data) 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline) 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
 
@@ -166,6 +166,8 @@ window count: 2
 - `window summary`는 이렇게 만든 샘플 표를 다시 `recent`, `baseline`으로 묶은 구간 집계입니다.
 
 행 수가 줄어드는 것은 단순 압축이 아니라, `무엇을 한 건으로 볼지`가 바뀐 결과입니다.
+
+이 차이는 다음 표를 만들 때 바로 열 역할로 옮겨야 합니다. 행 층위에는 `second`, `flow`처럼 순간 기록을 남기고, 샘플 층위에는 `event_id`, `flow_mean`, `flow_max`처럼 동작 1회를 설명하는 열을 둡니다. 구간 층위에는 `window`, `event_count`, `window_flow_mean`처럼 여러 샘플을 다시 묶었다는 열을 둡니다. 세 층위를 같은 표에 함께 넣어야 한다면, 각 열 이름이 어느 층위에서 계산된 값인지 드러나야 뒤에서 특징, 기준선, 검토 문장이 서로 다른 단위를 가리키지 않습니다.
 
 이 예제를 한 문장으로 요약하면 다음과 같습니다. `A, second=1`은 지금 무슨 일이 있었는지 보여 주고, `event_id=A`는 한 동작이 전체적으로 어땠는지 보여 주며, `recent`는 이렇게 만든 샘플 여러 건을 다시 묶은 상태 비교를 보여 줍니다. 같은 데이터에서도 질문이 바뀌면 바로 이 세 층위 사이를 오가게 됩니다.
 

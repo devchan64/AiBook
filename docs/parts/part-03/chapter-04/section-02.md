@@ -1,7 +1,7 @@
 # P3-4.2 샘플 단위가 흔들리면 무엇이 함께 흔들리는가
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)의 뜻도 흔들리고, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)의 뜻도 흔들리고, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
 
@@ -37,6 +37,8 @@
 | 라벨(label) | 어떤 결과가 한 건에 붙는지가 샘플 단위에 달려 있기 때문 |
 | 분할과 평가 | 무엇을 훈련과 평가에 나눌지가 샘플 단위에 달려 있기 때문 |
 | 운영 문장 | 사람이 무엇을 한 사례로 읽을지가 샘플 단위에 달려 있기 때문 |
+
+따라서 샘플 단위를 바꾸기로 했다면 표 설계도 같이 바꿔야 합니다. 시점별 표를 그대로 둔 채 라벨만 반복해서 붙이는 대신, 먼저 동작 1회 요약 표를 만들고 그 표에서 특징 열과 라벨 열이 같은 `event_id`를 바라보게 해야 합니다. 분할 열도 시점 행이 아니라 동작 1회 샘플에 붙어야 합니다. 그래야 뒤에서 점수를 읽을 때 `무엇을 맞혔는가`가 시점 행인지 동작 1회인지 다시 흔들리지 않습니다.
 
 여기서는 아래처럼 `잘못 붙인 질문`과 `다시 붙여야 할 질문`을 나눠 보면 샘플 단위의 어긋남이 더 분명해집니다.
 

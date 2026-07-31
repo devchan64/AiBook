@@ -1,7 +1,7 @@
 # P3-4.1 비교 가능한 샘플 한 건은 어떻게 정하는가
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 데이터를 읽을 때 가장 먼저 확인해야 할 것은 값의 크기보다 [행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit) 하나가 무엇을 뜻하는가입니다. 이 질문이 먼저 정리되지 않으면, 뒤에서 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature)을 만들 때도, [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)을 붙일 때도, [평가(evaluation)](../../../reference/concept-glossary-parts/13-pieup.md#evaluation-design) 결과를 읽을 때도 기준이 흔들립니다. 결국 이 질문은 비교 가능한 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 한 건을 무엇으로 정할 것인가라는 질문으로 이어집니다.
 
@@ -31,6 +31,8 @@
 3. 그 질문이 현재 우리가 풀려는 문제와 맞는지 확인한다.
 
 이 순서를 거치면 `행이 있으니 샘플도 이미 있겠지`라는 자동 가정을 조금 늦출 수 있습니다. 그래야 원시 로그, 요약 표, 최근 구간 표를 같은 표처럼 섞어 읽지 않게 됩니다.
+
+실제 표 초안으로 옮길 때는 이 판단을 열 이름으로 남겨야 합니다. 동작 1회를 샘플로 잡았다면 첫 열은 시점 번호가 아니라 `event_id`처럼 동작 1회를 식별하는 값이 되어야 하고, 그 옆에는 `pressure_mean`, `pressure_rise`, `flow_mean`처럼 동작 전체를 요약한 특징 후보가 붙어야 합니다. 최근 구간을 비교하려는 표라면 `window_name`, `window_start`, `window_end`, `event_count`처럼 여러 샘플을 다시 묶었다는 흔적이 남아야 합니다. 이렇게 해야 샘플 단위 결정이 머릿속 판단으로 끝나지 않고, 다음 표의 행과 열 구조로 이어집니다.
 
 아래 작은 표를 보면 이 차이가 더 분명해집니다.
 
