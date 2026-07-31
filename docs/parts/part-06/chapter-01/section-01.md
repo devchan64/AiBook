@@ -1,7 +1,7 @@
 # P6-1.1 검토해야 할 산출물로 보는 생성형 AI 출력
 
 > Section ID: `P6-1.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Part 5에서는 생성 모델이 후보 분포를 만들고, 샘플링을 통해 실제 출력을 고른다는 감각을 잡았습니다. Part 6은 그 감각을 실제 생성형 AI 서비스 경험으로 옮겨 읽는 자리입니다.
 
@@ -77,3 +77,8 @@ Part 5에서는 생성 모델이 후보 분포를 만들고, 샘플링을 통해
 - 생성형 AI의 출력이 분류 결과나 수치 예측과 어떻게 다른지 말할 수 있다.
 - 생성 결과가 자연스럽게 보이더라도 검토가 필요한 이유를 설명할 수 있다.
 - Part 6이 생성 산출물과 검토 문제에서 시작해야 하는 이유를 말할 수 있다.
+
+## 출처와 참고 자료
+
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, 확인 날짜: 2026-06-22. 생성형 AI 산출물의 정보 무결성, 유해·부정확 산출물, 검토 필요성 배경을 확인하는 데 사용했다.
+- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, arXiv:2303.18223, 확인 날짜: 2026-06-22. LLM이 생성형 AI 사용 장면에서 텍스트 산출물을 만드는 중심 사례라는 배경 근거로 사용했다.

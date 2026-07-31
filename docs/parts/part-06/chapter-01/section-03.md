@@ -1,7 +1,7 @@
 # P6-1.3 생성은 후보 분포와 선택의 반복이다
 
 > Section ID: `P6-1.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Part 5에서 본 생성 모델의 핵심 감각은 `후보를 만들고 그중 하나를 고른다`는 흐름이었습니다. LLM도 완성 문장을 한 번에 꺼내지 않습니다. 현재 문맥에서 다음 후보를 만들고, 선택된 조각을 다시 문맥에 붙인 뒤 다음 후보를 다시 만듭니다.
 
@@ -79,3 +79,9 @@ Part 5에서 본 생성 모델의 핵심 감각은 `후보를 만들고 그중 �
 - 생성을 후보 분포와 선택 반복으로 설명할 수 있다.
 - 완성 문장을 한 번에 꺼낸다는 오해가 왜 부족한지 말할 수 있다.
 - 토큰이 왜 후보 계산의 기본 단위로 등장하는지 설명할 수 있다.
+
+## 출처와 참고 자료
+
+- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2018, 확인 날짜: 2026-07-19. GPT 계열을 Transformer 기반 language model과 다음 토큰 조건부 확률 흐름으로 설명하는 근거로 사용했다.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. autoregressive language model이 이전 토큰 문맥을 바탕으로 다음 토큰을 예측하는 구조를 설명하는 근거로 사용했다.
+- Clara Meister et al., [Language Model Behavior: A Comprehensive Survey](https://direct.mit.edu/coli/article/50/1/293/118131/Language-Model-Behavior-A-Comprehensive-Survey){: target="_blank" rel="noopener noreferrer" }, Computational Linguistics, 2024, 확인 날짜: 2026-07-24. 자기회귀 언어 모델이 다음 토큰 확률 분포를 계산하고 greedy, temperature sampling, top-k, nucleus sampling 같은 선택 방식을 쓴다는 설명 확인에 사용했다.
