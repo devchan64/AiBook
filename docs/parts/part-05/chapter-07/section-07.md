@@ -1,7 +1,7 @@
 # P5-7.7 보충학습: optimizer state와 개별 update
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-7.3에서 적응형 업데이트를 볼 때 `최근 gradient 흐름`, `좌표별 조절`이라는 표현이 반복해서 나왔습니다. 여기서 자연스럽게 남는 질문은 이것입니다. 그런 정보는 어디에 남고, 왜 같은 gradient라도 다음 step의 update가 달라질 수 있는가?
 
@@ -134,7 +134,9 @@ parameter-wise update는 모든 파라미터를 하나의 공통 숫자로만 �
 
 이 구조를 이해하면 `같은 gradient라도 왜 Adam에서 다르게 움직이는가`라는 질문이 훨씬 쉬워집니다. 답은 신비로운 알고리즘 이름에 있는 것이 아니라, 지금의 gradient 앞에 이미 누적된 문맥이 붙어 있기 때문입니다. 즉, adaptive optimizer는 현재 신호만 즉시 반영하는 것이 아니라, 지금까지의 이동 역사와 좌표별 반응 기록을 함께 읽습니다.
 
-## 사례 및 예시
+## optimizer state와 개별 update: 확인할 판단 기준
+
+이 사례에서는 optimizer state와 parameter-wise update를 처음 읽는 법을 보충하는지 확인한다.
 
 ### 사례. 같은 gradient인데 update가 다르게 보이는 이유
 

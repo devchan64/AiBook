@@ -49,6 +49,13 @@ _보조제목: target 후보가 여러 개이거나 기준이 바뀔 때 무엇�
 
 즉 target 후보가 많을 때의 어려움은 `이름 충돌`보다 `대표 결과와 정의 버전을 함께 고정하지 않으면 문제 자체가 흔들린다`는 점에 있습니다. 여기서는 `대표 결과 정의`, `정의 버전 관리`, `확장 후보 관리`를 함께 잡아, 같은 데이터에서 여러 목표 후보가 생길 때 중심 문제를 고정합니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `target 후보와 변하는 기준`에 대해 한 문장으로 답할 수 있는가?
+- `target 후보가 여러 개이거나 기준이 바뀔 때 무엇을 먼저 고정해야 하는지 설명해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google, *Machine Learning Glossary*, `label`, `proxy labels`. 라벨이 지도학습 예시의 답 또는 결과 부분이며, 직접 라벨을 볼 수 없을 때 proxy label이 실제 라벨을 근사하는 데이터라는 용어 기준을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

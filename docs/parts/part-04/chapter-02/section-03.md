@@ -1,7 +1,7 @@
 # P4-2.3 강화학습(reinforcement learning)
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-2.1에서는 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 있는 데이터로 배우는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봤습니다. 이번에는 모델이 [행동(action)](../../../reference/concept-glossary-parts/14-hieut.md#action)을 하고, 그 결과로 [보상(reward)](../../../reference/concept-glossary-parts/06-bieup.md#reward)을 받으며, 다음 행동 방식을 조정하는 [강화학습(reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#reinforcement-learning)을 봅니다.
 
@@ -149,7 +149,9 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 - 상태, 행동, 보상, 정책이 왜 강화학습을 읽는 기본 단어인지 설명할 수 있는가
 - 탐험과 활용의 균형이 없으면 더 좋은 행동을 찾거나 안정적으로 보상을 얻기 어렵다는 점을 설명할 수 있는가
 
-## 사례 및 예시
+## 강화학습: 확인할 판단 기준
+
+이 사례에서는 강화학습이 행동과 보상으로 정책을 바꾸는 구조라는 점이 드러나는지 확인한다.
 
 ### 사례 1. 쿠폰 추천이 지금 클릭만 높일지, 장기 구매를 높일지 고민할 때
 

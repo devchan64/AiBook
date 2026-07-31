@@ -87,6 +87,13 @@
 
 이 절에서 붙잡아야 하는 것은 모델 종류가 아니라, 원시 시계열을 곧바로 입력이라고 부르기 전에 샘플 경계, 구간 기준, 목표 구조를 먼저 정해야 한다는 순서입니다. 따라서 원시 시계열이 바로 학습 입력이 아니라는 말은 `데이터가 부족하다`는 뜻보다 `입력 구조의 경계와 목적이 아직 명세되지 않았다`는 뜻에 가깝습니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `원시 시계열이 있어도 왜 바로 학습 입력이라고 말할 수 없는가`에 대해 한 문장으로 답할 수 있는가?
+- `원시 시계열이 바로 학습 입력 구조가 될 수 없는 이유를 정리해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의된 구조이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 샘플의 경계와 결과 열을 먼저 정해야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

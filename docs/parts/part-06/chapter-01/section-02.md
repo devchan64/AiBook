@@ -1,7 +1,7 @@
 # P6-1.2 생성형 AI를 읽는 중심 사례로서의 LLM
 
 > Section ID: `P6-1.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 생성형 AI에는 이미지 생성, 음성 생성, 영상 생성, 코드 생성처럼 여러 흐름이 있습니다. Part 6이 이 전체를 모두 깊게 다루지는 않습니다. 이 Part에서는 LLM(large language model)을 중심 사례로 삼아 생성형 AI의 동작 원리와 사용 구조를 읽습니다.
 
@@ -45,7 +45,9 @@ LLM을 중심 사례로 읽는다는 말은 이미지 생성이나 음성 생성
 
 따라서 여기서 바로잡을 오해는 세 가지입니다. LLM은 생성형 AI 전체가 아니라 대표 사례입니다. 생성형 AI는 산출물을 만들고 끝나는 기술이 아니라, 사용 장면에서 검토와 보강과 기록이 붙어야 하는 구조입니다. 텍스트 생성도 단순 글쓰기 기능이 아니라 검색, 도구, 평가, 운영 구조와 쉽게 연결되는 실행 흐름입니다.
 
-## 사례 및 예시
+## 생성형 AI를 읽는 중심 사례로서의 LLM: 확인할 판단 기준
+
+이 사례에서는 LLM을 생성형 AI 전체가 아니라 텍스트 생성과 대화형 사용 구조를 읽는 중심 사례로 세우는지 확인한다.
 
 다음은 같은 `답변을 만들어 달라`는 요청처럼 보여도 필요한 구조가 달라지는 예입니다.
 
@@ -89,3 +91,9 @@ LLM을 중심 사례로 읽는 이유는 이처럼 경계가 잘 보이기 때�
 - LLM이 생성형 AI 전체가 아니라 대표 사례라는 점을 설명할 수 있다.
 - Part 6이 텍스트 LLM을 중심으로 삼는 이유를 말할 수 있다.
 - 이미지, 음성, 영상 생성과 LLM 사이의 공통점과 범위 차이를 구분할 수 있다.
+
+## 출처와 참고 자료
+
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, 확인 날짜: 2026-06-22. 생성형 AI를 텍스트, 이미지, 음성, 영상 등 여러 산출물 범주로 나누어 볼 수 있다는 배경 근거로 사용했다.
+- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, arXiv:2303.18223, 확인 날짜: 2026-06-22. LLM의 언어 생성, instruction following, downstream application 흐름을 Part 6 대표 경로로 삼는 근거로 사용했다.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. 텍스트 상호작용과 few-shot demonstrations가 LLM 사용 구조를 이해하는 중요한 배경임을 확인하는 데 사용했다.

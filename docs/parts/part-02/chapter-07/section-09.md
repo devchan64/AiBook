@@ -1,7 +1,7 @@
 # P2-7.9 보충학습: 로컬 Python 환경 문제 점검
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.23`
+> Version: `v2026.07.31`
 
 P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤고, P2-7.5에서는 의존성(dependency)과 재현성(reproducibility)을 봤습니다. P2-7.7과 P2-7.8에서는 Python 설치와 환경 변수(environment variable)를 따로 정리했습니다.
 
@@ -220,7 +220,9 @@ Windows에서 설치는 끝났는데 `python` 명령을 못 찾는 경우가 있
 | Python 설치 여부와 설치 시점을 다시 판단해야 한다 | P2-7.7 Python 설치는 언제 필요한가 |
 | PATH, 환경 변수, 파이프 같은 표현이 다시 낯설다 | P2-7.8 셸 스크립트와 환경 변수 |
 
-## 사례 및 예시
+## 로컬 Python 환경 문제 점검: 확인할 판단 기준
+
+이 사례에서는 자주 막히는 로컬 Python 환경 문제를 어떤 순서로 점검할지 남기는지 확인한다.
 
 ### 사례 1. NumPy를 설치했는데 예제 파일에서는 여전히 없다고 나온다
 

@@ -1,7 +1,7 @@
 # P5-14.8 보충학습: 값의 기준선을 맞추는 정규화
 
 > Section ID: `P5-14.8`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: layer normalization은 한 위치 표현 안의 평균과 퍼짐을 어떻게 다시 맞추는가_
 
@@ -75,7 +75,9 @@ residual connection은 원래 입력 표현과 새 계산 결과를 함께 남�
 
 따라서 `residual + normalization`을 한 덩어리로 외우면 부족합니다. residual connection은 정보 흐름의 문제를 다루고, layer normalization은 값 범위의 문제를 다룹니다.
 
-## 사례 및 예시
+## 값의 기준선을 맞추는 정규화: 확인할 판단 기준
+
+이 사례에서는 layer normalization이 의미 선택이 아니라 값 기준선 정리라는 점을 보충해야 합니다. Python 예제는 평균·표준편차와 다음 계산 점수의 전후 차이를 보여 주는 데 한정하고, P5-14.2의 역할 분담을 반복하는 연습은 늘리지 않습니다.
 
 ### 사례. 작업 허가 문장에서 값 기준선이 흔들리는 경우
 

@@ -1,7 +1,7 @@
 # P5-7.8 보충학습: gradient clipping과 불안정한 update
 
 > Section ID: `P5-7.8`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 optimizer가 gradient를 update로 바꾸는 구조를 이해하고 나면, 실제 학습 로그에서 또 다른 질문이 생깁니다. 방향은 알겠는데, 어떤 step에서는 update가 너무 과격하게 튀는 것처럼 보일 때가 있습니다. 이때 문제를 learning rate로 읽어야 하는가, gradient scale로 읽어야 하는가, 아니면 다른 안전장치가 필요한가?
 
@@ -126,7 +126,9 @@ optimizer는 gradient를 받아 update 규칙을 적용합니다. clipping은 �
 
 이 그래프에서는 3번째 step에서만 입력이 과격해져 clipping이 없으면 update 크기가 `1.2`까지 튀고, clipping을 적용하면 `0.5` 근처에서 눌리는 장면을 보여 줍니다. 중요한 점은 모든 step을 똑같이 작게 만드는 것이 아니라, 튀는 순간만 과격함을 줄인다는 것입니다. 그래서 clipping은 `학습 전체를 느리게 만드는 장치`라기보다 `특정 spike가 학습을 흔들지 않게 막는 안전장치`로 읽는 편이 더 정확합니다.
 
-## 사례 및 예시
+## gradient clipping과 불안정한 update: 확인할 판단 기준
+
+이 사례에서는 gradient clipping이 불안정한 update를 어떻게 제어하는지 보충하는지 확인한다.
 
 ### 사례. loss가 가끔만 크게 튈 때 무엇을 먼저 구분할 것인가
 

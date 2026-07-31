@@ -1,7 +1,7 @@
 # P5-7.5 보충학습: 대표 optimizer 계열
 
 > Section ID: `P5-7.5`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-7.3에서는 적응형 업데이트(adaptive update)의 직관을 Adam(Adaptive Moment Estimation)을 예로 보았습니다. 여기서 한 걸음 더 가면 독자는 momentum, AdaGrad, RMSProp, Adam처럼 여러 optimizer 계열을 만나게 됩니다. 이 이름들을 서로 다른 브랜드처럼 외우기 시작하면 오히려 핵심이 흐려집니다.
 이 절의 구분 기준은 뒤에서 다른 optimizer 이름이 다시 나오더라도, 매번 새 알고리즘처럼 외우지 않고 같은 질문으로 정리하게 도와줍니다.
@@ -174,7 +174,9 @@ Adam은 optimizer 계열 비교에서 자주 마지막에 등장합니다. 이�
 
 이 표는 성능 순위를 말하지 않습니다. 이 표의 목적은 optimizer 이름을 읽을 때 `무엇을 더 기억하고 무엇을 더 조절하는가`를 바로 되묻도록 만드는 것입니다.
 
-## 사례 및 예시
+## 대표 optimizer 계열: 확인할 판단 기준
+
+이 사례에서는 momentum, AdaGrad, RMSProp, Adam의 차이를 큰 그림에서 보충하는지 확인한다.
 
 ### 사례. optimizer 이름이 연달아 나와도 질문은 세 개면 충분하다
 

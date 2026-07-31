@@ -123,7 +123,9 @@ layer normalization이 왜 의미 선택이 아니라 한 위치 표현의 값 �
 
 이 도식은 Transformer 블록 하나를 입문 수준에서 압축한 것입니다. 흐름은 `self-attention으로 관계를 읽고 -> 그 결과를 원래 표현과 함께 안정화하고 -> feed-forward로 현재 위치 표현을 가공하고 -> 다시 원래 정보와 값 범위를 정리해 다음 블록으로 넘긴다`로 읽으면 됩니다.
 
-## 사례 및 예시
+## Transformer 블록의 네 부품은 각각 무엇을 맡는가: 확인할 판단 기준
+
+이 사례에서는 self-attention, feed-forward, residual connection, layer normalization의 역할을 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`로 나누어 설명해야 합니다. 통합된 Python 예제는 현재 토큰 표현이 `input -> after attention -> after feed-forward -> after residual`로 이동하는 흐름을 확인하는 데만 쓰고, normalization의 값 범위 정리는 P5-14.3으로 넘겨야 하는지 확인한다.
 
 ### 사례. `재기동` 위치 표현을 네 부품으로 나누어 읽기
 

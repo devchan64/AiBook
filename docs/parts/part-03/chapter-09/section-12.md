@@ -101,6 +101,13 @@ threshold가 낮으면 검토 큐는 커지지만 위험 사례를 놓치지 않
 
 즉 정확도 하나로 문제를 닫지 않고, 어떤 오류를 더 줄이려는지가 왜 먼저 적혀 있어야 하는지부터 봐야 합니다. 이 절은 `놓침 비용`, `과검출 비용`, `판정 기준 조정`을 함께 묶어, 오류 비용 구조가 목표 해석을 어떻게 바꾸는지 먼저 고정합니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `target 이름과 오류 비용`에 대해 한 문장으로 답할 수 있는가?
+- `같은 target 이름이어도 어떤 오류가 더 아픈지 먼저 적어야 하는 이유를 보여 주어야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google, *Machine Learning Glossary*, `false negative`, `false positive`, `ROC curve`. false negative와 false positive의 용어 기준, 실제 임계값 선택에는 오류별 비용 차이가 영향을 줄 수 있다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

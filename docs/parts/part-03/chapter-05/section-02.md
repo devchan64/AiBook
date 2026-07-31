@@ -184,6 +184,13 @@ E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 
 평균이 같다는 이유로 두 동작을 같은 범주로 묶어 버리면, 실제로는 후반 하강이 급한 사례를 놓칠 수 있습니다. 그래서 요약 표에서는 `평균이 같아도 구조는 다를 수 있다`는 점이 드러나야 합니다. 이 생각이 나중의 특징 설계, 세그먼트 표현, 기준선 비교로 자연스럽게 이어집니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `요약 표는 평균 밖의 패턴을 어떻게 남기는가`에 대해 한 문장으로 답할 수 있는가?
+- `요약 표가 평균 밖의 패턴까지 남겨야 하는 이유를 설명해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 시간 흐름 안에서 신호와 패턴을 읽는 관점을 제공하므로, 평균 하나만으로는 구조 변화를 다 설명할 수 없고 구간별 변화와 모양 차이를 함께 남겨야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

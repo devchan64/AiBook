@@ -241,6 +241,13 @@ errors by load_mode: {'high': 0, 'low': 3, 'normal': 0}
 
 샘플 단위를 잘 정했다고 해서 그 샘플 묶음이 전체 운영 상황을 자동으로 대표하는 것은 아닙니다. 그래서 Part 3에서는 시간·모드·장비 범위와 남은 공백을 함께 적어 두어야 합니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `지금 모은 샘플은 전체 운영 상황을 얼마나 대표하는가`에 대해 한 문장으로 답할 수 있는가?
+- `샘플 정의와 대표성 판단은 별개라는 점을 분명히 해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google for Developers, `Machine Learning Glossary`의 `labeled example`. example 단위가 먼저 정해져야 그다음에 어떤 example 집합이 현재 문제를 대표하는지 묻는 단계로 넘어갈 수 있으므로, 샘플 한 건의 정의와 샘플 묶음의 대표성을 분리해 읽어야 한다는 이 절의 출발점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

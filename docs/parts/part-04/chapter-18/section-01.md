@@ -1,7 +1,7 @@
 # P4-18.1 차원 축소(dimensionality reduction)
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-17에서는 [클러스터링(clustering)](../../../reference/concept-glossary-parts/01-giyeok.md#clustering)으로 `어떤 묶음이 숨어 있는가`를 물었습니다. 여기서는 다른 질문을 붙잡습니다.
 
@@ -242,7 +242,9 @@ PCA를 수식으로 쓰기 시작하면 공분산 행렬(covariance matrix)의 �
 
 `지금 단순해진 표현이, 내가 풀려는 문제에는 충분한가?`
 
-## 사례 및 예시
+## 차원 축소: 확인할 판단 기준
+
+이 사례에서는 차원 축소가 정보를 적은 축으로 다시 표현하는 일이라는 점을 설명하는지 확인한다.
 
 ### 사례 1. 수십 개 고객 지표를 그대로 들고는 흐름이 안 보일 때
 

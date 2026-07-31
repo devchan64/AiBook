@@ -1,7 +1,7 @@
 # P3-3.2 질문에 맞는 데이터셋은 어떻게 다시 설계하는가
 
 > Section ID: `P3-3.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 데이터셋을 다시 설계한다는 말은 이미 있는 파일을 그대로 쓰지 않고, 질문이 요구하는 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 단위와 [열(column)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling) 구조를 다시 고른다는 뜻입니다. 즉 무엇을 한 [행(row)](../../../reference/concept-glossary-parts/07-siot.md#sample-unit)으로 둘지, `어떤 열을 남길지`, `무엇과 비교할지`를 다시 정하는 일입니다. 동작 단위 표, [비교 리포트(comparison report)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), 예측 문제 후보 표가 서로 다른 이유도 바로 이 재설계에서 생깁니다.
 
@@ -91,6 +91,13 @@
 
 
 따라서 데이터셋 재설계는 `표를 많이 만든다`는 뜻보다, 질문이 바뀔 때 행의 뜻과 열의 역할을 다시 정렬하는 일로 읽는 편이 더 정확합니다.
+
+## 체크리스트
+
+- 이 절의 질문인 `질문에 맞는 데이터셋은 어떻게 다시 설계하는가`에 대해 한 문장으로 답할 수 있는가?
+- `질문에 맞는 데이터셋이 어떻게 다시 설계되는지 비교 장면으로 보여 주어야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
 
 ## 출처와 참고 자료
 

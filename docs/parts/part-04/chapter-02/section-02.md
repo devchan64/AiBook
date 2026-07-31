@@ -1,7 +1,7 @@
 # P4-2.2 비지도학습(unsupervised learning)
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-2.1에서는 [지도학습 라벨(supervised learning label)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 있는 사례로 모델을 학습하는 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봤습니다. 이번에는 라벨이 없는 데이터에서 구조를 찾는 [비지도학습(unsupervised learning)](../../../reference/concept-glossary-parts/06-bieup.md#unsupervised-learning)을 봅니다.
 
@@ -171,7 +171,9 @@ Google의 클러스터링 설명도 라벨 없는 예시를 유사도(similarity
 - 군집화, 차원 축소, 이상치 탐지가 각각 어떤 구조 후보를 드러내는지 구분할 수 있는가
 - 비지도학습 결과에는 사람이 해석을 붙여야 하고, 지도학습처럼 정답과 직접 비교해 평가하기 어렵다는 점을 설명할 수 있는가
 
-## 사례 및 예시
+## 비지도학습: 확인할 판단 기준
+
+이 사례에서는 비지도학습이 정답 없이 구조 후보를 읽는 일이라는 점을 분명히 하는지 확인한다.
 
 ### 사례 1. 고객 유형 이름은 없지만 비슷한 패턴이 보이는가를 먼저 보고 싶을 때
 

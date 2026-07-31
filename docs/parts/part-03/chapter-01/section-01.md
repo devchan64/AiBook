@@ -1,7 +1,7 @@
 # P3-1.1 데이터 모델링은 무엇을 달성하려는가
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary-parts/05-mieum.md#output-structure), [타깃(target)](../../../reference/concept-glossary-parts/12-tieut.md#target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)입니다.
 
@@ -104,6 +104,13 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 
 
 따라서 데이터 모델링은 `표를 정리하는 일`보다 `질문에 답할 수 있는 표현과 비교 구조를 먼저 설계하는 일`로 읽는 편이 더 정확합니다.
+
+## 체크리스트
+
+- 이 절의 질문인 `데이터 모델링은 무엇을 달성하려는가`에 대해 한 문장으로 답할 수 있는가?
+- `데이터 모델링이 모델 선택보다 먼저 문제 구조를 드러내는 일이라는 점을 잡아야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
 
 ## 출처와 참고 자료
 

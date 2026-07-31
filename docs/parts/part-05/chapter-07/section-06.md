@@ -1,7 +1,7 @@
 # P5-7.6 보충학습: 학습률 조절 전략
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-7.2에서는 learning rate를 `한 번의 update 보폭`으로 읽었습니다. 하지만 실제 학습 설정을 보다 보면 learning rate가 처음부터 끝까지 고정되지 않고, warmup, decay, cosine schedule 같은 이름으로 계속 바뀌는 장면을 만납니다.
 
@@ -119,7 +119,9 @@ decay는 학습이 진행될수록 learning rate를 줄이는 쪽의 정책입�
 
 이 구분을 놓치면 독자는 `learning rate를 정했다`와 `learning rate schedule을 정했다`를 같은 말처럼 받아들이기 쉽습니다. 하지만 실제로는 다릅니다. 전자는 `지금 보폭의 기본 크기`를 정하는 일이고, 후자는 `그 보폭을 학습 전체에 걸쳐 어떻게 바꿔 갈지`를 정하는 일입니다. 이 둘이 나뉘어 보여야, 뒤에서 논문이나 실무 설정을 읽을 때 `optimizer는 Adam, scheduler는 cosine, warmup 5%` 같은 문장을 자연스럽게 분해할 수 있습니다.
 
-## 사례 및 예시
+## 학습률 조절 전략: 확인할 판단 기준
+
+이 사례에서는 scheduler, warmup, decay가 학습률 조절 전략이라는 점을 보충하는지 확인한다.
 
 ### 사례. 같은 optimizer인데도 초반과 후반에 다른 문제가 보이는 경우
 

@@ -1,7 +1,7 @@
 # P4-17.3 보충학습: 계층적 군집화와 스펙트럴 군집화
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-17.1에서 [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-means)와 [DBSCAN](../../../reference/concept-glossary-parts/03-digeut.md#dbscan)을 보았다면, 곧 이런 질문이 남습니다.
 
@@ -129,7 +129,9 @@ P4-17.1에서 [k-means](../../../reference/concept-glossary-parts/10-kieuk.md#k-
 | 중심점으로는 잘 안 보이는 곡선형 구조가 있는가 | 스펙트럴 클러스터링 |
 | 좌표 거리보다 `누가 누구와 이어져 있는가`가 더 중요해 보이는가 | 스펙트럴 클러스터링 |
 
-## 사례 및 예시
+## 계층적 군집화와 스펙트럴 군집화: 확인할 판단 기준
+
+이 사례에서는 계층적 군집화와 스펙트럴 클러스터링을 처음 구분하는 법을 보충하는지 확인한다.
 
 ### 사례 1. 고객 세그먼트를 몇 단계로 묶을지 아직 정하지 못했을 때
 

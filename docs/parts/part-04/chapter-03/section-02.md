@@ -1,7 +1,7 @@
 # P4-3.2 휴리스틱과 모델 선택
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-3.1에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-parts/14-hieut.md#heuristic)을 제한된 시간과 정보 안에서 후보를 줄이는 판단 기준으로 봤습니다. 이번 절에서는 그 관점을 [모델 선택(model selection)](../../../reference/concept-glossary-parts/05-mieum.md#model-selection)에 적용합니다.
 
@@ -152,7 +152,9 @@ P4-3.1에서는 [휴리스틱(heuristic)](../../../reference/concept-glossary-pa
 
 세 번째 오해는 모델 선택을 모델만의 문제로 보는 것입니다. 모델이 잘 안 나오면 모델을 더 복잡하게 바꾸기 전에 데이터, 라벨, 특징, 평가 기준이 문제에 맞는지 확인해야 합니다.
 
-## 사례 및 예시
+## 휴리스틱과 모델 선택: 확인할 판단 기준
+
+이 사례에서는 휴리스틱이 모델 선택과 평가 비용 판단에 어떻게 개입하는지 설명하는지 확인한다.
 
 ### 사례 1. 고객 문의 분류에서 어떤 모델부터 비교할까
 

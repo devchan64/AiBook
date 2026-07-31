@@ -1,7 +1,7 @@
 # P4-2.1 지도학습(supervised learning)
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-1.2에서는 [머신러닝(machine learning)](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning)을 “데이터에서 입력과 출력의 관계를 추정하는 접근”으로 보았습니다. 이제 그중 가장 먼저 만나는 형태인 [지도학습(supervised learning)](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning)을 봅니다.
 
@@ -191,7 +191,9 @@ Part 3의 데이터 정리 흐름을 가져오면, 지도학습으로 넘어가�
 
 지도학습은 “정답을 알려 주고 외우게 하는 방식”이 아닙니다. 더 정확히는 라벨이 있는 사례를 이용해 입력과 출력의 관계를 추정하고, 그 관계가 새 사례에도 일반화되는지 확인하는 방식입니다.
 
-## 사례 및 예시
+## 지도학습: 확인할 판단 기준
+
+이 사례에서는 지도학습이 라벨과 목표값을 가진 문제 구조라는 점을 닫는지 확인한다.
 
 ### 사례 1. 문의 분류에서 사람이 붙인 답이 있을 때 왜 지도학습이 맞는가
 

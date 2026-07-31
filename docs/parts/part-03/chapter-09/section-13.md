@@ -35,6 +35,13 @@ Part 4로 넘기는 표에는 `problem_type_candidate`, `split_risk`, `group_key
 
 이 절에서는 이름을 모두 외우는 것보다, 현재 데이터 구조가 시간 경계와 개체 경계, 정보 경계, 산출물 형식을 제대로 닫고 있는지 확인하는 편이 더 중요합니다. 지금 단계에서 필요한 것은 세부 절차를 길게 펼치는 일이 아니라, 현재 구조가 무엇을 예측하고 무엇을 아직 예측하면 안 되는지 스스로 모순 없이 말할 수 있게 만드는 일입니다. 이 절은 항목 이름 모음이 아니라, `분할 설계`, `정보 경계 점검`, [산출물 형식 선택](../../../reference/concept-glossary-parts/05-mieum.md#output-structure)이 현재 문제 구조 안에서 서로 모순 없이 닫혀 있는지 확인하는 마지막 점검표로 읽어야 합니다.
 
+## 체크리스트
+
+- 이 절의 질문인 `Part 4로 넘길 문제 경계`에 대해 한 문장으로 답할 수 있는가?
+- `시간 순서 분할, 개체 분리, 데이터 누출, ranking 문제를 왜 여기서는 예고 수준으로만 다루는지 경계를 분명히 해야 합니다.`라는 기준을 본문 표, 도식, 예제 중 하나에 적용해 설명할 수 있는가?
+- 샘플, 특징, 기준선, target/라벨, 검토 기준 중 이 절에서 먼저 고정해야 할 항목을 구분했는가?
+- 모델 선택으로 넘기기 전에 Part 3에서 닫아야 할 데이터 구조 질문을 하나 적었는가?
+
 ## 출처와 참고 자료
 
 - Google, *Machine Learning Glossary*, `label leakage`. 예측 시점 뒤 정보가 특징에 섞이면 라벨의 대리값을 입력으로 쓰는 설계 결함이 될 수 있다는 정보 경계 근거로 참고했다. 확인일: 2026-07-20. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
