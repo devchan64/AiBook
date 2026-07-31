@@ -72,19 +72,19 @@ nav:
               - "P1-4.3 특징(feature), 표현(representation), 파라미터(parameter)": parts/part-01/chapter-04/section-03.md
               - "P1-4.4 문제 정의가 모델을 결정하는 방식": parts/part-01/chapter-04/section-04.md
           - "Chapter 5. 학습(learning)과 모델 실행(inference)":
-              - "P1-5.1 학습(learning)은 무엇을 바꾸는가": parts/part-01/chapter-05/section-01.md
-              - "P1-5.2 모델 실행(inference)은 무엇을 실행하는가": parts/part-01/chapter-05/section-02.md
-              - "P1-5.3 한국어 `추론` 표현의 혼동": parts/part-01/chapter-05/section-03.md
+              - "P1-5.1 학습(learning)은 무엇을 바꾸는가": parts/part-01/chapter-06/section-01.md
+              - "P1-5.2 모델 실행(inference)은 무엇을 실행하는가": parts/part-01/chapter-06/section-02.md
+              - "P1-5.3 한국어 `추론` 표현의 혼동": parts/part-01/chapter-06/section-03.md
       - "Module 3. 불확실성과 문제 해결":
           - "Chapter 6. 불확실성과 확률적 판단":
-              - "P1-6.1 불완전한 정보와 예외가 많은 문제": parts/part-01/chapter-06/section-01.md
-              - "P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic process) 구분": parts/part-01/chapter-06/section-02.md
-              - "P1-6.3 AI에서 확률적 판단이 쓰이는 곳": parts/part-01/chapter-06/section-03.md
+              - "P1-6.1 불완전한 정보와 예외가 많은 문제": parts/part-01/chapter-07/section-01.md
+              - "P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic process) 구분": parts/part-01/chapter-07/section-02.md
+              - "P1-6.3 AI에서 확률적 판단이 쓰이는 곳": parts/part-01/chapter-07/section-03.md
           - "Chapter 7. 탐색과 휴리스틱":
-              - "P1-7.1 탐색 공간(search space)과 계산 한계(computational limit)": parts/part-01/chapter-07/section-01.md
-              - "P1-7.2 휴리스틱(heuristic)은 무엇을 줄이는가": parts/part-01/chapter-07/section-02.md
-              - "P1-7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이": parts/part-01/chapter-07/section-03.md
-              - "P1-7.4 보충학습: 길찾기에서 자율주행 경로 계획으로 이어지는 흐름": parts/part-01/chapter-07/section-04.md
+              - "P1-7.1 탐색 공간(search space)과 계산 한계(computational limit)": parts/part-01/chapter-08/section-01.md
+              - "P1-7.2 휴리스틱(heuristic)은 무엇을 줄이는가": parts/part-01/chapter-08/section-02.md
+              - "P1-7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이": parts/part-01/chapter-08/section-03.md
+              - "P1-7.4 보충학습: 길찾기에서 자율주행 경로 계획으로 이어지는 흐름": parts/part-01/chapter-08/section-04.md
           - "Chapter 8. 학습 유형의 기본 구분":
               - "P1-8.1 지도학습(supervised learning): 입력(input)과 라벨(label)": parts/part-01/chapter-08/section-01.md
               - "P1-8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)": parts/part-01/chapter-08/section-02.md
@@ -157,29 +157,29 @@ nav:
               - "P2-4.2 변화율(rate of change)과 기울기(slope)": parts/part-02/chapter-04/section-02.md
               - "P2-4.3 미분(derivative)과 그래디언트(gradient)": parts/part-02/chapter-04/section-03.md
               - "P2-4.4 학습에서 미분이 필요한 이유": parts/part-02/chapter-04/section-04.md
-              - "P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로": parts/part-02/chapter-04/section-05.md
-              - "P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)": parts/part-02/chapter-04/section-06.md
+              - "P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로": parts/part-02/chapter-05/section-01.md
+              - "P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)": parts/part-02/chapter-05/section-02.md
           - "Chapter 5. 확률과 통계는 왜 필요한가":
-              - "P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가": parts/part-02/chapter-05/section-01.md
-              - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-05/section-02.md
-              - "P2-5.3 표본(sample), 추정(estimation), 오차(error)": parts/part-02/chapter-05/section-03.md
-              - "P2-5.4 확률과 통계를 작은 데이터로 확인하기": parts/part-02/chapter-05/section-04.md
-              - "P2-5.5 보충학습: 표준편차, 상관, 신뢰구간을 처음 읽는 법": parts/part-02/chapter-05/section-05.md
+              - "P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가": parts/part-02/chapter-06/section-01.md
+              - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-06/section-02.md
+              - "P2-5.3 표본(sample), 추정(estimation), 오차(error)": parts/part-02/chapter-06/section-03.md
+              - "P2-5.4 확률과 통계를 작은 데이터로 확인하기": parts/part-02/chapter-06/section-04.md
+              - "P2-5.5 보충학습: 표준편차, 상관, 신뢰구간을 처음 읽는 법": parts/part-02/chapter-06/section-05.md
           - "Chapter 6. 최적화는 어떤 문제를 푸는가":
-              - "P2-6.1 최적화(optimization)는 무엇을 찾는가": parts/part-02/chapter-06/section-01.md
-              - "P2-6.2 손실 함수(loss function)와 목적 함수(objective function)": parts/part-02/chapter-06/section-02.md
-              - "P2-6.3 경사하강법(gradient descent)의 직관": parts/part-02/chapter-06/section-03.md
+              - "P2-6.1 최적화(optimization)는 무엇을 찾는가": parts/part-02/chapter-07/section-01.md
+              - "P2-6.2 손실 함수(loss function)와 목적 함수(objective function)": parts/part-02/chapter-07/section-02.md
+              - "P2-6.3 경사하강법(gradient descent)의 직관": parts/part-02/chapter-07/section-03.md
       - "Module 3. 실행 환경과 Python 기초":
           - "Chapter 7. 학습 환경 세팅":
-              - "P2-7.1 로컬 환경(local environment)과 실행 환경(runtime)": parts/part-02/chapter-07/section-01.md
-              - "P2-7.2 터미널(terminal), 셸(shell), 작업 폴더(working directory)": parts/part-02/chapter-07/section-02.md
-              - "P2-7.3 Python 인터프리터(interpreter)와 스크립트(script)": parts/part-02/chapter-07/section-03.md
-              - "P2-7.4 가상환경(virtual environment)과 패키지(package)": parts/part-02/chapter-07/section-04.md
-              - "P2-7.5 의존성(dependency)과 재현성(reproducibility)": parts/part-02/chapter-07/section-05.md
-              - "P2-7.6 보충학습: 운영체제별 터미널 진입": parts/part-02/chapter-07/section-06.md
-              - "P2-7.7 보충학습: Python 설치는 언제 필요한가": parts/part-02/chapter-07/section-07.md
-              - "P2-7.8 보충학습: 셸 실행 흐름 읽기": parts/part-02/chapter-07/section-08.md
-              - "P2-7.9 보충학습: 로컬 Python 환경 문제 점검": parts/part-02/chapter-07/section-09.md
+              - "P2-7.1 로컬 환경(local environment)과 실행 환경(runtime)": parts/part-02/chapter-08/section-01.md
+              - "P2-7.2 터미널(terminal), 셸(shell), 작업 폴더(working directory)": parts/part-02/chapter-08/section-02.md
+              - "P2-7.3 Python 인터프리터(interpreter)와 스크립트(script)": parts/part-02/chapter-08/section-03.md
+              - "P2-7.4 가상환경(virtual environment)과 패키지(package)": parts/part-02/chapter-08/section-04.md
+              - "P2-7.5 의존성(dependency)과 재현성(reproducibility)": parts/part-02/chapter-08/section-05.md
+              - "P2-7.6 보충학습: 운영체제별 터미널 진입": parts/part-02/chapter-08/section-06.md
+              - "P2-7.7 보충학습: Python 설치는 언제 필요한가": parts/part-02/chapter-08/section-07.md
+              - "P2-7.8 보충학습: 셸 실행 흐름 읽기": parts/part-02/chapter-08/section-08.md
+              - "P2-7.9 보충학습: 로컬 Python 환경 문제 점검": parts/part-02/chapter-08/section-09.md
           - "Chapter 8. Python 핵심 문법 복습":
               - "P2-8.1 값(value), 변수(variable), 타입(type)": parts/part-02/chapter-08/section-01.md
               - "P2-8.2 리스트(list): 순서가 있는 값 묶음": parts/part-02/chapter-08/section-02.md
@@ -240,29 +240,29 @@ nav:
               - "P3-4.2 샘플 단위가 흔들리면 무엇이 함께 흔들리는가": parts/part-03/chapter-04/section-02.md
               - "P3-4.3 한 행, 샘플 1건, 최근 구간 1개는 어떻게 다른가": parts/part-03/chapter-04/section-03.md
               - "P3-4.4 샘플 단위를 잘못 잡았다는 신호는 무엇인가": parts/part-03/chapter-04/section-04.md
-              - "P3-4.5 지금 모은 샘플은 전체 운영 상황을 얼마나 대표하는가": parts/part-03/chapter-04/section-05.md
+              - "P3-4.5 지금 모은 샘플은 전체 운영 상황을 얼마나 대표하는가": parts/part-03/chapter-05/section-01.md
           - "Chapter 5. 원시 로그를 요약 표로 바꾸는 법":
-              - "P3-5.1 원시 로그를 비교 가능한 표로 어떻게 바꾸는가": parts/part-03/chapter-05/section-01.md
-              - "P3-5.2 요약 표는 평균 밖의 패턴을 어떻게 남기는가": parts/part-03/chapter-05/section-02.md
-              - "P3-5.3 원시 시계열이 있어도 왜 바로 학습 입력이라고 말할 수 없는가": parts/part-03/chapter-05/section-03.md
-              - "P3-5.4 입력 창(window)은 어디서 자르고 길이는 어떻게 맞추는가": parts/part-03/chapter-05/section-04.md
-              - "P3-5.5 값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가": parts/part-03/chapter-05/section-05.md
-              - "P3-5.6 겹치는 입력 창과 샘플 수": parts/part-03/chapter-05/section-06.md
-              - "P3-5.7 여러 후속 사건을 접는 규칙": parts/part-03/chapter-05/section-07.md
+              - "P3-5.1 원시 로그를 비교 가능한 표로 어떻게 바꾸는가": parts/part-03/chapter-06/section-01.md
+              - "P3-5.2 요약 표는 평균 밖의 패턴을 어떻게 남기는가": parts/part-03/chapter-06/section-02.md
+              - "P3-5.3 원시 시계열이 있어도 왜 바로 학습 입력이라고 말할 수 없는가": parts/part-03/chapter-06/section-03.md
+              - "P3-5.4 입력 창(window)은 어디서 자르고 길이는 어떻게 맞추는가": parts/part-03/chapter-06/section-04.md
+              - "P3-5.5 값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가": parts/part-03/chapter-06/section-05.md
+              - "P3-5.6 겹치는 입력 창과 샘플 수": parts/part-03/chapter-06/section-06.md
+              - "P3-5.7 여러 후속 사건을 접는 규칙": parts/part-03/chapter-06/section-07.md
       - "Module 3. 특징과 비교 구조":
           - "Chapter 6. 특징과 중간 표현을 설계하는 법":
-              - "P3-6.1 비교할 구조는 어떤 특징으로 남기는가": parts/part-03/chapter-06/section-01.md
-              - "P3-6.2 특징만으로 부족할 때 어떤 중간 표현을 더 둘 수 있는가": parts/part-03/chapter-06/section-02.md
-              - "P3-6.3 사람이 만든 특징과 뒤에서 학습될 표현은 어떻게 이어지는가": parts/part-03/chapter-06/section-03.md
-              - "P3-6.4 요약 표의 모든 열이 왜 특징은 아닌가": parts/part-03/chapter-06/section-04.md
-              - "P3-6.5 서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가": parts/part-03/chapter-06/section-05.md
-              - "P3-6.6 같은 열 이름과 다른 특징": parts/part-03/chapter-06/section-06.md
+              - "P3-6.1 비교할 구조는 어떤 특징으로 남기는가": parts/part-03/chapter-07/section-01.md
+              - "P3-6.2 특징만으로 부족할 때 어떤 중간 표현을 더 둘 수 있는가": parts/part-03/chapter-07/section-02.md
+              - "P3-6.3 사람이 만든 특징과 뒤에서 학습될 표현은 어떻게 이어지는가": parts/part-03/chapter-07/section-03.md
+              - "P3-6.4 요약 표의 모든 열이 왜 특징은 아닌가": parts/part-03/chapter-07/section-04.md
+              - "P3-6.5 서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가": parts/part-03/chapter-07/section-05.md
+              - "P3-6.6 같은 열 이름과 다른 특징": parts/part-03/chapter-07/section-06.md
           - "Chapter 7. 기준선 비교 구조를 읽는 법":
-              - "P3-7.1 남겨 둔 구조를 무엇과 비교해야 변화가 보이는가": parts/part-03/chapter-07/section-01.md
-              - "P3-7.2 비교표를 사람 검토 문장으로 어떻게 읽는가": parts/part-03/chapter-07/section-02.md
-              - "P3-7.3 기준선 비교와 기준 모델은 왜 다른데 둘 다 필요한가": parts/part-03/chapter-07/section-03.md
-              - "P3-7.4 기준선은 어떤 구간과 조건으로 잡아야 하는가": parts/part-03/chapter-07/section-04.md
-              - "P3-7.5 기준선은 고정해야 하는가, 최근 평소 기준으로 갱신해야 하는가": parts/part-03/chapter-07/section-05.md
+              - "P3-7.1 남겨 둔 구조를 무엇과 비교해야 변화가 보이는가": parts/part-03/chapter-08/section-01.md
+              - "P3-7.2 비교표를 사람 검토 문장으로 어떻게 읽는가": parts/part-03/chapter-08/section-02.md
+              - "P3-7.3 기준선 비교와 기준 모델은 왜 다른데 둘 다 필요한가": parts/part-03/chapter-08/section-03.md
+              - "P3-7.4 기준선은 어떤 구간과 조건으로 잡아야 하는가": parts/part-03/chapter-08/section-04.md
+              - "P3-7.5 기준선은 고정해야 하는가, 최근 평소 기준으로 갱신해야 하는가": parts/part-03/chapter-08/section-05.md
       - "Module 4. 해석 경계":
           - "Chapter 8. 표본 수와 반복성은 어떻게 읽는가":
               - "P3-8.1 해석 강도는 무엇으로 조절하는가": parts/part-03/chapter-08/section-01.md
@@ -306,19 +306,19 @@ nav:
               - "P4-4.1 학습 데이터와 평가 데이터": parts/part-04/chapter-04/section-01.md
               - "P4-4.2 검증(validation)과 테스트(test)": parts/part-04/chapter-04/section-02.md
           - "Chapter 5. 과적합과 일반화":
-              - "P4-5.1 과적합(overfitting)과 과소적합(underfitting)": parts/part-04/chapter-05/section-01.md
-              - "P4-5.2 일반화(generalization)": parts/part-04/chapter-05/section-02.md
+              - "P4-5.1 과적합(overfitting)과 과소적합(underfitting)": parts/part-04/chapter-06/section-01.md
+              - "P4-5.2 일반화(generalization)": parts/part-04/chapter-06/section-02.md
           - "Chapter 6. 평가 지표":
-              - "P4-6.1 평가 지표(metric)의 역할": parts/part-04/chapter-06/section-01.md
-              - "P4-6.2 문제 유형별 평가 기준": parts/part-04/chapter-06/section-02.md
-              - "P4-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법": parts/part-04/chapter-06/section-03.md
-              - "P4-6.4 보충학습: 평가 지표 질문 지도": parts/part-04/chapter-06/section-04.md
+              - "P4-6.1 평가 지표(metric)의 역할": parts/part-04/chapter-07/section-01.md
+              - "P4-6.2 문제 유형별 평가 기준": parts/part-04/chapter-07/section-02.md
+              - "P4-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법": parts/part-04/chapter-07/section-03.md
+              - "P4-6.4 보충학습: 평가 지표 질문 지도": parts/part-04/chapter-07/section-04.md
       - "Module 3. 실무 휴리스틱":
           - "Chapter 7. 특징 선택과 전처리 휴리스틱":
-              - "P4-7.1 특징 선택(feature selection)": parts/part-04/chapter-07/section-01.md
-              - "P4-7.2 전처리(preprocessing)": parts/part-04/chapter-07/section-02.md
-              - "P4-7.3 보충학습: 전처리 입력 문제 구분": parts/part-04/chapter-07/section-03.md
-              - "P4-7.4 보충학습: 특징 선택 방식 구분": parts/part-04/chapter-07/section-04.md
+              - "P4-7.1 특징 선택(feature selection)": parts/part-04/chapter-08/section-01.md
+              - "P4-7.2 전처리(preprocessing)": parts/part-04/chapter-08/section-02.md
+              - "P4-7.3 보충학습: 전처리 입력 문제 구분": parts/part-04/chapter-08/section-03.md
+              - "P4-7.4 보충학습: 특징 선택 방식 구분": parts/part-04/chapter-08/section-04.md
           - "Chapter 8. 모델 선택 휴리스틱":
               - "P4-8.1 모델 선택(model selection)": parts/part-04/chapter-08/section-01.md
               - "P4-8.2 기준 모델(baseline)": parts/part-04/chapter-08/section-02.md
@@ -396,23 +396,23 @@ nav:
               - "P5-4.1 손실 함수(loss function)": parts/part-05/chapter-04/section-01.md
               - "P5-4.2 문제 유형별 손실": parts/part-05/chapter-04/section-02.md
           - "Chapter 5. 손실에서 gradient로":
-              - "P5-5.1 손실은 어떻게 gradient 신호가 되는가": parts/part-05/chapter-05/section-01.md
-              - "P5-5.2 계산 그래프(computation graph)와 자동미분(automatic differentiation)": parts/part-05/chapter-05/section-02.md
+              - "P5-5.1 손실은 어떻게 gradient 신호가 되는가": parts/part-05/chapter-06/section-01.md
+              - "P5-5.2 계산 그래프(computation graph)와 자동미분(automatic differentiation)": parts/part-05/chapter-06/section-02.md
       - "Module 3. 학습 루프와 안정화":
           - "Chapter 6. 학습 루프와 모델 실행":
-              - "P5-6.1 학습 루프의 네 단계": parts/part-05/chapter-06/section-01.md
-              - "P5-6.2 학습 step, batch, epoch": parts/part-05/chapter-06/section-02.md
-              - "P5-6.3 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-06/section-03.md
-              - "P5-6.4 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-05/chapter-06/section-04.md
+              - "P5-6.1 학습 루프의 네 단계": parts/part-05/chapter-07/section-01.md
+              - "P5-6.2 학습 step, batch, epoch": parts/part-05/chapter-07/section-02.md
+              - "P5-6.3 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-07/section-03.md
+              - "P5-6.4 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-05/chapter-07/section-04.md
           - "Chapter 7. 옵티마이저":
-              - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-07/section-01.md
-              - "P5-7.2 학습률(learning rate)과 update 보폭": parts/part-05/chapter-07/section-02.md
-              - "P5-7.3 적응형 업데이트의 직관: Adam을 예로": parts/part-05/chapter-07/section-03.md
-              - "P5-7.4 보충학습: adaptive optimization 주장 구분": parts/part-05/chapter-07/section-04.md
-              - "P5-7.5 보충학습: 대표 optimizer 계열": parts/part-05/chapter-07/section-05.md
-              - "P5-7.6 보충학습: 학습률 조절 전략": parts/part-05/chapter-07/section-06.md
-              - "P5-7.7 보충학습: optimizer state와 개별 update": parts/part-05/chapter-07/section-07.md
-              - "P5-7.8 보충학습: gradient clipping과 불안정한 update": parts/part-05/chapter-07/section-08.md
+              - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-08/section-01.md
+              - "P5-7.2 학습률(learning rate)과 update 보폭": parts/part-05/chapter-08/section-02.md
+              - "P5-7.3 적응형 업데이트의 직관: Adam을 예로": parts/part-05/chapter-08/section-03.md
+              - "P5-7.4 보충학습: adaptive optimization 주장 구분": parts/part-05/chapter-08/section-04.md
+              - "P5-7.5 보충학습: 대표 optimizer 계열": parts/part-05/chapter-08/section-05.md
+              - "P5-7.6 보충학습: 학습률 조절 전략": parts/part-05/chapter-08/section-06.md
+              - "P5-7.7 보충학습: optimizer state와 개별 update": parts/part-05/chapter-08/section-07.md
+              - "P5-7.8 보충학습: gradient clipping과 불안정한 update": parts/part-05/chapter-08/section-08.md
           - "Chapter 8. 학습 루프를 안정적으로 만드는 제어 장치":
               - "P5-8.1 목적 함수에 제약을 두는 방법: 정규화(regularization)": parts/part-05/chapter-08/section-01.md
               - "P5-8.2 경로 의존을 줄이는 방법: 드롭아웃(dropout)": parts/part-05/chapter-08/section-02.md
@@ -477,17 +477,17 @@ nav:
               - "P6-4.2 attention의 참조 범위": parts/part-06/chapter-04/section-02.md
               - "P6-4.3 보충학습: attention head와 위치 표현": parts/part-06/chapter-04/section-03.md
               - "P6-4.4 보충학습: KV cache와 반복 생성": parts/part-06/chapter-04/section-04.md
-              - "P6-4.5 보충학습: 긴 문맥과 희소 attention": parts/part-06/chapter-04/section-05.md
+              - "P6-4.5 보충학습: 긴 문맥과 희소 attention": parts/part-06/chapter-05/section-01.md
           - "Chapter 5. GPT 계열":
-              - "P6-5.1 디코더 기반 누적 생성 구조로 보는 GPT 계열": parts/part-06/chapter-05/section-01.md
-              - "P6-5.2 생성 구조 위에 더해지는 지시 따르기와 대화 인터페이스": parts/part-06/chapter-05/section-02.md
+              - "P6-5.1 디코더 기반 누적 생성 구조로 보는 GPT 계열": parts/part-06/chapter-06/section-01.md
+              - "P6-5.2 생성 구조 위에 더해지는 지시 따르기와 대화 인터페이스": parts/part-06/chapter-06/section-02.md
           - "Chapter 6. 다음 토큰 예측과 생성":
-              - "P6-6.1 긴 생성의 출발점이 되는 다음 토큰 예측": parts/part-06/chapter-06/section-01.md
-              - "P6-6.2 답변의 안정성과 다양성을 바꾸는 출력 선택 규칙": parts/part-06/chapter-06/section-02.md
+              - "P6-6.1 긴 생성의 출발점이 되는 다음 토큰 예측": parts/part-06/chapter-07/section-01.md
+              - "P6-6.2 답변의 안정성과 다양성을 바꾸는 출력 선택 규칙": parts/part-06/chapter-07/section-02.md
       - "Module 4. 응답 습관을 만드는 학습과 조정":
           - "Chapter 7. 사전학습":
-              - "P6-7.1 넓은 언어 기반을 먼저 만드는 사전학습": parts/part-06/chapter-07/section-01.md
-              - "P6-7.2 능력과 운영 부담을 함께 키우는 스케일": parts/part-06/chapter-07/section-02.md
+              - "P6-7.1 넓은 언어 기반을 먼저 만드는 사전학습": parts/part-06/chapter-08/section-01.md
+              - "P6-7.2 능력과 운영 부담을 함께 키우는 스케일": parts/part-06/chapter-08/section-02.md
           - "Chapter 8. 파인튜닝":
               - "P6-8.1 목적 맞춤 조정이 필요한 파인튜닝": parts/part-06/chapter-08/section-01.md
               - "P6-8.2 전체 파인튜닝 부담을 줄이는 LoRA": parts/part-06/chapter-08/section-02.md
@@ -558,25 +558,33 @@ nav:
               - "P7-4.2 실패한 결과를 다시 분해하기": parts/part-07/chapter-04/section-02.md
               - "P7-4.3 표현 정규화 연습": parts/part-07/chapter-04/section-03.md
               - "P7-4.4 같은 평균, 다른 패턴 비교 연습": parts/part-07/chapter-04/section-04.md
-              - "P7-4.5 Stable Diffusion과 LoRA 조합 실습": parts/part-07/chapter-04/section-05.md
+          - "Chapter 5. 생성형 이미지 모델 실습":
+              - "P7-5.1 diffusers로 Stable Diffusion과 LoRA 조건 고정하기": parts/part-07/chapter-05/section-01.md
+              - "P7-5.2 ComfyUI workflow로 LoRA, ControlNet, IP-Adapter 조합 보기": parts/part-07/chapter-05/section-02.md
+              - "P7-5.3 kohya_ss로 직접 LoRA 학습 확장하기": parts/part-07/chapter-05/section-03.md
       - "Module 3. 근거와 실행 기록":
-          - "Chapter 5. RAG 근거 검증":
-              - "P7-5.1 검색, 근거, 답변 흐름 실습": parts/part-07/chapter-05/section-01.md
-              - "P7-5.2 검색 실패와 근거 누락 기록": parts/part-07/chapter-05/section-02.md
-              - "P7-5.3 질문-근거 경계 연습": parts/part-07/chapter-05/section-03.md
-              - "P7-5.4 ANN 검색 설정 실습": parts/part-07/chapter-05/section-04.md
-              - "P7-5.5 검색 평가셋으로 근거 품질을 다시 점검하기": parts/part-07/chapter-05/section-05.md
-          - "Chapter 6. agent 실행과 승인 정책":
-              - "P7-6.1 계획, 도구 호출, 승인 흐름 실습": parts/part-07/chapter-06/section-01.md
-              - "P7-6.2 권한, 로그, blocked 상태 검토": parts/part-07/chapter-06/section-02.md
-              - "P7-6.3 승인 정책 연습": parts/part-07/chapter-06/section-03.md
+          - "Chapter 6. RAG 근거 검증":
+              - "P7-6.1 검색, 근거, 답변 흐름 실습": parts/part-07/chapter-06/section-01.md
+              - "P7-6.2 검색 실패와 근거 누락 기록": parts/part-07/chapter-06/section-02.md
+              - "P7-6.3 질문-근거 경계 연습": parts/part-07/chapter-06/section-03.md
+              - "P7-6.4 ANN 검색 설정 실습": parts/part-07/chapter-06/section-04.md
+              - "P7-6.5 검색 평가셋으로 근거 품질을 다시 점검하기": parts/part-07/chapter-06/section-05.md
+          - "Chapter 7. agent 실행과 승인 정책":
+              - "P7-7.1 계획, 도구 호출, 승인 흐름 실습": parts/part-07/chapter-07/section-01.md
+              - "P7-7.2 권한, 로그, blocked 상태 검토": parts/part-07/chapter-07/section-02.md
+              - "P7-7.3 승인 정책 연습": parts/part-07/chapter-07/section-03.md
       - "Module 4. 운영과 반복 개선":
-          - "Chapter 7. 배포와 운영 회고":
-              - "P7-7.1 배포 확인과 상태 점검": parts/part-07/chapter-07/section-01.md
-              - "P7-7.2 장애 기록과 다음 반복 계획": parts/part-07/chapter-07/section-02.md
-              - "P7-7.3 운영 점검 시뮬레이션": parts/part-07/chapter-07/section-03.md
-              - "P7-7.4 경고 등급 설계 연습": parts/part-07/chapter-07/section-04.md
-              - "P7-7.5 재현 가능한 프로젝트 패키지 만들기": parts/part-07/chapter-07/section-05.md
+          - "Chapter 8. 배포와 운영 회고":
+              - "P7-8.1 배포 확인과 상태 점검": parts/part-07/chapter-08/section-01.md
+              - "P7-8.2 장애 기록과 다음 반복 계획": parts/part-07/chapter-08/section-02.md
+              - "P7-8.3 운영 점검 시뮬레이션": parts/part-07/chapter-08/section-03.md
+              - "P7-8.4 경고 등급 설계 연습": parts/part-07/chapter-08/section-04.md
+              - "P7-8.5 재현 가능한 프로젝트 패키지 만들기": parts/part-07/chapter-08/section-05.md
+      - "Module 5. 유행 모델 확장 실습":
+          - "Chapter 9. 로컬 LLM, 비전, 음성·오디오 모델":
+              - "P7-9.1 로컬 LLM으로 양자화와 context 길이 비교하기": parts/part-07/chapter-09/section-01.md
+              - "P7-9.2 SAM 2로 이미지 입력 prompt와 segmentation 결과 비교하기": parts/part-07/chapter-09/section-02.md
+              - "P7-9.3 Whisper와 MusicGen으로 음성·오디오 모델 입출력 비교하기": parts/part-07/chapter-09/section-03.md
       - "마무리": parts/part-07/summary.md
   - "부록":
       - "개념사전": reference/concept-glossary.md
@@ -651,19 +659,19 @@ plugins:
                         - "P1-4.3 Features, Representations, and Parameters": parts/part-01/chapter-04/section-03.md
                         - "P1-4.4 How Problem Definition Determines the Model": parts/part-01/chapter-04/section-04.md
                     - "Chapter 5. Learning and Inference":
-                        - "P1-5.1 What Learning Changes": parts/part-01/chapter-05/section-01.md
-                        - "P1-5.2 What Inference Executes": parts/part-01/chapter-05/section-02.md
-                        - "P1-5.3 Distinguishing Inference-Related Terms": parts/part-01/chapter-05/section-03.md
+                        - "P1-5.1 What Learning Changes": parts/part-01/chapter-06/section-01.md
+                        - "P1-5.2 What Inference Executes": parts/part-01/chapter-06/section-02.md
+                        - "P1-5.3 Distinguishing Inference-Related Terms": parts/part-01/chapter-06/section-03.md
                 - "Module 3. Uncertainty and Problem Solving":
                     - "Chapter 6. Uncertainty and Probabilistic Judgment":
-                        - "P1-6.1 Problems with Incomplete Information and Many Exceptions": parts/part-01/chapter-06/section-01.md
-                        - "P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes": parts/part-01/chapter-06/section-02.md
-                        - "P1-6.3 Where Probabilistic Judgment Appears in AI": parts/part-01/chapter-06/section-03.md
+                        - "P1-6.1 Problems with Incomplete Information and Many Exceptions": parts/part-01/chapter-07/section-01.md
+                        - "P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes": parts/part-01/chapter-07/section-02.md
+                        - "P1-6.3 Where Probabilistic Judgment Appears in AI": parts/part-01/chapter-07/section-03.md
                     - "Chapter 7. Search and Heuristics":
-                        - "P1-7.1 Search Space and Computational Limits": parts/part-01/chapter-07/section-01.md
-                        - "P1-7.2 What Heuristics Reduce": parts/part-01/chapter-07/section-02.md
-                        - "P1-7.3 Difference Between Heuristics and Probabilistic Models": parts/part-01/chapter-07/section-03.md
-                        - "P1-7.4 Supplementary Learning: From Route Finding to Autonomous Driving Path Planning": parts/part-01/chapter-07/section-04.md
+                        - "P1-7.1 Search Space and Computational Limits": parts/part-01/chapter-08/section-01.md
+                        - "P1-7.2 What Heuristics Reduce": parts/part-01/chapter-08/section-02.md
+                        - "P1-7.3 Difference Between Heuristics and Probabilistic Models": parts/part-01/chapter-08/section-03.md
+                        - "P1-7.4 Supplementary Learning: From Route Finding to Autonomous Driving Path Planning": parts/part-01/chapter-08/section-04.md
                     - "Chapter 8. Basic Distinctions Among Learning Types":
                         - "P1-8.1 Supervised Learning: Input and Label": parts/part-01/chapter-08/section-01.md
                         - "P1-8.2 Unsupervised Learning: Structure and Representation": parts/part-01/chapter-08/section-02.md
@@ -736,29 +744,29 @@ plugins:
                         - "P2-4.2 Rate of Change and Slope": parts/part-02/chapter-04/section-02.md
                         - "P2-4.3 Derivative and Gradient": parts/part-02/chapter-04/section-03.md
                         - "P2-4.4 Why Learning Needs Derivatives": parts/part-02/chapter-04/section-04.md
-                        - "P2-4.5 Supplementary Learning: From High-School Derivatives to Multivariable Differentiation": parts/part-02/chapter-04/section-05.md
-                        - "P2-4.6 Composite Functions and the Chain Rule": parts/part-02/chapter-04/section-06.md
+                        - "P2-4.5 Supplementary Learning: From High-School Derivatives to Multivariable Differentiation": parts/part-02/chapter-05/section-01.md
+                        - "P2-4.6 Composite Functions and the Chain Rule": parts/part-02/chapter-05/section-02.md
                     - "Chapter 5. Why Probability and Statistics Are Needed":
-                        - "P2-5.1 How Probability Expresses Uncertainty Numerically": parts/part-02/chapter-05/section-01.md
-                        - "P2-5.2 Distribution, Mean, and Variance": parts/part-02/chapter-05/section-02.md
-                        - "P2-5.3 Sample, Estimation, and Error": parts/part-02/chapter-05/section-03.md
-                        - "P2-5.4 Checking Probability and Statistics with Small Data": parts/part-02/chapter-05/section-04.md
-                        - "P2-5.5 Supplementary Learning: How to Read Standard Deviation, Correlation, and Confidence Intervals for the First Time": parts/part-02/chapter-05/section-05.md
+                        - "P2-5.1 How Probability Expresses Uncertainty Numerically": parts/part-02/chapter-06/section-01.md
+                        - "P2-5.2 Distribution, Mean, and Variance": parts/part-02/chapter-06/section-02.md
+                        - "P2-5.3 Sample, Estimation, and Error": parts/part-02/chapter-06/section-03.md
+                        - "P2-5.4 Checking Probability and Statistics with Small Data": parts/part-02/chapter-06/section-04.md
+                        - "P2-5.5 Supplementary Learning: How to Read Standard Deviation, Correlation, and Confidence Intervals for the First Time": parts/part-02/chapter-06/section-05.md
                     - "Chapter 6. What Kind of Problem Optimization Solves":
-                        - "P2-6.1 What Optimization Searches For": parts/part-02/chapter-06/section-01.md
-                        - "P2-6.2 Loss Functions and Objective Functions": parts/part-02/chapter-06/section-02.md
-                        - "P2-6.3 Intuition for Gradient Descent": parts/part-02/chapter-06/section-03.md
+                        - "P2-6.1 What Optimization Searches For": parts/part-02/chapter-07/section-01.md
+                        - "P2-6.2 Loss Functions and Objective Functions": parts/part-02/chapter-07/section-02.md
+                        - "P2-6.3 Intuition for Gradient Descent": parts/part-02/chapter-07/section-03.md
                 - "Module 3. Runtime Environment and Python Fundamentals":
                     - "Chapter 7. Setting Up the Learning Environment":
-                        - "P2-7.1 Local Environment and Runtime": parts/part-02/chapter-07/section-01.md
-                        - "P2-7.2 Terminal, Shell, and Working Directory": parts/part-02/chapter-07/section-02.md
-                        - "P2-7.3 Python Interpreter and Script": parts/part-02/chapter-07/section-03.md
-                        - "P2-7.4 Virtual Environment and Package": parts/part-02/chapter-07/section-04.md
-                        - "P2-7.5 Dependency and Reproducibility": parts/part-02/chapter-07/section-05.md
-                        - "P2-7.6 Supplemental Learning: Opening Terminals by Operating System": parts/part-02/chapter-07/section-06.md
-                        - "P2-7.7 Supplementary Learning: When Python Installation Becomes Necessary": parts/part-02/chapter-07/section-07.md
-                        - "P2-7.8 Supplemental Learning: Reading Shell Execution Flow": parts/part-02/chapter-07/section-08.md
-                        - "P2-7.9 Supplemental Learning: Checking Local Python Environment Problems": parts/part-02/chapter-07/section-09.md
+                        - "P2-7.1 Local Environment and Runtime": parts/part-02/chapter-08/section-01.md
+                        - "P2-7.2 Terminal, Shell, and Working Directory": parts/part-02/chapter-08/section-02.md
+                        - "P2-7.3 Python Interpreter and Script": parts/part-02/chapter-08/section-03.md
+                        - "P2-7.4 Virtual Environment and Package": parts/part-02/chapter-08/section-04.md
+                        - "P2-7.5 Dependency and Reproducibility": parts/part-02/chapter-08/section-05.md
+                        - "P2-7.6 Supplemental Learning: Opening Terminals by Operating System": parts/part-02/chapter-08/section-06.md
+                        - "P2-7.7 Supplementary Learning: When Python Installation Becomes Necessary": parts/part-02/chapter-08/section-07.md
+                        - "P2-7.8 Supplemental Learning: Reading Shell Execution Flow": parts/part-02/chapter-08/section-08.md
+                        - "P2-7.9 Supplemental Learning: Checking Local Python Environment Problems": parts/part-02/chapter-08/section-09.md
                     - "Chapter 8. Review of Core Python Syntax":
                         - "P2-8.1 Values, Variables, and Types": parts/part-02/chapter-08/section-01.md
                         - "P2-8.2 Lists: Ordered Groups of Values": parts/part-02/chapter-08/section-02.md
@@ -819,29 +827,29 @@ plugins:
                         - "P3-4.2 What Else Becomes Unstable When the Sample Unit Wobbles": parts/part-03/chapter-04/section-02.md
                         - "P3-4.3 How One Row, One Sample, and One Recent Window Differ": parts/part-03/chapter-04/section-03.md
                         - "P3-4.4 What Signals That the Sample Unit Has Been Chosen Poorly": parts/part-03/chapter-04/section-04.md
-                        - "P3-4.5 How Representative the Collected Samples Are of the Overall Operating Situation": parts/part-03/chapter-04/section-05.md
+                        - "P3-4.5 How Representative the Collected Samples Are of the Overall Operating Situation": parts/part-03/chapter-05/section-01.md
                     - "Chapter 5. How to Turn Raw Logs into Summary Tables":
-                        - "P3-5.1 How to Turn Raw Logs into Comparable Tables": parts/part-03/chapter-05/section-01.md
-                        - "P3-5.2 How Summary Tables Preserve Patterns Beyond the Mean": parts/part-03/chapter-05/section-02.md
-                        - "P3-5.3 Why Raw Time Series Cannot Yet Be Called Learning Inputs Directly": parts/part-03/chapter-05/section-03.md
-                        - "P3-5.4 Where to Cut an Input Window and How to Match Its Length": parts/part-03/chapter-05/section-04.md
-                        - "P3-5.5 How to Handle Samples with Missing Values or Empty Segments": parts/part-03/chapter-05/section-05.md
-                        - "P3-5.6 Overlapping Input Windows and Sample Counts": parts/part-03/chapter-05/section-06.md
-                        - "P3-5.7 Rules for Folding Multiple Follow-Up Events": parts/part-03/chapter-05/section-07.md
+                        - "P3-5.1 How to Turn Raw Logs into Comparable Tables": parts/part-03/chapter-06/section-01.md
+                        - "P3-5.2 How Summary Tables Preserve Patterns Beyond the Mean": parts/part-03/chapter-06/section-02.md
+                        - "P3-5.3 Why Raw Time Series Cannot Yet Be Called Learning Inputs Directly": parts/part-03/chapter-06/section-03.md
+                        - "P3-5.4 Where to Cut an Input Window and How to Match Its Length": parts/part-03/chapter-06/section-04.md
+                        - "P3-5.5 How to Handle Samples with Missing Values or Empty Segments": parts/part-03/chapter-06/section-05.md
+                        - "P3-5.6 Overlapping Input Windows and Sample Counts": parts/part-03/chapter-06/section-06.md
+                        - "P3-5.7 Rules for Folding Multiple Follow-Up Events": parts/part-03/chapter-06/section-07.md
                 - "Module 3. Features and Comparison Structure":
                     - "Chapter 6. How to Design Features and Intermediate Representations":
-                        - "P3-6.1 What Kinds of Features Preserve the Structure to Be Compared": parts/part-03/chapter-06/section-01.md
-                        - "P3-6.2 What Intermediate Representation Can Be Added When Features Alone Are Not Enough": parts/part-03/chapter-06/section-02.md
-                        - "P3-6.3 How Human-Designed Features Connect to Later Learned Representations": parts/part-03/chapter-06/section-03.md
-                        - "P3-6.4 Why Not Every Column in a Summary Table Is a Feature": parts/part-03/chapter-06/section-04.md
-                        - "P3-6.5 How to Read and Keep Features Together When Their Units and Scales Differ": parts/part-03/chapter-06/section-05.md
-                        - "P3-6.6 Same Column Name, Different Feature": parts/part-03/chapter-06/section-06.md
+                        - "P3-6.1 What Kinds of Features Preserve the Structure to Be Compared": parts/part-03/chapter-07/section-01.md
+                        - "P3-6.2 What Intermediate Representation Can Be Added When Features Alone Are Not Enough": parts/part-03/chapter-07/section-02.md
+                        - "P3-6.3 How Human-Designed Features Connect to Later Learned Representations": parts/part-03/chapter-07/section-03.md
+                        - "P3-6.4 Why Not Every Column in a Summary Table Is a Feature": parts/part-03/chapter-07/section-04.md
+                        - "P3-6.5 How to Read and Keep Features Together When Their Units and Scales Differ": parts/part-03/chapter-07/section-05.md
+                        - "P3-6.6 Same Column Name, Different Feature": parts/part-03/chapter-07/section-06.md
                     - "Chapter 7. How to Read Baseline Comparison Structure":
-                        - "P3-7.1 What the Preserved Structure Must Be Compared Against for Change to Become Visible": parts/part-03/chapter-07/section-01.md
-                        - "P3-7.2 How to Turn a Comparison Table into a Human Review Sentence": parts/part-03/chapter-07/section-02.md
-                        - "P3-7.3 Why Baseline Comparison and a Baseline Model Are Different Yet Both Needed": parts/part-03/chapter-07/section-03.md
-                        - "P3-7.4 What Window and Conditions Should Be Used to Build a Baseline": parts/part-03/chapter-07/section-04.md
-                        - "P3-7.5 Whether a Baseline Should Stay Fixed or Be Refreshed as a Recent-Normal Baseline": parts/part-03/chapter-07/section-05.md
+                        - "P3-7.1 What the Preserved Structure Must Be Compared Against for Change to Become Visible": parts/part-03/chapter-08/section-01.md
+                        - "P3-7.2 How to Turn a Comparison Table into a Human Review Sentence": parts/part-03/chapter-08/section-02.md
+                        - "P3-7.3 Why Baseline Comparison and a Baseline Model Are Different Yet Both Needed": parts/part-03/chapter-08/section-03.md
+                        - "P3-7.4 What Window and Conditions Should Be Used to Build a Baseline": parts/part-03/chapter-08/section-04.md
+                        - "P3-7.5 Whether a Baseline Should Stay Fixed or Be Refreshed as a Recent-Normal Baseline": parts/part-03/chapter-08/section-05.md
                 - "Module 4. Boundaries of Interpretation":
                     - "Chapter 8. How to Read Sample Size and Repeatability":
                         - "P3-8.1 What Controls the Strength of Interpretation": parts/part-03/chapter-08/section-01.md
@@ -885,19 +893,19 @@ plugins:
                         - "P4-4.1 Training Data and Evaluation Data": parts/part-04/chapter-04/section-01.md
                         - "P4-4.2 Validation and Test": parts/part-04/chapter-04/section-02.md
                     - "Chapter 5. Overfitting and Generalization":
-                        - "P4-5.1 Overfitting and Underfitting": parts/part-04/chapter-05/section-01.md
-                        - "P4-5.2 Generalization": parts/part-04/chapter-05/section-02.md
+                        - "P4-5.1 Overfitting and Underfitting": parts/part-04/chapter-06/section-01.md
+                        - "P4-5.2 Generalization": parts/part-04/chapter-06/section-02.md
                     - "Chapter 6. Evaluation Metrics":
-                        - "P4-6.1 The Role of a Metric": parts/part-04/chapter-06/section-01.md
-                        - "P4-6.2 Evaluation Standards by Problem Type": parts/part-04/chapter-06/section-02.md
-                        - "P4-6.3 Supplementary Learning: How to Read Metrics in Site Reliability Engineering": parts/part-04/chapter-06/section-03.md
-                        - "P4-6.4 Supplementary Learning: A Question Map for Evaluation Metrics": parts/part-04/chapter-06/section-04.md
+                        - "P4-6.1 The Role of a Metric": parts/part-04/chapter-07/section-01.md
+                        - "P4-6.2 Evaluation Standards by Problem Type": parts/part-04/chapter-07/section-02.md
+                        - "P4-6.3 Supplementary Learning: How to Read Metrics in Site Reliability Engineering": parts/part-04/chapter-07/section-03.md
+                        - "P4-6.4 Supplementary Learning: A Question Map for Evaluation Metrics": parts/part-04/chapter-07/section-04.md
                 - "Module 3. Practical Heuristics":
                     - "Chapter 7. Heuristics for Feature Selection and Preprocessing":
-                        - "P4-7.1 Feature Selection": parts/part-04/chapter-07/section-01.md
-                        - "P4-7.2 Preprocessing": parts/part-04/chapter-07/section-02.md
-                        - "P4-7.3 Supplementary Learning: Separating Preprocessing Input Problems": parts/part-04/chapter-07/section-03.md
-                        - "P4-7.4 Supplementary Learning: Distinguishing Feature Selection Methods": parts/part-04/chapter-07/section-04.md
+                        - "P4-7.1 Feature Selection": parts/part-04/chapter-08/section-01.md
+                        - "P4-7.2 Preprocessing": parts/part-04/chapter-08/section-02.md
+                        - "P4-7.3 Supplementary Learning: Separating Preprocessing Input Problems": parts/part-04/chapter-08/section-03.md
+                        - "P4-7.4 Supplementary Learning: Distinguishing Feature Selection Methods": parts/part-04/chapter-08/section-04.md
                     - "Chapter 8. Heuristics for Model Selection":
                         - "P4-8.1 Model Selection": parts/part-04/chapter-08/section-01.md
                         - "P4-8.2 Baseline Models": parts/part-04/chapter-08/section-02.md
@@ -975,19 +983,19 @@ plugins:
                         - "P5-4.1 Loss Functions": parts/part-05/chapter-04/section-01.md
                         - "P5-4.2 Loss by Problem Type": parts/part-05/chapter-04/section-02.md
                     - "Chapter 5. Backpropagation":
-                        - "P5-5.1 Intuition for Backpropagation": parts/part-05/chapter-05/section-01.md
-                        - "P5-5.2 Computation Graphs": parts/part-05/chapter-05/section-02.md
+                        - "P5-5.1 Intuition for Backpropagation": parts/part-05/chapter-06/section-01.md
+                        - "P5-5.2 Computation Graphs": parts/part-05/chapter-06/section-02.md
                 - "Module 3. Learning Loops and Stabilization":
                     - "Chapter 6. Separating Learning and Inference":
-                        - "P5-6.1 The Four Steps of the Training Loop": parts/part-05/chapter-06/section-01.md
-                        - "P5-6.2 Learning Steps, Batches, and Epochs": parts/part-05/chapter-06/section-02.md
-                        - "P5-6.3 Learning and Inference": parts/part-05/chapter-06/section-03.md
-                        - "P5-6.4 Training Mode and Evaluation Mode": parts/part-05/chapter-06/section-04.md
+                        - "P5-6.1 The Four Steps of the Training Loop": parts/part-05/chapter-07/section-01.md
+                        - "P5-6.2 Learning Steps, Batches, and Epochs": parts/part-05/chapter-07/section-02.md
+                        - "P5-6.3 Learning and Inference": parts/part-05/chapter-07/section-03.md
+                        - "P5-6.4 Training Mode and Evaluation Mode": parts/part-05/chapter-07/section-04.md
                     - "Chapter 7. Optimizers":
-                        - "P5-7.1 The Role of the Optimizer": parts/part-05/chapter-07/section-01.md
-                        - "P5-7.2 Learning Rate and Update Step Size": parts/part-05/chapter-07/section-02.md
-                        - "P5-7.3 Intuition for Adam: Adaptive Updates": parts/part-05/chapter-07/section-03.md
-                        - "P5-7.4 Supplementary Reading: Distinguishing Adaptive Optimization Claims": parts/part-05/chapter-07/section-04.md
+                        - "P5-7.1 The Role of the Optimizer": parts/part-05/chapter-08/section-01.md
+                        - "P5-7.2 Learning Rate and Update Step Size": parts/part-05/chapter-08/section-02.md
+                        - "P5-7.3 Intuition for Adam: Adaptive Updates": parts/part-05/chapter-08/section-03.md
+                        - "P5-7.4 Supplementary Reading: Distinguishing Adaptive Optimization Claims": parts/part-05/chapter-08/section-04.md
                     - "Chapter 8. Regularization and Dropout":
                         - "P5-8.1 Regularization": parts/part-05/chapter-08/section-01.md
                         - "P5-8.2 Dropout": parts/part-05/chapter-08/section-02.md
@@ -1068,19 +1076,19 @@ plugins:
                         - "P1-4.3 特征、表征与参数": parts/part-01/chapter-04/section-03.md
                         - "P1-4.4 问题定义如何决定模型": parts/part-01/chapter-04/section-04.md
                     - "Chapter 5. 学习与模型执行":
-                        - "P1-5.1 学习到底改变什么": parts/part-01/chapter-05/section-01.md
-                        - "P1-5.2 模型执行(inference)到底执行什么": parts/part-01/chapter-05/section-02.md
-                        - "P1-5.3 “推理”一词的混乱": parts/part-01/chapter-05/section-03.md
+                        - "P1-5.1 学习到底改变什么": parts/part-01/chapter-06/section-01.md
+                        - "P1-5.2 模型执行(inference)到底执行什么": parts/part-01/chapter-06/section-02.md
+                        - "P1-5.3 “推理”一词的混乱": parts/part-01/chapter-06/section-03.md
                 - "Module 3. 不确定性与问题求解":
                     - "Chapter 6. 不确定性与概率判断":
-                        - "P1-6.1 信息不完整且例外很多的问题": parts/part-01/chapter-06/section-01.md
-                        - "P1-6.2 区分概率、不确定性与随机过程": parts/part-01/chapter-06/section-02.md
-                        - "P1-6.3 概率性判断在 AI 中出现在哪里": parts/part-01/chapter-06/section-03.md
+                        - "P1-6.1 信息不完整且例外很多的问题": parts/part-01/chapter-07/section-01.md
+                        - "P1-6.2 区分概率、不确定性与随机过程": parts/part-01/chapter-07/section-02.md
+                        - "P1-6.3 概率性判断在 AI 中出现在哪里": parts/part-01/chapter-07/section-03.md
                     - "Chapter 7. 搜索与启发式":
-                        - "P1-7.1 搜索空间与计算极限": parts/part-01/chapter-07/section-01.md
-                        - "P1-7.2 启发式减少了什么": parts/part-01/chapter-07/section-02.md
-                        - "P1-7.3 启发式与概率模型的区别": parts/part-01/chapter-07/section-03.md
-                        - "P1-7.4 补充学习：从路径寻找走到自动驾驶路径规划": parts/part-01/chapter-07/section-04.md
+                        - "P1-7.1 搜索空间与计算极限": parts/part-01/chapter-08/section-01.md
+                        - "P1-7.2 启发式减少了什么": parts/part-01/chapter-08/section-02.md
+                        - "P1-7.3 启发式与概率模型的区别": parts/part-01/chapter-08/section-03.md
+                        - "P1-7.4 补充学习：从路径寻找走到自动驾驶路径规划": parts/part-01/chapter-08/section-04.md
                     - "Chapter 8. 学习类型的基本区分":
                         - "P1-8.1 监督学习：输入与标签": parts/part-01/chapter-08/section-01.md
                         - "P1-8.2 无监督学习：结构与表征": parts/part-01/chapter-08/section-02.md
@@ -1153,29 +1161,29 @@ plugins:
                         - "P2-4.2 变化率(rate of change)与斜率(slope)": parts/part-02/chapter-04/section-02.md
                         - "P2-4.3 微分(derivative)与梯度(gradient)": parts/part-02/chapter-04/section-03.md
                         - "P2-4.4 为什么学习需要微分": parts/part-02/chapter-04/section-04.md
-                        - "P2-4.5 梯度补充学习：从高中微分走到多变量微分": parts/part-02/chapter-04/section-05.md
-                        - "P2-4.6 复合函数(composite function)与链式法则(chain rule)": parts/part-02/chapter-04/section-06.md
+                        - "P2-4.5 梯度补充学习：从高中微分走到多变量微分": parts/part-02/chapter-05/section-01.md
+                        - "P2-4.6 复合函数(composite function)与链式法则(chain rule)": parts/part-02/chapter-05/section-02.md
                     - "Chapter 5. 为什么需要概率与统计":
-                        - "P2-5.1 概率(probability)怎样把不确定性表示成数字": parts/part-02/chapter-05/section-01.md
-                        - "P2-5.2 分布(distribution)、平均(mean)、方差(variance)": parts/part-02/chapter-05/section-02.md
-                        - "P2-5.3 样本(sample)、估计(estimation)、误差(error)": parts/part-02/chapter-05/section-03.md
-                        - "P2-5.4 用小数据确认概率与统计": parts/part-02/chapter-05/section-04.md
-                        - "P2-5.5 补充学习：第一次怎样读标准差、相关、置信区间": parts/part-02/chapter-05/section-05.md
+                        - "P2-5.1 概率(probability)怎样把不确定性表示成数字": parts/part-02/chapter-06/section-01.md
+                        - "P2-5.2 分布(distribution)、平均(mean)、方差(variance)": parts/part-02/chapter-06/section-02.md
+                        - "P2-5.3 样本(sample)、估计(estimation)、误差(error)": parts/part-02/chapter-06/section-03.md
+                        - "P2-5.4 用小数据确认概率与统计": parts/part-02/chapter-06/section-04.md
+                        - "P2-5.5 补充学习：第一次怎样读标准差、相关、置信区间": parts/part-02/chapter-06/section-05.md
                     - "Chapter 6. 优化在解什么问题":
-                        - "P2-6.1 优化(optimization)在寻找什么": parts/part-02/chapter-06/section-01.md
-                        - "P2-6.2 损失函数与目标函数": parts/part-02/chapter-06/section-02.md
-                        - "P2-6.3 梯度下降(gradient descent)的直觉": parts/part-02/chapter-06/section-03.md
+                        - "P2-6.1 优化(optimization)在寻找什么": parts/part-02/chapter-07/section-01.md
+                        - "P2-6.2 损失函数与目标函数": parts/part-02/chapter-07/section-02.md
+                        - "P2-6.3 梯度下降(gradient descent)的直觉": parts/part-02/chapter-07/section-03.md
                 - "Module 3. 运行环境与 Python 基础":
                     - "Chapter 7. 学习环境设置":
-                        - "P2-7.1 本地环境(local environment)与运行环境(runtime)": parts/part-02/chapter-07/section-01.md
-                        - "P2-7.2 终端(terminal)、shell、工作目录(working directory)": parts/part-02/chapter-07/section-02.md
-                        - "P2-7.3 Python 解释器(interpreter)与脚本(script)": parts/part-02/chapter-07/section-03.md
-                        - "P2-7.4 虚拟环境(virtual environment)与包(package)": parts/part-02/chapter-07/section-04.md
-                        - "P2-7.5 依赖(dependency)与可复现性(reproducibility)": parts/part-02/chapter-07/section-05.md
-                        - "P2-7.6 补充学习：不同操作系统中的终端入口": parts/part-02/chapter-07/section-06.md
-                        - "P2-7.7 补充学习：什么时候需要安装 Python": parts/part-02/chapter-07/section-07.md
-                        - "P2-7.8 补充学习：阅读 shell 执行流程": parts/part-02/chapter-07/section-08.md
-                        - "P2-7.9 补充学习：检查本地 Python 环境问题": parts/part-02/chapter-07/section-09.md
+                        - "P2-7.1 本地环境(local environment)与运行环境(runtime)": parts/part-02/chapter-08/section-01.md
+                        - "P2-7.2 终端(terminal)、shell、工作目录(working directory)": parts/part-02/chapter-08/section-02.md
+                        - "P2-7.3 Python 解释器(interpreter)与脚本(script)": parts/part-02/chapter-08/section-03.md
+                        - "P2-7.4 虚拟环境(virtual environment)与包(package)": parts/part-02/chapter-08/section-04.md
+                        - "P2-7.5 依赖(dependency)与可复现性(reproducibility)": parts/part-02/chapter-08/section-05.md
+                        - "P2-7.6 补充学习：不同操作系统中的终端入口": parts/part-02/chapter-08/section-06.md
+                        - "P2-7.7 补充学习：什么时候需要安装 Python": parts/part-02/chapter-08/section-07.md
+                        - "P2-7.8 补充学习：阅读 shell 执行流程": parts/part-02/chapter-08/section-08.md
+                        - "P2-7.9 补充学习：检查本地 Python 环境问题": parts/part-02/chapter-08/section-09.md
                     - "Chapter 8. 复习 Python 核心语法":
                         - "P2-8.1 值(value)、变量(variable)、类型(type)": parts/part-02/chapter-08/section-01.md
                         - "P2-8.2 列表(list)：有顺序的值集合": parts/part-02/chapter-08/section-02.md
@@ -1236,29 +1244,29 @@ plugins:
                         - "P3-4.2 一旦样本单位摇晃，什么会一起摇晃": parts/part-03/chapter-04/section-02.md
                         - "P3-4.3 一行、一个样本、一段近期区间到底有什么不同": parts/part-03/chapter-04/section-03.md
                         - "P3-4.4 什么信号说明样本单位抓错了": parts/part-03/chapter-04/section-04.md
-                        - "P3-4.5 当前收集到的样本，对整体运营情境有多大代表性": parts/part-03/chapter-04/section-05.md
+                        - "P3-4.5 当前收集到的样本，对整体运营情境有多大代表性": parts/part-03/chapter-05/section-01.md
                     - "Chapter 5. 怎样把原始日志变成汇总表":
-                        - "P3-5.1 怎样把原始日志变成可比较的表": parts/part-03/chapter-05/section-01.md
-                        - "P3-5.2 汇总表怎样留下平均值之外的模式": parts/part-03/chapter-05/section-02.md
-                        - "P3-5.3 即使手上有原始时间序列，为什么也不能立刻说那就是学习输入": parts/part-03/chapter-05/section-03.md
-                        - "P3-5.4 输入窗口(window)该从哪里切、长度又该怎样对齐": parts/part-03/chapter-05/section-04.md
-                        - "P3-5.5 遇到值缺失或区间空掉的样本时该怎么处理": parts/part-03/chapter-05/section-05.md
-                        - "P3-5.6 重叠输入窗口与样本数": parts/part-03/chapter-05/section-06.md
-                        - "P3-5.7 折叠多个后续事件的规则": parts/part-03/chapter-05/section-07.md
+                        - "P3-5.1 怎样把原始日志变成可比较的表": parts/part-03/chapter-06/section-01.md
+                        - "P3-5.2 汇总表怎样留下平均值之外的模式": parts/part-03/chapter-06/section-02.md
+                        - "P3-5.3 即使手上有原始时间序列，为什么也不能立刻说那就是学习输入": parts/part-03/chapter-06/section-03.md
+                        - "P3-5.4 输入窗口(window)该从哪里切、长度又该怎样对齐": parts/part-03/chapter-06/section-04.md
+                        - "P3-5.5 遇到值缺失或区间空掉的样本时该怎么处理": parts/part-03/chapter-06/section-05.md
+                        - "P3-5.6 重叠输入窗口与样本数": parts/part-03/chapter-06/section-06.md
+                        - "P3-5.7 折叠多个后续事件的规则": parts/part-03/chapter-06/section-07.md
                 - "Module 3. 特征与比较结构":
                     - "Chapter 6. 怎样设计特征与中间表征":
-                        - "P3-6.1 应该把可比较的结构留下成什么特征": parts/part-03/chapter-06/section-01.md
-                        - "P3-6.2 当光靠特征还不够时，还能加什么中间表征": parts/part-03/chapter-06/section-02.md
-                        - "P3-6.3 人工设计的特征与后面会学习到的表征怎样衔接": parts/part-03/chapter-06/section-03.md
-                        - "P3-6.4 为什么汇总表里的所有列都不一定是特征": parts/part-03/chapter-06/section-04.md
-                        - "P3-6.5 单位与量级不同的特征，怎样一起阅读并留下": parts/part-03/chapter-06/section-05.md
-                        - "P3-6.6 相同列名与不同特征": parts/part-03/chapter-06/section-06.md
+                        - "P3-6.1 应该把可比较的结构留下成什么特征": parts/part-03/chapter-07/section-01.md
+                        - "P3-6.2 当光靠特征还不够时，还能加什么中间表征": parts/part-03/chapter-07/section-02.md
+                        - "P3-6.3 人工设计的特征与后面会学习到的表征怎样衔接": parts/part-03/chapter-07/section-03.md
+                        - "P3-6.4 为什么汇总表里的所有列都不一定是特征": parts/part-03/chapter-07/section-04.md
+                        - "P3-6.5 单位与量级不同的特征，怎样一起阅读并留下": parts/part-03/chapter-07/section-05.md
+                        - "P3-6.6 相同列名与不同特征": parts/part-03/chapter-07/section-06.md
                     - "Chapter 7. 怎样阅读基准线比较结构":
-                        - "P3-7.1 必须把留下来的结构拿去和什么比较，变化才会显现": parts/part-03/chapter-07/section-01.md
-                        - "P3-7.2 怎样把比较表读成人工复核句子": parts/part-03/chapter-07/section-02.md
-                        - "P3-7.3 为什么基准线比较与基准模型不是一回事，但两者又都需要": parts/part-03/chapter-07/section-03.md
-                        - "P3-7.4 基准线应该按什么区间与条件来定": parts/part-03/chapter-07/section-04.md
-                        - "P3-7.5 基准线应该固定，还是按近期平常状态不断更新": parts/part-03/chapter-07/section-05.md
+                        - "P3-7.1 必须把留下来的结构拿去和什么比较，变化才会显现": parts/part-03/chapter-08/section-01.md
+                        - "P3-7.2 怎样把比较表读成人工复核句子": parts/part-03/chapter-08/section-02.md
+                        - "P3-7.3 为什么基准线比较与基准模型不是一回事，但两者又都需要": parts/part-03/chapter-08/section-03.md
+                        - "P3-7.4 基准线应该按什么区间与条件来定": parts/part-03/chapter-08/section-04.md
+                        - "P3-7.5 基准线应该固定，还是按近期平常状态不断更新": parts/part-03/chapter-08/section-05.md
                 - "Module 4. 解释边界":
                     - "Chapter 8. 怎样阅读样本数与重复性":
                         - "P3-8.1 用什么调节解释强度": parts/part-03/chapter-08/section-01.md
@@ -1302,19 +1310,19 @@ plugins:
                         - "P4-4.1 训练数据与评估数据": parts/part-04/chapter-04/section-01.md
                         - "P4-4.2 验证(validation)与测试(test)": parts/part-04/chapter-04/section-02.md
                     - "Chapter 5. 过拟合与泛化":
-                        - "P4-5.1 过拟合(overfitting)与欠拟合(underfitting)": parts/part-04/chapter-05/section-01.md
-                        - "P4-5.2 泛化(generalization)": parts/part-04/chapter-05/section-02.md
+                        - "P4-5.1 过拟合(overfitting)与欠拟合(underfitting)": parts/part-04/chapter-06/section-01.md
+                        - "P4-5.2 泛化(generalization)": parts/part-04/chapter-06/section-02.md
                     - "Chapter 6. 评估指标":
-                        - "P4-6.1 评估指标(metric)的角色": parts/part-04/chapter-06/section-01.md
-                        - "P4-6.2 不同问题类型的评估标准": parts/part-04/chapter-06/section-02.md
-                        - "P4-6.3 补充学习：第一次怎样在站点可靠性工程里阅读 metrics": parts/part-04/chapter-06/section-03.md
-                        - "P4-6.4 补充学习：评估指标的问题地图": parts/part-04/chapter-06/section-04.md
+                        - "P4-6.1 评估指标(metric)的角色": parts/part-04/chapter-07/section-01.md
+                        - "P4-6.2 不同问题类型的评估标准": parts/part-04/chapter-07/section-02.md
+                        - "P4-6.3 补充学习：第一次怎样在站点可靠性工程里阅读 metrics": parts/part-04/chapter-07/section-03.md
+                        - "P4-6.4 补充学习：评估指标的问题地图": parts/part-04/chapter-07/section-04.md
                 - "Module 3. 实务启发式":
                     - "Chapter 7. 特征选择与预处理启发式":
-                        - "P4-7.1 特征选择(feature selection)": parts/part-04/chapter-07/section-01.md
-                        - "P4-7.2 预处理(preprocessing)": parts/part-04/chapter-07/section-02.md
-                        - "P4-7.3 补充学习：区分预处理中的输入问题": parts/part-04/chapter-07/section-03.md
-                        - "P4-7.4 补充学习：区分特征选择方式": parts/part-04/chapter-07/section-04.md
+                        - "P4-7.1 特征选择(feature selection)": parts/part-04/chapter-08/section-01.md
+                        - "P4-7.2 预处理(preprocessing)": parts/part-04/chapter-08/section-02.md
+                        - "P4-7.3 补充学习：区分预处理中的输入问题": parts/part-04/chapter-08/section-03.md
+                        - "P4-7.4 补充学习：区分特征选择方式": parts/part-04/chapter-08/section-04.md
                     - "Chapter 8. 模型选择启发式":
                         - "P4-8.1 模型选择(model selection)": parts/part-04/chapter-08/section-01.md
                         - "P4-8.2 基准模型(baseline)": parts/part-04/chapter-08/section-02.md
@@ -1392,19 +1400,19 @@ plugins:
                         - "P5-4.1 损失函数(loss function)": parts/part-05/chapter-04/section-01.md
                         - "P5-4.2 不同问题类型的损失": parts/part-05/chapter-04/section-02.md
                     - "Chapter 5. 反向传播":
-                        - "P5-5.1 反向传播(backpropagation)的直觉": parts/part-05/chapter-05/section-01.md
-                        - "P5-5.2 计算图(computation graph)": parts/part-05/chapter-05/section-02.md
+                        - "P5-5.1 反向传播(backpropagation)的直觉": parts/part-05/chapter-06/section-01.md
+                        - "P5-5.2 计算图(computation graph)": parts/part-05/chapter-06/section-02.md
                 - "Module 3. 学习循环与稳定化":
                     - "Chapter 6. 分开学习(learning)与模型执行(inference)":
-                        - "P5-6.1 学习循环的四个步骤": parts/part-05/chapter-06/section-01.md
-                        - "P5-6.2 学习 step、batch、epoch": parts/part-05/chapter-06/section-02.md
-                        - "P5-6.3 学习(learning)与模型执行(inference)": parts/part-05/chapter-06/section-03.md
-                        - "P5-6.4 训练模式(training mode)与评估模式(evaluation mode)": parts/part-05/chapter-06/section-04.md
+                        - "P5-6.1 学习循环的四个步骤": parts/part-05/chapter-07/section-01.md
+                        - "P5-6.2 学习 step、batch、epoch": parts/part-05/chapter-07/section-02.md
+                        - "P5-6.3 学习(learning)与模型执行(inference)": parts/part-05/chapter-07/section-03.md
+                        - "P5-6.4 训练模式(training mode)与评估模式(evaluation mode)": parts/part-05/chapter-07/section-04.md
                     - "Chapter 7. 优化器":
-                        - "P5-7.1 优化器(optimizer)的作用": parts/part-05/chapter-07/section-01.md
-                        - "P5-7.2 学习率(learning rate)与 update 步幅": parts/part-05/chapter-07/section-02.md
-                        - "P5-7.3 Adam 的直觉：自适应 update": parts/part-05/chapter-07/section-03.md
-                        - "P5-7.4 补充学习：区分 adaptive optimization 的主张": parts/part-05/chapter-07/section-04.md
+                        - "P5-7.1 优化器(optimizer)的作用": parts/part-05/chapter-08/section-01.md
+                        - "P5-7.2 学习率(learning rate)与 update 步幅": parts/part-05/chapter-08/section-02.md
+                        - "P5-7.3 Adam 的直觉：自适应 update": parts/part-05/chapter-08/section-03.md
+                        - "P5-7.4 补充学习：区分 adaptive optimization 的主张": parts/part-05/chapter-08/section-04.md
                     - "Chapter 8. 正则化与 dropout":
                         - "P5-8.1 正则化(regularization)": parts/part-05/chapter-08/section-01.md
                         - "P5-8.2 dropout": parts/part-05/chapter-08/section-02.md

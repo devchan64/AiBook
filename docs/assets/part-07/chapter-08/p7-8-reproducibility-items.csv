@@ -12,7 +12,7 @@ baseline-churn,item-10,next_action,다음 실험 질문,ready,yes,author,더 큰
 baseline-churn,item-11,handoff,다른 독자가 다시 볼 위치,ready,no,author,P7-2.2와 P7-2.3 연결을 남긴다
 baseline-churn,item-12,release_note,릴리즈노트 연결,ready,yes,author,P7-2.2 릴리즈노트 버전을 확인한다
 rag-vector-db,item-01,question,RAG 검색 설정 질문,ready,yes,author,검색 후보와 선택 근거 질문을 유지한다
-rag-vector-db,item-02,input,RAG 문서 조각 CSV,ready,yes,author,p7-5-rag-documents.csv 링크를 유지한다
+rag-vector-db,item-02,input,RAG 문서 조각 CSV,ready,yes,author,p7-6-rag-documents.csv 링크를 유지한다
 rag-vector-db,item-03,code,ChromaDB 실행 코드,ready,yes,author,embedding_function=None 설정을 유지한다
 rag-vector-db,item-04,environment,chromadb와 scikit-learn 의존성,partial,yes,author,requirements와 설치 버전 차이를 점검한다
 rag-vector-db,item-05,command,실행 명령,ready,yes,author,.venv/bin/python 실행 기준을 남긴다
@@ -24,7 +24,7 @@ rag-vector-db,item-10,next_action,다음 검색 설정 실험,ready,yes,author,n
 rag-vector-db,item-11,handoff,P7-5.1 검색 후보 기록 연결,stale,no,author,P7-5.1과 역할 분담 문장을 보강한다
 rag-vector-db,item-12,release_note,릴리즈노트 연결,ready,yes,author,P7-5.4 릴리즈노트 버전을 확인한다
 agent-ops,item-01,question,agent 운영 실행 질문,ready,yes,author,장애 티켓과 안전한 다음 행동 질문을 유지한다
-agent-ops,item-02,input,도구 실행 단계 CSV,ready,yes,author,p7-6-agent-triage-steps.csv 링크를 유지한다
+agent-ops,item-02,input,도구 실행 단계 CSV,ready,yes,author,p7-7-agent-triage-steps.csv 링크를 유지한다
 agent-ops,item-03,code,권한 로그 분석 코드,ready,yes,author,blocked와 failure 분리 출력을 유지한다
 agent-ops,item-04,environment,실행 환경과 패키지 설명,missing,yes,author,표준 라이브러리만 쓰는지 명시한다
 agent-ops,item-05,command,실행 명령,missing,yes,author,본문 코드 블록 재실행 명령을 남긴다

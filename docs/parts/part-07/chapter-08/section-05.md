@@ -1,6 +1,6 @@
-# P7-7.5 재현 가능한 프로젝트 패키지 만들기
+# P7-8.5 재현 가능한 프로젝트 패키지 만들기
 
-> Section ID: `P7-7.5`
+> Section ID: `P7-8.5`
 > Version: `v2026.07.31`
 
 재현 패키지는 `question_file`, `input_data`, `source_code`, `environment_spec`, `run_command`, `result_record`를 함께 점검합니다. 결과물보다 다른 사람이 같은 흐름을 다시 실행할 수 있는 기록이 중심입니다.
@@ -41,7 +41,7 @@ Part 7 앞 절들은 서로 다른 실행 장면을 다룹니다. P7-2에서는 
 
 ## 입력 파일
 
-- 재현성 점검 파일: [`p7-7-reproducibility-items.csv`](../../../assets/part-07/chapter-07/p7-7-reproducibility-items.csv){ .csv-preview }
+- 재현성 점검 파일: [`p7-8-reproducibility-items.csv`](../../../assets/part-07/chapter-08/p7-8-reproducibility-items.csv){ .csv-preview }
 - 한 행의 의미: `하나의 프로젝트 패키지에서 재현성에 필요한 점검 항목 하나`
 - 핵심 열: `package_id`, `category`, `status`, `required`, `next_action`
 
@@ -71,7 +71,7 @@ import csv
 from collections import Counter, defaultdict
 from pathlib import Path
 
-data_path = Path("docs/assets/part-07/chapter-07/p7-7-reproducibility-items.csv")
+data_path = Path("docs/assets/part-07/chapter-08/p7-8-reproducibility-items.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 
 not_ready_statuses = {"missing", "partial", "stale"}
@@ -179,7 +179,7 @@ for action in next_actions:
 {'패키지': 'agent-ops', '항목': 'item-04', '범주': 'environment', '상태': 'missing', '다음 조치': '표준 라이브러리만 쓰는지 명시한다'}
 {'패키지': 'agent-ops', '항목': 'item-05', '범주': 'command', '상태': 'missing', '다음 조치': '본문 코드 블록 재실행 명령을 남긴다'}
 {'패키지': 'agent-ops', '항목': 'item-07', '범주': 'evaluation', '상태': 'partial', '다음 조치': '자동 실행 가능과 즉시 보류 기준을 연결한다'}
-{'패키지': 'agent-ops', '항목': 'item-12', '범주': 'release_note', '상태': 'missing', '다음 조치': 'P7-6.2 또는 P7-6.3 릴리즈노트 상태를 확인한다'}
+{'패키지': 'agent-ops', '항목': 'item-12', '범주': 'release_note', '상태': 'missing', '다음 조치': 'P7-7.2 또는 P7-7.3 릴리즈노트 상태를 확인한다'}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -254,5 +254,5 @@ for action in next_actions:
 
 ## 출처와 참고 자료
 
-- 재현성 점검 파일: [`p7-7-reproducibility-items.csv`](../../../assets/part-07/chapter-07/p7-7-reproducibility-items.csv){ .csv-preview }
+- 재현성 점검 파일: [`p7-8-reproducibility-items.csv`](../../../assets/part-07/chapter-08/p7-8-reproducibility-items.csv){ .csv-preview }
 - 이 문서는 자체 합성 데이터와 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

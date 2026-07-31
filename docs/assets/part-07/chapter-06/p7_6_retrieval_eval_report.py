@@ -21,9 +21,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 OUT_DIR = Path(__file__).resolve().parent
-DOCUMENT_PATH = OUT_DIR / "p7-5-rag-documents.csv"
-CASE_PATH = OUT_DIR / "p7-5-boundary-cases.csv"
-PNG_PATH = OUT_DIR / "p7-5-retrieval-eval-report-ko.png"
+DOCUMENT_PATH = OUT_DIR / "p7-6-rag-documents.csv"
+CASE_PATH = OUT_DIR / "p7-6-boundary-cases.csv"
+PNG_PATH = OUT_DIR / "p7-6-retrieval-eval-report-ko.png"
 
 TOP_K = 3
 MIN_SCORE = 0.16

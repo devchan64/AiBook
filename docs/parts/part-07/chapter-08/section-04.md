@@ -1,6 +1,6 @@
-# P7-7.4 경고 등급 설계 연습
+# P7-8.4 경고 등급 설계 연습
 
-> Section ID: `P7-7.4`
+> Section ID: `P7-8.4`
 > Version: `v2026.07.31`
 
 경고 등급은 `signal_name`, `threshold_grade`, `evidence_grade`, `recommended_action`, `false_alarm_risk`, `miss_risk`로 나누어 설계합니다. 단순 threshold와 근거 기반 등급이 같은 판단처럼 보이지 않게 하기 위한 기준입니다.
@@ -25,7 +25,7 @@
 
 ## 왜 등급을 다시 나누는가
 
-P7-7.3에서는 운영 신호를 `즉시 수정`, `재현 확인`, `다음 반복 개선`으로 나눴습니다. 이 구분은 첫 행동을 정하는 데 좋습니다. 하지만 운영 신호가 계속 쌓이면 같은 행동 구간 안에서도 다시 순서를 정해야 합니다.
+P7-8.3에서는 운영 신호를 `즉시 수정`, `재현 확인`, `다음 반복 개선`으로 나눴습니다. 이 구분은 첫 행동을 정하는 데 좋습니다. 하지만 운영 신호가 계속 쌓이면 같은 행동 구간 안에서도 다시 순서를 정해야 합니다.
 
 | 판단 축 | 묻는 질문 | 등급에 주는 영향 |
 | --- | --- | --- |
@@ -40,12 +40,12 @@ P7-7.3에서는 운영 신호를 `즉시 수정`, `재현 확인`, `다음 반�
 등급 판단은 gap 하나에서 바로 끝나지 않습니다. gap은 첫 신호일 뿐이고, 표본 수와 반복성, 최근성, 독자 영향이 들어와야 `watch`, `review`, `action`의 의미가 갈립니다.
 
 ```mermaid
---8<-- "assets/part-07/chapter-07/p7-7-4-alert-grade-flow-ko.mmd"
+--8<-- "assets/part-07/chapter-08/p7-8-4-alert-grade-flow-ko.mmd"
 ```
 
 ## 입력 파일
 
-- 파일 경로: [`p7-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv){ .csv-preview }
+- 파일 경로: [`p7-8-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-08/p7-8-action-unit-alert-grades.csv) · [CSV 미리보기](../../../assets/part-07/chapter-08/p7-8-action-unit-alert-grades.csv){ .csv-preview }
 - 한 행의 의미: `동작 단위 합성 데이터에서 만들어 낸 운영 신호 한 건`
 - 핵심 열: `gap`, `event_count`, `repeatability_score`, `recency_weight`, `reader_impact`, `expected_grade`
 
@@ -74,7 +74,7 @@ P7-7.3에서는 운영 신호를 `즉시 수정`, `재현 확인`, `다음 반�
 import csv
 from pathlib import Path
 
-data_path = Path("docs/assets/part-07/chapter-07/p7-action-unit-alert-grades.csv")
+data_path = Path("docs/assets/part-07/chapter-08/p7-8-action-unit-alert-grades.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 대표_signal_ids = {f"grade-{index:02d}" for index in range(1, 7)}
 rows = [row for row in rows if row["signal_id"] in 대표_signal_ids]
@@ -220,5 +220,5 @@ gap 기준 등급:
 
 ## 출처와 참고 자료
 
-- 경고 등급 설계 파일: [`p7-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv) · [CSV 미리보기](../../../assets/part-07/chapter-07/p7-action-unit-alert-grades.csv){ .csv-preview }
+- 경고 등급 설계 파일: [`p7-8-action-unit-alert-grades.csv`](../../../assets/part-07/chapter-08/p7-8-action-unit-alert-grades.csv) · [CSV 미리보기](../../../assets/part-07/chapter-08/p7-8-action-unit-alert-grades.csv){ .csv-preview }
 - 이 문서는 자체 합성 데이터와 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

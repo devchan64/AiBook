@@ -1,11 +1,11 @@
-# P7-5.5 검색 평가셋으로 근거 품질을 다시 점검하기
+# P7-6.5 검색 평가셋으로 근거 품질을 다시 점검하기
 
-> Section ID: `P7-5.5`
+> Section ID: `P7-6.5`
 > Version: `v2026.07.31`
 
 검색 평가셋은 `eval_question`, `expected_evidence`, `retrieved_evidence`, `mismatch_type`, `score_threshold`, `dataset_revision`을 남깁니다. 답변 품질보다 먼저 근거 후보가 제대로 올라오는지 다시 점검하기 위한 기록입니다.
 
-P7-5.4에서는 ChromaDB와 TF-IDF 임베딩을 사용해 검색 설정이 후보 목록을 어떻게 바꾸는지 보았습니다. 하지만 실제 RAG 프로젝트에서는 `검색 결과가 나왔다`만으로 품질을 닫을 수 없습니다. 질문이 문서 범위 안에 있는지, 검색 후보가 직접 답 근거인지, 후보가 있어도 답변이 과장될 위험이 있는지 따로 점검해야 합니다.
+P7-6.4에서는 ChromaDB와 TF-IDF 임베딩을 사용해 검색 설정이 후보 목록을 어떻게 바꾸는지 보았습니다. 하지만 실제 RAG 프로젝트에서는 `검색 결과가 나왔다`만으로 품질을 닫을 수 없습니다. 질문이 문서 범위 안에 있는지, 검색 후보가 직접 답 근거인지, 후보가 있어도 답변이 과장될 위험이 있는지 따로 점검해야 합니다.
 
 검색 평가셋(retrieval evaluation set)은 이런 점검을 위해 만든 작은 질문 묶음입니다. 각 질문에는 기대 상태를 붙입니다. 어떤 질문은 근거 기반 답변이 가능해야 하고, 어떤 질문은 문서 범위 밖이라 멈춰야 하며, 어떤 질문은 검색 후보가 있어도 답변 과장 위험을 남겨야 합니다.
 
@@ -25,8 +25,8 @@ P7-5.4에서는 ChromaDB와 TF-IDF 임베딩을 사용해 검색 설정이 후�
 
 ## 입력 파일
 
-- 문서 조각 파일: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv){ .csv-preview }
-- 검색 평가셋 파일: [`p7-5-boundary-cases.csv`](../../../assets/part-07/chapter-05/p7-5-boundary-cases.csv){ .csv-preview }
+- 문서 조각 파일: [`p7-6-rag-documents.csv`](../../../assets/part-07/chapter-06/p7-6-rag-documents.csv){ .csv-preview }
+- 검색 평가셋 파일: [`p7-6-boundary-cases.csv`](../../../assets/part-07/chapter-06/p7-6-boundary-cases.csv){ .csv-preview }
 
 평가셋의 한 행은 `질문 하나`입니다. 중요한 열은 다음과 같습니다.
 
@@ -56,8 +56,8 @@ from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-document_path = Path("docs/assets/part-07/chapter-05/p7-5-rag-documents.csv")
-case_path = Path("docs/assets/part-07/chapter-05/p7-5-boundary-cases.csv")
+document_path = Path("docs/assets/part-07/chapter-06/p7-6-rag-documents.csv")
+case_path = Path("docs/assets/part-07/chapter-06/p7-6-boundary-cases.csv")
 
 documents = list(csv.DictReader(document_path.open(encoding="utf-8")))
 cases = list(csv.DictReader(case_path.open(encoding="utf-8")))
@@ -146,9 +146,9 @@ for record in priority_reviews:
 ...
 ```
 
-평가 결과를 공유할 때는 mismatch 목록만 붙이면 전체 구조가 잘 보이지 않습니다. 다음 리포트 이미지는 [`p7_5_retrieval_eval_report.py`](../../../assets/part-07/chapter-05/p7_5_retrieval_eval_report.py)가 같은 문서 조각과 평가셋을 읽어 만든 요약입니다.
+평가 결과를 공유할 때는 mismatch 목록만 붙이면 전체 구조가 잘 보이지 않습니다. 다음 리포트 이미지는 [`p7_6_retrieval_eval_report.py`](../../../assets/part-07/chapter-06/p7_6_retrieval_eval_report.py)가 같은 문서 조각과 평가셋을 읽어 만든 요약입니다.
 
-![RAG 검색 평가셋 리포트](../../../assets/part-07/chapter-05/p7-5-retrieval-eval-report-ko.png)
+![RAG 검색 평가셋 리포트](../../../assets/part-07/chapter-06/p7-6-retrieval-eval-report-ko.png)
 
 왼쪽 그래프는 규칙이 어떤 상태를 많이 예측했는지 보여 줍니다. 오른쪽 그래프는 기대 상태와 달랐던 사례가 어느 실패 단계에 몰리는지 보여 줍니다. 보고서에는 이런 그림을 먼저 두고, 그 아래에 `먼저 검토할 mismatch` 목록을 붙이면 검색 설정 문제와 답변 정책 문제를 구분하기 쉬워집니다.
 

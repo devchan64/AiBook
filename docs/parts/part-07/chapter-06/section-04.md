@@ -1,6 +1,6 @@
-# P7-5.4 ANN 검색 설정 실습
+# P7-6.4 ANN 검색 설정 실습
 
-> Section ID: `P7-5.4`
+> Section ID: `P7-6.4`
 > Version: `v2026.07.31`
 
 ANN 검색 설정은 `embedding_source`, `metadata_filter`, `candidate_pool`, `exact_baseline`, `missed_candidate`, `setting_change`를 기록합니다. 빠른 검색 설정이 어떤 후보를 놓칠 수 있는지 exact 기준선과 나란히 봅니다.
@@ -38,11 +38,11 @@ approximate 검색은 처음부터 정답처럼 읽으면 위험합니다. 어�
 
 ## 입력 파일
 
-- 문서 조각 파일: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv){ .csv-preview }
+- 문서 조각 파일: [`p7-6-rag-documents.csv`](../../../assets/part-07/chapter-06/p7-6-rag-documents.csv){ .csv-preview }
 - 한 행의 의미: `검색 가능한 문서 조각 하나`
 - 이번 실습 범위: `문서-1`부터 `문서-18`까지의 대표 문서
 
-P7-5.1부터 P7-5.3까지 사용한 같은 문서 집합을 다시 씁니다. 다만 이번 절의 관심은 답변 작성이 아니라, 검색 설정이 후보 목록을 어떻게 바꾸는지입니다.
+P7-6.1부터 P7-6.3까지 사용한 같은 문서 집합을 다시 씁니다. 다만 이번 절의 관심은 답변 작성이 아니라, 검색 설정이 후보 목록을 어떻게 바꾸는지입니다.
 
 ## 실행 기록 기준
 
@@ -74,7 +74,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 question = "RAG 프로젝트에서 왜 검색 후보와 선택 근거를 답변보다 먼저 기록해야 하는가?"
-data_path = Path("docs/assets/part-07/chapter-05/p7-5-rag-documents.csv")
+data_path = Path("docs/assets/part-07/chapter-06/p7-6-rag-documents.csv")
 representative_doc_ids = {f"문서-{index}" for index in range(1, 19)}
 document_rows = [
     row
@@ -168,7 +168,7 @@ for record in setting_records:
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-읽은 파일 = docs/assets/part-07/chapter-05/p7-5-rag-documents.csv
+읽은 파일 = docs/assets/part-07/chapter-06/p7-6-rag-documents.csv
 질문 = RAG 프로젝트에서 왜 검색 후보와 선택 근거를 답변보다 먼저 기록해야 하는가?
 임베딩 모양 = (18, 393)
 exact top-k = [('문서-3', '후보_근거', 0.205), ('문서-2', '기타', 0.159), ('문서-4', '후보_근거', 0.138), ('문서-7', '후보_근거', 0.123), ('문서-17', '실패_추적', 0.088)]
@@ -232,7 +232,7 @@ top-k 포함률:
 
 ## 출처와 참고 자료
 
-- 문서 조각 파일: [`p7-5-rag-documents.csv`](../../../assets/part-07/chapter-05/p7-5-rag-documents.csv){ .csv-preview }
+- 문서 조각 파일: [`p7-6-rag-documents.csv`](../../../assets/part-07/chapter-06/p7-6-rag-documents.csv){ .csv-preview }
 - Chroma, `Adding Data to Chroma Collections`, 확인 날짜: 2026-07-23. [https://docs.trychroma.com/docs/collections/add-data](https://docs.trychroma.com/docs/collections/add-data){: target="_blank" rel="noopener noreferrer" }
 - Chroma, `Metadata Filtering`, 확인 날짜: 2026-07-23. [https://docs.trychroma.com/docs/querying-collections/metadata-filtering](https://docs.trychroma.com/docs/querying-collections/metadata-filtering){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `Feature extraction` and `Pairwise metrics`, 확인 날짜: 2026-07-23. [https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction){: target="_blank" rel="noopener noreferrer" }, [https://scikit-learn.org/stable/modules/metrics.html#cosine-similarity](https://scikit-learn.org/stable/modules/metrics.html#cosine-similarity){: target="_blank" rel="noopener noreferrer" }
