@@ -1,7 +1,7 @@
 # P5-14.3 깊은 반복을 안정화하는 두 장치
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: residual과 normalization은 정보 흐름과 값 범위를 어떻게 나누어 안정화하는가_
 
@@ -10,6 +10,8 @@ P5-14.2에서는 현재 표현이 attention과 feed-forward를 지나 residual �
 왜 residual connection과 layer normalization은 Transformer 블록에서 부차적 장식이 아닌가?
 
 핵심은 `더 강한 attention`이 아니라 `깊은 반복을 견디는 정보 흐름`입니다.
+
+깊은 블록을 읽을 때는 `new_signal`, `original_signal`, `combined_representation`, `normalized_representation`을 분리해 봅니다. 이 구분을 남기면 residual은 원래 축을 보존하는 장치로, normalization은 다음 계산이 다룰 수 있는 값 범위를 맞추는 장치로 읽힙니다.
 
 ## 안정화 장치가 다루는 질문
 

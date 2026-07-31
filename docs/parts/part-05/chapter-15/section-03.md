@@ -1,7 +1,7 @@
 # P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-15.2에서는 생성 모델(generative model)이 정답 하나를 외워 꺼내는 것이 아니라, 가능한 출력 후보들의 상대적 그럴듯함을 후보 분포로 남긴다는 점을 보았습니다. 그러면 다음 질문이 자연스럽게 따라옵니다.
 
@@ -10,6 +10,8 @@ P5-15.2에서는 생성 모델(generative model)이 정답 하나를 외워 꺼�
 샘플링(sampling)은 모델이 그럴듯하다고 본 여러 후보 중 실제 출력을 하나씩 꺼내는 과정이며, 이 방식은 결과의 다양성과 안정성에 직접 영향을 줍니다.
 
 모델 점수와 실제 출력 선택을 다시 구분해야 할 때는 개념사전의 [샘플링(sampling)](../../../reference/concept-glossary-parts/07-siot.md#sampling) 항목을 기준으로 다시 읽습니다.
+
+샘플링 결과를 기록할 때는 `candidate_distribution`, `selection_rule`, `temperature_setting`, `top_k_or_top_p`, `selected_output`, `variation_count`를 분리합니다. 이 구분이 있어야 모델이 무엇을 그럴듯하다고 봤는지와 실제로 무엇을 꺼냈는지를 Part 6의 생성 설정 설명으로 자연스럽게 이어갈 수 있습니다.
 
 ## 후보 분포와 실제 출력 선택은 다르다
 

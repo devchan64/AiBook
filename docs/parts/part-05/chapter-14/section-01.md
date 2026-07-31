@@ -1,7 +1,7 @@
 # P5-14.1 attention만으로 닫히지 않는 Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: Transformer는 왜 self-attention 하나가 아니라 블록 구조로 읽어야 하는가_
 
@@ -10,6 +10,8 @@ P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 안 토큰
 Transformer는 self-attention을 쓰는 모델이라고만 말하면 충분한가?
 
 충분하지 않습니다. Transformer는 self-attention으로 관계를 읽고, feed-forward network로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 깊은 반복 계산을 안정화하는 블록 구조입니다. 이 차이를 잡아야 뒤에서 병렬 처리, 긴 문맥, LLM 구조를 읽을 때도 `attention이 들어갔다`는 말만으로 설명을 끝내지 않게 됩니다.
+
+이 장의 시작점은 `attention_score` 하나가 아니라 `token_representation`이 블록을 지나며 어떻게 다음 표현으로 넘어가는가입니다. 따라서 P5-14.1부터는 `relation_reading`, `position_update`, `stable_passage`, `next_block_input`을 한 흐름으로 묶어 읽습니다.
 
 ## attention 하나로는 닫히지 않는 세 질문
 
