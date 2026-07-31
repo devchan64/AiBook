@@ -1,7 +1,7 @@
 # P4-11.5 补充学习：第一次如何读 solver 与 regularization
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 一旦通过 library 使用 logistic regression，很快就会遇到 solver、penalty、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
 
@@ -32,9 +32,7 @@ logistic regression 通常不是直接写出一个 closed-form solution，而是
 
 [regularization](/AiBook/zh/reference/concept-glossary-pinyin/z/#regularization) 可以先读成 `防止模型把训练数据贴得过紧的装置`。即使都叫 logistic regression，如果数据很少、feature 很多，coefficient 就可能变得不稳定，或者过度依赖少数 feature。regularization 会帮助模型把这些 coefficient 拉得更保守。
 
-## 主要学习内容
-
-### solver 是把学习真正算出来的过程
+## solver 是实际计算学习的过程
 
 首先，solver 会连到 `这个模型的参数到底是怎样被实际算出来的`。
 

@@ -1,7 +1,7 @@
 # P4-6.1 The Role Of Evaluation Metrics
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 In Chapter P4-5, we looked at [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) and [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization). The next question follows naturally. What do we actually use to check the claim that `the model also holds up on new data`? What appears at that point is the [evaluation metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric).
 
@@ -57,9 +57,7 @@ This diagram shows that evaluation metrics are not only about numbers inside the
 
 The key point in this flow is that `the metric is connected to a decision context outside the model`. The model makes predictions, but the metric makes us read what those predictions mean in an actual decision.
 
-## Main Learning Content
-
-### Why Accuracy Alone Is Not Enough
+## Why Accuracy Alone Cannot Finish Evaluation
 
 Google's machine-learning glossary explains accuracy as `the proportion of correct predictions among all predictions`. The definition itself is simple and useful. But the same glossary also explains that in class-imbalance data, accuracy can become deeply misleading.
 
@@ -144,9 +142,7 @@ If the two are separated into a table, it becomes clearer.
 
 Understanding this table alone is enough to prepare for the next Section.
 
-## Detailed Learning Content
-
-### The Historical Background Of Evaluation Metrics
+## How Metrics Define the Standard for Good Results
 
 Evaluation metrics are not tools that suddenly appeared only in recent machine learning. In information-retrieval research, the question `what should be called a good result?` had long been central. In his classic textbook on information retrieval, C. J. van Rijsbergen treats evaluation as a separate chapter and explains why evaluation is needed through social and economic questions. The same chapter introduces recall and precision as a key pair that took root in explaining the effectiveness of retrieval systems after Cyril Cleverdon's measurement work.
 

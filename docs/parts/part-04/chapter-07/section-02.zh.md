@@ -64,9 +64,7 @@ Part 4 前面的章节是按下面这个流程接过来的。
 
 经过这一节之后，读者就会从单纯把数据收集起来的状态，走向 `先构造可比较的输入表达，再建立 model 候选` 的流程。所以 P4-7.2 会成为 P4-8 [模型选择(model selection)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-selection)、P4-9 [超参数调优(hyperparameter tuning)](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)、以及 P4-10 之后算法章节的共同基础。
 
-## 主要学习内容
-
-### 第一次听到预处理时可以先这样抓
+## 预处理把输入变成模型能读的形式
 
 第一次听到 preprocessing 这个词，可能会觉得有点难。但非常短地说，它就是 `把 model 不容易直接读的输入，先改造成能读的输入` 的准备工作。
 

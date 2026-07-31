@@ -1,7 +1,7 @@
 # P4-11.5 Supplementary Learning: How To Read Solver And Regularization For The First Time
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Once logistic regression is used through a library, the reader quickly meets arguments such as solver, penalty, and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
 
@@ -32,9 +32,7 @@ Logistic regression is usually implemented not by writing one closed-form soluti
 
 [Regularization](/AiBook/en/reference/concept-glossary-alpha/r/#regularization) can first be read as `a device that keeps the model from fitting the training data too tightly`. Even with the same logistic regression, if there are few data points or too many features, coefficients can become unstable or lean too heavily on certain features. Regularization helps the model keep those coefficients more conservative.
 
-## Main Learning Content
-
-### A Solver Is The Procedure That Computes Learning In Practice
+## A Solver Is the Procedure That Actually Computes Learning
 
 First, the solver is connected to `how the parameters of the model are actually found`.
 

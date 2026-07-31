@@ -1,7 +1,7 @@
 # P4-10.1 Intuition For Linear Regression
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P4-9.2, the discussion used tuning and validation cost to ask `how should promising settings be compared?` Now it is time to connect that comparison procedure to one actual algorithm.
 
@@ -53,9 +53,7 @@ In this curriculum, linear regression plays the following role.
 
 In other words, linear regression comes first not because it is `the easiest algorithm`, but because it is `the algorithm that explains the relationship between input and output most clearly`.
 
-## Main Learning Content
-
-### What Kind Of Problem Does Regression Handle?
+## Regression Predicts Continuous Values
 
 Regression does not predict a category like classification does. Instead, it predicts a numeric value that changes continuously.
 
@@ -199,9 +197,7 @@ Linear regression is often a good starting point not because it is `the simplest
 
 The key point of this table is not that linear regression is `always the right model`, but that it is often the first comparison model that reveals the structure of the problem.
 
-## Detailed Learning Content
-
-### What Misunderstandings Happen Most Often In Interpretation?
+## Common Misunderstandings in Linear Regression Interpretation
 
 In linear regression, mistakes happen more often in interpretation than in formulas. The following three are especially common.
 

@@ -1,7 +1,7 @@
 # P4-11.3 보충학습: log-odds와 MLE를 처음 읽는 법
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.1에서는 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)를 `확률처럼 읽히는 점수를 만드는 선형 분류 모델`로 보았고, P4-11.2에서는 그 점수가 입력 공간을 어떻게 가르는지 [결정 경계(decision boundary)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-boundary) 관점으로 읽었습니다. 여기까지 오면 자연스럽게 다음 질문이 남습니다.
 
@@ -46,9 +46,7 @@ P4-11.1에서는 [로지스틱 회귀(logistic regression)](../../../reference/c
 
 즉, 이 절의 핵심은 새로운 알고리즘을 외우는 일이 아니라, `확률 해석`과 `학습 목적`이 왜 같은 장에서 이어지는가를 이해하는 데 있습니다.
 
-## 주요 학습내용
-
-### 확률을 선형식으로 바로 다루기 어려워서 log-odds가 등장한다
+## 확률을 선형식으로 바로 다루기 어려워서 log-odds가 등장한다
 
 P4-11.1에서 본 것처럼, 로지스틱 회귀는 선형 점수 \(z\)를 만든 뒤 sigmoid에 통과시켜 0과 1 사이 값으로 읽습니다.
 

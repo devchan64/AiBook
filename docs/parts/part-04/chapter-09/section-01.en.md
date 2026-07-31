@@ -1,7 +1,7 @@
 # P4-9.1 Hyperparameters
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P4-8, the discussion chose model candidates and set the starting point of comparison with a [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model). Now it moves to the next question.
 
@@ -73,9 +73,7 @@ The connection that must be fixed here is the following.
 
 That means the baseline decides `what should be compared against`, and hyperparameters decide `what should be changed and by how much inside the same model name`. Only when this criterion is fixed can tuning in the next Section be read not as simple option manipulation, but as `comparable experiment design`.
 
-## Main Learning Content
-
-### How Are Parameters And Hyperparameters Different?
+## Criteria for Separating Parameters and Hyperparameters
 
 The very first distinction needed is this.
 
@@ -164,9 +162,7 @@ The purpose of this table is not to replace detailed formulas by algorithm, but 
 
 This question matters because if the reader sees hyperparameters only as a table of options, they can easily be misunderstood as `values that can be touched one by one whenever needed`. In reality, these values shake fairness of comparison, generalization, and computational cost together.
 
-## Detailed Learning Content
-
-### Why Did Hyperparameters Become A Separate Topic?
+## Why Hyperparameters Became a Separate Topic
 
 If the historical background of hyperparameters is summarized very roughly, the flow is as follows.
 

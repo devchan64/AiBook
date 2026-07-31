@@ -45,7 +45,7 @@
   - 영어판 Section 작성, 용어 대응, 다국어 링크, 공통 릴리즈노트 반영을 확인할 때 본다.
 - 중국어 간체 번역 기준: `management/guidelines/chinese-translation-guidelines.md`
   - 중국어 간체판 Section 작성, 용어 대응, 다국어 링크, 공통 릴리즈노트 반영을 확인할 때 본다.
-- Section별 중심 학습 산출물 추적: `management/authoring/section-learning-focus.md`
+- Section별 중심 학습 산출물 추적: `management/guidelines/section-learning-focus-guidelines.md`
   - Section 중심 질문, 학습 산출물, Part 체크포인트 항목의 대응을 맞출 때 본다.
 
 ## 작업 전 원칙

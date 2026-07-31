@@ -1,7 +1,7 @@
 # P4-9.2 调优(tuning)与验证成本
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-9.1 里，我们看过什么是 [hyperparameter](/AiBook/zh/reference/concept-glossary-pinyin/h/#hyperparameter)，以及为什么它很早以前就被当成一个单独问题来处理。现在要进入下一个问题。
 
@@ -68,9 +68,7 @@ tuning 的比较顺序，可以先固定成下面这样。
 | 在 P4-10 之后算法章节之前 | 为阅读各算法的 hyperparameter 提供标准 |
 | 在项目实作之前 | 准备“同时看实验成本和验证成本”的习惯 |
 
-## 主要学习内容
-
-### tuning 到底在做什么
+## 调优是用验证分数选择 hyperparameter 候选
 
 scikit-learn 的 hyperparameter tuning 文档说明了一种流程：先把 estimator 的设置值整理成候选集合，再用 [cross-validation](/AiBook/zh/reference/concept-glossary-pinyin/j/#cross-validation) 分数来比较。
 

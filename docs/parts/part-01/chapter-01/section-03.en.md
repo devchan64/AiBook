@@ -1,7 +1,7 @@
 # P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the kinds of problems AI deals with. This section organizes the relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM`, all of which will keep returning later.
 
@@ -25,7 +25,7 @@ This section first closes the point that `AI, machine learning, deep learning, g
 - Avoid understanding all of AI too narrowly from recent service experience alone.
 - Understand that even if a broad inclusion relation is roughly useful, real services still mix several technologies together.
 
-## Main Learning Points
+## The Inclusion Relationship From AI to Generative AI
 
 What should remain first from this section is that the five terms are not all the same kind of name. The three standards below form the overall map.
 
@@ -37,9 +37,7 @@ What should remain first from this section is that the five terms are not all th
 
 `AI` is the broadest field and system category. `Machine learning` is a learning approach that improves performance through data. `Deep learning` is a method inside that approach that strongly uses neural networks and representation learning. `Generative AI` is an output category that produces new content. `LLM` is a representative language-model family inside that space. In other words, read them as `AI as outer category`, `machine learning and deep learning as learning approaches`, `generative AI as output category`, and `LLM as a language-model family`.
 
-## Detailed Learning
-
-### Start with Big Picture
+## The Big Picture of AI, Machine Learning, Deep Learning, and Generative AI
 
 The widest term is AI. AI is the broad field and system category that aims to perform some functions associated with human intelligence through computer systems, machines, and algorithms. Inside it sit different approaches such as rule-based methods, search, planning, probabilistic reasoning, and machine learning.
 

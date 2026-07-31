@@ -49,9 +49,7 @@ Here we look first not at function syntax but at `how to give repeated handling 
 | If the same handling repeats, it is often easier to separate it as a function | It helps us understand why small data-processing code turns into a reusable structure. | Read things like pass/fail judgment or normalization as functions. |
 | `print` and `return` play different roles | It is important for distinguishing execution output from calculation result. | Be able to explain that showing something on screen is different from returning something into the next calculation. |
 
-## Main Learning Content
-
-### A Function Is a Way to Separate a Processing Unit with a Name
+## Functions Separate a Processing Unit by Name
 
 In general, a function is a unit that receives input, performs some processing, and returns the result. Mathematics emphasizes the relation between input and output, while programming expresses that relation as code that can actually run.
 
@@ -224,9 +222,7 @@ In this section, we distinguish the following.
 - `print()` is output shown to a human.
 - `return` is the action that returns a result for the next calculation.
 
-## Detailed Learning Content
-
-### Separate Repeated Calculations into Functions
+## Separate Repeated Calculations Into Functions
 
 If we give a repeated calculation a name, the intention of the code becomes visible.
 

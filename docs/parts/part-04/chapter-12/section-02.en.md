@@ -1,7 +1,7 @@
 # P4-12.2 Distance And Scale
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-12.1 explained k-NN as `a model that judges by looking at nearby cases`. But the most important word there is really `near`.
 
@@ -27,9 +27,7 @@ This Section first closes `why distance and scale change neighbors and predictio
 - You can explain that when feature scales differ, one large axis can dominate the distance.
 - You can explain that standardization is not `making numbers look neat`, but `realigning the comparison criterion`.
 
-## Main Learning Content
-
-### Distance Is Part Of The Judgment Rule
+## Distance Is the Judgment Rule of k-NN
 
 k-NN computes [distances](/AiBook/en/reference/concept-glossary-alpha/d/#distance) between a new input and the existing data, then finds the nearest neighbors. So the distance function is not just a calculation tool. It is the rule that decides `who gets selected as a neighbor`.
 

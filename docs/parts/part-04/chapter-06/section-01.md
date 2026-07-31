@@ -1,7 +1,7 @@
 # P4-6.1 평가 지표(metric)의 역할
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-5장에서는 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)과 [일반화(generalization)](../../../reference/concept-glossary-parts/08-ieung.md#generalization)를 봤습니다. 이제 다음 질문이 이어집니다. `새 데이터에서도 버틴다`는 말을 실제로 무엇으로 확인할까요? 그때 등장하는 것이 [평가 지표(metric)](../../../reference/concept-glossary-parts/13-pieup.md#metric)입니다.
 
@@ -57,9 +57,7 @@ scikit-learn 문서는 평가 지표(metrics and scoring)를 `예측의 품질�
 
 이 흐름에서 핵심은 `지표가 모델 바깥의 결정 맥락과 연결된다`는 점입니다. 모델은 예측을 만들지만, 지표는 그 예측이 실제 결정에서 어떤 의미를 가지는지까지 함께 읽게 만듭니다.
 
-## 주요 학습내용
-
-### 왜 정확도 하나로 끝나지 않는가
+## 정확도 하나로 평가를 끝낼 수 없는 이유
 
 Google의 머신러닝 용어집은 정확도(accuracy)를 `전체 예측 중 맞춘 비율`로 설명합니다. 이 정의 자체는 단순하고 유용합니다. 하지만 같은 용어집은 클래스 불균형(class imbalance) 데이터에서는 정확도가 매우 오해를 만들 수 있다고도 설명합니다.
 
@@ -144,9 +142,7 @@ Google 용어집은 재현율(recall)을 다음 질문으로 설명합니다.
 
 이 표만 이해해도 다음 절로 넘어갈 준비가 됩니다.
 
-## 세부 학습내용
-
-### 평가 지표의 역사적 배경
+## 평가 지표가 좋은 결과의 기준을 정하는 방식
 
 평가 지표는 최근 머신러닝에서 갑자기 생긴 도구가 아닙니다. 정보 검색(information retrieval) 연구에서는 오래전부터 `무엇을 좋은 결과라고 부를 것인가`가 핵심 문제였습니다. C. J. van Rijsbergen의 고전적인 정보 검색 교재는 평가(evaluation)를 별도 장으로 다루며, 왜 평가해야 하는가를 사회적(social) 질문과 경제적(economic) 질문으로 설명합니다. 같은 장은 Cyril Cleverdon이 정리한 측정 항목들 가운데 `재현율(recall)`과 `정밀도(precision)`이 검색 시스템의 효과성(effectiveness)을 설명하는 핵심 쌍으로 자리 잡았다고 소개합니다.
 

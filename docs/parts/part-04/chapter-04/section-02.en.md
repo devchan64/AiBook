@@ -1,7 +1,7 @@
 # P4-4.2 Validation And Test
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-4.1 explained why data are divided into [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) and [evaluation data](/AiBook/en/reference/concept-glossary-alpha/e/#evaluation-data). Now the discussion moves one step further. The data used while choosing a model and the data used for the final one-time check do not play the same role.
 
@@ -49,9 +49,7 @@ Machine learning has a similar flow.
 
 The biggest difference between validation data and test data is `how often they are used in decision making`.
 
-## Main Learning Content
-
-### Validation Data Help Selection
+## Validation Data Helps Selection
 
 Validation data are used while choosing the model. For example, they are used for choices like the following.
 
@@ -119,9 +117,7 @@ The distinction between validation data and test data becomes clearer if you fir
 | Does adding one more feature help? | validation data | Because this is a mid-experiment comparison |
 | How much can the final model now be trusted on new data? | test data | Because this is a final-confirmation question |
 
-## Detailed Learning Content
-
-### Why You Should Not Keep Looking At The Test Set
+## What Goes Wrong When Test Data Is Checked Repeatedly
 
 If you keep opening the test data in the middle, you start changing choices to fit that result even without noticing.
 

@@ -1,7 +1,7 @@
 # P4-10.1 线性回归(linear regression)的直觉
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-9.2 里，我们通过 tuning 和 validation cost 讨论了 `应该怎样比较看起来不错的设置`。现在轮到把这个比较流程真正接到一个具体算法上。
 
@@ -53,9 +53,7 @@ residual 的统计性质、ordinary least squares 的严格推导、R²、MAE、
 
 也就是说，linear regression 不是因为 `最简单` 才先出现，而是因为它是 `最容易说明输入与输出关系` 的算法。
 
-## 主要学习内容
-
-### regression 处理什么问题
+## 回归是预测连续值的问题
 
 regression 不是像 classification 那样去猜一个 class，而是去预测一个会连续变化的数值。
 

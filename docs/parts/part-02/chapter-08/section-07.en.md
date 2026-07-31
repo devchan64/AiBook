@@ -1,7 +1,7 @@
 # P2-8.7 Supplemental Learning: Distinguishing References and Copies
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.23`
+> Version: `v2026.07.31`
 
 In P2-8.2, we saw that assigning a list to another name does not automatically create a new copy. Many readers get confused immediately at this point.
 
@@ -34,7 +34,7 @@ In early Python learning, many scenes involve putting one value into a variable 
 
 This sense becomes necessary again later in Pandas and data preprocessing. When handling tables, interpretation can change depending on whether you preserve the original, create a new intermediate result, or have multiple names referring to the same object.
 
-## Main Learning Content
+## Criteria for Separating Assignment, Shallow Copy, and Deep Copy
 
 This supplement first captures the following three distinctions as a large frame.
 
@@ -46,9 +46,7 @@ This supplement first captures the following three distinctions as a large frame
 
 If you capture these three distinctions first, you can read `why did the original also change?` more quickly in later list-handling and data-preprocessing examples.
 
-## Detailed Learning Content
-
-### Two names can point to the same list together
+## Two Names Can Point to the Same List
 
 The first point to hold is that assignment does not always mean copy.
 

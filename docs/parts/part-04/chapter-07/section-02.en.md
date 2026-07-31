@@ -64,9 +64,7 @@ From the curriculum point of view, this Section is also a boundary where the cha
 
 After passing this Section, the reader moves beyond simply having collected data and into the flow of `building comparable input representations and then setting up model candidates`. For that reason, P4-7.2 becomes the common foundation of P4-8 [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection), P4-9 [hyperparameter tuning](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), and the algorithm Sections after P4-10.
 
-## Main Learning Content
-
-### A First Grip On Preprocessing
+## Preprocessing Prepares Inputs So Models Can Read Them
 
 When readers first hear the term preprocessing, it can sound difficult. But stated very briefly, it is `the preparation work that changes inputs the model cannot easily read into inputs it can read`.
 
@@ -526,9 +524,7 @@ In work scenes, it reads as follows.
 | delivery region `Seoul/Busan/Incheon` | the region name itself is hard to use in numeric operations | regional patterns can be read separately |
 | device type `ios/android/web` | there are category differences but no concept of magnitude comparison | the category distinction signal is expressed as a calculable vector |
 
-## Detailed Learning Content
-
-### In Practice, What Kind Of Problems Does Preprocessing Appear As?
+## How Preprocessing Appears as Input Problems in Practice
 
 Preprocessing is easy to memorize as individual technique names such as filling with an average, applying a scaler, or choosing an encoder. But in practice, people start the other way around, from `what input problem has appeared`. The missing-value, scale, and categorical representation problems seen earlier are all just different faces of that field question.
 

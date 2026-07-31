@@ -83,9 +83,7 @@ Here, rather than loop syntax, we first establish the feeling of `taking values 
 | Python loops are more naturally read as `from what is something taken out one by one?` than as `how many times?` | This connects item-centered looping to the iterable concept | You should be able to explain that `for score in scores` is a structure that takes values out one by one from `scores` |
 | Loop results often appear as output, making a new group, or making an accumulated value | It becomes easier later to read comprehension and data-preprocessing examples | Understand that a loop can create a new list or dictionary |
 
-## Main Learning Content
-
-### A Loop Is a Way of Applying the Same Processing to Several Values
+## Loops Apply the Same Processing to Multiple Values
 
 In general, a loop is a way of processing a data group one item at a time. It applies the same rule to several items, and then the result is printed, made into a new group, or gathered into an accumulated value.
 
@@ -219,9 +217,7 @@ If very simplified, it can be seen like this.
 
 Because of this structure, several loop patterns in Python connect under the same principle. What matters is `what is being looped over` and `what is being made as the loop result`.
 
-## Detailed Learning Content
-
-### Main Types of Loop Structures
+## Main Patterns for Reading Loop Structures
 
 Python loops are better read by distinguishing patterns rather than by memorizing only one syntax.
 

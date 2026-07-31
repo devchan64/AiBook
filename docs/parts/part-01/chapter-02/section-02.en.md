@@ -1,7 +1,7 @@
 # P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Section 2.1 covered symbolic AI and rule-based approaches. This section takes the next question. When writing rules alone is not enough, AI had to search through possible candidates, represent the knowledge it needed, and reason about plausible conclusions under incomplete information.
 
@@ -24,7 +24,7 @@ The focus here is on organizing the `difference in role` among the three flows. 
 - Understand that probabilistic reasoning is a way to deal with incomplete information and uncertainty.
 - Distinguish search, knowledge representation, and probabilistic reasoning as major axes of pre-machine-learning AI.
 
-## Main Learning Points
+## Criteria for Separating Search, Knowledge Representation, and Probabilistic Inference
 
 At this stage the flow can scatter because the terms seem to split in three directions. The three guideposts below are the larger map.
 
@@ -46,9 +46,7 @@ At this stage the flow can scatter because the terms seem to split in three dire
 
 The first distinction that should remain is this: `search handles state, action, and goal`; `knowledge representation decides what to write down`; and `probabilistic reasoning handles plausibility under ambiguous information`.
 
-## Detailed Learning
-
-### Three Questions After Rules
+## Three Questions That Appear After Rules
 
 Rule-based approaches explicitly express what conclusion or action should follow under a condition. But real problems often do not end with a single rule.
 

@@ -1,7 +1,7 @@
 # P4-13.1 Intuition For SVM
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.2 read classification as `drawing a boundary and dividing the space`. P4-12 then showed a method that judges by looking at nearby neighbors. Now the same classification problem is reread through a different question.
 
@@ -49,9 +49,7 @@ SVM is the first representative answer to those questions.
 
 This Section is closer to learning `the criterion for a good separating line` than to learning only `the line itself`.
 
-## Main Learning Content
-
-### Why Must Margin Be Read Separately?
+## Why SVM Needs to Look at Margin Separately
 
 There may not be only one line that can separate two classes. Several lines can often be drawn on top of the same data.
 
@@ -196,9 +194,7 @@ The key points to read in this output are straightforward.
 
 SVM does not stop at `can the classes be separated?` It asks further `how much room does the separation leave?`
 
-## Detailed Learning Content
-
-### What Happens When The Data Cannot Be Separated Perfectly?
+## How SVM Changes When Data Is Not Perfectly Separated
 
 Real data are not always clean like the toy example above. Some points may mix into the region near the opposite class, so a perfect separating line can become difficult.
 

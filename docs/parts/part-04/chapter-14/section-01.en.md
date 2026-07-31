@@ -1,7 +1,7 @@
 # P4-14.1 Decision Tree
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11 read classification through drawing a boundary. P4-12 read it through nearby neighbors. P4-13 read it through margin as a criterion for a better boundary. Now the same supervised learning problem is read again in a very different way.
 
@@ -73,9 +73,7 @@ A decision tree is often a strong first candidate when `the question flow itself
 
 The point of this table is not to leave the tree at `a readable model`. It is to position it as `a candidate to try first when the question flow itself becomes a real unit of explanation`.
 
-## Main Learning Content
-
-### What Kind Of Model Is A Decision Tree?
+## A Decision Tree Splits Input Space by Following Questions
 
 The scikit-learn User Guide introduces decision trees as non-parametric supervised-learning methods used for classification and regression. The same guide explains their goal as learning simple decision rules inferred from data features to predict a target value. It also notes that the structure can be viewed as a piecewise constant approximation.
 
@@ -141,9 +139,7 @@ These terms connect immediately to the later hyperparameter discussion too.
 
 But in this Section the focus is still not `how far should the tree be allowed to grow`. The focus is `what kind of structure is a question-splitting model itself`.
 
-## Detailed Learning Content
-
-### Why Is It Often Called A Comparatively Readable Model?
+## Why Decision Trees Are Relatively Easy to Read
 
 Among the models first encountered in Part 4, decision trees are comparatively easy to `read like rules`. The scikit-learn User Guide explains this through the viewpoint of a `white box model`. If a situation is visible inside the model, the condition can often be explained with fairly direct boolean logic. Compared with the weights of a linear model or the margin of an SVM, the structure `follow the questions and a prediction appears` feels more familiar to many readers.
 

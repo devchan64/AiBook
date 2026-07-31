@@ -1,7 +1,7 @@
 # P4-15.1 Random Forest
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P4-14, we saw why a [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) can feel intuitive while also falling into [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) rather easily. In particular, we confirmed that even after changing `max_depth`, `min_samples_leaf`, and `ccp_alpha`, the structural instability of a single tree may not disappear completely. That leads to the next question.
 
@@ -84,9 +84,7 @@ Random forest is especially strong when you want a more stable default candidate
 
 The point of this table is to read random forest not as `using many trees`, but as `a stability candidate that reduces the instability of a single tree`.
 
-## Main Learning Content
-
-### The Large Frame Called Ensemble
+## Reading Random Forests Inside the Larger Ensemble Frame
 
 The scikit-learn User Guide explains ensemble methods as methods that combine predictions from multiple base estimators in order to achieve better generalizability and robustness than a single estimator.
 
@@ -238,9 +236,7 @@ The scikit-learn documentation explains that in classification forests, the prob
 
 The core is not `more trees` itself, but `trees that can produce different errors from one another`.
 
-## Detailed Learning Content
-
-### How Should We Read The Representative Hyperparameters?
+## How to Read Representative Random Forest Hyperparameters
 
 According to the API documentation, the main handles readers should first know in random forest are roughly these.
 

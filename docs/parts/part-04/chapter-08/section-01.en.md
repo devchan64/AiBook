@@ -157,9 +157,7 @@ If notes are written this way, not only model names remain, but also `what kind 
 
 It is fine if the baseline item in this table still feels vague. The purpose here is not `how to complete the baseline immediately`, but to first grasp `what materials are needed to build the baseline`. In the next Section, P4-8.2, the reader sees why the baseline is needed first and what the principle of score interpretation is. Then in the following `P4-8.3 supplementary learning`, the reader sees concretely what simple standards can be set first in classification, regression, and time series by using exactly these materials.
 
-## Main Learning Content
-
-### What Is Model Selection The Work Of Choosing?
+## What Model Selection Chooses
 
 Academically, model selection is the problem of choosing among candidate models in a way that fits the objective. However, the objective may not be only one thing.
 
@@ -310,9 +308,7 @@ These candidates are handled one after another in the later chapters.
 
 That means this Section serves as the entrance to the algorithm Sections that continue from P4-10 to P4-19.
 
-## Detailed Learning Content
-
-### How Do Data Conditions Change Candidate Families?
+## How Data Conditions Change the Candidate Model Set
 
 Even if the problem type is the same, the sense of selection changes when the data conditions change.
 

@@ -1,7 +1,7 @@
 # P4-15.1 随机森林(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-14 里，我们看过[决策树(decision tree)](/AiBook/zh/reference/concept-glossary-pinyin/d/#decision-tree)为什么既直观， 又容易掉进[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)。 尤其是我们确认过： 即使调整 `max_depth`、`min_samples_leaf`、`ccp_alpha`， 单棵树的结构摇摆也不一定会完全消失。 于是下一个问题自然出现。
 
@@ -84,9 +84,7 @@
 
 这个表的重点，是把随机森林读成 `降低单棵树摇摆的稳定性候选`， 而不是简单的 `多用几棵树`。
 
-## 主要学习内容
-
-### 叫做集成(ensemble)的大框架
+## 在 ensemble 的大框架中阅读随机森林
 
 scikit-learn 用户指南把 ensemble methods 解释为： 通过组合多个 base estimator 的预测， 来获得比单个 estimator 更好的 generalizability 与 robustness 的方法。
 

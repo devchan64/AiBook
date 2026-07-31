@@ -1,7 +1,7 @@
 # P4-5.2 Generalization
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-5.1 separated [overfitting](/AiBook/en/reference/concept-glossary-alpha/o/#overfitting) from [underfitting](/AiBook/en/reference/concept-glossary-alpha/u/#underfitting). Now we need to move one step higher. Why do we care so much about that distinction? In the end, the goal of machine learning is not `raising the score on training data`, but `working usefully even on data the model has not seen yet`. The word that organizes that question is [generalization](/AiBook/en/reference/concept-glossary-alpha/g/#generalization).
 
@@ -66,9 +66,7 @@ This history can be read through the following flow.
 
 So generalization is not a trend word. It is a long-standing criterion that separates `was this really learning?`
 
-## Main Learning Content
-
-### Why Generalization Becomes The Goal
+## Why Generalization Becomes the Goal of Machine Learning
 
 Machine learning is almost always used for `data that will arrive next`.
 
@@ -182,9 +180,7 @@ If the same procedure is rewritten into a table, it becomes the following.
 | test | check once more separately at the end | is the chosen result overly optimistic? |
 | real use | receive future inputs | does generalization actually hold up? |
 
-## Detailed Learning Content
-
-### Generalization Means Robustness, Not Perfection
+## Generalization Is Robustness, Not Perfection
 
 Readers may misunderstand generalization as `it must be perfect on new data too`. But generalization is not perfect replication. Usually, it asks `does the model hold up above some usable level even on new data?`
 

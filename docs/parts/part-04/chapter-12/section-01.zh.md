@@ -1,7 +1,7 @@
 # P4-12.1 k-NN 的直觉
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-11.2 里，我们看到 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 是 `通过在 input space 里画出 boundary 来切开 class 的模型`。现在要把问题换一下。
 
@@ -27,9 +27,7 @@
 - 能说明 `k` 太小和太大时会出现什么差别。
 - 能说明 k-NN 的 training 与其说是 `构造复杂公式`，不如说更接近 `准备好可比较的参考案例`。
 
-## 主要学习内容
-
-### k-NN 是怎样做判断的
+## k-NN 依据邻近案例进行判断
 
 k-NN 会先看一个新的输入，也就是 [query](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)。接着，它会在已经有 [supervised learning label](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label) 的 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 里找出和 query 距离最近的案例。最后，再把这些 [neighbors](/AiBook/zh/reference/concept-glossary-pinyin/n/#nearest-neighbor) 的 label 收集起来，用多数表决或平均做出结果。
 

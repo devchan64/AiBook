@@ -1,7 +1,7 @@
 # P4-15.1 랜덤포레스트(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-14에서는 [결정트리(decision tree)](../../../reference/concept-glossary-parts/01-giyeok.md#decision-tree)가 왜 직관적이면서도 [과적합(overfitting)](../../../reference/concept-glossary-parts/01-giyeok.md#overfitting)에 쉽게 빠질 수 있는지 보았습니다. 특히 `max_depth`, `min_samples_leaf`, `ccp_alpha`를 바꾸어도 한 그루의 구조 흔들림이 완전히 사라지지 않을 수 있다는 점을 확인했습니다. 이제 다음 질문이 나옵니다.
 
@@ -84,9 +84,7 @@ P4-14에서는 [결정트리(decision tree)](../../../reference/concept-glossary
 
 이 표의 핵심은 랜덤포레스트를 `트리 많이 쓰기`가 아니라 `단일 트리의 흔들림을 줄이는 안정성 후보`로 읽는 데 있습니다.
 
-## 주요 학습내용
-
-### 앙상블(ensemble)이라는 큰 틀
+## 랜덤포레스트를 앙상블의 큰 틀에서 읽기
 
 scikit-learn 사용자 가이드는 ensemble methods를 `여러 base estimator의 예측을 결합해 단일 estimator보다 더 나은 generalizability / robustness를 얻으려는 방법`으로 설명합니다.
 
@@ -238,9 +236,7 @@ scikit-learn 문서는 분류 random forest에서 트리들의 확률 예측을 
 
 핵심은 `더 많은 트리` 자체가 아니라 `서로 다른 오류를 만들 수 있는 트리들`이라는 점입니다.
 
-## 세부 학습내용
-
-### 대표 하이퍼파라미터를 어떻게 읽으면 좋은가
+## 랜덤포레스트의 대표 하이퍼파라미터를 읽는 기준
 
 API 문서 기준으로 랜덤포레스트에서 먼저 알아야 할 손잡이는 다음 정도입니다.
 

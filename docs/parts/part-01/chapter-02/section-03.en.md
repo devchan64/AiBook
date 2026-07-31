@@ -1,7 +1,7 @@
 # P1-2.3 Flow Toward Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Section 2.1 covered symbolic AI and rule-based approaches, and Section 2.2 covered search, knowledge representation, and probabilistic reasoning. This section turns to the next flow. Why did the center of AI explanation move more and more toward models that learn from data?
 
@@ -26,7 +26,7 @@ This section first closes `why the center of explanation moved toward data and l
 - See why data, features, representations, models, and parameters became important.
 - Read generative AI and LLMs not as a sudden break, but as the result of an accumulated flow.
 
-## Main Learning Points
+## The Flow From Rules to Data-Based Learning
 
 This part organizes the large flow of modern AI. The three guideposts below are the overall map.
 
@@ -38,9 +38,7 @@ This part organizes the large flow of modern AI. The three guideposts below are 
 
 `data`, `feature`, `representation`, `model`, and `parameter` are core terms repeated throughout the section. The baseline that should remain first is this: `data is material`, `features are clues organized by people first`, `representations are the forms handled inside the model`, `a model is the computational structure that maps input to output`, and `parameters are internal values adjusted through learning`. Each term is tied together once more in the body below.
 
-## Detailed Learning
-
-### Problems for Which It Is Too Hard to Write All the Rules
+## Problems Where Writing All Rules Is Difficult
 
 Rule-based approaches are strong when people can write judgment criteria explicitly. They are still useful for business approval, permission checks, policy application, and simple classification where the standard is relatively clear.
 

@@ -54,9 +54,7 @@ To say it a little more theoretically, a feature is the unit of an `input variab
 
 For example, in a house-price prediction problem, `area`, `number of rooms`, and `distance to the station` can become features. In a spam-classification problem, `occurrence of a particular word`, `whether there is an attachment`, and `sender-domain pattern` can become features. In other words, features change by problem, and even the same reality is expressed through a different set of features depending on what question is being asked.
 
-## Main Learning Content
-
-### Why Feature Selection Matters First
+## Why Feature Selection Matters First
 
 Feature selection is not simply the job of reducing the number of columns. It is the job of deciding `what information will be allowed to participate in model judgment`.
 
@@ -435,9 +433,7 @@ Before complex algorithms, feature selection is also the job of making clear `fo
 
 The order in this table matters. `Does it look relevant?` should come only after `can it be used legitimately at prediction time?` is checked. That way the legitimacy of the input is inspected before performance numbers.
 
-## Detailed Learning Content
-
-### Organizing The Meaning In An Academic Context
+## Separating Variables and Features in Academic Context
 
 Introductory books often use `variable` and `feature` almost as if they were the same word. But in an academic context, they are sometimes separated slightly.
 

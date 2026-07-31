@@ -1,7 +1,7 @@
 # P4-6.2 Evaluation Criteria By Problem Type
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-6.1 explained that an [evaluation metric](/AiBook/en/reference/concept-glossary-alpha/m/#metric) is not just a scoreboard. It is a criterion that reveals what we choose to treat as important. Now the next question follows. `If the problem changes, why do the metrics we inspect also change?`
 
@@ -66,9 +66,7 @@ The evaluation order by problem type can be fixed briefly like this.
 
 So classification is closer to `a problem of attaching a name label`, regression is closer to `a problem of matching a numeric scale`, and clustering is closer to `a problem of finding groups that were not named in advance by people`.
 
-## Main Learning Content
-
-### In Classification, Read The Types Of Errors First
+## In Classification, First Read the Types of Errors
 
 In classification, it is often not enough to read the prediction result only as `correct or wrong`. As already seen in P4-6.1, the mistake of missing an actual positive case and the mistake of calling a negative case positive for no good reason can have different costs.
 
@@ -267,9 +265,7 @@ In work settings, clustering usually leads to the following questions.
 
 So clustering should be understood less as `a problem where the model gives the final answer` and more as `a problem where the model reveals structure first so that people can interpret further`.
 
-## Detailed Learning Content
-
-### Misunderstanding Appears If The Same Kind Of Number Is Expected Across Problem Types
+## Why Evaluation Numbers Must Be Read Differently by Problem Type
 
 It is easy to think like this.
 

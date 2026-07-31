@@ -1,7 +1,7 @@
 # P4-6.1 评价指标(metric)的作用
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 在 P4-5 章里，我们看过[过拟合(overfitting)](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting)和[泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization)。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。
 
@@ -57,9 +57,7 @@ scikit-learn 文档把 metrics and scoring 处理成 `把 prediction 质量数�
 
 这条流程里的关键是：`metric 会接到 model 外部的决策语境`。model 负责做 prediction，而 metric 则让我们继续读出这些 prediction 在真实决策里意味着什么。
 
-## 主要学习内容
-
-### 为什么不能只靠 accuracy
+## 为什么不能只用准确率结束评估
 
 Google 的 machine-learning glossary 把 accuracy 解释成 `所有 prediction 里预测正确的比例`。这个定义本身很简单，也很有用。但同一个 glossary 也说明：在 class imbalance 数据里，accuracy 可能会造成很大的误解。
 

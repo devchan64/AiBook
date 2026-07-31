@@ -1,7 +1,7 @@
 # P4-15.4 Supplementary Learning: Comparing Extra Trees and Random Forest
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Once readers learn [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) in P4-15.1, they soon encounter a similarly named model, Extra Trees(Extremely Randomized Trees). Because both look like `forests that gather many trees and average them`, it is easy at first to pass over them as if they were essentially the same model.
 
@@ -47,9 +47,7 @@ One further distinction is needed here.
 
 So Extra Trees is still `in the same forest family as random forest`, but it should be read as `a forest that randomizes even the way split criteria are chosen`.
 
-## Main Learning Content
-
-### Is Extra Trees Also In The Same Tree-Ensemble Family?
+## Comparing Extra Trees and Random Forests Within the Same Tree-Ensemble Family
 
 The scikit-learn User Guide explains both random forest and Extra-Trees as averaging algorithms in the family of `randomized decision tree ensemble`. In other words, both models create many trees and average or aggregate their predictions to improve generalization and stability.
 

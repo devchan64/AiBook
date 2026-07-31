@@ -1,7 +1,7 @@
 # P4-11.1 逻辑回归(logistic regression)的直觉
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-10 里，我们通过 [linear regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#linear-regression) 看到了 `怎样用一条直线预测连续值`。现在要接着看：同样是线性思路，到了 [classification](/AiBook/zh/reference/concept-glossary-pinyin/c/#classification) 问题时会怎样变化。
 
@@ -51,9 +51,7 @@ Part 4 的算法流程，是故意让回归到分类之间不要突然断开的�
 
 所以，P4-11.1 既是 `第一次正式介绍分类模型的 Section`，也是 `说明它与 linear regression 连续相接的 Section`。
 
-## 主要学习内容
-
-### logistic regression 处理什么问题
+## 逻辑回归处理怎样的分类问题
 
 logistic regression 通常首先用 `二元分类(binary classification)` 来介绍，也就是在两个 class 里做选择的问题。
 

@@ -1,7 +1,7 @@
 # P4-11.4 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.3에서 본 [log-odds](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)와 [MLE](../../../reference/concept-glossary-parts/11-chieut.md#maximum-likelihood-estimation-mle)는 기본적으로 `둘 중 하나를 고르는 이진 분류(binary classification)`를 기준으로 설명했습니다. 하지만 현실의 분류 문제는 셋 이상 중 하나를 고르는 경우도 많습니다.
 
@@ -41,9 +41,7 @@ P4-11.1에서 로지스틱 회귀를 처음 볼 때는 보통 `class 1 확률` �
 
 이때 독자가 먼저 잡아야 할 것은 `완전히 다른 모델이 시작된다`가 아니라 `이진 분류에서 익힌 읽기 틀이 넓어진다`는 점입니다.
 
-## 주요 학습내용
-
-### 다중 클래스에서도 점수와 확률 비교 구조는 유지된다
+## 다중 클래스에서도 점수와 확률 비교 구조는 유지된다
 
 다중 클래스에서는 각 클래스 \(k\)마다 점수 \(z_k\)를 만든다고 생각할 수 있습니다.
 

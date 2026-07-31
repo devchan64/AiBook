@@ -1,7 +1,7 @@
 # P4-15.2 特征重要度(feature importance)
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-15.1 里，我们看过[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)为什么能通过聚合很多棵树， 得到更稳定的预测。 接下来立刻会冒出一个问题。
 
@@ -85,9 +85,7 @@ importance 很方便， 但某些数据结构特别容易让解释被过度相�
 
 这个表的重点，不是要你丢掉这个数字。 而是让读者先看见： `什么时候这个数字特别容易引发误解。`
 
-## 主要学习内容
-
-### 特征重要度来自什么想法
+## 特征重要度概括了对分裂改进的贡献
 
 scikit-learn 用户指南解释说， 在树里，上方的 decision node 会影响更多样本的最终预测， 而相对重要度可以通过 每个 split 降低了多少 impurity 来估计。 把这个想法在许多随机化树上做平均， 就会得到 mean decrease in impurity，也就是 MDI。
 

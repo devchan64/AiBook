@@ -1,7 +1,7 @@
 # P4-4.1 Training Data And Evaluation Data
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 Chapter P4-3 showed how [heuristics](/AiBook/en/reference/concept-glossary-alpha/h/#heuristic) can narrow the model candidates to try first. That immediately raises an important question. How can you check whether that choice is actually acceptable?
 
@@ -53,9 +53,7 @@ In practice, you first need to judge `which split perspective should be used fir
 | Time order is central in the data | Train on earlier data and evaluate on later points | Because if future information leaks into past learning, the evaluation becomes distorted. |
 | Rare labels are few | Check the label ratio after splitting first | Because if one side becomes too skewed, the evaluation itself can become unstable. |
 
-## Main Learning Content
-
-### Data Are Split By Role
+## Data Is Split by Role
 
 The most basic split is between the part used for learning and the part used for evaluation.
 
@@ -216,9 +214,7 @@ For example, suppose shopping-mall data were collected from January to June.
 
 In this case, learning from January through April and evaluating on May and June is closer to the real operational flow. By contrast, if part of the June data is cut out and mixed randomly into February and March for training, patterns that appeared only in the future can leak into past learning.
 
-## Detailed Learning Content
-
-### What Misunderstandings Appear If The Split Is Wrong
+## Misunderstandings Created by Bad Data Splits
 
 Even if the data are split, if the method does not match the problem, the result can still create false reassurance.
 

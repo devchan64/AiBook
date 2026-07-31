@@ -1,7 +1,7 @@
 # P4-11.2 决策边界(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-11.1 里，我们把 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 看成 `生成可按 probability 来读的 score 的线性模型`。
 现在要把问题再换一步。
@@ -99,9 +99,7 @@ output 表会告诉你 `结果是什么`，但不够说明 `为什么会得到�
 | threshold 改变后移动的案例 | 为了知道哪些输入是因为 policy 变化而跨线 |
 | 下一步检查问题 | 为了决定要补 feature 还是调整 threshold |
 
-## 主要学习内容
-
-### 什么是 decision boundary
+## 决策边界是分类判断翻转的位置
 
 分类模型通常会在内部先计算一个 score，再用这个 score 来切 class。
 decision boundary 就是 `这个 score 刚好等于标准值的位置`。

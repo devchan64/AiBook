@@ -1,7 +1,7 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
@@ -25,7 +25,7 @@ This section first closes the point that `AI is the widest outer category`. The 
 - Read AI as a field for handling problems, not as the name of one product or one latest model.
 - Organize the relationship among AI, machine learning, deep learning, and generative AI at a level that can be reused in later chapters.
 
-## Main Learning Points
+## Three Criteria for Reading the Scope of AI
 
 Many terms appear in this section, but the structure becomes much clearer once they are not all treated as if they lived on the same conceptual level. The three points below form the large map of the section.
 
@@ -50,9 +50,7 @@ The first baseline that should remain from this section is that `AI is a broad f
 
 For example, consider an online store product recommendation. AI is the broad field that includes such recommendation problems. A `recommendation system` is the actually implemented system. The inputs are click records and purchase records. The output is a ranked list of products. The goal is to choose what the user is likely to look at next. The `impact` is that some products are shown more often and the user’s decision flow changes. Even when later sections introduce different cases, dividing them first into these six slots is often more helpful than trying to memorize the terms directly.
 
-## Detailed Learning
-
-### AI Is Not the Name of One Technique
+## AI Is Not the Name of One Technique
 
 AI is closer to a broad research field and system category than to the name of one single technique. Because of that, starting only with the question “Is this real intelligence?” quickly becomes unproductive. In practice, it is more stable to ask first, “What kind of problem is being solved, and in what way?”
 

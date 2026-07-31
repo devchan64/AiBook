@@ -117,9 +117,7 @@ If the same criteria are moved into a recording structure, they become even clea
 
 The core of this flow is that the baseline should be placed after selection and before tuning. First, candidate models are set up. Then those candidates must be comparable with the baseline. Only after that is it natural to attach tuning and algorithm-specific expansion.
 
-## Main Learning Content
-
-### What Must Be Fixed First Before Setting A Baseline?
+## What to Fix Before Building a Baseline
 
 The actual procedure for setting a baseline is examined separately in the next Section, P4-8.3. Still, even in this Section, the preparation items that must be fixed first should be held clearly. A baseline is not a rule that suddenly appears. It can be set only after `what problem is being solved`, `what counts as one sample`, and `what score will be used for comparison` are fixed first.
 
@@ -260,9 +258,7 @@ This diagram shows together the correct order of setting the baseline first, com
 
 In practice, this difference in order quickly becomes a difference in cost. If a candidate that cannot even beat the baseline is tuned for a long time, experiment time and computational cost may be spent without leaving any improvement that can be explained.
 
-## Detailed Learning Content
-
-### How Should DummyClassifier And DummyRegressor Be Understood?
+## How to Read DummyClassifier and DummyRegressor
 
 The dummy-family models of scikit-learn are especially useful educationally.
 
