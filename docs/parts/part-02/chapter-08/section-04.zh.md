@@ -1,7 +1,7 @@
 # P2-8.4 循环（loop）：逐个处理 iterable
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P2-8.2 中，我们看过列表（list）；在 P2-8.3 中，我们看过字典（dictionary）。现在把“把这些集合一个个处理掉”的循环（loop）单独拿出来看。
 
@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
+    label_counts[label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```
@@ -610,7 +610,7 @@ print(label_counts)
 
 在分类数据里检查标签分布（label distribution）时，这种模式经常会出现。
 
-## 案例与示例
+## 循环连接到数据处理的场景
 
 ### 一个小型数据处理例子
 
@@ -694,9 +694,7 @@ print(filtered_scores)
 
 可确认的结果，是看有没有生成新的结果集合。例如，一次遍历样本列表之后，如果出现了 `passed_samples` 或 `label_counts` 这样的结果，那么这个循环就不是单纯打印，而是在进行过滤或累积。
 
-## 练习与示例
-
-### 阅读示例时的共同问题
+## 阅读循环代码时的共同问题
 
 当列表、字典、循环例子越来越多时，只跟着语法走很容易迷路。这时候就用下面这些问题去读代码。
 

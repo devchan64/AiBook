@@ -1,7 +1,7 @@
 # P4-7.1 Feature Selection
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. [Feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#feature-selection) is the starting point of that input design.
 
@@ -480,7 +480,7 @@ For example, if two columns contain almost the same information, both can still 
 
 This distinction shows that feature selection is not `keeping every column that seems most relevant`, but `finding a subset that has low redundancy and is useful when used together`.
 
-## Cases And Examples
+## When Many Columns Do Not Guarantee Good Input
 
 ### Case 1. In A Churn-Prediction Table, More Columns Can Become More Dangerous
 
@@ -496,7 +496,7 @@ The checkable result is clear as well. When the validation score is compared bet
 --8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-04-en.mmd"
 ```
 
-## Cases And Examples
+## Criteria For Filtering Feature Candidates First
 
 ### Candidates To Drop First Through Practical Heuristics
 
@@ -527,7 +527,7 @@ The following is a very small example that assumes a customer-churn problem.
 
 The important point in this example is not `include` itself. It is whether the reader can explain `why it was included or excluded`.
 
-## Practice And Examples
+## Applying Good-Feature Criteria Directly
 
 ### Slowly Checking The Five Criteria Of A Good Feature
 

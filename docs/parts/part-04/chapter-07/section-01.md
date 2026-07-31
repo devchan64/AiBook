@@ -1,7 +1,7 @@
 # P4-7.1 특징 선택(feature selection)
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-6에서는 `무엇을 기준으로 평가할 것인가`를 봤습니다. 이제 질문을 한 단계 앞으로 옮깁니다. 평가 지표를 바꾸기 전에, 애초에 모델에게 어떤 입력을 줄지부터 점검해야 합니다. [특징 선택(feature selection)](../../../reference/concept-glossary-parts/12-tieut.md#feature-selection)은 이 입력 설계의 시작점입니다.
 
@@ -480,7 +480,7 @@ Guyon과 Elisseeff의 고전적인 정리 논문은 `raw input variables`와 `co
 
 이 구분은 특징 선택이 `가장 관련 있는 칼럼을 전부 남기는 작업`이 아니라, `중복이 적고 함께 쓸 때 유용한 부분집합(subset)을 찾는 문제`라는 점을 보여 줍니다.
 
-## 사례 및 예시
+## 많은 칼럼이 좋은 입력을 보장하지 않는 장면
 
 ### 사례 1. 이탈 예측 테이블에 칼럼이 많을수록 오히려 위험해질 때
 
@@ -496,7 +496,7 @@ Guyon과 Elisseeff의 고전적인 정리 논문은 `raw input variables`와 `co
 --8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-04-ko.mmd"
 ```
 
-## 사례 및 예시
+## 특징 후보를 먼저 거르는 기준
 
 ### 실무 휴리스틱으로 먼저 버릴 후보들
 
@@ -527,7 +527,7 @@ Guyon과 Elisseeff의 고전적인 정리 논문은 `raw input variables`와 `co
 
 이 예시에서 중요한 것은 `포함` 자체보다 `왜 포함하거나 제외했는가`를 설명할 수 있는가입니다.
 
-## 연습 및 예제
+## 좋은 특징 기준을 직접 적용하기
 
 ### 좋은 특징의 다섯 기준을 천천히 점검해 보기
 

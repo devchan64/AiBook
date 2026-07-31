@@ -1,7 +1,7 @@
 # P6-13.1 Tool Use That Hands Lookup, Computation, and Execution Outside the Model
 
 > Section ID: `P6-13.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P6-12.2, we saw that an index in vector retrieval creates a balance between retrieval speed and candidate quality. But retrieval is only one way to connect to the outside world. Now a broader question appears.
 
@@ -154,7 +154,7 @@ These problems continue into later chapters on agents and harness structures.
 --8<-- "assets/part-06/chapter-13/p6-c13-s01-tool-use-flow-en.mmd"
 ```
 
-## Cases and examples
+## Execution Requests That Explanation Alone Cannot Close
 
 ### Case 1. Calculator tool
 
@@ -234,7 +234,7 @@ The same standard can be turned into shorter practical questions.
 
 The standard to learn first is simple. Tool use is not `a way to attach more external information`. It is a connection structure that actually retrieves or produces results outside document reading: `lookup`, `computation`, and `execution`.
 
-## Exercise and example
+## Checking Request Branches Through Execution Records
 
 The goal of this example is not to connect a real external API. It is to visually confirm that `user request`, `tool-need judgment`, `tool-call plan`, `tool execution result`, and `final answer` are different stages. If we look at only one request, it is easy to stop at `exchange-rate lookup = tool needed`. So we run several requests together and see that some close with explanation only, while others split into lookup, computation, or execution delegation.
 

@@ -1,7 +1,7 @@
 # P2-8.4 Loops: Processing Iterables One by One
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we separate out the loop that processes these groups one by one.
 
@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
+    label_counts[label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```
@@ -610,7 +610,7 @@ Look at `labels` one by one, and accumulate in the dictionary how many times the
 
 This pattern is often used when checking label distribution in classification data.
 
-## Cases and Examples
+## When a Loop Becomes Data Processing
 
 ### A Small Data-Processing Example
 
@@ -694,9 +694,7 @@ This is also why this section divides loops into patterns such as iterable, item
 
 The confirmable result can be seen by whether a new result group is made. For example, if after iterating once over a sample list, a result such as `passed_samples` or `label_counts` appears, then the loop performed not simple printing, but filtering or accumulation.
 
-## Practice and Examples
-
-### Common Questions for Reading Examples
+## Common Questions for Reading Loop Code
 
 As examples of lists, dictionaries, and loops increase, you can get lost by following only the syntax. At that point, read the code with the following questions.
 

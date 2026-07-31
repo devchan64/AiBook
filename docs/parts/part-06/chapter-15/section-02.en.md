@@ -1,7 +1,7 @@
 # P6-15.2 Harnesses That Wrap Execution Records and Reproducible Environments
 
 > Section ID: `P6-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P6-15.1, we saw that MCP is an interface viewpoint that makes connections between models, external tools, and data more consistent. But even if the connection format is organized, it is hard to explain the cause of failure or the effect of improvement again unless the execution flow remains as a record. Now we need to look at the structure that wraps AI agent execution, leaves logs and evaluation inputs, and manages the flow so it can be repeated.
 
@@ -131,7 +131,7 @@ In other words, a harness is not just a record. It is the basis for debugging an
 
 The key point of this diagram is that a harness wraps execution to create `observability` and `improvability`, and when needed, moves the flow to human review or policy blocking.
 
-## Cases and examples
+## Cases That Make Failure Causes Explainable Again
 
 The focus of these cases is not `did it fail`, but `how much must be recorded so the same failure can be explained again`.
 
@@ -209,7 +209,7 @@ The shortest version of this connection is:
 
 In P6-16, we will read the harness as `evaluation input`, and in P6-17, we will read the same record again as `input for operational control and failure handling`.
 
-## Practice and example
+## Recording Harness Traces Directly
 
 The goal of the example is not to build a whole production harness. It is to see what record artifacts should remain from a local-model execution flow. If only the final answer is stored, we can see that the answer changed, but it is hard to explain again what evidence the model chose, what action it intended to take, and where it stopped. By contrast, if execution input, model decision, tool contracts, tool output, approval gate, and replay criteria remain together, the same request can be compared again later.
 

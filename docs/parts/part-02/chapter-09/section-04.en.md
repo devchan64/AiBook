@@ -1,7 +1,7 @@
 # P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P2-9.1, we viewed a data structure as the shape that holds data and the way that data is handled. But once you start studying data structures, many unfamiliar names suddenly appear.
 
@@ -337,7 +337,7 @@ Remember roughly the following here.
 - A dictionary is good for finding by key.
 - A hash table connects to an implementation method for finding values by key.
 
-## Cases and Examples
+## When Data-Structure Names Reveal Code Intent
 
 ### How do Python lists and dictionaries connect to traditional data structures?
 
@@ -396,7 +396,7 @@ print("graph by neighbor:", relation_graph["Kim"])
 
 All three examples are written in Python syntax, but each uses a different data-structure intuition. The first is order, the second is key-based lookup, and the third is relationship expression.
 
-## Practice and Examples
+## Checking Data-Structure Intuition Directly
 
 ### Minimal Python examples to run directly
 

@@ -1,7 +1,7 @@
 # P2-8.4 반복(loop): 이터러블(iterable)을 하나씩 처리하기
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P2-8.2에서는 리스트(list)를, P2-8.3에서는 딕셔너리(dictionary)를 봤습니다. 이제 이런 묶음을 하나씩 처리하는 반복(loop)을 분리해서 봅니다.
 
@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
+    label_counts[label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```
@@ -610,7 +610,7 @@ print(label_counts)
 
 분류 데이터에서 라벨 분포(label distribution)를 확인할 때 이런 패턴을 자주 사용합니다.
 
-## 사례 및 예시
+## 반복이 데이터 처리로 이어지는 장면
 
 ### 작은 데이터 처리 예시
 
@@ -694,9 +694,7 @@ print(filtered_scores)
 
 확인 가능한 결과는 새 결과 묶음이 만들어지는지로 볼 수 있습니다. 예를 들어 샘플 목록을 한 번 순회한 뒤 `passed_samples`나 `label_counts` 같은 결과가 생긴다면, 반복은 단순 출력이 아니라 필터링이나 누적을 수행한 것입니다.
 
-## 연습 및 예제
-
-### 예시를 읽는 공통 질문
+## 반복 코드를 읽는 공통 질문
 
 리스트, 딕셔너리, 반복 예시가 많아지면 문법만 따라가다 길을 잃을 수 있습니다. 그럴 때는 다음 질문으로 코드를 읽습니다.
 

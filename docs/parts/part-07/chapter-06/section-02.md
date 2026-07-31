@@ -1,7 +1,7 @@
 # P7-6.2 권한, 로그, blocked 상태 검토
 
-Section ID: `P7-6.2`
-Version: `v2026.07.26`
+> Section ID: `P7-6.2`
+> Version: `v2026.07.31`
 
 AI 에이전트 run이 승인 대기 때문에 blocked 상태로 멈출 수 있다는 사실만으로는 운영 기록이 충분하지 않습니다. 같은 run 안에서도 어떤 단계는 `완료`, 어떤 단계는 `blocked`, 어떤 단계는 진짜 `failure`일 수 있기 때문입니다.
 

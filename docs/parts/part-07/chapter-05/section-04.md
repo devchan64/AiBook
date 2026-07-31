@@ -1,7 +1,7 @@
 # P7-5.4 ANN 검색 설정 실습
 
-Section ID: `P7-5.4`
-Version: `v2026.07.26`
+> Section ID: `P7-5.4`
+> Version: `v2026.07.31`
 
 RAG 프로젝트에서 문서가 늘어나면 모든 문서를 매번 정확히 비교하는 방식은 점점 부담이 됩니다. 그래서 실제 검색 시스템은 벡터 데이터베이스(vector database)나 근사 최근접 이웃(ANN, approximate nearest neighbor) 검색처럼 후보를 빠르게 찾는 구조를 자주 사용합니다.
 

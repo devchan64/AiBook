@@ -1,7 +1,7 @@
 # P4-7.1 特征选择(feature selection)
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 在 P4-6 里，我们看过 `该用什么标准来评价`。现在把问题再往前推一步。在更换评价指标之前，必须先检查：到底要给 model 什么输入。[特征选择(feature selection)](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature-selection)正是这个输入设计的起点。
 
@@ -480,7 +480,7 @@ Guyon 和 Elisseeff 的经典综述把 `raw input variables` 和 `constructed fe
 
 这个区分说明：feature selection 不是 `把最相关的列全部留下`，而是 `找出重复低、放在一起也真的有帮助的子集(subset)`。
 
-## 案例与示例
+## 列很多并不保证输入更好的场景
 
 ### 案例 1. 在流失预测表里，列越多反而越危险
 
@@ -496,7 +496,7 @@ Guyon 和 Elisseeff 的经典综述把 `raw input variables` 和 `constructed fe
 --8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-04-zh.mmd"
 ```
 
-## 案例与示例
+## 先筛掉特征候选的标准
 
 ### 先用实务 heuristic 来找优先丢弃候选
 
@@ -527,7 +527,7 @@ Guyon 和 Elisseeff 的经典综述把 `raw input variables` 和 `constructed fe
 
 这个例子里，重要的不是 `纳入` 本身，而是能不能解释 `为什么纳入或为什么排除`。
 
-## 练习与示例
+## 直接应用好特征标准
 
 ### 慢慢检查好特征的五个标准
 

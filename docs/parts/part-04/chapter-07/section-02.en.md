@@ -1,7 +1,7 @@
 # P4-7.2 Preprocessing
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-7.1 examined `what inputs should remain`. Now the discussion moves to the stage where those remaining inputs are not thrown to the model as they are, but are organized into a form the model can read more easily. That stage is preprocessing.
 
@@ -665,7 +665,7 @@ If readers add one more sentence, the explanation becomes more complete.
 
 For example, scale adjustment is more sensitive in k-NN, SVM, and linear models, while encoding is almost essential in many models that cannot read strings directly. In other words, preprocessing explanations begin with input problems, but they need to reach the model connection to gain enough density.
 
-## Cases And Examples
+## When Input State Requires Preprocessing Rules
 
 ### Case 1. When Comparison Collapses Without Preprocessing Rules Even In The Same Customer Data
 
@@ -683,7 +683,7 @@ If this case is drawn as a flow, it becomes easier to see that preprocessing is 
 --8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-04-en.mmd"
 ```
 
-## Cases And Examples
+## Criteria For Separating Preprocessing Decisions By Column
 
 ### Reading A Small Preprocessing Scene Through A Tiny Example
 
@@ -724,7 +724,7 @@ Therefore, preprocessing is not `a Section that ends after looking only at data`
 
 The reason this point matters is that, even with the same data, a `preprocessing + model` combination often becomes one unit of experiment. In other words, saying that logistic regression is being compared often really means a bundle such as `missing-value handling + scale adjustment + encoding + logistic regression` is being compared.
 
-## Practice And Examples
+## Checking The Preprocessing Flow Directly
 
 ### Looking At Missing Values, Scale, And Encoding In Order Through A Python Example
 
