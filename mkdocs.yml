@@ -24,6 +24,7 @@ theme:
   language: ko
   features:
     - navigation.tracking
+    - navigation.expand
     - navigation.footer
     - navigation.top
     - search.highlight
@@ -47,9 +48,8 @@ theme:
         name: 라이트 모드로 전환
 
 nav:
-  - "시작":
-      - "소개": index.md
-      - "책의 목차": table-of-contents.md
+  - "소개": index.md
+  - "책의 목차": table-of-contents.md
   - "Part 1. AI 개론과 지형도":
       - "개요": parts/part-01/index.md
       - "Module 1. AI의 범위와 역사":
