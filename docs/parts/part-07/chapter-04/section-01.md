@@ -1,7 +1,9 @@
 # P7-4.1 loss, metric, 오류 사례 함께 읽기
 
-Section ID: `P7-4.1`
-Version: `v2026.07.26`
+> Section ID: `P7-4.1`
+> Version: `v2026.07.31`
+
+학습 결과는 `loss_trace`, `metric_trace`, `baseline_score`, `representative_error`, `failure_axis`, `next_fix_candidate`를 함께 읽습니다. loss와 metric이 좋아 보여도 오류 사례가 같은 방향으로 줄었는지 확인해야 합니다.
 
 고객 문의를 어느 팀으로 보내야 하는지 분류하는 모델을 만들었다고 해도, 정확도 숫자 하나만 적어 두면 실제로 무엇이 좋아졌는지 읽기 어렵습니다. 학습 루프 관점으로 다시 보면, 프로젝트 문서에는 `baseline`, `loss`, `accuracy`, `epoch별 로그`, `오류 샘플`이 함께 남아 있어야 다음 판단이 가능합니다.
 

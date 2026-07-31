@@ -1,7 +1,7 @@
 # P4-15.2 특징 중요도(feature importance)
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. 그러면 바로 다음 질문이 생깁니다.
 
@@ -85,9 +85,7 @@ P4-15.1에서는 [랜덤포레스트(random forest)](../../../reference/concept-
 
 이 표의 목적은 중요도 숫자를 버리게 하는 것이 아니라, `언제 이 숫자가 특히 오해를 부르기 쉬운가`를 먼저 보게 하는 데 있습니다.
 
-## 주요 학습내용
-
-### 특징 중요도는 어떤 생각에서 나오나
+## 특징 중요도는 분기 개선 기여를 요약한 값이다
 
 scikit-learn 사용자 가이드는 트리에서 상위에 있는 decision node가 더 많은 샘플의 예측에 기여하고, split으로 impurity를 얼마나 줄였는지를 합쳐 상대적 중요도를 추정할 수 있다고 설명합니다. 이 아이디어를 여러 randomized tree에 대해 평균낸 것이 mean decrease in impurity, 즉 MDI입니다.
 
@@ -174,9 +172,7 @@ MDI가 `모델 내부 사용 기록`이라면, permutation importance는 `그 fe
 
 이 흐름은 매우 중요합니다. 왜냐하면 중요도를 `숫자 속성`이 아니라 `성능 변화 실험`으로 다시 읽게 하기 때문입니다.
 
-## 세부 학습내용
-
-### 왜 impurity-based importance는 조심해야 하나
+## impurity-based importance를 조심해야 하는 이유
 
 scikit-learn 사용자 가이드는 impurity-based feature importances에 두 가지 주요 문제가 있다고 경고합니다.
 

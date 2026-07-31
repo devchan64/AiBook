@@ -1,7 +1,7 @@
 # P4-11.4 Supplementary Learning: How To Read Multinomial Logistic Regression
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.3 explained [log-odds](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) and [MLE](/AiBook/en/reference/concept-glossary-alpha/m/#maximum-likelihood-estimation-mle) mainly on the basis of `binary classification`, where the model chooses one of two classes. But many real classification problems ask the model to choose one out of three or more classes.
 
@@ -41,9 +41,7 @@ Examples include the following.
 
 The first point the reader should hold here is not `a completely different model begins`. It is that `the reading frame learned in binary classification widens`.
 
-## Main Learning Content
-
-### The Structure Of Score And Probability Comparison Remains In Multiclass Settings Too
+## The Score and Probability Comparison Structure Remains in Multiclass Settings
 
 In a multiclass setting, one can think of the model as creating one score \(z_k\) for each class \(k\).
 

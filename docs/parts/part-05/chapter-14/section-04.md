@@ -1,7 +1,7 @@
 # P5-14.4 RNN 상태 전달과 Transformer 병렬 계산
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: 순차 상태 전달과 토큰 관계 계산은 병렬 처리에서 어떻게 갈라지는가_
 
@@ -10,6 +10,8 @@ P5-14.1부터 P5-14.3까지는 Transformer 블록 안에서 표현을 갱신하�
 RNN은 왜 순차 상태 전달처럼 느껴지고, Transformer는 왜 토큰 관계 계산과 GPU 병렬 처리에 더 잘 맞는가?
 
 비교 기준은 `Transformer가 더 최신이다` 같은 시간순 인상이 아닙니다. 핵심은 앞 step 상태를 차례로 넘기는 계산과, 한 층 안의 여러 토큰 관계를 큰 행렬 연산으로 묶기 쉬운 계산의 차이입니다.
+
+비교 표를 만들 때도 모델 이름만 나란히 두지 말고 `depends_on_previous_step`, `relation_matrix`, `parallel_unit`, `batch_axis`를 함께 적어 봅니다. 그러면 RNN과 Transformer의 차이가 유행 순서가 아니라 계산 의존성과 병렬화 단위의 차이로 정리됩니다.
 
 ## 계산 흐름과 병렬 처리가 다루는 질문
 

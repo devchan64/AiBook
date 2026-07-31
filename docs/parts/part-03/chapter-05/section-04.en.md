@@ -1,7 +1,9 @@
 # P3-5.4 Where Do We Cut the Input Window and How Do We Align Its Length
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+It is better to leave this judgment as a window-design memo, not only as a separate explanation. Columns or document notes such as `window_start_rule`, `window_end_rule`, `alignment_rule`, `target_length`, and `padding_policy` make it possible to trace why this input length came from the same source time series. If you aligned by progress rate, the actual time difference may disappear, so keep original length information such as `duration_seconds` as well to check later what was discarded and what was kept.
 
 If a [source time series](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) is not yet a learning [model input](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) by itself, one more concrete question immediately remains. `Then where should the real input begin and end?` `If actions have different lengths, how can we treat them like the same kind of input?` The [input window](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) is the data-modeling decision that answers exactly these questions.
 
@@ -23,7 +25,7 @@ So an input window is not just a cutting technique. It is the act of deciding `w
 
 ## Four Things That Must Be Fixed First
 
-When deciding the input window, at least the following four things should be closed first.
+When deciding the input window, at least the following four things should be confirmed first.
 
 | What to decide first | Turned into a question |
 | --- | --- |

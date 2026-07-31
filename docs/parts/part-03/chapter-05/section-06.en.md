@@ -1,7 +1,9 @@
 # P3-5.6 Overlapping Input Windows and Sample Counts
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+When you turn windows into an actual table, each derived input window should keep the source event identifier. Columns such as `source_event_id`, `window_id`, `window_start`, `window_end`, `stride`, and `source_event_weight` let you count input windows and source events separately. Without these columns, the fact that 237 windows came from 36 events disappears, and the evidence unit may look larger than it really is when you read representativeness or evaluation scores later.
 
 _Subtitle: Why can sample counts look larger than reality when the same event is cut into multiple windows?_
 

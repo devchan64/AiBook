@@ -1,7 +1,7 @@
 # P4-12.1 Intuition For k-NN
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.2 showed [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) as `a model that draws a boundary in the input space and separates classes`. Now the question changes.
 
@@ -27,9 +27,7 @@ This Section first closes `what basic idea k-NN uses to judge from nearby cases`
 - You can explain the difference between cases where `k` is too small and where it is too large.
 - You can explain that training in k-NN is closer to `preparing reference cases for comparison` than to `building a complex formula`.
 
-## Main Learning Content
-
-### How Does k-NN Make A Judgment?
+## k-NN Judges From Nearby Cases
 
 k-NN first looks at a new input, called the [query](/AiBook/en/reference/concept-glossary-alpha/m/#model-input). Then it finds cases in the [training data](/AiBook/en/reference/concept-glossary-alpha/t/#training-data) whose [supervised learning labels](/AiBook/en/reference/concept-glossary-alpha/s/#supervised-learning-label) are already known and are close to that query. Finally, it gathers the labels of those [neighbors](/AiBook/en/reference/concept-glossary-alpha/n/#nearest-neighbor) and creates a result by majority vote or average.
 

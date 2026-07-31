@@ -1,15 +1,17 @@
 # P6-15.2 Harnesses That Wrap Execution Records and Reproducible Environments
 
 > Section ID: `P6-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Leave harness records as `input_snapshot`, `tool_call_log`, `environment_state`, `approval_state`, `output_snapshot`, and `replay_note`. Then you can check again why the same run flowed that way instead of looking only at the final answer.
 
 In P6-15.1, we saw that MCP is an interface viewpoint that makes connections between models, external tools, and data more consistent. But even if the connection format is organized, it is hard to explain the cause of failure or the effect of improvement again unless the execution flow remains as a record. Now we need to look at the structure that wraps AI agent execution, leaves logs and evaluation inputs, and manages the flow so it can be repeated.
 
-A harness is close to an execution environment or operational device that wraps an agent or model run and manages inputs, tool calls, results, logs, evaluation inputs, and reproduction information.
+A harness is similar to an execution environment or operational device that wraps an agent or model run and manages inputs, tool calls, results, logs, evaluation inputs, and reproduction information.
 
 ## A structure that wraps execution records
 
-The first issue to close is what form should preserve `trace`, `replay information`, and `approval records`. Quality checking is the problem of reading the remaining records as pass criteria, and operational constraints and failure handling are the problem of moving that judgment into real service control.
+The first issue to settle is what form should preserve `trace`, `replay information`, and `approval records`. Quality checking is the problem of reading the remaining records as pass criteria, and operational constraints and failure handling are the problem of moving that judgment into real service control.
 
 Here, we read a harness not as the name of a single product, but as `a wrapping structure that controls, records, and evaluates execution`.
 
@@ -77,7 +79,7 @@ So the following become important.
 - Evaluation record: was the result acceptable?
 - Replay information: can the same flow be reproduced again?
 
-The structure that wraps these requirements is close to a harness.
+The structure that wraps these requirements is similar to a harness.
 
 ## Connection Format and Execution Record Difference
 
@@ -90,8 +92,8 @@ This difference must also be separated.
 
 In other words:
 
-- MCP is close to `what should be connected and how`.
-- A harness is close to `how should the flow that used that connection be managed and explained again`.
+- MCP is similar to `what should be connected and how`.
+- A harness is similar to `how should the flow that used that connection be managed and explained again`.
 
 They can be used together, but they are not concepts at the same level.
 
@@ -99,7 +101,7 @@ They can be used together, but they are not concepts at the same level.
 
 If a harness is understood as one specific product or tool, its scope becomes too narrow. A safer explanation is this.
 
-`A harness is closer to a viewpoint of an operational pattern or environment around execution.`
+`A harness is more similar to a viewpoint of an operational pattern or environment around execution.`
 
 That means a harness can be:
 
@@ -131,7 +133,7 @@ In other words, a harness is not just a record. It is the basis for debugging an
 
 The key point of this diagram is that a harness wraps execution to create `observability` and `improvability`, and when needed, moves the flow to human review or policy blocking.
 
-## Cases and examples
+## Cases That Make Failure Causes Explainable Again
 
 The focus of these cases is not `did it fail`, but `how much must be recorded so the same failure can be explained again`.
 
@@ -141,7 +143,7 @@ Suppose a coding agent changed several files and then tests failed. If we look o
 
 If this path is not left behind, more time can be spent rerunning the same experiment than tracking the cause. With a harness, read files, applied changes, executed tests, and results remain as a trace, making the problem point easier to track again. The criterion changes from looking only at `whether the final result succeeded or failed` to checking `can we retrace which execution path led to the failure`. The result to check in this case is whether the record leaves not only one final failure line, but also which test first broke after which file change.
 
-This is a practical scene because coding-agent output usually passes through several files, several commands, and several verification steps, not one file. Even when people edit manually, finding `which commit broke it` can take time. If an AI agent applies several patches in a short time, reconstructing the path from memory becomes even harder. So the value of a harness is closer to `making failure explainable again` than to `preventing failure`. A single test failure line tells us that something broke, but not which reading step or which edit created the failure.
+This is a practical scene because coding-agent output usually passes through several files, several commands, and several verification steps, not one file. Even when people edit manually, finding `which commit broke it` can take time. If an AI agent applies several patches in a short time, reconstructing the path from memory becomes even harder. So the value of a harness is more similar to `making failure explainable again` than to `preventing failure`. A single test failure line tells us that something broke, but not which reading step or which edit created the failure.
 
 The judgment an operator can make changes greatly depending on the record level, even for the same failure.
 
@@ -209,7 +211,7 @@ The shortest version of this connection is:
 
 In P6-16, we will read the harness as `evaluation input`, and in P6-17, we will read the same record again as `input for operational control and failure handling`.
 
-## Practice and example
+## Recording Harness Traces Directly
 
 The goal of the example is not to build a whole production harness. It is to see what record artifacts should remain from a local-model execution flow. If only the final answer is stored, we can see that the answer changed, but it is hard to explain again what evidence the model chose, what action it intended to take, and where it stopped. By contrast, if execution input, model decision, tool contracts, tool output, approval gate, and replay criteria remain together, the same request can be compared again later.
 

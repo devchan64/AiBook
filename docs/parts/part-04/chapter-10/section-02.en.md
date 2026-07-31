@@ -1,7 +1,7 @@
 # P4-10.2 Evaluation And Limits Of Linear Regression
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-10.1 introduced linear regression as `a model that first reads a relationship with a line`. Now the discussion moves to the next question.
 
@@ -79,9 +79,7 @@ So the comparison frame in regression evaluation must also stay unified. If base
 | caution sentences about interpretation | to avoid fixing the cause immediately just because a large error appears |
 | the next review priority | to decide what region should be rechecked and what feature should be reinforced |
 
-## Main Learning Content
-
-### What Is The Difference Between Residual And Error?
+## Criteria for Separating Residuals and Errors
 
 When readers first meet the two words, they can look similar. In this book, however, they are distinguished as follows.
 
@@ -249,9 +247,7 @@ Rather than listing regression metrics all at once, the reader should make the r
 
 The purpose of this table is not to lock the reader into one metric, but to make the evaluation order clear according to `what kind of failure is being read right now`.
 
-## Detailed Learning Content
-
-### What Typical Situations Make Linear Regression Fit Poorly?
+## Typical Situations Where Linear Regression Does Not Fit Well
 
 The limits of linear regression usually appear when `one line is not enough, but the model is still pushed to explain everything with one line`.
 

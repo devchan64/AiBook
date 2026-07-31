@@ -1,7 +1,9 @@
 # P5-14.3 稳定深层重复的两个装置
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+阅读深层 block 时，要分开 `new_signal`、`original_signal`、`combined_representation`、`normalized_representation`。留下这个区分后，residual 可以读作保留原始轴的装置，normalization 可以读作把值范围调整到下一次计算可处理状态的装置。
 
 _副标题: residual 与 normalization 如何分别稳定信息流和值的范围？_
 

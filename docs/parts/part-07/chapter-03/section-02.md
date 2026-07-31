@@ -1,7 +1,9 @@
 # P7-3.2 CNN, 순차 모델, attention 계열 비교
 
-Section ID: `P7-3.2`
-Version: `v2026.07.26`
+> Section ID: `P7-3.2`
+> Version: `v2026.07.31`
+
+모델 계열 비교는 `data_pattern`, `candidate_model`, `expected_strength`, `expected_failure`, `evidence_sample`, `next_trial`을 나누어 둡니다. CNN, 순차 모델, attention 계열을 이름 목록이 아니라 입력 구조별 가설로 읽기 위한 기준입니다.
 
 기본 이미지 분류기 하나를 학습했는데 test 정확도가 `0.75`로 끝났다고 해서, 그 사실만으로 다음 선택이 정해지지는 않습니다. 여기서 중요한 것은 `어떤 실패가 어떤 구조 계열을 더 의심하게 만드는가`를 프로젝트 문서에 남기는 일입니다.
 

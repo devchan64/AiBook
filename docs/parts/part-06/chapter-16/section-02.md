@@ -1,7 +1,9 @@
 # P6-16.2 자동 평가와 사람 평가의 분업
 
 > Section ID: `P6-16.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+평가 분업은 `automatic_check`, `human_review`, `repeatable_rule`, `context_judgment`, `escalation_case`, `review_note`로 남깁니다. 이 구분이 있어야 반복 검사에 강한 자동 평가와 맥락 판단에 강한 사람 평가가 서로 대체물처럼 보이지 않습니다.
 
 _보조제목: 반복 검사와 맥락 판단은 자동 평가와 사람 평가에서 어떻게 나뉘는가_
 

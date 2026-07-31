@@ -1,7 +1,9 @@
 # P3-4.2 一旦样本单位摇摆，哪些东西会一起摇摆
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+因此，如果决定改变样本单位，表设计也必须一起改变。不要保留按时间点的表并反复贴同一个标签，而要先制作一次动作的摘要表，并让该表中的特征列和标签列指向同一个 `event_id`。分割列也应贴在一次动作样本上，而不是时间点行上。这样以后读分数时，`到底预测的是什么`才不会在时间点行和一次动作之间摇摆。
 
 [样本(sample)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-sample)单位，是后面几乎所有概念的基准点。所以，如果把测量值和样本混在一起，问题不会只是“某个术语用错了”这么简单。[特征(feature)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-feature)的含义会一起摇摆，[监督学习标签(supervised learning label)](/AiBook/zh/reference/concept-glossary-pinyin/j/#supervised-learning-label)的含义会一起摇摆，甚至连[评估(evaluation)](/AiBook/zh/reference/concept-glossary-pinyin/p/#evaluation-design)到底在评估什么，也会跟着一起摇摆。如果前一节已经定下了什么算一条样本，那么这一节要看的，就是那个决定还会一起固定什么、一起摇晃什么。
 

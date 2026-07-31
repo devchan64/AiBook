@@ -1,9 +1,11 @@
 # Part 1 마무리. AI 개론과 지형도 정리
 
 > Section ID: `P1-summary`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Part 1은 AI를 다시 공부하기 전에 전체 지형을 잡기 위한 구간이었습니다. 세부 알고리즘을 구현하거나 수식을 깊게 증명하기보다, 이후 학습에서 반복해서 만나게 될 용어와 관점을 먼저 정리했습니다.
+
+이 마무리 페이지의 재점검 계획은 `AI 범위`, `학습과 실행`, `생성형 AI와 LLM`, `서비스 책임`을 서로 다른 층위로 다시 묶는 것입니다. 설명을 다시 읽을 때는 어떤 개념을 기억할지보다, 뒤 Part에서 같은 개념이 어떤 역할로 다시 등장하는지 함께 표시합니다.
 
 이 요약은 Part 1 안의 모든 개념을 다시 길게 반복하는 문서가 아니라, 어디에서 어떤 개념을 기준선으로 잡았는지 다시 떠올리게 하는 마무리 문서입니다. 용어가 다시 헷갈리면 개념사전의 [AI](../../reference/concept-glossary-parts/08-ieung.md#ai-artificial-intelligence), 시스템, [LLM](../../reference/concept-glossary-parts/08-ieung.md#llm) 같은 대표 항목과 각 항목의 대표 Section을 함께 확인합니다.
 
@@ -45,7 +47,7 @@ Part 1의 흐름은 다음처럼 정리할 수 있습니다.
 
 예를 들어 탐색(search)과 휴리스틱(heuristic)은 초기 AI의 문제 해결 방식에서 중요했지만, 현대 AI에서도 후보를 줄이고 계산 비용을 낮추는 사고방식으로 다시 나타납니다. 확률(probability)과 불확실성(uncertainty)은 예측, 분류, 생성 결과를 이해할 때 계속 등장합니다.
 
-이때 Part 1 안에서 먼저 닫아 둔 중요한 경계도 있습니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)은 확률 모델(probabilistic model)과 다른 역할을 합니다. 이 구분을 먼저 잡아 두어야 뒤 Part에서 분류 점수, calibration, 생성 설정, 프롬프트 휴리스틱을 같은 층위로 섞지 않게 됩니다. calibration, confidence, uncertainty estimation의 세부 차이는 여기서 길게 확장하지 않고, P4-6.4 보충학습의 첫 해설과 P4-15.3의 서비스 판단 연결로 넘기는 현재 구조를 유지합니다.
+이때 Part 1 안에서 먼저 구분해 둔 중요한 경계도 있습니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)은 확률 모델(probabilistic model)과 다른 역할을 합니다. 이 구분을 먼저 잡아 두어야 뒤 Part에서 분류 점수, calibration, 생성 설정, 프롬프트 휴리스틱을 같은 층위로 섞지 않게 됩니다. calibration, confidence, uncertainty estimation의 세부 차이는 여기서 길게 확장하지 않고, P4-6.4 보충학습의 첫 해설과 P4-15.3의 서비스 판단 연결로 넘기는 현재 구조를 유지합니다.
 
 생성형 AI와 LLM의 관계도 같은 방식으로 읽어야 합니다. 생성형 AI(generative AI)는 텍스트, 이미지, 오디오, 코드처럼 새 콘텐츠를 만들어 내는 더 넓은 범주이고, LLM(large language model)은 그 안에서 언어 모델링과 Transformer 계열을 중심으로 발전한 대표 모델 흐름입니다. 이 경계는 Part 6에서 `토큰 -> Transformer -> GPT` 본류와 `LLM 발전사`, `BERT 계열 비교` 배경 축으로 다시 확인합니다.
 
@@ -94,7 +96,7 @@ Part 1에서 특히 조심해야 할 오해는 다음입니다.
 
 그중 `추론`은 가장 자주 다시 확인해야 하는 말입니다. Part 1에서는 inference를 `모델 실행`, reasoning을 `논리적 추론`, prediction을 `모델 출력`, generation을 `생성`으로 우선 나눠 둡니다. Part 6으로 가면 next-token prediction, reasoning처럼 보이는 응답 생성, 평가 문맥의 `모델 결과`를 읽을 때 이 구분이 다시 필요합니다.
 
-## Part 1에서 닫은 지형과 뒤로 넘긴 세부 계산
+## Part 1에서 확인한 지형과 뒤로 넘긴 세부 계산
 
 Part 1은 AI 전체 지형과 공통 용어를 설명하는 데 집중했습니다. 따라서 개별 알고리즘의 세부 수식, 딥러닝 내부 계산, LLM 서비스 구현 세부는 여기서 끝내지 않고 뒤 Part로 넘깁니다.
 

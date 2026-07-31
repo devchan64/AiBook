@@ -1,7 +1,9 @@
 # P4-8.1 Model Selection
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Therefore, when writing candidate models, do not write only algorithm names. If you keep `problem_type`, `data_shape`, `feature_form`, `error_cost`, `interpretability_need`, `latency_limit`, and `baseline_plan` together, model selection becomes a set of experimental candidates reflecting problem conditions, not a preference list.
 
 In P4-7, the discussion examined what inputs should remain and what representation those inputs should be changed into. Now it moves to the next question.
 
@@ -9,7 +11,7 @@ What kind of model should those inputs be handed to?
 
 That question is exactly the starting point of [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection).
 
-Model selection is often understood as `choosing the most famous algorithm`. In practice, it is closer to the opposite. Model selection is the work of narrowing candidates while looking together at the form of the problem, the nature of the data, interpretability, computational cost, and operational conditions.
+Model selection is often understood as `choosing the most famous algorithm`. In practice, it is more similar to the opposite. Model selection is the work of narrowing candidates while looking together at the form of the problem, the nature of the data, interpretability, computational cost, and operational conditions.
 
 In academic contexts as well, model selection is not a peripheral choice. In statistics and machine learning, the problem of judging which model to adopt from among several model candidates under observed data and an objective is treated as an independent topic. In other words, model selection is not `a matter of taste about picking an algorithm name`, but the stage that decides `what hypothesis structure should be tested first for the given problem and constraints`.
 
@@ -27,7 +29,7 @@ The quickest starting point is the following table.
 
 The purpose of this table is not to guess the right answer. It is to help the reader know `which drawer should be opened first` after looking at the problem.
 
-## Questions To Close Before Building A Candidate Family
+## Questions To Settle Before Building A Candidate Family
 
 This Section answers the following questions.
 
@@ -36,7 +38,7 @@ This Section answers the following questions.
 - What model families can be brought to mind first depending on the problem type and data conditions?
 - What criteria besides performance enter model selection?
 
-This Section first closes `what model candidates should be built from the problem and constraints`.
+This Section first settles `what model candidates should be built from the problem and constraints`.
 The basic role of [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) reconnects in P4-4.2 and P4-9.2, while information criteria, AutoML, and large-scale search systems continue in the supplementary learning of P4-9.3 from the perspective of `advanced model selection and automation`.
 
 ## Judgments To Keep From Model Selection
@@ -155,9 +157,7 @@ If notes are written this way, not only model names remain, but also `what kind 
 
 It is fine if the baseline item in this table still feels vague. The purpose here is not `how to complete the baseline immediately`, but to first grasp `what materials are needed to build the baseline`. In the next Section, P4-8.2, the reader sees why the baseline is needed first and what the principle of score interpretation is. Then in the following `P4-8.3 supplementary learning`, the reader sees concretely what simple standards can be set first in classification, regression, and time series by using exactly these materials.
 
-## Main Learning Content
-
-### What Is Model Selection The Work Of Choosing?
+## What Model Selection Chooses
 
 Academically, model selection is the problem of choosing among candidate models in a way that fits the objective. However, the objective may not be only one thing.
 
@@ -206,7 +206,7 @@ The very first thing to ask is the problem type.
 - is it classification
 - is it regression
 - is it clustering
-- is it closer to ranking or recommendation
+- is it more similar to ranking or recommendation
 
 If the problem type changes, the candidate family itself changes.
 
@@ -243,7 +243,7 @@ People often ask:
 
 `So which model is the right answer?`
 
-But the actual starting point of model selection is closer to making `a first shortlist` than to deciding on one correct model.
+But the actual starting point of model selection is more similar to making `a first shortlist` than to deciding on one correct model.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-01-en.mmd"
@@ -308,9 +308,7 @@ These candidates are handled one after another in the later chapters.
 
 That means this Section serves as the entrance to the algorithm Sections that continue from P4-10 to P4-19.
 
-## Detailed Learning Content
-
-### How Do Data Conditions Change Candidate Families?
+## How Data Conditions Change the Candidate Model Set
 
 Even if the problem type is the same, the sense of selection changes when the data conditions change.
 
@@ -411,7 +409,7 @@ The core of this practice is to write once by hand the order `problem type -> sa
 
 ### Practice 2. Explain In Words Which Candidate Should Be Removed First
 
-Model selection is closer to `removing candidates that fit the current problem less well first` than to `guessing the one best algorithm`. In the scenes below, explain in one or two sentences why some candidates should be raised first and why others should be delayed.
+Model selection is more similar to `removing candidates that fit the current problem less well first` than to `guessing the one best algorithm`. In the scenes below, explain in one or two sentences why some candidates should be raised first and why others should be delayed.
 
 | Scene | Question the reader should answer first |
 | --- | --- |
@@ -455,7 +453,7 @@ Memo B:
 
 Answer the following for yourself first.
 
-- Which memo is closer to model selection?
+- Which memo is more similar to model selection?
 - Why does the other memo still remain at `choosing a famous model name` rather than `candidate-family design`?
 - If you wanted to add one more note before later comparison even in Memo B, what would it be?
 

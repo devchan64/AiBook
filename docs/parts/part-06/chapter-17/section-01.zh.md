@@ -1,7 +1,9 @@
 # P6-17.1 按成本、延迟和使用量再次过滤的运营约束
 
 > Section ID: `P6-17.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+运营约束要把 `quality_result`、`cost_per_request`、`latency_budget`、`usage_limit`、`capacity_risk`、`deployment_decision` 一起记录。这样即使评估分数通过，也能看出它仍可能在实际运营候选阶段被重新筛掉。
 
 即使 evaluation 选出了好的回答候选，也不代表服务马上可行。回答必须在用户能忍受的等待时间内、以可承担的成本、并且在预期请求量到来时反复提供。服务运营约束是一条独立通过线，会把已经通过质量评估的候选再次过滤成实际运营候选。
 

@@ -1,7 +1,7 @@
 # P4-13.2 Introductory Meaning Of The Kernel
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-13.1 introduced SVM (support vector machine) as `a classifier that looks for a boundary with a large margin`. That immediately leaves the next question.
 
@@ -63,9 +63,7 @@ At that point the question no longer stops at `is there a better straight line?`
 
 So 13.2 does not overturn 13.1. It keeps the value of linear boundaries but adds the point that `if the representation changes, the meaning of linear also changes`.
 
-## Main Learning Content
-
-### What Was Already Seen Earlier, And What Newly Changes Here?
+## What Is Already Known and What Changes With Kernels
 
 If this Section suddenly feels like a new story, it helps to first hold again the three things already seen earlier.
 
@@ -176,9 +174,7 @@ The judgment the reader should leave immediately is simple.
 
 The kernel is closer to the second question.
 
-## Detailed Learning Content
-
-### What Do Polynomial And RBF Suggest?
+## Representation Changes Suggested by Polynomial and RBF Kernels
 
 This Section does not require the reader to memorize every kernel. It is enough to hold what the two representative names are trying to emphasize.
 

@@ -1,7 +1,7 @@
 # P4-11.4 补充学习：如何读取多类别(multinomial)逻辑回归
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.3 里介绍的 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 和 [MLE](/AiBook/zh/reference/concept-glossary-pinyin/z/#maximum-likelihood-estimation-mle)，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
 
@@ -41,9 +41,7 @@ P4-11.3 里介绍的 [log-odds](/AiBook/zh/reference/concept-glossary-pinyin/l/#
 
 这里首先要抓住的，不是 `完全不同的新模型开始了`，而是 `在二元分类里学到的读取框架被扩展了`。
 
-## 主要学习内容
-
-### 在 multiclass 里，score 和 probability 比较的结构仍然保留
+## 多类别中也保留分数和概率比较结构
 
 在多类别场景里，可以把 model 想成：会为每个 class \(k\) 生成一个 score \(z_k\)。
 

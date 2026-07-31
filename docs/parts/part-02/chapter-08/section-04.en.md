@@ -1,7 +1,9 @@
 # P2-8.4 Loops: Processing Iterables One by One
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Keep the reference source for this example as it is. When reading it, look less at whether all of `scores` is printed at once and more at which value `score` takes inside the loop each time. The output becomes four lines not because the list has been split into four source fragments, but because the same operation, `print(score)`, is applied once to each item.
 
 In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we separate out the loop that processes these groups one by one.
 
@@ -81,9 +83,7 @@ Here, rather than loop syntax, we first establish the feeling of `taking values 
 | Python loops are more naturally read as `from what is something taken out one by one?` than as `how many times?` | This connects item-centered looping to the iterable concept | You should be able to explain that `for score in scores` is a structure that takes values out one by one from `scores` |
 | Loop results often appear as output, making a new group, or making an accumulated value | It becomes easier later to read comprehension and data-preprocessing examples | Understand that a loop can create a new list or dictionary |
 
-## Main Learning Content
-
-### A Loop Is a Way of Applying the Same Processing to Several Values
+## Loops Apply the Same Processing to Multiple Values
 
 In general, a loop is a way of processing a data group one item at a time. It applies the same rule to several items, and then the result is printed, made into a new group, or gathered into an accumulated value.
 
@@ -217,9 +217,7 @@ If very simplified, it can be seen like this.
 
 Because of this structure, several loop patterns in Python connect under the same principle. What matters is `what is being looped over` and `what is being made as the loop result`.
 
-## Detailed Learning Content
-
-### Main Types of Loop Structures
+## Main Patterns for Reading Loop Structures
 
 Python loops are better read by distinguishing patterns rather than by memorizing only one syntax.
 
@@ -599,7 +597,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
+    label_counts[label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```
@@ -610,7 +608,7 @@ Look at `labels` one by one, and accumulate in the dictionary how many times the
 
 This pattern is often used when checking label distribution in classification data.
 
-## Cases and Examples
+## When a Loop Becomes Data Processing
 
 ### A Small Data-Processing Example
 
@@ -694,9 +692,7 @@ This is also why this section divides loops into patterns such as iterable, item
 
 The confirmable result can be seen by whether a new result group is made. For example, if after iterating once over a sample list, a result such as `passed_samples` or `label_counts` appears, then the loop performed not simple printing, but filtering or accumulation.
 
-## Practice and Examples
-
-### Common Questions for Reading Examples
+## Common Questions for Reading Loop Code
 
 As examples of lists, dictionaries, and loops increase, you can get lost by following only the syntax. At that point, read the code with the following questions.
 

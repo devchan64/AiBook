@@ -1,7 +1,7 @@
 # P4-9.2 Tuning And Validation Cost
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P4-9.1, the discussion examined what a [hyperparameter](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter) is and why it has long been treated as a separate topic. Now it moves to the next question.
 
@@ -68,9 +68,7 @@ The order of tuning comparison is fixed briefly as follows.
 | before the algorithm Sections after P4-10 | provides the criterion for reading each algorithm's hyperparameters |
 | before project practice | prepares the habit of looking at experiment cost and validation cost together |
 
-## Main Learning Content
-
-### What Does Tuning Do?
+## Tuning Chooses Hyperparameter Candidates With Validation Scores
 
 The scikit-learn documentation on hyperparameter tuning explains a procedure in which an estimator's setting values are treated as candidate sets and compared by [cross-validation](/AiBook/en/reference/concept-glossary-alpha/c/#cross-validation) scores.
 
@@ -123,9 +121,7 @@ The diagram below shows in the simplest form why computational cost grows so qui
 
 This diagram shows that once hyperparameter candidates grow even a little, the actual number of training runs can rapidly grow multiplicatively. That means tuning is not simple value play, but work that must manage computational cost together with experiment design.
 
-## Detailed Learning Content
-
-### Why Should Test Data Be Used Only At The End?
+## Test Data Should Be Used Only for the Final Check
 
 The scikit-learn common pitfalls documentation explains that if test data are mixed into model selection or preprocessing, performance estimation can look overly optimistic. This principle applies in exactly the same way to tuning.
 

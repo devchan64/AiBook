@@ -1,7 +1,9 @@
 # P7-4.4 같은 평균, 다른 패턴 비교 연습
 
-Section ID: `P7-4.4`
-Version: `v2026.07.26`
+> Section ID: `P7-4.4`
+> Version: `v2026.07.31`
+
+같은 평균을 비교할 때는 `mean_value`, `shape_pattern`, `sequence_signal`, `missed_by_average`, `alternative_feature`, `review_note`를 나눕니다. 숫자 평균과 패턴 정보가 다른 층위라는 점을 남기기 위한 기록입니다.
 
 평균이 같으면 같은 데이터처럼 보이기 쉽습니다. 하지만 동작 단위 시계열에서는 같은 평균을 가진 두 신호도 완전히 다른 패턴일 수 있습니다. 평균(mean)만 남겼을 때 사라지는 정보를 `shape token`과 간단한 패턴 요약으로 다시 읽는 연습입니다.
 

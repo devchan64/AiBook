@@ -1,7 +1,9 @@
 # P6-11.2 검색 실패와 생성 실패를 가르는 RAG 흐름
 
 > Section ID: `P6-11.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+RAG 실패를 볼 때는 `retrieval_result`, `retrieval_gap`, `generation_input`, `generated_answer`, `failure_stage`, `repair_action`을 분리합니다. 이 필드가 있어야 검색 후보가 틀린 문제와 근거는 있었지만 답변이 잘못 만들어진 문제를 따로 고칠 수 있습니다.
 
 P6-11.1에서는 RAG(retrieval-augmented generation)가 답변 전에 외부 근거를 붙이는 구조라는 점을 보았습니다. 이제는 그 근거가 실제 입력 흐름에서 어디에 놓이고, 답변 실패를 어떻게 나누어 읽어야 하는지 봐야 합니다.
 

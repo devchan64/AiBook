@@ -1,7 +1,9 @@
 # P3-5.7 折叠多个后续事件的规则
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+最终表中也要让折叠规则可追踪。例如留下 `folding_rule`、`severity_cutoff`、`follow_up_window_days`、`source_event_count`、`target_candidate_name` 作为 备注，就能再次说明 `any_failure=1` 是在哪个事件范围和阈值下得到的。即使来自同一个后续事件日志，`first_event` 和 `worst_event` 也是不同列，不能只看一个列名就把它固定成实际目标标签。
 
 _副标题: 同一个样本之后的多个事件应该按什么规则折叠进一个表结构？_
 

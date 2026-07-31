@@ -1,7 +1,7 @@
 # P4-5.1 过拟合(overfitting)与欠拟合(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 在 P4-4 章里，我们看过为什么要把数据分成 [training](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data)、[validation](/AiBook/zh/reference/concept-glossary-pinyin/y/#validation-data)、[test](/AiBook/zh/reference/concept-glossary-pinyin/c/#test-data)。接下来会自然冒出一个问题。把数据拆开之后，为什么有些 model 在 training data 上表现很好，但一到新数据就变弱？反过来，为什么有些 model 连 training data 都解释得不够好？
 
@@ -56,9 +56,7 @@
 
 可以把这个差别记成 `还没学够的状态` 和 `背得太狠的状态`。
 
-## 主要学习内容
-
-### 欠拟合是还没学够的状态
+## 欠拟合是还没有学够的状态
 
 欠拟合是指 model 还没有把问题里重要的结构抓到位。它常常出现在规则过于简单、训练还不够、或者 model 只看到了很少一部分必要 [feature](/AiBook/zh/reference/concept-glossary-pinyin/f/#feature) 的时候。
 

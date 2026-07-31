@@ -1,7 +1,7 @@
 # P4-11.3 Supplementary Learning: How To Read Log-Odds And MLE For The First Time
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.1 introduced [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) as `a linear classification model that creates scores that can be read like probabilities`, and P4-11.2 reread those scores as a [decision boundary](/AiBook/en/reference/concept-glossary-alpha/d/#decision-boundary) inside the input space. At that point a natural next question remains.
 
@@ -46,9 +46,7 @@ Readers often get stuck here because the language suddenly starts sounding like 
 
 So the key point is not to memorize new algorithms. It is to understand why `probability interpretation` and `learning objective` appear together in the same chapter.
 
-## Main Learning Content
-
-### Log-Odds Appears Because Probability Is Hard To Handle Directly As A Linear Formula
+## Log-Odds Appears Because Probability Is Hard to Handle Directly With a Linear Formula
 
 As seen in P4-11.1, logistic regression creates a linear score \(z\) and then passes it through sigmoid to read it as a value between 0 and 1.
 

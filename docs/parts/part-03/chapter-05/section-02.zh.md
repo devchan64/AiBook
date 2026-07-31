@@ -1,7 +1,9 @@
 # P3-5.2 汇总表如何保留平均值之外的模式
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+因此，在摘要表中要把 `early_mean`、`mid_mean`、`late_mean`、`rise_slope`、`drop_slope`、`peak_segment` 等追溯模式的列放在整体平均旁边。这些列不是装饰平均值的辅助说明，而是以后写出`平均相同但后半段下降不同`这类比较句的依据。使用了什么模式 标准，也要留在 `pattern_note` 或派生规则 备注 中，才能用同样 判断 重新摘要同一原始日志。
 
 两个[平均值(mean)](/AiBook/zh/reference/concept-glossary-pinyin/m/#glossary-mean)相同的动作，并不一定意味着它们具有相同结构。平均值对于一眼总结整体水平很有用，但它并不能把随时间如何变化的过程全都展示出来。所以，把原始日志转换成[汇总表(summary table)](/AiBook/zh/reference/concept-glossary-pinyin/d/#data-modeling)时，不能只因为 `平均值一样` 就放心，还要一起思考：平均值之外的模式差异，要怎样保留下来。
 
@@ -176,7 +178,7 @@ E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 
 ## 用一个小图来看
 
-这一节的阅读顺序很简单。先确认 `整体平均值是否相同`，再顺着 `区间平均值` 和 `斜率/时点` 往下看，最后留下来的就是 `模式解释`。平均值只是起点，结构解释是在下一层闭合的。
+这一节的阅读顺序很简单。先确认 `整体平均值是否相同`，再顺着 `区间平均值` 和 `斜率/时点` 往下看，最后留下来的就是 `模式解释`。平均值只是起点，结构解释是在下一层确认的。
 
 --8<-- "assets/part-03/chapter-05/p3-5-2-mermaid-01-zh.mmd"
 

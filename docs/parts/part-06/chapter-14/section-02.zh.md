@@ -1,7 +1,9 @@
 # P6-14.2 分裂为继续、停止和人工审查的 Agent 循环
 
 > Section ID: `P6-14.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+循环记录要分为 `plan`、`action`、`observation`、`continue_reason`、`stop_condition`、`human_review_reason`。这样，继续、停止、交给人工 复核，就会连接到观察结果和停止条件，而不是模型的感觉。
 
 在 P6-14.1 中，我们把 agent 读成一种会根据中间结果改变下一项工作的执行结构。现在需要更具体地看：什么标准会让这个流程继续，在哪里停止，什么时候转向人工审查。
 

@@ -1,7 +1,9 @@
 # P6-16.1 区分自然回答和质量标准的 LLM 评估
 
 > Section ID: `P6-16.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+LLM 评估记录要分开 `answer_text`、`task_success`、`evidence_quality`、`format_quality`、`safety_issue`、`revision_need`。这样，自然流畅的回答和实际 质量标准 就不会被一个分数盖住。
 
 即使 harness 留下了 trace、工具调用日志、replay 信息等执行记录，这些记录本身也不能保证质量。基于 LLM 的系统还需要评估标准，用来区分`什么算通过`、`哪个轴先失败`、以及`再次尝试前必须先修正什么`。
 

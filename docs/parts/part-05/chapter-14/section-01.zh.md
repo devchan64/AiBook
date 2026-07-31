@@ -1,7 +1,9 @@
 # P5-14.1 不能只靠 attention 解释的 Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+本章的起点不是一个 `attention_score`，而是 `token_representation` 经过 block 时如何进入下一个表示。因此从 P5-14.1 开始，要把 `relation_reading`、`position_update`、`stable_passage`、`next_block_input` 作为一个 流程 来读。
 
 _副标题: 为什么 Transformer 应该读成 block 结构，而不是只有 self-attention？_
 
@@ -17,7 +19,7 @@ _副标题: 为什么 Transformer 应该读成 block 结构，而不是只有 se
 - Transformer block 应该被读成哪几种角色的组合？
 - Part 5 应该把 Transformer 讲到哪里，又把什么交给下一节？
 
-这里首先要收住的问题，不是`Transformer 有哪些部件`，而是`为什么 self-attention 和 feed-forward 必须被捆成可以重复的 block`。
+这里首先要抓住的问题，不是`Transformer 有哪些部件`，而是`为什么 self-attention 和 feed-forward 必须被捆成可以重复的 block`。
 
 | 本节现在要读的内容 | 交给后续小节的内容 |
 | --- | --- |
@@ -57,7 +59,7 @@ self-attention 擅长决定当前 token 应该更强地参考其他 token 中的
 
 ## 案例与示例
 
-### 案例：只靠 attention 无法收住处置判断的情况
+### 案例：只靠 attention 无法抓住处置判断的情况
 
 想一想这样一句工作许可句：`Restart is held while the pressure remains unreleased.` self-attention 对于读取 `pressure unreleased`、`restart`、`held` 彼此相关这一点很重要。但如果说明到这里就结束，那么当前动作表达怎样从`单纯重启`变得更明确地指向`条件性暂缓`，以及这个意义怎样保持到下一层，都会空着。
 
@@ -74,7 +76,7 @@ self-attention 擅长决定当前 token 应该更强地参考其他 token 中的
 | attention-only 说明 | `restart` 与 `pressure unreleased`、`held` 相关 | 读完关系之后，当前表示会变成什么动作状态 |
 | Transformer block 说明 | 读取关系、加工当前位置表示、保留原始动作意义与稳定性，并把结果传给下一个 block 的流程 | 细部角色分工与表示移动会在 P5-14.2 中一起处理 |
 
-这个案例的确认结果可以这样收住。
+这个案例的确认结果可以这样抓住。
 
 | 读取当前表示时的问题 | 只靠 attention 能回答吗 | block 视角需要补充什么 |
 | --- | --- | --- |
@@ -82,13 +84,13 @@ self-attention 擅长决定当前 token 应该更强地参考其他 token 中的
 | 因为连接了那个条件，动作表示会怎样改变？ | 不足 | feed-forward 重新加工当前位置表示 |
 | 新表示会不会不丢掉原始动作意义，并进入下一步计算？ | 不足 | residual connection 与 layer normalization 辅助稳定传递 |
 
-这个案例要确认的结果不是`attention 很重要`。更准确的结果是：`attention 是读取关系的核心，但 Transformer 的说明必须包含这个关系怎样改变当前表示，并怎样稳定进入下一个 block，才算收住。`
+这个案例要确认的结果不是`attention 很重要`。更准确的结果是：`attention 是读取关系的核心，但 Transformer 的说明必须包含这个关系怎样改变当前表示，并怎样稳定进入下一个 block，才算抓住。`
 
 ## 练习与例子
 
 ### 练习：把 attention-only 说明改成 block 说明
 
-看下面的输入句子，先从三个说明里选出哪一个最能收住 P5-14.1 的中心问题。
+看下面的输入句子，先从三个说明里选出哪一个最能抓住 P5-14.1 的中心问题。
 
 输入句子：
 
@@ -100,7 +102,7 @@ self-attention 擅长决定当前 token 应该更强地参考其他 token 中的
 | B. `Restart` 参考了 `pressure unreleased` 和 `held`，并且因为这个关系，当前动作表示应该被加工到 `conditional hold` 一侧。 | 中间 |
 | C. `Restart` 参考相关条件，这个关系会改变当前动作表示，并且结果要在保留原始动作意义与稳定性的情况下进入下一个 block。 | 更合适 |
 
-解说：A 只说了 self-attention 负责的`关系读取`。它能回答`参考了什么`，但不能解释`参考之后当前表示怎样改变`。B 更接近 feed-forward network 为什么需要出现。但在深层 block 反复中，改变后的表示还需要稳定性，不能在进入下一步计算时完全丢掉原始动作意义。C 最接近本节中心。P5-14.1 要收住的不是`attention 很重要`，而是`attention + 按位置加工 + 稳定传递必须被捆成一个 block，Transformer 说明才会闭合`。
+解说：A 只说了 self-attention 负责的`关系读取`。它能回答`参考了什么`，但不能解释`参考之后当前表示怎样改变`。B 更接近 feed-forward network 为什么需要出现。但在深层 block 反复中，改变后的表示还需要稳定性，不能在进入下一步计算时完全丢掉原始动作意义。C 最接近本节中心。P5-14.1 要抓住的不是`attention 很重要`，而是`attention + 按位置加工 + 稳定传递必须被捆成一个 block，Transformer 说明才会确认`。
 
 接下来，直接改写下面的短说明。
 

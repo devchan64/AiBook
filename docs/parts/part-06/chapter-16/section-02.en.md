@@ -1,7 +1,9 @@
 # P6-16.2 Division of Work Between Automatic Evaluation and Human Evaluation
 
 > Section ID: `P6-16.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Record evaluation division of labor as `automatic_check`, `human_review`, `repeatable_rule`, `context_judgment`, `escalation_case`, and `review_note`. This distinction keeps automatic evaluation, which is strong at repeatable checks, and human evaluation, which is strong at contextual judgment, from looking like substitutes for each other.
 
 _Subtitle: How are repeated checks and contextual judgment divided between automatic evaluation and human evaluation?_
 
@@ -118,7 +120,7 @@ In practice, the two are usually mixed like this.
 - Human evaluation checks important samples and subtle quality issues.
 - Automatic criteria are reinforced again when needed.
 
-Automatic evaluation and human evaluation are therefore closer to a division of work than to replacements for each other.
+Automatic evaluation and human evaluation are therefore more similar to a division of work than to replacements for each other.
 
 In operational flow, this division can be read more briefly like this.
 
@@ -147,7 +149,7 @@ The key point in this figure is that automatic evaluation does not finish all ju
 
 The key point of this diagram is that actual quality judgment does not end through only one path.
 
-Another important point is that automatic and human evaluation results become inputs to operational judgment. The end of evaluation division is not simply `quality judgment complete`; it is closer to a state where candidates have been sorted into continue or stop paths.
+Another important point is that automatic and human evaluation results become inputs to operational judgment. The end of evaluation division is not simply `quality judgment complete`; it is more similar to a state where candidates have been sorted into continue or stop paths.
 
 | Judgment left by evaluation division | Question read again in operations |
 | --- | --- |
@@ -192,7 +194,7 @@ The result to check in this case is not cost calculation or operation optimizati
 | Failed tool call remains | Failure signal | Did it repeat the same failure or recover through another path? |
 | Final answer exists | Success flag | Did success hide intermediate risk signals? |
 
-The important standard is not closing evaluation with only `success/failure`. Automatic evaluation gathers abnormal signals, and human evaluation interprets whether those signals are actual quality problems.
+The important standard is not wrapping up evaluation with only `success/failure`. Automatic evaluation gathers abnormal signals, and human evaluation interprets whether those signals are actual quality problems.
 
 ### Case 3. Customer-support answer
 

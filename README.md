@@ -71,7 +71,7 @@ AI 도구는 커리큘럼 구성, 자료 조사, 초안 작성, 비교 정리, �
 
 ## 작업 기준
 
-작업 전에는 [`AGENTS.md`](AGENTS.md)를 먼저 확인합니다. 어떤 가이드를 열어야 할지 헷갈리면 [`management/guidelines/rules-and-guidelines-summary.md`](management/guidelines/rules-and-guidelines-summary.md)를 봅니다.
+작업 전에는 [`AGENTS.md`](AGENTS.md)를 먼저 확인합니다. 어떤 가이드를 열어야 할지 헷갈리면 [`management/guidelines/README.md`](management/guidelines/README.md)를 봅니다.
 
 - 원고 작성과 큰 구조 수정: [`management/guidelines/manuscript-writing-workflow.md`](management/guidelines/manuscript-writing-workflow.md)
 - Section ID, Version, 릴리즈노트 연결: [`management/guidelines/section-metadata-guidelines.md`](management/guidelines/section-metadata-guidelines.md)

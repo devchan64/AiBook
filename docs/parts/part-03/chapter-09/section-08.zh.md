@@ -1,7 +1,9 @@
 # P3-9.8 一次预测到底决定什么，为什么分数和策略不是同一件事
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+实际交接为表时，要把不同层位的字段分开，例如 `prediction_unit`、`score_column`、`decision_threshold`、`policy_version`、`action_column`。这样写下后，模型输出的值、把该值转成行动的 标准、实际执行的措施就不会混成同一个意思。
 
 即使已经定义了输入和结果，预测问题也仍然只关了一半。即便同样是在预测 `review_needed`，它也可能表示把单次运行放进[复核候选队列(review queue)](/AiBook/zh/reference/concept-glossary-pinyin/s/#output-structure)，也可能表示调整整个最近区间的告警强度。此外，模型输出的[分数(score)](/AiBook/zh/reference/concept-glossary-pinyin/f/#glossary-score)，和把这个分数转成真实行动的[策略规则(policy rule)](/AiBook/zh/reference/concept-glossary-pinyin/y/#decision)，也不是同一回事。
 

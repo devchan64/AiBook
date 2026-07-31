@@ -1,7 +1,9 @@
 # P2-8.4 循环（loop）：逐个处理 iterable
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+这个例子的基准源代码保持不变。阅读时，不要只看 `scores` 是否一次性输出，而要看循环中的 `score` 每次变成哪个值。输出分成四行，并不是因为列表被拆成四段代码，而是同一个处理 `print(score)` 对每个项目各执行了一次。
 
 在 P2-8.2 中，我们看过列表（list）；在 P2-8.3 中，我们看过字典（dictionary）。现在把“把这些集合一个个处理掉”的循环（loop）单独拿出来看。
 
@@ -81,9 +83,7 @@
 | Python 的循环比起“重复几次”，更自然的是读成“从什么里一个个拿出来” | 这样能把按项目循环和 iterable 概念连起来 | 能说明 `for score in scores` 是从 `scores` 里一个个拿出值的结构 |
 | 循环结果经常表现成输出、新集合、累积值 | 这样以后更容易读懂 comprehension 和数据预处理例子 | 理解循环可以生成新列表或新字典 |
 
-## 主要学习内容
-
-### 循环是把同一种处理作用到多个值上的方式
+## 循环把同一种处理应用到多个值上
 
 一般来说，循环（loop）就是一种把数据集合逐个处理的方法。它把同一种规则应用到多个项上，然后把结果输出出来、做成新集合，或者收集成累积值。
 
@@ -599,7 +599,7 @@ labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
 for label in labels:
-    label_counts[supervised learning label] = label_counts.get(label, 0) + 1
+    label_counts[label] = label_counts.get(label, 0) + 1
 
 print(label_counts)
 ```
@@ -610,7 +610,7 @@ print(label_counts)
 
 在分类数据里检查标签分布（label distribution）时，这种模式经常会出现。
 
-## 案例与示例
+## 循环连接到数据处理的场景
 
 ### 一个小型数据处理例子
 
@@ -694,9 +694,7 @@ print(filtered_scores)
 
 可确认的结果，是看有没有生成新的结果集合。例如，一次遍历样本列表之后，如果出现了 `passed_samples` 或 `label_counts` 这样的结果，那么这个循环就不是单纯打印，而是在进行过滤或累积。
 
-## 练习与示例
-
-### 阅读示例时的共同问题
+## 阅读循环代码时的共同问题
 
 当列表、字典、循环例子越来越多时，只跟着语法走很容易迷路。这时候就用下面这些问题去读代码。
 

@@ -1,7 +1,9 @@
 # P6-14.1 根据中间结果改变下一项工作的 Agent
 
 > Section ID: `P6-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+记录 AI agent 流程 时，要分开 `goal`、`current_state`、`next_action`、`tool_result`、`observation`、`updated_plan`。有了这份记录，单次回答生成和根据中间结果改变下一步行动的目标 流程 才能区分开。
 
 在 P6-13.2 中，我们看到 function calling 会用结构化格式表示工具使用(tool use)。现在问题会变大。工具调用不是一次调用就结束，而是必须跨多个步骤继续时，这种工作流应该叫什么？
 

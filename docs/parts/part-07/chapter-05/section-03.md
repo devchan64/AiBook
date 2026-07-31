@@ -1,7 +1,9 @@
 # P7-5.3 질문-근거 경계 연습
 
-Section ID: `P7-5.3`
-Version: `v2026.07.26`
+> Section ID: `P7-5.3`
+> Version: `v2026.07.31`
+
+질문-근거 경계 연습은 `original_question`, `rewritten_question`, `available_evidence`, `answerable_scope`, `unanswerable_part`, `next_document_need`를 남깁니다. 질문을 바꿨을 때 답변 가능한 범위가 어떻게 달라지는지 확인합니다.
 
 `같은 문서 집합에서도 질문 문구를 어떻게 쓰느냐에 따라 왜 답변 상태가 달라지는가`를 직접 연습할 차례입니다. 질문 문구 하나가 `근거 부족`, `답변 과장 위험`, `근거 기반 답변`을 어떻게 가르는지 손으로 확인하는 데 초점을 둡니다.
 

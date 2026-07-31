@@ -1,7 +1,7 @@
 # P5-15.2 생성 모델(generative model)의 후보 분포(candidate distribution)
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: 왜 정답 하나 대신 후보 분포를 남기는가_
 
@@ -10,6 +10,8 @@ P5-15.1에서는 생성형 AI를 딥러닝 관점에서 보려면 출력 경험�
 그렇다면 생성 모델(generative model)은 그 출력물을 어떻게 준비한다고 볼 수 있을까요?
 
 이 절의 핵심은 생성 모델이 정답 하나를 외워 꺼내는 것이 아니라, 가능한 출력 후보들의 상대적 그럴듯함을 함께 남긴다는 점입니다. 이 감각이 있어야 다음 P5-15.3에서 샘플링을 `아무거나 뽑기`가 아니라 `후보 분포에서 실제 출력을 꺼내는 절차`로 읽을 수 있습니다.
+
+후보 분포를 볼 때는 `prompt_context`, `candidate_text`, `relative_score`, `probability_mass`, `most_likely_candidate`, `remaining_candidates`를 함께 놓습니다. 이렇게 적어야 가장 높은 후보 하나와 후보 전체의 분포가 같은 뜻으로 섞이지 않습니다.
 
 ## 후보 분포는 지금 입력 뒤의 가능성이다
 

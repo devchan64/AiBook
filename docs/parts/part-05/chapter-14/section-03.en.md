@@ -1,7 +1,9 @@
 # P5-14.3 Two Devices That Stabilize Deep Repetition
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When reading deep blocks, separate `new_signal`, `original_signal`, `combined_representation`, and `normalized_representation`. Keeping this distinction lets you read residual connections as devices that preserve the original axis, and normalization as a device that aligns the value range for the next computation.
 
 _Subtitle: How do residual and normalization divide stabilization between information flow and value range?_
 
@@ -69,7 +71,7 @@ Answer the questions below by separating the roles of residual and normalization
 | --- | --- | --- |
 | What risk appears if we leave only the attention and feed-forward result and discard the original input representation? | new computation can cover important starting cues | residual connection leaves the original representation together, so the basic information flow is not cut off even when new context enters |
 | If values become too large or too small after residual, what problem can appear in the next block? | the next computation can become unstable | layer normalization organizes the value range and distribution, then hands over a representation that the next block can handle easily |
-| Are residual and normalization devices that make the answer smarter, or devices that help deep repeated computation endure? | they are closer to devices that help deep repeated computation endure | rather than being the main actors that create new meaning, they are stabilization axes that help repeated blocks keep information flow and value range |
+| Are residual and normalization devices that make the answer smarter, or devices that help deep repeated computation endure? | they are more similar to devices that help deep repeated computation endure | rather than being the main actors that create new meaning, they are stabilization axes that help repeated blocks keep information flow and value range |
 
 Explanation: The core of this practice is not reading residual and normalization as `decorations that improve performance`. Because a deep Transformer block keeps stacking new computations, it needs both a path where original information remains and a value range that the next computation can handle.
 

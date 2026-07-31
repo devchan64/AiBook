@@ -1,7 +1,9 @@
 # P6-11.2 RAG Flow That Separates Retrieval Failure from Generation Failure
 
 > Section ID: `P6-11.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When looking at RAG failure, separate `retrieval_result`, `retrieval_gap`, `generation_input`, `generated_answer`, `failure_stage`, and `repair_action`. These fields let you fix a wrong retrieval candidate separately from a case where evidence existed but the answer was generated incorrectly.
 
 In P6-11.1, we saw that retrieval-augmented generation (RAG) attaches external evidence before answering. Now we need to see where that evidence sits in the actual input flow and how to split answer failures into different causes.
 
@@ -9,7 +11,7 @@ In RAG, retrieval results are not decorations appended after an answer. They are
 
 ## How retrieval and generation are combined
 
-The first standards to close in a retrieval-generation flow are these three.
+The first standards to settle in a retrieval-generation flow are these three.
 
 | Question | Standard to keep here |
 | --- | --- |
@@ -118,7 +120,7 @@ If retrieval brings a paragraph from another product version, generation can be 
 
 ### Case 2. Legal-document assistant
 
-Suppose a legal-document assistant is asked, `Does this clause allow immediate contract termination?` Once the relevant statute or clause is found, it may feel almost finished. But the retrieval stage is the work of finding related clauses and case summaries close to the current question, while the generation stage reorganizes those documents into an answer such as `immediately possible`, `additional conditions required`, or `judgment withheld`. For example, if the document says `termination is possible after a demand to cure within a reasonable period`, but generation drops the intermediate condition and states `immediate termination is possible`, retrieval was right but the final answer becomes risky.
+Suppose a legal-document assistant is asked, `Does this clause allow immediate contract termination?` Once the relevant statute or clause is found, it may feel almost finished. But the retrieval stage is the work of finding related clauses and case summaries similar to the current question, while the generation stage reorganizes those documents into an answer such as `immediately possible`, `additional conditions required`, or `judgment withheld`. For example, if the document says `termination is possible after a demand to cure within a reasonable period`, but generation drops the intermediate condition and states `immediate termination is possible`, retrieval was right but the final answer becomes risky.
 
 The standard changes from `the document was found, so the job is done` to `did the answer preserve the conditions in the found document`. In this case, we need to inspect `accuracy in finding the document` and `rewriting without leaving the document` separately. The misunderstanding to correct is the judgment that `if a related clause is attached, the final sentence is automatically safe`. The result to check is whether the final answer avoids overclaiming `immediately possible`, preserves the original condition, and does not add a stronger conclusion from outside the document.
 
@@ -351,7 +353,7 @@ Example output can be read like this.
 [experiment]
 {'name': 'clean_grounded_vector_search', 'query': 'Why do we need vector search? semantic vector search', 'generation_style': 'grounded'}
 [generated answer]
-Vector search finds semantically similar text by placing it near the query in vector space. It can retrieve by meaning even when keywords differ. Therefore, Keyword search first checks whether the same words appear, while semantic search compares whether the question and document meanings are close. This can retrieve related documents even when wording differs.
+Vector search finds semantically similar text by placing it near the query in vector space. It can retrieve by meaning even when keywords differ. Therefore, Keyword search first checks whether the same words appear, while semantic search compares whether the question and document meanings are similar. This can retrieve related documents even when wording differs.
 [inspect]
 {'source_trace': [{'doc_id': 'R01', 'title': 'Vector Search Basics', 'source_role': 'primary_evidence', 'similarity': 0.586, 'text_preview': 'Vector search finds semantically s'}, {'doc_id': 'R02', 'title': 'Keyword Search and Semantic Search', 'source_role': 'primary_evidence', 'similarity': 0.459, 'text_preview': 'Keyword search first checks whethe'}], 'doc_titles': ['Vector Search Basics', 'Keyword Search and Semantic Search'], 'doc_similarities': [0.586, 0.459], 'top_doc_category': 'retrieval', 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
 ================================================================================

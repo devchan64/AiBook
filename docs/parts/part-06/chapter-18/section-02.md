@@ -1,7 +1,9 @@
 # P6-18.2 응답보다 근거·상태·회고를 먼저 남기는 최소 구현
 
 > Section ID: `P6-18.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+최소 구현 기록은 `request_id`, `selected_policy`, `evidence_state`, `answer_state`, `review_status`, `retrospective_note`를 남기는 데서 시작합니다. 이 기록이 있어야 응답 문장보다 근거, 상태, 회고가 먼저 남는 작은 기능으로 읽힙니다.
 
 P6-18.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도구 선택 -> 응답 생성 -> 상태 판단 -> 기록`의 흐름으로 묶었다면, 여기서는 그 흐름을 아주 작은 코드로 다시 그려 보면 됩니다.
 

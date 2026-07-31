@@ -1,7 +1,7 @@
 # P4-11.3 补充学习：第一次如何读 log-odds 与 MLE
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.1 把 [logistic regression](/AiBook/zh/reference/concept-glossary-pinyin/l/#logistic-regression) 介绍成 `生成可按 probability 来读的 score 的线性分类模型`，P4-11.2 又把这些 score 放回 input space，读成 [decision boundary](/AiBook/zh/reference/concept-glossary-pinyin/j/#decision-boundary)。走到这里，就会自然留下一个问题。
 
@@ -46,9 +46,7 @@ logistic regression 通常先从 `接上 sigmoid，把输出读成 0 到 1 之�
 
 也就是说，本节的核心不是背新算法，而是理解为什么 `probability 解释` 和 `学习目标` 会出现在同一章里。
 
-## 主要学习内容
-
-### 因为 probability 很难直接按线性公式处理，所以会出现 log-odds
+## 概率很难直接用线性式处理，所以出现 log-odds
 
 像 P4-11.1 里看到的那样，logistic regression 会先产生 linear score \(z\)，再经过 sigmoid，把它读成 0 到 1 之间的值。
 

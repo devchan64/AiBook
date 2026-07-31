@@ -1,7 +1,9 @@
 # P3-5.1 How Do We Turn Raw Logs into Comparable Tables
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+In actual column design, the raw log should keep the event location through fields such as `event_id`, `timestamp`, `progress_bin`, and sensor values. The summary table should contain columns for comparing one operation, such as `event_id`, `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean`. The aggregation table needs columns such as `window`, `event_count`, and `baseline_gap` to show that several operations were grouped again. Even if all three tables came from the same source, their first columns and derived columns must point to different representation levels so comparison standards and feature candidates do not mix later.
 
 At first glance, raw logs look very rich. They contain many values in time order, often from several sensors, sometimes together with control parameters. But that richness does not automatically mean we already have a comparable dataset. After the [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample) unit has been fixed, we still need a procedure that turns raw logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling) and an aggregate table. Raw logs, summary tables, and aggregate tables play different roles, and [one row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit) means something different in each of them.
 
@@ -17,7 +19,7 @@ Take an automatically executed action as an example. In the raw log, one row is 
 
 This is not just a matter of different table names. A raw log is strong at preserving fine detail, but it is hard to compare whole actions there. A summary table makes comparison across actions easier, but most moment-to-moment fluctuations are compressed away. An aggregate table lets us read recent state quickly, but the special shape of an individual action can disappear.
 
-So in this section, table conversion is closer to `turning the data into a structure where numeric values and categorical states can be explored together` than to merely `making a table`. Numerical exploration can begin only when the summary table lets us compare level, change, and variability. Categorical exploration can begin only when status ranges, missingness, overlap, and reasons why comparison is impossible are also organized together.
+So in this section, table conversion is more similar to `turning the data into a structure where numeric values and categorical states can be explored together` than to merely `making a table`. Numerical exploration can begin only when the summary table lets us compare level, change, and variability. Categorical exploration can begin only when status ranges, missingness, overlap, and reasons why comparison is impossible are also organized together.
 
 | Exploration angle | What should be left in the table first | What later sections read more deeply |
 | --- | --- | --- |
@@ -46,7 +48,7 @@ At this point, the first thing to check is `which of the three tables is the sta
 | Summary table | Compare one action against another | Read repeated recent changes |
 | Aggregate table | Compare recent state against the baseline | Inspect the detailed shape of one action |
 
-The aggregate table changes role one more time. Here the focus is not the shape of one action, but grouped flows such as `average of the most recent 20 cases`, `variability of the most recent 20 cases`, `difference from the baseline`, or `the number of repeated changes in the same direction`. If the summary table is closer to `reading cases`, the aggregate table is closer to `reading state`.
+The aggregate table changes role one more time. Here the focus is not the shape of one action, but grouped flows such as `average of the most recent 20 cases`, `variability of the most recent 20 cases`, `difference from the baseline`, or `the number of repeated changes in the same direction`. If the summary table is more similar to `reading cases`, the aggregate table is more similar to `reading state`.
 
 The next example shows how a raw log leads first to an action-level summary table and then all the way to a recent/baseline aggregate table. Here we assume that the action is divided into three progress segments, and that 3 `baseline` events and 3 `recent` events are compared.
 

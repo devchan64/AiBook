@@ -1,7 +1,7 @@
 # P4-5.1 Overfitting And Underfitting
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 In Chapter P4-4, we looked at why data are divided into [training](/AiBook/en/reference/concept-glossary-alpha/t/#training-data), [validation](/AiBook/en/reference/concept-glossary-alpha/v/#validation-data), and [test](/AiBook/en/reference/concept-glossary-alpha/t/#test-data) sets. The next question follows naturally. After splitting the data and checking the results, why do some models work well on training data but weaken on new data? And why do some models fail to explain even the training data well enough?
 
@@ -56,9 +56,7 @@ So both are problems of `fit`, but the direction is different.
 
 You can remember this as the difference between `a state that learned too little` and `a state that memorized too much`.
 
-## Main Learning Content
-
-### Underfitting Is A State That Has Not Learned Enough Yet
+## Underfitting Is a State of Not Having Learned Enough
 
 Underfitting is a state where the model still has not captured the important structure of the problem well enough. It appears often when the model uses rules that are too simple, when training has not progressed enough, or when the model sees only a small part of the [features](/AiBook/en/reference/concept-glossary-alpha/f/#feature) it needs.
 
@@ -185,9 +183,7 @@ In practice, the first judgment is often `which side should I suspect first righ
 | training score is very high but validation score drops sharply | overfitting | Because it is more likely that the model followed accidental fluctuations in the training data too |
 | both training and validation are high and the gap is small | a relatively appropriate state | Because the model is more likely to hold up to some degree on new data |
 
-## Detailed Learning Content
-
-### It Becomes Faster To Read Through A Diagram
+## Comparing Underfitting and Overfitting With a Diagram
 
 ```mermaid
 --8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-02-en.mmd"

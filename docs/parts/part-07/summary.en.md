@@ -1,7 +1,9 @@
 # Part 7 Wrap-up. Project Review
 
 > Section ID: `P7-summary`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The review plan for this summary page is to check whether `problem definition`, `comparison standard`, `evidence and execution records`, `failure records`, and `next improvement plan` remain in the actual artifact. The learning effect of Part 7 grows not when code has run once, but when records remain so the same project can be explained and improved again.
 
 Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but tying question setting, comparison, structure interpretation, execution records, and operational judgment together inside one project and becoming able to explain `why this result appeared`.
 
@@ -30,7 +32,7 @@ The overall structure of Part 7 is organized around `which judgment elements mus
 
 | Structure to read together | Why it should stay one bundle |
 | --- | --- |
-| Question, sample unit, baseline, and comparison experiments | Because what was compared and why it counts as improvement must close in one place. |
+| Question, sample unit, baseline, and comparison experiments | Because what was compared and why it counts as improvement must settle in one place. |
 | Input structure, learning curves, and error cases | Because the reason for a structural choice and the reason for failure belong to the same interpretation bundle. |
 | Retrieval evidence, execution logs, and approval policy | Because RAG and AI agent quality appears only when the answer, evidence, and execution path are read together. |
 | Deployment, logs, failure response, and retrospective documents | Because operational records are not an appendix outside the project interpretation but part of its judgment standard. |
@@ -108,9 +110,9 @@ In other words, a project should not be a document that proves only `it worked o
 
 Part 7 focused on explaining the entry-level structure of projects. Therefore, it covers goal setting, implementation, evaluation, retrospective, and operational records, but it does not finish the entire structure of large-scale infrastructure and long-term operation here.
 
-## Expansion Tasks This Part Does Not Close Directly
+## Expansion Tasks This Part Does Not Settle Directly
 
-Part 7 does not close the following tasks directly.
+Part 7 does not settle the following tasks directly.
 
 - What topic should be expanded into the next actual project?
 - How should evaluation and failure records grow into team-level documents?
@@ -177,7 +179,7 @@ Linked back to representative places in Part 7, the same procedure can be read a
 
 In other words, the current blocked stage can be compared directly with the representative section that plays the same role. If the practice sections are included as well, it becomes possible to return not only to rereading explanations, but to changing values and rewriting results.
 
-## Closing Thoughts
+## Wrapping Up
 
 The purpose of the project Part is not to produce a massive artifact. Instead, it is to reveal through actual execution and comparison `what I understood and what is still unstable`.
 

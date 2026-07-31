@@ -1,7 +1,9 @@
-# P5-14.1 Why Attention Alone Does Not Close the Transformer
+# P5-14.1 Why Attention Alone Does Not Settle the Transformer
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The starting point for this chapter is not a single `attention_score`, but how `token_representation` moves into the next representation as it passes through a block. From P5-14.1 onward, read `relation_reading`, `position_update`, `stable_passage`, and `next_block_input` as one flow.
 
 _Subtitle: Why should the Transformer be read as a block structure, not just as self-attention?_
 
@@ -15,9 +17,9 @@ It is not enough. The Transformer is a block structure that reads relationships 
 
 - If self-attention is central to the Transformer, why does the explanation not end there?
 - As what bundle of roles should a Transformer block be read?
-- What should Part 5 close about the Transformer, and what should be passed to the next section?
+- What should Part 5 settle about the Transformer, and what should be passed to the next section?
 
-The question to close first here is not `what parts does the Transformer have`, but `why did self-attention and feed-forward need to be bundled into a repeatable block`.
+The question to settle first here is not `what parts does the Transformer have`, but `why did self-attention and feed-forward need to be bundled into a repeatable block`.
 
 | What this section reads now | What is passed to later sections |
 | --- | --- |
@@ -57,7 +59,7 @@ What matters in this diagram is not one attention computation, but the fact that
 
 ## Cases and Examples
 
-### Case. When Attention Alone Cannot Close An Action Judgment
+### Case. When Attention Alone Cannot Settle An Action Judgment
 
 Consider a work-permit sentence such as `Restart is held while the pressure remains unreleased.` Self-attention is important for reading that `pressure unreleased`, `restart`, and `held` are related. But if the explanation ends here, it remains unclear how the current action expression becomes clearer as `conditional hold` rather than `simple restart`, and how that meaning is preserved into the next layer.
 
@@ -74,7 +76,7 @@ If we read the same sentence in two ways, the difference becomes clearer.
 | attention-only explanation | that `restart` is related to `pressure unreleased` and `held` | what action state the current representation changes into after reading the relationship |
 | Transformer block explanation | the flow that reads the relationship, processes the current position representation, keeps the original action meaning and stability, and passes it to the next block | the detailed role split and representation movement are handled together in P5-14.2 |
 
-The result of this case closes as follows.
+The result of this case settles as follows.
 
 | Question for reading the current representation | Can attention alone answer it? | Supplement needed from the block viewpoint |
 | --- | --- | --- |
@@ -82,13 +84,13 @@ The result of this case closes as follows.
 | How does that connected condition change the action representation? | not enough | feed-forward reprocesses the current position representation |
 | Does the new representation move to the next computation without losing the original action meaning? | not enough | residual connection and layer normalization help stable transfer |
 
-The result to confirm in this case is not `attention is important`. A more precise result is: `attention is central for reading relationships, but a Transformer explanation closes only when it also includes the structure in which that relationship changes the current representation and moves stably to the next block`.
+The result to confirm in this case is not `attention is important`. A more precise result is: `attention is central for reading relationships, but a Transformer explanation settles only when it also includes the structure in which that relationship changes the current representation and moves stably to the next block`.
 
 ## Practice and Example
 
 ### Practice. Rewrite An Attention-Only Explanation As A Block Explanation
 
-Look at the input sentence below and first choose which of the three explanations best closes the central question of P5-14.1.
+Look at the input sentence below and first choose which of the three explanations best settles the central question of P5-14.1.
 
 Input sentence:
 
@@ -100,7 +102,7 @@ Input sentence:
 | B. `Restart` refers to `pressure unreleased` and `held`, and because of that relationship, the current action representation should be processed toward `conditional hold`. | middle |
 | C. `Restart` refers to the relevant condition, that relationship changes the current action representation, and the result should move to the next block while keeping the original action meaning and stability. | more appropriate |
 
-Explanation: A only says `relationship reading`, which self-attention handles. It answers `what was referred to`, but not `how the current representation changes after the reference`. B comes closer to why a feed-forward network is needed. But in deep block repetition, the changed representation also needs stability so that it does not completely lose the original action meaning when it moves to the next computation. C is closest to the center of this section. What P5-14.1 must close is not `attention is important`, but `attention + position-wise processing + stable transfer must be bundled into one block for the Transformer explanation to close`.
+Explanation: A only says `relationship reading`, which self-attention handles. It answers `what was referred to`, but not `how the current representation changes after the reference`. B comes more similar to why a feed-forward network is needed. But in deep block repetition, the changed representation also needs stability so that it does not completely lose the original action meaning when it moves to the next computation. C is most similar to the center of this section. What P5-14.1 must settle is not `attention is important`, but `attention + position-wise processing + stable transfer must be bundled into one block for the Transformer explanation to settle`.
 
 Now directly rewrite the short explanations below.
 

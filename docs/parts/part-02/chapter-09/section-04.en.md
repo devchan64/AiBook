@@ -1,7 +1,7 @@
 # P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P2-9.1, we viewed a data structure as the shape that holds data and the way that data is handled. But once you start studying data structures, many unfamiliar names suddenly appear.
 
@@ -76,9 +76,7 @@ That is why this Section is organized to ask first `why is this structure needed
 | What data-structure names represent | It helps you look first at what problem is made easier, rather than memorizing storage methods | Understand that each name has a different representative question |
 | Their relation to Python data types | It helps connect lists and dictionaries you already learned to a broader structural intuition | Understand that lists and dictionaries too continue older data-structure thinking |
 
-## Main Learning Content
-
-### Why do we revisit traditional data structures later?
+## Why Traditional Data Structures Are Revisited Later
 
 In P2-8, we looked at Python syntax first. That order was intentional. If we begin with data-structure theory immediately, implementation detail becomes heavy and the path can drift away from the purpose of AI relearning.
 
@@ -152,9 +150,7 @@ If these three questions are grouped more briefly again:
 | Do we find by name or ID? | To choose key-based-structure intuition |
 | Do we need to follow relationships? | To choose non-linear-structure intuition |
 
-## Detailed Learning Content
-
-### Linear structures: Thinking in one line
+## Linear Structures Read Data as One Line
 
 A linear structure is a structure that sees data in one line of order. Arrays, linked lists, stacks, and queues are close to this.
 
@@ -337,7 +333,7 @@ Remember roughly the following here.
 - A dictionary is good for finding by key.
 - A hash table connects to an implementation method for finding values by key.
 
-## Cases and Examples
+## When Data-Structure Names Reveal Code Intent
 
 ### How do Python lists and dictionaries connect to traditional data structures?
 
@@ -396,7 +392,7 @@ print("graph by neighbor:", relation_graph["Kim"])
 
 All three examples are written in Python syntax, but each uses a different data-structure intuition. The first is order, the second is key-based lookup, and the third is relationship expression.
 
-## Practice and Examples
+## Checking Data-Structure Intuition Directly
 
 ### Minimal Python examples to run directly
 

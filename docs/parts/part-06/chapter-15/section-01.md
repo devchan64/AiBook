@@ -1,7 +1,9 @@
 # P6-15.1 도구와 자원을 공통 형식으로 연결하는 MCP
 
 > Section ID: `P6-15.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+MCP를 읽을 때는 `resource`, `tool`, `prompt`, `server_boundary`, `permission_scope`, `client_runtime`을 나누어 봅니다. 이 구분을 남기면 프로토콜, 도구, 실행 환경, 권한이 하나의 내부 기능처럼 뭉치지 않습니다.
 
 P6-14.2에서는 AI 에이전트(AI agent)가 계획, 행동, 관찰의 반복 구조를 가진다는 점을 보았습니다. 이제는 이런 도구와 상태를 여러 시스템 사이에서 더 일관되게 연결하려면 무엇이 필요한지 봐야 합니다.
 

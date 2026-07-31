@@ -1,7 +1,7 @@
 # P1-2.1 Symbolic AI and Rule-Based Approaches
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P1-1 organized the scope of the word AI and the relationship among the major terms. P1-2 turns to the historical paradigms through which AI tried to solve problems. The center of this section is `symbolic AI` and the `rule-based approach`.
 
@@ -26,7 +26,7 @@ This section first closes `how symbolic AI tried to write and handle knowledge a
 - Distinguish the strengths and limits of rule-based approaches.
 - Understand why this approach is still useful in some systems today.
 
-## Main Learning Points
+## The Criteria for Solving Problems With Symbols and Rules
 
 This section may look like history, but in practice it introduces one old and important way in which AI tried to solve problems. The three guideposts below are the overall map.
 
@@ -48,9 +48,7 @@ This section may look like history, but in practice it introduces one old and im
 
 The first distinction that should remain is this: what is named explicitly, what is written down as a rule, what counts as fact in the current state, and what conclusion is drawn from the two.
 
-## Detailed Learning
-
-### Why This Approach Appeared First
+## Why Explicitly Written Knowledge Came First
 
 One of the large questions early AI researchers faced was: how can intelligent behavior be turned into a computer program? One major line of thought was to write down the facts, rules, and reasoning procedures that people know explicitly, then let the computer manipulate them and draw a conclusion.
 

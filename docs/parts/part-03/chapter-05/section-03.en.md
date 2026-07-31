@@ -1,7 +1,9 @@
 # P3-5.3 Why Can We Not Immediately Call Raw Time Series a Learning Input
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+Do not hide this choice in the table either. If you build a summary vector, each row can keep `event_id` and a structure memo such as `input_type=event_summary`. If you keep a segment sequence, you need `event_id`, `segment_index`, and `segment_order`. For a recent aggregate input, keep `window_id`, `window_start`, `window_end`, and `source_event_count`. Exposing the input structure as columns lets you explain again which rule turned the raw time series into a candidate learning input.
 
 When readers see a raw time series, many of them think like this: `There are many values and they are ordered, so can't we just pass this straight in as the learning input?` But we should pause here once. The mere fact that a raw time series exists does not yet mean we can say a ready-to-use learning [model input](/AiBook/en/reference/concept-glossary-alpha/m/#model-input) has been prepared.
 

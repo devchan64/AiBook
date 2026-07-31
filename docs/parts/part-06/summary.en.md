@@ -1,7 +1,9 @@
 # Part 6 Wrap-up
 
 > Section ID: `P6-summary`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The review plan for this summary page is to separate `computation inside the model`, `prompt and retrieval`, `tool connection`, `quality evaluation`, and `service operation records` again. This distinction must remain so that, in Part 7, you do not mix the result sentence of a small project with a reviewable execution record.
 
 Part 6 read generative AI through LLMs as the central case. The point was not to equate LLMs with all of generative AI, but to use them as a representative path for seeing generative-AI artifacts, input representations, candidate generation, evidence reinforcement, tool execution, evaluation, and operation records in one flow.
 
@@ -26,15 +28,15 @@ This Part did not begin with `whether the model answers well`. It first treated 
 | Misunderstanding | Standard to recover |
 | --- | --- |
 | LLM means the same thing as all of generative AI. | In this Part, an LLM is the central case used to explain generative AI. Do not assume image, speech, and video generation all have the same structure. |
-| A larger token ID means a more important meaning. | A token ID is closer to an index number in a vocabulary. Meaning comparison belongs to embedding vectors and similarity. |
+| A larger token ID means a more important meaning. | A token ID is more similar to an index number in a vocabulary. Meaning comparison belongs to embedding vectors and similarity. |
 | A nearby vector is the answer. | A nearby vector is a signal for narrowing candidates. The final answer still requires checking original text, metadata, freshness, and work conditions. |
 | A better prompt solves most things. | Fresh document lookup, outside retrieval, calculation execution, permission approval, and failure records require structures outside the prompt. |
 | A natural answer is ready for service. | A serviceable answer must also pass quality standards, automatic evaluation, human review, cost, latency, failure response, and execution records. |
 | An AI agent is an automatic executor that handles everything to the end. | An agent must be read with planning, action, observation, stopping conditions, and human-review standards. |
 
-## Part 6 Closed Flows
+## Part 6 Integrated Flows
 
-| Flow | Standard closed |
+| Flow | Standard organized |
 | --- | --- |
 | Starting from artifacts | Generative-AI output is an artifact, so it must be reviewed not only for right or wrong but also for evidence, format, risk, and usability. |
 | Moving down into input representation | A sentence written by a person becomes tokens, token IDs, and embeddings, and these distinctions change cost, context length, retrieval, and candidate comparison. |
@@ -58,4 +60,4 @@ Before moving to Part 7, keep these questions.
 - What does automatic evaluation repeatedly check, and what contextual judgment does human evaluation handle?
 - Are cost, latency, usage limits, and failure records left in a way that can guide the next revision?
 
-These questions are what let the Part 7 project close not as a code execution alone, but as a learning record that can be reviewed and improved again.
+These questions are what let the Part 7 project settle not as a code execution alone, but as a learning record that can be reviewed and improved again.

@@ -1,7 +1,7 @@
 # P4-6.3 Supplementary Learning: How To Read Metrics In Site Reliability Engineering
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-6.1 and P4-6.2 looked at model [evaluation metrics](/AiBook/en/reference/concept-glossary-alpha/m/#metric). Now the gaze moves a little outward. A model fitting well and a service operating well do not mean the same thing. To understand that difference, it helps to see how the word `metric` is used in SRE, or site reliability engineering.
 
@@ -49,9 +49,7 @@ Model metrics are closer to the quality of the answer, while operational metrics
 
 The key point of this diagram is that even inside one AI service, two different kinds of metrics exist together.
 
-## Main Learning Content
-
-### A Good Model Is Not Automatically A Good Service
+## A Good Model Is Not Automatically a Good Service
 
 This distinction is especially important in AI services.
 
@@ -202,9 +200,7 @@ The four signals stay better in memory when placed into scenes instead of being 
 
 This table makes it even clearer that operational metrics read `is the system holding up?`
 
-## Detailed Learning Content
-
-### Knowing SRE Metrics Makes Machine-Learning Metrics Feel Less Strange
+## Using SRE Metrics to Make Machine-Learning Metrics Less Unfamiliar
 
 If a software engineer is already familiar with SRE metrics, machine-learning metrics can also feel easier to accept as a different kind of decision number.
 

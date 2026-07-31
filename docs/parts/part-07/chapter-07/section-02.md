@@ -1,7 +1,9 @@
 # P7-7.2 장애 기록과 다음 반복 계획
 
-Section ID: `P7-7.2`
-Version: `v2026.07.26`
+> Section ID: `P7-7.2`
+> Version: `v2026.07.31`
+
+장애 기록은 `incident_time`, `impact_scope`, `root_signal`, `temporary_action`, `permanent_fix_candidate`, `next_iteration`을 나눕니다. 장애를 해결했다는 말보다 다음 반복 계획으로 이어지는 근거가 중요합니다.
 
 배포 프로젝트의 마지막 단계는 배포 성공 화면을 보고 끝내는 일이 아닙니다. 이 저장소처럼 `dev`에서 쓰고 `main`에서 배포하는 구조에서는, 실패도 `어느 단계에서 끊겼는가`를 기록해야 다음 반복이 쉬워집니다.
 

@@ -1,7 +1,9 @@
 # P3-5.3 即使有原始时间序列，为什么也不能立刻称它为学习输入
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+在表中也不要隐藏这个选择。如果制作摘要向量，每行可以和 `event_id` 一起留下 `input_type=event_summary` 这样的结构 备注；如果保留区间序列，就需要 `event_id`、`segment_index`、`segment_order`。如果是最近聚合输入，则要留下 `window_id`、`window_start`、`window_end`、`source_event_count`。把输入结构显露为列，才能再次说明原始时间序列按什么规则变成了学习输入候选。
 
 看到原始时间序列时，很多读者会立刻这样想：`数值也很多，顺序也在，那直接把它送进学习输入不就行了吗？` 但这里应该先停一下。因为仅仅“有一条原始时间序列”这件事，并不能立刻说明可以直接用于学习的[输入(input)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)已经准备好了。
 

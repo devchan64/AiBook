@@ -1,13 +1,15 @@
 # P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
-Once you decide to raise the problem into a prediction problem, you now need to close whether its structure satisfies an actual [prediction contract](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-prediction-contract). What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
+Do not leave this distinction only in explanatory sentences; keep it as minimum fields in the handoff data table. For example, `feature_available_at`, `target_window_start`, `target_window_end`, `cutoff_at`, `horizon_days`, and `leakage_check_note` let you check row by row which input was available at what time and which result period it tries to predict.
 
-This section closes four things first: the split between inputs and results, leakage prevention, reproducibility at the operating time point, and the time boundary.
+Once you decide to raise the problem into a prediction problem, you now need to settle whether its structure satisfies an actual [prediction contract](/AiBook/en/reference/concept-glossary-alpha/p/#glossary-prediction-contract). What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
 
-| What should be closed first | If turned into a question |
+This section settles four things first: the split between inputs and results, leakage prevention, reproducibility at the operating time point, and the time boundary.
+
+| What should be confirmed first | If turned into a question |
 | --- | --- |
 | Split between inputs and results | Which columns are [features](/AiBook/en/reference/concept-glossary-alpha/f/#glossary-feature) and which are target candidates? |
 | Preventing future-information leakage | Is there no [data leakage](/AiBook/en/reference/concept-glossary-alpha/d/#glossary-data-leakage) from values still unknown at prediction time? |
@@ -83,19 +85,19 @@ leaky_after_review accuracy: 1.0
 leaky_after_review predictions: [('E', 1, 1), ('F', 0, 0)]
 ```
 
-`leaky_after_review` has accuracy `1.0`, but this should not be read as a good prediction problem. `review_result_code` is created only after a person has already completed the review. At the real operating prediction time, that value is still unknown. So the point of this example is not to find a high-scoring model, but to close first whether this column can actually be made at prediction time.
+`leaky_after_review` has accuracy `1.0`, but this should not be read as a good prediction problem. `review_result_code` is created only after a person has already completed the review. At the real operating prediction time, that value is still unknown. So the point of this example is not to find a high-scoring model, but to settle first whether this column can actually be made at prediction time.
 
 ## A Small Diagram
 
-The input/result contract does not end with `separate the columns`. It must also close in the order below so that only values available at prediction time remain.
+The input/result contract does not end with `separate the columns`. It must also settle in the order below so that only values available at prediction time remain.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-7-mermaid-01-en.mmd"
 ```
 
-So closing the input/result contract is not only a matter of `splitting column names`. You must also write down `when each column is created`. For one sample input row to be valid, all values in that row must be values that can actually be produced at the same prediction time.
+So confirming the input/result contract is not only a matter of `splitting column names`. You must also write down `when each column is created`. For one sample input row to be valid, all values in that row must be values that can actually be produced at the same prediction time.
 
-Even when the same sample boundary is kept, the input representation does not need to stay fixed as only one form. In some cases, a one-row feature vector is more natural. In others, a grouped input that preserves time order is more natural. What matters is that regardless of representation style, the contract `is this an input that can actually be used at prediction time` and `is the result candidate closed together with the time boundary` must be satisfied first. What is being handled here is therefore not `just any table`, but an input structure whose sample boundary and time boundary are closed. The core is not `passing along a table`, but `closing the input/result contract that holds at prediction time`. More broadly, what gets closed here is a prediction contract in which `input definition`, `result definition`, `time-point availability`, and `reproducibility` all match together.
+Even when the same sample boundary is kept, the input representation does not need to stay fixed as only one form. In some cases, a one-row feature vector is more natural. In others, a grouped input that preserves time order is more natural. What matters is that regardless of representation style, the contract `is this an input that can actually be used at prediction time` and `is the result candidate confirmed together with the time boundary` must be satisfied first. What is being handled here is therefore not `just any table`, but an input structure whose sample boundary and time boundary are confirmed. The core is not `passing along a table`, but `confirming the input/result contract that holds at prediction time`. More broadly, what is settled here is a prediction contract in which `input definition`, `result definition`, `time-point availability`, and `reproducibility` all match together.
 
 ## Sources and References
 

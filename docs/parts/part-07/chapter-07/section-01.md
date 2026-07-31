@@ -1,7 +1,9 @@
 # P7-7.1 배포 확인과 상태 점검
 
-Section ID: `P7-7.1`
-Version: `v2026.07.26`
+> Section ID: `P7-7.1`
+> Version: `v2026.07.31`
+
+배포 확인 기록은 `deploy_target`, `health_check`, `sample_request`, `public_status`, `rollback_signal`, `verification_owner`를 함께 둡니다. 배포 완료라는 말보다 사용자가 확인할 수 있는 상태 신호가 먼저 남아야 합니다.
 
 Part 7의 마지막 프로젝트는 `코드를 만들었다`에서 끝나지 않습니다. 이 책 저장소처럼 정적 웹 문서를 배포하는 프로젝트도, 독자에게 실제로 보이기 시작하는 순간부터는 운영 질문이 생깁니다.
 

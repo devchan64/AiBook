@@ -1,7 +1,9 @@
 # P6-17.2 把错误分到恢复路径的运营失败处理
 
 > Section ID: `P6-17.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+失败应对记录要分开 `failure_type`、`trace_step`、`retry_allowed`、`fallback_path`、`approval_required`、`recovery_result`。有了这些字段，就能按恢复路径查看模型错误、工具错误、权限问题，而不是把它们都归为同一种障碍。
 
 设定服务运营限制之后，还需要决定实际失败应该走向哪里。失败处理不只是修正最终回答句子。它意味着把检索、工具调用、权限、延迟和日志一起查看，然后在 `retry`、`fallback`、`stop`、`approval` 中选择最安全的路线。换句话说，它更接近回溯产生回答的整个过程，而不是只看一行回答。
 

@@ -1,7 +1,7 @@
 # P1-1.2 Problems AI Handles
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 Section 1.1 organized the scope of the word AI. This section looks at what kinds of problems AI actually deals with inside that broad range.
 
@@ -25,7 +25,7 @@ This section first closes `how to divide AI problems from the viewpoint of input
 - Distinguish problem types such as recognition, search, prediction, recommendation, generation, and control.
 - Understand that the same real-world situation can become different AI problems depending on how the question is defined.
 
-## Main Learning Points
+## Input and Output Criteria for Separating Problem Types
 
 This section looks at the shape of the problem before it looks at algorithm names. The three standards below form the basic map for separating problem types.
 
@@ -37,9 +37,7 @@ This section looks at the shape of the problem before it looks at algorithm name
 
 `Input`, `output`, `goal`, and `impact` already appeared in the previous section as the basic language for reading an AI system. Here those same four terms are reconnected to problem types. Input is the information received by the system. Output is the result it produces. Goal is the standard that determines what counts as a good output. `Impact` indicates where that result reaches real human judgment or environmental change. If the terms themselves become unstable again, return to the previous section and the representative glossary entries for [model input](/AiBook/en/reference/concept-glossary-alpha/m/#model-input), [model output](/AiBook/en/reference/concept-glossary-alpha/m/#model-output), and goal. In this section, they are used to read problem types as structures of `what goes in and what comes out`.
 
-## Detailed Learning
-
-### Why Read Through Problem Types
+## Why Problem Types Come First
 
 If AI is relearned by memorizing algorithm names first, it quickly becomes complicated. Even with the same image data, one system may classify whether something is a cat, another may locate the object, and another may generate a new image.
 

@@ -1,7 +1,7 @@
 # P4-6.3 补充学习：在站点可靠性工程里如何读指标(metrics)
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 在 P4-6.1 和 P4-6.2 里，我们看过 model [evaluation metric](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)。现在把视线稍微往外移一点。model 拟合得好，和服务运营得好，并不是同一句话。要理解这个差别，就有必要看一看在 SRE(site reliability engineering) 里，`metric` 这个词到底是怎么被使用的。
 
@@ -49,9 +49,7 @@ model metric 更接近答案质量，运营 metric 更接近服务状态。
 
 这张图的核心是：即使在同一个 AI service 里，也会同时存在两种 metric。
 
-## 主要学习内容
-
-### 好的 model 不等于好的 service
+## 好模型不等于好服务
 
 这个区分在 AI service 里尤其重要。
 

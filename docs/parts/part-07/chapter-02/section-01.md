@@ -1,7 +1,9 @@
 # P7-2.1 비교표와 오류 사례 읽기
 
-Section ID: `P7-2.1`
-Version: `v2026.07.26`
+> Section ID: `P7-2.1`
+> Version: `v2026.07.31`
+
+비교표를 읽을 때는 `baseline_result`, `candidate_result`, `metric_delta`, `error_sample_id`, `error_pattern`, `review_note`를 함께 봅니다. 점수 하나보다 어떤 오류 사례가 남았는지가 다음 반복의 출발점입니다.
 
 `예측 모델`을 하나 붙여 보고, 그 결과를 비교표와 오류 사례로 읽기 시작합니다.
 

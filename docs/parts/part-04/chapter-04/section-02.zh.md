@@ -1,7 +1,7 @@
 # P4-4.2 验证(validation)与测试(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 在 P4-4.1 里，我们看过为什么要把数据分成 [training data](/AiBook/zh/reference/concept-glossary-pinyin/x/#training-data) 和 [evaluation data](/AiBook/zh/reference/concept-glossary-pinyin/e/#evaluation-data)。现在再往前走一步。`在选模型过程中使用的数据` 和 `最后只检查一次的数据`，它们承担的角色并不一样。
 
@@ -49,9 +49,7 @@
 
 validation data 和 test data 最大的差别，在于 `它们被用于决策的频率`。
 
-## 主要学习内容
-
-### validation data 帮助做选择
+## 验证数据帮助做选择
 
 validation data 是在选模型过程中使用的数据。例如，它会用于下面这些选择。
 

@@ -1,7 +1,7 @@
 # P4-11.2 Decision Boundary
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P4-11.1, [logistic regression](/AiBook/en/reference/concept-glossary-alpha/l/#logistic-regression) was read as `a linear model that creates scores that can be read like probabilities`.
 Now the question changes by one step.
@@ -93,9 +93,7 @@ The same comparison frame should be kept here too. The same baseline, the same s
 
 If this record is kept, `the boundary moved`, `warnings increased`, and `newly split cases appeared` can be reread inside one comparison frame instead of being read separately.
 
-## Main Learning Content
-
-### What Is A Decision Boundary?
+## A Decision Boundary Is Where Classification Judgment Flips
 
 A classification model usually computes an internal score and divides classes based on that score. The decision boundary is `the place where that score becomes equal to the criterion value`.
 
@@ -231,9 +229,7 @@ The decision boundary is not just a visualization scene. It becomes especially i
 
 The point of this table is not to admire the picture of the boundary, but to track `where the classification rule really splits and what it misses`.
 
-## Detailed Learning Content
-
-### Historical Background And Flow
+## Background for Reading Decision Boundaries as Spatial Separation Criteria
 
 At first glance, the phrase decision boundary can look like a visualization term. But the core is not the picture. It is the perspective of reading `where a classification judgment flips`.
 

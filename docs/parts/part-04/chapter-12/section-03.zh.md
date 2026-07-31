@@ -1,7 +1,7 @@
 # P4-12.3 使用 k-NN 时，应该先检查什么？
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance) 和 [feature scale](/AiBook/zh/reference/concept-glossary-pinyin/b/#standardization) 会改变结果。现在剩下的问题是：
 
@@ -24,9 +24,7 @@ P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 [distance](/AiBook
 - 能说明哪些信号意味着应该先怀疑 distance 或 scale
 - 当结果摇晃时，能排出重新检查的顺序
 
-## 主要学习内容
-
-### 什么时候适合先把 k-NN 放上候选
+## 把 k-NN 先列为候选的条件
 
 k-NN 并不是所有 classification 问题的默认答案。但在 `用附近相似案例来解释` 很自然的问题里，它会是一个很好的第一比较候选。
 

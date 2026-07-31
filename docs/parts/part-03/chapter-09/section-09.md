@@ -1,7 +1,7 @@
 # P3-9.9 실제 목표와 대리 target은 어떻게 구분하는가
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 현실 데이터에서는 정말 맞히고 싶은 결과를 바로 볼 수 없는 경우가 많습니다. 그래서 중간 판단이나 대체 열을 임시 [타깃(target)](../../../reference/concept-glossary-parts/12-tieut.md#target)으로 쓰고 싶어집니다. 이때 필요한 구분이 [실제 목표(actual target)](../../../reference/concept-glossary-parts/07-siot.md#glossary-actual-target)와 [대리 타깃(proxy target)](../../../reference/concept-glossary-parts/03-digeut.md#glossary-proxy-target)입니다. 지금 쓰는 target이 실제로 알고 싶은 결과 자체인지, 아니면 대신 쓰는 대리 열인지 먼저 적어야 합니다.
 
@@ -17,6 +17,8 @@
 | 실제로 알고 싶은 결과는 무엇인가 | 문제의 본래 목적을 숨기지 않기 위해 |
 | 지금 쓰는 열은 왜 대리 target인가 | 실제 목표와의 거리와 한계를 남기기 위해 |
 | 실제 목표와 어떤 거리로 연결되는가 | 대리 target의 한계와 실제 목표와의 거리를 남기기 위해 |
+
+대리 target을 쓰기로 했다면 `business_goal`, `proxy_target`, `proxy_reason`, `proxy_gap`, `review_owner` 같은 메모를 표에 함께 둡니다. 이 필드는 target 이름이 실제 목표처럼 굳어지는 것을 막고, 나중에 문제 유형을 예측으로 올릴 때 무엇을 직접 맞히는지와 무엇을 대신 맞히는지를 다시 분리하게 해 줍니다.
 
 ## 왜 이 구분이 문제 유형 자체를 바꾸는가
 

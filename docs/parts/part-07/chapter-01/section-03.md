@@ -1,7 +1,9 @@
 # P7-1.3 기준선 재설계 연습
 
-Section ID: `P7-1.3`
-Version: `v2026.07.26`
+> Section ID: `P7-1.3`
+> Version: `v2026.07.31`
+
+기준선을 바꿔 보는 연습은 `old_baseline`, `new_baseline`, `boundary_change`, `affected_samples`, `changed_interpretation`, `follow_up_check`를 나누어 기록합니다. 이 구분이 있어야 비교 기준 변경이 결론 변경으로 이어지는 지점을 확인할 수 있습니다.
 
 같은 로그라도 `기준선 구간을 어디로 잡는가`, `전체 합계로 볼 것인가 채널-일자 단위로 볼 것인가`에 따라 프로젝트 문서의 첫 줄이 달라집니다. 그 차이를 손으로 바꿔 보며 확인하는 연습입니다.
 

@@ -1,7 +1,7 @@
 # P4-15.4 보충학습: Extra Trees와 랜덤포레스트 비교
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-15.1에서 [랜덤포레스트(random forest)](../../../reference/concept-glossary-parts/04-rieul.md#random-forest)를 배우면 비슷한 이름의 Extra Trees(Extremely Randomized Trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
 
@@ -47,9 +47,7 @@ P4-15.1에서 [랜덤포레스트(random forest)](../../../reference/concept-glo
 
 즉, Extra Trees는 `랜덤포레스트와 같은 숲 계열`이지만, `분기 기준을 고르는 방식까지 더 무작위화한 숲`으로 읽어야 합니다.
 
-## 주요 학습내용
-
-### Extra Trees도 같은 트리 앙상블 계열인가
+## Extra Trees와 랜덤포레스트를 같은 트리 앙상블 계열에서 비교하기
 
 scikit-learn 사용자 가이드는 random forest와 Extra-Trees를 모두 `randomized decision tree ensemble` 계열의 averaging algorithm으로 설명합니다. 즉, 두 모델 모두 트리를 여러 개 만들고, 각 트리의 예측을 평균내거나 집계해 일반화 성능과 안정성을 높이려는 계열입니다.
 

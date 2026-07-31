@@ -1,7 +1,9 @@
 # P7-5.5 검색 평가셋으로 근거 품질을 다시 점검하기
 
-Section ID: `P7-5.5`
-Version: `v2026.07.26`
+> Section ID: `P7-5.5`
+> Version: `v2026.07.31`
+
+검색 평가셋은 `eval_question`, `expected_evidence`, `retrieved_evidence`, `mismatch_type`, `score_threshold`, `dataset_revision`을 남깁니다. 답변 품질보다 먼저 근거 후보가 제대로 올라오는지 다시 점검하기 위한 기록입니다.
 
 P7-5.4에서는 ChromaDB와 TF-IDF 임베딩을 사용해 검색 설정이 후보 목록을 어떻게 바꾸는지 보았습니다. 하지만 실제 RAG 프로젝트에서는 `검색 결과가 나왔다`만으로 품질을 닫을 수 없습니다. 질문이 문서 범위 안에 있는지, 검색 후보가 직접 답 근거인지, 후보가 있어도 답변이 과장될 위험이 있는지 따로 점검해야 합니다.
 

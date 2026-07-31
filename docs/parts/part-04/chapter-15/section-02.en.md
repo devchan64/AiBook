@@ -1,7 +1,7 @@
 # P4-15.2 Feature Importance
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P4-15.1, we saw why [random forest](/AiBook/en/reference/concept-glossary-alpha/r/#random-forest) can create more stable predictions by gathering many trees. That immediately raises the next question.
 
@@ -85,9 +85,7 @@ Feature importance is convenient, but certain data structures make it easy to ov
 
 The point of this table is not to throw the number away. It is to make the reader first notice `when this number is especially likely to invite misunderstanding`.
 
-## Main Learning Content
-
-### From What Idea Does Feature Importance Come?
+## Feature Importance Summarizes Contribution to Split Improvement
 
 The scikit-learn User Guide explains that, in a tree, upper decision nodes affect the predictions of more samples, and relative importance can be estimated by combining how much each split reduces impurity. Averaging that idea over many randomized trees gives mean decrease in impurity, or MDI.
 
@@ -174,9 +172,7 @@ That difference matters a lot. One is closer to `usage traces inside the model`,
 
 This flow matters because it makes the reader re-read importance not as `a property of the number`, but as `a performance-change experiment`.
 
-## Detailed Learning Content
-
-### Why Should Impurity-Based Importance Be Treated Carefully?
+## Why Impurity-Based Importance Requires Caution
 
 The scikit-learn User Guide warns of two major problems with impurity-based feature importance.
 

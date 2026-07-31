@@ -1,7 +1,9 @@
 # P5-15.3 采样（sampling）怎样从候选分布中取出实际输出
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+记录采样结果时，要分开 `candidate_distribution`、`selection_rule`、`temperature_setting`、`top_k_or_top_p`、`selected_output`、`variation_count`。有了这个区分，模型认为哪些内容 plausible，以及实际取出了什么，才能自然连接到 Part 6 的生成设置说明。
 
 在 P5-15.2 中，我们已经看到：生成模型（generative model）不是背下一个正确答案再取出来，而是把可能输出候选的相对可信度保留成候选分布。接下来就会自然出现一个问题。
 

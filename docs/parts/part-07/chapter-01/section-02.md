@@ -1,7 +1,9 @@
 # P7-1.2 baseline과 첫 비교
 
-Section ID: `P7-1.2`
-Version: `v2026.07.26`
+> Section ID: `P7-1.2`
+> Version: `v2026.07.31`
+
+첫 비교 기록은 `baseline_rule`, `candidate_rule`, `comparison_unit`, `metric`, `error_case`, `next_question`을 한 줄에 함께 둡니다. 그래야 baseline이 낮은 상대가 아니라 다음 실험을 여는 비교 기준으로 남습니다.
 
 운영 로그를 읽고 평균, 최대값, 비율을 계산했다고 해서 바로 `좋다`, `나쁘다`를 말할 수는 없습니다. baseline과 첫 비교는 숫자를 다시 적는 절이 아니라, `무엇이 기준선보다 실제로 달라졌는가`, `그 차이 가운데 무엇이 먼저 볼 만한가`를 가르는 자리입니다.
 

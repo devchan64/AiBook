@@ -1,7 +1,9 @@
 # P7-7.3 운영 점검 시뮬레이션
 
-Section ID: `P7-7.3`
-Version: `v2026.07.26`
+> Section ID: `P7-7.3`
+> Version: `v2026.07.31`
+
+운영 점검 시뮬레이션은 `scenario`, `user_impact`, `reproducibility`, `severity`, `immediate_action`, `follow_up_bucket`을 함께 남깁니다. 운영 판단은 증상 이름보다 독자 영향과 재현 가능성으로 갈라집니다.
 
 `운영 중 관찰 신호가 들어왔을 때 무엇을 즉시 수정하고 무엇은 재현을 먼저 확인하며 무엇은 다음 반복 개선으로 둘 것인가`를 직접 써 볼 차례입니다. 운영 판단을 순서 설명이 아니라 행동 구간 분류로 읽게 만드는 데 초점을 둡니다.
 

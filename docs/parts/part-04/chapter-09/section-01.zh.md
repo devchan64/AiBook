@@ -1,7 +1,7 @@
 # P4-9.1 超参数(hyperparameter)
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-8 里，我们选好了 model 候选，也用 [baseline](/AiBook/zh/reference/concept-glossary-pinyin/b/#baseline-model) 立好了比较的出发点。现在要进入下一个问题。
 
@@ -73,9 +73,7 @@ hyperparameter 不是 model 会学到的规则本身，而是预先决定这个 
 
 也就是说，baseline 决定的是 `要拿什么去比较`，而 hyperparameter 决定的是 `在同一个 model 名字里，到底要改什么、改多少`。只有把这个标准立住，后面的 tuning 才会被读成 `可比较的实验设计`，而不是简单地乱调选项。
 
-## 主要学习内容
-
-### parameter 和 hyperparameter 到底有什么不同
+## 区分 parameter 和 hyperparameter 的基准
 
 最先必须分清的是下面这一点。
 

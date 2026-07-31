@@ -1,7 +1,9 @@
 # P5-14.4 RNN State Passing and Transformer Parallel Computation
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When making a comparison table, do not place only model names side by side; also write `depends_on_previous_step`, `relation_matrix`, `parallel_unit`, and `batch_axis`. Then the difference between RNNs and Transformers is organized as a difference in computation dependency and parallelization unit, not as an order of fashion.
 
 _Subtitle: How do sequential state passing and token-relation computation split in parallel processing?_
 
@@ -31,9 +33,9 @@ This structure is natural for data where order matters, but it becomes a burden 
 
 The caution here is that this does not mean `an RNN is not tensor computation`. An RNN also uses input vectors, hidden states, and weight matrices, so it is implemented with tensor computation. The difference is not whether tensors are used, but that inside one sequence the hidden state from an earlier step is needed by the next step.
 
-## Transformers Are Closer to Computing Relations Together
+## Transformers Are more similar to Computing Relations Together
 
-Self-attention in a Transformer lets each token refer to other tokens in the same sequence. So its computation feel is closer to handling token-to-token relations together as large matrix computation than to passing a state along one line.
+Self-attention in a Transformer lets each token refer to other tokens in the same sequence. So its computation feel is more similar to handling token-to-token relations together as large matrix computation than to passing a state along one line.
 
 `An RNN passes state in order, while a Transformer computes token relations more together.`
 
@@ -200,7 +202,7 @@ The first output shows the RNN-style state feel. The line-6 request state is pro
 
 When changing values, first reorder rows in `line_features` and check whether the final state in `recurrent trace` changes. Next, lower the pressure or block-related weights in `relation_kernel` and observe how the `top related lines` ranking changes. Finally, add one more sentence with the same format to `batch` and check whether the first number in `score tensor shape` grows by the number of sentences.
 
-Explanation: The result to read here is not `which side is how many times faster in reality`. The core of P5-14.4 is that sequential state passing is read as a step trace, while Transformer-style relation computation is read as a position-relation matrix and batch tensor. So the parallel-processing explanation should close as a difference in computation structure, not as hardware boasting.
+Explanation: The result to read here is not `which side is how many times faster in reality`. The core of P5-14.4 is that sequential state passing is read as a step trace, while Transformer-style relation computation is read as a position-relation matrix and batch tensor. So the parallel-processing explanation should settle as a difference in computation structure, not as hardware boasting.
 
 ### Practice. Mark Waiting Computations and Bundled Computations
 
@@ -212,7 +214,7 @@ For each scene below, first mark it as `waiting` or `bundled`.
 | Attention scores for every token pair in one sentence are computed in the same layer. | bundled | Many token relation scores are easy to organize as matrix computation. |
 | Feed-forward computation for many sentences in a batch applies the same weights to each position. | bundled | The same kind of position-wise computation is easy to process together as tensor computation. |
 | During generation, the next token that has not yet appeared must be known in advance. | waiting | There is still an order constraint during generation execution. It should be distinguished from the parallelization feel during training. |
-| A rule at the front of a document is compressed into one state and carried to the end. | closer to waiting | Since the earlier clue must pass through many steps, the burden of sequential transfer grows. |
+| A rule at the front of a document is compressed into one state and carried to the end. | more similar to waiting | Since the earlier clue must pass through many steps, the burden of sequential transfer grows. |
 
 Explanation: This practice is not about implementing an actual GPU kernel. The learning needed in P5-14.4 is to distinguish `computation that passes state`, `a flow that recalculates relations`, and `computation that can be bundled together`.
 

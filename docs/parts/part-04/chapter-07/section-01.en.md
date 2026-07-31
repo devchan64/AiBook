@@ -1,7 +1,9 @@
 # P4-7.1 Feature Selection
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+First imagine one scene. If a customer-churn prediction table contains `recent visit count`, `membership tier`, `recent inquiry count`, `result memo created after staff review`, and `internal temporary ID`, giving all of them to the model is not a good starting point. Before computing performance, this Section first filters out `columns unavailable at prediction time`, `columns weakly related to the problem`, and `columns hard to recreate in operation`.
 
 P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. [Feature selection](/AiBook/en/reference/concept-glossary-alpha/f/#feature-selection) is the starting point of that input design.
 
@@ -18,7 +20,7 @@ This Section answers the following questions.
 - What feature-selection criteria should a reader inspect first?
 - How is feature selection different from [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing)?
 
-This Section first closes `how to choose good features` and `why feature selection is an input-design problem`. The sense of separating preprocessing types by input problem is revisited in the supplementary P4-7.3, and the comparison perspective between statistical-test-based selection and recursive feature elimination is organized again in supplementary P4-7.4. The big picture of dimensionality reduction continues in P4-18.1 and P4-18.2.
+This Section first settles `how to choose good features` and `why feature selection is an input-design problem`. The sense of separating preprocessing types by input problem is revisited in the supplementary P4-7.3, and the comparison perspective between statistical-test-based selection and recursive feature elimination is organized again in supplementary P4-7.4. The big picture of dimensionality reduction continues in P4-18.1 and P4-18.2.
 
 ## Goals Of This Section
 
@@ -52,9 +54,7 @@ To say it a little more theoretically, a feature is the unit of an `input variab
 
 For example, in a house-price prediction problem, `area`, `number of rooms`, and `distance to the station` can become features. In a spam-classification problem, `occurrence of a particular word`, `whether there is an attachment`, and `sender-domain pattern` can become features. In other words, features change by problem, and even the same reality is expressed through a different set of features depending on what question is being asked.
 
-## Main Learning Content
-
-### Why Feature Selection Matters First
+## Why Feature Selection Matters First
 
 Feature selection is not simply the job of reducing the number of columns. It is the job of deciding `what information will be allowed to participate in model judgment`.
 
@@ -426,16 +426,14 @@ Before complex algorithms, feature selection is also the job of making clear `fo
 | --- | --- | --- |
 | it is already available at the prediction moment | inspect first | because it is a reproducible candidate for service input |
 | it appears only after the answer exists | remove | because the risk of leakage is high as post-outcome information |
-| it only distinguishes the entity like an ID | usually remove | because it is closer to individual identification than to a generalized pattern |
+| it only distinguishes the entity like an ID | usually remove | because it is more similar to individual identification than to a generalized pattern |
 | it contains a behavior signal related to the problem | inspect first for keeping | because it may contain a pattern connected to the target |
 | collection delay or manual-entry fluctuation is large | hold or inspect for reinforcement | because it is hard to reproduce stably in operations |
 | it almost repeats the same meaning as another feature | inspect for reduction | because redundancy may grow more than information |
 
 The order in this table matters. `Does it look relevant?` should come only after `can it be used legitimately at prediction time?` is checked. That way the legitimacy of the input is inspected before performance numbers.
 
-## Detailed Learning Content
-
-### Organizing The Meaning In An Academic Context
+## Separating Variables and Features in Academic Context
 
 Introductory books often use `variable` and `feature` almost as if they were the same word. But in an academic context, they are sometimes separated slightly.
 
@@ -480,7 +478,7 @@ For example, if two columns contain almost the same information, both can still 
 
 This distinction shows that feature selection is not `keeping every column that seems most relevant`, but `finding a subset that has low redundancy and is useful when used together`.
 
-## Cases And Examples
+## When Many Columns Do Not Guarantee Good Input
 
 ### Case 1. In A Churn-Prediction Table, More Columns Can Become More Dangerous
 
@@ -496,7 +494,7 @@ The checkable result is clear as well. When the validation score is compared bet
 --8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-04-en.mmd"
 ```
 
-## Cases And Examples
+## Criteria For Filtering Feature Candidates First
 
 ### Candidates To Drop First Through Practical Heuristics
 
@@ -527,7 +525,7 @@ The following is a very small example that assumes a customer-churn problem.
 
 The important point in this example is not `include` itself. It is whether the reader can explain `why it was included or excluded`.
 
-## Practice And Examples
+## Applying Good-Feature Criteria Directly
 
 ### Slowly Checking The Five Criteria Of A Good Feature
 
@@ -575,12 +573,12 @@ Choose which of the following two should remain earlier as a first-pass candidat
 
 Order to write:
 
-1. On the surface, both are numbers, but which one is closer to a real behavior signal?
+1. On the surface, both are numbers, but which one is more similar to a real behavior signal?
 2. Why can the other be read as an identifier fragment rather than a generalized pattern?
 
 Explanation:
 
-`failed_logins_14d` should remain first. It can connect to an access problem or usability friction as a behavior signal. `account_number_last_digit` is closer to an identifier fragment, so it is hard to expect a generalized pattern from it.
+`failed_logins_14d` should remain first. It can connect to an access problem or usability friction as a behavior signal. `account_number_last_digit` is more similar to an identifier fragment, so it is hard to expect a generalized pattern from it.
 
 #### 2. Is The Noise Not Too Large?
 
@@ -859,7 +857,7 @@ The goal of this Section is not to memorize those algorithms. It is to first fix
 - Were identifiers and constant columns inspected first?
 - Are only features that can be obtained stably in the real service being kept?
 - Are feature selection and preprocessing not being mixed together as if they were one task?
-- Can you explain that a feature is an expression that turns real-world information into model input, and that feature selection is closer to `choosing input that can be used legitimately` than to `putting in more`?
+- Can you explain that a feature is an expression that turns real-world information into model input, and that feature selection is more similar to `choosing input that can be used legitimately` than to `putting in more`?
 - Can you explain why leakage, relevance, and operational usability should be checked first?
 
 ## Sources And References

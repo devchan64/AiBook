@@ -1,7 +1,9 @@
 # P7-2.3 비교 실험 연습
 
-Section ID: `P7-2.3`
-Version: `v2026.07.26`
+> Section ID: `P7-2.3`
+> Version: `v2026.07.31`
+
+비교 실험 연습은 `experiment_variant`, `preprocessing_change`, `baseline_gap`, `fixed_error`, `new_error`, `next_boundary_case`를 남깁니다. 전처리로 풀린 실패와 추가 경계 사례가 필요한 실패를 따로 보기 위한 기록입니다.
 
 여러 비교 실험을 한 줄로 붙여 놓으면 `무엇이 전처리 문제이고 무엇이 데이터 경계 문제인가`가 더 직접 보입니다. 그 차이를 손으로 구분하는 연습입니다.
 

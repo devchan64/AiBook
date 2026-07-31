@@ -1,7 +1,9 @@
 # P6-16.1 자연스러운 답과 품질 기준을 나누는 LLM 평가
 
 > Section ID: `P6-16.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+LLM 평가 기록은 `answer_text`, `task_success`, `evidence_quality`, `format_quality`, `safety_issue`, `revision_need`를 분리합니다. 이렇게 해야 자연스러워 보이는 답과 실제 품질 기준을 같은 점수 하나로 덮지 않습니다.
 
 하네스(harness)가 trace, tool call log, replay 같은 실행 기록을 남겨도 그 기록만으로 품질이 보장되지는 않습니다. LLM 기반 시스템에는 `무엇을 통과로 볼 것인가`, `어느 축에서 먼저 탈락했는가`, `무엇을 고쳐야 다시 시도할 수 있는가`를 가르는 평가(evaluation) 기준이 필요합니다.
 

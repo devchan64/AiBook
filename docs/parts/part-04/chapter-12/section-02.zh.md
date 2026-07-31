@@ -1,7 +1,7 @@
 # P4-12.2 距离(distance)与尺度(scale)
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但在这里，真正最重要的词其实是 `近`。
 
@@ -27,9 +27,7 @@ P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但�
 - 能说明 feature 的 scale 不同时，大轴可能会支配 distance
 - 能说明 standardization 不是 `把数字弄好看`，而是 `重新对齐比较标准`
 
-## 主要学习内容
-
-### distance 是模型判断规则的一部分
+## 距离是 k-NN 的判断规则
 
 k-NN 会先计算新输入与已有数据之间的 [distance](/AiBook/zh/reference/concept-glossary-pinyin/d/#distance)，然后再找出最近的 neighbor。所以 distance function 不是单纯的计算工具，而是决定 `谁会被选成 neighbor` 的规则。
 

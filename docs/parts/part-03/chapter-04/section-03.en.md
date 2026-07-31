@@ -1,7 +1,9 @@
 # P3-4.3 How Are One Row, One Sample, and One Recent Segment Different
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+Move this difference directly into column roles when you build the next table. At the row level, leave moment records such as `second` and `flow`; at the sample level, use columns such as `event_id`, `flow_mean`, and `flow_max` to describe one operation. At the window level, use columns such as `window`, `event_count`, and `window_flow_mean` to show that several samples were grouped again. If the three levels appear in one table, each column name should reveal the level where the value was computed, so features, baselines, and review sentences do not point to different units later.
 
 [One row](/AiBook/en/reference/concept-glossary-alpha/s/#sample-unit), one [sample](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-sample), and `one recent segment` all come to mind while looking at a data table, but they are not the same level. In a [source-data](/AiBook/en/reference/concept-glossary-alpha/s/#glossary-source-data) table, the row is seen first. In the comparison of one full action, the sample becomes central. In [baseline](/AiBook/en/reference/concept-glossary-alpha/b/#glossary-baseline) comparison, the recent segment appears as yet another comparison unit.
 

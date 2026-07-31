@@ -1,7 +1,7 @@
 # P4-14.2 Overfitting In Trees
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-14.1 read a [decision tree](/AiBook/en/reference/concept-glossary-alpha/d/#decision-tree) as `a model that predicts by splitting with questions`. That Section had clear strengths.
 
@@ -66,9 +66,7 @@ To catch overfitting quickly, the reader should not watch only the score. It als
 
 This table helps the reader go beyond the vague statement `deeper trees are risky`. Instead it frames the real question as: `At what point do the questions stop talking about a pattern and start talking about exceptions?`
 
-## Main Learning Content
-
-### Intuition By Comparing Small And Large Trees
+## The Difference Between Small Trees and Large Trees
 
 Think again about churn data.
 
@@ -148,9 +146,7 @@ Tree overfitting becomes especially visible when train and test performance are 
 
 This viewpoint appears often in trees, but it is really a shared Part 4 principle. Linear regression, logistic regression, SVM, and tree models all eventually face the same question: `how well does the model hold up on data it has not seen?`
 
-## Detailed Learning Content
-
-### Why Is `min_samples_leaf` Needed?
+## Why `min_samples_leaf` Prevents Leaves From Becoming Too Small
 
 If `max_depth` limits the overall height of the tree, `min_samples_leaf` limits how small one leaf is allowed to become.
 

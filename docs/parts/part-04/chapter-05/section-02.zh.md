@@ -1,7 +1,7 @@
 # P4-5.2 泛化(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 在 P4-5.1 里，我们区分了 [过拟合](/AiBook/zh/reference/concept-glossary-pinyin/g/#overfitting) 和 [欠拟合](/AiBook/zh/reference/concept-glossary-pinyin/q/#underfitting)。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 [泛化(generalization)](/AiBook/zh/reference/concept-glossary-pinyin/f/#generalization)。
 
@@ -66,9 +66,7 @@ generalization 并不是到了最近的 generative AI 才突然冒出来的词�
 
 所以，generalization 不是流行词，而是长期以来拿来分辨 `这到底算不算真的学会了` 的核心标准。
 
-## 主要学习内容
-
-### 为什么目标会变成 generalization
+## 为什么泛化成为机器学习的目标
 
 machine learning 几乎总是为了 `接下来会进来的数据` 而建立 model。
 

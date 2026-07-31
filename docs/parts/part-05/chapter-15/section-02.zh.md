@@ -1,7 +1,9 @@
 # P5-15.2 生成模型的候选分布
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+观察候选分布时，要把 `prompt_context`、`candidate_text`、`relative_score`、`probability_mass`、`most_likely_candidate`、`remaining_candidates` 放在一起。这样最高候选和候选整体分布才不会被当成同一个意思。
 
 _副标题: 为什么生成模型保留候选分布，而不是一个正确答案？_
 

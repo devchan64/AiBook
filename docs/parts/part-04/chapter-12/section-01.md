@@ -1,7 +1,7 @@
 # P4-12.1 k-NN의 직관
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11.2에서는 [로지스틱 회귀(logistic regression)](../../../reference/concept-glossary-parts/04-rieul.md#logistic-regression)가 `입력 공간에 경계를 그어 class를 나누는 방식`을 보았습니다. 이제 질문을 바꿉니다.
 
@@ -27,9 +27,7 @@ P4-11.2에서는 [로지스틱 회귀(logistic regression)](../../../reference/c
 - `k`가 너무 작을 때와 너무 클 때 생기는 차이를 설명할 수 있습니다.
 - k-NN의 학습이 `복잡한 식을 만드는 일`보다 `비교할 기준 사례를 준비하는 일`에 가깝다는 점을 설명할 수 있습니다.
 
-## 주요 학습내용
-
-### k-NN은 어떤 방식으로 판단하는가
+## k-NN은 가까운 사례를 근거로 판단한다
 
 k-NN은 먼저 새 입력인 [query](../../../reference/concept-glossary-parts/05-mieum.md#model-input)를 봅니다. 그다음 이미 [supervised learning label](../../../reference/concept-glossary-parts/09-jieut.md#supervised-learning-label)이 붙어 있는 [학습 데이터(training data)](../../../reference/concept-glossary-parts/14-hieut.md#training-data)에서 query와 가까운 사례들을 찾습니다. 마지막으로 그 [이웃(neighbors)](../../../reference/concept-glossary-parts/11-chieut.md#nearest-neighbor)의 label을 모아 다수결이나 평균으로 판단을 만듭니다.
 

@@ -1,7 +1,9 @@
 # P6-14.2 Agent Loops That Split into Continue, Stop, and Human Review
 
 > Section ID: `P6-14.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Keep loop records as `plan`, `action`, `observation`, `continue_reason`, `stop_condition`, and `human_review_reason`. Then continuing, stopping, or handing off to human review is connected to observations and stop conditions, not to the model's mood.
 
 In P6-14.1, we read an AI agent as an execution structure that changes the next task based on intermediate results. Now we need to look more concretely at what criteria make that flow continue, where it stops, and when it moves to human review.
 
@@ -9,7 +11,7 @@ An AI agent has a repeated structure: it plans the next step based on a goal, pe
 
 ## What the repeated loop is responsible for
 
-The issue to close in this scene is reading the basic structure of a single AI agent loop as `plan-action-observation repetition`, and distinguishing where it should continue and where it should stop.
+The issue to settle in this scene is reading the basic structure of a single AI agent loop as `plan-action-observation repetition`, and distinguishing where it should continue and where it should stop.
 
 Tool connection rules and execution environments are about which tools and resources the loop uses, and what recording environment keeps the execution. The plan-action-observation loop first focuses on how observation results change the next branch and stop decision.
 
@@ -27,7 +29,7 @@ The reason to separate plan, action, observation, and stop condition is not memo
 | --- | --- | --- |
 | Evidence is still insufficient | Continue or replan | The system should change search terms, tools, or order, not repeat the same action. |
 | Evidence is sufficient and conflict is small | Stop | More iterations may add cost and time more than quality. |
-| Document conflict, lack of permission, or high state uncertainty | Move to human review or handoff | Risky scenes must be left as a separate boundary instead of being closed automatically. |
+| Document conflict, lack of permission, or high state uncertainty | Move to human review or handoff | Risky scenes must be left as a separate boundary instead of being settled automatically. |
 
 If we hold this table first and then read `plan`, `action`, `observation`, and `stop condition` below, it becomes easier to understand an AI agent loop not as `a structure that keeps spinning`, but as `a structure whose next action changes according to observation`. The definitions that follow are the minimum pieces needed to read this branch table.
 
@@ -161,7 +163,7 @@ The easiest thing to miss when first reading a plan-action-observation loop is r
 | --- | --- | --- |
 | The first attempt failed, but the same action keeps repeating | Does the new observation result actually change the next plan? | If observation cannot change the plan, the loop becomes repeated error, not a real loop. |
 | Evidence is sufficient, but search or execution keeps going | Is the stop condition clearly set? | Without a stopping criterion, cost and time grow while quality can become blurrier. |
-| Evidence conflicts or permission trouble appears, but the system forces an answer | Are human-review or handoff criteria visible? | Not every loop should close automatically, so safe stop conditions are needed. |
+| Evidence conflicts or permission trouble appears, but the system forces an answer | Are human-review or handoff criteria visible? | Not every loop should settle automatically, so safe stop conditions are needed. |
 
 The criterion to learn first is simple. An AI agent loop is not merely `a structure that keeps running`. It should include the branching structure that `changes the next plan based on observation`, `stops when enough`, and `hands off to a person when risky`.
 
@@ -380,7 +382,7 @@ The example output can be read like this.
 
 The first thing to notice is that although model proposals appeared for all 36 observation logs, the guard did not use those proposals as the final decision in 15 cases. In other words, the core of P6-14.2 is not the fact that a model can speak a next-plan candidate. It is that multiround observation signals and stop conditions branch that candidate again into `continue_refine`, `stop_ready`, and `human_review`. For example, in round 2 of `policy-01`, the model proposed `summarize_and_stop`, but because `evidence_sufficient` is still `false` in the CSV, the guard keeps the decision at `continue_refine`. Conversely, in round 2 of `policy-02`, even if the model suggests continued exploration, `conflict_found` is `true`, so the guard moves the case to `human_review`.
 
-The next thing to see is that final decisions are not evenly balanced. Among 16 goals, 6 close as `stop_ready` after enough evidence is collected, 9 move to `human_review` because of conflict, approval, or retry limits, and 1 remains in continued exploration. Real AI agent loops also do not always divide neatly into three directions. What matters is whether the record lets us follow which observation signal separated the model proposal from the guard's final decision.
+The next thing to see is that final decisions are not evenly balanced. Among 16 goals, 6 settle as `stop_ready` after enough evidence is collected, 9 move to `human_review` because of conflict, approval, or retry limits, and 1 remains in continued exploration. Real AI agent loops also do not always divide neatly into three directions. What matters is whether the record lets us follow which observation signal separated the model proposal from the guard's final decision.
 
 ![AI agent loop decision branching](/AiBook/assets/part-06/chapter-14/agent-loop-decision-split-en.png)
 
@@ -393,7 +395,7 @@ The output is created from the following conditions. These columns are also the 
 | CSV column or condition | Effect on final decision | What to observe when changing it |
 | --- | --- | --- |
 | `approval_needed == true` | `human_review` is chosen before automatic progress. | Check whether a goal with an approval boundary moves to human review in the final decision. |
-| `conflict_found == true` | `human_review` is chosen even if evidence exists. | Check whether conflicting documents prevent closure by enough evidence alone. |
+| `conflict_found == true` | `human_review` is chosen even if evidence exists. | Check whether conflicting documents prevent settlement by enough evidence alone. |
 | `action_failed == true` and `retry_count >= retry_limit` | `human_review` is chosen because the retry limit is exceeded. | Check whether increasing `retry_limit` leaves the same failure in continued exploration. |
 | `evidence_sufficient == true` and there is no action failure | `stop_ready` is chosen. | Check whether unnecessary extra exploration decreases in rounds where the enough-evidence signal is on. |
 | None of the above conditions match | The decision remains `continue_refine`. | Check whether insufficient observation moves to the next round instead of forcing the same conclusion. |
@@ -403,7 +405,7 @@ This condition table makes clearer what the plan-action-observation loop directl
 
 | Situation | What the plan-action-observation loop directly handles | What should be passed to later sections |
 | --- | --- | --- |
-| The goal does not close in one step | Whether to continue, stop, or hand off to a person | How tools and resources should be exposed in a shared format |
+| The goal does not settle in one step | Whether to continue, stop, or hand off to a person | How tools and resources should be exposed in a shared format |
 | The same action repeats | Stop conditions and retry conditions | Trace storage, replay, approval-history management |
 
 The key point of this table is that the loop is the level that handles `the structure of the next judgment`. MCP organizes how the tools and resources used by this loop are exposed in a shared format, and a harness organizes how the same loop is left as trace and replay.

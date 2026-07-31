@@ -1,7 +1,7 @@
 # P3-5.5 값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 원천 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계까지 오면, `동작은 있었는데 일부 센서값이 비어 있으면 어떻게 해야 하는가?` `중간 구간 기록이 빠졌는데 이 샘플을 버려야 하는가, 일부만 써야 하는가?` 같은 질문이 바로 생깁니다. 이때 먼저 봐야 할 것은 값을 어떻게 채울지보다, [결측값(missing value)](../../../reference/concept-glossary-parts/01-giyeok.md#glossary-missing-value)이 [샘플(sample)](../../../reference/concept-glossary-parts/07-siot.md#glossary-sample) 경계와 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#glossary-feature) 의미를 얼마나 흔드는가입니다.
 
@@ -55,6 +55,8 @@
 | 원시 로그 재확인이 필요한가 | 단순 빈칸이 아니라 샘플 경계 문제일 수 있기 때문 |
 
 즉 여기서의 관심사는 `어떻게 채울까`보다 먼저 `이 샘플을 지금 어떤 상태로 분류할까`에 가깝습니다. 판단 순서는 보통 `샘플 유지 여부 -> 만들지 말아야 할 특징 -> 빠짐 자체를 표시 열로 남길지`로 이어집니다.
+
+이 판단도 표 안에 남아야 합니다. `keep_sample`, `missing_scope`, `avoid_features`, `missing_indicator`, `raw_log_recheck_needed` 같은 열을 두면 빈칸을 어떤 정책으로 처리했는지 다시 볼 수 있습니다. 특히 샘플을 유지하되 특정 특징만 만들지 않기로 했다면, 그 이유가 `late_segment_missing`인지 `end_detected=0`인지 같이 남겨야 뒤에서 결측 처리가 단순 전처리인지 샘플 경계 문제인지 구분할 수 있습니다.
 
 ## 작은 도식으로 보기
 

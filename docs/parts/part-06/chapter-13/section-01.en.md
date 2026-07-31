@@ -1,7 +1,9 @@
 # P6-13.1 Tool Use That Hands Lookup, Computation, and Execution Outside the Model
 
 > Section ID: `P6-13.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+Record a tool-use request by separating `model_request`, `tool_name`, `tool_input`, `tool_output`, `execution_status`, and `model_summary`. Keeping this distinction separates the part where the model generated an explanation from the part where lookup, calculation, or execution actually happened in the tool.
 
 In P6-12.2, we saw that an index in vector retrieval creates a balance between retrieval speed and candidate quality. But retrieval is only one way to connect to the outside world. Now a broader question appears.
 
@@ -17,15 +19,15 @@ The core questions are these.
 - How is RAG different from tool use?
 - In what situations is a tool call more appropriate than an answer from the model alone?
 
-The first issue to close is reading tool use as `an execution structure in which the model is connected to external functions`, and grasping how it differs from RAG's document reading.
+The first issue to settle is reading tool use as `an execution structure in which the model is connected to external functions`, and grasping how it differs from RAG's document reading.
 
-Here we first separate `requests that only need document reading` from `requests that close only when an external function is actually called`. Splitting an execution request into a name and arguments is handled in P6-13.2, and chaining several executions is handled separately in P6-14.
+Here we first separate `requests that only need document reading` from `requests that settle only when an external function is actually called`. Splitting an execution request into a name and arguments is handled in P6-13.2, and chaining several executions is handled separately in P6-14.
 
 Tool use does not mean `the model suddenly gains execution ability`. It means `the application connects the model with external functions`. If RAG attached external documents as evidence, tool use moves one step further by actually calling external functions and bringing back results. How to make the call name and arguments into a verifiable shape is the topic of P6-13.2, and how to continue multiple calls in sequence is the topic of P6-14.
 
 Instead of memorizing many tool names, first read tool use through three questions: `is the needed work document reading or actual execution`, `what must be looked up, computed, or executed`, and `what call structure will carry the execution result`.
 
-The first check at this stage is simple. We need to separate whether the answer closes with a document explanation, whether it needs a current state lookup or computation result, or whether it needs an external-world action such as reservation or modification. Once this distinction is in place, the next Section's function-call structure can be read not as a product feature name, but as a form that stabilizes execution requests.
+The first check at this stage is simple. We need to separate whether the answer settles with a document explanation, whether it needs a current state lookup or computation result, or whether it needs an external-world action such as reservation or modification. Once this distinction is in place, the next Section's function-call structure can be read not as a product feature name, but as a form that stabilizes execution requests.
 
 ## Separating explanation generation from actual execution connection
 
@@ -40,7 +42,7 @@ The first scenes to separate can be summarized like this.
 | --- | --- | --- |
 | The relevant rule was read, but the current state value is still unknown. | Is live lookup needed before document reading? | Without the current value, the answer may be fluent but not match the real state. |
 | An explanation is possible, but numeric accuracy is central. | Should a computation tool result be fetched instead of an estimate? | Computation needs numeric correctness before tone; guessed answers can quickly drift. |
-| The answer closes only after an execution result exists, but no action has happened yet. | Does the question end only after calling an actual execution tool? | File edits, reservations, and sends are not completed by explanation alone. |
+| The answer settles only after an execution result exists, but no action has happened yet. | Does the question end only after calling an actual execution tool? | File edits, reservations, and sends are not completed by explanation alone. |
 | It is unclear whether to read documents, call a tool, or use both. | Is the needed object evidence, a lookup value, or an execution result? | If reading and execution are blurred, we can choose RAG for a question that needs tool use, or the reverse. |
 
 Using this table, tool use is easier to read not as `a list of tool names`, but as `the point where document reading moves into actual lookup, computation, and execution`.
@@ -77,9 +79,9 @@ We need to separate this difference first so that we do not choose the wrong str
 
 For example:
 
-- Searching documents and explaining them is closer to RAG.
-- Calling an exchange-rate API to fetch the current value is closer to tool use.
-- Getting an exact total from a calculator is also closer to tool use.
+- Searching documents and explaining them is more similar to RAG.
+- Calling an exchange-rate API to fetch the current value is more similar to tool use.
+- Getting an exact total from a calculator is also more similar to tool use.
 
 In short, RAG is mostly centered on `read`, while tool use is a broader structure that includes `query`, `compute`, and `act`.
 
@@ -93,9 +95,9 @@ Compressed to the main flow of Part 6, the difference is this.
 
 The core point of this table is that `reading documents`, `executing functions`, and `continuing multiple steps` are different levels. RAG can have tool use on top of it, and an AI agent can then tie the two into one goal flow.
 
-Up to this point, we are still reading `which external function should be attached for one request`. For example, `summarize our internal refund policy` is closer to a RAG problem that first finds document evidence. `Use today's exchange rate to convert 300 dollars to KRW` is closer to a tool-use problem that needs a current value lookup and computation tool. A request such as `find and reserve an available meeting room tomorrow` connects lookup and execution, so it is revisited later in the AI agent structure.
+Up to this point, we are still reading `which external function should be attached for one request`. For example, `summarize our internal refund policy` is more similar to a RAG problem that first finds document evidence. `Use today's exchange rate to convert 300 dollars to KRW` is more similar to a tool-use problem that needs a current value lookup and computation tool. A request such as `find and reserve an available meeting room tomorrow` connects lookup and execution, so it is revisited later in the AI agent structure.
 
-In this Section, we close the move from `what should be read` to `what should actually be looked up, computed, or executed`. How to stabilize that execution request as a name and argument structure continues in P6-13.2's function calling, and how to chain multiple executions continues in P6-14's AI agent structure.
+In this Section, we settle the move from `what should be read` to `what should actually be looked up, computed, or executed`. How to stabilize that execution request as a name and argument structure continues in P6-13.2's function calling, and how to chain multiple executions continues in P6-14's AI agent structure.
 
 ## Does the model directly use tools?
 
@@ -103,7 +105,7 @@ Here people often misunderstand the model as `calling the API by itself`. The sa
 
 `The model usually produces output about which tool may be needed, and the application or execution environment performs the actual call.`
 
-Tool use is closer to a cooperative structure:
+Tool use is more similar to a cooperative structure:
 
 - the model proposes a request structure
 - the system interprets that request
@@ -154,7 +156,7 @@ These problems continue into later chapters on agents and harness structures.
 --8<-- "assets/part-06/chapter-13/p6-c13-s01-tool-use-flow-en.mmd"
 ```
 
-## Cases and examples
+## Execution Requests That Explanation Alone Cannot Settle
 
 ### Case 1. Calculator tool
 
@@ -174,13 +176,13 @@ The misunderstanding to move past in this table is the expectation that `if the 
 
 ### Case 2. Calendar lookup
 
-Imagine a user asking, `Is there an available meeting room tomorrow afternoon?` It is natural to first think of related guidance documents or general rules, but this question is not solved by retrieving a policy document. It closes only by looking up the current state of the calendar system. For example, reservation rules may exist in a document, but whether the third-floor meeting room is currently available lives in calendar state, not in the document.
+Imagine a user asking, `Is there an available meeting room tomorrow afternoon?` It is natural to first think of related guidance documents or general rules, but this question is not solved by retrieving a policy document. It settles only by looking up the current state of the calendar system. For example, reservation rules may exist in a document, but whether the third-floor meeting room is currently available lives in calendar state, not in the document.
 
 The first distinction to make is not `is document knowledge needed`, but `is a live state value needed`. If the system answers only with general rules without a lookup, the user may believe a room is available when it is already booked. If the calendar tool is queried, it can return a current result such as `Third-floor small meeting room A is available, while B is booked from 15:00 to 16:00`. The standard changes from `does it know the rule` to `did it actually look up the current state`. With tool use, the model can query the calendar or reservation system and answer from that result. The result to check is whether the answer returns actual available rooms or unavailable status as of the current point, not a summary of general rules.
 
 Reduced to an operational memo, the difference looks like this.
 
-| User question | Can it close with document explanation only? | What actually needs to be looked up |
+| User question | Can it settle with document explanation only? | What actually needs to be looked up |
 | --- | --- | --- |
 | `What are the meeting-room reservation rules?` | Mostly yes | Rules document |
 | `Is a third-floor meeting room available tomorrow afternoon?` | No | Current calendar reservation state |
@@ -218,7 +220,7 @@ The most common confusion when first reading tool use is treating every case of 
 
 | If this scene appears | Check first | Why this separation matters |
 | --- | --- | --- |
-| It seems enough to explain a rule or manual. | Is the question closed by document evidence only? | If live lookup or execution is unnecessary, RAG is usually the first fit. |
+| It seems enough to explain a rule or manual. | Is the question settled by document evidence only? | If live lookup or execution is unnecessary, RAG is usually the first fit. |
 | Numeric correctness such as discount, tax, or exchange rate changes the result. | Should an actual calculation value be fetched instead of an estimated sentence? | Computation can be wrong despite fluent explanation, so it should be checked against external computation. |
 | Time-point values such as an available room or current exchange rate matter. | Is live state lookup needed? | The starting point of the answer is current system value, not document explanation. |
 | World state must change, such as editing a file or creating a reservation. | Is actual execution and approval structure needed? | Explanation does not complete the work, and permission and failure handling follow. |
@@ -234,9 +236,9 @@ The same standard can be turned into shorter practical questions.
 
 The standard to learn first is simple. Tool use is not `a way to attach more external information`. It is a connection structure that actually retrieves or produces results outside document reading: `lookup`, `computation`, and `execution`.
 
-## Exercise and example
+## Checking Request Branches Through Execution Records
 
-The goal of this example is not to connect a real external API. It is to visually confirm that `user request`, `tool-need judgment`, `tool-call plan`, `tool execution result`, and `final answer` are different stages. If we look at only one request, it is easy to stop at `exchange-rate lookup = tool needed`. So we run several requests together and see that some close with explanation only, while others split into lookup, computation, or execution delegation.
+The goal of this example is not to connect a real external API. It is to visually confirm that `user request`, `tool-need judgment`, `tool-call plan`, `tool execution result`, and `final answer` are different stages. If we look at only one request, it is easy to stop at `exchange-rate lookup = tool needed`. So we run several requests together and see that some settle with explanation only, while others split into lookup, computation, or execution delegation.
 
 Some requests need a live lookup and therefore need a tool. Some are general explanations and can be answered without a tool. Some change external state, such as making a reservation, so they should stop in an approval-pending state instead of being executed immediately. Therefore, we first judge `is a tool needed`; even when a tool is needed, we separate lookup, computation, execution, and whether execution is allowed.
 

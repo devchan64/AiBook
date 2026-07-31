@@ -1,7 +1,9 @@
 # P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+When leaving this in a table, do not keep these four points only as explanation outside the sample table. Keep columns that reveal the coverage range, such as `sampled_at`, `shift`, `load_mode`, `machine_id`, and `maintenance_phase`, so you can count missing conditions again later. Do not leave weak coverage only as a conclusion sentence; if you put it in `coverage_note` or a separate review memo, you can later check which conditions were barely observed when reading Part 4 evaluation scores.
 
 Once the sample unit has been fixed as something like one full action or one recent segment, one more question remains that is easy to miss. `How well does the sample set we collected represent the overall operating situation?` Even if the table itself is well organized, if the cases in it were gathered only from a specific process mode, a specific time period, or a specific equipment state, then the table may fail to describe the overall operating scene evenly. Choosing the sample unit correctly and having a sample bundle that evenly represents the whole situation are not the same thing.
 
@@ -60,7 +62,7 @@ So the order is as follows.
 1. First decide what will count as one sample.
 2. Then check what condition range those samples actually cover.
 
-Only after these notes are left behind can we later read results together with `from what condition range was this sample bundle obtained?`, and avoid missing `what operating conditions were barely seen?` In that sense, the problem of representativeness is close to the problem of first writing down what the current sample bundle covers and what it misses.
+Only after these notes are left behind can we later read results together with `from what condition range was this sample bundle obtained?`, and avoid missing `what operating conditions were barely seen?` In that sense, the problem of representativeness is similar to the problem of first writing down what the current sample bundle covers and what it misses.
 
 ## Small Code Example
 

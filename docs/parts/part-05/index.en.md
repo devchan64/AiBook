@@ -1,7 +1,9 @@
 # Part 5. Deep Learning
 
-Section ID: `P5-index`
-Version: `v2026.07.26`
+> Section ID: `P5-index`
+> Version: `v2026.07.31`
+
+The first plan for this opening page is to read `representation transformation`, `loss`, `gradient`, `training stabilization`, `structure branching`, and `generation connection` in order. For each structure, first check which data-structure problem it answers rather than its name, and keep the connection to Part 6 brief where it is needed.
 
 Part 5 is the Part that explains neural networks and deep learning in earnest. In Part 1, Part 2, and Part 4, topics such as perceptrons, representation learning, backpropagation, optimizers, convolutional neural networks (CNNs), recurrent neural networks (RNNs), Attention, and Transformers were previewed several times, but their role there was to sketch the terrain and restore the foundations. Part 5 no longer postpones those explanations. From here on, it must actually recover `why these structures are needed`, `how they are trained`, and `what differences cause model structures to branch`.
 
@@ -26,13 +28,13 @@ In other words, Part 5 is the Part that gradually moves its handle from `basic c
 
 In other words, Part 5 is the first Part that actually explains the core deep learning concepts that Part 1 through Part 4 left behind with the phrase `this will be explained later`. If the explanation here is weak, the LLM and generative AI material in the next Part will also collapse back into surface-level term introduction.
 
-Part 5 must not be read as a `deep learning trailer`. Therefore, the default principle is that CNNs, RNNs, Attention, and Transformers each close `why this design appeared for this kind of data-structure problem` inside this Part first, while the bridge to Part 6 remains only as a short pointer to the next layer.
+Part 5 must not be read as a `deep learning trailer`. Therefore, the default principle is that CNNs, RNNs, Attention, and Transformers each settle `why this design appeared for this kind of data-structure problem` inside this Part first, while the bridge to Part 6 remains only as a short pointer to the next layer.
 
 If the baseline for a core term becomes blurry again while reading this Part, the default reference point is to review through the [Concept Glossary](/AiBook/en/reference/concept-glossary/) by checking each entry's `Core Section` and `Appears In` list together.
 
 If this standard is reassembled into one line for the current Part 5 table of contents, it becomes the following.
 
-| What gets closed first in Part 5 | What is passed to Part 6 |
+| What is settled first in Part 5 | What is passed to Part 6 |
 | --- | --- |
 | The basic structure and role of perceptrons, loss, backpropagation, optimizers, regularization, CNNs, RNNs, Attention, Transformers, generation, and sampling | Tokenization, pretraining, instruction tuning, retrieval-augmented generation (RAG), tool use, agents, service operations |
 
@@ -76,7 +78,7 @@ Part 5 is most stable when it is read by the following principles.
 
 | Principle | Meaning |
 | --- | --- |
-| Close the structure first | Each chapter should finish `what the problem was and what computational structure answered it` inside the current chapter. |
+| Settle the structure first | Each chapter should finish `what the problem was and what computational structure answered it` inside the current chapter. |
 | Separate the learning procedure | Loss, gradients, optimizers, and regularization are read on the learning-procedure axis rather than mixed into structure names. |
 | Keep the Part 6 bridge short | Explain `why the next Part is needed`, but do not postpone the current chapter's key explanation. |
 
@@ -115,7 +117,7 @@ Part 5 is the Part that actually performs the main explanation of deep learning.
 - Why representation learning becomes the entrance to structural branches such as CNNs, RNNs, Attention, and Transformers
 - The structural position of CNNs, RNNs, LSTMs, GRUs, Attention, Transformers, generation, and sampling
 
-Part 5 is responsible for connecting and explaining `why these structures and procedures are needed`. Therefore, this Part opening page first shows the main recovery axes of `structure`, `loss and gradients`, `learning stabilization`, `computational scaling`, `representation learning and structural branching`, and `generation and sampling`. Each chapter then closes the structural explanation and the learning-procedure explanation again at the Section level.
+Part 5 is responsible for connecting and explaining `why these structures and procedures are needed`. Therefore, this Part opening page first shows the main recovery axes of `structure`, `loss and gradients`, `learning stabilization`, `computational scaling`, `representation learning and structural branching`, and `generation and sampling`. Each chapter then settles the structural explanation and the learning-procedure explanation again at the Section level.
 
 ## Goals of This Part
 
@@ -183,7 +185,7 @@ The latter part treats CNNs, RNNs, LSTMs, GRUs, Attention, Transformers, generat
 
 In particular, Chapters 11 through 15 are more accurately read not as `introductions to model names`, but as `what kind of data-structure problem caused this design to appear`.
 
-| Chapter | The data-structure problem to hold first | The core that must be closed in the current Part |
+| Chapter | The data-structure problem to hold first | The core that must be confirmed in the current Part |
 | --- | --- | --- |
 | Chapter 11 CNNs | The problem that nearby positions in an image create meaning together | A structure that repeatedly reads and summarizes local patterns |
 | Chapter 12 RNN / LSTM / GRU | The problem that earlier state in sequential data must remain in later judgment | A structure that inherits state and preserves long memory more effectively |
@@ -228,7 +230,7 @@ Once this understanding forms, you can move beyond the superficial explanation t
 
 ## Checklist
 
-- Are you reading this Part not as `an introduction to deep-learning names`, but as the Part that closes `structural problems, learning procedures, and the link to generation`?
+- Are you reading this Part not as `an introduction to deep-learning names`, but as the Part that settles `structural problems, learning procedures, and the link to generation`?
 - Can you explain CNNs, RNNs, Attention, and Transformers all as answers to `what kind of data-structure problem produced them`?
 - Can you distinguish that what is passed to Part 6 is not `the part left unexplained in the current Part`, but `the next layer that is built on top of these structures`?
 

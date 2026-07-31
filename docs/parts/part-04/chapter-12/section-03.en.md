@@ -1,7 +1,7 @@
 # P4-12.3 What Should Be Checked First When Using k-NN?
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-12.1 introduced the intuition of k-NN, and P4-12.2 showed why [distance](/AiBook/en/reference/concept-glossary-alpha/d/#distance) and [feature scale](/AiBook/en/reference/concept-glossary-alpha/s/#standardization) can change the result. The remaining question is the following.
 
@@ -24,9 +24,7 @@ This Section answers the following questions.
 - You can explain the signals that suggest a distance or scale issue.
 - When the result shakes, you can set an order for what should be rechecked first.
 
-## Main Learning Content
-
-### When Is k-NN A Good First Candidate?
+## Conditions for Putting k-NN Forward as an Early Candidate
 
 k-NN is not the default answer for every classification problem. But when `explaining by nearby similar cases` is a natural reading of the problem, it can be a good first comparison candidate.
 

@@ -1,7 +1,9 @@
 # P7-5.2 검색 실패와 근거 누락 기록
 
-Section ID: `P7-5.2`
-Version: `v2026.07.26`
+> Section ID: `P7-5.2`
+> Version: `v2026.07.31`
+
+검색 실패 기록은 `question_scope`, `retrieval_status`, `missing_document`, `unsupported_claim`, `safe_answer`, `repair_query`를 나누어 둡니다. 근거 누락과 답변 과장 위험을 같은 실패로 처리하지 않기 위한 기준입니다.
 
 같은 문서 집합을 두고도 어떤 질문은 검색 단계에서 막히고, 어떤 질문은 검색은 되었지만 답변 단계에서 과장됩니다. 그래서 검색 실패와 근거 누락을 분리해 기록하는 일이 중심이 됩니다.
 

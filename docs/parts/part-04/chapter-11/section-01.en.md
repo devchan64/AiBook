@@ -1,7 +1,7 @@
 # P4-11.1 Intuition For Logistic Regression
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 In P4-10, [linear regression](/AiBook/en/reference/concept-glossary-alpha/l/#linear-regression) showed `how to predict a continuous value with a line`. The next step is to see how that same linear way of thinking changes when the task becomes [classification](/AiBook/en/reference/concept-glossary-alpha/c/#classification).
 
@@ -51,9 +51,7 @@ The algorithm flow of Part 4 is designed so the move from regression to classifi
 
 So, P4-11.1 is both `the first Section that introduces a classification model` and `the Section that shows continuity with linear regression`.
 
-## Main Learning Content
-
-### What Kind Of Problem Does Logistic Regression Handle?
+## What Classification Problems Logistic Regression Handles
 
 Logistic regression is usually introduced first for `binary classification`, where the model chooses one of two classes.
 

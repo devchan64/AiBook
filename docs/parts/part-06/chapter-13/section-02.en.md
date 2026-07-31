@@ -1,7 +1,9 @@
 # P6-13.2 Function Calling That Splits Natural-Language Requests into Names and Arguments
 
 > Section ID: `P6-13.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When reading a function call, write `natural_language_request`, `function_name`, `arguments`, `schema_validation`, `execution_result`, and `response_use` separately. Then you can trace which name and arguments the natural-language request became, and how the result was used again in the answer.
 
 In P6-13.1, we saw that tool use connects the model with external functions. That leads to a more specific question.
 
@@ -17,7 +19,7 @@ The core questions are these.
 - How is a natural-language request different from a structured tool call?
 - Why does it matter to separate the function name from arguments?
 
-The first issue to close is reading function calling as `a structured execution request for connecting tool use reliably`, and seeing why natural language needs to become a name-and-argument structure.
+The first issue to settle is reading function calling as `a structured execution request for connecting tool use reliably`, and seeing why natural language needs to become a name-and-argument structure.
 
 An execution structure that continues repeated work is a problem of tying several structured calls into multiple steps. Function calling first focuses on making one execution request verifiable.
 
@@ -137,7 +139,7 @@ The standard changes from asking whether `the question is roughly understandable
 
 ### Case 2. Calendar creation
 
-In natural language, `Schedule a meeting tomorrow at 3 PM` can feel specific enough. People often expect that others will understand it. But the actual calendar API needs more structured arguments such as attendees, timezone, title, and date format. `Tomorrow` can mean a different date when the user's timezone changes, and without attendees the event creation itself can be incomplete. If this difference is missed, the model may understand the sentence well but the execution stage can stop immediately or create an event at the wrong time. A calendar event created with the wrong time or empty attendees is closer to an operational failure than a success.
+In natural language, `Schedule a meeting tomorrow at 3 PM` can feel specific enough. People often expect that others will understand it. But the actual calendar API needs more structured arguments such as attendees, timezone, title, and date format. `Tomorrow` can mean a different date when the user's timezone changes, and without attendees the event creation itself can be incomplete. If this difference is missed, the model may understand the sentence well but the execution stage can stop immediately or create an event at the wrong time. A calendar event created with the wrong time or empty attendees is more similar to an operational failure than a success.
 
 The standard changes from asking whether `the sentence is specific enough` to asking whether `all fields required by the API are actually filled`. Function-calling structure turns implicit information into an explicit argument bundle. The result to check is whether time, date, title, and attendees are all structured before calendar creation, and whether missing fields become visible before execution.
 

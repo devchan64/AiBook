@@ -1,7 +1,7 @@
 # P4-14.1 决策树(decision tree)
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-11 通过画边界(boundary)来理解分类。 P4-12 通过最近邻来理解分类。 P4-13 又把 margin 当作更好边界的标准来阅读同一个问题。 现在，我们要用完全不同的方式重新阅读同一个监督学习(supervised learning)问题。
 
@@ -73,9 +73,7 @@ P4-11 通过画边界(boundary)来理解分类。 P4-12 通过最近邻来理解
 
 这个表的重点，不是把决策树停留在 `容易阅读的模型`。 而是把它放到 `当问题顺序本身成为真实解释单位时，值得优先尝试的候选` 这个位置上。
 
-## 主要学习内容
-
-### 决策树是什么样的模型
+## 决策树是沿着问题切分输入空间的模型
 
 scikit-learn 用户指南把决策树介绍为用于分类和回归的非参数(non-parametric)监督学习方法。 同一份文档还把它的目标解释为： `学习由数据特征(feature)推导出的简单决策规则(simple decision rules)，从而预测目标值(target value)`。 它还补充说，这种结构也可以被看成 piecewise constant approximation。
 

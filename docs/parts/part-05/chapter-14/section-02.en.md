@@ -1,7 +1,9 @@
 # P5-14.2 What Does Each of the Four Transformer Block Components Do?
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When reading the parts in practice, do not memorize them separately. Try naming the intermediate states a representation passes through, such as `current_token`, `attended_context`, `updated_position`, `residual_base`, and `normalized_output`. Then the role difference becomes visible: self-attention mixes relationships, the feed-forward layer reprocesses the current position, and residual plus normalization stabilize the representation passed to the next block.
 
 In P5-14.1, we saw that explaining the Transformer only with self-attention is not enough. Now we need to separate the roles inside the block more directly.
 
@@ -34,7 +36,7 @@ Self-attention mixes token relationships, but that result is not automatically a
 
 `If attention mixes context by reflecting relationships with other tokens, feed-forward reprocesses each position representation into something richer.`
 
-Here the phrase `each position` is important. Self-attention is closer to deciding what information the current position should bring from other positions. The feed-forward network changes that mixed representation inside the same position. The same feed-forward network is applied to each token position, but because the input representation is different, the meaning refined at each position is also different.
+Here the phrase `each position` is important. Self-attention is more similar to deciding what information the current position should bring from other positions. The feed-forward network changes that mixed representation inside the same position. The same feed-forward network is applied to each token position, but because the input representation is different, the meaning refined at each position is also different.
 
 ```mermaid
 --8<-- "assets/part-05/chapter-14/feed-forward-position-update-en.mmd"
@@ -69,7 +71,7 @@ The important point is that residual connection does not remove the new computat
 
 In this diagram, the solid path is the representation made by the new computation, and the dotted path is the bypass route where the original input representation is added. The core of residual connection is not blocking the new computation, but letting the new computation and the original representation move together to the next stage.
 
-If feed-forward handles `how should the current representation change`, residual connection handles `how can the changed representation avoid completely losing its original starting point`. If layer normalization organizes the value range, residual connection is closer to leaving a bypass path through which information can travel.
+If feed-forward handles `how should the current representation change`, residual connection handles `how can the changed representation avoid completely losing its original starting point`. If layer normalization organizes the value range, residual connection is more similar to leaving a bypass path through which information can travel.
 
 | Distinction | First question asked | Role |
 | --- | --- | --- |
@@ -172,7 +174,7 @@ If we narrow the flow to only the change in the `restart` position representatio
 
 So the output of this case is not just the conclusion `restart is held`. The more important output is the distinction that `relationship reading`, `position-wise processing`, `preserving original information`, and `stabilizing value range` are jobs of different components. Once this distinction is fixed, the Transformer block can be read not as `a device where attention gives the answer`, but as a representation-update unit where several roles repeat.
 
-If we close the same case from the output viewpoint, it becomes the following.
+If we summarize the same case from the output viewpoint, it becomes the following.
 
 | Component | Change directly made in this case | What it does not directly handle |
 | --- | --- | --- |

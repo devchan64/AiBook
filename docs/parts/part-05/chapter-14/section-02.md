@@ -1,13 +1,15 @@
 # P5-14.2 Transformer 블록의 네 부품은 각각 무엇을 맡는가
 
 > Section ID: `P5-14.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P5-14.1에서는 Transformer를 self-attention 하나로만 설명하면 부족하다는 점을 보았습니다. 이제 블록 안의 역할 분담을 더 직접 나누어야 합니다.
 
 Transformer 블록 안에서 self-attention, feed-forward network, residual connection, layer normalization은 각각 무엇을 맡는가?
 
 핵심은 부품 이름 암기가 아니라 역할 분담입니다. 같은 토큰 표현이 블록 안에서 지나가는 경로를 읽으려면 `관계 읽기`, `위치별 가공`, `원래 정보 보존`, `값 범위 안정화`를 구분해야 합니다.
+
+실제로 읽을 때는 각 부품을 따로 외우기보다 `current_token`, `attended_context`, `updated_position`, `residual_base`, `normalized_output`처럼 표현이 거치는 중간 이름을 붙여 봅니다. 그러면 self-attention은 관계를 섞고, feed-forward는 현재 위치를 다시 가공하며, residual과 normalization은 다음 블록으로 넘길 표현을 안정화한다는 역할 차이가 보입니다.
 
 ## 네 부품을 구분해야 하는 이유
 

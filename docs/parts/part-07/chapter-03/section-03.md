@@ -1,7 +1,9 @@
 # P7-3.3 실제 분류기로 입력 표현을 다시 비교하기
 
-Section ID: `P7-3.3`
-Version: `v2026.07.26`
+> Section ID: `P7-3.3`
+> Version: `v2026.07.31`
+
+실제 분류기 비교는 `feature_view`, `classifier`, `train_setting`, `prediction_change`, `error_case`, `model_choice_note`를 남깁니다. 같은 데이터라도 입력 표현이 바뀌면 모델 선택의 의미도 함께 바뀐다는 점을 확인하기 위한 기록입니다.
 
 P7-3.1과 P7-3.2에서는 이미지 패치 프로젝트를 `입력 모양(shape)`, `라벨(label)`, `예측`, `오류 사례`로 읽었습니다. 이제 같은 데이터를 실제 분류기(classifier)에 넣어, 입력 표현을 바꾸면 정확도뿐 아니라 확신 차이와 검토 대상 샘플이 어떻게 달라지는지 확인합니다.
 

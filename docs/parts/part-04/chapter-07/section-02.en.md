@@ -1,7 +1,9 @@
 # P4-7.2 Preprocessing
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+First look at the input table. `age` has missing values, `income` moves on a much larger scale than other numbers, and `city` is a string. Here preprocessing is not about memorizing three technique names; it is about deciding which rule fills blanks, how numeric scales are aligned, and what computable representation a string becomes.
 
 P4-7.1 examined `what inputs should remain`. Now the discussion moves to the stage where those remaining inputs are not thrown to the model as they are, but are organized into a form the model can read more easily. That stage is preprocessing.
 
@@ -9,7 +11,7 @@ The core point of this Section is not complex library syntax. It is understandin
 
 This Section explains the basic meanings of [preprocessing](/AiBook/en/reference/concept-glossary-alpha/p/#preprocessing), [imputation](/AiBook/en/reference/concept-glossary-alpha/m/#missing-value), scale adjustment, and categorical encoding. Later Sections continue the current judgment through this handle, and the basic meaning of input-representation transformation reconnects through this Section and the [concept glossary](/AiBook/en/reference/concept-glossary/).
 
-There is one more important reason. People often learn algorithms first and think preprocessing is an auxiliary step added later. In practice, it is closer to the opposite. If input representations are not organized, it is hard to read the character of algorithms such as linear regression, logistic regression, k-NN, and SVM that appear later.
+There is one more important reason. People often learn algorithms first and think preprocessing is an auxiliary step added later. In practice, it is more similar to the opposite. If input representations are not organized, it is hard to read the character of algorithms such as linear regression, logistic regression, k-NN, and SVM that appear later.
 
 This Section is not an appendix to one specific algorithm. It is a common foundational Section that organizes `what kind of input an algorithm receives`.
 
@@ -26,7 +28,7 @@ This Section answers the following questions.
 - Which models are sensitive to scale, and which are less sensitive?
 - How should preprocessing be separated between train data and test data?
 
-This Section first closes `how to change the remaining inputs into calculable and comparable representations`. The detailed settings of individual encoders and scalers reconnect again in the context of hyperparameters and tuning in P4-9.1 and P4-9.2, while the purpose and intuition of dimensionality reduction continue in P4-18.1 and P4-18.2.
+This Section first settles `how to change the remaining inputs into calculable and comparable representations`. The detailed settings of individual encoders and scalers reconnect again in the context of hyperparameters and tuning in P4-9.1 and P4-9.2, while the purpose and intuition of dimensionality reduction continue in P4-18.1 and P4-18.2.
 
 ## Goals Of This Section
 
@@ -62,9 +64,7 @@ From the curriculum point of view, this Section is also a boundary where the cha
 
 After passing this Section, the reader moves beyond simply having collected data and into the flow of `building comparable input representations and then setting up model candidates`. For that reason, P4-7.2 becomes the common foundation of P4-8 [model selection](/AiBook/en/reference/concept-glossary-alpha/m/#model-selection), P4-9 [hyperparameter tuning](/AiBook/en/reference/concept-glossary-alpha/h/#hyperparameter), and the algorithm Sections after P4-10.
 
-## Main Learning Content
-
-### A First Grip On Preprocessing
+## Preprocessing Prepares Inputs So Models Can Read Them
 
 When readers first hear the term preprocessing, it can sound difficult. But stated very briefly, it is `the preparation work that changes inputs the model cannot easily read into inputs it can read`.
 
@@ -197,7 +197,7 @@ Theoretically, preprocessing is viewed through the following two perspectives at
 1. representation transformation  
    moving the same fact into a different numeric representation
 2. assumption matching  
-   bringing the input closer to the conditions expected by the model or learning procedure
+   bringing the input more similar to the conditions expected by the model or learning procedure
 
 For example, standardization is not merely arranging numbers in order. It is an attempt to align the center and variance of the input so that certain algorithms work better. One-hot encoding is not forcing strings into numbers, but changing them into a calculable feature representation.
 
@@ -209,7 +209,7 @@ That is why preprocessing is not auxiliary work, but the stage that determines `
 
 If readers want a shorter grip on this perspective, the following contrast helps.
 
-| Question | The answer feature selection is closer to | The answer preprocessing is closer to |
+| Question | The answer feature selection is more similar to | The answer preprocessing is more similar to |
 | --- | --- | --- |
 | What should remain as input? | which columns should be adopted | how should the columns already kept be changed |
 | What should not be given to the model? | IDs, leakage columns, post-outcome information | rules fit on test data, incorrect encoding method |
@@ -524,9 +524,7 @@ In work scenes, it reads as follows.
 | delivery region `Seoul/Busan/Incheon` | the region name itself is hard to use in numeric operations | regional patterns can be read separately |
 | device type `ios/android/web` | there are category differences but no concept of magnitude comparison | the category distinction signal is expressed as a calculable vector |
 
-## Detailed Learning Content
-
-### In Practice, What Kind Of Problems Does Preprocessing Appear As?
+## How Preprocessing Appears as Input Problems in Practice
 
 Preprocessing is easy to memorize as individual technique names such as filling with an average, applying a scaler, or choosing an encoder. But in practice, people start the other way around, from `what input problem has appeared`. The missing-value, scale, and categorical representation problems seen earlier are all just different faces of that field question.
 
@@ -613,7 +611,7 @@ If readers look at this difference more directly, it reads as follows.
 
 | Flow | Surface-level result | Actual interpretation |
 | --- | --- | --- |
-| learn means, scales, and category rules only on train | validation scores may be conservative, but they are more trustworthy | it is closer to the pre-deployment situation |
+| learn means, scales, and category rules only on train | validation scores may be conservative, but they are more trustworthy | it is more similar to the pre-deployment situation |
 | learn rules from the whole dataset and then evaluate | scores may look better | it may be an illusion caused by mixed test information |
 
 That means where preprocessing rules were learned is an evaluation condition just as important as model choice itself.
@@ -665,7 +663,7 @@ If readers add one more sentence, the explanation becomes more complete.
 
 For example, scale adjustment is more sensitive in k-NN, SVM, and linear models, while encoding is almost essential in many models that cannot read strings directly. In other words, preprocessing explanations begin with input problems, but they need to reach the model connection to gain enough density.
 
-## Cases And Examples
+## When Input State Requires Preprocessing Rules
 
 ### Case 1. When Comparison Collapses Without Preprocessing Rules Even In The Same Customer Data
 
@@ -683,7 +681,7 @@ If this case is drawn as a flow, it becomes easier to see that preprocessing is 
 --8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-04-en.mmd"
 ```
 
-## Cases And Examples
+## Criteria For Separating Preprocessing Decisions By Column
 
 ### Reading A Small Preprocessing Scene Through A Tiny Example
 
@@ -724,7 +722,7 @@ Therefore, preprocessing is not `a Section that ends after looking only at data`
 
 The reason this point matters is that, even with the same data, a `preprocessing + model` combination often becomes one unit of experiment. In other words, saying that logistic regression is being compared often really means a bundle such as `missing-value handling + scale adjustment + encoding + logistic regression` is being compared.
 
-## Practice And Examples
+## Checking The Preprocessing Flow Directly
 
 ### Looking At Missing Values, Scale, And Encoding In Order Through A Python Example
 

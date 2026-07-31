@@ -1,7 +1,9 @@
 # P3-5.2 How Does a Summary Table Preserve Patterns Beyond the Average
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+Therefore, place pattern-tracing columns next to the overall mean in the summary table, such as `early_mean`, `mid_mean`, `late_mean`, `rise_slope`, `drop_slope`, and `peak_segment`. These columns are not decorative notes around the mean; they are evidence for later comparison sentences such as `the means are the same, but the late drop differs`. Also record which pattern rule you used in `pattern_note` or a derived-rule memo, so the same raw log can be summarized again with the same judgment.
 
 Two actions with the same [mean](/AiBook/en/reference/concept-glossary-alpha/m/#glossary-mean) do not always have the same structure. A mean is useful for summarizing the overall level at a glance, but it does not show everything about how the values moved over time. So when turning raw logs into a [summary table](/AiBook/en/reference/concept-glossary-alpha/d/#data-modeling), we should not relax just because `the average is the same`. We also have to think about how to preserve differences in patterns beyond the average.
 
@@ -176,7 +178,7 @@ This difference becomes just as important later in baseline comparison. Even if 
 
 ## A Small Diagram
 
-The reading order in this section is simple. First confirm `is the overall average the same?` Then follow `segment means` and `slope/timing`, and what remains at the end is `pattern interpretation`. The average is only the starting point; structure interpretation closes at the next level.
+The reading order in this section is simple. First confirm `is the overall average the same?` Then follow `segment means` and `slope/timing`, and what remains at the end is `pattern interpretation`. The average is only the starting point; structure interpretation settles at the next level.
 
 --8<-- "assets/part-03/chapter-05/p3-5-2-mermaid-01-en.mmd"
 

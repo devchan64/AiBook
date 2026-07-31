@@ -1,7 +1,9 @@
 # P6-15.1 用共享格式连接工具和资源的 MCP
 
 > Section ID: `P6-15.1`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+阅读 MCP 时，要分开 `resource`、`tool`、`prompt`、`server_boundary`、`permission_scope`、`client_runtime`。这个区分可以防止协议、工具、执行环境和权限被合并成一个内部功能。
 
 在 P6-14.2 中，我们看到 agent 具有计划、行动、观察的重复结构。现在需要看的是，要让这些工具和状态跨多个系统更一致地连接，需要什么。
 

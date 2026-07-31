@@ -1,7 +1,9 @@
 # P3-5.4 输入窗口(window)应该从哪里切，长度又该如何对齐
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
+
+这个判断最好留下为窗口设计 备注，而不只是单独说明。例如 `window_start_rule`、`window_end_rule`、`alignment_rule`、`target_length`、`padding_policy` 这样的列或文档 备注，可以追踪同一源时间序列为什么得到这个输入长度。特别是按进度率对齐时，实际时间差可能消失，所以也要留下 `duration_seconds` 这样的原始长度信息，之后才能确认丢掉了什么、保留了什么。
 
 如果[源时间序列(source time series)](/AiBook/zh/reference/concept-glossary-pinyin/y/#glossary-source-data)本身还不是学习[输入(input)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)，那么立刻就会留下一个更具体的问题。`那真正的输入到底应该从哪里开始、到哪里结束？` `长度各不相同的动作，又该怎样像同一种输入那样对待？` [输入窗口(input window)](/AiBook/zh/reference/concept-glossary-pinyin/m/#model-input)正是回答这些问题的数据建模决定。
 
@@ -23,7 +25,7 @@
 
 ## 先要定下来的四件事
 
-决定输入窗口时，至少应先把下面四件事收口。
+决定输入窗口时，至少应先把下面四件事整理。
 
 | 先要定什么 | 换成问题就是 |
 | --- | --- |

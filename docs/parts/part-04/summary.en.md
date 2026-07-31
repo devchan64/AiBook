@@ -1,7 +1,9 @@
 # Part 4 Summary. Organizing Machine Learning
 
 > Section ID: `P4-summary`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The review plan for this summary page is to check again `what the problem was`, `what was learned`, `which metric was used for comparison`, `what errors remained`, and `what the application conditions were`. Once this order is in place, Part 5 deep learning can be read as an extension of the same learning flow rather than as a list of larger models.
 
 Part 4 was the stage for regrouping machine learning not as a list of model names, but as a flow of problem definition, data structure, learning, evaluation, and application. It dealt first with traditional models before deep learning, but the purpose was not to sort an old catalog of techniques. It was to make explicit the common questions that remain when readers move on to neural networks in the next Part and to LLMs and generative AI in the Parts after that.
 
@@ -110,7 +112,7 @@ These questions return in actual explanation through neural networks and represe
 
 The scope of evaluation metrics can be organized in the same way. The main body of Part 4 focuses on helping readers understand `which error should be read first in which problem`, while more detailed reading tools such as ROC, PR, log loss, calibration, and silhouette are grouped into the supplementary Section P4-6.4. Scenes that reconnect threshold and calibration to actual decision policy return in P4-15.3, so here it is more stable to fix the skeleton of evaluation questions first.
 
-For the same reason, the evaluation reading of Part 4 does not close with `one scoreboard`. First read `where did it fail?` through the confusion matrix and representative error cases. Then place that next to the baseline and ask `is this improvement truly meaningful?` That is the default attitude of Part 4. Only when that axis is fixed can later tuning or later algorithm Sections separate a rise in numbers from a rise in real value.
+For the same reason, the evaluation reading of Part 4 does not settle with `one scoreboard`. First read `where did it fail?` through the confusion matrix and representative error cases. Then place that next to the baseline and ask `is this improvement truly meaningful?` That is the default attitude of Part 4. Only when that axis is fixed can later tuning or later algorithm Sections separate a rise in numbers from a rise in real value.
 
 Compressed even more:
 
@@ -152,7 +154,7 @@ Before moving into Part 5, readers should be able to answer the following questi
 
 There is no need to answer every question perfectly. The purpose of Part 4 is not to finish all models, but to build the standards that readers will keep returning to while reading later deep learning and generative AI.
 
-## Closing Part 4
+## Wrapping Up Part 4
 
 Finishing Part 4 does not mean that the internal mathematics of every model has been understood completely. It means instead that the reader now knows where to inspect first when reading a machine-learning explanation.
 

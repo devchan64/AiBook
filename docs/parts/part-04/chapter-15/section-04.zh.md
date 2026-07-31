@@ -1,7 +1,7 @@
 # P4-15.4 补充学习：比较 Extra Trees 与随机森林
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 在 P4-15.1 学完[随机森林(random forest)](/AiBook/zh/reference/concept-glossary-pinyin/s/#random-forest)之后， 读者很快也会遇到一个名字相近的模型：Extra Trees(Extremely Randomized Trees)。 因为这两者都像是 `把很多树聚起来再取平均的森林`， 所以一开始很容易把它们当成几乎一样的模型。
 
@@ -47,9 +47,7 @@
 
 所以， Extra Trees 虽然仍然属于 `和随机森林相同的森林家族`， 但更准确的读法是： `连分支标准的选择方式也进一步随机化的森林。`
 
-## 主要学习内容
-
-### Extra Trees 也属于同一个树集成家族吗
+## 在同一类树 ensemble 中比较 Extra Trees 和随机森林
 
 scikit-learn 用户指南把 random forest 和 Extra-Trees 都解释成 `randomized decision tree ensemble` 家族里的 averaging algorithm。 也就是说， 两者都会建立很多棵树， 再把这些树的预测做平均或聚合， 以提升泛化与稳定性。
 

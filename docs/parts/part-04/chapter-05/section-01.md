@@ -1,7 +1,7 @@
 # P4-5.1 과적합(overfitting)과 과소적합(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-4장에서는 데이터를 [학습용](../../../reference/concept-glossary-parts/14-hieut.md#training-data), [검증용](../../../reference/concept-glossary-parts/01-giyeok.md#validation-data), [테스트용](../../../reference/concept-glossary-parts/12-tieut.md#test-data)으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
 
@@ -56,9 +56,7 @@ P4-4장에서는 데이터를 [학습용](../../../reference/concept-glossary-pa
 
 이 차이는 `덜 배운 상태`와 `너무 외운 상태`로 묶어 기억할 수 있습니다.
 
-## 주요 학습내용
-
-### 과소적합은 아직 덜 배운 상태다
+## 과소적합은 아직 덜 배운 상태다
 
 과소적합은 모델이 문제의 중요한 구조를 아직 충분히 잡지 못한 상태입니다. 너무 단순한 규칙을 쓰거나, 학습이 충분히 진행되지 않았거나, 필요한 [특징(feature)](../../../reference/concept-glossary-parts/12-tieut.md#feature)을 거의 보지 못할 때 자주 생깁니다.
 
@@ -185,9 +183,7 @@ P4-4장에서는 데이터를 [학습용](../../../reference/concept-glossary-pa
 | 학습 점수는 매우 높은데 검증 점수가 크게 떨어진다 | 과적합(overfitting) | 학습 데이터의 우연한 흔들림까지 따라갔을 가능성이 크기 때문입니다. |
 | 학습 점수와 검증 점수가 둘 다 높고 차이도 작다 | 비교적 적절한 상태 | 새 데이터에도 어느 정도 버틸 가능성이 있기 때문입니다. |
 
-## 세부 학습내용
-
-### 도식으로 보면 더 빠르다
+## 과소적합과 과적합을 도식으로 비교하기
 
 ```mermaid
 --8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-02-ko.mmd"

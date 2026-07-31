@@ -5,9 +5,11 @@
 ## 사용 원칙
 
 - 이 노트는 `docs/table-of-contents.md`를 기준으로 Part 5의 시작/마무리 페이지, Chapter, Section을 같은 순서로 훑기 위한 개요 문서입니다.
+- 이 노트는 작업 상태표가 아니라 Part 5 원고가 유지해야 할 중심선 문서입니다.
 - 순차 점검 기록, 품질 상태 메모, 부실 판정 로그는 이 문서에서 운영하지 않습니다.
 - 체크포인트는 `딥러닝 계산 구조 -> 손실과 gradient -> 학습 루프 -> 구조 분기 -> 생성` 흐름을 각 Section이 어떻게 닫는지 확인하는 데 목적을 둡니다.
 - `학습 관점 누락 점검`은 Part 원고가 잃기 쉬운 설명 흐름을 점검하고, `목차 기준 체크포인트`는 Part 원고가 유지해야 할 구조 흐름을 관리합니다.
+- Section ID 기반 자동 대조는 문서 전체가 아니라 `목차 기준 체크포인트` 이후 구간을 기준으로 삼습니다.
 
 ## 학습 관점 누락 점검
 
@@ -42,10 +44,10 @@
 
 ## 목차 기준 체크포인트
 
-- `index.md`: Part 5가 딥러닝 용어 나열이 아니라 계산 구조와 표현 학습 흐름을 읽는 Part라는 점을 분명히 해야 합니다.
+- `P5-index`: Part 5가 딥러닝 용어 나열이 아니라 계산 구조와 표현 학습 흐름을 읽는 Part라는 점을 분명히 해야 합니다.
 - Part 흐름: Module 1부터 Module 3까지는 `기본 계산 구조`, `손실`, `gradient`, `학습 루프`, `안정화`가 한 계산 흐름으로 이어져야 합니다.
 - Part 흐름: Module 4와 Module 5는 계산 규모 확장과 구조 분기가 각각 어떤 입력 문제를 풀기 위해 나왔는지 연결되어야 합니다.
-- `summary.md`: Module 6에서 분리한 `학습 목표`와 `샘플링`을 Part 6의 생성형 AI 설명으로 넘겨야 합니다.
+- `P5-summary`: Module 6에서 분리한 `학습 목표`와 `샘플링`을 Part 6의 생성형 AI 설명으로 넘겨야 합니다.
 
 ### Module 1. 신경망의 기본 계산 구조
 
@@ -154,14 +156,14 @@
 #### Chapter 14. Transformer `딥러닝 구조`
 
 - 중심축: Transformer를 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`가 한 블록으로 반복되는 구조로 먼저 닫고, 그 구조가 왜 `병렬 처리와 긴 문맥 직접 재참조`에서 중요해졌는지 보여 주어야 합니다.
-- `P5-14.1 Transformer는 왜 attention 하나로 설명되지 않는가`: Transformer가 self-attention 하나로 닫히지 않고, attention 블록과 feed-forward가 반복되는 기본 구성으로 읽혀야 한다는 문제의식을 세워야 합니다.
-- `P5-14.2 Transformer 블록의 네 부품은 각각 무엇을 맡는가`: self-attention, feed-forward, residual connection, layer normalization의 역할을 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`로 나누어 설명해야 합니다. 통합된 Python 예제는 현재 토큰 표현이 `input -> after attention -> after feed-forward -> after residual`로 이동하는 흐름을 확인하는 데만 쓰고, normalization의 값 범위 정리는 P5-14.3으로 넘겨야 합니다.
-- `P5-14.3 residual과 normalization은 깊은 반복을 어떻게 안정화하는가`: residual과 normalization을 부차적 덧셈·정리가 아니라 깊은 블록 반복에서 정보 흐름과 값 범위를 안정화하는 장치로 설명해야 합니다.
-- `P5-14.4 RNN의 상태 전달과 Transformer의 관계 계산은 병렬 처리에서 어떻게 갈라지는가`: RNN의 순차 상태 전달과 Transformer의 토큰 관계 계산을 비교하고, 그 차이가 GPU 병렬 처리와 대규모 학습에 왜 유리했는지 설명해야 합니다. Python 예제는 속도 측정이 아니라 순차 trace, 관계 score 행렬, 배치 score 텐서 shape를 비교하는 데 집중해야 하며, 같은 판단을 반복하는 연습은 늘리지 않습니다.
-- `P5-14.5 긴 문맥에서 순차 상태와 직접 재참조는 어떻게 갈라지는가`: 긴 문맥 문제를 단순 기억력보다 현재 위치가 필요한 앞 단서를 직접 다시 참고하는 문제로 읽게 하고, 순차 상태 방식과 직접 재참조 방식이 최종 판단을 다르게 만들 수 있음을 실험과 해설로 보여 주어야 합니다. Python 예제는 Transformer 구현이 아니라 `sequential_support`와 `direct_decision`의 관찰 차이를 닫는 용도로 유지합니다.
-- `P5-14.6 보충학습: feed-forward network는 왜 위치별 표현 가공을 맡는가`: feed-forward network가 attention 뒤에서 위치별 표현 가공을 맡는다는 점을 보충해야 합니다. Python 예제는 같은 FFN 가중치를 여러 위치에 공유 적용해도 입력 표현 차이에 따라 hidden/output이 달라지는 점을 보여 주어야 합니다.
-- `P5-14.7 보충학습: residual connection은 왜 원래 표현의 길을 남기는가`: residual connection이 새 계산 생략이 아니라 원래 표현의 길을 함께 남긴다는 점을 보충해야 합니다.
-- `P5-14.8 보충학습: layer normalization은 왜 값의 기준선을 맞추는가`: layer normalization이 의미 선택이 아니라 값 기준선 정리라는 점을 보충해야 합니다. Python 예제는 평균·표준편차와 다음 계산 점수의 전후 차이를 보여 주는 데 한정하고, P5-14.2의 역할 분담을 반복하는 연습은 늘리지 않습니다.
+- `P5-14.1`: Transformer가 self-attention 하나로 닫히지 않고, attention 블록과 feed-forward가 반복되는 기본 구성으로 읽혀야 한다는 문제의식을 세워야 합니다.
+- `P5-14.2`: self-attention, feed-forward, residual connection, layer normalization의 역할을 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`로 나누어 설명해야 합니다. 통합된 Python 예제는 현재 토큰 표현이 `input -> after attention -> after feed-forward -> after residual`로 이동하는 흐름을 확인하는 데만 쓰고, normalization의 값 범위 정리는 P5-14.3으로 넘겨야 합니다.
+- `P5-14.3`: residual과 normalization을 부차적 덧셈·정리가 아니라 깊은 블록 반복에서 정보 흐름과 값 범위를 안정화하는 장치로 설명해야 합니다.
+- `P5-14.4`: RNN의 순차 상태 전달과 Transformer의 토큰 관계 계산을 비교하고, 그 차이가 GPU 병렬 처리와 대규모 학습에 왜 유리했는지 설명해야 합니다. Python 예제는 속도 측정이 아니라 순차 trace, 관계 score 행렬, 배치 score 텐서 shape를 비교하는 데 집중해야 하며, 같은 판단을 반복하는 연습은 늘리지 않습니다.
+- `P5-14.5`: 긴 문맥 문제를 단순 기억력보다 현재 위치가 필요한 앞 단서를 직접 다시 참고하는 문제로 읽게 하고, 순차 상태 방식과 직접 재참조 방식이 최종 판단을 다르게 만들 수 있음을 실험과 해설로 보여 주어야 합니다. Python 예제는 Transformer 구현이 아니라 `sequential_support`와 `direct_decision`의 관찰 차이를 닫는 용도로 유지합니다.
+- `P5-14.6`: feed-forward network가 attention 뒤에서 위치별 표현 가공을 맡는다는 점을 보충해야 합니다. Python 예제는 같은 FFN 가중치를 여러 위치에 공유 적용해도 입력 표현 차이에 따라 hidden/output이 달라지는 점을 보여 주어야 합니다.
+- `P5-14.7`: residual connection이 새 계산 생략이 아니라 원래 표현의 길을 함께 남긴다는 점을 보충해야 합니다.
+- `P5-14.8`: layer normalization이 의미 선택이 아니라 값 기준선 정리라는 점을 보충해야 합니다. Python 예제는 평균·표준편차와 다음 계산 점수의 전후 차이를 보여 주는 데 한정하고, P5-14.2의 역할 분담을 반복하는 연습은 늘리지 않습니다.
 
 ### Module 6. 생성 모델과 샘플링
 
@@ -172,4 +174,4 @@
 - `P5-15.2`: 생성 모델이 정답 하나를 외우는 것이 아니라 가능한 출력 후보들의 상대적 그럴듯함을 후보 분포로 남긴다는 점을 설명해야 합니다.
 - `P5-15.3`: 샘플링을 후보 분포에서 실제 출력을 꺼내는 절차로 설명하고, 다양성과 안정성의 균형이 왜 결과를 바꾸는지 보여 주어야 합니다.
 
-- `summary.md`: Part 5가 기본 계산 구조에서 표현 학습, attention, Transformer, 생성으로 이어지는 흐름을 다시 묶어 주어야 합니다.
+- `P5-summary`: Part 5가 기본 계산 구조에서 표현 학습, attention, Transformer, 생성으로 이어지는 흐름을 다시 묶어 주어야 합니다.

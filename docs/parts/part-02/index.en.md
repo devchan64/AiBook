@@ -1,7 +1,9 @@
 # Part 2. Rebuilding the Foundations
 
 > Section ID: `P2-index`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The first plan for this opening page is to connect `reading formulas`, `running Python`, `arrays and tables`, `graphs`, and `records` as one preparation flow. Python examples keep the reference source intact; when needed, the surrounding explanation separates input, computation, output, and the reason for recording the result.
 
 Part 2 is the section for recovering math, Python, data tools, and document-management instincts before studying machine learning and deep learning again. It does not try to prove mathematics deeply or make you memorize all Python syntax. Instead, it builds the foundation needed to read model training, data splitting, evaluation, overfitting, and generalization in Part 3 and to verify them with small code examples.
 
@@ -67,7 +69,7 @@ The more practical question for reading all of Part 2 can be compressed as follo
 
 | Question to keep asking while reading | Why this question is needed |
 | --- | --- |
-| To which scene in Part 3 does what I am reading now connect? | So the explanation does not close only inside the current Section |
+| To which scene in Part 3 does what I am reading now connect? | So the explanation does not settle only inside the current Section |
 | If I get blocked here, where can I return briefly? | So I can recover without rereading all of Part 2 from the beginning |
 | What is the minimum sentence I should keep from here? | So I can choose the real standard that should remain after a long explanation |
 

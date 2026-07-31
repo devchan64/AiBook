@@ -120,7 +120,7 @@
 - 중국어판 개념사전의 관련 개념도 중국어 표제어를 우선 쓰고, 필요한 경우에만 영어 원어를 짧게 병기한다. 한국어 표기와 중국어·영어 표기를 함께 나열하지 않는다.
 - 중국어판 개념사전이 아직 충분히 번역되지 않은 항목은 한국어 항목으로 되돌려 연결하지 않고, 해당 중국어 단어 파일을 보강 대상으로 남긴다.
 - 중국어판에서 용어 대응이 흔들리면 먼저 중국어 개념사전 페이지와 단어별 원고에서 대표 표제어, 영어 기준 용어, `Section ID`를 확인한다.
-- 공개 배포 경로와 strict 빌드 기준의 실제 링크 형식은 `AGENTS.md`와 `management/guidelines/chart-guidelines.md`의 다국어 링크 원칙을 따른다.
+- 공개 배포 경로와 strict 빌드 기준의 실제 링크 형식은 `management/guidelines/repository-management-guidelines.md`와 `management/guidelines/chart-guidelines.md`의 다국어 링크 원칙을 따른다.
 
 ## 링크 원칙
 
@@ -181,7 +181,7 @@
 ## 함께 볼 문서
 
 - `../README.md`
-- `rules-and-guidelines-summary.md`
+- `README.md`
 - `manuscript-writing-workflow.md`
 - `section-metadata-guidelines.md`
 - `python-example-guidelines.md`

@@ -1,11 +1,13 @@
 # P3-9.13 Problem Boundaries to Hand Off to Part 4
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
-_Subtitle: Why must time, entity, information, and output-format boundaries be closed together before handing off a prediction problem?_
+In the table handed to Part 4, keep only fields such as `problem_type_candidate`, `split_risk`, `group_key`, `time_key`, `metric_candidate`, `baseline_note`, and `open_questions`. Rather than explaining the evaluation procedure at length here, briefly write the names of the items handled later and why they are needed, so the current problem structure can wait for the next judgment.
 
-If the structure has been organized enough to sort out the current problem type, there is one final set of boundaries that still must be closed together. Is time order important? Should the same entity be prevented from mixing across both sides? Has information from after prediction time leaked into the inputs? Is the real [output format](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) closer to ranking or a continuous value than to simple 0/1 classification? What matters here is not expanding the list of terms, but checking whether the current problem structure stands without contradiction in front of these boundaries.
+_Subtitle: Why must time, entity, information, and output-format boundaries be confirmed together before handing off a prediction problem?_
+
+If the structure has been organized enough to sort out the current problem type, there is one final set of boundaries that still must be confirmed together. Is time order important? Should the same entity be prevented from mixing across both sides? Has information from after prediction time leaked into the inputs? Is the real [output format](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) more similar to ranking or a continuous value than to simple 0/1 classification? What matters here is not expanding the list of terms, but checking whether the current problem structure stands without contradiction in front of these boundaries.
 
 | Item to check right here | Minimum sentence to hold now |
 | --- | --- |
@@ -16,22 +18,22 @@ If the structure has been organized enough to sort out the current problem type,
 | [ranking](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-ranking) | Selecting the top few cases can be centered on order rather than class |
 | multiclass / [regression](/AiBook/en/reference/concept-glossary-alpha/r/#glossary-regression) | The result structure may not be only one 0/1 label |
 
-At the stage of sorting out the current problem type, it is enough if boundaries like the following are closed.
+At the stage of sorting out the current problem type, it is enough if boundaries like the following are confirmed.
 
 - Does this problem require a time-order split first?
 - Should the same entity be prevented from appearing on both sides?
 - Has information from after the result leaked into the input?
-- Is the actual target closer to ranking or a continuous value than to 0/1 classification?
+- Is the actual target more similar to ranking or a continuous value than to 0/1 classification?
 
 ## A Small Diagram
 
-For this last check, the more important thing is not memorizing the item names, but closing the current problem structure in a sensible order.
+For this last check, the more important thing is not memorizing the item names, but wrapping up the current problem structure in a sensible order.
 
 ```mermaid
 --8<-- "assets/part-03/chapter-09/p3-9-13-mermaid-01-en.mmd"
 ```
 
-In this section, what matters more than memorizing all the names is checking whether the current data structure has properly closed the time boundary, entity boundary, information boundary, and output format. At the present stage, what is needed is not to unfold detailed procedures at length, but to make the current structure able to state without contradiction what it predicts and what it still should not predict. This section should therefore be read not as a list of names, but as the final checklist for whether `split design`, `information-boundary inspection`, and [output-format selection](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) are closed without contradiction inside the current problem structure at the stage of sorting out the current problem type.
+In this section, what matters more than memorizing all the names is checking whether the current data structure has properly confirmed the time boundary, entity boundary, information boundary, and output format. At the present stage, what is needed is not to unfold detailed procedures at length, but to make the current structure able to state without contradiction what it predicts and what it still should not predict. This section should therefore be read not as a list of names, but as the final checklist for whether `split design`, `information-boundary inspection`, and [output-format selection](/AiBook/en/reference/concept-glossary-alpha/o/#output-structure) are confirmed without contradiction inside the current problem structure at the stage of sorting out the current problem type.
 
 ## Sources and References
 

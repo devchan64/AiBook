@@ -1,7 +1,7 @@
 # P4-6.2 按问题类型区分的评价标准
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 在 P4-6.1 里，我们看过[评价指标(metric)](/AiBook/zh/reference/concept-glossary-pinyin/m/#metric)不只是记分牌，而是会暴露出我们把什么看得更重要的标准。接下来就要进入下一个问题。`为什么问题一变，先看的指标也会跟着变？`
 
@@ -66,9 +66,7 @@ scikit-learn 文档会按问题目标来分评价函数。它把 classification 
 
 也就是说，classification 更接近 `贴名字标签的问题`，regression 更接近 `对准数字刻度的问题`，clustering 更接近 `寻找人没有预先命名的分组的问题`。
 
-## 主要学习内容
-
-### classification 里先看错误类型
+## 分类中要先看错误的种类
 
 在 classification 里，如果只把预测结果读成 `对了/错了`，往往是不够的。正如 P4-6.1 已经看到的，漏掉真正正类的错误和无端把负类说成正类的错误，成本可能完全不同。
 

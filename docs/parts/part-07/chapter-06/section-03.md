@@ -1,7 +1,9 @@
 # P7-6.3 승인 정책 연습
 
-Section ID: `P7-6.3`
-Version: `v2026.07.26`
+> Section ID: `P7-6.3`
+> Version: `v2026.07.31`
+
+승인 정책 연습은 `tool_category`, `read_write_level`, `risk_level`, `auto_allowed`, `approval_required`, `deny_reason`을 나누어 봅니다. 도구 이름보다 권한과 위험 등급이 실행 경로를 결정합니다.
 
 `같은 운영 시나리오 안에서도 어떤 단계는 자동 실행하고 어떤 단계는 반드시 멈춰야 하는가`를 직접 연습할 차례입니다. 승인 정책을 추상 원칙이 아니라 단계별 판단 기록으로 바꾸는 데 초점을 둡니다.
 

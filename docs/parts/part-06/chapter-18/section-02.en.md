@@ -1,7 +1,9 @@
 # P6-18.2 A Minimal Implementation that Records Evidence, State, and Review Before the Response
 
 > Section ID: `P6-18.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+The minimum implementation record starts by leaving `request_id`, `selected_policy`, `evidence_state`, `answer_state`, `review_status`, and `retrospective_note`. With this record, the feature reads as a small function where evidence, state, and retrospective notes remain before the response sentence itself.
 
 In P6-18.1, we tied a small generative AI feature into the flow `request interpretation -> retrieval or tool selection -> response generation -> state judgment -> record`. Here, we redraw that flow with a very small piece of code.
 
@@ -25,7 +27,7 @@ It is safer to watch when the same question changes inside the code flow into st
 | --- | --- | --- |
 | Answer draft can be generated | Two or more relevant evidence items are found and conflict is not large | To pass the request to the next evaluation while keeping `an answer can be drafted` separate from `it is ready to deploy` |
 | Insufficient evidence | A related document is found, but direct evidence is weak or only one document exists | To avoid reading retrieval success and answer-finalization readiness as the same thing |
-| Document not retrieved | No document that can close the question is found | To avoid covering the gap with general advice and to leave search expansion as a separate issue |
+| Document not retrieved | No document that can settle the question is found | To avoid covering the gap with general advice and to leave search expansion as a separate issue |
 | Human review needed | Exception clauses or approval boundaries make automatic certainty risky | Even a minimal implementation must keep operating boundaries and handoff points so the next improvement is possible |
 
 ## Separating Response Generation from Execution Records
@@ -89,7 +91,7 @@ In this scene, it is easy to feel that `since at least one related document appe
 
 So even in the minimal implementation, `insufficient evidence state` and `human review needed state` must remain separately. Then the retrospective can distinguish whether the next issue is search expansion or approval-gate design. The result to confirm in this case is not `an answer was generated`, but `was the insufficient-evidence state kept as an operating route instead of being hidden?`
 
-This is more dangerous in practice because `one document was found` gives people too much comfort. Once a related document title appears in a search screen, it is easy to treat that almost as `evidence secured`. But operational judgment must separate `a related document exists` from `there is enough evidence to close the question`. Especially when exception clauses or approval procedures are involved, finalizing an automatic answer from a single evidence document can distribute the wrong answer with more confidence.
+This is more dangerous in practice because `one document was found` gives people too much comfort. Once a related document title appears in a search screen, it is easy to treat that almost as `evidence secured`. But operational judgment must separate `a related document exists` from `there is enough evidence to settle the question`. Especially when exception clauses or approval procedures are involved, finalizing an automatic answer from a single evidence document can distribute the wrong answer with more confidence.
 
 The difference can be written as an operating note.
 
@@ -147,7 +149,7 @@ Before reading the code, it is useful to write down what execution state should 
 
 | Question | Execution state to expect first | Why this is expected |
 | --- | --- | --- |
-| `Can an employee who joined this month use summer vacation right away?` | Multiple evidence check state | The request closes only after reading both the joining rule and vacation rule. |
+| `Can an employee who joined this month use summer vacation right away?` | Multiple evidence check state | The request settles only after reading both the joining rule and vacation rule. |
 | `Can new benefit points be used starting this week?` | Insufficient evidence + human review state | Direct evidence is likely weak, so there is risk of missing exception clauses. |
 | `How much is the night-shift allowance starting this month?` | Document not retrieved + human review state | The current document set is likely unable to find a related rule. |
 
@@ -294,7 +296,7 @@ This example does not call a real LLM or real search engine. What we look at fir
 
 So the result to confirm in this example is not one line, `the model answered`. It is whether retrieval score, evidence documents, answer draft, human-review flag, retrospective note, and request execution record by question actually remain separately. In particular, even inside the same minimal feature, `multiple evidence secured`, `insufficient evidence`, and `retrieval failed` must remain as different operating states.
 
-In the representative detailed record, it is intentional that the `remaining leave days lookup` document is also retrieved. This document shares the same `leave` keyword group, but it is hard to read as direct evidence that closes `whether summer vacation can be used right after joining`. Therefore, this result should not be read as complete retrieval success. Instead, because simple keyword-group retrieval can pull in nearby documents, the execution record must keep document scores and selected documents so reranking, evidence-citation rules, and groundedness checks can be attached in the next step.
+In the representative detailed record, it is intentional that the `remaining leave days lookup` document is also retrieved. This document shares the same `leave` keyword group, but it is hard to read as direct evidence that settles `whether summer vacation can be used right after joining`. Therefore, this result should not be read as complete retrieval success. Instead, because simple keyword-group retrieval can pull in nearby documents, the execution record must keep document scores and selected documents so reranking, evidence-citation rules, and groundedness checks can be attached in the next step.
 
 The same result can be rewritten as a practical review note.
 

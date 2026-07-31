@@ -1,7 +1,9 @@
 # P6-11.2 区分检索失败和生成失败的 RAG 流程
 
 > Section ID: `P6-11.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+查看 RAG 失败时，要分开 `retrieval_result`、`retrieval_gap`、`generation_input`、`generated_answer`、`failure_stage`、`repair_action`。这些字段能把检索候选错误的问题，与有依据但回答生成错误的问题分开修正。
 
 在 P6-11.1 中，我们看到 RAG(retrieval-augmented generation) 是在回答前附加外部依据的结构。现在要看的是，这些依据在实际输入流程中位于哪里，以及回答失败应该如何拆开阅读。
 

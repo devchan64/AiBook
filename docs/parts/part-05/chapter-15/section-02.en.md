@@ -1,7 +1,9 @@
 # P5-15.2 Candidate Distributions in Generative Models
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When looking at a candidate distribution, place `prompt_context`, `candidate_text`, `relative_score`, `probability_mass`, `most_likely_candidate`, and `remaining_candidates` together. This keeps the top candidate and the whole candidate distribution from being treated as the same thing.
 
 _Subtitle: Why do generative models keep candidate distributions instead of one answer?_
 
@@ -13,7 +15,7 @@ The core point is that a generative model does not memorize and return one corre
 
 ## A Candidate Distribution Is the Possibility After the Current Input
 
-A classification model usually asks `what class is this input?` A generative model is closer to `what outputs could naturally continue after this input?`
+A classification model usually asks `what class is this input?` A generative model is more similar to `what outputs could naturally continue after this input?`
 
 | Viewpoint | Classification model | Generative model |
 | --- | --- | --- |

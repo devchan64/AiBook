@@ -1,7 +1,9 @@
 # P4-8.2 Baseline
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When recording a baseline, keep `baseline_rule`, `baseline_score`, `comparison_metric`, `important_error_case`, `candidate_gain`, and `next_action` together. This connects the decision to use a more complex model not only to score gain, but to which failure it actually reduces.
 
 In P4-8.1, the discussion examined what model families should be raised as candidates. Now, instead of immediately grabbing those candidates in order of complexity, it moves to the question of setting the starting point of comparison first.
 
@@ -34,7 +36,7 @@ To actually set up a baseline, two things are needed together.
 
 This Section handles `why it is needed first` and `what must be fixed first`, while the following `P4-8.3 supplementary learning` handles with examples and exercises `what representative baselines should be set and how`.
 
-## Questions To Close Before Setting The Reference Line
+## Questions To Settle Before Setting The Reference Line
 
 This Section answers the following questions.
 
@@ -43,7 +45,7 @@ This Section answers the following questions.
 - Why must the baseline and candidate model be compared under the same conditions?
 - As preparation for reading the practical procedure of setting a baseline, what should be grasped first?
 
-This Section first closes `what the improvement of a complex model should be compared against`. The operational perspective of benchmarks and leaderboards, and the big picture of statistical-test-based model comparison, are reorganized again in the supplementary learning of P4-9.3, while the actual hyperparameter comparison procedure continues directly in P4-9.2.
+This Section first settles `what the improvement of a complex model should be compared against`. The operational perspective of benchmarks and leaderboards, and the big picture of statistical-test-based model comparison, are reorganized again in the supplementary learning of P4-9.3, while the actual hyperparameter comparison procedure continues directly in P4-9.2.
 
 ## Judgments To Keep From The Baseline Model
 
@@ -115,9 +117,7 @@ If the same criteria are moved into a recording structure, they become even clea
 
 The core of this flow is that the baseline should be placed after selection and before tuning. First, candidate models are set up. Then those candidates must be comparable with the baseline. Only after that is it natural to attach tuning and algorithm-specific expansion.
 
-## Main Learning Content
-
-### What Must Be Fixed First Before Setting A Baseline?
+## What to Fix Before Building a Baseline
 
 The actual procedure for setting a baseline is examined separately in the next Section, P4-8.3. Still, even in this Section, the preparation items that must be fixed first should be held clearly. A baseline is not a rule that suddenly appears. It can be set only after `what problem is being solved`, `what counts as one sample`, and `what score will be used for comparison` are fixed first.
 
@@ -258,9 +258,7 @@ This diagram shows together the correct order of setting the baseline first, com
 
 In practice, this difference in order quickly becomes a difference in cost. If a candidate that cannot even beat the baseline is tuned for a long time, experiment time and computational cost may be spent without leaving any improvement that can be explained.
 
-## Detailed Learning Content
-
-### How Should DummyClassifier And DummyRegressor Be Understood?
+## How to Read DummyClassifier and DummyRegressor
 
 The dummy-family models of scikit-learn are especially useful educationally.
 

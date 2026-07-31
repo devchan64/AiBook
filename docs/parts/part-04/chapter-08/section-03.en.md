@@ -1,7 +1,9 @@
 # P4-8.3 Supplementary Learning: How To First Set A Baseline By Problem Type
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
+
+When setting the first baseline, first write `problem_type`, `simple_rule`, `metric`, `known_easy_case`, and `known_hard_case`. Classification, regression, and time series have different baseline candidates, but the shared purpose is to place an easy standard and representative failure scene in the same table before looking at complex models.
 
 If P4-8.2 showed why a [baseline is needed](/AiBook/en/reference/concept-glossary-alpha/b/#baseline-model), then the next question immediately appears.
 
@@ -18,7 +20,7 @@ This Section handles how to first set representative baselines in [classificatio
 - After setting a baseline, with what cases and exercises should comparison begin?
 - After seeing the baseline score, what should be checked next?
 
-This Section first closes `how to set the simplest baseline that still carries comparison meaning by problem type`. Cross-validation, model-comparison procedures, and more complex tuning methods continue after P4-9.
+This Section first settles `how to set the simplest baseline that still carries comparison meaning by problem type`. Cross-validation, model-comparison procedures, and more complex tuning methods continue after P4-9.
 
 ## Judgments To Keep From Baselines By Problem Type
 

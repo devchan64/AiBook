@@ -1,7 +1,9 @@
 # P7-4.3 표현 정규화 연습
 
-Section ID: `P7-4.3`
-Version: `v2026.07.26`
+> Section ID: `P7-4.3`
+> Version: `v2026.07.31`
+
+표현 정규화 연습은 `raw_expression`, `normalized_expression`, `coverage_change`, `prediction_change`, `lost_signal`, `review_decision`을 함께 남깁니다. 정규화가 늘 좋은 것이 아니라 어떤 신호를 살리고 잃는지 봐야 합니다.
 
 `낯선 표현을 학습 때 본 표현으로 바꾸면 실제로 무엇이 달라지는가`를 직접 실험해 볼 차례입니다. 정규화 규칙 하나가 예측, coverage, 회고 우선순위를 어떻게 함께 바꾸는지 확인하는 연습입니다.
 
