@@ -1,7 +1,7 @@
 # P4-19.6 보충학습: policy gradient 첫 읽기
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: likelihood ratio trick은 정책 확률 변화와 기대 보상을 어떻게 연결하는가_
 
@@ -101,7 +101,7 @@ P4-19.2에서 본 actor-critic은 정책을 직접 조정하되, critic이 평�
 
 즉, actor-critic은 policy gradient를 버리는 것이 아니라, `그 기울기에 곱해지는 평가 신호를 더 안정적으로 만드는 방향`으로 읽을 수 있습니다.
 
-## 사례 및 예시
+## policy gradient 첫 읽기: 확인할 판단 기준
 
 ### 사례 1. 좋은 광고 노출 비율은 더 자주, 나쁜 비율은 덜 자주 나오게 만들고 싶을 때
 

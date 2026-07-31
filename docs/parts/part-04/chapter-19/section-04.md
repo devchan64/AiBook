@@ -1,7 +1,7 @@
 # P4-19.4 보충학습: 강화학습 후속 갈래 지도
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 _보조제목: DQN, PPO, RLHF는 강화학습의 어떤 문제의식에서 갈라졌는가_
 
@@ -188,7 +188,7 @@ RLHF(reinforcement learning from human feedback)는 이름 그대로 보면 강�
 | RLHF가 왜 강화학습 계보와 연결되는가 | LLM 학습 파이프라인 안에서 RLHF가 어디에 들어가는가 |
 | 사람 피드백을 보상처럼 다룰 수 있다는 생각 | reward model, preference data, alignment 절차 |
 
-## 사례 및 예시
+## 강화학습 후속 갈래 지도: 확인할 판단 기준
 
 ### 사례 1. DQN, PPO, RLHF가 한꺼번에 나왔을 때 무엇부터 구분해야 할까
 

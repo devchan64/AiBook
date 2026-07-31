@@ -1,7 +1,7 @@
 # P4-18.2 시각화와 정보 손실
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-18.1에서는 [차원 축소(dimensionality reduction)](../../../reference/concept-glossary-parts/11-chieut.md#dimensionality-reduction)가 많은 특징을 더 적은 축으로 다시 표현하는 일이라는 점을 보았습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -283,7 +283,7 @@ T(k) = 1 - \frac{2}{nk(2n - 3k - 1)}
 
 `차원 축소 그림은 가설을 만들게 해 주지만, 그 가설을 혼자 증명하지는 못한다.`
 
-## 사례 및 예시
+## 시각화와 정보 손실: 확인할 판단 기준
 
 ### 사례 1. 2D에서 멀리 보여도 원래 특징까지 바로 다르다고 단정하면 왜 위험한가
 

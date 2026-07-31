@@ -1,7 +1,7 @@
 # P4-1.2 데이터에서 규칙을 배운다는 말
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 P4-1.1에서는 AI, [머신러닝(machine learning)](../../../reference/concept-glossary-parts/05-mieum.md#machine-learning), 딥러닝(deep learning), 생성형 AI(generative AI), LLM(large language model)의 위치를 구분했습니다. 이제 머신러닝을 조금 더 가까이 봅니다.
 
@@ -232,7 +232,7 @@ scikit-learn의 기본 사용 흐름도 이 구조와 비슷합니다. 모델 �
 
 이 구분은 머신러닝의 핵심입니다. 데이터에서 관계를 추정하는 모델은 항상 학습 데이터에 너무 맞을 위험이 있습니다. 따라서 모델이 실제로 유용한지 보려면 학습에 쓰지 않은 데이터로 평가해야 합니다.
 
-## 사례 및 예시
+## 데이터에서 규칙을 배운다는 말: 확인할 판단 기준
 
 ### 사례 1. 고객 문의를 사람이 규칙으로 나눌지, 데이터로 학습할지 결정해야 할 때
 

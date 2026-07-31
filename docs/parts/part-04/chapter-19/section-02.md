@@ -1,7 +1,7 @@
 # P4-19.2 정책 기반 강화학습(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.26`
+> Version: `v2026.07.31`
 
 P4-19.1에서는 [가치 기반 강화학습(value-based reinforcement learning)](../../../reference/concept-glossary-parts/01-giyeok.md#value-based-reinforcement-learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 여기서 질문을 한 단계 바꾸면 다음과 같습니다.
 
@@ -277,7 +277,7 @@ actor-critic이 자주 쓰이는 이유는 `정책을 직접 조정하는 자유
 
 물론 이는 단지 구조 감각을 돕는 비유입니다. 실제 조직의 사람 역할과 강화학습 구성 요소를 그대로 대응시키면 오해가 생깁니다.
 
-## 사례 및 예시
+## 정책 기반 강화학습: 확인할 판단 기준
 
 ### 사례 1. 로봇 팔이 집기 각도를 조금씩 조정해야 할 때 정책을 직접 배우는 편이 자연스러운 이유
 
