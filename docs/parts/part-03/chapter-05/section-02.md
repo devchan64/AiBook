@@ -1,7 +1,7 @@
 # P3-5.2 요약 표는 평균 밖의 패턴을 어떻게 남기는가
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 같은 [평균(mean)](../../../reference/concept-glossary-parts/13-pieup.md#glossary-mean)을 가진 두 동작이 항상 같은 구조를 뜻하지는 않습니다. 평균은 전체 수준을 한눈에 요약하는 데는 유용하지만, 시간에 따라 어떻게 움직였는지까지 모두 보여 주지는 못합니다. 그래서 원시 로그를 [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)로 바꾸는 단계에서는 `평균이 같다`는 사실만으로 안심하지 않고, 평균 밖의 패턴 차이를 어떻게 남길지 함께 고민해야 합니다.
 
@@ -41,6 +41,8 @@
 | 올라가는 속도와 내려가는 속도가 다른지 | 구간별 기울기 |
 | 최고점이 언제 나왔는지 | 최대값 시점 |
 | 안정적으로 유지되었는지 급하게 흔들렸는지 | 변동성, 하강 시작 시점 |
+
+따라서 요약 표에는 전체 평균 옆에 `early_mean`, `mid_mean`, `late_mean`, `rise_slope`, `drop_slope`, `peak_segment`처럼 패턴을 되짚을 열을 함께 둡니다. 이 열들은 평균을 꾸미는 보조 설명이 아니라, 나중에 `평균은 같지만 후반 하강이 다르다`는 비교 문장을 만들기 위한 근거입니다. 어떤 패턴 기준을 썼는지도 `pattern_note`나 파생 규칙 메모로 남겨야, 같은 원시 로그를 다시 요약할 때 같은 판단을 재현할 수 있습니다.
 
 여기에 한 가지를 더 붙여야 합니다. 평균은 [이상치(outlier)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-outlier)와 [분포 치우침(skewness)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)도 쉽게 가립니다. 예를 들어 대부분의 동작은 비슷한 범위에 있는데 일부 사례만 매우 큰 값으로 튀면, 평균은 올라가지만 `대부분의 동작이 실제로 어떤 수준이었는가`는 흐려질 수 있습니다. 반대로 값 대부분이 한쪽에 몰리고 소수 사례만 반대쪽으로 길게 늘어지면, 평균은 그 비대칭 구조를 잘 보여 주지 못합니다.
 

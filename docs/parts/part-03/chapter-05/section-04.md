@@ -1,7 +1,7 @@
 # P3-5.4 입력 창(window)은 어디서 자르고 길이는 어떻게 맞추는가
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.25`
+> Version: `v2026.07.31`
 
 [원천 시계열(source time series)](../../../reference/concept-glossary-parts/08-ieung.md#glossary-source-data)이 바로 학습 [모델 입력 정의(model input)](../../../reference/concept-glossary-parts/05-mieum.md#model-input)이 아니라면, 곧 더 구체적인 질문이 남습니다. `그렇다면 실제 입력은 어디서 시작하고 끝나야 하는가?`, `길이가 제각각인 동작은 어떻게 같은 입력처럼 다룰 수 있는가?` [입력 창(input window)](../../../reference/concept-glossary-parts/05-mieum.md#model-input)은 바로 이 질문에 답하는 데이터 모델링 결정입니다.
 
@@ -33,6 +33,8 @@
 | 정렬 기준 | 시간 자체로 맞출 것인가, 진행률로 맞출 것인가 |
 
 이 네 가지는 순차 모델을 쓸 때만 필요한 것이 아닙니다. [요약 표(summary table)](../../../reference/concept-glossary-parts/03-digeut.md#data-modeling)를 만들 때도 이미 같은 판단이 숨어 있습니다. 초반, 중반, 후반 구간을 나눈다는 것도 결국 입력 창과 정렬 기준을 먼저 정했다는 뜻입니다.
+
+이 판단은 별도 설명으로만 두지 말고 창 설계 메모로 남기는 편이 좋습니다. 예를 들어 `window_start_rule`, `window_end_rule`, `alignment_rule`, `target_length`, `padding_policy` 같은 열이나 문서 메모가 있어야 같은 원천 시계열에서 왜 이 입력 길이가 나왔는지 추적할 수 있습니다. 특히 진행률 기준으로 맞췄다면 실제 시간 차이가 사라질 수 있으므로, `duration_seconds` 같은 원래 길이 정보도 함께 남겨야 나중에 무엇을 버리고 무엇을 남겼는지 확인할 수 있습니다.
 
 ## 같은 원천데이터에서 가능한 여러 창 설계
 
