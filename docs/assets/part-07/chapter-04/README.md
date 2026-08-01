@@ -17,5 +17,7 @@
   - `p7-action-unit-pattern-pairs.csv`
   - `p7-4-learning-curves-ko.svg`
   - `p7_4_training_curves.py`
+  - `p7_4_2_coverage_review_chart.py`
+  - `p7-4-2-coverage-review-chart-ko.png`
 - Reused data assets:
   - None currently.
