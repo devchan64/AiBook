@@ -1438,6 +1438,11 @@ plugins:
                 - "总结": parts/part-06/summary.md
             - "Part 7. 项目":
                 - "概览": parts/part-07/index.md
+                - "模块 2. 输入结构与学习解释":
+                    - "第 3 章 输入结构与模型选择":
+                        - "P7-3.1 输入结构如何改变项目": parts/part-07/chapter-03/section-01.zh.md
+                        - "P7-3.2 比较 CNN、序列与注意力模型族": parts/part-07/chapter-03/section-02.zh.md
+                        - "P7-3.3 用实际分类器重新比较输入表示": parts/part-07/chapter-03/section-03.zh.md
                 - "总结": parts/part-07/summary.md
             - "附录":
                 - "概念词汇表": reference/concept-glossary.md
