@@ -12,5 +12,7 @@
 - Data assets used by this chapter:
   - `p7-2-churn-dataset.csv`
   - `p7-2-stress-test.csv`
+- P7-2.1 chart assets:
+  - `p7_2_1_prediction_outcome_chart.py` regenerates `p7-2-1-prediction-outcome-transition-ko.png` from `p7-2-churn-dataset.csv`.
 - Reused data assets:
   - `../chapter-01/p7-action-unit-summary.csv`
