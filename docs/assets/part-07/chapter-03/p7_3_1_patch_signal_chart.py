@@ -87,6 +87,7 @@ def collect_results() -> list[dict[str, object]]:
                 "sample": row["sample"].replace("평가-", ""),
                 "center_band": center_band,
                 "outside_band": outside_band,
+                "signal_gap": center_band - outside_band,
                 "scratch_probability": float(probability[1]),
                 "result": "정답" if prediction == row["label"] else "오답",
             }
@@ -115,7 +116,17 @@ def main() -> None:
     outside = [result["outside_band"] for result in results]
     signal_ax.bar(positions - width / 2, center, width, label="중앙 2열 평균", color="#c2410c")
     signal_ax.bar(positions + width / 2, outside, width, label="주변 6열 평균", color="#64748b")
-    signal_ax.set_title("입력 위치별 평균 밝기", fontsize=14, pad=12)
+    for position, center_value, outside_value, result in zip(positions, center, outside, results):
+        signal_ax.text(
+            position,
+            max(center_value, outside_value) + 0.035,
+            f"Δ {result['signal_gap']:+.3f}",
+            ha="center",
+            fontsize=9.5,
+            weight="bold",
+            color="#b45309" if result["result"] == "오답" else "#374151",
+        )
+    signal_ax.set_title("입력 위치별 평균 밝기 (중앙−주변)", fontsize=14, pad=12)
     signal_ax.set_ylabel("grayscale 값")
     signal_ax.set_ylim(0, 0.85)
     signal_ax.set_xticks(positions, labels, rotation=12, ha="right")
