@@ -26,22 +26,21 @@ OUT_DIR = Path(__file__).resolve().parent
 DATASET_PATH = OUT_DIR / "p7-4-support-routing-dataset.csv"
 LOG_PATH = OUT_DIR / "p7-4-training-log.csv"
 SVG_PATH = OUT_DIR / "p7-4-learning-curves-ko.svg"
+KOREAN_FONT_PATH = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc")
 
 
 def choose_font() -> str:
-    candidates = [
-        "Noto Sans CJK KR",
-        "NanumGothic",
-        "Apple SD Gothic Neo",
-        "AppleGothic",
-        "Arial Unicode MS",
-        "DejaVu Sans",
+    system_fonts = [Path(path) for path in font_manager.findSystemFonts()]
+    candidates = [KOREAN_FONT_PATH] + [
+        path
+        for path in system_fonts
+        if "NotoSansCJK" in path.name or "Nanum" in path.name
     ]
-    available = {font.name for font in font_manager.fontManager.ttflist}
     for candidate in candidates:
-        if candidate in available:
-            return candidate
-    return "DejaVu Sans"
+        if candidate.exists():
+            font_manager.fontManager.addfont(str(candidate))
+            return font_manager.FontProperties(fname=str(candidate)).get_name()
+    raise RuntimeError("한글 차트에는 Noto Sans CJK 또는 Nanum 계열 폰트가 필요합니다.")
 
 
 def configure_font() -> None:
@@ -67,6 +66,8 @@ def inject_accessibility(svg_path: Path, title: str, desc: str) -> None:
     root.insert(0, desc_el)
     root.insert(0, title_el)
     tree.write(svg_path, encoding="utf-8", xml_declaration=False)
+    cleaned_lines = [line.rstrip() for line in svg_path.read_text(encoding="utf-8").splitlines()]
+    svg_path.write_text("\n".join(cleaned_lines) + "\n", encoding="utf-8")
 
 
 def load_dataset() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
@@ -213,7 +214,11 @@ def draw_chart(logs: list[dict[str, float]]) -> None:
         fontsize=10,
     )
 
-    fig.suptitle("고객 문의 라우팅 분류 학습 로그", fontsize=15, fontweight="bold")
+    fig.suptitle(
+        "고객 문의 라우팅 분류 학습 로그\n평가 정확도 0.857 유지 · 평가 손실 0.624 → 0.404",
+        fontsize=14,
+        fontweight="bold",
+    )
     fig.savefig(SVG_PATH, format="svg", dpi=160, bbox_inches="tight")
     plt.close(fig)
     inject_accessibility(
