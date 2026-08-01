@@ -14,5 +14,9 @@
   - `p7-2-stress-test.csv`
 - P7-2.1 chart assets:
   - `p7_2_1_prediction_outcome_chart.py` regenerates `p7-2-1-prediction-outcome-transition-ko.png` from `p7-2-churn-dataset.csv`.
+- P7-2.2 chart assets:
+  - `p7_2_2_normalization_outcome_chart.py` regenerates `p7-2-2-normalization-outcome-chart-ko.png` from `p7-2-churn-dataset.csv`.
+- P7-2.3 chart assets:
+  - `p7_2_3_failure_diagnosis_chart.py` regenerates `p7-2-3-failure-diagnosis-chart-ko.png` from `p7-2-churn-dataset.csv` and `p7-2-stress-test.csv`.
 - Reused data assets:
   - `../chapter-01/p7-action-unit-summary.csv`

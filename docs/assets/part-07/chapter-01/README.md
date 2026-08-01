@@ -1,21 +1,30 @@
 # Part 7 Chapter 1 Mermaid Assets
 
 - Korean public manuscript pages currently include the `-ko.mmd` files through `pymdownx.snippets`.
-- This chapter does not yet ship English or Simplified Chinese manuscript pages, so the current Mermaid set is maintained in Korean only.
-- When translation pages are opened later, add matching `-en.mmd` and `-zh.mmd` files while preserving the same node relations and reading order.
+- English P7-1.1 through P7-1.3 pages use matching `-en.mmd` assets with the same reading order.
+- P7-1.1 through P7-1.3 ship English manuscript pages. Other public manuscript pages are currently Korean only.
+- When further translation pages are opened, add matching `-en.mmd` and `-zh.mmd` files while preserving the same node relations and reading order.
 - Current Mermaid assets:
   - `p7-1-1-case-reading-flow-ko.mmd`
   - `p7-1-1-project-start-flow-ko.mmd`
+  - `p7-1-1-case-reading-flow-en.mmd`
+  - `p7-1-1-project-start-flow-en.mmd`
+  - `p7-1-2-channel-anomaly-flow-en.mmd`
   - `p7-1-2-channel-anomaly-flow-ko.mmd`
   - `p7-1-3-baseline-case-flow-ko.mmd`
   - `p7-1-3-baseline-review-flow-ko.mmd`
+  - `p7-1-3-baseline-case-flow-en.mmd`
+  - `p7-1-3-baseline-review-flow-en.mmd`
 - Data assets used by this chapter:
   - `p7-1-traffic-log.csv`
   - `p7-action-unit-sensor-log.csv`
   - `p7-action-unit-summary.csv`
 - P7-1.2 chart assets:
   - `p7_1_2_candidate_threshold_chart.py` regenerates `p7-1-2-candidate-threshold-chart-ko.png` from `p7-1-traffic-log.csv`.
+  - `p7_1_2_candidate_threshold_chart_en.py` regenerates `p7-1-2-candidate-threshold-chart-en.png` from the same CSV.
 - P7-1.1 chart assets:
   - `p7_1_1_channel_day_trend_chart.py` regenerates `p7-1-1-channel-day-trend-chart-ko.png` from `p7-1-traffic-log.csv`.
+  - `p7_1_1_channel_day_trend_chart_en.py` regenerates `p7-1-1-channel-day-trend-chart-en.png` from the same CSV.
 - P7-1.3 chart assets:
   - `p7_1_3_baseline_design_chart.py` regenerates `p7-1-3-baseline-design-chart-ko.png` from `p7-1-traffic-log.csv`.
+  - `p7_1_3_baseline_design_chart_en.py` regenerates `p7-1-3-baseline-design-chart-en.png` from the same CSV.
