@@ -19,5 +19,7 @@
   - `p7_4_training_curves.py`
   - `p7_4_2_coverage_review_chart.py`
   - `p7-4-2-coverage-review-chart-ko.png`
+  - `p7_4_4_equal_mean_patterns_chart.py`
+  - `p7-4-4-equal-mean-patterns-chart-ko.png`
 - Reused data assets:
   - None currently.
