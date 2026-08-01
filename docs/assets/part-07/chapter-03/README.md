@@ -16,3 +16,5 @@
 - Python report assets used by this chapter:
   - `p7_3_input_representation_report.py`
   - `p7-3-input-representation-report-ko.png`
+  - `p7_3_1_patch_signal_chart.py`
+  - `p7-3-1-patch-signal-chart-ko.png`
