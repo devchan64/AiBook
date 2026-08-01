@@ -17,3 +17,5 @@
   - `p7_1_2_candidate_threshold_chart.py` regenerates `p7-1-2-candidate-threshold-chart-ko.png` from `p7-1-traffic-log.csv`.
 - P7-1.1 chart assets:
   - `p7_1_1_channel_day_trend_chart.py` regenerates `p7-1-1-channel-day-trend-chart-ko.png` from `p7-1-traffic-log.csv`.
+- P7-1.3 chart assets:
+  - `p7_1_3_baseline_design_chart.py` regenerates `p7-1-3-baseline-design-chart-ko.png` from `p7-1-traffic-log.csv`.
