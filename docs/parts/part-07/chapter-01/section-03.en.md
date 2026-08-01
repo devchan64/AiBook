@@ -362,6 +362,17 @@ It is not a search for a single permanent baseline.
 | Next question | Did redesign narrow the next question? |
 | Problem definition | Did you check how another question changes the output for the same raw data? |
 
+## Final handoff
+
+Keep the redesigned baseline beside the original question.
+Record which action unit, period, or channel changed.
+Preserve the raw rows behind each summary.
+State the limit of the current comparison.
+Use one controlled modification in the next trial.
+Retain any boundary case as a regression reference.
+Do not infer a cause from one redesigned baseline.
+Keep the next inspection question concrete.
+
 ## Sources and references
 
 - Practice data: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }

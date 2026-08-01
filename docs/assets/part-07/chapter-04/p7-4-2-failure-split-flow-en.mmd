@@ -1,0 +1,10 @@
+flowchart TD
+  A[Find an incorrect or risky sample] --> B{Does the baseline also fail this kind?}
+  B -->|Yes| C[Check baseline limits or label distribution]
+  B -->|No| D{Is coverage low or is a key term OOV?}
+  C --> D
+  D -->|Yes| E[Check normalization, tokenization, and data coverage]
+  D -->|No| F{Do similar expressions fail repeatedly?}
+  E --> F
+  F -->|Yes| G[Consider representation or model limits]
+  F -->|No| H[Record a boundary case or label ambiguity]

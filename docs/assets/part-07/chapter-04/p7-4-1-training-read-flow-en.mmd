@@ -1,0 +1,10 @@
+flowchart TD
+  A["Observed result<br/>Evaluation accuracy stays at 0.857"]
+  B["Too-fast conclusion<br/>Training has finished"]
+  C["Check loss<br/>Does the loss keep changing?"]
+  D["Check error cases<br/>Does the same inquiry remain wrong?"]
+  E["Check probabilities<br/>Did confidence change for correct labels?"]
+  F["Safer reading<br/>Interpret loss, metric, and errors together"]
+
+  A --> B
+  A --> C --> D --> E --> F

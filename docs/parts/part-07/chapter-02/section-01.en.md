@@ -382,6 +382,17 @@ If one of these fields is empty, adding another classifier will not make the com
 | Errors | Did you identify concrete missed and newly wrong rows? |
 | Next question | Did you state what to change or inspect next? |
 
+## Final handoff
+
+Keep the test rows fixed across the baseline and learned comparison.
+Record the missed and newly wrong samples by ID.
+Separate an aggregate gain from a sample-level regression.
+State the smallest next data or representation question.
+Do not call the current synthetic result production evidence.
+Keep the error review available for the next experiment.
+Compare one changed component at a time.
+Preserve the baseline result.
+
 ## Sources and references
 
 The subscription records are synthetic practice data created for this book. This section does not quote external material directly.

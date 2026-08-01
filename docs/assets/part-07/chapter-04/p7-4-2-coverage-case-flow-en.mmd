@@ -1,0 +1,7 @@
+flowchart TD
+  A[Find two samples with coverage 0.333] --> B[Quick conclusion: call them the same failure]
+  A --> C[Check correctness and key OOV terms]
+  C --> D[Test-05: incorrect; intent word is OOV]
+  C --> E[Test-07: correct; strong intent words remain]
+  D --> F[Prioritize normalization and review before a structural change]
+  E --> F

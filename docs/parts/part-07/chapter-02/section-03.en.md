@@ -395,6 +395,16 @@ The decision criterion is not the highest score alone. A failure removed after p
 | New error | Did a variant create a newly wrong row? |
 | Next boundary case | What case or feature should be collected next? |
 
+## Final handoff
+
+Keep every experiment setting beside its outcome.
+Compare recovered, remaining, and newly wrong rows.
+Preserve the named boundary case for the next trial.
+State which preprocessing component changed.
+Do not treat one improved metric as a complete explanation.
+Keep the original test condition fixed.
+Record the next data need.
+
 ## Sources and references
 
 The customer and stress records are synthetic practice data created for this book.

@@ -1038,6 +1038,16 @@ plugins:
                         - "P7-2.1 Reading Comparison Tables and Error Cases": parts/part-07/chapter-02/section-01.en.md
                         - "P7-2.2 Building a Retrospective and Next Question": parts/part-07/chapter-02/section-02.en.md
                         - "P7-2.3 Comparison-Experiment Practice": parts/part-07/chapter-02/section-03.en.md
+                - "Module 2. Input Structure and Learning Interpretation":
+                    - "Chapter 3. Input Structure and Model Selection":
+                        - "P7-3.1 How Input Structure Changes a Project": parts/part-07/chapter-03/section-01.en.md
+                        - "P7-3.2 Comparing CNN, Sequential, and Attention Families": parts/part-07/chapter-03/section-02.en.md
+                        - "P7-3.3 Recompare Input Representations with a Classifier": parts/part-07/chapter-03/section-03.en.md
+                    - "Chapter 4. Learning Results and Representation Checks":
+                        - "P7-4.1 Reading Loss, Metrics, and Error Cases Together": parts/part-07/chapter-04/section-01.en.md
+                        - "P7-4.2 Decomposing a Failed Result Again": parts/part-07/chapter-04/section-02.en.md
+                        - "P7-4.3 Representation-Normalization Practice": parts/part-07/chapter-04/section-03.en.md
+                        - "P7-4.4 Comparing Same Averages with Different Patterns": parts/part-07/chapter-04/section-04.en.md
                 - "Summary": parts/part-07/summary.md
             - "Appendix":
                 - "Concept Glossary": reference/concept-glossary.md
@@ -1461,6 +1471,11 @@ plugins:
                         - "P7-3.1 输入结构如何改变项目": parts/part-07/chapter-03/section-01.zh.md
                         - "P7-3.2 比较 CNN、序列与注意力模型族": parts/part-07/chapter-03/section-02.zh.md
                         - "P7-3.3 用实际分类器重新比较输入表示": parts/part-07/chapter-03/section-03.zh.md
+                    - "第 4 章 学习结果与表示检查":
+                        - "P7-4.1 一起阅读损失、指标与错误案例": parts/part-07/chapter-04/section-01.zh.md
+                        - "P7-4.2 再次拆分失败结果": parts/part-07/chapter-04/section-02.zh.md
+                        - "P7-4.3 表示标准化练习": parts/part-07/chapter-04/section-03.zh.md
+                        - "P7-4.4 比较相同平均值的不同模式": parts/part-07/chapter-04/section-04.zh.md
                 - "总结": parts/part-07/summary.md
             - "附录":
                 - "概念词汇表": reference/concept-glossary.md

@@ -93,6 +93,8 @@ for name, cutoff_text, unit in experiments:
 
 基线设计不是寻找唯一正确答案。它明确了哪一个问题被放在回顾的前面。
 
+![两种广告渠道基线设计下的转化率与错误率变化比较](../../../assets/part-07/chapter-01/p7-1-3-baseline-design-chart-zh.png)
+
 ## 记录设计变化
 
 ```text

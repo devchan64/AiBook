@@ -2,7 +2,7 @@
 
 - Korean public manuscript pages currently include the `-ko.mmd` files through `pymdownx.snippets`.
 - English P7-1.1 through P7-1.3 pages use matching `-en.mmd` assets with the same reading order.
-- P7-1.1 through P7-1.3 ship English manuscript pages. Other public manuscript pages are currently Korean only.
+- P7-1.1 through P7-1.3 ship English and Simplified Chinese manuscript pages with language-specific chart assets.
 - When further translation pages are opened, add matching `-en.mmd` and `-zh.mmd` files while preserving the same node relations and reading order.
 - Current Mermaid assets:
   - `p7-1-1-case-reading-flow-ko.mmd`
@@ -22,9 +22,12 @@
 - P7-1.2 chart assets:
   - `p7_1_2_candidate_threshold_chart.py` regenerates `p7-1-2-candidate-threshold-chart-ko.png` from `p7-1-traffic-log.csv`.
   - `p7_1_2_candidate_threshold_chart_en.py` regenerates `p7-1-2-candidate-threshold-chart-en.png` from the same CSV.
+  - `p7_1_2_candidate_threshold_chart_zh.py` regenerates `p7-1-2-candidate-threshold-chart-zh.png` from the same CSV.
 - P7-1.1 chart assets:
   - `p7_1_1_channel_day_trend_chart.py` regenerates `p7-1-1-channel-day-trend-chart-ko.png` from `p7-1-traffic-log.csv`.
   - `p7_1_1_channel_day_trend_chart_en.py` regenerates `p7-1-1-channel-day-trend-chart-en.png` from the same CSV.
+  - `p7_1_1_channel_day_trend_chart_zh.py` regenerates `p7-1-1-channel-day-trend-chart-zh.png` from the same CSV.
 - P7-1.3 chart assets:
   - `p7_1_3_baseline_design_chart.py` regenerates `p7-1-3-baseline-design-chart-ko.png` from `p7-1-traffic-log.csv`.
   - `p7_1_3_baseline_design_chart_en.py` regenerates `p7-1-3-baseline-design-chart-en.png` from the same CSV.
+  - `p7_1_3_baseline_design_chart_zh.py` regenerates `p7-1-3-baseline-design-chart-zh.png` from the same CSV.

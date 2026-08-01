@@ -100,6 +100,8 @@ print("common candidates =", sorted(set(candidates[rules[0]["name"]]) & set(cand
 
 共同候选是审查优先级，不是根因结论。仍应检查访问量、注册数、错误类型、浏览器、部署记录和活动上下文。
 
+![相对基线的转化率与错误率变化；红色区域表示共同候选区域](../../../assets/part-07/chapter-01/p7-1-2-candidate-threshold-chart-zh.png)
+
 ## 改变规则时应记录什么
 
 团队可能改变阈值、切分日期或假设的渠道情景。每次改变都必须保留原规则和新规则，以免把规则变化误读成数据变化。

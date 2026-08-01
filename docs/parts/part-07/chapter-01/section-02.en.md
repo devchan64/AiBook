@@ -369,6 +369,18 @@ Likewise, preserve the date range and the comparison unit. A channel-day candida
 The first comparison succeeds when it makes the next inspection reproducible, not when it produces the strongest-sounding diagnosis.
 Record that inspection owner or review queue when the project has one.
 
+## Final handoff
+
+Keep the candidate definition with the baseline window.
+Preserve both recovered and newly wrong records.
+Separate a review signal from a confirmed cause.
+Use the same comparison unit in the next run.
+Record the owner of the follow-up inspection.
+Keep the raw evidence available for review.
+Do not turn the first comparison into a final diagnosis.
+State the next fixed reference explicitly.
+Keep the date range visible.
+
 ## Sources and references
 
 This section’s example data and retrospective structure are original material created for this book’s project practice. It does not quote external material directly.

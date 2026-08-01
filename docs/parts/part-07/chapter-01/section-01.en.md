@@ -265,6 +265,15 @@ It also keeps a changed teaching scenario from being mistaken for source evidenc
 
 If those five fields are filled in, the question, input unit, baseline, and next question remain in the project record. The project is ready for its next comparison even before a model is built.
 
+## Final handoff
+
+Keep the question, input unit, time range, baseline, and named next inspection together.
+Do not let an aggregate replace the rows that created it.
+Preserve the current comparison before adding a model.
+State which column or period will be inspected next.
+Keep uncertainty separate from an observed change.
+Use the same record fields in the next run.
+
 ## Sources and references
 
 - Python Software Foundation, [`csv — CSV File Reading and Writing`](https://docs.python.org/3/library/csv.html){: target="_blank" rel="noopener noreferrer" }, Python 3 Documentation. Accessed 2026-06-29.

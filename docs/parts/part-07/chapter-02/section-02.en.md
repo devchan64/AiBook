@@ -305,6 +305,14 @@ Keep the next question open until a broader evaluation answers it.
 | Limit | Did you avoid generalizing from small synthetic data? |
 | Next question | Did you state remaining failures or boundary cases to collect? |
 
+## Final handoff
+
+Keep the normalization rule and the distance comparison together.
+Record the fixed evaluation rows and threshold.
+Report recovered, unchanged, and newly wrong cases.
+Treat a scaling choice as a testable representation change.
+Keep the small-data limit visible.
+
 ## Sources and references
 
 - [NumPy documentation](https://numpy.org/doc/stable/){: target="_blank" rel="noopener noreferrer" }

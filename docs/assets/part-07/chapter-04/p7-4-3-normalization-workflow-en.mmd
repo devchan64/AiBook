@@ -1,0 +1,10 @@
+flowchart TD
+  A[Fixed evaluation texts] --> B[Run original representation]
+  B --> C[Apply boundary-aware normalization rules]
+  C --> D[Run normalized representation]
+  D --> E[Compare coverage, OOV, prediction, and status]
+  E --> F{Did a correct result regress?}
+  F -->|Yes| G[Revert or recheck the rule]
+  F -->|No| H{Did an error or undecided case recover?}
+  H -->|Yes| I[Prioritize normalization]
+  H -->|No| J[Add a rule or data, or record a cleanup candidate]

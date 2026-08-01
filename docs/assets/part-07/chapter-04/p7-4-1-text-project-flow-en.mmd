@@ -1,0 +1,9 @@
+flowchart TD
+  A["Support inquiry text"]
+  B["Tokenize<br/>split words consistently"]
+  C["Vectorize<br/>count training-vocabulary tokens"]
+  D["Train softmax classifier<br/>record loss and accuracy by epoch"]
+  E["Predict held-out inquiries"]
+  F["Record error samples and the next question"]
+
+  A --> B --> C --> D --> E --> F
