@@ -1,0 +1,32 @@
+{
+  "status": "review_required",
+  "model_id": "black-forest-labs/FLUX.2-klein-4B",
+  "runtime": "diffusers Flux2KleinPipeline sequential CPU offload",
+  "purpose": "single variable comparison: front versus angle-matched reference on one side-view whole-shot contract",
+  "prompt": "Create one polished full-body Korean webtoon panel of the exact same young woman in the reference image. Show a real left-side profile as she walks through a quiet cinema lobby, holding one plain ticket in her left hand. Keep her teal bob haircut and silver hair clip, white cropped utility jacket, charcoal shirt, teal wide-leg trousers, white sneakers, and exactly one navy horizontal flap shoulder bag at her right hip with one diagonal strap. Show her complete body and both shoes with natural anatomy, clean restrained webtoon line art, soft flat colors, and a readable lobby background.",
+  "size": [
+    512,
+    768
+  ],
+  "steps": 4,
+  "guidance_scale": 1.0,
+  "seed": 320301,
+  "elapsed_seconds": 22.4,
+  "gpu_memory_before_mib": 611,
+  "gpu_memory_peak_mib": 2090,
+  "results": [
+    {
+      "case_id": "front_reference",
+      "reference_image": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-mira-single-reference-01.png",
+      "output_image": "/tmp/p7-5-1-flux2-view-matched-reference/front_reference.png",
+      "elapsed_seconds": 10.8
+    },
+    {
+      "case_id": "side_reference",
+      "reference_image": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-mira-single-reference-14-side-walk-pause.png",
+      "output_image": "/tmp/p7-5-1-flux2-view-matched-reference/side_reference.png",
+      "elapsed_seconds": 10.3
+    }
+  ],
+  "contact_sheet": "contact-sheet.png"
+}

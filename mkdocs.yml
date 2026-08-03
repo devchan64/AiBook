@@ -550,6 +550,7 @@ nav:
               - "P7-4.4 같은 평균, 다른 패턴 비교 연습": parts/part-07/chapter-04/section-04.md
       - "Module 3. 현재 모델 실행 실습":
           - "Chapter 5. 생성형 이미지 모델 실습":
+              - "P7-5.0 로컬 GPU로 프레임 없는 웹툰 화풍 참조 팩 만들기": parts/part-07/chapter-05/section-00.md
               - "P7-5.1 캐릭터 참조 팩과 SD 1.5 LoRA로 기준 만들기": parts/part-07/chapter-05/section-01.md
               - "P7-5.2 SD 1.5와 StoryDiffusion으로 다중 컷 반복성 점검하기": parts/part-07/chapter-05/section-02.md
               - "P7-5.3 SD 1.5 LoRA, ControlNet, inpaint로 웹툰 컷 검증하기": parts/part-07/chapter-05/section-03.md

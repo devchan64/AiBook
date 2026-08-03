@@ -109,9 +109,33 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 
 `0.25`에서는 얼굴, 전신, 의상, 가방이 비교적 남지만 네 결과가 모두 흰 배경의 비슷한 서 있는 전신 구도에 머뭅니다. `0.55`도 요청 장면·camera·동작을 만들지 못하고 세부가 흐트러졌습니다. `0.80`은 팔·몸통과 난간 일부를 바꾸지만 요청한 주방, 페리, 영화관, 도예 작업실의 camera와 동작에는 도달하지 못하며 얼굴·머리·재킷·가방도 더 이탈합니다. 따라서 단일 참조 img2img는 **가까운 전신 기준을 보존하는 도구**일 뿐, pose·projection·camera·배경을 독립적으로 바꾸는 웹툰 컷 생성기에는 채택하지 않습니다.
 
+## 로컬 character/style anchor pack
+
+외부 생성 기준을 쓰지 않는 참조팩도 별도 gate로 만들었습니다. 여기서 목표는 바로 웹툰 컷을 만드는 것이 아니라, 다음 생성의 입력이 될 **한 revision 안의 인물·화풍 원본**을 local GPU만으로 확보하는 것입니다. `FLUX.2-klein-base-4B`가 가방 없는 대칭 의상의 전신 master를 만들고, distilled `FLUX.2-klein-4B`가 한쪽 3/4, strict profile, rear 3/4를 확장했습니다. 반대쪽 view는 새로 추론하지 않고, 대칭 계약을 만족하는 승인 원본을 로컬 수평 반전해 만들었습니다.
+
+![Local mirror-safe character and style anchor pack](../../../assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1-contact-sheet.png)
+
+이 pack은 얇은 charcoal 선, 저채도 teal·white·charcoal palette, 약한 fold shadow, 흰 studio background를 화풍 계약으로, 대칭 deep-teal bob, 흰 cropped utility jacket, charcoal shirt, teal wide-leg trousers, 흰 sneakers를 인물 계약으로 기록합니다. base master는 `768 x 1152`, 50 step, guidance `4.0`, seed `410201`에서 `152.5`초, peak `2,894 MiB`로 생성했고, 세 reference 확장은 모두 4 step·guidance `1.0`에서 실행했습니다. [manifest](../../../assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1.json)는 각 view가 생성인지 mirror인지 구분합니다.
+
+승인 범위는 **대칭 의상·무소품·중립 전신 turnaround와 화풍 anchor**로 제한합니다. 가방·strap·손-소품 접점, 비대칭 액세서리, dynamic pose·장면·극단 camera, face close-up은 이 pack의 통과 근거가 아닙니다. 즉 mirror는 모델이 알지 못하는 반대쪽 얼굴이나 소품 구조를 발명하는 수단이 아니라, 설계 단계에서 대칭으로 제한한 원본의 대응 view를 만드는 결정적 변환입니다. 이 경계를 지키면 8 GB에서도 local-only character/style pack을 만들 수 있지만, 비대칭 character나 prop pack은 별도 생성·사람 검수 gate가 필요합니다. [master probe](#local-mirror-safe-master-probe), [view probe](#local-mirror-safe-views-probe), [strict profile probe](#local-mirror-safe-profile-probe), [pack builder](#local-character-style-pack-builder)를 함께 제공합니다.
+
+화풍 기준은 인물 기준과 분리합니다. `P7-5.0`의 frame-free style-pack gate를 먼저 통과한 출력만 다음 character master의 style reference가 될 수 있습니다. 현재 mirror-safe character pack은 대칭 의상·무소품·중립 전신 turnaround의 제한된 기준이고, 화풍 팩의 장소·시간·camera 다양성이나 전체 컷 보정의 근거는 아닙니다.
+
 ## 인증 없는 참조 편집 모델의 첫 전체 컷 게이트
 
 앞의 img2img는 초기 이미지의 구도를 벗어나기 어려웠습니다. 반대로 [InvokeAI](https://github.com/invoke-ai/InvokeAI){: target="_blank" rel="noopener noreferrer" }의 현재 모델 관리 경로는 FLUX.2 Klein 4B를 참조 이미지를 직접 받는 모델로 등록합니다. 공개 `GGUF Q4` 변환기, 공개 FLUX.2 VAE, 공개 Qwen3 4B 인코더를 각각 설치했으며, 세 저장소는 로그인 없이 내려받았습니다. 따라서 이 실험은 Hugging Face 토큰이나 gated base를 전제로 하지 않습니다.
+
+### 생성 도구와 이용 조건 공개
+
+이 절의 PNG는 외부 삽화나 InvokeAI 화면을 복제한 자료가 아니라, 아래 실행에서 새로 생성한 실험 결과다. 기준 참조 `single-01`은 Codex `image_gen.imagegen` 호출로 생성했으며, 실제 지시문은 [Mira 생성 기록](#mira-generation-record)에 남겼다. `p7-5-1-flux2-klein-*.png` 두 장은 로컬에 설치한 InvokeAI runtime의 FLUX.2 Klein workflow로 생성했고, 이후 `p7-5-1-diffusers-flux2-*` 및 comparator 출력은 InvokeAI 없이 직접 Diffusers pipeline으로 생성했다.
+
+| 구분 | 사용 도구 | 공개 범위 |
+| --- | --- | --- |
+| 기준 참조 | Codex `image_gen.imagegen` | 생성 지시문과 사람 검수 기록을 공개 |
+| 첫 FLUX.2 whole-shot gate | 로컬 InvokeAI runtime | workflow 요청 코드, 모델 source ID, prompt·seed·실행 기록을 공개 |
+| 후속 FLUX.2 비교 | 로컬 Diffusers | Python 코드, prompt·seed·실행 기록을 공개 |
+
+InvokeAI 저장소의 코드는 Apache-2.0으로 제공되지만, 그 코드 라이선스가 모델 가중치·GGUF 변환물·VAE·text encoder 또는 생성 PNG의 이용 조건을 대신하지는 않는다. 이 실험은 InvokeAI 코드나 모델 가중치를 책에 재배포하지 않으며, 각 모델과 변환물의 이용 조건은 배포처에서 별도로 확인해야 한다. 이 표기는 생성물의 저작권 귀속이나 이용 가능 범위를 법적으로 판정하는 문장이 아니며, 도구와 생성 경로를 공개하기 위한 기록이다.
 
 처음에는 단일 `single-01` 전신 참조 하나와 영화관 티켓 장면만 사용했습니다. `512 x 768`, Euler 4 step, seed `320241`, Qwen3 max sequence length `256`을 고정하고, 참조 이미지는 모델의 내장 reference conditioning으로 연결했습니다. 실행은 `14.4`초, 관측 peak VRAM `5,552 MiB`에서 끝났습니다. 전신, 얼굴·청록 단발·silver clip, 흰 재킷, 청록 바지, 흰 운동화, 오른쪽 hip의 가로형 navy flap bag, 하나의 대각 strap, 티켓과 영화관 배경을 함께 확인했습니다.
 
@@ -177,13 +201,29 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 
 ![Side-profile walk with watercolor reference](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-side-comparator-woman-watercolor.png)
 
+### Reference camera를 바꾼 side whole-shot 비교
+
+측면 컷에서 참조 이미지의 camera를 맞추면 더 안정적인지 확인하려고, 정면 `single-01`과 `three-quarter-left`에서 멈춘 측면 `single-14`만 바꿨습니다. 나머지는 `512 x 768`, 4 step, guidance `1.0`, seed `320301`, 같은 cinema lobby·left-side walk prompt로 고정했습니다. 두 출력 모두 왼쪽을 향한 측면 보행, 전신과 신발, ticket, 청록 bob·clip, 의상, right-hip navy flap bag과 하나의 diagonal strap을 통과했습니다.
+
+![Front and side reference comparison for a side whole shot](../../../assets/part-07/chapter-05/p7-5-1-flux2-view-matched-reference-contact-sheet.png)
+
+다만 이 조건에서는 camera를 맞춘 `single-14`가 정면 `single-01`보다 눈에 띄게 더 좋지 않았습니다. 즉 이 최소 실행에서는 참조의 view 수를 늘리는 일보다 whole-shot prompt와 FLUX.2 direct reference conditioning의 조합이 측면 컷 성패를 더 크게 좌우했습니다. 이는 측면 참조가 다른 pose·후면·복잡한 소품 접점에서 쓸모없다는 뜻은 아니며, 그 조건은 별도 gate로 검증합니다. 두 이미지는 합계 `22.4`초, peak `2,090 MiB`에서 생성했습니다. [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-view-matched-reference-probe.json)과 [실행 코드](#flux2-view-matched-reference-probe)를 함께 확인할 수 있습니다.
+
 얼굴·손은 full body를 먼저 그린 `768 x 1152` 결과에서 검사했습니다. Mira 기준, 남성 webtoon 참조, text-only의 세 출력은 눈, 양손, ticket 접점, 전신을 함께 통과했지만, 수채화 참조 출력은 rectangular flap bag을 지키지 못했습니다. 후면 3/4에서는 male webtoon과 text-only만 하나의 가방·strap을 지켰고, Mira 기준은 bag body가 둘로 갈라졌으며 수채화 참조는 strap이 교차했습니다. 따라서 local inpaint는 이 whole-shot gate를 통과한 이미지에만 허용합니다.
 
 ![High-resolution face and hands gate](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-detail-comparator-mira-reference.png)
 
 ![Rear three-quarter gate with male webtoon reference](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-rear-comparator-male-webtoon.png)
 
-[통합 사람 검수 판정](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-generalization-review.json)은 이 결과를 low-angle·side `4/4` 통과, detail `3/4` 부분 통과, rear 3/4 `2/4` 부분 통과로 기록합니다. 따라서 현재 최소 파이프라인은 **전신 whole-shot 생성 -> pose·camera·소품 gate -> 통과 이미지에만 얼굴·손·소품의 국소 보정**입니다. 후면의 가방·strap 안정화는 다음 개선 과제이며, 실패 출력은 원고 자산으로 보존하지 않습니다.
+### Rear reference를 맞춘 후면 3/4 gate
+
+앞선 네 입력군의 rear `2/4`는 호환되지 않는 외부 참조까지 섞은 일반화 비교였습니다. 직접 참조 파이프라인에서의 후면 한계를 분리하기 위해, 정면 `single-01`과 rear three-quarter `single-12`만 바꾸고, 같은 cinema lobby·rear three-quarter walk prompt, `512 x 768`, 4 step, guidance `1.0`, seed `320302`을 고정했습니다. 두 결과가 모두 후면 3/4 보행, 전신·두 신발, 흰 재킷·청록 바지, 하나의 navy flap bag과 등을 가로지르는 하나의 strap을 통과했습니다.
+
+![Front and rear reference comparison for a rear three-quarter whole shot](../../../assets/part-07/chapter-05/p7-5-1-flux2-rear-view-matched-reference-contact-sheet.png)
+
+rear `single-12`는 가방 위치와 보행 다리를 더 분명하게 뒤쪽 구도로 수렴시켰지만, 정면 참조도 이 고정 조건에서는 통과했습니다. 따라서 후면의 가방·strap 결함은 FLUX.2 direct reference conditioning 자체의 필연적 한계가 아니라, 참조-장면 조합과 prompt의 gate 문제로 다뤄야 합니다. 두 이미지는 합계 `22.1`초, peak `1,843 MiB`에서 생성했으며, [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-rear-view-matched-reference-probe.json)과 [실행 코드](#flux2-rear-view-matched-reference-probe)를 제공합니다.
+
+[통합 사람 검수 판정](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-generalization-review.json)은 앞선 호환되지 않는 참조 포함 비교를 low-angle·side `4/4` 통과, detail `3/4` 부분 통과, rear 3/4 `2/4` 부분 통과로 기록합니다. 이번 직접 참조 재검증은 그 rear 조건을 별도로 통과시킨 것입니다. 따라서 현재 최소 파이프라인은 **전신 whole-shot 생성 -> pose·camera·소품 gate -> 통과 이미지에만 얼굴·손·소품의 국소 보정**입니다. 실패 출력은 원고 자산으로 보존하지 않습니다.
 
 ## 실행 자산과 원문 { #execution-assets }
 
@@ -210,6 +250,11 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 | InvokeAI-free FLUX.2 Klein gate | [Diffusers 영화관 결과](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-reference-preflight.png), [Diffusers 계단 보행 결과](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-low-angle-walk-preflight.png), [각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-reference-preflight.json), [보행 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-low-angle-walk-preflight.json), [probe](#diffusers-flux2-klein-reference-probe) |
 | FLUX.2 Klein 불일치 참조 비교 | [Mira 기준](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-mira-reference.png), [남성 webtoon 입력](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-male-webtoon.png), [수채화 입력](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-woman-watercolor.png), [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-reference-comparator-run.json), [검수 판정](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-reference-comparator-review.json), [probe](#diffusers-flux2-mira-reference-comparator) |
 | FLUX.2 Klein whole-shot 일반화 | [저각도 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-low-angle-comparator-run.json), [측면 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-side-comparator-run.json), [detail 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-detail-comparator-run.json), [후면 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-rear-comparator-run.json), [통합 검수](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-generalization-review.json), [probe](#diffusers-flux2-mira-reference-comparator) |
+| FLUX.2 Klein reference camera 비교 | [정면/측면 contact sheet](../../../assets/part-07/chapter-05/p7-5-1-flux2-view-matched-reference-contact-sheet.png), [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-view-matched-reference-probe.json), [probe](#flux2-view-matched-reference-probe) |
+| FLUX.2 Klein rear reference 비교 | [정면/후면 contact sheet](../../../assets/part-07/chapter-05/p7-5-1-flux2-rear-view-matched-reference-contact-sheet.png), [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-rear-view-matched-reference-probe.json), [probe](#flux2-rear-view-matched-reference-probe) |
+| local character/style anchor pack | [contact sheet](../../../assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1-contact-sheet.png), [manifest](../../../assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1.json), [master 실행](../../../assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1-master-probe.json), [view 실행](../../../assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1-views-probe.json), [profile 실행](../../../assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1-profile-probe.json), [builder](#local-character-style-pack-builder) |
+| style-conditioned character pack | [contact sheet](../../../assets/part-07/chapter-05/p7-5-1-local-style-conditioned-character-pack-v1-contact-sheet.png), [manifest](../../../assets/part-07/chapter-05/p7-5-1-local-style-conditioned-character-pack-v1.json), [master 실행](../../../assets/part-07/chapter-05/p7-5-1-local-style-conditioned-character-pack-v1-master-probe.json), [view 실행](../../../assets/part-07/chapter-05/p7-5-1-local-style-conditioned-character-pack-v1-views-probe.json), [builder](#style-conditioned-character-pack-builder) |
+| style/character cut-scene 비교 | [contact sheet](../../../assets/part-07/chapter-05/p7-5-1-local-style-character-cutscene-ablation-contact-sheet.png), [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-local-style-character-cutscene-ablation.json), [probe](#style-character-cutscene-ablation) |
 | 실험 계약 | [manifest](#experiment-manifest) |
 | 현재 실행 도구 | [Mira splitter](#reference-pack-splitter), [checker](#experiment-checker) |
 
@@ -310,6 +355,56 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 
 <details id="diffusers-flux2-mira-reference-comparator" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_diffusers_flux2_mira_reference_comparator.py" data-language="python">
 <summary>Diffusers FLUX.2 Klein 불일치 참조 비교 probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="flux2-view-matched-reference-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_view_matched_reference_probe.py" data-language="python">
+<summary>FLUX.2 Klein reference camera 비교 probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="flux2-rear-view-matched-reference-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_rear_view_matched_reference_probe.py" data-language="python">
+<summary>FLUX.2 Klein rear reference 비교 probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="local-mirror-safe-master-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_local_mirror_safe_master_probe.py" data-language="python">
+<summary>local mirror-safe master probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="local-mirror-safe-views-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_local_mirror_safe_views_probe.py" data-language="python">
+<summary>local mirror-safe view probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="local-mirror-safe-profile-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_local_mirror_safe_strict_profile_probe.py" data-language="python">
+<summary>local mirror-safe strict profile probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="local-character-style-pack-builder" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_build_local_character_style_pack.py" data-language="python">
+<summary>local character/style pack builder 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="style-conditioned-character-master-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_style_conditioned_character_master_probe.py" data-language="python">
+<summary>style-conditioned character master probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="style-conditioned-character-views-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_style_conditioned_character_views_probe.py" data-language="python">
+<summary>style-conditioned character view probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="style-conditioned-character-pack-builder" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_build_local_style_conditioned_character_pack.py" data-language="python">
+<summary>style-conditioned character pack builder 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="style-character-cutscene-ablation" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_style_character_cutscene_ablation.py" data-language="python">
+<summary>style/character cut-scene ablation 전문 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 

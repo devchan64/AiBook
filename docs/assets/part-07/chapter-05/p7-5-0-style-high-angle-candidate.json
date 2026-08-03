@@ -1,0 +1,18 @@
+{
+  "status": "review_required",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload",
+  "purpose": "first frame-free, non-eye-level style-pack camera candidate",
+  "prompt": "Create a full-bleed vertical background painting for a Korean webtoon: an empty indoor atrium at dawn viewed from a high camera above the upper landing, looking steeply downward across stair flights, tiled floor, benches, and plants. The camera is high angle and downward-looking, not eye level, not centered one-point perspective, and not a frontal hallway view. The image fills every edge of the canvas. There is no page border, no black rectangle at the edge, no panel frame, no white margin, no inset illustration, no text, no signs, no people, no animals, and no vehicles. Use thin charcoal contour and structural perspective lines that remain visible above transparent watercolor washes: pale teal and indigo shadow, muted olive plants, warm apricot dawn light, and warm off-white surfaces. Use no hatching, no crosshatching, no stippling, no dense ink texture, no monochrome ink wash, no sumi-e, no calligraphy, no photorealism, no opaque airbrush, no screentones, no thick comic outlines, and no neon.",
+  "size": [
+    768,
+    1152
+  ],
+  "steps": 50,
+  "guidance_scale": 4.0,
+  "seed": 420601,
+  "elapsed_seconds": 150.7,
+  "gpu_memory_before_mib": 607,
+  "gpu_memory_peak_mib": 2890,
+  "output_image": "/tmp/p7-5-0-style-high-angle-probe/high-angle.png"
+}
