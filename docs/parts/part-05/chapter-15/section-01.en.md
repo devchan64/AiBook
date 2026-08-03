@@ -1,7 +1,7 @@
 # P5-15.1 What Changes When We Read Generative AI Through Deep Learning
 
 > Section ID: `P5-15.1`
-> Version: `v2026.07.31`
+> Version: `v2026.08.03`
 
 When recording this transition, separate `input_context`, `classification_label`, `candidate_output_form`, `review_criteria`, and `user_visible_artifact`. Then generative AI appears not as a kind of labeler that replaces classification, but as a flow that creates an artifact users can read and review.
 
@@ -59,9 +59,11 @@ This difference becomes clearer where the output is actually used.
 | score | how high or low is it? | what is lost if this score is turned into a sentence for a user? |
 | generated artifact | did a result appear? | does it satisfy context, naturalness, and reviewability together? |
 
-In other words, a generative-AI output is both the result of model computation and an object a person must read and judge. Inside the model, the computation still produces numbers such as scores or probabilities for candidates. But in generative AI, those numbers do not stop at choosing one final label. They are used to choose and connect output pieces, such as the next word, the next sentence fragment, or the next visual component.
+In other words, a generative-AI output is both the result of model computation and an object a person must read and judge. Inside the model, the computation still produces numbers such as scores or probabilities for candidates. But in generative AI, those numbers do not stop at choosing one final label. In a text model, they can be used to choose the next token or sentence fragment; in an image diffusion model, they can guide how noise is reduced in the current latent representation and how the next restoration state is reached.
 
-For example, after `before restarting the line`, several expressions can follow: `check the interlock`, `confirm the sensor state`, or `start at low speed first`. The model compares such candidates numerically, but the user does not see a table of numbers as the final result. The user sees guidance sentences formed by one or more selected pieces. For that reason, when we read the output side of deep learning, we cannot stop at `which number is largest`; we must also prepare to see how those numbers may continue into actual sentences or image pieces.
+For example, after `before restarting the line`, several expressions can follow: `check the interlock`, `confirm the sensor state`, or `start at low speed first`. The model compares such candidates numerically, but the user does not see a table of numbers as the final result. The user sees guidance sentences formed by one or more selected pieces. For images, the user sees one finished image rather than a list of pixel or component candidates. For that reason, when we read the output side of deep learning, we cannot stop at `which number is largest`; we must also prepare to see how that computation becomes an actual sentence or an image that satisfies the conditions.
+
+This distinction prevents an image from being explained as a list of independently selected visual parts.
 
 ## Why Output May Not Be Fixed As One Answer
 

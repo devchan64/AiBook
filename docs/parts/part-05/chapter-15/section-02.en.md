@@ -1,9 +1,9 @@
 # P5-15.2 Candidate Distributions in Generative Models
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.31`
+> Version: `v2026.08.03`
 
-When looking at a candidate distribution, place `prompt_context`, `candidate_text`, `relative_score`, `probability_mass`, `most_likely_candidate`, and `remaining_candidates` together. This keeps the top candidate and the whole candidate distribution from being treated as the same thing.
+When looking at a candidate distribution, place `prompt_context`, `candidate_text_or_state`, `relative_score`, `probability_mass`, `most_likely_candidate`, and `remaining_candidates` together. This keeps the top candidate and the whole candidate distribution from being treated as the same thing. `candidate_text` is a record field for text generation, however; an image diffusion model does not directly create the same kind of sentence-candidate list.
 
 _Subtitle: Why do generative models keep candidate distributions instead of one answer?_
 
@@ -13,9 +13,9 @@ Then how should we understand what a generative model prepares for that output?
 
 The core point is that a generative model does not memorize and return one correct answer. It keeps the relative plausibility of possible output candidates. This sense is needed before P5-15.3 can read sampling not as random picking, but as the procedure that pulls an actual output from a candidate distribution.
 
-## A Candidate Distribution Is the Possibility After the Current Input
+## A Candidate Distribution Is Relative Plausibility Under the Current Condition
 
-A classification model usually asks `what class is this input?` A generative model is more similar to `what outputs could naturally continue after this input?`
+A classification model usually asks `what class is this input?` A generative model is more similar to `what output or next generative state is natural under the current condition?`
 
 | Viewpoint | Classification model | Generative model |
 | --- | --- | --- |
@@ -23,7 +23,7 @@ A classification model usually asks `what class is this input?` A generative mod
 | representative output | label, score | next sentence, new image, code draft |
 | first reading standard | highest label | relative plausibility of candidates |
 
-A candidate distribution is a side-by-side view of how plausible each possible continuation is after the current input. For example, if three sentences can all follow `batch inspection result`, the generative model does not store only one of them as the answer. It prepares a form that can compare how natural each candidate is relative to the others.
+A candidate distribution is an explanatory frame for how plausible possible results are under the current condition. In text, when three sentences can all follow `batch inspection result`, we can place their relative plausibility side by side. This does not mean that this table literally exists inside every generative model.
 
 ## How Data Distribution and Candidate Distribution Connect
 
@@ -33,13 +33,15 @@ For text, the model sees what words and sentence structures often continue. For 
 
 This does not mean the model stored every correct sentence. More precisely, it learned enough recurring patterns to calculate which candidates could plausibly continue after the current input.
 
-Two levels need to be separated here. The data distribution is the broad pattern of what combinations often appear across the training data. A candidate distribution is the current-position view of `what can naturally come next, and by how much`, unfolded for this particular input.
+Two levels need to be separated here. The data distribution is the broad pattern of what combinations often appear across the training data. A candidate distribution is the current-position view for explaining `what is natural under this condition, and by how much`.
 
 | Data type | Pattern the model often sees | What to check in the result |
 | --- | --- | --- |
 | operation sentences | repeated action phrases and warning structures | whether the next sentence and tone fit the alert context |
 | equipment images | colors, outlines, and layouts that appear together | whether composition and form remain natural |
 | field-support responses | answer lengths and structures used by request type | whether order and warning placement fit the situation |
+
+In an image diffusion model, do not read a candidate distribution as a visible list of complete images. A latent-diffusion model such as Stable Diffusion works with a distribution over whole images under a prompt condition, and at each restoration step it predicts noise to reduce in the current latent representation rather than selecting the next-word candidates. The table of candidate sentences is therefore an introductory example for separating distributions from actual choices, not an exact internal display of image generation.
 
 ## most_likely and probabilities Are Different
 
@@ -110,3 +112,4 @@ The goal is not to say more candidates are always better. The goal is to separat
 ## Sources and References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 20 `Deep Generative Models`, checked on 2026-07-21. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, accessed 2026-08-03.
