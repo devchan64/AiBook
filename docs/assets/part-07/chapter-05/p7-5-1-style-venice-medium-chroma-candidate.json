@@ -1,0 +1,1 @@
+{"status":"partial_pass","model_id":"black-forest-labs/FLUX.2-klein-base-4B","scene_id":"venice-sunset-oblique-medium-chroma","seed":420645,"size":[768,1152],"steps":50,"guidance_scale":3.5,"elapsed_seconds":150.0,"gpu_memory_peak_mib":2888,"review":"Frame-free oblique canal-side view; teal water and a narrow apricot sky opening preserve a restrained sunset palette."}
