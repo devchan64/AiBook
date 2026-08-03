@@ -508,6 +508,7 @@ nav:
           - "Chapter 15. MCP와 하네스":
               - "P6-15.1 도구와 자원을 공통 형식으로 연결하는 MCP": parts/part-06/chapter-15/section-01.md
               - "P6-15.2 실행 기록과 재현 환경을 감싸는 하네스": parts/part-06/chapter-15/section-02.md
+              - "P6-15.3 보충학습: 에이전트 워크플로와 이미지 생성 워크플로는 무엇이 다른가": parts/part-06/chapter-15/section-03.md
       - "Module 7. 검토 가능한 서비스 상태":
           - "Chapter 16. LLM 평가":
               - "P6-16.1 자연스러운 답과 품질 기준을 나누는 LLM 평가": parts/part-06/chapter-16/section-01.md
