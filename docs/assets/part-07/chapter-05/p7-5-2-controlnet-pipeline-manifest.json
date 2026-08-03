@@ -1,0 +1,74 @@
+{
+  "schema_version": "p7-controlnet-webtoon/v1",
+  "project_id": "episode-01-template",
+  "phase": "asset_approval",
+  "character_reference_pack": {
+    "revision": "draft-01",
+    "approval_status": "planned",
+    "rights_confirmation": "pending"
+  },
+  "assets": {
+    "character_sheet": {
+      "status": "planned",
+      "required_views": ["front", "three_quarter_left", "three_quarter_right", "side", "back"],
+      "approved_views": []
+    },
+    "face_sheet": {
+      "status": "planned",
+      "required_items": ["front", "three_quarter_left", "three_quarter_right", "side", "neutral_expression"],
+      "approved_items": []
+    },
+    "style_sheet": {
+      "status": "planned",
+      "required_items": ["line", "palette", "shading", "forbidden_texture"],
+      "approved_items": []
+    },
+    "location_sheet": {
+      "status": "planned",
+      "required_items": ["perspective", "landmarks", "light_direction"],
+      "approved_items": []
+    }
+  },
+  "panels": [
+    {
+      "panel_id": "panel-01",
+      "entry_strategy": "face-first",
+      "primary_control": "lineart",
+      "required_full_body": false,
+      "camera_intent": "medium_eye_level",
+      "identity_anchor": "character_lora_or_reference",
+      "repair_targets": ["eyes", "fringe"],
+      "quality": {}
+    },
+    {
+      "panel_id": "panel-02",
+      "entry_strategy": "pose-first",
+      "primary_control": "openpose",
+      "required_full_body": true,
+      "camera_intent": "three_quarter_full_body",
+      "identity_anchor": "character_lora_or_reference",
+      "repair_targets": ["wrists", "feet"],
+      "quality": {}
+    },
+    {
+      "panel_id": "panel-03",
+      "entry_strategy": "camera-background-first",
+      "primary_control": "depth",
+      "required_full_body": true,
+      "camera_intent": "low_angle_wide",
+      "identity_anchor": "character_lora_or_reference",
+      "repair_targets": ["silhouette", "background_perspective"],
+      "quality": {}
+    },
+    {
+      "panel_id": "panel-04",
+      "entry_strategy": "object-first",
+      "primary_control": "lineart",
+      "required_full_body": false,
+      "camera_intent": "high_angle_medium",
+      "identity_anchor": "character_lora_or_reference",
+      "repair_targets": ["hand_object_contact", "gaze"],
+      "quality": {}
+    }
+  ]
+}

@@ -68,7 +68,7 @@ Part 7은 하나의 프로젝트를 `질문`, `baseline`, `비교`, `구조`, `�
 | --- | --- | --- |
 | 질문과 비교 실습 | 질문 설정, baseline, 전처리, 비교 실험 | `P7-1.1`~`P7-2.3` |
 | 구조와 학습 해석 | 입력 구조 선택, 실제 분류기 비교, 학습 결과 해석, 오류 읽기 | `P7-3.1`~`P7-4.4` |
-| 생성형 이미지 모델 실습 | prompt, seed, adapter, workflow, 학습 데이터셋을 바꾸며 생성 결과를 비교 | `P7-5.1`~`P7-5.3` |
+| 생성형 이미지 모델 실습 | 참조 팩, character LoRA, 다중 컷 반복성, 구조 제어, 국소 보정을 분리해 생성 결과를 비교 | `P7-5.1`~`P7-5.3` |
 | 로컬 LLM·비전·음성 모델 실습 | 양자화, context 길이, segmentation prompt, 음성·오디오 입력 조건을 바꾸며 출력 실패를 비교 | `P7-6.1`~`P7-8.1` |
 | RAG와 AI 에이전트 실습 | 근거, 검색 설정, 검색 평가셋, 평가 지표, 권한, trace, 실행 기록 | `P7-9.1`~`P7-12.1` |
 | 배포와 운영 점검 | 배포 확인, 장애 기록, 다음 조치 우선순위, 재현 패키지 | `P7-13.1`~`P7-14.1` |
@@ -81,7 +81,7 @@ Part 7은 생성형 이미지, 로컬 LLM, 비전, 음성·오디오, RAG 평가
 
 | 상태 | 모델군 | 대표 도구 또는 모델 | 회수할 개념 | 판단 |
 | --- | --- | --- | --- | --- |
-| 반영됨 | 생성형 이미지 | Stable Diffusion, LoRA, ControlNet, IP-Adapter, kohya_ss | 생성 모델, prompt, seed, 조건 제어, fine-tuning | `P7-5.1`~`P7-5.3`에서 먼저 다룹니다. |
+| 반영됨 | 생성형 이미지 | Stable Diffusion 1.5, LoRA, StoryDiffusion, ControlNet, inpaint | 캐릭터 기준, 다중 컷 반복성, 조건 제어, 국소 보정 | `P7-5.1`~`P7-5.3`에서 먼저 다룹니다. |
 | 반영됨 | 로컬 LLM | `llama.cpp`, Qwen, Gemma 계열 | token, context length, quantization, inference | `P7-6.1`에서 작은 모델과 양자화 모델의 속도·메모리·답변 차이를 비교합니다. |
 | 반영됨 | 비전 모델 | SAM 2, 이미지 분류·세그멘테이션 모델 | 입력 구조, CNN/Transformer, 표현 학습, 오류 샘플 | `P7-7.1`에서 같은 이미지의 prompt나 box 입력 차이를 기록합니다. |
 | 반영됨 | 음성·오디오 모델 | Whisper, AudioCraft/MusicGen | 시퀀스, encoder-decoder, 음성 토큰화, 생성 평가 | `P7-8.1`에서 음성 전사와 오디오 생성 조건 차이를 비교합니다. |

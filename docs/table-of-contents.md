@@ -812,9 +812,9 @@ Part 7은 독립된 새 이론 Part가 아니라, 앞서 소개한 내용을 현
 
 #### Chapter 5. 생성형 이미지 모델 실습 `프로젝트 실습`
 
-- **P7-5.1 diffusers로 Stable Diffusion과 LoRA 조건 고정하기**: Stable Diffusion base 모델에 공개 LoRA를 얹고, prompt와 seed를 고정한 상태에서 adapter weight 변화가 결과와 실패 기록을 어떻게 바꾸는지 비교합니다.
-- **P7-5.2 ComfyUI workflow로 LoRA, ControlNet, IP-Adapter 조합 보기**: LoRA, ControlNet, IP-Adapter가 각각 스타일, 구조, 참조 이미지 반영 중 어떤 역할을 맡는지 workflow 기록으로 확인합니다.
-- **P7-5.3 kohya_ss로 직접 LoRA 학습 확장하기**: 작은 이미지셋과 caption 규칙으로 직접 LoRA를 학습하고, 과적합·학습 부족·prompt 반응 실패를 다음 데이터셋 수정으로 연결합니다.
+- **P7-5.1 캐릭터 참조 팩과 SD 1.5 LoRA로 기준 만들기**: 자체 제작·권리 확인 참조 팩을 학습과 held-out으로 나누고, 캐릭터 LoRA가 다른 view에서도 인물성을 유지하는지 점검합니다.
+- **P7-5.2 SD 1.5와 StoryDiffusion으로 다중 컷 반복성 점검하기**: SD 1.5 기반 최소 조건에서 세 prompt의 캐릭터 반복성, VRAM, 생성 시간을 분리해 확인합니다.
+- **P7-5.3 SD 1.5 LoRA, ControlNet, inpaint로 웹툰 컷 검증하기**: 승인한 캐릭터 기준과 컷별 구조 입력을 결합해 네 컷의 구조·인물성·국소 보정을 분리해 판정합니다.
 
 #### Chapter 6. 로컬 LLM 실행 실습 `프로젝트 실습`
 

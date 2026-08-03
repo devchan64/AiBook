@@ -548,9 +548,9 @@ nav:
               - "P7-4.4 같은 평균, 다른 패턴 비교 연습": parts/part-07/chapter-04/section-04.md
       - "Module 3. 현재 모델 실행 실습":
           - "Chapter 5. 생성형 이미지 모델 실습":
-              - "P7-5.1 diffusers로 Stable Diffusion과 LoRA 조건 고정하기": parts/part-07/chapter-05/section-01.md
-              - "P7-5.2 ComfyUI workflow로 LoRA, ControlNet, IP-Adapter 조합 보기": parts/part-07/chapter-05/section-02.md
-              - "P7-5.3 kohya_ss로 직접 LoRA 학습 확장하기": parts/part-07/chapter-05/section-03.md
+              - "P7-5.1 캐릭터 참조 팩과 SD 1.5 LoRA로 기준 만들기": parts/part-07/chapter-05/section-01.md
+              - "P7-5.2 SD 1.5와 StoryDiffusion으로 다중 컷 반복성 점검하기": parts/part-07/chapter-05/section-02.md
+              - "P7-5.3 SD 1.5 LoRA, ControlNet, inpaint로 웹툰 컷 검증하기": parts/part-07/chapter-05/section-03.md
           - "Chapter 6. 로컬 LLM 실행 실습":
               - "P7-6.1 로컬 LLM으로 양자화와 context 길이 비교하기": parts/part-07/chapter-06/section-01.md
           - "Chapter 7. 비전 모델 실습":
@@ -1503,6 +1503,7 @@ extra_css:
 
 extra_javascript:
   - javascripts/csv-preview.js
+  - javascripts/lazy-source.js
   - javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 

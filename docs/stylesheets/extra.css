@@ -169,6 +169,30 @@
   white-space: nowrap;
 }
 
+.md-typeset .aibook-lazy-source {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.25rem;
+  margin: 0.6rem 0;
+}
+
+.md-typeset .aibook-lazy-source > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.55rem 0.7rem;
+}
+
+.md-typeset .aibook-lazy-source__body {
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color--light);
+  padding: 0.65rem 0.7rem;
+}
+
+.md-typeset .aibook-lazy-source__code {
+  margin: 0;
+  max-height: 42rem;
+  overflow: auto;
+}
+
 .md-main,
 .md-main__inner,
 .md-content,

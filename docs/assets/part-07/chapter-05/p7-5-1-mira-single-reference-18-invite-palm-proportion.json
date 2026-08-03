@@ -1,0 +1,18 @@
+{
+  "method": "2D silhouette and pose-landmark proportion comparison; 3D values are intentionally excluded from the pass rule",
+  "maximum_relative_drift": 0.15,
+  "metrics": {
+    "silhouette_to_shoulder_2d": {
+      "canonical": 5.26315873268233,
+      "candidate": 5.787188287076571,
+      "relative_drift": 0.09956559948310233
+    },
+    "torso_to_leg_2d": {
+      "canonical": 0.5553210995770657,
+      "candidate": 0.6048561844616973,
+      "relative_drift": 0.08920079738075455
+    }
+  },
+  "status": "proportion_match",
+  "failed_metrics": []
+}
