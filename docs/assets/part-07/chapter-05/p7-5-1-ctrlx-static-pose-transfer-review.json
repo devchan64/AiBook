@@ -1,0 +1,47 @@
+{
+  "status": "not_adopted",
+  "checked_on": "2026-08-03",
+  "method": "Ctrl-X static structure and appearance control",
+  "upstream": {
+    "repository": "https://github.com/genforce/ctrl-x",
+    "license": "not separately recorded in this experiment; review upstream before redistribution",
+    "implementation": "training-free SDXL feature and attention control"
+  },
+  "hardware_contract": {
+    "gpu": "8 GB class GPU",
+    "resolution": [512, 768],
+    "batch_size": 1,
+    "offload": "sequential CPU offload",
+    "refiner": "disabled"
+  },
+  "inputs": {
+    "appearance_reference": "p7-5-1-mira-single-reference-05-front.png",
+    "structure_source": "p7-5-1-mira-heldout-03-cinema-ticket.png",
+    "structure_representation": "OpenPose body map with hand_and_face=false",
+    "prompt_contract": "low side three-quarter full body; bend to pick up ticket; teal bob; white jacket; teal trousers; white sneakers; navy flap crossbody bag; one diagonal strap"
+  },
+  "run": {
+    "steps": 20,
+    "guidance_scale": 5.0,
+    "structure_guidance_scale": 5.0,
+    "appearance_guidance_scale": 5.0,
+    "structure_schedule": 0.6,
+    "appearance_schedule": 0.6,
+    "seed": 5203,
+    "png_saved": true,
+    "peak_vram": "not retained; quality gate failed before a benchmark rerun",
+    "compatibility_note": "Upstream diffusers 0.28 runner imported under local diffusers 0.37.0. A /tmp-only compatibility patch changed scheduler loading and directory-model loading; no upstream or repository code was changed."
+  },
+  "quality_gate": {
+    "pose_bend_and_lower_body_direction": "partial pass",
+    "full_body": "partial pass",
+    "low_angle_cinema_scene": "fail",
+    "face_and_hair_identity": "fail",
+    "white_jacket": "fail",
+    "teal_trousers": "partial pass",
+    "navy_flap_bag": "fail",
+    "one_diagonal_strap": "fail",
+    "decision": "do not add scene control, inpaint, or sequence generation"
+  },
+  "asset_policy": "The generated PNGs and temporary structure script were removed because this branch failed the full-frame quality gate. This review record is retained for experiment history."
+}

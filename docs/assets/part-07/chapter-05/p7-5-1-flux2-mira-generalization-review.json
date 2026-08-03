@@ -1,0 +1,32 @@
+{
+  "experiment": "FLUX.2 Klein 4B Mira whole-shot generalization matrix",
+  "fixed_method": "Diffusers Flux2KleinPipeline, public BF16 model, sequential CPU offload, 4 inference steps, guidance scale 1.0",
+  "comparison_inputs": ["Mira reference", "bag-free male clean-webtoon reference", "bag-free woman watercolor-ink reference", "text only"],
+  "gates": [
+    {
+      "id": "low_angle_walk_revised",
+      "variables": "subway stair descent; camera one step below at knee height; large foreground shoe",
+      "verdict": "pass_4_of_4",
+      "evidence": "All outputs show a full body, visible upward camera direction, enlarged foreground shoe, stair perspective, walking pose, and the Mira costume/bag contract."
+    },
+    {
+      "id": "side_walk",
+      "variables": "true left-side profile; rainy pedestrian crossing; city bus background",
+      "verdict": "pass_4_of_4",
+      "evidence": "All outputs show a full side profile, walking pose, readable city setting, and the Mira hair, clothing, shoes, bag, and single strap."
+    },
+    {
+      "id": "high_resolution_detail",
+      "variables": "768x1152 full body; both hands holding a ticket at chest height",
+      "verdict": "partial_pass_3_of_4",
+      "evidence": "Faces, eyes, visible hands, ticket contact, and full body are readable. The watercolor-reference result changes the required rectangular flap bag into a non-flap bag, so it is rejected."
+    },
+    {
+      "id": "rear_three_quarter_revised",
+      "variables": "45-degree rear-left view; face contour visible; riverside promenade",
+      "verdict": "partial_pass_2_of_4",
+      "evidence": "The male-webtoon and text-only results preserve one bag and one strap. The Mira-reference result creates two bag bodies; the watercolor-reference result creates two crossing straps."
+    }
+  ],
+  "conclusion": "Natural-language camera constraints can produce low-angle and side full-body cuts without OpenPose. Direct reference conditioning is not yet sufficient for rear-view prop consistency. Only an output that passes the whole-shot bag/strap gate may proceed to local inpainting."
+}

@@ -63,6 +63,34 @@
 
 두 번째 비교도 **품질 미통과**입니다. LoRA on은 일부 컷을 청록·흰 의상 쪽으로 바꾸었지만, 네 컷 모두에서 승인된 얼굴, 청록 단발·clip, 가로형 네이비 flap 가방과 하나의 대각 스트랩, 전신 framing, 요청한 장소·camera, 절제된 clean-line-art를 함께 유지하지 못했습니다. 따라서 이 100-step adapter와 생성 PNG는 보존 자산으로 남기지 않습니다. 다음 run은 이 checkpoint의 step을 늘리는 일이 아니라 SD 1.5 base의 표현 사전과 data-to-prompt 결속을 먼저 진단하는 별도 gate여야 합니다.
 
+## Base model은 고정 조건이 아니다
+
+SD 1.5의 품질 실패 뒤에도 같은 base에서 step만 늘리는 것은 유효한 다음 실험이 아닙니다. 먼저 scene 이미지가 섞인 16장 train을 승인된 전신 다각도 19장으로 바꾸고, 얼굴·손 detail과 장소 이미지는 학습에서 제외했습니다. 이때 원래 caption이 CLIP의 77-token 한도를 `101~114 token`으로 넘겨 뒤쪽의 가방·화풍·시점 정보를 자른 결함도 확인했습니다. 새 caption은 핵심 외형과 view를 `68~73 token` 안에 넣고, 학습기는 초과 caption을 즉시 실패시킵니다.
+
+같은 identity-only 데이터로 Animagine XL 4.0과 SDXL base 1.0을 rank 8, BF16, `384 x 512`, 100 step으로 각각 학습했습니다. Animagine XL은 수치상 loss가 내려갔지만 세 held-out 장면에서 인물이 사라져 제외했습니다. SDXL base 1.0은 8 GB에서 frozen text encoder와 VAE를 CPU로 내리는 방식으로 학습을 완료했고 peak VRAM 약 `6,315 MiB`, loss `0.0258 -> 0.00210`을 기록했습니다.
+
+![SDXL base 1.0 identity-only LoRA held-out off/on](../../../assets/part-07/chapter-05/p7-5-1-sdxl-base-identity-lora-contact-sheet.png)
+
+SDXL base LoRA on은 네 컷에서 청록 단발, 흰 재킷, 청록 바지, 흰 신발과 네이비 가방을 off보다 더 자주 함께 만들었습니다. 그러나 얼굴·hair clip·가방 geometry, 컵과 ticket의 손 접점, 저각도 camera는 아직 통과하지 못했습니다. 따라서 이는 **identity와 style의 부분 통과**이며 StoryDiffusion이나 inpaint로 넘어갈 근거는 아닙니다. 다음에는 이 base LoRA에 구조 조건 하나만 결합해 pose·camera가 실제로 개선되는지를 검증합니다. [통합 판정 기록](../../../assets/part-07/chapter-05/p7-5-1-base-change-lora-ablation.json)을 함께 확인합니다.
+
+### Canny 강도 sweep: identity와 구조의 교차점이 없는지 확인하기
+
+초기 adapter는 `384 x 512`에서 학습하고 전신 ControlNet 평가는 `512 x 768`에서 했습니다. 이 차이가 결함 원인인지 확인하려고, 같은 identity-only 19장을 `512 x 768`에서 다시 100 step 학습했습니다. 8 GB GPU에서 one-step peak는 약 `6,261 MiB`, 100-step peak는 약 `6,315 MiB`였으므로 이 해상도는 실행 후보에서 제외할 이유가 없습니다.
+
+같은 low-side cinema held-out, prompt, seed, LoRA scale에서 Canny scale만 `0.0`, `0.10`, `0.35`, `0.75`로 바꿨습니다. `0.10`은 흰 재킷·청록 바지·네이비 가방을 대체로 지키지만 upright pose에 남았습니다. `0.35`부터 ticket을 향한 굽힘과 foyer 원근은 나오지만 재킷·바지·가방이 바뀌었고, `0.75`도 같은 결함을 더 강하게 보였습니다.
+
+![SDXL native-resolution LoRA Canny scale sweep](../../../assets/part-07/chapter-05/p7-5-1-sdxl-native-resolution-canny-scale-sweep.png)
+
+따라서 이 조건에서는 identity와 dynamic camera·pose를 함께 통과시키는 Canny 강도가 없습니다. Canny는 **구조 입력으로 유효**하지만 이 LoRA와의 결합 경로는 웹툰 컷 품질 미통과입니다. inpaint나 두 번째 조건을 추가하지 않고, [scale-sweep 실행·판정 기록](../../../assets/part-07/chapter-05/p7-5-1-sdxl-native-resolution-canny-scale-sweep.json)만 남깁니다. 재학습 adapter, materialized dataset, 개별 scale sheet는 제거합니다.
+
+### scene-only Canny: 배경과 인물의 책임을 분리해 보기
+
+전체 Canny가 재킷·바지·가방끈까지 다시 해석한 문제를 분리하기 위해, 같은 adapter를 다시 학습한 뒤 인물과 가방이 있던 사람 검수 ROI를 Canny map에서 지웠습니다. 같은 seed와 `0.35`, `0.75`에서 전체 Canny와 scene-only Canny를 직접 비교했습니다.
+
+![Full Canny and scene-only Canny comparison](../../../assets/part-07/chapter-05/p7-5-1-sdxl-lora-scene-only-canny-comparison.png)
+
+전체 Canny는 ticket을 향한 굽힘을 전달했지만 청록 재킷·흰 바지·다른 가방으로 바꿨습니다. scene-only Canny는 흰 재킷·청록 바지를 더 자주 보존하고 foyer 배경을 바꾸었지만, 인물은 upright로 남거나 작아졌으며 대각 가방끈도 만들지 못했습니다. 따라서 scene-only Canny는 **배경·camera 보조 입력으로만 부분 통과**이고, character pose를 맡길 수 없습니다. 다음 pose 실험은 Canny가 아니라 foreground 영역의 별도 human-pose 조건이어야 합니다. [비교 실행·판정 기록](../../../assets/part-07/chapter-05/p7-5-1-sdxl-lora-scene-only-canny-comparison.json)을 남기고 임시 adapter와 dataset은 제거합니다.
+
 ## Base 모델을 먼저 분리해 본 결과
 
 LoRA 없이 같은 짧은 prompt, negative prompt, seed, 해상도, 25 inference step으로 일반 SD 1.5와 WD 1.5를 비교했습니다. 네 prompt는 모두 CLIP 77-token 한도 안인지 코드로 검사했습니다. 아래는 그 비교 결과이며, 이 그림은 Mira의 품질 통과 근거가 아니라 다음 실험의 base 후보를 좁히기 위한 진단입니다.
@@ -81,6 +109,82 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 
 `0.25`에서는 얼굴, 전신, 의상, 가방이 비교적 남지만 네 결과가 모두 흰 배경의 비슷한 서 있는 전신 구도에 머뭅니다. `0.55`도 요청 장면·camera·동작을 만들지 못하고 세부가 흐트러졌습니다. `0.80`은 팔·몸통과 난간 일부를 바꾸지만 요청한 주방, 페리, 영화관, 도예 작업실의 camera와 동작에는 도달하지 못하며 얼굴·머리·재킷·가방도 더 이탈합니다. 따라서 단일 참조 img2img는 **가까운 전신 기준을 보존하는 도구**일 뿐, pose·projection·camera·배경을 독립적으로 바꾸는 웹툰 컷 생성기에는 채택하지 않습니다.
 
+## 인증 없는 참조 편집 모델의 첫 전체 컷 게이트
+
+앞의 img2img는 초기 이미지의 구도를 벗어나기 어려웠습니다. 반대로 [InvokeAI](https://github.com/invoke-ai/InvokeAI){: target="_blank" rel="noopener noreferrer" }의 현재 모델 관리 경로는 FLUX.2 Klein 4B를 참조 이미지를 직접 받는 모델로 등록합니다. 공개 `GGUF Q4` 변환기, 공개 FLUX.2 VAE, 공개 Qwen3 4B 인코더를 각각 설치했으며, 세 저장소는 로그인 없이 내려받았습니다. 따라서 이 실험은 Hugging Face 토큰이나 gated base를 전제로 하지 않습니다.
+
+처음에는 단일 `single-01` 전신 참조 하나와 영화관 티켓 장면만 사용했습니다. `512 x 768`, Euler 4 step, seed `320241`, Qwen3 max sequence length `256`을 고정하고, 참조 이미지는 모델의 내장 reference conditioning으로 연결했습니다. 실행은 `14.4`초, 관측 peak VRAM `5,552 MiB`에서 끝났습니다. 전신, 얼굴·청록 단발·silver clip, 흰 재킷, 청록 바지, 흰 운동화, 오른쪽 hip의 가로형 navy flap bag, 하나의 대각 strap, 티켓과 영화관 배경을 함께 확인했습니다.
+
+![FLUX.2 Klein single-reference cinema ticket preflight](../../../assets/part-07/chapter-05/p7-5-1-flux2-klein-reference-preflight.png)
+
+같은 참조와 seed에서 prompt의 동작·장소·camera만 바꿨습니다. 저각도 3/4 view, 지하철 계단 하행, 한 발을 다음 계단으로 내딛는 보행, 양팔의 자연스러운 균형을 요청했습니다. 이 실행은 `20.6`초, peak VRAM `5,673 MiB`였고, 전신과 의상·가방 contract는 남았습니다. 기준의 정면 서기와 달리 계단 원근, 보행 다리, 팔 벌림, 위쪽을 향한 camera가 출력에 나타났습니다.
+
+![FLUX.2 Klein single-reference low-angle walk preflight](../../../assets/part-07/chapter-05/p7-5-1-flux2-klein-low-angle-walk-preflight.png)
+
+| gate | 고정한 것 | 바꾼 것 | 사람 검수 결과 |
+| --- | --- | --- | --- |
+| 기준 장면 | `single-01`, seed, 해상도, sampler·step | 영화관·티켓 지시 | full body와 얼굴·의상·가방 contract 통과 |
+| pose + camera | `single-01`, seed, 해상도, sampler·step | 계단·보행·저각도 지시 | 전신 보행과 원근 변화, 얼굴·의상·가방 contract 통과 |
+
+이 결과는 두 prompt에서의 **단일 참조 whole-shot gate**만 통과한 기록입니다. 저각도는 보이지만 극단적인 projection, side/rear view, 손-소품 접점, 서로 다른 장소에서의 반복, character reference와 가방 reference를 함께 쓰는 다중 참조는 아직 검증하지 않았습니다. 따라서 이 단계에서는 OpenPose나 inpaint를 붙이지 않습니다. 다음 gate는 같은 contract를 유지한 채 서로 다른 pose·camera·장소를 늘려 보고, 그 다음에만 가방과 strap의 국소 보정을 별도 비교합니다.
+
+## InvokeAI를 빼도 같은 gate를 통과하는가
+
+위 결과를 InvokeAI의 UI나 모델 관리 기능 덕분이라고 해석하면 재현 범위를 잘못 잡게 됩니다. 같은 공개 `black-forest-labs/FLUX.2-klein-4B`를 [Diffusers](https://github.com/huggingface/diffusers){: target="_blank" rel="noopener noreferrer" }의 `Flux2KleinPipeline`으로 직접 읽고 `enable_sequential_cpu_offload()`만 적용했습니다. 이 경로에는 InvokeAI 서버, 노드 그래프, 모델 DB, GGUF loader가 없습니다. reference 이미지는 pipeline의 `image` 인자에 직접 넣습니다.
+
+| 구분 | BFL raw CLI | InvokeAI 실행 | 직접 Diffusers 실행 |
+| --- | --- | --- | --- |
+| 공통 모델 기능 | FLUX.2 Klein의 참조 편집 | 같은 기능 | 같은 기능 |
+| 변환기 정밀도 | 원본 runner가 GPU component를 먼저 준비 | GGUF Q4 | 원본 BF16 Diffusers component |
+| GPU 메모리 전략 | Qwen3·보조 모델·VAE의 초기 GPU 적재 | model manager의 component 교대 | `accelerate` sequential CPU offload |
+| 이번 8 GB 결과 | auxiliary model 적재 단계에서 중단 | 두 gate 통과 | 두 gate 통과 |
+| host-side 비용 | 별도 판단 전 중단 | Q4 변환기와 별도 인코더 저장 | 원본 pipeline cache 약 13 GB, 매 실행 component reload |
+
+직접 Diffusers 기준 장면은 `11.7`초, peak `1,834 MiB`였고, 저각도 계단 보행은 `11.6`초, peak `2,090 MiB`였다. 이 숫자는 GPU peak만 기록한 값이다. 순차 offload는 원본 BF16 가중치를 CPU RAM과 disk cache에 유지하므로, 첫 실행의 공개 파일 다운로드와 CPU-side load 비용은 별도로 감수해야 합니다. 반대로 GUI나 custom node runtime에는 의존하지 않습니다.
+
+![Diffusers FLUX.2 Klein single-reference cinema ticket preflight](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-reference-preflight.png)
+
+![Diffusers FLUX.2 Klein single-reference low-angle walk preflight](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-low-angle-walk-preflight.png)
+
+두 출력은 InvokeAI의 Q4 출력과 pixel-for-pixel으로 같지 않습니다. quantization과 component loader가 달라 같은 seed도 다른 이미지를 만들 수 있습니다. 그러나 두 장 모두 전신, teal bob + silver clip, 흰 재킷, 청록 바지, 흰 운동화, right-hip navy flap bag, 하나의 대각 strap, 그리고 각 장면의 ticket 또는 계단 보행·원근을 사람 검수에서 통과했습니다. 따라서 현재의 재현 가능한 결론은 **InvokeAI가 아니라 FLUX.2 Klein의 direct reference conditioning과 sequential CPU offload가 이 두 gate를 가능하게 했다**는 것입니다.
+
+## 다른 캐릭터·화풍 참조가 들어오면 Mira가 남는가
+
+참조 제어를 채택하려면 Mira 참조 한 장에서만 잘 되는지와, 입력 참조가 달라도 prompt의 Mira 계약이 우선하는지를 구분해야 합니다. 가방·strap은 Mira의 핵심 소품이므로 비교 참조에서는 모두 제거했습니다. 같은 영화관 티켓 장면, `512 x 768`, 4 step, `guidance_scale=1.0`을 고정하고 네 조건을 비교했습니다. 첫 조건은 Mira 참조 기준선, 두 번째는 가방 없는 남성 clean-webtoon 참조, 세 번째는 가방 없는 여성 수채화·ink graphic-novel 참조, 네 번째는 참조 없는 text-only입니다.
+
+| 입력 조건 | 사람 검수 | 판정 |
+| --- | --- | --- |
+| Mira + clean webtoon | 전신, 청록 bob·silver clip, 흰 재킷·청록 바지·흰 신발, right-hip navy flap bag과 하나의 strap이 보임 | 통과 |
+| 남성 + clean webtoon | 남성·안경·황색 재킷 대신 Mira의 외형·가방 계약이 회복됨 | 통과 |
+| 여성 + 수채화·ink | braid·indigo coat·수채화 질감 대신 Mira와 clean flat-color webtoon rendering이 나옴 | 통과 |
+| text-only | Mira의 주요 표식은 나왔지만 장면과 무관한 comic-panel 경계가 들어옴 | 이미지 제외 |
+
+![Mira reference comparator result](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-mira-reference.png)
+
+![Male webtoon reference comparator result](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-male-webtoon.png)
+
+![Watercolor reference comparator result](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-woman-watercolor.png)
+
+세 참조 조건의 출력은 Mira contract와 clean webtoon rendering으로 수렴했습니다. 이 장면에서는 단일 호환되지 않는 참조보다 text prompt가 강하게 작동한 것입니다. 이는 외부 참조를 임의로 섞어도 되는 근거가 아닙니다. 동일 비교군을 저각도 보행, side/rear view, 근접 얼굴·손, 다른 장소에서 반복하기 전에는 pose·camera·detail 일반화나 style lock을 주장하지 않습니다. text-only는 참조 효과의 하한을 보이지만 패널 경계 결함 때문에 출력 이미지를 보존하지 않았습니다. [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-reference-comparator-run.json)과 [사람 검수 판정](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-reference-comparator-review.json)을 함께 확인합니다.
+
+## Pose·camera·detail 비교군을 늘린 whole-shot gate
+
+같은 네 입력군을 저각도 계단 보행, 측면 보행, 고해상도 ticket detail, 후면 3/4 보행으로 확장했습니다. 저각도는 `카메라를 인물보다 한 계단 아래 무릎 높이에 두고 위를 향하게 한다`, `가까운 신발을 전경에 크게 둔다`까지 명시해야 했습니다. 이 수정 뒤 네 입력군 모두 전신·보행·상향 원근과 Mira contract를 유지했습니다. 단순히 “low angle”만 쓴 첫 출력은 계단 원근은 보였지만 low-angle view로 판정하지 않았으므로 보존하지 않았습니다.
+
+![Low-angle walk with male webtoon reference](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-low-angle-comparator-male-webtoon.png)
+
+측면 보행도 네 조건이 true side profile, 우천 도로, 전신, 하나의 strap을 통과했습니다. 이로써 prompt만으로도 두 명시적 camera 구도는 만들 수 있음을 확인했습니다.
+
+![Side-profile walk with watercolor reference](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-side-comparator-woman-watercolor.png)
+
+얼굴·손은 full body를 먼저 그린 `768 x 1152` 결과에서 검사했습니다. Mira 기준, 남성 webtoon 참조, text-only의 세 출력은 눈, 양손, ticket 접점, 전신을 함께 통과했지만, 수채화 참조 출력은 rectangular flap bag을 지키지 못했습니다. 후면 3/4에서는 male webtoon과 text-only만 하나의 가방·strap을 지켰고, Mira 기준은 bag body가 둘로 갈라졌으며 수채화 참조는 strap이 교차했습니다. 따라서 local inpaint는 이 whole-shot gate를 통과한 이미지에만 허용합니다.
+
+![High-resolution face and hands gate](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-detail-comparator-mira-reference.png)
+
+![Rear three-quarter gate with male webtoon reference](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-rear-comparator-male-webtoon.png)
+
+[통합 사람 검수 판정](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-generalization-review.json)은 이 결과를 low-angle·side `4/4` 통과, detail `3/4` 부분 통과, rear 3/4 `2/4` 부분 통과로 기록합니다. 따라서 현재 최소 파이프라인은 **전신 whole-shot 생성 -> pose·camera·소품 gate -> 통과 이미지에만 얼굴·손·소품의 국소 보정**입니다. 후면의 가방·strap 안정화는 다음 개선 과제이며, 실패 출력은 원고 자산으로 보존하지 않습니다.
+
 ## 실행 자산과 원문 { #execution-assets }
 
 아래 항목을 펼치면 원문을 비동기로 한 번만 불러옵니다. 본문을 읽는 동안에는 긴 생성 지시문과 코드가 내려받아지지 않습니다.
@@ -97,8 +201,15 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 | dataset 준비 코드 | [materializer](#mira-dataset-materializer) |
 | GPU 실행 코드 | [UNet LoRA preflight and anchor profile](#mira-scene-lora-preflight) |
 | held-out 비교 코드 | [fixed-prompt LoRA evaluator](#mira-scene-lora-evaluator) |
+| SDXL data/model ablation | [통합 판정 기록](../../../assets/part-07/chapter-05/p7-5-1-base-change-lora-ablation.json), [identity dataset](#identity-lora-ablation-dataset), [SDXL training](#sdxl-lora-feasibility), [SDXL evaluator](#sdxl-identity-evaluator) |
+| SDXL native-resolution LoRA + Canny gate | [scale-sweep 실행·판정](../../../assets/part-07/chapter-05/p7-5-1-sdxl-native-resolution-canny-scale-sweep.json), [Canny probe](#sdxl-lora-canny-probe), [contact-sheet builder](#canny-scale-contact-sheet) |
+| scene-only Canny control split | [비교 실행·판정](../../../assets/part-07/chapter-05/p7-5-1-sdxl-lora-scene-only-canny-comparison.json), [scene-only probe](#scene-only-canny-probe), [comparison builder](#scene-only-canny-comparison-sheet) |
 | base 비교 코드 | [prompt-only base probe](#prompt-only-base-probe) |
 | 참조 img2img 코드 | [WD 1.5 reference img2img probe](#wd15-reference-img2img-probe) |
+| FLUX.2 Klein 단일 참조 gate | [영화관 결과](../../../assets/part-07/chapter-05/p7-5-1-flux2-klein-reference-preflight.png), [계단 보행 결과](../../../assets/part-07/chapter-05/p7-5-1-flux2-klein-low-angle-walk-preflight.png), [각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-klein-reference-preflight.json), [보행 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-klein-low-angle-walk-preflight.json), [probe](#invokeai-flux2-klein-reference-probe) |
+| InvokeAI-free FLUX.2 Klein gate | [Diffusers 영화관 결과](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-reference-preflight.png), [Diffusers 계단 보행 결과](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-low-angle-walk-preflight.png), [각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-reference-preflight.json), [보행 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-diffusers-flux2-klein-low-angle-walk-preflight.json), [probe](#diffusers-flux2-klein-reference-probe) |
+| FLUX.2 Klein 불일치 참조 비교 | [Mira 기준](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-mira-reference.png), [남성 webtoon 입력](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-male-webtoon.png), [수채화 입력](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-comparator-woman-watercolor.png), [실행 기록](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-reference-comparator-run.json), [검수 판정](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-reference-comparator-review.json), [probe](#diffusers-flux2-mira-reference-comparator) |
+| FLUX.2 Klein whole-shot 일반화 | [저각도 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-low-angle-comparator-run.json), [측면 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-side-comparator-run.json), [detail 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-detail-comparator-run.json), [후면 실행](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-rear-comparator-run.json), [통합 검수](../../../assets/part-07/chapter-05/p7-5-1-flux2-mira-generalization-review.json), [probe](#diffusers-flux2-mira-reference-comparator) |
 | 실험 계약 | [manifest](#experiment-manifest) |
 | 현재 실행 도구 | [Mira splitter](#reference-pack-splitter), [checker](#experiment-checker) |
 
@@ -142,6 +253,41 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
+<details id="identity-lora-ablation-dataset" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_prepare_identity_lora_ablation.py" data-language="python">
+<summary>Identity-only LoRA dataset ablation 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="sdxl-lora-feasibility" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_sdxl_lora_feasibility.py" data-language="python">
+<summary>SDXL LoRA memory and training probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="sdxl-identity-evaluator" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_evaluate_sdxl_identity_lora.py" data-language="python">
+<summary>SDXL identity LoRA held-out evaluator 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="sdxl-lora-canny-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_sdxl_lora_canny_probe.py" data-language="python">
+<summary>SDXL identity LoRA + Canny on/off probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="canny-scale-contact-sheet" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_canny_scale_contact_sheet.py" data-language="python">
+<summary>Canny scale contact sheet builder 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="scene-only-canny-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_sdxl_lora_scene_only_canny_probe.py" data-language="python">
+<summary>SDXL identity LoRA + scene-only Canny probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="scene-only-canny-comparison-sheet" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_scene_only_canny_comparison_sheet.py" data-language="python">
+<summary>Full Canny and scene-only Canny comparison builder 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
 <details id="prompt-only-base-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_prompt_only_base_probe.py" data-language="python">
 <summary>Prompt-only base probe 전문 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
@@ -149,6 +295,21 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 
 <details id="wd15-reference-img2img-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_wd15_reference_img2img_probe.py" data-language="python">
 <summary>WD 1.5 reference img2img probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="invokeai-flux2-klein-reference-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_invokeai_flux2_klein_reference_probe.py" data-language="python">
+<summary>InvokeAI FLUX.2 Klein single-reference probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="diffusers-flux2-klein-reference-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_diffusers_flux2_klein_probe.py" data-language="python">
+<summary>InvokeAI-free Diffusers FLUX.2 Klein probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="diffusers-flux2-mira-reference-comparator" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_diffusers_flux2_mira_reference_comparator.py" data-language="python">
+<summary>Diffusers FLUX.2 Klein 불일치 참조 비교 probe 전문 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -166,10 +327,14 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 | 비례 | 중립 정면 계열은 4%, 동작은 15% 기준을 적용하고, 측면·후면은 사람 검수로 구분했는가? |
 | 비교 | 같은 scene·camera·seed에서 LoRA off/on을 만들었는가? |
 | 품질 | 얼굴, 머리, 의상, 신발, 화풍을 각각 판정했는가? |
-| 다음 단계 | LoRA 품질 통과 전에는 StoryDiffusion 또는 ControlNet 품질을 주장하지 않았는가? |
+| whole-shot | reference·pose·camera를 한 화면에서 통과시킨 뒤에만 bag/strap 국소 보정을 검토하는가? |
+| 다음 단계 | 두 prompt의 단일 참조 통과를 다중 reference나 복수 장면 일반화로 과장하지 않았는가? |
 
 ## 출처와 참고 자료
 
 - Hugging Face, [Diffusers LoRA training](https://huggingface.co/docs/diffusers/main/training/lora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-02.
 - kohya-ss, [sd-scripts](https://github.com/kohya-ss/sd-scripts){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-02.
 - Google AI Edge, [MediaPipe Pose Landmarker](https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker/python){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-02.
+- InvokeAI, [FLUX.2 Klein model integration](https://github.com/invoke-ai/InvokeAI){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-03.
+- Hugging Face, [Diffusers FLUX.2 Klein pipeline](https://huggingface.co/docs/diffusers/main/en/api/pipelines/flux2_klein){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-03.
+- Black Forest Labs, [FLUX.2 Klein 4B model card](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-03.
