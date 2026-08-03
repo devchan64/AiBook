@@ -1,0 +1,12 @@
+{
+  "status": "partial_pass",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "scene_id": "seoul-rainy-night-overhead-repair",
+  "seed": 420631,
+  "size": [768, 1152],
+  "steps": 50,
+  "guidance_scale": 4.0,
+  "elapsed_seconds": 150.8,
+  "gpu_memory_peak_mib": 1700,
+  "review": "The unmodified source has no rectangular outer frame. A steep downward camera, wet paving, puddle reflections, and an indigo night sky make the rainy-night overhead condition legible without rain-streak or rail-line hatching. It fills one matrix row only."
+}

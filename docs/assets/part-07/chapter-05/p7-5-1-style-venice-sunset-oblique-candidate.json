@@ -1,0 +1,19 @@
+{
+  "status": "partial_pass",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload",
+  "scene_id": "venice-sunset-oblique",
+  "size": [768, 1152],
+  "steps": 50,
+  "guidance_scale": 4.0,
+  "seed": 420613,
+  "elapsed_seconds": 149.9,
+  "batch_gpu_memory_peak_mib": 2888,
+  "asset": "docs/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-candidate.png",
+  "human_review": {
+    "outer_frame": "pass: no rectangular outer frame, panel border, or post-generation crop",
+    "camera": "pass: the bridge-side viewpoint, diagonal canal, and receding bend are distinct from the centered city, path, and cabin candidates",
+    "line_and_paint": "pass: architectural contours remain visible over transparent teal water and warm apricot sunset washes",
+    "limitation": "This is one oblique outdoor row only; it cannot approve the complete style pack."
+  }
+}

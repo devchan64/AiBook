@@ -9,6 +9,86 @@
   },
   "reviewed_runs": [
     {
+      "run_id": "style-seoul-rainy-night-overhead-420631",
+      "status": "partial_pass",
+      "asset": "p7-5-1-style-seoul-rainy-night-overhead-candidate.png",
+      "reason": "The exterior rooftop-plaza composition avoids the black frame generated for the platform. Wet paving and puddle reflections convey rain without rain-streak or rail-line hatching, while the steep downward camera and indigo sky make the overhead rainy-night condition legible. It fills the outdoor-rainy-night-overhead row only."
+    },
+    {
+      "run_id": "style-train-platform-rainy-night-overhead-420629",
+      "status": "rejected",
+      "reason": "The prompt reduced rail and rain-line density, but the model generated a black rectangular outer frame around the platform. It cannot be rescued by crop."
+    },
+    {
+      "run_id": "style-zhangjiajie-low-angle-clean-420630",
+      "status": "rejected",
+      "reason": "The watercolor and frame conditions improved, but the path still converged as a centered eye-level corridor rather than a genuine low-angle camera."
+    },
+    {
+      "run_id": "style-gangnam-side-intersection-420627",
+      "status": "partial_pass",
+      "asset": "p7-5-1-style-gangnam-side-intersection-candidate.png",
+      "reason": "Changing the composition from a boulevard corridor to a lateral intersection removed readable signs and the centered one-point road. The unmodified source has no rectangular outer frame and retains watercolor washes with structural facade contours. It fills the outdoor-day-wide row only."
+    },
+    {
+      "run_id": "style-passenger-aircraft-close-window-420628",
+      "status": "partial_pass",
+      "asset": "p7-5-1-style-passenger-aircraft-night-window-candidate.png",
+      "reason": "Changing from a full cabin to a close window-side view removed the prior black panel frame and seat-back text-like markings. The unmodified source has blank seats, an oblique indoor camera, and an indigo night sky. It fills the indoor-night-oblique row only."
+    },
+    {
+      "run_id": "style-zhangjiajie-side-low-angle-420625",
+      "status": "rejected",
+      "reason": "The new side composition removed the outer frame, but repeated cliff texture lines still read as hatching and fail the line-preserving watercolor contract."
+    },
+    {
+      "run_id": "style-passenger-aircraft-night-window-420626",
+      "status": "rejected",
+      "reason": "The output achieved night and blank seats, but introduced a black rectangular panel frame around the cabin scene. It cannot be rescued by crop."
+    },
+    {
+      "run_id": "style-gangnam-day-oblique-420621",
+      "status": "rejected",
+      "reason": "The signless day scene still converged into a centered boulevard corridor, so it did not meet the requested lateral wide camera condition."
+    },
+    {
+      "run_id": "style-train-platform-rainy-night-overhead-420624",
+      "status": "rejected",
+      "reason": "Night and rain were corrected, but the large number of rain, rail, and roof lines makes the sample visually hatching-heavy. It is not retained as a reference asset."
+    },
+    {
+      "run_id": "style-venice-sunset-oblique-420613",
+      "status": "partial_pass",
+      "asset": "p7-5-1-style-venice-sunset-oblique-candidate.png",
+      "reason": "The unmodified source has no outer frame and uses a bridge-side oblique canal view with a receding bend. Architectural contours remain visible over transparent teal water and apricot sunset washes. It fills one outdoor oblique row only."
+    },
+    {
+      "run_id": "style-gangnam-day-wide-420611",
+      "status": "rejected",
+      "reason": "The boulevard converged into a centered one-point street and rendered readable sign-like details, so it does not demonstrate the requested wide lateral view or the text-free contract."
+    },
+    {
+      "run_id": "style-zhangjiajie-low-angle-420612",
+      "status": "rejected",
+      "reason": "The low-angle cliff view was distinct, but dense vertical line texture on the sandstone pillars reads as hatching and fails the line-preserving watercolor contract."
+    },
+    {
+      "run_id": "style-passenger-aircraft-night-oblique-420614",
+      "status": "rejected",
+      "reason": "The cabin stayed close to a centered aisle and the window lighting reads as daytime rather than the requested night condition."
+    },
+    {
+      "run_id": "style-train-platform-rainy-overhead-420615",
+      "status": "rejected",
+      "reason": "The overhead platform and rain are visible, but the bright sky and weak artificial light fail the requested rainy-night condition."
+    },
+    {
+      "run_id": "style-low-angle-420602",
+      "status": "partial_pass",
+      "asset": "p7-5-1-style-low-angle-candidate.png",
+      "reason": "The unmodified source has no outer frame and shows a genuine curb-height, upward-looking outdoor sunset perspective. Thin charcoal structure lines remain legible over transparent watercolor washes. It fills only the low-angle row and cannot approve the complete pack."
+    },
+    {
       "run_id": "style-high-angle-420601",
       "status": "partial_pass",
       "asset": "p7-5-1-style-high-angle-candidate.png",
