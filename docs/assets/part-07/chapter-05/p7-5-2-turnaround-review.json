@@ -1,0 +1,29 @@
+{
+  "status": "incomplete_review_required",
+  "purpose": "Human-review ledger for the local-GPU P7-5.2 full-body turnaround experiment.",
+  "approved_views": [
+    "front",
+    "profile-right",
+    "rear",
+    "rear-three-quarter-left",
+    "rear-three-quarter-right"
+  ],
+  "pending_views": [],
+  "superseded_and_removed": [],
+  "rejected_and_removed": [
+    {
+      "view_id": "profile-left",
+      "reason": "the initial walking-pose candidate was rejected; the neutral-standing replacement was also rejected because of a leg-rendering error"
+    },
+    {
+      "view_id": "three-quarter-left",
+      "reason": "human review rejected both prompt-only attempts; face/body orientation was not accepted"
+    },
+    {
+      "view_id": "three-quarter-right",
+      "reason": "human review rejected both prompt-only attempts; face/body orientation was not accepted"
+    }
+  ],
+  "finding": "Two-reference local FLUX generation can preserve identity and watercolor treatment for some neutral views, but prompt-only 45-degree rotation does not reliably satisfy human review. Do not regenerate the rejected three-quarter views with prompt changes alone.",
+  "next_required_method": "Use an explicit structural control for the rejected views, then independently review body direction, face direction, and gaze alignment before adding them to the character pack."
+}
