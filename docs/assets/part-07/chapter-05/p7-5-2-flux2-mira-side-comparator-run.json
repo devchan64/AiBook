@@ -1,0 +1,44 @@
+{
+  "runtime": "diffusers-0.37.0",
+  "model_id": "black-forest-labs/FLUX.2-klein-4B",
+  "status": "completed",
+  "prompt": "Create one polished full-body Korean webtoon panel of Mira, a young woman. Mira has a teal bob haircut with one silver hair clip, a white cropped utility jacket, teal wide-leg trousers, white sneakers, and a navy rectangular flap shoulder bag at her right hip with exactly one diagonal navy strap. Use a true left-side full-body profile camera at chest height: Mira walks from left to right across a quiet rain-slick pedestrian crossing, her face is visible in clear side profile and she turns it slightly toward a passing bus. Her arms swing naturally and the navy bag hangs at her right hip. Show her complete body from head to shoes with correct anatomy, detailed visible hand, clean Korean webtoon line art, soft flat colors, and a readable city street background.",
+  "results": [
+    {
+      "case_id": "mira_reference",
+      "description": "same character and style reference",
+      "reference_image": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-mira-single-reference-01.png",
+      "output_image": "/tmp/p7-5-2-flux2-mira-reference-comparator-side/mira_reference.png",
+      "elapsed_seconds": 10.8,
+      "gpu_memory_before_mib": 769,
+      "gpu_memory_peak_mib": 2095
+    },
+    {
+      "case_id": "male_webtoon_reference",
+      "description": "different male character, same broad webtoon style",
+      "reference_image": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-comparator-male-webtoon-no-bag.png",
+      "output_image": "/tmp/p7-5-2-flux2-mira-reference-comparator-side/male_webtoon_reference.png",
+      "elapsed_seconds": 10.4,
+      "gpu_memory_before_mib": 1017,
+      "gpu_memory_peak_mib": 2335
+    },
+    {
+      "case_id": "woman_watercolor_reference",
+      "description": "different woman character and watercolor-ink style",
+      "reference_image": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-comparator-woman-watercolor-no-bag.png",
+      "output_image": "/tmp/p7-5-2-flux2-mira-reference-comparator-side/woman_watercolor_reference.png",
+      "elapsed_seconds": 10.3,
+      "gpu_memory_before_mib": 1057,
+      "gpu_memory_peak_mib": 1699
+    },
+    {
+      "case_id": "text_only",
+      "description": "no image reference",
+      "reference_image": null,
+      "output_image": "/tmp/p7-5-2-flux2-mira-reference-comparator-side/text_only.png",
+      "elapsed_seconds": 4.4,
+      "gpu_memory_before_mib": 1077,
+      "gpu_memory_peak_mib": 1779
+    }
+  ]
+}

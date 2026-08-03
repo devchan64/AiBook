@@ -96,7 +96,7 @@ LoRA 이후에도 후면 prop이나 style이 무너지면 Canonical 교체는 �
 
 앞선 실패는 hair clip과 가방처럼 비대칭인 정보를 한 장 master에서 반대쪽으로 추론시키려 했기 때문이다. `FLUX.2-klein-base-4B`로 대칭 deep-teal bob, 대칭 jacket, 무가방·무소품의 local-only master를 새로 만들고, 한쪽 3/4·strict profile·rear 3/4만 direct reference conditioning으로 생성했다. 반대쪽은 새 AI 출력을 재선택하지 않고, 대칭 contract를 만족하는 source를 deterministic horizontal mirror로 변환했다.
 
-`768 x 1152`, 50 step, guidance `4.0`, seed `410201` master는 `152.5`초, peak `2,894 MiB`에서 통과했다. direct reference 4-step은 strict profile과 rear 3/4를 실제 방향으로 만들었고, thin charcoal line·low-saturation teal/white/charcoal palette·subtle fold shadow도 유지했다. 결과 [contact sheet](../../docs/assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1-contact-sheet.png)는 front, 좌·우 3/4, 좌·우 profile, 좌·우 rear 3/4를 제공한다. [manifest](../../docs/assets/part-07/chapter-05/p7-5-1-local-character-style-pack-v1.json)는 generated/mirrored view와 사용한 model·seed·계약을 분리 기록한다.
+`768 x 1152`, 50 step, guidance `4.0`, seed `410201` master는 `152.5`초, peak `2,894 MiB`에서 통과했다. direct reference 4-step은 strict profile과 rear 3/4를 실제 방향으로 만들었고, thin charcoal line·low-saturation teal/white/charcoal palette·subtle fold shadow도 유지했다. 결과 [contact sheet](../../docs/assets/part-07/chapter-05/p7-5-2-local-character-style-pack-v1-contact-sheet.png)는 front, 좌·우 3/4, 좌·우 profile, 좌·우 rear 3/4를 제공한다. [manifest](../../docs/assets/part-07/chapter-05/p7-5-2-local-character-style-pack-v1.json)는 generated/mirrored view와 사용한 model·seed·계약을 분리 기록한다.
 
 판정은 `approved_limited_scope`다. 즉 이것은 8 GB에서 재현 가능한 **중립 전신 character/style anchor pack**이며, 비대칭 액세서리·가방·strap·손-소품 접점·dynamic pose·배경·face close-up의 정답은 아니다. direct single-reference와 multi-reference로 right 3/4를 독립 생성한 출력은 정면으로 수렴하거나 얼굴·앞머리가 drift해 미통과였고 PNG는 보존하지 않는다. 이 제한을 숨기지 않는 것이 local pack을 다음 LoRA나 scene generation의 학습 정답으로 과대사용하지 않는 조건이다.
 
@@ -110,4 +110,4 @@ LoRA 이후에도 후면 prop이나 style이 무너지면 Canonical 교체는 �
 
 v1 station 중심 flat-color pack은 구도·원근·실내외·시간대의 폭이 좁았다. 이후 수채화 v2는 contour/structure line과 투명 색층을 분리하려 했지만, 일부 base 원본이 outer frame을 생성해 crop이 필요했고 표본도 수직 중앙 소실점 계열로 수렴했다. 이 둘은 character reference 입력으로 승인하지 않는다.
 
-화풍 생성·검수는 `P7-5.1`으로 분리했다. 이 Section은 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 행렬을 통과 조건으로 사용한다. v2 PNG와 crop builder는 제거하고, 실패 원인과 다음 입력 행렬은 `p7-5-0-local-style-pack-review.json`에 남긴다.
+화풍 생성·검수는 `P7-5.1`으로 분리했다. 이 Section은 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 행렬을 통과 조건으로 사용한다. v2 PNG와 crop builder는 제거하고, 실패 원인과 다음 입력 행렬은 `p7-5-1-local-style-pack-review.json`에 남긴다.

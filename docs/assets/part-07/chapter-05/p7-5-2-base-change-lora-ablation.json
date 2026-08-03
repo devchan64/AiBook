@@ -1,0 +1,43 @@
+{
+  "status": "sdxl_base_identity_style_partial",
+  "purpose": "Replace the SD 1.5-only assumption after the character LoRA held-out result failed, while keeping the same full-body identity-only dataset and held-out contract.",
+  "dataset": {
+    "train": "19 approved full-body character reference views; no scene images, face crops, or hand-detail images",
+    "heldout": "four fixed scene-and-camera images",
+    "preprocessing": "source PNG only; aspect-ratio-preserving resize with white padding; no crop"
+  },
+  "caption_correction": {
+    "previous_identity_only_range": [101, 114],
+    "sd15_limit": 77,
+    "failure": "the previous caption silently truncated bag-strap, style, and view information",
+    "corrected_range": [68, 73]
+  },
+  "animagine_xl_4": {
+    "training": {
+      "steps": 100,
+      "loss_first": 0.18311838805675507,
+      "loss_last": 0.012018634006381035,
+      "peak_vram_mib": 6314.8
+    },
+    "quality": "failed: three held-out scenes lost the character entirely; the remaining image did not satisfy the clothing, bag, action, or camera contract",
+    "assets": "PNG and adapter pruned after review"
+  },
+  "sdxl_base_1_0": {
+    "training": {
+      "steps": 100,
+      "rank": 8,
+      "dtype": "bf16",
+      "loss_first": 0.02578052505850792,
+      "loss_last": 0.002103351755067706,
+      "peak_vram_mib": 6314.8
+    },
+    "evaluation": {
+      "resolution": [384, 512],
+      "steps": 20,
+      "lora_scale": 1.0,
+      "contact_sheet": "p7-5-2-sdxl-base-identity-lora-contact-sheet.png"
+    },
+    "quality": "identity and style partial pass: teal bob, white jacket, teal trousers, white sneakers, and a navy bag recur more consistently than with SD 1.5 or Animagine XL. Face, hair clip, bag geometry, target action, and low-angle camera remain failures.",
+    "next_gate": "Do not run StoryDiffusion or inpaint. Test exactly one structural condition against this SDXL base LoRA before expanding the pipeline."
+  }
+}

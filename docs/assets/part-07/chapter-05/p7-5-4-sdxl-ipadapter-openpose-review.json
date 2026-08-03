@@ -1,0 +1,45 @@
+{
+  "experiment_id": "p7-5-4-sdxl-ipadapter-openpose-01",
+  "review_status": "strict_quality_failed_repair_gate_defined",
+  "review_basis": "p7-5-4-sdxl-ipadapter-openpose-on-off-contact-sheet.png; review only the IP-Adapter-on column against the approved Mira reference and the corresponding OpenPose map",
+  "pass_rule": "A panel is eligible for local inpaint only when identity, structure, and style all pass at full-frame review. Local detail is then a repair target, not a reason to accept a failed frame.",
+  "panels": [
+    {
+      "panel_id": "mira-heldout-01",
+      "identity": "fail",
+      "structure": "partial",
+      "style": "partial",
+      "local_detail": "fail",
+      "observations": ["raised arm and interior relation broadly follow the map", "hair is pale rather than the approved teal bob", "bag silhouette and jacket details drift"],
+      "repair_eligibility": "blocked: full-frame identity fails"
+    },
+    {
+      "panel_id": "mira-heldout-02",
+      "identity": "partial",
+      "structure": "partial",
+      "style": "partial",
+      "local_detail": "fail",
+      "observations": ["full-body illustrated rendering and teal/white palette remain", "face, bag body and strap geometry are not the approved reference", "railing and requested hand contact are incomplete"],
+      "repair_eligibility": "blocked: structure and identity do not both pass"
+    },
+    {
+      "panel_id": "mira-heldout-03",
+      "identity": "partial",
+      "structure": "partial",
+      "style": "partial",
+      "local_detail": "fail",
+      "observations": ["bent rear-oriented body is substantially changed by the pose map", "teal trousers and a bag remain but face and bag geometry drift", "ticket interaction and cinema context are not reliable"],
+      "repair_eligibility": "blocked: full-frame structure and identity fail"
+    },
+    {
+      "panel_id": "mira-heldout-04",
+      "identity": "partial",
+      "structure": "partial",
+      "style": "partial",
+      "local_detail": "fail",
+      "observations": ["standing full body and white/teal clothing remain", "face and hair clip are not stable", "cup contact, bag geometry and workshop-specific objects are missing or changed"],
+      "repair_eligibility": "blocked: full-frame structure and identity fail"
+    }
+  ],
+  "decision": "No panel is eligible for inpaint. Preserve the combined-condition result as a partial-pass baseline and next test only one missing condition: a compatible identity anchor with independent multi-view face and bag reference information."
+}

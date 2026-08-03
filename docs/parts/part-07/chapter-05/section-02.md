@@ -1,14 +1,15 @@
-# P7-5.3 SD 1.5와 StoryDiffusion으로 다중 컷 반복성 점검하기
+# P7-5.3 컷신 생성: 참조 셋으로 pose·camera·장면 만들기
 
 > Section ID: `P7-5.3`
 > Version: `v2026.08.03`
 
-LoRA가 한 컷의 캐릭터 기준을 통과한 뒤에는 여러 장면에서 그 기준이 반복되는지 확인해야 합니다. StoryDiffusion의 consistent self-attention은 여러 prompt 사이의 캐릭터 반복성을 목표로 하며 SD 1.5와 SDXL 기반 모델에 호환된다고 안내됩니다. 여기서는 ComfyUI를 전제로 하지 않고, SD 1.5 기반의 최소 probe만 다룹니다.
+`P7-5.1`의 화풍 참조 셋과 `P7-5.2`의 캐릭터 참조 셋이 승인된 뒤에만 컷신을 생성합니다. 이 절의 산출물은 한 장의 예쁜 그림이 아니라, pose·camera·장소·시간을 바꾼 전체 컷 후보와 각 후보의 구조·인물성·화풍 판정입니다. StoryDiffusion의 consistent self-attention은 여러 prompt 사이의 캐릭터 반복성을 목표로 하며 SD 1.5와 SDXL 기반 모델에 호환된다고 안내됩니다. 여기서는 ComfyUI를 전제로 하지 않고, SD 1.5 기반의 최소 probe를 컷신 생성 후보로 다룹니다.
 
 ## 최소 probe의 경계
 
 | 고정 | 값 | 이유 |
 | --- | --- | --- |
+| 입력 | P7-5.1 화풍 참조 셋 + P7-5.2 캐릭터 참조 셋 및 승인한 생성 조건 | 장면만 바꾸고 기준 계약을 유지하기 위해 |
 | base | P7-5.2에서 승인한 SD 1.5 + character LoRA | 기준 인물과 화풍을 바꾸지 않기 위해 |
 | 이미지 조건 | 512 x 512, batch 1, 3 prompts | StoryDiffusion의 최소 prompt 수와 8 GB 경계 확인 |
 | 사용 기능 | consistent self-attention만 | LoRA, IP-Adapter, ControlNet, inpaint 효과를 섞지 않기 위해 |
@@ -42,7 +43,7 @@ for index, prompt in enumerate(prompts, start=1):
 
 ## 중단 기준
 
-8 GB에서 out-of-memory가 나거나, 세 컷의 큰 색상만 반복되고 얼굴·의상 기준이 흔들리면 이 경로는 중단합니다. ControlNet을 추가해 해결하려 하지 않습니다. 그것은 P7-5.4에서 별도로 검증할 구조 제어이며, 여기서는 StoryDiffusion의 반복성만 판정합니다.
+8 GB에서 out-of-memory가 나거나, 세 컷의 큰 색상만 반복되고 얼굴·의상 기준이 흔들리면 이 경로는 중단합니다. ControlNet, IP-Adapter, inpaint를 붙여 결과를 고치지 않습니다. 보정은 P7-5.4의 별도 입력으로만 검증하며, 여기서는 컷신 생성 자체의 pose·camera·장면·인물성 판정을 남깁니다.
 
 ## 체크리스트
 

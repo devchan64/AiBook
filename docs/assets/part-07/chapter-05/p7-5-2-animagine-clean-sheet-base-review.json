@@ -1,0 +1,24 @@
+{
+  "experiment_id": "p7-5-2-animagine-clean-sheet-base-01",
+  "status": "quality_failed",
+  "purpose": "Assess the untrained base model before any new character or style LoRA run.",
+  "model": "cagliostrolab/animagine-xl-4.0 (SDXL)",
+  "conditions": {
+    "resolution": [512, 768],
+    "steps": 20,
+    "guidance_scale": 7.0,
+    "seeds": [5301, 5302, 5303, 5304],
+    "prompt_token_count": 74,
+    "elapsed_seconds": 50.9,
+    "gpu_memory_peak_mib": 1532,
+    "adapters": "none"
+  },
+  "review": {
+    "style": "fail: all seeds use thick, high-contrast illustration or graphic rendering instead of the approved restrained clean webtoon line art",
+    "identity": "fail: teal bob and facial structure are not stable; several outputs have white hair or incompatible faces",
+    "prop": "fail: the required navy horizontal flap bag and one diagonal strap are absent, malformed, or replaced",
+    "presentation": "fail: grid backgrounds, text-like fragments, and non-studio artifacts appear despite the prompt contract"
+  },
+  "decision": "Reject Animagine XL 4.0 as the base for character-pack generation or LoRA retraining in this pipeline. Do not compensate by training a style LoRA on this base; its prompt-only prior already violates the target contract.",
+  "retention": "The first run was rejected before generation because its prompt had 86 tokens. The valid 74-token rerun's four PNGs, contact sheet, and temporary script were pruned after review; this JSON retains the reproducibility-critical conditions and decision only."
+}
