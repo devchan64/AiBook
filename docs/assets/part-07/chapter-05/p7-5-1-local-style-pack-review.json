@@ -28,32 +28,11 @@
       "reason": "The only remaining human-review candidate; it is displayed for comparison but excluded from the manifest and P7-5.2 input."
     },
     {
-      "run_id": "style-aircraft-night-oblique-local-gpu-v2-420705",
+      "run_id": "style-aircraft-night-oblique-local-gpu-v8-420705",
       "status": "rejected",
-      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v2.png",
+      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v8.png",
       "scene_id": "indoor-night-oblique",
-      "reason": "Human review found an exposed star field occupying the cabin ceiling, so the aircraft interior is not physically plausible. Regenerate with an opaque continuous ceiling and exterior sky only through the windows."
-    },
-    {
-      "run_id": "style-aircraft-night-oblique-local-gpu-v3-420705",
-      "status": "rejected",
-      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v3.png",
-      "scene_id": "indoor-night-oblique",
-      "reason": "The ceiling is coherent, but the scene uses a solitary seat and reads as too narrow. Regenerate a spacious cabin with a clearly attached two-seat economy pair."
-    },
-    {
-      "run_id": "style-aircraft-night-oblique-local-gpu-v4-420705",
-      "status": "rejected",
-      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v4.png",
-      "scene_id": "indoor-night-oblique",
-      "reason": "The wider cabin and closed ceiling improved, but the foreground still reads as a solitary seat rather than an attached two-seat pair."
-    },
-    {
-      "run_id": "style-aircraft-night-oblique-local-gpu-v5-420705",
-      "status": "rejected",
-      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v5.png",
-      "scene_id": "indoor-night-oblique",
-      "reason": "The foreground has a pair, but the upper center remains open sky and the cabin illumination is too bright for deep night."
+      "reason": "The closed ceiling and window-side perspective improved, but broad bright ceiling and wall planes make the cabin too bright for deep night."
     },
     {
       "run_id": "style-downtown-clear-day-wide-local-gpu-v1-420703",
