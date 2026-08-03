@@ -1,0 +1,11 @@
+{
+  "runtime": "diffusers-0.37.0",
+  "model_id": "black-forest-labs/FLUX.2-klein-4B",
+  "status": "completed",
+  "elapsed_seconds": 11.6,
+  "gpu_memory_before_mib": 611,
+  "gpu_memory_peak_mib": 2090,
+  "reference_image": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-mira-single-reference-01.png",
+  "output_image": "/tmp/p7-5-1-diffusers-flux2-klein/p7-5-1-diffusers-flux2-klein-low-angle-walk-preflight.png",
+  "prompt": "Create one polished full-body Korean webtoon panel of the exact same young woman in the reference image. Keep her teal bob haircut with one silver hair clip, white cropped utility jacket, teal wide-leg trousers, white sneakers, and the navy rectangular flap shoulder bag at her right hip with exactly one diagonal navy strap. Use a dramatic low-angle three-quarter camera view from her left as she strides down a subway staircase, one foot stepping onto the next stair and her free arm balancing naturally. Show her complete body from head to shoes, correct human anatomy, expressive face looking toward the platform, detailed hands, clean Korean webtoon line art, soft flat colors, and a readable underground station background."
+}

@@ -24,6 +24,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--height", type=int, default=512)
     parser.add_argument("--rank", type=int, default=8)
     parser.add_argument("--steps", type=int, default=1)
+    parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--dtype", choices=["fp16", "bf16", "fp32"], default="bf16")
     parser.add_argument("--save-dir", type=Path)
     return parser.parse_args()
@@ -38,6 +39,21 @@ def load_example(dataset: Path, row: dict[str, str], width: int, height: int) ->
     pixels = torch.from_numpy(__import__("numpy").asarray(canvas).copy())
     pixels = pixels.permute(2, 0, 1).float().div(127.5).sub(1.0).unsqueeze(0)
     return pixels, row["text"]
+
+
+def tokenize_contract(tokenizer: CLIPTokenizer, prompt: str, device: torch.device) -> torch.Tensor:
+    raw_ids = tokenizer(prompt, truncation=False).input_ids
+    if len(raw_ids) > tokenizer.model_max_length:
+        raise ValueError(
+            f"training caption has {len(raw_ids)} tokens; maximum is {tokenizer.model_max_length}: {prompt}"
+        )
+    return tokenizer(
+        prompt,
+        max_length=tokenizer.model_max_length,
+        padding="max_length",
+        truncation=True,
+        return_tensors="pt",
+    ).input_ids.to(device)
 
 
 def main() -> int:
@@ -60,7 +76,7 @@ def main() -> int:
     unet.add_adapter(LoraConfig(r=args.rank, lora_alpha=args.rank, target_modules=["to_q", "to_k", "to_v", "to_out.0"]))
     unet.enable_gradient_checkpointing()
     trainable = [parameter for parameter in unet.parameters() if parameter.requires_grad]
-    optimizer = torch.optim.AdamW(trainable, lr=1e-4)
+    optimizer = torch.optim.AdamW(trainable, lr=args.learning_rate)
     rows = [json.loads(line) for line in (args.dataset / "train" / "metadata.jsonl").read_text().splitlines()]
     if not rows:
         raise RuntimeError("train metadata is empty")
@@ -71,7 +87,7 @@ def main() -> int:
     for step in range(args.steps):
         pixels, prompt = load_example(args.dataset, rows[step % len(rows)], args.width, args.height)
         pixels = pixels.to(device=device, dtype=dtype)
-        token_ids = tokenizer(prompt, max_length=tokenizer.model_max_length, padding="max_length", truncation=True, return_tensors="pt").input_ids.to(device)
+        token_ids = tokenize_contract(tokenizer, prompt, device)
         with torch.no_grad():
             latents = vae.encode(pixels).latent_dist.sample() * vae.config.scaling_factor
             embeddings = text_encoder(token_ids)[0]
@@ -103,6 +119,7 @@ def main() -> int:
         "base_model": str(args.model),
         "resolution": [args.width, args.height],
         "rank": args.rank,
+        "learning_rate": args.learning_rate,
         "dtype": args.dtype,
         "trainable_parameters": sum(parameter.numel() for parameter in trainable),
         "steps": args.steps,

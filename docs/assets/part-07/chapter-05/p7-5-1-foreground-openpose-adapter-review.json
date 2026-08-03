@@ -1,0 +1,38 @@
+{
+  "status": "runtime_passed_quality_failed",
+  "purpose": "Test whether a foreground-only OpenPose T2I-Adapter can add the low bent ticket pose to an SDXL identity LoRA without reintroducing full-frame Canny interference.",
+  "runtime_preflight": {
+    "model": "stabilityai/stable-diffusion-xl-base-1.0",
+    "adapter": "TencentARC/t2i-adapter-openpose-sdxl-1.0",
+    "adapter_license": "Apache-2.0",
+    "resolution": [512, 768],
+    "result": "PNG saved with sequential CPU offload"
+  },
+  "identity_lora": {
+    "dataset": "19 approved full-body reference views only",
+    "resolution": [512, 768],
+    "rank": 8,
+    "steps": 100,
+    "peak_vram_mib": 6314.9
+  },
+  "pose_input": {
+    "source": "p7-5-1-mira-heldout-03-cinema-ticket.png",
+    "detector": "controlnet_aux OpenPose body map without face or hand landmarks",
+    "foreground_box": [110, 175, 430, 750],
+    "outside_roi": "black"
+  },
+  "fixed": {
+    "seed": 5203,
+    "inference_steps": 20,
+    "guidance": 7.0,
+    "lora_scale": 1.0,
+    "adapter_scales": [0.0, 0.35, 0.7]
+  },
+  "assessment": {
+    "0.0": "The LoRA baseline produced a front full-body woman with partial clothing and bag cues, but did not perform the bent ticket action or preserve the diagonal strap.",
+    "0.35": "The character remained upright while the jacket/trouser structure drifted; the requested bend and ticket contact did not appear.",
+    "0.7": "The result changed to a rear view with a large backpack, losing the face, navy flap bag, and diagonal strap while still not reproducing the target action.",
+    "conclusion": "The adapter is feasible on 8 GB but this foreground-only raw OpenPose map and SDXL identity LoRA do not jointly pass pose or identity. Do not combine this branch with scene Canny or run a finer scale sweep. Investigate reference-conditioned pose-transfer methods instead."
+  },
+  "retention": "Only this review record is retained. Preflight and scale-sweep PNGs, materialized dataset, regenerated LoRA adapter, and experimental scripts were removed after review."
+}

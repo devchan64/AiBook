@@ -1,0 +1,41 @@
+{
+  "experiment": "Wan2.1 VACE 1.3B reference-only runtime and quality preflight",
+  "date": "2026-08-03",
+  "model": "Wan-AI/Wan2.1-VACE-1.3B-diffusers",
+  "license": "Apache-2.0",
+  "hardware": "8 GB GPU, sequential CPU offload",
+  "inputs": {
+    "reference": "p7-5-1-mira-single-reference-01.png",
+    "mode": "reference-to-video only; no pose or camera control video",
+    "resolution": "832x480",
+    "frames": 5,
+    "steps": 50,
+    "guidance_scale": 1.0,
+    "seed": 20260803
+  },
+  "runtime": {
+    "mp4_saved": true,
+    "peak_vram_gib": 4.739,
+    "wall_time_seconds": 73.9,
+    "required_change": "Prompt embeddings were encoded on CPU before model CPU offload. Default offload tried to load T5 on GPU and exceeded 8 GB."
+  },
+  "quality_gate": {
+    "full_body_before_crop": "partial_pass",
+    "teal_bob_and_silver_clip": "fail",
+    "white_jacket": "partial_pass",
+    "teal_trousers": "fail",
+    "navy_horizontal_flap_bag": "fail",
+    "one_diagonal_strap": "fail",
+    "station_background": "fail",
+    "pose_and_camera_change": "not_tested; reference-only baseline failed"
+  },
+  "verdict": "not_adopted",
+  "reason": "The runtime path is valid on 8 GB, but the 50-step reference-only baseline retained neither the required clothing colors, bag contract, nor scene. Do not add pose/camera condition video, inpainting, or multi-shot evaluation to this branch.",
+  "retained_artifacts": [
+    "This review record"
+  ],
+  "removed_artifacts": [
+    "Generated MP4/contact sheet and temporary runner after recording the result",
+    "Temporary model snapshot"
+  ]
+}
