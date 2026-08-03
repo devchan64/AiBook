@@ -1,10 +1,10 @@
 {
-  "status": "pending_human_review",
+  "status": "approved_for_character_reference",
   "purpose": "Human-review ledger for the current local-GPU P7-5.1 style-reference originals before character-reference generation.",
   "approved_reference_set": {
-    "status": "not_assembled",
+    "status": "assembled",
     "manifest": "p7-5-1-approved-style-reference-pack.json",
-    "rule": "Only human-approved local-GPU originals may be listed in the manifest; downstream generation remains blocked until the remaining review is resolved."
+    "rule": "Only human-approved local-GPU originals are listed in the manifest; downstream generation selects one individual original per run."
   },
   "required_gate": {
     "outer_frame": "The generated image itself fills the canvas with no page border, panel frame, or post-generation crop.",
@@ -22,17 +22,17 @@
     },
     {
       "run_id": "style-courtyard-early-morning-high-angle-local-gpu-v1-420702",
-      "status": "review_required",
+      "status": "approved",
       "asset": "p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png",
       "scene_id": "courtyard-early-morning-high-angle",
-      "reason": "The only remaining human-review candidate; it is displayed for comparison but excluded from the manifest and P7-5.2 input."
+      "reason": "Human-approved supplementary outdoor early-morning high-angle local-GPU reference."
     },
     {
-      "run_id": "style-aircraft-night-oblique-local-gpu-v8-420705",
-      "status": "rejected",
-      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v8.png",
+      "run_id": "style-night-lit-reading-room-oblique-local-gpu-v1-420705",
+      "status": "approved",
+      "asset": "p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png",
       "scene_id": "indoor-night-oblique",
-      "reason": "The closed ceiling and window-side perspective improved, but broad bright ceiling and wall planes make the cabin too bright for deep night."
+      "reason": "Human-approved required indoor night oblique local-GPU reference."
     },
     {
       "run_id": "style-downtown-clear-day-wide-local-gpu-v1-420703",

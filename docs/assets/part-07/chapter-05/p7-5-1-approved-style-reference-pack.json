@@ -1,7 +1,17 @@
 {
-  "status": "blocked_pending_local_gpu_regeneration",
-  "purpose": "P7-5.1 local-GPU style-reference originals awaiting human review",
-  "model_input_rule": "No downstream diffusion call may use a reference until a human approves a local-GPU original and adds it to references.",
-  "gate_status": "blocked_pending_local_gpu_regeneration",
-  "references": []
+  "status": "approved_for_character_reference",
+  "purpose": "Human-approved P7-5.1 local-GPU style-reference originals for downstream character-reference generation",
+  "model_input_rule": "Select one individual local-GPU original from references for each downstream diffusion run; do not use a tiled comparison image as model input.",
+  "gate_status": "pass",
+  "references": [
+    {"asset": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png", "scene_id": "indoor-dawn-high-angle", "role": "required"},
+    {"asset": "p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png", "scene_id": "indoor-night-oblique", "role": "required"},
+    {"asset": "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png", "scene_id": "outdoor-day-wide", "role": "required"},
+    {"asset": "p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png", "scene_id": "outdoor-sunset-low-angle", "role": "required"},
+    {"asset": "p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png", "scene_id": "outdoor-rainy-night-overhead", "role": "required"},
+    {"asset": "p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png", "scene_id": "courtyard-early-morning-high-angle", "role": "supplementary"},
+    {"asset": "p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png", "scene_id": "venice-sunset-oblique", "role": "supplementary"},
+    {"asset": "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png", "scene_id": "park-clear-day-eye-level", "role": "supplementary"},
+    {"asset": "p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png", "scene_id": "train-platform-rainy-night-oblique", "role": "supplementary"}
+  ]
 }

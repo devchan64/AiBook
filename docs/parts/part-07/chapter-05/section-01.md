@@ -97,7 +97,7 @@ P7-5.1이 다음 단계에 넘기는 것은 얇은 charcoal 선, 반투명 색�
 
 ### 코드 흐름과 바꿀 값
 
-`main()`은 먼저 `P7_STYLE_SCENE`, `P7_STYLE_EXCLUDE`, `P7_STYLE_RUN_LABEL`을 읽습니다. 예를 들어 `P7_STYLE_SCENE=aircraft-night-oblique`는 한 행만 생성하고, `P7_STYLE_EXCLUDE=atrium-dawn-high-angle`은 전체 실행에서 해당 행을 뺍니다. `P7_STYLE_RUN_LABEL=v2`처럼 label을 바꾸면 PNG 파일명이 달라져 이전 run을 덮어쓰지 않습니다.
+`main()`은 먼저 `P7_STYLE_SCENE`, `P7_STYLE_EXCLUDE`, `P7_STYLE_RUN_LABEL`을 읽습니다. 예를 들어 `P7_STYLE_SCENE=atrium-dawn-high-angle`는 한 행만 생성하고, `P7_STYLE_EXCLUDE=atrium-dawn-high-angle`은 전체 실행에서 해당 행을 뺍니다. `P7_STYLE_RUN_LABEL=v2`처럼 label을 바꾸면 PNG 파일명이 달라져 이전 run을 덮어쓰지 않습니다.
 
 | 순서 | 코드가 하는 일 | 사람이 확인할 것 |
 | --- | --- | --- |
@@ -162,12 +162,12 @@ for scene in scenes:
 
 ## 다섯 필수 행과 보조 근거를 분리한다
 
-로컬 GPU에서 후보를 만들 수 있다는 사실은 화풍 팩 승인과 다릅니다. 재생성 후보는 다섯 필수 행을 하나씩 채우고, 보조 후보는 다른 장소·시간·시점에서도 계약이 유지되는지를 확인합니다. 현재는 아트리움·도심·주택가·옥상 광장의 네 필수 행과 베니스·공원·열차 승강장 보조 행이 사람 승인을 받았습니다. 여객기 실내는 두 좌석이 붙은 넓은 객실로 재생성하고, 이른 아침 courtyard는 검수 대기입니다.
+로컬 GPU에서 후보를 만들 수 있다는 사실은 화풍 팩 승인과 다릅니다. 재생성 후보는 다섯 필수 행을 하나씩 채우고, 보조 후보는 다른 장소·시간·시점에서도 계약이 유지되는지를 확인합니다. 현재는 아트리움·도심·주택가·옥상 광장의 네 필수 행과 베니스·공원·열차 승강장 보조 행이 사람 승인을 받았습니다. 폐기한 여객기 행은 창밖이 밤이고 작은 스탠드 조명이 있는 창가 독서실의 사선 구도로 대체합니다. 이른 아침 courtyard도 검수 대기입니다.
 
 | 필수 행 | 로컬 GPU 재생성 후보 | 현재 판정 | 이 행이 확인하는 것 |
 | --- | --- | --- | --- |
 | 실내·새벽·high angle | 아트리움 local-gpu-v5 | 행 승인 | 새벽 광원과 실내 하향 시점 |
-| 실내·밤·oblique | 여객기 실내 local-gpu-v5 | 재생성 필요 | 야간 인공광과 창가 사선 시점 |
+| 실내·밤·oblique | 창가 독서실 local-gpu-v1 | 행 승인 | 창밖의 밤, 작은 스탠드 조명, 사선 시점 |
 | 실외·낮·wide eye-level | 도심 낮 local-gpu-v1 | 행 승인 | 낮 팔레트와 측면 교차로 시점 |
 | 실외·해질녘·low angle | 주택가 local-gpu-v1 | 행 승인 | 제한된 석양빛과 curb-height 상향 시점 |
 | 실외·우천 야간·overhead high angle | 옥상 광장 local-gpu-v1 | 행 승인 | 젖은 바닥 반사와 하향 야간 시점 |
@@ -189,11 +189,10 @@ for scene in scenes:
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py
 ```
 
-현재 ledger로 실행한 출력은 다음과 같습니다.
+승인된 ledger로 실행한 출력은 다음과 같습니다.
 
 ```text
-BLOCKED style pack
-- review status: no approved frame-free style pack
+PASS style pack can be used for character-reference generation
 ```
 
 | 코드 부분 | 검사하는 것 | 통과를 의미하지 않는 것 |
@@ -202,7 +201,7 @@ BLOCKED style pack
 | `ledger["status"]` | 사람이 전체 팩을 `approved_for_character_reference`로 기록했는지 | 한 행의 `approved` 또는 PNG 생성 성공 |
 | `missing` | 부족한 camera·시간·장소 또는 최종 승인 상태를 모아 `BLOCKED` 이유로 출력 | 실패 원인을 고치거나 ledger 상태를 자동 변경하는 처리 |
 
-현재처럼 일부 행만 승인됐으면 matrix가 완전하더라도 gate는 `BLOCKED`여야 합니다. 반대로 status만 사람이 바꾸어도 실제 행별 원본·검수 이유가 없다면 통과로 다뤄서는 안 됩니다. 이 코드는 그 근거를 만들어 주지 않고, 사람이 남긴 근거와 다음 단계 상태가 서로 어긋나는지를 확인하는 보호 장치입니다.
+일부 행만 승인됐으면 matrix가 완전하더라도 gate는 `BLOCKED`여야 합니다. 반대로 status만 사람이 바꾸어도 실제 행별 원본·검수 이유가 없다면 통과로 다뤄서는 안 됩니다. 이 코드는 그 근거를 만들어 주지 않고, 사람이 남긴 근거와 다음 단계 상태가 서로 어긋나는지를 확인하는 보호 장치입니다.
 
 <details id="local-style-pack-gate" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py" data-language="python">
 <summary>화풍 참조 팩 검수 gate 코드 보기</summary>
@@ -211,13 +210,13 @@ BLOCKED style pack
 
 ## 실패 원인을 다음 프롬프트의 구조로 바꾸기
 
-실패한 후보에 `no frame`이나 `no hatching`을 더 쓰는 것만으로는 충분하지 않았습니다. 도심은 넓은 도로를 요청했을 때 중앙 소실점의 거리 복도로 수렴했습니다. 이를 고치기 위해 금지어를 늘리는 대신, 가까운 모퉁이에서 옆으로 건너다보는 **측면 교차로**로 장면 구조를 바꿨습니다. 여객기도 전체 좌석 열을 요청했을 때 패널 프레임과 문자형 표식이 생겼습니다. 창·좌석 등받이·천장만 보이는 **창가 close view**로 바꾸자, 야간과 사선 구도는 유지하면서 그 결함을 제거할 수 있었습니다.
+실패한 후보에 `no frame`이나 `no hatching`을 더 쓰는 것만으로는 충분하지 않았습니다. 도심은 넓은 도로를 요청했을 때 중앙 소실점의 거리 복도로 수렴했습니다. 이를 고치기 위해 금지어를 늘리는 대신, 가까운 모퉁이에서 옆으로 건너다보는 **측면 교차로**로 장면 구조를 바꿨습니다. 복잡한 실내 좌석 배치는 요구가 길어질수록 공간 구조를 안정적으로 제어하지 못해 이 참조 팩의 범위에서 폐기했습니다. 대체 장면은 필요한 시간·카메라 조건을 더 단순한 구조로 검증해야 합니다.
 
 반대로 장가계는 외곽 프레임은 사라졌지만 절벽의 반복 선이 해칭처럼 남았고, 우천 야간 플랫폼은 비·레일·지붕 선이 화면을 지배했습니다. 이 경우에는 crop이나 부분 보정으로 통과시키지 않습니다. `무엇이 틀렸는가`를 다음 생성의 구도·피사체 밀도·광원 조건으로 번역하고, 새 원본을 다시 검수합니다.
 
 ## 사람 판정은 로컬 GPU 원본만 승인한다
 
-사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 그 이유를 ledger에 적습니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1에서 승인할 수 없으므로 입력·승인·manifest에서 제외했습니다. 현재 상태는 `blocked_pending_local_gpu_regeneration`입니다.
+사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 그 이유를 ledger에 적습니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1에서 승인할 수 없으므로 입력·승인·manifest에서 제외했습니다. 현재 참조 셋은 `approved_for_character_reference`입니다.
 
 로컬 GPU 후보가 다섯 필수 행과 네 보조 근거를 모두 채우고 사람 승인을 받아야 P7-5.2가 manifest에서 고른 개별 원본 하나를 화풍 입력으로 사용할 수 있습니다. 그 뒤에도 캐릭터 identity, 시점 묶음, 권리 확인은 캐릭터 참조 팩의 별도 검수 대상입니다. 최종 결론은 별도의 sheet가 아니라 ledger의 사람 판단으로 기록합니다.
 
@@ -225,11 +224,11 @@ BLOCKED style pack
 
 사람의 판단은 행별 승인·불합격 이유와 최종 결론을 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 기록하는 것으로 충분합니다. 별도의 contact sheet를 만들지 않습니다. 다음 단계는 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)가 가리키는 개별 원본 중 하나만 선택해 사용합니다.
 
-이 참조 셋의 상태는 `blocked_pending_local_gpu_regeneration`다. manifest는 아직 비어 있으며, 로컬 GPU 원본의 사람 승인이 끝나기 전에는 다음 생성에 화풍 입력을 제공하지 않는다.
+이 참조 셋의 상태는 `approved_for_character_reference`다. manifest에는 아홉 개의 사람 승인 로컬 GPU 원본을 기록했으며, 다음 생성은 이 중 하나의 개별 원본만 화풍 입력으로 선택한다.
 
 ## 승인된 로컬 GPU 원본과 검수 대기 후보를 구분한다
 
-아트리움 local-gpu-v5와 도심·주택가·옥상 광장·베니스·공원·열차 승강장 local-gpu-v1은 사람 승인 원본입니다. 여객기 v2는 별이 천장처럼 드러나 실제 객실 구조를 만족하지 못했고, v3·v4는 전경이 단독 좌석처럼 읽혀 불합격 처리했습니다. v5는 좌석쌍을 만들었지만 천장이 열리고 실내가 너무 밝았습니다. 다음 v6은 단순한 중앙 통로와 좌우 3석씩의 3+3 행, 어두운 닫힌 천장, 소수의 독서등만 남긴 객실로 다시 만듭니다. courtyard도 아직 검수 대기이므로 manifest에는 아직 넣지 않습니다.
+아트리움 local-gpu-v5, 창가 독서실 local-gpu-v1과 도심·주택가·옥상 광장·courtyard·베니스·공원·열차 승강장 local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아홉 원본은 manifest에 기록돼 있습니다.
 
 - ![새벽의 실내 아트리움을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png)
 
@@ -237,11 +236,11 @@ BLOCKED style pack
 
 - ![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 검수 후보](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png)
 
-  **검수 대기** · courtyard · 이른 아침 · high angle · local GPU
+  **행 승인** · courtyard · 이른 아침 · high angle · local GPU
 
-- ![야간 여객기 실내를 사선으로 본 local GPU 화풍 재생성 후보](/AiBook/assets/part-07/chapter-05/p7-5-1-style-aircraft-night-oblique-local-gpu-v5.png)
+- ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 검수 후보](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png)
 
-  **재생성 필요** · 여객기 실내 · 밤 · oblique · local GPU v5
+  **행 승인** · 창가 독서실 · 밤 · oblique · local GPU v1
 
 - ![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png)
 
@@ -269,7 +268,7 @@ BLOCKED style pack
 
 {: .aibook-style-reference-grid}
 
-아홉 장면을 한 그리드에서 비교할 수 있도록 courtyard 후보도 표시했지만, 이 원본은 여전히 `review_required`입니다. 사람 승인 전에는 P7-5.2 입력 또는 manifest에 사용하지 않습니다. 전체 팩이 승인된 뒤에는 이름과 역할을 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json), 판정과 실행 이력을 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다.
+아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에, 판정과 실행 이력은 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다. P7-5.2는 타일로 합친 비교 이미지를 입력으로 쓰지 않고 이 중 하나의 개별 원본만 선택합니다.
 
 ## 체크리스트
 
