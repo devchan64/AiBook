@@ -1,7 +1,7 @@
 # P1-10.2 Next-Output Generation Intuition
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.26`
+> Version: `v2026.08.03`
 
 Section 10.1 separated `classification`, `prediction`, and `generation`. Classification chooses a category, prediction estimates a value or state, and generation creates a new artifact that fits a condition.
 
@@ -9,41 +9,41 @@ This section explains only the broadest intuition of `how generation happens`.
 
 The central question is:
 
-> does generative AI produce a finished answer all at once,  
-> or does it build the artifact by extending small output pieces step by step?
+> does generative AI produce a finished answer all at once,
+> or does it build the artifact through multiple steps under conditions?
 
 The introductory baseline is:
 
-> generative AI usually constructs an artifact by producing the next output piece from a condition, then using that result as part of the condition for the next step
+> generative AI constructs an artifact by changing its generative state over multiple steps under conditions. Text continues next tokens, whereas diffusion image models restore by reducing noise.
 
 Part 1 introduces the basic distinctions among `next-output generation`, the intuition of `next-token prediction`, sequential generation of `audio samples`, and the intuition of `diffusion` as gradual restoration. Section 10.1 first separated the output types of classification, prediction, and generation. This section focuses only on the computational intuition of how `generation` continues. The detailed structures and equations return in later parts.
 
-This does not mean every model works in exactly the same way. `Text generation`, `audio generation`, and `image generation` can share the broad intuition of iterative generation, but their actual units and algorithms are different.
+This does not mean every model works in exactly the same way. `Text generation`, `audio generation`, and `image generation` can share the broad intuition of iterative generation, but their actual units and algorithms are different. A text-to-image system such as Stable Diffusion does not append a prompt as if it were the next word. It uses the prompt as a condition while changing a noisy latent representation over many restoration steps.
 
-Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one by continuing small output pieces`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.3 and Part 6 P6-5.2, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
+Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one through multiple steps under conditions`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.3 and Part 6 P6-5.2, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
 
 These terms can all sound like one common generation algorithm at first. A quick distinction helps:
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
-| next-output generation | the intuition of building an artifact by continuing small pieces | the broad frame for looking at generation |
+| next-output generation | the intuition of changing a generative state step by step under conditions | the broad frame for looking at generation |
 | next-token prediction | computing the next token candidate from context | the basic intuition of text generation |
 | audio-sample generation | continuing the next sample from previous waveform information | the sequential intuition of speech generation |
-| diffusion restoration | reducing noise step by step to recover an image | the point that image generation differs from text generation |
+| diffusion restoration | reducing noise step by step to recover an image | why image generation such as Stable Diffusion differs from text generation |
 | sampling | the procedure that selects one output from candidates | part of why the same input can still lead to different results |
 
 The minimum distinction to keep is:
 
 - text uses next tokens
 - speech uses next samples
-- images are often better understood as a restoration process
-- sampling is a selection procedure
+- images use a latent-representation restoration process
+- sampling selects an output or moves the process to its next state
 
 The baseline intuition here is:
 
-> read the condition  
-> compute possible next-output candidates  
-> select or restore one output  
+> read the condition
+> compute possible next-output candidates or update the current generative state
+> select an output or restore by reducing noise
 > continue the next step from that result
 
 This section also does not discuss `how to judge a good generated result`. That question is separated in 10.3 into quality, evidence, safety, and rights.
@@ -53,7 +53,7 @@ This section also does not discuss `how to judge a good generated result`. That 
 - Understand that generative AI may look as if it pulls out a finished artifact at once, but is more safely understood as an iterative generation process.
 - Understand that in text generation, the unit of the `next token` is important.
 - Understand that in speech generation, `audio samples` or waveform fragments can also be handled sequentially.
-- Distinguish image generation from a simple `next pixel` story, especially because diffusion-style models are better understood as gradual restoration from noise.
+- Distinguish image generation from a simple `next pixel` story, especially because latent-diffusion models such as Stable Diffusion gradually restore noise in a latent representation.
 - Remember that `next-output generation` is an introductory intuition, not a complete algorithmic description of every generative model.
 
 ## Three Standards
@@ -188,6 +188,10 @@ In particular, `diffusion models` differ from text generation. They do not simpl
 
 The Latent Diffusion Models paper showed that diffusion can be carried out in a lower-dimensional latent space and conditioned through cross-attention for tasks such as text-to-image synthesis.
 
+Stable Diffusion is a representative text-to-image application of this latent-diffusion approach. A `latent representation` is a compressed computational space rather than the pixel image people see directly. Stable Diffusion usually begins with noise in that space, restores it repeatedly under the prompt condition, and finally turns the result back into an image.
+
+So a prompt is not a pixel layout or an instruction that completely fixes the result. It is a condition consulted during restoration; the initial noise and repeated restoration process also affect the final image. This section does not ask readers to memorize the roles of the text encoder, U-Net, VAE, or scheduler. Those components return when Stable Diffusion itself is discussed.
+
 So image generation is safer to phrase this way:
 
 > text generation:  
@@ -209,13 +213,13 @@ A text model may generate a descriptive passage or prompt-like sentence:
 > on a dark desk sit a laptop and an open notebook,  
 > and a faint neural-network diagram glows on the screen
 
-An image-generation model may instead use that sentence as a condition and progressively construct the image representation.
+A model such as Stable Diffusion may instead use that sentence as a condition and progressively construct the image representation.
 
 > condition:  
 > calm cover, AI restudy, laptop, notebook, neural-network diagram
 >
 > generation:  
-> start from noise or latent representation, then restore toward an image
+> start from latent noise, then restore toward an image under the condition
 
 From the user's point of view, both are `generation`. But the internal generation units differ.
 
@@ -249,8 +253,9 @@ This also connects directly to how this book is made. A draft produced by an AI 
 - I can explain that the next token is chosen from a candidate distribution rather than being one fixed correct answer.
 - I can explain the sequential intuition of audio samples in speech generation.
 - I can explain why image generation, especially diffusion models, should not be reduced to simple next-pixel prediction.
+- I can explain the broad flow in which Stable Diffusion uses a prompt condition and latent noise to restore an image iteratively.
 - I can explain why generated outputs need human review and repeated revision.
-- I can explain what the next output unit is and by what condition that unit is selected or restored.
+- I can explain what is selected or restored step by step in text, speech, and image generation.
 - I can distinguish that text, speech, and image generation are all iterative, but their units and methods differ.
 
 ## Sources and Further Reading
@@ -259,3 +264,4 @@ This also connects directly to how this book is made. A draft produced by an AI 
 - Aäron van den Oord et al., [WaveNet: A Generative Model for Raw Audio](https://arxiv.org/abs/1609.03499){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, accessed 2026-06-23.
 - Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, accessed 2026-06-23.
 - Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, accessed 2026-06-23.
+- CompVis, [Stable Diffusion official implementation](https://github.com/CompVis/stable-diffusion){: target="_blank" rel="noopener noreferrer" }, GitHub, accessed 2026-08-03.

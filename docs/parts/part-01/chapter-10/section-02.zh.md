@@ -1,42 +1,41 @@
 # P1-10.2 生成下一个输出(next-output generation)的直觉
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.26`
+> Version: `v2026.08.03`
 
 在 10.1 中，我们区分了分类(classification)、预测(prediction)和生成(generation)。分类是选择类别，预测是估计值或状态，生成是创建符合条件的新内容。
 
 这里要说明的只是一个很大的直觉：生成究竟是如何发生的。
 
-这里的核心问题是：生成式 AI 会不会一次性拿出完整答案，还是会把小的输出片段接续起来，一步步构成结果？
+这里的核心问题是：生成式 AI 会不会一次性拿出完整答案，还是会基于条件经过多个步骤构成结果？
 
 入门阶段有用的基准线是：
 
-> 生成式 AI 通常会基于条件(condition)产出下一个输出片段，  
-> 再把这个结果当作下一步条件的一部分，继续构造完整内容。
+> 生成式 AI 会在条件(condition)之下，经过多个步骤改变生成状态来构造内容。文本会接续下一 token，而 diffusion 图像模型会通过减少噪声来恢复图像。
 
 在 Part 1 中，本节先建立 `生成下一个输出(next-output generation)`、`下一 token 预测(next-token prediction)` 的入门直觉，以及 `音频样本(audio sample)` 的顺序生成和 `diffusion model` 渐进恢复直觉之间的基本区分。10.1 先区分了 `分类/预测/生成` 的输出差异，这里只抓住其中 `生成` 是如何延续下去的计算直觉。更细的结构和公式会在后面的 Part 再讨论。
 
-但这并不意味着所有模型都用同一种方式工作。文本生成(text generation)、语音生成(audio generation)、图像生成(image generation)都可以共享“重复生成”的大直觉，但实际的生成单位和算法并不相同。
+但这并不意味着所有模型都用同一种方式工作。文本生成(text generation)、语音生成(audio generation)、图像生成(image generation)都可以共享“重复生成”的大直觉，但实际的生成单位和算法并不相同。像 Stable Diffusion 这样的 text-to-image 系统不会像接续下一个词那样接续 prompt；它把 prompt 当作图像恢复的条件，在多个步骤中改变带有大量噪声的潜在表征(latent representation)。
 
-这里先固定 `生成到底是一次拿出完成品，还是把小输出片段接续起来` 这个问题。tokenization 会在 Part 6 的 P6-1.1 和 P6-1.2 重新讨论；下一 token 预测(next-token prediction) 会在 P6-5.1 讨论；sampling 和 temperature 会在 Part 5 的 P5-15.3 与 Part 6 的 P6-5.2 讨论；Transformer 结构会在 P1-11.3、Part 5、Part 6 再出现；prompt 与评估会在 P1-12.1 到 P1-12.3 中继续讨论。diffusion model 的详细结构不会在这里先展开。
+这里先固定 `生成到底是一次拿出完成品，还是基于条件经过多个步骤构成结果` 这个问题。tokenization 会在 Part 6 的 P6-1.1 和 P6-1.2 重新讨论；下一 token 预测(next-token prediction) 会在 P6-5.1 讨论；sampling 和 temperature 会在 Part 5 的 P5-15.3 与 Part 6 的 P6-5.2 讨论；Transformer 结构会在 P1-11.3、Part 5、Part 6 再出现；prompt 与评估会在 P1-12.1 到 P1-12.3 中继续讨论。diffusion model 的详细结构不会在这里先展开。
 
 `生成下一个输出`、`下一 token`、`音频样本`、`diffusion` 在开始时都可能听起来像同一种生成算法。先用一句很短的话把它们区分开：
 
 | 术语 | 极简含义 | 本节中的作用 |
 | --- | --- | --- |
-| 生成下一个输出 | 把小的输出片段接起来构成完整内容的直觉 | 观察生成过程的大框架 |
+| 生成下一个输出 | 在条件下逐步改变生成状态来构成内容的直觉 | 观察生成过程的大框架 |
 | 下一 token 预测 | 根据上下文计算下一个 token 候选项的方式 | 文本生成的基本直觉 |
 | 音频样本生成 | 根据已有波形继续产生下一个样本的方式 | 语音生成的顺序直觉 |
-| diffusion 恢复 | 逐步减少噪声并恢复图像的方式 | 图像生成与文本生成不同的地方 |
+| diffusion 恢复 | 逐步减少噪声并恢复图像的方式 | Stable Diffusion 等图像生成与文本生成不同的地方 |
 | sampling | 从候选项中真正选出输出的过程 | 解释同样输入为何仍会得到不同结果的一部分原因 |
 
-这里至少要保留的区分是：`文本看下一个 token`、`语音看下一个样本`、`图像更像恢复过程`、`sampling 是选择步骤`。
+这里至少要保留的区分是：`文本看下一个 token`、`语音看下一个样本`、`图像是潜在表征的恢复过程`、`sampling 是选择输出或移向下一状态的步骤`。
 
 本节的基准直觉是：
 
-> 读取条件。  
-> 计算可能的下一个输出候选项。  
-> 选择或恢复一个输出。  
+> 读取条件。
+> 计算可能的下一个输出候选项，或更新当前生成状态。
+> 选择一个输出，或通过减少噪声来恢复。
 > 再以这个结果继续下一步。
 
 另外，这里也不会讨论 `怎样判断一个生成结果是好的`。这个问题会在 10.3 里再分成 `质量`、`依据`、`安全`、`权利与责任` 来看。
@@ -46,7 +45,7 @@
 - 看到生成式 AI 看起来像一次性拿出完整产出物，但更安全的理解是它经历了重复生成的过程。
 - 理解在文本生成中，`下一 token(next token)` 这个单位很重要。
 - 了解在语音生成中，也可以顺序处理 `音频样本(audio sample)` 或波形片段。
-- 区分图像生成不能只用“下一个像素”来解释，尤其 diffusion 系列更适合理解成逐步从噪声中恢复。
+- 区分图像生成不能只用“下一个像素”来解释，尤其 Stable Diffusion 等 latent diffusion 系列更适合理解成在潜在表征中逐步从噪声恢复。
 - 记住 `生成下一个输出` 只是入门直觉，并不是所有生成模型的完整算法说明。
 
 ## 三个基准
@@ -177,6 +176,10 @@ GPT-3 论文把 GPT-3 描述为一个拥有 175B 参数的自回归语言模型(
 
 Latent Diffusion Models 论文表明，diffusion 过程可以在更低维的 latent space 中进行，并通过基于 cross-attention 的 conditioning 应用于 text-to-image synthesis 等任务。
 
+Stable Diffusion 是把这种 latent diffusion 方法用于 text-to-image 生成的代表案例。`潜在表征`是比人直接看到的像素图像更压缩的计算空间。Stable Diffusion 通常从这个空间中的噪声开始，在 prompt 条件下反复恢复，最后再把结果变回图像。
+
+因此，不能把 prompt 看成像素的布局表，或看成会完全固定结果的命令。prompt 是恢复过程参考的条件；初始噪声和反复恢复的过程也会影响最终图像。本节不要求记住 text encoder、U-Net、VAE、scheduler 等组成部分各自的作用；在单独讨论 Stable Diffusion 时再把这些结构连接起来。
+
 因此，更安全的表述方式是：
 
 > 文本生成：  
@@ -200,13 +203,13 @@ Latent Diffusion Models 论文表明，diffusion 过程可以在更低维的 lat
 > 在昏暗的书桌上摆着一台笔记本电脑和一本摊开的笔记本，  
 > 屏幕上隐约浮现着神经网络图示。
 
-如果是图像生成模型，它则可能把同一句话当作条件，逐步构造图像表征。
+如果是 Stable Diffusion 这样的图像生成模型，它则可能把同一句话当作条件，逐步构造图像表征。
 
 > 条件：  
 > 平静的封面、AI 再学习、笔记本电脑、笔记本、神经网络图示
 >
 > 生成：  
-> 从噪声或潜在表征开始，逐步恢复成图像
+> 从潜在噪声开始，在条件下逐步恢复成图像
 
 从用户视角看，这两者都叫“生成”。但模型内部使用的生成单位并不相同。
 
@@ -240,8 +243,9 @@ Latent Diffusion Models 论文表明，diffusion 过程可以在更低维的 lat
 - 我可以说明下一个 token 不是唯一正确答案，而是从候选分布中被选出的输出。
 - 我可以解释语音生成中顺序处理音频样本(audio sample)的直觉。
 - 我可以说明为什么图像生成，尤其 diffusion model，不能被简化成下一像素预测。
+- 我可以说明 Stable Diffusion 如何以 prompt 条件和潜在噪声为起点，反复恢复图像的大致流程。
 - 我可以说明为什么生成结果需要人类审阅与反复修改。
-- 我可以说明“下一个输出单位是什么”以及“这个单位是在什么条件下被选择或恢复的”。
+- 我可以说明文本、语音、图像生成中，分别有什么会被逐步选择或恢复。
 - 我可以区分文本、语音、图像生成虽然都属于重复生成，但单位和方式并不相同。
 
 ## 来源与参考资料
@@ -250,3 +254,4 @@ Latent Diffusion Models 论文表明，diffusion 过程可以在更低维的 lat
 - Aäron van den Oord et al., [WaveNet: A Generative Model for Raw Audio](https://arxiv.org/abs/1609.03499){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 确认日期: 2026-06-23.
 - Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 确认日期: 2026-06-23.
 - Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, 确认日期: 2026-06-23.
+- CompVis, [Stable Diffusion 官方实现](https://github.com/CompVis/stable-diffusion){: target="_blank" rel="noopener noreferrer" }, GitHub, 确认日期: 2026-08-03.
