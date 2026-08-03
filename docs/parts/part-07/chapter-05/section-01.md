@@ -11,13 +11,13 @@
 
 같은 청록색과 주황빛을 쓴다고 같은 웹툰 화풍이 되지는 않습니다. 선이 명암을 대신하는지, 수채화 색면 아래에 남는지, 실내의 인공광과 실외의 자연광에서 색의 대비가 어떻게 달라지는지, 높은 시점과 낮은 시점에서 원근선이 어떻게 놓이는지가 함께 반복되어야 합니다.
 
-이 실습의 수채화 계약은 얇은 charcoal 윤곽선과 건축 구조선을 남기고, 그 아래에 맑은 turquoise·cobalt shadow·leaf green·vermilion-apricot·warm off-white의 투명 색면을 겹치는 것입니다. 기존보다 한 단계 높은 채도를 쓰되, 형광색·neon·불투명 airbrush로 바꾸지 않습니다. 색은 wet-on-wet 번짐, 불규칙한 안료 고임, 반투명 색층으로 남아야 합니다. 해칭, crosshatching, 점묘, 검은 먹 번짐은 드로잉 라인이 아니라 명암을 채우는 질감으로 판단해 제외합니다. 수채화는 선을 흐리게 만드는 필터가 아니라 선이 구획한 면에 겹쳐지는 색층입니다. 따라서 `수채화처럼 보인다`는 인상만으로는 통과할 수 없습니다. 외곽, 선, 색, 공간, 카메라를 각각 확인해야 합니다.
+이 실습의 수채화 계약은 얇은 charcoal 윤곽선과 건축 구조선을 남기고, 그 아래에 기존보다 한 단계 높은 안료 농도의 투명 색면을 겹치는 것입니다. 채도는 시간대와 무관하게 같은 warm apricot으로 고정하지 않습니다. 낮에는 clear teal·leaf green·cool off-white가 주가 되고, 석양에서만 apricot 역광을 제한적으로 씁니다. 밤과 우천 야간은 indigo·navy 그림자와 작은 tungsten 반사광으로 읽혀야 하며, 하늘을 붉게 물들여 석양처럼 만들지 않습니다. 형광색·neon·불투명 airbrush로 바꾸지 않습니다. 색은 wet-on-wet 번짐, 불규칙한 안료 고임, 반투명 색층으로 남아야 합니다. 해칭, crosshatching, 점묘, 검은 먹 번짐은 드로잉 라인이 아니라 명암을 채우는 질감으로 판단해 제외합니다. 수채화는 선을 흐리게 만드는 필터가 아니라 선이 구획한 면에 겹쳐지는 색층입니다. 따라서 `수채화처럼 보인다`는 인상만으로는 통과할 수 없습니다. 외곽, 선, 색, 공간, 카메라를 각각 확인해야 합니다.
 
 | 확인 축 | 통과 조건 | 불합격 신호 |
 | --- | --- | --- |
 | 외곽 | 생성 원본이 프레임 없이 캔버스를 채움 | page border, panel frame, 사후 crop 필요 |
 | 선 | 윤곽·구조·원근선이 읽힘 | 선이 색 번짐에 묻힘, 명암 해칭이 화면을 지배함 |
-| 색 | 한 단계 높은 자연 채도의 반투명 수채화 색층과 시간대별 광원이 함께 보임 | 단색 먹 질감, 불투명 airbrush, neon, 번짐 없는 평면 도색 |
+| 색 | 한 단계 높은 자연 채도의 반투명 수채화 색층과 시간대별 광원이 함께 보임 | 모든 시간대를 석양색으로 통일함, 단색 먹 질감, 불투명 airbrush, neon, 번짐 없는 평면 도색 |
 | 공간 | 실내와 실외가 모두 있음 | 한 장소 유형의 반복 |
 | 카메라 | high angle, low angle, wide eye-level, oblique side, overhead high angle이 실제로 다름 | 세로 중앙 소실점·아이레벨 구도 반복 |
 
@@ -43,7 +43,7 @@
 | --- | --- | --- | --- |
 | 실내·새벽·high angle | 아트리움 하향 시점 | 조건부 통과 | 같은 계약으로 다른 행을 채울 것 |
 | 실내·밤·oblique | 여객기 창가 close view | 조건부 통과 | 실내의 다른 시간대가 아니라 이 행만 대표함 |
-| 실외·낮·wide eye-level | 강남 측면 교차로 | 조건부 통과 | 건물 구조선이 해칭처럼 읽히지 않는지 사람 재검수 |
+| 실외·낮·wide eye-level | 강남 측면 교차로, 도시 공원 연못 | 조건부 통과 | 건물과 자연 공간에서 낮 팔레트가 함께 유지되는지 사람 재검수 |
 | 실외·해질녘·low angle | curb-height 거리 | 조건부 통과 | 이 행만 대표함 |
 | 실외·우천 야간·overhead high angle | 서울 옥상 광장 하향 시점 | 조건부 통과 | 이 행만 대표함 |
 
@@ -74,21 +74,23 @@ BLOCKED style pack
 
 ## 조건부 통과 후보와 실행 기록
 
-아래 이미지는 전체 화풍 팩이 아니라 각 행의 조건부 근거입니다. 이미지마다 원본·seed·실행 조건·사람 판정은 링크한 JSON에 남기고, 전체 승인 여부는 ledger와 gate가 담당합니다. 본문 표시는 채도만 `1.28`배 올려 비교합니다. 이 표시는 원본 PNG를 다시 그리거나 crop하지 않으며, 선·구도·수채화 번짐은 그대로 유지합니다. 다음 생성에도 같은 고채도 팔레트 계약을 적용합니다.
+아래 이미지는 전체 화풍 팩이 아니라 각 행의 조건부 근거입니다. 이미지마다 원본·seed·실행 조건·사람 판정은 링크한 JSON에 남기고, 전체 승인 여부는 ledger와 gate가 담당합니다. 고채도 팔레트 계약은 다음 생성 원본에서 검수하며, 화면 표시 CSS로 기존 원본의 색을 바꾸지 않습니다.
 
-![Frame-free high-angle local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-high-angle-candidate.png){ .aibook-style-sample--high-chroma }
+![Frame-free high-angle local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-high-angle-candidate.png)
 
-![Frame-free outdoor sunset low-angle local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-low-angle-candidate.png){ .aibook-style-sample--high-chroma }
+![Frame-free outdoor sunset low-angle local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-low-angle-candidate.png)
 
-![Frame-free Venice sunset oblique local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-candidate.png){ .aibook-style-sample--high-chroma }
+![Frame-free Venice sunset oblique local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-candidate.png)
 
-![Frame-free Gangnam lateral intersection local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-side-intersection-candidate.png){ .aibook-style-sample--high-chroma }
+![Frame-free Gangnam lateral intersection local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-side-intersection-candidate.png)
 
-![Frame-free passenger-aircraft night window local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-passenger-aircraft-night-window-candidate.png){ .aibook-style-sample--high-chroma }
+![Frame-free daylight park medium-chroma local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-daylight-park-medium-chroma-candidate.png)
 
-![Frame-free Seoul rainy-night overhead local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-seoul-rainy-night-overhead-candidate.png){ .aibook-style-sample--high-chroma }
+![Frame-free passenger-aircraft night window local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-passenger-aircraft-night-window-candidate.png)
 
-`P7-5.2`의 character reference 생성 입력으로 쓰려면 전체 gate가 통과해야 합니다. [고각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-high-angle-candidate.json), [저각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-low-angle-candidate.json), [베니스 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-candidate.json), [강남 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-side-intersection-candidate.json), [여객기 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-passenger-aircraft-night-window-candidate.json), [우천 야간 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-seoul-rainy-night-overhead-candidate.json), [high-angle probe](#local-style-high-angle-probe), [low-angle probe](#local-style-low-angle-probe), [location batch probe](#local-style-location-batch-probe), [location repair probe](#local-style-location-repair-probe), [targeted repair probe](#local-style-targeted-repair-probe), [composition repair probe](#local-style-composition-repair-probe), [rainy-overhead repair probe](#local-style-rainy-overhead-repair-probe)를 함께 확인합니다.
+![Frame-free Seoul rainy-night overhead local style candidate](../../../assets/part-07/chapter-05/p7-5-1-style-seoul-rainy-night-overhead-candidate.png)
+
+`P7-5.2`의 character reference 생성 입력으로 쓰려면 전체 gate가 통과해야 합니다. [고각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-high-angle-candidate.json), [저각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-low-angle-candidate.json), [베니스 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-candidate.json), [강남 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-side-intersection-candidate.json), [낮 공원 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-daylight-park-medium-chroma-candidate.json), [여객기 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-passenger-aircraft-night-window-candidate.json), [우천 야간 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-seoul-rainy-night-overhead-candidate.json), [high-angle probe](#local-style-high-angle-probe), [low-angle probe](#local-style-low-angle-probe), [location batch probe](#local-style-location-batch-probe), [location repair probe](#local-style-location-repair-probe), [targeted repair probe](#local-style-targeted-repair-probe), [composition repair probe](#local-style-composition-repair-probe), [rainy-overhead repair probe](#local-style-rainy-overhead-repair-probe), [daylight medium-chroma probe](#local-style-daylight-medium-chroma-probe)를 함께 확인합니다.
 
 <details id="local-style-pack-gate" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py" data-language="python">
 <summary>local style pack gate 전문 보기</summary>
@@ -127,6 +129,11 @@ BLOCKED style pack
 
 <details id="local-style-rainy-overhead-repair-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_style_rainy_overhead_repair_probe.py" data-language="python">
 <summary>rainy-night overhead style repair probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="local-style-daylight-medium-chroma-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_style_daylight_medium_chroma_probe.py" data-language="python">
+<summary>daylight medium-chroma style probe 전문 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 

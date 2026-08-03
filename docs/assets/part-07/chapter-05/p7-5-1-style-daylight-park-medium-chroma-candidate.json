@@ -1,0 +1,12 @@
+{
+  "status": "partial_pass",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "scene_id": "daylight-park-medium-chroma",
+  "seed": 420641,
+  "size": [768, 1152],
+  "steps": 50,
+  "guidance_scale": 3.5,
+  "elapsed_seconds": 150.9,
+  "gpu_memory_peak_mib": 1924,
+  "review": "The unmodified source is frame-free and uses a diagonal pond-side daylight view. Medium teal water, leaf-green trees, cool off-white paving, and a pale blue sky distinguish clear day from sunset; transparent watercolor bleeding and pigment pooling remain visible. It is one outdoor-day reference only."
+}

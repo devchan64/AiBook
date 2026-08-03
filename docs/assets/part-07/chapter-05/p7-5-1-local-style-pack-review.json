@@ -9,6 +9,12 @@
   },
   "reviewed_runs": [
     {
+      "run_id": "style-daylight-park-medium-chroma-420641",
+      "status": "partial_pass",
+      "asset": "p7-5-1-style-daylight-park-medium-chroma-candidate.png",
+      "reason": "The unmodified source has no rectangular outer frame or readable text. Medium teal pond reflections, leaf-green foliage, cool off-white paving, and a pale blue sky make the time legible as clear day rather than sunset, while transparent watercolor blooms remain visible. It adds a daylight palette reference and does not replace the required camera row evidence."
+    },
+    {
       "run_id": "style-seoul-rainy-night-overhead-420631",
       "status": "partial_pass",
       "asset": "p7-5-1-style-seoul-rainy-night-overhead-candidate.png",

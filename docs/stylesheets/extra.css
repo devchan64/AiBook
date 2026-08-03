@@ -193,10 +193,6 @@
   overflow: auto;
 }
 
-.md-typeset img.aibook-style-sample--high-chroma {
-  filter: saturate(1.28);
-}
-
 .md-main,
 .md-main__inner,
 .md-content,
