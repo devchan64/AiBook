@@ -1,1 +1,0 @@
-{"status":"partial_pass","model_id":"black-forest-labs/FLUX.2-klein-base-4B","scene_id":"outdoor-sunset-low-angle-medium-chroma","seed":420644,"size":[768,1152],"steps":50,"guidance_scale":3.5,"elapsed_seconds":149.8,"gpu_memory_peak_mib":2888,"review":"Frame-free low-angle residential street; limited apricot at the sky edge keeps sunset distinct from the day and night rows."}

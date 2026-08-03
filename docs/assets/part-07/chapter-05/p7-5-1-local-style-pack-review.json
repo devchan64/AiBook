@@ -1,141 +1,101 @@
 {
-  "status": "blocked_pending_local_gpu_regeneration",
-  "purpose": "review ledger for local GPU style-pack candidates before character-reference generation",
+  "status": "pending_human_review",
+  "purpose": "Human-review ledger for the current local-GPU P7-5.1 style-reference originals before character-reference generation.",
   "approved_reference_set": {
     "status": "not_assembled",
     "manifest": "p7-5-1-approved-style-reference-pack.json",
-    "rule": "Only human-approved local-GPU originals may be listed in the manifest; downstream generation remains blocked until that review is complete."
+    "rule": "Only human-approved local-GPU originals may be listed in the manifest; downstream generation remains blocked until the remaining review is resolved."
   },
   "required_gate": {
     "outer_frame": "The generated image itself fills the canvas with no page border, panel frame, or post-generation crop.",
     "line_and_paint": "Thin contour and structure lines remain visible over transparent watercolor washes; hatching, crosshatching, stippling, and ink-wash dominance fail.",
     "coverage": "At least one indoor and outdoor sample; dawn/day/sunset/night/rainy-night coverage; and distinct high-angle, low-angle, wide eye-level, and oblique camera families.",
-    "review": "A human reviews every sample for frame, line, palette, place, time, and camera before it becomes a style reference."
+    "review": "A human reviews every current sample for frame, line, palette, place, time, and camera before it becomes a style reference."
   },
   "reviewed_runs": [
-    {"run_id":"style-train-platform-bright-rail-420663","status":"approved","asset":"p7-5-1-style-train-platform-bright-candidate.png","reason":"Human-approved supplementary rainy-night location reference. Cool-white canopy lighting, pale-cyan wet paving, small local tungsten lamps, and short diagonal rails retain the platform identity without signage."},
-    {"run_id":"style-train-platform-bright-420660","status":"rejected","reason":"The brighter lighting was achieved, but an irregular white paper margin, centered corridor perspective, and broad gold reflection broke the full-bleed and palette contracts."},
-    {"run_id":"style-train-platform-bright-lateral-420661","status":"rejected","reason":"The brighter lateral attempt introduced readable station markings and still converged toward a long platform corridor."},
-    {"run_id":"style-train-platform-bright-close-420662","status":"rejected","reason":"The bright close view removed readable text, but the railway track was too weak to identify the scene as a train platform."},
-    {"run_id":"style-train-platform-rainy-night-lit-420657","status":"superseded","reason":"This darker platform candidate was replaced by the later bright full-bleed platform source with clearer foreground illumination."},
-    {"run_id":"style-aircraft-night-interior-light-420658","status":"approved","asset":"p7-5-1-style-aircraft-night-lit-candidate.png","reason":"Human-approved indoor-night reference. Indigo windows, navy seats, restrained ceiling lights, and cool cabin reflections make the intended interior illumination readable without a sunset wash."},
-    {"run_id":"style-outdoor-courtyard-high-angle-420659","status":"approved","asset":"p7-5-1-style-high-angle-courtyard-candidate.png","reason":"Human-approved high-angle reference. The frame-free downward courtyard camera, teal shadows, green foliage, and neutral paving meet the row-level review contract."},
-    {"run_id":"style-gangnam-day-targeted-chroma-420651","status":"approved","asset":"p7-5-1-style-gangnam-day-chroma-regenerated-candidate.png","reason":"Human-approved downtown outdoor-day reference. Teal glass, leaf-green trees, cool paving, and pale-blue daylight separate clear daytime from sunset without a frame or readable signage."},
-    {"run_id":"style-atrium-dawn-targeted-chroma-420653","status":"rejected","reason":"The steep downward atrium camera and dawn palette worked, but a closed black edge line formed an outer panel frame. It cannot be rescued by crop."},
-    {"run_id":"style-atrium-dawn-high-angle-local-gpu-v5-420713","status":"approved","asset":"p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png","reason":"User-approved required indoor-dawn-high-angle local-GPU reference. The full-bleed atrium keeps crisp ink structure, layered stair and railing shadows, pale-cyan reflected light, and visible watercolor pigment pooling without an enclosing frame."},
-    {"run_id":"style-venice-targeted-chroma-420654","status":"rejected","reason":"The color separation improved, but the canal became a centered one-point corridor and the apricot sky occupied too much of the canvas."},
-    {"run_id":"style-high-angle-medium-chroma-420648","status":"superseded","reason":"This frame-free high-angle dawn candidate was replaced by the later courtyard high-angle source with a clearer outdoor spatial reading."},
-    {"run_id":"style-gangnam-day-medium-chroma-420643","status":"superseded","reason":"This frame-free lateral midday candidate was replaced by the later clear-day downtown source with stronger daylight color separation."},
-    {"run_id":"style-low-angle-medium-chroma-420644","status":"approved","asset":"p7-5-1-style-low-angle-medium-chroma-candidate.png","reason":"Human-approved low-angle reference. The frame-free curb-height sunset view limits apricot to the sky edge and retains the intended upward camera perspective."},
-    {"run_id":"style-venice-medium-chroma-420645","status":"approved","asset":"p7-5-1-style-venice-medium-chroma-candidate.png","reason":"Human-approved supplementary oblique reference. The frame-free canal source keeps teal water and a narrow apricot sky while retaining the intended diagonal composition."},
-    {"run_id":"style-aircraft-night-medium-chroma-420646","status":"superseded","reason":"This frame-free night cabin candidate was replaced by the later source with visible, restrained interior illumination."},
-    {"run_id":"style-rainy-night-medium-chroma-420647","status":"approved","asset":"p7-5-1-style-rainy-night-medium-chroma-candidate.png","reason":"Human-approved outdoor-rainy-night-overhead reference. The frame-free wet plaza, indigo and navy shadows, and small teal puddle reflections make the high-angle rainy-night condition legible."},
     {
-      "run_id": "style-daylight-park-medium-chroma-420641",
+      "run_id": "style-atrium-dawn-high-angle-local-gpu-v5-420713",
       "status": "approved",
-      "asset": "p7-5-1-style-daylight-park-medium-chroma-candidate.png",
-      "reason": "Human-approved supplementary daylight-palette reference. The frame-free source has no readable text; teal pond reflections, leaf-green foliage, cool off-white paving, and a pale-blue sky read as clear day rather than sunset. It confirms natural-space palette consistency and does not replace the required camera row evidence."
+      "asset": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+      "scene_id": "indoor-dawn-high-angle",
+      "reason": "Human-approved required indoor dawn high-angle local-GPU reference."
     },
     {
-      "run_id": "style-seoul-rainy-night-overhead-420631",
-      "status": "partial_pass",
-      "asset": "p7-5-1-style-seoul-rainy-night-overhead-candidate.png",
-      "reason": "The exterior rooftop-plaza composition avoids the black frame generated for the platform. Wet paving and puddle reflections convey rain without rain-streak or rail-line hatching, while the steep downward camera and indigo sky make the overhead rainy-night condition legible. It fills the outdoor-rainy-night-overhead row only."
+      "run_id": "style-courtyard-early-morning-high-angle-local-gpu-v1-420702",
+      "status": "review_required",
+      "asset": "p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png",
+      "scene_id": "courtyard-early-morning-high-angle",
+      "reason": "The only remaining human-review candidate; it is displayed for comparison but excluded from the manifest and P7-5.2 input."
     },
     {
-      "run_id": "style-train-platform-rainy-night-overhead-420629",
+      "run_id": "style-aircraft-night-oblique-local-gpu-v2-420705",
       "status": "rejected",
-      "reason": "The prompt reduced rail and rain-line density, but the model generated a black rectangular outer frame around the platform. It cannot be rescued by crop."
+      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v2.png",
+      "scene_id": "indoor-night-oblique",
+      "reason": "Human review found an exposed star field occupying the cabin ceiling, so the aircraft interior is not physically plausible. Regenerate with an opaque continuous ceiling and exterior sky only through the windows."
     },
     {
-      "run_id": "style-zhangjiajie-low-angle-clean-420630",
+      "run_id": "style-aircraft-night-oblique-local-gpu-v3-420705",
       "status": "rejected",
-      "reason": "The watercolor and frame conditions improved, but the path still converged as a centered eye-level corridor rather than a genuine low-angle camera."
+      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v3.png",
+      "scene_id": "indoor-night-oblique",
+      "reason": "The ceiling is coherent, but the scene uses a solitary seat and reads as too narrow. Regenerate a spacious cabin with a clearly attached two-seat economy pair."
     },
     {
-      "run_id": "style-gangnam-side-intersection-420627",
-      "status": "partial_pass",
-      "asset": "p7-5-1-style-gangnam-side-intersection-candidate.png",
-      "reason": "Changing the composition from a boulevard corridor to a lateral intersection removed readable signs and the centered one-point road. The unmodified source has no rectangular outer frame and retains watercolor washes with structural facade contours. It fills the outdoor-day-wide row only."
-    },
-    {
-      "run_id": "style-passenger-aircraft-close-window-420628",
-      "status": "partial_pass",
-      "asset": "p7-5-1-style-passenger-aircraft-night-window-candidate.png",
-      "reason": "Changing from a full cabin to a close window-side view removed the prior black panel frame and seat-back text-like markings. The unmodified source has blank seats, an oblique indoor camera, and an indigo night sky. It fills the indoor-night-oblique row only."
-    },
-    {
-      "run_id": "style-zhangjiajie-side-low-angle-420625",
+      "run_id": "style-aircraft-night-oblique-local-gpu-v4-420705",
       "status": "rejected",
-      "reason": "The new side composition removed the outer frame, but repeated cliff texture lines still read as hatching and fail the line-preserving watercolor contract."
+      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v4.png",
+      "scene_id": "indoor-night-oblique",
+      "reason": "The wider cabin and closed ceiling improved, but the foreground still reads as a solitary seat rather than an attached two-seat pair."
     },
     {
-      "run_id": "style-passenger-aircraft-night-window-420626",
+      "run_id": "style-aircraft-night-oblique-local-gpu-v5-420705",
       "status": "rejected",
-      "reason": "The output achieved night and blank seats, but introduced a black rectangular panel frame around the cabin scene. It cannot be rescued by crop."
+      "asset": "p7-5-1-style-aircraft-night-oblique-local-gpu-v5.png",
+      "scene_id": "indoor-night-oblique",
+      "reason": "The foreground has a pair, but the upper center remains open sky and the cabin illumination is too bright for deep night."
     },
     {
-      "run_id": "style-gangnam-day-oblique-420621",
-      "status": "rejected",
-      "reason": "The signless day scene still converged into a centered boulevard corridor, so it did not meet the requested lateral wide camera condition."
+      "run_id": "style-downtown-clear-day-wide-local-gpu-v1-420703",
+      "status": "approved",
+      "asset": "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+      "scene_id": "outdoor-day-wide",
+      "reason": "Human-approved required outdoor day wide local-GPU reference."
     },
     {
-      "run_id": "style-train-platform-rainy-night-overhead-420624",
-      "status": "rejected",
-      "reason": "Night and rain were corrected, but the large number of rain, rail, and roof lines makes the sample visually hatching-heavy. It is not retained as a reference asset."
+      "run_id": "style-residential-sunset-low-angle-local-gpu-v1-420704",
+      "status": "approved",
+      "asset": "p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png",
+      "scene_id": "outdoor-sunset-low-angle",
+      "reason": "Human-approved required outdoor sunset low-angle local-GPU reference."
     },
     {
-      "run_id": "style-venice-sunset-oblique-420613",
-      "status": "partial_pass",
-      "asset": "p7-5-1-style-venice-sunset-oblique-candidate.png",
-      "reason": "The unmodified source has no outer frame and uses a bridge-side oblique canal view with a receding bend. Architectural contours remain visible over transparent teal water and apricot sunset washes. It fills one outdoor oblique row only."
+      "run_id": "style-rooftop-rainy-night-overhead-local-gpu-v1-420706",
+      "status": "approved",
+      "asset": "p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png",
+      "scene_id": "outdoor-rainy-night-overhead",
+      "reason": "Human-approved required outdoor rainy-night overhead local-GPU reference."
     },
     {
-      "run_id": "style-gangnam-day-wide-420611",
-      "status": "rejected",
-      "reason": "The boulevard converged into a centered one-point street and rendered readable sign-like details, so it does not demonstrate the requested wide lateral view or the text-free contract."
+      "run_id": "style-venice-sunset-oblique-local-gpu-v1-420707",
+      "status": "approved",
+      "asset": "p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png",
+      "scene_id": "venice-sunset-oblique",
+      "reason": "Human-approved supplementary outdoor sunset oblique local-GPU reference."
     },
     {
-      "run_id": "style-zhangjiajie-low-angle-420612",
-      "status": "rejected",
-      "reason": "The low-angle cliff view was distinct, but dense vertical line texture on the sandstone pillars reads as hatching and fails the line-preserving watercolor contract."
+      "run_id": "style-park-clear-day-eye-level-local-gpu-v1-420708",
+      "status": "approved",
+      "asset": "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+      "scene_id": "park-clear-day-eye-level",
+      "reason": "Human-approved supplementary outdoor day eye-level local-GPU reference."
     },
     {
-      "run_id": "style-passenger-aircraft-night-oblique-420614",
-      "status": "rejected",
-      "reason": "The cabin stayed close to a centered aisle and the window lighting reads as daytime rather than the requested night condition."
-    },
-    {
-      "run_id": "style-train-platform-rainy-overhead-420615",
-      "status": "rejected",
-      "reason": "The overhead platform and rain are visible, but the bright sky and weak artificial light fail the requested rainy-night condition."
-    },
-    {
-      "run_id": "style-low-angle-420602",
-      "status": "partial_pass",
-      "asset": "p7-5-1-style-low-angle-candidate.png",
-      "reason": "The unmodified source has no outer frame and shows a genuine curb-height, upward-looking outdoor sunset perspective. Thin charcoal structure lines remain legible over transparent watercolor washes. It fills only the low-angle row and cannot approve the complete pack."
-    },
-    {
-      "run_id": "style-high-angle-420601",
-      "status": "partial_pass",
-      "asset": "p7-5-1-style-high-angle-candidate.png",
-      "reason": "The source is frame-free and uses a genuine downward high-angle camera with visible contour and structure lines over translucent watercolor. It fills only the high-angle row and cannot approve the complete pack."
-    },
-    {
-      "run_id": "local-style-pack-v1",
-      "status": "rejected",
-      "reason": "Indoor and outdoor breadth was too narrow, and the flat-color contract did not meet the later watercolor direction."
-    },
-    {
-      "run_id": "local-watercolor-style-pack-v2",
-      "status": "rejected",
-      "reason": "Several base outputs generated an outer frame that was removed by crop, which violates the no-frame source requirement. The accepted-looking samples also repeated a vertical, centered one-point composition instead of demonstrating distinct camera families."
-    },
-    {
-      "run_id": "local-watercolor-diverse-base-laundromat",
-      "status": "rejected",
-      "reason": "The requested night interior gained dense hatching and became closer to pen-and-ink or ink wash than a line-preserving watercolor style."
+      "run_id": "style-train-platform-rainy-night-oblique-local-gpu-v1-420709",
+      "status": "approved",
+      "asset": "p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png",
+      "scene_id": "train-platform-rainy-night-oblique",
+      "reason": "Human-approved supplementary outdoor rainy-night oblique local-GPU reference."
     }
   ],
   "next_run_matrix": [

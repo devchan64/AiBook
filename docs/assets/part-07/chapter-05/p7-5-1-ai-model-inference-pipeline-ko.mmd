@@ -1,10 +1,10 @@
 flowchart TD
   prompt["장면 prompt + 공통 화풍 계약<br/>장소 · 시간 · 카메라 · 금지 조건"]
-  settings["seed · 해상도 · step · guidance<br/>이 배치: 768 × 1152 · 50 · 3.5"]
+  settings["seed · 해상도 · step · guidance<br/>이 배치: 768 × 1152 · 50 · 4.0"]
   weights["사전 학습 FLUX.2 Klein 4B 가중치<br/>bfloat16으로 로드"]
   offload["sequential CPU offload<br/>필요한 모듈만 GPU에 올림"]
   inference["반복 추론<br/>text condition과 seed에서 이미지 표현을 갱신"]
-  output["PIL 이미지 → PNG 저장<br/>run.json에 실행 조건 기록"]
+  output["PIL 이미지 → PNG 저장<br/>터미널에 실행 요약 출력"]
   review["사람 검수<br/>프레임 · 선 · 색 · 장소 · 시간 · 카메라"]
 
   prompt --> inference

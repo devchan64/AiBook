@@ -55,7 +55,7 @@ SCENES = [
     {
         "id": "aircraft-night-oblique",
         "seed": 420705,
-        "prompt": "Create a vertical Korean webtoon background inside an empty passenger aircraft at deep night. View diagonally from beside rear window seats toward a short off-center row of plain dark-navy seat backs and oval windows. Outside is an indigo-black sky with faint stars. Distinguish navy upholstery shadows, indigo window light, small tungsten reading lamps, and short cool-white reflections on armrests in separate translucent watercolor pools. Keep the aisle off-center. This is night, never dusk, dawn, or sunset: no apricot, orange, red, pink, golden sky, labels, symbols, or panels. ",
+        "prompt": "Create a vertical Korean webtoon background inside one physically plausible empty commercial aircraft cabin at deep night. Use a simple eye-level view from the rear of one standard economy row looking forward: one straight central aisle divides exactly three attached seats on the left and exactly three attached seats on the right, a clear 3+3 layout. Each side shows three equal seat backs touching across shared armrests; keep all six foreground seats visible as one uncomplicated row. Repeat only a few matching 3+3 rows farther ahead, with no complex diagonal composition, pods, single armchairs, extra aisles, or cropped seat groups. The entire top half of the frame is a continuous closed interior ceiling: dark navy opaque ceiling panels, overhead bins, and a central service strip span edge to edge with no gaps. Never show sky, stars, a skylight, glass roof, open roof, or exterior darkness above the seat backs. Exterior night is visible only as small indigo-black areas through evenly spaced oval windows on the side walls. Keep the cabin genuinely dim: navy upholstery and blue-gray walls are mostly in shadow; use only a few tiny, low-intensity cool-white reading lights and very small muted tungsten accents, never broad white, cream, or warm ceiling illumination. Show only one continuous cabin, never impossible stairs, intersecting seats, duplicated aisles, mismatched window heights, or broken aircraft geometry. Make the watercolor unmistakable inside the seats, ceiling, wall, and floor: layered transparent navy and blue-gray glazes, soft wet-on-wet blooms around the few lights, granulating pigment, irregular tide marks, and darker pigment pooling in seat seams and contact shadows. Keep thin charcoal structure lines crisp over the translucent washes, never smooth digital gradients or flat opaque coloring. This is night, never dusk, dawn, or sunset: no apricot, orange, red, pink, golden sky, labels, symbols, or panels. ",
     },
     {
         "id": "rooftop-rainy-night-overhead",
@@ -158,9 +158,6 @@ def main() -> None:
         "excluded_scenes": sorted(excluded_scenes),
         "runs": runs,
     }
-    (ASSET_DIR / f"p7-5-1-local-gpu-regeneration-{run_label}.json").write_text(
-        json.dumps(record, indent=2), encoding="utf-8"
-    )
     print(json.dumps(record, indent=2))
 
 
