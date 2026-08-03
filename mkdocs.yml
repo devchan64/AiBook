@@ -439,6 +439,7 @@ nav:
               - "P5-15.1 생성형 AI를 딥러닝 관점에서 보려면 무엇이 달라지는가": parts/part-05/chapter-15/section-01.md
               - "P5-15.2 생성 모델(generative model)의 후보 분포(candidate distribution)": parts/part-05/chapter-15/section-02.md
               - "P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가": parts/part-05/chapter-15/section-03.md
+              - "P5-15.4 Stable Diffusion은 텍스트 조건에서 이미지를 어떻게 복원하는가": parts/part-05/chapter-15/section-04.md
       - "마무리": parts/part-05/summary.md
   - "Part 6. LLM과 생성형 AI":
       - "개요": parts/part-06/index.md
@@ -1023,6 +1024,7 @@ plugins:
                         - "P5-15.1 What Changes When We Read Generative AI Through Deep Learning": parts/part-05/chapter-15/section-01.md
                         - "P5-15.2 Candidate Distributions in Generative Models": parts/part-05/chapter-15/section-02.md
                         - "P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions": parts/part-05/chapter-15/section-03.md
+                        - "P5-15.4 How Does Stable Diffusion Restore an Image from a Text Condition?": parts/part-05/chapter-15/section-04.md
                 - "Summary": parts/part-05/summary.md
             - "Part 6. LLMs and Generative AI":
                 - "Overview": parts/part-06/index.md
@@ -1451,6 +1453,7 @@ plugins:
                         - "P5-15.1 从深度学习视角看生成式 AI 时，什么会改变": parts/part-05/chapter-15/section-01.md
                         - "P5-15.2 生成模型的候选分布": parts/part-05/chapter-15/section-02.md
                         - "P5-15.3 采样（sampling）怎样从候选分布中取出实际输出": parts/part-05/chapter-15/section-03.md
+                        - "P5-15.4 Stable Diffusion 怎样从文本条件恢复图像？": parts/part-05/chapter-15/section-04.md
                 - "总结": parts/part-05/summary.md
             - "Part 6. LLM 与生成式 AI":
                 - "概览": parts/part-06/index.md

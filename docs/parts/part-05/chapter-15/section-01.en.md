@@ -69,11 +69,11 @@ This distinction prevents an image from being explained as a list of independent
 
 If a model produces output artifacts, one fixed answer may not be enough. After `batch inspection result`, several continuations can be natural: `reverification is needed`, `resume after operator confirmation`, or `measure again in 10 minutes`.
 
-Therefore, the last chapter of Part 5 splits this flow into three steps. P5-15.1 settles the shift in output viewpoint. P5-15.2 looks at how a model keeps the relative plausibility of possible output candidates. P5-15.3 looks at how one actual output is selected from those candidates.
+Therefore, the last chapter of Part 5 splits this flow into four sections. P5-15.1 settles the shift in output viewpoint. P5-15.2 looks at how a model keeps the relative plausibility of possible output candidates. P5-15.3 looks at how an actual text output is selected from those candidates. P5-15.4 separately follows image diffusion's restoration flow, using Stable Diffusion as its case.
 
-So the first preparation for generative AI is not a list of usage tips. We first need to understand why an output artifact may not behave like one fixed answer, and why that artifact becomes something the user must review. How possible candidates remain, and how one actual output is selected, are handled in the next two sections. Prompting practice and service usage are revisited in Part 6 on top of this structural sense.
+So the first preparation for generative AI is not a list of usage tips. We first need to understand why an output artifact may not behave like one fixed answer, and why that artifact becomes something the user must review. How possible candidates remain and how a text output is selected are handled in the next two sections; image diffusion's restoration flow follows in the section after that. Prompting practice and service usage are revisited in Part 6 on top of this structural sense.
 
-## Cases and Examples
+## From Classification Labels to Reviewable Guidance
 
 Suppose an operations team asks, `tell me the restart order after line shutdown`. A classification model can label this as a `restart procedure inquiry`. That is useful for routing and statistics.
 
@@ -87,7 +87,7 @@ But the user of generative AI usually does not stop at that label. The user expe
 
 The result to confirm is that generative AI does not stop at the label `restart procedure inquiry`; it tries to produce an output artifact suited to the current context. How to trust, revise, and attach that artifact to a service is handled in Part 6.
 
-## Practice and Example
+## Comparing Review Criteria for Labels and Artifacts
 
 For each input below, first separate three things yourself. Write what label a classification model would likely return, what output artifact generative AI would produce, and what additional standard should be checked for that artifact. Then compare your answer with the table below.
 

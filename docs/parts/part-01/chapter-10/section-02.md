@@ -17,7 +17,7 @@ Part 1에서 `다음 출력 생성(next-output generation)`, `다음 토큰 예�
 
 다만 이 문장은 모든 모델이 같은 방식으로 동작한다는 뜻이 아닙니다. 텍스트 생성(text generation), 음성 생성(audio generation), 이미지 생성(image generation)은 모두 반복적 생성이라는 공통 직관을 공유할 수 있지만, 실제 생성 단위와 알고리즘은 다릅니다. 특히 Stable Diffusion 같은 text-to-image 시스템은 프롬프트를 다음 단어처럼 이어 붙이지 않습니다. 프롬프트를 이미지 복원의 조건으로 사용해, 노이즈가 많은 잠재 표현(latent representation)을 여러 단계에 걸쳐 바꿉니다.
 
-여기서는 먼저 `생성이 완성본을 한 번에 꺼내는가, 아니면 조건을 바탕으로 여러 단계를 거쳐 산출물을 구성하는가`를 닫습니다. 토큰화(tokenization)는 Part 6의 P6-1.1과 P6-1.2에서, 다음 토큰 예측(next-token prediction)은 P6-5.1에서, sampling과 temperature는 Part 5의 P5-15.3과 Part 6의 P6-5.2에서, Transformer 구조는 P1-11.3과 Part 5, Part 6에서, 프롬프트(prompt)와 평가는 P1-12.1부터 P1-12.3에서 다시 다룹니다. diffusion model의 자세한 구조는 여기서 먼저 꺼내지 않습니다.
+여기서는 먼저 `생성이 완성본을 한 번에 꺼내는가, 아니면 조건을 바탕으로 여러 단계를 거쳐 산출물을 구성하는가`를 닫습니다. 토큰화(tokenization)는 Part 6의 P6-1.1과 P6-1.2에서, 다음 토큰 예측(next-token prediction)은 P6-5.1에서, sampling과 temperature는 Part 5의 P5-15.3과 Part 6의 P6-5.2에서, Stable Diffusion의 구성요소와 조건 제어는 P5-15.4에서, Transformer 구조는 P1-11.3과 Part 5, Part 6에서, 프롬프트(prompt)와 평가는 P1-12.1부터 P1-12.3에서 다시 다룹니다. diffusion model의 자세한 구조는 여기서 먼저 꺼내지 않습니다.
 
 `다음 출력 생성`, `다음 토큰`, `오디오 샘플`, `diffusion`은 초반에 모두 같은 생성 알고리즘처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
@@ -40,7 +40,7 @@ Part 1에서 `다음 출력 생성(next-output generation)`, `다음 토큰 예�
 
 또한 여기서는 `좋은 생성 결과를 어떻게 판단할 것인가`를 다루지 않습니다. 그 질문은 10.3에서 `품질`, `근거`, `안전`, `권리와 책임`으로 따로 나눠 봅니다.
 
-## 작은 출력 조각을 이어 가는 생성 기준
+## 조건 아래 여러 단계를 거치는 생성 기준
 
 - 생성형 AI가 완성된 산출물을 한 번에 꺼내는 것처럼 보이지만, 실제로는 반복적 생성 과정으로 이해할 수 있음을 봅니다.
 - 텍스트 생성에서는 다음 토큰(next token)이라는 단위가 중요하다는 점을 이해합니다.
@@ -176,7 +176,7 @@ Latent Diffusion Models 논문은 diffusion model을 더 낮은 차원의 latent
 
 Stable Diffusion은 이 latent diffusion 접근을 text-to-image 생성에 적용한 대표 사례입니다. 여기서 `잠재 표현`은 사람이 바로 보는 픽셀 이미지보다 압축된 계산 공간입니다. Stable Diffusion은 보통 이 공간의 노이즈에서 시작하고, 프롬프트를 조건으로 삼아 여러 번 복원한 뒤, 마지막에 그 결과를 이미지로 되돌립니다.
 
-따라서 프롬프트가 곧 픽셀 배치표이거나 결과를 완전히 고정하는 명령이라고 생각하면 안 됩니다. 프롬프트는 복원 과정이 참고하는 조건이고, 초기 노이즈와 반복 과정도 최종 이미지에 영향을 줍니다. text encoder, U-Net, VAE, scheduler 같은 구성요소의 역할은 이 절에서 외우지 않습니다. 그 구조는 Stable Diffusion을 별도로 다룰 때 다시 연결합니다.
+따라서 프롬프트가 곧 픽셀 배치표이거나 결과를 완전히 고정하는 명령이라고 생각하면 안 됩니다. 프롬프트는 복원 과정이 참고하는 조건이고, 초기 노이즈와 반복 과정도 최종 이미지에 영향을 줍니다. text encoder, U-Net, VAE, scheduler 같은 구성요소의 역할은 이 절에서 외우지 않습니다. 그 구조는 P5-15.4에서 Stable Diffusion을 별도로 다룰 때 다시 연결합니다.
 
 따라서 이미지 생성은 다음처럼 표현하는 편이 더 안전합니다.
 

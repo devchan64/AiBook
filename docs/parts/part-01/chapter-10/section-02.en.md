@@ -20,7 +20,7 @@ Part 1 introduces the basic distinctions among `next-output generation`, the int
 
 This does not mean every model works in exactly the same way. `Text generation`, `audio generation`, and `image generation` can share the broad intuition of iterative generation, but their actual units and algorithms are different. A text-to-image system such as Stable Diffusion does not append a prompt as if it were the next word. It uses the prompt as a condition while changing a noisy latent representation over many restoration steps.
 
-Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one through multiple steps under conditions`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.3 and Part 6 P6-5.2, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
+Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one through multiple steps under conditions`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.3 and Part 6 P6-5.2, Stable Diffusion components and condition control in P5-15.4, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
 
 These terms can all sound like one common generation algorithm at first. A quick distinction helps:
 
@@ -48,7 +48,7 @@ The baseline intuition here is:
 
 This section also does not discuss `how to judge a good generated result`. That question is separated in 10.3 into quality, evidence, safety, and rights.
 
-## Building Generation from Small Output Pieces
+## Generation Through Multiple Steps Under Conditions
 
 - Understand that generative AI may look as if it pulls out a finished artifact at once, but is more safely understood as an iterative generation process.
 - Understand that in text generation, the unit of the `next token` is important.
@@ -190,7 +190,7 @@ The Latent Diffusion Models paper showed that diffusion can be carried out in a 
 
 Stable Diffusion is a representative text-to-image application of this latent-diffusion approach. A `latent representation` is a compressed computational space rather than the pixel image people see directly. Stable Diffusion usually begins with noise in that space, restores it repeatedly under the prompt condition, and finally turns the result back into an image.
 
-So a prompt is not a pixel layout or an instruction that completely fixes the result. It is a condition consulted during restoration; the initial noise and repeated restoration process also affect the final image. This section does not ask readers to memorize the roles of the text encoder, U-Net, VAE, or scheduler. Those components return when Stable Diffusion itself is discussed.
+So a prompt is not a pixel layout or an instruction that completely fixes the result. It is a condition consulted during restoration; the initial noise and repeated restoration process also affect the final image. This section does not ask readers to memorize the roles of the text encoder, U-Net, VAE, or scheduler. Those components return in P5-15.4, which discusses Stable Diffusion itself.
 
 So image generation is safer to phrase this way:
 

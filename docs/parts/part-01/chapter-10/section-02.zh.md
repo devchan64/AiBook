@@ -17,7 +17,7 @@
 
 但这并不意味着所有模型都用同一种方式工作。文本生成(text generation)、语音生成(audio generation)、图像生成(image generation)都可以共享“重复生成”的大直觉，但实际的生成单位和算法并不相同。像 Stable Diffusion 这样的 text-to-image 系统不会像接续下一个词那样接续 prompt；它把 prompt 当作图像恢复的条件，在多个步骤中改变带有大量噪声的潜在表征(latent representation)。
 
-这里先固定 `生成到底是一次拿出完成品，还是基于条件经过多个步骤构成结果` 这个问题。tokenization 会在 Part 6 的 P6-1.1 和 P6-1.2 重新讨论；下一 token 预测(next-token prediction) 会在 P6-5.1 讨论；sampling 和 temperature 会在 Part 5 的 P5-15.3 与 Part 6 的 P6-5.2 讨论；Transformer 结构会在 P1-11.3、Part 5、Part 6 再出现；prompt 与评估会在 P1-12.1 到 P1-12.3 中继续讨论。diffusion model 的详细结构不会在这里先展开。
+这里先固定 `生成到底是一次拿出完成品，还是基于条件经过多个步骤构成结果` 这个问题。tokenization 会在 Part 6 的 P6-1.1 和 P6-1.2 重新讨论；下一 token 预测(next-token prediction) 会在 P6-5.1 讨论；sampling 和 temperature 会在 Part 5 的 P5-15.3 与 Part 6 的 P6-5.2 讨论；Stable Diffusion 的组成部分与条件控制会在 P5-15.4 讨论；Transformer 结构会在 P1-11.3、Part 5、Part 6 再出现；prompt 与评估会在 P1-12.1 到 P1-12.3 中继续讨论。diffusion model 的详细结构不会在这里先展开。
 
 `生成下一个输出`、`下一 token`、`音频样本`、`diffusion` 在开始时都可能听起来像同一种生成算法。先用一句很短的话把它们区分开：
 
@@ -40,7 +40,7 @@
 
 另外，这里也不会讨论 `怎样判断一个生成结果是好的`。这个问题会在 10.3 里再分成 `质量`、`依据`、`安全`、`权利与责任` 来看。
 
-## 连接小输出片段的生成基准
+## 在条件下经过多个步骤的生成基准
 
 - 看到生成式 AI 看起来像一次性拿出完整产出物，但更安全的理解是它经历了重复生成的过程。
 - 理解在文本生成中，`下一 token(next token)` 这个单位很重要。
@@ -178,7 +178,7 @@ Latent Diffusion Models 论文表明，diffusion 过程可以在更低维的 lat
 
 Stable Diffusion 是把这种 latent diffusion 方法用于 text-to-image 生成的代表案例。`潜在表征`是比人直接看到的像素图像更压缩的计算空间。Stable Diffusion 通常从这个空间中的噪声开始，在 prompt 条件下反复恢复，最后再把结果变回图像。
 
-因此，不能把 prompt 看成像素的布局表，或看成会完全固定结果的命令。prompt 是恢复过程参考的条件；初始噪声和反复恢复的过程也会影响最终图像。本节不要求记住 text encoder、U-Net、VAE、scheduler 等组成部分各自的作用；在单独讨论 Stable Diffusion 时再把这些结构连接起来。
+因此，不能把 prompt 看成像素的布局表，或看成会完全固定结果的命令。prompt 是恢复过程参考的条件；初始噪声和反复恢复的过程也会影响最终图像。本节不要求记住 text encoder、U-Net、VAE、scheduler 等组成部分各自的作用；会在 P5-15.4 单独讨论 Stable Diffusion 时再把这些结构连接起来。
 
 因此，更安全的表述方式是：
 

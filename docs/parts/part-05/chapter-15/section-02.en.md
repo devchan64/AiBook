@@ -63,7 +63,7 @@ If we look only at `most_likely`, the generative model can start to look like a 
 
 The important point in this diagram is where the interpretation splits after we see the `candidate distribution`. If we read only `most_likely`, one highest candidate remains. If we read `probabilities` together, the candidate space behind the current input remains visible. Sampling in the next section continues from this candidate space into the actual output.
 
-## Cases and Examples
+## Reading Candidate Distributions in Alert Contexts
 
 Suppose operation records contain two alert types and follow-up action phrases. In this section, the important task is not the calculation procedure itself, but the sense of reading the distribution, so we first place record counts and distribution interpretation side by side.
 
@@ -85,7 +85,7 @@ The first thing to read is not only the largest number. In the temperature alert
 
 A generative model does not memorize `what comes next` as one sentence. It organizes `what followed how often in this context` as a distribution. This is the difference that lets us read generation as learning a candidate distribution rather than choosing one correct label.
 
-## Practice and Example
+## Separating the Top Candidate from the Remaining Candidate Space
 
 Read the candidate weights below and make the distinction yourself. First mark the `most_likely` candidate. Then explain why the other two candidates have not disappeared completely.
 

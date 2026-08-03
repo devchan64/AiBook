@@ -129,7 +129,7 @@ Even when the same candidate scores are given, the user experience can change im
 
 That is, `which candidate the model judged highly` and `which one was actually sampled as the output` are not the same problem.
 
-## Cases and Examples
+## Sampling Inspection-Result Guidance
 
 ### Representative Case. Inspection-Result Guidance Phrase
 
@@ -163,7 +163,7 @@ If we pause once here and briefly fix `when the explanation that the model learn
 | why should we not always choose only the highest-score candidate? | because stability rises, but expression diversity and situational fit can shrink too much | product settings and user-experience control |
 | why is output quality not only a model problem? | because what has been learned and what has actually been chosen together create the result | response style, length, and variation-width design |
 
-## Practice and Example
+## Comparing Selection Rules from Fixed Logits
 
 ### Example 1. Checking Temperature and Top-k with Fixed Logits
 
