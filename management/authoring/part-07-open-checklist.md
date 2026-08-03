@@ -34,7 +34,7 @@
 - P7-2.1~P7-2.3은 전통 머신러닝 비교 실험을 닫습니다. 점수, 오류 사례, 전처리 효과, 데이터 경계 부족을 한 평가 셋에서 비교하게 하고, 알고리즘 설명이나 Part 4 이론 반복으로 돌아가지 않습니다.
 - P7-3.1~P7-3.3은 입력 구조가 프로젝트를 어떻게 바꾸는지 확인하는 구간입니다. 표, 이미지, 시퀀스, attention 계열 비교는 모델 이름 나열이 아니라 준비 코드, 샘플 확인, 실패 신호, 표현 축소의 손실을 비교하는 실습으로 유지합니다.
 - P7-4.1~P7-4.4는 학습 결과와 표현 문제를 다시 읽는 구간입니다. loss, metric, 오류 샘플, coverage, OOV, 표현 정규화, shape token을 통해 구조 문제, 데이터 문제, baseline 문제를 분리하고, 딥러닝 이론이나 토큰화 일반론으로 확장하지 않습니다.
-- P7-5.0~P7-5.3은 웹툰 컷 생성 파이프라인을 네 실험으로 나눕니다. `P7-5.0`은 로컬 GPU 화풍 팩의 프레임·선·수채화·공간·camera gate, `P7-5.1`은 참조 팩과 SD 1.5 character LoRA의 held-out 인물성, `P7-5.2`는 SD 1.5 StoryDiffusion의 최소 다중 컷 반복성, `P7-5.3`은 LoRA·ControlNet·inpaint의 네 컷 연속성을 각각 검증합니다. 화풍 팩과 참조 팩은 뒤 실험의 공통 입력이지만, 실행 여부와 품질 통과를 분리해 기록합니다.
+- P7-5.1~P7-5.4는 웹툰 컷 생성 파이프라인을 네 실험으로 나눕니다. `P7-5.1`은 로컬 GPU 화풍 팩의 프레임·선·수채화·공간·camera gate, `P7-5.2`는 참조 팩과 SD 1.5 character LoRA의 held-out 인물성, `P7-5.3`은 SD 1.5 StoryDiffusion의 최소 다중 컷 반복성, `P7-5.4`는 LoRA·ControlNet·inpaint의 네 컷 연속성을 각각 검증합니다. 화풍 팩과 참조 팩은 뒤 실험의 공통 입력이지만, 실행 여부와 품질 통과를 분리해 기록합니다.
 - P7-6.1~P7-8.1은 로컬 LLM, 비전, 음성·오디오 모델을 현재 모델 실행 실습으로 다룹니다. 모델 소개가 아니라 양자화, context 길이, promptable segmentation, 전사와 오디오 생성 조건을 바꾸며 Part 1~6의 token, inference, 입력 구조, 시퀀스, 생성 평가 개념을 다시 확인하게 합니다.
 - P7-9.1~P7-9.3은 RAG의 검색 후보, 선택 근거, 최종 답변, 검색 실패, 근거 부족, 답변 과장 위험을 한 흐름으로 기록하게 합니다. RAG 개념 설명은 Part 6에서 닫았으므로, Part 7에서는 문서 집합과 질문을 바꾸었을 때 상태가 어떻게 갈리는지 실습에 집중합니다.
 - P7-9.4와 P7-9.5는 검색 품질을 더 정밀하게 확인하는 실습입니다. ANN 인덱스 설정, 후보 수, 지연 시간, top-k 포함률, 버전 필터, 검색 평가셋을 다루되, 벡터 DB 제품 사용법이나 대규모 검색 시스템 설계로 확장하지 않습니다.
@@ -140,10 +140,10 @@
 #### Chapter 5. 생성형 이미지 모델 실습
 
 - 중심축: 생성형 이미지 모델의 조건 제어를 결과물 감상이 아니라 재현 가능한 비교 기록으로 남깁니다.
-- `P7-5.0`: 로컬 GPU가 만든 화풍 후보를 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 기준으로 사람 검수한 뒤에만 character reference 입력으로 승인하게 해야 합니다.
-- `P7-5.1`: 참조 팩을 학습·held-out으로 분할하고 SD 1.5 character LoRA가 미학습 view에서도 얼굴·의상·화풍을 유지하는지 판정하게 해야 합니다.
-- `P7-5.2`: SD 1.5 StoryDiffusion을 3 prompt, 512px, batch 1의 최소 조건으로만 측정하고, 반복성·VRAM·시간을 ControlNet 효과와 분리하게 해야 합니다.
-- `P7-5.3`: 승인 자산을 SD 1.5 LoRA, ControlNet 하나, mask inpaint로 조합해 네 컷의 identity·structure·style·local detail을 독립적으로 판정하게 해야 합니다.
+- `P7-5.1`: 로컬 GPU가 만든 화풍 후보를 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 기준으로 사람 검수한 뒤에만 character reference 입력으로 승인하게 해야 합니다.
+- `P7-5.2`: 참조 팩을 학습·held-out으로 분할하고 SD 1.5 character LoRA가 미학습 view에서도 얼굴·의상·화풍을 유지하는지 판정하게 해야 합니다.
+- `P7-5.3`: SD 1.5 StoryDiffusion을 3 prompt, 512px, batch 1의 최소 조건으로만 측정하고, 반복성·VRAM·시간을 ControlNet 효과와 분리하게 해야 합니다.
+- `P7-5.4`: 승인 자산을 SD 1.5 LoRA, ControlNet 하나, mask inpaint로 조합해 네 컷의 identity·structure·style·local detail을 독립적으로 판정하게 해야 합니다.
 
 #### Chapter 6. 로컬 LLM 실행 실습
 

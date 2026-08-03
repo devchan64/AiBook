@@ -1,6 +1,6 @@
-# P7-5.1 캐릭터 참조 팩과 SD 1.5 LoRA로 기준 만들기
+# P7-5.2 캐릭터 참조 팩과 SD 1.5 LoRA로 기준 만들기
 
-> Section ID: `P7-5.1`
+> Section ID: `P7-5.2`
 > Version: `v2026.08.03`
 
 웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 새 캐릭터 `p7-mira`의 단일 이미지 참조 팩을 만들고, 학습 장면과 독립 평가 장면을 분리한 기록입니다. 이 팩은 LoRA 학습을 시작할 조건을 만족하지만, LoRA가 새 장면에서 같은 인물이나 화풍을 유지한다는 품질 증거는 아닙니다. 그 판단은 학습 뒤 held-out 비교에서 따로 합니다.
@@ -119,7 +119,7 @@ SD 1.5용 IP-Adapter 가중치는 현재 캐시에 없고, 있는 IP-Adapter는 
 
 승인 범위는 **대칭 의상·무소품·중립 전신 turnaround와 화풍 anchor**로 제한합니다. 가방·strap·손-소품 접점, 비대칭 액세서리, dynamic pose·장면·극단 camera, face close-up은 이 pack의 통과 근거가 아닙니다. 즉 mirror는 모델이 알지 못하는 반대쪽 얼굴이나 소품 구조를 발명하는 수단이 아니라, 설계 단계에서 대칭으로 제한한 원본의 대응 view를 만드는 결정적 변환입니다. 이 경계를 지키면 8 GB에서도 local-only character/style pack을 만들 수 있지만, 비대칭 character나 prop pack은 별도 생성·사람 검수 gate가 필요합니다. [master probe](#local-mirror-safe-master-probe), [view probe](#local-mirror-safe-views-probe), [strict profile probe](#local-mirror-safe-profile-probe), [pack builder](#local-character-style-pack-builder)를 함께 제공합니다.
 
-화풍 기준은 인물 기준과 분리합니다. `P7-5.0`의 frame-free style-pack gate를 먼저 통과한 출력만 다음 character master의 style reference가 될 수 있습니다. 현재 mirror-safe character pack은 대칭 의상·무소품·중립 전신 turnaround의 제한된 기준이고, 화풍 팩의 장소·시간·camera 다양성이나 전체 컷 보정의 근거는 아닙니다.
+화풍 기준은 인물 기준과 분리합니다. `P7-5.1`의 frame-free style-pack gate를 먼저 통과한 출력만 다음 character master의 style reference가 될 수 있습니다. 현재 mirror-safe character pack은 대칭 의상·무소품·중립 전신 turnaround의 제한된 기준이고, 화풍 팩의 장소·시간·camera 다양성이나 전체 컷 보정의 근거는 아닙니다.
 
 ## 인증 없는 참조 편집 모델의 첫 전체 컷 게이트
 

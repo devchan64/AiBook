@@ -1,6 +1,6 @@
-# P7-5.2 SD 1.5와 StoryDiffusion으로 다중 컷 반복성 점검하기
+# P7-5.3 SD 1.5와 StoryDiffusion으로 다중 컷 반복성 점검하기
 
-> Section ID: `P7-5.2`
+> Section ID: `P7-5.3`
 > Version: `v2026.08.03`
 
 LoRA가 한 컷의 캐릭터 기준을 통과한 뒤에는 여러 장면에서 그 기준이 반복되는지 확인해야 합니다. StoryDiffusion의 consistent self-attention은 여러 prompt 사이의 캐릭터 반복성을 목표로 하며 SD 1.5와 SDXL 기반 모델에 호환된다고 안내됩니다. 여기서는 ComfyUI를 전제로 하지 않고, SD 1.5 기반의 최소 probe만 다룹니다.
@@ -9,7 +9,7 @@ LoRA가 한 컷의 캐릭터 기준을 통과한 뒤에는 여러 장면에서 �
 
 | 고정 | 값 | 이유 |
 | --- | --- | --- |
-| base | P7-5.1에서 승인한 SD 1.5 + character LoRA | 기준 인물과 화풍을 바꾸지 않기 위해 |
+| base | P7-5.2에서 승인한 SD 1.5 + character LoRA | 기준 인물과 화풍을 바꾸지 않기 위해 |
 | 이미지 조건 | 512 x 512, batch 1, 3 prompts | StoryDiffusion의 최소 prompt 수와 8 GB 경계 확인 |
 | 사용 기능 | consistent self-attention만 | LoRA, IP-Adapter, ControlNet, inpaint 효과를 섞지 않기 위해 |
 | 관찰 | peak VRAM, 시간, 얼굴·의상 반복성 | 실행 성공과 품질 통과를 분리하기 위해 |
@@ -42,13 +42,13 @@ for index, prompt in enumerate(prompts, start=1):
 
 ## 중단 기준
 
-8 GB에서 out-of-memory가 나거나, 세 컷의 큰 색상만 반복되고 얼굴·의상 기준이 흔들리면 이 경로는 중단합니다. ControlNet을 추가해 해결하려 하지 않습니다. 그것은 P7-5.3에서 별도로 검증할 구조 제어이며, 여기서는 StoryDiffusion의 반복성만 판정합니다.
+8 GB에서 out-of-memory가 나거나, 세 컷의 큰 색상만 반복되고 얼굴·의상 기준이 흔들리면 이 경로는 중단합니다. ControlNet을 추가해 해결하려 하지 않습니다. 그것은 P7-5.4에서 별도로 검증할 구조 제어이며, 여기서는 StoryDiffusion의 반복성만 판정합니다.
 
 ## 체크리스트
 
 | 확인할 것 | 스스로 답할 질문 |
 | --- | --- |
-| 기준 자산 | P7-5.1의 승인 참조 팩과 LoRA revision을 사용했는가? |
+| 기준 자산 | P7-5.2의 승인 참조 팩과 LoRA revision을 사용했는가? |
 | 분리 | ControlNet, 참조 adapter, inpaint를 끈 상태인가? |
 | 기록 | 세 prompt의 seed, 시간, VRAM peak, PNG를 모두 남겼는가? |
 | 판정 | 실행 여부가 아니라 세 컷의 얼굴·의상 반복성으로 통과를 판정했는가? |

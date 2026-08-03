@@ -63,14 +63,14 @@ LoRA 이후에도 후면 prop이나 style이 무너지면 Canonical 교체는 �
 
 ## Section 분리 승인 조건
 
-현재 P7-5.1은 reference pack, LoRA, whole-shot 검증을 함께 기록한다. 로컬 reference generation을 별도 Section으로 분리하는 것은 다음 조건을 모두 충족한 뒤에만 검토한다.
+현재 P7-5.2는 reference pack, LoRA, whole-shot 검증을 함께 기록한다. 로컬 reference generation을 별도 Section으로 분리하는 것은 다음 조건을 모두 충족한 뒤에만 검토한다.
 
 1. 단계 A에서 사람 검수로 선택한 local master 한 장이 identity/style contract를 명시한다.
 2. 단계 B의 정면·3/4·측면·후면 3/4·보행이 그 master의 얼굴형·피부색·헤어, style, 가방 본체·flap·단일 strap을 모두 통과한다.
 3. Codex `image_gen` 기준과 같은 전신·소품·해부학 검수 강도를 적용하되, local-only pack에는 자체 승인 style contract를 적용한다. 기존 화풍의 복제는 요구하지 않는다.
 4. 모델 source, runtime, prompt, seed, 라이선스 확인, 실패 자산 제외 규칙을 독자가 재현할 수 있게 공개한다.
 
-이 조건을 만족하면 새 Section은 `로컬 GPU로 character reference pack 만들기`를 중심 질문으로 삼는다. P7-5.1에는 그 Section에서 승인한 pack을 LoRA/whole-shot 입력으로 사용하는 경계만 남긴다. 어느 하나라도 미통과면 이 실험은 P7-5.1의 비교 기록으로만 유지하며 목차를 늘리지 않는다.
+이 조건을 만족하면 새 Section은 `로컬 GPU로 character reference pack 만들기`를 중심 질문으로 삼는다. P7-5.2에는 그 Section에서 승인한 pack을 LoRA/whole-shot 입력으로 사용하는 경계만 남긴다. 어느 하나라도 미통과면 이 실험은 P7-5.2의 비교 기록으로만 유지하며 목차를 늘리지 않는다.
 
 ## 중단된 seed 반복 실험 기록
 
@@ -110,4 +110,4 @@ LoRA 이후에도 후면 prop이나 style이 무너지면 Canonical 교체는 �
 
 v1 station 중심 flat-color pack은 구도·원근·실내외·시간대의 폭이 좁았다. 이후 수채화 v2는 contour/structure line과 투명 색층을 분리하려 했지만, 일부 base 원본이 outer frame을 생성해 crop이 필요했고 표본도 수직 중앙 소실점 계열로 수렴했다. 이 둘은 character reference 입력으로 승인하지 않는다.
 
-화풍 생성·검수는 `P7-5.0`으로 분리했다. 이 Section은 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 행렬을 통과 조건으로 사용한다. v2 PNG와 crop builder는 제거하고, 실패 원인과 다음 입력 행렬은 `p7-5-0-local-style-pack-review.json`에 남긴다.
+화풍 생성·검수는 `P7-5.1`으로 분리했다. 이 Section은 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 행렬을 통과 조건으로 사용한다. v2 PNG와 crop builder는 제거하고, 실패 원인과 다음 입력 행렬은 `p7-5-0-local-style-pack-review.json`에 남긴다.

@@ -1,0 +1,15 @@
+{
+  "status": "quality_failed",
+  "purpose": "Verify whether an SDXL Plus IP-Adapter can replace the existing generic SDXL IP-Adapter under the Animagine XL and OpenPose ControlNet pipeline.",
+  "base_model": "cagliostrolab/animagine-xl-4.0 (SDXL)",
+  "controlnet": "xinsir/controlnet-openpose-sdxl-1.0",
+  "image_encoder": "h94/IP-Adapter models/image_encoder (ViT-H; hidden_size 1280)",
+  "adapter": "ip-adapter-plus_sdxl_vit-h.safetensors",
+  "reference": "p7-5-1-mira-single-reference-01.png",
+  "scale": 0.35,
+  "size": [512, 768],
+  "steps": 15,
+  "seed": 4801,
+  "result": "generated and reviewed; PNG pruned because it failed the publication-quality gate",
+  "assessment": "The SDXL Plus and ViT-H combination generated successfully on the 8 GB GPU, but did not improve bag geometry or color consistency enough to replace the generic adapter."
+}

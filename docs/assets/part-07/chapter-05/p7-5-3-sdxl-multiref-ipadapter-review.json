@@ -1,0 +1,7 @@
+{
+  "status": "quality_failed",
+  "comparison": "same SDXL OpenPose pipeline, seed, prompts, and IP-Adapter scale 0.45; one full-body reference versus five approved full-body, three-quarter, face, and bag references",
+  "result": "The five-image bundle did not stabilize face details or bag geometry. Several panels became paler while pose and coarse structure remained, so adding these references is not an accepted repair for the single-reference failure.",
+  "result_asset": "p7-5-3-sdxl-multiref-ipadapter-openpose-contact-sheet.png",
+  "decision": "Do not proceed to inpaint or additional ControlNet. The remaining gap is not reference count alone."
+}

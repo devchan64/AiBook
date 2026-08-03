@@ -1,6 +1,6 @@
-# P7-5.0 로컬 GPU로 프레임 없는 웹툰 화풍 참조 팩 만들기
+# P7-5.1 로컬 GPU로 프레임 없는 웹툰 화풍 참조 팩 만들기
 
-> Section ID: `P7-5.0`
+> Section ID: `P7-5.1`
 > Version: `v2026.08.03`
 
 캐릭터를 만들기 전에 화풍 기준을 먼저 고정해야 할 때가 있습니다. 여기서 화풍 팩은 특정 배경 그림을 모아 두는 장식용 이미지 모음이 아닙니다. 인물과 소품을 넣기 전, 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 사람이 검수할 수 있는 입력 집합입니다. 이 절의 질문은 **8 GB급 로컬 GPU에서 만든 배경 화풍 표본이 다음 캐릭터 생성의 기준이 될 조건은 무엇인가**입니다.
@@ -47,7 +47,7 @@ python docs/assets/part-07/chapter-05/p7_5_0_local_style_pack_gate.py
 
 ![Frame-free high-angle local style candidate](../../../assets/part-07/chapter-05/p7-5-0-style-high-angle-candidate.png)
 
-통과 뒤에만 이 팩을 `P7-5.1`의 character reference 생성 입력으로 사용합니다. [실행 기록](../../../assets/part-07/chapter-05/p7-5-0-style-high-angle-candidate.json)과 [high-angle probe](#local-style-high-angle-probe)를 함께 확인합니다.
+통과 뒤에만 이 팩을 `P7-5.2`의 character reference 생성 입력으로 사용합니다. [실행 기록](../../../assets/part-07/chapter-05/p7-5-0-style-high-angle-candidate.json)과 [high-angle probe](#local-style-high-angle-probe)를 함께 확인합니다.
 
 <details id="local-style-pack-gate" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_0_local_style_pack_gate.py" data-language="python">
 <summary>local style pack gate 전문 보기</summary>
