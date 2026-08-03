@@ -43,9 +43,9 @@
 | --- | --- | --- | --- |
 | 실내·새벽·high angle | 아트리움 하향 시점, 야외 courtyard 재생성 | courtyard 행 승인 | 이 승인은 high-angle 후보에만 적용되며 전체 팩 승인은 별도 |
 | 실내·밤·oblique | 광원 보강 여객기 창가 view | 행 승인 | 이 승인은 실내·밤·oblique 원본에만 적용됨 |
-| 실외·낮·wide eye-level | 강남 측면 교차로 재생성, 도시 공원 연못 | 행 승인 | 이 승인은 강남 원본의 낮 팔레트·측면 구도에만 적용됨 |
-| 실외·해질녘·low angle | curb-height 거리 | 조건부 통과 | 이 행만 대표함 |
-| 실외·우천 야간·overhead high angle | 서울 옥상 광장 하향 시점 | 조건부 통과 | 이 행만 대표함 |
+| 실외·낮·wide eye-level | 도심 측면 교차로 재생성, 도시 공원 연못 | 행 승인 | 이 승인은 도심 원본의 낮 팔레트·측면 구도에만 적용됨 |
+| 실외·해질녘·low angle | curb-height 주택가 | 행 승인 | 이 승인은 해질녘 low-angle 원본에만 적용됨 |
+| 실외·우천 야간·overhead high angle | 옥상 광장 하향 시점 | 행 승인 | 이 승인은 우천 야간 overhead 원본에만 적용됨 |
 
 베니스 사선 운하는 outdoor oblique의 보조 근거로 보존했지만, 위 다섯 행 중 하나를 대체하지는 않습니다. 첫 flat-color pack은 장소·시간·카메라 폭이 좁았고, 수채화 후보 일부는 page frame을 crop해야 했으며 여러 표본은 수직 중앙 소실점으로 수렴했습니다. 세탁소 야간 후보는 공간 원근은 맞았지만 해칭이 과도했습니다. 이런 PNG는 화풍 기준 자산으로 보존하지 않고 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 실패 원인만 남깁니다.
 
@@ -53,7 +53,7 @@
 
 ## 실패 원인을 다음 프롬프트의 구조로 바꾸기
 
-실패한 후보에 `no frame`이나 `no hatching`을 더 쓰는 것만으로는 충분하지 않았습니다. 강남은 넓은 도로를 요청했을 때 중앙 소실점의 거리 복도로 수렴했습니다. 이를 고치기 위해 금지어를 늘리는 대신, 가까운 모퉁이에서 옆으로 건너다보는 **측면 교차로**로 장면 구조를 바꿨습니다. 여객기도 전체 좌석 열을 요청했을 때 패널 프레임과 문자형 표식이 생겼습니다. 창·좌석 등받이·천장만 보이는 **창가 close view**로 바꾸자, 야간과 사선 구도는 유지하면서 그 결함을 제거할 수 있었습니다.
+실패한 후보에 `no frame`이나 `no hatching`을 더 쓰는 것만으로는 충분하지 않았습니다. 도심은 넓은 도로를 요청했을 때 중앙 소실점의 거리 복도로 수렴했습니다. 이를 고치기 위해 금지어를 늘리는 대신, 가까운 모퉁이에서 옆으로 건너다보는 **측면 교차로**로 장면 구조를 바꿨습니다. 여객기도 전체 좌석 열을 요청했을 때 패널 프레임과 문자형 표식이 생겼습니다. 창·좌석 등받이·천장만 보이는 **창가 close view**로 바꾸자, 야간과 사선 구도는 유지하면서 그 결함을 제거할 수 있었습니다.
 
 반대로 장가계는 외곽 프레임은 사라졌지만 절벽의 반복 선이 해칭처럼 남았고, 우천 야간 플랫폼은 비·레일·지붕 선이 화면을 지배했습니다. 이 경우에는 crop이나 부분 보정으로 통과시키지 않습니다. `무엇이 틀렸는가`를 다음 생성의 구도·피사체 밀도·광원 조건으로 번역하고, 새 원본을 다시 검수합니다.
 
@@ -87,33 +87,33 @@ BLOCKED style pack
     <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-low-angle-medium-chroma-candidate.png" alt="해질녘 주택가를 아래에서 올려다본 저각도 화풍 후보">
     <figcaption><strong>조건부</strong><span>주택가 · 해질녘 · low angle</span></figcaption>
   </figure>
-  <figure class="aibook-style-reference-grid__item is-partial">
+  <figure class="aibook-style-reference-grid__item is-approved">
     <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-venice-medium-chroma-candidate.png" alt="베니스 운하 사선 구도의 해질녘 화풍 후보">
-    <figcaption><strong>조건부</strong><span>베니스 운하 · 해질녘 · oblique</span></figcaption>
+    <figcaption><strong>보조 승인</strong><span>베니스 운하 · 해질녘 · oblique</span></figcaption>
   </figure>
   <figure class="aibook-style-reference-grid__item is-approved">
-    <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-day-chroma-regenerated-candidate.png" alt="강남 유리 빌딩과 가로수가 있는 낮 화풍 후보">
-    <figcaption><strong>행 승인</strong><span>강남 · 낮 · wide eye-level</span></figcaption>
+    <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-day-chroma-regenerated-candidate.png" alt="도심 유리 빌딩과 가로수가 있는 낮 화풍 후보">
+    <figcaption><strong>행 승인</strong><span>도심 · 낮 · wide eye-level</span></figcaption>
   </figure>
-  <figure class="aibook-style-reference-grid__item is-partial">
+  <figure class="aibook-style-reference-grid__item is-approved">
     <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-daylight-park-medium-chroma-candidate.png" alt="맑은 낮의 공원 연못 화풍 후보">
-    <figcaption><strong>조건부</strong><span>공원 · 낮 · eye-level</span></figcaption>
+    <figcaption><strong>보조 승인</strong><span>공원 · 낮 · eye-level</span></figcaption>
   </figure>
   <figure class="aibook-style-reference-grid__item is-approved">
     <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-aircraft-night-lit-candidate.png" alt="야간 창밖과 객실 조명이 보이는 비행기 실내 화풍 후보">
     <figcaption><strong>행 승인</strong><span>여객기 실내 · 밤 · oblique</span></figcaption>
   </figure>
-  <figure class="aibook-style-reference-grid__item is-partial">
+  <figure class="aibook-style-reference-grid__item is-approved">
     <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-rainy-night-medium-chroma-candidate.png" alt="비가 그친 뒤 옥상 광장을 위에서 내려다본 야간 화풍 후보">
-    <figcaption><strong>조건부</strong><span>서울 옥상 광장 · 우천 야간 · overhead</span></figcaption>
+    <figcaption><strong>행 승인</strong><span>옥상 광장 · 우천 야간 · overhead</span></figcaption>
   </figure>
-  <figure class="aibook-style-reference-grid__item is-partial">
+  <figure class="aibook-style-reference-grid__item is-approved">
     <img src="../../../../assets/part-07/chapter-05/p7-5-1-style-train-platform-bright-candidate.png" alt="밝은 캐노피 조명과 철로가 보이는 우천 야간 승강장 화풍 후보">
-    <figcaption><strong>조건부</strong><span>열차 승강장 · 우천 야간 · oblique</span></figcaption>
+    <figcaption><strong>보조 승인</strong><span>열차 승강장 · 우천 야간 · oblique</span></figcaption>
   </figure>
 </div>
 
-`P7-5.2`의 character reference 생성 입력으로 쓰려면 전체 gate가 통과해야 합니다. [고각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-high-angle-courtyard-candidate.json), [저각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-low-angle-medium-chroma-candidate.json), [베니스 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-venice-medium-chroma-candidate.json), [강남 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-day-chroma-regenerated-candidate.json), [낮 공원 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-daylight-park-medium-chroma-candidate.json), [여객기 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-aircraft-night-lit-candidate.json), [우천 야간 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-rainy-night-medium-chroma-candidate.json), [열차 승강장 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-train-platform-bright-candidate.json), [bright platform probe](#local-style-train-platform-bright-probe), [targeted regeneration probe](#local-style-targeted-chroma-regeneration-probe), [platform-aircraft-high-angle probe](#local-style-platform-aircraft-high-angle-regeneration-probe)를 함께 확인합니다.
+`P7-5.2`의 character reference 생성 입력으로 쓰려면 전체 gate가 통과해야 합니다. [고각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-high-angle-courtyard-candidate.json), [저각 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-low-angle-medium-chroma-candidate.json), [베니스 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-venice-medium-chroma-candidate.json), [도심 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-gangnam-day-chroma-regenerated-candidate.json), [낮 공원 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-daylight-park-medium-chroma-candidate.json), [여객기 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-aircraft-night-lit-candidate.json), [우천 야간 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-rainy-night-medium-chroma-candidate.json), [열차 승강장 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-style-train-platform-bright-candidate.json), [bright platform probe](#local-style-train-platform-bright-probe), [targeted regeneration probe](#local-style-targeted-chroma-regeneration-probe), [platform-aircraft-high-angle probe](#local-style-platform-aircraft-high-angle-regeneration-probe)를 함께 확인합니다.
 
 <details id="local-style-pack-gate" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py" data-language="python">
 <summary>local style pack gate 전문 보기</summary>
@@ -171,7 +171,7 @@ BLOCKED style pack
 </details>
 
 <details id="local-style-targeted-chroma-regeneration-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_1_flux2_targeted_chroma_regeneration.py" data-language="python">
-<summary>Gangnam, aircraft, high-angle, Venice targeted regeneration probe 전문 보기</summary>
+<summary>downtown, aircraft, high-angle, Venice targeted regeneration probe 전문 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
