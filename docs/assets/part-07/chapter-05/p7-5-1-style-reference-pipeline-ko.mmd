@@ -1,0 +1,18 @@
+flowchart TD
+  contract["1. 화풍 계약 고정<br/>외곽 · 선 · 색 · 공간 · 카메라"]
+  matrix["2. 장면 행렬 구성<br/>다섯 필수 행과 보조 행"]
+  generate["3. 행별 원본 생성<br/>프레임 없는 전체 캔버스"]
+  review{"4. 사람 검수<br/>외곽 · 선 · 색 · 장소 · 시간 · 카메라"}
+  repair["실패 원인을 장면 구조로 바꿔<br/>해당 행을 다시 생성"]
+  coverage{"5. 필수 행과 보조 근거가<br/>화풍 계약을 함께 지키는가?"}
+  pack["6. 전체 팩 사람 승인<br/>ledger에 결론 기록"]
+  manifest["7. manifest 확정<br/>다음 생성마다 원본 하나만 선택"]
+  character["P7-5.2 캐릭터 참조 셋 생성<br/>캐릭터 팩은 별도 검수"]
+
+  contract --> matrix --> generate --> review
+  review -- 불합격 --> repair --> generate
+  review -- 행 승인 --> coverage
+  coverage -- 보강 필요 --> repair
+  coverage -- 충족 --> pack
+  pack -- 승인 --> manifest --> character
+  pack -- 보류 --> repair

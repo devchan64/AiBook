@@ -1,6 +1,11 @@
 {
-  "status": "rejected_before_character_reference",
+  "status": "blocked_pending_local_gpu_regeneration",
   "purpose": "review ledger for local GPU style-pack candidates before character-reference generation",
+  "approved_reference_set": {
+    "status": "not_assembled",
+    "manifest": "p7-5-1-approved-style-reference-pack.json",
+    "rule": "Only human-approved local-GPU originals may be listed in the manifest; downstream generation remains blocked until that review is complete."
+  },
   "required_gate": {
     "outer_frame": "The generated image itself fills the canvas with no page border, panel frame, or post-generation crop.",
     "line_and_paint": "Thin contour and structure lines remain visible over transparent watercolor washes; hatching, crosshatching, stippling, and ink-wash dominance fail.",
@@ -17,6 +22,7 @@
     {"run_id":"style-outdoor-courtyard-high-angle-420659","status":"approved","asset":"p7-5-1-style-high-angle-courtyard-candidate.png","reason":"Human-approved high-angle reference. The frame-free downward courtyard camera, teal shadows, green foliage, and neutral paving meet the row-level review contract."},
     {"run_id":"style-gangnam-day-targeted-chroma-420651","status":"approved","asset":"p7-5-1-style-gangnam-day-chroma-regenerated-candidate.png","reason":"Human-approved downtown outdoor-day reference. Teal glass, leaf-green trees, cool paving, and pale-blue daylight separate clear daytime from sunset without a frame or readable signage."},
     {"run_id":"style-atrium-dawn-targeted-chroma-420653","status":"rejected","reason":"The steep downward atrium camera and dawn palette worked, but a closed black edge line formed an outer panel frame. It cannot be rescued by crop."},
+    {"run_id":"style-atrium-dawn-high-angle-local-gpu-v5-420713","status":"approved","asset":"p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png","reason":"User-approved required indoor-dawn-high-angle local-GPU reference. The full-bleed atrium keeps crisp ink structure, layered stair and railing shadows, pale-cyan reflected light, and visible watercolor pigment pooling without an enclosing frame."},
     {"run_id":"style-venice-targeted-chroma-420654","status":"rejected","reason":"The color separation improved, but the canal became a centered one-point corridor and the apricot sky occupied too much of the canvas."},
     {"run_id":"style-high-angle-medium-chroma-420648","status":"superseded","reason":"This frame-free high-angle dawn candidate was replaced by the later courtyard high-angle source with a clearer outdoor spatial reading."},
     {"run_id":"style-gangnam-day-medium-chroma-420643","status":"superseded","reason":"This frame-free lateral midday candidate was replaced by the later clear-day downtown source with stronger daylight color separation."},
