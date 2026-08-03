@@ -6,4 +6,4 @@
 - Why it matters: Prompting is the basic way to adjust the conditions of the current output without retraining the model. This concept separates changing the model itself from changing the input conditions for one response. It also explains why the same model can respond differently depending on context, examples, and requested format.
 - Related concepts: `instruction`, `input context`, `in-context learning`
 - Core Section: `P1-12.1`
-- Appears in: `P1-12.1`, `P6-2.4`, `P6-9.1`, `P6-9.3`
+- Appears in: `P1-12.1`, `P6-2.4`, `P6-9.1`, `P6-9.3`, `P7-5.1`

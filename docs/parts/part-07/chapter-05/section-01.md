@@ -3,19 +3,28 @@
 > Section ID: `P7-5.1`
 > Version: `v2026.08.04`
 
-캐릭터를 만들기 전에 화풍 기준을 먼저 고정해야 할 때가 있습니다. 여기서 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 인물과 소품을 넣기 전, 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 그 한 장은 캐릭터 참조 셋의 화풍 기준이 될 수 없습니다.
+이 프로젝트는 다음 단계에서 FLUX.2 Klein 4B로 캐릭터 기준이 될 참조 패키지를 만듭니다. 그래서 캐릭터를 만들기 전에, 같은 모델에서 사용할 화풍 기준을 먼저 고정해야 합니다. 여기서 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 인물과 소품을 넣기 전, 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 그 한 장은 FLUX.2 Klein 4B로 만들 캐릭터 참조 패키지의 화풍 기준이 될 수 없습니다.
 
-이 절의 질문은 **8 GB급 로컬 GPU에서 만든 배경 화풍 표본이 다음 캐릭터 참조 셋의 기준이 되려면 무엇을 검수해야 하는가**입니다. 이 절의 산출물은 승인된 화풍 그 자체가 아니라, 후보 이미지·행별 판정·실패 이유·다음 생성을 막거나 통과시키는 gate입니다.
+이 절의 질문은 **8 GB급 로컬 GPU에서 FLUX.2 Klein 4B로 만든 배경 화풍 표본이 다음 캐릭터 참조 패키지의 기준이 되려면 무엇을 검수해야 하는가**입니다. 이 절의 산출물은 승인된 화풍 그 자체가 아니라, 후보 이미지·행별 판정·실패 이유·다음 캐릭터 참조 생성을 막거나 통과시키는 gate입니다.
+
+웹툰 컷 생성 전체를 한 번에 해결하려고 하지 않습니다. 이 실험은 8 GB VRAM 환경에서 `화풍 참조 셋 -> 캐릭터 참조 셋 -> 컷씬 -> 화풍 보정`을 네 단계로 나누어 구성합니다. 한 단계의 출력이 다음 단계의 입력이 되려면, 생성된 이미지가 마음에 드는지를 넘어서 어떤 조건을 통과했는지 기록되어야 합니다.
+
+| 단계 | 만드는 것 | 다음 단계로 넘기는 조건 |
+| --- | --- | --- |
+| P7-5.1 화풍 참조 셋 | 프레임 없는 배경 화풍 원본과 ledger | FLUX.2 Klein 4B가 따라야 할 선·수채화·광원·카메라 기준 |
+| P7-5.2 캐릭터 참조 셋 | 같은 화풍 위의 인물 기준 패키지 | 얼굴·전신·의상·소품·view가 분리 검수된 캐릭터 입력 |
+| P7-5.3 컷씬 생성 | 캐릭터와 장면 조건을 결합한 컷 | 구조·인물·소품이 함께 보존되는지 판단할 후보 |
+| P7-5.4 화풍 보정 | 통과 컷의 색·선·일관성 보정 | 컷 사이 화풍 drift와 국소 실패를 따로 기록한 결과 |
 
 ## 화풍 참조 셋은 생성과 검수가 번갈아 가는 파이프라인이다
 
-화풍 생성은 프롬프트 한 번으로 끝나지 않습니다. 먼저 어떤 선과 색을 유지할지 계약을 고정하고, 그 계약이 장소·시간·카메라가 달라져도 남는지 확인할 장면 행렬을 만듭니다. 각 행의 원본을 생성한 뒤 사람은 프레임, 선, 색, 장소, 시간, 카메라를 함께 검수합니다. 불합격이면 이미지를 crop하거나 상태만 바꾸지 않고, 실패 원인을 다음 프롬프트의 장면 구조로 바꿔 같은 행을 다시 생성합니다.
+화풍 생성은 [프롬프트](../../../reference/concept-glossary-parts/13-pieup.md#prompt) 한 번으로 끝나지 않습니다. 먼저 어떤 선과 색을 유지할지 계약을 고정하고, 그 계약이 장소·시간·카메라가 달라져도 남는지 확인할 장면 행렬을 만듭니다. 각 행의 원본을 생성한 뒤 사람은 프레임, 선, 색, 장소, 시간, 카메라를 함께 검수합니다. 불합격이면 이미지를 crop하거나 상태만 바꾸지 않고, 실패 원인을 다음 프롬프트의 장면 구조로 바꿔 같은 행을 다시 생성합니다.
 
 ```mermaid
 --8<-- "assets/part-07/chapter-05/p7-5-1-style-reference-pipeline-ko.mmd"
 ```
 
-이 흐름에서 모델은 후보를 만들고, 사람은 후보가 계약을 지키는지 판단합니다. `행 승인`은 한 조건에서의 통과이고, `전체 팩 승인`은 모든 필수 행과 보조 근거를 함께 비교한 뒤의 결론입니다. 승인된 뒤에도 다음 생성은 타일로 합친 이미지를 쓰지 않고 manifest의 개별 원본 하나만 화풍 입력으로 선택합니다.
+이 흐름에서 모델은 후보를 만들고, 사람은 후보가 계약을 지키는지 판단합니다. `행 승인`은 한 조건에서의 통과이고, `전체 팩 승인`은 모든 필수 행과 보조 근거를 함께 비교한 뒤의 결론입니다. 승인된 뒤에도 다음 FLUX.2 Klein 4B 캐릭터 생성은 타일로 합친 이미지를 쓰지 않고 manifest의 개별 원본 하나만 화풍 입력으로 선택합니다.
 
 | 파이프라인 층 | 고정하거나 바꾸는 것 | 다음 단계로 남기는 것 |
 | --- | --- | --- |
@@ -27,17 +36,48 @@
 
 ## AI 모델은 텍스트 조건과 seed에서 후보 원본을 만든다
 
-앞의 흐름도는 작업과 판단의 순서이고, 아래는 그중 **후보 한 장을 만드는 모델 내부 경계**를 단순화한 그림입니다. 이 실습의 `Flux2KleinPipeline`은 사전 학습된 FLUX.2 Klein 4B 가중치를 읽고, 장면 prompt와 공통 화풍 계약을 text condition으로 받아 seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 코드의 `num_inference_steps=50`은 이 배치에서 반복 갱신한 횟수이고, `guidance_scale=4.0`은 텍스트 조건을 따르는 정도에 관여하는 실행 설정입니다. 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
+앞의 흐름도는 작업과 판단의 순서이고, 아래는 그중 **후보 한 장을 만드는 실행 준비·`Flux2KleinPipeline` 내부 처리·검수 경계**를 나눈 그림입니다. 코드에서 FLUX.2 Klein 4B 가중치를 `torch_dtype=torch.bfloat16`으로 읽고 `enable_sequential_cpu_offload()`를 켜는 부분은 모델 내부 추론 단계가 아니라 실행 준비에 가깝습니다. 그 준비가 끝난 뒤 `Flux2KleinPipeline`은 장면 prompt와 공통 화풍 계약을 text condition으로 바꾸고, seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 다음 캐릭터 참조 패키지도 같은 모델 계열에서 만들 것이므로, 이 단계의 목적은 다른 모델에 일반화되는 배경 화풍을 찾는 것이 아니라 **FLUX.2 Klein 4B가 안정적으로 따를 수 있는 화풍 입력 조건**을 먼저 고르는 것입니다. 코드의 `num_inference_steps=50`은 이 배치에서 반복 갱신한 횟수이고, `guidance_scale=4.0`은 텍스트 조건을 따르는 정도에 관여하는 실행 설정입니다. 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
+
+도식의 `입력 조건` 구역은 값을 `텍스트 입력`, `이미지 출발 조건`, `추론 설정` 세 묶음으로 정리합니다. 아래 표는 같은 값을 코드 위치와 검수 의미로 더 풀어 쓴 것입니다. 이렇게 보면 어떤 값이 텍스트 조건을 만들고 어떤 값이 latent 출발점과 반복 갱신 조건을 바꾸는지 구별할 수 있습니다.
+
+| 입력 조건 | 코드에서 오는 곳 | 파이프라인에서 쓰이는 곳 | 검수할 때의 의미 |
+| --- | --- | --- | --- |
+| scene 행 | `SCENES`의 `prompt`, `seed` | `pipe(...)`에 넘길 prompt와 초기 latent | 장소·시간·카메라와 같은 행별 비교 조건 |
+| 공통 화풍 계약 | `COMMON_CONTRACT` | `pipe(...)`에 넘길 prompt | 모든 행에서 유지해야 할 선·수채화·프레임 금지 조건 |
+| 해상도 | `width=768`, `height=1152` | latent 크기와 VAE 출력 | 이 실험의 후보 원본 형식 |
+| 추론 반복 | `num_inference_steps=50` | scheduler의 timesteps와 transformer 반복 | 생성 조건이지 품질 점수는 아님 |
+| 텍스트 유도 | `guidance_scale=4.0` | transformer가 텍스트 조건을 반영하는 정도에 관여 | 값 자체가 승인 기준은 아님 |
+| seed 생성기 | `torch.Generator(device="cpu").manual_seed(...)` | 초기 latent 출발점 | 비교 기록이며 픽셀 동일성 보장은 아님 |
 
 ```mermaid
 --8<-- "assets/part-07/chapter-05/p7-5-1-ai-model-inference-pipeline-ko.mmd"
 ```
 
-`COMMON_CONTRACT`와 장면별 `prompt`는 별도의 negative prompt 입력이 아니라 하나의 텍스트 조건으로 이어 붙여 전달됩니다. 따라서 `no panel` 같은 금지 문구는 모델에게 원하는 결과를 보장하는 규칙이 아니라, 다른 장면 설명과 함께 해석되는 조건입니다. 프레임이 생기면 모델이 그 조건을 완전히 따르지 못한 것이므로, crop으로 고치지 않고 새 장면 구조와 prompt로 다시 생성합니다.
+`Flux2KleinPipeline` 안에서는 먼저 입력이 prompt, generator, size, step, guidance로 나뉩니다. Qwen 계열 [tokenizer](../../../reference/concept-glossary-parts/12-tieut.md#tokenization)와 text encoder는 prompt를 token ID와 [text embedding](../../../reference/concept-glossary-parts/08-ieung.md#embedding) 같은 조건 표현으로 만들고, CPU seed에서 출발한 noise는 해상도에 맞는 초기 latent가 됩니다. FlowMatch 계열 scheduler는 반복할 timestep을 준비하고, FLUX [transformer](../../../reference/concept-glossary-parts/12-tieut.md#transformer)는 text embedding, timestep, guidance, latent를 함께 보며 latent를 반복 갱신합니다. 마지막에는 VAE가 latent tensor를 RGB 픽셀 이미지로 되돌리고, Python 코드는 그 결과를 PIL 이미지로 받아 PNG로 저장합니다. `enable_sequential_cpu_offload()`는 이 내부 단계들을 바꾸는 알고리즘이 아니라, 각 단계에서 필요한 모듈만 순서대로 GPU에 올리는 메모리 운용입니다. 이 구분이 필요한 이유는 단순합니다. prompt, seed, step, guidance는 **생성 조건**이고, 프레임 없음·선화 유지·시간대 광원·camera 충족은 **생성 뒤 검수 조건**입니다.
 
-`torch.Generator(device="cpu").manual_seed(...)`의 seed는 같은 실행 조건에서 시작점을 다시 잡게 하는 값입니다. seed를 고정하면 비교의 출발점을 기록할 수 있지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다. `enable_sequential_cpu_offload()`는 필요한 모델 모듈을 CPU와 GPU 사이에서 순차적으로 옮겨 GPU 상주 메모리를 줄이는 방법입니다. 모델의 화풍 판단 능력을 높이는 설정은 아닙니다.
+| 모델 파이프라인 단계 | 이 절에서 맡는 역할 | 승인 판단과의 관계 |
+| --- | --- | --- |
+| prompt와 공통 계약 | 장소·시간·카메라와 금지 조건을 한 텍스트 입력으로 묶음 | 금지 문구가 있어도 결과 보장은 아님 |
+| tokenizer와 text encoder | 텍스트를 모델이 쓰는 조건 표현으로 바꿈 | 조건 해석의 시작점이지 사람 판정을 대체하지 않음 |
+| seed와 latent | 같은 실행 조건의 출발점을 기록함 | 다른 환경에서 픽셀 동일성을 보장하지 않음 |
+| scheduler와 transformer 반복 | timestep과 조건 표현을 보며 이미지 표현을 단계적으로 갱신함 | 반복 수와 guidance는 품질 점수가 아님 |
+| VAE decode와 PNG 저장 | latent를 이미지로 바꾸고 원본 파일로 남김 | 파일 생성 성공은 후보 생성 성공일 뿐 승인 아님 |
+| 사람 검수와 ledger | 외곽·선·색·장소·시간·카메라를 판정함 | 다음 단계 입력 가능 여부를 결정함 |
 
-모델 단계의 출력은 `images[0]`의 PNG와 터미널에 출력되는 실행 요약까지입니다. `approved`라는 결론, 필수 행 충족, 다음 단계 입력 가능 여부는 모델이 계산하지 않습니다. 그 판단은 생성 뒤 사람 검수와 ledger가 맡습니다. FLUX.2 Klein 4B는 텍스트 기반 이미지 생성과 참조 편집을 지원하는 rectified-flow transformer이며, prompt를 완전히 따르지 못하거나 텍스트를 왜곡할 수 있다는 한계도 모델 카드에 명시되어 있습니다.
+`COMMON_CONTRACT`와 장면별 `prompt`는 별도의 negative prompt 입력이 아니라 하나의 텍스트 조건으로 이어 붙여 전달됩니다. 따라서 `no panel` 같은 금지 문구는 모델에게 원하는 결과를 보장하는 규칙이 아니라, 다른 장면 설명과 함께 해석되는 조건입니다. seed는 같은 실행 조건의 출발점을 기록하지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다. `enable_sequential_cpu_offload()`는 GPU 상주 메모리를 줄이는 실행 방식이지 화풍 판단 능력을 높이는 설정이 아닙니다. FLUX.2 Klein 4B는 prompt를 완전히 따르지 못하거나 텍스트를 왜곡할 수 있다는 한계도 모델 카드에 명시되어 있습니다.
+
+## FLUX.2 Klein 4B는 작지만 조건 검수가 필요하다
+
+FLUX.2 Klein 4B를 고른 이유는 다음 단계의 캐릭터 참조 패키지까지 같은 모델 계열로 이어 보기 위해서입니다. 모델 카드는 이 모델을 4B 규모의 rectified-flow transformer로 설명하고, text-to-image와 image editing, multi-reference editing을 지원한다고 밝힙니다. 공개 가중치는 Apache 2.0 라이선스로 제공되며, Diffusers에서는 `Flux2KleinPipeline`으로 실행할 수 있습니다.
+
+이 장점이 곧바로 8 GB VRAM에서 안정적인 웹툰 컷 파이프라인을 뜻하지는 않습니다. 모델 카드의 하드웨어 설명은 약 13 GB VRAM급 소비자 GPU를 기준으로 삼습니다. 이 실험은 그보다 작은 8 GB 환경에서 `enable_sequential_cpu_offload()`를 사용해 한 번에 한 단계를 실행하고, 각 단계의 승인 조건을 분리합니다. 따라서 P7-5.1은 모델이 좋은 배경 이미지를 만들 수 있는지 보는 절이 아니라, **8 GB 제약 안에서 다음 단계 입력으로 넘겨도 되는 조건을 사람이 판정하는 절**입니다.
+
+| 구분 | 이 실험에서 유리한 점 | 조심할 점 |
+| --- | --- | --- |
+| 모델 크기 | 4B 규모라 로컬 실행 실험 대상으로 다룰 수 있음 | 공식 하드웨어 설명은 약 13 GB VRAM 기준이므로 8 GB에서는 offload와 단계 분리가 필요함 |
+| 기능 범위 | text-to-image, image editing, multi-reference 흐름을 같은 계열에서 이어 볼 수 있음 | 기능 지원이 곧 캐릭터·소품·화풍 일관성 통과를 뜻하지 않음 |
+| 공개 가중치 | Apache 2.0 공개 가중치라 실험 조건과 산출물을 기록하기 좋음 | 모델 출력은 prompt를 놓치거나 왜곡할 수 있어 사람 검수 ledger가 필요함 |
+| 빠른 후보 생성 | 여러 장면 후보를 반복해 만들 수 있음 | 빠른 생성은 승인 기준이 아니며, 실패 원인은 다음 prompt 구조로 바꿔야 함 |
 
 ## 화풍은 팔레트 하나로 고정되지 않는다
 
@@ -57,7 +97,7 @@
 
 이 절의 원본은 배경에서 선과 수채 색면이 어떻게 겹치고, 시간대별 광원이 공간의 명도와 반사에 어떻게 나타나는지를 정합니다. 따라서 아트리움의 차가운 새벽빛이나 우천 야간 승강장의 남색 그림자를 그대로 인물의 피부나 머리카락 기본색으로 옮기지 않습니다. 그렇게 하면 같은 캐릭터가 장소마다 다른 피부색과 머리색으로 보일 수 있습니다.
 
-P7-5.1이 다음 단계에 넘기는 것은 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원이라는 **배경 화풍 계약**입니다. P7-5.2는 중립 조명에서 머리카락·피부·눈·의상 색을 별도 character contract로 정하고, full body와 얼굴의 일관성을 검수합니다. 배경의 밤·노을·비는 컷신에서 인물에 약한 반사광을 더할 수는 있어도, 승인된 기본색을 새로 정의하는 근거가 될 수 없습니다.
+P7-5.1이 다음 단계에 넘기는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원이라는 **배경 화풍 계약**입니다. P7-5.2는 같은 모델을 사용해 이 화풍 입력 위에서 머리카락·피부·눈·의상 색을 별도 character contract로 정하고, full body와 얼굴의 일관성을 검수합니다. 배경의 밤·노을·비는 컷신에서 인물에 약한 반사광을 더할 수는 있어도, 승인된 기본색을 새로 정의하는 근거가 될 수 없습니다.
 
 ## 다섯 행이 있어야 한 장의 우연을 구별할 수 있다
 
@@ -73,20 +113,18 @@ P7-5.1이 다음 단계에 넘기는 것은 얇은 charcoal 선, 반투명 색�
 
 각 행에는 사람·동물·차량·읽을 수 있는 표지·글자를 넣지 않습니다. 화풍 팩은 캐릭터 identity나 소품 geometry를 정하는 자산이 아니기 때문입니다. 프롬프트에는 `no border frame`, `no panel`, `fill the canvas edge to edge`를 함께 쓰되, 이 단어가 있다고 통과로 처리하지 않습니다. 출력 원본에서 프레임이 보이면 그 이미지는 crop으로 살리지 않고 불합격입니다.
 
-## 하나의 생성 스크립트에서 공통 계약과 장면 변수를 분리한다
+## 실행 코드는 공통 계약과 장면 변수를 분리한다
 
-실제 후보 생성에는 Diffusers의 `Flux2KleinPipeline`을 사용합니다. 현재 아홉 행을 만드는 `p7_5_1_regenerate_local_gpu_style_references.py`만 이 절의 실행 코드입니다. `COMMON_CONTRACT`에는 모든 장면에 공통인 full-bleed, 선, 수채화, 금지 조건을 두고, `SCENES`에는 장면마다 달라져야 하는 장소·시간·카메라·seed를 둡니다. 이 분리가 없으면 장면의 차이 때문에 화풍이 달라졌는지, 화풍 계약 자체가 무너졌는지 구별하기 어렵습니다.
+실제 후보 생성에는 Diffusers의 `Flux2KleinPipeline`을 사용합니다. 현재 아홉 행을 만드는 `p7_5_1_regenerate_local_gpu_style_references.py`만 이 절의 실행 코드입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
 
-| 코드 위치 | 파이프라인에서 하는 일 | 읽을 때 볼 지점 |
+| 코드 위치 | 바꾸면 달라지는 것 | 학습할 경계 |
 | --- | --- | --- |
-| `COMMON_CONTRACT` | 모든 행에 적용하는 화풍·프레임 금지 계약 | `fills all four canvas edges`, charcoal line, transparent watercolor, 금지 질감 |
-| `SCENES` | 행마다 바꾸는 장소·시간·카메라와 seed | 같은 계약 아래 어떤 조건을 비교하는지 |
-| `enable_sequential_cpu_offload()` | 8 GB급 GPU에서 모델을 순차적으로 옮겨 실행 | 품질 설정이 아니라 메모리 운용 방식 |
-| `pipe(...)` | 한 장면 원본을 생성 | 해상도, step, guidance, seed가 재현 조건임 |
-| `P7_STYLE_SCENE` | 한 행만 선택하거나 아홉 행 전체를 선택 | 실행 시간을 줄여도 전체 팩 승인은 별도라는 경계 |
-| `record`와 `print(...)` | 시간·GPU 메모리·출력 파일을 터미널에 요약 | 생성 성공과 사람 승인을 구분하는 운영 확인 |
-
-바꿔 볼 값은 한 `SCENES` 행의 `prompt` 또는 `seed`입니다. `P7_STYLE_SCENE`에 행 ID를 넣으면 한 장면만, 값을 비우면 아홉 행을 생성합니다. 이 차이는 실행 시간을 줄이기 위한 것이며, 한 행을 생성했다고 전체 팩이 승인되는 것은 아닙니다. 새 PNG가 예뻐 보이는지만 보지 말고, 같은 행의 프레임·선·색·시점 조건이 달라지는지를 ledger에서 다시 판정합니다. `guidance_scale`이나 step을 바꾸는 것은 별도의 비교 실험으로 기록해야 합니다.
+| `COMMON_CONTRACT` | 아홉 행 전체의 선·수채화·프레임 금지 기준 | 공통 계약을 바꾸면 이전 행과 직접 비교하기 어려움 |
+| `SCENES`의 `prompt` | 한 행의 장소·시간·카메라 구조 | 실패 원인은 금지어보다 장면 구조로 고침 |
+| `SCENES`의 `seed` | 같은 조건의 다른 출발점 | seed 고정은 비교 기록이지 품질 보장이 아님 |
+| `P7_STYLE_SCENE`, `P7_STYLE_EXCLUDE` | 생성할 행의 범위 | 한 행 생성은 전체 팩 승인이 아님 |
+| `STEPS`, `GUIDANCE`, 해상도 | 추론 조건 전체 | 값을 바꾸면 별도 비교 실험으로 기록함 |
+| 터미널 실행 요약 | 시간·GPU 메모리·출력 파일 | 생성 성공과 사람 승인을 분리함 |
 
 이전의 시간대 균형 배치와 표적 재생성 파일은 같은 실행 골격에 당시의 `SCENES`만 기록한 이력입니다. 따라서 별도의 생성 방법이나 두 번째 실행 경로로 설명하지 않습니다. P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용할 수 있으며, 내장 이미지 생성으로 만든 자산은 입력·승인·manifest에서 제외했습니다.
 
@@ -94,20 +132,6 @@ P7-5.1이 다음 단계에 넘기는 것은 얇은 charcoal 선, 반투명 색�
 <summary>아홉 로컬 GPU 화풍 후보 생성 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
-
-### 코드 흐름과 바꿀 값
-
-`main()`은 먼저 `P7_STYLE_SCENE`, `P7_STYLE_EXCLUDE`, `P7_STYLE_RUN_LABEL`을 읽습니다. 예를 들어 `P7_STYLE_SCENE=atrium-dawn-high-angle`는 한 행만 생성하고, `P7_STYLE_EXCLUDE=atrium-dawn-high-angle`은 전체 실행에서 해당 행을 뺍니다. `P7_STYLE_RUN_LABEL=v2`처럼 label을 바꾸면 PNG 파일명이 달라져 이전 run을 덮어쓰지 않습니다.
-
-| 순서 | 코드가 하는 일 | 사람이 확인할 것 |
-| --- | --- | --- |
-| 1. 행 선택 | `SCENES`에서 요청·제외 조건에 맞는 행을 만든다 | 선택한 행이 필수 행인지 보조 행인지 ledger에서 구분 |
-| 2. 메모리 관측 | `gpu_memory_mib()`와 daemon thread가 실행 중 peak VRAM을 약 0.2초 간격으로 기록한다 | peak 값은 실행 가능성 근거이지 이미지 품질 점수가 아님 |
-| 3. pipeline 준비 | BF16 가중치를 읽고 `enable_sequential_cpu_offload()`를 켠다 | 8 GB 운용 설정이며 화풍을 고정하는 기능은 아님 |
-| 4. 행별 생성 | `scene["prompt"] + COMMON_CONTRACT`와 CPU seed를 `pipe(...)`에 넣고 PNG를 저장한다 | prompt는 장소·시간·camera, contract는 공통 화풍 조건을 맡음 |
-| 5. 실행 요약과 사람 판정 | 각 PNG의 seed·시간·파일명과 peak VRAM을 터미널에 출력하고, 사람 판정은 ledger에 쓴다 | 출력 요약은 후보 생성 확인이고, ledger의 상태만 승인 근거 |
-
-행마다 `torch.cuda.empty_cache()`를 호출하는 것은 다음 행을 위한 캐시 반환 요청입니다. GPU 메모리 사용량을 0으로 만들거나 결과 품질을 높이지는 않습니다. pipeline 초기화나 한 행 생성에서 예외가 나면 `finally`가 메모리 관측 thread만 멈춘 뒤 예외를 다시 올리므로, 성공한 것처럼 실행 요약을 출력하지 않습니다. 실행이 끝난 뒤 사람은 PNG를 보고 ledger에 행 승인·불합격 이유를 남깁니다.
 
 ### 공통 화풍 계약과 장면 조건이 만나는 코드
 
@@ -135,7 +159,7 @@ SCENES = [
 ]
 ```
 
-여기서 `COMMON_CONTRACT`를 바꾸면 아홉 행 전체의 비교 기준이 달라집니다. 반대로 `SCENES`의 한 `prompt`를 바꾸면 그 행의 장소·시간·카메라만 재생성합니다. `seed`를 바꾸면 같은 조건의 다른 출발점을 비교할 수 있지만, 프레임 없음이나 물리적으로 가능한 공간을 보장하지는 않습니다.
+여기서 `COMMON_CONTRACT`를 바꾸면 아홉 행 전체의 비교 기준이 달라집니다. 반대로 `SCENES`의 한 `prompt`를 바꾸면 그 행의 장소·시간·카메라만 재생성합니다.
 
 다음 발췌는 한 행을 실제로 만드는 부분입니다. `P7_STYLE_SCENE`을 바꾸면 `scenes`에 남는 행 수가 바뀌고, `run_label`을 `v2`처럼 바꾸면 기존 PNG를 덮어쓰지 않고 새 파일로 남깁니다.
 
@@ -158,11 +182,15 @@ for scene in scenes:
     image.save(ASSET_DIR / f"p7-5-1-style-{scene['id']}-local-gpu-{run_label}.png")
 ```
 
-`enable_sequential_cpu_offload()`는 이 4B 모델을 8 GB급 GPU에서 실행하기 위한 메모리 절약 장치입니다. `width`·`height`·step·guidance·seed는 코드와 터미널 요약으로 확인하는 재현 조건이며, 이 값들을 바꾼 결과는 별도 run으로 비교해야 합니다. 이 블록의 `image.save(...)`가 성공했다는 사실은 후보 PNG가 생겼다는 뜻뿐입니다. 외곽선·수채화 질감·공간의 물리성·필수 행 충족 여부는 다음의 사람 검수에서 판정합니다.
+이 코드 블록에서 파이프라인 분절은 모델 구조를 새로 나누는 일이 아니라, **8 GB VRAM에서 한 번에 들고 있을 것을 줄이는 실행 분절**입니다. `from_pretrained(...)`는 FLUX.2 Klein 4B 가중치를 준비하고, `enable_sequential_cpu_offload()`는 tokenizer·text encoder·transformer·VAE 같은 구성 요소를 실행 순서에 맞춰 CPU와 GPU 사이에서 옮기게 합니다. 그래서 GPU에는 지금 계산에 필요한 모듈과 tensor만 올라오고, 다음 단계가 필요해지면 이전 단계의 일부가 내려갑니다.
+
+`for scene in scenes:`는 이 절의 두 번째 분절입니다. 아홉 장면을 하나의 큰 batch로 묶지 않고, 한 행의 prompt와 seed로 한 장을 만들고 저장한 뒤 다음 행으로 넘어갑니다. 이렇게 해야 8 GB 환경에서 `화풍 참조 셋`의 장면 행렬을 다룰 수 있고, 실패한 행만 `P7_STYLE_SCENE`으로 다시 생성할 수 있습니다. 코드 원문에서는 행 하나가 끝난 뒤 `torch.cuda.empty_cache()`로 다음 행을 위한 캐시 반환도 요청합니다. 이것은 결과를 좋게 만드는 설정이 아니라, 다음 장면을 같은 GPU에서 이어 실행하기 위한 메모리 운용입니다.
+
+따라서 `pipe(...)` 호출 안의 `width`, `height`, `num_inference_steps`, `guidance_scale`, `seed`는 후보를 만드는 추론 조건이고, `enable_sequential_cpu_offload()`와 행별 반복은 그 추론을 8 GB에서 실행 가능하게 나누는 운영 조건입니다. 이 블록의 `image.save(...)`가 성공했다는 사실은 후보 PNG가 생겼다는 뜻뿐입니다. 외곽선·수채화 질감·공간의 물리성·필수 행 충족 여부는 다음의 사람 검수에서 판정합니다.
 
 ## 다섯 필수 행과 보조 근거를 분리한다
 
-로컬 GPU에서 후보를 만들 수 있다는 사실은 화풍 팩 승인과 다릅니다. 재생성 후보는 다섯 필수 행을 하나씩 채우고, 보조 후보는 다른 장소·시간·시점에서도 계약이 유지되는지를 확인합니다. 현재는 아트리움·도심·주택가·옥상 광장의 네 필수 행과 베니스·공원·열차 승강장 보조 행이 사람 승인을 받았습니다. 폐기한 여객기 행은 창밖이 밤이고 작은 스탠드 조명이 있는 창가 독서실의 사선 구도로 대체합니다. 이른 아침 courtyard도 검수 대기입니다.
+로컬 GPU에서 후보를 만들 수 있다는 사실은 화풍 팩 승인과 다릅니다. 재생성 후보는 다섯 필수 행을 하나씩 채우고, 보조 행은 다른 장소·시간·시점에서도 계약이 유지되는지를 확인합니다. 현재는 창가 독서실이 폐기한 여객기 행을 대체해 다섯 필수 행을 채웠고, courtyard·베니스·공원·열차 승강장까지 네 보조 행도 사람 승인을 받았습니다. 이 아홉 행이 현재 manifest의 승인 원본입니다.
 
 | 필수 행 | 로컬 GPU 재생성 후보 | 현재 판정 | 이 행이 확인하는 것 |
 | --- | --- | --- | --- |
@@ -172,11 +200,11 @@ for scene in scenes:
 | 실외·해질녘·low angle | 주택가 local-gpu-v1 | 행 승인 | 제한된 석양빛과 curb-height 상향 시점 |
 | 실외·우천 야간·overhead high angle | 옥상 광장 local-gpu-v1 | 행 승인 | 젖은 바닥 반사와 하향 야간 시점 |
 
-이른 아침 courtyard, 베니스 운하, 공원 연못, 열차 승강장은 보조 후보입니다. 각각 high-angle, oblique, 낮 팔레트, 우천 야간 조명을 넓혀 보지만 다섯 필수 행을 대체하지는 않습니다. 불합격 후보는 crop이나 상태값 변경으로 살리지 않고, 실패 이유만 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다.
+이른 아침 courtyard, 베니스 운하, 공원 연못, 열차 승강장은 보조 행입니다. 각각 high-angle, oblique, 낮 팔레트, 우천 야간 조명을 넓혀 보지만 다섯 필수 행을 대체하지는 않습니다. 불합격 후보는 crop이나 상태값 변경으로 살리지 않고, 실패 이유만 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다.
 
 | 보조 행 | 로컬 GPU 재생성 후보 | 넓혀 보는 화풍 조건 |
 | --- | --- | --- |
-| 이른 아침 courtyard · high angle | courtyard local GPU 후보 | 실외 자연광에서 하향 시점의 선·색면 |
+| 이른 아침 courtyard · high angle | courtyard local-gpu-v1 · 행 승인 | 실외 자연광에서 하향 시점의 선·색면 |
 | 베니스 운하 · 석양 · oblique | 베니스 local-gpu-v1 · 행 승인 | 제한된 apricot 역광과 사선 수면 |
 | 공원 연못 · 낮 · eye-level | 공원 local-gpu-v1 · 행 승인 | 자연 공간의 낮 팔레트와 수면 반사 |
 | 열차 승강장 · 우천 야간 · oblique | 승강장 local-gpu-v1 · 행 승인 | 인공광, 젖은 바닥, 짧은 대각 철로 |
@@ -214,19 +242,13 @@ PASS style pack can be used for character-reference generation
 
 반대로 장가계는 외곽 프레임은 사라졌지만 절벽의 반복 선이 해칭처럼 남았고, 우천 야간 플랫폼은 비·레일·지붕 선이 화면을 지배했습니다. 이 경우에는 crop이나 부분 보정으로 통과시키지 않습니다. `무엇이 틀렸는가`를 다음 생성의 구도·피사체 밀도·광원 조건으로 번역하고, 새 원본을 다시 검수합니다.
 
-## 사람 판정은 로컬 GPU 원본만 승인한다
+## 사람 판정은 ledger와 manifest로 분리한다
 
-사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 그 이유를 ledger에 적습니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1에서 승인할 수 없으므로 입력·승인·manifest에서 제외했습니다. 현재 참조 셋은 `approved_for_character_reference`입니다.
+사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 행별 승인·불합격 이유와 최종 결론을 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 적습니다. 다음 단계가 실제로 읽는 입력 목록은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 따로 둡니다. 이 분리 덕분에 `왜 승인했는가`와 `무엇을 다음 생성에 넣을 수 있는가`가 섞이지 않습니다.
 
-로컬 GPU 후보가 다섯 필수 행과 네 보조 근거를 모두 채우고 사람 승인을 받아야 P7-5.2가 manifest에서 고른 개별 원본 하나를 화풍 입력으로 사용할 수 있습니다. 그 뒤에도 캐릭터 identity, 시점 묶음, 권리 확인은 캐릭터 참조 팩의 별도 검수 대상입니다. 최종 결론은 별도의 sheet가 아니라 ledger의 사람 판단으로 기록합니다.
+현재 참조 셋은 `approved_for_character_reference`입니다. manifest에는 아홉 개의 사람 승인 로컬 GPU 원본이 있으며, P7-5.2는 FLUX.2 Klein 4B로 캐릭터 참조 패키지를 만들 때 이 중 하나의 개별 원본만 화풍 입력으로 선택합니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다. 그 뒤의 캐릭터 identity, 시점 묶음, 권리 확인은 P7-5.2의 별도 검수 대상입니다.
 
-## 승인 원본 manifest
-
-사람의 판단은 행별 승인·불합격 이유와 최종 결론을 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 기록하는 것으로 충분합니다. 별도의 contact sheet를 만들지 않습니다. 다음 단계는 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)가 가리키는 개별 원본 중 하나만 선택해 사용합니다.
-
-이 참조 셋의 상태는 `approved_for_character_reference`다. manifest에는 아홉 개의 사람 승인 로컬 GPU 원본을 기록했으며, 다음 생성은 이 중 하나의 개별 원본만 화풍 입력으로 선택한다.
-
-## 승인된 로컬 GPU 원본과 검수 대기 후보를 구분한다
+## 승인된 로컬 GPU 원본을 확인한다
 
 아트리움 local-gpu-v5, 창가 독서실 local-gpu-v1과 도심·주택가·옥상 광장·courtyard·베니스·공원·열차 승강장 local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아홉 원본은 manifest에 기록돼 있습니다.
 
@@ -234,11 +256,11 @@ PASS style pack can be used for character-reference generation
 
   **행 승인** · 실내 아트리움 · 새벽 · high angle · local GPU
 
-- ![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 검수 후보](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png)
+- ![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png)
 
   **행 승인** · courtyard · 이른 아침 · high angle · local GPU
 
-- ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 검수 후보](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png)
+- ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png)
 
   **행 승인** · 창가 독서실 · 밤 · oblique · local GPU v1
 
@@ -268,7 +290,7 @@ PASS style pack can be used for character-reference generation
 
 {: .aibook-style-reference-grid}
 
-아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에, 판정과 실행 이력은 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다. P7-5.2는 타일로 합친 비교 이미지를 입력으로 쓰지 않고 이 중 하나의 개별 원본만 선택합니다.
+아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에, 판정과 실행 이력은 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다. P7-5.2는 FLUX.2 Klein 4B 캐릭터 참조 생성에서 타일로 합친 비교 이미지를 입력으로 쓰지 않고 이 중 하나의 개별 원본만 선택합니다.
 
 ## 체크리스트
 
@@ -280,9 +302,9 @@ PASS style pack can be used for character-reference generation
 | 카메라 | 같은 중앙 소실점 반복이 아니라 camera family가 다른가? |
 | 실패 해석 | 실패 원인을 crop이나 `status` 변경으로 덮지 않고 다음 구도·피사체 밀도·광원 조건으로 바꿨는가? |
 | 생성 출처 | 참조 원본이 로컬 GPU 생성 스크립트와 사람 검수 ledger에 연결되고, 내장 이미지 생성 자산이 섞이지 않았는가? |
-| 최종 승인 기록 | 아홉 원본의 사람 승인을 ledger에 남기고, 다음 생성에는 manifest의 개별 원본 하나만 사용했는가? |
+| 최종 승인 기록 | 아홉 원본의 사람 승인을 ledger에 남기고, 다음 FLUX.2 Klein 4B 캐릭터 참조 생성에는 manifest의 개별 원본 하나만 사용했는가? |
 
 ## 출처와 참고 자료
 
-- Black Forest Labs, [FLUX.2 Klein 4B model card](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-03.
-- Hugging Face, [Diffusers FLUX.2 Klein pipeline](https://huggingface.co/docs/diffusers/main/en/api/pipelines/flux2_klein){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-03.
+- Black Forest Labs, [FLUX.2 Klein 4B model card](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-04.
+- Hugging Face, [Diffusers Flux2 pipeline](https://huggingface.co/docs/diffusers/api/pipelines/flux2){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-04.
