@@ -1,0 +1,19 @@
+{
+  "status": "retired_before_regeneration",
+  "purpose": "Record the cleanup of earlier directional-face references and iterative candidates before the compact frontal-face rotation generator is used.",
+  "retained_input": "p7-5-2-face-front-v2.png",
+  "retained_generator": "p7_5_2_research_face_rotation_from_front.py",
+  "removed_assets": [
+    "legacy left profile and rear-hair references",
+    "left front-quarter 30, 45, 50, and 60 degree candidates",
+    "right front-quarter 30, 45, 50, 60, and 70 degree candidates",
+    "right-profile candidates"
+  ],
+  "observations": [
+    "The 50-degree left front-quarter candidate was human approved before the reference-pack cleanup.",
+    "The rear-hair candidate was human approved before the reference-pack cleanup.",
+    "The earlier right-profile candidate was rejected.",
+    "Repeated angle-specific prompts accumulated conflicting crop, rotation, and exclusion instructions."
+  ],
+  "decision": "Retire all directional-face images and regenerate each view from the retained frontal reference with the single compact generator. A generated candidate requires a new human review before registration."
+}

@@ -46,26 +46,6 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아닙니다. 서로 다른 방향에서 대조할 기준을 먼저 고정해, 다음 생성에서 무엇이 바뀌면 안 되는지 사람이 판정할 수 있게 하는 작업 순서입니다.
 
-## 화풍 조건 전신 실험의 한계
-
-이전 실험은 P7-5.1에서 사람 승인된 `outdoor-day-wide` 원본 한 장을 화풍 조건으로 전달했습니다. 이후 다중 참조 비교에서 화풍 조건이 캐릭터 identity와 소품 특징을 평균화해 품질을 낮출 수 있음을 확인했으므로, 이 이미지는 현재 캐릭터 기준 생성의 입력으로 사용하지 않습니다.
-
-![화풍 조건 전신 실험 이미지](../../../assets/part-07/chapter-05/p7-5-2-style-pack-character-master-v1.png)
-
-| 확인 항목 | 관찰 결과 | 판정 |
-| --- | --- | --- |
-| 전신과 무소품 | 머리부터 신발까지 한 인물로 보이며 가방·소품·프레임이 없음 | 승인 |
-| identity 계약 | teal bob, warm light-peach skin, 흰 재킷·charcoal 상의·teal 바지·흰 신발이 유지됨 | 승인 |
-| 선과 채색 | 가는 charcoal 윤곽선과 제한된 색은 유지됐지만, 수채화 색번짐은 약하고 평면 웹툰 채색에 가까움 | baseline 승인, 화풍 보강은 후속 과제 |
-| 다음 범위 | 과거 전신 baseline의 이력 | 현재 기준 생성과 다음 단계 입력에는 사용하지 않음 |
-
-실행은 `FLUX.2-klein-4B`, `768 x 1152`, 8 step, guidance `1.0`, seed `420751`로 29.1초가 걸렸고 GPU peak은 약 2.1 GiB였습니다. 이 수치는 실행 환경의 관찰 기록이지 다른 GPU에서의 성능 보장이 아닙니다.
-
-<details id="style-pack-character-master" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_style_pack_character_master.py" data-language="python">
-<summary>P7-5.1 화풍 원본 기반 전신 실험 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
 ## 승인된 4방향 전신 baseline
 
 캐릭터 기준과 전신 view는 사람 검수를 거쳐 정면, 좌측 측면, 후면, 우측 측면의 네 방향으로 승인되었습니다. 이 네 장은 캐릭터의 기본 비례와 의상·머리·신발의 연속성을 대조하는 기준입니다. 아래의 좌우 전면 쿼터 전신은 이 baseline에서 별도 사람 검수를 통과한 view-specific 보강 기준입니다. 이 승인도 동작, 임의 카메라 각도, P7-5.3의 컷 생성 입력 전체를 보장하지는 않습니다.
@@ -109,20 +89,14 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 승인된 얼굴 방향과 기본 표정
+## 얼굴 회전과 기본 표정
 
-전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 머리핀을 포함한 우측면·우측 전면 3/4은 폐기했습니다. 현재 사람 승인된 방향별 얼굴·머리 detail은 머리 장식 없는 정면, 좌측면, 후면 머리이며 우측 방향은 머리 장식 없이 새로 생성·검수해야 합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
+이전 방향 얼굴 기준과 character master 이미지는 정리했습니다. 현재 남긴 입력은 머리 장식 없는 정면 얼굴 기준 한 장입니다. 좌우 쿼터, 좌우 측면, 후면은 이 정면 기준을 단일 입력으로 하는 통합 스크립트에서 후보를 만든 뒤 사람 검수로만 새 기준에 등록합니다. 후보 생성 자체는 회전·정체성·머리 형태의 통과를 뜻하지 않습니다.
 
-| 정면 얼굴 | 좌측면 얼굴 |
-| --- | --- |
-| ![승인된 머리 장식 없는 정면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-front-v2.png) | ![승인된 머리 장식과 가르마 없는 좌측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-left-no-clip.png) |
-| 후면 머리 | |
-| ![승인된 머리 장식 없는 후면 머리 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-rear-hair.png) | |
-
-| 기준 | 승인 범위 | 아직 승인하지 않은 범위 |
+| 기준 | 현재 상태 | 다음 판정 |
 | --- | --- | --- |
-| 얼굴 방향 | 머리 장식 없는 정면·좌측면·후면 머리 | 머리 장식 없는 우측면·좌우 전면 3/4 |
-| 얼굴 구성 | 눈·코·입·귀·목과 재킷 칼라의 근접 대조 | 카메라 각도 변화에서의 안정성 |
+| 얼굴 방향 | 정면 얼굴 기준만 유지 | 통합 생성의 방향별 후보를 사람 검수 |
+| 얼굴 구성 | 눈·코·입·귀·목의 정면 기준 | 회전 뒤에도 눈·머리·윤곽이 유지되는지 대조 |
 | 표정 | 정면 중립·기쁨·분노·놀람 표정 네 장 | 우려·슬픔 |
 
 | 중립 | 기쁨 |
@@ -131,7 +105,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | 분노 | 놀람 |
 | ![승인된 분노 표정](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-anger.png) | ![승인된 놀람 표정](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-surprise.png) |
 
-[얼굴 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v1-review.json)과 [표정 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-review.json)은 승인 범위를 분리합니다. 표정에서는 배경이나 조명 변화가 아니라 눈썹·눈꺼풀·동공·콧등·콧구멍·입 모양의 차이를 따로 검수해야 합니다.
+[표정 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-review.json)은 표정의 승인 범위를 분리합니다. 표정에서는 배경이나 조명 변화가 아니라 눈썹·눈꺼풀·동공·콧등·콧구멍·입 모양의 차이를 따로 검수해야 합니다.
 
 <details id="expression-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_expression_detail_multiref_flux.py" data-language="python">
 <summary>눈·코·입 변화를 지정하는 표정 detail 생성 코드 보기</summary>
@@ -188,7 +162,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## manifest는 사용 범위를 좁히는 계약이다
 
-[style-conditioned 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-style-pack-character-master-v1.json)과 [4방향 baseline 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-turnaround-review.json)은 source style 원본, prompt, model, seed, 출력과 사람 판정을 함께 기록합니다. 현재 승인 범위는 전신 baseline 네 장입니다. 즉 3/4 turnaround, 동작, camera yaw, 컷신용 캐릭터 참조 팩은 아직 만들지 않았습니다.
+[4방향 baseline 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-turnaround-review.json)은 source style 원본, prompt, model, seed, 출력과 사람 판정을 함께 기록합니다. 현재 승인 범위는 전신 baseline 네 장입니다. 즉 3/4 turnaround, 동작, camera yaw, 컷신용 캐릭터 참조 팩은 아직 만들지 않았습니다.
 
 화풍을 직접 조건으로 받은 캐릭터 팩은 실험 이력으로만 보관합니다. 이후 캐릭터 기준은 얼굴·소품·비례 기준만으로 만들며, 화풍 적용은 컷 생성 또는 보정 단계에서 별도로 검증합니다. 캐릭터 색은 중립 studio 조명에서 정하고, 장면의 야간·노을·비 반사광이 피부나 머리카락 기본색을 다시 정하지 않도록 다음 단계에서 검증합니다.
 
