@@ -26,10 +26,66 @@
     return filename || pathname;
   }
 
+  function appendToken(parent, text, tokenType) {
+    if (!text) {
+      return;
+    }
+    if (!tokenType) {
+      parent.appendChild(document.createTextNode(text));
+      return;
+    }
+
+    const span = document.createElement("span");
+    span.className = `aibook-lazy-source__token aibook-lazy-source__token--${tokenType}`;
+    span.textContent = text;
+    parent.appendChild(span);
+  }
+
+  function tokenTypeForPython(match) {
+    if (match.startsWith("#")) {
+      return "comment";
+    }
+    if (match.startsWith("@")) {
+      return "decorator";
+    }
+    if (/^["']/.test(match) || /^[rubfRUBF]{0,2}["']/.test(match)) {
+      return "string";
+    }
+    if (/^\d/.test(match)) {
+      return "number";
+    }
+    if (/^(False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)$/.test(match)) {
+      return "keyword";
+    }
+    return "name";
+  }
+
+  function highlightPython(code, source) {
+    const tokenPattern =
+      /("""[\s\S]*?"""|'''[\s\S]*?'''|[rRuUbBfF]{0,2}"(?:\\.|[^"\\])*"|[rRuUbBfF]{0,2}'(?:\\.|[^'\\])*'|#[^\n]*|@[A-Za-z_][\w.]*|\b(?:False|None|True|and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\b|\b(?:abs|bool|dict|enumerate|float|int|len|list|open|print|range|set|str|sum|tuple|zip)\b|\b\d+(?:\.\d+)?\b)/g;
+    let cursor = 0;
+    let match = tokenPattern.exec(source);
+    while (match) {
+      appendToken(code, source.slice(cursor, match.index));
+      appendToken(code, match[0], tokenTypeForPython(match[0]));
+      cursor = match.index + match[0].length;
+      match = tokenPattern.exec(source);
+    }
+    appendToken(code, source.slice(cursor));
+  }
+
+  function highlightSource(code, source, language) {
+    if (language === "python") {
+      highlightPython(code, source);
+      return;
+    }
+    code.textContent = source;
+  }
+
   function renderSource(target, source, language) {
     const code = document.createElement("code");
     code.className = `language-${language || "text"}`;
-    code.textContent = source;
+    highlightSource(code, source, language || "text");
 
     const pre = document.createElement("pre");
     pre.className = "aibook-lazy-source__code";
