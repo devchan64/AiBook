@@ -25,7 +25,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
-| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 baseline과 좌우 전면 쿼터 전신, 홍채·동공·헤어핀 정면·좌측면·우측 3/4 및 헤어핀 없는 후면 머리 detail, 중립·기쁨·분노·놀람, 신발·자켓 detail 승인; 우려·슬픔·손 detail은 미승인 |
+| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 baseline과 좌우 전면 쿼터 전신, 홍채·동공·헤어핀 정면·좌측면·우측 3/4 및 헤어핀 없는 후면 머리 detail, 중립·기쁨·분노·놀람, 신발·자켓·바지·가방·머리핀 detail 승인; 우려·슬픔·손 detail은 미승인 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
@@ -149,17 +149,21 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 승인된 신발·자켓 detail
+## 승인된 신발·자켓·바지·가방·머리핀 detail
 
-소품·착용 detail은 전신 reference에서 작게 보이는 부분을 다시 확인하는 기준입니다. 현재 별도 승인 자산은 흰 끈 운동화와 흰색 크롭 유틸리티 자켓입니다. 다이아형 은색 헤어핀과 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다. 이 기준은 가방·장신구·손 소품을 새로 추가해도 된다는 뜻이 아닙니다.
+소품·착용 detail은 전신 reference에서 작게 보이는 부분을 다시 확인하는 기준입니다. 현재 별도 승인 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 짙은 청록색 와이드 팬츠, 짙은 네이비 캔버스 크로스백, 은색 긴 마름모 머리핀입니다. 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다. 이 기준은 손 소품을 새로 추가해도 된다는 뜻이 아닙니다.
 
-| 신발 detail | 자켓 detail |
+| 신발 detail | 자켓 detail | 바지 detail |
+| --- | --- | --- |
+| ![승인된 신발 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-shoes.png) | ![승인된 자켓 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-jacket.png) | ![승인된 바지 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-trousers.png) |
+
+| 가방 detail | 머리핀 detail |
 | --- | --- |
-| ![승인된 신발 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-shoes.png) | ![승인된 자켓 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-jacket.png) |
+| ![승인된 가방 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-crossbody-bag.png) | ![승인된 머리핀 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-hair-clip.png) |
 
-[착용·신체 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-review.json)에는 신발과 자켓만 별도 승인으로 남깁니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+[착용·신체 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-review.json)에는 신발·자켓·바지·가방·머리핀만 별도 승인으로 남깁니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
-소품 master는 [승인 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-master-v1.json)가 가리키는 개별 PNG 두 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발 또는 자켓만 선택해 비교합니다. 헤어핀·크로스백·바지 후보는 아직 이 master에 넣지 않습니다.
+소품 master는 [승인 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-master-v1.json)가 가리키는 개별 PNG 다섯 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방·머리핀만 선택해 비교합니다.
 
 <details id="shoe-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_white_sneaker_style_only.py" data-language="python">
 <summary>화풍 원본만으로 신발 detail을 만드는 코드 보기</summary>
@@ -168,6 +172,21 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 <details id="jacket-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_white_utility_jacket_style_only.py" data-language="python">
 <summary>화풍 원본만으로 자켓 detail을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="trousers-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_teal_wide_leg_trousers_style_only.py" data-language="python">
+<summary>화풍 원본만으로 바지 detail을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="crossbody-bag-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_navy_crossbody_bag_style_only.py" data-language="python">
+<summary>화풍 원본만으로 가방 detail을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="hair-clip-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_silver_diamond_hair_clip.py" data-language="python">
+<summary>화풍 원본만으로 머리핀 detail을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 

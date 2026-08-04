@@ -1,5 +1,5 @@
 {
-  "status": "human_approved_shoe_and_jacket_detail",
+  "status": "human_approved_wardrobe_prop_detail",
   "purpose": "Accessory and body-feature detail review ledger for P7-5.2.",
   "approved_features": [
     {
@@ -15,12 +15,33 @@
       "scope": "matching white cropped utility jacket collar, flap pockets, buttons, seams, and cuffs",
       "generation_basis": "approved P7-5.1 style original only",
       "generation_script": "p7_5_2_research_white_utility_jacket_style_only.py"
+    },
+    {
+      "feature": "trousers",
+      "image": "p7-5-2-feature-detail-v1-trousers.png",
+      "scope": "deep blue-teal high-waisted wide-leg trousers with belt loops, fly, vertical seams, and hems",
+      "generation_basis": "approved P7-5.1 style original only",
+      "generation_script": "p7_5_2_research_teal_wide_leg_trousers_style_only.py"
+    },
+    {
+      "feature": "crossbody_bag",
+      "image": "p7-5-2-feature-detail-v1-crossbody-bag.png",
+      "scope": "deep-navy canvas crossbody bag with a flap, woven textile texture, stitched seams, strap tabs, and an adjustable strap",
+      "generation_basis": "approved P7-5.1 style original only",
+      "generation_script": "p7_5_2_research_navy_crossbody_bag_style_only.py"
+    },
+    {
+      "feature": "hair_clip",
+      "image": "p7-5-2-feature-detail-v1-hair-clip.png",
+      "scope": "flat long-rhombus silver plate with a matching central long-rhombus cutout and rear barrette clasp",
+      "generation_basis": "approved P7-5.1 style original only",
+      "generation_script": "p7_5_2_research_silver_diamond_hair_clip.py"
     }
   ],
   "pending_features": [
     "hands_and_wrists"
   ],
-  "decision": "The replacement shoe detail and white utility-jacket detail are approved. Hair-clip, iris, and pupil criteria are defined by the approved front face detail. Pending features are not approved for cutscene comparison or local repair.",
+  "decision": "The replacement shoe detail, white utility-jacket detail, deep blue-teal trouser detail, deep-navy canvas crossbody-bag detail, and silver long-rhombus hair-clip detail are approved. Iris and pupil criteria are defined by the approved front face detail. Pending features are not approved for cutscene comparison or local repair.",
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
     "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
