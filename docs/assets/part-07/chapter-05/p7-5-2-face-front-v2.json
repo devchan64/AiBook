@@ -1,0 +1,25 @@
+{
+  "status": "human_approved_front_face_reference",
+  "purpose": "Prompt-only front face reference without a hair accessory.",
+  "image": "p7-5-2-face-front-v2.png",
+  "input_policy": "prompt only; no style, face, full-body, prop, or hair-accessory image input",
+  "prompt": "Original adult Korean webtoon woman, strict front head-and-shoulders portrait on off-white paper. Oval face with warm light-peach skin, a soft tapered jaw, a slightly higher straight nose bridge, and a defined nose tip; calm neutral expression. Equal almond cat eyes with subtly upturned outer corners, two-color irises of chestnut brown and amber blended in a subtle radial wave pattern, dark limbal rings, and centered black pupils. Deep teal blue hair in a rounded jaw-length bob: a deep viewer-right side part, one broad fringe sweeping across to the viewer-left forehead, and tapered side locks at the jaw. No hair accessory. No full body, bag, text, border, or extra person.",
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
+  },
+  "generation": {
+    "size": [768, 1024],
+    "steps": 12,
+    "guidance_scale": 1.0,
+    "seed": 62282,
+    "elapsed_seconds": 17.46
+  },
+  "approved_scope": "Strict front face, neutral expression, warm light-peach skin, two-color iris pattern, deep-teal-blue bob, and no hair accessory only.",
+  "excluded_scope": [
+    "body identity or clothing",
+    "profile or three-quarter rotation",
+    "expression range",
+    "cutscene approval"
+  ]
+}

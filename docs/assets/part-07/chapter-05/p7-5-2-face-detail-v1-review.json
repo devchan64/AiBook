@@ -1,7 +1,13 @@
 {
-  "status": "left_profile_and_rear_hair_retained_front_reference_replacement_required",
+  "status": "front_left_profile_and_rear_hair_human_approved_directional_candidates_pending",
   "purpose": "Close face and head reference views for P7-5.2 character comparison.",
   "approved_views": [
+    {
+      "view_id": "front",
+      "image": "p7-5-2-face-front-v2.png",
+      "references": [],
+      "review": "strict front face generated from the face prompt only, with no hair accessory or image input"
+    },
     {
       "view_id": "profile_left",
       "image": "p7-5-2-face-detail-v3-profile-left-no-clip.png",
@@ -19,7 +25,6 @@
     }
   ],
   "pending_views": [
-    "front_without_hair_clip",
     "profile_right_without_hair_clip",
     "three-quarter-right_without_hair_clip",
     "three-quarter-left"
@@ -35,7 +40,7 @@
     "rear-hair reference for the retained left profile",
     "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
   ],
-  "approved_scope": "Left profile without a clip or scalp part, and rear hair-nape-rear-collar detail only. The former front, right-profile, and right-three-quarter references were retired with the hair-clip assets.",
+  "approved_scope": "Prompt-only front face without a hair accessory, left profile without a clip or scalp part, and rear hair-nape-rear-collar detail only. The former right-profile and right-three-quarter references were retired with the hair-clip assets.",
   "excluded_scope": [
     "left-front three-quarter candidates pending human review",
     "facial expressions other than the separately approved neutral expression",
