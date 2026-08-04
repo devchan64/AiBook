@@ -1,0 +1,41 @@
+{
+  "status": "human_approved_for_four_direction_baseline",
+  "view_id": "profile-left",
+  "purpose": "Approved left-profile item in the four-direction full-body baseline.",
+  "pipeline": [
+    {
+      "stage": "temporary independent profile draft",
+      "model": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "resolution": [512, 768],
+      "steps": 28,
+      "seed": 62021
+    },
+    {
+      "stage": "foreground Canny layout",
+      "asset": "p7-5-2-profile-left-canny-layout.png",
+      "method": "GrabCut foreground isolation followed by Canny thresholds 90/190 and external-contour reinforcement"
+    },
+    {
+      "stage": "appearance render",
+      "model": "black-forest-labs/FLUX.2-klein-4B",
+      "runtime": "Flux2KleinPipeline sequential CPU offload",
+      "references": [
+        "p7-5-2-multireference-turnaround-v1-front.png",
+        "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+        "p7-5-2-profile-left-canny-layout.png"
+      ],
+      "resolution": [768, 1152],
+      "steps": 8,
+      "seed": 62021,
+      "output": "p7-5-2-multireference-turnaround-v1-profile-left.png"
+    }
+  ],
+  "approved_review": [
+    "strict left-facing nose, eyes, chin, gaze, shoulders, torso, hips, knees, and toes",
+    "one full body with two coherent legs and planted feet",
+    "teal bob and silver hair clip",
+    "white jacket, teal trousers, and white sneakers",
+    "no bag and no shoulder strap",
+    "no crop, frame, text, or watermark"
+  ]
+}
