@@ -1,23 +1,18 @@
 {
-  "status": "human_approved_face_detail_baseline",
+  "status": "front_human_approved_directional_candidates_pending",
   "purpose": "Close face and head reference views for P7-5.2 character comparison.",
   "approved_views": [
     {
       "view_id": "front",
-      "image": "p7-5-2-face-detail-v1-front.png"
-    },
-    {
-      "view_id": "three-quarter-left",
-      "image": "p7-5-2-face-detail-v1-three-quarter-left.png"
-    },
-    {
-      "view_id": "profile-left",
-      "image": "p7-5-2-face-detail-v1-profile-left.png"
-    },
-    {
-      "view_id": "rear",
-      "image": "p7-5-2-face-detail-v1-rear.png"
+      "image": "p7-5-2-face-detail-v2-front-iris-pupil-spec.png"
     }
+  ],
+  "pending_views": [
+    "three-quarter-left",
+    "profile-left",
+    "three-quarter-right",
+    "profile-right",
+    "rear-hair"
   ],
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
@@ -27,12 +22,13 @@
     "guidance_scale": 1.0
   },
   "inputs": [
-    "approved P7-5.2 full-body front, profile-left, or rear reference as appropriate",
+    "p7-5-2-face-detail-v2-front-iris-pupil-spec.png",
+    "approved P7-5.2 full-body front, profile-left, profile-right, or rear reference as appropriate",
     "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
   ],
-  "approved_scope": "Front, left-front three-quarter, left profile, and rear close references only.",
+  "approved_scope": "Front iris-pupil-hair-clip detail only.",
   "excluded_scope": [
-    "right-side face views",
+    "all regenerated side, three-quarter, and rear-hair candidates pending human review",
     "facial expressions other than the separately approved neutral expression",
     "dynamic pose or camera-yaw evidence",
     "P7-5.3 cutscene approval"

@@ -13,39 +13,27 @@ ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 STYLE = ROOT / "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
 FRONT = ROOT / "p7-5-2-multireference-turnaround-v1-front.png"
 PROFILE_LEFT = ROOT / "p7-5-2-multireference-turnaround-v1-profile-left.png"
-FACE_FRONT = ROOT / "p7-5-2-face-detail-v1-front.png"
-JOY = ROOT / "p7-5-2-expression-detail-v1-joy.png"
 
 FEATURES = {
-    "hair-clip-ear": {
-        "references": [(JOY, None), (STYLE, None)],
-        "size": (768, 768),
-        "framing": "front-left three-quarter close-up from the top of the hair to the lower neck, with the viewer-left temple, ear, and hair clip fully visible",
-        "contract": "one diamond-shaped silver hair clip tilted 45 degrees above the viewer-left temple only, one visible ear, a jaw-length teal bob, no earrings or other jewelry",
-    },
-    "eyes-skin": {
-        "references": [(FACE_FRONT, None), (STYLE, None)],
-        "size": (768, 768),
-        "framing": "straight-on close-up from the hairline to the chin",
-        "contract": "two dark-brown almond eyes, even warm light-peach skin, a small straight nose, a calm closed mouth, and no freckles, scars, makeup marks, or tears",
-    },
     "hands-wrists": {
-        "references": [(FRONT, (0.16, 0.34, 0.84, 0.72)), (STYLE, None)],
-        "size": (768, 640),
-        "framing": "mid-torso crop with both relaxed hands, wrists, jacket cuffs, and upper trousers fully visible",
-        "contract": "two hands with five fingers each, short natural unpainted nails, no rings, bracelets, watch, bag strap, or handheld object",
+        "references": [(FRONT, (0.25, 0.48, 0.43, 0.70)), (STYLE, None)],
+        "size": (768, 768),
+        "output_crop": (0.30, 0.30, 0.72, 0.95),
+        "framing": "single-hand close-up: the character's viewer-left hand, palm, fingers, wrist, and jacket cuff fill at least eighty percent of the frame, cropped directly above the wrist and directly below the fingertips; no second hand, face, torso, trousers, legs, or shoes",
+        "contract": "one anatomically correct hand with exactly five clearly readable fingers, visible palm and wrist, short natural unpainted nails, no rings, bracelets, watch, bag strap, handheld object, or duplicate hand",
     },
     "jacket-hardware": {
-        "references": [(FRONT, (0.14, 0.18, 0.86, 0.58)), (STYLE, None)],
+        "source_detail": (FRONT, (0.25, 0.25, 0.75, 0.43)),
         "size": (768, 768),
-        "framing": "front upper-torso crop from the chin to the waist, with collar, chest pockets, buttons, and both cuffs visible",
-        "contract": "white cropped utility jacket, charcoal shirt, two matching chest pockets, circular silver buttons, and no logo, badge, zipper pull, or hanging strap",
+        "framing": "deterministic jacket-only crop from the approved front reference, from collar to hem; no face, hands, trousers, legs, shoes, or scene",
+        "contract": "approved white cropped utility jacket with two matching chest pockets and circular silver buttons; no reconstructed or newly invented garment detail",
     },
     "shoes": {
-        "references": [(FRONT, (0.16, 0.72, 0.84, 1.0)), (STYLE, None)],
-        "size": (768, 640),
-        "framing": "shoe-focused lower-leg crop from below the knees to the shoe soles, with both sneakers occupying most of the image, both feet planted apart on one ground plane, and both full soles visible",
-        "contract": "one pair of matching plain white lace-up low-top sneakers, clean toe caps, five eyelets per shoe, thin light-gray outsole, and trouser hems covering both ankles completely; no visible skin at the ankles, no ankle chain, sock jewelry, colored logo, heel lift, extra shoe, or hidden sole",
+        "source_detail": (FRONT, (0.33, 0.85, 0.67, 0.99)),
+        "size": (768, 512),
+        "contain_source_detail": True,
+        "framing": "deterministic shoe-only crop from the approved front reference, containing one matching left-right pair of white sneakers and the trouser hems immediately above them; no legs above the hems, face, torso, hands, or scene",
+        "contract": "approved matching plain white lace-up low-top sneakers with clean toe caps, thin light-gray outsole, and trouser hems covering the ankles; no reconstructed footwear or newly invented accessory",
     },
 }
 
@@ -71,6 +59,25 @@ def load_reference(path: Path, crop: tuple[float, float, float, float] | None) -
     return image.crop((round(width * left), round(height * top), round(width * right), round(height * bottom)))
 
 
+def crop_output(image: Image.Image, crop: tuple[float, float, float, float] | None) -> Image.Image:
+    if crop is None:
+        return image
+    width, height = image.size
+    left, top, right, bottom = crop
+    detail = image.crop((round(width * left), round(height * top), round(width * right), round(height * bottom)))
+    return detail.resize((width, height), Image.Resampling.LANCZOS)
+
+
+def fit_source_detail(image: Image.Image, size: tuple[int, int]) -> Image.Image:
+    canvas = Image.new("RGB", size, "#f8f7f2")
+    detail = image.copy()
+    detail.thumbnail(size, Image.Resampling.LANCZOS)
+    left = (size[0] - detail.width) // 2
+    top = (size[1] - detail.height) // 2
+    canvas.paste(detail, (left, top))
+    return canvas
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--feature", choices=FEATURES, nargs="+")
@@ -78,27 +85,41 @@ def main() -> None:
     args = parser.parse_args()
     features = args.feature if args.feature else list(FEATURES)
 
-    pipe = Flux2KleinPipeline.from_pretrained(
-        "black-forest-labs/FLUX.2-klein-4B", torch_dtype=torch.bfloat16, cache_dir="/tmp/flux2-klein-diffusers-cache"
-    )
-    pipe.enable_sequential_cpu_offload()
-    pipe.set_progress_bar_config(disable=True)
+    pipe = None
 
     for feature_id in features:
         feature = FEATURES[feature_id]
         started = time.monotonic()
-        image = pipe(
-            image=[load_reference(path, crop) for path, crop in feature["references"]],
-            prompt=prompt(feature),
-            width=feature["size"][0],
-            height=feature["size"][1],
-            num_inference_steps=8,
-            guidance_scale=1.0,
-            generator=torch.Generator(device="cpu").manual_seed(
-                62300 + list(FEATURES).index(feature_id) + args.seed_offset
-            ),
-            max_sequence_length=256,
-        ).images[0]
+        source_detail = feature.get("source_detail")
+        if source_detail:
+            source_path, source_crop = source_detail
+            image = load_reference(source_path, source_crop)
+            if feature.get("contain_source_detail"):
+                image = fit_source_detail(image, feature["size"])
+            else:
+                image = image.resize(feature["size"], Image.Resampling.LANCZOS)
+        else:
+            if pipe is None:
+                pipe = Flux2KleinPipeline.from_pretrained(
+                    "black-forest-labs/FLUX.2-klein-4B",
+                    torch_dtype=torch.bfloat16,
+                    cache_dir="/tmp/flux2-klein-diffusers-cache",
+                )
+                pipe.enable_sequential_cpu_offload()
+                pipe.set_progress_bar_config(disable=True)
+            image = pipe(
+                image=[load_reference(path, crop) for path, crop in feature["references"]],
+                prompt=prompt(feature),
+                width=feature["size"][0],
+                height=feature["size"][1],
+                num_inference_steps=feature.get("steps", 8),
+                guidance_scale=1.0,
+                generator=torch.Generator(device="cpu").manual_seed(
+                    62300 + list(FEATURES).index(feature_id) + args.seed_offset
+                ),
+                max_sequence_length=256,
+            ).images[0]
+        image = crop_output(image, feature.get("output_crop"))
         output = ROOT / f"p7-5-2-feature-detail-v1-{feature_id}-candidate.png"
         image.save(output)
         print(f"{feature_id}: {time.monotonic() - started:.2f}s -> {output}")
