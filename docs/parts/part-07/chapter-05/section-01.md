@@ -250,45 +250,13 @@ PASS style pack can be used for character-reference generation
 
 ## 승인된 로컬 GPU 원본을 확인한다
 
-아트리움 local-gpu-v5, 창가 독서실 local-gpu-v1과 도심·주택가·옥상 광장·courtyard·베니스·공원·열차 승강장 local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아홉 원본은 manifest에 기록돼 있습니다.
+아트리움 local-gpu-v5, 창가 독서실 local-gpu-v1과 도심·주택가·옥상 광장·courtyard·베니스·공원·열차 승강장 local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아래 아홉 원본은 manifest에 기록돼 있습니다.
 
-- ![새벽의 실내 아트리움을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png)
-
-  **행 승인** · 실내 아트리움 · 새벽 · high angle · local GPU
-
-- ![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png)
-
-  **행 승인** · courtyard · 이른 아침 · high angle · local GPU
-
-- ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png)
-
-  **행 승인** · 창가 독서실 · 밤 · oblique · local GPU v1
-
-- ![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png)
-
-  **행 승인** · 도심 · 낮 · wide eye-level · local GPU
-
-- ![해질녘 주택가를 낮은 시점에서 올려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png)
-
-  **행 승인** · 주택가 · 해질녘 · low angle · local GPU
-
-- ![우천 야간의 옥상 광장을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png)
-
-  **행 승인** · 옥상 광장 · 우천 야간 · overhead high angle · local GPU
-
-- ![해질녘 베니스 운하를 사선으로 본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png)
-
-  **보조 행 승인** · 베니스 운하 · 해질녘 · oblique · local GPU
-
-- ![맑은 낮 공원 연못의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png)
-
-  **보조 행 승인** · 공원 연못 · 낮 · eye-level · local GPU
-
-- ![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png)
-
-  **보조 행 승인** · 열차 승강장 · 우천 야간 · oblique · local GPU
-
-{: .aibook-style-reference-grid}
+| 1열 | 2열 | 3열 |
+| --- | --- | --- |
+| **필수 행 1**<br>![새벽의 실내 아트리움을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png)<br>**행 승인** · 실내 아트리움 · 새벽 · high angle · local GPU v5 | **보조 행 1**<br>![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png)<br>**보조 행 승인** · courtyard · 이른 아침 · high angle · local GPU v1 | **필수 행 2**<br>![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png)<br>**행 승인** · 창가 독서실 · 밤 · oblique · local GPU v1 |
+| **필수 행 3**<br>![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png)<br>**행 승인** · 도심 · 낮 · wide eye-level · local GPU v1 | **필수 행 4**<br>![해질녘 주택가를 낮은 시점에서 올려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png)<br>**행 승인** · 주택가 · 해질녘 · low angle · local GPU v1 | **필수 행 5**<br>![우천 야간의 옥상 광장을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png)<br>**행 승인** · 옥상 광장 · 우천 야간 · overhead high angle · local GPU v1 |
+| **보조 행 2**<br>![해질녘 베니스 운하를 사선으로 본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png)<br>**보조 행 승인** · 베니스 운하 · 해질녘 · oblique · local GPU v1 | **보조 행 3**<br>![맑은 낮 공원 연못의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png)<br>**보조 행 승인** · 공원 연못 · 낮 · eye-level · local GPU v1 | **보조 행 4**<br>![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png)<br>**보조 행 승인** · 열차 승강장 · 우천 야간 · oblique · local GPU v1 |
 
 아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에, 판정과 실행 이력은 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다. P7-5.2는 FLUX.2 Klein 4B 캐릭터 참조 생성에서 타일로 합친 비교 이미지를 입력으로 쓰지 않고 이 중 하나의 개별 원본만 선택합니다.
 
