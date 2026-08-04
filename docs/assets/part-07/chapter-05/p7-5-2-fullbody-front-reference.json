@@ -1,0 +1,28 @@
+{
+  "status": "human_approved_character_reference",
+  "purpose": "Approved prompt-only frontal full-body reference for Mira's current character-reference pack.",
+  "input_policy": "Approved face and four approved prop references only; no style, previous full-body, pose, or hair-accessory image input.",
+  "references": [
+    "p7-5-2-face-front-v2.png",
+    "p7-5-2-prop-reference-v2-jacket.png",
+    "p7-5-2-prop-reference-v2-trousers.png",
+    "p7-5-2-prop-reference-v2-shoes.png",
+    "p7-5-2-prop-reference-v2-crossbody-bag.png"
+  ],
+  "output": "p7-5-2-fullbody-front-reference.png",
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload",
+    "size": [768, 1280],
+    "steps": 12,
+    "guidance_scale": 1.0,
+    "seed": 62285
+  },
+  "contract": {
+    "body": "165 cm adult woman, 7.5 heads tall, neutral front-facing full body",
+    "jacket": "short white cropped utility jacket ending immediately above the trouser waistband",
+    "bag": "deep-navy canvas crossbody at viewer-right hip, with top at the waistband and base at upper thigh; long strap from viewer-left shoulder"
+  },
+  "generation_script": "p7_5_2_research_fullbody_front_no_accessory.py",
+  "decision": "Human approved as the current frontal full-body reference. It supersedes the unapproved V1-V3 candidates; the older style-conditioned turnaround baseline remains an experiment record rather than an input to this reference."
+}

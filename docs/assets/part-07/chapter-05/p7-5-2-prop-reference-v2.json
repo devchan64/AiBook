@@ -6,7 +6,7 @@
     {
       "id": "white_cropped_utility_jacket",
       "image": "p7-5-2-prop-reference-v2-jacket.png",
-      "scope": "white cropped utility-jacket silhouette, collar, flap pockets, buttons, seams, cuffs, and hem"
+      "scope": "white short cropped utility-jacket silhouette ending at the natural waist, with collar, flap pockets, buttons, seams, cuffs, and narrow hem band"
     },
     {
       "id": "deep_teal_blue_wide_leg_trousers",
@@ -27,7 +27,8 @@
   "pending": [],
   "generation_scripts": [
     "p7_5_2_generate_no_style_prop_masters.py",
-    "p7_5_2_research_trousers_deep_teal_blue.py"
+    "p7_5_2_research_trousers_deep_teal_blue.py",
+    "p7_5_2_research_cropped_jacket_reference.py"
   ],
   "review_record": "p7-5-2-no-style-prop-master-review.json",
   "legacy_assets": "The earlier style-conditioned prop assets and the retired hair-clip reference are not part of this prompt-only prop-reference set."

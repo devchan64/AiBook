@@ -1,0 +1,13 @@
+{
+  "status": "human_approved_prop_reference",
+  "purpose": "Replace the jacket prop reference with a visibly shorter natural-waist cropped cut.",
+  "input_policy": "prompt only; no style, face, character, or existing prop image input",
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
+  },
+  "output": "p7-5-2-prop-reference-v2-jacket.png",
+  "prompt": "One isolated white cropped utility jacket in a clean front product view on a plain off-white background. Its short straight body ends at the natural waist: the hem sits immediately below the pocket bottoms, with no lower torso extension. Wide collar, two flap chest pockets, simple front buttons, long sleeves with cuffs, a narrow hem band, and clean seams. Clean product illustration. No person, hanger, text, logo, or other object.",
+  "elapsed_seconds": 18.66,
+  "decision": "Human approved. The shorter natural-waist cropped jacket replaces the earlier jacket prop reference."
+}
