@@ -1,18 +1,24 @@
 {
-  "status": "front_human_approved_directional_candidates_pending",
+  "status": "front_right_three_quarter_rear_human_approved_directional_candidates_pending",
   "purpose": "Close face and head reference views for P7-5.2 character comparison.",
   "approved_views": [
     {
       "view_id": "front",
       "image": "p7-5-2-face-detail-v2-front-iris-pupil-spec.png"
+    },
+    {
+      "view_id": "rear_hair",
+      "image": "p7-5-2-face-detail-v2-rear-hair.png"
+    },
+    {
+      "view_id": "three_quarter_right",
+      "image": "p7-5-2-face-detail-v2-three-quarter-right.png"
     }
   ],
   "pending_views": [
     "three-quarter-left",
     "profile-left",
-    "three-quarter-right",
-    "profile-right",
-    "rear-hair"
+    "profile-right"
   ],
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
@@ -26,9 +32,9 @@
     "approved P7-5.2 full-body front, profile-left, profile-right, or rear reference as appropriate",
     "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
   ],
-  "approved_scope": "Front iris-pupil-hair-clip detail only.",
+  "approved_scope": "Front iris-pupil-hair-clip detail, right-front three-quarter face detail, and rear hair-nape-rear-collar detail only.",
   "excluded_scope": [
-    "all regenerated side, three-quarter, and rear-hair candidates pending human review",
+    "left-front three-quarter and both side candidates pending human review",
     "facial expressions other than the separately approved neutral expression",
     "dynamic pose or camera-yaw evidence",
     "P7-5.3 cutscene approval"

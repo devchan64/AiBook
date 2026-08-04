@@ -36,9 +36,10 @@ VARIANTS = [
     },
     {
         "id": "three-quarter-left",
-        "references": [FRONT_FACE, VIEWS["profile_left"], STYLE],
-        "camera_contract": "front-left three-quarter head-and-shoulders view; face, nose, neck, and shoulders all rotate 45 degrees toward image-left; both eyes remain visible but the image-left eye is narrower; no mirror copy of the front view",
-        "detail_contract": "Preserve the approved dark chestnut-brown iris color, centered pupil, and upper viewer-left catchlight in both visible eyes. Keep one diamond-shaped silver hair clip only on the viewer-left temple, with the face and body turned together.",
+        "references": [VIEWS["profile_left"], FRONT_FACE, STYLE],
+        "camera_contract": "true 45-degree front-left three-quarter head-and-shoulders view, not a near-front portrait: face, nose, neck, and shoulders all rotate toward image-left; the nose tip shifts clearly toward image-left of the face center, the image-left eye is only about sixty percent as wide as the near eye, the image-left cheek is visibly reduced, and the vertical facial midline is not centered or symmetric",
+        "detail_contract": "Preserve the approved dark chestnut-brown iris color, centered pupil, and upper viewer-left catchlight in both visible eyes. The approved front face places exactly one clip on the character's anatomical right temple; preserve that same anatomical placement through the turn, without mirroring it to the left temple. The clip must remain a small 45-degree diamond with four equal edges, never a horizontal rectangle, and must move with the hair and face as one head.",
+        "steps": 16,
         "output": "p7-5-2-face-detail-v2-three-quarter-left-candidate.png",
     },
     {
@@ -50,9 +51,9 @@ VARIANTS = [
     },
     {
         "id": "three-quarter-right",
-        "references": [FRONT_FACE, VIEWS["profile_right"], STYLE],
-        "camera_contract": "front-right three-quarter head-and-shoulders view; face, nose, neck, and shoulders all rotate 45 degrees toward image-right; both eyes remain visible but the image-right eye is narrower; no mirror copy of the front-left three-quarter view",
-        "detail_contract": "Preserve the approved dark chestnut-brown iris color, centered pupil, and upper viewer-left catchlight in both visible eyes. Keep the single diamond-shaped silver hair clip on its original character side; it may be partly hidden by the head rotation but must not move to the opposite temple or duplicate.",
+        "references": [VIEWS["profile_right"], FRONT_FACE, STYLE],
+        "camera_contract": "front-right three-quarter head-and-shoulders view; face, nose, neck, and shoulders all rotate 45 degrees toward image-right; both eyes remain visible but the image-right eye is distinctly narrower, the nose tip is shifted toward image-right, and the far cheek is reduced; no front-facing portrait or mirror copy of the front-left three-quarter view",
+        "detail_contract": "Preserve the approved dark chestnut-brown iris color, centered pupil, and upper viewer-left catchlight in both visible eyes. The approved front face has exactly one small 45-degree diamond clip with four equal edges on the character's anatomical right temple. Keep that same clip attached to the same side through the turn; it may be partly hidden but must never move to the opposite temple, become a rectangle, or duplicate.",
         "output": "p7-5-2-face-detail-v2-three-quarter-right-candidate.png",
     },
     {
@@ -64,19 +65,24 @@ VARIANTS = [
     },
     {
         "id": "rear-hair",
-        "references": [FRONT_FACE, VIEWS["rear"], STYLE],
+        "references": [VIEWS["rear"], FRONT_FACE],
         "camera_contract": "straight rear head-and-shoulders view; show the back of the jaw-length teal bob, nape, rear collar, and both shoulders; show no face, eye, nose, mouth, or front hairline",
-        "detail_contract": "Preserve the bob length, back silhouette, and the original side-specific hair-clip attachment without inventing a second clip. This view defines rear hair only, not facial identity.",
+        "identity_contract": "jaw-length deep teal-blue bob with no visible hair clip or other hair ornament in the rear view, warm light-peach skin at the nape, white cropped utility jacket, and charcoal crew-neck shirt",
+        "detail_contract": "Match the approved front identity in the rear hair: a rounded jaw-length bob with the hem ending evenly across the nape, a small center notch at the lowest hem, deep teal-blue watercolor mass, darker blue-green lower side locks, and thin charcoal strand lines that separate the left and right lock groups. Keep pale blue-white reflected strokes near the upper side locks, not a new hair color. The temple hair clip is occluded from this rear view: show no clip, pin, ornament, or duplicate shape anywhere in the hair. Use a full-bleed image with no panel, border, outer frame, or rectangle around the character. This view defines rear hair only, not facial identity.",
+        "steps": 16,
         "output": "p7-5-2-face-detail-v2-rear-hair-candidate.png",
     },
 ]
 
 
-def prompt(camera_contract: str, detail_contract: str = "") -> str:
+def prompt(camera_contract: str, detail_contract: str = "", identity_contract: str = "") -> str:
+    identity = identity_contract or (
+        "jaw-length deep teal-blue bob, one diamond-shaped silver hair clip, warm light-peach skin, "
+        "dark-brown almond eyes, calm neutral expression, white cropped utility jacket, and charcoal crew-neck shirt"
+    )
     return (
         "Create exactly one original Korean webtoon character face-detail reference, cropped from the top of the hair to the upper chest. "
-        "Keep the same adult woman from the character reference: jaw-length deep teal-blue bob, one diamond-shaped silver hair clip, warm light-peach skin, "
-        "dark-brown almond eyes, calm neutral expression, white cropped utility jacket, and charcoal crew-neck shirt. "
+        f"Keep the same adult woman from the character reference: {identity}. "
         "Transfer only the thin charcoal drawing lines, pale-blue and muted-teal transparent watercolor washes, soft off-white paper tone, and cool-gray shadows "
         "from the style reference. "
         f"Camera contract: {camera_contract}. "
@@ -103,7 +109,11 @@ def main() -> None:
         started = time.monotonic()
         image = pipe(
             image=[Image.open(path).convert("RGB") for path in variant["references"]],
-            prompt=prompt(variant["camera_contract"], variant.get("detail_contract", "")),
+            prompt=prompt(
+                variant["camera_contract"],
+                variant.get("detail_contract", ""),
+                variant.get("identity_contract", ""),
+            ),
             width=768,
             height=1024,
             num_inference_steps=variant.get("steps", 8),
