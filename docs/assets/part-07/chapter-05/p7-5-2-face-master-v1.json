@@ -1,0 +1,26 @@
+{
+  "status": "human_approved_face_master",
+  "purpose": "Prompt-defined front-face identity master for Mira.",
+  "image": "p7-5-2-face-master-v1.png",
+  "input_policy": "Use one approved P7-5.1 style original for rendering treatment and the prompt for all identity details. Do not use a P7-5.2 full-body, face, hair-clip, or prop image as an input.",
+  "style_reference": "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+  "prompt": "One original adult Korean webtoon woman in a strict front head-and-shoulders portrait on off-white paper. Mira has an oval face, warm light-peach skin, a soft tapered jaw, and equal almond eyes. Each eye has a medium chestnut-brown iris with a dark limbal ring, subtle radial amber-brown texture, a centered round black pupil, and one small oval white catchlight at its upper viewer-left; match both eyes exactly. Her hair is a saturated dark petrol-teal bob, never gray, pale aqua, or bright blue: a rounded crown, deep side part above the viewer-left temple, a broad diagonal fringe across the forehead, and separate tapered side locks ending at the jaw. Place one silver long-rhombus hair clip with a matching long-rhombus cutout above that viewer-left temple. Calm neutral expression. Use the style reference only for thin charcoal lines and transparent pale-blue and muted-teal watercolor washes. No full body, bag, text, border, or extra person.",
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
+  },
+  "generation": {
+    "size": [768, 1024],
+    "steps": 12,
+    "guidance_scale": 1.0,
+    "seed": 62271,
+    "elapsed_seconds": 32.93
+  },
+  "approved_scope": "Front face identity, eye specification, petrol-teal bob silhouette, hair-clip design and placement, and neutral expression only.",
+  "excluded_scope": [
+    "body identity or clothing",
+    "profile or three-quarter rotation",
+    "expression range",
+    "cutscene approval"
+  ]
+}

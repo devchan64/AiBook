@@ -1,0 +1,36 @@
+{
+  "status": "human_approved_prop_reference",
+  "purpose": "Approved prompt-only prop references for Mira's character-reference pipeline.",
+  "input_policy": "Each asset was generated from its object prompt only, with no style, face, character, or existing prop image input.",
+  "assets": [
+    {
+      "id": "white_cropped_utility_jacket",
+      "image": "p7-5-2-prop-reference-v2-jacket.png",
+      "scope": "white cropped utility-jacket silhouette, collar, flap pockets, buttons, seams, cuffs, and hem"
+    },
+    {
+      "id": "deep_petrol_blue_teal_wide_leg_trousers",
+      "image": "p7-5-2-prop-reference-v2-trousers.png",
+      "scope": "deep petrol-blue-teal fabric color, high waistband, belt loops, fly, wide-leg silhouette, seams, and hems"
+    },
+    {
+      "id": "white_low_top_sneakers",
+      "image": "p7-5-2-prop-reference-v2-shoes.png",
+      "scope": "matching plain white low-top lace-up sneakers, toe caps, laces, and rubber soles"
+    },
+    {
+      "id": "deep_navy_woven_canvas_crossbody_bag",
+      "image": "p7-5-2-prop-reference-v2-crossbody-bag.png",
+      "scope": "deep-navy woven-canvas fabric, rounded flap, stitched seams, strap tabs, adjustable strap, and clasp"
+    },
+    {
+      "id": "silver_long_rhombus_hair_clip",
+      "image": "p7-5-2-prop-reference-v2-hair-clip.png",
+      "scope": "horizontal long-rhombus silver plate, matching sharp-cornered central long-rhombus cutout, and rear barrette clasp"
+    }
+  ],
+  "pending": [],
+  "generation_script": "p7_5_2_generate_no_style_prop_masters.py",
+  "review_record": "p7-5-2-no-style-prop-master-review.json",
+  "legacy_assets": "The earlier style-conditioned prop assets were retired after this prompt-only reference set was approved."
+}

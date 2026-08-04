@@ -1,0 +1,39 @@
+{
+  "status": "human_approved_front_face_reference",
+  "purpose": "Strict front face reference derived from Mira's approved face and hair-clip masters.",
+  "legacy_hair_clip_input_retired": true,
+  "image": "p7-5-2-face-front-v1.png",
+  "references": [
+    {
+      "image": "p7-5-2-face-master-v1.png",
+      "role": "front face identity, eye specification, hair silhouette, and neutral expression"
+    },
+    {
+      "image": "p7-5-2-feature-detail-v1-hair-clip.png",
+      "role": "long-rhombus plate and matching central cutout"
+    },
+    {
+      "image": "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+      "role": "thin charcoal lines and transparent watercolor rendering only"
+    }
+  ],
+  "prompt": "One original adult Korean webtoon woman in a strict zero-yaw front head-and-shoulders portrait on off-white paper. Preserve the face master: oval face, warm light-peach skin, soft tapered jaw, equal almond eyes, and a calm neutral expression. Both eyes have matching chestnut-brown irises with a dark limbal ring, centered black pupils, and one upper viewer-left oval catchlight. Preserve the dark petrol-teal rounded bob, deep viewer-left side part, diagonal fringe, and jaw-length tapered side locks. Use the hair-clip master only for one silver long-rhombus plate with a matching central long-rhombus cutout, positioned above the viewer-left temple. Use the style reference only for thin charcoal lines and transparent pale-blue and muted-teal watercolor washes. No full body, clothing detail, bag, text, border, or extra person.",
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
+  },
+  "generation": {
+    "size": [768, 1024],
+    "steps": 12,
+    "guidance_scale": 1.0,
+    "seed": 62272,
+    "elapsed_seconds": 63.49
+  },
+  "approved_scope": "Strict front face, neutral expression, face identity, petrol-teal bob, iris-pupil comparison, and one hair-clip placement only.",
+  "excluded_scope": [
+    "body identity or clothing",
+    "profile or three-quarter rotation",
+    "expression range",
+    "cutscene approval"
+  ]
+}

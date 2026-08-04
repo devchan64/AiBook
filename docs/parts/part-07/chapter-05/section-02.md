@@ -5,7 +5,7 @@
 
 웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지, 그 이미지를 학습하거나 직접 참조로 사용한 출력, 그에 따른 LoRA 평가는 이 절의 근거로 사용하지 않습니다.
 
-이 절의 산출물은 완성 컷이나 학습된 모델이 아닙니다. 다음 단계가 사용할 수 있는지 사람 검수한 전신 master, view별 원본, 생성 기록, 그리고 아직 사용할 수 없는 범위를 적은 manifest입니다. 장면 속 pose, projection, 배경을 바꾸는 전체 컷 생성은 `P7-5.3`의 책임이고, 통과 컷의 얼굴·손·소품·연속성 보정은 `P7-5.4`에서 별도로 검증합니다.
+이 절의 산출물은 완성 컷이나 학습된 모델이 아닙니다. 다음 단계가 사용할 수 있는지 사람 검수한 전신 기준, view별 원본, 생성 기록, 그리고 아직 사용할 수 없는 범위를 적은 manifest입니다. 장면 속 pose, projection, 배경을 바꾸는 전체 컷 생성은 `P7-5.3`의 책임이고, 통과 컷의 얼굴·손·소품·연속성 보정은 `P7-5.4`에서 별도로 검증합니다.
 
 ## 먼저 통과해야 하는 두 가지 gate
 
@@ -14,10 +14,10 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | gate | 필요한 근거 | 현재 처리 원칙 |
 | --- | --- | --- |
 | P7-5.1 화풍 | 사람 승인된 로컬 GPU 배경 원본, 검수 ledger, 최종 manifest | 최종 manifest 전에는 P7-5.2의 review-only 실험으로만 원본 하나를 style input으로 사용 |
-| P7-5.2 인물 | 로컬 GPU 전신 master, view별 원본, 실행 기록, 사람 검수 manifest | 승인된 정면·좌측 측면·후면·우측 측면 baseline과 좌우 전면 쿼터 전신만 참조로 사용 |
-| P7-5.3 컷신 | pose·camera·장소·소품이 함께 통과한 전체 컷 | 이 절의 단일 master만으로 통과 처리하지 않음 |
+| P7-5.2 인물 | 로컬 GPU 전신 기준, view별 원본, 실행 기록, 사람 검수 manifest | 승인된 정면·좌측 측면·후면·우측 측면 baseline과 좌우 전면 쿼터 전신만 참조로 사용 |
+| P7-5.3 컷신 | pose·camera·장소·소품이 함께 통과한 전체 컷 | 이 절의 단일 기준만으로 통과 처리하지 않음 |
 
-따라서 `P7-5.1`의 manifest가 비어 있으면, 그 화풍을 직접 조건으로 넣은 캐릭터 팩을 다음 단계 입력으로 승인할 수 없습니다. 다만 사람 승인된 개별 P7-5.1 원본 하나로 **P7-5.2 review-only master**를 만드는 실험은 가능합니다. 이 실험은 화풍이 인물의 선·채색으로 옮겨가는지 확인하는 용도이며, P7-5.1 manifest나 P7-5.3 입력 범위를 넓히지 않습니다.
+화풍을 직접 조건으로 넣은 캐릭터 팩은 이후 기준 생성에 사용하지 않습니다. 이 절에 남아 있는 P7-5.1 화풍 조건 실험은 선·채색 전이의 실패 가능성을 기록한 이력이며, P7-5.2 기준이나 P7-5.3 입력 범위를 넓히지 않습니다.
 
 ## 캐릭터 패키지 구성요소
 
@@ -38,7 +38,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 순서 | 입력 참조와 역할 | 생성·검수 산출물 | 다음 단계에서 고정하는 정보 |
 | --- | --- | --- | --- |
-| 1. 화풍·전신 master | P7-5.1 승인 화풍 원본: 선·투명 수채화만 전달 | 전신 character master | 기본 색·의상·전신 비례의 출발점 |
+| 1. 전신 기준 | 정면 얼굴 기준과 승인 소품 기준: identity·의상·소품 전달 | 전신 기준 후보 | 기본 색·의상·전신 비례의 출발점 |
 | 2. 전신 정면·후면 | 정면은 얼굴·의상 identity, 후면은 뒷머리·재킷 후면을 확인 | 승인된 정면·후면 전신 | 좌·우 측면에서 대조할 앞·뒤 기준 |
 | 3. 좌측 전신 측면 | 정면 전신: 얼굴·의상 identity; 후면 전신: 장식 없는 뒷머리·재킷; P7-5.1 원본: 화풍 | 승인된 좌측 전신 측면 | 좌향 실루엣, 무헤어핀, 가르마 없음 |
 | 4. 좌측면 얼굴 | 정면 얼굴: 홍채·동공·피부·칼라; 후면 머리: bob 길이·장식 없음; P7-5.1 원본: 화풍 | 승인된 좌측면 얼굴 | 한쪽 눈 좌향 프로필, 무헤어핀, 가르마 없음 |
@@ -46,29 +46,29 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아닙니다. 서로 다른 방향에서 대조할 기준을 먼저 고정해, 다음 생성에서 무엇이 바뀌면 안 되는지 사람이 판정할 수 있게 하는 작업 순서입니다.
 
-## P7-5.1 화풍 원본으로 만든 첫 전신 master
+## 화풍 조건 전신 실험의 한계
 
-화풍 참조 패키지는 사람 비교를 위해 여러 장을 모은 것이고, 현재의 로컬 pipeline은 타일 시트를 입력으로 받지 않습니다. 그래서 이 실험은 P7-5.1에서 사람 승인된 `outdoor-day-wide` 원본 한 장을 선택해, 그 이미지의 선과 투명 수채화 언어만 조건으로 전달했습니다. 인물의 이름·머리·피부·의상·전신 구도는 prompt에서 별도로 고정했습니다.
+이전 실험은 P7-5.1에서 사람 승인된 `outdoor-day-wide` 원본 한 장을 화풍 조건으로 전달했습니다. 이후 다중 참조 비교에서 화풍 조건이 캐릭터 identity와 소품 특징을 평균화해 품질을 낮출 수 있음을 확인했으므로, 이 이미지는 현재 캐릭터 기준 생성의 입력으로 사용하지 않습니다.
 
-![P7-5.1 화풍 원본으로 생성한 P7-5.2 전신 캐릭터 master](../../../assets/part-07/chapter-05/p7-5-2-style-pack-character-master-v1.png)
+![화풍 조건 전신 실험 이미지](../../../assets/part-07/chapter-05/p7-5-2-style-pack-character-master-v1.png)
 
 | 확인 항목 | 관찰 결과 | 판정 |
 | --- | --- | --- |
 | 전신과 무소품 | 머리부터 신발까지 한 인물로 보이며 가방·소품·프레임이 없음 | 승인 |
 | identity 계약 | teal bob, warm light-peach skin, 흰 재킷·charcoal 상의·teal 바지·흰 신발이 유지됨 | 승인 |
 | 선과 채색 | 가는 charcoal 윤곽선과 제한된 색은 유지됐지만, 수채화 색번짐은 약하고 평면 웹툰 채색에 가까움 | baseline 승인, 화풍 보강은 후속 과제 |
-| 다음 범위 | 정면 master를 포함한 네 방향 전신 확인을 마침 | 3/4 turnaround, pose, cutscene에는 사용 금지 |
+| 다음 범위 | 과거 전신 baseline의 이력 | 현재 기준 생성과 다음 단계 입력에는 사용하지 않음 |
 
 실행은 `FLUX.2-klein-4B`, `768 x 1152`, 8 step, guidance `1.0`, seed `420751`로 29.1초가 걸렸고 GPU peak은 약 2.1 GiB였습니다. 이 수치는 실행 환경의 관찰 기록이지 다른 GPU에서의 성능 보장이 아닙니다.
 
 <details id="style-pack-character-master" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_style_pack_character_master.py" data-language="python">
-<summary>P7-5.1 화풍 원본 기반 전신 master 생성 코드 보기</summary>
+<summary>P7-5.1 화풍 원본 기반 전신 실험 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
 ## 승인된 4방향 전신 baseline
 
-캐릭터 master와 전신 view는 사람 검수를 거쳐 정면, 좌측 측면, 후면, 우측 측면의 네 방향으로 승인되었습니다. 이 네 장은 캐릭터의 기본 비례와 의상·머리·신발의 연속성을 대조하는 기준입니다. 아래의 좌우 전면 쿼터 전신은 이 baseline에서 별도 사람 검수를 통과한 view-specific 보강 기준입니다. 이 승인도 동작, 임의 카메라 각도, P7-5.3의 컷 생성 입력 전체를 보장하지는 않습니다.
+캐릭터 기준과 전신 view는 사람 검수를 거쳐 정면, 좌측 측면, 후면, 우측 측면의 네 방향으로 승인되었습니다. 이 네 장은 캐릭터의 기본 비례와 의상·머리·신발의 연속성을 대조하는 기준입니다. 아래의 좌우 전면 쿼터 전신은 이 baseline에서 별도 사람 검수를 통과한 view-specific 보강 기준입니다. 이 승인도 동작, 임의 카메라 각도, P7-5.3의 컷 생성 입력 전체를 보장하지는 않습니다.
 
 | 정면 | 좌측 측면 |
 | --- | --- |
@@ -85,7 +85,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 승인된 좌우 전면 쿼터 전신
 
-전면 쿼터 전신은 정면 master를 유일한 identity 기준으로 두고, 사람 검수에서 통과한 방향만 별도 자산으로 고정합니다. 좌측은 좌향 전신 방향을, 우측은 몸을 우향 30도 두고 얼굴은 카메라를 향하게 한 방향을 승인했습니다.
+전면 쿼터 전신은 정면 기준을 유일한 identity 기준으로 두고, 사람 검수에서 통과한 방향만 별도 자산으로 고정합니다. 좌측은 좌향 전신 방향을, 우측은 몸을 우향 30도 두고 얼굴은 카메라를 향하게 한 방향을 승인했습니다.
 
 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
 | --- | --- |
@@ -98,13 +98,29 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
+## 얼굴 기준: prompt로 정한다
+
+얼굴 기준은 얼굴형·홍채·머리·머리핀·표정을 prompt로 정의합니다. 기존 화풍 조건 얼굴 자산은 생성 이력을 보존하되, 이후에는 화풍 이미지를 입력으로 받지 않는 별도 버전으로 교체합니다. 얼굴 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
+
+![기존 얼굴 기준 실험 이미지](../../../assets/part-07/chapter-05/p7-5-2-face-master-v1.png)
+
+<details id="face-master-style-prompt" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_generate_face_master.py" data-language="python">
+<summary>기존 화풍 조건 얼굴 실험 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="face-front-from-masters" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_generate_face_front_from_master.py" data-language="python">
+<summary>기존 얼굴 기준·머리핀 기준·화풍 원본으로 정면 얼굴을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
 ## 승인된 얼굴 방향과 기본 표정
 
-전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 현재 사람 승인된 얼굴·머리 detail은 홍채·동공·헤어핀을 포함한 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 정면 전신 master 하나에서 만든 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
+전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 위의 얼굴 기준과 별도로, 현재 사람 승인된 방향별 얼굴·머리 detail은 기존 얼굴 기준·머리핀 기준·화풍 원본에서 만든 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 정면 전신 기준 하나에서 만든 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 기존 정면 홍채 detail은 눈 규격 대조에 유지합니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
 
 | 정면 얼굴 | 좌측면 얼굴 |
 | --- | --- |
-| ![승인된 홍채·동공·헤어핀 정면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-front-iris-pupil-spec.png) | ![승인된 헤어핀과 가르마 없는 좌측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-left-no-clip.png) |
+| ![승인된 얼굴 기준 기반 정면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-front-v1.png) | ![승인된 헤어핀과 가르마 없는 좌측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-left-no-clip.png) |
 | 우측면 얼굴 | 우측 전면 3/4 |
 | ![승인된 앞머리 헤어핀과 귀가 보이는 우측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-right-front-clip.png) | ![정면 전신 기준으로 승인된 우측 전면 3/4 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-three-quarter-right-from-fullbody.png) |
 | 후면 머리 | |
@@ -149,44 +165,33 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 승인된 신발·자켓·바지·가방·머리핀 detail
+## 승인된 소품 기준: 신발·자켓·바지·가방
 
-소품·착용 detail은 전신 reference에서 작게 보이는 부분을 다시 확인하는 기준입니다. 현재 별도 승인 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 짙은 청록색 와이드 팬츠, 짙은 네이비 캔버스 크로스백, 은색 긴 마름모 머리핀입니다. 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다. 이 기준은 손 소품을 새로 추가해도 된다는 뜻이 아닙니다.
+소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 짙은 패트롤 청록 와이드 팬츠, 짙은 네이비 캔버스 크로스백, 은색 긴 마름모 머리핀입니다. 머리핀은 외곽과 중앙 타공이 모두 날카로운 꼭짓점을 가진 가로 긴 마름모입니다. 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다.
 
-| 신발 detail | 자켓 detail | 바지 detail |
+| 신발 기준 | 자켓 기준 | 바지 기준 |
 | --- | --- | --- |
-| ![승인된 신발 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-shoes.png) | ![승인된 자켓 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-jacket.png) | ![승인된 바지 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-trousers.png) |
+| ![승인된 신발 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-shoes.png) | ![승인된 자켓 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket.png) | ![승인된 바지 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-trousers.png) |
 
-| 가방 detail | 머리핀 detail |
-| --- | --- |
-| ![승인된 가방 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-crossbody-bag.png) | ![승인된 머리핀 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-hair-clip.png) |
+| 가방 기준 |
+| --- |
+| ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-crossbody-bag.png) |
 
-[착용·신체 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-review.json)에는 신발·자켓·바지·가방·머리핀만 별도 승인으로 남깁니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+| 머리핀 기준 |
+| --- |
+| ![승인된 머리핀 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-hair-clip.png) |
 
-소품 master는 [승인 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-master-v1.json)가 가리키는 개별 PNG 다섯 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방·머리핀만 선택해 비교합니다.
+[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json)와 [prompt-only 생성 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json)은 신발·자켓·바지·가방·머리핀의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
-<details id="shoe-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_white_sneaker_style_only.py" data-language="python">
-<summary>화풍 원본만으로 신발 detail을 만드는 코드 보기</summary>
+소품 기준 v2는 개별 PNG 다섯 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방·머리핀만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
+
+<details id="no-style-prop-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py" data-language="python">
+<summary>화풍 입력 없이 소품 기준을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-<details id="jacket-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_white_utility_jacket_style_only.py" data-language="python">
-<summary>화풍 원본만으로 자켓 detail을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
-<details id="trousers-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_teal_wide_leg_trousers_style_only.py" data-language="python">
-<summary>화풍 원본만으로 바지 detail을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
-<details id="crossbody-bag-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_navy_crossbody_bag_style_only.py" data-language="python">
-<summary>화풍 원본만으로 가방 detail을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
-<details id="hair-clip-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_silver_diamond_hair_clip.py" data-language="python">
-<summary>화풍 원본만으로 머리핀 detail을 만드는 코드 보기</summary>
+<details id="no-style-hair-clip-reference" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_no_style_hair_clip_v2.py" data-language="python">
+<summary>새 긴 마름모 머리핀 기준을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -201,8 +206,8 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 | 코드 | 하는 일 | 조작할 값 |
 | --- | --- | --- |
-| style-pack character master | 승인된 P7-5.1 원본 하나를 조건으로 P7-5.2 전신 후보 생성 | `STYLE_SCENE_ID`, `SEED`, prompt, step |
-| Canny 없는 좌측 측면 | 승인 정면 master와 화풍 원본 두 장으로 좌측 전신 후보 생성 | `SEED`, strict profile prompt, 참조 원본 |
+| style-pack character experiment | 승인된 P7-5.1 원본 하나를 조건으로 P7-5.2 전신 후보 생성 | `STYLE_SCENE_ID`, `SEED`, prompt, step |
+| Canny 없는 좌측 측면 | 승인 정면 기준과 화풍 원본 두 장으로 좌측 전신 후보 생성 | `SEED`, strict profile prompt, 참조 원본 |
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
@@ -215,7 +220,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 [style-conditioned 실행 기록](../../../assets/part-07/chapter-05/p7-5-2-style-pack-character-master-v1.json)과 [4방향 baseline 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-turnaround-review.json)은 source style 원본, prompt, model, seed, 출력과 사람 판정을 함께 기록합니다. 현재 승인 범위는 전신 baseline 네 장입니다. 즉 3/4 turnaround, 동작, camera yaw, 컷신용 캐릭터 참조 팩은 아직 만들지 않았습니다.
 
-P7-5.1 화풍을 직접 조건으로 받는 캐릭터 팩은 별도의 로컬 GPU 실행과 별도 사람 검수가 필요합니다. 위의 master도 P7-5.1 최종 manifest와 P7-5.2 character manifest가 각각 승인되기 전에는 P7-5.3 입력으로 연결하지 않습니다. 캐릭터 색은 중립 studio 조명에서 정하고, 장면의 야간·노을·비 반사광이 피부나 머리카락 기본색을 다시 정하지 않도록 다음 단계에서 검증합니다.
+화풍을 직접 조건으로 받은 캐릭터 팩은 실험 이력으로만 보관합니다. 이후 캐릭터 기준은 얼굴·소품·비례 기준만으로 만들며, 화풍 적용은 컷 생성 또는 보정 단계에서 별도로 검증합니다. 캐릭터 색은 중립 studio 조명에서 정하고, 장면의 야간·노을·비 반사광이 피부나 머리카락 기본색을 다시 정하지 않도록 다음 단계에서 검증합니다.
 
 ## 캐릭터셋 체크리스트
 
@@ -229,7 +234,7 @@ P7-5.1 화풍을 직접 조건으로 받는 캐릭터 팩은 별도의 로컬 GP
 | 비교 | 같은 scene·camera·seed에서 학습 또는 reference 조건 하나만 바꿔 비교했는가? |
 | 품질 | 얼굴, 머리, 의상, 신발, 화풍을 각각 판정했고 기본색이 장면 광원 때문에 바뀌지 않았는가? |
 | 전체 컷 | reference·pose·camera를 한 화면에서 통과시킨 뒤에만 bag/strap 국소 보정을 검토하는가? |
-| 생성 출처 | master와 view 원본 모두 외부 생성 서비스가 아니라 로컬 GPU로 생성됐는가? |
+| 생성 출처 | 기준과 view 원본 모두 외부 생성 서비스가 아니라 로컬 GPU로 생성됐는가? |
 | 좌우 view | mirror를 쓴 view가 무소품·대칭 계약 안에만 있는가? |
 | 다음 단계 | P7-5.1과 P7-5.2의 manifest가 각각 허용한 개별 원본만 다음 단계에 넘기는가? |
 

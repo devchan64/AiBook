@@ -1,0 +1,57 @@
+{
+  "status": "human_approved_no_style_prop_references",
+  "purpose": "Generate replacement prop-reference candidates without a style-image or style prompt input.",
+  "input_policy": "prompt only; no style, face, character, or existing prop image input",
+  "promoted_assets": {
+    "jacket": "p7-5-2-prop-reference-v2-jacket.png",
+    "trousers": "p7-5-2-prop-reference-v2-trousers.png",
+    "shoes": "p7-5-2-prop-reference-v2-shoes.png",
+    "crossbody_bag": "p7-5-2-prop-reference-v2-crossbody-bag.png",
+    "hair_clip": "p7-5-2-prop-reference-v2-hair-clip.png"
+  },
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
+  },
+  "runs": [
+    {
+      "id": "hair_clip",
+      "output": "p7-5-2-no-style-prop-hair-clip-candidate.png",
+      "prompt": "One isolated silver hair clip on a plain off-white background. A flat long-rhombus metal plate with a broad smooth rim and one matching long-rhombus cutout through the center; a short barrette clasp behind it. Clean product illustration. No gem, pattern, person, text, logo, or other object.",
+      "elapsed_seconds": 14.39
+    },
+    {
+      "id": "jacket",
+      "output": "p7-5-2-no-style-prop-jacket-candidate.png",
+      "prompt": "One isolated white cropped utility jacket in a clean front view on a plain off-white background. Wide collar, two flap chest pockets, simple front buttons, long sleeves with cuffs, clean seams, and a cropped hem. Clean product illustration. No person, hanger, text, logo, or other object.",
+      "elapsed_seconds": 17.72
+    },
+    {
+      "id": "trousers",
+      "output": "p7-5-2-no-style-prop-trousers-candidate.png",
+      "prompt": "One isolated pair of deep saturated petrol-blue-teal high-waisted wide-leg trousers in a clean front view on a plain off-white background. Belt loops, center fly, crisp vertical seams, straight wide legs, and hems above the shoe collar. Clean product illustration. No person, hanger, text, logo, or other object.",
+      "elapsed_seconds": 17.71
+    },
+    {
+      "id": "shoes",
+      "output": "p7-5-2-no-style-prop-shoes-candidate.png",
+      "prompt": "One matching pair of plain white low-top lace-up sneakers, arranged in a clean three-quarter product view on a plain off-white background. Rounded toe caps, white laces, white rubber soles, and minimal stitching. Clean product illustration. No person, text, logo, or other object.",
+      "elapsed_seconds": 14.74
+    },
+    {
+      "id": "crossbody_bag",
+      "output": "p7-5-2-no-style-prop-crossbody-bag-candidate.png",
+      "prompt": "One isolated compact deep-navy woven-canvas crossbody bag in a clean three-quarter front view on a plain off-white background. Small horizontal rounded flap, visible textile weave, stitched seams, reinforced strap tabs, charcoal adjustable canvas strap, and one small silver clasp. Clean product illustration. No leather, person, text, logo, or other object.",
+      "elapsed_seconds": 14.8
+    }
+  ],
+  "human_review": {
+    "approved": [
+      "jacket",
+      "trousers",
+      "shoes",
+      "crossbody_bag"
+    ]
+  },
+  "decision": "The approved jacket, trousers, shoes, crossbody bag, and redesigned hair clip are promoted as P7-5.2 prop-reference v2."
+}
