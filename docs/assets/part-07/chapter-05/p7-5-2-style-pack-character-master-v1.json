@@ -1,5 +1,5 @@
 {
-  "status": "review_required_not_character_pack_approved",
+  "status": "human_approved_for_four_direction_baseline",
   "purpose": "P7-5.2 style-pack-conditioned full-body character-master experiment",
   "source_style_ledger": "p7-5-1-local-style-pack-review.json",
   "source_style_run": "style-downtown-clear-day-wide-local-gpu-v1-420703",

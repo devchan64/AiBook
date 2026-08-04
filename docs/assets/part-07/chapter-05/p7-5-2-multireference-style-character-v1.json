@@ -1,0 +1,67 @@
+{
+  "status": "not_adopted_outputs_removed",
+  "purpose": "P7-5.2 multi-reference ablation: character identity plus P7-5.1 style treatment",
+  "baseline": "p7-5-2-style-pack-character-master-v1.png",
+  "style_source": {
+    "run_id": "style-downtown-clear-day-wide-local-gpu-v1-420703",
+    "scene_id": "outdoor-day-wide",
+    "image": "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png"
+  },
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload",
+    "size": [
+      768,
+      1152
+    ],
+    "steps": 8,
+    "guidance_scale": 1.0,
+    "seed": 420761
+  },
+  "prompt": "Create exactly one original full-body adult Korean webtoon character reference illustration. Keep the same one woman, complete body, facial proportions, jaw-length deep teal-blue bob, warm light-peach skin, white cropped utility jacket, charcoal crew-neck shirt, teal wide-leg trousers, and white sneakers from the character reference. Transfer the visual treatment from the style reference: thin living charcoal contours with slight line-weight variation, transparent watercolor washes with pale-blue and muted-teal pigment pooling at clothing folds and ground-shadow edges, soft off-white paper tone, and restrained cool-gray reflected shadows. Use a quiet off-white studio background made from a light watercolor wash, not a flat digital fill. No bag, jewelry, handheld object, extra person, cropped body, panel border, outer frame line, text, logo, watermark, photorealism, screentones, glossy cel-shading, solid opaque shadow blocks, heavy hatching, or dramatic colored lighting.",
+  "runs": [
+    {
+      "variant": "character-then-style",
+      "reference_order": [
+        "p7-5-2-style-pack-character-master-v1.png",
+        "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png"
+      ],
+      "output_image": "removed_after_human_review",
+      "elapsed_seconds": 36.5,
+      "result": "not adopted; output PNG removed"
+    },
+    {
+      "variant": "style-then-character",
+      "reference_order": [
+        "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+        "p7-5-2-style-pack-character-master-v1.png"
+      ],
+      "output_image": "removed_after_human_review",
+      "elapsed_seconds": 36.9,
+      "result": "not adopted; output PNG removed"
+    }
+  ],
+  "review_keys": [
+    "complete body and identity retention",
+    "watercolor pigment pooling and paper tone",
+    "line-weight variation without hatching",
+    "no glossy cel-shading or opaque shadow blocks",
+    "no prop, frame, text, or extra person"
+  ],
+  "excluded_scope": [
+    "turnaround expansion",
+    "cutscene generation",
+    "P7-5.3 approval"
+  ],
+  "retained_artifacts": [
+    "This review record"
+  ],
+  "removed_artifacts": [
+    "Both unapproved comparison PNGs",
+    "The unreferenced ablation runner",
+    "The duplicate single-variant run record"
+  ],
+  "elapsed_seconds": 74.3,
+  "gpu_memory_before_mib": 628,
+  "gpu_memory_peak_mib": 2923
+}
