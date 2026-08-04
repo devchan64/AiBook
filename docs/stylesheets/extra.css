@@ -223,6 +223,57 @@
   white-space: inherit;
 }
 
+.md-typeset .aibook-lazy-source--from-link > summary {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.md-typeset .aibook-lazy-source--from-link > summary::after {
+  color: var(--md-default-fg-color--light);
+  content: "열기";
+  flex: none;
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.md-typeset .aibook-lazy-source--from-link[open] > summary::after {
+  content: "닫기";
+}
+
+.md-typeset .aibook-lazy-source__title {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.8rem;
+  min-width: 0;
+}
+
+.md-typeset .aibook-lazy-source__label {
+  min-width: 0;
+}
+
+.md-typeset .aibook-lazy-source__filename {
+  color: var(--md-default-fg-color--light);
+  font-family: var(--md-code-font-family);
+  font-size: 0.66rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.md-typeset .aibook-lazy-source__meta {
+  background: var(--md-default-fg-color--lightest);
+  border-radius: 999px;
+  color: var(--md-default-fg-color--light);
+  flex: none;
+  font-size: 0.64rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.22rem 0.4rem;
+  text-transform: uppercase;
+}
+
 @media screen and (max-width: 44.9375em) {
   .md-typeset .aibook-lazy-source > summary {
     padding: 0.55rem 0.6rem;
@@ -236,50 +287,6 @@
     font-size: 0.72rem;
     line-height: 1.45;
   }
-}
-
-.md-typeset ul.aibook-style-reference-grid {
-  display: grid;
-  gap: 0.9rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  list-style: none;
-  margin: 1rem 0;
-  padding: 0;
-}
-
-.md-typeset ul.aibook-style-reference-grid > li {
-  background: var(--md-default-bg-color);
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 0.25rem;
-  margin: 0;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.md-typeset ul.aibook-style-reference-grid > li > p:first-child img {
-  aspect-ratio: 2 / 3;
-  display: block;
-  height: auto;
-  margin: 0;
-  object-fit: cover;
-  width: 100%;
-}
-
-.md-typeset ul.aibook-style-reference-grid > li > p:last-child {
-  border-top: 1px solid var(--md-default-fg-color--lightest);
-  line-height: 1.45;
-  margin: 0;
-  padding: 0.55rem 0.65rem;
-}
-
-.md-typeset ul.aibook-style-reference-grid > li > p:last-child strong {
-  color: var(--md-primary-fg-color);
-  font-size: 0.72rem;
-}
-
-.md-typeset ul.aibook-style-reference-grid > li > p:last-child {
-  color: var(--md-default-fg-color--light);
-  font-size: 0.72rem;
 }
 
 .md-main,
@@ -310,11 +317,6 @@
 
   .md-content__inner {
     padding-left: 0;
-  }
-
-  .md-typeset ul.aibook-style-reference-grid {
-    gap: 0.7rem;
-    grid-template-columns: 1fr;
   }
 
   .md-content__inner > :is(

@@ -128,10 +128,7 @@ P7-5.1이 다음 단계에 넘기는 것은 FLUX.2 Klein 4B가 따라야 할 얇
 
 이전의 시간대 균형 배치와 표적 재생성 파일은 같은 실행 골격에 당시의 `SCENES`만 기록한 이력입니다. 따라서 별도의 생성 방법이나 두 번째 실행 경로로 설명하지 않습니다. P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용할 수 있으며, 내장 이미지 생성으로 만든 자산은 입력·승인·manifest에서 제외했습니다.
 
-<details id="local-gpu-style-reference-regeneration" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py" data-language="python">
-<summary>아홉 로컬 GPU 화풍 후보 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
+[아홉 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py){.aibook-source-link}
 
 ### 공통 화풍 계약과 장면 조건이 만나는 코드
 
@@ -231,10 +228,7 @@ PASS style pack can be used for character-reference generation
 
 일부 행만 승인됐으면 matrix가 완전하더라도 gate는 `BLOCKED`여야 합니다. 반대로 status만 사람이 바꾸어도 실제 행별 원본·검수 이유가 없다면 통과로 다뤄서는 안 됩니다. 이 코드는 그 근거를 만들어 주지 않고, 사람이 남긴 근거와 다음 단계 상태가 서로 어긋나는지를 확인하는 보호 장치입니다.
 
-<details id="local-style-pack-gate" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py" data-language="python">
-<summary>화풍 참조 팩 검수 gate 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
+[화풍 참조 팩 검수 gate 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py){.aibook-source-link}
 
 ## 실패 원인을 다음 프롬프트의 구조로 바꾸기
 
