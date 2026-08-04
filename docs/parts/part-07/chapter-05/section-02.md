@@ -25,12 +25,26 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
-| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 전신, 홍채·동공·헤어핀 정면·우측 3/4 및 헤어핀 없는 후면 머리 detail, 중립·기쁨·분노·놀람, 신발 detail 승인; 좌측 3/4·좌우 측면과 우려·슬픔·손·재킷 detail은 미승인 |
+| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 전신, 홍채·동공·헤어핀 정면·좌측면·우측 3/4 및 헤어핀 없는 후면 머리 detail, 중립·기쁨·분노·놀람, 신발 detail 승인; 좌측 3/4·우측면과 우려·슬픔·손·재킷 detail은 미승인 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
 
 이 pipeline은 여러 이미지를 타일 시트로 합쳐 모델에 넣지 않습니다. 참조 입력에는 manifest가 가리키는 개별 PNG 하나만 사용합니다. train과 held-out은 단지 파일 수를 맞추는 폴더가 아니라, source ID·장소·camera를 분리해 캐릭터를 외운 결과와 새 장면에 적용한 결과를 구분하는 장치입니다.
+
+## 참조 관계와 생성 순서
+
+캐릭터 패키지는 같은 인물을 여러 장으로 다시 그린 결과를 무작정 모으지 않습니다. 먼저 정면에서 얼굴·의상 identity를, 후면에서 머리 길이·장식의 가림 여부·재킷 뒷면을 확인한 다음, 측면을 파생합니다. 각 단계의 출력은 다음 단계의 참조가 되지만, 승인되지 않은 후보는 참조 체인에 넣지 않습니다.
+
+| 순서 | 입력 참조와 역할 | 생성·검수 산출물 | 다음 단계에서 고정하는 정보 |
+| --- | --- | --- | --- |
+| 1. 화풍·전신 master | P7-5.1 승인 화풍 원본: 선·투명 수채화만 전달 | 전신 character master | 기본 색·의상·전신 비례의 출발점 |
+| 2. 전신 정면·후면 | 정면은 얼굴·의상 identity, 후면은 뒷머리·재킷 후면을 확인 | 승인된 정면·후면 전신 | 좌·우 측면에서 대조할 앞·뒤 기준 |
+| 3. 좌측 전신 측면 | 정면 전신: 얼굴·의상 identity; 후면 전신: 장식 없는 뒷머리·재킷; P7-5.1 원본: 화풍 | 승인된 좌측 전신 측면 | 좌향 실루엣, 무헤어핀, 가르마 없음 |
+| 4. 좌측면 얼굴 | 정면 얼굴: 홍채·동공·피부·칼라; 후면 머리: bob 길이·장식 없음; P7-5.1 원본: 화풍 | 승인된 좌측면 얼굴 | 한쪽 눈 좌향 프로필, 무헤어핀, 가르마 없음 |
+| 5. 우측면 얼굴 | 우측 전신: 프로필 실루엣·귀·머리카락; 정면 얼굴: 앞머리 쪽 헤어핀; P7-5.1 원본: 화풍 | 승인된 우측면 얼굴 | 한쪽 눈 우향 프로필, 보이는 귀, 앞머리 쪽 단일 헤어핀 |
+
+이 순서는 모델이 3D 회전을 계산했다는 뜻이 아닙니다. 서로 다른 방향에서 대조할 기준을 먼저 고정해, 다음 생성에서 무엇이 바뀌면 안 되는지 사람이 판정할 수 있게 하는 작업 순서입니다.
 
 ## P7-5.1 화풍 원본으로 만든 첫 전신 master
 
@@ -69,24 +83,28 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | 후면 | 재킷 뒷면·머리 후면·바지·신발 뒤꿈치가 보임 | 후면 의상 정보 대조 |
 | 우측 측면 | 얼굴·몸·발끝이 함께 우측을 향하고 전신이 보임 | 반대 측면 비례와 실루엣 대조 |
 
-좌측 측면은 별도 skeleton, OpenPose, depth, Canny 윤곽을 넣지 않았습니다. 승인된 정면 character master와 P7-5.1 화풍 원본을 각각 한 장씩 참조로 전달하고, strict left profile·중립 서기·전신 노출·무가방을 prompt 계약으로 고정했습니다. 이 선택은 현재의 구조 제어 입력이 3D 회전 정합을 보장하지 못한 실험 결과에 따른 것입니다. 결과는 사람 검수로만 baseline에 편입했습니다.
+좌측 측면은 별도 skeleton, OpenPose, depth, Canny 윤곽을 넣지 않았습니다. 승인된 정면 전신으로 얼굴·의상 identity를, 승인된 후면 전신으로 장식 없는 뒷머리 길이와 재킷 정보를, P7-5.1 화풍 원본으로 채색을 각각 참조로 전달했습니다. strict left profile·중립 서기·전신 노출·무가방·무헤어핀·가르마 없음의 prompt 계약을 함께 고정했습니다. 이 선택은 현재의 구조 제어 입력이 3D 회전 정합을 보장하지 못한 실험 결과에 따른 것입니다. 결과는 사람 검수로만 baseline에 편입했습니다.
 
-<details id="profile-left-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_profile_left_multiref_flux.py" data-language="python">
-<summary>Canny 없이 좌측 전신을 만드는 코드 보기</summary>
+<details id="profile-left-front-rear-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_regenerate_profile_left_no_clip.py" data-language="python">
+<summary>정면·후면 기준으로 좌측 전신을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
 ## 승인된 얼굴 방향과 기본 표정
 
-전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 현재 사람 승인된 얼굴·머리 detail은 홍채·동공·헤어핀을 포함한 정면·우측 전면 3/4과, 헤어핀을 보이지 않게 한 후면 머리의 세 장입니다. 좌측 전면 3/4과 좌우 측면은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
+전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 현재 사람 승인된 얼굴·머리 detail은 홍채·동공·헤어핀을 포함한 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
 
-| 정면 얼굴 | 우측 전면 3/4 | 후면 머리 |
-| --- | --- | --- |
-| ![승인된 홍채·동공·헤어핀 정면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-front-iris-pupil-spec.png) | ![승인된 우측 전면 3/4 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-three-quarter-right.png) | ![승인된 헤어핀 없는 후면 머리 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-rear-hair.png) |
+| 정면 얼굴 | 좌측면 얼굴 |
+| --- | --- |
+| ![승인된 홍채·동공·헤어핀 정면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-front-iris-pupil-spec.png) | ![승인된 헤어핀과 가르마 없는 좌측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-left-no-clip.png) |
+| 우측면 얼굴 | 우측 전면 3/4 |
+| ![승인된 앞머리 헤어핀과 귀가 보이는 우측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-right-front-clip.png) | ![승인된 우측 전면 3/4 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-three-quarter-right.png) |
+| 후면 머리 | |
+| ![승인된 헤어핀 없는 후면 머리 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-rear-hair.png) | |
 
 | 기준 | 승인 범위 | 아직 승인하지 않은 범위 |
 | --- | --- | --- |
-| 얼굴 방향 | 홍채·동공·헤어핀이 고정된 정면·우측 전면 3/4, 헤어핀 없는 후면 머리 | 좌측 전면 3/4, 좌·우 측면 |
+| 얼굴 방향 | 홍채·동공·헤어핀이 고정된 정면, 헤어핀·가르마 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀가 있는 우측면, 우측 전면 3/4, 헤어핀 없는 후면 머리 | 좌측 전면 3/4 |
 | 얼굴 구성 | 눈·코·입·귀·목과 재킷 칼라의 근접 대조 | 카메라 각도 변화에서의 안정성 |
 | 표정 | 정면 중립·기쁨·분노·놀람 표정 네 장 | 우려·슬픔 |
 
@@ -100,6 +118,16 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 <details id="face-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_face_detail_multiref_flux.py" data-language="python">
 <summary>얼굴 방향 detail 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="profile-left-face-front-rear" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_regenerate_face_profile_left_no_clip.py" data-language="python">
+<summary>정면·후면 기준으로 좌측면 얼굴을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="profile-right-face-profile-front" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_regenerate_face_profile_right_clip.py" data-language="python">
+<summary>우측 전신·정면 기준으로 우측면 얼굴을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 

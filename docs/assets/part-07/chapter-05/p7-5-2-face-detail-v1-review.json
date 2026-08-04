@@ -1,10 +1,34 @@
 {
-  "status": "front_right_three_quarter_rear_human_approved_directional_candidates_pending",
+  "status": "front_left_profile_right_profile_right_three_quarter_rear_human_approved_directional_candidates_pending",
   "purpose": "Close face and head reference views for P7-5.2 character comparison.",
   "approved_views": [
     {
       "view_id": "front",
       "image": "p7-5-2-face-detail-v2-front-iris-pupil-spec.png"
+    },
+    {
+      "view_id": "profile_left",
+      "image": "p7-5-2-face-detail-v3-profile-left-no-clip.png",
+      "references": [
+        "p7-5-2-face-detail-v2-front-iris-pupil-spec.png",
+        "p7-5-2-face-detail-v2-rear-hair.png",
+        "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
+      ],
+      "steps": 12,
+      "seed": 62188,
+      "review": "strict left profile with one visible eye, no hair clip, and no exposed scalp part"
+    },
+    {
+      "view_id": "profile_right",
+      "image": "p7-5-2-face-detail-v3-profile-right-front-clip.png",
+      "references": [
+        "p7-5-2-multireference-turnaround-v1-profile-right.png",
+        "p7-5-2-face-detail-v2-front-iris-pupil-spec.png",
+        "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
+      ],
+      "steps": 12,
+      "seed": 62193,
+      "review": "strict right profile with one visible eye, a visible ear, and one diamond clip moved forward toward the bangs"
     },
     {
       "view_id": "rear_hair",
@@ -16,9 +40,7 @@
     }
   ],
   "pending_views": [
-    "three-quarter-left",
-    "profile-left",
-    "profile-right"
+    "three-quarter-left"
   ],
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
@@ -29,12 +51,13 @@
   },
   "inputs": [
     "p7-5-2-face-detail-v2-front-iris-pupil-spec.png",
-    "approved P7-5.2 full-body front, profile-left, profile-right, or rear reference as appropriate",
+    "approved P7-5.2 face front and rear-hair reference for the approved left profile",
+    "approved P7-5.2 full-body right profile and face front reference for the approved right profile",
     "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
   ],
-  "approved_scope": "Front iris-pupil-hair-clip detail, right-front three-quarter face detail, and rear hair-nape-rear-collar detail only.",
+  "approved_scope": "Front iris-pupil-hair-clip detail, left profile without a clip or scalp part, right profile with a front-bangs clip and visible ear, right-front three-quarter face detail, and rear hair-nape-rear-collar detail only.",
   "excluded_scope": [
-    "left-front three-quarter and both side candidates pending human review",
+    "left-front three-quarter candidates pending human review",
     "facial expressions other than the separately approved neutral expression",
     "dynamic pose or camera-yaw evidence",
     "P7-5.3 cutscene approval"

@@ -1,7 +1,7 @@
 {
   "status": "human_approved_for_four_direction_baseline",
   "view_id": "profile-left",
-  "purpose": "Approved left-profile item in the four-direction full-body baseline.",
+  "purpose": "Approved unornamented left-profile item in the four-direction full-body baseline.",
   "pipeline": [
     {
       "stage": "appearance render",
@@ -9,11 +9,12 @@
       "runtime": "Flux2KleinPipeline sequential CPU offload",
       "references": [
         "p7-5-2-multireference-turnaround-v1-front.png",
+        "p7-5-2-multireference-turnaround-v1-rear.png",
         "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
       ],
       "resolution": [768, 1152],
-      "steps": 8,
-      "seed": 62021,
+      "steps": 12,
+      "seed": 420903,
       "pose_control": "prompt-only strict left profile; no Canny, OpenPose, depth, or other structure input",
       "output": "p7-5-2-multireference-turnaround-v1-profile-left.png"
     }
@@ -21,7 +22,8 @@
   "approved_review": [
     "strict left-facing nose, eyes, chin, gaze, shoulders, torso, hips, knees, and toes",
     "one full body with two coherent legs and planted feet",
-    "teal bob and silver hair clip",
+    "teal bob with no visible hair clip, pin, ornament, or metallic shape",
+    "continuous fringe with no exposed scalp part or hairline gap",
     "white jacket, teal trousers, and white sneakers",
     "no bag and no shoulder strap",
     "no crop, frame, text, or watermark"
