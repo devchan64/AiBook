@@ -71,10 +71,10 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | --- | --- |
 | ![승인된 좌측 전면 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-full-body-left-front-quarter.png) | ![승인된 우측 전면 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-full-body-right-front-quarter.png) |
 
-좌측 측면은 별도 skeleton, OpenPose, depth, Canny 윤곽을 넣지 않았습니다. 승인된 정면 전신으로 얼굴·의상 identity를, 승인된 후면 전신으로 장식 없는 뒷머리 길이와 재킷 정보를, P7-5.1 화풍 원본으로 채색을 각각 참조로 전달했습니다. strict left profile·중립 서기·전신 노출·무가방·머리 장식 없음·가르마 없음의 prompt 계약을 함께 고정했습니다. 이 선택은 현재의 구조 제어 입력이 3D 회전 정합을 보장하지 못한 실험 결과에 따른 것입니다. 결과는 사람 검수로만 baseline에 편입했습니다.
+새 전신 방향 후보는 전면 전신 기준으로 의상·비례·가방을, 해당 방향 얼굴 기준으로 머리·얼굴 회전을 각각 전달합니다. skeleton, OpenPose, depth, Canny 윤곽, 화풍 원본은 이 생성의 입력이 아닙니다. 머리·어깨·몸통·골반·무릎·발끝이 같은 방향인지 사람 검수로만 기준 편입을 결정합니다.
 
-<details id="profile-left-front-rear-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_regenerate_profile_left_no_clip.py" data-language="python">
-<summary>정면·후면 기준으로 좌측 전신을 만드는 코드 보기</summary>
+<details id="fullbody-reference-from-views" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_reference_from_views.py" data-language="python">
+<summary>전면 전신과 회전 얼굴 기준으로 전신 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -149,21 +149,23 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## Python 실습: 생성과 승인을 분리한다
 
-아래 실행 코드는 사람 승인된 P7-5.1 원본 하나에서 P7-5.2 전신 후보와 실행 기록을 만듭니다. 후보 PNG가 생성됐다는 사실은 turnaround나 다음 단계 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
+아래 실행 코드는 전면 전신 기준과 해당 방향 얼굴 기준으로 P7-5.2 전신 후보와 실행 기록을 만듭니다. 후보 PNG가 생성됐다는 사실은 turnaround나 다음 단계 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_style_pack_character_master.py
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_reference_from_views.py \
+  --view left_front_quarter
 ```
 
 | 코드 | 하는 일 | 조작할 값 |
 | --- | --- | --- |
-| style-pack character experiment | 승인된 P7-5.1 원본 하나를 조건으로 P7-5.2 전신 후보 생성 | `STYLE_SCENE_ID`, `SEED`, prompt, step |
-| Canny 없는 좌측 측면 | 승인 정면 기준과 화풍 원본 두 장으로 좌측 전신 후보 생성 | `SEED`, strict profile prompt, 참조 원본 |
+| `front` | 정면 얼굴과 소품 기준으로 전면 전신 후보 생성 | `SEED`, 소품 참조, prompt |
+| 회전 view | 전면 전신과 해당 방향 얼굴 기준 두 장으로 전신 후보 생성 | `--view`, `SEED`, 회전 prompt |
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_profile_left_multiref_flux.py
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_reference_from_views.py \
+  --view profile_right
 ```
 
 이 실습에서 `SEED`나 strict profile 문장을 바꾼 뒤에는 코드를 통과한 것으로 승인하지 않습니다. 얼굴·몸·무릎·발끝의 방향이 같은지, 두 다리와 두 발이 하나의 전신으로 보이는지, 가방·끈 같은 미계약 소품이 없는지를 사람 검수로 다시 확인합니다.

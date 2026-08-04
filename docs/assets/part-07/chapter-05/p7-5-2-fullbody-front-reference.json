@@ -23,6 +23,6 @@
     "jacket": "short white cropped utility jacket ending immediately above the trouser waistband",
     "bag": "deep-navy canvas crossbody at viewer-right hip, with top at the waistband and base at upper thigh; long strap from viewer-left shoulder"
   },
-  "generation_script": "p7_5_2_research_fullbody_front_no_accessory.py",
+  "generation_script": "p7_5_2_generate_fullbody_reference_from_views.py --view front",
   "decision": "Human approved as the current frontal full-body reference. It supersedes the unapproved V1-V3 candidates; the older style-conditioned turnaround baseline remains an experiment record rather than an input to this reference."
 }
