@@ -1,25 +1,14 @@
 {
   "status": "front_left_profile_right_profile_right_three_quarter_rear_human_approved_directional_candidates_pending",
   "purpose": "Close face and head reference views for P7-5.2 character comparison.",
-  "legacy_hair_clip_input_retired": true,
   "approved_views": [
-    {
-      "view_id": "face_master",
-      "image": "p7-5-2-face-master-v1.png",
-      "references": [
-        "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
-      ],
-      "review": "front face master generated from the approved style original and the prompt only; no P7-5.2 face or full-body input"
-    },
     {
       "view_id": "front",
       "image": "p7-5-2-face-front-v1.png",
       "references": [
-        "p7-5-2-face-master-v1.png",
-        "p7-5-2-feature-detail-v1-hair-clip.png",
-        "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
+        "p7-5-2-face-hair-clip-reference-v1.png"
       ],
-      "review": "strict front face generated from the approved face master, hair-clip master, and style original"
+      "review": "strict front face generated from the approved hair-clip criterion and the face prompt only; no face, full-body, or style-image input"
     },
     {
       "view_id": "profile_left",
@@ -70,7 +59,7 @@
     "approved P7-5.2 full-body right profile and face front reference for the approved right profile",
     "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
   ],
-  "approved_scope": "Prompt-defined front face master, front face reference, front iris-pupil detail, left profile without a clip or scalp part, right profile with a front-bangs clip and visible ear, right-front three-quarter face detail, and rear hair-nape-rear-collar detail only.",
+  "approved_scope": "Prompt-defined front face reference, front iris-pupil detail, left profile without a clip or scalp part, right profile with a front-bangs clip and visible ear, right-front three-quarter face detail, and rear hair-nape-rear-collar detail only.",
   "excluded_scope": [
     "left-front three-quarter candidates pending human review",
     "facial expressions other than the separately approved neutral expression",

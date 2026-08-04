@@ -100,23 +100,18 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 얼굴 기준: prompt로 정한다
 
-얼굴 기준은 얼굴형·홍채·머리·머리핀·표정을 prompt로 정의합니다. 기존 화풍 조건 얼굴 자산은 생성 이력을 보존하되, 이후에는 화풍 이미지를 입력으로 받지 않는 별도 버전으로 교체합니다. 얼굴 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
+얼굴 기준은 한 장만 생성합니다. 얼굴형·홍채·머리·표정을 prompt로 정의하고, 승인된 [머리핀 얼굴 detail 기준](../../../assets/part-07/chapter-05/p7-5-2-face-hair-clip-reference-review.json) 한 장만 이미지 입력으로 사용합니다. 화풍 이미지, 기존 얼굴 이미지, 전신 이미지는 참조하지 않습니다. 이 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
 
-![기존 얼굴 기준 실험 이미지](../../../assets/part-07/chapter-05/p7-5-2-face-master-v1.png)
+![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v1.png)
 
-<details id="face-master-style-prompt" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_generate_face_master.py" data-language="python">
-<summary>기존 화풍 조건 얼굴 실험 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
-<details id="face-front-from-masters" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_generate_face_front_from_master.py" data-language="python">
-<summary>기존 얼굴 기준·머리핀 기준·화풍 원본으로 정면 얼굴을 만드는 코드 보기</summary>
+<details id="face-front-from-hair-clip" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_generate_face_front_from_hair_clip.py" data-language="python">
+<summary>머리핀 기준과 prompt로 정면 얼굴 기준을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
 ## 승인된 얼굴 방향과 기본 표정
 
-전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 위의 얼굴 기준과 별도로, 현재 사람 승인된 방향별 얼굴·머리 detail은 기존 얼굴 기준·머리핀 기준·화풍 원본에서 만든 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 정면 전신 기준 하나에서 만든 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 기존 정면 홍채 detail은 눈 규격 대조에 유지합니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
+전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 현재 사람 승인된 방향별 얼굴·머리 detail은 머리핀 기준과 prompt만으로 만든 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 정면 전신 기준 하나에서 만든 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 기존 정면 홍채 detail은 눈 규격 대조에 유지합니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
 
 | 정면 얼굴 | 좌측면 얼굴 |
 | --- | --- |
@@ -167,7 +162,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 승인된 소품 기준: 신발·자켓·바지·가방
 
-소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 짙은 패트롤 청록 와이드 팬츠, 짙은 네이비 캔버스 크로스백, 은색 긴 마름모 머리핀입니다. 머리핀은 외곽과 중앙 타공이 모두 날카로운 꼭짓점을 가진 가로 긴 마름모입니다. 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다.
+소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 머리핀은 소품 기준에서 제외하고 얼굴·머리 detail에서만 다룹니다. 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다.
 
 | 신발 기준 | 자켓 기준 | 바지 기준 |
 | --- | --- | --- |
@@ -177,23 +172,20 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | --- |
 | ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-crossbody-bag.png) |
 
-| 머리핀 기준 |
-| --- |
-| ![승인된 머리핀 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-hair-clip.png) |
+[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json)와 [prompt-only 생성 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json)은 신발·자켓·바지·가방의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
-[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json)와 [prompt-only 생성 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json)은 신발·자켓·바지·가방·머리핀의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
-
-소품 기준 v2는 개별 PNG 다섯 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방·머리핀만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
+소품 기준 v2는 개별 PNG 네 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 
 <details id="no-style-prop-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py" data-language="python">
 <summary>화풍 입력 없이 소품 기준을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-<details id="no-style-hair-clip-reference" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_no_style_hair_clip_v2.py" data-language="python">
-<summary>새 긴 마름모 머리핀 기준을 만드는 코드 보기</summary>
+<details id="deep-teal-blue-trousers" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_trousers_deep_teal_blue.py" data-language="python">
+<summary>딥틸블루 바지 기준을 교체하는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
+
 
 ## Python 실습: 생성과 승인을 분리한다
 

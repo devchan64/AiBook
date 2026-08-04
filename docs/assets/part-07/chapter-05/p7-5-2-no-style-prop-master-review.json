@@ -6,20 +6,13 @@
     "jacket": "p7-5-2-prop-reference-v2-jacket.png",
     "trousers": "p7-5-2-prop-reference-v2-trousers.png",
     "shoes": "p7-5-2-prop-reference-v2-shoes.png",
-    "crossbody_bag": "p7-5-2-prop-reference-v2-crossbody-bag.png",
-    "hair_clip": "p7-5-2-prop-reference-v2-hair-clip.png"
+    "crossbody_bag": "p7-5-2-prop-reference-v2-crossbody-bag.png"
   },
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
     "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
   },
   "runs": [
-    {
-      "id": "hair_clip",
-      "output": "p7-5-2-no-style-prop-hair-clip-candidate.png",
-      "prompt": "One isolated silver hair clip on a plain off-white background. A flat long-rhombus metal plate with a broad smooth rim and one matching long-rhombus cutout through the center; a short barrette clasp behind it. Clean product illustration. No gem, pattern, person, text, logo, or other object.",
-      "elapsed_seconds": 14.39
-    },
     {
       "id": "jacket",
       "output": "p7-5-2-no-style-prop-jacket-candidate.png",
@@ -53,5 +46,14 @@
       "crossbody_bag"
     ]
   },
-  "decision": "The approved jacket, trousers, shoes, crossbody bag, and redesigned hair clip are promoted as P7-5.2 prop-reference v2."
+  "approved_replacements": [
+    {
+      "id": "trousers",
+      "image": "p7-5-2-prop-reference-v2-trousers.png",
+      "prompt": "One isolated pair of deep teal blue high-waisted wide-leg trousers in a clean front view on a plain off-white background. Use one blue-dominant dark teal base color, neither green turquoise nor gray. Belt loops, center fly, crisp vertical seams, straight wide legs, and hems above the shoe collar. Clean product illustration. No person, hanger, text, logo, or other object.",
+      "generation_script": "p7_5_2_research_trousers_deep_teal_blue.py",
+      "review": "Human-approved replacement for the earlier petrol-blue-teal trousers reference."
+    }
+  ],
+  "decision": "The approved jacket, trousers, shoes, and crossbody bag are promoted as P7-5.2 prop-reference v2. The hair clip is excluded from the prop scope."
 }

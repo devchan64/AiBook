@@ -1,0 +1,12 @@
+{
+  "status": "face_detail_reference_only",
+  "purpose": "Record the hair-clip design as a face-detail reference, outside the P7-5.2 prop-reference package.",
+  "image": "p7-5-2-face-hair-clip-reference-v1.png",
+  "scope": "silver long-rhombus plate, central long-rhombus cutout, and its use only when generating or reviewing face and fringe detail",
+  "excluded_scope": [
+    "prop-reference v2",
+    "full-body wardrobe inventory",
+    "standalone scene prop"
+  ],
+  "generation_script": "p7_5_2_research_generate_face_hair_clip_reference.py"
+}
