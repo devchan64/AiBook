@@ -25,7 +25,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
-| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 baseline과 좌우 전면 쿼터 전신, 홍채·동공·헤어핀 정면·좌측면·우측 3/4 및 헤어핀 없는 후면 머리 detail, 중립·기쁨·분노·놀람, 신발 detail 승인; 우려·슬픔·손·재킷 detail은 미승인 |
+| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 baseline과 좌우 전면 쿼터 전신, 홍채·동공·헤어핀 정면·좌측면·우측 3/4 및 헤어핀 없는 후면 머리 detail, 중립·기쁨·분노·놀람, 신발·자켓 detail 승인; 우려·슬픔·손 detail은 미승인 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
@@ -100,13 +100,13 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 승인된 얼굴 방향과 기본 표정
 
-전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 현재 사람 승인된 얼굴·머리 detail은 홍채·동공·헤어핀을 포함한 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
+전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 현재 사람 승인된 얼굴·머리 detail은 홍채·동공·헤어핀을 포함한 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 정면 전신 master 하나에서 만든 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
 
 | 정면 얼굴 | 좌측면 얼굴 |
 | --- | --- |
 | ![승인된 홍채·동공·헤어핀 정면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-front-iris-pupil-spec.png) | ![승인된 헤어핀과 가르마 없는 좌측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-left-no-clip.png) |
 | 우측면 얼굴 | 우측 전면 3/4 |
-| ![승인된 앞머리 헤어핀과 귀가 보이는 우측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-right-front-clip.png) | ![승인된 우측 전면 3/4 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-three-quarter-right.png) |
+| ![승인된 앞머리 헤어핀과 귀가 보이는 우측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-right-front-clip.png) | ![정면 전신 기준으로 승인된 우측 전면 3/4 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-three-quarter-right-from-fullbody.png) |
 | 후면 머리 | |
 | ![승인된 헤어핀 없는 후면 머리 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-rear-hair.png) | |
 
@@ -115,6 +115,11 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | 얼굴 방향 | 홍채·동공·헤어핀이 고정된 정면, 헤어핀·가르마 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀가 있는 우측면, 우측 전면 3/4, 헤어핀 없는 후면 머리 | 좌측 전면 3/4 |
 | 얼굴 구성 | 눈·코·입·귀·목과 재킷 칼라의 근접 대조 | 카메라 각도 변화에서의 안정성 |
 | 표정 | 정면 중립·기쁨·분노·놀람 표정 네 장 | 우려·슬픔 |
+
+<details id="face-right-quarter-from-fullbody" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_face_right_quarter_from_fullbody.py" data-language="python">
+<summary>정면 전신 기준으로 우측 얼굴 쿼터 detail을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
 
 | 중립 | 기쁨 |
 | --- | --- |
@@ -144,16 +149,25 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 승인된 신발 detail
+## 승인된 신발·자켓 detail
 
-소품·착용 detail은 전신 reference에서 작게 보이는 부분을 다시 확인하는 기준입니다. 현재 별도 승인 자산은 흰 끈 운동화입니다. 다이아형 은색 헤어핀과 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다. 이 기준은 가방·장신구·손 소품을 새로 추가해도 된다는 뜻이 아닙니다.
+소품·착용 detail은 전신 reference에서 작게 보이는 부분을 다시 확인하는 기준입니다. 현재 별도 승인 자산은 흰 끈 운동화와 흰색 크롭 유틸리티 자켓입니다. 다이아형 은색 헤어핀과 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다. 이 기준은 가방·장신구·손 소품을 새로 추가해도 된다는 뜻이 아닙니다.
 
-![승인된 신발 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-shoes.png)
+| 신발 detail | 자켓 detail |
+| --- | --- |
+| ![승인된 신발 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-shoes.png) | ![승인된 자켓 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-jacket.png) |
 
-[착용·신체 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-review.json)에는 신발만 별도 승인으로 남깁니다. 손·손목과 재킷 hardware 후보는 아직 기준 자산이 아닙니다.
+[착용·신체 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-review.json)에는 신발과 자켓만 별도 승인으로 남깁니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
-<details id="feature-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_feature_detail_multiref_flux.py" data-language="python">
-<summary>착용·신체 detail 생성 코드 보기</summary>
+소품 master는 [승인 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-master-v1.json)가 가리키는 개별 PNG 두 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발 또는 자켓만 선택해 비교합니다. 헤어핀·크로스백·바지 후보는 아직 이 master에 넣지 않습니다.
+
+<details id="shoe-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_white_sneaker_style_only.py" data-language="python">
+<summary>화풍 원본만으로 신발 detail을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="jacket-detail-style-only" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_white_utility_jacket_style_only.py" data-language="python">
+<summary>화풍 원본만으로 자켓 detail을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 

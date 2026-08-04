@@ -1,0 +1,25 @@
+{
+  "status": "human_approved_prop_master",
+  "purpose": "Approved standalone wardrobe-prop references for Mira.",
+  "character_basis": "Mira",
+  "usage": "Reference individual images as needed; do not assemble them into a tiled input sheet.",
+  "assets": [
+    {
+      "id": "white_low_top_sneakers",
+      "image": "p7-5-2-feature-detail-v1-shoes.png",
+      "scope": "white low-top lace-up sneakers and trouser hem comparison"
+    },
+    {
+      "id": "white_cropped_utility_jacket",
+      "image": "p7-5-2-feature-detail-v1-jacket.png",
+      "scope": "collar, flap pockets, buttons, seams, cuffs, and watercolor finish"
+    }
+  ],
+  "excluded": [
+    "hair_clip",
+    "crossbody_bag",
+    "trousers",
+    "hands_and_wrists"
+  ],
+  "review_ledger": "p7-5-2-feature-detail-v1-review.json"
+}
