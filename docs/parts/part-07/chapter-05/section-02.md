@@ -25,7 +25,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
-| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 baseline과 좌우 전면 쿼터 전신, 홍채·동공·헤어핀 정면·좌측면·우측 3/4 및 헤어핀 없는 후면 머리 detail, 중립·기쁨·분노·놀람, 신발·자켓·바지·가방·머리핀 detail 승인; 우려·슬픔·손 detail은 미승인 |
+| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 baseline과 좌우 전면 쿼터 전신, 머리 장식 없는 좌측면·후면 머리 detail, 중립·기쁨·분노·놀람, 신발·자켓·바지·가방 detail 승인; 머리 장식 없는 정면·우측면·좌우 3/4, 우려·슬픔·손 detail은 미승인 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
@@ -40,9 +40,9 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | --- | --- | --- | --- |
 | 1. 전신 기준 | 정면 얼굴 기준과 승인 소품 기준: identity·의상·소품 전달 | 전신 기준 후보 | 기본 색·의상·전신 비례의 출발점 |
 | 2. 전신 정면·후면 | 정면은 얼굴·의상 identity, 후면은 뒷머리·재킷 후면을 확인 | 승인된 정면·후면 전신 | 좌·우 측면에서 대조할 앞·뒤 기준 |
-| 3. 좌측 전신 측면 | 정면 전신: 얼굴·의상 identity; 후면 전신: 장식 없는 뒷머리·재킷; P7-5.1 원본: 화풍 | 승인된 좌측 전신 측면 | 좌향 실루엣, 무헤어핀, 가르마 없음 |
-| 4. 좌측면 얼굴 | 정면 얼굴: 홍채·동공·피부·칼라; 후면 머리: bob 길이·장식 없음; P7-5.1 원본: 화풍 | 승인된 좌측면 얼굴 | 한쪽 눈 좌향 프로필, 무헤어핀, 가르마 없음 |
-| 5. 우측면 얼굴 | 우측 전신: 프로필 실루엣·귀·머리카락; 정면 얼굴: 앞머리 쪽 헤어핀; P7-5.1 원본: 화풍 | 승인된 우측면 얼굴 | 한쪽 눈 우향 프로필, 보이는 귀, 앞머리 쪽 단일 헤어핀 |
+| 3. 좌측 전신 측면 | 정면 전신: 얼굴·의상 identity; 후면 전신: 장식 없는 뒷머리·재킷; P7-5.1 원본: 화풍 | 승인된 좌측 전신 측면 | 좌향 실루엣, 머리 장식 없음, 가르마 없음 |
+| 4. 좌측면 얼굴 | 정면 얼굴: 홍채·동공·피부·칼라; 후면 머리: bob 길이·장식 없음; P7-5.1 원본: 화풍 | 승인된 좌측면 얼굴 | 한쪽 눈 좌향 프로필, 머리 장식 없음, 가르마 없음 |
+| 5. 우측면 얼굴 | 우측 전신: 프로필 실루엣·귀·머리카락; 머리 장식 없는 정면 얼굴; P7-5.1 원본: 화풍 | 재생성 필요 | 한쪽 눈 우향 프로필, 보이는 귀, 머리 장식 없음 |
 
 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아닙니다. 서로 다른 방향에서 대조할 기준을 먼저 고정해, 다음 생성에서 무엇이 바뀌면 안 되는지 사람이 판정할 수 있게 하는 작업 순서입니다.
 
@@ -91,7 +91,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | --- | --- |
 | ![승인된 좌측 전면 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-full-body-left-front-quarter.png) | ![승인된 우측 전면 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-full-body-right-front-quarter.png) |
 
-좌측 측면은 별도 skeleton, OpenPose, depth, Canny 윤곽을 넣지 않았습니다. 승인된 정면 전신으로 얼굴·의상 identity를, 승인된 후면 전신으로 장식 없는 뒷머리 길이와 재킷 정보를, P7-5.1 화풍 원본으로 채색을 각각 참조로 전달했습니다. strict left profile·중립 서기·전신 노출·무가방·무헤어핀·가르마 없음의 prompt 계약을 함께 고정했습니다. 이 선택은 현재의 구조 제어 입력이 3D 회전 정합을 보장하지 못한 실험 결과에 따른 것입니다. 결과는 사람 검수로만 baseline에 편입했습니다.
+좌측 측면은 별도 skeleton, OpenPose, depth, Canny 윤곽을 넣지 않았습니다. 승인된 정면 전신으로 얼굴·의상 identity를, 승인된 후면 전신으로 장식 없는 뒷머리 길이와 재킷 정보를, P7-5.1 화풍 원본으로 채색을 각각 참조로 전달했습니다. strict left profile·중립 서기·전신 노출·무가방·머리 장식 없음·가르마 없음의 prompt 계약을 함께 고정했습니다. 이 선택은 현재의 구조 제어 입력이 3D 회전 정합을 보장하지 못한 실험 결과에 따른 것입니다. 결과는 사람 검수로만 baseline에 편입했습니다.
 
 <details id="profile-left-front-rear-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_regenerate_profile_left_no_clip.py" data-language="python">
 <summary>정면·후면 기준으로 좌측 전신을 만드는 코드 보기</summary>
@@ -100,37 +100,21 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 얼굴 기준: prompt로 정한다
 
-얼굴 기준은 한 장만 생성합니다. 얼굴형·홍채·머리·표정을 prompt로 정의하고, 승인된 [머리핀 얼굴 detail 기준](../../../assets/part-07/chapter-05/p7-5-2-face-hair-clip-reference-review.json) 한 장만 이미지 입력으로 사용합니다. 화풍 이미지, 기존 얼굴 이미지, 전신 이미지는 참조하지 않습니다. 이 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
-
-![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v1.png)
-
-<details id="face-front-from-hair-clip" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_generate_face_front_from_hair_clip.py" data-language="python">
-<summary>머리핀 기준과 prompt로 정면 얼굴 기준을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
+머리핀을 포함한 정면 얼굴 기준은 폐기했습니다. 다음 정면 얼굴 기준은 머리핀 없이 얼굴형·홍채·머리·표정을 prompt로 정의해 새로 생성·검수합니다. 화풍 이미지, 기존 얼굴 이미지, 전신 이미지는 참조하지 않습니다. 이 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
 
 ## 승인된 얼굴 방향과 기본 표정
 
-전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 현재 사람 승인된 방향별 얼굴·머리 detail은 머리핀 기준과 prompt만으로 만든 정면, 헤어핀과 가르마가 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀를 포함한 우측면, 정면 전신 기준 하나에서 만든 우측 전면 3/4, 헤어핀을 보이지 않게 한 후면 머리의 다섯 장입니다. 기존 정면 홍채 detail은 눈 규격 대조에 유지합니다. 좌측 전면 3/4은 이 기준에서 다시 생성해 별도 검수합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
+전신 기준만으로는 눈·코·입·귀·목덜미의 묘사를 대조하기 어렵습니다. 머리핀을 포함한 정면·우측면·우측 전면 3/4은 함께 폐기했습니다. 현재 유지한 방향별 얼굴·머리 detail은 머리핀과 가르마가 없는 좌측면과 후면 머리뿐이며, 정면과 우측 방향은 머리핀 없이 새로 생성·검수해야 합니다. 후보가 생성됐다는 사실은 방향별 기준 편입을 뜻하지 않습니다.
 
-| 정면 얼굴 | 좌측면 얼굴 |
+| 좌측면 얼굴 | 후면 머리 |
 | --- | --- |
-| ![승인된 얼굴 기준 기반 정면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-front-v1.png) | ![승인된 헤어핀과 가르마 없는 좌측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-left-no-clip.png) |
-| 우측면 얼굴 | 우측 전면 3/4 |
-| ![승인된 앞머리 헤어핀과 귀가 보이는 우측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-right-front-clip.png) | ![정면 전신 기준으로 승인된 우측 전면 3/4 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-three-quarter-right-from-fullbody.png) |
-| 후면 머리 | |
-| ![승인된 헤어핀 없는 후면 머리 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-rear-hair.png) | |
+| ![승인된 머리 장식과 가르마 없는 좌측면 얼굴 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v3-profile-left-no-clip.png) | ![승인된 머리 장식 없는 후면 머리 detail](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v2-rear-hair.png) |
 
 | 기준 | 승인 범위 | 아직 승인하지 않은 범위 |
 | --- | --- | --- |
-| 얼굴 방향 | 홍채·동공·헤어핀이 고정된 정면, 헤어핀·가르마 없는 좌측면, 앞머리 쪽 헤어핀과 보이는 귀가 있는 우측면, 우측 전면 3/4, 헤어핀 없는 후면 머리 | 좌측 전면 3/4 |
+| 얼굴 방향 | 머리 장식·가르마 없는 좌측면, 머리 장식 없는 후면 머리 | 머리 장식 없는 정면·우측면·좌우 전면 3/4 |
 | 얼굴 구성 | 눈·코·입·귀·목과 재킷 칼라의 근접 대조 | 카메라 각도 변화에서의 안정성 |
 | 표정 | 정면 중립·기쁨·분노·놀람 표정 네 장 | 우려·슬픔 |
-
-<details id="face-right-quarter-from-fullbody" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_face_right_quarter_from_fullbody.py" data-language="python">
-<summary>정면 전신 기준으로 우측 얼굴 쿼터 detail을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
 
 | 중립 | 기쁨 |
 | --- | --- |
@@ -140,21 +124,6 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 [얼굴 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v1-review.json)과 [표정 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-review.json)은 승인 범위를 분리합니다. 표정에서는 배경이나 조명 변화가 아니라 눈썹·눈꺼풀·동공·콧등·콧구멍·입 모양의 차이를 따로 검수해야 합니다.
 
-<details id="face-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_face_detail_multiref_flux.py" data-language="python">
-<summary>얼굴 방향 detail 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
-<details id="profile-left-face-front-rear" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_regenerate_face_profile_left_no_clip.py" data-language="python">
-<summary>정면·후면 기준으로 좌측면 얼굴을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
-<details id="profile-right-face-profile-front" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_regenerate_face_profile_right_clip.py" data-language="python">
-<summary>우측 전신·정면 기준으로 우측면 얼굴을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
 <details id="expression-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_expression_detail_multiref_flux.py" data-language="python">
 <summary>눈·코·입 변화를 지정하는 표정 detail 생성 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
@@ -162,7 +131,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 승인된 소품 기준: 신발·자켓·바지·가방
 
-소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 머리핀은 소품 기준에서 제외하고 얼굴·머리 detail에서만 다룹니다. 갈색 홍채·동공은 위의 정면 얼굴 detail에서 함께 검수합니다.
+소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 머리핀은 캐릭터 기준에서 폐기했습니다. 갈색 홍채·동공은 정면 얼굴 기준을 새로 생성할 때 함께 검수합니다.
 
 | 신발 기준 | 자켓 기준 | 바지 기준 |
 | --- | --- | --- |

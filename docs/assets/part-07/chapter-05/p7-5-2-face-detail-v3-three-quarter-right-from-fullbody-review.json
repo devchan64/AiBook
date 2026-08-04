@@ -1,9 +1,0 @@
-{
-  "asset": "p7-5-2-face-detail-v3-three-quarter-right-from-fullbody.png",
-  "status": "approved_by_human_review",
-  "view": "right front three-quarter face detail",
-  "reference": "p7-5-2-multireference-turnaround-v1-front.png",
-  "reference_role": "sole frontal full-body identity master",
-  "human_review": "The right quarter face is approved. Both eyes, the jaw line, and the bob silhouette are accepted for this view-specific detail reference.",
-  "scope": "This approval does not prove arbitrary face rotation or expression consistency."
-}

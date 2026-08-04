@@ -1,20 +1,11 @@
 {
-  "status": "front_left_profile_right_profile_right_three_quarter_rear_human_approved_directional_candidates_pending",
+  "status": "left_profile_and_rear_hair_retained_front_reference_replacement_required",
   "purpose": "Close face and head reference views for P7-5.2 character comparison.",
   "approved_views": [
-    {
-      "view_id": "front",
-      "image": "p7-5-2-face-front-v1.png",
-      "references": [
-        "p7-5-2-face-hair-clip-reference-v1.png"
-      ],
-      "review": "strict front face generated from the approved hair-clip criterion and the face prompt only; no face, full-body, or style-image input"
-    },
     {
       "view_id": "profile_left",
       "image": "p7-5-2-face-detail-v3-profile-left-no-clip.png",
       "references": [
-        "p7-5-2-face-detail-v2-front-iris-pupil-spec.png",
         "p7-5-2-face-detail-v2-rear-hair.png",
         "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
       ],
@@ -23,27 +14,14 @@
       "review": "strict left profile with one visible eye, no hair clip, and no exposed scalp part"
     },
     {
-      "view_id": "profile_right",
-      "image": "p7-5-2-face-detail-v3-profile-right-front-clip.png",
-      "references": [
-        "p7-5-2-multireference-turnaround-v1-profile-right.png",
-        "p7-5-2-face-detail-v2-front-iris-pupil-spec.png",
-        "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
-      ],
-      "steps": 12,
-      "seed": 62193,
-      "review": "strict right profile with one visible eye, a visible ear, and one diamond clip moved forward toward the bangs"
-    },
-    {
       "view_id": "rear_hair",
       "image": "p7-5-2-face-detail-v2-rear-hair.png"
-    },
-    {
-      "view_id": "three_quarter_right",
-      "image": "p7-5-2-face-detail-v2-three-quarter-right.png"
     }
   ],
   "pending_views": [
+    "front_without_hair_clip",
+    "profile_right_without_hair_clip",
+    "three-quarter-right_without_hair_clip",
     "three-quarter-left"
   ],
   "model": {
@@ -54,12 +32,10 @@
     "guidance_scale": 1.0
   },
   "inputs": [
-    "p7-5-2-face-detail-v2-front-iris-pupil-spec.png",
-    "approved P7-5.2 face front and rear-hair reference for the approved left profile",
-    "approved P7-5.2 full-body right profile and face front reference for the approved right profile",
+    "rear-hair reference for the retained left profile",
     "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
   ],
-  "approved_scope": "Prompt-defined front face reference, front iris-pupil detail, left profile without a clip or scalp part, right profile with a front-bangs clip and visible ear, right-front three-quarter face detail, and rear hair-nape-rear-collar detail only.",
+  "approved_scope": "Left profile without a clip or scalp part, and rear hair-nape-rear-collar detail only. The former front, right-profile, and right-three-quarter references were retired with the hair-clip assets.",
   "excluded_scope": [
     "left-front three-quarter candidates pending human review",
     "facial expressions other than the separately approved neutral expression",

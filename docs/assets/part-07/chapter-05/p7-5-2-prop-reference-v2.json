@@ -30,5 +30,5 @@
     "p7_5_2_research_trousers_deep_teal_blue.py"
   ],
   "review_record": "p7-5-2-no-style-prop-master-review.json",
-  "legacy_assets": "The earlier style-conditioned prop assets were retired after this prompt-only reference set was approved. The hair-clip reference was moved to the face-detail scope."
+  "legacy_assets": "The earlier style-conditioned prop assets and the retired hair-clip reference are not part of this prompt-only prop-reference set."
 }
