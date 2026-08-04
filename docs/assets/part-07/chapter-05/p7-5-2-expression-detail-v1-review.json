@@ -11,15 +11,23 @@
       "expression": "joy",
       "image": "p7-5-2-expression-detail-v1-joy.png",
       "contract": "raised cheeks, smiling eyes, and clearly lifted closed mouth corners"
+    },
+    {
+      "expression": "anger",
+      "image": "p7-5-2-expression-detail-v1-anger.png",
+      "contract": "strongly lowered inward eyebrows, tense eyes and nose, and a hard mouth"
+    },
+    {
+      "expression": "surprise",
+      "image": "p7-5-2-expression-detail-v1-surprise.png",
+      "contract": "raised eyebrows, wide-open eyes, and a rounded open mouth"
     }
   ],
   "pending_expressions": [
     "concern",
-    "anger",
-    "sadness",
-    "surprise"
+    "sadness"
   ],
-  "decision": "Neutral and joy are current character references. The remaining emotional candidates require separate human approval and are not part of the baseline.",
+  "decision": "Neutral, joy, anger, and surprise are current character references. The remaining emotional candidates require separate human approval and are not part of the baseline.",
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
     "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload",

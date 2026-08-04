@@ -1,0 +1,26 @@
+{
+  "status": "partial_human_approved_feature_detail",
+  "purpose": "Accessory and body-feature detail review ledger for P7-5.2.",
+  "approved_features": [
+    {
+      "feature": "hair_clip_and_ear",
+      "image": "p7-5-2-feature-detail-v1-hair-clip-ear.png",
+      "scope": "diamond-shaped silver hair clip, teal bob, visible ear, and no earrings"
+    },
+    {
+      "feature": "shoes",
+      "image": "p7-5-2-feature-detail-v1-shoes.png",
+      "scope": "matching plain white lace-up sneakers and trouser hems"
+    }
+  ],
+  "pending_features": [
+    "eyes_and_skin",
+    "hands_and_wrists",
+    "jacket_hardware"
+  ],
+  "decision": "Only the listed feature details are current character references. Pending features are not approved for cutscene comparison or local repair.",
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-4B",
+    "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"
+  }
+}

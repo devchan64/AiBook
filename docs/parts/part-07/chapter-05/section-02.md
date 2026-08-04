@@ -25,7 +25,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
-| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 전신, 정면·좌측 전면 3/4·좌측 측면·후면 얼굴 detail, 중립·기쁨 표정 승인; 나머지 감정 표정·손 detail은 미승인 |
+| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 4방향 전신, 4방향 얼굴 detail, 중립·기쁨·분노·놀람, 헤어핀·신발 detail 승인; 우려·슬픔과 눈·피부·손·재킷 detail은 미승인 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
@@ -86,11 +86,13 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | --- | --- | --- |
 | 얼굴 방향 | 정면·좌측 전면 3/4·좌측 측면·후면 | 우측 측면과 우측 3/4 |
 | 얼굴 구성 | 눈·코·입·귀·목과 재킷 칼라의 근접 대조 | 카메라 각도 변화에서의 안정성 |
-| 표정 | 정면 중립·기쁨 표정 두 장 | 걱정·분노·슬픔·놀람 |
+| 표정 | 정면 중립·기쁨·분노·놀람 표정 네 장 | 우려·슬픔 |
 
 | 중립 | 기쁨 |
 | --- | --- |
 | ![승인된 중립 표정](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-neutral.png) | ![승인된 기쁨 표정](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-joy.png) |
+| 분노 | 놀람 |
+| ![승인된 분노 표정](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-anger.png) | ![승인된 놀람 표정](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-surprise.png) |
 
 [얼굴 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-face-detail-v1-review.json)과 [표정 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-expression-detail-v1-review.json)은 승인 범위를 분리합니다. 표정에서는 배경이나 조명 변화가 아니라 눈썹·눈꺼풀·동공·콧등·콧구멍·입 모양의 차이를 따로 검수해야 합니다.
 
@@ -101,6 +103,21 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 <details id="expression-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_expression_detail_multiref_flux.py" data-language="python">
 <summary>눈·코·입 변화를 지정하는 표정 detail 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+## 승인된 헤어핀과 신발 detail
+
+소품·착용 detail은 전신 reference에서 작게 보이는 부분을 다시 확인하는 기준입니다. 현재 승인된 것은 다이아형 은색 헤어핀과 흰 끈 운동화입니다. 이 두 detail은 가방·장신구·손 소품을 새로 추가하는 기준이 아니며, P7-5.3 컷에서도 없는 소품을 만들어도 된다는 뜻이 아닙니다.
+
+| 헤어핀·귀 | 신발 |
+| --- | --- |
+| ![승인된 헤어핀과 귀 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-hair-clip-ear.png) | ![승인된 신발 detail](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-shoes.png) |
+
+[착용·신체 detail 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-feature-detail-v1-review.json)은 헤어핀·신발만 승인됐음을 기록합니다. 눈·피부, 손·손목, 재킷 hardware 후보는 아직 기준 자산이 아닙니다.
+
+<details id="feature-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_feature_detail_multiref_flux.py" data-language="python">
+<summary>착용·신체 detail 생성 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
