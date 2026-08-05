@@ -16,9 +16,9 @@ STYLE = ROOT / "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
 EXPRESSIONS = {
     "neutral": "level relaxed eyebrows, open centered almond eyes, a smooth nose bridge with relaxed nostrils, and a straight closed mouth",
     "joy": "outer eyebrows gently raised, upper eyelids lowered into smiling eyes, lower eyelids lifted, cheeks raised around the nose, and mouth corners clearly lifted into a closed smile",
-    "concern": "inner eyebrows lifted high and drawn gently together, one subtle vertical crease between the brows above the nose bridge, attentive open eyes with pupils looking slightly to one side, lightly flared nostrils, and a small tense closed mouth with one corner pulled down; show uneasy concern, not anger",
+    "concern": "both eyebrows form high soft worried arches with their inner ends gently drawn together, never a sharp V or lowered angry brows; alert fully open eyes with both pupils looking toward the viewer-right, one small vertical worry crease, lightly flared nostrils, and a narrow tense closed mouth pulled slightly sideways with only the viewer-right corner down; show anxious concern after noticing a problem, not sadness, anger, fatigue, tears, a direct stare, or a symmetric frown",
     "anger": "eyebrows forced sharply down and inward into a strong V, deep vertical creases at the nose bridge, narrowed glaring eyes with pupils aimed forward, tense lower lids, flared nostrils, and a wide hard mouth with clenched visible upper teeth; no shouting",
-    "sadness": "inner eyebrows curved upward, soft open eyes with pupils looking slightly down but not heavy-lidded, relaxed nostrils, and a small closed mouth with both corners clearly downward; show quiet sadness, not fatigue, sleepiness, yawning, sweat, tears, or an open mouth",
+    "sadness": "inner ends of both eyebrows curve visibly upward into a soft inverted-V, calm open eyes with both pupils lowered toward the lower eyelids, relaxed nostrils, and a small symmetric closed mouth with both corners clearly and evenly downturned; two small clean tears trace down the cheeks below the eyes to make quiet sorrow unmistakable; not anxious concern, anger, fatigue, sleepiness, yawning, sweat, a sideways glance, or an open mouth",
     "surprise": "eyebrows raised far above the eyes, round fully widened eyes with small centered pupils, visibly flared nostrils, and a large rounded open O-shaped mouth with the lower jaw dropped",
 }
 
@@ -40,10 +40,20 @@ def prompt(expression: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--expression", choices=EXPRESSIONS)
+    parser.add_argument(
+        "--targets",
+        nargs="+",
+        choices=tuple(EXPRESSIONS),
+        default=tuple(EXPRESSIONS),
+        help="Expression IDs to generate. Omit to generate neutral, joy, concern, anger, sadness, and surprise.",
+    )
     parser.add_argument("--seed-offset", type=int, default=0)
+    parser.add_argument("--steps", type=int, default=8)
     args = parser.parse_args()
-    expressions = [args.expression] if args.expression else list(EXPRESSIONS)
+    expressions = args.targets
+
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required")
 
     pipe = Flux2KleinPipeline.from_pretrained(
         "black-forest-labs/FLUX.2-klein-4B", torch_dtype=torch.bfloat16, cache_dir="/tmp/flux2-klein-diffusers-cache"
@@ -57,7 +67,7 @@ def main() -> None:
             prompt=prompt(EXPRESSIONS[expression]),
             width=768,
             height=1024,
-            num_inference_steps=8,
+            num_inference_steps=args.steps,
             guidance_scale=1.0,
             generator=torch.Generator(device="cpu").manual_seed(
                 62200 + list(EXPRESSIONS).index(expression) + args.seed_offset
