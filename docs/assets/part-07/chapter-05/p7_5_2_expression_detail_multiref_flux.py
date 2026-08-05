@@ -1,6 +1,7 @@
-"""Create unapproved frontal expression-detail candidates from approved references."""
+"""Create unapproved frontal expression candidates from the approved face."""
 
 import argparse
+import json
 from pathlib import Path
 import time
 
@@ -11,31 +12,30 @@ from PIL import Image
 
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 CHARACTER = ROOT / "p7-5-2-face-front-v2.png"
-STYLE = ROOT / "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
+REPORT = ROOT / "p7-5-2-expression-v2-review.json"
 
 EXPRESSIONS = {
-    "neutral": "level relaxed eyebrows, open centered almond eyes, a smooth nose bridge with relaxed nostrils, and a straight closed mouth",
-    "joy": "outer eyebrows gently raised, upper eyelids lowered into smiling eyes, lower eyelids lifted, cheeks raised around the nose, and mouth corners clearly lifted into a closed smile",
-    "concern": "both eyebrows form high soft worried arches with their inner ends gently drawn together, never a sharp V or lowered angry brows; alert fully open eyes with both pupils looking toward the viewer-right, one small vertical worry crease, lightly flared nostrils, and a narrow tense closed mouth pulled slightly sideways with only the viewer-right corner down; show anxious concern after noticing a problem, not sadness, anger, fatigue, tears, a direct stare, or a symmetric frown",
-    "anger": "eyebrows forced sharply down and inward into a strong V, deep vertical creases at the nose bridge, narrowed glaring eyes with pupils aimed forward, tense lower lids, flared nostrils, and a wide hard mouth with clenched visible upper teeth; no shouting",
-    "sadness": "inner ends of both eyebrows curve visibly upward into a soft inverted-V, calm open eyes with both pupils lowered toward the lower eyelids, relaxed nostrils, and a small symmetric closed mouth with both corners clearly and evenly downturned; two small clean tears trace down the cheeks below the eyes to make quiet sorrow unmistakable; not anxious concern, anger, fatigue, sleepiness, yawning, sweat, a sideways glance, or an open mouth",
-    "surprise": "eyebrows raised far above the eyes, round fully widened eyes with small centered pupils, visibly flared nostrils, and a large rounded open O-shaped mouth with the lower jaw dropped",
+    "neutral": "relaxed level eyebrows, open centered almond eyes, relaxed nostrils, and a straight closed mouth",
+    "joy": "outer eyebrows gently raised, upper eyelids softly lowered into smiling eyes, lower eyelids lifted, cheeks visibly raised around the nose, and both mouth corners lifted into a broad closed-mouth smile",
+    "concern": "soft high worried eyebrows with inner ends drawn together, alert open eyes looking slightly image-right, one small worry crease, and a narrow tense closed mouth",
+    "anger": "eyebrows sharply down and inward into a clear V, a deep vertical crease between the brows, narrowed eyes with forward pupils, tense lower lids, flared nostrils, and lips pressed into a flat hard line",
+    "sadness": "inner eyebrows raised into a soft inverted V, drooping eyelids with lowered pupils, a small closed mouth with evenly downturned corners, and two small tears pooled at the lower eyelids",
+    "surprise": "eyebrows raised high, upper eyelids lifted, round widened eyes with small centered pupils, slightly flared nostrils, and a visibly lowered jaw forming an open rounded O-shaped mouth",
 }
 
 
 def prompt(expression: str) -> str:
     return (
-        "Create exactly one original Korean webtoon character expression-detail reference, cropped from the top of the hair to the upper chest. "
-        "Keep the same adult woman from the character reference: jaw-length deep teal-blue bob, warm light-peach skin, "
-        "dark-brown almond eyes, white cropped utility jacket, and charcoal crew-neck shirt. "
-        "Face, neck, and both shoulders point directly forward. Keep head size, hairline, jaw, ear position, and jacket collar identical across expressions. No hair clip, pin, ornament, or duplicate shape appears in the hair. "
+        "Frontal head-only expression reference of the same adult Korean webtoon woman on off-white paper. "
+        "Use the face reference for identity, deep teal-blue jaw-length bob, warm light-peach skin, almond cat eyes, chestnut-brown and amber radial-wave irises with dark limbal rings and black pupils, high straight nose bridge, broad low-set cheekbones, and soft cheek fullness. "
+        "Show full hair, face, jaw, and chin only; the lower edge ends directly beneath the chin. "
         f"Expression contract: {expression}. "
-        "The visible change must be in the eyebrows, eyelids, pupils, nose bridge or nostrils, and mouth; do not merely change the background, lighting, or head angle. "
-        "Transfer only thin charcoal drawing lines, pale-blue and muted-teal transparent watercolor washes, soft off-white paper tone, and cool-gray shadows "
-        "from the style reference. Preserve one coherent face with two eyes, one nose, one mouth, one neck, and both shoulders. "
-        "No bag, strap, jewelry, handheld object, extra person, duplicate face, extra eyes, text, logo, watermark, panel border, outer frame line, "
-        "photorealism, glossy cel shading, opaque shadows, heavy hatching, or dramatic scene lighting."
+        "Change only eyebrows, eyelids, pupils, nostrils, and mouth while preserving face shape, hair, camera direction, and neutral paper background."
     )
+
+
+def prompt_word_count(text: str) -> int:
+    return len(text.split())
 
 
 def main() -> None:
@@ -60,13 +60,15 @@ def main() -> None:
     )
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
+    runs = []
     for expression in expressions:
         started = time.monotonic()
+        rendered_prompt = prompt(EXPRESSIONS[expression])
         image = pipe(
-            image=[Image.open(CHARACTER).convert("RGB"), Image.open(STYLE).convert("RGB")],
-            prompt=prompt(EXPRESSIONS[expression]),
+            image=[Image.open(CHARACTER).convert("RGB")],
+            prompt=rendered_prompt,
             width=768,
-            height=1024,
+            height=768,
             num_inference_steps=args.steps,
             guidance_scale=1.0,
             generator=torch.Generator(device="cpu").manual_seed(
@@ -74,9 +76,35 @@ def main() -> None:
             ),
             max_sequence_length=256,
         ).images[0]
-        output = ROOT / f"p7-5-2-expression-detail-v1-{expression}-candidate.png"
+        output = ROOT / f"p7-5-2-expression-v2-{expression}-candidate.png"
         image.save(output)
-        print(f"{expression}: {time.monotonic() - started:.2f}s -> {output}")
+        elapsed = round(time.monotonic() - started, 2)
+        runs.append(
+            {
+                "expression": expression,
+                "output": output.name,
+                "seed": 62200 + list(EXPRESSIONS).index(expression) + args.seed_offset,
+                "prompt": rendered_prompt,
+                "prompt_word_count": prompt_word_count(rendered_prompt),
+                "elapsed_seconds": elapsed,
+            }
+        )
+        print(f"{expression}: {elapsed:.2f}s -> {output}")
+
+    REPORT.write_text(
+        json.dumps(
+            {
+                "status": "review_required",
+                "input": CHARACTER.name,
+                "model": "black-forest-labs/FLUX.2-klein-4B",
+                "image_size": [768, 768],
+                "runs": runs,
+                "decision": "Each expression is a candidate; human review is required before it becomes a facial expression reference.",
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
 
 
 if __name__ == "__main__":

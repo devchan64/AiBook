@@ -32,6 +32,10 @@ PROMPT = (
 SEED = 62285
 
 
+def prompt_word_count(text: str) -> int:
+    return len(text.split())
+
+
 def main() -> None:
     if missing := [path.name for path in REFERENCES if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
@@ -66,6 +70,7 @@ def main() -> None:
                 "output": OUTPUT.name,
                 "seed": SEED,
                 "prompt": PROMPT,
+                "prompt_word_count": prompt_word_count(PROMPT),
                 "model": MODEL_ID,
                 "elapsed_seconds": round(time.monotonic() - started, 2),
                 "decision": "Candidate only; human review is required before it becomes the front full-body reference.",

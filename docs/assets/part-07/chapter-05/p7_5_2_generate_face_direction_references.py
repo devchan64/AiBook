@@ -50,6 +50,10 @@ def build_prompt(view_id: str) -> str:
     return f"{COMMON_PROMPT} {VIEW_RULES[view_id]} {COMMON_CONSTRAINTS}"
 
 
+def prompt_word_count(text: str) -> int:
+    return len(text.split())
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -100,6 +104,7 @@ def main() -> None:
             "output": output.name,
             "seed": seed,
             "prompt": prompt,
+            "prompt_word_count": prompt_word_count(prompt),
             "elapsed_seconds": round(time.monotonic() - started, 2),
         })
 

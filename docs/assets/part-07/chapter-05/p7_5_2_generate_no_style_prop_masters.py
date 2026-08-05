@@ -54,6 +54,10 @@ PROPS = {
 }
 
 
+def prompt_word_count(text: str) -> int:
+    return len(text.split())
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -104,6 +108,7 @@ def main() -> None:
                 "id": prop["id"],
                 "output": output.name,
                 "prompt": prop["prompt"],
+                "prompt_word_count": prompt_word_count(prop["prompt"]),
                 "seed": prop["seed"],
                 "elapsed_seconds": elapsed,
             }

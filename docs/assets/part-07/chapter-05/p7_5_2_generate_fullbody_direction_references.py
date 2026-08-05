@@ -67,6 +67,10 @@ def prompt_for(stage: str, view: str) -> str:
     return f"{direction} {extra} {OUTFIT_CONTRACT} Preserve the completed body rotation and scale."
 
 
+def prompt_word_count(text: str) -> int:
+    return len(text.split())
+
+
 def references_for(stage: str, view: str) -> list[Path]:
     face, _ = VIEW_SPECS[view]
     if stage == "orient":
@@ -85,10 +89,11 @@ def render(
     seed: int,
 ) -> dict[str, object]:
     references = references_for(stage, view)
+    rendered_prompt = prompt_for(stage, view)
     started = time.monotonic()
     image = pipe(
         image=[Image.open(path).convert("RGB") for path in references],
-        prompt=prompt_for(stage, view),
+        prompt=rendered_prompt,
         width=768,
         height=1280,
         num_inference_steps=12,
@@ -103,7 +108,8 @@ def render(
         "references": [path.name for path in references],
         "output": output.name,
         "seed": seed,
-        "prompt": prompt_for(stage, view),
+        "prompt": rendered_prompt,
+        "prompt_word_count": prompt_word_count(rendered_prompt),
         "elapsed_seconds": round(time.monotonic() - started, 2),
     }
 
