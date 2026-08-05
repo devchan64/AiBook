@@ -10,7 +10,7 @@ from PIL import Image
 
 
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
-CHARACTER = ROOT / "p7-5-2-multireference-turnaround-v1-front.png"
+CHARACTER = ROOT / "p7-5-2-face-front-v2.png"
 STYLE = ROOT / "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png"
 
 EXPRESSIONS = {
@@ -26,9 +26,9 @@ EXPRESSIONS = {
 def prompt(expression: str) -> str:
     return (
         "Create exactly one original Korean webtoon character expression-detail reference, cropped from the top of the hair to the upper chest. "
-        "Keep the same adult woman from the character reference: jaw-length deep teal-blue bob, one diamond-shaped silver hair clip, warm light-peach skin, "
+        "Keep the same adult woman from the character reference: jaw-length deep teal-blue bob, warm light-peach skin, "
         "dark-brown almond eyes, white cropped utility jacket, and charcoal crew-neck shirt. "
-        "Face, neck, and both shoulders point directly forward. Keep head size, hairline, jaw, ear position, and jacket collar identical across expressions. The hair has exactly one accessory: one single diamond-shaped silver hair clip tilted 45 degrees above the viewer-left temple; no other clip, pin, ornament, or duplicate shape appears in the hair. "
+        "Face, neck, and both shoulders point directly forward. Keep head size, hairline, jaw, ear position, and jacket collar identical across expressions. No hair clip, pin, ornament, or duplicate shape appears in the hair. "
         f"Expression contract: {expression}. "
         "The visible change must be in the eyebrows, eyelids, pupils, nose bridge or nostrils, and mouth; do not merely change the background, lighting, or head angle. "
         "Transfer only thin charcoal drawing lines, pale-blue and muted-teal transparent watercolor washes, soft off-white paper tone, and cool-gray shadows "
