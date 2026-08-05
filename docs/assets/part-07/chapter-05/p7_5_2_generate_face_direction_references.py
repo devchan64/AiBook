@@ -21,7 +21,7 @@ REPORT = ROOT / "p7-5-2-face-rotation-from-front-v2-review.json"
 COMMON_PROMPT = (
     "Head-and-neck rotation reference of the same woman on off-white. "
     "Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. "
-    "Keep broad low-set cheekbones and slight cheek fullness. "
+    "Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. "
     "A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge."
 )
 COMMON_CONSTRAINTS = "Neutral expression."
