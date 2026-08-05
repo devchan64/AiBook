@@ -21,7 +21,7 @@ HEAD_INPUT_BOTTOM = 720
 COMMON_PROMPT = (
     "Tight head-only rotation reference of the same woman on off-white. "
     "Use the frontal face reference for identity and hair. "
-    "Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. "
+    "Keep broad low-set cheekbones, visibly soft cheek fullness, a high straight nose bridge with a defined nose tip, and almond cat eyes with subtly upturned outer corners. "
     "Keep the exact deep teal-blue jaw-length rounded bob: deep viewer-right part, broad fringe sweeping across the viewer-left forehead, tapered jaw locks, and short rounded nape. "
     "The image contains the full hair mass, face, jaw, and chin only; its lower edge ends directly beneath the chin."
 )
