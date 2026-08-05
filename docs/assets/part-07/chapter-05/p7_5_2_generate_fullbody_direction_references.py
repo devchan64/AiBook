@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate directional full-body candidates through one fixed multi-stage sequence."""
+"""Generate direct directional full-body candidates from approved references."""
 
 from __future__ import annotations
 
@@ -32,65 +32,49 @@ PROPORTION_CONTRACT = (
     "Match the frontal full-body reference at approximately 7.5 head heights: keep the head length, shoulder width, "
     "torso length, natural waist, hip line, crotch level, knee level, lower-leg length, foot scale, and full hair-to-sole framing consistent."
 )
-ROTATION_COMMON_PROMPT = (
-    "Rotated full-body reference of the same woman on an off-white studio background. "
-    "Use the frontal full-body reference as the complete body anchor for identity, 7.5-head-height proportion, pose, clothing silhouette, and full hair-to-sole framing. "
-    "Use the directional face reference only for head direction, facial identity, and hair orientation. "
-    "Render the same neutral standing full body from hair to soles with clean ink outlines, watercolor fills, and flat illustrated rendering."
-)
-PROPORTION_COMMON_PROMPT = (
-    "Proportion-calibrated full-body directional reference of the same woman on an off-white studio background. "
-    "Use the generated full-body reference for identity, body direction, and pose. "
-    "Use the frontal full-body reference to match its 165 cm and 55 kg figure. "
-    f"{PROPORTION_CONTRACT} "
-    "Do not change the body direction or pose."
-)
-OUTFIT_COMMON_PROMPT = (
-    "Outfit-unified full-body directional reference of the same woman on an off-white studio background. "
-    "Use the proportion-calibrated full-body reference for identity, body direction, pose, and body proportions. "
-    "Use the frontal full-body reference for overall proportion. Use the approved crop-top-waist relation, trousers, and shoes references "
-    "for the complete outfit and garment construction. Render a charcoal-gray regular-fit short-sleeve micro-crop crew-neck top, "
-    "a visible bare-midriff gap, deep teal-blue high-waisted wide-leg trousers, and matching white lace-up low-top sneakers. "
-    f"{PROPORTION_CONTRACT} "
-    "Keep the body direction and neutral standing pose, complete from hair to soles."
-)
-COMMON_CONSTRAINTS = "No extra person, text, or border."
-FOOTWEAR_CONTRACT = (
-    "Both feet are fully visible in the matching pair of lace-up white low-top sneakers from the shoe reference."
-)
 DIRECTION_RULES = {
-    "left_front_quarter": "Show head, shoulders, torso, hips, knees, and feet together in a left-front-three-quarter view.",
-    "right_front_quarter": "Show head, shoulders, torso, hips, knees, and feet together in a right-front-three-quarter view.",
-    "profile_left": "She faces image-left in a strict full-body side profile; head, torso, hips, knees, and feet all face image-left.",
-    "profile_right": "She faces image-right in a strict full-body side profile; head, torso, hips, knees, and feet all face image-right.",
-    "rear": "She faces directly away from the viewer; head, shoulders, torso, hips, knees, and feet all show the rear view.",
+    "left_front_quarter": "Full-body 35-degree left-front three-quarter view; face, chest, pelvis, knees, and feet turn together toward image-left.",
+    "right_front_quarter": "Full-body 35-degree right-front three-quarter view; face, chest, pelvis, knees, and feet turn together toward image-right.",
+    "profile_left": "Full-body strict left side profile; head, torso, hips, knees, and feet face image-left.",
+    "profile_right": "Full-body strict right side profile; head, torso, hips, knees, and feet face image-right.",
+    "rear": "Full-body rear view; head, shoulders, torso, hips, knees, and feet face directly away from the viewer.",
+}
+STYLE_AND_SCALE = "Same woman, neutral upright pose, full body from hair to soles, off-white studio background, clean ink outlines and watercolor fills. Match the front body's 7.5-head scale."
+PROFILE_OCCLUSION = "Show one near-side arm along the torso; the far arm is fully hidden behind the torso."
+QUARTER_DEPTH = "Near shoulder, hip, arm, and leg are closer; far shoulder, hip, arm, and leg recede behind the body."
+OUTFIT_CONTRACT = "Keep the charcoal-gray micro-crop top, bare-midriff gap, deep teal-blue wide-leg trousers, and white lace-up low-top sneakers."
+VIEW_STAGES = {
+    "left_front_quarter": ("orient", "depth", "outfit"),
+    "right_front_quarter": ("orient", "depth", "outfit"),
+    "profile_left": ("orient", "outfit"),
+    "profile_right": ("orient", "outfit"),
+    "rear": ("orient",),
 }
 
 
-def stage_output(stage: str, view: str) -> Path:
-    names = {
-        "rotation": f"p7-5-2-fullbody-rotation-v1-{view}-candidate.png",
-        "proportion": f"p7-5-2-fullbody-proportion-v3-{view}-candidate.png",
-        "outfit": f"p7-5-2-fullbody-reference-v10-{view}-candidate.png",
-    }
-    return ROOT / names[stage]
+def output_for(stage: str, view: str) -> Path:
+    return ROOT / f"p7-5-2-fullbody-v4-{view}-{stage}-candidate.png"
 
 
 def prompt_for(stage: str, view: str) -> str:
-    if stage == "rotation":
-        return f"{ROTATION_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
-    if stage == "proportion":
-        return f"{PROPORTION_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
-    return f"{OUTFIT_COMMON_PROMPT} {DIRECTION_RULES[view]} {FOOTWEAR_CONTRACT} {COMMON_CONSTRAINTS}"
+    direction = DIRECTION_RULES[view]
+    if stage == "orient":
+        extra = PROFILE_OCCLUSION if view.startswith("profile_") else ""
+        return f"{direction} {extra} {STYLE_AND_SCALE}"
+    if stage == "depth":
+        return f"{direction} {QUARTER_DEPTH} Preserve the completed identity and neutral pose."
+    extra = PROFILE_OCCLUSION if view.startswith("profile_") else QUARTER_DEPTH
+    return f"{direction} {extra} {OUTFIT_CONTRACT} Preserve the completed body rotation and scale."
 
 
-def stage_references(stage: str, view: str) -> list[Path]:
+def references_for(stage: str, view: str) -> list[Path]:
     face, _ = VIEW_SPECS[view]
-    if stage == "rotation":
+    if stage == "orient":
         return [FRONT_BODY, face]
-    if stage == "proportion":
-        return [stage_output("rotation", view), FRONT_BODY]
-    return [stage_output("proportion", view), FRONT_BODY, *BASE_OUTFIT_COMPONENTS]
+    if stage == "depth":
+        return [output_for("orient", view), face]
+    previous = "depth" if "depth" in VIEW_STAGES[view] else "orient"
+    return [output_for(previous, view), face, *BASE_OUTFIT_COMPONENTS]
 
 
 def render(
@@ -100,7 +84,7 @@ def render(
     view: str,
     seed: int,
 ) -> dict[str, object]:
-    references = stage_references(stage, view)
+    references = references_for(stage, view)
     started = time.monotonic()
     image = pipe(
         image=[Image.open(path).convert("RGB") for path in references],
@@ -112,7 +96,7 @@ def render(
         generator=torch.Generator(device="cpu").manual_seed(seed),
         max_sequence_length=256,
     ).images[0]
-    output = stage_output(stage, view)
+    output = output_for(stage, view)
     image.save(output)
     return {
         "stage": stage,
@@ -146,31 +130,28 @@ def main() -> None:
     runs = []
     for view in args.views:
         _, seed = VIEW_SPECS[view]
-        for stage, stage_seed in (
-            ("rotation", seed),
-            ("proportion", seed + 1000),
-            ("outfit", seed + 2000),
-        ):
-            run = render(pipe, stage=stage, view=view, seed=stage_seed)
+        for offset, stage in enumerate(VIEW_STAGES[view]):
+            run = render(pipe, stage=stage, view=view, seed=seed + offset * 1000)
             run["view"] = view
             runs.append(run)
 
-    report = ROOT / "p7-5-2-fullbody-direction-v10-review.json"
+    report = ROOT / "p7-5-2-fullbody-direction-v13-review.json"
     report.write_text(
         json.dumps(
             {
                 "status": "review_required",
                 "requested_views": args.views,
-                "sequence": [
-                    "front_body_and_directional_face_to_rotated_body",
-                    "rotated_body_to_proportion_calibrated",
-                    "proportion_calibrated_to_outfit_unified",
-                ],
+                "view_stages": {view: VIEW_STAGES[view] for view in args.views},
+                "branching": {
+                    "rear": "One orientation pass from the front body and rear face.",
+                    "profiles": "Orientation, then outfit refinement without reintroducing the frontal body.",
+                    "front_quarters": "Orientation, depth refinement, then outfit refinement without reintroducing the frontal body.",
+                },
                 "proportion_contract": PROPORTION_CONTRACT,
                 "review_focus": "Compare every final output with the approved front body for 7.5-head height, shoulder, waist, hip, knee, foot, and full-frame consistency.",
                 "model": MODEL_ID,
                 "runs": runs,
-                "decision": "All intermediates and final outputs are candidates; human review is required before a final output becomes a reference asset.",
+                "decision": "Only each view's final stage is a reference candidate; human review is required before it becomes a reference asset.",
             },
             indent=2,
         ),
