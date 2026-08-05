@@ -1,0 +1,31 @@
+{
+  "status": "approved",
+  "output": "p7-5-2-face-turnaround-reference.png",
+  "seed": 62377,
+  "seed_offset": 0,
+  "seed_step": 1,
+  "batch_index": 0,
+  "batch_size": 1,
+  "run_timestamp": "20260806T002532199156+0900",
+  "output_prefix": "p7-5-2-face-turnaround-sheet-v11",
+  "prompt": "2 by 2 face turnaround of the same woman from the reference image. Keep chestnut-brown and orange-amber irises with visible radial texture, a consistent iris diameter and pupil-to-iris ratio in every panel, allowing only perspective foreshortening; keep the gaze direction aligned with the nose direction in every visible face; a high slim nose bridge and a small rounded nose tip; and deep petrol-teal, voluminous jaw-length bob hair with a deep side part, short swept fringe, loose S-waves, inward C-curls, and tapered side locks. Panel directions: top-left: front view at 0 degrees, with the nose centered and both eyes equally visible; top-right: 45-degree front-quarter view, with the near eye fully visible and the far eye half visible; bottom-left: 90-degree profile view, with one near eye visible in side view and the far eye hidden; bottom-right: 180-degree rear view, facing away from the camera, with no nose or eyes visible. Use one distinct view per panel.",
+  "prompt_word_count": 154,
+  "references": [
+    "p7-5-2-face-front-with-hair-v3.png"
+  ],
+  "input_transform": "Cropped the frontal anchor at y=720 before inference.",
+  "sheet_layout": [
+    "front",
+    "front_quarter",
+    "profile",
+    "rear"
+  ],
+  "style_reference": null,
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    1024,
+    1024
+  ],
+  "elapsed_seconds": 34.94,
+  "decision": "Approved as the front, front-quarter, profile, and rear face turnaround reference; pose, camera, expression, and full-body reference scope remain unapproved."
+}

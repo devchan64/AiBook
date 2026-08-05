@@ -21,13 +21,16 @@ BASE_SEED = 62377
 HEAD_INPUT_BOTTOM = 720
 SHEET_SIZE = 1024
 VIEW_RULES = {
-    "front": "front view at 0 degrees, with the nose centered, both eyes equally visible, and a straight-ahead gaze",
-    "front_quarter": "45-degree front-quarter view, with the near eye fully visible, the far eye half visible, and the gaze following the head turn",
-    "profile": "90-degree profile view, with one near eye visible in side view, the far eye hidden, and the gaze following the head turn",
+    "front": "front view at 0 degrees, with the nose centered and both eyes equally visible",
+    "front_quarter": "45-degree front-quarter view, with the near eye fully visible and the far eye half visible",
+    "profile": "90-degree profile view, with one near eye visible in side view and the far eye hidden",
     "rear": "180-degree rear view, facing away from the camera, with no nose or eyes visible",
 }
 APPEARANCE_RULE = (
-    "Keep chestnut-brown and orange-amber irises with visible radial texture; "
+    "Keep chestnut-brown and orange-amber irises with visible radial texture, "
+    "a consistent iris diameter and pupil-to-iris ratio in every panel, "
+    "allowing only perspective foreshortening; "
+    "keep the gaze direction aligned with the nose direction in every visible face; "
     "a high slim nose bridge and a small rounded nose tip; "
     "and deep petrol-teal, voluminous jaw-length bob hair with a deep side part, "
     "short swept fringe, loose S-waves, inward C-curls, and tapered side locks."

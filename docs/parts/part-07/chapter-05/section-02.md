@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 참조 셋 생성: 로컬 GPU 원본과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.05`
+> Version: `v2026.08.06`
 
 웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지, 그 이미지를 학습하거나 직접 참조로 사용한 출력, 그에 따른 LoRA 평가는 이 절의 근거로 사용하지 않습니다.
 
@@ -14,7 +14,7 @@ P7-5.2에서 기준 이미지를 생성하는 소스는 아래 여섯 개로 관
 | 생성 범위 | 소스 | 범위 옵션 |
 | --- | --- | --- |
 | 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | 없음 |
-| 방향 얼굴 | `p7_5_2_generate_face_direction_references.py` | `--views` |
+| 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views` |
 | 표정 detail | `p7_5_2_expression_detail_multiref_flux.py` | `--targets` |
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets` |
 | 정면 전신 | `p7_5_2_generate_fullbody_front_reference.py` | 없음 |
@@ -49,9 +49,20 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 이 pipeline은 여러 이미지를 타일 시트로 합쳐 모델에 넣지 않습니다. 참조 입력에는 manifest가 가리키는 개별 PNG 하나만 사용합니다. train과 held-out은 단지 파일 수를 맞추는 폴더가 아니라, source ID·장소·camera를 분리해 캐릭터를 외운 결과와 새 장면에 적용한 결과를 구분하는 장치입니다.
 
+## 첫 기준은 정면 얼굴이다
+
+생성 체인은 정면 얼굴 기준에서 시작합니다. 머리핀을 포함한 이전 기준은 폐기하고, 얼굴형·홍채·머리·표정을 prompt로 정의한 머리 전체·얼굴·턱 출력만 새로 생성·사람 검수했습니다. 넓고 낮은 광대, 볼살, 고양이 눈매의 위로 향한 눈꼬리는 이 첫 기준에서만 고정하며, 몸·의상·회전 view·표정은 아직 승인하지 않습니다.
+
+![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v2.png)
+
+<details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
+<summary>첫 기준인 정면 얼굴 후보를 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
 ## 여섯 생성기의 연결
 
-캐릭터 패키지는 같은 인물을 여러 장으로 다시 그린 결과를 무작정 모으지 않습니다. 아래 여섯 생성기는 고정할 정보를 작은 범위에서 큰 범위로 넘깁니다. 각 단계의 후보는 다음 단계의 입력이 될 수 있지만, 사람 승인 전에는 기준 체인에 편입하지 않습니다.
+캐릭터 패키지는 같은 인물을 여러 장으로 다시 그린 결과를 무작정 모으지 않습니다. 아래 여섯 생성기는 먼저 고정한 정면 얼굴을 출발점으로, 작은 범위에서 큰 범위로 정보를 넘깁니다. 각 단계의 후보는 다음 단계의 입력이 될 수 있지만, 사람 승인 전에는 기준 체인에 편입하지 않습니다.
 
 | 순서 | 생성기 | 입력에서 고정하는 정보 | 최종 PNG에서 검수할 정보 |
 | --- | --- | --- | --- |
@@ -88,37 +99,22 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 얼굴 기준 검수 결과
+## 정면 얼굴에서 방향·표정 기준을 확장한다
 
-머리핀을 포함한 이전 정면 얼굴 기준은 폐기했습니다. 현재 정면 얼굴 기준은 얼굴형·홍채·머리·표정을 prompt로 정의하고, 머리 전체·얼굴·턱까지만 출력해 새로 생성·검수했습니다. 넓고 낮은 광대, 더 분명한 볼살, 고양이 눈매의 위로 향한 눈꼬리를 정면 계약으로 승인했습니다. 이 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
+정면 얼굴을 앵커로 만든 4패널 턴어라운드 시트를 사람 승인했습니다. 시트는 정면·쿼터뷰·측면·후면의 순서로, 눈에 보이는 홍채의 지름과 동공-홍채 비율, 시선과 코의 방향, 콧대·코끝, 단발의 가르마·앞머리·컬·외곽 실루엣을 함께 대조합니다. 기준 시드는 `62377`이며, 이 승인은 얼굴 회전 identity 범위만 뜻합니다. pose·camera·표정·전신은 별도 생성과 검수가 필요합니다.
 
-<details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
-<summary>턱 종료 계약으로 정면 얼굴 기준을 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
+![승인된 얼굴 턴어라운드 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-reference.png)
 
-### 방향 얼굴과 기본 표정
-
-V2 방향 얼굴은 회전 과정에서 단발의 가르마·앞머리·길이가 바뀌어 기준에서 제거했습니다. 새 V3는 턱 종료 정면 얼굴 한 장만을 앵커로 사용해 목·어깨·상의 입력이 방향 앵커를 흔들지 않게 했습니다. 공통 계약은 넓고 낮은 광대, 더 분명한 볼살, 높은 직선형 콧대와 분명한 코끝, 고양이 눈매와 위로 향한 눈꼬리, 딥틸블루 단발의 가르마·앞머리·길이입니다. 후면의 귀 끝 일부 노출은 허용 범위입니다. 좌우 쿼터·좌우 측면·후면 다섯 장은 사람 검수를 통과했지만, 이 승인은 얼굴 회전 identity 범위만 뜻하며 새 pose·camera·전신 기준까지 확장하지 않습니다.
+[얼굴 턴어라운드 승인 기록](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-reference-review.json)은 실행 prompt, seed, 패널 순서, 승인 범위를 남깁니다. 이 시트는 사람 검수용 대조물이며, 후속 생성의 개별 이미지 입력에는 패널을 분리한 PNG를 사용합니다.
 
 | 기준 | 현재 상태 | 다음 판정 |
 | --- | --- | --- |
-| 얼굴 방향 | 정면·V3 좌우 쿼터·좌우 측면·후면 승인 | 새 pose·camera 범위는 별도 사람 검수 |
-| 얼굴 구성 | 눈·코·입·귀·목의 정면 기준 | 회전 뒤에도 눈·머리·윤곽이 유지되는지 대조 |
+| 얼굴 방향 | 정면·쿼터뷰·측면·후면 4패널 시트 승인 | 새 pose·camera 범위는 별도 사람 검수 |
+| 얼굴 구성 | 홍채·동공 비율, 시선-코 정렬, 코와 머리 실루엣의 회전 일치 | 개별 패널을 입력으로 쓸 때 같은 특징이 유지되는지 대조 |
 | 표정 | 승인 표정 없음 | 중립·기쁨·우려·분노·슬픔·놀람을 새로 생성·검수 |
 
-![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v2.png)
-
-| 좌측 전면 쿼터 | 우측 전면 쿼터 | 좌측 측면 |
-| --- | --- | --- |
-| ![승인된 좌측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-left-front-quarter-v3.png) | ![승인된 우측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-right-front-quarter-v3.png) | ![승인된 좌측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-left-v3.png) |
-
-| 우측 측면 | 후면 |
-| --- | --- |
-| ![승인된 우측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-right-v3.png) | ![승인된 후면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-rear-v3.png) |
-
-<details id="face-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_direction_references.py" data-language="python">
-<summary>정면 얼굴 기준으로 방향별 얼굴 후보를 만드는 코드 보기</summary>
+<details id="face-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_turnaround_sheet.py" data-language="python">
+<summary>정면 얼굴 기준으로 4패널 턴어라운드 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -137,7 +133,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --targets concern sadness
 ```
 
-방향 얼굴은 `--views`를 생략하면 좌우 전면 쿼터·좌우 측면·후면을 같은 정면 앵커와 하나의 적재된 파이프라인에서 연속 생성합니다. 일부 방향만 재시도할 때만 `--views profile_left rear_hair`처럼 범위를 좁힙니다.
+방향 얼굴은 `--views front front_quarter profile rear`로 정면·쿼터뷰·측면·후면을 한 장의 검수 시트에 생성합니다. `--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, 각 PNG와 JSON에는 실행 타임스탬프와 시드가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile rear`처럼 범위를 좁힙니다.
 
 ## 소품 기준 검수 결과: 기본 복장과 확장 소품
 
