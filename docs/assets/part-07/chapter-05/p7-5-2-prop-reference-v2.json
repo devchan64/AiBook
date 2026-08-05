@@ -24,9 +24,9 @@
       "scope": "deep-navy woven-canvas fabric, rounded flap, stitched seams, strap tabs, adjustable strap, and clasp"
     },
     {
-      "id": "charcoal_gray_cropped_top",
-      "image": "p7-5-2-prop-reference-v2-gray-cropped-top.png",
-      "scope": "charcoal-gray soft-knit jersey, round neckline, short sleeves, straight cropped hem at the natural waist, and clean seams"
+      "id": "face_neckline_gray_top",
+      "image": "p7-5-2-face-neckline-gray-top-reference.png",
+      "scope": "charcoal-gray round neckline and upper-shirt contour used only as the face-reference neckline input"
     },
     {
       "id": "regular_fit_micro_crop_top_waist_relation",

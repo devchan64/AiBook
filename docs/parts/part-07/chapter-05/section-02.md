@@ -131,13 +131,13 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## 소품 기준 검수 결과: 기본 복장과 확장 소품
 
-소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 회색 라운드넥 크롭탑, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 여기에 일반 핏 회색 마이크로 크롭탑의 밑단과 하이웨이스트 바지 사이 간격을 고정하는 착장 관계 기준을 추가합니다. 머리핀은 캐릭터 기준에서 폐기했습니다. 갈색 홍채·동공은 정면 얼굴 기준을 새로 생성할 때 함께 검수합니다.
+소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 기본 소품은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 일반 핏 회색 마이크로 크롭탑의 밑단과 하이웨이스트 바지 사이 간격은 별도 착장 관계 기준으로 고정합니다. 얼굴 생성에는 전신 복장과 분리한 회색 목선 기준만 사용합니다. 머리핀은 캐릭터 기준에서 폐기했습니다. 갈색 홍채·동공은 정면 얼굴 기준을 새로 생성할 때 함께 검수합니다.
 
 정면 전신 후보의 기본 복장은 크롭탑-허리선 관계 기준·바지·신발을 참조합니다. 기존 단일 회색 크롭탑은 얼굴 기준의 목선 확인에 유지합니다. 자켓과 가방은 후속 방향 전신이나 컷신에서 별도 계약이 필요할 때만 선택하는 확장 소품입니다.
 
-| 회색 크롭탑 기준 | 바지 기준 | 신발 기준 |
+| 얼굴 목선 기준 | 바지 기준 | 신발 기준 |
 | --- | --- | --- |
-| ![승인된 회색 크롭탑 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-gray-cropped-top.png) | ![승인된 바지 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-trousers.png) | ![승인된 신발 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-shoes.png) |
+| ![승인된 얼굴 목선 기준](../../../assets/part-07/chapter-05/p7-5-2-face-neckline-gray-top-reference.png) | ![승인된 바지 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-trousers.png) | ![승인된 신발 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-shoes.png) |
 
 ![승인된 크롭탑-허리선 착장 관계 기준](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference.png)
 
@@ -145,16 +145,16 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | --- | --- |
 | ![승인된 자켓 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket.png) | ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-crossbody-bag.png) |
 
-[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json), [기존 소품 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json), [회색 크롭탑 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-gray-cropped-top-review.json), [크롭탑-허리선 착장 관계 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference-review.json)은 신발·자켓·회색 크롭탑·바지·가방과 착장 관계의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json), [기존 소품 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json), [얼굴 목선 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-face-neckline-gray-top-reference-review.json), [크롭탑-허리선 착장 관계 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference-review.json)은 신발·자켓·바지·가방, 얼굴 목선, 착장 관계의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
-소품 기준 v2는 개별 소품 PNG 다섯 장과 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·회색 크롭탑·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
+소품 기준 v2는 개별 소품 PNG 네 장, 얼굴 목선 PNG 한 장, 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 
 <details id="no-style-prop-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py" data-language="python">
 <summary>선택한 소품 기준 후보를 만드는 통합 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-통합 스크립트는 `--targets` 범위로 `jacket`, `trousers`, `shoes`, `crossbody_bag`, `gray_cropped_top` 중 필요한 항목만 생성합니다. 범위를 생략하면 다섯 항목을 모두 생성하고, 각 항목은 호출 순서와 무관한 고정 seed를 사용합니다. `gray_cropped_top` 후보는 단일 의류의 물성뿐 아니라 전신 생성에 필요한 크롭 밑단-허리선 관계도 검수합니다.
+통합 스크립트는 `--targets` 범위로 `jacket`, `trousers`, `shoes`, `crossbody_bag`, `crop_top_waist_relation` 중 필요한 항목만 생성합니다. 범위를 생략하면 다섯 항목을 모두 생성하고, 각 항목은 호출 순서와 무관한 고정 seed를 사용합니다. `crop_top_waist_relation` 후보는 전신 생성에 필요한 크롭 밑단-허리선 관계를 검수합니다.
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \

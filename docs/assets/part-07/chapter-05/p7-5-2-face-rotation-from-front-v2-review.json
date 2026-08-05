@@ -3,7 +3,7 @@
   "purpose": "Approved V2 directional face references generated from the current frontal-face candidate and cropped-top prop reference.",
   "inputs": [
     "p7-5-2-face-front-v2.png",
-    "p7-5-2-prop-reference-v2-gray-cropped-top.png"
+    "p7-5-2-face-neckline-gray-top-reference.png"
   ],
   "requested_views": [
     "left_front_quarter",

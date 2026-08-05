@@ -1,9 +1,9 @@
 {
-  "status": "human_approved_prop_reference",
-  "purpose": "Human-approved prompt-only gray cropped-top reference without a style-image or character input.",
+  "status": "human_approved_face_neckline_reference",
+  "purpose": "Human-approved prompt-only gray neckline reference for face generation, without a style-image or character input.",
   "input_policy": "prompt only; no style, face, character, or existing prop image input",
   "requested_targets": [
-    "gray_cropped_top"
+    "gray_cropped_top (legacy generation target)"
   ],
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
@@ -11,12 +11,12 @@
   },
   "runs": [
     {
-      "id": "gray_cropped_top",
-      "output": "p7-5-2-prop-reference-v2-gray-cropped-top.png",
+      "id": "face_neckline_gray_top",
+      "output": "p7-5-2-face-neckline-gray-top-reference.png",
       "prompt": "One isolated charcoal-gray cropped crew-neck top in a clean front product view on a plain off-white background. Soft knit jersey, short sleeves, a round neckline, a straight cropped hem ending at the natural waist, and simple clean seams. Clean product illustration. No person, hanger, jacket, text, logo, or other object.",
       "seed": 62284,
       "elapsed_seconds": 18.3
     }
   ],
-  "decision": "Human approved. This gray cropped top is part of the P7-5.2 prop-reference v2 set."
+  "decision": "Human approved as a face-neckline reference only. It is not the full-body crop-top construction reference."
 }

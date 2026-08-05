@@ -3,7 +3,7 @@
   "purpose": "Approved V2 directional head-and-neck references regenerated from the approved frontal-face and cropped-top references.",
   "inputs": [
     "p7-5-2-face-front-v2.png",
-    "p7-5-2-prop-reference-v2-gray-cropped-top.png"
+    "p7-5-2-face-neckline-gray-top-reference.png"
   ],
   "model": "black-forest-labs/FLUX.2-klein-4B",
   "shared_pipeline": true,

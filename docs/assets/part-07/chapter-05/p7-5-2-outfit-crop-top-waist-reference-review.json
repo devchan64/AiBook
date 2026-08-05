@@ -3,7 +3,7 @@
   "purpose": "Generate a prompt-only apparel-detail reference that fixes the crop-top hem and high-waist relation.",
   "input_policy": "prompt only; no style, face, character, or existing prop image input",
   "requested_targets": [
-    "gray_cropped_top"
+    "crop_top_waist_relation"
   ],
   "model": {
     "id": "black-forest-labs/FLUX.2-klein-4B",
