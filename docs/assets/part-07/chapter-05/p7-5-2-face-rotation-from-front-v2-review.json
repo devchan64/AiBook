@@ -1,0 +1,55 @@
+{
+  "status": "approved",
+  "purpose": "Approved V2 directional face references generated from the current frontal-face candidate and cropped-top prop reference.",
+  "inputs": [
+    "p7-5-2-face-front-v2.png",
+    "p7-5-2-prop-reference-v2-gray-cropped-top.png"
+  ],
+  "requested_views": [
+    "left_front_quarter",
+    "right_front_quarter",
+    "profile_left",
+    "profile_right",
+    "rear_hair"
+  ],
+  "shared_pipeline": "All requested rotations reused one loaded pipeline, the same frontal-face candidate, and the same cropped-top prop reference before approval.",
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "runs": [
+    {
+      "view_id": "left_front_quarter",
+      "output": "p7-5-2-face-left-front-quarter-v2.png",
+      "seed": 62350,
+      "prompt": "Head-and-neck rotation reference of the same woman on off-white. Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge. Show her head in a left-front-quarter view; the far eye is narrower. Neutral expression.",
+      "elapsed_seconds": 42.67
+    },
+    {
+      "view_id": "right_front_quarter",
+      "output": "p7-5-2-face-right-front-quarter-v2.png",
+      "seed": 62351,
+      "prompt": "Head-and-neck rotation reference of the same woman on off-white. Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge. Show her head in a right-front-quarter view; the far eye is narrower. Neutral expression.",
+      "elapsed_seconds": 42.87
+    },
+    {
+      "view_id": "profile_left",
+      "output": "p7-5-2-face-profile-left-v2.png",
+      "seed": 62352,
+      "prompt": "Head-and-neck rotation reference of the same woman on off-white. Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge. Face viewer-left in strict profile with one visible eye, one iris, and one ear. Neutral expression.",
+      "elapsed_seconds": 43.04
+    },
+    {
+      "view_id": "profile_right",
+      "output": "p7-5-2-face-profile-right-v2.png",
+      "seed": 62353,
+      "prompt": "Head-and-neck rotation reference of the same woman on off-white. Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge. Face viewer-right in strict profile with one visible eye, one iris, and one ear. Neutral expression.",
+      "elapsed_seconds": 43.15
+    },
+    {
+      "view_id": "rear_hair",
+      "output": "p7-5-2-face-rear-v2.png",
+      "seed": 62356,
+      "prompt": "Head-and-neck rotation reference of the same woman on off-white. Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge. Use a true 180-degree rear camera view: the camera is directly behind her head, and the back of the centered bob and nape face the viewer. Keep the head and neck aligned straight away from the camera. The visible content is the centered back hair mass and nape, with the bob covering both temples; a small ear edge may remain visible. Neutral expression.",
+      "elapsed_seconds": 43.13
+    }
+  ],
+  "decision": "Human approved as the V2 directional face reference set. This approval is limited to face identity, hair, eye shape, cheek contract, neckline, and head rotation; it does not approve expressions, full-body references, pose, or camera views."
+}

@@ -14,7 +14,7 @@ from PIL import Image
 
 
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
-FRONT = ROOT / "p7-5-2-face-front-no-accessory-v3-candidate.png"
+FRONT = ROOT / "p7-5-2-face-front-v2.png"
 CROPPED_TOP = ROOT / "p7-5-2-prop-reference-v2-gray-cropped-top.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 REPORT = ROOT / "p7-5-2-face-rotation-from-front-v2-review.json"
