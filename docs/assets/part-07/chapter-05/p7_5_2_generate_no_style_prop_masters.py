@@ -44,6 +44,13 @@ PROPS = {
         "size": (768, 768),
         "prompt": "One isolated compact deep-navy woven-canvas crossbody bag in a clean three-quarter front view on a plain off-white background. Small horizontal rounded flap, visible textile weave, stitched seams, reinforced strap tabs, charcoal adjustable canvas strap, and one small silver clasp. Clean product illustration. No leather, person, text, logo, or other object.",
     },
+    "gray_cropped_top": {
+        "id": "gray_cropped_top",
+        "seed": 62284,
+        "output": "p7-5-2-no-style-prop-gray-cropped-top-candidate.png",
+        "size": (768, 1024),
+        "prompt": "One isolated charcoal-gray cropped crew-neck top in a clean front product view on a plain off-white background. Soft knit jersey, short sleeves, a round neckline, a straight cropped hem ending at the natural waist, and simple clean seams. Clean product illustration. No person, hanger, jacket, text, logo, or other object.",
+    },
 }
 
 
@@ -54,7 +61,7 @@ def main() -> None:
         nargs="+",
         choices=tuple(PROPS),
         default=tuple(PROPS),
-        help="Prop IDs to generate. Omit to generate jacket, trousers, shoes, and crossbody_bag.",
+        help="Prop IDs to generate. Omit to generate jacket, trousers, shoes, crossbody_bag, and gray_cropped_top.",
     )
     parser.add_argument(
         "--report",

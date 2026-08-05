@@ -40,7 +40,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
-| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 정면·방향 얼굴과 신발·자켓·바지·가방 유지; 표정·정면 전신·방향 전신은 새로 생성·검수 |
+| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 3/4·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 정면·방향 얼굴과 신발·자켓·회색 크롭탑·바지·가방 유지; 표정·정면 전신·방향 전신은 새로 생성·검수 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
@@ -131,9 +131,9 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 방향 얼굴은 `--views`를 생략하면 좌우 전면 쿼터·좌우 측면·후면을 같은 정면 앵커와 하나의 적재된 파이프라인에서 연속 생성합니다. 일부 방향만 재시도할 때만 `--views profile_left rear_hair`처럼 범위를 좁힙니다.
 
-## 소품 기준 검수 결과: 신발·자켓·바지·가방
+## 소품 기준 검수 결과: 신발·자켓·회색 크롭탑·바지·가방
 
-소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 머리핀은 캐릭터 기준에서 폐기했습니다. 갈색 홍채·동공은 정면 얼굴 기준을 새로 생성할 때 함께 검수합니다.
+소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 자산은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 회색 라운드넥 크롭탑, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 머리핀은 캐릭터 기준에서 폐기했습니다. 갈색 홍채·동공은 정면 얼굴 기준을 새로 생성할 때 함께 검수합니다.
 
 | 신발 기준 | 자켓 기준 | 바지 기준 |
 | --- | --- | --- |
@@ -143,16 +143,20 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | --- |
 | ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-crossbody-bag.png) |
 
-[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json)와 [prompt-only 생성 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json)은 신발·자켓·바지·가방의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+| 회색 크롭탑 기준 |
+| --- |
+| ![승인된 회색 크롭탑 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-gray-cropped-top.png) |
 
-소품 기준 v2는 개별 PNG 네 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
+[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json), [기존 소품 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json), [회색 크롭탑 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-gray-cropped-top-review.json)은 신발·자켓·회색 크롭탑·바지·가방의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+
+소품 기준 v2는 개별 PNG 다섯 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·회색 크롭탑·바지·가방만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 
 <details id="no-style-prop-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py" data-language="python">
 <summary>선택한 소품 기준 후보를 만드는 통합 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-통합 스크립트는 `--targets` 범위로 `jacket`, `trousers`, `shoes`, `crossbody_bag` 중 필요한 소품만 생성합니다. 범위를 생략하면 네 소품을 모두 생성하고, 각 소품은 호출 순서와 무관한 고정 seed를 사용합니다. 후보 검수 JSON은 승인 기록과 별도 파일로 남습니다.
+통합 스크립트는 `--targets` 범위로 `jacket`, `trousers`, `shoes`, `crossbody_bag`, `gray_cropped_top` 중 필요한 소품만 생성합니다. 범위를 생략하면 다섯 소품을 모두 생성하고, 각 소품은 호출 순서와 무관한 고정 seed를 사용합니다. 회색 크롭탑도 후보 검수 뒤에만 승인 소품과 전신 복장 입력에 추가합니다.
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \

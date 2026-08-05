@@ -18,6 +18,7 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 FRONT_BODY = ROOT / "p7-5-2-fullbody-front-reference.png"
 OUTFIT_COMPONENTS = [
     ROOT / "p7-5-2-prop-reference-v2-jacket.png",
+    ROOT / "p7-5-2-prop-reference-v2-gray-cropped-top.png",
     ROOT / "p7-5-2-prop-reference-v2-trousers.png",
     ROOT / "p7-5-2-prop-reference-v2-shoes.png",
     ROOT / "p7-5-2-prop-reference-v2-crossbody-bag.png",
@@ -48,7 +49,7 @@ PROPORTION_COMMON_PROMPT = (
 OUTFIT_COMMON_PROMPT = (
     "Outfit-unified full-body directional reference of the same woman on an off-white studio background. "
     "Use the proportion-calibrated full-body reference only for identity, body direction, pose, and body proportions; do not copy its clothing, bag, or straps. "
-    "Use the frontal full-body reference for overall proportion. Use the individual jacket, trousers, shoes, and crossbody-bag references "
+    "Use the frontal full-body reference for overall proportion. Use the individual jacket, gray cropped-top, trousers, shoes, and crossbody-bag references "
     "as the only source for the complete outfit and garment construction. Replace every garment from the generated full-body reference. "
     "Keep the body direction and neutral standing pose, complete from hair to soles."
 )

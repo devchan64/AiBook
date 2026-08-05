@@ -22,6 +22,11 @@
       "id": "deep_navy_woven_canvas_crossbody_bag",
       "image": "p7-5-2-prop-reference-v2-crossbody-bag.png",
       "scope": "deep-navy woven-canvas fabric, rounded flap, stitched seams, strap tabs, adjustable strap, and clasp"
+    },
+    {
+      "id": "charcoal_gray_cropped_top",
+      "image": "p7-5-2-prop-reference-v2-gray-cropped-top.png",
+      "scope": "charcoal-gray soft-knit jersey, round neckline, short sleeves, straight cropped hem at the natural waist, and clean seams"
     }
   ],
   "pending": [],
