@@ -16,12 +16,10 @@ from PIL import Image
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 FRONT_BODY = ROOT / "p7-5-2-fullbody-front-reference.png"
-OUTFIT_COMPONENTS = [
-    ROOT / "p7-5-2-prop-reference-v2-jacket.png",
+BASE_OUTFIT_COMPONENTS = [
     ROOT / "p7-5-2-prop-reference-v2-gray-cropped-top.png",
     ROOT / "p7-5-2-prop-reference-v2-trousers.png",
     ROOT / "p7-5-2-prop-reference-v2-shoes.png",
-    ROOT / "p7-5-2-prop-reference-v2-crossbody-bag.png",
 ]
 VIEW_SPECS = {
     "left_front_quarter": (ROOT / "p7-5-2-face-left-front-quarter-v2.png", 62411),
@@ -32,25 +30,29 @@ VIEW_SPECS = {
 }
 TORSO_COMMON_PROMPT = (
     "Upper-body directional reference of the same woman on an off-white studio background. "
-    "Use the directional face reference as the only image reference for identity and head direction. "
+    "Use the directional face reference as the only image reference for identity, head direction, clean ink outlines, watercolor fills, and flat illustrated rendering. "
+    "Do not use photorealistic skin, lighting, or texture. "
     "Frame her from the crown to the upper thighs."
 )
 FULLBODY_COMMON_PROMPT = (
     "Full-body directional reference of the same woman on an off-white studio background. "
     "Use the torso reference for face, hair, neck, shoulder, upper-body direction, and body continuity. "
+    "Preserve its clean ink outlines, watercolor fills, and flat illustrated rendering. "
     "Extend the figure to a neutral standing full body from hair to soles."
 )
 PROPORTION_COMMON_PROMPT = (
     "Proportion-calibrated full-body directional reference of the same woman on an off-white studio background. "
     "Use the generated full-body reference for identity, body direction, and pose. "
-    "Use the frontal full-body reference to match head-to-body ratio, shoulder width, torso length, hip placement, leg length, and foot scale. "
+    "Use the frontal full-body reference to match its 165 cm, 55 kg, approximately 7.5-head-height figure: head-to-body ratio, shoulder width, torso length, hip placement, leg length, and foot scale. "
     "Do not change the body direction or pose."
 )
 OUTFIT_COMMON_PROMPT = (
     "Outfit-unified full-body directional reference of the same woman on an off-white studio background. "
-    "Use the proportion-calibrated full-body reference only for identity, body direction, pose, and body proportions; do not copy its clothing, bag, or straps. "
-    "Use the frontal full-body reference for overall proportion. Use the individual jacket, gray cropped-top, trousers, shoes, and crossbody-bag references "
+    "Use the proportion-calibrated full-body reference only for identity, body direction, pose, and body proportions; do not copy its clothing. "
+    "Use the frontal full-body reference for overall proportion. Use the gray cropped-top, trousers, and shoes references "
     "as the only source for the complete outfit and garment construction. Replace every garment from the generated full-body reference. "
+    "Wear only the charcoal-gray cropped crew-neck top, deep teal-blue wide-leg trousers, and matching white lace-up low-top sneakers. "
+    "No jacket, bag, strap, or other accessory. "
     "Keep the body direction and neutral standing pose, complete from hair to soles."
 )
 COMMON_CONSTRAINTS = "No extra person, text, or border."
@@ -59,29 +61,11 @@ FOOTWEAR_CONTRACT = (
     "No sandals, boots, bare feet, cropped feet, mismatched shoes, or altered shoe design."
 )
 DIRECTION_RULES = {
-    "left_front_quarter": "Show the head, shoulders, and torso in a left-front-quarter view.",
-    "right_front_quarter": "Show the head, shoulders, and torso in a right-front-quarter view.",
-    "profile_left": "She faces image-left in a strict side profile.",
-    "profile_right": "She faces image-right in a strict side profile.",
-    "rear": "She faces directly away from the viewer.",
-}
-OUTFIT_RULES = {
-    "left_front_quarter": "Keep hips, knees, and feet forward. Show exactly one navy crossbody bag with one diagonal strap.",
-    "right_front_quarter": "Keep hips, knees, and feet forward. Show exactly one navy crossbody bag with one diagonal strap.",
-    "profile_left": (
-        "Show exactly one navy crossbody bag clearly at the image-right rear hip, with its complete body visible behind her torso "
-        "and one diagonal shoulder strap."
-    ),
-    "profile_right": (
-        "Show one diagonal crossbody shoulder strap over the visible shoulder and chest, but hide the navy bag body completely behind her torso: "
-        "no bag, bag silhouette, or pouch may be visible at either hip."
-    ),
-    "rear": (
-        "Show exactly one crossbody bag, attached at the image-left hip. Its single strap must emerge at the viewer's right shoulder "
-        "(the rendered image's upper-right, right of her neck), cross the centerline of her back over the spine, and end at the image-left hip. "
-        "The strap must never start at the image-left shoulder or run vertically along the image-left side. Do not mirror this diagonal. "
-        "No second bag, pouch, strap endpoint, or bag silhouette may appear on the image-right hip."
-    ),
+    "left_front_quarter": "Show head, shoulders, torso, hips, knees, and feet together in a left-front-three-quarter view.",
+    "right_front_quarter": "Show head, shoulders, torso, hips, knees, and feet together in a right-front-three-quarter view.",
+    "profile_left": "She faces image-left in a strict full-body side profile; head, torso, hips, knees, and feet all face image-left.",
+    "profile_right": "She faces image-right in a strict full-body side profile; head, torso, hips, knees, and feet all face image-right.",
+    "rear": "She faces directly away from the viewer; head, shoulders, torso, hips, knees, and feet all show the rear view.",
 }
 
 
@@ -90,7 +74,7 @@ def stage_output(stage: str, view: str) -> Path:
         "torso": f"p7-5-2-fullbody-torso-v1-{view}-candidate.png",
         "fullbody": f"p7-5-2-fullbody-base-v1-{view}-candidate.png",
         "proportion": f"p7-5-2-fullbody-proportion-v1-{view}-candidate.png",
-        "outfit": f"p7-5-2-fullbody-reference-v7-{view}-candidate.png",
+        "outfit": f"p7-5-2-fullbody-reference-v8-{view}-candidate.png",
     }
     return ROOT / names[stage]
 
@@ -102,7 +86,7 @@ def prompt_for(stage: str, view: str) -> str:
         return f"{FULLBODY_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
     if stage == "proportion":
         return f"{PROPORTION_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
-    return f"{OUTFIT_COMMON_PROMPT} {DIRECTION_RULES[view]} {OUTFIT_RULES[view]} {FOOTWEAR_CONTRACT} {COMMON_CONSTRAINTS}"
+    return f"{OUTFIT_COMMON_PROMPT} {DIRECTION_RULES[view]} {FOOTWEAR_CONTRACT} {COMMON_CONSTRAINTS}"
 
 
 def stage_references(stage: str, view: str) -> list[Path]:
@@ -113,7 +97,7 @@ def stage_references(stage: str, view: str) -> list[Path]:
         return [stage_output("torso", view)]
     if stage == "proportion":
         return [stage_output("fullbody", view), FRONT_BODY]
-    return [stage_output("proportion", view), FRONT_BODY, *OUTFIT_COMPONENTS]
+    return [stage_output("proportion", view), FRONT_BODY, *BASE_OUTFIT_COMPONENTS]
 
 
 def render(
@@ -154,7 +138,7 @@ def main() -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
-    required = [FRONT_BODY, *OUTFIT_COMPONENTS, *(VIEW_SPECS[view][0] for view in args.views)]
+    required = [FRONT_BODY, *BASE_OUTFIT_COMPONENTS, *(VIEW_SPECS[view][0] for view in args.views)]
     if missing := [path.name for path in required if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
 
@@ -179,7 +163,7 @@ def main() -> None:
             run["view"] = view
             runs.append(run)
 
-    report = ROOT / "p7-5-2-fullbody-direction-v7-review.json"
+    report = ROOT / "p7-5-2-fullbody-direction-v8-review.json"
     report.write_text(
         json.dumps(
             {

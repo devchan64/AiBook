@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate head-and-neck rotation candidates from one approved frontal face."""
+"""Generate head-and-neck rotation candidates from the current frontal-face candidate."""
 
 from __future__ import annotations
 
@@ -14,17 +14,17 @@ from PIL import Image
 
 
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
-FRONT = ROOT / "p7-5-2-face-front-v2.png"
+FRONT = ROOT / "p7-5-2-face-front-no-accessory-v3-candidate.png"
+CROPPED_TOP = ROOT / "p7-5-2-prop-reference-v2-gray-cropped-top.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 REPORT = ROOT / "p7-5-2-face-rotation-from-front-v2-review.json"
 COMMON_PROMPT = (
-    "Close head-and-neck rotation reference of the same woman as the frontal reference, on off-white. "
-    "Her head fills the frame from hair top to the base of the neck; only a narrow band of charcoal-gray crew-neck shirt and its round neckline may appear below the neck. "
-    "Shoulders, collarbones, jacket, and full torso are outside the frame. "
-    "Keep the frontal reference's side-parted jaw-length bob and face shape as identity priority: broad flat cheekbones, "
-    "slightly soft full cheeks, and a smooth taper into the jaw."
+    "Head-and-neck rotation reference of the same woman on off-white. "
+    "Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. "
+    "Keep broad low-set cheekbones and slight cheek fullness. "
+    "A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge."
 )
-COMMON_CONSTRAINTS = "Calm neutral expression. No accessory, text, or border."
+COMMON_CONSTRAINTS = "Neutral expression."
 VIEW_SPECS = {
     "left_front_quarter": ("left-front-quarter", 62350),
     "right_front_quarter": ("right-front-quarter", 62351),
@@ -35,13 +35,12 @@ VIEW_SPECS = {
 VIEW_RULES = {
     "left_front_quarter": "Show her head in a left-front-quarter view; the far eye is narrower.",
     "right_front_quarter": "Show her head in a right-front-quarter view; the far eye is narrower.",
-    "profile_left": "Face viewer-left in strict profile with one visible eye and ear.",
-    "profile_right": "Face viewer-right in strict profile with one visible eye and ear.",
+    "profile_left": "Face viewer-left in strict profile with one visible eye, one iris, and one ear.",
+    "profile_right": "Face viewer-right in strict profile with one visible eye, one iris, and one ear.",
     "rear_hair": (
         "Use a true 180-degree rear camera view: the camera is directly behind her head, and the back of the centered bob and nape face the viewer. "
-        "Keep the head and neck aligned straight away from the camera, with no sideways turn, profile contour, or three-quarter angle. "
-        "Show only the back hair mass and nape; the bob fully covers both temples and all front hair. "
-        "No eye, eyebrow, ear, nose, lips, chin profile, cheek, face skin, front hairline, or fringe is visible."
+        "Keep the head and neck aligned straight away from the camera. "
+        "The visible content is the centered back hair mass and nape, with the bob covering both temples; a small ear edge may remain visible."
     ),
 }
 
@@ -60,6 +59,8 @@ def main() -> None:
         help="Directional face views to generate. Omit to generate every rotation from the same frontal anchor in one loaded pipeline.",
     )
     args = parser.parse_args()
+    if missing := [path.name for path in (FRONT, CROPPED_TOP) if not path.is_file()]:
+        raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
@@ -71,6 +72,7 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
     face = Image.open(FRONT).convert("RGB")
+    cropped_top = Image.open(CROPPED_TOP).convert("RGB")
     runs = []
     for view_id in args.views:
         name, seed = VIEW_SPECS[view_id]
@@ -78,7 +80,7 @@ def main() -> None:
         prompt = build_prompt(view_id)
         output = ROOT / f"p7-5-2-face-rotation-v2-{name}-candidate.png"
         image = pipe(
-            image=[face],
+            image=[face, cropped_top],
             prompt=prompt,
             width=768,
             height=768,
@@ -100,10 +102,10 @@ def main() -> None:
         json.dumps(
             {
                 "status": "review_required",
-                "purpose": "Create compact-prompt directional face candidates from the approved frontal-face reference.",
-                "input": FRONT.name,
+                "purpose": "Create compact-prompt directional face candidates from the current frontal-face candidate.",
+                "inputs": [FRONT.name, CROPPED_TOP.name],
                 "requested_views": args.views,
-                "shared_pipeline": "All requested rotations reuse one loaded pipeline and the same frontal anchor; the frontal anchor itself is not regenerated.",
+                "shared_pipeline": "All requested rotations reuse one loaded pipeline, the same frontal-face candidate, and the same cropped-top prop reference; the frontal candidate itself is not regenerated in this script.",
                 "model": MODEL_ID,
                 "runs": runs,
                 "decision": "Review each view before replacing a directional reference.",
