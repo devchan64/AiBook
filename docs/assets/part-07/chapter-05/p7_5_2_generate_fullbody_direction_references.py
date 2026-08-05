@@ -17,48 +17,46 @@ ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 FRONT_BODY = ROOT / "p7-5-2-fullbody-front-reference.png"
 BASE_OUTFIT_COMPONENTS = [
-    ROOT / "p7-5-2-prop-reference-v2-gray-cropped-top.png",
+    ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
     ROOT / "p7-5-2-prop-reference-v2-trousers.png",
     ROOT / "p7-5-2-prop-reference-v2-shoes.png",
 ]
 VIEW_SPECS = {
-    "left_front_quarter": (ROOT / "p7-5-2-face-left-front-quarter-v2.png", 62411),
-    "right_front_quarter": (ROOT / "p7-5-2-face-right-front-quarter-v2.png", 62412),
-    "profile_left": (ROOT / "p7-5-2-face-profile-left-v2.png", 62403),
-    "profile_right": (ROOT / "p7-5-2-face-profile-right-v2.png", 62404),
-    "rear": (ROOT / "p7-5-2-face-rear-v2.png", 62405),
+    "left_front_quarter": (ROOT / "p7-5-2-face-left-front-quarter-v3.png", 62411),
+    "right_front_quarter": (ROOT / "p7-5-2-face-right-front-quarter-v3.png", 62412),
+    "profile_left": (ROOT / "p7-5-2-face-profile-left-v3.png", 62403),
+    "profile_right": (ROOT / "p7-5-2-face-profile-right-v3.png", 62404),
+    "rear": (ROOT / "p7-5-2-face-rear-v3.png", 62405),
 }
-TORSO_COMMON_PROMPT = (
-    "Upper-body directional reference of the same woman on an off-white studio background. "
-    "Use the directional face reference as the only image reference for identity, head direction, clean ink outlines, watercolor fills, and flat illustrated rendering. "
-    "Do not use photorealistic skin, lighting, or texture. "
-    "Frame her from the crown to the upper thighs."
+PROPORTION_CONTRACT = (
+    "Match the frontal full-body reference at approximately 7.5 head heights: keep the head length, shoulder width, "
+    "torso length, natural waist, hip line, crotch level, knee level, lower-leg length, foot scale, and full hair-to-sole framing consistent."
 )
-FULLBODY_COMMON_PROMPT = (
-    "Full-body directional reference of the same woman on an off-white studio background. "
-    "Use the torso reference for face, hair, neck, shoulder, upper-body direction, and body continuity. "
-    "Preserve its clean ink outlines, watercolor fills, and flat illustrated rendering. "
-    "Extend the figure to a neutral standing full body from hair to soles."
+ROTATION_COMMON_PROMPT = (
+    "Rotated full-body reference of the same woman on an off-white studio background. "
+    "Use the frontal full-body reference as the complete body anchor for identity, 7.5-head-height proportion, pose, clothing silhouette, and full hair-to-sole framing. "
+    "Use the directional face reference only for head direction, facial identity, and hair orientation. "
+    "Render the same neutral standing full body from hair to soles with clean ink outlines, watercolor fills, and flat illustrated rendering."
 )
 PROPORTION_COMMON_PROMPT = (
     "Proportion-calibrated full-body directional reference of the same woman on an off-white studio background. "
     "Use the generated full-body reference for identity, body direction, and pose. "
-    "Use the frontal full-body reference to match its 165 cm, 55 kg, approximately 7.5-head-height figure: head-to-body ratio, shoulder width, torso length, hip placement, leg length, and foot scale. "
+    "Use the frontal full-body reference to match its 165 cm and 55 kg figure. "
+    f"{PROPORTION_CONTRACT} "
     "Do not change the body direction or pose."
 )
 OUTFIT_COMMON_PROMPT = (
     "Outfit-unified full-body directional reference of the same woman on an off-white studio background. "
-    "Use the proportion-calibrated full-body reference only for identity, body direction, pose, and body proportions; do not copy its clothing. "
-    "Use the frontal full-body reference for overall proportion. Use the gray cropped-top, trousers, and shoes references "
-    "as the only source for the complete outfit and garment construction. Replace every garment from the generated full-body reference. "
-    "Wear only the charcoal-gray cropped crew-neck top, deep teal-blue wide-leg trousers, and matching white lace-up low-top sneakers. "
-    "No jacket, bag, strap, or other accessory. "
+    "Use the proportion-calibrated full-body reference for identity, body direction, pose, and body proportions. "
+    "Use the frontal full-body reference for overall proportion. Use the approved crop-top-waist relation, trousers, and shoes references "
+    "for the complete outfit and garment construction. Render a charcoal-gray regular-fit short-sleeve micro-crop crew-neck top, "
+    "a visible bare-midriff gap, deep teal-blue high-waisted wide-leg trousers, and matching white lace-up low-top sneakers. "
+    f"{PROPORTION_CONTRACT} "
     "Keep the body direction and neutral standing pose, complete from hair to soles."
 )
 COMMON_CONSTRAINTS = "No extra person, text, or border."
 FOOTWEAR_CONTRACT = (
-    "Both feet must be fully visible in the matching pair of lace-up white low-top sneakers from the shoe reference. "
-    "No sandals, boots, bare feet, cropped feet, mismatched shoes, or altered shoe design."
+    "Both feet are fully visible in the matching pair of lace-up white low-top sneakers from the shoe reference."
 )
 DIRECTION_RULES = {
     "left_front_quarter": "Show head, shoulders, torso, hips, knees, and feet together in a left-front-three-quarter view.",
@@ -71,19 +69,16 @@ DIRECTION_RULES = {
 
 def stage_output(stage: str, view: str) -> Path:
     names = {
-        "torso": f"p7-5-2-fullbody-torso-v1-{view}-candidate.png",
-        "fullbody": f"p7-5-2-fullbody-base-v1-{view}-candidate.png",
-        "proportion": f"p7-5-2-fullbody-proportion-v1-{view}-candidate.png",
-        "outfit": f"p7-5-2-fullbody-reference-v8-{view}-candidate.png",
+        "rotation": f"p7-5-2-fullbody-rotation-v1-{view}-candidate.png",
+        "proportion": f"p7-5-2-fullbody-proportion-v3-{view}-candidate.png",
+        "outfit": f"p7-5-2-fullbody-reference-v10-{view}-candidate.png",
     }
     return ROOT / names[stage]
 
 
 def prompt_for(stage: str, view: str) -> str:
-    if stage == "torso":
-        return f"{TORSO_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
-    if stage == "fullbody":
-        return f"{FULLBODY_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
+    if stage == "rotation":
+        return f"{ROTATION_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
     if stage == "proportion":
         return f"{PROPORTION_COMMON_PROMPT} {DIRECTION_RULES[view]} {COMMON_CONSTRAINTS}"
     return f"{OUTFIT_COMMON_PROMPT} {DIRECTION_RULES[view]} {FOOTWEAR_CONTRACT} {COMMON_CONSTRAINTS}"
@@ -91,12 +86,10 @@ def prompt_for(stage: str, view: str) -> str:
 
 def stage_references(stage: str, view: str) -> list[Path]:
     face, _ = VIEW_SPECS[view]
-    if stage == "torso":
-        return [face]
-    if stage == "fullbody":
-        return [stage_output("torso", view)]
+    if stage == "rotation":
+        return [FRONT_BODY, face]
     if stage == "proportion":
-        return [stage_output("fullbody", view), FRONT_BODY]
+        return [stage_output("rotation", view), FRONT_BODY]
     return [stage_output("proportion", view), FRONT_BODY, *BASE_OUTFIT_COMPONENTS]
 
 
@@ -113,7 +106,7 @@ def render(
         image=[Image.open(path).convert("RGB") for path in references],
         prompt=prompt_for(stage, view),
         width=768,
-        height=1024 if stage == "torso" else 1280,
+        height=1280,
         num_inference_steps=12,
         guidance_scale=1.0,
         generator=torch.Generator(device="cpu").manual_seed(seed),
@@ -154,27 +147,27 @@ def main() -> None:
     for view in args.views:
         _, seed = VIEW_SPECS[view]
         for stage, stage_seed in (
-            ("torso", seed),
-            ("fullbody", seed + 1000),
-            ("proportion", seed + 2000),
-            ("outfit", seed + 3000),
+            ("rotation", seed),
+            ("proportion", seed + 1000),
+            ("outfit", seed + 2000),
         ):
             run = render(pipe, stage=stage, view=view, seed=stage_seed)
             run["view"] = view
             runs.append(run)
 
-    report = ROOT / "p7-5-2-fullbody-direction-v8-review.json"
+    report = ROOT / "p7-5-2-fullbody-direction-v10-review.json"
     report.write_text(
         json.dumps(
             {
                 "status": "review_required",
                 "requested_views": args.views,
                 "sequence": [
-                    "face_to_torso",
-                    "torso_to_fullbody",
-                    "fullbody_to_proportion_calibrated",
+                    "front_body_and_directional_face_to_rotated_body",
+                    "rotated_body_to_proportion_calibrated",
                     "proportion_calibrated_to_outfit_unified",
                 ],
+                "proportion_contract": PROPORTION_CONTRACT,
+                "review_focus": "Compare every final output with the approved front body for 7.5-head height, shoulder, waist, hip, knee, foot, and full-frame consistency.",
                 "model": MODEL_ID,
                 "runs": runs,
                 "decision": "All intermediates and final outputs are candidates; human review is required before a final output becomes a reference asset.",

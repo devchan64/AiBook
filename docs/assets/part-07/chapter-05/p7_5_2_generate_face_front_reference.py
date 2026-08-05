@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a Mira front-face candidate with a cropped-top neckline reference."""
+"""Generate a chin-cropped Mira front-face candidate."""
 
 from __future__ import annotations
 
@@ -8,20 +8,16 @@ from pathlib import Path
 
 import torch
 from diffusers import Flux2KleinPipeline
-from PIL import Image
 
 
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
-OUTPUT = ROOT / "p7-5-2-face-front-no-accessory-v3-candidate.png"
+OUTPUT = ROOT / "p7-5-2-face-front-chin-crop-v4-candidate.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-CROPPED_TOP = ROOT / "p7-5-2-face-neckline-gray-top-reference.png"
 
-PROMPT = """Original adult Korean webtoon woman, strict front head-and-neck portrait on off-white paper. A tight crop runs from hair top through the lower neck, with a narrow charcoal-gray crew-neckline arc touching the bottom edge. Oval face with warm light-peach skin, broad low-set cheekbones, visibly soft cheek fullness, and a smooth taper into a soft jaw. Slightly higher straight nose bridge and a defined nose tip; calm neutral expression. Equal almond cat eyes with subtly upturned outer corners, two-color irises of chestnut brown and amber blended in a subtle radial wave pattern, dark limbal rings, and centered black pupils. Deep teal blue hair in a rounded jaw-length bob: a deep viewer-right side part, one broad fringe sweeping across to the viewer-left forehead, and tapered side locks at the jaw. Use the gray cropped-top reference only for the charcoal-gray crew-neckline arc."""
+PROMPT = """Original adult Korean webtoon woman, strict front head-only portrait on off-white paper. The image contains the full hair mass, face, jaw, and chin only; its lower edge ends directly beneath the chin. Oval face with warm light-peach skin, broad low-set cheekbones, visibly soft cheek fullness, and a smooth taper into a soft jaw. Slightly higher straight nose bridge and a defined nose tip; calm neutral expression. Equal almond cat eyes with subtly upturned outer corners, two-color irises of chestnut brown and amber blended in a subtle radial wave pattern, dark limbal rings, and centered black pupils. Deep teal-blue hair in a rounded jaw-length bob: a deep viewer-right side part, one broad fringe sweeping across to the viewer-left forehead, and tapered side locks at the jaw."""
 
 
 def main() -> None:
-    if not CROPPED_TOP.is_file():
-        raise FileNotFoundError(CROPPED_TOP.name)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
@@ -35,7 +31,6 @@ def main() -> None:
 
     started = time.monotonic()
     image = pipe(
-        image=[Image.open(CROPPED_TOP).convert("RGB")],
         prompt=PROMPT,
         width=768,
         height=1024,

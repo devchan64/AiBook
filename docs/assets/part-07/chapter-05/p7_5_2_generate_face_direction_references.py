@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate head-and-neck rotation candidates from the current frontal-face candidate."""
+"""Generate head-only rotation candidates from the approved frontal face."""
 
 from __future__ import annotations
 
@@ -15,14 +15,15 @@ from PIL import Image
 
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 FRONT = ROOT / "p7-5-2-face-front-v2.png"
-CROPPED_TOP = ROOT / "p7-5-2-face-neckline-gray-top-reference.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-REPORT = ROOT / "p7-5-2-face-rotation-from-front-v2-review.json"
+REPORT = ROOT / "p7-5-2-face-rotation-from-front-v3-review.json"
+HEAD_INPUT_BOTTOM = 720
 COMMON_PROMPT = (
-    "Head-and-neck rotation reference of the same woman on off-white. "
-    "Use the frontal face reference for identity and hair; use the gray cropped-top reference only for a narrow charcoal-gray crew-neckline arc. "
+    "Tight head-only rotation reference of the same woman on off-white. "
+    "Use the frontal face reference for identity and hair. "
     "Keep broad low-set cheekbones, visibly soft cheek fullness, and almond cat eyes with subtly upturned outer corners. "
-    "A tight crop runs from hair top through the lower neck, with the neckline arc touching the bottom edge."
+    "Keep the exact deep teal-blue jaw-length rounded bob: deep viewer-right part, broad fringe sweeping across the viewer-left forehead, tapered jaw locks, and short rounded nape. "
+    "The image contains the full hair mass, face, jaw, and chin only; its lower edge ends directly beneath the chin."
 )
 COMMON_CONSTRAINTS = "Neutral expression."
 VIEW_SPECS = {
@@ -59,7 +60,11 @@ def main() -> None:
         help="Directional face views to generate. Omit to generate every rotation from the same frontal anchor in one loaded pipeline.",
     )
     args = parser.parse_args()
-    if missing := [path.name for path in (FRONT, CROPPED_TOP) if not path.is_file()]:
+    if not FRONT.is_file():
+        missing = [FRONT.name]
+    else:
+        missing = []
+    if missing:
         raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -71,16 +76,16 @@ def main() -> None:
     )
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
-    face = Image.open(FRONT).convert("RGB")
-    cropped_top = Image.open(CROPPED_TOP).convert("RGB")
+    source_face = Image.open(FRONT).convert("RGB")
+    face = source_face.crop((0, 0, source_face.width, HEAD_INPUT_BOTTOM))
     runs = []
     for view_id in args.views:
         name, seed = VIEW_SPECS[view_id]
         started = time.monotonic()
         prompt = build_prompt(view_id)
-        output = ROOT / f"p7-5-2-face-rotation-v2-{name}-candidate.png"
+        output = ROOT / f"p7-5-2-face-rotation-v3-{name}-candidate.png"
         image = pipe(
-            image=[face, cropped_top],
+            image=[face],
             prompt=prompt,
             width=768,
             height=768,
@@ -102,10 +107,11 @@ def main() -> None:
         json.dumps(
             {
                 "status": "review_required",
-                "purpose": "Create compact-prompt directional face candidates from the current frontal-face candidate.",
-                "inputs": [FRONT.name, CROPPED_TOP.name],
+                "purpose": "Create chin-cropped directional face candidates from the approved frontal face.",
+                "inputs": [FRONT.name],
+                "input_transform": f"The frontal anchor is cropped at y={HEAD_INPUT_BOTTOM} before inference, removing the neck and clothing below the chin.",
                 "requested_views": args.views,
-                "shared_pipeline": "All requested rotations reuse one loaded pipeline, the same frontal-face candidate, and the same cropped-top prop reference; the frontal candidate itself is not regenerated in this script.",
+                "shared_pipeline": "All requested rotations reuse one loaded pipeline and the same frontal-face anchor; the frontal face is not regenerated in this script.",
                 "model": MODEL_ID,
                 "runs": runs,
                 "decision": "Review each view before replacing a directional reference.",

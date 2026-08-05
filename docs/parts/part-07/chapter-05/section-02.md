@@ -82,30 +82,24 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 얼굴 기준 검수 결과
 
-머리핀을 포함한 이전 정면 얼굴 기준은 폐기했습니다. 현재 정면 얼굴 기준은 얼굴형·홍채·머리·표정을 prompt로 정의하고, 회색 크롭탑은 목선만 보이게 하는 소품 참조로 사용해 새로 생성·검수했습니다. 넓고 낮은 광대, 더 분명한 볼살, 고양이 눈매의 위로 향한 눈꼬리를 정면 계약으로 승인했습니다. 이 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
+머리핀을 포함한 이전 정면 얼굴 기준은 폐기했습니다. 현재 정면 얼굴 기준은 얼굴형·홍채·머리·표정을 prompt로 정의하고, 머리 전체·얼굴·턱까지만 출력해 새로 생성·검수했습니다. 넓고 낮은 광대, 더 분명한 볼살, 고양이 눈매의 위로 향한 눈꼬리를 정면 계약으로 승인했습니다. 이 기준은 몸·의상·회전 view·표정 범위를 승인하지 않습니다.
 
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
-<summary>회색 크롭탑 목선으로 정면 얼굴 기준을 만드는 코드 보기</summary>
+<summary>턱 종료 계약으로 정면 얼굴 기준을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
 ### 방향 얼굴과 기본 표정
 
-이전 방향 얼굴과 표정 기준은 모두 폐기했습니다. 새 정면 얼굴과 회색 크롭탑을 입력으로 두고, 방향 얼굴 다섯 장을 한 번 적재한 동일 파이프라인에서 연속 생성해 사람 승인했습니다. 방향 얼굴은 넓고 낮은 광대, 더 분명한 볼살, 고양이 눈매와 위로 향한 눈꼬리, 회색 라운드 목선을 유지합니다. 후면의 귀 끝 일부 노출은 허용 범위입니다. 이 방식이 자동 일관성을 보장하지는 않으므로, 다음 재생성에서도 view별 얼굴형·눈·코·입·머리 윤곽을 사람 검수합니다.
+V2 방향 얼굴은 회전 과정에서 단발의 가르마·앞머리·길이가 바뀌어 기준에서 제거했습니다. 새 V3 후보는 턱 종료 정면 얼굴 한 장만을 앵커로 사용하고, 머리 전체·얼굴·턱까지만 그려 목·어깨·상의 입력이 방향 앵커를 흔들지 않게 합니다. 공통 계약은 넓고 낮은 광대, 더 분명한 볼살, 고양이 눈매와 위로 향한 눈꼬리, 딥틸블루 단발의 가르마·앞머리·길이입니다. 후면의 귀 끝 일부 노출은 허용 범위입니다. V3는 아직 사람 승인 전이므로, view별 얼굴형·눈·코·입·머리 윤곽을 다시 검수해야 합니다.
 
 | 기준 | 현재 상태 | 다음 판정 |
 | --- | --- | --- |
-| 얼굴 방향 | 정면·좌우 쿼터·좌우 측면·후면 얼굴 기준 | 새 pose·camera 범위는 별도 사람 검수 |
+| 얼굴 방향 | 정면 얼굴만 승인, V3 좌우 쿼터·좌우 측면·후면 후보 준비 | 새 pose·camera 범위는 별도 사람 검수 |
 | 얼굴 구성 | 눈·코·입·귀·목의 정면 기준 | 회전 뒤에도 눈·머리·윤곽이 유지되는지 대조 |
 | 표정 | 승인 표정 없음 | 중립·기쁨·우려·분노·슬픔·놀람을 새로 생성·검수 |
 
-| 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
-| --- | --- | --- |
-| ![정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v2.png) | ![승인된 좌측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-left-front-quarter-v2.png) | ![승인된 우측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-right-front-quarter-v2.png) |
-| 좌측 측면 | 우측 측면 | 후면 |
-| ![승인된 좌측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-left-v2.png) | ![승인된 우측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-right-v2.png) | ![승인된 후면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-rear-v2.png) |
-
-[방향 얼굴 승인 manifest](../../../assets/part-07/chapter-05/p7-5-2-face-rotation-v2.json)는 정면 앵커, 방향별 고정 seed, 사람 승인 범위를 기록합니다.
+![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v2.png)
 
 <details id="face-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_direction_references.py" data-language="python">
 <summary>정면 얼굴 기준으로 방향별 얼굴 후보를 만드는 코드 보기</summary>
@@ -131,23 +125,21 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## 소품 기준 검수 결과: 기본 복장과 확장 소품
 
-소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 기본 소품은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백입니다. 일반 핏 회색 마이크로 크롭탑의 밑단과 하이웨이스트 바지 사이 간격은 별도 착장 관계 기준으로 고정합니다. 얼굴 생성에는 전신 복장과 분리한 회색 목선 기준만 사용합니다. 머리핀은 캐릭터 기준에서 폐기했습니다. 갈색 홍채·동공은 정면 얼굴 기준을 새로 생성할 때 함께 검수합니다.
+소품 기준은 전신 reference에서 작게 보이는 부분을 다시 확인하는 계약입니다. 현재 화풍 입력 없이 사람 승인한 다섯 항목은 흰 끈 운동화, 흰색 크롭 유틸리티 자켓, 청색 우세의 딥틸블루 와이드 팬츠, 짙은 네이비 캔버스 크로스백, 일반 핏 회색 마이크로 크롭탑-허리선 관계입니다. 얼굴 생성에는 이 소품 팩과 분리한 회색 목선 기준만 사용합니다. 머리핀은 캐릭터 기준에서 폐기했습니다. 갈색 홍채·동공은 정면 얼굴 기준을 새로 생성할 때 함께 검수합니다.
 
 정면 전신 후보의 기본 복장은 크롭탑-허리선 관계 기준·바지·신발을 참조합니다. 기존 단일 회색 크롭탑은 얼굴 기준의 목선 확인에 유지합니다. 자켓과 가방은 후속 방향 전신이나 컷신에서 별도 계약이 필요할 때만 선택하는 확장 소품입니다.
 
-| 얼굴 목선 기준 | 바지 기준 | 신발 기준 |
+| 크롭탑-허리선 관계 기준 | 바지 기준 | 신발 기준 |
 | --- | --- | --- |
-| ![승인된 얼굴 목선 기준](../../../assets/part-07/chapter-05/p7-5-2-face-neckline-gray-top-reference.png) | ![승인된 바지 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-trousers.png) | ![승인된 신발 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-shoes.png) |
-
-![승인된 크롭탑-허리선 착장 관계 기준](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference.png)
+| ![승인된 크롭탑-허리선 착장 관계 기준](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference.png) | ![승인된 바지 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-trousers.png) | ![승인된 신발 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-shoes.png) |
 
 | 자켓 기준 | 가방 기준 |
 | --- | --- |
 | ![승인된 자켓 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket.png) | ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-crossbody-bag.png) |
 
-[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json), [기존 소품 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json), [얼굴 목선 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-face-neckline-gray-top-reference-review.json), [크롭탑-허리선 착장 관계 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference-review.json)은 신발·자켓·바지·가방, 얼굴 목선, 착장 관계의 승인 범위를 기록합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json), [기존 소품 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json), [크롭탑-허리선 착장 관계 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference-review.json)은 다섯 소품의 승인 범위를 기록합니다. 얼굴 목선 검수 기록은 얼굴 기준과 함께 관리합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
-소품 기준 v2는 개별 소품 PNG 네 장, 얼굴 목선 PNG 한 장, 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
+소품 기준 v2는 개별 소품 PNG 네 장과 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 
 <details id="no-style-prop-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py" data-language="python">
 <summary>선택한 소품 기준 후보를 만드는 통합 코드 보기</summary>
