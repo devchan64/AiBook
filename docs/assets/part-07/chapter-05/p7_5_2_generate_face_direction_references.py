@@ -19,8 +19,10 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 REPORT = ROOT / "p7-5-2-face-rotation-from-front-v2-review.json"
 COMMON_PROMPT = (
     "Close head-and-neck rotation reference of the same woman as the frontal reference, on off-white. "
-    "Her head fills the frame from hair top to lower neck; shoulders and collarbones are outside the frame. "
-    "Keep the frontal reference's side-parted jaw-length bob and soft narrow cheekbones."
+    "Her head fills the frame from hair top to the base of the neck; only a narrow band of charcoal-gray crew-neck shirt and its round neckline may appear below the neck. "
+    "Shoulders, collarbones, jacket, and full torso are outside the frame. "
+    "Keep the frontal reference's side-parted jaw-length bob and face shape as identity priority: broad flat cheekbones, "
+    "slightly soft full cheeks, and a smooth taper into the jaw."
 )
 COMMON_CONSTRAINTS = "Calm neutral expression. No accessory, text, or border."
 VIEW_SPECS = {
@@ -35,7 +37,12 @@ VIEW_RULES = {
     "right_front_quarter": "Show her head in a right-front-quarter view; the far eye is narrower.",
     "profile_left": "Face viewer-left in strict profile with one visible eye and ear.",
     "profile_right": "Face viewer-right in strict profile with one visible eye and ear.",
-    "rear_hair": "Show only the back of her jaw-length bob and nape. No eye, ear, nose, mouth, or fringe is visible.",
+    "rear_hair": (
+        "Use a true 180-degree rear camera view: the camera is directly behind her head, and the back of the centered bob and nape face the viewer. "
+        "Keep the head and neck aligned straight away from the camera, with no sideways turn, profile contour, or three-quarter angle. "
+        "Show only the back hair mass and nape; the bob fully covers both temples and all front hair. "
+        "No eye, eyebrow, ear, nose, lips, chin profile, cheek, face skin, front hairline, or fringe is visible."
+    ),
 }
 
 
@@ -45,7 +52,13 @@ def build_prompt(view_id: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--views", nargs="+", choices=VIEW_SPECS, required=True)
+    parser.add_argument(
+        "--views",
+        nargs="+",
+        choices=VIEW_SPECS,
+        default=tuple(VIEW_SPECS),
+        help="Directional face views to generate. Omit to generate every rotation from the same frontal anchor in one loaded pipeline.",
+    )
     args = parser.parse_args()
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -90,6 +103,7 @@ def main() -> None:
                 "purpose": "Create compact-prompt directional face candidates from the approved frontal-face reference.",
                 "input": FRONT.name,
                 "requested_views": args.views,
+                "shared_pipeline": "All requested rotations reuse one loaded pipeline and the same frontal anchor; the frontal anchor itself is not regenerated.",
                 "model": MODEL_ID,
                 "runs": runs,
                 "decision": "Review each view before replacing a directional reference.",

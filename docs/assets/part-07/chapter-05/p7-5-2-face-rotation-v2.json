@@ -1,0 +1,16 @@
+{
+  "status": "human_approved_directional_face_references",
+  "purpose": "Approved V2 directional head-and-neck references regenerated from the retained frontal-face anchor.",
+  "input": "p7-5-2-face-front-v2.png",
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "shared_pipeline": true,
+  "references": [
+    {"view_id": "left_front_quarter", "image": "p7-5-2-face-left-front-quarter-v2.png", "seed": 62350},
+    {"view_id": "right_front_quarter", "image": "p7-5-2-face-right-front-quarter-v2.png", "seed": 62351},
+    {"view_id": "profile_left", "image": "p7-5-2-face-profile-left-v2.png", "seed": 62352},
+    {"view_id": "profile_right", "image": "p7-5-2-face-profile-right-v2.png", "seed": 62353},
+    {"view_id": "rear_hair", "image": "p7-5-2-face-rear-v2.png", "seed": 62356}
+  ],
+  "approved_contract": "The frontal anchor remains unchanged. Directional faces preserve the bob, broad flat cheekbones, slightly soft full cheeks, neutral expression, and charcoal-gray crew-neck neckline.",
+  "decision": "Human approved as the V2 directional face reference set. This approval does not approve expressions, full-body references, pose, or camera views."
+}

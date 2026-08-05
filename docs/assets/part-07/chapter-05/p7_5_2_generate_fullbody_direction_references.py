@@ -23,11 +23,11 @@ OUTFIT_COMPONENTS = [
     ROOT / "p7-5-2-prop-reference-v2-crossbody-bag.png",
 ]
 VIEW_SPECS = {
-    "left_front_quarter": (ROOT / "p7-5-2-face-left-front-quarter-v1.png", 62411),
-    "right_front_quarter": (ROOT / "p7-5-2-face-right-front-quarter-v1.png", 62412),
-    "profile_left": (ROOT / "p7-5-2-face-profile-left-v1.png", 62403),
-    "profile_right": (ROOT / "p7-5-2-face-profile-right-v1.png", 62404),
-    "rear": (ROOT / "p7-5-2-face-rear-v1.png", 62405),
+    "left_front_quarter": (ROOT / "p7-5-2-face-left-front-quarter-v2.png", 62411),
+    "right_front_quarter": (ROOT / "p7-5-2-face-right-front-quarter-v2.png", 62412),
+    "profile_left": (ROOT / "p7-5-2-face-profile-left-v2.png", 62403),
+    "profile_right": (ROOT / "p7-5-2-face-profile-right-v2.png", 62404),
+    "rear": (ROOT / "p7-5-2-face-rear-v2.png", 62405),
 }
 TORSO_COMMON_PROMPT = (
     "Upper-body directional reference of the same woman on an off-white studio background. "

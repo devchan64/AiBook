@@ -14,7 +14,7 @@ ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 OUTPUT = ROOT / "p7-5-2-face-front-no-accessory-v3-candidate.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 
-PROMPT = """Original adult Korean webtoon woman, strict front head-and-shoulders portrait on off-white paper. Oval face with warm light-peach skin, a soft tapered jaw, a slightly higher straight nose bridge, and a defined nose tip; calm neutral expression. Equal almond cat eyes with subtly upturned outer corners, two-color irises of chestnut brown and amber blended in a subtle radial wave pattern, dark limbal rings, and centered black pupils. Deep teal blue hair in a rounded jaw-length bob: a deep viewer-right side part, one broad fringe sweeping across to the viewer-left forehead, and tapered side locks at the jaw. No hair accessory. No full body, bag, text, border, or extra person."""
+PROMPT = """Original adult Korean webtoon woman, strict front head-and-shoulders portrait on off-white paper. Oval face with warm light-peach skin, broad flat cheekbones, slightly soft full cheeks, and a smooth taper into a soft jaw. Slightly higher straight nose bridge and a defined nose tip; calm neutral expression. Equal almond cat eyes with subtly upturned outer corners, two-color irises of chestnut brown and amber blended in a subtle radial wave pattern, dark limbal rings, and centered black pupils. Deep teal blue hair in a rounded jaw-length bob: a deep viewer-right side part, one broad fringe sweeping across to the viewer-left forehead, and tapered side locks at the jaw. No hair accessory. No full body, bag, text, border, or extra person."""
 
 
 def main() -> None:
