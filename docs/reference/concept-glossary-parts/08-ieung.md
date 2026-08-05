@@ -60,6 +60,9 @@
 --8<-- "reference/concept-glossary-terms/one-hot-representation.ko.md"
 
 
+--8<-- "reference/concept-glossary-terms/open-weight-model.ko.md"
+
+
 
 
 --8<-- "reference/concept-glossary-terms/response-generation.ko.md"

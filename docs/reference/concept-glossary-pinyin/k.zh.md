@@ -14,6 +14,9 @@
 --8<-- "reference/concept-glossary-terms/k-means.zh.md"
 
 
+--8<-- "reference/concept-glossary-terms/open-weight-model.zh.md"
+
+
 --8<-- "reference/concept-glossary-terms/knowledge-base.zh.md"
 
 --8<-- "reference/concept-glossary-terms/knowledge-representation.zh.md"

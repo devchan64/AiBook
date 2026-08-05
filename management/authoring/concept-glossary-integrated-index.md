@@ -18,11 +18,11 @@
 
 ## 현황 요약
 
-- 전체 slug 수: 328
-- 한국어 파일: 328개
-- 영어 파일: 328개
-- 중국어 파일: 328개
-- 3개 언어 모두 있는 slug: 328개
+- 전체 slug 수: 329
+- 한국어 파일: 329개
+- 영어 파일: 329개
+- 중국어 파일: 329개
+- 3개 언어 모두 있는 slug: 329개
 - 한국어만 있는 slug: 0개
 - 한국어 기준으로 영어 누락: 0개
 - 한국어 기준으로 중국어 누락: 0개
@@ -240,6 +240,7 @@
 | `observation` | 관찰 결과(observation) | observation | 观测结果(observation) | 완비 |
 | `one-hot-representation` | 원-핫 표현(one-hot representation) | one-hot representation | 独热表示(one-hot representation) | 완비 |
 | `oob-score` | OOB 점수(out-of-bag score) | OOB score(out-of-bag score) | OOB 分数(out-of-bag score) | 완비 |
+| `open-weight-model` | 오픈웨이트 모델(open-weight model) | open-weight model | 开放权重模型(open-weight model) | 완비 |
 | `optimization` | 최적화(optimization) | optimization | 优化(optimization) | 완비 |
 | `optimizer` | 옵티마이저(optimizer) | optimizer | 优化器(optimizer) | 완비 |
 | `outlier` | 이상값(outlier) | outlier | 异常值 | 완비 |
