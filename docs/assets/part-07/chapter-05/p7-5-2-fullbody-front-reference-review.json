@@ -10,6 +10,6 @@
   "seed": 62285,
   "prompt": "Full-body strict front reference of the same woman on an off-white studio background, complete from hair to soles in a neutral upright standing pose. Use the frontal face reference for identity and its clean ink outlines, watercolor fills, and flat illustrated rendering. She is 165 cm tall, weighs 55 kg, and has approximately 7.5 head heights. Use the approved outfit relationship reference for a charcoal-gray regular-fit short-sleeve micro-crop crew-neck top, with its hem high across the upper abdomen and a clear bare midriff above the trousers. Use the approved clothing references for deep teal-blue high-waisted wide-leg trousers and a matching pair of plain white lace-up low-top sneakers.",
   "model": "black-forest-labs/FLUX.2-klein-4B",
-  "elapsed_seconds": 85.74,
-  "decision": "Approved by human review as the front full-body reference. It is limited to the front-view identity, proportion, regular-fit micro-crop top, bare-midriff gap, trousers, and shoes contract."
+  "elapsed_seconds": 85.83,
+  "decision": "Human review approved this front full-body reference on 2026-08-05."
 }
