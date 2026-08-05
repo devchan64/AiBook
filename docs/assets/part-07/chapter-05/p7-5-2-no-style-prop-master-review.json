@@ -51,7 +51,7 @@
       "id": "trousers",
       "image": "p7-5-2-prop-reference-v2-trousers.png",
       "prompt": "One isolated pair of deep teal blue high-waisted wide-leg trousers in a clean front view on a plain off-white background. Use one blue-dominant dark teal base color, neither green turquoise nor gray. Belt loops, center fly, crisp vertical seams, straight wide legs, and hems above the shoe collar. Clean product illustration. No person, hanger, text, logo, or other object.",
-      "generation_script": "p7_5_2_research_trousers_deep_teal_blue.py",
+      "generation_script": "p7_5_2_generate_no_style_prop_masters.py --targets trousers",
       "review": "Human-approved replacement for the earlier petrol-blue-teal trousers reference."
     }
   ],

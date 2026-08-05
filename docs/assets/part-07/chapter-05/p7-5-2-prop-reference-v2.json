@@ -26,9 +26,7 @@
   ],
   "pending": [],
   "generation_scripts": [
-    "p7_5_2_generate_no_style_prop_masters.py",
-    "p7_5_2_research_trousers_deep_teal_blue.py",
-    "p7_5_2_research_cropped_jacket_reference.py"
+    "p7_5_2_generate_no_style_prop_masters.py"
   ],
   "review_record": "p7-5-2-no-style-prop-master-review.json",
   "legacy_assets": "The earlier style-conditioned prop assets and the retired hair-clip reference are not part of this prompt-only prop-reference set."

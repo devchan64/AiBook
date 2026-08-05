@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 참조 셋 생성: 로컬 GPU 원본과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.04`
+> Version: `v2026.08.05`
 
 웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지, 그 이미지를 학습하거나 직접 참조로 사용한 출력, 그에 따른 LoRA 평가는 이 절의 근거로 사용하지 않습니다.
 
@@ -65,16 +65,28 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 승인된 좌우 전면 쿼터 전신
 
-전면 쿼터 전신은 정면 기준을 유일한 identity 기준으로 두고, 사람 검수에서 통과한 방향만 별도 자산으로 고정합니다. 좌측은 좌향 전신 방향을, 우측은 몸을 우향 30도 두고 얼굴은 카메라를 향하게 한 방향을 승인했습니다.
+전면 쿼터 전신은 정면 기준을 유일한 identity 기준으로 두고, 사람 검수에서 통과한 방향만 별도 자산으로 고정합니다. 좌측은 좌향 전신 방향을, 우측은 우향한 몸과 카메라를 향한 얼굴의 조합을 승인했습니다.
 
 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
 | --- | --- |
 | ![승인된 좌측 전면 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-full-body-left-front-quarter.png) | ![승인된 우측 전면 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-full-body-right-front-quarter.png) |
 
-새 전신 방향 후보는 전면 전신 기준으로 의상·비례·가방을, 해당 방향 얼굴 기준으로 머리·얼굴 회전을 각각 전달합니다. skeleton, OpenPose, depth, Canny 윤곽, 화풍 원본은 이 생성의 입력이 아닙니다. 머리·어깨·몸통·골반·무릎·발끝이 같은 방향인지 사람 검수로만 기준 편입을 결정합니다.
+새 전신 방향 후보는 한 번의 호출 안에서 **방향 얼굴 → 몸통 → 전신 → 복장 통일** 순서로 생성합니다. 방향 얼굴은 머리·목·어깨의 방향을 정하고, 그 몸통을 전신으로 확장한 뒤, 마지막 단계에서 승인된 정면 전신 기준만으로 재킷·바지·신발·가방을 통일합니다. 중간 몸통과 전신은 재현 기록이며, 복장 통일 전의 의상은 기준 자산이 아닙니다. skeleton, OpenPose, depth, Canny 윤곽, 화풍 원본은 이 생성의 입력이 아닙니다.
 
-<details id="fullbody-reference-from-views" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_reference_from_views.py" data-language="python">
-<summary>전면 전신과 회전 얼굴 기준으로 전신 후보를 만드는 코드 보기</summary>
+마지막 출력도 자동 승인하지 않습니다. 사람 검수에서 얼굴·몸통·골반·무릎·발끝의 방향, 재킷의 재단, 바지·신발·가방의 연속성을 함께 통과한 경우에만 새 방향 기준으로 편입합니다. 현재 승인 범위는 아래의 기존 baseline과 별도 승인된 전면 쿼터 전신에 한정됩니다.
+
+<details id="fullbody-front-reference" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_front_reference.py" data-language="python">
+<summary>정면 얼굴·소품 기준으로 정면 전신 후보를 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="fullbody-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_direction_references.py" data-language="python">
+<summary>전면 전신과 방향 얼굴 기준으로 방향별 전신 후보를 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="fullbody-direction-workflow" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_compose_fullbody_direction_workflow.py" data-language="python">
+<summary>얼굴에서 몸통, 전신 보완으로 이어지는 실행 순서를 구성하는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -84,7 +96,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ![승인된 머리 장식 없는 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v2.png)
 
-<details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_face_front_no_accessory.py" data-language="python">
+<details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
 <summary>머리 장식 없는 정면 얼굴 기준을 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
@@ -106,6 +118,11 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | 얼굴 방향 | 정면·좌우 쿼터·좌우 측면·후면 얼굴 기준 | 새 pose·camera 범위는 별도 사람 검수 |
 | 얼굴 구성 | 눈·코·입·귀·목의 정면 기준 | 회전 뒤에도 눈·머리·윤곽이 유지되는지 대조 |
 | 표정 | 정면 중립·기쁨·분노·놀람 표정 네 장 | 우려·슬픔 |
+
+<details id="face-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_direction_references.py" data-language="python">
+<summary>정면 얼굴 기준으로 방향별 얼굴 후보를 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
 
 | 중립 | 기쁨 |
 | --- | --- |
@@ -137,38 +154,45 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 소품 기준 v2는 개별 PNG 네 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 
 <details id="no-style-prop-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py" data-language="python">
-<summary>화풍 입력 없이 소품 기준을 만드는 코드 보기</summary>
+<summary>선택한 소품 기준 후보를 만드는 통합 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-<details id="deep-teal-blue-trousers" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_research_trousers_deep_teal_blue.py" data-language="python">
-<summary>딥틸블루 바지 기준을 교체하는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
+통합 스크립트는 `--targets` 범위로 `jacket`, `trousers`, `shoes`, `crossbody_bag` 중 필요한 소품만 생성합니다. 범위를 생략하면 네 소품을 모두 생성하고, 각 소품은 호출 순서와 무관한 고정 seed를 사용합니다. 후보 검수 JSON은 승인 기록과 별도 파일로 남습니다.
+
+```bash
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py \
+  --targets jacket trousers
+```
 
 
 ## Python 실습: 생성과 승인을 분리한다
 
-아래 실행 코드는 전면 전신 기준과 해당 방향 얼굴 기준으로 P7-5.2 전신 후보와 실행 기록을 만듭니다. 후보 PNG가 생성됐다는 사실은 turnaround나 다음 단계 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
+아래 실행 코드는 방향 얼굴에서 몸통을 만들고, 그 결과를 전신으로 확장한 뒤 정면 전신 기준으로 복장을 통일합니다. 세 단계는 한 번의 방향 전신 생성 호출 안에서 연속 실행됩니다. 마지막 단계는 중간 전신의 복장을 복사하지 않고 정면 전신 기준을 복장의 유일한 출처로 사용합니다. 후보 PNG가 생성됐다는 사실은 turnaround나 다음 단계 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_reference_from_views.py \
-  --view left_front_quarter
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_front_reference.py
 ```
 
 | 코드 | 하는 일 | 조작할 값 |
 | --- | --- | --- |
-| `front` | 정면 얼굴과 소품 기준으로 전면 전신 후보 생성 | `SEED`, 소품 참조, prompt |
-| 회전 view | 전면 전신과 해당 방향 얼굴 기준 두 장으로 전신 후보 생성 | `--view`, `SEED`, 회전 prompt |
+| 정면 전신 | 정면 얼굴과 소품 기준으로 전면 전신 후보 생성 | `SEED`, 소품 참조, prompt |
+| 실행 순서 | 방향 배열로 얼굴→몸통→전신→복장 통일의 입력·출력 순서를 JSON으로 구성 | `--views` |
+| 방향 전신 | 방향 얼굴에서 몸통·전신을 연속 생성한 뒤 정면 전신 기준으로 복장을 통일 | `--views`, 단계별 공통·전용 prompt |
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_reference_from_views.py \
-  --view profile_right
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_compose_fullbody_direction_workflow.py \
+  --views profile_right rear
+
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_direction_references.py \
+  --views profile_right rear
 ```
 
-이 실습에서 `SEED`나 strict profile 문장을 바꾼 뒤에는 코드를 통과한 것으로 승인하지 않습니다. 얼굴·몸·무릎·발끝의 방향이 같은지, 두 다리와 두 발이 하나의 전신으로 보이는지, 가방·끈 같은 미계약 소품이 없는지를 사람 검수로 다시 확인합니다.
+중간 몸통·전신 PNG는 실행 기록을 위한 후보이며, 사람 검수는 복장 통일까지 끝난 최종 전신 후보에 적용합니다. 이 실습에서 `SEED`나 strict profile 문장을 바꾼 뒤에는 코드를 통과한 것으로 승인하지 않습니다. 얼굴·몸·무릎·발끝의 방향이 같은지, 두 다리와 두 발이 하나의 전신으로 보이는지, 가방·끈 같은 미계약 소품이 없는지를 사람 검수로 다시 확인합니다.
 
 ## manifest는 사용 범위를 좁히는 계약이다
 
