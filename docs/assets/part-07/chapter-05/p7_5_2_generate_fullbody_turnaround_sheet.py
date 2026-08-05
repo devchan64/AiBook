@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate one or more face turnaround sheets from the frontal reference."""
+"""Generate full-body turnaround-sheet candidates from approved face and outfit references."""
 
 from __future__ import annotations
 
@@ -15,26 +15,30 @@ from PIL import Image
 
 
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
-FRONT = ROOT / "p7-5-2-face-front-reference.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62377
 TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
-HEAD_INPUT_BOTTOM = 720
-SHEET_SIZE = 1024
+FACE_TURNAROUND = ROOT / "p7-5-2-face-turnaround-reference.png"
+FRONT_BODY = ROOT / "p7-5-2-fullbody-front-reference.png"
+OUTFIT_REFERENCES = [
+    ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
+    ROOT / "p7-5-2-prop-reference-v2-trousers.png",
+    ROOT / "p7-5-2-prop-reference-v2-shoes.png",
+]
+REFERENCES = [FACE_TURNAROUND, FRONT_BODY, *OUTFIT_REFERENCES]
+SHEET_WIDTH = 1024
+SHEET_HEIGHT = 1536
 VIEW_RULES = {
-    "front": "front view at 0 degrees, with the nose centered and both eyes equally visible",
-    "front_quarter": "45-degree front-quarter view, with the near eye fully visible and the far eye half visible",
-    "profile": "90-degree profile view, with one near eye visible in side view and the far eye hidden",
-    "rear": "180-degree rear view, facing away from the camera, with no nose or eyes visible",
+    "front": "front view at 0 degrees, with face, chest, pelvis, knees, and feet facing forward",
+    "front_quarter": "45-degree front-quarter view, with face, chest, pelvis, knees, and feet turning together",
+    "profile": "90-degree profile view, with one near arm visible beside the torso and the far arm hidden",
+    "rear": "180-degree rear view, with head, shoulders, torso, hips, knees, and feet facing away",
 }
 APPEARANCE_RULE = (
-    "Keep chestnut-brown and orange-amber irises with visible radial texture, "
-    "a consistent iris diameter and pupil-to-iris ratio in every panel, "
-    "allowing only perspective foreshortening; "
-    "keep the gaze direction aligned with the nose direction in every visible face; "
-    "a high slim nose bridge and a small rounded nose tip; "
-    "and deep petrol-teal, voluminous jaw-length bob hair with a deep side part, "
-    "short swept fringe, loose S-waves, inward C-curls, and tapered side locks."
+    "Use the face turnaround sheet for the same face, gaze, nose, and hair in every visible view. "
+    "Use the frontal body for a consistent 7.5-head body proportion and full hair-to-sole framing. "
+    "Keep the charcoal-gray micro-crop crew-neck top, bare-midriff gap, deep teal-blue wide-leg trousers, "
+    "and white lace-up low-top sneakers from the outfit references."
 )
 
 
@@ -43,19 +47,16 @@ def prompt_word_count(text: str) -> int:
 
 
 def build_prompt(views: tuple[str, ...]) -> str:
-    layout = "2 by 2" if len(views) == 4 else f"{len(views)}-panel"
-    positions = {
-        1: ("single panel",),
-        2: ("left panel", "right panel"),
-        3: ("top-left", "top-right", "bottom-center"),
-        4: ("top-left", "top-right", "bottom-left", "bottom-right"),
-    }[len(views)]
+    if len(views) != 4:
+        raise ValueError("A full-body turnaround sheet requires exactly four views")
+    positions = ("top-left", "top-right", "bottom-left", "bottom-right")
     view_list = "; ".join(
         f"{position}: {VIEW_RULES[view]}" for position, view in zip(positions, views, strict=True)
     )
     return (
-        f"{layout} face turnaround of the same woman from the reference image. "
-        f"{APPEARANCE_RULE} Panel directions: {view_list}. Use one distinct view per panel."
+        "2 by 2 full-body turnaround reference sheet of the same woman on an off-white studio background. "
+        f"{APPEARANCE_RULE} Panel directions: {view_list}. "
+        "Each panel shows one distinct neutral upright standing pose from hair to soles."
     )
 
 
@@ -65,41 +66,26 @@ def main() -> None:
         "--views",
         nargs="+",
         choices=tuple(VIEW_RULES),
-        default=("front", "profile"),
-        help="Face views to include in reading order; defaults to front and profile for review.",
+        default=("front", "front_quarter", "profile", "rear"),
+        help="Four views in panel reading order.",
     )
-    parser.add_argument(
-        "--seed-offset",
-        type=int,
-        default=0,
-        help="Offset applied to the first turnaround-sheet seed.",
-    )
-    parser.add_argument(
-        "--seed-count",
-        type=int,
-        default=1,
-        help="Number of consecutive seed variants to generate.",
-    )
-    parser.add_argument(
-        "--seed-step",
-        type=int,
-        default=1,
-        help="Increment between consecutive seed variants.",
-    )
+    parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
+    parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
+    parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
     parser.add_argument(
         "--output-prefix",
-        default="p7-5-2-face-turnaround-sheet-v9",
+        default="p7-5-2-fullbody-turnaround-sheet",
         help="Filename prefix placed before the automatic timestamp and seed suffixes.",
     )
     args = parser.parse_args()
-    if len(args.views) > 4:
-        raise ValueError("A turnaround sheet accepts at most four views")
+    if len(args.views) != 4:
+        raise ValueError("A full-body turnaround sheet requires exactly four views")
     if args.seed_count < 1:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
-    if not FRONT.is_file():
-        raise FileNotFoundError(FRONT.name)
+    if missing := [path.name for path in REFERENCES if not path.is_file()]:
+        raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
@@ -111,21 +97,20 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
 
-    source = Image.open(FRONT).convert("RGB")
-    anchor = source.crop((0, 0, source.width, HEAD_INPUT_BOTTOM))
     prompt = build_prompt(tuple(args.views))
-    first_seed = BASE_SEED + args.seed_offset
     run_timestamp = datetime.now().astimezone().strftime(TIMESTAMP_FORMAT)
+    first_seed = BASE_SEED + args.seed_offset
+    reference_images = [Image.open(path).convert("RGB") for path in REFERENCES]
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
         output = ROOT / f"{args.output_prefix}-{run_timestamp}-seed-{seed}-candidate.png"
         report = ROOT / f"{args.output_prefix}-{run_timestamp}-seed-{seed}-review.json"
         started = time.monotonic()
         sheet = pipe(
-            image=anchor,
+            image=reference_images,
             prompt=prompt,
-            width=SHEET_SIZE,
-            height=SHEET_SIZE,
+            width=SHEET_WIDTH,
+            height=SHEET_HEIGHT,
             num_inference_steps=12,
             guidance_scale=1.0,
             generator=torch.Generator(device="cpu").manual_seed(seed),
@@ -147,14 +132,12 @@ def main() -> None:
                     "output_prefix": args.output_prefix,
                     "prompt": prompt,
                     "prompt_word_count": prompt_word_count(prompt),
-                    "references": [FRONT.name],
-                    "input_transform": f"Cropped the frontal anchor at y={HEAD_INPUT_BOTTOM} before inference.",
+                    "references": [path.name for path in REFERENCES],
                     "sheet_layout": args.views,
-                    "style_reference": None,
                     "model": MODEL_ID,
-                    "image_size": [SHEET_SIZE, SHEET_SIZE],
+                    "image_size": [SHEET_WIDTH, SHEET_HEIGHT],
                     "elapsed_seconds": elapsed,
-                    "decision": "Candidate only; review each view for layout, direction, and identity consistency.",
+                    "decision": "Experiment only; review body proportion, outfit continuity, view separation, and face identity before approval.",
                 },
                 indent=2,
             ),

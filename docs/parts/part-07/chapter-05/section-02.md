@@ -7,22 +7,20 @@
 
 이 절의 산출물은 완성 컷이나 학습된 모델이 아닙니다. 다음 단계가 사용할 수 있는지 사람 검수한 전신 기준, view별 원본, 생성 기록, 그리고 아직 사용할 수 없는 범위를 적은 manifest입니다. 장면 속 pose, projection, 배경을 바꾸는 전체 컷 생성은 `P7-5.3`의 책임이고, 통과 컷의 얼굴·손·소품·연속성 보정은 `P7-5.4`에서 별도로 검증합니다.
 
-## 기준 이미지 생성 소스는 여섯 개다
+## 기준 이미지 생성 소스는 네 개다
 
-P7-5.2에서 기준 이미지를 생성하는 소스는 아래 여섯 개로 관리합니다. 정면과 방향, 표정과 소품, 정면 전신과 방향 전신은 서로 다른 승인 범위를 가지므로 한 파일로 합치지 않습니다.
+P7-5.2에서 유지하는 기준 이미지 생성 소스는 아래 네 개입니다. 정면·방향 얼굴, 소품, 방향 전신은 서로 다른 승인 범위를 가지므로 한 파일로 합치지 않습니다. 표정과 정면 전신은 현재 파이프라인에서 새로 생성하지 않습니다.
 
 | 생성 범위 | 소스 | 범위 옵션 |
 | --- | --- | --- |
 | 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | 없음 |
 | 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views` |
-| 표정 detail | `p7_5_2_expression_detail_multiref_flux.py` | `--targets` |
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets` |
-| 정면 전신 | `p7_5_2_generate_fullbody_front_reference.py` | 없음 |
 | 방향 전신 | `p7_5_2_generate_fullbody_direction_references.py` | `--views` |
 
-이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 실행 순서 구성기는 유지하지 않습니다. 기준 이미지는 여섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다.
+이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 실행 순서 구성기는 유지하지 않습니다. 승인된 정면 전신 PNG는 방향 전신 실험의 입력 자산으로만 남기며, 새 정면 전신을 생성하는 소스는 유지하지 않습니다. 기준 이미지는 네 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다.
 
-여섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·표정·소품 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
+네 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
 
 ## 먼저 통과해야 하는 두 가지 gate
 
@@ -53,27 +51,27 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 생성 체인은 정면 얼굴 기준에서 시작합니다. 머리핀을 포함한 이전 기준은 폐기하고, 얼굴형·홍채·머리·표정을 prompt로 정의한 머리 전체·얼굴·턱 출력만 새로 생성·사람 검수했습니다. 넓고 낮은 광대, 볼살, 고양이 눈매의 위로 향한 눈꼬리는 이 첫 기준에서만 고정하며, 몸·의상·회전 view·표정은 아직 승인하지 않습니다.
 
-![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-v2.png)
+![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-reference.png)
+
+[정면 얼굴 승인 기록](../../../assets/part-07/chapter-05/p7-5-2-face-front-reference-review.json)은 prompt, seed, 출력 크기와 얼굴 회전 identity에 한정한 승인 범위를 남깁니다.
 
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
 <summary>첫 기준인 정면 얼굴 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 여섯 생성기의 연결
+## 네 생성기의 연결
 
-캐릭터 패키지는 같은 인물을 여러 장으로 다시 그린 결과를 무작정 모으지 않습니다. 아래 여섯 생성기는 먼저 고정한 정면 얼굴을 출발점으로, 작은 범위에서 큰 범위로 정보를 넘깁니다. 각 단계의 후보는 다음 단계의 입력이 될 수 있지만, 사람 승인 전에는 기준 체인에 편입하지 않습니다.
+캐릭터 패키지는 같은 인물을 여러 장으로 다시 그린 결과를 무작정 모으지 않습니다. 아래 네 생성기는 먼저 고정한 정면 얼굴을 출발점으로, 작은 범위에서 큰 범위로 정보를 넘깁니다. 각 단계의 후보는 다음 단계의 입력이 될 수 있지만, 사람 승인 전에는 기준 체인에 편입하지 않습니다.
 
 | 순서 | 생성기 | 입력에서 고정하는 정보 | 최종 PNG에서 검수할 정보 |
 | --- | --- | --- | --- |
 | 1 | 정면 얼굴 | 얼굴형, 머리, 피부, 홍채·동공의 기본 계약 | 정면 얼굴 identity |
 | 2 | 방향 얼굴 | 정면 얼굴 계약과 view별 방향 | 눈·코·입·머리 윤곽이 회전 뒤에도 같은 인물인지 |
-| 3 | 표정 detail | 정면 identity와 표정별 눈썹·눈·코·입 계약 | 감정 차이가 조명·배경이 아니라 얼굴 변화로 보이는지 |
-| 4 | 소품 기준 | 회색 크롭탑, 바지, 신발과 확장 소품의 개별 물성·색·형태 계약, 크롭탑-허리선 관계 | 소품 하나가 독립적으로 읽히고 착장 경계가 확인되는지 |
-| 5 | 정면 전신 | 정면 얼굴의 identity·화풍 기준과 크롭탑-허리선 관계·바지·신발 | 7.5등신 비례, 기본 의상 조합, 신발의 짝과 형태 |
-| 6 | 방향 전신 | 방향 얼굴, 정면 전신, 개별 소품 | 몸 방향·비례와 복장·스트랩 같은 특징 장치의 연속성 |
+| 3 | 소품 기준 | 회색 크롭탑, 바지, 신발과 확장 소품의 개별 물성·색·형태 계약, 크롭탑-허리선 관계 | 소품 하나가 독립적으로 읽히고 착장 경계가 확인되는지 |
+| 4 | 방향 전신 | 방향 얼굴, 승인된 정면 전신 PNG, 개별 소품 | 몸 방향·비례와 복장·스트랩 같은 특징 장치의 연속성 |
 
-6번은 방향마다 다른 내부 단계를 가집니다. 후면은 정면 전신과 후면 얼굴을 한 번만 참조하는 직접 회전이고, 좌우 측면은 방향 결정 뒤 복장만 보강하며, 좌우 쿼터는 방향 결정·깊이 보강·복장 보강을 순서대로 실행합니다. 첫 단계 뒤에는 정면 전신을 다시 참조하지 않아 정면 실루엣으로 되돌아가는 현상을 줄입니다. 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아니라, 방향별로 무엇을 고정·보강할지 사람이 대조할 수 있게 하는 생성·검수 순서입니다.
+4번은 방향마다 다른 내부 단계를 가집니다. 후면은 승인된 정면 전신 PNG와 후면 얼굴을 한 번만 참조하는 직접 회전이고, 좌우 측면은 방향 결정 뒤 복장만 보강하며, 좌우 쿼터는 방향 결정·깊이 보강·복장 보강을 순서대로 실행합니다. 첫 단계 뒤에는 정면 전신을 다시 참조하지 않아 정면 실루엣으로 되돌아가는 현상을 줄입니다. 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아니라, 방향별로 무엇을 고정·보강할지 사람이 대조할 수 있게 하는 생성·검수 순서입니다.
 
 ## 전신 기준: 승인된 여섯 방향 기준
 
@@ -89,13 +87,19 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 방향 전신은 하나의 공통 단계를 강제하지 않습니다. 후면은 직접 회전 한 번으로 끝내고, 좌우 측면은 **방향 결정 → 복장 보강**, 좌우 쿼터는 **방향 결정 → 깊이 보강 → 복장 보강**을 실행합니다. 복장 보강에서는 정면 전신 대신 직전 결과·방향 얼굴·크롭탑·바지·신발 기준을 참조합니다. 최종 PNG에서 신발의 짝과 형태, 팔 가림, 얼굴·몸·발 방향의 일치를 사람 검수로 확인합니다.
 
-<details id="fullbody-front-reference" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_front_reference.py" data-language="python">
-<summary>정면 얼굴·소품 기준으로 정면 전신 후보를 만드는 코드 보기</summary>
+<details id="fullbody-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_direction_references.py" data-language="python">
+<summary>전면 전신과 방향 얼굴 기준으로 방향별 전신 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-<details id="fullbody-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_direction_references.py" data-language="python">
-<summary>전면 전신과 방향 얼굴 기준으로 방향별 전신 후보를 만드는 코드 보기</summary>
+## 전신 턴어라운드 시트는 한 번에 승인하지 않는다
+
+승인된 얼굴 턴어라운드, 정면 전신, 크롭탑·바지·신발 기준을 한 번에 넣어 4패널 전신 시트를 생성하는 실험도 실행했습니다. 로컬 8GB GPU에서 `1024 x 1536` 출력은 약 158초에 끝났지만, 정면·쿼터뷰 패널이 무릎 아래에서 잘리고 쿼터뷰도 정면에 가깝게 남았습니다. 복장 연속성이 일부 패널에서 보이더라도, 한 호출이 시트 배치와 전신 프레이밍을 동시에 충족하지 못했으므로 기준 자산으로 승인하지 않았습니다.
+
+[전신 턴어라운드 시트 거절 리포트](../../../assets/part-07/chapter-05/p7-5-2-fullbody-turnaround-sheet-experiment-review.json)는 입력 자산, seed, prompt, 실행 시간과 실패 조건을 남깁니다. 미승인 후보 PNG는 보관하지 않습니다. 다음 실험은 방향별 전신을 개별 생성한 뒤, 생성 모델이 아닌 조합 단계에서 검수 시트로 배열해야 합니다.
+
+<details id="fullbody-turnaround-sheet-experiment" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_sheet.py" data-language="python">
+<summary>얼굴 턴어라운드와 소품으로 전신 시트를 시험하는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -117,21 +121,6 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <summary>정면 얼굴 기준으로 4패널 턴어라운드 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
-
-표정에서는 배경이나 조명 변화가 아니라 눈썹·눈꺼풀·동공·콧등·콧구멍·입 모양의 차이를 따로 검수해야 합니다. 현재 승인된 표정 이미지는 없습니다.
-
-<details id="expression-detail-multiref" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_expression_detail_multiref_flux.py" data-language="python">
-<summary>눈·코·입 변화를 지정하는 표정 detail 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
-
-표정 생성은 하나의 스크립트에서 `--targets` 범위를 받습니다. `neutral`, `joy`, `concern`, `anger`, `sadness`, `surprise` 중 재생성할 표정만 지정할 수 있고, 범위를 생략하면 여섯 표정 후보를 모두 만듭니다. 생성된 후보는 표정 기준을 교체하지 않으며, 각 표정의 눈썹·눈·코·입 계약을 사람 검수한 뒤에만 승인 범위에 넣습니다.
-
-```bash
-PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_expression_detail_multiref_flux.py \
-  --targets concern sadness
-```
 
 방향 얼굴은 `--views front front_quarter profile rear`로 정면·쿼터뷰·측면·후면을 한 장의 검수 시트에 생성합니다. `--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, 각 PNG와 JSON에는 실행 타임스탬프와 시드가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile rear`처럼 범위를 좁힙니다.
 
@@ -167,22 +156,15 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 ```
 
 
-## 여섯 생성기 실행과 승인을 분리한다
+## 네 생성기 실행과 승인을 분리한다
 
 아래 실행 코드는 방향별 다중참조 횟수를 다르게 적용합니다. 후면은 직접 회전 한 번, 좌우 측면은 방향 결정과 복장 보강 두 번, 좌우 쿼터는 방향 결정·깊이 보강·복장 보강 세 번을 한 호출 안에서 연속 실행합니다. 후속 단계는 직전 결과를 첫 입력으로 두고 정면 전신을 다시 참조하지 않습니다. 후보 PNG가 생성됐다는 사실은 새 pose·camera·컷신 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
-
-```bash
-PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_front_reference.py
-```
 
 | 생성기 | 하는 일 | 조작할 값 |
 | --- | --- | --- |
 | 정면 얼굴 | prompt만으로 얼굴 identity 후보 생성 | 얼굴 prompt, `SEED` |
 | 방향 얼굴 | 정면 얼굴 기준에서 여러 방향 얼굴 후보 생성 | `--views`, 방향 전용 prompt |
-| 표정 detail | 지정한 표정 후보 생성 | `--targets`, `--seed-offset`, `--steps` |
 | 소품 기준 | 지정한 소품 후보 생성 | `--targets` |
-| 정면 전신 | 정면 얼굴과 소품 기준으로 전면 전신 후보 생성 | `SEED`, 소품 참조, prompt |
 | 방향 전신 | 방향별로 1·2·3단계 다중참조를 실행해 방향·깊이·복장을 순서대로 보강 | `--views`, 방향별 stage·전용 prompt |
 
 ```bash
