@@ -16,16 +16,18 @@ ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 REFERENCES = [
     ROOT / "p7-5-2-face-front-v2.png",
-    ROOT / "p7-5-2-prop-reference-v2-jacket.png",
+    ROOT / "p7-5-2-prop-reference-v2-gray-cropped-top.png",
     ROOT / "p7-5-2-prop-reference-v2-trousers.png",
     ROOT / "p7-5-2-prop-reference-v2-shoes.png",
-    ROOT / "p7-5-2-prop-reference-v2-crossbody-bag.png",
 ]
 OUTPUT = ROOT / "p7-5-2-fullbody-front-reference-candidate.png"
 REPORT = ROOT / "p7-5-2-fullbody-front-reference-review.json"
 PROMPT = (
-    "Full-body front reference of the same woman on an off-white studio background. "
-    "Use the face and four prop references. Neutral standing pose, complete from hair to soles. "
+    "Full-body strict front reference of the same woman on an off-white studio background. "
+    "Use the frontal face reference for both her identity and its clean ink outlines, watercolor fills, and flat illustrated rendering; do not use photorealistic skin, lighting, or texture. "
+    "Use the gray cropped-top, trousers, and shoes references only for her outfit. "
+    "She is 165 cm tall, weighs 55 kg, and has approximately 7.5 head heights, in a neutral upright standing pose, complete from hair to soles. "
+    "Wear the charcoal-gray cropped crew-neck top, deep teal-blue wide-leg trousers, and matching white low-top sneakers; no jacket, bag, strap, or other accessory. "
     "No extra person, text, or border."
 )
 SEED = 62285
