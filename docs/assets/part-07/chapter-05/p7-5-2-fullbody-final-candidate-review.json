@@ -1,0 +1,27 @@
+{
+  "status": "review_required",
+  "purpose": "Retained final full-body candidates after pruning torso, intermediate-body, and superseded candidates.",
+  "candidates": [
+    {
+      "view": "left_front_quarter",
+      "image": "p7-5-2-fullbody-reference-v3-left_front_quarter-candidate.png"
+    },
+    {
+      "view": "right_front_quarter",
+      "image": "p7-5-2-fullbody-reference-v3-right_front_quarter-candidate.png"
+    },
+    {
+      "view": "profile_left",
+      "image": "p7-5-2-fullbody-reference-v4-profile_left-candidate.png"
+    },
+    {
+      "view": "profile_right",
+      "image": "p7-5-2-fullbody-reference-v5-profile_right-candidate.png"
+    },
+    {
+      "view": "rear",
+      "image": "p7-5-2-fullbody-reference-v5-rear-candidate.png"
+    }
+  ],
+  "decision": "These are candidate outputs only. No candidate is approved as a directional character reference."
+}
