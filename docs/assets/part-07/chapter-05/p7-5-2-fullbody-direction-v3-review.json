@@ -1,0 +1,189 @@
+{
+  "status": "review_required",
+  "requested_views": [
+    "left_front_quarter",
+    "right_front_quarter",
+    "profile_left",
+    "profile_right",
+    "rear"
+  ],
+  "sequence": [
+    "face_to_torso",
+    "torso_to_fullbody",
+    "fullbody_to_outfit_unified"
+  ],
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "runs": [
+    {
+      "stage": "torso",
+      "references": [
+        "p7-5-2-face-left-front-quarter-v1.png"
+      ],
+      "output": "p7-5-2-fullbody-torso-v1-left_front_quarter-candidate.png",
+      "seed": 62411,
+      "prompt": "Upper-body directional reference of the same woman on an off-white studio background. Use the directional face reference as the only image reference for identity and head direction. Frame her from the crown to the upper thighs. Show the head, shoulders, and torso in a left-front-quarter view. No extra person, text, or border.",
+      "elapsed_seconds": 27.45,
+      "view": "left_front_quarter"
+    },
+    {
+      "stage": "fullbody",
+      "references": [
+        "p7-5-2-fullbody-torso-v1-left_front_quarter-candidate.png"
+      ],
+      "output": "p7-5-2-fullbody-base-v1-left_front_quarter-candidate.png",
+      "seed": 63411,
+      "prompt": "Full-body directional reference of the same woman on an off-white studio background. Use the torso reference for face, hair, neck, shoulder, upper-body direction, and body continuity. Extend the figure to a neutral standing full body from hair to soles. Show the head, shoulders, and torso in a left-front-quarter view. No extra person, text, or border.",
+      "elapsed_seconds": 35.04,
+      "view": "left_front_quarter"
+    },
+    {
+      "stage": "outfit",
+      "references": [
+        "p7-5-2-fullbody-base-v1-left_front_quarter-candidate.png",
+        "p7-5-2-fullbody-front-reference.png"
+      ],
+      "output": "p7-5-2-fullbody-reference-v3-left_front_quarter-candidate.png",
+      "seed": 64411,
+      "prompt": "Outfit-unified full-body directional reference of the same woman on an off-white studio background. Use the generated full-body reference only for identity, body direction, and pose; do not copy its clothing. Use the frontal full-body reference as the only source for the complete outfit, colors, garment construction, shoes, and bag. Keep the body direction and neutral standing pose, complete from hair to soles. Show the head, shoulders, and torso in a left-front-quarter view. Keep hips, knees, and feet forward. Show exactly one navy crossbody bag with one diagonal strap. No extra person, text, or border.",
+      "elapsed_seconds": 60.55,
+      "view": "left_front_quarter"
+    },
+    {
+      "stage": "torso",
+      "references": [
+        "p7-5-2-face-right-front-quarter-v1.png"
+      ],
+      "output": "p7-5-2-fullbody-torso-v1-right_front_quarter-candidate.png",
+      "seed": 62412,
+      "prompt": "Upper-body directional reference of the same woman on an off-white studio background. Use the directional face reference as the only image reference for identity and head direction. Frame her from the crown to the upper thighs. Show the head, shoulders, and torso in a right-front-quarter view. No extra person, text, or border.",
+      "elapsed_seconds": 27.87,
+      "view": "right_front_quarter"
+    },
+    {
+      "stage": "fullbody",
+      "references": [
+        "p7-5-2-fullbody-torso-v1-right_front_quarter-candidate.png"
+      ],
+      "output": "p7-5-2-fullbody-base-v1-right_front_quarter-candidate.png",
+      "seed": 63412,
+      "prompt": "Full-body directional reference of the same woman on an off-white studio background. Use the torso reference for face, hair, neck, shoulder, upper-body direction, and body continuity. Extend the figure to a neutral standing full body from hair to soles. Show the head, shoulders, and torso in a right-front-quarter view. No extra person, text, or border.",
+      "elapsed_seconds": 35.56,
+      "view": "right_front_quarter"
+    },
+    {
+      "stage": "outfit",
+      "references": [
+        "p7-5-2-fullbody-base-v1-right_front_quarter-candidate.png",
+        "p7-5-2-fullbody-front-reference.png"
+      ],
+      "output": "p7-5-2-fullbody-reference-v3-right_front_quarter-candidate.png",
+      "seed": 64412,
+      "prompt": "Outfit-unified full-body directional reference of the same woman on an off-white studio background. Use the generated full-body reference only for identity, body direction, and pose; do not copy its clothing. Use the frontal full-body reference as the only source for the complete outfit, colors, garment construction, shoes, and bag. Keep the body direction and neutral standing pose, complete from hair to soles. Show the head, shoulders, and torso in a right-front-quarter view. Keep hips, knees, and feet forward. Show exactly one navy crossbody bag with one diagonal strap. No extra person, text, or border.",
+      "elapsed_seconds": 61.06,
+      "view": "right_front_quarter"
+    },
+    {
+      "stage": "torso",
+      "references": [
+        "p7-5-2-face-profile-left-v1.png"
+      ],
+      "output": "p7-5-2-fullbody-torso-v1-profile_left-candidate.png",
+      "seed": 62403,
+      "prompt": "Upper-body directional reference of the same woman on an off-white studio background. Use the directional face reference as the only image reference for identity and head direction. Frame her from the crown to the upper thighs. She faces image-left in a strict side profile. No extra person, text, or border.",
+      "elapsed_seconds": 27.76,
+      "view": "profile_left"
+    },
+    {
+      "stage": "fullbody",
+      "references": [
+        "p7-5-2-fullbody-torso-v1-profile_left-candidate.png"
+      ],
+      "output": "p7-5-2-fullbody-base-v1-profile_left-candidate.png",
+      "seed": 63403,
+      "prompt": "Full-body directional reference of the same woman on an off-white studio background. Use the torso reference for face, hair, neck, shoulder, upper-body direction, and body continuity. Extend the figure to a neutral standing full body from hair to soles. She faces image-left in a strict side profile. No extra person, text, or border.",
+      "elapsed_seconds": 35.28,
+      "view": "profile_left"
+    },
+    {
+      "stage": "outfit",
+      "references": [
+        "p7-5-2-fullbody-base-v1-profile_left-candidate.png",
+        "p7-5-2-fullbody-front-reference.png"
+      ],
+      "output": "p7-5-2-fullbody-reference-v3-profile_left-candidate.png",
+      "seed": 64403,
+      "prompt": "Outfit-unified full-body directional reference of the same woman on an off-white studio background. Use the generated full-body reference only for identity, body direction, and pose; do not copy its clothing. Use the frontal full-body reference as the only source for the complete outfit, colors, garment construction, shoes, and bag. Keep the body direction and neutral standing pose, complete from hair to soles. She faces image-left in a strict side profile. Show exactly one navy crossbody bag clearly at the image-right rear hip, with its complete body visible behind her torso and one diagonal shoulder strap. No extra person, text, or border.",
+      "elapsed_seconds": 60.96,
+      "view": "profile_left"
+    },
+    {
+      "stage": "torso",
+      "references": [
+        "p7-5-2-face-profile-right-v1.png"
+      ],
+      "output": "p7-5-2-fullbody-torso-v1-profile_right-candidate.png",
+      "seed": 62404,
+      "prompt": "Upper-body directional reference of the same woman on an off-white studio background. Use the directional face reference as the only image reference for identity and head direction. Frame her from the crown to the upper thighs. She faces image-right in a strict side profile. No extra person, text, or border.",
+      "elapsed_seconds": 27.86,
+      "view": "profile_right"
+    },
+    {
+      "stage": "fullbody",
+      "references": [
+        "p7-5-2-fullbody-torso-v1-profile_right-candidate.png"
+      ],
+      "output": "p7-5-2-fullbody-base-v1-profile_right-candidate.png",
+      "seed": 63404,
+      "prompt": "Full-body directional reference of the same woman on an off-white studio background. Use the torso reference for face, hair, neck, shoulder, upper-body direction, and body continuity. Extend the figure to a neutral standing full body from hair to soles. She faces image-right in a strict side profile. No extra person, text, or border.",
+      "elapsed_seconds": 35.36,
+      "view": "profile_right"
+    },
+    {
+      "stage": "outfit",
+      "references": [
+        "p7-5-2-fullbody-base-v1-profile_right-candidate.png",
+        "p7-5-2-fullbody-front-reference.png"
+      ],
+      "output": "p7-5-2-fullbody-reference-v3-profile_right-candidate.png",
+      "seed": 64404,
+      "prompt": "Outfit-unified full-body directional reference of the same woman on an off-white studio background. Use the generated full-body reference only for identity, body direction, and pose; do not copy its clothing. Use the frontal full-body reference as the only source for the complete outfit, colors, garment construction, shoes, and bag. Keep the body direction and neutral standing pose, complete from hair to soles. She faces image-right in a strict side profile. Show one diagonal crossbody shoulder strap over the visible shoulder and chest, but hide the navy bag body completely behind her torso: no bag, bag silhouette, or pouch may be visible at either hip. No extra person, text, or border.",
+      "elapsed_seconds": 60.98,
+      "view": "profile_right"
+    },
+    {
+      "stage": "torso",
+      "references": [
+        "p7-5-2-face-rear-v1.png"
+      ],
+      "output": "p7-5-2-fullbody-torso-v1-rear-candidate.png",
+      "seed": 62405,
+      "prompt": "Upper-body directional reference of the same woman on an off-white studio background. Use the directional face reference as the only image reference for identity and head direction. Frame her from the crown to the upper thighs. She faces directly away from the viewer. No extra person, text, or border.",
+      "elapsed_seconds": 27.86,
+      "view": "rear"
+    },
+    {
+      "stage": "fullbody",
+      "references": [
+        "p7-5-2-fullbody-torso-v1-rear-candidate.png"
+      ],
+      "output": "p7-5-2-fullbody-base-v1-rear-candidate.png",
+      "seed": 63405,
+      "prompt": "Full-body directional reference of the same woman on an off-white studio background. Use the torso reference for face, hair, neck, shoulder, upper-body direction, and body continuity. Extend the figure to a neutral standing full body from hair to soles. She faces directly away from the viewer. No extra person, text, or border.",
+      "elapsed_seconds": 35.32,
+      "view": "rear"
+    },
+    {
+      "stage": "outfit",
+      "references": [
+        "p7-5-2-fullbody-base-v1-rear-candidate.png",
+        "p7-5-2-fullbody-front-reference.png"
+      ],
+      "output": "p7-5-2-fullbody-reference-v3-rear-candidate.png",
+      "seed": 64405,
+      "prompt": "Outfit-unified full-body directional reference of the same woman on an off-white studio background. Use the generated full-body reference only for identity, body direction, and pose; do not copy its clothing. Use the frontal full-body reference as the only source for the complete outfit, colors, garment construction, shoes, and bag. Keep the body direction and neutral standing pose, complete from hair to soles. She faces directly away from the viewer. Keep the crossbody bag on the image-left hip. The strap must run from the image-right shoulder diagonally across her back to that image-left hip; do not mirror this diagonal. No extra person, text, or border.",
+      "elapsed_seconds": 60.92,
+      "view": "rear"
+    }
+  ],
+  "decision": "All intermediates and final outputs are candidates; human review is required before a final output becomes a reference asset."
+}
