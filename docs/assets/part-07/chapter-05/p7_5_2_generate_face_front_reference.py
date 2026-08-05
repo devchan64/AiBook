@@ -33,7 +33,7 @@ def main() -> None:
     image = pipe(
         prompt=PROMPT,
         width=768,
-        height=1024,
+        height=768,
         num_inference_steps=12,
         guidance_scale=1.0,
         generator=torch.Generator(device="cpu").manual_seed(62282),
