@@ -1,7 +1,7 @@
 {
   "status": "human_approved_prop_reference",
   "purpose": "Approved prompt-only prop references for Mira's character-reference pipeline.",
-  "input_policy": "Each asset was generated from its object prompt only, with no style, face, character, or existing prop image input.",
+  "input_policy": "Each reference was generated from its prompt only, with no style, face, character, or existing prop image input.",
   "assets": [
     {
       "id": "white_cropped_utility_jacket",
@@ -27,6 +27,11 @@
       "id": "charcoal_gray_cropped_top",
       "image": "p7-5-2-prop-reference-v2-gray-cropped-top.png",
       "scope": "charcoal-gray soft-knit jersey, round neckline, short sleeves, straight cropped hem at the natural waist, and clean seams"
+    },
+    {
+      "id": "regular_fit_micro_crop_top_waist_relation",
+      "image": "p7-5-2-outfit-crop-top-waist-reference.png",
+      "scope": "regular-fit charcoal-gray micro-crop crew-neck top, high upper-abdomen hem, visible bare-midriff gap, and its relation to the deep-teal high-waisted trousers"
     }
   ],
   "pending": [],

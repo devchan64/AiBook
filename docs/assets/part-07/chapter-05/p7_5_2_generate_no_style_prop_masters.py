@@ -46,10 +46,10 @@ PROPS = {
     },
     "gray_cropped_top": {
         "id": "gray_cropped_top",
-        "seed": 62284,
+        "seed": 64929,
         "output": "p7-5-2-no-style-prop-gray-cropped-top-candidate.png",
         "size": (768, 1024),
-        "prompt": "One isolated charcoal-gray cropped crew-neck top in a clean front product view on a plain off-white background. Soft knit jersey, short sleeves, a round neckline, a straight cropped hem ending at the natural waist, and simple clean seams. Clean product illustration. No person, hanger, jacket, text, logo, or other object.",
+        "prompt": "Front apparel detail from shoulders through upper hips on a featureless neutral fashion torso against an off-white background. A charcoal-gray regular-fit micro-crop crew-neck T-shirt follows the upper torso with moderate ease: natural shoulder seams at the shoulders, standard short sleeves, clean vertical side seams, and a straight hem. Its hem ends high across the upper abdomen, sixteen centimeters above the navel. Deep teal-blue high-waisted wide-leg trousers have a waistband positioned at the navel. A clear sixteen-centimeter horizontal band of bare midriff visibly separates the cropped hem from the waistband. The short crop length and clean regular fit are the focus. Clean product illustration; no face, hands, text, logo, or other clothing.",
     },
 }
 

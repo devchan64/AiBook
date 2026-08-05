@@ -16,18 +16,18 @@ ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 REFERENCES = [
     ROOT / "p7-5-2-face-front-v2.png",
-    ROOT / "p7-5-2-prop-reference-v2-gray-cropped-top.png",
+    ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
     ROOT / "p7-5-2-prop-reference-v2-trousers.png",
     ROOT / "p7-5-2-prop-reference-v2-shoes.png",
 ]
 OUTPUT = ROOT / "p7-5-2-fullbody-front-reference-candidate.png"
-REPORT = ROOT / "p7-5-2-fullbody-front-reference-review.json"
+REPORT = ROOT / "p7-5-2-fullbody-front-candidate-review.json"
 PROMPT = (
     "Full-body strict front reference of the same woman on an off-white studio background, complete from hair to soles in a neutral upright standing pose. "
     "Use the frontal face reference for identity and its clean ink outlines, watercolor fills, and flat illustrated rendering. "
     "She is 165 cm tall, weighs 55 kg, and has approximately 7.5 head heights. "
-    "Use the approved clothing references for a charcoal-gray short-sleeve cropped top with a round neckline and natural-waist hem, "
-    "deep teal-blue high-waisted wide-leg trousers, and a matching pair of plain white lace-up low-top sneakers."
+    "Use the approved outfit relationship reference for a charcoal-gray regular-fit short-sleeve micro-crop crew-neck top, with its hem high across the upper abdomen and a clear bare midriff above the trousers. "
+    "Use the approved clothing references for deep teal-blue high-waisted wide-leg trousers and a matching pair of plain white lace-up low-top sneakers."
 )
 SEED = 62285
 
