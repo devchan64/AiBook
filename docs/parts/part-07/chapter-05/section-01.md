@@ -1,7 +1,7 @@
 # P7-5.1 화풍 참조 셋 생성: 로컬 GPU로 프레임 없는 기준 만들기
 
 > Section ID: `P7-5.1`
-> Version: `v2026.08.04`
+> Version: `v2026.08.06`
 
 이 프로젝트는 다음 단계에서 FLUX.2 Klein 4B로 캐릭터 기준이 될 참조 패키지를 만듭니다. 그래서 캐릭터를 만들기 전에, 같은 모델에서 사용할 화풍 기준을 먼저 고정해야 합니다. 여기서 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 인물과 소품을 넣기 전, 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 그 한 장은 FLUX.2 Klein 4B로 만들 캐릭터 참조 패키지의 화풍 기준이 될 수 없습니다.
 
@@ -197,7 +197,7 @@ for scene in scenes:
 | 실외·해질녘·low angle | 주택가 local-gpu-v1 | 행 승인 | 제한된 석양빛과 curb-height 상향 시점 |
 | 실외·우천 야간·overhead high angle | 옥상 광장 local-gpu-v1 | 행 승인 | 젖은 바닥 반사와 하향 야간 시점 |
 
-이른 아침 courtyard, 베니스 운하, 공원 연못, 열차 승강장은 보조 행입니다. 각각 high-angle, oblique, 낮 팔레트, 우천 야간 조명을 넓혀 보지만 다섯 필수 행을 대체하지는 않습니다. 불합격 후보는 crop이나 상태값 변경으로 살리지 않고, 실패 이유만 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다.
+이른 아침 courtyard, 베니스 운하, 공원 연못, 열차 승강장은 보조 행입니다. 각각 high-angle, oblique, 낮 팔레트, 우천 야간 조명을 넓혀 보지만 다섯 필수 행을 대체하지는 않습니다. 불합격 후보는 crop이나 상태값 변경으로 살리지 않고, 로컬 검수에서 실패 이유를 확인합니다.
 
 | 보조 행 | 로컬 GPU 재생성 후보 | 넓혀 보는 화풍 조건 |
 | --- | --- | --- |
@@ -208,7 +208,7 @@ for scene in scenes:
 
 ## Python 검수 gate는 사람 판정의 누락을 막는다
 
-생성기가 PNG를 만들면, 다음 코드는 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)의 다음 실행 행렬과 최종 상태를 읽어 P7-5.2 진입을 막거나 허용합니다. 이미지를 보고 선·색·프레임을 자동 채점하는 모델은 아닙니다. 그 판단은 사람이 ledger에 먼저 기록해야 합니다.
+생성기가 PNG를 만들면, 다음 코드는 로컬 검수 ledger의 다음 실행 행렬과 최종 상태를 읽어 P7-5.2 진입을 막거나 허용합니다. 이미지를 보고 선·색·프레임을 자동 채점하는 모델은 아닙니다. 그 판단은 사람이 ledger에 먼저 기록해야 합니다.
 
 ```bash
 .venv/bin/python docs/assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py
@@ -238,7 +238,7 @@ PASS style pack can be used for character-reference generation
 
 ## 사람 판정은 ledger와 manifest로 분리한다
 
-사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 행별 승인·불합격 이유와 최종 결론을 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 적습니다. 다음 단계가 실제로 읽는 입력 목록은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 따로 둡니다. 이 분리 덕분에 `왜 승인했는가`와 `무엇을 다음 생성에 넣을 수 있는가`가 섞이지 않습니다.
+사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 행별 승인·불합격 이유와 최종 결론을 로컬 검수 ledger에 적습니다. 다음 단계가 실제로 읽는 입력 목록은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 따로 둡니다. 이 분리 덕분에 `왜 승인했는가`와 `무엇을 다음 생성에 넣을 수 있는가`가 섞이지 않습니다.
 
 현재 참조 셋은 `approved_for_character_reference`입니다. manifest에는 아홉 개의 사람 승인 로컬 GPU 원본이 있으며, P7-5.2는 FLUX.2 Klein 4B로 캐릭터 참조 패키지를 만들 때 이 중 하나의 개별 원본만 화풍 입력으로 선택합니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다. 그 뒤의 캐릭터 identity, 시점 묶음, 권리 확인은 P7-5.2의 별도 검수 대상입니다.
 
@@ -252,7 +252,7 @@ PASS style pack can be used for character-reference generation
 | **필수 행 3**<br>![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png)<br>**행 승인** · 도심 · 낮 · wide eye-level · local GPU v1 | **필수 행 4**<br>![해질녘 주택가를 낮은 시점에서 올려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png)<br>**행 승인** · 주택가 · 해질녘 · low angle · local GPU v1 | **필수 행 5**<br>![우천 야간의 옥상 광장을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png)<br>**행 승인** · 옥상 광장 · 우천 야간 · overhead high angle · local GPU v1 |
 | **보조 행 2**<br>![해질녘 베니스 운하를 사선으로 본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png)<br>**보조 행 승인** · 베니스 운하 · 해질녘 · oblique · local GPU v1 | **보조 행 3**<br>![맑은 낮 공원 연못의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png)<br>**보조 행 승인** · 공원 연못 · 낮 · eye-level · local GPU v1 | **보조 행 4**<br>![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png)<br>**보조 행 승인** · 열차 승강장 · 우천 야간 · oblique · local GPU v1 |
 
-아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에, 판정과 실행 이력은 [검수 ledger](../../../assets/part-07/chapter-05/p7-5-1-local-style-pack-review.json)에 남깁니다. P7-5.2는 FLUX.2 Klein 4B 캐릭터 참조 생성에서 타일로 합친 비교 이미지를 입력으로 쓰지 않고 이 중 하나의 개별 원본만 선택합니다.
+아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 실행 이력은 커밋하지 않는 로컬 검수 기록으로 분리합니다. P7-5.2는 FLUX.2 Klein 4B 캐릭터 참조 생성에서 타일로 합친 비교 이미지를 입력으로 쓰지 않고 이 중 하나의 개별 원본만 선택합니다.
 
 ## 체크리스트
 

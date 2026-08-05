@@ -110,4 +110,4 @@ LoRA 이후에도 후면 prop이나 style이 무너지면 Canonical 교체는 �
 
 v1 station 중심 flat-color pack은 구도·원근·실내외·시간대의 폭이 좁았다. 이후 수채화 v2는 contour/structure line과 투명 색층을 분리하려 했지만, 일부 base 원본이 outer frame을 생성해 crop이 필요했고 표본도 수직 중앙 소실점 계열로 수렴했다. 이 둘은 character reference 입력으로 승인하지 않는다.
 
-화풍 생성·검수는 `P7-5.1`으로 분리했다. 이 Section은 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 행렬을 통과 조건으로 사용한다. v2 PNG와 crop builder는 제거하고, 실패 원인과 다음 입력 행렬은 `p7-5-1-local-style-pack-review.json`에 남긴다.
+화풍 생성·검수는 `P7-5.1`으로 분리했다. 이 Section은 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 행렬을 통과 조건으로 사용한다. v2 PNG와 crop builder, 생성 리포트는 제거한다.

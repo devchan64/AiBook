@@ -53,7 +53,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-reference.png)
 
-[정면 얼굴 승인 기록](../../../assets/part-07/chapter-05/p7-5-2-face-front-reference-review.json)은 prompt, seed, 출력 크기와 얼굴 회전 identity에 한정한 승인 범위를 남깁니다.
+정면 얼굴의 prompt, seed, 출력 크기와 얼굴 회전 identity에 한정한 승인 범위는 로컬 생성 기록으로 확인합니다.
 
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
 <summary>첫 기준인 정면 얼굴 후보를 만드는 코드 보기</summary>
@@ -75,7 +75,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 전신 기준: 승인된 여섯 방향 기준
 
-새 정면 전신은 정면 얼굴을 identity와 화풍 기준으로, 일반 핏 회색 마이크로 크롭탑의 밑단-허리선 관계·바지·신발을 복장 기준으로 사용해 생성한 뒤 사람 승인했습니다. 방향 전신은 정면 전신과 방향 얼굴을 첫 단계의 입력으로 사용하고, 좌우 쿼터·좌우 측면은 방향별 다중참조 보강을 거쳐 사람 승인했습니다. 후면은 기존 직접 회전 패턴을 유지했습니다. 165cm·55kg·7.5등신 조건은 prompt 계약이며, 이 기준은 여섯 방향 전신의 비례·기본 복장·신발 형태까지만 승인합니다. [정면 전신 실행·승인 기록](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference-review.json)과 [방향 전신 실행·승인 기록](../../../assets/part-07/chapter-05/p7-5-2-fullbody-direction-v13-review.json)은 입력·seed·prompt와 사람 판정을 남깁니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
+새 정면 전신은 정면 얼굴을 identity와 화풍 기준으로, 일반 핏 회색 마이크로 크롭탑의 밑단-허리선 관계·바지·신발을 복장 기준으로 사용해 생성한 뒤 사람 승인했습니다. 방향 전신은 정면 전신과 방향 얼굴을 첫 단계의 입력으로 사용하고, 좌우 쿼터·좌우 측면은 방향별 다중참조 보강을 거쳐 사람 승인했습니다. 후면은 기존 직접 회전 패턴을 유지했습니다. 165cm·55kg·7.5등신 조건은 prompt 계약이며, 이 기준은 여섯 방향 전신의 비례·기본 복장·신발 형태까지만 승인합니다. 입력·seed·prompt와 사람 판정은 커밋하지 않는 로컬 생성 기록으로 확인합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
 
 | 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
 | --- | --- | --- |
@@ -96,7 +96,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 승인된 얼굴 턴어라운드, 정면 전신, 크롭탑·바지·신발 기준을 한 번에 넣어 4패널 전신 시트를 생성하는 실험도 실행했습니다. 로컬 8GB GPU에서 `1024 x 1536` 출력은 약 158초에 끝났지만, 정면·쿼터뷰 패널이 무릎 아래에서 잘리고 쿼터뷰도 정면에 가깝게 남았습니다. 복장 연속성이 일부 패널에서 보이더라도, 한 호출이 시트 배치와 전신 프레이밍을 동시에 충족하지 못했으므로 기준 자산으로 승인하지 않았습니다.
 
-[전신 턴어라운드 시트 거절 리포트](../../../assets/part-07/chapter-05/p7-5-2-fullbody-turnaround-sheet-experiment-review.json)는 입력 자산, seed, prompt, 실행 시간과 실패 조건을 남깁니다. 미승인 후보 PNG는 보관하지 않습니다. 다음 실험은 방향별 전신을 개별 생성한 뒤, 생성 모델이 아닌 조합 단계에서 검수 시트로 배열해야 합니다.
+입력 자산, seed, prompt, 실행 시간과 실패 조건은 커밋하지 않는 로컬 생성 기록으로만 남깁니다. 미승인 후보 PNG는 보관하지 않습니다. 다음 실험은 방향별 전신을 개별 생성한 뒤, 생성 모델이 아닌 조합 단계에서 검수 시트로 배열해야 합니다.
 
 <details id="fullbody-turnaround-sheet-experiment" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_sheet.py" data-language="python">
 <summary>얼굴 턴어라운드와 소품으로 전신 시트를 시험하는 코드 보기</summary>
@@ -109,7 +109,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ![승인된 얼굴 턴어라운드 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-reference.png)
 
-[얼굴 턴어라운드 승인 기록](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-reference-review.json)은 실행 prompt, seed, 패널 순서, 승인 범위를 남깁니다. 이 시트는 사람 검수용 대조물이며, 후속 생성의 개별 이미지 입력에는 패널을 분리한 PNG를 사용합니다.
+실행 prompt, seed, 패널 순서, 승인 범위는 커밋하지 않는 로컬 생성 기록으로 확인합니다. 이 시트는 사람 검수용 대조물이며, 후속 생성의 개별 이미지 입력에는 패널을 분리한 PNG를 사용합니다.
 
 | 기준 | 현재 상태 | 다음 판정 |
 | --- | --- | --- |
@@ -138,7 +138,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | --- | --- |
 | ![승인된 자켓 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket.png) | ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-crossbody-bag.png) |
 
-[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json), [기존 소품 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-no-style-prop-master-review.json), [크롭탑-허리선 착장 관계 검수 기록](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference-review.json)은 다섯 소품의 승인 범위를 기록합니다. 얼굴 목선 검수 기록은 얼굴 기준과 함께 관리합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json)은 다섯 소품의 승인 범위를 기록합니다. 실행·검수 기록은 커밋하지 않는 로컬 생성 기록으로 분리합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
 소품 기준 v2는 개별 소품 PNG 네 장과 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·자켓·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 

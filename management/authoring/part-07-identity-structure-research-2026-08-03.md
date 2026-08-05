@@ -144,7 +144,7 @@ scene-only Canny 비교 뒤에는 pose/control 입력을 Canny에서 분리한�
 
 그러나 같은 native-resolution identity LoRA와 foreground ROI 안의 OpenPose body map을 `0.0`, `0.35`, `0.70`으로 비교했을 때 품질은 통과하지 못했다. `0.35`는 인물을 upright로 남긴 채 의상을 바꿨고, `0.70`은 뒷모습과 큰 배낭으로 이탈했다. low bent ticket action, 얼굴, 흰 재킷, 청록 바지, 네이비 flap 가방, 하나의 대각 끈을 함께 유지한 경우는 없었다.
 
-그러므로 이 branch는 scene-only Canny와 결합하지 않는다. raw OpenPose map의 강도를 더 나누어도 현재 실패 원인을 줄이지 못하므로, PNG와 adapter 학습 산출물은 제거하고 [판정 기록](../../docs/assets/part-07/chapter-05/p7-5-2-foreground-openpose-adapter-review.json)만 남긴다. 다음 후보는 reference identity를 직접 받는 pose-transfer 구현이다.
+그러므로 이 branch는 scene-only Canny와 결합하지 않는다. raw OpenPose map의 강도를 더 나누어도 현재 실패 원인을 줄이지 못하므로, PNG와 adapter 학습 산출물, 생성 리포트는 제거한다. 다음 후보는 reference identity를 직접 받는 pose-transfer 구현이다.
 
 ## 후속 검토: reference-conditioned pose transfer
 
@@ -185,7 +185,7 @@ Ctrl-X는 한 컷에서 `target shot image`를 구조 입력, 승인한 Mira 단
 
 그러나 결과는 low bend와 하체 방향을 일부 옮겼을 뿐, cinema background가 사라지고 얼굴·앞머리가 붕괴했으며 흰 재킷이 청록 계열로 바뀌었다. navy flap bag과 하나의 대각 끈도 남지 않았다. peak VRAM은 quality failure 뒤 benchmark만을 위한 재실행을 하지 않아 확정 기록하지 않는다. 이 사실은 실행 불능이 아니라 **full-frame quality failure**다.
 
-따라서 Ctrl-X 역시 scene control, face inpaint, bag repair, sequence stage와 결합하지 않는다. 생성 PNG와 temporary structure script는 제거하고 [판정 기록](../../docs/assets/part-07/chapter-05/p7-5-2-ctrlx-static-pose-transfer-review.json)만 남긴다. 다음 탐색은 8 GB 단일 GPU에서 동작이 명시된 다른 reference-conditioned 정적 방법이 있는지 확인하거나, 고품질 전용 pose-transfer는 16 GB 이상 별도 환경으로 분리하는 두 갈래다.
+따라서 Ctrl-X 역시 scene control, face inpaint, bag repair, sequence stage와 결합하지 않는다. 생성 PNG와 temporary structure script, 생성 리포트는 제거한다. 다음 탐색은 8 GB 단일 GPU에서 동작이 명시된 다른 reference-conditioned 정적 방법이 있는지 확인하거나, 고품질 전용 pose-transfer는 16 GB 이상 별도 환경으로 분리하는 두 갈래다.
 
 ### 추가 제외: attention injection 계열의 VRAM 경계
 
@@ -213,7 +213,7 @@ Ctrl-X는 한 컷에서 `target shot image`를 구조 입력, 승인한 Mira 단
 
 그러나 held-out cinema ticket pose를 원 adapter와 같은 seed로 비교하면 adapter 학습본도 low bend를 만들지 못했다. full body와 cinema 배경은 일부 남았지만, teal bob/얼굴, 흰 재킷, 청록 바지, navy flap bag, 하나의 대각 끈을 동시에 보존하지 못했다. 즉 이 결과는 **8 GB에서 adapter fine-tuning이 기술적으로 실행 가능**함을 보였지만, 19개의 character pose-image pair가 reference-conditioned pose transfer의 일반화·identity 품질을 만들기에는 부족함을 확인한 실패다.
 
-학습 adapter, comparison PNG, VAE latent cache, temporary dataset과 scripts는 제거하고 [판정 기록](../../docs/assets/part-07/chapter-05/p7-5-2-t2i-adapter-finetune-review.json)만 남긴다. 이 경로를 ControlNet, Canny, inpaint와 결합해도 target pose와 character identity가 동시에 통과했다는 근거가 없으므로 진행하지 않는다.
+학습 adapter, comparison PNG, VAE latent cache, temporary dataset과 scripts, 생성 리포트는 제거한다. 이 경로를 ControlNet, Canny, inpaint와 결합해도 target pose와 character identity가 동시에 통과했다는 근거가 없으므로 진행하지 않는다.
 
 ## 후속 후보: MimicMotion 접근성 preflight
 
@@ -256,7 +256,7 @@ VACE 1.3B는 MimicMotion과 달리 공개 접근 가능한 모델이며, image r
 
 공개 Diffusers snapshot을 받아 `WanVACEPipeline`으로 실행했다. 기본 `enable_model_cpu_offload()`만 적용하면 T5 text encoder가 GPU에서 약 6.9 GB를 점유해 8 GB를 초과했다. prompt embedding을 CPU에서 한 번 계산한 뒤 embedding만 GPU로 보내고, video model을 sequential CPU offload하는 순서로 바꾸자 `832 x 480`, 5 frame, 50 step의 MP4 저장이 통과했다. peak VRAM은 4.739 GiB, wall time은 73.9초였다.
 
-그러나 이 실행은 quality gate에서 탈락했다. 전신 윤곽과 흰 재킷은 일부 남았지만 teal bob과 silver clip은 흐려졌고, 청록 바지, navy horizontal flap bag, 하나의 대각 끈, railway station background가 모두 유지되지 않았다. 세 frame은 정지한 옆모습으로 수렴했으며 pose/camera control은 아직 넣지 않았다. 이 baseline이 Mira contract를 통과하지 못했으므로 control video를 더하거나 inpaint로 고치지 않는다. 생성 MP4, contact sheet, temporary runner와 local snapshot은 제거하고 [판정 기록](../../docs/assets/part-07/chapter-05/p7-5-2-wan-vace-runtime-review.json)만 보관한다.
+그러나 이 실행은 quality gate에서 탈락했다. 전신 윤곽과 흰 재킷은 일부 남았지만 teal bob과 silver clip은 흐려졌고, 청록 바지, navy horizontal flap bag, 하나의 대각 끈, railway station background가 모두 유지되지 않았다. 세 frame은 정지한 옆모습으로 수렴했으며 pose/camera control은 아직 넣지 않았다. 이 baseline이 Mira contract를 통과하지 못했으므로 control video를 더하거나 inpaint로 고치지 않는다. 생성 MP4, contact sheet, temporary runner, local snapshot과 생성 리포트는 제거한다.
 
 ## 다음 후보: StableAnimator basic
 
@@ -291,7 +291,7 @@ VACE 1.3B는 MimicMotion과 달리 공개 접근 가능한 모델이며, image r
 
 neutral pose에서는 full body, face, teal bob, white jacket, teal trousers, white sneakers, navy flap bag, 하나의 대각끈이 네 frame에 남았다. 하지만 이는 reference reconstruction이므로 pose transfer의 증거는 아니다. deep crouch는 공식 linear alignment가 standing reference에 맞추며 skeleton을 늘려 frame crop을 만들었다. alignment를 끈 raw pose map은 crouch-like body를 만들었지만 10과 25 step 모두 얼굴·hair clip·bag flap 계약을 잃었다.
 
-반면 raw full-body reach pose에서는 팔 방향과 전신 box, 얼굴, 재킷·바지·신발이 남았다. hair clip은 안정적이지 않았고 navy flap bag은 사라졌으며 배경은 흰색이었다. 따라서 이 모델은 **중간 난도 전신 pose의 foreground generator**로는 후보가 되지만, face/clip 및 bag repair와 독립 scene/camera stage를 통과하기 전에는 final webtoon cut pipeline으로 채택하지 않는다. 생성 frame과 temporary runner는 제거하고 [판정 기록](../../docs/assets/part-07/chapter-05/p7-5-2-stableanimator-basic-review.json)만 보관한다.
+반면 raw full-body reach pose에서는 팔 방향과 전신 box, 얼굴, 재킷·바지·신발이 남았다. hair clip은 안정적이지 않았고 navy flap bag은 사라졌으며 배경은 흰색이었다. 따라서 이 모델은 **중간 난도 전신 pose의 foreground generator**로는 후보가 되지만, face/clip 및 bag repair와 독립 scene/camera stage를 통과하기 전에는 final webtoon cut pipeline으로 채택하지 않는다. 생성 frame과 temporary runner, 생성 리포트는 제거한다.
 
 ## 후속 조사: 객체 계약 보정과 다중 참조 편집
 
