@@ -7,22 +7,6 @@
 
 이 절의 산출물은 완성 컷이나 학습된 모델이 아닙니다. 다음 단계가 사용할 수 있는지 사람 검수한 전신 기준, view별 원본, 생성 기록, 그리고 아직 사용할 수 없는 범위를 적은 manifest입니다. 장면 속 pose, projection, 배경을 바꾸는 전체 컷 생성은 `P7-5.3`의 책임이고, 통과 컷의 얼굴·손·소품·연속성 보정은 `P7-5.4`에서 별도로 검증합니다.
 
-## 기준 이미지 생성 소스는 다섯 개다
-
-P7-5.2에서 유지하는 기준 이미지 생성 소스는 아래 다섯 개입니다. 정면·방향 얼굴, 소품, 방향 전신, 전신 보강은 서로 다른 승인 범위를 가지므로 한 파일로 합치지 않습니다. 표정과 정면 전신은 현재 파이프라인에서 새로 생성하지 않습니다.
-
-| 생성 범위 | 소스 | 범위 옵션 |
-| --- | --- | --- |
-| 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | 없음 |
-| 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views` |
-| 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets` |
-| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views` |
-| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props` |
-
-이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 다섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다.
-
-다섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
-
 ## 먼저 통과해야 하는 두 가지 gate
 
 P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화풍과 인물 기준이 각각 어느 범위까지 승인됐는지를 먼저 구분해야 합니다.
@@ -30,7 +14,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | gate | 필요한 근거 | 현재 처리 원칙 |
 | --- | --- | --- |
 | P7-5.1 화풍 | 사람 승인된 로컬 GPU 배경 원본, 검수 ledger, 최종 manifest | 최종 manifest 전에는 P7-5.2의 review-only 실험으로만 원본 하나를 style input으로 사용 |
-| P7-5.2 인물 | 로컬 GPU 정면·방향 얼굴, 소품 기준, 새 실행 기록, 사람 검수 manifest | 정면·방향 얼굴과 소품을 유지하고 표정·전신 기준은 새로 생성·검수 |
+| P7-5.2 인물 | 로컬 GPU 정면·방향 얼굴, 소품 기준, 네 방향 전신, 새 실행 기록, 사람 검수 manifest | 승인된 얼굴·소품·전신만 다음 단계에 넘기고, 표정은 별도 생성·검수 |
 | P7-5.3 컷신 | pose·camera·장소·소품이 함께 통과한 전체 컷 | 이 절의 단일 기준만으로 통과 처리하지 않음 |
 
 ## 캐릭터 패키지 구성요소
@@ -39,14 +23,28 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
-| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·전면 쿼터·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 정면·방향 얼굴, 신발·자켓·회색 크롭탑·바지·가방, 정면·전면 쿼터·측면·후면 전신 유지; 표정은 새로 생성·검수 |
+| 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·전면 쿼터·측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 정면·방향 얼굴, 신발·자켓·회색 크롭탑·바지·가방, 정면·전면 쿼터·측면·후면 전신 승인; 표정·손 detail은 별도 생성·검수 대상 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
 
 이 pipeline은 여러 이미지를 타일 시트로 합쳐 모델에 넣지 않습니다. 참조 입력에는 manifest가 가리키는 개별 PNG 하나만 사용합니다. train과 held-out은 단지 파일 수를 맞추는 폴더가 아니라, source ID·장소·camera를 분리해 캐릭터를 외운 결과와 새 장면에 적용한 결과를 구분하는 장치입니다.
 
-## 첫 기준은 정면 얼굴이다
+## 생성·검수 순서
+
+캐릭터 패키지는 같은 인물을 여러 장으로 다시 그린 결과를 무작정 모으지 않습니다. 아래 다섯 생성기는 먼저 고정한 정면 얼굴을 출발점으로, 작은 범위에서 큰 범위로 정보를 넘깁니다. 각 단계의 후보는 다음 단계의 입력이 될 수 있지만, 사람 승인 전에는 기준 체인에 편입하지 않습니다.
+
+| 순서 | 생성기 | 입력에서 고정하는 정보 | 최종 PNG에서 검수할 정보 |
+| --- | --- | --- | --- |
+| 1 | 정면 얼굴 | 얼굴형, 머리, 피부, 홍채·동공의 기본 계약 | 정면 얼굴 identity |
+| 2 | 방향 얼굴 | 정면 얼굴 계약과 view별 방향 | 눈·코·입·머리 윤곽이 회전 뒤에도 같은 인물인지 |
+| 3 | 소품 기준 | 회색 크롭탑, 바지, 신발과 확장 소품의 개별 물성·색·형태 계약, 크롭탑-허리선 관계 | 소품 하나가 독립적으로 읽히고 착장 경계가 확인되는지 |
+| 4 | 방향 전신 | 방향 얼굴, 개별 소품 | 몸 방향·비례와 복장·스트랩 같은 특징 장치의 연속성 |
+| 5 | 전신 얼굴·소품 보강 | 승인된 방향 전신, CodeFormer `2x` 정면 얼굴, 자켓·가방 | 얼굴 identity와 자켓·가방 형태를 보강해도 방향 전신이 유지되는지 |
+
+4번은 얼굴 턴어라운드와 개별 소품만 입력으로 사용해 정면·전면 쿼터·측면·후면을 각각 생성합니다. 정면 전신이나 P7-5.1 화풍 참조를 넣어 회전을 유도하지 않습니다. 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아니라, 방향별 결과의 전신 프레이밍·복장·신발·얼굴 연속성을 사람이 대조할 수 있게 하는 생성·검수 순서입니다.
+
+## 정면 얼굴 identity 기준
 
 생성 체인은 정면 얼굴 기준에서 시작합니다. 머리핀을 포함한 이전 기준은 폐기하고, 얼굴형·홍채·머리·표정을 prompt로 정의한 머리 전체·얼굴·턱 출력만 새로 생성·사람 검수했습니다. 넓고 낮은 광대, 볼살, 고양이 눈매의 위로 향한 눈꼬리는 이 첫 기준에서만 고정하며, 몸·의상·회전 view·표정은 아직 승인하지 않습니다.
 
@@ -55,11 +53,11 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 정면 얼굴의 prompt, seed, 출력 크기와 얼굴 회전 identity에 한정한 승인 범위는 로컬 생성 기록으로 확인합니다.
 
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
-<summary>첫 기준인 정면 얼굴 후보를 만드는 코드 보기</summary>
+<summary>정면 얼굴 identity 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 두 번째 기준은 얼굴 회전 시트다
+## 얼굴 회전 identity 기준
 
 정면 얼굴을 앵커로 만든 4패널 턴어라운드 시트를 사람 승인했습니다. 시트는 정면·쿼터뷰·측면·후면의 순서로, 눈에 보이는 홍채의 지름과 동공-홍채 비율, 시선과 코의 방향, 콧대·코끝, 단발의 가르마·앞머리·컬·외곽 실루엣을 함께 대조합니다. 기준 시드는 `62377`이며, 이 승인은 얼굴 회전 identity 범위만 뜻합니다. pose·camera·표정·전신은 별도 생성과 검수가 필요합니다.
 
@@ -80,30 +78,22 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 방향 얼굴은 `--views front front_quarter profile rear`로 정면·쿼터뷰·측면·후면을 한 장의 검수 시트에 생성합니다. `--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, 각 PNG와 JSON에는 실행 타임스탬프와 시드가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile rear`처럼 범위를 좁힙니다.
 
-### CodeFormer 2x 얼굴 identity 준비
+### 전신 보강용 CodeFormer 2x identity 입력
 
 자켓·가방을 추가하는 전신 보강 단계에서는, 얼굴 회전 시트의 정면 패널을 `512 x 512` aligned-face 입력으로 분리해 CodeFormer에 전달합니다. `w=1.0`은 입력 충실도를 우선하는 설정이며, 처리 결과를 Lanczos로 `2x` 확대합니다. 이 과정은 화풍을 바꾸거나 새 얼굴을 생성하는 단계가 아니라, 정면 얼굴의 눈·코·입·턱·헤어라인 정보를 더 큰 identity 입력으로 준비하는 단계입니다.
 
 쿼터·측면도 CodeFormer 복원 후보를 만들 수 있지만, 현재 전신 보강 코드가 사용하는 것은 정면 `2x` 패널 하나입니다. 후면에는 보이는 얼굴이 없으므로 CodeFormer를 적용하지 않고 Lanczos 확대만 합니다. 복원 뒤에는 홍채 색·눈 간격·콧대와 코끝·입술 윤곽·턱 실루엣이 원본과 달라지지 않았는지 사람이 먼저 확인합니다. 하나라도 바뀌면 확대 패널을 전신 보강 입력으로 사용하지 않습니다.
 
+사람 검수를 통과한 CodeFormer `w=1.0` 복원·Lanczos `2x` 자산은 아래 세 장입니다. 정면 패널만 현재 전신 보강기의 identity 입력으로 사용하고, 전면 쿼터와 측면은 같은 복원 규칙을 검수하는 비교 기준으로 유지합니다. 후면은 얼굴이 보이지 않아 CodeFormer 승인 자산이 아니라 Lanczos 확대만 한 별도 기록입니다.
+
+| 정면 `2x` | 전면 쿼터 `2x` | 측면 `2x` |
+| --- | --- | --- |
+| ![CodeFormer 승인 정면 얼굴 2배 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-front-2x.png) | ![CodeFormer 승인 전면 쿼터 얼굴 2배 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-front-quarter-2x.png) | ![CodeFormer 승인 측면 얼굴 2배 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-profile-2x.png) |
+
 <details id="face-turnaround-codeformer" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_restore_face_turnaround_codeformer.py" data-language="python">
 <summary>CodeFormer로 얼굴 회전 시트를 복원·2배 확대하는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
-
-## 다섯 생성기의 연결
-
-캐릭터 패키지는 같은 인물을 여러 장으로 다시 그린 결과를 무작정 모으지 않습니다. 아래 다섯 생성기는 먼저 고정한 정면 얼굴을 출발점으로, 작은 범위에서 큰 범위로 정보를 넘깁니다. 각 단계의 후보는 다음 단계의 입력이 될 수 있지만, 사람 승인 전에는 기준 체인에 편입하지 않습니다.
-
-| 순서 | 생성기 | 입력에서 고정하는 정보 | 최종 PNG에서 검수할 정보 |
-| --- | --- | --- | --- |
-| 1 | 정면 얼굴 | 얼굴형, 머리, 피부, 홍채·동공의 기본 계약 | 정면 얼굴 identity |
-| 2 | 방향 얼굴 | 정면 얼굴 계약과 view별 방향 | 눈·코·입·머리 윤곽이 회전 뒤에도 같은 인물인지 |
-| 3 | 소품 기준 | 회색 크롭탑, 바지, 신발과 확장 소품의 개별 물성·색·형태 계약, 크롭탑-허리선 관계 | 소품 하나가 독립적으로 읽히고 착장 경계가 확인되는지 |
-| 4 | 방향 전신 | 방향 얼굴, 개별 소품 | 몸 방향·비례와 복장·스트랩 같은 특징 장치의 연속성 |
-| 5 | 전신 얼굴·소품 보강 | 승인된 방향 전신, CodeFormer `2x` 정면 얼굴, 자켓·가방 | 얼굴 identity와 자켓·가방 형태를 보강해도 방향 전신이 유지되는지 |
-
-4번은 얼굴 턴어라운드와 개별 소품만 입력으로 사용해 정면·전면 쿼터·측면·후면을 각각 생성합니다. 정면 전신이나 P7-5.1 화풍 참조를 넣어 회전을 유도하지 않습니다. 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아니라, 방향별 결과의 전신 프레이밍·복장·신발·얼굴 연속성을 사람이 대조할 수 있게 하는 생성·검수 순서입니다.
 
 ## 소품 기준 검수 결과: 기본 복장과 확장 소품
 
@@ -150,7 +140,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --targets jacket_crop_top_front jacket_crop_top_rear
 ```
 
-## 세 번째 기준은 전신 회전 개별 PNG다
+## 방향별 전신 기준
 
 얼굴 턴어라운드와 회색 크롭탑·바지·신발 소품을 입력으로 정면·전면 쿼터·측면·후면을 같은 실행에서 개별 생성해 기본 전신 기준을 사람 승인했습니다. 네 방향은 자연스러운 신체비율, 전신 프레이밍, 기본 복장·신발, 청록 단발의 연속성까지만 승인합니다. 이후 자켓·가방을 더한 보강 출력도 네 방향 모두 추가 승인했습니다. 측면은 전면·후면 통합 착장 기준을 함께 참조해 흰색 크롭 재킷의 몸판·소매·옆등판을 고정했습니다. 등신 수치 지시는 단일 생성에서 안정적인 제어가 되지 않아 prompt에 넣지 않으며, 실제 비율은 사람 검수로 확인합니다. 입력·seed·prompt와 사람 판정은 커밋하지 않는 로컬 생성 기록으로 확인합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
 
@@ -169,7 +159,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 완성 전신에 정면 얼굴과 자켓·가방을 보강한다
+## 전신 기준의 얼굴·소품 보강
 
 이 단계는 승인된 방향 전신 PNG를 다시 그리는 보강 실험입니다. 입력 순서는 CodeFormer로 복원·2배 확대한 정면 얼굴 패널, 해당 방향의 전신 기준, 흰색 크롭 유틸리티 자켓과 회색 크롭탑을 이미 겹쳐 입은 레이어 기준, 짙은 네이비 캔버스 크로스백입니다. 레이어 기준은 정면·전면 쿼터에서는 승인된 전면 자켓-크롭탑 기준을 사용하고, 후면에서는 피부 띠만 남기는 승인 후면 기준을 별도로 사용합니다. 측면에서는 전면·후면 통합 착장 기준을 함께 입력해 재킷 몸판을 고정합니다. 확대 얼굴 패널은 얼굴형·눈·코·피부·헤어라인과 청록 단발을 고정하는 identity 앵커이고, 전신 기준은 전신 프레이밍·방향·기본 복장을 고정하는 composition 앵커입니다. 레이어 기준과 가방은 추가 소품일 뿐 전신 기준을 자동으로 대체하지 않습니다. 통합 실행으로 만든 정면·전면 쿼터·측면·후면 보강 출력은 사람 승인해 각각의 전신 기준으로 대체했습니다.
 
@@ -180,10 +170,19 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
+## 생성 코드와 사람 승인을 분리한다
 
-## 다섯 생성기 실행과 승인을 분리한다
+기준 이미지를 만드는 소스는 정면 얼굴, 방향 얼굴, 소품, 방향 전신, 전신 얼굴·소품 보강의 다섯 개입니다. 정면 전신은 방향 전신 생성기의 `front` 범위로 만들며, 표정 생성기는 현재 승인 기준 체인에 포함하지 않습니다. 후보 PNG가 생성됐다는 사실은 새 pose·camera·컷신 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
 
-아래 실행 코드는 얼굴 턴어라운드와 개별 소품을 같은 순서로 입력하고, 지정한 방향마다 독립 PNG 하나를 생성합니다. 후보 PNG가 생성됐다는 사실은 새 pose·camera·컷신 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
+| 생성 범위 | 소스 | 범위 옵션 |
+| --- | --- | --- |
+| 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | 없음 |
+| 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views` |
+| 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets` |
+| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views` |
+| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props` |
+
+이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 다섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 다섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
 
 | 생성기 | 하는 일 | 조작할 값 |
 | --- | --- | --- |
@@ -210,11 +209,38 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## manifest는 사용 범위를 좁히는 계약이다
 
-정면·전면 쿼터·측면·후면 전신은 사람 검수를 통과해 실행·승인 기록에 등록했습니다. 동작, camera yaw, 컷신용 캐릭터 참조 팩은 여전히 비어 있으며 별도 검수가 필요합니다.
+정면·전면 쿼터·측면·후면 전신은 사람 검수를 통과해 실행·승인 기록에 등록했습니다. 동작, camera yaw, 컷신용 캐릭터 참조 팩은 여전히 비어 있으며 별도 검수가 필요합니다. 아래 앨리웁 예제는 최종 가늠용 승인 PNG로만 보관하고 manifest 입력에는 넣지 않습니다.
 
 정면·전면 쿼터·측면·후면의 얼굴·자켓·가방 보강 출력은 사람 승인을 거쳐 각 전신 기준에 반영했습니다.
 
 화풍을 직접 조건으로 받은 캐릭터 팩도 다른 후보와 마찬가지로 review-only 상태에서 보관합니다. 배경 원본의 선·색층을 인물로 옮긴 결과가 얼굴·소품·비례 기준을 흐리지 않는지 사람 검수를 통과한 개별 PNG만 P7-5.2 manifest에 넣을 수 있습니다. 캐릭터 색은 중립 studio 조명에서 정하고, 장면의 야간·노을·비 반사광이 피부나 머리카락 기본색을 다시 정하지 않도록 다음 단계에서 검증합니다.
+
+## 최종 가늠: 웹툰 렌더링 앨리웁
+
+아래 예제는 P7-5.2의 승인 기준이 동작과 camera 변화에서도 유지되는지 살피는 마지막 가늠 테스트입니다. 입력에는 CodeFormer 정면 얼굴 `2x` 패널, 정면·전면 쿼터·측면·후면 전신 기준 네 장, 그리고 P7-5.1 승인 원본 중 [저각도 주택가 수채화 원본](../../../assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png) 한 장만 넣습니다. 화풍 원본은 선·색층·물감 번짐만 위한 입력이며, 원본의 인물·장소·구도는 복사하지 않습니다. 앨리웁 패스는 공의 릴리스와 림의 분리, 도약 다리, 저각도 원근을 함께 검수할 수 있어 수비 자세보다 더 강한 동작 시험이 됩니다.
+
+<details id="dynamic-alley-oop-style-test" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_dynamic_alley_oop_style_test.py" data-language="python">
+<summary>전신 기준과 화풍 원본으로 앨리웁 후보를 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+`--seed-offset`은 시작 시드를, `--seed-count`는 이어서 만들 후보 수를 정합니다. `--steps`는 속도와 detail의 교환을 시험하는 조작 변수입니다. 실행 JSON에는 실제 prompt, 입력 순서, seed, batch index, steps를 기록합니다. 아래 명령은 승인된 기준 시드 `62380`을 한 장으로 재현합니다.
+
+```bash
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_dynamic_alley_oop_style_test.py \
+  --seed-offset 0 --seed-count 1 --steps 12
+```
+
+```text
+Same woman from the supplied references, full body. Rooftop half court, airborne after an alley-oop pass: her right arm reaches up; one basketball has left her fingertips and arcs high. Left arm balances, left knee leads, right leg trails. Exactly one small hoop and backboard sit far behind her, well separated from the ball. Low front-left 24 mm camera, modest Dutch tilt, diagonal frame. Use crisp tapered charcoal contours, clean opaque color planes, and controlled cel shadows; keep watercolor pooling only as subtle edge texture. One woman, one ball, one hoop, no text, border, or panels.
+```
+
+이 프롬프트는 동작·카메라·화풍을 한 번에 바꾸므로 기준 PNG를 대체하는 용도가 아닙니다. 얼굴·머리·착장·가방 스트랩의 연속성, 손·발의 수, 오른손 공 릴리스와 포물선, 공과 림 사이의 열린 코트 공간, 도약 다리·몸통·무릎·발끝의 방향, 저각도 원근과 전신 프레이밍, 가변 선 굵기·면 채색·셀 음영과 제한된 수채 질감의 균형, 화풍 원본을 복사하지 않았는지를 모두 사람 검수합니다.
+
+![승인된 최종 가늠 예제: 앨리웁 동작·저각도·웹툰 렌더링](../../../assets/part-07/chapter-05/p7-5-2-dynamic-alley-oop-final-example.png)
+
+이 컷은 P7-5.2의 얼굴·전신·소품 기준이 하나의 역동적 장면에서도 읽히는지를 가늠하기 위한 승인 예제입니다. 이 결과만으로 pose 제어, camera 제어, 컷신 연속성까지 승인하지 않으며, P7-5.3의 scene·pose·camera 계약과 P7-5.4의 연속성 보정은 별도로 검수합니다.
 
 ## 캐릭터셋 체크리스트
 
