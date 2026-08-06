@@ -65,7 +65,7 @@ IP-Adapter는 텍스트 prompt와 별도로 이미지 prompt를 넣어 참조 �
 
 ### ControlNet
 
-ControlNet은 pose, canny edge, depth, segmentation, lineart 같은 조건을 diffusion 모델에 넣어 구조를 제어하는 방법입니다. 웹툰에서는 콘티의 pose, 카메라 각도, 컷 안 여백, 선화 구도를 유지하는 설명에 적합합니다.
+ControlNet은 pose, canny edge, depth, segmentation, lineart 같은 조건을 diffusion 모델에 넣어 구조를 제어하는 방법입니다. 웹툰에서는 스토리보드의 pose, 카메라 각도, 컷 안 여백, 선화 구도를 유지하는 설명에 적합합니다.
 
 원고 반영 포인트는 다음과 같습니다.
 
@@ -164,7 +164,7 @@ P7-5.2에는 이미 `웹툰 컷에서 캐릭터 일관성 유지하기` 절이 �
 
 1. `자료 묶음`에서 DreamBooth, Diffusers LoRA training, ComfyUI workflow template, ComfyUI ControlNet examples, T2I-Adapter, kohya-ss/sd-scripts를 출처 목록에 추가합니다.
 2. 본문에는 `캐릭터 LoRA 또는 DreamBooth`라는 표현을 한 번 넣어, 캐릭터 개인화 학습 계열의 배경을 열어 둡니다.
-3. `ControlNet` 설명에 `pose, lineart, depth`를 명시해 웹툰 콘티와 연결합니다.
+3. `ControlNet` 설명에 `pose, lineart, depth`를 명시해 웹툰 스토리보드와 연결합니다.
 4. `workflow 기록 양식`에 `template_name`이나 `workflow_version`을 추가할지 검토합니다.
 5. P7-5.3에서는 직접 LoRA 학습 절로 넘겨, 캐릭터 기준서와 caption 규칙을 학습 데이터셋 점검표로 확장합니다.
 

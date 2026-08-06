@@ -1,9 +1,0 @@
-P7 ControlNet webtoon pipeline check
-project: episode-01-template
-phase: asset_approval
-character_reference_pack: draft-01 (planned)
-panels: 4
-BLOCKED asset character_sheet: needs back, front, side, three_quarter_left, three_quarter_right
-BLOCKED asset face_sheet: needs front, neutral_expression, side, three_quarter_left, three_quarter_right
-BLOCKED asset style_sheet: needs forbidden_texture, line, palette, shading
-BLOCKED asset location_sheet: needs landmarks, light_direction, perspective

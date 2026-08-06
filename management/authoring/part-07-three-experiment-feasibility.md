@@ -22,9 +22,9 @@
 - [PhotoMaker V2](https://github.com/TencentARC/PhotoMaker)는 여러 ID 입력, LoRA 및 ControlNet 결합을 안내하지만 공식 최소 GPU 메모리가 11 GB다. 다각도 얼굴 reference를 하나의 identity 입력으로 다루는 사례이지만 현재 장비에서는 실행하지 않는다.
 - [Diffusers LoRA 학습 문서](https://huggingface.co/docs/diffusers/main/training/lora)와 [kohya-ss/sd-scripts](https://github.com/kohya-ss/sd-scripts)는 SD 1.x LoRA 학습을 지원한다. LoRA는 base model 전체가 아니라 adapter를 학습하므로 현재 8 GB에서 시도할 개인화 경로는 SDXL·FLUX보다 SD 1.5가 우선이다. Diffusers의 예시 완주 환경은 11 GB RTX 2080 Ti이므로, 8 GB 통과는 반드시 실제 peak VRAM으로 다시 확인한다.
 
-### 콘티와 pose data 사례
+### 스토리보드와 pose data 사례
 
-- [Story2Board](https://github.com/DavidDinkevich/Story2Board)는 off-the-shelf LLM으로 자유 서사를 panel-level prompt로 바꾸는 training-free storyboard 생성 사례다. 이 결과는 LLM을 **콘티 구조화 도구**로 쓰는 근거이며, 인체 관절 생성의 근거는 아니다.
+- [Story2Board](https://github.com/DavidDinkevich/Story2Board)는 off-the-shelf LLM으로 자유 서사를 panel-level prompt로 바꾸는 training-free storyboard 생성 사례다. 이 결과는 LLM을 **스토리보드 구조화 도구**로 쓰는 근거이며, 인체 관절 생성의 근거는 아니다.
 - [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose)는 body, face, hand, foot을 합쳐 최대 135 keypoint를 검출하고 JSON 저장을 지원한다. CPU-only를 포함한 실행 경로를 제공하므로 pose image·JSON을 만드는 단계는 8 GB 생성 GPU의 핵심 병목이 아니다.
 - [MotionGPT](https://github.com/OpenMotionLab/MotionGPT)는 text-to-motion 결과를 `(nframe, 22, 3)`으로 낸다. 이는 자연어가 동작 후보를 만들 수 있다는 사례지만, 기존 실제 검토에서 22-joint 보행이 사람 눈에 자연스럽지 않았다. 따라서 MotionGPT나 LLM output은 **후보 pose source**일 뿐, OpenPose control image로 쓰기 전 사람 검수 대상이다.
 

@@ -84,16 +84,11 @@ off 결과는 옆면과 전신 비례를 따르지 못한 단순 인물입니다
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## Python으로 실행 전 계약을 검사하기
+## 생성 전에 지키는 입력 계약
 
-저장소의 검증기는 참조 팩 승인 전에는 generation 단계로 넘어가지 못하게 하고, panel마다 camera, identity anchor, repair target을 요구합니다.
+이전 manifest 검사기는 삭제했다. 대신 P7-5.3의 [텍스트 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 고정 텍스트로 한 장면 스토리보드를 생성하고, 검수 가능한 `lineart`, `canny`, `depth`만 파생한다. [구조 guide 웹툰 코드](../../../assets/part-07/chapter-05/p7_5_3_structural_guided_webtoon.py)는 그중 사람이 통과시킨 guide만 입력으로 받으며, 스토리보드 RGB나 참조 사진을 초기 이미지로 쓰지 않는다.
 
-```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_controlnet_pipeline_check.py \
-  docs/assets/part-07/chapter-05/p7-5-3-controlnet-pipeline-manifest.json
-```
-
-현재 템플릿의 출력은 `BLOCKED asset ...`입니다. 이는 오류가 아니라 전신·얼굴·화풍·장소 sheet가 승인되기 전에는 생성 결과를 최종 웹툰 컷으로 올리지 않는다는 경계입니다. [검사 스크립트](../../../assets/part-07/chapter-05/p7_5_3_controlnet_pipeline_check.py)와 [현재 출력](../../../assets/part-07/chapter-05/p7-5-3-controlnet-pipeline-check.txt)을 함께 확인합니다.
+P7-5.4에서 inpaint를 검토할 수 있는 조건도 같다. 먼저 P7-5.3에서 행동·인체·거리 관계가 읽히는 스토리보드와 전체 웹툰 컷을 사람 검수한다. 그 전체 frame이 통과하지 않으면 얼굴·손·발·소품의 mask 보정으로 넘어가지 않는다.
 
 실제 structure probe의 조건은 아래 실행 코드에서 확인합니다.
 
