@@ -10,13 +10,14 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime
+import json
 from pathlib import Path
+from time import perf_counter
 
 import torch
 from diffusers import (
     ControlNetModel,
     FluxControlNetModel,
-    FluxControlNetPipeline,
     StableDiffusionControlNetPipeline,
     StableDiffusionXLControlNetPipeline,
 )
@@ -42,12 +43,20 @@ DEPTH_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-controlnet-depth"
 CANNY_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-controlnet-canny"
 LINEART_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-controlnet-lineart"
 SDXL_CANNY_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-controlnet-canny-sdxl-small"
+SDXL_DEPTH_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-controlnet-depth-sdxl-small"
 FLUX1_CANNY_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-flux1-dev-controlnet-canny"
 FLUX1_DEPTH_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-flux1-dev-controlnet-depth"
+QWEN_IMAGE_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-qwen-image"
+QWEN_IMAGE_UNION_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-qwen-image-controlnet-union"
+ZIMAGE_TURBO_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-z-image-turbo"
+# Z-Image Union은 Diffusers의 from_single_file 입력 계약을 사용한다.
+ZIMAGE_UNION_CONTROLNET = PROJECT_ROOT / ".tmp/p7-5-3-z-image-turbo-union.safetensors"
 BASE_MODELS = {
     "sd15": SD15_MODEL,
     "sdxl": SDXL_MODEL,
     "flux1-dev": FLUX1_DEV_MODEL,
+    "qwen-image": QWEN_IMAGE_MODEL,
+    "z-image-turbo": ZIMAGE_TURBO_MODEL,
 }
 CONTROLNET_MODELS = {
     "sd15": {
@@ -55,9 +64,24 @@ CONTROLNET_MODELS = {
         "canny": CANNY_CONTROLNET,
         "lineart": LINEART_CONTROLNET,
     },
-    "sdxl": {"canny": SDXL_CANNY_CONTROLNET},
+    "sdxl": {
+        "canny": SDXL_CANNY_CONTROLNET,
+        "depth": SDXL_DEPTH_CONTROLNET,
+    },
     # Diffusers FluxControlNetPipeline supports InstantX Flux.1-dev Canny and depth.
     "flux1-dev": {"canny": FLUX1_CANNY_CONTROLNET, "depth": FLUX1_DEPTH_CONTROLNET},
+    # Qwen Union은 canny, soft-edge(여기서는 lineart), depth를 하나의 ControlNet으로 받는다.
+    "qwen-image": {
+        "canny": QWEN_IMAGE_UNION_CONTROLNET,
+        "depth": QWEN_IMAGE_UNION_CONTROLNET,
+        "lineart": QWEN_IMAGE_UNION_CONTROLNET,
+    },
+    # Z-Image Union은 Canny, HED(여기서는 lineart), depth를 하나의 safetensors로 받는다.
+    "z-image-turbo": {
+        "canny": ZIMAGE_UNION_CONTROLNET,
+        "depth": ZIMAGE_UNION_CONTROLNET,
+        "lineart": ZIMAGE_UNION_CONTROLNET,
+    },
 }
 BACKBONE_DEFAULTS = {
     "sd15": {
@@ -74,24 +98,23 @@ BACKBONE_DEFAULTS = {
         "guide_kind": "canny", "steps": 28, "scale": 0.50, "width": 1024, "height": 1024,
         "guidance_scale": 3.5,
     },
+    # Qwen 공식 ControlNet 예시: 30 step, true CFG 4.0, control scale 1.0.
+    "qwen-image": {
+        "guide_kind": "canny", "steps": 30, "scale": 1.0, "width": 1024, "height": 1024,
+        "guidance_scale": 1.0, "true_cfg_scale": 4.0,
+    },
+    # Z-Image Turbo ControlNet 예시: 8~9 step, CFG 0, control scale 0.75.
+    "z-image-turbo": {
+        "guide_kind": "canny", "steps": 9, "scale": 0.75, "width": 1024, "height": 1024,
+        "guidance_scale": 0.0,
+    },
 }
 # Flux.2 Klein은 현 Diffusers에서 image=[...] 다중 참조 입력을 받지만 Flux.2 ControlNet
 # pipeline은 제공하지 않는다. 그러므로 Canny/depth 전용 BACKBONE_DEFAULTS에는 넣지 않는다.
 # The scene and style are text conditions.  No storyboard RGB pixels are used.
-WEBTOON_PROMPT = (
-    "one contemporary dancer, full body, balanced dance silhouette, raised leg, "
-    "black sleeveless leotard, black footed opaque tights, supporting leg planted on flat ground, "
-    "fully visible supporting foot and sole, "
-    "foot outline separate from nearby rocks, one arm up, one arm out, exactly two arms and two legs, "
-    "wide shot, dancer on level canyon floor, empty ground around dancer, distant cliffs in background, "
-    "teal and leaf green, frame-free webtoon cut"
-)
-NEGATIVE_PROMPT = (
-    "grayscale, monochrome, panel border, text, logo, crowd, duplicate person, "
-    "extra limbs, cropped body, blurred, neon, opaque airbrush, floating, hidden feet, "
-    "cropped feet, foot fused with ground, shoe merged with rocks, terrain overlapping foot, "
-    "standing on rock, pedestal, boulder, malformed feet, twisted ankles, skirt, dress, flowing fabric, oversized clothes, bare legs"
-)
+# 이 단계에서는 프롬프트의 장면 지시를 줄여 구조 guide 수용도를 관찰한다.
+BENCHMARK_PROMPT = "full body dancer"
+BENCHMARK_NEGATIVE_PROMPT = "extra limbs, malformed feet, cropped body"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -104,6 +127,26 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--scale", type=float, help="backbone 기본 구조 조건 강도를 덮어쓸 값")
     parser.add_argument("--width", type=int, help="backbone 기본 출력 너비를 덮어쓸 값")
     parser.add_argument("--height", type=int, help="backbone 기본 출력 높이를 덮어쓸 값")
+    parser.add_argument(
+        "--prompt", default=BENCHMARK_PROMPT,
+        help="guide 수용도 비교용 최소 프롬프트 (기본값: 'full body dancer')",
+    )
+    parser.add_argument(
+        "--negative-prompt", default=BENCHMARK_NEGATIVE_PROMPT,
+        help="모델이 음성 프롬프트를 받는 경우만 쓰는 최소 억제 조건",
+    )
+    parser.add_argument(
+        "--true-cfg-scale", type=float,
+        help="Qwen-Image의 전통 CFG. 생략하면 백본 계약 기본값을 사용합니다.",
+    )
+    parser.add_argument(
+        "--control-guidance-start", type=float, default=0.0,
+        help="ControlNet 적용 시작 비율 (기본값: 0.0)",
+    )
+    parser.add_argument(
+        "--control-guidance-end", type=float, default=1.0,
+        help="ControlNet 적용 종료 비율 (기본값: 1.0)",
+    )
     parser.add_argument(
         "--backbone",
         choices=tuple(CONTROLNET_MODELS),
@@ -137,6 +180,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="두 번째 구조 조건 강도 (기본값: --scale과 같음)",
     )
     parser.add_argument(
+        "--allow-restricted-license", action="store_true",
+        help="비상업 Flux.1-dev를 비교 실행할 때 명시적으로 지정합니다.",
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
         default=ASSET_DIR / "p7-5-3-guided-webtoon",
@@ -164,7 +211,7 @@ def require_cuda_and_assets(
 
 
 def main() -> None:
-    """Generate one new image from noise, text, and a derived structure condition."""
+    """Generate one controlled cut and write a comparable performance/adherence record."""
     args = build_parser().parse_args()
     defaults = BACKBONE_DEFAULTS[args.backbone]
     args.guide_kind = args.guide_kind or defaults["guide_kind"]
@@ -181,6 +228,16 @@ def main() -> None:
         guide_paths.append(args.second_guide)
         guide_kinds.append(args.second_guide_kind)
         guide_scales.append(args.second_scale if args.second_scale is not None else args.scale)
+    if args.backbone in {"qwen-image", "z-image-turbo"} and len(guide_paths) > 1:
+        raise ValueError(
+            f"{args.backbone} Union ControlNet 벤치마크는 한 번에 guide 하나만 받습니다. "
+            "가이드별 결과를 별도 실행해 수용도를 비교하세요."
+        )
+    if args.backbone == "flux1-dev" and not args.allow_restricted_license:
+        raise PermissionError(
+            "Flux.1-dev는 비상업 라이선스 비교 후보입니다. "
+            "조건을 확인한 뒤 --allow-restricted-license를 지정하세요."
+        )
     require_cuda_and_assets(guide_paths, guide_kinds, args.backbone)
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -191,8 +248,10 @@ def main() -> None:
     ]
     torch.cuda.reset_peak_memory_stats()
     is_flux = args.backbone == "flux1-dev"
+    is_qwen = args.backbone == "qwen-image"
+    is_zimage = args.backbone == "z-image-turbo"
     controlnet_options = {
-        "torch_dtype": torch.bfloat16 if is_flux else torch.float16,
+        "torch_dtype": torch.bfloat16 if (is_flux or is_qwen or is_zimage) else torch.float16,
         "local_files_only": True,
         "use_safetensors": True,
     }
@@ -202,32 +261,60 @@ def main() -> None:
         options = controlnet_options.copy()
         if guide_kind == "lineart":
             options["variant"] = "fp16"
-        controlnet_class = FluxControlNetModel if is_flux else ControlNetModel
+        if is_qwen:
+            from diffusers import QwenImageControlNetModel
+
+            controlnet_class = QwenImageControlNetModel
+        elif is_zimage:
+            from diffusers import ZImageControlNetModel
+
+            # Z-Image Union은 Diffusers 폴더가 아니라 단일 safetensors 가중치 계약이다.
+            controlnets.append(
+                ZImageControlNetModel.from_single_file(
+                    CONTROLNET_MODELS[args.backbone][guide_kind],
+                    torch_dtype=torch.bfloat16,
+                    local_files_only=True,
+                )
+            )
+            continue
+        else:
+            controlnet_class = FluxControlNetModel if is_flux else ControlNetModel
         controlnets.append(
             controlnet_class.from_pretrained(
                 CONTROLNET_MODELS[args.backbone][guide_kind], **options
             )
         )
     controlnet = controlnets[0] if len(controlnets) == 1 else controlnets
-    pipeline_class = {
-        "sd15": StableDiffusionControlNetPipeline,
-        "sdxl": StableDiffusionXLControlNetPipeline,
-        "flux1-dev": FluxControlNetPipeline,
-    }[args.backbone]
+    if is_flux:
+        from diffusers import FluxControlNetPipeline
+
+        pipeline_class = FluxControlNetPipeline
+    elif is_qwen:
+        from diffusers import QwenImageControlNetPipeline
+
+        pipeline_class = QwenImageControlNetPipeline
+    elif is_zimage:
+        from diffusers import ZImageControlNetPipeline
+
+        pipeline_class = ZImageControlNetPipeline
+    else:
+        pipeline_class = {
+            "sd15": StableDiffusionControlNetPipeline,
+            "sdxl": StableDiffusionXLControlNetPipeline,
+        }[args.backbone]
     base_model = BASE_MODELS[args.backbone]
     pipeline = pipeline_class.from_pretrained(
         base_model,
         controlnet=controlnet,
-        torch_dtype=torch.bfloat16 if is_flux else torch.float16,
+        torch_dtype=torch.bfloat16 if (is_flux or is_qwen or is_zimage) else torch.float16,
         local_files_only=True,
     )
     pipeline.enable_model_cpu_offload()
-    if not is_flux:
+    if not (is_flux or is_qwen or is_zimage):
         pipeline.enable_attention_slicing()
     pipeline.set_progress_bar_config(disable=True)
     pipeline_inputs = {
-        "prompt": WEBTOON_PROMPT,
-        "negative_prompt": NEGATIVE_PROMPT,
+        "prompt": args.prompt,
         "width": args.width,
         "height": args.height,
         "num_inference_steps": args.steps,
@@ -235,13 +322,24 @@ def main() -> None:
         "controlnet_conditioning_scale": guide_scales[0] if len(guide_scales) == 1 else guide_scales,
         "generator": torch.Generator(device="cuda").manual_seed(args.seed),
     }
-    # Flux names the structural condition `control_image`; SD pipelines use `image`.
-    pipeline_inputs["control_image" if is_flux else "image"] = (
+    # Flux, Qwen, Z-Image name the structural condition `control_image`; SD uses `image`.
+    pipeline_inputs["control_image" if (is_flux or is_qwen or is_zimage) else "image"] = (
         guides[0] if len(guides) == 1 else guides
     )
+    if is_qwen:
+        pipeline_inputs["negative_prompt"] = args.negative_prompt
+        pipeline_inputs["true_cfg_scale"] = args.true_cfg_scale or defaults["true_cfg_scale"]
+        pipeline_inputs["control_guidance_start"] = args.control_guidance_start
+        pipeline_inputs["control_guidance_end"] = args.control_guidance_end
+    elif not is_zimage:
+        pipeline_inputs["negative_prompt"] = args.negative_prompt
+        pipeline_inputs["control_guidance_start"] = args.control_guidance_start
+        pipeline_inputs["control_guidance_end"] = args.control_guidance_end
+    started = perf_counter()
     image = pipeline(
         **pipeline_inputs,
     ).images[0]
+    elapsed_seconds = perf_counter() - started
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     guide_label = "+".join(guide_kinds)
     scale_label = "+".join(f"{scale:.2f}" for scale in guide_scales)
@@ -249,8 +347,38 @@ def main() -> None:
         f"{timestamp}-{args.backbone}-seed-{args.seed}-{guide_label}-{scale_label}.png"
     )
     image.save(output)
+    # 구조 수용도의 최종 판정은 사람이 한다. 이 JSON은 같은 입력 계약에서
+    # 생성 시간·VRAM·가이드 종류를 나란히 비교하기 위한 관찰 기록이다.
+    record = {
+        "run_id": timestamp,
+        "backbone": args.backbone,
+        "license_status": "restricted-comparison" if is_flux else "open-weight-candidate",
+        "prompt": args.prompt,
+        "negative_prompt": args.negative_prompt if not is_zimage else None,
+        "seed": args.seed,
+        "guide_paths": [str(path) for path in guide_paths],
+        "guide_kinds": guide_kinds,
+        "guide_scales": guide_scales,
+        "width": args.width,
+        "height": args.height,
+        "steps": args.steps,
+        "guidance_scale": defaults["guidance_scale"],
+        "true_cfg_scale": pipeline_inputs.get("true_cfg_scale"),
+        "control_window": [args.control_guidance_start, args.control_guidance_end],
+        "elapsed_seconds": round(elapsed_seconds, 3),
+        "peak_vram_mib": round(torch.cuda.max_memory_allocated() / 1024**2, 1),
+        "output": str(output),
+        "guide_adherence": {
+            "status": "human-review-required",
+            "criterion": "guide의 인물 윤곽·발과 지면의 분리·절벽의 상대 위치가 유지되는지",
+        },
+    }
+    record_path = output.with_suffix(".json")
+    record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
     print(f"[검수 대상] {output}")
-    print(f"[VRAM peak] {torch.cuda.max_memory_allocated() / 1024**2:.1f} MiB")
+    print(f"[검수 기록] {record_path}")
+    print(f"[소요 시간] {elapsed_seconds:.1f} s")
+    print(f"[VRAM peak] {record['peak_vram_mib']:.1f} MiB")
 
 
 if __name__ == "__main__":
