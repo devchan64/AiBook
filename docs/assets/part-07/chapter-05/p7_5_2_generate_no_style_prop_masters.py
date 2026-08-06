@@ -73,16 +73,15 @@ COMPLETE_OUTFIT_FRONT_HIP_CONTRACT = (
 )
 
 COMPLETE_OUTFIT_REAR_HIP_CONTRACT = (
-    "One isolated rear apparel-and-bag wearing reference from shoulders through hips on a neutral headless torso "
-    "against a plain off-white background. Show a very short white cropped utility jacket, deep teal-blue "
-    "high-waisted wide-leg trousers, and a compact deep-navy woven-canvas crossbody bag. Keep an uninterrupted "
-    "white jacket back panel with long cuffed sleeves and a short hem; directly below it show a clear bare-skin "
-    "midriff band, with no gray inner shirt visible. Place the bag on the outer side of the wearer's left hip "
-    "(viewer left), with its top aligned to the trouser waistband; it must not cover the back center or ribs. Its "
-    "long adjustable strap runs diagonally across the jacket back from the wearer's right shoulder (viewer right). "
-    "Keep jacket, trousers, strap, and bag as "
-    "distinct items with their correct overlap. Clean product illustration. No head, hands, legs, text, logo, "
-    "hanger, or other object."
+    "Rear apparel-and-strap wearing reference from shoulders through hips on a neutral headless torso, plain off-white "
+    "background. Show a very short white cropped utility jacket with long cuffed sleeves reaching the wrists, deep "
+    "teal-blue high-waisted wide-leg trousers, and one deep-navy canvas crossbody strap. Keep a plain white jacket "
+    "back panel and a bare-skin midriff band below its short hem, with no inner shirt visible. Show one continuous taut "
+    "deep-navy canvas strap from the outer wearer's-right shoulder (viewer right), diagonally across the jacket back, "
+    "exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, "
+    "mostly hidden behind the torso. "
+    "Keep distinct layers and correct overlap. Clean product illustration. No "
+    "head, hands, legs, text, logo, hanger, or other object."
 )
 
 

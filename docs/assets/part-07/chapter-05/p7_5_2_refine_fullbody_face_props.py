@@ -63,13 +63,13 @@ BAG_VIEW_RULES = {
     "front": "Front: hang the bag side-on beside the wearer's outer-left trouser seam, its top at the waistband; show one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
     "front_quarter": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
     "profile": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
-    "rear": "Rear: run the strap across the jacket back from the wearer's right shoulder to the bag at the outer wearer's-left hip, with its top at the waistband and clear of the back center and ribs.",
+    "rear": "Rear: retain long cuffed sleeves reaching the wrists. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 COMPLETE_OUTFIT_VIEW_RULES = {
     "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
     "front_quarter": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
     "profile": "Profile: retain the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
-    "rear": "Rear: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, with its long strap across the jacket back from the wearer's right shoulder.",
+    "rear": "Rear: retain long cuffed sleeves reaching the wrists and one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 IMAGE_WIDTH = 768
 IMAGE_HEIGHT = 1152

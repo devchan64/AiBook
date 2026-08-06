@@ -24,6 +24,16 @@
       "scope": "rear torso-only outfit reference: plain white high-waist cropped-jacket back panel, centered back seam, long cuffed sleeves, and a bare-skin midriff band below the jacket hem; no inner top is visible"
     },
     {
+      "id": "complete_outfit_rear_with_front_bag",
+      "image": "p7-5-2-prop-reference-v2-complete-outfit-rear-hip.png",
+      "scope": "rear shoulders-through-hips outfit reference: white cropped jacket with long cuffed sleeves, bare-skin midriff band, deep-teal trousers, a deep-navy strap from the right shoulder to the left waistband, and only a small bag edge visible at the outer left hip because the bag remains in front"
+    },
+    {
+      "id": "complete_outfit_front_with_crossbody_bag",
+      "image": "p7-5-2-prop-reference-v2-complete-outfit-front-hip.png",
+      "scope": "front shoulders-through-hips outfit reference: open white cropped utility jacket over a charcoal-gray micro-crop top, bare-skin midriff band, deep-teal trousers, and a deep-navy crossbody bag at the outer left hip with one continuous strap from the right shoulder"
+    },
+    {
       "id": "deep_teal_blue_wide_leg_trousers",
       "image": "p7-5-2-prop-reference-v2-trousers.png",
       "scope": "blue-dominant deep-teal-blue fabric color, high waistband, belt loops, fly, wide-leg silhouette, seams, and hems"
