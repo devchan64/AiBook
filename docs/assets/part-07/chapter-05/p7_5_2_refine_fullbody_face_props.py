@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Refine approved full-body references with frontal-face identity and selected props."""
+"""Apply outfit references first, then restore visible face identity in a final pass."""
 
 from __future__ import annotations
 
 import argparse
 from datetime import datetime
+import gc
 import json
 from pathlib import Path
 import time
@@ -69,7 +70,7 @@ COMPLETE_OUTFIT_VIEW_RULES = {
     "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
     "front_quarter": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
     "profile": "Profile: retain the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
-    "rear": "Rear: retain long cuffed sleeves reaching the wrists and one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
+    "rear": "Rear: replace the upper garment with the supplied white cropped utility jacket: plain white back panel, long cuffed sleeves to the wrists, and bare-skin midriff below its hem; no gray inner top is visible. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 IMAGE_WIDTH = 768
 IMAGE_HEIGHT = 1152
@@ -87,7 +88,7 @@ def prop_reference_path(prop_id: str, view: str) -> Path:
     return PROPS[prop_id]["path"]
 
 
-def build_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
+def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
     prop_instructions = " ".join(PROPS[prop_id]["instruction"] for prop_id in prop_ids)
     if "complete_outfit" in prop_ids:
         prop_instructions = PROPS["complete_outfit"]["instruction"]
@@ -95,7 +96,7 @@ def build_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
         prop_instructions = (
             "Add the supplied layered white cropped utility jacket worn open over the charcoal-gray crop top."
         )
-    base_clothing = "deep teal-blue trousers and white low-top sneakers"
+    base_clothing = "dark teal trousers and white low-top sneakers"
     if not {"layered_jacket_crop_top", "complete_outfit"}.intersection(prop_ids):
         base_clothing = f"charcoal-gray crop top, {base_clothing}"
     view_prop_rules = []
@@ -107,10 +108,19 @@ def build_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
         view_prop_rules.append(COMPLETE_OUTFIT_VIEW_RULES[view])
     return (
         "Refine the supplied full-body reference into one full-body studio image of the same woman. "
-        "Use the CodeFormer frontal face as the identity anchor for face, eyes, nose, skin tone, hairline, and petrol-teal bob whenever visible. "
         f"Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and {base_clothing}. "
         f"{VIEW_RULES[view]} {prop_instructions} {' '.join(view_prop_rules)} "
         "One person, complete limbs, no text or labels."
+    )
+
+
+def build_face_final_prompt(view: str) -> str:
+    """Keep the outfit pass intact while applying identity only where a face is visible."""
+    return (
+        "Use the supplied full-body image as the fixed composition, pose, clothing, bag, and full-body framing anchor. "
+        "Restore only the visible face to match the supplied frontal identity: eyes, nose, skin tone, hairline, and "
+        "petrol-teal bob. "
+        f"{VIEW_RULES[view]} Keep the outfit, limbs, and camera unchanged. One person, no text or labels."
     )
 
 
@@ -127,8 +137,8 @@ def main() -> None:
         "--props",
         nargs="+",
         choices=tuple(PROPS),
-        default=("layered_jacket_crop_top", "crossbody_bag"),
-        help="Approved props to add to each selected full-body direction.",
+        default=("complete_outfit",),
+        help="Approved props to add to each selected full-body direction; defaults to the paired complete outfit references.",
     )
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
@@ -138,18 +148,35 @@ def main() -> None:
         default="p7-5-2-fullbody-face-prop-refinement",
         help="Filename prefix placed before view, timestamp, and seed suffixes.",
     )
+    parser.add_argument(
+        "--stage",
+        choices=("all", "outfit", "face"),
+        default="all",
+        help="Run outfit only, face only from --intermediate, or both in one process.",
+    )
+    parser.add_argument(
+        "--intermediate",
+        type=Path,
+        help="Outfit-stage PNG used by --stage face.",
+    )
     args = parser.parse_args()
     if args.seed_count < 1:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
+    if args.stage == "face" and args.intermediate is None:
+        raise ValueError("--stage face requires --intermediate")
 
-    reference_paths = [FACE_IDENTITY, *(BODY_REFERENCES[view] for view in args.views)]
-    reference_paths.extend(
-        prop_reference_path(prop_id, view)
-        for view in args.views
-        for prop_id in args.props
-    )
+    reference_paths = [FACE_IDENTITY]
+    if args.stage != "face":
+        reference_paths.extend(BODY_REFERENCES[view] for view in args.views)
+        reference_paths.extend(
+            prop_reference_path(prop_id, view)
+            for view in args.views
+            for prop_id in args.props
+        )
+    if args.intermediate is not None:
+        reference_paths.append(args.intermediate)
     if missing := [path.name for path in reference_paths if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
@@ -169,21 +196,48 @@ def main() -> None:
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
         for view in args.views:
-            prompt = build_prompt(view, tuple(args.props))
-            output = ROOT / f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}-candidate.png"
+            outfit_prompt = build_outfit_prompt(view, tuple(args.props))
+            face_prompt = build_face_final_prompt(view) if view != "rear" else None
+            stem = f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}"
+            output = ROOT / f"{stem}-candidate.png"
+            intermediate = ROOT / f"{stem}-outfit-stage.png"
             report = ROOT / f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}-review.json"
             started = time.monotonic()
             prop_paths = [prop_reference_path(prop_id, view) for prop_id in args.props]
-            prop_images = [Image.open(path).convert("RGB") for path in prop_paths]
-            with Image.open(BODY_REFERENCES[view]) as body_source:
+            if args.stage in ("all", "outfit"):
+                prop_images = [Image.open(path).convert("RGB") for path in prop_paths]
+                with Image.open(BODY_REFERENCES[view]) as body_source:
+                    outfit_image = pipe(
+                        image=[body_source.convert("RGB"), *prop_images],
+                        prompt=outfit_prompt,
+                        width=IMAGE_WIDTH,
+                        height=IMAGE_HEIGHT,
+                        num_inference_steps=12,
+                        guidance_scale=1.0,
+                        generator=torch.Generator(device="cpu").manual_seed(seed),
+                        max_sequence_length=256,
+                    ).images[0]
+                if args.stage == "outfit":
+                    outfit_image.save(intermediate)
+                    print(f"outfit-stage -> {intermediate}")
+                    continue
+            else:
+                with Image.open(args.intermediate) as source:
+                    outfit_image = source.convert("RGB")
+            image = outfit_image
+            if face_prompt is not None and args.stage != "outfit":
+                # The first pass is a full-resolution multi-reference edit on an 8GB GPU.
+                # Release transient tensors before running the final face-only pass.
+                gc.collect()
+                torch.cuda.empty_cache()
                 image = pipe(
-                    image=[face_image, body_source.convert("RGB"), *prop_images],
-                    prompt=prompt,
+                    image=[outfit_image, face_image],
+                    prompt=face_prompt,
                     width=IMAGE_WIDTH,
                     height=IMAGE_HEIGHT,
                     num_inference_steps=12,
                     guidance_scale=1.0,
-                    generator=torch.Generator(device="cpu").manual_seed(seed),
+                    generator=torch.Generator(device="cpu").manual_seed(seed + 1),
                     max_sequence_length=256,
                 ).images[0]
             image.save(output)
@@ -201,8 +255,17 @@ def main() -> None:
                         "batch_size": args.seed_count,
                         "run_timestamp": run_timestamp,
                         "output_prefix": args.output_prefix,
-                        "prompt": prompt,
-                        "prompt_word_count": prompt_word_count(prompt),
+                        "stages": {
+                            "outfit": {
+                                "prompt": outfit_prompt,
+                                "prompt_word_count": prompt_word_count(outfit_prompt),
+                            },
+                            "face_final": {
+                                "prompt": face_prompt,
+                                "prompt_word_count": prompt_word_count(face_prompt) if face_prompt else 0,
+                                "status": "skipped_no_visible_face" if face_prompt is None else "generated",
+                            },
+                        },
                         "references": {
                             "face_identity": FACE_IDENTITY.name,
                             "body_composition": BODY_REFERENCES[view].name,
@@ -211,7 +274,7 @@ def main() -> None:
                         "model": MODEL_ID,
                         "image_size": [IMAGE_WIDTH, IMAGE_HEIGHT],
                         "elapsed_seconds": elapsed,
-                        "decision": "Review face identity, body-direction preservation, prop geometry, and strap continuity before replacing the approved full-body reference.",
+                        "decision": "Review outfit geometry before the final face pass, then review face identity, body direction, and strap continuity before replacing an approved full-body reference.",
                     },
                     indent=2,
                 ),
