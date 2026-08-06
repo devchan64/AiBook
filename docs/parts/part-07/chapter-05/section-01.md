@@ -255,7 +255,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --compositions street
 ```
 
-`--cast`는 성별·나이 정보만 고정한 짧은 생성 프롬프트를 고릅니다. 얼굴·머리·의상 묘사, 추가 인물 금지, 인원수 판정은 넣지 않습니다. `--compositions`는 거리·카페·옥상·공원·아트리움 장면을 고르는 생성 범위 목록입니다. 후보 PNG에는 `castID-장면ID-실행시각-seed`가 들어갑니다. JSON에는 선택한 성별·나이와 장면 구성, P7-5.1 텍스트 계약의 선·수채화 색층·안료 질감이 유지되는지 확인할 검수 항목을 남깁니다. 배경 PNG는 모델 입력에 넣지 않습니다.
+`--cast`는 성별·나이 정보만 고정한 짧은 생성 프롬프트를 고릅니다. 얼굴·머리·의상 묘사, 추가 인물 금지, 인원수 판정은 넣지 않습니다. `--compositions`는 거리·카페·옥상·공원·아트리움 장면을 고르는 생성 범위 목록입니다. 후보 PNG에는 `castID-장면ID-실행시각-seed`가 들어갑니다. JSON에는 선택한 성별·나이와 장면 구성, P7-5.1 텍스트 계약의 선·수채화 색층·안료 질감·프레임 없는 단일 장면이 유지되는지 확인할 검수 항목을 남깁니다. 배경 PNG는 모델 입력에 넣지 않습니다.
 
 `--steps`는 후보 하나의 확산 반복 횟수이며 기본값은 P7-5.1 기준과 같은 `50`입니다. 낮은 값은 빠른 후보 확인에는 쓸 수 있지만, 화풍·구도 검수를 통과시키는 근거가 되지는 않습니다.
 
@@ -266,7 +266,17 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --compositions cafe rooftop atrium
 ```
 
-여러 장면을 한 번에 만들 때는 범위 목록만 바꿉니다. 성별·나이를 바꾸려면 `--cast`만 바꿉니다. 모든 출력은 독립 후보이므로 얼굴 방향이나 인물 동일성을 서로 대조해 turnaround처럼 승인하지 않습니다. 이 실행도 먼저 P7-5.1 **화풍 텍스트 계약**을 지키는지, 이어서 장면 구성·성별·나이·인물 해부학·의상·프레이밍을 각 후보에서 검수하기 전에는 P7-5.2 기준이나 P7-5.3 입력 범위를 넓히지 않습니다.
+여러 장면을 한 번에 만들 때는 범위 목록만 바꿉니다. 성별·나이를 바꾸려면 `--cast`만 바꿉니다. 이 절의 후보 검수는 P7-5.1 **화풍 텍스트 계약**만 대상으로 하며, 얼굴 일관성·연령·성별·인원수·동일 인물 여부는 판정하지 않습니다. 따라서 통과한 출력은 화풍 기준 이미지일 뿐 P7-5.2의 identity 기준이나 시점 묶음 입력은 아닙니다.
+
+거리·옥상·카페·공원·아트리움에서 화풍 계약을 통과한 다섯 장면은 아래와 같습니다. 모두 프레임 없는 단일 장면, 얇은 charcoal 선, 반투명 수채화 색층과 안료 번짐을 기준으로 승인했습니다. 이 표는 인물의 얼굴·나이·성별·동일성을 보증하지 않습니다. 승인 목록과 파일명은 [인물 화풍 기준 manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-cast-style-reference-pack.json)에 남깁니다.
+
+| 거리 | 옥상 | 카페 |
+| --- | --- | --- |
+| ![승인된 거리 인물 화풍 기준 이미지](/AiBook/assets/part-07/chapter-05/p7-5-1-style-conditioned-cast-young_woman_solo-street-20260806T102546225026+0900-seed-62518-candidate.png) | ![승인된 옥상 인물 화풍 기준 이미지](/AiBook/assets/part-07/chapter-05/p7-5-1-style-conditioned-cast-young_woman_solo-rooftop-20260806T103100676848+0900-seed-62519-candidate.png) | ![승인된 카페 인물 화풍 기준 이미지](/AiBook/assets/part-07/chapter-05/p7-5-1-style-conditioned-cast-young_woman_solo-cafe-20260806T122039667151+0900-seed-62521-candidate.png) |
+
+| 공원 | 아트리움 |
+| --- | --- |
+| ![승인된 공원 인물 화풍 기준 이미지](/AiBook/assets/part-07/chapter-05/p7-5-1-style-conditioned-cast-young_woman_solo-park-20260806T122039667151+0900-seed-62521-candidate.png) | ![승인된 아트리움 인물 화풍 기준 이미지](/AiBook/assets/part-07/chapter-05/p7-5-1-style-conditioned-cast-young_woman_solo-atrium-20260806T122039667151+0900-seed-62521-candidate.png) |
 
 [화풍 조건 인물 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_generate_style_conditioned_cast_candidates.py){.aibook-source-link}
 

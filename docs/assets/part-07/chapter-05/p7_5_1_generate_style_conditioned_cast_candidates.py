@@ -164,11 +164,9 @@ def main() -> None:
         "review_checklist": [
             "The cast keeps the P7-5.1 text contract's thin charcoal line role and translucent watercolor layers.",
             "Uneven pigment pooling and wet-on-wet texture remain visible without copying the background's location or lighting.",
-            "The requested scene composition is visually readable.",
-            "The visible people are reviewed for the selected cast's gender and age information; people count is not an approval condition.",
-            "Each candidate is reviewed independently; do not treat separate outputs as a character turnaround or identity proof.",
+            "The output remains an edge-to-edge single scene without an outer rectangular outline, panel divisions, or a dark border.",
         ],
-        "decision": "Candidate only; a person must confirm the P7-5.1 style contract, spatial composition, and selected gender/age information before any output can be used in a later review.",
+        "decision": "Candidate only; a person must confirm the P7-5.1 style contract before any output can be used as a cast-style reference.",
     }, indent=2), encoding="utf-8")
     print(f"review record -> {report}")
 
