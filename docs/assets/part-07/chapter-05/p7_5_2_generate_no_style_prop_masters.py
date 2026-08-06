@@ -15,13 +15,47 @@ from diffusers import Flux2KleinPipeline
 ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 DEFAULT_REPORT = ROOT / "p7-5-2-prop-generation-candidate-review.json"
+
+JACKET_COMMON_CONTRACT = (
+    "One isolated very short white cropped utility jacket in a clean {view} product view "
+    "on a plain off-white background. Its body panel ends at the high waist just below "
+    "the ribcage, well above the hips; the cropped body is visibly much shorter than the "
+    "long sleeves. Wide collar, long sleeves with cuffs, clean side seams, and a short "
+    "straight hem. Clean product illustration. No person, hanger, text, logo, bag, or "
+    "other object."
+)
+
+JACKET_VIEW_CONTRACTS = {
+    "front": (
+        "Show two flap chest pockets, simple front buttons, a narrow hem band, and clean "
+        "front seams."
+    ),
+    "rear": (
+        "Show one uninterrupted plain white back panel, shoulder seams, a centered "
+        "center-back seam, and no pockets or buttons."
+    ),
+}
+
+
+def jacket_prompt(view: str) -> str:
+    """Keep the garment silhouette shared while isolating view-only construction details."""
+    return f"{JACKET_COMMON_CONTRACT.format(view=view)} {JACKET_VIEW_CONTRACTS[view]}"
+
+
 PROPS = {
     "jacket": {
         "id": "jacket",
         "seed": 62280,
         "output": "p7-5-2-no-style-prop-jacket-candidate.png",
         "size": (768, 1024),
-        "prompt": "One isolated white cropped utility jacket in a clean front product view on a plain off-white background. Its short straight body ends at the natural waist: the hem sits immediately below the pocket bottoms, with no lower torso extension. Wide collar, two flap chest pockets, simple front buttons, long sleeves with cuffs, a narrow hem band, and clean seams. Clean product illustration. No person, hanger, text, logo, or other object.",
+        "prompt": jacket_prompt("front"),
+    },
+    "jacket_rear": {
+        "id": "jacket_rear",
+        "seed": 62284,
+        "output": "p7-5-2-no-style-prop-jacket-rear-candidate.png",
+        "size": (768, 1024),
+        "prompt": jacket_prompt("rear"),
     },
     "trousers": {
         "id": "trousers",
@@ -65,7 +99,7 @@ def main() -> None:
         nargs="+",
         choices=tuple(PROPS),
         default=tuple(PROPS),
-        help="Reference IDs to generate. Omit to generate jacket, trousers, shoes, crossbody_bag, and crop_top_waist_relation.",
+        help="Reference IDs to generate. Omit to generate jacket, jacket_rear, trousers, shoes, crossbody_bag, and crop_top_waist_relation.",
     )
     parser.add_argument(
         "--report",

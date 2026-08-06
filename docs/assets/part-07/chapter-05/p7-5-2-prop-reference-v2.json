@@ -9,6 +9,11 @@
       "scope": "white short cropped utility-jacket silhouette ending at the natural waist, with collar, flap pockets, buttons, seams, cuffs, and narrow hem band"
     },
     {
+      "id": "white_cropped_utility_jacket_rear",
+      "image": "p7-5-2-prop-reference-v2-jacket-rear.png",
+      "scope": "white high-waist cropped utility-jacket rear silhouette, with a plain back panel, wide collar, shoulder seams, centered back seam, long cuffed sleeves, and short hem; no pockets or buttons"
+    },
+    {
       "id": "deep_teal_blue_wide_leg_trousers",
       "image": "p7-5-2-prop-reference-v2-trousers.png",
       "scope": "blue-dominant deep-teal-blue fabric color, high waistband, belt loops, fly, wide-leg silhouette, seams, and hems"
