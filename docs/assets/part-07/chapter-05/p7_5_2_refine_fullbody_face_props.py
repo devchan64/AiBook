@@ -15,7 +15,7 @@ from diffusers import Flux2KleinPipeline
 from PIL import Image
 
 
-ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
+ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62377
 TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"

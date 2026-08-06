@@ -24,7 +24,7 @@ You have completed this practice when you can run the same evaluation rows befor
 
 ## Compare two routing expressions before and after normalization
 
-Use the same [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv){ .csv-preview } evaluation set as P7-4.2. The practice map is `캔슬 → 취소`, `스케줄 → 일정`, and `하자 → 불량`. It changes expressions only at whitespace-separated boundaries, avoiding substitutions inside a longer token.
+Use the same [`p7-4-support-routing-dataset.en.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.en.csv){ .csv-preview } evaluation set as P7-4.2. The practice map is `캔슬 → 취소`, `스케줄 → 일정`, and `하자 → 불량`. It changes expressions only at whitespace-separated boundaries, avoiding substitutions inside a longer token.
 
 | Evaluation sample | Original text | Normalized text | What to inspect |
 | --- | --- | --- | --- |
@@ -84,7 +84,7 @@ import re
 from pathlib import Path
 import numpy as np
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.en.csv").open(encoding="utf-8")))
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 normalization_map = {"캔슬": "취소", "스케줄": "일정", "하자": "불량"}

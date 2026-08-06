@@ -47,14 +47,14 @@ The case-reading flow keeps the emphasis on evidence. A probability is part of a
 --8<-- "assets/part-07/chapter-03/p7-3-1-case-reading-flow-en.mmd"
 ```
 
-Use [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview } from the repository root.
+Use [`p7-3-surface-patches.en.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.en.csv){ .csv-preview } from the repository root.
 
 ```python
 import csv
 from pathlib import Path
 import numpy as np
 
-data_path = Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.csv")
+data_path = Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.en.csv")
 pixel_columns = [f"pixel_{row}{column}" for row in range(8) for column in range(8)]
 records = []
 for raw in csv.DictReader(data_path.open(encoding="utf-8")):
@@ -121,7 +121,7 @@ The weak scratch is not a zero-information case. Its scratch probability is `0.2
 
 The chart puts the position signal and probability record beside each other. Its dashed probability line is a classification boundary, not a physical defect threshold.
 
-![Central-versus-surrounding brightness and scratch-warning probability for four held-out patches](../../../assets/part-07/chapter-03/p7-3-1-patch-signal-chart-en.png)
+![Central-versus-surrounding brightness and scratch-warning probability for four held-out patches](../../../assets/part-07/chapter-03/p7-3-1-patch-signal-chart-en.en.png)
 
 ### Compare center and surrounding signal
 

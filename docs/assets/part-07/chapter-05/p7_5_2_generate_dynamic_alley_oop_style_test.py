@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a review-only dynamic alley-oop frame from approved P7-5.2 references.
+"""Test style-reference application with a review-only basketball-jump frame.
 
 The run intentionally changes pose, camera, scene, and style together. It must
 not replace any character-reference PNG without a separate human review.
@@ -18,7 +18,7 @@ from diffusers import Flux2KleinPipeline
 from PIL import Image
 
 
-ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
+ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62380
 IMAGE_SIZE = (768, 1152)
@@ -31,10 +31,10 @@ REFERENCE_INPUTS = (
     ("fullbody_rear", ROOT / "p7-5-2-fullbody-rear-reference.png"),
     ("style_only", ROOT / "p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png"),
 )
-ALLEY_OOP_PROMPT = (
-    "Same woman from the supplied references, full body. Rooftop half court, airborne after an alley-oop pass: her right arm "
-    "reaches up; one basketball has left her fingertips and arcs high. Left arm balances, left knee leads, right leg trails. "
-    "Exactly one small hoop and backboard sit far behind her, well separated from the ball. Low front-left 24 mm camera, "
+BASKETBALL_JUMP_PROMPT = (
+    "Same woman from the supplied references, full body. Rooftop half court, airborne basketball jump: her right arm holds "
+    "one basketball high overhead. Left arm balances, left knee leads, right leg trails. Exactly one small hoop and backboard "
+    "sit far behind her, well separated from the ball. Low front-left camera, "
     "modest Dutch tilt, diagonal frame. Use crisp tapered charcoal contours, clean opaque color planes, and controlled cel "
     "shadows; keep watercolor pooling only as subtle edge texture. One woman, one ball, one hoop, no text, border, or panels."
 )
@@ -47,7 +47,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--steps", type=int, default=12, help="Denoising steps; lower values trade detail for speed.")
     parser.add_argument(
         "--output-prefix",
-        default="p7-5-2-dynamic-alley-oop-style-test",
+        default="p7-5-2-dynamic-basketball-jump-style-test",
         help="Prefix placed before the timestamp and seed in candidate filenames.",
     )
     return parser.parse_args()
@@ -81,7 +81,7 @@ def main() -> None:
         started = time.monotonic()
         result = pipe(
             image=images,
-            prompt=ALLEY_OOP_PROMPT,
+            prompt=BASKETBALL_JUMP_PROMPT,
             width=IMAGE_SIZE[0],
             height=IMAGE_SIZE[1],
             num_inference_steps=args.steps,
@@ -96,8 +96,8 @@ def main() -> None:
                 {
                     "status": "review_required",
                     "output": output.name,
-                    "prompt": ALLEY_OOP_PROMPT,
-                    "prompt_word_count": len(ALLEY_OOP_PROMPT.split()),
+                    "prompt": BASKETBALL_JUMP_PROMPT,
+                    "prompt_word_count": len(BASKETBALL_JUMP_PROMPT.split()),
                     "seed": seed,
                     "batch_index": batch_index + 1,
                     "seed_count": args.seed_count,
@@ -106,7 +106,7 @@ def main() -> None:
                     "image_size": list(IMAGE_SIZE),
                     "inputs": [{"role": role, "file": path.name} for role, path in REFERENCE_INPUTS],
                     "elapsed_seconds": elapsed,
-                    "decision": "Review face, outfit, bag strap, limb count, ball release, ball-rim separation, webtoon linework, color planes, camera, and style copying before using any result.",
+                    "decision": "Review face, outfit, bag strap, limb count, ball position, ball-rim separation, webtoon linework, color planes, camera, and style-reference application before using any result.",
                 },
                 ensure_ascii=False,
                 indent=2,

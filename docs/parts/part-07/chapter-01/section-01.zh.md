@@ -37,14 +37,14 @@
 
 ## 用实际日志计算渠道与日期
 
-使用同一份 [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }。代码不会训练模型；它首先把项目问题需要的证据读出来。
+使用同一份 [`p7-1-traffic-log.zh.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.zh.csv){ .csv-preview }。代码不会训练模型；它首先把项目问题需要的证据读出来。
 
 ```python
 import csv
 from collections import defaultdict
 from pathlib import Path
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.zh.csv").open(encoding="utf-8")))
 for row in rows:
     row["visitors"] = int(row["visitors"])
     row["signups"] = int(row["signups"])
@@ -68,7 +68,7 @@ for channel, channel_rows in sorted(by_channel.items()):
 
 输出中的差异只是候选信号。若广告渠道与自身基线相比明显下降，而其他渠道没有相同变化，下一步是检查该渠道的流量构成、活动和记录范围，而不是直接选择更复杂的模型。
 
-![各渠道每日转化率与错误率；虚线表示近期区间前的加权基线](../../../assets/part-07/chapter-01/p7-1-1-channel-day-trend-chart-zh.png)
+![各渠道每日转化率与错误率；虚线表示近期区间前的加权基线](../../../assets/part-07/chapter-01/p7-1-1-channel-day-trend-chart-zh.zh.png)
 
 ## 为什么分母同样重要
 
@@ -167,7 +167,7 @@ for channel, channel_rows in sorted(by_channel.items()):
 ### 一个可复查的比较摘要
 
 ```text
-数据文件：p7-1-traffic-log.csv
+数据文件：p7-1-traffic-log.zh.csv
 基线结束：2026-06-07
 最近区间开始：2026-06-08
 观察：广告渠道的最近转化率低于其基线。

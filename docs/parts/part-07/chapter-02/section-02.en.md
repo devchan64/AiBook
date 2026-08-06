@@ -35,7 +35,7 @@ The flow is: observe a raw-distance failure, check the scale difference, apply a
 
 ## Compare preprocessing in execution
 
-This practice keeps [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview } and its split unchanged. A `Pipeline` connects `StandardScaler` and 1-NN so the evaluation rows receive the training-derived transformation.
+This practice keeps [`p7-2-churn-dataset.en.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.en.csv){ .csv-preview } and its split unchanged. A `Pipeline` connects `StandardScaler` and 1-NN so the evaluation rows receive the training-derived transformation.
 
 ```python
 import csv
@@ -45,7 +45,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.en.csv").open(encoding="utf-8")))
 for row in rows:
     for column in ("unresolved_tickets", "days_since_login", "usage_minutes_30d", "label"):
         row[column] = int(row[column])
@@ -74,7 +74,7 @@ The result changes from `0.667` to `1.000`. Predictions change for test-02 and t
 
 The transition chart separates recovery from regression. It uses the same fixed six evaluation rows as the code, so its bars explain the accuracy difference instead of replacing it.
 
-![Raw and scaled 1-NN transition counts: two recovered rows, no new error, and no remaining error](../../../assets/part-07/chapter-02/p7-2-2-normalization-outcome-chart-en.png)
+![Raw and scaled 1-NN transition counts: two recovered rows, no new error, and no remaining error](../../../assets/part-07/chapter-02/p7-2-2-normalization-outcome-chart-en.en.png)
 
 Read this in three stages.
 

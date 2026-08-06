@@ -40,14 +40,14 @@
 
 ## 从 CSV 读取训练与评估记录
 
-使用 [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview }。每行是一位订阅客户在固定观察窗口中的记录。
+使用 [`p7-2-churn-dataset.zh.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.zh.csv){ .csv-preview }。每行是一位订阅客户在固定观察窗口中的记录。
 
 ```python
 import csv
 from pathlib import Path
 import numpy as np
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.zh.csv").open(encoding="utf-8")))
 train = [row for row in rows if row["split"] == "train"]
 test = [row for row in rows if row["split"] == "test"]
 features = ["unresolved_tickets", "days_since_login", "usage_minutes_30d"]
@@ -148,7 +148,7 @@ for record in records:
 
 转换是评价记录的核心。仅报告准确率会隐藏模型用什么交换了改进。
 
-![仅保留基线与原始 1-NN 的评估样本预测转变](../../../assets/part-07/chapter-02/p7-2-1-prediction-outcome-transition-zh.png)
+![仅保留基线与原始 1-NN 的评估样本预测转变](../../../assets/part-07/chapter-02/p7-2-1-prediction-outcome-transition-zh.zh.png)
 
 ## 为什么原始尺度会影响 1-NN
 
@@ -176,7 +176,7 @@ for record in records:
 
 ```text
 问题：预测订阅客户的流失风险。
-数据版本：p7-2-churn-dataset.csv。
+数据版本：p7-2-churn-dataset.zh.csv。
 训练/评估划分：按 split 列固定。
 基线：训练多数标签，准确率 0.500。
 候选：原始特征欧氏距离的 1-NN，准确率 0.667。

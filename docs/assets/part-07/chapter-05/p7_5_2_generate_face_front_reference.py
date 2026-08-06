@@ -13,7 +13,7 @@ import torch
 from diffusers import Flux2KleinPipeline
 
 
-ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
+ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 
 PROMPT = """Strict frontal head-only portrait of a twenty-two-year-old Asian female on off-white. Very fair pale-peach skin. A small, pronounced cat-like face: elongated forehead above the brows, compact oval, fuller soft cheeks, slender V-shaped jawline, and short rounded chin. High slim nose bridge, small rounded tip, and small lips with a fuller lower lip. Very large symmetric upturned almond cat eyes with centered pupils; chestnut-brown and orange-amber irises. Deep petrol-teal, extremely voluminous jaw-length bob with medium-density hair. A deep viewer-right side part and full short fringe sweep across the viewer-left forehead, ending above the eyebrow. Large loose S-waves, pronounced inward C-curls, and tapered side locks create an expansive rounded silhouette. Crop directly below the chin."""

@@ -36,7 +36,7 @@
 
 ## 两种候选规则
 
-本节继续使用 [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }。比较单位是最近区间中的一个渠道-日期行；每行与同渠道的基线汇总比例比较。
+本节继续使用 [`p7-1-traffic-log.zh.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.zh.csv){ .csv-preview }。比较单位是最近区间中的一个渠道-日期行；每行与同渠道的基线汇总比例比较。
 
 | 审查规则 | 保留候选的条件 |
 | --- | --- |
@@ -55,7 +55,7 @@ rules = [
     {"name": "转化率优先", "conversion_drop_max": -0.035, "error_rise_min": 0.009},
     {"name": "错误率优先", "conversion_drop_max": -0.025, "error_rise_min": 0.012},
 ]
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.zh.csv").open(encoding="utf-8")))
 for row in rows:
     row["date"] = datetime.strptime(row["date"], "%Y-%m-%d").date()
     row["visitors"] = int(row["visitors"])
@@ -100,7 +100,7 @@ print("common candidates =", sorted(set(candidates[rules[0]["name"]]) & set(cand
 
 共同候选是审查优先级，不是根因结论。仍应检查访问量、注册数、错误类型、浏览器、部署记录和活动上下文。
 
-![相对基线的转化率与错误率变化；红色区域表示共同候选区域](../../../assets/part-07/chapter-01/p7-1-2-candidate-threshold-chart-zh.png)
+![相对基线的转化率与错误率变化；红色区域表示共同候选区域](../../../assets/part-07/chapter-01/p7-1-2-candidate-threshold-chart-zh.zh.png)
 
 ## 改变规则时应记录什么
 

@@ -17,14 +17,14 @@
 
 ## 复现文本路由学习记录
 
-项目问题是：“客户咨询应转给退款团队还是配送团队？”使用 [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv){ .csv-preview }，其中有 12 条训练咨询和 7 条评估咨询。多数标签基线达到 `0.714`；学习得到的词袋 softmax 模型达到 `0.857`，并留下评估样本 `평가-05` 供复核。
+项目问题是：“客户咨询应转给退款团队还是配送团队？”使用 [`p7-4-support-routing-dataset.zh.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.zh.csv){ .csv-preview }，其中有 12 条训练咨询和 7 条评估咨询。多数标签基线达到 `0.714`；学习得到的词袋 softmax 模型达到 `0.857`，并留下评估样本 `평가-05` 供复核。
 
 ```python
 import csv
 from pathlib import Path
 import numpy as np
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.zh.csv").open(encoding="utf-8")))
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 def tokens(text): return text.split()
@@ -141,7 +141,7 @@ NumPy 实现暴露损失和更新机制。面向生产的实现可改用文本�
 
 ## 学习曲线与错误记录
 
-![支持路由学习记录：十二个 epoch 的训练和评估损失，以及评估准确率与基线](../../../assets/part-07/chapter-04/p7-4-1-learning-curves-zh.svg)
+![支持路由学习记录：十二个 epoch 的训练和评估损失，以及评估准确率与基线](../../../assets/part-07/chapter-04/p7-4-1-learning-curves-zh.zh.svg)
 
 图表给出最终指标会隐藏的时间记录。评估准确率在最早 epoch 完美、最终为 `0.857`；与此同时评估损失从 `0.620` 降至 `0.363`。因此“损失下降，所以每项路由决策改善”和“准确率后来下降，所以学习没有帮助”都不安全。
 

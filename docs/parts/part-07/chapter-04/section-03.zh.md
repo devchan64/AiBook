@@ -24,7 +24,7 @@
 
 ## 比较两个路由表达的标准化前后
 
-使用与 P7-4.2 相同的 [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv){ .csv-preview } 评估集。练习映射是 `캔슬 → 취소`、`스케줄 → 일정` 和 `하자 → 불량`。它只在按空格切分的边界替换表达，避免在较长词元内部替换。
+使用与 P7-4.2 相同的 [`p7-4-support-routing-dataset.zh.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.zh.csv){ .csv-preview } 评估集。练习映射是 `캔슬 → 취소`、`스케줄 → 일정` 和 `하자 → 불량`。它只在按空格切分的边界替换表达，避免在较长词元内部替换。
 
 | 评估样本 | 原始文本 | 标准化文本 | 应检查什么 |
 | --- | --- | --- | --- |
@@ -82,7 +82,7 @@ import re
 from pathlib import Path
 import numpy as np
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.zh.csv").open(encoding="utf-8")))
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 normalization_map = {"캔슬": "취소", "스케줄": "일정", "하자": "불량"}

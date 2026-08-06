@@ -12,7 +12,7 @@ import torch
 from diffusers import Flux2KleinPipeline
 
 
-ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
+ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 DEFAULT_REPORT = ROOT / "p7-5-2-prop-generation-candidate-review.json"
 

@@ -41,7 +41,7 @@
 
 ## 从 CSV 训练简单分类器
 
-使用 [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview }。CSV 的一行代表一个 `8×8` 补丁，`pixel_00` 到 `pixel_77` 是像素值。
+使用 [`p7-3-surface-patches.zh.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.zh.csv){ .csv-preview }。CSV 的一行代表一个 `8×8` 补丁，`pixel_00` 到 `pixel_77` 是像素值。
 
 ```python
 import csv
@@ -50,7 +50,7 @@ import numpy as np
 
 pixels = [f"pixel_{row}{col}" for row in range(8) for col in range(8)]
 rows = []
-for raw in csv.DictReader(Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.csv").open(encoding="utf-8")):
+for raw in csv.DictReader(Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.zh.csv").open(encoding="utf-8")):
     rows.append({"split": raw["split"], "sample": raw["sample"], "pattern": raw["pattern_name"],
                  "label": int(raw["label"]), "image": np.array([float(raw[p]) for p in pixels]).reshape(8, 8)})
 train, test = [row for row in rows if row["split"] == "train"], [row for row in rows if row["split"] == "test"]
@@ -139,7 +139,7 @@ for row, actual, prediction, probability in zip(test, y_test, predictions, proba
 
 概率是当前分类器在这个表示下的输出，不是物理世界中存在划痕的校准概率。弱划痕的 0.270 说明分类器偏向正常，而不是说该补丁有 27% 的真实缺陷机会。
 
-![四个保留补丁的中央与外围亮度，以及划痕警告概率](../../../assets/part-07/chapter-03/p7-3-1-patch-signal-chart-zh.png)
+![四个保留补丁的中央与外围亮度，以及划痕警告概率](../../../assets/part-07/chapter-03/p7-3-1-patch-signal-chart-zh.zh.png)
 
 ### 为什么保留阴影正常补丁
 
@@ -355,7 +355,7 @@ CSV 中的 `pixel_00` 到 `pixel_77` 需要以与写入时相同的顺序重组�
 
 | 记录项 | 本节应保留的值 | 用途 |
 | --- | --- | --- |
-| 数据文件 | `p7-3-surface-patches.csv` | 找到输入与划分。 |
+| 数据文件 | `p7-3-surface-patches.zh.csv` | 找到输入与划分。 |
 | 像素规则 | `pixel_00` 到 `pixel_77`，重塑为 `8×8` | 防止空间顺序丢失。 |
 | 随机性 | 本例没有随机初始化。 | 说明结果是否依赖随机种子。 |
 | 模型设定 | 线性 softmax、学习率 0.35、700 步。 | 重建当前基线。 |

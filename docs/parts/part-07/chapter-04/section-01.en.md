@@ -17,14 +17,14 @@ A lower loss does not by itself establish that every important error disappeared
 
 ## Reproduce a text-routing learning record
 
-The project question is: “Should a customer inquiry go to the refund team or the delivery team?” Use [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv){ .csv-preview } for 12 training inquiries and 7 evaluation inquiries. A majority-label baseline reaches `0.714`; the learned bag-of-words softmax model reaches `0.857` and leaves evaluation sample `평가-05` for review.
+The project question is: “Should a customer inquiry go to the refund team or the delivery team?” Use [`p7-4-support-routing-dataset.en.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.en.csv){ .csv-preview } for 12 training inquiries and 7 evaluation inquiries. A majority-label baseline reaches `0.714`; the learned bag-of-words softmax model reaches `0.857` and leaves evaluation sample `평가-05` for review.
 
 ```python
 import csv
 from pathlib import Path
 import numpy as np
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.en.csv").open(encoding="utf-8")))
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 def tokens(text): return text.split()
@@ -146,7 +146,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score, log_loss
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.en.csv").open(encoding="utf-8")))
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 X_train_text = [row["text"] for row in train_rows]
@@ -191,7 +191,7 @@ The library does not remove the need for error analysis. It makes the same quest
 
 ## Read the learning curve before choosing the next action
 
-![Support-routing learning record: training and evaluation loss across twelve epochs, with evaluation accuracy and baseline.](../../../assets/part-07/chapter-04/p7-4-1-learning-curves-en.svg)
+![Support-routing learning record: training and evaluation loss across twelve epochs, with evaluation accuracy and baseline.](../../../assets/part-07/chapter-04/p7-4-1-learning-curves-en.en.svg)
 
 The chart gives the chronological record that a final metric hides. Evaluation accuracy is perfect in the earliest epochs and finishes at `0.857`; at the same time, evaluation loss falls from `0.620` to `0.363`. Therefore, neither of these shortcuts is safe: “loss fell, so every routing decision improved” or “accuracy later fell, so learning stopped helping.”
 

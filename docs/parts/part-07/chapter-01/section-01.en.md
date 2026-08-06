@@ -53,7 +53,7 @@ Read the fourteen-day log at two levels: daily totals and channel-day rows. Firs
 
 Write the question and the comparison unit down before running the code. That small record makes it possible to explain later why a date was classified as baseline or recent.
 
-The practice CSV is kept in [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }, not embedded in the code. The example starts by reading that file, so run it from the repository root.
+The practice CSV is kept in [`p7-1-traffic-log.en.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.en.csv){ .csv-preview }, not embedded in the code. The example starts by reading that file, so run it from the repository root.
 
 `summarize()` adds visitors, signups, and errors before computing rates. This avoids giving a day with 100 visitors the same weight as a day with 1,000 visitors. The baseline rate of 10.51% is therefore total baseline signups divided by total baseline visitors, not a simple average of seven daily rates.
 
@@ -63,7 +63,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-data_path = Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.csv")
+data_path = Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.en.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 for row in rows:
     row["date"] = datetime.strptime(row["date"], "%Y-%m-%d").date()
@@ -172,7 +172,7 @@ channel baseline/recent =
 
 The chart redraws the same CSV by channel-day. Dotted lines are weighted baseline rates for each channel; the pale yellow area is the recent seven-day period.
 
-![Conversion-rate and error-rate trends by channel before and after the baseline boundary. Ads falls below its conversion baseline and rises above its error baseline in the recent period, while organic and search stay nearly stable.](../../../assets/part-07/chapter-01/p7-1-1-channel-day-trend-chart-en.png)
+![Conversion-rate and error-rate trends by channel before and after the baseline boundary. Ads falls below its conversion baseline and rises above its error baseline in the recent period, while organic and search stay nearly stable.](../../../assets/part-07/chapter-01/p7-1-1-channel-day-trend-chart-en.en.png)
 
 First observe that both ads lines move away from their baselines in the recent period. In the upper panel, ads conversion falls below its dotted baseline; in the lower panel, ads error rate rises above its dotted baseline. Organic and search do not make a comparably large directional turn in either panel.
 

@@ -44,7 +44,7 @@ The second flow starts from the fixed split and makes the score transition visib
 --8<-- "assets/part-07/chapter-02/p7-2-1-baseline-review-flow-en.mmd"
 ```
 
-The practice CSV is [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview }. A row represents one subscription customer record. Keep the specified train/test split fixed when comparing this baseline and candidate.
+The practice CSV is [`p7-2-churn-dataset.en.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.en.csv){ .csv-preview }. A row represents one subscription customer record. Keep the specified train/test split fixed when comparing this baseline and candidate.
 
 ## A baseline and a 1-nearest-neighbor candidate
 
@@ -55,7 +55,7 @@ import csv
 from math import sqrt
 from pathlib import Path
 
-data_path = Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv")
+data_path = Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.en.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 for row in rows:
     for column in ("unresolved_tickets", "days_since_login", "usage_minutes_30d", "label"):
@@ -138,7 +138,7 @@ The two recoveries and one new error explain why the score improves by one net c
 
 The chart makes the transition count visible. A bar counts fixed evaluation rows, and its label identifies the rows; the categories are not claims that every operational error has equal cost.
 
-![Prediction transitions from a retained-only baseline to raw 1-nearest-neighbor](../../../assets/part-07/chapter-02/p7-2-1-prediction-outcome-transition-en.png)
+![Prediction transitions from a retained-only baseline to raw 1-nearest-neighbor](../../../assets/part-07/chapter-02/p7-2-1-prediction-outcome-transition-en.en.png)
 
 | Comparison item | Retained-only baseline | Raw 1-NN | Review meaning |
 | --- | --- | --- | --- |
@@ -290,7 +290,7 @@ The record should include the question, feature set, label, train/test split, ba
 Prediction question: Can we predict churn risk for subscription customers?
 Input features: unresolved tickets, days since login, usage minutes in 30 days
 Label: retained (0) / churn risk (1)
-Train/test split: use the split column in p7-2-churn-dataset.csv
+Train/test split: use the split column in p7-2-churn-dataset.en.csv
 Baseline result: predict retained for every test row; accuracy 0.500
 Candidate result: raw 1-NN; accuracy 0.667
 Improved cases: test-03, test-05

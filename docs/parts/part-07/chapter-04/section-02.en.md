@@ -37,7 +37,7 @@ import csv
 from pathlib import Path
 import numpy as np
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.en.csv").open(encoding="utf-8")))
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 def tokens(text): return text.split()
@@ -66,7 +66,7 @@ Two evaluation samples have low coverage, but they lead to different outcomes. I
 
 The figure makes that distinction visible. Green bars are correct and red bars are incorrect; the dashed line is a review threshold, not an error boundary.
 
-![Coverage by evaluation sentence and the different class scores for two low-coverage samples](../../../assets/part-07/chapter-04/p7-4-2-coverage-review-chart-en.png)
+![Coverage by evaluation sentence and the different class scores for two low-coverage samples](../../../assets/part-07/chapter-04/p7-4-2-coverage-review-chart-en.en.png)
 
 | Fact | Interpretation | Next probe |
 | --- | --- | --- |

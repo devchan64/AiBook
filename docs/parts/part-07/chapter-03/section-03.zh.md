@@ -25,7 +25,7 @@ P7-3.1 与 P7-3.2 已把图像补丁项目读成输入形状、标签、预测�
 
 ## 输入文件
 
-- 表面补丁：[`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview }
+- 表面补丁：[`p7-3-surface-patches.zh.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.zh.csv){ .csv-preview }
 - 一行含义：一个 `8×8` 灰度表面补丁。
 - `split`：训练或评估划分。
 - `sample`：样本 ID。
@@ -58,7 +58,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-data_path = Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.csv")
+data_path = Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.zh.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 pixel_columns = [name for name in rows[0] if name.startswith("pixel_")]
 train_rows = [row for row in rows if row["split"] == "train"]
@@ -114,7 +114,7 @@ for record in sample_records: print(record)
 
 把结果放进报告时，不应只贴数字。应保存一张将错误数、低置信度样本数和各样本置信差分开的图表。它由与正文相同数据生成。
 
-![按输入表示比较错误、低置信度样本与置信差的报告](../../../assets/part-07/chapter-03/p7-3-input-representation-report-zh.png)
+![按输入表示比较错误、低置信度样本与置信差的报告](../../../assets/part-07/chapter-03/p7-3-input-representation-report-zh.zh.png)
 
 图表先固定共同条件：三种表示的评估准确率都为 `0.75`。左侧只显示错误数与低置信度数，右侧显示每个评估样本的置信差，因此不会把准确率与样本计数误读为同一个柱高。
 

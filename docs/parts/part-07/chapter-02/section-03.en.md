@@ -25,7 +25,7 @@ You have completed the practice when you can identify the fixed evaluation rows,
 | Missing boundary data | Raw and normalized predictions are both wrong | Collect boundary cases and reconsider features. |
 | Ambiguous boundary case | Settings disagree | Ask whether present features are sufficient. |
 
-Use [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview } for training and basic evaluation and [`p7-2-stress-test.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.csv){ .csv-preview } for additional failure-reading cases. A basic row is one subscription customer record; a stress row is an extra evaluation case for interpreting boundaries.
+Use [`p7-2-churn-dataset.en.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.en.csv){ .csv-preview } for training and basic evaluation and [`p7-2-stress-test.en.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.en.csv){ .csv-preview } for additional failure-reading cases. A basic row is one subscription customer record; a stress row is an extra evaluation case for interpreting boundaries.
 
 The flow makes the diagnostic decision explicit. It does not treat all disagreements as evidence against the model; it routes each observed transition toward a more specific question.
 
@@ -52,8 +52,8 @@ import csv
 from pathlib import Path
 import numpy as np
 
-train_path = Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv")
-stress_path = Path("docs/assets/part-07/chapter-02/p7-2-stress-test.csv")
+train_path = Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.en.csv")
+stress_path = Path("docs/assets/part-07/chapter-02/p7-2-stress-test.en.csv")
 train_rows = list(csv.DictReader(train_path.open(encoding="utf-8")))
 stress_rows = list(csv.DictReader(stress_path.open(encoding="utf-8")))
 for row in train_rows + stress_rows:
@@ -123,7 +123,7 @@ Raw 1-NN has the highest accuracy on this stress set. That does not make raw dis
 
 The English chart presents these two layers together: the left panel is the four-variant score table; the right panel is the z-score-reference diagnosis distribution.
 
-![Stress-evaluation accuracy by variant and the distribution of preprocessing-fixed, remaining, setting-sensitive, and stable rows](../../../assets/part-07/chapter-02/p7-2-3-failure-diagnosis-chart-en.png)
+![Stress-evaluation accuracy by variant and the distribution of preprocessing-fixed, remaining, setting-sensitive, and stable rows](../../../assets/part-07/chapter-02/p7-2-3-failure-diagnosis-chart-en.en.png)
 
 | Sample | What happens | Appropriate next action |
 | --- | --- | --- |
@@ -350,7 +350,7 @@ For example: stress-01 is misread as retained under raw distance, but becomes ch
 
 ## Extend the comparison to action-unit sensor records
 
-The same reasoning applies to the synthetic action-unit summary in [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv){ .csv-preview }.
+The same reasoning applies to the synthetic action-unit summary in [`p7-action-unit-summary.en.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.en.csv){ .csv-preview }.
 
 | Comparison setting | Decision rule | Failure reading |
 | --- | --- | --- |

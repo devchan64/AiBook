@@ -29,7 +29,7 @@ You have completed the comparison when the project note names the representation
 
 ## Run three representations on the same patches
 
-The input is the same [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview } used in P7-3.1. Compare 64 raw pixels, eight column averages, and a three-value center-band profile. The latter representations retain progressively less spatial information.
+The input is the same [`p7-3-surface-patches.en.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.en.csv){ .csv-preview } used in P7-3.1. Compare 64 raw pixels, eight column averages, and a three-value center-band profile. The latter representations retain progressively less spatial information.
 
 ```python
 import csv
@@ -38,7 +38,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-03/p7-3-surface-patches.en.csv").open(encoding="utf-8")))
 pixel_columns = [name for name in rows[0] if name.startswith("pixel_")]
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
@@ -67,7 +67,7 @@ All three representations obtain `0.750` on the four evaluation patches, and all
 
 The report shows the two signals on separate axes. Accuracy is held in the title as a common fact. The left panel counts errors and low-margin samples; the right panel retains the margin of each fixed evaluation patch.
 
-![Three input representations share accuracy 0.75 but differ in error and low-margin review signals](../../../assets/part-07/chapter-03/p7-3-input-representation-report-en.png)
+![Three input representations share accuracy 0.75 but differ in error and low-margin review signals](../../../assets/part-07/chapter-03/p7-3-input-representation-report-en.en.png)
 
 | Representation | Test shape | Accuracy | Errors / low-margin samples | Next judgment |
 | --- | ---: | ---: | --- | --- |

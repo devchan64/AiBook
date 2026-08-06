@@ -1,0 +1,7 @@
+from pathlib import Path
+import torch
+from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
+from PIL import Image, ImageDraw
+OUT=Path(__file__).resolve().parent/'p7-5-3-lineart-storyboard-probe'; SD15=Path('/home/cbsim/.cache/huggingface/hub/models--stable-diffusion-v1-5--stable-diffusion-v1-5/snapshots/451f4fe16113bff5a5d2269ed5ad43b0592e9a14'); NET=Path('.tmp/p7-5-3-sd15-lineart-controlnet')
+g=Image.new('RGB',(512,768),'white');d=ImageDraw.Draw(g);d.rectangle((40,80,472,700),outline='black',width=5);d.line((40,510,472,510),fill='black',width=4);d.rectangle((80,300,300,510),outline='black',width=4);d.ellipse((320,220,390,290),outline='black',width=5);d.rectangle((330,290,380,500),outline='black',width=5)
+OUT.mkdir(exist_ok=True);g.save(OUT/'cafe-lineart-blockout.png');n=ControlNetModel.from_pretrained(NET,torch_dtype=torch.float16);p=StableDiffusionControlNetPipeline.from_pretrained(SD15,controlnet=n,torch_dtype=torch.float16,safety_checker=None).to('cuda');p.enable_attention_slicing();p.set_progress_bar_config(disable=True);k=dict(prompt='Korean webtoon storyboard, woman seated at cafe table, thin charcoal contours, translucent watercolor washes',image=g,width=512,height=768,num_inference_steps=20,guidance_scale=7.0);p(**k,controlnet_conditioning_scale=0.,generator=torch.Generator('cuda').manual_seed(5302)).images[0].save(OUT/'cafe-lineart-off.png');p(**k,controlnet_conditioning_scale=1.,generator=torch.Generator('cuda').manual_seed(5302)).images[0].save(OUT/'cafe-lineart-on.png')
