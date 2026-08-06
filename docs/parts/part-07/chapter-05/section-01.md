@@ -210,17 +210,7 @@ for scene in scenes:
 
 ## Python 검수 gate는 사람 판정의 누락을 막는다
 
-생성기가 PNG를 만들면, 다음 코드는 로컬 검수 ledger의 다음 실행 행렬과 최종 상태를 읽어 P7-5.2 진입을 막거나 허용합니다. 이미지를 보고 선·색·프레임을 자동 채점하는 모델은 아닙니다. 그 판단은 사람이 ledger에 먼저 기록해야 합니다.
-
-```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py
-```
-
-승인된 ledger로 실행한 출력은 다음과 같습니다.
-
-```text
-PASS style pack can be used for character-reference generation
-```
+생성기가 PNG를 만들면, gate 코드는 로컬 검수 ledger의 다음 실행 행렬과 최종 상태를 읽어 P7-5.2 진입을 막거나 허용합니다. 이미지를 보고 선·색·프레임을 자동 채점하는 모델은 아닙니다. 그 판단은 사람이 ledger에 먼저 기록해야 합니다. ledger는 로컬 실행 기록으로만 보관하므로, 이 공개 원고에서는 실행 명령이나 특정 `PASS` 출력을 실습 결과로 제시하지 않습니다.
 
 | 코드 부분 | 검사하는 것 | 통과를 의미하지 않는 것 |
 | --- | --- | --- |
@@ -229,8 +219,6 @@ PASS style pack can be used for character-reference generation
 | `missing` | 부족한 camera·시간·장소 또는 최종 승인 상태를 모아 `BLOCKED` 이유로 출력 | 실패 원인을 고치거나 ledger 상태를 자동 변경하는 처리 |
 
 일부 행만 승인됐으면 matrix가 완전하더라도 gate는 `BLOCKED`여야 합니다. 반대로 status만 사람이 바꾸어도 실제 행별 원본·검수 이유가 없다면 통과로 다뤄서는 안 됩니다. 이 코드는 그 근거를 만들어 주지 않고, 사람이 남긴 근거와 다음 단계 상태가 서로 어긋나는지를 확인하는 보호 장치입니다.
-
-[화풍 참조 팩 검수 gate 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_local_style_pack_gate.py){.aibook-source-link}
 
 ## 실패 원인을 다음 프롬프트의 구조로 바꾸기
 
@@ -313,7 +301,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 공통 화풍 계약과 장면 행의 분리 | 선·수채화·프레임 조건을 바꾸지 않은 채 장소·시간·camera 차이만 비교하려고 함 | 같은 계약 아래 실내·실외, 새벽·낮·석양·밤·우천 야간, 다섯 camera family를 승인 팩에서 대조함 | 공통 prompt 하나가 모든 장면의 공간 구조를 자동으로 고정한다는 뜻은 아님 |
 | 중앙 도로 대신 측면 교차로로 도심 조건 변경 | 넓은 도로 요구가 중앙 소실점의 거리 복도로 수렴한 실패를 장면 구조 문제로 판단함 | 측면 모퉁이에서 비스듬히 보는 도심 원본으로 교체해 낮·wide 행을 승인함 | 금지어를 더 많이 쓰면 모든 원근 오류를 고칠 수 있다는 뜻은 아님 |
 | 여객기 실내를 창가 독서실로 대체 | 좌석 모듈·천장·사선 구도를 동시에 안정적으로 만족한 원본을 확보하지 못함 | 밤·실내·oblique 조건은 단순한 독서실과 작은 스탠드 조명으로 검수함 | 복잡한 실내 장면이 모델에서 불가능하다는 일반 결론은 아님 |
-| ledger와 Python gate의 분리 | 미적 판단을 자동화하지 않으면서 필수 camera·시간·장소·최종 상태의 누락을 막으려 함 | 승인 당시의 로컬 ledger에서 gate가 `PASS style pack can be used for character-reference generation`을 출력했고, 저장소에는 승인 manifest만 남김 | gate가 이미지의 선·색·공간 품질을 자동 채점하거나 사람 승인을 대신한다는 뜻은 아님 |
+| ledger와 Python gate의 분리 | 미적 판단을 자동화하지 않으면서 필수 camera·시간·장소·최종 상태의 누락을 막으려 함 | 승인 당시의 로컬 ledger에서 필수 행과 최종 상태를 대조했고, 저장소에는 승인 manifest만 남김 | gate가 이미지의 선·색·공간 품질을 자동 채점하거나 사람 승인을 대신한다는 뜻은 아님 |
 | 배경 PNG가 아닌 텍스트 화풍 계약을 인물 후보에 전달 | 배경 원본의 장소·광원·구도가 캐릭터 기준에 섞이는 것을 막으려 함 | 거리·옥상·카페·공원·아트리움의 인물 화풍 후보에서 선·수채 색층만 별도 검수할 수 있었음 | 이 후보가 얼굴 identity, 나이, 성별, 시점 일관성까지 승인됐다는 뜻은 아님 |
 
 ## 체크리스트

@@ -42,7 +42,7 @@ A baseline is not merely a date split. It is a design for deciding what to inspe
 
 ## Input and practice flow
 
-- Input file: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }
+- Input file: [`p7-1-traffic-log.en.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.en.csv){ .csv-preview }
 - Meaning of a row: one acquisition channel on one date.
 - Values to change: baseline boundaries `2026-06-08` and `2026-06-11`; units `date-total` and `channel-day`.
 
@@ -74,7 +74,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-data_path = Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.csv")
+data_path = Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.en.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 for row in rows:
     row["date"] = datetime.strptime(row["date"], "%Y-%m-%d").date()
@@ -173,7 +173,7 @@ The lesson is not that one design creates more numbers. Choose the design that f
 
 The chart compares the two channel-day designs. Moving a baseline closer does not always increase the change: ads conversion moves from `-3.61%p` under the seven-day baseline to `-2.79%p` under the recent-four-day focus, and the recent sample count falls from seven to four.
 
-![Ads conversion and error-rate changes from baseline for a 7-day design and a recent-4-day design, with baseline and recent sample counts.](../../../assets/part-07/chapter-01/p7-1-3-baseline-design-chart-en.png)
+![Ads conversion and error-rate changes from baseline for a 7-day design and a recent-4-day design, with baseline and recent sample counts.](../../../assets/part-07/chapter-01/p7-1-3-baseline-design-chart-en.en.png)
 
 Read the chart in three steps.
 
@@ -204,8 +204,8 @@ For this log, the date total can look like a service-wide decline, but channel-d
 
 The same redesign can be applied to public-style synthetic sensor data. These are not equipment logs; they are synthetic summaries of an action-unit sensor flow.
 
-- Raw log: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv){ .csv-preview }
-- Action summary: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv){ .csv-preview }
+- Raw log: [`p7-action-unit-sensor-log.en.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.en.csv){ .csv-preview }
+- Action summary: [`p7-action-unit-summary.en.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.en.csv){ .csv-preview }
 
 | Comparison design | Question |
 | --- | --- |
@@ -217,7 +217,7 @@ The same redesign can be applied to public-style synthetic sensor data. These ar
 import csv
 from pathlib import Path
 
-summary_path = Path("docs/assets/part-07/chapter-01/p7-action-unit-summary.csv")
+summary_path = Path("docs/assets/part-07/chapter-01/p7-action-unit-summary.en.csv")
 rows = list(csv.DictReader(summary_path.open(encoding="utf-8")))
 for row in rows:
     row["event_order"] = int(row["event_order"])
@@ -375,7 +375,7 @@ Keep the next inspection question concrete.
 
 ## Sources and references
 
-- Practice data: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }
-- Synthetic action-unit raw log: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv){ .csv-preview }
-- Synthetic action-unit summary: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv){ .csv-preview }
+- Practice data: [`p7-1-traffic-log.en.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.en.csv){ .csv-preview }
+- Synthetic action-unit raw log: [`p7-action-unit-sensor-log.en.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.en.csv){ .csv-preview }
+- Synthetic action-unit summary: [`p7-action-unit-summary.en.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.en.csv){ .csv-preview }
 - This section uses original practice examples and does not quote external material directly.

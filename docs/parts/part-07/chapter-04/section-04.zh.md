@@ -31,13 +31,13 @@
 
 ## 运行同均值模式比较
 
-使用 [`p7-action-unit-pattern-pairs.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv){ .csv-preview }。一行是一项行动的四个分段汇总。六条代表记录的均值都是 `2.5`，却不应得到相同复核说明。
+使用 [`p7-action-unit-pattern-pairs.zh.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.zh.csv){ .csv-preview }。一行是一项行动的四个分段汇总。六条代表记录的均值都是 `2.5`，却不应得到相同复核说明。
 
 ```python
 import csv
 from pathlib import Path
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-action-unit-pattern-pairs.zh.csv").open(encoding="utf-8")))
 rows = [row for row in rows if row["event_id"] in {f"PAT-{number:02d}" for number in range(1, 7)}]
 def values(row): return [float(row[f"segment_{index}"]) for index in range(1, 5)]
 def shape_token(items):
@@ -62,7 +62,7 @@ for record in records: print(record)
 
 结果有一个仅按平均的组 `avg=2.5`，包含 PAT-01 到 PAT-06。形状词元把它拆为上升、平坦、下降、中间高（PAT-04 与 PAT-05）和两端高（PAT-06）。
 
-![六种模式共享均值 2.5，但分段顺序不同](../../../assets/part-07/chapter-04/p7-4-4-equal-mean-patterns-chart-zh.png)
+![六种模式共享均值 2.5，但分段顺序不同](../../../assets/part-07/chapter-04/p7-4-4-equal-mean-patterns-chart-zh.zh.png)
 
 | 模式 | 分段值 | 均值 | 人可读的解释 |
 | --- | --- | ---: | --- |

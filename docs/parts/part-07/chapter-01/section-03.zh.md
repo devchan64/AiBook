@@ -24,7 +24,7 @@
 
 ## 输入与比较设计
 
-使用 [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview }。每行是一日、一个流量渠道。练习只改变基线边界与比较单位，不增加新数据。
+使用 [`p7-1-traffic-log.zh.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.zh.csv){ .csv-preview }。每行是一日、一个流量渠道。练习只改变基线边界与比较单位，不增加新数据。
 
 | 设计 | 边界日 | 单位 | 首要问题 |
 | --- | --- | --- | --- |
@@ -44,7 +44,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.zh.csv").open(encoding="utf-8")))
 for row in rows:
     row["date"] = datetime.strptime(row["date"], "%Y-%m-%d").date()
     for field in ("visitors", "signups", "errors"):
@@ -93,7 +93,7 @@ for name, cutoff_text, unit in experiments:
 
 基线设计不是寻找唯一正确答案。它明确了哪一个问题被放在回顾的前面。
 
-![两种广告渠道基线设计下的转化率与错误率变化比较](../../../assets/part-07/chapter-01/p7-1-3-baseline-design-chart-zh.png)
+![两种广告渠道基线设计下的转化率与错误率变化比较](../../../assets/part-07/chapter-01/p7-1-3-baseline-design-chart-zh.zh.png)
 
 ## 记录设计变化
 

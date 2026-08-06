@@ -87,7 +87,7 @@ A comparison that begins with “the ads campaign failed” skips evidence. Reco
 Before polishing a retrospective sentence, decide what counts as a meaningful departure from baseline. This example places a conversion-focused rule and an error-focused rule side by side, then finds rows that remain candidates under both rules.
 
 - Situation: reread the recent seven-day log and decide which dates and channels to keep as review candidates.
-- Input: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv){ .csv-preview } and two review rules.
+- Input: [`p7-1-traffic-log.en.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.en.csv){ .csv-preview } and two review rules.
 - Expected output: candidate lists by rule, their overlap, and a fact–interpretation–next-question record.
 - What to confirm:
   - A retrospective fixes review priorities rather than copying calculation results.
@@ -143,7 +143,7 @@ def conversion_rate(row):
 def error_rate(row):
     return row["errors"] / row["visitors"]
 
-data_path = Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.csv")
+data_path = Path("docs/assets/part-07/chapter-01/p7-1-traffic-log.en.csv")
 rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
 for row in rows:
     row["date"] = datetime.strptime(row["date"], "%Y-%m-%d").date()
@@ -245,7 +245,7 @@ The output can be read as follows.
 
 ```text
 candidates by rule =
-file read = docs/assets/part-07/chapter-01/p7-1-traffic-log.csv
+file read = docs/assets/part-07/chapter-01/p7-1-traffic-log.en.csv
 conversion-focused
   date        channel  conversion change  error change
   2026-06-10  ads     -3.54%p             +1.10%p
@@ -277,7 +277,7 @@ An empty list is a result to interpret, not a signal to silently relax the rule 
 
 The chart places conversion-rate change and error-rate change on two axes. Each point is one recent channel-day; color indicates channel. The pale upper-left area is where both rules select the same row.
 
-![Conversion-rate and error-rate changes from baseline. The pale upper-left region marks rows selected by both review rules.](../../../assets/part-07/chapter-01/p7-1-2-candidate-threshold-chart-en.png)
+![Conversion-rate and error-rate changes from baseline. The pale upper-left region marks rows selected by both review rules.](../../../assets/part-07/chapter-01/p7-1-2-candidate-threshold-chart-en.en.png)
 
 Ads on 06-11, 06-12, and 06-14 lie in that area and remain under both rules. Ads on 06-10 and 06-13 have larger conversion drops but do not reach the 1.2%p error-rise condition, so they are excluded by the error-focused rule.
 

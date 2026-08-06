@@ -5,7 +5,7 @@
 
 웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지, 그 이미지를 학습하거나 직접 참조로 사용한 출력, 그에 따른 LoRA 평가는 이 절의 근거로 사용하지 않습니다.
 
-이 절의 산출물은 완성 컷이나 학습된 모델이 아닙니다. 다음 단계가 사용할 수 있는지 사람 검수한 전신 기준, view별 원본, 생성 기록, 그리고 아직 사용할 수 없는 범위를 적은 manifest입니다. 장면 속 pose, projection, 배경을 바꾸는 전체 컷 생성은 `P7-5.3`의 책임이고, 통과 컷의 얼굴·손·소품·연속성 보정은 `P7-5.4`에서 별도로 검증합니다.
+이 절의 산출물은 완성 컷이나 학습된 모델이 아닙니다. 다음 단계가 사용할 수 있는지 사람 검수한 전신 기준, view별 원본, 생성 기록, 그리고 아직 사용할 수 없는 범위입니다. 장면 속 pose, projection, 배경을 바꾸는 전체 컷 생성은 `P7-5.3`의 책임이고, 통과 컷의 얼굴·손·소품·연속성 보정은 `P7-5.4`에서 별도로 검증합니다.
 
 ## 먼저 통과해야 하는 두 가지 gate
 
@@ -14,7 +14,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | gate | 필요한 근거 | 현재 처리 원칙 |
 | --- | --- | --- |
 | P7-5.1 화풍 | 사람 승인된 로컬 GPU 배경 원본, 검수 ledger, 최종 manifest | 최종 manifest 전에는 P7-5.2의 review-only 실험으로만 원본 하나를 style input으로 사용 |
-| P7-5.2 인물 | 로컬 GPU 정면·방향 얼굴, 소품 기준, 네 방향 전신, 새 실행 기록, 사람 검수 manifest | 승인된 얼굴·소품·전신만 다음 단계에 넘기고, 표정은 별도 생성·검수 |
+| P7-5.2 인물 | 로컬 GPU 정면·방향 얼굴, 소품 기준, 네 방향 전신, 새 실행 기록, 사람 검수 결과 | 승인된 얼굴·소품·전신만 다음 단계에 넘기고, 표정은 별도 생성·검수 |
 | P7-5.3 컷신 | pose·camera·장소·소품이 함께 통과한 전체 컷 | 이 절의 단일 기준만으로 통과 처리하지 않음 |
 
 ## 캐릭터 패키지 구성요소
@@ -28,7 +28,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 4방향 baseline의 실행·검수 기록을 보관 |
 
-이 pipeline은 여러 이미지를 타일 시트로 합쳐 모델에 넣지 않습니다. 참조 입력에는 manifest가 가리키는 개별 PNG 하나만 사용합니다. train과 held-out은 단지 파일 수를 맞추는 폴더가 아니라, source ID·장소·camera를 분리해 캐릭터를 외운 결과와 새 장면에 적용한 결과를 구분하는 장치입니다.
+이 pipeline은 여러 이미지를 타일 시트로 합쳐 모델에 넣지 않습니다. 참조 입력에는 사람 검수한 개별 PNG만 사용합니다. train과 held-out은 단지 파일 수를 맞추는 폴더가 아니라, source ID·장소·camera를 분리해 캐릭터를 외운 결과와 새 장면에 적용한 결과를 구분하는 장치입니다.
 
 ## 생성·검수 순서
 
@@ -207,20 +207,20 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --props layered_jacket_crop_top crossbody_bag
 ```
 
-## manifest는 사용 범위를 좁히는 계약이다
+## 사람 검수는 사용 범위를 좁힌다
 
-정면·전면 쿼터·측면·후면 전신은 사람 검수를 통과해 실행·승인 기록에 등록했습니다. 동작, camera yaw, 컷신용 캐릭터 참조 팩은 여전히 비어 있으며 별도 검수가 필요합니다. 아래 앨리웁 예제는 최종 가늠용 승인 PNG로만 보관하고 manifest 입력에는 넣지 않습니다.
+정면·전면 쿼터·측면·후면 전신은 사람 검수를 통과해 실행·승인 기록에 등록했습니다. 동작, camera yaw, 컷신용 캐릭터 참조 팩은 여전히 비어 있으며 별도 검수가 필요합니다. 아래 농구 점프 동작 예제는 최종 가늠용 PNG로만 보관하며 다음 단계 입력으로 사용하지 않습니다.
 
 정면·전면 쿼터·측면·후면의 얼굴·자켓·가방 보강 출력은 사람 승인을 거쳐 각 전신 기준에 반영했습니다.
 
-화풍을 직접 조건으로 받은 캐릭터 팩도 다른 후보와 마찬가지로 review-only 상태에서 보관합니다. 배경 원본의 선·색층을 인물로 옮긴 결과가 얼굴·소품·비례 기준을 흐리지 않는지 사람 검수를 통과한 개별 PNG만 P7-5.2 manifest에 넣을 수 있습니다. 캐릭터 색은 중립 studio 조명에서 정하고, 장면의 야간·노을·비 반사광이 피부나 머리카락 기본색을 다시 정하지 않도록 다음 단계에서 검증합니다.
+화풍을 직접 조건으로 받은 캐릭터 팩도 다른 후보와 마찬가지로 review-only 상태에서 보관합니다. 배경 원본의 선·색층을 인물로 옮긴 결과가 얼굴·소품·비례 기준을 흐리지 않는지 사람 검수를 통과한 개별 PNG만 다음 단계 입력 후보로 검토할 수 있습니다. 캐릭터 색은 중립 studio 조명에서 정하고, 장면의 야간·노을·비 반사광이 피부나 머리카락 기본색을 다시 정하지 않도록 다음 단계에서 검증합니다.
 
-## 최종 가늠: 웹툰 렌더링 앨리웁
+## 최종 가늠: 화풍 참조를 적용한 농구 점프 동작
 
-아래 예제는 P7-5.2의 승인 기준이 동작과 camera 변화에서도 유지되는지 살피는 마지막 가늠 테스트입니다. 입력에는 CodeFormer 정면 얼굴 `2x` 패널, 정면·전면 쿼터·측면·후면 전신 기준 네 장, 그리고 P7-5.1 승인 원본 중 [저각도 주택가 수채화 원본](../../../assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png) 한 장만 넣습니다. 화풍 원본은 선·색층·물감 번짐만 위한 입력이며, 원본의 인물·장소·구도는 복사하지 않습니다. 앨리웁 패스는 공의 릴리스와 림의 분리, 도약 다리, 저각도 원근을 함께 검수할 수 있어 수비 자세보다 더 강한 동작 시험이 됩니다.
+아래 예제의 목적은 P7-5.1 승인 원본을 화풍 참조로 넣었을 때, P7-5.2에서 만든 인물 기준을 훼손하지 않고 선·색층·제한된 수채 질감을 적용할 수 있는지 살피는 것입니다. 입력에는 CodeFormer 정면 얼굴 `2x` 패널, 정면·전면 쿼터·측면·후면 전신 기준 네 장, 그리고 P7-5.1 승인 원본 중 [저각도 주택가 수채화 원본](../../../assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png) 한 장만 넣습니다. 화풍 원본은 선·색층·물감 번짐만 위한 입력이며, 원본의 인물·장소·구도는 복사하지 않습니다. 공을 든 농구 점프 동작과 저각도 구도는 화풍 참조가 장면·동작·camera 변화에서도 작동하는지를 살피기 위한 부하 조건입니다.
 
 <details id="dynamic-alley-oop-style-test" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_dynamic_alley_oop_style_test.py" data-language="python">
-<summary>전신 기준과 화풍 원본으로 앨리웁 후보를 만드는 코드 보기</summary>
+<summary>전신 기준에 화풍 원본을 적용한 농구 점프 동작 후보 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -233,14 +233,14 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 ```
 
 ```text
-Same woman from the supplied references, full body. Rooftop half court, airborne after an alley-oop pass: her right arm reaches up; one basketball has left her fingertips and arcs high. Left arm balances, left knee leads, right leg trails. Exactly one small hoop and backboard sit far behind her, well separated from the ball. Low front-left 24 mm camera, modest Dutch tilt, diagonal frame. Use crisp tapered charcoal contours, clean opaque color planes, and controlled cel shadows; keep watercolor pooling only as subtle edge texture. One woman, one ball, one hoop, no text, border, or panels.
+Same woman from the supplied references, full body. Rooftop half court, airborne basketball jump: her right arm holds one basketball high overhead. Left arm balances, left knee leads, right leg trails. Exactly one small hoop and backboard sit far behind her, well separated from the ball. Low front-left camera, modest Dutch tilt, diagonal frame. Use crisp tapered charcoal contours, clean opaque color planes, and controlled cel shadows; keep watercolor pooling only as subtle edge texture. One woman, one ball, one hoop, no text, border, or panels.
 ```
 
-이 프롬프트는 동작·카메라·화풍을 한 번에 바꾸므로 기준 PNG를 대체하는 용도가 아닙니다. 얼굴·머리·착장·가방 스트랩의 연속성, 손·발의 수, 오른손 공 릴리스와 포물선, 공과 림 사이의 열린 코트 공간, 도약 다리·몸통·무릎·발끝의 방향, 저각도 원근과 전신 프레이밍, 가변 선 굵기·면 채색·셀 음영과 제한된 수채 질감의 균형, 화풍 원본을 복사하지 않았는지를 모두 사람 검수합니다.
+이 프롬프트는 화풍 참조, 동작, camera를 한 번에 바꾸므로 기준 PNG를 대체하는 용도가 아닙니다. 사람 검수는 먼저 참조 원본의 가변 선 굵기·면 채색·셀 음영·제한된 수채 질감이 인물에 적용됐는지, 원본의 인물·장소·구도를 복사하지 않았는지를 봅니다. 이어 얼굴·머리·착장·가방 스트랩의 연속성, 손·발의 수, 오른손에 든 공, 공과 림 사이의 열린 코트 공간, 도약 다리·몸통·무릎·발끝의 방향, 저각도 원근과 전신 프레이밍을 확인합니다.
 
-![승인된 최종 가늠 예제: 앨리웁 동작·저각도·웹툰 렌더링](../../../assets/part-07/chapter-05/p7-5-2-dynamic-alley-oop-final-example.png)
+![검수한 최종 가늠 예제: 화풍 참조를 적용한 농구 점프 동작·저각도 구도](../../../assets/part-07/chapter-05/p7-5-2-dynamic-alley-oop-final-example.png)
 
-이 컷은 P7-5.2의 얼굴·전신·소품 기준이 하나의 역동적 장면에서도 읽히는지를 가늠하기 위한 승인 예제입니다. 이 결과만으로 pose 제어, camera 제어, 컷신 연속성까지 승인하지 않으며, P7-5.3의 scene·pose·camera 계약과 P7-5.4의 연속성 보정은 별도로 검수합니다.
+이 컷은 P7-5.1 화풍 참조가 P7-5.2의 얼굴·전신·소품 기준에 적용될 수 있는지를 가늠하기 위한 단일 검수 예제입니다. 이 한 장으로 화풍 적용이 다른 장면·동작·camera에서 일반화된다고 판단하지 않으며, pose 제어, camera 제어, 컷신 연속성은 P7-5.3의 scene·pose·camera 계약과 P7-5.4의 연속성 보정에서 별도로 검수합니다.
 
 ## 실험에서 확인한 기능과 변경 결정
 
@@ -254,7 +254,7 @@ Same woman from the supplied references, full body. Rooftop half court, airborne
 | 소품을 전면·후면·레이어·통합 착장 계약으로 분리 | 자켓 몸판, 크롭탑 밑단, 가방 본체와 스트랩이 한 전신 생성에서 서로 대체되는 결함을 분리하려 함 | 자켓 전후면, 자켓-크롭탑/피부 레이어, 전후면 통합 착장을 사람 승인해 방향별 보강 입력으로 사용함 | 소품 PNG를 많이 넣으면 전신의 손·발·비례 오류까지 자동으로 해결한다는 뜻은 아님 |
 | 전신 turnaround를 시트가 아닌 방향별 개별 PNG로 생성 | 패널 안에서 전신 프레이밍과 방향 조건이 서로 간섭한 실패를 줄이고, view별 재생성 범위를 좁히려 함 | 정면·전면 쿼터·측면·후면 네 방향의 전신·기본 복장·신발·단발 연속성을 각각 승인함 | 네 PNG가 동작, camera yaw, scene 변화까지 통과했다는 뜻은 아님 |
 | 전신 보강에서 얼굴·전신·소품의 역할을 분리한 다중참조 | 정면 얼굴은 identity, 방향 전신은 composition, 레이어·가방은 착장 계약을 맡겨 원인별 결함을 대조하려 함 | 네 방향에서 자켓·가방을 보강한 전신 PNG를 승인하고, 측면·후면에는 방향 전용 자켓 계약을 남김 | 다중참조가 모든 특징을 동시에 보존하거나 기준 PNG를 대체한다는 뜻은 아님 |
-| 화풍을 포함한 앨리웁을 최종 가늠 예제로 분리 | 핵심 참조 셋에 장면·동작·저각도 화풍 조건을 섞지 않은 채 경계 조건에서 읽히는지만 확인하려 함 | 기준 시드 `62380`에서 공중 동작, 원거리 골대, 웹툰 선화·면 채색을 포함한 단일 승인 예제를 확보함 | 이 한 컷이 P7-5.3의 pose·scene·camera 계약 또는 P7-5.4 연속성 보정을 승인한다는 뜻은 아님 |
+| 화풍 참조를 적용한 농구 점프 동작을 최종 가늠 예제로 분리 | 핵심 인물 기준에 장면·동작·저각도 조건을 섞지 않은 채, P7-5.1 화풍 원본의 선·색층이 인물에 적용되는지를 확인하려 함 | 기준 시드 `62380`에서 공을 든 공중 점프 동작과 원거리 골대에 웹툰 선화·면 채색·제한된 수채 질감이 함께 나타나는 단일 검수 예제를 확보함 | 이 한 컷이 화풍 적용의 일반화, P7-5.3의 pose·scene·camera 계약 또는 P7-5.4 연속성 보정을 승인한다는 뜻은 아님 |
 
 ## 캐릭터셋 체크리스트
 
@@ -262,7 +262,7 @@ Same woman from the supplied references, full body. Rooftop half court, airborne
 
 | 확인할 것 | 스스로 답할 질문 |
 | --- | --- |
-| 등록 | 전신 기준, train, held-out으로 등록하는 모든 단일 PNG가 local GPU 실행 기록과 manifest에 있는가? |
+| 등록 | 전신 기준, train, held-out으로 등록하는 모든 단일 PNG가 local GPU 실행 기록과 사람 검수 결과에 있는가? |
 | 분리 | held-out 원본이 train source ID·장소·camera와 겹치지 않는가? |
 | 비례 | 중립 정면 계열은 4%, 동작은 15% 기준을 적용하고, 측면·후면은 사람 검수로 구분했는가? |
 | 비교 | 같은 scene·camera·seed에서 학습 또는 reference 조건 하나만 바꿔 비교했는가? |
@@ -270,7 +270,7 @@ Same woman from the supplied references, full body. Rooftop half court, airborne
 | 전체 컷 | reference·pose·camera를 한 화면에서 통과시킨 뒤에만 bag/strap 국소 보정을 검토하는가? |
 | 생성 출처 | 기준과 view 원본 모두 외부 생성 서비스가 아니라 로컬 GPU로 생성됐는가? |
 | 좌우 view | mirror를 쓴 view가 무소품·대칭 계약 안에만 있는가? |
-| 다음 단계 | P7-5.1과 P7-5.2의 manifest가 각각 허용한 개별 원본만 다음 단계에 넘기는가? |
+| 다음 단계 | P7-5.1 manifest가 허용한 화풍 원본과 P7-5.2에서 사람 검수한 개별 기준만 다음 단계에 넘기는가? |
 
 ## 출처와 참고 자료
 

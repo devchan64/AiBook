@@ -33,13 +33,13 @@ The decision flow separates the two summaries. First calculate the mean to make 
 
 ## Run the equal-mean pattern comparison
 
-Use [`p7-action-unit-pattern-pairs.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv){ .csv-preview }. A row is one action summarized into four segments. The six representative records all have mean `2.5`, yet they should not be assigned the same review note.
+Use [`p7-action-unit-pattern-pairs.en.csv`](../../../assets/part-07/chapter-04/p7-action-unit-pattern-pairs.en.csv){ .csv-preview }. A row is one action summarized into four segments. The six representative records all have mean `2.5`, yet they should not be assigned the same review note.
 
 ```python
 import csv
 from pathlib import Path
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-action-unit-pattern-pairs.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-action-unit-pattern-pairs.en.csv").open(encoding="utf-8")))
 rows = [row for row in rows if row["event_id"] in {f"PAT-{number:02d}" for number in range(1, 7)}]
 def values(row): return [float(row[f"segment_{index}"]) for index in range(1, 5)]
 def shape_token(items):
@@ -66,7 +66,7 @@ The result has one average-only group, `avg=2.5`, containing PAT-01 through PAT-
 
 The chart reads the same six rows. Every small panel has the same dashed mean line, so the distinction is the sequence around that line rather than a difference in the aggregate.
 
-![Six patterns share mean 2.5 while their segment order differs](../../../assets/part-07/chapter-04/p7-4-4-equal-mean-patterns-chart-en.png)
+![Six patterns share mean 2.5 while their segment order differs](../../../assets/part-07/chapter-04/p7-4-4-equal-mean-patterns-chart-en.en.png)
 
 | Pattern | Segment values | Mean | Human reading |
 | --- | --- | ---: | --- |

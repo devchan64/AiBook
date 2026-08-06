@@ -21,7 +21,7 @@
 
 ## 输入与实验变体
 
-使用训练数据 [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv){ .csv-preview } 和额外压力评估集 [`p7-2-stress-test.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.csv){ .csv-preview }。压力集不用于拟合；它用于让不同设置的失败模式更清晰。
+使用训练数据 [`p7-2-churn-dataset.zh.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.zh.csv){ .csv-preview } 和额外压力评估集 [`p7-2-stress-test.zh.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.zh.csv){ .csv-preview }。压力集不用于拟合；它用于让不同设置的失败模式更清晰。
 
 | 变体 | 改变的组件 | 保持不变的组件 |
 | --- | --- | --- |
@@ -41,8 +41,8 @@ import csv
 from pathlib import Path
 import numpy as np
 
-train_rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv").open(encoding="utf-8")))
-stress_rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-stress-test.csv").open(encoding="utf-8")))
+train_rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.zh.csv").open(encoding="utf-8")))
+stress_rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-stress-test.zh.csv").open(encoding="utf-8")))
 features = ["unresolved_tickets", "days_since_login", "usage_minutes_30d"]
 train = [row for row in train_rows if row["split"] == "train"]
 def matrix(rows): return np.array([[float(row[name]) for name in features] for row in rows])
@@ -117,7 +117,7 @@ raw 与 z-score 都正确的参考样本：
 
 分数说明固定评估集上的聚合结果；样本转换说明下一行动。一个设置可以在总分上领先，却在一个重要边界样本上不稳定。
 
-![四个实验设置的准确率与压力样本失败诊断。](../../../assets/part-07/chapter-02/p7-2-3-failure-diagnosis-chart-zh.png)
+![四个实验设置的准确率与压力样本失败诊断。](../../../assets/part-07/chapter-02/p7-2-3-failure-diagnosis-chart-zh.zh.png)
 
 ## 将压力案例分成三类
 

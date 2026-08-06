@@ -37,7 +37,7 @@ import csv
 from pathlib import Path
 import numpy as np
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.zh.csv").open(encoding="utf-8")))
 train_rows = [row for row in rows if row["split"] == "train"]
 test_rows = [row for row in rows if row["split"] == "test"]
 def tokens(text): return text.split()
@@ -64,7 +64,7 @@ for row, token_list, oov, vector in zip(test_rows, token_sets, oov_sets, X_test)
 
 两个评估样本覆盖率低，却得到不同结果。当前 CSV 中，`평가-05` 的覆盖率为 `0.200`，它是被预测为配送的退款请求：关键意图词 `캔슬` 不在词汇表，而剩下的配送词获得分数。`평가-07` 覆盖率为 `0.333`，但仍正确路由，因为已知的退款相关词很强。
 
-![按评估句显示的覆盖率，以及两个低覆盖样本的不同类别分数](../../../assets/part-07/chapter-04/p7-4-2-coverage-review-chart-zh.png)
+![按评估句显示的覆盖率，以及两个低覆盖样本的不同类别分数](../../../assets/part-07/chapter-04/p7-4-2-coverage-review-chart-zh.zh.png)
 
 | 事实 | 有限解释 | 下一探针 |
 | --- | --- | --- |

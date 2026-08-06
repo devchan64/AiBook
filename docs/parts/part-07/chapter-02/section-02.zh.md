@@ -47,7 +47,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.csv").open(encoding="utf-8")))
+rows = list(csv.DictReader(Path("docs/assets/part-07/chapter-02/p7-2-churn-dataset.zh.csv").open(encoding="utf-8")))
 train = [row for row in rows if row["split"] == "train"]
 test = [row for row in rows if row["split"] == "test"]
 features = ["unresolved_tickets", "days_since_login", "usage_minutes_30d"]
@@ -119,7 +119,7 @@ raw 结果：准确率、错误 ID、最近邻。
 
 本次固定评估集没有“标准化后新错”的行，也没有两种表示都错的行。这个事实支持有限结论：在这六条记录上，训练集 z-score 标准化改善了最近邻的预测结果。它不证明标准化在所有客户数据、所有窗口或所有模型中都同样有效。
 
-![raw 1-NN 与标准化 1-NN 的评估转换：评估-02和评估-04被恢复，本次没有新错误。](../../../assets/part-07/chapter-02/p7-2-2-normalization-outcome-chart-zh.png)
+![raw 1-NN 与标准化 1-NN 的评估转换：评估-02和评估-04被恢复，本次没有新错误。](../../../assets/part-07/chapter-02/p7-2-2-normalization-outcome-chart-zh.zh.png)
 
 ## 为什么邻居会改变
 

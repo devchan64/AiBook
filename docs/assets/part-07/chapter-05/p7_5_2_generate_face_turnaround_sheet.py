@@ -14,7 +14,7 @@ from diffusers import Flux2KleinPipeline
 from PIL import Image
 
 
-ROOT = Path("/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05")
+ROOT = Path(__file__).resolve().parent
 FRONT = ROOT / "p7-5-2-face-front-reference.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62377

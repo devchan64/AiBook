@@ -79,7 +79,7 @@ test probabilities =
 | 后续项目 | 说明先检查数据、表示还是结构。 |
 | 共同回顾句 | 让其他项目复用同一结果格式。 |
 
-相关输入为 [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview }、[`p7-3-error-review.csv`](../../../assets/part-07/chapter-03/p7-3-error-review.csv){ .csv-preview } 和 [`p7-3-followup-actions.csv`](../../../assets/part-07/chapter-03/p7-3-followup-actions.csv){ .csv-preview }。第一个文件说明训练模式，第二个记录预测与置信度，第三个列出候选行动。
+相关输入为 [`p7-3-surface-patches.zh.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.zh.csv){ .csv-preview }、[`p7-3-error-review.zh.csv`](../../../assets/part-07/chapter-03/p7-3-error-review.zh.csv){ .csv-preview } 和 [`p7-3-followup-actions.zh.csv`](../../../assets/part-07/chapter-03/p7-3-followup-actions.zh.csv){ .csv-preview }。第一个文件说明训练模式，第二个记录预测与置信度，第三个列出候选行动。
 
 ```mermaid
 --8<-- "assets/part-07/chapter-03/p7-3-2-error-review-flow-zh.mmd"
@@ -177,9 +177,9 @@ import csv
 from pathlib import Path
 
 asset_dir = Path("docs/assets/part-07/chapter-03")
-surface_rows = list(csv.DictReader((asset_dir / "p7-3-surface-patches.csv").open(encoding="utf-8")))
-review_rows = list(csv.DictReader((asset_dir / "p7-3-error-review.csv").open(encoding="utf-8")))
-action_rows = list(csv.DictReader((asset_dir / "p7-3-followup-actions.csv").open(encoding="utf-8")))
+surface_rows = list(csv.DictReader((asset_dir / "p7-3-surface-patches.zh.csv").open(encoding="utf-8")))
+review_rows = list(csv.DictReader((asset_dir / "p7-3-error-review.zh.csv").open(encoding="utf-8")))
+action_rows = list(csv.DictReader((asset_dir / "p7-3-followup-actions.zh.csv").open(encoding="utf-8")))
 
 target_id = "평가-결함-약함"
 label_name = {0: "正常表面", 1: "划痕警告"}

@@ -78,7 +78,7 @@ These are hypotheses, not established causes. A small synthetic patch set cannot
 | Follow-up item | States whether data, representation, or structure is examined first. |
 | Common retrospective sentence | Lets another project reuse the same result format. |
 
-The relevant project inputs are [`p7-3-surface-patches.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.csv){ .csv-preview }, [`p7-3-error-review.csv`](../../../assets/part-07/chapter-03/p7-3-error-review.csv){ .csv-preview }, and [`p7-3-followup-actions.csv`](../../../assets/part-07/chapter-03/p7-3-followup-actions.csv){ .csv-preview }. The first states what training patterns existed; the second records prediction and confidence; the third lists candidate actions.
+The relevant project inputs are [`p7-3-surface-patches.en.csv`](../../../assets/part-07/chapter-03/p7-3-surface-patches.en.csv){ .csv-preview }, [`p7-3-error-review.en.csv`](../../../assets/part-07/chapter-03/p7-3-error-review.en.csv){ .csv-preview }, and [`p7-3-followup-actions.en.csv`](../../../assets/part-07/chapter-03/p7-3-followup-actions.en.csv){ .csv-preview }. The first states what training patterns existed; the second records prediction and confidence; the third lists candidate actions.
 
 ```mermaid
 --8<-- "assets/part-07/chapter-03/p7-3-2-error-review-flow-en.mmd"
@@ -199,9 +199,9 @@ import csv
 from pathlib import Path
 
 asset_dir = Path("docs/assets/part-07/chapter-03")
-surface_rows = list(csv.DictReader((asset_dir / "p7-3-surface-patches.csv").open(encoding="utf-8")))
-review_rows = list(csv.DictReader((asset_dir / "p7-3-error-review.csv").open(encoding="utf-8")))
-action_rows = list(csv.DictReader((asset_dir / "p7-3-followup-actions.csv").open(encoding="utf-8")))
+surface_rows = list(csv.DictReader((asset_dir / "p7-3-surface-patches.en.csv").open(encoding="utf-8")))
+review_rows = list(csv.DictReader((asset_dir / "p7-3-error-review.en.csv").open(encoding="utf-8")))
+action_rows = list(csv.DictReader((asset_dir / "p7-3-followup-actions.en.csv").open(encoding="utf-8")))
 
 target_id = "평가-결함-약함"
 label_name = {0: "normal surface", 1: "scratch warning"}
