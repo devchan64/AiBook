@@ -31,6 +31,12 @@ LAYERED_OUTFIT_REFERENCE_BY_VIEW = {
     "profile": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
     "rear": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-rear.png",
 }
+COMPLETE_OUTFIT_REFERENCE_BY_VIEW = {
+    "front": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-front-hip.png",
+    "front_quarter": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-front-hip.png",
+    "profile": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-front-hip.png",
+    "rear": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-rear-hip.png",
+}
 PROPS = {
     "layered_jacket_crop_top": {
         "instruction": "Add the supplied white cropped utility-jacket outfit layer.",
@@ -38,6 +44,9 @@ PROPS = {
     "crossbody_bag": {
         "path": ROOT / "p7-5-2-prop-reference-v2-crossbody-bag.png",
         "instruction": "Add the approved deep-navy canvas crossbody bag and strap.",
+    },
+    "complete_outfit": {
+        "instruction": "Apply the supplied complete outfit reference, including its jacket, crop top, trousers, and crossbody bag placement.",
     },
 }
 VIEW_RULES = {
@@ -51,8 +60,16 @@ LAYERED_OUTFIT_VIEW_RULES = {
     "rear": "Rear: use the supplied rear outfit reference as the construction anchor; keep its uninterrupted white jacket back panel, long sleeves, cropped hem, and a clear bare-skin midriff band above the trousers. No inner top is visible from the rear.",
 }
 BAG_VIEW_RULES = {
-    "profile": "Keep the bag and strap behind the jacket.",
-    "rear": "Keep the strap across the jacket back and the bag at the hip.",
+    "front": "Front: hang the bag side-on beside the wearer's outer-left trouser seam, its top at the waistband; run the long strap from the wearer's right shoulder across the torso.",
+    "front_quarter": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
+    "profile": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
+    "rear": "Rear: run the strap across the jacket back from the wearer's right shoulder to the bag at the outer wearer's-left hip, with its top at the waistband and clear of the back center and ribs.",
+}
+COMPLETE_OUTFIT_VIEW_RULES = {
+    "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and the long strap from the wearer's right shoulder across the torso.",
+    "front_quarter": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
+    "profile": "Profile: retain the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
+    "rear": "Rear: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, with its long strap across the jacket back from the wearer's right shoulder.",
 }
 IMAGE_WIDTH = 768
 IMAGE_HEIGHT = 1152
@@ -63,6 +80,8 @@ def prompt_word_count(text: str) -> int:
 
 
 def prop_reference_path(prop_id: str, view: str) -> Path:
+    if prop_id == "complete_outfit":
+        return COMPLETE_OUTFIT_REFERENCE_BY_VIEW[view]
     if prop_id == "layered_jacket_crop_top":
         return LAYERED_OUTFIT_REFERENCE_BY_VIEW[view]
     return PROPS[prop_id]["path"]
@@ -70,18 +89,22 @@ def prop_reference_path(prop_id: str, view: str) -> Path:
 
 def build_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
     prop_instructions = " ".join(PROPS[prop_id]["instruction"] for prop_id in prop_ids)
-    if "layered_jacket_crop_top" in prop_ids and view == "front":
+    if "complete_outfit" in prop_ids:
+        prop_instructions = PROPS["complete_outfit"]["instruction"]
+    elif "layered_jacket_crop_top" in prop_ids and view == "front":
         prop_instructions = (
             "Add the supplied layered white cropped utility jacket worn open over the charcoal-gray crop top."
         )
     base_clothing = "deep teal-blue trousers and white low-top sneakers"
-    if "layered_jacket_crop_top" not in prop_ids:
+    if not {"layered_jacket_crop_top", "complete_outfit"}.intersection(prop_ids):
         base_clothing = f"charcoal-gray crop top, {base_clothing}"
     view_prop_rules = []
     if "layered_jacket_crop_top" in prop_ids and view in LAYERED_OUTFIT_VIEW_RULES:
         view_prop_rules.append(LAYERED_OUTFIT_VIEW_RULES[view])
     if "crossbody_bag" in prop_ids and view in BAG_VIEW_RULES:
         view_prop_rules.append(BAG_VIEW_RULES[view])
+    if "complete_outfit" in prop_ids:
+        view_prop_rules.append(COMPLETE_OUTFIT_VIEW_RULES[view])
     return (
         "Refine the supplied full-body reference into one full-body studio image of the same woman. "
         "Use the CodeFormer frontal face as the identity anchor for face, eyes, nose, skin tone, hairline, and petrol-teal bob whenever visible. "

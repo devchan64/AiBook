@@ -60,6 +60,30 @@ REAR_JACKET_MIDRIFF_CONTRACT = (
     "Clean product illustration. No head, hands, legs, bag, hanger, text, logo, or other object."
 )
 
+COMPLETE_OUTFIT_FRONT_HIP_CONTRACT = (
+    "Front apparel-and-bag wearing reference from shoulders through hips on a neutral headless torso, plain "
+    "off-white background. Show a very short white cropped utility jacket open over a charcoal-gray micro-crop "
+    "crew-neck top, deep teal-blue high-waisted wide-leg trousers, and a compact deep-navy woven-canvas crossbody "
+    "bag. The top ends at the upper abdomen, sixteen centimeters above the navel-height trouser waistband, leaving "
+    "a clear bare-skin midriff band. Hang the bag side-on beside the wearer's outer left trouser seam (viewer right), "
+    "with its top aligned to the waistband. Run its long adjustable strap from the wearer's right "
+    "shoulder (viewer left) diagonally across the torso. Keep distinct garment layers and correct overlap. Clean "
+    "product illustration. No head, hands, legs, text, logo, hanger, or other object."
+)
+
+COMPLETE_OUTFIT_REAR_HIP_CONTRACT = (
+    "One isolated rear apparel-and-bag wearing reference from shoulders through hips on a neutral headless torso "
+    "against a plain off-white background. Show a very short white cropped utility jacket, deep teal-blue "
+    "high-waisted wide-leg trousers, and a compact deep-navy woven-canvas crossbody bag. Keep an uninterrupted "
+    "white jacket back panel with long cuffed sleeves and a short hem; directly below it show a clear bare-skin "
+    "midriff band, with no gray inner shirt visible. Place the bag on the outer side of the wearer's left hip "
+    "(viewer left), with its top aligned to the trouser waistband; it must not cover the back center or ribs. Its "
+    "long adjustable strap runs diagonally across the jacket back from the wearer's right shoulder (viewer right). "
+    "Keep jacket, trousers, strap, and bag as "
+    "distinct items with their correct overlap. Clean product illustration. No head, hands, legs, text, logo, "
+    "hanger, or other object."
+)
+
 
 def jacket_prompt(view: str) -> str:
     """Keep the garment silhouette shared while isolating view-only construction details."""
@@ -101,6 +125,20 @@ PROPS = {
         "output": "p7-5-2-no-style-prop-jacket-crop-top-rear-candidate.png",
         "size": (768, 1024),
         "prompt": layered_outfit_prompt("rear"),
+    },
+    "complete_outfit_front_hip": {
+        "id": "complete_outfit_front_hip",
+        "seed": 62287,
+        "output": "p7-5-2-no-style-prop-complete-outfit-front-hip-candidate.png",
+        "size": (768, 1152),
+        "prompt": COMPLETE_OUTFIT_FRONT_HIP_CONTRACT,
+    },
+    "complete_outfit_rear_hip": {
+        "id": "complete_outfit_rear_hip",
+        "seed": 62288,
+        "output": "p7-5-2-no-style-prop-complete-outfit-rear-hip-candidate.png",
+        "size": (768, 1152),
+        "prompt": COMPLETE_OUTFIT_REAR_HIP_CONTRACT,
     },
     "trousers": {
         "id": "trousers",
@@ -145,8 +183,7 @@ def main() -> None:
         choices=tuple(PROPS),
         default=tuple(PROPS),
         help=(
-            "Reference IDs to generate. Omit to generate jacket, jacket_rear, jacket_crop_top_front, "
-            "jacket_crop_top_rear, trousers, shoes, crossbody_bag, and crop_top_waist_relation."
+            "Reference IDs to generate. Omit to generate every individual, layered, and complete outfit reference."
         ),
     )
     parser.add_argument(
