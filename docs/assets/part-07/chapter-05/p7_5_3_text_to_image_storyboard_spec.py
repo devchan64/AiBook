@@ -31,9 +31,10 @@ DEPTH_ANYTHING_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-depth-anything-v2-small"
 # 사용자 제공 자세를 글로만 풀어 쓴 스토리보드 기준 장면입니다.
 # 참조 사진 자체는 어떤 모델 입력에도 전달하지 않습니다.
 STORYBOARD_PROMPT = (
-    "1girl, solo, full body, contemporary dancer, standing split, raised leg, "
-    "black sleeveless leotard, black opaque tights, planted supporting leg, visible foot, "
-    "arms up and out, wide shot, empty canyon ground, distant craggy cliffs, "
+    "1girl, solo, full body, contemporary dancer, standing split, exactly two arms, "
+    "exactly two legs, one leg vertical, one leg planted, both feet visible, "
+    "black sleeveless leotard, black opaque tights, one arm up, one arm out, "
+    "wide shot, empty canyon ground, distant craggy cliffs, "
     "grayscale sketch, masterpiece, high score"
 )
 NEGATIVE_PROMPT = (
@@ -50,13 +51,19 @@ def build_parser() -> argparse.ArgumentParser:
         description="고정 텍스트로 한 장면 스토리보드를 생성하고 그 PNG에서 guide를 추출합니다."
     )
     parser.add_argument("--seed", type=int, default=5411, help="재현용 seed (기본값: 5411)")
+    parser.add_argument(
+        "--runs",
+        type=int,
+        default=1,
+        help="seed를 1씩 늘려 반복 생성할 횟수 (기본값: 1)",
+    )
     parser.add_argument("--steps", type=int, default=28, help="확산 반복 수 (기본값: 28)")
     parser.add_argument("--width", type=int, default=832, help="출력 너비 (기본값: 832)")
     parser.add_argument("--height", type=int, default=1216, help="출력 높이 (기본값: 1216)")
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=ASSET_DIR / "p7-5-3-storyboard-guides",
+        default=ASSET_DIR,
         help="타임스탬프 PNG를 저장할 폴더",
     )
     return parser
@@ -134,8 +141,8 @@ def derive_depth(image: Image.Image) -> Image.Image | None:
         return None
 
 
-def generate_storyboard(args: argparse.Namespace) -> Image.Image:
-    """Generate the source storyboard once on the local GPU."""
+def load_pipeline() -> StableDiffusionXLPipeline:
+    """Load the approved storyboard model once for one or more seeds."""
     pipeline = StableDiffusionXLPipeline.from_pretrained(
         ANIMAGINE_MODEL, torch_dtype=torch.float16, local_files_only=True
     )
@@ -143,18 +150,22 @@ def generate_storyboard(args: argparse.Namespace) -> Image.Image:
     pipeline.enable_sequential_cpu_offload()
     pipeline.vae.enable_slicing()
     pipeline.set_progress_bar_config(disable=True)
-    image = pipeline(
+    return pipeline
+
+
+def generate_storyboard(
+    pipeline: StableDiffusionXLPipeline, args: argparse.Namespace, seed: int
+) -> Image.Image:
+    """Generate one text-only storyboard with the requested reproducible seed."""
+    return pipeline(
         prompt=STORYBOARD_PROMPT,
         negative_prompt=NEGATIVE_PROMPT,
         width=args.width,
         height=args.height,
         num_inference_steps=args.steps,
         guidance_scale=5.0,
-        generator=torch.Generator(device="cuda").manual_seed(args.seed),
+        generator=torch.Generator(device="cuda").manual_seed(seed),
     ).images[0]
-    del pipeline
-    torch.cuda.empty_cache()
-    return image
 
 
 def save(image: Image.Image, output_dir: Path, stem: str) -> Path:
@@ -167,25 +178,33 @@ def save(image: Image.Image, output_dir: Path, stem: str) -> Path:
 def main() -> None:
     """Create a storyboard and its lineart, canny, and optional depth guides."""
     args = build_parser().parse_args()
+    if args.runs < 1:
+        raise ValueError("--runs는 1 이상이어야 합니다.")
     if not ANIMAGINE_MODEL.exists():
         raise FileNotFoundError(f"로컬 Animagine XL 모델을 찾지 못했습니다: {ANIMAGINE_MODEL}")
     require_cuda()
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    stem = f"{timestamp}-animagine-seed-{args.seed}"
-
-    torch.cuda.reset_peak_memory_stats()
-    storyboard = generate_storyboard(args)
-    outputs = [save(storyboard, args.output_dir, f"{stem}-storyboard")]
-    outputs.append(save(derive_lineart(storyboard), args.output_dir, f"{stem}-lineart"))
-    outputs.append(save(derive_canny(storyboard), args.output_dir, f"{stem}-canny"))
-    depth = derive_depth(storyboard)
-    if depth is not None:
-        outputs.append(save(depth, args.output_dir, f"{stem}-depth"))
-
-    for output in outputs:
-        print(f"[검수 대상] {output}")
-    print(f"[VRAM peak] {torch.cuda.max_memory_allocated() / 1024**2:.1f} MiB")
+    pipeline = load_pipeline()
+    try:
+        for run_index in range(args.runs):
+            seed = args.seed + run_index
+            timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+            stem = f"p7-5-3-{timestamp}-animagine-run-{run_index + 1:02d}-seed-{seed}"
+            torch.cuda.reset_peak_memory_stats()
+            storyboard = generate_storyboard(pipeline, args, seed)
+            outputs = [save(storyboard, args.output_dir, f"{stem}-storyboard")]
+            outputs.append(save(derive_lineart(storyboard), args.output_dir, f"{stem}-lineart"))
+            outputs.append(save(derive_canny(storyboard), args.output_dir, f"{stem}-canny"))
+            depth = derive_depth(storyboard)
+            if depth is not None:
+                outputs.append(save(depth, args.output_dir, f"{stem}-depth"))
+            for output in outputs:
+                print(f"[검수 대상] {output}")
+            print(f"[run {run_index + 1}/{args.runs} VRAM peak] "
+                  f"{torch.cuda.max_memory_allocated() / 1024**2:.1f} MiB")
+    finally:
+        del pipeline
+        torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":
