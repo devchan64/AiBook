@@ -24,7 +24,7 @@
 --8<-- "assets/part-07/chapter-05/p7-5-1-style-reference-pipeline-ko.mmd"
 ```
 
-이 흐름에서 모델은 후보를 만들고, 사람은 후보가 계약을 지키는지 판단합니다. `행 승인`은 한 조건에서의 통과이고, `전체 팩 승인`은 모든 필수 행과 보조 근거를 함께 비교한 뒤의 결론입니다. 승인된 뒤에도 다음 FLUX.2 Klein 4B 캐릭터 생성은 타일로 합친 이미지를 쓰지 않고 manifest의 개별 원본 하나만 화풍 입력으로 선택합니다.
+이 흐름에서 모델은 후보를 만들고, 사람은 후보가 계약을 지키는지 판단합니다. `행 승인`은 한 조건에서의 통과이고, `전체 팩 승인`은 모든 필수 행과 보조 근거를 함께 비교한 뒤의 결론입니다. 승인된 뒤에도 타일로 합친 비교 이미지는 다음 단계의 모델 입력으로 쓰지 않습니다. 현재 P7-5.1의 인물 화풍 후보 생성은 승인 배경 원본을 근거로 정리한 텍스트 화풍 계약만 prompt에 넣고, 배경 PNG 자체는 모델 입력에 넣지 않습니다.
 
 | 파이프라인 층 | 고정하거나 바꾸는 것 | 다음 단계로 남기는 것 |
 | --- | --- | --- |
@@ -33,38 +33,6 @@
 | 행별 생성 | seed와 장면의 구체 구성 | crop하지 않은 후보 원본 |
 | 사람 검수 | 외곽·선·색·장소·시간·카메라 판정 | 승인, 불합격 이유, 재생성 지시 |
 | 전체 팩 승인 | 행 사이의 일관성과 입력 범위 | ledger의 최종 결론과 manifest |
-
-## AI 모델은 텍스트 조건과 seed에서 후보 원본을 만든다
-
-앞의 흐름도는 작업과 판단의 순서이고, 아래는 그중 **후보 한 장을 만드는 실행 준비·`Flux2KleinPipeline` 내부 처리·검수 경계**를 나눈 그림입니다. 코드에서 FLUX.2 Klein 4B 가중치를 `torch_dtype=torch.bfloat16`으로 읽고 `enable_sequential_cpu_offload()`를 켜는 부분은 모델 내부 추론 단계가 아니라 실행 준비에 가깝습니다. 그 준비가 끝난 뒤 `Flux2KleinPipeline`은 장면 prompt와 공통 화풍 계약을 text condition으로 바꾸고, seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 다음 캐릭터 참조 패키지도 같은 모델 계열에서 만들 것이므로, 이 단계의 목적은 다른 모델에 일반화되는 배경 화풍을 찾는 것이 아니라 **FLUX.2 Klein 4B가 안정적으로 따를 수 있는 화풍 입력 조건**을 먼저 고르는 것입니다. 코드의 `num_inference_steps=50`은 이 배치에서 반복 갱신한 횟수이고, `guidance_scale=4.0`은 텍스트 조건을 따르는 정도에 관여하는 실행 설정입니다. 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
-
-도식의 `입력 조건` 구역은 값을 `텍스트 입력`, `이미지 출발 조건`, `추론 설정` 세 묶음으로 정리합니다. 아래 표는 같은 값을 코드 위치와 검수 의미로 더 풀어 쓴 것입니다. 이렇게 보면 어떤 값이 텍스트 조건을 만들고 어떤 값이 latent 출발점과 반복 갱신 조건을 바꾸는지 구별할 수 있습니다.
-
-| 입력 조건 | 코드에서 오는 곳 | 파이프라인에서 쓰이는 곳 | 검수할 때의 의미 |
-| --- | --- | --- | --- |
-| scene 행 | `SCENES`의 `prompt`, `seed` | `pipe(...)`에 넘길 prompt와 초기 latent | 장소·시간·카메라와 같은 행별 비교 조건 |
-| 공통 화풍 계약 | `COMMON_CONTRACT` | `pipe(...)`에 넘길 prompt | 모든 행에서 유지해야 할 선·수채화·프레임 금지 조건 |
-| 해상도 | `width=768`, `height=1152` | latent 크기와 VAE 출력 | 이 실험의 후보 원본 형식 |
-| 추론 반복 | `num_inference_steps=50` | scheduler의 timesteps와 transformer 반복 | 생성 조건이지 품질 점수는 아님 |
-| 텍스트 유도 | `guidance_scale=4.0` | transformer가 텍스트 조건을 반영하는 정도에 관여 | 값 자체가 승인 기준은 아님 |
-| seed 생성기 | `torch.Generator(device="cpu").manual_seed(...)` | 초기 latent 출발점 | 비교 기록이며 픽셀 동일성 보장은 아님 |
-
-```mermaid
---8<-- "assets/part-07/chapter-05/p7-5-1-ai-model-inference-pipeline-ko.mmd"
-```
-
-`Flux2KleinPipeline` 안에서는 먼저 입력이 prompt, generator, size, step, guidance로 나뉩니다. Qwen 계열 [tokenizer](../../../reference/concept-glossary-parts/12-tieut.md#tokenization)와 text encoder는 prompt를 token ID와 [text embedding](../../../reference/concept-glossary-parts/08-ieung.md#embedding) 같은 조건 표현으로 만들고, CPU seed에서 출발한 noise는 해상도에 맞는 초기 latent가 됩니다. FlowMatch 계열 scheduler는 반복할 timestep을 준비하고, FLUX [transformer](../../../reference/concept-glossary-parts/12-tieut.md#transformer)는 text embedding, timestep, guidance, latent를 함께 보며 latent를 반복 갱신합니다. 마지막에는 VAE가 latent tensor를 RGB 픽셀 이미지로 되돌리고, Python 코드는 그 결과를 PIL 이미지로 받아 PNG로 저장합니다. `enable_sequential_cpu_offload()`는 이 내부 단계들을 바꾸는 알고리즘이 아니라, 각 단계에서 필요한 모듈만 순서대로 GPU에 올리는 메모리 운용입니다. 이 구분이 필요한 이유는 단순합니다. prompt, seed, step, guidance는 **생성 조건**이고, 프레임 없음·선화 유지·시간대 광원·camera 충족은 **생성 뒤 검수 조건**입니다.
-
-| 모델 파이프라인 단계 | 이 절에서 맡는 역할 | 승인 판단과의 관계 |
-| --- | --- | --- |
-| prompt와 공통 계약 | 장소·시간·카메라와 금지 조건을 한 텍스트 입력으로 묶음 | 금지 문구가 있어도 결과 보장은 아님 |
-| tokenizer와 text encoder | 텍스트를 모델이 쓰는 조건 표현으로 바꿈 | 조건 해석의 시작점이지 사람 판정을 대체하지 않음 |
-| seed와 latent | 같은 실행 조건의 출발점을 기록함 | 다른 환경에서 픽셀 동일성을 보장하지 않음 |
-| scheduler와 transformer 반복 | timestep과 조건 표현을 보며 이미지 표현을 단계적으로 갱신함 | 반복 수와 guidance는 품질 점수가 아님 |
-| VAE decode와 PNG 저장 | latent를 이미지로 바꾸고 원본 파일로 남김 | 파일 생성 성공은 후보 생성 성공일 뿐 승인 아님 |
-| 사람 검수와 ledger | 외곽·선·색·장소·시간·카메라를 판정함 | 다음 단계 입력 가능 여부를 결정함 |
-
-`COMMON_CONTRACT`와 장면별 `prompt`는 별도의 negative prompt 입력이 아니라 하나의 텍스트 조건으로 이어 붙여 전달됩니다. 따라서 `no panel` 같은 금지 문구는 모델에게 원하는 결과를 보장하는 규칙이 아니라, 다른 장면 설명과 함께 해석되는 조건입니다. seed는 같은 실행 조건의 출발점을 기록하지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다. `enable_sequential_cpu_offload()`는 GPU 상주 메모리를 줄이는 실행 방식이지 화풍 판단 능력을 높이는 설정이 아닙니다. FLUX.2 Klein 4B는 prompt를 완전히 따르지 못하거나 텍스트를 왜곡할 수 있다는 한계도 모델 카드에 명시되어 있습니다.
 
 ## FLUX.2 Klein 4B는 작지만 조건 검수가 필요하다
 
@@ -99,7 +67,7 @@ FLUX.2 Klein 4B를 고른 이유는 다음 단계의 캐릭터 참조 패키지�
 
 인물 화풍은 특정 작가의 이름을 흉내 내는 지시가 아니라, 캐릭터를 반복해서 그릴 때 지켜야 할 **표현 규칙**입니다. 예를 들어 얼굴에서 눈·코·입을 얼마나 단순하게 표시하는지, 머리카락 외곽선과 옷 주름을 어떤 선 굵기로 구분하는지, 전신에서 머리·몸통·팔다리의 비율을 어느 정도로 유지하는지, 피부·머리카락·의상의 색면을 어디까지 나누는지가 그 규칙에 들어갑니다. 이 규칙은 한 장의 예쁜 얼굴보다 정면·측면·전신과 서로 다른 광원에서도 같은 인물로 읽히는지를 기준으로 검수해야 합니다.
 
-P7-5.1이 다음 단계에 넘기는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원이라는 **배경 화풍 계약**입니다. 이 계약은 인물을 배경과 어울리게 놓기 위한 공통 바탕이지만, 얼굴의 특징·신체 비율·의상 구조까지 승인하지는 않습니다. P7-5.2는 같은 모델을 사용해 이 화풍 입력 위에서 머리카락·피부·눈·의상 색과 인물 표현 규칙을 별도 character contract로 정하고, full body와 얼굴의 일관성을 검수합니다. 배경의 밤·노을·비는 컷신에서 인물에 약한 반사광을 더할 수는 있어도, 승인된 기본색이나 인물의 표현 규칙을 새로 정의하는 근거가 될 수 없습니다.
+P7-5.1이 다음 단계에 넘기는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원이라는 **배경 화풍 계약**입니다. 이 계약은 인물을 배경과 어울리게 놓기 위한 공통 바탕이지만, 얼굴의 특징·신체 비율·의상 구조까지 승인하지는 않습니다. P7-5.2는 같은 모델을 사용해 이 배경 화풍 계약을 바탕으로 머리카락·피부·눈·의상 색과 인물 표현 규칙을 별도 character contract로 정하고, full body와 얼굴의 일관성을 검수합니다. 배경의 밤·노을·비는 컷신에서 인물에 약한 반사광을 더할 수는 있어도, 승인된 기본색이나 인물의 표현 규칙을 새로 정의하는 근거가 될 수 없습니다.
 
 ## 다섯 행이 있어야 한 장의 우연을 구별할 수 있다
 
@@ -117,7 +85,7 @@ P7-5.1이 다음 단계에 넘기는 것은 FLUX.2 Klein 4B가 따라야 할 얇
 
 ## 실행 코드는 공통 계약과 장면 변수를 분리한다
 
-실제 후보 생성에는 Diffusers의 `Flux2KleinPipeline`을 사용합니다. 현재 아홉 행을 만드는 `p7_5_1_regenerate_local_gpu_style_references.py`만 이 절의 실행 코드입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
+배경 원본 생성에는 Diffusers의 `Flux2KleinPipeline`을 사용합니다. 아홉 행을 만드는 기준 실행 코드는 `p7_5_1_regenerate_local_gpu_style_references.py`입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
 
 | 코드 위치 | 바꾸면 달라지는 것 | 학습할 경계 |
 | --- | --- | --- |
@@ -187,6 +155,38 @@ for scene in scenes:
 
 따라서 `pipe(...)` 호출 안의 `width`, `height`, `num_inference_steps`, `guidance_scale`, `seed`는 후보를 만드는 추론 조건이고, `enable_sequential_cpu_offload()`와 행별 반복은 그 추론을 8 GB에서 실행 가능하게 나누는 운영 조건입니다. 이 블록의 `image.save(...)`가 성공했다는 사실은 후보 PNG가 생겼다는 뜻뿐입니다. 외곽선·수채화 질감·공간의 물리성·필수 행 충족 여부는 다음의 사람 검수에서 판정합니다.
 
+## AI 모델은 텍스트 조건과 seed에서 후보 원본을 만든다
+
+앞의 코드 발췌는 실행에서 바꿀 값과 저장 경계를 보여 주고, 아래 도식은 그중 **후보 한 장을 만드는 실행 준비·`Flux2KleinPipeline` 내부 처리·검수 경계**를 나눕니다. 코드에서 FLUX.2 Klein 4B 가중치를 `torch_dtype=torch.bfloat16`으로 읽고 `enable_sequential_cpu_offload()`를 켜는 부분은 모델 내부 추론 단계가 아니라 실행 준비에 가깝습니다. 그 준비가 끝난 뒤 `Flux2KleinPipeline`은 장면 prompt와 공통 화풍 계약을 text condition으로 바꾸고, seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 다음 캐릭터 참조 패키지도 같은 모델 계열에서 만들 것이므로, 이 단계의 목적은 다른 모델에 일반화되는 배경 화풍을 찾는 것이 아니라 **FLUX.2 Klein 4B가 안정적으로 따를 수 있는 화풍 입력 조건**을 먼저 고르는 것입니다. 코드의 `num_inference_steps=50`은 이 배치에서 반복 갱신한 횟수이고, `guidance_scale=4.0`은 텍스트 조건을 따르는 정도에 관여하는 실행 설정입니다. 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
+
+도식의 `입력 조건` 구역은 값을 `텍스트 입력`, `이미지 출발 조건`, `추론 설정` 세 묶음으로 정리합니다. 아래 표는 같은 값을 코드 위치와 검수 의미로 더 풀어 쓴 것입니다. 이렇게 보면 어떤 값이 텍스트 조건을 만들고 어떤 값이 latent 출발점과 반복 갱신 조건을 바꾸는지 구별할 수 있습니다.
+
+| 입력 조건 | 코드에서 오는 곳 | 파이프라인에서 쓰이는 곳 | 검수할 때의 의미 |
+| --- | --- | --- | --- |
+| scene 행 | `SCENES`의 `prompt`, `seed` | `pipe(...)`에 넘길 prompt와 초기 latent | 장소·시간·카메라와 같은 행별 비교 조건 |
+| 공통 화풍 계약 | `COMMON_CONTRACT` | `pipe(...)`에 넘길 prompt | 모든 행에서 유지해야 할 선·수채화·프레임 금지 조건 |
+| 해상도 | `width=768`, `height=1152` | latent 크기와 VAE 출력 | 이 실험의 후보 원본 형식 |
+| 추론 반복 | `num_inference_steps=50` | scheduler의 timesteps와 transformer 반복 | 생성 조건이지 품질 점수는 아님 |
+| 텍스트 유도 | `guidance_scale=4.0` | transformer가 텍스트 조건을 반영하는 정도에 관여 | 값 자체가 승인 기준은 아님 |
+| seed 생성기 | `torch.Generator(device="cpu").manual_seed(...)` | 초기 latent 출발점 | 비교 기록이며 픽셀 동일성 보장은 아님 |
+
+```mermaid
+--8<-- "assets/part-07/chapter-05/p7-5-1-ai-model-inference-pipeline-ko.mmd"
+```
+
+`Flux2KleinPipeline` 안에서는 먼저 입력이 prompt, generator, size, step, guidance로 나뉩니다. Qwen 계열 [tokenizer](../../../reference/concept-glossary-parts/12-tieut.md#tokenization)와 text encoder는 prompt를 token ID와 [text embedding](../../../reference/concept-glossary-parts/08-ieung.md#embedding) 같은 조건 표현으로 만들고, CPU seed에서 출발한 noise는 해상도에 맞는 초기 latent가 됩니다. FlowMatch 계열 scheduler는 반복할 timestep을 준비하고, FLUX [transformer](../../../reference/concept-glossary-parts/12-tieut.md#transformer)는 text embedding, timestep, guidance, latent를 함께 보며 latent를 반복 갱신합니다. 마지막에는 VAE가 latent tensor를 RGB 픽셀 이미지로 되돌리고, Python 코드는 그 결과를 PIL 이미지로 받아 PNG로 저장합니다. `enable_sequential_cpu_offload()`는 이 내부 단계들을 바꾸는 알고리즘이 아니라, 각 단계에서 필요한 모듈만 순서대로 GPU에 올리는 메모리 운용입니다. 이 구분이 필요한 이유는 단순합니다. prompt, seed, step, guidance는 **생성 조건**이고, 프레임 없음·선화 유지·시간대 광원·camera 충족은 **생성 뒤 검수 조건**입니다.
+
+| 모델 파이프라인 단계 | 이 절에서 맡는 역할 | 승인 판단과의 관계 |
+| --- | --- | --- |
+| prompt와 공통 계약 | 장소·시간·카메라와 금지 조건을 한 텍스트 입력으로 묶음 | 금지 문구가 있어도 결과 보장은 아님 |
+| tokenizer와 text encoder | 텍스트를 모델이 쓰는 조건 표현으로 바꿈 | 조건 해석의 시작점이지 사람 판정을 대체하지 않음 |
+| seed와 latent | 같은 실행 조건의 출발점을 기록함 | 다른 환경에서 픽셀 동일성을 보장하지 않음 |
+| scheduler와 transformer 반복 | timestep과 조건 표현을 보며 이미지 표현을 단계적으로 갱신함 | 반복 수와 guidance는 품질 점수가 아님 |
+| VAE decode와 PNG 저장 | latent를 이미지로 바꾸고 원본 파일로 남김 | 파일 생성 성공은 후보 생성 성공일 뿐 승인 아님 |
+| 사람 검수와 ledger | 외곽·선·색·장소·시간·카메라를 판정함 | 다음 단계 입력 가능 여부를 결정함 |
+
+`COMMON_CONTRACT`와 장면별 `prompt`는 별도의 negative prompt 입력이 아니라 하나의 텍스트 조건으로 이어 붙여 전달됩니다. 따라서 `no panel` 같은 금지 문구는 모델에게 원하는 결과를 보장하는 규칙이 아니라, 다른 장면 설명과 함께 해석되는 조건입니다. seed는 같은 실행 조건의 출발점을 기록하지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다. `enable_sequential_cpu_offload()`는 GPU 상주 메모리를 줄이는 실행 방식이지 화풍 판단 능력을 높이는 설정이 아닙니다. FLUX.2 Klein 4B는 prompt를 완전히 따르지 못하거나 텍스트를 왜곡할 수 있다는 한계도 모델 카드에 명시되어 있습니다.
+
 ## 다섯 필수 행과 보조 근거를 분리한다
 
 로컬 GPU에서 후보를 만들 수 있다는 사실은 화풍 팩 승인과 다릅니다. 재생성 후보는 다섯 필수 행을 하나씩 채우고, 보조 행은 다른 장소·시간·시점에서도 계약이 유지되는지를 확인합니다. 현재는 창가 독서실이 폐기한 여객기 행을 대체해 다섯 필수 행을 채웠고, courtyard·베니스·공원·열차 승강장까지 네 보조 행도 사람 승인을 받았습니다. 이 아홉 행이 현재 manifest의 승인 원본입니다.
@@ -242,11 +242,22 @@ PASS style pack can be used for character-reference generation
 
 사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 행별 승인·불합격 이유와 최종 결론을 로컬 검수 ledger에 적습니다. 다음 단계가 실제로 읽는 입력 목록은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 따로 둡니다. 이 분리 덕분에 `왜 승인했는가`와 `무엇을 다음 생성에 넣을 수 있는가`가 섞이지 않습니다.
 
-현재 참조 셋은 `approved_for_character_reference`입니다. manifest에는 아홉 개의 사람 승인 로컬 GPU 원본이 있으며, P7-5.2는 FLUX.2 Klein 4B로 캐릭터 참조 패키지를 만들 때 이 중 하나의 개별 원본만 화풍 입력으로 선택합니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다. 그 뒤의 캐릭터 identity, 시점 묶음, 권리 확인은 P7-5.2의 별도 검수 대상입니다.
+현재 참조 셋은 `approved_for_character_reference`입니다. manifest에는 아홉 개의 사람 승인 로컬 GPU 원본이 있으며, 이 원본들은 배경 화풍 계약의 검수 근거입니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다. 그 뒤의 캐릭터 identity, 시점 묶음, 권리 확인은 P7-5.2의 별도 검수 대상입니다.
 
 ## 승인된 화풍 원본을 인물 후보에 적용한다
 
-P7-5.1에서 인물 생성으로 넘기는 것은 배경 PNG가 아니라 **배경과 같은 화풍 텍스트 계약**입니다. 즉 프레임 없는 장면, sparse thin charcoal 선, wet-on-wet 번짐·불규칙한 안료 고임·과립성 반투명 색면·겹친 투명 경계, 밝은 면·차가운 그림자·작은 반사광의 분리, natural medium-chroma 안료와 airbrush·두꺼운 만화선의 제외라는 배경 계약을 그대로 사용합니다. 배경 원본은 이 계약을 검수하는 근거로만 남기고 모델 입력에는 넣지 않습니다. 이 입력은 같은 인물의 정면·측면을 돌려 보는 turnaround를 만드는 데 쓰지 않습니다. 성별·나이·인원수가 정해진 cast 프롬프트 하나를 고른 뒤, 서로 다른 장면 구성에서 화풍이 유지되는지 독립 후보로 생성·검수합니다. 아래 실행은 22세 여성 1명을 거리 장면에서 생성합니다. 결과 PNG와 JSON은 모두 `review_required`이며, 인물 기준으로 자동 승인되지 않습니다.
+P7-5.1에서 인물 후보 생성으로 넘기는 것은 배경 PNG가 아니라 **배경과 같은 화풍 텍스트 계약**입니다. 프레임 없는 장면, sparse thin charcoal 선, wet-on-wet 번짐, 불규칙한 안료 고임, 반투명 색층, 작은 반사광, natural medium-chroma 안료 같은 조건을 prompt에 넣습니다. 승인된 배경 원본은 이 계약을 사람 검수로 확인한 근거이며, 모델의 image input으로 쓰지 않습니다.
+
+이 예제에서 확인할 것은 `화풍이 인물 장면에서도 남는가`입니다. 같은 인물의 정면·측면을 묶는 turnaround, 얼굴 일관성, 나이·성별·인원수 판정은 P7-5.2의 캐릭터 참조 셋에서 따로 다룹니다.
+
+| 구분 | 이 예제에서 하는 일 | 이 예제에서 하지 않는 일 |
+| --- | --- | --- |
+| 모델 입력 | P7-5.1 텍스트 화풍 계약과 하나의 장면 prompt를 넣음 | 승인 배경 PNG를 image input으로 넣지 않음 |
+| cast 조건 | 성별·나이 정보가 담긴 짧은 `--cast`를 고름 | 얼굴·머리·의상 세부 묘사를 계약으로 고정하지 않음 |
+| 장면 조건 | 거리·카페·옥상·공원·아트리움 중 생성 범위를 고름 | 같은 인물의 view 묶음이나 turnaround를 만들지 않음 |
+| 검수 기준 | 프레임 없는 단일 장면, 얇은 선, 수채화 색층과 안료 질감 | identity, 얼굴 일관성, 연령·성별·인원수 승인 |
+
+아래 실행은 22세 여성 1명을 거리 장면에서 생성합니다. 결과 PNG와 JSON은 모두 `review_required`이며, 인물 기준으로 자동 승인되지 않습니다.
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
@@ -255,7 +266,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --compositions street
 ```
 
-`--cast`는 성별·나이 정보만 고정한 짧은 생성 프롬프트를 고릅니다. 얼굴·머리·의상 묘사, 추가 인물 금지, 인원수 판정은 넣지 않습니다. `--compositions`는 거리·카페·옥상·공원·아트리움 장면을 고르는 생성 범위 목록입니다. 후보 PNG에는 `castID-장면ID-실행시각-seed`가 들어갑니다. JSON에는 선택한 성별·나이와 장면 구성, P7-5.1 텍스트 계약의 선·수채화 색층·안료 질감·프레임 없는 단일 장면이 유지되는지 확인할 검수 항목을 남깁니다. 배경 PNG는 모델 입력에 넣지 않습니다.
+`--cast`는 성별·나이 정보만 고정한 짧은 생성 프롬프트를 고릅니다. `--compositions`는 거리·카페·옥상·공원·아트리움 장면을 고르는 생성 범위 목록입니다. 후보 PNG에는 `castID-장면ID-실행시각-seed`가 들어갑니다. JSON에는 선택한 성별·나이와 장면 구성, P7-5.1 텍스트 계약의 선·수채화 색층·안료 질감·프레임 없는 단일 장면이 유지되는지 확인할 검수 항목을 남깁니다.
 
 `--steps`는 후보 하나의 확산 반복 횟수이며 기본값은 P7-5.1 기준과 같은 `50`입니다. 낮은 값은 빠른 후보 확인에는 쓸 수 있지만, 화풍·구도 검수를 통과시키는 근거가 되지는 않습니다.
 
@@ -266,7 +277,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --compositions cafe rooftop atrium
 ```
 
-여러 장면을 한 번에 만들 때는 범위 목록만 바꿉니다. 성별·나이를 바꾸려면 `--cast`만 바꿉니다. 이 절의 후보 검수는 P7-5.1 **화풍 텍스트 계약**만 대상으로 하며, 얼굴 일관성·연령·성별·인원수·동일 인물 여부는 판정하지 않습니다. 따라서 통과한 출력은 화풍 기준 이미지일 뿐 P7-5.2의 identity 기준이나 시점 묶음 입력은 아닙니다.
+여러 장면을 한 번에 만들 때는 범위 목록만 바꿉니다. 성별·나이를 바꾸려면 `--cast`만 바꿉니다. 통과한 출력은 화풍 기준 이미지일 뿐 P7-5.2의 identity 기준이나 시점 묶음 입력은 아닙니다.
 
 거리·옥상·카페·공원·아트리움에서 화풍 계약을 통과한 다섯 장면은 아래와 같습니다. 모두 프레임 없는 단일 장면, 얇은 charcoal 선, 반투명 수채화 색층과 안료 번짐을 기준으로 승인했습니다. 이 표는 인물의 얼굴·나이·성별·동일성을 보증하지 않습니다. 승인 목록과 파일명은 [인물 화풍 기준 manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-cast-style-reference-pack.json)에 남깁니다.
 
@@ -290,7 +301,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | **필수 행 3**<br>![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png)<br>**행 승인** · 도심 · 낮 · wide eye-level · local GPU v1 | **필수 행 4**<br>![해질녘 주택가를 낮은 시점에서 올려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png)<br>**행 승인** · 주택가 · 해질녘 · low angle · local GPU v1 | **필수 행 5**<br>![우천 야간의 옥상 광장을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png)<br>**행 승인** · 옥상 광장 · 우천 야간 · overhead high angle · local GPU v1 |
 | **보조 행 2**<br>![해질녘 베니스 운하를 사선으로 본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png)<br>**보조 행 승인** · 베니스 운하 · 해질녘 · oblique · local GPU v1 | **보조 행 3**<br>![맑은 낮 공원 연못의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png)<br>**보조 행 승인** · 공원 연못 · 낮 · eye-level · local GPU v1 | **보조 행 4**<br>![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png)<br>**보조 행 승인** · 열차 승강장 · 우천 야간 · oblique · local GPU v1 |
 
-아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 실행 이력은 커밋하지 않는 로컬 검수 기록으로 분리합니다. P7-5.2는 FLUX.2 Klein 4B 캐릭터 참조 생성에서 타일로 합친 비교 이미지를 입력으로 쓰지 않고 이 중 하나의 개별 원본만 선택합니다.
+아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 실행 이력은 커밋하지 않는 로컬 검수 기록으로 분리합니다. 후속 캐릭터 참조 생성의 실제 입력 계약은 P7-5.2에서 다시 정합니다.
 
 ## 체크리스트
 
@@ -302,7 +313,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 카메라 | 같은 중앙 소실점 반복이 아니라 camera family가 다른가? |
 | 실패 해석 | 실패 원인을 crop이나 `status` 변경으로 덮지 않고 다음 구도·피사체 밀도·광원 조건으로 바꿨는가? |
 | 생성 출처 | 참조 원본이 로컬 GPU 생성 스크립트와 사람 검수 ledger에 연결되고, 내장 이미지 생성 자산이 섞이지 않았는가? |
-| 최종 승인 기록 | 아홉 원본의 사람 승인을 ledger에 남기고, 다음 FLUX.2 Klein 4B 캐릭터 참조 생성에는 manifest의 개별 원본 하나만 사용했는가? |
+| 최종 승인 기록 | 아홉 원본의 사람 승인을 ledger와 manifest에 남기고, 현재 P7-5.1 cast 후보 생성에는 배경 PNG 대신 텍스트 화풍 계약만 사용했는가? |
 
 ## 출처와 참고 자료
 
