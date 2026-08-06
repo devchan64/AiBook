@@ -60,13 +60,13 @@ LAYERED_OUTFIT_VIEW_RULES = {
     "rear": "Rear: use the supplied rear outfit reference as the construction anchor; keep its uninterrupted white jacket back panel, long sleeves, cropped hem, and a clear bare-skin midriff band above the trousers. No inner top is visible from the rear.",
 }
 BAG_VIEW_RULES = {
-    "front": "Front: hang the bag side-on beside the wearer's outer-left trouser seam, its top at the waistband; run the long strap from the wearer's right shoulder across the torso.",
+    "front": "Front: hang the bag side-on beside the wearer's outer-left trouser seam, its top at the waistband; show one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
     "front_quarter": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
     "profile": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
     "rear": "Rear: run the strap across the jacket back from the wearer's right shoulder to the bag at the outer wearer's-left hip, with its top at the waistband and clear of the back center and ribs.",
 }
 COMPLETE_OUTFIT_VIEW_RULES = {
-    "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and the long strap from the wearer's right shoulder across the torso.",
+    "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
     "front_quarter": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
     "profile": "Profile: retain the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
     "rear": "Rear: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, with its long strap across the jacket back from the wearer's right shoulder.",

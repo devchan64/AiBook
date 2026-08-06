@@ -66,8 +66,9 @@ COMPLETE_OUTFIT_FRONT_HIP_CONTRACT = (
     "crew-neck top, deep teal-blue high-waisted wide-leg trousers, and a compact deep-navy woven-canvas crossbody "
     "bag. The top ends at the upper abdomen, sixteen centimeters above the navel-height trouser waistband, leaving "
     "a clear bare-skin midriff band. Hang the bag side-on beside the wearer's outer left trouser seam (viewer right), "
-    "with its top aligned to the waistband. Run its long adjustable strap from the wearer's right "
-    "shoulder (viewer left) diagonally across the torso. Keep distinct garment layers and correct overlap. Clean "
+    "with its top aligned to the waistband. Show one continuous taut strap from the outer wearer's-right shoulder "
+    "(viewer left), diagonally across the chest, into the bag's upper inner attachment. Keep distinct garment layers "
+    "and correct overlap. Clean "
     "product illustration. No head, hands, legs, text, logo, hanger, or other object."
 )
 
