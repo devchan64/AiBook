@@ -1,0 +1,49 @@
+flowchart TD
+  subgraph input["입력 조건"]
+    direction TB
+    prompt_input["텍스트 입력<br/>scene prompt + COMMON_CONTRACT"]
+    latent_input["이미지 출발 조건<br/>CPU seed · 768 × 1152"]
+    run_input["추론 설정<br/>50 steps · guidance 4.0"]
+    input_bundle["pipe 호출 입력"]
+  end
+
+  subgraph prepare["실행 준비"]
+    direction TB
+    weights["가중치 로드<br/>FLUX.2 Klein 4B · bfloat16"]
+    offload["sequential CPU offload<br/>모듈을 순서대로 GPU에 올림"]
+    ready["실행 준비 완료"]
+  end
+
+  subgraph pipeline["Diffusers Flux2KleinPipeline"]
+    direction TB
+    apply_input["pipe 입력 분배<br/>prompt · generator · size · steps · guidance"]
+    text["Qwen tokenizer + text encoder<br/>token IDs → text embeddings"]
+    latent["초기 latent 준비<br/>CPU seed noise · 해상도 비율 반영"]
+    schedule["FlowMatch scheduler<br/>timesteps 준비"]
+    transformer["FLUX transformer<br/>embeddings · timestep · guidance · latent로 갱신"]
+    decode["VAE decode<br/>latent tensor → RGB 픽셀 이미지"]
+  end
+
+  subgraph result["산출과 검수"]
+    direction TB
+    output["PNG 저장<br/>scene ID · run label"]
+    review["사람 검수와 ledger<br/>프레임 · 선 · 색 · 장소 · 시간 · 카메라"]
+    manifest["승인 manifest<br/>P7-5.2 입력 후보"]
+  end
+
+  prompt_input --> input_bundle
+  latent_input --> input_bundle
+  run_input --> input_bundle
+
+  weights --> offload --> ready
+  ready -.메모리 운용.-> apply_input
+
+  input_bundle --> apply_input
+  apply_input --> text
+  apply_input --> latent
+  apply_input --> schedule
+  text --> transformer
+  latent --> transformer
+  schedule --> transformer
+  transformer -->|50 steps| transformer
+  transformer --> decode --> output --> review --> manifest

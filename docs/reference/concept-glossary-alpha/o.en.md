@@ -37,3 +37,5 @@ This page lists English glossary entries for this letter. Entry bodies are gener
 --8<-- "reference/concept-glossary-terms/overfitting.en.md"
 
 --8<-- "reference/concept-glossary-terms/one-hot-representation.en.md"
+
+--8<-- "reference/concept-glossary-terms/open-weight-model.en.md"

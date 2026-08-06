@@ -169,6 +169,173 @@
   white-space: nowrap;
 }
 
+.md-typeset .aibook-lazy-source {
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.25rem;
+  margin: 0.6rem 0;
+  overflow: hidden;
+}
+
+.md-typeset .aibook-lazy-source > summary {
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 1.45;
+  list-style: none;
+  padding: 0.55rem 0.7rem;
+}
+
+.md-typeset .aibook-lazy-source > summary::-webkit-details-marker {
+  display: none;
+}
+
+.md-typeset .aibook-lazy-source > summary::before {
+  content: none !important;
+  display: none !important;
+}
+
+.md-typeset .aibook-lazy-source > summary:hover {
+  background: var(--md-accent-fg-color--transparent);
+}
+
+.md-typeset .aibook-lazy-source[open] > summary {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .aibook-lazy-source__body {
+  color: var(--md-default-fg-color--light);
+  padding: 0.65rem 0.8rem;
+}
+
+.md-typeset .aibook-lazy-source__code {
+  margin: 0;
+  max-height: 42rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.md-typeset .aibook-lazy-source__code code {
+  display: block;
+  white-space: inherit;
+}
+
+.md-typeset .aibook-lazy-source__token--comment {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.md-typeset .aibook-lazy-source__token--decorator {
+  color: #6f42c1;
+}
+
+.md-typeset .aibook-lazy-source__token--keyword {
+  color: #d73a49;
+  font-weight: 600;
+}
+
+.md-typeset .aibook-lazy-source__token--name {
+  color: #005cc5;
+}
+
+.md-typeset .aibook-lazy-source__token--number {
+  color: #005cc5;
+}
+
+.md-typeset .aibook-lazy-source__token--string {
+  color: #032f62;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .aibook-lazy-source__token--comment {
+  color: #8b949e;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .aibook-lazy-source__token--decorator {
+  color: #d2a8ff;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .aibook-lazy-source__token--keyword {
+  color: #ff7b72;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .aibook-lazy-source__token--name,
+[data-md-color-scheme="slate"] .md-typeset .aibook-lazy-source__token--number {
+  color: #79c0ff;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .aibook-lazy-source__token--string {
+  color: #a5d6ff;
+}
+
+.md-typeset .aibook-lazy-source--from-link > summary {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.md-typeset .aibook-lazy-source--from-link > summary::after {
+  color: var(--md-default-fg-color--light);
+  content: "열기";
+  flex: none;
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.md-typeset .aibook-lazy-source--from-link[open] > summary::after {
+  content: "닫기";
+}
+
+.md-typeset .aibook-lazy-source__title {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.8rem;
+  min-width: 0;
+}
+
+.md-typeset .aibook-lazy-source__label {
+  min-width: 0;
+}
+
+.md-typeset .aibook-lazy-source__filename {
+  color: var(--md-default-fg-color--light);
+  font-family: var(--md-code-font-family);
+  font-size: 0.66rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.md-typeset .aibook-lazy-source__meta {
+  background: var(--md-default-fg-color--lightest);
+  border-radius: 999px;
+  color: var(--md-default-fg-color--light);
+  flex: none;
+  font-size: 0.64rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.22rem 0.4rem;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .aibook-lazy-source > summary {
+    padding: 0.55rem 0.6rem;
+  }
+
+  .md-typeset .aibook-lazy-source__body {
+    padding: 0.55rem 0.6rem;
+  }
+
+  .md-typeset .aibook-lazy-source__code {
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+}
+
 .md-main,
 .md-main__inner,
 .md-content,

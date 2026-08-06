@@ -1,0 +1,10 @@
+flowchart TD
+  A[Fixed train/test split] --> B[Run retained-only baseline]
+  B --> C[Run raw 1-nearest-neighbor]
+  C --> D[Compare each evaluation row]
+  D --> E[Recovered by 1-NN]
+  D --> F[Newly wrong under 1-NN]
+  D --> G[Wrong under both]
+  E --> H[Record score change and next scale question]
+  F --> H
+  G --> H

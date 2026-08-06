@@ -1,0 +1,7 @@
+flowchart TD
+  A[Evaluation prediction] --> B{Incorrect or review candidate?}
+  B -->|No| C[Keep as regression reference]
+  B -->|Yes| D[Open sample ID, probabilities, and margin]
+  D --> E[Compare with training patterns]
+  E --> F[Separate data, representation, and model hypotheses]
+  F --> G[Attach a next action and evidence boundary]

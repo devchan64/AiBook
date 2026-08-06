@@ -1,0 +1,13 @@
+flowchart TD
+  A[Run baseline, raw, partial-scale, and z-score variants] --> B[Inspect a fixed stress-evaluation row]
+  B --> C{Raw wrong, z-score correct?}
+  C -->|Yes| D[Preprocessing-fixable failure]
+  C -->|No| E{Z-score still wrong?}
+  E -->|Yes| F[Boundary data or feature question]
+  E -->|No| G{Do settings disagree?}
+  G -->|Yes| H[Setting-sensitive boundary case]
+  G -->|No| I[Stable reference case]
+  D --> J[Write one next action]
+  F --> J
+  H --> J
+  I --> J

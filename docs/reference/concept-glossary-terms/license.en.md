@@ -6,4 +6,4 @@
 - Why it matters: When building an AI book, using or adapting outside material requires checking the actual use conditions. Understanding licenses prevents `it is on the internet`, `I cited the source`, and `I may use it` from being treated as the same claim.
 - Related concepts: `copyright`, `quotation`, `training data`
 - Core Section: `P1-15.2`
-- Appears in:
+- Appears in: `P6-21.1`

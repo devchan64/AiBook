@@ -1,0 +1,8 @@
+flowchart TD
+  A[Compare two low-coverage samples] --> B[Check correctness and key OOV terms]
+  B --> C[Test-05: cancellation term causes a wrong route]
+  B --> D[Test-07: expression lowers coverage but route is correct]
+  C --> E[Prioritize the normalization rule]
+  D --> F[Keep as a later cleanup candidate]
+  E --> G[Check for regression or remaining OOV]
+  F --> G

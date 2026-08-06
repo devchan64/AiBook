@@ -1,0 +1,7 @@
+flowchart TD
+  A[Flattened training patches] --> B[Forward logits and softmax probabilities]
+  B --> C[Compare with one-hot labels]
+  C --> D[Compute gradients]
+  D --> E[Update W and b]
+  E --> B
+  B --> F[Fixed parameters: evaluate held-out patches]

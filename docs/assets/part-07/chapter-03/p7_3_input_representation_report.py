@@ -23,22 +23,21 @@ from sklearn.metrics import accuracy_score
 OUT_DIR = Path(__file__).resolve().parent
 DATA_PATH = OUT_DIR / "p7-3-surface-patches.csv"
 PNG_PATH = OUT_DIR / "p7-3-input-representation-report-ko.png"
+KOREAN_FONT_PATH = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc")
 
 
 def choose_font() -> str:
-    candidates = [
-        "Noto Sans CJK KR",
-        "NanumGothic",
-        "Apple SD Gothic Neo",
-        "AppleGothic",
-        "Arial Unicode MS",
-        "DejaVu Sans",
+    system_fonts = [Path(path) for path in font_manager.findSystemFonts()]
+    candidates = [KOREAN_FONT_PATH] + [
+        path
+        for path in system_fonts
+        if "NotoSansCJK" in path.name or "Nanum" in path.name
     ]
-    available = {font.name for font in font_manager.fontManager.ttflist}
     for candidate in candidates:
-        if candidate in available:
-            return candidate
-    return "DejaVu Sans"
+        if candidate.exists():
+            font_manager.fontManager.addfont(str(candidate))
+            return font_manager.FontProperties(fname=str(candidate)).get_name()
+    raise RuntimeError("한글 차트에는 Noto Sans CJK 또는 Nanum 계열 폰트가 필요합니다.")
 
 
 def configure_font() -> None:
@@ -125,19 +124,17 @@ def draw_report() -> None:
     left, right = axes
 
     x_positions = np.arange(len(names))
-    width = 0.24
-    accuracy = [float(result["accuracy"]) for result in results]
+    width = 0.32
     errors = [int(result["error_count"]) for result in results]
     low_margin = [int(result["low_margin_count"]) for result in results]
 
     style_axis(left)
-    left.bar(x_positions - width, accuracy, width, label="정확도", color="#2563eb")
-    left.bar(x_positions, errors, width, label="오류 수", color="#dc2626")
-    left.bar(x_positions + width, low_margin, width, label="낮은 확신 수", color="#0f766e")
+    left.bar(x_positions - width / 2, errors, width, label="오류 수", color="#dc2626")
+    left.bar(x_positions + width / 2, low_margin, width, label="낮은 확신 수", color="#0f766e")
     left.set_xticks(x_positions, names)
     left.set_ylim(0, 4.6)
-    left.set_ylabel("값")
-    left.set_title("같은 정확도, 다른 검토 신호")
+    left.set_ylabel("평가 샘플 수")
+    left.set_title("오류와 낮은 확신 샘플 수")
     left.legend(frameon=False, fontsize=8.5, loc="upper left")
 
     style_axis(right)
@@ -159,8 +156,12 @@ def draw_report() -> None:
     right.set_title("평가 샘플별 margin")
     right.legend(frameon=False, fontsize=8.3, loc="upper right")
 
-    fig.suptitle("입력 표현별 이미지 분류 리포트", fontsize=15, fontweight="bold")
-    fig.tight_layout(pad=1.0)
+    fig.suptitle(
+        "입력 표현별 이미지 분류 리포트\n세 표현의 평가 정확도는 모두 0.75",
+        fontsize=15,
+        fontweight="bold",
+    )
+    fig.tight_layout(pad=1.0, rect=(0, 0, 1, 0.91))
     fig.savefig(PNG_PATH, bbox_inches="tight")
     plt.close(fig)
 

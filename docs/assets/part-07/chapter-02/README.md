@@ -1,7 +1,7 @@
 # Part 7 Chapter 2 Mermaid Assets
 
 - Korean public manuscript pages currently include the `-ko.mmd` files through `pymdownx.snippets`.
-- This chapter does not yet ship English or Simplified Chinese manuscript pages, so the current Mermaid set is maintained in Korean only.
+- English and Simplified Chinese manuscript pages now ship with matching language-specific Mermaid and chart assets.
 - When translation pages are opened later, add matching `-en.mmd` and `-zh.mmd` files while preserving the same node relations and comparison order.
 - Current Mermaid assets:
   - `p7-2-1-project-compare-flow-ko.mmd`
@@ -12,5 +12,12 @@
 - Data assets used by this chapter:
   - `p7-2-churn-dataset.csv`
   - `p7-2-stress-test.csv`
+- P7-2.1 chart assets:
+  - `p7_2_1_prediction_outcome_chart.py` regenerates `p7-2-1-prediction-outcome-transition-ko.png` from `p7-2-churn-dataset.csv`.
+  - `p7_2_1_prediction_outcome_chart_zh.py` regenerates `p7-2-1-prediction-outcome-transition-zh.png` from the same CSV.
+- P7-2.2 chart assets:
+  - `p7_2_2_normalization_outcome_chart.py` regenerates `p7-2-2-normalization-outcome-chart-ko.png` from `p7-2-churn-dataset.csv`.
+- P7-2.3 chart assets:
+  - `p7_2_3_failure_diagnosis_chart.py` regenerates `p7-2-3-failure-diagnosis-chart-ko.png` from `p7-2-churn-dataset.csv` and `p7-2-stress-test.csv`.
 - Reused data assets:
   - `../chapter-01/p7-action-unit-summary.csv`

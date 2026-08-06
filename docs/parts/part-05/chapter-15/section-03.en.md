@@ -1,7 +1,7 @@
 # P5-15.3 How Sampling Pulls Actual Outputs from Candidate Distributions
 
 > Section ID: `P5-15.3`
-> Version: `v2026.07.31`
+> Version: `v2026.08.03`
 
 When recording sampling results, separate `candidate_distribution`, `selection_rule`, `temperature_setting`, `top_k_or_top_p`, `selected_output`, and `variation_count`. This distinction lets you naturally connect what the model considered plausible and what was actually drawn to the generation-setting explanations in Part 6.
 
@@ -10,6 +10,20 @@ In P5-15.2, we saw that a generative model does not memorize and return one corr
 If a generative model can produce several plausible answers, how does it actually choose one answer?
 
 Sampling is the process by which the model takes out one actual output at a time from several candidates it judged plausible, and this method directly affects the diversity and stability of the result.
+
+This is the main intuition for text generation, where a model samples from token candidates. Image diffusion models also use the word `sampler`, but it means a numerical procedure that moves to the next denoising latent state, not a choice from a visible list of complete-image candidates. Both cases distinguish a learned distribution from the procedure that produces an actual artifact, but text controls such as temperature, top-k, and top-p are not the same controls as an image diffusion model's seed, sampler, and steps.
+
+## Text Sampling and Diffusion Sampling
+
+| View | Text generation | Image diffusion |
+| --- | --- | --- |
+| item handled at one step | next-token candidates | noisy latent representation |
+| main control examples | temperature, top-k, top-p | seed, sampler, steps, guidance |
+| result to compare | wording and structural variation | restoration path and image variation |
+
+Both can change visible results, but the comparison must begin by keeping these different roles separate.
+
+This distinction is the minimum safeguard against applying text-generation settings directly to image-generation behavior.
 
 When the model’s scores and the actual output choice need to be separated again, reread the glossary entry on [sampling](/AiBook/en/reference/concept-glossary-alpha/s/#sampling).
 
@@ -21,6 +35,7 @@ The core point to hold first in this section is that `the quality of a generativ
 | --- | --- |
 | after the candidate distribution is calculated, by what feel the actual output is chosen | how top-k, top-p, and temperature are handled in more detail as product-setting language |
 | why the choice between diversity and stability changes the result | how generation settings adjust response style, length, and variation width |
+| how seed, sampler, and steps connect restoration paths to image variation in diffusion | how to record Stable Diffusion components and conditioning separately |
 
 The detailed differences of top-k, top-p, and temperature are made concrete again in P6-5.2. Here we establish the sense that `the stage of calculating the candidate distribution` and `the stage of selecting the actual output` are different, and that output quality depends on both.
 
@@ -110,11 +125,11 @@ Even when the same candidate scores are given, the user experience can change im
 | --- | --- | --- |
 | after `Batch inspection result`, all of `reverification is required`, `resume after supervisor confirmation`, and `remeasure in 10 minutes` are possible | it becomes easy to repeat only one most conservative sentence | the inspection context can remain while the action phrasing and sentence length vary a little |
 | a field-support response explains `restart order after shutdown due to pressure anomaly` | it becomes easy to repeat only the same step sentence every time | the core safety procedure can remain while the position of warning phrases and the explanation length vary |
-| an image is generated from the prompt `stainless mixing tank with side valve and warning beacon` | similar tank composition and warning-beacon placement can repeat too much | the core equipment scene can remain while the lighting, viewpoint, and pipe placement vary |
+| an image is generated from the prompt `stainless mixing tank with side valve and warning beacon` | fixing seed, sampler, and steps makes comparable restoration paths possible | changing seed or sampler can preserve core conditions while lighting, viewpoint, and pipe placement vary |
 
 That is, `which candidate the model judged highly` and `which one was actually sampled as the output` are not the same problem.
 
-## Cases and Examples
+## Sampling Inspection-Result Guidance
 
 ### Representative Case. Inspection-Result Guidance Phrase
 
@@ -148,7 +163,7 @@ If we pause once here and briefly fix `when the explanation that the model learn
 | why should we not always choose only the highest-score candidate? | because stability rises, but expression diversity and situational fit can shrink too much | product settings and user-experience control |
 | why is output quality not only a model problem? | because what has been learned and what has actually been chosen together create the result | response style, length, and variation-width design |
 
-## Practice and Example
+## Comparing Selection Rules from Fixed Logits
 
 ### Example 1. Checking Temperature and Top-k with Fixed Logits
 

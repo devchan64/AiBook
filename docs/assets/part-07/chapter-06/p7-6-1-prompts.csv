@@ -1,0 +1,37 @@
+case_id,context_condition,fact_key,expected_answer,user_request
+owner-short-1,short,baseline_owner,Mina,Who owns the baseline?
+owner-short-2,short,baseline_owner,Mina,Return only the baseline owner name.
+owner-short-3,short,baseline_owner,Mina,What is the name recorded for baseline owner?
+owner-long-1,long,baseline_owner,Mina,Who owns the baseline?
+owner-long-2,long,baseline_owner,Mina,Return only the baseline owner name.
+owner-long-3,long,baseline_owner,Mina,What is the name recorded for baseline owner?
+seed-short-1,short,fixed_seed,42,What fixed seed should this run use?
+seed-short-2,short,fixed_seed,42,Return only the fixed seed value.
+seed-short-3,short,fixed_seed,42,Which seed is recorded as fixed?
+seed-long-1,long,fixed_seed,42,What fixed seed should this run use?
+seed-long-2,long,fixed_seed,42,Return only the fixed seed value.
+seed-long-3,long,fixed_seed,42,Which seed is recorded as fixed?
+action-short-1,short,next_action,inspect the error sample,What should be inspected before changing the model?
+action-short-2,short,next_action,inspect the error sample,Return the next action using the recorded words.
+action-short-3,short,next_action,inspect the error sample,What is the recorded next action?
+action-long-1,long,next_action,inspect the error sample,What should be inspected before changing the model?
+action-long-2,long,next_action,inspect the error sample,Return the next action using the recorded words.
+action-long-3,long,next_action,inspect the error sample,What is the recorded next action?
+owner-short-4,short,baseline_owner,Mina,State the baseline owner without explanation.
+owner-short-5,short,baseline_owner,Mina,Identify the person responsible for the baseline.
+owner-short-6,short,baseline_owner,Mina,Use the project record to give the baseline owner.
+owner-long-4,long,baseline_owner,Mina,State the baseline owner without explanation.
+owner-long-5,long,baseline_owner,Mina,Identify the person responsible for the baseline.
+owner-long-6,long,baseline_owner,Mina,Use the project record to give the baseline owner.
+seed-short-4,short,fixed_seed,42,State the fixed seed without explanation.
+seed-short-5,short,fixed_seed,42,Which numeric seed is fixed in the project record?
+seed-short-6,short,fixed_seed,42,Give the seed that must stay unchanged.
+seed-long-4,long,fixed_seed,42,State the fixed seed without explanation.
+seed-long-5,long,fixed_seed,42,Which numeric seed is fixed in the project record?
+seed-long-6,long,fixed_seed,42,Give the seed that must stay unchanged.
+action-short-4,short,next_action,inspect the error sample,State the next action without explanation.
+action-short-5,short,next_action,inspect the error sample,Which step comes before changing the model?
+action-short-6,short,next_action,inspect the error sample,Give the recorded next action.
+action-long-4,long,next_action,inspect the error sample,State the next action without explanation.
+action-long-5,long,next_action,inspect the error sample,Which step comes before changing the model?
+action-long-6,long,next_action,inspect the error sample,Give the recorded next action.

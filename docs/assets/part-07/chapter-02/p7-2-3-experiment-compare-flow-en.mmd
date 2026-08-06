@@ -1,0 +1,6 @@
+flowchart TD
+  A[Fixed training rows and stress rows] --> B[Run four representation variants]
+  B --> C[Compare accuracy and per-row transitions]
+  C --> D[Separate fixed, remaining, and setting-sensitive failures]
+  D --> E[Choose preprocessing, boundary data, or new feature question]
+  E --> F[Record the next independent experiment]

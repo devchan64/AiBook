@@ -1,21 +1,51 @@
 # Part 7 Chapter 4 Mermaid Assets
 
 - Korean public manuscript pages currently include the `-ko.mmd` files through `pymdownx.snippets`.
-- This chapter does not yet ship English or Simplified Chinese manuscript pages, so the current Mermaid set is maintained in Korean only.
-- When translation pages are opened later, add matching `-en.mmd` and `-zh.mmd` files while preserving the same node relations and reading order.
+- English and Simplified Chinese manuscript pages ship with matching language-specific Mermaid and chart assets where a diagram or chart is used.
+- When adding another language, preserve the same node relations and reading order in a language-specific asset.
 - Current Mermaid assets:
   - `p7-4-1-training-read-flow-ko.mmd`
   - `p7-4-1-text-project-flow-ko.mmd`
+  - `p7-4-1-training-read-flow-en.mmd`
+  - `p7-4-1-text-project-flow-en.mmd`
   - `p7-4-2-coverage-case-flow-ko.mmd`
   - `p7-4-2-failure-split-flow-ko.mmd`
   - `p7-4-3-normalization-case-flow-ko.mmd`
   - `p7-4-3-normalization-workflow-ko.mmd`
   - `p7-4-4-pattern-decision-flow-ko.mmd`
+  - `p7-4-4-pattern-decision-flow-en.mmd`
+  - `p7-4-2-coverage-case-flow-en.mmd`
+  - `p7-4-2-failure-split-flow-en.mmd`
+  - `p7-4-3-normalization-case-flow-en.mmd`
+  - `p7-4-3-normalization-workflow-en.mmd`
+  - `p7-4-1-training-read-flow-zh.mmd`
+  - `p7-4-1-text-project-flow-zh.mmd`
+  - `p7-4-2-coverage-case-flow-zh.mmd`
+  - `p7-4-2-failure-split-flow-zh.mmd`
+  - `p7-4-3-normalization-case-flow-zh.mmd`
+  - `p7-4-3-normalization-workflow-zh.mmd`
+  - `p7-4-4-pattern-decision-flow-zh.mmd`
 - Data assets used by this chapter:
   - `p7-4-support-routing-dataset.csv`
   - `p7-4-training-log.csv`
   - `p7-action-unit-pattern-pairs.csv`
   - `p7-4-learning-curves-ko.svg`
   - `p7_4_training_curves.py`
+  - `p7-4-1-learning-curves-en.svg`
+  - `p7_4_1_training_curves_en.py`
+  - `p7_4_2_coverage_review_chart.py`
+  - `p7-4-2-coverage-review-chart-ko.png`
+  - `p7_4_4_equal_mean_patterns_chart.py`
+  - `p7-4-4-equal-mean-patterns-chart-ko.png`
+  - `p7_4_4_equal_mean_patterns_chart_en.py`
+  - `p7-4-4-equal-mean-patterns-chart-en.png`
+  - `p7_4_2_coverage_review_chart_en.py`
+  - `p7-4-2-coverage-review-chart-en.png`
+  - `p7_4_1_training_curves_zh.py`
+  - `p7-4-1-learning-curves-zh.svg`
+  - `p7_4_2_coverage_review_chart_zh.py`
+  - `p7-4-2-coverage-review-chart-zh.png`
+  - `p7_4_4_equal_mean_patterns_chart_zh.py`
+  - `p7-4-4-equal-mean-patterns-chart-zh.png`
 - Reused data assets:
   - None currently.

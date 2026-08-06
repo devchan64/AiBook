@@ -1,0 +1,6 @@
+flowchart TD
+  A[One 8x8 grayscale patch] --> B[Pixel array with spatial positions]
+  B --> C[Class label: normal or scratch warning]
+  C --> D[Training and evaluation split]
+  D --> E[Prediction, probability, and error record]
+  E --> F[Next representation question]

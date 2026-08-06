@@ -7,3 +7,10 @@ site/
 site-dev/
 .cache/
 .tmp/
+
+# Chapter 5 generation reports are local execution records, not book assets.
+/docs/assets/part-07/chapter-05/*-review.json
+/docs/assets/part-07/chapter-05/*-probe.json
+/docs/assets/part-07/chapter-05/*-preflight.json
+/docs/assets/part-07/chapter-05/p7-5-2-face-front-v2.json
+/docs/assets/part-07/chapter-05/p7-5-4-sdxl-canny-camera-on-off.json

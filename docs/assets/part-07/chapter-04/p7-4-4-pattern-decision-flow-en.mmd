@@ -1,0 +1,10 @@
+flowchart TD
+    A[Four segment values] --> B[Calculate the mean]
+    B --> C{Do the means match?}
+    C -->|Yes| D[They appear to be one group]
+    C -->|No| E[Record the magnitude difference first]
+    D --> F[Add a shape token]
+    F --> G{Do patterns split apart?}
+    G -->|Yes| H[Review the mean and shape together]
+    G -->|No| I[Check whether the mean is sufficient]
+    H --> J[Separate next-action priorities]

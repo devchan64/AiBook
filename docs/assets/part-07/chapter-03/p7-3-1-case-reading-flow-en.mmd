@@ -1,0 +1,7 @@
+flowchart TD
+  A[8x8 patch and label] --> B[Record input shape and train/test split]
+  B --> C[Train a simple classifier]
+  C --> D[Read each evaluation probability and margin]
+  D --> E[Correct stable patch]
+  D --> F[Weak scratch error or low-margin patch]
+  F --> G[Ask data, representation, or model question]

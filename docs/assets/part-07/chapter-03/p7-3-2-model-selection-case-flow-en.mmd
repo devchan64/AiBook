@@ -1,0 +1,10 @@
+flowchart TD
+  A[Weak-scratch error record] --> B[Check data range]
+  B --> C[Check spatial representation]
+  C --> D[Choose model-family question]
+  D --> E[CNN: local spatial pattern]
+  D --> F[Sequential: ordered positions]
+  D --> G[Attention: long-range relation]
+  E --> H[Write one controlled next trial]
+  F --> H
+  G --> H
