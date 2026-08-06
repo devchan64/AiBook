@@ -37,15 +37,14 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py --
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py --seed 5411 --runs 3
 ```
 
-### 승인 스토리보드와 파생 guide
+### 승인 스토리보드와 파생 guide를 함께 비교한다
 
-![승인한 텍스트 전용 현대무용·기암절벽 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-storyboard.png)
+아래 네 장은 같은 승인 스토리보드에서 나온 한 세트다. 원본을 먼저 보고, 같은 장면에서 윤곽·강한 경계·상대 거리가 각각 얼마나 남는지 오른쪽과 다음 행에서 비교한다. 이 표의 guide PNG는 다음 생성에 쓰기 전에도 각각 사람 검수해야 한다.
 
-![스토리보드에서 추출한 lineart guide](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-lineart.png)
-
-![스토리보드에서 추출한 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-canny.png)
-
-![스토리보드에서 실제 추정한 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-depth.png)
+| 원본과 전체 윤곽 | 강한 경계와 상대 거리 |
+| --- | --- |
+| **승인 스토리보드**<br>![승인한 텍스트 전용 현대무용·기암절벽 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-storyboard.png)<br>텍스트만으로 생성한 `seed=5413` 원본 | **lineart guide**<br>![스토리보드에서 추출한 lineart guide](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-lineart.png)<br>인물과 절벽의 전체 윤곽 |
+| **Canny guide**<br>![스토리보드에서 추출한 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-canny.png)<br>강한 경계와 동작 실루엣 | **상대 depth guide**<br>![스토리보드에서 실제 추정한 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-depth.png)<br>인물·바닥·절벽의 앞뒤 관계 |
 
 lineart는 전체 윤곽, canny는 강한 경계, depth는 상대적인 거리만 담습니다. 세 guide는 스토리보드의 오류까지 함께 보존할 수 있으므로, 추출 뒤에도 한 번 더 확인해야 합니다. 특히 지지발·바닥 그림자와 주변 지형이 붙거나 겹치면 guide를 만들지 않고, 텍스트 스토리보드 단계로 되돌아가 접지면과 지형 배치를 다시 생성합니다.
 
