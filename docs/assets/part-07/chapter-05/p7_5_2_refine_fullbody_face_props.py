@@ -69,7 +69,7 @@ BAG_VIEW_RULES = {
 COMPLETE_OUTFIT_VIEW_RULES = {
     "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
     "front_quarter": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
-    "profile": "Profile: retain the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
+    "profile": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
     "rear": "Rear: replace the upper garment with the supplied white cropped utility jacket: plain white back panel, long cuffed sleeves to the wrists, and bare-skin midriff below its hem; no gray inner top is visible. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 IMAGE_WIDTH = 768
@@ -80,15 +80,30 @@ def prompt_word_count(text: str) -> int:
     return len(text.split())
 
 
-def prop_reference_path(prop_id: str, view: str) -> Path:
+def prop_reference_paths(prop_id: str, view: str) -> tuple[Path, ...]:
     if prop_id == "complete_outfit":
-        return COMPLETE_OUTFIT_REFERENCE_BY_VIEW[view]
+        if view == "profile":
+            # A side view needs both garment faces to preserve the jacket body panel.
+            return (
+                COMPLETE_OUTFIT_REFERENCE_BY_VIEW["front"],
+                COMPLETE_OUTFIT_REFERENCE_BY_VIEW["rear"],
+            )
+        return (COMPLETE_OUTFIT_REFERENCE_BY_VIEW[view],)
     if prop_id == "layered_jacket_crop_top":
-        return LAYERED_OUTFIT_REFERENCE_BY_VIEW[view]
-    return PROPS[prop_id]["path"]
+        return (LAYERED_OUTFIT_REFERENCE_BY_VIEW[view],)
+    return (PROPS[prop_id]["path"],)
 
 
 def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
+    if view == "profile" and "complete_outfit" in prop_ids:
+        return (
+            "Refine the supplied full-body reference into the same woman in a side-profile studio image. "
+            "Preserve pose, hair-to-sole framing, dark teal trousers, and white low-top sneakers. "
+            "From the supplied front and rear outfit references, render a white cropped utility jacket as the visible "
+            "outer torso layer: jacket body from collar to cropped hem, side-back panel, and one long cuffed sleeve. "
+            "Keep the charcoal-gray crop top as a narrow inner layer at the open front. Place the deep-navy bag at the "
+            "outer left rearward hip with its strap behind the jacket. One person, complete limbs, no text or labels."
+        )
     prop_instructions = " ".join(PROPS[prop_id]["instruction"] for prop_id in prop_ids)
     if "complete_outfit" in prop_ids:
         prop_instructions = PROPS["complete_outfit"]["instruction"]
@@ -171,9 +186,10 @@ def main() -> None:
     if args.stage != "face":
         reference_paths.extend(BODY_REFERENCES[view] for view in args.views)
         reference_paths.extend(
-            prop_reference_path(prop_id, view)
+            path
             for view in args.views
             for prop_id in args.props
+            for path in prop_reference_paths(prop_id, view)
         )
     if args.intermediate is not None:
         reference_paths.append(args.intermediate)
@@ -203,7 +219,11 @@ def main() -> None:
             intermediate = ROOT / f"{stem}-outfit-stage.png"
             report = ROOT / f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}-review.json"
             started = time.monotonic()
-            prop_paths = [prop_reference_path(prop_id, view) for prop_id in args.props]
+            prop_paths = [
+                path
+                for prop_id in args.props
+                for path in prop_reference_paths(prop_id, view)
+            ]
             if args.stage in ("all", "outfit"):
                 prop_images = [Image.open(path).convert("RGB") for path in prop_paths]
                 with Image.open(BODY_REFERENCES[view]) as body_source:
