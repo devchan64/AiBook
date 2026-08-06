@@ -25,15 +25,15 @@ BODY_REFERENCES = {
     "profile": ROOT / "p7-5-2-fullbody-profile-reference.png",
     "rear": ROOT / "p7-5-2-fullbody-rear-reference.png",
 }
-JACKET_REFERENCE_BY_VIEW = {
-    "front": ROOT / "p7-5-2-prop-reference-v2-jacket.png",
-    "front_quarter": ROOT / "p7-5-2-prop-reference-v2-jacket.png",
-    "profile": ROOT / "p7-5-2-prop-reference-v2-jacket.png",
-    "rear": ROOT / "p7-5-2-prop-reference-v2-jacket-rear.png",
+LAYERED_OUTFIT_REFERENCE_BY_VIEW = {
+    "front": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
+    "front_quarter": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
+    "profile": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
+    "rear": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-rear.png",
 }
 PROPS = {
-    "jacket": {
-        "instruction": "Add the supplied white cropped utility jacket.",
+    "layered_jacket_crop_top": {
+        "instruction": "Add the supplied white cropped utility-jacket outfit layer.",
     },
     "crossbody_bag": {
         "path": ROOT / "p7-5-2-prop-reference-v2-crossbody-bag.png",
@@ -46,9 +46,9 @@ VIEW_RULES = {
     "profile": "Keep a side profile with one near arm visible and the far arm hidden behind the torso.",
     "rear": "Keep a rear view facing away; do not show a frontal face.",
 }
-JACKET_VIEW_RULES = {
-    "profile": "Profile: keep the white cropped jacket as the outer layer; show its collar, long sleeve, cropped hem, and side-back panel.",
-    "rear": "Rear: use the supplied rear-jacket reference as the construction anchor; keep its plain back panel, long sleeves, cropped hem, and collar as the outer layer.",
+LAYERED_OUTFIT_VIEW_RULES = {
+    "profile": "Profile: keep the white cropped jacket as the outer layer over the gray crop top; show its collar, long sleeve, cropped hem, and side-back panel.",
+    "rear": "Rear: use the supplied rear outfit reference as the construction anchor; keep its uninterrupted white jacket back panel, long sleeves, cropped hem, and a clear bare-skin midriff band above the trousers. No inner top is visible from the rear.",
 }
 BAG_VIEW_RULES = {
     "profile": "Keep the bag and strap behind the jacket.",
@@ -63,22 +63,29 @@ def prompt_word_count(text: str) -> int:
 
 
 def prop_reference_path(prop_id: str, view: str) -> Path:
-    if prop_id == "jacket":
-        return JACKET_REFERENCE_BY_VIEW[view]
+    if prop_id == "layered_jacket_crop_top":
+        return LAYERED_OUTFIT_REFERENCE_BY_VIEW[view]
     return PROPS[prop_id]["path"]
 
 
 def build_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
     prop_instructions = " ".join(PROPS[prop_id]["instruction"] for prop_id in prop_ids)
+    if "layered_jacket_crop_top" in prop_ids and view == "front":
+        prop_instructions = (
+            "Add the supplied layered white cropped utility jacket worn open over the charcoal-gray crop top."
+        )
+    base_clothing = "deep teal-blue trousers and white low-top sneakers"
+    if "layered_jacket_crop_top" not in prop_ids:
+        base_clothing = f"charcoal-gray crop top, {base_clothing}"
     view_prop_rules = []
-    if "jacket" in prop_ids and view in JACKET_VIEW_RULES:
-        view_prop_rules.append(JACKET_VIEW_RULES[view])
+    if "layered_jacket_crop_top" in prop_ids and view in LAYERED_OUTFIT_VIEW_RULES:
+        view_prop_rules.append(LAYERED_OUTFIT_VIEW_RULES[view])
     if "crossbody_bag" in prop_ids and view in BAG_VIEW_RULES:
         view_prop_rules.append(BAG_VIEW_RULES[view])
     return (
         "Refine the supplied full-body reference into one full-body studio image of the same woman. "
         "Use the CodeFormer frontal face as the identity anchor for face, eyes, nose, skin tone, hairline, and petrol-teal bob whenever visible. "
-        "Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, charcoal-gray crop top, deep teal-blue trousers, and white low-top sneakers. "
+        f"Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and {base_clothing}. "
         f"{VIEW_RULES[view]} {prop_instructions} {' '.join(view_prop_rules)} "
         "One person, complete limbs, no text or labels."
     )
@@ -97,7 +104,7 @@ def main() -> None:
         "--props",
         nargs="+",
         choices=tuple(PROPS),
-        default=("jacket", "crossbody_bag"),
+        default=("layered_jacket_crop_top", "crossbody_bag"),
         help="Approved props to add to each selected full-body direction.",
     )
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")

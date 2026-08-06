@@ -36,10 +36,41 @@ JACKET_VIEW_CONTRACTS = {
     ),
 }
 
+LAYERED_OUTFIT_COMMON_CONTRACT = (
+    "One isolated torso-only apparel layering reference on a plain off-white background. "
+    "Show a very short white cropped utility jacket worn open over a charcoal-gray micro-crop "
+    "crew-neck top on a neutral headless torso form. The jacket body ends at the high waist just "
+    "below the ribcage, well above the hips, and is visibly much shorter than its long cuffed sleeves. "
+    "Keep the jacket and crop top as two clearly separate, correctly layered garments. Clean product "
+    "illustration. No head, hands, legs, bag, hanger, text, logo, or other object."
+)
+
+LAYERED_OUTFIT_VIEW_CONTRACTS = {
+    "front": (
+        "Use a front view. Show the open jacket's wide collar, two flap chest pockets, simple front "
+        "buttons, and narrow hem band; show the gray crop top through the open front and below the jacket hem."
+    ),
+}
+
+REAR_JACKET_MIDRIFF_CONTRACT = (
+    "One isolated torso-only rear apparel reference on a plain off-white background. Show a very short white "
+    "cropped utility jacket on a neutral headless torso form. The uninterrupted white back panel has a wide collar, "
+    "shoulder seams, a centered back seam, long cuffed sleeves, and a short hem at the high waist. Directly below "
+    "the jacket hem, show a clear bare-skin midriff band; no inner shirt or gray fabric is visible from the rear. "
+    "Clean product illustration. No head, hands, legs, bag, hanger, text, logo, or other object."
+)
+
 
 def jacket_prompt(view: str) -> str:
     """Keep the garment silhouette shared while isolating view-only construction details."""
     return f"{JACKET_COMMON_CONTRACT.format(view=view)} {JACKET_VIEW_CONTRACTS[view]}"
+
+
+def layered_outfit_prompt(view: str) -> str:
+    """Describe the jacket and crop top together so the body-panel layer is not inferred later."""
+    if view == "rear":
+        return REAR_JACKET_MIDRIFF_CONTRACT
+    return f"{LAYERED_OUTFIT_COMMON_CONTRACT} {LAYERED_OUTFIT_VIEW_CONTRACTS[view]}"
 
 
 PROPS = {
@@ -56,6 +87,20 @@ PROPS = {
         "output": "p7-5-2-no-style-prop-jacket-rear-candidate.png",
         "size": (768, 1024),
         "prompt": jacket_prompt("rear"),
+    },
+    "jacket_crop_top_front": {
+        "id": "jacket_crop_top_front",
+        "seed": 62285,
+        "output": "p7-5-2-no-style-prop-jacket-crop-top-front-candidate.png",
+        "size": (768, 1024),
+        "prompt": layered_outfit_prompt("front"),
+    },
+    "jacket_crop_top_rear": {
+        "id": "jacket_crop_top_rear",
+        "seed": 62286,
+        "output": "p7-5-2-no-style-prop-jacket-crop-top-rear-candidate.png",
+        "size": (768, 1024),
+        "prompt": layered_outfit_prompt("rear"),
     },
     "trousers": {
         "id": "trousers",
@@ -99,7 +144,10 @@ def main() -> None:
         nargs="+",
         choices=tuple(PROPS),
         default=tuple(PROPS),
-        help="Reference IDs to generate. Omit to generate jacket, jacket_rear, trousers, shoes, crossbody_bag, and crop_top_waist_relation.",
+        help=(
+            "Reference IDs to generate. Omit to generate jacket, jacket_rear, jacket_crop_top_front, "
+            "jacket_crop_top_rear, trousers, shoes, crossbody_bag, and crop_top_waist_relation."
+        ),
     )
     parser.add_argument(
         "--report",

@@ -14,6 +14,16 @@
       "scope": "white high-waist cropped utility-jacket rear silhouette, with a plain back panel, wide collar, shoulder seams, centered back seam, long cuffed sleeves, and short hem; no pockets or buttons"
     },
     {
+      "id": "layered_white_jacket_charcoal_crop_top_front",
+      "image": "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
+      "scope": "front torso-only layering reference: open white high-waist cropped utility jacket over a distinct charcoal-gray micro-crop crew-neck top, with visible garment boundary"
+    },
+    {
+      "id": "layered_white_jacket_bare_midriff_rear",
+      "image": "p7-5-2-prop-reference-v2-jacket-crop-top-rear.png",
+      "scope": "rear torso-only outfit reference: plain white high-waist cropped-jacket back panel, centered back seam, long cuffed sleeves, and a bare-skin midriff band below the jacket hem; no inner top is visible"
+    },
+    {
       "id": "deep_teal_blue_wide_leg_trousers",
       "image": "p7-5-2-prop-reference-v2-trousers.png",
       "scope": "blue-dominant deep-teal-blue fabric color, high waistband, belt loops, fly, wide-leg silhouette, seams, and hems"
