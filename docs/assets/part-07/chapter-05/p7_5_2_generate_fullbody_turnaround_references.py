@@ -88,6 +88,7 @@ def main() -> None:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
+    parser.add_argument("--steps", type=int, default=3, help="Denoising steps for both full-body generation passes.")
     parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     parser.add_argument(
         "--output-prefix",
@@ -99,6 +100,8 @@ def main() -> None:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
+    if args.steps < 1:
+        raise ValueError("steps must be at least 1")
     reference_paths = [
         *(FACE_IDENTITY_BY_VIEW[view] for view in args.views),
         *OUTFIT_REFERENCES,
@@ -129,7 +132,7 @@ def main() -> None:
             face_identity_prompt = build_face_identity_prompt(view)
             body_reference_paths = [FACE_IDENTITY_BY_VIEW[view], *OUTFIT_REFERENCES]
             body_reference_images = [face_images[view], *outfit_images]
-            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=12, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_prompt": face_identity_prompt, "body_references": [path.name for path in body_reference_paths], "face_identity_seed": FACE_IDENTITY_SEED, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
+            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=args.steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_prompt": face_identity_prompt, "body_references": [path.name for path in body_reference_paths], "face_identity_seed": FACE_IDENTITY_SEED, "size": [IMAGE_WIDTH, IMAGE_HEIGHT], "steps": args.steps})
             output = ROOT / f"{stem}-candidate.png"
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
@@ -138,7 +141,7 @@ def main() -> None:
                 prompt=body_prompt,
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
-                num_inference_steps=12,
+                num_inference_steps=args.steps,
                 guidance_scale=1.0,
                 generator=torch.Generator(device="cpu").manual_seed(seed),
                 max_sequence_length=256,
@@ -151,7 +154,7 @@ def main() -> None:
                 prompt=face_identity_prompt,
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
-                num_inference_steps=12,
+                num_inference_steps=args.steps,
                 guidance_scale=1.0,
                 generator=torch.Generator(device="cpu").manual_seed(FACE_IDENTITY_SEED),
                 max_sequence_length=256,
@@ -166,6 +169,7 @@ def main() -> None:
                         "output": output.name,
                         "view": view,
                         "seed": seed,
+                        "steps": args.steps,
                         "seed_offset": args.seed_offset,
                         "seed_step": args.seed_step,
                         "batch_index": batch_index,

@@ -112,9 +112,9 @@ def resolve_body_references(assignments: list[str]) -> dict[str, Path]:
     return references
 
 
-def unique_run_stem(prefix: str, view: str, run_id: str, seed: int) -> str:
+def unique_run_stem(prefix: str, view: str, run_id: str, seed: int, steps: int) -> str:
     """Create an unused shared stem for PNG outputs and their review record."""
-    base_stem = candidate_stem(f"{prefix}-{view}", seed=seed, steps=12, contract={"run_id": run_id, "model": MODEL_ID, "face_identity_seed": FACE_IDENTITY_SEED})
+    base_stem = candidate_stem(f"{prefix}-{view}", seed=seed, steps=steps, contract={"run_id": run_id, "model": MODEL_ID, "face_identity_seed": FACE_IDENTITY_SEED, "steps": steps})
     suffix = 1
     stem = base_stem
     while any(
@@ -233,6 +233,7 @@ def main() -> None:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
+    parser.add_argument("--steps", type=int, default=3, help="Denoising steps for each refinement pass.")
     parser.add_argument(
         "--face-identity-seed",
         type=int,
@@ -264,6 +265,8 @@ def main() -> None:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
+    if args.steps < 1:
+        raise ValueError("steps must be at least 1")
     if args.stage == "face" and args.intermediate is None:
         raise ValueError("--stage face requires --intermediate")
     body_references = resolve_body_references(args.body_reference)
@@ -304,7 +307,7 @@ def main() -> None:
         for view in args.views:
             outfit_prompt = build_outfit_prompt(view, tuple(args.props))
             identity_prompt = build_identity_final_prompt(view)
-            stem = unique_run_stem(args.output_prefix, view, run_id, seed)
+            stem = unique_run_stem(args.output_prefix, view, run_id, seed, args.steps)
             output = ROOT / f"{stem}-candidate.png"
             intermediate = ROOT / f"{stem}-outfit-stage.png"
             report = ROOT / f"{stem}-review.json"
@@ -322,7 +325,7 @@ def main() -> None:
                         prompt=outfit_prompt,
                         width=IMAGE_WIDTH,
                         height=IMAGE_HEIGHT,
-                        num_inference_steps=12,
+                        num_inference_steps=args.steps,
                         guidance_scale=1.0,
                         generator=torch.Generator(device="cpu").manual_seed(seed),
                         max_sequence_length=256,
@@ -345,7 +348,7 @@ def main() -> None:
                     prompt=identity_prompt,
                     width=IMAGE_WIDTH,
                     height=IMAGE_HEIGHT,
-                    num_inference_steps=12,
+                    num_inference_steps=args.steps,
                     guidance_scale=1.0,
                     generator=torch.Generator(device="cpu").manual_seed(args.face_identity_seed),
                     max_sequence_length=256,
@@ -359,6 +362,7 @@ def main() -> None:
                         "output": output.name,
                         "view": view,
                         "seed": seed,
+                        "steps": args.steps,
                         "seed_offset": args.seed_offset,
                         "seed_step": args.seed_step,
                         "face_identity_seed": args.face_identity_seed,

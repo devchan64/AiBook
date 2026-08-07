@@ -223,8 +223,11 @@ def main() -> None:
         default=DEFAULT_REPORT,
         help="Candidate review JSON path.",
     )
+    parser.add_argument("--steps", type=int, default=3, help="Number of FLUX denoising steps for every selected prop.")
     parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     args = parser.parse_args()
+    if args.steps < 1:
+        raise ValueError("steps must be at least 1")
 
     missing = [
         path.name
@@ -252,20 +255,39 @@ def main() -> None:
         started = time.monotonic()
         width, height = prop["size"]
         reference_paths = prop.get("references", ())
+        output_stem = candidate_stem(
+            Path(prop["output"]).stem,
+            seed=prop["seed"],
+            steps=args.steps,
+            contract={
+                "model": MODEL_ID,
+                "prompt": prop["prompt"],
+                "references": [path.name for path in reference_paths],
+                "size": prop["size"],
+                "steps": args.steps,
+            },
+        )
         generation_inputs = {
             "prompt": prop["prompt"],
             "width": width,
             "height": height,
-            "num_inference_steps": 12,
+            "num_inference_steps": args.steps,
             "guidance_scale": 1.0,
             "generator": torch.Generator(device="cpu").manual_seed(prop["seed"]),
             "max_sequence_length": 256,
         }
         if reference_paths:
             generation_inputs["image"] = load_reference_images(reference_paths)
-        generation_inputs["callback_on_step_end"] = preview_callback(pipe, height=height, width=width, every=args.preview_every, directory=ROOT / "previews", prefix=prop_id)
+        generation_inputs["callback_on_step_end"] = preview_callback(
+            pipe,
+            height=height,
+            width=width,
+            every=args.preview_every,
+            directory=ROOT / "previews",
+            prefix=output_stem,
+        )
         image = pipe(**generation_inputs).images[0]
-        output = ROOT / f"{candidate_stem(Path(prop['output']).stem, seed=prop['seed'], steps=12, contract={'model': MODEL_ID, 'prompt': prop['prompt'], 'references': [path.name for path in reference_paths], 'size': prop['size']})}.png"
+        output = ROOT / f"{output_stem}.png"
         image.save(output)
         elapsed = round(time.monotonic() - started, 2)
         runs.append(
@@ -275,6 +297,7 @@ def main() -> None:
                 "prompt": prop["prompt"],
                 "prompt_word_count": prompt_word_count(prop["prompt"]),
                 "seed": prop["seed"],
+                "steps": args.steps,
                 "references": [path.name for path in reference_paths],
                 "elapsed_seconds": elapsed,
             }
@@ -288,6 +311,7 @@ def main() -> None:
                 "purpose": "Generate selected no-style prop-reference candidates.",
                 "input_policy": "No style, face, or character input. The front layered and complete-outfit targets may use the approved crop-top-to-waistband reference.",
                 "requested_targets": args.targets,
+                "steps": args.steps,
                 "model": {"id": MODEL_ID, "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"},
                 "runs": runs,
                 "decision": "Pending human review; no candidate replaces the approved prop master until individually approved."

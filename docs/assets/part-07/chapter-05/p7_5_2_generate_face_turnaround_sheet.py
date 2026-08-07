@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Generate individual directional face candidates, then fix identity in a second pass."""
+"""Generate individual directional face candidates from the frontal identity anchor."""
 
 from __future__ import annotations
 
 import argparse
-import gc
 from hashlib import sha256
 import json
 from math import isqrt
@@ -56,17 +55,14 @@ def prompt_word_count(text: str) -> int:
     return len(text.split())
 
 
-def output_contract_hash(
-    direction_prompt: str, identity_fix_prompt: str, view: str, seed: int, steps: int
-) -> str:
-    """Return a stable short hash for the seed and two-stage generation contract."""
+def output_contract_hash(prompt: str, view: str, seed: int, steps: int) -> str:
+    """Return a stable short hash for the unified generation contract."""
     contract = json.dumps(
         {
             "model": MODEL_ID,
             "view": view,
             "seed": seed,
-            "direction_prompt": direction_prompt,
-            "identity_fix_prompt": identity_fix_prompt,
+            "prompt": prompt,
             "image_size": [IMAGE_SIZE, IMAGE_SIZE],
             "steps": steps,
             "guidance_scale": 1.0,
@@ -78,7 +74,7 @@ def output_contract_hash(
     return sha256(contract.encode("utf-8")).hexdigest()[:10]
 
 
-def build_direction_prompt(view: str) -> str:
+def build_turnaround_prompt(view: str) -> str:
     rear_rule = (
         f"Preserve only {FACE_IDENTITY_CONTRACT['rear_hair_identity']} Do not reveal a face."
         if view == "rear"
@@ -90,23 +86,6 @@ def build_direction_prompt(view: str) -> str:
         f"{FACE_IDENTITY_CONTRACT['identity_description']} {rear_rule} "
         "Plain off-white background, one person, no text, no panels, no collage."
     )
-
-
-def build_identity_fix_prompt(view: str) -> str:
-    """Keep the first-stage view while restoring the shared identity from the frontal anchor."""
-    rear_rule = (
-        f"Preserve only {FACE_IDENTITY_CONTRACT['rear_hair_identity']} Do not reveal a face."
-        if view == "rear"
-        else f"Restore the visible-face identity: {FACE_IDENTITY_CONTRACT['identity_description']} {TURNAROUND_FIDELITY_RULE}"
-    )
-    return (
-        "Use the first supplied directional portrait as the fixed crop, background, and head rotation. "
-        "Use the second supplied frontal face image only as the identity anchor for the same woman. "
-        f"Keep this exact direction: {VIEW_RULES[view]}. {rear_rule} "
-        "Do not change the direction, crop, or background. One person, no text, no panels, no collage."
-    )
-
-
 def make_preview_callback(
     pipe: Flux2KleinPipeline,
     *,
@@ -164,28 +143,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
-    parser.add_argument("--steps", type=int, default=12, help="Denoising steps for each of the two stages.")
+    parser.add_argument("--steps", type=int, default=3, help="Denoising steps for the unified generation.")
     parser.add_argument(
         "--preview-interval",
         type=int,
-        default=3,
+        default=0,
         help="Save a decoded FLUX preview every N denoising steps; use 0 to disable previews.",
     )
     parser.add_argument(
         "--output-prefix",
         default="p7-5-2-face-direction",
-        help="Prefix placed before view, contract hash, seed, step, and stage suffixes.",
-    )
-    parser.add_argument(
-        "--stage",
-        choices=("all", "direction", "identity"),
-        default="all",
-        help="Run direction stage, identity-fix stage from --intermediate, or both stages.",
-    )
-    parser.add_argument(
-        "--intermediate",
-        type=Path,
-        help="Direction-stage PNG required by --stage identity; use exactly one --views value.",
+        help="Prefix placed before view, contract hash, seed, and step suffixes.",
     )
     return parser.parse_args()
 
@@ -200,14 +168,8 @@ def main() -> None:
         raise ValueError("steps must be at least 1")
     if args.preview_interval < 0:
         raise ValueError("preview-interval must be zero or a positive integer")
-    if args.stage == "identity" and args.intermediate is None:
-        raise ValueError("--stage identity requires --intermediate")
-    if args.stage == "identity" and len(args.views) != 1:
-        raise ValueError("--stage identity requires exactly one --views value")
     if not FRONT.is_file():
         raise FileNotFoundError(FRONT.name)
-    if args.intermediate is not None and not args.intermediate.is_file():
-        raise FileNotFoundError(args.intermediate.name)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
@@ -225,75 +187,38 @@ def main() -> None:
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
         for view in args.views:
-            direction_prompt = build_direction_prompt(view)
-            identity_fix_prompt = build_identity_fix_prompt(view)
-            contract_hash = output_contract_hash(direction_prompt, identity_fix_prompt, view, seed, args.steps)
-            stem = (
-                f"{args.output_prefix}-{view}-hash-{contract_hash}-seed-{seed}-steps-{args.steps}-phase-{args.stage}"
-            )
+            prompt = build_turnaround_prompt(view)
+            contract_hash = output_contract_hash(prompt, view, seed, args.steps)
+            stem = f"{args.output_prefix}-{view}-hash-{contract_hash}-seed-{seed}-steps-{args.steps}"
             candidate = ROOT / f"{stem}-candidate.png"
-            direction_stage = ROOT / f"{stem}-direction-stage.png"
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
-            direction_previews: list[str] = []
-            identity_previews: list[str] = []
-
-            if args.stage in ("all", "direction"):
-                callback, direction_previews = make_preview_callback(
-                    pipe,
-                    preview_prefix=direction_stage.with_suffix(""),
-                    steps=args.steps,
-                    interval=args.preview_interval,
-                )
-                direction_image = pipe(
-                    image=anchor,
-                    prompt=direction_prompt,
-                    width=IMAGE_SIZE,
-                    height=IMAGE_SIZE,
-                    num_inference_steps=args.steps,
-                    guidance_scale=1.0,
-                    generator=torch.Generator(device="cpu").manual_seed(seed),
-                    max_sequence_length=256,
-                    callback_on_step_end=callback,
-                    callback_on_step_end_tensor_inputs=["latents"],
-                ).images[0]
-                direction_image.save(direction_stage)
-            else:
-                with Image.open(args.intermediate) as source:
-                    direction_image = source.convert("RGB")
-
-            if args.stage == "direction":
-                output = direction_stage
-            else:
-                gc.collect()
-                torch.cuda.empty_cache()
-                callback, identity_previews = make_preview_callback(
-                    pipe,
-                    preview_prefix=candidate.with_suffix(""),
-                    steps=args.steps,
-                    interval=args.preview_interval,
-                )
-                final_image = pipe(
-                    image=[direction_image, anchor],
-                    prompt=identity_fix_prompt,
-                    width=IMAGE_SIZE,
-                    height=IMAGE_SIZE,
-                    num_inference_steps=args.steps,
-                    guidance_scale=1.0,
-                    generator=torch.Generator(device="cpu").manual_seed(seed),
-                    max_sequence_length=256,
-                    callback_on_step_end=callback,
-                    callback_on_step_end_tensor_inputs=["latents"],
-                ).images[0]
-                final_image.save(candidate)
-                output = candidate
+            callback, previews = make_preview_callback(
+                pipe,
+                preview_prefix=candidate.with_suffix(""),
+                steps=args.steps,
+                interval=args.preview_interval,
+            )
+            image = pipe(
+                image=anchor,
+                prompt=prompt,
+                width=IMAGE_SIZE,
+                height=IMAGE_SIZE,
+                num_inference_steps=args.steps,
+                guidance_scale=1.0,
+                generator=torch.Generator(device="cpu").manual_seed(seed),
+                max_sequence_length=256,
+                callback_on_step_end=callback,
+                callback_on_step_end_tensor_inputs=["latents"],
+            ).images[0]
+            image.save(candidate)
 
             elapsed = round(time.monotonic() - started, 2)
             report.write_text(
                 json.dumps(
                     {
                         "status": "review_required",
-                        "output": output.name,
+                        "output": candidate.name,
                         "view": view,
                         "seed": seed,
                         "contract_hash": contract_hash,
@@ -304,22 +229,11 @@ def main() -> None:
                         "batch_index": batch_index,
                         "batch_size": args.seed_count,
                         "output_prefix": args.output_prefix,
-                        "stages": {
-                            "direction": {
-                                "prompt": direction_prompt,
-                                "prompt_word_count": prompt_word_count(direction_prompt),
-                                "output": direction_stage.name if args.stage != "identity" else args.intermediate.name,
-                                "identity_reference": FRONT.name,
-                                "previews": direction_previews,
-                            },
-                            "identity_fix": {
-                                "prompt": identity_fix_prompt,
-                                "prompt_word_count": prompt_word_count(identity_fix_prompt),
-                                "output": output.name,
-                                "identity_reference": FRONT.name,
-                                "status": "not_run" if args.stage == "direction" else "generated",
-                                "previews": identity_previews,
-                            },
+                        "generation": {
+                            "prompt": prompt,
+                            "prompt_word_count": prompt_word_count(prompt),
+                            "identity_reference": FRONT.name,
+                            "previews": previews,
                         },
                         "references": [FRONT.name],
                         "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
@@ -327,13 +241,13 @@ def main() -> None:
                         "model": MODEL_ID,
                         "image_size": [IMAGE_SIZE, IMAGE_SIZE],
                         "elapsed_seconds": elapsed,
-                        "decision": "Candidate only; review direction first, then review identity preservation without changed pose or crop.",
+                        "decision": "Candidate only; review direction and identity preservation against the frontal anchor.",
                     },
                     indent=2,
                 ),
                 encoding="utf-8",
             )
-            print(f"[{batch_index + 1}/{args.seed_count}] {view}: {elapsed:.2f}s -> {output}")
+            print(f"[{batch_index + 1}/{args.seed_count}] {view}: {elapsed:.2f}s -> {candidate}")
 
 
 if __name__ == "__main__":
