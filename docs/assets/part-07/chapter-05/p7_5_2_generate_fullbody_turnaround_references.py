@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import gc
 import json
 from pathlib import Path
 import time
@@ -17,9 +18,10 @@ from p7_5_image_output_naming import candidate_stem, preview_callback
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62294
+FACE_IDENTITY_SEED = 62294
 FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
-FACE_IDENTITY_BY_VIEW = {
+FACE_REFERENCE_BY_VIEW = {
     "front": ROOT / "p7-5-2-face-front-reference.png",
     "front_quarter_left": ROOT / "p7-5-2-face-front-quarter-left-reference.png",
     "front_quarter_right": ROOT / "p7-5-2-face-front-quarter-right-reference.png",
@@ -74,6 +76,9 @@ BODY_PROPORTION_RULE = (
     "and long straight legs. Place the knees near the lower half of the figure and the ankles directly above the shoes; "
     "keep both arms naturally proportional from shoulder to wrist and both hands near mid-thigh."
 )
+FRONT_TALL_PROPORTION_RULE = (
+    "Tall adult fashion figure, close to eight heads high: a small proportional head, compact torso, high waist, and long legs."
+)
 
 
 def prompt_word_count(text: str) -> int:
@@ -81,26 +86,34 @@ def prompt_word_count(text: str) -> int:
 
 
 def build_body_prompt(view: str, *, front_anchored: bool) -> str:
-    identity_rule = (
-        FACE_IDENTITY_CONTRACT["rear_hair_identity"]
-        if view == "rear"
-        else FACE_IDENTITY_CONTRACT["identity_description"]
-    )
     front_anchor_rule = (
         "Use the supplied front full-body image as the fixed character, outfit, body-proportion, "
         "and hair-to-sole continuity anchor; rotate that same person only to the requested direction. "
         if front_anchored
         else ""
     )
+    proportion_rule = FRONT_TALL_PROPORTION_RULE if view == "front" else BODY_PROPORTION_RULE
     return (
         "Full-body character turnaround reference of one woman on an off-white studio background. "
         f"{front_anchor_rule}"
-        "Use the supplied direction-matched face identity reference as the fixed face anchor while "
-        "constructing the full body: "
-        f"{identity_rule} "
-        f"{OUTFIT_RULE} {BODY_PROPORTION_RULE} {VIEW_RULES[view]}. "
+        f"{OUTFIT_RULE} {proportion_rule} {VIEW_RULES[view]}. "
         "One neutral upright standing figure, fully visible from hair to shoe soles, centered in the frame. "
         "No crop, no duplicate body, no other person, no text, and no labels."
+    )
+
+
+def build_face_identity_prompt(view: str) -> str:
+    identity_rule = (
+        FACE_IDENTITY_CONTRACT["rear_hair_identity"]
+        if view == "rear"
+        else FACE_IDENTITY_CONTRACT["identity_description"]
+    )
+    return (
+        "Use the supplied full-body image as the fixed pose, outfit, body-proportion, and hair-to-sole framing anchor. "
+        "Use the supplied direction-matched face image as a strong identity reference. "
+        f"Restore this identity in the requested view: {identity_rule} {VIEW_RULES[view]}. "
+        "Refine the face and hair only; keep the body, hands, legs, shoes, outfit, background, camera, and framing unchanged. "
+        "One person, no text, and no labels."
     )
 
 
@@ -121,7 +134,13 @@ def main() -> None:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
-    parser.add_argument("--steps", type=int, default=3, help="Denoising steps for the unified full-body generation pass.")
+    parser.add_argument("--body-steps", type=int, default=3, help="Denoising steps for the first full-body pass.")
+    parser.add_argument("--face-steps", type=int, default=6, help="Denoising steps for the second face-identity pass.")
+    parser.add_argument(
+        "--body-image",
+        type=Path,
+        help="Existing first-stage full-body PNG. When supplied, skip the first pass and run only face identity refinement.",
+    )
     parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     parser.add_argument(
         "--output-prefix",
@@ -133,17 +152,21 @@ def main() -> None:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
-    if args.steps < 1:
-        raise ValueError("steps must be at least 1")
+    if args.body_steps < 1 or args.face_steps < 1:
+        raise ValueError("body-steps and face-steps must both be at least 1")
     selected_views = tuple(view for view in TURNAROUND_ORDER if view in args.views)
     needs_front_anchor = any(view != "front" for view in selected_views)
     if "front" not in selected_views and needs_front_anchor and args.front_image is None:
         raise ValueError("--front-image is required when generating non-front views without front")
     if args.front_image is not None and not args.front_image.is_file():
         raise FileNotFoundError(args.front_image)
-    reference_paths = [*(FACE_IDENTITY_BY_VIEW[view] for view in selected_views), *OUTFIT_REFERENCES]
+    if args.body_image is not None and not args.body_image.is_file():
+        raise FileNotFoundError(args.body_image)
+    reference_paths = [*(FACE_REFERENCE_BY_VIEW[view] for view in selected_views), *OUTFIT_REFERENCES]
     if args.front_image is not None:
         reference_paths.append(args.front_image)
+    if args.body_image is not None:
+        reference_paths.append(args.body_image)
     if missing := [path.name for path in reference_paths if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
@@ -160,9 +183,10 @@ def main() -> None:
     first_seed = BASE_SEED + args.seed_offset
     outfit_images = [Image.open(path).convert("RGB") for path in OUTFIT_REFERENCES]
     face_images = {
-        view: Image.open(FACE_IDENTITY_BY_VIEW[view]).convert("RGB")
+        view: Image.open(FACE_REFERENCE_BY_VIEW[view]).convert("RGB")
         for view in selected_views
     }
+    supplied_body_image = Image.open(args.body_image).convert("RGB") if args.body_image is not None else None
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
         generated_front_image = None
@@ -173,31 +197,48 @@ def main() -> None:
         for view in selected_views:
             front_anchored = view != "front"
             body_prompt = build_body_prompt(view, front_anchored=front_anchored)
-            body_reference_paths = [FACE_IDENTITY_BY_VIEW[view], *OUTFIT_REFERENCES]
+            body_reference_paths = [FACE_REFERENCE_BY_VIEW[view], *OUTFIT_REFERENCES]
             body_reference_images = [face_images[view], *outfit_images]
             if front_anchored:
                 assert generated_front_image is not None and generated_front_path is not None
                 body_reference_paths.insert(0, generated_front_path)
                 body_reference_images.insert(0, generated_front_image)
-            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=args.steps, contract={"model": MODEL_ID, "prompt": body_prompt, "references": [path.name for path in body_reference_paths], "size": [IMAGE_WIDTH, IMAGE_HEIGHT], "steps": args.steps})
+            face_identity_prompt = build_face_identity_prompt(view)
+            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=args.face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_prompt": face_identity_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_steps": args.body_steps, "face_identity_seed": FACE_IDENTITY_SEED, "face_steps": args.face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
             output = ROOT / f"{stem}-candidate.png"
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
-            body_image = pipe(
-                image=body_reference_images,
-                prompt=body_prompt,
+            if supplied_body_image is None:
+                body_image = pipe(
+                    image=body_reference_images,
+                    prompt=body_prompt,
+                    width=IMAGE_WIDTH,
+                    height=IMAGE_HEIGHT,
+                    num_inference_steps=args.body_steps,
+                    guidance_scale=1.0,
+                    generator=torch.Generator(device="cpu").manual_seed(seed),
+                    max_sequence_length=256,
+                    callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-body"),
+                ).images[0]
+            else:
+                body_image = supplied_body_image.copy()
+            gc.collect()
+            torch.cuda.empty_cache()
+            image = pipe(
+                image=[body_image, face_images[view]],
+                prompt=face_identity_prompt,
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
-                num_inference_steps=args.steps,
+                num_inference_steps=args.face_steps,
                 guidance_scale=1.0,
-                generator=torch.Generator(device="cpu").manual_seed(seed),
+                generator=torch.Generator(device="cpu").manual_seed(FACE_IDENTITY_SEED),
                 max_sequence_length=256,
-                callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-body"),
+                callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-face"),
             ).images[0]
-            body_image.save(output)
+            image.save(output)
             if view == "front":
                 generated_front_path = output
-                generated_front_image = body_image
+                generated_front_image = image
             elapsed = round(time.monotonic() - started, 2)
             report.write_text(
                 json.dumps(
@@ -206,20 +247,29 @@ def main() -> None:
                         "output": output.name,
                         "view": view,
                         "seed": seed,
-                        "steps": args.steps,
+                        "body_steps": args.body_steps,
+                        "face_steps": args.face_steps,
                         "seed_offset": args.seed_offset,
                         "seed_step": args.seed_step,
                         "batch_index": batch_index,
                         "batch_size": args.seed_count,
                         "output_prefix": args.output_prefix,
                         "stages": {
-                            "unified_fullbody": {
+                            "body": {
+                                "status": "generated" if supplied_body_image is None else "supplied",
                                 "prompt": body_prompt,
                                 "prompt_word_count": prompt_word_count(body_prompt),
                                 "references": [path.name for path in body_reference_paths],
-                                "face_identity_reference": FACE_IDENTITY_BY_VIEW[view].name,
-                                "face_identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
+                                "face_reference": FACE_REFERENCE_BY_VIEW[view].name,
                                 "front_anchor": generated_front_path.name if front_anchored else None,
+                                "supplied_image": args.body_image.name if args.body_image else None,
+                            },
+                            "face_identity": {
+                                "prompt": face_identity_prompt,
+                                "prompt_word_count": prompt_word_count(face_identity_prompt),
+                                "seed": FACE_IDENTITY_SEED,
+                                "reference": FACE_REFERENCE_BY_VIEW[view].name,
+                                "contract": FACE_IDENTITY_CONTRACT_PATH.name,
                             },
                         },
                         "model": MODEL_ID,
