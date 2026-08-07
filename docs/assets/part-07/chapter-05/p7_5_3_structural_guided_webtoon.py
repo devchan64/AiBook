@@ -334,6 +334,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="SDXL/Animagine IP-Adapter 참조 강도 (생략 시 backbone 기본값)",
     )
     parser.add_argument(
+        "--allow-character-multiguide-probe",
+        action="store_true",
+        help=(
+            "8 GB에서 단일 IP-Adapter와 두 구조 guide를 함께 쓰는 저해상도 검증을 명시적으로 허용합니다. "
+            "--sequential-cpu-offload, 한 IP-Adapter 그룹, 최대 512×768을 요구하며 사람 검수용 결과만 만듭니다."
+        ),
+    )
+    parser.add_argument(
         "--lora-path",
         type=Path,
         help="검증할 SDXL/Animagine LoRA 가중치가 든 폴더 또는 safetensors 파일. IP-Adapter와 달리 학습된 캐릭터 토큰을 적용합니다.",
@@ -679,10 +687,11 @@ def main() -> None:
         else args.face_reference
         or []
     )
-    if (reference_paths or face_reference_paths) and len(guide_paths) > 1:
+    has_references = bool(reference_paths or face_reference_paths)
+    if has_references and len(guide_paths) > 1 and not args.allow_character_multiguide_probe:
         raise ValueError(
             "8 GB 계약에서는 캐릭터 참조와 Canny+Depth 동시 조건을 지원하지 않습니다. "
-            "Canny 하나만 쓰고, 사람 검수 뒤 Inpaint 단계에서 depth 문제를 보정하세요."
+            "검증하려면 --allow-character-multiguide-probe를 명시하고 저해상도 CPU offload 계약을 지키세요."
         )
     if reference_paths and face_reference_paths:
         raise ValueError(
@@ -691,6 +700,19 @@ def main() -> None:
         )
     if (reference_paths or face_reference_paths) and args.backbone not in {"sdxl", "animagine-xl"}:
         raise ValueError("캐릭터 다중 참조는 현재 SDXL/Animagine XL IP-Adapter 경로에서만 지원합니다.")
+    if args.allow_character_multiguide_probe:
+        if not (has_references and len(guide_paths) == 2):
+            raise ValueError(
+                "--allow-character-multiguide-probe는 캐릭터 참조 한 그룹과 구조 guide 두 개를 함께 줄 때만 씁니다."
+            )
+        if not args.sequential_cpu_offload:
+            raise ValueError(
+                "캐릭터+다중 guide 검증은 8 GB에서 --sequential-cpu-offload를 반드시 사용합니다."
+            )
+        if args.width > 512 or args.height > 768:
+            raise ValueError(
+                "캐릭터+다중 guide 검증은 8 GB에서 최대 512×768만 허용합니다."
+            )
     reference_images = load_reference_images(reference_paths, "--character-reference")
     face_reference_images = load_reference_images(face_reference_paths, "--face-reference")
     if (reference_images or face_reference_images) and not IP_ADAPTER.exists():
@@ -874,12 +896,23 @@ def main() -> None:
         "true_cfg_scale": pipeline_inputs.get("true_cfg_scale"),
         "control_window": [args.control_guidance_start, args.control_guidance_end],
         "sequential_cpu_offload": args.sequential_cpu_offload,
+        "character_multiguide_probe": args.allow_character_multiguide_probe,
         "elapsed_seconds": round(elapsed_seconds, 3),
         "peak_vram_mib": round(torch.cuda.max_memory_allocated() / 1024**2, 1),
         "output": str(output),
         "guide_adherence": {
             "status": "human-review-required",
-            "criterion": "guide의 인물 윤곽·발과 지면의 분리·절벽의 상대 위치가 유지되는지",
+            "criterion": (
+                "guide의 인물 윤곽·발과 지면의 분리·절벽의 상대 위치와, "
+                "앞쪽 다리/몸통의 가려짐 순서가 유지되는지"
+            ),
+        },
+        "character_adherence": {
+            "status": "human-review-required" if has_references else "not-conditioned",
+            "criterion": (
+                "얼굴의 식별 특징, 체형, 검은 타이즈 복장이 참조와 일치하고 "
+                "얼굴·양팔·양다리가 모두 판별되는지"
+            ),
         },
     }
     record_path = output.with_suffix(".json")
