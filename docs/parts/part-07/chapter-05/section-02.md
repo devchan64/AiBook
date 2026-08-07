@@ -48,9 +48,22 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 생성 체인은 정면 얼굴 기준에서 시작합니다. 머리핀을 포함한 이전 기준은 폐기하고, 얼굴형·홍채·머리·표정을 prompt로 정의한 머리 전체·얼굴·턱 출력만 새로 생성·사람 검수했습니다. 넓고 낮은 광대, 볼살, 고양이 눈매의 위로 향한 눈꼬리는 이 첫 기준에서만 고정하며, 몸·의상·회전 view·표정은 아직 승인하지 않습니다.
 
+### 얼굴 공용 identity 계약 JSON
+
+[얼굴 공용 identity 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-face-identity-contract.json)은 정면 얼굴 생성기, 얼굴 턴어라운드 생성기, 방향 전신 생성기, 전신 얼굴·소품 리파인 생성기가 함께 읽는 텍스트 계약입니다. 이 파일은 참조 PNG나 사람 승인 판정 자체가 아니라, 같은 특징을 생성기마다 따로 복사해 적는 일을 줄이는 단일 원본입니다. PNG는 실제 결과를 사람이 대조하는 기준이고, JSON은 새 후보를 만들 때 유지할 특징의 문장 기준입니다.
+
+| JSON 항목 | 맡는 역할 |
+| --- | --- |
+| `front_portrait_context` | 정면 얼굴 후보의 인물 범위와 배경을 고정한다. |
+| `identity_description` | 피부·얼굴형·눈·홍채·코·입술·앞머리·단발의 공용 특징을 정면과 보이는 방향의 prompt에 전달한다. |
+| `rear_hair_identity` | 얼굴이 보이지 않는 후면에서 단발 실루엣·목선·머리색만 유지하도록 분리한다. |
+| `front_portrait_suffix` | 정면 얼굴 기준의 crop 경계를 고정해 전신·의상 조건이 섞이지 않게 한다. |
+
+따라서 JSON을 바꾸면 세 생성기의 새 후보가 공유하는 문장 계약이 달라진다. 기존 승인 PNG를 자동으로 다시 승인하거나, pose·camera·표정 범위를 넓히지는 않는다. 계약 변경 뒤에는 영향을 받은 방향의 후보를 다시 만들고 사람 검수를 거쳐야 한다.
+
 ![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-reference.png)
 
-정면 얼굴의 prompt, seed, 출력 크기와 얼굴 회전 identity에 한정한 승인 범위는 로컬 생성 기록으로 확인합니다.
+공용 identity 계약을 적용해 `seed=62294`, 6 step으로 생성한 위 PNG를 사람 승인하고 `p7-5-2-face-front-reference.png` 안정 자산으로 교체했습니다. 이후 정면 얼굴 후보 생성기의 기본값도 `6` step입니다. 승인 범위는 정면 얼굴 identity와 얼굴 회전의 대조점까지이며, 전신·pose·camera·표정은 여전히 별도 생성과 검수가 필요합니다. 정면 얼굴의 prompt, seed, 출력 크기와 판정 기록은 로컬 생성 기록으로 확인합니다.
 
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
 <summary>정면 얼굴 identity 후보를 만드는 코드 보기</summary>
@@ -72,28 +85,17 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | 표정 | 승인 표정 없음 | 중립·기쁨·우려·분노·슬픔·놀람을 새로 생성·검수 |
 
 <details id="face-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_turnaround_sheet.py" data-language="python">
-<summary>정면 얼굴 기준으로 4패널 턴어라운드 후보를 만드는 코드 보기</summary>
+<summary>정면 얼굴 기준으로 방향별 개별 얼굴 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-방향 얼굴은 `--views front front_quarter profile rear`로 정면·쿼터뷰·측면·후면을 한 장의 검수 시트에 생성합니다. `--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, 각 PNG와 JSON에는 실행 타임스탬프와 시드가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile rear`처럼 범위를 좁힙니다.
+정면은 `p7_5_2_generate_face_front_reference.py`가 전담합니다. 정면, 좌·우 전면 쿼터, 좌·우 엄격 측면, 후면을 합쳐 여섯 방향 장면으로 관리합니다. 방향 얼굴 생성기는 `--views front_quarter_left front_quarter_right profile_left profile_right rear`만 허용하고, 각 view를 별도 `768×768` PNG로 저장합니다. 이름의 left/right는 카메라에서 보는 방향이며, 각각 인물의 반대쪽 면을 뜻합니다. 기본 `--stage all`은 두 단계입니다. 1단계는 정면 얼굴 앵커와 방향 prompt로 해당 방향의 구도·회전을 만들고 `direction-stage` PNG를 저장합니다. 2단계는 이 PNG를 고정 구도 입력으로, 같은 정면 얼굴 앵커를 identity 입력으로 함께 넣어 얼굴형·홍채·동공·단발을 다시 맞춥니다. 후면은 얼굴을 보정하지 않고 후두부 단발·목선만 유지합니다. `--stage direction`과 `--stage identity --intermediate 파일명.png`로 두 단계를 따로 검토할 수도 있습니다.
 
-### 전신 보강용 CodeFormer 2x identity 입력
+`--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, `--steps`로 두 단계의 denoising 횟수를 함께 바꿉니다. `--preview-interval 3`을 지정하면 각 단계의 FLUX latent를 3 step마다 VAE로 해독해 review-only PNG로 저장합니다. `0`은 이 미리보기를 끄며, preview PNG 목록은 실행 JSON의 각 단계에 기록합니다. 각 PNG와 JSON 파일명에는 view·시드·step·실행 stage와 모델·두 단계 prompt·해상도·identity 계약을 묶은 짧은 해시가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile_left profile_right`처럼 범위를 좁힙니다. 2단계가 얼굴을 더 닮게 보이더라도 1단계의 방향·crop·후면 비노출을 바꾸면 미통과입니다.
 
-자켓·가방을 추가하는 전신 보강 단계에서는, 얼굴 회전 시트의 네 패널을 각각 `512 x 512` 입력으로 분리해 CodeFormer에 전달합니다. `w=1.0`은 입력 충실도를 우선하는 설정이며, 처리 결과를 Lanczos로 `2x` 확대합니다. 이 과정은 화풍을 바꾸거나 새 얼굴을 생성하는 단계가 아닙니다. 정면·전면 쿼터·측면은 보이는 눈·코·입·턱·헤어라인 정보를 더 큰 identity 입력으로 준비하고, 후면은 단발·목선·후면 윤곽을 확인하는 별도 기록입니다.
+### 전신 보강용 얼굴 identity 입력
 
-현재 전신 보강 코드는 정면·전면 쿼터·측면에 각각 대응하는 CodeFormer `2x` 패널을 visible-face identity 입력으로 사용합니다. 후면에는 보이는 얼굴이 없으므로 후면 `2x` 패널을 후두부 단발 실루엣·헤어라인·목선만 고정하는 rear-head identity 입력으로 사용하며, 눈·코·입을 새로 만들지 않습니다. 복원 뒤에는 앞·옆면에서 홍채 색·눈 간격·콧대와 코끝·입술 윤곽·턱 실루엣이 원본과 달라지지 않았는지, 후면에서는 단발 실루엣·목선·머리색이 유지됐는지를 사람이 먼저 확인합니다. 하나라도 바뀌면 해당 방향의 확대 패널을 전신 보강 입력으로 사용하지 않습니다.
-
-사람 승인한 CodeFormer `w=1.0` 복원·Lanczos `2x` 자산은 아래 네 장입니다. 앞의 세 패널은 각각 대응 방향 전신 보강기의 visible-face identity 입력으로 사용합니다. 후면은 얼굴 identity가 아니라 단발·목선·후면 윤곽을 고정하는 rear-head identity 입력이며, 얼굴을 보이게 만드는 데 사용하지 않습니다.
-
-| 정면 `2x` | 전면 쿼터 `2x` | 측면 `2x` | 승인 후면 `2x` 방향 기준 |
-| --- | --- | --- | --- |
-| ![CodeFormer 승인 정면 얼굴 2배 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-front-2x.png) | ![CodeFormer 승인 전면 쿼터 얼굴 2배 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-front-quarter-2x.png) | ![CodeFormer 승인 측면 얼굴 2배 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-profile-2x.png) | ![CodeFormer 승인 후면 머리·목선 2배 방향 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-rear-2x.png) |
-
-<details id="face-turnaround-codeformer" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_restore_face_turnaround_codeformer.py" data-language="python">
-<summary>CodeFormer로 얼굴 회전 시트를 복원·2배 확대하는 코드 보기</summary>
-<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
-</details>
+전신 턴어라운드와 리파인은 사람 승인한 원본 얼굴 회전 시트 하나를 직접 identity 입력으로 사용합니다. 별도 얼굴 복원·확대 구조는 두지 않습니다. 정면·쿼터·측면은 보이는 얼굴의 홍채·눈·코·입·턱·헤어라인을, 후면은 단발 실루엣·목선·머리색을 사람 검수로 확인합니다.
 
 ## 소품 기준 검수 결과: 기본 복장과 확장 소품
 
@@ -155,13 +157,13 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## 전신 기준의 얼굴·소품 보강
 
-이 단계는 승인된 방향 전신 PNG를 다시 그리는 보강 실험입니다. 입력 순서는 CodeFormer로 복원·2배 확대한 정면 얼굴 패널, 해당 방향의 전신 기준, 흰색 크롭 유틸리티 자켓과 회색 크롭탑을 이미 겹쳐 입은 레이어 기준, 짙은 네이비 캔버스 크로스백입니다. 레이어 기준은 정면·전면 쿼터에서는 승인된 전면 자켓-크롭탑 기준을 사용하고, 후면에서는 피부 띠만 남기는 승인 후면 기준을 별도로 사용합니다. 측면에서는 전면·후면 통합 착장 기준을 함께 입력해 재킷 몸판을 고정합니다. 확대 얼굴 패널은 얼굴형·눈·코·피부·헤어라인과 청록 단발을 고정하는 identity 앵커이고, 전신 기준은 전신 프레이밍·방향·기본 복장을 고정하는 composition 앵커입니다. 레이어 기준과 가방은 추가 소품일 뿐 전신 기준을 자동으로 대체하지 않습니다. 통합 실행으로 만든 정면·전면 쿼터·측면·후면 보강 출력은 사람 승인해 각각의 전신 기준으로 대체했습니다.
+이 단계는 승인된 방향 전신 PNG를 다시 그리는 보강 실험입니다. **모든 리파인 과정**은 해당 방향의 CodeFormer `2x` 얼굴 이미지를 다중 참조로 사용합니다. 복장·가방 단계의 입력 순서는 방향 전신 기준(composition), 방향별 `2x` 얼굴 기준(identity), 흰색 크롭 유틸리티 자켓과 회색 크롭탑을 이미 겹쳐 입은 레이어 기준, 짙은 네이비 캔버스 크로스백입니다. 최종 identity 단계도 복장 결과와 같은 방향 `2x` 얼굴 기준을 다시 함께 넣습니다. 레이어 기준은 정면·전면 쿼터에서는 승인된 전면 자켓-크롭탑 기준을 사용하고, 후면에서는 피부 띠만 남기는 승인 후면 기준을 별도로 사용합니다. 측면에서는 전면·후면 통합 착장 기준을 함께 입력해 재킷 몸판을 고정합니다. 앞의 세 방향에서 확대 얼굴 패널은 얼굴형·눈·코·피부·헤어라인과 청록 단발을 고정하는 visible-face identity 앵커이고, 후면 `2x` 패널은 후두부 단발·목선만 고정하는 rear-head identity 앵커입니다. 전신 기준은 전신 프레이밍·방향·기본 복장을 고정하는 composition 앵커입니다. 레이어 기준과 가방은 추가 소품일 뿐 전신 기준을 자동으로 대체하지 않습니다. 통합 실행으로 만든 정면·전면 쿼터·측면·후면 보강 출력은 사람 승인해 각각의 전신 기준으로 대체했습니다.
 
 후면에서는 정면 얼굴을 보이게 만들지 않고, 자켓-크롭탑 레이어와 가방의 형태·스트랩·몸 방향을 검수합니다. 정면·전면 쿼터·측면에서는 얼굴 identity, 자켓의 짧은 밑단 아래에 남는 회색 상의 경계, 가방 본체와 전체 스트랩을 함께 확인합니다. 측면에는 자켓의 외곽·소매·옆/후면 패널을, 후면에는 회색 상의 대신 자켓 밑단과 바지 허리선 사이에 피부가 보이는 흰 등판·소매·짧은 밑단을 방향 전용 prompt로 보강합니다. 가방은 이 레이어 외곽을 대체하지 않아야 하며, 후면에서는 스트랩이 자켓 등판을 대각선으로 지나야 합니다. 얼굴·방향·전신 프레이밍·소품 geometry 중 하나라도 흔들리면 후보를 폐기하며, 기본 전신 기준은 유지합니다.
 
 ### 승인 전신 참조로 만든 리파인 후보
 
-아래 리파인 실행은 승인된 네 방향 전신 PNG를 composition 입력으로, 당시의 정면 CodeFormer `2x` 얼굴 패널을 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용했습니다. 정면·전면 쿼터·측면은 먼저 의상 보강 이미지를 만든 뒤 얼굴 보정 단계를 한 번 더 거쳤고, 후면은 보이는 얼굴이 없으므로 의상 보강 결과만 저장했습니다. 모든 출력은 `768 x 1152`, 의상 보강 seed는 `62377`이며, 파일명의 `run-id`로 개별 실행을 구분합니다. 이 실행 뒤 리파인 코드를 바꿔, 이후 실행에서는 정면·전면 쿼터·측면에 각각 대응하는 CodeFormer `2x` 패널을 visible-face identity 입력으로, 후면에는 단발·헤어라인·목선을 위한 rear-head identity 입력으로 사용합니다. 네 방향 리파인 결과는 사람 승인했으며, 승인 범위는 리파인 기준에 한정하고 기존 방향별 전신 composition 기준은 유지합니다.
+아래 리파인 실행은 승인된 네 방향 전신 PNG를 composition 입력으로, 당시의 정면 CodeFormer `2x` 얼굴 패널을 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용했습니다. 정면·전면 쿼터·측면은 먼저 의상 보강 이미지를 만든 뒤 얼굴 보정 단계를 한 번 더 거쳤고, 후면은 보이는 얼굴이 없으므로 의상 보강 결과만 저장했습니다. 모든 출력은 `768 x 1152`, 의상 보강 seed는 `62377`이며, 파일명의 `run-id`로 개별 실행을 구분합니다. 이 실행 뒤 리파인 코드를 바꿔, 이후 실행에서는 복장·가방 단계와 최종 identity 단계 모두에 방향별 CodeFormer `2x` 패널을 다중 참조로 넣습니다. 정면·전면 쿼터·측면은 visible-face identity, 후면은 단발·헤어라인·목선을 위한 rear-head identity를 사용합니다. 네 방향 리파인 결과는 사람 승인했으며, 승인 범위는 리파인 기준에 한정하고 기존 방향별 전신 composition 기준은 유지합니다.
 
 | 승인 정면 리파인 기준 | 승인 전면 쿼터 리파인 기준 | 승인 측면 리파인 기준 | 승인 후면 리파인 기준 |
 | --- | --- | --- | --- |
@@ -180,7 +182,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 | 생성 범위 | 소스 | 범위 옵션 |
 | --- | --- | --- |
-| 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | 없음 |
+| 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | `--steps`, `--preview-every` |
 | 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views` |
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets` |
 | 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views` |

@@ -54,12 +54,15 @@ def main() -> None:
         "--output-prefix",
         help="Filename prefix placed before the contract-hash, seed, and steps suffixes.",
     )
+    parser.add_argument("--steps", type=int, default=6, help="Number of FLUX denoising steps.")
     parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     args = parser.parse_args()
     if args.seed_count < 1:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
+    if args.steps < 1:
+        raise ValueError("steps must be at least 1")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
     pipe = Flux2KleinPipeline.from_pretrained(
@@ -74,7 +77,12 @@ def main() -> None:
     prefix = args.output_prefix or "p7-5-2-face-front-with-hair-v3"
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
-        stem = candidate_stem(prefix, seed=seed, steps=12, contract={"model": MODEL_ID, "prompt": PROMPT, "size": [768, 768]})
+        stem = candidate_stem(
+            prefix,
+            seed=seed,
+            steps=args.steps,
+            contract={"model": MODEL_ID, "prompt": PROMPT, "size": [768, 768], "steps": args.steps},
+        )
         output = ROOT / f"{stem}-candidate.png"
         report = ROOT / f"{stem}-review.json"
         started = time.monotonic()
@@ -82,7 +90,7 @@ def main() -> None:
             prompt=PROMPT,
             width=768,
             height=768,
-            num_inference_steps=12,
+            num_inference_steps=args.steps,
             guidance_scale=1.0,
             generator=torch.Generator(device="cpu").manual_seed(seed),
             max_sequence_length=256,
@@ -101,6 +109,7 @@ def main() -> None:
                     "output_prefix": prefix,
                     "output": output.name,
                     "seed": seed,
+                    "steps": args.steps,
                     "prompt": PROMPT,
                     "prompt_word_count": prompt_word_count(PROMPT),
                     "references": [],
