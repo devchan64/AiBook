@@ -1,7 +1,7 @@
 # P7-5.3 스토리보드 생성: FLUX 후보를 guide 이전에 검수하기
 
 > Section ID: `P7-5.3`
-> Version: `v2026.08.07`
+> Version: `v2026.08.08`
 
 이 절의 목적은 예쁜 한 장을 고르는 일이 아니라, 이후 단계가 믿고 읽을 수 있는 장면 기준을 만드는 일이다. 스토리보드의 인체·발·절벽·앞뒤 관계가 무너지면, 그 PNG에서 뽑은 lineart·Canny·상대 depth도 같은 오류를 구조 조건으로 전달한다. 따라서 형상이 읽히지 않는 출력은 guide로 넘기지 않고 폐기한다.
 
@@ -63,8 +63,12 @@ seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 측면 
 | 승인 RGB | lineart guide |
 | --- | --- |
 | ![승인한 FLUX.2 Klein 측면 무용 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved.png) | ![승인 스토리보드의 lineart guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-lineart.png) |
+| 사람 검수로 승인한 장면 기준 RGB다. | 승인 RGB의 큰 윤곽을 읽기 위한 파생 guide다. |
+
 | Canny guide | 상대 depth guide |
+| --- | --- |
 | ![승인 스토리보드의 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-canny.png) | ![승인 스토리보드의 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-depth.png) |
+| 승인 RGB에서 추출한 강한 경계 guide다. | 승인 RGB의 앞뒤 관계를 회색 농도로 나타낸 상대 depth guide다. |
 
 ## 네 스토리보드 산출물을 따로 참조하면 무엇이 달라지는가
 
@@ -72,11 +76,29 @@ seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 측면 
 
 상대 depth만 쓴 조건은 배경을 단색 깊이 렌더처럼 남겼지만, 인물의 전후 배치, 높은 든 다리, 지지발과 양옆 절벽의 공간 관계는 네 조건 중 가장 직접적으로 드러냈다. 따라서 이 실험에서 depth 조건은 **최종 컷 후보가 아니라 공간·가림 의도를 가장 잘 드러낸 비교 기준**이다. 색·질감까지 복원하는 최종 컷에는 RGB 스토리보드가 필요하며, depth 단독 PNG를 승인 컷·guide·후속 입력으로 승격하지 않는다.
 
-| RGB 기준 | lineart 기준 |
+| FLUX RGB 단일 기준 결과 | FLUX lineart 단일 기준 결과 |
 | --- | --- |
 | ![RGB 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-storyboard-20260807T232133299772+0900-seed-62377-candidate.png) | ![lineart 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-lineart-20260807T232133299772+0900-seed-62377-candidate.png) |
-| Canny 기준 | depth 기준 |
+| 협곡의 색·질감과 인체를 함께 유지한 비교 후보다. | 선화를 배경으로 재해석해 최종 컷에는 쓰지 않는다. |
+
+| FLUX Canny 단일 기준 결과 | FLUX depth 단일 기준 결과 |
+| --- | --- |
 | ![Canny 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-canny-20260807T232133299772+0900-seed-62377-candidate.png) | ![depth 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-depth-20260807T232133299772+0900-seed-62377-candidate.png) |
+| 윤곽 조건이 인체·배경을 크게 재해석해 최종 컷에는 쓰지 않는다. | 공간·가림 의도를 가장 직접적으로 드러내지만 최종 컷 후보는 아니다. |
+
+## Animagine 산출물도 같은 비교 기준으로 읽는다
+
+Animagine 스토리보드의 RGB·lineart·Canny·상대 depth를 같은 seed `62377`, 복장→얼굴 계약으로 각각 첫 이미지 참조에 넣어 비교했다. 네 결과 모두 흰 재킷·청록 바지·가방의 일부 신호는 수용했지만, 원래 동작의 사지 관계와 단일 인물 조건을 안정적으로 보존하지 못했다. 따라서 아래 이미지는 최종 컷이나 다음 guide의 근거가 아니라, **이미지 참조가 구조 guide를 대신하지 못한다는 실패 비교**로만 사용한다.
+
+| Animagine RGB 단일 기준 결과 | Animagine lineart 단일 기준 결과 |
+| --- | --- |
+| ![Animagine RGB 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-storyboard-20260807T233603858548+0900-seed-62377-candidate.png) | ![Animagine lineart 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-lineart-20260807T233603858548+0900-seed-62377-candidate.png) |
+| 협곡 구도는 남았지만 든 다리가 몸통·얼굴을 가리고 동작이 재해석됐다. | 선화 협곡 위에 인물·사지 형태가 중복돼 단일 인물 계약을 잃었다. |
+
+| Animagine Canny 단일 기준 결과 | Animagine depth 단일 기준 결과 |
+| --- | --- |
+| ![Animagine Canny 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-canny-20260807T233603858548+0900-seed-62377-candidate.png) | ![Animagine depth 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-depth-20260807T233603858548+0900-seed-62377-candidate.png) |
+| 윤곽을 어두운 배경과 그림자로 재해석하며 목표의 균형 동작과 접지를 보존하지 못했다. | 원래 든 다리와 협곡 거리를 실루엣 배경으로 남겼지만, 새 인물의 자세·지지발·공간은 그 depth 관계를 따르지 않았다. |
 
 ## 체크리스트
 

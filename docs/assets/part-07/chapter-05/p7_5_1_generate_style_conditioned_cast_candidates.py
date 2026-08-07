@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate review-only character-style candidates from the P7-5.1 text style contract.
+"""Generate review-only character-style candidates from approved P7-5.1 background references.
 
 Each output tests a scene composition. Outputs are independent composition
 candidates, not a turnaround or identity proof.
@@ -15,6 +15,7 @@ import time
 
 import torch
 from diffusers import Flux2KleinPipeline
+from PIL import Image
 
 
 ASSET_DIR = Path(__file__).resolve().parent
@@ -78,6 +79,14 @@ COMPOSITIONS = {
         ),
     },
 }
+STYLE_REFERENCE_BY_COMPOSITION = {
+    "street": "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+    "cafe": "p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png",
+    "rooftop": "p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png",
+    "park": "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+    "atrium": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+}
+APPROVED_STYLE_REFERENCES = tuple(sorted(set(STYLE_REFERENCE_BY_COMPOSITION.values())))
 
 
 def prompt_word_count(text: str) -> int:
@@ -88,6 +97,13 @@ def build_prompt(cast_id: str, composition_id: str) -> str:
     return f"{COMMON_STYLE_CONTRACT}{CAST_PROMPTS[cast_id]['prompt']} {COMPOSITIONS[composition_id]['prompt']}"
 
 
+def style_reference_path(composition_id: str, override: str | None) -> Path:
+    reference = ASSET_DIR / (override or STYLE_REFERENCE_BY_COMPOSITION[composition_id])
+    if not reference.is_file():
+        raise FileNotFoundError(reference)
+    return reference
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cast", choices=tuple(CAST_PROMPTS), default="young_woman_solo", help="Cast prompt ID with fixed gender and age information.")
@@ -96,6 +112,11 @@ def main() -> None:
     parser.add_argument("--seed-count", type=int, default=1)
     parser.add_argument("--seed-step", type=int, default=1)
     parser.add_argument("--steps", type=int, default=50, help="Diffusion iterations per candidate; defaults to the P7-5.1 baseline of 50.")
+    parser.add_argument(
+        "--style-reference",
+        choices=APPROVED_STYLE_REFERENCES,
+        help="Approved local-GPU background PNG to use for every requested composition instead of its default matched reference.",
+    )
     parser.add_argument("--output-prefix", default="p7-5-1-style-conditioned-cast")
     args = parser.parse_args()
 
@@ -118,9 +139,11 @@ def main() -> None:
         for composition_id in args.compositions:
             width, height = COMPOSITIONS[composition_id]["size"]
             prompt = build_prompt(args.cast, composition_id)
+            style_reference = style_reference_path(composition_id, args.style_reference)
             output = ASSET_DIR / f"{args.output_prefix}-{args.cast}-{composition_id}-{timestamp}-seed-{seed}-candidate.png"
             started = time.monotonic()
             image = pipe(
+                image=Image.open(style_reference).convert("RGB"),
                 prompt=prompt,
                 width=width,
                 height=height,
@@ -135,6 +158,7 @@ def main() -> None:
                     "cast": args.cast,
                     "age_and_gender": CAST_PROMPTS[args.cast]["age_and_gender"],
                     "composition": composition_id,
+                    "style_reference": style_reference.name,
                     "output": output.name,
                     "seed": seed,
                     "prompt": prompt,
@@ -150,20 +174,20 @@ def main() -> None:
     report = ASSET_DIR / f"{args.output_prefix}-{args.cast}-{timestamp}-review.json"
     report.write_text(json.dumps({
         "status": "review_required",
-        "purpose": "Character-style candidates that test the P7-5.1 text style contract across scene compositions, genders, and ages.",
+        "purpose": "Character-style candidates that test an approved P7-5.1 background image reference and text style contract across scene compositions, genders, and ages.",
         "model": {"id": MODEL_ID, "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"},
-        "style_input": "text_only_p7_5_1_contract",
+        "style_input": "one_approved_background_png_plus_p7_5_1_text_contract",
         "requested_cast": args.cast,
         "cast": CAST_PROMPTS[args.cast],
         "requested_compositions": args.compositions,
         "composition_prompts": {item: COMPOSITIONS[item]["prompt"] for item in args.compositions},
-        "input_policy": "No background image is supplied to the model. The prompt carries the P7-5.1 text style contract only; each output is an independent composition candidate, not an identity-preserving turnaround.",
+        "input_policy": "Supply one individual approved local-GPU background PNG as image input for each run. By default it is matched to the requested composition; --style-reference can override that choice for a controlled comparison. The prompt carries the P7-5.1 text style contract, and each output remains an independent composition candidate, not an identity-preserving turnaround.",
         "steps": args.steps,
         "guidance_scale": 4.0,
         "runs": runs,
         "review_checklist": [
             "The cast keeps the P7-5.1 text contract's thin charcoal line role and translucent watercolor layers.",
-            "Uneven pigment pooling and wet-on-wet texture remain visible without copying the background's location or lighting.",
+            "The approved background reference transfers line, pigment, and lighting treatment without making the cast scene a duplicate of the reference location.",
             "The output remains an edge-to-edge single scene without an outer rectangular outline, panel divisions, or a dark border.",
         ],
         "decision": "Candidate only; a person must confirm the P7-5.1 style contract before any output can be used as a cast-style reference.",

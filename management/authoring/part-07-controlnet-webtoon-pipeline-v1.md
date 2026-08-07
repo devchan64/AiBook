@@ -206,7 +206,7 @@ ComfyUI inpainting은 수정할 영역을 mask로 지정하고 inpainting용 VAE
 
 ## 현재 검증 경로
 
-이전 manifest와 검사기는 제거했다. 현재 기준은 `docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py`가 텍스트에서 한 장면 스토리보드를 먼저 만들고, 사람 검수 후 같은 스토리보드에서 lineart·canny·depth를 추출하는 경로다. 승인한 스토리보드는 `p7_5_3_flux2_storyboard_character.py`에서 P7-5.2 얼굴·복장 기준과 함께 FLUX.2 Klein 4B의 다중 참조 입력으로 사용한다. 승인 여부는 정적 manifest가 아니라 스토리보드·파생 guide·최종 컷의 실제 사람 검수와 P7-5.3 원고의 비교 표로 기록한다.
+이전 manifest와 검사기는 제거했다. 현재 기준은 `docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py`가 FLUX.2 Klein 4B로 후보 스토리보드를 먼저 만들고, 사람 검수로 승인한 PNG를 명시했을 때만 lineart·canny·depth를 추출하는 경로다. 형상이 무너진 후보와 그 파생 guide는 다음 단계 입력으로 쓰지 않고 삭제한다. 현재 승인 스토리보드·guide·최종 캐릭터 컷은 없으며, 승인 여부는 정적 manifest가 아니라 P7-5.3 원고와 릴리즈노트에 남기는 실제 사람 검수로 기록한다.
 
 ## 채택과 제외
 

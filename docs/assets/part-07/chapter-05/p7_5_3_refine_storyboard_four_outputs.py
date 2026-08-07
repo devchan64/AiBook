@@ -44,23 +44,31 @@ GUIDE_LABELS = {
 
 
 def background_prompt(guide_kind: str) -> str:
+    if guide_kind == "depth":
+        return (
+            "Reference image 1 is the complete dressed dancer panel after the outfit stage. Preserve its dancer, clothing, bag, silhouette, raised left leg, planted right foot, arm order, and full-body framing. "
+            "Reference image 2 is a relative-depth layout, not the final visible background. Use it only to correct the camera depth, narrow canyon walls, and floor recession. "
+            "Render a complete natural-color pale sandstone-and-gravel canyon: tall craggy cliffs rise close at both sides and behind the dancer, with a narrow visible gap around her silhouette. "
+            "The visible panel is the natural canyon scene with the dressed dancer, not a grayscale depth image. One person, complete limbs, no text or labels."
+        )
     return (
-        f"Reference image 1 is {GUIDE_LABELS[guide_kind]}. Use it to fix the canyon, camera, dancer silhouette, raised leg, planted foot, arm placement, spatial depth, and full-body framing. "
-        "Render a complete natural-color pale sandstone-and-gravel canyon with tall craggy cliffs, one adult dancer, and readable full-body anatomy in that layout. One person, complete limbs, no text or labels."
+        "Reference image 1 is the complete dressed dancer panel after the outfit stage. Preserve its dancer, clothing, bag, silhouette, raised leg, planted foot, arm placement, and full-body framing. "
+        f"Reference image 2 is {GUIDE_LABELS[guide_kind]}; use it only to correct the canyon, camera, and spatial depth. "
+        "Render a complete natural-color pale sandstone-and-gravel canyon with tall craggy cliffs and readable full-body anatomy. One person, complete limbs, no text or labels."
     )
 
 
-def outfit_prompt() -> str:
+def outfit_prompt(guide_kind: str) -> str:
     return (
-        "Reference image 1 is the exact complete natural-color canyon panel after the background stage. Preserve its canyon, camera, dancer silhouette, raised leg, planted foot, arm placement, spatial depth, and full-body framing. "
+        f"Reference image 1 is {GUIDE_LABELS[guide_kind]}. Use it to establish the camera, dancer silhouette, raised leg, planted foot, arm placement, spatial depth, and full-body framing. "
         "Reference images 2 and 3 define only a white cropped utility jacket over a charcoal-gray crop top, dark teal wide-leg trousers, and a navy crossbody bag. "
-        "Change only the dancer's clothing and bag to that outfit. One person, complete limbs, no text or labels."
+        "Render one adult dancer in that exact outfit and bag, with complete natural full-body anatomy, in a simple natural-color pale sandstone canyon. One person, complete limbs, no text or labels."
     )
 
 
 def face_prompt() -> str:
     return (
-        "Reference image 1 is the exact complete canyon panel after the outfit edit. Preserve its camera, canyon, dancer silhouette, raised leg, planted foot, arm placement, spatial depth, hair, clothing, and bag. "
+        "Reference image 1 is the exact complete canyon panel after the background stage. Preserve its camera, canyon, dancer silhouette, raised leg, planted foot, arm placement, spatial depth, hair, clothing, and bag. "
         "Reference image 2 defines only the dancer's visible face identity from the frontal reference. "
         "Change only the visible face in reference image 1. Preserve its hair, clothing, bag, anatomy, limbs, lighting, and every other part of the panel. One person, no text or labels."
     )
@@ -94,12 +102,12 @@ def main() -> None:
     )
     parser.add_argument("--seed", type=int, default=BASE_SEED)
     parser.add_argument("--stage", choices=("all", "background", "outfit", "face"), default="all")
-    parser.add_argument("--intermediate", type=Path, help="background·outfit·face 단독 실행에 쓸 직전 단계 PNG")
+    parser.add_argument("--intermediate", type=Path, help="background·face 단독 실행에 쓸 직전 단계 PNG")
     parser.add_argument("--output-dir", type=Path, default=ROOT)
     parser.add_argument("--output-prefix", default="p7-5-3-four-output-character-refine")
     args = parser.parse_args()
-    if args.stage in ("outfit", "face") and args.intermediate is None:
-        raise ValueError("--stage outfit 또는 --stage face에는 --intermediate가 필요합니다.")
+    if args.stage in ("background", "face") and args.intermediate is None:
+        raise ValueError("--stage background 또는 --stage face에는 --intermediate가 필요합니다.")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
@@ -131,32 +139,13 @@ def main() -> None:
             candidate_path = args.output_dir / f"{stem}-candidate.png"
             report_path = args.output_dir / f"{stem}-review.json"
             started = time.monotonic()
-            if args.stage in ("all", "background"):
-                background = pipe(
-                    image=[guides[guide_kind]],
-                    prompt=background_prompt(guide_kind),
+            if args.stage in ("all", "outfit"):
+                outfit = pipe(
+                    image=[guides[guide_kind], outfit_front, outfit_rear],
+                    prompt=outfit_prompt(guide_kind),
                     width=IMAGE_WIDTH, height=IMAGE_HEIGHT, num_inference_steps=STEPS,
                     guidance_scale=GUIDANCE,
                     generator=torch.Generator(device="cpu").manual_seed(args.seed),
-                    max_sequence_length=MAX_SEQUENCE_LENGTH,
-                ).images[0]
-                save(background, background_path)
-                if args.stage == "background":
-                    print(f"{guide_kind}: background-stage -> {background_path}")
-                    continue
-            else:
-                background = open_image(args.intermediate)
-
-            gc.collect()
-            torch.cuda.empty_cache()
-            if args.stage in ("all", "outfit"):
-                outfit = pipe(
-                    image=[background, outfit_front, outfit_rear], prompt=outfit_prompt(),
-                    width=IMAGE_WIDTH,
-                    height=IMAGE_HEIGHT,
-                    num_inference_steps=STEPS,
-                    guidance_scale=GUIDANCE,
-                    generator=torch.Generator(device="cpu").manual_seed(args.seed + 1),
                     max_sequence_length=MAX_SEQUENCE_LENGTH,
                 ).images[0]
                 save(outfit, outfit_path)
@@ -168,8 +157,27 @@ def main() -> None:
 
             gc.collect()
             torch.cuda.empty_cache()
+            if args.stage in ("all", "background"):
+                background = pipe(
+                    image=[outfit, guides[guide_kind]], prompt=background_prompt(guide_kind),
+                    width=IMAGE_WIDTH,
+                    height=IMAGE_HEIGHT,
+                    num_inference_steps=STEPS,
+                    guidance_scale=GUIDANCE,
+                    generator=torch.Generator(device="cpu").manual_seed(args.seed + 1),
+                    max_sequence_length=MAX_SEQUENCE_LENGTH,
+                ).images[0]
+                save(background, background_path)
+                if args.stage == "background":
+                    print(f"{guide_kind}: background-stage -> {background_path}")
+                    continue
+            else:
+                background = open_image(args.intermediate)
+
+            gc.collect()
+            torch.cuda.empty_cache()
             candidate = pipe(
-                image=[outfit, face_reference], prompt=face_prompt(),
+                image=[background, face_reference], prompt=face_prompt(),
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
                 num_inference_steps=STEPS,
@@ -191,7 +199,7 @@ def main() -> None:
                     "elapsed_seconds": elapsed,
                     "model": MODEL_ID,
                     "guide_input": {"kind": guide_kind, "path": {"storyboard": args.storyboard, "lineart": args.lineart, "canny": args.canny, "depth": args.depth}[guide_kind].name},
-                    "stages": {"background": background_prompt(guide_kind), "outfit": outfit_prompt(), "face_final": face_prompt()},
+                    "stages": {"outfit": outfit_prompt(guide_kind), "background": background_prompt(guide_kind), "face_final": face_prompt()},
                     "decision": "Review each guide's contribution to pose, canyon spacing, limb completeness, outfit geometry, and face identity before approval.",
                 },
                 indent=2,
