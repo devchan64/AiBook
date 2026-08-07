@@ -1,7 +1,7 @@
 # Part 6 Wrap-up
 
 > Section ID: `P6-summary`
-> Version: `v2026.07.31`
+> Version: `v2026.08.07`
 
 The review plan for this summary page is to separate `computation inside the model`, `prompt and retrieval`, `tool connection`, `quality evaluation`, and `service operation records` again. This distinction must remain so that, in Part 7, you do not mix the result sentence of a small project with a reviewable execution record.
 
@@ -21,7 +21,7 @@ This Part did not begin with `whether the model answers well`. It first treated 
 - Tool use and agents connect outside-model lookup, calculation, and execution, and they change the next action based on intermediate observations.
 - MCP and harnesses are not about model capability itself. They are perspectives on tool connection format, execution records, reproducibility, and reviewability.
 - A good sentence and a serviceable answer are different. Evaluation, cost, latency, failure response, and execution records must be checked together.
-- Development history and the BERT family are background maps that keep the GPT-centered main current from being exaggerated.
+- Development history and the BERT family are background maps that keep the GPT-centered main current from being exaggerated, and open-weight models show that openness scope and memory-placement responsibility move together when users run models directly.
 
 ## Easy Misunderstandings
 
@@ -45,7 +45,7 @@ This Part did not begin with `whether the model answers well`. It first treated 
 | Attaching evidence and execution | Once prompt limits are crossed, RAG, vector databases, tool use, and AI agent structures become necessary. |
 | Leaving connections and records | MCP helps connect tools and resources in a consistent format, and a harness wraps runs so causes and results can be inspected again. |
 | Reviewing service state | LLM evaluation does not look only at answer sentences. It also includes automatic evaluation, human evaluation, operation constraints, and failure response. |
-| Balancing with background and comparison | Development history and the BERT family provide comparison axes that prevent GPT-centered explanations from covering every language-model explanation. |
+| Balancing with background and execution choices | Development history and the BERT family prevent GPT-centered explanations from covering every language-model explanation, and open-weight models make openness scope and direct-execution responsibility visible together. |
 
 ## Question for the Next Part
 

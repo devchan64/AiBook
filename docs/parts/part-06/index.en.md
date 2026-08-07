@@ -1,7 +1,7 @@
 # Part 6. LLMs and Generative AI
 
 > Section ID: `P6-index`
-> Version: `v2026.07.31`
+> Version: `v2026.08.07`
 
 The first plan for this opening page is to read `request`, `input representation`, `candidate generation`, `evidence augmentation`, `tool execution`, `evaluation`, and `operation records` separately. Start with a standard for recording the evidence and execution path that produced an answer, not with the naturalness of the answer itself.
 
@@ -9,7 +9,7 @@ Part 6 moves the deep-learning structures covered in Part 5 into the actual expe
 
 Then it follows how text becomes a computable input through tokens, token IDs, and embeddings. Transformer and GPT-family structures are read as flows that create the next candidate from that input. After that, pretraining, fine-tuning, instruction tuning, and alignment show how response habits are formed.
 
-In the middle and later sections, the discussion expands from inside-the-model explanations into actual usage structures. Prompts, RAG (retrieval-augmented generation), vector databases, tool use, agents, MCP (Model Context Protocol), and harnesses are not treated as separate buzzwords. They are reinforcement structures that make generated results easier to review. Finally, LLM evaluation, automatic and human evaluation, service operation constraints, failure response, and the run records of a small generative-AI feature separate a natural answer from a reviewable service result. Development history and the BERT family are placed after the main current as a background map and comparison axis so the GPT-centered explanation does not become overgeneralized.
+In the middle and later sections, the discussion expands from inside-the-model explanations into actual usage structures. Prompts, RAG (retrieval-augmented generation), vector databases, tool use, agents, MCP (Model Context Protocol), and harnesses are not treated as separate buzzwords. They are reinforcement structures that make generated results easier to review. Finally, LLM evaluation, automatic and human evaluation, service operation constraints, failure response, and the run records of a small generative-AI feature separate a natural answer from a reviewable service result. Development history and the BERT family serve as a background map and comparison axis that keep the GPT-centered explanation from being overgeneralized, and open-weight models are read through the openness scope, runtime, and memory-placement responsibility that users take on when they run models directly.
 
 ## Part 6 Generative AI Understanding Standards
 
@@ -38,7 +38,7 @@ This Part is also not an implementation guide for training large models directly
 | Module 5. Prompts And Evidence Reinforcement | What must be attached from outside when prompts are not enough? | Freshness, grounding, and retrieval failure are not solved by prompt wording alone. |
 | Module 6. Tool And Agent Execution Structures | How are outside-model execution and multistep work connected? | Tools, agents, MCP, and harnesses reveal problems of connection and observation. |
 | Module 7. Reviewable Service State | What differs between a good sentence and a serviceable answer? | Evaluation, cost, latency, failure response, and execution records must remain together. |
-| Module 8. Background Map And Comparison | How can we read the GPT-centered main current without overgeneralizing it? | Development history and the BERT family help separate direct lineage from comparison axes. |
+| Module 8. Background Map And Comparison | How can we read the GPT-centered main current and direct-execution choices without overgeneralizing them? | Development history and the BERT family separate direct lineage from comparison axes, and open-weight models make openness scope and execution responsibility visible together. |
 
 ## Generative AI Reading Flow
 
@@ -52,7 +52,7 @@ generative-AI artifacts
 -> prompts and evidence reinforcement
 -> tool and AI agent execution structure
 -> reviewable service state
--> background map and comparison
+-> background map and execution choices
 ```
 
 After Part 6, generative AI should no longer look only like `a model that produces plausible answers`. It should be readable as `a system that combines requests, input representations, candidate generation, evidence reinforcement, tool execution, evaluation, and operation records`. This standard becomes the starting point for deciding what to build and what to record in the small project of Part 7.

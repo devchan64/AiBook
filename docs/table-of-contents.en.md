@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.23`
+> Version: `v2026.08.07`
 
 This document is the reader-facing table of contents for AiBook. Rather than listing files only, it gives a quick view of the relearning sequence from `Introduction to AI and the Landscape -> Foundational Recovery -> Data Modeling -> Machine Learning -> Deep Learning -> LLMs and Generative AI -> Projects`.
 
@@ -772,6 +772,10 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 - **P6-20.1 Why the BERT Family Is a Reading-Centered Transformer Comparison Axis**: compares the GPT generation family with the BERT understanding family.
 - **P6-20.2 Why Understanding-Centered Tasks Output Judgments Before Long Answers**: reviews classification, sentence-pair judgment, search and ranking, and embedding reuse.
+
+#### Chapter 21. Open-Weight Models `Service Structure`
+
+- **P6-21.2 Local Runtime Environments and Memory Placement**: separates GPU VRAM, CPU RAM, dtype, quantization, and CPU offloading when running open-weight models directly, and keeps execution feasibility separate from quality judgment.
 
 ## Part 7. Projects
 
