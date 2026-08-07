@@ -18,11 +18,11 @@
 
 ## 현황 요약
 
-- 전체 slug 수: 329
-- 한국어 파일: 329개
-- 영어 파일: 329개
-- 중국어 파일: 329개
-- 3개 언어 모두 있는 slug: 329개
+- 전체 slug 수: 330
+- 한국어 파일: 330개
+- 영어 파일: 330개
+- 중국어 파일: 330개
+- 3개 언어 모두 있는 slug: 330개
 - 한국어만 있는 slug: 0개
 - 한국어 기준으로 영어 누락: 0개
 - 한국어 기준으로 중국어 누락: 0개
@@ -97,6 +97,7 @@
 | `correlation-coefficient` | 상관계수(correlation coefficient) | correlation coefficient | 相关系数(correlation coefficient) | 완비 |
 | `cosine-similarity` | 코사인 유사도(cosine similarity) | cosine similarity | 余弦相似度 | 완비 |
 | `covariance` | 공분산(covariance) | covariance | 协方差(covariance) | 완비 |
+| `cpu-offloading` | CPU offloading(CPU 오프로딩) | CPU offloading | CPU offloading | 완비 |
 | `credential` | 인증 정보(credential) | credential | 凭据 | 완비 |
 | `cross-entropy` | 교차 엔트로피(cross-entropy) | cross-entropy | 交叉熵(cross-entropy) | 완비 |
 | `cross-validation` | 교차검증(cross-validation) | cross-validation | 交叉验证(cross-validation) | 완비 |

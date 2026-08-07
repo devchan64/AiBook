@@ -85,3 +85,5 @@ This page lists English glossary entries for this letter. Entry bodies are assem
 --8<-- "reference/concept-glossary-terms/confidence-interval.en.md"
 
 --8<-- "reference/concept-glossary-terms/covariance.en.md"
+
+--8<-- "reference/concept-glossary-terms/cpu-offloading.en.md"

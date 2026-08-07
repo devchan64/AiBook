@@ -528,6 +528,7 @@ nav:
               - "P6-20.2 긴 답변보다 판단값을 먼저 내는 이해 중심 태스크": parts/part-06/chapter-20/section-02.md
           - "Chapter 21. 오픈웨이트 모델":
               - "P6-21.1 오픈웨이트 모델은 무엇을 공개하는가": parts/part-06/chapter-21/section-01.md
+              - "P6-21.2 로컬 실행 환경과 메모리 배치": parts/part-06/chapter-21/section-02.md
       - "마무리": parts/part-06/summary.md
   - "Part 7. 프로젝트":
       - "개요": parts/part-07/index.md
