@@ -1,7 +1,7 @@
 # P7-5.4 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기
 
 > Section ID: `P7-5.4`
-> Version: `v2026.08.06`
+> Version: `v2026.08.07`
 
 마지막 실험은 `P7-5.3`에서 생성한 컷신 후보 중 전체 frame이 읽히는 결과만 대상으로, 화풍과 컷 사이 연속성을 보정하는 단계입니다. 목표는 한 장의 예쁜 이미지를 만드는 것이 아니라, 다른 pose·camera·장소의 네 컷에서 인물성, 화풍, 구조, 국소 디테일을 분리해 판정하는 것입니다. ControlNet은 pose·camera·silhouette 같은 구조 입력을 확인하는 수단이고, inpaint는 그 전체 frame이 통과한 뒤에만 얼굴·손·발·소품 접점을 고치는 수단입니다.
 
@@ -86,7 +86,7 @@ off 결과는 옆면과 전신 비례를 따르지 못한 단순 인물입니다
 
 ## 생성 전에 지키는 입력 계약
 
-이전 manifest 검사기는 삭제했다. 대신 P7-5.3의 [텍스트 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 고정 텍스트로 한 장면 스토리보드를 생성하고, 검수 가능한 `lineart`, `canny`, `depth`만 파생한다. [구조 guide 웹툰 코드](../../../assets/part-07/chapter-05/p7_5_3_structural_guided_webtoon.py)는 그중 사람이 통과시킨 guide만 입력으로 받으며, 스토리보드 RGB나 참조 사진을 초기 이미지로 쓰지 않는다.
+이전 manifest 검사기는 삭제했다. P7-5.3의 [텍스트 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 고정 텍스트로 한 장면 스토리보드를 만들고 lineart·Canny·depth를 파생한다. 승인한 장면은 [FLUX.2 캐릭터 컷 코드](../../../assets/part-07/chapter-05/p7_5_3_flux2_storyboard_character.py)에서 장면 기준 이미지로, P7-5.2 얼굴·복장 기준과 함께 사용한다. 이 절의 inpaint 판단은 그 전체 컷을 먼저 사람 검수한 뒤에만 시작한다.
 
 P7-5.4에서 inpaint를 검토할 수 있는 조건도 같다. 먼저 P7-5.3에서 행동·인체·거리 관계가 읽히는 스토리보드와 전체 웹툰 컷을 사람 검수한다. 그 전체 frame이 통과하지 않으면 얼굴·손·발·소품의 mask 보정으로 넘어가지 않는다.
 
