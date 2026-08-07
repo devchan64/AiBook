@@ -73,22 +73,6 @@ seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 화면 
 | ![승인한 FLUX.2 Klein 전진 도약 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved.png) | ![승인 전진 도약 스토리보드의 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-canny.png) | ![승인 전진 도약 스토리보드의 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-depth.png) |
 | 사람 검수로 승인한 장면 기준 RGB다. | 승인 RGB에서 추출한 강한 경계 guide다. | 승인 RGB의 앞뒤 관계를 회색 농도로 나타낸 상대 depth guide다. |
 
-## guide와 이미지 참조는 같은 역할이 아니다
-
-같은 seed `62377`과 같은 복장·얼굴 기준으로 RGB, lineart, Canny, 상대 depth를 각각 첫 이미지 참조로 넣어 비교했다. RGB만 쓴 조건은 협곡의 색·질감과 인체를 함께 유지했다. lineart와 Canny만 쓴 조건은 각각 선화·윤곽을 배경 자체로 재해석했고, 실제 협곡의 광원·질감과 원래 동작을 유지하지 못했다.
-
-상대 depth만 쓴 조건은 배경을 단색 깊이 렌더처럼 남겼지만, 인물의 전후 배치, 높은 든 다리, 지지발과 양옆 절벽의 공간 관계는 네 조건 중 가장 직접적으로 드러냈다. 따라서 이 실험에서 depth 조건은 **최종 컷 후보가 아니라 공간·가림 의도를 가장 잘 드러낸 비교 기준**이다. 색·질감까지 복원하는 최종 컷에는 RGB 스토리보드가 필요하며, depth 단독 PNG를 승인 컷·guide·후속 입력으로 승격하지 않는다.
-
-| FLUX RGB 단일 기준 결과 | FLUX lineart 단일 기준 결과 |
-| --- | --- |
-| ![RGB 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-storyboard-20260807T232133299772+0900-seed-62377-candidate.png) | ![lineart 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-lineart-20260807T232133299772+0900-seed-62377-candidate.png) |
-| 협곡의 색·질감과 인체를 함께 유지한 비교 후보다. | 선화를 배경으로 재해석해 최종 컷에는 쓰지 않는다. |
-
-| FLUX Canny 단일 기준 결과 | FLUX depth 단일 기준 결과 |
-| --- | --- |
-| ![Canny 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-canny-20260807T232133299772+0900-seed-62377-candidate.png) | ![depth 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-depth-20260807T232133299772+0900-seed-62377-candidate.png) |
-| 윤곽 조건이 인체·배경을 크게 재해석해 최종 컷에는 쓰지 않는다. | 공간·가림 의도를 가장 직접적으로 드러내지만 최종 컷 후보는 아니다. |
-
 ## LoRA 전환에는 별도 데이터와 학습 환경이 필요하다
 
 다중참조만으로 얼굴과 복장이 약하게 섞이면 LoRA를 검토할 수 있다. 현 경로에 맞는 모델은 Apache-2.0인 **FLUX.2 Klein 4B Base**다. 학습은 Base checkpoint에서 하고, 완성한 adapter는 빠른 distilled 4B 추론 모델에 붙인다.

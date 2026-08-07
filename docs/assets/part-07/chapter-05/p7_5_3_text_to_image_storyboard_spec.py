@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a text-only FLUX storyboard; derive guides only from an approved PNG."""
+"""Generate a two-stage storyboard without character reference images; derive guides only from an approved PNG."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 import torch
-from diffusers import Flux2KleinPipeline, StableDiffusionXLPipeline
+from diffusers import Flux2KleinPipeline
 from PIL import Image
 from p7_5_image_output_naming import candidate_stem
 
@@ -20,13 +20,13 @@ PROJECT_ROOT = ASSET_DIR.parents[3]
 DEPTH_ANYTHING_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-depth-anything-v2-small"
 FLUX2_KLEIN_MODEL = "black-forest-labs/FLUX.2-klein-4B"
 FLUX2_KLEIN_CACHE = PROJECT_ROOT / ".tmp/p7-5-3-flux2-klein-cache"
-ANIMAGINE_MODEL = Path("/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96")
 
 
 @dataclass(frozen=True)
 class FluxStoryboardDefaults:
     seed: int = 5420
-    steps: int = 12
+    background_steps: int = 3
+    character_steps: int = 3
     width: int = 768
     height: int = 1152
     guidance_scale: float = 1.0
@@ -36,41 +36,43 @@ class FluxStoryboardDefaults:
 DEFAULTS = FluxStoryboardDefaults()
 
 
-@dataclass(frozen=True)
-class AnimagineStoryboardDefaults:
-    seed: int = 5413
-    steps: int = 28
-    width: int = 832
-    height: int = 1216
-    guidance_scale: float = 5.0
-
-
-ANIMAGINE_DEFAULTS = AnimagineStoryboardDefaults()
-
-FLUX_STORYBOARD_PROMPT = (
-    "One vertical storyboard panel: an adult contemporary dancer with a short jaw-length bob stands alone on a pale sandstone-and-gravel canyon floor that continues into the bases of the nearby cliffs, "
-    "framed by tall craggy cliffs immediately behind and at both sides, with a narrow visible gap from her silhouette. "
-    "Full-body contemporary dance balance with natural adult anatomy: one long, straight raised left leg extends high on a front diagonal, knee extended; right foot planted. "
-    "Show her full body in a left-facing side profile, with her eyes looking along the canyon toward the left. Her torso gently tilts toward the right supporting leg, and both arms open outward in balance at shoulder height. "
-    "She wears a black sleeveless leotard and opaque black tights."
+CHARACTER_STAGE_PROMPT = (
+    "Vertical storyboard, wide view from a gently elevated camera: one full-body adult contemporary dancer airborne in an expressive leap above an empty neutral floor, no scenery or props. "
+    "Short jaw-length bob. She turns her eyes and face toward the right side of the frame; her rightward gaze is clearly visible. "
+    "Black sleeveless leotard and opaque black tights. She leaps forward through the air like a contemporary dancer running forward: one leg extends ahead in the travel direction and the other stretches straight behind. "
+    "Natural anatomy, no cropped limbs."
 )
 
+BACKGROUND_STAGE_PROMPT = (
+    "Keep the supplied dancer completely unchanged, including her pose, anatomy, silhouette, clothing, framing, and lighting. "
+    "Replace only the empty floor with a pale sandstone-and-gravel canyon floor and tall craggy cliffs at both sides and behind. "
+    "No extra people, animals, props, or text."
+)
+
+CHARACTER_ON_BACKGROUND_PROMPT = (
+    "Use the supplied empty canyon as fixed scenery. Add one full-body adult dancer in a wide gently elevated view: short bob, gaze toward the right side of the frame, "
+    "black leotard and tights, airborne in a forward-traveling contemporary-dance leap with one leg forward and one leg straight behind. No extra people, props, or text."
+)
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="FLUX.2 Klein 또는 Animagine XL로 텍스트 전용 후보 스토리보드를 만들거나, 승인 PNG에서만 guide를 추출합니다."
+        description="FLUX.2 Klein으로 캐릭터→배경 후보 스토리보드를 만들거나, 승인 PNG에서만 guide를 추출합니다."
     )
-    parser.add_argument("--model", choices=("flux2-klein", "animagine-xl"), default="flux2-klein")
-    parser.add_argument("--seed", type=int, help="재현용 시작 seed; 생략하면 모델별 기본값")
+    parser.add_argument("--seed", type=int, help="재현용 시작 seed; 생략하면 FLUX 기본값")
     parser.add_argument("--runs", type=int, default=1, help="seed를 1씩 늘릴 횟수")
-    parser.add_argument("--steps", type=int, help="확산 반복 수; 생략하면 모델별 기본값")
+    parser.add_argument("--background-steps", type=int, help="배경 단계 확산 반복 수; 생략하면 3")
+    parser.add_argument("--character-steps", type=int, help="캐릭터 단계 확산 반복 수; 생략하면 3")
+    parser.add_argument("--steps", type=int, help="호환용: 두 단계에 같은 확산 반복 수를 적용")
+    parser.add_argument("--background-from", type=Path, help="호환용: 기존 배경 PNG에 캐릭터 단계만 실행")
+    parser.add_argument("--character-from", type=Path, help="1차 캐릭터 PNG를 입력으로 받아 2차 배경 단계만 실행")
+    parser.add_argument("--character-only", action="store_true", help="1차 캐릭터 단계만 생성하고 2차 배경 단계는 건너뜀")
     parser.add_argument("--width", type=int, help="출력 너비; 생략하면 모델별 기본값")
     parser.add_argument("--height", type=int, help="출력 높이; 생략하면 모델별 기본값")
     parser.add_argument("--output-dir", type=Path, default=ASSET_DIR, help="후보 PNG 저장 폴더")
     parser.add_argument(
         "--derive-guides-from",
         type=Path,
-        help="사람 검수로 승인한 스토리보드 PNG에서만 lineart·Canny·depth를 추출",
+        help="사람 검수로 지정한 스토리보드 PNG에서만 Canny·depth를 추출",
     )
     return parser
 
@@ -84,14 +86,6 @@ def save(image: Image.Image, output_dir: Path, stem: str) -> Path:
     path = output_dir / f"{stem}.png"
     image.save(path)
     return path
-
-
-def derive_lineart(image: Image.Image) -> Image.Image:
-    grayscale = cv2.cvtColor(np.asarray(image), cv2.COLOR_RGB2GRAY)
-    lineart = cv2.adaptiveThreshold(
-        grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 7
-    )
-    return Image.fromarray(lineart).convert("RGB")
 
 
 def derive_canny(image: Image.Image) -> Image.Image:
@@ -133,8 +127,7 @@ def derive_depth(image: Image.Image) -> Image.Image | None:
 def derive_and_save_guides(image_path: Path, output_dir: Path) -> list[Path]:
     image = Image.open(image_path).convert("RGB")
     stem = f"{image_path.stem}-guide"
-    outputs = [save(derive_lineart(image), output_dir, f"{stem}-lineart")]
-    outputs.append(save(derive_canny(image), output_dir, f"{stem}-canny"))
+    outputs = [save(derive_canny(image), output_dir, f"{stem}-canny")]
     depth = derive_depth(image)
     if depth is not None:
         outputs.append(save(depth, output_dir, f"{stem}-depth"))
@@ -145,6 +138,14 @@ def main() -> None:
     args = build_parser().parse_args()
     if args.runs < 1:
         raise ValueError("--runs는 1 이상이어야 합니다.")
+    if args.background_from and not args.background_from.is_file():
+        raise FileNotFoundError(f"기존 배경 PNG를 찾지 못했습니다: {args.background_from}")
+    if args.character_from and not args.character_from.is_file():
+        raise FileNotFoundError(f"1차 캐릭터 PNG를 찾지 못했습니다: {args.character_from}")
+    if sum(value is not None for value in (args.background_from, args.character_from)) > 1:
+        raise ValueError("--background-from과 --character-from은 함께 사용할 수 없습니다.")
+    if args.character_only and (args.background_from or args.character_from):
+        raise ValueError("--character-only는 --background-from 또는 --character-from과 함께 사용할 수 없습니다.")
     require_cuda()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     if args.derive_guides_from:
@@ -153,41 +154,88 @@ def main() -> None:
         for output in derive_and_save_guides(args.derive_guides_from, args.output_dir):
             print(f"[승인 스토리보드 guide] {output}")
         return
-    if args.model == "flux2-klein":
-        if not FLUX2_KLEIN_CACHE.exists():
-            raise FileNotFoundError(f"로컬 FLUX.2 Klein cache를 찾지 못했습니다: {FLUX2_KLEIN_CACHE}")
-        defaults = DEFAULTS
-        pipeline = Flux2KleinPipeline.from_pretrained(
-            FLUX2_KLEIN_MODEL, torch_dtype=torch.bfloat16, cache_dir=FLUX2_KLEIN_CACHE, local_files_only=True
-        )
-    else:
-        if not ANIMAGINE_MODEL.is_dir():
-            raise FileNotFoundError(f"로컬 Animagine XL 모델을 찾지 못했습니다: {ANIMAGINE_MODEL}")
-        defaults = ANIMAGINE_DEFAULTS
-        pipeline = StableDiffusionXLPipeline.from_pretrained(ANIMAGINE_MODEL, torch_dtype=torch.float16, local_files_only=True)
-    pipeline.enable_sequential_cpu_offload()
-    pipeline.set_progress_bar_config(disable=True)
+    if not FLUX2_KLEIN_CACHE.exists():
+        raise FileNotFoundError(f"로컬 FLUX.2 Klein cache를 찾지 못했습니다: {FLUX2_KLEIN_CACHE}")
+    defaults = DEFAULTS
+    background_pipeline = Flux2KleinPipeline.from_pretrained(
+        FLUX2_KLEIN_MODEL, torch_dtype=torch.bfloat16, cache_dir=FLUX2_KLEIN_CACHE, local_files_only=True
+    )
+    character_pipeline = background_pipeline
+    background_pipeline.enable_sequential_cpu_offload()
+    background_pipeline.set_progress_bar_config(disable=True)
     try:
         for run_index in range(args.runs):
             seed = (args.seed if args.seed is not None else defaults.seed) + run_index
-            steps = args.steps if args.steps is not None else defaults.steps
-            stem = candidate_stem(f"p7-5-3-{args.model}-run-{run_index + 1:02d}", seed=seed, steps=steps, contract={"model": args.model, "prompt": FLUX_STORYBOARD_PROMPT, "size": [args.width or defaults.width, args.height or defaults.height]})
+            background_steps = args.background_steps if args.background_steps is not None else (args.steps if args.steps is not None else defaults.background_steps)
+            character_steps = args.character_steps if args.character_steps is not None else (args.steps if args.steps is not None else defaults.character_steps)
+            if background_steps < 1 or character_steps < 1:
+                raise ValueError("--background-steps와 --character-steps는 1 이상이어야 합니다.")
+            width, height = args.width or defaults.width, args.height or defaults.height
+            if args.character_from:
+                stage_name, total_steps = "background-only", background_steps
+            elif args.background_from or args.character_only:
+                stage_name, total_steps = "character-only", character_steps
+            else:
+                stage_name, total_steps = f"character-steps-{character_steps}-background-steps-{background_steps}", background_steps + character_steps
+            stem = candidate_stem(
+                f"p7-5-3-flux2-klein-run-{run_index + 1:02d}-{stage_name}",
+                seed=seed,
+                steps=total_steps,
+                contract={
+                    "model": "flux2-klein",
+                    "background_input": str(args.background_from) if args.background_from else None,
+                    "character_input": str(args.character_from) if args.character_from else None,
+                    "character_only": args.character_only,
+                    "character_prompt": CHARACTER_STAGE_PROMPT,
+                    "background_prompt": BACKGROUND_STAGE_PROMPT,
+                    "size": [width, height],
+                },
+            )
             torch.cuda.reset_peak_memory_stats()
-            storyboard = pipeline(
-                prompt=FLUX_STORYBOARD_PROMPT,
-                width=args.width or defaults.width,
-                height=args.height or defaults.height,
-                num_inference_steps=args.steps or defaults.steps,
-                guidance_scale=defaults.guidance_scale,
-                generator=torch.Generator(device="cpu" if args.model == "flux2-klein" else "cuda").manual_seed(seed),
-                **({"max_sequence_length": DEFAULTS.max_sequence_length} if args.model == "flux2-klein" else {}),
-            ).images[0]
+            if args.character_from:
+                stage_input = Image.open(args.character_from).convert("RGB")
+                stage_input_output = args.character_from
+                final_prompt = BACKGROUND_STAGE_PROMPT
+                final_steps = background_steps
+            elif args.background_from:
+                stage_input = Image.open(args.background_from).convert("RGB")
+                stage_input_output = args.background_from
+                final_prompt = CHARACTER_ON_BACKGROUND_PROMPT
+                final_steps = character_steps
+            else:
+                stage_input = background_pipeline(
+                    prompt=CHARACTER_STAGE_PROMPT,
+                    width=width,
+                    height=height,
+                    num_inference_steps=character_steps,
+                    guidance_scale=defaults.guidance_scale,
+                    generator=torch.Generator(device="cpu").manual_seed(seed),
+                    max_sequence_length=DEFAULTS.max_sequence_length,
+                ).images[0]
+                stage_input_output = save(stage_input, args.output_dir, f"{stem}-character-stage")
+                if args.character_only:
+                    print(f"[1차 캐릭터 검수 후보] {stage_input_output}")
+                    continue
+                final_prompt = BACKGROUND_STAGE_PROMPT
+                final_steps = background_steps
+            final_kwargs = {
+                "prompt": final_prompt,
+                "image": [stage_input],
+                "num_inference_steps": final_steps,
+                "guidance_scale": defaults.guidance_scale,
+                "generator": torch.Generator(device="cpu").manual_seed(seed + 1),
+            }
+            final_kwargs["width"] = width
+            final_kwargs["height"] = height
+            final_kwargs["max_sequence_length"] = DEFAULTS.max_sequence_length
+            storyboard = character_pipeline(**final_kwargs).images[0]
             output = save(storyboard, args.output_dir, f"{stem}-storyboard")
+            print(f"[1단계 입력 또는 캐릭터 후보] {stage_input_output}")
             print(f"[사람 검수 후보] {output}")
             print("[guide 보류] 승인 뒤 --derive-guides-from으로 이 PNG를 명시하세요.")
             print(f"[run {run_index + 1}/{args.runs} VRAM peak] {torch.cuda.max_memory_allocated() / 1024**2:.1f} MiB")
     finally:
-        del pipeline
+        del background_pipeline
         torch.cuda.empty_cache()
 
 
