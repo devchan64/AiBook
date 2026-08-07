@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+import gc
 import json
 from pathlib import Path
 import time
@@ -12,12 +12,15 @@ import time
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
+from p7_5_image_output_naming import candidate_stem
 
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62294
-TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
+FACE_IDENTITY_SEED = 62294
+FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
+FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 FACE_IDENTITY_BY_VIEW = {
     "front": ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png",
     "front_quarter": ROOT / "p7-5-2-face-turnaround-codeformer-front-quarter-2x.png",
@@ -44,11 +47,7 @@ VIEW_RULES = {
     ),
     "rear": "rear view, facing away from the camera",
 }
-FACE_IDENTITY_HAIR_DESCRIPTION = "deep petrol-teal, extremely voluminous jaw-length bob with medium-density hair"
-FACE_IDENTITY_EYE_DESCRIPTION = "chestnut-brown and orange-amber irises"
-APPEARANCE_RULE = (
-    "Use the supplied direction-matched 2x face identity reference for the same face, gaze, nose, hair, and eyes: "
-    f"{FACE_IDENTITY_HAIR_DESCRIPTION}; {FACE_IDENTITY_EYE_DESCRIPTION}. "
+OUTFIT_RULE = (
     "Keep the charcoal-gray micro-crop crew-neck top, bare-midriff gap, deep teal-blue wide-leg trousers, "
     "and white lace-up low-top sneakers from the outfit references."
 )
@@ -58,12 +57,24 @@ def prompt_word_count(text: str) -> int:
     return len(text.split())
 
 
-def build_prompt(view: str) -> str:
+def build_body_prompt(view: str) -> str:
     return (
         "Full-body character turnaround reference of one woman on an off-white studio background. "
-        f"{APPEARANCE_RULE} {VIEW_RULES[view]}. "
+        "Use the supplied direction-matched 2x face identity reference as the preliminary face anchor while "
+        "constructing the full body. "
+        f"{OUTFIT_RULE} {VIEW_RULES[view]}. "
         "One neutral upright standing figure, fully visible from hair to shoe soles, centered in the frame. "
         "No crop, no duplicate body, no other person, no text, and no labels."
+    )
+
+
+def build_face_identity_prompt(view: str) -> str:
+    return (
+        "Use the supplied full-body image as the fixed composition, pose, direction, clothing, and hair-to-sole framing anchor. "
+        "Restore only the direction-matched face identity from the supplied 2x identity reference: "
+        f"{FACE_IDENTITY_CONTRACT['identity_description']} "
+        f"{VIEW_RULES[view]} Keep the outfit, limbs, body proportion, and camera unchanged. "
+        "One person, no text, and no labels."
     )
 
 
@@ -82,7 +93,7 @@ def main() -> None:
     parser.add_argument(
         "--output-prefix",
         default="p7-5-2-fullbody-turnaround",
-        help="Filename prefix placed before the automatic timestamp and seed suffixes.",
+        help="Filename prefix placed before the contract-hash, seed, and steps suffixes.",
     )
     args = parser.parse_args()
     if args.seed_count < 1:
@@ -106,29 +117,43 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
 
-    run_timestamp = datetime.now().astimezone().strftime(TIMESTAMP_FORMAT)
     first_seed = BASE_SEED + args.seed_offset
     outfit_images = [Image.open(path).convert("RGB") for path in OUTFIT_REFERENCES]
+    face_images = {
+        view: Image.open(FACE_IDENTITY_BY_VIEW[view]).convert("RGB")
+        for view in args.views
+    }
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
         for view in args.views:
-            prompt = build_prompt(view)
-            reference_paths_for_view = [FACE_IDENTITY_BY_VIEW[view], *OUTFIT_REFERENCES]
-            reference_images = [
-                Image.open(FACE_IDENTITY_BY_VIEW[view]).convert("RGB"),
-                *outfit_images,
-            ]
-            output = ROOT / f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}-candidate.png"
-            report = ROOT / f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}-review.json"
+            body_prompt = build_body_prompt(view)
+            face_identity_prompt = build_face_identity_prompt(view)
+            body_reference_paths = [FACE_IDENTITY_BY_VIEW[view], *OUTFIT_REFERENCES]
+            body_reference_images = [face_images[view], *outfit_images]
+            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=12, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_prompt": face_identity_prompt, "body_references": [path.name for path in body_reference_paths], "face_identity_seed": FACE_IDENTITY_SEED, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
+            output = ROOT / f"{stem}-candidate.png"
+            report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
-            image = pipe(
-                image=reference_images,
-                prompt=prompt,
+            body_image = pipe(
+                image=body_reference_images,
+                prompt=body_prompt,
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
                 num_inference_steps=12,
                 guidance_scale=1.0,
                 generator=torch.Generator(device="cpu").manual_seed(seed),
+                max_sequence_length=256,
+            ).images[0]
+            gc.collect()
+            torch.cuda.empty_cache()
+            image = pipe(
+                image=[body_image, face_images[view]],
+                prompt=face_identity_prompt,
+                width=IMAGE_WIDTH,
+                height=IMAGE_HEIGHT,
+                num_inference_steps=12,
+                guidance_scale=1.0,
+                generator=torch.Generator(device="cpu").manual_seed(FACE_IDENTITY_SEED),
                 max_sequence_length=256,
             ).images[0]
             image.save(output)
@@ -144,11 +169,22 @@ def main() -> None:
                         "seed_step": args.seed_step,
                         "batch_index": batch_index,
                         "batch_size": args.seed_count,
-                        "run_timestamp": run_timestamp,
                         "output_prefix": args.output_prefix,
-                        "prompt": prompt,
-                        "prompt_word_count": prompt_word_count(prompt),
-                        "references": [path.name for path in reference_paths_for_view],
+                        "face_identity_seed": FACE_IDENTITY_SEED,
+                        "stages": {
+                            "body": {
+                                "prompt": body_prompt,
+                                "prompt_word_count": prompt_word_count(body_prompt),
+                                "references": [path.name for path in body_reference_paths],
+                            },
+                            "face_identity": {
+                                "prompt": face_identity_prompt,
+                                "prompt_word_count": prompt_word_count(face_identity_prompt),
+                                "seed": FACE_IDENTITY_SEED,
+                                "reference": FACE_IDENTITY_BY_VIEW[view].name,
+                                "contract": FACE_IDENTITY_CONTRACT_PATH.name,
+                            },
+                        },
                         "model": MODEL_ID,
                         "image_size": [IMAGE_WIDTH, IMAGE_HEIGHT],
                         "elapsed_seconds": elapsed,

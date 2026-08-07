@@ -10,19 +10,18 @@ from __future__ import annotations
 import argparse
 import json
 import time
-from datetime import datetime
 from pathlib import Path
 
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
+from p7_5_image_output_naming import candidate_stem
 
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-BASE_SEED = 62380
+BASE_SEED = 62382
 IMAGE_SIZE = (768, 1152)
-TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
 REFERENCE_INPUTS = (
     ("face_identity", ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png"),
     ("fullbody_front", ROOT / "p7-5-2-fullbody-front-reference.png"),
@@ -32,8 +31,9 @@ REFERENCE_INPUTS = (
 )
 BASKETBALL_JUMP_PROMPT = (
     "Same woman from the supplied references, full body, with the deep petrol-teal jaw-length bob retained; no ponytail, "
-    "long hair, or hair accessory. Airborne alley-oop dunk: her fully visible right hand grips exactly one basketball high "
-    "above her head toward one hoop, with the ball separated from her hair and fingers. Her left arm balances, left knee "
+    "long hair, or hair accessory. Airborne alley-oop dunk at the apex of the jump: her body is clearly suspended above "
+    "the court with a visible gap beneath both shoes and neither foot touching the ground. Her fully visible right hand grips "
+    "exactly one basketball high above her head toward one hoop, with the ball separated from her hair and fingers. Her left arm balances, left knee "
     "leads forward, right leg trails behind, and both legs and shoes are fully visible. Low front-left camera, modest Dutch "
     "tilt, diagonal frame. One woman, one ball, one hoop, no text, border, or panels."
 )
@@ -47,7 +47,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-prefix",
         default="p7-5-2-dynamic-basketball-jump",
-        help="Prefix placed before the timestamp and seed in candidate filenames.",
+        help="Prefix placed before the contract hash, seed, and steps in candidate filenames.",
     )
     return parser.parse_args()
 
@@ -73,8 +73,7 @@ def main() -> None:
     images = [Image.open(path).convert("RGB") for _, path in REFERENCE_INPUTS]
     for batch_index in range(args.seed_count):
         seed = BASE_SEED + args.seed_offset + batch_index
-        timestamp = datetime.now().astimezone().strftime(TIMESTAMP_FORMAT)
-        stem = f"{args.output_prefix}-{timestamp}-seed-{seed}"
+        stem = candidate_stem(args.output_prefix, seed=seed, steps=args.steps, contract={"model": MODEL_ID, "prompt": BASKETBALL_JUMP_PROMPT, "inputs": [path.name for _, path in REFERENCE_INPUTS], "size": IMAGE_SIZE})
         output = ROOT / f"{stem}-candidate.png"
         report = ROOT / f"{stem}-review.json"
         started = time.monotonic()

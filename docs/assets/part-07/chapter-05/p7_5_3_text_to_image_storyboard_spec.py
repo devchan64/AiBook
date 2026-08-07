@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 
 import cv2
@@ -13,6 +12,7 @@ import numpy as np
 import torch
 from diffusers import Flux2KleinPipeline, StableDiffusionXLPipeline
 from PIL import Image
+from p7_5_image_output_naming import candidate_stem
 
 
 ASSET_DIR = Path(__file__).resolve().parent
@@ -170,8 +170,8 @@ def main() -> None:
     try:
         for run_index in range(args.runs):
             seed = (args.seed if args.seed is not None else defaults.seed) + run_index
-            timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-            stem = f"p7-5-3-{timestamp}-flux2-klein-run-{run_index + 1:02d}-seed-{seed}"
+            steps = args.steps if args.steps is not None else defaults.steps
+            stem = candidate_stem(f"p7-5-3-{args.model}-run-{run_index + 1:02d}", seed=seed, steps=steps, contract={"model": args.model, "prompt": FLUX_STORYBOARD_PROMPT, "size": [args.width or defaults.width, args.height or defaults.height]})
             torch.cuda.reset_peak_memory_stats()
             storyboard = pipeline(
                 prompt=FLUX_STORYBOARD_PROMPT,

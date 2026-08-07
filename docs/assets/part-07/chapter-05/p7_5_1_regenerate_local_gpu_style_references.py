@@ -12,6 +12,7 @@ from pathlib import Path
 
 import torch
 from diffusers import Flux2KleinPipeline
+from p7_5_image_output_naming import candidate_stem
 
 
 ASSET_DIR = Path(__file__).resolve().parent
@@ -119,7 +120,7 @@ def main() -> None:
                 generator=torch.Generator(device="cpu").manual_seed(scene["seed"]),
                 max_sequence_length=256,
             ).images[0]
-            image_name = f"p7-5-1-style-{scene['id']}-local-gpu-{run_label}.png"
+            image_name = f"{candidate_stem(f'p7-5-1-style-{scene["id"]}-local-gpu-{run_label}', seed=scene['seed'], steps=STEPS, contract={'model': MODEL_ID, 'prompt': scene['prompt'] + COMMON_CONTRACT, 'size': SIZE, 'guidance': GUIDANCE})}.png"
             image.save(ASSET_DIR / image_name)
             runs.append(
                 {

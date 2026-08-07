@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
 import gc
 import json
 from pathlib import Path
@@ -14,13 +13,15 @@ from uuid import uuid4
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
+from p7_5_image_output_naming import candidate_stem
 
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62377
 FACE_IDENTITY_SEED = 62294
-TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
+FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
+FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 FACE_IDENTITY_BY_VIEW = {
     "front": ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png",
     "front_quarter": ROOT / "p7-5-2-face-turnaround-codeformer-front-quarter-2x.png",
@@ -28,9 +29,6 @@ FACE_IDENTITY_BY_VIEW = {
     # The rear panel anchors the back-of-head silhouette and neck line without introducing a face.
     "rear": ROOT / "p7-5-2-face-turnaround-codeformer-rear-2x.png",
 }
-FACE_FRONT_HAIR_DESCRIPTION = (
-    "Deep petrol-teal, extremely voluminous jaw-length bob with medium-density hair."
-)
 # These four stable filenames are the only approved full-body composition inputs.
 APPROVED_BODY_REFERENCES = {
     "front": ROOT / "p7-5-2-fullbody-front-reference.png",
@@ -119,7 +117,7 @@ def resolve_body_references(assignments: list[str]) -> dict[str, Path]:
 
 def unique_run_stem(prefix: str, view: str, run_id: str, seed: int) -> str:
     """Create an unused shared stem for PNG outputs and their review record."""
-    base_stem = f"{prefix}-{view}-run-{run_id}-seed-{seed}"
+    base_stem = candidate_stem(f"{prefix}-{view}", seed=seed, steps=12, contract={"run_id": run_id, "model": MODEL_ID, "face_identity_seed": FACE_IDENTITY_SEED})
     suffix = 1
     stem = base_stem
     while any(
@@ -146,10 +144,19 @@ def prop_reference_paths(prop_id: str, view: str) -> tuple[Path, ...]:
 
 
 def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
+    identity_rule = (
+        "Use the supplied direction-matched rear-head identity reference throughout this outfit pass; preserve only its "
+        f"{FACE_IDENTITY_CONTRACT['rear_hair_identity']} Do not create a visible face."
+        if view == "rear"
+        else (
+            "Use the supplied direction-matched face identity reference throughout this outfit pass; preserve the same "
+            f"visible face and hair identity: {FACE_IDENTITY_CONTRACT['identity_description']}"
+        )
+    )
     if view == "profile" and "complete_outfit" in prop_ids:
         return (
             "Refine the supplied full-body reference into the same woman in a side-profile studio image. "
-            "Preserve pose, hair-to-sole framing, dark teal trousers, and white low-top sneakers. "
+            f"Preserve pose, hair-to-sole framing, dark teal trousers, and white low-top sneakers. {identity_rule} "
             "From the supplied front and rear outfit references, render a white cropped utility jacket as the visible "
             "outer torso layer: jacket body from collar to cropped hem, side-back panel, and one long cuffed sleeve. "
             "Keep the charcoal-gray crop top as a narrow inner layer at the open front. Place the deep-navy bag at the "
@@ -174,7 +181,7 @@ def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
         view_prop_rules.append(COMPLETE_OUTFIT_VIEW_RULES[view])
     return (
         "Refine the supplied full-body reference into one full-body studio image of the same woman. "
-        f"Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and {base_clothing}. "
+        f"Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and {base_clothing}. {identity_rule} "
         f"{VIEW_RULES[view]} {prop_instructions} {' '.join(view_prop_rules)} "
         "One person, complete limbs, no text or labels."
     )
@@ -186,15 +193,15 @@ def build_identity_final_prompt(view: str) -> str:
         return (
             "Use the supplied full-body image as the fixed composition, pose, clothing, bag, and full-body framing anchor. "
             "Restore only the back-of-head hair silhouette, nape hairline, hair color, and neck contour from the supplied "
-            f"rear 2x identity reference. Keep the hair as {FACE_FRONT_HAIR_DESCRIPTION} "
+            f"rear 2x identity reference. Keep the hair as {FACE_IDENTITY_CONTRACT['rear_hair_identity']} "
             "Keep the rear view facing away; do not create a visible face, eyes, nose, or mouth. "
             "Keep the outfit, limbs, and camera unchanged. One person, no text or labels."
         )
     face_view_rule = FACE_FINAL_VIEW_RULES.get(view, "")
     return (
         "Use the supplied full-body image as the fixed composition, pose, clothing, bag, and full-body framing anchor. "
-        "Restore only the visible face to match the supplied direction-matched identity reference: eyes, nose, skin tone, hairline, and "
-        f"{FACE_FRONT_HAIR_DESCRIPTION} "
+        "Restore only the visible face to match the supplied direction-matched identity reference: "
+        f"{FACE_IDENTITY_CONTRACT['identity_description']} "
         f"{VIEW_RULES[view]} {face_view_rule} Keep the outfit, limbs, and camera unchanged. One person, no text or labels."
     )
 
@@ -264,9 +271,7 @@ def main() -> None:
         raise ValueError("--stage face requires --intermediate")
     body_references = resolve_body_references(args.body_reference)
 
-    reference_paths = []
-    if args.stage != "outfit":
-        reference_paths.extend(FACE_IDENTITY_BY_VIEW[view] for view in args.views)
+    reference_paths = [FACE_IDENTITY_BY_VIEW[view] for view in args.views]
     if args.stage != "face":
         reference_paths.extend(body_references[view] for view in args.views)
         reference_paths.extend(
@@ -290,17 +295,13 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
 
-    run_timestamp = datetime.now().astimezone().strftime(TIMESTAMP_FORMAT)
     run_id = args.run_id or uuid4().hex[:8]
     first_seed = BASE_SEED + args.seed_offset
-    face_images = (
-        {
-            view: Image.open(FACE_IDENTITY_BY_VIEW[view]).convert("RGB")
-            for view in args.views
-        }
-        if args.stage != "outfit"
-        else {}
-    )
+    # Every stage receives the direction-matched face or rear-head reference.
+    face_images = {
+        view: Image.open(FACE_IDENTITY_BY_VIEW[view]).convert("RGB")
+        for view in args.views
+    }
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
         for view in args.views:
@@ -320,7 +321,7 @@ def main() -> None:
                 prop_images = [Image.open(path).convert("RGB") for path in prop_paths]
                 with Image.open(body_references[view]) as body_source:
                     outfit_image = pipe(
-                        image=[body_source.convert("RGB"), *prop_images],
+                        image=[body_source.convert("RGB"), face_images[view], *prop_images],
                         prompt=outfit_prompt,
                         width=IMAGE_WIDTH,
                         height=IMAGE_HEIGHT,
@@ -366,13 +367,14 @@ def main() -> None:
                         "face_identity_seed": args.face_identity_seed,
                         "batch_index": batch_index,
                         "batch_size": args.seed_count,
-                        "run_timestamp": run_timestamp,
                         "run_id": run_id,
                         "output_prefix": args.output_prefix,
                         "stages": {
                             "outfit": {
                                 "prompt": outfit_prompt,
                                 "prompt_word_count": prompt_word_count(outfit_prompt),
+                                "identity_reference": FACE_IDENTITY_BY_VIEW[view].name,
+                                "identity_usage": "rear_head" if view == "rear" else "visible_face",
                             },
                             "identity_final": {
                                 "prompt": identity_prompt,
@@ -383,6 +385,7 @@ def main() -> None:
                         },
                         "references": {
                             "identity_reference": FACE_IDENTITY_BY_VIEW[view].name,
+                            "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
                             "body_composition": body_references[view].name,
                             "props": [path.name for path in prop_paths],
                         },

@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
 import gc
 import json
 from pathlib import Path
@@ -13,6 +12,7 @@ import time
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
+from p7_5_image_output_naming import candidate_stem
 
 
 ROOT = Path(__file__).resolve().parent
@@ -130,10 +130,9 @@ def main() -> None:
     )
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
-    timestamp = datetime.now().astimezone().strftime("%Y%m%dT%H%M%S%f%z")
     try:
         for guide_kind in args.guide_kinds:
-            stem = f"{args.output_prefix}-{guide_kind}-{timestamp}-seed-{args.seed}"
+            stem = candidate_stem(f"{args.output_prefix}-{guide_kind}", seed=args.seed, steps=STEPS, contract={"model": MODEL_ID, "outfit_prompt": outfit_prompt(guide_kind), "background_prompt": background_prompt(guide_kind), "face_prompt": face_prompt(), "stage": args.stage})
             background_path = args.output_dir / f"{stem}-background-stage.png"
             outfit_path = args.output_dir / f"{stem}-outfit-stage.png"
             candidate_path = args.output_dir / f"{stem}-candidate.png"

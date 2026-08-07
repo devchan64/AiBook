@@ -11,6 +11,7 @@ from pathlib import Path
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
+from p7_5_image_output_naming import candidate_stem
 
 
 ROOT = Path(__file__).resolve().parent
@@ -262,7 +263,7 @@ def main() -> None:
         if reference_paths:
             generation_inputs["image"] = load_reference_images(reference_paths)
         image = pipe(**generation_inputs).images[0]
-        output = ROOT / prop["output"]
+        output = ROOT / f"{candidate_stem(Path(prop['output']).stem, seed=prop['seed'], steps=12, contract={'model': MODEL_ID, 'prompt': prop['prompt'], 'references': [path.name for path in reference_paths], 'size': prop['size']})}.png"
         image.save(output)
         elapsed = round(time.monotonic() - started, 2)
         runs.append(

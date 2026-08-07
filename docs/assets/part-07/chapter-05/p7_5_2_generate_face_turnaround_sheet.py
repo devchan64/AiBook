@@ -4,7 +4,8 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+import gc
+from hashlib import sha256
 import json
 from pathlib import Path
 import time
@@ -17,29 +18,50 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent
 FRONT = ROOT / "p7-5-2-face-front-reference.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
+FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
+FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 BASE_SEED = 62294
-TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
 HEAD_INPUT_BOTTOM = 720
 SHEET_SIZE = 1024
 VIEW_RULES = {
     "front": "front view at 0 degrees, with the nose centered and both eyes equally visible",
     "front_quarter": "45-degree front-quarter view, with the near eye fully visible and the far eye half visible",
     "profile": "90-degree profile view, with one near eye visible in side view and the far eye hidden",
-    "rear": "180-degree rear view, facing away from the camera, with no nose or eyes visible",
+    "rear": (
+        "strict 180-degree rear view, facing directly away from the camera: show only the back of the bob haircut, "
+        "back of head, ears if exposed, and nape; no face, eye, eyebrow, nose, lips, cheek, or side-profile outline"
+    ),
 }
-APPEARANCE_RULE = (
-    "Keep chestnut-brown and orange-amber irises with visible radial texture, "
-    "a consistent iris diameter and pupil-to-iris ratio in every panel, "
-    "allowing only perspective foreshortening; "
-    "keep the gaze direction aligned with the nose direction in every visible face; "
-    "a high slim nose bridge and a small rounded nose tip; "
-    "and deep petrol-teal, voluminous jaw-length bob hair with a deep side part, "
-    "short swept fringe, loose S-waves, inward C-curls, and tapered side locks."
+TURNAROUND_FIDELITY_RULE = (
+    "Keep visible radial iris texture, a consistent iris diameter and pupil-to-iris ratio in every panel, "
+    "allowing only perspective foreshortening. Keep the gaze direction aligned with the nose direction in every visible face."
 )
 
 
 def prompt_word_count(text: str) -> int:
     return len(text.split())
+
+
+def output_contract_hash(
+    turnaround_prompt: str, identity_fix_prompt: str, views: tuple[str, ...], seed: int
+) -> str:
+    """Return a stable short hash for the seed and generation contract in an output name."""
+    contract = json.dumps(
+        {
+            "model": MODEL_ID,
+            "seed": seed,
+            "views": views,
+            "turnaround_prompt": turnaround_prompt,
+            "identity_fix_prompt": identity_fix_prompt,
+            "image_size": [SHEET_SIZE, SHEET_SIZE],
+            "steps": 12,
+            "guidance_scale": 1.0,
+            "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return sha256(contract.encode("utf-8")).hexdigest()[:10]
 
 
 def build_prompt(views: tuple[str, ...]) -> str:
@@ -55,7 +77,31 @@ def build_prompt(views: tuple[str, ...]) -> str:
     )
     return (
         f"{layout} face turnaround of the same woman from the reference image. "
-        f"{APPEARANCE_RULE} Panel directions: {view_list}. Use one distinct view per panel."
+        f"Fixed panel directions: {view_list}. Use one distinct view per panel; never duplicate a front, three-quarter, "
+        "profile, or rear view in another panel. The rear panel must remain a face-hidden back view. "
+        f"{FACE_IDENTITY_CONTRACT['identity_description']} {TURNAROUND_FIDELITY_RULE}"
+    )
+
+
+def build_identity_fix_prompt(views: tuple[str, ...]) -> str:
+    """Fix face identity without changing the first-stage panel layout or rotations."""
+    layout = "2 by 2" if len(views) == 4 else f"{len(views)}-panel"
+    positions = {
+        1: ("single panel",),
+        2: ("left panel", "right panel"),
+        3: ("top-left", "top-right", "bottom-center"),
+        4: ("top-left", "top-right", "bottom-left", "bottom-right"),
+    }[len(views)]
+    view_list = "; ".join(
+        f"{position}: {VIEW_RULES[view]}" for position, view in zip(positions, views, strict=True)
+    )
+    return (
+        f"Use the first supplied {layout} turnaround sheet as the fixed panel layout, crop, and head rotation. "
+        "Use the second supplied frontal face image only as the identity anchor for the same woman. "
+        f"Keep fixed panel directions: {view_list}. Do not duplicate or exchange panel directions. "
+        f"Restore the same visible-face identity: {FACE_IDENTITY_CONTRACT['identity_description']} "
+        f"{TURNAROUND_FIDELITY_RULE} For a rear panel, preserve only {FACE_IDENTITY_CONTRACT['rear_hair_identity']} "
+        "and do not reveal a face. Keep the background and all panel boundaries unchanged."
     )
 
 
@@ -88,8 +134,19 @@ def main() -> None:
     )
     parser.add_argument(
         "--output-prefix",
-        default="p7-5-2-face-turnaround-sheet-v9",
-        help="Filename prefix placed before the automatic timestamp and seed suffixes.",
+        default="p7-5-2-face-turnaround-sheet",
+        help="Filename prefix placed before the contract-hash, seed, and steps suffixes.",
+    )
+    parser.add_argument(
+        "--stage",
+        choices=("all", "turnaround", "identity"),
+        default="all",
+        help="Run the turnaround layout stage, identity-fix stage from --intermediate, or both stages.",
+    )
+    parser.add_argument(
+        "--intermediate",
+        type=Path,
+        help="First-stage turnaround PNG required by --stage identity.",
     )
     args = parser.parse_args()
     if len(args.views) > 4:
@@ -98,8 +155,12 @@ def main() -> None:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
+    if args.stage == "identity" and args.intermediate is None:
+        raise ValueError("--stage identity requires --intermediate")
     if not FRONT.is_file():
         raise FileNotFoundError(FRONT.name)
+    if args.intermediate is not None and not args.intermediate.is_file():
+        raise FileNotFoundError(args.intermediate.name)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
@@ -115,11 +176,12 @@ def main() -> None:
     anchor = source.crop((0, 0, source.width, HEAD_INPUT_BOTTOM))
     prompt = build_prompt(tuple(args.views))
     first_seed = BASE_SEED + args.seed_offset
-    run_timestamp = datetime.now().astimezone().strftime(TIMESTAMP_FORMAT)
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
-        output = ROOT / f"{args.output_prefix}-{run_timestamp}-seed-{seed}-candidate.png"
-        report = ROOT / f"{args.output_prefix}-{run_timestamp}-seed-{seed}-review.json"
+        contract_hash = output_contract_hash(prompt, tuple(args.views), seed)
+        stem = f"{args.output_prefix}-hash-{contract_hash}-seed-{seed}-steps-12"
+        output = ROOT / f"{stem}-candidate.png"
+        report = ROOT / f"{stem}-review.json"
         started = time.monotonic()
         sheet = pipe(
             image=anchor,
@@ -139,15 +201,16 @@ def main() -> None:
                     "status": "review_required",
                     "output": output.name,
                     "seed": seed,
+                    "contract_hash": contract_hash,
                     "seed_offset": args.seed_offset,
                     "seed_step": args.seed_step,
                     "batch_index": batch_index,
                     "batch_size": args.seed_count,
-                    "run_timestamp": run_timestamp,
                     "output_prefix": args.output_prefix,
                     "prompt": prompt,
                     "prompt_word_count": prompt_word_count(prompt),
                     "references": [FRONT.name],
+                    "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
                     "input_transform": f"Cropped the frontal anchor at y={HEAD_INPUT_BOTTOM} before inference.",
                     "sheet_layout": args.views,
                     "style_reference": None,
