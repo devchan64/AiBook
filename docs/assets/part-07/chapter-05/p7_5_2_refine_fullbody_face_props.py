@@ -18,6 +18,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62377
+FACE_IDENTITY_SEED = 62294
 TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
 FACE_IDENTITY = ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png"
 BODY_REFERENCES = {
@@ -159,6 +160,12 @@ def main() -> None:
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
     parser.add_argument(
+        "--face-identity-seed",
+        type=int,
+        default=FACE_IDENTITY_SEED,
+        help="Fixed seed for the final visible-face identity pass.",
+    )
+    parser.add_argument(
         "--output-prefix",
         default="p7-5-2-fullbody-face-prop-refinement",
         help="Filename prefix placed before view, timestamp, and seed suffixes.",
@@ -257,7 +264,7 @@ def main() -> None:
                     height=IMAGE_HEIGHT,
                     num_inference_steps=12,
                     guidance_scale=1.0,
-                    generator=torch.Generator(device="cpu").manual_seed(seed + 1),
+                    generator=torch.Generator(device="cpu").manual_seed(args.face_identity_seed),
                     max_sequence_length=256,
                 ).images[0]
             image.save(output)
@@ -271,6 +278,7 @@ def main() -> None:
                         "seed": seed,
                         "seed_offset": args.seed_offset,
                         "seed_step": args.seed_step,
+                        "face_identity_seed": args.face_identity_seed,
                         "batch_index": batch_index,
                         "batch_size": args.seed_count,
                         "run_timestamp": run_timestamp,
@@ -283,6 +291,7 @@ def main() -> None:
                             "face_final": {
                                 "prompt": face_prompt,
                                 "prompt_word_count": prompt_word_count(face_prompt) if face_prompt else 0,
+                                "seed": args.face_identity_seed if face_prompt else None,
                                 "status": "skipped_no_visible_face" if face_prompt is None else "generated",
                             },
                         },

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Test style-reference application with a review-only basketball-jump frame.
+"""Test a review-only basketball-jump frame from character and outfit references.
 
-The run intentionally changes pose, camera, scene, and style together. It must
-not replace any character-reference PNG without a separate human review.
+The run intentionally changes pose, camera, and scene together. It must not
+replace any character-reference PNG without a separate human review.
 """
 
 from __future__ import annotations
@@ -29,14 +29,12 @@ REFERENCE_INPUTS = (
     ("fullbody_front_quarter", ROOT / "p7-5-2-fullbody-front-quarter-reference.png"),
     ("fullbody_profile", ROOT / "p7-5-2-fullbody-profile-reference.png"),
     ("fullbody_rear", ROOT / "p7-5-2-fullbody-rear-reference.png"),
-    ("style_only", ROOT / "p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png"),
 )
 BASKETBALL_JUMP_PROMPT = (
     "Same woman from the supplied references, full body. Rooftop half court, airborne basketball jump: her right arm holds "
     "one basketball high overhead. Left arm balances, left knee leads, right leg trails. Exactly one small hoop and backboard "
     "sit far behind her, well separated from the ball. Low front-left camera, "
-    "modest Dutch tilt, diagonal frame. Use crisp tapered charcoal contours, clean opaque color planes, and controlled cel "
-    "shadows; keep watercolor pooling only as subtle edge texture. One woman, one ball, one hoop, no text, border, or panels."
+    "modest Dutch tilt, diagonal frame. One woman, one ball, one hoop, no text, border, or panels."
 )
 
 
@@ -47,7 +45,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--steps", type=int, default=12, help="Denoising steps; lower values trade detail for speed.")
     parser.add_argument(
         "--output-prefix",
-        default="p7-5-2-dynamic-basketball-jump-style-test",
+        default="p7-5-2-dynamic-basketball-jump",
         help="Prefix placed before the timestamp and seed in candidate filenames.",
     )
     return parser.parse_args()
@@ -106,7 +104,7 @@ def main() -> None:
                     "image_size": list(IMAGE_SIZE),
                     "inputs": [{"role": role, "file": path.name} for role, path in REFERENCE_INPUTS],
                     "elapsed_seconds": elapsed,
-                    "decision": "Review face, outfit, bag strap, limb count, ball position, ball-rim separation, webtoon linework, color planes, camera, and style-reference application before using any result.",
+                    "decision": "Review face, outfit, bag strap, limb count, ball position, ball-rim separation, and camera before using any result.",
                 },
                 ensure_ascii=False,
                 indent=2,

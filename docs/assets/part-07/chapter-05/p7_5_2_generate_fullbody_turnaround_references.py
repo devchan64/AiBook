@@ -30,7 +30,11 @@ IMAGE_HEIGHT = 1152
 VIEW_RULES = {
     "front": "front view, facing the camera",
     "front_quarter": "front three-quarter view, with face, chest, pelvis, knees, and feet turned together",
-    "profile": "side profile, with one near arm beside the torso and the far arm hidden",
+    "profile": (
+        "true side profile, with one near arm beside the torso and the far arm hidden; "
+        "use a natural narrow standing stance with both shoes visibly separated along the horizontal axis, "
+        "the near foot slightly forward and the far foot slightly back, so neither shoe or leg occludes the other"
+    ),
     "rear": "rear view, facing away from the camera",
 }
 APPEARANCE_RULE = (
