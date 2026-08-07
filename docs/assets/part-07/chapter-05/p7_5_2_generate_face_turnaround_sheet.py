@@ -75,15 +75,15 @@ def output_contract_hash(prompt: str, view: str, seed: int, steps: int) -> str:
 
 
 def build_turnaround_prompt(view: str) -> str:
-    rear_rule = (
+    identity_rule = (
         f"Preserve only {FACE_IDENTITY_CONTRACT['rear_hair_identity']} Do not reveal a face."
         if view == "rear"
-        else f"{TURNAROUND_FIDELITY_RULE}"
+        else f"{FACE_IDENTITY_CONTRACT['identity_description']} {TURNAROUND_FIDELITY_RULE}"
     )
     return (
         "One individual head-and-neck directional portrait of the same woman from the supplied frontal reference. "
         f"Fixed direction: {VIEW_RULES[view]}. "
-        f"{FACE_IDENTITY_CONTRACT['identity_description']} {rear_rule} "
+        f"{identity_rule} "
         "Plain off-white background, one person, no text, no panels, no collage."
     )
 def make_preview_callback(

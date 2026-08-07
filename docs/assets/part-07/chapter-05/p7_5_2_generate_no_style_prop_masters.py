@@ -19,8 +19,6 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 PROP_SEED = 62294
 DEFAULT_REPORT = ROOT / "p7-5-2-prop-generation-candidate-review.json"
 CROP_TOP_WAIST_REFERENCE = ROOT / "p7-5-2-outfit-crop-top-waist-reference.png"
-CROSSBODY_BAG_REFERENCE = ROOT / "p7-5-2-prop-reference-crossbody-bag.png"
-TROUSERS_REFERENCE = ROOT / "p7-5-2-prop-reference-trousers.png"
 
 JACKET_COMMON_CONTRACT = (
     "One isolated very short white cropped utility jacket in a clean {view} product view "
@@ -73,9 +71,14 @@ COMPLETE_OUTFIT_FRONT_HIP_CONTRACT = (
     "well above the hips, and stays visible, plus a compact deep-navy woven-canvas crossbody bag. The top ends at "
     "the upper abdomen, sixteen centimeters above the navel-height trouser waistband, leaving "
     "a clear bare-skin midriff band. Hang the bag side-on beside the wearer's outer left trouser seam (viewer right), "
-    "with its top aligned to the waistband. Show one continuous taut strap from the outer wearer's-right shoulder "
-    "(viewer left), diagonally across the chest on top of the jacket exterior, into the bag's upper inner attachment; "
-    "never route the strap beneath, behind, or through the jacket. Keep distinct garment layers and correct overlap. Clean "
+    "with its top aligned to the waistband. Its strap is the same deep-navy woven canvas as the bag body, never charcoal, "
+    "black, gray, or another color. The strap begins at the outer wearer's-right shoulder (viewer left), visibly overlaps "
+    "the white jacket's viewer-left shoulder, collar, lapel, and front body panel, then continues over the outside of the "
+    "jacket through the chest into the bag's upper inner attachment. Render one continuous taut diagonal strap: do not route "
+    "its chest segment primarily over the gray inner crop top or down the open center between jacket panels. Never hide it "
+    "behind either collar or lapel, never tuck it under, through, or inside the jacket, and never begin it at the viewer-right "
+    "shoulder. Keep distinct "
+    "garment layers and correct overlap. Clean "
     "product illustration. No head, hands, legs, text, logo, hanger, or other object."
 )
 
@@ -83,7 +86,7 @@ COMPLETE_OUTFIT_REAR_HIP_CONTRACT = (
     "Rear apparel-and-strap wearing reference from shoulders through hips on a neutral headless torso, plain off-white "
     "background. Show a very short white cropped utility jacket with long cuffed sleeves reaching the wrists, deep "
     "teal-blue wide-leg trousers with a clearly high waist: the full waistband sits at the navel, well above the hips, "
-    "and stays visible, plus one deep-navy canvas crossbody strap. Keep a plain white jacket back panel and a bare-skin "
+    "and stays visible, plus one deep-navy woven-canvas crossbody strap matching the bag body exactly. Keep a plain white jacket back panel and a bare-skin "
     "midriff band below its short hem, with no inner shirt visible. Show one continuous taut "
     "deep-navy canvas strap from the outer wearer's-right shoulder (viewer right), diagonally across the jacket back, "
     "exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, "
@@ -146,8 +149,6 @@ PROPS = {
         "size": (768, 1152),
         "references": (
             CROP_TOP_WAIST_REFERENCE,
-            CROSSBODY_BAG_REFERENCE,
-            TROUSERS_REFERENCE,
         ),
         "prompt": (
             f"{COMPLETE_OUTFIT_FRONT_HIP_CONTRACT} Use the supplied crop-top-to-waistband reference as the authoritative "
@@ -181,7 +182,7 @@ PROPS = {
         "seed": PROP_SEED,
         "output": "p7-5-2-no-style-prop-crossbody-bag-candidate.png",
         "size": (768, 768),
-        "prompt": "One isolated compact deep-navy woven-canvas crossbody bag in a clean three-quarter front view on a plain off-white background. Small horizontal rounded flap, visible textile weave, stitched seams, reinforced strap tabs, charcoal adjustable canvas strap, and one small silver clasp. Clean product illustration. No leather, person, text, logo, or other object.",
+        "prompt": "One isolated compact deep-navy woven-canvas crossbody bag in a clean three-quarter front view on a plain off-white background. Small horizontal rounded flap, visible textile weave, stitched seams, reinforced strap tabs, a deep-navy woven-canvas adjustable strap exactly matching the bag body's color and fabric, and one small silver clasp. No charcoal, black, gray, or differently colored strap. Clean product illustration. No leather, person, text, logo, or other object.",
     },
     "crop_top_waist_relation": {
         "id": "crop_top_waist_relation",
@@ -192,18 +193,52 @@ PROPS = {
     },
 }
 
+# Generate reusable individual masters first so later layered and complete-outfit
+# candidates can consume the PNGs created in this same invocation.
+GENERATION_ORDER = (
+    "shoes",
+    "crossbody_bag",
+    "trousers",
+    "jacket",
+    "jacket_rear",
+    "crop_top_waist_relation",
+    "jacket_crop_top_front",
+    "jacket_crop_top_rear",
+    "complete_outfit_front_hip",
+    "complete_outfit_rear_hip",
+)
+GENERATED_REFERENCE_DEPENDENCIES = {
+    "jacket_crop_top_front": ("jacket",),
+    "jacket_crop_top_rear": ("jacket_rear",),
+    "complete_outfit_front_hip": ("crossbody_bag", "trousers", "jacket"),
+    "complete_outfit_rear_hip": ("crossbody_bag", "trousers", "jacket_rear"),
+}
+
 
 def prompt_word_count(text: str) -> int:
     return len(text.split())
 
 
 def load_reference_images(paths: tuple[Path, ...]) -> list[Image.Image]:
-    """Load the approved crop-length input used by selected front apparel targets."""
+    """Load the stable and same-run generated inputs for a prop candidate."""
     images = []
     for path in paths:
         with Image.open(path) as source:
             images.append(source.convert("RGB"))
     return images
+
+
+def resolve_generation_targets(requested_targets: tuple[str, ...]) -> tuple[str, ...]:
+    """Expand selected targets with prerequisites and return the fixed dependency order."""
+    selected = set(requested_targets)
+    pending = list(requested_targets)
+    while pending:
+        prop_id = pending.pop()
+        for dependency in GENERATED_REFERENCE_DEPENDENCIES.get(prop_id, ()):
+            if dependency not in selected:
+                selected.add(dependency)
+                pending.append(dependency)
+    return tuple(prop_id for prop_id in GENERATION_ORDER if prop_id in selected)
 
 
 def main() -> None:
@@ -212,7 +247,7 @@ def main() -> None:
         "--targets",
         nargs="+",
         choices=tuple(PROPS),
-        default=tuple(PROPS),
+        default=GENERATION_ORDER,
         help=(
             "Reference IDs to generate. Omit to generate every individual, layered, and complete outfit reference."
         ),
@@ -228,10 +263,11 @@ def main() -> None:
     args = parser.parse_args()
     if args.steps < 1:
         raise ValueError("steps must be at least 1")
+    targets = resolve_generation_targets(tuple(args.targets))
 
     missing = [
         path.name
-        for prop_id in args.targets
+        for prop_id in targets
         for path in PROPS[prop_id].get("references", ())
         if not path.is_file()
     ]
@@ -250,11 +286,16 @@ def main() -> None:
     pipe.set_progress_bar_config(disable=True)
 
     runs = []
-    for prop_id in args.targets:
+    generated_outputs: dict[str, Path] = {}
+    for prop_id in targets:
         prop = PROPS[prop_id]
         started = time.monotonic()
         width, height = prop["size"]
-        reference_paths = prop.get("references", ())
+        generated_reference_paths = tuple(
+            generated_outputs[dependency]
+            for dependency in GENERATED_REFERENCE_DEPENDENCIES.get(prop_id, ())
+        )
+        reference_paths = (*prop.get("references", ()), *generated_reference_paths)
         output_stem = candidate_stem(
             Path(prop["output"]).stem,
             seed=prop["seed"],
@@ -289,6 +330,7 @@ def main() -> None:
         image = pipe(**generation_inputs).images[0]
         output = ROOT / f"{output_stem}.png"
         image.save(output)
+        generated_outputs[prop_id] = output
         elapsed = round(time.monotonic() - started, 2)
         runs.append(
             {
@@ -311,6 +353,7 @@ def main() -> None:
                 "purpose": "Generate selected no-style prop-reference candidates.",
                 "input_policy": "No style, face, or character input. The front layered and complete-outfit targets may use the approved crop-top-to-waistband reference.",
                 "requested_targets": args.targets,
+                "generation_order": targets,
                 "steps": args.steps,
                 "model": {"id": MODEL_ID, "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"},
                 "runs": runs,
