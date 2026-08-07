@@ -3,29 +3,37 @@
 > Section ID: `P7-5.3`
 > Version: `v2026.08.08`
 
-이 절의 목적은 예쁜 한 장을 고르는 일이 아니라, 이후 단계가 믿고 읽을 수 있는 장면 기준을 만드는 일이다. 스토리보드의 인체·발·절벽·앞뒤 관계가 무너지면, 그 PNG에서 뽑은 lineart·Canny·상대 depth도 같은 오류를 구조 조건으로 전달한다. 따라서 후보 생성, 사람 승인, guide 추출, 참조 비교를 차례로 분리하며, 형상이 읽히지 않는 출력은 guide로 넘기지 않고 폐기한다.
+이 절의 목적은 예쁜 한 장을 고르는 일이 아니라, 이후 단계가 믿고 읽을 수 있는 장면 기준을 만드는 일이다. 스토리보드의 인체·발·절벽·앞뒤 관계가 무너지면, 그 PNG에서 뽑은 Canny·상대 depth도 같은 오류를 구조 조건으로 전달한다. 따라서 후보 생성, 사람 승인, guide 추출, 참조 비교를 차례로 분리하며, 형상이 읽히지 않는 출력은 guide로 넘기지 않고 폐기한다.
 
-## 후보 모델은 장면 계약과 분리해 비교한다
+## FLUX 후보는 장면 계약과 분리해 검수한다
 
-FLUX.2 Klein 4B와 Animagine XL 4.0은 같은 스토리보드 문장을 각각 후보로 만들 수 있다. 두 모델의 출력은 자동으로 섞지 않고, 인체·가림·접지 검수를 통과한 PNG만 다음 guide 단계로 넘긴다.
+현재 생성 경로는 FLUX.2 Klein 4B만 사용한다. 인체·가림·접지 검수를 통과한 PNG만 다음 guide 단계로 넘긴다.
 
-| 고정 항목 | FLUX.2 Klein 4B | Animagine XL 4.0 |
-| --- | --- | --- |
-| 기본 seed | `5420` | `5413` |
-| 해상도·step | `768 x 1152`, 12 step | `832 x 1216`, 28 step |
-| 인물 | 턱선 길이 단발, 긴 머리·포니테일 제외 | 같음 |
-| 자세·시선 | 인물 전신은 화면 왼쪽을 향한 측면 자세다. 왼쪽 다리는 무릎을 굽히지 않은 길고 일자 다리로, 몸통 앞쪽의 자연스러운 대각선으로 높이 듦. 오른발은 바닥을 딛고, 상체는 지지발 쪽으로 부드럽게 기울며 눈은 협곡을 따라 화면 왼쪽을 봄 | 같음 |
-| 양팔 | 어깨 높이에서 균형을 잡는 열린 동작으로 양옆에 펼침 | 같음 |
-| 공간 | 밝은 사암·자갈의 자연 계곡 바닥이 가까운 절벽 밑으로 이어짐. 기암절벽은 인물의 양옆과 뒤에 즉시 솟아 좁은 협곡을 이루되, 인물 외곽과는 좁은 보이는 간격을 둠 | 같음 |
+| 고정 항목 | FLUX.2 Klein 4B |
+| --- | --- |
+| 기본 seed | `5420` |
+| 해상도·step | `768 x 1152`, 캐릭터 3 step + 배경 3 step |
+| 인물 | 턱선 길이 단발, 긴 머리·포니테일 제외 |
+| 자세·시선 | 넓은 하이 앵글 뷰에서 인물 전신과 협곡 바닥·절벽 지형을 함께 보인다. 정확한 카메라 거리·탑뷰 각도는 고정하지 않는다. 인물은 앞쪽 진행 방향으로 뛰어 나가는 현대무용수다. 한 다리는 앞쪽으로 뻗고 다른 다리는 뒤로 길게 뻗는다. 눈과 얼굴은 화면 오른쪽을 본다. 팔의 개수·방향·위치는 별도로 지정하지 않는다. |
+| 공간 | 밝은 사암·자갈의 자연 계곡 바닥이 가까운 절벽 밑으로 이어짐. 기암절벽은 인물의 양옆과 뒤에 즉시 솟아 좁은 협곡을 이루되, 인물 외곽과는 좁은 보이는 간격을 둠 |
 
-아래 [FLUX 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 후보 PNG만 만든다. 생성 성공은 통과가 아니며, 다음 질문에 모두 답할 수 있을 때만 PNG를 승인한다.
+아래 [FLUX 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 후보 PNG만 만든다. 첫 단계는 중립 배경에서 인물과 동작을 prompt로만 만들고, 둘째 단계는 그 생성 결과만 입력으로 받아 인물의 포즈·실루엣·비율을 바꾸지 않은 채 협곡 배경만 추가한다. 얼굴·전신·복장 같은 외부 캐릭터 특징 PNG는 어느 단계에도 입력하지 않는다. 두 단계의 기본값은 각각 3 step이며, `--character-steps`와 `--background-steps`로 따로 바꿀 수 있다. 생성 성공은 통과가 아니며, 다음 질문에 모두 답할 수 있을 때만 PNG를 승인한다.
+
+동작 자체를 먼저 검수하려면 `--character-only`로 1차 캐릭터 PNG만 만들 수 있다. 이 옵션은 2차 배경 생성을 호출하지 않으므로, 동작·시선·전신 실루엣의 오류를 협곡 배경 재해석과 분리해 확인할 수 있다.
+
+1차를 통과한 캐릭터 PNG만 2차에 넣으려면 `--character-from`에 그 파일을 명시한다. 이 옵션은 1차를 다시 만들지 않고, 해당 PNG의 인물 포즈·실루엣·복장을 유지한 채 협곡 배경만 생성한다.
+
+이미 검수할 배경 후보가 있다면 `--background-from`에 그 파일을 명시해 기존처럼 캐릭터 단계만 실행할 수 있다. 이는 순서 전환 전의 단독 실험을 재현하기 위한 호환 경로이며, 기본 2단계 경로는 캐릭터→배경 순서다.
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --model flux2-klein --seed 5420 --runs 1
+  --seed 5420 --runs 1 \
+  --background-steps 3 --character-steps 3
 
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --model animagine-xl --seed 5413 --runs 1
+  --seed 5420 \
+  --background-from docs/assets/part-07/chapter-05/example-background.png \
+  --character-steps 12
 ```
 
 ## seed는 후보 수만 늘린다
@@ -54,21 +62,16 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --derive-guides-from docs/assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved.png \
+  --derive-guides-from docs/assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved.png \
   --output-dir docs/assets/part-07/chapter-05
 ```
 
-seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 측면 인체, 높은 대각선의 일자 든 다리, 양팔, 지지발, 사암·자갈 바닥과 가까운 절벽이 함께 읽힌다. 아래 RGB 원본과 파생 guide만 장면 기준으로 유지한다. 한 장면의 승인 결과가 다른 카메라·동작에서도 자동으로 통과함을 뜻하지는 않는다.
+seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 화면 오른쪽으로 뛰어 나가는 공중 현대무용 동작, 앞·뒤로 분리된 두 다리와 두 팔, 사암·자갈 바닥과 가까운 절벽이 함께 읽힌다. 아래 RGB 원본과 Canny·상대 depth guide만 장면 기준으로 유지한다. 한 장면의 승인 결과가 다른 카메라·동작에서도 자동으로 통과함을 뜻하지는 않는다.
 
-| 승인 RGB | lineart guide |
-| --- | --- |
-| ![승인한 FLUX.2 Klein 측면 무용 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved.png) | ![승인 스토리보드의 lineart guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-lineart.png) |
-| 사람 검수로 승인한 장면 기준 RGB다. | 승인 RGB의 큰 윤곽을 읽기 위한 파생 guide다. |
-
-| Canny guide | 상대 depth guide |
-| --- | --- |
-| ![승인 스토리보드의 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-canny.png) | ![승인 스토리보드의 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-depth.png) |
-| 승인 RGB에서 추출한 강한 경계 guide다. | 승인 RGB의 앞뒤 관계를 회색 농도로 나타낸 상대 depth guide다. |
+| 승인 RGB | Canny guide | 상대 depth guide |
+| --- | --- | --- |
+| ![승인한 FLUX.2 Klein 전진 도약 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved.png) | ![승인 전진 도약 스토리보드의 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-canny.png) | ![승인 전진 도약 스토리보드의 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-depth.png) |
+| 사람 검수로 승인한 장면 기준 RGB다. | 승인 RGB에서 추출한 강한 경계 guide다. | 승인 RGB의 앞뒤 관계를 회색 농도로 나타낸 상대 depth guide다. |
 
 ## guide와 이미지 참조는 같은 역할이 아니다
 
@@ -85,20 +88,6 @@ seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 측면 
 | --- | --- |
 | ![Canny 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-canny-20260807T232133299772+0900-seed-62377-candidate.png) | ![depth 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-depth-20260807T232133299772+0900-seed-62377-candidate.png) |
 | 윤곽 조건이 인체·배경을 크게 재해석해 최종 컷에는 쓰지 않는다. | 공간·가림 의도를 가장 직접적으로 드러내지만 최종 컷 후보는 아니다. |
-
-## 같은 비교에서 Animagine은 구조를 지키지 못했다
-
-Animagine 스토리보드의 RGB·lineart·Canny·상대 depth를 같은 seed `62377`, 복장→얼굴 계약으로 각각 첫 이미지 참조에 넣어 비교했다. 네 결과 모두 흰 재킷·청록 바지·가방의 일부 신호는 수용했지만, 원래 동작의 사지 관계와 단일 인물 조건을 안정적으로 보존하지 못했다. 따라서 아래 이미지는 최종 컷이나 다음 guide의 근거가 아니라, **이미지 참조가 구조 guide를 대신하지 못한다는 실패 비교**로만 사용한다.
-
-| Animagine RGB 단일 기준 결과 | Animagine lineart 단일 기준 결과 |
-| --- | --- |
-| ![Animagine RGB 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-storyboard-20260807T233603858548+0900-seed-62377-candidate.png) | ![Animagine lineart 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-lineart-20260807T233603858548+0900-seed-62377-candidate.png) |
-| 협곡 구도는 남았지만 든 다리가 몸통·얼굴을 가리고 동작이 재해석됐다. | 선화 협곡 위에 인물·사지 형태가 중복돼 단일 인물 계약을 잃었다. |
-
-| Animagine Canny 단일 기준 결과 | Animagine depth 단일 기준 결과 |
-| --- | --- |
-| ![Animagine Canny 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-canny-20260807T233603858548+0900-seed-62377-candidate.png) | ![Animagine depth 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-depth-20260807T233603858548+0900-seed-62377-candidate.png) |
-| 윤곽을 어두운 배경과 그림자로 재해석하며 목표의 균형 동작과 접지를 보존하지 못했다. | 원래 든 다리와 협곡 거리를 실루엣 배경으로 남겼지만, 새 인물의 자세·지지발·공간은 그 depth 관계를 따르지 않았다. |
 
 ## LoRA 전환에는 별도 데이터와 학습 환경이 필요하다
 
