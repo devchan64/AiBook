@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply outfit references first, then restore visible face identity in a final pass."""
+"""Refine approved full-body references, then restore visible face identity."""
 
 from __future__ import annotations
 
@@ -21,7 +21,8 @@ BASE_SEED = 62377
 FACE_IDENTITY_SEED = 62294
 TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
 FACE_IDENTITY = ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png"
-BODY_REFERENCES = {
+# These four stable filenames are the only approved full-body composition inputs.
+APPROVED_BODY_REFERENCES = {
     "front": ROOT / "p7-5-2-fullbody-front-reference.png",
     "front_quarter": ROOT / "p7-5-2-fullbody-front-quarter-reference.png",
     "profile": ROOT / "p7-5-2-fullbody-profile-reference.png",
@@ -145,8 +146,8 @@ def main() -> None:
     parser.add_argument(
         "--views",
         nargs="+",
-        choices=tuple(BODY_REFERENCES),
-        default=tuple(BODY_REFERENCES),
+        choices=tuple(APPROVED_BODY_REFERENCES),
+        default=tuple(APPROVED_BODY_REFERENCES),
         help="Approved full-body directions to refine as separate PNGs.",
     )
     parser.add_argument(
@@ -191,7 +192,7 @@ def main() -> None:
 
     reference_paths = [FACE_IDENTITY]
     if args.stage != "face":
-        reference_paths.extend(BODY_REFERENCES[view] for view in args.views)
+        reference_paths.extend(APPROVED_BODY_REFERENCES[view] for view in args.views)
         reference_paths.extend(
             path
             for view in args.views
@@ -233,7 +234,7 @@ def main() -> None:
             ]
             if args.stage in ("all", "outfit"):
                 prop_images = [Image.open(path).convert("RGB") for path in prop_paths]
-                with Image.open(BODY_REFERENCES[view]) as body_source:
+                with Image.open(APPROVED_BODY_REFERENCES[view]) as body_source:
                     outfit_image = pipe(
                         image=[body_source.convert("RGB"), *prop_images],
                         prompt=outfit_prompt,
@@ -297,7 +298,7 @@ def main() -> None:
                         },
                         "references": {
                             "face_identity": FACE_IDENTITY.name,
-                            "body_composition": BODY_REFERENCES[view].name,
+                            "body_composition": APPROVED_BODY_REFERENCES[view].name,
                             "props": [path.name for path in prop_paths],
                         },
                         "model": MODEL_ID,
