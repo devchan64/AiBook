@@ -3,9 +3,9 @@
 > Section ID: `P7-5.3`
 > Version: `v2026.08.08`
 
-이 절의 목적은 예쁜 한 장을 고르는 일이 아니라, 이후 단계가 믿고 읽을 수 있는 장면 기준을 만드는 일이다. 스토리보드의 인체·발·절벽·앞뒤 관계가 무너지면, 그 PNG에서 뽑은 lineart·Canny·상대 depth도 같은 오류를 구조 조건으로 전달한다. 따라서 형상이 읽히지 않는 출력은 guide로 넘기지 않고 폐기한다.
+이 절의 목적은 예쁜 한 장을 고르는 일이 아니라, 이후 단계가 믿고 읽을 수 있는 장면 기준을 만드는 일이다. 스토리보드의 인체·발·절벽·앞뒤 관계가 무너지면, 그 PNG에서 뽑은 lineart·Canny·상대 depth도 같은 오류를 구조 조건으로 전달한다. 따라서 후보 생성, 사람 승인, guide 추출, 참조 비교를 차례로 분리하며, 형상이 읽히지 않는 출력은 guide로 넘기지 않고 폐기한다.
 
-## FLUX와 Animagine을 따로 후보로 만든다
+## 후보 모델은 장면 계약과 분리해 비교한다
 
 FLUX.2 Klein 4B와 Animagine XL 4.0은 같은 스토리보드 문장을 각각 후보로 만들 수 있다. 두 모델의 출력은 자동으로 섞지 않고, 인체·가림·접지 검수를 통과한 PNG만 다음 guide 단계로 넘긴다.
 
@@ -28,7 +28,7 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
   --model animagine-xl --seed 5413 --runs 1
 ```
 
-## seed를 바꿔 여러 콘티 후보를 확인한다
+## seed는 후보 수만 늘린다
 
 한 seed의 통과는 한 장면 후보의 관찰일 뿐이다. 같은 모델·prompt·해상도·step을 고정한 채 seed만 바꾸면 카메라의 세부 해석, 팔과 다리의 분리, 발의 접지, 절벽과 인물의 간격이 다른 콘티 후보로 나타난다. 이때 seed는 품질을 올리는 숫자가 아니라 **검수할 후보를 늘리는 조작 변수**다.
 
@@ -39,7 +39,7 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
   --model flux2-klein --seed 5420 --runs 3
 ```
 
-## guide는 승인한 PNG에서만 뽑는다
+## 승인 전에는 guide를 만들지 않는다
 
 다음 항목 하나라도 실패하면 PNG와 guide를 모두 남기지 않는다.
 
@@ -70,7 +70,7 @@ seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 측면 
 | ![승인 스토리보드의 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-canny.png) | ![승인 스토리보드의 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-approved-guide-depth.png) |
 | 승인 RGB에서 추출한 강한 경계 guide다. | 승인 RGB의 앞뒤 관계를 회색 농도로 나타낸 상대 depth guide다. |
 
-## 네 스토리보드 산출물을 따로 참조하면 무엇이 달라지는가
+## guide와 이미지 참조는 같은 역할이 아니다
 
 같은 seed `62377`과 같은 복장·얼굴 기준으로 RGB, lineart, Canny, 상대 depth를 각각 첫 이미지 참조로 넣어 비교했다. RGB만 쓴 조건은 협곡의 색·질감과 인체를 함께 유지했다. lineart와 Canny만 쓴 조건은 각각 선화·윤곽을 배경 자체로 재해석했고, 실제 협곡의 광원·질감과 원래 동작을 유지하지 못했다.
 
@@ -86,7 +86,7 @@ seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 측면 
 | ![Canny 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-canny-20260807T232133299772+0900-seed-62377-candidate.png) | ![depth 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-single-guide-character-refine-depth-20260807T232133299772+0900-seed-62377-candidate.png) |
 | 윤곽 조건이 인체·배경을 크게 재해석해 최종 컷에는 쓰지 않는다. | 공간·가림 의도를 가장 직접적으로 드러내지만 최종 컷 후보는 아니다. |
 
-## Animagine 산출물도 같은 비교 기준으로 읽는다
+## 같은 비교에서 Animagine은 구조를 지키지 못했다
 
 Animagine 스토리보드의 RGB·lineart·Canny·상대 depth를 같은 seed `62377`, 복장→얼굴 계약으로 각각 첫 이미지 참조에 넣어 비교했다. 네 결과 모두 흰 재킷·청록 바지·가방의 일부 신호는 수용했지만, 원래 동작의 사지 관계와 단일 인물 조건을 안정적으로 보존하지 못했다. 따라서 아래 이미지는 최종 컷이나 다음 guide의 근거가 아니라, **이미지 참조가 구조 guide를 대신하지 못한다는 실패 비교**로만 사용한다.
 
@@ -100,13 +100,7 @@ Animagine 스토리보드의 RGB·lineart·Canny·상대 depth를 같은 seed `6
 | ![Animagine Canny 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-canny-20260807T233603858548+0900-seed-62377-candidate.png) | ![Animagine depth 단일 기준 후보](../../../assets/part-07/chapter-05/p7-5-3-animagine-single-guide-character-refine-depth-20260807T233603858548+0900-seed-62377-candidate.png) |
 | 윤곽을 어두운 배경과 그림자로 재해석하며 목표의 균형 동작과 접지를 보존하지 못했다. | 원래 든 다리와 협곡 거리를 실루엣 배경으로 남겼지만, 새 인물의 자세·지지발·공간은 그 depth 관계를 따르지 않았다. |
 
-## 체크리스트
-
-- 후보 PNG를 guide나 후속 생성 입력으로 쓰기 전에 사람이 인체·가림·접지·거리 조건을 확인했는가?
-- 미통과 후보와 그 후보에서 뽑은 guide를 함께 삭제했는가?
-- 승인한 한 장이 생긴 뒤에도 다른 seed·카메라·동작에서 같은 결과가 자동으로 보장된다고 가정하지 않는가?
-
-## 캐릭터 일관성 LoRA 전환 조건
+## LoRA 전환에는 별도 데이터와 학습 환경이 필요하다
 
 다중참조만으로 얼굴과 복장이 약하게 섞이면 LoRA를 검토할 수 있다. 현 경로에 맞는 모델은 Apache-2.0인 **FLUX.2 Klein 4B Base**다. 학습은 Base checkpoint에서 하고, 완성한 adapter는 빠른 distilled 4B 추론 모델에 붙인다.
 
@@ -115,6 +109,12 @@ Animagine 스토리보드의 RGB·lineart·Canny·상대 depth를 같은 seed `6
 학습을 시작하려면 먼저 올바른 데이터를 확보한다. 스타일·캐릭터 LoRA는 서로 다른 구도와 시점을 가진 15–40장의 검수된 이미지와 각 이미지의 내용 caption·동일 trigger word가 필요하다. 현재 P7-5.2의 23개 자산은 얼굴·전신·소품 기준 보드가 섞여 있어 그대로는 이 조건을 충족하지 않는다. 실패하거나 왜곡된 생성 이미지를 늘려 학습 데이터로 삼으면 얼굴·복장 오류를 adapter에 고정하므로 사용하지 않는다.
 
 구도 보존과 캐릭터 교체를 함께 학습하려면 스타일 LoRA보다 **edit LoRA**가 더 직접적이다. 이 경우 승인 스토리보드 같은 입력과, 같은 포즈·구도에서 캐릭터·복장이 완성된 목표 이미지를 파일명별로 짝지은 50–200개의 검수된 쌍이 필요하다. 이 데이터와 24 GB 이상 학습 환경을 확보한 뒤에만 별도 실험으로 진행한다.
+
+## 체크리스트
+
+- 후보 PNG를 guide나 후속 생성 입력으로 쓰기 전에 사람이 인체·가림·접지·거리 조건을 확인했는가?
+- 미통과 후보와 그 후보에서 뽑은 guide를 함께 삭제했는가?
+- 승인한 한 장이 생긴 뒤에도 다른 seed·카메라·동작에서 같은 결과가 자동으로 보장된다고 가정하지 않는가?
 
 ## 출처와 참고 자료
 
