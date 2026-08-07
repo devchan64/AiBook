@@ -21,8 +21,8 @@ TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
 FACE_TURNAROUND = ROOT / "p7-5-2-face-turnaround-reference.png"
 OUTFIT_REFERENCES = [
     ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
-    ROOT / "p7-5-2-prop-reference-v2-trousers.png",
-    ROOT / "p7-5-2-prop-reference-v2-shoes.png",
+    ROOT / "p7-5-2-prop-reference-trousers.png",
+    ROOT / "p7-5-2-prop-reference-shoes.png",
 ]
 REFERENCES = [FACE_TURNAROUND, *OUTFIT_REFERENCES]
 IMAGE_WIDTH = 768
@@ -33,7 +33,10 @@ VIEW_RULES = {
     "profile": (
         "true side profile, with one near arm beside the torso and the far arm hidden; "
         "use a natural narrow standing stance with both shoes visibly separated along the horizontal axis, "
-        "the near foot slightly forward and the far foot slightly back, so neither shoe or leg occludes the other"
+        "the near foot slightly forward and the far foot slightly back, so neither shoe or leg occludes the other; "
+        "preserve the elongated forehead above the brow, a continuous unbroken hairline, and the deep viewer-right side "
+        "part with one full short fringe sweeping across the viewer-left forehead and ending above the eyebrow; do not "
+        "expose a blank, receded, or chopped-off forehead, split the fringe into extra bangs, or insert gaps in the hairline"
     ),
     "rear": "rear view, facing away from the camera",
 }

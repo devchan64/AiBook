@@ -31,10 +31,11 @@ REFERENCE_INPUTS = (
     ("fullbody_rear", ROOT / "p7-5-2-fullbody-rear-reference.png"),
 )
 BASKETBALL_JUMP_PROMPT = (
-    "Same woman from the supplied references, full body. Rooftop half court, airborne basketball jump: her right arm holds "
-    "one basketball high overhead. Left arm balances, left knee leads, right leg trails. Exactly one small hoop and backboard "
-    "sit far behind her, well separated from the ball. Low front-left camera, "
-    "modest Dutch tilt, diagonal frame. One woman, one ball, one hoop, no text, border, or panels."
+    "Same woman from the supplied references, full body, with the deep petrol-teal jaw-length bob retained; no ponytail, "
+    "long hair, or hair accessory. Airborne alley-oop dunk: her fully visible right hand grips exactly one basketball high "
+    "above her head toward one hoop, with the ball separated from her hair and fingers. Her left arm balances, left knee "
+    "leads forward, right leg trails behind, and both legs and shoes are fully visible. Low front-left camera, modest Dutch "
+    "tilt, diagonal frame. One woman, one ball, one hoop, no text, border, or panels."
 )
 
 

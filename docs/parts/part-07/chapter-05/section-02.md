@@ -103,17 +103,17 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 | 크롭탑-허리선 관계 기준 | 바지 기준 | 신발 기준 | 가방 기준 |
 | --- | --- | --- | --- |
-| ![승인된 크롭탑-허리선 착장 관계 기준](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference.png) | ![승인된 바지 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-trousers.png) | ![승인된 신발 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-shoes.png) | ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-crossbody-bag.png) |
+| ![승인된 크롭탑-허리선 착장 관계 기준](../../../assets/part-07/chapter-05/p7-5-2-outfit-crop-top-waist-reference.png) | ![승인된 바지 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-trousers.png) | ![승인된 신발 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-shoes.png) | ![승인된 가방 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-crossbody-bag.png) |
 
 | 자켓 전면 기준 | 자켓 후면 기준 | 자켓-크롭탑 전면 레이어 기준 | 자켓-피부 후면 레이어 기준 |
 | --- | --- | --- | --- |
-| ![승인된 자켓 전면 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket.png) | ![승인된 자켓 후면 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket-rear.png) | ![승인된 자켓-크롭탑 전면 레이어 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket-crop-top-front.png) | ![승인된 자켓-피부 후면 레이어 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-jacket-crop-top-rear.png) |
+| ![승인된 자켓 전면 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-jacket.png) | ![승인된 자켓 후면 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-jacket-rear.png) | ![승인된 자켓-크롭탑 전면 레이어 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-jacket-crop-top-front.png) | ![승인된 자켓-피부 후면 레이어 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-jacket-crop-top-rear.png) |
 
 | 전면 통합 착장 기준 | 후면 통합 착장 기준 |  |  |
 | --- | --- | --- | --- |
-| ![승인된 전면 통합 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-complete-outfit-front-hip.png) | ![승인된 후면 통합 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2-complete-outfit-rear-hip.png) |  |  |
+| ![승인된 전면 통합 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-complete-outfit-front-hip.png) | ![승인된 후면 통합 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-complete-outfit-rear-hip.png) |  |  |
 
-[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference-v2.json)은 열 소품의 승인 범위를 기록합니다. 실행·검수 기록은 커밋하지 않는 로컬 생성 기록으로 분리합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
+[소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference.json)은 열 소품의 승인 범위를 기록합니다. 실행·검수 기록은 커밋하지 않는 로컬 생성 기록으로 분리합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
 소품 기준 v2는 전면·후면 자켓과 전면·후면 레이어 기준, 전면·후면 통합 착장 기준을 포함한 개별 소품 PNG 아홉 장과 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·방향에 맞는 자켓-크롭탑 또는 자켓-피부 레이어·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 통합 착장 기준은 전면 가방의 위치·스트랩과 후면의 제한된 가방 노출을 한 쌍으로 검수합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 
@@ -122,13 +122,15 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-통합 스크립트는 `--targets` 범위로 `jacket`, `jacket_rear`, `jacket_crop_top_front`, `jacket_crop_top_rear`, `trousers`, `shoes`, `crossbody_bag`, `crop_top_waist_relation` 중 필요한 항목만 생성합니다. 범위를 생략하면 여덟 후보를 모두 생성하고, 각 항목은 호출 순서와 무관한 고정 seed를 사용합니다. `crop_top_waist_relation` 후보는 전신 생성에 필요한 크롭 밑단-허리선 관계를 검수합니다.
+통합 스크립트는 `--targets` 범위로 `jacket`, `jacket_rear`, `jacket_crop_top_front`, `jacket_crop_top_rear`, `complete_outfit_front_hip`, `complete_outfit_rear_hip`, `trousers`, `shoes`, `crossbody_bag`, `crop_top_waist_relation` 중 필요한 항목만 생성합니다. 범위를 생략하면 열 후보를 모두 생성하고, 각 항목은 호출 순서와 무관하게 같은 고정 seed `62294`를 사용합니다. `crop_top_waist_relation` 후보는 전신 생성에 필요한 크롭 밑단-허리선 관계를 검수합니다. 이 대상은 입력 이미지를 쓰지 않고, 높은 밑단·좁은 맨살 띠를 유지하며 상의가 허리선·골반까지 길어지는 것을 금지하는 prompt 계약으로만 생성합니다.
 
 `jacket_rear`는 사람 승인한 후면 자켓 기준입니다. 소스에서는 `JACKET_COMMON_CONTRACT`에 high waist 크롭 길이·흰색·카라·긴 소매·짧은 밑단·배경과 금지 대상을 한 번만 정의하고, `JACKET_VIEW_CONTRACTS`에서 전면의 가슴 포켓·앞단추와 후면의 평면 등판·어깨·중심 등 솔기만 나눕니다. 따라서 전면 기준의 포켓·단추를 후면 전신에 잘못 옮기지 않으면서 두 view의 길이와 실루엣을 같은 계약으로 유지합니다. 승인 PNG는 후면 전신 보강의 자켓 입력으로 사용하며, 이후 새 후보를 생성할 때는 다시 별도 사람 검수를 거칩니다.
 
 전신 보강에서 회색 크롭탑이 자켓 몸판을 대체한 결함을 분리하기 위해, `jacket_crop_top_front`와 `jacket_crop_top_rear`로 방향별 torso-only 레이어 기준을 만듭니다. 전면 기준은 열린 자켓과 보이는 상의·밑단 경계를 사람 승인했습니다. 후면에서는 회색 크롭탑이 자켓보다 짧으므로 보이면 안 되며, 자켓 밑단과 바지 허리선 사이의 피부만 보여야 합니다. 회색 상의가 보인 기존 후면 기준은 승인 취소했고, 피부 띠를 보이는 새 후면 기준을 사람 승인했습니다. 전신 보강은 승인 전면·후면 레이어를 방향별로 사용하며, 소매만 남거나 자켓·상의가 한 벌처럼 합쳐지는 출력은 폐기합니다.
 
 `complete_outfit_front_hip`과 `complete_outfit_rear_hip`은 가방을 앞에 멨을 때의 한 쌍의 통합 착장 기준입니다. 전면에서는 오른쪽 어깨에서 왼쪽 외측 골반으로 이어지는 스트랩과 가방 본체를, 후면에서는 긴 소매의 흰 자켓 등판 위 스트랩과 왼쪽 외곽의 작은 네이비 가방 모서리만 확인합니다. 두 PNG는 전신 보강에서 통합 착장 입력을 사용할 때의 방향별 계약이며, 새 전신 출력은 별도 사람 검수를 거쳐야 합니다.
+
+전면 자켓-크롭탑 레이어와 전면 통합 착장 후보를 만들 때는, 사람 승인한 `crop_top_waist_relation` PNG를 크롭 길이 입력으로 사용합니다. 이 입력은 회색 상의의 높은 밑단과 맨살 띠만 고정하며, 자켓·가방·전신을 대체하지 않습니다. 크롭탑-허리선 관계 후보 자체는 계속 이미지 입력 없이 prompt만으로 생성·검수합니다.
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \

@@ -39,23 +39,23 @@ APPROVED_BODY_REFERENCES = {
     "rear": ROOT / "p7-5-2-fullbody-rear-reference.png",
 }
 LAYERED_OUTFIT_REFERENCE_BY_VIEW = {
-    "front": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
-    "front_quarter": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
-    "profile": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-front.png",
-    "rear": ROOT / "p7-5-2-prop-reference-v2-jacket-crop-top-rear.png",
+    "front": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
+    "front_quarter": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
+    "profile": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
+    "rear": ROOT / "p7-5-2-prop-reference-jacket-crop-top-rear.png",
 }
 COMPLETE_OUTFIT_REFERENCE_BY_VIEW = {
-    "front": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-front-hip.png",
-    "front_quarter": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-front-hip.png",
-    "profile": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-front-hip.png",
-    "rear": ROOT / "p7-5-2-prop-reference-v2-complete-outfit-rear-hip.png",
+    "front": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
+    "front_quarter": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
+    "profile": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
+    "rear": ROOT / "p7-5-2-prop-reference-complete-outfit-rear-hip.png",
 }
 PROPS = {
     "layered_jacket_crop_top": {
         "instruction": "Add the supplied white cropped utility-jacket outfit layer.",
     },
     "crossbody_bag": {
-        "path": ROOT / "p7-5-2-prop-reference-v2-crossbody-bag.png",
+        "path": ROOT / "p7-5-2-prop-reference-crossbody-bag.png",
         "instruction": "Add the approved deep-navy canvas crossbody bag and strap.",
     },
     "complete_outfit": {
@@ -72,11 +72,6 @@ FACE_FINAL_VIEW_RULES = {
     "front_quarter": (
         "For this three-quarter face, turn both pupils and the visible gaze toward the same side as the nose bridge "
         "and nose tip. Do not leave the eyes facing front while the nose is turned."
-    ),
-    "profile": (
-        "For this profile forehead check, preserve the elongated forehead above the brow, a continuous unbroken hairline, "
-        "and one controlled short fringe ending above the eyebrow. Do not expose a blank or receded forehead, split the "
-        "fringe into extra bangs, or change the forehead-to-brow proportion."
     ),
 }
 LAYERED_OUTFIT_VIEW_RULES = {
@@ -139,11 +134,10 @@ def unique_run_stem(prefix: str, view: str, run_id: str, seed: int) -> str:
 def prop_reference_paths(prop_id: str, view: str) -> tuple[Path, ...]:
     if prop_id == "complete_outfit":
         if view == "profile":
-            # A side view needs both garment faces plus the approved front crop-length contract.
+            # A side view needs both garment faces to preserve the jacket body panel.
             return (
                 COMPLETE_OUTFIT_REFERENCE_BY_VIEW["front"],
                 COMPLETE_OUTFIT_REFERENCE_BY_VIEW["rear"],
-                LAYERED_OUTFIT_REFERENCE_BY_VIEW["front"],
             )
         return (COMPLETE_OUTFIT_REFERENCE_BY_VIEW[view],)
     if prop_id == "layered_jacket_crop_top":
@@ -156,12 +150,9 @@ def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
         return (
             "Refine the supplied full-body reference into the same woman in a side-profile studio image. "
             "Preserve pose, hair-to-sole framing, dark teal trousers, and white low-top sneakers. "
-            "Use the supplied front jacket-crop-top layer and front complete-outfit reference as the authoritative crop-length "
-            "contract: the white jacket hem and charcoal-gray crop top end high above the trouser waistband, leaving the same "
-            "narrow bare-midriff band seen in those front references. Do not lengthen either crop to the waistband, hip, or below "
-            "the approved front cropped hem. From the supplied front and rear outfit references, render a white cropped utility "
-            "jacket as the visible outer torso layer: jacket body from collar to cropped hem, side-back panel, and one long cuffed "
-            "sleeve. Keep the charcoal-gray crop top as a narrow inner layer at the open front. Place the deep-navy bag at the "
+            "From the supplied front and rear outfit references, render a white cropped utility jacket as the visible "
+            "outer torso layer: jacket body from collar to cropped hem, side-back panel, and one long cuffed sleeve. "
+            "Keep the charcoal-gray crop top as a narrow inner layer at the open front. Place the deep-navy bag at the "
             "outer left rearward hip with its strap behind the jacket. One person, complete limbs, no text or labels."
         )
     prop_instructions = " ".join(PROPS[prop_id]["instruction"] for prop_id in prop_ids)
