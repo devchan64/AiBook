@@ -1,4 +1,4 @@
-"""Check that a locally generated style-pack review ledger can advance to character generation."""
+"""Check that a locally generated background style-pack review ledger is complete."""
 
 import json
 from pathlib import Path
@@ -25,7 +25,7 @@ def main() -> None:
         if actual != expected:
             missing.append(f"{name}: missing {sorted(expected - actual)}")
 
-    if ledger["status"] != "approved_for_character_reference":
+    if ledger["status"] != "approved_for_downstream_reference":
         missing.append("review status: no approved frame-free style pack")
 
     if missing:
@@ -34,7 +34,7 @@ def main() -> None:
             print(f"- {item}")
         return
 
-    print("PASS style pack can be used for character-reference generation")
+    print("PASS background style pack is approved for downstream use")
 
 
 if __name__ == "__main__":

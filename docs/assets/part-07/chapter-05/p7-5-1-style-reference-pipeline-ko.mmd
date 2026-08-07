@@ -7,12 +7,11 @@ flowchart TD
   coverage{"5. 필수 행과 보조 근거가<br/>화풍 계약을 함께 지키는가?"}
   pack["6. 전체 팩 사람 승인<br/>ledger에 결론 기록"]
   manifest["7. manifest 확정<br/>승인 원본과 화풍 계약 근거"]
-  character["P7-5.2 캐릭터 참조 셋 생성<br/>입력 계약은 별도 검수"]
 
   contract --> matrix --> generate --> review
   review -- 불합격 --> repair --> generate
   review -- 행 승인 --> coverage
   coverage -- 보강 필요 --> repair
   coverage -- 충족 --> pack
-  pack -- 승인 --> manifest --> character
+  pack -- 승인 --> manifest
   pack -- 보류 --> repair

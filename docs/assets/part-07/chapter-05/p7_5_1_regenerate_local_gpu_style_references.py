@@ -20,17 +20,8 @@ CACHE_DIR = Path("/tmp/flux2-klein-base-4b-diffusers-cache")
 SIZE = (768, 1152)
 STEPS = 50
 GUIDANCE = 4.0
-COMMON_CONTRACT = (
-    "Create an edge-to-edge Korean webtoon background: at every image border the depicted architecture, ground, sky, or foliage "
-    "continues naturally, as if the camera cuts through an ongoing real space. Do not draw an outer rectangular outline or surround "
-    "the scene with a dark border. Use a transparent watercolor-and-ink medium inside the depicted architecture: sparse thin charcoal contour "
-    "and structure lines contain visible wet-on-wet blooms, uneven pigment pooling, granulating translucent washes, "
-    "and layered translucent edges. Make the material texture and lighting visibly varied: distinct translucent pigment pools on "
-    "lit planes, cool shadow planes, and small reflected-light accents must remain separately readable, never one uniform teal or gray wash. "
-    "Use natural medium-chroma pigment, never neon, fluorescent, opaque, airbrushed, "
-    "digitally flat, densely hatched, crosshatched, stippled, ink-wash, sumi-e, photorealistic, screentoned, or thick comic outlined. "
-    "Exclude readable signs, logos, people, animals, and vehicles."
-)
+STYLE_PROMPT_PATH = ASSET_DIR / "p7-5-1-style-prompt-contract.json"
+COMMON_CONTRACT = json.loads(STYLE_PROMPT_PATH.read_text(encoding="utf-8"))["common_contract"]
 SCENES = [
     {
         "id": "atrium-dawn-high-angle",

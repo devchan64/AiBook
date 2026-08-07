@@ -1,7 +1,7 @@
 {
-  "status": "approved_for_character_reference",
-  "purpose": "Human-approved P7-5.1 local-GPU style-reference originals for downstream character-reference generation",
-  "model_input_rule": "Select one individual local-GPU original from references for each downstream diffusion run; do not use a tiled comparison image as model input.",
+  "status": "approved_for_downstream_reference",
+  "purpose": "Human-approved P7-5.1 local-GPU background style-reference originals",
+  "model_input_rule": "Keep individual local-GPU originals and their approval record separate from tiled comparison images.",
   "gate_status": "pass",
   "references": [
     {"asset": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png", "scene_id": "indoor-dawn-high-angle", "role": "required"},
