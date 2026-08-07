@@ -44,7 +44,7 @@ FLUX.2 Klein 4B에는 다음 세 이미지를 순서대로 넣는다.
 | 얼굴 기준 | 청록 단발과 얼굴 특징 |
 | 전신 복장 기준 | 흰 재킷, 청록 넓은 바지, 흰 운동화, 남색 크로스백 |
 
-이 계약에서 `512 x 768`, 8 step, seed `5413`, sequential CPU offload로 만든 결과를 사람 검수로 승인했다. 긴 뒷머리 대신 턱선 길이 단발이 읽히며, 들어 올린 다리의 넓은 바지 주름과 드러난 발목은 동작에 따른 자연스러운 연출로 유지한다. 협곡·지지발·두 팔·수직으로 든 다리도 장면 기준과 함께 읽힌다.
+이 계약에서 `512 x 768`, 50 step, seed `5413`, sequential CPU offload로 만든 결과를 사람 검수로 승인했다. 긴 뒷머리 대신 턱선 길이 단발이 읽히며, 들어 올린 다리의 넓은 바지 주름과 드러난 발목은 동작에 따른 자연스러운 연출로 유지한다. 협곡·지지발·두 팔·수직으로 든 다리도 장면 기준과 함께 읽힌다.
 
 ![승인한 FLUX.2 Klein 4B 캐릭터 컷](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-character-approved.png)
 
@@ -53,10 +53,10 @@ FLUX.2 Klein 4B에는 다음 세 이미지를 순서대로 넣는다.
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_flux2_storyboard_character.py \
   --cache-dir .tmp/p7-5-3-flux2-klein-cache \
-  --steps 8 --seed 5413
+  --steps 50 --seed 5413
 ```
 
-실행 기록에는 입력 경로, prompt, seed, 해상도, step, 실행 시간, peak VRAM을 남긴다. 이 승인 표본은 48.8초, peak `3.37 GiB`였다. 다른 카메라·동작·얼굴 방향에서 같은 수준의 일관성이 자동으로 보장되는 것은 아니므로, 컷마다 다시 검수한다.
+실행 기록에는 입력 경로, prompt, seed, 해상도, step, 실행 시간, peak VRAM을 남긴다. 이 승인 표본은 285.8초, peak `3.36 GiB`였다. 다른 카메라·동작·얼굴 방향에서 같은 수준의 일관성이 자동으로 보장되는 것은 아니므로, 컷마다 다시 검수한다.
 
 ## 승인 뒤에도 사람 검수를 남긴다
 

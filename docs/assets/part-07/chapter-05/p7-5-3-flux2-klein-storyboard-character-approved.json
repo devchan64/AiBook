@@ -2,23 +2,22 @@
   "status": "approved",
   "model_id": "black-forest-labs/FLUX.2-klein-4B",
   "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload",
-  "purpose": "targeted refinement of hair silhouette and wide trouser geometry on the raised leg",
   "inputs": {
     "storyboard": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-20260806-233009-animagine-run-03-seed-5413-storyboard.png",
     "face": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-turnaround-codeformer-front-2x.png",
     "outfit": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-prop-reference-v2-complete-outfit-front-hip.png"
   },
   "output_image": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-character-approved.png",
-  "prompt": "Redraw image 1 as one finished vertical Korean webtoon panel. Preserve its exact composition: one full-body dancer stands alone on an open flat floor in the center of a canyon; the left leg is lifted straight upward in front of the torso; the right leg is the only weight-bearing leg; both arms have the same open balancing gesture; the raised foot, supporting foot, all joints, and both hands are visible. The distant rock cliffs remain separated from the dancer. Replace the dancer with the exact adult Korean woman from images 2 and 3: a clean jaw-length teal-blue bob haircut with a smooth rounded silhouette, short blunt ends at the jaw, a soft center part, and no ponytail, no long back hair, no loose long strands, no hair extending below the neck. She has dark brown eyes, a white cropped utility jacket over a charcoal crew-neck top, and teal high-waisted wide-leg trousers. The lifted left leg is completely covered by one loose, visibly wide teal trouser leg from hip to ankle: use fabric folds and a flared wide trouser silhouette, never leggings, bare skin, or a thin tight pant leg. Use plain white sneakers and exactly one navy rectangular flap crossbody bag at her right hip with one diagonal strap. Use clean restrained Korean webtoon line art, low-saturation flat colors, subtle fold shadows, readable face, correct anatomy, no text, and no watermark. Do not add people, duplicate limbs, extra bags, extra straps, cropped feet, floating body parts, exposed underwear, overlapping cliffs, or long hair.",
+  "prompt": "Redraw image 1 as one finished vertical Korean webtoon panel. Preserve its exact composition: one full-body dancer stands alone on an open flat floor in the center of a canyon; the left leg is lifted straight upward in front of the torso; the right leg is the only weight-bearing leg; both arms have the same open balancing gesture; the raised foot, supporting foot, all joints, and both hands are visible. The distant rock cliffs remain separated from the dancer. Replace the dancer with the exact adult Korean woman from images 2 and 3: a clean jaw-length teal-blue bob haircut with a smooth rounded silhouette, short blunt ends at the jaw, and a soft center part. She has dark brown eyes, a white cropped utility jacket over a charcoal crew-neck top, and teal high-waisted wide-leg trousers. The lifted left leg has loose teal trouser fabric with visible folds and a flared wide silhouette; a naturally visible ankle is allowed. Use plain white sneakers and exactly one navy rectangular flap crossbody bag at her right hip with one diagonal strap. Use clean restrained Korean webtoon line art, low-saturation flat colors, subtle fold shadows, readable face, correct anatomy, no text, and no watermark. Do not add people, duplicate limbs, extra bags, extra straps, cropped feet, floating body parts, exposed underwear, overlapping cliffs, or long hair.",
   "seed": 5413,
   "size": [
     512,
     768
   ],
-  "steps": 8,
+  "steps": 50,
   "guidance_scale": 1.0,
-  "elapsed_seconds": 48.8,
-  "gpu_memory_before_mib": 1096,
-  "gpu_memory_peak_mib": 3368,
-  "human_review": "approved: the visible ankle on the raised leg is accepted as natural wide-trouser motion."
+  "elapsed_seconds": 285.8,
+  "gpu_memory_before_mib": 1078,
+  "gpu_memory_peak_mib": 3359,
+  "human_review": "approved: 50-step output was selected for its more stable line art, readable face, jaw-length teal bob, single bag, and wide-trouser geometry while preserving the visible raised-leg ankle."
 }

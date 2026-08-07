@@ -59,7 +59,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--cache-dir", type=Path, default=DEFAULT_CACHE_DIR)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--seed", type=int, default=5413)
-    parser.add_argument("--steps", type=int, default=8)
+    parser.add_argument("--steps", type=int, default=50)
     parser.add_argument("--width", type=int, default=512)
     parser.add_argument("--height", type=int, default=768)
     return parser.parse_args()
