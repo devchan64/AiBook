@@ -16,7 +16,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-BASE_SEED = 62377
+BASE_SEED = 62294
 TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
 FACE_TURNAROUND = ROOT / "p7-5-2-face-turnaround-reference.png"
 OUTFIT_REFERENCES = [

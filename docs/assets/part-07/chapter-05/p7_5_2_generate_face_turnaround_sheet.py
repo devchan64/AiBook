@@ -17,7 +17,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent
 FRONT = ROOT / "p7-5-2-face-front-reference.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-BASE_SEED = 62377
+BASE_SEED = 62294
 TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
 HEAD_INPUT_BOTTOM = 720
 SHEET_SIZE = 1024
