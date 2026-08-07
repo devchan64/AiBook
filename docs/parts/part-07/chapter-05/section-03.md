@@ -73,6 +73,41 @@ seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 화면 
 | ![승인한 FLUX.2 Klein 전진 도약 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved.png) | ![승인 전진 도약 스토리보드의 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-canny.png) | ![승인 전진 도약 스토리보드의 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-depth.png) |
 | 사람 검수로 승인한 장면 기준 RGB다. | 승인 RGB에서 추출한 강한 경계 guide다. | 승인 RGB의 앞뒤 관계를 회색 농도로 나타낸 상대 depth guide다. |
 
+## depth 리파인은 별도 가설로 검증한다
+
+승인 스토리보드를 만들 때는 외부 캐릭터 PNG를 넣지 않는다. 반면 후속 리파인에서는 **상대 depth가 공중 도약의 실루엣만 전달하고**, P7-5.2의 착장·얼굴 기준 이미지가 인물의 외형을 보완할 수 있는지를 별도로 시험할 수 있다. 두 흐름을 섞으면 캐릭터 참조가 스토리보드 자체를 통과시킨 것처럼 보일 수 있으므로, 이 실험 결과에서는 guide를 다시 만들지 않고 최종 컷에도 사용하지 않는다.
+
+아래 실행은 상대 depth, 전·후면 착장 기준, 얼굴 정면 기준을 함께 넣어 배경 없는 한 명의 도약 인물을 만든다. 기본값은 3 step이며, 결과 파일과 같은 이름의 검수 JSON에는 가설과 확인 항목을 남긴다.
+
+```bash
+python docs/assets/part-07/chapter-05/p7_5_3_refine_storyboard_four_outputs.py \
+  --stage depth-character \
+  --output-prefix p7-5-3-refine-hypothesis-depth-character
+```
+
+![상대 depth와 착장·얼굴 기준을 함께 사용한 depth-character 가설 검증 결과](../../../assets/part-07/chapter-05/p7-5-3-refine-hypothesis-depth-character-depth-hash-eb58e6e519-seed-62377-steps-3-depth-character-stage.png)
+
+| 검수 항목 | 이번 표본의 관찰 | 판정 |
+| --- | --- | --- |
+| 동작·프레이밍 | 공중 전진 도약, 두 팔·두 다리, 전신 프레이밍이 상대 depth의 큰 실루엣과 함께 남았다. | 통과 |
+| 얼굴·머리 | 밝은 피부, 청록 단발, 보이는 얼굴이 얼굴 정면 기준과 같은 방향으로 다시 나타났다. | 통과 |
+| 착장 | 배꼽 높이의 하이웨이스트·넓은 통·발목 위 밑단과 재킷 바깥의 대각선 가방 스트랩이 읽힌다. | 통과 |
+| 배경 분리 | 협곡·바닥을 다시 그리지 않고 옅은 중립 배경에 인물만 남겼다. | 통과 |
+| 신발 | 입력 착장 기준에 신발 참조가 없어서 맨발로 생성됐다. | 미통과 |
+
+이 표본은 짧은 리파인 계약이 자세·얼굴·바지·가방 경로를 함께 보존할 수 있다는 **가설의 일부만** 뒷받침한다. 신발처럼 기준 이미지에 없는 항목은 prompt만으로 자동 보완됐다고 판단하지 않는다. 따라서 이 결과는 신발 기준을 추가할 다음 실험의 비교 기준이며, 승인 스토리보드나 최종 장면 자산이 아니다.
+
+### 구조 입력을 바꾼 세 경로 비교
+
+같은 seed `62377`, 3 step에서 구조 입력 경로만 바꿔 세 후보를 만들었다. RGB 직접 리파인은 착장·배경·얼굴을 차례로 거치는 3단계 경로다. 두 2단계 경로는 먼저 depth-character로 인물만 만들고, 두 번째 단계에서 RGB 또는 Canny와 상대 depth로 협곡을 붙인다. 따라서 이 표는 모델 일반 성능이 아니라, 이 장면에서 **어떤 입력 조합이 무엇을 잃는가**를 읽기 위한 비교다.
+
+| RGB 직접 3단계 | depth-character → RGB 2단계 | depth-character → Canny 2단계 |
+| --- | --- | --- |
+| ![RGB 직접 전체 리파인 후보](../../../assets/part-07/chapter-05/p7-5-3-refine-rgb-full-storyboard-hash-058fe20bfd-seed-62377-steps-3-candidate.png) | ![depth-character 뒤 RGB를 쓴 2단계 후보](../../../assets/part-07/chapter-05/p7-5-3-refine-two-stage-rgb-storyboard-hash-f4b2a908f4-seed-62377-steps-3-background-stage.png) | ![depth-character 뒤 Canny를 쓴 2단계 후보](../../../assets/part-07/chapter-05/p7-5-3-refine-two-stage-canny-canny-hash-872d29f9a9-seed-62377-steps-3-background-stage.png) |
+| 협곡·신발까지 다시 나타났지만, 단계가 많아 원본 RGB의 재해석도 함께 일어난다. | 인물 기준의 얼굴·넓은 바지·짧은 밑단을 비교적 보존하지만, 1단계의 맨발이 그대로 남는다. | 인물 기준은 대체로 남지만 Canny 경계가 협곡 표면을 더 강하게 다시 해석하며, 맨발도 해결하지 못한다. |
+
+이 비교에서 바로 한 경로를 최종 경로로 고르지 않는다. 신발처럼 누락되면 안 되는 항목은 별도 기준 이미지나 명시적 후속 보정으로 해결할 문제이며, 현재 세 후보 모두 승인 스토리보드를 대체하지 않는다.
+
 ## LoRA 전환에는 별도 데이터와 학습 환경이 필요하다
 
 다중참조만으로 얼굴과 복장이 약하게 섞이면 LoRA를 검토할 수 있다. 현 경로에 맞는 모델은 Apache-2.0인 **FLUX.2 Klein 4B Base**다. 학습은 Base checkpoint에서 하고, 완성한 adapter는 빠른 distilled 4B 추론 모델에 붙인다.

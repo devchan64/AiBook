@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test FLUX.2 character refinement with the four approved P7-5.3 storyboard outputs."""
+"""Refine a P7-5.3 storyboard or test its depth-guided character hypothesis."""
 
 from __future__ import annotations
 
@@ -22,14 +22,13 @@ MODEL_CACHE = PROJECT_ROOT / ".tmp/p7-5-3-flux2-klein-cache"
 BASE_SEED = 62377  # Keep P7-5.2 refinement's seed contract for the comparison.
 IMAGE_WIDTH = 768
 IMAGE_HEIGHT = 1152
-STEPS = 12
+DEFAULT_STEPS = 3
 GUIDANCE = 1.0
 MAX_SEQUENCE_LENGTH = 256
 
-STORYBOARD = ROOT / "p7-5-3-flux2-klein-storyboard-approved.png"
-LINEART = ROOT / "p7-5-3-flux2-klein-storyboard-approved-guide-lineart.png"
-CANNY = ROOT / "p7-5-3-flux2-klein-storyboard-approved-guide-canny.png"
-DEPTH = ROOT / "p7-5-3-flux2-klein-storyboard-approved-guide-depth.png"
+STORYBOARD = ROOT / "p7-5-3-flux2-klein-storyboard-forward-leap-approved.png"
+CANNY = ROOT / "p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-canny.png"
+DEPTH = ROOT / "p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-depth.png"
 FACE_REFERENCE = ROOT / "p7-5-2-face-front-reference.png"
 OUTFIT_FRONT = ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png"
 OUTFIT_REAR = ROOT / "p7-5-2-prop-reference-complete-outfit-rear-hip.png"
@@ -37,10 +36,19 @@ OUTFIT_REAR = ROOT / "p7-5-2-prop-reference-complete-outfit-rear-hip.png"
 
 GUIDE_LABELS = {
     "storyboard": "the exact complete canyon storyboard panel",
-    "lineart": "the storyboard lineart",
     "canny": "the storyboard Canny edges",
     "depth": "the storyboard relative-depth layout",
 }
+
+DEPTH_CHARACTER_HYPOTHESIS = (
+    "A compact depth-only prompt can retain the airborne pose, approved identity, cropped wide-leg outfit, and plain background."
+)
+
+OUTFIT_DESCRIPTION = (
+    "a white cropped utility jacket over a charcoal-gray crop top; deep teal high-waisted wide-leg trousers with the waistband at the navel, "
+    "belt loops, a center fly, and roomy straight legs. Hems end 8 to 10 cm above the ankles. A navy crossbody bag sits at the left hip; "
+    "one matching strap stays outside the jacket, from the right shoulder to the bag in front and from the right shoulder to beyond the left waistband at the back"
+)
 
 
 def background_prompt(guide_kind: str) -> str:
@@ -53,16 +61,33 @@ def background_prompt(guide_kind: str) -> str:
         )
     return (
         "Reference image 1 is the complete dressed dancer panel after the outfit stage. Preserve its dancer, clothing, bag, silhouette, raised leg, planted foot, arm placement, and full-body framing. "
-        f"Reference image 2 is {GUIDE_LABELS[guide_kind]}; use it only to correct the canyon, camera, and spatial depth. "
+        f"Reference image 2 is {GUIDE_LABELS[guide_kind]}; use it only to correct the canyon and camera. "
+        "Reference image 3 is a relative-depth layout; use it only to preserve the camera depth, canyon spacing, and floor recession. "
         "Render a complete natural-color pale sandstone-and-gravel canyon with tall craggy cliffs and readable full-body anatomy. One person, complete limbs, no text or labels."
     )
 
 
 def outfit_prompt(guide_kind: str) -> str:
+    if guide_kind == "depth":
+        return (
+            "Reference image 1 is a relative-depth layout. Use it only to establish the camera, dancer silhouette, spatial depth, and full-body framing. "
+            f"Reference images 2 and 3 define only {OUTFIT_DESCRIPTION}. "
+            "Render one adult dancer in that exact outfit and bag, with complete natural full-body anatomy, in a simple natural-color pale sandstone canyon. One person, complete limbs, no text or labels."
+        )
     return (
         f"Reference image 1 is {GUIDE_LABELS[guide_kind]}. Use it to establish the camera, dancer silhouette, raised leg, planted foot, arm placement, spatial depth, and full-body framing. "
-        "Reference images 2 and 3 define only a white cropped utility jacket over a charcoal-gray crop top, dark teal wide-leg trousers, and a navy crossbody bag. "
+        "Reference image 2 is a relative-depth layout; use it only to preserve the camera depth and floor recession. "
+        f"Reference images 3 and 4 define only {OUTFIT_DESCRIPTION}. "
         "Render one adult dancer in that exact outfit and bag, with complete natural full-body anatomy, in a simple natural-color pale sandstone canyon. One person, complete limbs, no text or labels."
+    )
+
+
+def depth_character_prompt() -> str:
+    return (
+        "Reference image 1 is a depth layout: copy only the airborne forward-leap silhouette and camera; ignore its background. "
+        f"Reference images 2 and 3 define only {OUTFIT_DESCRIPTION}. "
+        "Reference image 4 is the exact dancer: light warm skin, dark teal bob, amber eyes. Render her visible face, hands, and ankles; never a dark silhouette. "
+        "One full-body dancer only, both feet airborne, on a flat pale-neutral background. No canyon, floor, scenery, shadows, text, or labels."
     )
 
 
@@ -85,38 +110,53 @@ def save(image: Image.Image, path: Path) -> Path:
     return path
 
 
+def write_review(path: Path, payload: dict[str, object]) -> None:
+    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="스토리보드 RGB·lineart·Canny·depth를 각각 단일 기준으로 비교하는 P7-5.3 캐릭터 정제 실험"
+        description="P7-5.3 스토리보드 리파인과 depth-character 가설 검증"
     )
     parser.add_argument("--storyboard", type=Path, default=STORYBOARD)
-    parser.add_argument("--lineart", type=Path, default=LINEART)
     parser.add_argument("--canny", type=Path, default=CANNY)
     parser.add_argument("--depth", type=Path, default=DEPTH)
     parser.add_argument(
         "--guide-kinds",
         nargs="+",
         choices=tuple(GUIDE_LABELS),
-        default=tuple(GUIDE_LABELS),
+        default=("storyboard",),
         help="같은 seed로 비교할 스토리보드 산출물 종류",
     )
     parser.add_argument("--seed", type=int, default=BASE_SEED)
-    parser.add_argument("--stage", choices=("all", "background", "outfit", "face"), default="all")
+    parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Denoising steps for each selected refinement stage.")
+    parser.add_argument(
+        "--stage",
+        choices=("all", "depth-character", "background", "outfit", "face"),
+        default="all",
+        help="depth-character는 depth·착장·얼굴 참조만 사용하는 독립 가설 검증 단계입니다.",
+    )
     parser.add_argument("--intermediate", type=Path, help="background·face 단독 실행에 쓸 직전 단계 PNG")
     parser.add_argument("--output-dir", type=Path, default=ROOT)
-    parser.add_argument("--output-prefix", default="p7-5-3-four-output-character-refine")
+    parser.add_argument("--output-prefix", default="p7-5-3-storyboard-refine")
     args = parser.parse_args()
+    if args.steps < 1:
+        raise ValueError("--steps must be at least 1")
     if args.stage in ("background", "face") and args.intermediate is None:
         raise ValueError("--stage background 또는 --stage face에는 --intermediate가 필요합니다.")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
-    guides = {
-        "storyboard": open_image(args.storyboard),
-        "lineart": open_image(args.lineart),
-        "canny": open_image(args.canny),
-        "depth": open_image(args.depth),
+    guide_paths = {
+        "storyboard": args.storyboard,
+        "canny": args.canny,
+        "depth": args.depth,
     }
+    run_guide_kinds = ("depth",) if args.stage == "depth-character" else args.guide_kinds
+    required_guides = set(run_guide_kinds)
+    if any(guide_kind != "depth" for guide_kind in run_guide_kinds):
+        required_guides.add("depth")
+    guides = {guide_kind: open_image(guide_paths[guide_kind]) for guide_kind in required_guides}
     face_reference = open_image(FACE_REFERENCE)
     outfit_front = open_image(OUTFIT_FRONT)
     outfit_rear = open_image(OUTFIT_REAR)
@@ -131,18 +171,70 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
     try:
-        for guide_kind in args.guide_kinds:
-            stem = candidate_stem(f"{args.output_prefix}-{guide_kind}", seed=args.seed, steps=STEPS, contract={"model": MODEL_ID, "outfit_prompt": outfit_prompt(guide_kind), "background_prompt": background_prompt(guide_kind), "face_prompt": face_prompt(), "stage": args.stage})
+        for guide_kind in run_guide_kinds:
+            stem = candidate_stem(
+                f"{args.output_prefix}-{guide_kind}",
+                seed=args.seed,
+                steps=args.steps,
+                contract={
+                    "model": MODEL_ID,
+                    "guide_input": (
+                        args.depth.name if args.stage == "depth-character" else guide_paths[guide_kind].name
+                    ),
+                    "depth_input": args.depth.name,
+                    "face_input": FACE_REFERENCE.name if args.stage == "depth-character" else None,
+                    "depth_character_prompt": depth_character_prompt(),
+                    "outfit_prompt": outfit_prompt(guide_kind),
+                    "background_prompt": background_prompt(guide_kind),
+                    "face_prompt": face_prompt(),
+                    "stage": args.stage,
+                    "steps": args.steps,
+                },
+            )
             background_path = args.output_dir / f"{stem}-background-stage.png"
+            depth_character_path = args.output_dir / f"{stem}-depth-character-stage.png"
             outfit_path = args.output_dir / f"{stem}-outfit-stage.png"
             candidate_path = args.output_dir / f"{stem}-candidate.png"
             report_path = args.output_dir / f"{stem}-review.json"
             started = time.monotonic()
+            if args.stage == "depth-character":
+                depth_character = pipe(
+                    image=[guides["depth"], outfit_front, outfit_rear, face_reference],
+                    prompt=depth_character_prompt(),
+                    width=IMAGE_WIDTH,
+                    height=IMAGE_HEIGHT,
+                    num_inference_steps=args.steps,
+                    guidance_scale=GUIDANCE,
+                    generator=torch.Generator(device="cpu").manual_seed(args.seed),
+                    max_sequence_length=MAX_SEQUENCE_LENGTH,
+                ).images[0]
+                save(depth_character, depth_character_path)
+                elapsed = round(time.monotonic() - started, 2)
+                write_review(
+                    report_path,
+                    {
+                        "status": "review_required",
+                        "output": depth_character_path.name,
+                        "hypothesis": DEPTH_CHARACTER_HYPOTHESIS,
+                        "seed": args.seed,
+                        "steps": args.steps,
+                        "depth_input": args.depth.name,
+                        "face_input": FACE_REFERENCE.name,
+                        "elapsed_seconds": elapsed,
+                        "decision": "Review pose, visible identity, trouser width and hem height, strap path, and background removal.",
+                    },
+                )
+                print(f"{guide_kind}: depth-character-stage -> {depth_character_path} ({elapsed:.2f}s)")
+                continue
+
             if args.stage in ("all", "outfit"):
+                outfit_inputs = [guides[guide_kind], outfit_front, outfit_rear]
+                if guide_kind != "depth":
+                    outfit_inputs.insert(1, guides["depth"])
                 outfit = pipe(
-                    image=[guides[guide_kind], outfit_front, outfit_rear],
+                    image=outfit_inputs,
                     prompt=outfit_prompt(guide_kind),
-                    width=IMAGE_WIDTH, height=IMAGE_HEIGHT, num_inference_steps=STEPS,
+                    width=IMAGE_WIDTH, height=IMAGE_HEIGHT, num_inference_steps=args.steps,
                     guidance_scale=GUIDANCE,
                     generator=torch.Generator(device="cpu").manual_seed(args.seed),
                     max_sequence_length=MAX_SEQUENCE_LENGTH,
@@ -157,11 +249,14 @@ def main() -> None:
             gc.collect()
             torch.cuda.empty_cache()
             if args.stage in ("all", "background"):
+                background_inputs = [outfit, guides[guide_kind]]
+                if guide_kind != "depth":
+                    background_inputs.append(guides["depth"])
                 background = pipe(
-                    image=[outfit, guides[guide_kind]], prompt=background_prompt(guide_kind),
+                    image=background_inputs, prompt=background_prompt(guide_kind),
                     width=IMAGE_WIDTH,
                     height=IMAGE_HEIGHT,
-                    num_inference_steps=STEPS,
+                    num_inference_steps=args.steps,
                     guidance_scale=GUIDANCE,
                     generator=torch.Generator(device="cpu").manual_seed(args.seed + 1),
                     max_sequence_length=MAX_SEQUENCE_LENGTH,
@@ -179,32 +274,30 @@ def main() -> None:
                 image=[background, face_reference], prompt=face_prompt(),
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
-                num_inference_steps=STEPS,
+                num_inference_steps=args.steps,
                 guidance_scale=GUIDANCE,
                 generator=torch.Generator(device="cpu").manual_seed(args.seed + 2),
                 max_sequence_length=MAX_SEQUENCE_LENGTH,
             ).images[0]
             save(candidate, candidate_path)
             elapsed = round(time.monotonic() - started, 2)
-            report_path.write_text(
-            json.dumps(
+            write_review(
+                report_path,
                 {
                     "status": "review_required",
                     "output": candidate_path.name,
                     "guide_kind": guide_kind,
                     "seed": args.seed,
                     "image_size": [IMAGE_WIDTH, IMAGE_HEIGHT],
-                    "steps_per_stage": STEPS,
+                    "steps_per_stage": args.steps,
                     "elapsed_seconds": elapsed,
                     "model": MODEL_ID,
-                    "guide_input": {"kind": guide_kind, "path": {"storyboard": args.storyboard, "lineart": args.lineart, "canny": args.canny, "depth": args.depth}[guide_kind].name},
+                    "guide_input": {"kind": guide_kind, "path": guide_paths[guide_kind].name},
+                    "depth_input": args.depth.name,
                     "stages": {"outfit": outfit_prompt(guide_kind), "background": background_prompt(guide_kind), "face_final": face_prompt()},
                     "decision": "Review each guide's contribution to pose, canyon spacing, limb completeness, outfit geometry, and face identity before approval.",
                 },
-                indent=2,
-            ),
-            encoding="utf-8",
-        )
+            )
             print(f"{guide_kind}: review candidate -> {candidate_path} ({elapsed:.2f}s)")
     finally:
         del pipe
