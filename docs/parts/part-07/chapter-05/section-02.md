@@ -154,20 +154,27 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 방향별 얼굴 기준과 회색 크롭탑·바지·신발 소품을 입력으로 정면·전면 쿼터·측면·후면을 개별 생성해 기본 전신 기준을 사람 승인했습니다. 네 방향은 자연스러운 신체비율, 전신 프레이밍, 기본 복장·신발, 청록 단발의 연속성까지만 승인합니다. 이후 자켓·가방을 더한 보강 출력도 네 방향 모두 추가 승인했습니다. 현재 1-stage turnaround 경로는 이 구성을 정면 앵커에서 여섯 방향으로 확장합니다. 성인 체형 prompt는 비례를 보조할 뿐 결정적 제어가 아니므로 실제 비율은 사람 검수로 확인합니다. 입력·seed·prompt와 사람 판정은 커밋하지 않는 로컬 생성 기록으로 확인합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
 
-| 정면 | 전면 쿼터 | 측면 | 후면 |
-| --- | --- | --- | --- |
-| ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-reference.png) | ![승인된 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
+| 정면 | 전면 쿼터 | 좌측 측면 | 우측 측면 | 후면 |
+| --- | --- | --- | --- | --- |
+| ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-reference.png) | ![승인된 좌측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference.png) | ![승인된 우측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
 
-새 전신 turnaround 경로는 정면을 먼저 한 번 생성하고, 그 PNG를 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 아래 정면 PNG는 1단계 전신 생성(`3 step`) 뒤 2단계 얼굴 아이덴티 보강(`6 step`)을 적용해 `seed=62294`로 만든 사람 승인 앵커입니다. 1단계 PNG는 검토용 중간 산출물로 따로 저장하고, 정면 얼굴 PNG와 공용 아이덴티 계약을 적용한 2단계 PNG만 승인 범위로 둡니다. 나머지 다섯 방향은 이 정면을 입력으로 새로 생성한 뒤 각각 다시 사람 검수합니다. 개별 방향만 만들 때는 `--front-image`로 이처럼 승인하거나 검토할 정면 PNG를 명시해야 합니다.
+정면 신체비율 생성기와 턴어라운드 생성기는 분리합니다. 정면 생성기는 1단계 전신 생성(기본 `3 step`) 뒤 2단계 얼굴 아이덴티 보강(기본 `6 step`)을 적용해 정면 PNG와 검토용 중간 PNG를 만듭니다. 턴어라운드 생성기는 정면을 만들지 않으며, `--front-image`로 받은 승인·후보 정면 PNG만을 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 정면과 다섯 후속 방향은 각각 다시 사람 검수합니다.
 
 | 새 승인 정면 turnaround 앵커 |
 | --- |
 | ![1-stage로 생성해 승인한 정면 전신 turnaround 앵커](../../../assets/part-07/chapter-05/p7-5-2-fullbody-turnaround-front-reference.png) |
 
-기본 실행은 정면·좌/우 전면 쿼터·좌/우 측면·후면의 여섯 방향을 정면부터 차례로 생성하며, 각 방향은 별도 PNG로 저장합니다. 정면을 포함하지 않고 특정 방향만 재생성할 때는 `--views profile_right --front-image 정면.png`처럼 정면 앵커를 명시합니다. 후보가 생성됐다는 사실은 후속 방향의 승인 근거가 아니므로, 신발의 짝과 형태, 팔 가림, 얼굴·몸·발 방향의 일치를 방향마다 다시 사람 검수합니다.
+정면은 전용 생성기로 먼저 만들고, 방향 전신 생성기는 좌·우 전면 쿼터·좌·우 측면·후면 다섯 방향을 각각 별도 PNG로 저장합니다. 특정 방향만 재생성할 때는 `--views profile_right --front-image 정면.png`처럼 정면 앵커를 명시합니다. 후보가 생성됐다는 사실은 후속 방향의 승인 근거가 아니므로, 신발의 짝과 형태, 팔 가림, 얼굴·몸·발 방향의 일치를 방향마다 다시 사람 검수합니다.
+
+좌·우 측면은 정면 turnaround 앵커를 입력으로 1차와 2차 모두 `3 step`으로 생성한 후보를 각각 검수해 승인했습니다. 두 PNG는 화면 기준 방향, 가까운 쪽 팔 하나의 실루엣, 두 발의 분리를 확인한 뒤 `p7-5-2-fullbody-profile-left-reference.png`와 `p7-5-2-fullbody-profile-right-reference.png` 안정 이름으로 등록했습니다. 단일 `profile` 이름은 좌·우 방향을 구분하지 못하므로 더 이상 기준 자산으로 사용하지 않습니다.
 
 <details id="fullbody-turnaround-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_references.py" data-language="python">
-<summary>얼굴 턴어라운드와 소품으로 방향별 전신 PNG를 만드는 코드 보기</summary>
+<summary>정면 전신 PNG를 받아 다섯 방향을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="fullbody-front-proportion" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_front_reference.py" data-language="python">
+<summary>정면 전신 신체비율과 얼굴 보강 PNG를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
@@ -194,17 +201,18 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## 생성 코드와 사람 승인을 분리한다
 
-기준 이미지를 만드는 소스는 정면 얼굴, 방향 얼굴, 소품, 방향 전신, 전신 얼굴·소품 보강의 다섯 개입니다. 정면 전신은 방향 전신 생성기의 `front` 범위로 만들며, 표정 생성기는 현재 승인 기준 체인에 포함하지 않습니다. 후보 PNG가 생성됐다는 사실은 새 pose·camera·컷신 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
+기준 이미지를 만드는 소스는 정면 얼굴, 방향 얼굴, 소품, 정면 전신, 방향 전신, 전신 얼굴·소품 보강의 여섯 개입니다. 정면 전신과 방향 전신을 분리해, 방향 생성은 검수한 정면 PNG를 명시 입력으로만 받습니다. 후보 PNG가 생성됐다는 사실은 새 pose·camera·컷신 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
 
 | 생성 범위 | 소스 | 범위 옵션 |
 | --- | --- | --- |
 | 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | `--steps`, `--preview-every` |
 | 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views`, `--steps` |
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets`, `--steps` (기본 `3`), `--preview-every` |
-| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views`, `--front-image`, `--body-image`, `--body-steps`(기본 `3`), `--face-steps`(기본 `6`) |
+| 정면 전신 | `p7_5_2_generate_fullbody_front_reference.py` | `--body-steps`(기본 `3`), `--face-steps`(기본 `6`) |
+| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--front-image`(필수), `--views`, `--body-image`, `--body-steps`, `--face-steps` |
 | 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--steps`, `--run-id` |
 
-이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 다섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 다섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
+이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 여섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 여섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
 
 | 생성기 | 하는 일 | 조작할 값 |
 | --- | --- | --- |

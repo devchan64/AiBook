@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a front-anchored full-body turnaround from face and outfit references."""
+"""Generate non-front full-body turnaround views from a supplied front full-body image."""
 
 from __future__ import annotations
 
@@ -19,10 +19,7 @@ ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62294
 FACE_IDENTITY_SEED = 62294
-FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
-FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 FACE_REFERENCE_BY_VIEW = {
-    "front": ROOT / "p7-5-2-face-front-reference.png",
     "front_quarter_left": ROOT / "p7-5-2-face-front-quarter-left-reference.png",
     "front_quarter_right": ROOT / "p7-5-2-face-front-quarter-right-reference.png",
     "profile_left": ROOT / "p7-5-2-face-profile-left-reference.png",
@@ -37,84 +34,29 @@ OUTFIT_REFERENCES = [
 IMAGE_WIDTH = 768
 IMAGE_HEIGHT = 1152
 VIEW_RULES = {
-    "front": "front view, facing the camera",
-    "front_quarter_left": "left front three-quarter view, with face, chest, pelvis, knees, and feet turned together",
-    "front_quarter_right": "right front three-quarter view, with face, chest, pelvis, knees, and feet turned together",
-    "profile_left": (
-        "true left side profile, with one near arm beside the torso and the far arm hidden; "
-        "use a natural narrow standing stance with both shoes visibly separated along the horizontal axis, "
-        "the near foot slightly forward and the far foot slightly back, so neither shoe or leg occludes the other; "
-        "preserve the elongated forehead above the brow, a continuous unbroken hairline, and the deep viewer-right side "
-        "part with one full short fringe sweeping across the viewer-left forehead and ending above the eyebrow; do not "
-        "expose a blank, receded, or chopped-off forehead, split the fringe into extra bangs, or insert gaps in the hairline"
-    ),
-    "profile_right": (
-        "true right side profile, with one near arm beside the torso and the far arm hidden; "
-        "use a natural narrow standing stance with both shoes visibly separated along the horizontal axis, "
-        "the near foot slightly forward and the far foot slightly back, so neither shoe or leg occludes the other; "
-        "preserve the elongated forehead above the brow, a continuous unbroken hairline, and the deep viewer-right side "
-        "part with one full short fringe sweeping across the viewer-left forehead and ending above the eyebrow; do not "
-        "expose a blank, receded, or chopped-off forehead, split the fringe into extra bangs, or insert gaps in the hairline"
-    ),
-    "rear": "rear view, facing away from the camera",
+    "front_quarter_left": "starting from the supplied front-view anchor, the whole figure is rotated 30 degrees into a three-quarter view; face, chest, hips, knees, and feet stay aligned; gaze follows the face direction",
+    "front_quarter_right": "starting from the supplied front-view anchor, the whole figure is rotated 30 degrees into a three-quarter view; face, chest, hips, knees, and feet stay aligned; gaze follows the face direction",
+    "profile_left": "strict side profile facing image left; nose, chest, hips, and toes point image left; near arm visible, far arm hidden, two legs and shoes separate",
+    "profile_right": "strict side profile facing image right; nose, chest, hips, and toes point image right; near arm visible, far arm hidden, two legs and shoes separate",
+    "rear": "rear view",
 }
 TURNAROUND_ORDER = (
-    "front",
     "front_quarter_left",
     "front_quarter_right",
     "profile_left",
     "profile_right",
     "rear",
 )
-OUTFIT_RULE = (
-    "Keep the charcoal-gray micro-crop crew-neck top, bare-midriff gap, deep teal-blue wide-leg trousers, "
-    "and white lace-up low-top sneakers from the outfit references."
-)
-BODY_PROPORTION_RULE = (
-    "Use a realistic adult female fashion-turnaround proportion: an approximately seven-and-a-half-head-tall figure, "
-    "with a naturally sized head, shoulders about two and a half head-widths across, a compact torso, a clear pelvis, "
-    "and long straight legs. Place the knees near the lower half of the figure and the ankles directly above the shoes; "
-    "keep both arms naturally proportional from shoulder to wrist and both hands near mid-thigh."
-)
-FRONT_TALL_PROPORTION_RULE = (
-    "Tall adult fashion figure, close to eight heads high: a small proportional head, compact torso, high waist, and long legs."
-)
-
-
 def prompt_word_count(text: str) -> int:
     return len(text.split())
 
 
-def build_body_prompt(view: str, *, front_anchored: bool) -> str:
-    front_anchor_rule = (
-        "Use the supplied front full-body image as the fixed character, outfit, body-proportion, "
-        "and hair-to-sole continuity anchor; rotate that same person only to the requested direction. "
-        if front_anchored
-        else ""
-    )
-    proportion_rule = FRONT_TALL_PROPORTION_RULE if view == "front" else BODY_PROPORTION_RULE
-    return (
-        "Full-body character turnaround reference of one woman on an off-white studio background. "
-        f"{front_anchor_rule}"
-        f"{OUTFIT_RULE} {proportion_rule} {VIEW_RULES[view]}. "
-        "One neutral upright standing figure, fully visible from hair to shoe soles, centered in the frame. "
-        "No crop, no duplicate body, no other person, no text, and no labels."
-    )
+def build_body_prompt(view: str) -> str:
+    return f"One full-body woman, {VIEW_RULES[view]}, on an off-white studio background."
 
 
-def build_face_identity_prompt(view: str) -> str:
-    identity_rule = (
-        FACE_IDENTITY_CONTRACT["rear_hair_identity"]
-        if view == "rear"
-        else FACE_IDENTITY_CONTRACT["identity_description"]
-    )
-    return (
-        "Use the supplied full-body image as the fixed pose, outfit, body-proportion, and hair-to-sole framing anchor. "
-        "Use the supplied direction-matched face image as a strong identity reference. "
-        f"Restore this identity in the requested view: {identity_rule} {VIEW_RULES[view]}. "
-        "Refine the face and hair only; keep the body, hands, legs, shoes, outfit, background, camera, and framing unchanged. "
-        "One person, no text, and no labels."
-    )
+def build_face_refinement_prompt() -> str:
+    return ""
 
 
 def main() -> None:
@@ -124,18 +66,19 @@ def main() -> None:
         nargs="+",
         choices=tuple(VIEW_RULES),
         default=TURNAROUND_ORDER,
-        help="Views to generate. A complete turnaround is always ordered from front to rear.",
+        help="Non-front views to generate, in turnaround order.",
     )
     parser.add_argument(
         "--front-image",
         type=Path,
-        help="Approved or reviewable front full-body PNG used to anchor individually generated non-front views.",
+        required=True,
+        help="Approved or reviewable front full-body PNG used as the fixed turnaround anchor.",
     )
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
     parser.add_argument("--body-steps", type=int, default=3, help="Denoising steps for the first full-body pass.")
-    parser.add_argument("--face-steps", type=int, default=6, help="Denoising steps for the second face-identity pass.")
+    parser.add_argument("--face-steps", type=int, default=3, help="Denoising steps for the second face-refinement pass.")
     parser.add_argument(
         "--body-image",
         type=Path,
@@ -155,16 +98,12 @@ def main() -> None:
     if args.body_steps < 1 or args.face_steps < 1:
         raise ValueError("body-steps and face-steps must both be at least 1")
     selected_views = tuple(view for view in TURNAROUND_ORDER if view in args.views)
-    needs_front_anchor = any(view != "front" for view in selected_views)
-    if "front" not in selected_views and needs_front_anchor and args.front_image is None:
-        raise ValueError("--front-image is required when generating non-front views without front")
-    if args.front_image is not None and not args.front_image.is_file():
+    if not args.front_image.is_file():
         raise FileNotFoundError(args.front_image)
     if args.body_image is not None and not args.body_image.is_file():
         raise FileNotFoundError(args.body_image)
     reference_paths = [*(FACE_REFERENCE_BY_VIEW[view] for view in selected_views), *OUTFIT_REFERENCES]
-    if args.front_image is not None:
-        reference_paths.append(args.front_image)
+    reference_paths.append(args.front_image)
     if args.body_image is not None:
         reference_paths.append(args.body_image)
     if missing := [path.name for path in reference_paths if not path.is_file()]:
@@ -189,22 +128,17 @@ def main() -> None:
     supplied_body_image = Image.open(args.body_image).convert("RGB") if args.body_image is not None else None
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
-        generated_front_image = None
-        generated_front_path = None
-        if "front" not in selected_views:
-            generated_front_path = args.front_image
-            generated_front_image = Image.open(args.front_image).convert("RGB")
+        front_anchor_path = args.front_image
+        front_anchor_image = Image.open(args.front_image).convert("RGB")
         for view in selected_views:
-            front_anchored = view != "front"
-            body_prompt = build_body_prompt(view, front_anchored=front_anchored)
+            body_prompt = build_body_prompt(view)
             body_reference_paths = [FACE_REFERENCE_BY_VIEW[view], *OUTFIT_REFERENCES]
             body_reference_images = [face_images[view], *outfit_images]
-            if front_anchored:
-                assert generated_front_image is not None and generated_front_path is not None
-                body_reference_paths.insert(0, generated_front_path)
-                body_reference_images.insert(0, generated_front_image)
-            face_identity_prompt = build_face_identity_prompt(view)
-            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=args.face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_prompt": face_identity_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_steps": args.body_steps, "face_identity_seed": FACE_IDENTITY_SEED, "face_steps": args.face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
+            body_reference_paths.insert(0, front_anchor_path)
+            body_reference_images.insert(0, front_anchor_image)
+            face_refinement_prompt = build_face_refinement_prompt()
+            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=args.face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_refinement_prompt": face_refinement_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_steps": args.body_steps, "face_steps": args.face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
+            body_output = ROOT / f"{stem}-body-stage-steps-{args.body_steps}.png"
             output = ROOT / f"{stem}-candidate.png"
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
@@ -222,11 +156,12 @@ def main() -> None:
                 ).images[0]
             else:
                 body_image = supplied_body_image.copy()
+            body_image.save(body_output)
             gc.collect()
             torch.cuda.empty_cache()
             image = pipe(
                 image=[body_image, face_images[view]],
-                prompt=face_identity_prompt,
+                prompt=face_refinement_prompt,
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
                 num_inference_steps=args.face_steps,
@@ -236,14 +171,12 @@ def main() -> None:
                 callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-face"),
             ).images[0]
             image.save(output)
-            if view == "front":
-                generated_front_path = output
-                generated_front_image = image
             elapsed = round(time.monotonic() - started, 2)
             report.write_text(
                 json.dumps(
                     {
                         "status": "review_required",
+                        "body_output": body_output.name,
                         "output": output.name,
                         "view": view,
                         "seed": seed,
@@ -261,15 +194,15 @@ def main() -> None:
                                 "prompt_word_count": prompt_word_count(body_prompt),
                                 "references": [path.name for path in body_reference_paths],
                                 "face_reference": FACE_REFERENCE_BY_VIEW[view].name,
-                                "front_anchor": generated_front_path.name if front_anchored else None,
+                                "front_anchor": front_anchor_path.name,
                                 "supplied_image": args.body_image.name if args.body_image else None,
+                                "output": body_output.name,
                             },
-                            "face_identity": {
-                                "prompt": face_identity_prompt,
-                                "prompt_word_count": prompt_word_count(face_identity_prompt),
+                            "face_refinement": {
+                                "prompt": face_refinement_prompt,
+                                "prompt_word_count": prompt_word_count(face_refinement_prompt),
                                 "seed": FACE_IDENTITY_SEED,
                                 "reference": FACE_REFERENCE_BY_VIEW[view].name,
-                                "contract": FACE_IDENTITY_CONTRACT_PATH.name,
                             },
                         },
                         "model": MODEL_ID,
