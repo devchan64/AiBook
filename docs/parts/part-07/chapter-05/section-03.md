@@ -63,7 +63,7 @@ lineart는 전체 윤곽, canny는 강한 경계, depth는 상대적인 거리�
 | `qwen-image` | Union Canny·depth·soft-edge(선화), 한 guide | `1024²`, 30 step, true CFG 4.0 | 20B라 제외 후보 |
 | `z-image-turbo` | Union Canny·depth·HED(선화), 한 guide | `1024²`, 9 step, CFG 0 | 공식 16 GB 기준·8 GB 제외 |
 
-새 Animagine 스토리보드(`seed=5413`)에서 SD 1.5와 SDXL의 기존 후보는 사람 형상 또는 발·지형 분리 기준을 통과하지 못해 폐기했다. Animagine XL의 Canny 단일 guide에서 Canny `0.65`는 문자 artifact로 미통과, `0.95`는 절벽·인체 윤곽이 경직됐다. `0.80`은 두 팔·두 다리, 지지발과 협곡을 유지했다. 24·28·32 step 모두 구조를 보존했으며, 24 step은 19.1초로 28 step(21.6초), 32 step(24.4초)보다 빨라 기본값으로 선택했다. peak VRAM은 약 `6.43 GiB`였다. 실행 PNG와 JSON 기록은 [guide 수용도 벤치마크 폴더](../../../assets/part-07/chapter-05/p7-5-3-guide-adherence-benchmark/)에 둔다. 이 결과는 캐릭터 일치가 아니라 한 guide·한 seed의 **구조 수용도** 관찰이다.
+새 Animagine 스토리보드(`seed=5413`)에서 SD 1.5와 SDXL의 기존 후보는 사람 형상 또는 발·지형 분리 기준을 통과하지 못해 폐기했다. Animagine XL의 Canny 단일 guide에서 Canny `0.65`는 문자 artifact로 미통과, `0.95`는 절벽·인체 윤곽이 경직됐다. `0.80`은 두 팔·두 다리, 지지발과 협곡을 유지했다. 24·28·32 step 모두 구조를 보존했으며, 24 step은 19.1초로 28 step(21.6초), 32 step(24.4초)보다 빨라 기본값으로 선택했다. peak VRAM은 약 `6.43 GiB`였다. 공개 자산에는 위 표의 승인 스토리보드와 파생 guide PNG를 유지하고, 세부 실행 요약은 이 절의 릴리즈노트에 남긴다. 이 결과는 캐릭터 일치가 아니라 한 guide·한 seed의 **구조 수용도** 관찰이다.
 
 ### 참조·Inpaint·Redux의 역할을 섞지 않는다
 
