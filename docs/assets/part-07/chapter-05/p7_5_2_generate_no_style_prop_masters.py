@@ -65,21 +65,16 @@ REAR_JACKET_MIDRIFF_CONTRACT = (
 )
 
 COMPLETE_OUTFIT_FRONT_HIP_CONTRACT = (
-    "Front apparel-and-bag wearing reference from shoulders through hips on a neutral headless torso, plain "
-    "off-white background. Show a very short white cropped utility jacket open over a charcoal-gray micro-crop "
-    "crew-neck top, deep teal-blue wide-leg trousers with a clearly high waist: the full waistband sits at the navel, "
-    "well above the hips, and stays visible, plus a compact deep-navy woven-canvas crossbody bag. The top ends at "
-    "the upper abdomen, sixteen centimeters above the navel-height trouser waistband, leaving "
-    "a clear bare-skin midriff band. Hang the bag side-on beside the wearer's outer left trouser seam (viewer right), "
-    "with its top aligned to the waistband. Its strap is the same deep-navy woven canvas as the bag body, never charcoal, "
-    "black, gray, or another color. The strap begins at the outer wearer's-right shoulder (viewer left), visibly overlaps "
-    "the white jacket's viewer-left shoulder, collar, lapel, and front body panel, then continues over the outside of the "
-    "jacket through the chest into the bag's upper inner attachment. Render one continuous taut diagonal strap: do not route "
-    "its chest segment primarily over the gray inner crop top or down the open center between jacket panels. Never hide it "
-    "behind either collar or lapel, never tuck it under, through, or inside the jacket, and never begin it at the viewer-right "
-    "shoulder. Keep distinct "
-    "garment layers and correct overlap. Clean "
-    "product illustration. No head, hands, legs, text, logo, hanger, or other object."
+    "Front apparel-and-bag reference from shoulders through hips, on a neutral headless torso and off-white background. "
+    "Wear a very short white cropped utility jacket as the closed outer layer; its white front panels cover the chest. "
+    "Show a charcoal-gray micro-crop only below the jacket hem, with a bare midriff band above deep teal-blue high-waisted "
+    "wide-leg trousers. Place one compact deep-navy woven-canvas crossbody bag at the wearer's outer-left hip (viewer right). "
+    "Its strap is the exact same deep navy as the bag. Show exactly one taut diagonal strap: it starts only at the wearer's "
+    "right shoulder (viewer left), crosses white jacket shoulder, collar, lapel, and front panel, then joins the bag. Keep "
+    "the jacket front panel directly beneath the strap white and closed. Never show the strap on the gray top, in the open "
+    "center, behind the jacket, from the viewer-right shoulder, or as a loose navy patch, second strap, or shoulder pad on "
+    "the viewer-right shoulder. Clean product "
+    "illustration; no head, text, logo, hanger, or extra object."
 )
 
 COMPLETE_OUTFIT_REAR_HIP_CONTRACT = (
@@ -228,14 +223,16 @@ def load_reference_images(paths: tuple[Path, ...]) -> list[Image.Image]:
     return images
 
 
-def resolve_generation_targets(requested_targets: tuple[str, ...]) -> tuple[str, ...]:
+def resolve_generation_targets(
+    requested_targets: tuple[str, ...], provided_prerequisites: set[str]
+) -> tuple[str, ...]:
     """Expand selected targets with prerequisites and return the fixed dependency order."""
     selected = set(requested_targets)
     pending = list(requested_targets)
     while pending:
         prop_id = pending.pop()
         for dependency in GENERATED_REFERENCE_DEPENDENCIES.get(prop_id, ()):
-            if dependency not in selected:
+            if dependency not in selected and dependency not in provided_prerequisites:
                 selected.add(dependency)
                 pending.append(dependency)
     return tuple(prop_id for prop_id in GENERATION_ORDER if prop_id in selected)
@@ -258,12 +255,44 @@ def main() -> None:
         default=DEFAULT_REPORT,
         help="Candidate review JSON path.",
     )
+    parser.add_argument(
+        "--prop-reference",
+        action="append",
+        type=Path,
+        default=[],
+        metavar="PATH",
+        help="Additional PNG input applied to each explicitly requested target, not its generated prerequisites.",
+    )
+    parser.add_argument(
+        "--prerequisite-reference",
+        action="append",
+        default=[],
+        metavar="ID=PATH",
+        help="Use an existing prerequisite PNG instead of regenerating that prop, for example crossbody_bag=bag.png.",
+    )
     parser.add_argument("--steps", type=int, default=3, help="Number of FLUX denoising steps for every selected prop.")
     parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     args = parser.parse_args()
     if args.steps < 1:
         raise ValueError("steps must be at least 1")
-    targets = resolve_generation_targets(tuple(args.targets))
+    requested_target_ids = set(args.targets)
+    prerequisite_references: dict[str, Path] = {}
+    for assignment in args.prerequisite_reference:
+        try:
+            prop_id, raw_path = assignment.split("=", maxsplit=1)
+        except ValueError as exc:
+            raise ValueError("--prerequisite-reference must use ID=PATH") from exc
+        if prop_id not in PROPS:
+            raise ValueError(f"Unknown prerequisite prop ID: {prop_id}")
+        if prop_id in prerequisite_references:
+            raise ValueError(f"Duplicate prerequisite prop ID: {prop_id}")
+        path = Path(raw_path)
+        prerequisite_references[prop_id] = path if path.is_absolute() else ROOT / path
+    targets = resolve_generation_targets(tuple(args.targets), set(prerequisite_references))
+    extra_prop_references = tuple(
+        path if path.is_absolute() else ROOT / path
+        for path in args.prop_reference
+    )
 
     missing = [
         path.name
@@ -271,6 +300,8 @@ def main() -> None:
         for path in PROPS[prop_id].get("references", ())
         if not path.is_file()
     ]
+    missing.extend(path.name for path in extra_prop_references if not path.is_file())
+    missing.extend(path.name for path in prerequisite_references.values() if not path.is_file())
     if missing:
         raise FileNotFoundError(", ".join(missing))
 
@@ -286,7 +317,7 @@ def main() -> None:
     pipe.set_progress_bar_config(disable=True)
 
     runs = []
-    generated_outputs: dict[str, Path] = {}
+    generated_outputs: dict[str, Path] = dict(prerequisite_references)
     for prop_id in targets:
         prop = PROPS[prop_id]
         started = time.monotonic()
@@ -295,7 +326,8 @@ def main() -> None:
             generated_outputs[dependency]
             for dependency in GENERATED_REFERENCE_DEPENDENCIES.get(prop_id, ())
         )
-        reference_paths = (*prop.get("references", ()), *generated_reference_paths)
+        explicit_prop_references = extra_prop_references if prop_id in requested_target_ids else ()
+        reference_paths = (*prop.get("references", ()), *generated_reference_paths, *explicit_prop_references)
         output_stem = candidate_stem(
             Path(prop["output"]).stem,
             seed=prop["seed"],
@@ -354,6 +386,10 @@ def main() -> None:
                 "input_policy": "No style, face, or character input. The front layered and complete-outfit targets may use the approved crop-top-to-waistband reference.",
                 "requested_targets": args.targets,
                 "generation_order": targets,
+                "additional_prop_references": [path.name for path in extra_prop_references],
+                "prerequisite_references": {
+                    prop_id: path.name for prop_id, path in prerequisite_references.items()
+                },
                 "steps": args.steps,
                 "model": {"id": MODEL_ID, "runtime": "Diffusers Flux2KleinPipeline sequential CPU offload"},
                 "runs": runs,

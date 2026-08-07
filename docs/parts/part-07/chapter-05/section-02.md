@@ -127,20 +127,20 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 [소품 기준 v2 manifest](../../../assets/part-07/chapter-05/p7-5-2-prop-reference.json)은 열 소품의 승인 범위를 기록합니다. 실행·검수 기록은 커밋하지 않는 로컬 생성 기록으로 분리합니다. 손·손목 후보는 아직 기준 자산이 아닙니다.
 
-소품 기준 v2는 전면·후면 자켓과 전면·후면 레이어 기준, 전면·후면 통합 착장 기준을 포함한 개별 소품 PNG 아홉 장과 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·방향에 맞는 자켓-크롭탑 또는 자켓-피부 레이어·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 통합 착장 기준은 전면 가방의 위치·스트랩과 후면의 제한된 가방 노출을 한 쌍으로 검수합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
+소품 기준 v2는 전면·후면 자켓과 전면·후면 레이어 기준, 전면·후면 통합 착장 기준을 포함한 개별 소품 PNG 아홉 장과 착장 관계 PNG 한 장입니다. 시트 이미지로 합치지 않으며, 컷에서 필요한 신발·방향에 맞는 자켓-크롭탑 또는 자켓-피부 레이어·바지·가방과 크롭 밑단-허리선 관계만 선택해 비교합니다. 전면·후면 통합 착장 안정 파일은 `seed=62294`, 5 step 후보를 사람 승인해 교체했습니다. 전면은 하나의 딥네이비 스트랩이 닫힌 흰 자켓 외피 위를 지나 가방에 연결되는지, 후면은 같은 색 스트랩과 제한된 가방 노출이 유지되는지를 한 쌍으로 검수합니다. 이전 화풍 조건 소품과 `prop-master-v1`은 폐기했으며 이후 기준 생성에는 사용하지 않습니다.
 
 <details id="no-style-prop-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_no_style_prop_masters.py" data-language="python">
 <summary>선택한 소품 기준 후보를 만드는 통합 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-통합 스크립트는 `--targets` 범위로 `jacket`, `jacket_rear`, `jacket_crop_top_front`, `jacket_crop_top_rear`, `complete_outfit_front_hip`, `complete_outfit_rear_hip`, `trousers`, `shoes`, `crossbody_bag`, `crop_top_waist_relation` 중 필요한 항목만 생성합니다. 범위를 생략하면 전체 후보를 신발·가방·바지·자켓 전면·자켓 후면 순으로 먼저 생성하고, 뒤의 레이어·통합 착장 후보는 같은 실행에서 앞서 만든 PNG를 참조 입력으로 받습니다. 특정 통합 착장만 선택해도 필요한 선행 소품을 자동으로 먼저 생성합니다. `--prop-reference 기존.png`를 주면 명시적으로 선택한 대상에만 그 PNG를 추가 프롭 입력으로 넣고, 선행 소품 생성에는 넣지 않습니다. 각 항목은 호출 순서와 무관하게 같은 고정 seed `62294`를 사용합니다. `crop_top_waist_relation` 후보는 전신 생성에 필요한 크롭 밑단-허리선 관계를 검수합니다. 이 대상은 입력 이미지를 쓰지 않고, 높은 밑단·좁은 맨살 띠를 유지하며 상의가 허리선·골반까지 길어지는 것을 금지하는 prompt 계약으로만 생성합니다.
+통합 스크립트는 `--targets` 범위로 `jacket`, `jacket_rear`, `jacket_crop_top_front`, `jacket_crop_top_rear`, `complete_outfit_front_hip`, `complete_outfit_rear_hip`, `trousers`, `shoes`, `crossbody_bag`, `crop_top_waist_relation` 중 필요한 항목만 생성합니다. 범위를 생략하면 전체 후보를 신발·가방·바지·자켓 전면·자켓 후면 순으로 먼저 생성하고, 뒤의 레이어·통합 착장 후보는 같은 실행에서 앞서 만든 PNG를 참조 입력으로 받습니다. 특정 통합 착장만 선택하면 필요한 선행 소품을 자동으로 먼저 생성합니다. 이미 만든 선행 소품을 재사용할 때는 `--prerequisite-reference crossbody_bag=가방.png`처럼 ID와 PNG 경로를 주며, 이 항목은 재생성하지 않고 뒤 대상의 참조 입력으로만 사용합니다. `--prop-reference 기존.png`를 주면 명시적으로 선택한 대상에만 그 PNG를 추가 프롭 입력으로 넣고, 선행 소품 생성에는 넣지 않습니다. 각 항목은 호출 순서와 무관하게 같은 고정 seed `62294`를 사용합니다. `crop_top_waist_relation` 후보는 전신 생성에 필요한 크롭 밑단-허리선 관계를 검수합니다. 이 대상은 입력 이미지를 쓰지 않고, 높은 밑단·좁은 맨살 띠를 유지하며 상의가 허리선·골반까지 길어지는 것을 금지하는 prompt 계약으로만 생성합니다.
 
 `jacket_rear`는 사람 승인한 후면 자켓 기준입니다. 소스에서는 `JACKET_COMMON_CONTRACT`에 high waist 크롭 길이·흰색·카라·긴 소매·짧은 밑단·배경과 금지 대상을 한 번만 정의하고, `JACKET_VIEW_CONTRACTS`에서 전면의 가슴 포켓·앞단추와 후면의 평면 등판·어깨·중심 등 솔기만 나눕니다. 따라서 전면 기준의 포켓·단추를 후면 전신에 잘못 옮기지 않으면서 두 view의 길이와 실루엣을 같은 계약으로 유지합니다. 승인 PNG는 후면 전신 보강의 자켓 입력으로 사용하며, 이후 새 후보를 생성할 때는 다시 별도 사람 검수를 거칩니다.
 
 전신 보강에서 회색 크롭탑이 자켓 몸판을 대체한 결함을 분리하기 위해, `jacket_crop_top_front`와 `jacket_crop_top_rear`로 방향별 torso-only 레이어 기준을 만듭니다. 전면 기준은 열린 자켓과 보이는 상의·밑단 경계를 사람 승인했습니다. 후면에서는 회색 크롭탑이 자켓보다 짧으므로 보이면 안 되며, 자켓 밑단과 바지 허리선 사이의 피부만 보여야 합니다. 회색 상의가 보인 기존 후면 기준은 승인 취소했고, 피부 띠를 보이는 새 후면 기준을 사람 승인했습니다. 전신 보강은 승인 전면·후면 레이어를 방향별로 사용하며, 소매만 남거나 자켓·상의가 한 벌처럼 합쳐지는 출력은 폐기합니다.
 
-`complete_outfit_front_hip`과 `complete_outfit_rear_hip`은 가방을 앞에 멨을 때의 한 쌍의 통합 착장 기준입니다. 두 대상은 같은 실행에서 새로 생성한 가방 PNG를 참조합니다. 전면은 자켓 앞판을 스트랩 경로 아래에서 여미거나 겹쳐 흰 외피가 계속 보이게 합니다. 착용자 오른쪽 어깨(화면 왼쪽)에서 시작한 스트랩은 가방 본체와 같은 딥네이비 직조 캔버스 색으로 흰 자켓의 화면 왼쪽 어깨·칼라·라펠·앞판만을 겹쳐 지나야 합니다. 회색 안쪽 상의나 열린 자켓 중앙에 스트랩의 어느 부분이라도 지나면 미통과입니다. 후면에서는 긴 소매의 흰 자켓 등판 위에서 같은 색 스트랩과 왼쪽 외곽의 작은 네이비 가방 모서리만 확인합니다. 두 PNG는 전신 보강에서 통합 착장 입력을 사용할 때의 방향별 계약이며, 새 전신 출력은 별도 사람 검수를 거쳐야 합니다.
+`complete_outfit_front_hip`과 `complete_outfit_rear_hip`은 가방을 앞에 멨을 때의 한 쌍의 통합 착장 기준입니다. 전면은 닫힌 흰 자켓 앞판을 외피로 두고, 회색 크롭탑은 자켓 밑단 아래에만 보이게 합니다. 스트랩은 하나만 허용하며 착용자 오른쪽 어깨(화면 왼쪽)에서 시작해 가방 본체와 같은 딥네이비 직조 캔버스 색으로 흰 자켓의 어깨·칼라·라펠·앞판만을 겹쳐 지나야 합니다. 스트랩 아래 앞판은 흰색이어야 하며, 회색 상의·열린 중앙·자켓 뒤·반대 어깨에 스트랩의 어느 부분이나 분리된 네이비 조각·두 번째 스트랩이 나타나면 미통과입니다. 후면에서는 긴 소매의 흰 자켓 등판 위에서 같은 색 스트랩과 왼쪽 외곽의 작은 네이비 가방 모서리만 확인합니다. 두 PNG는 전신 보강에서 통합 착장 입력을 사용할 때의 방향별 계약이며, 새 전신 출력은 별도 사람 검수를 거쳐야 합니다.
 
 전면 자켓-크롭탑 레이어와 전면 통합 착장 후보를 만들 때는, 사람 승인한 `crop_top_waist_relation` PNG를 크롭 길이 입력으로 사용합니다. 전면 통합 착장에는 승인한 가방·바지 PNG도 함께 넣어 스트랩이 자켓 바깥을 지나고 높은 허리선이 유지되는지를 확인합니다. 이 입력들은 자켓·가방·전신을 자동으로 대체하지 않습니다. 크롭탑-허리선 관계 후보 자체는 계속 이미지 입력 없이 prompt만으로 생성·검수합니다.
 
@@ -152,13 +152,19 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## 방향별 전신 기준
 
-방향별 CodeFormer `2x` 얼굴 기준과 회색 크롭탑·바지·신발 소품을 입력으로 정면·전면 쿼터·측면·후면을 같은 실행에서 개별 생성해 기본 전신 기준을 사람 승인했습니다. 네 방향은 자연스러운 신체비율, 전신 프레이밍, 기본 복장·신발, 청록 단발의 연속성까지만 승인합니다. 이후 자켓·가방을 더한 보강 출력도 네 방향 모두 추가 승인했습니다. 측면은 전면·후면 통합 착장 기준을 함께 참조해 흰색 크롭 재킷의 몸판·소매·옆등판을 고정했습니다. 등신 수치 지시는 단일 생성에서 안정적인 제어가 되지 않아 prompt에 넣지 않으며, 실제 비율은 사람 검수로 확인합니다. 입력·seed·prompt와 사람 판정은 커밋하지 않는 로컬 생성 기록으로 확인합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
+방향별 얼굴 기준과 회색 크롭탑·바지·신발 소품을 입력으로 정면·전면 쿼터·측면·후면을 개별 생성해 기본 전신 기준을 사람 승인했습니다. 네 방향은 자연스러운 신체비율, 전신 프레이밍, 기본 복장·신발, 청록 단발의 연속성까지만 승인합니다. 이후 자켓·가방을 더한 보강 출력도 네 방향 모두 추가 승인했습니다. 현재 1-stage turnaround 경로는 이 구성을 정면 앵커에서 여섯 방향으로 확장합니다. 성인 체형 prompt는 비례를 보조할 뿐 결정적 제어가 아니므로 실제 비율은 사람 검수로 확인합니다. 입력·seed·prompt와 사람 판정은 커밋하지 않는 로컬 생성 기록으로 확인합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
 
 | 정면 | 전면 쿼터 | 측면 | 후면 |
 | --- | --- | --- | --- |
 | ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-reference.png) | ![승인된 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
 
-`--views front front_quarter profile rear`는 네 방향을 같은 입력 순서와 시드에서 차례대로 생성하지만, 각 방향은 별도 PNG로 저장합니다. 네 승인 PNG는 신발의 짝과 형태, 팔 가림, 얼굴·몸·발 방향의 일치까지 사람 검수를 통과했습니다. 승인 PNG만 생성 모델이 아닌 조합 단계에서 검수 시트로 배열합니다.
+새 전신 turnaround 경로는 정면을 먼저 한 번 생성하고, 그 PNG를 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 아래 정면 PNG는 이 1-stage 경로에서 `seed=62294`, `3 step`으로 생성해 사람 승인한 새 앵커입니다. 나머지 다섯 방향은 이 정면을 입력으로 새로 생성한 뒤 각각 다시 사람 검수합니다. 개별 방향만 만들 때는 `--front-image`로 이처럼 승인하거나 검토할 정면 PNG를 명시해야 합니다.
+
+| 새 승인 정면 turnaround 앵커 |
+| --- |
+| ![1-stage로 생성해 승인한 정면 전신 turnaround 앵커](../../../assets/part-07/chapter-05/p7-5-2-fullbody-turnaround-front-reference.png) |
+
+기본 실행은 정면·좌/우 전면 쿼터·좌/우 측면·후면의 여섯 방향을 정면부터 차례로 생성하며, 각 방향은 별도 PNG로 저장합니다. 정면을 포함하지 않고 특정 방향만 재생성할 때는 `--views profile_right --front-image 정면.png`처럼 정면 앵커를 명시합니다. 후보가 생성됐다는 사실은 후속 방향의 승인 근거가 아니므로, 신발의 짝과 형태, 팔 가림, 얼굴·몸·발 방향의 일치를 방향마다 다시 사람 검수합니다.
 
 <details id="fullbody-turnaround-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_references.py" data-language="python">
 <summary>얼굴 턴어라운드와 소품으로 방향별 전신 PNG를 만드는 코드 보기</summary>
@@ -195,7 +201,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | `--steps`, `--preview-every` |
 | 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views`, `--steps` |
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets`, `--steps` (기본 `3`), `--preview-every` |
-| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views`, `--steps` |
+| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views`, `--front-image`, `--steps` |
 | 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--steps`, `--run-id` |
 
 이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 다섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 다섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
@@ -210,8 +216,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_references.py \
-  --views front front_quarter profile rear
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_references.py
 ```
 
 각 PNG는 실행 기록을 위한 후보이며, 사람 검수 전에는 기준 자산이 아닙니다. 이 실습에서 seed나 방향 계약을 바꾼 뒤에는 코드를 통과한 것으로 승인하지 않습니다. 얼굴·몸·무릎·발끝의 방향이 같은지, 측면에서 먼쪽 팔이 몸통 뒤에 가려지는지, 두 다리와 두 발이 하나의 전신으로 보이는지를 사람 검수로 다시 확인합니다.
