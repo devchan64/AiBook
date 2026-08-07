@@ -158,7 +158,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | --- | --- | --- | --- |
 | ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-reference.png) | ![승인된 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
 
-새 전신 turnaround 경로는 정면을 먼저 한 번 생성하고, 그 PNG를 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 아래 정면 PNG는 이 1-stage 경로에서 `seed=62294`, `3 step`으로 생성해 사람 승인한 새 앵커입니다. 나머지 다섯 방향은 이 정면을 입력으로 새로 생성한 뒤 각각 다시 사람 검수합니다. 개별 방향만 만들 때는 `--front-image`로 이처럼 승인하거나 검토할 정면 PNG를 명시해야 합니다.
+새 전신 turnaround 경로는 정면을 먼저 한 번 생성하고, 그 PNG를 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 아래 정면 PNG는 1단계 전신 생성(`3 step`) 뒤 2단계 얼굴 아이덴티 보강(`6 step`)을 적용해 `seed=62294`로 만든 사람 승인 앵커입니다. 1단계 PNG는 검토용 중간 산출물로 따로 저장하고, 정면 얼굴 PNG와 공용 아이덴티 계약을 적용한 2단계 PNG만 승인 범위로 둡니다. 나머지 다섯 방향은 이 정면을 입력으로 새로 생성한 뒤 각각 다시 사람 검수합니다. 개별 방향만 만들 때는 `--front-image`로 이처럼 승인하거나 검토할 정면 PNG를 명시해야 합니다.
 
 | 새 승인 정면 turnaround 앵커 |
 | --- |
@@ -201,7 +201,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | `--steps`, `--preview-every` |
 | 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views`, `--steps` |
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets`, `--steps` (기본 `3`), `--preview-every` |
-| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views`, `--front-image`, `--steps` |
+| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views`, `--front-image`, `--body-image`, `--body-steps`(기본 `3`), `--face-steps`(기본 `6`) |
 | 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--steps`, `--run-id` |
 
 이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 다섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 다섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
