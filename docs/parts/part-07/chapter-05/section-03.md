@@ -19,10 +19,14 @@
 
 승인한 스토리보드는 Animagine XL 4.0의 태그형 prompt, `832 x 1216`, 28 step, CFG 5.0, seed `5413`으로 만들었다. 이 수치는 이 장면의 검수 계약이지 모델 일반의 품질 순위가 아니다.
 
-아래 [텍스트 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 고정 prompt와 seed로 스토리보드, lineart, Canny, 상대 depth를 함께 저장한다.
+아래 [텍스트 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 두 모델만 사용한다. 기본 `--model both`는 Animagine XL 4.0과 FLUX.2 Klein 4B를 차례로 실행해 각각의 스토리보드·lineart·Canny·상대 depth를 저장한다. 모델별 기본 계약은 Animagine `832 x 1216`, 28 step, CFG 5.0과 FLUX `512 x 768`, 50 step, guidance 1.0이며, 한 모델만 검수할 때는 `--model animagine` 또는 `--model flux2-klein`을 쓴다.
 
 ```bash
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py --seed 5413
+python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py --model both --seed 5413
+
+# FLUX.2 Klein 4B 후보: Animagine 승인본을 자동으로 교체하지 않는다.
+python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
+  --model flux2-klein --seed 5413
 ```
 
 ## 승인 스토리보드에서 장면 기준을 읽는다
