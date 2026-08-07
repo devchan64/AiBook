@@ -2,6 +2,15 @@
   "status": "human_approved_prop_reference",
   "purpose": "Approved no-style prop references for Mira's character-reference pipeline.",
   "generation_seed": 62294,
+  "latest_approved_replacements": {
+    "steps": 5,
+    "assets": [
+      "p7-5-2-outfit-crop-top-waist-reference.png",
+      "p7-5-2-prop-reference-trousers.png",
+      "p7-5-2-prop-reference-shoes.png",
+      "p7-5-2-prop-reference-crossbody-bag.png"
+    ]
+  },
   "input_policy": "No style, face, or character image input. The front jacket-crop-top layer uses the approved crop-top-to-waistband PNG only to preserve crop length. The front complete-outfit reference uses that PNG plus the approved crossbody-bag and trousers PNGs; every other prop, including the crop-top-to-waistband PNG itself, is prompt-only.",
   "assets": [
     {
