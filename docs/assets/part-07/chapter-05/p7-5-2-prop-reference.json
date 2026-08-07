@@ -2,7 +2,7 @@
   "status": "human_approved_prop_reference",
   "purpose": "Approved no-style prop references for Mira's character-reference pipeline.",
   "generation_seed": 62294,
-  "input_policy": "No style, face, or character image input. The front jacket-crop-top layer and front complete-outfit references use the approved crop-top-to-waistband PNG only to preserve crop length; every other prop, including that crop-top-to-waistband PNG itself, is prompt-only.",
+  "input_policy": "No style, face, or character image input. The front jacket-crop-top layer uses the approved crop-top-to-waistband PNG only to preserve crop length. The front complete-outfit reference uses that PNG plus the approved crossbody-bag and trousers PNGs; every other prop, including the crop-top-to-waistband PNG itself, is prompt-only.",
   "assets": [
     {
       "id": "white_cropped_utility_jacket",
@@ -32,7 +32,7 @@
     {
       "id": "complete_outfit_front_with_crossbody_bag",
       "image": "p7-5-2-prop-reference-complete-outfit-front-hip.png",
-      "scope": "front shoulders-through-hips outfit reference: open white cropped utility jacket over a charcoal-gray micro-crop top whose length follows the approved crop-top-to-waistband reference, bare-skin midriff band, deep-teal trousers, and a deep-navy crossbody bag at the outer left hip with one continuous strap from the right shoulder"
+      "scope": "front shoulders-through-hips outfit reference: open white cropped utility jacket over a charcoal-gray micro-crop top whose length follows the approved crop-top-to-waistband reference, bare-skin midriff band, deep-teal trousers, and a deep-navy crossbody bag at the outer left hip with one continuous strap from the right shoulder over the jacket exterior"
     },
     {
       "id": "deep_teal_blue_wide_leg_trousers",

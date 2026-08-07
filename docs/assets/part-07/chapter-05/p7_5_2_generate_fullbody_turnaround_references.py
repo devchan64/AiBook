@@ -18,13 +18,17 @@ ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62294
 TIMESTAMP_FORMAT = "%Y%m%dT%H%M%S%f%z"
-FACE_TURNAROUND = ROOT / "p7-5-2-face-turnaround-reference.png"
+FACE_IDENTITY_BY_VIEW = {
+    "front": ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png",
+    "front_quarter": ROOT / "p7-5-2-face-turnaround-codeformer-front-quarter-2x.png",
+    "profile": ROOT / "p7-5-2-face-turnaround-codeformer-profile-2x.png",
+    "rear": ROOT / "p7-5-2-face-turnaround-codeformer-rear-2x.png",
+}
 OUTFIT_REFERENCES = [
     ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
     ROOT / "p7-5-2-prop-reference-trousers.png",
     ROOT / "p7-5-2-prop-reference-shoes.png",
 ]
-REFERENCES = [FACE_TURNAROUND, *OUTFIT_REFERENCES]
 IMAGE_WIDTH = 768
 IMAGE_HEIGHT = 1152
 VIEW_RULES = {
@@ -40,8 +44,11 @@ VIEW_RULES = {
     ),
     "rear": "rear view, facing away from the camera",
 }
+FACE_IDENTITY_HAIR_DESCRIPTION = "deep petrol-teal, extremely voluminous jaw-length bob with medium-density hair"
+FACE_IDENTITY_EYE_DESCRIPTION = "chestnut-brown and orange-amber irises"
 APPEARANCE_RULE = (
-    "Use the face turnaround sheet for the same face, gaze, nose, and hair in every visible view. "
+    "Use the supplied direction-matched 2x face identity reference for the same face, gaze, nose, hair, and eyes: "
+    f"{FACE_IDENTITY_HAIR_DESCRIPTION}; {FACE_IDENTITY_EYE_DESCRIPTION}. "
     "Keep the charcoal-gray micro-crop crew-neck top, bare-midriff gap, deep teal-blue wide-leg trousers, "
     "and white lace-up low-top sneakers from the outfit references."
 )
@@ -82,7 +89,11 @@ def main() -> None:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
-    if missing := [path.name for path in REFERENCES if not path.is_file()]:
+    reference_paths = [
+        *(FACE_IDENTITY_BY_VIEW[view] for view in args.views),
+        *OUTFIT_REFERENCES,
+    ]
+    if missing := [path.name for path in reference_paths if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -97,11 +108,16 @@ def main() -> None:
 
     run_timestamp = datetime.now().astimezone().strftime(TIMESTAMP_FORMAT)
     first_seed = BASE_SEED + args.seed_offset
-    reference_images = [Image.open(path).convert("RGB") for path in REFERENCES]
+    outfit_images = [Image.open(path).convert("RGB") for path in OUTFIT_REFERENCES]
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
         for view in args.views:
             prompt = build_prompt(view)
+            reference_paths_for_view = [FACE_IDENTITY_BY_VIEW[view], *OUTFIT_REFERENCES]
+            reference_images = [
+                Image.open(FACE_IDENTITY_BY_VIEW[view]).convert("RGB"),
+                *outfit_images,
+            ]
             output = ROOT / f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}-candidate.png"
             report = ROOT / f"{args.output_prefix}-{view}-{run_timestamp}-seed-{seed}-review.json"
             started = time.monotonic()
@@ -132,7 +148,7 @@ def main() -> None:
                         "output_prefix": args.output_prefix,
                         "prompt": prompt,
                         "prompt_word_count": prompt_word_count(prompt),
-                        "references": [path.name for path in REFERENCES],
+                        "references": [path.name for path in reference_paths_for_view],
                         "model": MODEL_ID,
                         "image_size": [IMAGE_WIDTH, IMAGE_HEIGHT],
                         "elapsed_seconds": elapsed,

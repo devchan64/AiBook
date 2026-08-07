@@ -18,6 +18,8 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 PROP_SEED = 62294
 DEFAULT_REPORT = ROOT / "p7-5-2-prop-generation-candidate-review.json"
 CROP_TOP_WAIST_REFERENCE = ROOT / "p7-5-2-outfit-crop-top-waist-reference.png"
+CROSSBODY_BAG_REFERENCE = ROOT / "p7-5-2-prop-reference-crossbody-bag.png"
+TROUSERS_REFERENCE = ROOT / "p7-5-2-prop-reference-trousers.png"
 
 JACKET_COMMON_CONTRACT = (
     "One isolated very short white cropped utility jacket in a clean {view} product view "
@@ -66,20 +68,22 @@ REAR_JACKET_MIDRIFF_CONTRACT = (
 COMPLETE_OUTFIT_FRONT_HIP_CONTRACT = (
     "Front apparel-and-bag wearing reference from shoulders through hips on a neutral headless torso, plain "
     "off-white background. Show a very short white cropped utility jacket open over a charcoal-gray micro-crop "
-    "crew-neck top, deep teal-blue high-waisted wide-leg trousers, and a compact deep-navy woven-canvas crossbody "
-    "bag. The top ends at the upper abdomen, sixteen centimeters above the navel-height trouser waistband, leaving "
+    "crew-neck top, deep teal-blue wide-leg trousers with a clearly high waist: the full waistband sits at the navel, "
+    "well above the hips, and stays visible, plus a compact deep-navy woven-canvas crossbody bag. The top ends at "
+    "the upper abdomen, sixteen centimeters above the navel-height trouser waistband, leaving "
     "a clear bare-skin midriff band. Hang the bag side-on beside the wearer's outer left trouser seam (viewer right), "
     "with its top aligned to the waistband. Show one continuous taut strap from the outer wearer's-right shoulder "
-    "(viewer left), diagonally across the chest, into the bag's upper inner attachment. Keep distinct garment layers "
-    "and correct overlap. Clean "
+    "(viewer left), diagonally across the chest on top of the jacket exterior, into the bag's upper inner attachment; "
+    "never route the strap beneath, behind, or through the jacket. Keep distinct garment layers and correct overlap. Clean "
     "product illustration. No head, hands, legs, text, logo, hanger, or other object."
 )
 
 COMPLETE_OUTFIT_REAR_HIP_CONTRACT = (
     "Rear apparel-and-strap wearing reference from shoulders through hips on a neutral headless torso, plain off-white "
     "background. Show a very short white cropped utility jacket with long cuffed sleeves reaching the wrists, deep "
-    "teal-blue high-waisted wide-leg trousers, and one deep-navy canvas crossbody strap. Keep a plain white jacket "
-    "back panel and a bare-skin midriff band below its short hem, with no inner shirt visible. Show one continuous taut "
+    "teal-blue wide-leg trousers with a clearly high waist: the full waistband sits at the navel, well above the hips, "
+    "and stays visible, plus one deep-navy canvas crossbody strap. Keep a plain white jacket back panel and a bare-skin "
+    "midriff band below its short hem, with no inner shirt visible. Show one continuous taut "
     "deep-navy canvas strap from the outer wearer's-right shoulder (viewer right), diagonally across the jacket back, "
     "exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, "
     "mostly hidden behind the torso. "
@@ -139,7 +143,11 @@ PROPS = {
         "seed": PROP_SEED,
         "output": "p7-5-2-no-style-prop-complete-outfit-front-hip-candidate.png",
         "size": (768, 1152),
-        "references": (CROP_TOP_WAIST_REFERENCE,),
+        "references": (
+            CROP_TOP_WAIST_REFERENCE,
+            CROSSBODY_BAG_REFERENCE,
+            TROUSERS_REFERENCE,
+        ),
         "prompt": (
             f"{COMPLETE_OUTFIT_FRONT_HIP_CONTRACT} Use the supplied crop-top-to-waistband reference as the authoritative "
             "gray crop-top length contract. Keep its high hem and exposed midriff band; do not lengthen it to the trouser "
