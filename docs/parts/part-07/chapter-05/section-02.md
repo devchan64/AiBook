@@ -72,15 +72,23 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 얼굴 회전 identity 기준
 
-정면 얼굴을 앵커로 만든 4패널 턴어라운드 시트를 사람 승인했습니다. 시트는 정면·쿼터뷰·측면·후면의 순서로, 눈에 보이는 홍채의 지름과 동공-홍채 비율, 시선과 코의 방향, 콧대·코끝, 단발의 가르마·앞머리·컬·외곽 실루엣을 함께 대조합니다. 현재 승인 자산의 기준 시드는 정면 얼굴과 같은 `62294`이며, 이 승인은 얼굴 회전 identity 범위만 뜻합니다. pose·camera·표정·전신은 별도 생성과 검수가 필요합니다.
+정면 얼굴과 다섯 개별 방향 얼굴을 사람 승인했습니다. 좌·우 전면 쿼터와 좌·우 엄격 측면, 후면은 눈에 보이는 홍채의 지름과 동공-홍채 비율, 시선과 코의 방향, 콧대·코끝, 단발의 가르마·앞머리·컬·외곽 실루엣을 정면 기준과 대조합니다. 기준 시드는 모두 `62294`이며, 이 승인은 얼굴 회전 identity 범위만 뜻합니다. pose·camera·표정·전신은 별도 생성과 검수가 필요합니다.
 
-![승인된 얼굴 턴어라운드 기준](../../../assets/part-07/chapter-05/p7-5-2-face-turnaround-reference.png)
+|  |  |  |
+| --- | --- | --- |
+| ![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-reference.png) | ![승인된 좌측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-quarter-left-reference.png) | ![승인된 우측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-quarter-right-reference.png) |
+| 정면 | 카메라 기준 좌측 전면 쿼터 | 카메라 기준 우측 전면 쿼터 |
 
-실행 prompt, seed, 패널 순서, 승인 범위는 커밋하지 않는 로컬 생성 기록으로 확인합니다. 이 시트는 사람 검수용 대조물이면서, 기본 전신 방향 생성의 첫 번째 얼굴 참조 이미지입니다.
+|  |  |  |
+| --- | --- | --- |
+| ![승인된 좌측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-left-reference.png) | ![승인된 우측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-right-reference.png) | ![승인된 후면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-rear-reference.png) |
+| 카메라 기준 좌측 측면 | 카메라 기준 우측 측면 | 후면 |
+
+실행 prompt, seed, 방향과 승인 범위는 커밋하지 않는 로컬 생성 기록으로 확인합니다. 개별 방향 PNG는 사람 검수용 대조물이면서, 기본 전신 방향 생성의 face identity 입력입니다. CodeFormer 복원·2배 확대 산출물은 사용하지 않습니다.
 
 | 기준 | 현재 상태 | 다음 판정 |
 | --- | --- | --- |
-| 얼굴 방향 | 정면·쿼터뷰·측면·후면 4패널 시트 승인 | 새 pose·camera 범위는 별도 사람 검수 |
+| 얼굴 방향 | 정면, 좌·우 쿼터, 좌·우 측면, 후면 6개별 PNG 승인 | 새 pose·camera 범위는 별도 사람 검수 |
 | 얼굴 구성 | 홍채·동공 비율, 시선-코 정렬, 코와 머리 실루엣의 회전 일치 | 전신 방향에서 같은 특징이 유지되는지 대조 |
 | 표정 | 승인 표정 없음 | 중립·기쁨·우려·분노·슬픔·놀람을 새로 생성·검수 |
 
@@ -89,13 +97,13 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-정면은 `p7_5_2_generate_face_front_reference.py`가 전담합니다. 정면, 좌·우 전면 쿼터, 좌·우 엄격 측면, 후면을 합쳐 여섯 방향 장면으로 관리합니다. 방향 얼굴 생성기는 `--views front_quarter_left front_quarter_right profile_left profile_right rear`만 허용하고, 각 view를 별도 `768×768` PNG로 저장합니다. 이름의 left/right는 카메라에서 보는 방향이며, 각각 인물의 반대쪽 면을 뜻합니다. 기본 `--stage all`은 두 단계입니다. 1단계는 정면 얼굴 앵커와 방향 prompt로 해당 방향의 구도·회전을 만들고 `direction-stage` PNG를 저장합니다. 2단계는 이 PNG를 고정 구도 입력으로, 같은 정면 얼굴 앵커를 identity 입력으로 함께 넣어 얼굴형·홍채·동공·단발을 다시 맞춥니다. 후면은 얼굴을 보정하지 않고 후두부 단발·목선만 유지합니다. `--stage direction`과 `--stage identity --intermediate 파일명.png`로 두 단계를 따로 검토할 수도 있습니다.
+정면은 `p7_5_2_generate_face_front_reference.py`가 전담합니다. 정면, 좌·우 전면 쿼터, 좌·우 엄격 측면, 후면을 합쳐 여섯 방향 장면으로 관리합니다. 방향 얼굴 생성기는 `--views front_quarter_left front_quarter_right profile_left profile_right rear`만 허용하고, 각 view를 별도 `768×768` PNG로 저장합니다. 이름의 left/right는 카메라에서 보는 방향이며, 각각 인물의 반대쪽 면을 뜻합니다. 각 후보는 정면 얼굴 앵커 하나와 방향·공용 identity prompt를 한 번의 생성에 함께 적용합니다. 따라서 구도·회전과 얼굴형·홍채·동공·단발을 따로 보정하는 중간 PNG는 만들지 않습니다. 후면은 얼굴을 드러내지 않고 후두부 단발·목선만 유지합니다.
 
-`--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, `--steps`로 두 단계의 denoising 횟수를 함께 바꿉니다. `--preview-interval 3`을 지정하면 각 단계의 FLUX latent를 3 step마다 VAE로 해독해 review-only PNG로 저장합니다. `0`은 이 미리보기를 끄며, preview PNG 목록은 실행 JSON의 각 단계에 기록합니다. 각 PNG와 JSON 파일명에는 view·시드·step·실행 stage와 모델·두 단계 prompt·해상도·identity 계약을 묶은 짧은 해시가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile_left profile_right`처럼 범위를 좁힙니다. 2단계가 얼굴을 더 닮게 보이더라도 1단계의 방향·crop·후면 비노출을 바꾸면 미통과입니다.
+`--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, `--steps`로 이 단일 생성의 denoising 횟수를 바꿉니다. 기본값은 `3` step입니다. `--preview-interval 3`을 지정하면 FLUX latent를 3 step마다 VAE로 해독해 review-only PNG로 저장합니다. 기본값 `0`은 이 미리보기를 끄며, preview PNG 목록은 실행 JSON의 생성 기록에 남습니다. 각 PNG와 JSON 파일명에는 view·시드·step과 모델·단일 prompt·해상도·identity 계약을 묶은 짧은 해시가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile_left profile_right`처럼 범위를 좁힙니다. 한 번의 생성 결과라도 방향·crop·후면 비노출과 identity를 함께 통과해야 합니다.
 
 ### 전신 보강용 얼굴 identity 입력
 
-전신 턴어라운드와 리파인은 사람 승인한 원본 얼굴 회전 시트 하나를 직접 identity 입력으로 사용합니다. 별도 얼굴 복원·확대 구조는 두지 않습니다. 정면·쿼터·측면은 보이는 얼굴의 홍채·눈·코·입·턱·헤어라인을, 후면은 단발 실루엣·목선·머리색을 사람 검수로 확인합니다.
+전신 턴어라운드와 리파인은 사람 승인한 개별 방향 얼굴 PNG를 직접 identity 입력으로 사용합니다. 기존 전신 4방향 API의 쿼터·측면 입력은 각각 좌측 쿼터·좌측 측면 기준을 사용하며, 우측 기준은 우측 전신 방향을 추가할 때 사용합니다. 별도 얼굴 복원·확대 구조는 두지 않습니다. 정면·쿼터·측면은 보이는 얼굴의 홍채·눈·코·입·턱·헤어라인을, 후면은 단발 실루엣·목선·머리색을 사람 검수로 확인합니다.
 
 ## 소품 기준 검수 결과: 기본 복장과 확장 소품
 
@@ -183,10 +191,10 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 생성 범위 | 소스 | 범위 옵션 |
 | --- | --- | --- |
 | 정면 얼굴 | `p7_5_2_generate_face_front_reference.py` | `--steps`, `--preview-every` |
-| 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views` |
-| 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets` |
-| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views` |
-| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--run-id` |
+| 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views`, `--steps` |
+| 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets`, `--steps` (기본 `3`), `--preview-every` |
+| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--views`, `--steps` |
+| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--steps`, `--run-id` |
 
 이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 다섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 다섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
 

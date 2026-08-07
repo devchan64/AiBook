@@ -23,7 +23,7 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62382
 IMAGE_SIZE = (768, 1152)
 REFERENCE_INPUTS = (
-    ("face_identity", ROOT / "p7-5-2-face-turnaround-reference.png"),
+    ("face_identity", ROOT / "p7-5-2-face-front-reference.png"),
     ("fullbody_front", ROOT / "p7-5-2-fullbody-front-reference.png"),
     ("fullbody_front_quarter", ROOT / "p7-5-2-fullbody-front-quarter-reference.png"),
     ("fullbody_profile", ROOT / "p7-5-2-fullbody-profile-reference.png"),

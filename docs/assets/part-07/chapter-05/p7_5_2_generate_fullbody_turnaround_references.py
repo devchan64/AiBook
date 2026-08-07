@@ -22,8 +22,10 @@ FACE_IDENTITY_SEED = 62294
 FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 FACE_IDENTITY_BY_VIEW = {
-    view: ROOT / "p7-5-2-face-turnaround-reference.png"
-    for view in ("front", "front_quarter", "profile", "rear")
+    "front": ROOT / "p7-5-2-face-front-reference.png",
+    "front_quarter": ROOT / "p7-5-2-face-front-quarter-left-reference.png",
+    "profile": ROOT / "p7-5-2-face-profile-left-reference.png",
+    "rear": ROOT / "p7-5-2-face-rear-reference.png",
 }
 OUTFIT_REFERENCES = [
     ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
@@ -58,7 +60,7 @@ def prompt_word_count(text: str) -> int:
 def build_body_prompt(view: str) -> str:
     return (
         "Full-body character turnaround reference of one woman on an off-white studio background. "
-        "Use the supplied direction-matched 2x face identity reference as the preliminary face anchor while "
+        "Use the supplied direction-matched face identity reference as the preliminary face anchor while "
         "constructing the full body. "
         f"{OUTFIT_RULE} {VIEW_RULES[view]}. "
         "One neutral upright standing figure, fully visible from hair to shoe soles, centered in the frame. "
@@ -69,7 +71,7 @@ def build_body_prompt(view: str) -> str:
 def build_face_identity_prompt(view: str) -> str:
     return (
         "Use the supplied full-body image as the fixed composition, pose, direction, clothing, and hair-to-sole framing anchor. "
-        "Restore only the direction-matched face identity from the supplied 2x identity reference: "
+        "Restore only the direction-matched face identity from the supplied face identity reference: "
         f"{FACE_IDENTITY_CONTRACT['identity_description']} "
         f"{VIEW_RULES[view]} Keep the outfit, limbs, body proportion, and camera unchanged. "
         "One person, no text, and no labels."

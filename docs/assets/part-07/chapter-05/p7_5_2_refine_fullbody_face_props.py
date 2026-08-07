@@ -23,8 +23,10 @@ FACE_IDENTITY_SEED = 62294
 FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 FACE_IDENTITY_BY_VIEW = {
-    view: ROOT / "p7-5-2-face-turnaround-reference.png"
-    for view in ("front", "front_quarter", "profile", "rear")
+    "front": ROOT / "p7-5-2-face-front-reference.png",
+    "front_quarter": ROOT / "p7-5-2-face-front-quarter-left-reference.png",
+    "profile": ROOT / "p7-5-2-face-profile-left-reference.png",
+    "rear": ROOT / "p7-5-2-face-rear-reference.png",
 }
 # These four stable filenames are the only approved full-body composition inputs.
 APPROVED_BODY_REFERENCES = {
@@ -190,7 +192,7 @@ def build_identity_final_prompt(view: str) -> str:
         return (
             "Use the supplied full-body image as the fixed composition, pose, clothing, bag, and full-body framing anchor. "
             "Restore only the back-of-head hair silhouette, nape hairline, hair color, and neck contour from the supplied "
-            f"rear 2x identity reference. Keep the hair as {FACE_IDENTITY_CONTRACT['rear_hair_identity']} "
+            f"rear face identity reference. Keep the hair as {FACE_IDENTITY_CONTRACT['rear_hair_identity']} "
             "Keep the rear view facing away; do not create a visible face, eyes, nose, or mouth. "
             "Keep the outfit, limbs, and camera unchanged. One person, no text or labels."
         )
