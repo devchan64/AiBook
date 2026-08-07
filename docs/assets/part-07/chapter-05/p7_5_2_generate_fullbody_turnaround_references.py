@@ -12,7 +12,7 @@ import time
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
-from p7_5_image_output_naming import candidate_stem
+from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
@@ -22,10 +22,8 @@ FACE_IDENTITY_SEED = 62294
 FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 FACE_IDENTITY_BY_VIEW = {
-    "front": ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png",
-    "front_quarter": ROOT / "p7-5-2-face-turnaround-codeformer-front-quarter-2x.png",
-    "profile": ROOT / "p7-5-2-face-turnaround-codeformer-profile-2x.png",
-    "rear": ROOT / "p7-5-2-face-turnaround-codeformer-rear-2x.png",
+    view: ROOT / "p7-5-2-face-turnaround-reference.png"
+    for view in ("front", "front_quarter", "profile", "rear")
 }
 OUTFIT_REFERENCES = [
     ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
@@ -90,6 +88,7 @@ def main() -> None:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
+    parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     parser.add_argument(
         "--output-prefix",
         default="p7-5-2-fullbody-turnaround",
@@ -143,6 +142,7 @@ def main() -> None:
                 guidance_scale=1.0,
                 generator=torch.Generator(device="cpu").manual_seed(seed),
                 max_sequence_length=256,
+                callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-body"),
             ).images[0]
             gc.collect()
             torch.cuda.empty_cache()
@@ -155,6 +155,7 @@ def main() -> None:
                 guidance_scale=1.0,
                 generator=torch.Generator(device="cpu").manual_seed(FACE_IDENTITY_SEED),
                 max_sequence_length=256,
+                callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-face"),
             ).images[0]
             image.save(output)
             elapsed = round(time.monotonic() - started, 2)

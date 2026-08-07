@@ -11,7 +11,7 @@ from pathlib import Path
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
-from p7_5_image_output_naming import candidate_stem
+from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
@@ -223,6 +223,7 @@ def main() -> None:
         default=DEFAULT_REPORT,
         help="Candidate review JSON path.",
     )
+    parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     args = parser.parse_args()
 
     missing = [
@@ -262,6 +263,7 @@ def main() -> None:
         }
         if reference_paths:
             generation_inputs["image"] = load_reference_images(reference_paths)
+        generation_inputs["callback_on_step_end"] = preview_callback(pipe, height=height, width=width, every=args.preview_every, directory=ROOT / "previews", prefix=prop_id)
         image = pipe(**generation_inputs).images[0]
         output = ROOT / f"{candidate_stem(Path(prop['output']).stem, seed=prop['seed'], steps=12, contract={'model': MODEL_ID, 'prompt': prop['prompt'], 'references': [path.name for path in reference_paths], 'size': prop['size']})}.png"
         image.save(output)

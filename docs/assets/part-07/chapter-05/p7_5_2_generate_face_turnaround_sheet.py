@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate one or more face turnaround sheets from the frontal reference."""
+"""Generate individual directional face candidates, then fix identity in a second pass."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import argparse
 import gc
 from hashlib import sha256
 import json
+from math import isqrt
 from pathlib import Path
 import time
 
@@ -22,19 +23,32 @@ FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 BASE_SEED = 62294
 HEAD_INPUT_BOTTOM = 720
-SHEET_SIZE = 1024
+IMAGE_SIZE = 768
 VIEW_RULES = {
-    "front": "front view at 0 degrees, with the nose centered and both eyes equally visible",
-    "front_quarter": "45-degree front-quarter view, with the near eye fully visible and the far eye half visible",
-    "profile": "90-degree profile view, with one near eye visible in side view and the far eye hidden",
+    "front_quarter_left": (
+        "45-degree front-quarter view turned toward the viewer's left, showing the subject's right side; "
+        "the near right eye is fully visible and the far left eye is half visible"
+    ),
+    "front_quarter_right": (
+        "45-degree front-quarter view turned toward the viewer's right, showing the subject's left side; "
+        "the near left eye is fully visible and the far right eye is half visible"
+    ),
+    "profile_left": (
+        "strict 90-degree profile turned toward the viewer's left, showing the subject's right side; "
+        "only the near right eye is visible in side view and the far left eye is hidden"
+    ),
+    "profile_right": (
+        "strict 90-degree profile turned toward the viewer's right, showing the subject's left side; "
+        "only the near left eye is visible in side view and the far right eye is hidden"
+    ),
     "rear": (
         "strict 180-degree rear view, facing directly away from the camera: show only the back of the bob haircut, "
         "back of head, ears if exposed, and nape; no face, eye, eyebrow, nose, lips, cheek, or side-profile outline"
     ),
 }
 TURNAROUND_FIDELITY_RULE = (
-    "Keep visible radial iris texture, a consistent iris diameter and pupil-to-iris ratio in every panel, "
-    "allowing only perspective foreshortening. Keep the gaze direction aligned with the nose direction in every visible face."
+    "Keep visible radial iris texture, equal iris and pupil size and proportion, allowing only perspective foreshortening. "
+    "Keep the visible gaze direction aligned with the nose direction."
 )
 
 
@@ -43,18 +57,18 @@ def prompt_word_count(text: str) -> int:
 
 
 def output_contract_hash(
-    turnaround_prompt: str, identity_fix_prompt: str, views: tuple[str, ...], seed: int
+    direction_prompt: str, identity_fix_prompt: str, view: str, seed: int, steps: int
 ) -> str:
-    """Return a stable short hash for the seed and generation contract in an output name."""
+    """Return a stable short hash for the seed and two-stage generation contract."""
     contract = json.dumps(
         {
             "model": MODEL_ID,
+            "view": view,
             "seed": seed,
-            "views": views,
-            "turnaround_prompt": turnaround_prompt,
+            "direction_prompt": direction_prompt,
             "identity_fix_prompt": identity_fix_prompt,
-            "image_size": [SHEET_SIZE, SHEET_SIZE],
-            "steps": 12,
+            "image_size": [IMAGE_SIZE, IMAGE_SIZE],
+            "steps": steps,
             "guidance_scale": 1.0,
             "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
         },
@@ -64,99 +78,132 @@ def output_contract_hash(
     return sha256(contract.encode("utf-8")).hexdigest()[:10]
 
 
-def build_prompt(views: tuple[str, ...]) -> str:
-    layout = "2 by 2" if len(views) == 4 else f"{len(views)}-panel"
-    positions = {
-        1: ("single panel",),
-        2: ("left panel", "right panel"),
-        3: ("top-left", "top-right", "bottom-center"),
-        4: ("top-left", "top-right", "bottom-left", "bottom-right"),
-    }[len(views)]
-    view_list = "; ".join(
-        f"{position}: {VIEW_RULES[view]}" for position, view in zip(positions, views, strict=True)
+def build_direction_prompt(view: str) -> str:
+    rear_rule = (
+        f"Preserve only {FACE_IDENTITY_CONTRACT['rear_hair_identity']} Do not reveal a face."
+        if view == "rear"
+        else f"{TURNAROUND_FIDELITY_RULE}"
     )
     return (
-        f"{layout} face turnaround of the same woman from the reference image. "
-        f"Fixed panel directions: {view_list}. Use one distinct view per panel; never duplicate a front, three-quarter, "
-        "profile, or rear view in another panel. The rear panel must remain a face-hidden back view. "
-        f"{FACE_IDENTITY_CONTRACT['identity_description']} {TURNAROUND_FIDELITY_RULE}"
+        "One individual head-and-neck directional portrait of the same woman from the supplied frontal reference. "
+        f"Fixed direction: {VIEW_RULES[view]}. "
+        f"{FACE_IDENTITY_CONTRACT['identity_description']} {rear_rule} "
+        "Plain off-white background, one person, no text, no panels, no collage."
     )
 
 
-def build_identity_fix_prompt(views: tuple[str, ...]) -> str:
-    """Fix face identity without changing the first-stage panel layout or rotations."""
-    layout = "2 by 2" if len(views) == 4 else f"{len(views)}-panel"
-    positions = {
-        1: ("single panel",),
-        2: ("left panel", "right panel"),
-        3: ("top-left", "top-right", "bottom-center"),
-        4: ("top-left", "top-right", "bottom-left", "bottom-right"),
-    }[len(views)]
-    view_list = "; ".join(
-        f"{position}: {VIEW_RULES[view]}" for position, view in zip(positions, views, strict=True)
+def build_identity_fix_prompt(view: str) -> str:
+    """Keep the first-stage view while restoring the shared identity from the frontal anchor."""
+    rear_rule = (
+        f"Preserve only {FACE_IDENTITY_CONTRACT['rear_hair_identity']} Do not reveal a face."
+        if view == "rear"
+        else f"Restore the visible-face identity: {FACE_IDENTITY_CONTRACT['identity_description']} {TURNAROUND_FIDELITY_RULE}"
     )
     return (
-        f"Use the first supplied {layout} turnaround sheet as the fixed panel layout, crop, and head rotation. "
+        "Use the first supplied directional portrait as the fixed crop, background, and head rotation. "
         "Use the second supplied frontal face image only as the identity anchor for the same woman. "
-        f"Keep fixed panel directions: {view_list}. Do not duplicate or exchange panel directions. "
-        f"Restore the same visible-face identity: {FACE_IDENTITY_CONTRACT['identity_description']} "
-        f"{TURNAROUND_FIDELITY_RULE} For a rear panel, preserve only {FACE_IDENTITY_CONTRACT['rear_hair_identity']} "
-        "and do not reveal a face. Keep the background and all panel boundaries unchanged."
+        f"Keep this exact direction: {VIEW_RULES[view]}. {rear_rule} "
+        "Do not change the direction, crop, or background. One person, no text, no panels, no collage."
     )
 
 
-def main() -> None:
+def make_preview_callback(
+    pipe: Flux2KleinPipeline,
+    *,
+    preview_prefix: Path,
+    steps: int,
+    interval: int,
+) -> tuple[object | None, list[str]]:
+    """Decode and save review-only FLUX previews after each interval of denoising steps."""
+    if interval == 0:
+        return None, []
+
+    saved: list[str] = []
+
+    def callback(pipeline: Flux2KleinPipeline, step: int, _timestep: int, callback_kwargs: dict) -> dict:
+        completed_steps = step + 1
+        if completed_steps % interval != 0 and completed_steps != steps:
+            return callback_kwargs
+
+        packed_latents = callback_kwargs["latents"]
+        latent_side = isqrt(packed_latents.shape[1])
+        if latent_side * latent_side != packed_latents.shape[1]:
+            raise ValueError("Preview decoding requires square latent tokens")
+        latent_ids = pipeline._prepare_latent_ids(
+            torch.empty(
+                (packed_latents.shape[0], 1, latent_side, latent_side),
+                device=packed_latents.device,
+                dtype=packed_latents.dtype,
+            )
+        ).to(packed_latents.device)
+        with torch.no_grad():
+            latents = pipeline._unpack_latents_with_ids(packed_latents, latent_ids)
+            mean = pipeline.vae.bn.running_mean.view(1, -1, 1, 1).to(latents.device, latents.dtype)
+            std = torch.sqrt(
+                pipeline.vae.bn.running_var.view(1, -1, 1, 1) + pipeline.vae.config.batch_norm_eps
+            ).to(latents.device, latents.dtype)
+            image = pipeline.vae.decode(pipeline._unpatchify_latents(latents * std + mean), return_dict=False)[0]
+            preview = pipeline.image_processor.postprocess(image, output_type="pil")[0]
+        preview_path = preview_prefix.with_name(f"{preview_prefix.name}-preview-step-{completed_steps:03d}.png")
+        preview.save(preview_path)
+        saved.append(preview_path.name)
+        return callback_kwargs
+
+    return callback, saved
+
+
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--views",
         nargs="+",
         choices=tuple(VIEW_RULES),
-        default=("front", "profile"),
-        help="Face views to include in reading order; defaults to front and profile for review.",
+        default=tuple(VIEW_RULES),
+        help="Non-front directions to generate; front is produced by the dedicated front-face generator.",
     )
+    parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
+    parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
+    parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
+    parser.add_argument("--steps", type=int, default=12, help="Denoising steps for each of the two stages.")
     parser.add_argument(
-        "--seed-offset",
+        "--preview-interval",
         type=int,
-        default=0,
-        help="Offset applied to the first turnaround-sheet seed.",
-    )
-    parser.add_argument(
-        "--seed-count",
-        type=int,
-        default=1,
-        help="Number of consecutive seed variants to generate.",
-    )
-    parser.add_argument(
-        "--seed-step",
-        type=int,
-        default=1,
-        help="Increment between consecutive seed variants.",
+        default=3,
+        help="Save a decoded FLUX preview every N denoising steps; use 0 to disable previews.",
     )
     parser.add_argument(
         "--output-prefix",
-        default="p7-5-2-face-turnaround-sheet",
-        help="Filename prefix placed before the contract-hash, seed, and steps suffixes.",
+        default="p7-5-2-face-direction",
+        help="Prefix placed before view, contract hash, seed, step, and stage suffixes.",
     )
     parser.add_argument(
         "--stage",
-        choices=("all", "turnaround", "identity"),
+        choices=("all", "direction", "identity"),
         default="all",
-        help="Run the turnaround layout stage, identity-fix stage from --intermediate, or both stages.",
+        help="Run direction stage, identity-fix stage from --intermediate, or both stages.",
     )
     parser.add_argument(
         "--intermediate",
         type=Path,
-        help="First-stage turnaround PNG required by --stage identity.",
+        help="Direction-stage PNG required by --stage identity; use exactly one --views value.",
     )
-    args = parser.parse_args()
-    if len(args.views) > 4:
-        raise ValueError("A turnaround sheet accepts at most four views")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
     if args.seed_count < 1:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
+    if args.steps < 1:
+        raise ValueError("steps must be at least 1")
+    if args.preview_interval < 0:
+        raise ValueError("preview-interval must be zero or a positive integer")
     if args.stage == "identity" and args.intermediate is None:
         raise ValueError("--stage identity requires --intermediate")
+    if args.stage == "identity" and len(args.views) != 1:
+        raise ValueError("--stage identity requires exactly one --views value")
     if not FRONT.is_file():
         raise FileNotFoundError(FRONT.name)
     if args.intermediate is not None and not args.intermediate.is_file():
@@ -172,58 +219,121 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
 
-    source = Image.open(FRONT).convert("RGB")
-    anchor = source.crop((0, 0, source.width, HEAD_INPUT_BOTTOM))
-    prompt = build_prompt(tuple(args.views))
+    with Image.open(FRONT) as source:
+        anchor = source.convert("RGB").crop((0, 0, source.width, HEAD_INPUT_BOTTOM))
     first_seed = BASE_SEED + args.seed_offset
     for batch_index in range(args.seed_count):
         seed = first_seed + batch_index * args.seed_step
-        contract_hash = output_contract_hash(prompt, tuple(args.views), seed)
-        stem = f"{args.output_prefix}-hash-{contract_hash}-seed-{seed}-steps-12"
-        output = ROOT / f"{stem}-candidate.png"
-        report = ROOT / f"{stem}-review.json"
-        started = time.monotonic()
-        sheet = pipe(
-            image=anchor,
-            prompt=prompt,
-            width=SHEET_SIZE,
-            height=SHEET_SIZE,
-            num_inference_steps=12,
-            guidance_scale=1.0,
-            generator=torch.Generator(device="cpu").manual_seed(seed),
-            max_sequence_length=256,
-        ).images[0]
-        sheet.save(output)
-        elapsed = round(time.monotonic() - started, 2)
-        report.write_text(
-            json.dumps(
-                {
-                    "status": "review_required",
-                    "output": output.name,
-                    "seed": seed,
-                    "contract_hash": contract_hash,
-                    "seed_offset": args.seed_offset,
-                    "seed_step": args.seed_step,
-                    "batch_index": batch_index,
-                    "batch_size": args.seed_count,
-                    "output_prefix": args.output_prefix,
-                    "prompt": prompt,
-                    "prompt_word_count": prompt_word_count(prompt),
-                    "references": [FRONT.name],
-                    "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
-                    "input_transform": f"Cropped the frontal anchor at y={HEAD_INPUT_BOTTOM} before inference.",
-                    "sheet_layout": args.views,
-                    "style_reference": None,
-                    "model": MODEL_ID,
-                    "image_size": [SHEET_SIZE, SHEET_SIZE],
-                    "elapsed_seconds": elapsed,
-                    "decision": "Candidate only; review each view for layout, direction, and identity consistency.",
-                },
-                indent=2,
-            ),
-            encoding="utf-8",
-        )
-        print(f"[{batch_index + 1}/{args.seed_count}] {elapsed:.2f}s -> {output}")
+        for view in args.views:
+            direction_prompt = build_direction_prompt(view)
+            identity_fix_prompt = build_identity_fix_prompt(view)
+            contract_hash = output_contract_hash(direction_prompt, identity_fix_prompt, view, seed, args.steps)
+            stem = (
+                f"{args.output_prefix}-{view}-hash-{contract_hash}-seed-{seed}-steps-{args.steps}-phase-{args.stage}"
+            )
+            candidate = ROOT / f"{stem}-candidate.png"
+            direction_stage = ROOT / f"{stem}-direction-stage.png"
+            report = ROOT / f"{stem}-review.json"
+            started = time.monotonic()
+            direction_previews: list[str] = []
+            identity_previews: list[str] = []
+
+            if args.stage in ("all", "direction"):
+                callback, direction_previews = make_preview_callback(
+                    pipe,
+                    preview_prefix=direction_stage.with_suffix(""),
+                    steps=args.steps,
+                    interval=args.preview_interval,
+                )
+                direction_image = pipe(
+                    image=anchor,
+                    prompt=direction_prompt,
+                    width=IMAGE_SIZE,
+                    height=IMAGE_SIZE,
+                    num_inference_steps=args.steps,
+                    guidance_scale=1.0,
+                    generator=torch.Generator(device="cpu").manual_seed(seed),
+                    max_sequence_length=256,
+                    callback_on_step_end=callback,
+                    callback_on_step_end_tensor_inputs=["latents"],
+                ).images[0]
+                direction_image.save(direction_stage)
+            else:
+                with Image.open(args.intermediate) as source:
+                    direction_image = source.convert("RGB")
+
+            if args.stage == "direction":
+                output = direction_stage
+            else:
+                gc.collect()
+                torch.cuda.empty_cache()
+                callback, identity_previews = make_preview_callback(
+                    pipe,
+                    preview_prefix=candidate.with_suffix(""),
+                    steps=args.steps,
+                    interval=args.preview_interval,
+                )
+                final_image = pipe(
+                    image=[direction_image, anchor],
+                    prompt=identity_fix_prompt,
+                    width=IMAGE_SIZE,
+                    height=IMAGE_SIZE,
+                    num_inference_steps=args.steps,
+                    guidance_scale=1.0,
+                    generator=torch.Generator(device="cpu").manual_seed(seed),
+                    max_sequence_length=256,
+                    callback_on_step_end=callback,
+                    callback_on_step_end_tensor_inputs=["latents"],
+                ).images[0]
+                final_image.save(candidate)
+                output = candidate
+
+            elapsed = round(time.monotonic() - started, 2)
+            report.write_text(
+                json.dumps(
+                    {
+                        "status": "review_required",
+                        "output": output.name,
+                        "view": view,
+                        "seed": seed,
+                        "contract_hash": contract_hash,
+                        "steps": args.steps,
+                        "preview_interval": args.preview_interval,
+                        "seed_offset": args.seed_offset,
+                        "seed_step": args.seed_step,
+                        "batch_index": batch_index,
+                        "batch_size": args.seed_count,
+                        "output_prefix": args.output_prefix,
+                        "stages": {
+                            "direction": {
+                                "prompt": direction_prompt,
+                                "prompt_word_count": prompt_word_count(direction_prompt),
+                                "output": direction_stage.name if args.stage != "identity" else args.intermediate.name,
+                                "identity_reference": FRONT.name,
+                                "previews": direction_previews,
+                            },
+                            "identity_fix": {
+                                "prompt": identity_fix_prompt,
+                                "prompt_word_count": prompt_word_count(identity_fix_prompt),
+                                "output": output.name,
+                                "identity_reference": FRONT.name,
+                                "status": "not_run" if args.stage == "direction" else "generated",
+                                "previews": identity_previews,
+                            },
+                        },
+                        "references": [FRONT.name],
+                        "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
+                        "input_transform": f"Cropped the frontal anchor at y={HEAD_INPUT_BOTTOM} before inference.",
+                        "model": MODEL_ID,
+                        "image_size": [IMAGE_SIZE, IMAGE_SIZE],
+                        "elapsed_seconds": elapsed,
+                        "decision": "Candidate only; review direction first, then review identity preservation without changed pose or crop.",
+                    },
+                    indent=2,
+                ),
+                encoding="utf-8",
+            )
+            print(f"[{batch_index + 1}/{args.seed_count}] {view}: {elapsed:.2f}s -> {output}")
 
 
 if __name__ == "__main__":

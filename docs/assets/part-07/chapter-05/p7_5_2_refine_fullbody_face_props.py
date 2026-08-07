@@ -23,11 +23,8 @@ FACE_IDENTITY_SEED = 62294
 FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 FACE_IDENTITY_BY_VIEW = {
-    "front": ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png",
-    "front_quarter": ROOT / "p7-5-2-face-turnaround-codeformer-front-quarter-2x.png",
-    "profile": ROOT / "p7-5-2-face-turnaround-codeformer-profile-2x.png",
-    # The rear panel anchors the back-of-head silhouette and neck line without introducing a face.
-    "rear": ROOT / "p7-5-2-face-turnaround-codeformer-rear-2x.png",
+    view: ROOT / "p7-5-2-face-turnaround-reference.png"
+    for view in ("front", "front_quarter", "profile", "rear")
 }
 # These four stable filenames are the only approved full-body composition inputs.
 APPROVED_BODY_REFERENCES = {

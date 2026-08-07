@@ -15,7 +15,7 @@ from pathlib import Path
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
-from p7_5_image_output_naming import candidate_stem
+from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
@@ -23,7 +23,7 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62382
 IMAGE_SIZE = (768, 1152)
 REFERENCE_INPUTS = (
-    ("face_identity", ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png"),
+    ("face_identity", ROOT / "p7-5-2-face-turnaround-reference.png"),
     ("fullbody_front", ROOT / "p7-5-2-fullbody-front-reference.png"),
     ("fullbody_front_quarter", ROOT / "p7-5-2-fullbody-front-quarter-reference.png"),
     ("fullbody_profile", ROOT / "p7-5-2-fullbody-profile-reference.png"),
@@ -44,6 +44,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset added to the fixed base seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seeds to generate.")
     parser.add_argument("--steps", type=int, default=12, help="Denoising steps; lower values trade detail for speed.")
+    parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     parser.add_argument(
         "--output-prefix",
         default="p7-5-2-dynamic-basketball-jump",
@@ -86,6 +87,7 @@ def main() -> None:
             guidance_scale=1.0,
             generator=torch.Generator(device="cpu").manual_seed(seed),
             max_sequence_length=256,
+            callback_on_step_end=preview_callback(pipe, height=IMAGE_SIZE[1], width=IMAGE_SIZE[0], every=args.preview_every, directory=ROOT / "previews", prefix=stem),
         ).images[0]
         result.save(output)
         elapsed = round(time.monotonic() - started, 2)

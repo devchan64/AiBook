@@ -10,7 +10,7 @@ import time
 
 import torch
 from diffusers import Flux2KleinPipeline
-from p7_5_image_output_naming import candidate_stem
+from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
@@ -54,6 +54,7 @@ def main() -> None:
         "--output-prefix",
         help="Filename prefix placed before the contract-hash, seed, and steps suffixes.",
     )
+    parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     args = parser.parse_args()
     if args.seed_count < 1:
         raise ValueError("seed-count must be at least 1")
@@ -85,6 +86,7 @@ def main() -> None:
             guidance_scale=1.0,
             generator=torch.Generator(device="cpu").manual_seed(seed),
             max_sequence_length=256,
+            callback_on_step_end=preview_callback(pipe, height=768, width=768, every=args.preview_every, directory=ROOT / "previews", prefix=stem),
         ).images[0]
         image.save(output)
         elapsed = round(time.monotonic() - started, 2)

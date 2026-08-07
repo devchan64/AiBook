@@ -30,7 +30,7 @@ STORYBOARD = ROOT / "p7-5-3-flux2-klein-storyboard-approved.png"
 LINEART = ROOT / "p7-5-3-flux2-klein-storyboard-approved-guide-lineart.png"
 CANNY = ROOT / "p7-5-3-flux2-klein-storyboard-approved-guide-canny.png"
 DEPTH = ROOT / "p7-5-3-flux2-klein-storyboard-approved-guide-depth.png"
-FACE_REFERENCE = ROOT / "p7-5-2-face-turnaround-codeformer-front-2x.png"
+FACE_REFERENCE = ROOT / "p7-5-2-face-turnaround-reference.png"
 OUTFIT_FRONT = ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png"
 OUTFIT_REAR = ROOT / "p7-5-2-prop-reference-complete-outfit-rear-hip.png"
 
