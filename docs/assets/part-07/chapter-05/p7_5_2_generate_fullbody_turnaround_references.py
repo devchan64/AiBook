@@ -41,8 +41,8 @@ FULLBODY_REFERENCE = ROOT / "p7-5-2-fullbody-front-reference.png"
 IMAGE_WIDTH = 960
 IMAGE_HEIGHT = 1440
 VIEW_RULES = {
-    "front_quarter_left": "left front-quarter view, walking diagonally toward image left",
-    "front_quarter_right": "walk diagonally forward toward image right in a three-quarter front view; torso, hips, and feet follow the same diagonal; face only slightly toward image right, gaze toward the camera; both shoes visible; relaxed stride",
+    "front_quarter_left": "left front-quarter view, walking diagonally toward image left; gaze toward the left front-quarter",
+    "front_quarter_right": "right front-quarter view, walking diagonally toward image right; gaze toward the right front-quarter",
     "profile_left": "strict side profile facing image left; nose, chest, hips, and toes point image left; near arm visible, far arm hidden, two legs and shoes separate",
     "profile_right": "strict side profile facing image right; nose, chest, hips, and toes point image right; near arm visible, far arm hidden, two legs and shoes separate",
     "rear": "rear view",
