@@ -27,8 +27,8 @@ OUTFIT_REFERENCES = [
     ROOT / "p7-5-2-prop-reference-trousers.png",
     ROOT / "p7-5-2-prop-reference-shoes.png",
 ]
-IMAGE_WIDTH = 768
-IMAGE_HEIGHT = 1152
+IMAGE_WIDTH = 960
+IMAGE_HEIGHT = 1440
 OUTFIT_RULE = (
     "Keep the charcoal-gray micro-crop crew-neck top, bare-midriff gap, deep teal-blue wide-leg trousers, "
     "and white lace-up low-top sneakers from the outfit references."
@@ -36,6 +36,7 @@ OUTFIT_RULE = (
 FRONT_PROPORTION_RULE = (
     "Tall adult fashion figure, close to eight heads high: a small proportional head, compact torso, high waist, and long legs."
 )
+FRONT_STANCE_RULE = "Stand upright with both feet parallel and spaced exactly shoulder width apart."
 
 
 def prompt_word_count(text: str) -> int:
@@ -45,7 +46,7 @@ def prompt_word_count(text: str) -> int:
 def build_body_prompt() -> str:
     return (
         "Front full-body character proportion reference of one woman on an off-white studio background. "
-        f"{OUTFIT_RULE} {FRONT_PROPORTION_RULE} "
+        f"{OUTFIT_RULE} {FRONT_PROPORTION_RULE} {FRONT_STANCE_RULE} "
         "Neutral upright standing figure, fully visible from hair to shoe soles, centered in the frame. "
         "No crop, no duplicate body, no other person, no text, and no labels."
     )

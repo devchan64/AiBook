@@ -17,8 +17,17 @@ from p7_5_image_output_naming import candidate_stem, preview_callback
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-BASE_SEED = 62294
-FACE_IDENTITY_SEED = 62294
+FIRST_STAGE_SEED = 62294
+SECOND_STAGE_SEED = 62294
+FIRST_STAGE_STEPS = 3
+SECOND_STAGE_STEPS = 6
+BODY_SEED_BY_VIEW = {
+    "front_quarter_left": FIRST_STAGE_SEED,
+    "front_quarter_right": FIRST_STAGE_SEED,
+    "profile_left": FIRST_STAGE_SEED,
+    "profile_right": FIRST_STAGE_SEED,
+    "rear": FIRST_STAGE_SEED,
+}
 FACE_REFERENCE_BY_VIEW = {
     "front_quarter_left": ROOT / "p7-5-2-face-front-quarter-left-reference.png",
     "front_quarter_right": ROOT / "p7-5-2-face-front-quarter-right-reference.png",
@@ -26,16 +35,14 @@ FACE_REFERENCE_BY_VIEW = {
     "profile_right": ROOT / "p7-5-2-face-profile-right-reference.png",
     "rear": ROOT / "p7-5-2-face-rear-reference.png",
 }
-OUTFIT_REFERENCES = [
-    ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",
-    ROOT / "p7-5-2-prop-reference-trousers.png",
-    ROOT / "p7-5-2-prop-reference-shoes.png",
-]
-IMAGE_WIDTH = 768
-IMAGE_HEIGHT = 1152
+# A complete approved front view preserves the outfit relationship more reliably
+# than independently referenced top, trousers, and shoes.
+FULLBODY_REFERENCE = ROOT / "p7-5-2-fullbody-front-reference.png"
+IMAGE_WIDTH = 960
+IMAGE_HEIGHT = 1440
 VIEW_RULES = {
-    "front_quarter_left": "starting from the supplied front-view anchor, the whole figure is rotated 30 degrees into a three-quarter view; face, chest, hips, knees, and feet stay aligned; gaze follows the face direction",
-    "front_quarter_right": "starting from the supplied front-view anchor, the whole figure is rotated 30 degrees into a three-quarter view; face, chest, hips, knees, and feet stay aligned; gaze follows the face direction",
+    "front_quarter_left": "starting from the supplied front-view anchor, rotate the whole figure 15 degrees to image left into a left three-quarter view; standing with both feet apart at shoulder width; face, chest, hips, knees, and feet stay aligned; gaze follows the face direction",
+    "front_quarter_right": "starting from the supplied front-view anchor, the whole figure faces the right three-quarter direction of the image; face, chest, hips, knees, and feet stay aligned; gaze follows the face direction",
     "profile_left": "strict side profile facing image left; nose, chest, hips, and toes point image left; near arm visible, far arm hidden, two legs and shoes separate",
     "profile_right": "strict side profile facing image right; nose, chest, hips, and toes point image right; near arm visible, far arm hidden, two legs and shoes separate",
     "rear": "rear view",
@@ -52,11 +59,18 @@ def prompt_word_count(text: str) -> int:
 
 
 def build_body_prompt(view: str) -> str:
-    return f"One full-body woman, {VIEW_RULES[view]}, on an off-white studio background."
+    return (
+        "Use the supplied front full-body reference as the fixed source for the entire figure and its rotation. "
+        f"Render the same full-body figure {VIEW_RULES[view]}. "
+        "Preserve the full-body proportion, clothing silhouette, shoulder-width stance, and off-white studio background."
+    )
 
 
 def build_face_refinement_prompt() -> str:
-    return ""
+    return (
+        "Use the supplied face reference to restore the character's face identity in the body-stage image. "
+        "Keep the completed body pose, view direction, clothing, and background unchanged."
+    )
 
 
 def main() -> None:
@@ -77,8 +91,8 @@ def main() -> None:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
-    parser.add_argument("--body-steps", type=int, default=3, help="Denoising steps for the first full-body pass.")
-    parser.add_argument("--face-steps", type=int, default=3, help="Denoising steps for the second face-refinement pass.")
+    parser.add_argument("--body-steps", type=int, default=FIRST_STAGE_STEPS, help="Denoising steps for the first full-body pass.")
+    parser.add_argument("--face-steps", type=int, default=SECOND_STAGE_STEPS, help="Denoising steps for the second face-refinement pass.")
     parser.add_argument(
         "--body-image",
         type=Path,
@@ -102,7 +116,7 @@ def main() -> None:
         raise FileNotFoundError(args.front_image)
     if args.body_image is not None and not args.body_image.is_file():
         raise FileNotFoundError(args.body_image)
-    reference_paths = [*(FACE_REFERENCE_BY_VIEW[view] for view in selected_views), *OUTFIT_REFERENCES]
+    reference_paths = [*(FACE_REFERENCE_BY_VIEW[view] for view in selected_views), FULLBODY_REFERENCE]
     reference_paths.append(args.front_image)
     if args.body_image is not None:
         reference_paths.append(args.body_image)
@@ -119,27 +133,30 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
 
-    first_seed = BASE_SEED + args.seed_offset
-    outfit_images = [Image.open(path).convert("RGB") for path in OUTFIT_REFERENCES]
+    fullbody_reference_image = Image.open(FULLBODY_REFERENCE).convert("RGB")
     face_images = {
         view: Image.open(FACE_REFERENCE_BY_VIEW[view]).convert("RGB")
         for view in selected_views
     }
     supplied_body_image = Image.open(args.body_image).convert("RGB") if args.body_image is not None else None
     for batch_index in range(args.seed_count):
-        seed = first_seed + batch_index * args.seed_step
+        seed_offset = args.seed_offset + batch_index * args.seed_step
         front_anchor_path = args.front_image
         front_anchor_image = Image.open(args.front_image).convert("RGB")
         for view in selected_views:
+            body_seed = BODY_SEED_BY_VIEW[view] + seed_offset
             body_prompt = build_body_prompt(view)
-            body_reference_paths = [FACE_REFERENCE_BY_VIEW[view], *OUTFIT_REFERENCES]
-            body_reference_images = [face_images[view], *outfit_images]
-            body_reference_paths.insert(0, front_anchor_path)
-            body_reference_images.insert(0, front_anchor_image)
+            body_reference_paths = [front_anchor_path, FULLBODY_REFERENCE]
+            body_reference_images = [front_anchor_image, fullbody_reference_image]
             face_refinement_prompt = build_face_refinement_prompt()
-            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=seed, steps=args.face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_refinement_prompt": face_refinement_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_steps": args.body_steps, "face_steps": args.face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
-            body_output = ROOT / f"{stem}-body-stage-steps-{args.body_steps}.png"
-            output = ROOT / f"{stem}-candidate.png"
+            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=body_seed, steps=args.face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_refinement_prompt": face_refinement_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_seed": body_seed, "face_seed": SECOND_STAGE_SEED, "body_steps": args.body_steps, "face_steps": args.face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
+            stage_descriptor = (
+                f"stage-1-seed-{body_seed}-steps-{args.body_steps}"
+                f"-stage-2-seed-{SECOND_STAGE_SEED}-steps-{args.face_steps}"
+            )
+            body_output = ROOT / f"{stem}-{stage_descriptor}-stage-1.png"
+            face_output = ROOT / f"{stem}-{stage_descriptor}-stage-2.png"
+            output = ROOT / f"{stem}-{stage_descriptor}-final-candidate.png"
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
             if supplied_body_image is None:
@@ -150,9 +167,9 @@ def main() -> None:
                     height=IMAGE_HEIGHT,
                     num_inference_steps=args.body_steps,
                     guidance_scale=1.0,
-                    generator=torch.Generator(device="cpu").manual_seed(seed),
+                    generator=torch.Generator(device="cpu").manual_seed(body_seed),
                     max_sequence_length=256,
-                    callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-body"),
+                    callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-{stage_descriptor}-stage-1"),
                 ).images[0]
             else:
                 body_image = supplied_body_image.copy()
@@ -166,10 +183,11 @@ def main() -> None:
                 height=IMAGE_HEIGHT,
                 num_inference_steps=args.face_steps,
                 guidance_scale=1.0,
-                generator=torch.Generator(device="cpu").manual_seed(FACE_IDENTITY_SEED),
+                generator=torch.Generator(device="cpu").manual_seed(SECOND_STAGE_SEED),
                 max_sequence_length=256,
-                callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-face"),
+                callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-{stage_descriptor}-stage-2"),
             ).images[0]
+            image.save(face_output)
             image.save(output)
             elapsed = round(time.monotonic() - started, 2)
             report.write_text(
@@ -177,9 +195,12 @@ def main() -> None:
                     {
                         "status": "review_required",
                         "body_output": body_output.name,
+                        "face_output": face_output.name,
                         "output": output.name,
                         "view": view,
-                        "seed": seed,
+                        "seed": body_seed,
+                        "body_seed": body_seed,
+                        "face_seed": SECOND_STAGE_SEED,
                         "body_steps": args.body_steps,
                         "face_steps": args.face_steps,
                         "seed_offset": args.seed_offset,
@@ -193,7 +214,7 @@ def main() -> None:
                                 "prompt": body_prompt,
                                 "prompt_word_count": prompt_word_count(body_prompt),
                                 "references": [path.name for path in body_reference_paths],
-                                "face_reference": FACE_REFERENCE_BY_VIEW[view].name,
+                                "face_reference": None,
                                 "front_anchor": front_anchor_path.name,
                                 "supplied_image": args.body_image.name if args.body_image else None,
                                 "output": body_output.name,
@@ -201,8 +222,9 @@ def main() -> None:
                             "face_refinement": {
                                 "prompt": face_refinement_prompt,
                                 "prompt_word_count": prompt_word_count(face_refinement_prompt),
-                                "seed": FACE_IDENTITY_SEED,
+                                "seed": SECOND_STAGE_SEED,
                                 "reference": FACE_REFERENCE_BY_VIEW[view].name,
+                                "output": face_output.name,
                             },
                         },
                         "model": MODEL_ID,
