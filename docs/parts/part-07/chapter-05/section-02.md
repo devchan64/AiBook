@@ -158,7 +158,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | --- | --- | --- | --- | --- |
 | ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-reference.png) | ![승인된 좌측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference.png) | ![승인된 우측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
 
-정면 신체비율 생성기와 턴어라운드 생성기는 분리합니다. 정면 생성기는 1단계 전신 생성(기본 `3 step`) 뒤 2단계 얼굴 아이덴티 보강(기본 `6 step`)을 적용해 정면 PNG와 검토용 중간 PNG를 만듭니다. 턴어라운드 생성기는 정면을 만들지 않으며, `--front-image`로 받은 승인·후보 정면 PNG만을 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 정면과 다섯 후속 방향은 각각 다시 사람 검수합니다.
+정면 신체비율 생성기와 턴어라운드 생성기는 분리합니다. 정면 생성기는 1단계 전신 생성(기본 `3 step`) 뒤 2단계 얼굴 아이덴티 보강(기본 `6 step`)을 적용해 정면 PNG와 검토용 중간 PNG를 만듭니다. `seed=62294`의 `960×1440` 최종 PNG는 사람 승인해 위 정면 전신 안정 참조로 등록했습니다. 턴어라운드 생성기는 정면을 만들지 않으며, `--front-image`로 받은 승인·후보 정면 PNG만을 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 정면과 다섯 후속 방향은 각각 다시 사람 검수합니다.
 
 | 새 승인 정면 turnaround 앵커 |
 | --- |
