@@ -36,6 +36,65 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
   --character-steps 12
 ```
 
+## 카메라 관점은 RGB 후보마다 하나의 계약으로 고정한다
+
+달리기·전진 도약 장면에서 카메라 위치와 렌즈까지 seed에 맡기면, 인체 오류인지 구도 차이인지 나중에 분리하기 어렵다. 그래서 이 실험은 **카메라 관점**과 **렌즈·화각**을 별도 후보 계약으로 둔다. 한 번의 비교에서는 다른 축, seed·해상도·두 단계의 step을 같게 유지한다. 이는 영화 촬영의 모든 샷 크기 문법을 분류하는 목록이 아니라, 현재의 세로 전신 스토리보드에서 위치·높이·기울기와 화각·원근 인상을 분리해 관찰하기 위한 작업용 선택지다.
+
+| 옵션 | 작업용 한국어 이름 | 프레이밍에서 먼저 볼 것 |
+| --- | --- | --- |
+| `eye-level` | 아이레벨 정면 | 자연스러운 수평선과 전신 비율 |
+| `low-angle` | 로우 앵글 | 바닥에서 올려다본 인물·절벽의 크기 관계 |
+| `extreme-low-angle` | 강화 로우 앵글(웜스아이) | 지면에 붙은 시점에서도 전신 실루엣이 읽히는지 |
+| `high-angle` | 하이 앵글 | 인물 뒤로 물러나는 협곡 바닥 |
+| `bird-eye` | 버드아이 | 위에서 본 전신 실루엣과 바닥 경로 |
+| `overhead` | 수직 오버헤드 | 바로 위에서 본 전신과 협곡 바닥 패턴 |
+| `dutch` | 더치 앵글 | 약 20도 기울어진 화면에서도 중력·인체가 유지되는지 |
+| `left-profile` | 왼쪽 프로필 | 진행 방향에 수직인 옆 실루엣 |
+| `front-three-quarter` | 정면 3/4 | 얼굴과 진행 방향을 함께 읽을 수 있는지 |
+| `rear-three-quarter` | 후면 3/4 | 등·진행 방향·협곡의 깊이 관계 |
+| `front-on` | 정면 | 진행 방향과 일치하는 정면 전신 |
+| `rear-on` | 후면 | 진행 방향과 일치하는 후면 전신 |
+
+렌즈는 별도로 아래 다섯 프로필을 쓴다. 수치는 35 mm 풀프레임 환산값이며, 실제 생성 모델이 물리 렌즈를 장착하는 것은 아니다. 광각은 넓은 화각과 가까운 카메라 거리의 조합으로 앞뒤 깊이를 강조하고, 망원은 멀리서 본 좁은 화각으로 배경이 가까워 보이는 인상을 시험한다. 이 인상은 렌즈 자체만의 효과가 아니라, 같은 인물 크기를 유지하려고 달라지는 카메라 거리와 함께 해석해야 한다. [Sony Lens Basics](https://www.sony.com/electronics/support/articles/00268239){: target="_blank" rel="noopener noreferrer"}, [Sony: focal length, angle of view, and perspective](https://www.sony.com/en-qa/electronics/focal-length-angle-of-view-perspective){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-08)
+
+| 옵션 | 작업용 한국어 이름 | 비교할 인상 |
+| --- | --- | --- |
+| `ultra-wide` | 초광각 18 mm | 가까운 전경과 크게 벌어진 앞뒤 깊이 |
+| `wide` | 광각 24 mm | 넓은 협곡과 강조된 깊이 |
+| `standard` | 표준 50 mm | 자연스러운 화각 기준선 |
+| `short-telephoto` | 중망원 85 mm | 완만하게 압축된 협곡 깊이 |
+| `telephoto` | 망원 135 mm | 멀리서 본 전신과 강하게 압축된 깊이 |
+
+한 관점만 만들 때는 `--camera-angle`, 한 렌즈만 고를 때는 `--lens`를 쓴다. 기본값은 기존의 높은 시점과 가까운 `high-angle` 및 표준 `50 mm`다. 아래 명령은 같은 seed `5420`과 기본 3+3 step으로 선택한 표준 렌즈의 12개 **RGB 스토리보드 후보**를 각각 만든다. `--all-lenses`는 선택한 관점에서 5개 렌즈를 비교한다. 두 옵션을 함께 쓰면 12 × 5, 총 60개의 후보를 생성하므로 먼저 한 축만 비교하는 것을 기본값으로 둔다. 파일명과 해시에는 카메라·렌즈 옵션 및 prompt 계약이 포함되므로, 후보를 섞지 않고 검수할 수 있다. 이 옵션들은 guide나 depth를 만들지 않는다.
+
+```bash
+python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
+  --seed 5420 --all-camera-angles \
+  --output-dir docs/assets/part-07/chapter-05
+
+python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
+  --seed 5420 --camera-angle extreme-low-angle --all-lenses \
+  --output-dir docs/assets/part-07/chapter-05
+```
+
+기본값은 모든 화면에서 캐릭터 3 step + 배경 3 step이다. 이 기본값을 먼저 고정해야 카메라와 렌즈의 차이를 비교할 수 있다. 이후 사람 검수에서 특정 화면만 더 긴 복원이 필요하다는 가설이 생기면 `--shot-steps CAMERA/LENS=CHARACTER,BACKGROUND`로 **그 화면만** 조정한다. 예를 들어 강화 로우 앵글·초광각 조합의 인체만 다시 검수하려면 다음처럼 쓴다. 이 조정은 새 비교 계약이므로, 기존 3+3 후보와 같은 품질 표본으로 합치지 않는다.
+
+```bash
+python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
+  --seed 5420 --camera-angle extreme-low-angle --lens ultra-wide \
+  --shot-steps extreme-low-angle/ultra-wide=5,4 \
+  --output-dir docs/assets/part-07/chapter-05
+```
+
+GPU를 쓰기 전에 계약만 확인하려면 다음처럼 실행한다.
+
+```bash
+python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
+  --all-camera-angles --all-lenses --dry-run
+```
+
+`--dry-run` 출력에는 각 화면에 실제 적용될 캐릭터·배경 step도 함께 나타난다. 이번 단계의 산출물은 RGB 후보뿐이다. 각 후보에서 인체·전신 프레이밍·진행 방향·카메라 의도가 읽히는지를 사람이 먼저 확인하고, 통과한 한 장을 명시한 뒤에만 Canny와 상대 depth를 파생한다. 따라서 depth 확장은 카메라별 RGB 승인 기준과 어떤 depth 표현을 비교할지 정한 별도 실험으로 남긴다.
+
 ## seed는 후보 수만 늘린다
 
 한 seed의 통과는 한 장면 후보의 관찰일 뿐이다. 같은 모델·prompt·해상도·step을 고정한 채 seed만 바꾸면 카메라의 세부 해석, 팔과 다리의 분리, 발의 접지, 절벽과 인물의 간격이 다른 콘티 후보로 나타난다. 이때 seed는 품질을 올리는 숫자가 아니라 **검수할 후보를 늘리는 조작 변수**다.
@@ -44,7 +103,7 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --model flux2-klein --seed 5420 --runs 3
+  --seed 5420 --runs 3
 ```
 
 ## 승인 전에는 guide를 만들지 않는다
