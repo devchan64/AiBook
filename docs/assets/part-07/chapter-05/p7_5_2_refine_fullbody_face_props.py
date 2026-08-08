@@ -8,43 +8,54 @@ import gc
 import json
 from pathlib import Path
 import time
-from uuid import uuid4
 
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
-from p7_5_image_output_naming import candidate_stem
+from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-BASE_SEED = 62377
-FACE_IDENTITY_SEED = 62294
+FIRST_STAGE_SEED = 62377
+SECOND_STAGE_SEED = 62294
+FIRST_STAGE_STEPS = 3
+SECOND_STAGE_STEPS = 3
 FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
+# Keep every direction explicit.  A merged ``front_quarter`` or ``profile`` key
+# silently selects a left-facing input and makes a right-facing rerun ambiguous.
 FACE_IDENTITY_BY_VIEW = {
     "front": ROOT / "p7-5-2-face-front-reference.png",
-    "front_quarter": ROOT / "p7-5-2-face-front-quarter-left-reference.png",
-    "profile": ROOT / "p7-5-2-face-profile-left-reference.png",
+    "front_quarter_left": ROOT / "p7-5-2-face-front-quarter-left-reference.png",
+    "front_quarter_right": ROOT / "p7-5-2-face-front-quarter-right-reference.png",
+    "profile_left": ROOT / "p7-5-2-face-profile-left-reference.png",
+    "profile_right": ROOT / "p7-5-2-face-profile-right-reference.png",
     "rear": ROOT / "p7-5-2-face-rear-reference.png",
 }
-# These four stable filenames are the only approved full-body composition inputs.
+# These six stable filenames are the only approved full-body composition inputs.
 APPROVED_BODY_REFERENCES = {
     "front": ROOT / "p7-5-2-fullbody-front-reference.png",
-    "front_quarter": ROOT / "p7-5-2-fullbody-front-quarter-reference.png",
-    "profile": ROOT / "p7-5-2-fullbody-profile-reference.png",
+    "front_quarter_left": ROOT / "p7-5-2-fullbody-front-quarter-left-reference.png",
+    "front_quarter_right": ROOT / "p7-5-2-fullbody-front-quarter-right-reference.png",
+    "profile_left": ROOT / "p7-5-2-fullbody-profile-left-reference.png",
+    "profile_right": ROOT / "p7-5-2-fullbody-profile-right-reference.png",
     "rear": ROOT / "p7-5-2-fullbody-rear-reference.png",
 }
 LAYERED_OUTFIT_REFERENCE_BY_VIEW = {
     "front": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
-    "front_quarter": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
-    "profile": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
+    "front_quarter_left": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
+    "front_quarter_right": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
+    "profile_left": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
+    "profile_right": ROOT / "p7-5-2-prop-reference-jacket-crop-top-front.png",
     "rear": ROOT / "p7-5-2-prop-reference-jacket-crop-top-rear.png",
 }
 COMPLETE_OUTFIT_REFERENCE_BY_VIEW = {
     "front": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
-    "front_quarter": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
-    "profile": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
+    "front_quarter_left": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
+    "front_quarter_right": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
+    "profile_left": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
+    "profile_right": ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png",
     "rear": ROOT / "p7-5-2-prop-reference-complete-outfit-rear-hip.png",
 }
 PROPS = {
@@ -61,30 +72,41 @@ PROPS = {
 }
 VIEW_RULES = {
     "front": "Keep a front view facing the camera.",
-    "front_quarter": "Keep a front three-quarter view with face, torso, pelvis, knees, and feet turned together.",
-    "profile": "Keep a side profile with one near arm visible and the far arm hidden behind the torso.",
+    "front_quarter_left": "Keep a left front three-quarter view with face, torso, pelvis, knees, and feet turned together.",
+    "front_quarter_right": "Keep a right front three-quarter view with face, torso, pelvis, knees, and feet turned together.",
+    "profile_left": "Keep a left-facing side profile with one near arm visible and the far arm hidden behind the torso.",
+    "profile_right": "Keep a right-facing side profile with one near arm visible and the far arm hidden behind the torso.",
     "rear": "Keep a rear view facing away; do not show a frontal face.",
 }
 FACE_FINAL_VIEW_RULES = {
-    "front_quarter": (
+    "front_quarter_left": (
+        "For this three-quarter face, turn both pupils and the visible gaze toward the same side as the nose bridge "
+        "and nose tip. Do not leave the eyes facing front while the nose is turned."
+    ),
+    "front_quarter_right": (
         "For this three-quarter face, turn both pupils and the visible gaze toward the same side as the nose bridge "
         "and nose tip. Do not leave the eyes facing front while the nose is turned."
     ),
 }
 LAYERED_OUTFIT_VIEW_RULES = {
-    "profile": "Profile: keep the white cropped jacket as the outer layer over the gray crop top; show its collar, long sleeve, cropped hem, and side-back panel.",
+    "profile_left": "Profile: keep the white cropped jacket as the outer layer over the gray crop top; show its collar, long sleeve, cropped hem, and side-back panel.",
+    "profile_right": "Profile: keep the white cropped jacket as the outer layer over the gray crop top; show its collar, long sleeve, cropped hem, and side-back panel.",
     "rear": "Rear: use the supplied rear outfit reference as the construction anchor; keep its uninterrupted white jacket back panel, long sleeves, cropped hem, and a clear bare-skin midriff band above the trousers. No inner top is visible from the rear.",
 }
 BAG_VIEW_RULES = {
     "front": "Front: hang the bag side-on beside the wearer's outer-left trouser seam, its top at the waistband; show one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
-    "front_quarter": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
-    "profile": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
+    "front_quarter_left": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
+    "front_quarter_right": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
+    "profile_left": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
+    "profile_right": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
     "rear": "Rear: retain long cuffed sleeves reaching the wrists. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 COMPLETE_OUTFIT_VIEW_RULES = {
     "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
-    "front_quarter": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
-    "profile": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
+    "front_quarter_left": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
+    "front_quarter_right": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
+    "profile_left": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
+    "profile_right": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
     "rear": "Rear: replace the upper garment with the supplied white cropped utility jacket: plain white back panel, long cuffed sleeves to the wrists, and bare-skin midriff below its hem; no gray inner top is visible. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 IMAGE_WIDTH = 768
@@ -114,14 +136,19 @@ def resolve_body_references(assignments: list[str]) -> dict[str, Path]:
     return references
 
 
-def unique_run_stem(prefix: str, view: str, run_id: str, seed: int, steps: int) -> str:
-    """Create an unused shared stem for PNG outputs and their review record."""
-    base_stem = candidate_stem(f"{prefix}-{view}", seed=seed, steps=steps, contract={"run_id": run_id, "model": MODEL_ID, "face_identity_seed": FACE_IDENTITY_SEED, "steps": steps})
+def unique_run_stem(prefix: str, view: str, outfit_seed: int, outfit_steps: int, face_steps: int, contract: dict[str, object]) -> str:
+    """Create an unused shared stem for both stages and their review record."""
+    base_stem = candidate_stem(
+        f"{prefix}-{view}",
+        seed=outfit_seed,
+        steps=face_steps,
+        contract=contract,
+    )
     suffix = 1
     stem = base_stem
     while any(
         (ROOT / f"{stem}{extension}").exists()
-        for extension in ("-candidate.png", "-outfit-stage.png", "-review.json")
+        for extension in ("-stage-1.png", "-stage-2.png", "-final-candidate.png", "-review.json")
     ):
         suffix += 1
         stem = f"{base_stem}-attempt-{suffix}"
@@ -130,7 +157,7 @@ def unique_run_stem(prefix: str, view: str, run_id: str, seed: int, steps: int) 
 
 def prop_reference_paths(prop_id: str, view: str) -> tuple[Path, ...]:
     if prop_id == "complete_outfit":
-        if view == "profile":
+        if view.startswith("profile_"):
             # A side view needs both garment faces to preserve the jacket body panel.
             return (
                 COMPLETE_OUTFIT_REFERENCE_BY_VIEW["front"],
@@ -152,7 +179,7 @@ def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
             f"visible face and hair identity: {FACE_IDENTITY_CONTRACT['identity_description']}"
         )
     )
-    if view == "profile" and "complete_outfit" in prop_ids:
+    if view.startswith("profile_") and "complete_outfit" in prop_ids:
         return (
             "Refine the supplied full-body reference into the same woman in a side-profile studio image. "
             f"Preserve pose, hair-to-sole framing, dark teal trousers, and white low-top sneakers. {identity_rule} "
@@ -228,7 +255,7 @@ def main() -> None:
         metavar="VIEW=PATH",
         help=(
             "Override one composition input with a PNG, for example "
-            "--body-reference profile=p7-5-2-fullbody-profile-reference.png. "
+            "--body-reference profile_left=p7-5-2-fullbody-profile-left-reference.png. "
             "Unspecified views use the approved stable references."
         ),
     )
@@ -271,6 +298,8 @@ def main() -> None:
         raise ValueError("steps must be at least 1")
     if args.stage == "face" and args.intermediate is None:
         raise ValueError("--stage face requires --intermediate")
+    if args.stage == "face" and len(args.views) != 1:
+        raise ValueError("--stage face requires exactly one --views value for the supplied intermediate PNG")
     body_references = resolve_body_references(args.body_reference)
 
     reference_paths = [FACE_IDENTITY_BY_VIEW[view] for view in args.views]

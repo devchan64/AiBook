@@ -20,7 +20,14 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 FIRST_STAGE_SEED = 62294
 SECOND_STAGE_SEED = 62294
 FIRST_STAGE_STEPS = 3
-SECOND_STAGE_STEPS = 6
+SECOND_STAGE_STEPS = 9
+SECOND_STAGE_STEPS_BY_VIEW = {
+    "front_quarter_left": SECOND_STAGE_STEPS,
+    "front_quarter_right": SECOND_STAGE_STEPS,
+    "profile_left": 12,
+    "profile_right": 12,
+    "rear": SECOND_STAGE_STEPS,
+}
 BODY_SEED_BY_VIEW = {
     "front_quarter_left": FIRST_STAGE_SEED,
     "front_quarter_right": FIRST_STAGE_SEED,
@@ -66,7 +73,13 @@ def build_body_prompt(view: str) -> str:
     )
 
 
-def build_face_refinement_prompt() -> str:
+def build_face_refinement_prompt(view: str) -> str:
+    if view == "rear":
+        return (
+            "Use the supplied rear-head reference to preserve the character's hair identity in the body-stage image. "
+            "Keep the completed rear view, with only the back of the head visible and no facial features. "
+            "Keep the body pose, clothing, and background unchanged."
+        )
     return (
         "Use the supplied face reference to restore the character's face identity in the body-stage image. "
         "Keep the completed body pose, view direction, clothing, and background unchanged."
@@ -92,7 +105,11 @@ def main() -> None:
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
     parser.add_argument("--body-steps", type=int, default=FIRST_STAGE_STEPS, help="Denoising steps for the first full-body pass.")
-    parser.add_argument("--face-steps", type=int, default=SECOND_STAGE_STEPS, help="Denoising steps for the second face-refinement pass.")
+    parser.add_argument(
+        "--face-steps",
+        type=int,
+        help="Override the direction-specific denoising steps for the second face-refinement pass.",
+    )
     parser.add_argument(
         "--body-only",
         action="store_true",
@@ -118,7 +135,7 @@ def main() -> None:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
-    if args.body_steps < 1 or args.face_steps < 1:
+    if args.body_steps < 1 or (args.face_steps is not None and args.face_steps < 1):
         raise ValueError("body-steps and face-steps must both be at least 1")
     selected_views = tuple(view for view in TURNAROUND_ORDER if view in args.views)
     if not args.front_image.is_file():
@@ -154,14 +171,15 @@ def main() -> None:
         front_anchor_image = Image.open(args.front_image).convert("RGB")
         for view in selected_views:
             body_seed = BODY_SEED_BY_VIEW[view] + seed_offset
+            face_steps = args.face_steps or SECOND_STAGE_STEPS_BY_VIEW[view]
             body_prompt = args.body_prompt or build_body_prompt(view)
             body_reference_paths = [front_anchor_path, FULLBODY_REFERENCE]
             body_reference_images = [front_anchor_image, fullbody_reference_image]
-            face_refinement_prompt = None if args.body_only else build_face_refinement_prompt()
-            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=body_seed, steps=args.body_steps if args.body_only else args.face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_refinement_prompt": face_refinement_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_only": args.body_only, "body_seed": body_seed, "face_seed": None if args.body_only else SECOND_STAGE_SEED, "body_steps": args.body_steps, "face_steps": None if args.body_only else args.face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
+            face_refinement_prompt = None if args.body_only else build_face_refinement_prompt(view)
+            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=body_seed, steps=args.body_steps if args.body_only else face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_refinement_prompt": face_refinement_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_only": args.body_only, "body_seed": body_seed, "face_seed": None if args.body_only else SECOND_STAGE_SEED, "body_steps": args.body_steps, "face_steps": None if args.body_only else face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
             stage_descriptor = f"stage-1-seed-{body_seed}-steps-{args.body_steps}"
             if not args.body_only:
-                stage_descriptor += f"-stage-2-seed-{SECOND_STAGE_SEED}-steps-{args.face_steps}"
+                stage_descriptor += f"-stage-2-seed-{SECOND_STAGE_SEED}-steps-{face_steps}"
             body_output = ROOT / f"{stem}-{stage_descriptor}-stage-1.png"
             face_output = None if args.body_only else ROOT / f"{stem}-{stage_descriptor}-stage-2.png"
             output = body_output if args.body_only else ROOT / f"{stem}-{stage_descriptor}-final-candidate.png"
@@ -190,7 +208,7 @@ def main() -> None:
                     prompt=face_refinement_prompt,
                     width=IMAGE_WIDTH,
                     height=IMAGE_HEIGHT,
-                    num_inference_steps=args.face_steps,
+                    num_inference_steps=face_steps,
                     guidance_scale=1.0,
                     generator=torch.Generator(device="cpu").manual_seed(SECOND_STAGE_SEED),
                     max_sequence_length=256,
@@ -211,7 +229,7 @@ def main() -> None:
                         "body_seed": body_seed,
                         "face_seed": None if args.body_only else SECOND_STAGE_SEED,
                         "body_steps": args.body_steps,
-                        "face_steps": None if args.body_only else args.face_steps,
+                        "face_steps": None if args.body_only else face_steps,
                         "seed_offset": args.seed_offset,
                         "seed_step": args.seed_step,
                         "batch_index": batch_index,
