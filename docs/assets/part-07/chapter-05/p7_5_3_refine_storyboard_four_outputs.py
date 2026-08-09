@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refine a P7-5.3 storyboard or test its depth-guided character hypothesis."""
+"""Draw a P7-5.3 scene from approved depth and a refined character image."""
 
 from __future__ import annotations
 
@@ -19,8 +19,8 @@ ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = ROOT.parents[3]
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 MODEL_CACHE = PROJECT_ROOT / ".tmp/p7-5-3-flux2-klein-cache"
-BASE_SEED = 62377  # Keep P7-5.2 refinement's seed contract for the comparison.
-IMAGE_WIDTH = 768
+BASE_SEED = 62944  # Keep P7-5.2 refinement's seed contract for the comparison.
+IMAGE_WIDTH = 1152
 IMAGE_HEIGHT = 1152
 DEFAULT_STEPS = 3
 GUIDANCE = 1.0
@@ -29,6 +29,15 @@ MAX_SEQUENCE_LENGTH = 256
 STORYBOARD = ROOT / "p7-5-3-flux2-klein-storyboard-forward-leap-approved.png"
 CANNY = ROOT / "p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-canny.png"
 DEPTH = ROOT / "p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-depth.png"
+APPROVED_DEPTHS = {
+    "A": ROOT / "p7-5-3-scene-a-037414-seed-5420-s6-02-storyboard-depth.png",
+    "B": ROOT / "p7-5-3-scene-b-088266-seed-5421-s6-02-storyboard-depth.png",
+    "C": ROOT / "p7-5-3-scene-c-288128-seed-5422-s6-02-storyboard-depth.png",
+}
+CHARACTER_REFINE = ROOT / (
+    "p7-5-3-refine-hypothesis-depth-character-depth-hash-eb58e6e519-"
+    "seed-62377-steps-3-depth-character-stage.png"
+)
 FACE_REFERENCE = ROOT / "p7-5-2-face-front-reference.png"
 OUTFIT_FRONT = ROOT / "p7-5-2-prop-reference-complete-outfit-front-hip.png"
 OUTFIT_REAR = ROOT / "p7-5-2-prop-reference-complete-outfit-rear-hip.png"
@@ -49,6 +58,21 @@ OUTFIT_DESCRIPTION = (
     "belt loops, a center fly, and roomy straight legs. Hems end 8 to 10 cm above the ankles. A navy crossbody bag sits at the left hip; "
     "one matching strap stays outside the jacket, from the right shoulder to the bag in front and from the right shoulder to beyond the left waistband at the back"
 )
+
+SCENE_DESCRIPTIONS = {
+    "A": "a narrow pale sandstone canyon with tall craggy cliffs beside and behind the dancer and a visible gravel floor",
+    "B": "a vast open pale sandstone-and-gravel plain with a low horizon and small distant rocks, without nearby cliffs or walls",
+    "C": "open pale sandstone gravel seen vertically from directly overhead, without a horizon, canyon, cliff, or wall",
+}
+
+
+def scene_prompt(scene_id: str) -> str:
+    return (
+        "Reference image 1 is the approved relative-depth layout. Copy its camera, framing, dancer silhouette, limb count, pose, scale, and spatial depth. "
+        "Reference image 2 is the approved refined character. Copy only her identity, dark teal bob, visible face, white cropped jacket, charcoal crop top, deep teal wide-leg trousers, navy crossbody bag, skin, and clothing details; do not copy its plain background or pose. "
+        f"Draw one complete natural-color storyboard scene in {SCENE_DESCRIPTIONS[scene_id]}. "
+        "The output must be a finished RGB scene, never a grayscale depth map. Exactly one full-body dancer, two arms, two legs, complete hands and feet, no text or labels."
+    )
 
 
 def background_prompt(guide_kind: str) -> str:
@@ -116,11 +140,18 @@ def write_review(path: Path, payload: dict[str, object]) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="P7-5.3 스토리보드 리파인과 depth-character 가설 검증"
+        description="승인 depth와 캐릭터 리파인 이미지를 참고해 P7-5.3 완성 장면 RGB를 그립니다."
     )
+    parser.add_argument("--scene", choices=tuple(APPROVED_DEPTHS), default="A")
     parser.add_argument("--storyboard", type=Path, default=STORYBOARD)
     parser.add_argument("--canny", type=Path, default=CANNY)
-    parser.add_argument("--depth", type=Path, default=DEPTH)
+    parser.add_argument("--depth", type=Path, help="생략하면 선택한 A/B/C씬의 승인 상대 depth를 사용합니다.")
+    parser.add_argument(
+        "--character-refine",
+        type=Path,
+        default=CHARACTER_REFINE,
+        help="외형·얼굴·복장만 참고할 승인 캐릭터 리파인 PNG",
+    )
     parser.add_argument(
         "--guide-kinds",
         nargs="+",
@@ -132,14 +163,15 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS, help="Denoising steps for each selected refinement stage.")
     parser.add_argument(
         "--stage",
-        choices=("all", "depth-character", "background", "outfit", "face"),
-        default="all",
-        help="depth-character는 depth·착장·얼굴 참조만 사용하는 독립 가설 검증 단계입니다.",
+        choices=("scene", "all", "depth-character", "background", "outfit", "face"),
+        default="scene",
+        help="기본 scene은 승인 depth와 캐릭터 리파인 이미지로 완성 RGB를 그립니다.",
     )
     parser.add_argument("--intermediate", type=Path, help="background·face 단독 실행에 쓸 직전 단계 PNG")
     parser.add_argument("--output-dir", type=Path, default=ROOT)
     parser.add_argument("--output-prefix", default="p7-5-3-storyboard-refine")
     args = parser.parse_args()
+    args.depth = args.depth or APPROVED_DEPTHS[args.scene]
     if args.steps < 1:
         raise ValueError("--steps must be at least 1")
     if args.stage in ("background", "face") and args.intermediate is None:
@@ -152,14 +184,15 @@ def main() -> None:
         "canny": args.canny,
         "depth": args.depth,
     }
-    run_guide_kinds = ("depth",) if args.stage == "depth-character" else args.guide_kinds
+    run_guide_kinds = ("depth",) if args.stage in ("scene", "depth-character") else args.guide_kinds
     required_guides = set(run_guide_kinds)
     if any(guide_kind != "depth" for guide_kind in run_guide_kinds):
         required_guides.add("depth")
     guides = {guide_kind: open_image(guide_paths[guide_kind]) for guide_kind in required_guides}
-    face_reference = open_image(FACE_REFERENCE)
-    outfit_front = open_image(OUTFIT_FRONT)
-    outfit_rear = open_image(OUTFIT_REAR)
+    character_refine = open_image(args.character_refine) if args.stage == "scene" else None
+    face_reference = open_image(FACE_REFERENCE) if args.stage != "scene" else None
+    outfit_front = open_image(OUTFIT_FRONT) if args.stage != "scene" else None
+    outfit_rear = open_image(OUTFIT_REAR) if args.stage != "scene" else None
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     pipe = Flux2KleinPipeline.from_pretrained(
@@ -171,6 +204,59 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
     try:
+        if args.stage == "scene":
+            prompt = scene_prompt(args.scene)
+            depth_image = guides["depth"]
+            stem = candidate_stem(
+                f"{args.output_prefix}-scene-{args.scene.lower()}",
+                seed=args.seed,
+                steps=args.steps,
+                contract={
+                    "model": MODEL_ID,
+                    "stage": "scene",
+                    "scene_id": args.scene,
+                    "depth_input": args.depth.name,
+                    "character_refine_input": args.character_refine.name,
+                    "prompt": prompt,
+                    "steps": args.steps,
+                },
+            )
+            scene_path = args.output_dir / f"{stem}-scene.png"
+            report_path = args.output_dir / f"{stem}-review.json"
+            started = time.monotonic()
+            scene = pipe(
+                image=[depth_image, character_refine],
+                prompt=prompt,
+                width=depth_image.width,
+                height=depth_image.height,
+                num_inference_steps=args.steps,
+                guidance_scale=GUIDANCE,
+                generator=torch.Generator(device="cpu").manual_seed(args.seed),
+                max_sequence_length=MAX_SEQUENCE_LENGTH,
+            ).images[0]
+            save(scene, scene_path)
+            elapsed = round(time.monotonic() - started, 2)
+            write_review(
+                report_path,
+                {
+                    "status": "review_required",
+                    "output": scene_path.name,
+                    "model": MODEL_ID,
+                    "stage": "scene",
+                    "scene_id": args.scene,
+                    "seed": args.seed,
+                    "steps": args.steps,
+                    "image_size": [depth_image.width, depth_image.height],
+                    "depth_input": args.depth.name,
+                    "character_refine_input": args.character_refine.name,
+                    "prompt": prompt,
+                    "elapsed_seconds": elapsed,
+                    "decision": "Review camera and pose from depth, identity and outfit from character refine, limb completeness, and natural-color scene rendering.",
+                },
+            )
+            print(f"scene {args.scene}: depth + character-refine -> {scene_path} ({elapsed:.2f}s)")
+            return
+
         for guide_kind in run_guide_kinds:
             stem = candidate_stem(
                 f"{args.output_prefix}-{guide_kind}",
