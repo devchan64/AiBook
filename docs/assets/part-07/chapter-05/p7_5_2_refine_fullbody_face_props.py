@@ -17,7 +17,7 @@ from p7_5_image_output_naming import candidate_stem, preview_callback
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-FIRST_STAGE_SEED = 62377
+FIRST_STAGE_SEED = 62294
 SECOND_STAGE_SEED = 62294
 FIRST_STAGE_STEPS = 3
 SECOND_STAGE_STEPS = 3
@@ -95,22 +95,23 @@ LAYERED_OUTFIT_VIEW_RULES = {
 }
 BAG_VIEW_RULES = {
     "front": "Front: hang the bag side-on beside the wearer's outer-left trouser seam, its top at the waistband; show one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
-    "front_quarter_left": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
-    "front_quarter_right": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh.",
+    "front_quarter_left": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh. Show one continuous taut deep-navy strap from the outer wearer's-right shoulder diagonally across the exterior of the white jacket into the bag's upper inner attachment; do not hide it behind or inside the jacket.",
+    "front_quarter_right": "Front three-quarter: place the bag at the outer wearer's-left hip, its top at the waistband, below the ribs and clear of the front thigh. Show one continuous taut deep-navy strap from the outer wearer's-right shoulder diagonally across the exterior of the white jacket into the bag's upper inner attachment; do not hide it behind or inside the jacket.",
     "profile_left": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
     "profile_right": "Profile: keep the bag at the outer wearer's-left hip with its top at the waistband, below the ribs, and keep its strap behind the jacket.",
     "rear": "Rear: retain long cuffed sleeves reaching the wrists. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 COMPLETE_OUTFIT_VIEW_RULES = {
     "front": "Front: replace the visible charcoal top with the supplied very short white cropped utility jacket as the closed outer layer. Its white front panels cover the chest, with long cuffed sleeves reaching the wrists; the charcoal-gray crop top may appear only as a narrow band below the cropped hem. Retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut deep-navy strap from the outer wearer's-right shoulder diagonally across the white jacket into the bag's upper inner attachment.",
-    "front_quarter_left": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
-    "front_quarter_right": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
+    "front_quarter_left": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh. Show one continuous taut deep-navy strap from the outer wearer's-right shoulder diagonally across the exterior of the white jacket into the bag's upper inner attachment; do not hide it behind or inside the jacket.",
+    "front_quarter_right": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh. Show one continuous taut deep-navy strap from the outer wearer's-right shoulder diagonally across the exterior of the white jacket into the bag's upper inner attachment; do not hide it behind or inside the jacket.",
     "profile_left": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
     "profile_right": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
     "rear": "Rear: replace the upper garment with the supplied white cropped utility jacket: plain white back panel, long cuffed sleeves to the wrists, and bare-skin midriff below its hem; no gray inner top is visible. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 IMAGE_WIDTH = 960
 IMAGE_HEIGHT = 1440
+STUDIO_BACKGROUND_RULE = "Use a plain white wall and a plain white studio floor."
 
 
 def prompt_word_count(text: str) -> int:
@@ -184,7 +185,7 @@ def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
             "cropped utility jacket: white front panels cover the chest, long cuffed sleeves reach the wrists, and only a narrow "
             "gray crop-top band may show below the hem. Add one taut deep-navy crossbody strap from the wearer's right shoulder "
             "across the jacket to a bag at the outer left hip. "
-            f"{identity_rule} One woman, complete limbs, no text or labels."
+            f"{STUDIO_BACKGROUND_RULE} {identity_rule} One woman, complete limbs, no text or labels."
         )
     if view.startswith("profile_") and "complete_outfit" in prop_ids:
         return (
@@ -193,7 +194,8 @@ def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
             "From the supplied front and rear outfit references, render a white cropped utility jacket as the visible "
             "outer torso layer: jacket body from collar to cropped hem, side-back panel, and one long cuffed sleeve. "
             "Keep the charcoal-gray crop top as a narrow inner layer at the open front. Place the deep-navy bag at the "
-            "outer left rearward hip with its strap behind the jacket. One person, complete limbs, no text or labels."
+            f"outer left rearward hip with its strap behind the jacket. {STUDIO_BACKGROUND_RULE} "
+            "One person, complete limbs, no text or labels."
         )
     prop_instructions = " ".join(PROPS[prop_id]["instruction"] for prop_id in prop_ids)
     if "complete_outfit" in prop_ids:
@@ -215,7 +217,7 @@ def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
     return (
         "Refine the supplied full-body reference into one full-body studio image of the same woman. "
         f"Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and {base_clothing}. {identity_rule} "
-        f"{VIEW_RULES[view]} {prop_instructions} {' '.join(view_prop_rules)} "
+        f"{VIEW_RULES[view]} {prop_instructions} {' '.join(view_prop_rules)} {STUDIO_BACKGROUND_RULE} "
         "One person, complete limbs, no text or labels."
     )
 
