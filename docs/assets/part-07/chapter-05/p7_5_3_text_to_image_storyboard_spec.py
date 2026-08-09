@@ -42,7 +42,7 @@ COMMON_DANCER_PROMPT = (
 )
 
 SCENE_A_PROMPT = (
-    "Wide elevated view in a narrow pale sandstone canyon. "
+    "Wide elevated view in a broad pale sandstone canyon with widely spaced walls. "
     + COMMON_DANCER_PROMPT
     + " Craggy cliffs beside and behind her; visible gravel floor and clear space around her."
 )

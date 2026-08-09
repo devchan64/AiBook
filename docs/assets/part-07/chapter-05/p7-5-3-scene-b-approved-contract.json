@@ -1,4 +1,6 @@
 {
+  "status": "approved",
+  "approval": "human_approved",
   "model": "black-forest-labs/FLUX.2-klein-4B",
   "scene_id": "B",
   "scene_slug": "scene-b",
@@ -18,13 +20,13 @@
   "prompt_word_count": 77,
   "preview_every": 0,
   "artifacts": {
-    "contract": "p7-5-3-scene-b-088266-seed-5421-s6-00-contract.json",
-    "storyboard_rgb": "p7-5-3-scene-b-088266-seed-5421-s6-01-storyboard-rgb.png",
-    "storyboard_depth": "p7-5-3-scene-b-088266-seed-5421-s6-02-storyboard-depth.png"
+    "contract": "p7-5-3-scene-b-approved-contract.json",
+    "storyboard_rgb": "p7-5-3-scene-b-approved-storyboard-rgb.png",
+    "storyboard_depth": "p7-5-3-scene-b-approved-storyboard-depth.png"
   },
   "storyboard_outputs": [
-    "p7-5-3-scene-b-088266-seed-5421-s6-01-storyboard-rgb.png",
-    "p7-5-3-scene-b-088266-seed-5421-s6-02-storyboard-depth.png"
+    "p7-5-3-scene-b-approved-storyboard-rgb.png",
+    "p7-5-3-scene-b-approved-storyboard-depth.png"
   ],
   "depth_type": "relative_depth",
   "depth_model": "/home/cbsim/ws/AiBook/.tmp/p7-5-3-depth-anything-v2-small"

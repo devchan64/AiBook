@@ -1,0 +1,25 @@
+{
+  "status": "review_required",
+  "output": "p7-5-3-guide-compare-rgb-scene-a-code-44733f-seed-62944-steps-6-scene.png",
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "stage": "scene",
+  "scene_id": "A",
+  "seed": 62944,
+  "steps": 6,
+  "image_size": [
+    1152,
+    1152
+  ],
+  "guide_type": "rgb",
+  "guide_input": "p7-5-3-scene-a-approved-storyboard-rgb.png",
+  "depth_input": null,
+  "rgb_input": "p7-5-3-scene-a-approved-storyboard-rgb.png",
+  "body_reference_inputs": [
+    "p7-5-2-fullbody-front-quarter-left-refined-reference.png"
+  ],
+  "direct_face_reference": null,
+  "direct_outfit_references": [],
+  "prompt": "Image 1 is the approved RGB storyboard: preserve its single airborne figure, camera, scale, limb pose, space, lighting, and shadows. Image 2 supplies only her identity, short teal bob, white cropped jacket, gray crop top, wide dark trousers, white sneakers, and navy crossbody bag; do not copy its standing pose or background. Render her eyes, nose, and mouth clearly. Keep open air around both shoes, separated from the cliffs. Show part of the bag behind her hip. Place her in a broad pale sandstone canyon with widely spaced craggy walls and a visible gravel floor. Natural color.",
+  "elapsed_seconds": 43.06,
+  "decision": "Review pose, camera, space, lighting, and shadows from the rgb guide; identity and outfit from the full-body reference; and limb completeness."
+}

@@ -9,7 +9,7 @@
 
 현재 생성 경로는 FLUX.2 Klein 4B만 사용한다. 인체·가림·접지 검수를 통과한 PNG만 다음 guide 단계로 넘긴다.
 
-이 절에서 현재 고정한 구도와 동작은 **A씬**으로 정의한다. A씬은 넓고 완만하게 높은 구도에서 화면 오른쪽으로 전진 도약하는 현대무용수와 양옆·뒤의 협곡을 함께 담는 장면이다. 이후 다른 장면을 추가하더라도 A씬의 prompt와 판정 기록은 독립된 장면 계약으로 유지한다.
+이 절에서는 같은 전진 도약을 세 공간과 시점으로 나눈다. **A씬**은 넓고 완만하게 높은 구도에서 현대무용수와 벽 사이 간격이 넓은 협곡을 함께 담는다. 각 prompt와 판정 기록은 독립된 장면 계약으로 유지한다.
 
 **B씬**은 A씬과 동일한 인물·도약 동작·시선을 유지하면서 공간 규모와 인물 비율을 바꾼다. 먼 거리의 와이드 설정 숏으로 인물 전신을 화면 높이의 약 35~40%만 차지하게 하고, 위·아래·좌·우에 넉넉한 여백을 둔다. 좁고 높은 협곡 대신 낮은 수평선까지 사암·자갈 바닥이 멀리 이어지고, 작은 암석 지형만 원경에 놓인 열린 공간을 사용한다. 가까운 절벽이나 벽이 화면을 둘러싸지 않게 하므로, A/B 비교에서는 동일 동작이 공간 규모에 따라 어떻게 읽히는지 확인한다.
 
@@ -17,13 +17,13 @@
 
 | 고정 항목 | FLUX.2 Klein 4B |
 | --- | --- |
-| 기본 seed | `5420` |
+| 장면별 seed | A `5420`, B `5421`, C `5422` |
 | 해상도·step | `1152 x 1152`, 단일 생성 6 step |
 | 인물 | 턱선 길이 단발, 긴 머리·포니테일 제외 |
 | 자세·시선 | 인물은 화면 오른쪽 앞으로 높이 뛰며, 점프 정점에서 오른다리를 곧게 앞으로, 왼다리를 곧게 뒤로 뻗어 앞뒤로 크게 찢는 스플릿 점프를 한다. 팔 자세는 오른팔을 화면 오른쪽으로 뻗는 조건 하나만 둔다. 정확히 두 팔·두 손·두 다리·두 발만 요구하며 눈과 얼굴은 화면 오른쪽을 본다. |
-| 공간 | 밝은 사암·자갈의 자연 계곡 바닥이 가까운 절벽 밑으로 이어짐. 기암절벽은 인물의 양옆과 뒤에 즉시 솟아 좁은 협곡을 이루되, 인물 외곽과는 좁은 보이는 간격을 둠 |
+| 공간 | 밝은 사암·자갈의 자연 계곡 바닥이 절벽 사이로 이어짐. 기암절벽은 인물의 양옆과 뒤에 솟지만 벽 사이와 인물 외곽에 넓고 읽을 수 있는 간격을 둠 |
 
-아래 [FLUX 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 한 번의 text-to-image 호출로 인물과 공간이 포함된 완성 RGB를 직접 만들고, 그 RGB에서 상대 depth를 추출한다. 따라서 생성 단계는 하나이며 중간 캐릭터 PNG나 배경 편집 입력을 만들지 않는다. 기본 해상도는 `1152×1152`다. 최종 산출물은 **RGB와 상대 depth 두 종류로 항상 함께 출력**한다. depth 생성에 실패하면 RGB 단독 결과도 남기지 않아 두 파일의 대응 관계를 지킨다. 기본 생성 반복 수는 6 step이며 `--steps`로 조정한다. 단계별 preview는 기본적으로 끄고 `--preview-every 1`처럼 명시했을 때만 저장한다. 생성 성공은 통과가 아니며, 다음 질문에 모두 답할 수 있을 때만 PNG를 승인한다.
+스토리보드 생성 코드는 한 번의 text-to-image 호출로 인물과 공간이 포함된 완성 RGB를 직접 만들고, 그 RGB에서 상대 depth를 추출한다. 따라서 생성 단계는 하나이며 중간 캐릭터 PNG나 배경 편집 입력을 만들지 않는다. 기본 해상도는 `1152×1152`다. 최종 산출물은 **RGB와 상대 depth 두 종류로 항상 함께 출력**한다. depth 생성에 실패하면 RGB 단독 결과도 남기지 않아 두 파일의 대응 관계를 지킨다. 기본 생성 반복 수는 6 step이며 `--steps`로 조정한다. 단계별 preview는 기본적으로 끄고 `--preview-every 1`처럼 명시했을 때만 저장한다. 생성 성공은 통과가 아니며, 다음 질문에 모두 답할 수 있을 때만 PNG를 승인한다.
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
@@ -40,7 +40,7 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
 
 카메라 앵글·렌즈 화각·피사계 심도의 조합 실험은 기본 생성기에서 제거했지만, 장면 계약으로 고정한 시점은 선택할 수 있다. 이 코드는 동일한 도약 동작에서 A씬의 협곡, B씬의 열린 지상 원경, C씬의 열린 수직 오버헤드를 선택해 한 단계로 완성 RGB를 생성한다. 기본 seed는 A `5420`, B `5421`, C `5422`다. 공통 이름은 `p7-5-3-scene-c-482731-seed-5422-s6`처럼 씬→실행 코드→seed→step 순서로 구성한다. 뒤에는 `-00-contract.json`, `-01-storyboard-rgb.png`, `-02-storyboard-depth.png`를 붙인다. 계약에는 전체 prompt, 공백 기준 `prompt_word_count`, 실행 조건, `scene_id`, 산출물별 파일명과 depth 모델을 기록한다. 실제 실행 로그에도 같은 단어 수를 출력한다.
 
-Prompt의 공통 인체 계약은 한 사람, 정확히 두 팔과 두 다리로 압축한다. 팔은 오른팔이 진행 방향을 가리킨다는 조건만 남기고, 다리는 한쪽이 진행 방향 앞으로 곧게, 다른 쪽이 뒤로 곧게 뻗는 앞뒤 스플릿만 남긴다. 손·발 총수, 관절 연결, 좌우 해부학 설명과 출력 규격에서 이미 정한 RGB·정사각형 표현은 제거한다. 씬별 문장은 A의 협곡과 B의 작은 인물·열린 수평선, C의 오버헤드·원거리 그림자 차이만 추가한다. 현재 공백 기준 단어 수는 A 64, B 77, C 77이다. 단어 수 감소나 자세 제약 축소가 인체 품질 개선을 보장하지는 않으므로 계약의 `prompt_word_count`와 실제 사지 검수를 함께 비교한다.
+Prompt의 공통 인체 계약은 한 사람, 정확히 두 팔과 두 다리로 압축한다. 팔은 오른팔이 진행 방향을 가리킨다는 조건만 남기고, 다리는 한쪽이 진행 방향 앞으로 곧게, 다른 쪽이 뒤로 곧게 뻗는 앞뒤 스플릿만 남긴다. 손·발 총수, 관절 연결, 좌우 해부학 설명과 출력 규격에서 이미 정한 RGB·정사각형 표현은 제거한다. 씬별 문장은 A의 넓은 협곡과 B의 작은 인물·열린 수평선, C의 오버헤드·원거리 그림자 차이만 추가한다. 현재 공백 기준 단어 수는 A 68, B 77, C 77이다. 단어 수 감소나 자세 제약 축소가 인체 품질 개선을 보장하지는 않으므로 계약의 `prompt_word_count`와 실제 사지 검수를 함께 비교한다.
 
 GPU를 쓰기 전에 `--dry-run`으로 후보 순서와 파일명을 확인할 수 있다.
 
@@ -67,82 +67,99 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
 | 확인 항목 | 통과 기준 |
 | --- | --- |
 | 인체 | 두 팔·두 다리·머리·몸통의 연결이 한 사람으로 읽힘 |
-| 자세와 가림 | 높은 대각선의 일자 든 다리·지지발·양팔이 한 사람의 자연스러운 균형 동작으로 읽힘 |
-| 접지와 공간 | 지지발 외곽이 사암·자갈 바닥과 분리되고, 가까운 절벽이 인물을 삼키지 않음 |
+| 자세와 가림 | 앞뒤로 뻗은 두 다리와 양팔이 한 사람의 공중 스플릿으로 읽힘 |
+| 발과 공간 | 두 발 외곽이 지면·절벽과 구분되고, 가까운 지형이 인물을 삼키지 않음 |
 | 기준 정보 | 짧은 단발과 검정 레오타드·타이즈가 다음 작화 단계의 최소 기준으로 읽힘 |
 
 사람 검수로 통과한 스토리보드 파일을 명시할 때만 guide를 만든다. 이 분리는 불완전한 인체나 지형의 오류가 후속 ControlNet·참조 병합의 입력으로 굳어지는 것을 막는다.
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --derive-guides-from docs/assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved.png \
+  --derive-guides-from docs/assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-rgb.png \
   --output-dir docs/assets/part-07/chapter-05
 ```
 
-압축한 최종 prompt로 생성한 A/B/C 결과를 사람 검수로 승인했다. 세 결과는 각각 고정 seed와 실행 계약 JSON을 함께 보존하며, RGB와 상대 depth의 대응 관계를 한 행에서 비교한다. 이 승인은 세 장면의 현재 스토리보드 기준을 고정한다는 뜻이며, 다른 seed·카메라·동작까지 자동으로 통과한다는 뜻은 아니다.
+압축한 최종 prompt로 생성한 A/B/C 결과를 사람 검수로 승인했다. 세 결과는 각각 고정 seed와 실행 계약 JSON을 별도 소스로 보존하고, 아래 표에서는 RGB와 상대 depth의 대응 관계만 한 행에서 비교한다. 이 승인은 세 장면의 현재 스토리보드 기준을 고정한다는 뜻이며, 다른 seed·카메라·동작까지 자동으로 통과한다는 뜻은 아니다.
 
 | 승인 장면 | RGB | 상대 depth |
 | --- | --- | --- |
-| A씬 — 좁은 협곡<br>[실행 계약 JSON](../../../assets/part-07/chapter-05/p7-5-3-scene-a-037414-seed-5420-s6-00-contract.json) | ![승인한 A씬 좁은 협곡 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-a-037414-seed-5420-s6-01-storyboard-rgb.png) | ![승인한 A씬 좁은 협곡 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-a-037414-seed-5420-s6-02-storyboard-depth.png) |
-| B씬 — 열린 지상 원경<br>[실행 계약 JSON](../../../assets/part-07/chapter-05/p7-5-3-scene-b-088266-seed-5421-s6-00-contract.json) | ![승인한 B씬 열린 공간 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-b-088266-seed-5421-s6-01-storyboard-rgb.png) | ![승인한 B씬 열린 공간 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-b-088266-seed-5421-s6-02-storyboard-depth.png) |
-| C씬 — 열린 수직 오버헤드<br>[실행 계약 JSON](../../../assets/part-07/chapter-05/p7-5-3-scene-c-288128-seed-5422-s6-00-contract.json) | ![승인한 C씬 수직 오버헤드 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-c-288128-seed-5422-s6-01-storyboard-rgb.png) | ![승인한 C씬 수직 오버헤드 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-c-288128-seed-5422-s6-02-storyboard-depth.png) |
+| A씬 — 넓은 협곡 | ![승인한 A씬 넓은 협곡 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-rgb.png) | ![승인한 A씬 넓은 협곡 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-depth.png) |
+| B씬 — 열린 지상 원경 | ![승인한 B씬 열린 공간 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-b-approved-storyboard-rgb.png) | ![승인한 B씬 열린 공간 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-b-approved-storyboard-depth.png) |
+| C씬 — 열린 수직 오버헤드 | ![승인한 C씬 수직 오버헤드 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-c-approved-storyboard-rgb.png) | ![승인한 C씬 수직 오버헤드 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-c-approved-storyboard-depth.png) |
 
-A씬은 두 팔·두 다리와 협곡의 깊이를 유지하지만 앞쪽 발끝이 오른쪽 절벽에 닿아 보인다. B씬은 열린 공간과 작은 인물 비율을 유지하지만 뒤쪽 다리가 접혀 있다. C씬은 두 팔·두 다리, 수직 오버헤드, 분리된 그림자를 함께 유지한다. 이 차이는 숨기지 않고 이후 guide 또는 리파인 단계에서 다시 확인할 관찰점으로 남긴다.
+A씬은 두 팔·두 다리, 앞뒤 스플릿과 넓어진 절벽 간격을 함께 유지하며 발끝도 절벽에서 분리된다. B씬은 열린 공간과 작은 인물 비율을 유지하지만 뒤쪽 다리가 접혀 있다. C씬은 두 팔·두 다리, 수직 오버헤드, 분리된 그림자를 함께 유지한다. 남은 차이는 숨기지 않고 이후 guide 또는 리파인 단계에서 다시 확인할 관찰점으로 남긴다.
 
-## depth 리파인은 별도 가설로 검증한다
+### 승인 스토리보드 생성 소스와 실행 계약
 
-승인 스토리보드를 만들 때는 외부 캐릭터 PNG를 넣지 않는다. 반면 후속 리파인에서는 **상대 depth가 공중 도약의 실루엣만 전달하고**, P7-5.2의 착장·얼굴 기준 이미지가 인물의 외형을 보완할 수 있는지를 별도로 시험할 수 있다. 두 흐름을 섞으면 캐릭터 참조가 스토리보드 자체를 통과시킨 것처럼 보일 수 있으므로, 이 실험 결과에서는 guide를 다시 만들지 않고 최종 컷에도 사용하지 않는다.
+이미지 비교표와 실행 원문을 섞지 않는다. Python과 장면별 JSON은 아래 패널을 펼칠 때만 불러온다.
 
-아래 실행은 상대 depth, 전·후면 착장 기준, 얼굴 정면 기준을 함께 넣어 배경 없는 한 명의 도약 인물을 만든다. 기본값은 3 step이며, 결과 파일과 같은 이름의 검수 JSON에는 가설과 확인 항목을 남긴다.
+<details id="p7-5-3-storyboard-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py" data-language="python">
+<summary>A/B/C 스토리보드 생성 Python 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-3-scene-a-approved-contract.json" data-language="json">A씬 실행 계약 JSON 보기</a></p>
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-3-scene-b-approved-contract.json" data-language="json">B씬 실행 계약 JSON 보기</a></p>
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-3-scene-c-approved-contract.json" data-language="json">C씬 실행 계약 JSON 보기</a></p>
+
+## depth와 전신 한 장의 역할을 분리한다
+
+승인 스토리보드를 만들 때는 외부 캐릭터 PNG를 넣지 않는다. 후속 리파인에서만 상대 depth가 포즈와 구도를, P7-5.2 전신 이미지가 외형을 전달할 수 있는지 따로 시험한다. 여러 방향의 전신을 한꺼번에 넣으면 서로 다른 중립 자세가 추가 인물로 해석될 수 있으므로, 현재 기본 경로는 장면 방향에 가까운 전신 한 장만 사용한다.
+
+<details id="p7-5-3-depth-character-scene-refine" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_refine_storyboard_four_outputs.py" data-language="python">
+<summary>depth와 캐릭터 리파인으로 장면을 그리는 Python 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+현재 `scene` 경로는 첫 입력으로 승인 상대 depth 또는 승인 RGB를, 두 번째 입력으로 장면 방향에 가까운 P7-5.2 승인 리파인 전신 한 장을 받는다. `--guide-type depth`에서는 첫 이미지가 카메라·프레이밍·포즈·공간 깊이를 맡는다. `--guide-type rgb`에서는 여기에 원래 장면의 색·조명·그림자까지 보존 대상으로 더한다. 전신 한 장은 두 모드 모두 신체 비례·얼굴·단발·복장만 맡는다. 정면 얼굴이나 개별 소품 PNG는 직접 넣지 않는다.
+
+`--scene A|B|C`를 고르면 선택한 guide 종류의 승인 자산과 방향별 기본 전신 한 장이 자동으로 연결된다. 기본 guide는 depth이며, RGB 비교에는 `--guide-type rgb`를 지정한다. 다른 첫 입력은 `--guide`, 다른 전신 기준은 `--body-references`로 바꾼다. 출력 크기는 첫 guide의 크기를 그대로 따르므로 현재 승인본은 `1152×1152`다.
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_refine_storyboard_four_outputs.py \
-  --stage depth-character \
-  --output-prefix p7-5-3-refine-hypothesis-depth-character
+  --scene A \
+  --guide-type depth \
+  --steps 6 \
+  --output-prefix p7-5-3-depth-character-scene
+
+python docs/assets/part-07/chapter-05/p7_5_3_refine_storyboard_four_outputs.py \
+  --scene A \
+  --guide-type rgb \
+  --steps 6 \
+  --output-prefix p7-5-3-rgb-character-scene
 ```
 
-![상대 depth와 착장·얼굴 기준을 함께 사용한 depth-character 가설 검증 결과](../../../assets/part-07/chapter-05/p7-5-3-refine-hypothesis-depth-character-depth-hash-eb58e6e519-seed-62377-steps-3-depth-character-stage.png)
+생성 뒤에는 카메라·포즈·사지 수가 첫 guide에서 유지됐는지, 얼굴·복장·가방이 전신 참조에서 옮겨왔는지 확인한다. 이 구조·캐릭터 수용 판정과 공간 원근·광원·그림자 판정은 아래 Depth/RGB 비교에서 함께 기록한다.
 
-| 검수 항목 | 이번 표본의 관찰 | 판정 |
-| --- | --- | --- |
-| 동작·프레이밍 | 공중 전진 도약, 두 팔·두 다리, 전신 프레이밍이 상대 depth의 큰 실루엣과 함께 남았다. | 통과 |
-| 얼굴·머리 | 밝은 피부, 청록 단발, 보이는 얼굴이 얼굴 정면 기준과 같은 방향으로 다시 나타났다. | 통과 |
-| 착장 | 배꼽 높이의 하이웨이스트·넓은 통·발목 위 밑단과 재킷 바깥의 대각선 가방 스트랩이 읽힌다. | 통과 |
-| 배경 분리 | 협곡·바닥을 다시 그리지 않고 옅은 중립 배경에 인물만 남겼다. | 통과 |
-| 신발 | 입력 착장 기준에 신발 참조가 없어서 맨발로 생성됐다. | 미통과 |
+### Depth와 RGB는 보존하는 정보가 다르다
 
-이 표본은 짧은 리파인 계약이 자세·얼굴·바지·가방 경로를 함께 보존할 수 있다는 **가설의 일부만** 뒷받침한다. 신발처럼 기준 이미지에 없는 항목은 prompt만으로 자동 보완됐다고 판단하지 않는다. 따라서 이 결과는 신발 기준을 추가할 다음 실험의 비교 기준이며, 승인 스토리보드나 최종 장면 자산이 아니다.
+첫 입력 종류만 바꾸고 `seed=62944`, 6 step, 장면별 전신 참조를 고정해 A/B/C를 다시 생성했다. 이 비교에서 depth는 밝기 단계로 표현된 상대적 공간 구조를 전달하지만 원래 RGB의 색과 조명을 직접 담지 않는다. RGB는 구조뿐 아니라 원래 배경의 표면·색·명암도 함께 보여 준다. 따라서 결과 차이는 단순한 품질 순위가 아니라 **첫 입력이 어떤 정보를 보존 대상으로 제공했는가**로 읽는다.
 
-### 구조 입력을 바꾼 세 경로 비교
+| A씬: Depth 참조 | A씬: RGB 참조 |
+| --- | --- |
+| ![A씬 승인 depth와 전신 한 장의 리파인 결과](../../../assets/part-07/chapter-05/p7-5-3-guide-compare-scene-a-code-e764be-seed-62944-steps-6-scene.png) | ![A씬 승인 RGB와 전신 한 장의 리파인 결과](../../../assets/part-07/chapter-05/p7-5-3-guide-compare-rgb-scene-a-code-44733f-seed-62944-steps-6-scene.png) |
+| 공중 스플릿은 읽히지만 오른발이 절벽에 닿고 지면 그림자가 없다. | 협곡의 원래 배치와 색을 더 직접적으로 이어받고 양발이 절벽에서 분리됐다. 그러나 지면 그림자는 여전히 없고 밝은 암벽의 하이라이트가 과도하다. |
 
-같은 seed `62377`, 3 step에서 구조 입력 경로만 바꿔 세 후보를 만들었다. RGB 직접 리파인은 착장·배경·얼굴을 차례로 거치는 3단계 경로다. 두 2단계 경로는 먼저 depth-character로 인물만 만들고, 두 번째 단계에서 RGB 또는 Canny와 상대 depth로 협곡을 붙인다. 따라서 이 표는 모델 일반 성능이 아니라, 이 장면에서 **어떤 입력 조합이 무엇을 잃는가**를 읽기 위한 비교다.
+| B씬: Depth 참조 | B씬: RGB 참조 |
+| --- | --- |
+| ![B씬 승인 depth와 전신 한 장의 리파인 결과](../../../assets/part-07/chapter-05/p7-5-3-guide-compare-scene-b-code-795688-seed-62944-steps-6-scene.png) | ![B씬 승인 RGB와 전신 한 장의 리파인 결과](../../../assets/part-07/chapter-05/p7-5-3-guide-compare-rgb-scene-b-code-3e2f7c-seed-62944-steps-6-scene.png) |
+| 열린 평원은 남지만 인물 그림자가 지형의 그림자와 다른 방향·길이로 나타난다. | 더 넓은 공간과 작은 인물 비율, 지면에서 분리된 그림자가 읽힌다. 반면 화면 왼쪽에 문자처럼 보이는 잡음이 생겼고 뒤쪽 다리의 굽힘도 남았다. |
 
-| RGB 직접 3단계 | depth-character → RGB 2단계 | depth-character → Canny 2단계 |
-| --- | --- | --- |
-| ![RGB 직접 전체 리파인 후보](../../../assets/part-07/chapter-05/p7-5-3-refine-rgb-full-storyboard-hash-058fe20bfd-seed-62377-steps-3-candidate.png) | ![depth-character 뒤 RGB를 쓴 2단계 후보](../../../assets/part-07/chapter-05/p7-5-3-refine-two-stage-rgb-storyboard-hash-f4b2a908f4-seed-62377-steps-3-background-stage.png) | ![depth-character 뒤 Canny를 쓴 2단계 후보](../../../assets/part-07/chapter-05/p7-5-3-refine-two-stage-canny-canny-hash-872d29f9a9-seed-62377-steps-3-background-stage.png) |
-| 협곡·신발까지 다시 나타났지만, 단계가 많아 원본 RGB의 재해석도 함께 일어난다. | 인물 기준의 얼굴·넓은 바지·짧은 밑단을 비교적 보존하지만, 1단계의 맨발이 그대로 남는다. | 인물 기준은 대체로 남지만 Canny 경계가 협곡 표면을 더 강하게 다시 해석하며, 맨발도 해결하지 못한다. |
+| C씬: Depth 참조 | C씬: RGB 참조 |
+| --- | --- |
+| ![C씬 승인 depth와 전신 한 장의 리파인 결과](../../../assets/part-07/chapter-05/p7-5-3-guide-compare-scene-c-code-6fcac1-seed-62944-steps-6-scene.png) | ![C씬 승인 RGB와 전신 한 장의 리파인 결과](../../../assets/part-07/chapter-05/p7-5-3-guide-compare-rgb-scene-c-code-d9b2ee-seed-62944-steps-6-scene.png) |
+| 오버헤드 배경과 정면에 가까운 인체가 충돌하고 그림자가 없어 누운 자세처럼 보인다. | 인물과 떨어진 전신 그림자가 생겨 공중 높이가 가장 분명해졌고, 오버헤드 인체 원근도 개선됐다. 다만 인물의 크기와 사지 각도는 승인 RGB와 완전히 같지 않다. |
 
-이 비교에서 바로 한 경로를 최종 경로로 고르지 않는다. 신발처럼 누락되면 안 되는 항목은 별도 기준 이미지나 명시적 후속 보정으로 해결할 문제이며, 현재 세 후보 모두 승인 스토리보드를 대체하지 않는다.
-
-## LoRA 전환에는 별도 데이터와 학습 환경이 필요하다
-
-다중참조만으로 얼굴과 복장이 약하게 섞이면 LoRA를 검토할 수 있다. 현 경로에 맞는 모델은 Apache-2.0인 **FLUX.2 Klein 4B Base**다. 학습은 Base checkpoint에서 하고, 완성한 adapter는 빠른 distilled 4B 추론 모델에 붙인다.
-
-하지만 이는 현재 8 GB GPU에서 바로 실행할 다음 단계는 아니다. 공식 Klein LoRA 안내는 4B Base 학습을 약 24 GB VRAM·RTX 4090급에서 검증했다. 8 GB는 현재 승인 스토리보드 생성·다중참조 추론에는 맞지만, LoRA 학습 승인 기준에는 미달이다. FLUX.1-dev QLoRA의 약 9 GB 사례도 8 GB보다 크고 base model의 비상업 라이선스가 현재의 개방 라이선스 기준과 맞지 않는다.
-
-학습을 시작하려면 먼저 올바른 데이터를 확보한다. 스타일·캐릭터 LoRA는 서로 다른 구도와 시점을 가진 15–40장의 검수된 이미지와 각 이미지의 내용 caption·동일 trigger word가 필요하다. 현재 P7-5.2의 23개 자산은 얼굴·전신·소품 기준 보드가 섞여 있어 그대로는 이 조건을 충족하지 않는다. 실패하거나 왜곡된 생성 이미지를 늘려 학습 데이터로 삼으면 얼굴·복장 오류를 adapter에 고정하므로 사용하지 않는다.
-
-구도 보존과 캐릭터 교체를 함께 학습하려면 스타일 LoRA보다 **edit LoRA**가 더 직접적이다. 이 경우 승인 스토리보드 같은 입력과, 같은 포즈·구도에서 캐릭터·복장이 완성된 목표 이미지를 파일명별로 짝지은 50–200개의 검수된 쌍이 필요하다. 이 데이터와 24 GB 이상 학습 환경을 확보한 뒤에만 별도 실험으로 진행한다.
+세 쌍에서 얼굴·복장은 두 입력 모두 옮겨왔지만 공간·조명·그림자는 모두 완성 컷 기준에 미달했다. RGB 참조는 이 세 항목을 대체로 더 잘 보존했고, 특히 C씬에서는 분리된 그림자가 공중 도약을 읽게 했다. 그러나 B씬의 문자형 잡음과 장면별 자세 변화가 보여 주듯 RGB도 원본 픽셀을 그대로 고정하지 않는다. 따라서 depth 결과는 구조 단순화 실험, RGB 결과는 공간·조명 보존 실험으로만 수용한다. 이 비교의 어느 이미지도 공간·조명·그림자까지 승인한 최종 컷이 아니다.
 
 ## 체크리스트
 
 - 후보 PNG를 guide나 후속 생성 입력으로 쓰기 전에 사람이 인체·가림·접지·거리 조건을 확인했는가?
-- 미통과 후보와 그 후보에서 뽑은 guide를 함께 삭제했는가?
+- 미통과 후보는 승인 입력에서 제외하고, 재실험을 막는 검수 기록과 구분해 관리했는가?
 - 승인한 한 장이 생긴 뒤에도 다른 seed·카메라·동작에서 같은 결과가 자동으로 보장된다고 가정하지 않는가?
 
 ## 출처와 참고 자료
 
-- FLUX.2 Klein 4B는 텍스트 생성과 단일·다중 참조 이미지 편집을 지원하며 Apache-2.0으로 배포된다. 이 절에서는 텍스트만으로 장면 후보를 만들고, 사람 검수 뒤에만 파생 guide를 만든다. [FLUX.2 공식 저장소](https://github.com/black-forest-labs/flux2){: target="_blank" rel="noopener noreferrer"}, [FLUX.2 Klein 4B 모델 카드](https://huggingface.co/black-forest-labs/FLUX.2-klein-base-4b-fp8){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-07)
-- FLUX.2 Klein LoRA의 공식 학습 안내는 Base 4B에서의 학습, 15–40장 스타일 데이터, 24 GB VRAM·RTX 4090급, 그리고 adapter를 distilled 4B 추론에 로드하는 흐름을 제시한다. edit LoRA는 입력·목표 이미지의 짝 데이터와 `control_path`를 사용한다. [FLUX.2 Klein LoRA 안내](https://huggingface.co/blog/black-forest-labs/flux-2-klein-lora){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-07)
-- FLUX.1-dev QLoRA는 4-bit base·8-bit optimizer·gradient checkpointing·latent/text embedding cache를 함께 써도 공식 사례의 peak가 약 9 GB이며, 본 절의 8 GB·Apache-2.0 기준을 충족하는 대체 학습 경로로 보지 않는다. [Diffusers FLUX.1 QLoRA 안내](https://huggingface.co/blog/flux-qlora){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-07)
-- SDXL inpaint는 mask 영역만 다시 그릴 수 있고, IP-Adapter Plus Face는 잘라낸 얼굴 이미지 조건을 SDXL에 넣을 수 있다. 이 절에서는 전신을 다시 생성하지 않는 국소 얼굴·헤어 보정 후보로만 검수한다. [Diffusers inpainting 안내](https://huggingface.co/docs/diffusers/main/api/pipelines/stable_diffusion/inpaint){: target="_blank" rel="noopener noreferrer"}, [Diffusers IP-Adapter 안내](https://huggingface.co/docs/diffusers/v0.31.0/using-diffusers/ip_adapter){: target="_blank" rel="noopener noreferrer"}, [IP-Adapter Plus Face SDXL 가중치](https://huggingface.co/h94/IP-Adapter/blob/main/sdxl_models/ip-adapter-plus-face_sdxl_vit-h.safetensors){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-07)
+- FLUX.2 Klein 4B는 텍스트 생성과 단일·다중 참조 이미지 편집을 지원하며 Apache-2.0으로 배포된다. 이 절에서는 텍스트로 스토리보드 후보를 만들고, 사람 승인 뒤 상대 depth와 전신 한 장을 분리된 역할로 사용한다. [FLUX.2 공식 저장소](https://github.com/black-forest-labs/flux2){: target="_blank" rel="noopener noreferrer"}, [FLUX.2 Klein 4B 모델 카드](https://huggingface.co/black-forest-labs/FLUX.2-klein-base-4b-fp8){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-07)
