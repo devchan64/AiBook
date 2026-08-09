@@ -15,6 +15,63 @@
 
 구도 보존과 캐릭터 교체를 함께 학습하려면 입력 이미지와 목표 이미지를 짝짓는 **edit LoRA** 형식이 더 직접적이다. 공식 안내는 `control_path`로 이 쌍을 연결하지만 보편적인 최소 쌍 수를 보장하지 않는다. 따라서 필요한 데이터 수는 임의로 확정하지 않고, 같은 포즈·구도에서 캐릭터·복장이 완성된 검수 쌍과 별도 학습 환경을 확보한 뒤 실험으로 정한다.
 
+## 8 GB에서 확인할 순서는 실행 가능성과 품질을 섞지 않는다
+
+8 GB에서 RAM이나 SSD를 보조로 쓰는 실행기는 VRAM을 물리적으로 늘리는 장치가 아니다. 현재 쓰지 않는 가중치를 CPU RAM 또는 디스크에 두었다가 GPU로 옮기는 방식이므로, 실행이 끝났다는 사실만으로 웹툰 컷의 품질이나 학습 가능성을 뜻하지 않는다. CUDA Unified Memory도 하드웨어·운영체제 조건에 따라 메모리 초과 할당과 페이지 이동을 지원하지만, 이동과 page fault가 반복되면 속도가 크게 떨어질 수 있다. 특히 Windows와 WSL에서는 oversubscription 조건이 더 제한적이다.
+
+따라서 아직 전체 frame을 통과한 P7-5.3 컷이 없는 현재 단계에서는, 아래 순서를 **제작 컷이 아닌 권리·입력 조건이 확인된 고정 시험 이미지**에서 먼저 확인한다. 시험용 이미지의 통과는 P7-5.3 장면의 승인이 아니며, 그 장면을 inpaint할 권한도 만들지 않는다.
+
+| 순서 | 비교할 수단 | 고정 조건과 기록 | 다음 단계로 갈 조건 |
+| --- | --- | --- | --- |
+| 0 | 실행 환경 | GPU·드라이버·OS·CUDA, 물리 VRAM, RAM, SSD 여유 공간을 기록한다. | 외부 GPU에서 CUDA가 실제로 보인다. |
+| 1 | SDXL inpaint 실행기 | 기존 Diffusers sequential CPU offload와 ComfyUI Dynamic VRAM을 같은 모델·mask·seed·해상도로 비교한다. VRAM peak, RAM, SSD I/O, 장당 시간을 남긴다. | 둘 중 하나가 OOM 없이 반복 실행된다. |
+| 2 | 저정밀 추론 | 같은 SDXL inpaint에서 FP8 layerwise casting 또는 4-bit 양자화를 한 번에 하나씩 비교한다. 원본과 mask 경계·색·얼굴 손상을 함께 판정한다. | 기준 실행보다 메모리 또는 시간이 개선되고 품질 하락이 허용 범위다. |
+| 3 | LoRA 최소 학습 | SD 1.5, `512 x 768`, batch 1에서 style과 character를 섞지 않은 소규모 LoRA를 학습한다. 데이터 권리, caption, loss, peak VRAM, sample grid를 남긴다. | 학습이 끝나고 held-out prompt에서 trigger와 화풍 또는 인물성 중 하나를 재현한다. |
+| 4 | LoRA와 국소 편집의 결합 | 통과한 adapter 하나만 SD 1.5 inpaint checkpoint에 연결하고, LoRA 없음/on을 같은 mask·seed로 비교한다. 이어서 수동 mask와 DiffEdit 자동 mask를 같은 수정 요청에서 비교한다. | 변경 영역 밖의 화풍·인물성이 유지되고, 경계 누수와 새 구조 오류가 없다. |
+| 5 | 제작 컷 적용 | P7-5.3의 전체 frame이 별도 검수를 통과한 뒤에만, 통과한 한 조합을 얼굴·손·발·소품의 승인 mask에 적용한다. | 네 컷 ledger에서 identity·structure·style·local detail이 모두 통과한다. |
+
+ComfyUI Dynamic VRAM은 메모리 운영을 바꾸는 후보이고, SDXL inpaint의 화풍·인물 품질을 보장하는 모델 교체가 아니다. Diffusers의 FP8 layerwise casting과 4-bit 양자화도 가중치 저장 메모리를 줄일 수 있지만 활성값 peak와 출력 품질은 별도로 측정해야 한다. 특히 layerwise casting은 PEFT/LoRA가 들어간 사용자 정의 경로에서 호환되지 않을 수 있으므로, LoRA를 붙이기 전과 후를 분리한다.
+
+SD 3.5 Medium의 4-bit 추론은 현대적인 저정밀 base의 별도 후보로 남긴다. 그러나 이 절의 목표인 LoRA와 mask inpaint를 같은 계약으로 비교할 공식 inpainting checkpoint를 확인하지 못했으므로, 순서 1–4의 기준선으로 바꾸지 않는다. T2I-Adapter와 StyleAligned도 각각 구조 제어와 학습 없는 화풍 일관성의 연구 후보이지만, T2I-Adapter의 공식 SDXL 예시는 최소 15 GB 추론을 명시하고 StyleAligned의 8 GB 재현 조건도 확인되지 않았다. 현재 8 GB 실험 순서에는 넣지 않고, 기준선이 통과한 뒤 별도 비교로만 다룬다.
+
+## DiffEdit 자동 mask의 첫 8 GB 결과
+
+가장 작은 추가 모델 경로가 실제로 국소 보정을 대신할 수 있는지 먼저 확인했다. P7-5.2의 승인 전신 정면을 **고정 시험 입력**으로 두고, charcoal crop top에 cropped white jacket을 추가하라는 목표 prompt로 DiffEdit mask를 만들었다. 이 입력은 P7-5.3의 승인 full-frame 컷이 아니므로, 이 실행은 제작 컷 보정이나 승인 후보 생성이 아니라 자동 mask의 실행·실패 조건을 확인하는 preflight다.
+
+![DiffEdit 첫 8 GB probe: 고정 입력, 자동 mask, 편집 출력](../../../assets/part-07/chapter-05/p7-5-4-diffedit-first-probe-contact-sheet.png)
+
+`512 x 768`, 20 step, mask map 4개, seed `5404`에서 SD 1.5 base와 DiffEdit만 사용했다. sequential CPU offload와 attention slicing으로 실행은 `20.6초`, 관측 peak VRAM은 `2,723 MiB`였고, ControlNet·IP-Adapter·LoRA는 추가하지 않았다. 따라서 **8 GB에서 실행 가능**이라는 항목은 통과했다.
+
+그러나 자동 mask는 재킷이 있어야 할 몸통에 머물지 않고 머리·얼굴·바지·신발·바닥까지 넓게 잡았다. 출력은 흰 cropped jacket 대신 로고처럼 보이는 어두운 상의를 만들었고, 얼굴·머리·신발도 함께 바꿨다. 즉 변경 영역 밖 보존, 요청한 의상 반영, 경계 누수 없음의 세 품질 gate는 모두 실패했다. 이 PNG를 제작 자산이나 후속 inpaint 입력으로 승인하지 않으며, DiffEdit은 현재 **자동 mask 실패 대조군**으로만 보관한다.
+
+prompt와 mask 설정을 바꾼 반복도 세 번으로 닫았다. threshold를 `8.0`으로 높이고 mask encode strength를 `0.2`로 낮춘 첫 반복은 `35.1초`, peak `6,336 MiB`에서 mask 확산을 줄였지만 재킷 영역까지 거의 없애 버렸다. threshold를 `5.0`으로 완화하고 목표를 white cropped jacket 하나로 줄인 마지막 반복은 `34.0초`, peak `7,236 MiB`였지만, 다시 얼굴·바지·신발까지 선택했고 상의·허리띠 artifact만 남겼다.
+
+| 설정 | mask 판정 | 요청 편집 | 편집 밖 보존 | 판정 |
+| --- | --- | --- | --- |
+| 초기 20 step, ratio 3.0 | 전신·바닥으로 확산 | 흰 재킷 실패 | 얼굴·머리·신발 변경 | fail |
+| 반복 30 step, ratio 8.0 | 지나치게 희소 | 재킷을 거의 바꾸지 않음 | 작은 비의도 변경 | fail |
+| 반복 30 step, ratio 5.0, 재킷+상의 | 얼굴·하체·신발로 재확산 | 재킷 실패 | 작은 의상·신발 artifact | fail |
+| 반복 30 step, ratio 5.0, 단일 의상 목표 | 얼굴·하체·신발로 재확산 | 흰 재킷 대신 상의·허리띠 artifact | 비의도 변경 | fail |
+
+![DiffEdit 반복 3: 단일 의상 목표와 완화한 threshold](../../../assets/part-07/chapter-05/p7-5-4-diffedit-repeat-03-contact-sheet.png)
+
+따라서 다음 비교는 DiffEdit의 prompt나 step을 계속 늘리는 것이 아니다. 전체 frame이 통과한 panel이 생긴 뒤, 사람이 제한한 mask와 같은 수정 요청을 나란히 놓아 자동 mask가 정말 필요한지 판단한다. 그 전까지는 이 반복 실패 결과로 DiffEdit을 제작 파이프라인에서 제외한다.
+
+<details id="diffedit-first-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_diffedit_first_probe.py" data-language="python">
+<summary>DiffEdit 첫 8 GB probe 전문 보기</summary>
+<div class="aibook-lazy-source__body">`--steps`와 `--mask-maps`를 바꾸면 자동 mask·VRAM·시간이 어떻게 달라지는지 다시 확인할 수 있습니다.</div>
+</details>
+
+<details id="diffedit-first-probe-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-diffedit-first-probe-review.json" data-language="json">
+<summary>DiffEdit 첫 probe 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">실행 조건과 자동 mask·보존·요청 편집의 실패 판정을 확인합니다.</div>
+</details>
+
+<details id="diffedit-repeat-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-diffedit-repeat-review.json" data-language="json">
+<summary>DiffEdit 반복 실험 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">세 설정의 mask 범위, 출력 보존, VRAM·시간과 제외 결정을 확인합니다.</div>
+</details>
+
 ## 한 컷에 하나의 주 제어만 둔다
 
 | panel | 진입 전략 | 주 ControlNet | 먼저 통과할 항목 | inpaint 대상 |
@@ -136,5 +193,13 @@ P7-5.4에서 inpaint를 검토할 수 있는 조건도 같다. 먼저 P7-5.3에�
 - Hugging Face, [Diffusers IP-Adapter guide](https://huggingface.co/docs/diffusers/v0.36.0/using-diffusers/ip_adapter){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-03.
 - Comfy-Org, [ControlNet workflow](https://docs.comfy.org/tutorials/controlnet/controlnet){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-02.
 - Comfy-Org, [Inpainting](https://docs.comfy.org/tutorials/basic/inpaint){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-02.
+- NVIDIA, [Unified and System Memory](https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/understanding-memory.html){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. CUDA Unified Memory의 운영체제·하드웨어별 조건, Linux HMM/ATS와 Windows·WSL 제한을 확인했다.
+- Comfy-Org, [Changelog](https://docs.comfy.org/changelog){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. Dynamic VRAM, FP16 intermediates, FP8·동적 offload 관련 변경을 확인했다.
+- Hugging Face, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. sequential/group/disk offload와 layerwise casting의 메모리·속도·PEFT 호환성 한계를 확인했다.
+- Hugging Face, [SDXL Inpainting 0.1](https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. SDXL inpaint 기준 checkpoint와 라이선스·학습 해상도를 확인했다.
+- Hugging Face, [DiffEdit](https://huggingface.co/docs/diffusers/v0.17.0/api/pipelines/diffedit){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. prompt 차이로 semantic edit mask를 추정하는 비교 수단을 확인했다.
+- Hugging Face, [SD 3.5 Medium](https://huggingface.co/stabilityai/stable-diffusion-3.5-medium){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 공식 4-bit 추론 예시와 모델 라이선스를 확인했다.
+- Tencent ARC, [T2I-Adapter](https://github.com/TencentARC/T2I-Adapter){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 공식 SDXL 예시의 최소 15 GB 추론 조건을 확인했다.
+- Hertz et al., [StyleAligned](https://style-aligned-gen.github.io/){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 학습 없이 reference style을 공유 attention으로 맞추는 연구 후보와 재현 조건의 한계를 확인했다.
 - Black Forest Labs, [FLUX.2 Klein LoRA 학습 안내](https://huggingface.co/blog/black-forest-labs/flux-2-klein-lora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. Base 4B 학습, 15–40장 스타일 예시, 약 24 GB VRAM의 공식 예제 조건과 edit LoRA의 `control_path` 형식을 확인했다.
 - Hugging Face, [FLUX.1-dev QLoRA 안내](https://huggingface.co/blog/flux-qlora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. 공식 사례의 약 9 GB peak와 저메모리 설정을 비교 근거로 사용했다.
