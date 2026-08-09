@@ -1,7 +1,7 @@
 # P7-5.3 스토리보드 생성: FLUX 후보를 guide 이전에 검수하기
 
 > Section ID: `P7-5.3`
-> Version: `v2026.08.08`
+> Version: `v2026.08.09`
 
 이 절의 목적은 예쁜 한 장을 고르는 일이 아니라, 이후 단계가 믿고 읽을 수 있는 장면 기준을 만드는 일이다. 스토리보드의 인체·발·절벽·앞뒤 관계가 무너지면, 그 PNG에서 뽑은 Canny·상대 depth도 같은 오류를 구조 조건으로 전달한다. 따라서 후보 생성, 사람 승인, guide 추출, 참조 비교를 차례로 분리하며, 형상이 읽히지 않는 출력은 guide로 넘기지 않고 폐기한다.
 
@@ -9,91 +9,45 @@
 
 현재 생성 경로는 FLUX.2 Klein 4B만 사용한다. 인체·가림·접지 검수를 통과한 PNG만 다음 guide 단계로 넘긴다.
 
+이 절에서 현재 고정한 구도와 동작은 **A씬**으로 정의한다. A씬은 넓고 완만하게 높은 구도에서 화면 오른쪽으로 전진 도약하는 현대무용수와 양옆·뒤의 협곡을 함께 담는 장면이다. 이후 다른 장면을 추가하더라도 A씬의 prompt와 판정 기록은 독립된 장면 계약으로 유지한다.
+
+**B씬**은 A씬과 동일한 인물·도약 동작·시선을 유지하면서 공간 규모와 인물 비율을 바꾼다. 먼 거리의 와이드 설정 숏으로 인물 전신을 화면 높이의 약 35~40%만 차지하게 하고, 위·아래·좌·우에 넉넉한 여백을 둔다. 좁고 높은 협곡 대신 낮은 수평선까지 사암·자갈 바닥이 멀리 이어지고, 작은 암석 지형만 원경에 놓인 열린 공간을 사용한다. 가까운 절벽이나 벽이 화면을 둘러싸지 않게 하므로, A/B 비교에서는 동일 동작이 공간 규모에 따라 어떻게 읽히는지 확인한다.
+
+**C씬**은 B씬의 넓은 사암·자갈 공간과 동일 동작을 유지하면서 카메라를 수직 오버헤드로 옮긴다. 인물은 화면 높이 약 40%를 목표로 한다. Prompt의 높이 계약은 `높이 떠 있는 인물·멀리 떨어진 작고 부드러운 전신 그림자`만 남긴다. 수평선 없이 주변 지면과 자연스러운 원근 단축이 보이게 하며 사지 수 기준은 그대로 적용한다. B/C 비교에서는 열린 공간을 고정하고 시선 방향만 지상 원경에서 수직 하향으로 바꾼다.
+
 | 고정 항목 | FLUX.2 Klein 4B |
 | --- | --- |
 | 기본 seed | `5420` |
-| 해상도·step | `768 x 1152`, 캐릭터 3 step + 배경 3 step |
+| 해상도·step | `1152 x 1152`, 단일 생성 6 step |
 | 인물 | 턱선 길이 단발, 긴 머리·포니테일 제외 |
-| 자세·시선 | 넓은 하이 앵글 뷰에서 인물 전신과 협곡 바닥·절벽 지형을 함께 보인다. 정확한 카메라 거리·탑뷰 각도는 고정하지 않는다. 인물은 앞쪽 진행 방향으로 뛰어 나가는 현대무용수다. 한 다리는 앞쪽으로 뻗고 다른 다리는 뒤로 길게 뻗는다. 눈과 얼굴은 화면 오른쪽을 본다. 팔의 개수·방향·위치는 별도로 지정하지 않는다. |
+| 자세·시선 | 인물은 화면 오른쪽 앞으로 높이 뛰며, 점프 정점에서 오른다리를 곧게 앞으로, 왼다리를 곧게 뒤로 뻗어 앞뒤로 크게 찢는 스플릿 점프를 한다. 팔 자세는 오른팔을 화면 오른쪽으로 뻗는 조건 하나만 둔다. 정확히 두 팔·두 손·두 다리·두 발만 요구하며 눈과 얼굴은 화면 오른쪽을 본다. |
 | 공간 | 밝은 사암·자갈의 자연 계곡 바닥이 가까운 절벽 밑으로 이어짐. 기암절벽은 인물의 양옆과 뒤에 즉시 솟아 좁은 협곡을 이루되, 인물 외곽과는 좁은 보이는 간격을 둠 |
 
-아래 [FLUX 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 후보 PNG만 만든다. 첫 단계는 중립 배경에서 인물과 동작을 prompt로만 만들고, 둘째 단계는 그 생성 결과만 입력으로 받아 인물의 포즈·실루엣·비율을 바꾸지 않은 채 협곡 배경만 추가한다. 얼굴·전신·복장 같은 외부 캐릭터 특징 PNG는 어느 단계에도 입력하지 않는다. 두 단계의 기본값은 각각 3 step이며, `--character-steps`와 `--background-steps`로 따로 바꿀 수 있다. 생성 성공은 통과가 아니며, 다음 질문에 모두 답할 수 있을 때만 PNG를 승인한다.
-
-동작 자체를 먼저 검수하려면 `--character-only`로 1차 캐릭터 PNG만 만들 수 있다. 이 옵션은 2차 배경 생성을 호출하지 않으므로, 동작·시선·전신 실루엣의 오류를 협곡 배경 재해석과 분리해 확인할 수 있다.
-
-1차를 통과한 캐릭터 PNG만 2차에 넣으려면 `--character-from`에 그 파일을 명시한다. 이 옵션은 1차를 다시 만들지 않고, 해당 PNG의 인물 포즈·실루엣·복장을 유지한 채 협곡 배경만 생성한다.
-
-이미 검수할 배경 후보가 있다면 `--background-from`에 그 파일을 명시해 기존처럼 캐릭터 단계만 실행할 수 있다. 이는 순서 전환 전의 단독 실험을 재현하기 위한 호환 경로이며, 기본 2단계 경로는 캐릭터→배경 순서다.
+아래 [FLUX 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 한 번의 text-to-image 호출로 인물과 공간이 포함된 완성 RGB를 직접 만들고, 그 RGB에서 상대 depth를 추출한다. 따라서 생성 단계는 하나이며 중간 캐릭터 PNG나 배경 편집 입력을 만들지 않는다. 기본 해상도는 `1152×1152`다. 최종 산출물은 **RGB와 상대 depth 두 종류로 항상 함께 출력**한다. depth 생성에 실패하면 RGB 단독 결과도 남기지 않아 두 파일의 대응 관계를 지킨다. 기본 생성 반복 수는 6 step이며 `--steps`로 조정한다. 단계별 preview는 기본적으로 끄고 `--preview-every 1`처럼 명시했을 때만 저장한다. 생성 성공은 통과가 아니며, 다음 질문에 모두 답할 수 있을 때만 PNG를 승인한다.
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --seed 5420 --runs 1 \
-  --background-steps 3 --character-steps 3
+  --scene A --seed 5420 --runs 1 --steps 6
 
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --seed 5420 \
-  --background-from docs/assets/part-07/chapter-05/example-background.png \
-  --character-steps 12
+  --scene B --seed 5421 --runs 1 --steps 6
+
+python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
+  --scene C --seed 5422 --runs 1 --steps 6
 ```
 
-## 카메라 관점은 RGB 후보마다 하나의 계약으로 고정한다
+## 스토리보드 생성기는 한 장면 계약만 다룬다
 
-달리기·전진 도약 장면에서 카메라 위치와 렌즈까지 seed에 맡기면, 인체 오류인지 구도 차이인지 나중에 분리하기 어렵다. 그래서 이 실험은 **카메라 관점**과 **렌즈·화각**을 별도 후보 계약으로 둔다. 한 번의 비교에서는 다른 축, seed·해상도·두 단계의 step을 같게 유지한다. 이는 영화 촬영의 모든 샷 크기 문법을 분류하는 목록이 아니라, 현재의 세로 전신 스토리보드에서 위치·높이·기울기와 화각·원근 인상을 분리해 관찰하기 위한 작업용 선택지다.
+카메라 앵글·렌즈 화각·피사계 심도의 조합 실험은 기본 생성기에서 제거했지만, 장면 계약으로 고정한 시점은 선택할 수 있다. 이 코드는 동일한 도약 동작에서 A씬의 협곡, B씬의 열린 지상 원경, C씬의 열린 수직 오버헤드를 선택해 한 단계로 완성 RGB를 생성한다. 기본 seed는 A `5420`, B `5421`, C `5422`다. 공통 이름은 `p7-5-3-scene-c-482731-seed-5422-s6`처럼 씬→실행 코드→seed→step 순서로 구성한다. 뒤에는 `-00-contract.json`, `-01-storyboard-rgb.png`, `-02-storyboard-depth.png`를 붙인다. 계약에는 전체 prompt, 공백 기준 `prompt_word_count`, 실행 조건, `scene_id`, 산출물별 파일명과 depth 모델을 기록한다. 실제 실행 로그에도 같은 단어 수를 출력한다.
 
-| 옵션 | 작업용 한국어 이름 | 프레이밍에서 먼저 볼 것 |
-| --- | --- | --- |
-| `eye-level` | 아이레벨 정면 | 자연스러운 수평선과 전신 비율 |
-| `low-angle` | 로우 앵글 | 바닥에서 올려다본 인물·절벽의 크기 관계 |
-| `extreme-low-angle` | 강화 로우 앵글(웜스아이) | 지면에 붙은 시점에서도 전신 실루엣이 읽히는지 |
-| `high-angle` | 하이 앵글 | 인물 뒤로 물러나는 협곡 바닥 |
-| `bird-eye` | 버드아이 | 위에서 본 전신 실루엣과 바닥 경로 |
-| `overhead` | 수직 오버헤드 | 바로 위에서 본 전신과 협곡 바닥 패턴 |
-| `dutch` | 더치 앵글 | 약 20도 기울어진 화면에서도 중력·인체가 유지되는지 |
-| `left-profile` | 왼쪽 프로필 | 진행 방향에 수직인 옆 실루엣 |
-| `front-three-quarter` | 정면 3/4 | 얼굴과 진행 방향을 함께 읽을 수 있는지 |
-| `rear-three-quarter` | 후면 3/4 | 등·진행 방향·협곡의 깊이 관계 |
-| `front-on` | 정면 | 진행 방향과 일치하는 정면 전신 |
-| `rear-on` | 후면 | 진행 방향과 일치하는 후면 전신 |
+Prompt의 공통 인체 계약은 한 사람, 정확히 두 팔과 두 다리로 압축한다. 팔은 오른팔이 진행 방향을 가리킨다는 조건만 남기고, 다리는 한쪽이 진행 방향 앞으로 곧게, 다른 쪽이 뒤로 곧게 뻗는 앞뒤 스플릿만 남긴다. 손·발 총수, 관절 연결, 좌우 해부학 설명과 출력 규격에서 이미 정한 RGB·정사각형 표현은 제거한다. 씬별 문장은 A의 협곡과 B의 작은 인물·열린 수평선, C의 오버헤드·원거리 그림자 차이만 추가한다. 현재 공백 기준 단어 수는 A 64, B 77, C 77이다. 단어 수 감소나 자세 제약 축소가 인체 품질 개선을 보장하지는 않으므로 계약의 `prompt_word_count`와 실제 사지 검수를 함께 비교한다.
 
-렌즈는 별도로 아래 다섯 프로필을 쓴다. 수치는 35 mm 풀프레임 환산값이며, 실제 생성 모델이 물리 렌즈를 장착하는 것은 아니다. 광각은 넓은 화각과 가까운 카메라 거리의 조합으로 앞뒤 깊이를 강조하고, 망원은 멀리서 본 좁은 화각으로 배경이 가까워 보이는 인상을 시험한다. 이 인상은 렌즈 자체만의 효과가 아니라, 같은 인물 크기를 유지하려고 달라지는 카메라 거리와 함께 해석해야 한다. [Sony Lens Basics](https://www.sony.com/electronics/support/articles/00268239){: target="_blank" rel="noopener noreferrer"}, [Sony: focal length, angle of view, and perspective](https://www.sony.com/en-qa/electronics/focal-length-angle-of-view-perspective){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-08)
-
-| 옵션 | 작업용 한국어 이름 | 비교할 인상 |
-| --- | --- | --- |
-| `ultra-wide` | 초광각 18 mm | 가까운 전경과 크게 벌어진 앞뒤 깊이 |
-| `wide` | 광각 24 mm | 넓은 협곡과 강조된 깊이 |
-| `standard` | 표준 50 mm | 자연스러운 화각 기준선 |
-| `short-telephoto` | 중망원 85 mm | 완만하게 압축된 협곡 깊이 |
-| `telephoto` | 망원 135 mm | 멀리서 본 전신과 강하게 압축된 깊이 |
-
-한 관점만 만들 때는 `--camera-angle`, 한 렌즈만 고를 때는 `--lens`를 쓴다. 기본값은 기존의 높은 시점과 가까운 `high-angle` 및 표준 `50 mm`다. 아래 명령은 같은 seed `5420`과 기본 3+3 step으로 선택한 표준 렌즈의 12개 **RGB 스토리보드 후보**를 각각 만든다. `--all-lenses`는 선택한 관점에서 5개 렌즈를 비교한다. 두 옵션을 함께 쓰면 12 × 5, 총 60개의 후보를 생성하므로 먼저 한 축만 비교하는 것을 기본값으로 둔다. 파일명과 해시에는 카메라·렌즈 옵션 및 prompt 계약이 포함되므로, 후보를 섞지 않고 검수할 수 있다. 이 옵션들은 guide나 depth를 만들지 않는다.
+GPU를 쓰기 전에 `--dry-run`으로 후보 순서와 파일명을 확인할 수 있다.
 
 ```bash
 python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --seed 5420 --all-camera-angles \
-  --output-dir docs/assets/part-07/chapter-05
-
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --seed 5420 --camera-angle extreme-low-angle --all-lenses \
-  --output-dir docs/assets/part-07/chapter-05
+  --seed 5420 --runs 3 --dry-run
 ```
-
-기본값은 모든 화면에서 캐릭터 3 step + 배경 3 step이다. 이 기본값을 먼저 고정해야 카메라와 렌즈의 차이를 비교할 수 있다. 이후 사람 검수에서 특정 화면만 더 긴 복원이 필요하다는 가설이 생기면 `--shot-steps CAMERA/LENS=CHARACTER,BACKGROUND`로 **그 화면만** 조정한다. 예를 들어 강화 로우 앵글·초광각 조합의 인체만 다시 검수하려면 다음처럼 쓴다. 이 조정은 새 비교 계약이므로, 기존 3+3 후보와 같은 품질 표본으로 합치지 않는다.
-
-```bash
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --seed 5420 --camera-angle extreme-low-angle --lens ultra-wide \
-  --shot-steps extreme-low-angle/ultra-wide=5,4 \
-  --output-dir docs/assets/part-07/chapter-05
-```
-
-GPU를 쓰기 전에 계약만 확인하려면 다음처럼 실행한다.
-
-```bash
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --all-camera-angles --all-lenses --dry-run
-```
-
-`--dry-run` 출력에는 각 화면에 실제 적용될 캐릭터·배경 step도 함께 나타난다. 이번 단계의 산출물은 RGB 후보뿐이다. 각 후보에서 인체·전신 프레이밍·진행 방향·카메라 의도가 읽히는지를 사람이 먼저 확인하고, 통과한 한 장을 명시한 뒤에만 Canny와 상대 depth를 파생한다. 따라서 depth 확장은 카메라별 RGB 승인 기준과 어떤 depth 표현을 비교할지 정한 별도 실험으로 남긴다.
 
 ## seed는 후보 수만 늘린다
 
@@ -108,7 +62,7 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
 
 ## 승인 전에는 guide를 만들지 않는다
 
-다음 항목 하나라도 실패하면 PNG와 guide를 모두 남기지 않는다.
+다음 항목 하나라도 실패하면 원칙적으로 PNG를 승인하거나 guide로 넘기지 않는다. 다만 사람이 남은 차이를 확인하고 장면 비교 기준으로 명시적으로 승인한 경우에는, 그 관찰점과 계약 JSON을 이미지 옆에 함께 남긴다.
 
 | 확인 항목 | 통과 기준 |
 | --- | --- |
@@ -125,12 +79,15 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
   --output-dir docs/assets/part-07/chapter-05
 ```
 
-seed `5420` 결과를 사람 검수로 승인했다. 이 장면에서는 화면 오른쪽으로 뛰어 나가는 공중 현대무용 동작, 앞·뒤로 분리된 두 다리와 두 팔, 사암·자갈 바닥과 가까운 절벽이 함께 읽힌다. 아래 RGB 원본과 Canny·상대 depth guide만 장면 기준으로 유지한다. 한 장면의 승인 결과가 다른 카메라·동작에서도 자동으로 통과함을 뜻하지는 않는다.
+압축한 최종 prompt로 생성한 A/B/C 결과를 사람 검수로 승인했다. 세 결과는 각각 고정 seed와 실행 계약 JSON을 함께 보존하며, RGB와 상대 depth의 대응 관계를 한 행에서 비교한다. 이 승인은 세 장면의 현재 스토리보드 기준을 고정한다는 뜻이며, 다른 seed·카메라·동작까지 자동으로 통과한다는 뜻은 아니다.
 
-| 승인 RGB | Canny guide | 상대 depth guide |
+| 승인 장면 | RGB | 상대 depth |
 | --- | --- | --- |
-| ![승인한 FLUX.2 Klein 전진 도약 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved.png) | ![승인 전진 도약 스토리보드의 Canny guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-canny.png) | ![승인 전진 도약 스토리보드의 상대 depth guide](../../../assets/part-07/chapter-05/p7-5-3-flux2-klein-storyboard-forward-leap-approved-guide-depth.png) |
-| 사람 검수로 승인한 장면 기준 RGB다. | 승인 RGB에서 추출한 강한 경계 guide다. | 승인 RGB의 앞뒤 관계를 회색 농도로 나타낸 상대 depth guide다. |
+| A씬 — 좁은 협곡<br>[실행 계약 JSON](../../../assets/part-07/chapter-05/p7-5-3-scene-a-037414-seed-5420-s6-00-contract.json) | ![승인한 A씬 좁은 협곡 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-a-037414-seed-5420-s6-01-storyboard-rgb.png) | ![승인한 A씬 좁은 협곡 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-a-037414-seed-5420-s6-02-storyboard-depth.png) |
+| B씬 — 열린 지상 원경<br>[실행 계약 JSON](../../../assets/part-07/chapter-05/p7-5-3-scene-b-088266-seed-5421-s6-00-contract.json) | ![승인한 B씬 열린 공간 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-b-088266-seed-5421-s6-01-storyboard-rgb.png) | ![승인한 B씬 열린 공간 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-b-088266-seed-5421-s6-02-storyboard-depth.png) |
+| C씬 — 열린 수직 오버헤드<br>[실행 계약 JSON](../../../assets/part-07/chapter-05/p7-5-3-scene-c-288128-seed-5422-s6-00-contract.json) | ![승인한 C씬 수직 오버헤드 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-c-288128-seed-5422-s6-01-storyboard-rgb.png) | ![승인한 C씬 수직 오버헤드 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-c-288128-seed-5422-s6-02-storyboard-depth.png) |
+
+A씬은 두 팔·두 다리와 협곡의 깊이를 유지하지만 앞쪽 발끝이 오른쪽 절벽에 닿아 보인다. B씬은 열린 공간과 작은 인물 비율을 유지하지만 뒤쪽 다리가 접혀 있다. C씬은 두 팔·두 다리, 수직 오버헤드, 분리된 그림자를 함께 유지한다. 이 차이는 숨기지 않고 이후 guide 또는 리파인 단계에서 다시 확인할 관찰점으로 남긴다.
 
 ## depth 리파인은 별도 가설로 검증한다
 
