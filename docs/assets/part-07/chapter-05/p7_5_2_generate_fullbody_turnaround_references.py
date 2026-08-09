@@ -124,6 +124,18 @@ def main() -> None:
         type=Path,
         help="Existing first-stage full-body PNG. When supplied, skip the first pass and run only face identity refinement.",
     )
+    parser.add_argument(
+        "--face-reference",
+        action="append",
+        default=[],
+        type=Path,
+        metavar="PNG",
+        help="Additional approved PNG reference for the second face-refinement pass; may be repeated.",
+    )
+    parser.add_argument(
+        "--face-prompt",
+        help="Replace the second-stage face-refinement prompt for a controlled experiment.",
+    )
     parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     parser.add_argument(
         "--output-prefix",
@@ -142,10 +154,15 @@ def main() -> None:
         raise FileNotFoundError(args.front_image)
     if args.body_image is not None and not args.body_image.is_file():
         raise FileNotFoundError(args.body_image)
+    extra_face_reference_paths = [
+        path if path.is_absolute() else ROOT / path
+        for path in args.face_reference
+    ]
     reference_paths = [*(FACE_REFERENCE_BY_VIEW[view] for view in selected_views), FULLBODY_REFERENCE]
     reference_paths.append(args.front_image)
     if args.body_image is not None:
         reference_paths.append(args.body_image)
+    reference_paths.extend(extra_face_reference_paths)
     if missing := [path.name for path in reference_paths if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
@@ -164,6 +181,10 @@ def main() -> None:
         view: Image.open(FACE_REFERENCE_BY_VIEW[view]).convert("RGB")
         for view in selected_views
     }
+    extra_face_reference_images = [
+        Image.open(path).convert("RGB")
+        for path in extra_face_reference_paths
+    ]
     supplied_body_image = Image.open(args.body_image).convert("RGB") if args.body_image is not None else None
     for batch_index in range(args.seed_count):
         seed_offset = args.seed_offset + batch_index * args.seed_step
@@ -175,8 +196,8 @@ def main() -> None:
             body_prompt = args.body_prompt or build_body_prompt(view)
             body_reference_paths = [front_anchor_path, FULLBODY_REFERENCE]
             body_reference_images = [front_anchor_image, fullbody_reference_image]
-            face_refinement_prompt = None if args.body_only else build_face_refinement_prompt(view)
-            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=body_seed, steps=args.body_steps if args.body_only else face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_refinement_prompt": face_refinement_prompt, "references": [path.name for path in body_reference_paths], "body_image": args.body_image.name if args.body_image else None, "body_only": args.body_only, "body_seed": body_seed, "face_seed": None if args.body_only else SECOND_STAGE_SEED, "body_steps": args.body_steps, "face_steps": None if args.body_only else face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
+            face_refinement_prompt = None if args.body_only else (args.face_prompt or build_face_refinement_prompt(view))
+            stem = candidate_stem(f"{args.output_prefix}-{view}", seed=body_seed, steps=args.body_steps if args.body_only else face_steps, contract={"model": MODEL_ID, "body_prompt": body_prompt, "face_refinement_prompt": face_refinement_prompt, "references": [path.name for path in body_reference_paths], "face_references": [FACE_REFERENCE_BY_VIEW[view].name, *(path.name for path in extra_face_reference_paths)], "body_image": args.body_image.name if args.body_image else None, "body_only": args.body_only, "body_seed": body_seed, "face_seed": None if args.body_only else SECOND_STAGE_SEED, "body_steps": args.body_steps, "face_steps": None if args.body_only else face_steps, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]})
             stage_descriptor = f"stage-1-seed-{body_seed}-steps-{args.body_steps}"
             if not args.body_only:
                 stage_descriptor += f"-stage-2-seed-{SECOND_STAGE_SEED}-steps-{face_steps}"
@@ -204,7 +225,7 @@ def main() -> None:
             torch.cuda.empty_cache()
             if not args.body_only:
                 image = pipe(
-                    image=[body_image, face_images[view]],
+                    image=[body_image, face_images[view], *extra_face_reference_images],
                     prompt=face_refinement_prompt,
                     width=IMAGE_WIDTH,
                     height=IMAGE_HEIGHT,
@@ -251,7 +272,7 @@ def main() -> None:
                                 "prompt": face_refinement_prompt,
                                 "prompt_word_count": prompt_word_count(face_refinement_prompt) if face_refinement_prompt else 0,
                                 "seed": None if args.body_only else SECOND_STAGE_SEED,
-                                "reference": None if args.body_only else FACE_REFERENCE_BY_VIEW[view].name,
+                                "references": None if args.body_only else [FACE_REFERENCE_BY_VIEW[view].name, *(path.name for path in extra_face_reference_paths)],
                                 "output": face_output.name if face_output else None,
                             },
                         },

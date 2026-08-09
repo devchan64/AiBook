@@ -182,7 +182,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ### 승인 전신 참조로 만든 리파인 후보
 
-아래 네 장은 여섯 방향 계약으로 정리하기 전의 사람 승인 리파인 사례입니다. 당시에는 전면 쿼터·측면의 좌우를 합친 구성 그룹을 썼지만, 현재 리파인 생성기는 좌·우를 분리한 여섯 view를 사용합니다. 이후 실행은 각 view의 승인 전신 PNG를 composition 입력으로, 같은 방향의 원본 얼굴 PNG를 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용합니다. 정면·전면 쿼터·측면은 visible-face identity, 후면은 단발·헤어라인·목선을 위한 rear-head identity를 사용합니다. 모든 새 출력은 후보이며, 기존 리파인 사례나 방향별 전신 composition 기준을 자동으로 대체하지 않습니다.
+아래 네 장은 여섯 방향 계약으로 정리하기 전의 사람 승인 리파인 사례입니다. 당시에는 전면 쿼터·측면의 좌우를 합친 구성 그룹을 썼지만, 현재 리파인 생성기는 좌·우를 분리한 여섯 view를 사용합니다. 이후 실행은 각 view의 승인 전신 PNG를 composition 입력으로, 같은 방향의 원본 얼굴 PNG를 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용합니다. 정면·전면 쿼터·측면은 visible-face identity, 후면은 단발·헤어라인·목선을 위한 rear-head identity를 사용합니다. 새 출력 해상도는 `960×1440`이며, 모든 새 출력은 후보이므로 기존 리파인 사례나 방향별 전신 composition 기준을 자동으로 대체하지 않습니다.
 
 | 승인 정면 리파인 기준 | 승인 전면 쿼터 리파인 기준 | 승인 측면 리파인 기준 | 승인 후면 리파인 기준 |
 | --- | --- | --- | --- |
@@ -206,7 +206,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets`, `--steps` (기본 `3`), `--preview-every` |
 | 정면 전신 | `p7_5_2_generate_fullbody_front_reference.py` | `--body-steps`(기본 `3`), `--face-steps`(기본 `6`) |
 | 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--front-image`(필수), `--views`, `--body-image`, `--body-steps`(기본 `3`), `--face-steps`(기본 `9`) |
-| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--steps`, `--run-id` |
+| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--outfit-steps`(기본 `3`), `--face-steps`(기본 `3`), `--outfit-image` |
 
 이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 여섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 여섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
 
@@ -229,10 +229,11 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_refine_fullbody_face_props.py \
   --views front front_quarter_left front_quarter_right profile_left profile_right rear \
-  --props layered_jacket_crop_top crossbody_bag
+  --props layered_jacket_crop_top crossbody_bag \
+  --outfit-steps 3 --face-steps 3
 ```
 
-보강기는 기본으로 승인한 여섯 방향 전신 참조 PNG를 같은 view의 composition 입력으로 사용합니다. 특정 방향만 별도 참조 PNG로 시험하려면 `--body-reference profile_left=파일명.png`처럼 지정하며, 검수 JSON에는 실제 입력 파일명이 남습니다. 결과·중간 결과·검수 JSON 파일명에는 자동 `run-id`가 들어가므로 같은 seed를 재실행해도 기존 후보를 덮어쓰지 않습니다.
+보강기는 기본으로 승인한 여섯 방향 전신 참조 PNG를 같은 view의 composition 입력으로 사용합니다. 1차 복장 보강과 2차 얼굴 identity는 각자 seed·step·stage PNG·검수 JSON을 남깁니다. `--outfit-only`는 1차만 저장하고, 사람 검수한 1차 PNG에 2차만 다시 적용할 때는 `--views profile_left --outfit-image 파일명.png`를 사용합니다. 특정 방향만 별도 composition PNG로 시험하려면 `--body-reference profile_left=파일명.png`처럼 지정하며, 검수 JSON에는 실제 입력 파일명이 남습니다. 결과·중간 결과·검수 JSON 파일명에는 두 단계의 seed와 step이 들어가므로 같은 seed를 재실행해도 계약이 다른 후보를 구분할 수 있습니다.
 
 ## 사람 검수는 사용 범위를 좁힌다
 

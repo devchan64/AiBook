@@ -102,15 +102,15 @@ BAG_VIEW_RULES = {
     "rear": "Rear: retain long cuffed sleeves reaching the wrists. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
 COMPLETE_OUTFIT_VIEW_RULES = {
-    "front": "Front: retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut strap from the outer wearer's-right shoulder diagonally across the chest into the bag's upper inner attachment.",
+    "front": "Front: replace the visible charcoal top with the supplied very short white cropped utility jacket as the closed outer layer. Its white front panels cover the chest, with long cuffed sleeves reaching the wrists; the charcoal-gray crop top may appear only as a narrow band below the cropped hem. Retain the bag side-on beside the wearer's outer-left trouser seam, its top aligned to the waistband, and one continuous taut deep-navy strap from the outer wearer's-right shoulder diagonally across the white jacket into the bag's upper inner attachment.",
     "front_quarter_left": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
     "front_quarter_right": "Front three-quarter: retain the bag at the outer wearer's-left hip, its top aligned to the waistband, below the ribs and clear of the front thigh.",
     "profile_left": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
     "profile_right": "Profile: render a visibly dominant white cropped utility-jacket body from collar to hem, including the side-back panel and one long cuffed sleeve. Show the charcoal-gray crop top only as a narrow inner layer at the open front. Keep the bag at the outer wearer's-left rearward hip, its top aligned to the waistband, with the strap behind the jacket.",
     "rear": "Rear: replace the upper garment with the supplied white cropped utility jacket: plain white back panel, long cuffed sleeves to the wrists, and bare-skin midriff below its hem; no gray inner top is visible. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso.",
 }
-IMAGE_WIDTH = 768
-IMAGE_HEIGHT = 1152
+IMAGE_WIDTH = 960
+IMAGE_HEIGHT = 1440
 
 
 def prompt_word_count(text: str) -> int:
@@ -136,7 +136,7 @@ def resolve_body_references(assignments: list[str]) -> dict[str, Path]:
     return references
 
 
-def unique_run_stem(prefix: str, view: str, outfit_seed: int, outfit_steps: int, face_steps: int, contract: dict[str, object]) -> str:
+def unique_run_stem(prefix: str, view: str, outfit_seed: int, face_steps: int, contract: dict[str, object]) -> str:
     """Create an unused shared stem for both stages and their review record."""
     base_stem = candidate_stem(
         f"{prefix}-{view}",
@@ -170,15 +170,22 @@ def prop_reference_paths(prop_id: str, view: str) -> tuple[Path, ...]:
 
 
 def build_outfit_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
+    # Face identity is supplied as an image at this stage.  Do not repeat the
+    # full identity contract here: the first pass is for clothing geometry.
     identity_rule = (
-        "Use the supplied direction-matched rear-head identity reference throughout this outfit pass; preserve only its "
-        f"{FACE_IDENTITY_CONTRACT['rear_hair_identity']} Do not create a visible face."
+        "Keep only the supplied rear-head hair identity; no visible face."
         if view == "rear"
-        else (
-            "Use the supplied direction-matched face identity reference throughout this outfit pass; preserve the same "
-            f"visible face and hair identity: {FACE_IDENTITY_CONTRACT['identity_description']}"
-        )
+        else "Keep the supplied direction-matched face and hair identity."
     )
+    if view == "front" and "complete_outfit" in prop_ids:
+        return (
+            "Use the supplied full-body image only for the front pose, full-body framing, teal trousers, and white sneakers. "
+            "Use the supplied complete-outfit image as the clothing source. Replace the visible gray top with a closed white "
+            "cropped utility jacket: white front panels cover the chest, long cuffed sleeves reach the wrists, and only a narrow "
+            "gray crop-top band may show below the hem. Add one taut deep-navy crossbody strap from the wearer's right shoulder "
+            "across the jacket to a bag at the outer left hip. "
+            f"{identity_rule} One woman, complete limbs, no text or labels."
+        )
     if view.startswith("profile_") and "complete_outfit" in prop_ids:
         return (
             "Refine the supplied full-body reference into the same woman in a side-profile studio image. "
@@ -262,48 +269,38 @@ def main() -> None:
     parser.add_argument("--seed-offset", type=int, default=0, help="Offset applied to the first seed.")
     parser.add_argument("--seed-count", type=int, default=1, help="Number of consecutive seed variants.")
     parser.add_argument("--seed-step", type=int, default=1, help="Increment between seed variants.")
-    parser.add_argument("--steps", type=int, default=3, help="Denoising steps for each refinement pass.")
-    parser.add_argument(
-        "--face-identity-seed",
-        type=int,
-        default=FACE_IDENTITY_SEED,
-        help="Fixed seed for the final visible-face identity pass.",
-    )
+    parser.add_argument("--outfit-steps", type=int, default=FIRST_STAGE_STEPS, help="Denoising steps for the first outfit pass.")
+    parser.add_argument("--face-steps", type=int, default=SECOND_STAGE_STEPS, help="Denoising steps for the second face-identity pass.")
+    parser.add_argument("--outfit-only", action="store_true", help="Run and save only the first outfit pass.")
+    parser.add_argument("--outfit-prompt", help="Replace the first-stage outfit prompt for a controlled experiment.")
     parser.add_argument(
         "--output-prefix",
         default="p7-5-2-fullbody-face-prop-refinement",
-        help="Filename prefix placed before view, run ID, and seed suffixes.",
+        help="Filename prefix placed before the contract hash, seed, and steps suffixes.",
     )
     parser.add_argument(
-        "--run-id",
-        help="Optional run identifier. An 8-character UUID fragment is generated when omitted.",
-    )
-    parser.add_argument(
-        "--stage",
-        choices=("all", "outfit", "face"),
-        default="all",
-        help="Run outfit only, face only from --intermediate, or both in one process.",
-    )
-    parser.add_argument(
-        "--intermediate",
+        "--outfit-image",
         type=Path,
-        help="Outfit-stage PNG used by --stage face.",
+        help="Existing first-stage outfit PNG. When supplied, skip the first pass and run only face identity refinement.",
     )
+    parser.add_argument("--preview-every", type=int, default=0, help="Save a decoded preview every N denoising steps; 0 disables previews.")
     args = parser.parse_args()
     if args.seed_count < 1:
         raise ValueError("seed-count must be at least 1")
     if args.seed_step == 0:
         raise ValueError("seed-step must not be zero")
-    if args.steps < 1:
-        raise ValueError("steps must be at least 1")
-    if args.stage == "face" and args.intermediate is None:
-        raise ValueError("--stage face requires --intermediate")
-    if args.stage == "face" and len(args.views) != 1:
-        raise ValueError("--stage face requires exactly one --views value for the supplied intermediate PNG")
+    if args.outfit_steps < 1 or args.face_steps < 1:
+        raise ValueError("outfit-steps and face-steps must both be at least 1")
+    if args.preview_every < 0:
+        raise ValueError("preview-every must be zero or positive")
+    if args.outfit_only and args.outfit_image is not None:
+        raise ValueError("--outfit-only cannot be combined with --outfit-image")
+    if args.outfit_image is not None and len(args.views) != 1:
+        raise ValueError("--outfit-image requires exactly one --views value")
     body_references = resolve_body_references(args.body_reference)
 
     reference_paths = [FACE_IDENTITY_BY_VIEW[view] for view in args.views]
-    if args.stage != "face":
+    if args.outfit_image is None:
         reference_paths.extend(body_references[view] for view in args.views)
         reference_paths.extend(
             path
@@ -311,8 +308,8 @@ def main() -> None:
             for prop_id in args.props
             for path in prop_reference_paths(prop_id, view)
         )
-    if args.intermediate is not None:
-        reference_paths.append(args.intermediate)
+    if args.outfit_image is not None:
+        reference_paths.append(args.outfit_image)
     if missing := [path.name for path in reference_paths if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
     if not torch.cuda.is_available():
@@ -326,29 +323,46 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
 
-    run_id = args.run_id or uuid4().hex[:8]
-    first_seed = BASE_SEED + args.seed_offset
+    supplied_outfit_image = Image.open(args.outfit_image).convert("RGB") if args.outfit_image is not None else None
+    first_seed = FIRST_STAGE_SEED + args.seed_offset
     # Every stage receives the direction-matched face or rear-head reference.
     face_images = {
         view: Image.open(FACE_IDENTITY_BY_VIEW[view]).convert("RGB")
         for view in args.views
     }
     for batch_index in range(args.seed_count):
-        seed = first_seed + batch_index * args.seed_step
+        outfit_seed = first_seed + batch_index * args.seed_step
         for view in args.views:
-            outfit_prompt = build_outfit_prompt(view, tuple(args.props))
+            outfit_prompt = args.outfit_prompt or build_outfit_prompt(view, tuple(args.props))
             identity_prompt = build_identity_final_prompt(view)
-            stem = unique_run_stem(args.output_prefix, view, run_id, seed, args.steps)
-            output = ROOT / f"{stem}-candidate.png"
-            intermediate = ROOT / f"{stem}-outfit-stage.png"
-            report = ROOT / f"{stem}-review.json"
-            started = time.monotonic()
             prop_paths = [
                 path
                 for prop_id in args.props
                 for path in prop_reference_paths(prop_id, view)
             ]
-            if args.stage in ("all", "outfit"):
+            contract = {
+                "model": MODEL_ID,
+                "outfit_prompt": outfit_prompt,
+                "identity_prompt": None if args.outfit_only else identity_prompt,
+                "references": [body_references[view].name, FACE_IDENTITY_BY_VIEW[view].name, *(path.name for path in prop_paths)],
+                "outfit_image": args.outfit_image.name if args.outfit_image else None,
+                "outfit_only": args.outfit_only,
+                "outfit_seed": outfit_seed,
+                "face_seed": None if args.outfit_only else SECOND_STAGE_SEED,
+                "outfit_steps": args.outfit_steps,
+                "face_steps": None if args.outfit_only else args.face_steps,
+                "size": [IMAGE_WIDTH, IMAGE_HEIGHT],
+            }
+            stem = unique_run_stem(args.output_prefix, view, outfit_seed, args.face_steps, contract)
+            stage_descriptor = f"stage-1-seed-{outfit_seed}-steps-{args.outfit_steps}"
+            if not args.outfit_only:
+                stage_descriptor += f"-stage-2-seed-{SECOND_STAGE_SEED}-steps-{args.face_steps}"
+            outfit_output = ROOT / f"{stem}-{stage_descriptor}-stage-1.png"
+            face_output = None if args.outfit_only else ROOT / f"{stem}-{stage_descriptor}-stage-2.png"
+            output = outfit_output if args.outfit_only else ROOT / f"{stem}-{stage_descriptor}-final-candidate.png"
+            report = ROOT / f"{stem}-review.json"
+            started = time.monotonic()
+            if supplied_outfit_image is None:
                 prop_images = [Image.open(path).convert("RGB") for path in prop_paths]
                 with Image.open(body_references[view]) as body_source:
                     outfit_image = pipe(
@@ -356,22 +370,16 @@ def main() -> None:
                         prompt=outfit_prompt,
                         width=IMAGE_WIDTH,
                         height=IMAGE_HEIGHT,
-                        num_inference_steps=args.steps,
+                        num_inference_steps=args.outfit_steps,
                         guidance_scale=1.0,
-                        generator=torch.Generator(device="cpu").manual_seed(seed),
+                        generator=torch.Generator(device="cpu").manual_seed(outfit_seed),
                         max_sequence_length=256,
+                        callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-{stage_descriptor}-stage-1"),
                     ).images[0]
-                if args.stage == "outfit":
-                    outfit_image.save(intermediate)
-                    print(f"outfit-stage -> {intermediate}")
-                    continue
             else:
-                with Image.open(args.intermediate) as source:
-                    outfit_image = source.convert("RGB")
-            image = outfit_image
-            if args.stage != "outfit":
-                # The first pass is a full-resolution multi-reference edit on an 8GB GPU.
-                # Release transient tensors before running the final face-only pass.
+                outfit_image = supplied_outfit_image.copy()
+            outfit_image.save(outfit_output)
+            if not args.outfit_only:
                 gc.collect()
                 torch.cuda.empty_cache()
                 image = pipe(
@@ -379,40 +387,50 @@ def main() -> None:
                     prompt=identity_prompt,
                     width=IMAGE_WIDTH,
                     height=IMAGE_HEIGHT,
-                    num_inference_steps=args.steps,
+                    num_inference_steps=args.face_steps,
                     guidance_scale=1.0,
-                    generator=torch.Generator(device="cpu").manual_seed(args.face_identity_seed),
+                    generator=torch.Generator(device="cpu").manual_seed(SECOND_STAGE_SEED),
                     max_sequence_length=256,
+                    callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=f"{stem}-{stage_descriptor}-stage-2"),
                 ).images[0]
-            image.save(output)
+                image.save(face_output)
+                image.save(output)
             elapsed = round(time.monotonic() - started, 2)
             report.write_text(
                 json.dumps(
                     {
                         "status": "review_required",
+                        "outfit_output": outfit_output.name,
+                        "face_output": face_output.name if face_output else None,
                         "output": output.name,
                         "view": view,
-                        "seed": seed,
-                        "steps": args.steps,
+                        "seed": outfit_seed,
+                        "outfit_seed": outfit_seed,
+                        "face_seed": None if args.outfit_only else SECOND_STAGE_SEED,
+                        "outfit_steps": args.outfit_steps,
+                        "face_steps": None if args.outfit_only else args.face_steps,
                         "seed_offset": args.seed_offset,
                         "seed_step": args.seed_step,
-                        "face_identity_seed": args.face_identity_seed,
                         "batch_index": batch_index,
                         "batch_size": args.seed_count,
-                        "run_id": run_id,
                         "output_prefix": args.output_prefix,
                         "stages": {
                             "outfit": {
+                                "status": "generated" if supplied_outfit_image is None else "supplied",
                                 "prompt": outfit_prompt,
                                 "prompt_word_count": prompt_word_count(outfit_prompt),
                                 "identity_reference": FACE_IDENTITY_BY_VIEW[view].name,
                                 "identity_usage": "rear_head" if view == "rear" else "visible_face",
+                                "seed": outfit_seed,
+                                "output": outfit_output.name,
+                                "supplied_image": args.outfit_image.name if args.outfit_image else None,
                             },
                             "identity_final": {
                                 "prompt": identity_prompt,
                                 "prompt_word_count": prompt_word_count(identity_prompt),
-                                "seed": args.face_identity_seed,
-                                "status": "generated_rear_head_identity" if view == "rear" else "generated_visible_face_identity",
+                                "seed": None if args.outfit_only else SECOND_STAGE_SEED,
+                                "status": "skipped" if args.outfit_only else ("generated_rear_head_identity" if view == "rear" else "generated_visible_face_identity"),
+                                "output": face_output.name if face_output else None,
                             },
                         },
                         "references": {
