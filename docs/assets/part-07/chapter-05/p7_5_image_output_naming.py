@@ -1,19 +1,29 @@
-"""Stable output names for Part 7 Chapter 5 image-generation candidates."""
+"""Experiment-scoped output names for Part 7 Chapter 5 image candidates."""
 
 from __future__ import annotations
 
-from hashlib import sha256
-import json
 from pathlib import Path
+from secrets import token_hex
 
 import torch
 
 
+_EXPERIMENT_CODE = token_hex(3)
+
+
+def experiment_code() -> str:
+    """Return the six-character random code shared by this process."""
+    return _EXPERIMENT_CODE
+
+
 def candidate_stem(prefix: str, *, seed: int, steps: int, contract: object) -> str:
-    """Return a deterministic candidate stem with contract hash, seed, and diffusion steps."""
-    encoded = json.dumps(contract, ensure_ascii=False, sort_keys=True, separators=(",", ":"), default=str)
-    digest = sha256(encoded.encode("utf-8")).hexdigest()[:10]
-    return f"{prefix}-hash-{digest}-seed-{seed}-steps-{steps}"
+    """Return a stem with the run code, seed, and diffusion steps.
+
+    ``contract`` stays required so call sites keep their generation inputs
+    explicit even though filenames no longer encode a contract digest.
+    """
+    _ = contract
+    return f"{prefix}-code-{experiment_code()}-seed-{seed}-steps-{steps}"
 
 
 def preview_callback(pipe, *, height: int, width: int, every: int, directory: Path, prefix: str):
@@ -29,8 +39,12 @@ def preview_callback(pipe, *, height: int, width: int, every: int, directory: Pa
             return callback_kwargs
         latents = callback_kwargs["latents"]
         if latent_ids is None:
-            latent_height = 2 * (height // (pipe.vae_scale_factor * 2))
-            latent_width = 2 * (width // (pipe.vae_scale_factor * 2))
+            # Flux2KleinPipeline.prepare_latents() patchifies the VAE grid once
+            # before packing it. The callback receives that packed grid, so its
+            # position IDs must use the post-patch dimensions rather than the
+            # intermediate pre-patch dimensions.
+            latent_height = height // (pipe.vae_scale_factor * 2)
+            latent_width = width // (pipe.vae_scale_factor * 2)
             template = torch.empty((latents.shape[0], 1, latent_height, latent_width), device=latents.device)
             latent_ids = pipe._prepare_latent_ids(template).to(latents.device)
         with torch.no_grad():

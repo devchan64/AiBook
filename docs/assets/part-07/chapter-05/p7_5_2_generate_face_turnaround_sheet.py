@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-from hashlib import sha256
 import json
 from math import isqrt
 from pathlib import Path
@@ -13,6 +12,7 @@ import time
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image
+from p7_5_image_output_naming import candidate_stem, experiment_code
 
 
 ROOT = Path(__file__).resolve().parent
@@ -53,25 +53,6 @@ TURNAROUND_FIDELITY_RULE = (
 
 def prompt_word_count(text: str) -> int:
     return len(text.split())
-
-
-def output_contract_hash(prompt: str, view: str, seed: int, steps: int) -> str:
-    """Return a stable short hash for the unified generation contract."""
-    contract = json.dumps(
-        {
-            "model": MODEL_ID,
-            "view": view,
-            "seed": seed,
-            "prompt": prompt,
-            "image_size": [IMAGE_SIZE, IMAGE_SIZE],
-            "steps": steps,
-            "guidance_scale": 1.0,
-            "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
-        },
-        sort_keys=True,
-        separators=(",", ":"),
-    )
-    return sha256(contract.encode("utf-8")).hexdigest()[:10]
 
 
 def build_turnaround_prompt(view: str) -> str:
@@ -153,7 +134,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-prefix",
         default="p7-5-2-face-direction",
-        help="Prefix placed before view, contract hash, seed, and step suffixes.",
+        help="Prefix placed before view, experiment code, seed, and step suffixes.",
     )
     return parser.parse_args()
 
@@ -188,8 +169,21 @@ def main() -> None:
         seed = first_seed + batch_index * args.seed_step
         for view in args.views:
             prompt = build_turnaround_prompt(view)
-            contract_hash = output_contract_hash(prompt, view, seed, args.steps)
-            stem = f"{args.output_prefix}-{view}-hash-{contract_hash}-seed-{seed}-steps-{args.steps}"
+            stem = candidate_stem(
+                f"{args.output_prefix}-{view}",
+                seed=seed,
+                steps=args.steps,
+                contract={
+                    "model": MODEL_ID,
+                    "view": view,
+                    "seed": seed,
+                    "prompt": prompt,
+                    "image_size": [IMAGE_SIZE, IMAGE_SIZE],
+                    "steps": args.steps,
+                    "guidance_scale": 1.0,
+                    "identity_contract": FACE_IDENTITY_CONTRACT_PATH.name,
+                },
+            )
             candidate = ROOT / f"{stem}-candidate.png"
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
@@ -221,7 +215,7 @@ def main() -> None:
                         "output": candidate.name,
                         "view": view,
                         "seed": seed,
-                        "contract_hash": contract_hash,
+                        "experiment_code": experiment_code(),
                         "steps": args.steps,
                         "preview_interval": args.preview_interval,
                         "seed_offset": args.seed_offset,

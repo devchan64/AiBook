@@ -108,7 +108,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 정면은 `p7_5_2_generate_face_front_reference.py`가 전담합니다. 정면, 좌·우 전면 쿼터, 좌·우 엄격 측면, 후면을 합쳐 여섯 방향 장면으로 관리합니다. 방향 얼굴 생성기는 `--views front_quarter_left front_quarter_right profile_left profile_right rear`만 허용하고, 각 view를 별도 `768×768` PNG로 저장합니다. 이름의 left/right는 카메라에서 보는 방향이며, 각각 인물의 반대쪽 면을 뜻합니다. 각 후보는 정면 얼굴 앵커 하나와 방향·공용 identity prompt를 한 번의 생성에 함께 적용합니다. 따라서 구도·회전과 얼굴형·홍채·동공·단발을 따로 보정하는 중간 PNG는 만들지 않습니다. 후면은 얼굴을 드러내지 않고 후두부 단발·목선만 유지합니다.
 
-`--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, `--steps`로 이 단일 생성의 denoising 횟수를 바꿉니다. 기본값은 `3` step입니다. `--preview-interval 3`을 지정하면 FLUX latent를 3 step마다 VAE로 해독해 review-only PNG로 저장합니다. 기본값 `0`은 이 미리보기를 끄며, preview PNG 목록은 실행 JSON의 생성 기록에 남습니다. 각 PNG와 JSON 파일명에는 view·시드·step과 모델·단일 prompt·해상도·identity 계약을 묶은 짧은 해시가 자동으로 붙습니다. 일부 view만 검토할 때는 `--views profile_left profile_right`처럼 범위를 좁힙니다. 한 번의 생성 결과라도 방향·crop·후면 비노출과 identity를 함께 통과해야 합니다.
+`--seed-offset`, `--seed-count`, `--seed-step`으로 서로 다른 시드를 한 번의 파이프라인 적재에서 연속 생성하고, `--steps`로 이 단일 생성의 denoising 횟수를 바꿉니다. 기본값은 `3` step입니다. `--preview-interval 3`을 지정하면 FLUX latent를 3 step마다 VAE로 해독해 review-only PNG로 저장합니다. 기본값 `0`은 이 미리보기를 끄며, preview PNG 목록은 실행 JSON의 생성 기록에 남습니다. 새 PNG와 JSON 파일명에는 한 번의 실행에서 공유하는 6자리 랜덤 실험 코드와 view·시드·step이 붙습니다. 모델·prompt·해상도·identity 계약 원문은 파일명에 해시로 축약하지 않고 실행 JSON에 보존합니다. 일부 view만 검토할 때는 `--views profile_left profile_right`처럼 범위를 좁힙니다. 한 번의 생성 결과라도 방향·crop·후면 비노출과 identity를 함께 통과해야 합니다.
 
 <details id="face-direction-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_turnaround_sheet.py" data-language="python">
 <summary>정면 얼굴 기준으로 방향별 개별 얼굴 후보를 만드는 코드 보기</summary>
@@ -222,15 +222,16 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | --- | --- | --- |
 | ![승인된 좌측 측면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-refined-reference.png) | ![승인된 우측 측면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-refined-reference.png) | ![승인된 후면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-refined-reference.png) |
 
-리파인 PNG는 `p7-5-2-fullbody-{front,front-quarter-left,front-quarter-right,profile-left,profile-right,rear}-refined-reference.png` 안정 이름으로 등록한 사람 승인 결과입니다. 여섯 방향 모두 `seed=62294`, 단일 `3 step` 기준으로 교체했습니다. 이 리파인 사례는 기존 방향 전신 composition 기준을 대체하지 않으며, 머리·몸통·발 방향 일치, 흰 크롭 재킷과 회색 상의의 경계, 가방과 스트랩의 위치, 후면의 얼굴 비노출을 확인하는 범위만 승인합니다.
+리파인 PNG는 `p7-5-2-fullbody-{front,front-quarter-left,front-quarter-right,profile-left,profile-right,rear}-refined-reference.png` 안정 이름으로 등록한 사람 승인 결과입니다. 여섯 방향 모두 `seed=62294`, 단일 `3 step` 기준으로 교체했습니다. 우측 전면 쿼터에서는 가방 본체가 먼쪽 골반 뒤에 가려지고 몸통 외곽에 일부만 보이며, 앞가슴에는 스트랩 한 줄만 이어지는 결과를 승인했습니다. 이 리파인 사례는 기존 방향 전신 composition 기준을 대체하지 않으며, 머리·몸통·발 방향 일치, 흰 크롭 재킷과 회색 상의의 경계, 가방과 스트랩의 위치, 후면의 얼굴 비노출을 확인하는 범위만 승인합니다.
 
-| 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
-| --- | --- | --- |
-| <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference-review.json" data-language="json">review.json</a> | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-refined-reference-review.json" data-language="json">review.json</a> | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-refined-reference-review.json" data-language="json">review.json</a> |
-
-| 좌측 측면 | 우측 측면 | 후면 |
-| --- | --- | --- |
-| <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-refined-reference-review.json" data-language="json">review.json</a> | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-refined-reference-review.json" data-language="json">review.json</a> | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-rear-refined-reference-review.json" data-language="json">review.json</a> |
+| 방향 | 승인 검수 기록 |
+| --- | --- |
+| 정면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference-review.json" data-language="json">review.json</a> |
+| 좌측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-refined-reference-review.json" data-language="json">review.json</a> |
+| 우측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-refined-reference-review.json" data-language="json">review.json</a> |
+| 좌측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-refined-reference-review.json" data-language="json">review.json</a> |
+| 우측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-refined-reference-review.json" data-language="json">review.json</a> |
+| 후면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-rear-refined-reference-review.json" data-language="json">review.json</a> |
 
 <details id="fullbody-face-prop-refinement" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_refine_fullbody_face_props.py" data-language="python">
 <summary>정면 얼굴·전신 방향·자켓·가방으로 전신을 보강하는 코드 보기</summary>
