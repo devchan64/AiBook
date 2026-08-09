@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 참조 셋 생성: 로컬 GPU 원본과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.08`
+> Version: `v2026.08.09`
 
 웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지, 그 이미지를 학습하거나 직접 참조로 사용한 출력, 그에 따른 LoRA 평가는 이 절의 근거로 사용하지 않습니다.
 
@@ -154,9 +154,13 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 방향별 얼굴 기준과 회색 크롭탑·바지·신발 소품을 입력으로 정면·좌우 전면 쿼터·좌우 측면·후면을 개별 생성해 기본 전신 기준을 사람 승인했습니다. 여섯 방향의 승인 범위는 자연스러운 신체비율, 전신 프레이밍, 기본 복장·신발, 청록 단발의 연속성입니다. 기존 정면·전면 쿼터·측면·후면에는 자켓·가방을 더한 보강 출력도 별도로 승인했습니다. 현재 1-stage turnaround 경로는 승인 정면 앵커에서 나머지 다섯 방향을 파생합니다. 성인 체형 prompt는 비례를 보조할 뿐 결정적 제어가 아니므로 실제 비율은 사람 검수로 확인합니다. 입력·seed·prompt와 사람 판정은 커밋하지 않는 로컬 생성 기록으로 확인합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
 
-| 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 | 좌측 측면 | 우측 측면 | 후면 |
-| --- | --- | --- | --- | --- | --- |
-| ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 좌측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-reference.png) | ![승인된 우측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-reference.png) | ![승인된 좌측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference.png) | ![승인된 우측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
+| 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
+| --- | --- | --- |
+| ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 좌측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-reference.png) | ![승인된 우측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-reference.png) |
+
+| 좌측 측면 | 우측 측면 | 후면 |
+| --- | --- | --- |
+| ![승인된 좌측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference.png) | ![승인된 우측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
 
 정면 신체비율 생성기와 턴어라운드 생성기는 분리합니다. 정면 생성기는 1단계 전신 생성(기본 `3 step`) 뒤 2단계 얼굴 아이덴티 보강(기본 `6 step`)을 적용해 정면 PNG와 검토용 중간 PNG를 만듭니다. `seed=62294`의 `960×1440` 최종 PNG는 사람 승인해 위 정면 전신 안정 참조로 등록했습니다. 턴어라운드 생성기는 정면을 만들지 않으며, `--front-image`로 받은 이 승인 정면 PNG를 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 정면과 다섯 후속 방향은 각각 다시 사람 검수합니다.
 
@@ -182,13 +186,17 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ### 승인 전신 참조로 만든 리파인 후보
 
-아래 네 장은 여섯 방향 계약으로 정리하기 전의 사람 승인 리파인 사례입니다. 당시에는 전면 쿼터·측면의 좌우를 합친 구성 그룹을 썼지만, 현재 리파인 생성기는 좌·우를 분리한 여섯 view를 사용합니다. 이후 실행은 각 view의 승인 전신 PNG를 composition 입력으로, 같은 방향의 원본 얼굴 PNG를 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용합니다. 정면·전면 쿼터·측면은 visible-face identity, 후면은 단발·헤어라인·목선을 위한 rear-head identity를 사용합니다. 새 출력 해상도는 `960×1440`이며, 모든 새 출력은 후보이므로 기존 리파인 사례나 방향별 전신 composition 기준을 자동으로 대체하지 않습니다.
+표의 정면·좌우 전면 쿼터·좌우 측면·후면은 `seed=62294`에서 1차 복장 보강과 2차 얼굴 identity를 각각 `3 step`으로 적용해 사람 승인한 현재 기준입니다. 일반 전면 쿼터·측면은 여섯 방향 계약으로 정리하기 전의 승인 사례입니다. 당시에는 전면 쿼터·측면의 좌우를 합친 구성 그룹을 썼지만, 현재 리파인 생성기는 좌·우를 분리한 여섯 view를 사용합니다. 이후 실행은 각 view의 승인 전신 PNG를 composition 입력으로, 같은 방향의 원본 얼굴 PNG를 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용합니다. 정면·전면 쿼터·측면은 visible-face identity, 후면은 단발·헤어라인·목선을 위한 rear-head identity를 사용합니다. 새 출력 해상도는 `960×1440`이며, 모든 새 출력은 후보이므로 기존 리파인 사례나 방향별 전신 composition 기준을 자동으로 대체하지 않습니다.
 
-| 승인 정면 리파인 기준 | 승인 전면 쿼터 리파인 기준 | 승인 측면 리파인 기준 | 승인 후면 리파인 기준 |
-| --- | --- | --- | --- |
-| ![승인된 정면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference.png) | ![승인된 전면 쿼터 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-refined-reference.png) | ![승인된 측면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-refined-reference.png) | ![승인된 후면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-refined-reference.png) |
+| 승인 정면 리파인 기준 | 승인 좌측 전면 쿼터 리파인 기준 | 승인 우측 전면 쿼터 리파인 기준 |
+| --- | --- | --- |
+| ![승인된 정면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference.png) | ![승인된 좌측 전면 쿼터 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-refined-reference.png) | ![승인된 우측 전면 쿼터 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-refined-reference.png) |
 
-네 방향 리파인 PNG는 `p7-5-2-fullbody-{front,front-quarter,profile,rear}-refined-reference.png` 안정 이름으로 등록한 과거 사람 승인 결과입니다. 기존 방향 전신 기준을 대체하지 않는 사례로 보관하며, 사람 검수에서는 머리·몸통·발 방향 일치, 흰 크롭 재킷과 회색 상의의 경계, 가방과 스트랩의 위치, 후면의 얼굴 비노출을 확인했습니다.
+| 승인 좌측 측면 리파인 기준 | 승인 우측 측면 리파인 기준 | 승인 후면 리파인 기준 |
+| --- | --- | --- |
+| ![승인된 좌측 측면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-refined-reference.png) | ![승인된 우측 측면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-refined-reference.png) | ![승인된 후면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-refined-reference.png) |
+
+리파인 PNG는 `p7-5-2-fullbody-{front,front-quarter-left,front-quarter-right,profile-left,profile-right,rear}-refined-reference.png` 안정 이름으로 등록한 사람 승인 결과입니다. 여섯 방향 모두 현재 `3/3 step` 기준으로 교체했습니다. 이 리파인 사례는 기존 방향 전신 composition 기준을 대체하지 않으며, 머리·몸통·발 방향 일치, 흰 크롭 재킷과 회색 상의의 경계, 가방과 스트랩의 위치, 후면의 얼굴 비노출을 확인하는 범위만 승인합니다.
 
 <details id="fullbody-face-prop-refinement" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_refine_fullbody_face_props.py" data-language="python">
 <summary>정면 얼굴·전신 방향·자켓·가방으로 전신을 보강하는 코드 보기</summary>
