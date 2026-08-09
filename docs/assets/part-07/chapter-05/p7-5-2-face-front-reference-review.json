@@ -1,0 +1,26 @@
+{
+  "status": "approved",
+  "seed_offset": 0,
+  "seed_step": 1,
+  "batch_index": 0,
+  "batch_size": 1,
+  "output_prefix": "p7-5-2-face-front-with-hair-v3",
+  "source_candidate": "p7-5-2-face-front-with-hair-v3-hash-9a394e355b-seed-62294-steps-6-candidate.png",
+  "output": "p7-5-2-face-front-reference.png",
+  "seed": 62294,
+  "steps": 6,
+  "prompt": "Strict frontal head-only portrait of a twenty-two-year-old Asian female on off-white. Very fair pale-peach skin. A small, pronounced cat-like face: elongated forehead above the brows, compact oval, fuller soft cheeks, slender V-shaped jawline, and short rounded chin. High slim nose bridge, small rounded tip, and small lips with a fuller lower lip. Very large symmetric upturned almond cat eyes with centered pupils; chestnut-brown and orange-amber irises; both irises are equal in size and proportion, and both pupils are equal in size and proportion, with neither iris or pupil enlarged or reduced. Deep petrol-teal, extremely voluminous jaw-length bob with medium-density hair. A deep viewer-right side part and full short fringe sweep across the viewer-left forehead, ending above the eyebrow. Large loose S-waves, pronounced inward C-curls, and tapered side locks create an expansive rounded silhouette. Crop directly below the chin.",
+  "prompt_word_count": 138,
+  "references": [],
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    768,
+    768
+  ],
+  "elapsed_seconds": 15.76,
+  "decision": "Approved by human review as the stable front-face reference.",
+  "approval": {
+    "status": "approved",
+    "approved_asset": "p7-5-2-face-front-reference.png"
+  }
+}
