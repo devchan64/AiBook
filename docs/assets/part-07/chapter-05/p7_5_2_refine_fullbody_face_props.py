@@ -23,6 +23,40 @@ IMAGE_WIDTH = 960
 IMAGE_HEIGHT = 1440
 STUDIO_BACKGROUND_RULE = "Use a plain white wall and a plain white studio floor."
 
+# Keep the source PNGs separate. Flux receives these as multiple image inputs;
+# no contact sheet is built or passed to the model.
+FACE_REFERENCES_BY_VIEW = {
+    "front": (
+        ("approved_front_face", ROOT / "p7-5-2-face-front-reference.png"),
+        ("approved_left_front_quarter_face", ROOT / "p7-5-2-face-front-quarter-left-reference.png"),
+        ("approved_right_front_quarter_face", ROOT / "p7-5-2-face-front-quarter-right-reference.png"),
+    ),
+    "front_quarter_left": (
+        ("approved_front_face", ROOT / "p7-5-2-face-front-reference.png"),
+        ("approved_left_front_quarter_face", ROOT / "p7-5-2-face-front-quarter-left-reference.png"),
+        ("approved_left_profile_face", ROOT / "p7-5-2-face-profile-left-reference.png"),
+    ),
+    "front_quarter_right": (
+        ("approved_front_face", ROOT / "p7-5-2-face-front-reference.png"),
+        ("approved_right_front_quarter_face", ROOT / "p7-5-2-face-front-quarter-right-reference.png"),
+        ("approved_right_profile_face", ROOT / "p7-5-2-face-profile-right-reference.png"),
+    ),
+    "profile_left": (
+        ("approved_front_face", ROOT / "p7-5-2-face-front-reference.png"),
+        ("approved_left_front_quarter_face", ROOT / "p7-5-2-face-front-quarter-left-reference.png"),
+        ("approved_left_profile_face", ROOT / "p7-5-2-face-profile-left-reference.png"),
+    ),
+    "profile_right": (
+        ("approved_front_face", ROOT / "p7-5-2-face-front-reference.png"),
+        ("approved_right_front_quarter_face", ROOT / "p7-5-2-face-front-quarter-right-reference.png"),
+        ("approved_right_profile_face", ROOT / "p7-5-2-face-profile-right-reference.png"),
+    ),
+    "rear": (
+        ("approved_front_face", ROOT / "p7-5-2-face-front-reference.png"),
+        ("approved_rear_face", ROOT / "p7-5-2-face-rear-reference.png"),
+    ),
+}
+
 # These six stable filenames are the only approved full-body composition inputs.
 APPROVED_BODY_REFERENCES = {
     "front": ROOT / "p7-5-2-fullbody-front-reference.png",
@@ -128,19 +162,24 @@ def prop_reference_paths(prop_id: str, view: str) -> tuple[Path, ...]:
 
 
 def build_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
+    face_rule = (
+        "Use the supplied separate face references only for the back-of-head hair silhouette and nape identity; no visible face."
+        if view == "rear"
+        else "Use the supplied separate face references to preserve the same visible face and hair identity."
+    )
     if view == "front" and "complete_outfit" in prop_ids:
         return (
             "Use the supplied full-body image only for the front pose, full-body framing, teal trousers, and white sneakers. "
             "Use the supplied complete-outfit image as the clothing source. Replace the visible gray top with a closed white "
             "cropped utility jacket: white front panels cover the chest, long cuffed sleeves reach the wrists, and only a narrow "
             "gray crop-top band may show below the hem. Add one taut deep-navy crossbody strap from the wearer's right shoulder "
-            f"across the jacket to a bag at the outer left hip. {STUDIO_BACKGROUND_RULE} "
+            f"across the jacket to a bag at the outer left hip. {face_rule} {STUDIO_BACKGROUND_RULE} "
             "One woman, complete limbs, no text or labels."
         )
     if view.startswith("profile_") and "complete_outfit" in prop_ids:
         return (
             "Refine the supplied full-body reference into the same woman in a side-profile studio image. "
-            f"Preserve pose, hair-to-sole framing, dark teal trousers, and white low-top sneakers. "
+            f"Preserve pose, hair-to-sole framing, dark teal trousers, and white low-top sneakers. {face_rule} "
             "From the supplied front and rear outfit references, render a white cropped utility jacket as the visible "
             "outer torso layer: jacket body from collar to cropped hem, side-back panel, and one long cuffed sleeve. "
             "Keep the charcoal-gray crop top as a narrow inner layer at the open front. Place the deep-navy bag at the "
@@ -164,7 +203,7 @@ def build_prompt(view: str, prop_ids: tuple[str, ...]) -> str:
         view_prop_rules.append(COMPLETE_OUTFIT_VIEW_RULES[view])
     return (
         "Refine the supplied full-body reference into one full-body studio image of the same woman. "
-        f"Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and {base_clothing}. "
+        f"Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and {base_clothing}. {face_rule} "
         f"{VIEW_RULES[view]} {prop_instructions} {' '.join(view_prop_rules)} {STUDIO_BACKGROUND_RULE} "
         "One person, complete limbs, no text or labels."
     )
@@ -216,6 +255,7 @@ def main() -> None:
 
     body_references = resolve_body_references(args.body_reference)
     reference_paths = [body_references[view] for view in args.views]
+    reference_paths.extend(path for view in args.views for _, path in FACE_REFERENCES_BY_VIEW[view])
     reference_paths.extend(path for view in args.views for prop_id in args.props for path in prop_reference_paths(prop_id, view))
     if missing := [path.name for path in reference_paths if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
@@ -235,6 +275,8 @@ def main() -> None:
         for view in args.views:
             prompt = args.prompt or build_prompt(view, tuple(args.props))
             prop_paths = [path for prop_id in args.props for path in prop_reference_paths(prop_id, view)]
+            face_reference_labels = [label for label, _ in FACE_REFERENCES_BY_VIEW[view]]
+            face_reference_paths = [path for _, path in FACE_REFERENCES_BY_VIEW[view]]
             stem = candidate_stem(
                 f"{args.output_prefix}-{view}",
                 seed=seed,
@@ -243,6 +285,7 @@ def main() -> None:
                     "model": MODEL_ID,
                     "prompt": prompt,
                     "body_composition": body_references[view].name,
+                    "face_references": [path.name for path in face_reference_paths],
                     "props": [path.name for path in prop_paths],
                     "seed": seed,
                     "steps": args.steps,
@@ -253,9 +296,10 @@ def main() -> None:
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
             prop_images = [Image.open(path).convert("RGB") for path in prop_paths]
+            face_images = [Image.open(path).convert("RGB") for path in face_reference_paths]
             with Image.open(body_references[view]) as body_source:
                 image = pipe(
-                    image=[body_source.convert("RGB"), *prop_images],
+                    image=[body_source.convert("RGB"), *face_images, *prop_images],
                     prompt=prompt,
                     width=IMAGE_WIDTH,
                     height=IMAGE_HEIGHT,
@@ -292,6 +336,7 @@ def main() -> None:
                             "prompt": prompt,
                             "prompt_word_count": prompt_word_count(prompt),
                             "body_composition": body_references[view].name,
+                            "face_references": {"labels": face_reference_labels, "sources": [path.name for path in face_reference_paths]},
                             "props": [path.name for path in prop_paths],
                         },
                         "model": MODEL_ID,

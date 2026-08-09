@@ -1,0 +1,39 @@
+{
+  "status": "approved",
+  "output": "p7-5-2-fullbody-rear-refined-reference.png",
+  "approval": "human_approved",
+  "view": "rear",
+  "seed": 62294,
+  "steps": 3,
+  "seed_offset": 0,
+  "seed_step": 1,
+  "batch_index": 0,
+  "batch_size": 1,
+  "output_prefix": "p7-5-2-fullbody-face-prop-refinement",
+  "stage": {
+    "status": "generated",
+    "prompt": "Refine the supplied full-body reference into one full-body studio image of the same woman. Keep the supplied full-body reference's upright pose, direction, hair-to-sole framing, and dark teal trousers and white low-top sneakers. Use the supplied separate face references only for the back-of-head hair silhouette and nape identity; no visible face. Keep a rear view facing away; do not show a frontal face. Apply the supplied complete outfit reference, including its jacket, crop top, trousers, and crossbody bag placement. Rear: replace the upper garment with the supplied white cropped utility jacket: plain white back panel, long cuffed sleeves to the wrists, and bare-skin midriff below its hem; no gray inner top is visible. Show one continuous taut deep-navy canvas strap from the outer wearer's-right shoulder diagonally across the jacket back, exiting beyond the left waistband. At the outer left hip, show only a small deep-navy woven-fabric bag corner, mostly hidden behind the torso. Use a plain white wall and a plain white studio floor. One person, complete limbs, no text or labels.",
+    "prompt_word_count": 171,
+    "body_composition": "p7-5-2-fullbody-rear-reference.png",
+    "face_references": {
+      "labels": [
+        "approved_front_face",
+        "approved_rear_face"
+      ],
+      "sources": [
+        "p7-5-2-face-front-reference.png",
+        "p7-5-2-face-rear-reference.png"
+      ]
+    },
+    "props": [
+      "p7-5-2-prop-reference-complete-outfit-rear-hip.png"
+    ]
+  },
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    960,
+    1440
+  ],
+  "elapsed_seconds": 33.42,
+  "decision": "Approved by human review for face identity, body direction, outfit geometry, and strap continuity."
+}
