@@ -75,7 +75,7 @@
 
 `한국어 컷 지시 -> LLM pose DSL -> schema·의미 validator -> pose/camera resolver -> Blender blockout` 경로를 시험했다. 직접 관절 각도를 언어 모델에게 자유 출력하게 하면 작은 LLM에서 예시 값 복사, 존재하지 않는 bone, 행동 의미 불일치가 발생했다. 제한된 enum으로 바꾼 뒤 형식과 카메라 제약은 통과했지만, 표 제시의 손·팔 연결과 보행의 지지·체중 이동이 부자연스러웠다. 따라서 이 구현은 웹툰 포즈 리깅 예제로 채택하지 않으며, 더 적합한 motion/SMPL 모델 또는 검증된 pose transfer 경로를 찾기 전까지 조사 후보로만 유지한다.
 
-재검토할 경로에서 LLM은 최종 그림이나 관절값을 만드는 대신 **콘티의 자연어를 수정 가능한 shot intent로 컴파일**한다. 그 출력에는 prompt, model id, raw response, validation result를 남기되, 실제 움직임은 motion model 또는 driving video가 제안하고 사람이 승인한다. MotionGPT는 text-to-motion을 `(nframe, 22, 3)` motion으로 내보내고, ChatPose는 LLM에서 SMPL parameter를 생성하는 연구이므로, 나중에 더 복잡한 동작 모델을 붙일 때도 같은 검증 경계를 유지한다.
+재검토할 경로에서 LLM은 최종 그림이나 관절값을 만드는 대신 **스토리보드의 자연어를 수정 가능한 shot intent로 컴파일**한다. 그 출력에는 prompt, model id, raw response, validation result를 남기되, 실제 움직임은 motion model 또는 driving video가 제안하고 사람이 승인한다. MotionGPT는 text-to-motion을 `(nframe, 22, 3)` motion으로 내보내고, ChatPose는 LLM에서 SMPL parameter를 생성하는 연구이므로, 나중에 더 복잡한 동작 모델을 붙일 때도 같은 검증 경계를 유지한다.
 
 2026-08-01에 공식 `OpenMotionLab/MotionGPT-base`로 `a person walks forward one foot in front of the other`를 GPU에서 생성했다. 고정 seed의 152-frame, 22-joint 출력은 전진 거리와 양 발목의 변화, 반대 위상 보폭이라는 수치 조건은 통과했다. 그러나 keyframe을 사람 눈으로 검토하면 지지발, 체중 이동, 팔 스윙, 몸통 균형이 자연스러운 보행으로 읽히지 않았다. 또한 22관절 전신 skeleton은 손가락, 손목 회전, 팔 비틀림, 소품을 잡는 손의 접점을 표현하지 못한다. **수치 신호와 관절 수만으로 자연스러운 동작을 판정할 수 없다는 실패 사례**로만 기록하며, 실행 코드·관절 배열·contact sheet·실행 기록은 보존하지 않는다. 이 motion은 이후 pose transfer 입력으로도 사용하지 않는다.
 
@@ -124,7 +124,7 @@ VNCCS는 character sheet, pose, clothing, emotion을 분리해 sprite를 만드�
 
 | 품질 게이트 | 고정할 원본 | 생성 단계에서 쓰는 제어 | 사람이 확인할 결과 | 이 게이트만으로 해결되지 않는 것 |
 | --- | --- | --- | --- | --- |
-| 포즈·동작 | 기준 캐릭터 전신 sheet와 사람 검수를 통과한 driving video 또는 pose sequence | pose-guided human image animation model의 motion·pose·face 조건 | 지지발, 체중, 손·발, 목·머리 방향, 가림이 콘티와 맞음 | 얼굴 세부, 화풍 |
+| 포즈·동작 | 기준 캐릭터 전신 sheet와 사람 검수를 통과한 driving video 또는 pose sequence | pose-guided human image animation model의 motion·pose·face 조건 | 지지발, 체중, 손·발, 목·머리 방향, 가림이 스토리보드와 맞음 | 얼굴 세부, 화풍 |
 | 페이스 일관성 | 정면·반측면·측면 얼굴 sheet와 표정 sheet | 캐릭터 LoRA 또는 참조 adapter, 얼굴 마스크 inpaint | 눈 간격, 눈썹, 앞머리, 얼굴형, 표정이 각도별 기준과 맞음 | 전신 pose, 배경 |
 | 화풍 일관성 | 선 굵기, 채색, 명암, 색상 팔레트, 금지 질감이 있는 style sheet | 고정 checkpoint/LoRA, lineart 제어, 색상 보정 레이어 | 네 컷의 선, 피부·의상 채색, 광원 해석이 같은 작품처럼 보임 | 같은 인물의 보장 |
 | 다이내믹 카메라 | shot별 구도 기준 이미지, driving video frame, lens·높이·방향 기록 | video-to-video 또는 pose/depth/line 조건을 받는 생성 모델 | wide, low angle, 3/4, close-up 전환이 공간·전신 pose와 모순되지 않음 | 얼굴·손의 세부 완성 |
@@ -450,7 +450,7 @@ required_full_body: true
 candidate_duration: 1.5s
 ```
 
-motion model 또는 driving video가 여러 연속 자세를 제안하면, 사람은 지지발·체중·손과 소품의 접점·목-머리 방향이 맞는 frame만 승인한다. 승인 frame과 그 pose/face/depth 조건을 생성 모델에 다시 넣어 character LoRA 또는 참조 identity 조건과 결합하고, 그 뒤에만 정지 컷의 inpaint 단계를 적용한다. 이 순서라면 LLM은 의미 있는 콘티 인터페이스로 남되, 자연스러운 인체 역학을 작은 일반 LLM의 임의 관절값이나 Blender rig 조작에 맡기지 않는다.
+motion model 또는 driving video가 여러 연속 자세를 제안하면, 사람은 지지발·체중·손과 소품의 접점·목-머리 방향이 맞는 frame만 승인한다. 승인 frame과 그 pose/face/depth 조건을 생성 모델에 다시 넣어 character LoRA 또는 참조 identity 조건과 결합하고, 그 뒤에만 정지 컷의 inpaint 단계를 적용한다. 이 순서라면 LLM은 의미 있는 스토리보드 인터페이스로 남되, 자연스러운 인체 역학을 작은 일반 LLM의 임의 관절값이나 Blender rig 조작에 맡기지 않는다.
 
 ## 포즈 트랜스퍼 후보 판정
 
@@ -471,7 +471,7 @@ motion model 또는 driving video가 여러 연속 자세를 제안하면, 사�
 포즈 트랜스퍼는 다음처럼 제한해서 사용한다.
 
 1. **동작 연구 입력**: 짧은 driving video 또는 pose sequence에서 걷기, 팔 동작, 체중 이동의 후보를 얻는다.
-2. **콘티·blockout 보조**: 좋은 frame을 골라 pose, 소품 접점, camera 방향을 사람과 함께 다시 승인한다.
+2. **스토리보드·blockout 보조**: 좋은 frame을 골라 pose, 소품 접점, camera 방향을 사람과 함께 다시 승인한다.
 3. **최종 컷의 원본은 아님**: 선택 frame은 face sheet, style sheet, object contact, camera contract와 따로 대조하고, 통과하지 않으면 생성·inpaint 또는 직접 작화 단계로 돌린다.
 
 반대로 최종 컷의 pose를 포즈 트랜스퍼 결과 한 장에서 확정하고, 같은 결과에 얼굴·화풍·다이내믹 카메라를 모두 기대하는 경로는 채택하지 않는다. 이 방식은 현재의 단순 2D cutout보다 자연스러운 동작을 제안할 수는 있어도, 사용자에게 필요한 웹툰 수준의 검수 가능성과 수정 가능성을 제공하지 못한다.
@@ -564,7 +564,7 @@ FLUX.2 실행은 기존 SDXL 비교의 중립 전신 캐릭터 한 장과 `옆�
 
 | 단계 | 결정할 질문 | 주 산출물 | 공개 도구 후보 | 생성 AI의 위치 | 통과 기준 |
 | --- | --- | --- | --- | --- | --- |
-| 0. 시퀀스 설계 | 이 장면에서 독자가 무엇을 보아야 하는가? | 4~8컷 콘티, 컷별 감정·행동·대사 여백 표 | Krita 또는 종이 콘티 | 사용하지 않음 | 모든 컷에 인물, 행동, 시점, 말풍선 영역이 적혀 있음 |
+| 0. 시퀀스 설계 | 이 장면에서 독자가 무엇을 보아야 하는가? | 4~8컷 스토리보드, 컷별 감정·행동·대사 여백 표 | Krita 또는 종이 스토리보드 | 사용하지 않음 | 모든 컷에 인물, 행동, 시점, 말풍선 영역이 적혀 있음 |
 | 1. 캐릭터 승인 | 같은 인물의 변하지 않는 특징은 무엇인가? | 정면·반측면·측면 전신 기준서, 표정표, 색상표, 금지 변형 | Krita | 후보 탐색에만 사용 가능 | 각도별 얼굴·머리·의상·색이 승인됨 |
 | 2. 시작 원본 선택 | pose, 얼굴 반응, 공간·카메라 중 무엇을 먼저 고정할 것인가? | 각 컷의 승인 원본과 나머지 제어 입력 | Blender, Krita, Grease Pencil | 사용하지 않음 | 컷의 핵심 정보가 시작 원본에서 검수 가능함 |
 | 3. 컷 초안 | 구조를 지키며 어떤 그림 표현을 쓸 것인가? | 후보 이미지, workflow JSON, seed, control 이미지 | ComfyUI + ControlNet/IP-Adapter | 후보 생성 | pose, 시점, 배경 위치가 블로킹과 일치함 |
@@ -584,7 +584,7 @@ FLUX.2 실행은 기존 SDXL 비교의 중립 전신 캐릭터 한 장과 `옆�
 | 3 | 반응을 보임 | 허리 위 3/4, 같은 카메라 축 | 왼쪽 위 | 얼굴·눈·앞머리 |
 | 4 | 소품과 행동을 확인 | 손과 소품이 보이는 medium close-up | 아래쪽 | 손가락, 소품 크기, 가림 |
 
-각 컷은 `누가`, `어디에`, `무엇을 하는가`, `어느 쪽을 보는가`, `어디를 비워 둘 것인가`를 문장으로 승인한다. 이것이 prompt가 아닌 콘티 계약이며, 후속 도구가 바뀌어도 유지된다.
+각 컷은 `누가`, `어디에`, `무엇을 하는가`, `어느 쪽을 보는가`, `어디를 비워 둘 것인가`를 문장으로 승인한다. 이것이 prompt가 아닌 스토리보드 계약이며, 후속 도구가 바뀌어도 유지된다.
 
 ### 1. 캐릭터 기준서: 한 장의 참조 사진보다 넓은 기준
 
@@ -656,7 +656,7 @@ selection_reason:
 
 ### 6. 식자와 세로 배치: 생성 이미지가 아닌 독서 결과를 만든다
 
-완성 컷은 그림 파일만으로 끝나지 않는다. Krita의 레이어 파일에 그림, 말풍선, 대사, 효과음, 컷 간 여백을 분리해 둔다. 말풍선은 콘티에서 비워 둔 공간에만 넣고, 표정과 손·소품을 덮으면 컷을 다시 설계한다. 이 단계는 생성 모델에 맡기지 않는다. 대사나 글자가 이미지에 섞이면 수정성과 번역 가능성이 크게 떨어진다.
+완성 컷은 그림 파일만으로 끝나지 않는다. Krita의 레이어 파일에 그림, 말풍선, 대사, 효과음, 컷 간 여백을 분리해 둔다. 말풍선은 스토리보드에서 비워 둔 공간에만 넣고, 표정과 손·소품을 덮으면 컷을 다시 설계한다. 이 단계는 생성 모델에 맡기지 않는다. 대사나 글자가 이미지에 섞이면 수정성과 번역 가능성이 크게 떨어진다.
 
 ### 7. 연속성 검수: 한 컷이 아니라 배열로 판정한다
 
@@ -674,7 +674,7 @@ selection_reason:
 | 역할 | 기본 도구 | 대체 도구 | 선택 이유 |
 | --- | --- | --- | --- |
 | 기준서·직접 보정·식자 | Krita | 다른 레이어 기반 편집기 | 캐릭터 원본과 최종 text layer를 분리함 |
-| 전신 pose·카메라·depth/line 입력 | Blender | 손그림 콘티 + ControlNet 입력 | 컷 간 카메라와 공간을 재현할 수 있음 |
+| 전신 pose·카메라·depth/line 입력 | Blender | 손그림 스토리보드 + ControlNet 입력 | 컷 간 카메라와 공간을 재현할 수 있음 |
 | 반복되는 평면 동작 | Blender Grease Pencil | OpenToonz Plastic | 동일 부품의 변형을 명시적으로 기록함 |
 | 생성 초안과 국소 보정 | ComfyUI | 직접 사용 가능한 다른 node 기반 UI | workflow, model, control, seed를 파일로 기록 가능 |
 | 컷 배열 검수 | Krita contact sheet 또는 작은 Python 스크립트 | 수동 배열 | 한 장씩이 아니라 시퀀스로 실패를 찾음 |
@@ -768,7 +768,7 @@ Python 예제는 생성 모델을 새로 구현하는 대신, 위 묶음의 누�
 ## 다음 구현 순서
 
 1. P7-5.2에는 현재 자연스러운 포즈를 입증하는 생성 예제가 없음을 유지하고, 미채택 실험을 다시 본문 자산으로 되돌리지 않는다.
-2. 가상의 자체 제작 캐릭터와 서로 다른 장소·카메라를 포함한 4컷 콘티를 기준으로 character sheet와 shot intent 계약을 만든다.
+2. 가상의 자체 제작 캐릭터와 서로 다른 장소·카메라를 포함한 4컷 스토리보드를 기준으로 character sheet와 shot intent 계약을 만든다.
 3. 표정·대화 컷은 `face-first` 또는 `camera/background-first`로 시작한다. 다이내믹 전신 컷은 AnimateDiff + ControlNet을 먼저 실행해 기준 캐릭터, driving video, pose·depth 조건을 결합한 짧은 후보 영상을 만든다.
 4. OpenPose 또는 MMPose 전신 keypoint는 driving 영상과 후보 frame에서 손목·발·얼굴의 누락을 검사하는 데만 쓰며, keypoint만으로 동작을 통과시키지 않는다.
 5. 통과 frame의 pose·face·depth·camera 기록을 남기고 정지 컷 생성과 국소 inpaint를 적용한다. character sheet·배경·화풍 게이트는 별도로 통과시킨다. Blender는 driving 원본을 만들 수 없을 때만 선택적으로 쓴다.

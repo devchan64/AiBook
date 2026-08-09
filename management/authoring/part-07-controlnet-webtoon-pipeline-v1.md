@@ -204,9 +204,9 @@ ComfyUI inpainting은 수정할 영역을 mask로 지정하고 inpainting용 VAE
 
 얼굴·눈·앞머리, 손·소품, 발·접지, 배경을 서로 다른 mask로 나눈다. inpaint 뒤에는 수정 mask 밖의 character sheet 특징, camera, 소품 위치가 보존됐는지 다시 판정한다. 말풍선과 대사는 생성 이미지에 포함하지 않고 레이어 기반 편집 단계에서 넣는다.
 
-## 검증용 manifest
+## 현재 검증 경로
 
-`docs/assets/part-07/chapter-05/p7-5-3-controlnet-pipeline-manifest.json`은 이 계약의 초기 템플릿이고, `p7_5_3_controlnet_pipeline_check.py`는 누락된 승인 자산, 컷별 주 제어 입력, 품질 판정을 검사한다. 템플릿은 일부러 `asset_approval` 단계에서 멈춰 있으며, 실제 이미지가 승인되기 전에는 생성 실행을 허용하지 않는다.
+이전 manifest와 검사기는 제거했다. 현재 기준은 `docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py`가 FLUX.2 Klein 4B로 후보 스토리보드를 먼저 만들고, 사람 검수로 승인한 PNG를 명시했을 때만 lineart·canny·depth를 추출하는 경로다. 형상이 무너진 후보와 그 파생 guide는 다음 단계 입력으로 쓰지 않고 삭제한다. 현재 승인 스토리보드·guide·최종 캐릭터 컷은 없으며, 승인 여부는 정적 manifest가 아니라 P7-5.3 원고와 릴리즈노트에 남기는 실제 사람 검수로 기록한다.
 
 ## 채택과 제외
 

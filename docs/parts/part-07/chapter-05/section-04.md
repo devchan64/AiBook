@@ -1,9 +1,19 @@
 # P7-5.4 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기
 
 > Section ID: `P7-5.4`
-> Version: `v2026.08.06`
+> Version: `v2026.08.09`
 
-마지막 실험은 `P7-5.3`에서 생성한 컷신 후보 중 전체 frame이 읽히는 결과만 대상으로, 화풍과 컷 사이 연속성을 보정하는 단계입니다. 목표는 한 장의 예쁜 이미지를 만드는 것이 아니라, 다른 pose·camera·장소의 네 컷에서 인물성, 화풍, 구조, 국소 디테일을 분리해 판정하는 것입니다. ControlNet은 pose·camera·silhouette 같은 구조 입력을 확인하는 수단이고, inpaint는 그 전체 frame이 통과한 뒤에만 얼굴·손·발·소품 접점을 고치는 수단입니다.
+이 절은 `P7-5.3`에서 인체·가림·공간 관계를 검수한 장면 기준과 전체 컷이 생긴 뒤에 시작하는 후속 단계입니다. 현재 P7-5.3에는 구조·캐릭터 정보의 수용을 승인한 A/B/C 장면이 있지만, 공간·조명·그림자까지 통과한 완성 컷은 없습니다. 따라서 보정 도구를 최종 승인처럼 앞당겨 쓰지 않습니다. 목표는 한 장의 예쁜 이미지를 만드는 것이 아니라, 다른 pose·camera·장소의 네 컷에서 인물성, 화풍, 구조, 국소 디테일을 분리해 판정하는 것입니다. ControlNet은 pose·camera·silhouette 같은 구조 입력을 확인하는 수단이고, inpaint는 그 전체 frame이 통과한 뒤에만 얼굴·손·발·소품 접점을 고치는 수단입니다.
+
+## LoRA 전환에는 별도 데이터와 학습 환경이 필요하다
+
+참조 이미지만으로 얼굴과 복장이 약하게 섞일 때는 LoRA를 검토할 수 있다. 현 FLUX 경로에 맞는 학습 대상은 Apache-2.0인 **FLUX.2 Klein 4B Base**다. 학습은 Base checkpoint에서 하고, 완성한 adapter는 빠른 distilled 4B 추론 모델에 붙인다.
+
+하지만 이는 현재 8 GB GPU에서 바로 실행할 다음 단계가 아니다. 공식 Klein LoRA 안내의 4B Base 학습 예시는 약 24 GB VRAM 환경을 전제로 한다. 이는 모든 설정의 절대 최소치가 아니라 공식 예제의 검증 조건이지만, 현재 8 GB 환경에서 같은 학습을 승인할 근거로 사용할 수는 없다. FLUX.1-dev QLoRA 공식 사례의 peak도 약 9 GB이고 base model의 비상업 라이선스가 현재의 개방 라이선스 기준과 맞지 않는다.
+
+학습을 시작하려면 먼저 올바른 데이터를 확보한다. 공식 예시의 스타일 LoRA는 서로 다른 구도와 시점을 가진 15–40장의 이미지와 각 이미지의 내용 caption·동일 trigger word를 사용한다. 현재 P7-5.2 기준 자산은 얼굴·전신·소품 보드가 섞여 있어 그 자체를 하나의 학습 데이터셋으로 보지 않는다. 실패하거나 왜곡된 생성 이미지도 학습 데이터로 사용하지 않는다.
+
+구도 보존과 캐릭터 교체를 함께 학습하려면 입력 이미지와 목표 이미지를 짝짓는 **edit LoRA** 형식이 더 직접적이다. 공식 안내는 `control_path`로 이 쌍을 연결하지만 보편적인 최소 쌍 수를 보장하지 않는다. 따라서 필요한 데이터 수는 임의로 확정하지 않고, 같은 포즈·구도에서 캐릭터·복장이 완성된 검수 쌍과 별도 학습 환경을 확보한 뒤 실험으로 정한다.
 
 ## 한 컷에 하나의 주 제어만 둔다
 
@@ -84,16 +94,11 @@ off 결과는 옆면과 전신 비례를 따르지 못한 단순 인물입니다
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## Python으로 실행 전 계약을 검사하기
+## 생성 전에 지키는 입력 계약
 
-저장소의 검증기는 참조 팩 승인 전에는 generation 단계로 넘어가지 못하게 하고, panel마다 camera, identity anchor, repair target을 요구합니다.
+이전 manifest 검사기는 삭제했다. P7-5.3의 [FLUX 스토리보드 코드](../../../assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py)는 후보 스토리보드를 만들고, 사람 검수로 승인한 PNG를 명시할 때만 lineart·Canny·depth를 파생한다. 현재 A/B/C의 구조 수용 결과는 있지만 공간·조명·그림자까지 통과한 완성 컷은 없으므로, 이 절의 inpaint 판단은 전체 frame 검수 뒤에만 시작한다.
 
-```bash
-.venv/bin/python docs/assets/part-07/chapter-05/p7_5_3_controlnet_pipeline_check.py \
-  docs/assets/part-07/chapter-05/p7-5-3-controlnet-pipeline-manifest.json
-```
-
-현재 템플릿의 출력은 `BLOCKED asset ...`입니다. 이는 오류가 아니라 전신·얼굴·화풍·장소 sheet가 승인되기 전에는 생성 결과를 최종 웹툰 컷으로 올리지 않는다는 경계입니다. [검사 스크립트](../../../assets/part-07/chapter-05/p7_5_3_controlnet_pipeline_check.py)와 [현재 출력](../../../assets/part-07/chapter-05/p7-5-3-controlnet-pipeline-check.txt)을 함께 확인합니다.
+P7-5.4에서 inpaint를 검토할 수 있는 조건도 같다. 먼저 P7-5.3에서 행동·인체·거리 관계가 읽히는 스토리보드와 전체 웹툰 컷을 사람 검수한다. 그 전체 frame이 통과하지 않으면 얼굴·손·발·소품의 mask 보정으로 넘어가지 않는다.
 
 실제 structure probe의 조건은 아래 실행 코드에서 확인합니다.
 
@@ -131,3 +136,5 @@ off 결과는 옆면과 전신 비례를 따르지 못한 단순 인물입니다
 - Hugging Face, [Diffusers IP-Adapter guide](https://huggingface.co/docs/diffusers/v0.36.0/using-diffusers/ip_adapter){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-03.
 - Comfy-Org, [ControlNet workflow](https://docs.comfy.org/tutorials/controlnet/controlnet){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-02.
 - Comfy-Org, [Inpainting](https://docs.comfy.org/tutorials/basic/inpaint){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-02.
+- Black Forest Labs, [FLUX.2 Klein LoRA 학습 안내](https://huggingface.co/blog/black-forest-labs/flux-2-klein-lora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. Base 4B 학습, 15–40장 스타일 예시, 약 24 GB VRAM의 공식 예제 조건과 edit LoRA의 `control_path` 형식을 확인했다.
+- Hugging Face, [FLUX.1-dev QLoRA 안내](https://huggingface.co/blog/flux-qlora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. 공식 사례의 약 9 GB peak와 저메모리 설정을 비교 근거로 사용했다.

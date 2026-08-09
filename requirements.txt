@@ -6,6 +6,7 @@ mkdocs-minify-plugin==0.8.0
 torch==2.11.0+cu128
 diffusers==0.37.0
 accelerate==1.13.0
+lpips==0.1.4
 peft==0.18.1
 networkx==3.6.1
 numpy==2.0.2

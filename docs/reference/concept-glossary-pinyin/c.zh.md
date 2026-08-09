@@ -32,6 +32,8 @@
 
 --8<-- "reference/concept-glossary-terms/computational-limit.zh.md"
 
+--8<-- "reference/concept-glossary-terms/cpu-offloading.zh.md"
+
 
 
 

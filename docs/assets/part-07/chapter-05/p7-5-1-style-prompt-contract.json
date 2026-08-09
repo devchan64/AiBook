@@ -1,0 +1,14 @@
+{
+  "contract_id": "p7-5-1-background-style-v1",
+  "purpose": "Shared P7-5.1 background-only style prompt. Scene prompts supply place, time, and camera separately.",
+  "common_contract": "Create an edge-to-edge Korean webtoon background: at every image border the depicted architecture, ground, sky, or foliage continues naturally, as if the camera cuts through an ongoing real space. Do not draw an outer rectangular outline or surround the scene with a dark border. Use a transparent watercolor-and-ink medium inside the depicted architecture: sparse thin charcoal contour and structure lines contain visible wet-on-wet blooms, uneven pigment pooling, granulating translucent washes, and layered translucent edges. Make the material texture and lighting visibly varied: distinct translucent pigment pools on lit planes, cool shadow planes, and small reflected-light accents must remain separately readable, never one uniform teal or gray wash. Use natural medium-chroma pigment, never neon, fluorescent, opaque, airbrushed, digitally flat, densely hatched, crosshatched, stippled, ink-wash, sumi-e, photorealistic, screentoned, or thick comic outlined. Exclude readable signs, logos, people, animals, and vehicles.",
+  "fixed_checks": [
+    "edge-to-edge background without an outer frame or dark border",
+    "sparse thin charcoal contour and structure lines",
+    "transparent watercolor layers with wet-on-wet blooms, pigment pooling, granulation, and translucent edges",
+    "separate readable lit planes, cool shadows, and reflected-light accents",
+    "natural medium-chroma pigment without neon, opaque airbrush, photorealistic, screentone, dense hatching, or thick comic outlines",
+    "no readable signs, logos, people, animals, or vehicles"
+  ],
+  "assembly_rule": "Append this common_contract to exactly one scene prompt; scene prompts may change only location, time, camera, and scene-specific palette constraints."
+}

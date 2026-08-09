@@ -1,0 +1,49 @@
+{
+  "status": "approved",
+  "source_candidate": "p7-5-2-fullbody-turnaround-profile_left-hash-61be3de9ec-seed-62294-steps-6-candidate.png",
+  "output": "p7-5-2-fullbody-profile-left-reference.png",
+  "view": "profile_left",
+  "seed": 62294,
+  "steps": 6,
+  "seed_offset": 0,
+  "seed_step": 1,
+  "batch_index": 0,
+  "batch_size": 1,
+  "output_prefix": "p7-5-2-fullbody-turnaround",
+  "stage": {
+    "status": "generated",
+    "prompt": "Use the supplied front full-body reference as the fixed source for the entire figure and its rotation. Use the supplied ordered face sheet to preserve the same face and hair across the front and target-direction panels. Render the same full-body figure strict side profile facing image left; nose, chest, hips, and toes point image left; near arm visible, far arm hidden, two legs and shoes separate. Preserve the full-body proportion, clothing silhouette, shoulder-width stance, and off-white studio background. One person, complete limbs, no text or labels.",
+    "prompt_word_count": 86,
+    "references": [
+      "p7-5-2-fullbody-front-reference.png",
+      "p7-5-2-fullbody-front-reference.png"
+    ],
+    "face_reference_sheet": {
+      "panel_order": [
+        "approved_front_face",
+        "approved_left_front_quarter_face",
+        "approved_left_profile_face"
+      ],
+      "sources": [
+        "p7-5-2-face-front-reference.png",
+        "p7-5-2-face-front-quarter-left-reference.png",
+        "p7-5-2-face-profile-left-reference.png"
+      ],
+      "size": [
+        2304,
+        768
+      ]
+    }
+  },
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    960,
+    1440
+  ],
+  "elapsed_seconds": 57.65,
+  "decision": "Approved by human review as the stable left profile full-body turnaround reference.",
+  "approval": {
+    "status": "approved",
+    "approved_asset": "p7-5-2-fullbody-profile-left-reference.png"
+  }
+}

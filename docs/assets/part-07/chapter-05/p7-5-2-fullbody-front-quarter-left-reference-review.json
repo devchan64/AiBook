@@ -1,0 +1,49 @@
+{
+  "status": "approved",
+  "source_candidate": "p7-5-2-fullbody-turnaround-front_quarter_left-hash-0563b2b113-seed-62294-steps-6-candidate.png",
+  "output": "p7-5-2-fullbody-front-quarter-left-reference.png",
+  "view": "front_quarter_left",
+  "seed": 62294,
+  "steps": 6,
+  "seed_offset": 0,
+  "seed_step": 1,
+  "batch_index": 0,
+  "batch_size": 1,
+  "output_prefix": "p7-5-2-fullbody-turnaround",
+  "stage": {
+    "status": "generated",
+    "prompt": "Use the supplied front full-body reference as the fixed source for the entire figure and its rotation. Use the supplied ordered face sheet to preserve the same face and hair across the front and target-direction panels. Render the same full-body figure left front-quarter view, walking diagonally toward image left; gaze toward the left front-quarter. Preserve the full-body proportion, clothing silhouette, shoulder-width stance, and off-white studio background. One person, complete limbs, no text or labels.",
+    "prompt_word_count": 74,
+    "references": [
+      "p7-5-2-fullbody-front-reference.png",
+      "p7-5-2-fullbody-front-reference.png"
+    ],
+    "face_reference_sheet": {
+      "panel_order": [
+        "approved_front_face",
+        "approved_left_front_quarter_face",
+        "approved_left_profile_face"
+      ],
+      "sources": [
+        "p7-5-2-face-front-reference.png",
+        "p7-5-2-face-front-quarter-left-reference.png",
+        "p7-5-2-face-profile-left-reference.png"
+      ],
+      "size": [
+        2304,
+        768
+      ]
+    }
+  },
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    960,
+    1440
+  ],
+  "elapsed_seconds": 83.41,
+  "decision": "Approved by human review as the stable left front-quarter full-body turnaround reference.",
+  "approval": {
+    "status": "approved",
+    "approved_asset": "p7-5-2-fullbody-front-quarter-left-reference.png"
+  }
+}

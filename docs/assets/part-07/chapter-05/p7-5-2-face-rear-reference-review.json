@@ -1,0 +1,37 @@
+{
+  "status": "approved",
+  "source_candidate": "p7-5-2-face-direction-rear-hash-1d1b6d6a41-seed-62294-steps-3-candidate.png",
+  "output": "p7-5-2-face-rear-reference.png",
+  "view": "rear",
+  "seed": 62294,
+  "contract_hash": "1d1b6d6a41",
+  "steps": 3,
+  "preview_interval": 0,
+  "seed_offset": 0,
+  "seed_step": 1,
+  "batch_index": 0,
+  "batch_size": 1,
+  "output_prefix": "p7-5-2-face-direction",
+  "generation": {
+    "prompt": "One individual head-and-neck directional portrait of the same woman from the supplied frontal reference. Fixed direction: strict 180-degree rear view, facing directly away from the camera: show only the back of the bob haircut, back of head, ears if exposed, and nape; no face, eye, eyebrow, nose, lips, cheek, or side-profile outline. Preserve only Deep petrol-teal, extremely voluminous jaw-length bob with medium-density hair; preserve the rear bob silhouette, nape hairline, and hair color. Do not reveal a face. Plain off-white background, one person, no text, no panels, no collage.",
+    "prompt_word_count": 89,
+    "identity_reference": "p7-5-2-face-front-reference.png",
+    "previews": []
+  },
+  "references": [
+    "p7-5-2-face-front-reference.png"
+  ],
+  "identity_contract": "p7-5-2-face-identity-contract.json",
+  "input_transform": "Cropped the frontal anchor at y=720 before inference.",
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    768,
+    768
+  ],
+  "elapsed_seconds": 11.81,
+  "decision": "Approved by human review as the stable rear face reference.",
+  "approval": {
+    "status": "approved",
+    "approved_asset": "p7-5-2-face-rear-reference.png"
+  }
+}
