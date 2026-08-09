@@ -26,6 +26,31 @@
     return filename || pathname;
   }
 
+  function addSourceSummaryMetadata(details, summary, label) {
+    const source = details.dataset.source;
+    const language = details.dataset.language || inferLanguageFromUrl(source);
+    details.dataset.language = language;
+    details.classList.add("aibook-lazy-source--with-meta");
+
+    const title = document.createElement("span");
+    title.className = "aibook-lazy-source__title";
+
+    const sourceLabel = document.createElement("span");
+    sourceLabel.className = "aibook-lazy-source__label";
+    sourceLabel.textContent = label || "원문 보기";
+
+    const filename = document.createElement("span");
+    filename.className = "aibook-lazy-source__filename";
+    filename.textContent = `파일명: ${filenameFromUrl(source)}`;
+
+    const meta = document.createElement("span");
+    meta.className = "aibook-lazy-source__meta";
+    meta.textContent = `유형: ${language}`;
+
+    title.append(sourceLabel, filename);
+    summary.replaceChildren(title, meta);
+  }
+
   function appendToken(parent, text, tokenType) {
     if (!text) {
       return;
@@ -122,23 +147,7 @@
     details.dataset.language = link.dataset.language || inferLanguageFromUrl(link.href);
 
     const summary = document.createElement("summary");
-    const title = document.createElement("span");
-    title.className = "aibook-lazy-source__title";
-
-    const label = document.createElement("span");
-    label.className = "aibook-lazy-source__label";
-    label.textContent = link.textContent.trim() || "원문 보기";
-
-    const filename = document.createElement("span");
-    filename.className = "aibook-lazy-source__filename";
-    filename.textContent = `파일: ${filenameFromUrl(link.href)}`;
-
-    const meta = document.createElement("span");
-    meta.className = "aibook-lazy-source__meta";
-    meta.textContent = details.dataset.language;
-
-    title.append(label, filename);
-    summary.append(title, meta);
+    addSourceSummaryMetadata(details, summary, link.textContent.trim());
 
     const body = document.createElement("div");
     body.className = "aibook-lazy-source__body";
@@ -177,6 +186,10 @@
         return;
       }
       details.dataset.lazySourceReady = "true";
+      const summary = details.querySelector(":scope > summary");
+      if (summary) {
+        addSourceSummaryMetadata(details, summary, summary.textContent.trim());
+      }
       details.addEventListener("toggle", () => {
         if (details.open) {
           loadSource(details);

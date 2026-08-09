@@ -270,14 +270,14 @@
   color: #a5d6ff;
 }
 
-.md-typeset .aibook-lazy-source--from-link > summary {
+.md-typeset .aibook-lazy-source--with-meta > summary {
   align-items: center;
   display: flex;
   gap: 1rem;
   justify-content: space-between;
 }
 
-.md-typeset .aibook-lazy-source--from-link > summary::after {
+.md-typeset .aibook-lazy-source--with-meta > summary::after {
   color: var(--md-default-fg-color--light);
   content: "열기";
   flex: none;
@@ -285,7 +285,7 @@
   font-weight: 500;
 }
 
-.md-typeset .aibook-lazy-source--from-link[open] > summary::after {
+.md-typeset .aibook-lazy-source--with-meta[open] > summary::after {
   content: "닫기";
 }
 
