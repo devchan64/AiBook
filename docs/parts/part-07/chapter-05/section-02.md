@@ -42,7 +42,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | 4 | 방향 전신 | 방향 얼굴, 개별 소품 | 몸 방향·비례와 복장·스트랩 같은 특징 장치의 연속성 |
 | 5 | 전신 얼굴·소품 보강 | 승인된 방향 전신, 방향별 원본 얼굴 기준, 자켓·가방 | 얼굴 identity와 자켓·가방 형태를 보강해도 방향 전신이 유지되는지 |
 
-4번은 승인된 정면 전신 앵커와 방향별 얼굴·소품 기준을 입력으로 사용해 좌·우 전면 쿼터·좌·우 측면·후면을 각각 생성합니다. 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아니라, 방향별 결과의 전신 프레이밍·복장·신발·얼굴 연속성을 사람이 대조할 수 있게 하는 생성·검수 순서입니다.
+4번은 승인된 정면 전신 앵커와 얼굴 시트를 입력으로 사용해 좌·우 전면 쿼터·좌·우 측면·후면을 각각 생성합니다. 좌측 계열 시트는 정면·좌측 쿼터·좌측 측면 얼굴을, 우측 계열 시트는 정면·우측 쿼터·우측 측면 얼굴을 차례로 놓습니다. 이 순서는 모델이 3D 회전을 계산했다는 뜻이 아니라, 방향별 결과의 전신 프레이밍·복장·신발·얼굴 연속성을 사람이 대조할 수 있게 하는 생성·검수 순서입니다.
 
 ## 정면 얼굴 identity 기준
 
@@ -50,7 +50,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ### 얼굴 공용 identity 계약 JSON
 
-[얼굴 공용 identity 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-face-identity-contract.json)은 정면 얼굴 생성기, 얼굴 턴어라운드 생성기, 방향 전신 생성기, 전신 얼굴·소품 리파인 생성기가 함께 읽는 텍스트 계약입니다. 이 파일은 참조 PNG나 사람 승인 판정 자체가 아니라, 같은 특징을 생성기마다 따로 복사해 적는 일을 줄이는 단일 원본입니다. PNG는 실제 결과를 사람이 대조하는 기준이고, JSON은 새 후보를 만들 때 유지할 특징의 문장 기준입니다.
+[얼굴 공용 identity 계약 JSON](../../../assets/part-07/chapter-05/p7-5-2-face-identity-contract.json)은 정면 얼굴 생성기와 얼굴 턴어라운드 생성기가 함께 읽는 텍스트 계약입니다. 이 파일은 참조 PNG나 사람 승인 판정 자체가 아니라, 같은 특징을 생성기마다 따로 복사해 적는 일을 줄이는 단일 원본입니다. PNG는 실제 결과를 사람이 대조하는 기준이고, JSON은 새 후보를 만들 때 유지할 특징의 문장 기준입니다. 방향 전신은 이 JSON 대신 사람 승인 얼굴 시트를 사용하며, 전신 얼굴·소품 리파인은 얼굴 시트를 쓰는 1차 뒤에 JSON을 얼굴 수정 지시로만 쓰는 2차를 적용합니다.
 
 | JSON 항목 | 맡는 역할 |
 | --- | --- |
@@ -82,7 +82,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | --- | --- | --- |
 | ![승인된 좌측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-left-reference.png) | ![승인된 우측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-right-reference.png) | ![승인된 후면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-rear-reference.png) |
 
-실행 prompt, seed, 방향과 승인 범위는 커밋하지 않는 로컬 생성 기록으로 확인합니다. 개별 방향 PNG는 사람 검수용 대조물이면서, 기본 전신 방향 생성의 face identity 입력입니다.
+실행 prompt, seed, 방향과 승인 범위는 커밋하지 않는 로컬 생성 기록으로 확인합니다. 개별 방향 PNG는 사람 검수용 대조물이면서, 정면 PNG와 함께 기본 전신 방향 생성의 방향별 얼굴 시트 패널입니다.
 
 | 기준 | 현재 상태 | 다음 판정 |
 | --- | --- | --- |
@@ -101,7 +101,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ### 전신 보강용 얼굴 identity 입력
 
-전신 턴어라운드와 리파인은 사람 승인한 개별 방향 얼굴 PNG를 직접 identity 입력으로 사용합니다. 리파인 생성기의 여섯 view(`front`, `front_quarter_left`, `front_quarter_right`, `profile_left`, `profile_right`, `rear`)는 같은 이름의 전신 composition·방향 얼굴 기준을 한 쌍으로 사용합니다. 좌·우를 합친 `front_quarter`와 `profile`은 더 이상 실행 view가 아닙니다. 별도 얼굴 복원·확대 구조는 두지 않습니다. 정면·쿼터·측면은 보이는 얼굴의 홍채·눈·코·입·턱·헤어라인을, 후면은 단발 실루엣·목선·머리색을 사람 검수로 확인합니다.
+전신 턴어라운드와 리파인 1차는 정면 얼굴과 목표 방향에 맞는 쿼터·측면 얼굴을 한 시트로 합쳐 image conditioning 참조로 사용합니다. 리파인 생성기의 여섯 view(`front`, `front_quarter_left`, `front_quarter_right`, `profile_left`, `profile_right`, `rear`)는 같은 이름의 전신 composition과 방향별 얼굴 시트를 함께 사용하고, 2차는 같은 시트와 identity JSON을 얼굴 수정 지시로만 사용합니다. 좌·우를 합친 `front_quarter`와 `profile`은 더 이상 실행 view가 아닙니다. 별도 얼굴 복원·확대 구조는 두지 않습니다. 정면·쿼터·측면은 보이는 얼굴의 홍채·눈·코·입·턱·헤어라인을, 후면은 단발 실루엣·목선·머리색을 사람 검수로 확인합니다.
 
 ## 소품 기준 검수 결과: 기본 복장과 확장 소품
 
@@ -152,7 +152,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## 방향별 전신 기준
 
-방향별 얼굴 기준과 회색 크롭탑·바지·신발 소품을 입력으로 정면·좌우 전면 쿼터·좌우 측면·후면을 개별 생성해 기본 전신 기준을 사람 승인했습니다. 여섯 방향의 승인 범위는 자연스러운 신체비율, 전신 프레이밍, 기본 복장·신발, 청록 단발의 연속성입니다. 같은 여섯 방향에는 자켓·가방을 더한 리파인 결과도 별도로 승인했습니다. 정면 앵커를 기준으로 나머지 다섯 방향을 파생하되, 성인 체형 prompt는 비례를 보조할 뿐 결정적 제어가 아니므로 실제 비율은 사람 검수로 확인합니다. 입력·seed·prompt와 사람 판정은 커밋하지 않는 로컬 생성 기록으로 확인합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
+방향별 얼굴 기준과 회색 크롭탑·바지·신발 소품을 입력으로 정면·좌우 전면 쿼터·좌우 측면·후면을 개별 생성해 기본 전신 기준을 사람 승인했습니다. 여섯 방향의 승인 범위는 자연스러운 신체비율, 전신 프레이밍, 기본 복장·신발, 청록 단발의 연속성입니다. 같은 여섯 방향에는 자켓·가방을 더한 리파인 결과도 별도로 승인했습니다. 정면 앵커를 기준으로 나머지 다섯 방향을 파생하되, 성인 체형 prompt는 비례를 보조할 뿐 결정적 제어가 아니므로 실제 비율은 사람 검수로 확인합니다. 미승인 후보 기록은 로컬에 두고, 승인한 다섯 방향의 입력·seed·prompt·사람 판정은 아래 `review.json` 관리 자산으로 보존합니다. 표정·동작·camera 변화·컷신은 별도 생성·검수가 필요하므로 이 범위로 확대 해석하지 않습니다.
 
 | 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
 | --- | --- | --- |
@@ -162,11 +162,23 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | --- | --- | --- |
 | ![승인된 좌측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference.png) | ![승인된 우측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
 
-정면 신체비율 생성기와 턴어라운드 생성기는 분리합니다. 정면 생성기는 1단계 전신 생성(기본 `3 step`) 뒤 2단계 얼굴 아이덴티 보강(기본 `6 step`)을 적용해 정면 PNG와 검토용 중간 PNG를 만듭니다. `seed=62294`의 `960×1440` 최종 PNG는 사람 승인해 위 정면 전신 안정 참조로 등록했습니다. 턴어라운드 생성기는 정면을 만들지 않으며, `--front-image`로 받은 이 승인 정면 PNG를 좌·우 쿼터·좌·우 측면·후면의 캐릭터·착장·비율·전신 프레이밍 앵커로 사용합니다. 정면과 다섯 후속 방향은 각각 다시 사람 검수합니다.
+### 승인 검수 기록
 
-정면은 전용 생성기로 먼저 만들고, 방향 전신 생성기는 좌·우 전면 쿼터·좌·우 측면·후면 다섯 방향을 각각 별도 PNG로 저장합니다. 특정 방향만 재생성할 때는 `--views profile_right --front-image 정면.png`처럼 정면 앵커를 명시합니다. 후보가 생성됐다는 사실은 후속 방향의 승인 근거가 아니므로, 신발의 짝과 형태, 팔 가림, 얼굴·몸·발 방향의 일치를 방향마다 다시 사람 검수합니다.
+다섯 방향의 승인 판정은 각 PNG와 짝을 이루는 `review.json` 관리 자산에 남깁니다. JSON에는 후보 원본 파일명, 안정 자산 이름, seed·step·prompt·얼굴 시트의 패널 순서와 사람이 승인한 상태가 들어갑니다.
 
-좌·우 전면 쿼터는 승인 정면 전신 기준을 입력으로 1차 전신 생성 `3 step`, 2차 방향 얼굴 identity 보정 `9 step`을 거친 후보를 각각 검수해 승인했습니다. 두 PNG는 대각선 보행 중의 전신 프레이밍, 얼굴·몸통·발의 방향, 기본 복장과 신발의 연속성을 확인한 뒤 `p7-5-2-fullbody-front-quarter-left-reference.png`와 `p7-5-2-fullbody-front-quarter-right-reference.png` 안정 이름으로 등록했습니다. 좌·우 측면도 승인 정면 전신 기준을 입력으로 1차 `3 step`, 2차 방향 얼굴 identity `9 step`을 거친 후보를 각각 검수해 승인했습니다. 두 PNG는 화면 기준 방향, 가까운 쪽 팔 하나의 실루엣, 두 발의 분리를 확인한 뒤 `p7-5-2-fullbody-profile-left-reference.png`와 `p7-5-2-fullbody-profile-right-reference.png` 안정 이름으로 등록했습니다. 후면은 1차 `3 step`과 rear-head identity 2차 `9 step` 후보를 검수해, 얼굴이 드러나지 않고 단발의 후두부 실루엣·목선·기본 복장이 유지된 PNG를 `p7-5-2-fullbody-rear-reference.png` 안정 자산으로 교체했습니다. 단일 `profile` 이름은 좌·우 방향을 구분하지 못하므로 더 이상 기준 자산으로 사용하지 않습니다.
+| 좌측 전면 쿼터 | 우측 전면 쿼터 | 좌측 측면 |
+| --- | --- | --- |
+| [review.json](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-reference-review.json) | [review.json](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-reference-review.json) | [review.json](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference-review.json) |
+
+| 우측 측면 | 후면 |
+| --- | --- |
+| [review.json](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference-review.json) | [review.json](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference-review.json) |
+
+정면 신체비율 생성기와 턴어라운드 생성기는 분리합니다. 정면 생성기는 1단계 전신 생성(기본 `3 step`) 뒤 2단계 얼굴 아이덴티 보강(기본 `6 step`)을 적용해 정면 PNG와 검토용 중간 PNG를 만듭니다. `seed=62294`의 `960×1440` 최종 PNG는 사람 승인해 위 정면 전신 안정 참조로 등록했습니다. 턴어라운드 생성기는 정면을 만들지 않으며, `--front-image`로 받은 이 승인 정면 PNG와 정면 전신 기준, 정면·방향 얼굴 시트를 한 번의 생성에 함께 넣습니다. 이 생성기는 얼굴 아이덴티 JSON이나 후속 얼굴 보정 단계를 사용하지 않으며, 기본 `--steps`는 `6`입니다. 정면과 다섯 후속 방향은 각각 다시 사람 검수합니다.
+
+정면은 전용 생성기로 먼저 만들고, 방향 전신 생성기는 좌·우 전면 쿼터·좌·우 측면·후면 다섯 방향을 각각 별도 PNG로 저장합니다. 좌측 계열은 원본 크기를 유지한 `2304×768` 시트(정면·좌측 쿼터·좌측 측면), 우측 계열은 같은 크기의 시트(정면·우측 쿼터·우측 측면)를 참조합니다. 특정 방향만 재생성할 때는 `--views profile_right --front-image 정면.png --steps 6`처럼 정면 앵커를 명시합니다. 후보가 생성됐다는 사실은 후속 방향의 승인 근거가 아니므로, 신발의 짝과 형태, 팔 가림, 얼굴·몸·발 방향의 일치를 방향마다 다시 사람 검수합니다.
+
+좌·우 전면 쿼터·좌·우 측면·후면은 승인 정면 전신 앵커와 방향별 얼굴 시트를 입력으로 단일 생성 `seed=62294`, `6 step` 후보를 각각 사람 검수해 승인했습니다. 좌·우 전면 쿼터는 대각선 보행의 전신 프레이밍과 얼굴·몸통·발 방향을, 좌·우 측면은 화면 기준 방향·가까운 쪽 팔 실루엣·두 발의 분리를, 후면은 얼굴 비노출과 단발 후두부·목선·기본 복장을 확인했습니다. 승인 PNG와 `review.json`은 각각 안정 이름으로 등록했습니다. 단일 `profile` 이름은 좌·우 방향을 구분하지 못하므로 더 이상 기준 자산으로 사용하지 않습니다.
 
 <details id="fullbody-turnaround-references" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_references.py" data-language="python">
 <summary>정면 전신 PNG를 받아 다섯 방향을 만드는 코드 보기</summary>
@@ -180,13 +192,13 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ## 전신 기준의 얼굴·소품 보강
 
-이 단계는 승인된 방향 전신 PNG를 다시 그리는 보강 실험입니다. 모든 리파인 과정은 해당 방향의 원본 얼굴 기준을 다중 참조로 사용합니다. 복장·가방 단계의 입력 순서는 방향 전신 기준(composition), 방향별 얼굴 기준(identity), 흰색 크롭 유틸리티 자켓과 회색 크롭탑을 이미 겹쳐 입은 레이어 기준, 짙은 네이비 캔버스 크로스백입니다. 최종 identity 단계도 복장 결과와 같은 방향 얼굴 기준을 다시 함께 넣습니다. 레이어 기준은 정면·전면 쿼터에서는 승인된 전면 자켓-크롭탑 기준을 사용하고, 후면에서는 피부 띠만 남기는 승인 후면 기준을 별도로 사용합니다. 측면에서는 전면·후면 통합 착장 기준을 함께 입력해 재킷 몸판을 고정합니다. 정면·전면 쿼터·측면에서 얼굴 기준은 얼굴형·눈·코·피부·헤어라인과 청록 단발을 고정하는 visible-face identity 앵커이고, 후면 얼굴 기준은 후두부 단발·목선만 고정하는 rear-head identity 앵커입니다. 전신 기준은 전신 프레이밍·방향·기본 복장을 고정하는 composition 앵커입니다. 레이어 기준과 가방은 추가 소품일 뿐 전신 기준을 자동으로 대체하지 않습니다. 여섯 방향 리파인 결과는 기본 전신 기준과 별도의 사람 승인 자산으로 관리합니다.
+이 단계는 승인된 방향 전신 PNG를 다시 그리는 2단계 보강 실험입니다. 1차 입력은 방향 전신 기준(composition), 정면과 목표 방향 얼굴 PNG를 배열한 얼굴 시트(identity), 흰색 크롭 유틸리티 자켓과 회색 크롭탑을 이미 겹쳐 입은 레이어 기준, 짙은 네이비 캔버스 크로스백입니다. 2차는 1차 결과와 같은 얼굴 시트를 입력으로 받고, 얼굴 identity JSON을 얼굴 수정 지시로만 적용합니다. 이 단계는 복장·스트랩·신체·프레이밍·배경을 바꾸지 않아야 합니다. 레이어 기준은 정면·전면 쿼터에서는 승인된 전면 자켓-크롭탑 기준을 사용하고, 후면에서는 피부 띠만 남기는 승인 후면 기준을 별도로 사용합니다. 측면에서는 전면·후면 통합 착장 기준을 함께 입력해 재킷 몸판을 고정합니다. 정면·전면 쿼터·측면의 얼굴 시트는 visible-face identity 앵커이고, 후면 얼굴 시트는 후두부 단발·목선을 위한 rear-head identity 앵커입니다. 전신 기준은 전신 프레이밍·방향·기본 복장을 고정하는 composition 앵커입니다. 레이어 기준과 가방은 추가 소품일 뿐 전신 기준을 자동으로 대체하지 않습니다. 여섯 방향 리파인 결과는 기본 전신 기준과 별도의 사람 승인 자산으로 관리합니다.
 
 후면에서는 정면 얼굴을 보이게 만들지 않고, 자켓-크롭탑 레이어와 가방의 형태·스트랩·몸 방향을 검수합니다. 정면·전면 쿼터·측면에서는 얼굴 identity, 자켓의 짧은 밑단 아래에 남는 회색 상의 경계, 가방 본체와 전체 스트랩을 함께 확인합니다. 측면에는 자켓의 외곽·소매·옆/후면 패널을, 후면에는 회색 상의 대신 자켓 밑단과 바지 허리선 사이에 피부가 보이는 흰 등판·소매·짧은 밑단을 방향 전용 prompt로 보강합니다. 가방은 이 레이어 외곽을 대체하지 않아야 하며, 후면에서는 스트랩이 자켓 등판을 대각선으로 지나야 합니다. 얼굴·방향·전신 프레이밍·소품 geometry 중 하나라도 흔들리면 후보를 폐기하며, 기본 전신 기준은 유지합니다.
 
 ### 승인 전신 참조로 만든 여섯 방향 리파인 결과
 
-표의 정면·좌우 전면 쿼터·좌우 측면·후면은 `seed=62294`에서 1차 복장 보강과 2차 얼굴 identity를 각각 `3 step`으로 적용해 사람 승인한 현재 기준입니다. 실행은 각 view의 승인 전신 PNG를 composition 입력으로, 같은 방향의 원본 얼굴 PNG를 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용합니다. 정면·전면 쿼터·측면은 visible-face identity, 후면은 단발·헤어라인·목선을 위한 rear-head identity를 사용합니다. 새 출력 해상도는 `960×1440`이며, 새 출력은 사람 검수 전까지 기존 안정 자산이나 방향별 전신 composition 기준을 대체하지 않습니다.
+표의 정면·좌우 전면 쿼터·좌우 측면·후면은 이전의 2단계 실행으로 사람 승인한 현재 기준입니다. 이후 실행은 각 view의 승인 전신 PNG를 composition 입력으로, 전신 턴어라운드와 같은 방향별 얼굴 시트를 identity 입력으로, 방향별 통합 착장 PNG를 의상 입력으로 사용합니다. 2차는 같은 시트와 identity JSON으로 얼굴만 수정합니다. 정면·전면 쿼터·측면은 visible-face identity, 후면은 단발·헤어라인·목선을 위한 rear-head identity를 사용합니다. 새 출력 해상도는 `960×1440`이며, 새 출력은 사람 검수 전까지 기존 안정 자산이나 방향별 전신 composition 기준을 대체하지 않습니다.
 
 | 승인 정면 리파인 기준 | 승인 좌측 전면 쿼터 리파인 기준 | 승인 우측 전면 쿼터 리파인 기준 |
 | --- | --- | --- |
@@ -213,8 +225,8 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 방향 얼굴 | `p7_5_2_generate_face_turnaround_sheet.py` | `--views`, `--steps` |
 | 소품 기준 | `p7_5_2_generate_no_style_prop_masters.py` | `--targets`, `--steps` (기본 `3`), `--preview-every` |
 | 정면 전신 | `p7_5_2_generate_fullbody_front_reference.py` | `--body-steps`(기본 `3`), `--face-steps`(기본 `6`) |
-| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--front-image`(필수), `--views`, `--body-image`, `--body-steps`(기본 `3`), `--face-steps`(기본 `9`) |
-| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--outfit-steps`(기본 `3`), `--face-steps`(기본 `3`), `--outfit-image` |
+| 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--front-image`(필수), `--views`, `--steps`(기본 `6`), `--prompt`, `--preview-every` |
+| 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--outfit-steps`(기본 `3`), `--face-steps`(기본 `3`), `--outfit-prompt` |
 
 이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 여섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 여섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
 
@@ -228,7 +240,9 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 ```bash
 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_references.py
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_generate_fullbody_turnaround_references.py \
+  --front-image docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png \
+  --views front_quarter_left --steps 3
 ```
 
 각 PNG는 실행 기록을 위한 후보이며, 사람 검수 전에는 기준 자산이 아닙니다. 이 실습에서 seed나 방향 계약을 바꾼 뒤에는 코드를 통과한 것으로 승인하지 않습니다. 얼굴·몸·무릎·발끝의 방향이 같은지, 측면에서 먼쪽 팔이 몸통 뒤에 가려지는지, 두 다리와 두 발이 하나의 전신으로 보이는지를 사람 검수로 다시 확인합니다.
@@ -241,7 +255,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
   --outfit-steps 3 --face-steps 3
 ```
 
-보강기는 기본으로 승인한 여섯 방향 전신 참조 PNG를 같은 view의 composition 입력으로 사용합니다. 1차 복장 보강과 2차 얼굴 identity는 각자 seed·step·stage PNG·검수 JSON을 남깁니다. `--outfit-only`는 1차만 저장하고, 사람 검수한 1차 PNG에 2차만 다시 적용할 때는 `--views profile_left --outfit-image 파일명.png`를 사용합니다. 특정 방향만 별도 composition PNG로 시험하려면 `--body-reference profile_left=파일명.png`처럼 지정하며, 검수 JSON에는 실제 입력 파일명이 남습니다. 결과·중간 결과·검수 JSON 파일명에는 두 단계의 seed와 step이 들어가므로 같은 seed를 재실행해도 계약이 다른 후보를 구분할 수 있습니다.
+보강기는 기본으로 승인한 여섯 방향 전신 참조 PNG를 같은 view의 composition 입력으로 사용합니다. 1차는 방향별 얼굴 시트와 의상 참조를 함께 적용하고, 2차는 1차 결과·같은 얼굴 시트·identity JSON으로 얼굴만 수정합니다. 두 단계는 각각 seed·step·중간 PNG를 남기며 최종 PNG와 검수 JSON에는 실제 입력 파일명·얼굴 시트 패널 순서·JSON 계약이 기록됩니다. 특정 방향만 별도 composition PNG로 시험하려면 `--body-reference profile_left=파일명.png`처럼 지정합니다.
 
 ## 사람 검수는 사용 범위를 좁힌다
 
