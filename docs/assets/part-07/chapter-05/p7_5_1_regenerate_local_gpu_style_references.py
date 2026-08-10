@@ -87,7 +87,7 @@ SCENES = [
     },
     {
         "id": "library-stairwell-day-high-angle", "generate_by_default": True, "seed": 420811,
-        "prompt": "Vertical empty public-library stairwell in daylight, high-angle from a quiet upper landing. One wide terrazzo stair descends beside a solid cream wall toward a small lower landing; a tall frosted window gives one pale-cyan reflection. Add only a closed book-return cabinet and muted wood trim; no exposed railings, book titles, signs, people, or frontal hallway. ",
+        "prompt": "Daylit public-library interior with a tall high-ceiling lobby, high oblique view. Tall warm-wood bookcase against one wall, frosted window, cool off-white floors, pale-cyan daylight reflection, blue-teal shadow. ",
     },
     {
         "id": "harbor-plaza-sunrise-high", "generate_by_default": True, "seed": 420812,
