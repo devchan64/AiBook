@@ -1,6 +1,9 @@
-"""Regenerate the nine P7-5.1 style-reference rows on the local GPU only.
+"""Generate P7-5.1 style-reference review candidates on the local GPU.
 
 Outputs are review candidates. This script never marks an image approved.
+Set ``P7_STYLE_SCENE`` to regenerate one named existing or extension scene.
+Set ``P7_STYLE_INCLUDE_EXISTING=1`` to regenerate all twenty rows; otherwise
+the default remains the eleven extension rows.
 """
 
 import json
@@ -19,55 +22,108 @@ ASSET_DIR = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-base-4B"
 CACHE_DIR = Path("/tmp/flux2-klein-base-4b-diffusers-cache")
 SIZE = (768, 1152)
-STEPS = 50
+STEPS = 12
 GUIDANCE = 4.0
 STYLE_PROMPT_PATH = ASSET_DIR / "p7-5-1-style-prompt-contract.json"
 COMMON_CONTRACT = json.loads(STYLE_PROMPT_PATH.read_text(encoding="utf-8"))["common_contract"]
 SCENES = [
     {
         "id": "atrium-dawn-high-angle",
+        "generate_by_default": False,
         "seed": 420713,
-        "prompt": "Create a vertical Korean webtoon background of an empty indoor atrium at early dawn, viewed steeply downward from an upper landing across diagonal stair flights, cool off-white tiled floor, benches, and a few potted plants. The camera is inside a continuing atrium, with walls, stairs, window light, and floor tiles naturally cut by the image edges. This is a genuine high-angle downward camera, never eye level, a frontal hallway, or centered one-point perspective. Show a pale blue-gray dawn window, blue-teal shadows on the stair undersides, cool off-white tiles, and a narrow pale-cyan reflected stripe on the floor; add only one tiny muted apricot glint, never a broad peach window or sunset effect. Render detailed layered shadows: window-mullion shadows, thin railing shadows, stair-tread contact shadows, and small plant shadows cross the tiled floor at different blue-gray and teal values. Alternate darker stair undersides with lighter reflected stair edges. Make the watercolor unmistakably visible inside the tile planes, wall shadows, and stair risers: overlapping transparent blue-gray and teal glazes, soft wet-on-wet blooms that feather across adjacent tiles, granulating pigment speckles, irregular tide marks, and small darker pigment pools along tile joints and contact-shadow edges. Keep the ink structure crisp while the painted areas stay varied rather than smoothly airbrushed. ",
+        "prompt": "Vertical empty indoor atrium at early dawn, steep high-angle from an upper landing. Diagonal stair flights, tiled floor, benches, and plants cross the edges; avoid a frontal hallway. Cool off-white tiles, blue-gray window light, teal stair shadows, and one small muted apricot reflection. ",
     },
     {
         "id": "courtyard-early-morning-high-angle",
+        "generate_by_default": False,
         "seed": 420702,
-        "prompt": "Create a vertical Korean webtoon background of an empty Seoul residential courtyard in clear early morning, viewed steeply downward from an upper balcony. Diagonal paved paths, a small tree, benches, planters, and low building roofs create varied depth and cross the canvas edges naturally. This is a genuine high-angle downward camera, never eye level, a frontal hallway, or centered one-point perspective. Separate cool off-white paving, blue-teal cast shadows, leaf-green foliage, pale-blue reflected sky light, and one tiny warm window glint with visibly varied watercolor pigment pools. ",
+        "prompt": "Vertical empty Seoul residential courtyard in clear early morning, steep high-angle from a balcony. Diagonal paving, one tree, benches, planters, and low roofs cross the edges. Cool off-white paving, blue-teal shadows, leaf green, pale-blue sky reflection, and one tiny warm window glint. ",
     },
     {
         "id": "downtown-clear-day-wide",
+        "generate_by_default": False,
         "seed": 420703,
-        "prompt": "Create a vertical Korean webtoon background of an empty Seoul business intersection in bright clear midday. View sideways from a shaded near-left sidewalk corner. Layer diagonal blue-teal glass towers behind leaf-green street trees, with cool off-white pavement and crisp pale-blue reflected daylight. Put pale-blue sky reflections in glass, deeper teal building shadows, green foliage shadows, and cool gray pavement highlights in separate watercolor pools. This is a lateral city-corner composition, never a centered road corridor. Keep daylight colors clear and separately readable: no orange, red, pink, golden light, or sunset sky. ",
+        "prompt": "Vertical empty Seoul business intersection at clear midday, side view from a shaded sidewalk corner. Diagonal glass towers and street trees, cool off-white pavement; avoid a centered road corridor. Pale-blue glass reflections, teal building shadows, green foliage shadows, cool-gray highlights. ",
     },
     {
         "id": "residential-sunset-low-angle",
+        "generate_by_default": False,
         "seed": 420704,
-        "prompt": "Create a vertical Korean webtoon background of an empty residential street at sunset, viewed from near curb height looking upward past a bicycle rack, blank house facades, tree branches, and a narrow sky. This is a genuine low-angle upward view with strong foreground-to-sky scale change, never eye level or a centered corridor. Separate cool teal shadowed pavement, olive foliage, blue-gray facade shadows, and a limited apricot rim light only at the narrow sky edge; add subtle warm reflected color only to upward-facing edges. Do not use broad vermilion, pink, red, or neon washes. ",
+        "prompt": "Vertical empty residential street at sunset, low angle from curb height toward bicycle rack, house facades, branches, and narrow sky. Strong foreground-to-sky scale; avoid eye level and a centered corridor. Teal pavement shadow, olive foliage, blue-gray walls, narrow muted-apricot sky rim. ",
     },
     {
         "id": "night-lit-reading-room-oblique",
+        "generate_by_default": False,
         "seed": 420705,
-        "prompt": "Empty window-side reading room at deep night, seen from just inside the left window wall and aimed diagonally across the room. A simple wood table fills the lower-left foreground. The table edge, window frames, floorboards, and ceiling seams sweep from lower center toward the upper-right image border and converge beyond that border. Indigo night is visible through the left windows. A single small shaded table lamp near the window is the only interior light source, casting a compact warm pool on the tabletop and a soft amber reflection onto the nearby floor. The rest of the room remains blue-gray and navy shadow, with a closed ceiling and simple blank walls. ",
+        "prompt": "Vertical empty window-side reading room at deep night, diagonal view from the left window wall. Wood table in lower-left foreground; window frames and floorboards run toward upper right. Indigo exterior, blue-gray room shadow, one small table lamp with a compact amber tabletop reflection. ",
     },
     {
         "id": "rooftop-rainy-night-overhead",
+        "generate_by_default": False,
         "seed": 420706,
-        "prompt": "Create a vertical Korean webtoon background of an empty Seoul rooftop plaza immediately after rain at late night, viewed steeply downward from a high terrace. Broad wet paving, two large planters, and a shallow puddle form simple diagonal planes. Make deep indigo shadow planes, navy wet pavement, cyan-blue puddle reflections, and a few small tungsten reflections visibly distinct; reflected colors should break and pool across wet surfaces. No rain streaks, rails, apricot, orange, red, pink, golden sky, or broad warm wash. This is a genuine overhead high-angle camera, never eye level. ",
+        "prompt": "Vertical empty Seoul rooftop plaza after rain at late night, steep overhead from a high terrace. Wet paving, two planters, and one shallow puddle form diagonal planes. Deep indigo shadow, navy pavement, cyan puddle reflections, and a few small tungsten reflections; no rain streaks or warm sky. ",
     },
     {
         "id": "venice-sunset-oblique",
+        "generate_by_default": False,
         "seed": 420707,
-        "prompt": "Create a vertical Korean webtoon background of an empty Venice canal at sunset, viewed obliquely from a stone bridge-side edge. The canal bends diagonally between pale warm ochre facades. Separate clear medium teal water, small indigo water shadows, pale stone reflected light, and only a narrow apricot sky opening in visibly varied translucent pigment pools. Keep the composition oblique, never a centered canal corridor. No boats, signs, text, people, broad orange, red, pink, or neon color fields. ",
+        "prompt": "Vertical empty Venice canal at sunset, oblique view from a stone bridge edge. A diagonal canal bends between pale ochre facades; avoid a centered canal. Medium teal water, small indigo water shadows, pale stone reflection, and a narrow muted-apricot sky opening. ",
     },
     {
         "id": "park-clear-day-eye-level",
+        "generate_by_default": False,
         "seed": 420708,
-        "prompt": "Create a vertical Korean webtoon background of an empty city park pond in clear midday, viewed at a calm eye-level diagonal from a cool off-white path. Separate teal pond reflections, leaf-green foliage, pale-blue sky reflection, cool off-white path, and blue-green shade under trees in visibly varied watercolor pigment pools so the daylight is not flat. Keep the water edge diagonal and avoid a centered path corridor. No people, animals, signs, text, orange, red, pink, golden sky, or frame. ",
+        "prompt": "Vertical empty city park pond at clear midday, calm eye-level diagonal from a cool off-white path. Diagonal water edge, teal pond reflection, leaf green, pale-blue sky reflection, and blue-green tree shade; avoid a centered path corridor. ",
     },
     {
         "id": "train-platform-rainy-night-oblique",
+        "generate_by_default": False,
         "seed": 420709,
-        "prompt": "Create a vertical Korean webtoon background of an empty open-air Seoul train platform immediately after rain at late night. View obliquely along the platform under a simple canopy; the platform edge, a few roof columns, blank benches, and only two subtle rail lines recede diagonally. Separate dark indigo wet pavement, navy rain shadows, cool-white canopy light, local tungsten lamps, and cyan puddle reflections as broken colorful pools across the ground. No train, route map, timetable, readable sign, or centered corridor. ",
+        "prompt": "Vertical empty open-air Seoul train platform after rain at late night, oblique view under a simple canopy. Platform edge, columns, blank benches, and two rail lines recede diagonally. Indigo wet pavement, navy shadows, cool-white canopy light, small tungsten pools, and cyan puddle reflections. ",
+    },
+    {
+        "id": "gallery-midday-oblique", "generate_by_default": True, "seed": 420810,
+        "prompt": "Vertical empty contemporary gallery at clear midday, oblique view from a near corner. Off-white walls, cool-gray floor, blank plinths, and ceiling tracks form diagonal planes crossing the edges. Pale-blue reflection, blue-gray shadow, and one muted-apricot accent; avoid artworks, visitors, labels, and a centered corridor. ",
+    },
+    {
+        "id": "library-stairwell-day-high-angle", "generate_by_default": True, "seed": 420811,
+        "prompt": "Vertical empty public-library stairwell in daylight, steep high-angle from an upper landing. Diagonal flights, railings, terrazzo treads, book-return shelves, and a tall frosted window cross the edges. Cool off-white treads, blue-teal shadows, muted wood, and pale-cyan reflections; avoid people, book titles, signs, and a frontal hallway. ",
+    },
+    {
+        "id": "harbor-plaza-sunrise-high", "generate_by_default": True, "seed": 420812,
+        "prompt": "Vertical empty harbor plaza at sunrise, high oblique view from a terrace. Angular paving, bollards, low seawall, distant water, and sparse planting cut through the edges. Blue-teal water, indigo shadow, cool off-white paving, and a narrow muted-apricot horizon; avoid boats, people, signs, broad orange light, and a centered waterfront. ",
+    },
+    {
+        "id": "underpass-rainy-twilight", "generate_by_default": True, "seed": 420813,
+        "prompt": "Vertical empty pedestrian underpass just after rain at blue twilight, diagonal view from its entrance into a gently bending passage. Concrete walls, wet tile, blank columns, and a narrow cool-sky opening cross the edges. Indigo wet shadows, blue-gray concrete, cyan puddles, and small warm safety lights; avoid people, graffiti, signs, trains, and a centered tunnel. ",
+    },
+    {
+        "id": "hillside-alley-late-afternoon", "generate_by_default": True, "seed": 420814,
+        "prompt": "Vertical empty hillside alley in late afternoon, eye-level view along a diagonal climbing path. Retaining walls, blank small-house facades, unmarked poles, steps, and foliage overlap at the edges. Teal pavement shadows, leaf-green foliage, blue-gray walls, and a narrow muted-apricot rim; avoid people, vehicles, signs, broad sunset orange, and a centered corridor. ",
+    },
+    {
+        "id": "market-arcade-overcast", "generate_by_default": True, "seed": 420815,
+        "prompt": "Vertical empty covered market arcade under soft overcast daylight, oblique view across shuttered blank stalls. Canopy ribs, damp cool-gray floor, unmarked crates, and side openings create diagonal depth at the edges. Cool off-white skylight, blue-teal shadow, muted olive, and faint cyan reflections; avoid shoppers, products, signs, logos, and a centered corridor. ",
+    },
+    {
+        "id": "riverside-terrace-night", "generate_by_default": True, "seed": 420816,
+        "prompt": "Vertical empty riverside terrace at night, oblique view beside a low stone planter. Broad promenade, river edge, blank benches, distant bridge silhouette, and sparse trees cross the edges. Navy pavement, indigo water, cyan-blue reflections, cool-white lights, and two muted tungsten pools; avoid people, boats, signs, neon, and a centered corridor. ",
+    },
+    {
+        "id": "greenhouse-blue-hour", "generate_by_default": True, "seed": 420817,
+        "prompt": "Vertical empty greenhouse conservatory at blue hour, quiet eye-level diagonal. Glass roof ribs, damp stone path, leafy plants, benches, and a distant glass door cross the edges. Pale-blue exterior light, blue-teal glass shadow, leaf green, cool off-white highlights, and tiny warm glints; avoid people, labels, signs, animals, and a centered aisle. ",
+    },
+    {
+        "id": "ferry-deck-morning", "generate_by_default": True, "seed": 420818,
+        "prompt": "Vertical empty open ferry deck in clear morning light, oblique view beside a blank bench toward railings and distant water. Deck planks, simple rail posts, unmarked life-ring housing, and horizon cross the edges. Cool off-white deck light, teal sea, pale-blue reflections, navy rail shadow, muted-apricot accent; avoid people, boats, text, logos, and a centered corridor. ",
+    },
+    {
+        "id": "cinema-foyer-night", "generate_by_default": True, "seed": 420819,
+        "prompt": "Vertical empty neighborhood cinema foyer at night, eye-level view from a side corner. Dark-indigo tiles, blank ticket counter planes, unlettered poster frames, ceiling lights, and glass reflections create an oblique composition at the edges. Deep navy shadow, cool-white light, cyan reflections, restrained amber pools; avoid people, film images, signs, logos, and a centered hallway. ",
+    },
+    {
+        "id": "ceramics-studio-afternoon", "generate_by_default": True, "seed": 420820,
+        "prompt": "Vertical empty ceramics studio in quiet afternoon light, diagonal view across a worktable. Pottery wheel, blank shelves, unmarked clay forms, tall windows, and cool concrete floor cross the edges. Pale-blue window light, blue-gray shadow, muted clay beige, leaf-green reflection, and a small apricot highlight; avoid people, lettering, logos, and a centered aisle. ",
     },
 ]
 
@@ -85,8 +141,11 @@ def gpu_memory_mib() -> int:
 def main() -> None:
     requested_scene = os.environ.get("P7_STYLE_SCENE")
     run_label = os.environ.get("P7_STYLE_RUN_LABEL", "v1")
+    include_existing = os.environ.get("P7_STYLE_INCLUDE_EXISTING") == "1"
     excluded_scenes = {item for item in os.environ.get("P7_STYLE_EXCLUDE", "").split(",") if item}
-    scenes = [scene for scene in SCENES if scene["id"] == requested_scene] if requested_scene else SCENES
+    scenes = [scene for scene in SCENES if scene["id"] == requested_scene] if requested_scene else [
+        scene for scene in SCENES if include_existing or scene["generate_by_default"]
+    ]
     scenes = [scene for scene in scenes if scene["id"] not in excluded_scenes]
     if requested_scene and not scenes:
         raise KeyError(f"Unknown P7_STYLE_SCENE: {requested_scene}")
@@ -147,6 +206,7 @@ def main() -> None:
         "gpu_memory_before_mib": before,
         "gpu_memory_peak_mib": peak,
         "requested_scene": requested_scene,
+        "include_existing": include_existing,
         "excluded_scenes": sorted(excluded_scenes),
         "runs": runs,
     }
