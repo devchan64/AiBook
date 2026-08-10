@@ -21,7 +21,7 @@ import time
 import torch
 from diffusers import Flux2KleinPipeline
 from PIL import Image, ImageDraw
-from p7_5_image_output_naming import candidate_stem, experiment_code, preview_callback
+from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
@@ -89,7 +89,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_left-basketball-jump-shot", "front_quarter_left", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_jump_shot", "Jump vertically for a basketball jump shot; hold one basketball above the forehead with both hands, with both legs and shoes separately visible.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-tennis-forehand", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_forehand", "Make an athletic tennis forehand follow-through with one racket, an open sideways stance, and both feet separately visible.",
+            "sport-front_quarter_right-tennis-forehand", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "one_hand_tennis_return", "With one hand, swing one tennis racket to return one ball toward image right; the other arm balances an athletic open stance.",
         ),
         CandidateSpec(
             "sport-profile_left-track-sprint", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_sprint", "Sprint powerfully toward image left with a long running stride, opposite arm drive, and two separate shoes.",
@@ -234,6 +234,7 @@ def build_prompt(spec: CandidateSpec) -> str:
     return (
         f"Full-body woman, {VIEW_RULES[spec.view]}, isolated on a plain off-white background. Webtoon watercolor. "
         f"{CHARACTER_IDENTITY_CONTRACT['lora_eye_identity_description']} "
+        f"{CHARACTER_IDENTITY_CONTRACT['lora_hair_identity_description']} "
         f"{CHARACTER_IDENTITY_CONTRACT['lora_fullbody_proportion_description']} "
         f"{CHARACTER_IDENTITY_CONTRACT['hand_anatomy_description']} "
         f"{spec.pose_rule} "
@@ -307,7 +308,6 @@ def main() -> int:
     pipe = Flux2KleinPipeline.from_pretrained(MODEL_ID, torch_dtype=torch.bfloat16, cache_dir="/tmp/flux2-klein-diffusers-cache")
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
-    run_code = experiment_code()
     generated: list[dict[str, object]] = []
     for record in records:
         face_path = ROOT / str(record["face_reference"])
@@ -363,9 +363,7 @@ def main() -> int:
         print(f"{record['candidate_id']}: {result['elapsed_seconds']}s -> {output.name}", flush=True)
         gc.collect()
         torch.cuda.empty_cache()
-    batch = ROOT / f"{args.output_prefix}-batch-code-{run_code}-review.json"
-    batch.write_text(json.dumps({"status": "review_required", "purpose": "Additional style-conditioned character-LoRA candidates; not approved training data.", "count": len(generated), "candidates": generated}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"status": "generated", "count": len(generated), "batch_review": batch.name}, ensure_ascii=False))
+    print(json.dumps({"status": "generated", "count": len(generated), "outputs": [record["output"] for record in generated]}, ensure_ascii=False))
     return 0
 
 
