@@ -1,9 +1,9 @@
 # P7-5.2 캐릭터 참조 셋 생성: 로컬 GPU 원본과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.09`
+> Version: `v2026.08.10`
 
-웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지, 그 이미지를 학습하거나 직접 참조로 사용한 출력, 그에 따른 LoRA 평가는 이 절의 근거로 사용하지 않습니다.
+웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지와 그 이미지를 직접 참조로 사용한 출력은 이 절의 근거로 사용하지 않습니다. P7-5.4의 LoRA 학습·평가는 별도 실험이지만, 그 학습에 넘길 수 있는 P7-5.2 원본의 범위와 캡션은 여기서 사람 승인 기준으로 준비합니다.
 
 이 절의 산출물은 완성 컷이나 학습된 모델이 아닙니다. 다음 단계가 사용할 수 있는지 사람 검수한 전신 기준, view별 원본, 생성 기록, 그리고 아직 사용할 수 없는 범위입니다. 장면 속 pose, projection, 배경을 바꾸는 전체 컷 생성은 `P7-5.3`의 책임이고, 통과 컷의 얼굴·손·소품·연속성 보정은 `P7-5.4`에서 별도로 검증합니다.
 
@@ -24,6 +24,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 | 자산군 | 목표 구성 | 역할 | 현재 상태 |
 | --- | --- | --- | --- |
 | 기준·표정·전신 이미지 | 단일 PNG의 전신·정면·좌우 전면 쿼터·좌우 측면·후면과 필요한 표정·손 detail | 얼굴·의상·전신·손·소품의 기준 | 정면·방향 얼굴, 신발·자켓·회색 크롭탑·바지·가방, 여섯 방향 전신 승인; 표정·손 detail은 별도 생성·검수 대상 |
+| LoRA 추가 데이터 | 정면·방향 얼굴 6장과 기본 전신·전신 리파인 각 6장 | 이후 캐릭터 LoRA의 identity·복장 anchor 후보 | 18개 승인 원본을 로컬 데이터셋으로 준비 가능; 학습·평가는 P7-5.4에서 별도 실행 |
 | train scene | 장소·동작·camera가 다른 단일 장면 PNG | 캐릭터와 장면 렌더링 학습 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | held-out scene | train과 source ID·장소·camera가 겹치지 않는 단일 장면 PNG | 학습 뒤 일반화 평가 | local-only 장면 팩을 별도로 만들기 전에는 비어 있음 |
 | 실행·검수 기록 | 원본별 prompt·seed·모델·해상도·사람 판정 | 재현성과 다음 단계 입력 범위 | 승인된 6방향 기준의 실행·검수 기록을 보관 |
@@ -238,6 +239,28 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
+## 승인 원본 18장을 캐릭터 LoRA 입력으로 준비한다
+
+새 전신 후보를 다시 만들지 않습니다. 이미 사람 승인한 정면·방향 얼굴 6장, 기본 전신 6장, 자켓·가방을 보강한 전신 6장을 함께 사용합니다. 얼굴 원본은 얼굴형·머리·홍채의 identity anchor이고, 기본 전신은 몸 비례와 기본 복장을, 리파인 전신은 자켓·가방을 포함한 확장 복장을 맡습니다. 같은 방향이라도 세 원본의 역할이 달라서 파일을 하나로 합성하거나 자동 중복 제거하지 않습니다.
+
+준비 스크립트는 PNG를 복사하지 않고 로컬 학습 폴더에 심볼릭 링크와 짝이 되는 영문 tag caption을 만듭니다. 각 항목에는 source ID·원본 SHA-256·방향·역할을 담은 `dataset-manifest.json`도 남깁니다. 따라서 실행 뒤 원본 PNG가 바뀌면 다음 준비 실행에서 해시가 달라졌다는 사실을 확인할 수 있습니다. 출력 폴더 기본값은 커밋하지 않는 `.tmp/`이며, 이 단계는 LoRA의 품질이나 새 pose·camera·장면 범위를 승인하지 않습니다.
+
+<details id="character-lora-dataset-preparation" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_prepare_character_lora_dataset.py" data-language="python">
+<summary>승인 얼굴·전신 18장을 캐릭터 LoRA 입력 폴더로 준비하는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+먼저 `--plan-only`로 6·6·6 구성과 원본 해시를 확인합니다. 실제 실행은 같은 목록의 링크·caption·manifest만 만들며, 이미지 생성이나 모델 학습은 하지 않습니다.
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_prepare_character_lora_dataset.py --plan-only
+
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_2_prepare_character_lora_dataset.py \
+  --output .tmp/p7-5-2-character-lora-dataset
+```
+
+이 데이터셋을 실제 학습에 넣기 전에는 `dataset-manifest.json`의 18개 SHA-256, 얼굴 6·기본 전신 6·리파인 전신 6의 수, caption에 장면·동작·표정 약속이 섞이지 않았는지를 다시 확인합니다. 학습 뒤 일반화 평가는 이 입력 이미지가 아니라 별도 pose·camera·장면 prompt로 수행합니다.
+
 ## 생성 코드와 사람 승인을 분리한다
 
 기준 이미지를 만드는 소스는 정면 얼굴, 방향 얼굴, 소품, 정면 전신, 방향 전신, 전신 얼굴·소품 보강의 여섯 개입니다. 정면 전신과 방향 전신을 분리해, 방향 생성은 검수한 정면 PNG를 명시 입력으로만 받습니다. 후보 PNG가 생성됐다는 사실은 새 pose·camera·컷신 입력 승인이 아닙니다. 코드를 실행하기 전에는 FLUX.2 가중치, CUDA 환경, 충분한 CPU RAM과 disk cache가 필요합니다.
@@ -250,6 +273,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 | 정면 전신 | `p7_5_2_generate_fullbody_front_reference.py` | `--body-steps`(기본 `3`), `--face-steps`(기본 `6`) |
 | 방향 전신 | `p7_5_2_generate_fullbody_turnaround_references.py` | `--front-image`(필수), `--views`, `--steps`(기본 `6`), `--prompt`, `--preview-every` |
 | 전신 얼굴·소품 보강 | `p7_5_2_refine_fullbody_face_props.py` | `--views`, `--props`, `--body-reference`, `--steps`(기본 `3`), `--prompt`, `--preview-every` |
+| 캐릭터 LoRA 입력 준비 | `p7_5_2_prepare_character_lora_dataset.py` | `--output`, `--plan-only` |
 
 이 목록 밖의 옛 얼굴·신체 detail 실험 소스와 다단계 회전 구성기는 유지하지 않습니다. 기준 이미지는 여섯 생성기의 후보를 사람 검수해 편입하며, 검수 JSON은 생성기 수를 늘리지 않는 기록입니다. 여섯 생성기의 실행 JSON은 각 결과의 원문 prompt와 `prompt_word_count`를 함께 기록합니다. 이 수치는 품질을 판정하는 점수가 아니라, 방향·소품·전신 계약이 반복 설명으로 비대해졌는지 검토하는 보조 지표입니다.
 
