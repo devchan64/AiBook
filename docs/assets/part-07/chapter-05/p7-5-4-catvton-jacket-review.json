@@ -1,0 +1,34 @@
+{
+  "experiment": "P7-5.4 CatVTON jacket transfer with an expanded operator mask",
+  "status": "generated_for_human_review",
+  "model": "zhengchong/CatVTON mix-48k-1024",
+  "base_model": "booksforcharlie/stable-diffusion-inpainting",
+  "inputs": {
+    "source": "p7-5-2-fullbody-front-reference.png",
+    "operator_mask": "p7-5-4-operator-jacket-shell-expand16-mask.png",
+    "garment_reference": "p7-5-2-prop-reference-jacket-crop-top-front.png"
+  },
+  "settings": {
+    "resolution": [768, 1024],
+    "steps": 50,
+    "guidance": 3.5,
+    "seed": 62294,
+    "precision": "bf16"
+  },
+  "runtime": {
+    "peak_vram_mib": 5443,
+    "elapsed_seconds": 46.7
+  },
+  "review": {
+    "full_frame_identity_and_lower_body": "preserved",
+    "white_cropped_jacket_body": "pass",
+    "long_white_sleeves": "pass",
+    "open_front_and_visible_charcoal_crop_top": "pass",
+    "remaining_human_review_points": [
+      "collar-to-crop-top neckline layering",
+      "left-right pocket and button symmetry",
+      "white fabric texture relative to the approved garment reference"
+    ]
+  },
+  "decision": "This is the first CatVTON candidate to satisfy the garment shape and color gates in the fixed preflight. It is a human-review candidate, not an approved production asset."
+}

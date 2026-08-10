@@ -1,0 +1,24 @@
+{
+  "status": "rejected",
+  "purpose": "8 GB manually limited-mask SDXL inpaint preflight; fixed P7-5.2 input, not a P7-5.3 production cut",
+  "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+  "source_image": "docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png",
+  "mask": "docs/assets/part-07/chapter-05/p7-5-4-operator-jacket-mask.png",
+  "mask_origin": "coarse operator-defined upper-body jacket polygon for preflight only",
+  "prompt": "one adult woman with a teal bob haircut, cropped white jacket worn open over a dark gray crop top, teal wide-leg trousers, white sneakers, standing front-facing in a plain studio",
+  "resolution": [512, 768],
+  "steps": 20,
+  "strength": 0.65,
+  "seed": 5501,
+  "gpu_memory_before_mib": 1325,
+  "gpu_memory_peak_mib": 3292,
+  "elapsed_seconds_including_first_download_and_load": 276.4,
+  "result": "p7-5-4-manual-mask-first-probe-contact-sheet.png",
+  "review": {
+    "mask_scope": "pass: the operator mask excludes face, trousers, shoes, and floor.",
+    "outside_mask_preservation": "fail: output loses the full-body composition and shifts the person into a cropped right-side fragment.",
+    "requested_edit": "fail: a cropped white jacket is not produced.",
+    "production_use": "forbidden: fixed P7-5.2 preflight input and coarse mask are not a P7-5.3 approved panel or a production mask."
+  },
+  "decision": "Manual mask confines the intended edit region at the input stage, but this SDXL inpaint configuration fails full-frame preservation and the requested garment gate. Do not apply it to production panels."
+}

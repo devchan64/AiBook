@@ -1,0 +1,31 @@
+{
+  "experiment": "P7-5.4 target jacket-shell mask with approved outfit IP-Adapter reference",
+  "status": "partial_structure_pass",
+  "input": "p7-5-2-fullbody-front-reference.png",
+  "mask": "p7-5-4-operator-jacket-shell-mask.png",
+  "mask_contract": "editable: collar, left and right jacket panels, and long sleeves; preserved: face, teal bob, center charcoal crop top, trousers, shoes, and studio",
+  "outfit_reference": "p7-5-2-prop-reference-jacket-crop-top-front.png",
+  "settings": {
+    "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+    "adapter": "h94/IP-Adapter sdxl_models/ip-adapter_sdxl.bin",
+    "resolution": [512, 768],
+    "steps": 30,
+    "strength": 0.75,
+    "guidance_scale": 12,
+    "adapter_scale": 0.55,
+    "seed": 62294
+  },
+  "runtime": {
+    "peak_vram_mib": 1646,
+    "elapsed_seconds": 20.1
+  },
+  "review": {
+    "full_frame_and_outside_mask_preservation": "pass",
+    "center_crop_top_preservation": "pass",
+    "open_front_cropped_jacket_structure": "pass relative to the previous coarse mask",
+    "long_sleeve_structure": "pass",
+    "white_jacket_body": "fail: the edited jacket panels remain gray",
+    "production_eligibility": "fail"
+  },
+  "decision": "The mask was a structural bottleneck: a jacket-shell mask recovers the opening and crop-top layering. It does not solve the white fabric-color contract, so retain this mask as the controlled input for a color-conditioning or model-path comparison, not as a production output."
+}

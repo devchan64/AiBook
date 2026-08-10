@@ -1,0 +1,32 @@
+{
+  "experiment": "P7-5.4 approved outfit reference IP-Adapter scale comparison",
+  "status": "rejected_for_production",
+  "comparison": {
+    "fixed": {
+      "source": "p7-5-2-fullbody-front-reference.png",
+      "mask": "p7-5-4-operator-jacket-mask-second.png",
+      "outfit_reference": "p7-5-2-prop-reference-jacket-crop-top-front.png",
+      "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+      "adapter": "h94/IP-Adapter sdxl_models/ip-adapter_sdxl.bin",
+      "resolution": [512, 768],
+      "steps": 30,
+      "strength": 0.75,
+      "guidance_scale": 12,
+      "seed": 62294
+    },
+    "baseline_adapter_scale": 0.55,
+    "tested_adapter_scale": 0.85
+  },
+  "runtime": {
+    "peak_vram_mib": 2085,
+    "elapsed_seconds": 19.7
+  },
+  "review": {
+    "full_frame_and_outside_mask_preservation": "pass",
+    "white_detail_transfer": "partial: white pocket flaps and sleeve cuffs remain visible",
+    "white_jacket_body": "fail: body panel remains gray",
+    "relative_to_scale_055": "no material improvement in the requested jacket color or open-front structure",
+    "production_eligibility": "fail"
+  },
+  "decision": "Stop the adapter-scale sweep. Increasing generic IP-Adapter scale from 0.55 to 0.85 does not satisfy the garment contract; use a new conditioning mechanism or inpaint model for the next hypothesis."
+}

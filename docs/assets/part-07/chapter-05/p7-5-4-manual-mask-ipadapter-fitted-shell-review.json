@@ -1,0 +1,30 @@
+{
+  "experiment": "P7-5.4 hand-traced fitted jacket-shell mask with approved outfit IP-Adapter reference",
+  "status": "rejected_for_production",
+  "input": "p7-5-2-fullbody-front-reference.png",
+  "mask": "p7-5-4-operator-jacket-fitted-shell-mask.png",
+  "mask_contract": "The mask follows the fixed source's shoulder, arm, wrist, crop-top opening, and high hem contours; it preserves face, hair, central crop top, trousers, shoes, hands, and studio.",
+  "reference": "p7-5-2-prop-reference-jacket-crop-top-front.png",
+  "settings": {
+    "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+    "adapter": "h94/IP-Adapter sdxl_models/ip-adapter_sdxl.bin",
+    "resolution": [512, 768],
+    "steps": 30,
+    "strength": 0.75,
+    "guidance_scale": 12,
+    "adapter_scale": 0.55,
+    "seed": 62294
+  },
+  "runtime": {
+    "peak_vram_mib": 1991,
+    "elapsed_seconds": 18.6
+  },
+  "review": {
+    "mask_boundary_fit": "improved relative to the coarse and geometric shell masks",
+    "full_frame_and_preserved_regions": "pass",
+    "open_jacket_and_long_sleeve_structure": "partial",
+    "white_jacket_body": "fail: panels remain gray",
+    "production_eligibility": "fail"
+  },
+  "decision": "Stop further polygon refinement. The improved mask reduces boundary mismatch but does not change the gray-body failure, so the unresolved variable is color/material conditioning rather than mask precision."
+}

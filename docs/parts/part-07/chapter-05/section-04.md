@@ -1,7 +1,7 @@
 # P7-5.4 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기
 
 > Section ID: `P7-5.4`
-> Version: `v2026.08.09`
+> Version: `v2026.08.10`
 
 이 절은 `P7-5.3`에서 인체·가림·공간 관계를 검수한 장면 기준과 전체 컷이 생긴 뒤에 시작하는 후속 단계입니다. 현재 P7-5.3에는 구조·캐릭터 정보의 수용을 승인한 A/B/C 장면이 있지만, 공간·조명·그림자까지 통과한 완성 컷은 없습니다. 따라서 보정 도구를 최종 승인처럼 앞당겨 쓰지 않습니다. 목표는 한 장의 예쁜 이미지를 만드는 것이 아니라, 다른 pose·camera·장소의 네 컷에서 인물성, 화풍, 구조, 국소 디테일을 분리해 판정하는 것입니다. ControlNet은 pose·camera·silhouette 같은 구조 입력을 확인하는 수단이고, inpaint는 그 전체 frame이 통과한 뒤에만 얼굴·손·발·소품 접점을 고치는 수단입니다.
 
@@ -56,6 +56,155 @@ prompt와 mask 설정을 바꾼 반복도 세 번으로 닫았다. threshold를 
 ![DiffEdit 반복 3: 단일 의상 목표와 완화한 threshold](../../../assets/part-07/chapter-05/p7-5-4-diffedit-repeat-03-contact-sheet.png)
 
 따라서 다음 비교는 DiffEdit의 prompt나 step을 계속 늘리는 것이 아니다. 전체 frame이 통과한 panel이 생긴 뒤, 사람이 제한한 mask와 같은 수정 요청을 나란히 놓아 자동 mask가 정말 필요한지 판단한다. 그 전까지는 이 반복 실패 결과로 DiffEdit을 제작 파이프라인에서 제외한다.
+
+다음 실행은 사람이 만든 black/white mask를 필수 입력으로 받는 SDXL inpaint 대조다. white는 편집, black은 보존이라는 계약과 입력·mask의 같은 해상도를 실행 전에 검사한다. 기본값은 `local_files_only`여서 checkpoint를 자동으로 내려받지 않으며, 다운로드를 허용하는 `--allow-download`는 별도 결정이 필요하다. 준비 시점에는 이 checkpoint와 ComfyUI가 없었으므로, Diffusers 단일 경로만 먼저 실행했다.
+
+실행 준비 뒤에는 P7-5.2 승인 전신을 고정 preflight 입력으로 사용해, 얼굴·바지·신발·바닥을 제외하는 거친 운영자 지정 재킷 mask를 실제로 실행했다. 첫 실행은 `width`·`height`를 파이프라인 호출에 넘기지 않아 SDXL 기본 canvas가 섞였다. 따라서 처음 contact sheet의 잘린 출력은 mask 품질 판정 근거가 아니라, 출력 canvas 계약 누락을 드러낸 실패 기록이다. checkpoint 다운로드와 로딩까지 포함한 그 실행의 총 시간은 `276.4초`, 관측 peak VRAM은 `3,292 MiB`였다.
+
+![수동 mask SDXL inpaint 첫 preflight: 고정 입력, 운영자 지정 mask, 출력](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-first-probe-contact-sheet.png)
+
+수정 실행에서는 목표 `512 x 768`을 명시하고, 생성 결과의 mask 밖 픽셀을 고정 source로 되돌리는 feathered composite를 추가했다. `strength=0.4`, 20 step에서는 full frame과 mask 밖 영역이 보존됐지만 재킷 편집이 거의 일어나지 않았다. `strength=0.8`, 30 step으로 높이면 mask 안은 바뀌었지만 요청한 open cropped white denim jacket 대신 회색 긴소매 상의가 생성됐다.
+
+![수동 mask SDXL inpaint canvas 수정 후 비교: source, mask, raw output, composited candidate](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-second-probe-contact-sheet.png)
+
+그러므로 이번 비교는 canvas·외부 보존 경로만 통과했고, 의상 지시 이행은 두 조건 모두 실패했다. step·strength만 더 올리는 것은 다음 가설이 아니다. 이후 비교는 conditioning 또는 모델 경로를 바꿔야 하며, 이 coarse preflight mask와 두 출력은 제작 컷에 사용하지 않는다.
+
+이를 확인하기 위해 wide/narrow mask, strength `0.55`~`0.85`, CFG `10`·`12`·`15`, seed `5501`·`62294`·`62382`, 긴 prompt와 압축 prompt를 한 변수씩 바꾼 10회 반복을 했다. 모든 composited 후보는 full frame과 mask 밖 영역을 유지했고 peak VRAM은 `1,785`~`2,185 MiB`, 실행 시간은 `13.4`~`19.3초`였다. 그러나 crop 길이나 앞여밈 모양이 일부 나타나도 재킷 색은 모두 회색·어두운 색에 머물러, **흰 open-front cropped jacket**이라는 세 조건을 함께 충족한 후보는 없었다.
+
+![수동 mask SDXL inpaint 10회 조건 비교](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ten-run-contact-sheet.png)
+
+따라서 이 prompt·CFG·strength·seed·coarse mask sweep은 여기서 종료한다. 다음 가설은 같은 텍스트를 더 세게 반복하는 것이 아니라, 의상 reference를 조건으로 넣는 경로 또는 다른 inpaint 모델 경로가 색·형태 계약을 회복하는지 비교하는 것이다.
+
+그 다음에는 승인한 `jacket-crop-top-front` 이미지를 일반 SDXL IP-Adapter의 의상 참조로 추가했다. Plus adapter는 이 Diffusers 버전에서 attention slicing을 켠 inpaint pipeline과 충돌했다. slicing을 빼고 공식 예시와 같은 일반 `ip-adapter_sdxl.bin`으로 바꾸면 `512 x 768`, 30 step, adapter scale `0.55`, seed `62294`에서 `20.1초`, peak `1,885 MiB`로 실행됐다.
+
+![승인 의상 참조를 넣은 수동 mask SDXL inpaint 첫 비교](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-first-contact-sheet.png)
+
+전신·mask 밖 보존은 유지됐고 흰 포켓 flap과 소매 끝이 일부 나타났다. 그러나 재킷 몸판은 여전히 회색이어서 흰 open-front cropped jacket 계약에는 미통과다. 이 출력은 제작 자산이 아니며, 다음 비교에서는 adapter scale만 바꿔 참조 강도가 몸판 색까지 전달되는지 확인한다.
+
+같은 입력·seed에서 adapter scale을 `0.85`로 올렸지만, peak VRAM `2,085 MiB`, `19.7초`로 실행된 후보도 포켓 flap·소매 끝만 흰색이고 몸판은 회색이었다. `0.55`보다 재킷 색·앞여밈 계약이 실질적으로 좋아지지 않았으므로 adapter scale sweep은 종료한다.
+
+![의상 참조 IP-Adapter scale 0.85 비교](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-scale085-contact-sheet.png)
+
+마스크 가설도 분리했다. 기존 wide mask는 상체 전체를 한 덩어리로 바꿔 중앙 크롭탑과 재킷 shell을 구분하지 못했다. 그래서 칼라·좌우 재킷 패널·긴소매만 white로 두고, 얼굴·머리·중앙 charcoal crop top·하체·배경은 black으로 유지하는 jacket-shell mask를 만들었다. 같은 IP-Adapter scale `0.55`, seed `62294` 조건에서 `20.1초`, peak `1,646 MiB`로 생성한 결과는 open-front·크롭 레이어·긴소매 구조를 유지했다.
+
+![정밀 jacket-shell mask와 승인 의상 참조를 쓴 수동 inpaint](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-jacket-shell-contact-sheet.png)
+
+따라서 mask 범위는 실제 구조 병목이었다. 그러나 편집된 재킷 패널은 여전히 회색이므로 흰 fabric color 계약은 별도 실패다. 이 mask는 다음 색 조건 또는 모델 경로 비교의 통제 입력으로 보관하지만, 출력은 제작 자산으로 승인하지 않는다.
+
+원본 인물의 어깨·팔·손목·크롭탑 opening·높은 밑단을 더 촘촘히 따르는 fitted-shell raster mask도 만들었다. 같은 조건에서 `18.6초`, peak `1,991 MiB`로 생성하면 mask 경계의 부자연스러움은 줄었지만, 재킷 패널은 계속 회색이었다. 따라서 다각형을 계속 손질하는 것은 다음 가설이 아니다. 이 입력은 mask 정밀화의 종료 기록이며, 남은 변수는 흰 fabric color를 전달하는 conditioning이다.
+
+![fitted-shell raster mask와 의상 참조를 쓴 수동 inpaint](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-fitted-shell-contact-sheet.png)
+
+경계 여유 자체도 분리했다. fitted-shell의 white 영역을 원본 해상도에서 바깥쪽으로 `16px` 확장한 뒤 같은 조건으로 실행하면 버튼과 연속된 재킷 몸판은 더 잘 나타났다. 그러나 출력은 흰 open-front 재킷이 아니라 회색의 닫힌 크롭 재킷이 됐다. 즉 border 확장은 구조에는 영향을 주지만 흰 fabric color와 앞여밈 계약을 해결하지 않는다.
+
+![16px 확장 fitted-shell mask 비교](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-fitted-shell-expand16-contact-sheet.png)
+
+참조의 회색 crop top이 흰 원단 신호를 약화했는지도 분리했다. 레이어 참조 대신 흰 재킷만 있는 승인 소품 참조를 입력해도, `19.2초`, peak `1,814 MiB`의 후보는 회색 패널과 흰 포켓·소매 끝에 머물렀다. 따라서 이전의 회색 몸판은 레이어 참조에 회색 top이 포함됐기 때문이 아니다. 이 generic IP-Adapter 경로는 white detail을 일부 전달하지만 white jacket body를 강제하지 못한다.
+
+![분리된 흰 재킷 참조를 쓴 수동 inpaint](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-isolated-white-jacket-contact-sheet.png)
+
+외부 문서도 다음 원인을 점검하게 했다. 이 SDXL inpaint checkpoint는 `1024 x 1024`에서 학습됐고, Diffusers는 mask 주위를 잘라 다시 확대하는 `padding_mask_crop`을 국소 품질 개선 수단으로 안내한다. 따라서 fitted-shell 주변에 padding `64`를 주고 같은 `512 x 768` 출력으로 다시 그린 뒤 합성했다. `26.1초`, peak `2,206 MiB`로 실행은 됐지만 회색 몸판은 남고 소매는 흰 짧은 소매로 바뀌며 open-front도 사라졌다. 국소 해상도 부족만이 원인이라는 가설은 기각한다.
+
+![padding_mask_crop 64를 쓴 국소 inpaint 비교](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-padding64-contact-sheet.png)
+
+마지막으로 이 결론이 padding `64` 한 조건에만 묶이지 않는지, fitted-shell mask를 고정하고 ten-condition 탐색을 했다. crop padding `32`·`96`, mask border 확장 `4px`·`8px`, adapter scale `0.30`·`1.00`, strength `0.60`·`0.85`, CFG `7`을 기준 조건과 각각 하나씩 비교했다. 모두 `512 x 768`, 30 step, seed `62294`에서 실행됐으며 `16.1`~`23.7초`, peak `1,661`~`2,323 MiB`였다. full-frame 보존은 전부 통과했지만, 열 가지 후보 모두 회색 몸판 또는 짧은 소매에 머물러 **흰 몸판·긴 흰 cuffed 소매·보존된 crop top 위의 open front**를 함께 만족하지 못했다.
+
+![generic IP-Adapter fitted-shell 10조건 탐색](../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-ten-run-contact-sheet.png)
+
+그러므로 이 generic IP-Adapter + SDXL inpaint 경로에서는 mask·crop padding·adapter scale·strength·CFG의 미세 sweep을 끝낸다. 다음 실험은 이 변수들을 더 조절하는 것이 아니라, 흰 원단 색과 open-front 구조를 별도로 조건화할 수 있는 다른 inpaint 모델 또는 conditioning 방식을 비교해야 한다.
+
+이 문제에는 일반 image prompt보다 사람 이미지·의상 이미지·의상 mask를 함께 받도록 학습한 virtual try-on 경로가 더 직접적이다. CatVTON은 `768 x 1024`, bf16, 50 step, seed `62294`에서 peak `5,443 MiB`, `46.7초`로 8 GB GPU에서 실행됐다. 평면 재킷 소품만 넣었을 때는 흰 전면 패널은 생겼지만 긴소매가 빠졌다. 반면 전면 jacket-crop-top 레이어 참조와 중앙 crop top을 보존하는 jacket-shell mask를 결합하자, 긴 흰 소매와 open-front가 함께 나타났다.
+
+목선과 어깨의 회색 잔존을 줄이기 위해 이 mask의 white 영역을 원본 기준 `16px` 확장했다. `8px` 확장은 검은 칼라를 더 남겨 탈락했고, `16px`은 흰 cropped jacket 몸판·긴 소매·전면 포켓·보존된 charcoal crop top을 함께 만들었다. guidance `3.5`에서 전면 버튼선과 포켓 대응이 조금 더 안정됐다. 아래 결과는 fixed preflight의 **사람 검수 후보**일 뿐, P7-5.3 장면이나 제작 자산의 자동 승인을 뜻하지 않는다.
+
+![CatVTON 16px 확장 mask와 전면 레이어 참조 결과](../../../assets/part-07/chapter-05/p7-5-4-catvton-jacket-contact-sheet.png)
+
+![CatVTON 사람 검수 후보](../../../assets/part-07/chapter-05/p7-5-4-catvton-jacket-candidate.png)
+
+<details id="manual-mask-inpaint-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_manual_mask_inpaint_probe.py" data-language="python">
+<summary>수동 mask SDXL inpaint 대조 실행 전문 보기</summary>
+<div class="aibook-lazy-source__body">승인 full-frame PNG와 사람이 만든 같은 크기의 mask PNG를 명시적으로 전달한 뒤, `--steps`·`--strength`를 바꿔 보존 범위와 편집 범위를 비교합니다.</div>
+</details>
+
+<details id="manual-mask-first-probe-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-first-probe-review.json" data-language="json">
+<summary>수동 mask 첫 preflight 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">mask 범위와 full-frame 보존·요청 의상 gate의 분리 판정을 확인합니다.</div>
+</details>
+
+<details id="manual-mask-second-probe-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-second-probe-review.json" data-language="json">
+<summary>수동 mask canvas 수정 후 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">낮은·높은 strength 조건을 분리해 canvas, mask 밖 보존, 요청 의상 gate를 확인합니다.</div>
+</details>
+
+<details id="manual-mask-ten-run-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ten-run-review.json" data-language="json">
+<summary>수동 mask 10회 반복 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">strength·CFG·seed·mask 범위를 바꾼 10개 조건과 공통 탈락 기준을 확인합니다.</div>
+</details>
+
+<details id="manual-mask-ablation-sheet" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_make_inpaint_ablation_sheet.py" data-language="python">
+<summary>수동 mask 반복 결과 contact sheet 생성기 보기</summary>
+<div class="aibook-lazy-source__body">10개 실행 폴더의 `run.json`과 composited PNG를 같은 격자로 정리합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-inpaint-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_manual_mask_ipadapter_inpaint_probe.py" data-language="python">
+<summary>의상 참조 IP-Adapter 수동 mask inpaint 실행기 보기</summary>
+<div class="aibook-lazy-source__body">승인 의상 참조 하나를 새 조건으로 추가하고, IP-Adapter와 충돌하는 attention slicing을 피합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-ten-runner" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_run_ipadapter_mask_ablation.py" data-language="python">
+<summary>의상 참조 IP-Adapter 10조건 탐색 실행기 보기</summary>
+<div class="aibook-lazy-source__body">source·fitted-shell mask·분리 재킷 참조·seed를 고정하고, padding·border·adapter scale·strength·CFG 중 하나만 바꾼 열 조건을 순차 실행합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-ten-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-ten-run-review.json" data-language="json">
+<summary>의상 참조 IP-Adapter 10조건 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">열 조건의 실제 시간·peak VRAM과 공통 탈락 기준을 확인합니다.</div>
+</details>
+
+<details id="catvton-manual-mask-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_catvton_manual_mask_probe.py" data-language="python">
+<summary>CatVTON 사람·의상·운영자 mask 실행기 보기</summary>
+<div class="aibook-lazy-source__body">CatVTON이 요구하는 person·garment·mask 계약에 승인 입력을 연결하고, 해상도·step·VRAM·실행 시간을 기록합니다.</div>
+</details>
+
+<details id="catvton-jacket-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-catvton-jacket-review.json" data-language="json">
+<summary>CatVTON 재킷 후보 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">통과한 의상 gate와 사람 검수에서 남은 목선·좌우 대칭·원단 질감 점검 항목을 확인합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-first-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-first-review.json" data-language="json">
+<summary>의상 참조 IP-Adapter 첫 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">호환성, 외부 보존, 재킷 참조 전달을 분리해 판정합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-scale085-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-scale085-review.json" data-language="json">
+<summary>의상 참조 IP-Adapter scale 0.85 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">같은 입력에서 scale만 올린 비교와 sweep 종료 근거를 확인합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-jacket-shell-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-jacket-shell-review.json" data-language="json">
+<summary>정밀 jacket-shell mask 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">재킷 구조 회복과 흰 fabric color 실패를 별도 gate로 확인합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-fitted-shell-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-fitted-shell-review.json" data-language="json">
+<summary>fitted-shell raster mask 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">경계 정밀화 효과와 흰 fabric color 실패가 분리되어 기록됩니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-fitted-shell-expand16-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-fitted-shell-expand16-review.json" data-language="json">
+<summary>fitted-shell 16px border 확장 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">마스크 경계 여유가 재킷 구조와 색 계약에 미친 영향을 분리해 확인합니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-isolated-white-jacket-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-isolated-white-jacket-review.json" data-language="json">
+<summary>분리된 흰 재킷 참조 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">레이어 참조의 회색 top이 원인인지 분리한 가설 검증 기록입니다.</div>
+</details>
+
+<details id="manual-mask-ipadapter-padding64-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-padding64-review.json" data-language="json">
+<summary>padding-mask-crop 64 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">국소 영역 확대가 의상 계약에 미친 영향을 확인합니다.</div>
+</details>
 
 <details id="diffedit-first-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_diffedit_first_probe.py" data-language="python">
 <summary>DiffEdit 첫 8 GB probe 전문 보기</summary>
@@ -197,6 +346,8 @@ P7-5.4에서 inpaint를 검토할 수 있는 조건도 같다. 먼저 P7-5.3에�
 - Comfy-Org, [Changelog](https://docs.comfy.org/changelog){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. Dynamic VRAM, FP16 intermediates, FP8·동적 offload 관련 변경을 확인했다.
 - Hugging Face, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. sequential/group/disk offload와 layerwise casting의 메모리·속도·PEFT 호환성 한계를 확인했다.
 - Hugging Face, [SDXL Inpainting 0.1](https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. SDXL inpaint 기준 checkpoint와 라이선스·학습 해상도를 확인했다.
+- Hugging Face, [Diffusers inpainting guide](https://huggingface.co/docs/diffusers/en/using-diffusers/inpaint){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. `padding_mask_crop`의 국소 crop·확대·원본 합성 동작을 확인했다.
+- Chong et al., [CatVTON 공식 구현](https://github.com/Zheng-Chong/CatVTON){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. person·garment·mask 입력 계약, `1024 x 768` 8 GB 미만 추론 주장, CC BY-NC-SA 4.0 이용 조건을 확인했다.
 - Hugging Face, [DiffEdit](https://huggingface.co/docs/diffusers/v0.17.0/api/pipelines/diffedit){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. prompt 차이로 semantic edit mask를 추정하는 비교 수단을 확인했다.
 - Hugging Face, [SD 3.5 Medium](https://huggingface.co/stabilityai/stable-diffusion-3.5-medium){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 공식 4-bit 추론 예시와 모델 라이선스를 확인했다.
 - Tencent ARC, [T2I-Adapter](https://github.com/TencentARC/T2I-Adapter){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 공식 SDXL 예시의 최소 15 GB 추론 조건을 확인했다.

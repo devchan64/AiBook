@@ -1,0 +1,31 @@
+{
+  "experiment": "P7-5.4 isolated white-jacket IP-Adapter reference comparison",
+  "status": "rejected_for_production",
+  "hypothesis": "The layered jacket-and-gray-top reference diluted the white garment signal; an isolated white-jacket reference will restore white fabric color.",
+  "input": "p7-5-2-fullbody-front-reference.png",
+  "mask": "p7-5-4-operator-jacket-fitted-shell-mask.png",
+  "outfit_reference": "p7-5-2-prop-reference-jacket.png",
+  "settings": {
+    "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+    "adapter": "h94/IP-Adapter sdxl_models/ip-adapter_sdxl.bin",
+    "resolution": [512, 768],
+    "steps": 30,
+    "strength": 0.75,
+    "guidance_scale": 12,
+    "adapter_scale": 0.55,
+    "seed": 62294
+  },
+  "runtime": {
+    "peak_vram_mib": 1814,
+    "elapsed_seconds": 19.2
+  },
+  "review": {
+    "reference_isolation": "pass: the conditioning image contains only the white jacket",
+    "full_frame_and_preserved_regions": "pass",
+    "white_jacket_body": "fail: edited panels remain gray",
+    "open_front_structure": "partial",
+    "hypothesis_result": "rejected: the gray crop top in the earlier reference was not the cause of the gray jacket body",
+    "production_eligibility": "fail"
+  },
+  "decision": "Stop reference-content isolation as a color fix. The generic IP-Adapter path transfers white details but does not impose a white jacket body in this masked SDXL inpaint setup."
+}

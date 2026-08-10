@@ -1,0 +1,30 @@
+{
+  "experiment": "P7-5.4 manually masked SDXL inpaint ten-run prompt-adherence ablation",
+  "status": "rejected_for_production",
+  "input": "p7-5-2-fullbody-front-reference.png",
+  "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+  "resolution": [512, 768],
+  "fixed_controls": {
+    "steps": 30,
+    "mask_feather_px": 2,
+    "output_canvas": "explicitly 512 x 768",
+    "outside_mask_policy": "fixed source is composited outside the feathered edit mask"
+  },
+  "variable_groups": {
+    "01_to_04": "wide jacket-and-sleeves mask; strength 0.55, 0.65, 0.75, 0.85; CFG 10; seed 5501",
+    "05_to_06": "wide mask; strength 0.75; CFG 12 then 15; more explicit white open-front jacket prompt; seed 5501",
+    "07_to_08": "same high-guidance prompt with seeds 62294 and 62382",
+    "09": "narrow torso-only mask; strength 0.75; CFG 12; seed 5501",
+    "10": "wide mask; compact jacket prompt; strength 0.75; CFG 12; seed 5501"
+  },
+  "review": {
+    "output_canvas_and_outside_mask_preservation": "pass for all 10 composited candidates",
+    "crop_length": "partially retained in several candidates",
+    "open_front_structure": "partially appears in a small number of high-guidance or seed variants",
+    "white_jacket_color": "fail for all 10 candidates; the generated garment remains gray or dark",
+    "all_requested_garment_constraints_together": "fail for all 10 candidates",
+    "peak_vram_mib_range": [1785, 2185],
+    "elapsed_seconds_range": [13.4, 19.3]
+  },
+  "decision": "Do not extend this prompt, CFG, strength, seed, or coarse-mask sweep. The next experiment must add a garment-conditioned reference or replace the inpaint model path; no candidate is a production asset."
+}
