@@ -1,0 +1,31 @@
+{
+  "experiment": "P7-5.4 fitted-shell mask border-expansion comparison",
+  "status": "rejected_for_production",
+  "input": "p7-5-2-fullbody-front-reference.png",
+  "base_mask": "p7-5-4-operator-jacket-fitted-shell-mask.png",
+  "change": "Dilate the white editable region by 16 px at the 960 x 1440 source resolution before downscaling.",
+  "reference": "p7-5-2-prop-reference-jacket-crop-top-front.png",
+  "settings": {
+    "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+    "adapter": "h94/IP-Adapter sdxl_models/ip-adapter_sdxl.bin",
+    "resolution": [512, 768],
+    "steps": 30,
+    "strength": 0.75,
+    "guidance_scale": 12,
+    "adapter_scale": 0.55,
+    "mask_expand_px": 16,
+    "seed": 62294
+  },
+  "runtime": {
+    "peak_vram_mib": 1608,
+    "elapsed_seconds": 25.8
+  },
+  "review": {
+    "boundary_headroom": "pass: expanded region lets the model form a more continuous jacket body and buttons",
+    "open_front_structure": "fail: output becomes a closed jacket",
+    "white_jacket_body": "fail: body remains gray",
+    "preserved_regions": "pass",
+    "production_eligibility": "fail"
+  },
+  "decision": "Mask expansion changes garment structure but not the white-fabric contract. Do not expand the border further without a new hypothesis; keep the expanded-mask result only as evidence that margin alone is not the color solution."
+}

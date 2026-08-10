@@ -1,0 +1,40 @@
+{
+  "experiment": "P7-5.4 manual-mask SDXL inpaint corrected-canvas comparison",
+  "status": "rejected_for_production",
+  "purpose": "Separate output-canvas preservation from the requested local jacket edit on a fixed P7-5.2 preflight image.",
+  "input": "p7-5-2-fullbody-front-reference.png",
+  "mask": "p7-5-4-operator-jacket-mask-second.png",
+  "mask_scope": "Operator-defined torso and sleeve region only; face, trousers, shoes, and studio remain outside the mask.",
+  "fixed_settings": {
+    "model": "diffusers/stable-diffusion-xl-1.0-inpainting-0.1",
+    "resolution": [512, 768],
+    "seed": 5501,
+    "mask_feather_px": 2,
+    "outside_mask_policy": "Use the fixed source outside the feathered mask when composing the production candidate."
+  },
+  "runs": [
+    {
+      "name": "low-strength preservation check",
+      "steps": 20,
+      "strength": 0.4,
+      "peak_vram_mib": 1876,
+      "elapsed_seconds": 9.3,
+      "finding": "The corrected 512 x 768 output and masked composite preserve the full frame, but the cropped white jacket edit is almost absent."
+    },
+    {
+      "name": "high-strength jacket instruction check",
+      "steps": 30,
+      "strength": 0.8,
+      "peak_vram_mib": 2083,
+      "elapsed_seconds": 18.8,
+      "finding": "The full frame remains preserved after compositing, but the masked region becomes a gray long-sleeve top rather than the requested open cropped white denim jacket."
+    }
+  ],
+  "review": {
+    "output_canvas": "pass after explicitly passing width and height to the SDXL pipeline",
+    "outside_mask_preservation": "pass in the composited candidate; raw model output is retained only for diagnosis",
+    "requested_white_cropped_jacket": "fail in both strength conditions",
+    "production_eligibility": "fail"
+  },
+  "decision": "Do not use this fixed preflight image, mask, or either candidate as a production asset. The next viable comparison must change the conditioning or model path, rather than only increase strength or steps."
+}

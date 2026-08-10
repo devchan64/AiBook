@@ -1,0 +1,57 @@
+{
+  "status": "rejected_after_three_repeats",
+  "purpose": "8 GB DiffEdit automatic-mask repeat study; fixed P7-5.2 input, not a P7-5.3 production cut",
+  "base_model": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "additional_condition_models": [],
+  "source_image": "docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png",
+  "source_prompt": "one adult woman with a teal bob haircut, dark gray crop top, teal wide-leg trousers, white sneakers, standing front-facing in a plain studio",
+  "runs": [
+    {
+      "id": "initial",
+      "steps": 20,
+      "mask_maps": 4,
+      "mask_encode_strength": 0.5,
+      "mask_thresholding_ratio": 3.0,
+      "target_prompt": "one adult woman with a teal bob haircut, cropped white jacket worn open over a dark gray crop top, teal wide-leg trousers, white sneakers, standing front-facing in a plain studio",
+      "elapsed_seconds": 20.6,
+      "gpu_memory_peak_mib": 2723,
+      "result": "mask spreads across the body and floor; output changes face, hair, clothing, and shoes."
+    },
+    {
+      "id": "repeat-01",
+      "steps": 30,
+      "mask_maps": 10,
+      "mask_encode_strength": 0.2,
+      "mask_thresholding_ratio": 8.0,
+      "target_prompt": "one adult woman with a teal bob haircut, cropped white jacket worn open over a dark gray crop top, teal wide-leg trousers, white sneakers, standing front-facing in a plain studio",
+      "elapsed_seconds": 35.1,
+      "gpu_memory_peak_mib": 6336,
+      "result": "mask becomes sparse and misses the jacket; output leaves the requested clothing unchanged while altering small unrelated areas."
+    },
+    {
+      "id": "repeat-03",
+      "steps": 30,
+      "mask_maps": 10,
+      "mask_encode_strength": 0.2,
+      "mask_thresholding_ratio": 5.0,
+      "target_prompt": "one adult woman with a teal bob haircut, cropped white jacket, teal wide-leg trousers, white sneakers, standing front-facing in a plain studio",
+      "elapsed_seconds": 34.0,
+      "gpu_memory_peak_mib": 7236,
+      "result": "single-clothing target still spreads to face, lower body, and shoes; output produces garment and belt artifacts instead of a white cropped jacket.",
+      "contact_sheet": "p7-5-4-diffedit-repeat-03-contact-sheet.png"
+    },
+    {
+      "id": "repeat-02",
+      "steps": 30,
+      "mask_maps": 10,
+      "mask_encode_strength": 0.2,
+      "mask_thresholding_ratio": 5.0,
+      "target_prompt": "one adult woman with a teal bob haircut, cropped white jacket worn open over a dark gray crop top, teal wide-leg trousers, white sneakers, standing front-facing in a plain studio",
+      "elapsed_seconds": 32.3,
+      "gpu_memory_peak_mib": 7247,
+      "result": "mask re-expands to the head, torso, lower body, and shoes; output misses the jacket and adds small clothing and shoe artifacts."
+    }
+  ],
+  "decision": "No tested configuration isolates the requested jacket or preserves the non-edited regions. DiffEdit is excluded from the production path and retained only as a failed automatic-mask baseline.",
+  "next_action": "Do not increase steps or continue prompt sweeps. Compare a manually limited mask only after a P7-5.3 full-frame panel passes."
+}

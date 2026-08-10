@@ -13,6 +13,7 @@ validation:
 not_in_nav: |
   assets/**/README.md
   reference/concept-glossary-alpha/*.md
+  reference/concept-glossary-entries/*.md
   reference/concept-glossary-parts/*.md
   reference/concept-glossary-pinyin/*.zh.md
   reference/concept-glossary-terms/*.md
