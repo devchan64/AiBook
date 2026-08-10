@@ -98,7 +98,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_right-soccer-pass", "profile_right", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_pass", "Pass one soccer ball toward image right: plant one foot, swing the other leg forward, and keep both arms, hands, legs, feet, and the ball readable.",
         ),
         CandidateSpec(
-            "sport-rear-track-run", "rear", "basic", "running_track", "empty outdoor running track under clear daytime light", "rear_track_run", "Run away from the camera down the track with a long stride and natural arm drive; keep a back-of-head rear view.",
+            "sport-rear-track-run", "rear", "basic", "running_track", "empty outdoor running track under clear daytime light", "rear_track_run", "Rear running mid-stride: one foot lifted, the other planted, with strong opposite-arm drive.",
         ),
         CandidateSpec(
             "sport-front-boxing-guard", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_guard", "Hold a balanced boxing guard with both fists raised at cheek height, bent knees, and both feet apart and separately visible.",
@@ -236,7 +236,6 @@ def build_prompt(spec: CandidateSpec) -> str:
         f"{CHARACTER_IDENTITY_CONTRACT['lora_eye_identity_description']} "
         f"{CHARACTER_IDENTITY_CONTRACT['lora_hair_identity_description']} "
         f"{CHARACTER_IDENTITY_CONTRACT['lora_fullbody_proportion_description']} "
-        f"{CHARACTER_IDENTITY_CONTRACT['hand_anatomy_description']} "
         f"{spec.pose_rule} "
         "Natural anatomy."
     )
