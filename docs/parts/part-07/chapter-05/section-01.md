@@ -1,7 +1,7 @@
 # P7-5.1 화풍 참조 셋 생성: 로컬 GPU로 프레임 없는 기준 만들기
 
 > Section ID: `P7-5.1`
-> Version: `v2026.08.08`
+> Version: `v2026.08.10`
 
 이 프로젝트는 먼저 FLUX.2 Klein 4B로 배경 화풍 기준을 고정합니다. 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 화풍 기준으로 승인하지 않습니다.
 
@@ -74,13 +74,13 @@ P7-5.1이 고정하는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal �
 
 ## 실행 코드는 공통 계약과 장면 변수를 분리한다
 
-배경 원본 생성에는 Diffusers의 `Flux2KleinPipeline`을 사용합니다. 아홉 행을 만드는 기준 실행 코드는 `p7_5_1_regenerate_local_gpu_style_references.py`입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
+배경 원본 생성에는 Diffusers의 `Flux2KleinPipeline`을 사용합니다. 스무 장면 후보를 만드는 기준 실행 코드는 `p7_5_1_regenerate_local_gpu_style_references.py`입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
 
 공통 화풍 계약은 [화풍 프롬프트 JSON](../../../assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json)에 분리한다. 이 자산에는 프레임 없는 캔버스, 얇은 charcoal 선, 반투명 수채화 색층, 안료 질감, 제외 대상만 들어 있다. 장소·시간·카메라는 실행 코드의 장면별 prompt가 맡으므로, 한 행의 공간 문제를 고칠 때 공통 화풍 계약을 함께 바꾸지 않는다.
 
 | 코드 위치 | 바꾸면 달라지는 것 | 학습할 경계 |
 | --- | --- | --- |
-| 화풍 프롬프트 JSON의 `common_contract` | 아홉 행 전체의 선·수채화·프레임 금지 기준 | 공통 계약을 바꾸면 이전 행과 직접 비교하기 어려움 |
+| 화풍 프롬프트 JSON의 `common_contract` | 스무 장면 전체의 선·수채화·프레임 금지 기준 | 공통 계약을 바꾸면 이전 행과 직접 비교하기 어려움 |
 | `SCENES`의 `prompt` | 한 행의 장소·시간·카메라 구조 | 실패 원인은 금지어보다 장면 구조로 고침 |
 | `SCENES`의 `seed` | 같은 조건의 다른 출발점 | seed 고정은 비교 기록이지 품질 보장이 아님 |
 | `P7_STYLE_SCENE`, `P7_STYLE_EXCLUDE` | 생성할 행의 범위 | 한 행 생성은 전체 팩 승인이 아님 |
@@ -89,7 +89,7 @@ P7-5.1이 고정하는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal �
 
 이전의 시간대 균형 배치와 표적 재생성 파일은 같은 실행 골격에 당시의 `SCENES`만 기록한 이력입니다. 따라서 별도의 생성 방법이나 두 번째 실행 경로로 설명하지 않습니다. P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용할 수 있으며, 내장 이미지 생성으로 만든 자산은 입력·승인·manifest에서 제외했습니다.
 
-[아홉 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py){.aibook-source-link}
+[스무 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py){.aibook-source-link}
 
 ### 공통 화풍 계약과 장면 조건이 만나는 코드
 
@@ -146,7 +146,7 @@ for scene in scenes:
 
 ## AI 모델은 텍스트 조건과 seed에서 후보 원본을 만든다
 
-앞의 코드 발췌는 실행에서 바꿀 값과 저장 경계를 보여 주고, 아래 도식은 그중 **후보 한 장을 만드는 실행 준비·`Flux2KleinPipeline` 내부 처리·검수 경계**를 나눕니다. 코드에서 FLUX.2 Klein 4B 가중치를 `torch_dtype=torch.bfloat16`으로 읽고 `enable_sequential_cpu_offload()`를 켜는 부분은 모델 내부 추론 단계가 아니라 실행 준비에 가깝습니다. 그 준비가 끝난 뒤 `Flux2KleinPipeline`은 장면 prompt와 공통 화풍 계약을 text condition으로 바꾸고, seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 이 단계의 목적은 다른 모델에 일반화되는 배경 화풍을 찾는 것이 아니라 **FLUX.2 Klein 4B가 안정적으로 따를 수 있는 화풍 입력 조건**을 먼저 고르는 것입니다. 코드의 `num_inference_steps=50`은 이 배치에서 반복 갱신한 횟수이고, `guidance_scale=4.0`은 텍스트 조건을 따르는 정도에 관여하는 실행 설정입니다. 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
+앞의 코드 발췌는 실행에서 바꿀 값과 저장 경계를 보여 주고, 아래 도식은 그중 **후보 한 장을 만드는 실행 준비·`Flux2KleinPipeline` 내부 처리·검수 경계**를 나눕니다. 코드에서 FLUX.2 Klein 4B 가중치를 `torch_dtype=torch.bfloat16`으로 읽고 `enable_sequential_cpu_offload()`를 켜는 부분은 모델 내부 추론 단계가 아니라 실행 준비에 가깝습니다. 그 준비가 끝난 뒤 `Flux2KleinPipeline`은 장면 prompt와 공통 화풍 계약을 text condition으로 바꾸고, seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 이 단계의 목적은 다른 모델에 일반화되는 배경 화풍을 찾는 것이 아니라 **FLUX.2 Klein 4B가 안정적으로 따를 수 있는 화풍 입력 조건**을 먼저 고르는 것입니다. 코드의 기본 `num_inference_steps=12`는 이 배치에서 반복 갱신한 횟수이고, `guidance_scale=4.0`은 텍스트 조건을 따르는 정도에 관여하는 실행 설정입니다. 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
 
 도식의 `입력 조건` 구역은 값을 `텍스트 입력`, `이미지 출발 조건`, `추론 설정` 세 묶음으로 정리합니다. 아래 표는 같은 값을 코드 위치와 검수 의미로 더 풀어 쓴 것입니다. 이렇게 보면 어떤 값이 텍스트 조건을 만들고 어떤 값이 latent 출발점과 반복 갱신 조건을 바꾸는지 구별할 수 있습니다.
 
@@ -178,7 +178,7 @@ for scene in scenes:
 
 ## 다섯 필수 행과 보조 근거를 분리한다
 
-로컬 GPU에서 후보를 만들 수 있다는 사실은 화풍 팩 승인과 다릅니다. 재생성 후보는 다섯 필수 행을 하나씩 채우고, 보조 행은 다른 장소·시간·시점에서도 계약이 유지되는지를 확인합니다. 현재는 창가 독서실이 폐기한 여객기 행을 대체해 다섯 필수 행을 채웠고, courtyard·베니스·공원·열차 승강장까지 네 보조 행도 사람 승인을 받았습니다. 이 아홉 행이 현재 manifest의 승인 원본입니다.
+로컬 GPU에서 후보를 만들 수 있다는 사실은 화풍 팩 승인과 다릅니다. 재생성 후보는 다섯 필수 행을 하나씩 채우고, 보조 행은 다른 장소·시간·시점에서도 계약이 유지되는지를 확인합니다. 현재는 창가 독서실이 폐기한 여객기 행을 대체해 다섯 필수 행을 채웠고, courtyard·베니스·공원·열차 승강장·세라믹 스튜디오와 여덟 확장 장소까지 열세 보조 행도 사람 승인을 받았습니다. 이 열여덟 행이 현재 manifest의 승인 원본입니다.
 
 | 필수 행 | 로컬 GPU 재생성 후보 | 현재 판정 | 이 행이 확인하는 것 |
 | --- | --- | --- | --- |
@@ -188,7 +188,7 @@ for scene in scenes:
 | 실외·해질녘·low angle | 주택가 local-gpu-v1 | 행 승인 | 제한된 석양빛과 curb-height 상향 시점 |
 | 실외·우천 야간·overhead high angle | 옥상 광장 local-gpu-v1 | 행 승인 | 젖은 바닥 반사와 하향 야간 시점 |
 
-이른 아침 courtyard, 베니스 운하, 공원 연못, 열차 승강장은 보조 행입니다. 각각 high-angle, oblique, 낮 팔레트, 우천 야간 조명을 넓혀 보지만 다섯 필수 행을 대체하지는 않습니다. 불합격 후보는 crop이나 상태값 변경으로 살리지 않고, 로컬 검수에서 실패 이유를 확인합니다.
+이른 아침 courtyard, 베니스 운하, 공원 연못, 열차 승강장, 세라믹 스튜디오와 gallery·greenhouse·hillside alley·ferry deck·cinema foyer·market arcade·riverside terrace·underpass는 보조 행입니다. 각각 high-angle, oblique, 낮 팔레트, 우천 야간 조명, 실내 작업 공간의 오후 광원과 장소 폭을 넓혀 보지만 다섯 필수 행을 대체하지는 않습니다. 불합격 후보는 crop이나 상태값 변경으로 살리지 않고, 로컬 검수에서 실패 이유를 확인합니다.
 
 | 보조 행 | 로컬 GPU 재생성 후보 | 넓혀 보는 화풍 조건 |
 | --- | --- | --- |
@@ -196,6 +196,15 @@ for scene in scenes:
 | 베니스 운하 · 석양 · oblique | 베니스 local-gpu-v1 · 행 승인 | 제한된 apricot 역광과 사선 수면 |
 | 공원 연못 · 낮 · eye-level | 공원 local-gpu-v1 · 행 승인 | 자연 공간의 낮 팔레트와 수면 반사 |
 | 열차 승강장 · 우천 야간 · oblique | 승강장 local-gpu-v1 · 행 승인 | 인공광, 젖은 바닥, 짧은 대각 철로 |
+| 세라믹 스튜디오 · 오후 · oblique | 세라믹 스튜디오 local-gpu-v1 · 행 승인 | 실내 작업 공간의 창빛과 재료 색층 |
+| gallery · 낮 · oblique | gallery local-gpu-v1 · 행 승인 | 밝은 실내 벽·바닥의 사선 평면 |
+| greenhouse · blue hour · eye-level | greenhouse local-gpu-v1 · 행 승인 | 유리 구조와 식물의 푸른 시간대 색층 |
+| hillside alley · 오후 · eye-level | hillside alley local-gpu-v1 · 행 승인 | 경사 골목의 식생·벽면·오후 그림자 |
+| ferry deck · 아침 · oblique | ferry deck local-gpu-v1 · 행 승인 | 개방 수면과 난간의 아침 반사광 |
+| cinema foyer · 밤 · oblique | cinema foyer local-gpu-v1 · 행 승인 | 어두운 실내 바닥과 작은 인공광 |
+| market arcade · 흐림 · oblique | market arcade local-gpu-v1 · 행 승인 | 반복 지붕과 습한 바닥의 확산광 |
+| riverside terrace · 밤 · oblique | riverside terrace local-gpu-v1 · 행 승인 | 물·포장·먼 조명의 야간 반사 |
+| underpass · 우천 twilight · oblique | underpass local-gpu-v1 · 행 승인 | 콘크리트·젖은 바닥·안전등의 색층 |
 
 ## Python 검수 gate는 사람 판정의 누락을 막는다
 
@@ -219,25 +228,33 @@ for scene in scenes:
 
 사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 행별 승인·불합격 이유와 최종 결론을 로컬 검수 ledger에 적습니다. 다음 단계가 실제로 읽는 입력 목록은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 따로 둡니다. 이 분리 덕분에 `왜 승인했는가`와 `무엇을 다음 생성에 넣을 수 있는가`가 섞이지 않습니다.
 
-현재 참조 셋은 `approved_for_downstream_reference`입니다. manifest에는 아홉 개의 사람 승인 로컬 GPU 원본이 있으며, 이 원본들은 배경 화풍 계약의 검수 근거입니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다.
+현재 참조 셋은 `approved_for_downstream_reference`입니다. manifest에는 열여덟 개의 사람 승인 로컬 GPU 원본이 있으며, 이 원본들은 배경 화풍 계약의 검수 근거입니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다.
 
 ## 승인된 로컬 GPU 원본을 확인한다
 
-아트리움 local-gpu-v5, 창가 독서실 local-gpu-v1과 도심·주택가·옥상 광장·courtyard·베니스·공원·열차 승강장 local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아래 아홉 원본은 manifest에 기록돼 있습니다.
+아트리움 local-gpu-v5, 창가 독서실 local-gpu-v1과 도심·주택가·옥상 광장·courtyard·베니스·공원·열차 승강장·세라믹 스튜디오·gallery·greenhouse·hillside alley·ferry deck·cinema foyer·market arcade·riverside terrace·underpass local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아래 열여덟 원본은 manifest에 기록돼 있습니다.
 
-| 필수 행 1 · 실내 아트리움 · 새벽 · high angle · local GPU v5 | 보조 행 1 · courtyard · 이른 아침 · high angle · local GPU v1 | 필수 행 2 · 창가 독서실 · 밤 · oblique · local GPU v1 |
-| --- | --- | --- |
-| ![새벽의 실내 아트리움을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png) | ![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png) | ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png) |
+| 필수 행 1 · 실내 아트리움 · 새벽 · high angle · local GPU v5 | 보조 행 1 · courtyard · 이른 아침 · high angle · local GPU v1 | 필수 행 2 · 창가 독서실 · 밤 · oblique · local GPU v1 | 필수 행 3 · 도심 · 낮 · wide eye-level · local GPU v1 |
+| --- | --- | --- | --- |
+| ![새벽의 실내 아트리움을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png) | ![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png) | ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png) | ![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png) |
 
-| 필수 행 3 · 도심 · 낮 · wide eye-level · local GPU v1 | 필수 행 4 · 주택가 · 해질녘 · low angle · local GPU v1 | 필수 행 5 · 옥상 광장 · 우천 야간 · overhead high angle · local GPU v1 |
-| --- | --- | --- |
-| ![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png) | ![해질녘 주택가를 낮은 시점에서 올려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png) | ![우천 야간의 옥상 광장을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png) |
+| 필수 행 4 · 주택가 · 해질녘 · low angle · local GPU v1 | 필수 행 5 · 옥상 광장 · 우천 야간 · overhead high angle · local GPU v1 | 보조 행 2 · 베니스 운하 · 해질녘 · oblique · local GPU v1 | 보조 행 3 · 공원 연못 · 낮 · eye-level · local GPU v1 |
+| --- | --- | --- | --- |
+| ![해질녘 주택가를 낮은 시점에서 올려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png) | ![우천 야간의 옥상 광장을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png) | ![해질녘 베니스 운하를 사선으로 본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png) | ![맑은 낮 공원 연못의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png) |
 
-| 보조 행 2 · 베니스 운하 · 해질녘 · oblique · local GPU v1 | 보조 행 3 · 공원 연못 · 낮 · eye-level · local GPU v1 | 보조 행 4 · 열차 승강장 · 우천 야간 · oblique · local GPU v1 |
-| --- | --- | --- |
-| ![해질녘 베니스 운하를 사선으로 본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png) | ![맑은 낮 공원 연못의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png) | ![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png) |
+| 보조 행 4 · 열차 승강장 · 우천 야간 · oblique · local GPU v1 | 보조 행 5 · 세라믹 스튜디오 · 오후 · oblique · local GPU v1 | 보조 행 6 · gallery · 낮 · oblique · local GPU v1 | 보조 행 7 · greenhouse · blue hour · eye-level · local GPU v1 |
+| --- | --- | --- | --- |
+| ![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png) | ![오후 창빛이 들어오는 세라믹 스튜디오의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ceramics-studio-afternoon-local-gpu-v1.png) | ![맑은 낮 gallery의 사선 실내 평면을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-gallery-midday-oblique-local-gpu-v1.png) | ![blue hour greenhouse의 유리와 식물 색층을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-greenhouse-blue-hour-local-gpu-v1.png) |
 
-아홉 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 실행 이력은 커밋하지 않는 로컬 검수 기록으로 분리합니다.
+| 보조 행 8 · hillside alley · 오후 · eye-level · local GPU v1 | 보조 행 9 · ferry deck · 아침 · oblique · local GPU v1 | 보조 행 10 · cinema foyer · 밤 · oblique · local GPU v1 | 보조 행 11 · market arcade · 흐림 · oblique · local GPU v1 |
+| --- | --- | --- | --- |
+| ![오후 hillside alley의 경사와 식생을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-hillside-alley-late-afternoon-local-gpu-v1.png) | ![아침 ferry deck의 개방 수면을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ferry-deck-morning-local-gpu-v1.png) | ![밤 cinema foyer의 바닥 반사를 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-cinema-foyer-night-local-gpu-v1.png) | ![흐린 market arcade의 반복 지붕을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-market-arcade-overcast-local-gpu-v1.png) |
+
+| 보조 행 12 · riverside terrace · 밤 · oblique · local GPU v1 | 보조 행 13 · underpass · 우천 twilight · oblique · local GPU v1 |
+| --- | --- |
+| ![밤 riverside terrace의 물과 조명 반사를 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-riverside-terrace-night-local-gpu-v1.png) | ![우천 twilight underpass의 젖은 바닥을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-underpass-rainy-twilight-local-gpu-v1.png) |
+
+열여덟 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 실행 이력은 커밋하지 않는 로컬 검수 기록으로 분리합니다.
 
 ## 실험에서 확인한 기능과 변경 결정
 

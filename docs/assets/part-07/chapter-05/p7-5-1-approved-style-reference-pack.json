@@ -12,6 +12,15 @@
     {"asset": "p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png", "scene_id": "courtyard-early-morning-high-angle", "role": "supplementary"},
     {"asset": "p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png", "scene_id": "venice-sunset-oblique", "role": "supplementary"},
     {"asset": "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png", "scene_id": "park-clear-day-eye-level", "role": "supplementary"},
-    {"asset": "p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png", "scene_id": "train-platform-rainy-night-oblique", "role": "supplementary"}
+    {"asset": "p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png", "scene_id": "train-platform-rainy-night-oblique", "role": "supplementary"},
+    {"asset": "p7-5-1-style-ceramics-studio-afternoon-local-gpu-v1.png", "scene_id": "ceramics-studio-afternoon", "role": "supplementary"},
+    {"asset": "p7-5-1-style-gallery-midday-oblique-local-gpu-v1.png", "scene_id": "gallery-midday-oblique", "role": "supplementary"},
+    {"asset": "p7-5-1-style-greenhouse-blue-hour-local-gpu-v1.png", "scene_id": "greenhouse-blue-hour", "role": "supplementary"},
+    {"asset": "p7-5-1-style-hillside-alley-late-afternoon-local-gpu-v1.png", "scene_id": "hillside-alley-late-afternoon", "role": "supplementary"},
+    {"asset": "p7-5-1-style-ferry-deck-morning-local-gpu-v1.png", "scene_id": "ferry-deck-morning", "role": "supplementary"},
+    {"asset": "p7-5-1-style-cinema-foyer-night-local-gpu-v1.png", "scene_id": "cinema-foyer-night", "role": "supplementary"},
+    {"asset": "p7-5-1-style-market-arcade-overcast-local-gpu-v1.png", "scene_id": "market-arcade-overcast", "role": "supplementary"},
+    {"asset": "p7-5-1-style-riverside-terrace-night-local-gpu-v1.png", "scene_id": "riverside-terrace-night", "role": "supplementary"},
+    {"asset": "p7-5-1-style-underpass-rainy-twilight-local-gpu-v1.png", "scene_id": "underpass-rainy-twilight", "role": "supplementary"}
   ]
 }
