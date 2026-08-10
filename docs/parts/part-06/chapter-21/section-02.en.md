@@ -1,7 +1,7 @@
 # P6-21.2 Local Runtime Environments and Memory Placement
 
 > Section ID: `P6-21.2`
-> Version: `v2026.08.07`
+> Version: `v2026.08.10`
 
 Running an open-weight model directly does not end with downloading a model file. The user also has to decide which device will hold the model, which numeric representation will be used, how much input will be processed at once, and how limited memory will be divided. The question of this Section is **how to distinguish GPU VRAM, CPU RAM, dtype, quantization, and [CPU offloading](../../../reference/concept-glossary-alpha/c.en.md#cpu-offloading) when running an open-weight model locally or in a directly managed environment**.
 
@@ -48,7 +48,21 @@ Representative offload modes can be separated as follows.
 | sequential CPU offload | detailed module or leaf module | large | slower | Use when VRAM is very constrained and execution feasibility comes first |
 | group offloading | grouped layers | medium to large | middle | Check together with model structure and library support |
 
-Sequential CPU offload can save a large amount of memory, but it can be slow. In Diffusers, offload hooks also need to be set before moving the pipeline to the GPU. So in execution code, check whether `pipe.to("cuda")` was called first and whether the offload setting is actually attached to the pipeline.
+Sequential CPU offload can save a large amount of memory, but it can be slow. This method installs stateful hooks on a pipeline. Treat it as a choice that defines the execution path, not as an extra call added to a pipeline whose device placement is already fixed.
+
+## Enable Sequential CPU Offload Once, After Assembling the Pipeline
+
+For a Diffusers pipeline such as those in P7-5.1 through P7-5.4, use this order.
+
+1. Create the pipeline with `from_pretrained(...)`.
+2. Attach every additional component that belongs to the pipeline, such as ControlNet or IP-Adapter, and apply any needed VAE or attention memory settings.
+3. Only when VRAM is especially constrained, call `enable_sequential_cpu_offload()` **once**. Through `Accelerate`, this keeps module weights on the CPU and loads only the small unit needed for an actual forward pass onto the GPU.
+4. Do not first move the whole pipeline to the GPU with `pipe.to("cuda")`. Doing so makes the memory saving from sequential offload minimal. Do not move the complete pipeline to `.to("cuda")` again after the call either.
+5. Do not enable model CPU offload and sequential CPU offload together on the same pipeline. Choose one for a rerun: the former when speed matters more, the latter when VRAM saving matters more. If a pipeline was placed with `device_map`, first clear that placement with `reset_device_map()` before making this choice.
+
+For example, the FLUX runs in P7-5.1 through P7-5.3 enable sequential offload after loading the weights and generate one scene at a time. The SDXL comparisons in P7-5.4 attach ControlNet and IP-Adapter first, then enable sequential offload. This lets the offload hooks cover the complete pipeline used for the run. Model support and component compatibility still differ, so a successful call does not prove that every adapter combination works the same way.
+
+`torch.cuda.empty_cache()` seen after row-by-row generation must also be kept distinct. It releases already unused PyTorch cache and may reduce fragmentation; it does not move the active pipeline's weights or tensors to the CPU. Record it as cache cleanup between rows, not as an offload mode or evidence of VRAM reduction.
 
 ## Separate the Feasibility Gate from the Quality Gate
 
@@ -76,6 +90,10 @@ quantization:
 runtime:
 device:
 offload_mode:
+offload_api:
+pipeline_moved_to_cuda:
+device_map:
+attached_components:
 input_size:
 context_length:
 width:
@@ -110,10 +128,13 @@ So handling an open-weight model directly means more than `running it once on my
 - Did you record the fact that the model ran separately from the fact that the output satisfied the quality criteria?
 - Did you avoid grouping GPU VRAM shortage, CPU RAM bottleneck, slow execution, and quality failure as the same failure?
 - If you used an offload mode, can you explain which unit moves between CPU and GPU?
+- If you used sequential CPU offload, did you attach extra components first, enable it only once, and avoid moving the entire pipeline to `cuda`?
+- Did you record `torch.cuda.empty_cache()` separately from CPU offloading?
 - When moving into Part 7 experiments, can you keep execution conditions and quality-review fields in the same table?
 
 ## Sources and References
 
-- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, accessed 2026-08-07.
-- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, accessed 2026-08-07.
-- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, accessed 2026-08-07.
+- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, accessed 2026-08-10.
+- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, accessed 2026-08-10.
+- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, accessed 2026-08-10.
+- PyTorch, [torch.cuda.memory.empty_cache](https://docs.pytorch.org/docs/main/generated/torch.cuda.memory.empty_cache.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-08-10.

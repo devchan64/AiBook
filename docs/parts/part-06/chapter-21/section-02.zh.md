@@ -1,7 +1,7 @@
 # P6-21.2 本地执行环境与内存放置
 
 > Section ID: `P6-21.2`
-> Version: `v2026.08.07`
+> Version: `v2026.08.10`
 
 直接运行开放权重模型，并不只是把模型文件下载下来。使用者还必须决定模型要放在哪个设备上、用哪种数值表示来读取、一次处理多长的输入，以及在内存不足时怎样分配各部分。这一节的问题是：**在本地或直接管理的环境中运行开放权重模型时，怎样区分 GPU VRAM、CPU RAM、dtype、量化，以及 [CPU offloading](../../../reference/concept-glossary-pinyin/c.zh.md#cpu-offloading)**。
 
@@ -48,7 +48,21 @@
 | sequential CPU offload | 细分 module 或 leaf module 单位 | 大 | 较慢 | VRAM 非常紧张、先确保能执行时使用 |
 | group offloading | 分组后的 layer | 中等到较大 | 中间 | 要和模型结构、库支持状态一起确认 |
 
-sequential CPU offload 能节省较多内存，但可能较慢。另外在 Diffusers 中，需要先设置 offload hook，再把 pipeline 移到 GPU。因此在执行代码里，要确认是否先调用了 `pipe.to("cuda")`，以及 offload 设置是否真的挂到了 pipeline 上。
+sequential CPU offload 能节省较多内存，但可能较慢。它会在 pipeline 上安装带状态的 hook。因此，它不是在设备放置已固定的 pipeline 上追加的辅助调用，而是决定执行路径的一种选择。
+
+## 在组装完成的 pipeline 上只设置一次顺序 CPU offload
+
+对于 P7-5.1~P7-5.4 那样的 Diffusers pipeline，按下面的顺序操作。
+
+1. 用 `from_pretrained(...)` 创建 pipeline。
+2. 连接 ControlNet、IP-Adapter 等属于该 pipeline 的全部附加组件，并设置所需的 VAE 或 attention 内存选项。
+3. 只有在 VRAM 特别紧张时，才**一次**调用 `enable_sequential_cpu_offload()`。该调用借助 `Accelerate` 将 module 权重留在 CPU，只在实际 forward 时把所需的小单元放到 GPU。
+4. 不要先用 `pipe.to("cuda")` 把整个 pipeline 放到 GPU。这样会让顺序 offload 的内存节省效果变得很小。调用之后也不要再用 `.to("cuda")` 移动整个 pipeline。
+5. 不要在同一个 pipeline 上同时启用 model CPU offload 和 sequential CPU offload。重新运行时只选一个：更重视速度时选前者，更重视节省 VRAM 时选后者。若 pipeline 已通过 `device_map` 放置，先用 `reset_device_map()` 清除该放置，再作此选择。
+
+例如，P7-5.1~P7-5.3 的 FLUX 运行会在加载权重后开启顺序 offload，并一次生成一个场景。P7-5.4 的 SDXL 比较会先连接 ControlNet 和 IP-Adapter，再开启顺序 offload。这样 offload hook 才能覆盖实际运行的完整 pipeline。不过，各模型支持的组件和兼容性不同；一次调用成功，并不说明所有 adapter 组合都会以相同方式工作。
+
+逐行生成后出现的 `torch.cuda.empty_cache()` 也要分开理解。它只释放已经空闲的 PyTorch 缓存，可能缓解碎片化；不会把正在使用的 pipeline 权重或 tensor 移到 CPU。因此应把它记录为行之间的缓存清理，而不是 offload 方式或 VRAM 节省的证据。
 
 ## 分开执行可行性 gate 与质量 gate
 
@@ -76,6 +90,10 @@ quantization:
 runtime:
 device:
 offload_mode:
+offload_api:
+pipeline_moved_to_cuda:
+device_map:
+attached_components:
 input_size:
 context_length:
 width:
@@ -110,10 +128,13 @@ Part 7 的当前模型执行实习，会把这一节的概念变成实际记录�
 - 是否把模型跑起来的事实，与输出满足质量标准的事实分开记录？
 - 是否没有把 GPU VRAM 不足、CPU RAM 瓶颈、执行缓慢、质量失败混成同一种失败？
 - 如果用了 offload 方式，能否说明 CPU 和 GPU 之间移动的单位是什么？
+- 如果使用了 sequential CPU offload，是否先连接附加组件、只设置一次，并避免把整个 pipeline 移到 `cuda`？
+- 是否把 `torch.cuda.empty_cache()` 与 CPU offloading 分开记录？
 - 进入 Part 7 实验时，能否把执行条件和质量检查项目留在同一张表中？
 
 ## 来源与参考资料
 
-- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-07。
-- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-07。
-- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-07。
+- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
+- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
+- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
+- PyTorch, [torch.cuda.memory.empty_cache](https://docs.pytorch.org/docs/main/generated/torch.cuda.memory.empty_cache.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
