@@ -105,6 +105,11 @@ def main() -> int:
             guidance_scale=args.guidance,
             generator=torch.Generator(device="cuda").manual_seed(args.seed),
         )[0]
+        if result.size != (args.width, args.height):
+            raise RuntimeError(
+                "CatVTON output size contract failed: "
+                f"requested {(args.width, args.height)}, received {result.size}"
+            )
         person.save(args.output / "source.png")
         mask.save(args.output / "operator-mask.png")
         garment.save(args.output / "garment-reference.png")

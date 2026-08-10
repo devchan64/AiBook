@@ -131,6 +131,8 @@ prompt와 mask 설정을 바꾼 반복도 세 번으로 닫았다. threshold를 
 
 ![CatVTON fitted-shell 16px 사람 검수 후보](../../../assets/part-07/chapter-05/p7-5-4-catvton-fitted-shell-expand16-candidate.png)
 
+원본 전신의 `960 x 1440`(2:3) 비율을 보존하려고 `768 x 1152`를 요청한 probe도 했다. source·mask·garment는 모두 요청 크기로 바뀌었지만 CatVTON이 돌려준 candidate는 `768 x 1024`였다. 따라서 이 출력은 2:3 비율 후보가 아니며, 의상 비례·재단 보존을 기존 `768 x 1024` 결과와 비교할 수 없다. 실행 시간은 `67.9초`, peak VRAM은 `5,447 MiB`였지만 **출력 canvas 계약 실패**로 탈락 처리했다. 이후 실행기는 요청 해상도와 candidate 해상도가 다르면 저장 전에 오류를 내도록 바꿨다. CatVTON 경로의 현재 해상도 계약은 관측된 `768 x 1024`로 제한한다.
+
 <details id="manual-mask-inpaint-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_manual_mask_inpaint_probe.py" data-language="python">
 <summary>수동 mask SDXL inpaint 대조 실행 전문 보기</summary>
 <div class="aibook-lazy-source__body">승인 full-frame PNG와 사람이 만든 같은 크기의 mask PNG를 명시적으로 전달한 뒤, `--steps`·`--strength`를 바꿔 보존 범위와 편집 범위를 비교합니다.</div>
@@ -184,6 +186,11 @@ prompt와 mask 설정을 바꾼 반복도 세 번으로 닫았다. threshold를 
 <details id="catvton-fitted-shell-ab-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-catvton-fitted-shell-ab-review.json" data-language="json">
 <summary>CatVTON guidance·의상 참조·fitted-shell 경계 비교 기록 보기</summary>
 <div class="aibook-lazy-source__body">guidance sweep, 재킷 단독 참조, 0px/16px fitted-shell 경계의 고정 조건·runtime·탈락 또는 검수 후보 판정을 확인합니다.</div>
+</details>
+
+<details id="catvton-aspect-ratio-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-catvton-aspect-ratio-review.json" data-language="json">
+<summary>CatVTON 출력 종횡비 계약 검수 기록 보기</summary>
+<div class="aibook-lazy-source__body">2:3 입력은 받았지만 3:4 candidate를 반환한 실행을 탈락 처리한 근거와 출력 크기 검사 규칙을 확인합니다.</div>
 </details>
 
 <details id="catvton-guidance-ab-preparation" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_prepare_catvton_guidance_ab.py" data-language="python">
