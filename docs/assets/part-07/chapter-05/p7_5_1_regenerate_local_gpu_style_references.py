@@ -31,7 +31,7 @@ SCENES = [
         "id": "atrium-dawn-high-angle",
         "generate_by_default": False,
         "seed": 420713,
-        "prompt": "Vertical empty indoor atrium at early dawn, steep high-angle from an upper landing. Diagonal stair flights, tiled floor, benches, and plants cross the edges; avoid a frontal hallway. Cool off-white tiles, blue-gray window light, teal stair shadows, and one small muted apricot reflection. ",
+        "prompt": "Vertical empty indoor atrium at early dawn, steep high-angle from an upper landing. One broad straight concrete stair descends diagonally beside a solid wall to an open tiled floor with one bench and two plants. No exposed railings, balusters, or floating metal lines. Cool off-white tiles, blue-gray daylight, teal wall shadows, and one muted-apricot reflection. ",
     },
     {
         "id": "courtyard-early-morning-high-angle",
@@ -55,7 +55,7 @@ SCENES = [
         "id": "night-lit-reading-room-oblique",
         "generate_by_default": False,
         "seed": 420705,
-        "prompt": "Vertical empty window-side reading room at deep night, diagonal view from the left window wall. Wood table in lower-left foreground; window frames and floorboards run toward upper right. Indigo exterior, blue-gray room shadow, one small table lamp with a compact amber tabletop reflection. ",
+        "prompt": "Vertical empty reading room at deep night, oblique view of one square wood desk beside a tall window. One small shaded lamp lights only the desktop and a short patch of floor; the rest is a simple blue-gray wall and dark wood floor. Indigo night outside, compact amber reflection; avoid long corridor lines and extra furniture. ",
     },
     {
         "id": "rooftop-rainy-night-overhead",
@@ -87,11 +87,11 @@ SCENES = [
     },
     {
         "id": "library-stairwell-day-high-angle", "generate_by_default": True, "seed": 420811,
-        "prompt": "Vertical empty public-library stairwell in daylight, steep high-angle from an upper landing. Diagonal flights, railings, terrazzo treads, book-return shelves, and a tall frosted window cross the edges. Cool off-white treads, blue-teal shadows, muted wood, and pale-cyan reflections; avoid people, book titles, signs, and a frontal hallway. ",
+        "prompt": "Vertical empty public-library stairwell in daylight, high-angle from a quiet upper landing. One wide terrazzo stair descends beside a solid cream wall toward a small lower landing; a tall frosted window gives one pale-cyan reflection. Add only a closed book-return cabinet and muted wood trim; no exposed railings, book titles, signs, people, or frontal hallway. ",
     },
     {
         "id": "harbor-plaza-sunrise-high", "generate_by_default": True, "seed": 420812,
-        "prompt": "Vertical empty harbor plaza at sunrise, high oblique view from a terrace. Angular paving, bollards, low seawall, distant water, and sparse planting cut through the edges. Blue-teal water, indigo shadow, cool off-white paving, and a narrow muted-apricot horizon; avoid boats, people, signs, broad orange light, and a centered waterfront. ",
+        "prompt": "Vertical empty harbor terrace at sunrise, high oblique view across one broad cool-off-white paved foreground to a low straight seawall and open water. Use only three dark mooring bollards along the seawall; no plants or boats. Blue-teal water, indigo paving shadow, and a narrow muted-apricot horizon; avoid people, signs, broad orange light, and a centered waterfront. ",
     },
     {
         "id": "underpass-rainy-twilight", "generate_by_default": True, "seed": 420813,

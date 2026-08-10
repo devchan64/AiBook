@@ -21,6 +21,7 @@
     {"asset": "p7-5-1-style-cinema-foyer-night-local-gpu-v1.png", "scene_id": "cinema-foyer-night", "role": "supplementary"},
     {"asset": "p7-5-1-style-market-arcade-overcast-local-gpu-v1.png", "scene_id": "market-arcade-overcast", "role": "supplementary"},
     {"asset": "p7-5-1-style-riverside-terrace-night-local-gpu-v1.png", "scene_id": "riverside-terrace-night", "role": "supplementary"},
-    {"asset": "p7-5-1-style-underpass-rainy-twilight-local-gpu-v1.png", "scene_id": "underpass-rainy-twilight", "role": "supplementary"}
+    {"asset": "p7-5-1-style-underpass-rainy-twilight-local-gpu-v1.png", "scene_id": "underpass-rainy-twilight", "role": "supplementary"},
+    {"asset": "p7-5-1-style-harbor-plaza-sunrise-high-local-gpu-v1.png", "scene_id": "harbor-plaza-sunrise-high", "role": "supplementary"}
   ]
 }
