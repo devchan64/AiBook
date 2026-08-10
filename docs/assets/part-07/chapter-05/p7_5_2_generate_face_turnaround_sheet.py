@@ -18,7 +18,7 @@ from p7_5_image_output_naming import candidate_stem, experiment_code
 ROOT = Path(__file__).resolve().parent
 FRONT = ROOT / "p7-5-2-face-front-reference.png"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
+FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-character-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 BASE_SEED = 62294
 HEAD_INPUT_BOTTOM = 720

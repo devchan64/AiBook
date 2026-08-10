@@ -53,7 +53,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 얼굴 공용 identity 계약 JSON은 정면 얼굴 생성기와 얼굴 턴어라운드 생성기가 함께 읽는 텍스트 계약입니다. 이 파일은 참조 PNG나 사람 승인 판정 자체가 아니라, 같은 특징을 생성기마다 따로 복사해 적는 일을 줄이는 단일 원본입니다. PNG는 실제 결과를 사람이 대조하는 기준이고, JSON은 새 후보를 만들 때 유지할 특징의 문장 기준입니다. 전신 얼굴·소품 리파인은 이 JSON을 쓰지 않고, 승인된 얼굴 PNG를 방향별로 여러 장의 개별 이미지 참조로 사용합니다.
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-identity-contract.json" data-language="json">얼굴 공용 identity 계약 JSON</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json" data-language="json">공용 캐릭터 identity 계약 JSON</a></p>
 
 | JSON 항목 | 맡는 역할 |
 | --- | --- |

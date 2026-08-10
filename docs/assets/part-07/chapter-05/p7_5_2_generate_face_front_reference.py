@@ -15,7 +15,7 @@ from p7_5_image_output_naming import candidate_stem, preview_callback
 
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
-FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
+FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-character-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 PROMPT = " ".join(
     (

@@ -20,7 +20,7 @@ MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62294
 FACE_IDENTITY_SEED = 62294
 FACE_REFERENCE = ROOT / "p7-5-2-face-front-reference.png"
-FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-face-identity-contract.json"
+FACE_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-character-identity-contract.json"
 FACE_IDENTITY_CONTRACT = json.loads(FACE_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8"))
 OUTFIT_REFERENCES = [
     ROOT / "p7-5-2-outfit-crop-top-waist-reference.png",

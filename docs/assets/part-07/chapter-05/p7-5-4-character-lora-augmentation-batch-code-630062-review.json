@@ -1,0 +1,28 @@
+{
+  "status": "approved_for_character_lora_candidate_pool",
+  "purpose": "Human-approved style-conditioned character-LoRA candidate; include in a training manifest only after set-level review.",
+  "count": 1,
+  "candidates": [
+    {
+      "candidate_id": "sport-front-basketball-defense",
+      "view": "front",
+      "outfit_variant": "basic",
+      "scene_id": "basketball_court",
+      "scene_rule": "empty indoor court with a matte wood floor",
+      "pose_family": "low_wide_defensive_pose",
+      "pose_rule": "Bend both knees deeply, hips at knee height, torso forward, arms spread wide with open hands.",
+      "seed": 62294,
+      "steps": 6,
+      "face_reference": "p7-5-2-face-front-reference.png",
+      "character_identity_contract": "p7-5-2-character-identity-contract.json",
+      "body_reference": "p7-5-2-fullbody-front-reference.png",
+      "style_reference": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+      "prompt": "Full-body woman, front view facing the camera, isolated on a plain off-white background. Webtoon watercolor. Both eyes have orange-amber irises. Eight-head adult, high waist, long legs. Five fingers on each hand. Bend both knees deeply, hips at knee height, torso forward, arms spread wide with open hands. Natural anatomy.",
+      "prompt_word_count": 49,
+      "status": "approved_for_character_lora_candidate_pool",
+      "output": "p7-5-4-character-lora-basketball-defense-reference.png",
+      "review": "p7-5-4-character-lora-basketball-defense-reference-review.json",
+      "elapsed_seconds": 44.96
+    }
+  ]
+}

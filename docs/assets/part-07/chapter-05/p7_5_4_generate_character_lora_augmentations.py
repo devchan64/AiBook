@@ -27,8 +27,8 @@ from p7_5_image_output_naming import candidate_stem, experiment_code, preview_ca
 ROOT = Path(__file__).resolve().parent
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62294
-IMAGE_WIDTH = 960
-IMAGE_HEIGHT = 1440
+IMAGE_WIDTH = 1024
+IMAGE_HEIGHT = 1024
 VIEWS = ("front", "front_quarter_left", "front_quarter_right", "profile_left", "profile_right", "rear")
 VIEW_RULES = {
     "front": "front view facing the camera",
@@ -36,11 +36,15 @@ VIEW_RULES = {
     "front_quarter_right": "right front-quarter view facing toward image right",
     "profile_left": "strict left side profile facing image left",
     "profile_right": "strict right side profile facing image right",
-    "rear": "strict rear view facing away from the camera, with no facial features visible",
+    "rear": "strict rear back-of-head view facing away from the camera",
 }
 FACE_REFERENCE_BY_VIEW = {
     view: ROOT / f"p7-5-2-face-{view.replace('_', '-')}-reference.png" for view in VIEWS
 }
+CHARACTER_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-character-identity-contract.json"
+CHARACTER_IDENTITY_CONTRACT = json.loads(
+    CHARACTER_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8")
+)
 BASIC_BODY_BY_VIEW = {
     view: ROOT / f"p7-5-2-fullbody-{view.replace('_', '-')}-reference.png" for view in VIEWS
 }
@@ -61,10 +65,6 @@ REFINED_OUTFIT = (
     "white cropped utility jacket over the charcoal-gray crop top, narrow bare-midriff gap, deep teal wide-leg trousers, "
     "white low-top sneakers, and one deep-navy crossbody messenger bag with its single strap outside the jacket"
 )
-ANATOMY_CONTRACT = (
-    "Exactly two arms, exactly two hands, exactly two legs, and exactly two feet must be visible as one coherent human body; "
-    "no extra, missing, fused, cropped, or duplicated limb, hand, or foot."
-)
 CONTACT_SHEET_CELL = (240, 360)
 CONTACT_SHEET_LABEL_HEIGHT = 24
 
@@ -83,7 +83,7 @@ class CandidateSpec:
 def build_specs() -> tuple[CandidateSpec, ...]:
     sports_specs = (
         CandidateSpec(
-            "sport-front-basketball-defense", "front", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_defensive_stance", "Hold a low, wide basketball defensive stance with bent knees and both open hands clearly visible.",
+            "sport-front-basketball-defense", "front", "basic", "basketball_court", "empty indoor court with a matte wood floor", "low_wide_defensive_pose", "Bend both knees deeply, hips at knee height, torso forward, arms spread wide with open hands.",
         ),
         CandidateSpec(
             "sport-front_quarter_left-basketball-jump-shot", "front_quarter_left", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_jump_shot", "Jump vertically for a basketball jump shot; hold one basketball above the forehead with both hands, with both legs and shoes separately visible.",
@@ -98,7 +98,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_right-soccer-pass", "profile_right", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_pass", "Pass one soccer ball toward image right: plant one foot, swing the other leg forward, and keep both arms, hands, legs, feet, and the ball readable.",
         ),
         CandidateSpec(
-            "sport-rear-track-run", "rear", "basic", "running_track", "empty outdoor running track under clear daytime light", "rear_track_run", "Run away from the camera down the track with a long stride and natural arm drive; keep the rear view with no facial features visible.",
+            "sport-rear-track-run", "rear", "basic", "running_track", "empty outdoor running track under clear daytime light", "rear_track_run", "Run away from the camera down the track with a long stride and natural arm drive; keep a back-of-head rear view.",
         ),
         CandidateSpec(
             "sport-front-boxing-guard", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_guard", "Hold a balanced boxing guard with both fists raised at cheek height, bent knees, and both feet apart and separately visible.",
@@ -110,13 +110,13 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_right-boxing-hook", "front_quarter_right", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_hook", "Throw one compact boxing hook toward image right while the other fist guards the face; keep a planted athletic stance with two separate feet.",
         ),
         CandidateSpec(
-            "sport-profile_left-wrestling-stance", "profile_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_stance", "Hold a low wrestling ready stance toward image left with bent knees, a flat back, and both open hands in front; no opponent.",
+            "sport-profile_left-wrestling-stance", "profile_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_stance", "Hold a low solo wrestling ready stance toward image left with bent knees, a flat back, and both open hands in front.",
         ),
         CandidateSpec(
-            "sport-profile_right-wrestling-shot", "profile_right", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_shot", "Practice a solo double-leg wrestling shot toward image right: one knee deeply bent, torso low, both arms reaching forward, no opponent.",
+            "sport-profile_right-wrestling-shot", "profile_right", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_shot", "Practice a solo double-leg wrestling shot toward image right: one knee deeply bent, torso low, both arms reaching forward.",
         ),
         CandidateSpec(
-            "sport-rear-wrestling-sprawl", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_sprawl", "Hold a solo wrestling sprawl from the rear with legs extended back and hands braced forward; no opponent and no facial features visible.",
+            "sport-rear-wrestling-sprawl", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_sprawl", "Hold a solo wrestling sprawl from the rear with legs extended back and hands braced forward in a back-of-head view.",
         ),
         CandidateSpec(
             "sport-front-gymnastics-landing", "front", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_landing", "Hold a controlled floor-gymnastics landing: feet apart, knees softly bent, arms raised in a V, and both hands and shoes visible.",
@@ -134,7 +134,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_right-gymnastics-lunge", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_lunge_right", "Hold a deep gymnastics presentation lunge toward image right with one knee bent, rear leg straight, and both arms lifted overhead.",
         ),
         CandidateSpec(
-            "sport-rear-gymnastics-turn", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_turn_rear", "Perform a controlled floor-gymnastics pivot turn from the rear with one leg supporting, the other toe pointed, and both arms extended sideways; no facial features visible.",
+            "sport-rear-gymnastics-turn", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_turn_rear", "Perform a controlled floor-gymnastics pivot turn from the rear with one leg supporting, the other toe pointed, and both arms extended sideways in a back-of-head view.",
         ),
     )
     extension_specs = (
@@ -151,7 +151,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_right-tennis-serve", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_serve", "Perform a tennis serve preparation toward image right: toss one ball upward and raise one racket, keeping both arms and both feet readable.",
         ),
         CandidateSpec(
-            "sport-profile_left-track-start", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_start", "Hold a track sprint start toward image left with one knee forward, the rear foot braced, and both hands near the ground without cropping either foot.",
+            "sport-profile_left-track-start", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_start", "Hold a track sprint start toward image left with one knee forward, the rear foot braced, and both hands near the ground with both feet fully visible.",
         ),
         CandidateSpec(
             "sport-profile_right-track-hurdle", "profile_right", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_hurdle", "Clear one low track hurdle toward image right with a lead leg extended, trail leg bent, and natural opposite-arm balance.",
@@ -163,16 +163,16 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_left-soccer-volley", "front_quarter_left", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_volley", "Strike one airborne soccer ball in a controlled volley toward image left, with one planted foot, one lifted leg, and both arms for balance.",
         ),
         CandidateSpec(
-            "sport-front-boxing-dodge", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_dodge", "Hold a low boxing slip with both fists guarding, torso angled, knees bent, and two clearly separated feet; no opponent.",
+            "sport-front-boxing-dodge", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_dodge", "Hold a low solo boxing slip with both fists guarding, torso angled, knees bent, and two clearly separated feet.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-boxing-uppercut", "front_quarter_right", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_uppercut", "Throw one compact boxing uppercut toward image right while the other hand protects the face; keep a grounded stance and no opponent.",
+            "sport-front_quarter_right-boxing-uppercut", "front_quarter_right", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_uppercut", "Throw one compact solo boxing uppercut toward image right while the other hand protects the face and the stance stays grounded.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-wrestling-single-leg", "front_quarter_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_single_leg_entry", "Practice a solo single-leg takedown entry toward image left with torso low, one knee bent, both hands reaching forward, and no opponent.",
+            "sport-front_quarter_left-wrestling-single-leg", "front_quarter_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_single_leg_entry", "Practice a solo single-leg takedown entry toward image left with torso low, one knee bent, and both hands reaching forward.",
         ),
         CandidateSpec(
-            "sport-rear-wrestling-bridge", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_bridge", "Hold a solo wrestling bridge from the rear with shoulders and feet grounded, hips raised, both arms visible for balance, and no facial features visible.",
+            "sport-rear-wrestling-bridge", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_bridge", "Hold a solo wrestling bridge from the rear with shoulders and feet grounded, hips raised, and both arms visible for balance in a back-of-head view.",
         ),
         CandidateSpec(
             "sport-front-gymnastics-handstand", "front", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_handstand", "Hold a straight floor-gymnastics handstand facing the camera with both hands on the floor, both legs together overhead, and both shoes visible.",
@@ -190,7 +190,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_left-gymnastics-floor-pose", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_floor_presentation", "Hold a kneeling floor-gymnastics presentation toward image left with one knee on the floor, the other foot planted, and both arms in a clean open line.",
         ),
         CandidateSpec(
-            "sport-rear-gymnastics-finish", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_finish_rear", "Hold a standing floor-gymnastics finish from the rear with both arms raised, feet apart, and no facial features visible.",
+            "sport-rear-gymnastics-finish", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_finish_rear", "Hold a standing floor-gymnastics finish from the rear with both arms raised and feet apart in a back-of-head view.",
         ),
     )
     return sports_specs + extension_specs
@@ -231,18 +231,13 @@ def body_reference(spec: CandidateSpec) -> Path:
 
 
 def build_prompt(spec: CandidateSpec) -> str:
-    outfit = BASE_OUTFIT if spec.outfit_variant == "basic" else REFINED_OUTFIT
     return (
-        "Use the supplied directional face image only as the strong identity and hair reference for the same woman. "
-        "Use the supplied approved full-body image only for body proportion, clothing construction, and full-body framing. "
-        "Use the supplied approved P7-5.1 background image only as the rendering-style reference: restrained webtoon linework, "
-        "transparent watercolor washes, and low-saturation flat colors. Do not copy its scene, composition, objects, people, or camera. "
-        "Do not copy its original standing pose, foot placement, arm placement, or walking cycle. "
-        f"Render one full-body character candidate in a {VIEW_RULES[spec.view]}. "
-        f"Scene: {spec.scene_rule}. Mandatory pose family: {spec.pose_family}. Keep {outfit}. {spec.pose_rule} "
-        "Do not replace the mandatory pose with a generic upright standing or generic walking pose. "
-        f"{ANATOMY_CONTRACT} "
-        "Keep a complete body from hair to shoe soles, one person, no other people, no text, and no labels."
+        f"Full-body woman, {VIEW_RULES[spec.view]}, isolated on a plain off-white background. Webtoon watercolor. "
+        f"{CHARACTER_IDENTITY_CONTRACT['lora_eye_identity_description']} "
+        f"{CHARACTER_IDENTITY_CONTRACT['lora_fullbody_proportion_description']} "
+        f"{CHARACTER_IDENTITY_CONTRACT['hand_anatomy_description']} "
+        f"{spec.pose_rule} "
+        "Natural anatomy."
     )
 
 
@@ -260,6 +255,7 @@ def planned_records(targets: tuple[str, ...], seed: int, seed_step: int, steps: 
                 "seed": seed + index * seed_step,
                 "steps": steps,
                 "face_reference": face.name,
+                "character_identity_contract": CHARACTER_IDENTITY_CONTRACT_PATH.name,
                 "body_reference": body.name,
                 "style_reference": style.name,
                 "prompt": prompt,
@@ -351,7 +347,9 @@ def main() -> int:
                     "hard_fail_conditions": [
                         "The figure does not show exactly two arms, two hands, two legs, and two feet.",
                         "Any limb, hand, or foot is extra, missing, fused, duplicated, or cropped.",
+                        "Any visible hand does not show five separate fingers including the thumb.",
                         "The rendering style does not match the approved P7-5.1 restrained-webtoon watercolor style contract.",
+                        "The visible face does not match the shared face-identity contract, including its chestnut-brown and orange-amber iris rule.",
                     ],
                     "decision": "Candidate only; require human approval before LoRA dataset inclusion.",
                 },
