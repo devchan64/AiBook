@@ -3,7 +3,7 @@
 > Section ID: `P7-5.4`
 > Version: `v2026.08.10`
 
-이 절은 `P7-5.3`에서 인체·가림·공간 관계를 검수한 장면 기준과 전체 컷이 생긴 뒤에 시작하는 후속 단계입니다. 현재 P7-5.3에는 구조·캐릭터 정보의 수용을 승인한 A/B/C 장면이 있지만, 공간·조명·그림자까지 통과한 완성 컷은 없습니다. 따라서 보정 도구를 최종 승인처럼 앞당겨 쓰지 않습니다. 목표는 한 장의 예쁜 이미지를 만드는 것이 아니라, 다른 pose·camera·장소의 네 컷에서 인물성, 화풍, 구조, 국소 디테일을 분리해 판정하는 것입니다. ControlNet은 pose·camera·silhouette 같은 구조 입력을 확인하는 수단이고, inpaint는 그 전체 frame이 통과한 뒤에만 얼굴·손·발·소품 접점을 고치는 수단입니다.
+이 절은 `P7-5.3`에서 인체·가림·공간 관계를 검수한 장면 기준과 전체 컷이 생긴 뒤에 시작하는 후속 단계입니다. 현재 P7-5.3에는 구조·캐릭터 정보의 수용을 승인한 A/B/C 장면이 있지만, 공간·조명·그림자까지 통과한 완성 컷은 없습니다. 따라서 보정 도구를 최종 승인처럼 앞당겨 쓰지 않습니다. 목표는 한 장의 예쁜 이미지를 만드는 것이 아니라, 다른 pose·camera·장소의 네 컷에서 인물성, 화풍, 구조, 의상 전달, 국소 디테일을 분리해 판정하는 것입니다. ControlNet은 pose·camera·silhouette 같은 구조 입력을 확인하는 수단이고, inpaint는 그 전체 frame이 통과한 뒤에만 얼굴·손·발·소품 접점을 고치는 수단입니다.
 
 ## LoRA 전환에는 별도 데이터와 학습 환경이 필요하다
 
@@ -14,6 +14,21 @@
 학습을 시작하려면 먼저 올바른 데이터를 확보한다. 공식 예시의 스타일 LoRA는 서로 다른 구도와 시점을 가진 15–40장의 이미지와 각 이미지의 내용 caption·동일 trigger word를 사용한다. 현재 P7-5.2 기준 자산은 얼굴·전신·소품 보드가 섞여 있어 그 자체를 하나의 학습 데이터셋으로 보지 않는다. 실패하거나 왜곡된 생성 이미지도 학습 데이터로 사용하지 않는다.
 
 구도 보존과 캐릭터 교체를 함께 학습하려면 입력 이미지와 목표 이미지를 짝짓는 **edit LoRA** 형식이 더 직접적이다. 공식 안내는 `control_path`로 이 쌍을 연결하지만 보편적인 최소 쌍 수를 보장하지 않는다. 따라서 필요한 데이터 수는 임의로 확정하지 않고, 같은 포즈·구도에서 캐릭터·복장이 완성된 검수 쌍과 별도 학습 환경을 확보한 뒤 실험으로 정한다.
+
+## 의상 전달과 장면 재현은 같은 문제가 아니다
+
+흰 재킷을 한 인물에게 입히는 일과, 다른 pose·camera·배경에서도 같은 인물을 그리는 일은 필요한 입력이 다르다. 그래서 한 도구의 실패를 다른 도구 전체의 실패로 일반화하지 않는다. 아래 표의 판정은 현재의 고정 시험 입력과 모델 조합에만 적용한다.
+
+| 수단 | 주 입력과 역할 | 현재 고정 시험 결과 | 이 결과로 말할 수 없는 것 |
+| --- | --- | --- | --- |
+| 수동 inpaint + 일반 IP-Adapter | source, 운영자 mask, text, 의상 reference로 국소 영역을 바꾼다. | mask 밖 보존은 통과했지만 흰 몸판·긴소매·open-front를 함께 만들지 못했다. | 모든 inpaint 모델이나 모든 reference adapter가 의상 전달에 실패한다는 결론 |
+| ControlNet + 일반 IP-Adapter | pose·Canny 같은 구조 입력과 인물 reference로 새 장면을 만든다. | 큰 pose·camera 구조는 부분 통과했지만 얼굴·가방 geometry·전신 일관성은 제작 gate를 통과하지 못했다. | ControlNet 또는 adapter 일반이 identity 재현에 쓸모없다는 결론 |
+| virtual try-on | person과 garment를 의상 착장 조건으로 함께 받는다. 모델에 따라 mask도 받는다. | CatVTON은 재킷·크롭탑 레이어 계약을 사람 검수 후보 수준까지 전달했다. FASHN VTON v1.5의 첫 20 step 실행도 8 GB에서 완료됐지만, open-front 재킷과 안쪽 crop top을 닫힌 흰 상의로 재구성했다. | 현재 VTON 후보가 다른 pose·후면·가방·화풍까지 자동으로 보존한다는 결론 |
+| LoRA | 권리와 caption이 갖춰진 데이터로 반복되는 화풍 또는 인물 특성을 학습한다. | P7-5.4에서는 아직 학습·held-out 평가를 실행하지 않았다. | LoRA가 현재 의상 교체·정확한 pose·단발 소품 전달을 해결한다는 결론 |
+
+VTON이 이번 의상 교체에 더 직접적인 이유는 text와 일반 이미지 유사도 대신 인물·의상 입력의 관계를 착장 과제로 처리하기 때문이다. 그렇다고 VTON이 국소 inpaint의 대체물이나 장면 생성기의 대체물이 되지는 않는다. CatVTON은 operator mask가 필요하고, FASHN VTON은 사용자 mask 없이 내부 parser와 pose 검출을 실행한다. 두 경우 모두 출력의 얼굴, 레이어, 가방, 배경, pose별 일관성은 사람 검수로 따로 확인해야 한다.
+
+따라서 제작 순서는 구조 생성에서 pose·camera를 먼저 검수하고, 의상 전달이 병목인 컷에만 VTON을 비교하며, 전체 장면에 반복되는 화풍·인물성의 병목은 별도 LoRA 실험으로 남긴다. VTON 출력에 범용 LoRA를 곧바로 붙일 수 있다고 가정하지 않는다. 두 모델의 base와 conditioning 인터페이스가 다르므로, 결합은 각각의 단독 gate를 통과한 뒤에만 별도 실험으로 검증한다.
 
 ## 8 GB에서 확인할 순서는 실행 가능성과 품질을 섞지 않는다
 
@@ -26,9 +41,10 @@
 | 0 | 실행 환경 | GPU·드라이버·OS·CUDA, 물리 VRAM, RAM, SSD 여유 공간을 기록한다. | 외부 GPU에서 CUDA가 실제로 보인다. |
 | 1 | SDXL inpaint 실행기 | 기존 Diffusers sequential CPU offload와 ComfyUI Dynamic VRAM을 같은 모델·mask·seed·해상도로 비교한다. VRAM peak, RAM, SSD I/O, 장당 시간을 남긴다. | 둘 중 하나가 OOM 없이 반복 실행된다. |
 | 2 | 저정밀 추론 | 같은 SDXL inpaint에서 FP8 layerwise casting 또는 4-bit 양자화를 한 번에 하나씩 비교한다. 원본과 mask 경계·색·얼굴 손상을 함께 판정한다. | 기준 실행보다 메모리 또는 시간이 개선되고 품질 하락이 허용 범위다. |
-| 3 | LoRA 최소 학습 | SD 1.5, `512 x 768`, batch 1에서 style과 character를 섞지 않은 소규모 LoRA를 학습한다. 데이터 권리, caption, loss, peak VRAM, sample grid를 남긴다. | 학습이 끝나고 held-out prompt에서 trigger와 화풍 또는 인물성 중 하나를 재현한다. |
-| 4 | LoRA와 국소 편집의 결합 | 통과한 adapter 하나만 SD 1.5 inpaint checkpoint에 연결하고, LoRA 없음/on을 같은 mask·seed로 비교한다. 이어서 수동 mask와 DiffEdit 자동 mask를 같은 수정 요청에서 비교한다. | 변경 영역 밖의 화풍·인물성이 유지되고, 경계 누수와 새 구조 오류가 없다. |
-| 5 | 제작 컷 적용 | P7-5.3의 전체 frame이 별도 검수를 통과한 뒤에만, 통과한 한 조합을 얼굴·손·발·소품의 승인 mask에 적용한다. | 네 컷 ledger에서 identity·structure·style·local detail이 모두 통과한다. |
+| 3 | VTON 실행 계약 | 고정 person·garment 입력에서 CatVTON과 FASHN처럼 의상 착장에 특화된 모델을 한 번에 하나씩 비교한다. 입력 해상도, mask 또는 parser, layer·색·소매 gate, VRAM·시간을 남긴다. | 의상 계약과 출력 canvas가 통과하고, 사람 검수 후보가 생긴다. |
+| 4 | LoRA 최소 학습 | SD 1.5, `512 x 768`, batch 1에서 style과 character를 섞지 않은 소규모 LoRA를 학습한다. 데이터 권리, caption, loss, peak VRAM, sample grid를 남긴다. | 학습이 끝나고 held-out prompt에서 trigger와 화풍 또는 인물성 중 하나를 재현한다. |
+| 5 | LoRA와 국소 편집의 결합 | 통과한 adapter 하나만 SD 1.5 inpaint checkpoint에 연결하고, LoRA 없음/on을 같은 mask·seed로 비교한다. 이어서 수동 mask와 DiffEdit 자동 mask를 같은 수정 요청에서 비교한다. | 변경 영역 밖의 화풍·인물성이 유지되고, 경계 누수와 새 구조 오류가 없다. |
+| 6 | 제작 컷 적용 | P7-5.3의 전체 frame이 별도 검수를 통과한 뒤에만, 통과한 한 조합을 얼굴·손·발·소품의 승인 mask에 적용한다. | 네 컷 ledger에서 identity·structure·style·local detail이 모두 통과한다. |
 
 ComfyUI Dynamic VRAM은 메모리 운영을 바꾸는 후보이고, SDXL inpaint의 화풍·인물 품질을 보장하는 모델 교체가 아니다. Diffusers의 FP8 layerwise casting과 4-bit 양자화도 가중치 저장 메모리를 줄일 수 있지만 활성값 peak와 출력 품질은 별도로 측정해야 한다. 특히 layerwise casting은 PEFT/LoRA가 들어간 사용자 정의 경로에서 호환되지 않을 수 있으므로, LoRA를 붙이기 전과 후를 분리한다.
 
@@ -375,9 +391,11 @@ P7-5.4에서 inpaint를 검토할 수 있는 조건도 같다. 먼저 P7-5.3에�
 - Hugging Face, [SDXL Inpainting 0.1](https://huggingface.co/diffusers/stable-diffusion-xl-1.0-inpainting-0.1){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. SDXL inpaint 기준 checkpoint와 라이선스·학습 해상도를 확인했다.
 - Hugging Face, [Diffusers inpainting guide](https://huggingface.co/docs/diffusers/en/using-diffusers/inpaint){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. `padding_mask_crop`의 국소 crop·확대·원본 합성 동작을 확인했다.
 - Chong et al., [CatVTON 공식 구현](https://github.com/Zheng-Chong/CatVTON){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. person·garment·mask 입력 계약, `1024 x 768` 8 GB 미만 추론 주장, CC BY-NC-SA 4.0 이용 조건을 확인했다.
+- FASHN AI, [FASHN VTON v1.5 공식 구현](https://github.com/fashn-AI/fashn-vton-1.5){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. person·garment 입력, maskless 사용자 인터페이스, DWPose·human parser 보조 모델, 의상 category와 Apache-2.0 라이선스를 확인했다.
 - Hugging Face, [DiffEdit](https://huggingface.co/docs/diffusers/v0.17.0/api/pipelines/diffedit){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. prompt 차이로 semantic edit mask를 추정하는 비교 수단을 확인했다.
 - Hugging Face, [SD 3.5 Medium](https://huggingface.co/stabilityai/stable-diffusion-3.5-medium){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 공식 4-bit 추론 예시와 모델 라이선스를 확인했다.
 - Tencent ARC, [T2I-Adapter](https://github.com/TencentARC/T2I-Adapter){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 공식 SDXL 예시의 최소 15 GB 추론 조건을 확인했다.
 - Hertz et al., [StyleAligned](https://style-aligned-gen.github.io/){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-09. 학습 없이 reference style을 공유 attention으로 맞추는 연구 후보와 재현 조건의 한계를 확인했다.
 - Black Forest Labs, [FLUX.2 Klein LoRA 학습 안내](https://huggingface.co/blog/black-forest-labs/flux-2-klein-lora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. Base 4B 학습, 15–40장 스타일 예시, 약 24 GB VRAM의 공식 예제 조건과 edit LoRA의 `control_path` 형식을 확인했다.
 - Hugging Face, [FLUX.1-dev QLoRA 안내](https://huggingface.co/blog/flux-qlora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. 공식 사례의 약 9 GB peak와 저메모리 설정을 비교 근거로 사용했다.
+- Hugging Face, [Diffusers LoRA 학습 안내](https://huggingface.co/docs/diffusers/training/lora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. LoRA가 일부 adapter 가중치를 학습하는 방식이며, 학습 데이터·rank·학습률·held-out 검수가 별도 실험 조건임을 확인했다.
