@@ -15,6 +15,19 @@
 
 구도 보존과 캐릭터 교체를 함께 학습하려면 입력 이미지와 목표 이미지를 짝짓는 **edit LoRA** 형식이 더 직접적이다. 공식 안내는 `control_path`로 이 쌍을 연결하지만 보편적인 최소 쌍 수를 보장하지 않는다. 따라서 필요한 데이터 수는 임의로 확정하지 않고, 같은 포즈·구도에서 캐릭터·복장이 완성된 검수 쌍과 별도 학습 환경을 확보한 뒤 실험으로 정한다.
 
+첫 LoRA 시험은 화풍만 분리한다. `P7-5.1`의 승인 배경 16장을 학습 입력, 서로 다른 장소·조명·camera의 승인 배경 4장을 held-out으로 고정했고, 각 파일에는 caption·SHA-256·사람 승인 기록을 남겼다. Mira·의상·가방·VTON 출력은 넣지 않는다. 최종 loss가 아니라 held-out의 화풍·장면·camera·훈련 장면 복제 여부를 사람 검수해 하나의 checkpoint만 고른다.
+
+환경 pilot은 9개 승인 배경을 반복해 품질 데이터가 아닌 실행 입력으로만 사용했다. UNet과 두 text encoder를 동시에 GPU에 두는 첫 시도는 8 GB에서 OOM이 났다. frozen text encoder와 VAE의 출력을 먼저 계산해 CPU에 두고 UNet LoRA만 GPU에 올린 재시도는 50 step·`384 x 512`·bf16에서 `12.54초`, peak `6,021 MiB`로 adapter 저장까지 완료했다.
+
+그 뒤 Animagine XL 4.0에서 16/4·300 step을 실행했지만, 자연어 caption과 표준 파이프라인으로 만든 비교가 모델 카드의 tag prompt·fp16·Euler Ancestral 조건을 따르지 않았다. 이 결과는 checkpoint 선택 근거로 쓰지 않고 무효 기록으로 남겼다. 권장 조건으로 다시 만든 100-step 파일럿은 장면을 보존했지만 승인 화풍의 뚜렷한 이득이 없었다. 한 모델에서의 실패를 LoRA 일반의 실패로 넓히지 않고, 이 데이터 계약에 더 맞는 SDXL base 1.0을 별도 가설로 분리했다.
+
+SDXL base 1.0의 100-step 파일럿은 bf16 학습에서 peak `5,997 MiB`, `74.41초`로 끝났다. held-out 네 장소와 두 seed에서 scale `0.5`를 비교했을 때 장소 범주는 남고 수채화 질감과 부드러운 색 번짐은 강해졌다. 다만 일부 구도가 달라져 아직 사람 검수 전이다. 따라서 이 adapter는 제작 자산이나 VTON 결합 입력으로 승인하지 않으며, 화풍·장면·일반화·경계의 네 gate를 사람 검수한 뒤에만 다른 scale 또는 더 긴 학습을 시험한다.
+
+<details id="lora-style-trial-plan" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-lora-style-trial-plan.json" data-language="json">
+<summary>화풍 전용 LoRA 시험 설계 보기</summary>
+<div class="aibook-lazy-source__body">승인 데이터 분리, Animagine 경로의 무효·미통과 기록, SDXL base 파일럿의 조건과 사람 검수 대기 판정을 확인합니다.</div>
+</details>
+
 ## 의상 전달과 장면 재현은 같은 문제가 아니다
 
 흰 재킷을 한 인물에게 입히는 일과, 다른 pose·camera·배경에서도 같은 인물을 그리는 일은 필요한 입력이 다르다. 그래서 한 도구의 실패를 다른 도구 전체의 실패로 일반화하지 않는다. 아래 표의 판정은 현재의 고정 시험 입력과 모델 조합에만 적용한다.
@@ -24,7 +37,7 @@
 | 수동 inpaint + 일반 IP-Adapter | source, 운영자 mask, text, 의상 reference로 국소 영역을 바꾼다. | mask 밖 보존은 통과했지만 흰 몸판·긴소매·open-front를 함께 만들지 못했다. | 모든 inpaint 모델이나 모든 reference adapter가 의상 전달에 실패한다는 결론 |
 | ControlNet + 일반 IP-Adapter | pose·Canny 같은 구조 입력과 인물 reference로 새 장면을 만든다. | 큰 pose·camera 구조는 부분 통과했지만 얼굴·가방 geometry·전신 일관성은 제작 gate를 통과하지 못했다. | ControlNet 또는 adapter 일반이 identity 재현에 쓸모없다는 결론 |
 | virtual try-on | person과 garment를 의상 착장 조건으로 함께 받는다. 모델에 따라 mask도 받는다. | CatVTON은 재킷·크롭탑 레이어 계약을 사람 검수 후보 수준까지 전달했다. FASHN VTON v1.5의 첫 20 step 실행도 8 GB에서 완료됐지만, open-front 재킷과 안쪽 crop top을 닫힌 흰 상의로 재구성했다. | 현재 VTON 후보가 다른 pose·후면·가방·화풍까지 자동으로 보존한다는 결론 |
-| LoRA | 권리와 caption이 갖춰진 데이터로 반복되는 화풍 또는 인물 특성을 학습한다. | P7-5.4에서는 아직 학습·held-out 평가를 실행하지 않았다. | LoRA가 현재 의상 교체·정확한 pose·단발 소품 전달을 해결한다는 결론 |
+| LoRA | 권리와 caption이 갖춰진 데이터로 반복되는 화풍 또는 인물 특성을 학습한다. | Animagine XL 4.0 경로는 모델별 추론·caption 조건 불일치 또는 화풍 이득 미관측으로 미통과다. SDXL base 1.0 100-step 파일럿은 네 held-out 장소 범주와 두 seed에서 화풍 이득 후보를 만들었지만, 일부 구도 변화가 있어 사람 검수 대기다. | LoRA가 현재 의상 교체·정확한 pose·단발 소품 전달을 해결한다는 결론 |
 
 VTON이 이번 의상 교체에 더 직접적인 이유는 text와 일반 이미지 유사도 대신 인물·의상 입력의 관계를 착장 과제로 처리하기 때문이다. 그렇다고 VTON이 국소 inpaint의 대체물이나 장면 생성기의 대체물이 되지는 않는다. CatVTON은 operator mask가 필요하고, FASHN VTON은 사용자 mask 없이 내부 parser와 pose 검출을 실행한다. 두 경우 모두 출력의 얼굴, 레이어, 가방, 배경, pose별 일관성은 사람 검수로 따로 확인해야 한다.
 
@@ -399,3 +412,5 @@ P7-5.4에서 inpaint를 검토할 수 있는 조건도 같다. 먼저 P7-5.3에�
 - Black Forest Labs, [FLUX.2 Klein LoRA 학습 안내](https://huggingface.co/blog/black-forest-labs/flux-2-klein-lora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. Base 4B 학습, 15–40장 스타일 예시, 약 24 GB VRAM의 공식 예제 조건과 edit LoRA의 `control_path` 형식을 확인했다.
 - Hugging Face, [FLUX.1-dev QLoRA 안내](https://huggingface.co/blog/flux-qlora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-07. 공식 사례의 약 9 GB peak와 저메모리 설정을 비교 근거로 사용했다.
 - Hugging Face, [Diffusers LoRA 학습 안내](https://huggingface.co/docs/diffusers/training/lora){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. LoRA가 일부 adapter 가중치를 학습하는 방식이며, 학습 데이터·rank·학습률·held-out 검수가 별도 실험 조건임을 확인했다.
+- Cagliostro Research Lab, [Animagine XL 4.0 모델 카드](https://huggingface.co/cagliostrolab/animagine-xl-4.0){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. SDXL 계열 모델, tag-style prompt 한계와 CreativeML Open RAIL++-M 이용 조건을 확인했다.
+- Stability AI, [Stable Diffusion XL Base 1.0 모델 카드](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10. 일반 SDXL base를 별도 style-LoRA 가설의 base checkpoint로 사용한 조건을 남긴다.

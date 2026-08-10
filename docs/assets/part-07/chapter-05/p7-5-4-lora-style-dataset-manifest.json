@@ -1,0 +1,178 @@
+{
+  "experiment_id": "P7-5.4-lora-style-01",
+  "status": "human_approved_for_main_trial",
+  "approval": {
+    "reviewer": "human",
+    "approved_on": "2026-08-10",
+    "scope": "11 generated background-only candidates"
+  },
+  "train": [
+    {
+      "source_id": "p7-5-4-lora-style-train-01",
+      "asset": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+      "sha256": "9f885c4abecfc16c0143bf9be6510280e2ca63333a5531a8e65f277983a9c590",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, indoor dawn atrium, high-angle wide background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-02",
+      "asset": "p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png",
+      "sha256": "b4381d5571de96bf6ec71a41f957e93e5f0d67057f90fb744ba187058f78d7cd",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, night-lit reading room, oblique background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-03",
+      "asset": "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+      "sha256": "1df906ee0e1c7b8d097d57e333d0cc72d27750f04697d168bff56267d472bf1d",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, clear-day downtown, wide background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-04",
+      "asset": "p7-5-1-style-residential-sunset-low-angle-local-gpu-v1.png",
+      "sha256": "9a733e74a3ccec6a7ebd663c84fee9983ee3b9c8729c556106b18d5d66d9d90e",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, residential street at sunset, low-angle background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-05",
+      "asset": "p7-5-1-style-rooftop-rainy-night-overhead-local-gpu-v1.png",
+      "sha256": "3f4a3b7f5706dee6656b89563362f00537f2deeec8ef668596649c7c57affc13",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, rainy rooftop at night, overhead background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-06",
+      "asset": "p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png",
+      "sha256": "dd954aa57effbe2a2e32b911ecc5550ceb9f0ce7aad447516624e521f4998d4c",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, courtyard in early morning, high-angle background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-07",
+      "asset": "p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png",
+      "sha256": "adc5775538fccd78928971464d9b29892830b4f5c2563934a95c9ea29b74215b",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, canal district at sunset, oblique background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-08",
+      "asset": "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+      "sha256": "d24524e81ac56d6d7a883e3947adbe13055bc298dde92363d0ccb0c7b67dce51",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, park on a clear day, eye-level background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-09",
+      "asset": "p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png",
+      "sha256": "c94b427005e43f0af3cbff7654a9a8abcf4b798e4e666497a2a983a7946d81e2",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, rainy train platform at night, oblique background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-10",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-train-gallery-midday-oblique-reference.png",
+      "sha256": "b9e666223f0eae51cfa0e79cc528c5de8490878cb210798aa6dac80cb65289a7",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, empty gallery at midday, oblique background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-11",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-train-library-stairwell-day-reference.png",
+      "sha256": "987b63ffb88efd78fa8fa75058f84d83b60bf3884777b31775f6b6ff590bb257",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, library stairwell in daylight, high-angle background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-12",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-train-harbor-plaza-sunrise-high-reference.png",
+      "sha256": "e2f23b52c4912930581edacfff8d2fbfe0ebe6f42a4cf84398270b221d54b559",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, harbor plaza at sunrise, high-angle background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-13",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-train-underpass-rainy-twilight-reference.png",
+      "sha256": "8e444506c613ae9938ccda5a9eff798299355ee0089c30f7be3d20cd4bc17be7",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, rainy pedestrian underpass at twilight, centered background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-14",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-train-hillside-alley-late-afternoon-reference.png",
+      "sha256": "a04b54371f76a8f512601f856c967e98abe92d6f4eabac2d501e1e6311019424",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, hillside alley in late afternoon, eye-level background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-15",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-train-market-arcade-overcast-reference.png",
+      "sha256": "5972170480adf3b61c53b9e46391eaabed49c0200160c297c953a0e5713138b2",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, empty market arcade under overcast light, oblique background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-train-16",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-train-riverside-terrace-night-reference.png",
+      "sha256": "999b0d63d7c34feccc0a83a04d4920fe6dedf0c358cc4651fe0e78f34a3178e0",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, riverside terrace at night, oblique background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "train"
+    }
+  ],
+  "heldout": [
+    {
+      "source_id": "p7-5-4-lora-style-heldout-01",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-heldout-greenhouse-blue-hour-reference.png",
+      "sha256": "90359306c4af4769bbc15e6442618bfd91d8190bd80ae8e428884242513508db",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, greenhouse conservatory at blue hour, eye-level wide background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "heldout"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-heldout-02",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-heldout-ferry-deck-morning-reference.png",
+      "sha256": "be354b499b8099ffc402113ad0779499e26b4c5d3df8fe6834cd7cb74e1805a5",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, ferry deck in the morning, oblique wide background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "heldout"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-heldout-03",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-heldout-cinema-foyer-night-reference.png",
+      "sha256": "4796a4fc718d91fc0fb616871aaae77ccb5fa8f11f5e11ea9f5556589665844d",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, cinema foyer at night, eye-level background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "heldout"
+    },
+    {
+      "source_id": "p7-5-4-lora-style-heldout-04",
+      "asset": "p7-5-4-lora-style-data/p7-5-4-lora-style-heldout-ceramics-studio-afternoon-reference.png",
+      "sha256": "e2e0ca790ede2fb9d2d52f1f52dff0e139bba49275f2a3488f5d2b01820e9710",
+      "approval": "human-approved-2026-08-10",
+      "caption": "p7style, ceramics studio in afternoon light, eye-level background, restrained webtoon background, clean line art, low-saturation flat colors, quiet cinematic lighting",
+      "split": "heldout"
+    }
+  ],
+  "integrity": {
+    "train_count": 16,
+    "heldout_count": 4,
+    "all_hashes_unique": true
+  }
+}
