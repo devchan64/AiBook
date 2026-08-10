@@ -16,6 +16,8 @@ import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+from PIL import Image, ImageDraw
+
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_OUTPUT = ROOT.parents[3] / ".tmp" / "p7-5-2-character-lora-dataset"
@@ -37,6 +39,9 @@ REFINED_OUTFIT = (
     "white cropped utility jacket, charcoal gray crop top, bare midriff, deep teal wide-leg trousers, "
     "white low-top sneakers, deep navy crossbody messenger bag"
 )
+CONTACT_SHEET_COLUMNS = 3
+CONTACT_SHEET_CELL_SIZE = (240, 360)
+CONTACT_SHEET_LABEL_HEIGHT = 26
 
 
 @dataclass(frozen=True)
@@ -121,6 +126,29 @@ def link_or_validate(source: Path, destination: Path) -> None:
     os.symlink(source, destination)
 
 
+def write_contact_sheet(output: Path, records: list[dict[str, str]]) -> str:
+    """Render a review image without changing any training source PNG."""
+    cell_width, cell_height = CONTACT_SHEET_CELL_SIZE
+    rows = (len(records) + CONTACT_SHEET_COLUMNS - 1) // CONTACT_SHEET_COLUMNS
+    sheet = Image.new(
+        "RGB",
+        (CONTACT_SHEET_COLUMNS * cell_width, rows * (cell_height + CONTACT_SHEET_LABEL_HEIGHT)),
+        "white",
+    )
+    draw = ImageDraw.Draw(sheet)
+    for index, record in enumerate(records):
+        source = ROOT / record["asset"]
+        image = Image.open(source).convert("RGB")
+        image.thumbnail(CONTACT_SHEET_CELL_SIZE, Image.Resampling.LANCZOS)
+        column, row = index % CONTACT_SHEET_COLUMNS, index // CONTACT_SHEET_COLUMNS
+        left, top = column * cell_width, row * (cell_height + CONTACT_SHEET_LABEL_HEIGHT)
+        sheet.paste(image, (left + (cell_width - image.width) // 2, top + (cell_height - image.height) // 2))
+        draw.text((left + 6, top + cell_height + 5), record["source_id"], fill="black")
+    name = "character-lora-source-contact-sheet.png"
+    sheet.save(output / name)
+    return name
+
+
 def write_dataset(output: Path, records: list[dict[str, str]]) -> None:
     output.mkdir(parents=True, exist_ok=True)
     for record in records:
@@ -132,12 +160,14 @@ def write_dataset(output: Path, records: list[dict[str, str]]) -> None:
         caption_path.write_text(record["caption"] + "\n", encoding="utf-8")
         record["dataset_image"] = image_name
         record["dataset_caption"] = caption_path.name
+    contact_sheet = write_contact_sheet(output, records)
     manifest = {
         "dataset_id": "p7-5-2-character-lora-approved-18",
         "status": "prepared_from_human_approved_sources",
         "purpose": "Additional identity and outfit data for a later character-LoRA experiment.",
         "input_rule": "Six face identity sources, six basic full-body sources, and six refined full-body sources. The data preparation step does not approve a LoRA or broaden pose, camera, or scene scope.",
         "image_link_mode": "symlink",
+        "review_contact_sheet": contact_sheet,
         "counts": {"face_identity": 6, "fullbody_basic": 6, "fullbody_refined": 6, "total": 18},
         "sources": records,
     }
@@ -151,7 +181,12 @@ def main() -> int:
         print(json.dumps({"status": "validated", "count": len(records), "sources": records}, ensure_ascii=False, indent=2))
         return 0
     write_dataset(args.output, records)
-    print(json.dumps({"status": "prepared", "output": str(args.output), "count": len(records)}, ensure_ascii=False))
+    print(
+        json.dumps(
+            {"status": "prepared", "output": str(args.output), "count": len(records), "review_contact_sheet": "character-lora-source-contact-sheet.png"},
+            ensure_ascii=False,
+        )
+    )
     return 0
 
 

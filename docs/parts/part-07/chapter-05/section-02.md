@@ -243,7 +243,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 새 전신 후보를 다시 만들지 않습니다. 이미 사람 승인한 정면·방향 얼굴 6장, 기본 전신 6장, 자켓·가방을 보강한 전신 6장을 함께 사용합니다. 얼굴 원본은 얼굴형·머리·홍채의 identity anchor이고, 기본 전신은 몸 비례와 기본 복장을, 리파인 전신은 자켓·가방을 포함한 확장 복장을 맡습니다. 같은 방향이라도 세 원본의 역할이 달라서 파일을 하나로 합성하거나 자동 중복 제거하지 않습니다.
 
-준비 스크립트는 PNG를 복사하지 않고 로컬 학습 폴더에 심볼릭 링크와 짝이 되는 영문 tag caption을 만듭니다. 각 항목에는 source ID·원본 SHA-256·방향·역할을 담은 `dataset-manifest.json`도 남깁니다. 따라서 실행 뒤 원본 PNG가 바뀌면 다음 준비 실행에서 해시가 달라졌다는 사실을 확인할 수 있습니다. 출력 폴더 기본값은 커밋하지 않는 `.tmp/`이며, 이 단계는 LoRA의 품질이나 새 pose·camera·장면 범위를 승인하지 않습니다.
+준비 스크립트는 PNG를 복사하지 않고 로컬 학습 폴더에 심볼릭 링크와 짝이 되는 영문 tag caption을 만듭니다. 각 항목에는 source ID·원본 SHA-256·방향·역할을 담은 `dataset-manifest.json`도 남깁니다. 이어서 원본을 바꾸지 않는 `3열×6행` 검수용 contact sheet PNG를 출력합니다. 따라서 실행 뒤 원본 PNG가 바뀌면 다음 준비 실행에서 해시가 달라졌다는 사실을 확인할 수 있습니다. 출력 폴더 기본값은 커밋하지 않는 `.tmp/`이며, 이 단계는 LoRA의 품질이나 새 pose·camera·장면 범위를 승인하지 않습니다.
 
 <details id="character-lora-dataset-preparation" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_prepare_character_lora_dataset.py" data-language="python">
 <summary>승인 얼굴·전신 18장을 캐릭터 LoRA 입력 폴더로 준비하는 코드 보기</summary>

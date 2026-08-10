@@ -11,7 +11,26 @@
 
 하지만 이는 현재 8 GB GPU에서 바로 실행할 다음 단계가 아니다. 공식 Klein LoRA 안내의 4B Base 학습 예시는 약 24 GB VRAM 환경을 전제로 한다. 이는 모든 설정의 절대 최소치가 아니라 공식 예제의 검증 조건이지만, 현재 8 GB 환경에서 같은 학습을 승인할 근거로 사용할 수는 없다. FLUX.1-dev QLoRA 공식 사례의 peak도 약 9 GB이고 base model의 비상업 라이선스가 현재의 개방 라이선스 기준과 맞지 않는다.
 
-학습을 시작하려면 먼저 올바른 데이터를 확보한다. 공식 예시의 스타일 LoRA는 서로 다른 구도와 시점을 가진 15–40장의 이미지와 각 이미지의 내용 caption·동일 trigger word를 사용한다. 현재 P7-5.2 기준 자산은 얼굴·전신·소품 보드가 섞여 있어 그 자체를 하나의 학습 데이터셋으로 보지 않는다. 실패하거나 왜곡된 생성 이미지도 학습 데이터로 사용하지 않는다.
+학습을 시작하려면 먼저 올바른 데이터를 확보한다. 공식 예시의 스타일 LoRA는 서로 다른 구도와 시점을 가진 15–40장의 이미지와 각 이미지의 내용 caption·동일 trigger word를 사용한다. P7-5.2의 사람 승인 방향 얼굴 6장과 전신 12장은 board가 아닌 개별 PNG로만 캐릭터 identity·복장 기준에 쓴다. 실패하거나 왜곡된 생성 이미지도 학습 데이터로 사용하지 않는다.
+
+## 화풍을 포함한 캐릭터 LoRA 후보를 별도로 만든다
+
+기존 P7-5.2 전신 턴어라운드 6장과 얼굴·소품 리파인 전신 6장은 다시 생성하지 않고 직접 입력으로 유지한다. 이 절의 생성기는 방향 얼굴로 identity·머리카락을, 같은 방향의 기본 전신으로 비례·복장 구조를, P7-5.1 사람 승인 배경 원본으로 화풍을 각각 참조한다. 화풍 참조는 장면이나 구도를 복사하는 지시가 아니라, 절제된 웹툰 선화·투명 수채화 wash·저채도 평면색이라는 렌더링 계약이다.
+
+최소 파일럿 18장만으로는 identity·복장·화풍·스포츠 pose를 함께 일반화하기에 부족하므로, 후보를 36장으로 확장한다. 농구 4장, 테니스 3장, 트랙 4장, 축구 3장, 권투 5장, 레슬링 5장, 체조 12장으로 방향·서기·점프·바닥 동작을 나눈다. 권투와 레슬링은 상대가 없는 한 사람 연습 장면으로 제한한다. 사람 검수에서 통과한 32–40장을 1차 학습 세트로 고르고, 탈락 후보를 자동 대체하지 않는다. 기본값은 `960×1440`, seed `62294`, 후보 간 seed 증분 `0`, `6 step`이다. `review.json`에는 identity·body·style 원본 파일과 scene·pose 계약을 기록한다. 팔·손·다리·발이 각각 정확히 두 개가 아니거나 추가·누락·융합·중복·crop된 경우, 또는 승인 화풍 계약에서 벗어난 경우는 즉시 탈락이다. 생성 PNG는 사람이 승인하기 전까지 학습 데이터에 넣지 않는다.
+
+<details id="character-lora-style-augmentations" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_generate_character_lora_augmentations.py" data-language="python">
+<summary>화풍 참조를 포함해 캐릭터 LoRA 스포츠 후보를 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+```bash
+.venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_generate_character_lora_augmentations.py --plan-only
+
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+  .venv/bin/python docs/assets/part-07/chapter-05/p7_5_4_generate_character_lora_augmentations.py \
+  --steps 6
+```
 
 구도 보존과 캐릭터 교체를 함께 학습하려면 입력 이미지와 목표 이미지를 짝짓는 **edit LoRA** 형식이 더 직접적이다. 공식 안내는 `control_path`로 이 쌍을 연결하지만 보편적인 최소 쌍 수를 보장하지 않는다. 따라서 필요한 데이터 수는 임의로 확정하지 않고, 같은 포즈·구도에서 캐릭터·복장이 완성된 검수 쌍과 별도 학습 환경을 확보한 뒤 실험으로 정한다.
 

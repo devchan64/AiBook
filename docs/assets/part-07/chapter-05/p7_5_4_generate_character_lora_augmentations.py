@@ -1,0 +1,375 @@
+#!/usr/bin/env python3
+"""Generate style-conditioned sports-action candidates for character-LoRA data.
+
+The six basic and six refined approved full-body references are direct LoRA
+inputs and are never regenerated here. Each new candidate uses one directional
+face plus a matching basic body for identity, proportion, and outfit
+construction, and an approved P7-5.1 background image for the rendering style.
+Generated PNGs are never training inputs until a human separately approves
+their review records.
+"""
+
+from __future__ import annotations
+
+import argparse
+import gc
+import json
+from dataclasses import asdict, dataclass
+from pathlib import Path
+import time
+
+import torch
+from diffusers import Flux2KleinPipeline
+from PIL import Image, ImageDraw
+from p7_5_image_output_naming import candidate_stem, experiment_code, preview_callback
+
+
+ROOT = Path(__file__).resolve().parent
+MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
+BASE_SEED = 62294
+IMAGE_WIDTH = 960
+IMAGE_HEIGHT = 1440
+VIEWS = ("front", "front_quarter_left", "front_quarter_right", "profile_left", "profile_right", "rear")
+VIEW_RULES = {
+    "front": "front view facing the camera",
+    "front_quarter_left": "left front-quarter view facing toward image left",
+    "front_quarter_right": "right front-quarter view facing toward image right",
+    "profile_left": "strict left side profile facing image left",
+    "profile_right": "strict right side profile facing image right",
+    "rear": "strict rear view facing away from the camera, with no facial features visible",
+}
+FACE_REFERENCE_BY_VIEW = {
+    view: ROOT / f"p7-5-2-face-{view.replace('_', '-')}-reference.png" for view in VIEWS
+}
+BASIC_BODY_BY_VIEW = {
+    view: ROOT / f"p7-5-2-fullbody-{view.replace('_', '-')}-reference.png" for view in VIEWS
+}
+REFINED_BODY_BY_VIEW = {
+    view: ROOT / f"p7-5-2-fullbody-{view.replace('_', '-')}-refined-reference.png" for view in VIEWS
+}
+STYLE_REFERENCE_BY_SCENE = {
+    "basketball_court": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+    "boxing_gym": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+    "wrestling_mat": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+    "gymnastics_floor": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+    "tennis_court": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+    "running_track": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+    "soccer_field": ROOT / "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+}
+BASE_OUTFIT = "charcoal-gray cropped crew-neck top, narrow bare-midriff gap, deep teal wide-leg trousers, and white low-top sneakers"
+REFINED_OUTFIT = (
+    "white cropped utility jacket over the charcoal-gray crop top, narrow bare-midriff gap, deep teal wide-leg trousers, "
+    "white low-top sneakers, and one deep-navy crossbody messenger bag with its single strap outside the jacket"
+)
+ANATOMY_CONTRACT = (
+    "Exactly two arms, exactly two hands, exactly two legs, and exactly two feet must be visible as one coherent human body; "
+    "no extra, missing, fused, cropped, or duplicated limb, hand, or foot."
+)
+CONTACT_SHEET_CELL = (240, 360)
+CONTACT_SHEET_LABEL_HEIGHT = 24
+
+
+@dataclass(frozen=True)
+class CandidateSpec:
+    candidate_id: str
+    view: str
+    outfit_variant: str
+    scene_id: str
+    scene_rule: str
+    pose_family: str
+    pose_rule: str
+
+
+def build_specs() -> tuple[CandidateSpec, ...]:
+    sports_specs = (
+        CandidateSpec(
+            "sport-front-basketball-defense", "front", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_defensive_stance", "Hold a low, wide basketball defensive stance with bent knees and both open hands clearly visible.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_left-basketball-jump-shot", "front_quarter_left", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_jump_shot", "Jump vertically for a basketball jump shot; hold one basketball above the forehead with both hands, with both legs and shoes separately visible.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_right-tennis-forehand", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_forehand", "Make an athletic tennis forehand follow-through with one racket, an open sideways stance, and both feet separately visible.",
+        ),
+        CandidateSpec(
+            "sport-profile_left-track-sprint", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_sprint", "Sprint powerfully toward image left with a long running stride, opposite arm drive, and two separate shoes.",
+        ),
+        CandidateSpec(
+            "sport-profile_right-soccer-pass", "profile_right", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_pass", "Pass one soccer ball toward image right: plant one foot, swing the other leg forward, and keep both arms, hands, legs, feet, and the ball readable.",
+        ),
+        CandidateSpec(
+            "sport-rear-track-run", "rear", "basic", "running_track", "empty outdoor running track under clear daytime light", "rear_track_run", "Run away from the camera down the track with a long stride and natural arm drive; keep the rear view with no facial features visible.",
+        ),
+        CandidateSpec(
+            "sport-front-boxing-guard", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_guard", "Hold a balanced boxing guard with both fists raised at cheek height, bent knees, and both feet apart and separately visible.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_left-boxing-jab", "front_quarter_left", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_jab", "Throw one straight boxing jab toward image left while the other fist guards the face; show two arms, two hands, and two separate feet.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_right-boxing-hook", "front_quarter_right", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_hook", "Throw one compact boxing hook toward image right while the other fist guards the face; keep a planted athletic stance with two separate feet.",
+        ),
+        CandidateSpec(
+            "sport-profile_left-wrestling-stance", "profile_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_stance", "Hold a low wrestling ready stance toward image left with bent knees, a flat back, and both open hands in front; no opponent.",
+        ),
+        CandidateSpec(
+            "sport-profile_right-wrestling-shot", "profile_right", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_shot", "Practice a solo double-leg wrestling shot toward image right: one knee deeply bent, torso low, both arms reaching forward, no opponent.",
+        ),
+        CandidateSpec(
+            "sport-rear-wrestling-sprawl", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_sprawl", "Hold a solo wrestling sprawl from the rear with legs extended back and hands braced forward; no opponent and no facial features visible.",
+        ),
+        CandidateSpec(
+            "sport-front-gymnastics-landing", "front", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_landing", "Hold a controlled floor-gymnastics landing: feet apart, knees softly bent, arms raised in a V, and both hands and shoes visible.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_left-gymnastics-split-leap", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_split_leap", "Perform a split leap toward image left with both legs extended in opposite directions and both arms lifted for balance.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_right-gymnastics-cartwheel", "front_quarter_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_cartwheel", "Perform a side cartwheel toward image right with both hands touching the floor in sequence and both legs clearly separated overhead.",
+        ),
+        CandidateSpec(
+            "sport-profile_left-gymnastics-arabesque", "profile_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_arabesque_left", "Hold a floor-gymnastics arabesque toward image left: balance on one straight leg, extend the other leg behind, and extend both arms for balance.",
+        ),
+        CandidateSpec(
+            "sport-profile_right-gymnastics-lunge", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_lunge_right", "Hold a deep gymnastics presentation lunge toward image right with one knee bent, rear leg straight, and both arms lifted overhead.",
+        ),
+        CandidateSpec(
+            "sport-rear-gymnastics-turn", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_turn_rear", "Perform a controlled floor-gymnastics pivot turn from the rear with one leg supporting, the other toe pointed, and both arms extended sideways; no facial features visible.",
+        ),
+    )
+    extension_specs = (
+        CandidateSpec(
+            "sport-front-basketball-rebound", "front", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_rebound", "Jump for a controlled basketball rebound with both hands raised around one ball, knees softly bent, and both shoes separately visible on landing.",
+        ),
+        CandidateSpec(
+            "sport-profile_left-basketball-layup", "profile_left", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_layup", "Drive toward image left for a basketball layup with one knee raised, one hand carrying one ball, and the other arm balancing the motion.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_left-tennis-backhand", "front_quarter_left", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_backhand", "Make a two-handed tennis backhand toward image left with a stable split stance, one racket, and both feet separately visible.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_right-tennis-serve", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_serve", "Perform a tennis serve preparation toward image right: toss one ball upward and raise one racket, keeping both arms and both feet readable.",
+        ),
+        CandidateSpec(
+            "sport-profile_left-track-start", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_start", "Hold a track sprint start toward image left with one knee forward, the rear foot braced, and both hands near the ground without cropping either foot.",
+        ),
+        CandidateSpec(
+            "sport-profile_right-track-hurdle", "profile_right", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_hurdle", "Clear one low track hurdle toward image right with a lead leg extended, trail leg bent, and natural opposite-arm balance.",
+        ),
+        CandidateSpec(
+            "sport-front-soccer-dribble", "front", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_dribble", "Control one soccer ball in a front-facing dribble with a slight knee bend, one foot beside the ball, and both arms naturally balancing.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_left-soccer-volley", "front_quarter_left", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_volley", "Strike one airborne soccer ball in a controlled volley toward image left, with one planted foot, one lifted leg, and both arms for balance.",
+        ),
+        CandidateSpec(
+            "sport-front-boxing-dodge", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_dodge", "Hold a low boxing slip with both fists guarding, torso angled, knees bent, and two clearly separated feet; no opponent.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_right-boxing-uppercut", "front_quarter_right", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_uppercut", "Throw one compact boxing uppercut toward image right while the other hand protects the face; keep a grounded stance and no opponent.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_left-wrestling-single-leg", "front_quarter_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_single_leg_entry", "Practice a solo single-leg takedown entry toward image left with torso low, one knee bent, both hands reaching forward, and no opponent.",
+        ),
+        CandidateSpec(
+            "sport-rear-wrestling-bridge", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_bridge", "Hold a solo wrestling bridge from the rear with shoulders and feet grounded, hips raised, both arms visible for balance, and no facial features visible.",
+        ),
+        CandidateSpec(
+            "sport-front-gymnastics-handstand", "front", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_handstand", "Hold a straight floor-gymnastics handstand facing the camera with both hands on the floor, both legs together overhead, and both shoes visible.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_right-gymnastics-roundoff", "front_quarter_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_roundoff", "Perform a controlled floor-gymnastics roundoff toward image right with both hands approaching the floor and both legs clearly separated through the motion.",
+        ),
+        CandidateSpec(
+            "sport-profile_left-gymnastics-balance", "profile_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_scale_balance", "Hold a floor-gymnastics scale balance toward image left: one supporting leg, the other extended behind, torso forward, and both arms extended for balance.",
+        ),
+        CandidateSpec(
+            "sport-profile_right-gymnastics-leap", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_stag_leap", "Perform a controlled stag leap toward image right with one knee bent forward, the other leg extended behind, and both arms lifted for balance.",
+        ),
+        CandidateSpec(
+            "sport-front_quarter_left-gymnastics-floor-pose", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_floor_presentation", "Hold a kneeling floor-gymnastics presentation toward image left with one knee on the floor, the other foot planted, and both arms in a clean open line.",
+        ),
+        CandidateSpec(
+            "sport-rear-gymnastics-finish", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_finish_rear", "Hold a standing floor-gymnastics finish from the rear with both arms raised, feet apart, and no facial features visible.",
+        ),
+    )
+    return sports_specs + extension_specs
+
+
+SPECS = build_specs()
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--targets", nargs="+", choices=tuple(spec.candidate_id for spec in SPECS), default=tuple(spec.candidate_id for spec in SPECS))
+    parser.add_argument("--seed", type=int, default=BASE_SEED)
+    parser.add_argument(
+        "--seed-step",
+        type=int,
+        default=0,
+        help="Seed increment between targets; 0 keeps every candidate on the approved identity seed.",
+    )
+    parser.add_argument("--steps", type=int, default=6)
+    parser.add_argument("--preview-every", type=int, default=0)
+    parser.add_argument("--output-prefix", default="p7-5-4-character-lora-augmentation")
+    parser.add_argument("--plan-only", action="store_true", help="Validate approved identity, body, and style inputs and print the selected generation plan.")
+    parser.add_argument(
+        "--contact-sheet-images",
+        nargs="+",
+        type=Path,
+        help="Create a 3-column review contact sheet from already generated candidate PNG paths; no GPU is used.",
+    )
+    return parser.parse_args()
+
+
+def prompt_word_count(text: str) -> int:
+    return len(text.split())
+
+
+def body_reference(spec: CandidateSpec) -> Path:
+    return BASIC_BODY_BY_VIEW[spec.view] if spec.outfit_variant == "basic" else REFINED_BODY_BY_VIEW[spec.view]
+
+
+def build_prompt(spec: CandidateSpec) -> str:
+    outfit = BASE_OUTFIT if spec.outfit_variant == "basic" else REFINED_OUTFIT
+    return (
+        "Use the supplied directional face image only as the strong identity and hair reference for the same woman. "
+        "Use the supplied approved full-body image only for body proportion, clothing construction, and full-body framing. "
+        "Use the supplied approved P7-5.1 background image only as the rendering-style reference: restrained webtoon linework, "
+        "transparent watercolor washes, and low-saturation flat colors. Do not copy its scene, composition, objects, people, or camera. "
+        "Do not copy its original standing pose, foot placement, arm placement, or walking cycle. "
+        f"Render one full-body character candidate in a {VIEW_RULES[spec.view]}. "
+        f"Scene: {spec.scene_rule}. Mandatory pose family: {spec.pose_family}. Keep {outfit}. {spec.pose_rule} "
+        "Do not replace the mandatory pose with a generic upright standing or generic walking pose. "
+        f"{ANATOMY_CONTRACT} "
+        "Keep a complete body from hair to shoe soles, one person, no other people, no text, and no labels."
+    )
+
+
+def planned_records(targets: tuple[str, ...], seed: int, seed_step: int, steps: int) -> list[dict[str, object]]:
+    selected = [spec for spec in SPECS if spec.candidate_id in targets]
+    records: list[dict[str, object]] = []
+    for index, spec in enumerate(selected):
+        face, body, style = FACE_REFERENCE_BY_VIEW[spec.view], body_reference(spec), STYLE_REFERENCE_BY_SCENE[spec.scene_id]
+        if missing := [path.name for path in (face, body, style) if not path.is_file()]:
+            raise FileNotFoundError(", ".join(missing))
+        prompt = build_prompt(spec)
+        records.append(
+            {
+                **asdict(spec),
+                "seed": seed + index * seed_step,
+                "steps": steps,
+                "face_reference": face.name,
+                "body_reference": body.name,
+                "style_reference": style.name,
+                "prompt": prompt,
+                "prompt_word_count": prompt_word_count(prompt),
+            }
+        )
+    return records
+
+
+def write_contact_sheet(paths: list[Path], output_prefix: str) -> Path:
+    if not paths:
+        raise ValueError("at least one candidate PNG is required for a contact sheet")
+    missing = [str(path) for path in paths if not path.is_file()]
+    if missing:
+        raise FileNotFoundError(", ".join(missing))
+    cell_width, cell_height = CONTACT_SHEET_CELL
+    columns = 3
+    rows = (len(paths) + columns - 1) // columns
+    sheet = Image.new("RGB", (columns * cell_width, rows * (cell_height + CONTACT_SHEET_LABEL_HEIGHT)), "white")
+    draw = ImageDraw.Draw(sheet)
+    for index, path in enumerate(paths):
+        image = Image.open(path).convert("RGB")
+        image.thumbnail(CONTACT_SHEET_CELL, Image.Resampling.LANCZOS)
+        column, row = index % columns, index // columns
+        left, top = column * cell_width, row * (cell_height + CONTACT_SHEET_LABEL_HEIGHT)
+        sheet.paste(image, (left + (cell_width - image.width) // 2, top + (cell_height - image.height) // 2))
+        label = path.name.split("-code-", maxsplit=1)[0].removeprefix(f"{output_prefix}-")
+        draw.text((left + 5, top + cell_height + 4), label, fill="black")
+    output = ROOT / f"{output_prefix}-review-contact-sheet.png"
+    sheet.save(output)
+    return output
+
+
+def main() -> int:
+    args = parse_args()
+    if args.contact_sheet_images:
+        output = write_contact_sheet(args.contact_sheet_images, args.output_prefix)
+        print(json.dumps({"status": "contact_sheet_created", "output": output.name, "count": len(args.contact_sheet_images)}, ensure_ascii=False))
+        return 0
+    if args.steps < 1 or args.preview_every < 0:
+        raise ValueError("steps must be positive and preview-every must be zero or positive")
+    records = planned_records(tuple(args.targets), args.seed, args.seed_step, args.steps)
+    if args.plan_only:
+        print(json.dumps({"status": "validated", "count": len(records), "candidates": records}, ensure_ascii=False, indent=2))
+        return 0
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required for candidate generation")
+
+    pipe = Flux2KleinPipeline.from_pretrained(MODEL_ID, torch_dtype=torch.bfloat16, cache_dir="/tmp/flux2-klein-diffusers-cache")
+    pipe.enable_sequential_cpu_offload()
+    pipe.set_progress_bar_config(disable=True)
+    run_code = experiment_code()
+    generated: list[dict[str, object]] = []
+    for record in records:
+        face_path = ROOT / str(record["face_reference"])
+        body_path = ROOT / str(record["body_reference"])
+        style_path = ROOT / str(record["style_reference"])
+        stem = candidate_stem(
+            f"{args.output_prefix}-{record['candidate_id']}",
+            seed=int(record["seed"]),
+            steps=args.steps,
+            contract={"model": MODEL_ID, **record, "size": [IMAGE_WIDTH, IMAGE_HEIGHT]},
+        )
+        output, review = ROOT / f"{stem}-candidate.png", ROOT / f"{stem}-review.json"
+        started = time.monotonic()
+        image = pipe(
+            image=[
+                Image.open(face_path).convert("RGB"),
+                Image.open(body_path).convert("RGB"),
+                Image.open(style_path).convert("RGB"),
+            ],
+            prompt=str(record["prompt"]),
+            width=IMAGE_WIDTH,
+            height=IMAGE_HEIGHT,
+            num_inference_steps=args.steps,
+            guidance_scale=1.0,
+            generator=torch.Generator(device="cpu").manual_seed(int(record["seed"])),
+            max_sequence_length=256,
+            callback_on_step_end=preview_callback(pipe, height=IMAGE_HEIGHT, width=IMAGE_WIDTH, every=args.preview_every, directory=ROOT / "previews", prefix=stem),
+        ).images[0]
+        image.save(output)
+        result = {**record, "status": "review_required", "output": output.name, "review": review.name, "elapsed_seconds": round(time.monotonic() - started, 2)}
+        review.write_text(
+            json.dumps(
+                {
+                    "model": MODEL_ID,
+                    "image_size": [IMAGE_WIDTH, IMAGE_HEIGHT],
+                    **result,
+                    "hard_fail_conditions": [
+                        "The figure does not show exactly two arms, two hands, two legs, and two feet.",
+                        "Any limb, hand, or foot is extra, missing, fused, duplicated, or cropped.",
+                        "The rendering style does not match the approved P7-5.1 restrained-webtoon watercolor style contract.",
+                    ],
+                    "decision": "Candidate only; require human approval before LoRA dataset inclusion.",
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        generated.append(result)
+        print(f"{record['candidate_id']}: {result['elapsed_seconds']}s -> {output.name}", flush=True)
+        gc.collect()
+        torch.cuda.empty_cache()
+    batch = ROOT / f"{args.output_prefix}-batch-code-{run_code}-review.json"
+    batch.write_text(json.dumps({"status": "review_required", "purpose": "Additional style-conditioned character-LoRA candidates; not approved training data.", "count": len(generated), "candidates": generated}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"status": "generated", "count": len(generated), "batch_review": batch.name}, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
