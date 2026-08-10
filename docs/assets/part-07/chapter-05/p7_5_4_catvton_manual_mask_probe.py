@@ -14,7 +14,7 @@ from pathlib import Path
 
 import torch
 from huggingface_hub import snapshot_download
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 catvton_repo = Path(os.environ.get("CATVTON_REPO", ""))
 if catvton_repo.is_dir():
@@ -48,10 +48,18 @@ def main() -> int:
     parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--guidance", type=float, default=2.5)
     parser.add_argument("--seed", type=int, default=62294)
+    parser.add_argument(
+        "--mask-blur",
+        type=int,
+        default=0,
+        help="Gaussian blur radius for the operator mask; CatVTON's app uses 9",
+    )
     args = parser.parse_args()
 
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
         raise RuntimeError("CatVTON preflight requires a CUDA GPU with bfloat16 support")
+    if args.mask_blur < 0:
+        raise ValueError("--mask-blur must be zero or positive")
     if not all(path.is_file() for path in (args.source, args.mask, args.garment)):
         raise FileNotFoundError("source, mask, and garment must exist")
 
@@ -59,6 +67,8 @@ def main() -> int:
     base_path = snapshot_download("booksforcharlie/stable-diffusion-inpainting", local_files_only=True)
     person = resize_and_crop(Image.open(args.source).convert("RGB"), (args.width, args.height))
     mask = resize_and_crop(Image.open(args.mask).convert("L"), (args.width, args.height))
+    if args.mask_blur:
+        mask = mask.filter(ImageFilter.GaussianBlur(args.mask_blur))
     garment = resize_and_padding(Image.open(args.garment).convert("RGB"), (args.width, args.height))
     args.output.mkdir(parents=True, exist_ok=True)
 
@@ -123,6 +133,7 @@ def main() -> int:
                 "resolution": [args.width, args.height],
                 "steps": args.steps,
                 "guidance": args.guidance,
+                "mask_blur": args.mask_blur,
                 "seed": args.seed,
                 "gpu_memory_before_mib": before,
                 "gpu_memory_peak_mib": peak if peak else None,
