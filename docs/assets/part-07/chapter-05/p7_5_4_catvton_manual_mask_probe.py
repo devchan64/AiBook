@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
+import sys
 import threading
 import time
 from pathlib import Path
@@ -13,6 +15,10 @@ from pathlib import Path
 import torch
 from huggingface_hub import snapshot_download
 from PIL import Image, ImageDraw
+
+catvton_repo = Path(os.environ.get("CATVTON_REPO", ""))
+if catvton_repo.is_dir():
+    sys.path.insert(0, str(catvton_repo.resolve()))
 
 from model.pipeline import CatVTONPipeline
 from utils import init_weight_dtype, resize_and_crop, resize_and_padding

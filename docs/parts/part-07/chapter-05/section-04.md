@@ -121,6 +121,16 @@ prompt와 mask 설정을 바꾼 반복도 세 번으로 닫았다. threshold를 
 
 ![CatVTON 사람 검수 후보](../../../assets/part-07/chapter-05/p7-5-4-catvton-jacket-candidate.png)
 
+후속 비교에서는 바꿀 값 하나만 남겼다. 같은 jacket-shell `16px` mask·전면 레이어 참조·50 step·seed `62294`에서 guidance `2.5`와 `3.5`는 둘 다 기본 의상 gate를 통과했지만, 목선·좌우 대칭·원단 질감에 사람 검수로 구별할 만큼의 차이를 만들지 못했다. 따라서 guidance sweep은 닫고 `3.5`를 이후의 고정 비교값으로만 쓴다.
+
+흰 재킷 단독 소품을 넣어 레이어 참조의 charcoal crop top을 빼는 대조도 했다. 흰 소매 일부는 전달됐지만 몸판·칼라가 회갈색이 되고 open-front 구조가 깨졌다. 이 입력은 재킷과 crop top의 관계를 보존하지 못하므로 탈락이다. **전면 jacket-crop-top 레이어 참조**는 유지해야 한다.
+
+마지막으로 mask 경계를 분리했다. 손목·어깨·밑단을 더 촘촘히 따르는 fitted-shell에서 경계 여유를 `0px`로 없애면 흰 전면 패널만 남고 어깨·소매는 어두운 원본 색으로 남았다. 같은 fitted-shell을 `16px` 확장하면 흰 cropped jacket·긴 소매·open front·보존된 crop top을 함께 유지했다. 즉 이 고정 입력에서는 세밀한 윤곽만으로 충분하지 않고, **fitted-shell + 16px 확장 + 전면 레이어 참조**가 현재의 사람 검수 후보 조건이다.
+
+![CatVTON fitted-shell 16px 확장 결과의 입력·mask·의상 참조·후보](../../../assets/part-07/chapter-05/p7-5-4-catvton-fitted-shell-expand16-contact-sheet.png)
+
+![CatVTON fitted-shell 16px 사람 검수 후보](../../../assets/part-07/chapter-05/p7-5-4-catvton-fitted-shell-expand16-candidate.png)
+
 <details id="manual-mask-inpaint-probe" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_manual_mask_inpaint_probe.py" data-language="python">
 <summary>수동 mask SDXL inpaint 대조 실행 전문 보기</summary>
 <div class="aibook-lazy-source__body">승인 full-frame PNG와 사람이 만든 같은 크기의 mask PNG를 명시적으로 전달한 뒤, `--steps`·`--strength`를 바꿔 보존 범위와 편집 범위를 비교합니다.</div>
@@ -169,6 +179,16 @@ prompt와 mask 설정을 바꾼 반복도 세 번으로 닫았다. threshold를 
 <details id="catvton-jacket-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-catvton-jacket-review.json" data-language="json">
 <summary>CatVTON 재킷 후보 검수 기록 보기</summary>
 <div class="aibook-lazy-source__body">통과한 의상 gate와 사람 검수에서 남은 목선·좌우 대칭·원단 질감 점검 항목을 확인합니다.</div>
+</details>
+
+<details id="catvton-fitted-shell-ab-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-catvton-fitted-shell-ab-review.json" data-language="json">
+<summary>CatVTON guidance·의상 참조·fitted-shell 경계 비교 기록 보기</summary>
+<div class="aibook-lazy-source__body">guidance sweep, 재킷 단독 참조, 0px/16px fitted-shell 경계의 고정 조건·runtime·탈락 또는 검수 후보 판정을 확인합니다.</div>
+</details>
+
+<details id="catvton-guidance-ab-preparation" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7_5_4_prepare_catvton_guidance_ab.py" data-language="python">
+<summary>CatVTON guidance A/B 준비·실행기 보기</summary>
+<div class="aibook-lazy-source__body">source·mask·garment·seed·step을 고정하고 guidance만 바꿔, 실행 전 계획 JSON과 사람 검수 gate를 남깁니다.</div>
 </details>
 
 <details id="manual-mask-ipadapter-first-review" class="aibook-lazy-source" data-source="../../../../assets/part-07/chapter-05/p7-5-4-manual-mask-ipadapter-first-review.json" data-language="json">
