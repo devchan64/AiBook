@@ -54,6 +54,11 @@ def main() -> int:
         default=0,
         help="Gaussian blur radius for the operator mask; CatVTON's app uses 9",
     )
+    parser.add_argument(
+        "--repaint",
+        action="store_true",
+        help="blend the generated result with the original outside the operator mask",
+    )
     args = parser.parse_args()
 
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
@@ -67,6 +72,7 @@ def main() -> int:
     base_path = snapshot_download("booksforcharlie/stable-diffusion-inpainting", local_files_only=True)
     person = resize_and_crop(Image.open(args.source).convert("RGB"), (args.width, args.height))
     mask = resize_and_crop(Image.open(args.mask).convert("L"), (args.width, args.height))
+    repaint_mask = mask.copy()
     if args.mask_blur:
         mask = mask.filter(ImageFilter.GaussianBlur(args.mask_blur))
     garment = resize_and_padding(Image.open(args.garment).convert("RGB"), (args.width, args.height))
@@ -110,6 +116,9 @@ def main() -> int:
                 "CatVTON output size contract failed: "
                 f"requested {(args.width, args.height)}, received {result.size}"
             )
+        if args.repaint:
+            repaint_mask = repaint_mask.filter(ImageFilter.GaussianBlur(max(1, args.height // 50)))
+            result = Image.composite(result, person, repaint_mask)
         person.save(args.output / "source.png")
         mask.save(args.output / "operator-mask.png")
         garment.save(args.output / "garment-reference.png")
@@ -139,6 +148,7 @@ def main() -> int:
                 "steps": args.steps,
                 "guidance": args.guidance,
                 "mask_blur": args.mask_blur,
+                "repaint": args.repaint,
                 "seed": args.seed,
                 "gpu_memory_before_mib": before,
                 "gpu_memory_peak_mib": peak if peak else None,
