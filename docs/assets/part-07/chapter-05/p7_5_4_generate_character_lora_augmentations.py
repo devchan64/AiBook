@@ -63,6 +63,7 @@ STYLE_REFERENCE_BY_SCENE = {
     "breaking_floor": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
     "fencing_piste": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
     "athletics_runway": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+    "rugby_field": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
 }
 BASE_OUTFIT = "charcoal-gray cropped crew-neck top, narrow bare-midriff gap, deep teal wide-leg trousers, and white low-top sneakers"
 REFINED_OUTFIT = (
@@ -130,7 +131,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_left-gymnastics-split-leap", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_split_leap", "Perform a split leap toward image left with both legs extended in opposite directions and both arms lifted for balance.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-gymnastics-cartwheel", "front_quarter_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_cartwheel", "Perform a side cartwheel toward image right with both hands touching the floor in sequence and both legs clearly separated overhead.",
+            "sport-front_quarter_right-rugby-carry", "front_quarter_right", "basic", "rugby_field", "empty rugby field under even light", "rugby_carry", "Run toward image right carrying one rugby ball under one arm.",
         ),
         CandidateSpec(
             "sport-profile_left-gymnastics-arabesque", "profile_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_arabesque_left", "Hold a floor-gymnastics arabesque toward image left: balance on one straight leg, extend the other leg behind, and extend both arms for balance.",
