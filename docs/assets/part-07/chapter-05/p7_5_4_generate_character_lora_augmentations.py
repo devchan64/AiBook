@@ -145,10 +145,10 @@ def build_specs() -> tuple[CandidateSpec, ...]:
     )
     extension_specs = (
         CandidateSpec(
-            "sport-front-basketball-rebound", "front", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_rebound", "Jump for a controlled basketball rebound with both hands raised around one ball, knees softly bent, and both shoes separately visible on landing.",
+            "sport-front_quarter_left-wrestling-stance", "front_quarter_left", "basic", "wrestling_mat", "empty wrestling mat under even light", "wrestling_stance", "Low wrestling stance, knees bent, open hands forward.",
         ),
         CandidateSpec(
-            "sport-profile_left-basketball-layup", "profile_left", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_layup", "Drive toward image left for a basketball layup with one knee raised, one hand carrying one ball, and the other arm balancing the motion.",
+            "sport-profile_right-gymnastics-floor-balance", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "gymnastics_floor_balance_right", "Floor gymnastics balance on an empty floor: one leg back, arms wide, both white sneakers visible.",
         ),
         CandidateSpec(
             "sport-front_quarter_left-tennis-backhand", "front_quarter_left", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_backhand", "Make a two-handed tennis backhand toward image left with a stable split stance, one racket, and both feet separately visible.",
