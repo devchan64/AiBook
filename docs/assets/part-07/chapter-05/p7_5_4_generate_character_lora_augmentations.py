@@ -124,7 +124,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_right-long-jump", "front_quarter_right", "basic", "athletics_runway", "empty athletics runway under even light", "long_jump_takeoff", "Long-jump takeoff: raised knee, trailing leg, balanced proportions.",
         ),
         CandidateSpec(
-            "sport-front-gymnastics-landing", "front", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_landing", "Hold a controlled floor-gymnastics landing: feet apart, knees softly bent, arms raised in a V, and both hands and shoes visible.",
+            "sport-front_quarter_right-badminton-forehand", "front_quarter_right", "basic", "tennis_court", "empty indoor court under even light", "badminton_forehand", "Hit one shuttlecock with one badminton racket in a balanced forehand toward image right.",
         ),
         CandidateSpec(
             "sport-front_quarter_left-gymnastics-split-leap", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_split_leap", "Perform a split leap toward image left with both legs extended in opposite directions and both arms lifted for balance.",
