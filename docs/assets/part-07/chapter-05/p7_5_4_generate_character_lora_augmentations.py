@@ -151,10 +151,10 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_right-gymnastics-floor-balance", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "gymnastics_floor_balance_right", "Floor gymnastics balance on an empty floor: one leg back, arms wide, both white sneakers visible.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-tennis-backhand", "front_quarter_left", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_backhand", "Make a two-handed tennis backhand toward image left with a stable split stance, one racket, and both feet separately visible.",
+            "sport-front_quarter_left-track-acceleration", "front_quarter_left", "basic", "running_track", "empty running track under even light", "track_acceleration", "Sprint forward: one knee high, opposite arm forward.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-tennis-serve", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "tennis_serve", "Perform a tennis serve preparation toward image right: toss one ball upward and raise one racket, keeping both arms and both feet readable.",
+            "sport-front_quarter_right-soccer-defensive-shuffle", "front_quarter_right", "basic", "soccer_field", "empty soccer field under even light", "soccer_defensive_shuffle", "Soccer defensive shuffle: knees bent, arms relaxed.",
         ),
         CandidateSpec(
             "sport-profile_left-track-start", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_start", "Hold a track sprint start toward image left with one knee forward, the rear foot braced, and both hands near the ground with both feet fully visible.",
