@@ -160,19 +160,19 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_left-track-start", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_start", "Hold a track sprint start toward image left with one knee forward, the rear foot braced, and both hands near the ground with both feet fully visible.",
         ),
         CandidateSpec(
-            "sport-profile_right-track-hurdle", "profile_right", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_hurdle", "Clear one low track hurdle toward image right with a lead leg extended, trail leg bent, and natural opposite-arm balance.",
+            "sport-profile_right-boxing-duck", "profile_right", "basic", "boxing_gym", "empty boxing gym under even light", "boxing_duck", "Low boxing duck toward image right, fists at cheek.",
         ),
         CandidateSpec(
-            "sport-front-soccer-dribble", "front", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_dribble", "Control one soccer ball in a front-facing dribble with a slight knee bend, one foot beside the ball, and both arms naturally balancing.",
+            "sport-front-track-high-knees", "front", "basic", "running_track", "empty running track under even light", "track_high_knees", "High-knee running drill, one knee raised, opposite arm forward.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-soccer-volley", "front_quarter_left", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_volley", "Strike one airborne soccer ball in a controlled volley toward image left, with one planted foot, one lifted leg, and both arms for balance.",
+            "sport-front_quarter_left-volleyball-block", "front_quarter_left", "basic", "volleyball_court", "empty volleyball court under even light", "volleyball_block", "Volleyball block jump, both arms overhead.",
         ),
         CandidateSpec(
-            "sport-front-boxing-dodge", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_dodge", "Hold a low solo boxing slip with both fists guarding, torso angled, knees bent, and two clearly separated feet.",
+            "sport-front_quarter_left-gymnastics-kneeling-presentation", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "gymnastics_kneeling_presentation", "Kneeling floor-gymnastics presentation, one knee down, arms open.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-boxing-uppercut", "front_quarter_right", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_uppercut", "Throw one compact solo boxing uppercut toward image right while the other hand protects the face and the stance stays grounded.",
+            "sport-front_quarter_right-gymnastics-presentation-lunge", "front_quarter_right", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "gymnastics_presentation_lunge", "Gymnastics presentation lunge, one knee bent, arms lifted.",
         ),
         CandidateSpec(
             "sport-front_quarter_left-wrestling-single-leg", "front_quarter_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_single_leg_entry", "Practice a solo single-leg takedown entry toward image left with torso low, one knee bent, and both hands reaching forward.",
