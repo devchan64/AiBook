@@ -140,7 +140,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_right-gymnastics-lunge", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_lunge_right", "Hold a deep gymnastics presentation lunge toward image right with one knee bent, rear leg straight, and both arms lifted overhead.",
         ),
         CandidateSpec(
-            "sport-rear-gymnastics-turn", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_turn_rear", "Perform a controlled floor-gymnastics pivot turn from the rear with one leg supporting, the other toe pointed, and both arms extended sideways in a back-of-head view.",
+            "sport-rear-gymnastics-turn", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_turn_rear", "Rear one-foot gymnastics pivot: raised knee, arms wide, white sneakers.",
         ),
     )
     extension_specs = (
