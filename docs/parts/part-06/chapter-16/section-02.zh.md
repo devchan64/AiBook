@@ -1,6 +1,6 @@
-# P6-16.2 自动评估和人工评估的分工
+# P6-17.2 自动评估和人工评估的分工
 
-> Section ID: `P6-16.2`
+> Section ID: `P6-17.2`
 > Version: `v2026.07.31`
 
 评估分工要留下 `automatic_check`、`human_review`、`repeatable_rule`、`context_judgment`、`escalation_case`、`review_note`。这个区分能防止擅长重复检查的自动评估和擅长上下文判断的人工评估，看起来像可以互相替代。
@@ -226,7 +226,7 @@ LLM 评估轴确定之后，下一个标准是不要把所有评估都用同一�
 
 例子使用中文评估路由候选 CSV [p6_16_2_eval_routing_cases_zh.csv](/AiBook/assets/part-06/chapter-16/p6_16_2_eval_routing_cases_zh.csv){ .csv-preview }。一行表示运营中可能出现的一个 LLM 输出候选。`model_output` 是候选回答，`source_marker`、`required_action`、`format_marker`、`max_length`、`banned_terms` 是自动 grader 会反复检查的标准。CSV 中不放预先写好的人类风险标签或答案标签。
 
-自动 grader 的名称延续 P6-16.1 的评估轴。`source_marker_grader` 对应 groundedness，`required_action_grader` 对应 helpfulness，`format_grader` 和 `length_grader` 对应 format compliance，`banned_terms_grader` 对应 safety。这个映射也出现在代码的 `GRADER_AXIS_MAP` 中。
+自动 grader 的名称延续 P6-17.1 的评估轴。`source_marker_grader` 对应 groundedness，`required_action_grader` 对应 helpfulness，`format_grader` 和 `length_grader` 对应 format compliance，`banned_terms_grader` 对应 safety。这个映射也出现在代码的 `GRADER_AXIS_MAP` 中。
 
 输出会显示每个候选的 code-grader 结果、可选的 LLM-as-a-judge 结果、人工审查包和路由摘要。代码中的关键点是，它不会让代码替代人工评估。代码先检查可重复的表层标准，然后为通过的候选创建候选句子和审查问题。
 
@@ -329,7 +329,7 @@ route = human_review_queue
 
 这种分工重要，是因为它：
 
-- 把 P6-16.1 的评估轴从`检查什么`扩展到`怎样检查`
+- 把 P6-17.1 的评估轴从`检查什么`扩展到`怎样检查`
 - 把 evaluation 从分数表变成可审查的运营流程
 - 把同一批输出候选连接到可反复审查的记录和失败处理
 - 为后续验证程序设定标准

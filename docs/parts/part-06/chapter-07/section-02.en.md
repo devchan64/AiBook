@@ -1,9 +1,9 @@
-# P6-7.2 Scale That Grows Capability and Operational Burden Together
+# P6-8.2 Scale That Grows Capability and Operational Burden Together
 
-> Section ID: `P6-7.2`
+> Section ID: `P6-8.2`
 > Version: `v2026.07.26`
 
-In P6-7.1, we explained pretraining as the `stage that first creates a broad language base`. Then the next question follows. `Why do large datasets, large models, and large amounts of computation always come along when making that base?`
+In P6-8.1, we explained pretraining as the `stage that first creates a broad language base`. Then the next question follows. `Why do large datasets, large models, and large amounts of computation always come along when making that base?`
 
 In other words, the starting point of this section is not `larger models look better`. Rather, it is `why scale becomes a problem when making a broad base`, and `what that scale-up makes possible and what burden it leaves behind`.
 
@@ -21,13 +21,13 @@ Scale is a `structure where data, parameters, and computation grow together, cha
 
 Next-token prediction is a problem of `what is used as the training objective`, and operational constraints are a problem of `what must be handled when running it as a service`. Scale is the link between them, where capability and burden grow together as the foundation grows larger.
 
-We should avoid the impression that `larger is always better`. If P6-7.1 dealt with `what is learned first`, here we read `why that learning is run at such a large scale`. Before moving on to service connections such as prompts or RAG, we need to be able to judge why later fine-tuning and instruction tuning are usually placed on top of a `large foundation model`.
+We should avoid the impression that `larger is always better`. If P6-8.1 dealt with `what is learned first`, here we read `why that learning is run at such a large scale`. Before moving on to service connections such as prompts or RAG, we need to be able to judge why later fine-tuning and instruction tuning are usually placed on top of a `large foundation model`.
 
 Therefore, what we must first grasp is not `larger models are better`, but that `as scale grows, capability and burden change together`.
 
 ## Why Read Scale Right After Pretraining?
 
-Here, it is easy to receive the explanation `first make a broad base` and the phrase `therefore large models matter` as one bundle. But the two are not the same. P6-7.1 explained `what is learned first`, and this section explains `what actually grows together to make that base`.
+Here, it is easy to receive the explanation `first make a broad base` and the phrase `therefore large models matter` as one bundle. But the two are not the same. P6-8.1 explained `what is learned first`, and this section explains `what actually grows together to make that base`.
 
 We need to separate this difference so later fine-tuning and instruction tuning are also read more accurately. If we do not know what the cost and burden of first making a foundation are, it becomes easy to blur why adjustment stages are usually explained as `adding more on top of an already large base` rather than `learning everything again from scratch`.
 
@@ -49,7 +49,7 @@ Here, we need to remember two things together.
 1. Scale is an important factor in performance transitions
 2. Scale also grows data quality, verification, cost, and policy problems
 
-We need to include both to connect the pretraining objective from P6-7.1 with `why it is run at such a large scale`, and to naturally continue the perspective in later evaluation and operational-constraint sections, P6-16.1 and P6-17.1, that `as performance grows, cost and control problems also grow`. Reading this way also supports balanced judgment in later chapters of Part 6 and the Part 7 project.
+We need to include both to connect the pretraining objective from P6-8.1 with `why it is run at such a large scale`, and to naturally continue the perspective in later evaluation and operational-constraint sections, P6-17.1 and P6-18.1, that `as performance grows, cost and control problems also grow`. Reading this way also supports balanced judgment in later chapters of Part 6 and the Part 7 project.
 
 ## Judgment Criteria for Capability and Burden
 

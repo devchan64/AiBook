@@ -24,7 +24,7 @@ _副标题：KV cache 在重复生成中复用哪些 attention 计算？_
 | 保存一部分先前计算，并在下一 step 复用的 KV cache 基本含义 | 实际 serving engine 各自的 cache 管理方式 |
 | 在保持相同结果的同时减少 projection 负担的感觉 | 运营延迟和成本优化判断 |
 
-context window 限制本身已经在主线 P6-4.2 中说明，KV cache 对运营延迟和成本的影响会在 P6-17.1 中再次回收。更好地维持长上下文本身的问题，以及 sparse attention，是另一个长上下文设计问题。
+context window 限制本身已经在主线 P6-4.2 中说明，KV cache 对运营延迟和成本的影响会在 P6-18.1 中再次回收。更好地维持长上下文本身的问题，以及 sparse attention，是另一个长上下文设计问题。
 
 抓住这个区分之后，才能把 KV cache 读成 `用更少重复计算制造相同结果的装置`，而不是 `改变答案含义的功能`。在长对话或长代码生成中，KV cache 为什么会连接到体感速度，也能用这个标准解释。
 

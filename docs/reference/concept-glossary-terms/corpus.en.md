@@ -6,4 +6,4 @@
 - Why it matters: Language models learn patterns from the distribution of text they see. Corpus domain, time period, style, cleaning, bias, and coverage strongly shape model strengths and limitations.
 - Related concepts: `language model`, `data`, `embedding`
 - Core Section: `P1-11.1`
-- Appears in: `P1-11.3`, `P6-2.5`, `P6-19.1`
+- Appears in: `P1-11.3`, `P6-2.5`, `P6-20.1`

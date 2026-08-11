@@ -26,7 +26,7 @@
 | GPT 为什么在 Transformer 系列中被读成 `持续往后写的生成流程` | pretraining 如何扩大这个结构 |
 | 如何从输入阅读和顺序生成角度区分 BERT 与 GPT | instruction tuning、alignment、商用模型版本差异还会改变什么 |
 
-这一节在 Part 6 主线请求流程中的作用，是展示 Transformer 计算引擎如何变成 `持续往后写的生成流程`。这个结构先立住，才能在 P6-6.1 的 next-token prediction 和 P6-7.1 的 pretraining 中，不直接跳到用户体验，而是在计算流程上继续阅读。
+这一节在 Part 6 主线请求流程中的作用，是展示 Transformer 计算引擎如何变成 `持续往后写的生成流程`。这个结构先立住，才能在 P6-7.1 的 next-token prediction 和 P6-8.1 的 pretraining 中，不直接跳到用户体验，而是在计算流程上继续阅读。
 
 ## decoder 基础累积生成的区分
 

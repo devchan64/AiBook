@@ -1,6 +1,6 @@
-# P6-18.1 A Small Generative AI Feature that Connects Question, Evidence, Answer, and Record
+# P6-19.1 A Small Generative AI Feature that Connects Question, Evidence, Answer, and Record
 
-> Section ID: `P6-18.1`
+> Section ID: `P6-19.1`
 > Version: `v2026.07.31`
 
 For a small generative-AI feature, group `question`, `evidence`, `draft_answer`, `tool_need`, `evaluation_note`, and `run_record` as one request unit. This distinction connects prompt, retrieval, tool use, and evaluation into one feature flow instead of leaving them as separately explained concepts.

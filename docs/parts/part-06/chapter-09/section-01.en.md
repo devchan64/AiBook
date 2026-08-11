@@ -1,9 +1,9 @@
-# P6-9.1 Instruction Tuning That Builds Response Habits Matching Request Formats
+# P6-10.1 Instruction Tuning That Builds Response Habits Matching Request Formats
 
-> Section ID: `P6-9.1`
+> Section ID: `P6-10.1`
 > Version: `v2026.07.26`
 
-In P6-8.2, we saw why efficient adjustment methods such as LoRA matter in practice. But being able to adjust a model a little more cheaply does not immediately create answers that follow human instructions well.
+In P6-9.2, we saw why efficient adjustment methods such as LoRA matter in practice. But being able to adjust a model a little more cheaply does not immediately create answers that follow human instructions well.
 
 What is the process that makes a model go beyond simply continuing sentences and follow user instructions better?
 
@@ -42,7 +42,7 @@ This distinction matters for the following reasons.
 
 - because it moves beyond seeing generative AI only as simple autocomplete
 - because it separates assistant behavior as its own layer
-- because it connects the alignment problem in P6-9.2 to the question `why is it needed?`
+- because it connects the alignment problem in P6-10.2 to the question `why is it needed?`
 
 ## Judgment Criteria for Instruction Tuning
 
@@ -376,7 +376,7 @@ This compressed comparison shows that instruction tuning is less a task that inj
 ## Checklist
 - Can you explain instruction tuning as a layer that adjusts `how to answer` rather than `what is known`?
 - Can you distinguish again what pretraining, fine-tuning, and instruction tuning each change?
-- Are you ready to read P6-9.2 as a problem that separates `following well` from `acceptable behavior`?
+- Are you ready to read P6-10.2 as a problem that separates `following well` from `acceptable behavior`?
 
 ## Sources and References
 

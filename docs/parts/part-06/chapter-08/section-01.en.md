@@ -1,12 +1,12 @@
-# P6-8.1 Fine-Tuning Needed for Purpose-Specific Adjustment
+# P6-9.1 Fine-Tuning Needed for Purpose-Specific Adjustment
 
-> Section ID: `P6-8.1`
+> Section ID: `P6-9.1`
 > Version: `v2026.07.26`
 
-In P6-7.1, we saw pretraining, which first creates a broad language base.
+In P6-8.1, we saw pretraining, which first creates a broad language base.
 But pretraining alone does not automatically create `responses that match our work criteria`. This section explains how the learning axis placed on top of the generation structure narrows from `making a general-purpose base` to `purpose-specific adjustment`.
 
-In P6-6.2, we saw that generation is a process of repeatedly selecting the next token from a probability distribution. But in an actual service, one more question appears here.
+In P6-7.2, we saw that generation is a process of repeatedly selecting the next token from a probability distribution. But in an actual service, one more question appears here.
 
 How can we change a large pretrained model so it fits our purpose better?
 
@@ -28,7 +28,7 @@ Fine-tuning is an `adjustment layer that narrows a general-purpose base closer t
 
 Fine-tuning is not `making a model from scratch`, but an adjustment stage after pretraining. If pretraining was the stage that made a broad base, fine-tuning adjusts response habits so that base comes closer to our classification criteria, style, and output format.
 
-Therefore, the question to hold here is `what should we adjust so it fits our task and format better?` Instruction tuning then narrows it further so it responds better to the way people make requests, and alignment further fits safety and policy boundaries. How to reduce the cost of adjusting the whole model is handled separately in P6-8.2 on LoRA.
+Therefore, the question to hold here is `what should we adjust so it fits our task and format better?` Instruction tuning then narrows it further so it responds better to the way people make requests, and alignment further fits safety and policy boundaries. How to reduce the cost of adjusting the whole model is handled separately in P6-9.2 on LoRA.
 
 The impression of `making a new model` should be reread as `additionally adjusting a pretrained foundation model for our purpose`.
 
@@ -43,7 +43,7 @@ This distinction matters for the following reasons.
 
 - because it shows the practical connection point after pretraining
 - because it separates prompts, RAG, and fine-tuning as different options
-- because it creates the base for explaining PEFT and LoRA in P6-8.2
+- because it creates the base for explaining PEFT and LoRA in P6-9.2
 
 ## Judgment Criteria for Choosing Fine-Tuning
 

@@ -1,11 +1,11 @@
-# P6-13.2 把自然语言请求分成名称和参数的函数调用
+# P6-14.2 把自然语言请求分成名称和参数的函数调用
 
-> Section ID: `P6-13.2`
+> Section ID: `P6-14.2`
 > Version: `v2026.07.31`
 
 阅读函数调用时，要分别写下 `natural_language_request`、`function_name`、`arguments`、`schema_validation`、`execution_result`、`response_use`。这样才能追踪自然语言请求被结构化成了什么名称和参数，以及结果又如何用于回答。
 
-在 P6-13.1 中，我们看到工具使用(tool use)把模型连接到外部函数。这会引出一个更具体的问题。
+在 P6-14.1 中，我们看到工具使用(tool use)把模型连接到外部函数。这会引出一个更具体的问题。
 
 系统用什么格式交换`应该使用工具`这个判断？
 

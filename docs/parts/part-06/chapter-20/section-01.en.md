@@ -1,6 +1,6 @@
-# P6-20.1 BERT as a Reading-Centered Transformer Comparison Axis
+# P6-6.1 BERT as a Reading-Centered Transformer Comparison Axis
 
-> Section ID: `P6-20.1`
+> Section ID: `P6-6.1`
 > Version: `v2026.07.26`
 
 Even within the same Transformer family, one flow is strong at reading the whole input, while another flow is strong at generating the next token.
@@ -21,7 +21,7 @@ The comparison begins with these questions.
 
 It is safest to hold the BERT family as an `encoder-centered Transformer flow that reads the whole input`. Then its different use from the GPT family becomes clearer.
 
-However, before extending BERT's roles into classification, search, sentence-pair judgment, and embeddings, the structural difference should be fixed first. Practical connections to search and embeddings can be reread together with the search pipeline explanations in P6-12.1 and P6-12.2.
+However, before extending BERT's roles into classification, search, sentence-pair judgment, and embeddings, the structural difference should be fixed first. Practical connections to search and embeddings can be reread together with the search pipeline explanations in P6-13.1 and P6-13.2.
 
 BERT has not simply been pushed away as an `old model before LLMs`. It remains an important encoder-based flow in the front end of classification, search, and embeddings. Here, instead of moving the main flow of Part 6 into BERT, we focus on setting a criterion for comparing the GPT family and the generative AI main flow more accurately.
 
@@ -135,7 +135,7 @@ This point is easier to hold if you think of an intent-analysis tool for chatbot
 
 ## Why BERT and GPT Should Be Distinguished Together
 
-At this point, the need for comparison becomes clearer. The core of this section is not to dig into BERT at length in isolation. It is to first distinguish that even inside the same Transformer family, `structures that read and judge` and `structures that continue generation` support different tasks. Once this criterion is set, P6-5.1 `The GPT Family as a Decoder-Based Cumulative Generation Structure` and P6-6.1 `Next Token Prediction as the Starting Point of Long Generation` can be read more directly together.
+At this point, the need for comparison becomes clearer. The core of this section is not to dig into BERT at length in isolation. It is to first distinguish that even inside the same Transformer family, `structures that read and judge` and `structures that continue generation` support different tasks. Once this criterion is set, P6-5.1 `The GPT Family as a Decoder-Based Cumulative Generation Structure` and P6-7.1 `Next Token Prediction as the Starting Point of Long Generation` can be read more directly together.
 
 ## BERT and GPT Split by Input and Output
 

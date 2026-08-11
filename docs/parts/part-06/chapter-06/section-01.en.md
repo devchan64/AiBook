@@ -1,6 +1,6 @@
-# P6-6.1 Next-Token Prediction as the Starting Point of Long Generation
+# P6-7.1 Next-Token Prediction as the Starting Point of Long Generation
 
-> Section ID: `P6-6.1`
+> Section ID: `P6-7.1`
 > Version: `v2026.07.26`
 
 In P6-5.2, we saw how a GPT-based generation structure led to the conversational LLM experience. Now it is time to narrow the question further.

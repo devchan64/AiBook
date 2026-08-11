@@ -1,11 +1,11 @@
-# P6-10.3 Supplement: Observing and Comparing Response Paths
+# P6-11.3 Supplement: Observing and Comparing Response Paths
 
-> Section ID: `P6-10.3`
+> Section ID: `P6-11.3`
 > Version: `v2026.07.26`
 
 _Subtitle: How CoT and self-consistency make us view one path and many paths differently_
 
-In P6-10.1, we saw prompt engineering as the first control point of input design, and in P6-10.2, we saw the standard for passing problems that do not close with prompts alone to system structure. But inside the prompt layer, there is one more strategy distinction. The difference is whether we ask for an answer directly, observe intermediate judgment paths, or compare several candidate paths.
+In P6-11.1, we saw prompt engineering as the first control point of input design, and in P6-11.2, we saw the standard for passing problems that do not close with prompts alone to system structure. But inside the prompt layer, there is one more strategy distinction. The difference is whether we ask for an answer directly, observe intermediate judgment paths, or compare several candidate paths.
 
 Chain-of-thought (CoT) and self-consistency are both prompt strategies for seeing or comparing response paths better. CoT tries to make intermediate reasoning more visible inside one answer, while self-consistency tries to see where several reasoning candidates converge.
 
@@ -102,7 +102,7 @@ It is safe to hold the following comparison.
 | Several candidates reach the same conclusion | Believing latest facts were checked because they agreed | Does the shared premise match the current document? |
 | The conclusion repeats stably | Believing execution or calculation is also stable | Are there calculation logs, tool execution results, and evidence document IDs? |
 
-CoT and self-consistency are useful when the problem is one where `the path needs to be read more`. For problems that require checking freshness, grounding, and execution success, we must move to another structure, as seen in P6-10.2.
+CoT and self-consistency are useful when the problem is one where `the path needs to be read more`. For problems that require checking freshness, grounding, and execution success, we must move to another structure, as seen in P6-11.2.
 
 ## Cases and Examples
 
@@ -292,7 +292,7 @@ The point of this exercise is not to bundle CoT and self-consistency as `stronge
 - Can you explain CoT as a strategy that makes intermediate reasoning paths more visible?
 - Can you explain self-consistency as a strategy that looks at agreement among several reasoning candidates?
 - Can you distinguish the fact that an intermediate explanation is long or a conclusion repeats from guarantees of latest evidence, calculation verification, and tool execution?
-- Are you ready to read automatic prompt optimization in P6-10.4 as a prompt experiment-loop strategy, not a response-path strategy?
+- Are you ready to read automatic prompt optimization in P6-11.4 as a prompt experiment-loop strategy, not a response-path strategy?
 
 ## Sources and References
 

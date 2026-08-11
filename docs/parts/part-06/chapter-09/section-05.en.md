@@ -1,11 +1,11 @@
-# P6-9.5 Supplement: Constraints in Efficient Adjustment Methods
+# P6-10.5 Supplement: Constraints in Efficient Adjustment Methods
 
-> Section ID: `P6-9.5`
+> Section ID: `P6-10.5`
 > Version: `v2026.07.26`
 
 _Subtitle: How adapter, LoRA, and QLoRA split across added structure, small deltas, and memory constraints_
 
-In P6-9.4, we first looked at the name LoRA and the scale intuition of a low-rank adjustment delta. Now we need to distinguish adapter, LoRA, and QLoRA, which often appear together in documents and lectures, without mixing them as the same thing. These names are efficient adjustment choices that split again `after choosing the fine-tuning axis first`.
+In P6-10.4, we first looked at the name LoRA and the scale intuition of a low-rank adjustment delta. Now we need to distinguish adapter, LoRA, and QLoRA, which often appear together in documents and lectures, without mixing them as the same thing. These names are efficient adjustment choices that split again `after choosing the fine-tuning axis first`.
 
 This Section focuses less on following long formulas and more on reading the names by asking what each tries to reduce among `added structure`, `small delta`, and `memory constraint`.
 
@@ -21,7 +21,7 @@ The key point is not `the names are similar`, but `what each method tries to mak
 
 ## Why This Name Distinction Is Needed After the Selection Map
 
-By P6-8.2, we hold the broad axis that `a way to adapt a large base model more lightly is needed`. By P6-9.3, we have also checked once whether the current problem really should choose the fine-tuning axis first. In P6-9.4, we added the intuition that LoRA's low-rank is attached to small delta representation, not to the whole model size.
+By P6-9.2, we hold the broad axis that `a way to adapt a large base model more lightly is needed`. By P6-10.3, we have also checked once whether the current problem really should choose the fine-tuning axis first. In P6-10.4, we added the intuition that LoRA's low-rank is attached to small delta representation, not to the whole model size.
 
 But once we start reading real materials, it is easy to become unclear again at `what exactly is that light method?` If adapter, LoRA, and QLoRA appear in the same paragraph, they can easily be received as `a few similar names for new techniques`.
 

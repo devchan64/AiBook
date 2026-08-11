@@ -1,6 +1,6 @@
-# P6-20.1 作为阅读中心 Transformer 比较轴的 BERT
+# P6-6.1 作为阅读中心 Transformer 比较轴的 BERT
 
-> Section ID: `P6-20.1`
+> Section ID: `P6-6.1`
 > Version: `v2026.07.26`
 
 即使同属 Transformer 家族，也有一条流程擅长阅读整个输入，另一条流程擅长生成下一个 token。
@@ -21,7 +21,7 @@ BERT 家族是以 encoder 为中心的 Transformer 流程，它读取整个输�
 
 最安全的做法，是把 BERT 家族抓成`读取整个输入的 encoder-centered Transformer 流程`。这样，它和 GPT 家族在使用上的差异会更清楚。
 
-不过，在把 BERT 的角色扩展到分类、搜索、句子对判断和嵌入之前，应该先固定结构差异。与搜索和嵌入的实践连接，可以和 P6-12.1、P6-12.2 的搜索流水线说明一起重新阅读。
+不过，在把 BERT 的角色扩展到分类、搜索、句子对判断和嵌入之前，应该先固定结构差异。与搜索和嵌入的实践连接，可以和 P6-13.1、P6-13.2 的搜索流水线说明一起重新阅读。
 
 BERT 并没有简单地作为`LLM 之前的旧模型`被推开。它仍然是分类、搜索、嵌入前端中重要的 encoder-based 流程。这里不是把 Part 6 的主流程转移到 BERT，而是先设定比较标准，以便更准确地比较 GPT 家族和生成式 AI 主流程。
 
@@ -135,7 +135,7 @@ GPT 打开了宽泛的生成接口，并不意味着 BERT 家族的位置消失�
 
 ## 为什么要同时区分 BERT 和 GPT
 
-到这里，比较的必要性会更清楚。本节的核心不是孤立地深挖 BERT。它是先区分：即使在同一个 Transformer 家族内部，`读取并判断的结构`和`继续生成的结构`也支持不同任务。设定这个标准后，P6-5.1 `The GPT Family as a Decoder-Based Cumulative Generation Structure` 和 P6-6.1 `Next Token Prediction as the Starting Point of Long Generation` 就能更直接地一起阅读。
+到这里，比较的必要性会更清楚。本节的核心不是孤立地深挖 BERT。它是先区分：即使在同一个 Transformer 家族内部，`读取并判断的结构`和`继续生成的结构`也支持不同任务。设定这个标准后，P6-5.1 `The GPT Family as a Decoder-Based Cumulative Generation Structure` 和 P6-7.1 `Next Token Prediction as the Starting Point of Long Generation` 就能更直接地一起阅读。
 
 ## 按输入和输出拆分 BERT 与 GPT
 

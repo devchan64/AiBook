@@ -1,11 +1,11 @@
-# P6-18.2 在响应前记录依据、状态和审查的最小实现
+# P6-19.2 在响应前记录依据、状态和审查的最小实现
 
-> Section ID: `P6-18.2`
+> Section ID: `P6-19.2`
 > Version: `v2026.07.31`
 
 最小实现记录从留下 `request_id`、`selected_policy`、`evidence_state`、`answer_state`、`review_status`、`retrospective_note` 开始。有了这份记录，它就会被读作一个小功能：比起回应句本身，依据、状态、回顾 会先留下来。
 
-在 P6-18.1 中，我们把小型生成式 AI 功能绑成了 `request interpretation -> retrieval or tool selection -> response generation -> state judgment -> record` 的流程。这里用一小段代码重新画出这个流程。
+在 P6-19.1 中，我们把小型生成式 AI 功能绑成了 `request interpretation -> retrieval or tool selection -> response generation -> state judgment -> record` 的流程。这里用一小段代码重新画出这个流程。
 
 最小实现的重点不是完成高性能服务。它是用自己的眼睛看到`哪个输入经过哪条路径，并作为哪种输出和记录留下`。更准确地说，它让`运行了什么`和`下一步应先修哪里`出现在同一个请求记录中。
 

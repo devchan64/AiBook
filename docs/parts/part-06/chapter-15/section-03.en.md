@@ -1,9 +1,9 @@
-# P6-15.3 Supplement: How Are Agent Workflows and Image-Generation Workflows Different?
+# P6-16.3 Supplement: How Are Agent Workflows and Image-Generation Workflows Different?
 
-> Section ID: `P6-15.3`
+> Section ID: `P6-16.3`
 > Version: `v2026.08.03`
 
-P6-15.1 examined a common format for connecting tools and resources, and P6-15.2 examined a harness for recording and explaining an execution. This supplement is a comparison map that rereads those ideas in another generative-AI scene.
+P6-16.1 examined a common format for connecting tools and resources, and P6-16.2 examined a harness for recording and explaining an execution. This supplement is a comparison map that rereads those ideas in another generative-AI scene.
 
 > When both are called workflows, which flow chooses the next action and which transforms data and conditions?
 

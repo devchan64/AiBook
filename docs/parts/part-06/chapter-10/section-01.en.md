@@ -1,11 +1,11 @@
-# P6-10.1 Prompt Engineering That Adjusts Input Instructions, Context, and Examples
+# P6-11.1 Prompt Engineering That Adjusts Input Instructions, Context, and Examples
 
-> Section ID: `P6-10.1`
+> Section ID: `P6-11.1`
 > Version: `v2026.07.31`
 
 When turning this Section into a practice record, separate `user_goal`, `instruction`, `context`, `example`, `output_format`, `observed_response`, and `remaining_limit`. Then problems that can be adjusted through prompt wording do not mix at the same level with problems that must move to search, tools, or evaluation structure.
 
-In P6-9.2, we saw that alignment is not simply a problem of making friendly answers. It is a design problem involving helpfulness, safety, factuality, and service policy together. Now we need to look at the tool that users touch first.
+In P6-10.2, we saw that alignment is not simply a problem of making friendly answers. It is a design problem involving helpfulness, safety, factuality, and service policy together. Now we need to look at the tool that users touch first.
 
 How do users actually observe and adjust LLM behavior?
 
@@ -42,7 +42,7 @@ This perspective matters for the following reasons.
 
 - It lets us start observing behavior without knowing the full model structure.
 - It connects to why input design remains important later in RAG, tool use, and AI agents.
-- It also lets P6-10.2 separate the limits that prompts alone cannot solve.
+- It also lets P6-11.2 separate the limits that prompts alone cannot solve.
 
 The scenes to separate first are cases where an answer appears but length and format drift, cases where the same task keeps missing the reader level or tone, and cases where the answer is plausible but freshness or evidence feels unstable. In the first two cases, we can first ask what is missing among instruction, context, and example. By contrast, if the problem is latest documents, real evidence, or successful calculation, lookup, and execution, writing a more refined input sentence alone may not settle it.
 
@@ -179,7 +179,7 @@ Prompts should be read in the main flow of Part 6 as the first practical control
 
 The shortest structure to hold is `prompt input adjustment -> RAG evidence connection -> tool use/AI agent execution structure`. In prompt input adjustment, we ask what input draws out the desired format and scope better. In RAG, we ask what evidence should be attached when prompts alone are insufficient. In tool use and AI agent structures, we ask what performs execution that documents alone cannot handle and in what order. The prompt is responsible for `input adjustment` in this flow, and when its limits appear, evidence connection and execution structure need to be attached separately.
 
-What should be kept first is an experiment memo and format-check statistics that show which input design was tried, which items were often missing from the answer, and where the format drifted. This record is needed so that P6-10.2 can recheck prompt limits, and so that the move to P6-11.1 evidence-connection judgment or P6-13.1 execution-need judgment does not become shaky. Later, this record is read again as evaluation standards in P6-16 and as review memos, execution logs, and improvement plans for Part 6.
+What should be kept first is an experiment memo and format-check statistics that show which input design was tried, which items were often missing from the answer, and where the format drifted. This record is needed so that P6-11.2 can recheck prompt limits, and so that the move to P6-12.1 evidence-connection judgment or P6-14.1 execution-need judgment does not become shaky. Later, this record is read again as evaluation standards in P6-16 and as review memos, execution logs, and improvement plans for Part 6.
 
 ## Drawn Very Simply
 
@@ -597,7 +597,7 @@ What matters in this comparison is not how long the sentence is, but which slots
 
 - Can you explain prompts not as `wording tips`, but as `input design and behavior observation experiments`?
 - Can you distinguish what instruction, context, and example each change first?
-- Are you ready to read P6-10.2 as the stage that finds `failures that input adjustment alone cannot settle`?
+- Are you ready to read P6-11.2 as the stage that finds `failures that input adjustment alone cannot settle`?
 
 ## Sources and References
 

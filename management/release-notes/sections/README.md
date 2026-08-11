@@ -20,7 +20,7 @@
 - Part 바깥의 공개 진입 문서는 별도 하위 폴더를 두고 관리할 수 있다. 현재 소개 페이지는 `book/` 아래에서 관리한다.
 - 예:
   - `management/release-notes/sections/part-05/P5-11.1.md`
-  - `management/release-notes/sections/part-06/P6-15.2.md`
+  - `management/release-notes/sections/part-06/P6-16.2.md`
   - `management/release-notes/sections/part-06/P6-index.md`
   - `management/release-notes/sections/part-07/P7-summary.md`
 

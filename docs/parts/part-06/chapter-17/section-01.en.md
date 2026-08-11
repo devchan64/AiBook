@@ -1,6 +1,6 @@
-# P6-17.1 Operational Constraints That Filter Again by Cost, Latency, and Usage
+# P6-18.1 Operational Constraints That Filter Again by Cost, Latency, and Usage
 
-> Section ID: `P6-17.1`
+> Section ID: `P6-18.1`
 > Version: `v2026.07.31`
 
 Record operational constraints together as `quality_result`, `cost_per_request`, `latency_budget`, `usage_limit`, `capacity_risk`, and `deployment_decision`. Then it becomes visible that even when an evaluation score passes, the candidate may still be filtered out at the operation stage.
@@ -352,7 +352,7 @@ In a real service stage, producing a `good-looking response` is not enough. We m
 
 This operational judgment matters because it:
 
-- moves from P6-16.1 and P6-16.2's question of `is this a good answer` to whether that answer can actually be provided `fast, cheaply, and stably`
+- moves from P6-17.1 and P6-17.2's question of `is this a good answer` to whether that answer can actually be provided `fast, cheaply, and stably`
 - shifts the viewpoint from model-centered thinking to service-operation thinking
 - prepares failure handling and incident-management problems
 - prepares Part 7 deployment and operations reflection to include constraint design, not only feature implementation

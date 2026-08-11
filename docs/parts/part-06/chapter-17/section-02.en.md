@@ -1,6 +1,6 @@
-# P6-17.2 Handling Operational Failures by Splitting Errors into Recovery Routes
+# P6-18.2 Handling Operational Failures by Splitting Errors into Recovery Routes
 
-> Section ID: `P6-17.2`
+> Section ID: `P6-18.2`
 > Version: `v2026.07.31`
 
 Separate failure-response records into `failure_type`, `trace_step`, `retry_allowed`, `fallback_path`, `approval_required`, and `recovery_result`. These fields let you read model errors, tool errors, and permission problems by recovery path instead of bundling them into the same incident.
@@ -135,7 +135,7 @@ In an operating service, the shortest way to read this triage is: `use bounded r
 
 ## Splitting Operational Failures into Recovery Routes
 
-If we connect P6-16.2 automatic and human evaluation, P6-17.1 operating constraints, and this section's failure handling into one operational sequence, the following four lines should come into view first.
+If we connect P6-17.2 automatic and human evaluation, P6-18.1 operating constraints, and this section's failure handling into one operational sequence, the following four lines should come into view first.
 
 | Operating step | First question to check | Representative record to keep |
 | --- | --- | --- |
@@ -388,7 +388,7 @@ The more important point to hold is that `did we produce a good answer?` and `wh
 
 This recovery route matters because it:
 
-- turns the P6-17.1 service operating constraints from `what should we watch?` into `where should we trace when a failure happens?`;
+- turns the P6-18.1 service operating constraints from `what should we watch?` into `where should we trace when a failure happens?`;
 - reconnects prompting, RAG, tool use, agents, and evaluation in Part 6 from an operational viewpoint;
 - makes the integrated mini-practice include failure handling; and
 - makes the difference between `using AI` and `operating an AI service` explicit.

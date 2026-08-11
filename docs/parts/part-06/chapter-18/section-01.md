@@ -1,6 +1,6 @@
-# P6-18.1 질문·근거·답변·기록을 묶는 작은 생성형 AI 기능
+# P6-19.1 질문·근거·답변·기록을 묶는 작은 생성형 AI 기능
 
-> Section ID: `P6-18.1`
+> Section ID: `P6-19.1`
 > Version: `v2026.07.31`
 
 작은 생성형 AI 기능은 `question`, `evidence`, `draft_answer`, `tool_need`, `evaluation_note`, `run_record`를 한 요청 단위로 묶어 봅니다. 이 구분이 있어야 프롬프트, 검색, 도구 사용, 평가가 각각 따로 설명된 개념이 아니라 하나의 기능 흐름으로 이어집니다.

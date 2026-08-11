@@ -1,6 +1,6 @@
-# P6-16.2 자동 평가와 사람 평가의 분업
+# P6-17.2 자동 평가와 사람 평가의 분업
 
-> Section ID: `P6-16.2`
+> Section ID: `P6-17.2`
 > Version: `v2026.07.31`
 
 평가 분업은 `automatic_check`, `human_review`, `repeatable_rule`, `context_judgment`, `escalation_case`, `review_note`로 남깁니다. 이 구분이 있어야 반복 검사에 강한 자동 평가와 맥락 판단에 강한 사람 평가가 서로 대체물처럼 보이지 않습니다.
@@ -241,7 +241,7 @@ AI 에이전트가 최종 답을 만들었더라도 실행 기록에는 검색 �
 
 아래 예제는 평가 라우팅 후보 CSV [p6_16_2_eval_routing_cases.csv](../../../assets/part-06/chapter-16/p6_16_2_eval_routing_cases.csv){ .csv-preview }를 사용합니다. 한 행은 운영에서 볼 수 있는 LLM 출력 후보 하나입니다. `model_output`은 후보 답변이고, `source_marker`, `required_action`, `format_marker`, `max_length`, `banned_terms`는 자동 채점기가 반복해서 확인할 기준입니다. CSV에는 사람이 미리 적어 둔 정답 라벨이나 위험 라벨을 넣지 않습니다.
 
-자동 채점기 이름은 P6-16.1의 평가 축과 다음처럼 이어집니다. `source_marker_grader`는 근거성, `required_action_grader`는 유용성, `format_grader`와 `length_grader`는 형식 적합성, `banned_terms_grader`는 안전성의 반복 검사 신호입니다. 이 매핑은 코드의 `GRADER_AXIS_MAP`에도 들어 있습니다.
+자동 채점기 이름은 P6-17.1의 평가 축과 다음처럼 이어집니다. `source_marker_grader`는 근거성, `required_action_grader`는 유용성, `format_grader`와 `length_grader`는 형식 적합성, `banned_terms_grader`는 안전성의 반복 검사 신호입니다. 이 매핑은 코드의 `GRADER_AXIS_MAP`에도 들어 있습니다.
 
 출력에서는 후보별 코드 채점기 결과, 선택적 LLM 판정기(LLM-as-a-judge grader) 결과, 사람 검토 패킷, 라우팅 요약값을 함께 확인합니다. 코드에서 확인할 핵심은 사람 평가를 코드가 대신 채점하지 않는다는 점입니다. 코드는 반복 가능한 표면 기준을 먼저 검사하고, 통과한 후보에 대해 사람이 읽을 후보 문장과 검토 질문 묶음을 만듭니다.
 
@@ -390,7 +390,7 @@ route = fix_with_automatic_grader_first
 
 이 분업이 중요한 이유는 다음과 같습니다.
 
-- 바로 앞의 P6-16.1 평가 축을 `무엇을 볼 것인가`에서 `어떻게 점검할 것인가`로 확장하게 하고
+- 바로 앞의 P6-17.1 평가 축을 `무엇을 볼 것인가`에서 `어떻게 점검할 것인가`로 확장하게 하고
 - 평가를 단순 점수표가 아니라 검토 가능한 운영 프로세스로 보게 하고
 - 같은 출력 후보를 반복해서 다시 볼 수 있는 기록과 실패 대응 문제로 연결하며
 - 이후 검증 절차를 설계할 기준을 세우기 때문입니다

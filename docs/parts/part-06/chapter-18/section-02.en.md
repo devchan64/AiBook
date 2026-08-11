@@ -1,11 +1,11 @@
-# P6-18.2 A Minimal Implementation that Records Evidence, State, and Review Before the Response
+# P6-19.2 A Minimal Implementation that Records Evidence, State, and Review Before the Response
 
-> Section ID: `P6-18.2`
+> Section ID: `P6-19.2`
 > Version: `v2026.07.31`
 
 The minimum implementation record starts by leaving `request_id`, `selected_policy`, `evidence_state`, `answer_state`, `review_status`, and `retrospective_note`. With this record, the feature reads as a small function where evidence, state, and retrospective notes remain before the response sentence itself.
 
-In P6-18.1, we tied a small generative AI feature into the flow `request interpretation -> retrieval or tool selection -> response generation -> state judgment -> record`. Here, we redraw that flow with a very small piece of code.
+In P6-19.1, we tied a small generative AI feature into the flow `request interpretation -> retrieval or tool selection -> response generation -> state judgment -> record`. Here, we redraw that flow with a very small piece of code.
 
 The point of the minimal implementation is not to complete a high-performance service. It is to see with your own eyes `which input goes through which path and remains as which output and record`. More precisely, it makes `what ran` and `where to fix first next` visible in the same request record.
 
@@ -359,10 +359,10 @@ This section is therefore not a `finished implementation`, but a `baseline for t
 
 It is enough to connect it as follows.
 
-- If better evidence connection is needed, return to the RAG flow in P6-11 and the vector database structure in P6-12.
-- If real state lookup or calculation is needed, move to tool use in P6-13.
-- If multi-step judgment is needed, move to the AI agent structure in P6-14.
-- Failure records and safety devices should be reread through the evaluation viewpoint in P6-16 and the operation viewpoint in P6-17.
+- If better evidence connection is needed, return to the RAG flow in P6-11 and the vector database structure in P6-13.
+- If real state lookup or calculation is needed, move to tool use in P6-14.
+- If multi-step judgment is needed, move to the AI agent structure in P6-15.
+- Failure records and safety devices should be reread through the evaluation viewpoint in P6-16 and the operation viewpoint in P6-18.
 
 ## Checklist
 

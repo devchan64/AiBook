@@ -29,7 +29,7 @@ We read GPT not as a product name but from the structural position of a `decoder
 | Why GPT is read inside the Transformer family as a `generation flow that keeps writing onward` | How pretraining scales this structure |
 | How to distinguish BERT and GPT from the perspectives of input reading and sequential generation | What instruction tuning, alignment, and commercial model version differences change further |
 
-This section's role in the main request flow of Part 6 is to show how the Transformer computation engine becomes a `generation flow that keeps writing onward`. This structure must be in place before we can read P6-6.1's next-token prediction and P6-7.1's pretraining on top of the computation flow instead of jumping directly to user experience.
+This section's role in the main request flow of Part 6 is to show how the Transformer computation engine becomes a `generation flow that keeps writing onward`. This structure must be in place before we can read P6-7.1's next-token prediction and P6-8.1's pretraining on top of the computation flow instead of jumping directly to user experience.
 
 ## Distinguishing Decoder-Based Cumulative Generation
 

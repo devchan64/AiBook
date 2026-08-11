@@ -1,11 +1,11 @@
-# P6-11.1 RAG That Attaches External Evidence Instead of Model Memory
+# P6-12.1 RAG That Attaches External Evidence Instead of Model Memory
 
-> Section ID: `P6-11.1`
+> Section ID: `P6-12.1`
 > Version: `v2026.07.31`
 
 When recording a RAG request, separate `question`, `retrieval_query`, `retrieved_evidence`, `evidence_source`, `answer_claim`, and `missing_evidence`. This prevents an answer left to model memory and an answer supported by external evidence from looking like the same thing.
 
-In P6-10.2, we saw that prompts alone have difficulty solving problems such as freshness, evidence guarantees, and executability. Then what matters is not only the answer sentence itself, but how to first change the materials that enter the answer.
+In P6-11.2, we saw that prompts alone have difficulty solving problems such as freshness, evidence guarantees, and executability. Then what matters is not only the answer sentence itself, but how to first change the materials that enter the answer.
 
 How can we use external evidence together instead of relying only on model memory?
 
@@ -21,7 +21,7 @@ At first, it is enough to separate only two questions. Summarizing a meeting mem
 
 The impression `a technique for attaching long documents to prompts` should be replaced with `a structure that changes the answer's starting point to external evidence documents`. What should remain first here is a retrieval memo and evidence check record showing which documents were found as evidence candidates, why each document was judged relevant, and whether the final answer actually stood on document evidence.
 
-Documents do not automatically attach themselves before an answer. Usually, document chunks are stored in a searchable form, and when a question arrives, related chunks are retrieved first. This storage structure can mix keyword search, ordinary databases, and vector databases, but LLM services often use vector databases to find semantically settle documents. This Section first holds the RAG structure of `retrieve evidence before answering`, and P6-12.1 looks at how that evidence is stored and retrieved with embeddings, original text, and metadata.
+Documents do not automatically attach themselves before an answer. Usually, document chunks are stored in a searchable form, and when a question arrives, related chunks are retrieved first. This storage structure can mix keyword search, ordinary databases, and vector databases, but LLM services often use vector databases to find semantically settle documents. This Section first holds the RAG structure of `retrieve evidence before answering`, and P6-13.1 looks at how that evidence is stored and retrieved with embeddings, original text, and metadata.
 
 | Scene to distinguish first | Judgment to hold first | Why it must be separated first |
 | --- | --- | --- |
@@ -104,11 +104,11 @@ The same request flow can be summarized again as follows.
 - Fine-tuning: Better matches response tendencies and formats.
 - RAG: Attaches external evidence before answering.
 
-Separating one more point makes the flow into P6-11.2 and P6-12 more natural. External curricula often handle `pretraining data preparation` and `retrieval document preparation` together, but they are not the same task.
+Separating one more point makes the flow into P6-12.2 and P6-12 more natural. External curricula often handle `pretraining data preparation` and `retrieval document preparation` together, but they are not the same task.
 
 | Type of data preparation | What it first aligns | Where it connects here |
 | --- | --- | --- |
-| Pretraining data preparation | Makes the model learn broad language patterns | P6-7.1, P6-7.2 |
+| Pretraining data preparation | Makes the model learn broad language patterns | P6-8.1, P6-8.2 |
 | Retrieval document preparation | Makes documents retrievable again for the current question | P6-11, P6-12 |
 
 So attaching RAG is more similar to `prepare documents so they can be searched, then attach those documents before answering` than to `train the model broadly again`.
@@ -482,7 +482,7 @@ The more important point is that `speaking plausibly` and `answering with attach
 
 - Can you explain RAG as a `structure that attaches current documents before answering`?
 - Can you distinguish what prompts, fine-tuning, and RAG each change first?
-- Are you ready to read P6-11.2 not as `why attach documents`, but as `how attached documents actually lead to answers`?
+- Are you ready to read P6-12.2 not as `why attach documents`, but as `how attached documents actually lead to answers`?
 
 ## Sources and References
 

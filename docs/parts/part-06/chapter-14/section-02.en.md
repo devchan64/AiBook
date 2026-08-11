@@ -1,11 +1,11 @@
-# P6-14.2 Agent Loops That Split into Continue, Stop, and Human Review
+# P6-15.2 Agent Loops That Split into Continue, Stop, and Human Review
 
-> Section ID: `P6-14.2`
+> Section ID: `P6-15.2`
 > Version: `v2026.07.31`
 
 Keep loop records as `plan`, `action`, `observation`, `continue_reason`, `stop_condition`, and `human_review_reason`. Then continuing, stopping, or handing off to human review is connected to observations and stop conditions, not to the model's mood.
 
-In P6-14.1, we read an AI agent as an execution structure that changes the next task based on intermediate results. Now we need to look more concretely at what criteria make that flow continue, where it stops, and when it moves to human review.
+In P6-15.1, we read an AI agent as an execution structure that changes the next task based on intermediate results. Now we need to look more concretely at what criteria make that flow continue, where it stops, and when it moves to human review.
 
 An AI agent has a repeated structure: it plans the next step based on a goal, performs an actual action, observes the result, and then chooses the next decision. What matters here is not the mere fact that the loop runs, but which direction the observation result branches into: `continue`, `stop`, or `human review`.
 
@@ -15,7 +15,7 @@ The issue to settle in this scene is reading the basic structure of a single AI 
 
 Tool connection rules and execution environments are about which tools and resources the loop uses, and what recording environment keeps the execution. The plan-action-observation loop first focuses on how observation results change the next branch and stop decision.
 
-An agent should not be left only as an abstract concept. It should be read as a loop in which `plan`, `action`, and `observation` repeat. If P6-14.1 looked at how several reads and executions continue as a goal flow, this section looks at how that flow splits into continuation, termination, and human review based on intermediate observation.
+An agent should not be left only as an abstract concept. It should be read as a loop in which `plan`, `action`, and `observation` repeat. If P6-15.1 looked at how several reads and executions continue as a goal flow, this section looks at how that flow splits into continuation, termination, and human review based on intermediate observation.
 
 The core viewpoint changes from `should several steps continue` to `through what observation and decision loop do those steps repeat`.
 
@@ -380,7 +380,7 @@ The example output can be read like this.
 {'case_id': 'policy-03', 'round': 3, 'signal': 'no current source after retry', 'model_plan': 'refine_or_retry_search', 'guard_decision': 'human_review', 'changed': True}
 ```
 
-The first thing to notice is that although model proposals appeared for all 36 observation logs, the guard did not use those proposals as the final decision in 15 cases. In other words, the core of P6-14.2 is not the fact that a model can speak a next-plan candidate. It is that multiround observation signals and stop conditions branch that candidate again into `continue_refine`, `stop_ready`, and `human_review`. For example, in round 2 of `policy-01`, the model proposed `summarize_and_stop`, but because `evidence_sufficient` is still `false` in the CSV, the guard keeps the decision at `continue_refine`. Conversely, in round 2 of `policy-02`, even if the model suggests continued exploration, `conflict_found` is `true`, so the guard moves the case to `human_review`.
+The first thing to notice is that although model proposals appeared for all 36 observation logs, the guard did not use those proposals as the final decision in 15 cases. In other words, the core of P6-15.2 is not the fact that a model can speak a next-plan candidate. It is that multiround observation signals and stop conditions branch that candidate again into `continue_refine`, `stop_ready`, and `human_review`. For example, in round 2 of `policy-01`, the model proposed `summarize_and_stop`, but because `evidence_sufficient` is still `false` in the CSV, the guard keeps the decision at `continue_refine`. Conversely, in round 2 of `policy-02`, even if the model suggests continued exploration, `conflict_found` is `true`, so the guard moves the case to `human_review`.
 
 The next thing to see is that final decisions are not evenly balanced. Among 16 goals, 6 settle as `stop_ready` after enough evidence is collected, 9 move to `human_review` because of conflict, approval, or retry limits, and 1 remains in continued exploration. Real AI agent loops also do not always divide neatly into three directions. What matters is whether the record lets us follow which observation signal separated the model proposal from the guard's final decision.
 

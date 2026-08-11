@@ -6,9 +6,9 @@
 - P6-19 history and lineage language pairs:
   - `p6-c19-s01-history-flow-en.mmd` / `p6-c19-s01-history-flow-ko.mmd` / `p6-c19-s01-history-flow-zh.mmd`
   - `p6-c19-s02-lineage-boundary-en.mmd` / `p6-c19-s02-lineage-boundary-ko.mmd` / `p6-c19-s02-lineage-boundary-zh.mmd`
-- Preserved P6-19.1 chart assets not currently referenced by the manuscript:
+- Preserved P6-20.1 chart assets not currently referenced by the manuscript:
   - `p6_19_1_history_computation_gain_chart.py` generates `history-computation-search-gain-ko.png` and `history-computation-search-gain-en.png`.
-- Preserved P6-19.2 CSV/chart assets not currently referenced by the manuscript:
+- Preserved P6-20.2 CSV/chart assets not currently referenced by the manuscript:
   - `p6-19-lineage-items.csv`: archived input for earlier direct-lineage and surrounding-evidence classification practice.
   - `p6_19_2_lineage_rule_check_chart.py` generates `lineage-rule-check-matrix-ko.png` and `lineage-rule-check-matrix-en.png`.
 - Legacy P6-20 understanding copies kept here only for compatibility cleanup:
@@ -17,4 +17,4 @@
   - `p6_19_1_contextual_label_shift_chart.py` generates `contextual-label-shift-ko.png` and `contextual-label-shift-en.png`.
   - `p6_19_2_understanding_output_chart.py` generates `understanding-output-types-ko.png` and `understanding-output-types-en.png`.
 - Legacy CSV inputs:
-  - `p6-19-understanding-task-cases.csv`: P6-20.2 Python example input. Each row is one understanding-centered task case for classification, pair relation, or ranking output inspection.
+  - `p6-19-understanding-task-cases.csv`: P6-6.2 Python example input. Each row is one understanding-centered task case for classification, pair relation, or ranking output inspection.

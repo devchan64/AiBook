@@ -1,6 +1,6 @@
-# P6-18.1 连接问题、依据、回答和记录的小型生成式 AI 功能
+# P6-19.1 连接问题、依据、回答和记录的小型生成式 AI 功能
 
-> Section ID: `P6-18.1`
+> Section ID: `P6-19.1`
 > Version: `v2026.07.31`
 
 小型生成式 AI 功能要把 `question`、`evidence`、`draft_answer`、`tool_need`、`evaluation_note`、`run_record` 作为一个请求单位来 归为一组。这样 prompt、检索、工具使用、评估就不是各自分离的概念，而会连接成一个功能 流程。

@@ -1,6 +1,6 @@
-# P6-16.1 区分自然回答和质量标准的 LLM 评估
+# P6-17.1 区分自然回答和质量标准的 LLM 评估
 
-> Section ID: `P6-16.1`
+> Section ID: `P6-17.1`
 > Version: `v2026.07.31`
 
 LLM 评估记录要分开 `answer_text`、`task_success`、`evidence_quality`、`format_quality`、`safety_issue`、`revision_need`。这样，自然流畅的回答和实际 质量标准 就不会被一个分数盖住。

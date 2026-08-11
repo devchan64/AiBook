@@ -6,4 +6,4 @@
 - Why it matters: This concept marks the move beyond fixed word meanings. It helps readers understand why encoder-centered language models and LLMs can represent a word according to its current role in a sentence.
 - Related concepts: `embedding`, `encoder`, `language model`
 - Core Section: `P1-11.3`
-- Appears in: `P6-20.1`
+- Appears in: `P6-6.1`

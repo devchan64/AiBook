@@ -1,11 +1,11 @@
-# P6-10.4 Supplement: Iterative Improvement of Prompt Candidates
+# P6-11.4 Supplement: Iterative Improvement of Prompt Candidates
 
-> Section ID: `P6-10.4`
+> Section ID: `P6-11.4`
 > Version: `v2026.07.26`
 
 _Subtitle: How automatic prompt optimization evaluates prompt experiments and passes them to the next candidate_
 
-In P6-10.3, we saw CoT and self-consistency as strategies for seeing or comparing response paths. Now the direction changes a little. Automatic prompt optimization is closer to asking how to evaluate and iteratively improve prompt candidates themselves, rather than the reasoning path of one answer.
+In P6-11.3, we saw CoT and self-consistency as strategies for seeing or comparing response paths. Now the direction changes a little. Automatic prompt optimization is closer to asking how to evaluate and iteratively improve prompt candidates themselves, rather than the reasoning path of one answer.
 
 Automatic prompt optimization is an approach that tries to make the work of manually revising prompts more systematic through evaluation standards and iterative loops. What matters is not the word automatic, but the structure of comparing prompt candidates across several inputs and choosing the next candidate from that result.
 
@@ -241,7 +241,7 @@ This judgment can be made without knowing complex algorithms. The first intuitio
 
 ## Boundary with P6-16
 
-This Section does not explain evaluation as a whole. What is needed here is the intuition that repeated improvement of prompt candidates requires at least minimal evaluation standards and validation inputs. Automatic and human evaluation, evaluation-set design, and regression detection in operation are handled more fully in P6-16.
+This Section does not explain evaluation as a whole. What is needed here is the intuition that repeated improvement of prompt candidates requires at least minimal evaluation standards and validation inputs. Automatic and human evaluation, evaluation-set design, and regression detection in operation are handled more fully in P6-17.
 
 So the conclusion of this Section can be held as follows.
 

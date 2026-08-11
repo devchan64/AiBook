@@ -1,9 +1,9 @@
-# P6-9.2 Alignment That Separates Well-Followed Answers from Acceptable Answers
+# P6-10.2 Alignment That Separates Well-Followed Answers from Acceptable Answers
 
-> Section ID: `P6-9.2`
+> Section ID: `P6-10.2`
 > Version: `v2026.07.26`
 
-In P6-9.1, we saw that instruction tuning is an adjustment step that makes a model respond more like a conversational assistant. But an answer that follows instructions well is not automatically safe or desirable.
+In P6-10.1, we saw that instruction tuning is an adjustment step that makes a model respond more like a conversational assistant. But an answer that follows instructions well is not automatically safe or desirable.
 
 Does following a user's instruction well automatically make a good AI system?
 
@@ -34,7 +34,7 @@ This standard is needed for the following reasons.
 
 - It helps separate instruction following from safety.
 - It prepares us to see why evaluation should use multiple axes.
-- It creates a reading standard for later P6-16.1 LLM evaluation, P6-16.2 automatic and human evaluation, P6-17.1 service operating constraints, and P6-17.2 failure response in operation.
+- It creates a reading standard for later P6-17.1 LLM evaluation, P6-17.2 automatic and human evaluation, P6-18.1 service operating constraints, and P6-18.2 failure response in operation.
 
 ## Judgment Axes in Alignment
 
@@ -466,7 +466,7 @@ The key point is that `does it follow the instruction?` and `how far is it allow
 
 - Can you explain `answering well` and `acting acceptably` as different problems?
 - Can you connect helpfulness, safety, and factuality to different failure types?
-- Are you ready to read P6-9.3 as a choice about `which shortage to fix first`, rather than as a list of technique names?
+- Are you ready to read P6-10.3 as a choice about `which shortage to fix first`, rather than as a list of technique names?
 
 ## Sources and References
 

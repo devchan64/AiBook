@@ -6,4 +6,4 @@
 - Why it matters: Distributed representations support flexible generalization because related items can occupy nearby positions through many partially shared dimensions.
 - Related concepts: `embedding`, `vector`, `corpus`
 - Core Section: `P1-11.1`
-- Appears in: `P1-9.3`, `P1-13.1`, `P5-2.2`, `P6-3.1`, `P6-19.2`
+- Appears in: `P1-9.3`, `P1-13.1`, `P5-2.2`, `P6-3.1`, `P6-20.2`

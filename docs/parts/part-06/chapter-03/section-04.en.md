@@ -20,8 +20,8 @@ Here, first hold onto `the problem of narrowing nearby candidates fast enough`. 
 
 | Current focus | Where to read it broadly again |
 | --- | --- |
-| Fast candidate search | P6-3.4, P6-12.1, P6-12.2 |
-| Storage and index structure | P6-12.1, P6-12.2 |
+| Fast candidate search | P6-3.4, P6-13.1, P6-13.2 |
+| Storage and index structure | P6-13.1, P6-13.2 |
 
 So the central question is `why nearby candidates must be narrowed faster, even approximately`.
 

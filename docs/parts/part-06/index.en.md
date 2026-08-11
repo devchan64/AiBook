@@ -7,7 +7,7 @@ The first plan for this opening page is to read `request`, `input representation
 
 Part 6 moves the deep-learning structures covered in Part 5 into the actual experience of using generative AI. The starting point here is not tokens or the implementation details of Transformers. It is the generative-AI artifact that a person actually receives. First, this Part asks what generative AI creates, why an LLM (large language model) is useful as the representative path, and why generation should be read not as pulling out one finished answer but as repeated candidate distributions and selection.
 
-Then it follows how text becomes a computable input through tokens, token IDs, and embeddings. Transformer and GPT-family structures are read as flows that create the next candidate from that input. After that, pretraining, fine-tuning, instruction tuning, and alignment show how response habits are formed.
+Then it follows how text becomes a computable input through tokens, token IDs, and embeddings. Transformer and GPT-family structures are read as flows that create the next candidate from that input, while the BERT family provides a comparison for how the same Transformer serves reading- and judgment-centered tasks. After that, pretraining, fine-tuning, instruction tuning, and alignment show how response habits are formed.
 
 In the middle and later sections, the discussion expands from inside-the-model explanations into actual usage structures. Prompts, RAG (retrieval-augmented generation), vector databases, tool use, agents, MCP (Model Context Protocol), and harnesses are not treated as separate buzzwords. They are reinforcement structures that make generated results easier to review. Finally, LLM evaluation, automatic and human evaluation, service operation constraints, failure response, and the run records of a small generative-AI feature separate a natural answer from a reviewable service result. Development history and the BERT family serve as a background map and comparison axis that keep the GPT-centered explanation from being overgeneralized, and open-weight models are read through the openness scope, runtime, and memory-placement responsibility that users take on when they run models directly.
 
@@ -33,12 +33,12 @@ This Part is also not an implementation guide for training large models directly
 | --- | --- | --- |
 | Module 1. Generative AI And The Position Of LLMs | Why should a generative-AI artifact first be treated as something to review? | An LLM is a representative path for reading generative AI, not the same thing as all of it. |
 | Module 2. Input Units And Representations For Text Generation | How does text become a computable input and a comparable representation? | Tokens, token IDs, and embeddings are values at different levels. |
-| Module 3. LLM Structures That Create The Next Candidate | How should Transformers and GPT-family models be read as creating the next candidate? | Even a long answer is the accumulated result of next-candidate selections. |
+| Module 3. LLM Structures That Create The Next Candidate | How do Transformer, GPT, and BERT families differ across generation and reading or judgment? | A long answer accumulates next-candidate selections; BERT is the judgment-centered comparison axis. |
 | Module 4. Learning And Adjustment That Form Response Habits | What do pretraining, fine-tuning, instruction tuning, and alignment change differently? | Learning a lot and answering in the desired way are different. |
 | Module 5. Prompts And Evidence Reinforcement | What must be attached from outside when prompts are not enough? | Freshness, grounding, and retrieval failure are not solved by prompt wording alone. |
 | Module 6. Tool And Agent Execution Structures | How are outside-model execution and multistep work connected? | Tools, agents, MCP, and harnesses reveal problems of connection and observation. |
 | Module 7. Reviewable Service State | What differs between a good sentence and a serviceable answer? | Evaluation, cost, latency, failure response, and execution records must remain together. |
-| Module 8. Background Map And Comparison | How can we read the GPT-centered main current and direct-execution choices without overgeneralizing them? | Development history and the BERT family separate direct lineage from comparison axes, and open-weight models make openness scope and execution responsibility visible together. |
+| Module 8. Background Map And Comparison | How can we read the GPT-centered main current and direct-execution choices without overgeneralizing them? | Development history clarifies direct lineage, while open-weight models make openness scope and execution responsibility visible together. |
 
 ## Generative AI Reading Flow
 

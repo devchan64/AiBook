@@ -1,11 +1,11 @@
-# P6-15.2 Harnesses That Wrap Execution Records and Reproducible Environments
+# P6-16.2 Harnesses That Wrap Execution Records and Reproducible Environments
 
-> Section ID: `P6-15.2`
+> Section ID: `P6-16.2`
 > Version: `v2026.07.31`
 
 Leave harness records as `input_snapshot`, `tool_call_log`, `environment_state`, `approval_state`, `output_snapshot`, and `replay_note`. Then you can check again why the same run flowed that way instead of looking only at the final answer.
 
-In P6-15.1, we saw that MCP is an interface viewpoint that makes connections between models, external tools, and data more consistent. But even if the connection format is organized, it is hard to explain the cause of failure or the effect of improvement again unless the execution flow remains as a record. Now we need to look at the structure that wraps AI agent execution, leaves logs and evaluation inputs, and manages the flow so it can be repeated.
+In P6-16.1, we saw that MCP is an interface viewpoint that makes connections between models, external tools, and data more consistent. But even if the connection format is organized, it is hard to explain the cause of failure or the effect of improvement again unless the execution flow remains as a record. Now we need to look at the structure that wraps AI agent execution, leaves logs and evaluation inputs, and manages the flow so it can be repeated.
 
 A harness is similar to an execution environment or operational device that wraps an agent or model run and manages inputs, tool calls, results, logs, evaluation inputs, and reproduction information.
 

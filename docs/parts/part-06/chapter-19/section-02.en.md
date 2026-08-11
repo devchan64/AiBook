@@ -1,9 +1,9 @@
-# P6-19.2 A Criterion for Separating Direct Lineage from Surrounding Evidence
+# P6-20.2 A Criterion for Separating Direct Lineage from Surrounding Evidence
 
-> Section ID: `P6-19.2`
+> Section ID: `P6-20.2`
 > Version: `v2026.07.26`
 
-If P6-19.1 held the large development flow, this section needs a sharper criterion for separating direct structural lineage from surrounding evidence of spread. Not every event in deep learning history is immediately part of the direct lineage of LLMs.
+If P6-20.1 held the large development flow, this section needs a sharper criterion for separating direct structural lineage from surrounding evidence of spread. Not every event in deep learning history is immediately part of the direct lineage of LLMs.
 
 Direct lineage is the flow that leads directly to the structure and learning methods of current LLMs. Surrounding evidence explains the spread of deep learning and shifts in computational paradigms, but it is harder to assert as an ancestor of the LLM structure itself.
 
@@ -197,7 +197,7 @@ The result to confirm in this exercise is that `famous`, `important at the same 
 
 This classification exercise prevents history writing from ending as a `list of famous names`. Later historical explanations become clearer only when we distinguish which items form the direct lineage of the LLM structure and which items are surrounding evidence showing spread and expectations in the same era.
 
-Here, we narrow the large development flow from P6-19.1 through the criterion `what is direct structural history and what is background spread history?` This lets us distinguish the direct lineage that made current LLM structure, instead of collapsing many deep learning achievements into one straight history.
+Here, we narrow the large development flow from P6-20.1 through the criterion `what is direct structural history and what is background spread history?` This lets us distinguish the direct lineage that made current LLM structure, instead of collapsing many deep learning achievements into one straight history.
 
 The more important distinction here is:
 

@@ -1,11 +1,11 @@
-# P6-14.2 分裂为继续、停止和人工审查的 Agent 循环
+# P6-15.2 分裂为继续、停止和人工审查的 Agent 循环
 
-> Section ID: `P6-14.2`
+> Section ID: `P6-15.2`
 > Version: `v2026.07.31`
 
 循环记录要分为 `plan`、`action`、`observation`、`continue_reason`、`stop_condition`、`human_review_reason`。这样，继续、停止、交给人工 复核，就会连接到观察结果和停止条件，而不是模型的感觉。
 
-在 P6-14.1 中，我们把 agent 读成一种会根据中间结果改变下一项工作的执行结构。现在需要更具体地看：什么标准会让这个流程继续，在哪里停止，什么时候转向人工审查。
+在 P6-15.1 中，我们把 agent 读成一种会根据中间结果改变下一项工作的执行结构。现在需要更具体地看：什么标准会让这个流程继续，在哪里停止，什么时候转向人工审查。
 
 Agent 具有重复结构：根据目标规划下一步，执行实际行动，观察结果，然后选择下一项决策。这里重要的不是循环运行这个事实本身，而是观察结果会分支到哪个方向：`continue`、`stop`、还是 `human review`。
 
@@ -15,7 +15,7 @@ Agent 具有重复结构：根据目标规划下一步，执行实际行动，�
 
 工具连接规则和执行环境关注的是循环使用哪些工具和资源，以及什么记录环境保存执行过程。计划-行动-观察循环首先关注的是观察结果如何改变下一项分支和停止判断。
 
-Agent 不应该只停留为抽象概念。它应该被读成 `plan`、`action`、`observation` 反复出现的循环。如果 P6-14.1 看的是多次读取和执行如何作为目标流程继续，那么本节看的是这个流程如何根据中间观察分裂为继续、终止和人工审查。
+Agent 不应该只停留为抽象概念。它应该被读成 `plan`、`action`、`observation` 反复出现的循环。如果 P6-15.1 看的是多次读取和执行如何作为目标流程继续，那么本节看的是这个流程如何根据中间观察分裂为继续、终止和人工审查。
 
 核心视角会从`多个步骤是否应该继续`变成`这些步骤通过什么观察和决策循环来重复`。
 
@@ -380,7 +380,7 @@ for row in rows[:8]:
 {'case_id': 'policy-03', 'round': 3, 'signal': 'no current source after retry', 'model_plan': 'refine_or_retry_search', 'guard_decision': 'human_review', 'changed': True}
 ```
 
-首先要注意，36 条观察日志中都出现了模型建议，但 guard 在 15 条中没有把该建议用作最终决策。换句话说，P6-14.2 的核心不是模型可以说出下一项计划候选，而是多轮观察信号和结束条件会把这个候选再次分成 `continue_refine`、`stop_ready`、`human_review`。例如在 `policy-01` 的第 2 轮，模型提出 `summarize_and_stop`，但 CSV 中的 `evidence_sufficient` 仍然是 `false`，所以 guard 把决策维持为 `continue_refine`。相反，在 `policy-02` 的第 2 轮，即使模型建议继续探索，`conflict_found` 是 `true`，所以 guard 会把案例转到 `human_review`。
+首先要注意，36 条观察日志中都出现了模型建议，但 guard 在 15 条中没有把该建议用作最终决策。换句话说，P6-15.2 的核心不是模型可以说出下一项计划候选，而是多轮观察信号和结束条件会把这个候选再次分成 `continue_refine`、`stop_ready`、`human_review`。例如在 `policy-01` 的第 2 轮，模型提出 `summarize_and_stop`，但 CSV 中的 `evidence_sufficient` 仍然是 `false`，所以 guard 把决策维持为 `continue_refine`。相反，在 `policy-02` 的第 2 轮，即使模型建议继续探索，`conflict_found` 是 `true`，所以 guard 会把案例转到 `human_review`。
 
 接着要看的是，最终决策并不会平均分布。16 个目标中，6 个在收集到足够依据后以 `stop_ready` 关闭，9 个因为冲突、批准或重试上限转向 `human_review`，还有 1 个留在继续探索中。真实 AI agent loop 也并不总是整齐地分成三个方向。重要的是，记录是否能让我们追踪哪一个观察信号分开了模型建议和 guard 最终决策。
 

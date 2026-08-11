@@ -1,9 +1,9 @@
-# P6-9.3 LLM Failures Divided into Format, Evidence, and Execution Gaps
+# P6-10.3 LLM Failures Divided into Format, Evidence, and Execution Gaps
 
-> Section ID: `P6-9.3`
+> Section ID: `P6-10.3`
 > Version: `v2026.07.26`
 
-By P6-9.2, we can read `which answer looks more assistant-like` and `which answer is more acceptable and safe`. But when we move into actual feature improvement, the question changes one more time. We cannot stop at knowing the standard for a good answer. We need to diagnose what was missing first in the failed answer.
+By P6-10.2, we can read `which answer looks more assistant-like` and `which answer is more acceptable and safe`. But when we move into actual feature improvement, the question changes one more time. We cannot stop at knowing the standard for a good answer. We need to diagnose what was missing first in the failed answer.
 
 When a model behaves differently from expectation, what shortage caused the failure first?
 
@@ -22,7 +22,7 @@ Prompt revision, RAG, tool use, and fine-tuning are support paths considered aft
 
 The point to be careful about is that these four paths can look lumped together under the name `ways to improve performance`. In reality, they touch different locations. Prompt revision changes the input sentence and output form while keeping the same model. RAG finds documents before the model answers and attaches them to the input side. Tool use lets the model call outside functions and receive results instead of calculating or looking things up directly. Fine-tuning reflects repeatedly needed response habits in the model-adjustment process. So even the same phrase `the answer is wrong` can require different repair points.
 
-This Section does not replace the detailed techniques in later chapters. The problem to close here is `what should be fixed first, and where?` Prompt design itself is handled in P6-10, RAG and vector search in P6-11 and P6-12, and tool use and AI agent structure in later Modules. P6-9.4 and P6-9.5 are supplementary studies on efficient adjustment when this diagnosis points toward the fine-tuning axis.
+This Section does not replace the detailed techniques in later chapters. The problem to close here is `what should be fixed first, and where?` Prompt design itself is handled in P6-10, RAG and vector search in P6-11 and P6-12, and tool use and AI agent structure in later Modules. P6-10.4 and P6-10.5 are supplementary studies on efficient adjustment when this diagnosis points toward the fine-tuning axis.
 
 ## Why Read a Diagnostic Map Right After Alignment?
 

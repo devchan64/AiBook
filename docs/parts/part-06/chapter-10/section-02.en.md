@@ -1,11 +1,11 @@
-# P6-10.2 Limits That Move Freshness, Grounding, and Execution Outside Prompts
+# P6-11.2 Limits That Move Freshness, Grounding, and Execution Outside Prompts
 
-> Section ID: `P6-10.2`
+> Section ID: `P6-11.2`
 > Version: `v2026.07.31`
 
 When recording prompt limits, write `freshness_need`, `evidence_need`, `execution_need`, `consistency_need`, and `outside_structure` together. This distinction keeps freshness, evidence, and execution problems from being reduced to simple wording fixes.
 
-In P6-10.1, we saw that prompt engineering is the first practical tool for observing and adjusting model behavior through input design. Now we need to look more directly at what remains even when prompts are written well.
+In P6-11.1, we saw that prompt engineering is the first practical tool for observing and adjusting model behavior through input design. Now we need to look more directly at what remains even when prompts are written well.
 
 A prompt is a strong tool for guiding model responses, but it is not a tool that solves freshness, factuality, evidence guarantees, and long-term consistency by itself.
 
@@ -34,7 +34,7 @@ In short, writing a stronger prompt is `input adjustment`, while moving to RAG, 
 
 What should be kept first here is failure-type notes, format-drift statistics, and reproducibility failure records that show which problem is an input-adjustment limit and which problem is missing evidence connection.
 
-This record is needed so that the move to P6-11.1 RAG necessity judgment does not become shaky, and so that problems reducible by prompt improvement can be separated from problems that require changing system structure.
+This record is needed so that the move to P6-12.1 RAG necessity judgment does not become shaky, and so that problems reducible by prompt improvement can be separated from problems that require changing system structure.
 
 Later, this record is read again as evaluation standards in P6-16 and as review memos, improvement plans, and project records for Part 6.
 

@@ -1,6 +1,6 @@
-# P6-19.1 以限制和结构转换的流程阅读 LLM 发展史
+# P6-20.1 以限制和结构转换的流程阅读 LLM 发展史
 
-> Section ID: `P6-19.1`
+> Section ID: `P6-20.1`
 > Version: `v2026.07.26`
 
 理解今天的 LLM(large language model，大语言模型)时，常见误解是只把它看成`突然出现的巨大模型`。但实际上，今天的生成体验是由语言模型(language model)、嵌入(embedding)、序列模型(sequence model)、attention、Transformer 和大规模预训练(pretraining)相互重叠后形成的。
@@ -242,10 +242,10 @@ Transformer 把 attention 从辅助装置变成了中心结构。
 
 | 现在只需留下的内容 | 在主流程中回到哪里 |
 | --- | --- |
-| 语言建模从`预测下一个表达`的问题开始 | P6-6.1 Next token prediction |
+| 语言建模从`预测下一个表达`的问题开始 | P6-7.1 Next token prediction |
 | 嵌入是从符号到可计算向量的转换 | P6-3.1 把 token ID 变成可比较坐标的 embedding |
 | Attention 和 Transformer 是结构转折点 | P6-4.1 Transformer 如何导向 LLM 中的 next-candidate score |
-| 预训练改变了模型的使用方式 | P6-7.1 Pretraining |
+| 预训练改变了模型的使用方式 | P6-8.1 Pretraining |
 
 更重要的问题不是`能否完整背诵整段历史？`，而是`能否解释为什么主流程按这个顺序排列？`
 

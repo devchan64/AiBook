@@ -7,11 +7,11 @@
   - `p6-c18-s01-request-flow-en.mmd` / `p6-c18-s01-request-flow-ko.mmd` / `p6-c18-s01-request-flow-zh.mmd`
   - `p6-c18-s01-request-routing-en.mmd` / `p6-c18-s01-request-routing-ko.mmd` / `p6-c18-s01-request-routing-zh.mmd`
   - `p6_18_1_request_structure_matrix_chart.py` generates `request-structure-matrix-ko.png`, `request-structure-matrix-en.png`, and `request-structure-matrix-zh.png`.
-  - `p6_18_2_policy_documents.csv` stores the P6-18.2 policy document inputs used by the manuscript example and chart.
-  - `p6_18_2_policy_questions.csv` stores the P6-18.2 request inputs used by the manuscript example and chart.
-  - `p6_18_2_generate_run_records.py` generates P6-18.2 request run records from the CSV inputs.
-  - `p6_18_2_policy_documents_en.csv`, `p6_18_2_policy_questions_en.csv`, and `p6_18_2_generate_run_records_en.py` are English companion assets for the P6-18.2 translated manuscript.
-  - `p6_18_2_policy_documents_zh.csv`, `p6_18_2_policy_questions_zh.csv`, and `p6_18_2_generate_run_records_zh.py` are Chinese companion assets for the P6-18.2 translated manuscript.
+  - `p6_18_2_policy_documents.csv` stores the P6-19.2 policy document inputs used by the manuscript example and chart.
+  - `p6_18_2_policy_questions.csv` stores the P6-19.2 request inputs used by the manuscript example and chart.
+  - `p6_18_2_generate_run_records.py` generates P6-19.2 request run records from the CSV inputs.
+  - `p6_18_2_policy_documents_en.csv`, `p6_18_2_policy_questions_en.csv`, and `p6_18_2_generate_run_records_en.py` are English companion assets for the P6-19.2 translated manuscript.
+  - `p6_18_2_policy_documents_zh.csv`, `p6_18_2_policy_questions_zh.csv`, and `p6_18_2_generate_run_records_zh.py` are Chinese companion assets for the P6-19.2 translated manuscript.
   - `p6_18_2_run_record_status_chart.py` reads the same CSV-backed run records and generates `run-record-status-summary-ko.png`, `run-record-status-summary-en.png`, and `run-record-status-summary-zh.png`.
 - Legacy P6-19 history and lineage copies kept here only for compatibility cleanup:
   - `p6-c18-s01-diagram-01-en.mmd` / `p6-c18-s01-diagram-01-ko.mmd`

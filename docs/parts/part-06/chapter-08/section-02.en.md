@@ -1,9 +1,9 @@
-# P6-8.2 LoRA That Reduces the Burden of Full Fine-Tuning
+# P6-9.2 LoRA That Reduces the Burden of Full Fine-Tuning
 
-> Section ID: `P6-8.2`
+> Section ID: `P6-9.2`
 > Version: `v2026.07.26`
 
-In P6-8.1, we saw that fine-tuning is the process of additionally adjusting a pretrained model so it fits a specific purpose better. But a realistic next question appears immediately here.
+In P6-9.1, we saw that fine-tuning is the process of additionally adjusting a pretrained model so it fits a specific purpose better. But a realistic next question appears immediately here.
 
 Isn't it too costly to adjust the entire huge model again every time?
 
@@ -27,7 +27,7 @@ The first sense needed to understand LoRA is the idea of `reducing cost by addin
 
 Before distinguishing names such as adapter, LoRA, and QLoRA, what matters first is `what is kept as is and what alone is newly learned`. LoRA should be understood not as a `small model`, but as a `method that adds a small update on top of a large foundation model`.
 
-Therefore, the core is not `make the model small`, but `adapt the same large foundation model with lower adjustment cost`. In this section, we grasp why full fine-tuning can become too heavy and the idea of keeping a large foundation model while adding only a small adaptation. The intuition behind the name LoRA and the scale sense of low rank continue in P6-9.4, and the detailed constraint distinction between adapter, LoRA, and QLoRA continues in P6-9.5.
+Therefore, the core is not `make the model small`, but `adapt the same large foundation model with lower adjustment cost`. In this section, we grasp why full fine-tuning can become too heavy and the idea of keeping a large foundation model while adding only a small adaptation. The intuition behind the name LoRA and the scale sense of low rank continue in P6-10.4, and the detailed constraint distinction between adapter, LoRA, and QLoRA continues in P6-10.5.
 
 The misunderstanding of `a lightweight small model` should be reread as `a method that reduces adaptation cost by adding only a small update on top of a large foundation model`.
 
@@ -40,9 +40,9 @@ The misunderstanding of `a lightweight small model` should be reread as `a metho
 
 This criterion is needed for the following reasons.
 
-- because it prevents us from immediately understanding P6-8.1 fine-tuning only as `training the whole model again`
+- because it prevents us from immediately understanding P6-9.1 fine-tuning only as `training the whole model again`
 - because it makes us think about cost and structure choices together in practical LLM services
-- because it creates the basis for reading `model adjustment cost` in later sections such as P6-9.1 instruction tuning, P6-9.2 alignment, and P6-17.1 service operation constraints
+- because it creates the basis for reading `model adjustment cost` in later sections such as P6-10.1 instruction tuning, P6-10.2 alignment, and P6-18.1 service operation constraints
 
 ## Judgment Criteria for Efficient Adjustment
 
@@ -57,7 +57,7 @@ Efficient adjustment is a problem separate from whether fine-tuning is needed: i
 
 ## Why Is Efficient Adjustment Needed?
 
-The direction of fine-tuning seen in P6-8.1 is natural. The problem is that LLMs are too large.
+The direction of fine-tuning seen in P6-9.1 is natural. The problem is that LLMs are too large.
 
 If we try to update all model weights, the following burdens immediately grow.
 
@@ -79,8 +79,8 @@ In other words, the thought `we want to change the model to fit our purpose` is 
 
 At this point, the flow bends once.
 
-- The question in P6-8.1: `Should we adjust the model more for our purpose?`
-- The question in P6-8.2: `Can we do that adjustment without changing the entire model again?`
+- The question in P6-9.1: `Should we adjust the model more for our purpose?`
+- The question in P6-9.2: `Can we do that adjustment without changing the entire model again?`
 
 In other words, LoRA is not a method from a completely different world competing with fine-tuning, but the next option that arises from the reality that `fine-tuning is needed, but touching everything is too heavy`.
 
@@ -230,7 +230,7 @@ Therefore, the sentence `LoRA is an operational method for adapting a large foun
 
 The goal of this example is to directly see what difference `full fine-tuning` and the `LoRA approach` make when operating several work-specific adjusted versions. Instead of manually counting three work types, we will read a list of purpose-adaptation experiments planned by several teams for one month, and compare the additional storage burden when using full fine-tuning versus LoRA updates.
 
-The input file is [P6-8.2 purpose-adaptation portfolio](/AiBook/assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv){ .csv-preview }. One row means one purpose-adaptation task reviewed by one team. The core columns are `team`, `task`, `monthly_experiments`, and `expected_change`. Here, we do not predict quality scores by work type; we only look at the structure of storage and version-management burden when several adjustment experiments must be repeated on top of the same foundation model.
+The input file is [P6-9.2 purpose-adaptation portfolio](/AiBook/assets/part-06/chapter-08/p6-8-2-adaptation-portfolio.csv){ .csv-preview }. One row means one purpose-adaptation task reviewed by one team. The core columns are `team`, `task`, `monthly_experiments`, and `expected_change`. Here, we do not predict quality scores by work type; we only look at the structure of storage and version-management burden when several adjustment experiments must be repeated on top of the same foundation model.
 
 The code below reads the CSV and sums monthly experiment counts by team. In the result, it compares the additional storage size when storing a large artifact for every full fine-tuning experiment and when storing only a small LoRA update.
 

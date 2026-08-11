@@ -6,4 +6,4 @@
 - Why it matters: The same tool call can carry different risk depending on whether it reads, writes, or deploys. This concept separates `can execute` from `is allowed to execute`, which clarifies operational judgment and responsibility. It also explains why permission boundaries and approval steps are both needed.
 - Related concepts: `least privilege`, `tool use`, `security`, `accountability`
 - Core Section: `P7-6.2`
-- Appears in: `P6-13.1`, `P6-15.2`, `P6-17.2`, `P7-6.1`
+- Appears in: `P6-14.1`, `P6-16.2`, `P6-18.2`, `P7-6.1`

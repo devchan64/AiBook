@@ -57,7 +57,7 @@ If we place them on a coordinate plot like the one below, it becomes immediately
 | --- | --- | --- |
 | Why vectors are read like positions | In P2-3.3, we examine how matrix multiplication creates a new representation. | It becomes a foundation when rereading embedding, similarity search, and RAG from Part 1. |
 | The intuition that comparison works only inside the same space | In P2-3.6, we check shape and calculation rules in code. | It returns when reading feature space, clustering, and distance-based intuition in Part 3. |
-| The interpretation that nearness is a candidate for similarity | It continues into later sections through NumPy and data examples. | It reappears in Part 6 `P6-11.1` on vector databases and `P6-11.2` on indexes and retrieval quality. |
+| The interpretation that nearness is a candidate for similarity | It continues into later sections through NumPy and data examples. | It reappears in Part 6 `P6-12.1` on vector databases and `P6-12.2` on indexes and retrieval quality. |
 
 ## Core Criteria: Vector Space and the Intuition of Position
 

@@ -30,7 +30,7 @@ So the core is not stopping at `a vector has been made`, but reading by what sta
 | --- | --- | --- |
 | Embedding | What vector representation should text or sentences be changed into? | P6-3.1 |
 | Meaning and distance | By what standard should those vectors be compared as nearby candidates? | P6-3.2 |
-| Search and RAG | How are nearby candidates used for actual document search and generation coupling? | P6-11.1, P6-11.2, P6-12.1, P6-12.2 |
+| Search and RAG | How are nearby candidates used for actual document search and generation coupling? | P6-12.1, P6-12.2, P6-13.1, P6-13.2 |
 | Recommendation and later selection | By what contextual standards are nearby candidates filtered again for final selection? | Cases in P6-3.2 and service contexts in general |
 
 In other words, the core of the current chapter is moving from `making vectors` to `reading those vectors as a candidate-comparison standard`. This standard must be fixed so that later, when reading RAG and vector search, you do not mix nearby document candidates with final answer evidence.

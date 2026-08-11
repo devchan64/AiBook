@@ -1,6 +1,6 @@
-# P6-20.2 Understanding-Centered Tasks that Output Judgment Values Before Long Answers
+# P6-6.2 Understanding-Centered Tasks that Output Judgment Values Before Long Answers
 
-> Section ID: `P6-20.2`
+> Section ID: `P6-6.2`
 > Version: `v2026.07.26`
 
 If the BERT family is read as a Transformer-encoder-based representation model, you also need to distinguish which task groups those representations lead to. Understanding-centered tasks read the whole input and judge `what it is` or `how well it matches`, such as classification, relevance judgment, search, and embeddings. These tasks fit BERT-family representation models well.
@@ -15,7 +15,7 @@ Understanding-centered output begins from these questions.
 
 It is safest to hold understanding-centered tasks as `a task group that reads input and outputs a label, score, or vector`. Then why this flow fits the BERT family also becomes clearer.
 
-This comparison criterion can be recovered again in P6-12.1 vector databases and P6-12.2 indexes and search quality when reading how structures split inside a search pipeline.
+This comparison criterion can be recovered again in P6-13.1 vector databases and P6-13.2 indexes and search quality when reading how structures split inside a search pipeline.
 
 Rather than listing many task names, it is more important to understand `a flow that reads input and judges`. If the previous section set the position of the BERT family as a comparison criterion, this section narrows that comparison into actual task groups and first distinguishes why `labels`, `scores`, `ranks`, and `vectors` belong to one output family.
 
@@ -143,7 +143,7 @@ The distinction to keep first is one line:
 
 `The BERT family is more natural for reading input and creating labels, scores, relevance, and embeddings than for generating long answers.`
 
-Once this line is fixed, you do not need to memorize every detailed task name to read the GPT and next-token prediction explanations in P6-5.1 and P6-6.1 or the RAG explanations in P6-11.1 and P6-11.2.
+Once this line is fixed, you do not need to memorize every detailed task name to read the GPT and next-token prediction explanations in P6-5.1 and P6-7.1 or the RAG explanations in P6-12.1 and P6-12.2.
 
 ## Cases and Examples
 

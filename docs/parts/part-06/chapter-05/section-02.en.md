@@ -25,10 +25,10 @@ Therefore, the core difference is the distinction between `the generation struct
 
 | Current Focus | Follow-Up Question | Where It Broadens Again |
 | --- | --- | --- |
-| GPT-based generation structure | How is text generated onward? | P6-5.1, P6-6.1, P6-7.1 |
+| GPT-based generation structure | How is text generated onward? | P6-5.1, P6-7.1, P6-8.1 |
 | Conversational LLM experience | Why do users feel this as an answering system? | P6-5.2 |
-| Instruction tuning and alignment | Through what adjustment stages is that experience made? | P6-9.1, P6-9.2 |
-| Prompts and tool connections | How do we attach that adjusted model to actual requests and execution structures? | P6-10.1, P6-13.1, P6-13.2 |
+| Instruction tuning and alignment | Through what adjustment stages is that experience made? | P6-10.1, P6-10.2 |
+| Prompts and tool connections | How do we attach that adjusted model to actual requests and execution structures? | P6-11.1, P6-14.1, P6-14.2 |
 
 In other words, the core of this chapter is moving from `what kind of structure generates something` to `why that structure came to look like a conversational experience`. This transition must be in place before we can read next-token prediction, pretraining, and instruction tuning as learning principles and later adjustment stages rather than as surface changes in user experience.
 

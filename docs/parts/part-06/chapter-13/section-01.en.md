@@ -1,11 +1,11 @@
-# P6-13.1 Tool Use That Hands Lookup, Computation, and Execution Outside the Model
+# P6-14.1 Tool Use That Hands Lookup, Computation, and Execution Outside the Model
 
-> Section ID: `P6-13.1`
+> Section ID: `P6-14.1`
 > Version: `v2026.07.31`
 
 Record a tool-use request by separating `model_request`, `tool_name`, `tool_input`, `tool_output`, `execution_status`, and `model_summary`. Keeping this distinction separates the part where the model generated an explanation from the part where lookup, calculation, or execution actually happened in the tool.
 
-In P6-12.2, we saw that an index in vector retrieval creates a balance between retrieval speed and candidate quality. But retrieval is only one way to connect to the outside world. Now a broader question appears.
+In P6-13.2, we saw that an index in vector retrieval creates a balance between retrieval speed and candidate quality. But retrieval is only one way to connect to the outside world. Now a broader question appears.
 
 What should we do when the model must go beyond reading documents and actually call an external function?
 
@@ -21,9 +21,9 @@ The core questions are these.
 
 The first issue to settle is reading tool use as `an execution structure in which the model is connected to external functions`, and grasping how it differs from RAG's document reading.
 
-Here we first separate `requests that only need document reading` from `requests that settle only when an external function is actually called`. Splitting an execution request into a name and arguments is handled in P6-13.2, and chaining several executions is handled separately in P6-14.
+Here we first separate `requests that only need document reading` from `requests that settle only when an external function is actually called`. Splitting an execution request into a name and arguments is handled in P6-14.2, and chaining several executions is handled separately in P6-15.
 
-Tool use does not mean `the model suddenly gains execution ability`. It means `the application connects the model with external functions`. If RAG attached external documents as evidence, tool use moves one step further by actually calling external functions and bringing back results. How to make the call name and arguments into a verifiable shape is the topic of P6-13.2, and how to continue multiple calls in sequence is the topic of P6-14.
+Tool use does not mean `the model suddenly gains execution ability`. It means `the application connects the model with external functions`. If RAG attached external documents as evidence, tool use moves one step further by actually calling external functions and bringing back results. How to make the call name and arguments into a verifiable shape is the topic of P6-14.2, and how to continue multiple calls in sequence is the topic of P6-15.
 
 Instead of memorizing many tool names, first read tool use through three questions: `is the needed work document reading or actual execution`, `what must be looked up, computed, or executed`, and `what call structure will carry the execution result`.
 
@@ -97,7 +97,7 @@ The core point of this table is that `reading documents`, `executing functions`,
 
 Up to this point, we are still reading `which external function should be attached for one request`. For example, `summarize our internal refund policy` is more similar to a RAG problem that first finds document evidence. `Use today's exchange rate to convert 300 dollars to KRW` is more similar to a tool-use problem that needs a current value lookup and computation tool. A request such as `find and reserve an available meeting room tomorrow` connects lookup and execution, so it is revisited later in the AI agent structure.
 
-In this Section, we settle the move from `what should be read` to `what should actually be looked up, computed, or executed`. How to stabilize that execution request as a name and argument structure continues in P6-13.2's function calling, and how to chain multiple executions continues in P6-14's AI agent structure.
+In this Section, we settle the move from `what should be read` to `what should actually be looked up, computed, or executed`. How to stabilize that execution request as a name and argument structure continues in P6-14.2's function calling, and how to chain multiple executions continues in P6-14's AI agent structure.
 
 ## Does the model directly use tools?
 
@@ -669,13 +669,13 @@ Tool use is a structure that connects model-generated text with the outside worl
 This matters because:
 
 - it separates document reading from actual lookup, computation, and execution
-- it prepares us to read function calling as a structured request format in P6-13.2
+- it prepares us to read function calling as a structured request format in P6-14.2
 - it prepares us to read agents as multi-step execution flows in P6-14
 
 The view established here continues into later sections.
 
-- P6-13.2 function calling: how to stabilize tool name and arguments
-- P6-14.1 and P6-14.2 agents: how to connect multiple tool calls over time
+- P6-14.2 function calling: how to stabilize tool name and arguments
+- P6-15.1 and P6-15.2 agents: how to connect multiple tool calls over time
 - P6-16 evaluation and P6-17 operation: how to inspect execution results, approvals, failures, and traces
 
 ## Checklist

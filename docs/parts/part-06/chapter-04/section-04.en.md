@@ -24,7 +24,7 @@ The problem to close first here is `how the already computed front part is reuse
 | The basic meaning of KV cache, which stores part of previous computation and reuses it in the next step | Cache-management methods by actual serving engine |
 | The sense that projection burden is reduced while preserving the same result | Operating-latency and cost-optimization judgment |
 
-The context-window constraint itself was already explained in the main flow, P6-4.2, and the impact of KV cache on operating latency and cost is recovered again in P6-17.1. The problem of maintaining long context itself and sparse attention are separate long-context design problems.
+The context-window constraint itself was already explained in the main flow, P6-4.2, and the impact of KV cache on operating latency and cost is recovered again in P6-18.1. The problem of maintaining long context itself and sparse attention are separate long-context design problems.
 
 This distinction must be fixed so KV cache can be read not as `a function that changes the meaning of the answer`, but as `a device that produces the same result with less recomputation`. The reason KV cache connects to perceived speed in long conversations or long code generation is also explained by this standard.
 

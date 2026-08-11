@@ -25,6 +25,6 @@
   - `p6_6_1_pretraining_adaptation_chart.py`
   - `p6_6_2_scale_tradeoff_charts.py`
 - CSV example data:
-  - `p6-6-2-next-token-candidates.csv`: P6-6.2 Korean next-token candidate table. Each row is one candidate token at one output position, with the base probability used by the decoding example and chart script.
-  - `p6-6-2-next-token-candidates-en.csv`: P6-6.2 English next-token candidate table.
-  - `p6-6-2-next-token-candidates-zh.csv`: P6-6.2 Chinese next-token candidate table.
+  - `p6-6-2-next-token-candidates.csv`: P6-7.2 Korean next-token candidate table. Each row is one candidate token at one output position, with the base probability used by the decoding example and chart script.
+  - `p6-6-2-next-token-candidates-en.csv`: P6-7.2 English next-token candidate table.
+  - `p6-6-2-next-token-candidates-zh.csv`: P6-7.2 Chinese next-token candidate table.

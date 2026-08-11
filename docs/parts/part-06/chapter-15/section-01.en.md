@@ -1,11 +1,11 @@
-# P6-15.1 MCP Connecting Tools and Resources in a Shared Format
+# P6-16.1 MCP Connecting Tools and Resources in a Shared Format
 
-> Section ID: `P6-15.1`
+> Section ID: `P6-16.1`
 > Version: `v2026.07.31`
 
 When reading MCP, separate `resource`, `tool`, `prompt`, `server_boundary`, `permission_scope`, and `client_runtime`. This distinction keeps protocol, tools, runtime environment, and permissions from collapsing into one internal feature.
 
-In P6-14.2, we saw that an AI agent has a repeated structure of plan, action, and observation. Now we need to see what is needed to connect these tools and states more consistently across several systems.
+In P6-15.2, we saw that an AI agent has a repeated structure of plan, action, and observation. Now we need to see what is needed to connect these tools and states more consistently across several systems.
 
 MCP, or Model Context Protocol, is an interface viewpoint that helps models, agents, and applications connect more consistently to external tools and data. In other words, it is more similar to an agreement to connect several tools and data sources in a more regular way instead of attaching each one separately.
 
@@ -15,14 +15,14 @@ The first issue to settle is `what shared format should connect tools and resour
 
 Here, we read MCP as `a standardization viewpoint that tries to make tool connections less ad hoc`.
 
-If the AI agent loop asked `through what repeated structure should several reads and executions continue`, the MCP viewpoint asks how the tools and resources used by that loop should be exposed in a shared format so that later execution and records shake less. Here, we hold the standard for reading `Model Context Protocol (MCP)` as a shared connection interface that keeps `model capability` separate from `tool connection format`. Execution records and reproduction environments are covered separately in the P6-15.2 harness section.
+If the AI agent loop asked `through what repeated structure should several reads and executions continue`, the MCP viewpoint asks how the tools and resources used by that loop should be exposed in a shared format so that later execution and records shake less. Here, we hold the standard for reading `Model Context Protocol (MCP)` as a shared connection interface that keeps `model capability` separate from `tool connection format`. Execution records and reproduction environments are covered separately in the P6-16.2 harness section.
 
 The first thing to fix here is exposing which tools and resources in what shared format, and making the connection interface regular.
 
 | Connection information to organize first in MCP | Why it is needed | Check that follows later |
 | --- | --- | --- |
-| Tool descriptions and resource descriptions | Exposing which tools and resources are available under which names and input formats reduces call failure and connection mismatch. | Leads to P6-15.2 trace/replay and tool-connection notes |
-| Permission boundaries and approval conditions | Showing which calls can run immediately and which require approval reduces operational failure. | Leads to P6-15.2 approval records and P6-17.2 failure handling |
+| Tool descriptions and resource descriptions | Exposing which tools and resources are available under which names and input formats reduces call failure and connection mismatch. | Leads to P6-16.2 trace/replay and tool-connection notes |
+| Permission boundaries and approval conditions | Showing which calls can run immediately and which require approval reduces operational failure. | Leads to P6-16.2 approval records and P6-18.2 failure handling |
 
 The phrase `shared format` may still feel abstract. In that case, instead of memorizing the protocol name first, it is safer to imagine what breaks first when each tool has a different input format while handling the same goal.
 
@@ -65,7 +65,7 @@ MCP makes three things easier first. It becomes easier to expose the tool list i
 
 Placed again inside the same request flow, prompts write the request, RAG attaches documents to read, and tool use calls functions to execute. Agents continue several steps, and MCP helps those connections be handled in a more regular format. This order keeps MCP separate from model performance and harness recording environments.
 
-The learning needed in this section is not memorizing every implementation detail of MCP. It is enough at the introductory level to explain MCP, distinguish model capability from connection interface, and say why connection standards become important as agents and tool use grow. Then we can continue to how connected execution is passed into the P6-15.2 harness recording environment.
+The learning needed in this section is not memorizing every implementation detail of MCP. It is enough at the introductory level to explain MCP, distinguish model capability from connection interface, and say why connection standards become important as agents and tool use grow. Then we can continue to how connected execution is passed into the P6-16.2 harness recording environment.
 
 The first scenes to separate can be organized like this.
 

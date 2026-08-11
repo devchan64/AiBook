@@ -1,6 +1,6 @@
-# P6-7.1 Pretraining That First Builds a Broad Language Base
+# P6-8.1 Pretraining That First Builds a Broad Language Base
 
-> Section ID: `P6-7.1`
+> Section ID: `P6-8.1`
 > Version: `v2026.07.26`
 
 Up to P6-6, we saw that the Transformer and GPT structures create next-token candidates, and that output selection rules change the stability and diversity of actual answers. But that still leaves one thing. `Why do some models respond plausibly across broader scenes even with the same generation structure, while others quickly reveal limits?`
@@ -99,7 +99,7 @@ This also connects to the perspectives of transfer and generalization learned in
 
 In other words, pretraining is closer to `first making the ground for solving problems` than to `solving the problem immediately`.
 
-This criterion must be visible for the explanation of scale in P6-7.2 to continue naturally. The question `why use such large data and computation?` connects to how broad and heavy the preparation stage of `first making a broad base`, which we are looking at now, actually is.
+This criterion must be visible for the explanation of scale in P6-8.2 to continue naturally. The question `why use such large data and computation?` connects to how broad and heavy the preparation stage of `first making a broad base`, which we are looking at now, actually is.
 
 For example, even when making customer-center classification, if the model has first broadly learned sentence structure and expression differences, it becomes easier to adapt it later to narrower classification rules such as `refund`, `exchange`, and `account issue`.
 
@@ -243,7 +243,7 @@ If we group the three cases again from the foundation-building perspective, we g
 | Customer-inquiry classification | grouping same inquiries with different expressions | base for reading similar sentence relationships |
 | Conversational response | explanation sentence connection and basic response structure | general language flow of question-answering |
 
-We also need to clearly hold that all three cases point in the same direction. Summarization, classification, and conversation look like different tasks on the surface, but all three return to the question of whether the problem we see now should be read immediately as lack of task rules, or whether a broad language base is weak before that. This common question is needed so the flow of reading P6-7.2, `why try to make that broad base large`, does not break.
+We also need to clearly hold that all three cases point in the same direction. Summarization, classification, and conversation look like different tasks on the surface, but all three return to the question of whether the problem we see now should be read immediately as lack of task rules, or whether a broad language base is weak before that. This common question is needed so the flow of reading P6-8.2, `why try to make that broad base large`, does not break.
 
 ## Scenes Where Learning Stages Split
 

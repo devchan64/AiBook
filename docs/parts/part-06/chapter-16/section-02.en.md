@@ -1,6 +1,6 @@
-# P6-16.2 Division of Work Between Automatic Evaluation and Human Evaluation
+# P6-17.2 Division of Work Between Automatic Evaluation and Human Evaluation
 
-> Section ID: `P6-16.2`
+> Section ID: `P6-17.2`
 > Version: `v2026.07.31`
 
 Record evaluation division of labor as `automatic_check`, `human_review`, `repeatable_rule`, `context_judgment`, `escalation_case`, and `review_note`. This distinction keeps automatic evaluation, which is strong at repeatable checks, and human evaluation, which is strong at contextual judgment, from looking like substitutes for each other.
@@ -226,7 +226,7 @@ The goal of the example is to see that automatic evaluation and human evaluation
 
 The example uses the English evaluation-routing candidate CSV [p6_16_2_eval_routing_cases_en.csv](/AiBook/assets/part-06/chapter-16/p6_16_2_eval_routing_cases_en.csv){ .csv-preview }. One row is one LLM output candidate that can appear in operation. `model_output` is the candidate answer, and `source_marker`, `required_action`, `format_marker`, `max_length`, and `banned_terms` are criteria the automatic grader checks repeatedly. The CSV does not contain prewritten human risk labels or answer labels.
 
-The automatic grader names continue from P6-16.1's evaluation axes. `source_marker_grader` maps to groundedness, `required_action_grader` maps to helpfulness, `format_grader` and `length_grader` map to format compliance, and `banned_terms_grader` maps to safety. This mapping also appears in the code's `GRADER_AXIS_MAP`.
+The automatic grader names continue from P6-17.1's evaluation axes. `source_marker_grader` maps to groundedness, `required_action_grader` maps to helpfulness, `format_grader` and `length_grader` map to format compliance, and `banned_terms_grader` maps to safety. This mapping also appears in the code's `GRADER_AXIS_MAP`.
 
 The output shows code-grader results for each candidate, optional LLM-as-a-judge results, human review packets, and a routing summary. The key point in the code is that it does not let code replace human evaluation. The code first checks repeatable surface criteria and then creates candidate sentences plus review questions for candidates that pass.
 
@@ -332,7 +332,7 @@ The more important point is that `filter many cases quickly` and `check importan
 
 This division matters because it:
 
-- extends P6-16.1's evaluation axes from `what to check` to `how to check`
+- extends P6-17.1's evaluation axes from `what to check` to `how to check`
 - turns evaluation from a score table into a reviewable operational process
 - connects the same output candidates to records and failure handling that can be reviewed repeatedly
 - sets criteria for later verification procedures

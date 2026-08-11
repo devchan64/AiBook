@@ -1,9 +1,9 @@
-# P6-12.2 Indexes That Trade Off Retrieval Speed and Candidate Quality
+# P6-13.2 Indexes That Trade Off Retrieval Speed and Candidate Quality
 
-> Section ID: `P6-12.2`
+> Section ID: `P6-13.2`
 > Version: `v2026.07.26`
 
-In P6-12.1, we saw that a vector database stores embedding vectors, source text, and metadata together and plays a practical storage role in retrieval. Now the question becomes more specific: why is quickly finding similar vectors difficult, and what do we give up or adjust?
+In P6-13.1, we saw that a vector database stores embedding vectors, source text, and metadata together and plays a practical storage role in retrieval. Now the question becomes more specific: why is quickly finding similar vectors difficult, and what do we give up or adjust?
 
 An index is a structure for improving retrieval speed, and in vector search it usually forces us to think about the balance between speed and accuracy.
 
@@ -17,7 +17,7 @@ The core questions are these.
 
 An index should be read as `a structure for approximate search`. First close how candidates are narrowed on top of the vector storage structure, at which balance of speed and quality. Then leave how non-retrieval functions expand inside a service as a separate execution-structure problem.
 
-Here we do not pass over an index as a simple internal technology name. We read it as `a structure that allows approximation to search faster`. If P6-12.1 asked which storage structure keeps candidates so they can be retrieved again, this Section asks at what speed and quality balance those candidates are narrowed. Whether document retrieval needs to move into actual lookup or execution continues in P6-13's tool-use section.
+Here we do not pass over an index as a simple internal technology name. We read it as `a structure that allows approximation to search faster`. If P6-13.1 asked which storage structure keeps candidates so they can be retrieved again, this Section asks at what speed and quality balance those candidates are narrowed. Whether document retrieval needs to move into actual lookup or execution continues in P6-13's tool-use section.
 
 ## Separating retrieval speed from candidate quality
 

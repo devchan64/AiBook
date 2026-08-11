@@ -1,6 +1,6 @@
-# P6-16.1 자연스러운 답과 품질 기준을 나누는 LLM 평가
+# P6-17.1 자연스러운 답과 품질 기준을 나누는 LLM 평가
 
-> Section ID: `P6-16.1`
+> Section ID: `P6-17.1`
 > Version: `v2026.07.31`
 
 LLM 평가 기록은 `answer_text`, `task_success`, `evidence_quality`, `format_quality`, `safety_issue`, `revision_need`를 분리합니다. 이렇게 해야 자연스러워 보이는 답과 실제 품질 기준을 같은 점수 하나로 덮지 않습니다.

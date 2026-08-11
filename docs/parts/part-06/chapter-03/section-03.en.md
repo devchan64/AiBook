@@ -18,8 +18,8 @@ Here, first hold onto `the problem of making a good representation space`. The p
 
 | Current focus | Question that follows | Where to read it broadly again |
 | --- | --- | --- |
-| Representation learning | What did it learn to place close? | P6-3.3, P6-6.1, P6-7.1 |
-| Fast candidate search | How can that representation space be narrowed faster? | P6-3.4, P6-12.1, P6-12.2 |
+| Representation learning | What did it learn to place close? | P6-3.3, P6-7.1, P6-8.1 |
+| Fast candidate search | How can that representation space be narrowed faster? | P6-3.4, P6-13.1, P6-13.2 |
 
 So the central question is `how embeddings learn to place similar things close`.
 

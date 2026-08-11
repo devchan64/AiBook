@@ -1,11 +1,11 @@
-# P6-11.2 RAG Flow That Separates Retrieval Failure from Generation Failure
+# P6-12.2 RAG Flow That Separates Retrieval Failure from Generation Failure
 
-> Section ID: `P6-11.2`
+> Section ID: `P6-12.2`
 > Version: `v2026.07.31`
 
 When looking at RAG failure, separate `retrieval_result`, `retrieval_gap`, `generation_input`, `generated_answer`, `failure_stage`, and `repair_action`. These fields let you fix a wrong retrieval candidate separately from a case where evidence existed but the answer was generated incorrectly.
 
-In P6-11.1, we saw that retrieval-augmented generation (RAG) attaches external evidence before answering. Now we need to see where that evidence sits in the actual input flow and how to split answer failures into different causes.
+In P6-12.1, we saw that retrieval-augmented generation (RAG) attaches external evidence before answering. Now we need to see where that evidence sits in the actual input flow and how to split answer failures into different causes.
 
 In RAG, retrieval results are not decorations appended after an answer. They are material placed into the model input context before generation. That means even when two answers look equally wrong, we need to separate `what was retrieved` from `how the retrieved material was rewritten`.
 
@@ -19,7 +19,7 @@ The first standards to settle in a retrieval-generation flow are these three.
 | Is adding more documents always better? | Relevance, order, and conflict management matter more than volume. |
 | When the answer is wrong, where should we inspect first? | Inspect retrieval failure and generation failure separately. |
 
-If the question in P6-11.1 was `why attach documents before answering`, the question here is `how the attached documents work between input context and final answer`. After that, P6-12 moves to the storage structures and indexes used to retrieve those documents again.
+If the question in P6-12.1 was `why attach documents before answering`, the question here is `how the attached documents work between input context and final answer`. After that, P6-12 moves to the storage structures and indexes used to retrieve those documents again.
 
 ## Where retrieval results are attached
 
@@ -35,7 +35,7 @@ In other words, the model does not receive `the question only`. It receives `the
 
 `RAG is a structure that keeps retrieval results outside the model, then attaches them to the input context immediately before answering.`
 
-The first record to keep is which documents were considered relevant enough to attach, which evidence sentences were selected, and whether the final answer exaggerates or leaves those documents. Those retrieval records and answer-inspection notes are what let us separate retrieval failure from generation failure. Later, the same records will be reread in P6-12.1 and P6-12.2 as retrieval-quality checks, in P6-16 as evaluation material, in P6-17 as operational judgment, and in Part 6 as retrieval logs and reflection notes.
+The first record to keep is which documents were considered relevant enough to attach, which evidence sentences were selected, and whether the final answer exaggerates or leaves those documents. Those retrieval records and answer-inspection notes are what let us separate retrieval failure from generation failure. Later, the same records will be reread in P6-13.1 and P6-13.2 as retrieval-quality checks, in P6-16 as evaluation material, in P6-17 as operational judgment, and in Part 6 as retrieval logs and reflection notes.
 
 ## Is adding more documents always better?
 
@@ -181,7 +181,7 @@ The first settings to change directly in this example are these.
 | `noisy_retrieval` | Retrieval conditions mixed with unrelated terms | Retrieval failure spreading into generation |
 | `clean_but_overclaim` | Retrieval is normal, but only generation condition is overclaiming | Generation failure |
 
-The key point to check in the code is that RAG failure should be split into cases where retrieval is wrong and cases where generation speaks beyond the document. Retrieval uses the same `TfidfVectorizer` flow as P6-11.1, while generation failure is captured separately when retrieval is right but the answer sentence is stronger than the evidence. The code focuses on the practice of keeping retrieval records and answer-inspection records separately, then deciding which stage record to revisit first.
+The key point to check in the code is that RAG failure should be split into cases where retrieval is wrong and cases where generation speaks beyond the document. Retrieval uses the same `TfidfVectorizer` flow as P6-12.1, while generation failure is captured separately when retrieval is right but the answer sentence is stronger than the evidence. The code focuses on the practice of keeping retrieval records and answer-inspection records separately, then deciding which stage record to revisit first.
 
 ```python
 # Example that records retrieval results and generated answers separately.

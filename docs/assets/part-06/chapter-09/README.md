@@ -20,12 +20,12 @@
   - `p6_9_3_solution_selection_chart.py`
   - `p6_9_4_lora_rank_ratio_chart.py`
 - CSV inputs:
-  - `p6_9_1_instruction_following_eval.csv`: P6-9.1 Python example input. Each row is one instruction-following evaluation case with observed response-structure signals for a base response and an instruction-tuned response.
-  - `p6_9_1_instruction_following_eval-en.csv`: P6-9.1 English Python example input. It mirrors the Korean evaluation cases with English instruction and observation text.
-  - `p6_9_1_instruction_following_eval-zh.csv`: P6-9.1 Chinese Python example input. It mirrors the Korean evaluation cases with Simplified Chinese instruction and observation text.
-  - `p6-9-1-instruction-response-log.csv`: P6-9.1 representative raw response log. Each row is one observed base or instruction-formatted response for checking where the evaluation signals came from.
-  - `p6-9-1-instruction-response-log-en.csv`: P6-9.1 English representative raw response log.
-  - `p6-9-1-instruction-response-log-zh.csv`: P6-9.1 Chinese representative raw response log.
-  - `p6-9-2-alignment-candidate-responses.csv`: P6-9.2 Python example and chart input. Each row is one task/question/response log case for comparing policy pass/fail and failure axes across helpfulness, safety, and factuality checks.
-  - `p6-9-2-alignment-candidate-responses-en.csv`: P6-9.2 English Python example input. It mirrors the Korean response log with English task questions and candidate responses for the translated manuscript.
-  - `p6-9-2-alignment-candidate-responses-zh.csv`: P6-9.2 Chinese Python example input. It mirrors the Korean response log with Simplified Chinese task questions and candidate responses for the translated manuscript.
+  - `p6_9_1_instruction_following_eval.csv`: P6-10.1 Python example input. Each row is one instruction-following evaluation case with observed response-structure signals for a base response and an instruction-tuned response.
+  - `p6_9_1_instruction_following_eval-en.csv`: P6-10.1 English Python example input. It mirrors the Korean evaluation cases with English instruction and observation text.
+  - `p6_9_1_instruction_following_eval-zh.csv`: P6-10.1 Chinese Python example input. It mirrors the Korean evaluation cases with Simplified Chinese instruction and observation text.
+  - `p6-9-1-instruction-response-log.csv`: P6-10.1 representative raw response log. Each row is one observed base or instruction-formatted response for checking where the evaluation signals came from.
+  - `p6-9-1-instruction-response-log-en.csv`: P6-10.1 English representative raw response log.
+  - `p6-9-1-instruction-response-log-zh.csv`: P6-10.1 Chinese representative raw response log.
+  - `p6-9-2-alignment-candidate-responses.csv`: P6-10.2 Python example and chart input. Each row is one task/question/response log case for comparing policy pass/fail and failure axes across helpfulness, safety, and factuality checks.
+  - `p6-9-2-alignment-candidate-responses-en.csv`: P6-10.2 English Python example input. It mirrors the Korean response log with English task questions and candidate responses for the translated manuscript.
+  - `p6-9-2-alignment-candidate-responses-zh.csv`: P6-10.2 Chinese Python example input. It mirrors the Korean response log with Simplified Chinese task questions and candidate responses for the translated manuscript.

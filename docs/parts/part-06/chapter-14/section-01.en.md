@@ -1,11 +1,11 @@
-# P6-14.1 Agents That Change the Next Task Based on Intermediate Results
+# P6-15.1 Agents That Change the Next Task Based on Intermediate Results
 
-> Section ID: `P6-14.1`
+> Section ID: `P6-15.1`
 > Version: `v2026.07.31`
 
 Record an AI agent flow by separating `goal`, `current_state`, `next_action`, `tool_result`, `observation`, and `updated_plan`. This record distinguishes single-answer generation from a goal-directed flow that changes the next action based on intermediate results.
 
-In P6-13.2, we saw that function calling represents tool use in a structured format. The question now grows larger. What should we call a workflow when tool calls do not end with one call, but must continue across several steps?
+In P6-14.2, we saw that function calling represents tool use in a structured format. The question now grows larger. What should we call a workflow when tool calls do not end with one call, but must continue across several steps?
 
 An AI agent is a work structure that receives a goal, continues the necessary subtasks, and creates a result by repeating tool use and observation.
 
@@ -13,9 +13,9 @@ An AI agent is a work structure that receives a goal, continues the necessary su
 
 The issue to settle when understanding agents is distinguishing `an execution structure that carries a goal across several steps` from a single tool call. If the previous chapter's tool use asked `what should we look up or execute once`, an AI agent asks how to connect several tool calls and document-reading results in order, and when to stop or try again.
 
-So it is safer to read an agent not as a broad product name, but as `a goal flow whose next action changes after seeing intermediate results`. If P6-13.2's function calling was about passing one execution request in a verifiable structure, an AI agent is about the order of several calls and reads, and about state management. P6-14.2 looks more closely at how the loop actually moves through planning, action, and observation.
+So it is safer to read an agent not as a broad product name, but as `a goal flow whose next action changes after seeing intermediate results`. If P6-14.2's function calling was about passing one execution request in a verifiable structure, an AI agent is about the order of several calls and reads, and about state management. P6-15.2 looks more closely at how the loop actually moves through planning, action, and observation.
 
-The records to keep here are the step plan, intermediate observation notes, and next step. These records let us later reread why the next action changed and where a flow-level failure occurred. The next P6-14.2 section looks more concretely at where to stop and hand work over for human review.
+The records to keep here are the step plan, intermediate observation notes, and next step. These records let us later reread why the next action changed and where a flow-level failure occurred. The next P6-15.2 section looks more concretely at where to stop and hand work over for human review.
 
 ## Scenes that should be read as AI agent workflows
 
@@ -205,7 +205,7 @@ The easiest thing to miss when first reading agents is calling a system an agent
 
 The first question is simple. If something looks like a one-time answer that searches and ends, check whether a next choice really appears after the intermediate result. If several tools are used but the order is always fixed, check whether the order or next stage changes based on observation. When a failure occurs, check whether the system pushes the same order forward or changes to a different behavior such as searching again or retrying.
 
-The criterion to learn first is not `is this a system with many tools`, but `does the intermediate observation change the next-action choice`. P6-14.2 looks more closely at detailed criteria for stopping and human review along with the plan-action-observation loop.
+The criterion to learn first is not `is this a system with many tools`, but `does the intermediate observation change the next-action choice`. P6-15.2 looks more closely at detailed criteria for stopping and human review along with the plan-action-observation loop.
 
 Seen again as a workflow structure, the same idea can be read like this.
 
@@ -447,7 +447,7 @@ Readers can try these adjustments in the example.
 - Change `sources_attached` to `true` and see whether a case that no longer needs more work settles as `finish`.
 - Change `AIBOOK_OLLAMA_MODEL` and see how the gap between model proposal and guard correction changes.
 
-One more separation helps here. What the agent tries to solve directly is next-action choice and order adjustment. But how each call is represented, how permission boundaries are recorded, and how execution traces are left remain separate-level problems. Call-format validation was covered in P6-13.2, shared connection rules continue in P6-15.1, and execution records and reproducibility become more concrete in P6-15.2.
+One more separation helps here. What the agent tries to solve directly is next-action choice and order adjustment. But how each call is represented, how permission boundaries are recorded, and how execution traces are left remain separate-level problems. Call-format validation was covered in P6-14.2, shared connection rules continue in P6-16.1, and execution records and reproducibility become more concrete in P6-16.2.
 
 ## Next actions made by observation signals
 
@@ -467,9 +467,9 @@ The more important point is that `answering well once` and `continuing work whil
 
 This execution flow matters because it:
 
-- places the immediately previous P6-13.1 tool use and P6-13.2 function calling inside `an execution structure that connects several steps`, not only `one call`
-- prepares us to understand the plan, action, and observation loop of P6-14.2
-- prepares us to see why P6-15.1 MCP, P6-15.2 harnesses, and P6-16.1 evaluation must be considered together
+- places the immediately previous P6-14.1 tool use and P6-14.2 function calling inside `an execution structure that connects several steps`, not only `one call`
+- prepares us to understand the plan, action, and observation loop of P6-15.2
+- prepares us to see why P6-16.1 MCP, P6-16.2 harnesses, and P6-17.1 evaluation must be considered together
 
 ## Checklist
 

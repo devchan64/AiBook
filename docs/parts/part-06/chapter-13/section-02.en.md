@@ -1,11 +1,11 @@
-# P6-13.2 Function Calling That Splits Natural-Language Requests into Names and Arguments
+# P6-14.2 Function Calling That Splits Natural-Language Requests into Names and Arguments
 
-> Section ID: `P6-13.2`
+> Section ID: `P6-14.2`
 > Version: `v2026.07.31`
 
 When reading a function call, write `natural_language_request`, `function_name`, `arguments`, `schema_validation`, `execution_result`, and `response_use` separately. Then you can trace which name and arguments the natural-language request became, and how the result was used again in the answer.
 
-In P6-13.1, we saw that tool use connects the model with external functions. That leads to a more specific question.
+In P6-14.1, we saw that tool use connects the model with external functions. That leads to a more specific question.
 
 In what format does a system exchange the judgment that a tool should be used?
 

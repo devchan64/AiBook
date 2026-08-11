@@ -6,4 +6,4 @@
 - Why it matters: Sampling explains why the same input can produce different generated outputs, and why probability calculation and actual output selection must be separated. It also shows why generation quality is not determined only by model weights; the final choice procedure and settings such as temperature or top-k can strongly affect the result. Understanding sampling helps separate `what the model has made plausible` from `what was actually selected`.
 - Related concepts: `next-token prediction`, `token`, `diffusion model`
 - Core Section: `P5-15.3`
-- Appears in: `P1-5.2`, `P1-10.2`, `P5-15.1`, `P5-15.2`, `P6-1.3`, `P6-4.1`, `P6-6.1`, `P6-6.2`
+- Appears in: `P1-5.2`, `P1-10.2`, `P5-15.1`, `P5-15.2`, `P6-1.3`, `P6-4.1`, `P6-7.1`, `P6-7.2`

@@ -1,9 +1,9 @@
-# P6-12.1 Vector Databases That Store Embeddings, Source Text, and Metadata Together
+# P6-13.1 Vector Databases That Store Embeddings, Source Text, and Metadata Together
 
-> Section ID: `P6-12.1`
+> Section ID: `P6-13.1`
 > Version: `v2026.07.26`
 
-In P6-11.2, we saw that retrieval results are attached to the input context before generation. Now the question moves to what storage structure that retrieval actually runs on.
+In P6-12.2, we saw that retrieval results are attached to the input context before generation. Now the question moves to what storage structure that retrieval actually runs on.
 
 A vector database is a system that stores embedding vectors together with the source text and metadata connected to them, and helps find similar vectors quickly.
 
@@ -17,11 +17,11 @@ The core questions are these.
 
 The first issue to close is `why embeddings, source text, and metadata are stored together, not only text`. A vector database is not `a new kind of magic storage`. It is a RAG retrieval storage structure that handles embeddings, source text, and metadata together so retrieved documents can be reused before generation.
 
-If P6-11.2 looked at where retrieved documents are attached before answering, this Section looks at what storage structure makes those documents retrievable. Then P6-12.2 looks at which indexes and retrieval-quality standards narrow the stored candidates. Actual lookup or execution beyond document retrieval is handled later in the tool-use sections.
+If P6-12.2 looked at where retrieved documents are attached before answering, this Section looks at what storage structure makes those documents retrievable. Then P6-13.2 looks at which indexes and retrieval-quality standards narrow the stored candidates. Actual lookup or execution beyond document retrieval is handled later in the tool-use sections.
 
 ## Separating vector, source text, and metadata storage
 
-To understand a vector database, we need to separate the stored values. An embedding is a numeric representation for finding similar documents. A document chunk is the source text the generation stage will actually reread. Metadata is information such as source, version, date, and category, used to choose and verify candidates. These three need to be read together to understand why ordinary keyword search is not enough in RAG, and why P6-12.2 continues into indexes and retrieval quality.
+To understand a vector database, we need to separate the stored values. An embedding is a numeric representation for finding similar documents. A document chunk is the source text the generation stage will actually reread. Metadata is information such as source, version, date, and category, used to choose and verify candidates. These three need to be read together to understand why ordinary keyword search is not enough in RAG, and why P6-13.2 continues into indexes and retrieval quality.
 
 The first scenes to separate can be summarized like this.
 
@@ -407,20 +407,20 @@ Embeddings and vector search mattered before LLMs as well. But as generative AI 
 This storage layer matters because it:
 
 - connects embeddings from an abstract mathematical concept to a service storage structure
-- prepares us to read P6-12.2's index and retrieval-quality problem
-- ties the preceding P6-11.1 and P6-11.2 RAG flow back to an actual storage layer
+- prepares us to read P6-13.2's index and retrieval-quality problem
+- ties the preceding P6-12.1 and P6-12.2 RAG flow back to an actual storage layer
 
 The view established here continues into the next sections.
 
-- P6-12.2 indexes and retrieval quality: a standard for reading retrieval speed and candidate quality together
-- P6-13.1 tool use and P6-14.1 AI agent structure: a standard for seeing where retrieval-based functions sit inside the whole system
-- P6-16.1 LLM evaluation, P6-17.1 service-operation constraints, and P6-18.1 tying small generative AI features into one flow: a reusable standard for moving retrieval-based and tool-connected functions into actual design and operation judgment
+- P6-13.2 indexes and retrieval quality: a standard for reading retrieval speed and candidate quality together
+- P6-14.1 tool use and P6-15.1 AI agent structure: a standard for seeing where retrieval-based functions sit inside the whole system
+- P6-17.1 LLM evaluation, P6-18.1 service-operation constraints, and P6-19.1 tying small generative AI features into one flow: a reusable standard for moving retrieval-based and tool-connected functions into actual design and operation judgment
 
 ## Checklist
 
 - You should be able to explain a vector database not as `storage that contains only vectors`, but as `a retrieval storage structure that handles embeddings, source text, and metadata together`.
 - You should be able to explain why string search and semantic search differ and why they need to be separated.
-- You should be ready to read P6-12.2 not as an explanation of storage itself, but as the problem of `how quickly and accurately to explore stored candidates`.
+- You should be ready to read P6-13.2 not as an explanation of storage itself, but as the problem of `how quickly and accurately to explore stored candidates`.
 
 ## Sources and references
 

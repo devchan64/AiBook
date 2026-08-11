@@ -28,7 +28,7 @@ What matters more than unfolding Transformer formulas again is the `LLM-oriented
 | Whether tokens, embeddings, attention blocks, and next-token scores form one flow | How far the context window can hold input |
 | That the Transformer is the basic computation engine of LLMs | What GPT-family branching, pretraining, and operating-cost constraints each change |
 
-This section's role in the main request flow of Part 6 is to show through what computation engine input tokens pass before becoming next-candidate scores. This flow must be fixed so P6-5.1's GPT family, P6-6.1's next-token prediction, and later explanations of context windows, prompts, and RAG can be read on the same structure.
+This section's role in the main request flow of Part 6 is to show through what computation engine input tokens pass before becoming next-candidate scores. This flow must be fixed so P6-5.1's GPT family, P6-7.1's next-token prediction, and later explanations of context windows, prompts, and RAG can be read on the same structure.
 
 The result to check here is whether you can read the Transformer not as `a device that guesses the next token once`, but as the central engine that reflects the whole context and updates the next-candidate distribution. This distinction lets the deep-learning structure explanation of Part 5 connect naturally to the generative-model structure of Part 6.
 

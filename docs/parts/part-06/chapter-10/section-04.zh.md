@@ -1,11 +1,11 @@
-# P6-10.4 补充学习：提示候选的反复改进
+# P6-11.4 补充学习：提示候选的反复改进
 
-> Section ID: `P6-10.4`
+> Section ID: `P6-11.4`
 > Version: `v2026.07.26`
 
 _副标题：automatic prompt optimization 如何评价提示实验，并把结果交给下一个候选_
 
-在 P6-10.3 中，我们把 CoT 和 self-consistency 看作观察或比较回答路径的策略。现在方向稍有不同。automatic prompt optimization 更接近于讨论提示候选本身：怎样评价它们，又怎样反复改进它们。
+在 P6-11.3 中，我们把 CoT 和 self-consistency 看作观察或比较回答路径的策略。现在方向稍有不同。automatic prompt optimization 更接近于讨论提示候选本身：怎样评价它们，又怎样反复改进它们。
 
 automatic prompt optimization 是一种尝试用评价标准和迭代循环，把人手动一点点修改提示的工作变得更系统的做法。重要的不是“自动”这个词，而是在多个输入上比较提示候选，并根据结果选择下一个候选的结构。
 

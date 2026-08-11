@@ -1,6 +1,6 @@
-# P6-19.1 Reading LLM History as a Flow of Limits and Structural Shifts
+# P6-20.1 Reading LLM History as a Flow of Limits and Structural Shifts
 
-> Section ID: `P6-19.1`
+> Section ID: `P6-20.1`
 > Version: `v2026.07.26`
 
 A common misunderstanding when trying to understand today's LLMs(large language models) is to see them only as `huge models that suddenly appeared`. In reality, today's generative experience was made by the overlap of language models, embeddings, sequence models, attention, Transformers, and large-scale pretraining.
@@ -242,10 +242,10 @@ After seeing the whole flow, it also becomes clearer that you do not need to rem
 
 | What is enough to keep now | Where to revisit it in the main flow |
 | --- | --- |
-| Language modeling began from the problem of `predicting the next expression` | P6-6.1 Next token prediction |
+| Language modeling began from the problem of `predicting the next expression` | P6-7.1 Next token prediction |
 | Embedding was the shift from symbols to computable vectors | P6-3.1 Embeddings that turn token IDs into comparable coordinates |
 | Attention and Transformer were structural turning points | P6-4.1 How Transformer leads to next-candidate scores in LLMs |
-| Pretraining changed how models are used | P6-7.1 Pretraining |
+| Pretraining changed how models are used | P6-8.1 Pretraining |
 
 The more important question is not `can you memorize the whole history at length?`, but `can you explain why the main flow was arranged in that order?`
 

@@ -1,6 +1,6 @@
-# P6-16.1 LLM Evaluation That Separates Natural Answers from Quality Criteria
+# P6-17.1 LLM Evaluation That Separates Natural Answers from Quality Criteria
 
-> Section ID: `P6-16.1`
+> Section ID: `P6-17.1`
 > Version: `v2026.07.31`
 
 Separate LLM evaluation records into `answer_text`, `task_success`, `evidence_quality`, `format_quality`, `safety_issue`, and `revision_need`. This prevents a natural-looking answer and the actual quality criteria from being covered by a single score.
@@ -237,7 +237,7 @@ If we move directly to `which axis failed first`, the answer can be read more br
 
 The key point is separating `looks good` from `which axis must be fixed first`. That makes it possible to label the same answer as a content error, evidence mismatch, format miss, usefulness gap, or safety problem.
 
-The criterion to learn first is simple. Evaluation is not `choosing a good-looking answer`. It is the work of separating correctness, helpfulness, safety, groundedness, and format compliance, then deciding which axis to fix first. Execution-path cost, retries, and fallback paths are operational constraints and are handled later in P6-17.
+The criterion to learn first is simple. Evaluation is not `choosing a good-looking answer`. It is the work of separating correctness, helpfulness, safety, groundedness, and format compliance, then deciding which axis to fix first. Execution-path cost, retries, and fallback paths are operational constraints and are handled later in P6-18.
 
 ## Practice and example
 
