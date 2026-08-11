@@ -193,10 +193,10 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_right-gymnastics-leap", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_stag_leap", "Perform a controlled stag leap toward image right with one knee bent forward, the other leg extended behind, and both arms lifted for balance.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-gymnastics-floor-pose", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_floor_presentation", "Hold a kneeling floor-gymnastics presentation toward image left with one knee on the floor, the other foot planted, and both arms in a clean open line.",
+            "sport-front_quarter_left-vertical-jump", "front_quarter_left", "basic", "gymnastics_floor", "empty training floor under even light", "vertical_jump", "Athletic vertical jump toward image left, arms raised, knees softly bent, both white sneakers visible.",
         ),
         CandidateSpec(
-            "sport-rear-gymnastics-finish", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_finish_rear", "Hold a standing floor-gymnastics finish from the rear with both arms raised and feet apart in a back-of-head view.",
+            "sport-rear-gymnastics-step-turn", "rear", "basic", "gymnastics_floor", "empty training floor under even light", "gymnastics_step_turn_rear", "Rear-view gymnastics step turn, feet staggered, one heel lifted, arms relaxed, both white sneakers visible.",
         ),
     )
     return sports_specs + extension_specs
