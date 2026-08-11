@@ -59,6 +59,10 @@ STYLE_REFERENCE_BY_SCENE = {
     "tennis_court": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
     "running_track": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
     "soccer_field": ROOT / "p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png",
+    "volleyball_court": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+    "breaking_floor": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
+    "fencing_piste": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+    "athletics_runway": ROOT / "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
 }
 BASE_OUTFIT = "charcoal-gray cropped crew-neck top, narrow bare-midriff gap, deep teal wide-leg trousers, and white low-top sneakers"
 REFINED_OUTFIT = (
@@ -78,6 +82,7 @@ class CandidateSpec:
     scene_rule: str
     pose_family: str
     pose_rule: str
+    include_view_prompt: bool = True
 
 
 def build_specs() -> tuple[CandidateSpec, ...]:
@@ -101,22 +106,22 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-rear-track-run", "rear", "basic", "running_track", "empty outdoor running track under clear daytime light", "rear_track_run", "Rear running mid-stride: one foot lifted, the other planted, with strong opposite-arm drive.",
         ),
         CandidateSpec(
-            "sport-front-boxing-guard", "front", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_guard", "Hold a balanced boxing guard with both fists raised at cheek height, bent knees, and both feet apart and separately visible.",
+            "sport-front_quarter_left-gymnastics-landing", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "controlled_gymnastics_landing", "Controlled gymnastics landing: knees softly bent, arms raised in a V.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-boxing-jab", "front_quarter_left", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_jab", "Throw one straight boxing jab toward image left while the other fist guards the face; show two arms, two hands, and two separate feet.",
+            "sport-front_quarter_left-boxing-jab", "front_quarter_left", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "low_orthodox_boxing_jab", "Low orthodox boxing stance: both hands clenched into fists; throw one straight jab toward image left while the raised guard fist covers the face.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-boxing-hook", "front_quarter_right", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "boxing_hook", "Throw one compact boxing hook toward image right while the other fist guards the face; keep a planted athletic stance with two separate feet.",
+            "sport-front_quarter_right-volleyball-set", "front_quarter_right", "basic", "volleyball_court", "empty indoor volleyball court under even light", "high_angle_volleyball_set", "High-angle view: raise both hands to set one volleyball overhead in a low athletic stance.", include_view_prompt=False,
         ),
         CandidateSpec(
-            "sport-profile_left-wrestling-stance", "profile_left", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_stance", "Hold a low solo wrestling ready stance toward image left with bent knees, a flat back, and both open hands in front.",
+            "sport-profile_left-breaking-floor-pose", "profile_left", "basic", "breaking_floor", "empty breaking floor under even light", "high_angle_breaking_floor_pose", "High-angle view: hold a low breaking floor pose, one hand supporting and legs extended.", include_view_prompt=False,
         ),
         CandidateSpec(
             "sport-profile_right-wrestling-shot", "profile_right", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_shot", "Practice a solo double-leg wrestling shot toward image right: one knee deeply bent, torso low, both arms reaching forward.",
         ),
         CandidateSpec(
-            "sport-rear-wrestling-sprawl", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_sprawl", "Hold a solo wrestling sprawl from the rear with legs extended back and hands braced forward in a back-of-head view.",
+            "sport-front_quarter_right-long-jump", "front_quarter_right", "basic", "athletics_runway", "empty athletics runway under even light", "long_jump_takeoff", "Long-jump takeoff: raised knee, trailing leg, balanced proportions.",
         ),
         CandidateSpec(
             "sport-front-gymnastics-landing", "front", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_landing", "Hold a controlled floor-gymnastics landing: feet apart, knees softly bent, arms raised in a V, and both hands and shoes visible.",
@@ -231,8 +236,9 @@ def body_reference(spec: CandidateSpec) -> Path:
 
 
 def build_prompt(spec: CandidateSpec) -> str:
+    view_clause = f"{VIEW_RULES[spec.view]}, " if spec.include_view_prompt else ""
     return (
-        f"Full-body woman, {VIEW_RULES[spec.view]}, isolated on a plain off-white background. Webtoon watercolor. "
+        f"Full-body woman, {view_clause}isolated on a plain off-white background. Webtoon watercolor. "
         f"{CHARACTER_IDENTITY_CONTRACT['lora_eye_identity_description']} "
         f"{CHARACTER_IDENTITY_CONTRACT['lora_hair_identity_description']} "
         f"{CHARACTER_IDENTITY_CONTRACT['lora_fullbody_proportion_description']} "

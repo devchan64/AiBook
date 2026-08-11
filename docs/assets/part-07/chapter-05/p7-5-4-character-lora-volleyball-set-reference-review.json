@@ -1,0 +1,35 @@
+{
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    1024,
+    1024
+  ],
+  "candidate_id": "sport-front_quarter_right-volleyball-set",
+  "view": "front_quarter_right",
+  "outfit_variant": "basic",
+  "scene_id": "volleyball_court",
+  "scene_rule": "empty indoor volleyball court under even light",
+  "pose_family": "high_angle_volleyball_set",
+  "pose_rule": "High-angle view: raise both hands to set one volleyball overhead in a low athletic stance.",
+  "include_view_prompt": false,
+  "seed": 62294,
+  "steps": 6,
+  "face_reference": "p7-5-2-face-front-quarter-right-reference.png",
+  "character_identity_contract": "p7-5-2-character-identity-contract.json",
+  "body_reference": "p7-5-2-fullbody-front-quarter-right-reference.png",
+  "style_reference": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+  "prompt": "Full-body woman, isolated on a plain off-white background. Webtoon watercolor. Both eyes have orange-amber irises. Jaw-length bob haircut. Eight-head adult, high waist, long legs. High-angle view: raise both hands to set one volleyball overhead in a low athletic stance. Natural anatomy.",
+  "prompt_word_count": 41,
+  "status": "approved_for_character_lora_candidate_pool",
+  "output": "p7-5-4-character-lora-volleyball-set-reference.png",
+  "review": "p7-5-4-character-lora-volleyball-set-reference-review.json",
+  "elapsed_seconds": 40.13,
+  "hard_fail_conditions": [
+    "The figure does not show exactly two arms, two hands, two legs, and two feet.",
+    "Any limb, hand, or foot is extra, missing, fused, duplicated, or cropped.",
+    "Any visible hand does not show five separate fingers including the thumb.",
+    "The rendering style does not match the approved P7-5.1 restrained-webtoon watercolor style contract.",
+    "The visible face does not match the shared face-identity contract, including its chestnut-brown and orange-amber iris rule."
+  ],
+  "decision": "Human approved for the style-conditioned character-LoRA candidate pool; add to a training manifest only after set-level review."
+}
