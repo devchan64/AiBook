@@ -181,13 +181,13 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-rear-wrestling-bridge", "rear", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_bridge", "Hold a solo wrestling bridge from the rear with shoulders and feet grounded, hips raised, and both arms visible for balance in a back-of-head view.",
         ),
         CandidateSpec(
-            "sport-front-gymnastics-handstand", "front", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_handstand", "Hold a straight floor-gymnastics handstand facing the camera with both hands on the floor, both legs together overhead, and both shoes visible.",
+            "sport-front-gymnastics-squat", "front", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "gymnastics_squat", "Gymnastics deep squat, arms forward, both white sneakers visible.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-gymnastics-roundoff", "front_quarter_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_roundoff", "Perform a controlled floor-gymnastics roundoff toward image right with both hands approaching the floor and both legs clearly separated through the motion.",
+            "sport-front_quarter_right-judo-ready", "front_quarter_right", "basic", "wrestling_mat", "empty judo mat under even light", "judo_ready", "Judo ready stance, feet apart, knees softly bent, hands loose at the waist, both white sneakers visible.",
         ),
         CandidateSpec(
-            "sport-profile_left-gymnastics-balance", "profile_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_scale_balance", "Hold a floor-gymnastics scale balance toward image left: one supporting leg, the other extended behind, torso forward, and both arms extended for balance.",
+            "sport-profile_left-athletic-side-lunge", "profile_left", "basic", "wrestling_mat", "empty training mat under even light", "athletic_side_lunge", "Athletic side lunge toward image left, both feet grounded, knees bent, hands resting at the thighs, both white sneakers visible.",
         ),
         CandidateSpec(
             "sport-profile_right-gymnastics-leap", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_stag_leap", "Perform a controlled stag leap toward image right with one knee bent forward, the other leg extended behind, and both arms lifted for balance.",
