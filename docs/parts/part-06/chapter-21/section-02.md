@@ -1,7 +1,7 @@
 # P6-21.2 로컬 실행 환경과 메모리 배치
 
 > Section ID: `P6-21.2`
-> Version: `v2026.08.10`
+> Version: `v2026.08.11`
 
 오픈웨이트 모델을 직접 실행한다는 말은 모델 파일을 내려받는다는 뜻에서 끝나지 않습니다. 사용자는 모델을 어느 장치에 올릴지, 어떤 숫자 표현으로 읽을지, 한 번에 얼마나 긴 입력을 처리할지, 부족한 메모리를 어떤 방식으로 나눌지까지 함께 결정해야 합니다. 이 절의 질문은 **오픈웨이트 모델을 로컬이나 직접 관리 환경에서 실행할 때, GPU VRAM·CPU RAM·dtype·양자화·[CPU offloading](../../../reference/concept-glossary-parts/08-ieung.md#cpu-offloading)을 어떻게 구분해 읽어야 하는가**입니다.
 
@@ -58,11 +58,11 @@ P7-5.1~P7-5.4처럼 Diffusers pipeline을 쓰는 경우에는 다음 순서를 �
 2. ControlNet, IP-Adapter처럼 pipeline에 포함할 추가 구성요소를 모두 연결하고, 필요한 VAE·attention 메모리 설정을 합니다.
 3. VRAM이 특히 부족할 때만 `enable_sequential_cpu_offload()`를 **한 번** 호출합니다. 이 호출은 `Accelerate`를 이용해 module의 가중치를 CPU에 두고, 실제 forward 시 필요한 작은 단위만 GPU에 올립니다.
 4. 이 방식을 쓸 때는 그 전에 `pipe.to("cuda")`로 pipeline 전체를 GPU에 올리지 않습니다. 먼저 GPU로 옮기면 순차 offload의 메모리 절감 효과가 거의 없어집니다. 호출 뒤에도 전체 pipeline을 다시 `.to("cuda")`로 옮기지 않습니다.
-5. 같은 pipeline에서 model CPU offload와 sequential CPU offload를 겹쳐 켜지 않습니다. 속도를 우선하면 전자를, VRAM 절감을 우선하면 후자를 하나만 선택해 다시 실행합니다. `device_map`으로 배치한 pipeline은 먼저 `reset_device_map()`으로 배치를 해제한 뒤 이 선택을 적용합니다.
+5. 학습 기록에서는 model CPU offload와 sequential CPU offload 가운데 하나를 선택해 실행합니다. 속도를 우선하면 전자를, VRAM 절감을 우선하면 후자를 선택해 조건을 비교합니다. `device_map`으로 배치한 pipeline은 먼저 `reset_device_map()`으로 배치를 해제한 뒤 이 선택을 적용합니다.
 
 예를 들어 P7-5.1~P7-5.3의 FLUX 실행은 가중치를 읽은 뒤 순차 offload를 켜고 한 장면씩 생성합니다. P7-5.4의 SDXL 비교는 ControlNet과 IP-Adapter를 먼저 연결한 뒤 순차 offload를 켭니다. 이렇게 해야 offload hook이 실제 실행에 쓰일 전체 pipeline을 대상으로 동작합니다. 다만 모델마다 지원 구성요소와 호환성이 다르므로, 호출이 성공했다는 사실만으로 모든 adapter 조합이 같은 방식으로 작동한다고 단정하지 않습니다.
 
-행별 생성 뒤에 보이는 `torch.cuda.empty_cache()`도 구별해야 합니다. 이것은 이미 비어 있는 PyTorch 캐시를 반환해 단편화를 완화할 수 있는 호출일 뿐, 현재 pipeline의 가중치나 활성 tensor를 CPU로 옮기지 않습니다. 그러므로 offload 방식이나 VRAM 절감의 증거로 기록하지 말고, 행 사이 캐시 정리 여부로 따로 남깁니다.
+행별 생성 뒤에 보이는 `torch.cuda.empty_cache()`도 구별해야 합니다. 이것은 사용하지 않는 PyTorch 캐시 메모리를 GPU의 다른 응용 프로그램이 쓸 수 있게 반환하는 호출일 뿐, 현재 pipeline의 가중치나 활성 tensor를 CPU로 옮기지 않습니다. 그러므로 offload 방식이나 VRAM 절감의 증거로 기록하지 말고, 행 사이 캐시 정리 여부로 따로 남깁니다.
 
 ## 실행 가능성 gate와 품질 gate를 분리한다
 
@@ -75,6 +75,18 @@ P7-5.1~P7-5.4처럼 Diffusers pipeline을 쓰는 경우에는 다음 순서를 �
 | 운용 gate | 반복 실행 가능한 부담인가? | 평균 지연, 처리량, CPU RAM 사용량, 저장공간, 재시도 비용 |
 
 이 구분이 있어야 다음 행동도 정확해집니다. OOM이면 메모리 배치나 입력 규모를 줄여야 하고, 출력 품질이 틀리면 prompt, 참조 입력, 모델 선택, 평가 기준을 다시 봐야 합니다. 느리지만 품질은 맞는 경우에는 배치, 캐시, 더 빠른 런타임, 더 작은 모델을 검토해야 합니다.
+
+## 실패 신호로 다음 선택을 정한다
+
+한 번의 실행에서 오류나 느린 결과를 보았을 때, 모든 설정을 동시에 바꾸면 무엇이 효과가 있었는지 알 수 없습니다. 아래처럼 실패 신호 하나를 먼저 고르고, 다음 실행에서 바꿀 축 하나를 정해 기록합니다.
+
+| 관찰한 신호 | 먼저 바꿀 축 | 그대로 두고 확인할 것 |
+| --- | --- | --- |
+| 적재·생성 중 GPU OOM | 입력 규모 축소, 양자화, offload 방식 중 하나 | 모델 ID, 품질 기준, 이전 실행 시간 |
+| 실행은 끝나지만 지나치게 느림 | offload 단위, 더 작은 모델, 입력 규모 중 하나 | 출력 품질, 장치 구성, 동일 입력 |
+| 실행은 되지만 출력 품질이 기준 미달 | 모델·프롬프트·참조 입력·평가 기준 중 하나 | 메모리 배치와 실행 성공 여부 |
+
+이렇게 하면 `실행되지 않음`, `느림`, `품질 미달`을 같은 실패로 묶지 않는다. 다음 trial에는 바꾼 값 하나와 그대로 둔 조건을 함께 남겨야 실행 환경의 절충을 비교할 수 있다.
 
 ## 기록 양식
 
@@ -127,6 +139,7 @@ Part 7의 현재 모델 실행 실습은 이 절의 개념을 실제 기록으�
 - dtype, 양자화, CPU offloading을 서로 다른 층위로 설명할 수 있는가?
 - 모델이 실행된 사실과 출력이 품질 기준을 만족한 사실을 따로 기록했는가?
 - GPU VRAM 부족, CPU RAM 병목, 느린 실행, 품질 실패를 같은 실패로 묶지 않았는가?
+- 관찰한 실패 신호에 따라 다음 trial에서 바꿀 축 하나를 정하고, 나머지 조건을 기록했는가?
 - offload 방식을 썼다면 어떤 단위로 CPU와 GPU 사이를 이동시키는지 설명할 수 있는가?
 - 순차 CPU offload를 쓴다면, 추가 구성요소를 연결한 뒤 한 번만 설정하고 pipeline 전체를 `cuda`로 옮기지 않았는가?
 - `torch.cuda.empty_cache()`와 CPU offloading을 서로 다른 메모리 운용으로 기록했는가?
@@ -134,7 +147,7 @@ Part 7의 현재 모델 실행 실습은 이 절의 개념을 실제 기록으�
 
 ## 출처와 참고 자료
 
-- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10.
-- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10.
-- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10.
-- PyTorch, [torch.cuda.memory.empty_cache](https://docs.pytorch.org/docs/main/generated/torch.cuda.memory.empty_cache.html){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-10.
+- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- PyTorch, [torch.cuda.memory.empty_cache](https://docs.pytorch.org/docs/main/generated/torch.cuda.memory.empty_cache.html){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.

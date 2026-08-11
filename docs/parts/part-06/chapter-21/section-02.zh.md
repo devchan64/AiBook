@@ -1,7 +1,7 @@
 # P6-21.2 本地执行环境与内存放置
 
 > Section ID: `P6-21.2`
-> Version: `v2026.08.10`
+> Version: `v2026.08.11`
 
 直接运行开放权重模型，并不只是把模型文件下载下来。使用者还必须决定模型要放在哪个设备上、用哪种数值表示来读取、一次处理多长的输入，以及在内存不足时怎样分配各部分。这一节的问题是：**在本地或直接管理的环境中运行开放权重模型时，怎样区分 GPU VRAM、CPU RAM、dtype、量化，以及 [CPU offloading](../../../reference/concept-glossary-pinyin/c.zh.md#cpu-offloading)**。
 
@@ -58,11 +58,11 @@ sequential CPU offload 能节省较多内存，但可能较慢。它会在 pipel
 2. 连接 ControlNet、IP-Adapter 等属于该 pipeline 的全部附加组件，并设置所需的 VAE 或 attention 内存选项。
 3. 只有在 VRAM 特别紧张时，才**一次**调用 `enable_sequential_cpu_offload()`。该调用借助 `Accelerate` 将 module 权重留在 CPU，只在实际 forward 时把所需的小单元放到 GPU。
 4. 不要先用 `pipe.to("cuda")` 把整个 pipeline 放到 GPU。这样会让顺序 offload 的内存节省效果变得很小。调用之后也不要再用 `.to("cuda")` 移动整个 pipeline。
-5. 不要在同一个 pipeline 上同时启用 model CPU offload 和 sequential CPU offload。重新运行时只选一个：更重视速度时选前者，更重视节省 VRAM 时选后者。若 pipeline 已通过 `device_map` 放置，先用 `reset_device_map()` 清除该放置，再作此选择。
+5. 在学习记录中，model CPU offload 和 sequential CPU offload 选择其中一种执行。优先速度时选择前者，优先节省 VRAM 时选择后者，再比较执行条件。若 pipeline 已通过 `device_map` 放置，先用 `reset_device_map()` 清除该放置，再作此选择。
 
 例如，P7-5.1~P7-5.3 的 FLUX 运行会在加载权重后开启顺序 offload，并一次生成一个场景。P7-5.4 的 SDXL 比较会先连接 ControlNet 和 IP-Adapter，再开启顺序 offload。这样 offload hook 才能覆盖实际运行的完整 pipeline。不过，各模型支持的组件和兼容性不同；一次调用成功，并不说明所有 adapter 组合都会以相同方式工作。
 
-逐行生成后出现的 `torch.cuda.empty_cache()` 也要分开理解。它只释放已经空闲的 PyTorch 缓存，可能缓解碎片化；不会把正在使用的 pipeline 权重或 tensor 移到 CPU。因此应把它记录为行之间的缓存清理，而不是 offload 方式或 VRAM 节省的证据。
+逐行生成后出现的 `torch.cuda.empty_cache()` 也要分开理解。它只释放未使用的 PyTorch 缓存内存，让其他 GPU 应用可以使用；不会把正在使用的 pipeline 权重或 tensor 移到 CPU。因此应把它记录为行之间的缓存清理，而不是 offload 方式或 VRAM 节省的证据。
 
 ## 分开执行可行性 gate 与质量 gate
 
@@ -75,6 +75,18 @@ sequential CPU offload 能节省较多内存，但可能较慢。它会在 pipel
 | 运营 gate | 这种负担能否重复执行？ | 平均延迟、吞吐量、CPU RAM 使用量、存储空间、重试成本 |
 
 这个区分能让下一步行动更准确。如果是 OOM，就要调整内存放置或缩小输入规模。如果输出质量不对，就要重新看 prompt、参考输入、模型选择或评价标准。如果结果正确但太慢，则要检查 batch、cache、更快的 runtime 或更小的模型。
+
+## 用失败信号决定下一项选择
+
+一次执行出现错误或结果很慢时，如果同时改动所有设置，就无法知道哪一项产生了效果。先选定一个观察到的信号，再为下一次执行选定一个要改动的轴，并把它记录下来。
+
+| 观察到的信号 | 优先改动的轴 | 保持不变并确认的内容 |
+| --- | --- | --- |
+| 加载或生成时 GPU OOM | 输入规模缩小、量化、offload 方式三者之一 | 模型 ID、质量标准、上一次执行时间 |
+| 执行结束但速度过慢 | offload 单位、更小的模型、输入规模三者之一 | 输出质量、设备配置、相同输入 |
+| 可以执行但输出未达到质量标准 | 模型、prompt、参考输入、评价标准四者之一 | 内存放置和执行是否成功 |
+
+这样就不会把“无法执行”“很慢”“质量不达标”混成同一种失败。下一次 trial 应同时留下一个改动值和保持不变的条件，才能比较执行环境中的取舍。
 
 ## 记录格式
 
@@ -127,6 +139,7 @@ Part 7 的当前模型执行实习，会把这一节的概念变成实际记录�
 - 能否把 dtype、量化、CPU offloading 解释成不同层次？
 - 是否把模型跑起来的事实，与输出满足质量标准的事实分开记录？
 - 是否没有把 GPU VRAM 不足、CPU RAM 瓶颈、执行缓慢、质量失败混成同一种失败？
+- 是否根据观察到的失败信号，为下一次 trial 选定一个要改动的轴，并记录其余条件？
 - 如果用了 offload 方式，能否说明 CPU 和 GPU 之间移动的单位是什么？
 - 如果使用了 sequential CPU offload，是否先连接附加组件、只设置一次，并避免把整个 pipeline 移到 `cuda`？
 - 是否把 `torch.cuda.empty_cache()` 与 CPU offloading 分开记录？
@@ -134,7 +147,7 @@ Part 7 的当前模型执行实习，会把这一节的概念变成实际记录�
 
 ## 来源与参考资料
 
-- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
-- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
-- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
-- PyTorch, [torch.cuda.memory.empty_cache](https://docs.pytorch.org/docs/main/generated/torch.cuda.memory.empty_cache.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-10。
+- Hugging Face Diffusers, [Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-11。
+- Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-11。
+- Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-11。
+- PyTorch, [torch.cuda.memory.empty_cache](https://docs.pytorch.org/docs/main/generated/torch.cuda.memory.empty_cache.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-08-11。

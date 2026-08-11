@@ -1,7 +1,7 @@
 # P6-21.1 오픈웨이트 모델은 무엇을 공개하는가
 
 > Section ID: `P6-21.1`
-> Version: `v2026.08.07`
+> Version: `v2026.08.11`
 
 [오픈웨이트 모델(open-weight model)](../../../reference/concept-glossary-parts/08-ieung.md#open-weight-model)은 `model_id`, `weight_access`, `license_terms`, `training_transparency`, `runtime_path`, `deployment_responsibility`를 함께 확인해야 한다. 이 기록이 있어야 `다운로드할 수 있다`, `오픈소스다`, `내가 책임지고 운영할 수 있다`를 같은 말로 섞지 않게 된다.
 
@@ -32,13 +32,13 @@ Part 6에서 모델을 서비스 구조로 읽다 보면 공개 API로 호출하
 
 | 구분 | 사용자가 직접 받는 것 | 장점 | 주의할 점 |
 | --- | --- | --- | --- |
-| 공개 API | 입력을 보내고 출력만 받음 | 시작이 쉽고 운영 부담이 작음 | 데이터가 외부 실행 환경으로 나가며, 모델 파일과 내부 조정은 직접 통제하기 어렵다 |
+| 공개 API | 입력을 보내고 출력만 받음 | 시작이 쉽고 운영 부담이 작음 | 공급자 실행 환경에서 처리되므로 데이터 전송·보관 조건과 모델 변경 범위를 확인해야 한다 |
 | 오픈웨이트 모델 | 학습된 가중치와 실행 자료 일부 | 로컬·사내·클라우드 환경에서 직접 실행하고 조정할 수 있음 | 라이선스, 하드웨어, 보안, 업데이트, 운영 책임이 사용자에게 온다 |
 | 더 완전한 공개 모델 | 가중치, 코드, 데이터 정보, 평가 자료 등 | 연구·검증·재현·변형 가능성이 커짐 | 공개 범위를 실제로 확인해야 하며, 데이터 권리나 안전 책임이 사라지는 것은 아니다 |
 
 따라서 오픈웨이트를 읽을 때는 `닫힌 모델보다 좋다`나 `무조건 위험하다`로 바로 가르지 않는 편이 좋다. 더 정확한 질문은 `내가 통제해야 할 것이 무엇으로 바뀌는가`이다.
 
-예를 들어 공개 API를 쓰면 모델 업데이트, 서빙, 장애 대응, 일부 안전 정책은 공급자 쪽에서 맡는다. 대신 사용자는 비용, 사용량 제한, 데이터 전송, 모델 변경 가능성의 영향을 받는다. 오픈웨이트 모델을 직접 운영하면 데이터 위치와 실행 조건을 더 직접 통제할 수 있지만, 서버 비용, 보안 패치, 품질 평가, 안전 필터, 라이선스 검토를 직접 챙겨야 한다.
+예를 들어 공개 API를 쓰면 모델 업데이트, 서빙, 장애 대응, 일부 안전 정책은 공급자 쪽에서 맡는다. 대신 사용자는 비용, 사용량 제한, 데이터 전송·보관 조건, 모델 변경 가능성의 영향을 받는다. 오픈웨이트 모델을 직접 운영하면 데이터 위치와 실행 조건을 더 직접 통제할 수 있지만, 서버 비용, 보안 패치, 품질 평가, 안전 필터, 라이선스 검토를 직접 챙겨야 한다.
 
 ## 왜 로컬 실행과 양자화가 함께 등장하는가
 
@@ -49,7 +49,7 @@ Part 6에서 모델을 서비스 구조로 읽다 보면 공개 API로 호출하
 같은 흐름을 단순화하면 다음과 같다.
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["모델 공개 페이지 확인"] --> B["가중치 접근 가능 여부"]
   B --> C["라이선스와 사용 조건 확인"]
   C --> D["런타임 선택<br/>llama.cpp, vLLM, Ollama 등"]
@@ -59,6 +59,21 @@ flowchart LR
 ```
 
 이 도식에서 중요한 지점은 실행이 다운로드 다음에 바로 오지 않는다는 점이다. 다운로드와 실행 사이에는 [자료 라이선스](../../../reference/concept-glossary-parts/04-rieul.md#license), 런타임, 하드웨어, 보안, 평가 기준이 끼어 있다.
+
+## 왜 오픈웨이트를 선택하자는 주장이 나오는가
+
+오픈웨이트를 선택하자는 주장은 단순히 모델 파일을 무료로 받자는 뜻이 아니다. 핵심은 모델을 쓰는 사람이 데이터 위치, 실행 조건, 변경 시점, 검증 방법을 더 직접 선택할 수 있어야 한다는 주장이다. 공급자의 API를 쓰면 시작과 운영이 쉬운 대신, 모델 변경이나 사용량 제한, 데이터 전송 조건을 사용자가 모두 정하기는 어렵다.
+
+오픈웨이트를 지지하는 쪽은 보통 다음 네 가지를 강조한다.
+
+| 주장 | 사용자가 얻는 선택권 | 성립하려면 필요한 조건 |
+| --- | --- | --- |
+| 데이터 통제 | 민감한 입력을 직접 관리하는 환경에서 처리 | 내부 실행 환경, 접근 통제, 보안 운영 |
+| 검증과 재현 | 모델 카드, 평가 자료, 실행 기록을 바탕으로 후보를 비교 | 공개 범위와 평가 자료를 실제로 확인 |
+| 목적별 조정 | 허용 범위 안에서 런타임, 양자화, adapter, 배포 환경을 고름 | 라이선스 준수, 장비와 운영 인력 |
+| 공급자 의존성 완화 | 특정 API 가격·정책·변경에만 묶이지 않고 실행 경로를 선택 | 업데이트, 장애 대응, 품질 평가를 직접 감당 |
+
+이 주장은 `오픈웨이트가 항상 더 낫다`는 결론이 아니다. 통제 지점이 늘어날수록 확인·운영·안전 책임도 함께 이동한다. 따라서 오픈웨이트를 선택하자는 주장은 `누가 모델을 더 통제할 것인가`와 `그 통제에 필요한 책임을 감당할 수 있는가`를 함께 묻는 주장으로 읽어야 한다.
 
 ## 오픈웨이트가 주는 이점
 
@@ -104,6 +119,18 @@ flowchart LR
 
 이 표를 기준으로 보면 오픈웨이트 모델 선택은 모델 순위표에서 가장 높은 이름을 고르는 일이 아니다. 내 목적, 데이터, 장비, 책임 범위에 맞는 공개 범위와 실행 경로를 고르는 일이다.
 
+## 공개 범위를 목적에 맞게 고르는 짧은 판단
+
+예를 들어 사내 문서를 외부로 보내면 안 되는 팀이 모델 후보를 고른다고 하자. 가중치를 받을 수 있다는 사실만 확인해서는 충분하지 않다. 내부 환경에서 실행할 수 있는 런타임이 있는지, 라이선스가 그 사용을 허용하는지, 품질과 안전 문제를 누가 검토할지도 함께 결정해야 한다.
+
+| 상황 | 먼저 확인할 것 | 다음 판단 |
+| --- | --- | --- |
+| 외부 API로 문서를 보낼 수 없음 | 가중치 접근, 내부 실행 경로, 저장 위치 | 로컬·사내 실행이 가능한 후보만 남기고 운영 책임을 기록 |
+| 교육용으로 모델 동작을 재현해야 함 | 학습 코드, 데이터 정보, 평가 자료의 공개 범위 | 가중치만 공개된 모델과 재현 자료가 더 많은 모델을 구분 |
+| 상업 서비스에 넣으려 함 | 라이선스, 사용 정책, 업데이트·안전 대응 주체 | 실행 가능성뿐 아니라 재배포와 운영 조건을 통과한 후보만 비교 |
+
+세 상황 모두에서 먼저 내릴 판단은 `열려 있다/닫혀 있다`가 아니다. 목적에 필요한 공개 범위와, 그 선택으로 내가 맡게 되는 책임을 한 쌍으로 적는 것이다.
+
 ## Part 7 실습으로 넘길 질문
 
 Part 7의 로컬 LLM 실습에서는 이 절의 개념을 실제 실행 기록으로 바꿔야 한다. 같은 오픈웨이트 모델이라도 작은 양자화 파일과 큰 원본 파일은 실행 부담과 품질이 다르다. 같은 모델도 `llama.cpp`, `Ollama`, `vLLM` 같은 런타임에 따라 설치 난이도, 속도, 메모리 사용량, 운영 방식이 달라진다.
@@ -127,12 +154,13 @@ Part 7의 로컬 LLM 실습에서는 이 절의 개념을 실제 실행 기록�
 - 가중치 공개, 학습 코드 공개, 데이터 정보 공개, 라이선스 공개를 따로 나눠 볼 수 있는가?
 - 공개 API를 쓰는 경우와 오픈웨이트 모델을 직접 운영하는 경우의 책임 차이를 말할 수 있는가?
 - 모델 카드에서 라이선스, 모델 크기, 런타임, 사용 정책, 평가 정보를 먼저 확인할 수 있는가?
+- 내 목적에 필요한 공개 범위와 내가 맡을 운영 책임을 함께 판단할 수 있는가?
 - Part 7 로컬 LLM 실습에서 남겨야 할 실행 기록 항목을 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Open Source Initiative, [The Open Source AI Definition - 1.0](https://opensource.org/ai/open-source-ai-definition){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-05.
-- Matt White 외, [The Model Openness Framework: Promoting Completeness and Openness for Reproducibility, Transparency, and Usability in Artificial Intelligence](https://huggingface.co/papers/2403.13784){: target="_blank" rel="noopener noreferrer" }, Hugging Face Papers, 확인일: 2026-08-05.
-- Hugging Face, [The Open Source FAQ](https://github.com/huggingface/faq){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-05.
-- OpenAI, [OpenAI open-weight models (gpt-oss)](https://help.openai.com/en/articles/11870455-openai-open-weight-models-gpt-oss){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-05.
-- Linux Foundation, [Linux Foundation Welcomes the Open Model Initiative to Promote Openly Licensed AI Models](https://www.linuxfoundation.org/press/linux-foundation-welcomes-the-open-model-initiative-to-promote-openly-licensed-ai-models){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-05.
+- Open Source Initiative, [The Open Source AI Definition - 1.0](https://opensource.org/ai/open-source-ai-definition){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- Matt White 외, [The Model Openness Framework: Promoting Completeness and Openness for Reproducibility, Transparency, and Usability in Artificial Intelligence](https://arxiv.org/abs/2403.13784){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- Hugging Face, [The Open Source FAQ](https://github.com/huggingface/faq){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- OpenAI, [OpenAI open-weight models (gpt-oss)](https://help.openai.com/en/articles/11870455-openai-open-weight-models-gpt-oss){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- Linux Foundation, [Linux Foundation Welcomes the Open Model Initiative to Promote Openly Licensed AI Models](https://www.linuxfoundation.org/press/linux-foundation-welcomes-the-open-model-initiative-to-promote-openly-licensed-ai-models){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.

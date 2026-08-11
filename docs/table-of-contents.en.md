@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.08.07`
+> Version: `v2026.08.11`
 
 This document is the reader-facing table of contents for AiBook. Rather than listing files only, it gives a quick view of the relearning sequence from `Introduction to AI and the Landscape -> Foundational Recovery -> Data Modeling -> Machine Learning -> Deep Learning -> LLMs and Generative AI -> Projects`.
 
@@ -777,6 +777,7 @@ Part 6 starts from generative-AI outputs, reads LLMs as the representative case,
 
 #### Chapter 21. Open-Weight Models `Service Structure`
 
+- **P6-21.1 What Does an Open-Weight Model Make Available?**: distinguishes weight availability, open source, and public APIs, then examines licenses, execution environments, and operational responsibility together.
 - **P6-21.2 Local Runtime Environments and Memory Placement**: separates GPU VRAM, CPU RAM, dtype, quantization, and CPU offloading when running open-weight models directly, and keeps execution feasibility separate from quality judgment.
 
 ## Part 7. Projects
