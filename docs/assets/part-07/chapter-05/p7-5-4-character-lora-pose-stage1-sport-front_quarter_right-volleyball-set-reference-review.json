@@ -1,0 +1,14 @@
+{
+  "candidate_id": "sport-front_quarter_right-volleyball-set",
+  "view": "front_quarter_right",
+  "scene_id": "dance_floor",
+  "pose_family": "acrobatics_balance",
+  "pose_rule": "Acrobatic balance: one knee raised, both arms lifted overhead.",
+  "stage": "pose_stage_1_unstyled",
+  "seed": 62294,
+  "steps": 6,
+  "status": "approved_for_style_stage_2",
+  "output": "p7-5-4-character-lora-pose-stage1-sport-front_quarter_right-volleyball-set-reference.png",
+  "review": "p7-5-4-character-lora-pose-stage1-sport-front_quarter_right-volleyball-set-reference-review.json",
+  "decision": "Human approved as an unstyled Stage-1 pose anchor; use only as input to Stage 2, not directly for LoRA training."
+}
