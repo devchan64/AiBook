@@ -39,17 +39,17 @@ VIEW_RULES = {
     "rear": "strict rear back-of-head view facing away from the camera",
 }
 FACE_REFERENCE_BY_VIEW = {
-    view: ROOT / f"p7-5-2-face-{view.replace('_', '-')}-reference.png" for view in VIEWS
+    view: ROOT / f"p7-5-4-styled-identity-face-{view}-reference.png" for view in VIEWS
 }
 CHARACTER_IDENTITY_CONTRACT_PATH = ROOT / "p7-5-2-character-identity-contract.json"
 CHARACTER_IDENTITY_CONTRACT = json.loads(
     CHARACTER_IDENTITY_CONTRACT_PATH.read_text(encoding="utf-8")
 )
 BASIC_BODY_BY_VIEW = {
-    view: ROOT / f"p7-5-2-fullbody-{view.replace('_', '-')}-reference.png" for view in VIEWS
+    view: ROOT / f"p7-5-4-styled-identity-basic-{view}-reference.png" for view in VIEWS
 }
 REFINED_BODY_BY_VIEW = {
-    view: ROOT / f"p7-5-2-fullbody-{view.replace('_', '-')}-refined-reference.png" for view in VIEWS
+    view: ROOT / f"p7-5-4-styled-identity-refined-{view}-reference.png" for view in VIEWS
 }
 STYLE_REFERENCE_BY_SCENE = {
     "basketball_court": ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",

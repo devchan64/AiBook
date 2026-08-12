@@ -1,0 +1,35 @@
+{
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    1024,
+    1024
+  ],
+  "candidate_id": "sport-rear-wrestling-bridge",
+  "view": "rear",
+  "outfit_variant": "basic",
+  "scene_id": "wrestling_mat",
+  "scene_rule": "empty wrestling practice mat under even gym lighting",
+  "pose_family": "wrestling_bridge",
+  "pose_rule": "Hold a solo wrestling bridge from the rear with shoulders and feet grounded, hips raised, and both arms visible for balance in a back-of-head view.",
+  "include_view_prompt": true,
+  "seed": 62294,
+  "steps": 6,
+  "face_reference": "p7-5-4-styled-identity-face-rear-reference.png",
+  "character_identity_contract": "p7-5-2-character-identity-contract.json",
+  "body_reference": "p7-5-4-styled-identity-basic-rear-reference.png",
+  "style_reference": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+  "prompt": "Full-body woman, strict rear back-of-head view facing away from the camera, isolated on a plain off-white background. Webtoon watercolor. Both eyes have orange-amber irises. Jaw-length bob haircut. Eight-head adult, high waist, long legs. Hold a solo wrestling bridge from the rear with shoulders and feet grounded, hips raised, and both arms visible for balance in a back-of-head view. Natural anatomy.",
+  "prompt_word_count": 60,
+  "status": "review_required",
+  "output": "p7-5-4-character-lora-augmentation-sport-rear-wrestling-bridge-code-7b70de-seed-62294-steps-6-candidate.png",
+  "review": "p7-5-4-character-lora-augmentation-sport-rear-wrestling-bridge-code-7b70de-seed-62294-steps-6-review.json",
+  "elapsed_seconds": 45.36,
+  "hard_fail_conditions": [
+    "The figure does not show exactly two arms, two hands, two legs, and two feet.",
+    "Any limb, hand, or foot is extra, missing, fused, duplicated, or cropped.",
+    "Any visible hand does not show five separate fingers including the thumb.",
+    "The rendering style does not match the approved P7-5.1 restrained-webtoon watercolor style contract.",
+    "The visible face does not match the shared face-identity contract, including its chestnut-brown and orange-amber iris rule."
+  ],
+  "decision": "Candidate only; require human approval before LoRA dataset inclusion."
+}
