@@ -50,7 +50,14 @@ def candidate_id(path: Path) -> str:
     return path.stem.removeprefix("p7-5-4-character-lora-pose-stage1-").removesuffix("-reference")
 
 
-def build_prompt() -> str:
+def build_prompt(source: Path) -> str:
+    if "-rear-" in source.name:
+        return (
+            "Render the supplied full-body figure in restrained webtoon watercolor. "
+            "Preserve the supplied figure's exact rear-facing pose, anatomy, clothing silhouette, and plain off-white studio background. "
+            "Show a strict rear view with the back of the jaw-length bob, nape, shoulders, back, and back of the trousers facing the camera. "
+            "Use the second supplied image only as the visual-style reference. One complete person with a clean rear silhouette."
+        )
     return (
         "Render the supplied full-body figure in restrained webtoon watercolor. "
         "Preserve the supplied figure's exact pose, view, facial identity, anatomy, clothing silhouette, and plain off-white studio background. "
@@ -77,7 +84,7 @@ def records(sources: list[Path], seed: int, steps: int) -> list[dict[str, object
                 "style_reference": STYLE_REFERENCE.name,
                 "seed": seed,
                 "steps": steps,
-                "prompt": build_prompt(),
+                "prompt": build_prompt(resolved),
             }
         )
     return result

@@ -1,0 +1,19 @@
+{
+  "status": "approved_for_styled_character_lora_dataset",
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    1024,
+    1024
+  ],
+  "candidate_id": "pose-extra-rear-heel-lift",
+  "stage": "style_stage_2",
+  "source": "p7-5-4-character-lora-pose-stage1-pose-extra-rear-heel-lift-reference.png",
+  "style_reference": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+  "seed": 62294,
+  "steps": 6,
+  "prompt": "Render the supplied full-body figure in restrained webtoon watercolor. Preserve the supplied figure's exact pose, view, facial identity, anatomy, clothing silhouette, and plain off-white studio background. Preserve equal-sized orange-amber irises in both eyes. Use the second supplied image only as the visual-style reference. One person, no text or labels.",
+  "output": "p7-5-4-character-lora-pose-stage2-pose-extra-rear-heel-lift-reference.png",
+  "review": "p7-5-4-character-lora-pose-stage2-pose-extra-rear-heel-lift-reference-review.json",
+  "elapsed_seconds": 32.24,
+  "decision": "Human approved for the styled character-LoRA dataset; retain the Stage-1 pose anchor and this approval record."
+}
