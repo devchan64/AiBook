@@ -81,6 +81,7 @@ class CandidateSpec:
     pose_family: str
     pose_rule: str
     include_view_prompt: bool = True
+    use_face_sheet: bool = True
 
 
 def build_specs() -> tuple[CandidateSpec, ...]:
@@ -95,7 +96,7 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-front_quarter_right-tennis-forehand", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "one_hand_tennis_return", "Low one-handed tennis forehand: bend both knees into an athletic crouch; the right hand grips the butt cap at the very end of one racket handle, with the full long handle visibly extending from the hand to the racket head on image left, while the clearly empty open left hand reaches toward image right for balance.",
         ),
         CandidateSpec(
-            "sport-profile_left-track-sprint", "profile_right", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_sprint", "Track sprint in midair toward image right: both shoes clearly lifted above the track, right leg extends forward, left leg drives back with its knee bent, left arm drives forward, and right arm drives back; face and gaze point image right.",
+            "sport-profile_left-track-sprint", "profile_right", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_sprint", "Full-body sprint toward image right. Both shoes airborne; right leg forward, left knee back; face right.",
         ),
         CandidateSpec(
             "sport-profile_right-soccer-pass", "front_quarter_right", "basic", "training_floor", "plain off-white studio floor", "athletic_ready", "Front-quarter athletic ready stance: feet staggered, knees softly bent, torso upright, both bare open hands visible in front of the torso, and elbows naturally bent.",
@@ -104,22 +105,22 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-rear-track-run", "rear", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "rear_gymnastics_landing", "Rear controlled gymnastics landing: both feet shoulder-width apart and flat on the floor, knees softly bent, torso upright, and both arms raised diagonally overhead in a balanced V.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-gymnastics-landing", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "controlled_gymnastics_landing", "Controlled gymnastics landing: knees softly bent, arms raised in a V.",
+            "sport-front_quarter_left-gymnastics-landing", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "acrobatics_landing", "Solo acrobatic landing: both feet grounded, bent knees, arms in a V.", use_face_sheet=False,
         ),
         CandidateSpec(
-            "sport-front_quarter_left-boxing-jab", "front_quarter_left", "basic", "boxing_gym", "empty boxing gym with a clean practice ring and overhead daylight", "low_orthodox_boxing_jab", "Low orthodox boxing stance: both hands clenched into fists; throw one straight jab toward image left while the raised guard fist covers the face.",
+            "sport-front_quarter_left-boxing-jab", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "contemporary_dance_reach", "Dance lunge: left knee bent, right leg straight back, right arm forward.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-volleyball-set", "front_quarter_right", "basic", "volleyball_court", "empty indoor volleyball court under even light", "high_angle_volleyball_set", "High-angle view: raise both hands to set one volleyball overhead in a low athletic stance.", include_view_prompt=False,
+            "sport-front_quarter_right-volleyball-set", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "acrobatics_balance", "Acrobatic balance: one knee raised, both arms lifted overhead.",
         ),
         CandidateSpec(
-            "sport-profile_left-breaking-floor-pose", "profile_left", "basic", "breaking_floor", "empty breaking floor under even light", "high_angle_breaking_floor_pose", "Left-facing kneel: right knee on the ground, left foot planted forward, torso upright, and both hands resting on the raised left thigh.",
+            "sport-profile_left-breaking-floor-pose", "profile_left", "basic", "dance_floor", "plain off-white studio floor", "floor_dance_kneel", "Floor dance kneel: right knee down, left foot forward, left arm reaching up.",
         ),
         CandidateSpec(
-            "sport-profile_right-wrestling-shot", "profile_right", "basic", "wrestling_mat", "empty wrestling practice mat under even gym lighting", "wrestling_shot", "Right-facing deep lunge: right knee bent directly above the right ankle, left leg straight behind, left heel raised, torso upright, and hands on the right thigh.",
+            "sport-profile_right-wrestling-shot", "profile_right", "basic", "dance_floor", "plain off-white studio floor", "dance_lunge", "Dance lunge: right knee bent, left leg back, left arm forward, right arm back.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-long-jump", "front_quarter_right", "basic", "athletics_runway", "empty athletics runway under even light", "long_jump_takeoff", "Long-jump takeoff: raised knee, trailing leg, balanced proportions.",
+            "sport-front_quarter_right-long-jump", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "dance_jump", "Solo dance jump: right knee up, left leg trailing, left arm up, right arm down.",
         ),
         CandidateSpec(
             "sport-front_quarter_right-badminton-forehand", "front_quarter_right", "basic", "tennis_court", "empty indoor court under even light", "badminton_forehand", "Front-quarter side step toward image right: right foot planted sideways, left foot crossing behind, hips turned right, right hand on hip, left arm relaxed; empty hands.",
@@ -263,21 +264,15 @@ def build_face_reference_sheet(face_images: tuple[Image.Image, ...]) -> Image.Im
 
 def build_prompt(spec: CandidateSpec) -> str:
     view_clause = f"{VIEW_RULES[spec.view]}, " if spec.include_view_prompt else ""
-    return (
-        "Use the supplied front full-body reference as the fixed source for the entire figure and pose change. "
-        "Use the supplied ordered face sheet to preserve the same face and hair across its front and target-direction panels. "
-        f"Render the same full-body figure, {view_clause}{spec.pose_rule} "
-        "Preserve full-body proportion, clothing silhouette, and the plain off-white studio background. "
-        "One person, complete limbs, no text or labels."
-    )
+    return f"Same character. {view_clause}{spec.pose_rule}"
 
 
 def planned_records(targets: tuple[str, ...], seed: int, seed_step: int, steps: int, front_image: Path) -> list[dict[str, object]]:
     selected = [spec for spec in SPECS if spec.candidate_id in targets]
     records: list[dict[str, object]] = []
     for index, spec in enumerate(selected):
-        face_sheet_sources = [path for _, path in FACE_SHEET_BY_VIEW[spec.view]]
-        references = [front_image, RAW_FULLBODY_FRONT_REFERENCE, *face_sheet_sources]
+        face_sheet_sources = [path for _, path in FACE_SHEET_BY_VIEW[spec.view]] if spec.use_face_sheet else []
+        references = [front_image, *face_sheet_sources]
         if missing := [path.name for path in references if not path.is_file()]:
             raise FileNotFoundError(", ".join(missing))
         prompt = build_prompt(spec)
@@ -349,17 +344,17 @@ def main() -> int:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
     front_anchor_image = Image.open(args.front_image).convert("RGB")
-    fullbody_reference_image = Image.open(RAW_FULLBODY_FRONT_REFERENCE).convert("RGB")
     face_images = {
         path: Image.open(path).convert("RGB")
         for record in records
         for path in (ROOT / source for source in record["face_sheet"]["sources"])
     }
     face_sheets = {
-        view: build_face_reference_sheet(
-            tuple(face_images[path] for _, path in FACE_SHEET_BY_VIEW[view])
+        str(record["candidate_id"]): build_face_reference_sheet(
+            tuple(face_images[ROOT / source] for source in record["face_sheet"]["sources"])
         )
-        for view in {str(record["view"]) for record in records}
+        for record in records
+        if record["face_sheet"]["sources"]
     }
     generated: list[dict[str, object]] = []
     for record in records:
@@ -371,12 +366,11 @@ def main() -> int:
         )
         output, review = ROOT / f"{stem}-candidate.png", ROOT / f"{stem}-review.json"
         started = time.monotonic()
+        inputs = [front_anchor_image]
+        if str(record["candidate_id"]) in face_sheets:
+            inputs.append(face_sheets[str(record["candidate_id"])])
         image = pipe(
-            image=[
-                front_anchor_image,
-                fullbody_reference_image,
-                face_sheets[str(record["view"])],
-            ],
+            image=inputs,
             prompt=str(record["prompt"]),
             width=IMAGE_WIDTH,
             height=IMAGE_HEIGHT,

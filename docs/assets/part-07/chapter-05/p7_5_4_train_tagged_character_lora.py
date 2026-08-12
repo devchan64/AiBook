@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Train a small tag-captioned character LoRA from current approved P7-5.2 masters.
-
-This deliberately separates identity learning from pose control: every input is
-an approved static face or turnaround image, and novel movement remains the
-responsibility of the later text-pose OpenPose condition.
-"""
+"""Train a small tag-captioned character LoRA from approved dataset manifests."""
 
 from __future__ import annotations
 
@@ -27,6 +22,7 @@ from transformers import AutoTokenizer, CLIPTextModel, CLIPTextModelWithProjecti
 
 ROOT = Path("/home/cbsim/ws/AiBook")
 ASSETS = ROOT / "docs/assets/part-07/chapter-05"
+DEFAULT_DATASET = ROOT / ".tmp/p7-5-4-character-lora-action-36/dataset-manifest.json"
 MODEL = Path(
     "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/"
     "snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96"
@@ -55,12 +51,31 @@ SOURCES = (
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / ".tmp/p7-5-4-tagged-character-lora")
+    parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET, help="Prepared dataset-manifest.json")
     parser.add_argument("--steps", type=int, default=300)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--width", type=int, default=320)
     parser.add_argument("--height", type=int, default=448)
     return parser.parse_args()
+
+
+def dataset_examples(manifest_path: Path) -> list[tuple[Path, str]]:
+    """Read captions from a prepared local dataset without duplicating source PNGs."""
+    if not manifest_path.is_file():
+        raise FileNotFoundError(f"prepared dataset manifest is missing: {manifest_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    dataset_dir = manifest_path.parent
+    examples: list[tuple[Path, str]] = []
+    for record in manifest["sources"]:
+        image = dataset_dir / record["dataset_image"]
+        caption = dataset_dir / record["dataset_caption"]
+        if not image.is_file() or not caption.is_file():
+            raise FileNotFoundError(f"prepared dataset entry is missing: {image} or {caption}")
+        examples.append((image, caption.read_text(encoding="utf-8").strip()))
+    if not examples:
+        raise ValueError("prepared dataset contains no training images")
+    return examples
 
 
 def tokenize(tokenizer: AutoTokenizer, caption: str) -> torch.Tensor:
@@ -79,10 +94,7 @@ def main() -> int:
     args = parse_args()
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
-    examples = [(ASSETS / name, f"{IDENTITY_TAGS}, {view}") for name, view in SOURCES]
-    missing = [str(path) for path, _caption in examples if not path.is_file()]
-    if missing:
-        raise FileNotFoundError("approved training source missing: " + ", ".join(missing))
+    examples = dataset_examples(args.dataset)
     args.output.mkdir(parents=True, exist_ok=True)
     random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -149,11 +161,12 @@ def main() -> int:
     state = convert_state_dict_to_diffusers(get_peft_model_state_dict(unet))
     StableDiffusionXLPipeline.save_lora_weights(args.output, unet_lora_layers=state)
     report = {
-        "status": "training_completed", "model": str(MODEL), "training_images": [name for name, _view in SOURCES],
+        "status": "training_completed", "model": str(MODEL), "dataset_manifest": str(args.dataset),
+        "training_images": [str(path) for path, _caption in examples],
         "caption_format": "Animagine-compatible tag sequence", "steps": args.steps, "resolution": [args.width, args.height],
         "rank": 8, "dtype": "bf16", "learning_rate": args.learning_rate, "loss_first": losses[0],
         "loss_last": losses[-1], "peak_vram_mib": peak_mib, "adapter": "pytorch_lora_weights.safetensors",
-        "scope": "identity anchor only; no dynamic pose samples are claimed",
+        "scope": "Style-conditioned character identity and approved action-pose diversity; human evaluation remains required.",
     }
     (args.output / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))

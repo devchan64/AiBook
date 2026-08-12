@@ -25,6 +25,7 @@ from PIL import Image, ImageDraw
 
 
 ROOT = Path("/home/cbsim/ws/AiBook")
+ASSETS = ROOT / "docs/assets/part-07/chapter-05"
 ANIMAGINE = Path(
     "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/"
     "snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96"
@@ -36,6 +37,7 @@ OPENPOSE = Path(
 EXPERIMENTAL_LORA = ROOT / ".tmp/p7-5-3-animagine-character-lora"
 SIZE = (512, 768)
 NEGATIVE = "multiple people, child, cropped feet, extra arms, extra legs, text, watermark"
+IDENTITY = json.loads((ASSETS / "p7-5-2-character-identity-contract.json").read_text(encoding="utf-8"))
 
 # Each ticket is text-originated.  `points` describe the 18 OpenPose body keys
 # in image coordinates; None means that key is intentionally absent.
@@ -117,9 +119,10 @@ def render_openpose(ticket: dict) -> Image.Image:
 
 def prompt(ticket: dict) -> str:
     return (
-        "1girl, adult, p7mira, teal bob, silver hair clip, brown eyes, "
-        "white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, "
-        "clean webtoon line art, full body, "
+        "p7mira, adult Korean woman, "
+        f"{IDENTITY['lora_hair_identity_description']}, "
+        f"{IDENTITY['lora_eye_identity_description']}, "
+        "webtoon watercolor, full body, "
         f"{ticket['text']}, simple pale studio background"
     )
 
