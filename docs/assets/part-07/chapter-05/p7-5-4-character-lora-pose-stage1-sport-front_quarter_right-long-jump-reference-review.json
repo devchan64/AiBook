@@ -1,0 +1,50 @@
+{
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "image_size": [
+    1024,
+    1024
+  ],
+  "candidate_id": "sport-front_quarter_right-long-jump",
+  "view": "front_quarter_right",
+  "outfit_variant": "basic",
+  "scene_id": "dance_floor",
+  "scene_rule": "plain off-white studio floor",
+  "pose_family": "dance_weight_shift",
+  "pose_rule": "Dance weight shift: right foot forward, left toe behind, torso upright, arms relaxed by the sides.",
+  "include_view_prompt": true,
+  "use_face_sheet": true,
+  "seed": 62294,
+  "steps": 6,
+  "stage": "pose_stage_1_unstyled",
+  "front_anchor_reference": "p7-5-2-fullbody-front-reference.png",
+  "fullbody_reference": "p7-5-2-fullbody-front-reference.png",
+  "face_sheet": {
+    "panel_order": [
+      "approved_front_face",
+      "approved_right_front_quarter_face",
+      "approved_right_profile_face"
+    ],
+    "sources": [
+      "p7-5-2-face-front-reference.png",
+      "p7-5-2-face-front-quarter-right-reference.png",
+      "p7-5-2-face-profile-right-reference.png"
+    ],
+    "size": [
+      2304,
+      768
+    ]
+  },
+  "prompt": "Same character. right front-quarter view facing toward image right, Dance weight shift: right foot forward, left toe behind, torso upright, arms relaxed by the sides.",
+  "prompt_word_count": 25,
+  "status": "approved_for_style_stage_2",
+  "output": "p7-5-4-character-lora-pose-stage1-sport-front_quarter_right-long-jump-reference.png",
+  "review": "p7-5-4-character-lora-pose-stage1-sport-front_quarter_right-long-jump-reference-review.json",
+  "elapsed_seconds": 33.92,
+  "hard_fail_conditions": [
+    "The figure does not show exactly two arms, two hands, two legs, and two feet.",
+    "Any limb, hand, or foot is extra, missing, fused, duplicated, or cropped.",
+    "Any visible hand does not show five separate fingers including the thumb.",
+    "The pose, view, face identity, or clothing silhouette does not match the supplied Stage-1 references."
+  ],
+  "decision": "Human approved as an unstyled Stage-1 pose anchor; use only as input to Stage 2, not directly for LoRA training."
+}
