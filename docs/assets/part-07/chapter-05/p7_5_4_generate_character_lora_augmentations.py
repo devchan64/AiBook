@@ -86,22 +86,22 @@ class CandidateSpec:
 def build_specs() -> tuple[CandidateSpec, ...]:
     sports_specs = (
         CandidateSpec(
-            "sport-front-basketball-defense", "front", "basic", "basketball_court", "empty indoor court with a matte wood floor", "low_wide_defensive_pose", "Bend both knees deeply, hips at knee height, torso forward, arms spread wide with open hands.",
+            "sport-front-basketball-defense", "front", "basic", "basketball_court", "empty indoor court with a matte wood floor", "low_wide_defensive_pose", "Basketball defensive stance: bend both knees deeply, hips at knee height, torso forward, arms spread wide, and turn both open palms toward the camera.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-basketball-jump-shot", "front_quarter_left", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_jump_shot", "Jump vertically for a basketball jump shot; hold one basketball above the forehead with both hands, with both legs and shoes separately visible.",
+            "sport-front_quarter_left-basketball-jump-shot", "front_quarter_left", "basic", "basketball_court", "empty indoor basketball court with a matte wood floor and a distant hoop", "basketball_jump_shot", "Basketball jump shot in midair: both feet clearly lifted above the floor, knees extended, hold one basketball directly above the forehead with both hands, and reach both elbows upward toward the ball.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-tennis-forehand", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "one_hand_tennis_return", "With one hand, swing one tennis racket to return one ball toward image right; the other arm balances an athletic open stance.",
+            "sport-front_quarter_right-tennis-forehand", "front_quarter_right", "basic", "tennis_court", "empty outdoor tennis court under clear daytime light", "one_hand_tennis_return", "Low one-handed tennis forehand: bend both knees into an athletic crouch; the right hand grips the butt cap at the very end of one racket handle, with the full long handle visibly extending from the hand to the racket head on image left, while the clearly empty open left hand reaches toward image right for balance.",
         ),
         CandidateSpec(
-            "sport-profile_left-track-sprint", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_sprint", "Sprint powerfully toward image left with a long running stride, opposite arm drive, and two separate shoes.",
+            "sport-profile_left-track-sprint", "profile_right", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_sprint", "Track sprint in midair toward image right: both shoes clearly lifted above the track, right leg extends forward, left leg drives back with its knee bent, left arm drives forward, and right arm drives back; face and gaze point image right.",
         ),
         CandidateSpec(
-            "sport-profile_right-soccer-pass", "profile_right", "basic", "soccer_field", "empty outdoor soccer practice field under clear daytime light", "soccer_pass", "Right-facing walking step: right foot planted ahead, left heel raised behind, weight on the right leg, and both arms swinging naturally in opposite directions.",
+            "sport-profile_right-soccer-pass", "front_quarter_right", "basic", "training_floor", "plain off-white studio floor", "athletic_ready", "Front-quarter athletic ready stance: feet staggered, knees softly bent, torso upright, both bare open hands visible in front of the torso, and elbows naturally bent.",
         ),
         CandidateSpec(
-            "sport-rear-track-run", "rear", "basic", "running_track", "empty outdoor running track under clear daytime light", "rear_track_run", "Rear walking step: left foot planted, right foot lifted behind with the knee bent, weight on the left leg, and opposite elbows bent naturally.",
+            "sport-rear-track-run", "rear", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "rear_gymnastics_landing", "Rear controlled gymnastics landing: both feet shoulder-width apart and flat on the floor, knees softly bent, torso upright, and both arms raised diagonally overhead in a balanced V.",
         ),
         CandidateSpec(
             "sport-front_quarter_left-gymnastics-landing", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "controlled_gymnastics_landing", "Controlled gymnastics landing: knees softly bent, arms raised in a V.",
