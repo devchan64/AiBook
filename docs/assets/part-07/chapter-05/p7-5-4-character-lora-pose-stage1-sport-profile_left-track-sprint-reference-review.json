@@ -10,7 +10,7 @@
   "scene_id": "running_track",
   "scene_rule": "empty outdoor running track under clear daytime light",
   "pose_family": "track_sprint",
-  "pose_rule": "Track sprint in midair toward image right: both shoes clearly lifted above the track, right leg extends forward, left leg drives back with its knee bent, left arm drives forward, and right arm drives back; face and gaze point image right.",
+  "pose_rule": "Full-body sprint toward image right. Both shoes airborne; right leg forward, left knee back; face right.",
   "include_view_prompt": true,
   "seed": 62294,
   "steps": 6,
@@ -33,12 +33,12 @@
       768
     ]
   },
-  "prompt": "Use the supplied front full-body reference as the fixed source for the entire figure and pose change. Use the supplied ordered face sheet to preserve the same face and hair across its front and target-direction panels. Render the same full-body figure, strict right side profile facing image right, Track sprint in midair toward image right: both shoes clearly lifted above the track, right leg extends forward, left leg drives back with its knee bent, left arm drives forward, and right arm drives back; face and gaze point image right. Preserve full-body proportion, clothing silhouette, and the plain off-white studio background. One person, complete limbs, no text or labels.",
-  "prompt_word_count": 108,
+  "prompt": "Use the supplied full-body reference and ordered face sheet. Render the same character, strict right side profile facing image right, Full-body sprint toward image right. Both shoes airborne; right leg forward, left knee back; face right. Preserve the clothes and plain off-white studio. One complete person; no text.",
+  "prompt_word_count": 48,
   "status": "approved_for_style_stage_2",
   "output": "p7-5-4-character-lora-pose-stage1-sport-profile_left-track-sprint-reference.png",
   "review": "p7-5-4-character-lora-pose-stage1-sport-profile_left-track-sprint-reference-review.json",
-  "elapsed_seconds": 47.95,
+  "elapsed_seconds": 34.08,
   "hard_fail_conditions": [
     "The figure does not show exactly two arms, two hands, two legs, and two feet.",
     "Any limb, hand, or foot is extra, missing, fused, duplicated, or cropped.",
