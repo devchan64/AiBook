@@ -20,7 +20,7 @@
   "style_reference": "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
   "prompt": "Full-body woman, right front-quarter view facing toward image right, isolated on a plain off-white background. Webtoon watercolor. Both eyes have orange-amber irises. Jaw-length bob haircut. Eight-head adult, high waist, long legs. Hit one shuttlecock with one badminton racket in a balanced forehand toward image right. Natural anatomy.",
   "prompt_word_count": 47,
-  "status": "review_required",
+  "status": "rejected",
   "output": "p7-5-4-character-lora-augmentation-sport-front_quarter_right-badminton-forehand-code-7b70de-seed-62294-steps-6-candidate.png",
   "review": "p7-5-4-character-lora-augmentation-sport-front_quarter_right-badminton-forehand-code-7b70de-seed-62294-steps-6-review.json",
   "elapsed_seconds": 45.43,
@@ -31,5 +31,5 @@
     "The rendering style does not match the approved P7-5.1 restrained-webtoon watercolor style contract.",
     "The visible face does not match the shared face-identity contract, including its chestnut-brown and orange-amber iris rule."
   ],
-  "decision": "Candidate only; require human approval before LoRA dataset inclusion."
+  "decision": "Rejected by human review; exclude from the character-LoRA dataset because the racket-and-shuttlecock interaction is not reliable."
 }

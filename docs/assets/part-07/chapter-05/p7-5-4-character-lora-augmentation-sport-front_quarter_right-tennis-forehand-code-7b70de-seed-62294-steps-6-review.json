@@ -20,7 +20,7 @@
   "style_reference": "p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png",
   "prompt": "Full-body woman, right front-quarter view facing toward image right, isolated on a plain off-white background. Webtoon watercolor. Both eyes have orange-amber irises. Jaw-length bob haircut. Eight-head adult, high waist, long legs. With one hand, swing one tennis racket to return one ball toward image right; the other arm balances an athletic open stance. Natural anatomy.",
   "prompt_word_count": 55,
-  "status": "review_required",
+  "status": "approved_for_styled_character_lora_dataset",
   "output": "p7-5-4-character-lora-augmentation-sport-front_quarter_right-tennis-forehand-code-7b70de-seed-62294-steps-6-candidate.png",
   "review": "p7-5-4-character-lora-augmentation-sport-front_quarter_right-tennis-forehand-code-7b70de-seed-62294-steps-6-review.json",
   "elapsed_seconds": 46.22,
@@ -31,5 +31,5 @@
     "The rendering style does not match the approved P7-5.1 restrained-webtoon watercolor style contract.",
     "The visible face does not match the shared face-identity contract, including its chestnut-brown and orange-amber iris rule."
   ],
-  "decision": "Candidate only; require human approval before LoRA dataset inclusion."
+  "decision": "Approved by human review for inclusion in the styled character-LoRA dataset."
 }
