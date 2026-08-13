@@ -14,6 +14,6 @@
   "prompt": "Render the supplied full-body figure in restrained webtoon watercolor. Preserve the supplied figure's exact pose, view, facial identity, anatomy, clothing silhouette, and plain off-white studio background. Preserve equal-sized orange-amber irises in both eyes. Use the second supplied image only as the visual-style reference. One person, no text or labels.",
   "output": "p7-5-4-character-lora-pose-stage2-pose-extra-front-wide-squat-reference.png",
   "review": "p7-5-4-character-lora-pose-stage2-pose-extra-front-wide-squat-reference-review.json",
-  "elapsed_seconds": 32.19,
+  "elapsed_seconds": 32.29,
   "decision": "Human approved for the styled character-LoRA dataset; retain the Stage-1 pose anchor and this approval record."
 }
