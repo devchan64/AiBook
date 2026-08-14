@@ -122,7 +122,7 @@ P7-5의 기록은 `화풍 기준 → 인물 기준 → 장면·구조 → 보정
 
 다음 실행은 같은 prompt·seed 반복이 아니라 실패한 계약만 바꾼다. 특히 가방 mask, source/mask 종횡비, img2img strength, OpenPose scale을 분리해 한 번에 하나만 변경한다. 승인 PNG·review JSON·guide를 사람이 확인하기 전에는 학습 데이터나 제작 입력으로 승격하지 않는다.
 
-## 5. 재현 기록과 삭제된 중복 노트
+## 5. 재현 기록과 흡수된 중복 노트
 
 - 이번 세션의 요약 JSON: `.tmp/p7-5-4-sequential-control-gate-report.json`
 - 얼굴 비교 후보: `.tmp/p7-5-4-sdxl-safe-face-openpose-fullbody-probe/`
@@ -130,3 +130,65 @@ P7-5의 기록은 `화풍 기준 → 인물 기준 → 장면·구조 → 보정
 - 쌍별·3중 결합 후보: `.tmp/p7-5-4-outfit-plus-proportion-*`, `.tmp/p7-5-4-triple-grid-*`
 - `.tmp/`는 재현·검수용 임시 기록이며 커밋 대상이 아니다.
 - 기존 `management/release-notes/sections/part-07/P7-5.1.md`~`P7-5.6.md`는 Section별 릴리즈 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
+- 아래 `authoring/` 공통 노트 8개는 고유 내용을 이 문서의 6절로 흡수한 뒤 삭제한다. 오픈 체크리스트와 Section 분석은 Part 전체 운영 문서이므로 유지한다.
+  - `part-07-character-pack-generation-research-2026-08-03.md`
+  - `part-07-controlnet-webtoon-pipeline-v1.md`
+  - `part-07-identity-structure-research-2026-08-03.md`
+  - `part-07-local-reference-replacement-preflight.md`
+  - `part-07-turnaround-improvement-options-2026-08-04.md`
+  - `part-07-webtoon-character-consistency-source-notes.md`
+  - `part-07-webtoon-production-pipeline-research.md`
+  - `part-07-three-experiment-feasibility.md`
+
+## 6. 흡수한 공통 관리노트의 고유 내용
+
+다음 8개 공통 관리노트는 P7-5 관련 내용과 Part 7 전체 파이프라인 제안이 섞여 있었다. 원문을 파일별로 유지하지 않고, 아래의 고유 판단만 이 통합노트에 흡수한다. 동일한 모델·seed·mask 반복은 앞 절의 대표 결과로 대체한다.
+
+### 캐릭터팩·로컬 참조 대체
+
+- 캐릭터팩은 단일 정면 이미지가 아니라 얼굴·전신·의상·소품·화풍을 같은 revision으로 승인한 원본 묶음이다. 다각도 모델과 character sheet, reference adapter와 pack 생성기를 동일시하지 않는다.
+- 로컬 GPU 후보는 실행 가능성·각도 확장·LoRA feasibility의 세 gate를 순서대로 거친다. canonical 기준을 대체하려면 각 방향의 얼굴·전신·복장·소품과 held-out 검수가 모두 통과해야 한다.
+- 로컬 후보는 기존 승인 기준을 자동 대체하지 않는다. 승인 전에는 draft로만 보존하고, 미통과 결과를 새 학습 입력으로 재사용하지 않는다.
+
+### ControlNet 중심 파이프라인
+
+- `identity`, `scene/shot`, `style`, `local repair`를 서로 다른 조건으로 기록한다. ControlNet은 누구인지가 아니라 어디에 어떻게 있는지를 전달한다.
+- 최소 흐름은 승인 reference pack → shot contract → scene control pack → 구조 생성 → identity/style 결합 → 영역별 inpaint → 4컷 연속성 검수다.
+- 한 컷에 주 구조 조건 하나를 먼저 적용하고, 보조 조건은 단독 gate를 통과한 뒤에만 추가한다. mask 밖의 승인 특징을 보존하지 못하면 다음 단계로 진행하지 않는다.
+
+### Identity·structure 조사에서 남긴 경계
+
+- Canny/OpenPose scale을 계속 올리는 것만으로 identity·소품 geometry를 동시에 고정할 수 없었다. 구조 조건은 silhouette·camera·pose 보조로만 판정한다.
+- OpenPose/T2I-Adapter, Ctrl-X, attention injection, MimicMotion, VACE, StableAnimator, CharaConsist 등은 8 GB에서 실행·품질·접근 조건 중 하나 이상이 제작 gate를 충족하지 못해 보류했다.
+- reference 수 증가나 adapter scale 반복은 새 가설이 아니다. 다음 실험은 입력 역할·마스크·해상도·모델 계열 중 하나를 바꿔야 한다.
+
+### Turnaround 개선 기록
+
+- 정면·좌우 측면·후면의 중립 전신은 기준으로 승인할 수 있지만, 3/4 회전과 동적 pose의 성공을 보장하지 않는다.
+- 추상 blockout, 다중 전신 reference, FLUX 다중참조에서 얼굴·골반·다리 방향과 가방 strap이 분리되는 실패가 반복됐다. 밀집 구조 입력과 appearance 입력을 분리한다.
+- ControlNet++·Zero123++는 현 8 GB 환경의 실행·품질 근거가 부족하고, FLUX multi-reference는 reference 수보다 역할 충돌을 먼저 검수해야 하므로 기본 경로로 채택하지 않는다.
+
+### 캐릭터 일관성 참고자료의 역할표
+
+- LoRA/DreamBooth: 누구인가를 학습하는 모델 보정.
+- IP-Adapter/Face Adapter: 기준 이미지와 닮는 정도를 조절하는 참조 조건.
+- ControlNet/T2I-Adapter: pose·선화·depth·구도를 전달하는 구조 조건.
+- inpaint/img2img: 전체 frame gate 이후 실패 영역만 수정하는 국소 보정.
+- ComfyUI workflow: 위 역할과 sampler·scheduler·scale·seed를 재현 가능한 순서로 기록하는 실행 지도.
+
+### Part 7 제작 파이프라인의 공통 gate
+
+- 최종 목표는 한 장의 미려한 출력이 아니라 여러 컷에서 같은 캐릭터로 읽히는 시퀀스다.
+- 품질 gate는 `identity/face`, `style`, `pose·body`, `camera·scene`, `hands·props·feet`를 분리하고 4컷 contact sheet에서 함께 검수한다.
+- pose-first, face-first, camera/background-first, object-first 중 컷 목적에 맞는 시작 원본을 선택한다. 생성 모델이 관절·가림·접지를 모두 보정할 것이라고 가정하지 않는다.
+- 식자·세로 배치·말풍선 공간은 이미지 생성 품질과 별도 gate다.
+
+### 8 GB 실험 순서의 통합 기준
+
+1. 실행 환경과 checkpoint·dtype·offload를 확인한다.
+2. 화풍·캐릭터 기준을 고정하고 held-out 입력을 분리한다.
+3. 단일 구조 조건과 단일 identity 조건을 각각 실행한다.
+4. 통과한 조건만 쌍별, 이후 3중 결합으로 확장한다.
+5. OOM, VRAM, 시간, mask 경계, identity·style·pose 판정을 실행 JSON에 남긴다.
+
+이 절차는 P7-5.1~5.6의 Section 릴리즈노트와 독립된 공통 운영 요약이다. `part-07-open-checklist.md`와 `part-07-section-analysis.md`는 Part 전체 체크포인트·분석 문서이므로 삭제하지 않는다.
