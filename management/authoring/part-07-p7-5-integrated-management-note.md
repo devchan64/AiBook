@@ -150,6 +150,43 @@ P7-5의 기록은 `화풍 기준 → 인물 기준 → 장면·구조 → 보정
 - 판정: Face Adapter는 identity 보조로 유효하지만 복장 보존과 충돌한다. 다음 실험은 identity와 outfit/reference 역할을 분리하고, pose/camera 제어는 그 이후에 추가한다.
 - 검수 기록: `.tmp/p7-5-4-face-adapter-lora-960x1440-review.json`.
 
+### 960×1440 Face + outfit reference + LoRA 비교
+
+- 얼굴 reference와 승인 전면 착장 reference를 dual IP-Adapter로 넣고 LoRA scale `0.6`, adapter scale `[0.25, 0.35]`, 30 step, seed `62295/62296`을 사용했다. ControlNet·Inpaint·VTON은 제외했다.
+- 정면에서는 재킷·가방·스트랩이 더 잘 나타났지만 바지가 발목까지 내려오지 않았다. 우측 3/4에서는 바지와 다리 형태가 크게 붕괴했다.
+- 판정: 복장 reference는 정면 보조에는 효과가 있으나 방향 일반화와 구조 보존은 실패했다. 다음은 pose/camera 구조 제어를 별도 추가해 reference의 방향 의존성을 검증한다.
+- 검수 기록: `.tmp/p7-5-4-face-outfit-adapter-lora-960x1440-review.json`.
+
+### 960×1440 OpenPose 구조 제어 비교
+
+- 첫 실행은 OpenPose skeleton이 아닌 인물 RGB를 ControlNet 입력으로 넘긴 오류가 있어 OpenPose 결과로 무효 처리했다. 해당 후보는 판정 근거로 사용하지 않는다.
+- 실제 skeleton map으로 `960×1440`, 30 step, seed `62296`, 얼굴·전면 착장 dual reference와 LoRA를 고정하고 ControlNet scale `0.8/1.0`을 비교했다.
+- `1.0`은 다리·몸통의 큰 배치를 더 강하게 따르게 했지만, 두 조건 모두 목표 우측 3/4 카메라 회전을 충분히 만들지 못했다. 복장·가방·스트랩은 조건부로 남고 identity도 부분 통과다.
+- 판정: OpenPose는 2D 관절·전신 배치에는 유효하지만 camera/rotation을 단독으로 고정하지 못한다. 다음 구조 실험은 camera-specific conditioning을 별도로 검증한다.
+- 검수 기록: `.tmp/p7-5-4-true-openpose-scale-ab-review.json`.
+
+### 우측 3/4 얼굴 reference 교체
+
+- OpenPose·전면 착장 reference·LoRA·`960×1440` 조건을 고정하고 얼굴 reference만 우측 3/4 자산으로 바꿨다.
+- 결과는 우측 3/4 카메라로 안정되지 않았고, 가방이 이탈하며 어깨-힙 스트랩이 끊겼다. 얼굴도 조건부에 그쳤다.
+- 판정: 방향별 얼굴 reference 교체만으로 pose/camera나 소품 구조를 해결할 수 없다. 다음 비교는 얼굴 reference를 고정하고 OpenPose 제어 강도만 분리한다.
+- 검수 기록: `.tmp/p7-5-4-face-right-quarter-outfit-lora-openpose-960x1440-review.json`.
+
+### 우측 3/4 Canny camera 구조 비교
+
+- 우측 3/4 전신 기준의 Canny edge를 구조 입력으로 사용하고, 얼굴·전면 착장 dual reference와 LoRA를 `960×1440`, 30 step, seed `62296`에서 고정했다.
+- Canny는 우측 3/4 걷기 방향과 전신 비율을 가장 잘 전달했다. 그러나 흰 재킷이 사라지고 한쪽 눈이 무너졌으며 가방·스트랩도 부분 통과에 그쳤다.
+- 판정: Canny는 camera/pose 조건으로 통과하지만 appearance 조건과 경쟁한다. 이후에는 camera 구조와 identity·복장 조건의 결합 순서 또는 scale을 별도 가설로 검증하며, 이 후보는 승인하지 않는다.
+- 검수 기록: `.tmp/p7-5-4-face-outfit-lora-canny-960x1440-review.json`.
+
+> 한계: Canny는 기준 이미지에 이미 보이는 외곽·가림 관계를 전달할 뿐, 새 동작을 선언적으로 지정하는 조건이 아니다. 특히 팔·다리·소품이 서로 가려지는 동작에서는 edge가 부족하거나 충돌해 신체 형태와 가림 순서를 고정하지 못했다. 따라서 다양한 포즈 생성의 기준 경로로는 사용하지 않고, camera·silhouette 보조 조건으로만 제한한다.
+
+### 재사용 OpenPose map 자산
+
+- detector를 매 실험에서 다시 실행하지 않도록 승인 전신 기준의 정면·우측 3/4·좌측 측면·우측 측면·후면 OpenPose skeleton map을 정적 자산으로 저장했다.
+- 생성기는 `p7_5_4_prepare_openpose_maps.py`이며, 저장 파일은 모두 `p7-5-4-openpose-...-reference.png` 형식으로 `openpose` 키워드를 포함한다.
+- 이후 OpenPose 실험은 이 자산을 직접 입력으로 사용한다. 구조 실험의 재현성은 높아지지만, 2D skeleton map이 camera/rotation 정보를 충분히 주지 못한다는 기존 판정은 유지한다.
+
 ## 4. 현재 승인 경계와 다음 실험 규칙
 
 | 단계 | 현재 판정 | 다음 단계 조건 |
