@@ -26,7 +26,7 @@ from PIL import Image, ImageDraw
 
 ROOT = Path("/home/cbsim/ws/AiBook")
 ASSETS = ROOT / "docs/assets/part-07/chapter-05"
-ANIMAGINE = Path(
+DEFAULT_MODEL = Path(
     "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/"
     "snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96"
 )
@@ -66,6 +66,54 @@ TICKETS = (
             "r_eye": (274, 158), "l_eye": (246, 158), "r_ear": (291, 166), "l_ear": (230, 166),
         },
     },
+    {
+        "id": "side-lunge-left",
+        "text": "hold a deep side lunge toward image left, torso upright",
+        "points": {
+            "nose": (255, 155), "neck": (255, 215),
+            "r_shoulder": (305, 220), "r_elbow": (345, 300), "r_wrist": (360, 370),
+            "l_shoulder": (205, 220), "l_elbow": (165, 300), "l_wrist": (150, 370),
+            "r_hip": (285, 400), "r_knee": (365, 510), "r_ankle": (410, 680),
+            "l_hip": (225, 400), "l_knee": (135, 520), "l_ankle": (65, 680),
+            "r_eye": (270, 148), "l_eye": (240, 148), "r_ear": (290, 158), "l_ear": (220, 158),
+        },
+    },
+    {
+        "id": "one-knee-kneel",
+        "text": "kneel on the right knee with the left foot planted, hands relaxed at the sides",
+        "points": {
+            "nose": (255, 190), "neck": (255, 245),
+            "r_shoulder": (300, 250), "r_elbow": (325, 330), "r_wrist": (330, 410),
+            "l_shoulder": (210, 250), "l_elbow": (185, 330), "l_wrist": (180, 410),
+            "r_hip": (285, 430), "r_knee": (300, 565), "r_ankle": (260, 650),
+            "l_hip": (225, 430), "l_knee": (185, 535), "l_ankle": (185, 690),
+            "r_eye": (270, 183), "l_eye": (240, 183), "r_ear": (290, 193), "l_ear": (220, 193),
+        },
+    },
+    {
+        "id": "profile-left-step",
+        "text": "walk toward image left in a left profile view",
+        "points": {
+            "nose": (225, 155), "neck": (250, 215),
+            "r_shoulder": (285, 220), "r_elbow": (315, 300), "r_wrist": (335, 365),
+            "l_shoulder": (250, 220), "l_elbow": (230, 295), "l_wrist": (210, 350),
+            "r_hip": (280, 400), "r_knee": (320, 535), "r_ankle": (365, 685),
+            "l_hip": (245, 400), "l_knee": (210, 515), "l_ankle": (145, 650),
+            "r_eye": (235, 148), "l_eye": (222, 148), "r_ear": (260, 158), "l_ear": (242, 158),
+        },
+    },
+    {
+        "id": "rear-reach-left",
+        "text": "back view, stand and extend the left arm toward image left",
+        "points": {
+            "nose": (255, 155), "neck": (255, 215),
+            "r_shoulder": (305, 220), "r_elbow": (330, 310), "r_wrist": (340, 380),
+            "l_shoulder": (205, 220), "l_elbow": (125, 235), "l_wrist": (55, 250),
+            "r_hip": (285, 400), "r_knee": (295, 545), "r_ankle": (300, 695),
+            "l_hip": (225, 400), "l_knee": (215, 545), "l_ankle": (210, 695),
+            "r_eye": (270, 148), "l_eye": (240, 148), "r_ear": (290, 158), "l_ear": (220, 158),
+        },
+    },
 )
 OPENPOSE_KEYS = (
     "nose", "neck", "r_shoulder", "r_elbow", "r_wrist", "l_shoulder", "l_elbow", "l_wrist",
@@ -80,6 +128,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--lora-scale", type=float, default=0.3)
     parser.add_argument("--lora-dir", type=Path, default=EXPERIMENTAL_LORA)
+    parser.add_argument("--model", type=Path, default=DEFAULT_MODEL, help="The same SDXL base snapshot used to train the LoRA")
     return parser.parse_args()
 
 
@@ -119,11 +168,10 @@ def render_openpose(ticket: dict) -> Image.Image:
 
 def prompt(ticket: dict) -> str:
     return (
-        "p7mira, adult Korean woman, "
-        f"{IDENTITY['lora_hair_identity_description']}, "
-        f"{IDENTITY['lora_eye_identity_description']}, "
-        "webtoon watercolor, full body, "
-        f"{ticket['text']}, simple pale studio background"
+        "p7mira, adult Korean woman, teal bob, amber eyes, "
+        "white cropped jacket, charcoal crop top, teal wide-leg trousers, "
+        "white sneakers, navy crossbody bag, webtoon watercolor, full body, "
+        f"{ticket['text']}"
     )
 
 
@@ -141,12 +189,14 @@ def main() -> int:
         raise RuntimeError("CUDA is required")
     if not args.lora_dir.is_dir():
         raise FileNotFoundError(f"experimental character LoRA missing: {args.lora_dir}")
+    if not args.model.is_dir():
+        raise FileNotFoundError(f"SDXL base snapshot is missing: {args.model}")
     args.output.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
     torch.cuda.reset_peak_memory_stats()
     controlnet = ControlNetModel.from_pretrained(OPENPOSE, torch_dtype=torch.float16)
     pipe = StableDiffusionXLControlNetPipeline.from_pretrained(
-        ANIMAGINE, controlnet=controlnet, torch_dtype=torch.float16, use_safetensors=True, safety_checker=None
+        args.model, controlnet=controlnet, torch_dtype=torch.float16, use_safetensors=True, safety_checker=None
     )
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
@@ -180,7 +230,7 @@ def main() -> int:
     sheet.save(args.output / "text-pose-character-lora-on-off-contact-sheet.png")
     report = {
         "purpose": "text pose ticket + OpenPose ControlNet + experimental character LoRA off/on",
-        "base_model": str(ANIMAGINE), "controlnet": str(OPENPOSE), "lora": str(args.lora_dir),
+        "base_model": str(args.model), "controlnet": str(OPENPOSE), "lora": str(args.lora_dir),
         "image_reference_inputs": [], "steps": args.steps, "lora_scale": args.lora_scale,
         "peak_vram_mib": round(torch.cuda.max_memory_allocated() / 1024**2, 1),
         "seconds": round(time.perf_counter() - started, 2), "rows": rows,

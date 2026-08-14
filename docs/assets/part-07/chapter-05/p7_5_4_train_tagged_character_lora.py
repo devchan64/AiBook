@@ -23,7 +23,7 @@ from transformers import AutoTokenizer, CLIPTextModel, CLIPTextModelWithProjecti
 ROOT = Path("/home/cbsim/ws/AiBook")
 ASSETS = ROOT / "docs/assets/part-07/chapter-05"
 DEFAULT_DATASET = ROOT / ".tmp/p7-5-4-character-lora-action-36/dataset-manifest.json"
-MODEL = Path(
+DEFAULT_MODEL = Path(
     "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/"
     "snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96"
 )
@@ -52,11 +52,17 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / ".tmp/p7-5-4-tagged-character-lora")
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET, help="Prepared dataset-manifest.json")
+    parser.add_argument("--model", type=Path, default=DEFAULT_MODEL, help="SDXL base snapshot used for both training and inference")
     parser.add_argument("--steps", type=int, default=300)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--width", type=int, default=320)
     parser.add_argument("--height", type=int, default=448)
+    parser.add_argument(
+        "--aspect-ratio-buckets",
+        action="store_true",
+        help="Keep square portraits square and full-body sources at their native 2:3 ratio.",
+    )
     return parser.parse_args()
 
 
@@ -84,6 +90,15 @@ def tokenize(tokenizer: AutoTokenizer, caption: str) -> torch.Tensor:
     ).input_ids
 
 
+def dimensions(path: Path, width: int, height: int, aspect_ratio_buckets: bool) -> tuple[int, int]:
+    if not aspect_ratio_buckets:
+        return width, height
+    source_width, source_height = Image.open(path).size
+    if source_width == source_height:
+        return width, width
+    return width, width * 3 // 2
+
+
 def pixels(path: Path, width: int, height: int) -> torch.Tensor:
     image = Image.open(path).convert("RGB").resize((width, height), Image.Resampling.LANCZOS)
     array = np.asarray(image).copy()
@@ -101,19 +116,22 @@ def main() -> int:
     torch.backends.cuda.matmul.allow_tf32 = True
     device, dtype = torch.device("cuda"), torch.bfloat16
 
-    tokenizer_1 = AutoTokenizer.from_pretrained(MODEL, subfolder="tokenizer", use_fast=False)
-    tokenizer_2 = AutoTokenizer.from_pretrained(MODEL, subfolder="tokenizer_2", use_fast=False)
-    text_1 = CLIPTextModel.from_pretrained(MODEL, subfolder="text_encoder", torch_dtype=dtype).eval()
-    text_2 = CLIPTextModelWithProjection.from_pretrained(MODEL, subfolder="text_encoder_2", torch_dtype=dtype).eval()
-    vae = AutoencoderKL.from_pretrained(MODEL, subfolder="vae", torch_dtype=dtype).eval()
+    if not args.model.is_dir():
+        raise FileNotFoundError(f"SDXL base snapshot is missing: {args.model}")
+    tokenizer_1 = AutoTokenizer.from_pretrained(args.model, subfolder="tokenizer", use_fast=False)
+    tokenizer_2 = AutoTokenizer.from_pretrained(args.model, subfolder="tokenizer_2", use_fast=False)
+    text_1 = CLIPTextModel.from_pretrained(args.model, subfolder="text_encoder", torch_dtype=dtype).eval()
+    text_2 = CLIPTextModelWithProjection.from_pretrained(args.model, subfolder="text_encoder_2", torch_dtype=dtype).eval()
+    vae = AutoencoderKL.from_pretrained(args.model, subfolder="vae", torch_dtype=dtype).eval()
     for module in (text_1, text_2, vae):
         module.requires_grad_(False)
 
     # Keep the encoder stages separate from the UNet.  This is essential when
     # the local ComfyUI server already occupies part of an 8 GB GPU.
-    cached: list[tuple[torch.Tensor, torch.Tensor, torch.Tensor]] = []
+    cached: list[tuple[torch.Tensor, torch.Tensor, torch.Tensor, int, int]] = []
     for path, caption in examples:
-        image = pixels(path, args.width, args.height).to(device=device, dtype=dtype)
+        image_width, image_height = dimensions(path, args.width, args.height, args.aspect_ratio_buckets)
+        image = pixels(path, image_width, image_height).to(device=device, dtype=dtype)
         ids_1, ids_2 = tokenize(tokenizer_1, caption).to(device), tokenize(tokenizer_2, caption).to(device)
         with torch.no_grad():
             vae.to(device)
@@ -127,13 +145,13 @@ def main() -> int:
             hidden_2 = encoded_2.hidden_states[-2].cpu()
             pooled = encoded_2[0].cpu()
             text_2.to("cpu")
-        cached.append((latents, torch.cat([hidden_1, hidden_2], dim=-1), pooled))
+        cached.append((latents, torch.cat([hidden_1, hidden_2], dim=-1), pooled, image_width, image_height))
     del vae, text_1, text_2
     gc.collect()
     torch.cuda.empty_cache()
 
-    unet = UNet2DConditionModel.from_pretrained(MODEL, subfolder="unet", torch_dtype=dtype)
-    scheduler = DDPMScheduler.from_pretrained(MODEL, subfolder="scheduler")
+    unet = UNet2DConditionModel.from_pretrained(args.model, subfolder="unet", torch_dtype=dtype)
+    scheduler = DDPMScheduler.from_pretrained(args.model, subfolder="scheduler")
     unet.requires_grad_(False)
     unet.add_adapter(LoraConfig(r=8, lora_alpha=8, target_modules=["to_k", "to_q", "to_v", "to_out.0"]))
     unet.to(device)
@@ -142,12 +160,12 @@ def main() -> int:
     peak_mib = 0.0
 
     for step in range(1, args.steps + 1):
-        latents, embeds, pooled = cached[(step - 1) % len(cached)]
+        latents, embeds, pooled, image_width, image_height = cached[(step - 1) % len(cached)]
         latents, embeds, pooled = latents.to(device), embeds.to(device), pooled.to(device)
         noise = torch.randn_like(latents)
         timesteps = torch.randint(0, scheduler.config.num_train_timesteps, (1,), device=device).long()
         noisy = scheduler.add_noise(latents, noise, timesteps)
-        time_ids = torch.tensor([[args.height, args.width, 0, 0, args.height, args.width]], device=device, dtype=dtype)
+        time_ids = torch.tensor([[image_height, image_width, 0, 0, image_height, image_width]], device=device, dtype=dtype)
         prediction = unet(noisy, timesteps, encoder_hidden_states=embeds, added_cond_kwargs={"text_embeds": pooled, "time_ids": time_ids}).sample
         loss = functional.mse_loss(prediction.float(), noise.float())
         loss.backward()
@@ -161,9 +179,11 @@ def main() -> int:
     state = convert_state_dict_to_diffusers(get_peft_model_state_dict(unet))
     StableDiffusionXLPipeline.save_lora_weights(args.output, unet_lora_layers=state)
     report = {
-        "status": "training_completed", "model": str(MODEL), "dataset_manifest": str(args.dataset),
+        "status": "training_completed", "model": str(args.model), "dataset_manifest": str(args.dataset),
         "training_images": [str(path) for path, _caption in examples],
-        "caption_format": "Animagine-compatible tag sequence", "steps": args.steps, "resolution": [args.width, args.height],
+        "caption_format": "Animagine-compatible tag sequence", "steps": args.steps,
+        "resolution": [args.width, args.height], "aspect_ratio_buckets": args.aspect_ratio_buckets,
+        "bucket_dimensions": {"square_portrait": [args.width, args.width], "full_body": [args.width, args.width * 3 // 2]} if args.aspect_ratio_buckets else None,
         "rank": 8, "dtype": "bf16", "learning_rate": args.learning_rate, "loss_first": losses[0],
         "loss_last": losses[-1], "peak_vram_mib": peak_mib, "adapter": "pytorch_lora_weights.safetensors",
         "scope": "Style-conditioned character identity and approved action-pose diversity; human evaluation remains required.",

@@ -105,10 +105,10 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-rear-track-run", "rear", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "rear_gymnastics_landing", "Rear controlled gymnastics landing: both feet shoulder-width apart and flat on the floor, knees softly bent, torso upright, and both arms raised diagonally overhead in a balanced V.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-gymnastics-landing", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "acrobatics_landing", "Solo acrobatic landing: both feet grounded, bent knees, arms in a V.", use_face_sheet=False,
+            "sport-front_quarter_left-gymnastics-landing", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "dance_diagonal_stretch", "Dance diagonal stretch: left foot forward, right foot back, left arm raised, right hand at hip.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-boxing-jab", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "contemporary_dance_reach", "Dance lunge: left knee bent, right leg straight back, right arm forward.",
+            "sport-front_quarter_left-boxing-jab", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "dance_upright_pose", "Dance upright pose: feet apart, torso upright, left hand on hip, right arm raised overhead.",
         ),
         CandidateSpec(
             "sport-front_quarter_right-volleyball-set", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "acrobatics_balance", "Acrobatic balance: one knee raised, both arms lifted overhead.",
@@ -117,48 +117,48 @@ def build_specs() -> tuple[CandidateSpec, ...]:
             "sport-profile_left-breaking-floor-pose", "profile_left", "basic", "dance_floor", "plain off-white studio floor", "floor_dance_kneel", "Floor dance kneel: right knee down, left foot forward, left arm reaching up.",
         ),
         CandidateSpec(
-            "sport-profile_right-wrestling-shot", "profile_right", "basic", "dance_floor", "plain off-white studio floor", "dance_lunge", "Dance lunge: right knee bent, left leg back, left arm forward, right arm back.",
+            "sport-profile_right-wrestling-shot", "profile_right", "basic", "dance_floor", "plain off-white studio floor", "dance_profile_reach", "Dance profile reach: feet apart, torso upright, right arm forward, left hand at hip.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-long-jump", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "dance_jump", "Solo dance jump: right knee up, left leg trailing, left arm up, right arm down.",
+            "sport-front_quarter_right-long-jump", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "dance_weight_shift", "Dance weight shift: right foot forward, left toe behind, torso upright, arms relaxed by the sides.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-badminton-forehand", "front_quarter_right", "basic", "tennis_court", "empty indoor court under even light", "badminton_forehand", "Front-quarter side step toward image right: right foot planted sideways, left foot crossing behind, hips turned right, right hand on hip, left arm relaxed; empty hands.",
+            "sport-front_quarter_right-badminton-forehand", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "dance_open_chest", "Dance open chest pose: feet apart, torso upright, both arms extended low to the sides.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-gymnastics-split-leap", "front_quarter_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_split_leap", "Perform a split leap toward image left with both legs extended in opposite directions and both arms lifted for balance.",
+            "sport-front_quarter_left-gymnastics-split-leap", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "dance_one_knee_pose", "Dance one-knee pose: right knee down, left foot forward, torso upright, left hand on hip.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-rugby-carry", "front_quarter_right", "basic", "rugby_field", "empty rugby field under even light", "rugby_carry", "Run toward image right carrying one rugby ball under one arm.",
+            "sport-front_quarter_right-rugby-carry", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "dance_turn", "Dance turn balance: right foot planted, left knee raised, arms rounded overhead.",
         ),
         CandidateSpec(
-            "sport-profile_left-gymnastics-arabesque", "profile_left", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_arabesque_left", "Left-facing knee lift: left foot planted, right knee lifted to hip height, torso upright, left hand on hip, and right arm relaxed down.",
+            "sport-profile_left-gymnastics-arabesque", "profile_left", "basic", "dance_floor", "plain off-white studio floor", "dance_knee_balance", "Dance knee balance: left foot planted, right knee raised, left arm overhead.",
         ),
         CandidateSpec(
-            "sport-profile_right-gymnastics-lunge", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_lunge_right", "Right-facing seated squat: hips low, both feet flat and shoulder width apart, knees bent, torso upright, and both hands resting on the thighs.",
+            "sport-profile_right-gymnastics-lunge", "profile_right", "basic", "dance_floor", "plain off-white studio floor", "dance_deep_squat", "Dance deep squat: feet apart, hips low, torso forward, arms reaching forward.",
         ),
         CandidateSpec(
-            "sport-rear-gymnastics-turn", "rear", "basic", "gymnastics_floor", "empty gymnastics floor with a blue spring floor and bright indoor light", "gymnastics_turn_rear", "Rear weight shift: right foot planted, left toe touching the ground behind, hips shifted right, torso upright, and hands relaxed at the sides.",
+            "sport-rear-gymnastics-turn", "rear", "basic", "dance_floor", "plain off-white studio floor", "rear_dance_weight_shift", "Rear dance weight shift: right foot planted, left toe behind, both arms overhead.",
         ),
     )
     extension_specs = (
         CandidateSpec(
-            "sport-front_quarter_left-wrestling-stance", "front_quarter_left", "basic", "wrestling_mat", "empty wrestling mat under even light", "wrestling_stance", "Low wrestling stance, knees bent, open hands forward.",
+            "sport-front_quarter_left-wrestling-stance", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "dance_ready_stance", "Dance ready stance: knees bent, arms open forward.",
         ),
         CandidateSpec(
-            "sport-profile_right-gymnastics-floor-balance", "profile_right", "basic", "gymnastics_floor", "empty gymnastics floor under even light", "gymnastics_floor_balance_right", "Floor gymnastics balance on an empty floor: one leg back, arms wide, both white sneakers visible.",
+            "sport-profile_right-gymnastics-floor-balance", "profile_right", "basic", "dance_floor", "plain off-white studio floor", "dance_back_leg_balance", "Dance balance: right foot planted, left leg back, arms wide.",
         ),
         CandidateSpec(
-            "sport-front_quarter_left-track-acceleration", "front_quarter_left", "basic", "running_track", "empty running track under even light", "track_acceleration", "Sprint forward: one knee high, opposite arm forward.",
+            "sport-front_quarter_left-track-acceleration", "front_quarter_left", "basic", "dance_floor", "plain off-white studio floor", "dance_knee_drive", "Dance knee drive: right foot planted, left knee high, right arm forward.",
         ),
         CandidateSpec(
-            "sport-front_quarter_right-soccer-defensive-shuffle", "front_quarter_right", "basic", "soccer_field", "empty soccer field under even light", "soccer_defensive_shuffle", "Soccer defensive shuffle: knees bent, arms relaxed.",
+            "sport-front_quarter_right-soccer-defensive-shuffle", "front_quarter_right", "basic", "dance_floor", "plain off-white studio floor", "dance_side_lunge", "Dance side lunge: right knee bent, left leg straight, arms low.",
         ),
         CandidateSpec(
-            "sport-profile_left-track-start", "profile_left", "basic", "running_track", "empty outdoor running track under clear daytime light", "track_start", "Left-facing stride: left foot planted forward, right foot extended behind on its toe, left knee bent, torso leaning forward, and elbows bent in a running posture.",
+            "sport-profile_left-track-start", "profile_left", "basic", "dance_floor", "plain off-white studio floor", "dance_profile_standing", "Left-facing dance standing pose: feet shoulder-width apart, torso upright, both arms relaxed straight at the sides.",
         ),
         CandidateSpec(
-            "sport-profile_right-boxing-duck", "profile_right", "basic", "boxing_gym", "empty boxing gym under even light", "boxing_duck", "Low side crouch toward image right: both feet grounded, knees bent, torso inclined forward, elbows bent, and both hands open beside the cheeks.",
+            "sport-profile_right-boxing-duck", "profile_right", "basic", "dance_floor", "plain off-white studio floor", "dance_low_curve", "Dance low curve: both feet grounded, knees bent, torso forward, arms curved.",
         ),
         CandidateSpec(
             "sport-front-track-high-knees", "front", "basic", "running_track", "empty running track under even light", "track_high_knees", "High-knee running drill, one knee raised, opposite arm forward.",

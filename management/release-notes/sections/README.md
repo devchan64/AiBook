@@ -52,6 +52,8 @@
 
 ## Part 디렉터리 운영
 
+P7-5.1~P7-5.6은 Section별 개정 이력을 각각 유지한다. 공통 실험 결론을 요약한 `management/authoring/part-07-p7-5-integrated-management-note.md`는 release note를 대체하지 않으며, Section release note와 함께 사용한다.
+
 - Part별 하위 폴더는 `part-01`, `part-02`처럼 현재 책의 Part 번호와 일치시킨다.
 - 새 Part에서 처음 Section 릴리즈노트를 만들 때는 해당 Part 폴더를 먼저 만든다.
 - Part 시작 페이지와 Part 마무리 페이지도 현재 기본 릴리즈노트 대상에 포함한다.
