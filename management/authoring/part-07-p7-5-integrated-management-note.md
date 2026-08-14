@@ -176,16 +176,40 @@ P7-5의 기록은 `화풍 기준 → 인물 기준 → 장면·구조 → 보정
 
 - 우측 3/4 전신 기준의 Canny edge를 구조 입력으로 사용하고, 얼굴·전면 착장 dual reference와 LoRA를 `960×1440`, 30 step, seed `62296`에서 고정했다.
 - Canny는 우측 3/4 걷기 방향과 전신 비율을 가장 잘 전달했다. 그러나 흰 재킷이 사라지고 한쪽 눈이 무너졌으며 가방·스트랩도 부분 통과에 그쳤다.
-- 판정: Canny는 camera/pose 조건으로 통과하지만 appearance 조건과 경쟁한다. 이후에는 camera 구조와 identity·복장 조건의 결합 순서 또는 scale을 별도 가설로 검증하며, 이 후보는 승인하지 않는다.
+- 판정: Canny는 camera/pose 조건으로 부분 통과하지만 appearance 조건과 경쟁한다. 기본 생성·reference·LoRA·구조 조건이 모두 검증된 뒤에도 camera·silhouette 결함이 남을 때만 최후 보정 후보로 검토하며, 이 후보는 승인하지 않는다.
 - 검수 기록: `.tmp/p7-5-4-face-outfit-lora-canny-960x1440-review.json`.
 
-> 한계: Canny는 기준 이미지에 이미 보이는 외곽·가림 관계를 전달할 뿐, 새 동작을 선언적으로 지정하는 조건이 아니다. 특히 팔·다리·소품이 서로 가려지는 동작에서는 edge가 부족하거나 충돌해 신체 형태와 가림 순서를 고정하지 못했다. 따라서 다양한 포즈 생성의 기준 경로로는 사용하지 않고, camera·silhouette 보조 조건으로만 제한한다.
+> 한계: Canny는 기준 이미지에 이미 보이는 외곽·가림 관계를 전달할 뿐, 새 동작을 선언적으로 지정하는 조건이 아니다. 특히 팔·다리·소품이 서로 가려지는 동작에서는 edge가 부족하거나 충돌해 신체 형태와 가림 순서를 고정하지 못했다. 따라서 다양한 포즈 생성의 기준 경로로는 사용하지 않고, Inpaint·VTON과 마찬가지로 camera·silhouette의 최후 보정 후보로만 제한한다.
+
+### Canny + Face Adapter scale 0.50 비교
+
+- Canny scale `0.75`, 착장 adapter `0.25`, LoRA `0.6`, `960×1440`, 30 step, seed `62296`을 고정하고 Face Adapter만 `0.35`에서 `0.50`으로 올렸다.
+- camera·걷기 구조와 전신 비율은 유지됐지만, 한쪽 눈 붕괴와 흰 재킷 소실은 회복되지 않았다.
+- 판정: 이 Canny 결합에서 Face Adapter scale은 identity·복장 실패의 해결 변수가 아니다. 추가 scale sweep은 중단한다.
+- 검수 기록: `.tmp/p7-5-4-face-outfit-lora-canny-960x1440-face50-review.json`.
 
 ### 재사용 OpenPose map 자산
 
 - detector를 매 실험에서 다시 실행하지 않도록 승인 전신 기준의 정면·우측 3/4·좌측 측면·우측 측면·후면 OpenPose skeleton map을 정적 자산으로 저장했다.
 - 생성기는 `p7_5_4_prepare_openpose_maps.py`이며, 저장 파일은 모두 `p7-5-4-openpose-...-reference.png` 형식으로 `openpose` 키워드를 포함한다.
 - 이후 OpenPose 실험은 이 자산을 직접 입력으로 사용한다. 구조 실험의 재현성은 높아지지만, 2D skeleton map이 camera/rotation 정보를 충분히 주지 못한다는 기존 판정은 유지한다.
+
+### LoRA 학습 기반 일치 비교
+
+- 앞선 LoRA 단독·Face Adapter·OpenPose·Canny 결합 중 SDXL Base 1.0으로 학습한 `.tmp/p7-5-4-character-lora-sdxl-base-identity-18-bucketed/`를 Animagine XL 4.0에 연결한 결과는 학습 기반과 추론 기반이 달랐다. 해당 결과는 해상도·step·조건 결합의 탐색 기록으로만 유지하며, LoRA 자체의 성능 판정 근거에서는 제외한다.
+- 기반이 일치하는 두 LoRA를 image reference·ControlNet·Inpaint·VTON 없이 `960×1440`, 30 step, scale `0.6`, seed `62295/62296`으로 다시 비교했다. tagged 12장 학습 LoRA와 P7-5.2 승인 turnaround/full-body 학습 LoRA 모두 정면에서 청록 단발·호박색 눈·흰 재킷·청록 와이드 바지·네이비 가방을 식별 가능하게 유지했다.
+- 학습 기록을 재검수했다. P7-5.2 turnaround LoRA는 11장·300 step·`384×512`이고 모든 sample에 같은 긴 identity caption을 사용해 방향·복장 차이를 명시적으로 학습하지 않은 8 GB feasibility pilot이다. tagged LoRA도 12장·300 step·`320×448`의 identity-anchor pilot이다. 54장 action LoRA는 `320×448`, 600 step으로 이미지당 약 11회 노출에 그쳐, identity·복장·동작을 함께 학습하기에는 부족하다.
+- 따라서 turnaround LoRA가 정면에서 상대적으로 안정적이더라도 기준선으로 승인하지 않는다. 우측 3/4의 옅은 바지색과 신발 겹침은 이 결론과 일치한다. 현재 Animagine XL 캐릭터 LoRA 중 제작 기준선으로 쓸 만큼 충분히 학습된 adapter는 없다.
+- 다음은 방향·복장·동작을 구분한 caption과 고해상도 bucket을 갖춘 새 Animagine XL character-LoRA 학습 설계다. Canny·Inpaint·VTON은 이 학습 검증 경로에 넣지 않는다.
+- 검수 기록: `.tmp/p7-5-4-lora-adapter-compatibility-review.json`.
+
+### 54장 고해상도 Animagine XL character-LoRA 성능시험
+
+- 승인된 화풍 적용 54장(18 identity anchor·36 action), 고유 caption 54개, 정사각·세로 원본 비율을 확인했다. 기존 `320×448` pilot 대신 square `640×640`·full-body `640×960` bucket, rank/alpha `8`, bf16, learning rate `1e-4`, 1,200 step으로 학습했다.
+- `768/1152`와 `640/960` bucket은 일반 UNet 역전파에서 8 GB GPU OOM이 났다. UNet gradient checkpointing을 추가하자 `640/960` 학습은 peak `5,314 MiB`에서 완료했다. 이는 activation 재계산으로 속도와 메모리를 교환한 학습 경로다.
+- 같은 Animagine XL 4.0, `960×1440`, 30 step, seed `62295/62296`, scale `0.6`에서 LoRA off/on을 비교했다. on 정면은 청록 단발·호박색 눈·흰 크롭 재킷·차콜 crop top·청록 와이드 바지·네이비 가방을 함께 유지했고, 보행 변형도 off보다 캐릭터와 복장 계약을 훨씬 안정적으로 유지했다.
+- 판정: 이 adapter는 이전 300/600-step 저해상도 pilot과 달리 캐릭터·화풍·복장 기준의 성능시험을 통과한 조건부 후보다. 보행 prompt는 정적인 쿼터 포즈로 수렴했으므로 새 동작의 정확한 제어까지 통과한 것은 아니다. Canny·Inpaint·VTON 없이 pose 제어를 분리해 다음 gate에서 검증한다.
+- 재현 기록: `.tmp/p7-5-4-animagine-character-lora-54-640-1200-gc/report.json`, `.tmp/p7-5-4-animagine-character-lora-54-640-1200-gc-eval/`.
 
 ## 4. 현재 승인 경계와 다음 실험 규칙
 

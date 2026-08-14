@@ -59,6 +59,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--width", type=int, default=320)
     parser.add_argument("--height", type=int, default=448)
     parser.add_argument(
+        "--gradient-checkpointing",
+        action="store_true",
+        help="Recompute UNet activations during backward pass to fit larger buckets on 8 GB VRAM.",
+    )
+    parser.add_argument(
         "--aspect-ratio-buckets",
         action="store_true",
         help="Keep square portraits square and full-body sources at their native 2:3 ratio.",
@@ -154,6 +159,8 @@ def main() -> int:
     scheduler = DDPMScheduler.from_pretrained(args.model, subfolder="scheduler")
     unet.requires_grad_(False)
     unet.add_adapter(LoraConfig(r=8, lora_alpha=8, target_modules=["to_k", "to_q", "to_v", "to_out.0"]))
+    if args.gradient_checkpointing:
+        unet.enable_gradient_checkpointing()
     unet.to(device)
     optimizer = torch.optim.AdamW((parameter for parameter in unet.parameters() if parameter.requires_grad), lr=args.learning_rate)
     losses: list[float] = []
@@ -184,7 +191,7 @@ def main() -> int:
         "caption_format": "Animagine-compatible tag sequence", "steps": args.steps,
         "resolution": [args.width, args.height], "aspect_ratio_buckets": args.aspect_ratio_buckets,
         "bucket_dimensions": {"square_portrait": [args.width, args.width], "full_body": [args.width, args.width * 3 // 2]} if args.aspect_ratio_buckets else None,
-        "rank": 8, "dtype": "bf16", "learning_rate": args.learning_rate, "loss_first": losses[0],
+        "rank": 8, "dtype": "bf16", "learning_rate": args.learning_rate, "gradient_checkpointing": args.gradient_checkpointing, "loss_first": losses[0],
         "loss_last": losses[-1], "peak_vram_mib": peak_mib, "adapter": "pytorch_lora_weights.safetensors",
         "scope": "Style-conditioned character identity and approved action-pose diversity; human evaluation remains required.",
     }
