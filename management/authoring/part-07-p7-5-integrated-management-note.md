@@ -108,6 +108,48 @@ P7-5의 기록은 `화풍 기준 → 인물 기준 → 장면·구조 → 보정
 - 가중치: face scale/control scale을 각각 `0.3/0.6/0.9`로 맞춘 3개 후보를 생성했다. 세 후보 모두 복장 실루엣은 대체로 유지했지만 OpenPose 자세 변화는 약했고 가방은 직사각형으로 남았다.
 - 판정: 전체 캐릭터 계약은 탈락. `face adapter + source-aligned 재킷·바지 + OpenPose 0.6, 가방 제외`만 실험 체크포인트로 보존한다. 승인 제작 자산이나 학습 입력으로 자동 승격하지 않는다.
 
+### 가방·스트랩 conditioning 비교
+
+- 같은 source(`.tmp/p7-5-4-face-fixed-catvton-pants/candidate.png`), source-aligned 가방+스트랩 마스크, `768×1024`, CatVTON 30 step, guidance `2.5`, seed `62294`를 고정하고 참조만 바꿨다.
+- 승인된 가방 단독 PNG와 전면 착장 PNG를 각각 넣었지만 두 결과 모두 가방 영역이 갈색 둥근 덩어리로 치환되고 대각선 스트랩이 복원되지 않았다. 얼굴도 보존 gate를 통과하지 못했다.
+- 결론: 이번 결과는 참조 PNG 선택 문제가 아니라 CatVTON의 국소 가방 conditioning과 현재 마스크 표현이 가방 실루엣·스트랩 구조를 전달하지 못한 실패로 기록한다. 두 PNG는 승인·학습 입력으로 승격하지 않는다.
+- 검수 기록: `.tmp/p7-5-4-bag-conditioning-comparison-review.json`. 이 결과는 최종 보정 수단의 사전 체크포인트로만 남긴다.
+
+### SDXL 국소 inpaint 대안
+
+- CatVTON과 동일한 source-aligned 가방·스트랩 mask와 seed `62294`를 사용해 SDXL inpainting `768×1024`, 30 step, strength `0.65`, guidance `7.0`을 실행했다.
+- SDXL 결과는 얼굴·흰 재킷·청록 바지를 보존했고, 어깨에서 이미지 오른쪽 힙으로 내려오는 스트랩도 복원했다. 다만 가방 본체가 승인 PNG의 네이비 플랩형 실루엣이 아닌 어두운 질감의 사다리꼴로 생성되어 본체 gate는 조건부다.
+- 판정: 얼굴·복장·스트랩은 부분 통과, 가방 본체·색·플랩 디테일은 미통과. 이 PNG는 제작 승인·학습 입력으로 승격하지 않고, CatVTON 대비 SDXL 국소 inpaint가 더 유망한 체크포인트로만 보존한다.
+- 검수 기록: `.tmp/p7-5-4-sdxl-bag-inpaint-review.json`. Inpaint·VTON은 기본 생성 경로가 아니라 마지막 보정 단계에서만 재검토한다.
+
+### LoRA 단독 기준 실험
+
+- Inpaint·VTON·ControlNet·이미지 reference를 모두 제외하고 Animagine XL 4.0에 캐릭터 LoRA만 적용했다. `512×768`, 30 step, LoRA scale `0.6`, seed `62295/62296`을 사용했다.
+- 정면 후보는 얼굴·단발·복장 색·전신 비율이 부분적으로 유지됐지만, 3/4 후보는 화풍·복장 구조·가방 형태가 크게 흔들렸다.
+- 판정: LoRA는 identity와 색상 경향을 보조하는 조건부 체크포인트이며, pose/camera와 복장 구조를 단독으로 고정하지 못한다. 다음 순서는 LoRA를 고정한 뒤 pose/camera 구조 제어를 별도 비교하는 것이다. Inpaint·VTON은 여전히 마지막 보정 단계로 둔다.
+- 검수 기록: `.tmp/p7-5-4-lora-only-next-review.json`.
+
+### LoRA 단독 960×1440 해상도 비교
+
+- 동일한 LoRA scale `0.6`, 30 step, seed `62295/62296`, 프롬프트와 모델을 유지하고 출력만 `960×1440`으로 올렸다. 이미지 reference·ControlNet·Inpaint·VTON은 사용하지 않았다.
+- 저해상도 대비 전신 구조, 옷 경계, 가방·스트랩 배치가 안정되었다. 그러나 우측 3/4에서 머리색 변형과 화풍·복장 편차가 남아 해상도만으로 identity 고정이 해결되지는 않았다.
+- 판정: `960×1440`을 이후 실험의 기본 해상도로 채택한다. 다음은 이 해상도에서 identity/style conditioning을 별도 비교하고, 그 뒤 pose/camera 제어를 추가한다.
+- 검수 기록: `.tmp/p7-5-4-lora-only-960x1440-review.json`.
+
+### 960×1440 LoRA 60 step 비교
+
+- `960×1440`, LoRA scale `0.6`, seed `62295/62296`을 고정하고 30 step에서 60 step으로만 올렸다.
+- 60 step은 선과 복장 경계를 약간 선명하게 했지만, 우측 3/4에서 나타난 머리색·화풍·복장 편차는 거의 그대로였다. 정면은 여전히 조건부 통과, 3/4도 구조는 유지되지만 identity/style은 조건부다.
+- 결론: step 증가는 세부 품질 개선에는 유효하지만 캐릭터 고정력의 단독 해결책은 아니다. 다음에는 960×1440을 유지한 채 identity/style conditioning을 추가하고, 이후 pose/camera를 비교한다.
+- 검수 기록: `.tmp/p7-5-4-lora-only-960x1440-steps60-review.json`.
+
+### 960×1440 Face Adapter + LoRA 비교
+
+- `960×1440`, 30 step, LoRA scale `0.6`, Face Adapter scale `0.35`, seed `62295/62296`을 사용했다. ControlNet·Inpaint·VTON은 제외하고 정면 얼굴 reference만 추가했다.
+- LoRA 단독보다 청록 단발·호박색 눈·얼굴 identity가 안정됐고 스트랩도 나타났다. 그러나 재킷과 바지 실루엣이 승인 복장과 달라 복장 gate는 실패했다.
+- 판정: Face Adapter는 identity 보조로 유효하지만 복장 보존과 충돌한다. 다음 실험은 identity와 outfit/reference 역할을 분리하고, pose/camera 제어는 그 이후에 추가한다.
+- 검수 기록: `.tmp/p7-5-4-face-adapter-lora-960x1440-review.json`.
+
 ## 4. 현재 승인 경계와 다음 실험 규칙
 
 | 단계 | 현재 판정 | 다음 단계 조건 |
@@ -120,7 +162,7 @@ P7-5의 기록은 `화풍 기준 → 인물 기준 → 장면·구조 → 보정
 | OpenPose | 0.6 조건부 | 자세가 바뀌면서 얼굴·복장이 유지되는지 검수 |
 | 3중 결합 | 탈락 | 실패한 가방 쌍을 제외하고 재검증 |
 
-다음 실행은 같은 prompt·seed 반복이 아니라 실패한 계약만 바꾼다. 특히 가방 mask, source/mask 종횡비, img2img strength, OpenPose scale을 분리해 한 번에 하나만 변경한다. 승인 PNG·review JSON·guide를 사람이 확인하기 전에는 학습 데이터나 제작 입력으로 승격하지 않는다.
+다음 실행은 같은 prompt·seed 반복이 아니라 실패한 계약만 바꾼다. 우선 기본 생성, 얼굴·복장 reference, LoRA, pose/camera 구조 제어를 독립적으로 검증하고, 이 경로들이 통과한 뒤에도 국소 결함이 남을 때만 Inpaint·VTON을 마지막 보정 단계로 검토한다. 승인 PNG·review JSON·guide를 사람이 확인하기 전에는 학습 데이터나 제작 입력으로 승격하지 않는다.
 
 ## 5. 재현 기록과 흡수된 중복 노트
 
