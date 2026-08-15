@@ -1,0 +1,15 @@
+{
+  "model": "BoyuanJiang/FitDiT",
+  "mode": "manual upper-body garment try-on; high-angle source and pose fixed",
+  "garment_reference": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-prop-reference-complete-outfit-front-hip.png",
+  "tight_mask": true,
+  "resolution": [
+    768,
+    1024
+  ],
+  "steps": 30,
+  "guidance": 2.5,
+  "seed": 62431,
+  "seconds": 33.55,
+  "human_review": "pending"
+}

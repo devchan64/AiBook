@@ -1,0 +1,94 @@
+{
+  "status": "generated_for_human_review",
+  "purpose": "Declarative stored OpenPose map + 54-image Animagine character LoRA; no image reference, Canny, Inpaint, or VTON.",
+  "model": "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96",
+  "controlnet": "/home/cbsim/.cache/huggingface/hub/models--xinsir--controlnet-openpose-sdxl-1.0/snapshots/23f966cd5cfdd3f7729c903e243d87152162d2b7",
+  "lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-animagine-character-lora-54-640-1200-gc",
+  "pose_points": {
+    "nose": [
+      480,
+      310
+    ],
+    "neck": [
+      480,
+      420
+    ],
+    "r_shoulder": [
+      575,
+      430
+    ],
+    "r_elbow": [
+      655,
+      270
+    ],
+    "r_wrist": [
+      725,
+      115
+    ],
+    "l_shoulder": [
+      385,
+      430
+    ],
+    "l_elbow": [
+      335,
+      610
+    ],
+    "l_wrist": [
+      320,
+      780
+    ],
+    "r_hip": [
+      545,
+      780
+    ],
+    "r_knee": [
+      570,
+      1060
+    ],
+    "r_ankle": [
+      590,
+      1320
+    ],
+    "l_hip": [
+      415,
+      780
+    ],
+    "l_knee": [
+      390,
+      1060
+    ],
+    "l_ankle": [
+      385,
+      1320
+    ],
+    "r_eye": [
+      505,
+      295
+    ],
+    "l_eye": [
+      455,
+      295
+    ],
+    "r_ear": [
+      535,
+      325
+    ],
+    "l_ear": [
+      425,
+      325
+    ]
+  },
+  "resolution": [
+    960,
+    1440
+  ],
+  "steps": 30,
+  "seed": 62301,
+  "lora_scale": 0.6,
+  "controlnet_scales": [
+    0.0,
+    1.0
+  ],
+  "elapsed_seconds": 112.9,
+  "peak_vram_mib": 3370.6
+}

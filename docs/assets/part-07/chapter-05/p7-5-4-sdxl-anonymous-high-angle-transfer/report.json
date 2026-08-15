@@ -1,0 +1,53 @@
+{
+  "status": "generated_for_human_review",
+  "purpose": "SDXL Mira LoRA transfer from anonymous Animagine guide: no guide RGB or guide identity input",
+  "base_model": "/home/cbsim/.cache/huggingface/hub/models--stabilityai--stable-diffusion-xl-base-1.0/snapshots/462165984030d82259a11f4367a4eed129e94a7b",
+  "character_lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-character-lora-768-b-1200",
+  "character_lora_scale": 0.6,
+  "controls": {
+    "openpose": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-openpose.png",
+    "background_only_canny": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-background-only-canny.png"
+  },
+  "prompt": "p7mira, adult Korean woman, full body, high-angle view, white cropped jacket, charcoal crop top, high-waisted deep-teal wide-leg trousers, white sneakers, navy crossbody bag, webtoon watercolor",
+  "negative_prompt": "multiple people, cropped feet, extra arms, extra legs, text, watermark",
+  "resolution": [
+    768,
+    1152
+  ],
+  "seed": 62431,
+  "steps": 50,
+  "guidance_scale": 6.5,
+  "cases": [
+    {
+      "id": "00-no-structure",
+      "control_scales": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "01-openpose-only",
+      "control_scales": [
+        0.8,
+        0.0
+      ]
+    },
+    {
+      "id": "02-background-canny-only",
+      "control_scales": [
+        0.0,
+        0.25
+      ]
+    },
+    {
+      "id": "03-openpose-plus-background-canny",
+      "control_scales": [
+        0.8,
+        0.25
+      ]
+    }
+  ],
+  "peak_vram_mib": 3362.2,
+  "seconds": 479.17,
+  "human_review": "pending; assess camera, pose, identity, outfit, and anatomy separately"
+}

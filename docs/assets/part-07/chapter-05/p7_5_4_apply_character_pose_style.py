@@ -22,6 +22,7 @@ from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
+ACTION_ASSETS = ROOT / "p7-5-4-character-lora-54" / "actions"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 STYLE_REFERENCE = ROOT / "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png"
 DEFAULT_SEED = 62294
@@ -43,7 +44,10 @@ def parse_args() -> argparse.Namespace:
 def source_path(path: Path) -> Path:
     if path.is_absolute() or path.is_file():
         return path
-    return ROOT / path
+    root_candidate = ROOT / path
+    if root_candidate.is_file():
+        return root_candidate
+    return ACTION_ASSETS / path
 
 
 def candidate_id(path: Path) -> str:
@@ -80,7 +84,7 @@ def records(sources: list[Path], seed: int, steps: int) -> list[dict[str, object
             {
                 "candidate_id": candidate_id(resolved),
                 "stage": "style_stage_2",
-                "source": resolved.name,
+                "source": resolved.relative_to(ROOT).as_posix(),
                 "style_reference": STYLE_REFERENCE.name,
                 "seed": seed,
                 "steps": steps,
@@ -114,8 +118,8 @@ def main() -> int:
             steps=args.steps,
             contract={"model": MODEL_ID, **entry, "size": [IMAGE_SIZE, IMAGE_SIZE]},
         )
-        output = ROOT / f"{stem}-candidate.png"
-        review = ROOT / f"{stem}-review.json"
+        output = ACTION_ASSETS / f"{stem}-candidate.png"
+        review = ACTION_ASSETS / f"{stem}-review.json"
         started = time.monotonic()
         pose_image = Image.open(ROOT / str(entry["source"])).convert("RGB")
         image = pipe(
@@ -129,7 +133,7 @@ def main() -> int:
             max_sequence_length=256,
             callback_on_step_end=preview_callback(
                 pipe, height=IMAGE_SIZE, width=IMAGE_SIZE, every=args.preview_every,
-                directory=ROOT / "previews", prefix=stem,
+                directory=ACTION_ASSETS / "previews", prefix=stem,
             ),
         ).images[0]
         image.save(output)

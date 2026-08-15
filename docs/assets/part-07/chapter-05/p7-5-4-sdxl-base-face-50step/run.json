@@ -1,0 +1,14 @@
+{
+  "status": "generated_for_human_review",
+  "model": "SDXL base 1.0 only",
+  "controls": [],
+  "steps": 50,
+  "cfg": 5.0,
+  "seed": 62295,
+  "size": [
+    1024,
+    1024
+  ],
+  "prompt": "front-facing head-and-shoulders portrait of an adult Korean woman, jaw-length deep petrol-teal bob with a side-swept fringe, both irises amber, calm neutral expression, watercolor webtoon illustration, plain warm off-white background",
+  "purpose": "Check whether the base model itself forms a normal face before adding any reference control."
+}

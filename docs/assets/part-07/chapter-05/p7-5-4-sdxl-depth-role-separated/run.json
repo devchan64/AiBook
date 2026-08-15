@@ -1,0 +1,34 @@
+{
+  "purpose": "Fixed-depth role-separated comparison against the one-Plus global+face baseline",
+  "base": "stabilityai/stable-diffusion-xl-base-1.0",
+  "adapters": [
+    {
+      "role": "global outfit",
+      "weight": "ip-adapter-plus_sdxl_vit-h.safetensors",
+      "scale": 0.3
+    },
+    {
+      "role": "face identity",
+      "weight": "ip-adapter-plus-face_sdxl_vit-h.safetensors",
+      "scale": 0.35
+    }
+  ],
+  "references": [
+    "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference.png",
+    "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-styled-identity-face-front-reference.png"
+  ],
+  "depth_control_scale": 0.8,
+  "character_lora_scale": 0.6,
+  "outfit_lora_scale": 0.3,
+  "seed": 62431,
+  "steps": 50,
+  "resolution": [
+    768,
+    1152
+  ],
+  "localized_face_attention": false,
+  "result": "sdxl-mira-depth-role-separated-seed-62431-steps-50.png",
+  "review_sheet": "depth-role-separated-review-sheet.png",
+  "seconds": 81.8,
+  "human_review": "pending"
+}

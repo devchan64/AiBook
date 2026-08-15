@@ -1,0 +1,14 @@
+{
+  "case": "no-structure",
+  "prompt": "p7mira, adult Korean woman, full body, high-angle view, white cropped jacket, charcoal crop top, high-waisted deep-teal wide-leg trousers, white sneakers, navy crossbody bag, webtoon watercolor",
+  "resolution": [
+    512,
+    768
+  ],
+  "seed": 62431,
+  "steps": 50,
+  "lora_scale": 0.6,
+  "control_scale": null,
+  "seconds": 81.71,
+  "peak_vram_mib": 1455.0
+}

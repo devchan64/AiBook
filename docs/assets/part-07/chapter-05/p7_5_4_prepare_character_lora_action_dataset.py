@@ -16,6 +16,8 @@ from pathlib import Path
 
 
 ASSETS = Path(__file__).resolve().parent
+DATASET_ASSETS = ASSETS / "p7-5-4-character-lora-54"
+ACTION_ASSETS = DATASET_ASSETS / "actions"
 DEFAULT_OUTPUT = ASSETS.parents[3] / ".tmp" / "p7-5-4-character-lora-identity-action-54"
 APPROVED = {
     "approved_for_character_lora_candidate_pool",
@@ -36,6 +38,17 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--plan-only", action="store_true")
+    parser.add_argument(
+        "--manifest-only",
+        action="store_true",
+        help="Write only the source manifest; do not create local training links or captions.",
+    )
+    parser.add_argument(
+        "--manifest-output",
+        type=Path,
+        default=DATASET_ASSETS / "dataset-manifest.json",
+        help="Path for the checked-in source manifest used by the manuscript.",
+    )
     return parser.parse_args()
 
 
@@ -64,23 +77,23 @@ def core_records() -> list[dict[str, object]]:
 
 def approved_records() -> list[dict[str, object]]:
     records: list[dict[str, object]] = []
-    for review_path in sorted(ASSETS.glob("p7-5-4-character-lora-pose-stage2-*-reference-review.json")):
+    for review_path in sorted(ACTION_ASSETS.glob("p7-5-4-character-lora-pose-stage2-*-reference-review.json")):
         review = json.loads(review_path.read_text(encoding="utf-8"))
         if review.get("status") not in APPROVED:
             continue
-        image_path = ASSETS / str(review["output"])
+        image_path = review_path.parent / str(review["output"])
         if not image_path.is_file():
             raise FileNotFoundError(f"approved image missing: {image_path}")
-        stage1_name = str(review["source"]).removesuffix(".png") + "-review.json"
-        stage1_path = ASSETS / stage1_name
+        stage1_name = Path(str(review["source"])).name.removesuffix(".png") + "-review.json"
+        stage1_path = review_path.parent / stage1_name
         if not stage1_path.is_file():
             raise FileNotFoundError(f"stage-1 review missing: {stage1_path}")
         stage1 = json.loads(stage1_path.read_text(encoding="utf-8"))
         records.append(
             {
                 "source_id": str(review["candidate_id"]),
-                "image": image_path.name,
-                "review": review_path.name,
+                "image": image_path.relative_to(ASSETS).as_posix(),
+                "review": review_path.relative_to(ASSETS).as_posix(),
                 "caption": f"{IDENTITY}, full body, {VIEW_TAGS[str(stage1['view'])]}, {str(stage1['pose_rule']).lower()}",
                 "sha256": sha256(image_path),
                 "view": str(stage1["view"]),
@@ -100,6 +113,22 @@ def link(source: Path, destination: Path) -> None:
     os.symlink(source, destination)
 
 
+def manifest(records: list[dict[str, object]]) -> dict[str, object]:
+    return {
+        "dataset_id": "p7-5-4-character-lora-approved-identity-action-54",
+        "status": "prepared_from_human_approved_sources",
+        "purpose": "Character identity anchors plus style-conditioned full-body pose diversity for a later character-LoRA experiment.",
+        "image_link_mode": "symlink_when_prepared_locally",
+        "counts": {"identity_anchors": CORE_IDENTITY_COUNT, "approved_action_images": ACTION_COUNT, "total": EXPECTED_COUNT},
+        "sources": records,
+    }
+
+
+def write_manifest(output: Path, records: list[dict[str, object]]) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(manifest(records), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def write_dataset(output: Path, records: list[dict[str, object]]) -> None:
     output.mkdir(parents=True, exist_ok=True)
     for index, record in enumerate(records, start=1):
@@ -111,15 +140,7 @@ def write_dataset(output: Path, records: list[dict[str, object]]) -> None:
         (output / caption_name).write_text(str(record["caption"]) + "\n", encoding="utf-8")
         record["dataset_image"] = image_name
         record["dataset_caption"] = caption_name
-    manifest = {
-        "dataset_id": "p7-5-4-character-lora-approved-identity-action-54",
-        "status": "prepared_from_human_approved_sources",
-        "purpose": "Character identity anchors plus style-conditioned full-body pose diversity for a later character-LoRA experiment.",
-        "image_link_mode": "symlink",
-        "counts": {"identity_anchors": CORE_IDENTITY_COUNT, "approved_action_images": ACTION_COUNT, "total": EXPECTED_COUNT},
-        "sources": records,
-    }
-    (output / "dataset-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_manifest(output / "dataset-manifest.json", records)
 
 
 def main() -> int:
@@ -127,6 +148,10 @@ def main() -> int:
     records = approved_records()
     if args.plan_only:
         print(json.dumps({"status": "validated", "count": len(records), "sources": records}, ensure_ascii=False, indent=2))
+        return 0
+    if args.manifest_only:
+        write_manifest(args.manifest_output, records)
+        print(json.dumps({"status": "manifest_written", "count": len(records), "output": str(args.manifest_output)}, ensure_ascii=False))
         return 0
     write_dataset(args.output, records)
     print(json.dumps({"status": "prepared", "count": len(records), "output": str(args.output)}, ensure_ascii=False))

@@ -1,0 +1,25 @@
+{
+  "status": "generated_for_human_review",
+  "character_lora_scale": 0.3,
+  "plus_face_scale": 0.15,
+  "openpose": {
+    "enabled": true,
+    "scale": 0.9,
+    "window": [
+      0.0,
+      0.65
+    ]
+  },
+  "steps": 50,
+  "size": [
+    960,
+    1440
+  ],
+  "cfg": 5.0,
+  "seed": 62295,
+  "excluded_controls": [
+    "FaceID",
+    "outfit image adapter"
+  ],
+  "purpose": "Test whether body composition alone breaks portrait-safe identity settings."
+}

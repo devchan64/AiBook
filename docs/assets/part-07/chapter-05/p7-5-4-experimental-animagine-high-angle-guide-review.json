@@ -1,0 +1,27 @@
+{
+  "status": "experimental-structure-guide",
+  "scope": "anonymous high-angle composition only; not a Mira identity, outfit, or production asset",
+  "generator": {
+    "model": "cagliostrolab/animagine-xl-4.0",
+    "seed": 62431,
+    "steps": 30,
+    "resolution": [768, 1152],
+    "prompt_contract": "1girl, solo, adult athlete, full body, centered and large in frame, high-angle view from above, diagonal running leap across a sunlit concrete courtyard, both feet visible, natural anatomy, paving lines and distant benches"
+  },
+  "assets": {
+    "rgb_guide": "p7-5-4-experimental-animagine-high-angle-guide.png",
+    "openpose": "p7-5-4-experimental-animagine-high-angle-guide-openpose.png",
+    "background_only_canny": "p7-5-4-experimental-animagine-high-angle-guide-background-canny.png",
+    "relative_depth": "p7-5-4-experimental-animagine-high-angle-guide-depth-anything-v2.png"
+  },
+  "derivation": {
+    "openpose": "one anonymous person skeleton extracted from the RGB guide",
+    "background_only_canny": "Canny edges after OpenPose-localized foreground segmentation and safety dilation; it intentionally excludes the anonymous guide person's face, clothing, and limb outlines",
+    "relative_depth": "Depth Anything V2 Small monocular relative-depth estimate; it is not metric 3D depth"
+  },
+  "review": {
+    "camera": "The guide and relative-depth-controlled SDXL result retain a visible high-angle viewpoint.",
+    "limits": "OpenPose alone altered the action; background-only Canny did not stabilize anatomy; the current 8GB diffusers route could not complete dual OpenPose plus Canny control. Depth-only transfer retains camera height but does not preserve Mira identity or outfit."
+  },
+  "promotion_rule": "Do not replace approved character or storyboard assets automatically. Use only as a reproducible structural-control input for human-reviewed experiments."
+}

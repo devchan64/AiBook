@@ -1,0 +1,29 @@
+{
+  "status": "human-review-recorded",
+  "purpose": "Anonymous Animagine high-angle guide -> OpenPose plus background-only Canny -> same-base SDXL Mira LoRA structural transfer.",
+  "guide_contract": {
+    "identity_inputs": [],
+    "excluded_from_guide": ["Mira identity", "Mira face reference", "Mira outfit reference", "character LoRA"],
+    "selected_guide": "../p7-5-4-animagine-anonymous-high-angle-guide/anonymous-high-angle-guide-seed-62431-steps-30.png"
+  },
+  "structural_inputs": {
+    "openpose": "../p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-openpose.png",
+    "background_only_canny": "../p7-5-4-anonymous-high-angle-controls/anonymous-high-angle-background-only-canny.png",
+    "canny_person_exclusion": "OpenPose-localized GrabCut foreground plus safety dilation; anonymous guide hair, clothes, limbs, and face edges are excluded."
+  },
+  "sdxl_fixed_conditions": {
+    "base": "stabilityai/stable-diffusion-xl-base-1.0",
+    "character_lora": ".tmp/p7-5-4-character-lora-768-b-1200",
+    "lora_scale": 0.6,
+    "seed": 62431,
+    "steps": 50,
+    "resolution": [768, 1152]
+  },
+  "human_review": {
+    "no_structure": "Face/outfit-like colors are present, but the requested high-angle composition is absent; candidate is eye-level and therefore fails the camera gate.",
+    "openpose_only": "High camera placement is partially transferred, but the running guide pose changes to a seated/crouched pose; fails the action fidelity gate.",
+    "background_canny_only": "Background tilt/perspective is partially transferred, but the person is not structurally constrained and the image has a duplicate/split trouser-like silhouette; fails anatomy and pose gates.",
+    "combined_openpose_background_canny": "Not generated. The two full SDXL ControlNets terminate during the combined condition at both 768x1152 and 512x768 in the current 8GB sequential-offload diffusers route."
+  },
+  "decision": "Do not promote this route to an approved production tool. Preserve it as a checkpoint: anonymous high-angle guide separation and background-only Canny extraction work; the current SDXL single-control outputs do not meet pose and identity quality gates, and dual ControlNet is not feasible in this runtime."
+}

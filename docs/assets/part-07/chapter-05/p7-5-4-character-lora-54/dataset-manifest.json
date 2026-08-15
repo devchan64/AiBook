@@ -1,0 +1,499 @@
+{
+  "dataset_id": "p7-5-4-character-lora-approved-identity-action-54",
+  "status": "prepared_from_human_approved_sources",
+  "purpose": "Character identity anchors plus style-conditioned full-body pose diversity for a later character-LoRA experiment.",
+  "image_link_mode": "symlink_when_prepared_locally",
+  "counts": {
+    "identity_anchors": 18,
+    "approved_action_images": 36,
+    "total": 54
+  },
+  "sources": [
+    {
+      "source_id": "identity-face-front",
+      "image": "p7-5-2-face-front-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, face portrait, front view",
+      "view": "front",
+      "pose_family": "face_identity",
+      "sha256": "3f336829ab7f45cd88eaca6216cfe83fa8fe2f38025a46ceb732c9589ffb755f",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-basic-front",
+      "image": "p7-5-2-fullbody-front-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, front view",
+      "view": "front",
+      "pose_family": "turnaround_basic",
+      "sha256": "6fbaffd1d9ea622d1605fb34fa893f6ad9792b1850a02b7efcff54890b35fb57",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-refined-front",
+      "image": "p7-5-2-fullbody-front-refined-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, front view",
+      "view": "front",
+      "pose_family": "turnaround_refined",
+      "sha256": "54cd160848b4edb04771c4245e95fc0129e4a3025074ba27257cfd99d0bb28d3",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-face-front_quarter_left",
+      "image": "p7-5-2-face-front-quarter-left-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, face portrait, left three-quarter view",
+      "view": "front_quarter_left",
+      "pose_family": "face_identity",
+      "sha256": "809e225ef2f5f91ef6f86ebd0f561fc70bd9f001d55d892e98cd4d9c3b03c3d0",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-basic-front_quarter_left",
+      "image": "p7-5-2-fullbody-front-quarter-left-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, left three-quarter view",
+      "view": "front_quarter_left",
+      "pose_family": "turnaround_basic",
+      "sha256": "760a66e0ed4633563f33edcd904d5c0dc8885f2466b527ad2abd8ad7a19c69b6",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-refined-front_quarter_left",
+      "image": "p7-5-2-fullbody-front-quarter-left-refined-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, left three-quarter view",
+      "view": "front_quarter_left",
+      "pose_family": "turnaround_refined",
+      "sha256": "0733cc76b5626381b17a735a040388ab48bd281c93cb234c955a48f29a5755da",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-face-front_quarter_right",
+      "image": "p7-5-2-face-front-quarter-right-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, face portrait, right three-quarter view",
+      "view": "front_quarter_right",
+      "pose_family": "face_identity",
+      "sha256": "00cd4e21d1b687cfe71f1b31d66b5607e5ce5f31aa347b3a860860697497785a",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-basic-front_quarter_right",
+      "image": "p7-5-2-fullbody-front-quarter-right-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, right three-quarter view",
+      "view": "front_quarter_right",
+      "pose_family": "turnaround_basic",
+      "sha256": "979da70c269f459d25abe9416828104b67fd5de74effa7e76ae368b507004215",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-refined-front_quarter_right",
+      "image": "p7-5-2-fullbody-front-quarter-right-refined-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, right three-quarter view",
+      "view": "front_quarter_right",
+      "pose_family": "turnaround_refined",
+      "sha256": "347e08c8b70e019bcf8260ee1b435c755932b0baec33647306872458a603eb1d",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-face-profile_left",
+      "image": "p7-5-2-face-profile-left-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, face portrait, left profile",
+      "view": "profile_left",
+      "pose_family": "face_identity",
+      "sha256": "3c67a9c76d10f3bdeb38214d8c766421bfdf641ce0ca6fa1f4e7fbdb00ad6cfa",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-basic-profile_left",
+      "image": "p7-5-2-fullbody-profile-left-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, left profile",
+      "view": "profile_left",
+      "pose_family": "turnaround_basic",
+      "sha256": "7c203dc0d17720d6b17a883c39d90ecf240e01ddcfd3fc29ac29c644c09f6b3a",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-refined-profile_left",
+      "image": "p7-5-2-fullbody-profile-left-refined-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, left profile",
+      "view": "profile_left",
+      "pose_family": "turnaround_refined",
+      "sha256": "5ae75b1328f6c8cd16b4249ebec22d67c7336b24c8b9124661ffc9a7e496a817",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-face-profile_right",
+      "image": "p7-5-2-face-profile-right-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, face portrait, right profile",
+      "view": "profile_right",
+      "pose_family": "face_identity",
+      "sha256": "8f78e3d3848d5bd70d356106d3f4af37924f97938845de327c15347752fe831d",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-basic-profile_right",
+      "image": "p7-5-2-fullbody-profile-right-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, right profile",
+      "view": "profile_right",
+      "pose_family": "turnaround_basic",
+      "sha256": "26f2552ec3a3682f4547c988fd487a0e4f3087fa5e8e965a198017cda9868e96",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-refined-profile_right",
+      "image": "p7-5-2-fullbody-profile-right-refined-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, right profile",
+      "view": "profile_right",
+      "pose_family": "turnaround_refined",
+      "sha256": "c9b3fa6de785c85ecb94c91195705b957517558ecafb92161eea078efab139cb",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-face-rear",
+      "image": "p7-5-2-face-rear-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, face portrait, back view",
+      "view": "rear",
+      "pose_family": "face_identity",
+      "sha256": "b560fc9101c7fa31a7eb3aa58942e19af98b119219739b5b6e154d06b80ef0c5",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-basic-rear",
+      "image": "p7-5-2-fullbody-rear-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, standing, charcoal crop top, teal wide-leg trousers, white sneakers, back view",
+      "view": "rear",
+      "pose_family": "turnaround_basic",
+      "sha256": "cddbabbb13d0292b7fa83ba7a5a1411bf084cb9bc92ba50ae781463dcb05c024",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "identity-refined-rear",
+      "image": "p7-5-2-fullbody-rear-refined-reference.png",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, white cropped jacket, charcoal crop top, teal wide-leg trousers, white sneakers, navy crossbody bag, back view",
+      "view": "rear",
+      "pose_family": "turnaround_refined",
+      "sha256": "6e322ef70c0786456aad8df7a08ecaf95e06901e0d17793401ba2cecbbf143fe",
+      "review": "approved P7-5.2 reference"
+    },
+    {
+      "source_id": "pose-extra-front-one-knee-kneel",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-one-knee-kneel-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-one-knee-kneel-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, front view, front one-knee kneel: right knee on the ground, left foot planted forward, torso upright, and both hands resting on the raised left thigh.",
+      "sha256": "f14c400039e2a5eff9a42796aadf49a509187a5a320aba19712f3a69923e3789",
+      "view": "front",
+      "pose_family": "front_one_knee_kneel"
+    },
+    {
+      "source_id": "pose-extra-front-quarter-left-lunge",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-left-lunge-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-left-lunge-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, front-quarter left lunge: left knee bent above the ankle, right leg straight behind, both feet flat, torso upright, and hands on the left thigh.",
+      "sha256": "b6b800f3634a605c39b370f2e67243a0bacf725d6e623644df37027672060ffa",
+      "view": "front_quarter_left",
+      "pose_family": "quarter_left_lunge"
+    },
+    {
+      "source_id": "pose-extra-front-quarter-left-step",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-left-step-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-left-step-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, front-quarter left forward stride: left foot planted far ahead, right foot on its toe behind, left knee bent, torso leaning forward, and elbows bent naturally.",
+      "sha256": "7eea00ae59a0089ced671a543aa2ade20755317206b28fd3989ae3d676f4c84d",
+      "view": "front_quarter_left",
+      "pose_family": "quarter_left_step"
+    },
+    {
+      "source_id": "pose-extra-front-quarter-right-knee-lift",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-right-knee-lift-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-right-knee-lift-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, front-quarter right knee lift: right foot planted, left knee raised to hip height, torso upright, right hand on hip, and left arm relaxed down.",
+      "sha256": "4bcba77c3a75fc38acc863f8024f1ba6054c67c3031115512c40c85a6f403c9c",
+      "view": "front_quarter_right",
+      "pose_family": "quarter_right_knee_lift"
+    },
+    {
+      "source_id": "pose-extra-front-quarter-right-side-step",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-right-side-step-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-quarter-right-side-step-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, front-quarter right side lunge: right knee bent deeply above the ankle, left leg straight sideways, both soles flat, torso upright, and hands on the right thigh.",
+      "sha256": "d2ec70968dfa54a0c69025ac07edfcc6a45d2e68a60ac0c14cf9cc86ab3ebe45",
+      "view": "front_quarter_right",
+      "pose_family": "quarter_right_side_step"
+    },
+    {
+      "source_id": "pose-extra-front-wide-squat",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-wide-squat-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-front-wide-squat-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, front view, front wide squat: feet wider than shoulders, both soles flat, knees bent outward, hips low, torso upright, and hands resting on the thighs.",
+      "sha256": "c58798f463e4511bd25f268b2a8792ed1f073933463a07defa8dec08d1f188c0",
+      "view": "front",
+      "pose_family": "front_wide_squat"
+    },
+    {
+      "source_id": "pose-extra-profile-left-kneel",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-left-kneel-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-left-kneel-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left profile, left-facing low kneel: left knee on the ground, right foot planted forward, hips lowered, torso upright, and both hands on the raised right thigh.",
+      "sha256": "6056a8f71a1a902ef174b772034af09556933258ba673088328fd144f7b21c67",
+      "view": "profile_left",
+      "pose_family": "profile_left_kneel"
+    },
+    {
+      "source_id": "pose-extra-profile-left-weight-shift",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-left-weight-shift-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-left-weight-shift-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left profile, left-facing knee lift: left foot planted, right knee raised to hip height, torso upright, left hand on hip, and right arm relaxed down.",
+      "sha256": "053eaec4aea8ed56753b5fcd569102beeaad4663dc56ee86936e22679ccd7836",
+      "view": "profile_left",
+      "pose_family": "profile_left_weight_shift"
+    },
+    {
+      "source_id": "pose-extra-profile-right-half-squat",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-right-half-squat-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-right-half-squat-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right profile, right-facing deep squat: feet wider than shoulders, both soles flat, hips low, knees bent outward, torso upright, and hands on the thighs.",
+      "sha256": "1e990a8c902f81cf7863c8b3a3ca7e639d761ed20022fb736febd4ee94a92cc0",
+      "view": "profile_right",
+      "pose_family": "profile_right_half_squat"
+    },
+    {
+      "source_id": "pose-extra-profile-right-stride",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-right-stride-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-profile-right-stride-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right profile, right-facing forward lunge: right knee bent directly above the ankle, left leg straight behind, left heel raised, torso upright, and hands on the right thigh.",
+      "sha256": "a1553c6275fba43f3dfa714e8c8ed05b49f68e7862f399fb214bfa3f0c596259",
+      "view": "profile_right",
+      "pose_family": "profile_right_stride"
+    },
+    {
+      "source_id": "pose-extra-rear-heel-lift",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-rear-heel-lift-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-rear-heel-lift-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, back view, rear staggered lunge: left foot planted forward, right foot on its toe behind, left knee bent, torso upright, and hands resting on the left thigh.",
+      "sha256": "0acc40e89ec7c52f2280ee0991f5d627e16dcc42f5909496242ad87b30db9476",
+      "view": "rear",
+      "pose_family": "rear_heel_lift"
+    },
+    {
+      "source_id": "pose-extra-rear-side-lunge",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-rear-side-lunge-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-pose-extra-rear-side-lunge-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, back view, rear wide squat: feet wider than shoulders, both soles flat, hips low, knees bent outward, torso upright, and hands on the thighs.",
+      "sha256": "2e87a43fd409f733cd6370ab61ebd99c91886570fa0dbf389f45663d5400ebba",
+      "view": "rear",
+      "pose_family": "rear_side_lunge"
+    },
+    {
+      "source_id": "sport-front-basketball-defense",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front-basketball-defense-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front-basketball-defense-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, front view, basketball defensive stance: bend both knees deeply, hips at knee height, torso forward, arms spread wide, and turn both open palms toward the camera.",
+      "sha256": "642e0a44c9acee5845d3e923849b4381966167721dedd1521a8440f49dfff244",
+      "view": "front",
+      "pose_family": "low_wide_defensive_pose"
+    },
+    {
+      "source_id": "sport-front_quarter_left-basketball-jump-shot",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-basketball-jump-shot-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-basketball-jump-shot-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, basketball jump shot in midair: both feet clearly lifted above the floor, knees extended, hold one basketball directly above the forehead with both hands, and reach both elbows upward toward the ball.",
+      "sha256": "0de497e0fcba4a71681504722d16332ee97a9822bf0147e76e18fc8756259bf9",
+      "view": "front_quarter_left",
+      "pose_family": "basketball_jump_shot"
+    },
+    {
+      "source_id": "sport-front_quarter_left-boxing-jab",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-boxing-jab-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-boxing-jab-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, dance upright pose: feet apart, torso upright, left hand on hip, right arm raised overhead.",
+      "sha256": "38ca19c63a42323351593759a05bd2525e8b9a88e2e3bf9a0ec99fef8ad99f92",
+      "view": "front_quarter_left",
+      "pose_family": "dance_upright_pose"
+    },
+    {
+      "source_id": "sport-front_quarter_left-gymnastics-landing",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-gymnastics-landing-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-gymnastics-landing-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, dance diagonal stretch: left foot forward, right foot back, left arm raised, right hand at hip.",
+      "sha256": "818dc61d2bedcc08e4b0e552dde71c94d4f22b0d18c10ba2988dd23476d8898a",
+      "view": "front_quarter_left",
+      "pose_family": "dance_diagonal_stretch"
+    },
+    {
+      "source_id": "sport-front_quarter_left-gymnastics-split-leap",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-gymnastics-split-leap-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-gymnastics-split-leap-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, dance one-knee pose: right knee down, left foot forward, torso upright, left hand on hip.",
+      "sha256": "d274f0351ad6ecff48320225897cf5181de7b061490aa83f2afc770f76fbd075",
+      "view": "front_quarter_left",
+      "pose_family": "dance_one_knee_pose"
+    },
+    {
+      "source_id": "sport-front_quarter_left-track-acceleration",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-track-acceleration-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-track-acceleration-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, dance knee drive: right foot planted, left knee high, right arm forward.",
+      "sha256": "e11e773744b627999bc4e20d4ab3f182fd3598a36c8078aa512b3c2746fe77eb",
+      "view": "front_quarter_left",
+      "pose_family": "dance_knee_drive"
+    },
+    {
+      "source_id": "sport-front_quarter_left-wrestling-stance",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-wrestling-stance-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-wrestling-stance-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left three-quarter view, dance ready stance: knees bent, arms open forward.",
+      "sha256": "adc68339c5388a05c0b53bdffb9481efa9405ef2f34e3ecdb81d8e08e2995e71",
+      "view": "front_quarter_left",
+      "pose_family": "dance_ready_stance"
+    },
+    {
+      "source_id": "sport-front_quarter_right-badminton-forehand",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-badminton-forehand-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-badminton-forehand-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, dance open chest pose: feet apart, torso upright, both arms extended low to the sides.",
+      "sha256": "94c1ce566e4b62ac303f473a01259810c2bb089829051a5620cd258c019c38f9",
+      "view": "front_quarter_right",
+      "pose_family": "dance_open_chest"
+    },
+    {
+      "source_id": "sport-front_quarter_right-long-jump",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-long-jump-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-long-jump-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, dance weight shift: right foot forward, left toe behind, torso upright, arms relaxed by the sides.",
+      "sha256": "ba1d14e98b05608278882e40a80c6e27f18a15053589b8d223782a0be720dd3a",
+      "view": "front_quarter_right",
+      "pose_family": "dance_weight_shift"
+    },
+    {
+      "source_id": "sport-front_quarter_right-rugby-carry",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-rugby-carry-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-rugby-carry-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, dance turn balance: right foot planted, left knee raised, arms rounded overhead.",
+      "sha256": "64c62c492d3c870e32b9d4c34ba96348c8c984d6b8dc65775bda4fae9d1d42a4",
+      "view": "front_quarter_right",
+      "pose_family": "dance_turn"
+    },
+    {
+      "source_id": "sport-front_quarter_right-soccer-defensive-shuffle",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-soccer-defensive-shuffle-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-soccer-defensive-shuffle-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, dance side lunge: right knee bent, left leg straight, arms low.",
+      "sha256": "e38fd91059d25903f7feafc8360710ffb033f0c3304e6c3a846d3ba3d384e96b",
+      "view": "front_quarter_right",
+      "pose_family": "dance_side_lunge"
+    },
+    {
+      "source_id": "sport-front_quarter_right-tennis-forehand",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-tennis-forehand-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-tennis-forehand-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, low one-handed tennis forehand: bend both knees into an athletic crouch; the right hand grips the butt cap at the very end of one racket handle, with the full long handle visibly extending from the hand to the racket head on image left, while the clearly empty open left hand reaches toward image right for balance.",
+      "sha256": "59c8cfb189900f90f0e9bab8bf16204d2232c7da5d3902e600c5b9e5e23ecd46",
+      "view": "front_quarter_right",
+      "pose_family": "one_hand_tennis_return"
+    },
+    {
+      "source_id": "sport-front_quarter_right-volleyball-set",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-volleyball-set-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-front_quarter_right-volleyball-set-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, acrobatic balance: one knee raised, both arms lifted overhead.",
+      "sha256": "bd6591f41a0ab71a90c8eb15cc1486461c1c6b4ab1fedbad402fdff1792a05c3",
+      "view": "front_quarter_right",
+      "pose_family": "acrobatics_balance"
+    },
+    {
+      "source_id": "sport-profile_left-breaking-floor-pose",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-breaking-floor-pose-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-breaking-floor-pose-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left profile, floor dance kneel: right knee down, left foot forward, left arm reaching up.",
+      "sha256": "001428ab8292d3d7ee018db855f92a3ffea5797ee37a637e73267bc5bb52a712",
+      "view": "profile_left",
+      "pose_family": "floor_dance_kneel"
+    },
+    {
+      "source_id": "sport-profile_left-gymnastics-arabesque",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-gymnastics-arabesque-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-gymnastics-arabesque-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left profile, dance knee balance: left foot planted, right knee raised, left arm overhead.",
+      "sha256": "bc288b47386c99155b9c59ac83e387ed7f0ecaa1df63d4a6d945f96a2e90d6f1",
+      "view": "profile_left",
+      "pose_family": "dance_knee_balance"
+    },
+    {
+      "source_id": "sport-profile_left-track-sprint",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-track-sprint-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-track-sprint-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right profile, full-body sprint toward image right. both shoes airborne; right leg forward, left knee back; face right.",
+      "sha256": "dce46556e7d12c0ecb9ee725850f9dc7432a740ec9ebff28f9f386460f0dc936",
+      "view": "profile_right",
+      "pose_family": "track_sprint"
+    },
+    {
+      "source_id": "sport-profile_left-track-start",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-track-start-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_left-track-start-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, left profile, left-facing dance standing pose: feet shoulder-width apart, torso upright, both arms relaxed straight at the sides.",
+      "sha256": "8711c842f9caedf02d07f4f6ae26f7f26e3a6b515de7c178aa17a5e6e9166023",
+      "view": "profile_left",
+      "pose_family": "dance_profile_standing"
+    },
+    {
+      "source_id": "sport-profile_right-boxing-duck",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-boxing-duck-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-boxing-duck-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right profile, dance low curve: both feet grounded, knees bent, torso forward, arms curved.",
+      "sha256": "1c93156573b3c7237e3c4ea56d257c3ee004c5fa3044ac389da2caf8849139bd",
+      "view": "profile_right",
+      "pose_family": "dance_low_curve"
+    },
+    {
+      "source_id": "sport-profile_right-gymnastics-floor-balance",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-gymnastics-floor-balance-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-gymnastics-floor-balance-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right profile, dance balance: right foot planted, left leg back, arms wide.",
+      "sha256": "3f0d295c6332194a9f3cdef1c1b9148e8058a24dd059313032ea854dfc7d0345",
+      "view": "profile_right",
+      "pose_family": "dance_back_leg_balance"
+    },
+    {
+      "source_id": "sport-profile_right-gymnastics-lunge",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-gymnastics-lunge-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-gymnastics-lunge-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right profile, dance deep squat: feet apart, hips low, torso forward, arms reaching forward.",
+      "sha256": "e161af523d4134d21f06047240020f330bc7e178f604ff812675f1fcddf326a7",
+      "view": "profile_right",
+      "pose_family": "dance_deep_squat"
+    },
+    {
+      "source_id": "sport-profile_right-soccer-pass",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-soccer-pass-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-soccer-pass-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right three-quarter view, front-quarter athletic ready stance: feet staggered, knees softly bent, torso upright, both bare open hands visible in front of the torso, and elbows naturally bent.",
+      "sha256": "612bf3241d0f715ba21d5d98a9113e192b5b28d4dc9923b464eb001597f4a5f6",
+      "view": "front_quarter_right",
+      "pose_family": "athletic_ready"
+    },
+    {
+      "source_id": "sport-profile_right-wrestling-shot",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-wrestling-shot-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-profile_right-wrestling-shot-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, right profile, dance profile reach: feet apart, torso upright, right arm forward, left hand at hip.",
+      "sha256": "f8c527be2821be6dee92144e7563214094c7d71230e765d1a20f3efc04cbbf15",
+      "view": "profile_right",
+      "pose_family": "dance_profile_reach"
+    },
+    {
+      "source_id": "sport-rear-gymnastics-turn",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-rear-gymnastics-turn-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-rear-gymnastics-turn-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, back view, rear dance weight shift: right foot planted, left toe behind, both arms overhead.",
+      "sha256": "a3911985562ca94b3bc685ba46a6919030a9ed2d696cf9ce8cc0ccc87faa6427",
+      "view": "rear",
+      "pose_family": "rear_dance_weight_shift"
+    },
+    {
+      "source_id": "sport-rear-track-run",
+      "image": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-rear-track-run-reference.png",
+      "review": "p7-5-4-character-lora-54/actions/p7-5-4-character-lora-pose-stage2-sport-rear-track-run-reference-review.json",
+      "caption": "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor, full body, back view, rear controlled gymnastics landing: both feet shoulder-width apart and flat on the floor, knees softly bent, torso upright, and both arms raised diagonally overhead in a balanced v.",
+      "sha256": "21baf868bcb92f78a484549b4ab9a8bb6614f0fe28709658cf1a697a865bfab9",
+      "view": "rear",
+      "pose_family": "rear_gymnastics_landing"
+    }
+  ]
+}

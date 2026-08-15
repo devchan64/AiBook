@@ -1,0 +1,21 @@
+{
+  "status": "generated_for_human_review",
+  "purpose": "Static OpenPose map + new 54-image Animagine character LoRA; no image reference, Canny, Inpaint, or VTON.",
+  "model": "/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96",
+  "controlnet": "/home/cbsim/.cache/huggingface/hub/models--xinsir--controlnet-openpose-sdxl-1.0/snapshots/23f966cd5cfdd3f7729c903e243d87152162d2b7",
+  "lora": "/home/cbsim/ws/AiBook/.tmp/p7-5-4-animagine-character-lora-54-640-1200-gc",
+  "pose": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-openpose-fullbody-front-quarter-right-reference.png",
+  "resolution": [
+    960,
+    1440
+  ],
+  "steps": 30,
+  "seed": 62296,
+  "lora_scale": 0.6,
+  "controlnet_scales": [
+    0.0,
+    1.0
+  ],
+  "elapsed_seconds": 112.6,
+  "peak_vram_mib": 3370.6
+}
