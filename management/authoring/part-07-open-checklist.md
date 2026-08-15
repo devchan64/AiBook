@@ -143,7 +143,7 @@
 - `P7-5.1`: 로컬 GPU가 만든 화풍 후보를 frame-free 원본, line-preserving watercolor, 실내/실외·시간대·camera family 기준으로 사람 검수한 뒤에만 캐릭터 참조 입력으로 승인하게 해야 합니다.
 - `P7-5.2`: 캐릭터 참조 셋의 얼굴·의상·소품·전신·view 계약을 고정하고, LoRA와 direct reference가 그 입력을 대체하지 않는지 판정하게 해야 합니다.
 - `P7-5.3`: 프롬프트로 만든 스토리보드를 먼저 검수한 뒤 그 이미지에서 lineart·depth·canny guide를 추출하고, 통과 결과만 다음 입력으로 채택하게 해야 합니다.
-- `P7-5.4`: 전체 frame을 통과한 컷만 ControlNet과 mask inpaint로 보정하고, 네 컷의 화풍·인물·소품 연속성을 독립적으로 판정하게 해야 합니다.
+- `P7-5.4`: 전체 frame을 통과한 컷만 역할 분리 reference 편집·ControlNet·mask inpaint로 보정하고, 네 컷의 화풍·인물·소품 연속성을 독립적으로 판정하게 해야 합니다.
 - `P7-5.6`: 3D 선화가 보존하는 윤곽·관절·실루엣과 depth+선화가 보강하는 가림·거리 정보를 구분하고, 구조 입력만의 통과를 identity·style 통과와 분리하게 해야 합니다.
 
 #### Chapter 6. 로컬 LLM 실행 실습
