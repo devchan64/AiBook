@@ -36,7 +36,7 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 ![SDXL Base 1.0 단독 50 step 얼굴 probe](../../../assets/part-07/chapter-05/p7-5-4-sdxl-base-face-50steps.png)
 
-따라서 전신 결과에서 얼굴이나 정체성이 흔들린다고 해서 base model이 얼굴을 전혀 만들지 못한다고 해석할 수는 없다. [실행 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-base-face-50step/run.json)은 이 기준선의 prompt·seed·해상도와 제외한 조건을 보관한다.
+따라서 전신 결과에서 얼굴이나 정체성이 흔들린다고 해서 base model이 얼굴을 전혀 만들지 못한다고 해석할 수는 없다. [실행 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-base-face-50step-run.json)은 이 기준선의 prompt·seed·해상도와 제외한 조건을 보관한다.
 
 같은 생각으로 전신에서는 FaceID와 전신 착장 image adapter를 빼고 Plus Face `0.15`, character LoRA `0.30`, seed `62295`, CFG `5.0`, `960×1440`, 50 step을 고정해 OpenPose off/on을 비교했다. OpenPose를 켜면 다리·몸통의 2D 배치는 더 따랐지만, 고양이 귀·머리 길이·복장이 이탈했다. off도 얼굴 윤곽과 전신은 만들었으나 승인 재킷·바지·가방은 유지하지 못했다.
 
@@ -44,7 +44,7 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 ![SDXL safe-face 전신 후보와 승인 얼굴 기준 비교](../../../assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-contact-sheet.png)
 
-저해상도 `512×768`에서 50/100 step도 비교했다. step을 늘려도 identity·outfit이 자동으로 승인 기준에 수렴하지 않았다. step과 해상도는 얼굴·구조 형성의 조건일 수 있지만, 캐릭터 고정이나 복장 가림 관계를 대신하지 않는다. [전신 off 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-openpose-fullbody/without-openpose-960x1440-run.json)과 [on 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-openpose-fullbody/with-openpose-960x1440-run.json)에 조건을 남겼다.
+저해상도 `512×768`에서 50/100 step도 비교했다. step을 늘려도 identity·outfit이 자동으로 승인 기준에 수렴하지 않았다. step과 해상도는 얼굴·구조 형성의 조건일 수 있지만, 캐릭터 고정이나 복장 가림 관계를 대신하지 않는다. [전신 off 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-without-openpose-960x1440-run.json)과 [on 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-with-openpose-960x1440-run.json)에 조건을 남겼다.
 
 얼굴 조건을 더 강하게 넣어도 전신 계약이 따라오지는 않았다. FaceID 단독은 전신 frame을 남겼지만 검은 장발·다른 착장으로 바뀌었고, FullFace 결합은 청록 단발·호박색 눈 단서를 늘렸지만 흉상 구도로 수렴했다. 이 비교는 얼굴 embedding을 세게 주는 것만으로 전신 캐릭터가 재현되지는 않는다는 뜻이다.
 
@@ -93,7 +93,7 @@ Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 �
 
 ![선언형 OpenPose map에서 카메라 문구를 바꾼 비교](../../../assets/part-07/chapter-05/p7-5-4-openpose-declarative-reach-up-camera-ab-contact-sheet.png)
 
-이 결과가 가리킨 다음 문제는 분명했다. OpenPose는 팔·다리·접지의 **2D 배치**를 전달할 수 있지만, 카메라의 3D 원근, 머리·흉곽 회전, 가방의 앞뒤 가림을 결정하지는 못한다. 따라서 고각도에는 별도의 구조용 guide가 필요했다. 각 비교의 실행 기록은 [저장 map](../../../assets/part-07/chapter-05/p7-5-4-openpose-lora-experiments/static-quarter-right-report.json), [동작 off/on](../../../assets/part-07/chapter-05/p7-5-4-openpose-lora-experiments/declarative-reach-up-controlnet-ab-report.json), [LoRA scale](../../../assets/part-07/chapter-05/p7-5-4-openpose-lora-experiments/declarative-reach-up-lora-scale-ab-report.json), [카메라 문구](../../../assets/part-07/chapter-05/p7-5-4-openpose-lora-experiments/declarative-reach-up-camera-ab-report.json)에 보관했다.
+이 결과가 가리킨 다음 문제는 분명했다. OpenPose는 팔·다리·접지의 **2D 배치**를 전달할 수 있지만, 카메라의 3D 원근, 머리·흉곽 회전, 가방의 앞뒤 가림을 결정하지는 못한다. 따라서 고각도에는 별도의 구조용 guide가 필요했다. 각 비교의 실행 기록은 [저장 map](../../../assets/part-07/chapter-05/p7-5-4-openpose-static-quarter-right-report.json), [동작 off/on](../../../assets/part-07/chapter-05/p7-5-4-openpose-declarative-reach-up-controlnet-ab-report.json), [LoRA scale](../../../assets/part-07/chapter-05/p7-5-4-openpose-declarative-reach-up-lora-scale-ab-report.json), [카메라 문구](../../../assets/part-07/chapter-05/p7-5-4-openpose-declarative-reach-up-camera-ab-report.json)에 보관했다.
 
 ## 주요 서사 2. 고각도 guide를 만들고 캐릭터 조건을 전이한다
 
@@ -109,7 +109,7 @@ Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 �
 
 ![익명 guide·OpenPose·인물 제외 배경 Canny와 SDXL Mira 전이 후보](../../../assets/part-07/chapter-05/p7-5-4-sdxl-anonymous-high-angle-transfer-review-sheet.png)
 
-구조 조건이 없으면 high-angle이 사라졌다. OpenPose만 켜면 위쪽 카메라의 단서는 일부 남아도 달리기 동작이 앉거나 쪼그린 자세로 바뀌었다. 배경 Canny만 켜면 타일 원근은 남지만 인물 실루엣이 중복되었다. 두 ControlNet을 함께 쓰는 조건은 `768×1152`와 `512×768` 모두 현재 8 GB sequential-offload Diffusers 경로에서 완료되지 않았다. 사람 외곽을 뺀 background Canny와 pose/camera 입력 분리는 유효한 체크포인트였지만, 이 SDXL 경로는 고각도·동작·Mira identity·복장을 함께 재현하는 제작 도구로는 미통과다. [검수 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-anonymous-high-angle-transfer/review.json)과 [실행 조건](../../../assets/part-07/chapter-05/p7-5-4-sdxl-anonymous-high-angle-transfer/report.json)을 보관했다.
+구조 조건이 없으면 high-angle이 사라졌다. OpenPose만 켜면 위쪽 카메라의 단서는 일부 남아도 달리기 동작이 앉거나 쪼그린 자세로 바뀌었다. 배경 Canny만 켜면 타일 원근은 남지만 인물 실루엣이 중복되었다. 두 ControlNet을 함께 쓰는 조건은 `768×1152`와 `512×768` 모두 현재 8 GB sequential-offload Diffusers 경로에서 완료되지 않았다. 사람 외곽을 뺀 background Canny와 pose/camera 입력 분리는 유효한 체크포인트였지만, 이 SDXL 경로는 고각도·동작·Mira identity·복장을 함께 재현하는 제작 도구로는 미통과다. [검수 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-anonymous-high-angle-transfer-review.json)과 [실행 조건](../../../assets/part-07/chapter-05/p7-5-4-sdxl-anonymous-high-angle-transfer-report.json)을 보관했다.
 
 ### 보조 실험: depth·Canny와 역할 분리 adapter의 경계
 
@@ -143,7 +143,7 @@ Canny도 카메라·실루엣의 보조 조건으로는 쓸 수 있었지만, �
 | ![DiffEdit 자동 mask 실패](../../../assets/part-07/chapter-05/p7-5-4-diffedit-first-probe-contact-sheet.png) | ![FitDiT 고각도 상반신 착장 교체](../../../assets/part-07/chapter-05/p7-5-4-fitdit-high-angle-upperbody-complete-outfit-review-sheet.png) | ![CatVTON 전면 재킷 비교](../../../assets/part-07/chapter-05/p7-5-4-catvton-jacket-contact-sheet.png) |
 | 편집 범위가 전신으로 확산 | 어깨·재킷·가방의 새 가림 관계 미통과 | 수평 재킷 레이어만 부분 통과 |
 
-이 결과는 mask를 더 정교하게 그리거나 reference를 더 주는 일이 고각도에서 새로 보이거나 가려지는 팔·몸통·다리·가방의 관계를 대신하지 못한다는 뜻이다. [FitDiT 실행 기록](../../../assets/part-07/chapter-05/p7-5-4-fitdit-high-angle-upperbody-complete-outfit-tight-mask/run.json)과 [SDXL depth 역할 분리 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-depth-role-separated/run.json)은 각 조건을 남긴다.
+이 결과는 mask를 더 정교하게 그리거나 reference를 더 주는 일이 고각도에서 새로 보이거나 가려지는 팔·몸통·다리·가방의 관계를 대신하지 못한다는 뜻이다. [FitDiT 실행 기록](../../../assets/part-07/chapter-05/p7-5-4-fitdit-high-angle-upperbody-complete-outfit-run.json)과 [SDXL depth 역할 분리 기록](../../../assets/part-07/chapter-05/p7-5-4-sdxl-depth-role-separated-run.json)은 각 조건을 남긴다.
 
 ## 주요 서사 3. Qwen에서는 세 입력의 역할을 분리해 통과 경로를 만들었다
 
