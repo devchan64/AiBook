@@ -26,6 +26,7 @@ APPROVED = {
 ACTION_COUNT = 36
 CORE_IDENTITY_COUNT = 18
 EXPECTED_COUNT = ACTION_COUNT + CORE_IDENTITY_COUNT
+SOURCE_MANIFEST = DATASET_ASSETS / "dataset-manifest.json"
 IDENTITY = "p7mira, adult Korean woman, petrol-teal jaw-length bob, amber eyes, webtoon watercolor"
 VIEWS = ("front", "front_quarter_left", "front_quarter_right", "profile_left", "profile_right", "rear")
 VIEW_TAGS = {
@@ -76,6 +77,12 @@ def core_records() -> list[dict[str, object]]:
 
 
 def approved_records() -> list[dict[str, object]]:
+    source_manifest = json.loads(SOURCE_MANIFEST.read_text(encoding="utf-8"))
+    source_records = {
+        str(record["source_id"]): record
+        for record in source_manifest["sources"]
+        if str(record["source_id"]).startswith(("pose-extra-", "sport-"))
+    }
     records: list[dict[str, object]] = []
     for review_path in sorted(ACTION_ASSETS.glob("p7-5-4-character-lora-pose-stage2-*-reference-review.json")):
         review = json.loads(review_path.read_text(encoding="utf-8"))
@@ -84,20 +91,22 @@ def approved_records() -> list[dict[str, object]]:
         image_path = review_path.parent / str(review["output"])
         if not image_path.is_file():
             raise FileNotFoundError(f"approved image missing: {image_path}")
-        stage1_name = Path(str(review["source"])).name.removesuffix(".png") + "-review.json"
-        stage1_path = review_path.parent / stage1_name
-        if not stage1_path.is_file():
-            raise FileNotFoundError(f"stage-1 review missing: {stage1_path}")
-        stage1 = json.loads(stage1_path.read_text(encoding="utf-8"))
+        source_record = source_records.get(str(review["candidate_id"]))
+        if source_record is None:
+            raise ValueError(f"approved action missing from source manifest: {review['candidate_id']}")
+        if source_record["image"] != image_path.relative_to(ASSETS).as_posix():
+            raise ValueError(f"manifest image mismatch: {review['candidate_id']}")
+        if source_record["review"] != review_path.relative_to(ASSETS).as_posix():
+            raise ValueError(f"manifest review mismatch: {review['candidate_id']}")
         records.append(
             {
                 "source_id": str(review["candidate_id"]),
                 "image": image_path.relative_to(ASSETS).as_posix(),
                 "review": review_path.relative_to(ASSETS).as_posix(),
-                "caption": f"{IDENTITY}, full body, {VIEW_TAGS[str(stage1['view'])]}, {str(stage1['pose_rule']).lower()}",
+                "caption": str(source_record["caption"]),
                 "sha256": sha256(image_path),
-                "view": str(stage1["view"]),
-                "pose_family": str(stage1["pose_family"]),
+                "view": str(source_record["view"]),
+                "pose_family": str(source_record["pose_family"]),
             }
         )
     if len(records) != ACTION_COUNT:

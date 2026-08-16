@@ -7,7 +7,7 @@
   ],
   "candidate_id": "sport-front_quarter_left-track-acceleration",
   "stage": "style_stage_2",
-  "source": "p7-5-4-character-lora-pose-stage1-sport-front_quarter_left-track-acceleration-reference.png",
+  "source_stage": "stage1_pruned_after_stage2_approval",
   "style_reference": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
   "seed": 62294,
   "steps": 6,
@@ -15,5 +15,5 @@
   "output": "p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-track-acceleration-reference.png",
   "review": "p7-5-4-character-lora-pose-stage2-sport-front_quarter_left-track-acceleration-reference-review.json",
   "elapsed_seconds": 32.3,
-  "decision": "Human approved for the styled character-LoRA dataset; retain the Stage-1 pose anchor and this approval record."
+  "decision": "Human approved for the styled character-LoRA dataset; retain this approval record."
 }
