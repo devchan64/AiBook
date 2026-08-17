@@ -1,7 +1,7 @@
 # P7-5.4 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기
 
 > Section ID: `P7-5.4`
-> Version: `v2026.08.16`
+> Version: `v2026.08.18`
 
 같은 캐릭터를 다른 카메라와 동작에서도 다시 그릴 수 있을까? 이 절에서는 한 장이 그럴듯한지를 보지 않고, 아래 네 계약을 동시에 확인했다. 실험은 하나의 도구를 고르는 과정이 아니라, 어느 계약이 깨지는지 찾아 다음 입력의 역할을 좁히는 과정이었다.
 
@@ -244,6 +244,13 @@ OpenPose와 depth·Canny는 구조 조건, FaceID·FacePlus·IP-Adapter·LoRA는
 | --- | --- |
 | ![Qwen 2입력 고각도 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-edit-two-input-outfit-loss.png) | ![Qwen 역할 미분리 3입력 결과](../../../assets/part-07/chapter-05/p7-5-4-qwen-edit-three-input-uncompressed-outfit-drift.png) |
 | 재킷·가방·strap 미통과 | 흰 운동화·와이드 바지 미통과 |
+
+<details id="qwen-high-angle-role-comparison-source" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_4_qwen_edit_high_angle_role_comparison.py" data-language="python">
+<summary><code>p7_5_4_qwen_edit_high_angle_role_comparison.py</code> · Python · 2입력 착장 누락과 3입력 역할 분리 고각도 비교 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">두 조건의 입력 역할·seed·prompt·Nunchaku offload 설정과 SHA-256 실행 기록을 불러옵니다.</div>
+</details>
+
+이 코드는 `--condition two-input --seed 62294`로 왼쪽 PNG를, `--condition role-separated --seed 62295`로 아래 오른쪽 승인 PNG를 만든다. 재실행 결과는 패키지 버전과 런타임에 따라 픽셀까지 같지 않을 수 있으므로, 기록된 SHA-256 대조와 사람 검수를 새로 수행한다.
 
 이 비교의 핵심은 입력 수 자체가 아니라 입력마다 맡긴 정보다. 2입력에서 구조와 얼굴을 우선하면 완성 착장의 레이어가 빠졌고, 역할이 겹친 3입력에서는 착장 단서끼리 충돌해 신발·바지가 바뀌었다. 그래서 다음 조건에서는 guide가 장면 구조만, 얼굴 reference가 identity만, 완성 착장이 옷·가방만 맡도록 서로의 판정 범위를 좁혔다.
 
