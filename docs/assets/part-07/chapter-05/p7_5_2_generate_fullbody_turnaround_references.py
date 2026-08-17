@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate each non-front full-body turnaround view in one reference-guided pass."""
+"""Generate non-front full-body turnaround references on the local GPU."""
 
 from __future__ import annotations
 
@@ -58,8 +58,14 @@ VIEW_RULES = {
     "front_quarter_right": "right front-quarter view, walking diagonally toward image right; gaze toward the right front-quarter",
     "profile_left": "strict side profile facing image left; nose, chest, hips, and toes point image left; near arm visible, far arm hidden, two legs and shoes separate",
     "profile_right": "strict side profile facing image right; nose, chest, hips, and toes point image right; near arm visible, far arm hidden, two legs and shoes separate",
-    "rear": "rear view, with only the back of the head visible and no facial features",
+    "rear": "an exact 180-degree rear view: the entire figure faces away from the camera, with only the back of the head visible and no facial features",
 }
+REAR_BODY_RULE = (
+    "The rear view must be anatomically and sartorially coherent from hair to soles: the T-shirt shows its back neckline, "
+    "shoulder-back fabric, and back hem only; the trousers show their rear waistband, center-back seam, and rear pockets or rear panels only; "
+    "the shoes show their heel backs. Do not copy any front-facing torso or trouser construction from an input reference. "
+    "No visible face, chest or bust contour, front fly, zipper, front pockets, front pleats, or front crotch seam."
+)
 TURNAROUND_ORDER = (
     "front_quarter_left",
     "front_quarter_right",
@@ -92,13 +98,37 @@ def build_face_reference_sheet(face_images: tuple[Image.Image, ...]) -> Image.Im
 
 
 def build_prompt(view: str) -> str:
+    if view != "rear":
+        return (
+            "Use the supplied front full-body reference as the fixed source for the entire figure and its rotation. "
+            "Use the supplied ordered face sheet to preserve the same face and hair across the front and target-direction panels. "
+            f"Render the same full-body figure {VIEW_RULES[view]}. "
+            "Preserve the full-body proportion, clothing silhouette, shoulder-width stance, and off-white studio background. "
+            "One person, complete limbs, no text or labels."
+        )
     return (
-        "Use the supplied front full-body reference as the fixed source for the entire figure and its rotation. "
+        "Generate on the local GPU from the supplied front full-body reference as the fixed identity, proportion, outfit, and pose source. "
+        "The supplied front reference is an input anchor, not the target camera direction: reconstruct the requested visible garment surfaces rather than copying its front-facing details. "
         "Use the supplied ordered face sheet to preserve the same face and hair across the front and target-direction panels. "
         f"Render the same full-body figure {VIEW_RULES[view]}. "
+        f"{REAR_BODY_RULE} "
         "Preserve the full-body proportion, clothing silhouette, shoulder-width stance, and off-white studio background. "
         "One person, complete limbs, no text or labels."
     )
+
+
+def reference_images_for_view(
+    view: str,
+    front_anchor_image: Image.Image,
+    fullbody_reference_image: Image.Image | None,
+    face_sheet: Image.Image,
+) -> list[Image.Image]:
+    """Avoid supplying a duplicate front-body view when the target is its exact rear."""
+    if view == "rear":
+        return [front_anchor_image, face_sheet]
+    if fullbody_reference_image is None:
+        raise ValueError("A shared front full-body reference is required for non-rear views")
+    return [front_anchor_image, fullbody_reference_image, face_sheet]
 
 
 def main() -> None:
@@ -137,7 +167,9 @@ def main() -> None:
     if args.preview_every < 0:
         raise ValueError("preview-every must be zero or positive")
     selected_views = tuple(view for view in TURNAROUND_ORDER if view in args.views)
-    reference_paths = [args.front_image, FULLBODY_REFERENCE]
+    reference_paths = [args.front_image]
+    if any(view != "rear" for view in selected_views):
+        reference_paths.append(FULLBODY_REFERENCE)
     reference_paths.extend(path for view in selected_views for _, path in FACE_SHEET_BY_VIEW[view])
     if missing := [path.name for path in reference_paths if not path.is_file()]:
         raise FileNotFoundError(", ".join(missing))
@@ -152,7 +184,11 @@ def main() -> None:
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)
 
-    fullbody_reference_image = Image.open(FULLBODY_REFERENCE).convert("RGB")
+    fullbody_reference_image = (
+        Image.open(FULLBODY_REFERENCE).convert("RGB")
+        if any(view != "rear" for view in selected_views)
+        else None
+    )
     face_images = {
         path: Image.open(path).convert("RGB")
         for path in {path for view in selected_views for _, path in FACE_SHEET_BY_VIEW[view]}
@@ -168,6 +204,11 @@ def main() -> None:
             prompt = args.prompt or build_prompt(view)
             face_sheet_labels = [label for label, _ in FACE_SHEET_BY_VIEW[view]]
             face_sheet_sources = [path.name for _, path in FACE_SHEET_BY_VIEW[view]]
+            body_reference_sources = (
+                [args.front_image.name]
+                if view == "rear"
+                else [args.front_image.name, FULLBODY_REFERENCE.name]
+            )
             stem = candidate_stem(
                 f"{args.output_prefix}-{view}",
                 seed=seed,
@@ -175,7 +216,7 @@ def main() -> None:
                 contract={
                     "model": MODEL_ID,
                     "prompt": prompt,
-                    "references": [args.front_image.name, FULLBODY_REFERENCE.name],
+                    "references": body_reference_sources,
                     "face_sheet_sources": face_sheet_sources,
                     "seed": seed,
                     "steps": args.steps,
@@ -186,7 +227,12 @@ def main() -> None:
             report = ROOT / f"{stem}-review.json"
             started = time.monotonic()
             image = pipe(
-                image=[front_anchor_image, fullbody_reference_image, face_sheets[view]],
+                image=reference_images_for_view(
+                    view,
+                    front_anchor_image,
+                    fullbody_reference_image,
+                    face_sheets[view],
+                ),
                 prompt=prompt,
                 width=IMAGE_WIDTH,
                 height=IMAGE_HEIGHT,
@@ -222,7 +268,7 @@ def main() -> None:
                             "status": "generated",
                             "prompt": prompt,
                             "prompt_word_count": prompt_word_count(prompt),
-                            "references": [args.front_image.name, FULLBODY_REFERENCE.name],
+                            "references": body_reference_sources,
                             "face_reference_sheet": {
                                 "panel_order": face_sheet_labels,
                                 "sources": face_sheet_sources,
