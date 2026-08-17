@@ -42,7 +42,8 @@ COMMON_DANCER_PROMPT = (
 )
 
 SCENE_A_PROMPT = (
-    "Wide elevated view in a broad pale sandstone canyon with widely spaced walls. "
+    "Wide low-angle view from near the canyon floor looking slightly upward through a broad pale sandstone canyon with widely spaced walls; "
+    "not an elevated or bird's-eye camera. "
     + COMMON_DANCER_PROMPT
     + " Craggy cliffs beside and behind her; visible gravel floor and clear space around her."
 )
@@ -64,7 +65,7 @@ SCENE_C_PROMPT = (
 SCENES = {
     "A": {
         "slug": "scene-a",
-        "description": "넓고 완만하게 높은 구도의 협곡 전진 도약 장면",
+        "description": "넓은 로우앵글 협곡 전진 도약 장면",
         "seed": 5420,
         "prompt": SCENE_A_PROMPT,
     },

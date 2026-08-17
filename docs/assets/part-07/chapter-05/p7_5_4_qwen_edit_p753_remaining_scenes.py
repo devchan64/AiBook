@@ -53,7 +53,7 @@ COMMON_STYLE_PROMPT = (
 )
 SCENE_STRUCTURE_PROMPTS = {
     "a": (
-        "Use image 2 only for a wide, gently elevated (not bird's-eye) view through a broad pale sandstone canyon "
+        "Use image 2 only for a wide low-angle view from near the canyon floor looking slightly upward through a broad pale sandstone canyon "
         "with visible spaced walls, one full-body airborne split leap facing right, and clear ground around her."
     ),
     "b": (
@@ -68,7 +68,7 @@ SCENE_STRUCTURE_PROMPTS = {
 
 PROMPTS = {
     "a": (
-        "Keep image 1's wide elevated camera, broad pale sandstone canyon, visible spaced canyon walls, "
+        "Keep image 1's wide low-angle camera from near the canyon floor, broad pale sandstone canyon, visible spaced canyon walls, "
         "full-body airborne split leap, and clear ground around the dancer. Depict image 2's woman with her "
         "petrol-teal jaw-length bob and both amber irises in that composition. Use image 3 only as the exact outfit "
         "reference: white cropped jacket, wide-leg petrol-teal trousers, white low-top sneakers, navy crossbody bag, "
@@ -94,7 +94,7 @@ PROMPTS = {
 }
 
 CHARACTER_FIRST_PROMPTS = {
-    scene: f"{COMMON_CHARACTER_PROMPT} {SCENE_STRUCTURE_PROMPTS[scene]} {COMMON_STYLE_PROMPT}"
+    scene: f"{COMMON_CHARACTER_PROMPT} {SCENE_STRUCTURE_PROMPTS[scene]}"
     for scene in ("a", "b", "c")
 }
 
@@ -154,7 +154,7 @@ def main() -> None:
         raise ValueError("--style-reference requires --no-outfit and --character-first: image 1=character, image 2=structure, image 3=style")
     started = time.monotonic()
     prompt = PROMPTS[args.scene] if not args.no_outfit else (
-        "Keep image 1's wide elevated camera, broad pale sandstone canyon, visible spaced canyon walls, full-body airborne split leap, and clear ground around the dancer. Depict image 2's exact same woman, outfit, bag and strap in that composition. Korean webtoon watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic."
+        "Keep image 1's wide low-angle camera from near the canyon floor, broad pale sandstone canyon, visible spaced canyon walls, full-body airborne split leap, and clear ground around the dancer. Depict image 2's exact same woman, outfit, bag and strap in that composition. Korean webtoon watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic."
     )
     inputs = (guide, subject) if args.no_outfit else (guide, subject, OUTFIT)
     if args.character_first:
@@ -162,12 +162,7 @@ def main() -> None:
         prompt = CHARACTER_FIRST_PROMPTS[args.scene]
     if style:
         inputs = (subject, guide, style)
-        if not args.character_first:
-            prompt += (
-                " Use image 3 only as the approved P7-5.1 watercolor rendering reference: preserve its off-white paper, "
-                "sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; "
-                "do not copy its scene, subject, or camera."
-            )
+        prompt += f" {COMMON_STYLE_PROMPT}"
     result = pipeline()(
         image=[load_image(str(path)).convert("RGB") for path in inputs],
         prompt=prompt, generator=torch.Generator("cpu").manual_seed(args.seed),
