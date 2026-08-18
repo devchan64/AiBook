@@ -83,7 +83,7 @@ PROMPTS = {
         "full-body airborne split leap, and clear ground around the dancer. Depict image 2's woman with her "
         "petrol-teal jaw-length bob and both amber irises in that composition. Use image 3 only as the exact outfit "
         "reference: white cropped jacket, wide-leg petrol-teal trousers, white low-top sneakers, navy crossbody bag, "
-        "and the bag strap outside the jacket. Korean webtoon watercolor on off-white paper, sparse charcoal contours, "
+        "and the bag strap outside the jacket. Illustrated watercolor on off-white paper, sparse charcoal contours, "
         "transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic."
     ),
     "b": (
@@ -91,7 +91,7 @@ PROMPTS = {
         "full-body airborne split leap, centered uncropped dancer, and ample empty ground around her. Depict image 2's woman "
         "with her petrol-teal jaw-length bob and both amber irises in that composition. Use image 3 only as the exact outfit "
         "reference: white cropped jacket, wide-leg petrol-teal trousers, white low-top sneakers, navy crossbody bag, and the bag "
-        "strap outside the jacket. Korean webtoon watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet "
+        "strap outside the jacket. Illustrated watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet "
         "washes, pigment pooling, granulation, and translucent edges; never photorealistic."
     ),
     "c": (
@@ -99,7 +99,7 @@ PROMPTS = {
         "legs split, detached cast shadow, and loose gravel ground. Depict image 2's woman with her petrol-teal "
         "jaw-length bob and both amber irises in that composition. Use image 3 only as the exact outfit reference: "
         "white cropped jacket, wide-leg petrol-teal trousers, white low-top sneakers, navy crossbody bag, and the bag "
-        "strap outside the jacket. Korean webtoon watercolor on off-white paper, sparse charcoal contours, transparent "
+        "strap outside the jacket. Illustrated watercolor on off-white paper, sparse charcoal contours, transparent "
         "wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic."
     ),
 }
@@ -187,7 +187,7 @@ def main() -> None:
         raise ValueError("--repair-source requires --repair-style-reference: image 1=locked base, image 2=outfit, image 3=style")
     started = time.monotonic()
     prompt = PROMPTS[args.scene] if not args.no_outfit else (
-        "Keep image 1's wide low-angle camera from near the canyon floor, broad pale sandstone canyon, visible spaced canyon walls, full-body airborne split leap, and clear ground around the dancer. Depict image 2's exact same woman, outfit, bag and strap in that composition. Korean webtoon watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic."
+        "Keep image 1's wide low-angle camera from near the canyon floor, broad pale sandstone canyon, visible spaced canyon walls, full-body airborne split leap, and clear ground around the dancer. Depict image 2's exact same woman, outfit, bag and strap in that composition. Illustrated watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic."
     )
     inputs = (guide, subject) if args.no_outfit else (guide, subject, OUTFIT)
     if args.character_first:

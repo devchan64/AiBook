@@ -19,7 +19,7 @@ CONTROLNET = Path("/home/cbsim/.cache/huggingface/hub/models--diffusers--control
 SOURCE = ROOT / "docs/assets/part-07/chapter-05/p7-5-2-mira-single-reference-14-side-walk-pause.png"
 OUTPUT_DIR = Path("/tmp/p7-5-4-sdxl-canny-structure-only")
 PROMPT = (
-    "clean Korean webtoon line art, one adult woman in left side profile, full body from head to both shoes, "
+    "clean illustrated line art, one adult woman in left side profile, full body from head to both shoes, "
     "one hand holds a single crossbody bag strap, wide-leg trousers, white sneakers, white studio background"
 )
 NEGATIVE = "front view, three-quarter view, multiple people, cropped body, cut off feet, extra bag, extra strap, broken strap, deformed hands, text, watermark"

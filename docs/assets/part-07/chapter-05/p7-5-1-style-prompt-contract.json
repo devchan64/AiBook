@@ -1,7 +1,7 @@
 {
   "contract_id": "p7-5-1-background-style-v3",
   "purpose": "Further-compressed shared P7-5.1 background-only style prompt. Scene prompts supply place, time, and camera separately.",
-  "common_contract": "Empty edge-to-edge Korean webtoon background; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, medium-chroma color. No frame, text, logos, people, animals, vehicles, neon, photorealism, hatching, or screentone.",
+  "common_contract": "Empty edge-to-edge illustrated watercolor background; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, medium-chroma color. No frame, text, logos, people, animals, vehicles, neon, photorealism, hatching, or screentone.",
   "fixed_checks": [
     "edge-to-edge background without an outer frame or dark border",
     "sparse thin charcoal contour and structure lines",

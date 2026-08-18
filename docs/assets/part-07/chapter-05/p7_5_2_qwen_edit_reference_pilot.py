@@ -10,18 +10,22 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import importlib.metadata
 import json
 import platform
 import sys
+import sysconfig
 import time
+import types
 from pathlib import Path
 
+import numpy as np
 import torch
 from diffusers import QwenImageEditPlusPipeline
 from diffusers.utils import load_image
 from nunchaku import NunchakuQwenImageTransformer2DModel
-from PIL import Image, ImageDraw
+from PIL import Image
 
 
 ASSETS = Path(__file__).resolve().parent
@@ -109,7 +113,7 @@ for target_id, direction in FACE_DIRECTION_RULES.items():
         "append_style_prompt": False,
         "prompt": (
             f"Use image 1 only as the exact character identity, including the compact oval face, orange-amber irises, petrol-teal hair, fringe, and high-volume jaw-length bob. "
-            "Use image 2 only as a weak, non-rendered declarative OpenPose face-and-neck geometry cue; do not copy its lines, dots, colors, or background. "
+            "Use image 2 as the standard OpenPose structural control map for face-and-neck geometry; do not render its lines, dots, colors, or background. "
             f"Create one clean head-and-neck studio reference in {direction}. "
             f"{visible_face_rule} Plain off-white background, one person, no text, panel, collage, accessory, or background scene."
         ),
@@ -131,73 +135,110 @@ TARGETS["face_front_quarter_left"] = {
     ),
 }
 
+TARGETS["face_front_quarter_right"] = {
+    "inputs": (QWEN_FACE_REFERENCE, OPENPOSE_GUIDES["face_front_quarter_right"]),
+    "size": (768, 768),
+    "append_style_prompt": False,
+    "prompt": (
+        "Use image 1 as the exact character identity: preserve the compact oval face, orange-amber irises, petrol-teal hair, asymmetric fringe, "
+        "and high-volume jaw-length bob. Use image 2 as the standard OpenPose face-and-neck structural control map. Turn the same head "
+        "toward the image's right edge: the nose tip and lips must point to screen right, the image-left cheek is nearer and wider, the image-right eye is narrower, "
+        "and the image-right ear is hidden by hair. This is a right-facing front-quarter view, never left-facing and never frontal or profile. Keep the original loose S-waves "
+        "and inward C-curls. Do not render image 2's black background, lines, dots, colors, or skeleton; do not create text, accessory, scene, or panel."
+    ),
+}
+
+
+def openpose_module():
+    """Load controlnet_aux OpenPose without importing its optional top-level extras."""
+    root = Path(sysconfig.get_paths()["purelib"]) / "controlnet_aux"
+    package_name = "p7_5_2_openpose_aux"
+    parent = types.ModuleType(package_name)
+    parent.__path__ = [str(root)]
+    sys.modules[package_name] = parent
+    directory = root / "open_pose"
+    spec = importlib.util.spec_from_file_location(
+        f"{package_name}.open_pose",
+        directory / "__init__.py",
+        submodule_search_locations=[str(directory)],
+    )
+    if spec is None or spec.loader is None:
+        raise RuntimeError("controlnet_aux OpenPose renderer is unavailable")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
 
 def save_openpose_guide(target_id: str, path: Path) -> None:
-    """Create a declarative BODY_18-style map with face direction but no RGB subject data."""
-    canvas = Image.new("RGB", (768, 768), "#f7f3e9")
-    draw = ImageDraw.Draw(canvas)
+    """Render a canonical ControlNet/OpenPose BODY_18 + face-landmark map.
 
-    # Body_18 neck/shoulder anchors keep the portrait upright and centered.
+    No subject RGB pixels are used.  Direction comes from the nose displacement
+    and asymmetric face-landmark geometry, then the installed OpenPose renderer
+    applies the standard black canvas, limb colours, and landmark convention.
+    """
+    module = openpose_module()
+
+    def point(x: float, y: float):
+        return module.Keypoint(x=x / 768, y=y / 768)
+
     neck = (385, 505)
-    right_shoulder = (500, 555)
-    left_shoulder = (300, 555)
-    # These sparse anchors encode direction only; no source face pixels enter
-    # the guide. Quarter maps keep both eyes, profile maps retain one eye, and
-    # rear omits face points entirely.
-    head = (360, 282)
     nose = (346, 350)
-    near_eye = (374, 329)
-    far_eye = (318, 333)
-    near_ear = (407, 352)
-    include_far_eye = True
-    include_near_ear = True
-    if target_id == "face_front_quarter_right":
-        # This is a separately authored right-quarter map, not a horizontal
-        # mirror of the left map. It encodes the near left eye/cheek, the
-        # smaller far right eye, a rightward nose tip, and the near left ear.
-        head = (408, 282)
-        nose = (422, 350)
-        near_eye = (394, 329)
-        far_eye = (450, 333)
-        near_ear = (361, 352)
-    elif target_id == "face_profile_left":
-        head, nose, near_eye, near_ear = (350, 282), (272, 352), (309, 329), (414, 352)
-        include_far_eye = False
-    elif target_id == "face_profile_right":
-        head, nose, near_eye, near_ear = (418, 282), (496, 352), (459, 329), (354, 352)
-        include_far_eye = False
-    elif target_id == "face_rear":
-        head, include_far_eye, include_near_ear = (385, 282), False, False
+    face_center = (366, 342)
+    if target_id in {"face_front_quarter_right", "face_profile_right"}:
+        nose, face_center = (422, 350), (402, 342)
+    if target_id == "face_profile_left":
+        nose, face_center = (272, 352), (336, 344)
+    if target_id == "face_profile_right":
+        nose, face_center = (496, 352), (432, 344)
 
-    def segment(start: tuple[int, int], end: tuple[int, int], color: tuple[int, int, int]) -> None:
-        draw.line((start, end), fill=color, width=4)
-
-    def joint(point: tuple[int, int], color: tuple[int, int, int], radius: int = 5) -> None:
-        draw.ellipse((point[0] - radius, point[1] - radius, point[0] + radius, point[1] + radius), fill=color)
-
-    muted = (103, 113, 132)
-    segment(head, neck, muted)
-    segment(neck, right_shoulder, muted)
-    segment(neck, left_shoulder, muted)
+    keypoints = [None] * 18
     if target_id != "face_rear":
-        segment(head, nose, muted)
-        segment(nose, near_eye, muted)
-        if include_far_eye:
-            segment(nose, far_eye, muted)
-        if include_near_ear:
-            segment(nose, near_ear, muted)
-    for point, color in (
-        (head, muted), (neck, muted), (right_shoulder, muted), (left_shoulder, muted),
-    ):
-        joint(point, color)
+        keypoints[0] = point(*nose)
+    keypoints[1] = point(*neck)
+    keypoints[2] = point(500, 555)
+    keypoints[5] = point(300, 555)
+
+    face = None
     if target_id != "face_rear":
-        joint(nose, muted)
-        joint(near_eye, muted)
-        if include_near_ear:
-            joint(near_ear, muted)
-        if include_far_eye:
-            joint(far_eye, muted, radius=3)
-    canvas.save(path)
+        cx, cy = face_center
+        # A compact canonical OpenPose face mesh.  The right-facing variant
+        # has a wider near (image-left) eye and cheek and a nose bridge shifted
+        # toward the image-right edge, matching the target's screen direction.
+        toward_right = target_id in {"face_front_quarter_right", "face_profile_right"}
+        near_scale = 1.18 if toward_right else 0.86
+        far_scale = 0.86 if toward_right else 1.18
+        jaw = [
+            (cx - 62, cy - 14), (cx - 57, cy + 8), (cx - 49, cy + 28), (cx - 38, cy + 45),
+            (cx - 22, cy + 57), (cx, cy + 62), (cx + 22, cy + 57), (cx + 38, cy + 45),
+            (cx + 49, cy + 28), (cx + 57, cy + 8), (cx + 62, cy - 14),
+        ]
+        if toward_right:
+            jaw = [(cx + (x - cx) * (near_scale if x < cx else far_scale), y) for x, y in jaw]
+        else:
+            jaw = [(cx + (x - cx) * (near_scale if x > cx else far_scale), y) for x, y in jaw]
+        left_eye = [(cx - 41, cy - 14), (cx - 30, cy - 20), (cx - 18, cy - 14), (cx - 30, cy - 8)]
+        right_eye = [(cx + 18, cy - 14), (cx + 30, cy - 20), (cx + 41, cy - 14), (cx + 30, cy - 8)]
+        if toward_right:
+            left_eye = [(cx + (x - cx) * near_scale, y) for x, y in left_eye]
+            right_eye = [(cx + (x - cx) * far_scale, y) for x, y in right_eye]
+        else:
+            left_eye = [(cx + (x - cx) * far_scale, y) for x, y in left_eye]
+            right_eye = [(cx + (x - cx) * near_scale, y) for x, y in right_eye]
+        landmarks = jaw + left_eye + right_eye + [
+            (cx - 15, cy + 2), (cx, cy + 10), nose, (cx - 14, cy + 27), (cx, cy + 31), (cx + 14, cy + 27),
+            (cx - 22, cy + 42), (cx, cy + 47), (cx + 22, cy + 42),
+        ]
+        face = [point(x, y) for x, y in landmarks]
+
+    pose = module.PoseResult(
+        body=module.BodyResult(keypoints=keypoints, total_score=1.0, total_parts=4),
+        left_hand=None,
+        right_hand=None,
+        face=face,
+    )
+    rendered = module.draw_poses([pose], 768, 768, draw_body=True, draw_hand=False, draw_face=True)
+    Image.fromarray(np.ascontiguousarray(rendered)).save(path)
 
 
 def sha256(path: Path) -> str:
@@ -292,12 +333,12 @@ def main() -> None:
         "run_label": args.run_label,
         "inputs": [asset_record(path) for path in inputs],
         "input_roles": (
-            ["complete_head_identity", "declarative_openpose_face_geometry"]
+            ["complete_head_identity", "standard_openpose_face_geometry"]
             if args.target == "face_front_quarter_left"
             else
             ["face_identity"]
             if args.target == "face_front" or (args.target in FACE_DIRECTION_RULES and len(target["inputs"]) == 1)
-            else ["face_identity", "declarative_openpose_face_geometry"]
+            else ["face_identity", "standard_openpose_face_geometry"]
             if args.target in FACE_DIRECTION_RULES
             else ["body_and_complete_outfit", "face_identity"]
         ),
