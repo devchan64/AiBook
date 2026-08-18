@@ -1,60 +1,22 @@
 {
   "status": "approved",
-  "experiment_id": "p7-5-2-qwen-edit-face_front",
-  "model": "Qwen/Qwen-Image-Edit-2509",
-  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
-  "runtime": {
-    "python": "3.12.3",
-    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
-    "packages": {
-      "nunchaku": "1.2.1+cu12.8torch2.11",
-      "diffusers": "0.37.0",
-      "torch": "2.11.0+cu128",
-      "transformers": "4.57.6",
-      "accelerate": "1.13.0"
-    },
-    "cuda_available": true,
-    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
-  },
-  "transition_plan": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json",
-    "sha256": "73ed71cff11b53801f237d0f60075ecd727260068270874981c908e5a4b0c1f5"
-  },
-  "identity_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json",
-    "sha256": "acf05f6229ebd7654e348b5ef3ec44921bb7e9f5d7793cf020d5b49d87232d1b"
-  },
-  "style_prompt_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-style-prompt-contract.json",
-    "sha256": "20c003f77759f6ef41404a44588b83041932b0c9657e00fe57cf9c860cff5545"
-  },
-  "target": "face_front",
-  "run_label": "v18-qwen-front-current-style",
-  "source_candidate": "p7-5-2-qwen-edit-prompt-style-face_front-v18-qwen-front-current-style-seed-62294-steps-20.png",
-  "inputs": [
-    {
-      "path": "git:8eaba378b:docs/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png",
-      "sha256": "83a08766a969418cbd09f4e376aad4cc2538995e2fb55fa154388118b1333c0b"
-    }
-  ],
-  "input_roles": [
-    "face_identity"
-  ],
+  "approval": "human_approved",
+  "experiment_id": "p7-5-2-qwen-image-text-only-head-front",
+  "output": "p7-5-2-face-front-qwen-role-separated-reference.png",
+  "source_candidate": "p7-5-2-qwen-edit-prompt-style-head_front-v31-young-adult-front-head-seed-62294-steps-20.png",
+  "model": "Qwen/Qwen-Image",
+  "transformer": "nunchaku-qwen-image fp4",
+  "input_policy": "No reference image was supplied; face, hair, style, and pupil requirements were text-prompt only.",
+  "inputs": [],
   "seed": 62294,
   "steps": 20,
-  "size": [
-    768,
-    768
+  "image_size": [768, 768],
+  "approved_scope": [
+    "strict frontal head-and-neck framing",
+    "young East Asian adult woman in her early twenties with a complete high-volume petrol-teal bob silhouette, fringe, side locks, ears, and neck",
+    "orange-amber irises and visibly round, centered dark pupils"
   ],
-  "true_cfg_scale": 4.0,
-  "guidance_scale": 1.0,
-  "negative_prompt": " ",
-  "prompt": "Use image 1 only as the exact Qwen front-face identity reference. Preserve its compact oval face, petrol-teal jaw-length bob, long slender almond eyes with gently upturned outer corners, moderately narrow eyelid openings, and equal orange-amber irises. Preserve a high-volume crown and a wide rounded jaw-length bob silhouette: medium-density petrol-teal hair, large loose S-waves, pronounced inward C-curls at both ends, and tapered side locks that stay visibly wider than the neck. Create one clean strict frontal head-and-neck studio reference. No text, panel, collage, accessory, or background scene. Character-reference illustration on plain warm off-white paper; thin charcoal contours, restrained transparent watercolor color blocks, subtle pigment pooling, and clean untextured background. No paint splashes, radial lines, action lines, speed lines, rays, bursts, halo, vignette, hatching, screentone, frame, text, panel, logo, or background scene.",
-  "prompt_word_count": 130,
-  "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png",
-    "sha256": "768647a6fba1401455364a077acdc919191114d20b8abe92cd797a45dabbb120"
-  },
-  "elapsed_seconds": 154.14,
-  "decision": "Approved by human review as the current P7-5.2 Qwen front-face reference. It replaces the prior role-separated Qwen front reference and records that prior Qwen input by its immutable Git revision."
+  "limitations": [
+    "Approval does not approve other views, expressions, poses, scenes, or lighting."
+  ]
 }

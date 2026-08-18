@@ -70,15 +70,15 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-reference-review.json" data-language="json">정면 얼굴 승인 review.json</a></p>
 
-### Qwen 정면 얼굴 기준
+### Qwen 정면 머리 기준
 
-승인된 Qwen 정면 기준을 identity 입력으로만 사용하고, P7-5.2 인물 전용 화풍 계약은 이미지 입력이 아닌 positive prompt에만 결합했습니다. `seed=62294`, `768×768`, `20 step`의 v18 정면 후보를 사람 승인해 현재 Qwen 정면 기준으로 교체했습니다. 이 기준은 길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리, 청록색의 볼륨 있는 단발, 주황-호박색 홍채를 확인하는 범위입니다. 이전 Qwen 기준은 Git 이력에 보존하며, 현재 기준의 입력으로는 이전 Qwen 정면만 사용했습니다.
+현재 Qwen 정면 기준은 참조 이미지 없이 Qwen 기본 생성 파이프라인에서 만들었습니다. `seed=62294`, `768×768`, `20 step`의 v31 텍스트 전용 정면 head 후보를 사람 승인해 교체했습니다. 이 기준은 20대 초반 동아시아 성인 여성의 인상, 완만히 올라간 눈꼬리, 원형 동공, 청록색의 볼륨 있는 단발의 전체 실루엣·앞머리·옆머리·귀·목을 확인하는 범위입니다. 이전 Qwen 기준은 Git 이력에 보존하며, 이 생성에는 Qwen·Flux를 포함한 어떠한 이미지 입력도 사용하지 않았습니다.
 
-| 승인된 Qwen 정면 얼굴 기준 |
+| 승인된 Qwen 정면 머리 기준 |
 | --- |
-| ![승인된 Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png) |
+| ![승인된 Qwen 정면 머리 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference-review.json" data-language="json">Qwen 정면 얼굴 승인 review.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference-review.json" data-language="json">Qwen 정면 머리 승인 review.json</a></p>
 
 ### Qwen OpenPose 좌측 전면 쿼터 기준
 
@@ -191,7 +191,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 정면·좌우 전면 쿼터·좌우 측면·후면의 여섯 PNG는 기본 전신 기준입니다. 승인 범위는 자연스러운 신체비율, 전신 프레이밍, 회색 크롭탑·바지·신발, 청록 단발의 연속성입니다. 자켓과 가방을 더한 리파인 결과는 이 기본 기준과 별도의 승인 자산입니다. 정면 앵커에서 나머지 다섯 방향을 파생하더라도 성인 체형 prompt가 실제 비례를 보장하지는 않으므로, 방향별 결과는 반드시 사람 검수를 거칩니다. 표정·동작·카메라 변화가 있는 장면은 이 기준의 승인 범위 밖입니다.
 
-Qwen 전환에서는 승인된 Qwen 정면 얼굴 하나만 identity 입력으로 사용해, 자켓과 가방을 착용한 전신 정면을 별도 승인했습니다. 이 기준은 전신 프레이밍·흰 크롭 재킷·회색 이너 탑·와이드 팬츠·운동화·크로스백의 동시 재현을 대조하는 용도이며, 기존 방향 전신 앵커나 다른 방향의 자동 승인을 뜻하지 않습니다.
+Qwen 전환에서는 v31 승인 정면 머리 하나만 identity 입력으로 사용해, v32 자켓과 가방을 착용한 전신 정면을 별도 승인했습니다. 이 기준은 전신 프레이밍·갈비뼈 아래에서 끝나는 짧은 흰 크롭 재킷·손목까지 내린 소매·회색 이너 탑·피부 띠·하이웨이스트 와이드 팬츠·운동화·크로스백의 동시 재현을 대조하는 용도이며, 기존 방향 전신 앵커나 다른 방향의 자동 승인을 뜻하지 않습니다.
 
 | Qwen 전신 정면·자켓·가방 기준 | 검수 기록 |
 | --- | --- |

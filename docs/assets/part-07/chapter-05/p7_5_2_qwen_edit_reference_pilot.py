@@ -22,7 +22,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from diffusers import QwenImageEditPlusPipeline
+from diffusers import QwenImageEditPlusPipeline, QwenImagePipeline
 from diffusers.utils import load_image
 from nunchaku import NunchakuQwenImageTransformer2DModel
 from PIL import Image
@@ -34,6 +34,8 @@ IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-2-character-reference-style-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
+BASE_MODEL_ID = "Qwen/Qwen-Image"
+BASE_TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
 OUTPUT_DIR = ASSETS / "p7-5-2-qwen-edit-candidates"
 DEFAULT_STEPS = 20
 QWEN_FACE_REFERENCE = "p7-5-2-face-front-qwen-role-separated-reference.png"
@@ -50,13 +52,16 @@ HAIR_VOLUME_RULE = (
 )
 
 TARGETS = {
-    "face_front": {
-        "inputs": (QWEN_FACE_REFERENCE,),
+    "head_front": {
+        "inputs": (),
         "size": (768, 768),
         "prompt": (
-            "Use image 1 only as the exact Qwen front-face identity reference. Preserve its compact oval face, "
-            "petrol-teal jaw-length bob, long slender almond eyes with gently upturned outer corners, moderately narrow "
-            "eyelid openings, and equal orange-amber irises. "
+            "Create a clean strict frontal head-and-neck studio reference of one young East Asian adult woman in her early twenties. Prioritize the complete "
+            "head silhouette: compact oval face, petrol-teal jaw-length bob, high-volume rounded crown, fringe, side locks, ears, and neck. "
+            "Keep long slender eyes with gently upturned outer corners, moderately narrow "
+            "eyelid openings, and equal orange-amber irises. Render two clearly distinct, centered, round dark pupils "
+            "inside the irises; keep each pupil visibly separated from the upper eyelid line and eyeliner, never slit-shaped, "
+            "horizontally elongated, or merged into the lash line. "
             f"{HAIR_VOLUME_RULE} Create one clean strict frontal head-and-neck "
             "studio reference. No text, panel, collage, accessory, or background scene."
         ),
@@ -83,8 +88,10 @@ TARGETS = {
             "front studio character reference of the same adult woman, standing upright with both arms relaxed at her sides, "
             "centered and visible continuously from the hair crown to both shoe soles. Preserve the compact oval face, "
             "orange-amber irises, asymmetric fringe, and high-volume petrol-teal jaw-length bob. Dress her in a closed "
-            "white cropped utility jacket with two chest flap pockets and long cuffed sleeves, over a charcoal-gray "
-            "micro-crop crew-neck inner top with only a narrow gray band visible below the jacket hem and a small bare-midriff gap. "
+            "white cropped utility jacket with two chest flap pockets and full long sleeves worn completely down to the wrists, "
+            "never rolled or pushed up. The short jacket hem ends at the lower ribcage, well above the navel and high waist, "
+            "never at hip length. Wear it over a charcoal-gray micro-crop crew-neck inner top with a clearly visible gray band "
+            "below the jacket hem and a visible bare-midriff gap before the high-waisted trousers. "
             "Wear high-waisted deep-teal wide-leg trousers with a visibly loose straight drape from hip to ankle, never skinny pants; "
             "white lace-up low-top sneakers with complete soles; and one deep-navy crossbody bag resting at the outer left hip. "
             "The taut navy strap begins at the wearer's right shoulder, crosses outside the jacket, and connects visibly to the bag. "
@@ -118,7 +125,7 @@ FACE_DIRECTION_RULES = {
 
 for target_id, direction in FACE_DIRECTION_RULES.items():
     visible_face_rule = (
-        "Preserve the compact oval face, long slender almond eyes with gently upturned outer corners, equal orange-amber irises, "
+        "Preserve the compact oval face, long slender eyes with gently upturned outer corners, equal orange-amber irises, "
         f"and petrol-teal jaw-length bob. {HAIR_VOLUME_RULE}"
         if target_id != "face_rear"
         else f"Preserve only the petrol-teal jaw-length bob silhouette, nape hairline, and hair color. {HAIR_VOLUME_RULE}"
@@ -285,9 +292,12 @@ def runtime_record() -> dict[str, object]:
     }
 
 
-def load_pipeline() -> QwenImageEditPlusPipeline:
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
-    pipe = QwenImageEditPlusPipeline.from_pretrained(MODEL_ID, transformer=transformer, torch_dtype=torch.bfloat16)
+def load_pipeline(image_edit: bool):
+    transformer_id = TRANSFORMER_ID if image_edit else BASE_TRANSFORMER_ID
+    model_id = MODEL_ID if image_edit else BASE_MODEL_ID
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_id)
+    pipeline_type = QwenImageEditPlusPipeline if image_edit else QwenImagePipeline
+    pipe = pipeline_type.from_pretrained(model_id, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True)
     transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
     pipe._exclude_from_cpu_offload.append("transformer")
     pipe.enable_sequential_cpu_offload()
@@ -324,23 +334,26 @@ def main() -> None:
     output = args.output_dir / f"{stem}.png"
     run_record = args.output_dir / f"{stem}-run.json"
     started = time.monotonic()
-    result = load_pipeline()(
-        image=[load_image(str(path)).convert("RGB") for path in inputs],
-        prompt=prompt,
-        generator=torch.Generator("cpu").manual_seed(args.seed),
-        true_cfg_scale=4.0,
-        negative_prompt=" ",
-        num_inference_steps=args.steps,
-        guidance_scale=1.0,
-        width=width,
-        height=height,
-    ).images[0]
+    pipeline = load_pipeline(image_edit=bool(inputs))
+    generation = {
+        "prompt": prompt,
+        "generator": torch.Generator("cpu").manual_seed(args.seed),
+        "true_cfg_scale": 4.0,
+        "negative_prompt": " ",
+        "num_inference_steps": args.steps,
+        "guidance_scale": 1.0,
+        "width": width,
+        "height": height,
+    }
+    if inputs:
+        generation["image"] = [load_image(str(path)).convert("RGB") for path in inputs]
+    result = pipeline(**generation).images[0]
     result.save(output)
     record = {
         "status": "review_required",
         "experiment_id": f"p7-5-2-qwen-edit-{args.target}",
-        "model": MODEL_ID,
-        "transformer": TRANSFORMER_ID,
+        "model": MODEL_ID if inputs else BASE_MODEL_ID,
+        "transformer": TRANSFORMER_ID if inputs else BASE_TRANSFORMER_ID,
         "runtime": runtime_record(),
         "transition_plan": asset_record(PLAN),
         "identity_contract": asset_record(IDENTITY_CONTRACT),
@@ -353,7 +366,7 @@ def main() -> None:
             if args.target == "face_front_quarter_left"
             else
             ["face_identity"]
-            if args.target == "face_front" or (args.target in FACE_DIRECTION_RULES and len(target["inputs"]) == 1)
+            if args.target == "head_front" or (args.target in FACE_DIRECTION_RULES and len(target["inputs"]) == 1)
             else ["face_identity", "standard_openpose_face_geometry"]
             if args.target in FACE_DIRECTION_RULES
             else ["body_and_complete_outfit", "face_identity"]
