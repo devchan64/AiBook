@@ -1,0 +1,30 @@
+{
+  "status": "approved_for_downstream_reference",
+  "model_id": "Qwen/Qwen-Image",
+  "transformer_id": "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",
+  "size": [
+    1024,
+    1024
+  ],
+  "steps": 30,
+  "true_cfg_scale": 4.0,
+  "elapsed_seconds": 114.4,
+  "gpu_memory_before_mib": 760,
+  "gpu_memory_peak_mib": 5464,
+  "requested_scene": "rooftop-rainy-night-overhead",
+  "include_existing": true,
+  "excluded_scenes": [],
+  "runs": [
+    {
+      "id": "rooftop-rainy-night-overhead",
+      "seed": 420706,
+      "prompt": "Vertical empty Seoul rooftop plaza after rain at late night, steep overhead from a high terrace. Wet paving, two planters, and one shallow puddle form diagonal planes. Deep indigo shadow, navy pavement, cyan puddle reflections, and a few small tungsten reflections; no rain streaks or warm sky. Empty edge-to-edge Korean webtoon background; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, medium-chroma color. No frame, text, logos, people, animals, vehicles, neon, photorealism, hatching, or screentone.",
+      "prompt_word_count": 77,
+      "asset": "p7-5-1-style-rooftop-rainy-night-overhead-qwen-image-qwen30-v3-scene06-code-7f2220-seed-420706-steps-30.png",
+      "elapsed_seconds": 100.0,
+      "status": "approved"
+    }
+  ],
+  "run_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-v3-scene06-run.json"
+}
