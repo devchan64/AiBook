@@ -26,14 +26,15 @@
   },
   "style_prompt_contract": {
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-style-prompt-contract.json",
-    "sha256": "ca044e928c999e2e2432be6e8a4bc0ca8a1cd905c4aeacc0c0d4a9bfac1cc166"
+    "sha256": "20c003f77759f6ef41404a44588b83041932b0c9657e00fe57cf9c860cff5545"
   },
   "target": "face_front",
-  "run_label": "v4-role-separated",
+  "run_label": "v18-qwen-front-current-style",
+  "source_candidate": "p7-5-2-qwen-edit-prompt-style-face_front-v18-qwen-front-current-style-seed-62294-steps-20.png",
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-reference.png",
-      "sha256": "3f336829ab7f45cd88eaca6216cfe83fa8fe2f38025a46ceb732c9589ffb755f"
+      "path": "git:8eaba378b:docs/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png",
+      "sha256": "83a08766a969418cbd09f4e376aad4cc2538995e2fb55fa154388118b1333c0b"
     }
   ],
   "input_roles": [
@@ -48,12 +49,12 @@
   "true_cfg_scale": 4.0,
   "guidance_scale": 1.0,
   "negative_prompt": " ",
-  "prompt": "Use image 1 only as the exact front-face identity reference. Preserve its compact oval face, petrol-teal jaw-length bob, and long slender almond eyes with gently upturned outer corners, moderately narrow eyelid openings, and equal orange-amber irises. Preserve a high-volume crown and a wide rounded jaw-length bob silhouette: medium-density petrol-teal hair, large loose S-waves, pronounced inward C-curls at both ends, and tapered side locks that stay visibly wider than the neck. Create one clean strict frontal head-and-neck studio reference. No text, panel, collage, accessory, or background scene. Korean webtoon character-reference illustration on plain warm off-white paper; thin charcoal contours, restrained transparent watercolor color blocks, subtle pigment pooling, and clean untextured background. No paint splashes, radial lines, action lines, speed lines, rays, bursts, halo, vignette, hatching, screentone, frame, text, panel, logo, or background scene.",
-  "prompt_word_count": 132,
+  "prompt": "Use image 1 only as the exact Qwen front-face identity reference. Preserve its compact oval face, petrol-teal jaw-length bob, long slender almond eyes with gently upturned outer corners, moderately narrow eyelid openings, and equal orange-amber irises. Preserve a high-volume crown and a wide rounded jaw-length bob silhouette: medium-density petrol-teal hair, large loose S-waves, pronounced inward C-curls at both ends, and tapered side locks that stay visibly wider than the neck. Create one clean strict frontal head-and-neck studio reference. No text, panel, collage, accessory, or background scene. Character-reference illustration on plain warm off-white paper; thin charcoal contours, restrained transparent watercolor color blocks, subtle pigment pooling, and clean untextured background. No paint splashes, radial lines, action lines, speed lines, rays, bursts, halo, vignette, hatching, screentone, frame, text, panel, logo, or background scene.",
+  "prompt_word_count": 130,
   "output": {
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png",
-    "sha256": "83a08766a969418cbd09f4e376aad4cc2538995e2fb55fa154388118b1333c0b"
+    "sha256": "768647a6fba1401455364a077acdc919191114d20b8abe92cd797a45dabbb120"
   },
-  "elapsed_seconds": 134.13,
-  "decision": "Approved by human review as the current P7-5.2 Qwen front-face reference. It supersedes the earlier Qwen prompt-style front candidate without removing that historical approved asset."
+  "elapsed_seconds": 154.14,
+  "decision": "Approved by human review as the current P7-5.2 Qwen front-face reference. It replaces the prior role-separated Qwen front reference and records that prior Qwen input by its immutable Git revision."
 }

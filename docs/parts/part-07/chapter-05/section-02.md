@@ -70,15 +70,15 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-reference-review.json" data-language="json">정면 얼굴 승인 review.json</a></p>
 
-### Qwen role-separated 정면 얼굴 기준
+### Qwen 정면 얼굴 기준
 
-Qwen 전환에서는 기존 Flux 정면 얼굴을 identity 입력으로만 사용하고, P7-5.2 인물 전용 화풍 계약은 이미지 입력이 아닌 positive prompt에만 결합했습니다. `seed=62294`, `768×768`, `20 step`의 role-separated 정면 후보를 사람 승인해 현재 Qwen 정면 기준으로 등록했습니다. 이 기준은 길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리, 청록색의 볼륨 있는 턱선 길이 단발, 주황-호박색 홍채를 확인하는 범위입니다. 기존 Flux 정면 기준을 덮어쓰지 않으며, 이전 Qwen prompt-style 정면 기준은 재현 이력으로 보존합니다.
+승인된 Qwen 정면 기준을 identity 입력으로만 사용하고, P7-5.2 인물 전용 화풍 계약은 이미지 입력이 아닌 positive prompt에만 결합했습니다. `seed=62294`, `768×768`, `20 step`의 v18 정면 후보를 사람 승인해 현재 Qwen 정면 기준으로 교체했습니다. 이 기준은 길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리, 청록색의 볼륨 있는 단발, 주황-호박색 홍채를 확인하는 범위입니다. 이전 Qwen 기준은 Git 이력에 보존하며, 현재 기준의 입력으로는 이전 Qwen 정면만 사용했습니다.
 
-| 승인된 Qwen role-separated 정면 얼굴 기준 |
+| 승인된 Qwen 정면 얼굴 기준 |
 | --- |
-| ![승인된 Qwen role-separated 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png) |
+| ![승인된 Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference-review.json" data-language="json">Qwen role-separated 정면 얼굴 승인 review.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference-review.json" data-language="json">Qwen 정면 얼굴 승인 review.json</a></p>
 
 ### Qwen OpenPose 좌측 전면 쿼터 기준
 

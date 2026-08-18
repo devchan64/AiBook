@@ -51,11 +51,11 @@ HAIR_VOLUME_RULE = (
 
 TARGETS = {
     "face_front": {
-        "inputs": ("p7-5-2-face-front-reference.png",),
+        "inputs": (QWEN_FACE_REFERENCE,),
         "size": (768, 768),
         "prompt": (
-            "Use image 1 only as the exact front-face identity reference. Preserve its compact oval face, "
-            "petrol-teal jaw-length bob, and long slender almond eyes with gently upturned outer corners, moderately narrow "
+            "Use image 1 only as the exact Qwen front-face identity reference. Preserve its compact oval face, "
+            "petrol-teal jaw-length bob, long slender almond eyes with gently upturned outer corners, moderately narrow "
             "eyelid openings, and equal orange-amber irises. "
             f"{HAIR_VOLUME_RULE} Create one clean strict frontal head-and-neck "
             "studio reference. No text, panel, collage, accessory, or background scene."
