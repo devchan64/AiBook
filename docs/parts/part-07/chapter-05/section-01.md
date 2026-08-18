@@ -1,11 +1,11 @@
 # P7-5.1 화풍 참조 셋 생성: 로컬 GPU로 프레임 없는 기준 만들기
 
 > Section ID: `P7-5.1`
-> Version: `v2026.08.10`
+> Version: `v2026.08.18`
 
-이 프로젝트는 먼저 FLUX.2 Klein 4B로 배경 화풍 기준을 고정합니다. 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 화풍 기준으로 승인하지 않습니다.
+이 프로젝트는 Qwen Image로 배경 화풍 후보를 생성하고, 기존의 사람 승인 참조 셋과 분리해 검수합니다. 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 화풍 기준으로 승인하지 않습니다.
 
-이 절의 질문은 **8 GB급 로컬 GPU에서 FLUX.2 Klein 4B로 만든 배경 화풍 표본을 승인하려면 무엇을 검수해야 하는가**입니다. 이 절의 산출물은 승인된 화풍 그 자체가 아니라, 후보 이미지·행별 판정·실패 이유·다음 단계 사용 가능 여부를 판정하는 gate입니다.
+이 절의 질문은 **로컬 GPU에서 Qwen Image로 만든 배경 화풍 표본을 승인하려면 무엇을 검수해야 하는가**입니다. 이 절의 산출물은 승인된 화풍 그 자체가 아니라, 후보 이미지·행별 판정·실패 이유·다음 단계 사용 가능 여부를 판정하는 gate입니다.
 
 웹툰 컷 생성 전체를 한 번에 해결하려고 하지 않습니다. 이 절은 8 GB VRAM 환경에서 배경의 선·색·광원·카메라 계약을 먼저 만들고 검수하는 데 한정합니다. 한 단계의 출력이 다음 단계에서 쓰이려면, 생성된 이미지가 마음에 드는지를 넘어서 어떤 조건을 통과했는지 기록되어야 합니다.
 
@@ -27,16 +27,16 @@
 | 사람 검수 | 외곽·선·색·장소·시간·카메라 판정 | 승인, 불합격 이유, 재생성 지시 |
 | 전체 팩 승인 | 행 사이의 일관성과 입력 범위 | ledger의 최종 결론과 manifest |
 
-## FLUX.2 Klein 4B는 작지만 조건 검수가 필요하다
+## Qwen Image도 조건 검수가 필요하다
 
-FLUX.2 Klein 4B를 고른 이유는 4B 규모의 공개 가중치로 배경 화풍 조건을 로컬에서 반복 검수할 수 있기 때문입니다. 모델 카드는 이 모델을 text-to-image와 image editing, multi-reference editing을 지원하는 rectified-flow transformer로 설명합니다. 공개 가중치는 Apache 2.0 라이선스로 제공되며, Diffusers에서는 `Flux2KleinPipeline`으로 실행할 수 있습니다.
+Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성 모델이며, 공개 모델 카드는 Apache 2.0 라이선스와 `QwenImagePipeline` 사용 예시를 제공합니다. 이 실험은 Diffusers의 `QwenImagePipeline`에 Nunchaku FP4 r128 transformer를 연결해 로컬 GPU에서 후보를 만듭니다.
 
-이 장점이 곧바로 8 GB VRAM에서 안정적인 웹툰 컷 파이프라인을 뜻하지는 않습니다. 모델 카드의 하드웨어 설명은 약 13 GB VRAM급 소비자 GPU를 기준으로 삼습니다. 이 실험은 그보다 작은 8 GB 환경에서 `enable_sequential_cpu_offload()`를 사용해 한 번에 한 단계를 실행하고, 각 단계의 승인 조건을 분리합니다. 따라서 P7-5.1은 모델이 좋은 배경 이미지를 만들 수 있는지 보는 절이 아니라, **8 GB 제약 안에서 다음 단계 입력으로 넘겨도 되는 조건을 사람이 판정하는 절**입니다.
+로컬에서 이미지가 생성된다고 해서 웹툰 컷 파이프라인이 안정적이라는 뜻은 아닙니다. 이 실행은 Nunchaku transformer offload와 `enable_sequential_cpu_offload()`로 GPU 상주량을 줄이고 한 행씩 생성합니다. 따라서 P7-5.1은 모델이 좋은 배경 이미지를 만들 수 있는지 보는 절이 아니라, **다음 단계 입력으로 넘겨도 되는 조건을 사람이 판정하는 절**입니다.
 
 | 구분 | 이 실험에서 유리한 점 | 조심할 점 |
 | --- | --- | --- |
-| 모델 크기 | 4B 규모라 로컬 실행 실험 대상으로 다룰 수 있음 | 공식 하드웨어 설명은 약 13 GB VRAM 기준이므로 8 GB에서는 offload와 단계 분리가 필요함 |
-| 기능 범위 | text-to-image, image editing, multi-reference 흐름을 시험할 수 있음 | 기능 지원이 곧 화풍 계약 통과를 뜻하지 않음 |
+| 실행 구성 | Qwen Image와 양자화 transformer로 로컬 후보를 반복 생성할 수 있음 | offload와 양자화가 화풍·구도 계약 통과를 보장하지 않음 |
+| 기능 범위 | text-to-image와 이미지 편집 흐름을 시험할 수 있음 | 기능 지원이 곧 화풍 계약 통과를 뜻하지 않음 |
 | 공개 가중치 | Apache 2.0 공개 가중치라 실험 조건과 산출물을 기록하기 좋음 | 모델 출력은 prompt를 놓치거나 왜곡할 수 있어 사람 검수 ledger가 필요함 |
 | 빠른 후보 생성 | 여러 장면 후보를 반복해 만들 수 있음 | 빠른 생성은 승인 기준이 아니며, 실패 원인은 다음 prompt 구조로 바꿔야 함 |
 
@@ -56,7 +56,7 @@ FLUX.2 Klein 4B를 고른 이유는 4B 규모의 공개 가중치로 배경 화�
 
 ## 배경 화풍 계약의 범위
 
-P7-5.1이 고정하는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원입니다. 이 절에서는 배경의 선·색·공간·카메라만 검수하고, 다른 생성 단계의 기준은 여기서 승인하지 않습니다.
+P7-5.1이 고정하는 것은 Qwen Image 후보가 따라야 할 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원입니다. 이 절에서는 배경의 선·색·공간·카메라만 검수하고, 다른 생성 단계의 기준은 여기서 승인하지 않습니다.
 
 ## 다섯 행이 있어야 한 장의 우연을 구별할 수 있다
 
@@ -74,7 +74,7 @@ P7-5.1이 고정하는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal �
 
 ## 실행 코드는 공통 계약과 장면 변수를 분리한다
 
-배경 원본 생성에는 Diffusers의 `Flux2KleinPipeline`을 사용합니다. 스무 장면 후보를 만드는 기준 실행 코드는 `p7_5_1_regenerate_local_gpu_style_references.py`입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
+배경 후보 생성에는 Diffusers의 `QwenImagePipeline`을 사용합니다. 스무 장면 후보를 만드는 기준 실행 코드는 `p7_5_1_regenerate_local_gpu_style_references.py`입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
 
 공통 화풍 계약은 [화풍 프롬프트 JSON](../../../assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json)에 분리한다. 이 자산에는 프레임 없는 캔버스, 얇은 charcoal 선, 반투명 수채화 색층, 안료 질감, 제외 대상만 들어 있다. 장소·시간·카메라는 실행 코드의 장면별 prompt가 맡으므로, 한 행의 공간 문제를 고칠 때 공통 화풍 계약을 함께 바꾸지 않는다.
 
@@ -84,7 +84,7 @@ P7-5.1이 고정하는 것은 FLUX.2 Klein 4B가 따라야 할 얇은 charcoal �
 | `SCENES`의 `prompt` | 한 행의 장소·시간·카메라 구조 | 실패 원인은 금지어보다 장면 구조로 고침 |
 | `SCENES`의 `seed` | 같은 조건의 다른 출발점 | seed 고정은 비교 기록이지 품질 보장이 아님 |
 | `P7_STYLE_SCENE`, `P7_STYLE_EXCLUDE` | 생성할 행의 범위 | 한 행 생성은 전체 팩 승인이 아님 |
-| `STEPS`, `GUIDANCE`, 해상도 | 추론 조건 전체 | 값을 바꾸면 별도 비교 실험으로 기록함 |
+| `STEPS`, `TRUE_CFG_SCALE`, 해상도 | 추론 조건 전체 | 값을 바꾸면 별도 비교 실험으로 기록함 |
 | 터미널 실행 요약 | 시간·GPU 메모리·출력 파일 | 생성 성공과 사람 승인을 분리함 |
 
 이전의 시간대 균형 배치와 표적 재생성 파일은 같은 실행 골격에 당시의 `SCENES`만 기록한 이력입니다. 따라서 별도의 생성 방법이나 두 번째 실행 경로로 설명하지 않습니다. P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용할 수 있으며, 내장 이미지 생성으로 만든 자산은 입력·승인·manifest에서 제외했습니다.
@@ -115,38 +115,41 @@ SCENES = [
 ]
 ```
 
-여기서 `COMMON_CONTRACT`를 바꾸면 아홉 행 전체의 비교 기준이 달라집니다. 반대로 `SCENES`의 한 `prompt`를 바꾸면 그 행의 장소·시간·카메라만 재생성합니다.
+여기서 `COMMON_CONTRACT`를 바꾸면 스무 행 전체의 비교 기준이 달라집니다. 반대로 `SCENES`의 한 `prompt`를 바꾸면 그 행의 장소·시간·카메라만 재생성합니다.
 
 다음 발췌는 한 행을 실제로 만드는 부분입니다. `P7_STYLE_SCENE`을 바꾸면 `scenes`에 남는 행 수가 바뀌고, `run_label`을 `v2`처럼 바꾸면 기존 PNG를 덮어쓰지 않고 새 파일로 남깁니다.
 
 ```python
-pipe = Flux2KleinPipeline.from_pretrained(
-    MODEL_ID, torch_dtype=torch.bfloat16, cache_dir=CACHE_DIR
+transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
+pipe = QwenImagePipeline.from_pretrained(
+    MODEL_ID, transformer=transformer, torch_dtype=torch.bfloat16
 )
+pipe._exclude_from_cpu_offload.append("transformer")
 pipe.enable_sequential_cpu_offload()
 
 for scene in scenes:
     image = pipe(
         prompt=scene["prompt"] + COMMON_CONTRACT,
-        width=768,
-        height=1152,
-        num_inference_steps=50,
-        guidance_scale=4.0,
+        width=size[0],
+        height=size[1],
+        num_inference_steps=steps,  # 기본값 30
+        true_cfg_scale=4.0,
+        negative_prompt=" ",
         generator=torch.Generator(device="cpu").manual_seed(scene["seed"]),
-        max_sequence_length=256,
     ).images[0]
-    image.save(ASSET_DIR / f"p7-5-1-style-{scene['id']}-local-gpu-{run_label}.png")
+    image.save(ASSET_DIR / f"p7-5-1-style-{scene['id']}-qwen-image-{run_label}.png")
 ```
 
-이 코드 블록에서 파이프라인 분절은 모델 구조를 새로 나누는 일이 아니라, **8 GB VRAM에서 한 번에 들고 있을 것을 줄이는 실행 분절**입니다. `from_pretrained(...)`는 FLUX.2 Klein 4B 가중치를 준비하고, `enable_sequential_cpu_offload()`는 tokenizer·text encoder·transformer·VAE 같은 구성 요소를 실행 순서에 맞춰 CPU와 GPU 사이에서 옮기게 합니다. 그래서 GPU에는 지금 계산에 필요한 모듈과 tensor만 올라오고, 다음 단계가 필요해지면 이전 단계의 일부가 내려갑니다.
+이 코드 블록에서 파이프라인 분절은 모델 구조를 새로 나누는 일이 아니라, **한 번에 GPU에 상주하는 것을 줄이는 실행 분절**입니다. `from_pretrained(...)`는 Qwen Image 구성 요소를 준비하고, transformer의 Nunchaku offload와 `enable_sequential_cpu_offload()`는 실행 순서에 맞춰 GPU 상주량을 줄입니다. 이 설정은 메모리 운용일 뿐 화풍 품질을 높이는 설정이 아닙니다.
 
-`for scene in scenes:`는 이 절의 두 번째 분절입니다. 아홉 장면을 하나의 큰 batch로 묶지 않고, 한 행의 prompt와 seed로 한 장을 만들고 저장한 뒤 다음 행으로 넘어갑니다. 이렇게 해야 8 GB 환경에서 `화풍 참조 셋`의 장면 행렬을 다룰 수 있고, 실패한 행만 `P7_STYLE_SCENE`으로 다시 생성할 수 있습니다. 코드 원문에서는 행 하나가 끝난 뒤 `torch.cuda.empty_cache()`로 다음 행을 위한 캐시 반환도 요청합니다. 이것은 결과를 좋게 만드는 설정이 아니라, 다음 장면을 같은 GPU에서 이어 실행하기 위한 메모리 운용입니다.
+`for scene in scenes:`는 이 절의 두 번째 분절입니다. 스무 장면을 하나의 큰 batch로 묶지 않고, 한 행의 prompt와 seed로 한 장을 만들고 저장한 뒤 다음 행으로 넘어갑니다. 실패한 행만 `P7_STYLE_SCENE`으로 다시 생성할 수 있으며, 코드 원문은 행이 끝날 때 `torch.cuda.empty_cache()`로 다음 장면을 위한 캐시 반환을 요청합니다.
 
-따라서 `pipe(...)` 호출 안의 `width`, `height`, `num_inference_steps`, `guidance_scale`, `seed`는 후보를 만드는 추론 조건이고, `enable_sequential_cpu_offload()`와 행별 반복은 그 추론을 8 GB에서 실행 가능하게 나누는 운영 조건입니다. 이 블록의 `image.save(...)`가 성공했다는 사실은 후보 PNG가 생겼다는 뜻뿐입니다. 외곽선·수채화 질감·공간의 물리성·필수 행 충족 여부는 다음의 사람 검수에서 판정합니다.
+따라서 `pipe(...)` 호출 안의 `width`, `height`, `num_inference_steps`, `true_cfg_scale`, `seed`는 후보를 만드는 추론 조건이고, offload와 행별 반복은 그 추론을 나누는 운영 조건입니다. 기본값 `STEPS=30`은 이번 후보 생성의 기본 운용점입니다. 이 블록의 `image.save(...)`가 성공했다는 사실은 후보 PNG가 생겼다는 뜻뿐입니다. 외곽선·수채화 질감·공간의 물리성·필수 행 충족 여부는 다음의 사람 검수에서 판정합니다.
 
 ## AI 모델은 텍스트 조건과 seed에서 후보 원본을 만든다
 
-앞의 코드 발췌는 실행에서 바꿀 값과 저장 경계를 보여 주고, 아래 도식은 그중 **후보 한 장을 만드는 실행 준비·`Flux2KleinPipeline` 내부 처리·검수 경계**를 나눕니다. 코드에서 FLUX.2 Klein 4B 가중치를 `torch_dtype=torch.bfloat16`으로 읽고 `enable_sequential_cpu_offload()`를 켜는 부분은 모델 내부 추론 단계가 아니라 실행 준비에 가깝습니다. 그 준비가 끝난 뒤 `Flux2KleinPipeline`은 장면 prompt와 공통 화풍 계약을 text condition으로 바꾸고, seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 이 단계의 목적은 다른 모델에 일반화되는 배경 화풍을 찾는 것이 아니라 **FLUX.2 Klein 4B가 안정적으로 따를 수 있는 화풍 입력 조건**을 먼저 고르는 것입니다. 코드의 기본 `num_inference_steps=12`는 이 배치에서 반복 갱신한 횟수이고, `guidance_scale=4.0`은 텍스트 조건을 따르는 정도에 관여하는 실행 설정입니다. 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
+앞의 코드 발췌는 실행에서 바꿀 값과 저장 경계를 보여 주고, 아래 도식은 그중 **후보 한 장을 만드는 실행 준비·`QwenImagePipeline` 처리·검수 경계**를 나눕니다. Qwen Image 구성 요소를 `torch_dtype=torch.bfloat16`으로 읽고 Nunchaku transformer offload 및 `enable_sequential_cpu_offload()`를 켜는 부분은 모델 내부 추론 단계가 아니라 실행 준비에 가깝습니다. 그 준비가 끝난 뒤 `QwenImagePipeline`은 장면 prompt와 공통 화풍 계약을 조건으로 바꾸고, seed에서 시작한 이미지 표현을 정해진 횟수만큼 갱신합니다. 이 단계의 목적은 다른 모델에 일반화되는 배경 화풍을 찾는 것이 아니라 **Qwen Image가 이 계약을 어느 정도 따르는지** 확인하는 것입니다. 기본 `STEPS=30`과 `true_cfg_scale=4.0`은 이번 후보 생성의 실행 설정이며, 이 숫자 자체가 화풍의 승인 기준은 아닙니다.
 
 도식의 `입력 조건` 구역은 값을 `텍스트 입력`, `이미지 출발 조건`, `추론 설정` 세 묶음으로 정리합니다. 아래 표는 같은 값을 코드 위치와 검수 의미로 더 풀어 쓴 것입니다. 이렇게 보면 어떤 값이 텍스트 조건을 만들고 어떤 값이 latent 출발점과 반복 갱신 조건을 바꾸는지 구별할 수 있습니다.
 
@@ -154,16 +157,16 @@ for scene in scenes:
 | --- | --- | --- | --- |
 | scene 행 | `SCENES`의 `prompt`, `seed` | `pipe(...)`에 넘길 prompt와 초기 latent | 장소·시간·카메라와 같은 행별 비교 조건 |
 | 공통 화풍 계약 | 화풍 프롬프트 JSON의 `common_contract` | `pipe(...)`에 넘길 prompt | 모든 행에서 유지해야 할 선·수채화·프레임 금지 조건 |
-| 해상도 | `width=768`, `height=1152` | latent 크기와 VAE 출력 | 이 실험의 후보 원본 형식 |
-| 추론 반복 | `num_inference_steps=50` | scheduler의 timesteps와 transformer 반복 | 생성 조건이지 품질 점수는 아님 |
-| 텍스트 유도 | `guidance_scale=4.0` | transformer가 텍스트 조건을 반영하는 정도에 관여 | 값 자체가 승인 기준은 아님 |
+| 해상도 | `P7_STYLE_WIDTH`, `P7_STYLE_HEIGHT` 또는 기본값 | latent 크기와 VAE 출력 | 실행별 JSON에 함께 남기는 후보 원본 형식 |
+| 추론 반복 | `num_inference_steps=30` 기본값 | scheduler의 timesteps와 transformer 반복 | 생성 조건이지 품질 점수는 아님 |
+| 텍스트 유도 | `true_cfg_scale=4.0`, `negative_prompt=" "` | classifier-free guidance 계산에 쓰이는 조건 | 값 자체가 승인 기준은 아님 |
 | seed 생성기 | `torch.Generator(device="cpu").manual_seed(...)` | 초기 latent 출발점 | 비교 기록이며 픽셀 동일성 보장은 아님 |
 
 ```mermaid
 --8<-- "assets/part-07/chapter-05/p7-5-1-ai-model-inference-pipeline-ko.mmd"
 ```
 
-`Flux2KleinPipeline` 안에서는 먼저 입력이 prompt, generator, size, step, guidance로 나뉩니다. Qwen 계열 [tokenizer](../../../reference/concept-glossary-parts/12-tieut.md#tokenization)와 text encoder는 prompt를 token ID와 [text embedding](../../../reference/concept-glossary-parts/08-ieung.md#embedding) 같은 조건 표현으로 만들고, CPU seed에서 출발한 noise는 해상도에 맞는 초기 latent가 됩니다. FlowMatch 계열 scheduler는 반복할 timestep을 준비하고, FLUX [transformer](../../../reference/concept-glossary-parts/12-tieut.md#transformer)는 text embedding, timestep, guidance, latent를 함께 보며 latent를 반복 갱신합니다. 마지막에는 VAE가 latent tensor를 RGB 픽셀 이미지로 되돌리고, Python 코드는 그 결과를 PIL 이미지로 받아 PNG로 저장합니다. `enable_sequential_cpu_offload()`는 이 내부 단계들을 바꾸는 알고리즘이 아니라, 각 단계에서 필요한 모듈만 순서대로 GPU에 올리는 메모리 운용입니다. 이 구분이 필요한 이유는 단순합니다. prompt, seed, step, guidance는 **생성 조건**이고, 프레임 없음·선화 유지·시간대 광원·camera 충족은 **생성 뒤 검수 조건**입니다.
+`QwenImagePipeline` 안에서는 먼저 입력이 prompt, generator, size, step, true CFG로 나뉩니다. tokenizer와 text encoder는 prompt를 token ID와 [text embedding](../../../reference/concept-glossary-parts/08-ieung.md#embedding) 같은 조건 표현으로 만들고, CPU seed에서 출발한 noise는 해상도에 맞는 초기 latent가 됩니다. scheduler와 [transformer](../../../reference/concept-glossary-parts/12-tieut.md#transformer)는 조건 표현과 timestep을 보며 latent를 반복 갱신하고, VAE는 이를 RGB 픽셀 이미지로 되돌립니다. offload는 이 내부 단계를 바꾸는 알고리즘이 아니라 GPU 상주량을 줄이는 메모리 운용입니다. prompt, seed, step, guidance는 **생성 조건**이고, 프레임 없음·선화 유지·시간대 광원·camera 충족은 **생성 뒤 검수 조건**입니다.
 
 | 모델 파이프라인 단계 | 이 절에서 맡는 역할 | 승인 판단과의 관계 |
 | --- | --- | --- |
@@ -174,7 +177,15 @@ for scene in scenes:
 | VAE decode와 PNG 저장 | latent를 이미지로 바꾸고 원본 파일로 남김 | 파일 생성 성공은 후보 생성 성공일 뿐 승인 아님 |
 | 사람 검수와 ledger | 외곽·선·색·장소·시간·카메라를 판정함 | 다음 단계 입력 가능 여부를 결정함 |
 
-`COMMON_CONTRACT`와 장면별 `prompt`는 별도의 negative prompt 입력이 아니라 하나의 텍스트 조건으로 이어 붙여 전달됩니다. 따라서 `no panel` 같은 금지 문구는 모델에게 원하는 결과를 보장하는 규칙이 아니라, 다른 장면 설명과 함께 해석되는 조건입니다. seed는 같은 실행 조건의 출발점을 기록하지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다. `enable_sequential_cpu_offload()`는 GPU 상주 메모리를 줄이는 실행 방식이지 화풍 판단 능력을 높이는 설정이 아닙니다. FLUX.2 Klein 4B는 prompt를 완전히 따르지 못하거나 텍스트를 왜곡할 수 있다는 한계도 모델 카드에 명시되어 있습니다.
+`COMMON_CONTRACT`와 장면별 `prompt`는 하나의 positive prompt로 이어 붙여 전달되고, 빈 문자열이 아닌 공백인 `negative_prompt=" "`를 함께 넘깁니다. 따라서 `no panel` 같은 금지 문구는 원하는 결과를 보장하는 규칙이 아니라 다른 장면 설명과 함께 해석되는 조건입니다. seed는 같은 실행 조건의 출발점을 기록하지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다.
+
+## 30스텝은 기본 운용점이며 승인 판정은 아니다
+
+아트리움 한 행을 1024×1024, seed `420713`, 102단어 prompt로 비교했을 때 4·10·20·30·40·50스텝 후보를 만들었습니다. 20스텝부터 선과 색층의 기본 형태는 읽을 수 있었지만, 30스텝을 이후 후보 생성의 기본값으로 두었습니다. 30스텝 후보의 행 생성 시간은 99.8초였고, 전체 실행의 GPU 메모리 peak은 5,467 MiB였습니다. 이 결과는 한 장면·한 해상도에서의 운용 기록이지 모든 장면의 필요 스텝이나 품질 보장은 아닙니다.
+
+![30스텝 Qwen Image 아트리움 화풍 후보](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-square-code-13f1d6-seed-420713-steps-30.png)
+
+이 후보는 수채화 색층과 프레임 없는 캔버스는 확인할 수 있지만, 요구한 고각도를 충분히 재현하지 못했고 금지한 난간·선형 구조도 남았습니다. 그러므로 상태는 `review_required`이며 기존 승인 manifest에 넣지 않습니다. 재현 비용을 늘린 40·50스텝도 이 계약 실패를 해소한 근거가 아니므로 보관하지 않습니다. 실행 조건과 prompt 단어 수는 [30스텝 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-square-run.json)에 남깁니다.
 
 ## 다섯 필수 행과 보조 근거를 분리한다
 
@@ -264,7 +275,8 @@ for scene in scenes:
 
 | 확인한 기능 또는 변경 | 결정 이유 | 이 실험에서 확인한 결과 | 이 결과가 뜻하지 않는 것 |
 | --- | --- | --- | --- |
-| 순차 CPU offload와 행별 생성 | 8 GB VRAM에서 아홉 장면을 큰 batch로 묶지 않고, 실패 행만 다시 실행하려고 함 | `enable_sequential_cpu_offload()`와 행별 저장으로 아홉 로컬 GPU 후보를 만들고 검수할 수 있었음 | offload가 선화·구도 품질을 높이거나 모든 8 GB 환경에서 같은 속도를 보장한다는 뜻은 아님 |
+| Nunchaku·순차 CPU offload와 행별 생성 | GPU 상주량을 줄이고 실패 행만 다시 실행하려고 함 | offload와 행별 저장으로 스무 로컬 GPU 후보 행을 같은 계약으로 실행할 수 있음 | offload가 선화·구도 품질을 높이거나 모든 환경에서 같은 속도를 보장한다는 뜻은 아님 |
+| Qwen Image 30스텝 기본값 | 1024×1024 아트리움 비교에서 20스텝부터 기본 형태가 읽혔지만 이후 후보의 일관된 운용점을 남기려고 함 | seed `420713`의 30스텝 후보와 prompt 단어 수·시간·메모리 기록을 보관함 | 30스텝이 모든 장면의 필요량이거나 이 후보가 화풍·카메라 계약을 통과했다는 뜻은 아님 |
 | 공통 화풍 계약과 장면 행의 분리 | 선·수채화·프레임 조건을 바꾸지 않은 채 장소·시간·camera 차이만 비교하려고 함 | 같은 계약 아래 실내·실외, 새벽·낮·석양·밤·우천 야간, 다섯 camera family를 승인 팩에서 대조함 | 공통 prompt 하나가 모든 장면의 공간 구조를 자동으로 고정한다는 뜻은 아님 |
 | 중앙 도로 대신 측면 교차로로 도심 조건 변경 | 넓은 도로 요구가 중앙 소실점의 거리 복도로 수렴한 실패를 장면 구조 문제로 판단함 | 측면 모퉁이에서 비스듬히 보는 도심 원본으로 교체해 낮·wide 행을 승인함 | 금지어를 더 많이 쓰면 모든 원근 오류를 고칠 수 있다는 뜻은 아님 |
 | 여객기 실내를 창가 독서실로 대체 | 좌석 모듈·천장·사선 구도를 동시에 안정적으로 만족한 원본을 확보하지 못함 | 밤·실내·oblique 조건은 단순한 독서실과 작은 스탠드 조명으로 검수함 | 복잡한 실내 장면이 모델에서 불가능하다는 일반 결론은 아님 |
@@ -280,10 +292,10 @@ for scene in scenes:
 | 카메라 | 같은 중앙 소실점 반복이 아니라 camera family가 다른가? |
 | 실패 해석 | 실패 원인을 crop이나 `status` 변경으로 덮지 않고 다음 구도·피사체 밀도·광원 조건으로 바꿨는가? |
 | 생성 출처 | 참조 원본이 로컬 GPU 생성 스크립트와 사람 검수 ledger에 연결되고, 내장 이미지 생성 자산이 섞이지 않았는가? |
-| 최종 승인 기록 | 아홉 원본의 사람 승인을 ledger와 manifest에 남겼는가? |
+| 최종 승인 기록 | 스무 원본의 사람 승인을 ledger와 manifest에 남겼는가? |
 
 ## 출처와 참고 자료
 
-- Black Forest Labs, [FLUX.2 Klein 4B model card](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-04.
-- Hugging Face, [Diffusers Flux2 pipeline](https://huggingface.co/docs/diffusers/api/pipelines/flux2){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-04.
+- Qwen, [Qwen-Image model card](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-18.
+- Hugging Face, [Diffusers QwenImage pipeline](https://huggingface.co/docs/diffusers/api/pipelines/qwenimage){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-18.
 - Hugging Face, [Diffusers Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-04.

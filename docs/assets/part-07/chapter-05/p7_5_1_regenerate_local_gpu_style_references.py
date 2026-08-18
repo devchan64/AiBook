@@ -1,9 +1,9 @@
-"""Generate P7-5.1 style-reference review candidates on the local GPU.
+"""Generate P7-5.1 style-reference review candidates with Qwen Image.
 
 Outputs are review candidates. This script never marks an image approved.
 Set ``P7_STYLE_SCENE`` to regenerate one named existing or extension scene.
-Set ``P7_STYLE_INCLUDE_EXISTING=1`` to regenerate all twenty rows; otherwise
-the default remains the eleven extension rows.
+The default run covers all twenty contract rows.  Outputs are candidates only;
+the review gate remains the authority for downstream use.
 """
 
 import json
@@ -14,16 +14,20 @@ import time
 from pathlib import Path
 
 import torch
-from diffusers import Flux2KleinPipeline
+from diffusers import QwenImagePipeline
+from nunchaku import NunchakuQwenImageTransformer2DModel
 from p7_5_image_output_naming import candidate_stem
 
 
 ASSET_DIR = Path(__file__).resolve().parent
-MODEL_ID = "black-forest-labs/FLUX.2-klein-base-4B"
-CACHE_DIR = Path("/tmp/flux2-klein-base-4b-diffusers-cache")
+MODEL_ID = "Qwen/Qwen-Image"
+TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors"
 SIZE = (768, 1152)
-STEPS = 12
-GUIDANCE = 4.0
+# Default quality/throughput operating point for subsequent style candidates.
+# The 4-step screen remains a recorded performance probe, not a style-master
+# setting; each run still records any explicit override in its JSON ledger.
+STEPS = 30
+TRUE_CFG_SCALE = 4.0
 STYLE_PROMPT_PATH = ASSET_DIR / "p7-5-1-style-prompt-contract.json"
 COMMON_CONTRACT = json.loads(STYLE_PROMPT_PATH.read_text(encoding="utf-8"))["common_contract"]
 SCENES = [
@@ -141,7 +145,11 @@ def gpu_memory_mib() -> int:
 def main() -> None:
     requested_scene = os.environ.get("P7_STYLE_SCENE")
     run_label = os.environ.get("P7_STYLE_RUN_LABEL", "v1")
-    include_existing = os.environ.get("P7_STYLE_INCLUDE_EXISTING") == "1"
+    include_existing = os.environ.get("P7_STYLE_INCLUDE_EXISTING", "1") == "1"
+    steps = int(os.environ.get("P7_STYLE_STEPS", STEPS))
+    size = (int(os.environ.get("P7_STYLE_WIDTH", SIZE[0])), int(os.environ.get("P7_STYLE_HEIGHT", SIZE[1])))
+    if any(value <= 0 or value % 16 for value in size):
+        raise ValueError("P7_STYLE_WIDTH and P7_STYLE_HEIGHT must be positive multiples of 16")
     excluded_scenes = {item for item in os.environ.get("P7_STYLE_EXCLUDE", "").split(",") if item}
     scenes = [scene for scene in SCENES if scene["id"] == requested_scene] if requested_scene else [
         scene for scene in SCENES if include_existing or scene["generate_by_default"]
@@ -166,25 +174,30 @@ def main() -> None:
     started = time.monotonic()
     runs = []
     try:
-        pipe = Flux2KleinPipeline.from_pretrained(MODEL_ID, torch_dtype=torch.bfloat16, cache_dir=CACHE_DIR)
+        transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+        transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
+        pipe = QwenImagePipeline.from_pretrained(MODEL_ID, transformer=transformer, torch_dtype=torch.bfloat16)
+        pipe._exclude_from_cpu_offload.append("transformer")
         pipe.enable_sequential_cpu_offload()
         for scene in scenes:
             scene_started = time.monotonic()
             image = pipe(
                 prompt=scene["prompt"] + COMMON_CONTRACT,
-                width=SIZE[0],
-                height=SIZE[1],
-                num_inference_steps=STEPS,
-                guidance_scale=GUIDANCE,
+                width=size[0],
+                height=size[1],
+                num_inference_steps=steps,
+                true_cfg_scale=TRUE_CFG_SCALE,
+                negative_prompt=" ",
                 generator=torch.Generator(device="cpu").manual_seed(scene["seed"]),
-                max_sequence_length=256,
             ).images[0]
-            image_name = f"{candidate_stem(f'p7-5-1-style-{scene["id"]}-local-gpu-{run_label}', seed=scene['seed'], steps=STEPS, contract={'model': MODEL_ID, 'prompt': scene['prompt'] + COMMON_CONTRACT, 'size': SIZE, 'guidance': GUIDANCE})}.png"
+            image_name = f"{candidate_stem(f'p7-5-1-style-{scene["id"]}-qwen-image-{run_label}', seed=scene['seed'], steps=steps, contract={'model': MODEL_ID, 'transformer': TRANSFORMER_ID, 'prompt': scene['prompt'] + COMMON_CONTRACT, 'size': size, 'true_cfg_scale': TRUE_CFG_SCALE})}.png"
             image.save(ASSET_DIR / image_name)
             runs.append(
                 {
                     "id": scene["id"],
                     "seed": scene["seed"],
+                    "prompt": scene["prompt"] + COMMON_CONTRACT,
+                    "prompt_word_count": len((scene["prompt"] + COMMON_CONTRACT).split()),
                     "asset": image_name,
                     "elapsed_seconds": round(time.monotonic() - scene_started, 1),
                     "status": "review_required",
@@ -198,10 +211,11 @@ def main() -> None:
     record = {
         "status": "review_required",
         "model_id": MODEL_ID,
-        "runtime": "local GPU via Diffusers Flux2KleinPipeline sequential CPU offload",
-        "size": list(SIZE),
-        "steps": STEPS,
-        "guidance_scale": GUIDANCE,
+        "transformer_id": TRANSFORMER_ID,
+        "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",
+        "size": list(size),
+        "steps": steps,
+        "true_cfg_scale": TRUE_CFG_SCALE,
         "elapsed_seconds": round(time.monotonic() - started, 1),
         "gpu_memory_before_mib": before,
         "gpu_memory_peak_mib": peak,
@@ -210,6 +224,9 @@ def main() -> None:
         "excluded_scenes": sorted(excluded_scenes),
         "runs": runs,
     }
+    record_path = ASSET_DIR / f"p7-5-1-qwen-image-style-pack-{run_label}-run.json"
+    record["run_record"] = str(record_path)
+    record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(record, indent=2))
 
 
