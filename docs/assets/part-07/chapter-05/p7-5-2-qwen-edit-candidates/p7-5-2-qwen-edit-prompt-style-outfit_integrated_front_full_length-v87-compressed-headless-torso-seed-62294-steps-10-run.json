@@ -1,0 +1,60 @@
+{
+  "status": "review_required",
+  "experiment_id": "p7-5-2-qwen-edit-outfit_integrated_front_full_length",
+  "model": "Qwen/Qwen-Image",
+  "transformer": "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "transition_plan": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json",
+    "sha256": "73ed71cff11b53801f237d0f60075ecd727260068270874981c908e5a4b0c1f5"
+  },
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json",
+    "sha256": "78bd6a3f347db240685d1afa58b18739d131829bb57583c1d1c7a65817bb7bf7"
+  },
+  "style_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-style-prompt-contract.json",
+    "sha256": "20c003f77759f6ef41404a44588b83041932b0c9657e00fe57cf9c860cff5545"
+  },
+  "illustration_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-illustration-prompt-contract.json",
+    "sha256": "5c89112ecc9cc79251ff40fbfa45c3894f1af46ae7b670347383393b195908ab"
+  },
+  "prompt_contracts_applied": {
+    "watercolor_style": false,
+    "illustration": true
+  },
+  "target": "outfit_integrated_front_full_length",
+  "run_label": "v87-compressed-headless-torso",
+  "inputs": [],
+  "input_roles": [],
+  "seed": 62294,
+  "steps": 10,
+  "size": [
+    768,
+    1152
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": " ",
+  "prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Upper-left light, deep four-value shading, and strong highlights. Front full-length women's outfit reference on a headless torso-only mannequin, from a low flat circular neck cap immediately above the jacket collar to white sneaker soles. No head, face, hair, scalp, ears, or human silhouette. White ultra-short cropped utility jacket with closed chest, flap pockets, waist darts, and cuffed long sleeves; gray micro-crop top; bare midriff; deep-teal high-waisted wide-leg trousers; white low-top lace-up sneakers; navy canvas crossbody bag at the left hip with one taut strap from the right shoulder across the jacket. Off-white background; no hands, text, hanger, or extra strap.",
+  "prompt_word_count": 111,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-candidates/p7-5-2-qwen-edit-prompt-style-outfit_integrated_front_full_length-v87-compressed-headless-torso-seed-62294-steps-10.png",
+    "sha256": "d0e506e46d58df662eeb6254291249be92ecadc68f964847ff46592e96b8a08a"
+  },
+  "elapsed_seconds": 62.12,
+  "decision": "Candidate only; do not replace a stable P7-5.2 reference before human review."
+}

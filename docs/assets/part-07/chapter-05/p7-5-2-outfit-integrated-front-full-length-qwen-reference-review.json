@@ -3,7 +3,7 @@
   "approval": "human_approved",
   "experiment_id": "p7-5-2-qwen-image-text-only-outfit-integrated-front-full-length",
   "output": "p7-5-2-outfit-integrated-front-full-length-qwen-reference.png",
-  "source_candidate": "p7-5-2-qwen-edit-prompt-style-outfit_integrated_front_full_length-v71-four-value-strong-highlights-womens-outfit-10step-seed-62294-steps-10.png",
+  "source_candidate": "p7-5-2-qwen-edit-prompt-style-outfit_integrated_front_full_length-v87-compressed-headless-torso-seed-62294-steps-10.png",
   "model": "Qwen/Qwen-Image",
   "transformer": "nunchaku-qwen-image fp4",
   "input_policy": "No reference image was supplied; apparel, accessories, and illustration requirements were text-prompt only.",
@@ -16,9 +16,11 @@
     "ultra-short fitted white cropped utility jacket with long cuffed sleeves",
     "gray micro-crop top, exposed midriff, high-waisted deep-teal wide-leg trousers, and white low-top sneakers",
     "one navy canvas crossbody bag worn from the right shoulder to the left hip with one exterior strap",
-    "text-only character illustration with four-value shading and strong highlights"
+    "text-only character illustration with four-value shading and strong highlights",
+    "faceless, hairless apparel-display mannequin used only to separate outfit conditioning from the approved character identity"
   ],
   "limitations": [
+    "The mannequin still has a simplified head-shaped display form; it is approved only as a non-identity outfit reference and must not be used to define character face, hair, or head proportion.",
     "Approval does not approve a character identity, pose, scene, camera, other garment view, or use as a replacement for an independently approved full-body reference."
   ]
 }

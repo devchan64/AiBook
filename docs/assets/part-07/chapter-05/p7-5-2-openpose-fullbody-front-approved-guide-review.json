@@ -1,0 +1,17 @@
+{
+  "status": "approved",
+  "approval": "human_approved",
+  "asset": "p7-5-2-openpose-fullbody-front-approved-guide.png",
+  "source": "p7-5-2-openpose-source-woman-seven-heads-v1-full-guide.png",
+  "generator": "controlnet_aux OpenposeDetector from lllyasviel/Annotators",
+  "purpose": "Standard OpenPose Full structural guide for the P7-5.2 strict-front full-body generation.",
+  "scope": [
+    "one upright frontal adult-woman body structure",
+    "standard body, face, and hand landmarks extracted together from one neutral source image",
+    "front-facing head, torso, arms, legs, and shoes geometry only"
+  ],
+  "limitations": [
+    "The source woman is an anonymous proportional-pose reference, not the P7-5.2 character identity, hairstyle, clothing, prop, scene, or style reference.",
+    "Approval applies only to the OpenPose structural map and does not approve an image generated from it without separate human review."
+  ]
+}

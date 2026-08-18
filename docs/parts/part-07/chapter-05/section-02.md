@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 참조 셋 생성: 로컬 GPU 원본과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.18`
+> Version: `v2026.08.19`
 
 웹툰 컷 생성에서는 pose보다 먼저 캐릭터 기준을 고정해야 합니다. 이 절은 **로컬 GPU에서 새로 만든 원본만**으로 캐릭터 참조 셋을 만드는 단계입니다. 외부 생성 서비스의 이미지와 그 이미지를 직접 참조로 사용한 출력은 이 절의 근거로 사용하지 않습니다. P7-5.4의 LoRA 학습·평가는 별도 실험이지만, 그 학습에 넘길 수 있는 P7-5.2 원본의 범위와 캡션은 여기서 사람 승인 기준으로 준비합니다.
 
@@ -90,6 +90,22 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-quarter-left-qwen-openpose-reference-review.json" data-language="json">Qwen OpenPose 좌측 전면 쿼터 승인 review.json</a></p>
 
+### Qwen 정면 전신용 OpenPose 구조 기준
+
+정면 전신의 비율과 팔·다리 배치는 문장으로만 반복해 고정하지 않습니다. 익명 성인 여성의 중립 정면 전신 비례 이미지를 OpenPose 검출기에 넣어, body·face·hand가 함께 있는 Full 맵과 body-only 맵을 각각 만들고 사람 승인했습니다. 두 맵은 캐릭터를 그린 원본도, identity·머리·의상·소품·화풍의 기준도 아닙니다. 오직 한 사람의 정면 서기 구조를 전달합니다.
+
+Full 맵은 검출 결과가 얼굴·손까지 한 좌표계에서 자연스럽게 이어지는지 확인하는 검수용입니다. 실제 Qwen 정면 전신 후보에는 body-only 맵을 사용합니다. body-only 맵에는 얼굴 점군과 손가락 관절이 없으므로 얼굴 identity 입력·착장 입력과 불필요하게 경쟁하지 않습니다. 다만 표준 COCO-18 body 구조에 포함되는 코·눈·귀 점은 남습니다. 이 다섯 점은 얼굴 세부 묘사가 아니라 몸 skeleton의 머리 방향 기준입니다.
+
+| 승인된 Full 구조 검수용 맵 | 승인된 body-only 생성용 맵 |
+| --- | --- |
+| ![승인된 정면 OpenPose Full 구조 맵](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-front-approved-guide.png) | ![승인된 정면 OpenPose body-only 구조 맵](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-front-body-only-approved-guide.png) |
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-front-approved-guide-review.json" data-language="json">정면 OpenPose Full 승인 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-front-body-only-approved-guide-review.json" data-language="json">정면 OpenPose body-only 승인 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_openpose_guide.py" data-language="python">2단계 OpenPose 생성 코드</a></p>
+
+단일 생성 코드는 1단계에서 익명 비례용 이미지를 만들고, 2단계에서 그 이미지를 OpenPose 검출기에 넣습니다. 기본 출력은 body-only이며 `--include-face`, `--include-hands`를 지정할 때만 각각 얼굴 점군과 손 점군을 추가합니다. 기존 승인 v1 자산을 덮어쓰지 않도록 새 실행의 기본 출력은 v2 이름을 사용합니다.
+
+정면 전신은 승인 Qwen 얼굴을 identity 입력으로, 승인 착장 통합 기준을 의상 입력으로, 승인 body-only 맵을 구조 입력으로 각각 분리합니다. 이 역할 분리는 손·얼굴 점군이 비례 제어와 섞여 발생하는 드리프트를 줄이기 위한 실험 조건입니다. 같은 `seed=62294`, `960×1440`, 세 입력과 105단어 결합 prompt를 고정해 10·20·30 step을 비교한 뒤, 사람 검수로 30 step v95를 정면 전신·자켓·가방의 현재 Qwen 기준으로 승인했습니다. 이 target의 기본값도 30 step으로 둡니다. 이 승인은 정면 범위만 뜻하며, 다른 방향·pose·camera·장면의 자동 승인은 아닙니다.
+
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
 <summary>정면 얼굴 identity 후보를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
@@ -154,7 +170,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 정면·좌우 전면 쿼터·좌우 측면·후면의 여섯 PNG는 기본 전신 기준입니다. 승인 범위는 자연스러운 신체비율, 전신 프레이밍, 회색 크롭탑·바지·신발, 청록 단발의 연속성입니다. 자켓과 가방을 더한 리파인 결과는 이 기본 기준과 별도의 승인 자산입니다. 정면 앵커에서 나머지 다섯 방향을 파생하더라도 성인 체형 prompt가 실제 비례를 보장하지는 않으므로, 방향별 결과는 반드시 사람 검수를 거칩니다. 표정·동작·카메라 변화가 있는 장면은 이 기준의 승인 범위 밖입니다.
 
-Qwen 전환에서는 v31 승인 정면 머리 하나만 identity 입력으로 사용해, v32 자켓과 가방을 착용한 전신 정면을 별도 승인했습니다. 이 기준은 전신 프레이밍·갈비뼈 아래에서 끝나는 짧은 흰 크롭 재킷·손목까지 내린 소매·회색 이너 탑·피부 띠·하이웨이스트 와이드 팬츠·운동화·크로스백의 동시 재현을 대조하는 용도이며, 기존 방향 전신 앵커나 다른 방향의 자동 승인을 뜻하지 않습니다.
+현재 Qwen 정면 전신·자켓·가방 기준은 승인 정면 머리, 승인 착장 통합 기준, 승인 body-only OpenPose 맵을 분리 입력으로 쓴 30 step v95입니다. 이 기준은 전신 프레이밍·갈비뼈 아래에서 끝나는 짧은 흰 크롭 재킷·손목까지 내린 소매·회색 이너 탑·피부 띠·하이웨이스트 와이드 팬츠·운동화·크로스백의 동시 재현을 대조하는 용도이며, 기존 방향 전신 앵커나 다른 방향의 자동 승인을 뜻하지 않습니다.
 
 | Qwen 전신 정면·자켓·가방 기준 | 검수 기록 |
 | --- | --- |

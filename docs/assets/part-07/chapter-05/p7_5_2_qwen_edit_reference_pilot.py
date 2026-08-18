@@ -91,13 +91,11 @@ TARGETS = {
         "default_steps": 10,
         "size": (768, 1152),
         "prompt": (
-            "Strict front full-length women's outfit reference on a headless female dress form, shoulders to white sneaker soles. "
-            "Fitted white ultra-short cropped utility jacket: closed chest, small flap pockets, waist darts, hem immediately below "
-            "the bust, cuffed long sleeves to wrists. Gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers "
-            "with loose broad hip-to-ankle legs, and white low-top lace-up sneakers. Wear one navy canvas crossbody bag at the "
-            "wearer's left hip, with one matching taut diagonal strap from the right shoulder across the jacket exterior to the bag. "
-            "Off-white background; no male styling, head, hands, text, "
-            "hanger, or extra strap."
+            "Front full-length women's outfit reference on a headless torso-only mannequin, from a low flat circular neck cap immediately "
+            "above the jacket collar to white sneaker soles. No head, face, hair, scalp, ears, or human silhouette. White ultra-short cropped "
+            "utility jacket with closed chest, flap pockets, waist darts, and cuffed long sleeves; gray micro-crop top; bare midriff; deep-teal "
+            "high-waisted wide-leg trousers; white low-top lace-up sneakers; navy canvas crossbody bag at the left hip with one taut strap from "
+            "the right shoulder across the jacket. Off-white background; no hands, text, hanger, or extra strap."
         ),
     },
     "fullbody_front_refined": {
@@ -118,6 +116,43 @@ TARGETS = {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-outfit-integrated-front-full-length-qwen-reference.png",
+            "p7-5-2-openpose-fullbody-front-body-only-approved-guide.png",
+        ),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "prompt": (
+            "Image 1: preserve the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and "
+            "high-volume petrol-teal bob. Image 2: preserve the ultra-short white cropped utility jacket, gray micro-crop top, bare midriff, "
+            "deep-teal high-waisted wide-leg trousers, white low-top sneakers, and navy crossbody bag from right shoulder to left hip. "
+            "Image 3: body-only OpenPose for a centered strict-front standing full body; do not render it. Hair crown to shoe soles, relaxed arms, "
+            "compact neck, natural seven-head proportion, off-white background, one person, no text."
+        ),
+    },
+    "fullbody_front_quarter_left_qwen": {
+        "inputs": (
+            "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
+            "p7-5-2-qwen-edit-candidates/p7-5-2-openpose-fullbody-quarter-left-45deg-guide.png",
+        ),
+        "size": (960, 1440),
+        "prompt": (
+            "Use image 1 only as the exact full-body composition, outfit, crop-jacket length, bag, strap, trousers, shoes, "
+            "and hair-to-sole framing reference. Use image 2 only as a non-rendered standard OpenPose structural guide, including its compact "
+            "asymmetric face landmark map; do not render its lines, dots, colors, or background. Create the same young "
+            "East Asian adult woman in a true 45-degree left-facing front-quarter full-body view: the nose and torso point toward image left, "
+            "both eyes remain visible, the image-right cheek is nearer and wider, and the image-left eye is narrower. "
+            "Keep an upright relaxed pose, full body from hair crown to shoe soles, "
+            "the short white cropped utility jacket with sleeves down to the wrists, gray inner crop top, visible midriff gap, "
+            "high-waisted deep-teal wide-leg trousers, white low-top sneakers, and one navy crossbody bag with its strap outside the jacket. "
+            "Plain warm off-white studio background, one person, no text, panel, collage, extra bag, or scene."
+        ),
+    },
+    "fullbody_profile_left_qwen": {
+        "inputs": (
+            QWEN_FACE_REFERENCE,
+            "p7-5-2-outfit-integrated-front-full-length-qwen-reference.png",
+            "p7-5-2-qwen-edit-candidates/p7-5-2-openpose-fullbody-profile-left-90deg-guide.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -127,26 +162,12 @@ TARGETS = {
             "Use image 1 only for the young East Asian woman's head identity: compact oval face, high straight nose bridge, orange-amber "
             "irises, asymmetric fringe, and high-volume petrol-teal bob. Use image 2 only for the complete outfit: ultra-short white "
             "cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare-midriff gap, high-waisted deep-teal wide-leg "
-            "trousers, white low-top sneakers, and one navy crossbody bag worn from the right shoulder to the left hip with one exterior strap. "
-            "Create one strict front full body, upright and centered from hair crown to shoe soles, with a compact natural neck and relaxed arms. "
+            "trousers, white low-top sneakers, and one navy crossbody bag with one exterior strap. Use image 3 only as a non-rendered "
+            "standard OpenPose structural guide, including its compact asymmetric profile head map; never render its lines, dots, colors, "
+            "or black background. Create one strict full-body left profile, upright and centered from hair crown to shoe soles: face, nose, "
+            "chest, hips, knees, and shoes all point toward image left. Show exactly one visible eye and eyebrow; hide the far eye, cheek, "
+            "and ear behind the nose and hair. Keep relaxed arms, a compact natural neck, and the navy bag and strap on the visible exterior. "
             "Plain off-white background; one person; no text, panel, or scene."
-        ),
-    },
-    "fullbody_front_quarter_left_qwen": {
-        "inputs": (
-            "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png",
-        ),
-        "size": (960, 1440),
-        "prompt": (
-            "Use image 1 only as the exact full-body composition, outfit, crop-jacket length, bag, strap, trousers, shoes, "
-            "and hair-to-sole framing reference. Use image 2 only as a non-rendered standard OpenPose structural guide. Create the same young "
-            "East Asian adult woman in a true 45-degree left-facing front-quarter full-body view: the nose and torso point toward image left, "
-            "both eyes remain visible, the image-right cheek is nearer and wider, and the image-left eye is narrower. "
-            "Keep an upright relaxed pose, full body from hair crown to shoe soles, "
-            "the short white cropped utility jacket with sleeves down to the wrists, gray inner crop top, visible midriff gap, "
-            "high-waisted deep-teal wide-leg trousers, white low-top sneakers, and one navy crossbody bag with its strap outside the jacket. "
-            "Plain warm off-white studio background, one person, no text, panel, collage, extra bag, or scene."
         ),
     },
 }
@@ -349,7 +370,7 @@ def load_pipeline(image_edit: bool):
     transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_id)
     pipeline_type = QwenImageEditPlusPipeline if image_edit else QwenImagePipeline
     pipe = pipeline_type.from_pretrained(model_id, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True)
-    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=2)
+    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=4)
     pipe._exclude_from_cpu_offload.append("transformer")
     pipe.enable_sequential_cpu_offload()
     return pipe
@@ -435,8 +456,12 @@ def main() -> None:
             [
                 "head_identity",
                 "complete_full_length_outfit",
+                "standard_openpose_fullbody_structure",
             ]
-            if args.target == "fullbody_front_jacket_bag"
+            if args.target in {"fullbody_front_jacket_bag", "fullbody_profile_left_qwen"}
+            else
+            ["body_and_complete_outfit", "standard_openpose_fullbody_structure"]
+            if args.target == "fullbody_front_quarter_left_qwen"
             else
             ["face_identity"]
             if args.target == "head_front" or (args.target in FACE_DIRECTION_RULES and len(target["inputs"]) == 1)

@@ -1,0 +1,62 @@
+{
+  "status": "review_required",
+  "experiment_id": "p7-5-2-qwen-edit-head_front",
+  "model": "Qwen/Qwen-Image",
+  "transformer": "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "transition_plan": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json",
+    "sha256": "73ed71cff11b53801f237d0f60075ecd727260068270874981c908e5a4b0c1f5"
+  },
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json",
+    "sha256": "78bd6a3f347db240685d1afa58b18739d131829bb57583c1d1c7a65817bb7bf7"
+  },
+  "style_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-style-prompt-contract.json",
+    "sha256": "20c003f77759f6ef41404a44588b83041932b0c9657e00fe57cf9c860cff5545"
+  },
+  "illustration_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-illustration-prompt-contract.json",
+    "sha256": "5c89112ecc9cc79251ff40fbfa45c3894f1af46ae7b670347383393b195908ab"
+  },
+  "prompt_contracts_applied": {
+    "watercolor_style": false,
+    "illustration": true
+  },
+  "target": "head_front",
+  "run_label": "v70-front-high-nose-four-value-10step",
+  "inputs": [],
+  "input_roles": [
+    "face_identity"
+  ],
+  "seed": 62294,
+  "steps": 10,
+  "size": [
+    768,
+    768
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": " ",
+  "prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Upper-left light, deep four-value shading, and strong highlights. Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, face centered and facing the camera with both eyes and ears visible: compact oval face, a defined high nose bridge, and a refined straight nose line; high-volume petrol-teal jaw-length bob with asymmetric fringe, loose S-waves, inward-curled ends, and side locks wider than the neck. Long slender gently upturned eyes; equal orange-amber irises with distinct centered round dark pupils, separate from eyelids and eyeliner. Show ears and neck. No text, accessory, panel, collage, or background scene.",
+  "prompt_word_count": 109,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-candidates/p7-5-2-qwen-edit-prompt-style-head_front-v70-front-high-nose-four-value-10step-seed-62294-steps-10.png",
+    "sha256": "e323c64353a78182205defcf7cf5374d5691eb1e89c8fd022762d8120dc19e14"
+  },
+  "elapsed_seconds": 32.12,
+  "decision": "Candidate only; do not replace a stable P7-5.2 reference before human review."
+}
