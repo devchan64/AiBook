@@ -16,13 +16,13 @@
     {"asset": "p7-5-1-style-ceramics-studio-afternoon-local-gpu-v1.png", "scene_id": "ceramics-studio-afternoon", "role": "supplementary"},
     {"asset": "p7-5-1-style-gallery-midday-oblique-qwen-image-qwen30-v3-scene10-code-cd1676-seed-420810-steps-30.png", "scene_id": "gallery-midday-oblique", "role": "supplementary"},
     {"asset": "p7-5-1-style-greenhouse-blue-hour-local-gpu-v1.png", "scene_id": "greenhouse-blue-hour", "role": "supplementary"},
-    {"asset": "p7-5-1-style-hillside-alley-late-afternoon-local-gpu-v1.png", "scene_id": "hillside-alley-late-afternoon", "role": "supplementary"},
+    {"asset": "p7-5-1-style-hillside-alley-late-afternoon-qwen-image-qwen30-v3-scene14-code-6ee12e-seed-420814-steps-30.png", "scene_id": "hillside-alley-late-afternoon", "role": "supplementary"},
     {"asset": "p7-5-1-style-ferry-deck-morning-local-gpu-v1.png", "scene_id": "ferry-deck-morning", "role": "supplementary"},
     {"asset": "p7-5-1-style-cinema-foyer-night-local-gpu-v1.png", "scene_id": "cinema-foyer-night", "role": "supplementary"},
-    {"asset": "p7-5-1-style-market-arcade-overcast-local-gpu-v1.png", "scene_id": "market-arcade-overcast", "role": "supplementary"},
+    {"asset": "p7-5-1-style-market-arcade-overcast-qwen-image-qwen30-v3-scene15-code-d05493-seed-420815-steps-30.png", "scene_id": "market-arcade-overcast", "role": "supplementary"},
     {"asset": "p7-5-1-style-riverside-terrace-night-local-gpu-v1.png", "scene_id": "riverside-terrace-night", "role": "supplementary"},
-    {"asset": "p7-5-1-style-underpass-rainy-twilight-local-gpu-v1.png", "scene_id": "underpass-rainy-twilight", "role": "supplementary"},
-    {"asset": "p7-5-1-style-harbor-plaza-sunrise-high-local-gpu-v1.png", "scene_id": "harbor-plaza-sunrise-high", "role": "supplementary"},
-    {"asset": "p7-5-1-style-library-tall-lobby-local-gpu-v1.png", "scene_id": "library-tall-lobby-high-oblique", "role": "supplementary"}
+    {"asset": "p7-5-1-style-underpass-rainy-twilight-qwen-image-qwen30-v3-scene13-code-9ee1f2-seed-420813-steps-30.png", "scene_id": "underpass-rainy-twilight", "role": "supplementary"},
+    {"asset": "p7-5-1-style-harbor-plaza-sunrise-high-qwen-image-qwen30-v3-scene12-code-9a60a0-seed-420812-steps-30.png", "scene_id": "harbor-plaza-sunrise-high", "role": "supplementary"},
+    {"asset": "p7-5-1-style-library-stairwell-day-high-angle-qwen-image-qwen30-v3-scene11-code-88d15f-seed-420811-steps-30.png", "scene_id": "library-tall-lobby-high-oblique", "role": "supplementary"}
   ]
 }

@@ -1,0 +1,30 @@
+{
+  "status": "approved_for_downstream_reference",
+  "model_id": "Qwen/Qwen-Image",
+  "transformer_id": "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",
+  "size": [
+    1024,
+    1024
+  ],
+  "steps": 30,
+  "true_cfg_scale": 4.0,
+  "elapsed_seconds": 114.8,
+  "gpu_memory_before_mib": 740,
+  "gpu_memory_peak_mib": 5819,
+  "requested_scene": "underpass-rainy-twilight",
+  "include_existing": true,
+  "excluded_scenes": [],
+  "runs": [
+    {
+      "id": "underpass-rainy-twilight",
+      "seed": 420813,
+      "prompt": "Vertical empty pedestrian underpass just after rain at blue twilight, diagonal view from its entrance into a gently bending passage. Concrete walls, wet tile, blank columns, and a narrow cool-sky opening cross the edges. Indigo wet shadows, blue-gray concrete, cyan puddles, and small warm safety lights; avoid people, graffiti, signs, trains, and a centered tunnel. Empty edge-to-edge Korean webtoon background; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, medium-chroma color. No frame, text, logos, people, animals, vehicles, neon, photorealism, hatching, or screentone.",
+      "prompt_word_count": 85,
+      "asset": "p7-5-1-style-underpass-rainy-twilight-qwen-image-qwen30-v3-scene13-code-9ee1f2-seed-420813-steps-30.png",
+      "elapsed_seconds": 100.2,
+      "status": "approved"
+    }
+  ],
+  "run_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-v3-scene13-run.json"
+}
