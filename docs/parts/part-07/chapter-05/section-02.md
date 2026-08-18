@@ -70,15 +70,25 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-reference-review.json" data-language="json">정면 얼굴 승인 review.json</a></p>
 
-### Qwen prompt-style 정면 얼굴 기준
+### Qwen role-separated 정면 얼굴 기준
 
-Qwen 전환에서는 기존 Flux 정면 얼굴을 identity 입력으로만 사용하고, P7-5.1의 공통 화풍 계약은 이미지 입력이 아닌 positive prompt에만 결합했습니다. `seed=62294`, `768×768`, `20 step` 후보를 사람 승인해 별도 Qwen 정면 기준으로 등록했습니다. 이 기준은 길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리, 청록 단발, 주황-호박색 홍채를 확인하는 범위이며, 기존 Flux 정면 기준을 덮어쓰지 않습니다. 30·40 step 후보는 승인하지 않았습니다.
+Qwen 전환에서는 기존 Flux 정면 얼굴을 identity 입력으로만 사용하고, P7-5.2 인물 전용 화풍 계약은 이미지 입력이 아닌 positive prompt에만 결합했습니다. `seed=62294`, `768×768`, `20 step`의 role-separated 정면 후보를 사람 승인해 현재 Qwen 정면 기준으로 등록했습니다. 이 기준은 길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리, 청록색의 볼륨 있는 턱선 길이 단발, 주황-호박색 홍채를 확인하는 범위입니다. 기존 Flux 정면 기준을 덮어쓰지 않으며, 이전 Qwen prompt-style 정면 기준은 재현 이력으로 보존합니다.
 
-| 승인된 Qwen prompt-style 정면 얼굴 기준 |
+| 승인된 Qwen role-separated 정면 얼굴 기준 |
 | --- |
-| ![승인된 Qwen prompt-style 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-qwen-prompt-style-reference.png) |
+| ![승인된 Qwen role-separated 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-qwen-prompt-style-reference-review.json" data-language="json">Qwen 정면 얼굴 승인 review.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference-review.json" data-language="json">Qwen role-separated 정면 얼굴 승인 review.json</a></p>
+
+### Qwen OpenPose 좌측 전면 쿼터 기준
+
+좌측 전면 쿼터는 승인 Qwen 정면을 identity 입력으로, 인물 RGB를 포함하지 않는 선언형 얼굴·목 OpenPose 맵을 구조 입력으로 사용했습니다. `seed=119431`, `768×768`, `30 step` 결과를 사람 승인했습니다. 이 기준은 양쪽 홍채, 청록색의 볼륨 단발과 느슨한 S 웨이브·끝 C 컬을 유지한 얕은 좌측 전면 쿼터 범위만 승인합니다. 기존 Flux 방향 이미지는 입력으로 사용하지 않았으며, OpenPose 맵은 얼굴 정체성이 아니라 회전 구조만 전달합니다.
+
+| 승인된 Qwen OpenPose 좌측 전면 쿼터 기준 |
+| --- |
+| ![승인된 Qwen OpenPose 좌측 전면 쿼터 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-quarter-left-qwen-openpose-reference.png) |
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-quarter-left-qwen-openpose-reference-review.json" data-language="json">Qwen OpenPose 좌측 전면 쿼터 승인 review.json</a></p>
 
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
 <summary>정면 얼굴 identity 후보를 만드는 코드 보기</summary>
