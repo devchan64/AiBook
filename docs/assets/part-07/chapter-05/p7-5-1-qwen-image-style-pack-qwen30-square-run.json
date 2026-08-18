@@ -1,5 +1,5 @@
 {
-  "status": "review_required",
+  "status": "approved_for_downstream_reference",
   "model_id": "Qwen/Qwen-Image",
   "transformer_id": "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors",
   "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",
@@ -23,7 +23,7 @@
       "prompt_word_count": 102,
       "asset": "p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-square-code-13f1d6-seed-420713-steps-30.png",
       "elapsed_seconds": 99.8,
-      "status": "review_required"
+      "status": "approved"
     }
   ],
   "run_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-square-run.json"

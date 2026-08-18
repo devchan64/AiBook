@@ -22,7 +22,9 @@ from p7_5_image_output_naming import candidate_stem
 ASSET_DIR = Path(__file__).resolve().parent
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors"
-SIZE = (768, 1152)
+# All ordinary style-reference runs use a square 1024 canvas.  A comparison
+# experiment may override this explicitly with P7_STYLE_WIDTH/HEIGHT.
+SIZE = (1024, 1024)
 # Default quality/throughput operating point for subsequent style candidates.
 # The 4-step screen remains a recorded performance probe, not a style-master
 # setting; each run still records any explicit override in its JSON ledger.

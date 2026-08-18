@@ -3,7 +3,7 @@
 > Section ID: `P7-5.1`
 > Version: `v2026.08.18`
 
-이 프로젝트는 Qwen Image로 배경 화풍 후보를 생성하고, 기존의 사람 승인 참조 셋과 분리해 검수합니다. 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 화풍 기준으로 승인하지 않습니다.
+이 프로젝트는 Qwen Image로 배경 화풍 후보를 생성하고 사람 검수 뒤 승인 참조 셋에 반영합니다. 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 화풍 기준으로 승인하지 않습니다.
 
 이 절의 질문은 **로컬 GPU에서 Qwen Image로 만든 배경 화풍 표본을 승인하려면 무엇을 검수해야 하는가**입니다. 이 절의 산출물은 승인된 화풍 그 자체가 아니라, 후보 이미지·행별 판정·실패 이유·다음 단계 사용 가능 여부를 판정하는 gate입니다.
 
@@ -56,7 +56,7 @@ Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성
 
 ## 배경 화풍 계약의 범위
 
-P7-5.1이 고정하는 것은 Qwen Image 후보가 따라야 할 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원입니다. 이 절에서는 배경의 선·색·공간·카메라만 검수하고, 다른 생성 단계의 기준은 여기서 승인하지 않습니다.
+P7-5.1이 고정하는 것은 Qwen Image 참조 원본이 따라야 할 얇은 charcoal 선, 반투명 색층, 프레임 없는 캔버스, 시간대별 배경 광원입니다. 이 절에서는 배경의 선·색·공간·카메라만 검수하고, 다른 생성 단계의 기준은 여기서 승인하지 않습니다.
 
 ## 다섯 행이 있어야 한 장의 우연을 구별할 수 있다
 
@@ -77,6 +77,8 @@ P7-5.1이 고정하는 것은 Qwen Image 후보가 따라야 할 얇은 charcoal
 배경 후보 생성에는 Diffusers의 `QwenImagePipeline`을 사용합니다. 스무 장면 후보를 만드는 기준 실행 코드는 `p7_5_1_regenerate_local_gpu_style_references.py`입니다. 학습 관점에서 이 코드는 세 가지를 구분하게 해 줍니다. 첫째, 모든 행에 같은 화풍 계약을 붙입니다. 둘째, 행마다 장소·시간·카메라·seed만 바꿉니다. 셋째, 생성 성공과 사람 승인을 별도 기록으로 남깁니다.
 
 공통 화풍 계약은 [화풍 프롬프트 JSON](../../../assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json)에 분리한다. 이 자산에는 프레임 없는 캔버스, 얇은 charcoal 선, 반투명 수채화 색층, 안료 질감, 제외 대상만 들어 있다. 장소·시간·카메라는 실행 코드의 장면별 prompt가 맡으므로, 한 행의 공간 문제를 고칠 때 공통 화풍 계약을 함께 바꾸지 않는다.
+
+현재 `background-style-v3` 계약은 같은 핵심 조건을 47단어에서 30단어로 압축했다. 1~3번 승인 원본은 이 v3 계약으로 재생성했다. 초기 v1 실행 JSON은 당시 사용한 전문과 단어 수를 보존하므로, 계약을 바꿔도 과거 재현 기록을 소급해 바꾸지 않는다.
 
 | 코드 위치 | 바꾸면 달라지는 것 | 학습할 경계 |
 | --- | --- | --- |
@@ -157,7 +159,7 @@ for scene in scenes:
 | --- | --- | --- | --- |
 | scene 행 | `SCENES`의 `prompt`, `seed` | `pipe(...)`에 넘길 prompt와 초기 latent | 장소·시간·카메라와 같은 행별 비교 조건 |
 | 공통 화풍 계약 | 화풍 프롬프트 JSON의 `common_contract` | `pipe(...)`에 넘길 prompt | 모든 행에서 유지해야 할 선·수채화·프레임 금지 조건 |
-| 해상도 | `P7_STYLE_WIDTH`, `P7_STYLE_HEIGHT` 또는 기본값 | latent 크기와 VAE 출력 | 실행별 JSON에 함께 남기는 후보 원본 형식 |
+| 해상도 | 기본 `1024×1024`, 또는 `P7_STYLE_WIDTH`, `P7_STYLE_HEIGHT` | latent 크기와 VAE 출력 | 실행별 JSON에 함께 남기는 후보 원본 형식 |
 | 추론 반복 | `num_inference_steps=30` 기본값 | scheduler의 timesteps와 transformer 반복 | 생성 조건이지 품질 점수는 아님 |
 | 텍스트 유도 | `true_cfg_scale=4.0`, `negative_prompt=" "` | classifier-free guidance 계산에 쓰이는 조건 | 값 자체가 승인 기준은 아님 |
 | seed 생성기 | `torch.Generator(device="cpu").manual_seed(...)` | 초기 latent 출발점 | 비교 기록이며 픽셀 동일성 보장은 아님 |
@@ -179,13 +181,15 @@ for scene in scenes:
 
 `COMMON_CONTRACT`와 장면별 `prompt`는 하나의 positive prompt로 이어 붙여 전달되고, 빈 문자열이 아닌 공백인 `negative_prompt=" "`를 함께 넘깁니다. 따라서 `no panel` 같은 금지 문구는 원하는 결과를 보장하는 규칙이 아니라 다른 장면 설명과 함께 해석되는 조건입니다. seed는 같은 실행 조건의 출발점을 기록하지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다.
 
-## 30스텝은 기본 운용점이며 승인 판정은 아니다
+## 30스텝으로 생성한 1~3번 행을 승인한다
 
-아트리움 한 행을 1024×1024, seed `420713`, 102단어 prompt로 비교했을 때 4·10·20·30·40·50스텝 후보를 만들었습니다. 20스텝부터 선과 색층의 기본 형태는 읽을 수 있었지만, 30스텝을 이후 후보 생성의 기본값으로 두었습니다. 30스텝 후보의 행 생성 시간은 99.8초였고, 전체 실행의 GPU 메모리 peak은 5,467 MiB였습니다. 이 결과는 한 장면·한 해상도에서의 운용 기록이지 모든 장면의 필요 스텝이나 품질 보장은 아닙니다.
+아트리움 한 행을 1024×1024, seed `420713`, 102단어 prompt로 비교했을 때 4·10·20·30·40·50스텝 후보를 만들었습니다. 20스텝부터 선과 색층의 기본 형태는 읽을 수 있었지만, 30스텝을 이후 후보 생성의 기본값으로 두었습니다. 30스텝 아트리움 후보의 행 생성 시간은 99.8초였고, 전체 실행의 GPU 메모리 peak은 5,467 MiB였습니다. 이 결과는 한 장면·한 해상도에서의 운용 기록이지 모든 장면의 필요 스텝이나 품질 보장은 아닙니다.
 
-![30스텝 Qwen Image 아트리움 화풍 후보](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-square-code-13f1d6-seed-420713-steps-30.png)
+| 1번 · 실내 아트리움 · 새벽 · high angle · 1024×1024 | 2번 · courtyard · 이른 아침 · high angle · 768×1152 | 3번 · 도심 · 낮 · wide eye-level · 768×1152 |
+| --- | --- | --- |
+| ![30스텝 Qwen Image v3 아트리움 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png) | ![30스텝 Qwen Image v3 courtyard 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-qwen-image-qwen30-v3-scene02-code-6d4e55-seed-420702-steps-30.png) | ![30스텝 Qwen Image v3 도심 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-qwen-image-qwen30-v3-scene03-code-1f7147-seed-420703-steps-30.png) |
 
-이 후보는 수채화 색층과 프레임 없는 캔버스는 확인할 수 있지만, 요구한 고각도를 충분히 재현하지 못했고 금지한 난간·선형 구조도 남았습니다. 그러므로 상태는 `review_required`이며 기존 승인 manifest에 넣지 않습니다. 재현 비용을 늘린 40·50스텝도 이 계약 실패를 해소한 근거가 아니므로 보관하지 않습니다. 실행 조건과 prompt 단어 수는 [30스텝 실행 기록](../../../assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-square-run.json)에 남깁니다.
+사람 검수로 1번 아트리움, 2번 courtyard, 3번 도심을 승인했습니다. 1번과 3번은 필수 행을, 2번은 보조 행을 맡으며, 세 원본으로 기존 manifest의 같은 행을 교체합니다. 1번은 v3 계약을 결합한 85단어 prompt로 99.8초에 생성했고 GPU 메모리 peak은 6,000 MiB였습니다. 2·3번은 각각 72단어·70단어 prompt로 99.9초·99.0초에 생성했고, GPU 메모리 peak은 5,802 MiB·5,456 MiB였습니다. 재현 비용을 늘린 40·50스텝 후보는 보관하지 않습니다. 실행 조건과 prompt 단어 수는 [1번](../../../assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-v3-scene01-run.json), [2번](../../../assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-v3-scene02-run.json), [3번](../../../assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-v3-scene03-run.json) 실행 기록에 남깁니다.
 
 ## 다섯 필수 행과 보조 근거를 분리한다
 
@@ -193,9 +197,9 @@ for scene in scenes:
 
 | 필수 행 | 로컬 GPU 재생성 후보 | 현재 판정 | 이 행이 확인하는 것 |
 | --- | --- | --- | --- |
-| 실내·새벽·high angle | 아트리움 local-gpu-v5 | 행 승인 | 새벽 광원과 실내 하향 시점 |
+| 실내·새벽·high angle | Qwen Image 아트리움 30 step | 행 승인 | 새벽 광원과 실내 하향 시점 |
 | 실내·밤·oblique | 창가 독서실 local-gpu-v1 | 행 승인 | 창밖의 밤, 작은 스탠드 조명, 사선 시점 |
-| 실외·낮·wide eye-level | 도심 낮 local-gpu-v1 | 행 승인 | 낮 팔레트와 측면 교차로 시점 |
+| 실외·낮·wide eye-level | Qwen Image 도심 30 step | 행 승인 | 낮 팔레트와 측면 교차로 시점 |
 | 실외·해질녘·low angle | 주택가 local-gpu-v1 | 행 승인 | 제한된 석양빛과 curb-height 상향 시점 |
 | 실외·우천 야간·overhead high angle | 옥상 광장 local-gpu-v1 | 행 승인 | 젖은 바닥 반사와 하향 야간 시점 |
 
@@ -203,7 +207,7 @@ for scene in scenes:
 
 | 보조 행 | 로컬 GPU 재생성 후보 | 넓혀 보는 화풍 조건 |
 | --- | --- | --- |
-| 이른 아침 courtyard · high angle | courtyard local-gpu-v1 · 행 승인 | 실외 자연광에서 하향 시점의 선·색면 |
+| 이른 아침 courtyard · high angle | Qwen Image courtyard 30 step · 행 승인 | 실외 자연광에서 하향 시점의 선·색면 |
 | 베니스 운하 · 석양 · oblique | 베니스 local-gpu-v1 · 행 승인 | 제한된 apricot 역광과 사선 수면 |
 | 공원 연못 · 낮 · eye-level | 공원 local-gpu-v1 · 행 승인 | 자연 공간의 낮 팔레트와 수면 반사 |
 | 열차 승강장 · 우천 야간 · oblique | 승강장 local-gpu-v1 · 행 승인 | 인공광, 젖은 바닥, 짧은 대각 철로 |
@@ -241,15 +245,15 @@ for scene in scenes:
 
 사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 행별 승인·불합격 이유와 최종 결론을 로컬 검수 ledger에 적습니다. 다음 단계가 실제로 읽는 입력 목록은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 따로 둡니다. 이 분리 덕분에 `왜 승인했는가`와 `무엇을 다음 생성에 넣을 수 있는가`가 섞이지 않습니다.
 
-현재 참조 셋은 `approved_for_downstream_reference`입니다. manifest에는 스무 개의 사람 승인 로컬 GPU 원본이 있으며, 이 원본들은 배경 화풍 계약의 검수 근거입니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다.
+현재 참조 셋은 `approved_for_downstream_reference`입니다. manifest에는 스무 개의 사람 승인 로컬 GPU 원본이 있으며, 이 중 1번 아트리움·2번 courtyard·3번 도심은 Qwen Image 30스텝 원본으로 교체했습니다. 이 원본들은 배경 화풍 계약의 검수 근거입니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다.
 
 ## 승인된 로컬 GPU 원본을 확인한다
 
-아트리움 local-gpu-v5, 창가 독서실 local-gpu-v1과 도심·주택가·옥상 광장·courtyard·베니스·공원·열차 승강장·세라믹 스튜디오·gallery·greenhouse·hillside alley·ferry deck·cinema foyer·market arcade·riverside terrace·underpass·harbor terrace·높은 로비 도서관 local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아래 스무 원본은 manifest에 기록돼 있습니다.
+Qwen Image 아트리움·courtyard·도심 30스텝 원본, 창가 독서실 local-gpu-v1과 주택가·옥상 광장·베니스·공원·열차 승강장·세라믹 스튜디오·gallery·greenhouse·hillside alley·ferry deck·cinema foyer·market arcade·riverside terrace·underpass·harbor terrace·높은 로비 도서관 local-gpu-v1은 사람 승인 원본입니다. 여객기 실내는 반복 생성에서도 좌석 모듈·천장·사선 구도를 함께 안정적으로 만족시키지 못해 후보군과 생성 자산을 모두 폐기했고, 실내·밤·oblique 필수 행은 창밖의 밤과 작은 스탠드 조명만 사용하는 창가 독서실의 단순한 사선 구도로 대체했습니다. 아래 스무 원본은 manifest에 기록돼 있습니다.
 
-| 필수 행 1 · 실내 아트리움 · 새벽 · high angle · local GPU v5 | 보조 행 1 · courtyard · 이른 아침 · high angle · local GPU v1 | 필수 행 2 · 창가 독서실 · 밤 · oblique · local GPU v1 | 필수 행 3 · 도심 · 낮 · wide eye-level · local GPU v1 |
+| 필수 행 1 · 실내 아트리움 · 새벽 · high angle · Qwen Image 30 step | 보조 행 1 · courtyard · 이른 아침 · high angle · Qwen Image 30 step | 필수 행 2 · 창가 독서실 · 밤 · oblique · local GPU v1 | 필수 행 3 · 도심 · 낮 · wide eye-level · Qwen Image 30 step |
 | --- | --- | --- | --- |
-| ![새벽의 실내 아트리움을 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png) | ![이른 아침 courtyard를 위에서 내려다본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-local-gpu-v1.png) | ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png) | ![맑은 낮 도심 교차로의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-local-gpu-v1.png) |
+| ![새벽의 실내 아트리움을 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png) | ![이른 아침 courtyard를 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-courtyard-early-morning-high-angle-qwen-image-qwen30-v3-scene02-code-6d4e55-seed-420702-steps-30.png) | ![창밖의 밤과 작은 스탠드 조명이 있는 창가 독서실 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-night-lit-reading-room-oblique-local-gpu-v1.png) | ![맑은 낮 도심 교차로의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-downtown-clear-day-wide-qwen-image-qwen30-v3-scene03-code-1f7147-seed-420703-steps-30.png) |
 
 | 필수 행 4 · 주택가 · 해질녘 · low angle · local GPU v1 | 필수 행 5 · 옥상 광장 · 우천 야간 · overhead high angle · local GPU v1 | 보조 행 2 · 베니스 운하 · 해질녘 · oblique · local GPU v1 | 보조 행 3 · 공원 연못 · 낮 · eye-level · local GPU v1 |
 | --- | --- | --- | --- |
@@ -276,7 +280,7 @@ for scene in scenes:
 | 확인한 기능 또는 변경 | 결정 이유 | 이 실험에서 확인한 결과 | 이 결과가 뜻하지 않는 것 |
 | --- | --- | --- | --- |
 | Nunchaku·순차 CPU offload와 행별 생성 | GPU 상주량을 줄이고 실패 행만 다시 실행하려고 함 | offload와 행별 저장으로 스무 로컬 GPU 후보 행을 같은 계약으로 실행할 수 있음 | offload가 선화·구도 품질을 높이거나 모든 환경에서 같은 속도를 보장한다는 뜻은 아님 |
-| Qwen Image 30스텝 기본값 | 1024×1024 아트리움 비교에서 20스텝부터 기본 형태가 읽혔지만 이후 후보의 일관된 운용점을 남기려고 함 | seed `420713`의 30스텝 후보와 prompt 단어 수·시간·메모리 기록을 보관함 | 30스텝이 모든 장면의 필요량이거나 이 후보가 화풍·카메라 계약을 통과했다는 뜻은 아님 |
+| Qwen Image 30스텝 기본값 | 1024×1024 아트리움 비교에서 20스텝부터 기본 형태가 읽혔지만 이후 후보의 일관된 운용점을 남기려고 함 | 1번 아트리움, 2번 courtyard, 3번 도심의 30스텝 원본을 사람 승인하고 prompt 단어 수·시간·메모리 기록을 보관함 | 30스텝이 모든 장면의 필요량을 뜻하는 것은 아님 |
 | 공통 화풍 계약과 장면 행의 분리 | 선·수채화·프레임 조건을 바꾸지 않은 채 장소·시간·camera 차이만 비교하려고 함 | 같은 계약 아래 실내·실외, 새벽·낮·석양·밤·우천 야간, 다섯 camera family를 승인 팩에서 대조함 | 공통 prompt 하나가 모든 장면의 공간 구조를 자동으로 고정한다는 뜻은 아님 |
 | 중앙 도로 대신 측면 교차로로 도심 조건 변경 | 넓은 도로 요구가 중앙 소실점의 거리 복도로 수렴한 실패를 장면 구조 문제로 판단함 | 측면 모퉁이에서 비스듬히 보는 도심 원본으로 교체해 낮·wide 행을 승인함 | 금지어를 더 많이 쓰면 모든 원근 오류를 고칠 수 있다는 뜻은 아님 |
 | 여객기 실내를 창가 독서실로 대체 | 좌석 모듈·천장·사선 구도를 동시에 안정적으로 만족한 원본을 확보하지 못함 | 밤·실내·oblique 조건은 단순한 독서실과 작은 스탠드 조명으로 검수함 | 복잡한 실내 장면이 모델에서 불가능하다는 일반 결론은 아님 |

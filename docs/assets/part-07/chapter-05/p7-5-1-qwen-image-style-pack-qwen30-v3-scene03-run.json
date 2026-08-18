@@ -1,0 +1,30 @@
+{
+  "status": "approved_for_downstream_reference",
+  "model_id": "Qwen/Qwen-Image",
+  "transformer_id": "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",
+  "size": [
+    1024,
+    1024
+  ],
+  "steps": 30,
+  "true_cfg_scale": 4.0,
+  "elapsed_seconds": 103.8,
+  "gpu_memory_before_mib": 758,
+  "gpu_memory_peak_mib": 5456,
+  "requested_scene": "downtown-clear-day-wide",
+  "include_existing": true,
+  "excluded_scenes": [],
+  "runs": [
+    {
+      "id": "downtown-clear-day-wide",
+      "seed": 420703,
+      "prompt": "Vertical empty Seoul business intersection at clear midday, side view from a shaded sidewalk corner. Diagonal glass towers and street trees, cool off-white pavement; avoid a centered road corridor. Pale-blue glass reflections, teal building shadows, green foliage shadows, cool-gray highlights. Empty edge-to-edge Korean webtoon background; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, medium-chroma color. No frame, text, logos, people, animals, vehicles, neon, photorealism, hatching, or screentone.",
+      "prompt_word_count": 70,
+      "asset": "p7-5-1-style-downtown-clear-day-wide-qwen-image-qwen30-v3-scene03-code-1f7147-seed-420703-steps-30.png",
+      "elapsed_seconds": 99.0,
+      "status": "approved"
+    }
+  ],
+  "run_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-v3-scene03-run.json"
+}
