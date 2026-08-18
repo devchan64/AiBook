@@ -32,6 +32,7 @@ ASSETS = Path(__file__).resolve().parent
 PLAN = ASSETS / "p7-5-2-qwen-edit-transition-plan.json"
 IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-2-character-reference-style-prompt-contract.json"
+ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-character-reference-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 BASE_MODEL_ID = "Qwen/Qwen-Image"
@@ -54,16 +55,49 @@ HAIR_VOLUME_RULE = (
 TARGETS = {
     "head_front": {
         "inputs": (),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 10,
         "size": (768, 768),
         "prompt": (
-            "Create a clean strict frontal head-and-neck studio reference of one young East Asian adult woman in her early twenties. Prioritize the complete "
-            "head silhouette: compact oval face, petrol-teal jaw-length bob, high-volume rounded crown, fringe, side locks, ears, and neck. "
-            "Keep long slender eyes with gently upturned outer corners, moderately narrow "
-            "eyelid openings, and equal orange-amber irises. Render two clearly distinct, centered, round dark pupils "
-            "inside the irises; keep each pupil visibly separated from the upper eyelid line and eyeliner, never slit-shaped, "
-            "horizontally elongated, or merged into the lash line. "
-            f"{HAIR_VOLUME_RULE} Create one clean strict frontal head-and-neck "
-            "studio reference. No text, panel, collage, accessory, or background scene."
+            "Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, face centered and facing the camera with both eyes and ears visible: compact oval face, "
+            "a defined high nose bridge, and a refined straight nose line; "
+            "high-volume petrol-teal jaw-length bob with asymmetric fringe, loose S-waves, inward-curled ends, and side locks wider "
+            "than the neck. Long slender gently upturned eyes; equal orange-amber irises with distinct centered round dark pupils, "
+            "separate from eyelids and eyeliner. Show ears and neck. No text, accessory, panel, collage, or background scene."
+        ),
+    },
+    "outfit_integrated_front_hip": {
+        "inputs": (),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 10,
+        "size": (768, 1152),
+        "prompt": (
+            "Create one isolated front apparel-and-bag reference from shoulders through hips on a neutral headless torso. "
+            "Show a very short white cropped utility jacket as the closed outer layer: its front panels cover the chest, "
+            "two flap chest pockets and long cuffed sleeves are visible, and its hem ends immediately below the bust. "
+            "Only below that hem, show a charcoal-gray micro-crop inner top, then a clear bare-midriff band, then the "
+            "navel-height waistband of deep-teal high-waisted wide-leg trousers. Place one compact deep-navy woven-canvas "
+            "crossbody bag at the wearer's outer-left hip. Show exactly one taut matching navy strap from the wearer's "
+            "right shoulder across the exterior of the white jacket to the bag. Plain off-white background; no head, hands, "
+            "legs, text, logo, hanger, extra strap, or other object."
+        ),
+    },
+    "outfit_integrated_front_full_length": {
+        "inputs": (),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 10,
+        "size": (768, 1152),
+        "prompt": (
+            "Strict front full-length women's outfit reference on a headless female dress form, shoulders to white sneaker soles. "
+            "Fitted white ultra-short cropped utility jacket: closed chest, small flap pockets, waist darts, hem immediately below "
+            "the bust, cuffed long sleeves to wrists. Gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers "
+            "with loose broad hip-to-ankle legs, and white low-top lace-up sneakers. Wear one navy canvas crossbody bag at the "
+            "wearer's left hip, with one matching taut diagonal strap from the right shoulder across the jacket exterior to the bag. "
+            "Off-white background; no male styling, head, hands, text, "
+            "hanger, or extra strap."
         ),
     },
     "fullbody_front_refined": {
@@ -81,21 +115,38 @@ TARGETS = {
         ),
     },
     "fullbody_front_jacket_bag": {
-        "inputs": (QWEN_FACE_REFERENCE,),
+        "inputs": (
+            QWEN_FACE_REFERENCE,
+            "p7-5-2-outfit-integrated-front-full-length-qwen-reference.png",
+        ),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 10,
         "size": (960, 1440),
         "prompt": (
-            "Use image 1 only as the exact character face and hair identity reference. Create a clean strict full-body "
-            "front studio character reference of the same adult woman, standing upright with both arms relaxed at her sides, "
-            "centered and visible continuously from the hair crown to both shoe soles. Preserve the compact oval face, "
-            "orange-amber irises, asymmetric fringe, and high-volume petrol-teal jaw-length bob. Dress her in a closed "
-            "white cropped utility jacket with two chest flap pockets and full long sleeves worn completely down to the wrists, "
-            "never rolled or pushed up. The short jacket hem ends at the lower ribcage, well above the navel and high waist, "
-            "never at hip length. Wear it over a charcoal-gray micro-crop crew-neck inner top with a clearly visible gray band "
-            "below the jacket hem and a visible bare-midriff gap before the high-waisted trousers. "
-            "Wear high-waisted deep-teal wide-leg trousers with a visibly loose straight drape from hip to ankle, never skinny pants; "
-            "white lace-up low-top sneakers with complete soles; and one deep-navy crossbody bag resting at the outer left hip. "
-            "The taut navy strap begins at the wearer's right shoulder, crosses outside the jacket, and connects visibly to the bag. "
-            "Plain warm off-white studio background, full limbs, one person, no text, labels, panel, collage, extra bag, or background scene."
+            "Use image 1 only for the young East Asian woman's head identity: compact oval face, high straight nose bridge, orange-amber "
+            "irises, asymmetric fringe, and high-volume petrol-teal bob. Use image 2 only for the complete outfit: ultra-short white "
+            "cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare-midriff gap, high-waisted deep-teal wide-leg "
+            "trousers, white low-top sneakers, and one navy crossbody bag worn from the right shoulder to the left hip with one exterior strap. "
+            "Create one strict front full body, upright and centered from hair crown to shoe soles, with a compact natural neck and relaxed arms. "
+            "Plain off-white background; one person; no text, panel, or scene."
+        ),
+    },
+    "fullbody_front_quarter_left_qwen": {
+        "inputs": (
+            "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
+            "p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png",
+        ),
+        "size": (960, 1440),
+        "prompt": (
+            "Use image 1 only as the exact full-body composition, outfit, crop-jacket length, bag, strap, trousers, shoes, "
+            "and hair-to-sole framing reference. Use image 2 only as a non-rendered standard OpenPose structural guide. Create the same young "
+            "East Asian adult woman in a true 45-degree left-facing front-quarter full-body view: the nose and torso point toward image left, "
+            "both eyes remain visible, the image-right cheek is nearer and wider, and the image-left eye is narrower. "
+            "Keep an upright relaxed pose, full body from hair crown to shoe soles, "
+            "the short white cropped utility jacket with sleeves down to the wrists, gray inner crop top, visible midriff gap, "
+            "high-waisted deep-teal wide-leg trousers, white low-top sneakers, and one navy crossbody bag with its strap outside the jacket. "
+            "Plain warm off-white studio background, one person, no text, panel, collage, extra bag, or scene."
         ),
     },
 }
@@ -298,7 +349,7 @@ def load_pipeline(image_edit: bool):
     transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_id)
     pipeline_type = QwenImageEditPlusPipeline if image_edit else QwenImagePipeline
     pipe = pipeline_type.from_pretrained(model_id, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True)
-    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
+    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=2)
     pipe._exclude_from_cpu_offload.append("transformer")
     pipe.enable_sequential_cpu_offload()
     return pipe
@@ -308,29 +359,37 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", choices=tuple(TARGETS), required=True)
     parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
+    parser.add_argument("--steps", type=int, default=None, help="Denoising steps; defaults to the target's configured value.")
     parser.add_argument("--run-label", default="v2-natural-eyes", help="Suffix that separates controlled reruns.")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     args = parser.parse_args()
-    if args.steps < 1:
-        raise ValueError("--steps must be at least 1")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
     if args.target in FACE_DIRECTION_RULES:
         save_openpose_guide(args.target, ASSETS / OPENPOSE_GUIDES[args.target])
     target = TARGETS[args.target]
+    steps = args.steps if args.steps is not None else target.get("default_steps", DEFAULT_STEPS)
+    if steps < 1:
+        raise ValueError("--steps must be at least 1")
     inputs = [ASSETS / name for name in target["inputs"]]
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
-    if not PLAN.is_file() or not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file():
-        raise FileNotFoundError("missing P7-5.2 Qwen transition plan, identity contract, or style contract")
+    if not PLAN.is_file() or not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
+        raise FileNotFoundError("missing P7-5.2 Qwen transition plan, identity, style, or illustration contract")
     style_prompt = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["portrait_style_prompt"]
-    prompt = f"{target['prompt']} {style_prompt}" if target.get("append_style_prompt", True) else target["prompt"]
+    illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["illustration_prompt"]
+    prompt_parts = []
+    if target.get("append_style_prompt", True):
+        prompt_parts.append(style_prompt)
+    if target.get("append_illustration_prompt", False):
+        prompt_parts.append(illustration_prompt)
+    prompt_parts.append(target["prompt"])
+    prompt = " ".join(prompt_parts)
 
     width, height = target["size"]
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{steps}"
     output = args.output_dir / f"{stem}.png"
     run_record = args.output_dir / f"{stem}-run.json"
     started = time.monotonic()
@@ -340,7 +399,7 @@ def main() -> None:
         "generator": torch.Generator("cpu").manual_seed(args.seed),
         "true_cfg_scale": 4.0,
         "negative_prompt": " ",
-        "num_inference_steps": args.steps,
+        "num_inference_steps": steps,
         "guidance_scale": 1.0,
         "width": width,
         "height": height,
@@ -358,12 +417,26 @@ def main() -> None:
         "transition_plan": asset_record(PLAN),
         "identity_contract": asset_record(IDENTITY_CONTRACT),
         "style_prompt_contract": asset_record(STYLE_CONTRACT),
+        "illustration_prompt_contract": asset_record(ILLUSTRATION_CONTRACT),
+        "prompt_contracts_applied": {
+            "watercolor_style": target.get("append_style_prompt", True),
+            "illustration": target.get("append_illustration_prompt", False),
+        },
         "target": args.target,
         "run_label": args.run_label,
         "inputs": [asset_record(path) for path in inputs],
         "input_roles": (
+            []
+            if args.target in {"outfit_integrated_front_hip", "outfit_integrated_front_full_length"}
+            else
             ["complete_head_identity", "standard_openpose_face_geometry"]
             if args.target == "face_front_quarter_left"
+            else
+            [
+                "head_identity",
+                "complete_full_length_outfit",
+            ]
+            if args.target == "fullbody_front_jacket_bag"
             else
             ["face_identity"]
             if args.target == "head_front" or (args.target in FACE_DIRECTION_RULES and len(target["inputs"]) == 1)
@@ -372,7 +445,7 @@ def main() -> None:
             else ["body_and_complete_outfit", "face_identity"]
         ),
         "seed": args.seed,
-        "steps": args.steps,
+        "steps": steps,
         "size": [width, height],
         "true_cfg_scale": 4.0,
         "guidance_scale": 1.0,

@@ -3,18 +3,20 @@
   "approval": "human_approved",
   "experiment_id": "p7-5-2-qwen-image-text-only-head-front",
   "output": "p7-5-2-face-front-qwen-role-separated-reference.png",
-  "source_candidate": "p7-5-2-qwen-edit-prompt-style-head_front-v31-young-adult-front-head-seed-62294-steps-20.png",
+  "source_candidate": "p7-5-2-qwen-edit-prompt-style-head_front-v70-front-high-nose-four-value-10step-seed-62294-steps-10.png",
   "model": "Qwen/Qwen-Image",
   "transformer": "nunchaku-qwen-image fp4",
-  "input_policy": "No reference image was supplied; face, hair, style, and pupil requirements were text-prompt only.",
+  "input_policy": "No reference image was supplied; face, hair, illustration, lighting, and pupil requirements were text-prompt only.",
   "inputs": [],
   "seed": 62294,
-  "steps": 20,
+  "steps": 10,
   "image_size": [768, 768],
   "approved_scope": [
-    "strict frontal head-and-neck framing",
-    "young East Asian adult woman in her early twenties with a complete high-volume petrol-teal bob silhouette, fringe, side locks, ears, and neck",
-    "orange-amber irises and visibly round, centered dark pupils"
+    "strict centered frontal head-and-neck framing with both eyes and ears visible",
+    "young East Asian adult woman in her early twenties with a compact oval face, defined high nose bridge, and straight nose line",
+    "complete high-volume petrol-teal bob silhouette with asymmetric fringe, side locks, ears, and neck",
+    "orange-amber irises and visibly round, centered dark pupils",
+    "text-only character illustration with four-value shading and strong highlights"
   ],
   "limitations": [
     "Approval does not approve other views, expressions, poses, scenes, or lighting."
