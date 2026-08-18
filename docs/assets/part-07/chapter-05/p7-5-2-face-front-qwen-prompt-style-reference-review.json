@@ -1,0 +1,59 @@
+{
+  "status": "approved",
+  "experiment_id": "p7-5-2-qwen-edit-face_front",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "transition_plan": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json",
+    "sha256": "bd6f4c3c37a5eb9041c042b638bad699dc6cd333ab05afadcbd0880b000b8876"
+  },
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json",
+    "sha256": "acf05f6229ebd7654e348b5ef3ec44921bb7e9f5d7793cf020d5b49d87232d1b"
+  },
+  "style_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json",
+    "sha256": "56e4763acb7edfb43ef49c3fa0b65c761fe655d5dd105d14ead11c07a29dac1e"
+  },
+  "target": "face_front",
+  "run_label": "v3-upturned-almond",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-reference.png",
+      "sha256": "3f336829ab7f45cd88eaca6216cfe83fa8fe2f38025a46ceb732c9589ffb755f"
+    }
+  ],
+  "input_roles": [
+    "face_identity"
+  ],
+  "seed": 62294,
+  "steps": 20,
+  "size": [
+    768,
+    768
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": " ",
+  "prompt": "Use image 1 only as the exact front-face identity reference. Preserve its compact oval face, petrol-teal jaw-length bob, and long slender almond eyes with gently upturned outer corners, moderately narrow eyelid openings, and equal orange-amber irises. Create one clean strict frontal head-and-neck studio reference. No text, panel, collage, accessory, or background scene. Empty edge-to-edge Korean webtoon background; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, medium-chroma color. No frame, text, logos, people, animals, vehicles, neon, photorealism, hatching, or screentone.",
+  "prompt_word_count": 82,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-qwen-prompt-style-reference.png",
+    "sha256": "240adde0cc17eecf5fc1914c66039356c4c302380a9a9ed834553055fb91787c"
+  },
+  "elapsed_seconds": 135.74,
+  "decision": "Approved by human review as the P7-5.2 Qwen prompt-style front-face reference; it is a separate stable Qwen anchor and does not overwrite the historical Flux reference."
+}

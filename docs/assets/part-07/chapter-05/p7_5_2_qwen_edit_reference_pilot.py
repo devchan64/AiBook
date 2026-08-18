@@ -30,6 +30,8 @@ STYLE_CONTRACT = ASSETS / "p7-5-1-style-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 OUTPUT_DIR = ASSETS / "p7-5-2-qwen-edit-candidates"
+DEFAULT_STEPS = 20
+QWEN_FACE_REFERENCE = "p7-5-2-face-front-qwen-prompt-style-reference.png"
 
 TARGETS = {
     "face_front": {
@@ -37,7 +39,8 @@ TARGETS = {
         "size": (768, 768),
         "prompt": (
             "Use image 1 only as the exact front-face identity reference. Preserve its compact oval face, "
-            "petrol-teal jaw-length bob, and naturally proportioned upturned almond eyes with equal orange-amber irises. "
+            "petrol-teal jaw-length bob, and long slender almond eyes with gently upturned outer corners, moderately narrow "
+            "eyelid openings, and equal orange-amber irises. "
             "Create one clean strict frontal head-and-neck "
             "studio reference. No text, panel, collage, accessory, or background scene."
         ),
@@ -45,7 +48,7 @@ TARGETS = {
     "fullbody_front_refined": {
         "inputs": (
             "p7-5-2-fullbody-front-refined-reference.png",
-            "p7-5-2-face-front-reference.png",
+            QWEN_FACE_REFERENCE,
         ),
         "size": (960, 1440),
         "prompt": (
@@ -100,7 +103,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", choices=tuple(TARGETS), required=True)
     parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=20)
+    parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
+    parser.add_argument("--run-label", default="v2-natural-eyes", help="Suffix that separates controlled reruns.")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     args = parser.parse_args()
     if args.steps < 1:
@@ -119,7 +123,7 @@ def main() -> None:
 
     width, height = target["size"]
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
     output = args.output_dir / f"{stem}.png"
     run_record = args.output_dir / f"{stem}-run.json"
     started = time.monotonic()
@@ -145,6 +149,7 @@ def main() -> None:
         "identity_contract": asset_record(IDENTITY_CONTRACT),
         "style_prompt_contract": asset_record(STYLE_CONTRACT),
         "target": args.target,
+        "run_label": args.run_label,
         "inputs": [asset_record(path) for path in inputs],
         "input_roles": ["face_identity"] if args.target == "face_front" else ["body_and_complete_outfit", "face_identity"],
         "seed": args.seed,

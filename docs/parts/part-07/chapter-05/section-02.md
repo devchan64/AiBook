@@ -47,7 +47,7 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 ## 정면 얼굴 identity 기준
 
-생성 체인은 정면 얼굴 기준에서 시작합니다. 머리핀을 포함한 이전 기준은 폐기하고, 얼굴형·홍채·머리·표정을 prompt로 정의한 머리 전체·얼굴·턱 출력만 새로 생성·사람 검수했습니다. 넓고 낮은 광대, 볼살, 위로 향한 아몬드형 눈매는 이 첫 기준에서만 고정하며, 몸·의상·회전 view·표정은 아직 승인하지 않습니다.
+생성 체인은 정면 얼굴 기준에서 시작합니다. 머리핀을 포함한 이전 기준은 폐기하고, 얼굴형·홍채·머리·표정을 prompt로 정의한 머리 전체·얼굴·턱 출력만 새로 생성·사람 검수했습니다. 넓고 낮은 광대, 볼살, 길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리는 이 첫 기준에서만 고정하며, 몸·의상·회전 view·표정은 아직 승인하지 않습니다.
 
 ### 얼굴 공용 identity 계약 JSON
 
@@ -69,6 +69,16 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 정면 얼굴 기준의 prompt, seed, 출력 크기와 사람 승인 판정은 아래 `review.json` 관리 자산에 남깁니다. 이 기록은 정면 얼굴 identity와 이후 얼굴 회전 대조점까지만 승인하며, 전신·pose·camera·표정은 포함하지 않습니다.
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-reference-review.json" data-language="json">정면 얼굴 승인 review.json</a></p>
+
+### Qwen prompt-style 정면 얼굴 기준
+
+Qwen 전환에서는 기존 Flux 정면 얼굴을 identity 입력으로만 사용하고, P7-5.1의 공통 화풍 계약은 이미지 입력이 아닌 positive prompt에만 결합했습니다. `seed=62294`, `768×768`, `20 step` 후보를 사람 승인해 별도 Qwen 정면 기준으로 등록했습니다. 이 기준은 길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리, 청록 단발, 주황-호박색 홍채를 확인하는 범위이며, 기존 Flux 정면 기준을 덮어쓰지 않습니다. 30·40 step 후보는 승인하지 않았습니다.
+
+| 승인된 Qwen prompt-style 정면 얼굴 기준 |
+| --- |
+| ![승인된 Qwen prompt-style 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-qwen-prompt-style-reference.png) |
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-qwen-prompt-style-reference-review.json" data-language="json">Qwen 정면 얼굴 승인 review.json</a></p>
 
 <details id="face-front-no-accessory" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_face_front_reference.py" data-language="python">
 <summary>정면 얼굴 identity 후보를 만드는 코드 보기</summary>
@@ -308,7 +318,7 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 | 확인한 기능 또는 변경 | 결정 이유 | 이 실험에서 확인한 결과 | 이 결과가 뜻하지 않는 것 |
 | --- | --- | --- | --- |
-| prompt만으로 만든 정면 얼굴을 첫 identity 앵커로 사용 | 화풍 원본이나 전신 이미지를 먼저 넣으면 얼굴 특징의 원인을 분리하기 어려움 | 머리핀 없이 얼굴형·홍채·단발·위로 향한 아몬드형 눈매를 정면 기준으로 승인하고 이후 회전의 대조점으로 사용함 | 정면 한 장만으로 표정, 전신 비례, 다양한 조명에서의 identity까지 고정된다는 뜻은 아님 |
+| prompt만으로 만든 정면 얼굴을 첫 identity 앵커로 사용 | 화풍 원본이나 전신 이미지를 먼저 넣으면 얼굴 특징의 원인을 분리하기 어려움 | 머리핀 없이 얼굴형·홍채·단발·길고 가는 아몬드형 눈과 완만히 올라간 눈꼬리를 정면 기준으로 승인하고 이후 회전의 대조점으로 사용함 | 정면 한 장만으로 표정, 전신 비례, 다양한 조명에서의 identity까지 고정된다는 뜻은 아님 |
 | 한 장의 4패널 얼굴 턴어라운드로 view를 함께 검수 | 각 view를 독립 생성하면 눈·코·머리 실루엣이 같은 인물인지 대조하기 어려움 | 정면·쿼터뷰·측면·후면에서 홍채·시선-코 정렬·단발 실루엣을 함께 비교해 얼굴 회전 identity를 승인함 | 회전 시트가 3D head model, pose 제어, 표정 기준을 제공한다는 뜻은 아님 |
 | 방향별 원본 얼굴을 identity 입력으로 분리 | 보이는 얼굴이 없는 후면을 visible-face identity 앵커로 쓰면 새 정보가 생긴 것처럼 보일 수 있음 | 정면·쿼터·측면은 해당 방향의 원본 얼굴 PNG를 identity 입력으로 쓰고, 후면은 단발·목선의 방향 기준으로만 사용함 | 참조 PNG 하나가 표정·pose·camera 변화까지 자동으로 고정한다는 뜻은 아님 |
 | 소품을 전면·후면·레이어·통합 착장 계약으로 분리 | 자켓 몸판, 크롭탑 밑단, 가방 본체와 스트랩이 한 전신 생성에서 서로 대체되는 결함을 분리하려 함 | 자켓 전후면, 자켓-크롭탑/피부 레이어, 전후면 통합 착장을 사람 승인해 방향별 보강 입력으로 사용함 | 소품 PNG를 많이 넣으면 전신의 손·발·비례 오류까지 자동으로 해결한다는 뜻은 아님 |
