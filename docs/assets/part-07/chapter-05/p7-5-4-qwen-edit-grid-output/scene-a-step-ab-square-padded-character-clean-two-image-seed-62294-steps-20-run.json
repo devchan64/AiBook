@@ -1,0 +1,48 @@
+{
+  "status": "completed",
+  "experiment_id": "p7-5-4-qwen-scene-a-step-ab-square-padded-character-clean-two-image",
+  "scene": "A",
+  "model": "Qwen-Image-Edit-2509 with Nunchaku FP4 r128",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "inputs": {
+    "structure_reference": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-depth.png",
+      "sha256": "74f2127869ace141af781e00961b2bfbb217f34862510f60c9ab051462fb074b"
+    },
+    "subject": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-character-fullbody-front-square-padded.png",
+      "sha256": "795556f4644cc3de0a0c7e7a8ec27f0540b3e3853a6895cae93d350e912a6d36"
+    },
+    "identity_contract": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json",
+      "sha256": "79392656204b07bc958c76d956a365627614be1ea7cee532ab85196ea5d1b283"
+    },
+    "outfit": null,
+    "style_reference": null
+  },
+  "structure_source": "storyboard-depth",
+  "seed": 62294,
+  "steps": 20,
+  "height": 1024,
+  "width": 1024,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": " ",
+  "prompt": "Use image 1 only as the exact character identity and complete outfit reference. Preserve every visible face, hair, clothing, footwear, bag, and external-strap attribute from image 1. Do not copy image 1's background or camera. Use image 2 only for a wide low-angle view from near the canyon floor looking slightly upward through a broad pale sandstone canyon with visible spaced walls, one full-body airborne split leap facing right, and clear ground around her.",
+  "prompt_word_count": 74,
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-edit-grid-output/scene-a-step-ab-square-padded-character-clean-two-image-seed-62294-steps-20.png",
+  "output_sha256": "8a2c21e6fe29fc66c9aa7104a331279cf5833c8186f74e30d7800cd8b8b7724c",
+  "elapsed_seconds": 331.56
+}

@@ -1,0 +1,18 @@
+{
+  "status": "human_review_pending",
+  "experiment_id": "p7-5-4-qwen-scene-a-step-ab-square-padded-character-clean-two-image",
+  "scene": "A",
+  "seed": 62294,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-edit-grid-output/scene-a-step-ab-square-padded-character-clean-two-image-seed-62294-steps-5.png",
+    "sha256": "761e5e9cd38de97d9d9aba744bfd0543e9a96c7d23b480f14d130a2e3f056743"
+  },
+  "contracts": {
+    "structure": "pending",
+    "identity": "pending",
+    "outfit": "pending",
+    "style": "pending"
+  },
+  "failure_observations": [],
+  "decision": "Do not promote before human review."
+}

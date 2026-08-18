@@ -1,0 +1,16 @@
+{
+  "source": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-depth.png",
+  "derivation": "deterministic depth quantization, contour extraction, and neutral silhouette masking",
+  "retained": [
+    "low-angle canyon masses",
+    "ground recession",
+    "airborne split silhouette"
+  ],
+  "excluded": [
+    "storyboard RGB",
+    "prior generated output",
+    "character identity",
+    "outfit identity"
+  ],
+  "input_role": "Qwen image 1 semantic composition guide"
+}

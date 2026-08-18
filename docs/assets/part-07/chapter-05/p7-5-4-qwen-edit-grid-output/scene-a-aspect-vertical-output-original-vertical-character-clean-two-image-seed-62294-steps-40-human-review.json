@@ -1,0 +1,18 @@
+{
+  "status": "human_review_pending",
+  "experiment_id": "p7-5-4-qwen-scene-a-aspect-vertical-output-original-vertical-character-clean-two-image",
+  "scene": "A",
+  "seed": 62294,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-edit-grid-output/scene-a-aspect-vertical-output-original-vertical-character-clean-two-image-seed-62294-steps-40.png",
+    "sha256": "08538a6f5927cf090cba0d5933e1e6c653173c0d527e72daffbf94f89f03c399"
+  },
+  "contracts": {
+    "structure": "pending",
+    "identity": "pending",
+    "outfit": "pending",
+    "style": "pending"
+  },
+  "failure_observations": [],
+  "decision": "Do not promote before human review."
+}

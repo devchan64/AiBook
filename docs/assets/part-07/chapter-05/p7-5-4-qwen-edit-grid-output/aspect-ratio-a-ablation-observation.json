@@ -1,0 +1,36 @@
+{
+  "status": "assistant_observation_human_review_pending",
+  "purpose": "Hold Scene A structure input fixed while comparing a square-padded character reference with a vertical output and original vertical character reference.",
+  "fixed_conditions": {
+    "scene": "A",
+    "structure_reference": "p7-5-3-scene-a-approved-storyboard-depth.png",
+    "structure_source": "storyboard-depth direct Edit reference, not native ControlNet",
+    "seed": 62294,
+    "steps": 40,
+    "true_cfg_scale": 4.0,
+    "guidance_scale": 1.0
+  },
+  "conditions": [
+    {
+      "id": "square_output_square_padded_character",
+      "output": "scene-a-aspect-square-output-square-padded-character-seed-62294-steps-40.png",
+      "output_size": [1024, 1024],
+      "character_reference": "p7-5-4-character-fullbody-front-square-padded.png",
+      "reference_transform": "960x1440 -> 768x1152 with 192 px off-white padding at left and right",
+      "observation": "Teal hair and a simplified white upper garment remain, but the trousers are not reliably wide-leg, only one simplified sneaker is visible, and bag plus external strap are absent. Dense linework overwhelms the requested watercolor rendering.",
+      "contracts": {"structure": "fail", "identity": "fail", "outfit": "fail", "style": "fail"}
+    },
+    {
+      "id": "vertical_output_original_vertical_character",
+      "output": "scene-a-aspect-vertical-output-original-vertical-character-seed-62294-steps-40.png",
+      "output_size": [768, 1152],
+      "character_reference": "p7-5-2-fullbody-front-refined-reference.png",
+      "reference_transform": "none",
+      "observation": "The taller frame leaves more canyon floor and a clearer low-angle reading, but the trousers still converge to a narrow silhouette; shoes, bag, and external strap are absent. The output remains sparse linework rather than the required watercolor rendering.",
+      "contracts": {"structure": "fail", "identity": "fail", "outfit": "fail", "style": "fail"}
+    }
+  ],
+  "conclusion": "Aligning the output and character-reference aspect ratios changed framing but did not restore wide-leg trousers, shoes, bag, or strap. Aspect ratio alone is not the dominant cause of the outfit failure in this direct-depth two-image route.",
+  "limitation": "Both completed runs used a prompt that incorrectly referred to a nonexistent image 3 style reference. The runner was fixed after the runs. This is constant across the two conditions, so it does not change their relative comparison, but the ablation should not be treated as a final style-quality measurement.",
+  "decision": "Do not promote either image. Repeat only if the no-style, two-image prompt is required as a clean follow-up control."
+}

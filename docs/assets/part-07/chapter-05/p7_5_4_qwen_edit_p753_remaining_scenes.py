@@ -42,14 +42,25 @@ IDENTITY_CONTRACT = ROOT / "docs/assets/part-07/chapter-05/p7-5-2-character-iden
 # not a long textual restatement, is the identity and outfit source of truth.
 # The contract is retained in the run record for traceability.
 COMMON_CHARACTER_PROMPT = (
-    "Use image 1 only as the exact character identity and complete outfit reference. "
-    "Preserve every visible face, hair, clothing, footwear, bag, and external-strap attribute from image 1. "
+    "Use image 1 only as the exact face and hair identity reference. "
+    "Preserve the visible face shape, both equal orange-amber irises, and the petrol-teal jaw-length bob from image 1. "
     "Do not copy image 1's background or camera."
 )
 COMMON_STYLE_PROMPT = (
     "Use image 3 only as the approved P7-5.1 rendering reference: off-white paper, sparse charcoal contours, "
     "transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges. Do not copy image 3's "
     "scene, subject, pose, or camera; never photorealistic."
+)
+COMMON_OUTFIT_PROMPT = (
+    "Use image 3 only as the exact complete outfit reference for image 1: preserve the white cropped jacket over the gray inner top, "
+    "wide-leg petrol-teal trousers, white low-top sneakers, navy crossbody bag, and its strap outside the jacket. "
+    "Do not copy image 3's pose, camera, or background."
+)
+COMMON_OUTFIT_STYLE_PROMPT = (
+    "Use image 3's left panel only as image 1's exact complete outfit reference: preserve the white cropped jacket over the gray inner top, "
+    "wide-leg petrol-teal trousers, white low-top sneakers, navy crossbody bag, and its strap outside the jacket. "
+    "Use image 3's right panel only for the approved rendering: off-white paper, sparse charcoal contours, transparent wet-on-wet washes, "
+    "pigment pooling, granulation, and translucent edges. Do not copy either panel's pose, camera, background, or scene; never photorealistic."
 )
 SCENE_STRUCTURE_PROMPTS = {
     "a": (
@@ -127,6 +138,10 @@ def main() -> None:
     )
     parser.add_argument("--subject", type=Path, help="Optional replacement for the single-view face reference.")
     parser.add_argument("--style-reference", type=Path, help="Approved P7-5.1 style image; uses the third Qwen image slot.")
+    parser.add_argument("--outfit-style-reference", type=Path, help="A two-panel third image: left=outfit, right=approved rendering style.")
+    parser.add_argument("--repair-source", type=Path, help="Completed scene to preserve while repairing only the character appearance.")
+    parser.add_argument("--repair-outfit-reference", type=Path, help="Complete outfit reference for --repair-source; defaults to the approved full-body reference.")
+    parser.add_argument("--repair-style-reference", type=Path, help="Approved rendering reference for --repair-source.")
     parser.add_argument("--route", help="Optional output route label; use when a controlled variant would otherwise overwrite an earlier result.")
     parser.add_argument("--no-outfit", action="store_true", help="Use a complete character sheet and omit the separate outfit input; image 3 remains available for --style-reference.")
     parser.add_argument("--character-first", action="store_true", help="Put the character reference before the structure guide.")
@@ -148,10 +163,28 @@ def main() -> None:
     if not subject.is_file():
         raise FileNotFoundError(subject)
     style = args.style_reference.resolve() if args.style_reference else None
+    outfit_style = args.outfit_style_reference.resolve() if args.outfit_style_reference else None
+    repair_source = args.repair_source.resolve() if args.repair_source else None
+    repair_outfit = args.repair_outfit_reference.resolve() if args.repair_outfit_reference else OUTFIT
+    repair_style = args.repair_style_reference.resolve() if args.repair_style_reference else None
     if style and not style.is_file():
         raise FileNotFoundError(style)
+    if outfit_style and not outfit_style.is_file():
+        raise FileNotFoundError(outfit_style)
+    if repair_source and not repair_source.is_file():
+        raise FileNotFoundError(repair_source)
+    if args.repair_source and not repair_outfit.is_file():
+        raise FileNotFoundError(repair_outfit)
+    if repair_style and not repair_style.is_file():
+        raise FileNotFoundError(repair_style)
+    if style and outfit_style:
+        raise ValueError("--style-reference and --outfit-style-reference are mutually exclusive")
     if style and (not args.no_outfit or not args.character_first):
         raise ValueError("--style-reference requires --no-outfit and --character-first: image 1=character, image 2=structure, image 3=style")
+    if outfit_style and (args.no_outfit or not args.character_first):
+        raise ValueError("--outfit-style-reference requires --character-first without --no-outfit")
+    if repair_source and not repair_style:
+        raise ValueError("--repair-source requires --repair-style-reference: image 1=locked base, image 2=outfit, image 3=style")
     started = time.monotonic()
     prompt = PROMPTS[args.scene] if not args.no_outfit else (
         "Keep image 1's wide low-angle camera from near the canyon floor, broad pale sandstone canyon, visible spaced canyon walls, full-body airborne split leap, and clear ground around the dancer. Depict image 2's exact same woman, outfit, bag and strap in that composition. Korean webtoon watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic."
@@ -160,9 +193,24 @@ def main() -> None:
     if args.character_first:
         inputs = (subject, guide) if args.no_outfit else (subject, guide, OUTFIT)
         prompt = CHARACTER_FIRST_PROMPTS[args.scene]
+        if not args.no_outfit:
+            prompt += f" {COMMON_OUTFIT_PROMPT}"
     if style:
         inputs = (subject, guide, style)
         prompt += f" {COMMON_STYLE_PROMPT}"
+    if outfit_style:
+        inputs = (subject, guide, outfit_style)
+        prompt = f"{CHARACTER_FIRST_PROMPTS[args.scene]} {COMMON_OUTFIT_STYLE_PROMPT}"
+    if repair_source:
+        inputs = (repair_source, repair_outfit, repair_style)
+        prompt = (
+            "Use image 1 as the locked base image. Preserve its exact low-angle canyon composition, airborne split pose, "
+            "camera, background, face, hair, and all unmentioned pixels. Modify only the existing character's clothing and accessories. "
+            "Use image 2 as the exact complete outfit reference: white cropped jacket over a gray inner top, visibly wide-leg petrol-teal trousers "
+            "through both legs, white low-top sneakers, navy crossbody bag, and the bag strap outside the jacket. "
+            "Use image 3 only for off-white paper, sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, "
+            "and translucent edges. Never photorealistic; do not add objects or alter the canyon."
+        )
     result = pipeline()(
         image=[load_image(str(path)).convert("RGB") for path in inputs],
         prompt=prompt, generator=torch.Generator("cpu").manual_seed(args.seed),
@@ -177,7 +225,7 @@ def main() -> None:
     record = {
         "status": "completed", "experiment_id": f"p7-5-4-qwen-scene-{args.scene}-{route}",
         "scene": args.scene.upper(), "model": "Qwen-Image-Edit-2509 with Nunchaku FP4 r128",
-        "runtime": runtime_record(), "inputs": {"structure_reference": asset_record(guide), "subject": asset_record(subject), "identity_contract": asset_record(IDENTITY_CONTRACT), "outfit": asset_record(OUTFIT) if not args.no_outfit else None, "style_reference": asset_record(style) if style else None},
+        "runtime": runtime_record(), "inputs": {"structure_reference": asset_record(guide), "subject": asset_record(subject), "identity_contract": asset_record(IDENTITY_CONTRACT), "outfit": asset_record(OUTFIT) if not args.no_outfit else None, "style_reference": asset_record(style) if style else None, "outfit_style_reference": asset_record(outfit_style) if outfit_style else None, "repair_source": asset_record(repair_source) if repair_source else None, "repair_outfit_reference": asset_record(repair_outfit) if repair_source else None, "repair_style_reference": asset_record(repair_style) if repair_style else None},
         "structure_source": structure_source,
         "seed": args.seed, "steps": args.steps, "height": args.height, "width": args.width,
         "true_cfg_scale": 4.0, "guidance_scale": 1.0,

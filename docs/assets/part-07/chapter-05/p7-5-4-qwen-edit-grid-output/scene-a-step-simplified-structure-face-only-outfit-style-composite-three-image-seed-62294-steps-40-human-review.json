@@ -1,0 +1,18 @@
+{
+  "status": "human_review_pending",
+  "experiment_id": "p7-5-4-qwen-scene-a-step-simplified-structure-face-only-outfit-style-composite-three-image",
+  "scene": "A",
+  "seed": 62294,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-edit-grid-output/scene-a-step-simplified-structure-face-only-outfit-style-composite-three-image-seed-62294-steps-40.png",
+    "sha256": "1999af93c21d5323605dab6968d170f155c05dfca9fdd5d568ed860f7321afa9"
+  },
+  "contracts": {
+    "structure": "pending",
+    "identity": "pending",
+    "outfit": "pending",
+    "style": "pending"
+  },
+  "failure_observations": [],
+  "decision": "Do not promote before human review."
+}

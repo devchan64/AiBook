@@ -1,0 +1,55 @@
+{
+  "status": "completed",
+  "experiment_id": "p7-5-4-qwen-scene-a-high-angle-equivalent-semantic-guide-face-outfit-three-image",
+  "scene": "A",
+  "model": "Qwen-Image-Edit-2509 with Nunchaku FP4 r128",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "inputs": {
+    "structure_reference": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-scene-a-depth-derived-semantic-guide.png",
+      "sha256": "d8beaf518b9d3c50a297aeb18b5eb49281c0580edc85a020a6d3f9f162e788b8"
+    },
+    "subject": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-reference.png",
+      "sha256": "3f336829ab7f45cd88eaca6216cfe83fa8fe2f38025a46ceb732c9589ffb755f"
+    },
+    "identity_contract": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json",
+      "sha256": "79392656204b07bc958c76d956a365627614be1ea7cee532ab85196ea5d1b283"
+    },
+    "outfit": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference.png",
+      "sha256": "54cd160848b4edb04771c4245e95fc0129e4a3025074ba27257cfd99d0bb28d3"
+    },
+    "style_reference": null,
+    "outfit_style_reference": null,
+    "repair_source": null,
+    "repair_outfit_reference": null,
+    "repair_style_reference": null
+  },
+  "structure_source": "explicit-guide",
+  "seed": 62294,
+  "steps": 40,
+  "height": 1024,
+  "width": 1024,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": " ",
+  "prompt": "Keep image 1's wide low-angle camera from near the canyon floor, broad pale sandstone canyon, visible spaced canyon walls, full-body airborne split leap, and clear ground around the dancer. Depict image 2's woman with her petrol-teal jaw-length bob and both amber irises in that composition. Use image 3 only as the exact outfit reference: white cropped jacket, wide-leg petrol-teal trousers, white low-top sneakers, navy crossbody bag, and the bag strap outside the jacket. Korean webtoon watercolor on off-white paper, sparse charcoal contours, transparent wet-on-wet washes, pigment pooling, granulation, and translucent edges; never photorealistic.",
+  "prompt_word_count": 93,
+  "output": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-4-qwen-edit-grid-output/scene-a-high-angle-equivalent-semantic-guide-face-outfit-three-image-seed-62294-steps-40.png",
+  "output_sha256": "7d1a4629f3a2ced8af66310698132b780da5fc119007b1e535e45e80bd461b8c",
+  "elapsed_seconds": 1021.02
+}
