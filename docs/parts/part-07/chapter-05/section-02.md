@@ -191,6 +191,12 @@ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 
 정면·좌우 전면 쿼터·좌우 측면·후면의 여섯 PNG는 기본 전신 기준입니다. 승인 범위는 자연스러운 신체비율, 전신 프레이밍, 회색 크롭탑·바지·신발, 청록 단발의 연속성입니다. 자켓과 가방을 더한 리파인 결과는 이 기본 기준과 별도의 승인 자산입니다. 정면 앵커에서 나머지 다섯 방향을 파생하더라도 성인 체형 prompt가 실제 비례를 보장하지는 않으므로, 방향별 결과는 반드시 사람 검수를 거칩니다. 표정·동작·카메라 변화가 있는 장면은 이 기준의 승인 범위 밖입니다.
 
+Qwen 전환에서는 승인된 Qwen 정면 얼굴 하나만 identity 입력으로 사용해, 자켓과 가방을 착용한 전신 정면을 별도 승인했습니다. 이 기준은 전신 프레이밍·흰 크롭 재킷·회색 이너 탑·와이드 팬츠·운동화·크로스백의 동시 재현을 대조하는 용도이며, 기존 방향 전신 앵커나 다른 방향의 자동 승인을 뜻하지 않습니다.
+
+| Qwen 전신 정면·자켓·가방 기준 | 검수 기록 |
+| --- | --- |
+| ![승인된 Qwen 전신 정면 자켓·가방 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-review.json" data-language="json">review.json</a> |
+
 | 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
 | --- | --- | --- |
 | ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 좌측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-reference.png) | ![승인된 우측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-reference.png) |

@@ -75,6 +75,22 @@ TARGETS = {
             "studio background; complete limbs, no text, labels, panel, collage, or extra person."
         ),
     },
+    "fullbody_front_jacket_bag": {
+        "inputs": (QWEN_FACE_REFERENCE,),
+        "size": (960, 1440),
+        "prompt": (
+            "Use image 1 only as the exact character face and hair identity reference. Create a clean strict full-body "
+            "front studio character reference of the same adult woman, standing upright with both arms relaxed at her sides, "
+            "centered and visible continuously from the hair crown to both shoe soles. Preserve the compact oval face, "
+            "orange-amber irises, asymmetric fringe, and high-volume petrol-teal jaw-length bob. Dress her in a closed "
+            "white cropped utility jacket with two chest flap pockets and long cuffed sleeves, over a charcoal-gray "
+            "micro-crop crew-neck inner top with only a narrow gray band visible below the jacket hem and a small bare-midriff gap. "
+            "Wear high-waisted deep-teal wide-leg trousers with a visibly loose straight drape from hip to ankle, never skinny pants; "
+            "white lace-up low-top sneakers with complete soles; and one deep-navy crossbody bag resting at the outer left hip. "
+            "The taut navy strap begins at the wearer's right shoulder, crosses outside the jacket, and connects visibly to the bag. "
+            "Plain warm off-white studio background, full limbs, one person, no text, labels, panel, collage, extra bag, or background scene."
+        ),
+    },
 }
 
 FACE_DIRECTION_RULES = {

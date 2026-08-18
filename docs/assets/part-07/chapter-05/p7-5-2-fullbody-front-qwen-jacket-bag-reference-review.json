@@ -1,0 +1,23 @@
+{
+  "status": "approved",
+  "approval": "human_approved",
+  "view": "front",
+  "output": "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
+  "candidate_source": "p7-5-2-qwen-edit-prompt-style-fullbody_front_jacket_bag-v19-qwen-face-fullbody-jacket-bag-seed-62294-steps-20.png",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "identity_input": "p7-5-2-face-front-qwen-role-separated-reference.png",
+  "input_policy": "Approved Qwen front identity only; no FLUX output was used as an image input.",
+  "seed": 62294,
+  "steps": 20,
+  "image_size": [960, 1440],
+  "approved_scope": [
+    "strict front full-body framing from hair crown to shoe soles",
+    "white cropped utility jacket and gray inner crop top",
+    "deep-teal wide-leg trousers and white low-top sneakers",
+    "navy crossbody bag and visible outer strap"
+  ],
+  "limitations": [
+    "Approval does not automatically approve other views, poses, lighting, or scenes.",
+    "This Qwen front reference is a separate approved asset and does not overwrite the existing legacy front or turnaround anchors."
+  ]
+}
