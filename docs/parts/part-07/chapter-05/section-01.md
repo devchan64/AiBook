@@ -181,7 +181,7 @@ for scene in scenes:
 
 `COMMON_CONTRACT`와 장면별 `prompt`는 하나의 positive prompt로 이어 붙여 전달되고, 빈 문자열이 아닌 공백인 `negative_prompt=" "`를 함께 넘깁니다. 따라서 `no panel` 같은 금지 문구는 원하는 결과를 보장하는 규칙이 아니라 다른 장면 설명과 함께 해석되는 조건입니다. seed는 같은 실행 조건의 출발점을 기록하지만, 다른 GPU·라이브러리·모델 버전에서도 픽셀까지 같은 결과를 보장하지는 않습니다.
 
-## 30스텝으로 생성한 1~15번 행을 승인한다
+## 30스텝으로 생성한 1~20번 행을 승인한다
 
 아트리움 한 행을 1024×1024, seed `420713`, 102단어 prompt로 비교했을 때 4·10·20·30·40·50스텝 후보를 만들었습니다. 20스텝부터 선과 색층의 기본 형태는 읽을 수 있었지만, 30스텝을 이후 후보 생성의 기본값으로 두었습니다. 30스텝 아트리움 후보의 행 생성 시간은 99.8초였고, 전체 실행의 GPU 메모리 peak은 5,467 MiB였습니다. 이 결과는 한 장면·한 해상도에서의 운용 기록이지 모든 장면의 필요 스텝이나 품질 보장은 아닙니다.
 
@@ -253,11 +253,11 @@ for scene in scenes:
 
 사람이 판단하는 것은 이미지의 미적 품질 점수 하나가 아닙니다. 각 원본에서 외곽·선·색·장소·시간·카메라와 **로컬 GPU 생성 기록**을 확인하고, 행별 승인·불합격 이유와 최종 결론을 로컬 검수 ledger에 적습니다. 다음 단계가 실제로 읽는 입력 목록은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 따로 둡니다. 이 분리 덕분에 `왜 승인했는가`와 `무엇을 다음 생성에 넣을 수 있는가`가 섞이지 않습니다.
 
-현재 참조 셋은 `approved_for_downstream_reference`입니다. manifest에는 스무 개의 사람 승인 로컬 GPU 원본이 있으며, 이 중 1~15번 행은 Qwen Image 30스텝 원본으로 교체했습니다. 이 원본들은 배경 화풍 계약의 검수 근거입니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다.
+현재 참조 셋은 `approved_for_downstream_reference`입니다. manifest에는 스무 개의 사람 승인 로컬 GPU 원본이 있으며, 1~20번 행은 Qwen Image 30스텝 원본입니다. 이 원본들은 배경 화풍 계약의 검수 근거입니다. 내장 이미지 생성 원본은 사람 검수를 통과했더라도 P7-5.1의 입력·승인·manifest에서 제외합니다.
 
 ## 승인된 로컬 GPU 원본을 확인한다
 
-Qwen Image 아트리움·courtyard·도심·주택가·독서실·옥상 광장·베니스·공원·열차 승강장·gallery 30스텝 원본과 세라믹 스튜디오·greenhouse·hillside alley·ferry deck·cinema foyer·market arcade·riverside terrace·underpass·harbor terrace·높은 로비 도서관 local-gpu-v1은 사람 승인 원본입니다. 아래 스무 원본은 manifest에 기록돼 있습니다.
+Qwen Image 30스텝으로 생성한 아트리움·courtyard·도심·주택가·독서실·옥상 광장·베니스·공원·열차 승강장·gallery·세라믹 스튜디오·greenhouse·hillside alley·ferry deck·cinema foyer·market arcade·riverside terrace·underpass·harbor terrace·높은 로비 도서관은 사람 승인 원본입니다. 아래 스무 원본은 manifest에 기록돼 있습니다.
 
 | 필수 행 1 · 실내 아트리움 · 새벽 · high angle · Qwen Image 30 step | 보조 행 1 · courtyard · 이른 아침 · high angle · Qwen Image 30 step | 필수 행 2 · 창가 독서실 · 밤 · oblique · Qwen Image 30 step | 필수 행 3 · 도심 · 낮 · wide eye-level · Qwen Image 30 step |
 | --- | --- | --- | --- |
@@ -267,17 +267,17 @@ Qwen Image 아트리움·courtyard·도심·주택가·독서실·옥상 광장�
 | --- | --- | --- | --- |
 | ![해질녘 주택가를 낮은 시점에서 올려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-residential-sunset-low-angle-qwen-image-qwen30-v3-scene04-code-a895b0-seed-420704-steps-30.png) | ![우천 야간의 옥상 광장을 위에서 내려다본 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-rooftop-rainy-night-overhead-qwen-image-qwen30-v3-scene06-code-7f2220-seed-420706-steps-30.png) | ![해질녘 베니스 운하를 사선으로 본 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-venice-sunset-oblique-local-gpu-v1.png) | ![맑은 낮 공원 연못의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-park-clear-day-eye-level-local-gpu-v1.png) |
 
-| 보조 행 4 · 열차 승강장 · 우천 야간 · oblique · local GPU v1 | 보조 행 5 · 세라믹 스튜디오 · 오후 · oblique · local GPU v1 | 보조 행 6 · gallery · 낮 · oblique · local GPU v1 | 보조 행 7 · greenhouse · blue hour · eye-level · local GPU v1 |
+| 보조 행 4 · 열차 승강장 · 우천 야간 · oblique · local GPU v1 | 보조 행 5 · 세라믹 스튜디오 · 오후 · oblique · Qwen Image 30 step | 보조 행 6 · gallery · 낮 · oblique · local GPU v1 | 보조 행 7 · greenhouse · blue hour · eye-level · Qwen Image 30 step |
 | --- | --- | --- | --- |
-| ![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png) | ![오후 창빛이 들어오는 세라믹 스튜디오의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ceramics-studio-afternoon-local-gpu-v1.png) | ![맑은 낮 gallery의 사선 실내 평면을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-gallery-midday-oblique-local-gpu-v1.png) | ![blue hour greenhouse의 유리와 식물 색층을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-greenhouse-blue-hour-local-gpu-v1.png) |
+| ![우천 야간 열차 승강장의 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-train-platform-rainy-night-oblique-local-gpu-v1.png) | ![오후 창빛이 들어오는 세라믹 스튜디오의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ceramics-studio-afternoon-qwen-image-qwen30-v3-scene20-code-c1b8a5-seed-420820-steps-30.png) | ![맑은 낮 gallery의 사선 실내 평면을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-gallery-midday-oblique-local-gpu-v1.png) | ![blue hour greenhouse의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-greenhouse-blue-hour-qwen-image-qwen30-v3-scene17-code-d58c43-seed-420817-steps-30.png) |
 
-| 보조 행 8 · hillside alley · 오후 · eye-level · local GPU v1 | 보조 행 9 · ferry deck · 아침 · oblique · local GPU v1 | 보조 행 10 · cinema foyer · 밤 · oblique · local GPU v1 | 보조 행 11 · market arcade · 흐림 · oblique · local GPU v1 |
+| 보조 행 8 · hillside alley · 오후 · eye-level · local GPU v1 | 보조 행 9 · ferry deck · 아침 · oblique · Qwen Image 30 step | 보조 행 10 · cinema foyer · 밤 · oblique · Qwen Image 30 step | 보조 행 11 · market arcade · 흐림 · oblique · local GPU v1 |
 | --- | --- | --- | --- |
-| ![오후 hillside alley의 경사와 식생을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-hillside-alley-late-afternoon-local-gpu-v1.png) | ![아침 ferry deck의 개방 수면을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ferry-deck-morning-local-gpu-v1.png) | ![밤 cinema foyer의 바닥 반사를 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-cinema-foyer-night-local-gpu-v1.png) | ![흐린 market arcade의 반복 지붕을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-market-arcade-overcast-local-gpu-v1.png) |
+| ![오후 hillside alley의 경사와 식생을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-hillside-alley-late-afternoon-local-gpu-v1.png) | ![아침 ferry deck의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ferry-deck-morning-qwen-image-qwen30-v3-scene18-code-757f71-seed-420818-steps-30.png) | ![밤 cinema foyer의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-cinema-foyer-night-qwen-image-qwen30-v3-scene19-code-42de24-seed-420819-steps-30.png) | ![흐린 market arcade의 반복 지붕을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-market-arcade-overcast-local-gpu-v1.png) |
 
-| 보조 행 12 · riverside terrace · 밤 · oblique · local GPU v1 | 보조 행 13 · underpass · 우천 twilight · oblique · local GPU v1 | 보조 행 14 · harbor terrace · 해돋이 · high oblique · local GPU v1 | 보조 행 15 · 높은 로비 도서관 · 낮 · high oblique · local GPU v1 |
+| 보조 행 12 · riverside terrace · 밤 · oblique · Qwen Image 30 step | 보조 행 13 · underpass · 우천 twilight · oblique · local GPU v1 | 보조 행 14 · harbor terrace · 해돋이 · high oblique · local GPU v1 | 보조 행 15 · 높은 로비 도서관 · 낮 · high oblique · local GPU v1 |
 | --- | --- | --- | --- |
-| ![밤 riverside terrace의 물과 조명 반사를 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-riverside-terrace-night-local-gpu-v1.png) | ![우천 twilight underpass의 젖은 바닥을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-underpass-rainy-twilight-local-gpu-v1.png) | ![해돋이 harbor terrace의 수면과 방파제를 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-harbor-plaza-sunrise-high-local-gpu-v1.png) | ![높은 로비 도서관의 벽면 책장과 창 반사광을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-library-tall-lobby-local-gpu-v1.png) |
+| ![밤 riverside terrace의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-riverside-terrace-night-qwen-image-qwen30-v3-scene16-code-d330ab-seed-420816-steps-30.png) | ![우천 twilight underpass의 젖은 바닥을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-underpass-rainy-twilight-local-gpu-v1.png) | ![해돋이 harbor terrace의 수면과 방파제를 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-harbor-plaza-sunrise-high-local-gpu-v1.png) | ![높은 로비 도서관의 벽면 책장과 창 반사광을 담은 local GPU 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-library-tall-lobby-local-gpu-v1.png) |
 
 스무 장면은 모두 사람 승인을 받았습니다. 이름과 역할은 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 실행 이력은 커밋하지 않는 로컬 검수 기록으로 분리합니다.
 

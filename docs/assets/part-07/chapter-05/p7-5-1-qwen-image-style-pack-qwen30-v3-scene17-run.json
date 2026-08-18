@@ -1,0 +1,30 @@
+{
+  "status": "approved_for_downstream_reference",
+  "model_id": "Qwen/Qwen-Image",
+  "transformer_id": "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": "local GPU via Diffusers QwenImagePipeline with Nunchaku FP4 r128 sequential CPU offload",
+  "size": [
+    1024,
+    1024
+  ],
+  "steps": 30,
+  "true_cfg_scale": 4.0,
+  "elapsed_seconds": 110.3,
+  "gpu_memory_before_mib": 743,
+  "gpu_memory_peak_mib": 5996,
+  "requested_scene": "greenhouse-blue-hour",
+  "include_existing": true,
+  "excluded_scenes": [],
+  "runs": [
+    {
+      "id": "greenhouse-blue-hour",
+      "seed": 420817,
+      "prompt": "Vertical empty greenhouse conservatory at blue hour, quiet eye-level diagonal. Glass roof ribs, damp stone path, leafy plants, benches, and a distant glass door cross the edges. Pale-blue exterior light, blue-teal glass shadow, leaf green, cool off-white highlights, and tiny warm glints; avoid people, labels, signs, animals, and a centered aisle. Empty edge-to-edge Korean webtoon background; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, medium-chroma color. No frame, text, logos, people, animals, vehicles, neon, photorealism, hatching, or screentone.",
+      "prompt_word_count": 81,
+      "asset": "p7-5-1-style-greenhouse-blue-hour-qwen-image-qwen30-v3-scene17-code-d58c43-seed-420817-steps-30.png",
+      "elapsed_seconds": 96.3,
+      "status": "approved"
+    }
+  ],
+  "run_record": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-qwen-image-style-pack-qwen30-v3-scene17-run.json"
+}
