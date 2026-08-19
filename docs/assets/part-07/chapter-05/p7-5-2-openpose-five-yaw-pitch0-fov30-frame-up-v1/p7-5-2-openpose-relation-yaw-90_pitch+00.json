@@ -1,0 +1,334 @@
+{
+  "grid_position": {
+    "row": 1,
+    "column": 1
+  },
+  "yaw_degrees": -90,
+  "pitch_degrees": 0,
+  "projection": {
+    "type": "perspective",
+    "canvas": [
+      768,
+      1152
+    ],
+    "center_xy": [
+      384.0,
+      150.0
+    ],
+    "pixels_per_unit": 130,
+    "camera_distance": 10.8,
+    "horizontal_fov_degrees": 30.5,
+    "focal_length_px": 1408.496
+  },
+  "body_openpose_18": [
+    {
+      "index": 0,
+      "world_xyz": [
+        0.0,
+        6.48,
+        0.52
+      ],
+      "screen_xy": [
+        384.0,
+        150.0
+      ],
+      "normalized_xy": [
+        0.5,
+        0.130208
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 1,
+      "world_xyz": [
+        0.0,
+        5.8,
+        0.0
+      ],
+      "screen_xy": [
+        451.816,
+        238.683
+      ],
+      "normalized_xy": [
+        0.588303,
+        0.20719
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 2,
+      "world_xyz": [
+        -0.72,
+        5.76,
+        0.0
+      ],
+      "screen_xy": [
+        447.578,
+        238.031
+      ],
+      "normalized_xy": [
+        0.582784,
+        0.206624
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 3,
+      "world_xyz": [
+        -1.0296,
+        4.771,
+        0.03
+      ],
+      "screen_xy": [
+        442.342,
+        353.483
+      ],
+      "normalized_xy": [
+        0.575966,
+        0.306843
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 4,
+      "world_xyz": [
+        -1.0296,
+        3.61,
+        0.05
+      ],
+      "screen_xy": [
+        439.961,
+        491.718
+      ],
+      "normalized_xy": [
+        0.572866,
+        0.426838
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 5,
+      "world_xyz": [
+        0.72,
+        5.76,
+        0.0
+      ],
+      "screen_xy": [
+        456.66,
+        250.607
+      ],
+      "normalized_xy": [
+        0.59461,
+        0.217541
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 6,
+      "world_xyz": [
+        1.0296,
+        4.771,
+        0.03
+      ],
+      "screen_xy": [
+        454.638,
+        396.369
+      ],
+      "normalized_xy": [
+        0.591977,
+        0.34407
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 7,
+      "world_xyz": [
+        1.0296,
+        3.61,
+        0.05
+      ],
+      "screen_xy": [
+        451.755,
+        563.738
+      ],
+      "normalized_xy": [
+        0.588223,
+        0.489356
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 8,
+      "world_xyz": [
+        -0.4176,
+        3.55,
+        0.0
+      ],
+      "screen_xy": [
+        449.292,
+        517.894
+      ],
+      "normalized_xy": [
+        0.585015,
+        0.449561
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 9,
+      "world_xyz": [
+        -0.4608,
+        1.775,
+        0.02
+      ],
+      "screen_xy": [
+        446.54,
+        738.499
+      ],
+      "normalized_xy": [
+        0.581432,
+        0.641058
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 10,
+      "world_xyz": [
+        -0.4608,
+        0.0,
+        0.1
+      ],
+      "screen_xy": [
+        436.533,
+        960.515
+      ],
+      "normalized_xy": [
+        0.568403,
+        0.833781
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 11,
+      "world_xyz": [
+        0.4176,
+        3.55,
+        0.0
+      ],
+      "screen_xy": [
+        454.544,
+        547.489
+      ],
+      "normalized_xy": [
+        0.591854,
+        0.475251
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 12,
+      "world_xyz": [
+        0.4608,
+        1.775,
+        0.02
+      ],
+      "screen_xy": [
+        452.114,
+        790.956
+      ],
+      "normalized_xy": [
+        0.588691,
+        0.686594
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 13,
+      "world_xyz": [
+        0.4608,
+        0.0,
+        0.1
+      ],
+      "screen_xy": [
+        441.216,
+        1032.762
+      ],
+      "normalized_xy": [
+        0.5745,
+        0.896495
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 14,
+      "world_xyz": [
+        -0.1728,
+        6.62,
+        0.48
+      ],
+      "screen_xy": [
+        389.134,
+        132.029
+      ],
+      "normalized_xy": [
+        0.506686,
+        0.114609
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 15,
+      "world_xyz": [
+        0.1728,
+        6.62,
+        0.48
+      ],
+      "screen_xy": [
+        389.301,
+        131.445
+      ],
+      "normalized_xy": [
+        0.506903,
+        0.114101
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 16,
+      "world_xyz": [
+        -0.3816,
+        6.54,
+        0.18
+      ],
+      "screen_xy": [
+        426.828,
+        142.442
+      ],
+      "normalized_xy": [
+        0.555766,
+        0.123648
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 17,
+      "world_xyz": [
+        0.3816,
+        6.54,
+        0.18
+      ],
+      "screen_xy": [
+        429.966,
+        141.888
+      ],
+      "normalized_xy": [
+        0.559851,
+        0.123167
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "face_openpose_70": null,
+  "face_point_groups": {},
+  "png": "p7-5-2-openpose-relation-yaw-90_pitch+00.png"
+}
