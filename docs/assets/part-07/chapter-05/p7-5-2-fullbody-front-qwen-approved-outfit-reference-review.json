@@ -11,5 +11,5 @@
   "input_roles": ["approved_qwen_face_identity", "approved_qwen_outfit_and_bag", "approved_yaw0_body_only_openpose"],
   "approved_scope": ["front full-body framing", "petrol-teal jaw-length bob and amber eyes", "white ultra-short jacket, gray inner top, deep-teal wide-leg trousers, white sneakers, navy crossbody bag"],
   "limitations": ["Approval is limited to the displayed front view.", "Both arms are relaxed at the sides; this does not approve a different pose or view."],
-  "asset_sha256": "13e0d8325f167dbc79d03f6b1668944936c2c1160e19ec429b972a85e5fc4924"
+  "asset_sha256": "b344c1240a92e4242e706e989870ca60431a84d1d74bb722eaf7fedd873f160e"
 }

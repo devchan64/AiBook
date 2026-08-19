@@ -38,7 +38,7 @@ TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen
 BASE_MODEL_ID = "Qwen/Qwen-Image"
 BASE_TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
 OUTPUT_DIR = ASSETS / "p7-5-2-qwen-edit-candidates"
-DEFAULT_STEPS = 20
+DEFAULT_STEPS = 30
 QWEN_FACE_REFERENCE = "p7-5-2-face-front-qwen-role-separated-reference.png"
 OPENPOSE_GUIDES = {
     "face_front_quarter_left": "p7-5-2-openpose-face-quarter-left-declarative-guide.png",
@@ -299,6 +299,26 @@ TARGETS = {
             "Image 1: preserve only the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and high-volume petrol-teal bob. "
             "Image 2: use only as the exact Qwen-generated complete outfit reference; preserve its ultra-short white cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, white low-top sneakers, navy crossbody bag, and one exterior strap. "
             "Image 3 is a body-only OpenPose structural map; do not render it. Create one upright 45-degree left front-quarter full body from hair crown to shoe soles. The nearer image-right hand rests on the waist while its elbow is lifted wide at shoulder height, creating a large triangular arm silhouette; the image-left arm is lowered. Shift weight onto the nearer leg with the far knee and foot relaxed behind. Plain warm off-white background, one person, no text, panel, collage, or scene."
+        ),
+    },
+    "fullbody_quarter_left_approved_front_openpose": {
+        "inputs": (
+            "p7-5-2-fullbody-front-qwen-approved-outfit-reference.png",
+            "p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
+        ),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "input_roles": ["approved_fullbody_identity_outfit", "standard_openpose_fullbody_structure"],
+        "default_steps": 10,
+        "size": (960, 1440),
+        "prompt": (
+            "Image 1 is the exact approved Qwen character, full outfit, bag, and studio reference. Preserve the same young East Asian woman: "
+            "petrol-teal jaw-length bob, orange-amber irises, white ultra-short cropped utility jacket with long cuffed sleeves, gray inner crop top, "
+            "bare-midriff band, deep-teal high-waisted wide-leg trousers, white low-top sneakers, and one navy crossbody bag with its exterior strap. "
+            "Image 2 is a body-only OpenPose structural map; use its pose and 45-degree left-facing orientation but never render its lines, dots, colours, or background. "
+            "Create one upright full-body left front-quarter view from hair crown to shoe soles: the nose, chest, hips, knees, and shoes turn toward image left; "
+            "both eyes remain visible; the nearer image-right cheek, shoulder, arm, hip, and shoe are larger, while the image-left side is compressed behind the torso. "
+            "Keep relaxed arms and a compact natural neck. Plain warm off-white background, one person, no text, panel, collage, or scene."
         ),
     },
     "fullbody_front_quarter_left_qwen": {
@@ -616,7 +636,7 @@ def main() -> None:
         "target": args.target,
         "run_label": args.run_label,
         "inputs": [asset_record(path) for path in inputs],
-        "input_roles": (
+        "input_roles": target.get("input_roles") or (
             []
             if args.target in {"outfit_integrated_front_hip", "outfit_integrated_front_full_length"}
             else

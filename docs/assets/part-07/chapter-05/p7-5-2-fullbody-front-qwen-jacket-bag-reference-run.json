@@ -37,11 +37,11 @@
     "illustration": true
   },
   "target": "outfit_integrated_front_full_length",
-  "run_label": "outfit-only-crop-v6",
+  "run_label": "outfit-only-crop-v7-steps30-illustration-compare",
   "inputs": [],
   "input_roles": [],
   "seed": 62294,
-  "steps": 10,
+  "steps": 30,
   "size": [
     768,
     1152
@@ -53,8 +53,8 @@
   "prompt_word_count": 55,
   "output": {
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-    "sha256": "941df417f528aa64685c5d9555bb7504bfefd09782284c53046ac6c8aef1cb21"
+    "sha256": "f3cfa4ee7e10e91f0e953fe0923e2d584f131b9e07879d5503ff77d90b9161f4"
   },
-  "elapsed_seconds": 70.31,
+  "elapsed_seconds": 121.33,
   "decision": "Human-approved as the P7-5.2 outfit-and-bag reference. It is not a face identity, pose, or scene reference."
 }

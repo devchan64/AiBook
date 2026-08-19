@@ -37,7 +37,7 @@
     "illustration": true
   },
   "target": "fullbody_front_seven_head_qwen_outfit_skeleton",
-  "run_label": "v4-elevated-frame-front-fullbody",
+  "run_label": "v5-approved-outfit-30step-front",
   "inputs": [
     {
       "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png",
@@ -45,7 +45,7 @@
     },
     {
       "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-      "sha256": "941df417f528aa64685c5d9555bb7504bfefd09782284c53046ac6c8aef1cb21"
+      "sha256": "f3cfa4ee7e10e91f0e953fe0923e2d584f131b9e07879d5503ff77d90b9161f4"
     },
     {
       "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
@@ -70,8 +70,8 @@
   "prompt_word_count": 58,
   "output": {
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-approved-outfit-reference.png",
-    "sha256": "13e0d8325f167dbc79d03f6b1668944936c2c1160e19ec429b972a85e5fc4924"
+    "sha256": "b344c1240a92e4242e706e989870ca60431a84d1d74bb722eaf7fedd873f160e"
   },
-  "elapsed_seconds": 944.49,
+  "elapsed_seconds": 952.92,
   "decision": "Human-approved as the P7-5.2 strict-front full-body reference; this approval does not extend to other views, poses, scenes, or cameras."
 }

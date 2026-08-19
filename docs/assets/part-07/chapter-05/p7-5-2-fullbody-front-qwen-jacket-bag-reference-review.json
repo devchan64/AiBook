@@ -6,10 +6,10 @@
   "source_run_record": "p7-5-2-fullbody-front-qwen-jacket-bag-reference-run.json",
   "model": "Qwen/Qwen-Image",
   "seed": 62294,
-  "steps": 10,
+  "steps": 30,
   "image_size": [768, 1152],
   "input_roles": [],
   "approved_scope": ["white ultra-short cropped jacket", "gray crop top and visible midriff", "deep-teal wide-leg trousers", "white sneakers", "navy crossbody bag and one strap"],
   "limitations": ["The generic face, hair, pose, and background are not approved reference conditions.", "Use this asset for outfit and bag only."],
-  "asset_sha256": "941df417f528aa64685c5d9555bb7504bfefd09782284c53046ac6c8aef1cb21"
+  "asset_sha256": "f3cfa4ee7e10e91f0e953fe0923e2d584f131b9e07879d5503ff77d90b9161f4"
 }
