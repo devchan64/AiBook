@@ -3,31 +3,29 @@
   "approval": "human_approved",
   "view": "front",
   "output": "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-  "candidate_source": "p7-5-2-qwen-edit-prompt-style-fullbody_front_jacket_bag-v95-compressed-body-only-openpose-30step-seed-62294-steps-30.png",
-  "source_run_record": "p7-5-2-qwen-edit-candidates/p7-5-2-qwen-edit-prompt-style-fullbody_front_jacket_bag-v95-compressed-body-only-openpose-30step-seed-62294-steps-30-run.json",
-  "comparison_sheet": "p7-5-2-qwen-edit-candidates/p7-5-2-qwen-edit-fullbody-front-step-comparison-v93-v95.png",
-  "step_comparison": {
-    "reviewed_steps": [10, 20, 30],
-    "selected_steps": 30,
-    "unapproved_outputs_removed": [10, 20]
-  },
+  "candidate_source": "p7-5-2-qwen-edit-prompt-style-fullbody_front_seven_head_qwen_outfit_skeleton-v2-qwen-outfit-seven-head-map-seed-62294-steps-30.png",
+  "source_run_record": "p7-5-2-qwen-edit-candidates/p7-5-2-qwen-edit-prompt-style-fullbody_front_seven_head_qwen_outfit_skeleton-v2-qwen-outfit-seven-head-map-seed-62294-steps-30-run.json",
   "model": "Qwen/Qwen-Image-Edit-2509",
-  "identity_input": "p7-5-2-face-front-qwen-role-separated-reference.png (approved Qwen front head)",
-  "retired_outfit_input": "p7-5-2-outfit-integrated-front-full-length-qwen-reference.png (used for v95, then retired from the active reference set)",
-  "structure_input": "p7-5-2-openpose-fullbody-front-body-only-approved-guide.png (approved body-only OpenPose guide)",
-  "input_policy": "At the v95 approval run, approved Qwen front identity, an outfit-only reference, and approved body-only OpenPose structure were separate image inputs; no FLUX output was used as an image input. The outfit-only reference was retired afterward and is not an active input for new candidates.",
   "seed": 62294,
   "steps": 30,
   "image_size": [960, 1440],
+  "input_roles": [
+    "head_identity: p7-5-2-face-front-qwen-role-separated-reference.png",
+    "qwen_complete_outfit: prior approved Qwen front outfit anchor",
+    "standard_openpose_fullbody_structure: 7-head body-only yaw+00/pitch+00 map"
+  ],
+  "input_policy": "No FLUX output is an image input. The Qwen outfit anchor, Qwen head identity, and deterministic body-only OpenPose map are separate inputs.",
   "approved_scope": [
-    "strict front full-body framing from hair crown to shoe soles",
-    "ultra-short white cropped utility jacket with sleeves worn down to the wrists, gray micro-crop top, and visible midriff gap",
-    "deep-teal wide-leg trousers and white low-top sneakers",
-    "navy crossbody bag and visible outer strap"
+    "strict front full-body framing from hair crown to shoe soles at the seven-head structural baseline",
+    "petrol-teal jaw-length bob and orange-amber irises",
+    "ultra-short white cropped utility jacket with long cuffed sleeves, gray micro-crop top, and a visible bare-midriff gap",
+    "deep-teal high-waisted wide-leg trousers and white low-top sneakers",
+    "navy crossbody bag and one visible exterior strap from right shoulder to left hip"
   ],
   "limitations": [
-    "Approval does not automatically approve other views, poses, lighting, or scenes.",
-    "This Qwen front reference is a separate approved asset and does not overwrite the existing legacy front or turnaround anchors.",
-    "Approval selected the 30-step result from a fixed 10/20/30-step comparison with seed 62294, 960x1440 output, the same three inputs, and the same 105-word combined prompt."
-  ]
+    "Approval applies only to the strict-front full-body reference, not other directions, poses, lighting, or scenes.",
+    "The selected result is an illustration candidate; watercolor intensity is not separately approved by this record.",
+    "The outfit anchor is Qwen-generated and is not a FLUX reference."
+  ],
+  "asset_sha256": "09ce91eaae177b375d8319929cd4305c8b0a4f28b1b47c84466be6dfb639e73d"
 }
