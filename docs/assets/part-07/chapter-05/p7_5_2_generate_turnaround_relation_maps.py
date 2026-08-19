@@ -40,6 +40,15 @@ DEFAULT_REFERENCE = ASSETS / "upscale_image_01.png"
 DEFAULT_OUTPUT = ASSETS / "p7-5-2-openpose-turnaround-relations-v2-seven-heads"
 WIDTH, HEIGHT = 768, 1152
 CENTER_X, CENTER_Y, SCALE = WIDTH / 2, 1040, 130
+# The former perspective mapping had an effective horizontal FOV of about
+# 45.8° (SCALE * default camera distance = 910 px focal length).  Use two
+# thirds of that angle to make the perspective view deliberately narrower
+# while keeping the setting explicit and reproducible.
+DEFAULT_PERSPECTIVE_HORIZONTAL_FOV_DEGREES = 30.5
+# Keep the seven-head full body framed at the former nominal size after
+# narrowing the FOV. This is intentionally independent of the FOV constant,
+# so experiments can separately change camera distance (perspective strength).
+DEFAULT_PERSPECTIVE_CAMERA_DISTANCE = 10.8
 YAWS = (-90, -45, 0, 45, 90)
 # Positive pitch is a raised chin / camera looking upward; negative is down.
 PITCHES = (55, 27, 0, -27, -55)
@@ -89,12 +98,22 @@ def rotate(point: tuple[float, float, float], yaw: float, pitch: float, pivot: t
     return x + pivot[0], y + pivot[1], z + pivot[2]
 
 
-def project(point: tuple[float, float, float], yaw: float, pitch: float, projection: str, camera_distance: float, pivot: tuple[float, float, float]) -> tuple[float, float]:
+def focal_length_for_horizontal_fov(horizontal_fov_degrees: float) -> float:
+    """Return the pixel focal length implied by the output canvas and HFOV."""
+    return WIDTH / (2.0 * math.tan(math.radians(horizontal_fov_degrees) / 2.0))
+
+
+def project(point: tuple[float, float, float], yaw: float, pitch: float, projection: str, camera_distance: float, horizontal_fov_degrees: float, pivot: tuple[float, float, float]) -> tuple[float, float]:
     x, y, z = rotate(point, yaw, pitch, pivot)
     # For perspective runs, the face remains the camera reference point so the
     # body foreshortens relative to the head rather than relative to the ground.
-    factor = 1.0 if projection == "orthographic" else camera_distance / (camera_distance - (z - pivot[2]))
-    return CENTER_X + SCALE * factor * (x - pivot[0]), 250 - SCALE * factor * (y - pivot[1])
+    if projection == "orthographic":
+        focal_length = SCALE
+        depth = 1.0
+    else:
+        focal_length = focal_length_for_horizontal_fov(horizontal_fov_degrees)
+        depth = camera_distance - (z - pivot[2])
+    return CENTER_X + focal_length * (x - pivot[0]) / depth, 250 - focal_length * (y - pivot[1]) / depth
 
 
 def proportion_geometry(proportions: dict[str, float]) -> dict[str, float]:
@@ -249,10 +268,10 @@ def as_keypoint(renderer, xy: tuple[float, float]):
     return renderer.Keypoint(x=x / WIDTH, y=y / HEIGHT, score=1.0)
 
 
-def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch: float, projection: str, camera_distance: float, pivot: tuple[float, float, float]) -> list[dict[str, object]]:
+def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch: float, projection: str, camera_distance: float, horizontal_fov_degrees: float, pivot: tuple[float, float, float]) -> list[dict[str, object]]:
     rows = []
     for index, world in enumerate(points):
-        x, y = project(world, yaw, pitch, projection, camera_distance, pivot)
+        x, y = project(world, yaw, pitch, projection, camera_distance, horizontal_fov_degrees, pivot)
         rows.append({
             "index": index,
             "world_xyz": [round(value, 5) for value in world],
@@ -324,7 +343,13 @@ def main() -> None:
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "asymmetric-lowered-arms", "hand-on-hip"), default="neutral")
     parser.add_argument("--projection", choices=("orthographic", "perspective"), default="orthographic")
-    parser.add_argument("--camera-distance", type=float, default=7.0, help="Camera distance in template-head units for perspective projection.")
+    parser.add_argument("--camera-distance", type=float, default=DEFAULT_PERSPECTIVE_CAMERA_DISTANCE, help="Camera distance in template-head units for perspective projection.")
+    parser.add_argument(
+        "--horizontal-fov-degrees",
+        type=float,
+        default=DEFAULT_PERSPECTIVE_HORIZONTAL_FOV_DEGREES,
+        help="Horizontal field of view for perspective projection; default is two thirds of the former effective 45.8° FOV.",
+    )
     args = parser.parse_args()
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     reference = args.reference if args.reference.is_absolute() else ASSETS / args.reference
@@ -339,6 +364,8 @@ def main() -> None:
         raise FileNotFoundError(detection_review)
     if args.camera_distance <= 1.0:
         raise ValueError("--camera-distance must be greater than 1.0")
+    if not 1.0 < args.horizontal_fov_degrees < 179.0:
+        raise ValueError("--horizontal-fov-degrees must be between 1 and 179")
     if args.output_range == "all":
         yaws, pitches = list(YAWS), list(PITCHES)
     elif args.output_range == "pitch0":
@@ -362,8 +389,8 @@ def main() -> None:
     previews: list[tuple[str, Image.Image]] = []
     for row, pitch in enumerate(pitches, start=1):
         for column, yaw in enumerate(yaws, start=1):
-            body = serialise_points(body_world, yaw, pitch, args.projection, args.camera_distance, face_pivot)
-            face = serialise_points(face_world, yaw, pitch, args.projection, args.camera_distance, face_pivot) if args.include_face else None
+            body = serialise_points(body_world, yaw, pitch, args.projection, args.camera_distance, args.horizontal_fov_degrees, face_pivot)
+            face = serialise_points(face_world, yaw, pitch, args.projection, args.camera_distance, args.horizontal_fov_degrees, face_pivot) if args.include_face else None
             label = f"yaw{yaw:+03d}_pitch{pitch:+03d}"
             png_name = f"p7-5-2-openpose-relation-{label}.png"
             json_name = f"p7-5-2-openpose-relation-{label}.json"
@@ -373,7 +400,7 @@ def main() -> None:
                 "grid_position": {"row": row, "column": column},
                 "yaw_degrees": yaw,
                 "pitch_degrees": pitch,
-                "projection": {"type": args.projection, "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, CENTER_Y], "pixels_per_unit": SCALE, "camera_distance": args.camera_distance if args.projection == "perspective" else None},
+                "projection": {"type": args.projection, "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, CENTER_Y], "pixels_per_unit": SCALE, "camera_distance": args.camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
                 "body_openpose_18": body,
                 "face_openpose_70": face,
                 "face_point_groups": face_groups if args.include_face else {},
@@ -397,7 +424,7 @@ def main() -> None:
                     else None
                 ),
                 "method": f"One normalized 3D structural template was yaw/pitch rotated and {args.projection} projected; no landmark detector was used for the generated coordinates.",
-                "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "projection": args.projection, "camera_distance": args.camera_distance if args.projection == "perspective" else None},
+                "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "projection": args.projection, "camera_distance": args.camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
                 "human_proportion_profile": {"name": args.proportion_profile, "values": proportions},
                 "body_pose": args.body_pose,
                 "view_grid": {"columns": yaws, "rows": pitches, "meaning": "columns=yaw degrees, rows=pitch degrees"},

@@ -161,6 +161,21 @@ Flux로 만든 착장 통합 기준은 폐기했습니다. 현재 정면 전신 
 
 현재 Qwen 정면 전신·자켓·가방 기준은 7등신 body-only skeleton을 적용한 30 step 후보입니다. 정면 Qwen 얼굴·기존 승인 Qwen 전신의 복장·결정론적 body-only OpenPose를 세 입력으로 나누고, 흰 크롭 재킷·회색 이너 탑·피부 띠·하이웨이스트 와이드 팬츠·운동화·크로스백을 함께 대조했습니다. 승인 범위는 정면 전신·착장·가방 재현에 한정하며, 방향 전신 앵커나 다른 방향의 자동 승인을 뜻하지 않습니다.
 
+### 승인된 피치 0 5방향 body-only OpenPose
+
+전신 방향 실험에는 같은 7등신 좌표 템플릿을 `yaw −90°`, `−45°`, `0°`, `+45°`, `+90°`로 회전한 다섯 body-only OpenPose 맵을 사용합니다. 모두 피치 0°이며, 한 손은 허리에 두고 다른 팔은 내린 비대칭 서기 구조를 공통으로 유지합니다. 수평 FOV는 `30.5°`, 카메라 거리는 `10.8` 템플릿 head 단위로 고정해 전신 프레이밍을 유지했습니다. 이 FOV는 구조 맵의 원근 관계만 정하며 캐릭터의 머리·얼굴·착장·가방을 정의하거나 승인하지 않습니다.
+
+| 승인된 피치 0 5방향 body-only OpenPose |
+| --- |
+| ![승인된 피치 0 5방향 body-only OpenPose contact sheet](../../../assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-contact-sheet.png) |
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/turnaround-relation-maps.json" data-language="json">5방향 좌표·투영 manifest</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw-90_pitch+00-review.json" data-language="json">좌측 측면 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw-45_pitch+00-review.json" data-language="json">좌측 쿼터 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+00_pitch+00-review.json" data-language="json">정면 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+45_pitch+00-review.json" data-language="json">우측 쿼터 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+90_pitch+00-review.json" data-language="json">우측 측면 review.json</a></p>
+
+<details id="five-yaw-openpose-relations" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_turnaround_relation_maps.py" data-language="python">
+<summary>5방향 body-only OpenPose 관계 맵을 만드는 코드 보기</summary>
+<div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
 | Qwen 전신 정면·자켓·가방 기준 | 검수 기록 |
 | --- | --- |
 | ![승인된 Qwen 전신 정면 자켓·가방 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-review.json" data-language="json">review.json</a> |

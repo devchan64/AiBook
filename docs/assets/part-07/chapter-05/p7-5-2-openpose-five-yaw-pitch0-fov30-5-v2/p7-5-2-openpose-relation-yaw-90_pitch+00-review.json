@@ -1,0 +1,11 @@
+{
+  "status": "approved",
+  "approval": "human_approved",
+  "output": "p7-5-2-openpose-relation-yaw-90_pitch+00.png",
+  "view": "profile_left",
+  "generator": "p7_5_2_generate_turnaround_relation_maps.py",
+  "structural_scope": "deterministic seven-head body-only OpenPose relation map at yaw -90 degrees, pitch 0 degrees, and 30.5-degree horizontal FOV",
+  "approved_scope": ["left-facing body direction", "seven-head full-body ratio", "hand-on-hip asymmetric standing structure", "body-only structure"],
+  "limitations": ["This map contains no character identity, hair, clothing, bag, lighting, or background approval.", "It is a structural input only and must not be rendered into the output image."],
+  "asset_sha256": "b35dc938e52c8719b1546452d25bb957b746b07315c0ddc9f02e3e9c571811ff"
+}
