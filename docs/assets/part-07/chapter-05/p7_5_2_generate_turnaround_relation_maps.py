@@ -3,8 +3,9 @@
 
 This is deliberately not an OpenPose detector.  It defines one normalized
 3D face/body template, rotates it through the 5 x 5 yaw/pitch grid visible in
-the saved head-turnaround reference, and orthographically projects the same
-template into every output.  The PNGs use controlnet_aux's standard OpenPose
+the saved head-turnaround reference, and projects the same template into every
+output.  The optional perspective mode preserves near/far limb foreshortening.
+The PNGs use controlnet_aux's standard OpenPose
 renderer; the JSON keeps both world and screen coordinates for ratio editing.
 
 The template is a structural guide only.  It does not encode P7-5.2 identity,
@@ -78,19 +79,22 @@ def openpose_module():
     return module.openpose_module()
 
 
-def rotate(point: tuple[float, float, float], yaw: float, pitch: float) -> tuple[float, float, float]:
-    """Rotate template coordinates around the neck origin (y up, z toward camera)."""
-    x, y, z = point
+def rotate(point: tuple[float, float, float], yaw: float, pitch: float, pivot: tuple[float, float, float]) -> tuple[float, float, float]:
+    """Rotate around a supplied structural pivot (y up, z toward camera)."""
+    x, y, z = (point[0] - pivot[0], point[1] - pivot[1], point[2] - pivot[2])
     yaw_r = math.radians(yaw)
     pitch_r = math.radians(pitch)
     x, z = x * math.cos(yaw_r) + z * math.sin(yaw_r), -x * math.sin(yaw_r) + z * math.cos(yaw_r)
     y, z = y * math.cos(pitch_r) - z * math.sin(pitch_r), y * math.sin(pitch_r) + z * math.cos(pitch_r)
-    return x, y, z
+    return x + pivot[0], y + pivot[1], z + pivot[2]
 
 
-def project(point: tuple[float, float, float], yaw: float, pitch: float) -> tuple[float, float]:
-    x, y, _ = rotate(point, yaw, pitch)
-    return CENTER_X + SCALE * x, CENTER_Y - SCALE * y
+def project(point: tuple[float, float, float], yaw: float, pitch: float, projection: str, camera_distance: float, pivot: tuple[float, float, float]) -> tuple[float, float]:
+    x, y, z = rotate(point, yaw, pitch, pivot)
+    # For perspective runs, the face remains the camera reference point so the
+    # body foreshortens relative to the head rather than relative to the ground.
+    factor = 1.0 if projection == "orthographic" else camera_distance / (camera_distance - (z - pivot[2]))
+    return CENTER_X + SCALE * factor * (x - pivot[0]), 250 - SCALE * factor * (y - pivot[1])
 
 
 def proportion_geometry(proportions: dict[str, float]) -> dict[str, float]:
@@ -140,6 +144,58 @@ def body_template(proportions: dict[str, float]) -> list[tuple[float, float, flo
         (-0.24 * face_width, geometry["chin_y"] + 0.62 * head, 0.48 * head), (0.24 * face_width, geometry["chin_y"] + 0.62 * head, 0.48 * head),  # eyes
         (-0.53 * face_width, geometry["chin_y"] + 0.54 * head, 0.18 * head), (0.53 * face_width, geometry["chin_y"] + 0.54 * head, 0.18 * head),  # ears
     ]
+
+
+def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proportions: dict[str, float]) -> list[tuple[float, float, float]]:
+    """Apply a deliberately visible pose ablation before view rotation."""
+    if pose == "neutral":
+        return points
+    geometry = proportion_geometry(proportions)
+    head = geometry["head"]
+    posed = list(points)
+    # BODY_18 indices 5, 6, 7 are the image-right arm before camera rotation.
+    shoulder = posed[5]
+    posed[6] = (shoulder[0] + 0.18 * head, geometry["neck_y"] + 0.65 * head, 0.18 * head)
+    posed[7] = (shoulder[0] - 0.05 * head, geometry["neck_y"] + 1.35 * head, 0.32 * head)
+    if pose == "raised-arm":
+        return posed
+    if pose not in {"asymmetric-lowered-arms", "hand-on-hip"}:
+        raise ValueError(f"Unsupported body pose: {pose}")
+
+    # Preserve the source upper-/lower-arm bone lengths while changing only
+    # their 3D directions. Both wrists remain below their shoulders.
+    posed = list(points)
+    def distance(a, b):
+        return math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(3)))
+    def endpoint(start, direction, length):
+        norm = math.sqrt(sum(value * value for value in direction))
+        return tuple(start[i] + length * direction[i] / norm for i in range(3))
+    right_upper, right_lower = distance(points[2], points[3]), distance(points[3], points[4])
+    left_upper, left_lower = distance(points[5], points[6]), distance(points[6], points[7])
+    # Camera-left arm: relaxed, slightly behind the torso.
+    posed[3] = endpoint(points[2], (-0.18, -1.0, -0.18), right_upper)
+    posed[4] = endpoint(posed[3], (0.08, -1.0, -0.10), right_lower)
+    if pose == "hand-on-hip":
+        # Camera-right hand finishes at the waist; the angled elbow makes this
+        # a readable hand-on-hip pose without changing either bone length.
+        posed[6] = endpoint(points[5], (1.15, -0.18, 0.30), left_upper)
+        posed[7] = endpoint(posed[6], (-0.62, -0.78, 0.12), left_lower)
+    else:
+        # Camera-right arm: still lowered, but elbow and wrist advance toward camera.
+        posed[6] = endpoint(points[5], (0.22, -1.0, 0.42), left_upper)
+        posed[7] = endpoint(posed[6], (-0.12, -1.0, 0.35), left_lower)
+
+    # Shift weight onto the camera-left leg.  The supporting leg stays nearly
+    # vertical; the other knee relaxes inward and its foot steps slightly out.
+    right_upper_leg, right_lower_leg = distance(points[8], points[9]), distance(points[9], points[10])
+    left_upper_leg, left_lower_leg = distance(points[11], points[12]), distance(points[12], points[13])
+    posed[8] = (points[8][0] - 0.08 * head, points[8][1], points[8][2])
+    posed[11] = (points[11][0] - 0.08 * head, points[11][1] - 0.06 * head, points[11][2])
+    posed[9] = endpoint(posed[8], (-0.03, -1.0, -0.04), right_upper_leg)
+    posed[10] = endpoint(posed[9], (0.02, -1.0, 0.01), right_lower_leg)
+    posed[12] = endpoint(posed[11], (0.22, -0.96, 0.12), left_upper_leg)
+    posed[13] = endpoint(posed[12], (0.20, -0.98, 0.08), left_lower_leg)
+    return posed
 
 
 def arc(cx: float, cy: float, rx: float, ry: float, start: float, end: float, count: int, z: float) -> list[tuple[float, float, float]]:
@@ -193,10 +249,10 @@ def as_keypoint(renderer, xy: tuple[float, float]):
     return renderer.Keypoint(x=x / WIDTH, y=y / HEIGHT, score=1.0)
 
 
-def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch: float) -> list[dict[str, object]]:
+def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch: float, projection: str, camera_distance: float, pivot: tuple[float, float, float]) -> list[dict[str, object]]:
     rows = []
     for index, world in enumerate(points):
-        x, y = project(world, yaw, pitch)
+        x, y = project(world, yaw, pitch, projection, camera_distance, pivot)
         rows.append({
             "index": index,
             "world_xyz": [round(value, 5) for value in world],
@@ -266,6 +322,9 @@ def main() -> None:
         help="Render and write the 70-point face map (use --no-include-face for a body-only guide).",
     )
     parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "asymmetric-lowered-arms", "hand-on-hip"), default="neutral")
+    parser.add_argument("--projection", choices=("orthographic", "perspective"), default="orthographic")
+    parser.add_argument("--camera-distance", type=float, default=7.0, help="Camera distance in template-head units for perspective projection.")
     args = parser.parse_args()
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     reference = args.reference if args.reference.is_absolute() else ASSETS / args.reference
@@ -278,6 +337,8 @@ def main() -> None:
         raise FileNotFoundError(reference)
     if detection_review is not None and not detection_review.is_file():
         raise FileNotFoundError(detection_review)
+    if args.camera_distance <= 1.0:
+        raise ValueError("--camera-distance must be greater than 1.0")
     if args.output_range == "all":
         yaws, pitches = list(YAWS), list(PITCHES)
     elif args.output_range == "pitch0":
@@ -293,14 +354,16 @@ def main() -> None:
 
     renderer = openpose_module()
     proportions = HUMAN_PROPORTION_PROFILES[args.proportion_profile]
-    body_world = body_template(proportions)
+    body_world = apply_body_pose(body_template(proportions), args.body_pose, proportions)
     face_world, face_groups = face_template(proportions)
+    geometry = proportion_geometry(proportions)
+    face_pivot = (0.0, geometry["chin_y"] + 0.48 * geometry["head"], 0.52 * geometry["head"])
     views: list[dict[str, object]] = []
     previews: list[tuple[str, Image.Image]] = []
     for row, pitch in enumerate(pitches, start=1):
         for column, yaw in enumerate(yaws, start=1):
-            body = serialise_points(body_world, yaw, pitch)
-            face = serialise_points(face_world, yaw, pitch) if args.include_face else None
+            body = serialise_points(body_world, yaw, pitch, args.projection, args.camera_distance, face_pivot)
+            face = serialise_points(face_world, yaw, pitch, args.projection, args.camera_distance, face_pivot) if args.include_face else None
             label = f"yaw{yaw:+03d}_pitch{pitch:+03d}"
             png_name = f"p7-5-2-openpose-relation-{label}.png"
             json_name = f"p7-5-2-openpose-relation-{label}.json"
@@ -310,7 +373,7 @@ def main() -> None:
                 "grid_position": {"row": row, "column": column},
                 "yaw_degrees": yaw,
                 "pitch_degrees": pitch,
-                "projection": {"type": "orthographic", "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, CENTER_Y], "pixels_per_unit": SCALE},
+                "projection": {"type": args.projection, "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, CENTER_Y], "pixels_per_unit": SCALE, "camera_distance": args.camera_distance if args.projection == "perspective" else None},
                 "body_openpose_18": body,
                 "face_openpose_70": face,
                 "face_point_groups": face_groups if args.include_face else {},
@@ -333,9 +396,10 @@ def main() -> None:
                     if detection_review is not None
                     else None
                 ),
-                "method": "One normalized 3D structural template was yaw/pitch rotated and orthographically projected; no landmark detector was used for the generated coordinates.",
-                "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "projection": "orthographic"},
+                "method": f"One normalized 3D structural template was yaw/pitch rotated and {args.projection} projected; no landmark detector was used for the generated coordinates.",
+                "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "projection": args.projection, "camera_distance": args.camera_distance if args.projection == "perspective" else None},
                 "human_proportion_profile": {"name": args.proportion_profile, "values": proportions},
+                "body_pose": args.body_pose,
                 "view_grid": {"columns": yaws, "rows": pitches, "meaning": "columns=yaw degrees, rows=pitch degrees"},
                 "output_range": args.output_range or "custom",
                 "openpose": {"body": "BODY_18", "face_included": args.include_face, "face": "70 points: 68 contour landmarks plus 2 iris centres" if args.include_face else None, "hands_included": False},
