@@ -1,0 +1,331 @@
+{
+  "grid_position": {
+    "row": 1,
+    "column": 2
+  },
+  "yaw_degrees": -45,
+  "pitch_degrees": 0,
+  "projection": {
+    "type": "orthographic",
+    "canvas": [
+      768,
+      1152
+    ],
+    "center_xy": [
+      384.0,
+      1040
+    ],
+    "pixels_per_unit": 130
+  },
+  "body_openpose_18": [
+    {
+      "index": 0,
+      "world_xyz": [
+        0.0,
+        6.48,
+        0.52
+      ],
+      "screen_xy": [
+        336.2,
+        197.6
+      ],
+      "normalized_xy": [
+        0.43776,
+        0.171528
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 1,
+      "world_xyz": [
+        0.0,
+        5.8,
+        0.0
+      ],
+      "screen_xy": [
+        384.0,
+        286.0
+      ],
+      "normalized_xy": [
+        0.5,
+        0.248264
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 2,
+      "world_xyz": [
+        -0.72,
+        5.76,
+        0.0
+      ],
+      "screen_xy": [
+        317.815,
+        291.2
+      ],
+      "normalized_xy": [
+        0.413821,
+        0.252778
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 3,
+      "world_xyz": [
+        -1.03,
+        4.76,
+        0.03
+      ],
+      "screen_xy": [
+        286.561,
+        421.2
+      ],
+      "normalized_xy": [
+        0.373126,
+        0.365625
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 4,
+      "world_xyz": [
+        -1.04,
+        3.61,
+        0.05
+      ],
+      "screen_xy": [
+        283.803,
+        570.7
+      ],
+      "normalized_xy": [
+        0.369535,
+        0.495399
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 5,
+      "world_xyz": [
+        0.72,
+        5.76,
+        0.0
+      ],
+      "screen_xy": [
+        450.185,
+        291.2
+      ],
+      "normalized_xy": [
+        0.586179,
+        0.252778
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 6,
+      "world_xyz": [
+        1.03,
+        4.76,
+        0.03
+      ],
+      "screen_xy": [
+        475.924,
+        421.2
+      ],
+      "normalized_xy": [
+        0.619693,
+        0.365625
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 7,
+      "world_xyz": [
+        1.04,
+        3.61,
+        0.05
+      ],
+      "screen_xy": [
+        475.005,
+        570.7
+      ],
+      "normalized_xy": [
+        0.618496,
+        0.495399
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 8,
+      "world_xyz": [
+        -0.42,
+        3.55,
+        0.0
+      ],
+      "screen_xy": [
+        345.392,
+        578.5
+      ],
+      "normalized_xy": [
+        0.449729,
+        0.50217
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 9,
+      "world_xyz": [
+        -0.46,
+        1.78,
+        0.02
+      ],
+      "screen_xy": [
+        339.877,
+        808.6
+      ],
+      "normalized_xy": [
+        0.442548,
+        0.70191
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 10,
+      "world_xyz": [
+        -0.46,
+        0.0,
+        0.1
+      ],
+      "screen_xy": [
+        332.523,
+        1040.0
+      ],
+      "normalized_xy": [
+        0.432972,
+        0.902778
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 11,
+      "world_xyz": [
+        0.42,
+        3.55,
+        0.0
+      ],
+      "screen_xy": [
+        422.608,
+        578.5
+      ],
+      "normalized_xy": [
+        0.550271,
+        0.50217
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 12,
+      "world_xyz": [
+        0.46,
+        1.78,
+        0.02
+      ],
+      "screen_xy": [
+        424.447,
+        808.6
+      ],
+      "normalized_xy": [
+        0.552665,
+        0.70191
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 13,
+      "world_xyz": [
+        0.46,
+        0.0,
+        0.1
+      ],
+      "screen_xy": [
+        417.093,
+        1040.0
+      ],
+      "normalized_xy": [
+        0.543089,
+        0.902778
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 14,
+      "world_xyz": [
+        -0.17,
+        6.62,
+        0.48
+      ],
+      "screen_xy": [
+        324.249,
+        179.4
+      ],
+      "normalized_xy": [
+        0.4222,
+        0.155729
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 15,
+      "world_xyz": [
+        0.17,
+        6.62,
+        0.48
+      ],
+      "screen_xy": [
+        355.504,
+        179.4
+      ],
+      "normalized_xy": [
+        0.462895,
+        0.155729
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 16,
+      "world_xyz": [
+        -0.38,
+        6.54,
+        0.18
+      ],
+      "screen_xy": [
+        332.523,
+        189.8
+      ],
+      "normalized_xy": [
+        0.432972,
+        0.164757
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 17,
+      "world_xyz": [
+        0.38,
+        6.54,
+        0.18
+      ],
+      "screen_xy": [
+        402.385,
+        189.8
+      ],
+      "normalized_xy": [
+        0.523939,
+        0.164757
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "face_openpose_70": null,
+  "face_point_groups": {},
+  "png": "p7-5-2-openpose-relation-yaw-45_pitch+00.png"
+}

@@ -1,0 +1,108 @@
+{
+  "status": "review_required",
+  "purpose": "Deterministic common-coordinate 25-view face and full-body OpenPose relation maps for ratio adjustment.",
+  "reference_direction_sheet": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/upscale_image_01.png",
+    "sha256": "89eb0c846fcd3c9e230e3d09f3ca4735a08440eb45c5d5e884b9cdece97809a3"
+  },
+  "prior_openpose_detection_review": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-turnaround-openpose-candidates/upscale-25-face-body-v1/face-openpose-extraction-review.json",
+    "sha256": "aa4bb5a1b66572dbad968f8b292a955237fdc61e46328f421a8557f69cc243a1"
+  },
+  "method": "One normalized 3D structural template was yaw/pitch rotated and orthographically projected; no landmark detector was used for the generated coordinates.",
+  "coordinate_system": {
+    "world": "x right, y up, z toward camera; origin at ground centre",
+    "screen": "x right, y down",
+    "canvas": [
+      768,
+      1152
+    ],
+    "projection": "orthographic"
+  },
+  "seven_head_defaults": {
+    "head_face_height": 1.0,
+    "face_width": 0.72,
+    "upper_body_neck_base_to_crotch": 2.25,
+    "leg_hip_to_sole": 3.55,
+    "arm_shoulder_to_wrist": 2.15,
+    "total_crown_to_sole": 7.0
+  },
+  "view_grid": {
+    "columns": [
+      -90,
+      -45,
+      0,
+      45,
+      90
+    ],
+    "rows": [
+      0
+    ],
+    "meaning": "columns=yaw degrees, rows=pitch degrees"
+  },
+  "output_range": "pitch0",
+  "openpose": {
+    "body": "BODY_18",
+    "face_included": false,
+    "face": null,
+    "hands_included": false
+  },
+  "contact_sheet": "p7-5-2-openpose-relation-contact-sheet.png",
+  "views": [
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 1
+      },
+      "yaw_degrees": -90,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-relation-yaw-90_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-relation-yaw-90_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 2
+      },
+      "yaw_degrees": -45,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-relation-yaw-45_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-relation-yaw-45_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 3
+      },
+      "yaw_degrees": 0,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-relation-yaw+00_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 4
+      },
+      "yaw_degrees": 45,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-relation-yaw+45_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-relation-yaw+45_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 5
+      },
+      "yaw_degrees": 90,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-relation-yaw+90_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-relation-yaw+90_pitch+00.json"
+    }
+  ],
+  "limitations": [
+    "This is a proportion-editing template, not a detected pose or a character identity map.",
+    "Occlusion is not removed from the JSON: each point remains present so that the same indexed relation can be compared across rotations.",
+    "The 25-view head sheet is used for angle inspection only; it has no body data and does not calibrate this template to a scan."
+  ]
+}
