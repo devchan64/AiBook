@@ -9,16 +9,7 @@
   "steps": 10,
   "image_size": [768, 1152],
   "input_roles": [],
-  "input_policy": "No image input was used. The clothing, bag, and feminine dress-form mannequin were generated from the approved prompt contract only.",
-  "approved_scope": [
-    "front full-length feminine fashion dress-form mannequin",
-    "no face, hair, eyes, ears, or character identity",
-    "white ultra-short cropped utility jacket, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, and white low-top sneakers",
-    "navy canvas crossbody bag at the left hip with one exterior strap from the right shoulder"
-  ],
-  "limitations": [
-    "This is an outfit-and-bag reference only; it does not define face identity, hairstyle, human anatomy, pose, scene, or camera.",
-    "Visible blank head and hand-like forms are mannequin geometry, not an approved character rendering."
-  ],
-  "asset_sha256": "8d46cb6d144454624d9c13bb6a15fdd928c7b8a3ecd58992eb9d0e4ed699b723"
+  "approved_scope": ["white ultra-short cropped jacket", "gray crop top and visible midriff", "deep-teal wide-leg trousers", "white sneakers", "navy crossbody bag and one strap"],
+  "limitations": ["The generic face, hair, pose, and background are not approved reference conditions.", "Use this asset for outfit and bag only."],
+  "asset_sha256": "941df417f528aa64685c5d9555bb7504bfefd09782284c53046ac6c8aef1cb21"
 }

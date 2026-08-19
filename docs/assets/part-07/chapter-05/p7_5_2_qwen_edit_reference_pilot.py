@@ -92,15 +92,8 @@ TARGETS = {
         "default_steps": 10,
         "size": (768, 1152),
         "prompt": (
-            "Women's fashion dress-form mannequin, strict front full length, never a person. Use a feminine garment-display proportion: gently "
-            "sloped narrow shoulders, a softly rounded bust beneath the closed jacket, a clearly narrower waist, and a modestly wider hip; never a "
-            "broad masculine torso or straight masculine hip line. It has a short cylindrical neck stump capped by a flat "
-            "circular plug immediately above the jacket collar: absolutely no head shape, face, hair, scalp, ears, eyes, nose, mouth, or jaw. "
-            "Both jacket sleeves end as blank mannequin arm forms at the cuffs: absolutely no skin, wrists, hands, fingers, or arms outside the clothing. "
-            "White ultra-short cropped utility jacket with closed chest, flap pockets, waist darts, and cuffed long sleeves; gray micro-crop top; "
-            "bare midriff; deep-teal high-waisted wide-leg trousers; white low-top lace-up sneakers; navy canvas crossbody bag at the left hip with "
-            "one taut strap from the right shoulder across the jacket. Isolated plain off-white catalogue background, symmetric neutral standing display, "
-            "no text, hanger, human silhouette, extra strap, or scene."
+            "Front full-length women's outfit reference. White ultra-short utility jacket ending immediately below the bust, gray crop top, clear bare-midriff band, "
+            "deep-teal high-waisted wide-leg trousers, white low-top sneakers, navy crossbody bag and one strap. Plain off-white background."
         ),
     },
     "fullbody_front_refined": {
@@ -162,12 +155,23 @@ TARGETS = {
         "default_steps": 30,
         "size": (960, 1440),
         "prompt": (
-            "Image 1: preserve only the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and "
-            "high-volume petrol-teal bob. Image 2: use only as the exact Qwen-generated complete outfit reference; preserve its ultra-short white "
-            "cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, white "
-            "low-top sneakers, navy crossbody bag, and one exterior strap from right shoulder to left hip. Image 3: use only as the centered strict-front "
-            "seven-head body-only OpenPose structural map; do not render it. Create one upright full body from hair crown to shoe soles, relaxed arms, "
-            "and a compact natural neck. Plain warm off-white background, one person, no text, panel, collage, or scene."
+            "Image 1 is face and hair. Image 2 is outfit and bag. Image 3 is pose only; do not render its skeleton. "
+            "One full-body young East Asian woman, strict front, hair crown to shoe soles, plain warm off-white background."
+        ),
+    },
+    "fullbody_front_outfit_only_candidate_skeleton": {
+        "inputs": (
+            QWEN_FACE_REFERENCE,
+            "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
+            "p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+        ),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 10,
+        "size": (960, 1440),
+        "prompt": (
+            "Image 1 is face and hair. Image 2 is outfit and bag. Image 3 is pose only; do not render its skeleton. "
+            "One full-body young East Asian woman, strict front, hair crown to shoe soles, plain warm off-white background."
         ),
     },
     "fullbody_profile_left_seven_head_qwen_outfit_skeleton": {

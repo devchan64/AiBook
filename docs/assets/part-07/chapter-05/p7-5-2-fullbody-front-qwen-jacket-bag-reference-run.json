@@ -37,7 +37,7 @@
     "illustration": true
   },
   "target": "outfit_integrated_front_full_length",
-  "run_label": "female-dress-form-v3",
+  "run_label": "outfit-only-crop-v6",
   "inputs": [],
   "input_roles": [],
   "seed": 62294,
@@ -49,12 +49,12 @@
   "true_cfg_scale": 4.0,
   "guidance_scale": 1.0,
   "negative_prompt": " ",
-  "prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Upper-left light, deep four-value shading, and strong highlights. Women's fashion dress-form mannequin, strict front full length, never a person. Use a feminine garment-display proportion: gently sloped narrow shoulders, a softly rounded bust beneath the closed jacket, a clearly narrower waist, and a modestly wider hip; never a broad masculine torso or straight masculine hip line. It has a short cylindrical neck stump capped by a flat circular plug immediately above the jacket collar: absolutely no head shape, face, hair, scalp, ears, eyes, nose, mouth, or jaw. Both jacket sleeves end as blank mannequin arm forms at the cuffs: absolutely no skin, wrists, hands, fingers, or arms outside the clothing. White ultra-short cropped utility jacket with closed chest, flap pockets, waist darts, and cuffed long sleeves; gray micro-crop top; bare midriff; deep-teal high-waisted wide-leg trousers; white low-top lace-up sneakers; navy canvas crossbody bag at the left hip with one taut strap from the right shoulder across the jacket. Isolated plain off-white catalogue background, symmetric neutral standing display, no text, hanger, human silhouette, extra strap, or scene.",
-  "prompt_word_count": 186,
+  "prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Upper-left light, deep four-value shading, and strong highlights. Front full-length women's outfit reference. White ultra-short utility jacket ending immediately below the bust, gray crop top, clear bare-midriff band, deep-teal high-waisted wide-leg trousers, white low-top sneakers, navy crossbody bag and one strap. Plain off-white background.",
+  "prompt_word_count": 55,
   "output": {
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-    "sha256": "8d46cb6d144454624d9c13bb6a15fdd928c7b8a3ecd58992eb9d0e4ed699b723"
+    "sha256": "941df417f528aa64685c5d9555bb7504bfefd09782284c53046ac6c8aef1cb21"
   },
-  "elapsed_seconds": 73.32,
-  "decision": "Human-approved as the P7-5.2 female dress-form outfit-and-bag reference. It is an outfit input only, not a face identity or body-proportion reference."
+  "elapsed_seconds": 70.31,
+  "decision": "Human-approved as the P7-5.2 outfit-and-bag reference. It is not a face identity, pose, or scene reference."
 }

@@ -1,0 +1,15 @@
+{
+  "status": "approved",
+  "approval": "human_approved",
+  "view": "front",
+  "output": "p7-5-2-fullbody-front-qwen-approved-outfit-reference.png",
+  "source_run_record": "p7-5-2-fullbody-front-qwen-approved-outfit-reference-run.json",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "seed": 62294,
+  "steps": 30,
+  "image_size": [960, 1440],
+  "input_roles": ["approved_qwen_face_identity", "approved_qwen_outfit_and_bag", "approved_yaw0_body_only_openpose"],
+  "approved_scope": ["front full-body framing", "petrol-teal jaw-length bob and amber eyes", "white ultra-short jacket, gray inner top, deep-teal wide-leg trousers, white sneakers, navy crossbody bag"],
+  "limitations": ["Approval is limited to the displayed front view.", "The right hand is at the pocket/hip area; this does not approve a different hand pose."],
+  "asset_sha256": "d0b6030b115c7a8b1a2350cbfb39c1c9a5c3c8054ce43fd0b12ef70c828caad6"
+}
