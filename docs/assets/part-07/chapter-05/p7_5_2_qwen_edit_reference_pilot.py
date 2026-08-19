@@ -314,6 +314,21 @@ TARGETS = {
         ),
         "negative_prompt": "dark navy background, black background, night scene, cropped feet, missing shoes, photograph, text, panel",
     },
+    "fullbody_quarter_left_controlnet_runtime_validation": {
+        "inputs": (),
+        "control_image": "p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 5,
+        "controlnet_conditioning_scale": 1.0,
+        "size": (960, 1440),
+        "prompt": (
+            "One young East Asian woman, true 45-degree left front-quarter full body from hair crown to shoe soles. "
+            "Petrol-teal jaw-length bob, white ultra-short cropped utility jacket, gray crop top, bare midriff, deep-teal "
+            "high-waisted wide-leg trousers, white low-top sneakers, navy crossbody bag. Plain warm off-white background."
+        ),
+        "negative_prompt": "photograph, text, panel, collage, dark background, cropped feet, missing shoes",
+    },
     "fullbody_quarter_left_hand_on_hip_controlnet_identity_prompt": {
         "inputs": (),
         "control_image": "p7-5-2-openpose-quarter-left-hand-on-hip-elbow-out-perspective-v5/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
@@ -607,11 +622,20 @@ def load_pipeline(image_edit: bool):
 
 
 def load_controlnet_pipeline():
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(BASE_TRANSFORMER_ID)
     controlnet = QwenImageControlNetModel.from_pretrained(CONTROLNET_ID, torch_dtype=torch.bfloat16, local_files_only=True)
-    pipe = QwenImageControlNetPipeline.from_pretrained(BASE_MODEL_ID, controlnet=controlnet, torch_dtype=torch.bfloat16, local_files_only=True)
-    # A 7.5GB GPU cannot retain the base transformer, ControlNet, and text
-    # encoder together. Sequential offload keeps ControlNet conditioning but
-    # moves each module only for its active step.
+    pipe = QwenImageControlNetPipeline.from_pretrained(
+        BASE_MODEL_ID,
+        transformer=transformer,
+        controlnet=controlnet,
+        torch_dtype=torch.bfloat16,
+        local_files_only=True,
+    )
+    # This path has an additional ControlNet next to the Qwen-VL text encoder.
+    # Keep one quantized transformer block resident, then sequentially offload
+    # all remaining modules on the 7.5GB GPU.
+    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
+    pipe._exclude_from_cpu_offload.append("transformer")
     pipe.enable_sequential_cpu_offload()
     return pipe
 
