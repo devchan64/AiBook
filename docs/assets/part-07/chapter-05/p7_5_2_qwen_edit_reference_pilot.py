@@ -165,6 +165,47 @@ TARGETS = {
             "and a compact natural neck. Plain warm off-white background, one person, no text, panel, collage, or scene."
         ),
     },
+    "fullbody_profile_left_seven_head_qwen_outfit_skeleton": {
+        "inputs": (
+            QWEN_FACE_REFERENCE,
+            "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
+            "p7-5-2-openpose-turnaround-body-only-pitch0-v1/p7-5-2-openpose-relation-yaw-90_pitch+00.png",
+        ),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "prompt": (
+            "Image 1: preserve only the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and "
+            "high-volume petrol-teal bob. Image 2: use only as the exact Qwen-generated complete outfit reference; preserve its ultra-short white "
+            "cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, white "
+            "low-top sneakers, navy crossbody bag, and one exterior strap. Image 3: use only as the strict left-profile seven-head body-only "
+            "OpenPose structural map; do not render it. Create one upright full-body left profile from hair crown to shoe soles: nose, chest, hips, knees, "
+            "and shoes point to image left, with one visible eye and a compact natural neck. Keep relaxed arms and the visible exterior bag/strap. "
+            "Plain warm off-white background, one person, no text, panel, collage, or scene."
+        ),
+    },
+    "fullbody_quarter_left_seven_head_qwen_outfit_skeleton": {
+        "inputs": (
+            QWEN_FACE_REFERENCE,
+            "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
+            "p7-5-2-openpose-turnaround-body-only-pitch0-v1/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
+        ),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "prompt": (
+            "Image 1: preserve only the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and "
+            "high-volume petrol-teal bob. Image 2: use only as the exact Qwen-generated complete outfit reference; preserve its ultra-short white "
+            "cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, white "
+            "low-top sneakers, navy crossbody bag, and one exterior strap. Image 3: use only as the strict 45-degree left-facing seven-head body-only "
+            "OpenPose structural map; do not render it. Create one upright full-body left front-quarter view from hair crown to shoe soles: the nose, "
+            "chest, hips, knees, and shoes turn halfway toward image left; both eyes remain visible and the nearer image-right cheek is wider. Keep "
+            "relaxed arms, a compact natural neck, and the visible exterior bag/strap. Plain warm off-white background, one person, no text, panel, "
+            "collage, or scene."
+        ),
+    },
     "fullbody_front_quarter_left_qwen": {
         "inputs": (
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
@@ -485,7 +526,11 @@ def main() -> None:
             if args.target in {"outfit_integrated_front_hip", "outfit_integrated_front_full_length"}
             else
             ["head_identity", "qwen_complete_outfit", "standard_openpose_fullbody_structure"]
-            if args.target == "fullbody_front_seven_head_qwen_outfit_skeleton"
+            if args.target in {
+                "fullbody_front_seven_head_qwen_outfit_skeleton",
+                "fullbody_profile_left_seven_head_qwen_outfit_skeleton",
+                "fullbody_quarter_left_seven_head_qwen_outfit_skeleton",
+            }
             else
             ["complete_head_identity", "standard_openpose_face_geometry"]
             if args.target == "face_front_quarter_left"

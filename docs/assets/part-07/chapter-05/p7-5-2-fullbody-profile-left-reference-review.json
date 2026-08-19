@@ -1,49 +1,31 @@
 {
   "status": "approved",
-  "source_candidate": "p7-5-2-fullbody-turnaround-profile_left-hash-61be3de9ec-seed-62294-steps-6-candidate.png",
+  "candidate_source": "p7-5-2-qwen-edit-prompt-style-fullbody_profile_left_seven_head_qwen_outfit_skeleton-v1-qwen-outfit-seven-head-left-profile-seed-62294-steps-30.png",
+  "source_run_record": "p7-5-2-qwen-edit-candidates/p7-5-2-qwen-edit-prompt-style-fullbody_profile_left_seven_head_qwen_outfit_skeleton-v1-qwen-outfit-seven-head-left-profile-seed-62294-steps-30-run.json",
   "output": "p7-5-2-fullbody-profile-left-reference.png",
   "view": "profile_left",
   "seed": 62294,
-  "steps": 6,
-  "seed_offset": 0,
-  "seed_step": 1,
-  "batch_index": 0,
-  "batch_size": 1,
-  "output_prefix": "p7-5-2-fullbody-turnaround",
-  "stage": {
-    "status": "generated",
-    "prompt": "Use the supplied front full-body reference as the fixed source for the entire figure and its rotation. Use the supplied ordered face sheet to preserve the same face and hair across the front and target-direction panels. Render the same full-body figure strict side profile facing image left; nose, chest, hips, and toes point image left; near arm visible, far arm hidden, two legs and shoes separate. Preserve the full-body proportion, clothing silhouette, shoulder-width stance, and off-white studio background. One person, complete limbs, no text or labels.",
-    "prompt_word_count": 86,
-    "references": [
-      "p7-5-2-fullbody-front-reference.png",
-      "p7-5-2-fullbody-front-reference.png"
-    ],
-    "face_reference_sheet": {
-      "panel_order": [
-        "approved_front_face",
-        "approved_left_front_quarter_face",
-        "approved_left_profile_face"
-      ],
-      "sources": [
-        "p7-5-2-face-front-reference.png",
-        "p7-5-2-face-front-quarter-left-reference.png",
-        "p7-5-2-face-profile-left-reference.png"
-      ],
-      "size": [
-        2304,
-        768
-      ]
-    }
-  },
-  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "model": "Qwen/Qwen-Image-Edit-2509",
   "image_size": [
     960,
     1440
   ],
-  "elapsed_seconds": 57.65,
-  "decision": "Approved by human review as the stable left profile full-body turnaround reference.",
-  "approval": {
-    "status": "approved",
-    "approved_asset": "p7-5-2-fullbody-profile-left-reference.png"
-  }
+  "elapsed_seconds": 952.48,
+  "input_roles": [
+    "head_identity: p7-5-2-face-front-qwen-role-separated-reference.png",
+    "qwen_complete_outfit: p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
+    "standard_openpose_fullbody_structure: 7-head body-only yaw-90/pitch+00 map"
+  ],
+  "input_policy": "No FLUX output is an image input. The Qwen outfit anchor, Qwen head identity, and deterministic body-only OpenPose map are separate inputs.",
+  "approved_scope": [
+    "strict left-facing profile full-body framing from hair crown to shoe soles at the seven-head structural baseline",
+    "petrol-teal jaw-length bob, one visible eye, and left-pointing nose",
+    "ultra-short white cropped utility jacket with long cuffed sleeves, gray micro-crop top, and a visible bare-midriff gap",
+    "deep-teal high-waisted trousers, white low-top sneakers, navy crossbody bag, and one visible exterior strap"
+  ],
+  "limitations": [
+    "Approval applies only to the strict left profile; it does not approve quarter, right-side, rear, pose, lighting, or scene variants.",
+    "The side view occludes the wide-leg trouser silhouette, so trouser width must be checked again in front-quarter or front views."
+  ],
+  "asset_sha256": "a673ec3fb598d4493b5d9a5a0f36cf4e466fa7eb57f54f26c200819c0f454c64"
 }
