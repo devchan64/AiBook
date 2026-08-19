@@ -37,7 +37,7 @@
     "illustration": true
   },
   "target": "fullbody_front_seven_head_qwen_outfit_skeleton",
-  "run_label": "approved-outfit-default-30-v1",
+  "run_label": "v4-elevated-frame-front-fullbody",
   "inputs": [
     {
       "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-face-front-qwen-role-separated-reference.png",
@@ -48,8 +48,8 @@
       "sha256": "941df417f528aa64685c5d9555bb7504bfefd09782284c53046ac6c8aef1cb21"
     },
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
-      "sha256": "0de218b45d907658e718328f282db21f12eabe1decf9bb01627aacf337784197"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+      "sha256": "7e5b4e5e7cb82445e805eaf18227d0cabafea2adda8327422564b707ba9049d0"
     }
   ],
   "input_roles": [
@@ -70,8 +70,8 @@
   "prompt_word_count": 58,
   "output": {
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-approved-outfit-reference.png",
-    "sha256": "d0b6030b115c7a8b1a2350cbfb39c1c9a5c3c8054ce43fd0b12ef70c828caad6"
+    "sha256": "13e0d8325f167dbc79d03f6b1668944936c2c1160e19ec429b972a85e5fc4924"
   },
-  "elapsed_seconds": 934.34,
+  "elapsed_seconds": 944.49,
   "decision": "Human-approved as the P7-5.2 strict-front full-body reference; this approval does not extend to other views, poses, scenes, or cameras."
 }

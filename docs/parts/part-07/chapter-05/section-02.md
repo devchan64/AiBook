@@ -184,7 +184,7 @@ Flux로 만든 착장 통합 기준은 폐기했습니다. 현재 정면 전신 
 
 | Qwen 전신 정면·자켓·가방 기준 | 검수 기록 |
 | --- | --- |
-| ![승인된 Qwen 전신 정면 자켓·가방 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-review.json" data-language="json">review.json</a> |
+| ![승인된 Qwen 전신 정면 자켓·가방 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-approved-outfit-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-approved-outfit-reference-review.json" data-language="json">review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-approved-outfit-reference-run.json" data-language="json">run.json</a> |
 
 좌측 측면도 같은 세 입력으로 다시 생성해 사람 승인했습니다. 이때 `yaw −90°`, `pitch 0°`의 7등신 body-only OpenPose는 머리·몸통·골반·무릎·신발이 이미지 왼쪽을 향하는 구조만 전달하며, 얼굴·의상·가방의 기준은 각각 Qwen 얼굴과 Qwen 정면 착장 앵커에 남겨 둡니다. 따라서 좌측 측면 승인에는 방향·전신 프레이밍·소품 연속성만 포함되고, 쿼터나 반대 방향은 자동 승인하지 않습니다.
 

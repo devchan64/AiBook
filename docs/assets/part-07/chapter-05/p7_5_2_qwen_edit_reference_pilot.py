@@ -22,7 +22,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from diffusers import QwenImageControlNetModel, QwenImageControlNetPipeline, QwenImageEditPlusPipeline, QwenImagePipeline
+from diffusers import QwenImageEditPlusPipeline, QwenImagePipeline
 from diffusers.utils import load_image
 from nunchaku import NunchakuQwenImageTransformer2DModel
 from PIL import Image
@@ -37,7 +37,6 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 BASE_MODEL_ID = "Qwen/Qwen-Image"
 BASE_TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
-CONTROLNET_ID = "InstantX/Qwen-Image-ControlNet-Union"
 OUTPUT_DIR = ASSETS / "p7-5-2-qwen-edit-candidates"
 DEFAULT_STEPS = 20
 QWEN_FACE_REFERENCE = "p7-5-2-face-front-qwen-role-separated-reference.png"
@@ -148,7 +147,7 @@ TARGETS = {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+            "p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -302,80 +301,6 @@ TARGETS = {
             "Image 3 is a body-only OpenPose structural map; do not render it. Create one upright 45-degree left front-quarter full body from hair crown to shoe soles. The nearer image-right hand rests on the waist while its elbow is lifted wide at shoulder height, creating a large triangular arm silhouette; the image-left arm is lowered. Shift weight onto the nearer leg with the far knee and foot relaxed behind. Plain warm off-white background, one person, no text, panel, collage, or scene."
         ),
     },
-    "fullbody_quarter_left_hand_on_hip_controlnet": {
-        "inputs": (),
-        "control_image": "p7-5-2-openpose-quarter-left-hand-on-hip-elbow-out-perspective-v5/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
-        "append_style_prompt": False,
-        "append_illustration_prompt": True,
-        "default_steps": 12,
-        "size": (960, 1440),
-        "prompt": (
-            "Clean character illustration, not a photograph; dark outlines, solid colors, four-value shading, and strong highlights. A young East Asian woman, compact oval face, high straight nose, amber irises, asymmetric fringe, high-volume petrol-teal jaw-length bob; ultra-short white cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, white low-top sneakers, navy crossbody bag and one exterior strap. Strict 45-degree left front-quarter full body, image-right hand on waist with elbow lifted wide, image-left arm lowered, weight on nearer leg. Plain warm off-white studio background. Full figure from hair crown to both shoe soles with a clear margin below the shoes; no dark background, no cropped feet, no text, panel, or scene."
-        ),
-        "negative_prompt": "dark navy background, black background, night scene, cropped feet, missing shoes, photograph, text, panel",
-    },
-    "fullbody_quarter_left_controlnet_runtime_validation": {
-        "inputs": (),
-        "control_image": "p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
-        "append_style_prompt": False,
-        "append_illustration_prompt": True,
-        "default_steps": 5,
-        "controlnet_conditioning_scale": 1.0,
-        "size": (960, 1440),
-        "prompt": (
-            "One young East Asian woman, true 45-degree left front-quarter full body from hair crown to shoe soles. "
-            "Petrol-teal jaw-length bob, white ultra-short cropped utility jacket, gray crop top, bare midriff, deep-teal "
-            "high-waisted wide-leg trousers, white low-top sneakers, navy crossbody bag. Plain warm off-white background."
-        ),
-        "negative_prompt": "photograph, text, panel, collage, dark background, cropped feet, missing shoes",
-    },
-    "fullbody_quarter_left_hand_on_hip_controlnet_identity_prompt": {
-        "inputs": (),
-        "control_image": "p7-5-2-openpose-quarter-left-hand-on-hip-elbow-out-perspective-v5/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 20,
-        "controlnet_conditioning_scale": 0.85,
-        "size": (960, 1440),
-        "prompt": (
-            "Character-sheet illustration of one young East Asian woman. Her non-negotiable identity is a saturated petrol-teal, high-volume rounded jaw-length bob, with a deep asymmetric sweeping fringe, a compact oval face, a high straight nose, and amber irises. Use dark clean outlines, solid colors, deep four-value cel shading, and clear highlights; never render a photograph. "
-            "She wears an ultra-short white cropped utility jacket with long cuffed sleeves over a gray micro-crop top and visible midriff, deep-teal high-waisted wide-leg trousers, white low-top sneakers, and a navy crossbody bag with one exterior strap. "
-            "Strict 45-degree left front-quarter full body: image-right hand on waist, elbow lifted wide; image-left arm lowered; weight on the nearer leg. Plain warm off-white studio background. Show the full figure from hair crown to both shoe soles, with a clear margin below the shoes. No text, panel, collage, scene, dark background, cropped feet, missing shoes, brown hair, black hair, long hair, or low-volume hair."
-        ),
-        "negative_prompt": "brown hair, black hair, long hair, low-volume hair, dark navy background, black background, night scene, cropped feet, missing shoes, photograph, text, panel, collage",
-    },
-    "fullbody_quarter_left_hand_on_hip_controlnet_hair_color": {
-        "inputs": (),
-        "control_image": "p7-5-2-openpose-quarter-left-hand-on-hip-elbow-out-perspective-v5/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 20,
-        "controlnet_conditioning_scale": 0.85,
-        "size": (960, 1440),
-        "prompt": (
-            "Character-sheet illustration of one young East Asian woman. Her hair is mandatory: every visible hair mass and strand is deep petrol-teal blue-green, never black or brown. It is an extremely voluminous rounded jaw-length bob with medium-density hair, a deep viewer-right side part, and a full short fringe sweeping across the viewer-left forehead and ending above the eyebrow. Large loose S-waves, pronounced inward C-curls, and tapered side locks create an expansive rounded teal silhouette. Her compact oval face has a high straight nose and equal orange-amber irises. "
-            "Use clean dark outlines, solid colors, deep four-value cel shading, and clear highlights; never render a photograph. "
-            "She wears an ultra-short white cropped utility jacket with long cuffed sleeves over a gray micro-crop top and visible midriff, deep-teal high-waisted wide-leg trousers, white low-top sneakers, and a navy crossbody bag with one exterior strap. "
-            "Strict 45-degree left front-quarter full body: image-right hand rests visibly on waist with elbow lifted wide; image-left arm is lowered and its complete hand is visibly beside the thigh, not hidden by the bag. Keep both white shoes fully visible below the trouser hems. Plain warm off-white studio background. Show the full figure from teal hair crown to both shoe soles, with a clear margin below the shoes. No text, panel, collage, scene, dark background, cropped body parts, missing hands, missing shoes, black hair, brown hair, long hair, or low-volume hair."
-        ),
-        "negative_prompt": "black hair, brown hair, near-black hair, long hair, low-volume hair, hidden hand, missing hand, cropped feet, missing shoes, dark navy background, black background, night scene, photograph, text, panel, collage",
-    },
-    "fullbody_quarter_left_hand_on_hip_face_identity_refine": {
-        "inputs": (
-            "p7-5-2-qwen-edit-candidates/p7-5-2-qwen-edit-prompt-style-fullbody_quarter_left_hand_on_hip_controlnet-v3-control-image-offwhite-fullbody-quality-seed-62294-steps-12.png",
-            QWEN_FACE_REFERENCE,
-        ),
-        "append_style_prompt": False,
-        "append_illustration_prompt": True,
-        "default_steps": 5,
-        "size": (960, 1440),
-        "prompt": (
-            "Image 1 is the locked full-body composition: preserve its 45-degree left front-quarter pose, image-right hand on the waist with the elbow wide, lowered image-left arm, warm off-white background, full-body framing, jacket, crossbody bag, wide-leg trousers, and both sneakers. "
-            "Image 2 is the exact identity reference: replace only the head and face in image 1 to match it. Preserve its saturated petrol-teal jaw-length bob with high rounded volume, asymmetric sweeping fringe, compact oval face, high straight nose, and amber irises. "
-            "Do not change the body pose, head size, camera, background, clothing, bag, trousers, shoes, or crop. Keep the head naturally turned with the existing quarter view. One clean character illustration, no text, panel, or collage."
-        ),
-        "negative_prompt": "brown hair, black hair, long hair, low-volume hair, dark navy background, black background, cropped feet, missing shoes, photograph, text, panel, collage",
-    },
     "fullbody_front_quarter_left_qwen": {
         "inputs": (
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
@@ -511,7 +436,7 @@ def openpose_module():
 
 
 def save_openpose_guide(target_id: str, path: Path) -> None:
-    """Render a canonical ControlNet/OpenPose BODY_18 + face-landmark map.
+    """Render a canonical OpenPose BODY_18 + face-landmark guide.
 
     No subject RGB pixels are used.  Direction comes from the nose displacement
     and asymmetric face-landmark geometry, then the installed OpenPose renderer
@@ -621,25 +546,6 @@ def load_pipeline(image_edit: bool):
     return pipe
 
 
-def load_controlnet_pipeline():
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(BASE_TRANSFORMER_ID)
-    controlnet = QwenImageControlNetModel.from_pretrained(CONTROLNET_ID, torch_dtype=torch.bfloat16, local_files_only=True)
-    pipe = QwenImageControlNetPipeline.from_pretrained(
-        BASE_MODEL_ID,
-        transformer=transformer,
-        controlnet=controlnet,
-        torch_dtype=torch.bfloat16,
-        local_files_only=True,
-    )
-    # This path has an additional ControlNet next to the Qwen-VL text encoder.
-    # Keep one quantized transformer block resident, then sequentially offload
-    # all remaining modules on the 7.5GB GPU.
-    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
-    pipe._exclude_from_cpu_offload.append("transformer")
-    pipe.enable_sequential_cpu_offload()
-    return pipe
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", choices=tuple(TARGETS), required=True)
@@ -658,11 +564,8 @@ def main() -> None:
     if steps < 1:
         raise ValueError("--steps must be at least 1")
     inputs = [ASSETS / name for name in target["inputs"]]
-    control_path = ASSETS / target["control_image"] if "control_image" in target else None
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
-    if control_path is not None and not control_path.is_file():
-        raise FileNotFoundError(f"missing control image: {control_path}")
     if not PLAN.is_file() or not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
         raise FileNotFoundError("missing P7-5.2 Qwen transition plan, identity, style, or illustration contract")
     style_prompt = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["portrait_style_prompt"]
@@ -681,7 +584,7 @@ def main() -> None:
     output = args.output_dir / f"{stem}.png"
     run_record = args.output_dir / f"{stem}-run.json"
     started = time.monotonic()
-    pipeline = load_controlnet_pipeline() if control_path else load_pipeline(image_edit=bool(inputs))
+    pipeline = load_pipeline(image_edit=bool(inputs))
     generation = {
         "prompt": prompt,
         "generator": torch.Generator("cpu").manual_seed(args.seed),
@@ -694,15 +597,12 @@ def main() -> None:
     }
     if inputs:
         generation["image"] = [load_image(str(path)).convert("RGB") for path in inputs]
-    if control_path:
-        generation["control_image"] = load_image(str(control_path)).convert("RGB")
-        generation["controlnet_conditioning_scale"] = target.get("controlnet_conditioning_scale", 1.0)
     result = pipeline(**generation).images[0]
     result.save(output)
     record = {
         "status": "review_required",
         "experiment_id": f"p7-5-2-qwen-edit-{args.target}",
-        "model": BASE_MODEL_ID if control_path or not inputs else MODEL_ID,
+        "model": MODEL_ID if inputs else BASE_MODEL_ID,
         "transformer": TRANSFORMER_ID if inputs else BASE_TRANSFORMER_ID,
         "runtime": runtime_record(),
         "transition_plan": asset_record(PLAN),
@@ -715,13 +615,10 @@ def main() -> None:
         },
         "target": args.target,
         "run_label": args.run_label,
-        "inputs": [asset_record(path) for path in inputs] + ([asset_record(control_path)] if control_path else []),
+        "inputs": [asset_record(path) for path in inputs],
         "input_roles": (
             []
             if args.target in {"outfit_integrated_front_hip", "outfit_integrated_front_full_length"}
-            else
-            ["standard_openpose_fullbody_control_image"]
-            if control_path
             else
             ["head_identity", "qwen_complete_outfit", "standard_openpose_fullbody_structure"]
             if args.target in {
