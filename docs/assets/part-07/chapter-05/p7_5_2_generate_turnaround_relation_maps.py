@@ -37,28 +37,25 @@ from PIL import Image, ImageDraw
 ASSETS = Path(__file__).resolve().parent
 DEFAULT_REFERENCE = ASSETS / "upscale_image_01.png"
 DEFAULT_OUTPUT = ASSETS / "p7-5-2-openpose-turnaround-relations-v2-seven-heads"
-DEFAULT_DETECTION_REVIEW = (
-    ASSETS
-    / "p7-5-2-face-turnaround-openpose-candidates"
-    / "upscale-25-face-body-v1"
-    / "face-openpose-extraction-review.json"
-)
 WIDTH, HEIGHT = 768, 1152
 CENTER_X, CENTER_Y, SCALE = WIDTH / 2, 1040, 130
 YAWS = (-90, -45, 0, 45, 90)
 # Positive pitch is a raised chin / camera looking upward; negative is down.
 PITCHES = (55, 27, 0, -27, -55)
 
-# Design defaults, not anthropometric measurements.  One unit is the vertical
-# face/head module; a standing figure from crown to sole is seven modules.
-SEVEN_HEAD_DEFAULTS = {
-    "head_face_height": 1.00,
-    "face_width": 0.72,
-    "upper_body_neck_base_to_crotch": 2.25,
-    "leg_hip_to_sole": 3.55,
-    "arm_shoulder_to_wrist": 2.15,
-    "total_crown_to_sole": 7.00,
+# A proportion profile is the domain model for a structural OpenPose guide.
+# ``seven_head_standing`` is only the default profile, not the domain itself.
+HUMAN_PROPORTION_PROFILES = {
+    "seven_head_standing": {
+        "head_face_height": 1.00,
+        "face_width": 0.72,
+        "upper_body_neck_base_to_crotch": 2.25,
+        "leg_hip_to_sole": 3.55,
+        "arm_shoulder_to_wrist": 2.15,
+        "total_crown_to_sole": 7.00,
+    },
 }
+DEFAULT_PROPORTION_PROFILE = "seven_head_standing"
 
 
 def sha256(path: Path) -> str:
@@ -96,17 +93,52 @@ def project(point: tuple[float, float, float], yaw: float, pitch: float) -> tupl
     return CENTER_X + SCALE * x, CENTER_Y - SCALE * y
 
 
-def body_template() -> list[tuple[float, float, float]]:
-    """OpenPose BODY_18 order; symmetric upright seven-head standing figure."""
+def proportion_geometry(proportions: dict[str, float]) -> dict[str, float]:
+    """Convert an editable human-proportion profile into shared body heights."""
+    head = proportions["head_face_height"]
+    upper_body = proportions["upper_body_neck_base_to_crotch"]
+    leg = proportions["leg_hip_to_sole"]
+    total = proportions["total_crown_to_sole"]
+    if min(head, upper_body, leg, total, proportions["face_width"], proportions["arm_shoulder_to_wrist"]) <= 0:
+        raise ValueError("Every human-proportion value must be positive")
+    neck_to_chin = total - head - upper_body - leg
+    if neck_to_chin < 0:
+        raise ValueError("total_crown_to_sole is too short for the supplied head, torso, and leg lengths")
+    hip_y = leg
+    neck_y = hip_y + upper_body
+    return {
+        "head": head,
+        "face_width": proportions["face_width"],
+        "arm": proportions["arm_shoulder_to_wrist"],
+        "sole_y": 0.0,
+        "hip_y": hip_y,
+        "neck_y": neck_y,
+        "chin_y": neck_y + neck_to_chin,
+        "crown_y": total,
+    }
+
+
+def body_template(proportions: dict[str, float]) -> list[tuple[float, float, float]]:
+    """OpenPose BODY_18 order derived from one human-proportion profile."""
+    geometry = proportion_geometry(proportions)
+    head, face_width, arm = geometry["head"], geometry["face_width"], geometry["arm"]
+    shoulder_y = geometry["neck_y"] - 0.04 * head
+    elbow_y = shoulder_y - 0.46 * arm
+    wrist_y = shoulder_y - arm
+    shoulder_x = face_width
+    arm_bend_x = 0.43 * face_width
+    hip_x = 0.58 * face_width
+    knee_x = 0.64 * face_width
+    knee_y = geometry["hip_y"] * 0.50
     return [
-        (0.00, 6.48, 0.52),  # nose
-        (0.00, 5.80, 0.00),  # neck base
-        (-0.72, 5.76, 0.00), (-1.03, 4.76, 0.03), (-1.04, 3.61, 0.05),  # right arm
-        (0.72, 5.76, 0.00), (1.03, 4.76, 0.03), (1.04, 3.61, 0.05),     # left arm
-        (-0.42, 3.55, 0.00), (-0.46, 1.78, 0.02), (-0.46, 0.00, 0.10),  # right leg
-        (0.42, 3.55, 0.00), (0.46, 1.78, 0.02), (0.46, 0.00, 0.10),     # left leg
-        (-0.17, 6.62, 0.48), (0.17, 6.62, 0.48),                         # eyes
-        (-0.38, 6.54, 0.18), (0.38, 6.54, 0.18),                         # ears
+        (0.00, geometry["chin_y"] + 0.48 * head, 0.52 * head),  # nose
+        (0.00, geometry["neck_y"], 0.00),  # neck base
+        (-shoulder_x, shoulder_y, 0.00), (-shoulder_x - arm_bend_x, elbow_y, 0.03), (-shoulder_x - arm_bend_x, wrist_y, 0.05),  # right arm
+        (shoulder_x, shoulder_y, 0.00), (shoulder_x + arm_bend_x, elbow_y, 0.03), (shoulder_x + arm_bend_x, wrist_y, 0.05),      # left arm
+        (-hip_x, geometry["hip_y"], 0.00), (-knee_x, knee_y, 0.02), (-knee_x, geometry["sole_y"], 0.10),  # right leg
+        (hip_x, geometry["hip_y"], 0.00), (knee_x, knee_y, 0.02), (knee_x, geometry["sole_y"], 0.10),     # left leg
+        (-0.24 * face_width, geometry["chin_y"] + 0.62 * head, 0.48 * head), (0.24 * face_width, geometry["chin_y"] + 0.62 * head, 0.48 * head),  # eyes
+        (-0.53 * face_width, geometry["chin_y"] + 0.54 * head, 0.18 * head), (0.53 * face_width, geometry["chin_y"] + 0.54 * head, 0.18 * head),  # ears
     ]
 
 
@@ -117,8 +149,9 @@ def arc(cx: float, cy: float, rx: float, ry: float, start: float, end: float, co
     ]
 
 
-def face_template() -> tuple[list[tuple[float, float, float]], dict[str, list[int]]]:
-    """70 editable landmarks: 68 facial contour points plus two iris centres."""
+def face_template(proportions: dict[str, float]) -> tuple[list[tuple[float, float, float]], dict[str, list[int]]]:
+    """Scale one 70-point canonical face by the selected human-proportion profile."""
+    geometry = proportion_geometry(proportions)
     cx, cy = 0.0, 6.70
     jaw = [
         (0.36 * math.cos(math.radians(angle)), cy + 0.68 * math.sin(math.radians(angle)) - 0.02,
@@ -135,6 +168,16 @@ def face_template() -> tuple[list[tuple[float, float, float]], dict[str, list[in
     inner_lip = arc(0.0, 6.27, 0.11, 0.032, 0, 360, 8, 0.585)
     irises = [(-0.17, 6.78, 0.575), (0.17, 6.78, 0.575)]
     points = jaw + left_brow + right_brow + nose_bridge + nose_base + left_eye + right_eye + outer_lip + inner_lip + irises
+    # The canonical face has chin y=6, face width=.72, and face height=1.
+    # Attach and scale it from the profile-derived chin instead of fixed pixels.
+    points = [
+        (
+            x * geometry["face_width"] / 0.72,
+            geometry["chin_y"] + (y - 6.00) * geometry["head"],
+            z * geometry["head"],
+        )
+        for x, y, z in points
+    ]
     groups = {
         "jaw": list(range(0, 17)), "left_brow": list(range(17, 22)), "right_brow": list(range(22, 27)),
         "nose_bridge": list(range(27, 31)), "nose_base": list(range(31, 36)), "left_eye": list(range(36, 42)),
@@ -201,11 +244,16 @@ def main() -> None:
     parser.add_argument(
         "--openpose-review",
         type=Path,
-        default=DEFAULT_DETECTION_REVIEW,
-        help="Earlier detector experiment retained as evidence of why this template is deterministic.",
+        help="Optional earlier detector review to retain as comparison evidence; it does not affect coordinates.",
     )
     parser.add_argument("--yaws", type=int, nargs="+", default=list(YAWS), help="Yaw angles to render in degrees")
     parser.add_argument("--pitches", type=int, nargs="+", default=list(PITCHES), help="Pitch angles to render in degrees")
+    parser.add_argument(
+        "--proportion-profile",
+        choices=sorted(HUMAN_PROPORTION_PROFILES),
+        default=DEFAULT_PROPORTION_PROFILE,
+        help="Named human-proportion profile that drives all body and face coordinates.",
+    )
     parser.add_argument(
         "--output-range",
         choices=("all", "pitch0", "front"),
@@ -221,10 +269,14 @@ def main() -> None:
     args = parser.parse_args()
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     reference = args.reference if args.reference.is_absolute() else ASSETS / args.reference
-    detection_review = args.openpose_review if args.openpose_review.is_absolute() else ASSETS / args.openpose_review
+    detection_review = (
+        args.openpose_review if args.openpose_review and args.openpose_review.is_absolute()
+        else ASSETS / args.openpose_review if args.openpose_review
+        else None
+    )
     if not reference.is_file():
         raise FileNotFoundError(reference)
-    if not detection_review.is_file():
+    if detection_review is not None and not detection_review.is_file():
         raise FileNotFoundError(detection_review)
     if args.output_range == "all":
         yaws, pitches = list(YAWS), list(PITCHES)
@@ -240,8 +292,9 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     renderer = openpose_module()
-    body_world = body_template()
-    face_world, face_groups = face_template()
+    proportions = HUMAN_PROPORTION_PROFILES[args.proportion_profile]
+    body_world = body_template(proportions)
+    face_world, face_groups = face_template(proportions)
     views: list[dict[str, object]] = []
     previews: list[tuple[str, Image.Image]] = []
     for row, pitch in enumerate(pitches, start=1):
@@ -275,10 +328,14 @@ def main() -> None:
                 "status": "review_required",
                 "purpose": "Deterministic common-coordinate 25-view face and full-body OpenPose relation maps for ratio adjustment.",
                 "reference_direction_sheet": {"path": str(reference), "sha256": sha256(reference)},
-                "prior_openpose_detection_review": {"path": str(detection_review), "sha256": sha256(detection_review)},
+                "prior_openpose_detection_review": (
+                    {"path": str(detection_review), "sha256": sha256(detection_review)}
+                    if detection_review is not None
+                    else None
+                ),
                 "method": "One normalized 3D structural template was yaw/pitch rotated and orthographically projected; no landmark detector was used for the generated coordinates.",
                 "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "projection": "orthographic"},
-                "seven_head_defaults": SEVEN_HEAD_DEFAULTS,
+                "human_proportion_profile": {"name": args.proportion_profile, "values": proportions},
                 "view_grid": {"columns": yaws, "rows": pitches, "meaning": "columns=yaw degrees, rows=pitch degrees"},
                 "output_range": args.output_range or "custom",
                 "openpose": {"body": "BODY_18", "face_included": args.include_face, "face": "70 points: 68 contour landmarks plus 2 iris centres" if args.include_face else None, "hands_included": False},
