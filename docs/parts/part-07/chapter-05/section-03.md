@@ -71,38 +71,21 @@ python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
 | 발과 공간 | 두 발 외곽이 지면·절벽과 구분되고, 가까운 지형이 인물을 삼키지 않음 |
 | 기준 정보 | 짧은 단발과 검정 레오타드·타이즈가 다음 작화 단계의 최소 기준으로 읽힘 |
 
-사람 검수로 통과한 스토리보드 파일을 명시할 때만 guide를 만든다. 이 분리는 불완전한 인체나 지형의 오류가 후속 ControlNet·참조 병합의 입력으로 굳어지는 것을 막는다.
+사람 검수로 통과한 스토리보드 파일을 명시할 때만 guide를 만든다. 이 분리는 불완전한 인체나 지형의 오류가 후속 ControlNet·참조 병합의 입력으로 굳어지는 것을 막는다. 이전 FLUX 승인 스토리보드와 depth 자산·계약 JSON은 현재 근거에서 제거했다. 새 스토리보드는 이 gate를 다시 통과한 뒤에만 별도 자산과 검수 기록으로 등록한다.
 
-```bash
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --derive-guides-from docs/assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-rgb.png \
-  --output-dir docs/assets/part-07/chapter-05
-```
-
-압축한 최종 prompt로 생성한 A/B/C 결과를 사람 검수로 승인했다. 세 결과는 각각 고정 seed와 실행 계약 JSON을 별도 소스로 보존하고, 아래 표에서는 RGB와 상대 depth의 대응 관계만 한 행에서 비교한다. 이 승인은 세 장면의 현재 스토리보드 기준을 고정한다는 뜻이며, 다른 seed·카메라·동작까지 자동으로 통과한다는 뜻은 아니다.
-
-| 승인 장면 | RGB | 상대 depth |
-| --- | --- | --- |
-| A씬 — 넓은 협곡 | ![승인한 A씬 넓은 협곡 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-rgb.png) | ![승인한 A씬 넓은 협곡 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-a-approved-storyboard-depth.png) |
-| B씬 — 열린 지상 원경 | ![승인한 B씬 열린 공간 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-b-approved-storyboard-rgb.png) | ![승인한 B씬 열린 공간 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-b-approved-storyboard-depth.png) |
-| C씬 — 열린 수직 오버헤드 | ![승인한 C씬 수직 오버헤드 전진 도약 RGB](../../../assets/part-07/chapter-05/p7-5-3-scene-c-approved-storyboard-rgb.png) | ![승인한 C씬 수직 오버헤드 전진 도약 상대 depth](../../../assets/part-07/chapter-05/p7-5-3-scene-c-approved-storyboard-depth.png) |
-
-A씬은 두 팔·두 다리, 앞뒤 스플릿과 넓어진 절벽 간격을 함께 유지하며 발끝도 절벽에서 분리된다. B씬은 열린 공간과 작은 인물 비율을 유지하지만 뒤쪽 다리가 접혀 있다. C씬은 두 팔·두 다리, 수직 오버헤드, 분리된 그림자를 함께 유지한다. 남은 차이는 숨기지 않고 이후 guide 또는 리파인 단계에서 다시 확인할 관찰점으로 남긴다.
+현재 A/B/C에는 보존된 승인 스토리보드가 없다. 다음 후보는 장면별로 인체·가림·접지·공간을 다시 검수하고, 통과한 RGB와 depth, 실행 계약을 함께 등록해야 한다.
 
 ### 승인 스토리보드 생성 소스와 실행 계약
 
-이미지 비교표와 실행 원문을 섞지 않는다. Python과 장면별 JSON은 아래 패널을 펼칠 때만 불러온다.
+이미지 비교표와 실행 원문을 섞지 않는다. Python은 아래 패널을 펼칠 때만 불러온다. 실행 코드는 후보를 만들기 위한 재현 경로일 뿐, 삭제된 승인 이력이나 새 승인 결과를 대신하지 않는다.
 
 <details id="p7-5-3-storyboard-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py" data-language="python">
 <summary>A/B/C 스토리보드 생성 Python 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-3-scene-a-approved-contract.json" data-language="json">A씬 실행 계약 JSON 보기</a></p>
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-3-scene-b-approved-contract.json" data-language="json">B씬 실행 계약 JSON 보기</a></p>
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-3-scene-c-approved-contract.json" data-language="json">C씬 실행 계약 JSON 보기</a></p>
 
 ## depth와 전신 한 장의 역할을 분리한다
 

@@ -74,32 +74,18 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 왼쪽 후보는 전신 구도를 남겼지만 얼굴과 착장이 승인 기준에서 벗어나고, 오른쪽 후보는 얼굴 단서를 늘리는 대신 흉상으로 좁아진다. 이 교환은 얼굴 reference의 강도를 올리는 일이 전신 구도·복장을 보존하는 조건과 독립적이지 않음을 보여 준다. 따라서 이 절에서는 두 후보 모두 전체 캐릭터 재현의 통과 사례로 쓰지 않는다.
 
-## 54컷 데이터도 새 동작과 시점을 자동으로 보장하지 않는다
+## 삭제한 FLUX 학습셋은 LoRA 근거로 쓰지 않는다
 
-> **이 보조 실험이 확인한 것:** LoRA의 입력은 사람 승인 identity 18장과 동작 36장을 구분해 구성해야 하며, LoRA는 화풍·복장을 보조할 수 있어도 단독 identity·pose 해결책은 아니다.
+P7-5.2의 방향 원본과 P7-5.4의 동작 원본으로 구성했던 FLUX 승인 이미지·review·54컷 manifest는 모두 제거했다. 따라서 이 절은 해당 데이터셋의 LoRA 효과를 현재 근거로 사용하지 않는다. 새 학습셋은 생성 모델, 이미지, 사람 검수 기록, caption·hash manifest를 한 세트로 새로 승인한 뒤에만 실험에 연결한다.
 
-참조 한 장이나 얼굴 adapter만으로 부족하다는 판단 뒤, character LoRA가 반복되는 화풍과 수평 시점의 복장을 얼마나 보조하는지 별도로 시험했다. 입력은 P7-5.2에서 사람 승인한 identity anchor 18장(얼굴·기본 전신·리파인 전신의 여섯 방향)과 P7-5.4에서 사람 승인한 동작 36장이다.
-
-동작 데이터는 서기·보행·쪼그리기·점프·스포츠처럼 전신 변화가 큰 장면을 넣었다. 생성 중에는 1단계에서 포즈·비례·의상 실루엣을 만들고 2단계에서 같은 인물에 절제된 웹툰 수채화 화풍을 입혔다. 학습셋에는 사람 승인한 2단계 PNG와 그 review JSON만 남겼다. 이는 고각도·새 동작·가림 관계의 자동 일반화를 증명하는 데이터가 아니라, character LoRA의 입력 계약을 분명히 한 실험이다.
-
-<details id="character-lora-54-dataset" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-character-lora-54/dataset-manifest.json" data-language="json">
-<summary><code>dataset-manifest.json</code> · JSON · 54컷 character LoRA 데이터셋 manifest 보기</summary>
-<div class="aibook-lazy-source__body">identity 18장과 사람 승인 동작 36장의 파일·caption·hash·분류를 불러옵니다.</div>
-</details>
-
-<details id="character-lora-54-preparation" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_4_prepare_character_lora_action_dataset.py" data-language="python">
-<summary><code>p7_5_4_prepare_character_lora_action_dataset.py</code> · Python · 54컷 데이터셋 준비 코드 보기</summary>
-<div class="aibook-lazy-source__body">승인 record를 검증하고 PNG symlink·caption·manifest를 만드는 코드를 불러옵니다.</div>
-</details>
-
-LoRA on은 off보다 화풍과 착장 경향을 끌어왔지만, 정확한 얼굴·동작·가방을 단독으로 고정하지는 못했다. FacePlus와 FaceID를 함께 써도 얼굴 단서는 보조할 뿐 전신 계약을 통과시키지 못했다.
+LoRA on은 off보다 화풍과 착장 경향을 끌어올 수 있지만, 정확한 얼굴·동작·가방을 단독으로 고정하지는 못한다. FacePlus와 FaceID를 함께 써도 얼굴 단서는 보조할 뿐 전신 계약을 통과시키지 못했다.
 
 | character LoRA on/off | FacePlus + FaceID |
 | --- | --- |
 | ![character LoRA on/off 비교](../../../assets/part-07/chapter-05/p7-5-4-character-lora-on-off-contact-sheet.png) | ![FacePlus와 FaceID 결합 후보](../../../assets/part-07/chapter-05/p7-5-4-faceplus-faceid-contact-sheet.png) |
 | 화풍·착장 경향은 보조 | 얼굴 단서는 생겨도 전신 계약 미통과 |
 
-왼쪽 비교가 말하는 것은 “54컷이면 새 동작을 모두 해결한다”가 아니다. identity 18장은 얼굴·비율·기본 착장의 기준을, 동작 36장은 몸의 변화 범위를 제공한다. 그럼에도 결과에서는 얼굴·동작·가방의 정확한 관계가 별도 조건 없이는 흔들린다. 오른쪽 비교도 얼굴 단서를 더한 뒤 전신 frame이 유지되는지를 함께 보므로, 얼굴 개선만을 성공으로 세지 않는다.
+이 비교가 말하는 것은 데이터 수만으로 새 동작을 모두 해결할 수 없다는 점이다. 얼굴·동작·가방의 정확한 관계는 별도 조건 없이는 흔들리므로, 얼굴 개선만을 성공으로 세지 않는다.
 
 ## OpenPose는 2D 관절 배치까지만 전달했다
 

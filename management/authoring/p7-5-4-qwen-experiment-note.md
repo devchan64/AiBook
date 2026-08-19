@@ -191,8 +191,8 @@ ControlNet Stage 1의 협곡 이미지를 source로 두고, 인물 영역만 흰
 
 - 산출물·실행 기록·검수 JSON은 `.tmp/p7-5-4-qwen-edit-p753-remaining-scenes/scene-{a,b,c}-character-first-structure-second-1280-steps80-*`에 있다.
 - 사용자 검수(2026-08-17): 1280 조건은 기존보다 캐릭터·구도·소품을 더 많이 재현했다. 그러나 **A·B의 화풍은 재현하지 못했다.** C의 화풍 계약은 이번 검수에서 별도 통과·탈락을 판정하지 않았다.
-- 원인 1 — **참조 자산 선택·역할 배정의 불일치**: 정면 얼굴(`p7-5-2-face-front-reference.png`)·정면 전신(`p7-5-2-fullbody-front-refined-reference.png`)·정면 3/4 전신 자료는 이미 준비돼 있다. 그러나 80-step 실행은 과거의 합성 character sheet와 `front-hip` crop을 사용했으며, 준비된 정면 전신 원본을 별도 착장 입력으로 쓰지 않았다. 따라서 이너 셔츠·가방 strap·신발의 전신 관계가 입력에서 약해졌다.
-- 원인 2 — **구도 자산 선택·역할 배정의 불일치**: Scene A·B·C에는 각각 사람 승인 contract와 원본 storyboard RGB·relative depth가 준비돼 있다. 그러나 80-step 최종 Edit는 이 원본 대신 파생 ControlNet structure guide를 썼다. 따라서 바라보는 방향·팔다리 방향·카메라와 공간 조건이 최종 입력에서 약해졌다. 화상 편집 API의 native ControlNet 입력은 아니지만, 다음 기본 경로는 승인 storyboard depth를 직접 Edit 참조로 사용하고 RGB는 통제 비교 조건으로 사용한다.
+- 원인 1 — **참조 자산 선택·역할 배정의 불일치**: 당시 사용한 FLUX 정면 얼굴·전신 승인 자산은 제거됐다. 다음 Edit 실행은 현재 승인된 Qwen identity·착장 자산만을 명시 입력으로 사용하고, 각 입력의 승인 범위를 다시 확인해야 한다.
+- 원인 2 — **구도 자산 선택·역할 배정의 불일치**: 당시 A·B·C의 FLUX 승인 contract와 storyboard RGB·relative depth도 제거됐다. 다음 실행은 새 storyboard를 장면 계약과 함께 다시 검수한 뒤, 승인 depth와 RGB의 역할을 명시해야 한다.
 - 원인 3 — **화풍 참조 역할의 미연결**: P7-5.1 승인 화풍 팩은 고각도·광각·눈높이와 다양한 시간·장소를 이미 제공한다. 그러나 80-step 최종 Edit는 화풍 이미지를 별도 입력 역할로 쓰지 않고 prompt의 화풍 문장에만 의존했다. 화풍 자산 부족이 아니라, 3입력 예산 안에서 character·structure·style 역할을 명시하지 않은 것이 A·B 화풍 실패의 직접 원인 후보다.
 - 참고 관찰(사용자 제공 고각도 보행 산출): 청록 단발·황금 홍채·흰 재킷·회색 이너 셔츠·청록 바지·남색 crossbody bag·운동화가 한 전신 이미지에서 함께 보존됐다. 다음 실행은 이미 준비된 **정면 전신과 이너 셔츠가 동시에 보이는 원본 참조**를 사용해야 한다. 이 이미지는 관찰 근거이며, 별도 사용 지시 전에는 다음 Edit 입력으로 자동 사용하지 않는다.
 - 결론: 1280은 캐릭터·구도·소품의 상대적 개선 신호지만, A·B의 화풍 실패와 착장·방향 정보 누락 때문에 A·B·C 공통 재현 파이프라인으로 승인하지 않는다. 다음 개선은 step 증가가 아니라 **완성 character sheet(정면 얼굴·전신 착장) + 원본 storyboard depth/RGB + P7-5.1 승인 화풍 참조**를 각 1장씩 3입력으로 사용해 검증해야 한다.

@@ -68,7 +68,6 @@ P7-5.2의 입력은 하나의 예쁜 인물 그림이 아닙니다. 배경 화�
 
 정면 얼굴 기준의 prompt, seed, 출력 크기와 사람 승인 판정은 아래 `review.json` 관리 자산에 남깁니다. 이 기록은 정면 얼굴 identity와 이후 얼굴 회전 대조점까지만 승인하며, 전신·pose·camera·표정은 포함하지 않습니다.
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-reference-review.json" data-language="json">정면 얼굴 승인 review.json</a></p>
 
 ### Qwen 정면 머리 기준
 
@@ -113,15 +112,14 @@ Full 맵은 검출 결과가 얼굴·손까지 한 좌표계에서 자연스럽�
 
 ## 얼굴 회전 identity 기준
 
-공용 identity 계약을 적용한 정면 얼굴 후보를 `seed=62294`, `6 step`으로 사람 승인해 `p7-5-2-face-front-reference.png` 안정 자산으로 교체했습니다. 이 정면과 다섯 개별 방향 얼굴은 얼굴 회전 identity 범위만 승인합니다. 좌·우 전면 쿼터와 좌·우 엄격 측면, 후면은 눈에 보이는 홍채의 지름과 동공-홍채 비율, 시선과 코의 방향, 콧대·코끝, 단발의 가르마·앞머리·컬·외곽 실루엣을 정면 기준과 대조합니다. pose·camera·표정·전신은 별도 생성과 검수가 필요합니다.
+이전에 이 절에 등록했던 FLUX 방향 얼굴·전신·리파인 승인 PNG와 review 기록은 제거했다. 따라서 현재 보존된 Qwen 정면 기준을 제외한 회전 방향은 새 후보를 생성하고 사람 검수를 통과하기 전까지 안정 참조나 LoRA 입력으로 사용하지 않는다.
+
 
 | 정면 | 카메라 기준 좌측 전면 쿼터 | 카메라 기준 우측 전면 쿼터 |
 | --- | --- | --- |
-| ![승인된 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-reference.png) | ![승인된 좌측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-quarter-left-reference.png) | ![승인된 우측 전면 쿼터 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-front-quarter-right-reference.png) |
 
 | 카메라 기준 좌측 측면 | 카메라 기준 우측 측면 | 후면 |
 | --- | --- | --- |
-| ![승인된 좌측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-left-reference.png) | ![승인된 우측 측면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-profile-right-reference.png) | ![승인된 후면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-2-face-rear-reference.png) |
 
 ### 방향별 얼굴 승인 검수 기록
 
@@ -129,11 +127,6 @@ Full 맵은 검출 결과가 얼굴·손까지 한 좌표계에서 자연스럽�
 
 | 방향 | 승인 검수 기록 |
 | --- | --- |
-| 좌측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-quarter-left-reference-review.json" data-language="json">review.json</a> |
-| 우측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-front-quarter-right-reference-review.json" data-language="json">review.json</a> |
-| 좌측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-profile-left-reference-review.json" data-language="json">review.json</a> |
-| 우측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-profile-right-reference-review.json" data-language="json">review.json</a> |
-| 후면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-face-rear-reference-review.json" data-language="json">review.json</a> |
 
 개별 방향 PNG는 사람 검수용 대조물이면서, 정면 PNG와 함께 기본 전신 방향 생성의 방향별 얼굴 시트 패널입니다.
 
@@ -182,11 +175,9 @@ Flux로 만든 착장 통합 기준은 폐기했습니다. 현재 정면 전신 
 
 | 정면 | 좌측 전면 쿼터 | 우측 전면 쿼터 |
 | --- | --- | --- |
-| ![승인된 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-reference.png) | ![승인된 좌측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-reference.png) | ![승인된 우측 전면 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-reference.png) |
 
 | 좌측 측면 | 우측 측면 | 후면 |
 | --- | --- | --- |
-| ![승인된 좌측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference.png) | ![승인된 우측 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference.png) | ![승인된 후면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference.png) |
 
 ### 승인 검수 기록
 
@@ -194,11 +185,7 @@ Flux로 만든 착장 통합 기준은 폐기했습니다. 현재 정면 전신 
 
 | 방향 | 승인 검수 기록 |
 | --- | --- |
-| 좌측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-reference-review.json" data-language="json">review.json</a> |
-| 우측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-reference-review.json" data-language="json">review.json</a> |
 | 좌측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference-review.json" data-language="json">review.json</a> |
-| 우측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference-review.json" data-language="json">review.json</a> |
-| 후면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-rear-reference-review.json" data-language="json">review.json</a> |
 
 정면 신체비율 생성기와 턴어라운드 생성기는 분리합니다. 정면 생성기는 1단계 전신 생성(기본 `3 step`) 뒤 2단계 얼굴 아이덴티 보강(기본 `6 step`)을 적용해 정면 PNG를 만듭니다. 방향 전신 생성기는 이 승인 정면을 `--front-image` 앵커로 받아 좌·우 전면 쿼터·좌·우 측면·후면을 각각 한 번에 생성합니다. 얼굴 아이덴티 JSON과 후속 얼굴 보정 단계는 사용하지 않으며, 기본값은 `seed=62294`, `--steps 6`입니다.
 
@@ -226,31 +213,23 @@ Flux로 만든 착장 통합 기준은 폐기했습니다. 현재 정면 전신 
 
 | 승인 정면 리파인 기준 | 승인 좌측 전면 쿼터 리파인 기준 | 승인 우측 전면 쿼터 리파인 기준 |
 | --- | --- | --- |
-| ![승인된 정면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference.png) | ![승인된 좌측 전면 쿼터 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-refined-reference.png) | ![승인된 우측 전면 쿼터 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-refined-reference.png) |
 
 | 승인 좌측 측면 리파인 기준 | 승인 우측 측면 리파인 기준 | 승인 후면 리파인 기준 |
 | --- | --- | --- |
-| ![승인된 좌측 측면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-refined-reference.png) | ![승인된 우측 측면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-refined-reference.png) | ![승인된 후면 전신 얼굴·소품 리파인 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-rear-refined-reference.png) |
 
 리파인 PNG는 `p7-5-2-fullbody-{front,front-quarter-left,front-quarter-right,profile-left,profile-right,rear}-refined-reference.png` 안정 이름으로 등록한 사람 승인 결과입니다. 여섯 방향 모두 `seed=62294`, 단일 `3 step` 기준으로 교체했습니다. 우측 전면 쿼터에서는 가방 본체가 먼쪽 골반 뒤에 가려지고 몸통 외곽에 일부만 보이며, 앞가슴에는 스트랩 한 줄만 이어지는 결과를 승인했습니다. 이 리파인 사례는 기존 방향 전신 composition 기준을 대체하지 않으며, 머리·몸통·발 방향 일치, 흰 크롭 재킷과 회색 상의의 경계, 가방과 스트랩의 위치, 후면의 얼굴 비노출을 확인하는 범위만 승인합니다.
 
 | 방향 | 승인 검수 기록 |
 | --- | --- |
-| 정면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-refined-reference-review.json" data-language="json">review.json</a> |
-| 좌측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-left-refined-reference-review.json" data-language="json">review.json</a> |
-| 우측 전면 쿼터 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-quarter-right-refined-reference-review.json" data-language="json">review.json</a> |
-| 좌측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-refined-reference-review.json" data-language="json">review.json</a> |
-| 우측 측면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-refined-reference-review.json" data-language="json">review.json</a> |
-| 후면 | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-rear-refined-reference-review.json" data-language="json">review.json</a> |
 
 <details id="fullbody-face-prop-refinement" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_refine_fullbody_face_props.py" data-language="python">
 <summary>정면 얼굴·전신 방향·자켓·가방으로 전신을 보강하는 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
 </details>
 
-## 승인 원본 18장을 캐릭터 LoRA 입력으로 준비한다
+## FLUX 18장 LoRA 입력은 폐기한다
 
-새 전신 후보를 다시 만들지 않습니다. 이미 사람 승인한 정면·방향 얼굴 6장, 기본 전신 6장, 자켓·가방을 보강한 전신 6장을 함께 사용합니다. 얼굴 원본은 얼굴형·머리·홍채의 identity anchor이고, 기본 전신은 몸 비례와 기본 복장을, 리파인 전신은 자켓·가방을 포함한 확장 복장을 맡습니다. 같은 방향이라도 세 원본의 역할이 달라서 파일을 하나로 합성하거나 자동 중복 제거하지 않습니다.
+기존 FLUX 승인 원본 18장과 이를 묶는 LoRA 입력 계획은 제거했다. 삭제된 방향 얼굴·기본 전신·리파인 전신을 학습 원본, identity anchor, 또는 후속 생성 입력으로 다시 사용하지 않는다. 새 데이터셋은 현재 Qwen 기준부터 필요한 방향을 새로 생성·검수한 뒤 별도 manifest로 준비한다.
 
 준비 스크립트는 PNG를 복사하지 않고 로컬 학습 폴더에 심볼릭 링크와 짝이 되는 영문 tag caption을 만듭니다. 각 항목에는 source ID·원본 SHA-256·방향·역할을 담은 `dataset-manifest.json`도 남깁니다. 이어서 원본을 바꾸지 않는 `3열×6행` 검수용 contact sheet PNG를 출력합니다. 따라서 실행 뒤 원본 PNG가 바뀌면 다음 준비 실행에서 해시가 달라졌다는 사실을 확인할 수 있습니다. 출력 폴더 기본값은 커밋하지 않는 `.tmp/`이며, 이 단계는 LoRA의 품질이나 새 pose·camera·장면 범위를 승인하지 않습니다.
 
