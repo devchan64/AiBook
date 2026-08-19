@@ -155,6 +155,12 @@ Full 맵은 검출 결과가 얼굴·손까지 한 좌표계에서 자연스럽�
 
 Flux로 만든 착장 통합 기준은 폐기했습니다. 현재 정면 전신 후보는 Qwen으로 생성·승인한 정면 전신의 복장 부분만 복장 앵커로 사용하고, 얼굴 identity와 body-only OpenPose 구조를 별도 입력으로 유지합니다. 따라서 복장의 외형은 Qwen 앵커로, 전신 비율은 7등신 skeleton으로, 얼굴은 정면 identity PNG로 각각 대조할 수 있습니다.
 
+현재 Qwen 착장·가방 앵커는 이미지 입력 없이 생성해 사람 승인한 여성용 드레스 폼입니다. 이 기준은 얼굴·머리·인체 identity가 없는 마네킨에 흰 초단 크롭 재킷, 회색 이너 탑, 피부 띠, 딥틸 하이웨이스트 와이드 팬츠, 흰 스니커즈, 오른쪽 어깨에서 왼쪽 골반으로 이어지는 남색 크로스백을 함께 배치합니다. 정면 전신 생성에서는 이 이미지로 복장·가방만 전달하고, 얼굴은 Qwen 정면 기준에서, 전신 비례와 자세는 승인 body-only OpenPose에서 각각 전달합니다.
+
+| 승인된 Qwen 여성용 드레스 폼 착장·가방 기준 | 검수 기록 |
+| --- | --- |
+| ![승인된 Qwen 여성용 드레스 폼 착장·가방 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-review.json" data-language="json">review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-run.json" data-language="json">run.json</a> |
+
 ## 방향별 전신 기준
 
 정면·좌우 전면 쿼터·좌우 측면·후면의 여섯 PNG는 기본 전신 기준입니다. 승인 범위는 자연스러운 신체비율, 전신 프레이밍, 회색 크롭탑·바지·신발, 청록 단발의 연속성입니다. 자켓과 가방을 더한 리파인 결과는 이 기본 기준과 별도의 승인 자산입니다. 정면 앵커에서 나머지 다섯 방향을 파생하더라도 성인 체형 prompt가 실제 비례를 보장하지는 않으므로, 방향별 결과는 반드시 사람 검수를 거칩니다. 표정·동작·카메라 변화가 있는 장면은 이 기준의 승인 범위 밖입니다.

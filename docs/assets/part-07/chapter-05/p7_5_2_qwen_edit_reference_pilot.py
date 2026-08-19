@@ -92,11 +92,15 @@ TARGETS = {
         "default_steps": 10,
         "size": (768, 1152),
         "prompt": (
-            "Front full-length women's outfit reference on a headless torso-only mannequin, from a low flat circular neck cap immediately "
-            "above the jacket collar to white sneaker soles. No head, face, hair, scalp, ears, or human silhouette. White ultra-short cropped "
-            "utility jacket with closed chest, flap pockets, waist darts, and cuffed long sleeves; gray micro-crop top; bare midriff; deep-teal "
-            "high-waisted wide-leg trousers; white low-top lace-up sneakers; navy canvas crossbody bag at the left hip with one taut strap from "
-            "the right shoulder across the jacket. Off-white background; no hands, text, hanger, or extra strap."
+            "Women's fashion dress-form mannequin, strict front full length, never a person. Use a feminine garment-display proportion: gently "
+            "sloped narrow shoulders, a softly rounded bust beneath the closed jacket, a clearly narrower waist, and a modestly wider hip; never a "
+            "broad masculine torso or straight masculine hip line. It has a short cylindrical neck stump capped by a flat "
+            "circular plug immediately above the jacket collar: absolutely no head shape, face, hair, scalp, ears, eyes, nose, mouth, or jaw. "
+            "Both jacket sleeves end as blank mannequin arm forms at the cuffs: absolutely no skin, wrists, hands, fingers, or arms outside the clothing. "
+            "White ultra-short cropped utility jacket with closed chest, flap pockets, waist darts, and cuffed long sleeves; gray micro-crop top; "
+            "bare midriff; deep-teal high-waisted wide-leg trousers; white low-top lace-up sneakers; navy canvas crossbody bag at the left hip with "
+            "one taut strap from the right shoulder across the jacket. Isolated plain off-white catalogue background, symmetric neutral standing display, "
+            "no text, hanger, human silhouette, extra strap, or scene."
         ),
     },
     "fullbody_front_refined": {
@@ -151,7 +155,7 @@ TARGETS = {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-turnaround-body-only-pitch0-v1/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+            "p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
