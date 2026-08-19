@@ -115,7 +115,6 @@ TARGETS = {
     "fullbody_front_jacket_bag": {
         "inputs": (
             QWEN_FACE_REFERENCE,
-            "p7-5-2-outfit-integrated-front-full-length-qwen-reference.png",
             "p7-5-2-openpose-fullbody-front-body-only-approved-guide.png",
         ),
         "append_style_prompt": False,
@@ -124,10 +123,10 @@ TARGETS = {
         "size": (960, 1440),
         "prompt": (
             "Image 1: preserve the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and "
-            "high-volume petrol-teal bob. Image 2: preserve the ultra-short white cropped utility jacket, gray micro-crop top, bare midriff, "
-            "deep-teal high-waisted wide-leg trousers, white low-top sneakers, and navy crossbody bag from right shoulder to left hip. "
-            "Image 3: body-only OpenPose for a centered strict-front standing full body; do not render it. Hair crown to shoe soles, relaxed arms, "
-            "compact neck, natural seven-head proportion, off-white background, one person, no text."
+            "high-volume petrol-teal bob. Image 2: body-only OpenPose for a centered strict-front standing full body; do not render it. "
+            "Preserve an ultra-short white cropped utility jacket, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, "
+            "white low-top sneakers, and a navy crossbody bag from right shoulder to left hip. Hair crown to shoe soles, relaxed arms, compact neck, "
+            "natural seven-head proportion, off-white background, one person, no text."
         ),
     },
     "fullbody_front_quarter_left_qwen": {
@@ -151,7 +150,6 @@ TARGETS = {
     "fullbody_profile_left_qwen": {
         "inputs": (
             QWEN_FACE_REFERENCE,
-            "p7-5-2-outfit-integrated-front-full-length-qwen-reference.png",
             "p7-5-2-qwen-edit-candidates/p7-5-2-openpose-fullbody-profile-left-90deg-guide.png",
         ),
         "append_style_prompt": False,
@@ -160,10 +158,10 @@ TARGETS = {
         "size": (960, 1440),
         "prompt": (
             "Use image 1 only for the young East Asian woman's head identity: compact oval face, high straight nose bridge, orange-amber "
-            "irises, asymmetric fringe, and high-volume petrol-teal bob. Use image 2 only for the complete outfit: ultra-short white "
-            "cropped utility jacket with long cuffed sleeves, gray micro-crop top, bare-midriff gap, high-waisted deep-teal wide-leg "
-            "trousers, white low-top sneakers, and one navy crossbody bag with one exterior strap. Use image 3 only as a non-rendered "
-            "standard OpenPose structural guide, including its compact asymmetric profile head map; never render its lines, dots, colors, "
+            "irises, asymmetric fringe, and high-volume petrol-teal bob. Keep an ultra-short white cropped utility jacket with long cuffed "
+            "sleeves, gray micro-crop top, bare-midriff gap, high-waisted deep-teal wide-leg trousers, white low-top sneakers, and one navy "
+            "crossbody bag with one exterior strap. Use image 2 only as a non-rendered standard OpenPose structural guide, including its compact "
+            "asymmetric profile head map; never render its lines, dots, colors, "
             "or black background. Create one strict full-body left profile, upright and centered from hair crown to shoe soles: face, nose, "
             "chest, hips, knees, and shoes all point toward image left. Show exactly one visible eye and eyebrow; hide the far eye, cheek, "
             "and ear behind the nose and hair. Keep relaxed arms, a compact natural neck, and the navy bag and strap on the visible exterior. "
@@ -455,7 +453,6 @@ def main() -> None:
             else
             [
                 "head_identity",
-                "complete_full_length_outfit",
                 "standard_openpose_fullbody_structure",
             ]
             if args.target in {"fullbody_front_jacket_bag", "fullbody_profile_left_qwen"}
