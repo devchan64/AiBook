@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Extract face-only OpenPose maps from a regular face-turnaround contact sheet.
+"""Extract OpenPose face maps from a regular face-turnaround contact sheet.
 
 The source sheet is not an identity reference or an approved pose guide. This
-script separates its regular grid, detects only the OpenPose face landmarks in
-each cell, and writes review candidates. Inspect every output before using it
+script separates its regular grid, detects OpenPose face landmarks in each
+cell, and writes review candidates. It can optionally draw the OpenPose body
+map to inspect head--neck relations. Inspect every output before using it
 as a structural condition: profile and steep-down views can have missing or
 misplaced landmarks.
 
@@ -101,6 +102,11 @@ def main() -> None:
     parser.add_argument("--background-threshold", type=int, default=245)
     parser.add_argument("--padding", type=int, default=12)
     parser.add_argument("--contact-cell-size", type=int, default=256)
+    parser.add_argument(
+        "--include-body",
+        action="store_true",
+        help="Also draw body landmarks; a head-only source cannot validate a full body map.",
+    )
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 
@@ -142,7 +148,7 @@ def main() -> None:
                 face_crop,
                 detect_resolution=args.detect_resolution,
                 image_resolution=max(face_crop.size),
-                include_body=False,
+                include_body=args.include_body,
                 include_hand=False,
                 include_face=True,
                 output_type="pil",
@@ -169,12 +175,12 @@ def main() -> None:
                 "detector": "controlnet_aux OpenposeDetector from lllyasviel/Annotators",
                 "annotators": str(args.annotators),
                 "grid": {"columns": args.columns, "rows": args.rows},
-                "face_only": True,
-                "body_included": False,
+                "face_only": not args.include_body,
+                "body_included": args.include_body,
                 "hands_included": False,
                 "contact_sheet": contact_path.name,
                 "outputs": records,
-                "review_note": "Inspect all fifteen maps before using them as structural inputs; no map is an identity or style approval.",
+                "review_note": "Inspect every map before using it as a structural input. For a head-only source, body landmarks are diagnostic only; no map is an identity or style approval.",
             },
             ensure_ascii=False,
             indent=2,
