@@ -1,0 +1,19 @@
+{
+  "status": "approved",
+  "approval": "human_approved",
+  "output": "p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+  "view": "front",
+  "generator": "p7_5_2_generate_turnaround_relation_maps.py",
+  "structural_scope": "deterministic seven-head BODY_18 map: image-right hand on waist, image-left arm lowered, and asymmetric standing weight shift",
+  "approved_scope": [
+    "image-right elbow angled outward with the wrist at waist height",
+    "image-left arm lowered beside the torso",
+    "weight carried by the image-left leg while the image-right knee and foot relax outward",
+    "source upper/lower arm and upper/lower leg lengths preserved in the generated coordinates"
+  ],
+  "limitations": [
+    "This is a body-only structural guide; it defines no face, hands, character identity, clothing, bag, lighting, or background.",
+    "Approval of this map does not approve the five-step Qwen output quality."
+  ],
+  "asset_sha256": "fe73e2250d41ed14698b78567c29fbad65711f8e4d8b3831e58aeb78bbcf9b55"
+}
