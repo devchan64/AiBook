@@ -5,7 +5,7 @@
     "role": "complete character outfit"
   },
   "right_region": {
-    "source": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+    "source": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png",
     "role": "approved P7-5.1 watercolor rendering"
   },
   "layout": "equal-width vertical panels; no character or scene from the style panel is a content reference"

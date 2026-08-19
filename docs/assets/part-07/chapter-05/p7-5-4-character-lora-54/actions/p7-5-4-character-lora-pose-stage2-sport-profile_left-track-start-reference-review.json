@@ -8,7 +8,7 @@
   "candidate_id": "sport-profile_left-track-start",
   "stage": "style_stage_2",
   "source_stage": "stage1_pruned_after_stage2_approval",
-  "style_reference": "p7-5-1-style-atrium-dawn-high-angle-local-gpu-v5.png",
+  "style_reference": "p7-5-1-style-atrium-dawn-high-angle-qwen-image-qwen30-v3-scene01-code-7a21c8-seed-420713-steps-30.png",
   "seed": 62294,
   "steps": 6,
   "prompt": "Render the supplied full-body figure in restrained webtoon watercolor. Preserve the supplied figure's exact pose, view, facial identity, anatomy, clothing silhouette, and plain off-white studio background. Preserve equal-sized orange-amber irises in both eyes. Use the second supplied image only as the visual-style reference. One person, no text or labels.",
