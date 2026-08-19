@@ -1,7 +1,7 @@
 # P7-5.1 화풍 참조 셋 생성: 로컬 GPU로 프레임 없는 기준 만들기
 
 > Section ID: `P7-5.1`
-> Version: `v2026.08.18`
+> Version: `v2026.08.19`
 
 이 프로젝트는 Qwen Image로 배경 화풍 후보를 생성하고 사람 검수 뒤 승인 참조 셋에 반영합니다. 화풍 참조 셋은 보기 좋은 배경을 모은 폴더가 아닙니다. 선의 역할, 색의 겹침, 시간대의 광원, 장소의 폭, 카메라 구도를 **같은 기준으로 비교할 수 있게 만든 검수 입력**입니다. 한 장이 마음에 들어도 다른 장소와 카메라에서 계약이 무너지면, 화풍 기준으로 승인하지 않습니다.
 
@@ -106,7 +106,7 @@ Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성
 
 공통 화풍 계약은 [화풍 프롬프트 JSON](../../../assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json)에 분리한다. 이 자산에는 프레임 없는 캔버스, 얇은 charcoal 선, 반투명 수채화 색층, 안료 질감, 제외 대상만 들어 있다. 장소·시간·카메라는 실행 코드의 장면별 prompt가 맡으므로, 한 행의 공간 문제를 고칠 때 공통 화풍 계약을 함께 바꾸지 않는다.
 
-현재 `background-style-v3` 계약은 같은 핵심 조건을 47단어에서 30단어로 압축했다. 1~20번 승인 원본은 이 v3 계약으로 재생성했다. 초기 v1 실행 JSON은 당시 사용한 전문과 단어 수를 보존하므로, 계약을 바꿔도 과거 재현 기록을 소급해 바꾸지 않는다.
+현재 `background-style-v3` 계약은 같은 핵심 조건을 47단어에서 30단어로 압축했다. 1~20번 승인 원본은 이 v3 계약으로 재생성했다. 계약을 바꾸면 기존 승인 원본을 소급해 바꾸지 않고, 새 후보를 만들어 사람 검수와 manifest 갱신을 다시 거친다.
 
 | 코드 위치 | 바꾸면 달라지는 것 | 학습할 경계 |
 | --- | --- | --- |
@@ -115,7 +115,7 @@ Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성
 | `SCENES`의 `seed` | 같은 조건의 다른 출발점 | seed 고정은 비교 기록이지 품질 보장이 아님 |
 | `P7_STYLE_SCENE`, `P7_STYLE_EXCLUDE` | 생성할 행의 범위 | 한 행 생성은 전체 팩 승인이 아님 |
 | `STEPS`, `TRUE_CFG_SCALE`, 해상도 | 추론 조건 전체 | 값을 바꾸면 별도 비교 실험으로 기록함 |
-| 터미널 실행 요약 | 시간·GPU 메모리·출력 파일 | 생성 성공과 사람 승인을 분리함 |
+| 터미널 실행 요약 | 시간·GPU 메모리·출력 파일 | 후보 생성 기록과 사람 승인을 분리함 |
 
 공통 계약의 원문에는 `common_contract`(모델에 전달할 짧은 조건), `fixed_checks`(사람이 결과에서 확인할 항목), `assembly_rule`(한 장면 prompt와 계약을 결합하는 규칙)을 둡니다. 본문에서는 세 필드의 역할을 먼저 읽고, 필요할 때만 아래 패널에서 전문을 확인합니다.
 
@@ -124,7 +124,7 @@ Qwen Image는 text-to-image와 이미지 편집을 지원하는 이미지 생성
 <div class="aibook-lazy-source__body">공통 prompt, 사람 검수 항목, 장면 prompt 결합 규칙을 불러옵니다.</div>
 </details>
 
-이전의 시간대 균형 배치와 표적 재생성 파일은 같은 실행 골격에 당시의 `SCENES`만 기록한 이력입니다. 따라서 별도의 생성 방법이나 두 번째 실행 경로로 설명하지 않습니다. P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용할 수 있으며, 내장 이미지 생성으로 만든 자산은 입력·승인·manifest에서 제외했습니다.
+P7-5.1의 참조 원본은 로컬 GPU로 생성한 것만 사용할 수 있으며, 내장 이미지 생성으로 만든 자산은 입력·승인·manifest에서 제외했습니다.
 
 [스무 로컬 GPU 화풍 후보 생성 코드 보기](/AiBook/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py){.aibook-source-link}
 
@@ -195,7 +195,7 @@ for scene in scenes:
 
 ## 하나의 스크립트로 1~20번 후보를 만들고, 사람 검수로 승인한다
 
-`p7_5_1_regenerate_local_gpu_style_references.py`는 `SCENES`에 정의한 스무 행을 한 실행 목록으로 읽습니다. 모든 행은 같은 모델·화풍 계약·해상도·30스텝·`true_cfg_scale`을 공유하고, 장소·시간·카메라·seed만 행마다 바뀝니다. 기본 실행은 이 스무 행을 차례로 생성하고, 각 PNG와 prompt·seed·시간·GPU 메모리 기록을 실행 JSON에 남깁니다. 따라서 1~20번은 서로 다른 생성 방법의 결과가 아니라, 하나의 스크립트에서 조건 행만 바꿔 만든 비교 집합입니다.
+`p7_5_1_regenerate_local_gpu_style_references.py`는 `SCENES`에 정의한 스무 행을 한 실행 목록으로 읽습니다. 모든 행은 같은 모델·화풍 계약·해상도·30스텝·`true_cfg_scale`을 공유하고, 장소·시간·카메라·seed만 행마다 바뀝니다. 기본 실행은 이 스무 행을 차례로 생성하고, 각 PNG와 prompt·seed·시간·GPU 메모리 요약을 터미널에 출력합니다. 따라서 1~20번은 서로 다른 생성 방법의 결과가 아니라, 하나의 스크립트에서 조건 행만 바꿔 만든 비교 집합입니다.
 
 아트리움 한 행을 1024×1024, seed `420713`, 102단어 prompt로 비교했을 때 4·10·20·30·40·50스텝 후보를 만들었습니다. 20스텝부터 선과 색층의 기본 형태는 읽을 수 있었지만, 30스텝을 스무 행 공통의 기본값으로 두었습니다. 30스텝 아트리움 후보의 행 생성 시간은 99.8초였고, 전체 실행의 GPU 메모리 peak은 5,467 MiB였습니다. 이 결과는 한 장면·한 해상도에서의 운용 기록이지 모든 장면의 필요 스텝이나 품질 보장은 아닙니다.
 
@@ -215,7 +215,7 @@ for scene in scenes:
 
 ## 승인된 1~20번 로컬 GPU 원본을 한 번에 확인한다
 
-아래 표는 위 스크립트의 `SCENES` 순서대로 1번부터 20번까지 정리한 사람 승인 원본입니다. 모든 이미지는 Qwen Image 30스텝 실행 결과이며, 실행 JSON과 manifest는 이미지 자산명으로 연결합니다. manifest의 `scene_id`는 다음 단계에서 장면을 구분하기 위한 별도 식별자입니다.
+아래 표는 위 스크립트의 `SCENES` 순서대로 1번부터 20번까지 정리한 사람 승인 원본입니다. 모든 이미지는 Qwen Image 30스텝 실행 결과이며, manifest는 이미지 자산명과 `scene_id`로 다음 단계 입력을 연결합니다.
 
 | 1 · 실내 아트리움 · 새벽 · high angle | 2 · courtyard · 이른 아침 · high angle | 3 · 도심 · 낮 · wide eye-level | 4 · 주택가 · 해질녘 · low angle |
 | --- | --- | --- | --- |
@@ -237,7 +237,7 @@ for scene in scenes:
 | --- | --- | --- | --- |
 | ![blue hour greenhouse의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-greenhouse-blue-hour-qwen-image-qwen30-v3-scene17-code-d58c43-seed-420817-steps-30.png) | ![아침 ferry deck의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ferry-deck-morning-qwen-image-qwen30-v3-scene18-code-757f71-seed-420818-steps-30.png) | ![밤 cinema foyer의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-cinema-foyer-night-qwen-image-qwen30-v3-scene19-code-42de24-seed-420819-steps-30.png) | ![오후 창빛이 들어오는 세라믹 스튜디오의 Qwen Image v3 30스텝 화풍 원본](/AiBook/assets/part-07/chapter-05/p7-5-1-style-ceramics-studio-afternoon-qwen-image-qwen30-v3-scene20-code-c1b8a5-seed-420820-steps-30.png) |
 
-스무 장면은 모두 사람 승인을 받았습니다. 자산 이름과 장면 식별자는 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 실행 이력은 커밋하지 않는 로컬 검수 기록으로 분리합니다.
+스무 장면은 모두 사람 승인을 받았습니다. 자산 이름과 장면 식별자는 [manifest](../../../assets/part-07/chapter-05/p7-5-1-approved-style-reference-pack.json)에 남기고, 행별 판정 이유는 커밋하지 않는 로컬 검수 기록으로 분리합니다.
 
 ## 실험에서 확인한 기능과 변경 결정
 

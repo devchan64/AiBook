@@ -2,8 +2,8 @@
 
 Outputs are review candidates. This script never marks an image approved.
 Set ``P7_STYLE_SCENE`` to regenerate one named existing or extension scene.
-The default run covers all twenty contract rows.  Outputs are candidates only;
-the review gate remains the authority for downstream use.
+The default run covers all twenty contract rows. Outputs are candidates only;
+human review remains the authority for downstream use.
 """
 
 import json
@@ -27,7 +27,7 @@ TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.saf
 SIZE = (1024, 1024)
 # Default quality/throughput operating point for subsequent style candidates.
 # The 4-step screen remains a recorded performance probe, not a style-master
-# setting; each run still records any explicit override in its JSON ledger.
+# setting; each run prints any explicit override in its terminal summary.
 STEPS = 30
 TRUE_CFG_SCALE = 4.0
 STYLE_PROMPT_PATH = ASSET_DIR / "p7-5-1-style-prompt-contract.json"
@@ -226,9 +226,6 @@ def main() -> None:
         "excluded_scenes": sorted(excluded_scenes),
         "runs": runs,
     }
-    record_path = ASSET_DIR / f"p7-5-1-qwen-image-style-pack-{run_label}-run.json"
-    record["run_record"] = str(record_path)
-    record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(record, indent=2))
 
 
