@@ -14,6 +14,7 @@ import importlib.util
 import importlib.metadata
 import json
 import platform
+import subprocess
 import sys
 import sysconfig
 import time
@@ -309,7 +310,7 @@ TARGETS = {
         "append_style_prompt": False,
         "append_illustration_prompt": True,
         "input_roles": ["approved_fullbody_identity_outfit", "standard_openpose_fullbody_structure"],
-        "default_steps": 10,
+        "default_steps": 30,
         "size": (960, 1440),
         "prompt": (
             "Image 1 is the exact approved Qwen character, full outfit, bag, and studio reference. Preserve the same young East Asian woman: "
@@ -361,6 +362,50 @@ TARGETS = {
         ),
     },
 }
+
+
+def approved_front_direction_target(yaw: int, direction: str, geometry: str) -> dict[str, object]:
+    """Define a review-only direction candidate from the approved front anchor."""
+    return {
+        "inputs": (
+            "p7-5-2-fullbody-front-qwen-approved-outfit-reference.png",
+            f"p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw{yaw:+03d}_pitch+00.png",
+        ),
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "input_roles": ["approved_fullbody_identity_outfit", "standard_openpose_fullbody_structure"],
+        "default_steps": 30,
+        "size": (960, 1440),
+        "prompt": (
+            "Image 1 is the exact approved Qwen character, full outfit, bag, and studio reference. Preserve the same young East Asian woman: "
+            "petrol-teal jaw-length bob, orange-amber irises, white ultra-short cropped utility jacket with long cuffed sleeves, gray inner crop top, "
+            "bare-midriff band, deep-teal high-waisted wide-leg trousers, white low-top sneakers, and one navy crossbody bag with its exterior strap. "
+            "Image 2 is a body-only OpenPose structural map; use its pose and orientation but never render its lines, dots, colours, or background. "
+            f"Create one upright full-body {direction} view from hair crown to shoe soles. {geometry} "
+            "Keep relaxed arms and a compact natural neck. Plain warm off-white background, one person, no text, panel, collage, or scene."
+        ),
+    }
+
+
+TARGETS.update(
+    {
+        "fullbody_quarter_right_approved_front_openpose": approved_front_direction_target(
+            45,
+            "right front-quarter",
+            "The nose, chest, hips, knees, and shoes turn toward image right; both eyes remain visible; the nearer image-left side is larger while the image-right side is compressed behind the torso.",
+        ),
+        "fullbody_profile_left_approved_front_openpose": approved_front_direction_target(
+            -90,
+            "strict left-profile",
+            "The nose, chest, hips, knees, and shoes all point toward image left; show exactly one eye and keep the far eye hidden.",
+        ),
+        "fullbody_profile_right_approved_front_openpose": approved_front_direction_target(
+            90,
+            "strict right-profile",
+            "The nose, chest, hips, knees, and shoes all point toward image right; show exactly one eye and keep the far eye hidden.",
+        ),
+    }
+)
 
 FACE_DIRECTION_RULES = {
     "face_front_quarter_left": (
@@ -568,12 +613,38 @@ def load_pipeline(image_edit: bool):
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--target", choices=tuple(TARGETS), required=True)
+    parser.add_argument("--target", choices=tuple(TARGETS), help="One target to generate.")
+    parser.add_argument(
+        "--targets",
+        nargs="+",
+        choices=tuple(TARGETS),
+        help="Generate these targets sequentially, in the supplied order.",
+    )
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=None, help="Denoising steps; defaults to the target's configured value.")
     parser.add_argument("--run-label", default="v2-natural-eyes", help="Suffix that separates controlled reruns.")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     args = parser.parse_args()
+    if bool(args.target) == bool(args.targets):
+        parser.error("provide exactly one of --target or --targets")
+    if args.targets:
+        for target_id in args.targets:
+            command = [
+                sys.executable,
+                str(Path(__file__).resolve()),
+                "--target",
+                target_id,
+                "--seed",
+                str(args.seed),
+                "--run-label",
+                args.run_label,
+                "--output-dir",
+                str(args.output_dir),
+            ]
+            if args.steps is not None:
+                command.extend(("--steps", str(args.steps)))
+            subprocess.run(command, check=True)
+        return
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
