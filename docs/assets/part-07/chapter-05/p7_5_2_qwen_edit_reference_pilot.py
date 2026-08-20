@@ -407,6 +407,56 @@ TARGETS.update(
     }
 )
 
+for _view, _direction, _face_guide in (
+    ("quarter_left", "45-degree left front-quarter", "face_front_quarter_left"),
+    ("quarter_right", "45-degree right front-quarter", "face_front_quarter_right"),
+    ("profile_left", "strict left profile", "face_profile_left"),
+    ("profile_right", "strict right profile", "face_profile_right"),
+):
+    TARGETS[f"head_{_view}_from_fullbody"] = {
+        "inputs": (
+            QWEN_FACE_REFERENCE,
+            f"p7-5-2-fullbody-{_view.replace('_', '-')}-reference.png",
+            OPENPOSE_GUIDES[_face_guide],
+        ),
+        # Rotation uses the approved frontal image's rendering as its style
+        # anchor.  Do not append the frontal-generation illustration prompt.
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "face_guide": _face_guide,
+        "input_roles": ["approved_front_face_detail_identity", "approved_direction_fullbody_composition", "openpose_face_rotation_geometry"],
+        "default_steps": 30,
+        "size": (768, 768),
+        "prompt": (
+            "Rotation prompt — Image 1 is the immutable frontal identity reference: preserve its face width, eye spacing, nose bridge, iris shape and colour, fringe, hair volume, line detail, shading, and illustration rendering without restyling. "
+            "Image 2 supplies only viewing direction and crown-to-collarbone framing; never copy its face, hair, or rendering. Image 3 is a non-rendered OpenPose face geometry guide. Create a detailed head-and-neck studio reference of the same young East Asian woman in a "
+            f"{_direction} view. "
+            "Crop from crown to collarbones; plain warm off-white background; no body, outfit, bag, text, panel, or scene."
+        ),
+    }
+
+# Head-detail rotation must not use a low-resolution fullbody image as an
+# identity source.  Keep the approved frontal face as the sole rendered
+# reference; OpenPose communicates only the requested view geometry.
+TARGETS["head_quarter_left_from_front_identity"] = {
+    "inputs": (QWEN_FACE_REFERENCE, OPENPOSE_GUIDES["face_front_quarter_left"]),
+    "append_style_prompt": False,
+    "append_illustration_prompt": False,
+    "face_guide": "face_front_quarter_left",
+    "input_roles": ["approved_front_face_detail_identity", "openpose_face_rotation_geometry"],
+    "default_steps": 30,
+    "size": (768, 768),
+    "prompt": (
+        "Rotation prompt — Image 1 is the sole rendered identity reference. Preserve its exact compact oval face, eye spacing, "
+        "high straight nose bridge, orange-amber iris shape and colour, petrol-teal-and-black asymmetric bob, fringe, loose "
+        "S-waves, hair volume, line detail, shading, and illustration rendering. Image 2 is a non-rendered OpenPose face "
+        "geometry guide only. Create the same young East Asian woman in a true 45-degree left front-quarter view: the nose tip "
+        "points image left, the near image-right eye and cheek are wider, and the far image-left eye is narrower and partly "
+        "hidden by the nose bridge. Crop from crown to collarbones on a plain warm off-white background; no body, outfit, bag, "
+        "text, panel, or scene."
+    ),
+}
+
 FACE_DIRECTION_RULES = {
     "face_front_quarter_left": (
         "a true 45-degree front-quarter view turned toward the viewer's left: the near right eye and right cheek are visibly wider, "
@@ -605,7 +655,7 @@ def load_pipeline(image_edit: bool):
     transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_id)
     pipeline_type = QwenImageEditPlusPipeline if image_edit else QwenImagePipeline
     pipe = pipeline_type.from_pretrained(model_id, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True)
-    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=4)
+    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
     pipe._exclude_from_cpu_offload.append("transformer")
     pipe.enable_sequential_cpu_offload()
     return pipe
@@ -651,6 +701,8 @@ def main() -> None:
     if args.target in FACE_DIRECTION_RULES:
         save_openpose_guide(args.target, ASSETS / OPENPOSE_GUIDES[args.target])
     target = TARGETS[args.target]
+    if face_guide := target.get("face_guide"):
+        save_openpose_guide(face_guide, ASSETS / OPENPOSE_GUIDES[face_guide])
     steps = args.steps if args.steps is not None else target.get("default_steps", DEFAULT_STEPS)
     if steps < 1:
         raise ValueError("--steps must be at least 1")
