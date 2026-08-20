@@ -28,7 +28,9 @@ STYLE_CONTRACT = ASSETS / "p7-5-2-character-reference-style-prompt-contract.json
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-character-reference-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
-OUTPUT_DIR = ASSETS / "p7-5-2-qwen-head-candidates"
+# Candidate filenames identify their generator and run; do not create a
+# separate candidate directory.
+OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
 SIZE = (768, 768)
 FRONT_HEAD_PROMPT = (

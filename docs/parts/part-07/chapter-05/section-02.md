@@ -85,7 +85,7 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하는 단계이고, P7-5.4
 | 헤어 | 청록·검정 색 분할, 앞머리, 볼륨, S웨이브와 안쪽 컬이 유지되는가? |
 | 화풍 | 정면 기준의 선, 대비, 음영이 단순화되거나 사진풍으로 바뀌지 않았는가? |
 
-후보 PNG와 run JSON은 검수 전까지 `p7-5-2-qwen-edit-candidates/`에만 둔다. 후보가 저장됐다는 사실은 새 방향 참조 승인이나 원고 반영을 뜻하지 않는다.
+후보 PNG와 run JSON은 검수 전까지 chapter asset 루트에 `p7-5-2-qwen-…-candidate-…`처럼 생성기·target·실행 조건이 드러나는 파일명으로만 둔다. 후보가 저장됐다는 사실은 새 방향 참조 승인이나 원고 반영을 뜻하지 않는다.
 
 ## 실행 기록과 승인 범위를 분리한다
 
@@ -94,6 +94,21 @@ Qwen 편집 실험은 정면 얼굴, 전신 구도, OpenPose가 같은 역할을
 <details id="qwen-reference-pilot" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_reference_pilot.py" data-language="python">
 <summary>Qwen 참조 후보 생성 코드 보기</summary>
 <div class="aibook-lazy-source__body">펼치면 Python 원문을 불러옵니다.</div>
+</details>
+
+<details id="qwen-front-head-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_generate_head_front_reference.py" data-language="python">
+<summary>Qwen 정면 머리 후보 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">이미지 입력 없이 정면 머리 후보만 생성합니다.</div>
+</details>
+
+<details id="qwen-front-outfit-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_generate_outfit_front_reference.py" data-language="python">
+<summary>Qwen 정면 착장 후보 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">이미지 입력 없이 정면 착장·가방 후보만 생성합니다.</div>
+</details>
+
+<details id="qwen-head-rotation-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_generate_head_rotation_reference.py" data-language="python">
+<summary>Qwen 머리 회전 후보 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">승인 정면 머리를 identity 입력으로 쓰며, 구조 가이드는 사람 승인 자산을 선택적으로 지정할 때만 사용합니다.</div>
 </details>
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json" data-language="json">Qwen 전환·검수 계획</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-character-reference-style-prompt-contract.json" data-language="json">인물 화풍 prompt 계약</a></p>

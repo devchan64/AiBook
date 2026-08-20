@@ -10,23 +10,18 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import importlib.util
 import importlib.metadata
 import json
 import platform
 import subprocess
 import sys
-import sysconfig
 import time
-import types
 from pathlib import Path
 
-import numpy as np
 import torch
-from diffusers import QwenImageEditPlusPipeline, QwenImagePipeline
+from diffusers import QwenImageEditPlusPipeline
 from diffusers.utils import load_image
 from nunchaku import NunchakuQwenImageTransformer2DModel
-from PIL import Image
 
 
 ASSETS = Path(__file__).resolve().parent
@@ -36,61 +31,17 @@ STYLE_CONTRACT = ASSETS / "p7-5-2-character-reference-style-prompt-contract.json
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-character-reference-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-BASE_MODEL_ID = "Qwen/Qwen-Image"
-BASE_TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
-OUTPUT_DIR = ASSETS / "p7-5-2-qwen-edit-candidates"
+# Candidate filenames carry target, label, seed, and step, so keep them in the
+# chapter asset root rather than creating a directory per experiment.
+OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
 QWEN_FACE_REFERENCE = "p7-5-2-face-front-qwen-role-separated-reference.png"
-QUARTER_LEFT_FACE_GUIDE = "face_front_quarter_left"
-QUARTER_LEFT_FACE_GUIDE_FILENAME = "p7-5-2-openpose-face-quarter-left-declarative-guide.png"
 HAIR_VOLUME_RULE = (
     "Preserve a high-volume crown and a wide rounded jaw-length bob silhouette: medium-density petrol-teal hair, "
     "large loose S-waves, pronounced inward C-curls at both ends, and tapered side locks that stay visibly wider than the neck."
 )
 
 TARGETS = {
-    "head_front": {
-        "inputs": (),
-        "append_style_prompt": False,
-        "append_illustration_prompt": True,
-        "default_steps": 10,
-        "size": (768, 768),
-        "prompt": (
-            "Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, face centered and facing the camera with both eyes and ears visible: compact oval face, "
-            "a defined high nose bridge, and a refined straight nose line; "
-            "high-volume petrol-teal jaw-length bob with asymmetric fringe, loose S-waves, inward-curled ends, and side locks wider "
-            "than the neck. Long slender gently upturned eyes; equal orange-amber irises with distinct centered round dark pupils, "
-            "separate from eyelids and eyeliner. Show ears and neck. No text, accessory, panel, collage, or background scene."
-        ),
-    },
-    "outfit_integrated_front_hip": {
-        "inputs": (),
-        "append_style_prompt": False,
-        "append_illustration_prompt": True,
-        "default_steps": 10,
-        "size": (768, 1152),
-        "prompt": (
-            "Create one isolated front apparel-and-bag reference from shoulders through hips on a neutral headless torso. "
-            "Show a very short white cropped utility jacket as the closed outer layer: its front panels cover the chest, "
-            "two flap chest pockets and long cuffed sleeves are visible, and its hem ends immediately below the bust. "
-            "Only below that hem, show a charcoal-gray micro-crop inner top, then a clear bare-midriff band, then the "
-            "navel-height waistband of deep-teal high-waisted wide-leg trousers. Place one compact deep-navy woven-canvas "
-            "crossbody bag at the wearer's outer-left hip. Show exactly one taut matching navy strap from the wearer's "
-            "right shoulder across the exterior of the white jacket to the bag. Plain off-white background; no head, hands, "
-            "legs, text, logo, hanger, extra strap, or other object."
-        ),
-    },
-    "outfit_integrated_front_full_length": {
-        "inputs": (),
-        "append_style_prompt": False,
-        "append_illustration_prompt": True,
-        "default_steps": 10,
-        "size": (768, 1152),
-        "prompt": (
-            "Front full-length women's outfit reference. White ultra-short utility jacket ending immediately below the bust, gray crop top, clear bare-midriff band, "
-            "deep-teal high-waisted wide-leg trousers, white low-top sneakers, navy crossbody bag and one strap. Plain off-white background."
-        ),
-    },
     "fullbody_front_refined": {
         "inputs": (
             "p7-5-2-fullbody-front-refined-reference.png",
@@ -402,121 +353,6 @@ TARGETS.update(
     }
 )
 
-# Head-detail rotation must not use a low-resolution fullbody image as an
-# identity source.  Keep the approved frontal face as the sole rendered
-# reference; OpenPose communicates only the requested view geometry.
-TARGETS["head_quarter_left_from_front_identity"] = {
-    "inputs": (QWEN_FACE_REFERENCE, QUARTER_LEFT_FACE_GUIDE_FILENAME),
-    "append_style_prompt": False,
-    "append_illustration_prompt": False,
-    "face_guide": QUARTER_LEFT_FACE_GUIDE,
-    "input_roles": ["approved_front_face_detail_identity", "openpose_face_rotation_geometry"],
-    "default_steps": 30,
-    "size": (768, 768),
-    "prompt": (
-        "Rotation prompt — Image 1 is the immutable frontal identity and rendering reference: preserve its compact oval face, eye spacing, "
-        "high straight nose bridge, amber iris shape and colour, line detail, contrast, and shading without restyling. Preserve the exact "
-        "asymmetric hair colour layout: petrol-teal fringe and image-left front locks, with the dark near-black mass on image right; keep its "
-        "high crown, loose S-waves, and inward-curled jaw-length ends rather than simplifying it into a uniform bob. Image 2 is a non-rendered "
-        "OpenPose face geometry guide only. Create a detailed head-and-neck studio reference of the same young East Asian woman in a true "
-        "45-degree left front-quarter view: nose tip points image left, near image-right eye and cheek are wider, and far image-left eye is "
-        "narrower behind the bridge. Crop from crown to collarbones; simple cool blue-gray background with the same restrained directional "
-        "shadow language as Image 1; no body, outfit, bag, text, panel, or scene."
-    ),
-}
-
-def openpose_module():
-    """Load controlnet_aux OpenPose without importing its optional top-level extras."""
-    root = Path(sysconfig.get_paths()["purelib"]) / "controlnet_aux"
-    package_name = "p7_5_2_openpose_aux"
-    parent = types.ModuleType(package_name)
-    parent.__path__ = [str(root)]
-    sys.modules[package_name] = parent
-    directory = root / "open_pose"
-    spec = importlib.util.spec_from_file_location(
-        f"{package_name}.open_pose",
-        directory / "__init__.py",
-        submodule_search_locations=[str(directory)],
-    )
-    if spec is None or spec.loader is None:
-        raise RuntimeError("controlnet_aux OpenPose renderer is unavailable")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
-def save_openpose_guide(target_id: str, path: Path) -> None:
-    """Render a canonical OpenPose BODY_18 + face-landmark guide.
-
-    No subject RGB pixels are used.  Direction comes from the nose displacement
-    and asymmetric face-landmark geometry, then the installed OpenPose renderer
-    applies the standard black canvas, limb colours, and landmark convention.
-    """
-    module = openpose_module()
-
-    def point(x: float, y: float):
-        return module.Keypoint(x=x / 768, y=y / 768)
-
-    neck = (385, 505)
-    nose = (346, 350)
-    face_center = (366, 342)
-    if target_id in {"face_front_quarter_right", "face_profile_right"}:
-        nose, face_center = (422, 350), (402, 342)
-    if target_id == "face_profile_left":
-        nose, face_center = (272, 352), (336, 344)
-    if target_id == "face_profile_right":
-        nose, face_center = (496, 352), (432, 344)
-
-    keypoints = [None] * 18
-    if target_id != "face_rear":
-        keypoints[0] = point(*nose)
-    keypoints[1] = point(*neck)
-    keypoints[2] = point(500, 555)
-    keypoints[5] = point(300, 555)
-
-    face = None
-    if target_id != "face_rear":
-        cx, cy = face_center
-        # A compact canonical OpenPose face mesh.  The right-facing variant
-        # has a wider near (image-left) eye and cheek and a nose bridge shifted
-        # toward the image-right edge, matching the target's screen direction.
-        toward_right = target_id in {"face_front_quarter_right", "face_profile_right"}
-        near_scale = 1.18 if toward_right else 0.86
-        far_scale = 0.86 if toward_right else 1.18
-        jaw = [
-            (cx - 62, cy - 14), (cx - 57, cy + 8), (cx - 49, cy + 28), (cx - 38, cy + 45),
-            (cx - 22, cy + 57), (cx, cy + 62), (cx + 22, cy + 57), (cx + 38, cy + 45),
-            (cx + 49, cy + 28), (cx + 57, cy + 8), (cx + 62, cy - 14),
-        ]
-        if toward_right:
-            jaw = [(cx + (x - cx) * (near_scale if x < cx else far_scale), y) for x, y in jaw]
-        else:
-            jaw = [(cx + (x - cx) * (near_scale if x > cx else far_scale), y) for x, y in jaw]
-        left_eye = [(cx - 41, cy - 14), (cx - 30, cy - 20), (cx - 18, cy - 14), (cx - 30, cy - 8)]
-        right_eye = [(cx + 18, cy - 14), (cx + 30, cy - 20), (cx + 41, cy - 14), (cx + 30, cy - 8)]
-        if toward_right:
-            left_eye = [(cx + (x - cx) * near_scale, y) for x, y in left_eye]
-            right_eye = [(cx + (x - cx) * far_scale, y) for x, y in right_eye]
-        else:
-            left_eye = [(cx + (x - cx) * far_scale, y) for x, y in left_eye]
-            right_eye = [(cx + (x - cx) * near_scale, y) for x, y in right_eye]
-        landmarks = jaw + left_eye + right_eye + [
-            (cx - 15, cy + 2), (cx, cy + 10), nose, (cx - 14, cy + 27), (cx, cy + 31), (cx + 14, cy + 27),
-            (cx - 22, cy + 42), (cx, cy + 47), (cx + 22, cy + 42),
-        ]
-        face = [point(x, y) for x, y in landmarks]
-
-    pose = module.PoseResult(
-        body=module.BodyResult(keypoints=keypoints, total_score=1.0, total_parts=4),
-        left_hand=None,
-        right_hand=None,
-        face=face,
-    )
-    rendered = module.draw_poses([pose], 768, 768, draw_body=True, draw_hand=False, draw_face=True)
-    Image.fromarray(np.ascontiguousarray(rendered)).save(path)
-
-
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as source:
@@ -545,12 +381,9 @@ def runtime_record() -> dict[str, object]:
     }
 
 
-def load_pipeline(image_edit: bool):
-    transformer_id = TRANSFORMER_ID if image_edit else BASE_TRANSFORMER_ID
-    model_id = MODEL_ID if image_edit else BASE_MODEL_ID
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_id)
-    pipeline_type = QwenImageEditPlusPipeline if image_edit else QwenImagePipeline
-    pipe = pipeline_type.from_pretrained(model_id, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True)
+def load_pipeline() -> QwenImageEditPlusPipeline:
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    pipe = QwenImageEditPlusPipeline.from_pretrained(MODEL_ID, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True)
     transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
     pipe._exclude_from_cpu_offload.append("transformer")
     pipe.enable_sequential_cpu_offload()
@@ -595,16 +428,11 @@ def main() -> None:
         raise RuntimeError("CUDA is required")
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    generated_guides: dict[str, Path] = {}
     target = TARGETS[args.target]
-    if face_guide := target.get("face_guide"):
-        candidate_guide = args.output_dir / f"p7-5-2-qwen-edit-{args.target}-{face_guide}-guide.png"
-        save_openpose_guide(face_guide, candidate_guide)
-        generated_guides[QUARTER_LEFT_FACE_GUIDE_FILENAME] = candidate_guide
     steps = args.steps if args.steps is not None else target.get("default_steps", DEFAULT_STEPS)
     if steps < 1:
         raise ValueError("--steps must be at least 1")
-    inputs = [generated_guides.get(name, ASSETS / name) for name in target["inputs"]]
+    inputs = [ASSETS / name for name in target["inputs"]]
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
     if not PLAN.is_file() or not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
@@ -624,7 +452,7 @@ def main() -> None:
     output = args.output_dir / f"{stem}.png"
     run_record = args.output_dir / f"{stem}-run.json"
     started = time.monotonic()
-    pipeline = load_pipeline(image_edit=bool(inputs))
+    pipeline = load_pipeline()
     generation = {
         "prompt": prompt,
         "generator": torch.Generator("cpu").manual_seed(args.seed),
@@ -642,8 +470,8 @@ def main() -> None:
     record = {
         "status": "review_required",
         "experiment_id": f"p7-5-2-qwen-edit-{args.target}",
-        "model": MODEL_ID if inputs else BASE_MODEL_ID,
-        "transformer": TRANSFORMER_ID if inputs else BASE_TRANSFORMER_ID,
+        "model": MODEL_ID,
+        "transformer": TRANSFORMER_ID,
         "runtime": runtime_record(),
         "transition_plan": asset_record(PLAN),
         "identity_contract": asset_record(IDENTITY_CONTRACT),
@@ -657,9 +485,6 @@ def main() -> None:
         "run_label": args.run_label,
         "inputs": [asset_record(path) for path in inputs],
         "input_roles": target.get("input_roles") or (
-            []
-            if args.target in {"outfit_integrated_front_hip", "outfit_integrated_front_full_length"}
-            else
             ["head_identity", "qwen_complete_outfit", "standard_openpose_fullbody_structure"]
             if args.target in {
                 "fullbody_front_seven_head_qwen_outfit_skeleton",
@@ -685,9 +510,7 @@ def main() -> None:
             ["body_and_complete_outfit", "standard_openpose_fullbody_structure"]
             if args.target == "fullbody_front_quarter_left_qwen"
             else
-            ["face_identity"]
-            if args.target == "head_front"
-            else ["body_and_complete_outfit", "face_identity"]
+            ["body_and_complete_outfit", "face_identity"]
         ),
         "seed": args.seed,
         "steps": steps,

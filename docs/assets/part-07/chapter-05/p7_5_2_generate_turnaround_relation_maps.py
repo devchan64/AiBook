@@ -24,6 +24,7 @@ Examples:
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import importlib.util
 import json
@@ -31,6 +32,7 @@ import math
 import sys
 import sysconfig
 import types
+import zlib
 from pathlib import Path
 
 import numpy as np
@@ -39,7 +41,9 @@ from PIL import Image, ImageDraw
 
 ASSETS = Path(__file__).resolve().parent
 DEFAULT_REFERENCE = ASSETS / "upscale_image_01.png"
-DEFAULT_OUTPUT = ASSETS / "p7-5-2-openpose-turnaround-relations-v2-seven-heads"
+# File names encode the run, so candidate output stays directly in the chapter
+# asset root instead of creating a directory per candidate.
+DEFAULT_OUTPUT = ASSETS
 FULLBODY_WIDTH, FULLBODY_HEIGHT = 768, 1152
 SHOULDERS_WIDTH, SHOULDERS_HEIGHT = 768, 768
 WIDTH, HEIGHT = FULLBODY_WIDTH, FULLBODY_HEIGHT
@@ -51,7 +55,9 @@ CENTER_X, SCALE = WIDTH / 2, 150
 # With a 150 px head unit, the nose pivot at y=120 leaves room for both the
 # virtual crown (~42 px) and sole (~1,092 px) on the 768×1152 canvas.
 DEFAULT_FRAME_ORIGIN_Y = 120
-DEFAULT_SHOULDERS_FRAME_ORIGIN_Y = 260
+# Square head-and-shoulders maps centre the BODY_18 nose/eye/ear cluster. The
+# shoulders then remain below the centre without cutting off the crop.
+DEFAULT_SHOULDERS_FRAME_ORIGIN_Y = SHOULDERS_HEIGHT / 2
 SHOULDERS_SCALE = 240
 # The former perspective mapping had an effective horizontal FOV of about
 # 45.8° (SCALE * default camera distance = 910 px focal length).  Use two
@@ -73,6 +79,26 @@ TARGET_YAWS = {
     "quarter_right": 45,
     "profile_right": 90,
 }
+# Measured from p7-5-2-qwen-torso-profile-right-face70-source-v1.  These are
+# FACE_70 points normalized around BODY_18 nose/eye/ear anchors, embedded here
+# so relation-map generation never depends on a separate observation JSON.
+PROFILE_RIGHT_FACE70_ANCHORS = {0: (0.0, 0.0), 14: (-0.469073, -0.469077), 15: (0.046912, -0.39403), 16: (-1.923205, -0.253306), 17: None}
+PROFILE_RIGHT_FACE70_POINTS = (
+    (-1.613614, -0.544135), (-1.613614, -0.178259), (-1.613614, 0.187629), (-1.510417, 0.562886), (-1.191445, 0.8068), (-0.975678, 0.928762), (-0.656706, 1.050725), (-0.337734, 1.172676), (-0.234537, 1.172676), (-0.337734, 1.050725), (-0.121959, 0.8068), (-0.018762, 0.684848), (0.084435, 0.440924), (0.084435, 0.431543), (0.084435, 0.187629), (0.093816, -0.046915), (-0.018762, -0.178259),
+    (-0.863092, -0.788049), (-0.656706, -0.788049), (-0.440931, -0.788049), (-0.337734, -0.788049), (-0.121959, -0.666087), (-0.018762, -0.544135), (-0.018762, -0.666087), (-0.018762, -0.666087), (-0.018762, -0.666087), (-0.121959, -0.666087), (-0.121959, -0.30021), (-0.018762, -0.178259), (-0.009381, -0.046915), (0.093816, 0.187629), (-0.121959, 0.30958), (-0.018762, 0.318961), (-0.018762, 0.318961), (-0.018762, 0.318961), (-0.009381, 0.30958),
+    (-0.656706, -0.422173), (-0.553509, -0.544135), (-0.440931, -0.422173), (-0.440931, -0.412792), (-0.544128, -0.30021), (-0.656706, -0.422173), (-0.121959, -0.30021), (-0.121959, -0.30021), (-0.121959, -0.30021), (-0.018762, -0.30021), (-0.121959, -0.290829), (-0.121959, -0.290829),
+    (-0.337734, 0.675467), (-0.225156, 0.562886), (-0.121959, 0.553505), (-0.018762, 0.562886), (-0.018762, 0.553505), (-0.018762, 0.553505), (-0.121959, 0.562886), (-0.121959, 0.684848), (-0.018762, 0.684848), (-0.121959, 0.8068), (-0.121959, 0.8068), (-0.234537, 0.797419), (-0.234537, 0.684848), (-0.121959, 0.675467), (-0.018762, 0.562886), (-0.018762, 0.562886), (-0.121959, 0.562886), (-0.018762, 0.562886), (-0.018762, 0.675467), (-0.121959, 0.675467), (-0.544128, -0.422173), (-0.121959, -0.30021),
+)
+FACE70_GROUPS = {"jaw": list(range(0, 17)), "left_brow": list(range(17, 22)), "right_brow": list(range(22, 27)), "nose_bridge": list(range(27, 31)), "nose_base": list(range(31, 36)), "left_eye": list(range(36, 42)), "right_eye": list(range(42, 48)), "outer_lip": list(range(48, 60)), "inner_lip": list(range(60, 68)), "pupils": [68, 69]}
+
+
+def decode_embedded_face70(value: str) -> dict[str, object]:
+    """Decode compact source-code literals; no external observation file is read."""
+    return json.loads(zlib.decompress(base64.b85decode(value)).decode("utf-8"))
+
+
+FRONT_FACE70 = decode_embedded_face70("c$|e)%WmT^4Ez_Loj@eThx#jvBIu$y6xeMS-AlVg|9wfxcBI5W4hf90#NiBw{+gbqhp#Ec-_N(_Pq5R=>+|_zdPwv1`u6_&>DSA@^YiKBb9(rZj+`=x&glq}+2}FO{5_w}pZ<G#KiytPel|UR&lBWZ3dnmL*)k~y2WJzw$8qo*1rqD*Pb6TVm5+D$cvllrVXJ(oYWFn-9bwRADnwT4WQR_6<z+2UEmZV}yYk@Z?FoS2AV}bb1fA~C>8?5!tY(TS-y?$~7DUX|3{I}hx&HWzXafKU!>5F7;<W~F>8*l^NJ|u9F)o3nW1*B&$Trl()<9JzDzo1(pY;NA$vM;9dTAxyH6WjpgKnQ!Y9JCyLI(v6!P6LlV^<0z7QK-KmXM4q#u=5YFX-(c3FTlGp&}J4DKiI_k``I8Rg315O9*VQa||g9W3AUzwIsU~#vVH~hchki_>^ScBsI_&O{vD()c38SqENJkJv<rh8NtP#Lo)!I7tsn-ej+aQ=w?uNebq4^*1T6xvcMG-^TaD=AA+V@FUC=5Ks!5na0^fiSPfMSNtT0QmjoD7Qn<Rkf!*zGI)2$BDL9^6oLC(lJnuu^Ti(mLe06#>T(xplU^zM}m!g)2boj_DqYd<J_?4zL+|uidB{HOFi*GdKi-p*q+^IOWxa~;4ic5ml#9w(HtD$A|yu&unI}DTfRQiHzH^YK0Hu&eo%ry7o8kTdR?XXLKBe;Dkwu(L2Yu>JR{cJoPw#eJ>yFa(~y<2aW`1WHsjPJ6UOYk1Q{{wSn*a`")
+QUARTER_RIGHT_FACE70 = decode_embedded_face70("c$|%t(TW=}3`PHCo~J>wWl7Gjln_#qhlMm-wiGs9_TOuHrXG1R-7O)(oXEPmlI^$QH0<97u%B<w=R4~0>2|)n4tp4f+w;r!)Ai~1<$Qd-5BsmMOC#)1F%uo^@1K|B<zBw0m*ZnBlvp^tj|0+UcBHNJq!2(&gHx99nZ}p0gPAFgWtEtex$312y|ifuW1>*?ilzVX6fp-)CPx%NCOO`a<4t=(K%>b?MwU<Q;Z87@kLf|yfT8Niu)qDfUd!@FiLx-tim7%X=8#iqTu(tFn_i_7liC~uCB_*>NikaEDI?}QK@?RsC>TPlk+91#1~v~FR3c8$0zw*b2N6@4p`}tO5JMK$36>5Z<rTE@q=SW7d1@(vvq)uVwdbO(2&7b*g@M^gT1Lndn?y=CSP7<lWf?P%QxfsW3ZUXfR}iiF)VZFmLT`IT6DCOyG-MK#H8qV;)fi*#dvn>djkwvR&*;nl7%p9(YlAdX8(Zl7d)Q7=gVQ3!&d^jH_ev}HcYA}|tPS07wgVucKk(KY0;tsTFm>l}6>DpzwfkjurWSZT=N9XG;@~p7rsW6a;4%}peTi)HKBupVP*Qy=+qqv3nZL$vB=%OOv>Hi^blu-#?s_%GDx71_{9DmryRTl^!&ak*&5h4F&#m{}wtLuwI{1;Fj|2aea#MUcNN(oKEuP`w{SSGPzjF")
 
 # A proportion profile is the domain model for a structural OpenPose guide.
 # ``seven_head_standing`` is only the default profile, not the domain itself.
@@ -208,7 +234,7 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
     posed[7] = (shoulder[0] - 0.05 * head, geometry["neck_y"] + 1.35 * head, 0.32 * head)
     if pose == "raised-arm":
         return posed
-    if pose not in {"asymmetric-lowered-arms", "hand-on-hip"}:
+    if pose != "hand-on-hip":
         raise ValueError(f"Unsupported body pose: {pose}")
 
     # Preserve the source upper-/lower-arm bone lengths while changing only
@@ -224,15 +250,10 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
     # Camera-left arm: relaxed, slightly behind the torso.
     posed[3] = endpoint(points[2], (-0.18, -1.0, -0.18), right_upper)
     posed[4] = endpoint(posed[3], (0.08, -1.0, -0.10), right_lower)
-    if pose == "hand-on-hip":
-        # Camera-right hand finishes at the waist; the angled elbow makes this
-        # a readable hand-on-hip pose without changing either bone length.
-        posed[6] = endpoint(points[5], (1.15, -0.18, 0.30), left_upper)
-        posed[7] = endpoint(posed[6], (-0.62, -0.78, 0.12), left_lower)
-    else:
-        # Camera-right arm: still lowered, but elbow and wrist advance toward camera.
-        posed[6] = endpoint(points[5], (0.22, -1.0, 0.42), left_upper)
-        posed[7] = endpoint(posed[6], (-0.12, -1.0, 0.35), left_lower)
+    # Camera-right hand finishes at the waist; the angled elbow makes this a
+    # readable hand-on-hip pose without changing either bone length.
+    posed[6] = endpoint(points[5], (1.15, -0.18, 0.30), left_upper)
+    posed[7] = endpoint(posed[6], (-0.62, -0.78, 0.12), left_lower)
 
     # Shift weight onto the camera-left leg.  The supporting leg stays nearly
     # vertical; the other knee relaxes inward and its foot steps slightly out.
@@ -315,6 +336,162 @@ def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch
     return rows
 
 
+def calibrate_profile_ear_depth(
+    body_rows: list[dict[str, object] | None],
+    body_world: list[tuple[float, float, float]],
+    yaw: float,
+    pitch: float,
+    projection: str,
+    camera_distance: float,
+    horizontal_fov_degrees: float,
+    pivot: tuple[float, float, float],
+    frame_origin_y: float,
+) -> None:
+    """Correct only pitch-0 profile ear placement from the measured FACE_70 view.
+
+    The actual Qwen right profile has a 205 px nose-to-visible-ear span for a
+    209 px face height.  At ±90°, the generic 3D template's ear depth made
+    that span too short and therefore reduced the similarity-fitted FACE_70.
+    We re-project only both profile ears on the head centre plane.  Quarter
+    views retain the unmodified 3D template, where this calibration is not
+    supported by a profile measurement.
+    """
+    if abs(yaw) != 90 or pitch != 0:
+        return
+    for index in (16, 17):
+        if body_rows[index] is None:
+            continue
+        x, y, _ = body_world[index]
+        screen_x, screen_y = project(
+            (x, y, 0.0), yaw, pitch, projection, camera_distance,
+            horizontal_fov_degrees, pivot, frame_origin_y,
+        )
+        body_rows[index]["screen_xy"] = [round(screen_x, 3), round(screen_y, 3)]
+        body_rows[index]["normalized_xy"] = [round(screen_x / WIDTH, 6), round(screen_y / HEIGHT, 6)]
+
+
+def centre_rows_horizontally(rows: list[dict[str, object] | None], anchor_indices: set[int]) -> float:
+    """Translate a crop so the projected anchor bounding box is centred."""
+    anchors = [rows[index] for index in anchor_indices if rows[index] is not None]
+    if not anchors:
+        return 0.0
+    xs = [row["screen_xy"][0] for row in anchors]
+    offset = WIDTH / 2 - (min(xs) + max(xs)) / 2
+    for row in rows:
+        if row is None:
+            continue
+        x, y = row["screen_xy"]
+        row["screen_xy"] = [round(x + offset, 3), y]
+        row["normalized_xy"] = [round((x + offset) / WIDTH, 6), row["normalized_xy"][1]]
+    return round(offset, 3)
+
+
+def mirrored_face_index(index: int) -> int:
+    if index < 17:
+        return 16 - index
+    if index < 22:
+        return 26 - (index - 17)
+    if index < 27:
+        return 21 - (index - 22)
+    if index < 31:
+        return index
+    if index < 36:
+        return 35 - (index - 31)
+    if index < 42:
+        return 47 - (index - 36)
+    if index < 48:
+        return 41 - (index - 42)
+    if index < 60:
+        return 59 - (index - 48)
+    if index < 68:
+        return 67 - (index - 60)
+    return 137 - index
+
+
+def embedded_face_observations() -> dict[tuple[int, int], dict[str, object]]:
+    """Return the embedded actual right profile and its declared mirror."""
+    right = {
+        "anchors": PROFILE_RIGHT_FACE70_ANCHORS,
+        "points": PROFILE_RIGHT_FACE70_POINTS,
+        "provenance": "measured_qwen_torso_profile_right_face70",
+        "symmetry_assumption": False,
+    }
+    left = {
+        "anchors": {
+            index: None if point is None else (-point[0], point[1])
+            for index, point in PROFILE_RIGHT_FACE70_ANCHORS.items()
+        },
+        "points": tuple(
+            (-PROFILE_RIGHT_FACE70_POINTS[mirrored_face_index(index)][0], PROFILE_RIGHT_FACE70_POINTS[mirrored_face_index(index)][1])
+            for index in range(70)
+        ),
+        "provenance": "horizontal_reflection_of_measured_qwen_torso_profile_right_face70",
+        "symmetry_assumption": True,
+    }
+    front = {
+        "anchors": {int(index): None if point is None else tuple(point["nose_eye_ear_normalized_xy"]) for index, point in FRONT_FACE70["a"].items()},
+        "points": tuple(map(tuple, FRONT_FACE70["p"])),
+        "provenance": "measured_fullbody_front_face70",
+        "symmetry_assumption": False,
+    }
+    quarter_right = {
+        "anchors": {int(index): None if point is None else tuple(point["nose_eye_ear_normalized_xy"]) for index, point in QUARTER_RIGHT_FACE70["a"].items()},
+        "points": tuple(map(tuple, QUARTER_RIGHT_FACE70["p"])),
+        "provenance": "measured_fullbody_quarter_right_face70",
+        "symmetry_assumption": False,
+    }
+    quarter_left = {
+        "anchors": {index: None if point is None else (-point[0], point[1]) for index, point in quarter_right["anchors"].items()},
+        "points": tuple((-quarter_right["points"][mirrored_face_index(index)][0], quarter_right["points"][mirrored_face_index(index)][1]) for index in range(70)),
+        "provenance": "horizontal_reflection_of_measured_fullbody_quarter_right_face70",
+        "symmetry_assumption": True,
+    }
+    return {(90, 0): right, (-90, 0): left, (0, 0): front, (45, 0): quarter_right, (-45, 0): quarter_left}
+
+
+def map_face_to_body_anchors(observation: dict[str, object], body: list[dict[str, object] | None]) -> list[dict[str, object]]:
+    """Place FACE_70 via a ratio-preserving BODY_18 anchor similarity fit."""
+    source_anchors = observation["anchors"]
+    pairs = []
+    for index, source in source_anchors.items():
+        target = body[index]
+        if source is None or target is None:
+            continue
+        sx, sy = source
+        tx, ty = target["screen_xy"]
+        pairs.append((float(sx), float(sy), float(tx), float(ty)))
+    if len(pairs) < 3:
+        raise ValueError("FACE_70 placement requires at least three visible BODY_18 nose/eye/ear anchors")
+    source_points = np.array([[sx, sy] for sx, sy, _, _ in pairs], dtype=float)
+    target_points = np.array([[tx, ty] for _, _, tx, ty in pairs], dtype=float)
+    source_center = source_points.mean(axis=0)
+    target_center = target_points.mean(axis=0)
+    source_centered = source_points - source_center
+    target_centered = target_points - target_center
+    covariance = source_centered.T @ target_centered
+    left, singular_values, right_t = np.linalg.svd(covariance)
+    rotation = left @ right_t
+    if np.linalg.det(rotation) < 0:
+        left[:, -1] *= -1
+        rotation = left @ right_t
+    source_energy = float((source_centered**2).sum())
+    if source_energy <= 0:
+        raise ValueError("FACE_70 source anchors must not be coincident")
+    scale = float(singular_values.sum() / source_energy)
+    rows = []
+    for index, (sx, sy) in enumerate(observation["points"]):
+        x, y = scale * ((np.array([sx, sy]) - source_center) @ rotation) + target_center
+        rows.append(
+            {
+                "index": index,
+                "screen_xy": [round(x, 3), round(y, 3)],
+                "normalized_xy": [round(x / WIDTH, 6), round(y / HEIGHT, 6)],
+                "confidence": 1.0,
+            }
+        )
+    return rows
+
+
 def render_map(renderer, body: list[dict[str, object] | None], face: list[dict[str, object]] | None) -> Image.Image:
     body_points = [
         renderer.Keypoint(x=row["normalized_xy"][0], y=row["normalized_xy"][1], score=1.0) if row is not None else None
@@ -351,7 +528,8 @@ def contact_sheet(entries: list[tuple[str, Image.Image]], path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT, help="Output location; defaults to the chapter asset root.")
+    parser.add_argument("--output-label", help="Filename label used when output files are written directly to the asset root.")
     parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE, help="Head-turnaround reference used only for direction review")
     parser.add_argument(
         "--openpose-review",
@@ -377,10 +555,10 @@ def main() -> None:
         choices=("all", "pitch0", "front"),
         help="Convenience range: all=5x5 grid, pitch0=five yaw views at pitch 0, front=one frontal view. Overrides --yaws/--pitches; incompatible with --targets.",
     )
-    parser.add_argument("--include-face", action="store_true", help="Disabled: face landmark maps are not an approved P7-5.2 input.")
+    parser.add_argument("--include-face", action="store_true", help="Render the embedded FACE_70 nose/eye/ear-normalized maps.")
     parser.add_argument("--frame", choices=("fullbody", "shoulders"), default="fullbody", help="Output framing: fullbody or a square BODY_18 eye-nose-ear-neck-shoulder structure.")
     parser.add_argument("--overwrite", action="store_true")
-    parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "asymmetric-lowered-arms", "hand-on-hip"), default="neutral")
+    parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "hand-on-hip"), default="hand-on-hip")
     parser.add_argument(
         "--projection",
         choices=("orthographic", "perspective"),
@@ -401,8 +579,6 @@ def main() -> None:
         help="Horizontal field of view for perspective projection; default is two thirds of the former effective 45.8° FOV.",
     )
     args = parser.parse_args()
-    if args.include_face:
-        parser.error("--include-face is disabled until a face-map input is human-approved")
     global WIDTH, HEIGHT, CENTER_X, SCALE
     if args.frame == "shoulders":
         WIDTH, HEIGHT, CENTER_X, SCALE = SHOULDERS_WIDTH, SHOULDERS_HEIGHT, SHOULDERS_WIDTH / 2, SHOULDERS_SCALE
@@ -448,7 +624,22 @@ def main() -> None:
     else:
         target_names = None
         yaws, pitches = args.yaws, args.pitches
-    manifest = output_dir / "turnaround-relation-maps.json"
+    face_observations = embedded_face_observations() if args.include_face else {}
+    if args.include_face:
+        requested_views = [(yaw, pitch) for pitch in pitches for yaw in yaws]
+        missing_embedded = [view for view in requested_views if view not in face_observations]
+        if missing_embedded:
+            raise ValueError(f"no embedded FACE_70 map for requested views: {missing_embedded}")
+    if args.output_label:
+        output_label = args.output_label
+    elif target_names:
+        output_label = f"{args.frame}-{'-'.join(target_names)}-{'face70-nose-eye-ear' if args.include_face else 'body-only'}"
+    elif args.output_range:
+        output_label = f"{args.frame}-{args.output_range}-body-only"
+    else:
+        output_label = f"{args.frame}-custom-yaw-pitch-body-only"
+    prefix = f"p7-5-2-openpose-{output_label}"
+    manifest = output_dir / f"{prefix}-manifest.json"
     if manifest.exists() and not args.overwrite:
         raise FileExistsError(f"{manifest} exists; pass --overwrite to replace this generated set")
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -462,35 +653,47 @@ def main() -> None:
     # and shoulders.  This is still body-only OpenPose, not the disabled
     # 70-point face landmark map.
     visible_body_indices = {0, 1, 2, 5, 14, 15, 16, 17} if args.frame == "shoulders" else None
+    head_anchor_indices = {0, 14, 15, 16, 17}
     views: list[dict[str, object]] = []
     previews: list[tuple[str, Image.Image]] = []
     for row, pitch in enumerate(pitches, start=1):
         for column, yaw in enumerate(yaws, start=1):
             target_name = target_names[column - 1] if target_names and len(pitches) == 1 else None
             body = serialise_points(body_world, yaw, pitch, args.projection, camera_distance, args.horizontal_fov_degrees, face_pivot, frame_origin_y, visible_body_indices)
-            face = None
+            if args.include_face:
+                calibrate_profile_ear_depth(
+                    body, body_world, yaw, pitch, args.projection, camera_distance,
+                    args.horizontal_fov_degrees, face_pivot, frame_origin_y,
+                )
+            horizontal_crop_offset = centre_rows_horizontally(body, head_anchor_indices) if args.frame == "shoulders" else 0.0
+            observation = face_observations.get((yaw, pitch)) if args.include_face else None
+            if args.include_face and observation is None:
+                raise ValueError(f"no embedded FACE_70 map for yaw={yaw}, pitch={pitch}")
+            face = map_face_to_body_anchors(observation, body) if observation is not None else None
             label = f"yaw{yaw:+03d}_pitch{pitch:+03d}"
-            png_name = f"p7-5-2-openpose-relation-{label}.png"
-            json_name = f"p7-5-2-openpose-relation-{label}.json"
+            png_name = f"{prefix}-{label}.png"
+            json_name = f"{prefix}-{label}.json"
             image = render_map(renderer, body, face)
             image.save(output_dir / png_name)
             view = {
                 "grid_position": {"row": row, "column": column},
                 "target": target_name,
                 "frame": args.frame,
+                "horizontal_crop_offset_px": horizontal_crop_offset,
                 "yaw_degrees": yaw,
                 "pitch_degrees": pitch,
                 "projection": {"type": args.projection, "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, frame_origin_y], "pixels_per_unit": SCALE, "camera_distance": camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
                 "body_openpose_18": body,
-                "face_openpose_70": None,
-                "face_point_groups": {},
+                "face_openpose_70": face,
+                "face_point_groups": FACE70_GROUPS if observation is not None else {},
+                "face_observation": {"source": "embedded_code_constant", "provenance": observation["provenance"], "symmetry_assumption": observation["symmetry_assumption"]} if observation is not None else None,
                 "png": png_name,
             }
             (output_dir / json_name).write_text(json.dumps(view, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             views.append({**{key: view[key] for key in ("grid_position", "target", "yaw_degrees", "pitch_degrees", "png")}, "coordinates": json_name})
             previews.append((label, image))
 
-    sheet_name = "p7-5-2-openpose-relation-contact-sheet.png"
+    sheet_name = f"{prefix}-contact-sheet.png"
     contact_sheet(previews, output_dir / sheet_name)
     manifest.write_text(
         json.dumps(
@@ -503,20 +706,21 @@ def main() -> None:
                     if detection_review is not None
                     else None
                 ),
-                "method": f"One normalized 3D structural template was yaw/pitch rotated and {args.projection} projected; no landmark detector was used for the generated coordinates.",
+                "method": f"BODY_18 was generated from one normalized 3D template and {args.projection} projected. FACE_70 was {'mapped from embedded nose/eye/ear-normalized code constants' if args.include_face else 'not included'}.",
                 "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "frame_origin_y": frame_origin_y, "projection": args.projection, "camera_distance": camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
                 "human_proportion_profile": {"name": args.proportion_profile, "values": proportions},
                 "body_pose": args.body_pose,
                 "frame": args.frame,
+                "output_label": output_label,
                 "view_grid": {"columns": yaws, "rows": pitches, "meaning": "columns=yaw degrees, rows=pitch degrees"},
                 "targets": target_names,
                 "output_range": args.output_range or "custom",
-                "openpose": {"body": "BODY_18", "visible_body_indices": sorted(visible_body_indices) if visible_body_indices is not None else list(range(18)), "face_included": False, "face": None, "hands_included": False},
+                "openpose": {"body": "BODY_18", "visible_body_indices": sorted(visible_body_indices) if visible_body_indices is not None else list(range(18)), "face_included": args.include_face, "face": "FACE_70 mapped through BODY_18 nose/eye/ear anchors" if args.include_face else None, "hands_included": False},
                 "contact_sheet": sheet_name,
                 "views": views,
                 "limitations": [
                     "This is a proportion-editing template, not a detected pose or a character identity map.",
-                    "Face landmark maps are disabled because they are not an approved P7-5.2 structural input.",
+                    "FACE_70 observations may include a declared horizontal-symmetry assumption; those views are not detector measurements.",
                     "Occlusion is not removed from the JSON: each point remains present so that the same indexed relation can be compared across rotations.",
                     "The supplied head-turnaround sheet is used for angle inspection only; it has no body data and does not calibrate this template to a scan."
                 ],
