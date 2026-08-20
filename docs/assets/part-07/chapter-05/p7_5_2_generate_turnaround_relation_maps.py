@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render deterministic 25-view face + body OpenPose relation maps.
+"""Render deterministic face + body OpenPose relation maps.
 
 This is deliberately not an OpenPose detector.  It defines one normalized
 3D face/body template, rotates it through the 5 x 5 yaw/pitch grid visible in
@@ -13,12 +13,13 @@ hairstyle, clothing, or image style, and is not a substitute for a real 3D
 face scan.
 
 Examples:
-  # Default 25-view grid.
+  # Default 5×5 yaw/pitch grid.
   .venv/bin/python p7_5_2_generate_turnaround_relation_maps.py
 
-  # Five yaw directions at pitch 0, without face landmarks.
+  # Five full-body yaw directions at pitch 0, without face landmarks.
   .venv/bin/python p7_5_2_generate_turnaround_relation_maps.py \\
-    --output-range pitch0 --no-include-face
+    --targets profile_left quarter_left front quarter_right profile_right \\
+    --no-include-face
 """
 
 from __future__ import annotations
@@ -39,11 +40,14 @@ ASSETS = Path(__file__).resolve().parent
 DEFAULT_REFERENCE = ASSETS / "upscale_image_01.png"
 DEFAULT_OUTPUT = ASSETS / "p7-5-2-openpose-turnaround-relations-v2-seven-heads"
 WIDTH, HEIGHT = 768, 1152
-CENTER_X, SCALE = WIDTH / 2, 130
+# One seven-head unit is 150 px: crown-to-sole is therefore 1,050 px.
+CENTER_X, SCALE = WIDTH / 2, 150
 # Screen-space y coordinate occupied by the face pivot.  Keep this separate
 # from the ground/body template so a generation experiment can reserve a
 # larger lower-frame safety margin without changing body proportions.
-DEFAULT_FRAME_ORIGIN_Y = 250
+# With a 150 px head unit, the nose pivot at y=120 leaves room for both the
+# virtual crown (~42 px) and sole (~1,092 px) on the 768×1152 canvas.
+DEFAULT_FRAME_ORIGIN_Y = 120
 # The former perspective mapping had an effective horizontal FOV of about
 # 45.8° (SCALE * default camera distance = 910 px focal length).  Use two
 # thirds of that angle to make the perspective view deliberately narrower
@@ -56,6 +60,13 @@ DEFAULT_PERSPECTIVE_CAMERA_DISTANCE = 10.8
 YAWS = (-90, -45, 0, 45, 90)
 # Positive pitch is a raised chin / camera looking upward; negative is down.
 PITCHES = (55, 27, 0, -27, -55)
+TARGET_YAWS = {
+    "profile_left": -90,
+    "quarter_left": -45,
+    "front": 0,
+    "quarter_right": 45,
+    "profile_right": 90,
+}
 
 # A proportion profile is the domain model for a structural OpenPose guide.
 # ``seven_head_standing`` is only the default profile, not the domain itself.
@@ -319,7 +330,7 @@ def contact_sheet(entries: list[tuple[str, Image.Image]], path: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE, help="25-view reference used only for direction review")
+    parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE, help="Head-turnaround reference used only for direction review")
     parser.add_argument(
         "--openpose-review",
         type=Path,
@@ -327,6 +338,12 @@ def main() -> None:
     )
     parser.add_argument("--yaws", type=int, nargs="+", default=list(YAWS), help="Yaw angles to render in degrees")
     parser.add_argument("--pitches", type=int, nargs="+", default=list(PITCHES), help="Pitch angles to render in degrees")
+    parser.add_argument(
+        "--targets",
+        nargs="+",
+        choices=tuple(TARGET_YAWS),
+        help="Named full-body yaw targets to render sequentially at pitch 0; preserves the supplied order.",
+    )
     parser.add_argument(
         "--proportion-profile",
         choices=sorted(HUMAN_PROPORTION_PROFILES),
@@ -336,7 +353,7 @@ def main() -> None:
     parser.add_argument(
         "--output-range",
         choices=("all", "pitch0", "front"),
-        help="Convenience range: all=5x5 grid, pitch0=five yaw views at pitch 0, front=one frontal view. Overrides --yaws/--pitches.",
+        help="Convenience range: all=5x5 grid, pitch0=five yaw views at pitch 0, front=one frontal view. Overrides --yaws/--pitches; incompatible with --targets.",
     )
     parser.add_argument(
         "--include-face",
@@ -346,7 +363,12 @@ def main() -> None:
     )
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "asymmetric-lowered-arms", "hand-on-hip"), default="neutral")
-    parser.add_argument("--projection", choices=("orthographic", "perspective"), default="orthographic")
+    parser.add_argument(
+        "--projection",
+        choices=("orthographic", "perspective"),
+        default="perspective",
+        help="Projection model; perspective is the default so --horizontal-fov-degrees is applied.",
+    )
     parser.add_argument("--camera-distance", type=float, default=DEFAULT_PERSPECTIVE_CAMERA_DISTANCE, help="Camera distance in template-head units for perspective projection.")
     parser.add_argument(
         "--frame-origin-y",
@@ -378,13 +400,22 @@ def main() -> None:
         raise ValueError("--horizontal-fov-degrees must be between 1 and 179")
     if not 0.0 <= args.frame_origin_y <= HEIGHT:
         raise ValueError(f"--frame-origin-y must be between 0 and {HEIGHT}")
-    if args.output_range == "all":
+    if args.targets and args.output_range:
+        parser.error("--targets cannot be combined with --output-range")
+    if args.targets:
+        target_names = args.targets
+        yaws, pitches = [TARGET_YAWS[target] for target in target_names], [0]
+    elif args.output_range == "all":
+        target_names = None
         yaws, pitches = list(YAWS), list(PITCHES)
     elif args.output_range == "pitch0":
+        target_names = list(TARGET_YAWS)
         yaws, pitches = list(YAWS), [0]
     elif args.output_range == "front":
+        target_names = ["front"]
         yaws, pitches = [0], [0]
     else:
+        target_names = None
         yaws, pitches = args.yaws, args.pitches
     manifest = output_dir / "turnaround-relation-maps.json"
     if manifest.exists() and not args.overwrite:
@@ -401,6 +432,7 @@ def main() -> None:
     previews: list[tuple[str, Image.Image]] = []
     for row, pitch in enumerate(pitches, start=1):
         for column, yaw in enumerate(yaws, start=1):
+            target_name = target_names[column - 1] if target_names and len(pitches) == 1 else None
             body = serialise_points(body_world, yaw, pitch, args.projection, args.camera_distance, args.horizontal_fov_degrees, face_pivot, args.frame_origin_y)
             face = serialise_points(face_world, yaw, pitch, args.projection, args.camera_distance, args.horizontal_fov_degrees, face_pivot, args.frame_origin_y) if args.include_face else None
             label = f"yaw{yaw:+03d}_pitch{pitch:+03d}"
@@ -410,6 +442,7 @@ def main() -> None:
             image.save(output_dir / png_name)
             view = {
                 "grid_position": {"row": row, "column": column},
+                "target": target_name,
                 "yaw_degrees": yaw,
                 "pitch_degrees": pitch,
                 "projection": {"type": args.projection, "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, args.frame_origin_y], "pixels_per_unit": SCALE, "camera_distance": args.camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
@@ -419,7 +452,7 @@ def main() -> None:
                 "png": png_name,
             }
             (output_dir / json_name).write_text(json.dumps(view, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-            views.append({**{key: view[key] for key in ("grid_position", "yaw_degrees", "pitch_degrees", "png")}, "coordinates": json_name})
+            views.append({**{key: view[key] for key in ("grid_position", "target", "yaw_degrees", "pitch_degrees", "png")}, "coordinates": json_name})
             previews.append((label, image))
 
     sheet_name = "p7-5-2-openpose-relation-contact-sheet.png"
@@ -428,7 +461,7 @@ def main() -> None:
         json.dumps(
             {
                 "status": "review_required",
-                "purpose": "Deterministic common-coordinate 25-view face and full-body OpenPose relation maps for ratio adjustment.",
+                "purpose": "Deterministic common-coordinate face and full-body OpenPose relation maps for ratio adjustment.",
                 "reference_direction_sheet": {"path": str(reference), "sha256": sha256(reference)},
                 "prior_openpose_detection_review": (
                     {"path": str(detection_review), "sha256": sha256(detection_review)}
@@ -440,6 +473,7 @@ def main() -> None:
                 "human_proportion_profile": {"name": args.proportion_profile, "values": proportions},
                 "body_pose": args.body_pose,
                 "view_grid": {"columns": yaws, "rows": pitches, "meaning": "columns=yaw degrees, rows=pitch degrees"},
+                "targets": target_names,
                 "output_range": args.output_range or "custom",
                 "openpose": {"body": "BODY_18", "face_included": args.include_face, "face": "70 points: 68 contour landmarks plus 2 iris centres" if args.include_face else None, "hands_included": False},
                 "contact_sheet": sheet_name,
@@ -447,7 +481,7 @@ def main() -> None:
                 "limitations": [
                     "This is a proportion-editing template, not a detected pose or a character identity map.",
                     "Occlusion is not removed from the JSON: each point remains present so that the same indexed relation can be compared across rotations.",
-                    "The 25-view head sheet is used for angle inspection only; it has no body data and does not calibrate this template to a scan."
+                    "The supplied head-turnaround sheet is used for angle inspection only; it has no body data and does not calibrate this template to a scan."
                 ],
             },
             ensure_ascii=False,

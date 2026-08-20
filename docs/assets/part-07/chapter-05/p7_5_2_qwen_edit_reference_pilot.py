@@ -41,13 +41,8 @@ BASE_TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech-
 OUTPUT_DIR = ASSETS / "p7-5-2-qwen-edit-candidates"
 DEFAULT_STEPS = 30
 QWEN_FACE_REFERENCE = "p7-5-2-face-front-qwen-role-separated-reference.png"
-OPENPOSE_GUIDES = {
-    "face_front_quarter_left": "p7-5-2-openpose-face-quarter-left-declarative-guide.png",
-    "face_front_quarter_right": "p7-5-2-openpose-face-quarter-right-declarative-guide.png",
-    "face_profile_left": "p7-5-2-openpose-face-profile-left-declarative-guide.png",
-    "face_profile_right": "p7-5-2-openpose-face-profile-right-declarative-guide.png",
-    "face_rear": "p7-5-2-openpose-face-rear-declarative-guide.png",
-}
+QUARTER_LEFT_FACE_GUIDE = "face_front_quarter_left"
+QUARTER_LEFT_FACE_GUIDE_FILENAME = "p7-5-2-openpose-face-quarter-left-declarative-guide.png"
 HAIR_VOLUME_RULE = (
     "Preserve a high-volume crown and a wide rounded jaw-length bob silhouette: medium-density petrol-teal hair, "
     "large loose S-waves, pronounced inward C-curls at both ends, and tapered side locks that stay visibly wider than the neck."
@@ -325,13 +320,13 @@ TARGETS = {
     "fullbody_front_quarter_left_qwen": {
         "inputs": (
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-qwen-edit-candidates/p7-5-2-openpose-fullbody-quarter-left-45deg-guide.png",
+            "p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png",
         ),
         "size": (960, 1440),
         "prompt": (
             "Use image 1 only as the exact full-body composition, outfit, crop-jacket length, bag, strap, trousers, shoes, "
             "and hair-to-sole framing reference. Use image 2 only as a non-rendered standard OpenPose structural guide, including its compact "
-            "asymmetric face landmark map; do not render its lines, dots, colors, or background. Create the same young "
+            "body-only landmark map; do not render its lines, dots, colors, or background. Create the same young "
             "East Asian adult woman in a true 45-degree left-facing front-quarter full-body view: the nose and torso point toward image left, "
             "both eyes remain visible, the image-right cheek is nearer and wider, and the image-left eye is narrower. "
             "Keep an upright relaxed pose, full body from hair crown to shoe soles, "
@@ -343,7 +338,7 @@ TARGETS = {
     "fullbody_profile_left_qwen": {
         "inputs": (
             QWEN_FACE_REFERENCE,
-            "p7-5-2-qwen-edit-candidates/p7-5-2-openpose-fullbody-profile-left-90deg-guide.png",
+            "p7-5-2-openpose-fullbody-profile-left-90deg-approved-guide.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -407,127 +402,28 @@ TARGETS.update(
     }
 )
 
-for _view, _direction, _face_guide in (
-    ("quarter_left", "45-degree left front-quarter", "face_front_quarter_left"),
-    ("quarter_right", "45-degree right front-quarter", "face_front_quarter_right"),
-    ("profile_left", "strict left profile", "face_profile_left"),
-    ("profile_right", "strict right profile", "face_profile_right"),
-):
-    TARGETS[f"head_{_view}_from_fullbody"] = {
-        "inputs": (
-            QWEN_FACE_REFERENCE,
-            f"p7-5-2-fullbody-{_view.replace('_', '-')}-reference.png",
-            OPENPOSE_GUIDES[_face_guide],
-        ),
-        # Rotation uses the approved frontal image's rendering as its style
-        # anchor.  Do not append the frontal-generation illustration prompt.
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "face_guide": _face_guide,
-        "input_roles": ["approved_front_face_detail_identity", "approved_direction_fullbody_composition", "openpose_face_rotation_geometry"],
-        "default_steps": 30,
-        "size": (768, 768),
-        "prompt": (
-            "Rotation prompt — Image 1 is the immutable frontal identity reference: preserve its face width, eye spacing, nose bridge, iris shape and colour, fringe, hair volume, line detail, shading, and illustration rendering without restyling. "
-            "Image 2 supplies only viewing direction and crown-to-collarbone framing; never copy its face, hair, or rendering. Image 3 is a non-rendered OpenPose face geometry guide. Create a detailed head-and-neck studio reference of the same young East Asian woman in a "
-            f"{_direction} view. "
-            "Crop from crown to collarbones; plain warm off-white background; no body, outfit, bag, text, panel, or scene."
-        ),
-    }
-
 # Head-detail rotation must not use a low-resolution fullbody image as an
 # identity source.  Keep the approved frontal face as the sole rendered
 # reference; OpenPose communicates only the requested view geometry.
 TARGETS["head_quarter_left_from_front_identity"] = {
-    "inputs": (QWEN_FACE_REFERENCE, OPENPOSE_GUIDES["face_front_quarter_left"]),
+    "inputs": (QWEN_FACE_REFERENCE, QUARTER_LEFT_FACE_GUIDE_FILENAME),
     "append_style_prompt": False,
     "append_illustration_prompt": False,
-    "face_guide": "face_front_quarter_left",
+    "face_guide": QUARTER_LEFT_FACE_GUIDE,
     "input_roles": ["approved_front_face_detail_identity", "openpose_face_rotation_geometry"],
     "default_steps": 30,
     "size": (768, 768),
     "prompt": (
-        "Rotation prompt — Image 1 is the sole rendered identity reference. Preserve its exact compact oval face, eye spacing, "
-        "high straight nose bridge, orange-amber iris shape and colour, petrol-teal-and-black asymmetric bob, fringe, loose "
-        "S-waves, hair volume, line detail, shading, and illustration rendering. Image 2 is a non-rendered OpenPose face "
-        "geometry guide only. Create the same young East Asian woman in a true 45-degree left front-quarter view: the nose tip "
-        "points image left, the near image-right eye and cheek are wider, and the far image-left eye is narrower and partly "
-        "hidden by the nose bridge. Crop from crown to collarbones on a plain warm off-white background; no body, outfit, bag, "
-        "text, panel, or scene."
+        "Rotation prompt — Image 1 is the immutable frontal identity and rendering reference: preserve its compact oval face, eye spacing, "
+        "high straight nose bridge, amber iris shape and colour, line detail, contrast, and shading without restyling. Preserve the exact "
+        "asymmetric hair colour layout: petrol-teal fringe and image-left front locks, with the dark near-black mass on image right; keep its "
+        "high crown, loose S-waves, and inward-curled jaw-length ends rather than simplifying it into a uniform bob. Image 2 is a non-rendered "
+        "OpenPose face geometry guide only. Create a detailed head-and-neck studio reference of the same young East Asian woman in a true "
+        "45-degree left front-quarter view: nose tip points image left, near image-right eye and cheek are wider, and far image-left eye is "
+        "narrower behind the bridge. Crop from crown to collarbones; simple cool blue-gray background with the same restrained directional "
+        "shadow language as Image 1; no body, outfit, bag, text, panel, or scene."
     ),
 }
-
-FACE_DIRECTION_RULES = {
-    "face_front_quarter_left": (
-        "a true 45-degree front-quarter view turned toward the viewer's left: the near right eye and right cheek are visibly wider, "
-        "the far left eye is narrower and partly hidden behind the nose bridge, the nose tip points left, and the far left ear is hidden by hair"
-    ),
-    "face_front_quarter_right": (
-        "a true 45-degree front-quarter view turned toward the viewer's right: the near left eye and left cheek are visibly wider, "
-        "the far right eye is narrower and partly hidden behind the nose bridge, the nose tip points right, and the far right ear is hidden by hair"
-    ),
-    "face_profile_left": (
-        "a strict true left profile: nose tip and lips point left, exactly one right eye and eyebrow are visible, "
-        "and the far left eye, eyebrow, cheek, and ear are fully hidden"
-    ),
-    "face_profile_right": (
-        "a strict true right profile: nose tip and lips point right, exactly one left eye and eyebrow are visible, "
-        "and the far right eye, eyebrow, cheek, and ear are fully hidden"
-    ),
-    "face_rear": (
-        "a strict 180-degree rear view facing directly away from the camera; show only the back bob silhouette, nape, and ears if exposed, "
-        "with no face, eye, eyebrow, nose, lips, cheek, or side-profile outline"
-    ),
-}
-
-for target_id, direction in FACE_DIRECTION_RULES.items():
-    visible_face_rule = (
-        "Preserve the compact oval face, long slender eyes with gently upturned outer corners, equal orange-amber irises, "
-        f"and petrol-teal jaw-length bob. {HAIR_VOLUME_RULE}"
-        if target_id != "face_rear"
-        else f"Preserve only the petrol-teal jaw-length bob silhouette, nape hairline, and hair color. {HAIR_VOLUME_RULE}"
-    )
-    TARGETS[target_id] = {
-        "inputs": (QWEN_FACE_REFERENCE, OPENPOSE_GUIDES[target_id]),
-        "size": (768, 768),
-        "append_style_prompt": False,
-        "prompt": (
-            f"Use image 1 only as the exact character identity, including the compact oval face, orange-amber irises, petrol-teal hair, fringe, and high-volume jaw-length bob. "
-            "Use image 2 as the standard OpenPose structural control map for face-and-neck geometry; do not render its lines, dots, colors, or background. "
-            f"Create one clean head-and-neck studio reference in {direction}. "
-            f"{visible_face_rule} Plain off-white background, one person, no text, panel, collage, accessory, or background scene."
-        ),
-    }
-
-# A controlled identity-first ablation: the requested quarter turn is expressed
-# in text only, with the approved Qwen front reference as the sole image input.
-TARGETS["face_front_quarter_left"] = {
-    "inputs": (QWEN_FACE_REFERENCE, OPENPOSE_GUIDES["face_front_quarter_left"]),
-    "size": (768, 768),
-    "append_style_prompt": False,
-    "prompt": (
-        "Use image 1 as the exact character identity: preserve the original face width, compact oval jawline, eye proportion, orange-amber irises, fringe, "
-        "petrol-teal hair color, and high-volume jaw-length bob. Use image 2 only as a weak, non-rendered OpenPose face-and-neck geometry cue. Create a shallow 30-degree "
-        "front-quarter view turned toward the viewer's left, never a profile: both eyes remain visible; the near right eye and cheek are only slightly wider; "
-        "the nose points slightly left. Copy the original asymmetric side fringe, rounded crown, loose S-waves, pronounced inward C-curls at both jaw-length ends, "
-        "and outer hair silhouette that remains wider than the neck. Do not make a smooth, straight, blunt bob; do not lengthen the hair or change the fringe. Do not copy image 2's lines, dots, "
-        "or skeleton. Do not create a frontal view, a new person, text, accessory, scene, or panel."
-    ),
-}
-
-TARGETS["face_front_quarter_right"] = {
-    "inputs": (QWEN_FACE_REFERENCE, OPENPOSE_GUIDES["face_front_quarter_right"]),
-    "size": (768, 768),
-    "append_style_prompt": False,
-    "prompt": (
-        "Use image 1 as the exact character identity: preserve the compact oval face, orange-amber irises, petrol-teal hair, asymmetric fringe, "
-        "and high-volume jaw-length bob. Use image 2 as the standard OpenPose face-and-neck structural control map. Turn the same head "
-        "toward the image's right edge: the nose tip and lips must point to screen right, the image-left cheek is nearer and wider, the image-right eye is narrower, "
-        "and the image-right ear is hidden by hair. This is a right-facing front-quarter view, never left-facing and never frontal or profile. Keep the original loose S-waves "
-        "and inward C-curls. Do not render image 2's black background, lines, dots, colors, or skeleton; do not create text, accessory, scene, or panel."
-    ),
-}
-
 
 def openpose_module():
     """Load controlnet_aux OpenPose without importing its optional top-level extras."""
@@ -698,15 +594,17 @@ def main() -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
 
-    if args.target in FACE_DIRECTION_RULES:
-        save_openpose_guide(args.target, ASSETS / OPENPOSE_GUIDES[args.target])
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    generated_guides: dict[str, Path] = {}
     target = TARGETS[args.target]
     if face_guide := target.get("face_guide"):
-        save_openpose_guide(face_guide, ASSETS / OPENPOSE_GUIDES[face_guide])
+        candidate_guide = args.output_dir / f"p7-5-2-qwen-edit-{args.target}-{face_guide}-guide.png"
+        save_openpose_guide(face_guide, candidate_guide)
+        generated_guides[QUARTER_LEFT_FACE_GUIDE_FILENAME] = candidate_guide
     steps = args.steps if args.steps is not None else target.get("default_steps", DEFAULT_STEPS)
     if steps < 1:
         raise ValueError("--steps must be at least 1")
-    inputs = [ASSETS / name for name in target["inputs"]]
+    inputs = [generated_guides.get(name, ASSETS / name) for name in target["inputs"]]
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
     if not PLAN.is_file() or not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
@@ -722,7 +620,6 @@ def main() -> None:
     prompt = " ".join(prompt_parts)
 
     width, height = target["size"]
-    args.output_dir.mkdir(parents=True, exist_ok=True)
     stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{steps}"
     output = args.output_dir / f"{stem}.png"
     run_record = args.output_dir / f"{stem}-run.json"
@@ -789,9 +686,7 @@ def main() -> None:
             if args.target == "fullbody_front_quarter_left_qwen"
             else
             ["face_identity"]
-            if args.target == "head_front" or (args.target in FACE_DIRECTION_RULES and len(target["inputs"]) == 1)
-            else ["face_identity", "standard_openpose_face_geometry"]
-            if args.target in FACE_DIRECTION_RULES
+            if args.target == "head_front"
             else ["body_and_complete_outfit", "face_identity"]
         ),
         "seed": args.seed,
