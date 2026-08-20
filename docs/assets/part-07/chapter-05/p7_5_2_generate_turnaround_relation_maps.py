@@ -18,8 +18,7 @@ Examples:
 
   # Five full-body yaw directions at pitch 0, without face landmarks.
   .venv/bin/python p7_5_2_generate_turnaround_relation_maps.py \\
-    --targets profile_left quarter_left front quarter_right profile_right \\
-    --no-include-face
+    --targets profile_left quarter_left front quarter_right profile_right
 """
 
 from __future__ import annotations
@@ -30,6 +29,8 @@ import importlib.util
 import json
 import math
 import sys
+import sysconfig
+import types
 from pathlib import Path
 
 import numpy as np
@@ -39,7 +40,9 @@ from PIL import Image, ImageDraw
 ASSETS = Path(__file__).resolve().parent
 DEFAULT_REFERENCE = ASSETS / "upscale_image_01.png"
 DEFAULT_OUTPUT = ASSETS / "p7-5-2-openpose-turnaround-relations-v2-seven-heads"
-WIDTH, HEIGHT = 768, 1152
+FULLBODY_WIDTH, FULLBODY_HEIGHT = 768, 1152
+SHOULDERS_WIDTH, SHOULDERS_HEIGHT = 768, 768
+WIDTH, HEIGHT = FULLBODY_WIDTH, FULLBODY_HEIGHT
 # One seven-head unit is 150 px: crown-to-sole is therefore 1,050 px.
 CENTER_X, SCALE = WIDTH / 2, 150
 # Screen-space y coordinate occupied by the face pivot.  Keep this separate
@@ -48,6 +51,8 @@ CENTER_X, SCALE = WIDTH / 2, 150
 # With a 150 px head unit, the nose pivot at y=120 leaves room for both the
 # virtual crown (~42 px) and sole (~1,092 px) on the 768×1152 canvas.
 DEFAULT_FRAME_ORIGIN_Y = 120
+DEFAULT_SHOULDERS_FRAME_ORIGIN_Y = 260
+SHOULDERS_SCALE = 240
 # The former perspective mapping had an effective horizontal FOV of about
 # 45.8° (SCALE * default camera distance = 910 px focal length).  Use two
 # thirds of that angle to make the perspective view deliberately narrower
@@ -57,6 +62,7 @@ DEFAULT_PERSPECTIVE_HORIZONTAL_FOV_DEGREES = 30.5
 # narrowing the FOV. This is intentionally independent of the FOV constant,
 # so experiments can separately change camera distance (perspective strength).
 DEFAULT_PERSPECTIVE_CAMERA_DISTANCE = 10.8
+DEFAULT_SHOULDERS_CAMERA_DISTANCE = 4.5
 YAWS = (-90, -45, 0, 45, 90)
 # Positive pitch is a raised chin / camera looking upward; negative is down.
 PITCHES = (55, 27, 0, -27, -55)
@@ -92,15 +98,24 @@ def sha256(path: Path) -> str:
 
 
 def openpose_module():
-    """Reuse the installed OpenPose renderer without top-level optional imports."""
-    source = ASSETS / "p7_5_2_qwen_edit_reference_pilot.py"
-    spec = importlib.util.spec_from_file_location("p7_5_2_relation_renderer_source", source)
+    """Load the installed OpenPose renderer without top-level optional imports."""
+    root = Path(sysconfig.get_paths()["purelib"]) / "controlnet_aux"
+    package_name = "p7_5_2_relation_openpose_aux"
+    parent = types.ModuleType(package_name)
+    parent.__path__ = [str(root)]
+    sys.modules[package_name] = parent
+    directory = root / "open_pose"
+    spec = importlib.util.spec_from_file_location(
+        f"{package_name}.open_pose",
+        directory / "__init__.py",
+        submodule_search_locations=[str(directory)],
+    )
     if spec is None or spec.loader is None:
-        raise RuntimeError("P7-5.2 OpenPose renderer source is unavailable")
+        raise RuntimeError("controlnet_aux OpenPose renderer is unavailable")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
-    return module.openpose_module()
+    return module
 
 
 def rotate(point: tuple[float, float, float], yaw: float, pitch: float, pivot: tuple[float, float, float]) -> tuple[float, float, float]:
@@ -283,9 +298,12 @@ def as_keypoint(renderer, xy: tuple[float, float]):
     return renderer.Keypoint(x=x / WIDTH, y=y / HEIGHT, score=1.0)
 
 
-def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch: float, projection: str, camera_distance: float, horizontal_fov_degrees: float, pivot: tuple[float, float, float], frame_origin_y: float) -> list[dict[str, object]]:
+def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch: float, projection: str, camera_distance: float, horizontal_fov_degrees: float, pivot: tuple[float, float, float], frame_origin_y: float, visible_indices: set[int] | None = None) -> list[dict[str, object] | None]:
     rows = []
     for index, world in enumerate(points):
+        if visible_indices is not None and index not in visible_indices:
+            rows.append(None)
+            continue
         x, y = project(world, yaw, pitch, projection, camera_distance, horizontal_fov_degrees, pivot, frame_origin_y)
         rows.append({
             "index": index,
@@ -297,15 +315,18 @@ def serialise_points(points: list[tuple[float, float, float]], yaw: float, pitch
     return rows
 
 
-def render_map(renderer, body: list[dict[str, object]], face: list[dict[str, object]] | None) -> Image.Image:
-    body_points = [renderer.Keypoint(x=row["normalized_xy"][0], y=row["normalized_xy"][1], score=1.0) for row in body]
+def render_map(renderer, body: list[dict[str, object] | None], face: list[dict[str, object]] | None) -> Image.Image:
+    body_points = [
+        renderer.Keypoint(x=row["normalized_xy"][0], y=row["normalized_xy"][1], score=1.0) if row is not None else None
+        for row in body
+    ]
     face_points = (
         [renderer.Keypoint(x=row["normalized_xy"][0], y=row["normalized_xy"][1], score=1.0) for row in face]
         if face is not None
         else None
     )
     pose = renderer.PoseResult(
-        body=renderer.BodyResult(keypoints=body_points, total_score=1.0, total_parts=len(body_points)),
+        body=renderer.BodyResult(keypoints=body_points, total_score=1.0, total_parts=sum(point is not None for point in body_points)),
         left_hand=None,
         right_hand=None,
         face=face_points,
@@ -315,7 +336,8 @@ def render_map(renderer, body: list[dict[str, object]], face: list[dict[str, obj
 
 
 def contact_sheet(entries: list[tuple[str, Image.Image]], path: Path) -> None:
-    tile_w, tile_h = 192, 288
+    tile_w = 192
+    tile_h = 192 if WIDTH == HEIGHT else 288
     rows = math.ceil(len(entries) / 5)
     sheet = Image.new("RGB", (tile_w * 5, tile_h * rows), "black")
     draw = ImageDraw.Draw(sheet)
@@ -355,12 +377,8 @@ def main() -> None:
         choices=("all", "pitch0", "front"),
         help="Convenience range: all=5x5 grid, pitch0=five yaw views at pitch 0, front=one frontal view. Overrides --yaws/--pitches; incompatible with --targets.",
     )
-    parser.add_argument(
-        "--include-face",
-        action=argparse.BooleanOptionalAction,
-        default=True,
-        help="Render and write the 70-point face map (use --no-include-face for a body-only guide).",
-    )
+    parser.add_argument("--include-face", action="store_true", help="Disabled: face landmark maps are not an approved P7-5.2 input.")
+    parser.add_argument("--frame", choices=("fullbody", "shoulders"), default="fullbody", help="Output framing: fullbody or a square BODY_18 eye-nose-ear-neck-shoulder structure.")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "asymmetric-lowered-arms", "hand-on-hip"), default="neutral")
     parser.add_argument(
@@ -369,12 +387,12 @@ def main() -> None:
         default="perspective",
         help="Projection model; perspective is the default so --horizontal-fov-degrees is applied.",
     )
-    parser.add_argument("--camera-distance", type=float, default=DEFAULT_PERSPECTIVE_CAMERA_DISTANCE, help="Camera distance in template-head units for perspective projection.")
+    parser.add_argument("--camera-distance", type=float, help="Camera distance in template-head units for perspective projection; defaults depend on --frame.")
     parser.add_argument(
         "--frame-origin-y",
         type=float,
-        default=DEFAULT_FRAME_ORIGIN_Y,
-        help="Screen y coordinate for the face pivot; lower values move the complete skeleton upward.",
+        default=None,
+        help="Screen y coordinate for the nose pivot; defaults depend on --frame.",
     )
     parser.add_argument(
         "--horizontal-fov-degrees",
@@ -383,6 +401,19 @@ def main() -> None:
         help="Horizontal field of view for perspective projection; default is two thirds of the former effective 45.8° FOV.",
     )
     args = parser.parse_args()
+    if args.include_face:
+        parser.error("--include-face is disabled until a face-map input is human-approved")
+    global WIDTH, HEIGHT, CENTER_X, SCALE
+    if args.frame == "shoulders":
+        WIDTH, HEIGHT, CENTER_X, SCALE = SHOULDERS_WIDTH, SHOULDERS_HEIGHT, SHOULDERS_WIDTH / 2, SHOULDERS_SCALE
+        default_frame_origin_y = DEFAULT_SHOULDERS_FRAME_ORIGIN_Y
+        default_camera_distance = DEFAULT_SHOULDERS_CAMERA_DISTANCE
+    else:
+        WIDTH, HEIGHT, CENTER_X, SCALE = FULLBODY_WIDTH, FULLBODY_HEIGHT, FULLBODY_WIDTH / 2, 150
+        default_frame_origin_y = DEFAULT_FRAME_ORIGIN_Y
+        default_camera_distance = DEFAULT_PERSPECTIVE_CAMERA_DISTANCE
+    frame_origin_y = args.frame_origin_y if args.frame_origin_y is not None else default_frame_origin_y
+    camera_distance = args.camera_distance if args.camera_distance is not None else default_camera_distance
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     reference = args.reference if args.reference.is_absolute() else ASSETS / args.reference
     detection_review = (
@@ -394,11 +425,11 @@ def main() -> None:
         raise FileNotFoundError(reference)
     if detection_review is not None and not detection_review.is_file():
         raise FileNotFoundError(detection_review)
-    if args.camera_distance <= 1.0:
+    if camera_distance <= 1.0:
         raise ValueError("--camera-distance must be greater than 1.0")
     if not 1.0 < args.horizontal_fov_degrees < 179.0:
         raise ValueError("--horizontal-fov-degrees must be between 1 and 179")
-    if not 0.0 <= args.frame_origin_y <= HEIGHT:
+    if not 0.0 <= frame_origin_y <= HEIGHT:
         raise ValueError(f"--frame-origin-y must be between 0 and {HEIGHT}")
     if args.targets and args.output_range:
         parser.error("--targets cannot be combined with --output-range")
@@ -425,16 +456,19 @@ def main() -> None:
     renderer = openpose_module()
     proportions = HUMAN_PROPORTION_PROFILES[args.proportion_profile]
     body_world = apply_body_pose(body_template(proportions), args.body_pose, proportions)
-    face_world, face_groups = face_template(proportions)
     geometry = proportion_geometry(proportions)
     face_pivot = (0.0, geometry["chin_y"] + 0.48 * geometry["head"], 0.52 * geometry["head"])
+    # Keep BODY_18's five head-direction points (nose, eyes, ears) plus neck
+    # and shoulders.  This is still body-only OpenPose, not the disabled
+    # 70-point face landmark map.
+    visible_body_indices = {0, 1, 2, 5, 14, 15, 16, 17} if args.frame == "shoulders" else None
     views: list[dict[str, object]] = []
     previews: list[tuple[str, Image.Image]] = []
     for row, pitch in enumerate(pitches, start=1):
         for column, yaw in enumerate(yaws, start=1):
             target_name = target_names[column - 1] if target_names and len(pitches) == 1 else None
-            body = serialise_points(body_world, yaw, pitch, args.projection, args.camera_distance, args.horizontal_fov_degrees, face_pivot, args.frame_origin_y)
-            face = serialise_points(face_world, yaw, pitch, args.projection, args.camera_distance, args.horizontal_fov_degrees, face_pivot, args.frame_origin_y) if args.include_face else None
+            body = serialise_points(body_world, yaw, pitch, args.projection, camera_distance, args.horizontal_fov_degrees, face_pivot, frame_origin_y, visible_body_indices)
+            face = None
             label = f"yaw{yaw:+03d}_pitch{pitch:+03d}"
             png_name = f"p7-5-2-openpose-relation-{label}.png"
             json_name = f"p7-5-2-openpose-relation-{label}.json"
@@ -443,12 +477,13 @@ def main() -> None:
             view = {
                 "grid_position": {"row": row, "column": column},
                 "target": target_name,
+                "frame": args.frame,
                 "yaw_degrees": yaw,
                 "pitch_degrees": pitch,
-                "projection": {"type": args.projection, "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, args.frame_origin_y], "pixels_per_unit": SCALE, "camera_distance": args.camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
+                "projection": {"type": args.projection, "canvas": [WIDTH, HEIGHT], "center_xy": [CENTER_X, frame_origin_y], "pixels_per_unit": SCALE, "camera_distance": camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
                 "body_openpose_18": body,
-                "face_openpose_70": face,
-                "face_point_groups": face_groups if args.include_face else {},
+                "face_openpose_70": None,
+                "face_point_groups": {},
                 "png": png_name,
             }
             (output_dir / json_name).write_text(json.dumps(view, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -469,17 +504,19 @@ def main() -> None:
                     else None
                 ),
                 "method": f"One normalized 3D structural template was yaw/pitch rotated and {args.projection} projected; no landmark detector was used for the generated coordinates.",
-                "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "frame_origin_y": args.frame_origin_y, "projection": args.projection, "camera_distance": args.camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
+                "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "frame_origin_y": frame_origin_y, "projection": args.projection, "camera_distance": camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
                 "human_proportion_profile": {"name": args.proportion_profile, "values": proportions},
                 "body_pose": args.body_pose,
+                "frame": args.frame,
                 "view_grid": {"columns": yaws, "rows": pitches, "meaning": "columns=yaw degrees, rows=pitch degrees"},
                 "targets": target_names,
                 "output_range": args.output_range or "custom",
-                "openpose": {"body": "BODY_18", "face_included": args.include_face, "face": "70 points: 68 contour landmarks plus 2 iris centres" if args.include_face else None, "hands_included": False},
+                "openpose": {"body": "BODY_18", "visible_body_indices": sorted(visible_body_indices) if visible_body_indices is not None else list(range(18)), "face_included": False, "face": None, "hands_included": False},
                 "contact_sheet": sheet_name,
                 "views": views,
                 "limitations": [
                     "This is a proportion-editing template, not a detected pose or a character identity map.",
+                    "Face landmark maps are disabled because they are not an approved P7-5.2 structural input.",
                     "Occlusion is not removed from the JSON: each point remains present so that the same indexed relation can be compared across rotations.",
                     "The supplied head-turnaround sheet is used for angle inspection only; it has no body data and does not calibrate this template to a scan."
                 ],
