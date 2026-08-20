@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Generate review-only Qwen Edit candidates for rotated head references.
+"""Generate review-only Qwen Edit candidates for five approved head rotations.
 
-The approved frontal head is always the only identity input.  A separately
-approved structure map can be supplied with ``--structure-guide`` for an
-explicit ablation; it is never synthesized by this script.
+The approved frontal head is the only identity input.  Each target has one
+fixed, human-approved FACE_70 shoulder OpenPose guide in this file.
 """
 
 from __future__ import annotations
@@ -35,59 +34,18 @@ FRONT_HEAD_REFERENCE = ASSETS / "p7-5-2-face-front-qwen-role-separated-reference
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
 SIZE = (768, 768)
-TARGET_SIZES = {
-    "torso_front": (768, 1152),
-    "torso_quarter_right": (768, 1152),
-    "upperbody_profile_right": (768, 1024),
-    "torso_profile_right": (768, 1152),
+HEAD_ROTATION_TARGETS = ("profile_left", "quarter_left", "front", "quarter_right", "profile_right")
+OPENPOSE_GUIDES = {
+    "profile_left": ASSETS / "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw-90_pitch+00.png",
+    "quarter_left": ASSETS / "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw-45_pitch+00.png",
+    "front": ASSETS / "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw+00_pitch+00.png",
+    "quarter_right": ASSETS / "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw+45_pitch+00.png",
+    "profile_right": ASSETS / "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw+90_pitch+00.png",
 }
-ROTATIONS = {
-    "profile_left": (
-        "Turn Image 1 into a left profile head portrait. The face points image left. Head and shoulders only, plain background."
-    ),
-    "profile_right": (
-        "Turn Image 1 into a right profile head portrait. The face points image right. Head and shoulders only, plain background."
-    ),
-    "upperbody_profile_right": (
-        "Image 1 supplies only the same woman's identity and rendering. Redraw her in a strict right-facing upper-body profile: nose, lips, chest, and shoulders point image right. "
-        "Frame from the hair crown to below the waist, with the complete head, neck, both shoulders, upper torso, and one relaxed arm visible. "
-        "Keep the compact oval face, high straight nose, amber iris, petrol-teal bob, cool blue-gray studio background, and one person. No text, panel, collage, bag, or scene."
-    ),
-    "torso_front": (
-        "Image 1 supplies only the same woman's identity and rendering. Redraw her in a strict frontal torso view: face, chest, waist, and hips face the camera. "
-        "Frame from hair crown to hips. Show the complete head, compact neck, both shoulders, ribcage, waist, hips, and both arms; one arm hangs naturally beside the torso. "
-        "She wears an ultra-short white cropped utility jacket with long sleeves over a gray crop top, with a small bare midriff. Keep the compact oval face, high straight nose, amber iris, petrol-teal bob, cool blue-gray studio background, and one person. "
-        "No text, panel, collage, bag, or scene."
-    ),
-    "torso_quarter_right": (
-        "Image 1 supplies only the same woman's identity and rendering. Redraw her at yaw +45 degrees in a clear right front-quarter torso view: nose, lips, chest, waist, and hips point image right. "
-        "Frame from hair crown to hips. Show the complete head, compact neck, both shoulders, ribcage, waist, hips, and both arms; one arm hangs naturally beside the torso. "
-        "She wears an ultra-short white cropped utility jacket with long sleeves over a gray crop top, with a small bare midriff. Keep the compact oval face, high straight nose, amber iris, petrol-teal bob, cool blue-gray studio background, and one person. "
-        "No text, panel, collage, bag, or scene."
-    ),
-    "torso_profile_right": (
-        "Image 1 supplies only the same woman's identity and rendering. Redraw her in a strict right-facing torso profile: nose, lips, chest, waist, and hips point image right. "
-        "Frame from hair crown to hips. Show the complete head, compact neck, both shoulders, ribcage, waist, hips, and both arms; one arm hangs naturally beside the torso. "
-        "She wears an ultra-short white cropped utility jacket with long sleeves over a gray crop top, with a small bare midriff. Keep the compact oval face, high straight nose, amber iris, petrol-teal bob, cool blue-gray studio background, and one person. "
-        "No text, panel, collage, bag, or scene."
-    ),
-    "quarter_left": (
-        "Image 1 supplies only the same woman's identity and rendering: compact oval face, high straight nose, amber irises, line work, "
-        "contrast, shading, and the exact petrol-teal/image-left plus near-black/image-right bob with high crown, loose S-waves, and inward-curled ends. "
-        "Do not copy Image 1's frontal camera pose or facial symmetry. Redraw her at yaw -45 degrees, a clear left front-quarter: nose and lips point "
-        "image left; the near image-right eye, cheek, and jaw are wider; the far image-left eye is narrower behind the nose bridge. Both eyes remain visible. "
-        "Never output a frontal face. Crown-to-collarbone crop, cool blue-gray studio background, no body, outfit, bag, text, panel, or scene."
-    ),
-}
-MINIMAL_ROTATIONS = {
-    "profile_left": "Turn Image 1 into a left profile head portrait. The face points image left. Head and shoulders only, plain background.",
-    "profile_right": "Turn Image 1 into a right profile head portrait. The face points image right. Head and shoulders only, plain background.",
-    "upperbody_profile_right": "Turn Image 1 into a strict right-facing upper-body profile from hair crown to below the waist. Show the complete head, neck, shoulders, upper torso, and one relaxed arm. Plain background.",
-    "torso_front": "Turn Image 1 into a strict frontal torso view from hair crown to hips. Show the complete head, neck, shoulders, torso, hips, and both arms. Plain background.",
-    "torso_quarter_right": "Turn Image 1 into a clear right front-quarter torso view at yaw +45 degrees from hair crown to hips. Show the complete head, neck, shoulders, torso, hips, and both arms. Plain background.",
-    "torso_profile_right": "Turn Image 1 into a strict right-facing upper-body profile from hair crown to hips. Show the complete head, neck, shoulders, torso, hips, and both arms. Plain background.",
-    "quarter_left": "Turn Image 1 into a left front-quarter head portrait at yaw -45 degrees. The face points image left. Head and shoulders only, plain background.",
-}
+IDENTITY_ROLE = "Use Image 1 for character identity and illustration rendering."
+STRUCTURE_ROLE = "Use Image 2 only for head-and-shoulder orientation; do not render it."
+OUTPUT_SCOPE = "Draw one head-and-shoulders illustration on a plain cool blue-gray background."
+EXCLUSIONS = "Do not add a body, outfit, bag, text, panel, collage, or scene."
 
 
 def sha256(path: Path) -> str:
@@ -100,6 +58,11 @@ def sha256(path: Path) -> str:
 
 def asset_record(path: Path) -> dict[str, str]:
     return {"path": str(path), "sha256": sha256(path)}
+
+
+def build_prompt() -> str:
+    """Keep identity, structural orientation, and output scope in separate roles."""
+    return " ".join((IDENTITY_ROLE, STRUCTURE_ROLE, OUTPUT_SCOPE, EXCLUSIONS))
 
 
 def runtime_record() -> dict[str, object]:
@@ -120,7 +83,11 @@ def runtime_record() -> dict[str, object]:
 
 def load_pipeline() -> QwenImageEditPlusPipeline:
     transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
-    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
+    # This process already keeps the quantized transformer on CPU between
+    # blocks.  Pinned CPU pages raised swap pressure enough for systemd-oomd
+    # to end a sequential five-view run before its first output, so favour
+    # pageable memory over a marginal transfer-speed gain here.
+    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
     pipe = QwenImageEditPlusPipeline.from_pretrained(
         MODEL_ID,
         transformer=transformer,
@@ -134,16 +101,13 @@ def load_pipeline() -> QwenImageEditPlusPipeline:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--target", choices=tuple(ROTATIONS), default="quarter_left")
+    parser.add_argument("--target", choices=HEAD_ROTATION_TARGETS, default="quarter_left")
     parser.add_argument(
         "--targets",
         nargs="+",
-        choices=tuple(ROTATIONS),
+        choices=HEAD_ROTATION_TARGETS,
         help="Generate these targets sequentially with one loaded pipeline; overrides --target.",
     )
-    parser.add_argument("--minimal-prompt", action="store_true", help="Use only a rotation instruction; do not add a shared style prompt.")
-    parser.add_argument("--pitch", type=int, default=0, help="Camera pitch in degrees; negative is high-angle and positive is low-angle.")
-    parser.add_argument("--structure-guide", type=Path, help="Optional human-approved structural input; no guide is generated automatically.")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
     parser.add_argument("--run-label", default="head-rotation")
@@ -153,42 +117,32 @@ def main() -> None:
         raise ValueError("--steps must be at least 1")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
-    if missing := [path for path in (PLAN, IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT, FRONT_HEAD_REFERENCE) if not path.is_file()]:
+    if missing := [path for path in (PLAN, IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT, FRONT_HEAD_REFERENCE, *OPENPOSE_GUIDES.values()) if not path.is_file()]:
         raise FileNotFoundError("missing P7-5.2 asset: " + ", ".join(map(str, missing)))
 
-    structure_guide = None
-    if args.structure_guide:
-        structure_guide = args.structure_guide if args.structure_guide.is_absolute() else ASSETS / args.structure_guide
-        if not structure_guide.is_file():
-            raise FileNotFoundError(structure_guide)
+    targets = list(args.targets or [args.target])
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
-    inputs = [FRONT_HEAD_REFERENCE] + ([structure_guide] if structure_guide else [])
-    targets = args.targets or [args.target]
     pipeline = load_pipeline()
-    loaded_inputs = [load_image(str(path)).convert("RGB") for path in inputs]
     outputs = []
     for sequence_index, target in enumerate(targets, start=1):
-        prompt = MINIMAL_ROTATIONS[target] if args.minimal_prompt else ROTATIONS[target]
-        if args.pitch:
-            pitch_instruction = "High-angle view: the camera is above the face, looking down." if args.pitch < 0 else "Low-angle view: the camera is below the face, looking up."
-            prompt += f" Camera pitch {args.pitch} degrees: {pitch_instruction}"
-        if structure_guide:
-            prompt += " Image 2 is a human-approved structure map: use only its requested orientation and never render its lines, dots, colours, or background."
-        stem = f"p7-5-2-qwen-head-rotation-{target}-pitch-{args.pitch:+03d}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+        target_structure_guide = OPENPOSE_GUIDES[target]
+        inputs = [FRONT_HEAD_REFERENCE, target_structure_guide]
+        prompt = build_prompt()
+        stem = f"p7-5-2-qwen-head-rotation-{target}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
         output = output_dir / f"{stem}.png"
         run_record = output_dir / f"{stem}-run.json"
         started = time.monotonic()
         image = pipeline(
             prompt=prompt,
-            image=loaded_inputs,
+            image=[load_image(str(path)).convert("RGB") for path in inputs],
             generator=torch.Generator("cpu").manual_seed(args.seed),
             true_cfg_scale=4.0,
             guidance_scale=1.0,
             negative_prompt=" ",
             num_inference_steps=args.steps,
-            width=TARGET_SIZES.get(target, SIZE)[0],
-            height=TARGET_SIZES.get(target, SIZE)[1],
+            width=SIZE[0],
+            height=SIZE[1],
         ).images[0]
         image.save(output)
         record = {
@@ -203,14 +157,12 @@ def main() -> None:
             "illustration_prompt_contract": asset_record(ILLUSTRATION_CONTRACT),
             "prompt_contracts_applied": {"watercolor_style": False, "illustration": False},
             "inputs": [asset_record(path) for path in inputs],
-            "input_roles": ["approved_front_head_identity"] + (["approved_structure_guide"] if structure_guide else []),
+            "input_roles": ["approved_front_head_identity", "approved_face70_orientation_structure"],
             "target": target,
             "sequence": {"index": sequence_index, "targets": targets},
-            "pitch_degrees": args.pitch,
-            "minimal_prompt": args.minimal_prompt,
             "seed": args.seed,
             "steps": args.steps,
-            "size": list(TARGET_SIZES.get(target, SIZE)),
+            "size": list(SIZE),
             "true_cfg_scale": 4.0,
             "guidance_scale": 1.0,
             "negative_prompt": " ",

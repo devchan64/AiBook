@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 참조 셋 생성: 로컬 GPU 원본과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.20`
+> Version: `v2026.08.21`
 
 장면을 만들기 전에 다음 생성에서도 같은 인물로 대조할 수 있는 기준을 먼저 정한다. 이 절은 로컬 GPU에서 Qwen으로 생성한 자산만 다룬다. 한 장이 보기 좋다는 사실만으로는 기준이 되지 않는다. 무엇을 고정했는지, 무엇은 아직 다시 검수해야 하는지, 실행 기록은 무엇인지가 함께 있어야 한다.
 
@@ -59,6 +59,14 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하는 단계이고, P7-5.4
 | 정면 body-only OpenPose | 왼쪽 쿼터 body-only OpenPose |
 | --- | --- |
 | ![정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-front-body-only-approved-guide.png) | ![왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png) |
+
+## 어깨 프레임에서 얼굴과 몸 구조를 대조한다
+
+머리 상세를 만들 때는 전신 관절을 모두 볼 필요가 없다. 다음 다섯 맵은 같은 BODY_18 템플릿을 유지한 채 `yaw −90°/−45°/0°/+45°/+90°`에서 코·눈·귀와 FACE_70의 상대 위치를 어깨 프레임으로 대조한다. FACE_70은 BODY_18에 완전히 겹치도록 고정하지 않고, 전체 점군을 부분 이동해 작은 검출 모델 차이는 남긴다. 그러므로 이 자료는 회전별 머리·어깨 구조를 비교하는 기준이며 캐릭터 identity, 헤어, 의상, 실제 인물 포즈를 정의하지 않는다.
+
+![승인된 어깨 프레임 5방향 OpenPose 관계 맵](../../../assets/part-07/chapter-05/p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-contact-sheet.png)
+
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-manifest.json" data-language="json">어깨 프레임 5방향 manifest.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7_5_2_generate_turnaround_relation_maps.py" data-language="python">관계 맵 생성 코드</a></p>
 
 같은 정면 앵커에서 만든 네 방향 전신 참조는 방향별 머리·어깨·팔·다리·신발의 방향을 대조하는 자료다. 이 표는 새 pose, camera, 장면의 자동 승인 범위를 넓히지 않는다.
 

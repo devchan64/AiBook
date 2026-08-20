@@ -408,6 +408,19 @@ def mirrored_face_index(index: int) -> int:
     return 137 - index
 
 
+def mirrored_body_index(index: int) -> int:
+    """Return the BODY_18 source index that becomes ``index`` after reflection."""
+    return (0, 1, 5, 6, 7, 2, 3, 4, 11, 12, 13, 8, 9, 10, 15, 14, 17, 16)[index]
+
+
+def mirrored_body_anchors(anchors: dict[int, tuple[float, float] | None]) -> dict[int, tuple[float, float] | None]:
+    """Reflect BODY_18 head anchors while preserving their left/right semantics."""
+    return {
+        index: None if (point := anchors.get(mirrored_body_index(index))) is None else (-point[0], point[1])
+        for index in anchors
+    }
+
+
 def embedded_face_observations() -> dict[tuple[int, int], dict[str, object]]:
     """Return the embedded actual right profile and its declared mirror."""
     right = {
@@ -417,10 +430,7 @@ def embedded_face_observations() -> dict[tuple[int, int], dict[str, object]]:
         "symmetry_assumption": False,
     }
     left = {
-        "anchors": {
-            index: None if point is None else (-point[0], point[1])
-            for index, point in PROFILE_RIGHT_FACE70_ANCHORS.items()
-        },
+        "anchors": mirrored_body_anchors(PROFILE_RIGHT_FACE70_ANCHORS),
         "points": tuple(
             (-PROFILE_RIGHT_FACE70_POINTS[mirrored_face_index(index)][0], PROFILE_RIGHT_FACE70_POINTS[mirrored_face_index(index)][1])
             for index in range(70)
@@ -441,7 +451,7 @@ def embedded_face_observations() -> dict[tuple[int, int], dict[str, object]]:
         "symmetry_assumption": False,
     }
     quarter_left = {
-        "anchors": {index: None if point is None else (-point[0], point[1]) for index, point in quarter_right["anchors"].items()},
+        "anchors": mirrored_body_anchors(quarter_right["anchors"]),
         "points": tuple((-quarter_right["points"][mirrored_face_index(index)][0], quarter_right["points"][mirrored_face_index(index)][1]) for index in range(70)),
         "provenance": "horizontal_reflection_of_measured_fullbody_quarter_right_face70",
         "symmetry_assumption": True,
@@ -490,6 +500,43 @@ def map_face_to_body_anchors(observation: dict[str, object], body: list[dict[str
             }
         )
     return rows
+
+
+BODY18_TO_FACE70_VISUAL_ANCHORS = {
+    0: (30,),                 # BODY nose -> FACE nose tip
+    14: tuple(range(36, 42)), # BODY right eye -> FACE eye contour centre
+    15: tuple(range(42, 48)), # BODY left eye -> FACE eye contour centre
+}
+FACE70_TO_BODY18_ALIGNMENT_STRENGTH = 0.65
+
+
+def move_face_toward_fixed_body_head_anchors(
+    face: list[dict[str, object]], body: list[dict[str, object] | None],
+) -> None:
+    """Partially translate FACE_70 toward fixed BODY_18 nose/eye anchors.
+
+    BODY_18 remains one shared structural model across every yaw.  The
+    observed FACE_70 shape is therefore moved as a whole, rather than
+    rewriting BODY_18 head joints separately for each direction.  A partial
+    correction retains the small detector-model difference while avoiding the
+    visibly detached eyes and nose.
+    """
+    offsets = []
+    for body_index, face_indices in BODY18_TO_FACE70_VISUAL_ANCHORS.items():
+        if body[body_index] is None:
+            continue
+        face_x = sum(face[index]["screen_xy"][0] for index in face_indices) / len(face_indices)
+        face_y = sum(face[index]["screen_xy"][1] for index in face_indices) / len(face_indices)
+        body_x, body_y = body[body_index]["screen_xy"]
+        offsets.append((body_x - face_x, body_y - face_y))
+    if not offsets:
+        return
+    dx = sum(offset[0] for offset in offsets) / len(offsets) * FACE70_TO_BODY18_ALIGNMENT_STRENGTH
+    dy = sum(offset[1] for offset in offsets) / len(offsets) * FACE70_TO_BODY18_ALIGNMENT_STRENGTH
+    for row in face:
+        x, y = row["screen_xy"]
+        row["screen_xy"] = [round(x + dx, 3), round(y + dy, 3)]
+        row["normalized_xy"] = [round((x + dx) / WIDTH, 6), round((y + dy) / HEIGHT, 6)]
 
 
 def render_map(renderer, body: list[dict[str, object] | None], face: list[dict[str, object]] | None) -> Image.Image:
@@ -670,6 +717,8 @@ def main() -> None:
             if args.include_face and observation is None:
                 raise ValueError(f"no embedded FACE_70 map for yaw={yaw}, pitch={pitch}")
             face = map_face_to_body_anchors(observation, body) if observation is not None else None
+            if face is not None:
+                move_face_toward_fixed_body_head_anchors(face, body)
             label = f"yaw{yaw:+03d}_pitch{pitch:+03d}"
             png_name = f"{prefix}-{label}.png"
             json_name = f"{prefix}-{label}.json"
@@ -715,7 +764,7 @@ def main() -> None:
                 "view_grid": {"columns": yaws, "rows": pitches, "meaning": "columns=yaw degrees, rows=pitch degrees"},
                 "targets": target_names,
                 "output_range": args.output_range or "custom",
-                "openpose": {"body": "BODY_18", "visible_body_indices": sorted(visible_body_indices) if visible_body_indices is not None else list(range(18)), "face_included": args.include_face, "face": "FACE_70 mapped through BODY_18 nose/eye/ear anchors" if args.include_face else None, "hands_included": False},
+                "openpose": {"body": "BODY_18", "visible_body_indices": sorted(visible_body_indices) if visible_body_indices is not None else list(range(18)), "face_included": args.include_face, "face": "FACE_70 mapped through BODY_18 nose/eye/ear anchors and partially translated toward fixed BODY_18 nose/eye anchors" if args.include_face else None, "face70_to_fixed_body18_blend_strength": FACE70_TO_BODY18_ALIGNMENT_STRENGTH if args.include_face else None, "hands_included": False},
                 "contact_sheet": sheet_name,
                 "views": views,
                 "limitations": [

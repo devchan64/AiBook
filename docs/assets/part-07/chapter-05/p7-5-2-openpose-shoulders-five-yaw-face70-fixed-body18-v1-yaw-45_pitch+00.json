@@ -1,0 +1,1114 @@
+{
+  "grid_position": {
+    "row": 1,
+    "column": 2
+  },
+  "target": "quarter_left",
+  "frame": "shoulders",
+  "horizontal_crop_offset_px": -66.159,
+  "yaw_degrees": -45,
+  "pitch_degrees": 0,
+  "projection": {
+    "type": "perspective",
+    "canvas": [
+      768,
+      768
+    ],
+    "center_xy": [
+      384.0,
+      384.0
+    ],
+    "pixels_per_unit": 240,
+    "camera_distance": 4.5,
+    "horizontal_fov_degrees": 30.5,
+    "focal_length_px": 1408.496
+  },
+  "body_openpose_18": [
+    {
+      "index": 0,
+      "world_xyz": [
+        0.0,
+        6.48,
+        0.52
+      ],
+      "screen_xy": [
+        317.841,
+        384.0
+      ],
+      "normalized_xy": [
+        0.413856,
+        0.5
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 1,
+      "world_xyz": [
+        0.0,
+        5.8,
+        0.0
+      ],
+      "screen_xy": [
+        424.236,
+        580.762
+      ],
+      "normalized_xy": [
+        0.552391,
+        0.7562
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 2,
+      "world_xyz": [
+        -0.72,
+        5.76,
+        0.0
+      ],
+      "screen_xy": [
+        280.796,
+        572.609
+      ],
+      "normalized_xy": [
+        0.365619,
+        0.745585
+      ],
+      "confidence": 1.0
+    },
+    null,
+    null,
+    {
+      "index": 5,
+      "world_xyz": [
+        0.72,
+        5.76,
+        0.0
+      ],
+      "screen_xy": [
+        601.188,
+        616.671
+      ],
+      "normalized_xy": [
+        0.782796,
+        0.802958
+      ],
+      "confidence": 1.0
+    },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+      "index": 14,
+      "world_xyz": [
+        -0.1728,
+        6.62,
+        0.48
+      ],
+      "screen_xy": [
+        289.401,
+        341.598
+      ],
+      "normalized_xy": [
+        0.376824,
+        0.444789
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 15,
+      "world_xyz": [
+        0.1728,
+        6.62,
+        0.48
+      ],
+      "screen_xy": [
+        365.942,
+        339.246
+      ],
+      "normalized_xy": [
+        0.476488,
+        0.441727
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 16,
+      "world_xyz": [
+        -0.3816,
+        6.54,
+        0.18
+      ],
+      "screen_xy": [
+        309.572,
+        367.133
+      ],
+      "normalized_xy": [
+        0.403089,
+        0.478037
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 17,
+      "world_xyz": [
+        0.3816,
+        6.54,
+        0.18
+      ],
+      "screen_xy": [
+        478.6,
+        365.096
+      ],
+      "normalized_xy": [
+        0.623176,
+        0.475386
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "face_openpose_70": [
+    {
+      "index": 0,
+      "screen_xy": [
+        282.825,
+        363.634
+      ],
+      "normalized_xy": [
+        0.368262,
+        0.473482
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 1,
+      "screen_xy": [
+        283.284,
+        374.885
+      ],
+      "normalized_xy": [
+        0.36886,
+        0.488132
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 2,
+      "screen_xy": [
+        284.02,
+        392.882
+      ],
+      "normalized_xy": [
+        0.369818,
+        0.511565
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 3,
+      "screen_xy": [
+        293.847,
+        412.762
+      ],
+      "normalized_xy": [
+        0.382614,
+        0.537451
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 4,
+      "screen_xy": [
+        296.922,
+        432.918
+      ],
+      "normalized_xy": [
+        0.386618,
+        0.563695
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 5,
+      "screen_xy": [
+        306.749,
+        452.799
+      ],
+      "normalized_xy": [
+        0.399413,
+        0.589582
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 6,
+      "screen_xy": [
+        318.732,
+        470.339
+      ],
+      "normalized_xy": [
+        0.415016,
+        0.612421
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 7,
+      "screen_xy": [
+        328.192,
+        481.219
+      ],
+      "normalized_xy": [
+        0.427334,
+        0.626587
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 8,
+      "screen_xy": [
+        346.189,
+        480.484
+      ],
+      "normalized_xy": [
+        0.450768,
+        0.62563
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 9,
+      "screen_xy": [
+        366.437,
+        479.657
+      ],
+      "normalized_xy": [
+        0.477132,
+        0.624554
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 10,
+      "screen_xy": [
+        386.318,
+        469.83
+      ],
+      "normalized_xy": [
+        0.503019,
+        0.611758
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 11,
+      "screen_xy": [
+        406.106,
+        457.755
+      ],
+      "normalized_xy": [
+        0.528784,
+        0.596035
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 12,
+      "screen_xy": [
+        427.869,
+        438.836
+      ],
+      "normalized_xy": [
+        0.557122,
+        0.571401
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 13,
+      "screen_xy": [
+        445.04,
+        417.853
+      ],
+      "normalized_xy": [
+        0.57948,
+        0.54408
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 14,
+      "screen_xy": [
+        453.121,
+        394.989
+      ],
+      "normalized_xy": [
+        0.590002,
+        0.514309
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 15,
+      "screen_xy": [
+        454.177,
+        365.649
+      ],
+      "normalized_xy": [
+        0.591377,
+        0.476106
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 16,
+      "screen_xy": [
+        452.982,
+        336.401
+      ],
+      "normalized_xy": [
+        0.589821,
+        0.438022
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 17,
+      "screen_xy": [
+        280.803,
+        314.141
+      ],
+      "normalized_xy": [
+        0.365629,
+        0.409038
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 18,
+      "screen_xy": [
+        280.803,
+        314.141
+      ],
+      "normalized_xy": [
+        0.365629,
+        0.409038
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 19,
+      "screen_xy": [
+        289.803,
+        313.773
+      ],
+      "normalized_xy": [
+        0.377348,
+        0.408559
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 20,
+      "screen_xy": [
+        299.168,
+        322.402
+      ],
+      "normalized_xy": [
+        0.389542,
+        0.419794
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 21,
+      "screen_xy": [
+        301.419,
+        322.311
+      ],
+      "normalized_xy": [
+        0.392473,
+        0.419676
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 22,
+      "screen_xy": [
+        330.667,
+        321.116
+      ],
+      "normalized_xy": [
+        0.430557,
+        0.41812
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 23,
+      "screen_xy": [
+        341.547,
+        311.66
+      ],
+      "normalized_xy": [
+        0.444723,
+        0.405807
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 24,
+      "screen_xy": [
+        361.795,
+        310.833
+      ],
+      "normalized_xy": [
+        0.471088,
+        0.404731
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 25,
+      "screen_xy": [
+        379.793,
+        310.098
+      ],
+      "normalized_xy": [
+        0.494523,
+        0.403774
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 26,
+      "screen_xy": [
+        400.041,
+        309.27
+      ],
+      "normalized_xy": [
+        0.520887,
+        0.402695
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 27,
+      "screen_xy": [
+        322.861,
+        350.731
+      ],
+      "normalized_xy": [
+        0.420393,
+        0.456681
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 28,
+      "screen_xy": [
+        321.07,
+        362.071
+      ],
+      "normalized_xy": [
+        0.41806,
+        0.471447
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 29,
+      "screen_xy": [
+        312.44,
+        371.439
+      ],
+      "normalized_xy": [
+        0.406823,
+        0.483645
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 30,
+      "screen_xy": [
+        312.9,
+        382.687
+      ],
+      "normalized_xy": [
+        0.407422,
+        0.49829
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 31,
+      "screen_xy": [
+        304.727,
+        403.303
+      ],
+      "normalized_xy": [
+        0.396781,
+        0.525134
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 32,
+      "screen_xy": [
+        313.727,
+        402.935
+      ],
+      "normalized_xy": [
+        0.408499,
+        0.524655
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 33,
+      "screen_xy": [
+        322.725,
+        402.567
+      ],
+      "normalized_xy": [
+        0.420215,
+        0.524176
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 34,
+      "screen_xy": [
+        324.975,
+        402.476
+      ],
+      "normalized_xy": [
+        0.423145,
+        0.524057
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 35,
+      "screen_xy": [
+        333.975,
+        402.108
+      ],
+      "normalized_xy": [
+        0.434864,
+        0.523578
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 36,
+      "screen_xy": [
+        302.705,
+        353.81
+      ],
+      "normalized_xy": [
+        0.394148,
+        0.46069
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 37,
+      "screen_xy": [
+        291.457,
+        354.269
+      ],
+      "normalized_xy": [
+        0.379502,
+        0.461288
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 38,
+      "screen_xy": [
+        282.365,
+        352.386
+      ],
+      "normalized_xy": [
+        0.367663,
+        0.458836
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 39,
+      "screen_xy": [
+        290.998,
+        343.018
+      ],
+      "normalized_xy": [
+        0.378904,
+        0.446638
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 40,
+      "screen_xy": [
+        302.246,
+        342.559
+      ],
+      "normalized_xy": [
+        0.39355,
+        0.44604
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 41,
+      "screen_xy": [
+        311.613,
+        351.191
+      ],
+      "normalized_xy": [
+        0.405747,
+        0.45728
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 42,
+      "screen_xy": [
+        381.355,
+        348.342
+      ],
+      "normalized_xy": [
+        0.496557,
+        0.45357
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 43,
+      "screen_xy": [
+        363.449,
+        351.329
+      ],
+      "normalized_xy": [
+        0.473241,
+        0.45746
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 44,
+      "screen_xy": [
+        352.109,
+        349.537
+      ],
+      "normalized_xy": [
+        0.458476,
+        0.455126
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 45,
+      "screen_xy": [
+        360.739,
+        340.169
+      ],
+      "normalized_xy": [
+        0.469713,
+        0.442929
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 46,
+      "screen_xy": [
+        371.622,
+        330.713
+      ],
+      "normalized_xy": [
+        0.483883,
+        0.430616
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 47,
+      "screen_xy": [
+        389.987,
+        338.975
+      ],
+      "normalized_xy": [
+        0.507796,
+        0.441374
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 48,
+      "screen_xy": [
+        346.877,
+        442.145
+      ],
+      "normalized_xy": [
+        0.451663,
+        0.57571
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 49,
+      "screen_xy": [
+        335.997,
+        451.604
+      ],
+      "normalized_xy": [
+        0.437497,
+        0.588026
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 50,
+      "screen_xy": [
+        326.997,
+        451.971
+      ],
+      "normalized_xy": [
+        0.425778,
+        0.588504
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 51,
+      "screen_xy": [
+        324.746,
+        452.063
+      ],
+      "normalized_xy": [
+        0.422847,
+        0.588624
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 52,
+      "screen_xy": [
+        315.381,
+        443.431
+      ],
+      "normalized_xy": [
+        0.410653,
+        0.577384
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 53,
+      "screen_xy": [
+        315.289,
+        441.183
+      ],
+      "normalized_xy": [
+        0.410533,
+        0.574457
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 54,
+      "screen_xy": [
+        314.922,
+        432.183
+      ],
+      "normalized_xy": [
+        0.410055,
+        0.562738
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 55,
+      "screen_xy": [
+        314.554,
+        423.183
+      ],
+      "normalized_xy": [
+        0.409576,
+        0.55102
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 56,
+      "screen_xy": [
+        325.802,
+        422.724
+      ],
+      "normalized_xy": [
+        0.424222,
+        0.550422
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 57,
+      "screen_xy": [
+        334.71,
+        420.108
+      ],
+      "normalized_xy": [
+        0.435821,
+        0.547016
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 58,
+      "screen_xy": [
+        346.05,
+        421.896
+      ],
+      "normalized_xy": [
+        0.450587,
+        0.549344
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 59,
+      "screen_xy": [
+        357.666,
+        430.437
+      ],
+      "normalized_xy": [
+        0.465712,
+        0.560465
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 60,
+      "screen_xy": [
+        335.17,
+        431.356
+      ],
+      "normalized_xy": [
+        0.43642,
+        0.561662
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 61,
+      "screen_xy": [
+        326.17,
+        431.723
+      ],
+      "normalized_xy": [
+        0.424701,
+        0.562139
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 62,
+      "screen_xy": [
+        323.919,
+        431.815
+      ],
+      "normalized_xy": [
+        0.42177,
+        0.562259
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 63,
+      "screen_xy": [
+        314.922,
+        432.183
+      ],
+      "normalized_xy": [
+        0.410055,
+        0.562738
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 64,
+      "screen_xy": [
+        323.919,
+        431.815
+      ],
+      "normalized_xy": [
+        0.42177,
+        0.562259
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 65,
+      "screen_xy": [
+        326.17,
+        431.723
+      ],
+      "normalized_xy": [
+        0.424701,
+        0.562139
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 66,
+      "screen_xy": [
+        335.17,
+        431.356
+      ],
+      "normalized_xy": [
+        0.43642,
+        0.561662
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 67,
+      "screen_xy": [
+        355.418,
+        430.529
+      ],
+      "normalized_xy": [
+        0.462784,
+        0.560585
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 68,
+      "screen_xy": [
+        299.995,
+        342.651
+      ],
+      "normalized_xy": [
+        0.390619,
+        0.44616
+      ],
+      "confidence": 1.0
+    },
+    {
+      "index": 69,
+      "screen_xy": [
+        362.99,
+        340.077
+      ],
+      "normalized_xy": [
+        0.472644,
+        0.442809
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "face_point_groups": {
+    "jaw": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "left_brow": [
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "right_brow": [
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "nose_bridge": [
+      27,
+      28,
+      29,
+      30
+    ],
+    "nose_base": [
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "left_eye": [
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    "right_eye": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47
+    ],
+    "outer_lip": [
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    "inner_lip": [
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67
+    ],
+    "pupils": [
+      68,
+      69
+    ]
+  },
+  "face_observation": {
+    "source": "embedded_code_constant",
+    "provenance": "horizontal_reflection_of_measured_fullbody_quarter_right_face70",
+    "symmetry_assumption": true
+  },
+  "png": "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw-45_pitch+00.png"
+}
