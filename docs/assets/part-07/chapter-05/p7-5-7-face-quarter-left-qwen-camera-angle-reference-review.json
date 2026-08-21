@@ -2,9 +2,8 @@
   "status": "approved",
   "approval": "human_approved",
   "experiment_id": "p7-5-7-qwen-camera-angle-2509",
-  "output": "p7-5-7-face-profile-right-qwen-camera-angle-reference.png",
-  "source_candidate": "p7-5-7-qwen-head-profile_right-dx8152-camera-angle-lightning-v2-seed-62294-steps-8.png",
-  "replaces": "p7-5-7-face-profile-right-qwen-camera-angle-reference v1",
+  "output": "p7-5-7-face-quarter-left-qwen-camera-angle-reference.png",
+  "source_candidate": "p7-5-7-qwen-head-quarter_left-dx8152-camera-angle-lightning-v2-seed-62294-steps-8.png",
   "model": "Qwen/Qwen-Image-Edit-2509",
   "camera_transform": "dx8152/Qwen-Edit-2509-Multiple-angles LoRA",
   "input_policy": "The approved P7-5.7 frontal-face reference was the only image input. OpenPose, full-body, and outfit images were not supplied.",
@@ -14,11 +13,11 @@
   "seed": 62294,
   "steps": 8,
   "image_size": [768, 768],
-  "target": "profile_right",
-  "yaw_degrees": 90,
+  "target": "quarter_left",
+  "yaw_degrees": -45,
   "pitch_degrees": 0,
   "approved_scope": [
-    "right-profile camera view",
+    "left-quarter camera view",
     "same character identity, hair silhouette, and illustration rendering as the frontal-face reference"
   ],
   "limitations": [
