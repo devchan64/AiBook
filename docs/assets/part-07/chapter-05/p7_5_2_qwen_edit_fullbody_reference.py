@@ -24,7 +24,6 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
-PLAN = ASSETS / "p7-5-2-qwen-edit-transition-plan.json"
 IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
@@ -107,7 +106,7 @@ TARGETS = {
         "size": (960, 1440),
         "prompt": (
             "Image 1 is face and hair. Image 2 is outfit and bag. Image 3 is pose only; do not render its skeleton. "
-            "One full-body young East Asian woman, strict front, hair crown to shoe soles, with the image-right hand on the waist and elbow angled outward, plain warm off-white background."
+            "One full-body young East Asian woman, strict front, hair crown to shoe soles, with the image-right hand resting naturally on the waist and its relaxed bent elbow held slightly outward, plain warm off-white background."
         ),
     },
     "fullbody_front_outfit_only_candidate_skeleton": {
@@ -440,8 +439,8 @@ def main() -> None:
     inputs = [ASSETS / name for name in target["inputs"]]
     if missing := [str(path) for path in inputs if not path.is_file()]:
         raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
-    if not PLAN.is_file() or not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
-        raise FileNotFoundError("missing P7-5.2 Qwen transition plan, identity, style, or illustration contract")
+    if not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
+        raise FileNotFoundError("missing P7-5.7 identity, style, or illustration contract")
     style_prompt = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["portrait_style_prompt"]
     illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["illustration_prompt"]
     prompt_parts = []
@@ -478,7 +477,6 @@ def main() -> None:
         "model": MODEL_ID,
         "transformer": TRANSFORMER_ID,
         "runtime": runtime_record(),
-        "transition_plan": asset_record(PLAN),
         "identity_contract": asset_record(IDENTITY_CONTRACT),
         "style_prompt_contract": asset_record(STYLE_CONTRACT),
         "illustration_prompt_contract": asset_record(ILLUSTRATION_CONTRACT),

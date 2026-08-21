@@ -36,7 +36,7 @@ import zlib
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image
 
 
 ASSETS = Path(__file__).resolve().parent
@@ -253,10 +253,13 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
     # Camera-left arm: relaxed, slightly behind the torso.
     posed[3] = endpoint(points[2], (-0.18, -1.0, -0.18), right_upper)
     posed[4] = endpoint(posed[3], (0.08, -1.0, -0.10), right_lower)
-    # Camera-right hand finishes at the waist; the angled elbow makes this a
-    # readable hand-on-hip pose without changing either bone length.
-    posed[6] = endpoint(points[5], (1.15, -0.18, 0.30), left_upper)
-    posed[7] = endpoint(posed[6], (-0.62, -0.78, 0.12), left_lower)
+    # Keep the camera-right elbow below the shoulder and nearer the torso.
+    # The former near-horizontal upper arm placed the elbow at shoulder level,
+    # which made an overly broad sleeve and an unstable wrist in Qwen Edit.
+    # This keeps the wrist just above the hip/waist line while preserving both
+    # arm-bone lengths.
+    posed[6] = endpoint(points[5], (0.76, -0.58, 0.20), left_upper)
+    posed[7] = endpoint(posed[6], (-0.54, -0.86, 0.08), left_lower)
 
     # Shift weight onto the camera-left leg.  The supporting leg stays nearly
     # vertical; the other knee relaxes inward and its foot steps slightly out.
@@ -562,20 +565,6 @@ def render_map(renderer, body: list[dict[str, object] | None], face: list[dict[s
     return Image.fromarray(np.ascontiguousarray(canvas)).convert("RGB")
 
 
-def contact_sheet(entries: list[tuple[str, Image.Image]], path: Path) -> None:
-    tile_w = 192
-    tile_h = 192 if WIDTH == HEIGHT else 288
-    rows = math.ceil(len(entries) / 5)
-    sheet = Image.new("RGB", (tile_w * 5, tile_h * rows), "black")
-    draw = ImageDraw.Draw(sheet)
-    for index, (label, image) in enumerate(entries):
-        tile = image.resize((tile_w, tile_h), Image.Resampling.NEAREST)
-        left, top = (index % 5) * tile_w, (index // 5) * tile_h
-        sheet.paste(tile, (left, top))
-        draw.text((left + 6, top + 6), label, fill="white")
-    sheet.save(path)
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT, help="Output location; defaults to the chapter asset root.")
@@ -705,7 +694,6 @@ def main() -> None:
     visible_body_indices = {0, 1, 2, 5, 14, 15, 16, 17} if args.frame == "shoulders" else None
     head_anchor_indices = {0, 14, 15, 16, 17}
     views: list[dict[str, object]] = []
-    previews: list[tuple[str, Image.Image]] = []
     for row, pitch in enumerate(pitches, start=1):
         for column, yaw in enumerate(yaws, start=1):
             target_name = target_names[column - 1] if target_names and len(pitches) == 1 else None
@@ -743,10 +731,6 @@ def main() -> None:
             }
             (output_dir / json_name).write_text(json.dumps(view, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             views.append({**{key: view[key] for key in ("grid_position", "target", "yaw_degrees", "pitch_degrees", "png")}, "coordinates": json_name})
-            previews.append((label, image))
-
-    sheet_name = f"{prefix}-contact-sheet.png"
-    contact_sheet(previews, output_dir / sheet_name)
     result_record.write_text(
         json.dumps(
             {
@@ -768,7 +752,6 @@ def main() -> None:
                 "targets": target_names,
                 "output_range": args.output_range or "custom",
                 "openpose": {"body": "BODY_18", "visible_body_indices": sorted(visible_body_indices) if visible_body_indices is not None else list(range(18)), "face_included": args.include_face, "face": "FACE_70 mapped through BODY_18 nose/eye/ear anchors and partially translated toward fixed BODY_18 nose/eye anchors" if args.include_face else None, "face70_to_fixed_body18_blend_strength": FACE70_TO_BODY18_ALIGNMENT_STRENGTH if args.include_face else None, "hands_included": False},
-                "contact_sheet": sheet_name,
                 "views": views,
                 "limitations": [
                     "This is a proportion-editing template, not a detected pose or a character identity map.",
@@ -782,7 +765,6 @@ def main() -> None:
         ) + "\n",
         encoding="utf-8",
     )
-    print(output_dir / sheet_name)
     print(result_record)
 
 
