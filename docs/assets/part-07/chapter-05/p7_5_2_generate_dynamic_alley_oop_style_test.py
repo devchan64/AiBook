@@ -76,7 +76,7 @@ def main() -> None:
         seed = BASE_SEED + args.seed_offset + batch_index
         stem = candidate_stem(args.output_prefix, seed=seed, steps=args.steps, contract={"model": MODEL_ID, "prompt": BASKETBALL_JUMP_PROMPT, "inputs": [path.name for _, path in REFERENCE_INPUTS], "size": IMAGE_SIZE})
         output = ROOT / f"{stem}-candidate.png"
-        report = ROOT / f"{stem}-review.json"
+        result_record = ROOT / f"{stem}-result.json"
         started = time.monotonic()
         result = pipe(
             image=images,
@@ -91,10 +91,10 @@ def main() -> None:
         ).images[0]
         result.save(output)
         elapsed = round(time.monotonic() - started, 2)
-        report.write_text(
+        result_record.write_text(
             json.dumps(
                 {
-                    "status": "review_required",
+                    "status": "completed",
                     "output": output.name,
                     "prompt": BASKETBALL_JUMP_PROMPT,
                     "prompt_word_count": len(BASKETBALL_JUMP_PROMPT.split()),
@@ -106,7 +106,7 @@ def main() -> None:
                     "image_size": list(IMAGE_SIZE),
                     "inputs": [{"role": role, "file": path.name} for role, path in REFERENCE_INPUTS],
                     "elapsed_seconds": elapsed,
-                    "decision": "Review face, outfit, bag strap, limb count, ball position, ball-rim separation, and camera before using any result.",
+                    "observation_focus": "face, outfit, bag strap, limb count, ball position, ball-rim separation, and camera",
                 },
                 ensure_ascii=False,
                 indent=2,

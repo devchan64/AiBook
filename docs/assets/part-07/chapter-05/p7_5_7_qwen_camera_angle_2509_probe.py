@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Create a review-only Qwen Edit 2509 camera-angle candidate.
+"""Create a Qwen Edit 2509 camera-angle result.
 
 This probe intentionally does not use OpenPose.  The dx8152 multiple-angle
-LoRA owns the camera transform, while the approved frontal head is the only
-image reference and therefore owns identity and illustration appearance.
+LoRA owns the camera transform, while the supplied frontal reference is the
+only image input and therefore owns identity and illustration appearance.
 """
 
 from __future__ import annotations
@@ -39,7 +39,7 @@ TRANSFORMER_ID = (
 )
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
-FRONT_HEAD_REFERENCE = ASSETS / "p7-5-7-face-front-qwen-reference.png"
+DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
 SIZE = (768, 768)
 LIGHTNING_SCHEDULER_CONFIG = {
     "base_image_seq_len": 256,
@@ -123,7 +123,7 @@ def runtime_record() -> dict[str, object]:
 
 
 def camera_prompt_components(axis: str, value: str) -> dict[str, str]:
-    """Return exactly one camera-control command for a candidate."""
+    """Return exactly one camera-control command for a result."""
     commands = {"yaw": "", "pitch": "", "translation": "", "lens": ""}
     if axis == "yaw":
         commands["yaw"] = FRONT_PROMPT if value == "front" else YAW_PROMPTS[value]
@@ -139,7 +139,7 @@ def camera_prompt_components(axis: str, value: str) -> dict[str, str]:
 
 
 def build_camera_prompt(axis: str, value: str) -> str:
-    """Compose one command: never combine independent camera axes."""
+    """Compose exactly one camera-control command."""
     return camera_prompt_components(axis, value)[axis]
 
 
@@ -212,8 +212,14 @@ def main() -> None:
     parser.add_argument(
         "--reference-image",
         type=Path,
-        default=FRONT_HEAD_REFERENCE,
-        help="Approved image that owns the subject identity and rendering.",
+        default=DEFAULT_REFERENCE_IMAGE,
+        help="Frontal image that owns the subject identity and rendering.",
+    )
+    parser.add_argument(
+        "--subject-region",
+        choices=("head", "torso"),
+        default="torso",
+        help="Subject framing represented by --reference-image; used in output filenames.",
     )
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     args = parser.parse_args()
@@ -247,9 +253,14 @@ def main() -> None:
         sequence_values = [args.lens]
     for sequence_index, value in enumerate(sequence_values, start=1):
         prompt_components = camera_prompt_components(args.axis, value)
+        # Keep yaw, pitch, translation, and lens experiments separate.  In a
+        # yaw+pitch run, the multiple-angle LoRA rotated the entire frame
+        # instead of producing a stable combined viewpoint, so compound
+        # camera commands are intentionally unsupported in this generator.
         prompt = build_camera_prompt(args.axis, value)
+        camera_suffix = f"{args.axis}-{value.replace('_', '-')}"
         stem = (
-            f"p7-5-7-qwen-head-{args.axis}-{value.replace('_', '-')}-"
+            f"p7-5-7-qwen-{args.subject_region}-{camera_suffix}-"
             f"{args.run_label}-seed-{args.seed}-steps-{args.steps}"
         )
         output = output_dir / f"{stem}.png"
@@ -267,14 +278,14 @@ def main() -> None:
         ).images[0]
         image.save(output)
         record = {
-            "status": "review_required",
+            "status": "generated",
             "experiment_id": "p7-5-7-qwen-camera-angle-2509",
             "model": MODEL_ID,
             "transformer": TRANSFORMER_ID,
             "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(angle_lora)},
             "runtime": runtime_record(),
             "inputs": [asset_record(reference_image)],
-            "input_roles": ["approved_reference_identity_and_illustration"],
+            "input_roles": ["reference_identity_and_illustration"],
             "openpose_used": False,
             "camera_transform_owner": "dx8152 multiple-angle LoRA",
             "camera_prompt_source": CAMERA_PROMPT_SOURCE,
@@ -301,7 +312,6 @@ def main() -> None:
             "prompt_character_count": len(prompt),
             "output": asset_record(output),
             "elapsed_seconds": round(time.monotonic() - started, 2),
-            "decision": "Candidate only; human review must confirm identity, hair, rendering, and camera direction.",
         }
         result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         results.append({"output": str(output), "result_record": str(result_record)})

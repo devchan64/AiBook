@@ -65,7 +65,7 @@ def open_image(path: Path) -> Image.Image:
     return Image.open(path).convert("RGB")
 
 
-def write_review(path: Path, payload: dict[str, object]) -> None:
+def write_result(path: Path, payload: dict[str, object]) -> None:
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
@@ -120,7 +120,7 @@ def main() -> None:
         },
     )
     scene_path = args.output_dir / f"{stem}-scene.png"
-    report_path = args.output_dir / f"{stem}-review.json"
+    result_path = args.output_dir / f"{stem}-result.json"
 
     pipe = Flux2KleinPipeline.from_pretrained(
         MODEL_ID,
@@ -144,10 +144,10 @@ def main() -> None:
         ).images[0]
         scene.save(scene_path)
         elapsed = round(time.monotonic() - started, 2)
-        write_review(
-            report_path,
+        write_result(
+            result_path,
             {
-                "status": "review_required",
+                "status": "completed",
                 "output": scene_path.name,
                 "model": MODEL_ID,
                 "stage": "scene",
@@ -164,7 +164,7 @@ def main() -> None:
                 "direct_outfit_references": [],
                 "prompt": prompt,
                 "elapsed_seconds": elapsed,
-                "decision": f"Review pose, camera, space, lighting, and shadows from the {guide_type} guide; identity and outfit from the full-body reference; and limb completeness.",
+                "observation_focus": f"pose, camera, space, lighting, shadows, identity, outfit, and limb completeness for the {guide_type} guide",
             },
         )
         print(f"scene {args.scene}: {guide_type} + full-body reference -> {scene_path} ({elapsed:.2f}s)")

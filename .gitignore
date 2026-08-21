@@ -7,3 +7,4 @@ site/
 site-dev/
 .cache/
 .tmp/
+.codex/config.toml

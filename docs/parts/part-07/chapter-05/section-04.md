@@ -148,8 +148,8 @@ Animagine XL `960×1440`, 30 step에서 LoRA `0.6`을 고정했을 때, 저장 �
 
 구조 조건이 없으면 high-angle이 사라졌다. OpenPose만 켜면 위쪽 카메라의 단서는 일부 남아도 달리기 동작이 앉거나 쪼그린 자세로 바뀌었다. 배경 Canny만 켜면 타일 원근은 남지만 인물 실루엣이 중복되었다. 두 ControlNet을 함께 쓰는 조건은 `768×1152`와 `512×768` 모두 현재 8 GB sequential-offload Diffusers 경로에서 완료되지 않았다. 사람 외곽을 뺀 background Canny와 pose/camera 입력 분리는 유효한 체크포인트였지만, 이 SDXL 경로는 고각도·동작·Mira identity·복장을 함께 재현하는 제작 도구로는 미통과다. 아래 검수·실행 기록에 판정과 조건을 보관했다.
 
-<details id="sdxl-anonymous-high-angle-transfer-review" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-anonymous-high-angle-transfer-review.json" data-language="json">
-<summary><code>p7-5-4-sdxl-anonymous-high-angle-transfer-review.json</code> · JSON · 익명 고각도 전이 검수 기록 보기</summary>
+<details id="sdxl-anonymous-high-angle-transfer-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-anonymous-high-angle-transfer-result.json" data-language="json">
+<summary><code>p7-5-4-sdxl-anonymous-high-angle-transfer-result.json</code> · JSON · 익명 고각도 전이 실행 결과 보기</summary>
 <div class="aibook-lazy-source__body">각 조건의 계약 판정을 불러옵니다.</div>
 </details>
 

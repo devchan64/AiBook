@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Generate review-only Qwen 2509/Nunchaku FP4 T2I candidates for the P7-5.7 frontal face anchor.
+"""Generate Qwen 2509/Nunchaku FP4 T2I references for the P7-5.7 frontal anchor.
 
 This is intentionally separate from the P7-5.2 full-body reference pilot:
 it has no image input and must not silently become an image-edit experiment.
 The ``edit`` filename token identifies the P7-5 editing workflow, not an
 image-to-image operation in this generator.
-The generated PNG and its review JSON remain candidates until human approval.
+The generated PNG and result JSON record the exact input contracts and runtime.
 """
 
 from __future__ import annotations
@@ -30,8 +30,8 @@ STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
-# Candidate filenames identify their generator and run; do not create a
-# separate candidate directory.
+# Output filenames identify their generator and run; do not create a separate
+# output directory.
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
 SIZE = (768, 768)
@@ -111,7 +111,7 @@ def main() -> None:
         "--size",
         type=int,
         default=SIZE[0],
-        help="Square output size in pixels; use a smaller value only when GPU memory prevents candidate generation.",
+        help="Square output size in pixels; use a smaller value only when GPU memory prevents generation.",
     )
     parser.add_argument("--run-label", default="front-head")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
@@ -148,7 +148,7 @@ def main() -> None:
     ).images[0]
     image.save(output)
     record = {
-        "status": "review_required",
+        "status": "generated",
         "experiment_id": f"p7-5-7-qwen-face-{args.framing}",
         "model": MODEL_ID,
         "transformer": TRANSFORMER_ID,
@@ -171,7 +171,6 @@ def main() -> None:
         "prompt_word_count": len(prompt.split()),
         "output": asset_record(output),
         "elapsed_seconds": round(time.monotonic() - started, 2),
-        "decision": "Candidate only; do not replace the approved frontal head reference before human review.",
     }
     result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(output), "result_record": str(result_record)}, ensure_ascii=False))

@@ -26,7 +26,7 @@ P7-5.7 정면 얼굴은 전신 비례나 의상을 정하지 않고, 착장 이�
 
 | 승인된 Qwen 착장·가방 | 실행·검수 기록 |
 | --- | --- |
-| ![승인된 Qwen 착장·가방](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-review.json" data-language="json">review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-result.json" data-language="json">result.json</a> |
+| ![승인된 Qwen 착장·가방](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-result.json" data-language="json">result.json</a> |
 
 승인된 정면 전신 이미지는 착장 기준과 body-only OpenPose를 결합했을 때의 전신 비례·프레이밍 대조물이다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다. 얼굴의 세부 identity는 P7-5.7 정면 얼굴을 별도로 참조하며, 회전 결과도 따로 사람 검수를 거쳐야 한다.
 
@@ -46,7 +46,7 @@ P7-5.7 정면 얼굴은 전신 비례나 의상을 정하지 않고, 착장 이�
 | --- | --- |
 | ![왼쪽 쿼터 전신 참고](../../../assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference.png) | ![왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference-result.json" data-language="json">왼쪽 쿼터 전신 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide-review.json" data-language="json">왼쪽 쿼터 OpenPose review.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference-result.json" data-language="json">왼쪽 쿼터 전신 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-quarter-left-45deg-guide-result.json" data-language="json">왼쪽 쿼터 OpenPose result.json</a></p>
 
 같은 정면 앵커에서 만든 네 방향 전신 참조는 방향별 어깨·팔·다리·신발의 방향을 대조하는 자료다. 이 표는 새 pose, camera, 장면의 자동 승인 범위를 넓히지 않는다.
 
