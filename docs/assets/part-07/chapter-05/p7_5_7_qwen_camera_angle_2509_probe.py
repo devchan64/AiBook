@@ -57,19 +57,39 @@ LIGHTNING_SCHEDULER_CONFIG = {
     "use_exponential_sigmas": False,
     "use_karras_sigmas": False,
 }
-CAMERA_PROMPTS = {
+YAW_PROMPTS = {
     "quarter_right": "将镜头向右旋转45度。",
     "quarter_left": "将镜头向左旋转45度。",
     "profile_right": "将镜头向右旋转90度。",
     "profile_left": "将镜头向左旋转90度。",
-    "front": "保持正面镜头。",
 }
+FRONT_PROMPT = "保持正面镜头。"
+YAW_PROMPTS_EN = {
+    "quarter_right": "Rotate the camera 45 degrees to the right.",
+    "quarter_left": "Rotate the camera 45 degrees to the left.",
+    "profile_right": "Rotate the camera 90 degrees to the right.",
+    "profile_left": "Rotate the camera 90 degrees to the left.",
+}
+FRONT_PROMPT_EN = "Keep a frontal camera view."
 CAMERA_YAW_DEGREES = {
     "profile_left": -90,
     "quarter_left": -45,
     "quarter_right": 45,
     "profile_right": 90,
     "front": 0,
+}
+CAMERA_VIEW_PROMPTS = {
+    "level": "",
+    # These are the direct high-/low-angle commands in the dx8152 workflow.
+    # Keep them distinct from numerical pitch and from camera-movement
+    # combinations so every view is represented by one instruction.
+    "high_angle": "将镜头向上移动。将镜头转为俯视。",
+    "low_angle": "将镜头向下移动。将镜头转为仰视。",
+}
+CAMERA_VIEW_PROMPTS_EN = {
+    "level": "",
+    "high_angle": "Move the camera upward. Turn the camera to a top-down view.",
+    "low_angle": "Move the camera downward. Turn the camera to a low-angle, upward-looking view.",
 }
 
 
@@ -100,14 +120,23 @@ def runtime_record() -> dict[str, object]:
     }
 
 
-def build_camera_prompt(target: str, pitch_degrees: int) -> str:
-    """Compose the LoRA's Chinese camera command without identity text."""
-    parts = [CAMERA_PROMPTS[target]]
-    if pitch_degrees < 0:
-        parts.append(f"将镜头向下旋转{abs(pitch_degrees)}度。")
-    elif pitch_degrees > 0:
-        parts.append(f"将镜头向上旋转{pitch_degrees}度。")
-    return "".join(parts)
+def build_camera_prompt(target: str, camera_view: str, prompt_language: str) -> str:
+    """Compose a camera command without identity text."""
+    # Keep every previously approved yaw command verbatim.  A pitch-first
+    # ablation caused canvas roll and inversion, so retain yaw-first order.
+    # Explicitly retain the frontal lock for non-level front views as well.
+    if prompt_language == "english":
+        yaw_prompts = YAW_PROMPTS_EN
+        front_prompt = FRONT_PROMPT_EN
+        camera_view_prompts = CAMERA_VIEW_PROMPTS_EN
+    else:
+        yaw_prompts = YAW_PROMPTS
+        front_prompt = FRONT_PROMPT
+        camera_view_prompts = CAMERA_VIEW_PROMPTS
+    direction = front_prompt if target == "front" else yaw_prompts[target]
+    if camera_view == "level":
+        return direction
+    return f"{direction}{camera_view_prompts[camera_view]}"
 
 
 def load_pipeline(angle_lora: Path) -> tuple[QwenImageEditPlusPipeline, int]:
@@ -135,44 +164,69 @@ def load_pipeline(angle_lora: Path) -> tuple[QwenImageEditPlusPipeline, int]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--target", choices=tuple(CAMERA_PROMPTS), default="quarter_right")
     parser.add_argument(
         "--targets",
         nargs="+",
-        choices=tuple(CAMERA_PROMPTS),
-        help="Generate these camera yaws sequentially with one loaded pipeline; overrides --target.",
+        choices=tuple(CAMERA_YAW_DEGREES),
+        default=tuple(CAMERA_YAW_DEGREES),
+        help="Yaw targets to generate sequentially (default: all five).",
     )
-    parser.add_argument("--pitch-degrees", type=int, default=0)
+    parser.add_argument(
+        "--camera-views",
+        nargs="+",
+        choices=tuple(CAMERA_VIEW_PROMPTS),
+        default=("high_angle", "level", "low_angle"),
+        help="Pitch views to generate for every yaw (default: all three).",
+    )
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=8)
+    parser.add_argument(
+        "--prompt-language",
+        choices=("chinese", "english"),
+        default="chinese",
+        help="Language of camera-only instructions (default: chinese).",
+    )
     parser.add_argument("--run-label", default="dx8152-camera-angle-v1")
+    parser.add_argument(
+        "--reference-image",
+        type=Path,
+        default=FRONT_HEAD_REFERENCE,
+        help="Approved image that owns the subject identity and rendering.",
+    )
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     args = parser.parse_args()
     if args.steps < 1:
         raise ValueError("--steps must be at least 1")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
-    if not FRONT_HEAD_REFERENCE.is_file():
-        raise FileNotFoundError(FRONT_HEAD_REFERENCE)
+    reference_image = args.reference_image
+    if not reference_image.is_absolute():
+        reference_image = ASSETS / reference_image
+    if not reference_image.is_file():
+        raise FileNotFoundError(reference_image)
 
     angle_lora_dir = Path(snapshot_download(ANGLE_LORA_REPO, local_files_only=True))
     angle_lora = angle_lora_dir / ANGLE_LORA_FILE
     if not angle_lora.is_file():
         raise FileNotFoundError(angle_lora)
-    targets = list(args.targets or [args.target])
+    targets = list(args.targets)
+    camera_views = list(args.camera_views)
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
     pipeline, applied_modules = load_pipeline(angle_lora)
     results = []
-    for sequence_index, target in enumerate(targets, start=1):
-        prompt = build_camera_prompt(target, args.pitch_degrees)
-        stem = f"p7-5-7-qwen-head-{target}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+    sequence_targets = [(camera_view, target) for camera_view in camera_views for target in targets]
+    include_view_in_stem = len(camera_views) > 1
+    for sequence_index, (camera_view, target) in enumerate(sequence_targets, start=1):
+        prompt = build_camera_prompt(target, camera_view, args.prompt_language)
+        view_suffix = f"-{camera_view.replace('_', '-')}" if include_view_in_stem else ""
+        stem = f"p7-5-7-qwen-head-{target}{view_suffix}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
         output = output_dir / f"{stem}.png"
         run_record = output_dir / f"{stem}-run.json"
         started = time.monotonic()
         image = pipeline(
             prompt=prompt,
-            image=[load_image(str(FRONT_HEAD_REFERENCE)).convert("RGB")],
+            image=[load_image(str(reference_image)).convert("RGB")],
             generator=torch.Generator("cpu").manual_seed(args.seed),
             true_cfg_scale=1.0,
             guidance_scale=1.0,
@@ -188,15 +242,21 @@ def main() -> None:
             "transformer": TRANSFORMER_ID,
             "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(angle_lora)},
             "runtime": runtime_record(),
-            "inputs": [asset_record(FRONT_HEAD_REFERENCE)],
-            "input_roles": ["approved_front_head_identity_and_illustration"],
+            "inputs": [asset_record(reference_image)],
+            "input_roles": ["approved_reference_identity_and_illustration"],
             "openpose_used": False,
             "camera_transform_owner": "dx8152 multiple-angle LoRA",
             "angle_lora_applied_modules": applied_modules,
             "target": target,
             "yaw_degrees": CAMERA_YAW_DEGREES[target],
-            "pitch_degrees": args.pitch_degrees,
-            "sequence": {"index": sequence_index, "targets": targets},
+            "camera_view": camera_view,
+            "prompt_language": args.prompt_language,
+            "sequence": {
+                "index": sequence_index,
+                "total": len(sequence_targets),
+                "camera_views": camera_views,
+                "targets": targets,
+            },
             "seed": args.seed,
             "steps": args.steps,
             "size": list(SIZE),

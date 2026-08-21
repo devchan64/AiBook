@@ -34,7 +34,8 @@ OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
 SIZE = (768, 768)
 FRONT_HEAD_PROMPT = (
-    "Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, face centered and facing the camera "
+    "Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, complete hair crown visible with clear "
+    "empty margin above it and no hair cropped by any image edge, face centered and facing the camera "
     "with both eyes and ears visible: compact oval face, a defined high nose bridge, and a refined straight nose line; high-volume petrol-teal "
     "jaw-length bob with asymmetric fringe, loose S-waves, inward-curled ends, and side locks wider than the neck. Long slender gently upturned "
     "eyes; equal orange-amber irises with distinct centered round dark pupils, separate from eyelids and eyeliner. Show ears and neck. "
@@ -98,7 +99,8 @@ def main() -> None:
     if missing := [path for path in (PLAN, IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT) if not path.is_file()]:
         raise FileNotFoundError("missing P7-5.7 face contract: " + ", ".join(map(str, missing)))
 
-    illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["illustration_prompt"]
+    illustration_contract = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))
+    illustration_prompt = illustration_contract["front_face_illustration_prompt"]
     prompt = f"{illustration_prompt} {FRONT_HEAD_PROMPT}"
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
