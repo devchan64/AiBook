@@ -42,9 +42,9 @@ OPENPOSE_GUIDES = {
     "quarter_right": ASSETS / "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw+45_pitch+00.png",
     "profile_right": ASSETS / "p7-5-2-openpose-shoulders-five-yaw-face70-fixed-body18-v1-yaw+90_pitch+00.png",
 }
-IDENTITY_ROLE = "Use Image 1 for character identity and illustration rendering."
-STRUCTURE_ROLE = "Use Image 2 only for head-and-shoulder orientation; do not render it."
-OUTPUT_SCOPE = "Draw one head-and-shoulders illustration on a plain cool blue-gray background."
+IDENTITY_PRESERVATION = "Preserve Image 1's character identity and illustration rendering."
+ORIENTATION_EDIT = "Change only the head-and-shoulder orientation using Image 2."
+RENDERING_PRESERVATION = "Keep Image 1's plain cool blue-gray background and rendering; do not render Image 2."
 EXCLUSIONS = "Do not add a body, outfit, bag, text, panel, collage, or scene."
 
 
@@ -61,8 +61,8 @@ def asset_record(path: Path) -> dict[str, str]:
 
 
 def build_prompt() -> str:
-    """Keep identity, structural orientation, and output scope in separate roles."""
-    return " ".join((IDENTITY_ROLE, STRUCTURE_ROLE, OUTPUT_SCOPE, EXCLUSIONS))
+    """Preserve Image 1 while using Image 2 only for the structural edit."""
+    return " ".join((IDENTITY_PRESERVATION, ORIENTATION_EDIT, RENDERING_PRESERVATION, EXCLUSIONS))
 
 
 def runtime_record() -> dict[str, object]:
@@ -139,7 +139,6 @@ def main() -> None:
             generator=torch.Generator("cpu").manual_seed(args.seed),
             true_cfg_scale=4.0,
             guidance_scale=1.0,
-            negative_prompt=" ",
             num_inference_steps=args.steps,
             width=SIZE[0],
             height=SIZE[1],
@@ -158,6 +157,11 @@ def main() -> None:
             "prompt_contracts_applied": {"watercolor_style": False, "illustration": False},
             "inputs": [asset_record(path) for path in inputs],
             "input_roles": ["approved_front_head_identity", "approved_face70_orientation_structure"],
+            "prompt_roles": {
+                "image_1": "preserve character identity and illustration rendering",
+                "image_2": "change head-and-shoulder orientation only",
+                "rendering": "preserve Image 1; do not render Image 2",
+            },
             "target": target,
             "sequence": {"index": sequence_index, "targets": targets},
             "seed": args.seed,
@@ -165,7 +169,6 @@ def main() -> None:
             "size": list(SIZE),
             "true_cfg_scale": 4.0,
             "guidance_scale": 1.0,
-            "negative_prompt": " ",
             "prompt": prompt,
             "prompt_word_count": len(prompt.split()),
             "output": asset_record(output),
