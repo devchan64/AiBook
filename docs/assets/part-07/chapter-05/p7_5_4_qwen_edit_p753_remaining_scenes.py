@@ -36,7 +36,7 @@ STORYBOARD = {
     }
     for scene in ("a", "b", "c")
 }
-IDENTITY_CONTRACT = ROOT / "docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json"
+IDENTITY_CONTRACT = ROOT / "docs/assets/part-07/chapter-05/p7-5-7-face-identity-contract.json"
 
 # Do not duplicate character wording per scene.  The approved reference sheet,
 # not a long textual restatement, is the identity and outfit source of truth.

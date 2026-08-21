@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate review-only Qwen text-to-image candidates for the frontal head anchor.
+"""Generate review-only Qwen text-to-image candidates for the P7-5.7 frontal face anchor.
 
-This is intentionally separate from ``p7_5_2_qwen_edit_reference_pilot.py``:
+This is intentionally separate from the P7-5.2 full-body reference pilot:
 it has no image input and must not silently become an image-edit experiment.
 The generated PNG and its run JSON remain candidates until human approval.
 """
@@ -23,9 +23,9 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 ASSETS = Path(__file__).resolve().parent
 PLAN = ASSETS / "p7-5-2-qwen-edit-transition-plan.json"
-IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
-STYLE_CONTRACT = ASSETS / "p7-5-2-character-reference-style-prompt-contract.json"
-ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-character-reference-illustration-prompt-contract.json"
+IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
+STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
+ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
 # Candidate filenames identify their generator and run; do not create a
@@ -96,13 +96,13 @@ def main() -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
     if missing := [path for path in (PLAN, IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT) if not path.is_file()]:
-        raise FileNotFoundError("missing P7-5.2 contract: " + ", ".join(map(str, missing)))
+        raise FileNotFoundError("missing P7-5.7 face contract: " + ", ".join(map(str, missing)))
 
     illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["illustration_prompt"]
     prompt = f"{illustration_prompt} {FRONT_HEAD_PROMPT}"
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-2-qwen-head-front-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-7-qwen-face-front-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
     output = output_dir / f"{stem}.png"
     run_record = output_dir / f"{stem}-run.json"
 
@@ -121,7 +121,7 @@ def main() -> None:
     image.save(output)
     record = {
         "status": "review_required",
-        "experiment_id": "p7-5-2-qwen-head-front",
+        "experiment_id": "p7-5-7-qwen-face-front",
         "model": MODEL_ID,
         "transformer": TRANSFORMER_ID,
         "runtime": runtime_record(),

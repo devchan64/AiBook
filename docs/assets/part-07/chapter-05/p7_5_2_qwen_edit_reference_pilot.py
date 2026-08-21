@@ -26,16 +26,16 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 ASSETS = Path(__file__).resolve().parent
 PLAN = ASSETS / "p7-5-2-qwen-edit-transition-plan.json"
-IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
-STYLE_CONTRACT = ASSETS / "p7-5-2-character-reference-style-prompt-contract.json"
-ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-character-reference-illustration-prompt-contract.json"
+IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
+STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
+ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 # Candidate filenames carry target, label, seed, and step, so keep them in the
 # chapter asset root rather than creating a directory per experiment.
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
-QWEN_FACE_REFERENCE = "p7-5-2-face-front-qwen-role-separated-reference.png"
+QWEN_FACE_REFERENCE = "p7-5-7-face-front-qwen-reference.png"
 HAIR_VOLUME_RULE = (
     "Preserve a high-volume crown and a wide rounded jaw-length bob silhouette: medium-density petrol-teal hair, "
     "large loose S-waves, pronounced inward C-curls at both ends, and tapered side locks that stay visibly wider than the neck."

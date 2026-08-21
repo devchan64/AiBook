@@ -21,15 +21,15 @@
     "sha256": "73ed71cff11b53801f237d0f60075ecd727260068270874981c908e5a4b0c1f5"
   },
   "identity_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-identity-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-identity-contract.json",
     "sha256": "78bd6a3f347db240685d1afa58b18739d131829bb57583c1d1c7a65817bb7bf7"
   },
   "style_prompt_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-style-prompt-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-style-prompt-contract.json",
     "sha256": "20c003f77759f6ef41404a44588b83041932b0c9657e00fe57cf9c860cff5545"
   },
   "illustration_prompt_contract": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-character-reference-illustration-prompt-contract.json",
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-illustration-prompt-contract.json",
     "sha256": "5c89112ecc9cc79251ff40fbfa45c3894f1af46ae7b670347383393b195908ab"
   },
   "prompt_contracts_applied": {

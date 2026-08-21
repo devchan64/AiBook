@@ -22,9 +22,9 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 ASSETS = Path(__file__).resolve().parent
 PLAN = ASSETS / "p7-5-2-qwen-edit-transition-plan.json"
-IDENTITY_CONTRACT = ASSETS / "p7-5-2-character-identity-contract.json"
-STYLE_CONTRACT = ASSETS / "p7-5-2-character-reference-style-prompt-contract.json"
-ILLUSTRATION_CONTRACT = ASSETS / "p7-5-2-character-reference-illustration-prompt-contract.json"
+IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
+STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
+ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
 # Candidate filenames identify their generator and run; do not create a

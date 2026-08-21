@@ -12,7 +12,7 @@
   ],
   "elapsed_seconds": 952.48,
   "input_roles": [
-    "head_identity: p7-5-2-face-front-qwen-role-separated-reference.png",
+    "head_identity: p7-5-7-face-front-qwen-reference.png",
     "qwen_complete_outfit: p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
     "standard_openpose_fullbody_structure: 7-head body-only yaw-90/pitch+00 map"
   ],
