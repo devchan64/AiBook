@@ -232,7 +232,7 @@ def main() -> None:
         "negative_prompt": " ", "prompt": prompt, "prompt_word_count": len(prompt.split()), "output": str(output),
         "output_sha256": sha256(output), "elapsed_seconds": round(time.monotonic() - started, 2),
     }
-    (OUT / f"{stem}-run.json").write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
+    (OUT / f"{stem}-result.json").write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
     review = {"status": "human_review_pending", "experiment_id": record["experiment_id"], "scene": args.scene.upper(), "seed": args.seed, "output": asset_record(output), "contracts": {"structure": "pending", "identity": "pending", "outfit": "pending", "style": "pending"}, "failure_observations": [], "decision": "Do not promote before human review."}
     (OUT / f"{stem}-human-review.json").write_text(json.dumps(review, ensure_ascii=False, indent=2) + "\n")
     print(output)

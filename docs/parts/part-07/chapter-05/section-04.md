@@ -1,7 +1,7 @@
 # P7-5.4 화풍·연속성 보정: 컷신의 구조와 디테일을 분리해 고치기
 
 > Section ID: `P7-5.4`
-> Version: `v2026.08.18`
+> Version: `v2026.08.21`
 
 같은 캐릭터를 다른 카메라와 동작에서도 다시 그릴 수 있을까? 이 절에서는 한 장이 그럴듯한지를 보지 않고, 아래 네 계약을 동시에 확인했다. 실험은 하나의 도구를 고르는 과정이 아니라, 어느 계약이 깨지는지 찾아 다음 입력의 역할을 좁히는 과정이었다.
 
@@ -40,8 +40,8 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 따라서 전신 결과에서 얼굴이나 정체성이 흔들린다고 해서 base model이 얼굴을 전혀 만들지 못한다고 해석할 수는 없다. 아래 실행 기록은 이 기준선의 prompt·seed·해상도와 제외한 조건을 보관한다.
 
-<details id="sdxl-base-face-run" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-base-face-50step-run.json" data-language="json">
-<summary><code>p7-5-4-sdxl-base-face-50step-run.json</code> · JSON · SDXL Base 얼굴 기준선 실행 기록 보기</summary>
+<details id="sdxl-base-face-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-base-face-50step-result.json" data-language="json">
+<summary><code>p7-5-4-sdxl-base-face-50step-result.json</code> · JSON · SDXL Base 얼굴 기준선 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">prompt·seed·해상도와 제외한 조건을 불러옵니다.</div>
 </details>
 
@@ -55,13 +55,13 @@ FLUX는 수평에 가까운 정면·쿼터 전신에서 청록 단발, 호박색
 
 저해상도 `512×768`에서 50/100 step도 비교했다. step을 늘려도 identity·outfit이 자동으로 승인 기준에 수렴하지 않았다. step과 해상도는 얼굴·구조 형성의 조건일 수 있지만, 캐릭터 고정이나 복장 가림 관계를 대신하지 않는다. 아래 기록에 전신 off/on 조건을 남겼다.
 
-<details id="sdxl-safe-face-off-run" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-without-openpose-960x1440-run.json" data-language="json">
-<summary><code>p7-5-4-sdxl-safe-face-without-openpose-960x1440-run.json</code> · JSON · OpenPose off 실행 기록 보기</summary>
+<details id="sdxl-safe-face-off-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-without-openpose-960x1440-result.json" data-language="json">
+<summary><code>p7-5-4-sdxl-safe-face-without-openpose-960x1440-result.json</code> · JSON · OpenPose off 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">전신 조건과 생성 설정을 불러옵니다.</div>
 </details>
 
-<details id="sdxl-safe-face-on-run" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-with-openpose-960x1440-run.json" data-language="json">
-<summary><code>p7-5-4-sdxl-safe-face-with-openpose-960x1440-run.json</code> · JSON · OpenPose on 실행 기록 보기</summary>
+<details id="sdxl-safe-face-on-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-safe-face-with-openpose-960x1440-result.json" data-language="json">
+<summary><code>p7-5-4-sdxl-safe-face-with-openpose-960x1440-result.json</code> · JSON · OpenPose on 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">전신 조건과 생성 설정을 불러옵니다.</div>
 </details>
 
@@ -196,13 +196,13 @@ Canny도 카메라·실루엣의 보조 조건으로는 쓸 수 있었지만, �
 
 이 결과는 mask를 더 정교하게 그리거나 reference를 더 주는 일이 고각도에서 새로 보이거나 가려지는 팔·몸통·다리·가방의 관계를 대신하지 못한다는 뜻이다. 아래 실행 기록은 각 조건을 남긴다.
 
-<details id="fitdit-high-angle-upperbody-run" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-fitdit-high-angle-upperbody-complete-outfit-run.json" data-language="json">
-<summary><code>p7-5-4-fitdit-high-angle-upperbody-complete-outfit-run.json</code> · JSON · FitDiT 고각도 상반신 실행 기록 보기</summary>
+<details id="fitdit-high-angle-upperbody-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-fitdit-high-angle-upperbody-complete-outfit-result.json" data-language="json">
+<summary><code>p7-5-4-fitdit-high-angle-upperbody-complete-outfit-result.json</code> · JSON · FitDiT 고각도 상반신 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">mask·착장 reference·생성 조건을 불러옵니다.</div>
 </details>
 
-<details id="sdxl-depth-role-separated-run" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-depth-role-separated-run.json" data-language="json">
-<summary><code>p7-5-4-sdxl-depth-role-separated-run.json</code> · JSON · SDXL depth 역할 분리 실행 기록 보기</summary>
+<details id="sdxl-depth-role-separated-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-4-sdxl-depth-role-separated-result.json" data-language="json">
+<summary><code>p7-5-4-sdxl-depth-role-separated-result.json</code> · JSON · SDXL depth 역할 분리 실행 기록 보기</summary>
 <div class="aibook-lazy-source__body">depth·adapter·LoRA 역할 분리 조건을 불러옵니다.</div>
 </details>
 

@@ -129,7 +129,7 @@ def main() -> int:
         report_rows.append({"source_id": row["source_id"], "seed": seed, "prompt": prompt, "pose_map": pose_name, "controlnet_off": off_name, "controlnet_on": on_name})
     sheet_name = "sd15-openpose-controlnet-on-off-contact-sheet.png"
     sheet(panel_rows, args.output / sheet_name)
-    (args.output / "report.json").write_text(json.dumps({
+    (args.output / "result.json").write_text(json.dumps({
         "base_model": "stable-diffusion-v1-5/stable-diffusion-v1-5",
         "controlnet": "lllyasviel/control_v11p_sd15_openpose",
         "control_input": "OpenPose body map extracted from held-out source image; no source colors, face, clothing, or background are passed to ControlNet",

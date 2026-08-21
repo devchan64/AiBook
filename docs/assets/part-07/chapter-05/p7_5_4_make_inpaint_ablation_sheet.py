@@ -16,7 +16,7 @@ def main() -> int:
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
 
-    runs = sorted(path.parent for path in args.input_root.glob("*/run.json"))
+    runs = sorted(path.parent for path in args.input_root.glob("*/result.json"))
     if len(runs) != 10:
         raise ValueError(f"expected 10 completed runs, found {len(runs)}")
     sample = Image.open(runs[0] / "inpaint-output.png").convert("RGB")
@@ -26,7 +26,7 @@ def main() -> int:
     sheet = Image.new("RGB", (columns * width, 2 * (height + header)), "white")
     draw = ImageDraw.Draw(sheet)
     for index, run_dir in enumerate(runs):
-        report = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
+        report = json.loads((run_dir / "result.json").read_text(encoding="utf-8"))
         x = (index % columns) * width
         y = (index // columns) * (height + header)
         label = (

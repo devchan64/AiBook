@@ -64,13 +64,6 @@ YAW_PROMPTS = {
     "profile_left": "将镜头向左旋转90度。",
 }
 FRONT_PROMPT = "保持正面镜头。"
-YAW_PROMPTS_EN = {
-    "quarter_right": "Rotate the camera 45 degrees to the right.",
-    "quarter_left": "Rotate the camera 45 degrees to the left.",
-    "profile_right": "Rotate the camera 90 degrees to the right.",
-    "profile_left": "Rotate the camera 90 degrees to the left.",
-}
-FRONT_PROMPT_EN = "Keep a frontal camera view."
 CAMERA_YAW_DEGREES = {
     "profile_left": -90,
     "quarter_left": -45,
@@ -78,19 +71,28 @@ CAMERA_YAW_DEGREES = {
     "profile_right": 90,
     "front": 0,
 }
-CAMERA_VIEW_PROMPTS = {
-    "level": "",
-    # These are the direct high-/low-angle commands in the dx8152 workflow.
-    # Keep them distinct from numerical pitch and from camera-movement
-    # combinations so every view is represented by one instruction.
-    "high_angle": "将镜头向上移动。将镜头转为俯视。",
-    "low_angle": "将镜头向下移动。将镜头转为仰视。",
+# Keep camera degrees of freedom separate.  The dx8152 model card lists
+# translation, yaw rotation, viewpoint, and lens changes as independent
+# commands; composing them in one "pitch" phrase made results ambiguous.
+CAMERA_TRANSLATION_PROMPTS = {
+    "none": "",
+    "forward": "将镜头向前移动。",
+    "left": "将镜头向左移动。",
+    "right": "将镜头向右移动。",
+    "up": "将镜头向上移动。",
+    "down": "将镜头向下移动。",
 }
-CAMERA_VIEW_PROMPTS_EN = {
+PITCH_PROMPTS = {
+    "high_angle": "将镜头转为俯视。",
     "level": "",
-    "high_angle": "Move the camera upward. Turn the camera to a top-down view.",
-    "low_angle": "Move the camera downward. Turn the camera to a low-angle, upward-looking view.",
+    "low_angle": "将镜头转为仰视。",
 }
+LENS_PROMPTS = {
+    "none": "",
+    "wide": "将镜头转为广角镜头。",
+    "close_up": "将镜头转为特写镜头。",
+}
+CAMERA_PROMPT_SOURCE = "https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles"
 
 
 def sha256(path: Path) -> str:
@@ -120,30 +122,32 @@ def runtime_record() -> dict[str, object]:
     }
 
 
-def build_camera_prompt(target: str, camera_view: str, prompt_language: str) -> str:
-    """Compose a camera command without identity text."""
-    # Keep every previously approved yaw command verbatim.  A pitch-first
-    # ablation caused canvas roll and inversion, so retain yaw-first order.
-    # Explicitly retain the frontal lock for non-level front views as well.
-    if prompt_language == "english":
-        yaw_prompts = YAW_PROMPTS_EN
-        front_prompt = FRONT_PROMPT_EN
-        camera_view_prompts = CAMERA_VIEW_PROMPTS_EN
+def camera_prompt_components(axis: str, value: str) -> dict[str, str]:
+    """Return exactly one camera-control command for a candidate."""
+    commands = {"yaw": "", "pitch": "", "translation": "", "lens": ""}
+    if axis == "yaw":
+        commands["yaw"] = FRONT_PROMPT if value == "front" else YAW_PROMPTS[value]
+    elif axis == "pitch":
+        commands["pitch"] = PITCH_PROMPTS[value]
+    elif axis == "translation":
+        commands["translation"] = CAMERA_TRANSLATION_PROMPTS[value]
+    elif axis == "lens":
+        commands["lens"] = LENS_PROMPTS[value]
     else:
-        yaw_prompts = YAW_PROMPTS
-        front_prompt = FRONT_PROMPT
-        camera_view_prompts = CAMERA_VIEW_PROMPTS
-    direction = front_prompt if target == "front" else yaw_prompts[target]
-    if camera_view == "level":
-        return direction
-    return f"{direction}{camera_view_prompts[camera_view]}"
+        raise ValueError(f"Unsupported camera axis: {axis}")
+    return commands
 
 
-def load_pipeline(angle_lora: Path) -> tuple[QwenImageEditPlusPipeline, int]:
+def build_camera_prompt(axis: str, value: str) -> str:
+    """Compose one command: never combine independent camera axes."""
+    return camera_prompt_components(axis, value)[axis]
+
+
+def load_pipeline(angle_lora: Path, angle_lora_strength: float) -> tuple[QwenImageEditPlusPipeline, int]:
     transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
     # Standard PEFT injection cannot target Nunchaku's AWQW4A16Linear blocks.
     # This loader merges rank-decomposed weights into Nunchaku low-rank slots.
-    applied_modules = apply_lora(transformer, angle_lora, strength=1.0)
+    applied_modules = apply_lora(transformer, angle_lora, strength=angle_lora_strength)
     if applied_modules == 0:
         raise RuntimeError("The multiple-angle LoRA did not match any Nunchaku transformer modules")
     # Create the ping-pong offload buffers after the LoRA rank expansion.  The
@@ -174,17 +178,35 @@ def main() -> None:
     parser.add_argument(
         "--camera-views",
         nargs="+",
-        choices=tuple(CAMERA_VIEW_PROMPTS),
+        choices=("high_angle", "level", "low_angle"),
         default=("high_angle", "level", "low_angle"),
         help="Pitch views to generate for every yaw (default: all three).",
+    )
+    parser.add_argument(
+        "--axis",
+        choices=("yaw", "pitch", "translation", "lens"),
+        default="yaw",
+        help="The single camera-control axis to apply (default: yaw).",
+    )
+    parser.add_argument(
+        "--translation",
+        choices=tuple(key for key in CAMERA_TRANSLATION_PROMPTS if key != "none"),
+        default="forward",
+        help="Translation value, used only with --axis translation.",
+    )
+    parser.add_argument(
+        "--lens",
+        choices=tuple(key for key in LENS_PROMPTS if key != "none"),
+        default="wide",
+        help="Lens value, used only with --axis lens.",
     )
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=8)
     parser.add_argument(
-        "--prompt-language",
-        choices=("chinese", "english"),
-        default="chinese",
-        help="Language of camera-only instructions (default: chinese).",
+        "--angle-lora-strength",
+        type=float,
+        default=1.0,
+        help="Multiple-angle LoRA strength (default: 1.0).",
     )
     parser.add_argument("--run-label", default="dx8152-camera-angle-v1")
     parser.add_argument(
@@ -197,6 +219,8 @@ def main() -> None:
     args = parser.parse_args()
     if args.steps < 1:
         raise ValueError("--steps must be at least 1")
+    if args.angle_lora_strength <= 0:
+        raise ValueError("--angle-lora-strength must be positive")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
     reference_image = args.reference_image
@@ -209,20 +233,27 @@ def main() -> None:
     angle_lora = angle_lora_dir / ANGLE_LORA_FILE
     if not angle_lora.is_file():
         raise FileNotFoundError(angle_lora)
-    targets = list(args.targets)
-    camera_views = list(args.camera_views)
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
-    pipeline, applied_modules = load_pipeline(angle_lora)
+    pipeline, applied_modules = load_pipeline(angle_lora, args.angle_lora_strength)
     results = []
-    sequence_targets = [(camera_view, target) for camera_view in camera_views for target in targets]
-    include_view_in_stem = len(camera_views) > 1
-    for sequence_index, (camera_view, target) in enumerate(sequence_targets, start=1):
-        prompt = build_camera_prompt(target, camera_view, args.prompt_language)
-        view_suffix = f"-{camera_view.replace('_', '-')}" if include_view_in_stem else ""
-        stem = f"p7-5-7-qwen-head-{target}{view_suffix}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+    if args.axis == "yaw":
+        sequence_values = list(args.targets)
+    elif args.axis == "pitch":
+        sequence_values = list(args.camera_views)
+    elif args.axis == "translation":
+        sequence_values = [args.translation]
+    else:
+        sequence_values = [args.lens]
+    for sequence_index, value in enumerate(sequence_values, start=1):
+        prompt_components = camera_prompt_components(args.axis, value)
+        prompt = build_camera_prompt(args.axis, value)
+        stem = (
+            f"p7-5-7-qwen-head-{args.axis}-{value.replace('_', '-')}-"
+            f"{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+        )
         output = output_dir / f"{stem}.png"
-        run_record = output_dir / f"{stem}-run.json"
+        result_record = output_dir / f"{stem}-result.json"
         started = time.monotonic()
         image = pipeline(
             prompt=prompt,
@@ -246,16 +277,18 @@ def main() -> None:
             "input_roles": ["approved_reference_identity_and_illustration"],
             "openpose_used": False,
             "camera_transform_owner": "dx8152 multiple-angle LoRA",
+            "camera_prompt_source": CAMERA_PROMPT_SOURCE,
             "angle_lora_applied_modules": applied_modules,
-            "target": target,
-            "yaw_degrees": CAMERA_YAW_DEGREES[target],
-            "camera_view": camera_view,
-            "prompt_language": args.prompt_language,
+            "angle_lora_strength": args.angle_lora_strength,
+            "axis": args.axis,
+            "axis_value": value,
+            "yaw_degrees": CAMERA_YAW_DEGREES[value] if args.axis == "yaw" else 0,
+            "prompt_language": "chinese",
             "sequence": {
                 "index": sequence_index,
-                "total": len(sequence_targets),
-                "camera_views": camera_views,
-                "targets": targets,
+                "total": len(sequence_values),
+                "axis": args.axis,
+                "values": sequence_values,
             },
             "seed": args.seed,
             "steps": args.steps,
@@ -263,13 +296,15 @@ def main() -> None:
             "true_cfg_scale": 1.0,
             "guidance_scale": 1.0,
             "prompt": prompt,
+            "prompt_components": prompt_components,
             "prompt_word_count": len(prompt.split()),
+            "prompt_character_count": len(prompt),
             "output": asset_record(output),
             "elapsed_seconds": round(time.monotonic() - started, 2),
             "decision": "Candidate only; human review must confirm identity, hair, rendering, and camera direction.",
         }
-        run_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        results.append({"output": str(output), "run_record": str(run_record)})
+        result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        results.append({"output": str(output), "result_record": str(result_record)})
     print(json.dumps({"outputs": results}, ensure_ascii=False))
 
 

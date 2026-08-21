@@ -450,7 +450,7 @@ def main() -> None:
     width, height = target["size"]
     stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{steps}"
     output = args.output_dir / f"{stem}.png"
-    run_record = args.output_dir / f"{stem}-run.json"
+    result_record = args.output_dir / f"{stem}-result.json"
     started = time.monotonic()
     pipeline = load_pipeline()
     generation = {
@@ -524,8 +524,8 @@ def main() -> None:
         "elapsed_seconds": round(time.monotonic() - started, 2),
         "decision": "Candidate only; do not replace a stable P7-5.2 reference before human review.",
     }
-    run_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(output), "run_record": str(run_record)}, ensure_ascii=False))
+    result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"output": str(output), "result_record": str(result_record)}, ensure_ascii=False))
 
 
 if __name__ == "__main__":

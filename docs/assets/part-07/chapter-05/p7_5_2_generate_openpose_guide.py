@@ -175,7 +175,7 @@ def main() -> None:
     source_path = args.source_output if args.source_output.is_absolute() else ASSETS / args.source_output
     output = args.guide_output or guide_default_path(source_path, args.include_face, args.include_hands)
     output = output if output.is_absolute() else ASSETS / output
-    record_path = output.with_name(f"{output.stem}-run.json")
+    record_path = output.with_name(f"{output.stem}-result.json")
     if args.stage in {"all", "source"}:
         prevent_overwrite(source_path, args.overwrite)
     if args.stage in {"all", "openpose"}:

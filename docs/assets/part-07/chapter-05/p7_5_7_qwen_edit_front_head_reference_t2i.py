@@ -35,14 +35,24 @@ TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunc
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
 SIZE = (768, 768)
-FRONT_HEAD_PROMPT = (
-    "Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, complete hair crown visible with clear "
-    "empty margin above it and no hair cropped by any image edge, face centered and facing the camera "
-    "with both eyes and ears visible: compact oval face, a defined high nose bridge, and a refined straight nose line; high-volume petrol-teal "
-    "jaw-length bob with asymmetric fringe, loose S-waves, inward-curled ends, and side locks wider than the neck. Long slender gently upturned "
-    "eyes; equal orange-amber irises with distinct centered round dark pupils, separate from eyelids and eyeliner. Show ears and neck. "
-    "No text, accessory, panel, collage, or background scene."
-)
+FRAMING_PROMPTS = {
+    "head": (
+        "Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, complete hair crown visible with clear "
+        "empty margin above it and no hair cropped by any image edge, face centered and facing the camera "
+        "with both eyes and ears visible: compact oval face, a defined high nose bridge, and a refined straight nose line; high-volume petrol-teal "
+        "jaw-length bob with asymmetric fringe, loose S-waves, inward-curled ends, and side locks wider than the neck. Long slender gently upturned "
+        "eyes; equal orange-amber irises with distinct centered round dark pupils, separate from eyelids and eyeliner. Show ears and neck. "
+        "No text, accessory, panel, collage, or background scene."
+    ),
+    "torso": (
+        "Strict frontal head-and-upper-torso studio reference of one young East Asian woman in her early twenties, framed from the complete hair crown "
+        "through the mid-chest with clear empty margin above the hair and no head, shoulder, or chest cropped by any image edge. Face centered and facing "
+        "the camera with both eyes and ears visible: compact oval face, a defined high nose bridge, and a refined straight nose line; high-volume petrol-teal "
+        "jaw-length bob with asymmetric fringe, loose S-waves, inward-curled ends, and side locks wider than the neck. Long slender gently upturned eyes; "
+        "equal orange-amber irises with distinct centered round dark pupils, separate from eyelids and eyeliner. Show both shoulders, neck, collarbones, and "
+        "the upper torso wearing a simple plain dark crew-neck top. No text, accessory, panel, collage, or background scene."
+    ),
+}
 
 
 def sha256(path: Path) -> str:
@@ -89,13 +99,27 @@ def load_pipeline() -> QwenImagePipeline:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--framing",
+        choices=tuple(FRAMING_PROMPTS),
+        default="head",
+        help="Use 'torso' to include both shoulders and the upper torso through the mid-chest.",
+    )
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
+    parser.add_argument(
+        "--size",
+        type=int,
+        default=SIZE[0],
+        help="Square output size in pixels; use a smaller value only when GPU memory prevents candidate generation.",
+    )
     parser.add_argument("--run-label", default="front-head")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     args = parser.parse_args()
     if args.steps < 1:
         raise ValueError("--steps must be at least 1")
+    if args.size < 256 or args.size % 16:
+        raise ValueError("--size must be at least 256 and divisible by 16")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
     if missing := [path for path in (PLAN, IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT) if not path.is_file()]:
@@ -103,12 +127,12 @@ def main() -> None:
 
     illustration_contract = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))
     illustration_prompt = illustration_contract["front_face_illustration_prompt"]
-    prompt = f"{illustration_prompt} {FRONT_HEAD_PROMPT}"
+    prompt = f"{illustration_prompt} {FRAMING_PROMPTS[args.framing]}"
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"p7-5-7-qwen-face-front-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+    stem = f"p7-5-7-qwen-face-{args.framing}-{args.run_label}-seed-{args.seed}-steps-{args.steps}-size-{args.size}"
     output = output_dir / f"{stem}.png"
-    review_record = output_dir / f"{stem}-review.json"
+    result_record = output_dir / f"{stem}-result.json"
 
     started = time.monotonic()
     pipeline = load_pipeline()
@@ -119,13 +143,13 @@ def main() -> None:
         guidance_scale=1.0,
         negative_prompt=" ",
         num_inference_steps=args.steps,
-        width=SIZE[0],
-        height=SIZE[1],
+        width=args.size,
+        height=args.size,
     ).images[0]
     image.save(output)
     record = {
         "status": "review_required",
-        "experiment_id": "p7-5-7-qwen-face-front",
+        "experiment_id": f"p7-5-7-qwen-face-{args.framing}",
         "model": MODEL_ID,
         "transformer": TRANSFORMER_ID,
         "runtime": runtime_record(),
@@ -136,9 +160,10 @@ def main() -> None:
         "prompt_contracts_applied": {"watercolor_style": False, "illustration": True},
         "inputs": [],
         "input_roles": [],
+        "framing": args.framing,
         "seed": args.seed,
         "steps": args.steps,
-        "size": list(SIZE),
+        "size": [args.size, args.size],
         "true_cfg_scale": 4.0,
         "guidance_scale": 1.0,
         "negative_prompt": " ",
@@ -148,8 +173,8 @@ def main() -> None:
         "elapsed_seconds": round(time.monotonic() - started, 2),
         "decision": "Candidate only; do not replace the approved frontal head reference before human review.",
     }
-    review_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(output), "review_record": str(review_record)}, ensure_ascii=False))
+    result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"output": str(output), "result_record": str(result_record)}, ensure_ascii=False))
 
 
 if __name__ == "__main__":

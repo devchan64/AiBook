@@ -230,7 +230,7 @@ def main() -> int:
         "elapsed_seconds": round(time.monotonic() - started, 1),
         "outputs": ["source.png", "manual-mask.png", "outfit-reference.png", "raw-model-output.png", "inpaint-output.png", "contact-sheet.png"],
     }
-    (args.output / "run.json").write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (args.output / "result.json").write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(args.output / "inpaint-output.png")
     return 0
 

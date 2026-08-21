@@ -64,7 +64,7 @@
 
 ## 6. 재실행 기록을 남긴다
 
-<details id="qwen-edit-head-front-reference-t2i-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_7_qwen_edit_head_front_reference_t2i.py" data-language="python">
+<details id="qwen-edit-head-front-reference-t2i-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_7_qwen_edit_front_head_reference_t2i.py" data-language="python">
 <summary>Qwen 정면 얼굴 후보 생성 코드 보기</summary>
 <div class="aibook-lazy-source__body">이미지 입력 없이 정면 얼굴 후보와 review JSON만 생성합니다.</div>
 </details>

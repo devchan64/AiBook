@@ -148,9 +148,9 @@ def main() -> None:
         "elapsed_seconds": round(time.monotonic() - started, 2),
         "decision": "Do not replace the published reference or infer a pass without new human review.",
     }
-    run_path = args.output_dir / f"{output.stem}-run.json"
-    run_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(output), "run_record": str(run_path), "matches_historical_output": record["matches_historical_output"]}, ensure_ascii=False))
+    result_path = args.output_dir / f"{output.stem}-result.json"
+    result_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"output": str(output), "result_record": str(result_path), "matches_historical_output": record["matches_historical_output"]}, ensure_ascii=False))
 
 
 if __name__ == "__main__":

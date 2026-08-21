@@ -135,7 +135,7 @@ def main() -> int:
         stop.set()
         observer.join(timeout=2)
 
-    (args.output / "run.json").write_text(
+    (args.output / "result.json").write_text(
         json.dumps(
             {
                 "status": "generated_for_human_review",

@@ -109,7 +109,7 @@ def main() -> None:
             "gpu_memory_peak_mib": peak,
             "outputs": ["camera-control-canny.png", "controlnet-off.png", "controlnet-on.png", "contact-sheet.png"],
         }
-        (OUTPUT_DIR / "run.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+        (OUTPUT_DIR / "result.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     finally:
         stop.set()
         observer.join(timeout=2)
