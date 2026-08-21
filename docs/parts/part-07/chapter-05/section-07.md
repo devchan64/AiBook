@@ -11,11 +11,11 @@
 
 카메라 조건에는 `dx8152/Qwen-Edit-2509-Multiple-angles` LoRA를 덧붙였다. 이 adapter의 모델 카드는 기반 모델을 `Qwen-Image-Edit-2509`로 표시하고, 별도 trigger word 없이 카메라 이동·좌우 회전·위아래 보기 명령을 사용할 수 있다고 안내한다. 같은 카드가 일관성이 불안정할 수 있다는 사용자 보고와 재학습본 업로드도 함께 남기므로, 모델 카드의 예시만으로 후보를 승인하지 않는다. [dx8152, *Qwen-Edit-2509-Multiple-angles model card* (Hugging Face, 확인: 2026-08-21)](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
 
-로컬 실행은 `QwenImageEditPlusPipeline`과 저정밀 Nunchaku transformer·Lightning 가중치를 사용했다. 이는 현재 8GB GPU에서 실행하기 위한 런타임 구성이다. 기반 모델 또는 LoRA의 일반 성능 비교가 아니므로, 정확한 가중치·해시·offload 조건은 각 run JSON에 기록하고 결과 이미지를 따로 검수한다.
+로컬 실행은 `QwenImageEditPlusPipeline`과 저정밀 Nunchaku transformer·Lightning 가중치를 사용했다. 이는 현재 8GB GPU에서 실행하기 위한 런타임 구성이다. 기반 모델 또는 LoRA의 일반 성능 비교가 아니므로, 정확한 가중치·해시·offload 조건과 사람 검수 상태를 하나의 review JSON에 함께 기록한다.
 
 ## 2. 정면 얼굴을 기준으로 고정한다
 
-정면 얼굴은 참조 이미지 없이 Qwen으로 생성한 뒤 사람이 승인한 기준이다. 중앙 정면 구도, 높은 콧대와 곧은 코선, 주황·호박색 홍채, 청록과 검정이 나뉜 볼륨 단발, 선과 음영을 대조하는 데만 쓴다. 표정, 전신, 의상, 장면은 이 승인 범위에 포함되지 않는다.
+정면 얼굴은 참조 이미지 없이 Qwen으로 생성한 뒤 사람이 승인한 기준이다. 중앙 정면 구도와 정수리 전체가 보이는 상단 여백, 높은 콧대와 곧은 코선, 주황·호박색 홍채, 청록과 검정이 나뉜 볼륨 단발, 어두운 윤곽선과 평면 색을 대조하는 데만 쓴다. 표정, 전신, 의상, 장면은 이 승인 범위에 포함되지 않는다.
 
 | 승인된 Qwen 정면 얼굴 | 검수 기록 |
 | --- | --- |
@@ -51,19 +51,7 @@
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-face-quarter-left-qwen-camera-angle-reference-review.json" data-language="json">좌측 쿼터 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-face-quarter-right-qwen-camera-angle-reference-review.json" data-language="json">우측 쿼터 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-face-profile-left-qwen-camera-angle-reference-review.json" data-language="json">좌측 측면 review.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-face-profile-right-qwen-camera-angle-reference-review.json" data-language="json">우측 측면 review.json</a></p>
 
-## 5. 후보와 탈락 결과는 승인 체인에서 분리한다
-
-아래 우측 쿼터 후보는 현재 review-only다. P7-5.2의 안정 전신 자산이나 P7-5.3 장면 입력으로 승격하지 않는다.
-
-| 정면 기준 | 우측 쿼터 review-only 후보 |
-| --- | --- |
-| ![정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-7-face-front-qwen-reference.png) | ![우측 쿼터 review-only 후보](../../../assets/part-07/chapter-05/p7-5-7-qwen-head-quarter_right-dx8152-camera-angle-lightning-v2-seed-62294-steps-8.png) |
-
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-head-quarter_right-dx8152-camera-angle-lightning-v2-seed-62294-steps-8-run.json" data-language="json">우측 쿼터 후보 run.json</a></p>
-
-피치 `−20°` 5방향 후보는 얼굴 비율과 identity 보존이 부족해 탈락 처리하고 폐기했다. 피치 변화는 새 입력 계약을 설계한 뒤 별도 실험으로 다시 시작한다.
-
-## 6. 사람 검수는 네 축을 동시에 본다
+## 5. 사람 검수는 네 축을 동시에 본다
 
 | 항목 | 확인할 질문 |
 | --- | --- |
@@ -74,19 +62,19 @@
 
 방향만 맞고 머리카락이나 이목구비가 달라졌다면 통과가 아니다. 반대로 닮았지만 회전이 실패한 후보도 통과가 아니다. 이 결과는 다음에 step·LoRA 강도·명령 문구를 한 축씩 바꾸는 근거로 남긴다.
 
-## 7. 재실행 기록을 남긴다
+## 6. 재실행 기록을 남긴다
 
-<details id="qwen-face-front-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_7_qwen_generate_face_front_reference.py" data-language="python">
+<details id="qwen-edit-head-front-reference-t2i-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_7_qwen_edit_head_front_reference_t2i.py" data-language="python">
 <summary>Qwen 정면 얼굴 후보 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">이미지 입력 없이 정면 얼굴 후보와 run JSON만 생성합니다.</div>
+<div class="aibook-lazy-source__body">이미지 입력 없이 정면 얼굴 후보와 review JSON만 생성합니다.</div>
 </details>
 
 <details id="qwen-camera-angle-2509-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_7_qwen_camera_angle_2509_probe.py" data-language="python">
 <summary>Qwen 2509 다중 앵글 얼굴 회전 후보 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">승인 정면 얼굴 하나를 identity·헤어·화풍 기준으로 쓰고, 다중 앵글 LoRA가 카메라 회전만 맡습니다.</div>
+<div class="aibook-lazy-source__body">승인 정면 얼굴 하나를 identity·헤어·화풍 기준으로 쓰고, 2509 다중 앵글 LoRA가 pitch 0의 카메라 회전만 맡습니다.</div>
 </details>
 
-run JSON에는 입력 이미지 해시, LoRA 저장소와 가중치 해시, target yaw·pitch, seed, step, prompt, `prompt_word_count`, 출력 해시를 남긴다. 후보 파일은 chapter asset 루트에 `p7-5-7-qwen-head-…` 이름으로 저장해 승인 자산과 구분한다.
+review JSON에는 입력 이미지 해시, LoRA 저장소와 가중치 해시, target yaw·pitch, seed, step, prompt, `prompt_word_count`, 출력 해시와 검수 결정을 함께 남긴다. 승인 기준의 실행 원본은 같은 파일의 `execution` 필드에 보존한다. 후보 파일은 chapter asset 루트에 `p7-5-7-qwen-head-…` 이름으로 저장해 승인 자산과 구분한다.
 
 ## 체크리스트
 
@@ -95,14 +83,14 @@ run JSON에는 입력 이미지 해시, LoRA 저장소와 가중치 해시, targ
 | 기준 | 정면 얼굴이 사람 승인된 현재 기준이며, 회전 후보의 유일한 이미지 입력인가? |
 | 역할 | identity·헤어·화풍은 정면 얼굴이, yaw·pitch는 LoRA와 카메라 명령이 맡는가? |
 | 방향 | 요청한 카메라 회전과 얼굴의 가림 관계가 같은 방향을 가리키는가? |
-| 재현 | seed, step, LoRA, prompt와 `prompt_word_count`가 run JSON에 남아 있는가? |
-| 승인 | 승인된 yaw만 안정 턴어라운드로 쓰고, review-only 후보를 전신·장면 입력으로 오해하지 않았는가? |
+| 재현 | seed, step, LoRA, prompt와 `prompt_word_count`가 review JSON에 남아 있는가? |
+| 승인 | 승인 범위를 해당 yaw 이미지에만 한정하고, 다른 회전·전신·장면으로 자동 확장하지 않았는가? |
 | 다음 단계 | 통과 후보만 P7-5.2의 전신 identity 입력 또는 P7-5.3 장면 입력으로 승격하는가? |
 
 ## 출처와 참고 자료
 
 - 정면 얼굴의 사람 판정은 이 절에서 연결한 local review JSON을 기준으로 확인한다.
-- 회전 실험의 조건·입력·출력 해시는 각 local run JSON을 기준으로 확인한다.
-- 다중 앵글 LoRA의 저장소·가중치 정보는 run JSON에 기록한다. 외부 가중치는 재배포하지 않는다.
+- 회전 실험의 조건·입력·출력 해시는 각 local review JSON을 기준으로 확인한다.
+- 다중 앵글 LoRA의 저장소·가중치 정보는 review JSON에 기록한다. 외부 가중치는 재배포하지 않는다.
 - Qwen, [*Qwen-Image-Edit-2509 model card*](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-21.
 - dx8152, [*Qwen-Edit-2509-Multiple-angles model card*](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}, Hugging Face, 확인: 2026-08-21.

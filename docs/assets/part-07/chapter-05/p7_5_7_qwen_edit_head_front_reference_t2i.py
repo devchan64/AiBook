@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Generate review-only Qwen text-to-image candidates for the P7-5.7 frontal face anchor.
+"""Generate review-only Qwen 2509/Nunchaku FP4 T2I candidates for the P7-5.7 frontal face anchor.
 
 This is intentionally separate from the P7-5.2 full-body reference pilot:
 it has no image input and must not silently become an image-edit experiment.
-The generated PNG and its run JSON remain candidates until human approval.
+The ``edit`` filename token identifies the P7-5 editing workflow, not an
+image-to-image operation in this generator.
+The generated PNG and its review JSON remain candidates until human approval.
 """
 
 from __future__ import annotations
@@ -106,7 +108,7 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     stem = f"p7-5-7-qwen-face-front-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
     output = output_dir / f"{stem}.png"
-    run_record = output_dir / f"{stem}-run.json"
+    review_record = output_dir / f"{stem}-review.json"
 
     started = time.monotonic()
     pipeline = load_pipeline()
@@ -146,8 +148,8 @@ def main() -> None:
         "elapsed_seconds": round(time.monotonic() - started, 2),
         "decision": "Candidate only; do not replace the approved frontal head reference before human review.",
     }
-    run_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(output), "run_record": str(run_record)}, ensure_ascii=False))
+    review_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"output": str(output), "review_record": str(review_record)}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
