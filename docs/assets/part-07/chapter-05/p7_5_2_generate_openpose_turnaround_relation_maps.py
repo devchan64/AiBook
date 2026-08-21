@@ -14,10 +14,10 @@ face scan.
 
 Examples:
   # Default 5×5 yaw/pitch grid.
-  .venv/bin/python p7_5_2_generate_turnaround_relation_maps.py
+  .venv/bin/python p7_5_2_generate_openpose_turnaround_relation_maps.py
 
   # Five full-body yaw directions at pitch 0, without face landmarks.
-  .venv/bin/python p7_5_2_generate_turnaround_relation_maps.py \\
+  .venv/bin/python p7_5_2_generate_openpose_turnaround_relation_maps.py \\
     --targets profile_left quarter_left front quarter_right profile_right
 """
 
@@ -40,7 +40,10 @@ from PIL import Image, ImageDraw
 
 
 ASSETS = Path(__file__).resolve().parent
-DEFAULT_REFERENCE = ASSETS / "upscale_image_01.png"
+# Direction inspection uses the P7-5.7 chest reference that P7-5.2 already
+# supplies to the full-body editor; the deterministic BODY_18 template itself
+# does not derive identity or body coordinates from this image.
+DEFAULT_REFERENCE = ASSETS / "p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
 # File names encode the run, so candidate output stays directly in the chapter
 # asset root instead of creating a directory per candidate.
 DEFAULT_OUTPUT = ASSETS
@@ -686,9 +689,9 @@ def main() -> None:
     else:
         output_label = f"{args.frame}-custom-yaw-pitch-body-only"
     prefix = f"p7-5-2-openpose-{output_label}"
-    manifest = output_dir / f"{prefix}-manifest.json"
-    if manifest.exists() and not args.overwrite:
-        raise FileExistsError(f"{manifest} exists; pass --overwrite to replace this generated set")
+    result_record = output_dir / f"{prefix}-result.json"
+    if result_record.exists() and not args.overwrite:
+        raise FileExistsError(f"{result_record} exists; pass --overwrite to replace this generated set")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     renderer = openpose_module()
@@ -744,10 +747,10 @@ def main() -> None:
 
     sheet_name = f"{prefix}-contact-sheet.png"
     contact_sheet(previews, output_dir / sheet_name)
-    manifest.write_text(
+    result_record.write_text(
         json.dumps(
             {
-                "status": "review_required",
+                "status": "generated",
                 "purpose": "Deterministic common-coordinate face and full-body OpenPose relation maps for ratio adjustment.",
                 "reference_direction_sheet": {"path": str(reference), "sha256": sha256(reference)},
                 "prior_openpose_detection_review": (
@@ -780,7 +783,7 @@ def main() -> None:
         encoding="utf-8",
     )
     print(output_dir / sheet_name)
-    print(manifest)
+    print(result_record)
 
 
 if __name__ == "__main__":

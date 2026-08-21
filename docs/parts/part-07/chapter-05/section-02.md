@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 착장·전신 참조 셋 생성: 역할과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.21`
+> Version: `v2026.08.22`
 
 장면을 만들기 전에 같은 인물의 **착장과 전신 구조**를 대조할 기준을 정한다. 이 절은 로컬 GPU에서 Qwen으로 만든 착장·전신·body-only OpenPose 자산만 다룬다. 얼굴 정면의 identity와 얼굴 회전은 [P7-5.7](section-07.md)에서 별도로 관리한다.
 
@@ -13,12 +13,12 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하고, P7-5.4는 그 컷�
 
 | 자산 | 고정하는 정보 | 현재 상태 |
 | --- | --- | --- |
-| P7-5.7 정면 얼굴 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영 | 별도 사람 승인 |
+| P7-5.7 체스트 정면 참조 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영, 목·어깨 연결 | P7-5.7 생성 결과 |
 | 착장·가방 | 짧은 흰 재킷, 회색 이너, 와이드 팬츠, 흰 운동화, 크로스백 | 사람 승인 |
 | 정면 전신 | 전신 비례와 프레이밍 | 사람 승인 |
 | body-only OpenPose | 전신 관절과 방향 구조 | 사람 승인 |
 
-P7-5.7 정면 얼굴은 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. 전신과 OpenPose는 인물의 몸 크기·방향·crop을 대조하는 자료일 뿐, 작은 얼굴 영역을 새 얼굴 identity 입력으로 복사하지 않는다.
+P7-5.7 체스트 정면 참조는 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. P7-5.2의 전신 생성기는 이 체스트 참조를 identity·헤어·목·어깨 연결 입력으로 사용한다. 전신과 OpenPose는 인물의 몸 크기·방향·crop을 대조하는 자료일 뿐, 작은 얼굴 영역을 새 얼굴 identity 입력으로 복사하지 않는다.
 
 ## 착장과 전신 구조를 따로 본다
 
@@ -36,17 +36,17 @@ P7-5.7 정면 얼굴은 전신 비례나 의상을 정하지 않고, 착장 이�
 
 ## OpenPose는 전신 구조만 맡는다
 
-정면과 왼쪽 쿼터 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 정면 맵은 전신 비례와 기본 서기 프레이밍을, 쿼터 맵은 그 구조가 왼쪽으로 회전할 때의 관절 방향을 대조한다. 두 맵은 캐릭터 identity나 화풍을 정의하지 않는다.
+5방향 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 모든 방향은 오른손을 허리에 올리고 팔꿈치를 바깥으로 둔 같은 BODY_18 템플릿을 회전·투영한다. 따라서 정면·좌우 쿼터·좌우 측면에서 포즈의 관절 관계와 방향만 대조하며, 캐릭터 identity나 화풍을 정의하지 않는다.
 
-| 정면 body-only OpenPose | 왼쪽 쿼터 body-only OpenPose |
-| --- | --- |
-| ![정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-front-body-only-approved-guide.png) | ![왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png) |
+| 왼쪽 측면 −90° | 왼쪽 쿼터 −45° | 정면 0° | 오른쪽 쿼터 +45° | 오른쪽 측면 +90° |
+| --- | --- | --- | --- | --- |
+| ![허리 손 왼쪽 측면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.png) | ![허리 손 왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png) | ![오른손을 허리에 올린 정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png) | ![허리 손 오른쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.png) | ![허리 손 오른쪽 측면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.png) |
 
 | 왼쪽 쿼터 전신 참고 | 왼쪽 쿼터 구조 참고 |
 | --- | --- |
-| ![왼쪽 쿼터 전신 참고](../../../assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference.png) | ![왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png) |
+| ![왼쪽 쿼터 전신 참고](../../../assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference.png) | ![왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference-result.json" data-language="json">왼쪽 쿼터 전신 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-quarter-left-45deg-guide-result.json" data-language="json">왼쪽 쿼터 OpenPose result.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference-result.json" data-language="json">왼쪽 쿼터 전신 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.json" data-language="json">−90° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.json" data-language="json">−45° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.json" data-language="json">0° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.json" data-language="json">+45° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.json" data-language="json">+90° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-result.json" data-language="json">허리 손 OpenPose result.json</a></p>
 
 같은 정면 앵커에서 만든 네 방향 전신 참조는 방향별 어깨·팔·다리·신발의 방향을 대조하는 자료다. 이 표는 새 pose, camera, 장면의 자동 승인 범위를 넓히지 않는다.
 
@@ -62,11 +62,11 @@ P7-5.7 정면 얼굴은 전신 비례나 의상을 정하지 않고, 착장 이�
 
 ## 실행 기록과 승인 범위를 분리한다
 
-Qwen 전신 편집은 P7-5.7의 정면 얼굴, 착장·가방, OpenPose가 같은 역할을 하지 않도록 입력 역할을 실행 기록에 남긴다. prompt의 단어 수는 품질 점수가 아니라, 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
+Qwen 전신 편집은 P7-5.7의 체스트 정면 참조, 착장·가방, OpenPose가 같은 역할을 하지 않도록 입력 역할을 실행 기록에 남긴다. prompt의 단어 수는 품질 점수가 아니라, 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
 
-<details id="qwen-reference-pilot" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_reference_pilot.py" data-language="python">
-<summary>Qwen 전신 참조 후보 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">P7-5.7 정면 얼굴을 identity 입력으로, 착장·OpenPose를 별도 역할로 사용합니다.</div>
+<details id="qwen-fullbody-reference" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_fullbody_reference.py" data-language="python">
+<summary>Qwen 전신 참조 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">P7-5.7 체스트 정면 참조를 identity·헤어·목·어깨 연결 입력으로, 착장·OpenPose를 별도 역할로 사용합니다.</div>
 </details>
 
 <details id="qwen-front-outfit-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_generate_outfit_front_reference.py" data-language="python">

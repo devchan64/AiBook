@@ -1,0 +1,11 @@
+flowchart TD
+    A["정면 얼굴 기준 생성<br/>identity·헤어·화풍"] --> B["체스트 참조 생성<br/>얼굴·어깨·상반신"]
+    B --> C{"이번에 바꿀 축"}
+    C --> D["yaw만 적용<br/>pitch 0°"]
+    C --> E["pitch만 적용<br/>yaw 0°"]
+    E --> F["high/low 체스트를<br/>새 입력으로 선택"]
+    F --> G["yaw ±45° 적용"]
+    D --> H["result JSON 기록"]
+    G --> H
+    H --> I["네 축 비교<br/>방향·identity·연결·화풍"]
+    I --> J["다음 장면과 가까운<br/>체스트 참조 선택"]

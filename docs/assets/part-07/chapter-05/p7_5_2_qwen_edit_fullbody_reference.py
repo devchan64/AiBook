@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Create review-only Qwen Edit candidates for the P7-5.2 front anchors.
+"""Generate Qwen Edit full-body references for P7-5.2.
 
-Approved P7-5.2 reference PNGs remain immutable during this pilot. This script
-writes a separate candidate PNG and run record; it never changes a stable
-reference, manifest, or approval status.
+Each run writes a separately named PNG and result record; existing reference
+assets are never overwritten.
 """
 
 from __future__ import annotations
@@ -35,7 +34,13 @@ TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen
 # chapter asset root rather than creating a directory per experiment.
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
-QWEN_FACE_REFERENCE = "p7-5-7-face-front-qwen-reference.png"
+# P7-5.7 produces the face-and-upper-torso reference before P7-5.2 uses it
+# for full-body generation.  Keeping the shoulders and upper torso in this
+# input gives the body editor a clearer neck-to-shoulder connection than a
+# face-only crop.
+QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
+HAND_ON_WAIST_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
+HAND_ON_WAIST_OPENPOSE_PREFIX = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0"
 HAIR_VOLUME_RULE = (
     "Preserve a high-volume crown and a wide rounded jaw-length bob silhouette: medium-density petrol-teal hair, "
     "large loose S-waves, pronounced inward C-curls at both ends, and tapered side locks that stay visibly wider than the neck."
@@ -59,7 +64,7 @@ TARGETS = {
     "fullbody_front_jacket_bag": {
         "inputs": (
             QWEN_FACE_REFERENCE,
-            "p7-5-2-openpose-fullbody-front-body-only-approved-guide.png",
+            HAND_ON_WAIST_OPENPOSE,
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -67,16 +72,16 @@ TARGETS = {
         "size": (960, 1440),
         "prompt": (
             "Image 1: preserve the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and "
-            "high-volume petrol-teal bob. Image 2: body-only OpenPose for a centered strict-front standing full body; do not render it. "
+            "high-volume petrol-teal bob. Image 2: body-only OpenPose for a centered strict-front full body with the image-right hand on the waist; do not render it. "
             "Preserve an ultra-short white cropped utility jacket, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, "
-            "white low-top sneakers, and a navy crossbody bag from right shoulder to left hip. Hair crown to shoe soles, relaxed arms, compact neck, "
+            "white low-top sneakers, and a navy crossbody bag from right shoulder to left hip. Hair crown to shoe soles, image-right elbow angled outward, image-left arm relaxed, compact neck, "
             "natural seven-head proportion, off-white background, one person, no text."
         ),
     },
     "fullbody_front_seven_head_skeleton": {
         "inputs": (
             QWEN_FACE_REFERENCE,
-            "p7-5-2-openpose-turnaround-body-only-pitch0-v1/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+            HAND_ON_WAIST_OPENPOSE,
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -84,8 +89,8 @@ TARGETS = {
         "size": (960, 1440),
         "prompt": (
             "Image 1: preserve the young East Asian woman's compact oval face, high straight nose, amber irises, asymmetric fringe, and "
-            "high-volume petrol-teal bob. Image 2: use only as the centered strict-front seven-head body-only OpenPose structural map; do not render it. "
-            "Create a full body from hair crown to white sneaker soles, with relaxed arms and natural compact neck. Preserve an ultra-short white cropped "
+            "high-volume petrol-teal bob. Image 2: use only as the centered strict-front seven-head body-only OpenPose structural map with the image-right hand on the waist; do not render it. "
+            "Create a full body from hair crown to white sneaker soles, with the image-right elbow angled outward, the image-left arm relaxed, and a natural compact neck. Preserve an ultra-short white cropped "
             "utility jacket with long cuffed sleeves, gray micro-crop top, bare midriff, deep-teal high-waisted wide-leg trousers, white low-top sneakers, "
             "and one navy crossbody bag from right shoulder to left hip. Plain warm off-white background, one person, no text, panel, collage, or scene."
         ),
@@ -94,7 +99,7 @@ TARGETS = {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+            HAND_ON_WAIST_OPENPOSE,
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -102,14 +107,14 @@ TARGETS = {
         "size": (960, 1440),
         "prompt": (
             "Image 1 is face and hair. Image 2 is outfit and bag. Image 3 is pose only; do not render its skeleton. "
-            "One full-body young East Asian woman, strict front, hair crown to shoe soles, plain warm off-white background."
+            "One full-body young East Asian woman, strict front, hair crown to shoe soles, with the image-right hand on the waist and elbow angled outward, plain warm off-white background."
         ),
     },
     "fullbody_front_outfit_only_candidate_skeleton": {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-five-yaw-pitch0-fov30-5-v2/p7-5-2-openpose-relation-yaw+00_pitch+00.png",
+            HAND_ON_WAIST_OPENPOSE,
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -117,14 +122,14 @@ TARGETS = {
         "size": (960, 1440),
         "prompt": (
             "Image 1 is face and hair. Image 2 is outfit and bag. Image 3 is pose only; do not render its skeleton. "
-            "One full-body young East Asian woman, strict front, hair crown to shoe soles, plain warm off-white background."
+            "One full-body young East Asian woman, strict front, hair crown to shoe soles, with the image-right hand on the waist and elbow angled outward, plain warm off-white background."
         ),
     },
     "fullbody_profile_left_seven_head_qwen_outfit_skeleton": {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-turnaround-body-only-pitch0-v1/p7-5-2-openpose-relation-yaw-90_pitch+00.png",
+            f"{HAND_ON_WAIST_OPENPOSE_PREFIX}-yaw-90_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -163,7 +168,7 @@ TARGETS = {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-turnaround-body-only-perspective-face-anchor-quarter-left-v2/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
+            f"{HAND_ON_WAIST_OPENPOSE_PREFIX}-yaw-45_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -204,7 +209,7 @@ TARGETS = {
         "inputs": (
             QWEN_FACE_REFERENCE,
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-turnaround-raised-arm-quarter-left-v2/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
+            f"{HAND_ON_WAIST_OPENPOSE_PREFIX}-yaw-45_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -251,7 +256,7 @@ TARGETS = {
     "fullbody_quarter_left_approved_front_openpose": {
         "inputs": (
             "p7-5-2-fullbody-front-qwen-approved-outfit-reference.png",
-            "p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw-45_pitch+00.png",
+            f"{HAND_ON_WAIST_OPENPOSE_PREFIX}-yaw-45_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -271,7 +276,7 @@ TARGETS = {
     "fullbody_front_quarter_left_qwen": {
         "inputs": (
             "p7-5-2-fullbody-front-qwen-jacket-bag-reference.png",
-            "p7-5-2-openpose-fullbody-quarter-left-45deg-approved-guide.png",
+            f"{HAND_ON_WAIST_OPENPOSE_PREFIX}-yaw-45_pitch+00.png",
         ),
         "size": (960, 1440),
         "prompt": (
@@ -289,7 +294,7 @@ TARGETS = {
     "fullbody_profile_left_qwen": {
         "inputs": (
             QWEN_FACE_REFERENCE,
-            "p7-5-2-openpose-fullbody-profile-left-90deg-approved-guide.png",
+            f"{HAND_ON_WAIST_OPENPOSE_PREFIX}-yaw-90_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -315,7 +320,7 @@ def approved_front_direction_target(yaw: int, direction: str, geometry: str) -> 
     return {
         "inputs": (
             "p7-5-2-fullbody-front-qwen-approved-outfit-reference.png",
-            f"p7-5-2-openpose-five-yaw-pitch0-fov30-frame-up-v1/p7-5-2-openpose-relation-yaw{yaw:+03d}_pitch+00.png",
+            f"{HAND_ON_WAIST_OPENPOSE_PREFIX}-yaw{yaw:+03d}_pitch+00.png",
         ),
         "append_style_prompt": False,
         "append_illustration_prompt": True,
@@ -468,7 +473,7 @@ def main() -> None:
     result = pipeline(**generation).images[0]
     result.save(output)
     record = {
-        "status": "review_required",
+        "status": "generated",
         "experiment_id": f"p7-5-2-qwen-edit-{args.target}",
         "model": MODEL_ID,
         "transformer": TRANSFORMER_ID,
@@ -522,7 +527,7 @@ def main() -> None:
         "prompt_word_count": len(prompt.split()),
         "output": asset_record(output),
         "elapsed_seconds": round(time.monotonic() - started, 2),
-        "decision": "Candidate only; do not replace a stable P7-5.2 reference before human review.",
+        "decision": "Generated full-body reference; compare its pose, identity, outfit, and framing with the stated input roles.",
     }
     result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(output), "result_record": str(result_record)}, ensure_ascii=False))
