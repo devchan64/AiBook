@@ -1,0 +1,62 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-2-qwen-outfit-front_full_length",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "identity_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-identity-contract.json",
+    "sha256": "8cb07881c8069ef558a17cb61d6efe633507f62ec1d3b3ce398da136abe06947"
+  },
+  "style_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-style-prompt-contract.json",
+    "sha256": "d9d65da60a677ec9d6d396ccc43a4103cb1764f61b6b3d67bc4515a6f1867885"
+  },
+  "illustration_prompt_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-illustration-prompt-contract.json",
+    "sha256": "ed17491213f4c7ddd14ddb46df3637b573a654131f71faa2e60a22b6aafea01d"
+  },
+  "prompt_contracts_applied": {
+    "watercolor_style": false,
+    "illustration": true
+  },
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-face-front-qwen-reference.png",
+      "sha256": "29942b63aa055ce22652f6757656e79b4cb06c8221f6511466d42261f94b2ea1"
+    }
+  ],
+  "input_roles": [
+    "frontal_head_identity_and_hair"
+  ],
+  "target": "front_full_length",
+  "seed": 62294,
+  "steps": 30,
+  "size": [
+    960,
+    1440
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": "duplicate bag, second strap, crossed straps, X-shaped straps, backpack, rolled sleeves, pushed-up sleeves, three-quarter sleeves, short sleeves, exposed wrists, vest pockets, text, panel, collage",
+  "prompt": "Clean character illustration, not a photograph; dark outlines and solid colors. Image 1 is face identity and hair only; preserve the compact oval face, amber irises, asymmetric fringe, and petrol-teal jaw-length bob. Create one upright strict-front full-length adult woman with a fitted feminine silhouette. She wears an open-front white bolero jacket: a very short chest-length jacket with a standing neck collar, front panels ending immediately below the bust, and smooth long sleeves extending past the wrist bones to the heels of the hands. Under it is a plain charcoal-gray sleeveless underbust crop vest with no pockets. Leave the waist and navel visible above deep-teal high-waisted wide-leg trousers and white low-top sneakers. Add one compact navy crossbody bag at the wearer's outer-left hip, connected by one navy diagonal strap from the wearer's right shoulder. Plain warm off-white background.",
+  "prompt_word_count": 137,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-outfit-front_full_length-crop-line-long-sleeves-v2-seed-62294-steps-30.png",
+    "sha256": "b8a6007ddf084e08fe11cb7104da3ccb7e95c5794c10bbf93ad7e1e9de92d70f"
+  },
+  "elapsed_seconds": 397.47,
+  "decision": "Generated full-length outfit reference; compare face identity, outfit, bag, and framing with the stated input role."
+}

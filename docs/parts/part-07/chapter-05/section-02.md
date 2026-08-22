@@ -13,26 +13,26 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하고, P7-5.4는 그 컷�
 
 | 자산 | 고정하는 정보 | 현재 상태 |
 | --- | --- | --- |
-| P7-5.7 체스트 정면 참조 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영, 목·어깨 연결 | P7-5.7 생성 결과 |
-| 착장·가방 | 짧은 흰 재킷, 회색 이너, 와이드 팬츠, 흰 운동화, 크로스백 | 사람 승인 |
-| 정면 전신 | 전신 비례와 프레이밍 | 사람 승인 |
+| P7-5.7 정면 머리 참조 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영 | P7-5.7 생성 결과 |
+| 착장·가방 | 목카라 흰 볼레로 재킷, 회색 언더버스트 이너, 와이드 팬츠, 흰 운동화, 단일 크로스백 | 960×1440, 30-step 생성 결과 |
+| 정면 전신 | 머리 identity·착장·허리 손 전신 구조를 결합한 전신 비례와 프레이밍 | 960×1440, 30-step 기준 결과 |
 | body-only OpenPose | 전신 관절과 방향 구조 | 사람 승인 |
 
-P7-5.7 체스트 정면 참조는 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. P7-5.2의 전신 생성기는 이 체스트 참조를 identity·헤어·목·어깨 연결 입력으로 사용한다. 전신과 OpenPose는 인물의 몸 크기·방향·crop을 대조하는 자료일 뿐, 작은 얼굴 영역을 새 얼굴 identity 입력으로 복사하지 않는다.
+P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. P7-5.2의 전신 생성기는 이 머리 참조를 identity·헤어 입력으로 사용한다. 몸의 크기·방향·crop은 전신과 OpenPose가 맡으며, 정면 머리 참조는 목·어깨·의상을 결정하지 않는다.
 
 ## 착장과 전신 구조를 따로 본다
 
-착장 기준은 얼굴 없는 의상·가방 정보만 전달한다. 흰 초단 크롭 재킷, 회색 이너 탑, 맨살 띠, 딥틸 하이웨이스트 와이드 팬츠, 흰 스니커즈, 남색 크로스백과 스트랩을 함께 확인한다. 따라서 이 이미지를 전신 생성에 쓰더라도 머리 크기나 얼굴을 따라 하면 안 된다.
+착장 기준은 P7-5.7 정면 머리 입력으로 identity·헤어만 맞춘 전신 길이 이미지다. 목카라 흰 볼레로 재킷과 회색 언더버스트 이너는 가슴 바로 아래에서 끝나 허리·배꼽을 드러내며, 딥틸 하이웨이스트 와이드 팬츠, 흰 스니커즈, 남색 크로스백 하나와 대각선 스트랩 하나를 함께 확인한다. 이 이미지를 전신 생성에 쓰더라도 머리 크기나 얼굴을 전신 비례 기준으로 삼으면 안 된다.
 
-| 승인된 Qwen 착장·가방 | 실행·검수 기록 |
+| Qwen 착장·가방 기준 | 실행 기록 |
 | --- | --- |
-| ![승인된 Qwen 착장·가방](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-jacket-bag-reference-result.json" data-language="json">result.json</a> |
+| ![Qwen 착장·가방 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-outfit-front_full_length-crop-line-long-sleeves-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-outfit-front_full_length-crop-line-long-sleeves-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
 
-승인된 정면 전신 이미지는 착장 기준과 body-only OpenPose를 결합했을 때의 전신 비례·프레이밍 대조물이다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다. 얼굴의 세부 identity는 P7-5.7 정면 얼굴을 별도로 참조하며, 회전 결과도 따로 사람 검수를 거쳐야 한다.
+960×1440, 30-step 정면 전신은 P7-5.7 정면 머리 참조로 얼굴 identity·헤어를, 착장 참조로 재킷·가방·바지·신발을, body-only OpenPose로 오른손 허리 포즈와 전신 프레이밍을 각각 맡긴 기준 결과다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다.
 
-| 승인된 Qwen 정면 전신 | 실행 기록 |
+| 960×1440, 30-step Qwen 정면 전신 기준 | 실행 기록 |
 | --- | --- |
-| ![승인된 Qwen 정면 전신](../../../assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-approved-outfit-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-front-qwen-approved-outfit-reference-result.json" data-language="json">result.json</a> |
+| ![960×1440, 30-step Qwen 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-fullbody_front_seven_head_qwen_outfit_skeleton-head-front-reference-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-fullbody_front_seven_head_qwen_outfit_skeleton-head-front-reference-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
 
 ## OpenPose는 전신 구조만 맡는다
 
@@ -62,16 +62,16 @@ P7-5.7 체스트 정면 참조는 전신 비례나 의상을 정하지 않고, �
 
 ## 실행 기록과 승인 범위를 분리한다
 
-Qwen 전신 편집은 P7-5.7의 체스트 정면 참조, 착장·가방, OpenPose가 같은 역할을 하지 않도록 입력 역할을 실행 기록에 남긴다. prompt의 단어 수는 품질 점수가 아니라, 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
+Qwen 전신 편집은 P7-5.7의 정면 머리 참조, 착장·가방, OpenPose가 같은 역할을 하지 않도록 입력 역할을 실행 기록에 남긴다. prompt의 단어 수는 품질 점수가 아니라, 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
 
 <details id="qwen-fullbody-reference" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_fullbody_reference.py" data-language="python">
 <summary>Qwen 전신 참조 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">P7-5.7 체스트 정면 참조를 identity·헤어·목·어깨 연결 입력으로, 착장·OpenPose를 별도 역할로 사용합니다.</div>
+<div class="aibook-lazy-source__body">P7-5.7 정면 머리 참조를 identity·헤어 입력으로, 착장·OpenPose를 별도 역할로 사용합니다.</div>
 </details>
 
 <details id="qwen-front-outfit-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_generate_outfit_front_reference.py" data-language="python">
 <summary>Qwen 정면 착장 후보 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">이미지 입력 없이 정면 착장·가방 후보만 생성합니다.</div>
+<div class="aibook-lazy-source__body">P7-5.7 정면 머리를 identity·헤어 입력으로 사용해 정면 착장·가방 기준을 생성합니다.</div>
 </details>
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json" data-language="json">Qwen 전환·검수 계획</a></p>

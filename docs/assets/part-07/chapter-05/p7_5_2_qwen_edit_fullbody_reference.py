@@ -33,11 +33,9 @@ TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen
 # chapter asset root rather than creating a directory per experiment.
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
-# P7-5.7 produces the face-and-upper-torso reference before P7-5.2 uses it
-# for full-body generation.  Keeping the shoulders and upper torso in this
-# input gives the body editor a clearer neck-to-shoulder connection than a
-# face-only crop.
-QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
+# P7-5.2 uses P7-5.7's frontal head reference only for face identity and hair.
+# Body proportion, neck/shoulders, clothing, and pose remain separate inputs.
+QWEN_FACE_REFERENCE = "p7-5-7-face-front-qwen-reference.png"
 HAND_ON_WAIST_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
 HAND_ON_WAIST_OPENPOSE_PREFIX = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0"
 HAIR_VOLUME_RULE = (
@@ -394,6 +392,18 @@ def load_pipeline() -> QwenImageEditPlusPipeline:
     return pipe
 
 
+def parse_size(value: str) -> tuple[int, int]:
+    """Parse one generation-only WIDTHxHEIGHT override."""
+    try:
+        width_text, height_text = value.lower().split("x", maxsplit=1)
+        width, height = int(width_text), int(height_text)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("--size must use WIDTHxHEIGHT, for example 1152x1728") from error
+    if width < 16 or height < 16 or width % 16 or height % 16:
+        raise argparse.ArgumentTypeError("--size values must be positive multiples of 16")
+    return width, height
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", choices=tuple(TARGETS), help="One target to generate.")
@@ -405,6 +415,7 @@ def main() -> None:
     )
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=None, help="Denoising steps; defaults to the target's configured value.")
+    parser.add_argument("--size", type=parse_size, help="One-run output override as WIDTHxHEIGHT; does not change a target default.")
     parser.add_argument("--run-label", default="v2-natural-eyes", help="Suffix that separates controlled reruns.")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     args = parser.parse_args()
@@ -442,7 +453,7 @@ def main() -> None:
     if not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
         raise FileNotFoundError("missing P7-5.7 identity, style, or illustration contract")
     style_prompt = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["portrait_style_prompt"]
-    illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["illustration_prompt"]
+    illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["front_face_illustration_prompt"]
     prompt_parts = []
     if target.get("append_style_prompt", True):
         prompt_parts.append(style_prompt)
@@ -451,7 +462,7 @@ def main() -> None:
     prompt_parts.append(target["prompt"])
     prompt = " ".join(prompt_parts)
 
-    width, height = target["size"]
+    width, height = args.size or target["size"]
     stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{steps}"
     output = args.output_dir / f"{stem}.png"
     result_record = args.output_dir / f"{stem}-result.json"
