@@ -14,19 +14,36 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하고, P7-5.4는 그 컷�
 | 자산 | 고정하는 정보 | 현재 상태 |
 | --- | --- | --- |
 | P7-5.7 정면 머리 참조 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영 | P7-5.7 생성 결과 |
-| 착장·가방 | 목카라 흰 볼레로 재킷, 회색 언더버스트 이너, 와이드 팬츠, 흰 운동화, 단일 크로스백 | 960×1440, 30-step 생성 결과 |
-| 정면 전신 | 머리 identity·착장·허리 손 전신 구조를 결합한 전신 비례와 프레이밍 | 960×1440, 30-step 기준 결과 |
+| 1단계 착장·전신 | 정면 머리 identity, 크롭탑, 여성용 와이드 팬츠, 흰 운동화, 정면 포즈 | 960×1440, 30-step 생성 결과 |
+| 2단계 전신 | 1단계 결과에 열린 흰 크롭 자켓과 손을 더한 착장 기준 | 960×1440, 30-step 생성 결과 |
+| 3단계 전신 | 2단계 결과에 단일 남색 여성용 숄더백을 더한 착장 기준 | 960×1440, 30-step 생성 결과 |
 | body-only OpenPose | 전신 관절과 방향 구조 | 사람 승인 |
 
 P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. P7-5.2의 전신 생성기는 이 머리 참조를 identity·헤어 입력으로 사용한다. 몸의 크기·방향·crop은 전신과 OpenPose가 맡으며, 정면 머리 참조는 목·어깨·의상을 결정하지 않는다.
 
-## 착장과 전신 구조를 따로 본다
+## 1단계에서 얼굴·포즈·기본 착장을 결합한다
 
-착장 기준은 P7-5.7 정면 머리 입력으로 identity·헤어만 맞춘 전신 길이 이미지다. 목카라 흰 볼레로 재킷과 회색 언더버스트 이너는 가슴 바로 아래에서 끝나 허리·배꼽을 드러내며, 딥틸 하이웨이스트 와이드 팬츠, 흰 스니커즈, 남색 크로스백 하나와 대각선 스트랩 하나를 함께 확인한다. 이 이미지를 전신 생성에 쓰더라도 머리 크기나 얼굴을 전신 비례 기준으로 삼으면 안 된다.
+1단계는 P7-5.7의 1024×1024 정면 머리 참조와 정면 body-only OpenPose를 입력으로 사용한다. 머리 참조는 얼굴·헤어만, OpenPose는 정면 전신 구조만 맡는다. 생성 결과에는 가슴 바로 아래에서 끝나는 회색 슬림 크롭탑, 딥틸 하이웨이스트 여성용 와이드 8부 팬츠, 흰 스니커즈만 넣는다. 자켓·가방·스트랩은 1단계에서 만들지 않으며, 2단계는 이 결과를 착장 보정의 입력으로 사용한다.
 
-| Qwen 착장·가방 기준 | 실행 기록 |
+| 1단계 Qwen 전신 착장 기준 | 실행 기록 |
 | --- | --- |
-| ![Qwen 착장·가방 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-outfit-front_full_length-crop-line-long-sleeves-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-outfit-front_full_length-crop-line-long-sleeves-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
+| ![1단계 Qwen 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-stage1-ultrashort-croptop-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-stage1-ultrashort-croptop-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
+
+## 2단계에서 열린 자켓과 손을 더한다
+
+2단계는 1단계 전신 착장 결과와 P7-5.7의 1024×1024 정면 머리 참조만 사용한다. OpenPose는 다시 넣지 않는다. 1단계의 바지·신발·비례를 유지한 상태에서, 양쪽 어깨와 상완을 덮는 흰 크롭 자켓을 앞판이 서로 닿지 않게 열고, 소매 끝 아래에 양손이 보이게 한다. 회색 크롭티의 몸통과 맨허리 띠는 보이되, 이너 소매·가방·스트랩은 넣지 않는다.
+
+| 2단계 Qwen 전신 착장 기준 | 실행 기록 |
+| --- | --- |
+| ![2단계 Qwen 열린 자켓 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
+
+## 3단계에서 숄더백을 더한다
+
+3단계는 2단계 전신과 P7-5.7의 1024×1024 정면 머리 참조만 사용한다. 자켓·이너·손·바지·신발을 유지한 채, 한쪽 어깨 바로 아래에 짧은 스트랩의 단일 남색 여성용 언더암 숄더백을 더한다. 가방의 형태와 위치는 긍정 지시로만 정해, 앞선 단계의 착장 구조를 반복하거나 반대 조건을 함께 쓰지 않는다.
+
+| 3단계 Qwen 전신 착장 기준 | 실행 기록 |
+| --- | --- |
+| ![3단계 Qwen 여성용 숄더백 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
 
 960×1440, 30-step 정면 전신은 P7-5.7 정면 머리 참조로 얼굴 identity·헤어를, 착장 참조로 재킷·가방·바지·신발을, body-only OpenPose로 오른손 허리 포즈와 전신 프레이밍을 각각 맡긴 기준 결과다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다.
 

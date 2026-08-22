@@ -44,6 +44,52 @@ HAIR_VOLUME_RULE = (
 )
 
 TARGETS = {
+    "outfit_stage1_face_openpose": {
+        "inputs": (QWEN_FACE_REFERENCE, HAND_ON_WAIST_OPENPOSE),
+        "input_roles": ["frontal_head_identity_hair_1024", "standard_openpose_fullbody_structure"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Photorealistic front full-body woman. Image 1: exact face and hair identity. Image 2: strict-front skeleton; do not render it. "
+            "Wear only a slim charcoal-gray micro crop T-shirt whose hem ends immediately below the bust, leaving a wide bare midriff above deep-teal high-waisted feminine wide-leg eight-tenths trousers, and white low-top sneakers. "
+            "No jacket, bag, or strap. Warm off-white background."
+        ),
+    },
+    "outfit_stage2_jacket_face": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-stage1-ultrashort-croptop-v2-seed-62294-steps-30.png",
+            QWEN_FACE_REFERENCE,
+        ),
+        "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1024"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1: retain the stage-1 crop top, wide trousers, sneakers, and proportions. "
+            "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves, bag, or strap. Warm off-white background."
+        ),
+    },
+    "outfit_stage3_shoulder_bag_face": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png",
+            QWEN_FACE_REFERENCE,
+        ),
+        "input_roles": ["stage_2_open_jacket_fullbody", "frontal_head_identity_hair_1024"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1: retain the exact outfit, open jacket, hands, proportions, and pose. "
+            "Image 2: retain face and hair. Add one small navy feminine underarm shoulder bag directly below one shoulder; its short strap stays on that shoulder. Warm off-white background."
+        ),
+    },
     "fullbody_front_head_outfit_openpose": {
         # P7-5.2: the 1024px dedicated frontal head reference owns face and hair.
         # Keep this prompt reference-led; do not add increasingly specific hair-shape text.
@@ -59,8 +105,8 @@ TARGETS = {
         "size": (960, 1440),
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
-            "Clean character illustration. Image 1: face and hair reference. Image 2: exact outfit and bag. "
-            "Image 3: strict-front pose, image-right hand on waist; do not render the map. One upright full body, crown to soles, off-white background."
+            "Illustration. Image 1: face and hair. Image 2: exact outfit and bag. "
+            "Image 3: front pose, image-right hand on waist; do not render. Adult woman, full body, off-white background."
         ),
     },
     "fullbody_front_refined": {
