@@ -23,7 +23,7 @@ STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-QWEN_FACE_REFERENCE = "p7-5-7-face-front-qwen-reference.png"
+QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
 # Candidate filenames identify their generator and run; do not create a
 # separate candidate directory.
 OUTPUT_DIR = ASSETS

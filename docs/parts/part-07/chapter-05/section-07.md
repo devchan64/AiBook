@@ -11,7 +11,7 @@
 
 | Qwen 정면 얼굴 기준 | 실행 기록 |
 | --- | --- |
-| ![Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-7-face-front-qwen-reference.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-face-front-qwen-reference-result.json" data-language="json">result.json</a> |
+| ![Qwen 정면 얼굴 기준](../../../assets/part-07/chapter-05/p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024-result.json" data-language="json">result.json</a> |
 
 정면 얼굴 생성의 기본값은 이 기준 이미지와 같은 10 step이다. 카메라 앵글 생성의 step 수까지 이 값으로 고정하지 않는다.
 

@@ -24,7 +24,6 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
-PLAN = ASSETS / "p7-5-2-qwen-edit-transition-plan.json"
 IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
@@ -34,7 +33,7 @@ TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunc
 # output directory.
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 10
-SIZE = (768, 768)
+SIZE = (1024, 1024)
 FRAMING_PROMPTS = {
     "head": (
         "Strict frontal head-and-neck studio reference of one young East Asian woman in her early twenties, complete hair crown visible with clear "
@@ -113,7 +112,7 @@ def main() -> None:
         default=SIZE[0],
         help="Square output size in pixels; use a smaller value only when GPU memory prevents generation.",
     )
-    parser.add_argument("--run-label", default="front-head")
+    parser.add_argument("--run-label", default="front-1024-reference-v1")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     args = parser.parse_args()
     if args.steps < 1:
@@ -122,7 +121,7 @@ def main() -> None:
         raise ValueError("--size must be at least 256 and divisible by 16")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
-    if missing := [path for path in (PLAN, IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT) if not path.is_file()]:
+    if missing := [path for path in (IDENTITY_CONTRACT, STYLE_CONTRACT, ILLUSTRATION_CONTRACT) if not path.is_file()]:
         raise FileNotFoundError("missing P7-5.7 face contract: " + ", ".join(map(str, missing)))
 
     illustration_contract = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))
@@ -153,7 +152,6 @@ def main() -> None:
         "model": MODEL_ID,
         "transformer": TRANSFORMER_ID,
         "runtime": runtime_record(),
-        "transition_plan": asset_record(PLAN),
         "identity_contract": asset_record(IDENTITY_CONTRACT),
         "style_prompt_contract": asset_record(STYLE_CONTRACT),
         "illustration_prompt_contract": asset_record(ILLUSTRATION_CONTRACT),

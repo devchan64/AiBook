@@ -35,7 +35,7 @@ OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
 # P7-5.2 uses P7-5.7's frontal head reference only for face identity and hair.
 # Body proportion, neck/shoulders, clothing, and pose remain separate inputs.
-QWEN_FACE_REFERENCE = "p7-5-7-face-front-qwen-reference.png"
+QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
 HAND_ON_WAIST_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
 HAND_ON_WAIST_OPENPOSE_PREFIX = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0"
 HAIR_VOLUME_RULE = (
@@ -44,6 +44,25 @@ HAIR_VOLUME_RULE = (
 )
 
 TARGETS = {
+    "fullbody_front_head_outfit_openpose": {
+        # P7-5.2: the 1024px dedicated frontal head reference owns face and hair.
+        # Keep this prompt reference-led; do not add increasingly specific hair-shape text.
+        "inputs": (
+            QWEN_FACE_REFERENCE,
+            "p7-5-2-qwen-outfit-front_full_length-crop-line-long-sleeves-v2-seed-62294-steps-30.png",
+            HAND_ON_WAIST_OPENPOSE,
+        ),
+        "input_roles": ["frontal_head_identity_hair_1024", "complete_outfit_bag", "standard_openpose_fullbody_structure"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": True,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Clean character illustration. Image 1: face and hair reference. Image 2: exact outfit and bag. "
+            "Image 3: strict-front pose, image-right hand on waist; do not render the map. One upright full body, crown to soles, off-white background."
+        ),
+    },
     "fullbody_front_refined": {
         "inputs": (
             "p7-5-2-fullbody-front-refined-reference.png",
@@ -531,7 +550,7 @@ def main() -> None:
         "size": [width, height],
         "true_cfg_scale": 4.0,
         "guidance_scale": 1.0,
-        "negative_prompt": " ",
+        "negative_prompt": generation["negative_prompt"],
         "prompt": prompt,
         "prompt_word_count": len(prompt.split()),
         "output": asset_record(output),
