@@ -81,9 +81,9 @@ LoRA는 기반 모델 전체를 다시 저장한 독립 모델이 아니라, 일
 
 | 하이앵글 | 로우앵글 |
 | --- | --- |
-| ![체스트 기준 하이앵글 결과](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-high-angle-chest-reference-v1-seed-62294-steps-8.png) | ![체스트 기준 로우앵글 결과](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-low-angle-chest-reference-v1-seed-62294-steps-8.png) |
+| ![체스트 정면 기준 하이앵글 결과](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-high-angle-front-pitch-v6-seed-62294-steps-8.png) | ![체스트 정면 기준 로우앵글 결과](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-low-angle-front-pitch-v6-seed-62294-steps-8.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-high-angle-chest-reference-v1-seed-62294-steps-8-result.json" data-language="json">하이앵글 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-low-angle-chest-reference-v1-seed-62294-steps-8-result.json" data-language="json">로우앵글 result.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-high-angle-front-pitch-v6-seed-62294-steps-8-result.json" data-language="json">하이앵글 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-low-angle-front-pitch-v6-seed-62294-steps-8-result.json" data-language="json">로우앵글 result.json</a></p>
 
 ### 3.3 pitch 결과를 새 입력으로 두고 yaw 적용하기
 
@@ -91,13 +91,13 @@ pitch와 yaw를 한 prompt에 결합하지 않는다. 먼저 만든 high/low 체
 
 | 하이앵글 체스트 → 좌측 쿼터 `yaw −45°` | 하이앵글 체스트 → 우측 쿼터 `yaw +45°` |
 | --- | --- |
-| ![하이앵글 체스트 기준 좌측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-chest-high-angle-yaw-v2-seed-62294-steps-8.png) | ![하이앵글 체스트 기준 우측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-chest-high-angle-yaw-v2-seed-62294-steps-8.png) |
+| ![하이앵글 정면 기준 좌측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-high-angle-front-v6-yaw-v3-seed-62294-steps-8.png) | ![하이앵글 정면 기준 우측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-high-angle-front-v6-yaw-v3-seed-62294-steps-8.png) |
 
 | 로우앵글 체스트 → 좌측 쿼터 `yaw −45°` | 로우앵글 체스트 → 우측 쿼터 `yaw +45°` |
 | --- | --- |
-| ![로우앵글 체스트 기준 좌측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-chest-low-angle-yaw-v2-seed-62294-steps-8.png) | ![로우앵글 체스트 기준 우측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-chest-low-angle-yaw-v2-seed-62294-steps-8.png) |
+| ![로우앵글 정면 기준 좌측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-low-angle-front-v6-yaw-v3-seed-62294-steps-8.png) | ![로우앵글 정면 기준 우측 쿼터](../../../assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-low-angle-front-v6-yaw-v3-seed-62294-steps-8.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-chest-high-angle-yaw-v2-seed-62294-steps-8-result.json" data-language="json">하이앵글 좌측 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-chest-high-angle-yaw-v2-seed-62294-steps-8-result.json" data-language="json">하이앵글 우측 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-chest-low-angle-yaw-v2-seed-62294-steps-8-result.json" data-language="json">로우앵글 좌측 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-chest-low-angle-yaw-v2-seed-62294-steps-8-result.json" data-language="json">로우앵글 우측 쿼터 result.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-high-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json" data-language="json">하이앵글 좌측 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-high-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json" data-language="json">하이앵글 우측 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-low-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json" data-language="json">로우앵글 좌측 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-low-angle-front-v6-yaw-v3-seed-62294-steps-8-result.json" data-language="json">로우앵글 우측 쿼터 result.json</a></p>
 
 ## 4. 출력은 네 축으로 비교한다
 

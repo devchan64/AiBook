@@ -1,0 +1,76 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-7-qwen-camera-angle-2509",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors",
+  "angle_lora": {
+    "repository": "dx8152/Qwen-Edit-2509-Multiple-angles",
+    "weight": {
+      "path": "/home/cbsim/.cache/huggingface/hub/models--dx8152--Qwen-Edit-2509-Multiple-angles/snapshots/c342b0e746c3a3275af1a4a0c6ae78e0e4802531/镜头转换.safetensors",
+      "sha256": "e0cea9508025a39e41f50da0e7d10fbd9db182d057c745136a42ef8829914c8f"
+    }
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0",
+      "peft": "0.18.1"
+    },
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-low-angle-front-pitch-v6-seed-62294-steps-8.png",
+      "sha256": "188cfc93092a26d6bbb1958981fe38619d2a611deb5ce621925b01c5e120633b"
+    }
+  ],
+  "input_roles": [
+    "reference_identity_and_illustration"
+  ],
+  "openpose_used": false,
+  "camera_transform_owner": "dx8152 multiple-angle LoRA",
+  "camera_prompt_source": "https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles",
+  "angle_lora_applied_modules": 360,
+  "angle_lora_strength": 1.0,
+  "axis": "yaw",
+  "axis_value": "quarter_right",
+  "yaw_degrees": 45,
+  "prompt_language": "chinese",
+  "sequence": {
+    "index": 2,
+    "total": 2,
+    "axis": "yaw",
+    "values": [
+      "quarter_left",
+      "quarter_right"
+    ]
+  },
+  "seed": 62294,
+  "steps": 8,
+  "size": [
+    1024,
+    1024
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": " ",
+  "prompt": "将镜头向右旋转45度。",
+  "prompt_components": {
+    "yaw": "将镜头向右旋转45度。",
+    "pitch": "",
+    "translation": "",
+    "lens": ""
+  },
+  "prompt_word_count": 1,
+  "prompt_character_count": 11,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-low-angle-front-v6-yaw-v3-seed-62294-steps-8.png",
+    "sha256": "f11086edb8c0b3824e51fa4a867a5c49e1ba194d9ac99c2cecc9bbfcbb80cd4c"
+  },
+  "elapsed_seconds": 73.42
+}
