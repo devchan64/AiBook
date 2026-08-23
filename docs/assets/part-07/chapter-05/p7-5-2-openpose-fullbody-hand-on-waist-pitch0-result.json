@@ -54,7 +54,7 @@
     "quarter_right",
     "profile_right"
   ],
-  "output_range": "pitch0",
+  "output_range": "custom",
   "openpose": {
     "body": "BODY_18",
     "visible_body_indices": [
@@ -82,7 +82,6 @@
     "face70_to_fixed_body18_blend_strength": null,
     "hands_included": false
   },
-  "contact_sheet": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-contact-sheet.png",
   "views": [
     {
       "grid_position": {

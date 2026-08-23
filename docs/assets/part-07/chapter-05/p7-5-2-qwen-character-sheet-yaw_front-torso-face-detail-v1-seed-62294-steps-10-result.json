@@ -1,0 +1,98 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-2-qwen-character-sheet-turnaround",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "target": "yaw_front",
+  "run_label": "torso-face-detail-v1",
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png",
+      "sha256": "078606d7fd2b6d721d6d37beb5e93eca3b562d67d377c93cc04ad04e7a2abf76"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30.png",
+      "sha256": "ce37b7f7f6bb0ae620b5e2ea8a5a3c666b058bd3d80c8a157f3df8a0fb4247ae"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
+      "sha256": "05b0c44fb2f7c4859057dd457e0de97f845534ecd27e7b6551b1576f41e89f69"
+    }
+  ],
+  "input_roles": [
+    "front_fullbody_openpose",
+    "complete_front_outfit",
+    "front_torso_face_detail"
+  ],
+  "camera_reference_library": {
+    "pitch_high": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-high-angle-chest-reference-v1-seed-62294-steps-8.png",
+      "sha256": "358e268d4ffd42dc5404e334b24fe932c4e9ec75427ecce5f0194912e73dafb5"
+    },
+    "pitch_low": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-pitch-low-angle-chest-reference-v1-seed-62294-steps-8.png",
+      "sha256": "652cff5fefdd04fe9a03e085c5013ba476d83b0e64d12d6e2c7b14adef5ef299"
+    },
+    "yaw_minus_90": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-profile-left-chest-front-yaw-v1-seed-62294-steps-8.png",
+      "sha256": "c31b97f6552f1d5e92b6c734b71f3e4f20c258baccb8185b3725c909cf9a7094"
+    },
+    "yaw_minus_45": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+      "sha256": "da434480f9598079cdced2f4267e85713809ad00483ee28dc7ce45630aee2f42"
+    },
+    "yaw_plus_45": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-chest-front-yaw-v1-seed-62294-steps-8.png",
+      "sha256": "00bb3543427267016c9f7838f00b8a490eab30eb62c17446ea403158e19bf017"
+    },
+    "yaw_plus_90": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-profile-right-chest-front-yaw-v1-seed-62294-steps-8.png",
+      "sha256": "970cd5662bc6a1b35351454e0ff6bda03678c7bdaf15bf571a09cf73052bc5f9"
+    },
+    "yaw_minus_45_pitch_high": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-chest-high-angle-yaw-v2-seed-62294-steps-8.png",
+      "sha256": "37f56ed015ae9f39de8ebea9bd1ad74aa12af778256bdb3e930b4da0052a886c"
+    },
+    "yaw_minus_45_pitch_low": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-chest-low-angle-yaw-v2-seed-62294-steps-8.png",
+      "sha256": "2f832c8ff88401ab72c70492547ba41c8cb67d649d9fd7cb4efa4f879f753709"
+    },
+    "yaw_plus_45_pitch_high": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-chest-high-angle-yaw-v2-seed-62294-steps-8.png",
+      "sha256": "5f4b13e53c7282643d4a5e72293426b8f6f31f447466ca4aea592b82fce23c5f"
+    },
+    "yaw_plus_45_pitch_low": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-chest-low-angle-yaw-v2-seed-62294-steps-8.png",
+      "sha256": "5874b2cc20fec0563050b11a13aabe32c86e95ecbd0f040edb604ffe703a8f9f"
+    }
+  },
+  "seed": 62294,
+  "steps": 10,
+  "size": [
+    960,
+    1440
+  ],
+  "prompt": "Render the full body of Image 2's woman in Image 1's hand-on-waist keypoint pose with natural bent elbows. Use Image 3 for her face, hair, and upper-torso detail.",
+  "prompt_word_count": 28,
+  "true_cfg_scale": 4.0,
+  "negative_prompt": " ",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-character-sheet-yaw_front-torso-face-detail-v1-seed-62294-steps-10.png",
+    "sha256": "1d4e797433b94ab11ae141e223ed26310a51467234acdab7858cd692c4f2bf02"
+  },
+  "elapsed_seconds": 364.67,
+  "decision": "Generated one character-sheet yaw reference; compare camera direction, outfit retention, and OpenPose silhouette."
+}

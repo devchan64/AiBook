@@ -250,14 +250,12 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
         return tuple(start[i] + length * direction[i] / norm for i in range(3))
     right_upper, right_lower = distance(points[2], points[3]), distance(points[3], points[4])
     left_upper, left_lower = distance(points[5], points[6]), distance(points[6], points[7])
-    # Camera-left arm: relaxed, slightly behind the torso.
-    posed[3] = endpoint(points[2], (-0.18, -1.0, -0.18), right_upper)
-    posed[4] = endpoint(posed[3], (0.08, -1.0, -0.10), right_lower)
-    # Keep the camera-right elbow below the shoulder and nearer the torso.
-    # The former near-horizontal upper arm placed the elbow at shoulder level,
-    # which made an overly broad sleeve and an unstable wrist in Qwen Edit.
-    # This keeps the wrist just above the hip/waist line while preserving both
-    # arm-bone lengths.
+    # Camera-left elbow stays close to the torso, then the lowered hand bends
+    # outward beyond the body silhouette.  This keeps the hand visible instead
+    # of letting the shoulder bag conceal it.
+    posed[3] = endpoint(points[2], (-0.08, -1.0, -0.15), right_upper)
+    posed[4] = endpoint(posed[3], (-0.68, -0.72, -0.04), right_lower)
+    # Camera-right elbow is bent outward and its wrist rests at the waist.
     posed[6] = endpoint(points[5], (0.76, -0.58, 0.20), left_upper)
     posed[7] = endpoint(posed[6], (-0.54, -0.86, 0.08), left_lower)
 

@@ -62,7 +62,7 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
             "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves, bag, or strap. Warm off-white background."
         ),
     },
-    "outfit_stage3_shoulder_bag_face": {
+    "outfit_stage3_crossbody_bag_face": {
         "inputs": (
             "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png",
             QWEN_FACE_REFERENCE,
@@ -75,7 +75,7 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
             "Front full-body woman. Image 1: retain the exact outfit, open jacket, hands, proportions, and pose. "
-            "Image 2: retain face and hair. Add one small navy feminine underarm shoulder bag directly below one shoulder; its short strap stays on that shoulder. Warm off-white background."
+            "Image 2: retain face and hair. Add one small navy feminine crossbody bag at her left hip, with one navy strap running diagonally from her right shoulder across her chest. Warm off-white background."
         ),
     },
 }

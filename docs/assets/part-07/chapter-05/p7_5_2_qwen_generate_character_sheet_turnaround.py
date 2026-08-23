@@ -29,10 +29,15 @@ MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
-DEFAULT_SIZE = (960, 1440)
+DEFAULT_SIZE = (1024, 1536)
 TRUE_CFG_SCALE = 4.0
-STAGE3_OUTFIT = "p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30.png"
+STAGE3_OUTFIT = "p7-5-2-qwen-edit-prompt-style-outfit_stage3_crossbody_bag_face-stage3-crossbody-bag-v1-seed-62294-steps-30.png"
 OPENPOSE_PREFIX = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0"
+FRONT_TORSO_DETAIL = "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
+
+# The relation-map generator keeps the right wrist at the waist.  The lowered
+# left arm has an inward elbow and an outward wrist so its hand remains outside
+# the bag silhouette in every full-body target.
 
 # The complete supplied camera-reference library is kept explicit so pitch
 # experiments can reuse the same controlled source set without rediscovery.
@@ -40,7 +45,7 @@ CAMERA_REFERENCE_LIBRARY = {
     "pitch_high": "p7-5-7-qwen-torso-pitch-high-angle-chest-reference-v1-seed-62294-steps-8.png",
     "pitch_low": "p7-5-7-qwen-torso-pitch-low-angle-chest-reference-v1-seed-62294-steps-8.png",
     "yaw_minus_90": "p7-5-7-qwen-torso-yaw-profile-left-chest-front-yaw-v1-seed-62294-steps-8.png",
-    "yaw_minus_45": "p7-5-7-qwen-torso-yaw-quarter-left-chest-front-yaw-v1-seed-62294-steps-8.png",
+    "yaw_minus_45": "p7-5-7-qwen-torso-yaw-quarter-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
     "yaw_plus_45": "p7-5-7-qwen-torso-yaw-quarter-right-chest-front-yaw-v1-seed-62294-steps-8.png",
     "yaw_plus_90": "p7-5-7-qwen-torso-yaw-profile-right-chest-front-yaw-v1-seed-62294-steps-8.png",
     "yaw_minus_45_pitch_high": "p7-5-7-qwen-torso-yaw-quarter-left-chest-high-angle-yaw-v2-seed-62294-steps-8.png",
@@ -57,14 +62,18 @@ def openpose(yaw: int) -> str:
 def turnaround_target(yaw: int, view: str, camera_key: str | None) -> dict[str, object]:
     if yaw == 0:
         return {
-            "inputs": (openpose(0), STAGE3_OUTFIT),
-            "input_roles": ["front_fullbody_openpose", "complete_front_identity_outfit"],
-            "prompt": "Change the pose of the woman in Image 2 to match the keypoint pose in Image 1.",
+            "inputs": (openpose(0), STAGE3_OUTFIT, FRONT_TORSO_DETAIL),
+            "input_roles": ["front_fullbody_openpose", "complete_front_outfit", "front_torso_face_detail"],
+            "prompt": "Render the full body of Image 2's woman in Image 1's hand-on-waist keypoint pose with natural bent elbows. Use Image 3 for her face, hair, and upper-torso detail.",
         }
     return {
         "inputs": (CAMERA_REFERENCE_LIBRARY[camera_key], STAGE3_OUTFIT, openpose(yaw)),
         "input_roles": ["yaw_camera_head_torso", "complete_front_outfit", "yaw_fullbody_openpose"],
-        "prompt": "Change the woman in Image 2 to match Image 1's camera angle and Image 3's keypoint pose.",
+        "prompt": (
+            f"Render the full body of Image 2's woman at Image 1's {view} camera angle, "
+            "in Image 3's hand-on-waist keypoint pose with natural bent elbows, against a plain "
+            "light-gray studio background."
+        ),
     }
 
 
@@ -124,7 +133,7 @@ def parse_size(value: str) -> tuple[int, int]:
         width_text, height_text = value.lower().split("x", maxsplit=1)
         width, height = int(width_text), int(height_text)
     except ValueError as error:
-        raise argparse.ArgumentTypeError("--size must use WIDTHxHEIGHT, for example 960x1440") from error
+        raise argparse.ArgumentTypeError("--size must use WIDTHxHEIGHT, for example 1024x1536") from error
     if width < 16 or height < 16 or width % 16 or height % 16:
         raise argparse.ArgumentTypeError("--size values must be positive multiples of 16")
     return width, height

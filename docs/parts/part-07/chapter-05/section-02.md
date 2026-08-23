@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 착장·전신 참조 셋 생성: 역할과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.22`
+> Version: `v2026.08.23`
 
 장면을 만들기 전에 같은 인물의 **착장과 전신 구조**를 대조할 기준을 정한다. 이 절은 로컬 GPU에서 Qwen으로 만든 착장·전신·body-only OpenPose 자산만 다룬다. 얼굴 정면의 identity와 얼굴 회전은 [P7-5.7](section-07.md)에서 별도로 관리한다.
 
@@ -45,7 +45,7 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 | --- | --- |
 | ![3단계 Qwen 여성용 숄더백 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
 
-960×1440, 30-step 정면 전신은 P7-5.7 정면 머리 참조로 얼굴 identity·헤어를, 착장 참조로 재킷·가방·바지·신발을, body-only OpenPose로 오른손 허리 포즈와 전신 프레이밍을 각각 맡긴 기준 결과다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다.
+960×1440, 30-step 정면 전신은 P7-5.7 정면 머리 참조로 얼굴 identity·헤어를, 착장 참조로 재킷·가방·바지·신발을, body-only OpenPose로 오른손 허리 포즈와 전신 프레이밍을 각각 맡긴 기준 결과다. 왼팔은 팔꿈치를 몸통 가까이에 둔 채 손목을 몸 바깥으로 향하게 하며, 가방과 겹쳐 손이 사라지는지를 비교한다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다.
 
 | 960×1440, 30-step Qwen 정면 전신 기준 | 실행 기록 |
 | --- | --- |
@@ -53,7 +53,7 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 
 ## OpenPose는 전신 구조만 맡는다
 
-5방향 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 모든 방향은 오른손을 허리에 올리고 팔꿈치를 바깥으로 둔 같은 BODY_18 템플릿을 회전·투영한다. 따라서 정면·좌우 쿼터·좌우 측면에서 포즈의 관절 관계와 방향만 대조하며, 캐릭터 identity나 화풍을 정의하지 않는다.
+5방향 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 모든 방향은 오른손을 허리에 올리고 팔꿈치를 바깥으로 둔다. 왼팔은 팔꿈치를 몸통 쪽으로 내린 뒤 손목을 몸 바깥으로 벌린다. 두 팔은 같은 상완·전완 길이를 유지한 BODY_18 템플릿을 회전·투영한다. 따라서 정면·좌우 쿼터·좌우 측면에서 포즈의 관절 관계와 방향만 대조하며, 캐릭터 identity나 화풍을 정의하지 않는다.
 
 | 왼쪽 측면 −90° | 왼쪽 쿼터 −45° | 정면 0° | 오른쪽 쿼터 +45° | 오른쪽 측면 +90° |
 | --- | --- | --- | --- | --- |
