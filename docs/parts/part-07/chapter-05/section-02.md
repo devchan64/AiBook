@@ -81,14 +81,9 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 
 Qwen 전신 편집은 P7-5.7의 정면 머리 참조, 착장·가방, OpenPose가 같은 역할을 하지 않도록 입력 역할을 실행 기록에 남긴다. prompt의 단어 수는 품질 점수가 아니라, 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
 
-<details id="qwen-fullbody-reference" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_fullbody_reference.py" data-language="python">
-<summary>Qwen 전신 참조 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">P7-5.7 정면 머리 참조를 identity·헤어 입력으로, 착장·OpenPose를 별도 역할로 사용합니다.</div>
-</details>
-
-<details id="qwen-front-outfit-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_generate_outfit_front_reference.py" data-language="python">
-<summary>Qwen 정면 착장 후보 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">P7-5.7 정면 머리를 identity·헤어 입력으로 사용해 정면 착장·가방 기준을 생성합니다.</div>
+<details id="qwen-outfit-stages" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_outfit_stages.py" data-language="python">
+<summary>Qwen 정면 착장 1~3단계 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">Stage 1은 정면 머리·OpenPose로 이너와 하의를 만들고, Stage 2는 열린 재킷을, Stage 3은 단일 언더암 숄더백을 순차로 더합니다.</div>
 </details>
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json" data-language="json">Qwen 전환·검수 계획</a></p>

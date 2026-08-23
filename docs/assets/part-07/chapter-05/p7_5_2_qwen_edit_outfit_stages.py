@@ -1,0 +1,232 @@
+#!/usr/bin/env python3
+"""Generate the three front-facing outfit construction stages for P7-5.2."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.metadata
+import json
+import platform
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+import torch
+from diffusers import QwenImageEditPlusPipeline
+from diffusers.utils import load_image
+from nunchaku import NunchakuQwenImageTransformer2DModel
+
+
+ASSETS = Path(__file__).resolve().parent
+IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
+STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
+ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
+MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
+TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
+OUTPUT_DIR = ASSETS
+DEFAULT_STEPS = 30
+QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
+HAND_ON_WAIST_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
+
+
+OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
+    "outfit_stage1_face_openpose": {
+        "inputs": (QWEN_FACE_REFERENCE, HAND_ON_WAIST_OPENPOSE),
+        "input_roles": ["frontal_head_identity_hair_1024", "standard_openpose_fullbody_structure"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Photorealistic front full-body woman. Image 1: exact face and hair identity. Image 2: strict-front skeleton; do not render it. "
+            "Wear only a slim charcoal-gray micro crop T-shirt whose hem ends immediately below the bust, leaving a wide bare midriff above deep-teal high-waisted feminine wide-leg eight-tenths trousers, and white low-top sneakers. "
+            "No jacket, bag, or strap. Warm off-white background."
+        ),
+    },
+    "outfit_stage2_jacket_face": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-stage1-ultrashort-croptop-v2-seed-62294-steps-30.png",
+            QWEN_FACE_REFERENCE,
+        ),
+        "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1024"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1: retain the stage-1 crop top, wide trousers, sneakers, and proportions. "
+            "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves, bag, or strap. Warm off-white background."
+        ),
+    },
+    "outfit_stage3_shoulder_bag_face": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png",
+            QWEN_FACE_REFERENCE,
+        ),
+        "input_roles": ["stage_2_open_jacket_fullbody", "frontal_head_identity_hair_1024"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (960, 1440),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1: retain the exact outfit, open jacket, hands, proportions, and pose. "
+            "Image 2: retain face and hair. Add one small navy feminine underarm shoulder bag directly below one shoulder; its short strap stays on that shoulder. Warm off-white background."
+        ),
+    },
+}
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def asset_record(path: Path) -> dict[str, str]:
+    return {"path": str(path), "sha256": sha256(path)}
+
+
+def runtime_record() -> dict[str, object]:
+    packages: dict[str, str] = {}
+    for name in ("nunchaku", "diffusers", "torch", "transformers", "accelerate"):
+        try:
+            packages[name] = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            packages[name] = "not-installed"
+    return {
+        "python": sys.version.split()[0],
+        "platform": platform.platform(),
+        "packages": packages,
+        "cuda_available": torch.cuda.is_available(),
+        "cuda_device": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+    }
+
+
+def load_pipeline() -> QwenImageEditPlusPipeline:
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    pipe = QwenImageEditPlusPipeline.from_pretrained(
+        MODEL_ID,
+        transformer=transformer,
+        torch_dtype=torch.bfloat16,
+        local_files_only=True,
+    )
+    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
+    pipe._exclude_from_cpu_offload.append("transformer")
+    pipe.enable_sequential_cpu_offload()
+    return pipe
+
+
+def parse_size(value: str) -> tuple[int, int]:
+    try:
+        width_text, height_text = value.lower().split("x", maxsplit=1)
+        width, height = int(width_text), int(height_text)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("--size must use WIDTHxHEIGHT, for example 1152x1728") from error
+    if width < 16 or height < 16 or width % 16 or height % 16:
+        raise argparse.ArgumentTypeError("--size values must be positive multiples of 16")
+    return width, height
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--target", choices=tuple(OUTFIT_STAGE_TARGETS), help="One outfit stage to generate.")
+    parser.add_argument("--targets", nargs="+", choices=tuple(OUTFIT_STAGE_TARGETS), help="Generate stages sequentially.")
+    parser.add_argument("--seed", type=int, default=62294)
+    parser.add_argument("--steps", type=int, default=None)
+    parser.add_argument("--size", type=parse_size)
+    parser.add_argument("--run-label", default="v2-natural-eyes")
+    parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
+    args = parser.parse_args()
+    if bool(args.target) == bool(args.targets):
+        parser.error("provide exactly one of --target or --targets")
+    if args.targets:
+        for target_id in args.targets:
+            command = [sys.executable, str(Path(__file__).resolve()), "--target", target_id, "--seed", str(args.seed), "--run-label", args.run_label, "--output-dir", str(args.output_dir)]
+            if args.steps is not None:
+                command.extend(("--steps", str(args.steps)))
+            subprocess.run(command, check=True)
+        return
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required")
+
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    target = OUTFIT_STAGE_TARGETS[args.target]
+    steps = args.steps if args.steps is not None else target.get("default_steps", DEFAULT_STEPS)
+    if not isinstance(steps, int) or steps < 1:
+        raise ValueError("--steps must be at least 1")
+    inputs = [ASSETS / name for name in target["inputs"]]
+    if missing := [str(path) for path in inputs if not path.is_file()]:
+        raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
+    if not IDENTITY_CONTRACT.is_file() or not STYLE_CONTRACT.is_file() or not ILLUSTRATION_CONTRACT.is_file():
+        raise FileNotFoundError("missing P7-5.7 identity, style, or illustration contract")
+    style_prompt = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["portrait_style_prompt"]
+    illustration_prompt = json.loads(ILLUSTRATION_CONTRACT.read_text(encoding="utf-8"))["front_face_illustration_prompt"]
+    prompt_parts = []
+    if target.get("append_style_prompt", True):
+        prompt_parts.append(style_prompt)
+    if target.get("append_illustration_prompt", False):
+        prompt_parts.append(illustration_prompt)
+    prompt_parts.append(target["prompt"])
+    prompt = " ".join(prompt_parts)
+
+    width, height = args.size or target["size"]
+    stem = f"p7-5-2-qwen-edit-prompt-style-{args.target}-{args.run_label}-seed-{args.seed}-steps-{steps}"
+    output = args.output_dir / f"{stem}.png"
+    result_record = args.output_dir / f"{stem}-result.json"
+    started = time.monotonic()
+    pipeline = load_pipeline()
+    generation = {
+        "prompt": prompt,
+        "generator": torch.Generator("cpu").manual_seed(args.seed),
+        "true_cfg_scale": 4.0,
+        "negative_prompt": target.get("negative_prompt", " "),
+        "num_inference_steps": steps,
+        "guidance_scale": 1.0,
+        "width": width,
+        "height": height,
+        "image": [load_image(str(path)).convert("RGB") for path in inputs],
+    }
+    result = pipeline(**generation).images[0]
+    result.save(output)
+    record = {
+        "status": "generated",
+        "experiment_id": f"p7-5-2-qwen-edit-{args.target}",
+        "model": MODEL_ID,
+        "transformer": TRANSFORMER_ID,
+        "runtime": runtime_record(),
+        "identity_contract": asset_record(IDENTITY_CONTRACT),
+        "style_prompt_contract": asset_record(STYLE_CONTRACT),
+        "illustration_prompt_contract": asset_record(ILLUSTRATION_CONTRACT),
+        "prompt_contracts_applied": {
+            "watercolor_style": target.get("append_style_prompt", True),
+            "illustration": target.get("append_illustration_prompt", False),
+        },
+        "target": args.target,
+        "run_label": args.run_label,
+        "inputs": [asset_record(path) for path in inputs],
+        "input_roles": target["input_roles"],
+        "seed": args.seed,
+        "steps": steps,
+        "size": [width, height],
+        "true_cfg_scale": 4.0,
+        "guidance_scale": 1.0,
+        "negative_prompt": generation["negative_prompt"],
+        "prompt": prompt,
+        "prompt_word_count": len(prompt.split()),
+        "output": asset_record(output),
+        "elapsed_seconds": round(time.monotonic() - started, 2),
+        "decision": "Generated staged front outfit reference; compare the stated inputs and outfit change.",
+    }
+    result_record.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"output": str(output), "result_record": str(result_record)}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()
