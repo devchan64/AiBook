@@ -39,7 +39,7 @@ TRANSFORMER_ID = (
 )
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
-DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
+DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
 SIZE = (1024, 1024)
 LIGHTNING_SCHEDULER_CONFIG = {
     "base_image_seq_len": 256,
