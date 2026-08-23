@@ -30,7 +30,7 @@ TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
 DEFAULT_SIZE = (960, 1440)
-TRUE_CFG_SCALE = 1.0
+TRUE_CFG_SCALE = 4.0
 STAGE3_OUTFIT = "p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30.png"
 OPENPOSE_PREFIX = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0"
 
@@ -187,6 +187,8 @@ def main() -> None:
         "negative_prompt": " ",
         "num_inference_steps": args.steps,
         "guidance_scale": 1.0,
+        "num_images_per_prompt": 1,
+        "max_sequence_length": 1024,
         "width": width,
         "height": height,
         "image": [load_image(str(path)).convert("RGB") for path in inputs],
