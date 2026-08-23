@@ -40,7 +40,7 @@ TRANSFORMER_ID = (
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
 DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-7-qwen-face-torso-chest-v1-seed-62294-steps-10.png"
-SIZE = (768, 768)
+SIZE = (1024, 1024)
 LIGHTNING_SCHEDULER_CONFIG = {
     "base_image_seq_len": 256,
     "base_shift": math.log(3),
@@ -270,8 +270,9 @@ def main() -> None:
             prompt=prompt,
             image=[load_image(str(reference_image)).convert("RGB")],
             generator=torch.Generator("cpu").manual_seed(args.seed),
-            true_cfg_scale=1.0,
+            true_cfg_scale=4.0,
             guidance_scale=1.0,
+            negative_prompt=" ",
             num_inference_steps=args.steps,
             width=SIZE[0],
             height=SIZE[1],
@@ -304,8 +305,9 @@ def main() -> None:
             "seed": args.seed,
             "steps": args.steps,
             "size": list(SIZE),
-            "true_cfg_scale": 1.0,
+            "true_cfg_scale": 4.0,
             "guidance_scale": 1.0,
+            "negative_prompt": " ",
             "prompt": prompt,
             "prompt_components": prompt_components,
             "prompt_word_count": len(prompt.split()),
