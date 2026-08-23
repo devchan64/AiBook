@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 착장·전신 참조 셋 생성: 역할과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.23`
+> Version: `v2026.08.24`
 
 장면을 만들기 전에 같은 인물의 **착장과 전신 구조**를 대조할 기준을 정한다. 이 절은 로컬 GPU에서 Qwen으로 만든 착장·전신·body-only OpenPose 자산만 다룬다. 얼굴 정면의 identity와 얼굴 회전은 [P7-5.7](section-07.md)에서 별도로 관리한다.
 
@@ -53,29 +53,23 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 
 ## OpenPose는 전신 구조만 맡는다
 
-5방향 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 모든 방향은 오른손을 허리에 올리고 팔꿈치를 바깥으로 둔다. 왼팔은 팔꿈치를 몸통 쪽으로 내린 뒤 손목을 몸 바깥으로 벌린다. 두 팔은 같은 상완·전완 길이를 유지한 BODY_18 템플릿을 회전·투영한다. 따라서 정면·좌우 쿼터·좌우 측면에서 포즈의 관절 관계와 방향만 대조하며, 캐릭터 identity나 화풍을 정의하지 않는다.
+정면 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 오른손은 허리에 올리고 팔꿈치를 바깥으로 둔다. 왼팔은 팔꿈치를 몸통 쪽으로 내린 뒤 손목을 몸 바깥으로 벌린다. 두 팔은 같은 상완·전완 길이를 유지한 BODY_18 템플릿으로 구성한다. 이 맵은 정면 전신의 관절 관계와 프레이밍만 대조하며, 캐릭터 identity나 화풍을 정의하지 않는다.
 
-| 왼쪽 측면 −90° | 왼쪽 쿼터 −45° | 정면 0° | 오른쪽 쿼터 +45° | 오른쪽 측면 +90° |
-| --- | --- | --- | --- | --- |
-| ![허리 손 왼쪽 측면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.png) | ![허리 손 왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png) | ![오른손을 허리에 올린 정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png) | ![허리 손 오른쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.png) | ![허리 손 오른쪽 측면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.png) |
-
-| 왼쪽 쿼터 전신 참고 | 왼쪽 쿼터 구조 참고 |
+| 정면 0° body-only OpenPose | 좌표 JSON |
 | --- | --- |
-| ![왼쪽 쿼터 전신 참고](../../../assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference.png) | ![왼쪽 쿼터 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png) |
+| ![오른손을 허리에 올린 정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.json" data-language="json">0° 좌표 JSON</a> |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference-result.json" data-language="json">왼쪽 쿼터 전신 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.json" data-language="json">−90° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.json" data-language="json">−45° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.json" data-language="json">0° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.json" data-language="json">+45° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.json" data-language="json">+90° 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-result.json" data-language="json">허리 손 OpenPose result.json</a></p>
+3단계 착장 정면 한 장을 입력으로 하여, Multiple-angles LoRA가 카메라 yaw만 바꾸는 네 방향 전신 실험을 만들었다. OpenPose·별도 얼굴·토르소 참조는 이 실험에 넣지 않는다. 따라서 아래 결과는 동일 착장이 방향에 따라 어느 정도 유지되는지 보는 비교 자료이며, 포즈를 제어하는 기준은 아니다.
 
-같은 정면 앵커에서 만든 네 방향 전신 참조는 방향별 어깨·팔·다리·신발의 방향을 대조하는 자료다. 이 표는 새 pose, camera, 장면의 자동 승인 범위를 넓히지 않는다.
-
-| 왼쪽 쿼터 | 오른쪽 쿼터 |
+| 왼쪽 측면 −90° | 왼쪽 쿼터 −45° |
 | --- | --- |
-| ![왼쪽 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference.png) | ![오른쪽 쿼터 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-quarter-right-reference.png) |
+| ![Multiple-angles 왼쪽 측면 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) | ![Multiple-angles 왼쪽 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) |
 
-| 왼쪽 측면 | 오른쪽 측면 |
+| 오른쪽 쿼터 +45° | 오른쪽 측면 +90° |
 | --- | --- |
-| ![왼쪽 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference.png) | ![오른쪽 측면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference.png) |
+| ![Multiple-angles 오른쪽 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) | ![Multiple-angles 오른쪽 측면 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) |
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-quarter-left-reference-result.json" data-language="json">왼쪽 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-quarter-right-reference-result.json" data-language="json">오른쪽 쿼터 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-left-reference-result.json" data-language="json">왼쪽 측면 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-fullbody-profile-right-reference-result.json" data-language="json">오른쪽 측면 result.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">−90° result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">−45° result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">+45° result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">+90° result.json</a></p>
 
 ## 실행 기록과 승인 범위를 분리한다
 
@@ -84,6 +78,11 @@ Qwen 전신 편집은 P7-5.7의 정면 머리 참조, 착장·가방, OpenPose�
 <details id="qwen-outfit-stages" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_outfit_stages.py" data-language="python">
 <summary>Qwen 정면 착장 1~3단계 생성 코드 보기</summary>
 <div class="aibook-lazy-source__body">Stage 1은 정면 머리·OpenPose로 이너와 하의를 만들고, Stage 2는 열린 재킷을, Stage 3은 단일 언더암 숄더백을 순차로 더합니다.</div>
+</details>
+
+<details id="qwen-multiple-angles-fullbody" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_multiple_angles_fullbody_probe.py" data-language="python">
+<summary>Qwen 전신 멀티플 앵글 실험 코드 보기</summary>
+<div class="aibook-lazy-source__body">3단계 착장 정면 한 장을 입력으로 쓰고, Multiple-angles LoRA의 중국어 yaw 명령 하나만 적용합니다.</div>
 </details>
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json" data-language="json">Qwen 전환·검수 계획</a></p>

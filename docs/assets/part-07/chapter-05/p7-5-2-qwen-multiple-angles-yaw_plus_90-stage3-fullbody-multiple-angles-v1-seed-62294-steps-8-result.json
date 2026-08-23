@@ -1,0 +1,62 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-2-qwen-multiple-angles-fullbody",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_crossbody_bag_face-stage3-crossbody-strap-v2-seed-62294-steps-30.png",
+      "sha256": "8934d63cf600695135bedaea443d0326e2ea6c198dcc6056ce324b7d2a935d3b"
+    }
+  ],
+  "input_roles": [
+    "stage_3_complete_front_outfit"
+  ],
+  "camera_transform_owner": "dx8152 Multiple-angles LoRA",
+  "angle_lora": {
+    "repository": "dx8152/Qwen-Edit-2509-Multiple-angles",
+    "weight": {
+      "path": "/home/cbsim/.cache/huggingface/hub/models--dx8152--Qwen-Edit-2509-Multiple-angles/snapshots/c342b0e746c3a3275af1a4a0c6ae78e0e4802531/镜头转换.safetensors",
+      "sha256": "e0cea9508025a39e41f50da0e7d10fbd9db182d057c745136a42ef8829914c8f"
+    }
+  },
+  "angle_lora_applied_modules": 360,
+  "angle_lora_strength": 1.0,
+  "target": "yaw_plus_90",
+  "yaw_degrees": 90,
+  "prompt": "将镜头向右旋转90度。",
+  "prompt_language": "chinese",
+  "openpose_used": false,
+  "seed": 62294,
+  "steps": 8,
+  "size": [
+    1024,
+    1536
+  ],
+  "true_cfg_scale": 4.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png",
+    "sha256": "cbcf5a1aabffafe6768aec7b01b141476c7cb86c36cb99ca82448032cbfd891d"
+  },
+  "elapsed_seconds": 96.68,
+  "sequence": {
+    "index": 2,
+    "total": 2,
+    "targets": [
+      "yaw_plus_45",
+      "yaw_plus_90"
+    ]
+  }
+}
