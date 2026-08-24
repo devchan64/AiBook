@@ -6,7 +6,7 @@
     "sha256": "219392aef60de7a95efc5bdf8991bdc83e6e3590e968ebca403dd470ae19069d"
   },
   "prior_openpose_detection_review": null,
-  "method": "BODY_18 was generated from one normalized 3D template and perspective projected. FACE_70 was mapped from embedded nose/eye/ear-normalized code constants.",
+  "method": "BODY_18 was generated from one normalized 3D template and perspective projected. FACE_70 was not included.",
   "coordinate_system": {
     "world": "x right, y up, z toward camera; origin at ground centre",
     "screen": "x right, y down",
@@ -36,7 +36,11 @@
   "output_label": "fullbody-hand-on-waist-pitch0",
   "view_grid": {
     "columns": [
-      0
+      -90,
+      -45,
+      0,
+      45,
+      90
     ],
     "rows": [
       0
@@ -44,9 +48,13 @@
     "meaning": "columns=yaw degrees, rows=pitch degrees"
   },
   "targets": [
-    "front"
+    "profile_left",
+    "quarter_left",
+    "front",
+    "quarter_right",
+    "profile_right"
   ],
-  "output_range": "custom",
+  "output_range": "pitch0",
   "openpose": {
     "body": "BODY_18",
     "visible_body_indices": [
@@ -69,9 +77,9 @@
       16,
       17
     ],
-    "face_included": true,
-    "face": "FACE_70 mapped through BODY_18 nose/eye/ear anchors and partially translated toward fixed BODY_18 nose/eye anchors",
-    "face70_to_fixed_body18_blend_strength": 0.65,
+    "face_included": false,
+    "face": null,
+    "face70_to_fixed_body18_blend_strength": null,
     "hands_included": false
   },
   "views": [
@@ -80,11 +88,55 @@
         "row": 1,
         "column": 1
       },
+      "target": "profile_left",
+      "yaw_degrees": -90,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 2
+      },
+      "target": "quarter_left",
+      "yaw_degrees": -45,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 3
+      },
       "target": "front",
       "yaw_degrees": 0,
       "pitch_degrees": 0,
       "png": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png",
       "coordinates": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 4
+      },
+      "target": "quarter_right",
+      "yaw_degrees": 45,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.json"
+    },
+    {
+      "grid_position": {
+        "row": 1,
+        "column": 5
+      },
+      "target": "profile_right",
+      "yaw_degrees": 90,
+      "pitch_degrees": 0,
+      "png": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.png",
+      "coordinates": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.json"
     }
   ],
   "limitations": [
