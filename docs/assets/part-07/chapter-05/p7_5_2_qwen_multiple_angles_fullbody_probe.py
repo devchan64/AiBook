@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test full-body yaw views from the P7-5.2 stage-3 outfit reference.
+"""Test full-body yaw views from the P7-5.2 stage-2 outfit reference.
 
 This experiment uses one completed front outfit image as the subject source and
 the dx8152 Multiple-angles LoRA as the sole camera-transform owner.  It does
@@ -36,10 +36,7 @@ TRANSFORMER_ID = (
 )
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
-DEFAULT_REFERENCE = ASSETS / (
-    "p7-5-2-qwen-edit-prompt-style-outfit_stage3_crossbody_bag_face-"
-    "stage3-crossbody-strap-v2-seed-62294-steps-30.png"
-)
+DEFAULT_REFERENCE = ASSETS / "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png"
 DEFAULT_SIZE = (960, 1440)
 YAW_PROMPTS = {
     "yaw_minus_90": "将镜头向左旋转90度。",
@@ -130,7 +127,7 @@ def main() -> None:
     parser.add_argument("--size", type=parse_size, default=DEFAULT_SIZE)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--angle-lora-strength", type=float, default=1.0)
-    parser.add_argument("--run-label", default="stage3-fullbody-multiple-angles-v1")
+    parser.add_argument("--run-label", default="stage2-fullbody-multiple-angles-v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     args = parser.parse_args()
     if args.steps < 1 or args.angle_lora_strength <= 0:
@@ -173,7 +170,7 @@ def main() -> None:
             "transformer": TRANSFORMER_ID,
             "runtime": runtime_record(),
             "inputs": [asset_record(reference)],
-            "input_roles": ["stage_3_complete_front_outfit"],
+            "input_roles": ["stage_2_open_jacket_front_outfit"],
             "camera_transform_owner": "dx8152 Multiple-angles LoRA",
             "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(lora)},
             "angle_lora_applied_modules": applied_modules,

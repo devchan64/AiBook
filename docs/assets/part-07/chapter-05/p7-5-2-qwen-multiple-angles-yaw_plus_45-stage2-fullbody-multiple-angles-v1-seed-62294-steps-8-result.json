@@ -17,12 +17,12 @@
   },
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_crossbody_bag_face-stage3-crossbody-strap-v2-seed-62294-steps-30.png",
-      "sha256": "8934d63cf600695135bedaea443d0326e2ea6c198dcc6056ce324b7d2a935d3b"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png",
+      "sha256": "eea8b481cfdff6dad92f069c3278eb121682efb3803e1b7f05a14502f4e9db6d"
     }
   ],
   "input_roles": [
-    "stage_3_complete_front_outfit"
+    "stage_2_open_jacket_front_outfit"
   ],
   "camera_transform_owner": "dx8152 Multiple-angles LoRA",
   "angle_lora": {
@@ -34,9 +34,9 @@
   },
   "angle_lora_applied_modules": 360,
   "angle_lora_strength": 1.0,
-  "target": "yaw_minus_90",
-  "yaw_degrees": -90,
-  "prompt": "将镜头向左旋转90度。",
+  "target": "yaw_plus_45",
+  "yaw_degrees": 45,
+  "prompt": "将镜头向右旋转45度。",
   "prompt_language": "chinese",
   "openpose_used": false,
   "seed": 62294,
@@ -47,15 +47,18 @@
   ],
   "true_cfg_scale": 4.0,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png",
-    "sha256": "13d80e7ecee591160169505063eef336d8ab934da964996048cc28ffb9d41578"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_45-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8.png",
+    "sha256": "3f93766c8b32fa7c7279ce0d13e5bd72c3bec9c89485f8f81d4d27bb186fe5f0"
   },
-  "elapsed_seconds": 97.85,
+  "elapsed_seconds": 96.78,
   "sequence": {
-    "index": 1,
-    "total": 1,
+    "index": 3,
+    "total": 4,
     "targets": [
-      "yaw_minus_90"
+      "yaw_minus_90",
+      "yaw_minus_45",
+      "yaw_plus_45",
+      "yaw_plus_90"
     ]
   }
 }

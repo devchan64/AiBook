@@ -16,7 +16,6 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하고, P7-5.4는 그 컷�
 | P7-5.7 정면 머리 참조 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영 | P7-5.7 생성 결과 |
 | 1단계 착장·전신 | 정면 머리 identity, 크롭탑, 여성용 와이드 팬츠, 흰 운동화, 정면 포즈 | 960×1440, 30-step 생성 결과 |
 | 2단계 전신 | 1단계 결과에 열린 흰 크롭 자켓과 손을 더한 착장 기준 | 960×1440, 30-step 생성 결과 |
-| 3단계 전신 | 2단계 결과에 단일 남색 여성용 숄더백을 더한 착장 기준 | 960×1440, 30-step 생성 결과 |
 | body-only OpenPose | 전신 관절과 방향 구조 | 사람 승인 |
 
 P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. P7-5.2의 전신 생성기는 이 머리 참조를 identity·헤어 입력으로 사용한다. 몸의 크기·방향·crop은 전신과 OpenPose가 맡으며, 정면 머리 참조는 목·어깨·의상을 결정하지 않는다.
@@ -37,19 +36,22 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 | --- | --- |
 | ![2단계 Qwen 열린 자켓 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
 
-## 3단계에서 숄더백을 더한다
-
-3단계는 2단계 전신과 P7-5.7의 1024×1024 정면 머리 참조만 사용한다. 자켓·이너·손·바지·신발을 유지한 채, 한쪽 어깨 바로 아래에 짧은 스트랩의 단일 남색 여성용 언더암 숄더백을 더한다. 가방의 형태와 위치는 긍정 지시로만 정해, 앞선 단계의 착장 구조를 반복하거나 반대 조건을 함께 쓰지 않는다.
-
-| 3단계 Qwen 전신 착장 기준 | 실행 기록 |
-| --- | --- |
-| ![3단계 Qwen 여성용 숄더백 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_shoulder_bag_face-stage3-underarm-shoulder-bag-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
-
-960×1440, 30-step 정면 전신은 P7-5.7 정면 머리 참조로 얼굴 identity·헤어를, 착장 참조로 재킷·가방·바지·신발을, body-only OpenPose로 오른손 허리 포즈와 전신 프레이밍을 각각 맡긴 기준 결과다. 왼팔은 팔꿈치를 몸통 가까이에 둔 채 손목을 몸 바깥으로 향하게 하며, 가방과 겹쳐 손이 사라지는지를 비교한다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다.
+960×1440, 30-step 정면 전신은 P7-5.7 정면 머리 참조로 얼굴 identity·헤어를, 착장 참조로 재킷·바지·신발을, body-only OpenPose로 오른손 허리 포즈와 전신 프레이밍을 각각 맡긴 초기 비교 결과다. 왼팔은 팔꿈치를 몸통 가까이에 둔 채 손목을 몸 바깥으로 향하게 하며, 몸통과 겹쳐 손이 사라지는지를 비교한다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다.
 
 | 960×1440, 30-step Qwen 정면 전신 기준 | 실행 기록 |
 | --- | --- |
 | ![960×1440, 30-step Qwen 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-fullbody_front_seven_head_qwen_outfit_skeleton-head-front-reference-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-fullbody_front_seven_head_qwen_outfit_skeleton-head-front-reference-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
+
+## 회전은 2단계 착장 기준에서 만든다
+
+정면을 제외한 네 방향은 2단계 열린 자켓 전신을 입력으로 쓰고 Multiple-angles LoRA에 카메라 yaw만 지시해 만든다. OpenPose는 이 단계에 넣지 않는다. 따라서 이 이미지는 방향별 착장·머리·전신 외곽이 얼마나 유지되는지 비교하는 결과이며, 팔 관절이나 손 모양을 구조적으로 보증하지 않는다.
+
+| −90° | −45° | +45° | +90° |
+| --- | --- | --- | --- |
+| ![−90도 전신 회전](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_90-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8.png) | ![−45도 전신 회전](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8.png) | ![+45도 전신 회전](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_45-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8.png) | ![+90도 전신 회전](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_90-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8.png) |
+| <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_90-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">−90° result.json</a> | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">−45° result.json</a> | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_45-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">+45° result.json</a> | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_90-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">+90° result.json</a> |
+
+네 결과는 모두 `1024×1536`, `seed=62294`, `8 step` 조건이다. 회전 요청과 다르게 팔·손·신발의 가림이 달라지면 그 결과를 구조 기준으로 넘기지 않고, 착장 유지와 방향성의 비교 대상으로만 남긴다.
 
 ## OpenPose는 전신 구조만 맡는다
 
@@ -59,31 +61,21 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 | --- | --- |
 | ![오른손을 허리에 올린 정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.json" data-language="json">0° 좌표 JSON</a> |
 
-3단계 착장 정면 한 장을 입력으로 하여, Multiple-angles LoRA가 카메라 yaw만 바꾸는 네 방향 전신 실험을 만들었다. OpenPose·별도 얼굴·토르소 참조는 이 실험에 넣지 않는다. 따라서 아래 결과는 동일 착장이 방향에 따라 어느 정도 유지되는지 보는 비교 자료이며, 포즈를 제어하는 기준은 아니다.
-
-| 왼쪽 측면 −90° | 왼쪽 쿼터 −45° |
-| --- | --- |
-| ![Multiple-angles 왼쪽 측면 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) | ![Multiple-angles 왼쪽 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) |
-
-| 오른쪽 쿼터 +45° | 오른쪽 측면 +90° |
-| --- | --- |
-| ![Multiple-angles 오른쪽 쿼터 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) | ![Multiple-angles 오른쪽 측면 전신](../../../assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png) |
-
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">−90° result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">−45° result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">+45° result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_plus_90-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8-result.json" data-language="json">+90° result.json</a></p>
 
 ## 실행 기록과 승인 범위를 분리한다
 
 Qwen 전신 편집은 P7-5.7의 정면 머리 참조, 착장·가방, OpenPose가 같은 역할을 하지 않도록 입력 역할을 실행 기록에 남긴다. prompt의 단어 수는 품질 점수가 아니라, 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
 
 <details id="qwen-outfit-stages" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_outfit_stages.py" data-language="python">
-<summary>Qwen 정면 착장 1~3단계 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">Stage 1은 정면 머리·OpenPose로 이너와 하의를 만들고, Stage 2는 열린 재킷을, Stage 3은 단일 언더암 숄더백을 순차로 더합니다.</div>
+<summary>Qwen 정면 착장 1~2단계 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">Stage 1은 정면 머리·OpenPose로 이너와 하의를 만들고, Stage 2는 열린 재킷을 더합니다.</div>
 </details>
 
-<details id="qwen-multiple-angles-fullbody" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_multiple_angles_fullbody_probe.py" data-language="python">
-<summary>Qwen 전신 멀티플 앵글 실험 코드 보기</summary>
-<div class="aibook-lazy-source__body">3단계 착장 정면 한 장을 입력으로 쓰고, Multiple-angles LoRA의 중국어 yaw 명령 하나만 적용합니다.</div>
+<details id="qwen-fullbody-multiple-angles" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_multiple_angles_fullbody_probe.py" data-language="python">
+<summary>Qwen 전신 4방향 회전 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">2단계 전신 착장을 기준으로 −90°·−45°·+45°·+90° 카메라 회전을 생성합니다.</div>
 </details>
+
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-transition-plan.json" data-language="json">Qwen 전환·검수 계획</a></p>
 

@@ -17,12 +17,12 @@
   },
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_crossbody_bag_face-stage3-crossbody-strap-v2-seed-62294-steps-30.png",
-      "sha256": "8934d63cf600695135bedaea443d0326e2ea6c198dcc6056ce324b7d2a935d3b"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png",
+      "sha256": "eea8b481cfdff6dad92f069c3278eb121682efb3803e1b7f05a14502f4e9db6d"
     }
   ],
   "input_roles": [
-    "stage_3_complete_front_outfit"
+    "stage_2_open_jacket_front_outfit"
   ],
   "camera_transform_owner": "dx8152 Multiple-angles LoRA",
   "angle_lora": {
@@ -47,15 +47,18 @@
   ],
   "true_cfg_scale": 4.0,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage3-fullbody-multiple-angles-v1-seed-62294-steps-8.png",
-    "sha256": "a9244f1dd637bdc64ec2ba05d8e8cab5c2de152379406d67deb5a6d0c4a49454"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-multiple-angles-yaw_minus_45-stage2-fullbody-multiple-angles-v1-seed-62294-steps-8.png",
+    "sha256": "1c25472432374b813c724f44ccd9dcb14401cb78778aa7526915487aa79a2bcf"
   },
-  "elapsed_seconds": 98.22,
+  "elapsed_seconds": 96.68,
   "sequence": {
-    "index": 1,
-    "total": 1,
+    "index": 2,
+    "total": 4,
     "targets": [
-      "yaw_minus_45"
+      "yaw_minus_90",
+      "yaw_minus_45",
+      "yaw_plus_45",
+      "yaw_plus_90"
     ]
   }
 }
