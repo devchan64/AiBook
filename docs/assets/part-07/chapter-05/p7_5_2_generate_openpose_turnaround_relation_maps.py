@@ -237,7 +237,7 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
     posed[7] = (shoulder[0] - 0.05 * head, geometry["neck_y"] + 1.35 * head, 0.32 * head)
     if pose == "raised-arm":
         return posed
-    if pose != "hand-on-hip":
+    if pose not in {"hand-on-hip", "relaxed-arms"}:
         raise ValueError(f"Unsupported body pose: {pose}")
 
     # Preserve the source upper-/lower-arm bone lengths while changing only
@@ -250,14 +250,24 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
         return tuple(start[i] + length * direction[i] / norm for i in range(3))
     right_upper, right_lower = distance(points[2], points[3]), distance(points[3], points[4])
     left_upper, left_lower = distance(points[5], points[6]), distance(points[6], points[7])
+    if pose == "relaxed-arms":
+        # A balanced front stance: both arms fall naturally beside the torso
+        # and both wrists remain visibly outside the thigh silhouette.
+        posed[3] = endpoint(points[2], (-0.30, -0.95, -0.08), right_upper)
+        posed[4] = endpoint(posed[3], (-0.22, -0.98, -0.03), right_lower)
+        posed[6] = endpoint(points[5], (0.30, -0.95, 0.08), left_upper)
+        posed[7] = endpoint(posed[6], (0.22, -0.98, 0.03), left_lower)
+        return posed
+
     # Camera-left elbow stays close to the torso, then the lowered hand bends
     # outward beyond the body silhouette.  This keeps the hand visible instead
     # of letting the shoulder bag conceal it.
     posed[3] = endpoint(points[2], (-0.08, -1.0, -0.15), right_upper)
     posed[4] = endpoint(posed[3], (-0.68, -0.72, -0.04), right_lower)
-    # Camera-right elbow is bent outward and its wrist rests at the waist.
-    posed[6] = endpoint(points[5], (0.76, -0.58, 0.20), left_upper)
-    posed[7] = endpoint(posed[6], (-0.54, -0.86, 0.08), left_lower)
+    # Camera-right arm lowers gently beside the torso.  Keeping the wrist
+    # outside the hip silhouette makes the hand a visible endpoint.
+    posed[6] = endpoint(points[5], (0.32, -0.95, 0.12), left_upper)
+    posed[7] = endpoint(posed[6], (0.40, -0.90, 0.05), left_lower)
 
     # Shift weight onto the camera-left leg.  The supporting leg stays nearly
     # vertical; the other knee relaxes inward and its foot steps slightly out.
@@ -595,7 +605,7 @@ def main() -> None:
     parser.add_argument("--include-face", action="store_true", help="Render the embedded FACE_70 nose/eye/ear-normalized maps.")
     parser.add_argument("--frame", choices=("fullbody", "shoulders"), default="fullbody", help="Output framing: fullbody or a square BODY_18 eye-nose-ear-neck-shoulder structure.")
     parser.add_argument("--overwrite", action="store_true")
-    parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "hand-on-hip"), default="hand-on-hip")
+    parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "hand-on-hip", "relaxed-arms"), default="relaxed-arms")
     parser.add_argument(
         "--projection",
         choices=("orthographic", "perspective"),

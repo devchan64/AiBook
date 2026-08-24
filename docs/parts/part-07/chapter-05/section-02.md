@@ -14,19 +14,20 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하고, P7-5.4는 그 컷�
 | 자산 | 고정하는 정보 | 현재 상태 |
 | --- | --- | --- |
 | P7-5.7 정면 머리 참조 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영 | P7-5.7 생성 결과 |
-| 1단계 착장·전신 | 정면 머리 identity, 크롭탑, 여성용 와이드 팬츠, 흰 운동화, 정면 포즈 | 960×1440, 30-step 생성 결과 |
+| 1단계 착장·전신 | 정면 머리 identity, 크롭탑, 여성용 와이드 팬츠, 흰 운동화, 양팔을 내린 정면 포즈 | 960×1440, 30-step 생성 결과 |
 | 2단계 전신 | 1단계 결과에 열린 흰 크롭 자켓과 손을 더한 착장 기준 | 960×1440, 30-step 생성 결과 |
+| 3단계 헤드리스 착장 | 얼굴·머리를 제외한 목깃, 재킷, 이너, 양손, 바지와 신발 | 1024×1536, 20-step 생성 결과 |
 | body-only OpenPose | 전신 관절과 방향 구조 | 사람 승인 |
 
 P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. P7-5.2의 전신 생성기는 이 머리 참조를 identity·헤어 입력으로 사용한다. 몸의 크기·방향·crop은 전신과 OpenPose가 맡으며, 정면 머리 참조는 목·어깨·의상을 결정하지 않는다.
 
 ## 1단계에서 얼굴·포즈·기본 착장을 결합한다
 
-1단계는 P7-5.7의 1024×1024 정면 머리 참조와 정면 body-only OpenPose를 입력으로 사용한다. 머리 참조는 얼굴·헤어만, OpenPose는 정면 전신 구조만 맡는다. 생성 결과에는 가슴 바로 아래에서 끝나는 회색 슬림 크롭탑, 딥틸 하이웨이스트 여성용 와이드 8부 팬츠, 흰 스니커즈만 넣는다. 자켓·가방·스트랩은 1단계에서 만들지 않으며, 2단계는 이 결과를 착장 보정의 입력으로 사용한다.
+1단계는 P7-5.7의 1024×1024 정면 머리 참조와 양팔을 자연스럽게 내린 정면 body-only OpenPose를 입력으로 사용한다. 머리 참조는 얼굴·헤어만, OpenPose는 정면 전신 구조만 맡는다. 생성 결과에는 가슴 바로 아래에서 끝나는 회색 슬림 크롭탑, 딥틸 하이웨이스트 여성용 와이드 8부 팬츠, 흰 스니커즈만 넣는다. 자켓·가방·스트랩은 1단계에서 만들지 않으며, 2단계는 이 결과를 착장 보정의 입력으로 사용한다.
 
 | 1단계 Qwen 전신 착장 기준 | 실행 기록 |
 | --- | --- |
-| ![1단계 Qwen 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-stage1-ultrashort-croptop-v2-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-stage1-ultrashort-croptop-v2-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
+| ![1단계 Qwen 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-relaxed-arms-v3-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-relaxed-arms-v3-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
 
 ## 2단계에서 열린 자켓과 손을 더한다
 
@@ -34,7 +35,15 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 
 | 2단계 Qwen 전신 착장 기준 | 실행 기록 |
 | --- | --- |
-| ![2단계 Qwen 열린 자켓 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-stage2-open-jacket-visible-hands-v1-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
+| ![2단계 Qwen 열린 자켓 전신 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a> |
+
+## 3단계에서 얼굴 없이 착장 기준을 분리한다
+
+3단계는 2단계 전신을 입력으로 사용해 머리·얼굴 실루엣을 제거한다. 목깃과 열린 흰 크롭 자켓, 회색 이너, 양손, 와이드 8부 팬츠, 흰 스니커즈는 유지한다. 이 결과는 얼굴 identity를 다시 생성하지 않고 착장·손·신발만 참조해야 할 때 사용한다.
+
+| 3단계 Qwen 헤드리스 착장 기준 | 실행 기록 |
+| --- | --- |
+| ![3단계 Qwen 헤드리스 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20-result.json" data-language="json">1024×1536, 20-step result.json</a> |
 
 960×1440, 30-step 정면 전신은 P7-5.7 정면 머리 참조로 얼굴 identity·헤어를, 착장 참조로 재킷·바지·신발을, body-only OpenPose로 오른손 허리 포즈와 전신 프레이밍을 각각 맡긴 초기 비교 결과다. 왼팔은 팔꿈치를 몸통 가까이에 둔 채 손목을 몸 바깥으로 향하게 하며, 몸통과 겹쳐 손이 사라지는지를 비교한다. 회전 전신을 만들 때 몸 크기와 신발이 프레임 안에 유지되는지 비교하는 데 쓴다.
 
@@ -55,11 +64,11 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 
 ## OpenPose는 전신 구조만 맡는다
 
-정면 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 오른손은 허리에 올리고 팔꿈치를 바깥으로 둔다. 왼팔은 팔꿈치를 몸통 쪽으로 내린 뒤 손목을 몸 바깥으로 벌린다. 두 팔은 같은 상완·전완 길이를 유지한 BODY_18 템플릿으로 구성한다. 이 맵은 정면 전신의 관절 관계와 프레이밍만 대조하며, 캐릭터 identity나 화풍을 정의하지 않는다.
+정면 body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이다. 양팔은 몸통 양옆으로 자연스럽게 내리고, 두 손목은 허벅지 바깥쪽에 둔다. 두 팔은 같은 상완·전완 길이를 유지한 BODY_18 템플릿으로 구성한다. 이 맵은 정면 전신의 관절 관계와 프레이밍만 대조하며, 캐릭터 identity나 화풍을 정의하지 않는다.
 
 | 정면 0° body-only OpenPose | 좌표 JSON |
 | --- | --- |
-| ![오른손을 허리에 올린 정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.json" data-language="json">0° 좌표 JSON</a> |
+| ![양팔을 내린 정면 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png) | <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.json" data-language="json">0° 좌표 JSON</a> |
 
 
 ## 실행 기록과 승인 범위를 분리한다
@@ -67,8 +76,8 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 Qwen 전신 편집은 P7-5.7의 정면 머리 참조, 착장·가방, OpenPose가 같은 역할을 하지 않도록 입력 역할을 실행 기록에 남긴다. prompt의 단어 수는 품질 점수가 아니라, 같은 특징을 반복해서 지시하면서 계약이 비대해졌는지 확인하는 보조 정보다.
 
 <details id="qwen-outfit-stages" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_edit_outfit_stages.py" data-language="python">
-<summary>Qwen 정면 착장 1~2단계 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">Stage 1은 정면 머리·OpenPose로 이너와 하의를 만들고, Stage 2는 열린 재킷을 더합니다.</div>
+<summary>Qwen 정면 착장 1~3단계 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">Stage 1은 정면 머리·OpenPose로 이너와 하의를 만들고, Stage 2는 열린 재킷을 더하며, Stage 3은 얼굴 없이 착장 기준을 분리합니다.</div>
 </details>
 
 <details id="qwen-fullbody-multiple-angles" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_2_qwen_multiple_angles_fullbody_probe.py" data-language="python">

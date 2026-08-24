@@ -48,7 +48,7 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
     },
     "outfit_stage2_jacket_face": {
         "inputs": (
-            "p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-stage1-ultrashort-croptop-v2-seed-62294-steps-30.png",
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-relaxed-arms-v3-seed-62294-steps-30.png",
             QWEN_FACE_REFERENCE,
         ),
         "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1024"],
@@ -60,6 +60,21 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
         "prompt": (
             "Front full-body woman. Image 1: retain the stage-1 crop top, wide trousers, sneakers, and proportions. "
             "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves, bag, or strap. Warm off-white background."
+        ),
+    },
+    "outfit_stage3_headless": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30.png",
+        ),
+        "input_roles": ["stage_2_outfit_fullbody"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 20,
+        "size": (1024, 1536),
+        "negative_prompt": "face, hair, head, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body outfit reference. A plain cool-gray background begins directly above the neck with no silhouette. "
+            "Preserve the neck, shirt collar, jacket collar, shoulders, exact jacket, crop top, trousers, hands, and sneakers."
         ),
     },
 }
