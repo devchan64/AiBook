@@ -1,0 +1,159 @@
+#!/usr/bin/env python3
+"""Generate the P7-5.2 frontal full-body reference from separated inputs."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.metadata
+import json
+import platform
+import time
+from pathlib import Path
+
+import torch
+from diffusers import QwenImageEditPlusPipeline
+from diffusers.utils import load_image
+from nunchaku import NunchakuQwenImageTransformer2DModel
+
+
+ASSETS = Path(__file__).resolve().parent
+MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
+TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
+FRONT_HEADLESS_OUTFIT = "p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20.png"
+FRONT_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
+BACKGROUND_DESCRIPTION = "Plain cool-gray background."
+DEFAULT_SIZE = (1024, 1536)
+DEFAULT_STEPS = 30
+YAW_DEGREES = {"yaw_front": 0}
+TORSO_REFERENCES = {
+    "yaw_front": "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
+}
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def asset_record(path: Path) -> dict[str, str]:
+    return {"path": str(path), "sha256": sha256(path)}
+
+
+def parse_size(value: str) -> tuple[int, int]:
+    try:
+        width_text, height_text = value.lower().split("x", maxsplit=1)
+        width, height = int(width_text), int(height_text)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("--size must be WIDTHxHEIGHT") from error
+    if width < 16 or height < 16 or width % 16 or height % 16:
+        raise argparse.ArgumentTypeError("--size values must be positive multiples of 16")
+    return width, height
+
+
+def runtime_record() -> dict[str, object]:
+    packages = {}
+    for package in ("nunchaku", "diffusers", "torch", "transformers", "accelerate"):
+        try:
+            packages[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            packages[package] = "not-installed"
+    return {
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "packages": packages,
+        "cuda_device": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+    }
+
+
+def load_pipeline() -> QwenImageEditPlusPipeline:
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    pipeline = QwenImageEditPlusPipeline.from_pretrained(
+        MODEL_ID,
+        transformer=transformer,
+        torch_dtype=torch.bfloat16,
+        local_files_only=True,
+    )
+    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
+    pipeline._exclude_from_cpu_offload.append("transformer")
+    pipeline.enable_sequential_cpu_offload()
+    return pipeline
+
+
+def target_spec(target: str) -> tuple[tuple[str, ...], list[str], str]:
+    return (
+        (FRONT_HEADLESS_OUTFIT, TORSO_REFERENCES[target], FRONT_OPENPOSE),
+        ["headless_outfit_reference", "frontal_torso_face_hair_style", "front_fullbody_openpose"],
+        "Front full-body woman. Image 1 outfit and hands. Image 2 face, hair, and style. Image 3 pose.",
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--targets", nargs="+", choices=tuple(YAW_DEGREES), default=("yaw_front",))
+    parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
+    parser.add_argument("--size", type=parse_size, default=DEFAULT_SIZE)
+    parser.add_argument("--seed", type=int, default=62294)
+    parser.add_argument("--run-label", default="matched-torso-face-refine-v1")
+    parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    args = parser.parse_args()
+    if args.steps < 1:
+        raise ValueError("--steps must be at least 1")
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required")
+    output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
+    pipeline = load_pipeline()
+    outputs = []
+    for index, target in enumerate(args.targets, start=1):
+        input_names, input_roles, prompt = target_spec(target)
+        inputs = [ASSETS / name for name in input_names]
+        if missing := [str(path) for path in inputs if not path.is_file()]:
+            raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
+        stem = f"p7-5-2-qwen-fullbody-reference-{target}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+        output = output_dir / f"{stem}.png"
+        result_path = output_dir / f"{stem}-result.json"
+        started = time.monotonic()
+        image = pipeline(
+            prompt=prompt,
+            image=[load_image(str(path)).convert("RGB") for path in inputs],
+            generator=torch.Generator("cpu").manual_seed(args.seed),
+            true_cfg_scale=4.0,
+            guidance_scale=1.0,
+            negative_prompt=" ",
+            num_inference_steps=args.steps,
+            width=args.size[0],
+            height=args.size[1],
+        ).images[0]
+        image.save(output)
+        record = {
+            "status": "generated",
+            "experiment_id": "p7-5-2-qwen-fullbody-reference-refine",
+            "model": MODEL_ID,
+            "transformer": TRANSFORMER_ID,
+            "runtime": runtime_record(),
+            "target": target,
+            "yaw_degrees": YAW_DEGREES[target],
+            "inputs": [asset_record(path) for path in inputs],
+            "input_roles": input_roles,
+            "background_description": BACKGROUND_DESCRIPTION,
+            "seed": args.seed,
+            "steps": args.steps,
+            "size": list(args.size),
+            "true_cfg_scale": 4.0,
+            "negative_prompt": " ",
+            "prompt": prompt,
+            "output": asset_record(output),
+            "elapsed_seconds": round(time.monotonic() - started, 2),
+            "sequence": {"index": index, "total": len(args.targets), "targets": args.targets},
+        }
+        result_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        outputs.append({"output": str(output), "result_record": str(result_path)})
+    print(json.dumps({"outputs": outputs}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()
