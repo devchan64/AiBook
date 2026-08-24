@@ -1,0 +1,64 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-2-qwen-fullbody-reference-refine",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "target": "yaw_plus_45",
+  "yaw_degrees": 45,
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20.png",
+      "sha256": "0f86453690a52a3cec45477037dfad55e4ec7fa601d78910c00e9922d087bf08"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+      "sha256": "1df1f2cae988acbc5aa6f933640b03a7e7180c64449f44777b7f7a15fcf6305d"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png",
+      "sha256": "b8c6a3d4fc9e125641f65bb3dc4b56fd6d2770c6ce59485bce21e57cacf8f499"
+    }
+  ],
+  "input_roles": [
+    "stage3_headless_outfit",
+    "matched_yaw_torso_face_hair_style",
+    "matched_yaw_fullbody_openpose"
+  ],
+  "background_description": "Plain cool-gray background.",
+  "seed": 62294,
+  "steps": 30,
+  "size": [
+    1024,
+    1536
+  ],
+  "true_cfg_scale": 4.0,
+  "negative_prompt": " ",
+  "prompt": "Full-body woman facing three-quarter left. Image 1 outfit. Image 2 face, hair, and style. Image 3 pose.",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png",
+    "sha256": "9dada52c01c394b6a942591e9dfadc6100b64888f1e63c259db60471a4fdf9d5"
+  },
+  "elapsed_seconds": 916.72,
+  "sequence": {
+    "index": 3,
+    "total": 4,
+    "targets": [
+      "yaw_minus_90",
+      "yaw_minus_45",
+      "yaw_plus_45",
+      "yaw_plus_90"
+    ]
+  }
+}

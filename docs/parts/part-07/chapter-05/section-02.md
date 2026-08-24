@@ -63,6 +63,22 @@ body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이�
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-result.json" data-language="json">5방향 OpenPose 생성 result.json</a></p>
 
+## 방향별 전신은 토르소와 구조 맵의 화면 방향을 맞춘다
+
+방향별 전신은 3단계 헤드리스 착장, 같은 방향의 P7-5.7 토르소, 그리고 화면상 방향이 일치하도록 짝지은 body-only OpenPose를 차례로 입력한다. 토르소는 얼굴·헤어·화풍과 화면 방향을, 헤드리스 착장은 재킷·이너·바지·신발을, OpenPose는 전신 비례·팔·다리 관계를 맡는다. OpenPose의 투영 부호는 5.7 카메라 yaw와 화면에서 반대이므로, −45°·−90° 토르소에는 +45°·+90° OpenPose를, +45°·+90° 토르소에는 −45°·−90° OpenPose를 연결한다.
+
+| −90° | −45° |
+| --- | --- |
+| ![−90도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) | ![−45도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) |
+
+| +45° | +90° |
+| --- | --- |
+| ![+45도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) | ![+90도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) |
+
+<p>결과 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">−45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">+90°</a></p>
+
+−90°와 +90°는 서로 반대 화면 방향의 측면으로 분리된다. −45°와 +45°는 같은 착장과 얼굴 기준을 유지하지만, 가려지는 쪽의 팔과 손 모양은 완전한 좌우 대칭이 아닐 수 있으므로 방향별 결과에서 따로 확인한다.
+
 
 ## 실행 기록과 승인 범위를 분리한다
 

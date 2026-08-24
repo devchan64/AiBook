@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the P7-5.2 frontal full-body reference from separated inputs."""
+"""Generate P7-5.2 full-body references from outfit, torso, and OpenPose inputs."""
 
 from __future__ import annotations
 
@@ -20,14 +20,32 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 ASSETS = Path(__file__).resolve().parent
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-FRONT_HEADLESS_OUTFIT = "p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20.png"
-FRONT_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
+HEADLESS_OUTFIT = "p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20.png"
 BACKGROUND_DESCRIPTION = "Plain cool-gray background."
 DEFAULT_SIZE = (1024, 1536)
 DEFAULT_STEPS = 30
-YAW_DEGREES = {"yaw_front": 0}
+YAW_DEGREES = {
+    "yaw_front": 0,
+    "yaw_minus_45": -45,
+    "yaw_minus_90": -90,
+    "yaw_plus_45": 45,
+    "yaw_plus_90": 90,
+}
 TORSO_REFERENCES = {
     "yaw_front": "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
+    "yaw_minus_45": "p7-5-7-qwen-torso-yaw-quarter-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+    "yaw_minus_90": "p7-5-7-qwen-torso-yaw-profile-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+    "yaw_plus_45": "p7-5-7-qwen-torso-yaw-quarter-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+    "yaw_plus_90": "p7-5-7-qwen-torso-yaw-profile-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+}
+OPENPOSE_REFERENCES = {
+    "yaw_front": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png",
+    # The relation-map projection uses the inverse screen direction of the
+    # 5.7 camera yaw.  Pair each torso with its screen-direction match.
+    "yaw_minus_45": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.png",
+    "yaw_minus_90": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.png",
+    "yaw_plus_45": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png",
+    "yaw_plus_90": "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.png",
 }
 
 
@@ -84,10 +102,17 @@ def load_pipeline() -> QwenImageEditPlusPipeline:
 
 
 def target_spec(target: str) -> tuple[tuple[str, ...], list[str], str]:
+    direction = {
+        "yaw_front": "facing forward",
+        "yaw_minus_45": "facing three-quarter right",
+        "yaw_minus_90": "facing right",
+        "yaw_plus_45": "facing three-quarter left",
+        "yaw_plus_90": "facing left",
+    }[target]
     return (
-        (FRONT_HEADLESS_OUTFIT, TORSO_REFERENCES[target], FRONT_OPENPOSE),
-        ["headless_outfit_reference", "frontal_torso_face_hair_style", "front_fullbody_openpose"],
-        "Front full-body woman. Image 1 outfit and hands. Image 2 face, hair, and style. Image 3 pose.",
+        (HEADLESS_OUTFIT, TORSO_REFERENCES[target], OPENPOSE_REFERENCES[target]),
+        ["stage3_headless_outfit", "matched_yaw_torso_face_hair_style", "matched_yaw_fullbody_openpose"],
+        f"Full-body woman {direction}. Image 1 outfit. Image 2 face, hair, and style. Image 3 pose.",
     )
 
 
