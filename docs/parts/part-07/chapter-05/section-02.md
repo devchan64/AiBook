@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 착장·전신 참조 셋 생성: 역할과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.25`
+> Version: `v2026.08.26`
 
 장면을 만들기 전에 같은 인물의 **착장과 전신 구조**를 대조할 기준을 정한다. 이 절은 로컬 GPU에서 Qwen으로 만든 착장·전신·body-only OpenPose 자산만 다룬다. 얼굴 정면의 identity와 얼굴 회전은 [P7-5.7](section-07.md)에서 별도로 관리한다.
 
@@ -16,7 +16,7 @@ P7-5.3은 인물·구도·장면을 한 컷에 결합하고, P7-5.4는 그 컷�
 | P7-5.7 정면 머리 참조 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영 | P7-5.7 생성 결과 |
 | 1단계 착장·전신 | 정면 머리 identity, 크롭탑, 여성용 와이드 팬츠, 흰 운동화, 양팔을 내린 정면 포즈 | 960×1440, 30-step 생성 결과 |
 | 2단계 전신 | 1단계 결과에 열린 흰 크롭 자켓과 손을 더한 착장 기준 | 960×1440, 30-step 생성 결과 |
-| 3단계 헤드리스 착장 | 얼굴·머리를 제외한 목깃, 재킷, 이너, 양손, 바지와 신발 | 1024×1536, 20-step 생성 결과 |
+| 3단계 얼굴 없는 대머리 착장 | 얼굴·헤어가 없는 대머리 머리·목 실루엣과 목깃, 재킷, 이너, 양손, 바지와 신발 | 1024×1536, 20-step 생성 결과 |
 | body-only OpenPose | 전신 관절과 방향 구조 | 사람 승인 |
 
 P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착장 이미지는 얼굴 identity를 정하지 않는다. P7-5.2의 전신 생성기는 이 머리 참조를 identity·헤어 입력으로 사용한다. 몸의 크기·방향·crop은 전신과 OpenPose가 맡으며, 정면 머리 참조는 목·어깨·의상을 결정하지 않는다.
@@ -37,25 +37,25 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a></p>
 
-## 3단계에서 얼굴 없이 착장 기준을 분리한다
+## 3단계에서 얼굴만 비우고 머리 실루엣을 남긴다
 
-3단계는 2단계 전신을 입력으로 사용해 머리·얼굴 실루엣을 제거한다. 목깃과 열린 흰 크롭 자켓, 회색 이너, 양손, 와이드 8부 팬츠, 흰 스니커즈는 유지한다. 이 결과는 얼굴 identity를 다시 생성하지 않고 착장·손·신발만 참조해야 할 때 사용한다.
+3단계는 2단계 전신을 입력으로 사용해 헤어와 눈·코·입 같은 얼굴 요소를 비운다. 대머리 머리·귀·목 실루엣은 남겨 목깃과 어깨의 연결을 보존하고, 열린 흰 크롭 자켓, 회색 이너, 양손, 와이드 8부 팬츠, 흰 스니커즈도 유지한다. 이 결과는 얼굴 identity를 다시 생성하지 않고 착장·손·신발과 머리-목 경계만 참조해야 할 때 사용한다.
 
-![3단계 Qwen 헤드리스 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20.png)
+![3단계 Qwen 얼굴 없는 대머리 착장 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_faceless_bald-faceless-bald-v1-seed-62294-steps-20.png)
 
-<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20-result.json" data-language="json">1024×1536, 20-step result.json</a></p>
+<p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_faceless_bald-faceless-bald-v1-seed-62294-steps-20-result.json" data-language="json">1024×1536, 20-step result.json</a></p>
 
-방향별 전신을 결합하기 전에는 이 정면 기준을 회전한 헤드리스 착장을 따로 둔다. 네 이미지는 얼굴·헤어 없이 재킷, 회색 이너, 양손, 와이드 8부 팬츠와 흰 스니커즈의 방향별 모습을 맡는다. 전신 생성에서는 의상 조건으로만 사용하고, 얼굴·헤어는 같은 방향의 P7-5.7 토르소가 맡는다.
+방향별 전신을 결합하기 전에는 이 정면 기준을 회전한 얼굴 없는 대머리 착장을 따로 둔다. 네 이미지는 얼굴·헤어를 비우되 머리·귀·목 실루엣은 유지하고, 재킷, 회색 이너, 양손, 와이드 8부 팬츠와 흰 스니커즈의 방향별 모습을 맡는다. 전신 생성에서는 의상과 머리-목 경계 조건으로만 사용하고, 얼굴·헤어는 같은 방향의 P7-5.7 토르소가 맡는다.
 
-| −90° 헤드리스 착장 | −45° 헤드리스 착장 |
+| −90° 얼굴 없는 대머리 착장 | −45° 얼굴 없는 대머리 착장 |
 | --- | --- |
-| ![−90도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_90-headless-outfit-yaw-v1-seed-62294-steps-8.png) | ![−45도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_45-headless-outfit-yaw-v1-seed-62294-steps-8.png) |
+| ![−90도 얼굴 없는 대머리 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_minus_90-yaw-v1-seed-62294-steps-8.png) | ![−45도 얼굴 없는 대머리 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_minus_45-yaw-v1-seed-62294-steps-8.png) |
 
-| +45° 헤드리스 착장 | +90° 헤드리스 착장 |
+| +45° 얼굴 없는 대머리 착장 | +90° 얼굴 없는 대머리 착장 |
 | --- | --- |
-| ![+45도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_45-headless-outfit-yaw-v1-seed-62294-steps-8.png) | ![+90도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_90-headless-outfit-yaw-v1-seed-62294-steps-8.png) |
+| ![+45도 얼굴 없는 대머리 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_plus_45-yaw-v1-seed-62294-steps-8.png) | ![+90도 얼굴 없는 대머리 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_plus_90-yaw-v1-seed-62294-steps-8.png) |
 
-<p>결과 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_90-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_45-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">−45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_45-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_90-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">+90°</a></p>
+<p>결과 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_minus_90-yaw-v1-seed-62294-steps-8-result.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_minus_45-yaw-v1-seed-62294-steps-8-result.json" data-language="json">−45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_plus_45-yaw-v1-seed-62294-steps-8-result.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_plus_90-yaw-v1-seed-62294-steps-8-result.json" data-language="json">+90°</a></p>
 
 1024×1536, 10-step 정면 전신은 3단계 헤드리스 착장을 먼저 넣어 재킷·이너·양손·바지·신발을 맡기고, P7-5.7 정면 토르소를 얼굴·헤어·화풍 기준으로 사용한다. body-only OpenPose는 마지막 입력으로 양팔을 내린 전신 비례와 프레이밍을 맡는다. 세 입력이 같은 특징을 반복하지 않도록 역할을 분리한 정면 결합 실험이다.
 
