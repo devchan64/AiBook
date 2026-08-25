@@ -1,7 +1,7 @@
 # P7-5.2 캐릭터 착장·전신 참조 셋 생성: 역할과 승인 범위 정하기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.24`
+> Version: `v2026.08.25`
 
 장면을 만들기 전에 같은 인물의 **착장과 전신 구조**를 대조할 기준을 정한다. 이 절은 로컬 GPU에서 Qwen으로 만든 착장·전신·body-only OpenPose 자산만 다룬다. 얼굴 정면의 identity와 얼굴 회전은 [P7-5.7](section-07.md)에서 별도로 관리한다.
 
@@ -45,6 +45,18 @@ P7-5.7 정면 머리 참조는 전신 비례나 의상을 정하지 않고, 착�
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20-result.json" data-language="json">1024×1536, 20-step result.json</a></p>
 
+방향별 전신을 결합하기 전에는 이 정면 기준을 회전한 헤드리스 착장을 따로 둔다. 네 이미지는 얼굴·헤어 없이 재킷, 회색 이너, 양손, 와이드 8부 팬츠와 흰 스니커즈의 방향별 모습을 맡는다. 전신 생성에서는 의상 조건으로만 사용하고, 얼굴·헤어는 같은 방향의 P7-5.7 토르소가 맡는다.
+
+| −90° 헤드리스 착장 | −45° 헤드리스 착장 |
+| --- | --- |
+| ![−90도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_90-headless-outfit-yaw-v1-seed-62294-steps-8.png) | ![−45도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_45-headless-outfit-yaw-v1-seed-62294-steps-8.png) |
+
+| +45° 헤드리스 착장 | +90° 헤드리스 착장 |
+| --- | --- |
+| ![+45도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_45-headless-outfit-yaw-v1-seed-62294-steps-8.png) | ![+90도 헤드리스 착장](../../../assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_90-headless-outfit-yaw-v1-seed-62294-steps-8.png) |
+
+<p>결과 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_90-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_minus_45-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">−45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_45-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-headless-outfit-yaw_plus_90-headless-outfit-yaw-v1-seed-62294-steps-8-result.json" data-language="json">+90°</a></p>
+
 1024×1536, 10-step 정면 전신은 3단계 헤드리스 착장을 먼저 넣어 재킷·이너·양손·바지·신발을 맡기고, P7-5.7 정면 토르소를 얼굴·헤어·화풍 기준으로 사용한다. body-only OpenPose는 마지막 입력으로 양팔을 내린 전신 비례와 프레이밍을 맡는다. 세 입력이 같은 특징을 반복하지 않도록 역할을 분리한 정면 결합 실험이다.
 
 ![1024×1536, 10-step Qwen 정면 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_front-stage3-headless-outfit-first-v2-seed-62294-steps-10.png)
@@ -65,17 +77,17 @@ body-only OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵이�
 
 ## 방향별 전신은 토르소와 구조 맵의 화면 방향을 맞춘다
 
-방향별 전신은 3단계 헤드리스 착장, 같은 방향의 P7-5.7 토르소, 그리고 화면상 방향이 일치하도록 짝지은 body-only OpenPose를 차례로 입력한다. 토르소는 얼굴·헤어·화풍과 화면 방향을, 헤드리스 착장은 재킷·이너·바지·신발을, OpenPose는 전신 비례·팔·다리 관계를 맡는다. OpenPose의 투영 부호는 5.7 카메라 yaw와 화면에서 반대이므로, −45°·−90° 토르소에는 +45°·+90° OpenPose를, +45°·+90° 토르소에는 −45°·−90° OpenPose를 연결한다.
+방향별 전신은 화면상 방향이 일치하도록 짝지은 body-only OpenPose, 3단계 헤드리스 착장, 같은 방향의 P7-5.7 토르소 순서로 입력한다. OpenPose는 전신 비례·팔·다리 관계와 원근을, 헤드리스 착장은 재킷·이너·바지·신발을, 토르소는 얼굴·헤어·화풍과 화면 방향을 맡는다. OpenPose의 투영 부호는 5.7 카메라 yaw와 화면에서 반대이므로, −45°·−90° 토르소에는 +45°·+90° OpenPose를, +45°·+90° 토르소에는 −45°·−90° OpenPose를 연결한다.
 
 | −90° | −45° |
 | --- | --- |
-| ![−90도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) | ![−45도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) |
+| ![−90도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) | ![−45도 Qwen 전신 기준, 20-step](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_45-openpose-first-v2-seed-62294-steps-20.png) |
 
 | +45° | +90° |
 | --- | --- |
 | ![+45도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) | ![+90도 Qwen 전신 기준](../../../assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30.png) |
 
-<p>결과 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">−45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">+90°</a></p>
+<p>결과 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_minus_45-openpose-first-v2-seed-62294-steps-20-result.json" data-language="json">−45° (20-step)</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_45-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-fullbody-reference-yaw_plus_90-stage3-headless-openpose-torso-v5-seed-62294-steps-30-result.json" data-language="json">+90°</a></p>
 
 −90°와 +90°는 서로 반대 화면 방향의 측면으로 분리된다. −45°와 +45°는 같은 착장과 얼굴 기준을 유지하지만, 가려지는 쪽의 팔과 손 모양은 완전한 좌우 대칭이 아닐 수 있으므로 방향별 결과에서 따로 확인한다.
 
