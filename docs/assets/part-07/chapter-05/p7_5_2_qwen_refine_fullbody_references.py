@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate P7-5.2 full-body references from outfit, torso, and OpenPose inputs."""
+"""Generate P7-5.2 full-body references from selected outfit, torso, and OpenPose inputs."""
 
 from __future__ import annotations
 
@@ -20,7 +20,13 @@ from nunchaku import NunchakuQwenImageTransformer2DModel
 ASSETS = Path(__file__).resolve().parent
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-HEADLESS_OUTFIT = "p7-5-2-qwen-edit-prompt-style-outfit_stage3_headless-relaxed-arms-v1-seed-62294-steps-20.png"
+HEADLESS_OUTFIT_REFERENCES = {
+    "yaw_front": "p7-5-2-qwen-edit-prompt-style-outfit_stage3_faceless_bald-faceless-bald-v1-seed-62294-steps-20.png",
+    "yaw_minus_45": "p7-5-2-qwen-faceless-bald-outfit-yaw_minus_45-yaw-v1-seed-62294-steps-8.png",
+    "yaw_minus_90": "p7-5-2-qwen-faceless-bald-outfit-yaw_minus_90-yaw-v1-seed-62294-steps-8.png",
+    "yaw_plus_45": "p7-5-2-qwen-faceless-bald-outfit-yaw_plus_45-yaw-v1-seed-62294-steps-8.png",
+    "yaw_plus_90": "p7-5-2-qwen-faceless-bald-outfit-yaw_plus_90-yaw-v1-seed-62294-steps-8.png",
+}
 BACKGROUND_DESCRIPTION = "Plain cool-gray background."
 DEFAULT_SIZE = (1024, 1536)
 DEFAULT_STEPS = 30
@@ -95,24 +101,48 @@ def load_pipeline() -> QwenImageEditPlusPipeline:
         torch_dtype=torch.bfloat16,
         local_files_only=True,
     )
-    transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
+    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
     pipeline._exclude_from_cpu_offload.append("transformer")
     pipeline.enable_sequential_cpu_offload()
     return pipeline
 
 
-def target_spec(target: str) -> tuple[tuple[str, ...], list[str], str]:
+def target_spec(target: str, input_order: str) -> tuple[tuple[str, ...], list[str], str]:
     direction = {
         "yaw_front": "facing forward",
         "yaw_minus_45": "facing three-quarter right",
         "yaw_minus_90": "facing right",
-        "yaw_plus_45": "facing three-quarter left",
+        "yaw_plus_45": "facing three-quarter left, front torso visible",
         "yaw_plus_90": "facing left",
     }[target]
+    if input_order == "openpose_outfit_torso":
+        return (
+            (OPENPOSE_REFERENCES[target], HEADLESS_OUTFIT_REFERENCES[target], TORSO_REFERENCES[target]),
+            ["matched_yaw_fullbody_openpose", "matched_yaw_headless_outfit", "matched_yaw_torso_face_hair_style"],
+            f"Full-body woman {direction}. Image 1 pose. Image 2 outfit. Image 3 face, hair, and style.",
+        )
+    if input_order == "openpose_torso_outfit":
+        return (
+            (OPENPOSE_REFERENCES[target], TORSO_REFERENCES[target], HEADLESS_OUTFIT_REFERENCES[target]),
+            ["matched_yaw_fullbody_openpose", "matched_yaw_torso_face_hair_style", "matched_yaw_headless_outfit"],
+            f"Full-body woman {direction}. Image 1 pose. Image 2 face, hair, and style. Image 3 outfit.",
+        )
+    if input_order == "torso_outfit":
+        return (
+            (TORSO_REFERENCES[target], HEADLESS_OUTFIT_REFERENCES[target]),
+            ["matched_yaw_torso_face_hair_style", "matched_yaw_faceless_bald_outfit"],
+            f"Full-body woman {direction}. Image 1 face, hair, and style. Image 2 outfit, hands, shoes, and body proportions.",
+        )
+    if input_order == "outfit_torso":
+        return (
+            (HEADLESS_OUTFIT_REFERENCES[target], TORSO_REFERENCES[target]),
+            ["matched_yaw_faceless_bald_outfit", "matched_yaw_torso_face_hair_style"],
+            f"Full-body woman {direction}. Image 1 outfit, hands, shoes, and body proportions. Image 2 face, hair, and style.",
+        )
     return (
-        (HEADLESS_OUTFIT, TORSO_REFERENCES[target], OPENPOSE_REFERENCES[target]),
-        ["stage3_headless_outfit", "matched_yaw_torso_face_hair_style", "matched_yaw_fullbody_openpose"],
-        f"Full-body woman {direction}. Image 1 outfit. Image 2 face, hair, and style. Image 3 pose.",
+        (TORSO_REFERENCES[target], OPENPOSE_REFERENCES[target], HEADLESS_OUTFIT_REFERENCES[target]),
+        ["matched_yaw_torso_face_hair_style", "matched_yaw_fullbody_openpose", "matched_yaw_headless_outfit"],
+        f"Full-body woman {direction}. Image 1 face, hair, and style. Image 2 pose. Image 3 outfit.",
     )
 
 
@@ -123,6 +153,16 @@ def main() -> None:
     parser.add_argument("--size", type=parse_size, default=DEFAULT_SIZE)
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--run-label", default="matched-torso-face-refine-v1")
+    parser.add_argument(
+        "--input-order",
+        choices=("openpose_outfit_torso", "openpose_torso_outfit", "torso_openpose_outfit", "torso_outfit", "outfit_torso"),
+        default="openpose_outfit_torso",
+    )
+    parser.add_argument(
+        "--openpose-reference",
+        type=Path,
+        help="Override the OpenPose input for a one-off comparison run.",
+    )
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     args = parser.parse_args()
     if args.steps < 1:
@@ -134,8 +174,15 @@ def main() -> None:
     pipeline = load_pipeline()
     outputs = []
     for index, target in enumerate(args.targets, start=1):
-        input_names, input_roles, prompt = target_spec(target)
+        input_names, input_roles, prompt = target_spec(target, args.input_order)
         inputs = [ASSETS / name for name in input_names]
+        if args.openpose_reference:
+            if "matched_yaw_fullbody_openpose" not in input_roles:
+                raise ValueError("--openpose-reference requires an input order with OpenPose")
+            override = args.openpose_reference
+            if not override.is_absolute():
+                override = ASSETS / override
+            inputs[input_roles.index("matched_yaw_fullbody_openpose")] = override
         if missing := [str(path) for path in inputs if not path.is_file()]:
             raise FileNotFoundError("missing input asset(s): " + ", ".join(missing))
         stem = f"p7-5-2-qwen-fullbody-reference-{target}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"

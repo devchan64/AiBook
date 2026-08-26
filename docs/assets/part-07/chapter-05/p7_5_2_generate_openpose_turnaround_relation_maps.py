@@ -103,19 +103,77 @@ def decode_embedded_face70(value: str) -> dict[str, object]:
 FRONT_FACE70 = decode_embedded_face70("c$|e)%WmT^4Ez_Loj@eThx#jvBIu$y6xeMS-AlVg|9wfxcBI5W4hf90#NiBw{+gbqhp#Ec-_N(_Pq5R=>+|_zdPwv1`u6_&>DSA@^YiKBb9(rZj+`=x&glq}+2}FO{5_w}pZ<G#KiytPel|UR&lBWZ3dnmL*)k~y2WJzw$8qo*1rqD*Pb6TVm5+D$cvllrVXJ(oYWFn-9bwRADnwT4WQR_6<z+2UEmZV}yYk@Z?FoS2AV}bb1fA~C>8?5!tY(TS-y?$~7DUX|3{I}hx&HWzXafKU!>5F7;<W~F>8*l^NJ|u9F)o3nW1*B&$Trl()<9JzDzo1(pY;NA$vM;9dTAxyH6WjpgKnQ!Y9JCyLI(v6!P6LlV^<0z7QK-KmXM4q#u=5YFX-(c3FTlGp&}J4DKiI_k``I8Rg315O9*VQa||g9W3AUzwIsU~#vVH~hchki_>^ScBsI_&O{vD()c38SqENJkJv<rh8NtP#Lo)!I7tsn-ej+aQ=w?uNebq4^*1T6xvcMG-^TaD=AA+V@FUC=5Ks!5na0^fiSPfMSNtT0QmjoD7Qn<Rkf!*zGI)2$BDL9^6oLC(lJnuu^Ti(mLe06#>T(xplU^zM}m!g)2boj_DqYd<J_?4zL+|uidB{HOFi*GdKi-p*q+^IOWxa~;4ic5ml#9w(HtD$A|yu&unI}DTfRQiHzH^YK0Hu&eo%ry7o8kTdR?XXLKBe;Dkwu(L2Yu>JR{cJoPw#eJ>yFa(~y<2aW`1WHsjPJ6UOYk1Q{{wSn*a`")
 QUARTER_RIGHT_FACE70 = decode_embedded_face70("c$|%t(TW=}3`PHCo~J>wWl7Gjln_#qhlMm-wiGs9_TOuHrXG1R-7O)(oXEPmlI^$QH0<97u%B<w=R4~0>2|)n4tp4f+w;r!)Ai~1<$Qd-5BsmMOC#)1F%uo^@1K|B<zBw0m*ZnBlvp^tj|0+UcBHNJq!2(&gHx99nZ}p0gPAFgWtEtex$312y|ifuW1>*?ilzVX6fp-)CPx%NCOO`a<4t=(K%>b?MwU<Q;Z87@kLf|yfT8Niu)qDfUd!@FiLx-tim7%X=8#iqTu(tFn_i_7liC~uCB_*>NikaEDI?}QK@?RsC>TPlk+91#1~v~FR3c8$0zw*b2N6@4p`}tO5JMK$36>5Z<rTE@q=SW7d1@(vvq)uVwdbO(2&7b*g@M^gT1Lndn?y=CSP7<lWf?P%QxfsW3ZUXfR}iiF)VZFmLT`IT6DCOyG-MK#H8qV;)fi*#dvn>djkwvR&*;nl7%p9(YlAdX8(Zl7d)Q7=gVQ3!&d^jH_ev}HcYA}|tPS07wgVucKk(KY0;tsTFm>l}6>DpzwfkjurWSZT=N9XG;@~p7rsW6a;4%}peTi)HKBupVP*Qy=+qqv3nZL$vB=%OOv>Hi^blu-#?s_%GDx71_{9DmryRTl^!&ak*&5h4F&#m{}wtLuwI{1;Fj|2aea#MUcNN(oKEuP`w{SSGPzjF")
 
-# A proportion profile is the domain model for a structural OpenPose guide.
-# ``seven_head_standing`` is only the default profile, not the domain itself.
-HUMAN_PROPORTION_PROFILES = {
+# Each template stores all body dimensions as a share of total height (height=1).
+# ``default_height`` only converts that normalized structure to renderer units;
+# passing --height scales every body part together without changing the template.
+HEIGHT_NORMALIZED_BODY_TEMPLATES = {
     "seven_head_standing": {
-        "head_face_height": 1.00,
-        "face_width": 0.72,
-        "upper_body_neck_base_to_crotch": 2.25,
-        "leg_hip_to_sole": 3.55,
-        "arm_shoulder_to_wrist": 2.15,
-        "total_crown_to_sole": 7.00,
+        "default_height": 7.00,
+        "head_ratio": 0.14285714, "face_width_ratio": 0.10285714,
+        "torso_ratio": 0.32142857, "leg_ratio": 0.50714286, "arm_ratio": 0.30714286,
+    },
+    # Measured against the stage-2 frontal outfit anchor.  Its cropped jacket
+    # makes the waist visually high, while the eight-tenths trousers leave a
+    # much longer hip-to-sole span than the generic seven-head template.
+    "stage2_front_standing": {
+        "default_height": 7.70,
+        "head_ratio": 0.12987013, "face_width_ratio": 0.10909091,
+        "torso_ratio": 0.22077922, "leg_ratio": 0.62337662, "arm_ratio": 0.37012987,
+        "hip_half_width_ratio": 0.08051948, "knee_half_width_ratio": 0.09350649,
+        "fullbody_frame_origin_y": 145.0,
+    },
+    "stage2_front_compact_head_shoulders": {
+        "default_height": 7.56,
+        "head_ratio": 0.11375661, "face_width_ratio": 0.09523810,
+        "torso_ratio": 0.22486772, "leg_ratio": 0.63492063, "arm_ratio": 0.37698413,
+        "hip_half_width_ratio": 0.08201058, "knee_half_width_ratio": 0.09523810,
+        "fullbody_frame_origin_y": 145.0,
+    },
+    "stage2_front_compact_pelvis": {
+        "default_height": 7.56,
+        "head_ratio": 0.11375661, "face_width_ratio": 0.09523810,
+        "torso_ratio": 0.22486772, "leg_ratio": 0.58862434, "arm_ratio": 0.37698413,
+        "hip_half_width_ratio": 0.06613757, "knee_half_width_ratio": 0.08465608,
+        "fullbody_frame_origin_y": 145.0,
+    },
+    "stage2_front_compact_pelvis_short_arms": {
+        "default_height": 7.56,
+        "head_ratio": 0.11375661, "face_width_ratio": 0.09523810,
+        "torso_ratio": 0.22486772, "leg_ratio": 0.58862434, "arm_ratio": 0.31746032,
+        "hip_half_width_ratio": 0.06613757, "knee_half_width_ratio": 0.08465608,
+        "fullbody_frame_origin_y": 145.0,
+    },
+    # Preserve the compact torso, head, and short-arm calibration while
+    # extending only the hip-to-sole span by 15 percent for the next test.
+    "stage2_front_compact_pelvis_short_arms_long_legs": {
+        "default_height": 8.2275,
+        "head_ratio": 0.10452750, "face_width_ratio": 0.08751139,
+        "torso_ratio": 0.20662413, "leg_ratio": 0.62199939, "arm_ratio": 0.29170465,
+        "hip_half_width_ratio": 0.06077180, "knee_half_width_ratio": 0.07783349,
+        "fullbody_frame_origin_y": 145.0,
     },
 }
 DEFAULT_PROPORTION_PROFILE = "seven_head_standing"
+
+
+def resolve_height_normalized_template(template: dict[str, float], height: float | None = None) -> dict[str, float]:
+    """Expand one height-normalized template into renderer coordinate units."""
+    resolved_height = template["default_height"] if height is None else height
+    ratio_keys = {
+        "head_face_height": "head_ratio", "face_width": "face_width_ratio",
+        "upper_body_neck_base_to_crotch": "torso_ratio", "leg_hip_to_sole": "leg_ratio",
+        "arm_shoulder_to_wrist": "arm_ratio", "hip_half_width": "hip_half_width_ratio",
+        "knee_half_width": "knee_half_width_ratio",
+    }
+    if resolved_height <= 0:
+        raise ValueError("height must be positive")
+    resolved = {"total_crown_to_sole": resolved_height}
+    for dimension, ratio_key in ratio_keys.items():
+        if ratio_key in template:
+            resolved[dimension] = template[ratio_key] * resolved_height
+    if "fullbody_frame_origin_y" in template:
+        resolved["fullbody_frame_origin_y"] = template["fullbody_frame_origin_y"]
+    return resolved
 
 
 def sha256(path: Path) -> str:
@@ -209,8 +267,8 @@ def body_template(proportions: dict[str, float]) -> list[tuple[float, float, flo
     wrist_y = shoulder_y - arm
     shoulder_x = face_width
     arm_bend_x = 0.43 * face_width
-    hip_x = 0.58 * face_width
-    knee_x = 0.64 * face_width
+    hip_x = proportions.get("hip_half_width", 0.58 * face_width)
+    knee_x = proportions.get("knee_half_width", 0.64 * face_width)
     knee_y = geometry["hip_y"] * 0.50
     return [
         (0.00, geometry["chin_y"] + 0.48 * head, 0.52 * head),  # nose
@@ -237,7 +295,7 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
     posed[7] = (shoulder[0] - 0.05 * head, geometry["neck_y"] + 1.35 * head, 0.32 * head)
     if pose == "raised-arm":
         return posed
-    if pose not in {"hand-on-hip", "relaxed-arms"}:
+    if pose not in {"hand-on-hip", "relaxed-arms", "stage2-relaxed-arms", "stage2-open-arms"}:
         raise ValueError(f"Unsupported body pose: {pose}")
 
     # Preserve the source upper-/lower-arm bone lengths while changing only
@@ -257,6 +315,26 @@ def apply_body_pose(points: list[tuple[float, float, float]], pose: str, proport
         posed[4] = endpoint(posed[3], (-0.22, -0.98, -0.03), right_lower)
         posed[6] = endpoint(points[5], (0.30, -0.95, 0.08), left_upper)
         posed[7] = endpoint(posed[6], (0.22, -0.98, 0.03), left_lower)
+        return posed
+
+    if pose == "stage2-relaxed-arms":
+        # Match the stage-2 jacket anchor: shoulders are wider, but the
+        # elbows and hands drop nearly vertically beside the hip rather than
+        # fanning outward.  The small mirrored offsets retain visible hands.
+        posed[3] = endpoint(points[2], (-0.06, -1.00, -0.04), right_upper)
+        posed[4] = endpoint(posed[3], (-0.02, -1.00, -0.02), right_lower)
+        posed[6] = endpoint(points[5], (0.06, -1.00, 0.04), left_upper)
+        posed[7] = endpoint(posed[6], (0.02, -1.00, 0.02), left_lower)
+        return posed
+
+    if pose == "stage2-open-arms":
+        # Keep both hands visible for the staged outfit reference: the arms
+        # open gently away from the torso while the wrists remain below the
+        # waist rather than forming a horizontal T pose.
+        posed[3] = endpoint(points[2], (-0.42, -0.91, -0.04), right_upper)
+        posed[4] = endpoint(posed[3], (-0.32, -0.95, -0.02), right_lower)
+        posed[6] = endpoint(points[5], (0.42, -0.91, 0.04), left_upper)
+        posed[7] = endpoint(posed[6], (0.32, -0.95, 0.02), left_lower)
         return posed
 
     # Camera-left elbow stays close to the torso, then the lowered hand bends
@@ -593,10 +671,11 @@ def main() -> None:
     )
     parser.add_argument(
         "--proportion-profile",
-        choices=sorted(HUMAN_PROPORTION_PROFILES),
+        choices=sorted(HEIGHT_NORMALIZED_BODY_TEMPLATES),
         default=DEFAULT_PROPORTION_PROFILE,
-        help="Named human-proportion profile that drives all body and face coordinates.",
+        help="Named height-normalized body template that drives all body and face coordinates.",
     )
+    parser.add_argument("--height", type=float, help="Optional total height in renderer units; keeps the selected template ratios unchanged.")
     parser.add_argument(
         "--output-range",
         choices=("all", "pitch0", "front"),
@@ -605,7 +684,7 @@ def main() -> None:
     parser.add_argument("--include-face", action="store_true", help="Render the embedded FACE_70 nose/eye/ear-normalized maps.")
     parser.add_argument("--frame", choices=("fullbody", "shoulders"), default="fullbody", help="Output framing: fullbody or a square BODY_18 eye-nose-ear-neck-shoulder structure.")
     parser.add_argument("--overwrite", action="store_true")
-    parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "hand-on-hip", "relaxed-arms"), default="relaxed-arms")
+    parser.add_argument("--body-pose", choices=("neutral", "raised-arm", "hand-on-hip", "relaxed-arms", "stage2-relaxed-arms", "stage2-open-arms"), default="relaxed-arms")
     parser.add_argument(
         "--projection",
         choices=("orthographic", "perspective"),
@@ -627,6 +706,8 @@ def main() -> None:
     )
     args = parser.parse_args()
     global WIDTH, HEIGHT, CENTER_X, SCALE
+    normalized_template = HEIGHT_NORMALIZED_BODY_TEMPLATES[args.proportion_profile]
+    proportions = resolve_height_normalized_template(normalized_template, args.height)
     if args.frame == "shoulders":
         WIDTH, HEIGHT, CENTER_X, SCALE = SHOULDERS_WIDTH, SHOULDERS_HEIGHT, SHOULDERS_WIDTH / 2, SHOULDERS_SCALE
         default_frame_origin_y = DEFAULT_SHOULDERS_FRAME_ORIGIN_Y
@@ -635,7 +716,13 @@ def main() -> None:
         WIDTH, HEIGHT, CENTER_X, SCALE = FULLBODY_WIDTH, FULLBODY_HEIGHT, FULLBODY_WIDTH / 2, 150
         default_frame_origin_y = DEFAULT_FRAME_ORIGIN_Y
         default_camera_distance = DEFAULT_PERSPECTIVE_CAMERA_DISTANCE
-    frame_origin_y = args.frame_origin_y if args.frame_origin_y is not None else default_frame_origin_y
+    frame_origin_y = (
+        args.frame_origin_y
+        if args.frame_origin_y is not None
+        else proportions.get("fullbody_frame_origin_y", default_frame_origin_y)
+        if args.frame == "fullbody"
+        else default_frame_origin_y
+    )
     camera_distance = args.camera_distance if args.camera_distance is not None else default_camera_distance
     output_dir = args.output_dir if args.output_dir.is_absolute() else ASSETS / args.output_dir
     reference = args.reference if args.reference.is_absolute() else ASSETS / args.reference
@@ -692,7 +779,6 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     renderer = openpose_module()
-    proportions = HUMAN_PROPORTION_PROFILES[args.proportion_profile]
     body_world = apply_body_pose(body_template(proportions), args.body_pose, proportions)
     geometry = proportion_geometry(proportions)
     face_pivot = (0.0, geometry["chin_y"] + 0.48 * geometry["head"], 0.52 * geometry["head"])
@@ -752,7 +838,12 @@ def main() -> None:
                 ),
                 "method": f"BODY_18 was generated from one normalized 3D template and {args.projection} projected. FACE_70 was {'mapped from embedded nose/eye/ear-normalized code constants' if args.include_face else 'not included'}.",
                 "coordinate_system": {"world": "x right, y up, z toward camera; origin at ground centre", "screen": "x right, y down", "canvas": [WIDTH, HEIGHT], "frame_origin_y": frame_origin_y, "projection": args.projection, "camera_distance": camera_distance if args.projection == "perspective" else None, "horizontal_fov_degrees": args.horizontal_fov_degrees if args.projection == "perspective" else None, "focal_length_px": round(focal_length_for_horizontal_fov(args.horizontal_fov_degrees), 3) if args.projection == "perspective" else None},
-                "human_proportion_profile": {"name": args.proportion_profile, "values": proportions},
+                "human_proportion_template": {
+                    "name": args.proportion_profile,
+                    "height_normalized_values": normalized_template,
+                    "resolved_height": proportions["total_crown_to_sole"],
+                    "resolved_values": proportions,
+                },
                 "body_pose": args.body_pose,
                 "frame": args.frame,
                 "output_label": output_label,

@@ -28,27 +28,29 @@ TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen
 OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
 QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
+FRONT_TORSO_REFERENCE = "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
 HAND_ON_WAIST_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
+STAGE2_BODY_ONLY_OPENPOSE = "p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
 
 
 OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
     "outfit_stage1_face_openpose": {
-        "inputs": (QWEN_FACE_REFERENCE, HAND_ON_WAIST_OPENPOSE),
-        "input_roles": ["frontal_head_identity_hair_1024", "standard_openpose_fullbody_structure"],
+        "inputs": (QWEN_FACE_REFERENCE, STAGE2_BODY_ONLY_OPENPOSE),
+        "input_roles": ["frontal_head_identity_hair_1024", "stage_2_calibrated_front_body_only_openpose"],
         "append_style_prompt": False,
         "append_illustration_prompt": False,
         "default_steps": 30,
         "size": (960, 1440),
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
-            "Photorealistic front full-body woman. Image 1: exact face and hair identity. Image 2: strict-front skeleton; do not render it. "
-            "Wear only a slim charcoal-gray micro crop T-shirt whose hem ends immediately below the bust, leaving a wide bare midriff above deep-teal high-waisted feminine wide-leg eight-tenths trousers, and white low-top sneakers. "
-            "No jacket, bag, or strap. Warm off-white background."
+            "Photorealistic front full-body woman with a clearly narrow, defined waist. Image 1: exact face and hair identity. Image 2: strict-front skeleton; do not render it. "
+            "Wear only a slim charcoal-gray micro crop T-shirt whose hem ends immediately below the bust, leaving a wide bare midriff above deep-teal high-waisted feminine full-length wide-leg trousers that reach the tops of white low-top sneakers. "
+            "Both arms and complete hands are visible. No jacket, bag, or strap. Warm off-white background."
         ),
     },
     "outfit_stage2_jacket_face": {
         "inputs": (
-            "p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-relaxed-arms-v3-seed-62294-steps-30.png",
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage1_face_openpose-long-trousers-defined-waist-v4-seed-62294-steps-30.png",
             QWEN_FACE_REFERENCE,
         ),
         "input_roles": ["stage_1_outfit_fullbody", "frontal_head_identity_hair_1024"],
@@ -59,12 +61,12 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
         "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
         "prompt": (
             "Front full-body woman. Image 1: retain the stage-1 crop top, wide trousers, sneakers, and proportions. "
-            "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves, bag, or strap. Warm off-white background."
+            "Image 2: retain face and hair. Add an unzipped white cropped riding jacket: its front panels are visibly apart and never meet; a flat folded-down pointed shirt collar, white lining, and wrist-length sleeves cover shoulders and upper arms. Both hands are fully visible below the sleeve cuffs. The gray crop top is visible from neckline to hem above the bare midriff; no inner sleeves, bag, or strap. Warm off-white background."
         ),
     },
     "outfit_stage3_headless": {
         "inputs": (
-            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30.png",
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
         ),
         "input_roles": ["stage_2_outfit_fullbody"],
         "append_style_prompt": False,
@@ -77,6 +79,111 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
             "Preserve the neck, shirt collar, jacket collar, shoulders, exact jacket, crop top, trousers, hands, and sneakers."
         ),
     },
+    "outfit_stage3_faceless_bald": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+        ),
+        "input_roles": ["stage_2_outfit_fullbody"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 20,
+        "size": (1024, 1536),
+        "negative_prompt": "hair, eyes, eyebrows, eyelashes, nose, mouth, facial features, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body faceless bald woman outfit reference. Preserve a smooth bald head silhouette and a blank face with no facial features. "
+            "Preserve the neck, shirt collar, jacket collar, shoulders, exact white cropped jacket, gray crop top, trousers, hands, and sneakers. Plain cool-gray background."
+        ),
+    },
+    "outfit_stage3_torso_face_hair_style": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30.png",
+            FRONT_TORSO_REFERENCE,
+        ),
+        "input_roles": ["stage_2_outfit_fullbody", "frontal_torso_face_hair_style"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (1024, 1536),
+        "negative_prompt": "text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1 preserves the exact white cropped jacket, gray crop top, trousers, hands, and sneakers. "
+            "Image 2 replaces the face and hair and defines the line work, color, and shading. Plain cool-gray background."
+        ),
+    },
+    "outfit_stage3_4_headless_torso_face_hair_style": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage3_faceless_bald-long-trousers-folded-collar-v2-seed-62294-steps-20.png",
+            FRONT_TORSO_REFERENCE,
+            STAGE2_BODY_ONLY_OPENPOSE,
+        ),
+        "input_roles": ["stage_3_faceless_bald_outfit", "frontal_torso_face_hair_style", "front_body_only_openpose_v7"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (1024, 1536),
+        "negative_prompt": "text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1 preserves the exact white cropped jacket, gray crop top, trousers, hands, and sneakers. "
+            "Image 2 defines the face, hair, line work, color, and shading. Image 3 defines the full-body proportion, arm and hand placement; do not render it. Plain cool-gray background."
+        ),
+    },
+    "outfit_stage4_body_pose_refine": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage3_4_headless_torso_face_hair_style-headless-torso-face-hair-style-v1-seed-62294-steps-30.png",
+            "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png",
+        ),
+        "input_roles": ["stage_3_4_face_hair_outfit", "front_body_only_openpose"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (1024, 1536),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1 preserves the face, hair, white cropped jacket, gray crop top, trousers, hands, sneakers, line work, color, and shading. "
+            "Image 2 defines full-body pose and relaxed arms; do not render it. Plain cool-gray background."
+        ),
+    },
+    "outfit_stage3_stage2_openpose": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-relaxed-arms-v3-seed-62294-steps-30.png",
+            STAGE2_BODY_ONLY_OPENPOSE,
+        ),
+        "input_roles": ["stage_2_outfit_fullbody", "stage_2_calibrated_front_body_only_openpose"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (1024, 1536),
+        "negative_prompt": "face, hair, facial features, OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body faceless bald woman outfit reference. Image 1 preserves the white cropped jacket, gray crop top, trousers, hands, and sneakers. "
+            "Image 2 defines the standing body proportion, lowered arms, hands, and feet; do not render it. Plain cool-gray background."
+        ),
+    },
+    "outfit_stage4_stage2_openpose_torso": {
+        "inputs": (
+            "p7-5-2-qwen-edit-prompt-style-outfit_stage3_stage2_openpose-stage2-openpose-v1-seed-62294-steps-30.png",
+            FRONT_TORSO_REFERENCE,
+            STAGE2_BODY_ONLY_OPENPOSE,
+        ),
+        "input_roles": ["stage_3_body_aligned_faceless_outfit", "frontal_torso_face_hair_style", "stage_2_calibrated_front_body_only_openpose"],
+        "append_style_prompt": False,
+        "append_illustration_prompt": False,
+        "default_steps": 30,
+        "size": (1024, 1536),
+        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
+        "prompt": (
+            "Front full-body woman. Image 1 preserves the outfit, hands, and shoes. Image 2 defines face, hair, line work, color, and shading. "
+            "Image 3 defines standing body proportion and relaxed arms; do not render it. Plain cool-gray background."
+        ),
+    },
+}
+
+# Stages 3 and 4 are retired.  Keep only the two active, reproducible outfit
+# stages exposed through the CLI while their older configuration remains as
+# local implementation history until the broader manuscript history is pruned.
+OUTFIT_STAGE_TARGETS = {
+    name: OUTFIT_STAGE_TARGETS[name]
+    for name in ("outfit_stage1_face_openpose", "outfit_stage2_jacket_face")
 }
 
 
