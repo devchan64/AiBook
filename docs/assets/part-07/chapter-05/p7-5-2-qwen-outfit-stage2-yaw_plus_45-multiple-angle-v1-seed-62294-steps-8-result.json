@@ -23,16 +23,16 @@
     },
     "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
   },
-  "target": "yaw_plus_90",
-  "yaw_degrees": 90,
+  "target": "yaw_plus_45",
+  "yaw_degrees": 45,
   "inputs": [
     {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage3_faceless_bald-faceless-bald-v1-seed-62294-steps-20.png",
-      "sha256": "c082cee5c8368dbf5ec7d868e296e34a41928d6a9818d8be95f589b93b1eed1b"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+      "sha256": "c609cb7fb072f18727d53818152b5833a2be1d080f9ff8fed999edb6125e99b7"
     }
   ],
   "input_roles": [
-    "faceless-bald-outfit_reference"
+    "outfit-stage2_reference"
   ],
   "seed": 62294,
   "steps": 8,
@@ -42,18 +42,17 @@
   ],
   "true_cfg_scale": 4.0,
   "negative_prompt": " ",
-  "prompt": "将镜头向右旋转90度。",
+  "prompt": "将镜头向右旋转45度。",
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-faceless-bald-outfit-yaw_plus_90-yaw-v1-seed-62294-steps-8.png",
-    "sha256": "aa15355d42955ede00357b9f04c5bfbab958e41a00751ade17c8cb548053dfba"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8.png",
+    "sha256": "2caa73f18e96b9f3fe20341c0cada5d957c67b276477f77b0663779a7b181eb3"
   },
-  "elapsed_seconds": 98.07,
+  "elapsed_seconds": 98.16,
   "sequence": {
-    "index": 4,
-    "total": 4,
+    "index": 2,
+    "total": 3,
     "targets": [
       "yaw_minus_90",
-      "yaw_minus_45",
       "yaw_plus_45",
       "yaw_plus_90"
     ]
