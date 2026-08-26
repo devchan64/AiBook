@@ -16,9 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import torch
-from diffusers import FlowMatchEulerDiscreteScheduler, QwenImageEditPlusPipeline, QwenImagePipeline
-from diffusers.utils import load_image
-from huggingface_hub import snapshot_download
+from diffusers import QwenImagePipeline
 from nunchaku import NunchakuQwenImageTransformer2DModel
 from PIL import Image
 
@@ -28,10 +26,6 @@ PROJECT_ROOT = ASSETS.parents[3]
 DEPTH_ANYTHING_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-depth-anything-v2-small"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
-EDIT_MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
-EDIT_TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors"
-ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
-ANGLE_LORA_FILE = "镜头转换.safetensors"
 
 
 @dataclass(frozen=True)
@@ -64,17 +58,6 @@ SCENES = {
         "backdrop": "Outdoor tree-lined city park plaza with pale stone paving, broadleaf trees, soft afternoon light, and a distant contemporary sculpture.",
     },
 }
-PITCH_VIEWS = {"high_angle": "保持场景和人物不变，将镜头转为俯视。", "low_angle": "保持场景和人物不变，将镜头转为仰视。"}
-YAW_VIEWS = {"front": "保持场景和人物不变，保持正面镜头。", "quarter_left": "保持场景和人物不变，将镜头向左旋转45度。", "quarter_right": "保持场景和人物不变，将镜头向右旋转45度。"}
-# Official Multiple Angles LoRA wording for a wide-angle lens.
-# Camera axes are deliberately separate image-edit stages.  Never combine pitch
-# and yaw in one prompt; the yaw stage receives the pitch PNG as its input.
-SCENE_CAMERA_PLAN = {
-    "A": {"pitch": "low_angle", "yaw": "front", "seed": 5420},
-    "B": {"pitch": "high_angle", "yaw": "quarter_left", "seed": 5421},
-    "C": {"pitch": "low_angle", "yaw": "quarter_right", "seed": 5422},
-}
-SCHEDULER_CONFIG = {"base_image_seq_len": 256, "base_shift": 1.0986122886681098, "invert_sigmas": False, "max_image_seq_len": 8192, "max_shift": 1.0986122886681098, "num_train_timesteps": 1000, "shift": 1.0, "shift_terminal": None, "stochastic_sampling": False, "time_shift_type": "exponential", "use_beta_sigmas": False, "use_dynamic_shifting": True, "use_exponential_sigmas": False, "use_karras_sigmas": False}
 
 
 def scene_prompt(scene_id: str, pose_description: str) -> str:
@@ -113,33 +96,6 @@ def load_pipeline() -> QwenImagePipeline:
     return pipeline
 
 
-def load_camera_pipeline() -> tuple[QwenImageEditPlusPipeline, Path, int]:
-    """Load the Qwen Edit camera LoRA only for pitch/yaw stages."""
-    if "/tmp" not in sys.path:
-        sys.path.insert(0, "/tmp")
-    from nunchaku_lora_qwen import apply_lora
-
-    lora_dir = Path(snapshot_download(ANGLE_LORA_REPO, local_files_only=True))
-    lora_path = lora_dir / ANGLE_LORA_FILE
-    if not lora_path.is_file():
-        raise FileNotFoundError(lora_path)
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(EDIT_TRANSFORMER_ID)
-    applied_modules = apply_lora(transformer, lora_path, strength=1.0)
-    if not applied_modules:
-        raise RuntimeError("multiple-angle LoRA did not match the Qwen Edit transformer")
-    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
-    pipeline = QwenImageEditPlusPipeline.from_pretrained(
-        EDIT_MODEL_ID,
-        transformer=transformer,
-        scheduler=FlowMatchEulerDiscreteScheduler.from_config(SCHEDULER_CONFIG),
-        torch_dtype=torch.bfloat16,
-        local_files_only=True,
-    )
-    pipeline._exclude_from_cpu_offload.append("transformer")
-    pipeline.enable_sequential_cpu_offload()
-    return pipeline, lora_path, applied_modules
-
-
 def relative_depth(image: Image.Image) -> Image.Image:
     """Estimate relative depth; do not substitute a synthetic guide if this fails."""
     from transformers import AutoImageProcessor, AutoModelForDepthEstimation
@@ -166,25 +122,19 @@ def relative_depth(image: Image.Image) -> Image.Image:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--stage", choices=("scene", "pitch", "yaw"), default="scene", help="scene makes RGB/depth; pitch and yaw edit one input PNG.")
-    parser.add_argument("--scene", choices=tuple(SCENES), help="Scene ID. Required for every stage.")
-    parser.add_argument("--scenes", nargs="+", choices=tuple(SCENES), help="Generate independent Stage 1 scenes sequentially.")
-    parser.add_argument("--reference", type=Path, help="Stage 2/3 input PNG. Pitch receives Stage 1; yaw receives Stage 2.")
+    parser.add_argument("--scene", choices=tuple(SCENES), help="Scene ID. Required unless --scenes is given.")
+    parser.add_argument("--scenes", nargs="+", choices=tuple(SCENES), help="Generate independent storyboard scenes sequentially.")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--pose-description", default=DEFAULT_POSE_DESCRIPTION, help="Character pose, independent from scene background and camera.")
     parser.add_argument("--illustration", action="store_true", help="Add the concise illustration rendering contract to a Stage 1 scene.")
-    parser.add_argument("--steps", type=int, help="Default: 20 for Stage 1, 8 for pitch/yaw camera edits.")
+    parser.add_argument("--steps", type=int, default=DEFAULTS.steps)
     parser.add_argument("--size", type=int, default=DEFAULTS.width)
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    if args.steps is None:
-        args.steps = DEFAULTS.steps if args.stage == "scene" else 8
-    if args.stage == "scene" and bool(args.scene) == bool(args.scenes):
-        parser.error("Stage 1 requires exactly one of --scene or --scenes")
-    if args.stage != "scene" and (not args.scene or args.scenes or not args.reference):
-        parser.error("pitch/yaw requires --scene and --reference; --scenes is Stage 1 only")
+    if bool(args.scene) == bool(args.scenes):
+        parser.error("Use exactly one of --scene or --scenes")
     if args.runs < 1 or args.steps < 1:
         parser.error("--runs and --steps must be at least 1")
     if args.size < 256 or args.size % 16:
@@ -194,7 +144,7 @@ def main() -> None:
 
     if args.scenes:
         for scene_id in args.scenes:
-            command = [sys.executable, str(Path(__file__).resolve()), "--stage", "scene", "--scene", scene_id, "--runs", str(args.runs), "--steps", str(args.steps), "--size", str(args.size), "--output-dir", str(args.output_dir), "--pose-description", args.pose_description]
+            command = [sys.executable, str(Path(__file__).resolve()), "--scene", scene_id, "--runs", str(args.runs), "--steps", str(args.steps), "--size", str(args.size), "--output-dir", str(args.output_dir), "--pose-description", args.pose_description]
             if args.illustration:
                 command.append("--illustration")
             if args.seed is not None:
@@ -202,71 +152,6 @@ def main() -> None:
             if args.dry_run:
                 command.append("--dry-run")
             subprocess.run(command, check=True)
-        return
-
-    if args.stage != "scene":
-        reference = args.reference.resolve()
-        if not reference.is_file():
-            raise FileNotFoundError(reference)
-        plan = SCENE_CAMERA_PLAN[args.scene]
-        view = plan[args.stage]
-        seed = args.seed if args.seed is not None else plan["seed"]
-        stem = f"p7-5-3-qwen-storyboard-{args.stage}_{view}-{args.stage}-scene-{args.scene.lower()}-seed-{seed}-steps-{args.steps}"
-        if args.dry_run:
-            print(json.dumps({"output": f"{stem}.png", "result": f"{stem}-result.json"}))
-            return
-        args.output_dir.mkdir(parents=True, exist_ok=True)
-        pipeline, lora_path, applied_modules = load_camera_pipeline()
-        try:
-            started = time.monotonic()
-            prompt = (PITCH_VIEWS if args.stage == "pitch" else YAW_VIEWS)[view]
-            output = args.output_dir / f"{stem}.png"
-            result_path = args.output_dir / f"{stem}-result.json"
-            image = pipeline(
-                prompt=prompt,
-                image=[load_image(str(reference)).convert("RGB")],
-                generator=torch.Generator("cpu").manual_seed(seed),
-                true_cfg_scale=4.0,
-                guidance_scale=1.0,
-                negative_prompt=" ",
-                num_inference_steps=args.steps,
-                width=args.size,
-                height=args.size,
-            ).images[0]
-            image.save(output)
-            result_path.write_text(
-                json.dumps(
-                    {
-                        "status": "generated",
-                        "experiment_id": "p7-5-3-qwen-storyboard",
-                        "model": EDIT_MODEL_ID,
-                        "transformer": EDIT_TRANSFORMER_ID,
-                        "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(lora_path), "applied_modules": applied_modules},
-                        "inputs": [asset_record(reference)],
-                        "input_roles": [f"stage_{'1' if args.stage == 'pitch' else '2'}_reference"],
-                        "scene_id": args.scene,
-                        "stage": args.stage,
-                        "axis": args.stage,
-                        "view": view,
-                        "seed": seed,
-                        "steps": args.steps,
-                        "size": [args.size, args.size],
-                        "true_cfg_scale": 4.0,
-                        "guidance_scale": 1.0,
-                        "prompt_language": "chinese",
-                        "prompt": prompt,
-                        "output": asset_record(output),
-                        "elapsed_seconds": round(time.monotonic() - started, 2),
-                    },
-                    ensure_ascii=False,
-                    indent=2,
-                ) + "\n",
-                encoding="utf-8",
-            )
-            print(json.dumps({"output": str(output), "result": str(result_path)}, ensure_ascii=False))
-        finally:
-            del pipeline
-            torch.cuda.empty_cache()
         return
 
     scene = SCENES[args.scene]
