@@ -1,0 +1,56 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-scene-storyboard_a",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png",
+      "sha256": "67abaa9389723d692d9c635974cebbfd21527cc68da385f5ed8a4c36c1f22d72"
+    }
+  ],
+  "input_roles": [
+    "character reference: full-body plus-90-degree outfit view"
+  ],
+  "stage": "storyboard_a",
+  "plate_type": null,
+  "character_features_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-features.json",
+    "sha256": "f512117d314c58d0f3f5d53314e543fe4804270e4ef68d564efbff8651125fa2"
+  },
+  "character_features_key": "stage1_character_features",
+  "outfit_features_key": "stage1_outfit_features",
+  "pose_description_key": "stage1_pose_description",
+  "style_prompt_contract": null,
+  "style_prompt_key": null,
+  "guide_type": null,
+  "seed": 62294,
+  "steps": 10,
+  "size": [
+    1024,
+    1024
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "negative_prompt": "text, panel, collage, extra person",
+  "prompt": "Image 1 woman airborne on an outdoor coastal cliffside path with rugged dark rocks, a distant blue ocean horizon, wind-blown grass, and clear open sky. Side-profile dancer's leap: long upright torso slightly arched back, both arms extended overhead, front leg lifted high and bent, rear leg long and straight trailing down and back, pointed toes. Adult East Asian woman with a deep petrol-teal jaw-length wavy bob and orange-amber eyes. Gray crop top under the white cropped jacket. Illustrated character scene with clean charcoal contours and transparent watercolor color blocks.",
+  "prompt_word_count": 89,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-character-plus90-character-features-dancer-leap-v4-seed-62294-steps-10.png",
+    "sha256": "a5a1b6cebca9e91f56b90f8afba8b442dab965e179fabcf7d848bd0997fc3ffa"
+  },
+  "elapsed_seconds": 169.49
+}

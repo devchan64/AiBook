@@ -1,0 +1,43 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-storyboard",
+  "model": "Qwen/Qwen-Image",
+  "transformer": "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "scene_id": "B",
+  "scene_description": "야생화 초원 야외 장면",
+  "pose_description": "One full-body adult woman is airborne in a natural forward jump: upright torso, one knee lifted forward, the other leg extended back, and both arms open naturally for balance.",
+  "seed": 5421,
+  "steps": 20,
+  "size": [
+    1024,
+    1024
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "prompt": "Outdoor wildflower meadow with tall grass, scattered yellow flowers, a distant low mountain ridge, and broad open daylight sky. One full-body adult woman is airborne in a natural forward jump: upright torso, one knee lifted forward, the other leg extended back, and both arms open naturally for balance. Short bob haircut, dark sleeveless leotard and tights.",
+  "prompt_word_count": 56,
+  "outputs": {
+    "rgb": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-b-837592-seed-5421-steps-20.png",
+      "sha256": "ddd3c66153e05c0bf3ed754b37f64d92b3c62bd90f99c6e62eb093ad26a5fac4"
+    },
+    "relative_depth": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-b-837592-seed-5421-steps-20-depth.png",
+      "sha256": "e0ab93199ae30bbea67cc4e6308f4c488836456f67bd52567eba834d9bbc44ed"
+    }
+  },
+  "elapsed_seconds": 92.46
+}

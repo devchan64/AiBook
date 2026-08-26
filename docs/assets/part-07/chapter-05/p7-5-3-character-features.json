@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "purpose": "P7-5.3 storyboard stage-1 character identity prompt contract",
+  "stage1_character_features": "Adult East Asian woman with a deep petrol-teal jaw-length wavy bob and orange-amber eyes.",
+  "stage1_outfit_features": "Gray crop top under the white cropped jacket.",
+  "stage1_pose_description": "Side-profile dancer's leap: long upright torso slightly arched back, both arms extended overhead, front leg lifted high and bent, rear leg long and straight trailing down and back, pointed toes.",
+  "source_identity_contract": "p7-5-7-face-identity-contract.json",
+  "scope": "Character identity, visible inner top, and Stage-1 jump silhouette. Scene and camera are defined by the Stage-1 prompt; jacket, trousers, and shoes remain defined by the image reference."
+}
