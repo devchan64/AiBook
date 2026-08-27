@@ -1,6 +1,7 @@
 {
   "status": "generated",
   "experiment_id": "p7-5-3-qwen-storyboard",
+  "stage": "scene",
   "model": "Qwen/Qwen-Image",
   "transformer": "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors",
   "runtime": {
@@ -31,13 +32,14 @@
   "prompt_word_count": 56,
   "outputs": {
     "rgb": {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-549191-seed-5420-steps-20.png",
-      "sha256": "a5bc042e757955e45355ee9b014f3ca463677944f7108b0f82438b89edae9007"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20.png",
+      "sha256": "fe4fcd7883b6827997e504f467d6b936753f8f933d563180afe61e92fa4b33ae"
     },
     "relative_depth": {
-      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-549191-seed-5420-steps-20-depth.png",
-      "sha256": "2ec4923a73f61a56e648e0a6327d0dc25034f48709fe89d49265c11bff241a8e"
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20-depth.png",
+      "sha256": "469fdb2b2fd74d62c6b7440d6353b5fdea4c2f333fe8c1ca3b8afeee289d8ceb"
     }
   },
-  "elapsed_seconds": 92.98
+  "next_input_role": "stage_2_scene_reference",
+  "elapsed_seconds": 88.17
 }

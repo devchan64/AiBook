@@ -1,0 +1,18 @@
+{
+  "status": "generated",
+  "stage": "character_cutout",
+  "scene": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png",
+    "sha256": "326254b307c32969592af880376de26336cbc883ab5bffc60a1af136cf4b2987"
+  },
+  "mask": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1.png",
+    "sha256": "704a991cb22546fab61a4e887352a7723c7a22c0bcf98b9631250e961e1c42bd",
+    "semantics": "white=character; black=background"
+  },
+  "matte": "white",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-a-white-v2.png",
+    "sha256": "f3ad7c0c0f1250393de21ef30222a14e10da6c27a53158fbd517a314b4854aeb"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "result",
+  "kind": "camera_angle_experiment",
+  "source_image": "p7-5-3-scene-a-349252-seed-5420-steps-20.png",
+  "output_image": "p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png",
+  "model": "Qwen-Image-Edit-2511-Q2_K.gguf",
+  "adapter": {
+    "name": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA",
+    "strength": 0.9
+  },
+  "lightning_adapter": {
+    "name": "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16",
+    "strength": 1.0
+  },
+  "prompt": "<sks> elevated shot wide shot",
+  "prompt_format": "experimental: azimuth omitted; elevation and distance retained",
+  "seed": 5420,
+  "steps": 4,
+  "cfg": 1.0,
+  "sampler": "euler",
+  "scheduler": "simple",
+  "image_sha256": "326254b307c32969592af880376de26336cbc883ab5bffc60a1af136cf4b2987"
+}

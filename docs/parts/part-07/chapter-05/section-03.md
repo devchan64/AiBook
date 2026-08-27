@@ -1,109 +1,102 @@
-# P7-5.3 스토리보드 생성: 장면·카메라·마스크를 나누기
+# P7-5.3 스토리보드 장면에 캐릭터를 합성하는 최단 경로
 
-> Section ID: `P7-5.3`
-> Version: `v2026.08.27`
+> Section ID: \`P7-5.3\`
+> Version: \`v2026.08.27\`
 
-P7-5.2가 같은 인물의 얼굴·착장·전신 구조를 따로 준비했다면, 이 절은 그 참조를 넣기 전에 장면 자체의 공간·카메라·편집 영역을 만든다. 작업은 하나의 큰 생성기가 아니라 세 개의 독립 코드로 나눈다. 먼저 장면을 만들고, 그 결과 한 장에서 카메라 앵글 하나를 바꾸고, 마지막으로 선택한 앵글 결과에서 인물 마스크를 만든다. 캐릭터 포즈는 배경과 카메라 문장에서 분리한 `--pose-description`으로 정의한다.
+이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 현재 경로는 장면에서 포즈와 배경을 분리하고, P7-5.2에서 만든 캐릭터를 그 포즈에 이식한 뒤, 마지막에 두 레이어를 합친다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
 
-## 1. 장면 RGB와 상대 depth를 만든다
+## 장면 A를 카메라판으로 고정한다
 
-현재 스토리보드 생성기는 Qwen Image를 사용한다. 한 번의 text-to-image 생성으로 장면 RGB를 만들고, 같은 RGB에서 상대 depth를 추출한다. depth 추정에 실패하면 RGB만 남기지 않아 두 파일이 항상 같은 장면을 가리키게 한다.
+먼저 해안 절벽 장면을 만들고, 완만한 높은 시점의 와이드 카메라판 한 장을 선택한다. 이 카메라판은 이후 포즈와 배경의 공통 기준이다.
 
-장면은 같은 `--pose-description`을 세 야외 장소에 넣는다. 이 단계는 장소·인물·기본 프레이밍만 만들고, 카메라 축은 아직 바꾸지 않는다. 상대 depth는 같은 장면의 구조 보조 출력이며 별도 생성 단계가 아니다.
-
-| 장면 | 카메라와 공간 |
+| 장면 A | 카메라판 |
 | --- | --- |
-| A | 바다와 바위·바람 부는 풀밭이 보이는 해안 절벽 산책로 |
-| B | 야생화·키 큰 풀이 있고 낮은 산등성이가 보이는 넓은 초원 |
-| C | 나무·석재 포장·현대 조형물이 있는 도심 공원 |
+| ![해안 절벽과 공중 도약 인물이 있는 장면 A](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20.png) | ![완만한 높은 시점의 장면 A 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png) |
+| [장면 result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20-result.json) | [카메라 result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4-result.json) |
 
-아래는 같은 포즈 설명과 장면별 seed로 실제 생성한 스토리보드 RGB다. 각 장면은 카메라·공간·동작 관계를 전달하는 단일 기준 이미지다.
+카메라판을 직접 다음 단계의 기준으로 삼는 이유는, 배경·포즈·인물의 화면상 위치를 하나의 이미지에 고정하기 위해서다. 카메라 생성 JSON에는 이 결과가 Qwen Image Edit 2511 Multiple Angles의 elevated shot wide shot, seed 5420, 4 step으로 생성됐음이 기록돼 있다.
 
-| A 해안 절벽 산책로 | B 야생화 초원 | C 도심 공원 |
+## 한 마스크를 포즈와 배경에 함께 쓴다
+
+Grounding DINO와 SAM 2.1이 카메라판에서 인물을 찾아 흰색 마스크로 만든다. 이 마스크는 두 역할을 갖는다. 원래 인물을 흰색 무광 배경으로 잘라 포즈·프레이밍 참조를 만들고, 같은 영역을 LaMa로 메워 빈 배경판을 만든다. 같은 마스크를 쓰므로 두 결과의 인물 자리와 배경의 빈자리가 일치한다.
+
+| 인물 마스크 검수 | 흰 배경 포즈 참조 | LaMa 배경판 |
 | --- | --- | --- |
-| ![해안 절벽 산책로에서 공중 도약하는 인물 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-549191-seed-5420-steps-20.png) | ![야생화 초원에서 공중 도약하는 인물 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-b-837592-seed-5421-steps-20.png) | ![도심 공원에서 공중 도약하는 인물 스토리보드](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-c-481118-seed-5422-steps-20.png) |
-| [result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-549191-seed-5420-steps-20-result.json) | [result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-b-837592-seed-5421-steps-20-result.json) | [result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-c-481118-seed-5422-steps-20-result.json) |
+| ![카메라판의 인물 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1-overlay.png) | ![흰 배경 위에 남긴 점프 포즈](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-a-white-v2.png) | ![인물이 제거된 해안 절벽 배경판](../../../assets/part-07/chapter-05/p7-5-3-lama-background-scene-a-v3.png) |
+| [마스크 result.json](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1-result.json) | [포즈 컷아웃 result.json](../../../assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-a-white-v2-result.json) | [배경판 result.json](../../../assets/part-07/chapter-05/p7-5-3-lama-background-scene-a-v3-result.json) |
 
-기본값은 장면별 seed A `5420`, B `5421`, C `5422`, 정사각형 `1024×1024`, 20 step이다. seed는 품질을 높이는 수치가 아니라, 카메라·사지 분리·공간 여백의 다른 해석을 비교하는 조작 변수다.
+마스크 JSON은 카메라판의 SHA-256과 검출 상자·마스크 의미를 기록한다. LaMa 결과 JSON은 같은 카메라판과 마스크를 입력으로 삼고, 흰 영역만 주변 배경으로 복원했음을 기록한다.
 
-```bash
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --scenes A B C --steps 20 --size 1024
-```
-
-GPU를 쓰기 전에는 `--dry-run`으로 예상 파일명을 확인할 수 있다. `--runs 3`은 시작 seed부터 연속 세 장면을 만든다.
-
-```bash
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --scene A --seed 5420 --runs 3 --dry-run
-```
-
-생성기는 RGB PNG, 상대-depth PNG, 그리고 model·seed·step·pose description·prompt·`prompt_word_count`·두 출력의 SHA-256을 담은 `result.json`을 쓴다.
-
-<details id="p7-5-3-storyboard-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py" data-language="python">
-<summary>1단계: Qwen A/B/C 장면 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">Qwen Image로 RGB를 만들고, 같은 PNG에서 상대 depth를 추출합니다.</div>
-</details>
-
-## 2. 장면 하나에서 카메라 축 하나를 바꾼다
-
-카메라 앵글 생성기는 1단계 RGB 한 장만 입력으로 받고, yaw 또는 pitch 중 하나만 바꾼다. yaw와 pitch를 한 프롬프트에 합치면 다중 앵글 LoRA가 프레임 전체를 불안정하게 회전시킨 관찰이 있었으므로, 복합 앵글은 이 코드의 입력으로 허용하지 않는다. 즉 고각·저각과 좌우 회전은 각각 별도 결과로 비교한다.
-
-아래 명령은 A 장면을 기준으로 고각 한 장을 만든다. `--axis yaw --view quarter_left`처럼 바꾸면 좌측 45도 회전만 시험할 수 있다. `--dry-run`은 GPU를 사용하지 않고 입력·프롬프트·예상 파일명을 출력한다.
-
-```bash
-python docs/assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py \
-  --reference docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-549191-seed-5420-steps-20.png \
-  --axis pitch --view high_angle --steps 8 --size 1024
-```
-
-<details id="p7-5-3-camera-angle-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py" data-language="python">
-<summary>2단계: Qwen Edit 카메라 앵글 생성 코드 보기</summary>
-<div class="aibook-lazy-source__body">장면 PNG를 한 장만 받아 yaw 또는 pitch 하나를 변환하고, 입력·축·프롬프트·출력을 `result.json`에 기록합니다.</div>
-</details>
-
-## 3. 인물 제거용 마스크를 만든다
-
-장면 전체를 입력한 Qwen Edit에 `Remove the person from Image 1.`만 지시했을 때, 인물은 남고 배경의 색조만 달라졌다. 편집할 대상이 화면에서 작지 않더라도 전역 지시만으로는 어떤 픽셀을 다시 그릴지 고정되지 않는다. 배경판을 만들 때는 인물 영역만 흰색으로 표시한 마스크를 함께 주고, 흰색 영역만 인페인트해야 한다.
-
-이 단계의 입력은 2단계에서 선택한 카메라 앵글 PNG다. 예시 자산은 기존 정면 장면으로 만든 마스크이며, 실제 실행에서는 `--reference`에 카메라 앵글 결과를 넣는다. Apache-2.0인 Grounding DINO와 SAM 2.1 Hiera Small을 순차로 사용한다. 먼저 Grounding DINO가 `a woman` 또는 `a person`이라는 텍스트로 인물 상자를 찾고, SAM 2.1 Small이 그 상자 안에서 전신 윤곽을 마스크로 다듬는다. 두 모델을 동시에 GPU에 올리지 않으므로, 마스크 PNG를 저장한 뒤 Qwen 인페인트를 별도 실행할 수 있다.
-
-```bash
+~~~bash
 python docs/assets/part-07/chapter-05/p7_5_3_generate_person_mask.py \
-  --reference path/to/p7-5-3-qwen-camera-pitch-high-angle-v1-seed-5420-steps-8.png \
-  --run-label high-angle-v1
-```
+  --reference docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
+  --run-label scene-a-2511-elevated-v1
 
-| 1단계 장면 | 인물 마스크 오버레이 |
+python docs/assets/part-07/chapter-05/p7_5_3_extract_masked_character.py \
+  --scene docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
+  --mask docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1.png \
+  --matte white --run-label pose-cutout-white-scene-a-white-v2
+
+python docs/assets/part-07/chapter-05/p7_5_3_restore_background_lama.py \
+  --scene docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-no-azimuth-elevated-scene-a-v1-seed-5420-steps-4.png \
+  --mask docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-a-2511-elevated-v1.png \
+  --run-label scene-a-v3 --grow 25
+~~~
+
+## 포즈에 캐릭터를 이식한다
+
+Qwen Image Edit 2509에는 역할이 다른 두 이미지만 준다. 첫 번째는 위의 흰 배경 포즈 참조이고, 두 번째는 P7-5.2의 +90° 전신 착장 이미지다. 지시는 첫 이미지의 여성을 두 번째 이미지의 여성으로 바꾸되 포즈를 유지한다로 제한한다. 이 단계에서 배경을 넣지 않으므로, 배경의 색·화풍이 얼굴과 의상을 덮어쓰지 않는다.
+
+| 포즈에 이식된 캐릭터 | 인물 알파 마스크 검수 |
 | --- | --- |
-| ![해안 절벽 장면에서 무용 도약을 하는 인물](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-character-plus90-character-features-dancer-leap-v4-seed-62294-steps-10.png) | ![빨간색으로 인물 마스크가 겹쳐진 해안 절벽 장면](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-dancer-leap-v1-overlay.png) |
-| [1단계 result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-a-character-plus90-character-features-dancer-leap-v4-seed-62294-steps-10-result.json) | [마스크 PNG](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-dancer-leap-v1.png) · [result.json](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-dancer-leap-v1-result.json) |
+| ![스플릿 점프 포즈에 이식된 흰 재킷과 짙은 청록 바지 캐릭터](../../../assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10.png) | ![이식된 캐릭터의 SAM2 마스크 오버레이](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2-overlay.png) |
+| [포즈 이식 result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10-result.json) | [알파 마스크 result.json](../../../assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2-result.json) |
 
-오버레이의 빨간 영역은 Qwen 인페인트에서 다시 그릴 인물이고, 검은 영역은 보존할 배경이다. 이 사례에서는 머리·손끝·몸통·양다리·발끝이 모두 빨간 영역에 들어갔다. 상자는 인물을 찾는 힌트일 뿐 최종 제거 영역이 아니므로, 결과를 확인할 때는 상자보다 마스크 외곽을 검수한다.
+포즈 이식 JSON에는 두 입력의 SHA-256, seed 62294, 10 step, true_cfg_scale 4.0이 기록돼 있다. 이후 SAM2 마스크는 이식된 캐릭터의 실루엣만 남겨 배경과 안전하게 합치기 위한 알파 채널이다.
 
-<details id="p7-5-3-person-mask-generator" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_generate_person_mask.py" data-language="python">
-<summary>3단계: Grounding DINO와 SAM 2.1로 인물 마스크를 만드는 코드 보기</summary>
-<div class="aibook-lazy-source__body">텍스트 검출 상자를 SAM 2.1 Small에 전달해 Qwen 인페인트용 흰색 인물 마스크와 검수 오버레이를 저장합니다.</div>
+~~~bash
+python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_pose_transfer.py \
+  --pose docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-a-white-v2.png \
+  --character docs/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png \
+  --run-label plus90-replace-v2 --steps 10
+~~~
+
+## 알파 합성 뒤에 광원과 화풍을 한 번만 정리한다
+
+캐릭터 PNG, 캐릭터 마스크, LaMa 배경판을 알파 합성한다. 합성 단계는 캐릭터 가장자리만 0.8 픽셀로 부드럽게 하고, 포즈·위치·의상 픽셀을 다시 생성하지 않는다. 마지막 Qwen Image Edit 2509 단계에서만 배경을 캐릭터와 같은 일러스트 톤으로 맞추고, 좌상단의 부드러운 자연광을 공통 기준으로 적용한다.
+
+| 알파 합성 | 최종 화풍·광원 통일 |
+| --- | --- |
+| ![해안 배경에 캐릭터를 알파 합성한 이미지](../../../assets/part-07/chapter-05/p7-5-3-character-background-composite-scene-a-v1.png) | ![해안 배경과 캐릭터의 광원과 화풍을 정리한 최종 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-2509-harmonized-composite-scene-a-v1-seed-62294-steps-10.png) |
+| [합성 result.json](../../../assets/part-07/chapter-05/p7-5-3-character-background-composite-scene-a-v1-result.json) | [최종 result.json](../../../assets/part-07/chapter-05/p7-5-3-qwen-2509-harmonized-composite-scene-a-v1-seed-62294-steps-10-result.json) |
+
+최종 JSON은 바로 앞 합성 PNG의 SHA-256을 입력으로 기록한다. 따라서 최종 이미지를 다시 만들 때는 위 순서의 각 JSON에서 입력 해시가 연결되는지만 확인하면 된다.
+
+~~~bash
+python docs/assets/part-07/chapter-05/p7_5_3_composite_character_background.py \
+  --character docs/assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10.png \
+  --mask docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2.png \
+  --background docs/assets/part-07/chapter-05/p7-5-3-lama-background-scene-a-v3.png \
+  --run-label scene-a-v1
+
+python docs/assets/part-07/chapter-05/p7_5_3_qwen_harmonize_composite.py \
+  --input docs/assets/part-07/chapter-05/p7-5-3-character-background-composite-scene-a-v1.png \
+  --run-label scene-a-v1 --steps 10
+~~~
+
+<details id="p7-5-3-pipeline-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_composite_character_background.py" data-language="python">
+<summary>알파 합성 코드 보기</summary>
+<div class="aibook-lazy-source__body">SAM2 마스크를 알파 채널로 적용해 캐릭터를 LaMa 배경판에 합성하고, 입력과 결과 해시를 result.json에 기록합니다.</div>
 </details>
 
-## 세 파일은 다음 단계의 입력만 넘긴다
+<details id="p7-5-3-harmonize-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_harmonize_composite.py" data-language="python">
+<summary>광원·화풍 통일 코드 보기</summary>
+<div class="aibook-lazy-source__body">합성 이미지를 하나만 입력해 포즈와 구도를 유지하면서 일러스트 톤과 좌상단 자연광을 정리합니다.</div>
+</details>
 
-장면 생성기는 RGB·상대 depth를, 카메라 생성기는 선택한 장면의 한 축 변환을, 마스크 생성기는 그 결과에서 다시 그릴 인물 영역을 남긴다. 각 결과 JSON에는 다음 코드가 읽을 입력 파일과 생성 조건을 함께 기록한다. 이 분리는 장면의 구도 문제, 앵글 변환 문제, 마스크 외곽 문제를 한 번에 섞지 않고 각각 확인하게 한다.
+## 확인할 점
 
-## 체크리스트
-
-| 확인할 것 | 스스로 답할 질문 |
-| --- | --- |
-| 장면 | 장소·포즈·기본 프레이밍이 장면 RGB와 상대 depth에서 함께 읽히는가? |
-| 카메라 | 한 결과에 yaw 또는 pitch 하나만 적용했고, 입력 장면이 명확한가? |
-| 마스크 | 머리·손끝·몸통·발끝이 흰색 재생성 영역에 모두 들어가는가? |
-| 재현 | model, seed, step, 입력 파일, prompt가 각 `result.json`에 남아 있는가? |
-| 다음 입력 | 다음 코드가 읽을 PNG가 어느 단계에서 왔는지 구분되는가? |
-
-## 출처와 참고 자료
-
-- Qwen 실행 조건과 입력·출력 기록은 이 절에서 연결한 로컬 `result.json`에서 확인한다.
-- 카메라 축 변환에 사용한 다중 앵글 LoRA 명령은 [Qwen Edit 2509 Multiple Angles 모델 카드](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}에서 확인한다. (확인: 2026-08-27)
-- 인물 상자 검출에 사용한 Grounding DINO는 Apache-2.0으로 배포된다. [Grounding DINO 공식 저장소](https://github.com/IDEA-Research/GroundingDINO){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-27)
-- 마스크 정밀화에 사용한 SAM 2.1 Hiera Small의 모델 카드와 가중치는 Apache-2.0으로 표시된다. [SAM 2.1 Hiera Small 모델 카드](https://huggingface.co/facebook/sam2.1-hiera-small){: target="_blank" rel="noopener noreferrer"}, [SAM 2 공식 저장소](https://github.com/facebookresearch/sam2){: target="_blank" rel="noopener noreferrer"} (확인: 2026-08-27)
-- 얼굴·전신 참조의 역할 분리는 [P7-5.2](section-02.md)와 [P7-5.7](section-07.md)에서 확인한다.
+- 포즈·캐릭터·배경의 역할을 한 번의 Qwen 편집 입력에 모두 넣지 않는다.
+- 같은 카메라판의 마스크로 포즈 참조와 배경판을 만들었는지 각 result.json의 입력 해시로 확인한다.
+- 합성 전 캐릭터 마스크에 머리카락·손끝·양발이 포함됐는지 오버레이를 확인한다.
+- 공중에 있는 인물에는 접지 그림자를 추가하지 않는다. 최종 단계는 광원과 렌더링 톤만 정리한다.

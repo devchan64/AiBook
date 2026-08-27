@@ -1,0 +1,49 @@
+{
+  "status": "generated",
+  "stage": "person_mask",
+  "purpose": "Person mask for Qwen Image Edit inpainting",
+  "models": {
+    "detector": "IDEA-Research/grounding-dino-tiny",
+    "segmenter": "facebook/sam2.1-hiera-small",
+    "licenses": {
+      "detector": "Apache-2.0",
+      "segmenter": "Apache-2.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-plus90-replace-v2-seed-62294-steps-10.png",
+    "sha256": "12afb1a4ebdbc77caed71dfa3502270b738509844d5470db32b32bd50d5a3cac"
+  },
+  "input_role": "stage_2_camera_angle",
+  "grounding_prompt": [
+    "a woman",
+    "a person"
+  ],
+  "selected_detection": {
+    "label": "a woman a person",
+    "score": 0.4372,
+    "box_xyxy": [
+      316.62,
+      292.88,
+      777.21,
+      615.33
+    ]
+  },
+  "mask_semantics": "white=person to repaint; black=preserve",
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2.png",
+    "sha256": "ec70eee46539c4e1ce712d2b34cbc9636daad0dc5a932c4caf5071dd959d3e4d"
+  },
+  "overlay": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-pose-transfer-plus90-replace-v2-overlay.png",
+    "sha256": "00fa52f23a8624acfda32a3315b4a62f60492da03addd10c6a1615fae31d0021"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "transformers": "4.57.6",
+    "torch": "2.11.0+cu128",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "elapsed_seconds": 11.67
+}

@@ -23,7 +23,7 @@ from pathlib import Path
 
 
 ASSETS = Path(__file__).resolve().parent
-PROJECT_ROOT = ASSETS.parents[4]
+PROJECT_ROOT = ASSETS.parents[3]
 DEFAULT_REFERENCE = ASSETS / "p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20.png"
 DEFAULT_COMFY_ROOT = PROJECT_ROOT / ".tmp/p7-5-3-scail-runtime/ComfyUI"
 MODEL = "qwen-image-edit-2511-Q2_K.gguf"

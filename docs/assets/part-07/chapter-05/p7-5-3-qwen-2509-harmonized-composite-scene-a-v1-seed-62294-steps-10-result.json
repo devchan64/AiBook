@@ -1,0 +1,32 @@
+{
+  "status": "generated",
+  "stage": "lighting_style_harmonization",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "input": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-background-composite-scene-a-v1.png",
+    "sha256": "c812c71345484a6ad309be6c04f7ca6fad02699f1ef67c895815ba0da6eb1b61"
+  },
+  "prompt": "Make Picture 1 a cohesive editorial illustration. Preserve the woman, her split-leap pose, white cropped jacket, dark teal pants, white shoes, coastline, and composition. Use the same clean illustrated rendering on the coastline and woman, with soft clear daylight from the upper left and consistent subtle shadows.",
+  "seed": 62294,
+  "steps": 10,
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2509-harmonized-composite-scene-a-v1-seed-62294-steps-10.png",
+    "sha256": "30782d7dd5d89489b6ad78b8038f3de2475738c4ebf2ecaec7f096e541b6da89"
+  },
+  "elapsed_seconds": 151.98
+}
