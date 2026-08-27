@@ -1,69 +1,43 @@
 #!/usr/bin/env python3
-"""Create one P7-5.3 storyboard camera-angle variant with Qwen Image Edit.
+"""Create one P7-5.3 camera-angle image with Qwen Image Edit 2511.
 
-The input is a completed scene PNG.  This program changes exactly one camera
-axis per run: yaw *or* pitch.  Keeping axes separate makes the condition and
-the resulting image comparable; combined yaw-plus-pitch prompts proved
-ambiguous in the Multiple Angles LoRA experiment.
+The generator fixes the runtime to the 2511 Multiple Angles LoRA. Its prompt
+has a deliberate three-field order: ``<sks> [azimuth] [elevation] [distance]``.
+Use every field for reproducible production runs; ``--omit-azimuth`` exists
+only to reproduce the explicit comparison experiment.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
-import importlib.metadata
 import json
-import math
-import platform
+import os
+import shutil
+import subprocess
 import sys
 import time
+import urllib.error
+import urllib.request
 from pathlib import Path
-
-import torch
-from diffusers import FlowMatchEulerDiscreteScheduler, QwenImageEditPlusPipeline
-from diffusers.utils import load_image
-from huggingface_hub import snapshot_download
-from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
-MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
-TRANSFORMER_ID = (
-    "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/"
-    "svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors"
+PROJECT_ROOT = ASSETS.parents[4]
+DEFAULT_REFERENCE = ASSETS / "p7-5-3-qwen-storyboard-scene-a-349252-seed-5420-steps-20.png"
+DEFAULT_COMFY_ROOT = PROJECT_ROOT / ".tmp/p7-5-3-scail-runtime/ComfyUI"
+MODEL = "qwen-image-edit-2511-Q2_K.gguf"
+TEXT_ENCODER = "qwen_2.5_vl_7b_fp8_scaled.safetensors"
+VAE = "qwen_image_vae.safetensors"
+ANGLE_LORA = "qwen-image-edit-2511-multiple-angles-lora.safetensors"
+LIGHTNING_LORA = "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"
+ANGLE_LORA_SOURCE = "https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"
+AZIMUTHS = (
+    "front view", "front-right quarter view", "right side view", "rear-right quarter view",
+    "rear view", "rear-left quarter view", "left side view", "front-left quarter view",
 )
-ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
-ANGLE_LORA_FILE = "镜头转换.safetensors"
-CAMERA_PROMPT_SOURCE = "https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles"
-DEFAULT_REFERENCE = ASSETS / "p7-5-3-qwen-storyboard-scene-a-549191-seed-5420-steps-20.png"
-DEFAULT_SIZE = 1024
-SCHEDULER_CONFIG = {
-    "base_image_seq_len": 256,
-    "base_shift": math.log(3),
-    "invert_sigmas": False,
-    "max_image_seq_len": 8192,
-    "max_shift": math.log(3),
-    "num_train_timesteps": 1000,
-    "shift": 1.0,
-    "shift_terminal": None,
-    "stochastic_sampling": False,
-    "time_shift_type": "exponential",
-    "use_beta_sigmas": False,
-    "use_dynamic_shifting": True,
-    "use_exponential_sigmas": False,
-    "use_karras_sigmas": False,
-}
-YAW_PROMPTS = {
-    "front": "保持正面镜头。",
-    "quarter_left": "将镜头向左旋转45度。",
-    "quarter_right": "将镜头向右旋转45度。",
-    "profile_left": "将镜头向左旋转90度。",
-    "profile_right": "将镜头向右旋转90度。",
-}
-PITCH_PROMPTS = {
-    "high_angle": "将镜头转为俯视。",
-    "low_angle": "将镜头转为仰视。",
-}
+ELEVATIONS = ("low-angle shot", "eye-level shot", "elevated shot", "high-angle shot")
+DISTANCES = ("close-up", "medium shot", "wide shot")
 
 
 def sha256(path: Path) -> str:
@@ -74,139 +48,113 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def asset_record(path: Path) -> dict[str, str]:
-    return {"path": str(path), "sha256": sha256(path)}
+def request_json(url: str, payload: dict | None = None) -> dict:
+    data = json.dumps(payload).encode() if payload is not None else None
+    request = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return json.loads(response.read().decode())
 
 
-def runtime_record() -> dict[str, object]:
-    packages: dict[str, str] = {}
-    for name in ("nunchaku", "diffusers", "torch", "transformers", "accelerate"):
-        try:
-            packages[name] = importlib.metadata.version(name)
-        except importlib.metadata.PackageNotFoundError:
-            packages[name] = "not-installed"
+def workflow(image_name: str, prompt: str, seed: int, steps: int, prefix: str) -> dict:
+    """Return the tested low-VRAM ComfyUI graph for Qwen Edit 2511."""
     return {
-        "python": platform.python_version(),
-        "platform": platform.platform(),
-        "packages": packages,
-        "cuda_device": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+        "1": {"class_type": "LoadImage", "inputs": {"image": image_name}},
+        "2": {"class_type": "UnetLoaderGGUFAdvanced", "inputs": {"unet_name": MODEL, "dequant_dtype": "float16", "patch_dtype": "float16", "patch_on_device": False}},
+        "3": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["2", 0], "lora_name": ANGLE_LORA, "strength_model": 0.9}},
+        "4": {"class_type": "LoraLoaderModelOnly", "inputs": {"model": ["3", 0], "lora_name": LIGHTNING_LORA, "strength_model": 1.0}},
+        "5": {"class_type": "ModelSamplingAuraFlow", "inputs": {"model": ["4", 0], "shift": 3.1}},
+        "6": {"class_type": "CFGNorm", "inputs": {"model": ["5", 0], "strength": 1.0}},
+        "7": {"class_type": "CLIPLoader", "inputs": {"clip_name": TEXT_ENCODER, "type": "qwen_image", "device": "default"}},
+        "8": {"class_type": "VAELoader", "inputs": {"vae_name": VAE}},
+        "9": {"class_type": "TextEncodeQwenImageEditPlus", "inputs": {"clip": ["7", 0], "vae": ["8", 0], "image1": ["1", 0], "prompt": prompt}},
+        "10": {"class_type": "TextEncodeQwenImageEditPlus", "inputs": {"clip": ["7", 0], "vae": ["8", 0], "image1": ["1", 0], "prompt": ""}},
+        "11": {"class_type": "FluxKontextMultiReferenceLatentMethod", "inputs": {"conditioning": ["9", 0], "reference_latents_method": "index_timestep_zero"}},
+        "12": {"class_type": "FluxKontextMultiReferenceLatentMethod", "inputs": {"conditioning": ["10", 0], "reference_latents_method": "index_timestep_zero"}},
+        "13": {"class_type": "VAEEncode", "inputs": {"pixels": ["1", 0], "vae": ["8", 0]}},
+        "14": {"class_type": "KSampler", "inputs": {"model": ["6", 0], "positive": ["11", 0], "negative": ["12", 0], "latent_image": ["13", 0], "seed": seed, "steps": steps, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple", "denoise": 1.0}},
+        "15": {"class_type": "VAEDecode", "inputs": {"samples": ["14", 0], "vae": ["8", 0]}},
+        "16": {"class_type": "SaveImage", "inputs": {"images": ["15", 0], "filename_prefix": prefix}},
     }
-
-
-def camera_prompt(axis: str, view: str) -> str:
-    prompts = YAW_PROMPTS if axis == "yaw" else PITCH_PROMPTS
-    return prompts[view]
-
-
-def load_pipeline(angle_lora: Path) -> tuple[QwenImageEditPlusPipeline, int]:
-    # The maintained adapter handles Nunchaku's AWQW4A16Linear modules.
-    if "/tmp" not in sys.path:
-        sys.path.insert(0, "/tmp")
-    from nunchaku_lora_qwen import apply_lora
-
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
-    applied_modules = apply_lora(transformer, angle_lora, strength=1.0)
-    if not applied_modules:
-        raise RuntimeError("Multiple Angles LoRA did not match the Nunchaku transformer")
-    transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
-    pipeline = QwenImageEditPlusPipeline.from_pretrained(
-        MODEL_ID,
-        transformer=transformer,
-        scheduler=FlowMatchEulerDiscreteScheduler.from_config(SCHEDULER_CONFIG),
-        torch_dtype=torch.bfloat16,
-        local_files_only=True,
-    )
-    pipeline._exclude_from_cpu_offload.append("transformer")
-    pipeline.enable_sequential_cpu_offload()
-    return pipeline, applied_modules
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE, help="Stage 1 scene PNG.")
-    parser.add_argument("--axis", choices=("yaw", "pitch"), required=True, help="One camera axis only.")
-    parser.add_argument("--view", required=True, help="Yaw: front/quarter_left/quarter_right/profile_left/profile_right; pitch: high_angle/low_angle.")
+    parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE)
+    parser.add_argument("--azimuth", choices=AZIMUTHS, default="front view")
+    parser.add_argument("--elevation", choices=ELEVATIONS, default="eye-level shot")
+    parser.add_argument("--distance", choices=DISTANCES, default="medium shot")
+    parser.add_argument("--omit-azimuth", action="store_true", help="Comparison-only: omit the required azimuth field.")
     parser.add_argument("--seed", type=int, default=5420)
-    parser.add_argument("--steps", type=int, default=8)
-    parser.add_argument("--size", type=int, default=DEFAULT_SIZE)
+    parser.add_argument("--steps", type=int, default=4)
     parser.add_argument("--run-label", default="v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
+    parser.add_argument("--comfy-root", type=Path, default=DEFAULT_COMFY_ROOT)
+    parser.add_argument("--port", type=int, default=8191)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    allowed_views = YAW_PROMPTS if args.axis == "yaw" else PITCH_PROMPTS
-    if args.view not in allowed_views:
-        parser.error(f"--view must be one of: {', '.join(allowed_views)}")
-    if args.steps < 1 or args.size < 256 or args.size % 16:
-        parser.error("--steps must be positive and --size must be at least 256 and divisible by 16")
     reference = args.reference.resolve()
     if not reference.is_file():
         raise FileNotFoundError(reference)
-    stem = f"p7-5-3-qwen-camera-{args.axis}-{args.view.replace('_', '-')}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
+    if args.steps < 1:
+        parser.error("--steps must be positive")
+    fields = ([] if args.omit_azimuth else [args.azimuth]) + [args.elevation, args.distance]
+    prompt = "<sks> " + " ".join(fields)
+    azimuth_label = "azimuth-omitted" if args.omit_azimuth else args.azimuth.replace(" ", "-")
+    stem = f"p7-5-3-qwen-2511-camera-{azimuth_label}-{args.elevation.replace(' ', '-')}-{args.distance.replace(' ', '-')}-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
     output_dir = args.output_dir.resolve()
     output = output_dir / f"{stem}.png"
     result = output_dir / f"{stem}-result.json"
-    prompt = camera_prompt(args.axis, args.view)
     if args.dry_run:
         print(json.dumps({"input": str(reference), "prompt": prompt, "output": str(output), "result": str(result)}, ensure_ascii=False))
         return
-    if not torch.cuda.is_available():
-        raise RuntimeError("CUDA is required")
-    angle_lora_dir = Path(snapshot_download(ANGLE_LORA_REPO, local_files_only=True))
-    angle_lora = angle_lora_dir / ANGLE_LORA_FILE
-    if not angle_lora.is_file():
-        raise FileNotFoundError(angle_lora)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    pipeline, applied_modules = load_pipeline(angle_lora)
+    comfy_root = args.comfy_root.resolve()
+    if not (comfy_root / "main.py").is_file():
+        raise FileNotFoundError(f"ComfyUI runtime not found: {comfy_root}")
+    input_name = f"p7-5-3-camera-input-{sha256(reference)[:12]}.png"
+    shutil.copy2(reference, comfy_root / "input" / input_name)
+    base_url = f"http://127.0.0.1:{args.port}"
+    process = None
     try:
+        try:
+            request_json(f"{base_url}/system_stats")
+        except (urllib.error.URLError, TimeoutError):
+            env = {**os.environ, "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"}
+            process = subprocess.Popen([sys.executable, "main.py", "--listen", "127.0.0.1", "--port", str(args.port), "--disable-auto-launch"], cwd=comfy_root, env=env)
+            for _ in range(60):
+                try:
+                    request_json(f"{base_url}/system_stats")
+                    break
+                except (urllib.error.URLError, TimeoutError):
+                    time.sleep(1)
+            else:
+                raise RuntimeError("ComfyUI did not start within 60 seconds")
         started = time.monotonic()
-        image = pipeline(
-            prompt=prompt,
-            image=[load_image(str(reference)).convert("RGB")],
-            generator=torch.Generator("cpu").manual_seed(args.seed),
-            true_cfg_scale=4.0,
-            guidance_scale=1.0,
-            negative_prompt=" ",
-            num_inference_steps=args.steps,
-            width=args.size,
-            height=args.size,
-        ).images[0]
-        image.save(output)
-        result.write_text(
-            json.dumps(
-                {
-                    "status": "generated",
-                    "experiment_id": "p7-5-3-qwen-camera-angle",
-                    "stage": "camera_angle",
-                    "model": MODEL_ID,
-                    "transformer": TRANSFORMER_ID,
-                    "angle_lora": {"repository": ANGLE_LORA_REPO, "weight": asset_record(angle_lora), "applied_modules": applied_modules},
-                    "camera_prompt_source": CAMERA_PROMPT_SOURCE,
-                    "input": asset_record(reference),
-                    "input_role": "stage_1_scene",
-                    "axis": args.axis,
-                    "view": args.view,
-                    "prompt_language": "chinese",
-                    "prompt": prompt,
-                    "seed": args.seed,
-                    "steps": args.steps,
-                    "size": [args.size, args.size],
-                    "true_cfg_scale": 4.0,
-                    "guidance_scale": 1.0,
-                    "output": asset_record(output),
-                    "next_input_role": "stage_3_camera_angle_reference",
-                    "runtime": runtime_record(),
-                    "elapsed_seconds": round(time.monotonic() - started, 2),
-                },
-                ensure_ascii=False,
-                indent=2,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
+        reply = request_json(f"{base_url}/prompt", {"prompt": workflow(input_name, prompt, args.seed, args.steps, stem)})
+        prompt_id = reply["prompt_id"]
+        for _ in range(300):
+            history = request_json(f"{base_url}/history/{prompt_id}")
+            if prompt_id in history:
+                image = history[prompt_id]["outputs"]["16"]["images"][0]
+                generated = comfy_root / image.get("type", "output") / image.get("subfolder", "") / image["filename"]
+                break
+            time.sleep(1)
+        else:
+            raise TimeoutError("Qwen Image Edit 2511 did not finish within 300 seconds")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(generated, output)
+        result.write_text(json.dumps({
+            "status": "generated", "experiment_id": "p7-5-3-qwen-2511-camera-angle", "stage": "camera_angle",
+            "model": MODEL, "angle_lora": {"repository": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA", "source": ANGLE_LORA_SOURCE, "weight": ANGLE_LORA, "strength": 0.9},
+            "lightning_lora": {"weight": LIGHTNING_LORA, "strength": 1.0}, "input": {"path": str(reference), "sha256": sha256(reference)},
+            "azimuth": None if args.omit_azimuth else args.azimuth, "elevation": args.elevation, "distance": args.distance,
+            "prompt": prompt, "prompt_format": "<sks> [azimuth] [elevation] [distance]", "seed": args.seed, "steps": args.steps,
+            "output": {"path": str(output), "sha256": sha256(output)}, "elapsed_seconds": round(time.monotonic() - started, 2),
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(json.dumps({"output": str(output), "result": str(result)}, ensure_ascii=False))
     finally:
-        del pipeline
-        torch.cuda.empty_cache()
+        if process is not None:
+            process.terminate()
+            process.wait(timeout=20)
 
 
 if __name__ == "__main__":
