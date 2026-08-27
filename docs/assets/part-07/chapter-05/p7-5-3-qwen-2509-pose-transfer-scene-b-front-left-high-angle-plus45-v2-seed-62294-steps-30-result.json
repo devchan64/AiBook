@@ -1,0 +1,45 @@
+{
+  "status": "generated",
+  "stage": "pose_transfer",
+  "model": "Qwen/Qwen-Image-Edit-2509",
+  "transformer": "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    }
+  },
+  "inputs": [
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-character-pose-cutout-white-scene-b-front-left-high-angle-v1.png",
+      "sha256": "e36ef27d5cf96faf3dc4f2ecee7e8394a7f6f86d85cd24ee982e6afbbfca87ea",
+      "role": "Picture 1: pose and framing"
+    },
+    {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8.png",
+      "sha256": "2caa73f18e96b9f3fe20341c0cada5d957c67b276477f77b0663779a7b181eb3",
+      "role": "Picture 2: character identity and outfit"
+    }
+  ],
+  "prompt": "Replace the woman in Picture 1 with the woman in Picture 2, preserving the pose.",
+  "seed": 62294,
+  "steps": 30,
+  "size": [
+    1024,
+    1024
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2509-pose-transfer-scene-b-front-left-high-angle-plus45-v2-seed-62294-steps-30.png",
+    "sha256": "556edf448cae32925e38c4d870683ceede00068e456fc8e747689e311ce1bd0b",
+    "role": "generated output"
+  },
+  "elapsed_seconds": 540.16
+}

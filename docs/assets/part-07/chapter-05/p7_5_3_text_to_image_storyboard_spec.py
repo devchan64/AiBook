@@ -24,6 +24,7 @@ from PIL import Image
 ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
 DEPTH_ANYTHING_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-depth-anything-v2-small"
+STYLE_CONTRACT = ASSETS / "p7-5-1-style-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
 
@@ -36,10 +37,9 @@ class Defaults:
 
 
 DEFAULTS = Defaults()
-ILLUSTRATION_PROMPT = "Illustrated character scene with clean charcoal contours and transparent watercolor color blocks."
 DEFAULT_POSE_DESCRIPTION = (
-    "One full-body adult woman is airborne in a natural forward jump: upright torso, one knee lifted forward, "
-    "the other leg extended back, and both arms open naturally for balance."
+    "One woman in an airborne split leap: upright torso, both legs straight in opposite directions, "
+    "straight knees, pointed feet, and arms extended for balance."
 )
 SCENES = {
     "A": {
@@ -61,7 +61,8 @@ SCENES = {
 
 
 def scene_prompt(scene_id: str, pose_description: str) -> str:
-    return f"{SCENES[scene_id]['backdrop']} {pose_description} Short bob haircut, dark sleeveless leotard and tights."
+    style = json.loads(STYLE_CONTRACT.read_text(encoding="utf-8"))["character_scene_style_prompt"]
+    return f"{SCENES[scene_id]['backdrop']} {pose_description} Short bob haircut, dark sleeveless leotard and tights. {style}"
 
 
 def asset_record(path: Path) -> dict[str, str]:
@@ -127,7 +128,6 @@ def main() -> None:
     parser.add_argument("--seed", type=int)
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--pose-description", default=DEFAULT_POSE_DESCRIPTION, help="Character pose, independent from scene background and camera.")
-    parser.add_argument("--illustration", action="store_true", help="Add the concise illustration rendering contract to a Stage 1 scene.")
     parser.add_argument("--steps", type=int, default=DEFAULTS.steps)
     parser.add_argument("--size", type=int, default=DEFAULTS.width)
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
@@ -145,8 +145,6 @@ def main() -> None:
     if args.scenes:
         for scene_id in args.scenes:
             command = [sys.executable, str(Path(__file__).resolve()), "--scene", scene_id, "--runs", str(args.runs), "--steps", str(args.steps), "--size", str(args.size), "--output-dir", str(args.output_dir), "--pose-description", args.pose_description]
-            if args.illustration:
-                command.append("--illustration")
             if args.seed is not None:
                 command.extend(("--seed", str(args.seed)))
             if args.dry_run:
@@ -157,8 +155,6 @@ def main() -> None:
     scene = SCENES[args.scene]
     start_seed = args.seed if args.seed is not None else scene["seed"]
     prompt = scene_prompt(args.scene, args.pose_description)
-    if args.illustration:
-        prompt = f"{prompt} {ILLUSTRATION_PROMPT}"
     execution_code = f"{secrets.randbelow(1_000_000):06d}"
     stems = [f"p7-5-3-qwen-storyboard-scene-{args.scene.lower()}-{execution_code}-seed-{start_seed + index}-steps-{args.steps}" for index in range(args.runs)]
     if args.dry_run:
@@ -210,6 +206,7 @@ def main() -> None:
                         "guidance_scale": 1.0,
                         "prompt": prompt,
                         "prompt_word_count": len(prompt.split()),
+                        "style_contract": asset_record(STYLE_CONTRACT),
                         "outputs": {
                             "rgb": asset_record(rgb_path),
                             "relative_depth": asset_record(depth_path),

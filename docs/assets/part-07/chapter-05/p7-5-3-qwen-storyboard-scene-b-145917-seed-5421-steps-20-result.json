@@ -1,0 +1,49 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-storyboard",
+  "stage": "scene",
+  "model": "Qwen/Qwen-Image",
+  "transformer": "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors",
+  "runtime": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "nunchaku": "1.2.1+cu12.8torch2.11",
+      "diffusers": "0.37.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "accelerate": "1.13.0"
+    },
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 5070 Laptop GPU"
+  },
+  "scene_id": "B",
+  "scene_description": "야생화 초원 야외 장면",
+  "pose_description": "One woman in an airborne split leap: upright torso, both legs straight in opposite directions, straight knees, pointed feet, and arms extended for balance.",
+  "seed": 5421,
+  "steps": 20,
+  "size": [
+    1024,
+    1024
+  ],
+  "true_cfg_scale": 4.0,
+  "guidance_scale": 1.0,
+  "prompt": "Outdoor wildflower meadow with tall grass, scattered yellow flowers, a distant low mountain ridge, and broad open daylight sky. One woman in an airborne split leap: upright torso, both legs straight in opposite directions, straight knees, pointed feet, and arms extended for balance. Short bob haircut, dark sleeveless leotard and tights. Edge-to-edge illustrated watercolor character scene; thin charcoal lines, transparent wet-on-wet watercolor, pigment pooling, granulation, cool shadows, and medium-chroma color. No frame, text, logos, neon, photorealism, hatching, or screentone.",
+  "prompt_word_count": 79,
+  "style_contract": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-1-style-prompt-contract.json",
+    "sha256": "9ee9a6ec14b971f62ee4215073190f6cca9449a73e44571e10a6049bef6cb105"
+  },
+  "outputs": {
+    "rgb": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-b-145917-seed-5421-steps-20.png",
+      "sha256": "8ef4d42ef4d9d30c816885195de69c4478dbd1e4cfa2918e411b440ecb8055d8"
+    },
+    "relative_depth": {
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-storyboard-scene-b-145917-seed-5421-steps-20-depth.png",
+      "sha256": "a9579980dae21d481270cee4477ff4aa2cd6bbe205f92de011a1a3182efaab1e"
+    }
+  },
+  "next_input_role": "stage_2_scene_reference",
+  "elapsed_seconds": 95.96
+}

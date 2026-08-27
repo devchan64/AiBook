@@ -82,7 +82,7 @@ def main() -> None:
     parser.add_argument("--pose", type=Path, default=DEFAULT_POSE)
     parser.add_argument("--character", type=Path, default=DEFAULT_CHARACTER)
     parser.add_argument("--seed", type=int, default=62294)
-    parser.add_argument("--steps", type=int, default=10)
+    parser.add_argument("--steps", type=int, default=30)
     parser.add_argument("--size", type=parse_size, default=(1024, 1024))
     parser.add_argument("--run-label", default="plus90-v1")
     parser.add_argument("--output-dir", type=Path, default=ASSETS)

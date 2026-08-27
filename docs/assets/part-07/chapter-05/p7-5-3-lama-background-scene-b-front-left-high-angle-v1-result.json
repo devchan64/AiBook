@@ -1,0 +1,33 @@
+{
+  "status": "generated",
+  "stage": "background_restore",
+  "model": {
+    "repository": "g-ronimo/lama",
+    "file": "/home/cbsim/.cache/huggingface/hub/models--g-ronimo--lama/snapshots/418036c6b541e526cdbb0bead1ec3a87dabede53/lama.onnx",
+    "sha256": "44bb92b2693db40bb088dda226365a3aa8080a561584b8b0287ab11a97f9e9e7",
+    "license": "Apache-2.0"
+  },
+  "scene": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-high-angle-shot-medium-shot-scene-b-front-left-high-angle-v1-seed-5421-steps-4.png",
+    "sha256": "a202e9d45815e05edcddddfa707e33a0f22cc0435513668a429f390ffd718db5"
+  },
+  "mask": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-sam2-person-mask-scene-b-front-left-high-angle-v1.png",
+    "sha256": "df14a52d30ae0ad757f57ddc532b5c9102f98fa5fac7af158eded41bdd24a75a"
+  },
+  "mask_semantics": "white=LaMa completion; black=exact source-pixel preservation",
+  "mask_grow_px": 25,
+  "providers": [
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-lama-background-scene-b-front-left-high-angle-v1.png",
+    "sha256": "70dc80bad903767579fe93aca1501b063efe7f86830eacdd5f12d99187a81ddb"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "onnxruntime": "1.28.0"
+  },
+  "elapsed_seconds": 13.51
+}

@@ -22,12 +22,19 @@ ASSETS = Path(__file__).resolve().parent
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 DEFAULT_INPUT = ASSETS / "p7-5-3-character-background-composite-scene-a-v1.png"
-PROMPT = (
-    "Make Picture 1 a cohesive editorial illustration. Preserve the woman, her split-leap pose, "
-    "white cropped jacket, dark teal pants, white shoes, coastline, and composition. "
-    "Use the same clean illustrated rendering on the coastline and woman, with soft clear daylight "
-    "from the upper left and consistent subtle shadows."
-)
+SCENE_PROMPTS = {
+    "scene-a": (
+        "Make Picture 1 a cohesive editorial illustration. Preserve the woman, her split-leap pose, "
+        "white cropped jacket, dark teal pants, white shoes, coastline, and composition. "
+        "Use the same clean illustrated rendering on the coastline and woman, with soft clear daylight "
+        "from the upper left and consistent subtle shadows."
+    ),
+    "scene-b": (
+        "Make Picture 1 cohesive. Preserve the woman, her split-leap pose, white cropped jacket, "
+        "dark teal pants, white shoes, flower meadow, and composition. Harmonize watercolor texture "
+        "and soft daylight across the woman and meadow."
+    ),
+}
 
 
 def sha256(path: Path) -> str:
@@ -62,6 +69,7 @@ def load_pipeline() -> QwenImageEditPlusPipeline:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--scene", choices=SCENE_PROMPTS, default="scene-a")
     parser.add_argument("--seed", type=int, default=62294)
     parser.add_argument("--steps", type=int, default=10)
     parser.add_argument("--run-label", default="scene-a-v1")
@@ -69,6 +77,7 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     source = args.input.resolve()
+    prompt = SCENE_PROMPTS[args.scene]
     if not source.is_file():
         raise FileNotFoundError(source)
     if args.steps < 1:
@@ -77,7 +86,7 @@ def main() -> None:
     stem = f"p7-5-3-qwen-2509-harmonized-composite-{args.run_label}-seed-{args.seed}-steps-{args.steps}"
     output, result = output_dir / f"{stem}.png", output_dir / f"{stem}-result.json"
     if args.dry_run:
-        print(json.dumps({"input": str(source), "prompt": PROMPT, "output": str(output)}, ensure_ascii=False))
+        print(json.dumps({"input": str(source), "scene": args.scene, "prompt": prompt, "output": str(output)}, ensure_ascii=False))
         return
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required")
@@ -85,7 +94,7 @@ def main() -> None:
     started = time.monotonic()
     pipeline = load_pipeline()
     image = pipeline(
-        prompt=PROMPT,
+        prompt=prompt,
         image=[load_image(str(source)).convert("RGB")],
         generator=torch.Generator("cpu").manual_seed(args.seed),
         true_cfg_scale=4.0,
@@ -111,7 +120,8 @@ def main() -> None:
                     "packages": package_versions(),
                 },
                 "input": {"path": str(source), "sha256": sha256(source)},
-                "prompt": PROMPT,
+                "scene": args.scene,
+                "prompt": prompt,
                 "seed": args.seed,
                 "steps": args.steps,
                 "true_cfg_scale": 4.0,
