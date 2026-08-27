@@ -19,7 +19,6 @@ from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor, Sam
 ASSETS = Path(__file__).resolve().parent
 GROUNDING_DINO_ID = "IDEA-Research/grounding-dino-tiny"
 SAM2_ID = "facebook/sam2.1-hiera-small"
-DEFAULT_REFERENCE = ASSETS / "p7-5-3-qwen-storyboard-scene-a-character-plus90-character-features-dancer-leap-v4-seed-62294-steps-10.png"
 
 
 def sha256(path: Path) -> str:
@@ -46,7 +45,12 @@ def runtime() -> dict[str, object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--reference", type=Path, default=DEFAULT_REFERENCE)
+    parser.add_argument(
+        "--reference",
+        type=Path,
+        required=True,
+        help="Stage 2 camera-angle PNG whose person area will be repainted.",
+    )
     parser.add_argument("--run-label", default="v1")
     parser.add_argument("--threshold", type=float, default=0.20)
     parser.add_argument("--output-dir", type=Path, default=ASSETS)
@@ -108,6 +112,7 @@ def main() -> None:
         json.dumps(
             {
                 "status": "generated",
+                "stage": "person_mask",
                 "purpose": "Person mask for Qwen Image Edit inpainting",
                 "models": {
                     "detector": GROUNDING_DINO_ID,
@@ -115,6 +120,7 @@ def main() -> None:
                     "licenses": {"detector": "Apache-2.0", "segmenter": "Apache-2.0"},
                 },
                 "input": record(reference),
+                "input_role": "stage_2_camera_angle",
                 "grounding_prompt": labels[0],
                 "selected_detection": {"label": label, "score": score, "box_xyxy": box},
                 "mask_semantics": "white=person to repaint; black=preserve",

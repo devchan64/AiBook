@@ -196,6 +196,7 @@ def main() -> None:
                     {
                         "status": "generated",
                         "experiment_id": "p7-5-3-qwen-storyboard",
+                        "stage": "scene",
                         "model": MODEL_ID,
                         "transformer": TRANSFORMER_ID,
                         "runtime": runtime_record(),
@@ -209,7 +210,11 @@ def main() -> None:
                         "guidance_scale": 1.0,
                         "prompt": prompt,
                         "prompt_word_count": len(prompt.split()),
-                        "outputs": {"rgb": asset_record(rgb_path), "relative_depth": asset_record(depth_path)},
+                        "outputs": {
+                            "rgb": asset_record(rgb_path),
+                            "relative_depth": asset_record(depth_path),
+                        },
+                        "next_input_role": "stage_2_scene_reference",
                         "elapsed_seconds": round(time.monotonic() - started, 2),
                     },
                     ensure_ascii=False,
