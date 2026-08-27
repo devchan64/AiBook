@@ -17,7 +17,7 @@ P7-5.2가 같은 인물의 얼굴·착장·전신 구조를 따로 준비했다�
 | B | 야생화·키 큰 풀이 있고 낮은 산등성이가 보이는 넓은 초원 |
 | C | 나무·석재 포장·현대 조형물이 있는 도심 공원 |
 
-아래는 같은 포즈 설명과 장면별 seed로 실제 생성한 1단계 RGB다. 세 장면 모두 후속 단계에서 카메라·공간 관계를 전달하는 기준 이미지이며, 아직 pitch와 yaw를 적용하지 않은 상태다.
+아래는 같은 포즈 설명과 장면별 seed로 실제 생성한 스토리보드 RGB다. 각 장면은 카메라·공간·동작 관계를 전달하는 단일 기준 이미지다.
 
 | A 해안 절벽 산책로 | B 야생화 초원 | C 도심 공원 |
 | --- | --- | --- |
@@ -85,23 +85,6 @@ python docs/assets/part-07/chapter-05/p7_5_3_refine_storyboard_four_outputs.py \
 <summary>Grounding DINO와 SAM 2.1로 인물 마스크를 만드는 코드 보기</summary>
 <div class="aibook-lazy-source__body">텍스트 검출 상자를 SAM 2.1 Small에 전달해 Qwen 인페인트용 흰색 인물 마스크와 검수 오버레이를 저장합니다.</div>
 </details>
-
-## 2단계 pitch와 3단계 yaw를 순서대로 적용한다
-
-멀티플 앵글 LoRA는 한 번에 yaw 또는 pitch 한 축만 적용한다. 그래서 2단계에서는 1단계 PNG에 pitch만 적용하고, 3단계에서는 그 출력 PNG에 yaw만 적용한다. 세 장면은 A=로우앵글·정면 yaw, B=하이앵글·좌측 45° yaw, C=로우앵글·우측 45° yaw 순서로 구성한다.
-
-| 장면 | 2단계 pitch | 3단계 yaw |
-| --- | --- | --- |
-| A 해안 절벽 산책로 | 로우앵글 | 정면 |
-| B 야생화 초원 | 하이앵글 | 좌측 45° |
-| C 도심 공원 | 로우앵글 | 우측 45° |
-
-```bash
-python docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py \
-  --reference path/to/stage1-scene-a.png --stage pitch --scene A
-```
-
-같은 생성기에서 `--stage yaw --scene A --reference path/to/stage2-a.png`처럼 3단계를 실행한다. 하나의 실행에서는 pitch와 yaw를 함께 지시하지 않는다.
 
 ## 결과는 유지와 이탈을 함께 읽는다
 
