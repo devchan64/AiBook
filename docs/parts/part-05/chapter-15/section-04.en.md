@@ -1,81 +1,100 @@
-# P5-15.4 How Does Stable Diffusion Restore an Image from a Text Condition?
+# P5-15.4 How Does a Diffusion Model Learn and Restore Noise?
 
 > Section ID: `P5-15.4`
-> Version: `v2026.08.03`
+> Version: `v2026.08.28`
 
-The earlier sections separated generated artifacts, candidate distributions, and text sampling. Image generation is also generative modeling, but it is not best understood as appending next tokens from left to right.
+P5-15.2 and P5-15.3 described text generation as making a candidate distribution and selecting its next output. Image diffusion does not select one completed image from those candidates. It starts from an image-wide noisy state and repeatedly computes states closer to data.
 
-> When a prompt arrives, through which intermediate states and repeated process does Stable Diffusion make an image?
+The question in this section is **what a diffusion model uses as the learning target, and how it repeatedly moves noise toward an image during generation**.
 
-This section explains the minimum flow: `text condition -> latent noise -> repeated restoration -> image`. It does not cover installation or image-making techniques.
+## Forward Diffusion Sends Data toward a Noisy State
 
-It prepares readers to interpret later Part 7 settings such as seed, sampler, steps, and LoRA by their computational roles.
+A diffusion model first adds small random noise to real data `x_0` over many steps. The purpose is not to damage images. It creates training inputs at different noise levels so the model can learn a direction back toward data.
 
-## It Does Not Draw a Pixel Image All at Once
+```mermaid
+--8<-- "assets/part-05/chapter-15/diffusion-forward-reverse-flow-en.mmd"
+```
 
-Stable Diffusion is a representative text-to-image application of latent diffusion. A `latent` is a compressed computational space rather than the pixel image people see. The model starts with random noise in that space, repeatedly reduces noise under the prompt condition, and finally turns the restored latent representation into an image.
+At a small time step `t`, much of the original outline remains. As `t` grows, noise has more weight. The following equation is a compact description of that mixture.
 
-| Stage | Minimum role | Question to keep in view here |
-| --- | --- | --- |
-| text condition | turns the prompt into a computable condition representation | What condition says what to make? |
-| initial latent noise | provides a starting state before an image is visible | From which starting point does restoration begin? |
-| repeated restoration | repeatedly estimates noise to reduce in the current latent representation | What changes a little at a time while consulting the condition? |
-| image restoration | turns the final latent representation into a visible image | What result appears as the actual artifact? |
+\[
+x_t = \sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon
+\]
 
-A prompt is therefore not a pixel layout. It is a condition consulted during restoration; the initial noise and the restoration path also affect the final image.
+The symbols are not the point to memorize.
 
-## Separate Four Components by Their Roles
-
-An implementation contains many more components, but at an introductory level separating their roles matters more than memorizing their names.
-
-| Component | Role | Do not confuse it with |
-| --- | --- | --- |
-| text encoder | turns a prompt into a condition representation | an instruction that completely fixes an image |
-| U-Net | predicts noise to reduce at the current step | one computation that finishes an image |
-| scheduler / sampler | sets the rule for moving to the next latent state | a text top-k or top-p word selector |
-| VAE decoder | turns a restored latent representation into pixels | the sole judge of image quality |
-
-The text condition normally enters restoration through cross-attention. At this level, it is enough to know that the U-Net consults both the noisy latent state and the prompt condition.
-
-The equations and implementation details of cross-attention are outside this section's scope.
-
-## Why the Same Prompt Can Produce Different Images
-
-| Value | What it changes |
+| Symbol | Role in this section |
 | --- | --- |
-| seed | the starting point of initial latent noise |
-| steps | how many times denoising is repeated |
-| sampler | the rule for moving to the next latent state |
-| guidance | how strongly the text condition is consulted |
-| base model | the learned image-pattern foundation |
+| `x_0` | the original image or data state |
+| `epsilon` | randomly sampled noise |
+| `t` | the time step showing how far noise has been added |
+| `x_t` | the current mixture of original data and noise |
 
-The purpose is not to find one universally best value. It is to separate whether a result changed because of the prompt, starting noise, restoration rule, or model itself.
+![The same input becomes closer to noise as the time step grows](/AiBook/assets/part-05/chapter-15/diffusion-noise-trajectory-en.svg)
 
-When comparing images, fix or record these values so the source of a difference can be discussed.
+This is not a damaged photograph. It is a self-made small grid whose original signal and Gaussian noise are mixed with the weights in the equation. What matters is that a larger `t` leaves fewer original clues in the model input.
 
-## LoRA and Condition Control Belong to Different Layers
+## The Model Predicts Noise Rather Than a Finished Image
 
-LoRA adds small adjustment weights instead of retraining an entire base model. It can adapt a model toward a subject or style. Condition-control paths such as ControlNet or IP-Adapter can add non-text information, including pose, outlines, or reference images, to restoration.
+For training, choose an original `x_0`, a time step `t`, and noise `epsilon`, then construct `x_t`. The model receives `x_t` and `t` and predicts the noise that was added.
 
-| Layer | Role to read first |
+| Training step | What the model receives or makes | Why it is needed |
+| --- | --- | --- |
+| 1 | original state `x_0` | establishes a starting point from training data |
+| 2 | time step `t` and noise `epsilon` | creates inputs with different noise levels |
+| 3 | noisy state `x_t` | is the input the model actually reads |
+| 4 | predicted noise `epsilon_theta(x_t, t)` | estimates what should be removed from the current state |
+| 5 | difference between real and predicted noise | becomes the learning signal for loss and gradients |
+
+In the simplest view, training reduces the mean squared error (MSE) between real and predicted noise.
+
+\[
+L = \left\lVert \epsilon - \epsilon_\theta(x_t, t) \right\rVert^2
+\]
+
+This occupies the same place as the loss, gradient, and optimizer update loop earlier in Part 5. The new point is not a new kind of update: the target is the noise in the current step, rather than a class label or a completed image.
+
+## Reverse Generation Repeats from Noise
+
+After training, we do not provide the original `x_0`. We begin with random noise, predict the current noise, and use that prediction to move to a slightly less noisy state. Repeating this creates a final state close to an image.
+
+1. Start from initial noise `x_T`.
+2. Give the current state `x_t` and time `t` to the model and predict noise.
+3. Use the scheduler rule to calculate the next state `x_(t-1)`.
+4. Repeat until a generated state close to `x_0` remains.
+
+A scheduler is neither model weights nor a learning rate. It is the numerical rule that decides how to move from one generation state to the next using the model prediction. Thus the same trained model can follow a different restoration path when seed, steps, or scheduler changes.
+
+| Value | Role to distinguish first |
 | --- | --- |
-| base model | which image patterns can be restored by default |
-| LoRA | how some base-model representations are adjusted |
-| ControlNet / IP-Adapter | how additional structural or reference conditions are added |
+| seed | reproduces the initial noise starting point |
+| steps | number of reverse moves |
+| scheduler | numerical rule for calculating the next state |
+| model weights | learned values that predict noise or restoration direction |
 
-Changing a LoRA weight and a ControlNet condition together makes it difficult to explain which change produced the result difference.
+Temperature, top-k, and top-p select among next-token candidates in text generation. A diffusion scheduler instead moves an image or latent state to its next restoration state. Both affect variation, but they are not the same algorithm.
+
+## Inspect a Small State Change
+
+Keep the synthetic grid and its noise seed fixed, then change only the time step. The observation is not merely that heavy noise is hard to recognize. Changing `t` changes the model input `x_t`, and therefore changes the direction the model must estimate for removal.
+
+| Change | Keep fixed | Observe |
+| --- | --- | --- |
+| time step `t` | original grid and noise seed | how original clues and noise weight change |
+| noise seed | original grid and time step | how different noisy states are possible at one step |
+| predicted-noise error | `x_t` and time step | how a smaller error improves the basis for the next move |
+
+P6-21.3 handles a controlled test of a real public image model. Here it is enough to see diffusion as learning noise-removal directions at many levels and applying those predictions repeatedly, not as magic that directly retrieves an original image.
 
 ## Checklist
 
-- I can explain Stable Diffusion as iterative restoration of latent noise rather than one-shot pixel drawing.
-- I can distinguish the roles of the prompt, initial noise, repeated restoration, and image restoration.
-- I can separate the roles of the text encoder, U-Net, scheduler/sampler, and VAE decoder.
-- I do not treat text token sampling and an image-diffusion sampler as the same algorithm.
-- I can record whether seed, steps, sampler, guidance, or base model changed.
-- I do not treat LoRA and non-text condition control as the same layer.
+- I can distinguish forward diffusion, noise-prediction training, and reverse generation.
+- I can explain `x_0`, `epsilon`, `t`, and `x_t`.
+- I can explain why the model learns to predict added noise instead of directly predicting a finished image.
+- I can connect prediction error to the loss, gradient, and update flow in Part 5.
+- I can distinguish a scheduler from model weights and from token sampling.
 
 ## Sources and Further Reading
 
-- Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, accessed 2026-08-03.
-- Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, accessed 2026-08-03.
-- CompVis, [Stable Diffusion official implementation](https://github.com/CompVis/stable-diffusion){: target="_blank" rel="noopener noreferrer" }, GitHub, accessed 2026-08-03.
+- Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, accessed 2026-08-28.
+- Yang Song et al., [Score-Based Generative Modeling through Stochastic Differential Equations](https://arxiv.org/abs/2011.13456){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, accessed 2026-08-28.

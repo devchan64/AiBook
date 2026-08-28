@@ -1,0 +1,2 @@
+run_id,model_id,model_revision,license_check,prompt,negative_prompt,conditioning_input,seed,width_height,steps,scheduler,guidance,dtype_device,elapsed_seconds,peak_memory,status,condition_match,structure_preservation,artifact_or_distortion,reproducibility_note,next_question
+example-001,,,,,,,,,,,,,,,,,,,,,

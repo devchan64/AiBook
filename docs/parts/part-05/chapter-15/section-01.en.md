@@ -1,7 +1,7 @@
 # P5-15.1 What Changes When We Read Generative AI Through Deep Learning
 
 > Section ID: `P5-15.1`
-> Version: `v2026.08.03`
+> Version: `v2026.08.28`
 
 When recording this transition, separate `input_context`, `classification_label`, `candidate_output_form`, `review_criteria`, and `user_visible_artifact`. Then generative AI appears not as a kind of labeler that replaces classification, but as a flow that creates an artifact users can read and review.
 
@@ -69,9 +69,9 @@ This distinction prevents an image from being explained as a list of independent
 
 If a model produces output artifacts, one fixed answer may not be enough. After `batch inspection result`, several continuations can be natural: `reverification is needed`, `resume after operator confirmation`, or `measure again in 10 minutes`.
 
-Therefore, the last chapter of Part 5 splits this flow into four sections. P5-15.1 settles the shift in output viewpoint. P5-15.2 looks at how a model keeps the relative plausibility of possible output candidates. P5-15.3 looks at how an actual text output is selected from those candidates. P5-15.4 separately follows image diffusion's restoration flow, using Stable Diffusion as its case.
+Therefore, the last chapter of Part 5 splits this flow into five sections. P5-15.1 settles the shift in output viewpoint. P5-15.2 looks at how a model keeps the relative plausibility of possible output candidates. P5-15.3 looks at how an actual text output is selected from those candidates. P5-15.4 explains diffusion's noise-prediction learning and repeated restoration. P5-15.5 then follows the roles of conditions, attention, and structures such as U-Net and DiT in that restoration.
 
-So the first preparation for generative AI is not a list of usage tips. We first need to understand why an output artifact may not behave like one fixed answer, and why that artifact becomes something the user must review. How possible candidates remain and how a text output is selected are handled in the next two sections; image diffusion's restoration flow follows in the section after that. Prompting practice and service usage are revisited in Part 6 on top of this structural sense.
+So the first preparation for generative AI is not a list of usage tips. We first need to understand why an output artifact may not behave like one fixed answer, and why that artifact becomes something the user must review. Candidate distributions and text selection appear in the next two sections; diffusion's algorithm and structure appear in the following two sections. Prompting practice and service usage are revisited in Part 6 on top of this structural sense.
 
 ## From Classification Labels to Reviewable Guidance
 

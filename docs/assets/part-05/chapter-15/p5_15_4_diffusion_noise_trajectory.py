@@ -1,6 +1,7 @@
-"""Generate language-specific SVGs showing a synthetic grid becoming noisier."""
+"""Generate language-specific SVGs from a forward-diffusion mixture."""
 
 from pathlib import Path
+import math
 import random
 
 
@@ -10,27 +11,29 @@ LABELS = {
     "en": ("Original", "Light noise", "Medium noise", "Heavy noise"),
     "zh": ("原始状态", "轻度噪声", "中度噪声", "强噪声"),
 }
-MIXES = (0.0, 0.22, 0.48, 0.78)
+ALPHA_BARS = (1.0, 0.78, 0.38, 0.06)
 
 
-def cell_color(base: int, noise: int, mix: float) -> str:
-    value = round((1 - mix) * base + mix * noise)
+def cell_color(base: int, noise: float, alpha_bar: float) -> str:
+    signal = (base - 128) / 128
+    mixed = math.sqrt(alpha_bar) * signal + math.sqrt(1 - alpha_bar) * noise
+    value = round((max(-1, min(1, mixed)) + 1) * 127.5)
     return f"rgb({value},{value},{value})"
 
 
 def build_svg(language: str) -> str:
     random_source = random.Random(15)
     base = [(row * 29 + col * 43 + 48) % 210 + 20 for row in range(6) for col in range(6)]
-    noise = [random_source.randrange(0, 256) for _ in base]
+    noise = [random_source.gauss(0, 1) for _ in base]
     cards = []
-    for index, (label, mix) in enumerate(zip(LABELS[language], MIXES)):
+    for index, (label, alpha_bar) in enumerate(zip(LABELS[language], ALPHA_BARS)):
         x_offset = 20 + index * 190
         cells = []
         for cell_index, base_value in enumerate(base):
             row, col = divmod(cell_index, 6)
             cells.append(
                 f'<rect x="{x_offset + col * 22}" y="55" width="21" height="21" '
-                f'fill="{cell_color(base_value, noise[cell_index], mix)}"/>'
+                f'fill="{cell_color(base_value, noise[cell_index], alpha_bar)}"/>'
             )
             cells[-1] = cells[-1].replace(' y="55"', f' y="{55 + row * 22}"')
         cards.append(

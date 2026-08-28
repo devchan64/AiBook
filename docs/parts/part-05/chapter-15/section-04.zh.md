@@ -1,81 +1,100 @@
-# P5-15.4 Stable Diffusion 怎样从文本条件恢复图像？
+# P5-15.4 扩散模型怎样学习并复原噪声？
 
 > Section ID: `P5-15.4`
-> Version: `v2026.08.03`
+> Version: `v2026.08.28`
 
-前几节区分了生成物、候选分布和文本采样。图像生成也是生成模型的一种案例，但不能把它理解成从左到右接续下一 token。
+P5-15.2 和 P5-15.3 把文本生成解释为建立候选分布并选择下一个输出。图像扩散不会从候选中挑出一张完成图像，而是从整幅图像的噪声状态出发，反复计算更接近数据的状态。
 
-> prompt 进入后，Stable Diffusion 会经过哪些中间状态和重复过程来生成图像？
+本节的问题是：**扩散模型把什么作为学习目标，生成时又怎样通过重复计算把噪声推向图像？**
 
-本节只抓住最小流程：`文本条件 -> 潜在噪声 -> 重复恢复 -> 图像`，不讲安装或图像制作技巧。
+## 正向扩散把原始数据送往噪声状态
 
-它为日后在 Part 7 中按计算角色理解 seed、sampler、steps、LoRA 等设置作准备。
+扩散模型先在真实数据 `x_0` 中逐步加入小量随机噪声。目的不是破坏图像，而是构造不同噪声程度的训练输入，使模型学习回到数据方向的线索。
 
-## 它不是一次画出像素图像
+```mermaid
+--8<-- "assets/part-05/chapter-15/diffusion-forward-reverse-flow-zh.mmd"
+```
 
-Stable Diffusion 是 latent diffusion 用于 text-to-image 的代表案例。`latent`是比人直接看到的像素图像更压缩的计算空间。模型从这个空间的随机噪声开始，在 prompt 条件下反复减少噪声，最后把恢复后的潜在表征变成图像。
+当时间步 `t` 较小时，原始轮廓仍较多；随着 `t` 增大，噪声权重变大。下式简要表示这种混合。
 
-| 阶段 | 最小作用 | 本节要抓住的问题 |
-| --- | --- | --- |
-| 文本条件 | 把 prompt 变成可计算的条件表征 | 条件要求生成什么？ |
-| 初始潜在噪声 | 提供图像尚未显现时的出发状态 | 从哪个出发点开始恢复？ |
-| 重复恢复 | 反复预测当前潜在表征中要减少的噪声 | 参考条件时，什么会一点点改变？ |
-| 图像恢复 | 把最终潜在表征变成可见图像 | 哪个结果会成为实际产物？ |
+\[
+x_t = \sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon
+\]
 
-因此，prompt 不是像素布局表。它是恢复过程参考的条件；初始噪声和恢复路径也会影响最后图像。
+重点不是背诵符号。
 
-## 按角色区分四个组成部分
-
-实现中还有许多组成部分，但在入门阶段，按角色区分比记住名称更重要。
-
-| 组成部分 | 作用 | 不要混同为 |
-| --- | --- | --- |
-| text encoder | 把 prompt 变成条件表征 | 完全固定图像的命令 |
-| U-Net | 预测当前步骤要减少的噪声 | 一次完成图像的计算 |
-| scheduler / sampler | 规定移向下一潜在状态的规则 | 文本的 top-k 或 top-p 词选择器 |
-| VAE decoder | 把恢复的潜在表征变成像素 | 图像质量的唯一判断者 |
-
-文本条件通常通过 cross-attention 进入恢复过程。入门时只需知道 U-Net 同时参考带噪潜在状态和 prompt 条件。
-
-cross-attention 的公式和实现细节不在本节范围内。
-
-## 为什么同一 prompt 会得到不同图像
-
-| 值 | 改变什么 |
+| 符号 | 本节中的作用 |
 | --- | --- |
-| seed | 初始潜在噪声的出发点 |
-| steps | 去噪重复次数 |
-| sampler | 移向下一潜在状态的规则 |
-| guidance | 参考文本条件的强度 |
-| base model | 学到的图像模式基础 |
+| `x_0` | 最初的真实图像或数据状态 |
+| `epsilon` | 随机采样并混入的噪声 |
+| `t` | 表示加入噪声程度的时间步 |
+| `x_t` | 原始数据和噪声混合后的当前状态 |
 
-目的不是找出永远最好的一个值，而是区分结果变化来自 prompt、初始噪声、恢复规则，还是模型本身。
+![同一输入随时间步增大而更接近噪声](/AiBook/assets/part-05/chapter-15/diffusion-noise-trajectory-zh.svg)
 
-比较图像时，应固定或记录这些值，才能讨论差异来自哪里。
+这不是被破坏的照片，而是用公式中的权重把自制小网格与高斯噪声混合的观察材料。关键在于：`t` 越大，模型输入中保留的原始线索越少。
 
-## LoRA 与条件控制属于不同层
+## 模型预测噪声，而不是完成图像
 
-LoRA 不重新训练整个 base model，而是加上小的调整权重，可把模型适应到某个对象或风格。ControlNet、IP-Adapter 等条件控制路径则可以把 pose、轮廓、参考图像等非文本信息加入恢复过程。
+训练时选择原始状态 `x_0`、时间步 `t` 和噪声 `epsilon`，构造 `x_t`。随后把 `x_t` 与 `t` 给模型，让它预测刚才混入的噪声。
 
-| 层 | 首先要读的作用 |
+| 训练步骤 | 模型接收或产生的内容 | 为什么需要 |
+| --- | --- | --- |
+| 1 | 原始状态 `x_0` | 从训练数据确定起点 |
+| 2 | 时间步 `t`、噪声 `epsilon` | 构造不同噪声程度的输入 |
+| 3 | 含噪状态 `x_t` | 模型实际读取的输入 |
+| 4 | 预测噪声 `epsilon_theta(x_t, t)` | 估计当前状态中应去除的内容 |
+| 5 | 真实噪声与预测噪声的差 | 构成损失和梯度的学习信号 |
+
+最简单的解释是最小化真实噪声和预测噪声的均方误差（MSE）。
+
+\[
+L = \left\lVert \epsilon - \epsilon_\theta(x_t, t) \right\rVert^2
+\]
+
+它仍处在 Part 5 前面见过的损失、梯度和优化器更新位置。新意不在于更新规则，而在于模型要预测的是当前步骤混入的噪声，而不是类别标签或完成图像。
+
+## 反向生成从噪声开始重复
+
+训练结束后不再提供原始 `x_0`。从随机噪声开始，模型预测当前噪声，并据此移动到稍微更少噪声的状态。重复后，最终状态就接近图像。
+
+1. 从初始噪声 `x_T` 出发。
+2. 输入当前状态 `x_t` 和时间 `t`，预测噪声。
+3. 用 scheduler 规则计算下一状态 `x_(t-1)`。
+4. 重复直到得到接近 `x_0` 的生成结果。
+
+scheduler 既不是模型权重，也不是学习率。它是利用模型预测决定生成状态如何移动到下一步的数值规则。因此，seed、steps 或 scheduler 改变时，同一个训练模型也可能走不同的复原路径。
+
+| 值 | 首先要区分的作用 |
 | --- | --- |
-| base model | 默认能恢复哪些图像模式 |
-| LoRA | 怎样调整部分 base model 表征 |
-| ControlNet / IP-Adapter | 怎样加入额外结构或参考条件 |
+| seed | 用于复现初始噪声起点 |
+| steps | 反向移动的重复次数 |
+| scheduler | 计算下一状态的数值规则 |
+| model weights | 学得的、用于预测噪声或复原方向的值 |
 
-同时改变 LoRA weight 和 ControlNet 条件，会很难说明究竟哪个变化造成了结果差异。
+文本生成中的 temperature、top-k、top-p 用于选择下一个 token 候选；扩散 scheduler 则把图像或潜在状态移到下一个复原状态。两者都会影响变体，但不是同一种算法。
+
+## 观察一个小状态变化
+
+保持小网格和噪声 seed 不变，只改变时间步。要观察的不是“噪声多就看不清”，而是 `t` 改变了模型输入 `x_t`，也改变了模型必须估计的去除方向。
+
+| 改变的值 | 固定的值 | 观察内容 |
+| --- | --- | --- |
+| 时间步 `t` | 原始网格、噪声 seed | 原始线索和噪声权重怎样变化 |
+| 噪声 seed | 原始网格、时间步 | 同一步是否可能出现不同噪声状态 |
+| 预测噪声误差 | `x_t`、时间步 | 误差变小时，下一次复原移动的依据怎样改善 |
+
+P6-21.3 会处理真实公开图像模型的受控测试。本节只需把扩散理解为：在多个噪声等级学习去除方向，再反复应用预测；它不是直接找回原始图像的魔法。
 
 ## 检查清单
 
-- 我可以把 Stable Diffusion 解释为潜在噪声的重复恢复，而不是一次画出像素。
-- 我可以区分 prompt、初始噪声、重复恢复和图像恢复的作用。
-- 我可以区分 text encoder、U-Net、scheduler/sampler、VAE decoder 的最小作用。
-- 我不会把文本 token 采样和图像 diffusion 的 sampler 当成同一种算法。
-- 我可以记录 seed、steps、sampler、guidance 或 base model 是否改变。
-- 我不会把 LoRA 和非文本条件控制当成同一层。
+- 我能区分正向扩散、噪声预测训练和反向生成。
+- 我能说明 `x_0`、`epsilon`、`t`、`x_t` 各自代表什么。
+- 我能说明模型为何预测加入的噪声而不是直接预测完成图像。
+- 我能把预测误差与 Part 5 的损失、梯度、更新流程联系起来。
+- 我能区分 scheduler、模型权重和 token 采样。
 
-## 出处与参考资料
+## 来源与参考资料
 
-- Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021，确认日期：2026-08-03。
-- Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020，确认日期：2026-08-03。
-- CompVis, [Stable Diffusion 官方实现](https://github.com/CompVis/stable-diffusion){: target="_blank" rel="noopener noreferrer" }, GitHub，确认日期：2026-08-03。
+- Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020，确认日期：2026-08-28。
+- Yang Song et al., [Score-Based Generative Modeling through Stochastic Differential Equations](https://arxiv.org/abs/2011.13456){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021，确认日期：2026-08-28。
