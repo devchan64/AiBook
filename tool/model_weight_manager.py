@@ -52,6 +52,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     verify = subcommands.add_parser("verify", help="Recalculate SHA-256 for recorded downloads.")
     verify.add_argument("--ref", action="append", help="Verify only this component ref; may be repeated.")
 
+    verify_migrations = subcommands.add_parser("verify-migrations", help="Recalculate manifests for model directories moved into .tmp/download/.")
+    verify_migrations.add_argument("--ref", action="append", help="Verify only this component ref; may be repeated.")
+
     relocate = subcommands.add_parser("relocate", help="Move one Hugging Face cache entry after a SHA-256 manifest comparison.")
     relocate.add_argument("--ref", required=True, help="CycloneDX component bom-ref with a Hugging Face distribution URL.")
     relocate.add_argument("--source-hub", type=Path, default=DEFAULT_HUGGINGFACE_HUB, help="Existing Hugging Face hub cache.")
@@ -394,6 +397,28 @@ def verify(bom: dict[str, Any], requested_refs: list[str] | None) -> int:
     return 1 if failures else 0
 
 
+def verify_migrations(requested_refs: list[str] | None) -> int:
+    """Compare every recorded moved-directory manifest to the current files."""
+    records = sorted((HUGGINGFACE_DOWNLOAD_ROOT / "migrations").glob("*.json"))
+    records.extend(sorted((DOWNLOAD_ROOT / "migrations").glob("*.json")))
+    checked = 0
+    failures = 0
+    for record_path in records:
+        record = json.loads(record_path.read_text(encoding="utf-8"))
+        ref = record.get("component_ref")
+        if requested_refs and ref not in requested_refs:
+            continue
+        target = Path(record["target"])
+        actual = file_manifest(target) if target.is_dir() else None
+        status = "ok" if actual == record.get("manifest") else "mismatch"
+        print(json.dumps({"component_ref": ref, "target": str(target), "status": status, "file_count": len(actual or [])}, ensure_ascii=False))
+        checked += 1
+        failures += status != "ok"
+    if not checked:
+        print("No migration records found beneath .tmp/download/.", file=sys.stderr)
+    return 1 if failures else 0
+
+
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     bom = load_bom(args.bom)
@@ -406,6 +431,8 @@ def main(argv: list[str]) -> int:
         return 0
     if args.command == "fetch":
         return fetch(component_by_ref(bom, args.ref), args)
+    if args.command == "verify-migrations":
+        return verify_migrations(args.ref)
     if args.command == "relocate":
         return relocate(component_by_ref(bom, args.ref), args)
     if args.command == "relocate-directory":

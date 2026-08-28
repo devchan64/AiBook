@@ -11,11 +11,16 @@ from pathlib import Path
 import torch
 from diffusers import QwenImageEditPlusPipeline
 from diffusers.utils import load_image
+from huggingface_hub import snapshot_download
 from nunchaku import NunchakuQwenImageTransformer2DModel
 
 # This executable is a retained Part 7 asset; shared local-run helpers remain
 # in .tmp because they describe the local runtime rather than book content.
 ROOT = Path(__file__).resolve().parents[4]
+HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
+MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
+TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
+TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 TMP_HELPERS = ROOT / ".tmp"
 if str(TMP_HELPERS) not in sys.path:
     sys.path.insert(0, str(TMP_HELPERS))
@@ -111,11 +116,13 @@ CHARACTER_FIRST_PROMPTS = {
 
 
 def pipeline() -> QwenImageEditPlusPipeline:
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(
-        "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
-    )
+    transformer_path = Path(
+        snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    ) / TRANSFORMER_FILENAME
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
     pipe = QwenImageEditPlusPipeline.from_pretrained(
-        "Qwen/Qwen-Image-Edit-2509", transformer=transformer, torch_dtype=torch.bfloat16
+        model_path, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True
     )
     transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
     pipe._exclude_from_cpu_offload.append("transformer")
