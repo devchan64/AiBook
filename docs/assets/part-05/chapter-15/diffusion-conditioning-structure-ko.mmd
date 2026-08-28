@@ -1,0 +1,9 @@
+flowchart LR
+  Condition[텍스트·참조 조건] --> Encoder[조건 인코더]
+  Noise[현재 노이즈 상태] --> Denoiser[복원 네트워크]
+  Time[시간 단계] --> Denoiser
+  Encoder --> Denoiser
+  Denoiser --> Direction[노이즈·복원 방향 예측]
+  Direction --> Scheduler[scheduler]
+  Scheduler --> Next[다음 복원 상태]
+  Next --> Output[반복 뒤 생성 결과]

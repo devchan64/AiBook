@@ -1,0 +1,9 @@
+flowchart TD
+  Data[Original data x₀] --> Forward[Add noise by time step t]
+  Noise[Random noise ε] --> Forward
+  Forward --> Xt[Noisy state xₜ]
+  Xt --> Train[Model predicts ε]
+  Train --> Loss[Learn from error against actual noise]
+  Start[Generation starts: initial noise x_T] --> Predict[Predict noise at current step]
+  Predict --> Step[Scheduler computes next state]
+  Step --> Result[Generated result after repetition]

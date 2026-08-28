@@ -1,0 +1,9 @@
+flowchart LR
+  Condition[文本或参考条件] --> Encoder[条件编码器]
+  Noise[当前带噪状态] --> Denoiser[复原网络]
+  Time[时间步] --> Denoiser
+  Encoder --> Denoiser
+  Denoiser --> Direction[预测噪声或复原方向]
+  Direction --> Scheduler[scheduler]
+  Scheduler --> Next[下一复原状态]
+  Next --> Output[重复后的生成结果]

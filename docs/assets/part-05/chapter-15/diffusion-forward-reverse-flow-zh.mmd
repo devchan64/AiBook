@@ -1,0 +1,9 @@
+flowchart TD
+  Data[原始数据 x₀] --> Forward[按时间步 t 加入噪声]
+  Noise[随机噪声 ε] --> Forward
+  Forward --> Xt[混入噪声的状态 xₜ]
+  Xt --> Train[模型预测 ε]
+  Train --> Loss[根据与真实噪声的误差学习]
+  Start[生成开始：初始噪声 x_T] --> Predict[预测当前步骤的噪声]
+  Predict --> Step[scheduler 计算下一状态]
+  Step --> Result[重复后的生成结果]

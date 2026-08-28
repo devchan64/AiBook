@@ -1,0 +1,6 @@
+flowchart TD
+  Input[Noisy state, time, and condition] --> Choice{Choose denoising network}
+  Choice --> UNet[U-Net: feature maps and local operations]
+  Choice --> DiT[DiT: latent patches and attention]
+  UNet --> Prediction[Predict noise or restoration direction]
+  DiT --> Prediction

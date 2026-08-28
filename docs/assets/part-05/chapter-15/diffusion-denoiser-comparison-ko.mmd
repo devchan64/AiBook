@@ -1,0 +1,6 @@
+flowchart TD
+  Input[노이즈 상태·시간·조건] --> Choice{복원 네트워크 선택}
+  Choice --> UNet[U-Net: 특징 맵과 지역 연산]
+  Choice --> DiT[DiT: 잠재 패치와 attention]
+  UNet --> Prediction[노이즈·복원 방향 예측]
+  DiT --> Prediction

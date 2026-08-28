@@ -1,0 +1,9 @@
+flowchart LR
+  Condition[Text or reference condition] --> Encoder[Condition encoder]
+  Noise[Current noisy state] --> Denoiser[Denoising network]
+  Time[Time step] --> Denoiser
+  Encoder --> Denoiser
+  Denoiser --> Direction[Predict noise or restoration direction]
+  Direction --> Scheduler[Scheduler]
+  Scheduler --> Next[Next restoration state]
+  Next --> Output[Generated result after repetition]

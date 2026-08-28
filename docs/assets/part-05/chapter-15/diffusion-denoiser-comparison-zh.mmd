@@ -1,0 +1,6 @@
+flowchart TD
+  Input[带噪状态、时间与条件] --> Choice{选择复原网络}
+  Choice --> UNet[U-Net：特征图与局部计算]
+  Choice --> DiT[DiT：潜在 patch 与 attention]
+  UNet --> Prediction[预测噪声或复原方向]
+  DiT --> Prediction

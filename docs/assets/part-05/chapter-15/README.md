@@ -18,6 +18,12 @@
 - PNG chart assets:
   - `sampling-control-probabilities-en.png` / `sampling-control-probabilities-ko.png` / `sampling-control-probabilities-zh.png`
   - `sampling-control-counts-en.png` / `sampling-control-counts-ko.png` / `sampling-control-counts-zh.png`
+- Diffusion algorithm assets:
+  - `diffusion-forward-reverse-flow-en.mmd` / `diffusion-forward-reverse-flow-ko.mmd` / `diffusion-forward-reverse-flow-zh.mmd`
+  - `diffusion-noise-trajectory-en.svg` / `diffusion-noise-trajectory-ko.svg` / `diffusion-noise-trajectory-zh.svg`
+  - `p5_15_4_diffusion_noise_trajectory.py`
+  - `diffusion-conditioning-structure-en.mmd` / `diffusion-conditioning-structure-ko.mmd` / `diffusion-conditioning-structure-zh.mmd`
+  - `diffusion-denoiser-comparison-en.mmd` / `diffusion-denoiser-comparison-ko.mmd` / `diffusion-denoiser-comparison-zh.mmd`
 - Python chart source:
   - `p5_15_sampling_chart.py`
   - `p5_15_3_sampling_controls.py`
