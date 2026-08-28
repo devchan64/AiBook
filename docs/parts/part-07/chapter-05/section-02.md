@@ -1,11 +1,30 @@
 # P7-5.2 캐릭터 착장·전신 참조 셋: 입력 역할을 나누기
 
 > Section ID: `P7-5.2`
-> Version: `v2026.08.26`
+> Version: `v2026.08.29`
 
 같은 캐릭터를 다른 장면과 자세에서도 이어 그리려면, 얼굴·착장·전신 구조를 한 이미지나 한 프롬프트에 모두 맡기지 않아야 한다. 이 절에서는 로컬 GPU의 Qwen으로 만든 캐릭터 입력을 **무엇을 고정하는가**에 따라 나눈다. 얼굴 정면의 identity와 얼굴 회전은 [P7-5.7](section-07.md)에서 별도로 관리한다.
 
 이 절의 질문은 간단하다. 새 전신 장면을 만들 때 어떤 입력이 얼굴을, 어떤 입력이 의상을, 어떤 입력이 관절 구조를 맡아야 서로의 정보를 덮어쓰지 않을까?
+
+## 한 이름으로 부르지 않는 실행 조합
+
+P7-5.2의 결과는 이름이 하나인 단일 모델에서 나오지 않는다. `result.json`에 남긴 실행 기록에는 편집 모델, 로컬 실행용 양자화 transformer, 카메라 회전 전용 LoRA, 구조 guide를 만드는 OpenPose 도구가 서로 다른 역할로 기록된다. 이들을 모두 캐릭터를 만드는 모델이라고 부르면, 어느 조건을 바꿨을 때 결과가 달라졌는지 알 수 없다.
+
+| 요소 | P7-5.2에서 맡긴 일 | 적용 범위 |
+| --- | --- | --- |
+| `Qwen/Qwen-Image-Edit-2509` | 얼굴·착장·구조 이미지를 함께 읽고, prompt가 지시한 전신 결과를 편집 | 1·2단계 착장과 동적 전신 |
+| Nunchaku SVDQuant FP4 r128 transformer | Qwen 편집 모델의 transformer를 로컬 GPU 메모리에 맞춰 실행 | 1·2단계 착장과 동적 전신 |
+| `Qwen-Edit-2509-Multiple-angles` LoRA | 2단계 착장 한 장에서 카메라 yaw만 바꾸는 보조 조건 | −90°·−45°·+45°·+90° 착장 |
+| `controlnet_aux` OpenPose renderer | BODY_18 좌표를 정면 body-only 구조 PNG로 그려 Qwen에 참조 입력으로 제공 | 1단계 전신 비례·프레이밍 guide |
+
+Qwen-Image-Edit-2509은 한 장에서 세 장의 이미지 입력을 함께 편집하도록 공개된 모델이다. 여기서는 정면 머리와 body-only OpenPose, 또는 앞 단계 착장과 정면 머리를 입력으로 두어 각 이미지가 맡는 정보를 분리했다. 이 모델 자체는 keypoint·depth 같은 ControlNet 조건도 지원하지만, 이 절의 1단계는 native ControlNet 경로가 아니라 **body-only OpenPose PNG를 일반 이미지 참조로 넣는 편집 경로**를 사용했다. 따라서 구조 맵이 얼굴·의상 정보를 직접 보존한다고 해석하면 안 된다. [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"}
+
+Nunchaku transformer는 별도의 그림 스타일이나 캐릭터 조건이 아니다. 이 실행에서는 Qwen의 큰 transformer를 FP4 r128 양자화 가중치로 바꾸고 순차 CPU offload와 함께 사용해 로컬 GPU에서 실행했다. r128은 같은 계열에서 더 빠른 r32보다 품질 우선인 선택이다. 그러므로 “Nunchaku를 적용했다”는 말은 캐릭터 identity가 강화됐다는 뜻이 아니라, 같은 Qwen 편집을 가능한 메모리·속도 조건으로 실행했다는 뜻이다. [Nunchaku Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}
+
+네 방향 착장에만 사용한 Multiple-angles LoRA는 `将镜头向左旋转45度。` 같은 짧은 카메라 지시를 보강한다. 이 LoRA에는 정면 2단계 착장 하나만 입력으로 넣었다. 얼굴 참조와 OpenPose를 함께 넣지 않은 이유는 LoRA가 담당해야 할 질문을 yaw 변화로 제한하기 위해서다. LoRA는 얼굴·헤어·관절·의상을 새 기준으로 정하는 모델이 아니며, 회전 결과에서도 그 정보는 원래 착장 참조와 이후의 별도 입력이 맡는다. [Multiple-angles LoRA 모델 카드](https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles){: target="_blank" rel="noopener noreferrer"}
+
+OpenPose renderer도 생성 모델과 구분한다. 이 도구는 정규화한 BODY_18 관절 좌표를 색 선과 점으로 렌더링할 뿐, 캐릭터의 얼굴·옷·화풍을 생성하지 않는다. P7-5.2의 최종 경로에서는 다방향 스켈레톤을 전신 회전의 입력으로 사용하지 않고, **정면 body-only 맵 하나만** 1단계의 머리·어깨·골반·다리 비례와 프레이밍을 맞추는 기준으로 사용했다. 그러므로 guide의 팔 길이나 프레임을 수정하는 일은 Qwen prompt를 고치는 일과 다른 실험 조건이다. [ComfyUI ControlNet Auxiliary Preprocessors](https://github.com/Fannovel16/comfyui_controlnet_aux){: target="_blank" rel="noopener noreferrer"}
 
 ## 한 이미지에 모든 조건을 맡기지 않는다
 
@@ -16,7 +35,7 @@
 | P7-5.7 정면 토르소 | 얼굴형, 눈·홍채, 앞머리, 청록 단발, 선과 음영 | 얼굴·헤어·화풍 |
 | 1단계 착장·전신 | 회색 크롭탑, 와이드 팬츠, 흰 운동화, 정면 전신 비례 | 기본 착장 |
 | 2단계 전신·회전 착장 | 열린 흰 크롭 재킷과 손, 네 방향의 의상 가림 관계 | 자켓·손·방향별 착장 |
-| body-only OpenPose | 관절 관계, 전신 비례, 화면 안의 방향 | 포즈·프레이밍 |
+| 정면 body-only OpenPose | 전신 비례와 프레임 안의 관절 위치 | 1단계의 비례·프레이밍 보조 |
 
 따라서 토르소 참조는 목·어깨·의상 비례를 정하지 않고, 착장 이미지는 얼굴 identity를 다시 정하지 않는다. OpenPose는 얼굴·손가락·의상 픽셀이 없는 구조 맵으로만 쓴다. 새 입력을 더할 때는 먼저 이 표의 기존 역할과 겹치는지 확인한다.
 
@@ -36,9 +55,9 @@
 
 <p><a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30-result.json" data-language="json">960×1440, 30-step result.json</a></p>
 
-## 회전한 착장과 구조 맵은 다른 질문에 답한다
+## 회전한 착장은 카메라 조건만 바꾼다
 
-방향이 바뀌면 의상이 몸을 가리는 방식과 관절의 원근을 한 이미지로 고정하기 어렵다. 그래서 회전 착장은 재킷·크롭티·팬츠·스니커즈·손의 가림 관계를, OpenPose는 전신 관절과 프레이밍을 따로 대조한다.
+방향이 바뀌면 의상이 몸을 가리는 방식이 달라진다. 이 회전 실험은 정면 2단계 착장에서 재킷·크롭티·팬츠·스니커즈·손의 가림 관계가 어떻게 바뀌는지만 대조한다. 다방향 OpenPose를 추가해 인체의 회전까지 고정하려고 하지 않았다.
 
 정면 2단계 착장을 유일한 이미지 입력으로 사용하고, 멀티플 앵글 LoRA의 카메라 yaw 지시만 더해 네 방향의 착장을 만들었다. 얼굴 identity나 관절 구조를 별도 이미지로 중복 지시하지 않았다.
 
@@ -52,15 +71,11 @@
 
 <p>결과 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_minus_90-multiple-angle-v1-seed-62294-steps-8-result.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8-result.json" data-language="json">−45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8-result.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8-result.json" data-language="json">+90°</a></p>
 
-body-only OpenPose는 같은 상완·전완 길이를 유지한 BODY_18 템플릿을 3D 회전·투영해 −90°·−45°·0°·+45°·+90°로 만든다. 정면 0°는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지하고 다리 길이만 15% 늘린 v7 맵이다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 나머지 네 방향은 같은 비율로 다시 생성하기 전까지 기존 비교 맵을 사용한다.
+1단계의 정면 body-only OpenPose는 2단계 전신의 프레임을 기준으로 머리·어깨·골반 폭을 유지하고 다리 길이만 15% 늘린 v7 맵이다. 양팔은 바깥쪽 아래로 벌려 손목이 몸통 밖에 남는다. 이 맵은 캐릭터 방향을 만드는 장치가 아니라 전신의 머리·몸통·다리 비율과 화면 안 위치를 맞추는 기준이다.
 
-| −90° | −45° | 0° | +45° | +90° |
-| --- | --- | --- | --- | --- |
-| ![−90도 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.png) | ![−45도 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.png) | ![양팔을 벌린 정면 body-only OpenPose, 다리 15% 연장](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png) | ![+45도 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.png) | ![+90도 body-only OpenPose](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.png) |
+![양팔을 벌린 정면 body-only OpenPose, 다리 15% 연장](../../../assets/part-07/chapter-05/p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png)
 
-<p>좌표 JSON: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-90_pitch+00.json" data-language="json">−90°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw-45_pitch+00.json" data-language="json">−45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.json" data-language="json">0° (양팔 벌림·다리 15% 연장 v7)</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+45_pitch+00.json" data-language="json">+45°</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+90_pitch+00.json" data-language="json">+90°</a></p>
-
-<p>실행 기록: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-result.json" data-language="json">정면 v7 result.json</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-hand-on-waist-pitch0-result.json" data-language="json">기존 5방향 result.json</a></p>
+<p>좌표·실행 기록: <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.json" data-language="json">정면 v7 좌표 JSON</a> · <a class="aibook-source-link" href="/AiBook/assets/part-07/chapter-05/p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-result.json" data-language="json">정면 v7 result.json</a></p>
 
 FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하를 다시 지정해 토르소의 얼굴형과 경쟁하므로 현재 입력에서 제외한다.
 
@@ -94,7 +109,7 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 | --- | --- |
 | 역할 | 얼굴·헤어, 의상·손, 관절·프레이밍 중 무엇을 어느 입력이 맡는가? |
 | 충돌 | 새 입력이 기존 입력의 얼굴형·착장·관절 역할을 다시 지정하지 않는가? |
-| 전신 구조 | 회전 결과에서 어깨·팔·다리·신발이 요청한 방향과 프레임 안에 유지되는가? |
+| 전신 구조 | 정면 body-only guide가 머리·어깨·골반·다리의 비율과 프레임 안 위치만 정하는가? |
 | 재현 | seed, step, 입력 자산, prompt와 `prompt_word_count`가 `result.json`에 남아 있는가? |
 | 다음 비교 | 새 구도·장면·소품에서 무엇이 유지됐고 무엇이 달라졌는가? |
 
@@ -102,3 +117,4 @@ FACE_70처럼 턱선·눈·코·입을 모두 포함한 점군은 얼굴 기하�
 
 - 전신·착장·OpenPose의 실행 조건은 이 절에서 연결한 로컬 `result.json`에서 확인한다.
 - 얼굴 정면과 카메라 회전의 기준은 [P7-5.7](section-07.md)에서 확인한다.
+- Qwen 편집 모델·양자화 transformer·Multiple-angles LoRA·OpenPose renderer의 공개 기능과 배포 정보는 위 모델 카드와 저장소에서 확인한다. 확인일: 2026-08-29.

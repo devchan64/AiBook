@@ -33,7 +33,6 @@ OUTPUT_DIR = ASSETS
 DEFAULT_STEPS = 30
 QWEN_FACE_REFERENCE = "p7-5-7-qwen-face-head-front-1024-reference-v1-seed-62294-steps-10-size-1024.png"
 FRONT_TORSO_REFERENCE = "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
-HAND_ON_WAIST_OPENPOSE = "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png"
 STAGE2_BODY_ONLY_OPENPOSE = "p7-5-2-openpose-fullbody-stage2-open-arms-short-long-legs-v7-yaw+00_pitch+00.png"
 
 
@@ -129,22 +128,6 @@ OUTFIT_STAGE_TARGETS: dict[str, dict[str, object]] = {
         "prompt": (
             "Front full-body woman. Image 1 preserves the exact white cropped jacket, gray crop top, trousers, hands, and sneakers. "
             "Image 2 defines the face, hair, line work, color, and shading. Image 3 defines the full-body proportion, arm and hand placement; do not render it. Plain cool-gray background."
-        ),
-    },
-    "outfit_stage4_body_pose_refine": {
-        "inputs": (
-            "p7-5-2-qwen-edit-prompt-style-outfit_stage3_4_headless_torso_face_hair_style-headless-torso-face-hair-style-v1-seed-62294-steps-30.png",
-            "p7-5-2-openpose-fullbody-hand-on-waist-pitch0-yaw+00_pitch+00.png",
-        ),
-        "input_roles": ["stage_3_4_face_hair_outfit", "front_body_only_openpose"],
-        "append_style_prompt": False,
-        "append_illustration_prompt": False,
-        "default_steps": 30,
-        "size": (1024, 1536),
-        "negative_prompt": "OpenPose lines, dots, labels, text, panel, collage, extra person",
-        "prompt": (
-            "Front full-body woman. Image 1 preserves the face, hair, white cropped jacket, gray crop top, trousers, hands, sneakers, line work, color, and shading. "
-            "Image 2 defines full-body pose and relaxed arms; do not render it. Plain cool-gray background."
         ),
     },
     "outfit_stage3_stage2_openpose": {
