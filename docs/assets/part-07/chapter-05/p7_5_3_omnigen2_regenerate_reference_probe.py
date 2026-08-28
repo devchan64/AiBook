@@ -52,6 +52,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--text-guidance-scale", type=float, default=5.0, help="텍스트 지시 강도")
     parser.add_argument("--image-guidance-scale", type=float, default=2.0, help="입력 이미지 보존 강도")
     parser.add_argument("--max-reference-edge", type=int, default=512, help="각 참조 입력의 최대 긴 변")
+    parser.add_argument("--source-repeats", type=int, default=1, help="장면·포즈 원본을 입력 목록에 반복하는 횟수")
     return parser.parse_args()
 
 
@@ -84,6 +85,8 @@ def main() -> None:
     args = parse_args()
     if args.width % 16 or args.height % 16:
         raise ValueError("출력 너비와 높이는 16의 배수여야 합니다.")
+    if args.source_repeats < 1:
+        raise ValueError("--source-repeats는 1 이상이어야 합니다.")
     for label, path in (("원본 장면", args.source), ("착장 참조", args.outfit), ("얼굴 참조", args.face)):
         require_file(path, label)
     if not args.model_path.is_dir():
@@ -94,19 +97,23 @@ def main() -> None:
     if not args.source_dir.is_dir():
         raise FileNotFoundError(f"OmniGen2 공식 소스 폴더를 찾을 수 없습니다: {args.source_dir}")
 
+    outfit_index = args.source_repeats + 1
+    face_index = args.source_repeats + 2
+    source_images = ", ".join(f"image {index}" for index in range(1, args.source_repeats + 1))
     prompt = (
-        "Regenerate image 1. Preserve its basketball jump, pose, composition, hoop, ball, "
-        "court, background, and shadow. Apply the woman's face and teal wavy bob from image 3 "
-        "and the white cropped jacket, gray crop top, teal wide-leg trousers, and white sneakers "
-        "from image 2."
+        f"Regenerate the source scene in {source_images}. Preserve its basketball jump, pose, composition, hoop, ball, "
+        f"court, background, and shadow. Apply the woman's face and teal wavy bob from image {face_index} "
+        f"and the white cropped jacket, gray crop top, teal wide-leg trousers, and white sneakers from image {outfit_index}."
     )
+    input_paths = [args.source] * args.source_repeats + [args.outfit, args.face]
+    input_roles = ["scene and pose"] * args.source_repeats + ["outfit", "face and hair"]
     output = args.output.resolve()
     record = {
         "schema": "aibook-image-generation-result-v1",
         "status": "running",
         "model": {"bom_ref": MODEL_REF, "revision": MODEL_REVISION, "source": "https://huggingface.co/OmniGen2/OmniGen2"},
-        "inputs": [str(args.source.resolve()), str(args.outfit.resolve()), str(args.face.resolve())],
-        "input_roles": ["scene and pose", "outfit", "face and hair"],
+        "inputs": [str(path.resolve()) for path in input_paths],
+        "input_roles": input_roles,
         "prompt": prompt,
         "negative_prompt": "",
         "output": str(output),
@@ -117,6 +124,7 @@ def main() -> None:
         "text_guidance_scale": args.text_guidance_scale,
         "image_guidance_scale": args.image_guidance_scale,
         "max_reference_edge": args.max_reference_edge,
+        "source_repeats": args.source_repeats,
         "memory_strategy": "sequential CPU offload",
         "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
     }
@@ -136,7 +144,7 @@ def main() -> None:
             args.model_path, subfolder="transformer", torch_dtype=torch.bfloat16
         )
         pipeline.enable_sequential_cpu_offload()
-        inputs = [resize_reference(path, args.max_reference_edge) for path in (args.source, args.outfit, args.face)]
+        inputs = [resize_reference(path, args.max_reference_edge) for path in input_paths]
         generator = torch.Generator(device=accelerator.device).manual_seed(args.seed)
         image = pipeline(
             prompt=prompt,
