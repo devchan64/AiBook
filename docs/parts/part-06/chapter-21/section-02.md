@@ -1,7 +1,7 @@
 # P6-21.2 로컬 실행 환경과 메모리 배치
 
 > Section ID: `P6-21.2`
-> Version: `v2026.08.28`
+> Version: `v2026.08.29`
 
 오픈웨이트 모델을 직접 실행한다는 말은 모델 파일을 내려받는다는 뜻에서 끝나지 않습니다. 사용자는 모델을 어느 장치에 올릴지, 어떤 숫자 표현으로 읽을지, 한 번에 얼마나 긴 입력을 처리할지, 부족한 메모리를 어떤 방식으로 나눌지까지 함께 결정해야 합니다. 이 절의 질문은 **오픈웨이트 모델을 로컬이나 직접 관리 환경에서 실행할 때, GPU VRAM·CPU RAM·dtype·양자화·[CPU offloading](../../../reference/concept-glossary-parts/08-ieung.md#cpu-offloading)을 어떻게 구분해 읽어야 하는가**입니다.
 
@@ -35,6 +35,25 @@
 | 입력 규모 축소 | context 길이, 해상도, batch, step | 중간 계산량과 임시 메모리를 줄임 | 과하게 줄이면 사용 목적 자체가 달라질 수 있음 |
 
 예를 들어 `torch_dtype=torch.bfloat16`으로 모델을 읽는 것은 가중치 표현을 줄이는 선택입니다. 반면 `enable_sequential_cpu_offload()`는 pipeline의 세부 module을 필요할 때 GPU로 옮기고, 필요하지 않은 동안 CPU 쪽에 두는 실행 배치 선택입니다. 둘은 함께 쓸 수 있지만 서로를 대신하지 않습니다.
+
+## 양자화는 가중치 표현을 바꾸는 경량화다
+
+양자화는 이미 학습된 가중치 값을 더 적은 bit의 표현으로 저장하고 읽는 방식입니다. 원래 넓은 범위의 실수로 담던 값을 `INT8`이나 `4-bit`처럼 더 작은 형식으로 기록하고, 런타임이 그 형식을 해석해 계산에 사용합니다. 그래서 양자화가 먼저 줄이는 대상은 대체로 가중치 파일과 가중치를 적재할 때의 메모리입니다.
+
+반대로 입력을 처리하며 생기는 중간 tensor, 생성 과정의 임시 상태, 긴 문맥이나 큰 해상도 때문에 늘어나는 메모리까지 자동으로 작아진다는 뜻은 아닙니다. 양자화한 모델도 입력이 너무 길거나 이미지가 너무 크면 실행 중 OOM이 날 수 있습니다. 이 경우에는 입력 규모를 줄이는 선택을 별도로 비교해야 합니다.
+
+| 질문 | 양자화 | CPU offloading |
+| --- | --- | --- |
+| 무엇을 바꾸는가? | 가중치의 숫자 형식과 저장 방식 | 가중치나 구성요소가 대기하는 장치 배치 |
+| 무엇이 직접 줄어드는가? | 모델 파일 크기와 가중치 적재 메모리 | GPU VRAM에 계속 상주하는 가중치 양 |
+| 자동으로 줄지 않는 것은? | 입력에서 생기는 모든 중간 상태 | 원래 가중치의 형식과 모델 파일 크기 |
+| 주된 확인 항목 | 양자화 방법·런타임·하드웨어 호환성, 품질 변화 | CPU RAM, 장치 간 전송, 실행 지연 |
+
+`4-bit`는 하나의 단일 규격 이름이 아닙니다. 어떤 양자화 방법과 가중치 형식을 썼는지, 어느 module을 낮은 bit로 바꾸었는지, 계산에는 어떤 dtype을 쓰는지, 어떤 runtime과 장치가 그 형식을 지원하는지를 함께 읽어야 합니다. 같은 `4-bit` 표시라도 도구·가중치·하드웨어 조합이 다르면 적재 가능 여부, 실행 속도, 출력 품질이 달라질 수 있습니다.
+
+양자화와 CPU offloading은 함께 쓸 수 있지만, bit 수만으로 전체 메모리 절감률을 단정해서는 안 됩니다. 예를 들어 Transformers의 bitsandbytes `LLM.int8()` CPU offload 설정은 CPU로 보낸 가중치를 `float32`로 보관합니다. 따라서 이 조합에서는 GPU VRAM과 CPU RAM의 peak를 함께 측정해야 하며, "8-bit 모델"이라는 표기만으로 CPU 메모리까지 같은 비율로 줄었다고 기록하면 안 됩니다.
+
+경량화 실험에서는 `4-bit + offload + 해상도 축소`처럼 여러 변경을 한 번에 적용하지 않습니다. 먼저 양자화 형식 하나 또는 offload 방식 하나를 바꾸고, 같은 입력과 품질 기준으로 실행 가능성·시간·peak memory를 비교합니다. 그래야 가중치 표현을 바꾼 효과와 장치 배치를 바꾼 효과를 구분할 수 있습니다.
 
 ## CPU offloading은 메모리를 아끼는 대신 시간을 쓴다
 
@@ -99,6 +118,8 @@ model_revision:
 weight_format:
 dtype:
 quantization:
+quantization_method:
+quantized_modules:
 runtime:
 device:
 offload_mode:
@@ -131,6 +152,8 @@ P6-21.3은 이 절의 실행 기준을 공개 디퓨전 모델의 실제 비교 
 ## 체크리스트
 
 - dtype, 양자화, CPU offloading을 서로 다른 층위로 설명할 수 있는가?
+- 양자화의 bit 수뿐 아니라 방법, 가중치 형식, 계산 dtype, runtime, 장치 배치를 함께 기록했는가?
+- 양자화가 줄인 가중치 메모리와 입력에서 생기는 중간 메모리를 구분했는가?
 - 모델이 실행된 사실과 출력이 품질 기준을 만족한 사실을 따로 기록했는가?
 - GPU VRAM 부족, CPU RAM 병목, 느린 실행, 품질 실패를 같은 실패로 묶지 않았는가?
 - 관찰한 실패 신호에 따라 다음 trial에서 바꿀 축 하나를 정하고, 나머지 조건을 기록했는가?
@@ -145,3 +168,5 @@ P6-21.3은 이 절의 실행 기준을 공개 디퓨전 모델의 실제 비교 
 - Hugging Face Diffusers, [Pipelines overview](https://huggingface.co/docs/diffusers/api/pipelines/overview){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
 - Hugging Face Accelerate, [Working with large models](https://huggingface.co/docs/accelerate/en/package_reference/big_modeling){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
 - PyTorch, [torch.cuda.memory.empty_cache](https://docs.pytorch.org/docs/main/generated/torch.cuda.memory.empty_cache.html){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-11.
+- Hugging Face Transformers, [Quantization overview](https://huggingface.co/docs/transformers/main/quantization/overview){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-29.
+- Hugging Face Transformers, [Bitsandbytes quantization](https://huggingface.co/docs/transformers/main/quantization/bitsandbytes){: target="_blank" rel="noopener noreferrer" }, 확인일: 2026-08-29.
