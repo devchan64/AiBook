@@ -84,6 +84,11 @@
       "properties": [{"name": "aibook:component-role", "value": "Canny structure conditioner"}, {"name": "aibook:observed-revision", "value": "eb115a19a10d14909256db740ed109532ab1483c"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_sdxl_canny_structure_only_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
+      "type": "machine-learning-model", "bom-ref": "model:dark-sushi-mix-225d", "publisher": "Aitasai (mirrored by nergaldarski)", "name": "Dark Sushi Mix 2.25D", "version": "2.25D",
+      "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/nergaldarski/Dark-Sushi-mix-2.25D"}, {"type": "model-card", "url": "https://huggingface.co/nergaldarski/Dark-Sushi-mix-2.25D/blob/main/README.md"}],
+      "properties": [{"name": "aibook:component-role", "value": "StoryDiffusion SD 1.5 reference-workflow validation checkpoint"}, {"name": "aibook:download-selector", "value": "darkSushiMixMix_225D.safetensors"}, {"name": "aibook:source-files", "value": ".tmp/p7-5-9-storydiffusion-reference-prompt.json"}, {"name": "aibook:license-review", "value": "review-required; mirror declares CreativeML Open RAIL-M, original model-card provenance requires verification"}]
+    },
+    {
       "type": "machine-learning-model", "bom-ref": "model:stable-diffusion-v1-5", "publisher": "Stable Diffusion", "name": "Stable Diffusion v1.5", "version": "1.5",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5"}, {"type": "model-card", "url": "https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/blob/main/README.md"}],
       "properties": [{"name": "aibook:component-role", "value": "ControlNet pose comparison base model"}, {"name": "aibook:observed-revision", "value": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_sd15_openpose_structure_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
