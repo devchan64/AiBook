@@ -38,6 +38,11 @@ TRANSFORMER_ID = (
     "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/"
     "svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors"
 )
+TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
+TRANSFORMER_FILENAME = (
+    "lightning-251115/"
+    "svdq-fp4_r128-qwen-image-edit-2509-lightning-8steps-251115.safetensors"
+)
 ANGLE_LORA_REPO = "dx8152/Qwen-Edit-2509-Multiple-angles"
 ANGLE_LORA_FILE = "镜头转换.safetensors"
 DEFAULT_REFERENCE_IMAGE = ASSETS / "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
@@ -145,7 +150,11 @@ def build_camera_prompt(axis: str, value: str) -> str:
 
 
 def load_pipeline(angle_lora: Path, angle_lora_strength: float) -> tuple[QwenImageEditPlusPipeline, int]:
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    transformer_path = Path(
+        snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    ) / TRANSFORMER_FILENAME
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
     # Standard PEFT injection cannot target Nunchaku's AWQW4A16Linear blocks.
     # This loader merges rank-decomposed weights into Nunchaku low-rank slots.
     applied_modules = apply_lora(transformer, angle_lora, strength=angle_lora_strength)
@@ -156,7 +165,7 @@ def load_pipeline(angle_lora: Path, angle_lora_strength: float) -> tuple[QwenIma
     # its buffers to the original rank-128 tensor shapes.
     transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
     pipe = QwenImageEditPlusPipeline.from_pretrained(
-        MODEL_ID,
+        model_path,
         transformer=transformer,
         scheduler=FlowMatchEulerDiscreteScheduler.from_config(LIGHTNING_SCHEDULER_CONFIG),
         torch_dtype=torch.bfloat16,

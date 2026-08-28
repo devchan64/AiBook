@@ -15,12 +15,16 @@ from pathlib import Path
 import torch
 from diffusers import QwenImageEditPlusPipeline
 from diffusers.utils import load_image
+from huggingface_hub import snapshot_download
 from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
+TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
+TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 DEFAULT_INPUT = ASSETS / "p7-5-3-character-background-composite-scene-a-v1.png"
 SCENE_PROMPTS = {
     "scene-a": (
@@ -56,9 +60,11 @@ def package_versions() -> dict[str, str]:
 
 
 def load_pipeline() -> QwenImageEditPlusPipeline:
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    transformer_path = Path(snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)) / TRANSFORMER_FILENAME
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
     pipeline = QwenImageEditPlusPipeline.from_pretrained(
-        MODEL_ID, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True
+        model_path, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True
     )
     transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
     pipeline._exclude_from_cpu_offload.append("transformer")

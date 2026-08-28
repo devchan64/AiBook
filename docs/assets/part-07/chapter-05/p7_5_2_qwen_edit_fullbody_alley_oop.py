@@ -14,13 +14,17 @@ from pathlib import Path
 
 import torch
 from diffusers import QwenImageEditPlusPipeline
+from huggingface_hub import snapshot_download
 from diffusers.utils import load_image
 from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
 ASSETS = Path(__file__).resolve().parent
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image-edit-2509/svdq-fp4_r128-qwen-image-edit-2509.safetensors"
+TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image-edit-2509"
+TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image-edit-2509.safetensors"
 OUTFIT_REFERENCE = ASSETS / "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png"
 TORSO_REFERENCE = ASSETS / "p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png"
 
@@ -65,9 +69,11 @@ def parse_size(value: str) -> tuple[int, int]:
 
 
 def load_pipeline() -> QwenImageEditPlusPipeline:
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    transformer_path = Path(snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)) / TRANSFORMER_FILENAME
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
     pipeline = QwenImageEditPlusPipeline.from_pretrained(
-        MODEL_ID,
+        model_path,
         transformer=transformer,
         torch_dtype=torch.bfloat16,
         local_files_only=True,

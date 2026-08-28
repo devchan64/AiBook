@@ -21,18 +21,17 @@ import torch
 import torch.nn.functional as functional
 from diffusers import AutoencoderKL, DDPMScheduler, StableDiffusionXLPipeline, UNet2DConditionModel
 from diffusers.utils import convert_state_dict_to_diffusers
+from huggingface_hub import snapshot_download
 from peft import LoraConfig
 from peft.utils import get_peft_model_state_dict
 from PIL import Image
 from transformers import AutoTokenizer, CLIPTextModel, CLIPTextModelWithProjection
 
 
-ROOT = Path("/home/cbsim/ws/AiBook")
+ROOT = Path(__file__).resolve().parents[4]
 ASSETS = ROOT / "docs/assets/part-07/chapter-05"
-DEFAULT_MODEL = Path(
-    "/home/cbsim/.cache/huggingface/hub/models--stabilityai--stable-diffusion-xl-base-1.0/"
-    "snapshots/462165984030d82259a11f4367a4eed129e94a7b"
-)
+DEFAULT_MODEL_ID = "stabilityai/stable-diffusion-xl-base-1.0"
+HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 DEFAULT_DATASET = ASSETS / "p7-5-4-lora-style-dataset-manifest.json"
 
 # These captions carry only the learned rendering token plus the scene contract.
@@ -73,7 +72,7 @@ class Example:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
-    parser.add_argument("--model", type=Path, default=DEFAULT_MODEL)
+    parser.add_argument("--model", type=Path, help="override the managed local SDXL base-model snapshot")
     parser.add_argument("--output", type=Path, default=ROOT / ".tmp/p7-5-4-style-lora")
     parser.add_argument("--steps", type=int, default=300)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
@@ -177,6 +176,9 @@ def main() -> int:
         return 0
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required; use --validate-only for input validation without a GPU")
+    args.model = args.model or Path(
+        snapshot_download(DEFAULT_MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    )
     if not args.model.is_dir():
         raise FileNotFoundError(f"base-model snapshot is missing: {args.model}")
 
@@ -185,11 +187,11 @@ def main() -> int:
     torch.manual_seed(args.seed)
     torch.backends.cuda.matmul.allow_tf32 = True
     device, dtype = torch.device("cuda"), torch.bfloat16
-    tokenizer_1 = AutoTokenizer.from_pretrained(args.model, subfolder="tokenizer", use_fast=False)
-    tokenizer_2 = AutoTokenizer.from_pretrained(args.model, subfolder="tokenizer_2", use_fast=False)
-    text_1 = CLIPTextModel.from_pretrained(args.model, subfolder="text_encoder", torch_dtype=dtype).eval()
-    text_2 = CLIPTextModelWithProjection.from_pretrained(args.model, subfolder="text_encoder_2", torch_dtype=dtype).eval()
-    vae = AutoencoderKL.from_pretrained(args.model, subfolder="vae", torch_dtype=dtype).eval()
+    tokenizer_1 = AutoTokenizer.from_pretrained(args.model, subfolder="tokenizer", use_fast=False, local_files_only=True)
+    tokenizer_2 = AutoTokenizer.from_pretrained(args.model, subfolder="tokenizer_2", use_fast=False, local_files_only=True)
+    text_1 = CLIPTextModel.from_pretrained(args.model, subfolder="text_encoder", torch_dtype=dtype, local_files_only=True).eval()
+    text_2 = CLIPTextModelWithProjection.from_pretrained(args.model, subfolder="text_encoder_2", torch_dtype=dtype, local_files_only=True).eval()
+    vae = AutoencoderKL.from_pretrained(args.model, subfolder="vae", torch_dtype=dtype, local_files_only=True).eval()
     for module in (text_1, text_2, vae):
         module.requires_grad_(False)
     cached = cache_examples(train, tokenizer_1, tokenizer_2, text_1, text_2, vae, args, device, dtype)
@@ -197,8 +199,8 @@ def main() -> int:
     gc.collect()
     torch.cuda.empty_cache()
 
-    unet = UNet2DConditionModel.from_pretrained(args.model, subfolder="unet", torch_dtype=dtype)
-    scheduler = DDPMScheduler.from_pretrained(args.model, subfolder="scheduler")
+    unet = UNet2DConditionModel.from_pretrained(args.model, subfolder="unet", torch_dtype=dtype, local_files_only=True)
+    scheduler = DDPMScheduler.from_pretrained(args.model, subfolder="scheduler", local_files_only=True)
     unet.requires_grad_(False)
     unet.add_adapter(LoraConfig(r=args.rank, lora_alpha=args.rank, target_modules=["to_k", "to_q", "to_v", "to_out.0"]))
     unet.to(device)
