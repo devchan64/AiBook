@@ -10,12 +10,14 @@ import cv2
 import numpy as np
 import torch
 from diffusers import ControlNetModel, StableDiffusionXLControlNetPipeline
+from huggingface_hub import snapshot_download
 from PIL import Image, ImageDraw
 
 
-ROOT = Path("/home/cbsim/ws/AiBook")
-BASE_MODEL = Path("/home/cbsim/.cache/huggingface/hub/models--cagliostrolab--animagine-xl-4.0/snapshots/2b7c1b397761bf5bd3cc42e5b39ec99314a75a96")
-CONTROLNET = Path("/home/cbsim/.cache/huggingface/hub/models--diffusers--controlnet-canny-sdxl-1.0/snapshots/eb115a19a10d14909256db740ed109532ab1483c")
+ROOT = Path(__file__).resolve().parents[4]
+BASE_MODEL_ID = "cagliostrolab/animagine-xl-4.0"
+CONTROLNET_ID = "diffusers/controlnet-canny-sdxl-1.0"
+HF_HUB_CACHE = ROOT / ".tmp" / "download" / "huggingface" / "hub"
 SOURCE = ROOT / "docs/assets/part-07/chapter-05/p7-5-2-mira-single-reference-14-side-walk-pause.png"
 OUTPUT_DIR = Path("/tmp/p7-5-4-sdxl-canny-structure-only")
 PROMPT = (
@@ -64,9 +66,18 @@ def main() -> None:
     observer.start()
     started = time.monotonic()
     try:
-        controlnet = ControlNetModel.from_pretrained(CONTROLNET, torch_dtype=torch.float16, variant="fp16")
+        controlnet_path = Path(
+            snapshot_download(CONTROLNET_ID, cache_dir=HF_HUB_CACHE, local_files_only=True)
+        )
+        base_model_path = Path(
+            snapshot_download(BASE_MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True)
+        )
+        controlnet = ControlNetModel.from_pretrained(
+            controlnet_path, torch_dtype=torch.float16, variant="fp16", local_files_only=True
+        )
         pipe = StableDiffusionXLControlNetPipeline.from_pretrained(
-            BASE_MODEL, controlnet=controlnet, torch_dtype=torch.float16, use_safetensors=True
+            base_model_path, controlnet=controlnet, torch_dtype=torch.float16,
+            use_safetensors=True, local_files_only=True
         )
         pipe.enable_sequential_cpu_offload()
         pipe.enable_vae_slicing()

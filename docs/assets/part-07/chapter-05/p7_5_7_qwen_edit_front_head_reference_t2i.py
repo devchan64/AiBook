@@ -20,6 +20,7 @@ from pathlib import Path
 
 import torch
 from diffusers import QwenImagePipeline
+from huggingface_hub import snapshot_download
 from nunchaku import NunchakuQwenImageTransformer2DModel
 
 
@@ -28,7 +29,10 @@ IDENTITY_CONTRACT = ASSETS / "p7-5-7-face-identity-contract.json"
 STYLE_CONTRACT = ASSETS / "p7-5-7-face-style-prompt-contract.json"
 ILLUSTRATION_CONTRACT = ASSETS / "p7-5-7-face-illustration-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
-TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
+TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image"
+TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image.safetensors"
+TRANSFORMER_ID = f"{TRANSFORMER_REPOSITORY}/{TRANSFORMER_FILENAME}"
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 # Output filenames identify their generator and run; do not create a separate
 # output directory.
 OUTPUT_DIR = ASSETS
@@ -83,10 +87,14 @@ def runtime_record() -> dict[str, object]:
 
 
 def load_pipeline() -> QwenImagePipeline:
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    transformer_path = Path(
+        snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    ) / TRANSFORMER_FILENAME
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
     transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
     pipe = QwenImagePipeline.from_pretrained(
-        MODEL_ID,
+        model_path,
         transformer=transformer,
         torch_dtype=torch.bfloat16,
         local_files_only=True,

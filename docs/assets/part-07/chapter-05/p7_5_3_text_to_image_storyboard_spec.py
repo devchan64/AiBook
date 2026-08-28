@@ -17,6 +17,7 @@ from pathlib import Path
 
 import torch
 from diffusers import QwenImagePipeline
+from huggingface_hub import snapshot_download
 from nunchaku import NunchakuQwenImageTransformer2DModel
 from PIL import Image
 
@@ -26,7 +27,10 @@ PROJECT_ROOT = ASSETS.parents[3]
 DEPTH_ANYTHING_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-depth-anything-v2-small"
 STYLE_CONTRACT = ASSETS / "p7-5-1-style-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
-TRANSFORMER_ID = "/home/cbsim/.cache/huggingface/hub/models--nunchaku-tech--nunchaku-qwen-image/snapshots/4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b/svdq-fp4_r128-qwen-image.safetensors"
+TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image"
+TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image.safetensors"
+TRANSFORMER_ID = f"{TRANSFORMER_REPOSITORY}/{TRANSFORMER_FILENAME}"
+HF_HUB_CACHE = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 
 
 @dataclass(frozen=True)
@@ -87,10 +91,14 @@ def runtime_record() -> dict[str, object]:
 
 
 def load_pipeline() -> QwenImagePipeline:
-    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+    transformer_path = Path(
+        snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    ) / TRANSFORMER_FILENAME
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
     transformer.set_offload(True, use_pin_memory=True, num_blocks_on_gpu=1)
     pipeline = QwenImagePipeline.from_pretrained(
-        MODEL_ID, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True
+        model_path, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True
     )
     pipeline._exclude_from_cpu_offload.append("transformer")
     pipeline.enable_sequential_cpu_offload()

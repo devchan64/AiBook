@@ -18,11 +18,14 @@ from pathlib import Path
 import torch
 from diffusers import StableDiffusionXLInpaintPipeline
 from diffusers.image_processor import IPAdapterMaskProcessor
+from huggingface_hub import snapshot_download
 from PIL import Image, ImageDraw, ImageFilter
 
 
 MODEL_ID = "diffusers/stable-diffusion-xl-1.0-inpainting-0.1"
-IP_ADAPTER = Path("/home/cbsim/.cache/huggingface/hub/models--h94--IP-Adapter/snapshots/018e402774aeeddd60609b4ecdb7e298259dc729")
+IP_ADAPTER_ID = "h94/IP-Adapter"
+ASSETS = Path(__file__).resolve().parent
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 
 
 def parse_adapter_scale(value: str) -> float | dict[str, object] | list[object]:
@@ -112,8 +115,6 @@ def main() -> int:
         raise RuntimeError("CUDA is required for this 8 GB preflight")
     if not all(path.is_file() for path in (args.source, args.mask, args.outfit_reference)):
         raise FileNotFoundError("source, mask, and approved outfit reference must exist")
-    if not IP_ADAPTER.is_dir():
-        raise FileNotFoundError(f"cached IP-Adapter is missing: {IP_ADAPTER}")
     if not 0.0 < args.strength < 1.0 or args.guidance_scale <= 0 or not all_nonnegative_numbers(args.adapter_scale):
         raise ValueError("invalid strength, guidance scale, or adapter scale")
     if args.mask_expand_px < 0:
@@ -131,6 +132,10 @@ def main() -> int:
     mask = mask.resize(size, Image.Resampling.NEAREST)
     reference = Image.open(args.outfit_reference).convert("RGB").resize(size, Image.Resampling.LANCZOS)
     args.output.mkdir(parents=True, exist_ok=True)
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    ip_adapter_path = Path(
+        snapshot_download(IP_ADAPTER_ID, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    )
 
     before = gpu_memory_mib()
     peak = before or 0
@@ -148,14 +153,16 @@ def main() -> int:
     observer.start()
     started = time.monotonic()
     try:
-        pipe = StableDiffusionXLInpaintPipeline.from_pretrained(MODEL_ID, torch_dtype=torch.float16)
+        pipe = StableDiffusionXLInpaintPipeline.from_pretrained(
+            model_path, torch_dtype=torch.float16, local_files_only=True
+        )
         image_encoder_folder = (
             "models/image_encoder"
             if "plus_sdxl_vit-h" in args.adapter_weight
             else "sdxl_models/image_encoder"
         )
         pipe.load_ip_adapter(
-            str(IP_ADAPTER),
+            str(ip_adapter_path),
             subfolder="sdxl_models",
             weight_name=args.adapter_weight,
             image_encoder_folder=image_encoder_folder,

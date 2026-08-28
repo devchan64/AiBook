@@ -15,13 +15,17 @@ from pathlib import Path
 
 import torch
 from diffusers import QwenImagePipeline
+from huggingface_hub import snapshot_download
 from nunchaku import NunchakuQwenImageTransformer2DModel
 from p7_5_image_output_naming import candidate_stem
 
 
 ASSET_DIR = Path(__file__).resolve().parent
 MODEL_ID = "Qwen/Qwen-Image"
-TRANSFORMER_ID = "nunchaku-tech/nunchaku-qwen-image/svdq-fp4_r128-qwen-image.safetensors"
+TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image"
+TRANSFORMER_FILENAME = "svdq-fp4_r128-qwen-image.safetensors"
+TRANSFORMER_ID = f"{TRANSFORMER_REPOSITORY}/{TRANSFORMER_FILENAME}"
+HF_HUB_CACHE = ASSET_DIR.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 # All ordinary style-reference runs use a square 1024 canvas.  A comparison
 # experiment may override this explicitly with P7_STYLE_WIDTH/HEIGHT.
 SIZE = (1024, 1024)
@@ -176,9 +180,15 @@ def main() -> None:
     started = time.monotonic()
     runs = []
     try:
-        transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(TRANSFORMER_ID)
+        transformer_path = Path(
+            snapshot_download(TRANSFORMER_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+        ) / TRANSFORMER_FILENAME
+        model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+        transformer = NunchakuQwenImageTransformer2DModel.from_pretrained(transformer_path)
         transformer.set_offload(True, use_pin_memory=False, num_blocks_on_gpu=1)
-        pipe = QwenImagePipeline.from_pretrained(MODEL_ID, transformer=transformer, torch_dtype=torch.bfloat16)
+        pipe = QwenImagePipeline.from_pretrained(
+            model_path, transformer=transformer, torch_dtype=torch.bfloat16, local_files_only=True
+        )
         pipe._exclude_from_cpu_offload.append("transformer")
         pipe.enable_sequential_cpu_offload()
         for scene in scenes:
