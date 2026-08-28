@@ -52,25 +52,18 @@ The diffusion algorithm does not require one fixed denoiser architecture. U-Net 
 
 The comparison is not a ranking. Both sit in the same place in the diffusion loop: they read the current state, time, and condition, then make a prediction used by the scheduler.
 
-## Latent Diffusion Is One Efficiency Choice
+## The Connection to Latent Diffusion
 
-Some image diffusion systems operate directly on image pixels. Latent diffusion first uses a VAE encoder to map an image to a smaller latent representation, runs diffusion there, and uses a decoder to return to an image. This can reduce the size of the state that repeated denoising must process.
+Diffusion can operate in pixel space or in a smaller latent space. In latent diffusion, a VAE-family encoder and decoder are added to move between image and latent representations, but they do not replace the denoising network that predicts noise or the scheduler.
 
-| Component in a latent-diffusion example | Role |
-| --- | --- |
-| VAE encoder | maps an image to a latent representation |
-| diffusion loop | repeatedly restores noisy latent states |
-| condition encoder and cross-attention | passes text or other conditions into denoising predictions |
-| VAE decoder | maps the final latent state back to an image |
-
-A VAE is not a required component of every diffusion model, and a U-Net is not the only possible denoiser. Stable Diffusion is therefore an example of these choices, not the definition of diffusion as a whole.
+P5-15.6 explains how a VAE differs from a general autoencoder and why a latent space must have a usable distribution for generation. This section keeps its focus on conditions, U-Net or DiT, and attention as structures that **predict noise from the current state**.
 
 ## Checklist
 
 - I can explain the connection among a condition encoder, noisy state, denoising network, scheduler, and generated result.
 - I can distinguish self-attention from cross-attention.
 - I can describe U-Net and DiT as different denoiser choices.
-- I can explain why a VAE is an optional component in latent diffusion rather than a universal diffusion requirement.
+- I can explain why VAE-family encoders and decoders are optional latent-diffusion components rather than denoisers.
 - I can distinguish the scheduler from the learned denoising network.
 
 ## Sources and Further Reading

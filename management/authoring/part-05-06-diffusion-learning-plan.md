@@ -34,7 +34,7 @@
 2. 시간 단계 `t`, 원본 상태 `x_0`, 노이즈 `epsilon`, 노이즈 섞인 상태 `x_t`가 무엇을 뜻하는지 설명한다.
 3. 모델이 완성 이미지를 직접 예측하는 것이 아니라, 주어진 `x_t`와 `t`에서 노이즈 또는 동등한 복원 방향을 예측하도록 학습된다는 점을 설명한다.
 4. scheduler가 학습된 모델 자체가 아니라, 생성 때 다음 상태로 이동하는 규칙이라는 점을 구분한다.
-5. latent diffusion에서 VAE, 조건 인코더, 복원 네트워크, decoder의 역할을 구분한다.
+5. autoencoder의 재구성과 VAE의 latent 분포 학습을 구분하고, latent diffusion에서 VAE, 조건 인코더, 복원 네트워크, decoder의 역할을 구분한다.
 6. self-attention과 cross-attention을 각각 이미지 상태 내부 관계와 조건-이미지 연결의 관점에서 구분한다.
 7. U-Net 기반과 Transformer/DiT 기반 복원 네트워크가 모두 가능하다는 점을 설명한다.
 8. 실제 모델 테스트에서 seed, steps, scheduler, guidance, 조건 입력을 한 번에 하나씩 바꾸고 결과 차이를 기록·해석한다.
@@ -87,13 +87,23 @@ x_t = \sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon
 
 | 구성요소 | 먼저 설명할 역할 | 혼동하지 않을 경계 |
 | --- | --- | --- |
-| VAE encoder/decoder | latent diffusion에서 이미지와 계산하기 쉬운 latent 표현을 오간다 | 모든 디퓨전 모델의 필수 부품이나 디퓨전 복원기 자체와 같은 부품이 아니다 |
 | 조건 인코더 | 텍스트·참조 조건을 계산 가능한 표현으로 바꾼다 | 프롬프트를 픽셀 배치표로 바꾸는 장치가 아니다 |
 | U-Net 또는 DiT | 현재 상태와 시간·조건에서 노이즈 또는 복원 방향을 예측한다 | U-Net만이 디퓨전의 필수 구조는 아니다 |
 | self-attention | 이미지 잠재 위치 사이의 전역 관계를 반영할 수 있다 | 텍스트 조건 연결과 같은 말이 아니다 |
 | cross-attention | 조건 표현과 현재 이미지 상태를 연결할 수 있다 | 이미지 내부 관계만 처리하는 self-attention과 구분한다 |
 
-학습 산출물은 `조건 -> 노이즈 상태 -> 복원 네트워크의 반복 예측 -> 생성 결과`의 일반 도식과, latent diffusion 사례의 `조건 -> latent 노이즈 -> 반복 예측 -> latent -> 이미지` 도식을 구분하는 것이다. 이어서 U-Net 기반·DiT 기반 구조를 같은 생성 알고리즘 안의 서로 다른 복원 네트워크로 설명하는 비교표를 남긴다.
+학습 산출물은 `조건 -> 노이즈 상태 -> 복원 네트워크의 반복 예측 -> 생성 결과`의 일반 도식과 U-Net 기반·DiT 기반 구조 비교표다.
+
+#### P5-15.6 VAE는 이미지를 어떤 잠재 표현으로 바꾸는가
+
+VAE를 latent diffusion의 부품 목록으로만 남기지 않고, autoencoder의 재구성과 VAE의 분포 학습을 설명하는 별도 Section으로 둔다.
+
+| 전개 | 중심 질문 | 학습 산출물 |
+| --- | --- | --- |
+| autoencoder | 입력을 다시 만들 수 있는 latent 표현은 어떻게 배우는가 | encoder·latent·decoder·재구성 손실 표 |
+| VAE | 왜 좌표 하나가 아니라 `mu`, `sigma` 분포를 만드는가 | 재매개변수화 식과 값 역할 표 |
+| KL divergence | 왜 latent 분포를 기준 분포와 연결하는가 | 재구성 손실과 KL 손실의 역할 비교 |
+| latent diffusion | VAE와 디퓨전 복원기는 어디서 역할이 갈리는가 | 이미지 -> VAE -> latent diffusion -> VAE -> 이미지 도식 |
 
 ### Part 6: 생성 방식 비교와 실제 모델 테스트
 
@@ -167,7 +177,8 @@ Module 6, Chapter 15의 기존 P5-15.1~P5-15.3은 유지한다. 텍스트 후보
 | 현재 목차 | 변경 후 목차 | 파일 계획 | 변경 이유 |
 | --- | --- | --- | --- |
 | P5-15.4 `Stable Diffusion은 텍스트 조건에서 이미지를 어떻게 복원하는가` | P5-15.4 `디퓨전 모델은 노이즈를 어떻게 학습하고 복원하는가` | 기존 `chapter-15/section-04`를 개편 | 특정 구현 소개를 정방향 확산·학습·역방향 생성 알고리즘으로 재구성 |
-| 없음 | P5-15.5 `디퓨전 모델에서 attention과 Transformer는 무엇을 맡는가` | 새 `chapter-15/section-05` | latent diffusion, self-attention, cross-attention, U-Net·DiT를 알고리즘 다음 구조 층위로 배치 |
+| 없음 | P5-15.5 `디퓨전 모델에서 attention과 Transformer는 무엇을 맡는가` | 새 `chapter-15/section-05` | 조건 처리, self-attention, cross-attention, U-Net·DiT를 알고리즘 다음 구조 층위로 배치 |
+| 없음 | P5-15.6 `VAE는 이미지를 어떤 잠재 표현으로 바꾸는가` | 새 `chapter-15/section-06` | autoencoder와 VAE, 재구성·KL 손실, latent diffusion의 표현 변환을 독립적으로 설명 |
 
 변경 뒤 Chapter 15의 독서 순서는 다음과 같다.
 
@@ -177,6 +188,7 @@ Module 6, Chapter 15의 기존 P5-15.1~P5-15.3은 유지한다. 텍스트 후보
 -> 텍스트 sampling
 -> 디퓨전의 노이즈 예측 학습과 반복 복원
 -> 디퓨전의 조건 처리와 attention·Transformer 구조
+-> VAE의 latent 분포와 latent diffusion의 표현 변환
 ```
 
 ### Part 6 변경안
@@ -233,8 +245,9 @@ P5-15.4에서는 위 세 자산 외에 손실 식을 별도 차트로 만들지 
 | --- | --- | --- | --- |
 | `diffusion-conditioning-structure-{ko,en,zh}.mmd` | Mermaid, `docs/assets/part-05/chapter-15/` | 조건 인코더, 현재 노이즈 상태, 복원 네트워크, 생성 결과는 어떻게 연결되는가? | 일반 디퓨전 구조를 먼저 보이고, VAE는 latent diffusion 사례의 선택 부품으로 분리한다. |
 | `diffusion-denoiser-comparison-{ko,en,zh}.mmd` | Mermaid, 같은 폴더 | U-Net 기반과 DiT 기반 복원 네트워크는 같은 위치에서 무엇을 다르게 처리하는가? | 두 구조의 상세 계층도를 재현하지 않고, 입력·조건·시간·노이즈 예측이라는 공통 역할과 내부 처리 단위의 차이만 비교한다. |
+| `vae-latent-diffusion-flow-{ko,en,zh}.mmd` | Mermaid, 같은 폴더 | VAE encoder·decoder와 latent diffusion 반복은 어떤 순서로 역할을 나누는가? | VAE의 `mu`·`sigma` 분포 출력, latent 샘플, 디퓨전 반복, decoder를 한 흐름으로만 보이고 U-Net·DiT 내부 비교는 섞지 않는다. |
 
-self-attention·cross-attention·VAE·U-Net·DiT의 세부 역할 비교는 Markdown 표로 유지한다. 관계 구조를 다시 도식으로 반복하지 않는다.
+self-attention·cross-attention·U-Net·DiT의 세부 역할 비교와 VAE의 재구성·KL 손실 비교는 Markdown 표로 유지한다. 관계 구조를 다시 도식으로 반복하지 않는다.
 
 ### P6-1.4: LLM과 디퓨전의 생성 방식 비교
 

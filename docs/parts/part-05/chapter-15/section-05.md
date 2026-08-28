@@ -42,18 +42,11 @@ attention이라는 이름이 같아도 무엇과 무엇을 연결하는지에 �
 
 이 표는 어느 구조가 항상 더 좋다는 순위표가 아닙니다. P5-14에서 배운 Transformer는 언어 토큰만 처리하는 구조가 아니라, 적절한 입력 표현과 조건 연결을 갖추면 디퓨전의 복원 네트워크로도 쓰일 수 있다는 점을 보여 줍니다.
 
-## latent diffusion은 계산 공간을 바꾸는 선택이다
+## latent diffusion으로 이어지는 연결
 
-픽셀 이미지 전체에서 매 단계 복원 계산을 하면 비용이 큽니다. latent diffusion은 VAE encoder로 이미지를 더 압축된 latent 표현으로 바꾼 뒤 그 공간에서 주된 디퓨전 계산을 수행하고, 마지막에 VAE decoder로 사람이 볼 픽셀 이미지로 돌립니다.
+디퓨전은 픽셀 공간에서도, 더 작은 latent 공간에서도 수행할 수 있습니다. latent diffusion에서는 이미지와 latent 표현을 오가는 VAE 계열 encoder·decoder가 추가되지만, 그것이 노이즈를 예측하는 복원 네트워크나 scheduler를 대신하지는 않습니다.
 
-| 구성요소 | 역할 | 모든 디퓨전 모델에 항상 필요한가 |
-| --- | --- | --- |
-| VAE encoder/decoder | 이미지와 압축된 latent 표현을 오간다 | 아니다. latent diffusion에서 계산 비용을 줄이기 위한 선택이다 |
-| 조건 인코더 | 텍스트·참조 입력을 조건 표현으로 바꾼다 | 조건부 생성에서는 필요하지만 조건 종류와 구조는 달라질 수 있다 |
-| 복원 네트워크 | 노이즈 또는 복원 방향을 예측한다 | 디퓨전 생성의 핵심 역할이지만 U-Net 하나로 고정되지 않는다 |
-| scheduler | 다음 복원 상태를 계산한다 | 학습된 네트워크와 구분해야 하는 생성 절차의 규칙이다 |
-
-따라서 Stable Diffusion은 latent diffusion, VAE, text condition, U-Net 계열 복원기를 결합한 대표 사례로 읽을 수 있습니다. 그러나 이 사례의 부품 목록을 디퓨전 모델 전체의 정의로 쓰면 안 됩니다.
+VAE가 일반 autoencoder와 무엇이 다르고, 왜 latent 공간이 생성에 쓸 수 있는 분포가 되어야 하는지는 다음 P5-15.6에서 설명합니다. 이 절에서는 조건 인코더, U-Net·DiT, attention이 **현재 상태에서 노이즈를 예측하는 구조**라는 역할만 유지합니다.
 
 ## 다음 Part에서 이어질 비교
 
@@ -64,10 +57,10 @@ Part 6의 P6-1.4에서는 텍스트 LLM이 다음 토큰을 순차로 선택하�
 - 조건 인코더, 현재 노이즈 상태, 복원 네트워크, 생성 결과의 연결을 설명할 수 있다.
 - self-attention과 cross-attention이 각각 무엇을 연결하는지 구분할 수 있다.
 - U-Net과 DiT를 서로 다른 복원 네트워크 선택으로 설명할 수 있다.
-- latent diffusion의 VAE가 디퓨전 모델 일반의 필수 부품은 아니라는 점을 설명할 수 있다.
+- VAE 계열 encoder·decoder가 latent diffusion의 선택 부품이며, 노이즈 예측 복원기와 다르다는 점을 설명할 수 있다.
 - scheduler와 학습된 복원 네트워크의 역할을 다시 구분할 수 있다.
 
 ## 출처와 참고 자료
 
-- Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-08-28. latent space, VAE, cross-attention 조건부 생성의 근거로 사용했다.
+- Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-08-28. latent space와 cross-attention 조건부 생성의 근거로 사용했다.
 - William Peebles, Saining Xie, [Scalable Diffusion Models with Transformers](https://arxiv.org/abs/2212.09748){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-08-28. U-Net 대신 잠재 패치를 처리하는 Transformer/DiT 기반 복원기를 설명하는 근거로 사용했다.

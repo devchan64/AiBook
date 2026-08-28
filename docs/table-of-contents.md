@@ -641,6 +641,7 @@ flowchart LR
 - **P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가**: 후보 분포에서 실제 출력이 선택되는 과정과 품질 변동의 직관을 봅니다.
 - **P5-15.4 디퓨전 모델은 노이즈를 어떻게 학습하고 복원하는가**: 정방향 확산, 노이즈 예측 학습, 역방향 생성을 하나의 알고리즘 흐름으로 봅니다.
 - **P5-15.5 디퓨전 모델에서 attention과 Transformer는 무엇을 맡는가**: 조건 처리와 복원 네트워크에서 self-attention, cross-attention, U-Net, DiT의 역할을 구분합니다.
+- **P5-15.6 VAE는 이미지를 어떤 잠재 표현으로 바꾸는가**: autoencoder와 VAE의 차이, 재구성·KL 손실, latent diffusion에서 VAE의 역할을 구분합니다.
 
 
 ## Part 6. LLM과 생성형 AI

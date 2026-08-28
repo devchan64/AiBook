@@ -38,7 +38,7 @@
 - P5-13.3은 QKV와 multi-head attention 이름을 처음 읽게 하는 보충학습입니다. attention 직관을 수식 이름으로 회수하는 자리로 두고, Transformer 블록 전체 설명은 P5-14로 넘깁니다.
 - P5-14는 self-attention 하나가 아니라 self-attention, feed-forward, residual connection, layer normalization이 반복되는 Transformer 블록을 읽는 장입니다. P5-14.1~P5-14.5는 블록 구조, 안정화, 병렬 처리, 긴 문맥 재참조를 닫고, P5-14.6~P5-14.8은 부품별 보충학습으로 유지합니다.
 - P5-14의 Python 예제는 실제 Transformer 구현이나 성능 측정이 아니라, 토큰 표현이 attention, feed-forward, residual, normalization을 지나며 어떻게 관찰되는지 확인하는 용도로 제한합니다.
-- P5-15는 생성 모델을 `출력 경험`, `후보 분포와 텍스트 샘플링`, `디퓨전의 노이즈 예측 학습과 반복 복원`, `조건 처리와 복원 네트워크 구조`로 나누어 읽는 구간입니다. 텍스트의 후보 선택과 이미지 디퓨전의 잠재 표현 복원 경로를 같은 알고리즘으로 섞지 않고, 프롬프트·토큰화·LLM 학습·정렬·RAG·에이전트 설명은 Part 6으로 넘깁니다.
+- P5-15는 생성 모델을 `출력 경험`, `후보 분포와 텍스트 샘플링`, `디퓨전의 노이즈 예측 학습과 반복 복원`, `조건 처리와 복원 네트워크 구조`, `VAE와 latent 표현`으로 나누어 읽는 구간입니다. 텍스트의 후보 선택과 이미지 디퓨전의 잠재 표현 복원 경로를 같은 알고리즘으로 섞지 않고, 프롬프트·토큰화·LLM 학습·정렬·RAG·에이전트 설명은 Part 6으로 넘깁니다.
 - P5-15.3의 Ollama 예제는 선택 예제로 유지합니다. 로컬 실행 환경 안내나 LLM 서비스 사용법이 아니라, 같은 후보 분포에서도 샘플링 설정이 실제 출력을 바꿀 수 있다는 관찰에 한정합니다.
 - Part 5에는 한국어, 영어, 중국어 Section이 함께 존재하므로 경계 수정 시 Section ID와 Version 대응을 같이 확인합니다. 특히 gradient, inference, reasoning, training, evaluation, attention, Transformer, sampling은 언어별 번역어가 개념 경계를 흐리지 않게 맞춥니다.
 - 긴 Section은 길이 자체보다 중심 질문이 하나인지 먼저 봅니다. 여러 예제와 보충 설명이 한 Section 안에 있더라도 계산 역할이 하나로 닫히면 유지하고, 서로 다른 구조나 Part 6 내용까지 들어오면 분리 후보로 둡니다.
@@ -176,5 +176,6 @@
 - `P5-15.3`: 텍스트 샘플링을 후보 분포에서 실제 출력을 꺼내는 절차로 설명하고, 이미지 디퓨전에서는 seed·sampler·steps가 복원 경로를 바꾼다는 점을 구분하며 다양성과 안정성의 균형을 보여 주어야 합니다.
 - `P5-15.4`: 정방향 확산, 시간 단계가 있는 노이즈 예측 학습, 역방향 생성을 서로 다른 과정으로 구분하고, scheduler가 학습된 가중치가 아니라 생성 때 다음 상태로 이동하는 규칙임을 설명해야 합니다.
 - `P5-15.5`: 디퓨전 모델의 조건 처리와 복원 네트워크에서 self-attention, cross-attention, U-Net, DiT를 역할로 구분하고, latent diffusion의 VAE가 모든 디퓨전 모델의 필수 부품은 아니라는 점을 설명해야 합니다.
+- `P5-15.6`: autoencoder의 재구성과 VAE의 latent 분포를 구분하고, 재구성 손실·KL divergence·재매개변수화가 생성 가능한 latent 공간과 어떻게 연결되는지 설명해야 합니다. VAE encoder·decoder와 디퓨전 복원기·scheduler의 역할도 분리해야 합니다.
 
 - `P5-summary`: Part 5가 기본 계산 구조에서 표현 학습, attention, Transformer, 생성으로 이어지는 흐름을 다시 묶어 주어야 합니다.

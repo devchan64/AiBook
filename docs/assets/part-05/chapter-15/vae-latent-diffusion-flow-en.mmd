@@ -1,0 +1,8 @@
+flowchart TD
+    A[Image x] --> B[VAE encoder]
+    B --> C[mu and sigma]
+    C --> D[latent sample z]
+    D --> E[Diffusion: noise prediction and repeated restoration]
+    E --> F[final latent]
+    F --> G[VAE decoder]
+    G --> H[generated image]

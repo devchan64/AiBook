@@ -52,25 +52,18 @@ P5-15.4 已经说明算法：构造含噪状态，训练模型预测噪声，并
 
 这不是排名比较。二者都在扩散循环中的同一位置：读取当前状态、时间和条件，做出供 scheduler 使用的预测。
 
-## latent diffusion 是一种效率选择
+## 连接到 latent diffusion
 
-有些图像扩散系统直接处理像素。latent diffusion 先用 VAE encoder 把图像映射到较小的潜在表示，在那里运行扩散，再用 decoder 回到图像。这样能缩小反复去噪所处理的状态。
+扩散可以在像素空间运行，也可以在更小的 latent 空间运行。latent diffusion 会加入 VAE 系列的 encoder 和 decoder 来往返于图像与 latent 表示，但它们不替代预测噪声的去噪网络或 scheduler。
 
-| latent diffusion 例子中的组件 | 作用 |
-| --- | --- |
-| VAE encoder | 把图像映射为潜在表示 |
-| 扩散循环 | 反复复原含噪潜在状态 |
-| 条件编码器和 cross-attention | 把文本等条件传入去噪预测 |
-| VAE decoder | 把最终潜在状态映射回图像 |
-
-VAE 不是每个扩散模型都需要的组件，U-Net 也不是唯一的去噪器。因此 Stable Diffusion 是这些选择的一个例子，而不是扩散模型整体的定义。
+P5-15.6 会说明 VAE 与一般 autoencoder 的区别，以及为什么用于生成的 latent 空间需要有可用的分布。本节只保留条件、U-Net 或 DiT、attention 作为**从当前状态预测噪声的结构**这一重点。
 
 ## 检查清单
 
 - 我能说明条件编码器、含噪状态、去噪网络、scheduler 和生成结果的连接。
 - 我能区分 self-attention 和 cross-attention。
 - 我能把 U-Net 和 DiT 说明为不同的去噪器选择。
-- 我能说明 VAE 在 latent diffusion 中是可选组件，而不是所有扩散模型的必需组件。
+- 我能说明 VAE 系列 encoder 和 decoder 是 latent diffusion 的可选组件，而不是去噪器。
 - 我能区分 scheduler 与学得的去噪网络。
 
 ## 来源与参考资料

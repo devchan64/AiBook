@@ -1,0 +1,8 @@
+flowchart TD
+    A[图像 x] --> B[VAE encoder]
+    B --> C[mu 和 sigma]
+    C --> D[latent 样本 z]
+    D --> E[扩散：噪声预测与重复复原]
+    E --> F[最终 latent]
+    F --> G[VAE decoder]
+    G --> H[生成图像]

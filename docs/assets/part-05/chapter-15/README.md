@@ -24,6 +24,7 @@
   - `p5_15_4_diffusion_noise_trajectory.py`
   - `diffusion-conditioning-structure-en.mmd` / `diffusion-conditioning-structure-ko.mmd` / `diffusion-conditioning-structure-zh.mmd`
   - `diffusion-denoiser-comparison-en.mmd` / `diffusion-denoiser-comparison-ko.mmd` / `diffusion-denoiser-comparison-zh.mmd`
+  - `vae-latent-diffusion-flow-en.mmd` / `vae-latent-diffusion-flow-ko.mmd` / `vae-latent-diffusion-flow-zh.mmd`
 - Python chart source:
   - `p5_15_sampling_chart.py`
   - `p5_15_3_sampling_controls.py`

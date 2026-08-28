@@ -442,6 +442,7 @@ nav:
               - "P5-15.3 샘플링(sampling)은 후보 분포에서 실제 출력을 어떻게 꺼내는가": parts/part-05/chapter-15/section-03.md
               - "P5-15.4 디퓨전 모델은 노이즈를 어떻게 학습하고 복원하는가": parts/part-05/chapter-15/section-04.md
               - "P5-15.5 디퓨전 모델에서 attention과 Transformer는 무엇을 맡는가": parts/part-05/chapter-15/section-05.md
+              - "P5-15.6 VAE는 이미지를 어떤 잠재 표현으로 바꾸는가": parts/part-05/chapter-15/section-06.md
       - "마무리": parts/part-05/summary.md
   - "Part 6. LLM과 생성형 AI":
       - "개요": parts/part-06/index.md
@@ -1040,6 +1041,7 @@ plugins:
                         - "P5-15.3 How Sampling Pulls Actual Outputs From Candidate Distributions": parts/part-05/chapter-15/section-03.en.md
                         - "P5-15.4 How Does a Diffusion Model Learn and Restore Noise?": parts/part-05/chapter-15/section-04.en.md
                         - "P5-15.5 What Do Attention and Transformers Do in Diffusion Models?": parts/part-05/chapter-15/section-05.en.md
+                        - "P5-15.6 How Does a VAE Turn an Image into a Latent Representation?": parts/part-05/chapter-15/section-06.en.md
                 - "Summary": parts/part-05/summary.md
             - "Part 6. LLMs and Generative AI":
                 - "Overview": parts/part-06/index.md
@@ -1470,6 +1472,7 @@ plugins:
                         - "P5-15.3 采样（sampling）怎样从候选分布中取出实际输出": parts/part-05/chapter-15/section-03.zh.md
                         - "P5-15.4 扩散模型怎样学习并复原噪声？": parts/part-05/chapter-15/section-04.zh.md
                         - "P5-15.5 注意力和 Transformer 在扩散模型中负责什么？": parts/part-05/chapter-15/section-05.zh.md
+                        - "P5-15.6 VAE 怎样把图像变成 latent 表示？": parts/part-05/chapter-15/section-06.zh.md
                 - "总结": parts/part-05/summary.md
             - "Part 6. LLM 与生成式 AI":
                 - "概览": parts/part-06/index.md

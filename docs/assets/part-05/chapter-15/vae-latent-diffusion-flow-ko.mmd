@@ -1,0 +1,8 @@
+flowchart TD
+    A[이미지 x] --> B[VAE encoder]
+    B --> C[mu와 sigma]
+    C --> D[latent 샘플 z]
+    D --> E[디퓨전: 노이즈 예측과 반복 복원]
+    E --> F[최종 latent]
+    F --> G[VAE decoder]
+    G --> H[생성 이미지]
