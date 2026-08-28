@@ -1,0 +1,19 @@
+{
+  "result": "p7-5-3-dacon-multi-reference-colorization-stage2-front-v1.png",
+  "experiment": "DACoN v1.1 static multi-reference paint-bucket colorization",
+  "target": "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+  "references": [
+    "p7-5-2-qwen-outfit-stage2-yaw_minus_90-multiple-angle-v1-seed-62294-steps-8.png",
+    "p7-5-2-qwen-outfit-stage2-yaw_minus_45-multiple-angle-v1-seed-62294-steps-8.png",
+    "p7-5-2-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8.png",
+    "p7-5-2-qwen-outfit-stage2-yaw_plus_90-multiple-angle-v1-seed-62294-steps-8.png"
+  ],
+  "input_size": [512, 512],
+  "device": "NVIDIA GeForce RTX 5070 Laptop GPU (8 GB)",
+  "elapsed_seconds": 6,
+  "outcome": {
+    "large_regions": "hair, gray inner top, and dark teal trousers transferred consistently",
+    "limitations": "automatic Canny line art did not close fine regions; white jacket merges visually with white background"
+  },
+  "sha256": "1b42f393f20cb7ecfb486832e275abf7dd6015b5d493a6f627273952916fc7dd"
+}

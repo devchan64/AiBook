@@ -1,0 +1,9 @@
+{
+  "result": "p7-5-3-palette-aligned-outfit-stage2-yaw-plus45-v1.png",
+  "experiment": "non-generative foreground chroma alignment",
+  "reference": "p7-5-2-qwen-edit-prompt-style-outfit_stage2_jacket_face-long-trousers-folded-collar-v3-seed-62294-steps-30.png",
+  "target": "p7-5-2-qwen-outfit-stage2-yaw_plus_45-multiple-angle-v1-seed-62294-steps-8.png",
+  "method": "Lab a/b channel mean and standard-deviation alignment on the detected foreground; L luminance is preserved",
+  "outcome": "Preserves all target pixels' structure, shading, and linework; only global colour cast is aligned. It cannot repair cross-view garment geometry or semantic detail.",
+  "sha256": "1c8b7fe5bb4a97ea1ce3f83b896cb25400d4ecc059e0660074780bfd6dfab6d0"
+}
