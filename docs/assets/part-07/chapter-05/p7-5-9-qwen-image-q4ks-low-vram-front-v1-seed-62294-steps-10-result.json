@@ -1,0 +1,307 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-9-qwen-image-q4ks-low-vram",
+  "purpose": "Q4 GGUF 8GB-VRAM text-to-image feasibility; not reference-image character consistency",
+  "model": {
+    "repository": "unsloth/Qwen-Image-GGUF",
+    "selector": "qwen-image-Q4_K_S.gguf",
+    "sha256": "2548135d745e022b19e55b83c1a730987eda7e9128860d5bfa625fc0e12944b3",
+    "bytes": 12268010016
+  },
+  "runtime_mode": {
+    "comfy_arguments": [
+      "--lowvram",
+      "--cpu-vae"
+    ],
+    "gpu_before": "NVIDIA GeForce RTX 5070 Laptop GPU, 8151 MiB, 1044 MiB, 6665 MiB"
+  },
+  "seed": 62294,
+  "steps": 10,
+  "cfg": 4.0,
+  "size": [
+    512,
+    512
+  ],
+  "prompt": "Front upper-torso illustration of a young woman with a short wavy dark teal bob, warm fair skin, amber eyes, and a grey cropped top. Plain light grey background.",
+  "workflow": {
+    "unet": {
+      "class_type": "UnetLoaderGGUF",
+      "inputs": {
+        "unet_name": "qwen-image-Q4_K_S.gguf"
+      }
+    },
+    "sampling": {
+      "class_type": "ModelSamplingAuraFlow",
+      "inputs": {
+        "model": [
+          "unet",
+          0
+        ],
+        "shift": 3.0
+      }
+    },
+    "clip": {
+      "class_type": "CLIPLoader",
+      "inputs": {
+        "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+        "type": "qwen_image",
+        "device": "default"
+      }
+    },
+    "vae": {
+      "class_type": "VAELoader",
+      "inputs": {
+        "vae_name": "qwen_image_vae.safetensors"
+      }
+    },
+    "positive": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "clip": [
+          "clip",
+          0
+        ],
+        "text": "Front upper-torso illustration of a young woman with a short wavy dark teal bob, warm fair skin, amber eyes, and a grey cropped top. Plain light grey background."
+      }
+    },
+    "negative": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "clip": [
+          "clip",
+          0
+        ],
+        "text": ""
+      }
+    },
+    "latent": {
+      "class_type": "EmptySD3LatentImage",
+      "inputs": {
+        "width": 512,
+        "height": 512,
+        "batch_size": 1
+      }
+    },
+    "sample": {
+      "class_type": "KSampler",
+      "inputs": {
+        "model": [
+          "sampling",
+          0
+        ],
+        "positive": [
+          "positive",
+          0
+        ],
+        "negative": [
+          "negative",
+          0
+        ],
+        "latent_image": [
+          "latent",
+          0
+        ],
+        "seed": 62294,
+        "steps": 10,
+        "cfg": 4.0,
+        "sampler_name": "euler",
+        "scheduler": "simple",
+        "denoise": 1.0
+      }
+    },
+    "decode": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "sample",
+          0
+        ],
+        "vae": [
+          "vae",
+          0
+        ]
+      }
+    },
+    "save": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "images": [
+          "decode",
+          0
+        ],
+        "filename_prefix": "p7-5-9-qwen-image-q4ks-low-vram-front-v1"
+      }
+    }
+  },
+  "history": {
+    "prompt": [
+      0,
+      "5e0626f4-55ac-4934-a8a9-a7f6c1ab9213",
+      {
+        "unet": {
+          "class_type": "UnetLoaderGGUF",
+          "inputs": {
+            "unet_name": "qwen-image-Q4_K_S.gguf"
+          }
+        },
+        "sampling": {
+          "class_type": "ModelSamplingAuraFlow",
+          "inputs": {
+            "model": [
+              "unet",
+              0
+            ],
+            "shift": 3.0
+          }
+        },
+        "clip": {
+          "class_type": "CLIPLoader",
+          "inputs": {
+            "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+            "type": "qwen_image",
+            "device": "default"
+          }
+        },
+        "vae": {
+          "class_type": "VAELoader",
+          "inputs": {
+            "vae_name": "qwen_image_vae.safetensors"
+          }
+        },
+        "positive": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "clip": [
+              "clip",
+              0
+            ],
+            "text": "Front upper-torso illustration of a young woman with a short wavy dark teal bob, warm fair skin, amber eyes, and a grey cropped top. Plain light grey background."
+          }
+        },
+        "negative": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "clip": [
+              "clip",
+              0
+            ],
+            "text": ""
+          }
+        },
+        "latent": {
+          "class_type": "EmptySD3LatentImage",
+          "inputs": {
+            "width": 512,
+            "height": 512,
+            "batch_size": 1
+          }
+        },
+        "sample": {
+          "class_type": "KSampler",
+          "inputs": {
+            "model": [
+              "sampling",
+              0
+            ],
+            "positive": [
+              "positive",
+              0
+            ],
+            "negative": [
+              "negative",
+              0
+            ],
+            "latent_image": [
+              "latent",
+              0
+            ],
+            "seed": 62294,
+            "steps": 10,
+            "cfg": 4.0,
+            "sampler_name": "euler",
+            "scheduler": "simple",
+            "denoise": 1.0
+          }
+        },
+        "decode": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": [
+              "sample",
+              0
+            ],
+            "vae": [
+              "vae",
+              0
+            ]
+          }
+        },
+        "save": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "images": [
+              "decode",
+              0
+            ],
+            "filename_prefix": "p7-5-9-qwen-image-q4ks-low-vram-front-v1"
+          }
+        }
+      },
+      {
+        "create_time": 1787932252274
+      },
+      [
+        "save"
+      ]
+    ],
+    "outputs": {
+      "save": {
+        "images": [
+          {
+            "filename": "p7-5-9-qwen-image-q4ks-low-vram-front-v1_00002_.png",
+            "subfolder": "",
+            "type": "output"
+          }
+        ]
+      }
+    },
+    "status": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "5e0626f4-55ac-4934-a8a9-a7f6c1ab9213",
+            "timestamp": 1787932252274
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [],
+            "prompt_id": "5e0626f4-55ac-4934-a8a9-a7f6c1ab9213",
+            "timestamp": 1787932252277
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "5e0626f4-55ac-4934-a8a9-a7f6c1ab9213",
+            "timestamp": 1787932340784
+          }
+        ]
+      ]
+    },
+    "meta": {
+      "save": {
+        "node_id": "save",
+        "display_node": "save",
+        "parent_node": null,
+        "real_node_id": "save"
+      }
+    }
+  },
+  "elapsed_seconds": 102.04,
+  "gpu_after": "NVIDIA GeForce RTX 5070 Laptop GPU, 8151 MiB, 1040 MiB, 6669 MiB"
+}

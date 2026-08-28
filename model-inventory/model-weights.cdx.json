@@ -16,12 +16,27 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:qwen-image", "publisher": "Qwen", "name": "Qwen-Image", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/Qwen/Qwen-Image"}, {"type": "model-card", "url": "https://huggingface.co/Qwen/Qwen-Image/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "text-to-image base pipeline"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py; docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py; docs/assets/part-07/chapter-05/p7_5_7_qwen_edit_front_head_reference_t2i.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "text-to-image base pipeline"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py; docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py; docs/assets/part-07/chapter-05/p7_5_7_qwen_edit_front_head_reference_t2i.py; docs/assets/part-07/chapter-05/p7_5_9_qwen_characonsist_comfy_probe.py; docs/assets/part-07/chapter-05/p7_5_9_qwen_image_gguf_low_vram_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "weight:nunchaku-qwen-image-fp4-r128", "publisher": "Nunchaku", "name": "Nunchaku Qwen-Image FP4 r128 transformer", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/nunchaku-tech/nunchaku-qwen-image"}, {"type": "model-card", "url": "https://huggingface.co/nunchaku-tech/nunchaku-qwen-image/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "quantized transformer override"}, {"name": "aibook:download-selector", "value": "svdq-fp4_r128-qwen-image.safetensors"}, {"name": "aibook:observed-revision", "value": "4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py; docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py; docs/assets/part-07/chapter-05/p7_5_7_qwen_edit_front_head_reference_t2i.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "quantized transformer override"}, {"name": "aibook:download-selector", "value": "svdq-fp4_r128-qwen-image.safetensors"}, {"name": "aibook:observed-revision", "value": "4d9f4f667ea571ab172e0ee29ac2c27b82a41a6b"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_1_regenerate_local_gpu_style_references.py; docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py; docs/assets/part-07/chapter-05/p7_5_7_qwen_edit_front_head_reference_t2i.py; docs/assets/part-07/chapter-05/p7_5_9_qwen_characonsist_comfy_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
+    },
+    {
+      "type": "machine-learning-model", "bom-ref": "weight:unsloth-qwen-image-q4-ks-gguf", "publisher": "Unsloth AI", "name": "Qwen-Image Q4_K_S GGUF transformer", "version": "repository reference",
+      "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/unsloth/Qwen-Image-GGUF"}, {"type": "model-card", "url": "https://huggingface.co/unsloth/Qwen-Image-GGUF/blob/main/README.md"}],
+      "properties": [{"name": "aibook:component-role", "value": "low-VRAM Q4 GGUF text-to-image transformer feasibility probe"}, {"name": "aibook:download-selector", "value": "qwen-image-Q4_K_S.gguf"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_9_qwen_image_gguf_low_vram_probe.py"}, {"name": "aibook:cache-status", "value": "verified: .tmp/download/weight-unsloth-qwen-image-q4-ks-gguf (sha256 recorded)"}, {"name": "aibook:license-review", "value": "source declares Apache-2.0; model card and actual artifact must be verified before publication"}]
+    },
+    {
+      "type": "machine-learning-model", "bom-ref": "weight:comfy-qwen-image-text-encoder-fp8", "publisher": "Comfy-Org", "name": "Qwen 2.5 VL 7B FP8 scaled text encoder", "version": "repository reference",
+      "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI"}, {"type": "model-card", "url": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/blob/main/README.md"}],
+      "properties": [{"name": "aibook:component-role", "value": "ComfyUI Qwen text encoder for attention-cache probe"}, {"name": "aibook:download-selector", "value": "split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors"}, {"name": "aibook:observed-revision", "value": "7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_9_qwen_characonsist_comfy_probe.py; docs/assets/part-07/chapter-05/p7_5_9_qwen_image_gguf_low_vram_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
+    },
+    {
+      "type": "machine-learning-model", "bom-ref": "weight:comfy-qwen-image-vae", "publisher": "Comfy-Org", "name": "Qwen Image VAE", "version": "repository reference",
+      "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI"}, {"type": "model-card", "url": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/blob/main/README.md"}],
+      "properties": [{"name": "aibook:component-role", "value": "ComfyUI Qwen VAE for attention-cache probe"}, {"name": "aibook:download-selector", "value": "split_files/vae/qwen_image_vae.safetensors"}, {"name": "aibook:observed-revision", "value": "7beb7b647f04469fbe64ba8adc2bb0d7e5e9f73f"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_9_qwen_characonsist_comfy_probe.py; docs/assets/part-07/chapter-05/p7_5_9_qwen_image_gguf_low_vram_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:qwen-image-edit-2509", "publisher": "Qwen", "name": "Qwen-Image-Edit-2509", "version": "2509",
@@ -109,6 +124,11 @@
       "properties": [{"name": "aibook:component-role", "value": "locally trained style LoRA base model"}, {"name": "aibook:observed-revision", "value": "462165984030d82259a11f4367a4eed129e94a7b"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_train_style_lora.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
+      "type": "machine-learning-model", "bom-ref": "weight:tencentarc-photomaker-v1", "publisher": "TencentARC", "name": "PhotoMaker v1", "version": "v1",
+      "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/TencentARC/PhotoMaker"}, {"type": "model-card", "url": "https://huggingface.co/TencentARC/PhotoMaker/blob/main/README.md"}],
+      "properties": [{"name": "aibook:component-role", "value": "StoryDiffusion reference-image identity adapter"}, {"name": "aibook:download-selector", "value": "photomaker-v1.bin"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_9_storydiffusion_official_reference_experiment.py"}, {"name": "aibook:cache-status", "value": "not-present: pending local feasibility test"}, {"name": "aibook:license-review", "value": "review-required"}]
+    },
+    {
       "type": "machine-learning-model", "bom-ref": "model:qwen2-5-0-5b-instruct", "publisher": "Qwen", "name": "Qwen2.5-0.5B-Instruct", "version": "2.5",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct"}, {"type": "model-card", "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/blob/main/README.md"}],
       "properties": [{"name": "aibook:component-role", "value": "local CPU LLM experiment"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-06/p7_6_1_local_llm_experiment.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
@@ -140,7 +160,7 @@
     }
   ],
   "dependencies": [
-    {"ref": "model:qwen-image", "dependsOn": ["weight:nunchaku-qwen-image-fp4-r128"]},
+    {"ref": "model:qwen-image", "dependsOn": ["weight:nunchaku-qwen-image-fp4-r128", "weight:unsloth-qwen-image-q4-ks-gguf", "weight:comfy-qwen-image-text-encoder-fp8", "weight:comfy-qwen-image-vae"]},
     {"ref": "model:qwen-image-edit-2509", "dependsOn": ["weight:nunchaku-qwen-image-edit-2509", "weight:dx8152-qwen-edit-2509-multiple-angles"]},
     {"ref": "model:stable-diffusion-xl-inpainting", "dependsOn": ["weight:h94-ip-adapter-sdxl"]},
     {"ref": "model:animagine-xl-4", "dependsOn": ["model:controlnet-canny-sdxl-1"]},

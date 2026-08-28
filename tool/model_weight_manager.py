@@ -299,6 +299,36 @@ def direct_url(component: dict[str, Any], args: argparse.Namespace) -> tuple[str
     return source, None, args.revision
 
 
+def huggingface_repository_file(component: dict[str, Any], args: argparse.Namespace) -> tuple[str, str, str] | None:
+    """Return a Hub-native request when a component names one HF file.
+
+    ``urllib`` can download ordinary Hub redirects, but its byte-range handling
+    is not a robust transport for Xet-backed multi-gigabyte artifacts.  The
+    official Hub client keeps its own resumable incomplete file and retries
+    the storage protocol, so use it whenever the BOM identifies a repository
+    and one selector.  Explicit ``--url`` requests remain generic HTTP.
+    """
+    if args.url:
+        return None
+    source = distribution_url(component)
+    selector = selector_from_component(component, args.selector)
+    if not source or not selector:
+        return None
+    parsed = urlparse(source)
+    parts = [part for part in parsed.path.split("/") if part]
+    if parsed.netloc != "huggingface.co":
+        return None
+    if "resolve" in parts:
+        resolve_index = parts.index("resolve")
+        if resolve_index != 2 or len(parts) < 4:
+            return None
+        revision = args.revision or parts[resolve_index + 1]
+        return "/".join(parts[:2]), selector, revision
+    if len(parts) == 2:
+        return "/".join(parts), selector, observed_revision(component, args.revision)
+    return None
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as source:
@@ -343,22 +373,36 @@ def fetch(component: dict[str, Any], args: argparse.Namespace) -> int:
     if target.exists() and not args.force:
         raise SystemExit(f"Target already exists: {target}. Use --force after comparing the existing SHA-256.")
     target.parent.mkdir(parents=True, exist_ok=True)
-    temporary = target.with_suffix(target.suffix + ".part")
-    resumed_bytes = temporary.stat().st_size if temporary.exists() else 0
-    headers = {"User-Agent": USER_AGENT}
-    if resumed_bytes:
-        headers["Range"] = f"bytes={resumed_bytes}-"
-    request = Request(url, headers=headers)
-    try:
-        with urlopen(request, timeout=args.timeout) as response:
-            can_append = resumed_bytes and getattr(response, "status", None) == 206
-            with temporary.open("ab" if can_append else "wb") as output:
-                shutil.copyfileobj(response, output, length=1024 * 1024)
-            content_type = response.headers.get_content_type()
-            final_url = response.url
-    except Exception as error:  # urllib exposes several transport-specific exception classes
-        raise SystemExit(f"Download failed (partial file retained for resume): {error}") from error
-    temporary.replace(target)
+    hub_request = huggingface_repository_file(component, args)
+    if hub_request:
+        repository, filename, hub_revision = hub_request
+        try:
+            from huggingface_hub import hf_hub_download
+            downloaded = Path(hf_hub_download(repo_id=repository, filename=filename, revision=hub_revision, local_dir=directory))
+        except Exception as error:  # Hub client retains its resumable .cache download state.
+            raise SystemExit(f"Hugging Face download failed (Hub cache retained for resume): {error}") from error
+        if downloaded.resolve() != target.resolve():
+            raise SystemExit(f"Hub client wrote an unexpected target: {downloaded}")
+        content_type = "application/octet-stream"
+        final_url = f"https://huggingface.co/{repository}/resolve/{hub_revision}/{quote(filename, safe='/')}"
+        revision = hub_revision
+    else:
+        temporary = target.with_suffix(target.suffix + ".part")
+        resumed_bytes = temporary.stat().st_size if temporary.exists() else 0
+        headers = {"User-Agent": USER_AGENT}
+        if resumed_bytes:
+            headers["Range"] = f"bytes={resumed_bytes}-"
+        request = Request(url, headers=headers)
+        try:
+            with urlopen(request, timeout=args.timeout) as response:
+                can_append = resumed_bytes and getattr(response, "status", None) == 206
+                with temporary.open("ab" if can_append else "wb") as output:
+                    shutil.copyfileobj(response, output, length=1024 * 1024)
+                content_type = response.headers.get_content_type()
+                final_url = response.url
+        except Exception as error:  # urllib exposes several transport-specific exception classes
+            raise SystemExit(f"Download failed (partial file retained for resume): {error}") from error
+        temporary.replace(target)
     record = {
         "component_ref": component["bom-ref"],
         "filename": str(target.relative_to(directory)),

@@ -567,6 +567,7 @@ nav:
               - "P7-5.7 얼굴 정면과 카메라 회전: identity와 시점 역할 분리하기": parts/part-07/chapter-05/section-07.md
               - "P7-5.8 텍스트 모션으로 12개 OpenPose 키프레임 준비하기": parts/part-07/chapter-05/section-08.md
               - "P7-5.9 StoryDiffusion으로 여러 컷의 일관성 읽기": parts/part-07/chapter-05/section-09.md
+              - "P7-5.10 Qwen-Image Q4 GGUF로 8GB에서 실행 기록 남기기": parts/part-07/chapter-05/section-10.md
           - "Chapter 6. 로컬 LLM 실행 실습":
               - "P7-6.1 로컬 LLM으로 양자화와 context 길이 비교하기": parts/part-07/chapter-06/section-01.md
           - "Chapter 7. 비전 모델 실습":
