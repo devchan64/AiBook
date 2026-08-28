@@ -1,0 +1,41 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-9-storydiffusion-5-7-multiview-anchored-target",
+  "model": "Dark Sushi Mix 2.25D (SD 1.5)",
+  "runtime": "SeaArt ComfyUI StoryDiffusion port",
+  "workflow_source": "docs/assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-left-45-workflow-v1.json",
+  "target": "left_45",
+  "inputs": [
+    {
+      "path": "docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-front-cfg4-front-1024-v4-seed-62294-steps-8.png",
+      "role": "multiview_anchor",
+      "sha256": "05b0c44fb2f7c4859057dd457e0de97f845534ecd27e7b6551b1576f41e89f69"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-left-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+      "role": "multiview_anchor_and_target_latent",
+      "sha256": "da434480f9598079cdced2f4267e85713809ad00483ee28dc7ce45630aee2f42"
+    },
+    {
+      "path": "docs/assets/part-07/chapter-05/p7-5-7-qwen-torso-yaw-quarter-right-cfg4-yaw-1024-v4-seed-62294-steps-8.png",
+      "role": "multiview_anchor",
+      "sha256": "1df1f2cae988acbc5aa6f933640b03a7e7180c64449f44777b7f7a15fcf6305d"
+    }
+  ],
+  "storydiffusion": {
+    "id_length": 3,
+    "same": 0.3,
+    "anchor_size": [768, 768],
+    "anchor_steps": 25,
+    "anchor_denoise": 0.2,
+    "target_steps": 25,
+    "target_denoise": 0.35,
+    "seed": 62296
+  },
+  "prompt": "young woman, dark teal short wavy bob hair, amber eyes, head and chest, left three-quarter view",
+  "output": {
+    "path": "docs/assets/part-07/chapter-05/p7-5-9-storydiffusion-torso-multiview-anchor-left-45-v1-seed-62296-steps-25.png",
+    "sha256": "ea581900c24202aaba76eb5884fe04339a2377c83a99b711c44f773ebe90b13a"
+  },
+  "decision": "Passed for a single-character left-45 multiview-anchor refinement; this is not an empty-latent new-composition result."
+}

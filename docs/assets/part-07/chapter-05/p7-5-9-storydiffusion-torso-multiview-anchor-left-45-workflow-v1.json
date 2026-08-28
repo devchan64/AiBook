@@ -1,0 +1,25 @@
+{
+  "prompt": {
+    "1": {"class_type": "CheckpointLoaderSimple", "inputs": {"ckpt_name": "darkSushiMixMix_225D.safetensors"}},
+    "2": {"class_type": "SeaArtApplyStory", "inputs": {"model": ["1", 0], "id_length": 3, "width": 768, "height": 768, "same": 0.3}},
+    "3": {"class_type": "LoadImage", "inputs": {"image": "p7-5-9-storydiffusion-5-7/front.png"}},
+    "4": {"class_type": "LoadImage", "inputs": {"image": "p7-5-9-storydiffusion-5-7/left-45.png"}},
+    "5": {"class_type": "LoadImage", "inputs": {"image": "p7-5-9-storydiffusion-5-7/right-45.png"}},
+    "6": {"class_type": "ImageScale", "inputs": {"image": ["3", 0], "upscale_method": "lanczos", "width": 768, "height": 768, "crop": "center"}},
+    "7": {"class_type": "ImageScale", "inputs": {"image": ["4", 0], "upscale_method": "lanczos", "width": 768, "height": 768, "crop": "center"}},
+    "8": {"class_type": "ImageScale", "inputs": {"image": ["5", 0], "upscale_method": "lanczos", "width": 768, "height": 768, "crop": "center"}},
+    "9": {"class_type": "ImageBatch", "inputs": {"image1": ["6", 0], "image2": ["7", 0]}},
+    "10": {"class_type": "ImageBatch", "inputs": {"image1": ["9", 0], "image2": ["8", 0]}},
+    "11": {"class_type": "VAEEncode", "inputs": {"pixels": ["10", 0], "vae": ["1", 2]}},
+    "12": {"class_type": "CLIPTextEncode", "inputs": {"text": "young woman, dark teal short wavy bob hair, amber eyes, head and chest, front view", "clip": ["1", 1]}},
+    "13": {"class_type": "CLIPTextEncode", "inputs": {"text": "young woman, dark teal short wavy bob hair, amber eyes, head and chest, left three-quarter view", "clip": ["1", 1]}},
+    "14": {"class_type": "CLIPTextEncode", "inputs": {"text": "young woman, dark teal short wavy bob hair, amber eyes, head and chest, right three-quarter view", "clip": ["1", 1]}},
+    "15": {"class_type": "SeaArtMergeStoryCondition", "inputs": {"clip": ["1", 1], "conditioning_1": ["12", 0], "conditioning_2": ["13", 0], "conditioning_3": ["14", 0]}},
+    "16": {"class_type": "CLIPTextEncode", "inputs": {"text": "blurry, low quality, extra face, duplicate person", "clip": ["1", 1]}},
+    "17": {"class_type": "SeaArtStoryKSampler", "inputs": {"model": ["2", 0], "seed": 62294, "steps": 25, "cfg": 8.0, "sampler_name": "dpmpp_2m_sde_gpu", "scheduler": "karras", "positive": ["15", 0], "negative": ["16", 0], "latent_image": ["11", 0], "denoise": 0.2}},
+    "18": {"class_type": "VAEEncode", "inputs": {"pixels": ["7", 0], "vae": ["1", 2]}},
+    "19": {"class_type": "SeaArtStoryInfKSampler", "inputs": {"model": ["17", 1], "seed": 62296, "steps": 25, "cfg": 8.0, "sampler_name": "dpmpp_2m_sde_gpu", "scheduler": "karras", "positive": ["13", 0], "negative": ["16", 0], "latent_image": ["18", 0], "denoise": 0.35}},
+    "20": {"class_type": "VAEDecode", "inputs": {"samples": ["19", 0], "vae": ["1", 2]}},
+    "21": {"class_type": "SaveImage", "inputs": {"filename_prefix": "p7-5-9-storydiffusion-5-7-multiview-anchored-target-left45", "images": ["20", 0]}}
+  }
+}
