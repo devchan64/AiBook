@@ -25,6 +25,8 @@ from urllib.request import Request, urlopen
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BOM = REPOSITORY_ROOT / "model-inventory" / "model-weights.cdx.json"
 DOWNLOAD_ROOT = REPOSITORY_ROOT / ".tmp" / "download"
+HUGGINGFACE_DOWNLOAD_ROOT = DOWNLOAD_ROOT / "huggingface"
+DEFAULT_HUGGINGFACE_HUB = Path("/home/cbsim/.cache/huggingface/hub")
 USER_AGENT = "AiBookModelWeightManager/1.0 (+local manuscript asset maintenance)"
 RECORD_NAME = "download-record.json"
 
@@ -49,6 +51,20 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
     verify = subcommands.add_parser("verify", help="Recalculate SHA-256 for recorded downloads.")
     verify.add_argument("--ref", action="append", help="Verify only this component ref; may be repeated.")
+
+    relocate = subcommands.add_parser("relocate", help="Move one Hugging Face cache entry after a SHA-256 manifest comparison.")
+    relocate.add_argument("--ref", required=True, help="CycloneDX component bom-ref with a Hugging Face distribution URL.")
+    relocate.add_argument("--source-hub", type=Path, default=DEFAULT_HUGGINGFACE_HUB, help="Existing Hugging Face hub cache.")
+    relocate.add_argument("--dry-run", action="store_true", help="Show the source, target, and file count without moving anything.")
+
+    audit = subcommands.add_parser("audit-cache", help="Compare a Hugging Face cache with model repositories registered in the BOM.")
+    audit.add_argument("--hub-root", type=Path, default=HUGGINGFACE_DOWNLOAD_ROOT / "hub", help="Hugging Face hub cache to inspect.")
+    audit.add_argument("--unregistered-only", action="store_true", help="Show only cache entries absent from the BOM.")
+
+    quarantine = subcommands.add_parser("quarantine", help="Move one unregistered cache entry to a recoverable quarantine after hash comparison.")
+    quarantine.add_argument("--cache-name", required=True, help="Exact models--ORG--NAME cache directory name from audit-cache.")
+    quarantine.add_argument("--hub-root", type=Path, default=HUGGINGFACE_DOWNLOAD_ROOT / "hub", help="Hugging Face hub cache containing the entry.")
+    quarantine.add_argument("--dry-run", action="store_true", help="Show the planned quarantine move without moving anything.")
     return parser.parse_args(argv)
 
 
@@ -94,6 +110,112 @@ def safe_component_directory(ref: str) -> Path:
     except ValueError as error:
         raise SystemExit(f"Unsafe component ref: {ref}") from error
     return directory
+
+
+def huggingface_cache_directory(component: dict[str, Any], hub_root: Path) -> Path:
+    source = distribution_url(component)
+    if not source or urlparse(source).netloc != "huggingface.co":
+        raise SystemExit("relocate supports only a component with a Hugging Face distribution URL.")
+    parts = [part for part in urlparse(source).path.split("/") if part]
+    if "resolve" in parts:
+        parts = parts[: parts.index("resolve")]
+    if len(parts) != 2:
+        raise SystemExit(f"Cannot derive a Hugging Face repository from: {source}")
+    return hub_root / f"models--{parts[0]}--{parts[1]}"
+
+
+def file_manifest(directory: Path) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for path in sorted(directory.rglob("*")):
+        if path.is_file() and not path.is_symlink():
+            records.append({"path": path.relative_to(directory).as_posix(), "bytes": path.stat().st_size, "sha256": sha256(path)})
+    return records
+
+
+def relocate(component: dict[str, Any], args: argparse.Namespace) -> int:
+    source_hub = args.source_hub.resolve()
+    source = huggingface_cache_directory(component, source_hub)
+    target_hub = HUGGINGFACE_DOWNLOAD_ROOT / "hub"
+    target = huggingface_cache_directory(component, target_hub)
+    if not source.is_dir():
+        raise SystemExit(f"Source cache entry not found: {source}")
+    if target.exists():
+        raise SystemExit(f"Target cache entry already exists: {target}; compare it before any manual reconciliation.")
+    source_manifest = file_manifest(source)
+    summary = {"component_ref": component["bom-ref"], "source": str(source), "target": str(target), "file_count": len(source_manifest), "bytes": sum(item["bytes"] for item in source_manifest)}
+    if args.dry_run:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+        return 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(source), str(target))
+    target_manifest = file_manifest(target)
+    if target_manifest != source_manifest:
+        raise SystemExit("Migration hash manifest mismatch; source was moved, so stop and inspect the target before using it.")
+    record_directory = HUGGINGFACE_DOWNLOAD_ROOT / "migrations"
+    record_directory.mkdir(parents=True, exist_ok=True)
+    record_path = record_directory / f"{safe_component_directory(component['bom-ref']).name}.json"
+    record = {**summary, "moved_at": dt.datetime.now(dt.timezone.utc).isoformat(), "manifest": target_manifest}
+    record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({**summary, "status": "verified-moved", "record": str(record_path.relative_to(REPOSITORY_ROOT))}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def registered_huggingface_cache_names(bom: dict[str, Any]) -> set[str]:
+    names: set[str] = set()
+    for component in bom.get("components", []):
+        source = distribution_url(component)
+        if not source or urlparse(source).netloc != "huggingface.co":
+            continue
+        parts = [part for part in urlparse(source).path.split("/") if part]
+        if "resolve" in parts:
+            parts = parts[: parts.index("resolve")]
+        if len(parts) == 2:
+            names.add(f"models--{parts[0]}--{parts[1]}")
+    return names
+
+
+def directory_size(directory: Path) -> int:
+    return sum(path.stat().st_size for path in directory.rglob("*") if path.is_file() and not path.is_symlink())
+
+
+def audit_cache(bom: dict[str, Any], args: argparse.Namespace) -> int:
+    hub_root = args.hub_root.resolve()
+    if not hub_root.is_dir():
+        raise SystemExit(f"Hub cache not found: {hub_root}")
+    registered = registered_huggingface_cache_names(bom)
+    rows = []
+    for directory in sorted(hub_root.glob("models--*")):
+        status = "registered" if directory.name in registered else "unregistered-candidate"
+        if args.unregistered_only and status != "unregistered-candidate":
+            continue
+        rows.append({"cache_name": directory.name, "status": status, "bytes": directory_size(directory)})
+    print(json.dumps({"hub_root": str(hub_root), "entries": rows, "registered_count": sum(row["status"] == "registered" for row in rows), "unregistered_count": sum(row["status"] == "unregistered-candidate" for row in rows)}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def quarantine_cache(bom: dict[str, Any], args: argparse.Namespace) -> int:
+    if Path(args.cache_name).name != args.cache_name or not args.cache_name.startswith("models--"):
+        raise SystemExit("--cache-name must be one exact models--ORG--NAME directory name.")
+    if args.cache_name in registered_huggingface_cache_names(bom):
+        raise SystemExit("Registered model: remove or retire its BOM component before quarantining it.")
+    source = args.hub_root.resolve() / args.cache_name
+    if not source.is_dir():
+        raise SystemExit(f"Cache entry not found: {source}")
+    stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    target = HUGGINGFACE_DOWNLOAD_ROOT / "quarantine" / stamp / args.cache_name
+    manifest = file_manifest(source)
+    summary = {"cache_name": args.cache_name, "source": str(source), "target": str(target), "file_count": len(manifest), "bytes": sum(item["bytes"] for item in manifest)}
+    if args.dry_run:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+        return 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(source), str(target))
+    if file_manifest(target) != manifest:
+        raise SystemExit("Quarantine hash manifest mismatch; stop and inspect the target before deleting anything.")
+    record = {**summary, "quarantined_at": dt.datetime.now(dt.timezone.utc).isoformat(), "manifest": manifest}
+    (target.parent / f"{args.cache_name}.json").write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({**summary, "status": "verified-quarantined"}, ensure_ascii=False, indent=2))
+    return 0
 
 
 def selector_from_component(component: dict[str, Any], override: str | None) -> str | None:
@@ -146,8 +268,9 @@ def sha256(path: Path) -> str:
 
 def target_name(url: str, requested_name: str | None) -> str:
     if requested_name:
-        if Path(requested_name).name != requested_name:
-            raise SystemExit("--filename must be a file name, not a path.")
+        requested_path = Path(requested_name)
+        if requested_path.is_absolute() or ".." in requested_path.parts:
+            raise SystemExit("--filename must be a safe relative path beneath the component directory.")
         return requested_name
     name = unquote(Path(urlparse(url).path).name)
     return name if name and name not in {"main", "resolve"} else "artifact.bin"
@@ -169,26 +292,35 @@ def fetch(component: dict[str, Any], args: argparse.Namespace) -> int:
     directory = safe_component_directory(component["bom-ref"])
     name = args.filename or (Path(selector).name if selector else target_name(url, None))
     target = directory / name
+    try:
+        target.resolve().relative_to(directory.resolve())
+    except ValueError as error:
+        raise SystemExit("--filename must remain beneath the component directory.") from error
     if args.dry_run:
         print(json.dumps({"url": url, "output": str(target.relative_to(REPOSITORY_ROOT)), "selector": selector, "revision": revision}, ensure_ascii=False))
         return 0
     if target.exists() and not args.force:
         raise SystemExit(f"Target already exists: {target}. Use --force after comparing the existing SHA-256.")
-    directory.mkdir(parents=True, exist_ok=True)
+    target.parent.mkdir(parents=True, exist_ok=True)
     temporary = target.with_suffix(target.suffix + ".part")
-    request = Request(url, headers={"User-Agent": USER_AGENT})
+    resumed_bytes = temporary.stat().st_size if temporary.exists() else 0
+    headers = {"User-Agent": USER_AGENT}
+    if resumed_bytes:
+        headers["Range"] = f"bytes={resumed_bytes}-"
+    request = Request(url, headers=headers)
     try:
-        with urlopen(request, timeout=args.timeout) as response, temporary.open("wb") as output:
-            shutil.copyfileobj(response, output, length=1024 * 1024)
+        with urlopen(request, timeout=args.timeout) as response:
+            can_append = resumed_bytes and getattr(response, "status", None) == 206
+            with temporary.open("ab" if can_append else "wb") as output:
+                shutil.copyfileobj(response, output, length=1024 * 1024)
             content_type = response.headers.get_content_type()
             final_url = response.url
     except Exception as error:  # urllib exposes several transport-specific exception classes
-        temporary.unlink(missing_ok=True)
-        raise SystemExit(f"Download failed: {error}") from error
+        raise SystemExit(f"Download failed (partial file retained for resume): {error}") from error
     temporary.replace(target)
     record = {
         "component_ref": component["bom-ref"],
-        "filename": target.name,
+        "filename": str(target.relative_to(directory)),
         "source_url": distribution_url(component),
         "resolved_url": final_url,
         "selector": selector,
@@ -236,6 +368,12 @@ def main(argv: list[str]) -> int:
         return 0
     if args.command == "fetch":
         return fetch(component_by_ref(bom, args.ref), args)
+    if args.command == "relocate":
+        return relocate(component_by_ref(bom, args.ref), args)
+    if args.command == "audit-cache":
+        return audit_cache(bom, args)
+    if args.command == "quarantine":
+        return quarantine_cache(bom, args)
     return verify(bom, args.ref)
 
 

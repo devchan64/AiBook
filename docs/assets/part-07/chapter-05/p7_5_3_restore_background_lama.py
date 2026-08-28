@@ -19,6 +19,7 @@ from PIL import Image
 
 
 ASSETS = Path(__file__).resolve().parent
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_REPOSITORY = "g-ronimo/lama"
 MODEL_FILE = "lama.onnx"
 MODEL_LICENSE = "Apache-2.0"
@@ -62,7 +63,7 @@ def main() -> None:
         return
     if args.grow < 0:
         parser.error("--grow must be non-negative")
-    model = args.model.resolve() if args.model else Path(hf_hub_download(MODEL_REPOSITORY, MODEL_FILE, local_files_only=True))
+    model = args.model.resolve() if args.model else Path(hf_hub_download(MODEL_REPOSITORY, MODEL_FILE, cache_dir=HF_HUB_CACHE, local_files_only=True))
     if not model.is_file():
         raise FileNotFoundError(model)
     started = time.monotonic()

@@ -12,11 +12,13 @@ import time
 from pathlib import Path
 
 import torch
+from huggingface_hub import snapshot_download
 from PIL import Image, ImageDraw
 from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor, Sam2Model
 
 
 ASSETS = Path(__file__).resolve().parent
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 GROUNDING_DINO_ID = "IDEA-Research/grounding-dino-tiny"
 SAM2_ID = "facebook/sam2.1-hiera-small"
 
@@ -65,8 +67,9 @@ def main() -> None:
     image = Image.open(reference).convert("RGB")
     device = torch.device("cuda")
 
-    detector_processor = AutoProcessor.from_pretrained(GROUNDING_DINO_ID)
-    detector = AutoModelForZeroShotObjectDetection.from_pretrained(GROUNDING_DINO_ID).to(device).eval()
+    detector_path = Path(snapshot_download(GROUNDING_DINO_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    detector_processor = AutoProcessor.from_pretrained(detector_path, local_files_only=True)
+    detector = AutoModelForZeroShotObjectDetection.from_pretrained(detector_path, local_files_only=True).to(device).eval()
     labels = [["a woman", "a person"]]
     detector_inputs = detector_processor(images=image, text=labels, return_tensors="pt").to(device)
     with torch.inference_mode():
@@ -87,8 +90,9 @@ def main() -> None:
     del detector, detector_processor, detector_inputs, detector_outputs
     torch.cuda.empty_cache()
 
-    sam_processor = AutoProcessor.from_pretrained(SAM2_ID)
-    sam = Sam2Model.from_pretrained(SAM2_ID).to(device).eval()
+    sam_path = Path(snapshot_download(SAM2_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    sam_processor = AutoProcessor.from_pretrained(sam_path, local_files_only=True)
+    sam = Sam2Model.from_pretrained(sam_path, local_files_only=True).to(device).eval()
     sam_inputs = sam_processor(images=image, input_boxes=[[box]], return_tensors="pt").to(device)
     with torch.inference_mode():
         sam_outputs = sam(**sam_inputs, multimask_output=False)

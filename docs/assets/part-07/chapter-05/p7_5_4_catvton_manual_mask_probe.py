@@ -16,6 +16,9 @@ import torch
 from huggingface_hub import snapshot_download
 from PIL import Image, ImageDraw, ImageFilter
 
+ASSETS = Path(__file__).resolve().parent
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
+
 catvton_repo = Path(os.environ.get("CATVTON_REPO", ""))
 if catvton_repo.is_dir():
     sys.path.insert(0, str(catvton_repo.resolve()))
@@ -68,8 +71,12 @@ def main() -> int:
     if not all(path.is_file() for path in (args.source, args.mask, args.garment)):
         raise FileNotFoundError("source, mask, and garment must exist")
 
-    catvton_path = snapshot_download("zhengchong/CatVTON", local_files_only=True)
-    base_path = snapshot_download("booksforcharlie/stable-diffusion-inpainting", local_files_only=True)
+    catvton_path = snapshot_download(
+        "zhengchong/CatVTON", cache_dir=HF_HUB_CACHE, local_files_only=True
+    )
+    base_path = snapshot_download(
+        "booksforcharlie/stable-diffusion-inpainting", cache_dir=HF_HUB_CACHE, local_files_only=True
+    )
     person = resize_and_crop(Image.open(args.source).convert("RGB"), (args.width, args.height))
     mask = resize_and_crop(Image.open(args.mask).convert("L"), (args.width, args.height))
     repaint_mask = mask.copy()

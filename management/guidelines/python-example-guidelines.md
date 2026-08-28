@@ -125,6 +125,7 @@ Part 1과 Part 2에서는 개념 지도와 Python 기초 자체가 중심이므�
 - 외부 모델 가중치, checkpoint, adapter, LoRA, detector, segmenter를 직접 읽거나 내려받는 Python 소스는 [`model-inventory/model-weights.cdx.json`](../../model-inventory/model-weights.cdx.json)에 원본 저장소·파일 selector·사용 소스 경로를 먼저 기록한다. 라이선스와 모델 카드를 원문으로 확인하기 전에는 `aibook:license-review`를 `review-required`로 유지하고, 공개 실습 자산 채택을 보류한다. 다운로드와 SHA-256 검증은 [`tool/model_weight_manager.py`](../../tool/model_weight_manager.py)를 사용하고, 세부 기록 방법은 [`model-inventory/README.md`](../../model-inventory/README.md)를 따른다.
 - 이후 모델 다운로드와 로컬 보관은 저장소 루트 기준 `.tmp/download/`만 사용한다. 권장 구조는 `.tmp/download/<provider>/<repository-or-model>/`이며, 가중치·캐시·압축 해제 파일은 Git에 추가하지 않는다.
 - 모델 다운로드는 개인 절대 cache 경로가 아니라 모델 저장소 ID, 가능한 경우 immutable revision, 필요한 파일 selector를 기준으로 표현한다. 기존 절대 경로가 있으면 실제 관찰 revision을 모델 인벤토리에 옮기고, 새 코드에는 이식 가능한 다운로드 경로와 `.tmp/download/` 기본 경로를 우선한다.
+- 모델 가중치를 폐기하려면 먼저 해당 source file 참조와 모델 인벤토리를 함께 갱신한다. `audit-cache` 결과의 `unregistered-candidate`만으로 삭제하지 말고, 먼저 격리 이동과 해시 검증을 거친다.
 - 원고에 Python 예제를 반영하기 전에는 가능한 한 같은 환경에서 실제로 실행하고, 출력물이 Section의 중심 질문과 조작 변수를 드러내는지 확인한다. 실행만 성공했더라도 출력이 학습 효과를 만들지 못하면 예제를 다시 설계하거나 표·사례·비코드 연습으로 바꾼다.
 - 생성 이미지, 모델 응답, 후보 목록처럼 출력의 해석이 주관적으로 흔들릴 수 있는 예제는 특히 실제 출력물을 확인한다. 단발 출력이 조작 변수의 효과를 분리해 보여 주지 못하면, 그 출력물을 본문 예시나 학습 자산으로 사용하지 않는다.
 - 새로운 핵심 개념이나 핵심 판단 기준을 설명한 Section에서는 `예시`와 `연습 또는 예제`가 함께 있어야 한다. Python 코드는 그중 `예제`를 담당할 때만 넣는다.

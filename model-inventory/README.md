@@ -14,6 +14,8 @@
 
 새 모델을 소스에 추가할 때는 먼저 이 BOM에 모델 저장소 URL, 모델 카드, file selector, source file을 추가한다. 가능한 경우 commit SHA와 실제 파일 SHA-256을 보강한다. 다운로드는 `.tmp/download/<provider>/<repository-or-model>/` 아래에 두고, 절대 cache 경로는 코드나 BOM의 원본 경로로 쓰지 않는다. 코드에는 repository ID + revision + file selector를 사용한다.
 
+모델을 정리할 때는 먼저 `tool/model_weight_manager.py audit-cache`로 인벤토리와 cache의 차이를 확인한다. 인벤토리에서 제거하기 전에는 에셋 소스의 참조가 사라졌는지 확인하고, 바로 삭제하지 말고 `quarantine`으로 격리한 뒤 필요 기간 동안 재현·복구 가능 여부를 확인한다.
+
 `aibook:` 속성은 CycloneDX 확장 property namespace다. 표준 필드를 대체하지 않는다.
 
 ## 검증

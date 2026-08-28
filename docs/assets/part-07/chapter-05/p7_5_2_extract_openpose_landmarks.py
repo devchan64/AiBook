@@ -25,6 +25,7 @@ import types
 from pathlib import Path
 
 import numpy as np
+from huggingface_hub import snapshot_download
 from PIL import Image
 
 
@@ -32,6 +33,7 @@ ASSETS = Path(__file__).resolve().parent
 DEFAULT_INPUT = ASSETS / "p7-5-2-fullbody-quarter-left-reference.png"
 DEFAULT_OUTPUT = ASSETS
 ANNOTATOR_REPOSITORY = "lllyasviel/Annotators"
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 FACE_GROUPS = {
     "jaw": list(range(0, 17)),
     "left_brow": list(range(17, 22)),
@@ -146,7 +148,10 @@ def main() -> None:
     image = Image.open(source).convert("RGB")
     width, height = image.size
     openpose = load_openpose_module()
-    detector = openpose.OpenposeDetector.from_pretrained(ANNOTATOR_REPOSITORY, local_files_only=True)
+    annotator_path = Path(
+        snapshot_download(ANNOTATOR_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    )
+    detector = openpose.OpenposeDetector.from_pretrained(annotator_path, local_files_only=True)
     source_pixels = np.array(image)
     poses = detector.detect_poses(source_pixels, include_face=True)
     if len(poses) != 1:

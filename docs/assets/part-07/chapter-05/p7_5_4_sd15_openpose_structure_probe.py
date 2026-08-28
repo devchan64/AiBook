@@ -11,14 +11,16 @@ import sys
 import sysconfig
 import types
 
+from huggingface_hub import snapshot_download
 import torch
 from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
 from PIL import Image, ImageDraw
 
 
-SD15 = Path("/home/cbsim/.cache/huggingface/hub/models--stable-diffusion-v1-5--stable-diffusion-v1-5/snapshots/451f4fe16113bff5a5d2269ed5ad43b0592e9a14")
-OPENPOSE_CONTROLNET = Path("/home/cbsim/.cache/huggingface/hub/models--lllyasviel--control_v11p_sd15_openpose/snapshots/9ae9f970358db89e211b87c915f9535c6686d5ba")
-ANNOTATORS = Path("/home/cbsim/.cache/huggingface/hub/models--lllyasviel--Annotators/snapshots/982e7edaec38759d914a963c48c4726685de7d96")
+SD15_REPOSITORY = "stable-diffusion-v1-5/stable-diffusion-v1-5"
+OPENPOSE_CONTROLNET_REPOSITORY = "lllyasviel/control_v11p_sd15_openpose"
+ANNOTATOR_REPOSITORY = "lllyasviel/Annotators"
+HF_HUB_CACHE = Path(__file__).resolve().parents[4] / ".tmp" / "download" / "huggingface" / "hub"
 NEGATIVE_PROMPT = "multiple people, cropped body, cut off feet, missing bag, extra bag, broken strap, deformed hands, text, watermark, manga screentone, heavy shadow"
 SCENE_PROMPTS = {
     "mira-heldout-01": "apartment kitchen, side full body, left hand closes cupboard",
@@ -92,9 +94,20 @@ def main() -> int:
     if len(rows) != 4:
         raise ValueError("P7-5.2 requires exactly four held-out rows")
     args.output.mkdir(parents=True, exist_ok=True)
-    detector = openpose_detector_class().from_pretrained(ANNOTATORS)
-    controlnet = ControlNetModel.from_pretrained(OPENPOSE_CONTROLNET, torch_dtype=torch.float16, variant="fp16")
-    pipe = StableDiffusionControlNetPipeline.from_pretrained(SD15, controlnet=controlnet, torch_dtype=torch.float16, safety_checker=None).to("cuda")
+    annotator_path = Path(
+        snapshot_download(ANNOTATOR_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    )
+    detector = openpose_detector_class().from_pretrained(annotator_path, local_files_only=True)
+    controlnet_path = Path(
+        snapshot_download(
+            OPENPOSE_CONTROLNET_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True
+        )
+    )
+    sd15_path = Path(
+        snapshot_download(SD15_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    )
+    controlnet = ControlNetModel.from_pretrained(controlnet_path, torch_dtype=torch.float16, variant="fp16", local_files_only=True)
+    pipe = StableDiffusionControlNetPipeline.from_pretrained(sd15_path, controlnet=controlnet, torch_dtype=torch.float16, safety_checker=None, local_files_only=True).to("cuda")
     pipe.enable_attention_slicing()
     pipe.set_progress_bar_config(disable=True)
     torch.cuda.reset_peak_memory_stats()

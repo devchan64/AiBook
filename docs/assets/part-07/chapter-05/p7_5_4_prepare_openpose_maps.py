@@ -9,14 +9,13 @@ import sysconfig
 import types
 from pathlib import Path
 
+from huggingface_hub import snapshot_download
 from PIL import Image
 
 
 ASSETS = Path(__file__).resolve().parent
-ANNOTATORS = Path(
-    "/home/cbsim/.cache/huggingface/hub/models--lllyasviel--Annotators/"
-    "snapshots/982e7edaec38759d914a963c48c4726685de7d96"
-)
+ANNOTATOR_REPOSITORY = "lllyasviel/Annotators"
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 REFERENCES = {
     "front": "p7-5-2-fullbody-front-reference.png",
     "front-quarter-right": "p7-5-2-fullbody-front-quarter-right-reference.png",
@@ -46,7 +45,10 @@ def detector_class():
 
 
 def main() -> int:
-    detector = detector_class().from_pretrained(ANNOTATORS)
+    annotator_path = Path(
+        snapshot_download(ANNOTATOR_REPOSITORY, cache_dir=HF_HUB_CACHE, local_files_only=True)
+    )
+    detector = detector_class().from_pretrained(annotator_path, local_files_only=True)
     for label, filename in REFERENCES.items():
         source = ASSETS / filename
         if not source.is_file():

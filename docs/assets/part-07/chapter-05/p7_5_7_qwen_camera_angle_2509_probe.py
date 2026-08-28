@@ -32,6 +32,7 @@ from nunchaku_lora_qwen import apply_lora  # noqa: E402
 
 
 ASSETS = Path(__file__).resolve().parent
+HF_HUB_CACHE = ASSETS.parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "Qwen/Qwen-Image-Edit-2509"
 TRANSFORMER_ID = (
     "nunchaku-tech/nunchaku-qwen-image-edit-2509/lightning-251115/"
@@ -235,7 +236,7 @@ def main() -> None:
     if not reference_image.is_file():
         raise FileNotFoundError(reference_image)
 
-    angle_lora_dir = Path(snapshot_download(ANGLE_LORA_REPO, local_files_only=True))
+    angle_lora_dir = Path(snapshot_download(ANGLE_LORA_REPO, cache_dir=HF_HUB_CACHE, local_files_only=True))
     angle_lora = angle_lora_dir / ANGLE_LORA_FILE
     if not angle_lora.is_file():
         raise FileNotFoundError(angle_lora)

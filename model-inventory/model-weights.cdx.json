@@ -8,7 +8,8 @@
     "timestamp": "2026-08-28T00:00:00+09:00",
     "component": {"type": "application", "name": "AiBook manuscript asset sources", "version": "dev"},
     "properties": [
-      {"name": "aibook:scope", "value": "External model weights referenced by manuscript asset source code; model files are not distributed by this repository."}
+      {"name": "aibook:scope", "value": "External model weights referenced by manuscript asset source code; model files are not distributed by this repository."},
+      {"name": "aibook:huggingface-hub-cache", "value": ".tmp/download/huggingface/hub"}
     ]
   },
   "components": [
@@ -35,7 +36,7 @@
     {
       "type": "machine-learning-model", "bom-ref": "weight:dx8152-qwen-edit-2509-multiple-angles", "publisher": "dx8152", "name": "Qwen-Edit-2509-Multiple-angles LoRA", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles/resolve/c342b0e746c3a3275af1a4a0c6ae78e0e4802531/%E9%95%9C%E5%A4%B4%E8%BD%AC%E6%8D%A2.safetensors"}, {"type": "model-card", "url": "https://huggingface.co/dx8152/Qwen-Edit-2509-Multiple-angles/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "camera-angle LoRA"}, {"name": "aibook:download-selector", "value": "镜头转换.safetensors"}, {"name": "aibook:observed-revision", "value": "c342b0e746c3a3275af1a4a0c6ae78e0e4802531"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_7_qwen_camera_angle_2509_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "camera-angle LoRA"}, {"name": "aibook:download-selector", "value": "镜头转换.safetensors"}, {"name": "aibook:observed-revision", "value": "c342b0e746c3a3275af1a4a0c6ae78e0e4802531"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_7_qwen_camera_angle_2509_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:flux-2-klein-4b", "publisher": "Black Forest Labs", "name": "FLUX.2-klein-4B", "version": "repository reference",
@@ -43,19 +44,24 @@
       "properties": [{"name": "aibook:component-role", "value": "multi-reference image generation"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_2_generate_dynamic_alley_oop_style_test.py"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
+      "type": "machine-learning-model", "bom-ref": "model:omnigen2", "publisher": "OmniGen2", "name": "OmniGen2", "version": "df5dca8a981d74e6c3af214c145f5c735fe72367",
+      "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/OmniGen2/OmniGen2"}, {"type": "model-card", "url": "https://huggingface.co/OmniGen2/OmniGen2/blob/main/README.md"}, {"type": "website", "url": "https://github.com/VectorSpaceLab/OmniGen2"}],
+      "properties": [{"name": "aibook:component-role", "value": "multi-reference source-image regeneration experiment"}, {"name": "aibook:download-selector", "value": "all pipeline files required by OmniGen2Pipeline (mllm, transformer, vae, processor, and configuration files)"}, {"name": "aibook:observed-revision", "value": "df5dca8a981d74e6c3af214c145f5c735fe72367"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_omnigen2_regenerate_reference_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+    },
+    {
       "type": "machine-learning-model", "bom-ref": "model:grounding-dino-tiny", "publisher": "IDEA Research", "name": "Grounding DINO Tiny", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/IDEA-Research/grounding-dino-tiny"}, {"type": "model-card", "url": "https://huggingface.co/IDEA-Research/grounding-dino-tiny/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "zero-shot person detector"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_generate_person_mask.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "zero-shot person detector"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_generate_person_mask.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:sam2-1-hiera-small", "publisher": "Meta", "name": "SAM 2.1 Hiera Small", "version": "2.1",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/facebook/sam2.1-hiera-small"}, {"type": "model-card", "url": "https://huggingface.co/facebook/sam2.1-hiera-small/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "person mask segmentation"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_generate_person_mask.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "person mask segmentation"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_generate_person_mask.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "weight:g-ronimo-lama-onnx", "publisher": "g-ronimo", "name": "LaMa ONNX", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/g-ronimo/lama/resolve/main/lama.onnx"}, {"type": "model-card", "url": "https://huggingface.co/g-ronimo/lama/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "mask-guided background completion"}, {"name": "aibook:download-selector", "value": "lama.onnx"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_restore_background_lama.py"}, {"name": "aibook:license-review", "value": "source declares Apache-2.0; original repository text requires verification"}]
+      "properties": [{"name": "aibook:component-role", "value": "mask-guided background completion"}, {"name": "aibook:download-selector", "value": "lama.onnx"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_restore_background_lama.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "source declares Apache-2.0; original repository text requires verification"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:stable-diffusion-xl-inpainting", "publisher": "diffusers", "name": "Stable Diffusion XL Inpainting 0.1", "version": "0.1",
@@ -80,17 +86,17 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:stable-diffusion-v1-5", "publisher": "Stable Diffusion", "name": "Stable Diffusion v1.5", "version": "1.5",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5"}, {"type": "model-card", "url": "https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "ControlNet pose comparison base model"}, {"name": "aibook:observed-revision", "value": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_sd15_openpose_structure_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "ControlNet pose comparison base model"}, {"name": "aibook:observed-revision", "value": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_sd15_openpose_structure_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:control-v11p-sd15-openpose", "publisher": "lllyasviel", "name": "ControlNet v1.1 OpenPose for SD 1.5", "version": "v11p",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/lllyasviel/control_v11p_sd15_openpose"}, {"type": "model-card", "url": "https://huggingface.co/lllyasviel/control_v11p_sd15_openpose/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "OpenPose structure conditioner"}, {"name": "aibook:observed-revision", "value": "9ae9f970358db89e211b87c915f9535c6686d5ba"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_sd15_openpose_structure_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "OpenPose structure conditioner"}, {"name": "aibook:observed-revision", "value": "9ae9f970358db89e211b87c915f9535c6686d5ba"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_sd15_openpose_structure_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "weight:lllyasviel-annotators-openpose", "publisher": "lllyasviel", "name": "Annotators OpenPose weights", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/lllyasviel/Annotators"}, {"type": "model-card", "url": "https://huggingface.co/lllyasviel/Annotators/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "OpenPose landmark and pose-map annotator"}, {"name": "aibook:observed-revision", "value": "982e7edaec38759d914a963c48c4726685de7d96"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_2_extract_openpose_landmarks.py; docs/assets/part-07/chapter-05/p7_5_4_sd15_openpose_structure_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "OpenPose landmark and pose-map annotator"}, {"name": "aibook:observed-revision", "value": "982e7edaec38759d914a963c48c4726685de7d96"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_2_extract_openpose_landmarks.py; docs/assets/part-07/chapter-05/p7_5_4_prepare_openpose_maps.py; docs/assets/part-07/chapter-05/p7_5_4_sd15_openpose_structure_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:stable-diffusion-xl-base-1", "publisher": "Stability AI", "name": "Stable Diffusion XL Base 1.0", "version": "1.0",
@@ -100,7 +106,7 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:qwen2-5-0-5b-instruct", "publisher": "Qwen", "name": "Qwen2.5-0.5B-Instruct", "version": "2.5",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct"}, {"type": "model-card", "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "local CPU LLM experiment"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-06/p7_6_1_local_llm_experiment.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "local CPU LLM experiment"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-06/p7_6_1_local_llm_experiment.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:depth-anything-v2-small-hf", "publisher": "Depth Anything", "name": "Depth Anything V2 Small (Transformers)", "version": "V2 Small",
@@ -115,12 +121,12 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:catvton", "publisher": "zhengchong", "name": "CatVTON", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/zhengchong/CatVTON"}, {"type": "model-card", "url": "https://huggingface.co/zhengchong/CatVTON/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "virtual try-on attention checkpoint"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_catvton_manual_mask_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "virtual try-on attention checkpoint"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_catvton_manual_mask_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:booksforcharlie-stable-diffusion-inpainting", "publisher": "booksforcharlie", "name": "Stable Diffusion Inpainting for CatVTON", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/booksforcharlie/stable-diffusion-inpainting"}, {"type": "model-card", "url": "https://huggingface.co/booksforcharlie/stable-diffusion-inpainting/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "CatVTON base checkpoint"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_catvton_manual_mask_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "CatVTON base checkpoint"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_4_catvton_manual_mask_probe.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:ollama-llama3-2", "publisher": "Meta via Ollama", "name": "llama3.2", "version": "latest tag at runtime",

@@ -11,10 +11,12 @@ from pathlib import Path
 
 import psutil
 import torch
+from huggingface_hub import snapshot_download
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
+HF_HUB_CACHE = Path(__file__).resolve().parents[3] / ".tmp" / "download" / "huggingface" / "hub"
 INPUT_PATH = Path("docs/assets/part-07/chapter-06/p7-6-1-prompts.csv")
 OUTPUT_PATH = Path("docs/assets/part-07/chapter-06/p7-6-1-local-llm-results.csv")
 MAX_NEW_TOKENS = 16
@@ -40,9 +42,9 @@ def build_context(fact_key, context_condition):
     return f"Project record. {fact} {filler} Keep the recorded facts unchanged."
 
 
-def load_model(quantization_mode):
+def load_model(model_path, quantization_mode):
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID,
+        model_path,
         local_files_only=True,
         dtype=torch.float32,
     )
@@ -92,13 +94,14 @@ def answer_for(model, tokenizer, row):
 def run_one_mode(quantization_mode, output_path):
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     torch.set_num_threads(4)
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, local_files_only=True)
+    model_path = Path(snapshot_download(MODEL_ID, cache_dir=HF_HUB_CACHE, local_files_only=True))
+    tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
     cases = list(csv.DictReader(INPUT_PATH.open(encoding="utf-8")))
     process = psutil.Process()
     rows = []
 
     gc.collect()
-    model = load_model(quantization_mode)
+    model = load_model(model_path, quantization_mode)
     memory_after_load_mb = round(process.memory_info().rss / 1024**2, 1)
 
     for case in cases:
