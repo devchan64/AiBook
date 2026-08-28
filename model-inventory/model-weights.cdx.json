@@ -41,12 +41,12 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:flux-2-klein-4b", "publisher": "Black Forest Labs", "name": "FLUX.2-klein-4B", "version": "repository reference",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/black-forest-labs/FLUX.2-klein-4B"}, {"type": "model-card", "url": "https://huggingface.co/black-forest-labs/FLUX.2-klein-4B/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "multi-reference image generation"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_2_generate_dynamic_alley_oop_style_test.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "multi-reference image generation"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_2_generate_dynamic_alley_oop_style_test.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/huggingface/hub"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:omnigen2", "publisher": "OmniGen2", "name": "OmniGen2", "version": "df5dca8a981d74e6c3af214c145f5c735fe72367",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/OmniGen2/OmniGen2"}, {"type": "model-card", "url": "https://huggingface.co/OmniGen2/OmniGen2/blob/main/README.md"}, {"type": "website", "url": "https://github.com/VectorSpaceLab/OmniGen2"}],
-      "properties": [{"name": "aibook:component-role", "value": "multi-reference source-image regeneration experiment"}, {"name": "aibook:download-selector", "value": "all pipeline files required by OmniGen2Pipeline (mllm, transformer, vae, processor, and configuration files)"}, {"name": "aibook:observed-revision", "value": "df5dca8a981d74e6c3af214c145f5c735fe72367"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_omnigen2_regenerate_reference_probe.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "multi-reference source-image regeneration experiment"}, {"name": "aibook:download-selector", "value": "all pipeline files required by OmniGen2Pipeline (mllm, transformer, vae, processor, and configuration files)"}, {"name": "aibook:observed-revision", "value": "df5dca8a981d74e6c3af214c145f5c735fe72367"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_omnigen2_regenerate_reference_probe.py"}, {"name": "aibook:cache-status", "value": "verified-recorded: .tmp/download/model-omnigen2"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:grounding-dino-tiny", "publisher": "IDEA Research", "name": "Grounding DINO Tiny", "version": "repository reference",
@@ -111,12 +111,12 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:depth-anything-v2-small-hf", "publisher": "Depth Anything", "name": "Depth Anything V2 Small (Transformers)", "version": "V2 Small",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf"}, {"type": "model-card", "url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "relative-depth estimation"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "relative-depth estimation"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_text_to_image_storyboard_spec.py"}, {"name": "aibook:cache-status", "value": "verified-moved: .tmp/download/model-depth-anything-v2-small-hf"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "weight:fal-qwen-image-edit-2511-multiple-angles", "publisher": "fal", "name": "Qwen-Image-Edit-2511 Multiple-Angles LoRA", "version": "2511",
       "externalReferences": [{"type": "distribution", "url": "https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA"}, {"type": "model-card", "url": "https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA/blob/main/README.md"}],
-      "properties": [{"name": "aibook:component-role", "value": "ComfyUI camera-angle LoRA"}, {"name": "aibook:download-selector", "value": "qwen-image-edit-2511-multiple-angles-lora.safetensors"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "ComfyUI camera-angle LoRA"}, {"name": "aibook:download-selector", "value": "qwen-image-edit-2511-multiple-angles-lora.safetensors"}, {"name": "aibook:source-files", "value": "docs/assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py"}, {"name": "aibook:cache-status", "value": "not-present: no local weight file found"}, {"name": "aibook:license-review", "value": "review-required"}]
     },
     {
       "type": "machine-learning-model", "bom-ref": "model:catvton", "publisher": "zhengchong", "name": "CatVTON", "version": "repository reference",
@@ -131,7 +131,7 @@
     {
       "type": "machine-learning-model", "bom-ref": "model:ollama-llama3-2", "publisher": "Meta via Ollama", "name": "llama3.2", "version": "latest tag at runtime",
       "externalReferences": [{"type": "distribution", "url": "https://ollama.com/library/llama3.2"}],
-      "properties": [{"name": "aibook:component-role", "value": "local Ollama text generation"}, {"name": "aibook:download-selector", "value": "llama3.2:latest (overridable by OLLAMA_MODEL)"}, {"name": "aibook:source-files", "value": "docs/assets/part-06/chapter-10/p6_10_1_generate_prompt_response_log.py; docs/assets/part-06/chapter-10/p6_10_3_generate_response_path_log.py"}, {"name": "aibook:license-review", "value": "review-required"}]
+      "properties": [{"name": "aibook:component-role", "value": "local Ollama text generation"}, {"name": "aibook:download-selector", "value": "llama3.2:latest (overridable by OLLAMA_MODEL)"}, {"name": "aibook:source-files", "value": "docs/assets/part-06/chapter-10/p6_10_1_generate_prompt_response_log.py; docs/assets/part-06/chapter-10/p6_10_3_generate_response_path_log.py"}, {"name": "aibook:cache-status", "value": "not-present: Ollama executable unavailable"}, {"name": "aibook:license-review", "value": "review-required"}]
     }
   ],
   "dependencies": [

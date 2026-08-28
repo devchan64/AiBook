@@ -19,6 +19,8 @@ from p7_5_image_output_naming import candidate_stem, preview_callback
 
 
 ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = ROOT.parents[3]
+HF_HUB_CACHE = PROJECT_ROOT / ".tmp" / "download" / "huggingface" / "hub"
 MODEL_ID = "black-forest-labs/FLUX.2-klein-4B"
 BASE_SEED = 62382
 IMAGE_SIZE = (768, 1152)
@@ -66,7 +68,8 @@ def main() -> None:
     pipe = Flux2KleinPipeline.from_pretrained(
         MODEL_ID,
         torch_dtype=torch.bfloat16,
-        cache_dir="/tmp/flux2-klein-diffusers-cache",
+        cache_dir=HF_HUB_CACHE,
+        local_files_only=True,
     )
     pipe.enable_sequential_cpu_offload()
     pipe.set_progress_bar_config(disable=True)

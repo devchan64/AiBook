@@ -24,7 +24,7 @@ from PIL import Image
 
 ASSETS = Path(__file__).resolve().parent
 PROJECT_ROOT = ASSETS.parents[3]
-DEPTH_ANYTHING_MODEL = PROJECT_ROOT / ".tmp/p7-5-3-depth-anything-v2-small"
+DEPTH_ANYTHING_MODEL = PROJECT_ROOT / ".tmp" / "download" / "model-depth-anything-v2-small-hf"
 STYLE_CONTRACT = ASSETS / "p7-5-1-style-prompt-contract.json"
 MODEL_ID = "Qwen/Qwen-Image"
 TRANSFORMER_REPOSITORY = "nunchaku-tech/nunchaku-qwen-image"

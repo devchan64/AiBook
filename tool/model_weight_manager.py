@@ -57,6 +57,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     relocate.add_argument("--source-hub", type=Path, default=DEFAULT_HUGGINGFACE_HUB, help="Existing Hugging Face hub cache.")
     relocate.add_argument("--dry-run", action="store_true", help="Show the source, target, and file count without moving anything.")
 
+    relocate_directory = subcommands.add_parser("relocate-directory", help="Move one registered non-Hugging Face cache directory after a SHA-256 manifest comparison.")
+    relocate_directory.add_argument("--ref", required=True, help="CycloneDX component bom-ref.")
+    relocate_directory.add_argument("--source", type=Path, required=True, help="Existing model cache directory to move.")
+    relocate_directory.add_argument("--dry-run", action="store_true", help="Show the source, target, and file count without moving anything.")
+
     audit = subcommands.add_parser("audit-cache", help="Compare a Hugging Face cache with model repositories registered in the BOM.")
     audit.add_argument("--hub-root", type=Path, default=HUGGINGFACE_DOWNLOAD_ROOT / "hub", help="Hugging Face hub cache to inspect.")
     audit.add_argument("--unregistered-only", action="store_true", help="Show only cache entries absent from the BOM.")
@@ -152,6 +157,39 @@ def relocate(component: dict[str, Any], args: argparse.Namespace) -> int:
     if target_manifest != source_manifest:
         raise SystemExit("Migration hash manifest mismatch; source was moved, so stop and inspect the target before using it.")
     record_directory = HUGGINGFACE_DOWNLOAD_ROOT / "migrations"
+    record_directory.mkdir(parents=True, exist_ok=True)
+    record_path = record_directory / f"{safe_component_directory(component['bom-ref']).name}.json"
+    record = {**summary, "moved_at": dt.datetime.now(dt.timezone.utc).isoformat(), "manifest": target_manifest}
+    record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({**summary, "status": "verified-moved", "record": str(record_path.relative_to(REPOSITORY_ROOT))}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def relocate_directory(component: dict[str, Any], args: argparse.Namespace) -> int:
+    """Move a non-Hugging Face cache into its registered component directory."""
+    source = args.source.resolve()
+    target = safe_component_directory(component["bom-ref"])
+    if not source.is_dir():
+        raise SystemExit(f"Source model directory not found: {source}")
+    if target.exists():
+        raise SystemExit(f"Target model directory already exists: {target}; compare it before any manual reconciliation.")
+    source_manifest = file_manifest(source)
+    summary = {
+        "component_ref": component["bom-ref"],
+        "source": str(source),
+        "target": str(target),
+        "file_count": len(source_manifest),
+        "bytes": sum(item["bytes"] for item in source_manifest),
+    }
+    if args.dry_run:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+        return 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(source), str(target))
+    target_manifest = file_manifest(target)
+    if target_manifest != source_manifest:
+        raise SystemExit("Migration hash manifest mismatch; source was moved, so stop and inspect the target before using it.")
+    record_directory = DOWNLOAD_ROOT / "migrations"
     record_directory.mkdir(parents=True, exist_ok=True)
     record_path = record_directory / f"{safe_component_directory(component['bom-ref']).name}.json"
     record = {**summary, "moved_at": dt.datetime.now(dt.timezone.utc).isoformat(), "manifest": target_manifest}
@@ -370,6 +408,8 @@ def main(argv: list[str]) -> int:
         return fetch(component_by_ref(bom, args.ref), args)
     if args.command == "relocate":
         return relocate(component_by_ref(bom, args.ref), args)
+    if args.command == "relocate-directory":
+        return relocate_directory(component_by_ref(bom, args.ref), args)
     if args.command == "audit-cache":
         return audit_cache(bom, args)
     if args.command == "quarantine":
