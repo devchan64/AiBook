@@ -35,13 +35,13 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - 얼굴 6장, 기본 전신 6장, 리파인 전신 6장은 P7-5.11 학습·증강에서 역할·조건·한계를 명시한 참고 입력이다. JSON은 상태 판정이 아니라 실행 결과와 관찰을 남긴다.
 - 원고 표는 방향별 이미지를 반복 행으로 배치하며, `1열·2열·3열` 같은 구현 열 이름을 독자용 기준으로 노출하지 않는다.
 
-### P7-5.3 — 장면·구조·guide
+### P7-5.4 — 장면·구조·guide
 
 - 장면 계약과 캐릭터 계약을 분리한다. RGB는 색·질감·조명을, 상대 depth/Canny는 공간 윤곽·거리·가림의 보조 기준으로만 사용한다.
 - RGB/depth는 얼굴·복장·화풍·사지 비율을 보장하지 않으며, 구조 입력으로 관찰한 범위만 전달한다.
 - 단일 guide와 방향에 가까운 전신 한 장을 먼저 검수하고, 다중 전신 참조·crop 합성·lineart-only 경로는 형태 붕괴·사각형 이음새·추가 사지 때문에 제작 경로에서 제외했다.
 - Animagine 및 과거 lineart 경로는 현재 비교 범위에서 제외한다. 구조 guide는 역할과 파생 원본을 명시한 RGB에서 만든다.
-- P7-5.3은 최종 캐릭터 일관성 학습 단계가 아니라 pose·camera·장면을 독립적으로 관찰하는 단계다.
+- P7-5.4는 최종 캐릭터 일관성 학습 단계가 아니라 pose·camera·장면을 독립적으로 관찰하는 단계다.
 
 ### P7-5.11 — 화풍·연속성·LoRA·VTON 보정
 
@@ -331,7 +331,7 @@ P7-5는 이미지·guide·JSON에 `승인`, `미승인`, `보류` 상태를 부�
 - source-aligned CatVTON 후보: `.tmp/p7-5-11-face-fixed-catvton-jacket-aligned/`, `.tmp/p7-5-11-face-fixed-catvton-pants/`, `.tmp/p7-5-11-face-fixed-catvton-outfit/`
 - 쌍별·3중 결합 후보: `.tmp/p7-5-11-outfit-plus-proportion-*`, `.tmp/p7-5-11-triple-grid-*`
 - `.tmp/`는 재현·검수용 임시 기록이며 커밋 대상이 아니다.
-- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.3와 P7-5.7 이후 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
+- 기존 `management/release-notes/sections/part-07/`의 P7-5.1~P7-5.2, P7-5.4와 P7-5.7 이후 릴리즈노트는 Section별 이력으로 유지한다. 이 문서는 해당 릴리즈노트를 대체하지 않고, 이번 세션의 공통 실험 결론·중복 제거 기준·다음 gate만 요약한다.
 - 아래 `authoring/` 공통 노트 8개는 고유 내용을 이 문서의 6절로 흡수한 뒤 삭제한다. 오픈 체크리스트와 Section 분석은 Part 전체 운영 문서이므로 유지한다.
   - `part-07-character-pack-generation-research-2026-08-03.md`
   - `part-07-controlnet-webtoon-pipeline-v1.md`

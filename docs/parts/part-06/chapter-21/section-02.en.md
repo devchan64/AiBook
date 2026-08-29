@@ -60,7 +60,7 @@ For a Diffusers pipeline such as those in P7-5.1 through P7-5.11, use this order
 4. Do not first move the whole pipeline to the GPU with `pipe.to("cuda")`. Doing so makes the memory saving from sequential offload minimal. Do not move the complete pipeline to `.to("cuda")` again after the call either.
 5. For a learning record, run with either model CPU offload or sequential CPU offload. Choose the former when speed matters more, or the latter when VRAM savings matter more, then compare the conditions. If a pipeline was placed with `device_map`, first clear that placement with `reset_device_map()` before making this choice.
 
-For example, the FLUX runs in P7-5.1 through P7-5.3 enable sequential offload after loading the weights and generate one scene at a time. The SDXL comparisons in P7-5.11 attach ControlNet and IP-Adapter first, then enable sequential offload. This lets the offload hooks cover the complete pipeline used for the run. Model support and component compatibility still differ, so a successful call does not prove that every adapter combination works the same way.
+For example, the FLUX runs in P7-5.1 through P7-5.2 and P7-5.4 enable sequential offload after loading the weights and generate one scene at a time. The SDXL comparisons in P7-5.11 attach ControlNet and IP-Adapter first, then enable sequential offload. This lets the offload hooks cover the complete pipeline used for the run. Model support and component compatibility still differ, so a successful call does not prove that every adapter combination works the same way.
 
 `torch.cuda.empty_cache()` seen after row-by-row generation must also be kept distinct. It releases unused cached memory so that other GPU applications can use it; it does not move the active pipeline's weights or tensors to the CPU. Record it as cache cleanup between rows, not as an offload mode or evidence of VRAM reduction.
 
@@ -128,7 +128,7 @@ Part 7 turns the concepts in this Section into actual records in current-model e
 
 | Part 7 location | Standard to carry forward |
 | --- | --- |
-| P7-5.1–P7-5.3 and P7-5.11 image experiments | Read sequential CPU offload as a device for execution feasibility, and record model file, dtype, reference input, resolution, and human-review ledger together |
+| P7-5.1–P7-5.2, P7-5.4, and P7-5.11 image experiments | Read sequential CPU offload as a device for execution feasibility, and record model file, dtype, reference input, resolution, and human-review ledger together |
 | P7-6.1 local LLM experiment | Compare quantization, context length, execution time, and answer stability with the same questions |
 | P7-7.1 vision model experiment | Separate prompt input structure and execution burden from mask-quality judgment |
 

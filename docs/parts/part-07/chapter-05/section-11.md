@@ -247,7 +247,7 @@ Nunchaku FP4 r128과 per-layer CPU offload에서 `768×1152`, 40 step으로 실�
 | ![Qwen 역할 분리 고각도 후보 seed 62294](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-high-angle-seed-62294-reference.png) | ![Qwen 역할 분리 고각도 후보 seed 62295](../../../assets/part-07/chapter-05/p7-5-11-qwen-edit-high-angle-seed-62295-reference.png) |
 | 네 계약 통과 | 같은 입력 역할에서 교차 seed 통과 |
 
-따라서 고정한 보행 guide 범위에서는 **구조용 guide로 카메라·행동·배경을 정하고, 얼굴과 완성 착장을 역할별 reference로 분리하는 경로**가 8 GB에서도 기본적인 컷신 구성과 캐릭터 재현을 가능하게 했다. 다른 pose·guide·후면·강한 가림에는 같은 역할 분리를 유지한 새 후보와 사람 검수가 필요하다. 이 두 결과는 P7-5.3 스토리보드를 자동으로 교체하거나 LoRA 학습 데이터로 승격하지 않는다.
+따라서 고정한 보행 guide 범위에서는 **구조용 guide로 카메라·행동·배경을 정하고, 얼굴과 완성 착장을 역할별 reference로 분리하는 경로**가 8 GB에서도 기본적인 컷신 구성과 캐릭터 재현을 가능하게 했다. 다른 pose·guide·후면·강한 가림에는 같은 역할 분리를 유지한 새 후보와 사람 검수가 필요하다. 이 두 결과는 P7-5.4 스토리보드를 자동으로 교체하거나 LoRA 학습 데이터로 승격하지 않는다.
 
 ## 체크리스트
 
