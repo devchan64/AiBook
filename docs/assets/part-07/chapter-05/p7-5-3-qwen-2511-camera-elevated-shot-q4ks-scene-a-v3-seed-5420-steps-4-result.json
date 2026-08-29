@@ -2,6 +2,8 @@
   "status": "generated",
   "experiment_id": "p7-5-3-qwen-2511-camera-angle",
   "stage": "camera_angle",
+  "stage_index": 1,
+  "stage_count": 1,
   "model": "qwen-image-edit-2511-Q4_0.gguf",
   "angle_lora": {
     "repository": "fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA",
@@ -17,16 +19,14 @@
     "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-image-q4ks-style-contract-scene-a-v1_00001_.png",
     "sha256": "2b351ad4fc9e7a4cf8c544f36d2851f29c250e5fe64a722882951f4c4f13d43e"
   },
-  "azimuth": "front view",
-  "elevation": "elevated shot",
-  "distance": "wide shot",
-  "prompt": "<sks> front view elevated shot wide shot",
-  "prompt_format": "<sks> [azimuth] [elevation] [distance]",
+  "camera_term": "elevated shot",
+  "prompt": "<sks> elevated shot",
+  "prompt_format": "<sks> [single camera term]",
   "seed": 5420,
   "steps": 4,
   "output": {
-    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-view-elevated-shot-wide-shot-q4ks-scene-a-v2-seed-5420-steps-4.png",
-    "sha256": "a99d395ffec9198c2b78ed9a1a2b7323ac1d065bc43f1ac424cc65fd8ce7cf65"
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-elevated-shot-q4ks-scene-a-v3-seed-5420-steps-4.png",
+    "sha256": "72422c443e79f6d6be44d77e635c54d8c495355d57481134eb300186149bbe3c"
   },
-  "elapsed_seconds": 114.3
+  "elapsed_seconds": 135.29
 }

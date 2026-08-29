@@ -3,7 +3,7 @@
 > Section ID: \`P7-5.3\`
 > Version: \`v2026.08.29\`
 
-이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 기본 경로는 Qwen-Image가 참조 없이 첫 장면을 만들고, Qwen Image Edit 2511이 카메라·포즈 캐릭터·인물 교체·광원·그림자를 편집하는 순서다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
+이 절의 목표는 장면을 다시 생성할 때마다 캐릭터의 포즈·의상·얼굴이 달라지는 문제를 줄이는 것이다. 기본 경로는 Qwen-Image가 참조 없이 첫 장면을 만들고, 카메라판에서 포즈 컷아웃을 만든 뒤 Qwen Image Edit 2511로 캐릭터 identity를 이식하는 순서다. 카메라판을 바로 캐릭터로 교체한 비교는 identity를 온전히 반영하지 못해 기본 경로로 채택하지 않는다. 각 단계의 result.json에는 실제 입력 파일, SHA-256, 모델, seed, step을 남긴다. 따라서 이미지 파일 이름만 보고 추측하지 않고 결과 JSON을 따라 입력 관계를 확인한다.
 
 ## 한 모델이 아니라 역할이 다른 여섯 구성 요소
 
@@ -20,7 +20,7 @@ P7-5.3의 결과는 하나의 이미지 모델에서 바로 나온 것이 아니
 
 `Qwen-Image`는 텍스트에서 이미지를 만드는 기반 모델이고, 이 절에서는 스토리보드만 맡긴다. 이번 A·B·C 첫 장면은 P7-5.10에서 검증한 Q4_K_S GGUF 저VRAM 경로로 생성했다. `Qwen-Image-Edit-2509`은 한 장에서 세 장까지의 이미지 입력을 조합해 편집할 수 있어 포즈 참조와 착장을 역할별로 나누는 단계에 쓴다. Q4 GGUF와 Nunchaku FP4 r128은 각각 로컬 GPU에서 실행하기 위한 양자화 형식이며, 캐릭터나 카메라 규칙을 새로 추가하는 모델은 아니다. [Qwen-Image 모델 카드](https://huggingface.co/Qwen/Qwen-Image){: target="_blank" rel="noopener noreferrer"} · [Qwen-Image-Edit-2509 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2509){: target="_blank" rel="noopener noreferrer"} · [Nunchaku Qwen-Image-Edit-2509 배포](https://huggingface.co/nunchaku-ai/nunchaku-qwen-image-edit-2509){: target="_blank" rel="noopener noreferrer"}
 
-카메라판에는 `Qwen-Image-Edit-2511`의 Q4_0 GGUF 실행 파일과 Multiple-angles LoRA를 사용한다. Q4_0은 이 로컬 실행의 메모리 형식이고, 시점 변화 자체는 LoRA의 `<sks> [azimuth] [elevation] [distance]` 카메라 지시가 맡는다. 따라서 이 단계는 캐릭터 identity를 새로 정하는 것이 아니라 장면의 카메라 조건을 바꾸는 단계다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Multiple-angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
+카메라판에는 `Qwen-Image-Edit-2511`의 Q4_0 GGUF 실행 파일과 Multiple-angles LoRA를 사용한다. Q4_0은 이 로컬 실행의 메모리 형식이고, 시점 변화 자체는 LoRA의 `<sks> [camera term]` 지시가 맡는다. 한 단계에서는 방위·높이·거리 중 바꾸려는 조건 하나만 넣고, 다른 조건의 변화는 다음 단계에서 별도로 적용한다. 따라서 이 단계는 캐릭터 identity를 새로 정하는 것이 아니라 장면의 카메라 조건을 바꾸는 단계다. [Qwen-Image-Edit-2511 모델 카드](https://huggingface.co/Qwen/Qwen-Image-Edit-2511){: target="_blank" rel="noopener noreferrer"} · [Multiple-angles LoRA 모델 카드](https://huggingface.co/fal/Qwen-Image-Edit-2511-Multiple-Angles-LoRA){: target="_blank" rel="noopener noreferrer"}
 
 마스크 단계의 Grounding DINO Tiny는 텍스트로 대상 상자를 찾는 zero-shot 객체 검출 모델이고, SAM 2.1 Hiera Small은 그 상자를 인물 외곽 마스크로 바꾼다. LaMa ONNX는 그 마스크 안쪽만 복원한다. 즉 이 세 구성 요소는 캐릭터를 생성하거나 화풍을 정하지 않고, 카메라판에서 **어느 픽셀을 교체하고 어느 픽셀을 유지할지** 정한다. [Grounding DINO Tiny 모델 카드](https://huggingface.co/IDEA-Research/grounding-dino-tiny){: target="_blank" rel="noopener noreferrer"} · [SAM 2 공식 저장소](https://github.com/facebookresearch/sam2){: target="_blank" rel="noopener noreferrer"} · [LaMa ONNX 배포](https://huggingface.co/g-ronimo/lama){: target="_blank" rel="noopener noreferrer"}
 
@@ -57,26 +57,74 @@ P7-5.10의 Q4_K_S GGUF 저VRAM 경로에서 1280×1280, 20 step, CFG 4.0을 사�
 
 컷아웃은 최초 T2I 장면에서 바로 만들지 않는다. 먼저 Qwen Image Edit 2511 Multiple-angles LoRA로 카메라의 방위·높이·거리를 전환한 카메라판을 만들고, **그 카메라판**에서만 인물을 마스크하고 잘라낸다. 따라서 이후 캐릭터 이식에 전달되는 포즈·화면 위치·원근은 최초 장면이 아니라 카메라 전환 뒤의 결과를 따른다.
 
+Scene A는 높은 시점과 와이드를, Scene B와 C는 회전 뒤에 높이 또는 거리를 각각 바꿔야 한다. 그러나 회전 단계에 높이·거리 프롬프트까지 함께 넣으면 방위 변화가 희석돼 회전 여부를 판정할 수 없다. 따라서 카메라판 생성기는 Scene별 단계 계획을 코드 안에 고정하고, **각 단계에는 바꿀 카메라 조건 하나만** 넣는다. B는 `front-left quarter view → high-angle shot`, C는 `front-right quarter view → wide shot`으로 두 번 편집한다. 두 번째 단계의 입력은 반드시 첫 번째 단계 PNG다.
+
+| Scene | 단계 1 | 단계 2 | 관찰할 출력 |
+| --- | --- | --- | --- |
+| A | `elevated shot` | `wide shot` | 2단계 JSON의 input SHA-256이 1단계 PNG와 같은지 |
+| B | `front-left quarter view` | `high-angle shot` | 2단계 JSON의 input SHA-256이 1단계 PNG와 같은지 |
+| C | `front-right quarter view` | `wide shot` | 2단계 JSON의 input SHA-256이 1단계 PNG와 같은지 |
+
+전체 실행 기준은 [카메라판 생성기 `p7_5_3_generate_camera_angle.py`](../../../assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py){ .aibook-source-link }다. `SCENE_PLANS`가 A·B·C의 최초 장면, seed, run label, 단계별 단일 `<sks> [camera term]`을 함께 정의한다. `--scene b`나 `--scene c`는 임의의 `--stage` 조합을 받지 않으므로, 기록된 순서와 다른 입력 연결을 만들 수 없다. 독자는 `--scene`을 바꿔 보고 각 단계 PNG와 JSON의 입력 해시가 연속되는지 관찰한다.
+
+~~~bash
+# Scene B: 회전 프롬프트만 적용하고, 그 결과에 하이앵글만 적용한다.
+python docs/assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py --scene b --steps 4
+
+# Scene C: 회전 프롬프트만 적용하고, 그 결과에 와이드만 적용한다.
+python docs/assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py --scene c --steps 4
+~~~
+
+각 실행은 단계별 PNG·`result.json`과 최종 `camera-sequence-…-result.json`을 남긴다. 후자의 `stages` 배열은 단계별 출력·JSON을 순서대로 가리키며, 최종 카메라판을 마스크 입력으로 사용할 때의 추적 기준이다. 이전 v3 결과는 회전 단계가 복합 프롬프트였으므로 기준 자산으로 사용하지 않는다.
+
 | Scene A: 정면·완만한 높은 시점·와이드 | Scene B: 좌전방 쿼터·하이앵글·미디엄 | Scene C: 우전방 쿼터·아이레벨·와이드 |
 | --- | --- | --- |
-| ![정면 완만한 높은 시점과 와이드로 전환한 해안 절벽 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-view-elevated-shot-wide-shot-q4ks-scene-a-v2-seed-5420-steps-4.png) | ![좌전방 쿼터 하이앵글로 전환한 야생화 초원 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-high-angle-shot-medium-shot-q4ks-scene-b-v2-seed-5421-steps-4.png) | ![우전방 쿼터 아이레벨 와이드로 전환한 도심 공원 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-eye-level-shot-wide-shot-q4ks-scene-c-v2-seed-5422-steps-4.png) |
+| ![elevated shot 단일 조건으로 생성한 해안 절벽 Scene A 1단계 카메라판](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-elevated-shot-q4ks-scene-a-v3-seed-5420-steps-4.png) | ![이전 단일 호출의 야생화 초원 카메라판 비교 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-high-angle-shot-medium-shot-q4ks-scene-b-v2-seed-5421-steps-4.png) | ![이전 단일 호출의 도심 공원 카메라판 비교 이미지](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-eye-level-shot-wide-shot-q4ks-scene-c-v2-seed-5422-steps-4.png) |
 
-<details id="p7-5-3-q4ks-camera-scene-a-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-view-elevated-shot-wide-shot-q4ks-scene-a-v2-seed-5420-steps-4-result.json" data-language="json">
-<summary><code>Scene A camera result.json</code> · JSON · 카메라 지시와 입력 장면 기록 보기</summary>
-<div class="aibook-lazy-source__body">원본 T2I 장면의 해시와 방위·높이·거리 지시를 불러옵니다.</div>
+<details id="p7-5-3-q4ks-camera-scene-a-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-elevated-shot-q4ks-scene-a-v3-seed-5420-steps-4-result.json" data-language="json">
+<summary><code>Scene A 1단계 camera result.json</code> · JSON · elevated shot 단일 조건 기록 보기</summary>
+<div class="aibook-lazy-source__body">원본 T2I 장면의 해시와 단일 카메라 조건을 불러옵니다.</div>
 </details>
 
 <details id="p7-5-3-q4ks-camera-scene-b-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-high-angle-shot-medium-shot-q4ks-scene-b-v2-seed-5421-steps-4-result.json" data-language="json">
-<summary><code>Scene B camera result.json</code> · JSON · 카메라 지시와 입력 장면 기록 보기</summary>
-<div class="aibook-lazy-source__body">원본 T2I 장면의 해시와 방위·높이·거리 지시를 불러옵니다.</div>
+<summary><code>Scene B camera result.json</code> · JSON · 이전 단일 호출 비교 기록 보기</summary>
+<div class="aibook-lazy-source__body">복합 프롬프트 단일 호출 기록을 불러옵니다.</div>
 </details>
 
 <details id="p7-5-3-q4ks-camera-scene-c-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-right-quarter-view-eye-level-shot-wide-shot-q4ks-scene-c-v2-seed-5422-steps-4-result.json" data-language="json">
-<summary><code>Scene C camera result.json</code> · JSON · 카메라 지시와 입력 장면 기록 보기</summary>
-<div class="aibook-lazy-source__body">원본 T2I 장면의 해시와 방위·높이·거리 지시를 불러옵니다.</div>
+<summary><code>Scene C camera result.json</code> · JSON · 이전 단일 호출 비교 기록 보기</summary>
+<div class="aibook-lazy-source__body">복합 프롬프트 단일 호출 기록을 불러옵니다.</div>
 </details>
 
-세 카메라 result JSON에는 원본 T2I PNG의 해시와 `<sks> [azimuth] [elevation] [distance]` 지시가 함께 기록된다. 카메라판이 만들어진 뒤에야 Grounding DINO로 인물 상자를 찾고 SAM 2.1로 같은 인물의 흰색 마스크를 만든 뒤, 흰 배경 포즈 컷아웃을 뽑는다. 이 컷아웃은 장소의 색과 질감을 다음 캐릭터 편집에 넘기지 않고, 카메라 전환 뒤의 점프 포즈·인물 크기·화면 위치만 전달하는 입력이다.
+위 표는 기존 단일 호출 비교 이미지다. B·C의 복합 프롬프트 순차 v3도 회전 단계가 실패했으므로 기준 자산으로 쓰지 않는다. 수정된 단일 조건 순차 계획을 생성한 뒤에만 그 마지막 PNG에서 인물 마스크와 흰 배경 포즈 컷아웃을 다시 만든다.
+
+<details id="p7-5-3-camera-angle-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_generate_camera_angle.py" data-language="python">
+<summary>카메라판 생성 코드 보기</summary>
+<div class="aibook-lazy-source__body">Scene별 단계 계획, 이전 단계 PNG를 다음 입력으로 넘기는 순차 실행, 단계별 result.json 기록을 불러옵니다.</div>
+</details>
+
+| Scene A 직접 교체 | Scene B 직접 교체 | Scene C 직접 교체 |
+| --- | --- | --- |
+| ![해안 절벽 카메라판의 포즈와 구도를 유지하며 캐릭터를 직접 교체한 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-q4ks-camera-direct-scene-a-v1-seed-62294-steps-8.png) | ![야생화 초원 카메라판의 포즈와 구도를 유지하며 캐릭터를 직접 교체한 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-q4ks-camera-direct-scene-b-v1-seed-62294-steps-8.png) | ![도심 공원 카메라판의 포즈와 구도를 유지하며 캐릭터를 직접 교체한 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-q4ks-camera-direct-scene-c-v1-seed-62294-steps-8.png) |
+
+<details id="p7-5-3-q4ks-camera-direct-scene-a-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-q4ks-camera-direct-scene-a-v1-seed-62294-steps-8-result.json" data-language="json">
+<summary><code>Scene A 직접 교체 result.json</code> · JSON · 실패 비교의 입력 기록 보기</summary>
+<div class="aibook-lazy-source__body">Picture 1 카메라판과 Picture 2 identity의 전역 직접 교체 기록을 불러옵니다.</div>
+</details>
+
+<details id="p7-5-3-q4ks-camera-direct-scene-b-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-q4ks-camera-direct-scene-b-v1-seed-62294-steps-8-result.json" data-language="json">
+<summary><code>Scene B 직접 교체 result.json</code> · JSON · 실패 비교의 입력 기록 보기</summary>
+<div class="aibook-lazy-source__body">Picture 1 카메라판과 Picture 2 identity의 전역 직접 교체 기록을 불러옵니다.</div>
+</details>
+
+<details id="p7-5-3-q4ks-camera-direct-scene-c-result" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-q4ks-camera-direct-scene-c-v1-seed-62294-steps-8-result.json" data-language="json">
+<summary><code>Scene C 직접 교체 result.json</code> · JSON · 실패 비교의 입력 기록 보기</summary>
+<div class="aibook-lazy-source__body">Picture 1 카메라판과 Picture 2 identity의 전역 직접 교체 기록을 불러옵니다.</div>
+</details>
+
+카메라판 직접 교체는 세 결과에서 청록 머리·흰 재킷·청록 팬츠의 일부 특징은 만들었지만, 기준 캐릭터의 얼굴·의상 형태와 원래 인물의 정확한 관절·화면 위치를 함께 유지하지 못했다. 특히 카메라판의 인체와 Picture 2의 인체가 전역 조건으로 경쟁하면서 팔·다리 각도와 인물 크기가 다시 구성됐다. 따라서 이 세 장은 **직접 교체가 캐릭터를 온전히 반영하기 어려워 사실상 실패했다는 비교**이며, 기본 경로에 사용하지 않는다.
+
+### 기본 경로에서 마스크와 컷아웃을 쓴다
 
 마스크의 흰색은 인물, 검은색은 보존할 배경을 뜻한다. 오버레이에서는 빨간색으로 덮인 영역과 노란색 검출 상자를 함께 보므로, 머리·손가락·발끝 같은 전신 경계가 빠졌는지 컷아웃보다 먼저 확인할 수 있다.
 
@@ -120,7 +168,7 @@ P7-5.10의 Q4_K_S GGUF 저VRAM 경로에서 1280×1280, 20 step, CFG 4.0을 사�
 
 세 마스크는 머리·양팔·양다리·발끝을 포함했다. 다만 Scene C 컷아웃의 오른손 끝에는 원본 배경의 작은 녹색 잔여물이 남아 있다. 이처럼 마스크가 완벽하지 않을 때는 컷아웃을 캐릭터 identity의 기준으로 쓰지 않으며, 픽셀 단위 외곽이 필요한 단계에서만 그 경계를 정제한다.
 
-흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니라, `Picture 1 pose` 조건이다. 다음 identity 이식에서는 이 카메라판 컷아웃을 첫 입력으로, P7-5.2의 전신 캐릭터 기준을 두 번째 입력이자 초기 잠재값으로 둔다. 그러면 편집 결과에 새 배경이 생겨도 그것은 실패 판정이 아니다. 이 단계에서 확인할 것은 배경이 아니라 점프 포즈와 청록 단발·호박색 눈·흰 크롭 재킷·청록 와이드 팬츠가 한 인물에 함께 반영되는지다.
+흰 배경 컷아웃은 알파 채널을 보존하는 최종 합성 자산이 아니다. 그러나 현재 기본 경로에서는 카메라판 직접 교체 대신 이 컷아웃을 `Picture 1`과 초기 잠재값으로 쓴다. 컷아웃은 포즈·인물 크기·프레이밍만, `Picture 2`의 캐릭터 identity 기준은 얼굴·헤어·착장만 맡도록 역할을 분리한다. 인물 레이어 보관과 빈 배경판 생성도 같은 마스크의 별도 활용이다.
 
 ## 장면 A를 카메라판으로 고정한다
 
@@ -225,16 +273,16 @@ python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_pose_transfer.py \
 
 Qwen Image Edit 2511 Q4_0에서 seed 62294, 8 step으로 실행하고, `A split leap pose.`라는 짧은 양성 포즈 지시만 덧붙였다. 이 결과에서는 점프 자세는 첫 이미지의 조건 참조가, 청록 단발·흰 재킷·청록 와이드 팬츠는 두 번째 이미지의 초기 잠재값이 맡는다. 양쪽 다리와 신발은 생성됐지만, 컷아웃의 체커보드 배경도 함께 남았다. 따라서 이 결과는 포즈·캐릭터·착장을 전달하는 중간 PNG이며, 다음 2511 장면 교체 단계의 두 번째 입력으로만 쓴다. result.json의 `initial_latent`와 `prompt` 필드로 이 선택을 재현할 수 있다.
 
-### 한 장면을 만드는 직접 교체 워크플로우
+### 컷아웃에서 캐릭터 identity를 이식하는 기본 워크플로우
 
-이번에 검증하는 대상은 Scene B 한 장의 품질이 아니라, 장면을 만들 때 입력의 역할을 분리하는 순서다. 장면의 공간·카메라·기존 인물의 포즈를 먼저 한 장의 카메라판에 고정하고, 캐릭터의 얼굴·헤어·착장은 별도 포즈 캐릭터 PNG에서 준비한다. 마지막으로 카메라판의 인물만 그 캐릭터로 교체한다.
+이번에 검증하는 대상은 Scene B 한 장의 품질이 아니라, 장면을 만들 때 입력의 역할을 분리하는 순서다. 장면의 공간·카메라·기존 인물의 포즈를 먼저 카메라판에 고정하고, 그 인물을 잘라 낸 흰 배경 컷아웃에서 캐릭터의 얼굴·헤어·착장을 이식한다. 카메라판 전체를 바로 교체하지 않는다.
 
-1. Qwen-Image T2I로 A·B·C의 첫 장면을 만든 뒤, Qwen Image Edit 2511로 카메라판을 만든다. 이때 기존 인물은 화면 구도와 포즈의 자리표 역할을 한다.
-2. 흰 배경 포즈 컷아웃과 `+45°` 쿼터뷰 2단계 착장에서 포즈 캐릭터 PNG를 만든다. 초기 잠재값은 착장 이미지다.
-3. 카메라판을 Picture 1이자 초기 잠재값으로, 포즈 캐릭터 PNG를 Picture 2로 넣는다. 교체 대상·장면·포즈·광원·그림자를 한 번에 긍정 지시한다.
-4. 장면의 배경·카메라·포즈와 캐릭터의 헤어·착장·팔다리, 인물 아래의 그림자가 함께 유지됐는지 확인한다. 직접 교체가 장면을 바꾸거나 인물 경계가 깨질 때만 인물 마스크를 추가해 편집 범위를 제한한다. 빈 배경판이 필요한 별도 작업도 LaMa 대신 2511의 인물 제거 편집으로 구성할 수 있다.
+1. Qwen-Image T2I로 A·B·C의 첫 장면을 만든 뒤, Qwen Image Edit 2511 Multiple Angles로 카메라판을 만든다. 이때 기존 인물은 화면 구도와 포즈의 자리표 역할을 한다.
+2. 카메라판에서 인물 마스크와 흰 배경 포즈 컷아웃을 만든다. 이 컷아웃은 포즈·인물 크기·프레이밍만 Picture 1에 전달한다.
+3. 검증된 캐릭터 identity·착장 PNG를 Picture 2로 넣고, 컷아웃을 1280×1280 흰색 1:1 캔버스로 정규화해 Picture 1이자 초기 잠재값으로 둔다. `Replace the woman in Picture 1 with the woman in Picture 2. Preserve Picture 1 pose and framing. Plain white 1:1 square background.`라는 짧은 지시로 identity를 이식한다. 캔버스 정규화는 전체 포즈를 자르지 않고 contain 방식으로 배치한다.
+4. 컷아웃의 포즈·프레이밍과 캐릭터의 헤어·착장·팔다리가 함께 유지됐는지 확인한다. 이후 장면에 다시 합칠 때는 같은 마스크로 인물 경계를 제한한다. 빈 배경판이 필요한 별도 작업도 LaMa 대신 2511의 인물 제거 편집으로 구성할 수 있다.
 
-| Qwen Image Edit 2511의 Scene B 직접 교체 |
+| 실패 비교: Qwen Image Edit 2511의 Scene B 카메라판 직접 교체 |
 | --- |
 | ![야생화 초원의 기존 인물을 청록 단발과 흰 재킷의 스플릿 점프 캐릭터로 교체하고 공중 그림자를 더한 결과](../../../assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-scene-b-direct-replace-light-shadow-q4-0-v1-seed-62294-steps-8.png) |
 
@@ -243,11 +291,11 @@ Qwen Image Edit 2511 Q4_0에서 seed 62294, 8 step으로 실행하고, `A split 
 <div class="aibook-lazy-source__body">카메라판·포즈 캐릭터 입력과 생성 조건을 불러옵니다.</div>
 </details>
 
-Q4_0, seed 62294, 8 step의 Scene B 검증에서는 야생화 초원·하이앵글 구도와 스플릿 점프를 유지하면서 청록 단발·흰 재킷·청록 와이드 팬츠와 인물 아래의 부드러운 그림자가 함께 반영됐다. 이 단일 비교에서는 별도 인페인트 마스크 없이도 3단계가 성립했다. 다만 이것은 두 입력의 인물 위치와 포즈가 이미 가까운 조건에서의 관찰이며, 다른 장면에도 마스크가 불필요하다는 일반 규칙은 아니다.
+Q4_0, seed 62294, 8 step의 Scene B 비교는 야생화 초원·하이앵글 구도와 스플릿 점프, 청록 단발·흰 재킷·청록 와이드 팬츠를 한 장에 보이게 한다. 하지만 이 단일 결과만으로 직접 교체가 통과한 것은 아니다. A·C와 함께 비교하면 카메라판과 identity 참조가 전역 조건으로 경쟁해 기준 캐릭터의 형태와 원래 포즈·화면 위치를 동시에 고정하지 못한다. 따라서 이 파일은 **직접 교체가 캐릭터를 온전히 반영하기 어려워 사실상 실패했다는 비교 기록**이며, 기본 워크플로우의 입력으로 사용하지 않는다.
 
 ~~~bash
 python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_pose_transfer_probe.py \
-  --pose docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-high-angle-shot-medium-shot-scene-b-front-left-high-angle-v1-seed-5421-steps-4.png \
+  --pose docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-left-quarter-view-high-angle-shot-medium-shot-q4ks-scene-b-v2-seed-5421-steps-4.png \
   --character docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8.png \
   --latent-source pose \
   --prompt 'Replace the woman in Picture 1 with the character in Picture 2, preserving the scene composition and pose. Use soft daylight and a soft shadow below the airborne woman.' \
@@ -256,12 +304,12 @@ python docs/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_pose_transfer_probe.
 
 <details id="p7-5-3-qwen-2511-pose-transfer-code" class="aibook-lazy-source" data-source="/AiBook/assets/part-07/chapter-05/p7_5_3_qwen_edit_2511_pose_transfer_probe.py" data-language="python">
 <summary>Qwen Image Edit 2511 포즈 이식 비교 코드 보기</summary>
-<div class="aibook-lazy-source__body">첫 번째와 두 번째 이미지의 역할, 초기 잠재값, 선택적 인페인트 마스크를 바꿔 비교할 수 있으며 카메라 LoRA를 사용하지 않습니다.</div>
+<div class="aibook-lazy-source__body">첫 번째 컷아웃을 흰색 1:1 캔버스로 정규화한 뒤, 두 이미지의 역할·초기 잠재값·선택적 인페인트 마스크를 바꿔 비교합니다. 카메라 LoRA는 사용하지 않습니다.</div>
 </details>
 
 ## 별도 배경판이 필요할 때만 합성과 보정을 쓴다
 
-직접 교체가 통과하면 별도 합성·2509 보정은 기본 단계가 아니다. 다만 인물만 따로 저장하거나 빈 배경판을 재사용해야 하는 경우에는 캐릭터 PNG·캐릭터 마스크·배경판을 알파 합성하고 별도 보정을 쓸 수 있다. 이때 빈 배경판 생성도 LaMa에 고정하지 않고 2511 인물 제거 편집으로 대체할 수 있다.
+컷아웃에서 identity를 이식한 뒤 인물만 따로 저장하거나 빈 배경판을 재사용해야 하는 경우에는 캐릭터 PNG·캐릭터 마스크·배경판을 알파 합성하고 별도 보정을 쓴다. 이때 빈 배경판 생성도 LaMa에 고정하지 않고 2511 인물 제거 편집으로 대체할 수 있다.
 
 | 알파 합성 | 최종 화풍·광원 통일 |
 | --- | --- |

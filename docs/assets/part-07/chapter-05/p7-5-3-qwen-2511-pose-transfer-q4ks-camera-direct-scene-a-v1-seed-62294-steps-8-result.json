@@ -1,0 +1,32 @@
+{
+  "status": "generated",
+  "experiment_id": "p7-5-3-qwen-edit-2511-pose-transfer",
+  "model": "qwen-image-edit-2511-Q4_0.gguf",
+  "inputs": [
+    {
+      "role": "Scene A camera target image, pose and composition",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-camera-front-view-elevated-shot-wide-shot-q4ks-scene-a-v2-seed-5420-steps-4.png",
+      "sha256": "a99d395ffec9198c2b78ed9a1a2b7323ac1d065bc43f1ac424cc65fd8ce7cf65"
+    },
+    {
+      "role": "replacement character identity and outfit",
+      "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-cutout-quarter-plus45-q4-0-v2-seed-62294-steps-8.png",
+      "sha256": "bbae48fa35b00d8f3ff7137e87fd357f83054c2cee3998b9c4045ac09872ceee"
+    }
+  ],
+  "reference_order": "pose-character",
+  "initial_latent": "Picture 1",
+  "inpaint": {
+    "enabled": false,
+    "mask_grow": 0
+  },
+  "camera": "not used",
+  "prompt": "Replace the woman in Picture 1 with the character in Picture 2, preserving the scene composition and pose. Use soft daylight and a soft shadow below the airborne woman.",
+  "seed": 62294,
+  "steps": 8,
+  "output": {
+    "path": "/home/cbsim/ws/AiBook/docs/assets/part-07/chapter-05/p7-5-3-qwen-2511-pose-transfer-q4ks-camera-direct-scene-a-v1-seed-62294-steps-8.png",
+    "sha256": "98c7267bb2fd893f3c7c4e8be46647863a80be2062568ba545b5c7c49496e417"
+  },
+  "elapsed_seconds": 212.37
+}

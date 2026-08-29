@@ -73,6 +73,17 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     quarantine.add_argument("--cache-name", required=True, help="Exact models--ORG--NAME cache directory name from audit-cache.")
     quarantine.add_argument("--hub-root", type=Path, default=HUGGINGFACE_DOWNLOAD_ROOT / "hub", help="Hugging Face hub cache containing the entry.")
     quarantine.add_argument("--dry-run", action="store_true", help="Show the planned quarantine move without moving anything.")
+
+    restore = subcommands.add_parser("restore-quarantine", help="Restore one registered Hugging Face cache entry from recoverable quarantine.")
+    restore.add_argument("--ref", required=True, help="CycloneDX component bom-ref with a Hugging Face distribution URL.")
+    restore.add_argument("--source", type=Path, help="Exact quarantined cache directory; required only when multiple matching entries exist.")
+    restore.add_argument("--dry-run", action="store_true", help="Show the verified restore plan without moving anything.")
+
+    adopt = subcommands.add_parser("adopt", help="Move one existing local model file into its registered managed directory and record its hash.")
+    adopt.add_argument("--ref", required=True, help="CycloneDX component bom-ref with a single file selector.")
+    adopt.add_argument("--source", type=Path, required=True, help="Existing local artifact to move into .tmp/download/.")
+    adopt.add_argument("--filename", help="Managed file name; defaults to the component selector.")
+    adopt.add_argument("--dry-run", action="store_true", help="Show the planned managed target and source hash without moving anything.")
     return parser.parse_args(argv)
 
 
@@ -256,6 +267,74 @@ def quarantine_cache(bom: dict[str, Any], args: argparse.Namespace) -> int:
     record = {**summary, "quarantined_at": dt.datetime.now(dt.timezone.utc).isoformat(), "manifest": manifest}
     (target.parent / f"{args.cache_name}.json").write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({**summary, "status": "verified-quarantined"}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def restore_quarantine(component: dict[str, Any], args: argparse.Namespace) -> int:
+    target = huggingface_cache_directory(component, HUGGINGFACE_DOWNLOAD_ROOT / "hub")
+    if target.exists():
+        raise SystemExit(f"Managed cache target already exists: {target}")
+    cache_name = target.name
+    if args.source:
+        source = args.source.resolve()
+        if source.name != cache_name:
+            raise SystemExit("--source cache directory does not match the registered Hugging Face repository.")
+        candidates = [source]
+    else:
+        candidates = sorted((HUGGINGFACE_DOWNLOAD_ROOT / "quarantine").glob(f"*/{cache_name}"))
+    if len(candidates) != 1:
+        raise SystemExit(f"Expected one quarantined {cache_name}, found {len(candidates)}; pass --source explicitly if needed.")
+    source = candidates[0]
+    if not source.is_dir():
+        raise SystemExit(f"Quarantined cache entry not found: {source}")
+    record_path = source.parent / f"{cache_name}.json"
+    prior = json.loads(record_path.read_text(encoding="utf-8")) if record_path.is_file() else {}
+    expected = prior.get("manifest")
+    source_manifest = file_manifest(source)
+    if expected is not None and source_manifest != expected:
+        raise SystemExit("Quarantined cache manifest changed; stop and inspect before restoring it.")
+    summary = {"component_ref": component["bom-ref"], "source": str(source), "target": str(target), "file_count": len(source_manifest), "bytes": sum(item["bytes"] for item in source_manifest)}
+    if args.dry_run:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+        return 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(source), str(target))
+    if file_manifest(target) != source_manifest:
+        raise SystemExit("Restore hash manifest mismatch; source was moved, so stop and inspect the managed target.")
+    record_directory = HUGGINGFACE_DOWNLOAD_ROOT / "migrations"
+    record_directory.mkdir(parents=True, exist_ok=True)
+    record = {**summary, "restored_at": dt.datetime.now(dt.timezone.utc).isoformat(), "manifest": source_manifest}
+    record_path = record_directory / f"{safe_component_directory(component['bom-ref']).name}-restore.json"
+    record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({**summary, "status": "verified-restored", "record": str(record_path.relative_to(REPOSITORY_ROOT))}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def adopt(component: dict[str, Any], args: argparse.Namespace) -> int:
+    source = args.source.resolve()
+    if not source.is_file():
+        raise SystemExit(f"Local artifact not found: {source}")
+    selector = selector_from_component(component, args.filename)
+    if not selector:
+        raise SystemExit("adopt requires a registered single-file selector or --filename.")
+    directory = safe_component_directory(component["bom-ref"])
+    target = directory / selector
+    try:
+        target.resolve().relative_to(directory.resolve())
+    except ValueError as error:
+        raise SystemExit("--filename must remain beneath the component directory.") from error
+    if target.exists():
+        raise SystemExit(f"Managed target already exists: {target}")
+    summary = {"component_ref": component["bom-ref"], "source": str(source), "target": str(target), "bytes": source.stat().st_size, "sha256": sha256(source)}
+    if args.dry_run:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+        return 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(source), str(target))
+    if sha256(target) != summary["sha256"]:
+        raise SystemExit("Adopted file hash mismatch; source was moved, so stop and inspect the managed target.")
+    write_record(target.parent, {"component_ref": component["bom-ref"], "filename": str(target.relative_to(target.parent)), "source_url": distribution_url(component), "resolved_url": str(source), "selector": selector, "revision": observed_revision(component, None), "downloaded_at": dt.datetime.now(dt.timezone.utc).isoformat(), "bytes": summary["bytes"], "sha256": summary["sha256"], "content_type": "application/octet-stream", "origin": "verified-local-adoption"})
+    print(json.dumps({**summary, "status": "verified-adopted"}, ensure_ascii=False, indent=2))
     return 0
 
 
@@ -485,6 +564,10 @@ def main(argv: list[str]) -> int:
         return audit_cache(bom, args)
     if args.command == "quarantine":
         return quarantine_cache(bom, args)
+    if args.command == "restore-quarantine":
+        return restore_quarantine(component_by_ref(bom, args.ref), args)
+    if args.command == "adopt":
+        return adopt(component_by_ref(bom, args.ref), args)
     return verify(bom, args.ref)
 
 
